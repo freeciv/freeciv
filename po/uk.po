@@ -3128,13 +3128,13 @@ msgid "Your %s succeeded in bribing %s's %s and became more experienced."
 msgstr "Гра: Ваш %s перетягнув на св╕й б╕к %s %s."
 
 #: server/diplomats.c:464
-#, c-format
-msgid "Your %s succeeded in bribing %s's %s."
-msgstr "Гра: Ваш %s перетягнув на св╕й б╕к %s %s."
+#, fuzzy, c-format
+msgid "Your %s succeeded in bribing the %s."
+msgstr "Гра: Ваш %s перетягнув на св╕й б╕к %s."
 
 #: server/diplomats.c:470
-#, c-format
-msgid "Your %s was bribed by %s."
+#, fuzzy, c-format
+msgid "Your %s was bribed by the %s."
 msgstr "Гра: Вашого %s перетягнули на б╕к ворога %s."
 
 #: server/diplomats.c:601
@@ -3254,9 +3254,13 @@ msgstr "Гра: %s знищив %s у %s."
 msgid "Your %s has been eliminated defending %s against a %s."
 msgstr "Гра: Ваш п╕дрозд╕л %s загинув захищаючись проти %s у %s."
 
+#, fuzzy, c-format
+msgid "Your %s has been eliminated defending against a %s."
+msgstr "Гра: Ваш п╕дрозд╕л %s загинув захищаючись проти у %s."
+
 #: server/diplomats.c:1101
-#, c-format
-msgid "An enemy %s has been eliminated defending %s."
+#, fuzzy, c-format
+msgid "An enemy %s has been eliminated by your %s."
 msgstr "Гра: Ваш п╕дрозд╕л %s загинув захищаючи %s."
 
 #: server/diplomats.c:1112
@@ -5200,9 +5204,7 @@ msgstr "Гру зак╕нчено"
 
 #: server/srv_main.c:457 server/srv_main.c:469
 #, c-format
-msgid ""
-"Your %s unit %s was disbanded in accordance with your peace treaty with the %"
-"s."
+msgid "Your %s was disbanded in accordance with your peace treaty with the %s."
 msgstr ""
 
 #: server/srv_main.c:510 server/srv_main.c:513
@@ -6653,14 +6655,14 @@ msgid ""
 msgstr "Гра: Ваш %s%s витримав невдалу атаку в╕д %s %s."
 
 #: server/unithand.c:912
-#, c-format
-msgid "Your %s%s survived the pathetic attack from %s's %s."
-msgstr "Гра: Ваш %s%s витримав невдалу атаку в╕д %s %s."
+#, fuzzy, c-format
+msgid "Your %s survived the pathetic attack from the %s %s."
+msgstr "Гра: Ваш %s витримав невдалу атаку в╕д %s %s."
 
 #: server/unithand.c:923
-#, c-format
-msgid "Your attacking %s failed against %s's %s%s!"
-msgstr "Гра: Ваша атака п╕дрозд╕лом %s проти %s п╕дрозд╕лу %s%s провалилася!"
+#, fuzzy, c-format
+msgid "Your attacking %s failed against the %s %s!"
+msgstr "Гра: Ваша атака п╕дрозд╕лом %s проти %s п╕дрозд╕лу %s провалилася!"
 
 #: server/unithand.c:999
 #, c-format
@@ -6766,8 +6768,8 @@ msgstr ""
 
 #: server/unittools.c:253
 #, fuzzy, c-format
-msgid "%s was upgraded for free to %s%s."
-msgstr "Гра: %s модерн╕зував %s до %s%s."
+msgid "%s was upgraded for free to %s."
+msgstr "Гра: %s модерн╕зував до %s."
 
 #: server/unittools.c:298
 #, c-format
@@ -6865,20 +6867,19 @@ msgid "Barbarian leader captured, %d gold ransom paid."
 msgstr "Гра: Голову дикун╕в схоплено, %d гривень отримано."
 
 #: server/unittools.c:1615
-#, fuzzy, c-format
-msgid ""
-"Your attacking %s succeeded against %s's %s%s and became more experienced!"
-msgstr "Гра: Ваша атака %s проти %s %s%s вдалася!"
+#, fuzzy
+msgid "And, became more experienced!"
+msgstr " вдалася!"
 
 #: server/unittools.c:1624
-#, c-format
-msgid "Your attacking %s succeeded against %s's %s%s!"
-msgstr "Гра: Ваша атака %s проти %s %s%s вдалася!"
+#, fuzzy, c-format
+msgid "Your attacking %s succeeded against the %s %s!"
+msgstr "Гра: Ваша атака %s проти %s %s вдалася!"
 
 #: server/unittools.c:1632
-#, c-format
-msgid "%s lost to an attack by %s's %s%s."
-msgstr "Гра: %s втрачено у атац╕ на %s %s%s."
+#, fuzzy, c-format
+msgid "%s lost to an attack by the %s %s."
+msgstr "Гра: %s втрачено у атац╕ на %s %s."
 
 #: server/unittools.c:1667
 #, fuzzy, c-format
@@ -6894,12 +6895,12 @@ msgstr[2] "Гра: Ваша атака %s проти %s %s%s вдалася!"
 
 #: server/unittools.c:1680
 #, fuzzy, c-format
-msgid "Your attacking %s succeeded against %s's %s (and %d other unit)%s!"
+msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
-"Your attacking %s succeeded against %s's %s (and %d other units)%s!"
-msgstr[0] "Гра: Ваша атака %s проти %s %s%s вдалася!"
-msgstr[1] "Гра: Ваша атака %s проти %s %s%s вдалася!"
-msgstr[2] "Гра: Ваша атака %s проти %s %s%s вдалася!"
+"Your attacking %s succeeded against the %s %s (and %d other units)!"
+msgstr[0] "Гра: Ваша атака %s проти %s %s вдалася!"
+msgstr[1] "Гра: Ваша атака %s проти %s %s вдалася!"
+msgstr[2] "Гра: Ваша атака %s проти %s %s вдалася!"
 
 #. TRANS: "Cannon lost to an attack from John's
 #. * Destroyer."

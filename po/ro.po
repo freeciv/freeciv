@@ -3218,13 +3218,13 @@ msgstr ""
 "experienţă."
 
 #: server/diplomats.c:464
-#, c-format
-msgid "Your %s succeeded in bribing %s's %s."
-msgstr "%sul dumneavoastră a reuşit să mituiască al lui %s %s."
+#, fuzzy, c-format
+msgid "Your %s succeeded in bribing the %s."
+msgstr "%sul dumneavoastră a reuşit să mituiască al lui %s."
 
 #: server/diplomats.c:470
-#, c-format
-msgid "Your %s was bribed by %s."
+#, fuzzy, c-format
+msgid "Your %s was bribed by the %s."
 msgstr "%s dumneavostră a fost mituit de %s."
 
 #: server/diplomats.c:601
@@ -3342,9 +3342,13 @@ msgstr "%si au distrus %s în %s."
 msgid "Your %s has been eliminated defending %s against a %s."
 msgstr "%sul dvs a fost ucis în timpul ce apăra %s împotriva unui %s."
 
+#, fuzzy, c-format
+msgid "Your %s has been eliminated defending against a %s."
+msgstr "%sul dvs a fost ucis în timpul ce apăra împotriva unui %s."
+
 #: server/diplomats.c:1101
-#, c-format
-msgid "An enemy %s has been eliminated defending %s."
+#, fuzzy, c-format
+msgid "An enemy %s has been eliminated by your %s."
 msgstr "Un %s inamic a fost ucis în timp ce apăra un %s."
 
 #: server/diplomats.c:1112
@@ -5434,12 +5438,10 @@ msgid "Game ended in a draw"
 msgstr "Jocul s-a terminat cu o remiză"
 
 #: server/srv_main.c:457 server/srv_main.c:469
-#, c-format
-msgid ""
-"Your %s unit %s was disbanded in accordance with your peace treaty with the %"
-"s."
+#, fuzzy, c-format
+msgid "Your %s was disbanded in accordance with your peace treaty with the %s."
 msgstr ""
-"Unitatea dumneavoastră %s din %s a fost dizolvată ca urmare a acordului cu %"
+"Unitatea dumneavoastră %s din a fost dizolvată ca urmare a acordului cu %"
 "si"
 
 #: server/srv_main.c:510 server/srv_main.c:513
@@ -6878,15 +6880,15 @@ msgstr ""
 "experimentaţi!"
 
 #: server/unithand.c:912
-#, c-format
-msgid "Your %s%s survived the pathetic attack from %s's %s."
+#, fuzzy, c-format
+msgid "Your %s survived the pathetic attack from the %s %s."
 msgstr ""
-"Un %1$s al dvs %2$s a supravieţuit atacul patetic al unui %4$s a lui %3$s."
+"Un %1$s al dvs a supravieţuit atacul patetic al unui %3$s a lui %2$s."
 
 #: server/unithand.c:923
-#, c-format
-msgid "Your attacking %s failed against %s's %s%s!"
-msgstr "Atacul unui %1$s al dvs împotriva unui %3$s a lui %2$s%4$s a eşuat!"
+#, fuzzy, c-format
+msgid "Your attacking %s failed against the %s %s!"
+msgstr "Atacul unui %1$s al dvs împotriva unui %3$s a lui %2$s a eşuat!"
 
 #: server/unithand.c:999
 #, c-format
@@ -6994,9 +6996,9 @@ msgstr ""
 "%s dvs. din %s a ajuns în %s şi a obţinut %d galbeni şi puncte de cercetare."
 
 #: server/unittools.c:253
-#, c-format
-msgid "%s was upgraded for free to %s%s."
-msgstr "%s a fost modernizat gratuit în %s%s."
+#, fuzzy, c-format
+msgid "%s was upgraded for free to %s."
+msgstr "%s a fost modernizat gratuit în %s."
 
 #: server/unittools.c:298
 #, c-format
@@ -7097,22 +7099,19 @@ msgstr ""
 "Aţi capturat Şeful Barbarilor şi aţi primit %d galbeni ca răscumpărare."
 
 #: server/unittools.c:1615
-#, c-format
-msgid ""
-"Your attacking %s succeeded against %s's %s%s and became more experienced!"
-msgstr ""
-"Atacul unui %s al dvs împotriva unui %s a lui %s%s a reuşit şi a câştigat "
-"experienţă!"
+#, fuzzy
+msgid "And, became more experienced!"
+msgstr " a devenit mai experimentat!"
 
 #: server/unittools.c:1624
-#, c-format
-msgid "Your attacking %s succeeded against %s's %s%s!"
-msgstr "Atacul unui %1$s al dvs împotriva unui %3$s a lui %2$s%4$s a reuşit!"
+#, fuzzy, c-format
+msgid "Your attacking %s succeeded against the %s %s!"
+msgstr "Atacul unui %1$s al dvs împotriva unui %3$s a lui %2$s a reuşit!"
 
 #: server/unittools.c:1632
-#, c-format
-msgid "%s lost to an attack by %s's %s%s."
-msgstr "%1$s pierdut într-un atac al unui %3$s a lui %2$s%4$s."
+#, fuzzy, c-format
+msgid "%s lost to an attack by the %s %s."
+msgstr "%1$s pierdut într-un atac al unui %3$s a lui %2$s."
 
 #: server/unittools.c:1667
 #, c-format
@@ -7130,16 +7129,16 @@ msgstr[1] ""
 "reuşit!%s a devenit mai experimentat!"
 
 #: server/unittools.c:1680
-#, c-format
-msgid "Your attacking %s succeeded against %s's %s (and %d other unit)%s!"
+#, fuzzy, c-format
+msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
-"Your attacking %s succeeded against %s's %s (and %d other units)%s!"
+"Your attacking %s succeeded against the %s %s (and %d other units)!"
 msgstr[0] ""
 "Atacul unui %s al dvs împotriva unui %s a lui %s (şi %d altă unitate) a "
-"reuşit!%s"
+"reuşit!"
 msgstr[1] ""
 "Atacul unui %s al dvs împotriva unui %s a lui %s (şi %d alte unităţi) a "
-"reuşit!%s"
+"reuşit!"
 
 #. TRANS: "Cannon lost to an attack from John's
 #. * Destroyer."

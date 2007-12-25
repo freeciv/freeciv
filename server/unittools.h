@@ -23,7 +23,7 @@
 struct unit_type *find_a_unit_type(enum unit_role_id role,
 				   enum unit_role_id role_tech);
 bool maybe_make_veteran(struct unit *punit);
-void notify_unit_experience(struct unit *punit);
+void notify_unit_experience(struct unit *punit, bool also);
 void unit_versus_unit(struct unit *attacker, struct unit *defender,
 		      bool bombard);
 
@@ -38,8 +38,6 @@ void player_restore_units(struct player *pplayer);
 void update_unit_activities(struct player *pplayer);
 
 /* various */
-char *get_location_str_in(struct player *pplayer, struct tile *ptile);
-char *get_location_str_at(struct player *pplayer, struct tile *ptile);
 enum goto_move_restriction get_activity_move_restriction(enum unit_activity activity);
 void make_partisans(struct city *pcity);
 bool enemies_at(struct unit *punit, struct tile *ptile);

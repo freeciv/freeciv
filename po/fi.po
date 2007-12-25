@@ -3233,13 +3233,13 @@ msgstr ""
 "kokemusta."
 
 #: server/diplomats.c:464
-#, c-format
-msgid "Your %s succeeded in bribing %s's %s."
-msgstr "Lähettämäsi %1$s onnistui lahjomaan yksikön %3$s (%2$s)."
+#, fuzzy, c-format
+msgid "Your %s succeeded in bribing the %s."
+msgstr "Lähettämäsi %s onnistui lahjomaan yksikön %s."
 
 #: server/diplomats.c:470
-#, c-format
-msgid "Your %s was bribed by %s."
+#, fuzzy, c-format
+msgid "Your %s was bribed by the %s."
 msgstr "Yksikkösi, %s, lahjottiin vihollisen (%s) puolelle."
 
 #: server/diplomats.c:601
@@ -3361,9 +3361,13 @@ msgstr "%s tuhosivat kohteen %s kaupungissa %s."
 msgid "Your %s has been eliminated defending %s against a %s."
 msgstr "Puolustava %s kaupungissa %s tuhoutui, kun %s yritti tunkeutua sinne."
 
+#, fuzzy, c-format
+msgid "Your %s has been eliminated defending against a %s."
+msgstr "Puolustava %s kaupungissa tuhoutui, kun %s yritti tunkeutua sinne."
+
 #: server/diplomats.c:1101
-#, c-format
-msgid "An enemy %s has been eliminated defending %s."
+#, fuzzy, c-format
+msgid "An enemy %s has been eliminated by your %s."
 msgstr "Vihollisen yksikkö %s tuhoutui puolustaessaan kaupunkia %s."
 
 #: server/diplomats.c:1112
@@ -5423,9 +5427,7 @@ msgstr "Peli päättyi tasapeliin"
 
 #: server/srv_main.c:457 server/srv_main.c:469
 #, c-format
-msgid ""
-"Your %s unit %s was disbanded in accordance with your peace treaty with the %"
-"s."
+msgid "Your %s was disbanded in accordance with your peace treaty with the %s."
 msgstr ""
 
 #: server/srv_main.c:510 server/srv_main.c:513
@@ -6880,14 +6882,14 @@ msgid ""
 msgstr "%s%s selviytyi surkeasta hyökkäyksestä jota %s yritti yksiköllään %s."
 
 #: server/unithand.c:912
-#, c-format
-msgid "Your %s%s survived the pathetic attack from %s's %s."
-msgstr "%s%s selviytyi surkeasta hyökkäyksestä jota %s yritti yksiköllään %s."
+#, fuzzy, c-format
+msgid "Your %s survived the pathetic attack from the %s %s."
+msgstr "%s selviytyi surkeasta hyökkäyksestä jota %s yritti yksiköllään %s."
 
 #: server/unithand.c:923
-#, c-format
-msgid "Your attacking %s failed against %s's %s%s!"
-msgstr "Hyökännyt yksikkösi %s hävisi - %s ja tämän %s%s voittivat."
+#, fuzzy, c-format
+msgid "Your attacking %s failed against the %s %s!"
+msgstr "Hyökännyt yksikkösi %s hävisi - %s ja tämän %s voittivat."
 
 #: server/unithand.c:999
 #, c-format
@@ -6999,9 +7001,9 @@ msgstr ""
 
 # Second-last %s of %s%ss is location, as for example 'near' or 'in' a city.
 #: server/unittools.c:253
-#, c-format
-msgid "%s was upgraded for free to %s%s."
-msgstr "%s on ajanmukaistettu yksiköksi %s%s."
+#, fuzzy, c-format
+msgid "%s was upgraded for free to %s."
+msgstr "%s on ajanmukaistettu yksiköksi %s."
 
 #: server/unittools.c:298
 #, c-format
@@ -7102,22 +7104,19 @@ msgid "Barbarian leader captured, %d gold ransom paid."
 msgstr "Barbaarijohtaja vangittu, %d kultaa maksettu lunnaina."
 
 #: server/unittools.c:1615
-#, c-format
-msgid ""
-"Your attacking %s succeeded against %s's %s%s and became more experienced!"
-msgstr ""
-"Peli: Hyökännyt yksikkösi %s onnistui ja sai kokemusta, %s ja tämän %s%s "
-"hävisivät."
+#, fuzzy
+msgid "And, became more experienced!"
+msgstr " ja tämän %s%s hävisivät."
 
 #: server/unittools.c:1624
-#, c-format
-msgid "Your attacking %s succeeded against %s's %s%s!"
-msgstr "Hyökännyt yksikkösi %s onnistui, %s ja tämän %s%s hävisivät."
+#, fuzzy, c-format
+msgid "Your attacking %s succeeded against the %s %s!"
+msgstr "Hyökännyt yksikkösi %s onnistui, %s ja tämän %s hävisivät."
 
 #: server/unittools.c:1632
-#, c-format
-msgid "%s lost to an attack by %s's %s%s."
-msgstr "%s menetettiin, kun %s hyökkäsi yksiköllä %s%s."
+#, fuzzy, c-format
+msgid "%s lost to an attack by the %s %s."
+msgstr "%s menetettiin, kun %s hyökkäsi yksiköllä %s."
 
 #: server/unittools.c:1667
 #, c-format
@@ -7135,15 +7134,15 @@ msgstr[1] ""
 "muuta yksikköä)%s hävisivät!"
 
 #: server/unittools.c:1680
-#, c-format
-msgid "Your attacking %s succeeded against %s's %s (and %d other unit)%s!"
+#, fuzzy, c-format
+msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
-"Your attacking %s succeeded against %s's %s (and %d other units)%s!"
+"Your attacking %s succeeded against the %s %s (and %d other units)!"
 msgstr[0] ""
-"Hyökännyt yksikkösi %s onnistui, %s ja tämän %s (ja %d muu yksikkö)%s "
+"Hyökännyt yksikkösi %s onnistui, %s ja tämän %s (ja %d muu yksikkö) "
 "hävisivät."
 msgstr[1] ""
-"Hyökännyt yksikkösi %s onnistui, %s ja tämän %s (ja %d muuta yksikköä)%s "
+"Hyökännyt yksikkösi %s onnistui, %s ja tämän %s (ja %d muuta yksikköä) "
 "hävisivät."
 
 #. TRANS: "Cannon lost to an attack from John's

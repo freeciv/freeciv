@@ -3203,13 +3203,13 @@ msgid "Your %s succeeded in bribing %s's %s and became more experienced."
 msgstr "Váš %s uspěl při uplácení jednotky %s %s a získal více zkušeností."
 
 #: server/diplomats.c:464
-#, c-format
-msgid "Your %s succeeded in bribing %s's %s."
-msgstr "Váš %1$s uspěl při uplácení jednotky %3$s hráče %2$s."
+#, fuzzy, c-format
+msgid "Your %s succeeded in bribing the %s."
+msgstr "Váš %s uspěl při uplácení jednotky %s."
 
 #: server/diplomats.c:470
-#, c-format
-msgid "Your %s was bribed by %s."
+#, fuzzy, c-format
+msgid "Your %s was bribed by the %s."
 msgstr "Jednotka %s byla uplacena hráčem %s."
 
 #: server/diplomats.c:601
@@ -3323,9 +3323,13 @@ msgstr "%s zničili %s ve městě %s."
 msgid "Your %s has been eliminated defending %s against a %s."
 msgstr "Váš %s byl zlikvidován při obraně města %s proti %s."
 
+#, fuzzy, c-format
+msgid "Your %s has been eliminated defending against a %s."
+msgstr "Váš %s byl zlikvidován při obraně města proti %s."
+
 #: server/diplomats.c:1101
-#, c-format
-msgid "An enemy %s has been eliminated defending %s."
+#, fuzzy, c-format
+msgid "An enemy %s has been eliminated by your %s."
 msgstr "Nepřátelský %s byl zlikvidován při obraně %s."
 
 #: server/diplomats.c:1112
@@ -5333,9 +5337,7 @@ msgstr "Hra skončila remízou"
 
 #: server/srv_main.c:457 server/srv_main.c:469
 #, c-format
-msgid ""
-"Your %s unit %s was disbanded in accordance with your peace treaty with the %"
-"s."
+msgid "Your %s was disbanded in accordance with your peace treaty with the %s."
 msgstr ""
 
 #: server/srv_main.c:510 server/srv_main.c:513
@@ -6758,14 +6760,14 @@ msgstr ""
 "Vaše %s%s přežila patetický útok %s %s a stala se více zkušenou jednotkou!"
 
 #: server/unithand.c:912
-#, c-format
-msgid "Your %s%s survived the pathetic attack from %s's %s."
-msgstr "Vaše %s%s přežila patetický útok %s %s."
+#, fuzzy, c-format
+msgid "Your %s survived the pathetic attack from the %s %s."
+msgstr "Vaše %s přežila patetický útok %s %s."
 
 #: server/unithand.c:923
-#, c-format
-msgid "Your attacking %s failed against %s's %s%s!"
-msgstr "Vaše útočící %s selhala proti %s's %s%s!"
+#, fuzzy, c-format
+msgid "Your attacking %s failed against the %s %s!"
+msgstr "Vaše útočící %s selhala proti %s %s!"
 
 #: server/unithand.c:999
 #, c-format
@@ -6873,9 +6875,9 @@ msgstr ""
 "výzkumu je %d."
 
 #: server/unittools.c:253
-#, c-format
-msgid "%s was upgraded for free to %s%s."
-msgstr "Jednotka %s vylepšena zdarma na %s%s."
+#, fuzzy, c-format
+msgid "%s was upgraded for free to %s."
+msgstr "Jednotka %s vylepšena zdarma na %s."
 
 #: server/unittools.c:298
 #, c-format
@@ -6973,21 +6975,19 @@ msgid "Barbarian leader captured, %d gold ransom paid."
 msgstr "Vůdce barbarů byl zajat a prodán za výkupné %d zlatých."
 
 #: server/unittools.c:1615
-#, c-format
-msgid ""
-"Your attacking %s succeeded against %s's %s%s and became more experienced!"
-msgstr ""
-"Vaše útočící jednotka %s zvítězila proti %s %s%s a stala se více zkušenou!"
+#, fuzzy
+msgid "And, became more experienced!"
+msgstr " a stala se více zkušenou!"
 
 #: server/unittools.c:1624
-#, c-format
-msgid "Your attacking %s succeeded against %s's %s%s!"
-msgstr "Vaše útočící %s byla uspěšná proti %s %s%s!"
+#, fuzzy, c-format
+msgid "Your attacking %s succeeded against the %s %s!"
+msgstr "Vaše útočící %s byla uspěšná proti %s %s!"
 
 #: server/unittools.c:1632
-#, c-format
-msgid "%s lost to an attack by %s's %s%s."
-msgstr "%s ztracena při útoku %s %s%s."
+#, fuzzy, c-format
+msgid "%s lost to an attack by the %s %s."
+msgstr "%s ztracena při útoku %s %s."
 
 #: server/unittools.c:1667
 #, fuzzy, c-format
@@ -7006,12 +7006,12 @@ msgstr[2] ""
 
 #: server/unittools.c:1680
 #, fuzzy, c-format
-msgid "Your attacking %s succeeded against %s's %s (and %d other unit)%s!"
+msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
-"Your attacking %s succeeded against %s's %s (and %d other units)%s!"
-msgstr[0] "Vaše útočící %s byla uspěšná proti %s %s%s!"
-msgstr[1] "Vaše útočící %s byla uspěšná proti %s %s%s!"
-msgstr[2] "Vaše útočící %s byla uspěšná proti %s %s%s!"
+"Your attacking %s succeeded against the %s %s (and %d other units)!"
+msgstr[0] "Vaše útočící %s byla uspěšná proti %s %s!"
+msgstr[1] "Vaše útočící %s byla uspěšná proti %s %s!"
+msgstr[2] "Vaše útočící %s byla uspěšná proti %s %s!"
 
 #. TRANS: "Cannon lost to an attack from John's
 #. * Destroyer."

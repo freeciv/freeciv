@@ -3086,13 +3086,13 @@ msgid "Your %s succeeded in bribing %s's %s and became more experienced."
 msgstr "نجحت وحدتك %s برشوة %s %s وأصبحت أكثر خبرة."
 
 #: server/diplomats.c:464
-#, c-format
-msgid "Your %s succeeded in bribing %s's %s."
-msgstr "نجحت وحدتك %s برشوة %s %s."
+#, fuzzy, c-format
+msgid "Your %s succeeded in bribing the %s."
+msgstr "نجحت وحدتك %s برشوة %s."
 
 #: server/diplomats.c:470
-#, c-format
-msgid "Your %s was bribed by %s."
+#, fuzzy, c-format
+msgid "Your %s was bribed by the %s."
 msgstr "تم رشو وحدتك %s من قبل %s."
 
 #: server/diplomats.c:601
@@ -3206,9 +3206,13 @@ msgstr "دمر %s ال %s في %s."
 msgid "Your %s has been eliminated defending %s against a %s."
 msgstr "تم تدمير وحدتك %s عند الدفاع عن %s ضد %s."
 
+#, fuzzy, c-format
+msgid "Your %s has been eliminated defending against a %s."
+msgstr "تم تدمير وحدتك %s عند الدفاع عن ضد %s."
+
 #: server/diplomats.c:1101
-#, c-format
-msgid "An enemy %s has been eliminated defending %s."
+#, fuzzy, c-format
+msgid "An enemy %s has been eliminated by your %s."
 msgstr "تم تدمير وحدة العدو %s عند الدفاع عن %s."
 
 #: server/diplomats.c:1112
@@ -5091,9 +5095,7 @@ msgstr "تم انهاء اللعبة بتعادل"
 
 #: server/srv_main.c:457 server/srv_main.c:469
 #, fuzzy, c-format
-msgid ""
-"Your %s unit %s was disbanded in accordance with your peace treaty with the %"
-"s."
+msgid "Your %s was disbanded in accordance with your peace treaty with the %s."
 msgstr "ملكك وحدات مع مع."
 
 #: server/srv_main.c:510 server/srv_main.c:513
@@ -6483,14 +6485,14 @@ msgid ""
 msgstr "لقد نجا %s%s من الهجوم المثير للشفقة من %s %s وأصبح أكثر خبرة!"
 
 #: server/unithand.c:912
-#, c-format
-msgid "Your %s%s survived the pathetic attack from %s's %s."
-msgstr "نجت وحدتك %s%s من الهجوم المثير للشفقة من  %s %s."
+#, fuzzy, c-format
+msgid "Your %s survived the pathetic attack from the %s %s."
+msgstr "نجت وحدتك %s من الهجوم المثير للشفقة من %s %s."
 
 #: server/unithand.c:923
-#, c-format
-msgid "Your attacking %s failed against %s's %s%s!"
-msgstr "فشلت وحدتك %s المهاجمة أمام %s %s%s!"
+#, fuzzy, c-format
+msgid "Your attacking %s failed against the %s %s!"
+msgstr "فشلت وحدتك %s المهاجمة أمام %s %s!"
 
 #: server/unithand.c:999
 #, c-format
@@ -6595,9 +6597,9 @@ msgstr ""
 "وصلت وحدتك %s من %s إلى %s، و بلغ الدخل إلى  %d من الذهب و البحث العلمي."
 
 #: server/unittools.c:253
-#, c-format
-msgid "%s was upgraded for free to %s%s."
-msgstr "تم تطوير %s مجانيا إلى %s%s."
+#, fuzzy, c-format
+msgid "%s was upgraded for free to %s."
+msgstr "تم تطوير %s مجانيا إلى %s."
 
 #: server/unittools.c:298
 #, c-format
@@ -6695,20 +6697,19 @@ msgid "Barbarian leader captured, %d gold ransom paid."
 msgstr "تم القبض على القائد البربري، ودفع فدية ذهب بقيمة %d."
 
 #: server/unittools.c:1615
-#, c-format
-msgid ""
-"Your attacking %s succeeded against %s's %s%s and became more experienced!"
-msgstr "نجحت وحدتك المهاجمة %s ضد %s %s%s وأصبحت أكثر خبرة!"
+#, fuzzy
+msgid "And, became more experienced!"
+msgstr " أكثر خبرة!"
 
 #: server/unittools.c:1624
-#, c-format
-msgid "Your attacking %s succeeded against %s's %s%s!"
-msgstr "نجحت وحدتك المهاجمة %s ضد %s %s%s!"
+#, fuzzy, c-format
+msgid "Your attacking %s succeeded against the %s %s!"
+msgstr "نجحت وحدتك المهاجمة %s ضد %s %s!"
 
 #: server/unittools.c:1632
-#, c-format
-msgid "%s lost to an attack by %s's %s%s."
-msgstr "خسارة %s بسبب الهجوم من %s %s%s."
+#, fuzzy, c-format
+msgid "%s lost to an attack by the %s %s."
+msgstr "خسارة %s بسبب الهجوم من %s %s."
 
 #: server/unittools.c:1667
 #, c-format
@@ -6726,13 +6727,13 @@ msgstr[2] ""
 "نجحت وحدتك المهاجمة %s ضد %s %s (و %d وحدات أخرى)%s وأصبحت أكثر خبرة!"
 
 #: server/unittools.c:1680
-#, c-format
-msgid "Your attacking %s succeeded against %s's %s (and %d other unit)%s!"
+#, fuzzy, c-format
+msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
-"Your attacking %s succeeded against %s's %s (and %d other units)%s!"
-msgstr[0] "نجحت وحدتك المهاجمة %s ضد %s %s (و %d وحدة أخرى)%s!"
-msgstr[1] "نجحت وحدتك المهاجمة %s ضد %s %s (و %d وحدتان أخرى)%s!"
-msgstr[2] "نجحت وحدتك المهاجمة %s ضد %s %s (و %d وحدات أخرى)%s!"
+"Your attacking %s succeeded against the %s %s (and %d other units)!"
+msgstr[0] "نجحت وحدتك المهاجمة %s ضد %s %s (و %d وحدة أخرى)!"
+msgstr[1] "نجحت وحدتك المهاجمة %s ضد %s %s (و %d وحدتان أخرى)!"
+msgstr[2] "نجحت وحدتك المهاجمة %s ضد %s %s (و %d وحدات أخرى)!"
 
 #. TRANS: "Cannon lost to an attack from John's
 #. * Destroyer."

@@ -3141,13 +3141,13 @@ msgstr ""
 "%s biriminiz, %s tarafındaki %s birimini rüşvetle aldı ve kıdemi arttı."
 
 #: server/diplomats.c:464
-#, c-format
-msgid "Your %s succeeded in bribing %s's %s."
-msgstr "%s biriminiz, %s tarafındaki %s birimini rüşvetle aldı."
+#, fuzzy, c-format
+msgid "Your %s succeeded in bribing the %s."
+msgstr "%s biriminiz, tarafındaki %s birimini rüşvetle aldı."
 
 #: server/diplomats.c:470
-#, c-format
-msgid "Your %s was bribed by %s."
+#, fuzzy, c-format
+msgid "Your %s was bribed by the %s."
 msgstr "%s biriminiz %s tarafından rüşvetle alındı."
 
 #: server/diplomats.c:601
@@ -3263,9 +3263,13 @@ msgstr "%s birimi, %s yapısını %s şehrinde yıktı."
 msgid "Your %s has been eliminated defending %s against a %s."
 msgstr "%s biriminiz %s şehrini savunurken bir %s tarafından öldürüldü."
 
+#, fuzzy, c-format
+msgid "Your %s has been eliminated defending against a %s."
+msgstr "%s biriminiz şehrini savunurken bir %s tarafından öldürüldü."
+
 #: server/diplomats.c:1101
-#, c-format
-msgid "An enemy %s has been eliminated defending %s."
+#, fuzzy, c-format
+msgid "An enemy %s has been eliminated by your %s."
 msgstr "Düşmana ait %s biriminin icabına, %s şehrini savunamadan bakıldı."
 
 #: server/diplomats.c:1112
@@ -5201,11 +5205,9 @@ msgid "Game ended in a draw"
 msgstr "Oyun berabere bitti"
 
 #: server/srv_main.c:457 server/srv_main.c:469
-#, c-format
-msgid ""
-"Your %s unit %s was disbanded in accordance with your peace treaty with the %"
-"s."
-msgstr "%s biriminiz %s; %s ile olan barış antlaşması gereğince terhis edildi."
+#, fuzzy, c-format
+msgid "Your %s was disbanded in accordance with your peace treaty with the %s."
+msgstr "%s biriminiz; %s ile olan barış antlaşması gereğince terhis edildi."
 
 #: server/srv_main.c:510 server/srv_main.c:513
 #, c-format
@@ -6614,15 +6616,15 @@ msgstr ""
 "ve kıdemi arttı!"
 
 #: server/unithand.c:912
-#, c-format
-msgid "Your %s%s survived the pathetic attack from %s's %s."
+#, fuzzy, c-format
+msgid "Your %s survived the pathetic attack from the %s %s."
 msgstr ""
-"%s%s biriminiz %s tarafının %s birimi tarafından yapılan saldırıdan kurtuldu."
+"%s biriminiz %s tarafının %s birimi tarafından yapılan saldırıdan kurtuldu."
 
 #: server/unithand.c:923
-#, c-format
-msgid "Your attacking %s failed against %s's %s%s!"
-msgstr "%s biriminizin %s tarafındaki %s%s birimine saldırısı başarısız oldu!"
+#, fuzzy, c-format
+msgid "Your attacking %s failed against the %s %s!"
+msgstr "%s biriminizin %s tarafındaki %s birimine saldırısı başarısız oldu!"
 
 #: server/unithand.c:999
 #, c-format
@@ -6729,9 +6731,9 @@ msgstr ""
 "%s biriminiz %s şehrinden %s şehrine geldi. %d altın ve bilim kazandırdı."
 
 #: server/unittools.c:253
-#, c-format
-msgid "%s was upgraded for free to %s%s."
-msgstr "%s ücretsiz olarak %s%s birimine yükseltildi."
+#, fuzzy, c-format
+msgid "%s was upgraded for free to %s."
+msgstr "%s ücretsiz olarak %s birimine yükseltildi."
 
 #: server/unittools.c:298
 #, c-format
@@ -6831,21 +6833,19 @@ msgid "Barbarian leader captured, %d gold ransom paid."
 msgstr "Barbar lideri ele geçirildi, %d altın fidye alındı."
 
 #: server/unittools.c:1615
-#, c-format
-msgid ""
-"Your attacking %s succeeded against %s's %s%s and became more experienced!"
-msgstr ""
-"Saldıran %s biriminiz %s tarafındaki %s birimini%s yendi ve kıdemi arttı!"
+#, fuzzy
+msgid "And, became more experienced!"
+msgstr " yendi ve kıdemi arttı!"
 
 #: server/unittools.c:1624
-#, c-format
-msgid "Your attacking %s succeeded against %s's %s%s!"
-msgstr "Saldıran %s biriminiz %s tarafındaki %s birimini%s yendi!"
+#, fuzzy, c-format
+msgid "Your attacking %s succeeded against the %s %s!"
+msgstr "Saldıran %s biriminiz %s tarafındaki %s birimini yendi!"
 
 #: server/unittools.c:1632
-#, c-format
-msgid "%s lost to an attack by %s's %s%s."
-msgstr "%s, %s tarafındaki %s birimine%s yenildi."
+#, fuzzy, c-format
+msgid "%s lost to an attack by the %s %s."
+msgstr "%s, %s tarafındaki %s birimine yenildi."
 
 #: server/unittools.c:1667
 #, c-format
@@ -6860,12 +6860,12 @@ msgstr[0] ""
 "yendi ve kıdemi arttı!"
 
 #: server/unittools.c:1680
-#, c-format
-msgid "Your attacking %s succeeded against %s's %s (and %d other unit)%s!"
+#, fuzzy, c-format
+msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
-"Your attacking %s succeeded against %s's %s (and %d other units)%s!"
+"Your attacking %s succeeded against the %s %s (and %d other units)!"
 msgstr[0] ""
-"Saldıran %s biriminiz %s tarafındaki %s (ve %d diğer birimi) birimini %s "
+"Saldıran %s biriminiz %s tarafındaki %s (ve %d diğer birimi) birimini "
 "yendi!"
 
 #. TRANS: "Cannon lost to an attack from John's

@@ -3053,13 +3053,13 @@ msgid "Your %s succeeded in bribing %s's %s and became more experienced."
 msgstr "您的 %s 成功地贿赂了 %s 的 %s 并变得更有经验。"
 
 #: server/diplomats.c:464
-#, c-format
-msgid "Your %s succeeded in bribing %s's %s."
-msgstr "您的 %s 成功地贿赂了 %s 的 %s。"
+#, fuzzy, c-format
+msgid "Your %s succeeded in bribing the %s."
+msgstr "您的 %s 成功地贿赂了 的 %s。"
 
 #: server/diplomats.c:470
-#, c-format
-msgid "Your %s was bribed by %s."
+#, fuzzy, c-format
+msgid "Your %s was bribed by the %s."
 msgstr "您的 %s 被 %s 贿赂了。"
 
 #: server/diplomats.c:601
@@ -3173,9 +3173,13 @@ msgstr "%1$s 在摧毁了 %3$s 中的 %2$s 。"
 msgid "Your %s has been eliminated defending %s against a %s."
 msgstr "您的 %s 在防守 %s 抵抗 %s 的过程中被消灭了。"
 
+#, fuzzy, c-format
+msgid "Your %s has been eliminated defending against a %s."
+msgstr "您的 %s 在防守 抵抗 %s 的过程中被消灭了。"
+
 #: server/diplomats.c:1101
-#, c-format
-msgid "An enemy %s has been eliminated defending %s."
+#, fuzzy, c-format
+msgid "An enemy %s has been eliminated by your %s."
 msgstr "在防御 %2$s 中敌方的 %1$s 被消灭了。"
 
 #: server/diplomats.c:1112
@@ -5089,11 +5093,9 @@ msgid "Game ended in a draw"
 msgstr "游戏结束未分胜负"
 
 #: server/srv_main.c:457 server/srv_main.c:469
-#, c-format
-msgid ""
-"Your %s unit %s was disbanded in accordance with your peace treaty with the %"
-"s."
-msgstr "按照与 %3$s 的和平协定，您的 %1$s 部队 %2$s 被解散了。"
+#, fuzzy, c-format
+msgid "Your %s was disbanded in accordance with your peace treaty with the %s."
+msgstr "按照与 %2$s 的和平协定，您的 %1$s 部队 被解散了。"
 
 #: server/srv_main.c:510 server/srv_main.c:513
 #, c-format
@@ -6489,14 +6491,14 @@ msgid ""
 msgstr "您 %2$s 的 %1$s 从 %3$s 的 %4$s 可怜的攻击中存活下来并变得更加有经验！"
 
 #: server/unithand.c:912
-#, c-format
-msgid "Your %s%s survived the pathetic attack from %s's %s."
-msgstr "您 %2$s 的 %1$s 从 %3$s 的 %4$s 可怜的攻击中存活下来。"
+#, fuzzy, c-format
+msgid "Your %s survived the pathetic attack from the %s %s."
+msgstr "您 的 %s 从 %s 的 %s 可怜的攻击中存活下来。"
 
 #: server/unithand.c:923
-#, c-format
-msgid "Your attacking %s failed against %s's %s%s!"
-msgstr "您的 %1$s 对 %2$s 的  %4$s %3$s 的攻击失败！"
+#, fuzzy, c-format
+msgid "Your attacking %s failed against the %s %s!"
+msgstr "您的 %s 对 %s 的 %s 的攻击失败！"
 
 #: server/unithand.c:999
 #, c-format
@@ -6598,9 +6600,9 @@ msgid ""
 msgstr "您来自 %2$s 的 %1$s 已经到达 %3$s，并从金钱和研究中获利 %4$d。"
 
 #: server/unittools.c:253
-#, c-format
-msgid "%s was upgraded for free to %s%s."
-msgstr "已经将 %s 免费升级到 %s%s。"
+#, fuzzy, c-format
+msgid "%s was upgraded for free to %s."
+msgstr "已经将 %s 免费升级到 %s。"
 
 #: server/unittools.c:298
 #, c-format
@@ -6698,20 +6700,19 @@ msgid "Barbarian leader captured, %d gold ransom paid."
 msgstr "捕获野人头领，获得 %d 赎金。"
 
 #: server/unittools.c:1615
-#, c-format
-msgid ""
-"Your attacking %s succeeded against %s's %s%s and became more experienced!"
-msgstr "您的 %1$s 对 %4$s %2$s 的 %3$s 攻击成功并变得更有经验。"
+#, fuzzy
+msgid "And, became more experienced!"
+msgstr " 攻击成功并变得更有经验。"
 
 #: server/unittools.c:1624
-#, c-format
-msgid "Your attacking %s succeeded against %s's %s%s!"
-msgstr "您的 %1$s 对 %4$s %2$s 的 %3$s 的攻击成功！"
+#, fuzzy, c-format
+msgid "Your attacking %s succeeded against the %s %s!"
+msgstr "您的 %1$s 对 %2$s 的 %3$s 的攻击成功！"
 
 #: server/unittools.c:1632
-#, c-format
-msgid "%s lost to an attack by %s's %s%s."
-msgstr "在 %4$s %2$s 的 %3$s 的攻击下损失了 %1$s 。"
+#, fuzzy, c-format
+msgid "%s lost to an attack by the %s %s."
+msgstr "在 %2$s 的 %3$s 的攻击下损失了 %1$s 。"
 
 #: server/unittools.c:1667
 #, fuzzy, c-format
@@ -6724,11 +6725,11 @@ msgid_plural ""
 msgstr[0] "您的 %1$s 对 %4$s %2$s 的 %3$s 攻击成功并变得更有经验。"
 
 #: server/unittools.c:1680
-#, c-format
-msgid "Your attacking %s succeeded against %s's %s (and %d other unit)%s!"
+#, fuzzy, c-format
+msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
-"Your attacking %s succeeded against %s's %s (and %d other units)%s!"
-msgstr[0] "您的 %1$s 对 %5$s %2$s 的 %3$s （以及 %4$d 其它部队）的攻击成功！"
+"Your attacking %s succeeded against the %s %s (and %d other units)!"
+msgstr[0] "您的 %s 对 %s 的 %s （以及 %d 其它部队）的攻击成功！"
 
 #. TRANS: "Cannon lost to an attack from John's
 #. * Destroyer."

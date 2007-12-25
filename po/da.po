@@ -3188,13 +3188,13 @@ msgid "Your %s succeeded in bribing %s's %s and became more experienced."
 msgstr "Din %s bestak %s's %s og blev mere erfaren."
 
 #: server/diplomats.c:464
-#, c-format
-msgid "Your %s succeeded in bribing %s's %s."
-msgstr "Din %s bestak %s's %s."
+#, fuzzy, c-format
+msgid "Your %s succeeded in bribing the %s."
+msgstr "Din %s bestak %s."
 
 #: server/diplomats.c:470
-#, c-format
-msgid "Your %s was bribed by %s."
+#, fuzzy, c-format
+msgid "Your %s was bribed by the %s."
 msgstr "Din %s-enhed blev bestukket af %s."
 
 #: server/diplomats.c:601
@@ -3312,9 +3312,13 @@ msgstr "Folkeslaget %s ødelagde %s i %s."
 msgid "Your %s has been eliminated defending %s against a %s."
 msgstr "Din %s er blevet udslettet under forsvar af %s mod %s."
 
+#, fuzzy, c-format
+msgid "Your %s has been eliminated defending against a %s."
+msgstr "Din %s er blevet udslettet under forsvar af mod %s."
+
 #: server/diplomats.c:1101
-#, c-format
-msgid "An enemy %s has been eliminated defending %s."
+#, fuzzy, c-format
+msgid "An enemy %s has been eliminated by your %s."
 msgstr "En fjendtlig %s er blevet udslettet under forsvar af %s."
 
 #: server/diplomats.c:1112
@@ -5343,12 +5347,10 @@ msgid "Game ended in a draw"
 msgstr "Spillet endte uafgjort"
 
 #: server/srv_main.c:457 server/srv_main.c:469
-#, c-format
-msgid ""
-"Your %s unit %s was disbanded in accordance with your peace treaty with the %"
-"s."
+#, fuzzy, c-format
+msgid "Your %s was disbanded in accordance with your peace treaty with the %s."
 msgstr ""
-"Dine %s enhed %s blev opløst i overensstemmelse med din fredstraktat med %s."
+"Dine %s enhed blev opløst i overensstemmelse med din fredstraktat med %s."
 
 #: server/srv_main.c:510 server/srv_main.c:513
 #, c-format
@@ -6763,14 +6765,14 @@ msgstr ""
 "Din %s%s overlevede det ynkelige angreb fra %s %s og blev mere erfaren!"
 
 #: server/unithand.c:912
-#, c-format
-msgid "Your %s%s survived the pathetic attack from %s's %s."
-msgstr "Din %s%s overlevede det ynkelige angreb fra %ss %s."
+#, fuzzy, c-format
+msgid "Your %s survived the pathetic attack from the %s %s."
+msgstr "Din %s overlevede det ynkelige angreb fra %s %s."
 
 #: server/unithand.c:923
-#, c-format
-msgid "Your attacking %s failed against %s's %s%s!"
-msgstr "Din %s mislykkes i angrebet mod %ss %s%s!"
+#, fuzzy, c-format
+msgid "Your attacking %s failed against the %s %s!"
+msgstr "Din %s mislykkes i angrebet mod %s %s!"
 
 #: server/unithand.c:999
 #, c-format
@@ -6877,9 +6879,9 @@ msgstr ""
 "Din %s fra %s er ankommet i %s, og overskuddet udgør %d i guld og forskning."
 
 #: server/unittools.c:253
-#, c-format
-msgid "%s was upgraded for free to %s%s."
-msgstr "%s blev opgraderet uden omkostning til %s%s."
+#, fuzzy, c-format
+msgid "%s was upgraded for free to %s."
+msgstr "%s blev opgraderet uden omkostning til %s."
 
 #: server/unittools.c:298
 #, c-format
@@ -6982,20 +6984,19 @@ msgid "Barbarian leader captured, %d gold ransom paid."
 msgstr "Barbarleder fanget, %d guld betalt i løsepenge."
 
 #: server/unittools.c:1615
-#, c-format
-msgid ""
-"Your attacking %s succeeded against %s's %s%s and became more experienced!"
-msgstr "Din %s lykkedes i angrebet mod %ss %s%s og blev mere erfaren!"
+#, fuzzy
+msgid "And, became more experienced!"
+msgstr " og blev mere erfaren!"
 
 #: server/unittools.c:1624
-#, c-format
-msgid "Your attacking %s succeeded against %s's %s%s!"
-msgstr "Din %s lykkedes i angrebet mod %ss %s%s!"
+#, fuzzy, c-format
+msgid "Your attacking %s succeeded against the %s %s!"
+msgstr "Din %s lykkedes i angrebet mod %s %s!"
 
 #: server/unittools.c:1632
-#, c-format
-msgid "%s lost to an attack by %s's %s%s."
-msgstr "%s gik tabt i et angreb fra %ss %s %s."
+#, fuzzy, c-format
+msgid "%s lost to an attack by the %s %s."
+msgstr "%s gik tabt i et angreb fra %s %s."
 
 #: server/unittools.c:1667
 #, c-format
@@ -7013,12 +7014,12 @@ msgstr[1] ""
 "erfaren"
 
 #: server/unittools.c:1680
-#, c-format
-msgid "Your attacking %s succeeded against %s's %s (and %d other unit)%s!"
+#, fuzzy, c-format
+msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
-"Your attacking %s succeeded against %s's %s (and %d other units)%s!"
-msgstr[0] "Din %s lykkedes i angrebet mod %ss %s (og %d anden enhed)%s!"
-msgstr[1] "Din %s lykkedes i angrebet mod %ss %s (og %d andre enheder)%s!"
+"Your attacking %s succeeded against the %s %s (and %d other units)!"
+msgstr[0] "Din %s lykkedes i angrebet mod %s %s (og %d anden enhed)!"
+msgstr[1] "Din %s lykkedes i angrebet mod %s %s (og %d andre enheder)!"
 
 # problem
 #. TRANS: "Cannon lost to an attack from John's

@@ -3472,14 +3472,14 @@ msgstr "%sは，%sの%sの買収に成功し，練度が増しました。"
 
 # yasu, ama
 #: server/diplomats.c:464
-#, c-format
-msgid "Your %s succeeded in bribing %s's %s."
-msgstr "%sは，%sの%sの買収に成功しました。"
+#, fuzzy, c-format
+msgid "Your %s succeeded in bribing the %s."
+msgstr "%sは，の%sの買収に成功しました。"
 
 # yasu
 #: server/diplomats.c:470
-#, c-format
-msgid "Your %s was bribed by %s."
+#, fuzzy, c-format
+msgid "Your %s was bribed by the %s."
 msgstr "あなたの%sは%sにより買収されました。"
 
 # clefs
@@ -3608,9 +3608,13 @@ msgstr "%1$sは%3$sの%2$sを破壊しました。"
 msgid "Your %s has been eliminated defending %s against a %s."
 msgstr "%1$sは%2$sから%3$sを守ろうとして消されました。"
 
+#, fuzzy, c-format
+msgid "Your %s has been eliminated defending against a %s."
+msgstr "%sはから%sを守ろうとして消されました。"
+
 #: server/diplomats.c:1101
-#, c-format
-msgid "An enemy %s has been eliminated defending %s."
+#, fuzzy, c-format
+msgid "An enemy %s has been eliminated by your %s."
 msgstr "敵の%sは%sを守ろうとして消されました。"
 
 #: server/diplomats.c:1112
@@ -5717,11 +5721,9 @@ msgid "Game ended in a draw"
 msgstr "ゲームは引き分けで終了しました"
 
 #: server/srv_main.c:457 server/srv_main.c:469
-#, c-format
-msgid ""
-"Your %s unit %s was disbanded in accordance with your peace treaty with the %"
-"s."
-msgstr "あなたの%s部隊%sは%sとの平和条約に基づき解散されました。"
+#, fuzzy, c-format
+msgid "Your %s was disbanded in accordance with your peace treaty with the %s."
+msgstr "あなたの%s部隊は%sとの平和条約に基づき解散されました。"
 
 # yasu, clefs
 #: server/srv_main.c:510 server/srv_main.c:513
@@ -7236,14 +7238,14 @@ msgid ""
 msgstr "%2$s%1$sは，%3$sの%4$sからの攻撃を切り抜け，練度が増しました。"
 
 #: server/unithand.c:912
-#, c-format
-msgid "Your %s%s survived the pathetic attack from %s's %s."
-msgstr "%2$s%1$sは，%3$sの%4$sからの攻撃を切り抜けました。"
+#, fuzzy, c-format
+msgid "Your %s survived the pathetic attack from the %s %s."
+msgstr "%sは，%sの%sからの攻撃を切り抜けました。"
 
 #: server/unithand.c:923
-#, c-format
-msgid "Your attacking %s failed against %s's %s%s!"
-msgstr "%1$sは%4$s%2$sの%3$sを攻撃し，失敗しました。"
+#, fuzzy, c-format
+msgid "Your attacking %s failed against the %s %s!"
+msgstr "%sは%sの%sを攻撃し，失敗しました。"
 
 #: server/unithand.c:999
 #, c-format
@@ -7356,9 +7358,9 @@ msgstr "%3$sへ，%2$sからの%1$sが到着し， %4$d の現金と研究が得
 
 # clefs
 #: server/unittools.c:253
-#, c-format
-msgid "%s was upgraded for free to %s%s."
-msgstr "%sは%s%sへ無償でアップグレードされました。"
+#, fuzzy, c-format
+msgid "%s was upgraded for free to %s."
+msgstr "%sは%sへ無償でアップグレードされました。"
 
 # clefs
 # 原文: missing period
@@ -7461,20 +7463,19 @@ msgid "Barbarian leader captured, %d gold ransom paid."
 msgstr "バーバリアンの指導者が捕えられ，身代金%dが支払われました。"
 
 #: server/unittools.c:1615
-#, c-format
-msgid ""
-"Your attacking %s succeeded against %s's %s%s and became more experienced!"
-msgstr "%1$sは%4$s%2$sの%3$sの攻撃に成功し，練度が増しました。"
+#, fuzzy
+msgid "And, became more experienced!"
+msgstr "の攻撃に成功し，練度が増しました。"
 
 #: server/unittools.c:1624
-#, c-format
-msgid "Your attacking %s succeeded against %s's %s%s!"
-msgstr "%1$sは%4$s%2$sの%3$sを攻撃し，成功しました。"
+#, fuzzy, c-format
+msgid "Your attacking %s succeeded against the %s %s!"
+msgstr "%1$sは%2$sの%3$sを攻撃し，成功しました。"
 
 #: server/unittools.c:1632
-#, c-format
-msgid "%s lost to an attack by %s's %s%s."
-msgstr "%2$sの%3$sによる攻撃で%4$s%1$sを失いました。"
+#, fuzzy, c-format
+msgid "%s lost to an attack by the %s %s."
+msgstr "%2$sの%3$sによる攻撃で%1$sを失いました。"
 
 # clefs
 # XXX 最後の%sは「〜の近く」とかかしら
@@ -7490,11 +7491,11 @@ msgstr[0] ""
 "%sは%sの%s(およびその他%d部隊)(%s)への攻撃に成功し，練度が増しました!"
 
 #: server/unittools.c:1680
-#, c-format
-msgid "Your attacking %s succeeded against %s's %s (and %d other unit)%s!"
+#, fuzzy, c-format
+msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
-"Your attacking %s succeeded against %s's %s (and %d other units)%s!"
-msgstr[0] "%sは%sの%s(およびその他%d部隊)(%s)への攻撃に成功しました!"
+"Your attacking %s succeeded against the %s %s (and %d other units)!"
+msgstr[0] "%sは%sの%s(およびその他%d部隊)への攻撃に成功しました!"
 
 # 射手 lost to an attack from Lluis Companys's チャリオット.
 #. TRANS: "Cannon lost to an attack from John's

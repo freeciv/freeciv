@@ -3242,13 +3242,13 @@ msgid "Your %s succeeded in bribing %s's %s and became more experienced."
 msgstr "%s hat erfolgreich %ss %s bestochen und sammelte Erfahrung."
 
 #: server/diplomats.c:464
-#, c-format
-msgid "Your %s succeeded in bribing %s's %s."
-msgstr "Ihr %s hat erfolgreich %ss %s bestochen."
+#, fuzzy, c-format
+msgid "Your %s succeeded in bribing the %s."
+msgstr "Ihr %s hat erfolgreich %s bestochen."
 
 #: server/diplomats.c:470
-#, c-format
-msgid "Your %s was bribed by %s."
+#, fuzzy, c-format
+msgid "Your %s was bribed by the %s."
 msgstr "%s wurde von %s bestochen."
 
 #: server/diplomats.c:601
@@ -3366,9 +3366,13 @@ msgstr "Die %s vernichteten %s in %s."
 msgid "Your %s has been eliminated defending %s against a %s."
 msgstr "%s wurde während des Dienstes von einem %s in %s getötet."
 
+#, fuzzy, c-format
+msgid "Your %s has been eliminated defending against a %s."
+msgstr "%s wurde während des Dienstes von einem in %s getötet."
+
 #: server/diplomats.c:1101
-#, c-format
-msgid "An enemy %s has been eliminated defending %s."
+#, fuzzy, c-format
+msgid "An enemy %s has been eliminated by your %s."
 msgstr "Ein feindlicher %s wurde bei der Verteidigung von %s getötet."
 
 #: server/diplomats.c:1112
@@ -5412,12 +5416,10 @@ msgid "Game ended in a draw"
 msgstr "Spiel endete unentschieden"
 
 #: server/srv_main.c:457 server/srv_main.c:469
-#, c-format
-msgid ""
-"Your %s unit %s was disbanded in accordance with your peace treaty with the %"
-"s."
+#, fuzzy, c-format
+msgid "Your %s was disbanded in accordance with your peace treaty with the %s."
 msgstr ""
-"Die %s %s wurde aufgelöst, in Übereinstimmung mit dem Friedensvertrag mit "
+"Die %s wurde aufgelöst, in Übereinstimmung mit dem Friedensvertrag mit "
 "den %s."
 
 #: server/srv_main.c:510 server/srv_main.c:513
@@ -6872,14 +6874,14 @@ msgid ""
 msgstr "%s%s überlebte den Angriff von %ss %s und sammelte Erfahrung!"
 
 #: server/unithand.c:912
-#, c-format
-msgid "Your %s%s survived the pathetic attack from %s's %s."
-msgstr "%s%s überlebte den Angriff von %ss %s."
+#, fuzzy, c-format
+msgid "Your %s survived the pathetic attack from the %s %s."
+msgstr "%s überlebte den Angriff von %s %s."
 
 #: server/unithand.c:923
-#, c-format
-msgid "Your attacking %s failed against %s's %s%s!"
-msgstr "Der Angriff der %s gegen %ss %s%s ist fehlgeschlagen!"
+#, fuzzy, c-format
+msgid "Your attacking %s failed against the %s %s!"
+msgstr "Der Angriff der %s gegen %s %s ist fehlgeschlagen!"
 
 #: server/unithand.c:999
 #, c-format
@@ -6986,9 +6988,9 @@ msgstr ""
 "Forschung."
 
 #: server/unittools.c:253
-#, c-format
-msgid "%s was upgraded for free to %s%s."
-msgstr "%s wurde kostenlos zu %s%s modernisiert."
+#, fuzzy, c-format
+msgid "%s was upgraded for free to %s."
+msgstr "%s wurde kostenlos zu %s modernisiert."
 
 #: server/unittools.c:298
 #, c-format
@@ -7088,21 +7090,19 @@ msgid "Barbarian leader captured, %d gold ransom paid."
 msgstr "Barbarenanführer gefaßt, %d Goldstücke Belohnung erhalten."
 
 #: server/unittools.c:1615
-#, c-format
-msgid ""
-"Your attacking %s succeeded against %s's %s%s and became more experienced!"
-msgstr ""
-"Der Angriff der %s gegen %ss %s%s ist geglückt und sie sammelten Erfahrung!"
+#, fuzzy
+msgid "And, became more experienced!"
+msgstr " und sie sammelten Erfahrung!"
 
 #: server/unittools.c:1624
-#, c-format
-msgid "Your attacking %s succeeded against %s's %s%s!"
-msgstr "Der Angriff der %s gegen %ss %s%s ist geglückt!"
+#, fuzzy, c-format
+msgid "Your attacking %s succeeded against the %s %s!"
+msgstr "Der Angriff der %s gegen %s %s ist geglückt!"
 
 #: server/unittools.c:1632
-#, c-format
-msgid "%s lost to an attack by %s's %s%s."
-msgstr "%s beim Angriff von %ss %s%s verloren."
+#, fuzzy, c-format
+msgid "%s lost to an attack by the %s %s."
+msgstr "%s beim Angriff von %s %s verloren."
 
 #: server/unittools.c:1667
 #, c-format
@@ -7120,14 +7120,14 @@ msgstr[1] ""
 "und sie sammelten Erfahrung!"
 
 #: server/unittools.c:1680
-#, c-format
-msgid "Your attacking %s succeeded against %s's %s (and %d other unit)%s!"
+#, fuzzy, c-format
+msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
-"Your attacking %s succeeded against %s's %s (and %d other units)%s!"
+"Your attacking %s succeeded against the %s %s (and %d other units)!"
 msgstr[0] ""
-"Der Angriff der %s gegen %ss %s (und %d weitere Einheit)%s ist geglückt!"
+"Der Angriff der %s gegen %s %s (und %d weitere Einheit) ist geglückt!"
 msgstr[1] ""
-"Der Angriff der %s gegen %ss %s (und %d weitere Einheiten)%s ist geglückt!"
+"Der Angriff der %s gegen %s %s (und %d weitere Einheiten) ist geglückt!"
 
 #. TRANS: "Cannon lost to an attack from John's
 #. * Destroyer."

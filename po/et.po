@@ -3144,13 +3144,13 @@ msgid "Your %s succeeded in bribing %s's %s and became more experienced."
 msgstr "Su %s ostis ära %s-te %s ja sai kogenumaks."
 
 #: server/diplomats.c:464
-#, c-format
-msgid "Your %s succeeded in bribing %s's %s."
-msgstr "Su %s ostis ära %s-te %s."
+#, fuzzy, c-format
+msgid "Your %s succeeded in bribing the %s."
+msgstr "Su %s ostis ära %s."
 
 #: server/diplomats.c:470
-#, c-format
-msgid "Your %s was bribed by %s."
+#, fuzzy, c-format
+msgid "Your %s was bribed by the %s."
 msgstr "Su %s osteti ära %s poolt."
 
 #: server/diplomats.c:601
@@ -3266,9 +3266,13 @@ msgstr "%s hävitas %s %s-is."
 msgid "Your %s has been eliminated defending %s against a %s."
 msgstr "Su %s hävitati, kui ta üritas kaitsta %s-i %s-ide vastu."
 
+#, fuzzy, c-format
+msgid "Your %s has been eliminated defending against a %s."
+msgstr "Su %s hävitati, kui ta üritas kaitsta %s-ide vastu."
+
 #: server/diplomats.c:1101
-#, c-format
-msgid "An enemy %s has been eliminated defending %s."
+#, fuzzy, c-format
+msgid "An enemy %s has been eliminated by your %s."
 msgstr "Vaenlaste %s, kes kaitses %s-i, hävitati."
 
 #: server/diplomats.c:1112
@@ -5281,11 +5285,9 @@ msgid "Game ended in a draw"
 msgstr "Mäng lõppes viigiga"
 
 #: server/srv_main.c:457 server/srv_main.c:469
-#, c-format
-msgid ""
-"Your %s unit %s was disbanded in accordance with your peace treaty with the %"
-"s."
-msgstr "Su %s üksus %s lasti lahti, kuna nii nõudis rahulepe rahvusega %s."
+#, fuzzy, c-format
+msgid "Your %s was disbanded in accordance with your peace treaty with the %s."
+msgstr "Su %s üksus lasti lahti, kuna nii nõudis rahulepe rahvusega %s."
 
 #: server/srv_main.c:510 server/srv_main.c:513
 #, c-format
@@ -6699,14 +6701,14 @@ msgid ""
 msgstr "Su %s%s lõi tagasi %s üksuse %s rünnaku ja sai kogenumaks!"
 
 #: server/unithand.c:912
-#, c-format
-msgid "Your %s%s survived the pathetic attack from %s's %s."
-msgstr "Su %s%s lõi tagasi %s üksuse %s rünnaku."
+#, fuzzy, c-format
+msgid "Your %s survived the pathetic attack from the %s %s."
+msgstr "Su %s lõi tagasi %s üksuse %s rünnaku."
 
 #: server/unithand.c:923
-#, c-format
-msgid "Your attacking %s failed against %s's %s%s!"
-msgstr "Su ründav üksus %s sai lüüa %s üksuselt %s%s!"
+#, fuzzy, c-format
+msgid "Your attacking %s failed against the %s %s!"
+msgstr "Su ründav üksus %s sai lüüa %s üksuselt %s!"
 
 #: server/unithand.c:999
 #, c-format
@@ -6810,9 +6812,9 @@ msgstr ""
 "Sinu %s linnast %s jõudis linna %s, maksudeks koguti %d kulda ja teadusi."
 
 #: server/unittools.c:253
-#, c-format
-msgid "%s was upgraded for free to %s%s."
-msgstr "Üksus %s uuendati tasuta üksuseks %s%s."
+#, fuzzy, c-format
+msgid "%s was upgraded for free to %s."
+msgstr "Üksus %s uuendati tasuta üksuseks %s."
 
 #: server/unittools.c:298
 #, c-format
@@ -6911,20 +6913,18 @@ msgid "Barbarian leader captured, %d gold ransom paid."
 msgstr "Barbarite juht vangistatud, maksti lunaraha %d kulda."
 
 #: server/unittools.c:1615
-#, c-format
-msgid ""
-"Your attacking %s succeeded against %s's %s%s and became more experienced!"
-msgstr ""
+msgid "And, became more experienced!"
+msgstr " ja sai kogenumaks!"
 
 #: server/unittools.c:1624
-#, c-format
-msgid "Your attacking %s succeeded against %s's %s%s!"
-msgstr "Sinu ründav üksus %s võitis lahingu %s-te %s%s vastu!"
+#, fuzzy, c-format
+msgid "Your attacking %s succeeded against the %s %s!"
+msgstr "Sinu ründav üksus %s võitis lahingu %s-te %s vastu!"
 
 #: server/unittools.c:1632
-#, c-format
-msgid "%s lost to an attack by %s's %s%s."
-msgstr "%s kaotati %s rünnakus üksusega %s %s."
+#, fuzzy, c-format
+msgid "%s lost to an attack by the %s %s."
+msgstr "%s kaotati %s rünnakus üksusega %s."
 
 #: server/unittools.c:1667
 #, c-format
@@ -6943,9 +6943,9 @@ msgstr[1] ""
 
 #: server/unittools.c:1680
 #, c-format
-msgid "Your attacking %s succeeded against %s's %s (and %d other unit)%s!"
+msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
-"Your attacking %s succeeded against %s's %s (and %d other units)%s!"
+"Your attacking %s succeeded against the %s %s (and %d other units)!"
 msgstr[0] ""
 msgstr[1] ""
 
