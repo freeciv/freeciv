@@ -255,10 +255,9 @@ static void do_upgrade_effects(struct player *pplayer)
       = can_upgrade_unittype(pplayer, unit_type(punit));
 
     notify_player(pplayer, punit->tile, E_UNIT_UPGRADED,
-		  _("%s was upgraded for free to %s%s."),
+		  _("%s was upgraded for free to %s."),
 		  unit_name_translation(punit),
-		  utype_name_translation(upgrade_type),
-		  get_location_str_in(pplayer, punit->tile));
+		  utype_name_translation(upgrade_type));
     upgrade_unit(punit, upgrade_type, TRUE);
     unit_list_unlink(candidates, punit);
     upgrades--;
@@ -617,12 +616,20 @@ static bool maybe_settler_become_veteran(struct unit *punit)
 
 /**************************************************************************
   common notification for all experience levels.
+  When used immediately after another unit message, set also to TRUE.
 **************************************************************************/
-void notify_unit_experience(struct unit *punit)
+void notify_unit_experience(struct unit *punit, bool also)
 {
-  notify_player(unit_owner(punit), punit->tile, E_UNIT_BECAME_VET,
-  		_("Your %s became more experienced!"),
-  		unit_name_translation(punit));
+  if (also) {
+    notify_player(unit_owner(punit), punit->tile, E_UNIT_BECAME_VET,
+  		  /* TRANS: And, <the unit> became ... */
+  		  _("And, became more experienced!"));
+  } else {
+    notify_player(unit_owner(punit), punit->tile, E_UNIT_BECAME_VET,
+  		  /* TRANS: Your <unit> became ... */
+  		  _("Your %s became more experienced!"),
+  		  unit_name_translation(punit));
+  }
 }
 
 /**************************************************************************
@@ -648,7 +655,7 @@ static void update_unit_activity(struct unit *punit)
     /* settler may become veteran when doing something useful */
     if (activity != ACTIVITY_FORTIFYING && activity != ACTIVITY_SENTRY
        && maybe_settler_become_veteran(punit)) {
-      notify_unit_experience(punit);
+      notify_unit_experience(punit, FALSE);
     }
   }
 
@@ -854,65 +861,6 @@ static void update_unit_activity(struct unit *punit)
       handle_unit_activity_request(punit2, ACTIVITY_IDLE);
     }
   } unit_list_iterate_end;
-}
-
-/**************************************************************************
-  Returns a pointer to a (static) string which gives an informational
-  message about location (x,y), in terms of cities known by pplayer.
-  One of:
-    "in Foo City"  or  "at Foo City" (see below)
-    "outside Foo City"
-    "near Foo City"
-    "" (if no cities known)
-  There are two variants for the first case, one when something happens
-  inside the city, otherwise when it happens "at" but "outside" the city.
-  Eg, when an attacker fails, the attacker dies "at" the city, but
-  not "in" the city (since the attacker never made it in).
-  Don't call this function directly; use the wrappers below.
-**************************************************************************/
-static char *get_location_str(struct player *pplayer, struct tile *ptile, bool use_at)
-{
-  static char buffer[MAX_LEN_NAME+64];
-  struct city *incity, *nearcity;
-
-  incity = tile_city(ptile);
-  if (incity) {
-    if (use_at) {
-      my_snprintf(buffer, sizeof(buffer), _(" at %s"), incity->name);
-    } else {
-      my_snprintf(buffer, sizeof(buffer), _(" in %s"), incity->name);
-    }
-  } else {
-    nearcity = dist_nearest_city(pplayer, ptile, FALSE, FALSE);
-    if (nearcity) {
-      if (is_tiles_adjacent(ptile, nearcity->tile)) {
-	my_snprintf(buffer, sizeof(buffer),
-		   _(" outside %s"), nearcity->name);
-      } else {
-	my_snprintf(buffer, sizeof(buffer),
-		    _(" near %s"), nearcity->name);
-      }
-    } else {
-      buffer[0] = '\0';
-    }
-  }
-  return buffer;
-}
-
-/**************************************************************************
-  See get_location_str() above.
-**************************************************************************/
-char *get_location_str_in(struct player *pplayer, struct tile *ptile)
-{
-  return get_location_str(pplayer, ptile, FALSE);
-}
-
-/**************************************************************************
-  See get_location_str() above.
-**************************************************************************/
-char *get_location_str_at(struct player *pplayer, struct tile *ptile)
-{
-  return get_location_str(pplayer, ptile, TRUE);
 }
 
 /**************************************************************************
@@ -1623,7 +1571,6 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 {
   struct player *pvictim = unit_owner(punit);
   struct player *pvictor = unit_owner(pkiller);
-  const char *loc_str = get_location_str_in(pvictim, punit->tile);
   int ransom, unitcount = 0;
   
   /* barbarian leader ransom hack */
@@ -1650,30 +1597,21 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
   }
 
   if (!is_stack_vulnerable(punit->tile) || unitcount == 1) {
+    notify_player(pvictor, pkiller->tile, E_UNIT_WIN_ATT,
+		  /* TRANS: "... Cannon ... the Polish Destroyer." */
+		  _("Your attacking %s succeeded against the %s %s!"),
+		  unit_name_translation(pkiller),
+		  nation_adjective_for_player(pvictim),
+		  unit_name_translation(punit));
     if (vet) {
-      notify_player(pvictor, pkiller->tile, E_UNIT_WIN_ATT,
-		    _("Your attacking %s succeeded"
-		      " against %s's %s%s and became more experienced!"),
-		    unit_name_translation(pkiller),
-		    pvictim->name,
-		    unit_name_translation(punit),
-		    get_location_str_at(pvictor,
-					punit->tile));
-    } else {
-      notify_player(pvictor, pkiller->tile, E_UNIT_WIN_ATT,
-		    _("Your attacking %s succeeded against %s's %s%s!"),
-		    unit_name_translation(pkiller),
-		    pvictim->name,
-		    unit_name_translation(punit),
-		    get_location_str_at(pvictor,
-					punit->tile));
+      notify_unit_experience(pkiller, TRUE);
     }
     notify_player(pvictim, punit->tile, E_UNIT_LOST,
-		  _("%s lost to an attack by %s's %s%s."),
+		  /* TRANS: "Cannon ... the Polish Destroyer." */
+		  _("%s lost to an attack by the %s %s."),
 		  unit_name_translation(punit),
-		  pvictor->name,
-		  unit_name_translation(pkiller),
-		  loc_str);
+		  nation_adjective_for_player(pvictor),
+		  unit_name_translation(pkiller));
 
     wipe_unit(punit);
   } else { /* unitcount > 1 */
@@ -1702,31 +1640,18 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
     } unit_list_iterate_end;
 
     /* Inform the destroyer: lots of different cases here! */
+    notify_player(pvictor, pkiller->tile, E_UNIT_WIN_ATT,
+		  /* TRANS: "... Cannon ... the Polish Destroyer ...." */
+		  PL_("Your attacking %s succeeded against the %s %s "
+		      "(and %d other unit)!",
+		      "Your attacking %s succeeded against the %s %s "
+		      "(and %d other units)!", unitcount - 1),
+		  unit_name_translation(pkiller),
+		  nation_adjective_for_player(pvictim),
+		  unit_name_translation(punit),
+		  unitcount - 1);
     if (vet) {
-      notify_player(pvictor, pkiller->tile, E_UNIT_WIN_ATT,
-		    PL_("Your attacking %s succeeded against %s's %s "
-			"(and %d other unit)%s and became more experienced!",
-			"Your attacking %s succeeded against %s's %s "
-			"(and %d other units)%s and became more experienced!",
-			unitcount - 1),
-		    unit_name_translation(pkiller),
-		    pvictim->name,
-		    unit_name_translation(punit),
-		    unitcount - 1,
-		    get_location_str_at(pvictor,
-					punit->tile));
-    } else {
-      notify_player(pvictor, pkiller->tile, E_UNIT_WIN_ATT,
-		    PL_("Your attacking %s succeeded against %s's %s "
-			"(and %d other unit)%s!",
-			"Your attacking %s succeeded against %s's %s "
-			"(and %d other units)%s!", unitcount - 1),
-		    unit_name_translation(pkiller),
-		    pvictim->name,
-		    unit_name_translation(punit),
-		    unitcount - 1,
-		    get_location_str_at(pvictor,
-					punit->tile));
+      notify_unit_experience(pkiller, TRUE);
     }
 
     /* inform the owners: this only tells about owned units that were killed.
@@ -1740,11 +1665,10 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 	if (i == player_index(pvictim)) {
 	  assert(other_killed[i] == NULL);
 	  notify_player(player_by_number(i), punit->tile, E_UNIT_LOST,
-			/* TRANS: "Cannon lost to an attack from John's
-			 * Destroyer." */
-			_("%s lost to an attack from %s's %s."),
+			/* TRANS: "Cannon ... the Polish Destroyer." */
+			_("%s lost to an attack by the %s %s."),
 			unit_name_translation(punit),
-			pvictor->name,
+			nation_adjective_for_player(pvictor),
 			unit_name_translation(pkiller));
 	} else {
 	  assert(other_killed[i] != punit);

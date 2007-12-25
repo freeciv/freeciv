@@ -715,10 +715,9 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile)
 {
   struct player *pplayer = unit_owner(punit);
   struct city *pcity = tile_city(ptile);
-  int old_unit_vet;
 
-  freelog(LOG_DEBUG, "Start bombard: %s's %s to %d, %d.",
-	  pplayer->name,
+  freelog(LOG_DEBUG, "Start bombard: %s %s to %d, %d.",
+	  nation_rule_name(nation_of_player(pplayer)),
 	  unit_rule_name(punit),
 	  TILE_XY(ptile));
 
@@ -759,15 +758,8 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile)
     send_city_info(NULL, pcity);
   }
 
-  old_unit_vet = punit->veteran;
-  maybe_make_veteran(punit);
-  if (punit->veteran != old_unit_vet) {
-    notify_player(unit_owner(punit), punit->tile,
-		     E_UNIT_WIN_ATT,
-		     _("Your bombarding %s%s became more experienced!"),
-		     unit_name_translation(punit),
-		     get_location_str_at(unit_owner(punit),
-		     punit->tile));
+  if (maybe_make_veteran(punit)) {
+    notify_unit_experience(punit, FALSE);
   }
 
   send_unit_info(NULL, punit);
@@ -873,50 +865,32 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
   
   if (punit == plooser) {
     /* The attacker lost */
-    freelog(LOG_DEBUG, "Attacker lost: %s's %s against %s's %s.",
-	    pplayer->name,
+    freelog(LOG_DEBUG, "Attacker lost: %s %s against %s %s.",
+	    nation_rule_name(nation_of_player(pplayer)),
 	    unit_rule_name(punit),
-	    unit_owner(pdefender)->name,
+	    nation_rule_name(nation_of_unit(pdefender)),
 	    unit_rule_name(pdefender));
 
+    notify_player(unit_owner(pwinner), pwinner->tile, E_UNIT_WIN,
+		  _("Your %s survived the pathetic attack from the %s %s."),
+		  unit_name_translation(pwinner),
+		  nation_adjective_for_player(unit_owner(plooser)),
+		  unit_name_translation(plooser));
     if (vet) {
-      notify_player(unit_owner(pwinner),
-		       pwinner->tile, E_UNIT_WIN,
-		       _("Your %s%s survived the pathetic attack"
-		         " from %s's %s and became more experienced!"),
-		       unit_name_translation(pwinner),
-		       get_location_str_in(unit_owner(pwinner),
-					   pwinner->tile),
-		       unit_owner(plooser)->name,
-		       unit_name_translation(plooser));
-    } else {
-      notify_player(unit_owner(pwinner),
-		       pwinner->tile, E_UNIT_WIN,
-		       _("Your %s%s survived the pathetic attack"
-		         " from %s's %s."),
-		       unit_name_translation(pwinner),
-		       get_location_str_in(unit_owner(pwinner),
-					   pwinner->tile),
-		       unit_owner(plooser)->name,
-		       unit_name_translation(plooser));
+      notify_unit_experience(pwinner, TRUE);
     }
-    
-    notify_player(unit_owner(plooser),
-		     def_tile, E_UNIT_LOST_ATT,
-		     _("Your attacking %s failed "
-		       "against %s's %s%s!"),
-		     unit_name_translation(plooser),
-		     unit_owner(pwinner)->name,
-		     unit_name_translation(pwinner),
-		     get_location_str_at(unit_owner(plooser),
-					 pwinner->tile));
+    notify_player(unit_owner(plooser), def_tile, E_UNIT_LOST_ATT,
+		  _("Your attacking %s failed against the %s %s!"),
+		  unit_name_translation(plooser),
+		  nation_adjective_for_player(unit_owner(pwinner)),
+		  unit_name_translation(pwinner));
     wipe_unit(plooser);
   } else {
     /* The defender lost, the attacker punit lives! */
-    freelog(LOG_DEBUG, "Defender lost: %s's %s against %s's %s.",
-	    pplayer->name,
+    freelog(LOG_DEBUG, "Defender lost: %s %s against %s %s.",
+	    nation_rule_name(nation_of_player(pplayer)),
 	    unit_rule_name(punit),
-	    unit_owner(pdefender)->name,
+	    nation_rule_name(nation_of_unit(pdefender)),
 	    unit_rule_name(pdefender));
 
     punit->moved = TRUE;	/* We moved */
