@@ -375,12 +375,11 @@ struct tile *immediate_destination(struct unit *punit,
     if (find_air_first_destination(punit, &waypoint_tile)) {
       return waypoint_tile;
     } else {
-      struct player *pplayer = unit_owner(punit);
-
       freelog(LOG_VERBOSE, "Did not find an air-route for "
-	      "%s's %s at (%d, %d) -> (%d, %d)",
-	      pplayer->name,
+	      "%s %s[%d] (%d,%d)->(%d,%d)",
+	      nation_rule_name(nation_of_unit(punit)),
 	      unit_rule_name(punit),
+	      punit->id,
 	      TILE_XY(punit->tile),
 	      TILE_XY(dest_tile));
       /* Prevent take off */

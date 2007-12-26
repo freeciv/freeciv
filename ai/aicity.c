@@ -1793,7 +1793,7 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
     bool is_valid;
 
     if (acity && acity != pcity && city_owner(acity) == city_owner(pcity))  {
-      freelog(LOG_DEBUG, "%s taking over %s's square in (%d, %d)",
+      freelog(LOG_DEBUG, "%s taking over %s square in (%d, %d)",
               pcity->name, acity->name, ptile->x, ptile->y);
       is_valid = map_to_city_map(&city_map_x, &city_map_y, acity, ptile);
       assert(is_valid);

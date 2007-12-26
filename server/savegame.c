@@ -4054,10 +4054,11 @@ void game_load(struct section_file *file)
             && pplayers_allied(plr, aplayer)
             && pplayer_can_make_treaty(plr, aplayer, DS_ALLIANCE) 
                == DIPL_ALLIANCE_PROBLEM) {
-          /* TRANS: Minor error message. */
+          /* TRANS: ... <Danish> alliance to <Poles>.... */
           freelog(LOG_ERROR, _("Illegal alliance structure detected: "
-                  "%s's alliance to %s reduced to peace treaty."),
-                  plr->name, aplayer->name);
+                  "%s alliance to %s reduced to peace treaty."),
+                  nation_adjective_for_player(plr),
+                  nation_plural_for_player(aplayer));
           plr->diplstates[player_index(aplayer)].type = DS_PEACE;
           aplayer->diplstates[player_index(plr)].type = DS_PEACE;
         }
@@ -4145,8 +4146,8 @@ void game_load(struct section_file *file)
       struct unit *ferry = game_find_unit_by_number(punit->transported_by);
 
       if (!ferry && !can_unit_exist_at_tile(punit, punit->tile)) {
-        freelog(LOG_ERROR, "Removing %s's unferried %s in %s at (%d, %d)",
-                pplayer->name,
+        freelog(LOG_ERROR, "Removing %s unferried %s in %s at (%d, %d)",
+                nation_rule_name(nation_of_player(pplayer)),
                 unit_rule_name(punit),
                 terrain_rule_name(punit->tile->terrain),
                 TILE_XY(punit->tile));

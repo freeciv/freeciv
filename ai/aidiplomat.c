@@ -272,9 +272,10 @@ static void ai_diplomat_city(struct unit *punit, struct city *ctarget)
   handle_unit_activity_request(punit, ACTIVITY_IDLE);
 
 #define T(my_act,my_val)                                            \
-  if (diplomat_can_do_action(punit, my_act, ctarget->tile)) {	    \
-    freelog(LOG_DIPLOMAT, "Player %s's diplomat %d does " #my_act   \
-            " on %s", pplayer->name, punit->id, ctarget->name);     \
+  if (diplomat_can_do_action(punit, my_act, ctarget->tile)) {       \
+    freelog(LOG_DIPLOMAT, "%s %s[%d] does " #my_act " at %s",       \
+            nation_rule_name(nation_of_unit(punit)),                \
+            unit_rule_name(punit), punit->id, ctarget->name);       \
     handle_unit_diplomat_action(pplayer, punit->id, my_act,         \
                                 ctarget->id, my_val);               \
     return;                                                         \

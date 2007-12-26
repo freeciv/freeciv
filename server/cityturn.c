@@ -948,8 +948,8 @@ static bool worklist_change_build_target(struct player *pplayer,
     /* There *was* something in the worklist, but it's empty now.  Bug the
        player about it. */
     notify_player(pplayer, pcity->tile, E_WORKLIST,
-		     _("%s's worklist is now empty."),
-		     pcity->name);
+		  _("The %s worklist is now empty."),
+		  pcity->name);
   }
 
   return success;
@@ -1285,8 +1285,8 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
 		       API_TYPE_UNIT_TYPE, utype,
 		       API_TYPE_CITY, pcity,
 		       API_TYPE_STRING, "unavailable");
-    freelog(LOG_VERBOSE, "%s's %s tried to build %s, which is not available.",
-            pplayer->name,
+    freelog(LOG_VERBOSE, "%s %s tried to build %s, which is not available.",
+            nation_rule_name(nation_of_city(pcity)),
             pcity->name,
             utype_rule_name(utype));
     return TRUE;

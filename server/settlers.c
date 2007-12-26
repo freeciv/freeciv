@@ -1263,8 +1263,9 @@ void auto_settlers_player(struct player *pplayer)
 	    || unit_has_type_flag(punit, F_CITIES))
 	&& !unit_has_orders(punit)
         && punit->moves_left > 0) {
-      freelog(LOG_DEBUG, "%s's settler at (%d, %d) is ai controlled.",
-	      pplayer->name, TILE_XY(punit->tile)); 
+      freelog(LOG_DEBUG, "%s settler at (%d, %d) is ai controlled.",
+	      nation_rule_name(nation_of_player(pplayer)),
+	      TILE_XY(punit->tile)); 
       if (punit->activity == ACTIVITY_SENTRY) {
 	handle_unit_activity_request(punit, ACTIVITY_IDLE);
       }
@@ -1278,8 +1279,9 @@ void auto_settlers_player(struct player *pplayer)
   } unit_list_iterate_safe_end;
 
   if (timer_in_use(t)) {
-    freelog(LOG_VERBOSE, "%s's autosettlers consumed %g milliseconds.",
- 	    pplayer->name, 1000.0*read_timer_seconds(t));
+    freelog(LOG_VERBOSE, "%s autosettlers consumed %g milliseconds.",
+ 	    nation_rule_name(nation_of_player(pplayer)),
+ 	    1000.0*read_timer_seconds(t));
   }
 }
 

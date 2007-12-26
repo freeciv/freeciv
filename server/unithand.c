@@ -772,33 +772,33 @@ already made all neccesary checks.
 **************************************************************************/
 static void handle_unit_attack_request(struct unit *punit, struct unit *pdefender)
 {
-  struct player *pplayer = unit_owner(punit);
   struct unit *plooser, *pwinner;
   struct city *pcity;
   int moves_used, def_moves_used; 
-  struct tile *def_tile = pdefender->tile;
   int old_unit_vet, old_defender_vet, vet;
   int winner_id;
+  struct tile *def_tile = pdefender->tile;
+  struct player *pplayer = unit_owner(punit);
   
-  freelog(LOG_DEBUG, "Start attack: %s's %s against %s's %s.",
-	  pplayer->name,
+  freelog(LOG_DEBUG, "Start attack: %s %s against %s %s.",
+	  nation_rule_name(nation_of_player(pplayer)),
 	  unit_rule_name(punit), 
-	  unit_owner(pdefender)->name,
+	  nation_rule_name(nation_of_unit(pdefender)),
 	  unit_rule_name(pdefender));
 
   /* Sanity checks */
-  if (pplayers_non_attack(unit_owner(punit), unit_owner(pdefender))) {
+  if (pplayers_non_attack(pplayer, unit_owner(pdefender))) {
     die("Trying to attack a unit with which you have peace "
 	"or cease-fire at %i, %i", TILE_XY(def_tile));
   }
-  if (pplayers_allied(unit_owner(punit), unit_owner(pdefender))
+  if (pplayers_allied(pplayer, unit_owner(pdefender))
       && !(unit_has_type_flag(punit, F_NUCLEAR) && punit == pdefender)) {
     die("Trying to attack a unit with which you have alliance at %i, %i",
 	TILE_XY(def_tile));
   }
 
   if (unit_has_type_flag(punit, F_NUCLEAR)) {
-    if ((pcity = sdi_try_defend(unit_owner(punit), def_tile))) {
+    if ((pcity = sdi_try_defend(pplayer, def_tile))) {
       notify_player(pplayer, punit->tile, E_UNIT_LOST_ATT,
 		       _("Your Nuclear missile was shot down by"
 			 " SDI defences, what a waste."));
@@ -908,8 +908,7 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
    * capturing (or destroying) a city. */
 
   if (pwinner == punit && myrand(100) < game.info.occupychance &&
-      !is_non_allied_unit_tile(def_tile,
-			       unit_owner(punit))) {
+      !is_non_allied_unit_tile(def_tile, pplayer)) {
 
     /* Hack: make sure the unit has enough moves_left for the move to succeed,
        and adjust moves_left to afterward (if successful). */

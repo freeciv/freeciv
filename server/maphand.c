@@ -1606,10 +1606,10 @@ static void bounce_units_on_terrain_change(struct tile *ptile)
 	if (can_unit_exist_at_tile(punit, ptile2)
 	    && !is_non_allied_unit_tile(ptile2, unit_owner(punit))) {
 	  freelog(LOG_VERBOSE,
-		  "Moved %s's %s due to changing terrain at (%d,%d).",
-		  unit_owner(punit)->name,
+		  "Moved %s %s due to changing terrain at (%d,%d).",
+		  nation_rule_name(nation_of_unit(punit)),
 		  unit_rule_name(punit),
-		  punit->tile->x, punit->tile->y);
+		  TILE_XY(punit->tile));
 	  notify_player(unit_owner(punit),
 			   punit->tile, E_UNIT_RELOCATED,
 			   _("Moved your %s due to changing terrain."),
@@ -1624,10 +1624,10 @@ static void bounce_units_on_terrain_change(struct tile *ptile)
       if (unit_alive && punit->tile == ptile) {
 	/* if we get here we could not move punit */
 	freelog(LOG_VERBOSE,
-		"Disbanded %s's %s due to changing land to sea at (%d,%d).",
-		unit_owner(punit)->name,
+		"Disbanded %s %s due to changing land to sea at (%d,%d).",
+		nation_rule_name(nation_of_unit(punit)),
 		unit_rule_name(punit),
-		punit->tile->x, punit->tile->y);
+		TILE_XY(punit->tile));
 	notify_player(unit_owner(punit),
 			 punit->tile, E_UNIT_LOST,
 			 _("Disbanded your %s due to changing terrain."),
@@ -1930,8 +1930,10 @@ void map_calculate_borders(void)
         max_range *= max_range; /* we are dealing with square distances */
         /* Transfer tile to city if closer than current source */
         if (r_curr > r_city && max_range >= r_city) {
-          freelog(LOG_DEBUG, "%s's %s(%d,%d) acquired tile (%d,%d) from "
-                  "(%d,%d)", tile_owner(ptile)->name, pcity->name,
+          freelog(LOG_DEBUG, "%s %s(%d,%d) acquired tile (%d,%d) from "
+                  "(%d,%d)",
+                  nation_rule_name(nation_of_player(tile_owner(ptile))),
+                  pcity->name,
                   TILE_XY(pcity->tile),
                   TILE_XY(ptile),
                   TILE_XY(ptile->owner_source));

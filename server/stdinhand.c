@@ -2366,13 +2366,13 @@ static bool debug_command(struct connection *caller, char *str,
     unit_list_iterate(ptile->units, punit) {
       if (punit->debug) {
         punit->debug = FALSE;
-        cmd_reply(CMD_DEBUG, caller, C_OK, _("%s's %s no longer debugged."),
-                  unit_owner(punit)->name,
+        cmd_reply(CMD_DEBUG, caller, C_OK, _("%s %s no longer debugged."),
+                  nation_adjective_for_player(unit_owner(punit)),
                   unit_name_translation(punit));
       } else {
         punit->debug = TRUE;
-        UNIT_LOG(LOG_NORMAL, punit, _("%s's %s debugged."),
-                 unit_owner(punit)->name,
+        UNIT_LOG(LOG_NORMAL, punit, _("%s %s debugged."),
+                 nation_adjective_for_player(unit_owner(punit)),
                  unit_name_translation(punit));
       }
     } unit_list_iterate_end;
@@ -2405,13 +2405,13 @@ static bool debug_command(struct connection *caller, char *str,
     }
     if (punit->debug) {
       punit->debug = FALSE;
-      cmd_reply(CMD_DEBUG, caller, C_OK, _("%s's %s no longer debugged."),
-                unit_owner(punit)->name,
+      cmd_reply(CMD_DEBUG, caller, C_OK, _("%s %s no longer debugged."),
+                nation_adjective_for_player(unit_owner(punit)),
                 unit_name_translation(punit));
     } else {
       punit->debug = TRUE;
-      UNIT_LOG(LOG_NORMAL, punit, _("%s's %s debugged."),
-               unit_owner(punit)->name,
+      UNIT_LOG(LOG_NORMAL, punit, _("%s %s debugged."),
+               nation_adjective_for_player(unit_owner(punit)),
                unit_name_translation(punit));
     }
   } else {
