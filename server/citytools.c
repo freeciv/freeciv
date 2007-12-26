@@ -498,8 +498,8 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
   struct player *to_player = city_owner(tocity);
 
   if (from_player == to_player) {
-    freelog(LOG_VERBOSE, "Changed homecity of %s's %s to %s",
-	    from_player->name,
+    freelog(LOG_VERBOSE, "Changed homecity of %s %s to %s",
+	    nation_rule_name(nation_of_player(from_player)),
 	    unit_rule_name(punit),
 	    tocity->name);
     if (verbose) {
@@ -514,33 +514,40 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
       freelog(LOG_VERBOSE, "Transfered %s in %s from %s to %s",
 	      unit_rule_name(punit),
 	      in_city->name,
-	      from_player->name, to_player->name);
+	      nation_rule_name(nation_of_player(from_player)),
+	      nation_rule_name(nation_of_player(to_player)));
       if (verbose) {
 	notify_player(from_player, punit->tile, E_UNIT_RELOCATED,
 		      _("Transfered %s in %s from %s to %s."),
 		      unit_name_translation(punit),
 		      in_city->name,
-		      from_player->name, to_player->name);
+		      nation_plural_for_player(from_player),
+		      nation_plural_for_player(to_player));
       }
     } else if (can_unit_exist_at_tile(punit, tocity->tile)) {
       freelog(LOG_VERBOSE, "Transfered %s from %s to %s",
 	      unit_rule_name(punit),
-	      from_player->name, to_player->name);
+	      nation_rule_name(nation_of_player(from_player)),
+	      nation_rule_name(nation_of_player(to_player)));
       if (verbose) {
 	notify_player(from_player, punit->tile, E_UNIT_RELOCATED,
 		      _("Transfered %s from %s to %s."),
 		      unit_name_translation(punit),
-		      from_player->name, to_player->name);
+		      nation_plural_for_player(from_player),
+		      nation_plural_for_player(to_player));
       }
     } else {
       freelog(LOG_VERBOSE, "Could not transfer %s from %s to %s",
 	      unit_rule_name(punit),
-	      from_player->name, to_player->name);
+	      nation_rule_name(nation_of_player(from_player)),
+	      nation_rule_name(nation_of_player(to_player)));
       if (verbose) {
 	notify_player(from_player, punit->tile, E_UNIT_LOST,
-		      _("%s from %s lost in transfer to %s's %s"),
+		      _("%s %s lost in transfer to %s %s"),
+		      nation_adjective_for_player(from_player),
 		      unit_name_translation(punit),
-		      from_player->name, to_player->name, tocity->name);
+		      nation_adjective_for_player(to_player),
+		      tocity->name);
       }
       wipe_unit(punit);
       return;
@@ -611,10 +618,11 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
     } else {
       /* The unit is lost.  Call notify_player (in all other cases it is
        * called automatically). */
-      freelog(LOG_VERBOSE, "Lost %s's %s at (%d,%d) when %s was lost.",
-	      unit_owner(vunit)->name,
+      freelog(LOG_VERBOSE, "Lost %s %s at (%d,%d) when %s was lost.",
+	      nation_rule_name(nation_of_unit(vunit)),
 	      unit_rule_name(vunit),
-	      vunit->tile->x, vunit->tile->y, pcity->name);
+	      TILE_XY(vunit->tile),
+	      pcity->name);
       if (verbose) {
 	notify_player(unit_owner(vunit), vunit->tile,
 			 E_UNIT_LOST,
@@ -783,8 +791,11 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 
   unit_list_iterate(pcity->units_supported, punit) {
     unit_list_prepend(old_city_units, punit);
-    /* otherwise we might delete the homecity from under the unit
-       in the client. */
+    /* Mark unit to have no homecity at all.
+     * 1. We remove unit from units_supported list here,
+     *    real_change_unit_homecity() should not attempt it.
+     * 2. Otherwise we might delete the homecity from under the unit
+     *    in the client */
     punit->homecity = 0;
     send_unit_info(NULL, punit);
   } unit_list_iterate_end;
@@ -960,7 +971,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
 
   /* It is possible that update_tile_knowledge() already sent tile information
    * to some players, but we don't want to make any special handling for
-   * those cases.  The network code may prevent asecond packet from being
+   * those cases.  The network code may prevent a second packet from being
    * sent anyway. */
   send_tile_info(NULL, ptile);
 
@@ -1737,7 +1748,7 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
   if (pdcity->identity != pcity->id) {
     freelog(LOG_ERROR, "Trying to update old city (wrong ID)"
 	    " at %i,%i for player %s",
-	    pcity->tile->x, pcity->tile->y, pplayer->name);
+	    TILE_XY(pcity->tile), pplayer->name);
     pdcity->identity = pcity->id;   /* ?? */
   }
   sz_strlcpy(pdcity->name, pcity->name);
@@ -1926,9 +1937,9 @@ void change_build_target(struct player *pplayer, struct city *pcity,
   /* FIXME: this may give bad grammar when translated if the 'source'
    * string can have multiple values. */
   notify_player(pplayer, pcity->tile, event,
-		   /* TRANS: "<city> is building <production><source>." */
-		   _("%s is building %s%s."),
-		   pcity->name, name, source);
+		/* TRANS: "<city> is building <production><source>." */
+		_("%s is building %s%s."),
+		pcity->name, name, source);
 
   /* If the city is building a wonder, tell the rest of the world
      about it. */

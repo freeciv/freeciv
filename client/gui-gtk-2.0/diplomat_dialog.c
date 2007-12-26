@@ -622,7 +622,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 
     if (!unit_has_type_flag(punit, F_SPY)){
       shl = popup_choice_dialog(GTK_WINDOW(toplevel),
-	_(" Choose Your Diplomat's Strategy"), buf,
+	_("Choose Your Diplomat's Strategy"), buf,
 	_("Establish _Embassy"), diplomat_embassy_callback, NULL,
 	_("_Investigate City"), diplomat_investigate_callback, NULL,
 	_("_Sabotage City"), diplomat_sabotage_callback, NULL,

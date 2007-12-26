@@ -1605,7 +1605,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *ptile)
 
     if(!unit_has_type_flag(punit, F_SPY)){
       shl=popup_message_dialog(root_window, /*"diplomatdialog"*/
-			       _(" Choose Your Diplomat's Strategy"), buf,
+			       _("Choose Your Diplomat's Strategy"), buf,
          		     _("Establish _Embassy"), diplomat_embassy_callback, 0,
          		     _("_Investigate City"), diplomat_investigate_callback, 0,
          		     _("_Sabotage City"), diplomat_sabotage_callback, 0,
