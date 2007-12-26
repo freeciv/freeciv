@@ -404,16 +404,18 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
       case CLAUSE_MAP:
 	give_map_from_player_to_player(pgiver, pdest);
 	notify_player(pdest, NULL, E_DIPLOMACY,
-		      _("You receive %s's worldmap."),
-		      pgiver->name);
+		      /* TRANS: ... Polish worldmap. */
+		      _("You receive the %s worldmap."),
+		      nation_adjective_for_player(pgiver));
 
         worker_refresh_required = TRUE; /* See CLAUSE_VISION */
 	break;
       case CLAUSE_SEAMAP:
 	give_seamap_from_player_to_player(pgiver, pdest);
 	notify_player(pdest, NULL, E_DIPLOMACY,
-		      _("You receive %s's seamap."),
-		      pgiver->name);
+		      /* TRANS: ... Polish seamap. */
+		      _("You receive the %s seamap."),
+		      nation_adjective_for_player(pgiver));
 
         worker_refresh_required = TRUE; /* See CLAUSE_VISION */
 	break;
@@ -466,23 +468,29 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	pdest->diplstates[player_index(pgiver)].max_state = 
           MAX(DS_PEACE, pdest->diplstates[player_index(pgiver)].max_state);
 	notify_player(pgiver, NULL, E_TREATY_PEACE,
-		      PL_("You agree on an armistice with %s. In %d turn "
-			  "it will turn into a peace treaty. Move your "
-			  "units out of %s's territory.",
-			  "You agree on an armistice with %s. In %d turns "
-			  "it will turn into a peace treaty. Move your "
-			  "units out of %s's territory.",
+		      /* TRANS: ... the Poles ... Polish territory. */
+		      PL_("You agree on an armistice with the %s. In %d turn, "
+			  "it will become a peace treaty. Move your "
+			  "units out of %s territory.",
+			  "You agree on an armistice with the %s. In %d turns, "
+			  "it will become a peace treaty. Move your "
+			  "units out of %s territory.",
 			  TURNS_LEFT),
-		      pdest->name, TURNS_LEFT, pdest->name);
+		      nation_plural_for_player(pdest),
+		      TURNS_LEFT,
+		      nation_adjective_for_player(pdest));
 	notify_player(pdest, NULL, E_TREATY_PEACE,
-		      PL_("You agree on an armistice with %s. In %d turn "
-			  "it will turn into a peace treaty. Move your "
-			  "units out of %s's territory.",
-			  "You agree on an armistice with %s. In %d turns "
-			  "it will turn into a peace treaty. Move your "
-			  "units out of %s's territory.",
+		      /* TRANS: ... the Poles ... Polish territory. */
+		      PL_("You agree on an armistice with the %s. In %d turn, "
+			  "it will become a peace treaty. Move your "
+			  "units out of %s territory.",
+			  "You agree on an armistice with the %s. In %d turns, "
+			  "it will become a peace treaty. Move your "
+			  "units out of %s territory.",
 			  TURNS_LEFT),
-		      pgiver->name, TURNS_LEFT, pgiver->name);
+		      nation_plural_for_player(pgiver),
+		      TURNS_LEFT,
+		      nation_adjective_for_player(pgiver));
 	if (old_diplstate == DS_ALLIANCE) {
 	  update_players_after_alliance_breakup(pgiver, pdest);
 	}

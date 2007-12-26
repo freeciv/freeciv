@@ -1828,8 +1828,11 @@ static void ai_caravan_goto(struct player *pplayer,
 
   /* if we're not there yet, and we can move, move. */
   if (!same_pos(pcity->tile, punit->tile) && punit->moves_left != 0) {
-    freelog(LOG_CARAVAN, "%s's caravan %d going to %s in %s",
-            pplayer->name, punit->id,
+    freelog(LOG_CARAVAN, "%s %s[%d](%d,%d) going to %s in %s",
+            nation_rule_name(nation_of_unit(punit)),
+            unit_rule_name(punit),
+            punit->id,
+            TILE_XY(punit->tile),
             help_wonder ? "help a wonder" : "trade", pcity->name);
     alive = ai_unit_goto(punit, pcity->tile); 
   }
@@ -1842,16 +1845,23 @@ static void ai_caravan_goto(struct player *pplayer,
          * Instead, we want to aggregate enough caravans to build instantly.
          * -AJS, 990704
          */
-      freelog(LOG_CARAVAN, "%s's caravan %d helps build wonder in %s",
-          pplayer->name, punit->id, pcity->name);
+      freelog(LOG_CARAVAN, "%s %s[%d](%d,%d) helps build wonder in %s",
+              nation_rule_name(nation_of_unit(punit)),
+              unit_rule_name(punit),
+              punit->id,
+              TILE_XY(punit->tile),
+              pcity->name);
 	handle_unit_help_build_wonder(pplayer, punit->id);
     } else {
-      freelog(LOG_CARAVAN, "%s's caravan %d creates trade route in %s",
-          pplayer->name, punit->id, pcity->name);
+      freelog(LOG_CARAVAN, "%s %s[%d](%d,%d) creates trade route in %s",
+              nation_rule_name(nation_of_unit(punit)),
+              unit_rule_name(punit),
+              punit->id,
+              TILE_XY(punit->tile),
+              pcity->name);
       handle_unit_establish_trade(pplayer, punit->id);
-             }
-  } else {
-           }
+    }
+  }
 }
 
 /*************************************************************************
@@ -1863,8 +1873,12 @@ static void caravan_optimize_callback(const struct caravan_result *result,
 {
   const struct unit *caravan = data;
 
-  freelog(LOG_CARAVAN2, "%s caravan %d(%s): %s %s worth %g",
-	  unit_owner(caravan)->name, caravan->id, result->src->name,
+  freelog(LOG_CARAVAN2, "%s %s[%d](%d,%d) %s: %s %s worth %g",
+	  nation_rule_name(nation_of_unit(caravan)),
+          unit_rule_name(caravan),
+          caravan->id,
+          TILE_XY(caravan->tile),
+	  result->src->name,
 	  result->help_wonder ? "wonder in" : "trade to",
 	  result->dest->name, result->value);
 }

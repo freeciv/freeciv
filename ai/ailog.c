@@ -117,7 +117,7 @@ void DIPLO_LOG(int level, const struct player *pplayer,
 
 /**************************************************************************
   Log city messages, they will appear like this
-    2: c's Romenna(5,35) [s1 d106 u11 g1] must have Archers ...
+    2: Polish Romenna(5,35) [s1 d106 u11 g1] must have Archers ...
 **************************************************************************/
 void CITY_LOG(int level, const struct city *pcity, const char *msg, ...)
 {
@@ -132,9 +132,10 @@ void CITY_LOG(int level, const struct city *pcity, const char *msg, ...)
     return;
   }
 
-  my_snprintf(buffer, sizeof(buffer), "%s's %s(%d,%d) [s%d d%d u%d g%d] ",
-              city_owner(pcity)->name, pcity->name,
-              pcity->tile->x, pcity->tile->y, pcity->size,
+  my_snprintf(buffer, sizeof(buffer), "%s %s(%d,%d) [s%d d%d u%d g%d] ",
+              nation_rule_name(nation_of_city(pcity)),
+              pcity->name,
+              TILE_XY(pcity->tile), pcity->size,
               pcity->ai.danger, pcity->ai.urgency,
               pcity->ai.grave_danger);
 
@@ -151,7 +152,7 @@ void CITY_LOG(int level, const struct city *pcity, const char *msg, ...)
 
 /**************************************************************************
   Log unit messages, they will appear like this
-    2: c's Archers[139] (5,35)->(0,0){0,0} stays to defend city
+    2: Polish Archers[139] (5,35)->(0,0){0,0} stays to defend city
   where [] is unit id, ()->() are coordinates present and goto, and
   {,} contains bodyguard and ferryboat ids.
 **************************************************************************/
@@ -189,12 +190,12 @@ void UNIT_LOG(int level, const struct unit *punit, const char *msg, ...)
   }
   
   my_snprintf(buffer, sizeof(buffer),
-	      "%s's %s[%d] (%s) (%d,%d)->(%d,%d){%d,%d} ",
-              unit_owner(punit)->name,
+	      "%s %s[%d] %s (%d,%d)->(%d,%d){%d,%d} ",
+              nation_rule_name(nation_of_unit(punit)),
               unit_rule_name(punit),
               punit->id,
 	      get_activity_text(punit->activity),
-	      punit->tile->x, punit->tile->y,
+	      TILE_XY(punit->tile),
 	      gx, gy,
               punit->ai.bodyguard, punit->ai.ferryboat);
 
@@ -211,7 +212,7 @@ void UNIT_LOG(int level, const struct unit *punit, const char *msg, ...)
 
 /**************************************************************************
   Log message for bodyguards. They will appear like this
-    2: ai4's bodyguard Mech. Inf.[485] (38,22){Riflemen:574@37,23} was ...
+    2: Polish Mech. Inf.[485] bodyguard (38,22){Riflemen:574@37,23} was ...
   note that these messages are likely to wrap if long.
 **************************************************************************/
 void BODYGUARD_LOG(int level, const struct unit *punit, const char *msg)
@@ -250,11 +251,12 @@ void BODYGUARD_LOG(int level, const struct unit *punit, const char *msg)
   /* else perhaps the charge died */
 
   my_snprintf(buffer, sizeof(buffer),
-              "%s's %s %s[%d] (%d,%d){%s:%d@%d,%d} ",
-              unit_owner(punit)->name,
-              type,
+              "%s %s[%d] %s (%d,%d){%s:%d@%d,%d} ",
+              nation_rule_name(nation_of_unit(punit)),
               unit_rule_name(punit),
-              punit->id, punit->tile->x, punit->tile->y,
+              punit->id,
+              type,
+              TILE_XY(punit->tile),
 	      s, id, charge_x, charge_y);
   cat_snprintf(buffer, sizeof(buffer), msg);
   if (punit->debug) {

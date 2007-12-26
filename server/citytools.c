@@ -502,8 +502,8 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
   struct player *to_player = city_owner(tocity);
 
   if (from_player == to_player) {
-    freelog(LOG_VERBOSE, "Changed homecity of %s's %s to %s",
-	    from_player->name,
+    freelog(LOG_VERBOSE, "Changed homecity of %s %s to %s",
+	    nation_rule_name(nation_of_player(from_player)),
 	    unit_rule_name(punit),
 	    tocity->name);
     if (verbose) {
@@ -518,33 +518,40 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
       freelog(LOG_VERBOSE, "Transfered %s in %s from %s to %s",
 	      unit_rule_name(punit),
 	      in_city->name,
-	      from_player->name, to_player->name);
+	      nation_rule_name(nation_of_player(from_player)),
+	      nation_rule_name(nation_of_player(to_player)));
       if (verbose) {
 	notify_player(from_player, punit->tile, E_UNIT_RELOCATED,
 		      _("Transfered %s in %s from %s to %s."),
 		      unit_name_translation(punit),
 		      in_city->name,
-		      from_player->name, to_player->name);
+		      nation_plural_for_player(from_player),
+		      nation_plural_for_player(to_player));
       }
     } else if (can_unit_exist_at_tile(punit, tocity->tile)) {
       freelog(LOG_VERBOSE, "Transfered %s from %s to %s",
 	      unit_rule_name(punit),
-	      from_player->name, to_player->name);
+	      nation_rule_name(nation_of_player(from_player)),
+	      nation_rule_name(nation_of_player(to_player)));
       if (verbose) {
 	notify_player(from_player, punit->tile, E_UNIT_RELOCATED,
 		      _("Transfered %s from %s to %s."),
 		      unit_name_translation(punit),
-		      from_player->name, to_player->name);
+		      nation_plural_for_player(from_player),
+		      nation_plural_for_player(to_player));
       }
     } else {
       freelog(LOG_VERBOSE, "Could not transfer %s from %s to %s",
 	      unit_rule_name(punit),
-	      from_player->name, to_player->name);
+	      nation_rule_name(nation_of_player(from_player)),
+	      nation_rule_name(nation_of_player(to_player)));
       if (verbose) {
 	notify_player(from_player, punit->tile, E_UNIT_LOST,
-		      _("%s from %s lost in transfer to %s's %s"),
+		      _("%s %s lost in transfer to %s %s"),
+		      nation_adjective_for_player(from_player),
 		      unit_name_translation(punit),
-		      from_player->name, to_player->name, tocity->name);
+		      nation_adjective_for_player(to_player),
+		      tocity->name);
       }
       wipe_unit(punit);
       return;
@@ -599,7 +606,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
     } unit_list_iterate_safe_end;
   }
 
-  /* Any units supported by the city are either given new home
+  /* Any remaining units supported by the city are either given new home
      cities or maybe destroyed */
   unit_list_iterate_safe(units, vunit) {
     struct city *new_home_city = tile_city(vunit->tile);
@@ -615,10 +622,11 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
     } else {
       /* The unit is lost.  Call notify_player (in all other cases it is
        * called automatically). */
-      freelog(LOG_VERBOSE, "Lost %s's %s at (%d,%d) when %s was lost.",
-	      unit_owner(vunit)->name,
+      freelog(LOG_VERBOSE, "Lost %s %s at (%d,%d) when %s was lost.",
+	      nation_rule_name(nation_of_unit(vunit)),
 	      unit_rule_name(vunit),
-	      vunit->tile->x, vunit->tile->y, pcity->name);
+	      TILE_XY(vunit->tile),
+	      pcity->name);
       if (verbose) {
 	notify_player(unit_owner(vunit), vunit->tile,
 			 E_UNIT_LOST,

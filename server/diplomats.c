@@ -330,9 +330,9 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
   /* If unit has too few hp, can't sabotage. */
   if (pvictim->hp < 2) {
     notify_player(pplayer, pvictim->tile, E_MY_DIPLOMAT_FAILED,
-		     _("Your %s could not sabotage %s's %s."),
+		     _("Your %s could not sabotage the %s %s."),
 		     unit_name_translation(pdiplomat),
-		     unit_owner(pvictim)->name,
+		     nation_adjective_for_player(uplayer),
 		     unit_name_translation(pvictim));
     freelog (LOG_DEBUG, "sabotage-unit: unit has too few hit points");
     return;
@@ -352,15 +352,16 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
 
   /* Notify everybody involved. */
   notify_player(pplayer, pvictim->tile, E_MY_DIPLOMAT_SABOTAGE,
-		   _("Your %s succeeded in sabotaging %s's %s."),
+		   _("Your %s succeeded in sabotaging the %s %s."),
 		   unit_name_translation(pdiplomat),
-		   unit_owner(pvictim)->name,
+		   nation_adjective_for_player(uplayer),
 		   unit_name_translation(pvictim));
   notify_player(uplayer, pvictim->tile,
 		   E_ENEMY_DIPLOMAT_SABOTAGE,
-		   _("Your %s was sabotaged by %s!"),
+		   /* TRANS: ... the Poles! */
+		   _("Your %s was sabotaged by the %s!"),
 		   unit_name_translation(pvictim),
-		   pplayer->name);
+		   nation_plural_for_player(pplayer));
 
   /* this may cause a diplomatic incident */
   maybe_cause_incident(SPY_SABOTAGE_UNIT, pplayer, pvictim, NULL);
@@ -419,8 +420,8 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
     notify_player(pplayer, pdiplomat->tile,
 		     E_MY_DIPLOMAT_FAILED,
 		     _("You don't have enough gold to"
-		       " bribe %s's %s."),
-		     unit_owner(pvictim)->name,
+		       " bribe the %s %s."),
+		     nation_adjective_for_player(uplayer),
 		     unit_name_translation(pvictim));
     freelog (LOG_DEBUG, "bribe-unit: not enough gold");
     return;
@@ -428,7 +429,7 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 
   if (unit_has_type_flag(pvictim, F_UNBRIBABLE)) {
     notify_player(pplayer, pdiplomat->tile, E_MY_DIPLOMAT_FAILED,
-		     _("You cannot bribe %s!"),
+		     _("You cannot bribe the %s!"),
 		     unit_name_translation(pvictim));
     return;
   }
@@ -603,8 +604,8 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 		       pcity->name);
     }
     notify_player(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_FAILED,
-		     _("%s's %s failed to steal technology from %s."),
-		     pplayer->name,
+		     _("The %s %s failed to steal technology from %s."),
+		     nation_adjective_for_player(pplayer),
 		     unit_name_translation(pdiplomat),
 		     pcity->name);
     /* this may cause a diplomatic incident */
@@ -1181,7 +1182,7 @@ static void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
     /* Attacking Spy/Diplomat survives. */
     notify_player(pplayer, ptile, E_MY_DIPLOMAT_ESCAPE,
 		  _("Your %s has successfully completed"
-		    " her mission and returned unharmed to %s."),
+		    " the mission and returned unharmed to %s."),
 		  unit_name_translation(pdiplomat),
 		  spyhome->name);
     if (maybe_make_veteran(pdiplomat)) {
@@ -1200,13 +1201,13 @@ static void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
     if (pcity) {
       notify_player(pplayer, ptile, E_MY_DIPLOMAT_FAILED,
 			 _("Your %s was captured after completing"
-			   " her mission in %s."),
+			   " the mission in %s."),
 			 unit_name_translation(pdiplomat),
 			 pcity->name);
     } else {
       notify_player(pplayer, ptile, E_MY_DIPLOMAT_FAILED,
 			 _("Your %s was captured after completing"
-			   " her mission."),
+			   " the mission."),
 			 unit_name_translation(pdiplomat));
     }
   }
@@ -1238,8 +1239,8 @@ static void maybe_cause_incident(enum diplomat_actions action, struct player *of
     case DIPLOMAT_BRIBE:
       notify_player(offender, victim_tile, E_DIPLOMATIC_INCIDENT,
 		       _("You have caused an incident while bribing "
- 			 "%s's %s."),
- 		       victim_player->name,
+ 			 "the %s %s."),
+ 		       nation_adjective_for_player(victim_player),
  		       unit_name_translation(victim_unit));
       notify_player(victim_player, victim_tile, E_DIPLOMATIC_INCIDENT,
 		       _("%s has caused an incident while bribing "

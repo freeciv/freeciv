@@ -439,11 +439,12 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
       } else {
         dist1 = dist2 = 0;
       }
-      UNIT_LOG(LOGLEVEL_HUNT, punit, "considering chasing %s(%d, %d) id %d "
+      UNIT_LOG(LOGLEVEL_HUNT, punit, "considering chasing %s[%d](%d, %d) "
                "dist1 %d dist2 %d",
 	       unit_rule_name(target),
+               target->id,
 	       TILE_XY(target->tile),
-               target->id, dist1, dist2);
+               dist1, dist2);
 
       /* We can't chase if we aren't faster or on intercept vector */
       if (unit_type(punit)->move_rate < unit_type(target)->move_rate
@@ -479,12 +480,12 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
         continue; /* Not worth it */
       }
 
-      UNIT_LOG(LOGLEVEL_HUNT, punit, "hunting %s's %s(%d, %d) "
-               "id %d with want %d, dist1 %d, dist2 %d", 
-               unit_owner(target)->name,
+      UNIT_LOG(LOGLEVEL_HUNT, punit, "hunting %s %s[%d](%d,%d) "
+               "with want %d, dist1 %d, dist2 %d", 
+               nation_rule_name(nation_of_unit(target)),
                unit_rule_name(target), 
-               TILE_XY(target->tile),
                target->id,
+               TILE_XY(target->tile),
                stackthreat,
                dist1,
                dist2);

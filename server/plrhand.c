@@ -1695,8 +1695,9 @@ void civil_war(struct player *pplayer)
   /* Now split the empire */
 
   freelog(LOG_VERBOSE,
-	  "%s's nation is thrust into civil war, created AI player %s",
-	  pplayer->name, cplayer->name);
+	  "%s nation is thrust into civil war, created AI player %s",
+	  nation_rule_name(nation_of_player(pplayer)),
+	  cplayer->name);
   notify_player(pplayer, NULL, E_CIVIL_WAR,
 		   _("Your nation is thrust into civil war, "
 		     " %s is declared the leader of the rebel states."),
@@ -1732,13 +1733,14 @@ void civil_war(struct player *pplayer)
   resolve_unit_stacks(pplayer, cplayer, FALSE);
 
   notify_player(NULL, NULL, E_CIVIL_WAR,
-		_("The capture of %s's capital and the destruction "
+		_("Capture of the %s capital and destruction "
 		  "of the empire's administrative\n"
 		  "      structures have sparked a civil war.  "
 		  "Opportunists have flocked to the rebel cause,\n"
 		  "      and the upstart %s now holds power in %d "
 		  "rebel provinces."),
-		pplayer->name, cplayer->name,
+		nation_adjective_for_player(pplayer),
+		cplayer->name,
 		city_list_size(cplayer->cities));
 }  
 

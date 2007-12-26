@@ -1035,10 +1035,11 @@ bool teleport_unit_to_city(struct unit *punit, struct city *pcity,
   struct tile *src_tile = punit->tile, *dst_tile = pcity->tile;
 
   if (city_owner(pcity) == unit_owner(punit)){
-    freelog(LOG_VERBOSE, "Teleported %s's %s from (%d, %d) to %s",
-	    unit_owner(punit)->name,
+    freelog(LOG_VERBOSE, "Teleported %s %s from (%d,%d) to %s",
+	    nation_rule_name(nation_of_unit(punit)),
 	    unit_rule_name(punit),
-	    src_tile->x, src_tile->y, pcity->name);
+	    TILE_XY(src_tile),
+	    pcity->name);
     if (verbose) {
       notify_player(unit_owner(punit), pcity->tile, E_UNIT_RELOCATED,
 		       _("Teleported your %s to %s."),
@@ -1673,13 +1674,13 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 	} else {
 	  assert(other_killed[i] != punit);
 	  notify_player(player_by_number(i), punit->tile, E_UNIT_LOST,
-			/* TRANS: "Cannon lost when John's Destroyer
-			 * attacked Mark's Musketeers." */
-			_("%s lost when %s's %s attacked %s's %s."),
+			/* TRANS: "Cannon lost when the Polish Destroyer
+			 * attacked the German Musketeers." */
+			_("%s lost when the %s %s attacked the %s %s."),
 			unit_name_translation(other_killed[i]),
-			pvictor->name,
+			nation_adjective_for_player(pvictor),
 			unit_name_translation(pkiller),
-			pvictim->name,
+			nation_adjective_for_player(pvictim),
 			unit_name_translation(punit));
 	}
       } else if (num_killed[i] > 1) {
@@ -1689,38 +1690,38 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 	  if (others == 1) {
 	    notify_player(player_by_number(i), punit->tile, E_UNIT_LOST,
 			  /* TRANS: "Musketeers (and Cannon) lost to an
-			   * attack from John's Destroyer." */
-			  _("%s (and %s) lost to an attack from %s's %s."),
+			   * attack from the Polish Destroyer." */
+			  _("%s (and %s) lost to an attack from the %s %s."),
 			  unit_name_translation(punit),
 			  unit_name_translation(other_killed[i]),
-			  pvictor->name,
+			  nation_adjective_for_player(pvictor),
 			  unit_name_translation(pkiller));
 	  } else {
 	    notify_player(player_by_number(i), punit->tile, E_UNIT_LOST,
 			  /* TRANS: "Musketeers and 3 other units lost to
-			   * an attack from John's Destroyer." (only happens
-			   * with at least 2 other units) */
+			   * an attack from the Polish Destroyer."
+			   * (only happens with at least 2 other units) */
 			  PL_("%s and %d other unit lost to an attack "
-			      "from %s's %s.",
+			      "from the %s %s.",
 			      "%s and %d other units lost to an attack "
-			      "from %s's %s.", others),
+			      "from the %s %s.", others),
 			  unit_name_translation(punit),
 			  others,
-			  pvictor->name,
+			  nation_adjective_for_player(pvictor),
 			  unit_name_translation(pkiller));
 	  }
 	} else {
 	  notify_player(player_by_number(i), punit->tile, E_UNIT_LOST,
-			/* TRANS: "2 units lost when John's Destroyer
-			 * attacked Mark's Musketeers."  (only happens
-			 * with at least 2 other units) */
-			PL_("%d unit lost when %s's %s attacked %s's %s.",
-			    "%d units lost when %s's %s attacked %s's %s.",
+			/* TRANS: "2 units lost when the Polish Destroyer
+			 * attacked the German Musketeers."
+			 * (only happens with at least 2 other units) */
+			PL_("%d unit lost when the %s %s attacked the %s %s.",
+			    "%d units lost when the %s %s attacked the %s %s.",
 			    num_killed[i]),
 			num_killed[i],
-			pvictor->name,
+			nation_adjective_for_player(pvictor),
 			unit_name_translation(pkiller),
-			pvictim->name,
+			nation_adjective_for_player(pvictim),
 			unit_name_translation(punit));
 	}
       }
@@ -1975,31 +1976,32 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
 
   unit_list_iterate_safe(ptile->units, punit) {
     notify_player(unit_owner(punit), ptile, E_UNIT_LOST,
-		     _("Your %s was nuked by %s."),
-		     unit_name_translation(punit),
-		     pplayer == unit_owner(punit) ? _("yourself") : pplayer->name);
+		  _("Your %s was nuked by %s."),
+		  unit_name_translation(punit),
+		  pplayer == unit_owner(punit)
+		  ? _("yourself")
+		  : nation_plural_for_player(pplayer));
     if (unit_owner(punit) != pplayer) {
-      notify_player(pplayer,
-		       ptile, E_UNIT_WIN,
-		       _("%s's %s was nuked."),
-		       unit_owner(punit)->name,
-		       unit_name_translation(punit));
+      notify_player(pplayer, ptile, E_UNIT_WIN,
+		    _("The %s %s was nuked."),
+		    nation_adjective_for_player(unit_owner(punit)),
+		    unit_name_translation(punit));
     }
     wipe_unit(punit);
   } unit_list_iterate_safe_end;
 
   if (pcity) {
-    notify_player(city_owner(pcity),
-		     ptile, E_CITY_NUKED,
-		     _("%s was nuked by %s."),
-		     pcity->name,
-		     pplayer == city_owner(pcity) ? _("yourself") : pplayer->name);
+    notify_player(city_owner(pcity), ptile, E_CITY_NUKED,
+		  _("%s was nuked by %s."),
+		  pcity->name,
+		  pplayer == city_owner(pcity)
+		  ? _("yourself")
+		  : nation_plural_for_player(pplayer));
 
     if (city_owner(pcity) != pplayer) {
-      notify_player(pplayer,
-		       ptile, E_CITY_NUKED,
-		       _("You nuked %s."),
-		       pcity->name);
+      notify_player(pplayer, ptile, E_CITY_NUKED,
+		    _("You nuked %s."),
+		    pcity->name);
     }
 
     city_reduce_size(pcity, pcity->size / 2);
