@@ -9005,7 +9005,7 @@ msgstr ""
 
 #: client/options.c:205 client/gui-sdl/optiondlg.c:1121
 msgid "Auto Center on Units"
-msgstr ""
+msgstr "Tsentreeri üksustele"
 
 #: client/options.c:206
 msgid ""
@@ -9015,7 +9015,7 @@ msgstr ""
 
 #: client/options.c:209 client/gui-sdl/optiondlg.c:1147
 msgid "Auto Center on Combat"
-msgstr ""
+msgstr "Tsentreeri lahingutele"
 
 #: client/options.c:210
 msgid ""
@@ -9026,7 +9026,7 @@ msgstr ""
 
 #: client/options.c:215 client/gui-sdl/optiondlg.c:1174
 msgid "Focus on Awakened Units"
-msgstr ""
+msgstr "Fookus ärganud üksustele"
 
 #: client/options.c:216
 msgid "Set this option to have newly awoken units be focused automatically."
@@ -12677,7 +12677,7 @@ msgstr "Jätka liikumist"
 #: client/gui-sdl/repodlgs.c:3056 client/gui-sdl/repodlgs.c:3321
 #: client/gui-sdl/spaceshipdlg.c:162
 msgid "Close Dialog (Esc)"
-msgstr ""
+msgstr "Sulge dialoog (Esc)"
 
 #: client/gui-sdl/chatline.c:773
 #, c-format
@@ -12826,9 +12826,9 @@ msgid "City options"
 msgstr "Linna suvandid"
 
 #: client/gui-sdl/citydlg.c:1779
-#, fuzzy, c-format
+#, c-format
 msgid "Supported units: %d"
-msgstr "Toetatud väed %d"
+msgstr "Toetatud üksusi: %d"
 
 #: client/gui-sdl/citydlg.c:1837
 #, fuzzy, c-format
@@ -13782,7 +13782,7 @@ msgstr "Käske pole"
 
 #: client/gui-sdl/menu.c:373
 msgid "Space"
-msgstr "Kosmos"
+msgstr "Tühik"
 
 #: client/gui-sdl/menu.c:387 client/gui-xaw/menu.c:212
 msgid "Wait"
@@ -13993,7 +13993,7 @@ msgstr "Täisekraan"
 
 #: client/gui-sdl/optiondlg.c:987
 msgid "Smooth unit move steps"
-msgstr "Sujuvad üksuste sammud"
+msgstr "Üksuste liikumise silumine"
 
 #: client/gui-sdl/optiondlg.c:1041
 msgid "Show focus animation"
@@ -14017,15 +14017,15 @@ msgstr "Riigipiirid"
 
 #: client/gui-sdl/optiondlg.c:1661 client/gui-xaw/menu.c:140
 msgid "Map Grid"
-msgstr "Kaardil jooned"
+msgstr "Kaardivõrk"
 
 #: client/gui-sdl/optiondlg.c:1689
 msgid "Draw city map grid"
-msgstr ""
+msgstr "Joonista linna kaardivõrgu"
 
 #: client/gui-sdl/optiondlg.c:1746
 msgid "Special Resources"
-msgstr "Eriressursid:"
+msgstr "Eriressursid"
 
 #: client/gui-sdl/optiondlg.c:1880 client/gui-xaw/menu.c:150
 msgid "Roads and Rails"
