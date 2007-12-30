@@ -42,7 +42,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-26 12:36-0500\n"
+"POT-Creation-Date: 2007-12-30 12:41+0900\n"
 "PO-Revision-Date: 2007-09-05 04:15+0300\n"
 "Last-Translator: Daniel Markstedt <markstedt@gmail.com>\n"
 "Language-Team: Swedish <freeciv.sv@freelists.org>\n"
@@ -1662,7 +1662,7 @@ msgid "Transfered %s from %s to %s."
 msgstr "Överförde %s från %s till %s."
 
 #: server/citytools.c:546
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s lost in transfer to %s %s"
 msgstr "Vi förlorade %s %s under överföring till %s %s."
 
@@ -1928,7 +1928,7 @@ msgstr "%ss arbetslista tog slut."
 #: server/cityturn.c:1008
 #, c-format
 msgid "%s can't upkeep %s, unit disbanded."
-msgstr "%s kan inte underhålla %s, enhet upplöst."
+msgstr "%s kan inte underhålla %s - enheten upplöst."
 
 #: server/cityturn.c:1028
 #, c-format
@@ -2904,9 +2904,9 @@ msgstr "Välkommen till servern %s på port %d."
 
 #. TRANS: (connection) identifier: ... [network address]
 #: server/connecthand.c:97
-#, fuzzy, c-format
+#, c-format
 msgid "(%d) %s: connected [%s]"
-msgstr "(%d) %s har anslutit sig från %s."
+msgstr "(%d) %s: ansluten [%s]"
 
 #: server/connecthand.c:104
 #, c-format
@@ -2940,46 +2940,42 @@ msgstr ""
 
 #. TRANS: (connection) identifier: ... [network address]
 #: server/connecthand.c:239
-#, fuzzy, c-format
+#, c-format
 msgid "(%d) %s: connection request [%s]"
-msgstr "(%d) Anslutning efterfrågad från %s från %s"
+msgstr "(%d) %s: anslutning efterfrågad [%s]"
 
 #: server/connecthand.c:265
-#, fuzzy
 msgid "The client is missing a capability that this server needs."
 msgstr "Klienten saknar en förmåga som servern behöver."
 
 #: server/connecthand.c:267 server/connecthand.c:278
-#, fuzzy, c-format
+#, c-format
 msgid "(%d) %s rejected: mismatched capabilities!"
 msgstr "(%d) %s avvisades: opassande förmågor."
 
 #: server/connecthand.c:276
-#, fuzzy
 msgid "This server is missing a capability that the client needs."
 msgstr "Servern saknar en förmåga som klienten behöver."
 
 #: server/connecthand.c:289
-#, fuzzy
 msgid "The username is invalid!"
-msgstr "är ett ogiltigt användarnamn"
+msgstr "Användarnamnet är ogiltigt."
 
 #. TRANS: (connection) identifier: ... [network address]
 #: server/connecthand.c:291
-#, fuzzy, c-format
+#, c-format
 msgid "(%d) %s rejected: invalid username [%s]"
-msgstr "(%d) %s avvisades: otillåtet namn [%s]."
+msgstr "(%d) %s avvisades: otillåtet användarnamn [%s]"
 
 #: server/connecthand.c:302
-#, fuzzy
 msgid "Your username is already connected!"
-msgstr "är redan ansluten."
+msgstr "Ditt användarnamn är redan anslutet."
 
 #. TRANS: (connection) identifier: ... [network address]
 #: server/connecthand.c:304
-#, fuzzy, c-format
+#, c-format
 msgid "(%d) %s rejected: duplicate username [%s]"
-msgstr "(%d) %s avvisades: upptaget inloggningsnamn [%s]."
+msgstr "(%d) %s avvisades: upptaget inloggningsnamn [%s]"
 
 #: server/connecthand.c:334 server/connecthand.c:343
 #, c-format
@@ -3076,15 +3072,15 @@ msgstr "Vi mottog %d guld."
 
 #. TRANS: ... Polish worldmap.
 #: server/diplhand.c:408
-#, fuzzy, c-format
+#, c-format
 msgid "You receive the %s worldmap."
-msgstr "Vi mottog %ss världskarta."
+msgstr "Vi mottog den %s världskartan."
 
 #. TRANS: ... Polish seamap.
 #: server/diplhand.c:417
-#, fuzzy, c-format
+#, c-format
 msgid "You receive the %s seamap."
-msgstr "Vi mottog %ss sjökort."
+msgstr "Vi mottog det %s sjökortet."
 
 #: server/diplhand.c:434
 #, c-format
@@ -3103,7 +3099,7 @@ msgstr "Vi kom överens om vapenstillestånd med %s."
 
 #. TRANS: ... the Poles ... Polish territory.
 #: server/diplhand.c:472 server/diplhand.c:484
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You agree on an armistice with the %s. In %d turn, it will become a peace "
 "treaty. Move your units out of %s territory."
@@ -3112,10 +3108,10 @@ msgid_plural ""
 "treaty. Move your units out of %s territory."
 msgstr[0] ""
 "Vi kom överens om vapenvila med %s. Om %d omgång övergår det i ett "
-"fredsavtal. Flytta snarast ut dina trupper ur %ss land."
+"fredsavtal. Flytta snarast ut dina trupper ur det %s territoriet."
 msgstr[1] ""
 "Vi kom överens om vapenvila med %s. Om %d omgångar övergår det i ett "
-"fredsavtal. Flytta snarast ut dina trupper ur %ss land."
+"fredsavtal. Flytta snarast ut dina trupper ur det %s territoriet."
 
 #: server/diplhand.c:508 server/diplhand.c:511
 #, c-format
@@ -3178,18 +3174,18 @@ msgid "The %s have established an embassy in %s."
 msgstr "%s har inrättat en beskickning i %s."
 
 #: server/diplomats.c:332
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s could not sabotage the %s %s."
-msgstr "Vår %s kunde inte förstöra %ss %s."
+msgstr "Vår %s kunde inte förstöra den/det %s %s."
 
 #: server/diplomats.c:354
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s succeeded in sabotaging the %s %s."
-msgstr "Vår %s lyckades förstöra %ss %s."
+msgstr "Vår %s lyckades förstöra den/det %s %s."
 
 #. TRANS: ... the Poles!
 #: server/diplomats.c:361
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s was sabotaged by the %s!"
 msgstr "Vår %s förstördes av %s!"
 
@@ -3198,24 +3194,24 @@ msgid "You can't bribe a unit from this nation."
 msgstr "Man kan inte muta enheter från denna nation."
 
 #: server/diplomats.c:421
-#, fuzzy, c-format
+#, c-format
 msgid "You don't have enough gold to bribe the %s %s."
-msgstr "Vi har inte tillräckligt mycket guld för att muta %ss %s."
+msgstr "Vi har inte tillräckligt mycket guld för att muta den/det %s %s."
 
 #: server/diplomats.c:431
-#, fuzzy, c-format
+#, c-format
 msgid "You cannot bribe the %s!"
 msgstr "Vi kan inte muta %s!"
 
 #. TRANS: <diplomat> ... <unit>
 #: server/diplomats.c:454
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s succeeded in bribing the %s."
 msgstr "Vår %s lyckades muta %s."
 
 #. TRANS: <unit> ... <Poles>
 #: server/diplomats.c:462
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s was bribed by the %s."
 msgstr "Vår %s mutades av %s."
 
@@ -3234,9 +3230,9 @@ msgid "Your %s was caught in the attempt of stealing technology from %s."
 msgstr "Vår %s fångades vid ett försök att stjäla teknologi från %s."
 
 #: server/diplomats.c:605
-#, fuzzy, c-format
+#, c-format
 msgid "The %s %s failed to steal technology from %s."
-msgstr "%ss %s misslyckades med att stjäla teknologi från %s."
+msgstr "Den %s %sen misslyckades med att stjäla teknologi från %s."
 
 #: server/diplomats.c:619
 #, c-format
@@ -3330,9 +3326,9 @@ msgstr "%s förstörde %s i %s."
 # server/unitTerrain tiles that do not have alterationsfunc.c:1143
 #. TRANS: <unit> ... <diplomat>
 #: server/diplomats.c:1087
-#, fuzzy, c-format
+#, c-format
 msgid "An enemy %s has been eliminated by your %s."
-msgstr "En fientlig %s har utplånats vid försvaret av %s."
+msgstr "En fientlig %s har utplånats av vår %s."
 
 # server/unitTerrain tiles that do not have alterationsfunc.c:1143
 #. TRANS: <unit> ... <city> ... <diplomat>
@@ -3343,9 +3339,9 @@ msgstr "Vår %s gick under vid försvarandet av %s mot en %s."
 
 #. TRANS: <unit> ... <diplomat>
 #: server/diplomats.c:1102
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s has been eliminated defending against a %s."
-msgstr "Vår %s gick under vid försvarandet av mot en %s."
+msgstr "Vår %s gick under mot en attackerande %s."
 
 #: server/diplomats.c:1115
 #, c-format
@@ -3363,25 +3359,25 @@ msgid "Eliminated %s %s while infiltrating our troops."
 msgstr "En %s %s utplånades vid infiltrering av våra trupper."
 
 #: server/diplomats.c:1181
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Your %s has successfully completed the mission and returned unharmed to %s."
 msgstr "Vår %s lyckades med sitt uppdrag och återvände oskadd till %s."
 
 #: server/diplomats.c:1200
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s was captured after completing the mission in %s."
 msgstr "Vår %s tillfångatogs efter utfört uppdrag i %s."
 
 #: server/diplomats.c:1206
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s was captured after completing the mission."
 msgstr "Vår %s tillfångatogs efter utfört uppdrag."
 
 #: server/diplomats.c:1238
-#, fuzzy, c-format
+#, c-format
 msgid "You have caused an incident while bribing the %s %s."
-msgstr "Vi har orsakat en incident vid mutandet av %ss %s."
+msgstr "Vi har orsakat en incident vid mutandet av den/det %s %sn/t."
 
 #: server/diplomats.c:1243
 #, c-format
@@ -3699,14 +3695,14 @@ msgid "%s declares allegiance to %s."
 msgstr "%s svär trohet till %s."
 
 #: server/plrhand.c:1721
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Capture of the %s capital and destruction of the empire's administrative\n"
 "      structures have sparked a civil war.  Opportunists have flocked to the "
 "rebel cause,\n"
 "      and the upstart %s now holds power in %d rebel provinces."
 msgstr ""
-"%ss huvudstad har fallit och med den rikets förvaltningsväsen vilket\n"
+"Den %s huvudstaden har fallit och med den rikets förvaltningsväsen vilket\n"
 "      har utlöst ett inbördeskrig. Lycksökare flockas kring oroshärden \n"
 "      och rebellernas ledare %s har gripit makten i %d städer."
 
@@ -3854,7 +3850,7 @@ msgstr "Historikern publicerar!"
 #: server/report.c:270
 #, c-format
 msgid "%2d: The %s City of %s of size %d, "
-msgstr "%2d: (%s) Staden %s med storlek %d, "
+msgstr "%2d: Den %s staden %s med storlek %d, "
 
 #: server/report.c:276
 msgid "with no wonders\n"
@@ -4010,12 +4006,12 @@ msgstr "%s har ogiltigt folkslag; byter till %s."
 
 #. TRANS: ... <Danish> alliance to <Poles>....
 #: server/savegame.c:4061
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Illegal alliance structure detected: %s alliance to %s reduced to peace "
 "treaty."
 msgstr ""
-"Otillåten förbundsstruktur påträffad: %ss förbund med %s ändrades till "
+"Otillåten förbundsstruktur påträffad: Det %s förbundet med %s ändrades till "
 "fredsavtal."
 
 #: server/settings.c:32
@@ -5333,16 +5329,16 @@ msgstr "Vårt rymdskepp har redan det största möjliga antalet solpanelsmoduler
 #: server/spacerace.c:351
 #, c-format
 msgid "Without guidance from the capital, the %s spaceship is lost!"
-msgstr "Utan vägledning från huvudstaden är rymdskeppet förlorat (%s)!"
+msgstr "Utan vägledning från huvudstaden är det %s rymdskeppet förlorat!"
 
 #: server/srv_main.c:240
 msgid "Game ended in a draw as end year exceeded"
-msgstr "Spelet slutade oavgjort efter slutåret."
+msgstr "Spelet slutade oavgjort efter slutåret"
 
 #: server/srv_main.c:274
 #, c-format
 msgid "The %s spaceship has arrived at Alpha Centauri."
-msgstr "Ett rymdskepp har anlänt vid Alfa Kentauri (%s)."
+msgstr "Det %s rymdskeppet har anlänt vid Alfa Kentauri."
 
 #: server/srv_main.c:287 server/srv_main.c:320
 #, c-format
@@ -5359,9 +5355,9 @@ msgid "Game ended in a draw"
 msgstr "Spelet slutade oavgjort"
 
 #: server/srv_main.c:457 server/srv_main.c:468
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s was disbanded in accordance with your peace treaty with the %s."
-msgstr "Vår %s enhet upplöstes i enlighet med vårt fredsavtal med %s."
+msgstr "Vår/t %s upplöstes i enlighet med vårt fredsavtal med %s."
 
 #: server/srv_main.c:508 server/srv_main.c:511
 #, c-format
@@ -6088,12 +6084,12 @@ msgid "%s no longer debugged"
 msgstr "%s ej längre avlusad"
 
 #: server/stdinhand.c:2376 server/stdinhand.c:2406
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s no longer debugged."
 msgstr "%s %s ej längre avlusad."
 
 #: server/stdinhand.c:2381 server/stdinhand.c:2411
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s debugged."
 msgstr "%s %s avlusad."
 
@@ -6882,7 +6878,7 @@ msgstr ""
 "forskning."
 
 #: server/unittools.c:253
-#, fuzzy, c-format
+#, c-format
 msgid "%s was upgraded for free to %s."
 msgstr "%s har utan kostnad ersatts med %s."
 
@@ -6970,60 +6966,66 @@ msgstr "Barbarledare tillfångatagen, %d guld erhållet som lösen."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
 #: server/unittools.c:1563
-#, fuzzy, c-format
+#, c-format
 msgid "Your attacking %s succeeded against the %s %s!"
-msgstr "Vår angripande %s segrade över %s %s!"
+msgstr "Vår/t angripande %s segrade över den/det %s %s/n/t!"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
 #: server/unittools.c:1572 server/unittools.c:1630
-#, fuzzy, c-format
+#, c-format
 msgid "%s lost to an attack by the %s %s."
-msgstr "Vi förlorade %s under angrepp från %s %s."
+msgstr "Vi förlorade %s under angrepp från den/det %s %s/n/t."
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
 #: server/unittools.c:1606
-#, fuzzy, c-format
+#, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
 "Your attacking %s succeeded against the %s %s (and %d other units)!"
-msgstr[0] "Vår angripande %s segrade över %s %s (samt %d ytterligare enhet)!"
-msgstr[1] "Vår angripande %s segrade över %s %s (samt %d ytterligare enheter)!"
+msgstr[0] "Vår/t angripande %s segrade över den/det %s %s/n/t "
+"(samt %d ytterligare enhet)!"
+msgstr[1] "Vår/t angripande %s segrade över den/det %s %s/n/t "
+"(samt %d ytterligare enheter)!"
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #: server/unittools.c:1639
-#, fuzzy, c-format
+#, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
-msgstr "Vi förlorade %s när %ss %s angrep %ss %s."
+msgstr "Vi förlorade %s när den/det %s %s/n/t angrep den/det %s %s/n/t."
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
 #: server/unittools.c:1654
-#, fuzzy, c-format
+#, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
-msgstr "Vi förlorade %s (samt %s) under angrepp från %ss %s."
+msgstr "Vi förlorade %s (samt %s) under angrepp från den/det %s %s/n/t."
 
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
 #. * (only happens with at least 2 other units)
 #: server/unittools.c:1664
-#, fuzzy, c-format
+#, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
 msgstr[0] ""
-"Vi förlorade %s samt %d ytterligare enhet under angrepp från %ss %s."
+"Vi förlorade %s samt %d ytterligare enhet under angrepp från den/det %s "
+"%s/n/t."
 msgstr[1] ""
-"Vi förlorade %s samt %d ytterligare enheter under angrepp från %ss %s."
+"Vi förlorade %s samt %d ytterligare enheter under angrepp från den/det %s "
+"%s/n/t."
 
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #. * (only happens with at least 2 other units)
 #: server/unittools.c:1678
-#, fuzzy, c-format
+#, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
-msgstr[0] "Vi förlorade %d enhet när %ss %s angrep %ss %s"
-msgstr[1] "Vi förlorade %d enheter när %ss %s angrep %ss %s"
+msgstr[0] "Vi förlorade %d enhet när den/det %s %s/n/t angrep den/det %s "
+"%s/n/t."
+msgstr[1] "Vi förlorade %d enheter när den/det %s %s/n/t angrep den/det %s "
+"%s/n/t."
 
 #: server/unittools.c:1942
 #, c-format
@@ -7035,9 +7037,9 @@ msgid "yourself"
 msgstr "oss själva"
 
 #: server/unittools.c:1949
-#, fuzzy, c-format
+#, c-format
 msgid "The %s %s was nuked."
-msgstr "%ss %s atombombades."
+msgstr "Den/det %s %s/n/t atombombades."
 
 #: server/unittools.c:1958
 #, c-format
@@ -9283,9 +9285,8 @@ msgid "Saved settings to file %s"
 msgstr "Sparade inställningar i filen %s"
 
 #: client/packhand.c:210 client/packhand.c:214
-#, fuzzy
 msgid "You were rejected from the game...."
-msgstr "Du avvisades från spelet:"
+msgstr "Du avvisades från spelet."
 
 #: client/packhand.c:226
 #, c-format
@@ -9518,7 +9519,7 @@ msgstr "Vårt land"
 #: client/text.c:121
 #, c-format
 msgid "%s territory"
-msgstr "%s-land"
+msgstr "Det %s landet"
 
 #. TRANS: "Polish territory (5 turn cease-fire)"
 #: client/text.c:130
@@ -9532,7 +9533,7 @@ msgstr[1] "(%s, %d omgångar vapenstillestånd)"
 #: client/text.c:139
 #, c-format
 msgid "%s territory (%s)"
-msgstr "%s-land (%s)"
+msgstr "Det %s landet (%s)"
 
 #: client/text.c:144
 msgid "Unclaimed territory"
@@ -13422,7 +13423,7 @@ msgid ""
 "Sir!, the %s ambassador has arrived\n"
 "What are your wishes?"
 msgstr ""
-"Ers nåd, %s-ambassadören har anlänt!\n"
+"Ers nåd, den %s ambassadören har anlänt!\n"
 "Vad ska vi göra?"
 
 #: client/gui-sdl/diplodlg.c:1458
@@ -13664,13 +13665,13 @@ msgstr "Underrättelser om utlandet"
 #: client/gui-sdl/inteldlg.c:258
 #, c-format
 msgid "Intelligence Information about the %s Spaceship"
-msgstr "Underrättelser om %s-folkets rymdskepp"
+msgstr "Underrättelser om det %s rymdskeppet"
 
 #: client/gui-sdl/inteldlg.c:266 client/gui-win32/inteldlg.c:94
 #: client/gui-xaw/inteldlg.c:182
 #, c-format
 msgid "Intelligence Information for the %s Empire"
-msgstr "Underrättelser (%s)"
+msgstr "Underrättelser från det %s riket"
 
 #: client/gui-sdl/inteldlg.c:285
 #, c-format
@@ -14357,7 +14358,7 @@ msgstr "De största civilisationerna i världen."
 #: client/gui-sdl/spaceshipdlg.c:142
 #, c-format
 msgid "The %s Spaceship"
-msgstr "%s-rymdskeppet"
+msgstr "Det %s rymdskeppet"
 
 #: client/gui-sdl/spaceshipdlg.c:172 client/gui-win32/spaceshipdlg.c:240
 #: data/Freeciv.in:1709
@@ -15404,7 +15405,7 @@ msgstr "Forskar fram: Okänt(%d/-)"
 #: client/gui-xaw/inteldlg.c:417
 #, c-format
 msgid "Intelligence Diplomacy Information for the %s Empire"
-msgstr "Underrättelser från %s-fokets rike"
+msgstr "Underrättelser från det %s riket"
 
 #: client/gui-xaw/menu.c:111
 msgid "Local Options"
@@ -20936,7 +20937,7 @@ msgstr ""
 
 #: data/default/units.ruleset:279 data/civ2/units.ruleset:133
 msgid "Engineers"
-msgstr "ingenjörer"
+msgstr "ingenjör"
 
 #: data/default/units.ruleset:305
 msgid ""
@@ -20988,7 +20989,7 @@ msgstr "Falangen är bepansrat infanteri, lämplig för försvar av städer."
 
 #: data/default/units.ruleset:383 data/civ2/units.ruleset:237
 msgid "Archers"
-msgstr "bågskyttar"
+msgstr "bågskytte"
 
 #: data/default/units.ruleset:409 data/civ2/units.ruleset:263
 msgid ""
@@ -21095,7 +21096,7 @@ msgstr ""
 # DM> Tidigare "marintrupper"
 #: data/default/units.ruleset:617 data/civ2/units.ruleset:504
 msgid "Marines"
-msgstr "marinsoldater"
+msgstr "marinsoldat"
 
 #: data/default/units.ruleset:643 data/civ2/units.ruleset:530
 msgid "Marines are infantry who are experts at marine warfare."
@@ -21162,7 +21163,7 @@ msgstr "Riddare är ridande och tungt bepansrade krigare."
 
 #: data/default/units.ruleset:813 data/civ2/units.ruleset:764
 msgid "Dragoons"
-msgstr "dragoner"
+msgstr "dragon"
 
 #: data/default/units.ruleset:840 data/civ2/units.ruleset:791
 msgid "Dragoons are mounted warriors carrying early firearms."
@@ -21873,7 +21874,7 @@ msgstr ""
 
 #: data/nation/aborigines.ruleset:3
 msgid "Australian Aboriginal"
-msgstr "aboriginer"
+msgstr "aboriginska"
 
 #: data/nation/aborigines.ruleset:4
 msgid "?plural:Aborigines"
@@ -21892,7 +21893,7 @@ msgstr ""
 
 #: data/nation/afghani.ruleset:3
 msgid "Afghani"
-msgstr "afghan"
+msgstr "afghanska"
 
 #: data/nation/afghani.ruleset:4
 msgid "?plural:Afghanis"
@@ -21947,7 +21948,7 @@ msgstr "premiärminister"
 
 #: data/nation/algerian.ruleset:3
 msgid "Algerian"
-msgstr "algerier"
+msgstr "algeriska"
 
 #: data/nation/algerian.ruleset:4
 msgid "?plural:Algerians"
@@ -21963,7 +21964,7 @@ msgstr ""
 
 #: data/nation/american.ruleset:3
 msgid "American"
-msgstr "amerikan"
+msgstr "amerikanska"
 
 #: data/nation/american.ruleset:4
 msgid "?plural:Americans"
@@ -21987,7 +21988,7 @@ msgstr "pastor"
 
 #: data/nation/antarctican.ruleset:3
 msgid "Antarctican"
-msgstr "antarktiker"
+msgstr "antarktiska"
 
 #: data/nation/antarctican.ruleset:4
 msgid "?plural:Antarcticans"
@@ -21999,7 +22000,7 @@ msgstr "Självständiga Sydpolen, pingvinernas paradis."
 
 #: data/nation/arab.ruleset:3
 msgid "Arab"
-msgstr "arab"
+msgstr "arabiska"
 
 #: data/nation/arab.ruleset:4
 msgid "?plural:Arabs"
@@ -22015,7 +22016,7 @@ msgstr "kalif"
 
 #: data/nation/aramean.ruleset:3
 msgid "Aramean"
-msgstr "araméer"
+msgstr "araméiska"
 
 #: data/nation/aramean.ruleset:4
 msgid "?plural:Arameans"
@@ -22029,7 +22030,7 @@ msgstr "Araméerna är enligt sagan ättlingarna till Aram, Noaks barnbarn."
 
 #: data/nation/armenian.ruleset:3
 msgid "Armenian"
-msgstr "armenier"
+msgstr "armenska"
 
 #: data/nation/armenian.ruleset:4
 msgid "?plural:Armenians"
@@ -22046,7 +22047,7 @@ msgstr ""
 
 #: data/nation/assyrian.ruleset:3
 msgid "Assyrian"
-msgstr "assyrier"
+msgstr "assyriska"
 
 #: data/nation/assyrian.ruleset:4
 msgid "?plural:Assyrians"
@@ -22069,7 +22070,7 @@ msgstr "malikta"
 
 #: data/nation/argentine.ruleset:3
 msgid "Argentine"
-msgstr "argentinare"
+msgstr "argentinska"
 
 #: data/nation/argentine.ruleset:4
 msgid "?plural:Argentines"
@@ -22093,7 +22094,7 @@ msgstr ""
 
 #: data/nation/australian.ruleset:3
 msgid "Australian"
-msgstr "australier"
+msgstr "australiska"
 
 #: data/nation/australian.ruleset:4
 msgid "?plural:Australians"
@@ -22109,7 +22110,7 @@ msgstr ""
 
 #: data/nation/austrian.ruleset:3
 msgid "Austrian"
-msgstr "österrikare"
+msgstr "österrikiska"
 
 #: data/nation/austrian.ruleset:4
 msgid "?plural:Austrians"
@@ -22125,7 +22126,7 @@ msgstr ""
 
 #: data/nation/aztec.ruleset:3
 msgid "Aztec"
-msgstr "aztek"
+msgstr "aztekiska"
 
 #: data/nation/aztec.ruleset:4
 msgid "?plural:Aztecs"
@@ -22154,7 +22155,7 @@ msgstr "huey tlatoani"
 
 #: data/nation/babylonian.ruleset:3
 msgid "Babylonian"
-msgstr "babylonier"
+msgstr "babylonska"
 
 #: data/nation/babylonian.ruleset:4
 msgid "?plural:Babylonians"
@@ -22187,7 +22188,7 @@ msgstr ""
 
 #: data/nation/bavarian.ruleset:3
 msgid "Bavarian"
-msgstr "bajrare"
+msgstr "bajerska"
 
 #: data/nation/bavarian.ruleset:4
 msgid "?plural:Bavarians"
@@ -22208,7 +22209,7 @@ msgstr ""
 
 #: data/nation/belgian.ruleset:3
 msgid "Belgian"
-msgstr "belgare"
+msgstr "belgiska"
 
 #: data/nation/belgian.ruleset:4
 msgid "?plural:Belgians"
@@ -22227,7 +22228,7 @@ msgstr ""
 
 #: data/nation/bengali.ruleset:3
 msgid "Bengali"
-msgstr "bengaler"
+msgstr "bengaliska"
 
 #: data/nation/bengali.ruleset:4
 msgid "?plural:Bengalis"
@@ -22257,7 +22258,7 @@ msgstr "major"
 
 #: data/nation/boer.ruleset:3
 msgid "Boer"
-msgstr "boer"
+msgstr "boerska"
 
 #: data/nation/boer.ruleset:4
 msgid "?plural:Boers"
@@ -22275,7 +22276,7 @@ msgstr ""
 
 #: data/nation/bosnia.ruleset:3
 msgid "Bosnia & Herzegovina"
-msgstr "bosnier"
+msgstr "bosniska"
 
 #: data/nation/bosnia.ruleset:4
 msgid "?plural:Bosnians"
@@ -22310,7 +22311,7 @@ msgstr "ban"
 
 #: data/nation/brazilian.ruleset:3
 msgid "Brazilian"
-msgstr "brasilian"
+msgstr "brasilianska"
 
 #: data/nation/brazilian.ruleset:4
 msgid "?plural:Brazilians"
@@ -22357,7 +22358,7 @@ msgstr "direktörpresident"
 
 #: data/nation/british.ruleset:3
 msgid "British"
-msgstr "britt"
+msgstr "brittiska"
 
 #: data/nation/british.ruleset:4
 msgid "?plural:Britons"
@@ -22376,7 +22377,7 @@ msgstr ""
 
 #: data/nation/bulgarian.ruleset:3
 msgid "Bulgarian"
-msgstr "bulgar"
+msgstr "bulgariska"
 
 #: data/nation/bulgarian.ruleset:4
 msgid "?plural:Bulgarians"
@@ -22417,7 +22418,7 @@ msgstr "sveta maika"
 
 #: data/nation/burmese.ruleset:3
 msgid "Burmese"
-msgstr "burmes"
+msgstr "burmesiska"
 
 #: data/nation/burmese.ruleset:4
 msgid "?plural:Burmese"
@@ -22445,7 +22446,7 @@ msgstr "sayama"
 
 #: data/nation/byzantium.ruleset:3
 msgid "Byzantine"
-msgstr "bysantiner"
+msgstr "bysantinska"
 
 #: data/nation/byzantium.ruleset:4
 msgid "?plural:Byzantines"
@@ -22472,7 +22473,7 @@ msgstr "konung"
 
 #: data/nation/canadian.ruleset:3
 msgid "Canadian"
-msgstr "kanadensare"
+msgstr "kanadensiska"
 
 #: data/nation/canadian.ruleset:4
 msgid "?plural:Canadians"
@@ -22488,7 +22489,7 @@ msgstr ""
 
 #: data/nation/carthaginian.ruleset:3
 msgid "Carthaginian"
-msgstr "kartager"
+msgstr "kartagiska"
 
 #: data/nation/carthaginian.ruleset:4
 msgid "?plural:Carthaginians"
@@ -22506,7 +22507,7 @@ msgstr ""
 
 #: data/nation/catalan.ruleset:3
 msgid "Catalan"
-msgstr "katalan"
+msgstr "katalanska"
 
 #: data/nation/catalan.ruleset:4
 msgid "?plural:Catalans"
@@ -22554,7 +22555,7 @@ msgstr "storbruxia"
 
 #: data/nation/chilean.ruleset:3
 msgid "Chilean"
-msgstr "chilenare"
+msgstr "chilenska"
 
 #: data/nation/chilean.ruleset:4
 msgid "?plural:Chileans"
@@ -22579,7 +22580,7 @@ msgstr "överdirektör"
 
 #: data/nation/chinese.ruleset:3
 msgid "Chinese"
-msgstr "kines"
+msgstr "kinesiska"
 
 #: data/nation/chinese.ruleset:4
 msgid "?plural:Chinese"
@@ -22613,7 +22614,7 @@ msgstr "änkedrottning"
 
 #: data/nation/colombian.ruleset:3
 msgid "Colombian"
-msgstr "colombian"
+msgstr "colombianska"
 
 #: data/nation/colombian.ruleset:4
 msgid "?plural:Colombians"
@@ -22644,7 +22645,7 @@ msgstr "guvernörska"
 
 #: data/nation/confederate.ruleset:3
 msgid "Confederate"
-msgstr "sydstatare"
+msgstr "sydstatska"
 
 #: data/nation/confederate.ruleset:4
 msgid "?plural:Confederates"
@@ -22664,7 +22665,7 @@ msgstr ""
 # ?
 #: data/nation/cornish.ruleset:3
 msgid "Cornish"
-msgstr "kornier"
+msgstr "korniska"
 
 # ?
 #: data/nation/cornish.ruleset:4
@@ -22687,7 +22688,7 @@ msgstr "hövding"
 
 #: data/nation/croatian.ruleset:3
 msgid "Croatian"
-msgstr "kroatier"
+msgstr "kroatiska"
 
 #: data/nation/croatian.ruleset:4
 msgid "?plural:Croatians"
@@ -22707,7 +22708,7 @@ msgstr ""
 
 #: data/nation/cuban.ruleset:3
 msgid "Cuban"
-msgstr "kuban"
+msgstr "kubanska"
 
 #: data/nation/cuban.ruleset:4
 msgid "?plural:Cubans"
@@ -22725,7 +22726,7 @@ msgstr ""
 
 #: data/nation/czech.ruleset:3
 msgid "Czech"
-msgstr "tjeck"
+msgstr "tjeckiska"
 
 #: data/nation/czech.ruleset:4
 msgid "?plural:Czechs"
@@ -22749,7 +22750,7 @@ msgstr "spåkvinna"
 
 #: data/nation/danish.ruleset:3
 msgid "Danish"
-msgstr "dansk"
+msgstr "danska"
 
 #: data/nation/danish.ruleset:4
 msgid "?plural:Danes"
@@ -22768,7 +22769,7 @@ msgstr ""
 
 #: data/nation/dutch.ruleset:3
 msgid "Dutch"
-msgstr "nederländare"
+msgstr "nederländska"
 
 #: data/nation/dutch.ruleset:4
 msgid "?plural:Dutch"
@@ -22786,7 +22787,7 @@ msgstr ""
 
 #: data/nation/egyptian.ruleset:3
 msgid "Egyptian"
-msgstr "egyptier"
+msgstr "egyptiska"
 
 #: data/nation/egyptian.ruleset:4
 msgid "?plural:Egyptians"
@@ -22813,7 +22814,7 @@ msgstr "storfarao"
 
 #: data/nation/english.ruleset:3
 msgid "English"
-msgstr "engländare"
+msgstr "engelska"
 
 #: data/nation/english.ruleset:4
 msgid "?plural:English"
@@ -22839,7 +22840,7 @@ msgstr "beskyddarinna"
 
 #: data/nation/estonian.ruleset:3
 msgid "Estonian"
-msgstr "est"
+msgstr "estniska"
 
 #: data/nation/estonian.ruleset:4
 msgid "?plural:Estonians"
@@ -22856,7 +22857,7 @@ msgstr ""
 
 #: data/nation/ethiopian.ruleset:3
 msgid "Ethiopian"
-msgstr "etiopier"
+msgstr "etiopiska"
 
 #: data/nation/ethiopian.ruleset:4
 msgid "?plural:Ethiopians"
@@ -22876,7 +22877,7 @@ msgstr "kejsare"
 
 #: data/nation/filipino.ruleset:3
 msgid "Filipino"
-msgstr "filippinare"
+msgstr "filippinska"
 
 #: data/nation/filipino.ruleset:4
 msgid "?plural:Filipinos"
@@ -22892,7 +22893,7 @@ msgstr ""
 
 #: data/nation/finnish.ruleset:3
 msgid "Finnish"
-msgstr "finne"
+msgstr "finska"
 
 #: data/nation/finnish.ruleset:4
 msgid "?plural:Finns"
@@ -22920,7 +22921,7 @@ msgstr ""
 
 #: data/nation/french.ruleset:3
 msgid "French"
-msgstr "fransos"
+msgstr "franska"
 
 #: data/nation/french.ruleset:4
 msgid "?plural:French"
@@ -22942,7 +22943,7 @@ msgstr "premiärminister"
 
 #: data/nation/galician.ruleset:3
 msgid "Galician"
-msgstr "galicier"
+msgstr "galiciska"
 
 #: data/nation/galician.ruleset:4
 msgid "?plural:Galicians"
@@ -22985,7 +22986,7 @@ msgstr "storbardessa"
 
 #: data/nation/gallic.ruleset:3
 msgid "Gallic"
-msgstr "galler"
+msgstr "galliska"
 
 #: data/nation/gallic.ruleset:4
 msgid "?plural:Gauls"
@@ -23004,7 +23005,7 @@ msgstr "druid"
 
 #: data/nation/georgian.ruleset:3
 msgid "Georgian"
-msgstr "georgier"
+msgstr "georgiska"
 
 #: data/nation/georgian.ruleset:4
 msgid "?plural:Georgians"
@@ -23020,7 +23021,7 @@ msgstr ""
 
 #: data/nation/german.ruleset:3
 msgid "German"
-msgstr "tysk"
+msgstr "tyska"
 
 #: data/nation/german.ruleset:4
 msgid "?plural:Germans"
@@ -23053,7 +23054,7 @@ msgstr "förstesekreterare"
 
 #: data/nation/greek.ruleset:3
 msgid "Greek"
-msgstr "grek"
+msgstr "grekiska"
 
 #: data/nation/greek.ruleset:4
 msgid "?plural:Greeks"
@@ -23069,7 +23070,7 @@ msgstr "despot"
 
 #: data/nation/hellenic.ruleset:3
 msgid "Hellenic"
-msgstr "hellener"
+msgstr "hellenska"
 
 #: data/nation/hellenic.ruleset:4
 msgid "?plural:Hellenes"
@@ -23085,7 +23086,7 @@ msgstr ""
 
 #: data/nation/hittite.ruleset:3
 msgid "Hittite"
-msgstr "hettit"
+msgstr "hettitiska"
 
 #: data/nation/hittite.ruleset:4
 msgid "?plural:Hittites"
@@ -23105,7 +23106,7 @@ msgstr ""
 
 #: data/nation/hungarian.ruleset:3
 msgid "Hungarian"
-msgstr "ungrare"
+msgstr "ungerska"
 
 #: data/nation/hungarian.ruleset:4
 msgid "?plural:Hungarians"
@@ -23117,7 +23118,7 @@ msgstr "Sagan förtäljer att Ungern grundlades av Árpád på 800-talet."
 
 #: data/nation/icelandic.ruleset:3
 msgid "Icelandic"
-msgstr "islänning"
+msgstr "isländska"
 
 #: data/nation/icelandic.ruleset:4
 msgid "?plural:Icelanders"
@@ -23137,7 +23138,7 @@ msgstr ""
 
 #: data/nation/illyrian.ruleset:3
 msgid "Illyrian"
-msgstr "illyrer"
+msgstr "illyriska"
 
 #: data/nation/illyrian.ruleset:4
 msgid "?plural:Illyrians"
@@ -23158,7 +23159,7 @@ msgstr ""
 
 #: data/nation/inca.ruleset:3
 msgid "Inca"
-msgstr "inkan"
+msgstr "inkanska"
 
 #: data/nation/inca.ruleset:4
 msgid "?plural:Incas"
@@ -23186,7 +23187,7 @@ msgstr "sapa inka"
 
 #: data/nation/indian.ruleset:3
 msgid "Indian"
-msgstr "indier"
+msgstr "indiska"
 
 #: data/nation/indian.ruleset:4
 msgid "?plural:Indians"
@@ -23227,7 +23228,7 @@ msgstr "mahatma"
 
 #: data/nation/indonesian.ruleset:3
 msgid "Indonesian"
-msgstr "indonesier"
+msgstr "indonesiska"
 
 #: data/nation/indonesian.ruleset:4
 msgid "?plural:Indonesians"
@@ -23245,7 +23246,7 @@ msgstr ""
 
 #: data/nation/inuit.ruleset:3
 msgid "Inuit"
-msgstr "inuit"
+msgstr "inuitiska"
 
 #: data/nation/inuit.ruleset:4
 msgid "?plural:Inuits"
@@ -23273,7 +23274,7 @@ msgstr "storshaman"
 
 #: data/nation/iraqi.ruleset:3
 msgid "Iraqi"
-msgstr "irakier"
+msgstr "irakiska"
 
 #: data/nation/iraqi.ruleset:4
 msgid "?plural:Iraqis"
@@ -23290,7 +23291,7 @@ msgstr ""
 
 #: data/nation/irish.ruleset:3
 msgid "Irish"
-msgstr "irländare"
+msgstr "irländska"
 
 #: data/nation/irish.ruleset:4
 msgid "?plural:Irish"
@@ -23328,7 +23329,7 @@ msgstr "klanledare"
 
 #: data/nation/iroquois.ruleset:3
 msgid "Iroquois"
-msgstr "irokes"
+msgstr "irokesiska"
 
 #: data/nation/iroquois.ruleset:4
 msgid "?plural:Iroquois"
@@ -23364,7 +23365,7 @@ msgstr "taleskvinna"
 
 #: data/nation/israeli.ruleset:3
 msgid "Israeli"
-msgstr "israel"
+msgstr "israeliska"
 
 #: data/nation/israeli.ruleset:4
 msgid "?plural:Israelis"
@@ -23382,7 +23383,7 @@ msgstr ""
 
 #: data/nation/italian.ruleset:3
 msgid "Italian"
-msgstr "italienare"
+msgstr "italienska"
 
 #: data/nation/italian.ruleset:4
 msgid "?plural:Italians"
@@ -23401,7 +23402,7 @@ msgstr ""
 
 #: data/nation/japanese.ruleset:3
 msgid "Japanese"
-msgstr "japan"
+msgstr "japanska"
 
 #: data/nation/japanese.ruleset:4
 msgid "?plural:Japanese"
@@ -23424,7 +23425,7 @@ msgstr "general"
 
 #: data/nation/kampuchean.ruleset:3
 msgid "Kampuchean"
-msgstr "kambodjan"
+msgstr "kambodjanska"
 
 #: data/nation/kampuchean.ruleset:4
 msgid "?plural:Kampucheans"
@@ -23452,7 +23453,7 @@ msgstr "syster"
 
 #: data/nation/kenyan.ruleset:3
 msgid "Kenyan"
-msgstr "kenyan"
+msgstr "kenyanska"
 
 #: data/nation/kenyan.ruleset:4
 msgid "?plural:Kenyans"
@@ -23468,7 +23469,7 @@ msgstr "nabongo"
 
 #: data/nation/korean.ruleset:3
 msgid "Korean"
-msgstr "korean"
+msgstr "koreanska"
 
 #: data/nation/korean.ruleset:4
 msgid "?plural:Koreans"
@@ -23491,7 +23492,7 @@ msgstr "storledare"
 
 #: data/nation/lankese.ruleset:3
 msgid "Lankese"
-msgstr "lankes"
+msgstr "lankesiska"
 
 #: data/nation/lankese.ruleset:4
 msgid "?plural:Lankese"
@@ -23537,7 +23538,7 @@ msgstr "överbefälhavare"
 
 #: data/nation/latvian.ruleset:3
 msgid "Latvian"
-msgstr "lett"
+msgstr "lettiska"
 
 #: data/nation/latvian.ruleset:4
 msgid "?plural:Latvians"
@@ -23560,7 +23561,7 @@ msgstr ""
 
 #: data/nation/libyan.ruleset:3
 msgid "Libyan"
-msgstr "libyer"
+msgstr "libyska"
 
 #: data/nation/libyan.ruleset:4
 msgid "?plural:Libyans"
@@ -23587,7 +23588,7 @@ msgstr "överste"
 
 #: data/nation/lithuanian.ruleset:3
 msgid "Lithuanian"
-msgstr "litauer"
+msgstr "litauiska"
 
 #: data/nation/lithuanian.ruleset:4
 msgid "?plural:Lithuanians"
@@ -23612,7 +23613,7 @@ msgstr "storhertiginna"
 
 #: data/nation/malagasy.ruleset:3
 msgid "Malagasy"
-msgstr "madagask"
+msgstr "madagaskiska"
 
 #: data/nation/malagasy.ruleset:4
 msgid "?plural:Malagasies"
@@ -23647,7 +23648,7 @@ msgstr "överkomissionär"
 
 #: data/nation/malaysian.ruleset:3
 msgid "Malaysian"
-msgstr "malaysier"
+msgstr "malaysiska"
 
 #: data/nation/malaysian.ruleset:4
 msgid "?plural:Malaysians"
@@ -23676,7 +23677,7 @@ msgstr "tun"
 
 #: data/nation/malian.ruleset:3
 msgid "Malian"
-msgstr "malier"
+msgstr "maliska"
 
 #: data/nation/malian.ruleset:4
 msgid "?plural:Malians"
@@ -23700,7 +23701,7 @@ msgstr "mansa"
 
 #: data/nation/manchu.ruleset:3
 msgid "Manchu"
-msgstr "manchuer"
+msgstr "manchuiska"
 
 #: data/nation/manchu.ruleset:4
 msgid "?plural:Manchus"
@@ -23717,7 +23718,7 @@ msgstr ""
 
 #: data/nation/maori.ruleset:3
 msgid "Maori"
-msgstr "maorier"
+msgstr "maoriska"
 
 #: data/nation/maori.ruleset:4
 msgid "?plural:Maori"
@@ -23735,7 +23736,7 @@ msgstr ""
 
 #: data/nation/martian.ruleset:3
 msgid "Martian"
-msgstr "marsian"
+msgstr "marsianska"
 
 #: data/nation/martian.ruleset:4
 msgid "?plural:Martians"
@@ -23747,7 +23748,7 @@ msgstr "Marsianerna anlände till Jorden år 4000 f.Kr.!"
 
 #: data/nation/mayan.ruleset:3
 msgid "Mayan"
-msgstr "mayan"
+msgstr "mayanska"
 
 #: data/nation/mayan.ruleset:4
 msgid "?plural:Mayas"
@@ -23767,7 +23768,7 @@ msgstr "ahau"
 
 #: data/nation/mexican.ruleset:3
 msgid "Mexican"
-msgstr "mexikan"
+msgstr "mexikanska"
 
 #: data/nation/mexican.ruleset:4
 msgid "?plural:Mexicans"
@@ -23782,7 +23783,7 @@ msgstr ""
 
 #: data/nation/mongol.ruleset:3
 msgid "Mongol"
-msgstr "mongol"
+msgstr "mongolska"
 
 #: data/nation/mongol.ruleset:4
 msgid "?plural:Mongols"
@@ -23808,7 +23809,7 @@ msgstr "storkan"
 
 #: data/nation/newzealand.ruleset:3
 msgid "New Zealand"
-msgstr "nyzeeländare"
+msgstr "nyzeeländska"
 
 #: data/nation/newzealand.ruleset:4
 msgid "?plural:New Zealanders"
@@ -23826,7 +23827,7 @@ msgstr ""
 
 #: data/nation/nigerian.ruleset:3
 msgid "Nigerian"
-msgstr "nigerian"
+msgstr "nigerianska"
 
 #: data/nation/nigerian.ruleset:4
 msgid "?plural:Nigerians"
@@ -23838,7 +23839,7 @@ msgstr "Nigeria erhöll fullständig självständighet från britterna år 1960.
 
 #: data/nation/norwegian.ruleset:3
 msgid "Norwegian"
-msgstr "norrman"
+msgstr "norska"
 
 #: data/nation/norwegian.ruleset:4
 msgid "?plural:Norwegians"
@@ -23856,7 +23857,7 @@ msgstr ""
 
 #: data/nation/ottoman.ruleset:3
 msgid "Ottoman"
-msgstr "ottoman"
+msgstr "ottomanska"
 
 #: data/nation/ottoman.ruleset:4
 msgid "?plural:Ottomans"
@@ -23905,7 +23906,7 @@ msgstr "kejsare"
 
 #: data/nation/papuan.ruleset:3
 msgid "Papuan"
-msgstr "papuan"
+msgstr "papuanska"
 
 #: data/nation/papuan.ruleset:4
 msgid "?plural:Papuans"
@@ -23936,7 +23937,7 @@ msgstr "generalguvernör"
 
 #: data/nation/persian.ruleset:3
 msgid "Persian"
-msgstr "perser"
+msgstr "persiska"
 
 #: data/nation/persian.ruleset:4
 msgid "?plural:Persians"
@@ -23980,7 +23981,7 @@ msgstr ""
 
 #: data/nation/polish.ruleset:3
 msgid "Polish"
-msgstr "polack"
+msgstr "polska"
 
 #: data/nation/polish.ruleset:4
 msgid "?plural:Poles"
@@ -24012,7 +24013,7 @@ msgstr "förste sekreterare"
 
 #: data/nation/portuguese.ruleset:3
 msgid "Portuguese"
-msgstr "portugis"
+msgstr "portugisiska"
 
 #: data/nation/portuguese.ruleset:4
 msgid "?plural:Portuguese"
@@ -24031,7 +24032,7 @@ msgstr ""
 
 #: data/nation/quebecois.ruleset:3
 msgid "Quebecois"
-msgstr "quebecare"
+msgstr "quebeciska"
 
 #: data/nation/quebecois.ruleset:4
 msgid "?plural:Quebecois"
@@ -24047,7 +24048,7 @@ msgstr ""
 
 #: data/nation/romanian.ruleset:3
 msgid "Romanian"
-msgstr "rumän"
+msgstr "rumänska"
 
 #: data/nation/romanian.ruleset:4
 msgid "?plural:Romanians"
@@ -24097,7 +24098,7 @@ msgstr "kamrat"
 
 #: data/nation/roman.ruleset:3
 msgid "Roman"
-msgstr "romare"
+msgstr "romerka"
 
 #: data/nation/roman.ruleset:4
 msgid "?plural:Romans"
@@ -24113,7 +24114,7 @@ msgstr ""
 
 #: data/nation/russian.ruleset:3
 msgid "Russian"
-msgstr "ryss"
+msgstr "ryska"
 
 #: data/nation/russian.ruleset:4
 msgid "?plural:Russians"
@@ -24166,11 +24167,11 @@ msgstr "matriark"
 
 #: data/nation/ryukyuan.ruleset:3
 msgid "Ryukyuan"
-msgstr "luchuer"
+msgstr "ryukyuiska"
 
 #: data/nation/ryukyuan.ruleset:4
 msgid "?plural:Ryukyuans"
-msgstr "luchuerna"
+msgstr "ryukyuerna"
 
 #: data/nation/ryukyuan.ruleset:6
 msgid ""
@@ -24190,7 +24191,7 @@ msgstr "drottning"
 
 #: data/nation/sami.ruleset:3
 msgid "Sami"
-msgstr "same"
+msgstr "samiska"
 
 #: data/nation/sami.ruleset:4
 msgid "?plural:Sami"
@@ -24211,7 +24212,7 @@ msgstr "nåjd"
 
 #: data/nation/scottish.ruleset:3
 msgid "Scottish"
-msgstr "skotte"
+msgstr "skotska"
 
 #: data/nation/scottish.ruleset:4
 msgid "?plural:Scots"
@@ -24232,7 +24233,7 @@ msgstr "försteminister"
 
 #: data/nation/serbian.ruleset:3
 msgid "Serbian"
-msgstr "serb"
+msgstr "serbiska"
 
 #: data/nation/serbian.ruleset:4
 msgid "?plural:Serbians"
@@ -24250,7 +24251,7 @@ msgstr ""
 
 #: data/nation/silesian.ruleset:3
 msgid "Silesian"
-msgstr "schlesier"
+msgstr "schlesiska"
 
 #: data/nation/silesian.ruleset:4
 msgid "?plural:Silesians"
@@ -24268,7 +24269,7 @@ msgstr ""
 
 #: data/nation/singaporean.ruleset:15
 msgid "Singaporean"
-msgstr "singaporian"
+msgstr "singaporiska"
 
 #: data/nation/singaporean.ruleset:16
 msgid "?plural:Singaporeans"
@@ -24286,7 +24287,7 @@ msgstr "herr"
 
 #: data/nation/sioux.ruleset:3
 msgid "Sioux"
-msgstr "sioux"
+msgstr "siouxiska"
 
 #: data/nation/sioux.ruleset:4
 msgid "?plural:Sioux"
@@ -24303,7 +24304,7 @@ msgstr ""
 
 #: data/nation/slovenian.ruleset:3
 msgid "Slovenian"
-msgstr "sloven"
+msgstr "slovenska"
 
 #: data/nation/slovenian.ruleset:4
 msgid "?plural:Slovenians"
@@ -24319,7 +24320,7 @@ msgstr ""
 
 #: data/nation/slovakian.ruleset:3
 msgid "Slovakian"
-msgstr "slovak"
+msgstr "slovakiska"
 
 #: data/nation/slovakian.ruleset:4
 msgid "?plural:Slovakians"
@@ -24344,7 +24345,7 @@ msgstr "Översteprästinna"
 
 #: data/nation/southafrican.ruleset:3
 msgid "South African"
-msgstr "sydafrikan"
+msgstr "sydafrikanska"
 
 #: data/nation/southafrican.ruleset:4
 msgid "?plural:South Africans"
@@ -24372,7 +24373,7 @@ msgstr ""
 
 #: data/nation/soviet.ruleset:3
 msgid "Soviet"
-msgstr "sovjeter"
+msgstr "sovjetiska"
 
 #: data/nation/soviet.ruleset:4
 msgid "?plural:Soviets"
@@ -24394,7 +24395,7 @@ msgstr ""
 
 #: data/nation/spanish.ruleset:3
 msgid "Spanish"
-msgstr "spanjor"
+msgstr "spanska"
 
 #: data/nation/spanish.ruleset:4
 msgid "?plural:Spanish"
@@ -24426,7 +24427,7 @@ msgstr "kardinal"
 
 #: data/nation/sudanese.ruleset:3
 msgid "Sudanese"
-msgstr "sudanes"
+msgstr "sudanesiska"
 
 #: data/nation/sudanese.ruleset:4
 msgid "?plural:Sudanese"
@@ -24442,7 +24443,7 @@ msgstr ""
 
 #: data/nation/sumerian.ruleset:3
 msgid "Sumerian"
-msgstr "sumer"
+msgstr "sumeriska"
 
 #: data/nation/sumerian.ruleset:4
 msgid "?plural:Sumerians"
@@ -24464,7 +24465,7 @@ msgstr "ensi"
 
 #: data/nation/swazi.ruleset:3
 msgid "Swazi"
-msgstr "swazier"
+msgstr "swaziska"
 
 #: data/nation/swazi.ruleset:4
 msgid "?plural:Swazis"
@@ -24491,7 +24492,7 @@ msgstr "honelefant"
 
 #: data/nation/swedish.ruleset:3
 msgid "Swedish"
-msgstr "svensk"
+msgstr "svenska"
 
 #: data/nation/swedish.ruleset:4
 msgid "?plural:Swedes"
@@ -24517,7 +24518,7 @@ msgstr ""
 
 #: data/nation/swiss.ruleset:3
 msgid "Swiss"
-msgstr "schweizare"
+msgstr "schweiziska"
 
 #: data/nation/swiss.ruleset:4
 msgid "?plural:Swiss"
@@ -24561,7 +24562,7 @@ msgstr "federal kansler"
 
 #: data/nation/taiwanese.ruleset:3
 msgid "Taiwanese"
-msgstr "taiwanes"
+msgstr "taiwanesiska"
 
 #: data/nation/taiwanese.ruleset:4
 msgid "?plural:Taiwanese"
@@ -24580,7 +24581,7 @@ msgstr ""
 # ?
 #: data/nation/texan.ruleset:3
 msgid "Texan"
-msgstr "texan"
+msgstr "texaska"
 
 # ?
 #: data/nation/texan.ruleset:4
@@ -24617,7 +24618,7 @@ msgstr ""
 
 #: data/nation/thai.ruleset:3
 msgid "Thai"
-msgstr "thailändare"
+msgstr "thailändska"
 
 #: data/nation/thai.ruleset:4
 msgid "?plural:Thai"
@@ -24633,7 +24634,7 @@ msgstr ""
 
 #: data/nation/tibetan.ruleset:3
 msgid "Tibetan"
-msgstr "tibetan"
+msgstr "tibetanska"
 
 #: data/nation/tibetan.ruleset:4
 msgid "?plural:Tibetans"
@@ -24668,7 +24669,7 @@ msgstr "daläi-lama"
 
 #: data/nation/tunisian.ruleset:3
 msgid "Tunisian"
-msgstr "tunisier"
+msgstr "tunisiska"
 
 #: data/nation/tunisian.ruleset:4
 msgid "?plural:Tunisians"
@@ -24695,7 +24696,7 @@ msgstr ""
 
 #: data/nation/turk.ruleset:3
 msgid "Turk"
-msgstr "turk"
+msgstr "turkiska"
 
 #: data/nation/turk.ruleset:4
 msgid "?plural:Turks"
@@ -24714,7 +24715,7 @@ msgstr ""
 
 #: data/nation/ukrainian.ruleset:3
 msgid "Ukrainian"
-msgstr "ukrainare"
+msgstr "ukrainska"
 
 #: data/nation/ukrainian.ruleset:4
 msgid "?plural:Ukrainians"
@@ -24733,7 +24734,7 @@ msgstr "hetman"
 # ?
 #: data/nation/uyghur.ruleset:3
 msgid "Uyghur"
-msgstr "uigurer"
+msgstr "uiguriska"
 
 # ?
 #: data/nation/uyghur.ruleset:4
@@ -24758,7 +24759,7 @@ msgstr ""
 
 #: data/nation/venezuelan.ruleset:3
 msgid "Venezuela"
-msgstr "venezuelare"
+msgstr "venezuelska"
 
 #: data/nation/venezuelan.ruleset:4
 msgid "?plural:Venezuelans"
@@ -24784,7 +24785,7 @@ msgstr "länsherre"
 
 #: data/nation/vietnamese.ruleset:3
 msgid "Vietnamese"
-msgstr "vietnames"
+msgstr "vietnamesiska"
 
 #: data/nation/vietnamese.ruleset:4
 msgid "?plural:Vietnamese"
@@ -24801,7 +24802,7 @@ msgstr ""
 
 #: data/nation/viking.ruleset:3
 msgid "Viking"
-msgstr "viking"
+msgstr "vikingska"
 
 #: data/nation/viking.ruleset:4
 msgid "?plural:Vikings"
@@ -24819,7 +24820,7 @@ msgstr ""
 
 #: data/nation/welsh.ruleset:3
 msgid "Welsh"
-msgstr "walesare"
+msgstr "walesiska"
 
 #: data/nation/welsh.ruleset:4
 msgid "?plural:Welsh"
@@ -24836,7 +24837,7 @@ msgstr ""
 # DM> Det är iof vanligare att skriva "Westfaler"
 #: data/nation/westphalian.ruleset:3
 msgid "Westphalian"
-msgstr "västfaler"
+msgstr "västfalska"
 
 #: data/nation/westphalian.ruleset:4
 msgid "?plural:Westphalians"
@@ -24854,7 +24855,7 @@ msgstr ""
 
 #: data/nation/zulu.ruleset:3
 msgid "Zulu"
-msgstr "zulu"
+msgstr "zuluska"
 
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
