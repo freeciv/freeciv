@@ -742,12 +742,12 @@ popup_activeunits_report_dialog(bool raise)
 			   TRUE,TRUE,20);
       fcwin_box_add_box(vbox,hbox,FALSE,FALSE,10);
       lvc.mask=LVCF_TEXT;
-      lvc.pszText=_(headers[0]);
+      lvc.pszText=Q_(headers[0]);
       ListView_InsertColumn(lv,0,&lvc);
       for(i=1;i<AU_COL;i++) {
 	lvc.mask=LVCF_TEXT | LVCF_FMT;
 	lvc.fmt=LVCFMT_RIGHT;
-	lvc.pszText=_(headers[i]);
+	lvc.pszText=Q_(headers[i]);
 	ListView_InsertColumn(lv,i,&lvc);
       }
       for(i=0;i<AU_COL;i++) {
