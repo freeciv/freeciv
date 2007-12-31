@@ -125,7 +125,7 @@ void intl_slist(int n, const char **s, bool *done)
 
   if (!*done) {
     for(i=0; i<n; i++) {
-      s[i] = _(s[i]);
+      s[i] = Q_(s[i]);
     }
 
     *done = TRUE;
