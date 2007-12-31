@@ -386,7 +386,7 @@ for now.
 void generate_warmap(struct city *pcity, struct unit *punit)
 {
   freelog(LOG_DEBUG, "Generating warmap, pcity = %s, punit = %s",
-	  (pcity ? pcity->name : "NULL"),
+	  (pcity ? city_name(pcity) : "NULL"),
 	  (punit ? unit_rule_name(punit) : "NULL"));
 
   if (punit) {
@@ -1197,7 +1197,8 @@ static int find_a_direction(struct unit *punit,
      */
     freelog(LOG_DEBUG,
 	    "%s's trireme in trouble at (%d,%d), looking for coast",
-	    pplayer->name, TILE_XY(punit->tile));
+	    player_name(pplayer),
+	    TILE_XY(punit->tile));
 
     adjc_dir_iterate(punit->tile, ptile, dir) {
       if (is_coast_seen(ptile, pplayer)) {
@@ -1347,7 +1348,7 @@ enum goto_result do_unit_goto(struct unit *punit,
     } else {
       freelog(LOG_VERBOSE, "Did not find an airroute for "
 	      "%s's %s at (%d, %d) -> (%d, %d)",
-	      pplayer->name,
+	      player_name(pplayer),
 	      unit_rule_name(punit),
 	      TILE_XY(punit->tile),
 	      TILE_XY(dest_tile));
@@ -1420,7 +1421,7 @@ enum goto_result do_unit_goto(struct unit *punit,
   } else {
     freelog(LOG_VERBOSE, "Did not find the shortest path for "
 	    "%s's %s at (%d, %d) -> (%d, %d)",
-	    pplayer->name,
+	    player_name(pplayer),
 	    unit_rule_name(punit),
 	    TILE_XY(punit->tile),
 	    TILE_XY(dest_tile));
@@ -1504,7 +1505,7 @@ int air_can_move_between(int moves, struct tile *src_tile,
   freelog(LOG_DEBUG,
 	  "air_can_move_between(moves=%d, src=(%i,%i), "
 	  "dest=(%i,%i), player=%s)", moves, TILE_XY(src_tile),
-	  TILE_XY(dest_tile), pplayer->name);
+	  TILE_XY(dest_tile), player_name(pplayer));
 
   /* First we do some very simple O(1) checks. */
   if (total_distance > moves) {

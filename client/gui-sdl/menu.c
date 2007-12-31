@@ -1055,19 +1055,22 @@ void update_menus(void)
       
 	/* unit_can_est_traderoute_here(pUnit) */
       if (pTile->city && unit_has_type_flag(pUnit, F_TRADE_ROUTE)
-        && (pHomecity = find_city_by_id(pUnit->homecity))
+        && (pHomecity = game_find_city_by_number(pUnit->homecity))
 	&& can_cities_trade(pHomecity, pTile->city)) {
 	int revenue = get_caravan_enter_city_trade_bonus(pHomecity, pTile->city);
 	
         if (can_establish_trade_route(pHomecity, pTile->city)) {
           my_snprintf(cBuf, sizeof(cBuf),
-      		_("Form Traderoute with %s ( %d R&G + %d trade ) (R)"),
-      		pHomecity->name, revenue,
-      			trade_between_cities(pHomecity, pTile->city));
-	} else {
+                      _("Form Traderoute with %s ( %d R&G + %d trade ) (R)"),
+                      city_name(pHomecity),
+                      revenue,
+                      trade_between_cities(pHomecity, pCity));
+        } else {
           revenue = (revenue + 2) / 3;
           my_snprintf(cBuf, sizeof(cBuf),
-		_("Trade with %s ( %d R&G bonus ) (R)"), pHomecity->name, revenue);
+                      _("Trade with %s ( %d R&G bonus ) (R)"),
+                      city_name(pHomecity),
+                      revenue);
         }
 	copy_chars_to_string16(pOrder_Trade_Button->string16, cBuf);
 	clear_wflag(pOrder_Trade_Button, WF_HIDDEN);

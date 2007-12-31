@@ -70,7 +70,7 @@ static struct tile* find_best_tile_to_paradrop_to(struct unit *punit)
     UNIT_LOG(LOGLEVEL_PARATROOPER, punit, 
              "Choose to jump in order to protect allied city %s (%d %d). "
 	     "Benefit: %d",
-	     acity->name, best_tile->x, best_tile->y, best);
+	     city_name(acity), TILE_XY(best_tile), best);
     return best_tile;
   }
 
@@ -97,7 +97,7 @@ static struct tile* find_best_tile_to_paradrop_to(struct unit *punit)
     acity = tile_get_city(best_tile);
     UNIT_LOG(LOGLEVEL_PARATROOPER, punit, 
              "Choose to jump into enemy city %s (%d %d). Benefit: %d",
-	     acity->name, best_tile->x, best_tile->y, best);
+	     city_name(acity), TILE_XY(best_tile), best);
     return best_tile;
   }
 
@@ -196,7 +196,7 @@ void ai_manage_paratrooper(struct player *pplayer, struct unit *punit)
     if (ptile_dest) {
       if (do_paradrop(punit, ptile_dest)) {
 	/* successfull! */
-	if (!find_unit_by_id(sanity)) {
+	if (!game_find_unit_by_number(sanity)) {
 	  /* the unit did not survive the move */
 	  return;
 	}
@@ -220,7 +220,7 @@ void ai_manage_paratrooper(struct player *pplayer, struct unit *punit)
     acity = find_nearest_safe_city(punit);
 
     if (acity) {
-      UNIT_LOG(LOGLEVEL_PARATROOPER, punit, "Going to %s", acity->name);
+      UNIT_LOG(LOGLEVEL_PARATROOPER, punit, "Going to %s", city_name(acity));
       if (!ai_unit_goto(punit, acity->tile)) {
 	/* die or unsuccessfull move */
 	return;
@@ -357,8 +357,9 @@ void ai_choose_paratrooper(struct player *pplayer, struct city *pcity,
       choice->want = profit;
       choice->choice = u_type->index;
       choice->type = CT_ATTACKER;
+      choice->need_boat = FALSE;
       freelog(LOGLEVEL_PARATROOPER, "%s wants to build %s (want=%d)",
-	      pcity->name,
+	      city_name(pcity),
 	      utype_rule_name(u_type),
 	      profit);
     }
@@ -370,9 +371,11 @@ void ai_choose_paratrooper(struct player *pplayer, struct city *pcity,
     pplayer->ai.tech_want[tech_req] += 2;
     freelog(LOGLEVEL_PARATROOPER, "Raising tech want in city %s for %s "
 	      "stimulating %s with %d (%d) and req",
-	      pcity->name, pplayer->name, advance_name_by_player(pplayer,
-							tech_req), 2,
-	      pplayer->ai.tech_want[tech_req]);
+	    city_name(pcity),
+	    player_name(pplayer),
+	    advance_name_by_player(pplayer, tech_req),
+	    2,
+	    pplayer->ai.tech_want[tech_req]);
 
     /* now, we raise want for prerequisites */
     tech_type_iterate(k) {

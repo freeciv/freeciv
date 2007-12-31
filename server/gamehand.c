@@ -77,7 +77,7 @@ static void place_starting_unit(struct tile *ptile, struct player *pplayer,
     tile_clear_special(ptile, S_HUT);
     update_tile_knowledge(ptile);
     freelog(LOG_VERBOSE, "Removed hut on start position for %s",
-	    pplayer->name);
+	    player_name(pplayer));
   }
 
   /* Expose visible area. */

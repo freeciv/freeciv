@@ -24,12 +24,15 @@
 #include "log.h"
 #include "support.h"
 
+#include "effects.h"
 #include "game.h"
 #include "government.h"
+#include "improvement.h"
 #include "map.h"
 #include "mem.h"
 #include "movement.h"
 #include "packets.h"
+#include "specialist.h"
 #include "unit.h"
 
 #include "cm.h"
@@ -387,14 +390,6 @@ int city_buy_cost(const struct city *pcity)
 }
 
 /**************************************************************************
-  Return the owner of the city.
-**************************************************************************/
-struct player *city_owner(const struct city *pcity)
-{
-  return pcity->owner;
-}
-
-/**************************************************************************
   Return whether given city can build given building, ignoring whether
   it is obsolete.
 **************************************************************************/
@@ -539,6 +534,24 @@ bool city_can_use_specialist(const struct city *pcity,
 bool city_can_change_build(const struct city *pcity)
 {
   return !pcity->did_buy || pcity->shield_stock <= 0;
+}
+
+/**************************************************************************
+  Return the name of the city.
+**************************************************************************/
+const char *city_name(const struct city *pcity)
+{
+  assert(NULL != pcity && NULL != pcity->name);
+  return pcity->name;
+}
+
+/**************************************************************************
+  Return the owner of the city.
+**************************************************************************/
+struct player *city_owner(const struct city *pcity)
+{
+  assert(NULL != pcity && NULL != pcity->owner);
+  return pcity->owner;
 }
 
 /**************************************************************************
@@ -1961,7 +1974,7 @@ static inline void set_city_production(struct city *pcity)
   /* Add on special extra incomes: trade routes and tithes. */
   for (i = 0; i < NUM_TRADEROUTES; i++) {
     pcity->trade_value[i] =
-	trade_between_cities(pcity, find_city_by_id(pcity->trade[i]));
+	trade_between_cities(pcity, game_find_city_by_number(pcity->trade[i]));
     pcity->prod[O_TRADE] += pcity->trade_value[i];
   }
   pcity->prod[O_GOLD] += get_city_tithes_bonus(pcity);
@@ -2168,7 +2181,7 @@ void generic_city_refresh(struct city *pcity,
     int i;
 
     for (i = 0; i < NUM_TRADEROUTES; i++) {
-      struct city *pcity2 = find_city_by_id(pcity->trade[i]);
+      struct city *pcity2 = game_find_city_by_number(pcity->trade[i]);
 
       if (pcity2) {
 	/* We used to pass FALSE in here to avoid multiple recursion.  This

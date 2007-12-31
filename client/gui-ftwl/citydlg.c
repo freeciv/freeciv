@@ -26,7 +26,7 @@
 **************************************************************************/
 void popup_city_dialog(struct city *pcity)
 {
-  freelog(LOG_NORMAL, "popup_city_dialog('%s')", pcity->name);
+  freelog(LOG_NORMAL, "popup_city_dialog('%s')", city_name(pcity));
   /* PORTME */
 }
 
@@ -67,7 +67,7 @@ void refresh_unit_city_dialogs(struct unit *punit)
   struct city *pcity_sup, *pcity_pre;
   struct city_dialog *pdialog;
 
-  pcity_sup = find_city_by_id(punit->homecity);
+  pcity_sup = game_find_city_by_number(punit->homecity);
   pcity_pre = tile_get_city(punit->tile);
 
   if (pcity_sup && (pdialog = get_city_dialog(pcity_sup))) {

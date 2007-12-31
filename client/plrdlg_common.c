@@ -73,7 +73,7 @@ bool is_plrdlg_frozen(void)
 *******************************************************************/
 static const char *col_name(const struct player *player)
 {
-  return player->name;
+  return player_name(player);
 }
 
 /******************************************************************
@@ -148,7 +148,7 @@ static const char *col_love(const struct player *player)
   if (!game.player_ptr || player == game.player_ptr || !player->ai.control) {
     return "-";
   } else {
-    return love_text(player->ai.love[game.player_ptr->player_no]);
+    return love_text(player->ai.love[player_index(game.player_ptr)]);
   }
 }
 
@@ -161,19 +161,19 @@ static int cmp_love(const struct player *player1,
   int love1, love2;
 
   if (!game.player_ptr) {
-    return player1->player_no - player2->player_no;
+    return player_number(player1) - player_number(player2);
   }
 
   if (player1 == game.player_ptr || !player1->ai.control) {
     love1 = MAX_AI_LOVE + 999;
   } else {
-    love1 = player1->ai.love[game.player_ptr->player_no];
+    love1 = player1->ai.love[player_index(game.player_ptr)];
   }
 
   if (player2 == game.player_ptr || !player2->ai.control) {
     love2 = MAX_AI_LOVE + 999;
   } else {
-    love2 = player2->ai.love[game.player_ptr->player_no];
+    love2 = player2->ai.love[player_index(game.player_ptr)];
   }
   
   return love1 - love2;

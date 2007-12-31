@@ -193,7 +193,7 @@ bool is_nation_barbarian(const struct nation_type *nation)
 Returns pointer to the array of the nation leader names, and
 sets dim to number of leaders.
 ***************************************************************/
-struct leader *get_nation_leaders(const struct nation_type *nation, int *dim)
+struct nation_leader *get_nation_leaders(const struct nation_type *nation, int *dim)
 {
   if (!bounds_check_nation(nation, LOG_FATAL, "get_nation_leader_names")) {
     die("bad nation");
@@ -427,7 +427,7 @@ void nations_free(void)
  deallocates an array of city names. needs to be separate so 
  server can use it individually (misc_city_names)
 ***************************************************************/
-void nation_city_names_free(struct city_name *city_names)
+void nation_city_names_free(struct nation_city *city_names)
 {
   int i;
 

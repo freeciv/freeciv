@@ -298,7 +298,7 @@ static bool send_to_metaserver(enum meta_flag flag)
         my_snprintf(s, rest, "plt[]=%s&", type);
         s = end_of_strn(s, &rest);
 
-        my_snprintf(s, rest, "pll[]=%s&", my_url_encode(plr->name));
+        my_snprintf(s, rest, "pll[]=%s&", my_url_encode(player_name(plr)));
         s = end_of_strn(s, &rest);
 
         my_snprintf(s, rest, "pln[]=%s&",

@@ -276,7 +276,7 @@ void popup_revolution_dialog(struct government *government)
 static void pillage_callback(GtkWidget *w, gpointer data)
 {
   if (data) {
-    struct unit *punit = find_unit_by_id(unit_to_use_to_pillage);
+    struct unit *punit = game_find_unit_by_number(unit_to_use_to_pillage);
     if (punit) {
       request_new_unit_activity_targeted(punit,
 					 ACTIVITY_PILLAGE,
@@ -996,7 +996,7 @@ static gint cmp_func(gconstpointer ap, gconstpointer bp)
  *****************************************************************/
 static void select_random_leader(void)
 {
-  struct leader *leaders;
+  struct nation_leader *leaders;
   int i, nleaders;
   GList *items = NULL;
   GtkWidget *text, *list;
@@ -1258,12 +1258,11 @@ static void races_response(GtkWidget *w, gint response, gpointer data)
     }
 
     dsend_packet_nation_select_req(&aconnection,
-				   races_player->player_no, selected_nation,
+				   player_number(races_player), selected_nation,
 				   selected_sex, s, selected_city_style);
-
   } else if (response == GTK_RESPONSE_NO) {
     dsend_packet_nation_select_req(&aconnection,
-				   races_player->player_no,
+				   player_number(races_player),
 				   -1, FALSE, "", 0);
   } else if (response == GTK_RESPONSE_CANCEL) {
     /* Nothing - this allows the player to keep his currently selected

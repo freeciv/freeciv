@@ -191,7 +191,7 @@ static void update_goto_dialog(HWND list)
       continue;
     }
     city_list_iterate(game.players[i].cities, pcity) {
-      sz_strlcpy(name, pcity->name);
+      sz_strlcpy(name, city_name(pcity));
       /* FIXME: should use unit_can_airlift_to(). */
       if (pcity->airlift) {
         sz_strlcat(name, "(A)");
@@ -211,6 +211,6 @@ static struct city *get_selected_city(void)
   int selection;  
   if ((selection=ListBox_GetCurSel(goto_list))==LB_ERR)
     return 0;
-  return find_city_by_id(ListBox_GetItemData(goto_list,selection));
+  return game_find_city_by_number(ListBox_GetItemData(goto_list,selection));
 
 }

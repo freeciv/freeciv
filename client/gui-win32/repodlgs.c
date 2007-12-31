@@ -57,8 +57,8 @@ static int *categories;
 
 extern HINSTANCE freecivhinst;
 extern HWND root_window;
-extern struct connection aconnection;               
-int economy_improvement_type[B_LAST];   
+extern struct connection aconnection;
+int economy_improvement_type[B_LAST];
 struct unit_type *activeunits_type[U_LAST];
 
 #define ID_OPTIONS_BASE 1000
@@ -568,7 +568,7 @@ static LONG CALLBACK activeunits_proc(HWND hWnd,
 			  _("Upgrade as many %s to %s as possible for %d gold each?\n"
 			    "Treasury contains %d gold."),
 			  utype_name_translation(ut1),
-                          utype_name_translation(ut2),
+			  utype_name_translation(ut2),
 			  unit_upgrade_price(game.player_ptr, ut1, ut2),
 			  game.player_ptr->economic.gold);    
 
@@ -691,9 +691,15 @@ popup_activeunits_report_dialog(bool raise)
     {
       HWND lv;
       LV_COLUMN lvc;
-      char *headers[] = {N_("Unit Type"), N_("U"),
-			 N_("In-Prog"), N_("Active"),
-			 N_("Shield"), N_("Food"), NULL};
+      char *headers[] = {
+        N_("Unit Type"),
+        N_("?Upgradable unit [short]:U"),
+        N_("In-Prog"),
+        N_("Active"),
+        N_("Shield"),
+        N_("Food"),
+        NULL
+      };
       int i;
       struct fcwin_box *vbox;
       struct fcwin_box *hbox;
@@ -759,8 +765,8 @@ void popup_endgame_report_dialog(struct packet_endgame_report *packet)
                      "%2d: The %s ruler %s scored %d points\n",
                      packet->score[i]),
                  i + 1,
-                 nation_adjective_for_player(get_player(packet->id[i])),
-                 get_player(packet->id[i])->name,
+                 nation_adjective_for_player(player_by_number(packet->id[i])),
+                 player_name(player_by_number(packet->id[i])),
                  packet->score[i]);
   }
   popup_notify_dialog(_("Final Report:"),

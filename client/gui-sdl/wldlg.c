@@ -1036,7 +1036,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   
   /* ---------------- */
   if(pCity) {
-    my_snprintf(cBuf, sizeof(cBuf), _("Worklist of\n%s"), pCity->name);
+    my_snprintf(cBuf, sizeof(cBuf), _("Worklist of\n%s"), city_name(pCity));
   } else {
     my_snprintf(cBuf, sizeof(cBuf), "%s", pWorkList->name);
   }

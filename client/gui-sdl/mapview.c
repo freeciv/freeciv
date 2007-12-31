@@ -597,7 +597,7 @@ static const char *gui_sdl_get_unit_info_label_text2(struct unit_list *punits)
       astr_add_line(&str, " ");
     }
     if (pcity) {
-      astr_add_line(&str, "%s", pcity->name);
+      astr_add_line(&str, "%s", city_name(pcity));
     } else {
       astr_add_line(&str, " ");
     }
@@ -786,11 +786,16 @@ void redraw_unit_info_label(struct unit_list *punitlist)
      			  "" /*unused, DS_CEASEFIRE */, Q_("?city:Peaceful"),
 			  Q_("?city:Friendly"), Q_("?city:Mysterious")};
 			  
-	    cat_snprintf(buffer, sizeof(buffer), _("\nCity of %s"), pTile->city->name);
-            	  
+	    cat_snprintf(buffer, sizeof(buffer),
+			 _("\nCity of %s"),
+			 city_name(pTile->city));
+
 	    citywall = pTile->city->client.walls;
                           
-#if 0                          
+#if 0       
+            /* This has hardcoded assumption that EFT_LAND_REGEN is always
+             * provided by *building* named *Barracks*. Similar assumptions for
+             * other effects. */     
 	    if (pplayers_allied(game.player_ptr, pOwner)) {
 	      barrack = (get_city_bonus(pTile->city, EFT_LAND_REGEN) > 0);
 	      airport = (get_city_bonus(pTile->city, EFT_AIR_VETERAN) > 0);
@@ -798,28 +803,30 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	    }
 	  
 	    if (citywall || barrack || airport || port) {
-	      cat_snprintf(buffer, sizeof(buffer), _(" with "));
+	      cat_snprintf(buffer, sizeof(buffer), Q_("?blistbegin: with "));
 	      if (barrack) {
                 cat_snprintf(buffer, sizeof(buffer), _("Barracks"));
 	        if (port || airport || citywall) {
-	          cat_snprintf(buffer, sizeof(buffer), ", ");
+	          cat_snprintf(buffer, sizeof(buffer), Q_("?blistmore:, "));
 	        }
 	      }
 	      if (port) {
 	        cat_snprintf(buffer, sizeof(buffer), _("Port"));
 	        if (airport || citywall) {
-	          cat_snprintf(buffer, sizeof(buffer), ", ");
+	          cat_snprintf(buffer, sizeof(buffer), Q_("?blistmore:, "));
 	        }
 	      }
 	      if (airport) {
 	        cat_snprintf(buffer, sizeof(buffer), _("Airport"));
 	        if (citywall) {
-	          cat_snprintf(buffer, sizeof(buffer), ", ");
+	          cat_snprintf(buffer, sizeof(buffer), Q_("?blistmore:, "));
 	        }
 	      }
 	      if (citywall) {
 	        cat_snprintf(buffer, sizeof(buffer), _("City Walls"));
               }
+
+              cat_snprintf(buffer, sizeof(buffer), Q_("?blistend:"));
 	    }
 #endif
 	    
@@ -828,7 +835,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
               cat_snprintf(buffer, sizeof(buffer), _("\n(%s,%s)"),
 		  nation_adjective_for_player(pOwner),
 		  diplo_city_adjectives[game.player_ptr->
-				   diplstates[pOwner->player_no].type]);
+				   diplstates[player_index(pOwner)].type]);
 	    }
 	    
 	  }
@@ -944,7 +951,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	  }
 	    
 	  pUType = unit_type(aunit);
-          pHome_City = find_city_by_id(aunit->homecity);
+          pHome_City = game_find_city_by_number(aunit->homecity);
           my_snprintf(buffer, sizeof(buffer), "%s (%d,%d,%d)%s\n%s\n(%d/%d)\n%s",
 		utype_name_translation(pUType),
 		pUType->attack_strength,
@@ -952,7 +959,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
                 (aunit->veteran ? _("\nveteran") : ""),
                 unit_activity_text(aunit),
 		aunit->hp, pUType->hp,
-		pHome_City ? pHome_City->name : _("None"));
+		pHome_City ? city_name(pHome_City) : _("None"));
       
 	  pBuf_Surf = create_surf(tileset_full_tile_width(tileset),
 	    				tileset_full_tile_height(tileset), SDL_SWSURFACE);

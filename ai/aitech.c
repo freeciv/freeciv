@@ -222,8 +222,10 @@ void ai_manage_tech(struct player *pplayer)
    * is practically never used, see the comment for ai_next_tech_goal */
   if (goal.choice != research->tech_goal) {
     freelog(LOG_DEBUG, "%s change goal from %s (want=%d) to %s (want=%d)",
-	    pplayer->name, advance_name_by_player(pplayer, research->tech_goal), 
-	    goal.current_want, advance_name_by_player(pplayer, goal.choice),
+	    player_name(pplayer),
+	    advance_name_by_player(pplayer, research->tech_goal), 
+	    goal.current_want,
+	    advance_name_by_player(pplayer, goal.choice),
 	    goal.want);
     choose_tech_goal(pplayer, goal.choice);
   }

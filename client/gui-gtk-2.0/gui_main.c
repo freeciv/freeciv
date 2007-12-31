@@ -1468,7 +1468,7 @@ void ui_exit()
 **************************************************************************/
 void update_conn_list_dialog(void)
 {
-  GtkTreeIter it[game.info.nplayers];
+  GtkTreeIter it[player_count()];
 
   if (game.player_ptr) {
     char *text;
@@ -1555,7 +1555,7 @@ void update_conn_list_dialog(void)
 	leader = "";
       } else {
 	nation = nation_adjective_for_player(pplayer);
-	leader = pplayer->name;
+	leader = player_name(pplayer);
       }
       team = pplayer->team ? team_get_name(pplayer->team) : "";
 
@@ -1590,9 +1590,9 @@ void update_conn_list_dialog(void)
 	}
       } conn_list_iterate_end;
 
-      gtk_tree_store_append(conn_model, &it[pplayer->player_no], NULL);
-      gtk_tree_store_set(conn_model, &it[pplayer->player_no],
-			 0, pplayer->player_no,
+      gtk_tree_store_append(conn_model, &it[player_index(pplayer)], NULL);
+      gtk_tree_store_set(conn_model, &it[player_index(pplayer)],
+			 0, player_number(pplayer),
 			 1, name,
 			 2, is_ready,
 			 3, leader,
@@ -1614,7 +1614,7 @@ void update_conn_list_dialog(void)
       nation = "";
       leader = "";
       team = pconn->observer ? _("Observer") : _("Detached");
-      parent = pconn->player ? &it[pconn->player->player_no] : NULL;
+      parent = pconn->player ? &it[player_index(pconn->player)] : NULL;
 
       gtk_tree_store_append(conn_model, &conn_it, parent);
       gtk_tree_store_set(conn_model, &conn_it,
@@ -1699,7 +1699,7 @@ static gboolean select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev,
   struct unit *punit;
 
   if (i == -1) {
-    punit = find_unit_by_id(unit_id_top);
+    punit = game_find_unit_by_number(unit_id_top);
     if (punit && unit_is_in_focus(punit)) {
       /* Clicking on the currently selected unit will center it. */
       center_tile_mapcanvas(punit->tile);
@@ -1710,7 +1710,7 @@ static gboolean select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev,
   if (unit_ids[i] == 0) /* no unit displayed at this place */
     return TRUE;
 
-  punit = find_unit_by_id(unit_ids[i]);
+  punit = game_find_unit_by_number(unit_ids[i]);
   if (punit && unit_owner(punit) == game.player_ptr) {
     /* Unit shouldn't be NULL but may be owned by an ally. */
     set_unit_focus(punit);

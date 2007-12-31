@@ -87,7 +87,8 @@ static bool ai_do_build_city(struct player *pplayer, struct unit *punit)
     /* This can happen for instance when there was hut at this tile
      * and it turned in to a city when settler entered tile. */
     freelog(LOG_DEBUG, "%s: There is already a city at (%d, %d)!", 
-            pplayer->name, TILE_XY(ptile));
+            player_name(pplayer),
+            TILE_XY(ptile));
     return FALSE;
   }
   handle_unit_build_city(pplayer, punit->id,
@@ -95,7 +96,8 @@ static bool ai_do_build_city(struct player *pplayer, struct unit *punit)
   pcity = tile_get_city(ptile);
   if (!pcity) {
     freelog(LOG_ERROR, "%s: Failed to build city at (%d, %d)", 
-            pplayer->name, TILE_XY(ptile));
+            player_name(pplayer),
+            TILE_XY(ptile));
     return FALSE;
   }
 
@@ -1021,7 +1023,7 @@ static void auto_settler_findwork(struct player *pplayer,
       return; /* avoid recursion at all cost */
     } else {
       /* Go there */
-      if ((!ai_gothere(pplayer, punit, ptile) && !find_unit_by_id(sanity))
+      if ((!ai_gothere(pplayer, punit, ptile) && !game_find_unit_by_number(sanity))
           || punit->moves_left <= 0) {
         return;
       }
@@ -1063,7 +1065,8 @@ static void auto_settler_findwork(struct player *pplayer,
     if (result.result > best_impr) {
       if (tile_get_city(result.tile)) {
         UNIT_LOG(LOG_SETTLER, punit, "immigrates to %s (%d, %d)", 
-                 tile_get_city(result.tile)->name, TILE_XY(result.tile));
+                 city_name(tile_get_city(result.tile)),
+                 TILE_XY(result.tile));
       } else {
         UNIT_LOG(LOG_SETTLER, punit, "makes city at (%d, %d)", 
                  TILE_XY(result.tile));

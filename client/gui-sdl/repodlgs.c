@@ -74,6 +74,7 @@ static void get_units_report_data(struct units_entry *entries,
   					struct units_entry *total)
 {
   int time_to_build;
+
   memset(entries, '\0', U_LAST * sizeof(struct units_entry));
   memset(total, '\0', sizeof(struct units_entry));
   for(time_to_build = 0; time_to_build < U_LAST; time_to_build++) {
@@ -162,9 +163,9 @@ static int popup_upgrade_unit_callback(struct widget *pWidget)
     SDL_Surface *pText;
     SDL_Rect dst;
     SDL_Rect area;
-    
+
     ut1 = utype_by_number(MAX_ID - pWidget->ID);
-    
+
     if (pUnits_Upg_Dlg) {
       return 1;
     }
@@ -841,7 +842,7 @@ void activeunits_report_dialog_update(void)
     struct widget *pWidget, *pBuf;
     bool is_in_list = FALSE;
     char cBuf[32];
-    bool upgrade; 
+    bool upgrade;
     bool search_finished;
     
     get_units_report_data(units, &units_total);
@@ -863,8 +864,8 @@ void activeunits_report_dialog_update(void)
 			  pUnitsDlg->pBeginActiveWidgetList) {
 	    break;
 	  }
-	  
-	  /* first widget of next list entry */
+
+          /* first widget of next list entry */
 	  pBuf = pBuf->prev->prev->prev->prev->prev->prev->prev->prev;
         }
         
@@ -880,60 +881,60 @@ void activeunits_report_dialog_update(void)
     pWidget = pUnitsDlg->pEndActiveWidgetList; /* first widget (icon) of the first list entry */
     unit_type_iterate(i) {
       pBuf = pWidget; /* first widget (icon) of a list entry */
- 
+
       if ((units[i->index].active_count > 0) || (units[i->index].building_count > 0)) {
         /* the player has at least one unit of this type */
-        
-        search_finished = FALSE; 
+
+        search_finished = FALSE;
         while (!search_finished) {
           if ((MAX_ID - pBuf->ID) == i->index) { /* list entry for this unit type found */
-    
-	    upgrade = (can_upgrade_unittype(game.player_ptr, i) != NULL);
-            
-	    pBuf = pBuf->prev; /* unit type name */
-	    if(upgrade) {
-	      pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_UNITUPGRADE_TEXT);
-	      pBuf->action = popup_upgrade_unit_callback;
-	      set_wstate(pBuf, FC_WS_NORMAL);
+
+            upgrade = (can_upgrade_unittype(game.player_ptr, i) != NULL);
+
+            pBuf = pBuf->prev; /* unit type name */
+            if(upgrade) {
+              pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_UNITUPGRADE_TEXT);
+              pBuf->action = popup_upgrade_unit_callback;
+              set_wstate(pBuf, FC_WS_NORMAL);
             }
 
             pBuf = pBuf->prev; /* active */
-	    my_snprintf(cBuf, sizeof(cBuf), "%d", units[i->index].active_count);
-	    copy_chars_to_string16(pBuf->string16, cBuf);
+            my_snprintf(cBuf, sizeof(cBuf), "%d", units[i->index].active_count);
+            copy_chars_to_string16(pBuf->string16, cBuf);
 
             pBuf = pBuf->prev; /* shield upkeep */
             my_snprintf(cBuf, sizeof(cBuf), "%d", units[i->index].upkeep_shield);
-	    copy_chars_to_string16(pBuf->string16, cBuf);
+            copy_chars_to_string16(pBuf->string16, cBuf);
 
             pBuf = pBuf->prev; /* food upkeep */
             my_snprintf(cBuf, sizeof(cBuf), "%d", units[i->index].upkeep_food);
-	    copy_chars_to_string16(pBuf->string16, cBuf);
+            copy_chars_to_string16(pBuf->string16, cBuf);
 
             pBuf = pBuf->prev; /* gold upkeep */
             my_snprintf(cBuf, sizeof(cBuf), "%d", units[i->index].upkeep_gold);
             copy_chars_to_string16(pBuf->string16, cBuf);
 
             pBuf = pBuf->prev; /* building */
-	    if(units[i->index].building_count > 0) {
-	      my_snprintf(cBuf, sizeof(cBuf), "%d", units[i->index].building_count);
-            } else {
-	      my_snprintf(cBuf, sizeof(cBuf), "--");
-            }
-	    copy_chars_to_string16(pBuf->string16, cBuf);
-
-	    pBuf = pBuf->prev; /* soonest completion */
             if(units[i->index].building_count > 0) {
-	      my_snprintf(cBuf, sizeof(cBuf), "%d %s", units[i->index].soonest_completions,
-			  PL_("turn", "turns", units[i->index].soonest_completions));
+              my_snprintf(cBuf, sizeof(cBuf), "%d", units[i->index].building_count);
             } else {
-	      my_snprintf(cBuf, sizeof(cBuf), "--");
+              my_snprintf(cBuf, sizeof(cBuf), "--");
             }
-	    copy_chars_to_string16(pBuf->string16, cBuf);
-	
-	    pWidget = pBuf->prev; /* icon of next unit type */
-          
-	    search_finished = TRUE;
-	    
+            copy_chars_to_string16(pBuf->string16, cBuf);
+
+            pBuf = pBuf->prev; /* soonest completion */
+            if(units[i->index].building_count > 0) {
+              my_snprintf(cBuf, sizeof(cBuf), "%d %s", units[i->index].soonest_completions,
+                          PL_("turn", "turns", units[i->index].soonest_completions));
+            } else {
+              my_snprintf(cBuf, sizeof(cBuf), "--");
+            }
+            copy_chars_to_string16(pBuf->string16, cBuf);
+
+            pWidget = pBuf->prev; /* icon of next unit type */
+
+            search_finished = TRUE;
+
           } else { /* list entry for this unit type not found yet */
             
             /* search it */ 
@@ -941,16 +942,16 @@ void activeunits_report_dialog_update(void)
             do {
 	      del_widget_from_vertical_scroll_widget_list(pUnitsDlg, pBuf->prev);
 	    } while(((MAX_ID - pBuf->prev->ID) != i->index)  &&
-                    (pBuf->prev != pUnitsDlg->pBeginActiveWidgetList));
-                  
+	            (pBuf->prev != pUnitsDlg->pBeginActiveWidgetList));
+
 	    if(pBuf->prev == pUnitsDlg->pBeginActiveWidgetList) {
-              /* list entry not found - can this really happen? */
+	      /* list entry not found - can this really happen? */
 	      del_widget_from_vertical_scroll_widget_list(pUnitsDlg, pBuf->prev);
 	      pWidget = pBuf->prev; /* pUnitsDlg->pBeginActiveWidgetList */
-              search_finished = TRUE;
+	      search_finished = TRUE;
 	    } else {
               /* found it */
-	      pBuf = pBuf->prev; /* first widget (icon) of list entry */ 
+	      pBuf = pBuf->prev; /* first widget (icon) of list entry */
 	    }
           }
         }
@@ -961,22 +962,22 @@ void activeunits_report_dialog_update(void)
           } else {
             pBuf = pBuf->next;
             do {
-	      del_widget_from_vertical_scroll_widget_list(pUnitsDlg,
-	                                                  pBuf->prev);
+              del_widget_from_vertical_scroll_widget_list(pUnitsDlg,
+                                                          pBuf->prev);
             } while(((MAX_ID - pBuf->prev->ID) == i->index) &&
                     (pBuf->prev != pUnitsDlg->pBeginActiveWidgetList));
             if(pBuf->prev == pUnitsDlg->pBeginActiveWidgetList) {
-	      del_widget_from_vertical_scroll_widget_list(pUnitsDlg,
+              del_widget_from_vertical_scroll_widget_list(pUnitsDlg,
                                                           pBuf->prev);
             }
-	    pWidget = pBuf->prev;
+            pWidget = pBuf->prev;
           }
         }
       }
     } unit_type_iterate_end;
-    
+
     /* -------------------------------------- */
-    
+
     /* total active */
     pBuf = pUnitsDlg->pEndWidgetList->prev->prev;
     my_snprintf(cBuf, sizeof(cBuf), "%d", units_total.active_count);
@@ -1504,7 +1505,7 @@ static int popup_sell_impv_callback(struct widget *pWidget)
     imp = pWidget->data.cont->id0;
     total_count = pWidget->data.cont->id1;
     value = impr_sell_gold(imp);
-    
+
     city_list_iterate(game.player_ptr->cities, pCity) {
       if(!pCity->did_sell && city_got_building(pCity, imp)) {
           count++;
@@ -2017,7 +2018,7 @@ void popup_economy_report_dialog(bool make_modal)
   
     for (i = 0; i < entries_used; i++) {
       struct improvement_entry *p = &entries[i];
-	
+
       pSurf = crop_rect_from_surface(pBackground, NULL);
       
       my_snprintf(cBuf, sizeof(cBuf), "%s", improvement_name_translation(p->type));
@@ -2083,7 +2084,7 @@ void popup_economy_report_dialog(bool make_modal)
     		(WF_RESTORE_BACKGROUND|WF_FREE_THEME|WF_FREE_DATA));
       
       set_wstate(pBuf, FC_WS_NORMAL);
-      
+
       pBuf->data.cont = fc_calloc(1, sizeof(struct CONTAINER));
       pBuf->data.cont->id0 = p->type;
       pBuf->data.cont->id1 = p->count;
@@ -2395,7 +2396,7 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
         if ((preq->source.type == REQ_TECH) && (preq->source.value.tech == tech_id)) {
           pTmp2 = get_building_surface(imp);
           Surf_Array[w++] = zoomSurface(pTmp2, DEFAULT_ZOOM * ((float)36 / pTmp2->w), DEFAULT_ZOOM * ((float)36 / pTmp2->w), 1);
-      }
+        }
       } requirement_vector_iterate_end;
     } impr_type_iterate_end;
 
@@ -2645,7 +2646,6 @@ void science_dialog_update(void)
           dest.x += pSurf->w + 1;
         }
       } requirement_vector_iterate_end;
-      
     } impr_type_iterate_end;
 
     dest.x += adj_size(5);
@@ -3101,7 +3101,7 @@ static void popup_change_research_goal_dialog()
         && advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST
 	&& ((num = num_unknown_techs_for_goal(game.player_ptr, i)) < 11
 	    || i == get_player_research(game.player_ptr)->tech_goal)) {
-    
+
       count++;
       my_snprintf(cBuf, sizeof(cBuf), "%s\n%d %s", advance_name_translation(i), num,
 	  					PL_("step", "steps", num));
@@ -3388,8 +3388,8 @@ void popup_endgame_report_dialog(struct packet_endgame_report *packet)
                      "%2d: The %s ruler %s scored %d points\n",
                      packet->score[i]),
                  i + 1,
-                 nation_adjective_for_player(get_player(packet->id[i])),
-                 get_player(packet->id[i])->name,
+                 nation_adjective_for_player(player_by_number(packet->id[i])),
+                 player_name(player_by_number(packet->id[i])),
                  packet->score[i]);
   }
   popup_notify_dialog(_("Final Report:"),

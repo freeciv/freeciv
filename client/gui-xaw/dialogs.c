@@ -441,7 +441,7 @@ void popup_caravan_dialog(struct unit *punit,
   
   my_snprintf(buf, sizeof(buf),
 	      _("Your caravan from %s reaches the city of %s.\nWhat now?"),
-	      phomecity->name, pdestcity->name);
+	      city_name(phomecity), city_name(pdestcity));
   
   caravan_city_id=pdestcity->id; /* callbacks need these */
   caravan_unit_id=punit->id;
@@ -529,7 +529,7 @@ static void pillage_callback(Widget w, XtPointer client_data,
   }
 
   if (client_data) {
-    struct unit *punit = find_unit_by_id (unit_to_use_to_pillage);
+    struct unit *punit = game_find_unit_by_number (unit_to_use_to_pillage);
     if (punit) {
       request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE,
 					 XTPOINTER_TO_INT(client_data));
@@ -738,7 +738,7 @@ void popup_unit_select_dialog(struct tile *ptile)
     
     my_snprintf(buffer, sizeof(buffer), "%s(%s)\n%s", 
 	    utype_name_translation(punittemp), 
-	    pcity ? pcity->name : "",
+	    pcity ? city_name(pcity) : "",
 	    unit_activity_text(punit));
 
     unit_select_pixmaps[i]=XCreatePixmap(display, XtWindow(map_canvas), 
@@ -1303,7 +1303,7 @@ void races_toggles_callback(Widget w, XtPointer client_data,
   struct nation_type *race = races_toggles_to_nations[index];
   int j;
   int leader_count;
-  struct leader *leaders = get_nation_leaders(race, &leader_count);
+  struct nation_leader *leaders = get_nation_leaders(race, &leader_count);
   Widget entry;
 
   if(races_leader_pick_popupmenu)
@@ -1353,7 +1353,7 @@ void races_leader_pick_callback(Widget w, XtPointer client_data,
 void races_leader_set_values(struct nation_type *race, int lead)
 {
   int leader_count;
-  struct leader *leaders = get_nation_leaders(race, &leader_count);
+  struct nation_leader *leaders = get_nation_leaders(race, &leader_count);
 
   XtVaSetValues(races_leader, XtNstring, leaders[lead].name, NULL);
   XawTextSetInsertionPoint(races_leader, strlen(leaders[lead].name));

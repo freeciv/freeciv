@@ -157,7 +157,7 @@ void update_find_dialog(Widget find_list)
   
   for(i=0, j=0; i<game.info.nplayers; i++) {
     city_list_iterate(game.players[i].cities, pcity) 
-      *(city_name_ptrs+j++)=mystrdup(pcity->name);
+      *(city_name_ptrs+j++)=mystrdup(city_name(pcity));
     city_list_iterate_end;
   }
   

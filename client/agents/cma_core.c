@@ -25,12 +25,14 @@
 #include "dataio.h"
 #include "events.h"
 #include "fcintl.h"
+#include "game.h"
 #include "government.h"
 #include "hash.h"
 #include "log.h"
 #include "mem.h"
 #include "packets.h"
 #include "shared.h"		/* for MIN() */
+#include "specialist.h"
 #include "support.h"
 #include "timing.h"
 
@@ -163,7 +165,7 @@ static void get_current_as_result(struct city *pcity,
 *****************************************************************************/
 static bool check_city(int city_id, struct cm_parameter *parameter)
 {
-  struct city *pcity = find_city_by_id(city_id);
+  struct city *pcity = game_find_city_by_number(city_id);
   struct cm_parameter dummy;
 
   if (!parameter) {
@@ -206,7 +208,7 @@ static bool apply_result_on_server(struct city *pcity,
   stats.apply_result_applied++;
 
   freelog(APPLY_RESULT_LOG_LEVEL, "apply_result(city='%s'(%d))",
-	  pcity->name, pcity->id);
+	  city_name(pcity), pcity->id);
 
   connection_do_buffer(&aconnection);
 
@@ -369,11 +371,11 @@ static void handle_city(struct city *pcity)
   int i, city_id = pcity->id;
 
   freelog(HANDLE_CITY_LOG_LEVEL,
-	  "handle_city(city='%s'(%d) pos=(%d,%d) owner=%s)", pcity->name,
-	  pcity->id, TILE_XY(pcity->tile), city_owner(pcity)->name);
+	  "handle_city(city='%s'(%d) pos=(%d,%d) owner=%s)", city_name(pcity),
+	  pcity->id, TILE_XY(pcity->tile), player_name(city_owner(pcity)));
 
   freelog(HANDLE_CITY_LOG_LEVEL2, "START handle city='%s'(%d)",
-	  pcity->name, pcity->id);
+	  city_name(pcity), pcity->id);
 
   handled = FALSE;
   for (i = 0; i < 5; i++) {
@@ -386,7 +388,7 @@ static void handle_city(struct city *pcity)
       break;
     }
 
-    pcity = find_city_by_id(city_id);
+    pcity = game_find_city_by_number(city_id);
 
     cm_query_result(pcity, &parameter, &result);
     if (!result.found_a_valid) {
@@ -396,7 +398,7 @@ static void handle_city(struct city *pcity)
 
       create_event(pcity->tile, E_CITY_CMA_RELEASE,
 		   _("The citizen governor can't fulfill the requirements "
-		     "for %s. Passing back control."), pcity->name);
+		     "for %s. Passing back control."), city_name(pcity));
       handled = TRUE;
       break;
     } else {
@@ -406,7 +408,7 @@ static void handle_city(struct city *pcity)
 	  create_event(pcity->tile, E_CITY_CMA_RELEASE,
 		       _("The citizen governor has gotten confused dealing "
 			 "with %s.  You may want to have a look."),
-		       pcity->name);
+		       city_name(pcity));
 	}
       } else {
 	freelog(HANDLE_CITY_LOG_LEVEL2, "  ok");
@@ -417,7 +419,7 @@ static void handle_city(struct city *pcity)
     }
   }
 
-  pcity = find_city_by_id(city_id);
+  pcity = game_find_city_by_number(city_id);
 
   if (!handled) {
     assert(pcity != NULL);
@@ -426,13 +428,13 @@ static void handle_city(struct city *pcity)
     create_event(pcity->tile, E_CITY_CMA_RELEASE,
 		 _("The citizen governor has gotten confused dealing "
 		   "with %s.  You may want to have a look."),
-		 pcity->name);
+		 city_name(pcity));
 
     cma_release_city(pcity);
 
     freelog(LOG_ERROR, "CMA: %s has changed multiple times due to "
             "an error in Freeciv. Please send a savegame that can reproduce "
-            "this bug at %s. Thank you.", pcity->name, BUG_URL);
+            "this bug at %s. Thank you.", city_name(pcity), BUG_URL);
   }
 
   freelog(HANDLE_CITY_LOG_LEVEL2, "END handle city=(%d)", city_id);
@@ -443,7 +445,7 @@ static void handle_city(struct city *pcity)
 *****************************************************************************/
 static void city_changed(int city_id)
 {
-  struct city *pcity = find_city_by_id(city_id);
+  struct city *pcity = game_find_city_by_number(city_id);
 
   if (pcity) {
     cm_clear_cache(pcity);
@@ -519,7 +521,7 @@ void cma_put_city_under_agent(struct city *pcity,
 			      const struct cm_parameter *const parameter)
 {
   freelog(LOG_DEBUG, "cma_put_city_under_agent(city='%s'(%d))",
-	  pcity->name, pcity->id);
+	  city_name(pcity), pcity->id);
 
   assert(city_owner(pcity) == game.player_ptr);
 

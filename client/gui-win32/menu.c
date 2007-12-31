@@ -1162,7 +1162,7 @@ update_menus(void)
 	can_unit_load(punit, find_transporter_for_unit(punit,
 						       punit->tile)));
       my_enable_menu(menu, IDM_ORDERS_UNLOAD,
-	(can_unit_unload(punit, find_unit_by_id(punit->transported_by))
+	(can_unit_unload(punit, game_find_unit_by_number(punit->transported_by))
 	 && can_unit_exist_at_tile(punit, punit->tile)) 
 	|| get_transporter_occupancy(punit) > 0);
       my_enable_menu(menu, IDM_ORDERS_WAKEUP_OTHERS,

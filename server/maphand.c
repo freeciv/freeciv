@@ -343,7 +343,7 @@ Return TRUE iff the player me really gives shared vision to player them.
 **************************************************************************/
 static bool really_gives_vision(struct player *me, struct player *them)
 {
-  return TEST_BIT(me->really_gives_vision, them->player_no);
+  return TEST_BIT(me->really_gives_vision, player_index(them));
 }
 
 /**************************************************************************
@@ -464,7 +464,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile)
 
   info.x = ptile->x;
   info.y = ptile->y;
-  info.owner = tile_owner(ptile) ? tile_owner(ptile)->player_no : MAP_TILE_OWNER_NULL;
+  info.owner = tile_owner(ptile) ? player_number(tile_owner(ptile)) : MAP_TILE_OWNER_NULL;
   if (ptile->spec_sprite) {
     sz_strlcpy(info.spec_sprite, ptile->spec_sprite);
   } else {
@@ -709,7 +709,7 @@ void map_show_tile(struct player *src_player, struct tile *ptile)
 {
   static int recurse = 0;
   freelog(LOG_DEBUG, "Showing %i,%i to %s",
-	  TILE_XY(ptile), src_player->name);
+	  TILE_XY(ptile), player_name(src_player));
 
   assert(recurse == 0);
   recurse++;
@@ -800,7 +800,7 @@ void map_show_all(struct player *pplayer)
 ****************************************************************************/
 bool map_is_known(const struct tile *ptile, const struct player *pplayer)
 {
-  return BV_ISSET(ptile->tile_known, pplayer->player_no);
+  return BV_ISSET(ptile->tile_known, player_index(pplayer));
 }
 
 /***************************************************************
@@ -810,11 +810,11 @@ bool map_is_known_and_seen(const struct tile *ptile, struct player *pplayer,
 			   enum vision_layer vlayer)
 {
   assert(!game.info.fogofwar
-	 || (BV_ISSET(ptile->tile_seen[vlayer], pplayer->player_no)
+	 || (BV_ISSET(ptile->tile_seen[vlayer], player_index(pplayer))
 	     == (map_get_player_tile(ptile, pplayer)->seen_count[vlayer]
 		 > 0)));
-  return (BV_ISSET(ptile->tile_known, pplayer->player_no)
-	  && BV_ISSET(ptile->tile_seen[vlayer], pplayer->player_no));
+  return (BV_ISSET(ptile->tile_known, player_index(pplayer))
+	  && BV_ISSET(ptile->tile_seen[vlayer], player_index(pplayer)));
 }
 
 /****************************************************************************
@@ -829,7 +829,7 @@ static int map_get_seen(const struct tile *ptile,
 			enum vision_layer vlayer)
 {
   assert(!game.info.fogofwar
-	 || (BV_ISSET(ptile->tile_seen[vlayer], pplayer->player_no)
+	 || (BV_ISSET(ptile->tile_seen[vlayer], player_index(pplayer))
 	     == (map_get_player_tile(ptile, pplayer)->seen_count[vlayer]
 		 > 0)));
   return map_get_player_tile(ptile, pplayer)->seen_count[vlayer];
@@ -848,12 +848,12 @@ void map_change_seen(struct tile *ptile, struct player *pplayer, int change,
 
   plrtile->seen_count[vlayer] += change;
   if (plrtile->seen_count[vlayer] != 0) {
-    BV_SET(ptile->tile_seen[vlayer], pplayer->player_no);
+    BV_SET(ptile->tile_seen[vlayer], player_index(pplayer));
   } else {
-    BV_CLR(ptile->tile_seen[vlayer], pplayer->player_no);
+    BV_CLR(ptile->tile_seen[vlayer], player_index(pplayer));
   }
   freelog(LOG_DEBUG, "%d,%d, p: %d, change %d, result %d\n", TILE_XY(ptile),
-	  pplayer->player_no, change, plrtile->seen_count[vlayer]);
+	  player_number(pplayer), change, plrtile->seen_count[vlayer]);
 }
 
 /***************************************************************
@@ -880,10 +880,10 @@ static void map_change_own_seen(struct tile *ptile, struct player *pplayer,
 ***************************************************************/
 void map_set_known(struct tile *ptile, struct player *pplayer)
 {
-  BV_SET(ptile->tile_known, pplayer->player_no);
+  BV_SET(ptile->tile_known, player_index(pplayer));
   vision_layer_iterate(v) {
     if (map_get_player_tile(ptile, pplayer)->seen_count[v] > 0) {
-      BV_SET(ptile->tile_seen[v], pplayer->player_no);
+      BV_SET(ptile->tile_seen[v], player_index(pplayer));
     }
   } vision_layer_iterate_end;
 }
@@ -893,7 +893,7 @@ void map_set_known(struct tile *ptile, struct player *pplayer)
 ***************************************************************/
 void map_clear_known(struct tile *ptile, struct player *pplayer)
 {
-  BV_CLR(ptile->tile_known, pplayer->player_no);
+  BV_CLR(ptile->tile_known, player_index(pplayer));
 }
 
 /****************************************************************************
@@ -932,6 +932,7 @@ void player_map_allocate(struct player *pplayer)
 {
   pplayer->private_map
     = fc_malloc(MAP_INDEX_SIZE * sizeof(*pplayer->private_map));
+
   whole_map_iterate(ptile) {
     player_tile_init(ptile, pplayer);
   } whole_map_iterate_end;
@@ -973,12 +974,13 @@ static void player_tile_init(struct tile *ptile, struct player *pplayer)
 
   vision_layer_iterate(v) {
     plrtile->seen_count[v] = 0;
-    BV_CLR(ptile->tile_seen[v], pplayer->player_no);
-  } vision_layer_iterate_end
+    BV_CLR(ptile->tile_seen[v], player_index(pplayer));
+  } vision_layer_iterate_end;
+
   if (!game.fogofwar_old) {
     plrtile->seen_count[V_MAIN] = 1;
     if (map_is_known(ptile, pplayer)) {
-      BV_SET(ptile->tile_seen[V_MAIN], pplayer->player_no);
+      BV_SET(ptile->tile_seen[V_MAIN], player_index(pplayer));
     }
   }
 
@@ -1191,7 +1193,7 @@ static void create_vision_dependencies(void)
 	    if (really_gives_vision(pplayer2, pplayer3)
 		&& !really_gives_vision(pplayer, pplayer3)
 		&& pplayer != pplayer3) {
-	      pplayer->really_gives_vision |= (1<<pplayer3->player_no);
+	      pplayer->really_gives_vision |= (1<<player_index(pplayer3));
 	      added++;
 	    }
 	  } players_iterate_end;
@@ -1211,26 +1213,29 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
   if (gives_shared_vision(pfrom, pto)) {
     freelog(LOG_ERROR, "Trying to give shared vision from %s to %s, "
 	    "but that vision is already given!",
-	    pfrom->name, pto->name);
+	    player_name(pfrom),
+	    player_name(pto));
     return;
   }
 
   players_iterate(pplayer) {
-    save_vision[pplayer->player_no] = pplayer->really_gives_vision;
+    save_vision[player_index(pplayer)] = pplayer->really_gives_vision;
   } players_iterate_end;
 
-  pfrom->gives_shared_vision |= 1<<pto->player_no;
+  pfrom->gives_shared_vision |= 1<<player_index(pto);
   create_vision_dependencies();
   freelog(LOG_DEBUG, "giving shared vision from %s to %s\n",
-	  pfrom->name, pto->name);
+	  player_name(pfrom),
+	  player_name(pto));
 
   players_iterate(pplayer) {
     buffer_shared_vision(pplayer);
     players_iterate(pplayer2) {
       if (really_gives_vision(pplayer, pplayer2)
-	  && !TEST_BIT(save_vision[pplayer->player_no], pplayer2->player_no)) {
+	  && !TEST_BIT(save_vision[player_index(pplayer)], player_index(pplayer2))) {
 	freelog(LOG_DEBUG, "really giving shared vision from %s to %s\n",
-	       pplayer->name, pplayer2->name);
+	       player_name(pplayer),
+	       player_name(pplayer2));
 	whole_map_iterate(ptile) {
 	  vision_layer_iterate(v) {
 	    int change = map_get_own_seen(ptile, pplayer, v);
@@ -1268,27 +1273,30 @@ void remove_shared_vision(struct player *pfrom, struct player *pto)
   if (!gives_shared_vision(pfrom, pto)) {
     freelog(LOG_ERROR, "Tried removing the shared vision from %s to %s, "
 	    "but it did not exist in the first place!",
-	    pfrom->name, pto->name);
+	    player_name(pfrom),
+	    player_name(pto));
     return;
   }
 
   players_iterate(pplayer) {
-    save_vision[pplayer->player_no] = pplayer->really_gives_vision;
+    save_vision[player_index(pplayer)] = pplayer->really_gives_vision;
   } players_iterate_end;
 
   freelog(LOG_DEBUG, "removing shared vision from %s to %s\n",
-	 pfrom->name, pto->name);
+	  player_name(pfrom),
+	  player_name(pto));
 
-  pfrom->gives_shared_vision &= ~(1<<pto->player_no);
+  pfrom->gives_shared_vision &= ~(1<<player_index(pto));
   create_vision_dependencies();
 
   players_iterate(pplayer) {
     buffer_shared_vision(pplayer);
     players_iterate(pplayer2) {
       if (!really_gives_vision(pplayer, pplayer2)
-	  && TEST_BIT(save_vision[pplayer->player_no], pplayer2->player_no)) {
+	  && TEST_BIT(save_vision[player_index(pplayer)], player_index(pplayer2))) {
 	freelog(LOG_DEBUG, "really removing shared vision from %s to %s\n",
-	       pplayer->name, pplayer2->name);
+	       player_name(pplayer),
+	       player_name(pplayer2));
 	whole_map_iterate(ptile) {
 	  vision_layer_iterate(v) {
 	    int change = map_get_own_seen(ptile, pplayer, v);
@@ -1525,7 +1533,7 @@ static void add_unique_homecities(struct city_list *cities_to_refresh,
 {
   /* Update happiness */
  unit_list_iterate(tile1->units, unit) {
-   struct city* homecity = find_city_by_id(unit->homecity);
+   struct city* homecity = game_find_city_by_number(unit->homecity);
    bool already_listed = FALSE;
 
     if (!homecity) {
@@ -1625,7 +1633,7 @@ void map_calculate_borders(void)
           freelog(LOG_DEBUG, "%s %s(%d,%d) acquired tile (%d,%d) from "
                   "(%d,%d)",
                   nation_rule_name(nation_of_player(tile_owner(ptile))),
-                  pcity->name,
+                  city_name(pcity),
                   TILE_XY(pcity->tile),
                   TILE_XY(ptile),
                   TILE_XY(ptile->owner_source));

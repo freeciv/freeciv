@@ -481,7 +481,7 @@ static LONG CALLBACK playersdlg_proc(HWND hWnd, UINT message, WPARAM wParam,
 	  }
 	}
 
-	sz_strlcpy(player_name, name);
+	sz_strlcpy(leader_name, name);
 
 	if (nmlv->hdr.code == NM_DBLCLK) {
 	  really_close_connection_dialog();

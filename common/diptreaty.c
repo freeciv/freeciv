@@ -52,8 +52,8 @@ bool could_meet_with_player(const struct player *pplayer,
           && diplomacy_possible(pplayer,aplayer)
           && (player_has_embassy(aplayer, pplayer) 
               || player_has_embassy(pplayer, aplayer)
-              || pplayer->diplstates[aplayer->player_no].contact_turns_left > 0
-              || aplayer->diplstates[pplayer->player_no].contact_turns_left > 0));
+              || pplayer->diplstates[player_index(aplayer)].contact_turns_left > 0
+              || aplayer->diplstates[player_index(pplayer)].contact_turns_left > 0));
 }
 
 /**************************************************************************
@@ -65,8 +65,8 @@ bool could_intel_with_player(const struct player *pplayer,
   return (pplayer->is_alive
           && aplayer->is_alive
           && pplayer != aplayer
-          && (pplayer->diplstates[aplayer->player_no].contact_turns_left > 0
-              || aplayer->diplstates[pplayer->player_no].contact_turns_left > 0
+          && (pplayer->diplstates[player_index(aplayer)].contact_turns_left > 0
+              || aplayer->diplstates[player_index(pplayer)].contact_turns_left > 0
               || player_has_embassy(pplayer, aplayer)));
 }
 
@@ -145,8 +145,9 @@ bool add_clause(struct Treaty *ptreaty, struct player *pfrom,
           || (ds == DS_CEASEFIRE && type == CLAUSE_CEASEFIRE))) {
     /* we already have this diplomatic state */
     freelog(LOG_ERROR, "Illegal treaty suggested between %s and %s - they "
-                       "already have this treaty level.", ptreaty->plr0->name, 
-                       ptreaty->plr1->name);
+                       "already have this treaty level.",
+                       nation_rule_name(nation_of_player(ptreaty->plr0)), 
+                       nation_rule_name(nation_of_player(ptreaty->plr1)));
     return FALSE;
   }
 

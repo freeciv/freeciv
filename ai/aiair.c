@@ -78,7 +78,7 @@ static bool ai_should_we_air_attack_tile(struct unit *punit,
   if (acity && !TEST_BIT(acity->ai.invasion, 0) && punit->id != 0) {
     /* No ground troups are invading */
     freelog(LOG_DEBUG, "Don't want to attack %s, although we could", 
-            acity->name);
+            city_name(acity));
     return FALSE;
   }
 
@@ -136,7 +136,7 @@ static int ai_evaluate_tile_for_air_attack(struct unit *punit,
     - SHIELD_WEIGHTING + 2 * TRADE_WEIGHTING;
   if (profit > 0) {
     profit = military_amortize(unit_owner(punit), 
-                               find_city_by_id(punit->homecity),
+                               game_find_city_by_number(punit->homecity),
                                profit, sortie_time, balanced_cost);
     freelog(LOG_DEBUG, 
 	    "%s at (%d, %d) is a worthy target with profit %d", 
@@ -353,10 +353,10 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
     } else if (ai_find_strategic_airbase(punit, &dst_tile)) {
       freelog(LOG_DEBUG, "%s will fly to (%i, %i) (%s) to fight there",
               unit_rule_name(punit),
-              dst_tile->x,
-              dst_tile->y,
-              (tile_get_city(dst_tile) ? 
-               tile_get_city(dst_tile)->name : ""));
+              TILE_XY(dst_tile),
+              tile_get_city(dst_tile)
+              ? city_name(tile_get_city(dst_tile))
+              : "");
       punit->goto_tile = dst_tile;
       punit->ai.done = TRUE; /* Wait for next turn */
       (void) ai_unit_goto(punit, punit->goto_tile);
@@ -368,7 +368,7 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
     }
   }
 
-  if ((punit = find_unit_by_id(id)) != NULL && punit->moves_left > 0
+  if ((punit = game_find_unit_by_number(id)) != NULL && punit->moves_left > 0
       && punit->moves_left != moves) {
     /* We have moved this turn, might have ended up stuck out in the fields
      * so, as a safety measure, let's manage again */
@@ -418,14 +418,15 @@ bool ai_choose_attacker_air(struct player *pplayer, struct city *pcity,
 	choice->want = profit;
 	choice->choice = punittype->index;
 	choice->type = CT_ATTACKER;
+	choice->need_boat = FALSE;
 	want_something = TRUE;
 	freelog(LOG_DEBUG, "%s wants to build %s (want=%d)",
-		pcity->name,
+		city_name(pcity),
 		utype_rule_name(punittype),
 		profit);
       } else {
       freelog(LOG_DEBUG, "%s doesn't want to build %s (want=%d)",
-		pcity->name,
+		city_name(pcity),
 		utype_rule_name(punittype),
 		profit);
       }

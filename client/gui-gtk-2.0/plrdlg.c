@@ -138,7 +138,7 @@ static void update_players_menu(void)
     gint plrno;
 
     gtk_tree_model_get(model, &it, ncolumns - 1, &plrno, -1);
-    plr = get_player(plrno);
+    plr = player_by_number(plrno);
   
     if (plr->spaceship.state != SSHIP_NONE) {
       gtk_widget_set_sensitive(players_sship_command, TRUE);
@@ -148,7 +148,7 @@ static void update_players_menu(void)
 
     if (game.player_ptr) {
       switch (pplayer_get_diplstate(game.player_ptr,
-				    get_player(plrno))->type) {
+				    player_by_number(plrno))->type) {
       case DS_WAR:
       case DS_NO_CONTACT:
 	gtk_widget_set_sensitive(players_war_command, FALSE);
@@ -202,7 +202,7 @@ static gboolean button_press_callback(GtkTreeView *view, GdkEventButton *ev)
 
       gtk_tree_model_get(GTK_TREE_MODEL(store), &it,
 	  ncolumns - 1, &id, -1);
-      plr = get_player(id);
+      plr = player_by_number(id);
 
       if (ev->button == 1) {
 	if (can_intel_with_player(plr)) {
@@ -313,6 +313,7 @@ static GtkWidget* create_show_menu(void)
   GtkWidget *menu = gtk_menu_new();
   GtkWidget *item;    
   
+  /* index starting at one (1) here to force playername to always be shown */
   for (i = 1; i < num_player_dlg_columns; i++) {
     struct player_dlg_column *pcol;
     
@@ -571,7 +572,7 @@ GdkPixbuf *get_flag(const struct nation_type *nation)
 **************************************************************************/
 static void build_row(GtkTreeIter *it, int i)
 {
-  struct player *plr = get_player(i);
+  struct player *plr = player_by_number(i);
   GdkPixbuf *pixbuf;
   gint style = PANGO_STYLE_NORMAL, weight = PANGO_WEIGHT_NORMAL;
   int k;
@@ -807,7 +808,8 @@ static void players_ai_toggle_callback(GtkMenuItem *item, gpointer data)
 
     gtk_tree_model_get(model, &it, ncolumns - 1, &plrno, -1);
 
-    my_snprintf(buf, sizeof(buf), "/aitoggle \"%s\"", get_player(plrno)->name);
+    my_snprintf(buf, sizeof(buf), "/aitoggle \"%s\"",
+                player_name(player_by_number(plrno)));
     send_chat(buf);
   }
 }
@@ -827,8 +829,8 @@ static void players_ai_skill_callback(GtkMenuItem *item, gpointer data)
     gtk_tree_model_get(model, &it, ncolumns - 1, &plrno, -1);
 
     my_snprintf(buf, sizeof(buf), "/%s %s",
-	skill_level_names[GPOINTER_TO_UINT(data)],
-	get_player(plrno)->name);
+                skill_level_names[GPOINTER_TO_UINT(data)],
+                player_name(player_by_number(plrno)));
     send_chat(buf);
   }
 }

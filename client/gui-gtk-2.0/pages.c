@@ -1010,7 +1010,8 @@ static void take_callback(GtkWidget *w, gpointer data)
        * the player username equals the connection username. */
       char buf[512];
 
-      my_snprintf(buf, sizeof(buf), "/aitoggle \"%s\"", aconnection.player->name);
+      my_snprintf(buf, sizeof(buf), "/aitoggle \"%s\"",
+                  player_name(aconnection.player));
       send_chat(buf);
     }
     send_chat("/detach");
@@ -1048,7 +1049,8 @@ static void conn_menu_team_chosen(GtkMenuItem *menuitem, gpointer data)
 
   if (pteam != conn_menu_player->team) {
     my_snprintf(buf, sizeof(buf), "/team \"%s\" \"%s\"",
-		conn_menu_player->name, team_get_name_orig(pteam));
+		player_name(conn_menu_player),
+		team_get_name_orig(pteam));
     send_chat(buf);
   }
 }
@@ -1061,7 +1063,7 @@ static void conn_menu_ready_chosen(GtkMenuItem *menuitem, gpointer data)
   struct player *pplayer = conn_menu_player;
 
   dsend_packet_player_ready(&aconnection,
-			    pplayer->player_no, !pplayer->is_ready);
+			    player_number(pplayer), !pplayer->is_ready);
 }
 
 /****************************************************************************
@@ -1083,10 +1085,9 @@ static void conn_menu_player_command(GtkMenuItem *menuitem, gpointer data)
 
   assert(command != NULL);
   assert(conn_menu_player != NULL);
-  assert(conn_menu_player->name != NULL);
 
   my_snprintf(buf, sizeof(buf), "/%s \"%s\"", command, 
-              conn_menu_player->name);
+              player_name(conn_menu_player));
   send_chat(buf);
 }
 
@@ -1099,10 +1100,12 @@ static void conn_menu_player_take(GtkMenuItem *menuitem, gpointer data)
 
   if (conn_menu_player->ai.control) {
     /* See comment on detach command for why */
-    my_snprintf(buf, sizeof(buf), "/aitoggle \"%s\"", conn_menu_player->name);
+    my_snprintf(buf, sizeof(buf), "/aitoggle \"%s\"",
+                player_name(conn_menu_player));
     send_chat(buf);
   }
-  my_snprintf(buf, sizeof(buf), "/take \"%s\"", conn_menu_player->name);
+  my_snprintf(buf, sizeof(buf), "/take \"%s\"",
+              player_name(conn_menu_player));
   send_chat(buf);
 }
 
@@ -1119,7 +1122,7 @@ static void show_conn_popup(struct player *pplayer, struct connection *pconn)
                  pconn->username);
   } else {
     cat_snprintf(buf, sizeof(buf), _("Player name: %s"),
-                 pplayer->name);
+                 player_name(pplayer));
   }
   cat_snprintf(buf, sizeof(buf), "\n");
   if (pconn) {
@@ -1158,7 +1161,7 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
   menu = gtk_menu_new();
 
   my_snprintf(buf, sizeof(buf), _("%s info"),
-	      pconn ? pconn->username : pplayer->name);
+	      pconn ? pconn->username : player_name(pplayer));
   entry = gtk_menu_item_new_with_label(buf);
   g_object_set_data_full(G_OBJECT(menu),
 			 "info", entry,
@@ -1227,7 +1230,7 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
     g_signal_connect(GTK_OBJECT(entry), "activate",
 		     GTK_SIGNAL_FUNC(conn_menu_player_command), "aitoggle");
 
-    if (pplayer->player_no != game.info.player_idx
+    if (player_number(pplayer) != game.info.player_idx
         && game.info.is_new_game) {
       entry = gtk_menu_item_new_with_label(_("Remove player"));
       g_object_set_data_full(G_OBJECT(menu), "remove", entry,
@@ -1355,7 +1358,7 @@ static gboolean playerlist_event(GtkWidget *widget, GdkEventButton *event,
   gtk_tree_model_get_iter(model, &iter, path);
   gtk_tree_path_free(path);
   gtk_tree_model_get(model, &iter, 0, &player_no, -1);
-  pplayer = get_player(player_no);
+  pplayer = player_by_number(player_no);
   gtk_tree_model_get(model, &iter, 8, &conn_id, -1);
   pconn = find_conn_by_id(conn_id);
 
@@ -1969,7 +1972,7 @@ static void nation_start_callback(void)
   }
 
   gtk_tree_model_get(GTK_TREE_MODEL(nation_store), &it, 0, &name, -1);
-  sz_strlcpy(player_name, name);
+  sz_strlcpy(leader_name, name);
 
   send_start_saved_game();
 }

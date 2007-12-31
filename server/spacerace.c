@@ -339,7 +339,7 @@ void handle_spaceship_place(struct player *pplayer,
     return;
   }
   freelog(LOG_ERROR, "Received unknown spaceship place type %d from %s",
-       type, pplayer->name);
+       type, player_name(pplayer));
 }
 
 /**************************************************************************

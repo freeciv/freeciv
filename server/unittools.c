@@ -827,14 +827,14 @@ static void update_unit_activity(struct unit *punit)
     }
   }
 
-  if (find_unit_by_id(id) && unit_has_orders(punit)) {
+  if (game_find_unit_by_number(id) && unit_has_orders(punit)) {
     if (!execute_orders(punit)) {
       /* Unit died. */
       return;
     }
   }
 
-  if (find_unit_by_id(id)) {
+  if (game_find_unit_by_number(id)) {
     send_unit_info(NULL, punit);
   }
 
@@ -1022,12 +1022,12 @@ bool teleport_unit_to_city(struct unit *punit, struct city *pcity,
 	    nation_rule_name(nation_of_unit(punit)),
 	    unit_rule_name(punit),
 	    TILE_XY(src_tile),
-	    pcity->name);
+	    city_name(pcity));
     if (verbose) {
       notify_player(unit_owner(punit), pcity->tile, E_UNIT_RELOCATED,
 		       _("Teleported your %s to %s."),
 		       unit_name_translation(punit),
-		       pcity->name);
+		       city_name(pcity));
     }
 
     /* Silently free orders since they won't be applicable anymore. */
@@ -1268,7 +1268,7 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
   assert(ptile != NULL);
   punit->tile = ptile;
 
-  pcity = find_city_by_id(homecity_id);
+  pcity = game_find_city_by_number(homecity_id);
   if (utype_has_flag(type, F_NOHOME)) {
     punit->homecity = 0; /* none */
   } else {
@@ -1334,7 +1334,7 @@ and the city it was in.
 static void server_remove_unit(struct unit *punit)
 {
   struct city *pcity = tile_get_city(punit->tile);
-  struct city *phomecity = find_city_by_id(punit->homecity);
+  struct city *phomecity = game_find_city_by_number(punit->homecity);
   struct tile *unit_tile = punit->tile;
 
 #ifndef NDEBUG
@@ -1380,7 +1380,7 @@ static void server_remove_unit(struct unit *punit)
     notify_conn(game.est_connections, punit->tile, E_UNIT_LOST,
                    _("Unable to defend %s, %s has lost the game."),
                    unit_name_translation(punit),
-                   unit_owner(punit)->name);
+                   player_name(unit_owner(punit)));
     notify_player(unit_owner(punit), punit->tile, E_GAME_END,
 		  _("Losing %s meant losing the game! "
                   "Be more careful next time!"),
@@ -1488,7 +1488,7 @@ void wipe_unit(struct unit *punit)
                               "fled to %s."),
                             unit_name_translation(pcargo),
                             utype_name_translation(putype_save),
-                            pcity->name);
+                            city_name(pcity));
 	    }
 	  }
 	  if (!unit_has_type_flag(pcargo, F_UNDISBANDABLE) || !pcity) {
@@ -1592,10 +1592,10 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
     unit_list_iterate(punit->tile->units, vunit) {
       struct player *vplayer = unit_owner(vunit);
       if (pplayers_at_war(pvictor, vplayer)) {
-	num_killed[vplayer->player_no]++;
+	num_killed[player_index(vplayer)]++;
 	if (vunit != punit) {
-	  other_killed[vplayer->player_no] = vunit;
-	  other_killed[pvictor->player_no] = vunit;
+	  other_killed[player_index(vplayer)] = vunit;
+	  other_killed[player_index(pvictor)] = vunit;
 	}
       }
     } unit_list_iterate_end;
@@ -1623,9 +1623,9 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
      * they all are. */
     for (i = 0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++) {
       if (num_killed[i] == 1) {
-	if (i == pvictim->player_no) {
+	if (i == player_index(pvictim)) {
 	  assert(other_killed[i] == NULL);
-	  notify_player(get_player(i), punit->tile, E_UNIT_LOST,
+	  notify_player(player_by_number(i), punit->tile, E_UNIT_LOST,
 			/* TRANS: "Cannon ... the Polish Destroyer." */
 			_("%s lost to an attack by the %s %s."),
 			unit_name_translation(punit),
@@ -1633,7 +1633,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 			unit_name_translation(pkiller));
 	} else {
 	  assert(other_killed[i] != punit);
-	  notify_player(get_player(i), punit->tile, E_UNIT_LOST,
+	  notify_player(player_by_number(i), punit->tile, E_UNIT_LOST,
 			/* TRANS: "Cannon lost when the Polish Destroyer
 			 * attacked the German Musketeers." */
 			_("%s lost when the %s %s attacked the %s %s."),
@@ -1644,11 +1644,11 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 			unit_name_translation(punit));
 	}
       } else if (num_killed[i] > 1) {
-	if (i == pvictim->player_no) {
+	if (i == player_index(pvictim)) {
 	  int others = num_killed[i] - 1;
 
 	  if (others == 1) {
-	    notify_player(get_player(i), punit->tile, E_UNIT_LOST,
+	    notify_player(player_by_number(i), punit->tile, E_UNIT_LOST,
 			  /* TRANS: "Musketeers (and Cannon) lost to an
 			   * attack from the Polish Destroyer." */
 			  _("%s (and %s) lost to an attack from the %s %s."),
@@ -1657,7 +1657,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 			  nation_adjective_for_player(pvictor),
 			  unit_name_translation(pkiller));
 	  } else {
-	    notify_player(get_player(i), punit->tile, E_UNIT_LOST,
+	    notify_player(player_by_number(i), punit->tile, E_UNIT_LOST,
 			  /* TRANS: "Musketeers and 3 other units lost to
 			   * an attack from the Polish Destroyer."
 			   * (only happens with at least 2 other units) */
@@ -1671,7 +1671,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 			  unit_name_translation(pkiller));
 	  }
 	} else {
-	  notify_player(get_player(i), punit->tile, E_UNIT_LOST,
+	  notify_player(player_by_number(i), punit->tile, E_UNIT_LOST,
 			/* TRANS: "2 units lost when the Polish Destroyer
 			 * attacked the German Musketeers."
 			 * (only happens with at least 2 other units) */
@@ -1956,7 +1956,7 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
   if (pcity) {
     notify_player(city_owner(pcity), ptile, E_CITY_NUKED,
 		  _("%s was nuked by %s."),
-		  pcity->name,
+		  city_name(pcity),
 		  pplayer == city_owner(pcity)
 		  ? _("yourself")
 		  : nation_plural_for_player(pplayer));
@@ -1964,7 +1964,7 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
     if (city_owner(pcity) != pplayer) {
       notify_player(pplayer, ptile, E_CITY_NUKED,
 		    _("You nuked %s."),
-		    pcity->name);
+		    city_name(pcity));
     }
 
     city_reduce_size(pcity, pcity->size / 2);
@@ -2345,7 +2345,7 @@ void load_unit_onto_transporter(struct unit *punit, struct unit *ptrans)
 ****************************************************************************/
 void unload_unit_from_transporter(struct unit *punit)
 {
-  struct unit *ptrans = find_unit_by_id(punit->transported_by);
+  struct unit *ptrans = game_find_unit_by_number(punit->transported_by);
 
   pull_unit_from_transporter(punit, ptrans);
   send_unit_info(NULL, punit);
@@ -2452,10 +2452,10 @@ static bool unit_survive_autoattack(struct unit *punit)
     }
 #endif
 
-    if (find_unit_by_id(sanity2)) {
+    if (game_find_unit_by_number(sanity2)) {
       send_unit_info(NULL, penemy);
     }
-    if (find_unit_by_id(sanity1)) {
+    if (game_find_unit_by_number(sanity1)) {
       send_unit_info(NULL, punit);
     } else {
       unit_list_unlink_all(autoattack);
@@ -2466,7 +2466,7 @@ static bool unit_survive_autoattack(struct unit *punit)
 
   unit_list_unlink_all(autoattack);
   unit_list_free(autoattack);
-  if (find_unit_by_id(sanity1)) {
+  if (game_find_unit_by_number(sanity1)) {
     /* We could have lost movement in combat */
     punit->moves_left = MIN(punit->moves_left, moves);
     send_unit_info(NULL, punit);
@@ -2553,7 +2553,7 @@ static void handle_unit_move_consequences(struct unit *punit,
   bool refresh_homecity = FALSE;
   
   if (punit->homecity != 0)
-    homecity = find_city_by_id(punit->homecity);
+    homecity = game_find_city_by_number(punit->homecity);
 
   if (tocity)
     handle_unit_enter_city(punit, tocity);
@@ -2737,7 +2737,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
   punit->tile = pdesttile;
   punit->moved = TRUE;
   if (punit->transported_by != -1) {
-    ptransporter = find_unit_by_id(punit->transported_by);
+    ptransporter = game_find_unit_by_number(punit->transported_by);
     pull_unit_from_transporter(punit, ptransporter);
   }
   punit->moves_left = MAX(0, punit->moves_left - move_cost);

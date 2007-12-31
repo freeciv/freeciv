@@ -162,7 +162,7 @@ static void historian_generic(enum historian_type which_news)
   int i, j = 0, rank = 0;
   char buffer[4096];
   char title[1024];
-  struct player_score_entry size[game.info.nplayers];
+  struct player_score_entry size[player_count()];
 
   players_iterate(pplayer) {
     if (GOOD_PLAYER(pplayer)) {
@@ -269,7 +269,8 @@ void report_top_five_cities(struct conn_list *dest)
     cat_snprintf(buffer, sizeof(buffer),
 		 _("%2d: The %s City of %s of size %d, "), i + 1,
 		 nation_adjective_for_player(city_owner(size[i].city)),
-		 size[i].city->name, size[i].city->size);
+		 city_name(size[i].city),
+		 size[i].city->size);
 
     wonders = nr_wonders(size[i].city);
     if (wonders == 0) {
@@ -299,7 +300,8 @@ void report_wonders_of_the_world(struct conn_list *dest)
 
       if (pcity) {
 	cat_snprintf(buffer, sizeof(buffer), _("%s in %s (%s)\n"),
-		     get_impr_name_ex(pcity, i), pcity->name,
+		     get_impr_name_ex(pcity, i),
+		     city_name(pcity),
 		     nation_adjective_for_player(city_owner(pcity)));
       } else if (great_wonder_was_built(i)) {
 	cat_snprintf(buffer, sizeof(buffer), _("%s has been DESTROYED\n"),
@@ -316,7 +318,7 @@ void report_wonders_of_the_world(struct conn_list *dest)
 	    cat_snprintf(buffer, sizeof(buffer),
 			 _("(building %s in %s (%s))\n"),
 			 improvement_name_translation(i),
-			 pcity->name,
+			 city_name(pcity),
 			 nation_adjective_for_player(pplayer));
 	  }
 	} city_list_iterate_end;
@@ -995,7 +997,7 @@ static void log_civ_score(void)
   }
 
   for (i = 0; i < ARRAY_SIZE(player_names); i++) {
-    if (strlen(player_names[i]) > 0 && !GOOD_PLAYER(get_player(i))) {
+    if (strlen(player_names[i]) > 0 && !GOOD_PLAYER(player_by_number(i))) {
       fprintf(fp, "delplayer %d %d\n", game.info.turn - 1, i);
       player_names[i][0] = '\0';
     }
@@ -1003,21 +1005,23 @@ static void log_civ_score(void)
 
   players_iterate(pplayer) {
     if (GOOD_PLAYER(pplayer)
-	&& strlen(player_names[pplayer->player_no]) == 0) {
-      fprintf(fp, "addplayer %d %d %s\n", game.info.turn, pplayer->player_no,
-	      pplayer->name);
-      mystrlcpy(player_name_ptrs[pplayer->player_no], pplayer->name,
+	&& strlen(player_names[player_index(pplayer)]) == 0) {
+      fprintf(fp, "addplayer %d %d %s\n", game.info.turn,
+	      player_number(pplayer),
+	      player_name(pplayer));
+      mystrlcpy(player_name_ptrs[player_index(pplayer)], player_name(pplayer),
 		MAX_LEN_NAME);
     }
   } players_iterate_end;
 
   players_iterate(pplayer) {
     if (GOOD_PLAYER(pplayer)
-	&& strcmp(player_names[pplayer->player_no], pplayer->name) != 0) {
-      fprintf(fp, "delplayer %d %d\n", game.info.turn - 1, pplayer->player_no);
-      fprintf(fp, "addplayer %d %d %s\n", game.info.turn, pplayer->player_no,
-	      pplayer->name);
-      mystrlcpy(player_names[pplayer->player_no], pplayer->name,
+	&& strcmp(player_names[player_index(pplayer)], player_name(pplayer)) != 0) {
+      fprintf(fp, "delplayer %d %d\n", game.info.turn - 1, player_number(pplayer));
+      fprintf(fp, "addplayer %d %d %s\n", game.info.turn,
+	      player_number(pplayer),
+	      player_name(pplayer));
+      mystrlcpy(player_names[player_index(pplayer)], player_name(pplayer),
 		MAX_LEN_NAME);
     }
   } players_iterate_end;
@@ -1028,8 +1032,8 @@ static void log_civ_score(void)
 	continue;
       }
 
-      fprintf(fp, "data %d %d %d %d\n", game.info.turn, i, pplayer->player_no,
-	      score_tags[i].get_value(pplayer));
+      fprintf(fp, "data %d %d %d %d\n", game.info.turn, i,
+	      player_number(pplayer), score_tags[i].get_value(pplayer));
     } players_iterate_end;
   }
 
@@ -1056,7 +1060,7 @@ void make_history_report(void)
     log_civ_score();
   }
 
-  if (game.info.nplayers == 1) {
+  if (player_count() == 1) {
     return;
   }
 
@@ -1076,7 +1080,7 @@ void make_history_report(void)
 void report_final_scores(void)
 {
   int i, j = 0;
-  struct player_score_entry size[game.info.nplayers];
+  struct player_score_entry size[player_count()];
   struct packet_endgame_report packet;
 
   players_iterate(pplayer) {
@@ -1091,7 +1095,7 @@ void report_final_scores(void)
 
   packet.nscores = j;
   for (i = 0; i < j; i++) {
-    packet.id[i] = size[i].player->player_no;
+    packet.id[i] = player_number(size[i].player);
     packet.score[i] = size[i].value;
     packet.pop[i] = get_pop(size[i].player) * 1000; 
     packet.bnp[i] = get_economics(size[i].player); 

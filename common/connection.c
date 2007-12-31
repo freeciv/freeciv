@@ -522,7 +522,7 @@ const char *conn_description(const struct connection *pconn)
   }
   if (pconn->player) {
     cat_snprintf(buffer, sizeof(buffer), _(" (player %s)"),
-		 pconn->player->name);
+		 player_name(pconn->player));
   }
   if (pconn->observer) {
     sz_strlcat(buffer, _(" (observer)"));

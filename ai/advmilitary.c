@@ -356,7 +356,7 @@ static int assess_distance(struct city *pcity, struct unit *punit,
                            int move_rate)
 {
   int distance = 0;
-  struct unit *ferry = find_unit_by_id(punit->transported_by);
+  struct unit *ferry = game_find_unit_by_number(punit->transported_by);
 
   if (same_pos(punit->tile, pcity->tile)) {
     return 0;
@@ -569,7 +569,7 @@ static unsigned int assess_danger(struct city *pcity)
     if (danger[i] < 0 || danger[i] > 1<<24) {
       /* I hope never to see this! */
       freelog(LOG_ERROR, "Dangerous danger[%d] (%d) in %s.  Beware of "
-              "overflow.", i, danger[i], pcity->name);
+              "overflow.", i, danger[i], city_name(pcity));
       danger[i] = danger[i]>>2; /* reduce danger of overflow */
     }
   }
@@ -686,8 +686,8 @@ static bool process_defender_want(struct player *pplayer, struct city *pcity,
   memset(tech_desire, 0, sizeof(tech_desire));
   
   simple_ai_unit_type_iterate(punittype) {
-    int move_type = punittype->move_type;
     int desire; /* How much we want the unit? */
+    int move_type = punittype->move_type;
 
     /* Only consider proper defenders - otherwise waste CPU and
      * bump tech want needlessly. */
@@ -786,10 +786,11 @@ static bool process_defender_want(struct player *pplayer, struct city *pcity,
       int desire = tech_desire[punittype->index] * best_unit_cost / best;
 
       pplayer->ai.tech_want[tech_req] += desire;
-      TECH_LOG(LOG_DEBUG, pplayer, tech_req, "+ %d for %s to defend %s",
+      TECH_LOG(LOG_DEBUG, pplayer, tech_req,
+               "+ %d for %s to defend %s",
                desire,
                utype_rule_name(punittype),
-               pcity->name);
+               city_name(pcity));
     }
   } simple_ai_unit_type_iterate_end;
 
@@ -866,11 +867,16 @@ static void process_attacker_want(struct city *pcity,
     if ((move_type == LAND_MOVING || (move_type == SEA_MOVING && shore))
         && tech_req != A_LAST
         && (tech_dist > 0 
-            || punittype->obsoleted_by == U_NOT_OBSOLETED
+            || U_NOT_OBSOLETED == punittype->obsoleted_by
             || !can_build_unit_direct(pcity, 
                                       punittype->obsoleted_by))
         && punittype->attack_strength > 0 /* or we'll get SIGFPE */
         && move_type == orig_move_type) {
+      /* Values to be computed */
+      int desire, want;
+      int move_time;
+      int vuln;
+
       /* TODO: check for the right _type_ of building. */
       int will_be_veteran
 	= (ai_find_source_building(pplayer, EFT_VETERAN_BUILD) != B_LAST);
@@ -881,16 +887,12 @@ static void process_attacker_want(struct city *pcity,
                         punittype->tech_requirement) / 4
                       / city_list_size(pplayer->cities);
       int move_rate = punittype->move_rate;
-      int move_time;
       int bcost_balanced = build_cost_balanced(punittype);
       /* See description of kill_desire() for info about this variables. */
       int bcost = unit_build_shield_cost(punittype);
-      int vuln;
       int attack = unittype_att_rating(punittype, will_be_veteran,
                                        SINGLE_MOVE,
                                        punittype->hp);
-      /* Values to be computed */
-      int desire, want;
       
       /* Take into account reinforcements strength */
       if (acity) attack += acity->ai.attack;
@@ -971,10 +973,11 @@ static void process_attacker_want(struct city *pcity,
         if (tech_dist > 0) {
           /* This is a future unit, tell the scientist how much we need it */
           pplayer->ai.tech_want[tech_req] += want;
-          TECH_LOG(LOG_DEBUG, pplayer, tech_req, "+ %d for %s vs %s(%d,%d)",
+          TECH_LOG(LOG_DEBUG, pplayer, tech_req,
+                   "+ %d for %s vs %s(%d,%d)",
                    want,
                    utype_rule_name(punittype),
-                   (acity ? acity->name : utype_rule_name(victim_unit_type)),
+                   (acity ? city_name(acity) : utype_rule_name(victim_unit_type)),
                    TILE_XY(ptile));
         } else if (want > best_choice->want) {
           if (can_build_unit(pcity, punittype)) {
@@ -1100,7 +1103,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
 
     if (is_ground_unit(myunit)) {
       int boatid = aiferry_find_boat(myunit, 1, NULL);
-      ferryboat = find_unit_by_id(boatid);
+      ferryboat = game_find_unit_by_number(boatid);
 
       if (ferryboat) {
         boattype = unit_type(ferryboat);
@@ -1189,7 +1192,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
     /* We want attacker more than what we have selected before */
     copy_if_better_choice(&best_choice, choice);
     CITY_LOG(LOG_DEBUG, pcity, "ksw: %s has chosen attacker, %s, want=%d",
-	     pcity->name,
+	     city_name(pcity),
 	     utype_rule_name(utype_by_number(choice->choice)),
 	     choice->want);
 
@@ -1204,7 +1207,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
 
         freelog(LOG_DEBUG,
                 "%s has chosen attacker ferry, %s, want=%d, %d of %d free",
-                pcity->name,
+                city_name(pcity),
                 utype_rule_name(utype_by_number(choice->choice)),
 		choice->want,
                 ai->stats.available_boats, ai->stats.boats);

@@ -218,7 +218,7 @@ void update_start_page(void)
 	leader = "";
       } else {
 	nation = nation_adjective_for_player(pplayer);
-	leader = pplayer->name;
+	leader = player_name(pplayer);
       }
 
       my_snprintf(namelist_text[j], sizeof(namelist_text[j]),

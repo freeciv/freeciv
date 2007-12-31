@@ -187,7 +187,7 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
   pdialog=fc_malloc(sizeof(struct spaceship_dialog));
   pdialog->pplayer=pplayer;
 
-  pdialog->shell=XtVaCreatePopupShell(pplayer->name,
+  pdialog->shell=XtVaCreatePopupShell(player_name(pplayer),
 				      topLevelShellWidgetClass,
 				      toplevel, 
 				      XtNallowShellResize, True, 
@@ -204,7 +204,7 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
 			    pdialog->main_form,
 			    NULL);
 
-  XtVaSetValues(pdialog->player_label, XtNlabel, (XtArgVal)pplayer->name, NULL);
+  XtVaSetValues(pdialog->player_label, XtNlabel, (XtArgVal)player_name(pplayer), NULL);
 
   get_spaceship_dimensions(&ss_w, &ss_h);
   pdialog->image_canvas=

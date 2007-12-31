@@ -192,7 +192,7 @@ static bool manual_command(void)
         const struct command *cmd = &commands[i];
 
         fprintf(doc, SEPARATOR);
-        fprintf(doc, _("%s%s  -  %s%s\n\n"), SECTION_BEGIN, cmd->name,
+        fprintf(doc, "%s%s  -  %s%s\n\n", SECTION_BEGIN, cmd->name,
                 _(cmd->short_help), SECTION_END);
         if (cmd->synopsis) {
           fprintf(doc, _("<table>\n<tr>\n<td valign=\"top\">"

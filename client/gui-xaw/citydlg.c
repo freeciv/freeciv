@@ -509,7 +509,7 @@ struct city_dialog *create_city_dialog(struct city *pcity)
   pdialog->worklist_shell = NULL;
 
   pdialog->shell=
-    XtVaCreatePopupShell(pcity->name,
+    XtVaCreatePopupShell(city_name(pcity),
 /*			 make_modal ? transientShellWidgetClass :*/
 			 topLevelShellWidgetClass,
 			 toplevel, 
@@ -1378,7 +1378,7 @@ void rename_callback(Widget w, XtPointer client_data, XtPointer call_data)
   input_dialog_create(pdialog->shell, 
 		      "shellrenamecity", 
 		      _("What should we rename the city to?"),
-		      pdialog->pcity->name,
+		      city_name(pdialog->pcity),
 		      rename_city_callback, (XtPointer)pdialog,
 		      rename_city_callback, (XtPointer)0);
 }
@@ -1407,7 +1407,7 @@ void trade_callback(Widget w, XtPointer client_data, XtPointer call_data)
 
   my_snprintf(buf, sizeof(buf),
 	      _("These trade routes have been established with %s:\n"),
-	      pdialog->pcity->name);
+	      city_name(pdialog->pcity));
   bptr = end_of_strn(bptr, &nleft);
   
   for (i = 0; i < NUM_TRADEROUTES; i++)
@@ -1415,9 +1415,9 @@ void trade_callback(Widget w, XtPointer client_data, XtPointer call_data)
       struct city *pcity;
       x=1;
       total+=pdialog->pcity->trade_value[i];
-      if((pcity=find_city_by_id(pdialog->pcity->trade[i]))) {
+      if((pcity=game_find_city_by_number(pdialog->pcity->trade[i]))) {
 	my_snprintf(bptr, nleft, _("%32s: %2d Trade/Year\n"),
-		    pcity->name, pdialog->pcity->trade_value[i]);
+		    city_name(pcity), pdialog->pcity->trade_value[i]);
 	bptr = end_of_strn(bptr, &nleft);
       } else {	
 	my_snprintf(bptr, nleft, _("%32s: %2d Trade/Year\n"), _("Unknown"),
@@ -1576,7 +1576,7 @@ static void support_units_callback(Widget w, XtPointer client_data,
   Widget wd;
 
   if((punit=player_find_unit_by_id(game.player_ptr, (size_t)client_data)))
-    if((pcity=find_city_by_id(punit->homecity)))
+    if((pcity=game_find_city_by_number(punit->homecity)))
       if((pdialog=get_city_dialog(pcity)))  {
 	if(e->type==ButtonRelease && e->xbutton.button==Button2)  {
 	  set_unit_focus(punit);
@@ -1765,7 +1765,7 @@ void city_dialog_update_title(struct city_dialog *pdialog)
   String now;
   
   my_snprintf(buf, sizeof(buf), _("%s - %s citizens  Governor: %s"),
-	      pdialog->pcity->name,
+	      city_name(pdialog->pcity),
 	      population_to_text(city_population(pdialog->pcity)),
                    cmafec_get_short_descr_of_city(pdialog->pcity));
 
@@ -1773,7 +1773,7 @@ void city_dialog_update_title(struct city_dialog *pdialog)
   if(strcmp(now, buf) != 0) {
     XtVaSetValues(pdialog->cityname_label, XtNlabel, (XtArgVal)buf, NULL);
     xaw_horiz_center(pdialog->cityname_label);
-    XtVaSetValues(pdialog->shell, XtNtitle, (XtArgVal)pdialog->pcity->name, NULL);
+    XtVaSetValues(pdialog->shell, XtNtitle, (XtArgVal)city_name(pdialog->pcity), NULL);
   }
 }
 
@@ -2251,7 +2251,6 @@ void cancel_city_worklist(void *data) {
   pdialog->worklist_shell = NULL;
 }
 
-
 /****************************************************************
 ...
 *****************************************************************/
@@ -2391,7 +2390,7 @@ triggle = tri_toggle (three way toggle button)
 								  
 #define NUM_CITYOPT_TOGGLES 5
 
-Widget create_cityopt_dialog(char *city_name);
+Widget create_cityopt_dialog(const char *cityname);
 void cityopt_ok_command_callback(Widget w, XtPointer client_data, 
 				XtPointer call_data);
 void cityopt_cancel_command_callback(Widget w, XtPointer client_data, 
@@ -2420,7 +2419,7 @@ void cityopt_callback(Widget w, XtPointer client_data,
   if(cityopt_shell) {
     XtDestroyWidget(cityopt_shell);
   }
-  cityopt_shell=create_cityopt_dialog(pcity->name);
+  cityopt_shell=create_cityopt_dialog(city_name(pcity));
   /* Doing this here makes the "No"'s centered consistently */
   for(i=0; i<NUM_CITYOPT_TOGGLES; i++) {
     bool state = is_city_option_set(pcity, i);
@@ -2448,7 +2447,7 @@ void cityopt_callback(Widget w, XtPointer client_data,
 /**************************************************************************
 ...
 **************************************************************************/
-Widget create_cityopt_dialog(char *city_name)
+Widget create_cityopt_dialog(const char *cityname)
 {
   Widget shell, form, label, ok, cancel;
   int i;
@@ -2460,7 +2459,7 @@ Widget create_cityopt_dialog(char *city_name)
 				 formWidgetClass, 
 				 shell, NULL);
   label = XtVaCreateManagedWidget("cityoptlabel", labelWidgetClass,
-				  form, XtNlabel, city_name, NULL);
+				  form, XtNlabel, cityname, NULL);
 
 
   I_L(XtVaCreateManagedWidget("cityoptnewcitlabel", labelWidgetClass, 
@@ -2552,7 +2551,7 @@ void cityopt_cancel_command_callback(Widget w, XtPointer client_data,
 void cityopt_ok_command_callback(Widget w, XtPointer client_data, 
 				XtPointer call_data)
 {
-  struct city *pcity = find_city_by_id(cityopt_city_id);
+  struct city *pcity = game_find_city_by_number(cityopt_city_id);
 
   if (pcity) {
 /*    int i; */

@@ -284,7 +284,8 @@ bool check_for_game_over(void)
 
     if (!loner) {
       notify_conn(NULL, NULL, E_GAME_END,
-                  _("Team victory to %s"), team_get_name_orig(victor->team));
+                  _("Team victory to %s"),
+                  team_get_name_orig(victor->team));
       players_iterate(pplayer) {
 	if (pplayer->team == victor->team) {
 	  ggz_report_victor(pplayer);
@@ -293,7 +294,8 @@ bool check_for_game_over(void)
       ggz_report_victory();
     } else {
       notify_conn(NULL, NULL, E_GAME_END,
-                  _("Game ended in victory for %s"), victor->name);
+                  _("Game ended in victory for %s"),
+                  player_name(victor));
       ggz_report_victor(victor);
       ggz_report_victory();
     }
@@ -317,7 +319,8 @@ bool check_for_game_over(void)
     } players_iterate_end;
     if (win) {
       notify_conn(game.est_connections, NULL, E_GAME_END,
-		     _("Team victory to %s"), team_get_name_orig(pteam));
+		  _("Team victory to %s"),
+		  team_get_name_orig(pteam));
       players_iterate(pplayer) {
 	if (pplayer->is_alive
 	    && !pplayer->surrendered) {
@@ -332,7 +335,8 @@ bool check_for_game_over(void)
   /* quit if only one player is left alive */
   if (alive == 1) {
     notify_conn(game.est_connections, NULL, E_GAME_END,
-		   _("Game ended in victory for %s"), victor->name);
+		_("Game ended in victory for %s"),
+		player_name(victor));
     ggz_report_victor(victor);
     ggz_report_victory();
     return TRUE;
@@ -483,8 +487,8 @@ static void update_diplomatics(void)
 {
   players_iterate(plr1) {
     players_iterate(plr2) {
-      struct player_diplstate *state = &plr1->diplstates[plr2->player_no];
-      struct player_diplstate *state2 = &plr2->diplstates[plr1->player_no];
+      struct player_diplstate *state = &plr1->diplstates[player_index(plr2)];
+      struct player_diplstate *state2 = &plr2->diplstates[player_index(plr1)];
 
       state->has_reason_to_cancel = MAX(state->has_reason_to_cancel - 1, 0);
       state->contact_turns_left = MAX(state->contact_turns_left - 1, 0);
@@ -506,19 +510,21 @@ static void update_diplomatics(void)
         case 1:
           notify_player(plr1, NULL, E_DIPLOMACY,
                         _("Concerned citizens point out that the cease-fire "
-                          "with %s will run out soon."), plr2->name);
+                          "with %s will run out soon."),
+                        player_name(plr2));
           notify_player(plr2, NULL, E_DIPLOMACY,
                         _("Concerned citizens point out that the cease-fire "
-                          "with %s will run out soon."), plr1->name);
+                          "with %s will run out soon."),
+                        player_name(plr1));
           break;
         case 0:
           notify_player(plr1, NULL, E_DIPLOMACY, _("The cease-fire with "
                         "%s has run out. You are now at war with the %s."),
-                        plr2->name,
+                        player_name(plr2),
                         nation_plural_for_player(plr2));
           notify_player(plr2, NULL, E_DIPLOMACY, _("The cease-fire with "
                         "%s has run out. You are now at war with the %s."),
-                        plr1->name,
+                        player_name(plr1),
                         nation_plural_for_player(plr1));
           state->type = DS_WAR;
           state2->type = DS_WAR;
@@ -535,11 +541,13 @@ static void update_diplomatics(void)
               notify_player(plr3, NULL, E_TREATY_BROKEN,
                             _("Ceasefire between %s and %s has run out. "
                               "They are at war. You cancel your alliance "
-                              "with both."), plr1->name, plr2->name);
-              plr3->diplstates[plr1->player_no].has_reason_to_cancel = TRUE;
-              plr3->diplstates[plr2->player_no].has_reason_to_cancel = TRUE;
-              handle_diplomacy_cancel_pact(plr3, plr1->player_no, CLAUSE_ALLIANCE);
-              handle_diplomacy_cancel_pact(plr3, plr2->player_no, CLAUSE_ALLIANCE);
+                              "with both."),
+                            player_name(plr1),
+                            player_name(plr2));
+              plr3->diplstates[player_index(plr1)].has_reason_to_cancel = TRUE;
+              plr3->diplstates[player_index(plr2)].has_reason_to_cancel = TRUE;
+              handle_diplomacy_cancel_pact(plr3, player_number(plr1), CLAUSE_ALLIANCE);
+              handle_diplomacy_cancel_pact(plr3, player_number(plr2), CLAUSE_ALLIANCE);
             }
           } players_iterate_end;
           break;
@@ -659,7 +667,8 @@ static void begin_phase(bool is_new_phase)
 
   phase_players_iterate(pplayer) {
     freelog(LOG_DEBUG, "beginning player turn for #%d (%s)",
-	    pplayer->player_no, pplayer->name);
+	    player_number(pplayer),
+	    player_name(pplayer));
     /* human players also need this for building advice */
     ai_data_phase_init(pplayer, is_new_phase);
     if (!pplayer->ai.control) {
@@ -1289,7 +1298,7 @@ static bool is_allowed_player_name(struct player *pplayer,
        * times (for server commands etc), including during nation
        * allocation phase.
        */
-      if (mystrcasecmp(other_player->name, name) == 0) {
+      if (mystrcasecmp(player_name(other_player), name) == 0) {
 	if (error_buf) {
 	  my_snprintf(error_buf, bufsz,
 		      _("Another player already has the name '%s'.  Please "
@@ -1389,7 +1398,7 @@ void handle_nation_select_req(struct player *requestor,
 			      char *name, int city_style)
 {
   struct nation_type *new_nation;
-  struct player *pplayer = get_player(player_no);
+  struct player *pplayer = player_by_number(player_no);
 
   if (NULL == pplayer || S_S_INITIAL != server_state()) {
     return;
@@ -1439,7 +1448,7 @@ void handle_nation_select_req(struct player *requestor,
 		_("%s is the %s ruler %s."),
 		pplayer->username,
 		nation_adjective_translation(new_nation),
-		pplayer->name);
+		player_name(pplayer));
 
     pplayer->is_male = is_male;
     pplayer->city_style = city_style;
@@ -1456,7 +1465,7 @@ void handle_player_ready(struct player *requestor,
 			 int player_no,
 			 bool is_ready)
 {
-  struct player *pplayer = get_player(player_no);
+  struct player *pplayer = player_by_number(player_no);
   bool old_ready;
 
   if (NULL == pplayer || S_S_INITIAL != server_state()) {
@@ -1523,16 +1532,16 @@ void aifill(int amount)
 
   while (game.info.nplayers < amount) {
     const int old_nplayers = game.info.nplayers;
-    struct player *pplayer = get_player(old_nplayers);
-    char player_name[ARRAY_SIZE(pplayer->name)];
+    struct player *pplayer = player_by_number(old_nplayers);
+    char leader_name[ARRAY_SIZE(pplayer->name)];
 
     server_player_init(pplayer, FALSE, TRUE);
     player_set_nation(pplayer, NULL);
     do {
-      my_snprintf(player_name, sizeof(player_name),
+      my_snprintf(leader_name, sizeof(leader_name),
 		  "AI%d", ++filled);
-    } while (find_player_by_name(player_name));
-    sz_strlcpy(pplayer->name, player_name);
+    } while (find_player_by_name(leader_name));
+    sz_strlcpy(pplayer->name, leader_name);
     sz_strlcpy(pplayer->username, ANON_USER_NAME);
     pplayer->ai.skill_level = game.info.skill_level;
     pplayer->ai.control = TRUE;
@@ -1540,11 +1549,11 @@ void aifill(int amount)
 
     freelog(LOG_NORMAL,
 	    _("%s has been added as %s level AI-controlled player."),
-            pplayer->name,
+            player_name(pplayer),
 	    name_of_skill_level(pplayer->ai.skill_level));
     notify_conn(NULL, NULL, E_SETTING,
 		_("%s has been added as %s level AI-controlled player."),
-		pplayer->name,
+		player_name(pplayer),
 		name_of_skill_level(pplayer->ai.skill_level));
 
     game.info.nplayers++;
@@ -1555,7 +1564,7 @@ void aifill(int amount)
 
   remove = game.info.nplayers - 1;
   while (game.info.nplayers > amount && remove >= 0) {
-    struct player *pplayer = get_player(remove);
+    struct player *pplayer = player_by_number(remove);
 
     if (!pplayer->is_connected && !pplayer->was_created) {
       server_remove_player(pplayer);
@@ -1579,7 +1588,7 @@ void aifill(int amount)
 **************************************************************************/
 static void generate_players(void)
 {
-  char player_name[MAX_LEN_NAME];
+  char leader_name[MAX_LEN_NAME];
 
   /* Select nations for AI players generated with server
    * 'create <name>' command
@@ -1592,13 +1601,14 @@ static void generate_players(void)
 
     /* See if the player name matches a known leader name. */
     nations_iterate(pnation) {
+      const char *name = player_name(pplayer);
       if (is_nation_playable(pnation)
 	  && pnation->is_available
 	  && !pnation->player
-	  && check_nation_leader_name(pnation, pplayer->name)) {
+	  && check_nation_leader_name(pnation, name)) {
 	player_set_nation(pplayer, pnation);
 	pplayer->city_style = city_style_of_nation(pnation);
-	pplayer->is_male = get_nation_leader_sex(pnation, pplayer->name);
+	pplayer->is_male = get_nation_leader_sex(pnation, name);
 	break;
       }
     } nations_iterate_end;
@@ -1612,11 +1622,11 @@ static void generate_players(void)
 
     pplayer->city_style = city_style_of_nation(nation_of_player(pplayer));
 
-    pick_random_player_name(nation_of_player(pplayer), player_name);
-    sz_strlcpy(pplayer->name, player_name);
+    pick_random_player_name(nation_of_player(pplayer), leader_name);
+    sz_strlcpy(pplayer->name, leader_name);
 
-    if (check_nation_leader_name(nation_of_player(pplayer), player_name)) {
-      pplayer->is_male = get_nation_leader_sex(nation_of_player(pplayer), player_name);
+    if (check_nation_leader_name(nation_of_player(pplayer), leader_name)) {
+      pplayer->is_male = get_nation_leader_sex(nation_of_player(pplayer), leader_name);
     } else {
       pplayer->is_male = (myrand(2) == 1);
     }
@@ -1646,12 +1656,13 @@ static bool good_name(char *ptry, char *buf) {
      is found.
  newname should point to a buffer of size at least MAX_LEN_NAME.
 *************************************************************************/
-void pick_random_player_name(const struct nation_type *nation, char *newname) 
+void pick_random_player_name(const struct nation_type *pnation,
+			     char *newname)
 {
    int i, names_count;
-   struct leader *leaders;
+   struct nation_leader *leaders;
 
-   leaders = get_nation_leaders(nation, &names_count);
+   leaders = get_nation_leaders(pnation, &names_count);
 
    /* Try random names (scattershot), then all available,
     * then "Player 1" etc:
@@ -1682,12 +1693,13 @@ static void announce_player (struct player *pplayer)
 {
    freelog(LOG_NORMAL,
 	   _("%s rules the %s."),
-	   pplayer->name,
+	   player_name(pplayer),
 	   nation_plural_for_player(pplayer));
 
   players_iterate(other_player) {
     notify_player(other_player, NULL, E_GAME_START,
-		  _("%s rules the %s."), pplayer->name,
+		  _("%s rules the %s."),
+		  player_name(pplayer),
 		  nation_plural_for_player(pplayer));
   } players_iterate_end;
 }
@@ -2033,7 +2045,7 @@ static void srv_ready(void)
       
       players_iterate(eplayer) {
         if (players_on_same_team(eplayer, pplayer) &&
-	    eplayer->player_no < pplayer->player_no) {
+	    player_number(eplayer) < player_number(pplayer)) {
           free_techs_already_given = TRUE;
 	  break;
         }
@@ -2052,10 +2064,10 @@ static void srv_ready(void)
     players_iterate(pplayer) {
       players_iterate(pdest) {
         if (players_on_same_team(pplayer, pdest)
-            && pplayer->player_no != pdest->player_no) {
-          pplayer->diplstates[pdest->player_no].type = DS_TEAM;
+            && player_number(pplayer) != player_number(pdest)) {
+          pplayer->diplstates[player_index(pdest)].type = DS_TEAM;
           give_shared_vision(pplayer, pdest);
-	  BV_SET(pplayer->embassy, pdest->player_no);
+	  BV_SET(pplayer->embassy, player_index(pdest));
         }
       } players_iterate_end;
     } players_iterate_end;

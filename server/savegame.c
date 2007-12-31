@@ -1679,7 +1679,7 @@ static void load_player_units(struct player *plr, int plrno,
     punit->homecity = secfile_lookup_int(file, "player%d.u%d.homecity",
 					 plrno, i);
 
-    if ((pcity = find_city_by_id(punit->homecity))) {
+    if ((pcity = game_find_city_by_number(punit->homecity))) {
       unit_list_prepend(pcity->units_supported, punit);
     }
     
@@ -2416,7 +2416,7 @@ static void player_load(struct player *plr, int plrno,
 	  if (!valid) {
 	    /* oops, inconsistent savegame; minimal fix: */
 	    freelog(LOG_VERBOSE, "Invalid workers '%c' for %s (%d,%d), "
-		    "ignoring", *p, pcity->name, x, y);
+		    "ignoring", *p, city_name(pcity), x, y);
 	  } else {
 	    set_worker_city(pcity, x, y,
 			    NULL != city_map_to_map(pcity, x, y)
@@ -2427,12 +2427,12 @@ static void player_load(struct player *plr, int plrno,
 	  if (!valid) {
 	    /* oops, inconsistent savegame; minimal fix: */
 	    freelog(LOG_VERBOSE, "Invalid workers '%c' for %s (%d,%d), "
-		    "ignoring", *p, pcity->name, x, y);
+		    "ignoring", *p, city_name(pcity), x, y);
 	  } else if (NULL == (ptile = city_map_to_map(pcity, x, y))
 		  || ptile->worked) {
 	    /* oops, inconsistent savegame; minimal fix: */
 	    freelog(LOG_VERBOSE, "Inconsistent worked for %s (%d,%d), "
-		    "converting to specialist", pcity->name, x, y);
+		    "converting to specialist", city_name(pcity), x, y);
 	    pcity->specialists[DEFAULT_SPECIALIST]++;
 	    set_worker_city(pcity, x, y, C_TILE_UNAVAILABLE);
 	    citizens++;
@@ -2447,7 +2447,7 @@ static void player_load(struct player *plr, int plrno,
 	  assert(pcity->city_map[x][y] == C_TILE_UNAVAILABLE);
 	} else {
 	   freelog(LOG_VERBOSE, "Invalid workers '%c' for %s (%d,%d), "
-		   "ignoring", *p, pcity->name, x, y);
+		   "ignoring", *p, city_name(pcity), x, y);
 	}
         p++;
       }
@@ -2461,7 +2461,7 @@ static void player_load(struct player *plr, int plrno,
               " %d citizens not equal %d city size in \"%s\".",
               citizens,
               pcity->size,
-              pcity->name);
+              city_name(pcity));
     }
 
     /* Initialise list of improvements with City- and Building-wide
@@ -2788,7 +2788,7 @@ static void player_save(struct player *plr, int plrno,
   struct ai_data *ai = ai_data_get(plr);
   int wlist_max_length = 0;
 
-  secfile_insert_str(file, plr->name, "player%d.name", plrno);
+  secfile_insert_str(file, player_name(plr), "player%d.name", plrno);
   secfile_insert_str(file, plr->username, "player%d.username", plrno);
   secfile_insert_str(file, plr->ranked_username, "player%d.ranked_username",
                      plrno);
@@ -3118,7 +3118,7 @@ static void player_save(struct player *plr, int plrno,
     secfile_insert_int(file, pcity->id, "player%d.c%d.id", plrno, i);
     secfile_insert_int(file, pcity->tile->nat_x, "player%d.c%d.x", plrno, i);
     secfile_insert_int(file, pcity->tile->nat_y, "player%d.c%d.y", plrno, i);
-    secfile_insert_str(file, pcity->name, "player%d.c%d.name", plrno, i);
+    secfile_insert_str(file, city_name(pcity), "player%d.c%d.name", plrno, i);
     secfile_insert_int(file, pcity->original->player_no,
 		       "player%d.c%d.original", plrno, i);
     secfile_insert_int(file, pcity->size, "player%d.c%d.size", plrno, i);
@@ -3493,7 +3493,7 @@ static void check_city(struct city *pcity)
 	set_worker_city(pcity, x, y, C_TILE_UNAVAILABLE);
 	freelog(LOG_VERBOSE, "Unavailable tile marked as empty"
 		" for %s (%d,%d)",
-		pcity->name, x, y);
+		city_name(pcity), x, y);
       }
       break;
     case C_TILE_WORKER:
@@ -3504,7 +3504,7 @@ static void check_city(struct city *pcity)
 	set_worker_city(pcity, x, y, C_TILE_UNAVAILABLE);
 	freelog(LOG_VERBOSE, "Worked tile was unavailable"
 		" for %s (%d,%d)",
-		pcity->name, x, y);
+		city_name(pcity), x, y);
 
 	map_city_radius_iterate(ptile, tile2) {
 	  struct city *pcity2 = tile_get_city(tile2);
@@ -3518,7 +3518,7 @@ static void check_city(struct city *pcity)
 	set_worker_city(pcity, x, y, C_TILE_EMPTY);
 	freelog(LOG_VERBOSE, "Empty tile marked as unavailable"
 		" for %s (%d,%d)",
-		pcity->name, x, y);
+		city_name(pcity), x, y);
       }
       break;
     }
@@ -4035,10 +4035,10 @@ void game_load(struct section_file *file)
     players_iterate(pplayer) {
       if (pplayer->nation == NO_NATION_SELECTED) {
 	player_set_nation(pplayer, pick_a_nation(NULL, FALSE, TRUE));
-	/* TRANS: Minor error message. */
+	/* TRANS: Minor error message: <Leader> ... <Poles>. */
 	freelog(LOG_ERROR, _("%s had invalid nation; changing to %s."),
-		pplayer->name,
-		nation_rule_name(nation_of_player(pplayer)));
+		player_name(pplayer),
+		nation_plural_for_player(pplayer));
       }
     } players_iterate_end;
 
@@ -4155,7 +4155,7 @@ void game_load(struct section_file *file)
   /* Fix ferrying sanity */
   players_iterate(pplayer) {
     unit_list_iterate_safe(pplayer->units, punit) {
-      struct unit *ferry = find_unit_by_id(punit->transported_by);
+      struct unit *ferry = game_find_unit_by_number(punit->transported_by);
 
       if (!ferry && !can_unit_exist_at_tile(punit, punit->tile)) {
         freelog(LOG_ERROR, "Removing %s unferried %s in %s at (%d, %d)",

@@ -105,7 +105,7 @@ void refresh_spaceship_dialog(struct player *pplayer)
   pship=&(pdialog->pplayer->spaceship);
 
   if(game.info.spacerace
-     && pplayer->player_no == game.info.player_idx
+     && player_number(pplayer) == game.info.player_idx
      && pship->state == SSHIP_STARTED
      && pship->success_rate > 0) {
     EnableWindow(GetDlgItem(pdialog->mainwin,IDOK),TRUE);
@@ -221,7 +221,8 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
   
   pdialog=fc_malloc(sizeof(struct spaceship_dialog));
   pdialog->pplayer=pplayer;
-  pdialog->mainwin=fcwin_create_layouted_window(spaceship_proc,pplayer->name,
+  pdialog->mainwin=fcwin_create_layouted_window(spaceship_proc,
+						player_name(pplayer),
 						WS_OVERLAPPEDWINDOW,
 						CW_USEDEFAULT,CW_USEDEFAULT,
 						root_window,NULL,

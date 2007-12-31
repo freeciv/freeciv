@@ -203,38 +203,38 @@ void create_players_dialog(bool raise)
 
 
 /**************************************************************************
-...
+  Updates the player list dialog.
 **************************************************************************/
 void update_players_dialog(void)
 {
    if(players_dialog_shell && !is_plrdlg_frozen()) {
-    int i,j;
+    int j = 0;
     Dimension width;
     static char *namelist_ptrs[MAX_NUM_PLAYERS];
     static char namelist_text[MAX_NUM_PLAYERS][256];
     const struct player_diplstate *pds;
 
-    for(i=0,j=0; i<game.info.nplayers; i++) {
+    players_iterate(pplayer) {
       char idlebuf[32], statebuf[32], namebuf[32], dsbuf[32];
       
       /* skip barbarians */
-      if(is_barbarian(&game.players[i]))
+      if(is_barbarian(pplayer))
         continue;
 
       /* text for idleness */
-      if(game.players[i].nturns_idle>3) {
+      if(pplayer->nturns_idle>3) {
 	my_snprintf(idlebuf, sizeof(idlebuf),
 		    PL_("(idle %d turn)", "(idle %d turns)",
-			game.players[i].nturns_idle - 1),
-		    game.players[i].nturns_idle - 1);
+			pplayer->nturns_idle - 1),
+		    pplayer->nturns_idle - 1);
       } else {
 	idlebuf[0]='\0';
       }
 
       /* text for state */
-      if(game.players[i].is_alive) {
-	if(game.players[i].is_connected) {
-	  if(game.players[i].phase_done)
+      if(pplayer->is_alive) {
+	if(pplayer->is_connected) {
+	  if(pplayer->phase_done)
 	    sz_strlcpy(statebuf, _("done"));
 	  else
 	    sz_strlcpy(statebuf, _("moving"));
@@ -246,17 +246,17 @@ void update_players_dialog(void)
 	sz_strlcpy(statebuf, _("R.I.P"));
 
       /* text for name, plus AI marker */       
-      if(game.players[i].ai.control)
-	my_snprintf(namebuf, sizeof(namebuf), "*%-15s",game.players[i].name);
+      if(pplayer->ai.control)
+	my_snprintf(namebuf, sizeof(namebuf), "*%-15s",player_name(pplayer));
       else
-        my_snprintf(namebuf, sizeof(namebuf), "%-16s",game.players[i].name);
+        my_snprintf(namebuf, sizeof(namebuf), "%-16s",player_name(pplayer));
       namebuf[16] = '\0';
 
       /* text for diplstate type and turns -- not applicable if this is me */
-      if (i == game.info.player_idx) {
+      if ((player_number(pplayer) == game.info.player_idx) || !game.player_ptr) {
 	strcpy(dsbuf, "-");
       } else {
-	pds = pplayer_get_diplstate(game.player_ptr, get_player(i));
+	pds = pplayer_get_diplstate(game.player_ptr, pplayer);
 	if (pds->type == DS_CEASEFIRE) {
 	  my_snprintf(dsbuf, sizeof(dsbuf), "%s (%d)",
 		      diplstate_text(pds->type), pds->turns_left);
@@ -270,18 +270,18 @@ void update_players_dialog(void)
       my_snprintf(namelist_text[j], sizeof(namelist_text[j]),
 	      "%-16s %-12s %-8s %-15s %-8s %-6s   %-15s%s", 
 	      namebuf,
-	      nation_adjective_for_player(&game.players[i]), 
-	      get_embassy_status(game.player_ptr, &game.players[i]),
+	      nation_adjective_for_player(pplayer), 
+	      get_embassy_status(game.player_ptr, pplayer),
 	      dsbuf,
-	      get_vision_status(game.player_ptr, &game.players[i]),
+	      get_vision_status(game.player_ptr, pplayer),
 	      statebuf,
-	      player_addr_hack(&game.players[i]),  /* Fixme for multi-conn */
+	      player_addr_hack(pplayer),  /* Fixme for multi-conn */
 	      idlebuf);
 
       namelist_ptrs[j]=namelist_text[j];
-      list_index_to_player_index[j] = i;
+      list_index_to_player_index[j] = player_number(pplayer);
       j++;
-    }
+    } players_iterate_end;
     
     XawListChange(players_list, namelist_ptrs, j, 0, True);
 
@@ -299,7 +299,7 @@ void players_list_callback(Widget w, XtPointer client_data,
 {
   XawListReturnStruct *ret;
 
-  ret=XawListShowCurrent(players_list);
+  ret = XawListShowCurrent(players_list);
 
   XtSetSensitive(players_meet_command, FALSE);
   XtSetSensitive(players_int_command, FALSE);

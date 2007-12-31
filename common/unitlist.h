@@ -43,7 +43,7 @@
 	 _unit##_index < _unit##_size;					\
 	 _unit##_index++) {						\
       struct unit *_unit =						\
-	find_unit_by_id(_unit##_numbers[_unit##_index]);		\
+	game_find_unit_by_number(_unit##_numbers[_unit##_index]);		\
 									\
       if (NULL != _unit) {
 

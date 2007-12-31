@@ -70,7 +70,7 @@ static int exit_goto_dialog_callback(struct widget *pWidget)
 static int toggle_goto_nations_cities_dialog_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    all_players ^= (1u << (get_player(MAX_ID - pWidget->ID)->player_no));
+    all_players ^= (1u << player_index(player_by_number(MAX_ID - pWidget->ID)));
     update_goto_dialog();
   }
   return -1;
@@ -79,7 +79,7 @@ static int toggle_goto_nations_cities_dialog_callback(struct widget *pWidget)
 static int goto_city_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    struct city *pDestcity = find_city_by_id(MAX_ID - pWidget->ID);
+    struct city *pDestcity = game_find_city_by_number(MAX_ID - pWidget->ID);
   
     if (pDestcity) {
       struct unit *pUnit = head_of_units_in_focus();
@@ -134,7 +134,7 @@ static void update_goto_dialog(void)
 	continue;
       }
       
-      my_snprintf(cBuf, sizeof(cBuf), "%s (%d)", pCity->name, pCity->size);
+      my_snprintf(cBuf, sizeof(cBuf), "%s (%d)", city_name(pCity), pCity->size);
       
       pStr = create_str16_from_char(cBuf, adj_font(12));
       pStr->style |= TTF_STYLE_BOLD;
@@ -361,7 +361,7 @@ void popup_goto_dialog(void)
   if (!can_client_issue_orders() || 0 == get_num_units_in_focus()) {
     return;
   }
-  all_players = (1u << (game.player_ptr->player_no));
+  all_players = (1u << (player_index(game.player_ptr)));
   popup_goto_airlift_dialog();
 }
 
@@ -373,7 +373,7 @@ void popup_airlift_dialog(void)
   if (!can_client_issue_orders() || 0 == get_num_units_in_focus()) {
     return;
   }
-  all_players = (1u << (game.player_ptr->player_no));
+  all_players = (1u << (player_index(game.player_ptr)));
   GOTO = FALSE;
   popup_goto_airlift_dialog();
 }

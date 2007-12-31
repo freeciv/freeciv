@@ -53,7 +53,7 @@ enum dipl_reason pplayer_can_cancel_treaty(const struct player *p1,
   if (players_on_same_team(p1, p2)) {
     return DIPL_ERROR;
   }
-  if (p1->diplstates[p2->player_no].has_reason_to_cancel == 0
+  if (p1->diplstates[player_index(p2)].has_reason_to_cancel == 0
       && get_player_bonus(p1, EFT_HAS_SENATE) > 0
       && get_player_bonus(p1, EFT_ANY_GOVERNMENT) == 0) {
     return DIPL_SENATE_BLOCKING;
@@ -144,7 +144,7 @@ enum dipl_reason pplayer_can_make_treaty(const struct player *p1,
 bool player_has_embassy(const struct player *pplayer,
 			const struct player *pplayer2)
 {
-  return (BV_ISSET(pplayer->embassy, pplayer2->player_no)
+  return (BV_ISSET(pplayer->embassy, player_index(pplayer2))
           || (pplayer == pplayer2)
           || (get_player_bonus(pplayer, EFT_HAVE_EMBASSIES) > 0
               && !is_barbarian(pplayer2)));
@@ -179,13 +179,16 @@ void player_init(struct player *plr)
   plr->nation = NO_NATION_SELECTED;
   plr->team = NULL;
   plr->is_ready = FALSE;
+
   plr->revolution_finishes = -1;
   plr->capital = FALSE;
   plr->units = unit_list_new();
   plr->cities = city_list_new();
+
   plr->connections = conn_list_new();
   plr->current_conn = NULL;
   plr->is_connected = FALSE;
+
   plr->was_created = FALSE;
   plr->is_alive=TRUE;
   plr->is_dying = FALSE;
@@ -222,6 +225,65 @@ void player_init(struct player *plr)
   plr->attribute_block_buffer.data = NULL;
   plr->attribute_block_buffer.length = 0;
   BV_CLR_ALL(plr->debug);
+}
+
+/**************************************************************************
+  Return the number of players.
+**************************************************************************/
+int player_count(void)
+{
+  return game.info.nplayers;
+}
+
+/**************************************************************************
+  Return the player index.
+
+  Currently same as player_number(), paired with player_count()
+  indicates use as an array index.
+**************************************************************************/
+int player_index(const struct player *pplayer)
+{
+  assert(pplayer);
+  return pplayer - game.players;
+}
+
+/**************************************************************************
+  Return the player index.
+**************************************************************************/
+int player_number(const struct player *pplayer)
+{
+  assert(pplayer);
+  return pplayer->player_no;
+}
+
+/**************************************************************************
+  Return struct player pointer for the given player index.
+
+  You can retrieve players that are not in the game (with IDs larger than
+  player_count).  An out-of-range player request will return NULL.
+**************************************************************************/
+struct player *player_by_number(const int player_id)
+{
+  if (player_id < 0 || player_id >= ARRAY_SIZE(game.players)) {
+    /* This isn't an error; some callers rely on this behavior. */
+    return NULL;
+  }
+  assert(game.players[player_id].player_no == player_id);
+  return &game.players[player_id];
+}
+
+/**************************************************************************
+  Return pointer iff the player ID refers to an in-game player.  Unlike
+  player_by_number, any index larger than player_count is not "valid".
+**************************************************************************/
+struct player *valid_player_by_number(const int player_id)
+{
+  if (player_id < 0 || player_id >= game.info.nplayers
+   || player_id >= ARRAY_SIZE(game.players)) {
+    return NULL;
+  }
+  assert(game.players[player_id].player_no == player_id);
+  return &game.players[player_id];
 }
 
 /****************************************************************************
@@ -270,6 +332,15 @@ struct player *find_player_by_name(const char *name)
   return NULL;
 }
 
+/**************************************************************************
+  Return the leader name of the player.
+**************************************************************************/
+const char *player_name(const struct player *pplayer)
+{
+  assert(NULL != pplayer && NULL != pplayer->name);
+  return pplayer->name;
+}
+
 /***************************************************************
   Find player by name, allowing unambigous prefix (ie abbreviation).
   Returns NULL if could not match, or if ambiguous or other
@@ -292,7 +363,7 @@ struct player *find_player_by_name_prefix(const char *name,
 			 mystrncasequotecmp, name, &ind);
 
   if (*result < M_PRE_AMBIGUOUS) {
-    return get_player(ind);
+    return player_by_number(ind);
   } else {
     return NULL;
   }
@@ -353,7 +424,7 @@ bool can_player_see_unit_at(const struct player *pplayer,
   }
 
   /* Hiding units are only seen by the V_INVIS fog layer. */
-  return BV_ISSET(ptile->tile_seen[V_INVIS], pplayer->player_no);
+  return BV_ISSET(ptile->tile_seen[V_INVIS], player_index(pplayer));
 
   return FALSE;
 }
@@ -433,12 +504,12 @@ struct city *player_find_city_by_id(const struct player *pplayer,
   if (!pcity) {
     return NULL;
   }
- 
+
   if (!pplayer || (city_owner(pcity) == pplayer)) {
     /* Correct owner */
     return pcity;
   }
- 
+
   return NULL;
 }
 
@@ -707,7 +778,7 @@ returns diplomatic state type between two players
 const struct player_diplstate *pplayer_get_diplstate(const struct player *pplayer,
 						     const struct player *pplayer2)
 {
-  return &(pplayer->diplstates[pplayer2->player_no]);
+  return &(pplayer->diplstates[player_index(pplayer2)]);
 }
 
 /***************************************************************
@@ -810,7 +881,7 @@ bool is_barbarian(const struct player *pplayer)
 **************************************************************************/
 bool gives_shared_vision(const struct player *me, const struct player *them)
 {
-  return TEST_BIT(me->gives_shared_vision, them->player_no);
+  return TEST_BIT(me->gives_shared_vision, player_index(them));
 }
 
 /**************************************************************************

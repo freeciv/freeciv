@@ -285,9 +285,9 @@ void update_intel_dialog(struct player *p)
         _("Ruler: %s %s  Government: %s\nCapital: %s  Gold: %d\nTax: %d%%"
           " Science: %d%% Luxury: %d%%\nResearching: %s(%d/%d)"),
         ruler_title_translation(p),
-        p->name,
+        player_name(p),
         government_name_for_player(p),
-        (!pCapital) ? _("(Unknown)") : pCapital->name, p->economic.gold,
+        (!pCapital) ? _("(Unknown)") : city_name(pCapital), p->economic.gold,
         p->economic.tax, p->economic.science, p->economic.luxury,
         advance_name_researching(p),
         research->bulbs_researched, total_bulbs_required(p));
@@ -296,9 +296,9 @@ void update_intel_dialog(struct player *p)
         _("Ruler: %s %s  Government: %s\nCapital: %s  Gold: %d\nTax: %d%%"
           " Science: %d%% Luxury: %d%%\nResearching: Unknown"),
         ruler_title_translation(p),
-        p->name,
+        player_name(p),
         government_name_for_player(p),
-        (!pCapital) ? _("(Unknown)") : pCapital->name, p->economic.gold,
+        (!pCapital) ? _("(Unknown)") : city_name(pCapital), p->economic.gold,
         p->economic.tax, p->economic.science, p->economic.luxury);
     }
     

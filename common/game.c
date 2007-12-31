@@ -32,6 +32,7 @@
 #include "player.h"
 #include "shared.h"
 #include "spaceship.h"
+#include "specialist.h"
 #include "support.h"
 #include "tech.h"
 #include "unit.h"
@@ -100,7 +101,7 @@ struct city *game_find_city_by_name(const char *name)
   City may be any city in the game.  This now always uses fast idex
   method, instead of looking through all cities of all players.
 **************************************************************************/
-struct city *find_city_by_id(int id)
+struct city *game_find_city_by_number(int id)
 {
   return idex_lookup_city(id);
 }
@@ -110,7 +111,7 @@ struct city *find_city_by_id(int id)
   Find unit out of all units in game: now uses fast idex method,
   instead of looking through all units of all players.
 **************************************************************************/
-struct unit *find_unit_by_id(int id)
+struct unit *game_find_unit_by_number(int id)
 {
   return idex_lookup_unit(id);
 }
@@ -141,10 +142,9 @@ void game_remove_unit(struct unit *punit)
 
   if (pcity) {
     freelog(LOG_DEBUG, "home city %s, %s, (%d %d)",
-	  pcity->name,
+	  city_name(pcity),
 	  nation_rule_name(nation_of_city(pcity)),
-	  pcity->tile->x,
-	  pcity->tile->y);
+	  TILE_XY(pcity->tile));
   }
 
   unit_list_unlink(punit->tile->units, punit);
@@ -165,10 +165,9 @@ void game_remove_city(struct city *pcity)
 {
   freelog(LOG_DEBUG, "game_remove_city %d", pcity->id);
   freelog(LOG_DEBUG, "removing city %s, %s, (%d %d)",
-	  pcity->name,
+	  city_name(pcity),
 	  nation_rule_name(nation_of_city(pcity)),
-	  pcity->tile->x,
-	  pcity->tile->y);
+	  TILE_XY(pcity->tile));
 
   /* Opaque server-only variable: the server must free this earlier. */
   assert(pcity->server.vision == NULL);

@@ -113,15 +113,14 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 					int counterpart)
 {
   struct Treaty *ptreaty;
-  struct player *pother;
   bool *player_accept, *other_accept;
   enum dipl_reason diplcheck;
+  struct player *pother = valid_player_by_number(counterpart);
 
-  if (!is_valid_player_id(counterpart) || pplayer->player_no == counterpart) {
+  if (NULL == pother || pplayer == pother) {
     return;
   }
 
-  pother = get_player(counterpart);
   ptreaty = find_treaty(pplayer, pother);
 
   if (!ptreaty) {
@@ -148,7 +147,9 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	case CLAUSE_EMBASSY:
           if (player_has_embassy(pother, pplayer)) {
             freelog(LOG_ERROR, "%s tried to give embassy to %s, who already "
-                    "has an embassy", pplayer->name, pother->name);
+                    "has an embassy",
+                    player_name(pplayer),
+                    player_name(pother));
             return;
           }
           break;
@@ -178,7 +179,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	  }
 	  break;
 	case CLAUSE_CITY:
-	  pcity = find_city_by_id(pclause->value);
+	  pcity = game_find_city_by_number(pclause->value);
 	  if (!pcity) { /* Can't find out cityname any more. */
 	    notify_player(pplayer, NULL, E_DIPLOMACY,
 			  _("City you are trying to give no longer exists, "
@@ -188,14 +189,14 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	  if (city_owner(pcity) != pplayer) {
 	    notify_player(pplayer, NULL, E_DIPLOMACY,
 			  _("You are not owner of %s, you can't accept treaty."),
-			  pcity->name);
+			  city_name(pcity));
 	    return;
 	  }
 	  if (is_capital(pcity)) {
 	    notify_player(pplayer, NULL, E_DIPLOMACY,
 			  _("Your capital (%s) is requested, "
 			    "you can't accept treaty."),
-			  pcity->name);
+			  city_name(pcity));
 	    return;
 	  }
 	  break;
@@ -235,21 +236,21 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
   *player_accept = ! *player_accept;
 
   dlsend_packet_diplomacy_accept_treaty(pplayer->connections,
-					pother->player_no, *player_accept,
+					player_number(pother), *player_accept,
 					*other_accept);
   dlsend_packet_diplomacy_accept_treaty(pother->connections,
-					pplayer->player_no, *other_accept,
+					player_number(pplayer), *other_accept,
 					*player_accept);
 
   if (ptreaty->accept0 && ptreaty->accept1) {
     int nclauses = clause_list_size(ptreaty->clauses);
 
     dlsend_packet_diplomacy_cancel_meeting(pplayer->connections,
-					   pother->player_no,
-					   pplayer->player_no);
+					   player_number(pother),
+					   player_number(pplayer));
     dlsend_packet_diplomacy_cancel_meeting(pother->connections,
-					   pplayer->player_no,
- 					   pplayer->player_no);
+					   player_number(pplayer),
+ 					   player_number(pplayer));
 
     notify_player(pplayer, NULL, E_DIPLOMACY,
 		  PL_("A treaty containing %d clause was agreed upon.",
@@ -270,7 +271,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
       if (pclause->from == pother) {
 	switch (pclause->type) {
 	case CLAUSE_CITY:
-	  pcity = find_city_by_id(pclause->value);
+	  pcity = game_find_city_by_number(pclause->value);
 	  if (!pcity) { /* Can't find out cityname any more. */
 	    notify_player(pplayer, NULL, E_DIPLOMACY,
 			  _("One of the cities the %s are giving away"
@@ -287,18 +288,19 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 			  _("The %s no longer control %s! "
 			    "Treaty canceled!"),
 			  nation_plural_for_player(pother),
-			  pcity->name);
+			  city_name(pcity));
 	    notify_player(pother, NULL, E_DIPLOMACY,
 			  _("The %s no longer control %s! "
 			    "Treaty canceled!"),
 			  nation_plural_for_player(pother),
-			  pcity->name);
+			  city_name(pcity));
 	    goto cleanup;
 	  }
 	  if (is_capital(pcity)) {
 	    notify_player(pother, NULL, E_DIPLOMACY,
 			  _("Your capital (%s) is requested, "
-			    "you can't accept treaty."), pcity->name);
+			    "you can't accept treaty."),
+			  city_name(pcity));
 	    goto cleanup;
 	  }
 
@@ -360,10 +362,10 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
         establish_embassy(pdest, pgiver); /* sic */
         notify_player(pgiver, NULL, E_TREATY_SHARED_VISION,
                          _("You gave an embassy to %s."),
-                         pdest->name);
+                         player_name(pdest));
         notify_player(pdest, NULL, E_TREATY_SHARED_VISION,
                          _("%s allowed you to create an embassy!"),
-                         pgiver->name);
+                         player_name(pgiver));
         break;
       case CLAUSE_ADVANCE:
         /* It is possible that two players open the diplomacy dialog
@@ -421,7 +423,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	break;
       case CLAUSE_CITY:
 	{
-	  struct city *pcity = find_city_by_id(pclause->value);
+	  struct city *pcity = game_find_city_by_number(pclause->value);
 
 	  if (!pcity) {
 	    freelog(LOG_NORMAL,
@@ -432,11 +434,13 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 
 	  notify_player(pdest, pcity->tile, E_CITY_TRANSFER,
 			   _("You receive city of %s from %s."),
-			   pcity->name, pgiver->name);
+			   city_name(pcity),
+			   player_name(pgiver));
 
 	  notify_player(pgiver, pcity->tile, E_CITY_LOST,
 			   _("You give city of %s to %s."),
-			   pcity->name, pdest->name);
+			   city_name(pcity),
+			   player_name(pdest));
 
 	  transfer_city(pdest, pcity, -1, TRUE, TRUE, FALSE);
 	  break;
@@ -448,10 +452,10 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	pdest->diplstates[pgiver->player_no].turns_left = TURNS_LEFT;
 	notify_player(pgiver, NULL, E_TREATY_CEASEFIRE,
 			 _("You agree on a cease-fire with %s."),
-			 pdest->name);
+			 player_name(pdest));
 	notify_player(pdest, NULL, E_TREATY_CEASEFIRE,
 			 _("You agree on a cease-fire with %s."),
-			 pgiver->name);
+			 player_name(pgiver));
 	if (old_diplstate == DS_ALLIANCE) {
 	  update_players_after_alliance_breakup(pgiver, pdest);
 	}
@@ -506,10 +510,10 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
           MAX(DS_ALLIANCE, pdest->diplstates[pgiver->player_no].max_state);
 	notify_player(pgiver, NULL, E_TREATY_ALLIANCE,
 			 _("You agree on an alliance with %s."),
-			 pdest->name);
+			 player_name(pdest));
 	notify_player(pdest, NULL, E_TREATY_ALLIANCE,
 			 _("You agree on an alliance with %s."),
-			 pgiver->name);
+			 player_name(pgiver));
 
 	check_city_workers(pplayer);
 	check_city_workers(pother);
@@ -518,10 +522,10 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	give_shared_vision(pgiver, pdest);
 	notify_player(pgiver, NULL, E_TREATY_SHARED_VISION,
 			 _("You give shared vision to %s."),
-			 pdest->name);
+			 player_name(pdest));
 	notify_player(pdest, NULL, E_TREATY_SHARED_VISION,
 			 _("%s gives you shared vision."),
-			 pgiver->name);
+			 player_name(pgiver));
 
         /* Yes, shared vision may let us to _know_ tiles
          * within radius of our own city. */
@@ -548,7 +552,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 void establish_embassy(struct player *pplayer, struct player *aplayer)
 {
   /* Establish the embassy. */
-  BV_SET(pplayer->embassy, aplayer->player_no);
+  BV_SET(pplayer->embassy, player_index(aplayer));
   send_player_info(pplayer, pplayer);
   send_player_info(pplayer, aplayer);  /* update player dialog with embassy */
   send_player_info(aplayer, pplayer);  /* INFO_EMBASSY level info */
@@ -562,15 +566,12 @@ void handle_diplomacy_remove_clause_req(struct player *pplayer,
 					enum clause_type type, int value)
 {
   struct Treaty *ptreaty;
-  struct player *pgiver, *pother;
+  struct player *pgiver = valid_player_by_number(giver);
+  struct player *pother = valid_player_by_number(counterpart);
 
-  if (!is_valid_player_id(counterpart) || pplayer->player_no == counterpart
-      || !is_valid_player_id(giver)) {
+  if (NULL == pother || pplayer == pother || NULL == pgiver) {
     return;
   }
-
-  pother = get_player(counterpart);
-  pgiver = get_player(giver);
 
   if (pgiver != pplayer && pgiver != pother) {
     return;
@@ -580,10 +581,10 @@ void handle_diplomacy_remove_clause_req(struct player *pplayer,
 
   if (ptreaty && remove_clause(ptreaty, pgiver, type, value)) {
     dlsend_packet_diplomacy_remove_clause(pplayer->connections,
-					  pother->player_no, giver, type,
+					  player_number(pother), giver, type,
 					  value);
     dlsend_packet_diplomacy_remove_clause(pother->connections,
-					  pplayer->player_no, giver, type,
+					  player_number(pplayer), giver, type,
 					  value);
     if (pplayer->ai.control) {
       ai_treaty_evaluate(pplayer, pother, ptreaty);
@@ -602,15 +603,12 @@ void handle_diplomacy_create_clause_req(struct player *pplayer,
 					enum clause_type type, int value)
 {
   struct Treaty *ptreaty;
-  struct player *pgiver, *pother;
+  struct player *pgiver = valid_player_by_number(giver);
+  struct player *pother = valid_player_by_number(counterpart);
 
-  if (!is_valid_player_id(counterpart) || pplayer->player_no == counterpart
-      || !is_valid_player_id(giver)) {
+  if (NULL == pother || pplayer == pother || NULL == pgiver) {
     return;
   }
-
-  pother = get_player(counterpart);
-  pgiver = get_player(giver);
 
   if (pgiver != pplayer && pgiver != pother) {
     return;
@@ -628,17 +626,17 @@ void handle_diplomacy_create_clause_req(struct player *pplayer,
      *                           - Kris Bubendorfer
      */
     if (type == CLAUSE_CITY) {
-      struct city *pcity = find_city_by_id(value);
+      struct city *pcity = game_find_city_by_number(value);
 
       if (pcity && !map_is_known_and_seen(pcity->tile, pother, V_MAIN))
 	give_citymap_from_player_to_player(pcity, pplayer, pother);
     }
 
     dlsend_packet_diplomacy_create_clause(pplayer->connections,
-					  pother->player_no, giver, type,
+					  player_number(pother), giver, type,
 					  value);
     dlsend_packet_diplomacy_create_clause(pother->connections,
-					  pplayer->player_no, giver, type,
+					  player_number(pplayer), giver, type,
 					  value);
     if (pplayer->ai.control) {
       ai_treaty_evaluate(pplayer, pother, ptreaty);
@@ -659,18 +657,18 @@ static void really_diplomacy_cancel_meeting(struct player *pplayer,
 
   if (ptreaty) {
     dlsend_packet_diplomacy_cancel_meeting(pother->connections,
-					   pplayer->player_no,
-					   pplayer->player_no);
+					   player_number(pplayer),
+					   player_number(pplayer));
     notify_player(pother, NULL, E_DIPLOMACY,
 		  _("%s canceled the meeting!"), 
-		  pplayer->name);
+		  player_name(pplayer));
     /* Need to send to pplayer too, for multi-connects: */
     dlsend_packet_diplomacy_cancel_meeting(pplayer->connections,
-					   pother->player_no,
-					   pplayer->player_no);
+					   player_number(pother),
+					   player_number(pplayer));
     notify_player(pplayer, NULL, E_DIPLOMACY,
 		  _("Meeting with %s canceled."), 
-		  pother->name);
+		  player_name(pother));
     treaty_list_unlink(treaties, ptreaty);
     clear_treaty(ptreaty);
     free(ptreaty);
@@ -683,11 +681,13 @@ static void really_diplomacy_cancel_meeting(struct player *pplayer,
 void handle_diplomacy_cancel_meeting_req(struct player *pplayer,
 					 int counterpart)
 {
-  if (!is_valid_player_id(counterpart) || pplayer->player_no == counterpart) {
+  struct player *pother = valid_player_by_number(counterpart);
+
+  if (NULL == pother || pplayer == pother) {
     return;
   }
 
-  really_diplomacy_cancel_meeting(pplayer, get_player(counterpart));
+  really_diplomacy_cancel_meeting(pplayer, pother);
 }
 
 /**************************************************************************
@@ -696,13 +696,11 @@ void handle_diplomacy_cancel_meeting_req(struct player *pplayer,
 void handle_diplomacy_init_meeting_req(struct player *pplayer,
 				       int counterpart)
 {
-  struct player *pother;
+  struct player *pother = valid_player_by_number(counterpart);
 
-  if (!is_valid_player_id(counterpart) || pplayer->player_no == counterpart) {
+  if (NULL == pother || pplayer == pother) {
     return;
   }
-
-  pother = get_player(counterpart);
 
   if (find_treaty(pplayer, pother)) {
     return;
@@ -723,11 +721,11 @@ void handle_diplomacy_init_meeting_req(struct player *pplayer,
     treaty_list_prepend(treaties, ptreaty);
 
     dlsend_packet_diplomacy_init_meeting(pplayer->connections,
-					 pother->player_no,
-					 pplayer->player_no);
+					 player_number(pother),
+					 player_number(pplayer));
     dlsend_packet_diplomacy_init_meeting(pother->connections,
-					 pplayer->player_no,
-					 pplayer->player_no);
+					 player_number(pplayer),
+					 player_number(pplayer));
   }
 }
 
@@ -747,21 +745,21 @@ void send_diplomatic_meetings(struct connection *dest)
 
     if (ptreaty) {
       assert(pplayer != other);
-      dsend_packet_diplomacy_init_meeting(dest, other->player_no,
-                                          pplayer->player_no);
+      dsend_packet_diplomacy_init_meeting(dest, player_number(other),
+                                          player_number(pplayer));
       clause_list_iterate(ptreaty->clauses, pclause) {
         dsend_packet_diplomacy_create_clause(dest, 
-                                             other->player_no,
-                                             pclause->from->player_no,
+                                             player_number(other),
+                                             player_number(pclause->from),
                                              pclause->type,
                                              pclause->value);
       } clause_list_iterate_end;
       if (ptreaty->plr0 == pplayer) {
-        dsend_packet_diplomacy_accept_treaty(dest, other->player_no,
+        dsend_packet_diplomacy_accept_treaty(dest, player_number(other),
                                              ptreaty->accept0, 
                                              ptreaty->accept1);
       } else {
-        dsend_packet_diplomacy_accept_treaty(dest, other->player_no,
+        dsend_packet_diplomacy_accept_treaty(dest, player_number(other),
                                              ptreaty->accept1, 
                                              ptreaty->accept0);
       }
@@ -795,11 +793,11 @@ void reject_all_treaties(struct player *pplayer)
     treaty->accept0 = FALSE;
     treaty->accept1 = FALSE;
     dlsend_packet_diplomacy_accept_treaty(pplayer->connections,
-					  pplayer2->player_no,
+					  player_number(pplayer2),
 					  FALSE,
 					  FALSE);
     dlsend_packet_diplomacy_accept_treaty(pplayer2->connections,
-                                          pplayer->player_no,
+                                          player_number(pplayer),
 					  FALSE,
 					  FALSE);
   } players_iterate_end;

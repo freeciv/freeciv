@@ -117,7 +117,7 @@ void refresh_spaceship_dialog(struct player *pplayer)
   pship=&(pdialog->pplayer->spaceship);
 
   if (game.info.spacerace
-     && pplayer->player_no == game.info.player_idx
+     && player_number(pplayer) == game.info.player_idx
      && pship->state == SSHIP_STARTED
      && pship->success_rate > 0.0) {
     gui_dialog_set_response_sensitive(pdialog->shell,
@@ -215,7 +215,7 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
   pdialog->pplayer=pplayer;
 
   gui_dialog_new(&pdialog->shell, GTK_NOTEBOOK(top_notebook), NULL);
-  gui_dialog_set_title(pdialog->shell, pplayer->name);
+  gui_dialog_set_title(pdialog->shell, player_name(pplayer));
 
   gui_dialog_add_button(pdialog->shell,
       _("_Launch"), GTK_RESPONSE_ACCEPT);

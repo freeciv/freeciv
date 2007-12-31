@@ -164,7 +164,7 @@ void establish_new_connection(struct connection *pconn)
     notify_conn(dest, NULL, E_CONNECTION,
 		_("You are logged in as '%s' connected to no player."),
                 pconn->username);
-  } else if (strcmp(pconn->player->name, ANON_PLAYER_NAME) == 0) {
+  } else if (strcmp(player_name(pconn->player), ANON_PLAYER_NAME) == 0) {
     notify_conn(dest, NULL, E_CONNECTION,
 		_("You are logged in as '%s' connected to an "
 		  "anonymous player."),
@@ -172,7 +172,8 @@ void establish_new_connection(struct connection *pconn)
   } else {
     notify_conn(dest, NULL, E_CONNECTION,
 		_("You are logged in as '%s' connected to %s."),
-                pconn->username, pconn->player->name);
+                pconn->username,
+                player_name(pconn->player));
   }
 
   /* if need be, tell who we're waiting on to end the game.info.turn */
@@ -185,7 +186,7 @@ void establish_new_connection(struct connection *pconn)
         notify_conn(dest, NULL, E_CONNECTION,
 		    _("Turn-blocking game play: "
 		      "waiting on %s to finish turn..."),
-                    cplayer->name);
+                    player_name(cplayer));
       }
     } players_iterate_end;
   }

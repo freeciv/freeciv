@@ -14,8 +14,9 @@
 #define FC__CITY_H
 
 #include "fc_types.h"
+
 #include "improvement.h"
-#include "unit.h"		/* struct unit_list */
+#include "unitlist.h"
 #include "worklist.h"
 
 enum production_class_type {
@@ -347,8 +348,8 @@ extern struct output_type output_types[];
 
 #define cities_iterate(pcity)                                               \
 {                                                                           \
-  players_iterate(CI_player) {                                              \
-    city_list_iterate(CI_player->cities, pcity) {
+  players_iterate(pcity##_player) {                                         \
+    city_list_iterate(pcity##_player->cities, pcity) {
 
 #define cities_iterate_end                                                  \
     } city_list_iterate_end;                                                \
@@ -369,6 +370,7 @@ void add_specialist_output(const struct city *pcity, int *output);
 
 /* properties */
 
+const char *city_name(const struct city *pcity);
 struct player *city_owner(const struct city *pcity);
 int city_population(const struct city *pcity);
 int city_building_upkeep(const struct city *pcity, Output_type_id otype);

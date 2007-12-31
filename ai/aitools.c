@@ -193,7 +193,7 @@ bool ai_unit_execute_path(struct unit *punit, struct pf_path *path)
     } else {
       (void) ai_unit_move(punit, ptile);
     }
-    if (!find_unit_by_id(id)) {
+    if (!game_find_unit_by_number(id)) {
       /* Died... */
       return FALSE;
     }
@@ -824,7 +824,7 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
 
   if (punit->ai.ai_role == AIUNIT_HUNTER) {
     /* Clear victim's hunted bit - we're no longer chasing. */
-    struct unit *target = find_unit_by_id(punit->ai.target);
+    struct unit *target = game_find_unit_by_number(punit->ai.target);
 
     if (target) {
       target->ai.hunted &= ~(1 << unit_owner(punit)->player_no);
@@ -855,7 +855,7 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
   }
   if (punit->ai.ai_role == AIUNIT_HUNTER) {
     /* Set victim's hunted bit - the hunt is on! */
-    struct unit *target = find_unit_by_id(punit->ai.target);
+    struct unit *target = game_find_unit_by_number(punit->ai.target);
 
     assert(target != NULL);
     target->ai.hunted |= (1 << unit_owner(punit)->player_no);
@@ -954,13 +954,13 @@ bool ai_unit_attack(struct unit *punit, struct tile *ptile)
 
   handle_unit_activity_request(punit, ACTIVITY_IDLE);
   (void) handle_unit_move_request(punit, ptile, FALSE, FALSE);
-  alive = (find_unit_by_id(sanity) != NULL);
+  alive = (game_find_unit_by_number(sanity) != NULL);
 
   if (alive && same_pos(ptile, punit->tile)
       && bodyguard != NULL  && bodyguard->ai.charge == punit->id) {
     ai_unit_bodyguard_move(bodyguard, ptile);
     /* Clumsy bodyguard might trigger an auto-attack */
-    alive = (find_unit_by_id(sanity) != NULL);
+    alive = (game_find_unit_by_number(sanity) != NULL);
   }
 
   return alive;
@@ -1022,7 +1022,7 @@ bool ai_unit_move(struct unit *punit, struct tile *ptile)
   (void) handle_unit_move_request(punit, ptile, FALSE, TRUE);
 
   /* handle the results */
-  if (find_unit_by_id(sanity) && same_pos(ptile, punit->tile)) {
+  if (game_find_unit_by_number(sanity) && same_pos(ptile, punit->tile)) {
     struct unit *bodyguard = aiguard_guard_of(punit);
     if (is_ai && bodyguard != NULL && bodyguard->ai.charge == punit->id) {
       ai_unit_bodyguard_move(bodyguard, ptile);

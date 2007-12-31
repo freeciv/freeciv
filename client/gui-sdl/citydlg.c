@@ -711,7 +711,7 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
   unit_list_iterate(pList, pUnit) {
         
     pUType = unit_type(pUnit);
-    pHome_City = find_city_by_id(pUnit->homecity);
+    pHome_City = game_find_city_by_number(pUnit->homecity);
     my_snprintf(cBuf, sizeof(cBuf), "%s (%d,%d,%d)%s\n%s\n(%d/%d)\n%s",
 		utype_name_translation(pUType),
 		pUType->attack_strength,
@@ -1679,7 +1679,7 @@ static int new_name_city_dlg_callback(struct widget *pEdit)
     char *tmp = convert_to_chars(pEdit->string16->text);
   
     if(tmp) {
-      if(strcmp(tmp, pCityDlg->pCity->name)) {
+      if(strcmp(tmp, city_name(pCityDlg->pCity))) {
         SDL_Client_Flags |= CF_CHANGED_CITY_NAME;
         city_rename(pCityDlg->pCity, tmp);
       }
@@ -1687,7 +1687,7 @@ static int new_name_city_dlg_callback(struct widget *pEdit)
       FC_FREE(tmp);
     } else {
       /* empty input -> restore previous content */
-      copy_chars_to_string16(pEdit->string16, pCityDlg->pCity->name);
+      copy_chars_to_string16(pEdit->string16, city_name(pCityDlg->pCity));
       widget_redraw(pEdit);
       widget_mark_dirty(pEdit);
       flush_dirty();
@@ -1710,9 +1710,9 @@ static void refresh_city_names(struct city *pCity)
     
     convertcopy_to_chars(name, MAX_LEN_NAME,
 			    pCityDlg->pCity_Name_Edit->string16->text);
-    if ((strcmp(pCity->name, name) != 0)
+    if ((strcmp(city_name(pCity), name) != 0)
       || (SDL_Client_Flags & CF_CHANGED_CITY_NAME)) {
-      copy_chars_to_string16(pCityDlg->pCity_Name_Edit->string16, pCity->name);
+      copy_chars_to_string16(pCityDlg->pCity_Name_Edit->string16, city_name(pCity));
       rebuild_citydlg_title_str(pCityDlg->pEndCityWidgetList, pCity);
       SDL_Client_Flags &= ~CF_CHANGED_CITY_NAME;
     }
@@ -1965,8 +1965,8 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
     if (pCity->trade[i]) {
       step += pCity->trade_value[i];
 
-      if ((pTradeCity = find_city_by_id(pCity->trade[i]))) {
-	my_snprintf(cBuf, sizeof(cBuf), "%s: +%d", pTradeCity->name,
+      if ((pTradeCity = game_find_city_by_number(pCity->trade[i]))) {
+	my_snprintf(cBuf, sizeof(cBuf), "%s: +%d", city_name(pTradeCity),
 		    pCity->trade_value[i]);
       } else {
 	my_snprintf(cBuf, sizeof(cBuf), "%s: +%d", _("Unknown"),
@@ -3598,7 +3598,8 @@ static void rebuild_citydlg_title_str(struct widget *pWindow,
   char cBuf[512];
 
   my_snprintf(cBuf, sizeof(cBuf),
-	      _("City of %s (Population %s citizens)"), pCity->name,
+	      _("City of %s (Population %s citizens)"),
+	      city_name(pCity),
 	      population_to_text(city_population(pCity)));
 
   if (city_unhappy(pCity)) {
@@ -3709,6 +3710,7 @@ void popup_city_dialog(struct city *pCity)
   pBuf->size.x =
       area.x + adj_size(2) + 2 * ((adj_size(183) - 5 * pBuf->size.w) / 6) + pBuf->size.w;
   pBuf->size.y = area.y + adj_size(2);
+
   set_wstate(pBuf, FC_WS_NORMAL);
   add_to_gui_list(ID_CITY_DLG_SUPPORT_BUTTON, pBuf);
   /* -------- */
@@ -3847,7 +3849,7 @@ void popup_city_dialog(struct city *pCity)
   add_to_gui_list(ID_CITY_DLG_NEXT_BUTTON, pBuf);
   /* -------- */
   
-  pBuf = create_edit_from_chars(NULL, pWindow->dst, pCity->name,
+  pBuf = create_edit_from_chars(NULL, pWindow->dst, city_name(pCity),
                               adj_font(10), adj_size(200), WF_RESTORE_BACKGROUND);
   pBuf->action = new_name_city_dlg_callback;
   pBuf->size.x = area.x + (area.w - pBuf->size.w) / 2;
@@ -3923,7 +3925,7 @@ void refresh_city_dialog(struct city *pCity)
 void refresh_unit_city_dialogs(struct unit *pUnit)
 {
 
-  struct city *pCity_sup = find_city_by_id(pUnit->homecity);
+  struct city *pCity_sup = game_find_city_by_number(pUnit->homecity);
   struct city *pCity_pre = tile_get_city(pUnit->tile);
 
   if (pCityDlg && ((pCityDlg->pCity == pCity_sup)

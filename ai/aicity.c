@@ -33,6 +33,7 @@
 #include "player.h"
 #include "rand.h"
 #include "shared.h"
+#include "specialist.h"
 #include "support.h"
 #include "unit.h"
 #include "unitlist.h"
@@ -767,7 +768,7 @@ static void calculate_wonder_helpers(struct player *pplayer,
   struct unit_type *punittype;
   struct unit *ghost;
   int maxrange;
-  struct city *wonder_city = find_city_by_id(ai->wonder_city);
+  struct city *wonder_city = game_find_city_by_number(ai->wonder_city);
 
   city_list_iterate(pplayer->cities, acity) {
     acity->ai.distance_to_wonder_city = 0; /* unavailable */
@@ -817,7 +818,7 @@ void ai_manage_buildings(struct player *pplayer)
 #define RECALC_SPEED 5
 {
   struct ai_data *ai = ai_data_get(pplayer);
-  struct city *wonder_city = find_city_by_id(ai->wonder_city);
+  struct city *wonder_city = game_find_city_by_number(ai->wonder_city);
 
   if (wonder_city && city_owner(wonder_city) != pplayer) {
     /* We lost it to the enemy! */
@@ -1042,7 +1043,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
 		       _("The %s have stopped building The %s in %s."),
 		       nation_plural_for_player(pplayer),
 		       get_impr_name_ex(pcity, pcity->production.value),
-		       pcity->name);
+		       city_name(pcity));
     
     if (pcity->ai.choice.type == CT_BUILDING 
 	&& is_wonder(pcity->ai.choice.choice)
@@ -1053,7 +1054,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
 			 _("The %s have started building The %s in %s."),
 			 nation_plural_for_player(city_owner(pcity)),
 			 get_impr_name_ex(pcity, pcity->ai.choice.choice),
-			 pcity->name);
+			 city_name(pcity));
       }
       pcity->production.value = pcity->ai.choice.choice;
       pcity->production.is_unit = is_unit_choice_type(pcity->ai.choice.type);
@@ -1155,10 +1156,10 @@ static void ai_spend_gold(struct player *pplayer)
   } city_list_iterate_end;
   
   do {
-    int limit = cached_limit; /* cached_limit is our gold reserve */
-    struct city *pcity = NULL;
     bool expensive; /* don't buy when it costs x2 unless we must */
     int buycost;
+    int limit = cached_limit; /* cached_limit is our gold reserve */
+    struct city *pcity = NULL;
 
     /* Find highest wanted item on the buy list */
     init_choice(&bestchoice);
@@ -1283,7 +1284,7 @@ static void ai_spend_gold(struct player *pplayer)
   }
 
   freelog(LOG_BUY, "%s wants to keep %d in reserve (tax factor %d)", 
-          pplayer->name, cached_limit, pplayer->ai.maxbuycost);
+          player_name(pplayer), cached_limit, pplayer->ai.maxbuycost);
 }
 
 /**************************************************************************
@@ -1375,7 +1376,7 @@ static void ai_sell_obsolete_buildings(struct city *pcity)
       do_sell_building(pplayer, pcity, i);
       notify_player(pplayer, pcity->tile, E_IMP_SOLD,
 		       _("%s is selling %s (not needed) for %d."), 
-		       pcity->name,
+		       city_name(pcity),
 		       improvement_name_translation(i), 
 		       impr_sell_gold(i));
       return; /* max 1 building each turn */
@@ -1409,7 +1410,8 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
 
   freelog(LOG_EMERGENCY,
           "Emergency in %s (%s, angry%d, unhap%d food%d, prod%d)",
-          pcity->name, city_unhappy(pcity) ? "unhappy" : "content",
+          city_name(pcity),
+          city_unhappy(pcity) ? "unhappy" : "content",
           pcity->feel[CITIZEN_ANGRY][FEELING_FINAL],
           pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL],
           pcity->surplus[O_FOOD],
@@ -1423,7 +1425,9 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
 
     if (acity && acity != pcity && city_owner(acity) == city_owner(pcity))  {
       freelog(LOG_DEBUG, "%s taking over %s square in (%d, %d)",
-              pcity->name, acity->name, ptile->x, ptile->y);
+              city_name(pcity),
+              city_name(acity),
+              TILE_XY(ptile));
       is_valid = map_to_city_map(&city_map_x, &city_map_y, acity, ptile);
       assert(is_valid);
       if (!is_valid || is_free_worked_tile(city_map_x, city_map_y)) {
@@ -1440,7 +1444,8 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
   auto_arrange_workers(pcity);
 
   if (!CITY_EMERGENCY(pcity)) {
-    freelog(LOG_EMERGENCY, "Emergency in %s resolved", pcity->name);
+    freelog(LOG_EMERGENCY, "Emergency in %s resolved",
+            city_name(pcity));
     goto cleanup;
   }
 
@@ -1456,10 +1461,11 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
 
   if (CITY_EMERGENCY(pcity)) {
     freelog(LOG_EMERGENCY, "Emergency in %s remains unresolved", 
-            pcity->name);
+            city_name(pcity));
   } else {
     freelog(LOG_EMERGENCY, 
-            "Emergency in %s resolved by disbanding unit(s)", pcity->name);
+            "Emergency in %s resolved by disbanding unit(s)",
+            city_name(pcity));
   }
 
   cleanup:

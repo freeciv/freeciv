@@ -490,7 +490,7 @@ static struct city *player_find_city_from_wonder(const struct player *plr,
     return NULL;
   }
 
-  pcity = find_city_by_id(city_id);
+  pcity = game_find_city_by_number(city_id);
   if (pcity && (city_owner(pcity) == plr)) {
     return pcity;
   } else {

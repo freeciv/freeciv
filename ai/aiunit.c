@@ -151,7 +151,7 @@ static void ai_airlift(struct player *pplayer)
       return;
     }
     UNIT_LOG(LOG_DEBUG, transported, "airlifted to defend %s",
-             most_needed->name);
+             city_name(most_needed));
     do_airline(transported, most_needed);
   } while (TRUE);
 }
@@ -917,7 +917,7 @@ int look_for_charge(struct player *pplayer, struct unit *punit,
            "type=%s(%d,%d)",
            best * 100 / toughness,
            *acity
-           ? (*acity)->name
+           ? city_name(*acity)
            : (*aunit
               ? unit_rule_name(*aunit)
               : ""), 
@@ -1043,13 +1043,13 @@ static void ai_military_defend(struct player *pplayer,struct unit *punit)
   }
 
   if (!pcity) {
-    pcity = find_city_by_id(punit->homecity);
+    pcity = game_find_city_by_number(punit->homecity);
   }
 
   if (ai_military_rampage(punit, RAMPAGE_ANYTHING, RAMPAGE_ANYTHING)) {
     /* ... we survived */
     if (pcity) {
-      UNIT_LOG(LOG_DEBUG, punit, "go to defend %s", pcity->name);
+      UNIT_LOG(LOG_DEBUG, punit, "go to defend %s", city_name(pcity));
       if (same_pos(punit->tile, pcity->tile)) {
         UNIT_LOG(LOG_DEBUG, punit, "go defend successful");
         punit->ai.done = TRUE;
@@ -1244,9 +1244,9 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
      * fstk is in many cases right thing to do when custom
      * rulesets are used - and callers correctly handle cases
      * where fstk failed to find target.
-     * In trunk, handling of units different to those in default
+     * FIXME: handling of units different to those in default
      * ruleset should be improved. */
-    UNIT_LOG(LOG_DEBUG, punit, "bad unit type passed to fstk");
+    UNIT_LOG(LOG_VERBOSE, punit, "find_something_to_kill() bad unit type");
     return 0;
   }
 
@@ -1471,14 +1471,14 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
       needferry = (go_by_boat && !ferryboat
 		   ? unit_build_shield_cost(boattype) : 0);
       /* FIXME: add time to build the ferry? */
-      want = military_amortize(pplayer, find_city_by_id(punit->homecity),
+      want = military_amortize(pplayer, game_find_city_by_number(punit->homecity),
                                want, MAX(1, move_time),
 			       bcost_bal + needferry);
 
       /* BEGIN STEAM-ENGINES-ARE-OUR-FRIENDS KLUGE */
       if (want <= 0 && punit->id == 0 && best == 0) {
         int bk_e = military_amortize(pplayer,
-				     find_city_by_id(punit->homecity),
+				     game_find_city_by_number(punit->homecity),
                                      benefit * SHIELD_WEIGHTING, 
                                      MAX(1, move_time),
 				     bcost_bal + needferry);
@@ -1494,9 +1494,9 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
         UNIT_LOG(LOG_DEBUG, punit, "in fstk with boat %s@(%d, %d) -> %s@(%d, %d)"
                  " (go_by_boat=%d, move_time=%d, want=%d, best=%d)",
                  unit_rule_name(ferryboat),
-                 ferryboat->tile->x,
-                 ferryboat->tile->y,
-                 acity->name, TILE_XY(acity->tile), 
+                 TILE_XY(ferryboat->tile),
+                 city_name(acity),
+                 TILE_XY(acity->tile), 
                  go_by_boat, move_time, want, best);
       }
       
@@ -1586,7 +1586,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
          * (costs 2 luxuries to compensate) */
         want -= (unhap ? 2 * move_time * TRADE_WEIGHTING : 0);
       }
-      want = military_amortize(pplayer, find_city_by_id(punit->homecity),
+      want = military_amortize(pplayer, game_find_city_by_number(punit->homecity),
                                want, MAX(1, move_time), bcost_bal);
       if (want > best && ai_fuzzy(pplayer, TRUE)) {
         best = want;
@@ -1663,13 +1663,14 @@ static void ai_military_attack_barbarian(struct player *pplayer,
 
   if ((pc = dist_nearest_city(pplayer, punit->tile, any_continent, TRUE))) {
     if (!is_ocean(tile_get_terrain(punit->tile))) {
-      UNIT_LOG(LOG_DEBUG, punit, "Barbarian marching to conquer %s", pc->name);
+      UNIT_LOG(LOG_DEBUG, punit, "Barbarian heading to conquer %s",
+               city_name(pc));
       (void) ai_gothere(pplayer, punit, pc->tile);
     } else {
       struct unit *ferry = NULL;
 
       if (punit->transported_by != -1) {
-        ferry = find_unit_by_id(punit->transported_by);
+        ferry = game_find_unit_by_number(punit->transported_by);
 
         /* We already are in a boat so it needs no
          * free capacity */
@@ -1690,7 +1691,7 @@ static void ai_military_attack_barbarian(struct player *pplayer,
 
       if (ferry) {
 	UNIT_LOG(LOG_DEBUG, punit, "Barbarian sailing to conquer %s",
-		 pc->name);
+		 city_name(pc));
 	(void)aiferry_goto_amphibious(ferry, punit, pc->tile);
       } else {
         /* This is not an error. Somebody else might be in charge
@@ -1748,7 +1749,7 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
                  dest_tile->x, dest_tile->y);
         if (!ai_gothere(pplayer, punit, dest_tile)) {
           /* Died or got stuck */
-	  if (find_unit_by_id(id)
+	  if (game_find_unit_by_number(id)
 	      && punit->moves_left && punit->tile != start_tile) {
 	    /* Got stuck. Possibly because of adjacency to an
 	     * enemy unit. Perhaps we are in luck and are now next to a
@@ -1803,7 +1804,7 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
     /* Nothing else to do, so try exploring. */
     if (ai_manage_explorer(punit)) {
       UNIT_LOG(LOG_DEBUG, punit, "nothing else to do, so exploring");
-    } else if (find_unit_by_id(id)) {
+    } else if (game_find_unit_by_number(id)) {
       UNIT_LOG(LOG_DEBUG, punit, "nothing to do - no more exploring either");
     }
   } else {
@@ -1812,7 +1813,7 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
     UNIT_LOG(LOG_DEBUG, punit, "attack: barbarian");
     ai_military_attack_barbarian(pplayer, punit);
   }
-  if ((punit = find_unit_by_id(id)) && punit->moves_left > 0) {
+  if ((punit = game_find_unit_by_number(id)) && punit->moves_left > 0) {
     UNIT_LOG(LOG_DEBUG, punit, "attack: giving up unit to defense");
     ai_military_defend(pplayer, punit);
   }
@@ -1839,7 +1840,7 @@ static void ai_caravan_goto(struct player *pplayer,
             unit_rule_name(punit),
             punit->id,
             TILE_XY(punit->tile),
-            help_wonder ? "help a wonder" : "trade", pcity->name);
+            help_wonder ? "help a wonder" : "trade", city_name(pcity));
     alive = ai_unit_goto(punit, pcity->tile); 
   }
 
@@ -1856,7 +1857,7 @@ static void ai_caravan_goto(struct player *pplayer,
               unit_rule_name(punit),
               punit->id,
               TILE_XY(punit->tile),
-              pcity->name);
+              city_name(pcity));
 	handle_unit_help_build_wonder(pplayer, punit->id);
     } else {
       freelog(LOG_CARAVAN, "%s %s[%d](%d,%d) creates trade route in %s",
@@ -1864,7 +1865,7 @@ static void ai_caravan_goto(struct player *pplayer,
               unit_rule_name(punit),
               punit->id,
               TILE_XY(punit->tile),
-              pcity->name);
+              city_name(pcity));
       handle_unit_establish_trade(pplayer, punit->id);
     }
   }
@@ -1884,9 +1885,10 @@ static void caravan_optimize_callback(const struct caravan_result *result,
           unit_rule_name(caravan),
           caravan->id,
           TILE_XY(caravan->tile),
-	  result->src->name,
+	  city_name(result->src),
 	  result->help_wonder ? "wonder in" : "trade to",
-	  result->dest->name, result->value);
+	  city_name(result->dest),
+	  result->value);
 }
 
 /*************************************************************************
@@ -1962,7 +1964,8 @@ static void ai_manage_hitpoint_recovery(struct unit *punit)
     /* find city to stay and go there */
     safe = find_nearest_safe_city(punit);
     if (safe) {
-      UNIT_LOG(LOGLEVEL_RECOVERY, punit, "going to %s to recover", safe->name);
+      UNIT_LOG(LOGLEVEL_RECOVERY, punit, "going to %s to recover",
+               city_name(safe));
       if (!ai_unit_goto(punit, safe->tile)) {
         freelog(LOGLEVEL_RECOVERY, "died trying to hide and recover");
         return;
@@ -2024,7 +2027,7 @@ void ai_manage_military(struct player *pplayer, struct unit *punit)
 
     UNIT_LOG(LOGLEVEL_HUNT, punit, "is qualified as hunter");
     result = ai_hunter_manage(pplayer, punit);
-    if (!find_unit_by_id(sanity)) {
+    if (!game_find_unit_by_number(sanity)) {
       TIMING_LOG(AIT_HUNTER, TIMER_STOP);
       return; /* died */
     }
@@ -2085,7 +2088,7 @@ void ai_manage_military(struct player *pplayer, struct unit *punit)
   }
 
   /* If we are still alive, either sentry or fortify. */
-  if ((punit = find_unit_by_id(id))) {
+  if ((punit = game_find_unit_by_number(id))) {
     if (unit_list_find(punit->tile->units, punit->ai.ferryboat)) {
       handle_unit_activity_request(punit, ACTIVITY_SENTRY);
     } else if (punit->tile->city || punit->activity == ACTIVITY_IDLE) {
@@ -2226,7 +2229,7 @@ void ai_manage_unit(struct player *pplayer, struct unit *punit)
     UNIT_LOG(LOG_DEBUG, punit, "fell through all unit tasks, defending");
     /* what else could this be? -- Syela */
     if (!ai_manage_explorer(punit)
-        && find_unit_by_id(id)) {
+        && game_find_unit_by_number(id)) {
       ai_unit_new_role(punit, AIUNIT_DEFEND_HOME, NULL);
       ai_military_defend(pplayer, punit);
     }
@@ -2364,7 +2367,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer,
 
   if (leader->transported_by != -1) {
     /* Leader is at boat */
-    struct unit *boat = find_unit_by_id(leader->transported_by);
+    struct unit *boat = game_find_unit_by_number(leader->transported_by);
 
     if (boat->ai.passenger == leader->id) {
       /* We are in charge. Of course, since we are the leader...

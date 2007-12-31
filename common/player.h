@@ -13,9 +13,10 @@
 #ifndef FC__PLAYER_H
 #define FC__PLAYER_H
 
+#include "fc_types.h"
+
 #include "city.h"
 #include "connection.h"
-#include "fc_types.h"
 #include "improvement.h"	/* Impr_Status */
 #include "nation.h"
 #include "shared.h"
@@ -28,7 +29,7 @@
 #define PLAYER_DEFAULT_LUXURY_RATE 0
 
 #define ANON_PLAYER_NAME "noname"
-#define ANON_USER_NAME  "Unassigned"
+#define ANON_USER_NAME "Unassigned"
 
 /*
  * pplayer->ai.barbarian_type uses this enum. Note that the values
@@ -101,6 +102,7 @@ struct player_ai {
   int prev_gold;
   int maxbuycost;
   int est_upkeep; /* estimated upkeep of buildings in cities */
+  /* The units of tech_want seem to be shields */
   int tech_want[A_LAST+1];
   int handicap;			/* sum of enum handicap_type */
   int skill_level;		/* 0-10 value for save/load/display */
@@ -211,11 +213,20 @@ struct player {
   bv_debug debug;
 };
 
-void player_init(struct player *plr);
+/* General player accessor functions. */
+int player_count(void);
+int player_index(const struct player *pplayer);
+int player_number(const struct player *pplayer);
+
+struct player *player_by_number(const int player_id);
+struct player *valid_player_by_number(const int player_id);
+
+const char *player_name(const struct player *pplayer);
 struct player *find_player_by_name(const char *name);
 struct player *find_player_by_name_prefix(const char *name,
 					  enum m_pre_result *result);
 struct player *find_player_by_user(const char *name);
+
 bool player_set_nation(struct player *pplayer, struct nation_type *pnation);
 void player_set_unit_focus_status(struct player *pplayer);
 bool player_has_embassy(const struct player *pplayer,
@@ -289,6 +300,9 @@ bool is_barbarian(const struct player *pplayer);
 bool gives_shared_vision(const struct player *me, const struct player *them);
 
 struct player_research *get_player_research(const struct player *p1);
+
+/* Initialization and iteration */
+void player_init(struct player *plr);
 
 #define players_iterate(PI_player)                                            \
 {                                                                             \

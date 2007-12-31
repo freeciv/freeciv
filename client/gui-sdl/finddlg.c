@@ -158,7 +158,7 @@ void popup_find_dialog(void)
   for(i=0; i<game.info.nplayers; i++) {
     city_list_iterate(game.players[i].cities, pCity) {
     
-      my_snprintf(cBuf , sizeof(cBuf), "%s (%d)",pCity->name, pCity->size);
+      my_snprintf(cBuf , sizeof(cBuf), "%s (%d)", city_name(pCity), pCity->size);
       
       pStr = create_str16_from_char(cBuf , adj_font(10));
       pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);

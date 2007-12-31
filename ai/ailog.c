@@ -59,7 +59,8 @@ void TECH_LOG(int level, const struct player *pplayer, Tech_type_id id,
   }
 
   my_snprintf(buffer, sizeof(buffer), "%s::%s (want %d, dist %d) ", 
-              pplayer->name, advance_name_by_player(pplayer, id), 
+              player_name(pplayer),
+              advance_name_by_player(pplayer, id), 
               pplayer->ai.tech_want[id], 
               num_unknown_techs_for_goal(pplayer, id));
 
@@ -98,9 +99,12 @@ void DIPLO_LOG(int level, const struct player *pplayer,
   adip = ai_diplomacy_get(pplayer, aplayer);
 
   my_snprintf(buffer, sizeof(buffer), "%s->%s(l%d,c%d,d%d%s): ", 
-              pplayer->name, aplayer->name, 
-              pplayer->ai.love[aplayer->player_no], adip->countdown, 
-              adip->distance, adip->is_allied_with_enemy ? "?" :
+              player_name(pplayer),
+              player_name(aplayer), 
+              pplayer->ai.love[player_index(aplayer)],
+              adip->countdown, 
+              adip->distance,
+              adip->is_allied_with_enemy ? "?" :
               (adip->at_war_with_ally ? "!" : ""));
 
   va_start(ap, msg);
@@ -133,7 +137,7 @@ void CITY_LOG(int level, const struct city *pcity, const char *msg, ...)
 
   my_snprintf(buffer, sizeof(buffer), "%s %s(%d,%d) [s%d d%d u%d g%d] ",
               nation_rule_name(nation_of_city(pcity)),
-              pcity->name,
+              city_name(pcity),
               TILE_XY(pcity->tile), pcity->size,
               pcity->ai.danger, pcity->ai.urgency,
               pcity->ai.grave_danger);
@@ -232,8 +236,8 @@ void BODYGUARD_LOG(int level, const struct unit *punit, const char *msg)
     return;
   }
 
-  pcity = find_city_by_id(punit->ai.charge);
-  pcharge = find_unit_by_id(punit->ai.charge);
+  pcity = game_find_city_by_number(punit->ai.charge);
+  pcharge = game_find_unit_by_number(punit->ai.charge);
   if (pcharge) {
     charge_x = pcharge->tile->x;
     charge_y = pcharge->tile->y;
@@ -245,7 +249,7 @@ void BODYGUARD_LOG(int level, const struct unit *punit, const char *msg)
     charge_y = pcity->tile->y;
     id = pcity->id;
     type = "cityguard";
-    s = pcity->name;
+    s = city_name(pcity);
   }
   /* else perhaps the charge died */
 

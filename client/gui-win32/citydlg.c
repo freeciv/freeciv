@@ -885,8 +885,6 @@ static void buy_callback_no(HWND w, void * data)
 /**************************************************************************
 ...
 **************************************************************************/
-        
-
 static void buy_callback(struct city_dialog *pdialog)
 {
   int value;
@@ -918,6 +916,7 @@ static void buy_callback(struct city_dialog *pdialog)
                          _("Darn"), buy_callback_no, 0, 0);
   }      
 }
+
 /****************************************************************
 ...
 *****************************************************************/
@@ -1124,7 +1123,6 @@ static void change_callback(struct city_dialog *pdialog)
   
 }
 
-
 /****************************************************************
   Commit the changes to the worklist for the city.
 *****************************************************************/
@@ -1202,7 +1200,7 @@ static void rename_callback(struct city_dialog *pdialog)
   input_dialog_create(pdialog->mainwindow,
                       /*"shellrenamecity"*/_("Rename City"),
                       _("What should we rename the city to?"),
-                      pdialog->pcity->name,
+                      city_name(pdialog->pcity),
                       (void*)rename_city_callback, (void *)pdialog,
                       (void*)rename_city_callback, (void *)0);    
 }
@@ -1253,10 +1251,10 @@ static void city_dialog_update_tradelist(struct city_dialog *pdialog)
       x = 1;
       total += pdialog->pcity->trade_value[i];
 
-      if ((pcity = find_city_by_id(pdialog->pcity->trade[i]))) {
-        my_snprintf(cityname, sizeof(cityname), "%s", pcity->name);
+      if ((pcity = game_find_city_by_number(pdialog->pcity->trade[i]))) {
+        sz_strlcpy(cityname, city_name(pcity));
       } else {
-        my_snprintf(cityname, sizeof(cityname), _("%s"), _("Unknown"));
+        sz_strlcpy(cityname, _("Unknown"));
       }
       cat_snprintf(buf, sizeof(buf), _("Trade with %s gives %d trade.\n"),
 		   cityname, pdialog->pcity->trade_value[i]);
@@ -1474,7 +1472,7 @@ static void city_dlg_click_supported(struct city_dialog *pdialog, int n)
 
   if((punit=player_find_unit_by_id(game.player_ptr, 
 				   pdialog->support_unit_ids[n])) &&
-     (pcity = find_city_by_id(punit->homecity))) {   
+     (pcity = game_find_city_by_number(punit->homecity))) {   
     wd = popup_message_dialog(NULL,
            /*"supportunitsdialog"*/ _("Unit Commands"),
            unit_description(punit),
@@ -1801,7 +1799,7 @@ struct city_dialog *create_city_dialog(struct city *pcity)
   pdialog->resized=0;
   pdialog->cityopt_dialog=NULL;
   pdialog->mainwindow=
-    fcwin_create_layouted_window(CitydlgWndProc,pcity->name,
+    fcwin_create_layouted_window(CitydlgWndProc,city_name(pcity),
 			   WS_OVERLAPPEDWINDOW,
 			   20,20,
 			   root_window,
@@ -1984,7 +1982,7 @@ LONG APIENTRY citydlg_config_proc(HWND hWnd,
 	pdialog->cityopt_dialog=hWnd;
 	vbox=fcwin_vbox_new(hWnd,FALSE);
 	pdialog->opt_winbox=vbox;
-	fcwin_box_add_static_default(vbox,pdialog->pcity->name,-1,SS_CENTER);
+	fcwin_box_add_static_default(vbox,city_name(pdialog->pcity),-1,SS_CENTER);
 	fcwin_box_add_static_default(vbox,_("New citizens are"),-1,SS_LEFT);
 	fcwin_box_add_radiobutton(vbox,_("Elvises"),ID_CITYOPT_RADIO,
 				  WS_GROUP,FALSE,FALSE,5);

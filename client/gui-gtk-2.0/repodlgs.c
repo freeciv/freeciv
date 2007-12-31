@@ -931,7 +931,7 @@ void create_activeunits_report_dialog(bool make_modal)
 {
   static const char *titles[AU_COL] = {
     N_("Unit Type"),
-    N_("U"),
+    N_("?Upgradable unit [short]:U"),
     N_("In-Prog"),
     N_("Active"),
     N_("Shield"),
@@ -1354,7 +1354,7 @@ static void create_endgame_report(struct packet_endgame_report *packet)
   for (i = 0; i < packet->nscores; i++) {
     gtk_list_store_append(scores_store, &it);
     gtk_list_store_set(scores_store, &it,
-                       0, (gchar *)get_player(packet->id[i])->name,
+                       0, (gchar *)player_name(player_by_number(packet->id[i])),
                        1, packet->score[i],
                        2, packet->pop[i],
                        3, packet->bnp[i],

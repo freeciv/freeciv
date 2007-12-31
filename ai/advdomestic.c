@@ -59,7 +59,7 @@ static void ai_choose_help_wonder(struct city *pcity,
   int caravans = 0;
   /* The type of the caravan */
   struct unit_type *unit_type;
-  struct city *wonder_city = find_city_by_id(ai->wonder_city);
+  struct city *wonder_city = game_find_city_by_number(ai->wonder_city);
 
   if (num_role_units(F_HELP_WONDER) == 0) {
     /* No such units available in the ruleset */
@@ -114,7 +114,7 @@ static void ai_choose_help_wonder(struct city *pcity,
     want /= MAX(dist, 1);
     CITY_LOG(LOG_DEBUG, pcity, "want %s to help wonder in %s with %d", 
              utype_rule_name(unit_type),
-             wonder_city->name,
+             city_name(wonder_city),
              want);
     if (want > choice->want) {
       /* This sets our tech want in cases where we cannot actually build

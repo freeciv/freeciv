@@ -1241,7 +1241,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
     area.h += pBuf->next->size.h;
     /* ------------------ */
     
-    my_snprintf(cBuf, sizeof(cBuf), _("Zoom to : %s"), pCity->name );
+    my_snprintf(cBuf, sizeof(cBuf), _("Zoom to : %s"), city_name(pCity) );
     
     create_active_iconlabel(pBuf, pWindow->dst,
 		    pStr, cBuf, zoom_to_city_callback);
@@ -2208,7 +2208,8 @@ static int races_dialog_ok_callback(struct widget *pStart_Button)
       return (-1);
     }
   
-    dsend_packet_nation_select_req(&aconnection, races_player->player_no, pSetup->nation,
+    dsend_packet_nation_select_req(&aconnection, player_number(races_player),
+                                   pSetup->nation,
                                    pSetup->leader_sex, pStr,
                                    pSetup->nation_city_style);
     FC_FREE(pStr);
@@ -2253,7 +2254,7 @@ static int next_name_callback(struct widget *pNext)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     int dim;
     struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
-    struct leader *leaders = get_nation_leaders(nation_by_number(pSetup->nation), &dim);
+    struct nation_leader *leaders = get_nation_leaders(nation_by_number(pSetup->nation), &dim);
       
     pSetup->selected_leader++;
     
@@ -2308,7 +2309,7 @@ static int prev_name_callback(struct widget *pPrev)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     int dim;
     struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
-    struct leader *leaders = get_nation_leaders(nation_by_number(pSetup->nation), &dim);
+    struct nation_leader *leaders = get_nation_leaders(nation_by_number(pSetup->nation), &dim);
       
     pSetup->selected_leader--;
   
@@ -2598,7 +2599,7 @@ static void select_random_leader(Nation_type_id nation)
 {
   int dim;
   struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
-  struct leader *leaders = get_nation_leaders(nation_by_number(nation), &dim);
+  struct nation_leader *leaders = get_nation_leaders(nation_by_number(nation), &dim);
   
     
   pSetup->selected_leader = myrand(dim);

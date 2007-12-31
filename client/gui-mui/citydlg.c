@@ -2024,7 +2024,7 @@ static void city_dialog_update_tradelist(struct city_dialog *pdialog)
       x = 1;
       total += pdialog->pcity->trade_value[i];
 
-      if ((pcity = find_city_by_id(pdialog->pcity->trade[i]))) {
+      if ((pcity = game_find_city_by_number(pdialog->pcity->trade[i]))) {
 	my_snprintf(cityname, sizeof(cityname), "%s", pcity->name);
       } else {
 	my_snprintf(cityname, sizeof(cityname), _("%s"), _("Unknown"));
