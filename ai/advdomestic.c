@@ -113,7 +113,7 @@ static void ai_choose_help_wonder(struct city *pcity,
     want /= MAX(dist, 1);
     CITY_LOG(LOG_DEBUG, pcity, "want %s to help wonder in %s with %d", 
              utype_rule_name(unit_type),
-             wonder_city->name,
+             city_name(wonder_city),
              want);
     if (want > choice->want) {
       /* This sets our tech want in cases where we cannot actually build

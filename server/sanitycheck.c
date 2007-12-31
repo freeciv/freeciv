@@ -50,9 +50,9 @@
     if (!(check)) {							\
       struct city *pcity = tile_city(ptile);				\
       freelog(LOG_ERROR, "Failed sanity check at %s (%d, %d): "		\
-              "%s (%s:%d)", pcity ? pcity->name				\
+              "%s (%s:%d)", pcity ? city_name(pcity)			\
               : tile_terrain(ptile)->name.vernacular,			\
-              ptile->x, ptile->y,					\
+              TILE_XY(ptile),						\
               #check, __FILE__,__LINE__);				\
     }									\
   } while(0)
@@ -61,8 +61,8 @@
   do {									\
     if (!(check)) {							\
       freelog(LOG_ERROR, "Failed sanity check in %s[%d](%d, %d): "	\
-              "%s (%s:%d)", pcity->name, pcity->size, pcity->tile->x, 	\
-               pcity->tile->y, #check, __FILE__,__LINE__);		\
+              "%s (%s:%d)", city_name(pcity), pcity->size, 		\
+               TILE_XY(pcity->tile), #check, __FILE__,__LINE__);	\
     }									\
   } while(0)
 
@@ -253,27 +253,28 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
 	if (ptile->worked) {
 	  freelog(LOG_ERROR, "Tile at %s->%d,%d%s marked as "
 		  "empty but worked by %s!",
-		  pcity->name, TILE_XY(ptile),
+		  city_name(pcity),
+		  TILE_XY(ptile),
                   is_city_center(x, y) ? " (city center)" : "",
-		  (ptile)->worked->name);
+		  city_name(ptile->worked));
 	}
 	if (is_enemy_unit_tile(ptile, pplayer)) {
 	  freelog(LOG_ERROR, "Tile at %s->%d,%d%s marked as "
 		  "empty but occupied by an enemy unit!",
-		  pcity->name, TILE_XY(ptile),
+		  city_name(pcity), TILE_XY(ptile),
                   is_city_center(x, y) ? " (city center)" : "");
 	}
 	if (game.info.borders > 0 && owner && owner != city_owner(pcity)) {
 	  freelog(LOG_ERROR, "Tile at %s->%d,%d%s marked as "
 		  "empty but in enemy territory!",
-		  pcity->name, TILE_XY(ptile),
+		  city_name(pcity), TILE_XY(ptile),
                   is_city_center(x, y) ? " (city center)" : "");
 	}
 	if (!city_can_work_tile(pcity, x, y)) {
 	  /* Complete check. */
 	  freelog(LOG_ERROR, "Tile at %s->%d,%d%s marked as "
 		  "empty but is unavailable!",
-		  pcity->name, TILE_XY(ptile),
+		  city_name(pcity), TILE_XY(ptile),
                   is_city_center(x, y) ? " (city center)" : "");
 	}
 	break;
@@ -281,26 +282,26 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
 	if ((ptile)->worked != pcity) {
 	  freelog(LOG_ERROR, "Tile at %s->%d,%d%s marked as "
 		  "worked but main map disagrees!",
-		  pcity->name, TILE_XY(ptile),
+		  city_name(pcity), TILE_XY(ptile),
                   is_city_center(x, y) ? " (city center)" : "");
 	}
 	if (is_enemy_unit_tile(ptile, pplayer)) {
 	  freelog(LOG_ERROR, "Tile at %s->%d,%d%s marked as "
 		  "worked but occupied by an enemy unit!",
-		  pcity->name, TILE_XY(ptile),
+		  city_name(pcity), TILE_XY(ptile),
                   is_city_center(x, y) ? " (city center)" : "");
 	}
 	if (game.info.borders > 0 && owner && owner != city_owner(pcity)) {
 	  freelog(LOG_ERROR, "Tile at %s->%d,%d%s marked as "
 		  "worked but in enemy territory!",
-		  pcity->name, TILE_XY(ptile),
+		  city_name(pcity), TILE_XY(ptile),
                   is_city_center(x, y) ? " (city center)" : "");
 	}
 	if (!city_can_work_tile(pcity, x, y)) {
 	  /* Complete check. */
 	  freelog(LOG_ERROR, "Tile at %s->%d,%d%s marked as "
 		  "worked but is unavailable!",
-		  pcity->name, TILE_XY(ptile),
+		  city_name(pcity), TILE_XY(ptile),
                   is_city_center(x, y) ? " (city center)" : "");
 	}
 	break;
@@ -308,7 +309,7 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
 	if (city_can_work_tile(pcity, x, y)) {
 	  freelog(LOG_ERROR, "Tile at %s->%d,%d%s marked as "
 		  "unavailable but seems to be available!",
-		  pcity->name, TILE_XY(ptile),
+		  city_name(pcity), TILE_XY(ptile),
                   is_city_center(x, y) ? " (city center)" : "");
 	}
 	break;
@@ -378,7 +379,8 @@ static void check_cities(void)
 	freelog(LOG_ERROR, "%d,%d is listed as being worked by %s "
 		"on the map, but %s lists the tile %d,%d as having "
 		"status %d\n",
-		TILE_XY(ptile), pcity->name, pcity->name, city_x, city_y,
+		TILE_XY(ptile), city_name(pcity), city_name(pcity),
+		city_x, city_y,
 		pcity->city_map[city_x][city_y]);
       }
     }
@@ -496,7 +498,7 @@ static void check_players(void)
     if (pplayer->revolution_finishes == -1) {
       if (government_of_player(pplayer) == game.government_when_anarchy) {
         freelog(LOG_FATAL, "%s's government is anarchy but does not finish",
-                pplayer->name);
+                player_name(pplayer));
       }
       SANITY_CHECK(government_of_player(pplayer) != game.government_when_anarchy);
     } else if (pplayer->revolution_finishes > game.info.turn) {

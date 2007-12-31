@@ -215,7 +215,7 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
   pdialog->pplayer=pplayer;
 
   gui_dialog_new(&pdialog->shell, GTK_NOTEBOOK(top_notebook), NULL);
-  gui_dialog_set_title(pdialog->shell, pplayer->name);
+  gui_dialog_set_title(pdialog->shell, player_name(pplayer));
 
   gui_dialog_add_button(pdialog->shell,
       _("_Launch"), GTK_RESPONSE_ACCEPT);

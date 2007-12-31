@@ -73,7 +73,7 @@ bool is_plrdlg_frozen(void)
 *******************************************************************/
 static const char *col_name(const struct player *player)
 {
-  return player->name;
+  return player_name(player);
 }
 
 /******************************************************************

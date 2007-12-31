@@ -416,7 +416,7 @@ void get_city_dialog_output_text(const struct city *pcity,
 	 * trade_value[] array and simply don't give the name of the
 	 * city. */
 	struct city *trade_city = game_find_city_by_number(pcity->trade[i]);
-	char *name = trade_city ? trade_city->name : _("(unknown)");
+	const char *name = trade_city ? city_name(trade_city) : _("(unknown)");
 
 	cat_snprintf(buf, bufsz, _("%+4d : Trade route with %s\n"),
 		     pcity->trade_value[i], name);
@@ -544,7 +544,7 @@ int get_city_citizen_types(struct city *pcity, enum citizen_feeling index,
             " %d citizens not equal %d city size in \"%s\".",
             i,
             pcity->size,
-            pcity->name);
+            city_name(pcity));
   }
   return i;
 }

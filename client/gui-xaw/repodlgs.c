@@ -1197,7 +1197,7 @@ void popup_endgame_report_dialog(struct packet_endgame_report *packet)
                      packet->score[i]),
                  i + 1,
                  nation_adjective_for_player(player_by_number(packet->id[i])),
-                 player_by_number(packet->id[i])->name,
+                 player_name(player_by_number(packet->id[i])),
                  packet->score[i]);
   }
   popup_notify_dialog(_("Final Report:"),

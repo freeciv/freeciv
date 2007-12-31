@@ -309,7 +309,7 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
     menu = gtk_menu_new();
 
     for (j = 0; j < i; j++) {
-      item = gtk_menu_item_new_with_label(city_list_ptrs[j]->name);
+      item = gtk_menu_item_new_with_label(city_name(city_list_ptrs[j]));
 
       gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
       g_signal_connect(item, "activate",
@@ -542,7 +542,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   my_snprintf(buf, sizeof(buf),
 	      "<span size=\"large\" weight=\"bold\">%s %s</span>",
 	      ruler_title_translation(plr0),
-	      plr0->name);
+	      player_name(plr0));
   gtk_label_set_markup(GTK_LABEL(label), buf);
   gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
 
@@ -616,7 +616,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   my_snprintf(buf, sizeof(buf),
 	      "<span size=\"large\" weight=\"bold\">%s %s</span>",
 	      ruler_title_translation(plr1),
-	      plr1->name);
+	      player_name(plr1));
   gtk_label_set_markup(GTK_LABEL(label), buf);
   gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
 

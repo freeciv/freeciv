@@ -278,7 +278,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
     /* Don't do anything in away mode */
     if (ai_handicap(pplayer, H_AWAY)) {
       notify(aplayer, _("*%s (AI)* In away mode AI can't sign such a treaty."),
-             pplayer->name);
+             player_name(pplayer));
       worth = -BIG_NUMBER;
       break;
     }
@@ -288,8 +288,9 @@ static int ai_goldequiv_clause(struct player *pplayer,
     if (adip->is_allied_with_enemy
         && pclause->type != CLAUSE_CEASEFIRE) {
       notify(aplayer, _("*%s (AI)* First break alliance with %s, %s."),
-             pplayer->name, adip->is_allied_with_enemy->name,
-             aplayer->name);
+             player_name(pplayer),
+             player_name(adip->is_allied_with_enemy),
+             player_name(aplayer));
       worth = -BIG_NUMBER;
       break;
     }
@@ -300,12 +301,14 @@ static int ai_goldequiv_clause(struct player *pplayer,
 
       if (!pplayers_non_attack(pplayer, aplayer)) {
         notify(aplayer, _("*%s (AI)* Let us first cease hostilies, %s."),
-               pplayer->name, aplayer->name);
+               player_name(pplayer),
+               player_name(aplayer));
         worth = -BIG_NUMBER;
       } else if (ds->type == DS_CEASEFIRE && ds->turns_left > 4) {
         notify(aplayer, _("*%s (AI)* I wish to see you keep the current "
-               "ceasefire for a bit longer first, %s."), pplayer->name, 
-               aplayer->name);
+               "ceasefire for a bit longer first, %s."),
+               player_name(pplayer), 
+               player_name(aplayer));
         worth = -BIG_NUMBER;
       } else if (adip->countdown >= 0 || adip->countdown < -1) {
         worth = -BIG_NUMBER; /* but say nothing */
@@ -326,7 +329,9 @@ static int ai_goldequiv_clause(struct player *pplayer,
       }
       if (pplayer->ai.love[player_index(aplayer)] < MAX_AI_LOVE / 10) {
         notify(aplayer, _("*%s (AI)* I simply do not trust you with an "
-               "alliance yet, %s."), pplayer->name, aplayer->name);
+               "alliance yet, %s."),
+               player_name(pplayer),
+               player_name(aplayer));
         worth = -BIG_NUMBER;
       }
       DIPLO_LOG(LOG_DIPL, pplayer, aplayer, "ally clause worth %d", worth);
@@ -417,7 +422,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
     if (!offer || city_owner(offer) != giver) {
       /* City destroyed or taken during negotiations */
       notify(aplayer, _("*%s (AI)* I do not know the city you mention."),
-             pplayer->name);
+             player_name(pplayer));
       worth = 0;
     } else if (give) {
       /* AI must be crazy to trade away its cities */
@@ -435,7 +440,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
       worth = city_gold_worth(offer);
     }
     DIPLO_LOG(LOG_DEBUG, pplayer, aplayer, "worth of %s is %d", 
-              offer->name, worth);
+              city_name(offer), worth);
     break;
   }
 
@@ -445,7 +450,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
         if (!shared_vision_is_safe(pplayer, aplayer)) {
           notify(aplayer, _("*%s (AI)* Sorry, sharing vision with you "
 	                    "is not safe."),
-                 pplayer->name);
+                 player_name(pplayer));
 	  worth = -BIG_NUMBER;
 	} else {
           worth = 0;
@@ -550,7 +555,8 @@ void ai_treaty_evaluate(struct player *pplayer, struct player *aplayer,
               total_balance);
   } else {
     notify(aplayer, _("*%s (AI)* This deal was not very good for us, %s!"),
-           pplayer->name, aplayer->name);
+           player_name(pplayer),
+           player_name(aplayer));
     DIPLO_LOG(LOG_DIPL2, pplayer, aplayer, "balance was bad: %d", 
               total_balance);
   }
@@ -571,21 +577,24 @@ static void ai_treaty_react(struct player *pplayer,
     case CLAUSE_ALLIANCE:
       if (adip->is_allied_with_ally) {
         notify(aplayer, _("*%s (AI)* Welcome into our alliance %s!"),
-               pplayer->name, aplayer->name);
+               player_name(pplayer),
+               player_name(aplayer));
       } else {
         notify(aplayer, _("*%s (AI)* Yes, may we forever stand united, %s."),
-               pplayer->name, aplayer->name);
+               player_name(pplayer),
+               player_name(aplayer));
       }
       DIPLO_LOG(LOG_DIPL, pplayer, aplayer, "become allies");
       break;
     case CLAUSE_PEACE:
       notify(aplayer, _("*%s (AI)* Yes, peace in our time!"),
-             pplayer->name);
+             player_name(pplayer));
       DIPLO_LOG(LOG_DIPL, pplayer, aplayer, "sign peace treaty");
       break;
     case CLAUSE_CEASEFIRE:
       notify(aplayer, _("*%s (AI)* Agreed. No more hostilities, %s."),
-             pplayer->name, aplayer->name);
+             player_name(pplayer),
+             player_name(aplayer));
       DIPLO_LOG(LOG_DIPL, pplayer, aplayer, "sign ceasefire");
       break;
     default:
@@ -788,7 +797,8 @@ static void ai_diplomacy_suggest(struct player *pplayer,
 {
   if (!could_meet_with_player(pplayer, aplayer)) {
     freelog(LOG_DIPL2, "%s tries to do diplomacy to %s without contact",
-            pplayer->name, aplayer->name);
+            player_name(pplayer),
+            player_name(aplayer));
     return;
   }
 
@@ -806,7 +816,8 @@ void ai_diplomacy_first_contact(struct player *pplayer,
   if (pplayer->ai.control && !ai_handicap(pplayer, H_AWAY)) {
     notify(aplayer, _("*%s (AI)* Greetings %s! May we suggest a ceasefire "
            "while we get to know each other better?"),
-           pplayer->name, aplayer->name);
+           player_name(pplayer),
+           player_name(aplayer));
     ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_CEASEFIRE, 0);
   }
 }
@@ -926,7 +937,8 @@ void ai_diplomacy_begin_new_phase(struct player *pplayer,
 
   /* Can we win by space race? */
   if (ai->diplomacy.spacerace_leader == pplayer) {
-    freelog(LOG_DIPL2, "%s going for space race victory!", pplayer->name);
+    freelog(LOG_DIPL2, "%s going for space race victory!",
+            player_name(pplayer));
     ai->diplomacy.strategy = WIN_SPACE; /* Yes! */
   } else {
     if (ai->diplomacy.strategy == WIN_SPACE) {
@@ -1079,36 +1091,39 @@ static void ai_go_to_war(struct player *pplayer, struct ai_data *ai,
 
   switch (reason) {
   case WAR_REASON_SPACE:
-    notify(target, _("*%s (AI)* Space will never be yours. "), pplayer->name);
+    notify(target, _("*%s (AI)* Space will never be yours. "),
+           player_name(pplayer));
     adip->countdown = -10;
     break;
   case WAR_REASON_BEHAVIOUR:
     notify(target, _("*%s (AI)* I have tolerated your vicious antics "
-           "long enough! To war!"), pplayer->name);
+           "long enough! To war!"),
+           player_name(pplayer));
     adip->countdown = -20;
     break;
   case WAR_REASON_NONE:
     notify(target, _("*%s (AI)* Peace in ... some other time."),
-           pplayer->name);
+           player_name(pplayer));
     adip->countdown = -10;
     break;
   case WAR_REASON_HATRED:
     notify(target, _("*%s (AI)* Finally I get around to you! Did "
            "you really think you could get away with your crimes?"),
-           pplayer->name);
+           player_name(pplayer));
     adip->countdown = -20;
     break;
   case WAR_REASON_EXCUSE:
     notify(target, _("*%s (AI)* Your covert hostilities brought "
-           "this war upon you!"), pplayer->name);
+           "this war upon you!"),
+           player_name(pplayer));
     adip->countdown = -20;
     break;
   case WAR_REASON_ALLIANCE:
     if (adip->at_war_with_ally) {
       notify(target, _("*%s (AI)* Your aggression against %s was "
 			"your last mistake!"),
-			pplayer->name,
-			adip->at_war_with_ally->name);
+	     player_name(pplayer),
+	     player_name(adip->at_war_with_ally));
       adip->countdown = -3;
     } else {
       /* Ooops! */
@@ -1195,9 +1210,12 @@ void static war_countdown(struct player *pplayer, struct player *target,
 		       "against %s in %d turns to stop the spaceship "
 		       "launch.",
 		       countdown),
-	     pplayer->name, target->name, countdown);
+	     player_name(pplayer),
+	     player_name(target),
+	     countdown);
       notify(ally, _("*%s (AI)* Your aid in this matter will be expected. "
-                     "Long live our glorious alliance!"), pplayer->name);
+                     "Long live our glorious alliance!"),
+             player_name(pplayer));
       break;
     case WAR_REASON_BEHAVIOUR:
     case WAR_REASON_EXCUSE:
@@ -1209,7 +1227,9 @@ void static war_countdown(struct player *pplayer, struct player *target,
 		       "with us for own gain.  We will answer in force in "
 		       "%d turns and expect you to honour your alliance "
 		       "with us and do likewise!", countdown),
-	     pplayer->name, target->name, countdown);
+	     player_name(pplayer),
+	     player_name(target),
+	     countdown);
       break;
     case WAR_REASON_NONE:
       notify(ally, PL_("*%s (AI)* We intend to pillage and plunder the rich "
@@ -1217,9 +1237,12 @@ void static war_countdown(struct player *pplayer, struct player *target,
 		       "*%s (AI)* We intend to pillage and plunder the rich "
 		       "civilization of %s. We declare war in %d turns.",
 		       countdown), 
-	     pplayer->name, target->name, countdown);
+	     player_name(pplayer),
+	     player_name(target),
+	     countdown);
       notify(ally, _("*%s (AI)* If you want a piece of the loot, feel "
-                     "free to join in the action!"), pplayer->name);
+                     "free to join in the action!"),
+             player_name(pplayer));
       break;
     case WAR_REASON_HATRED:
       notify(ally, PL_("*%s (AI)* We have had it with %s. Let us tear this "
@@ -1229,9 +1252,12 @@ void static war_countdown(struct player *pplayer, struct player *target,
 		       "pathetic civilization apart. We declare war in "
 		       "%d turns.",
 		       countdown),
-	     pplayer->name, target->name, countdown);
+	     player_name(pplayer),
+	     player_name(target),
+	     countdown);
       notify(ally, _("*%s (AI)* As our glorious allies, we expect your "
-                     "help in this war."), pplayer->name);
+                     "help in this war."),
+             player_name(pplayer));
       break;
     case WAR_REASON_ALLIANCE:
       if (WAR(ally, target)) {
@@ -1240,7 +1266,9 @@ void static war_countdown(struct player *pplayer, struct player *target,
 			 "*%s (AI)* We will honour our alliance and declare "
 			 "war on %s in %d turns.  Hold on - we are coming!",
 			 countdown),
-			pplayer->name, target->name, countdown);
+	       player_name(pplayer),
+	       player_name(target),
+	       countdown);
       } else if (adip->at_war_with_ally) {
         notify(ally, PL_("*%s (AI)* We will honour our alliance with %s and "
 			 "declare war on %s in %d turns.  We expect you to "
@@ -1249,8 +1277,9 @@ void static war_countdown(struct player *pplayer, struct player *target,
 			 "declare war on %s in %d turns.  We expect you to "
 			 "do likewise.",
 			 countdown),
-	       pplayer->name, 
-	       adip->at_war_with_ally->name, target->name,
+	       player_name(pplayer), 
+	       player_name(adip->at_war_with_ally),
+	       player_name(target),
 	       countdown);
       } else {
         assert(FALSE); /* Huh? */
@@ -1311,7 +1340,8 @@ void ai_diplomacy_actions(struct player *pplayer)
           && pplayers_allied(pplayer, aplayer)) {
         notify(aplayer, _("*%s (AI)* Your attempt to conquer space for "
                "yourself alone betray your true intentions, and I "
-               "will have no more of our alliance!"), pplayer->name);
+               "will have no more of our alliance!"),
+               player_name(pplayer));
 	handle_diplomacy_cancel_pact(pplayer, player_number(aplayer),
 				     CLAUSE_ALLIANCE);
         if (gives_shared_vision(pplayer, aplayer)) {
@@ -1324,9 +1354,11 @@ void ai_diplomacy_actions(struct player *pplayer)
         pplayer->ai.love[player_index(aplayer)] -= MAX_AI_LOVE / 10;
         adip->warned_about_space = 10 + myrand(6);
         notify(aplayer, _("*%s (AI)* Your attempt to unilaterally "
-               "dominate outer space is highly offensive."), pplayer->name);
+               "dominate outer space is highly offensive."),
+               player_name(pplayer));
         notify(aplayer, _("*%s (AI)* If you do not stop constructing your "
-               "spaceship, I may be forced to take action!"), pplayer->name);
+               "spaceship, I may be forced to take action!"),
+               player_name(pplayer));
       }
       if (aplayer->spaceship.state == SSHIP_LAUNCHED
           && aplayer == ai->diplomacy.spacerace_leader) {
@@ -1392,7 +1424,7 @@ void ai_diplomacy_actions(struct player *pplayer)
 	&& (pplayer_get_diplstate(pplayer, aplayer)->type != DS_CEASEFIRE || 
 	    myrand(5) < 1)) {
       DIPLO_LOG(LOG_DEBUG, pplayer, aplayer, "plans war to help ally %s",
-                adip->at_war_with_ally->name);
+                player_name(adip->at_war_with_ally));
       war_countdown(pplayer, aplayer, 2 + map.size, WAR_REASON_ALLIANCE);
     }
   } players_iterate_end;
@@ -1438,7 +1470,7 @@ void ai_diplomacy_actions(struct player *pplayer)
       } else if (!shared_vision_is_safe(pplayer, aplayer)) {
         notify(aplayer, _("*%s (AI)* Sorry, sharing vision with you "
 	                    "is no longer safe."),
-	       pplayer->name);
+	       player_name(pplayer));
 	remove_shared_vision(pplayer, aplayer);
       }
     }
@@ -1513,24 +1545,29 @@ void ai_diplomacy_actions(struct player *pplayer)
         case 0:
           notify(aplayer, _("*%s (AI)* Greetings our most trustworthy "
                  "ally. We call upon you to destroy our enemy, %s."), 
-                 pplayer->name, target->name);
+                 player_name(pplayer),
+                 player_name(target));
           break;
         case -1:
           notify(aplayer, _("*%s (AI)* Greetings ally, I see you have not yet "
                  "made war with our enemy, %s. Why do I need to remind "
-                 "you of your promises?"), pplayer->name, target->name);
+                 "you of your promises?"),
+                 player_name(pplayer),
+                 player_name(target));
           break;
         case -2:
           notify(aplayer, _("*%s (AI)* Dishonoured one, we made a pact of "
                  "alliance, and yet you remain at peace with our mortal "
                  "enemy, %s! This is unacceptable; our alliance is no "
-                 "more!"), pplayer->name, target->name);
+                 "more!"),
+                 player_name(pplayer),
+                 player_name(target));
           DIPLO_LOG(LOG_DIPL2, pplayer, aplayer, "breaking useless alliance");
 	  /* to peace */
 	  handle_diplomacy_cancel_pact(pplayer, player_number(aplayer),
 				       CLAUSE_ALLIANCE);
-          pplayer->ai.love[player_index(aplayer)] = 
-                                 MIN(pplayer->ai.love[player_index(aplayer)], 0);
+          pplayer->ai.love[player_index(aplayer)] =
+            MIN(pplayer->ai.love[player_index(aplayer)], 0);
           if (gives_shared_vision(pplayer, aplayer)) {
             remove_shared_vision(pplayer, aplayer);
           }
@@ -1551,7 +1588,7 @@ void ai_diplomacy_actions(struct player *pplayer)
       adip->asked_about_alliance = !aplayer->ai.control ? 13 : 0;
       notify(aplayer, _("*%s (AI)* Greetings friend, may we suggest "
              "making a common cause and join in an alliance?"), 
-             pplayer->name);
+             player_name(pplayer));
       break;
 
     case DS_CEASEFIRE:
@@ -1565,7 +1602,8 @@ void ai_diplomacy_actions(struct player *pplayer)
       ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_PEACE, 0);
       adip->asked_about_peace = !aplayer->ai.control ? 12 : 0;
       notify(aplayer, _("*%s (AI)* Greetings neighbour, may we suggest "
-             "more peaceful relations?"), pplayer->name);
+             "more peaceful relations?"),
+             player_name(pplayer));
       break;
 
     case DS_NO_CONTACT: /* but we do have embassy! weird. */
@@ -1580,7 +1618,7 @@ void ai_diplomacy_actions(struct player *pplayer)
       adip->asked_about_ceasefire = !aplayer->ai.control ? 9 : 0;
       notify(aplayer, _("*%s (AI)* We grow weary of this constant "
              "bloodshed. May we suggest a cessation of hostilities?"), 
-             pplayer->name);
+             player_name(pplayer));
       break;
 
     case DS_ARMISTICE:
@@ -1701,7 +1739,8 @@ void ai_incident_war(struct player *violator, struct player *victim)
           notify(ally, _("*%s (AI)* We have been savagely attacked by "
                          "%s, and we need your help! Honour our glorious "
                          "alliance and your name will never be forgotten!"),
-                         victim->name, violator->name);
+                 player_name(victim),
+                 player_name(violator));
         } players_iterate_end;
       }
     }

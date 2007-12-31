@@ -148,12 +148,13 @@ static struct player *create_barbarian_player(enum barbarian_type type)
   } players_iterate_end;
 
   freelog(LOG_VERBOSE, "Created barbarian %s, player %d",
-          barbarians->name, player_number(barbarians));
+          player_name(barbarians),
+          player_number(barbarians));
   notify_player(NULL, NULL, E_UPRISING,
                 _("%s gain a leader by the name %s. Dangerous "
                   "times may lie ahead."),
                 nation_plural_for_player(barbarians),
-                barbarians->name);
+                player_name(barbarians));
 
   send_game_info(NULL);
   send_player_info(barbarians, NULL);
@@ -361,8 +362,8 @@ static void try_summon_barbarians(void)
   victim = city_owner(pc);
 
   dist = real_map_distance(ptile, pc->tile);
-  freelog(LOG_DEBUG,"Closest city to %d %d is %s at %d %d which is %d far", 
-          ptile->x, ptile->y, pc->name, pc->tile->x, pc->tile->y, dist);
+  freelog(LOG_DEBUG,"Closest city (to %d,%d) is %s (at %d,%d) distance %d.", 
+          TILE_XY(ptile), city_name(pc), TILE_XY(pc->tile), dist);
   if (dist > MAX_UNREST_DIST || dist < MIN_UNREST_DIST) {
     return;
   }
@@ -442,11 +443,13 @@ static void try_summon_barbarians(void)
   /* There should probably be a different message about Sea Raiders */
   if (is_land_barbarian(barbarians)) {
     notify_player(victim, utile, E_UPRISING,
-		     _("Native unrest near %s led by %s."), pc->name,
-		     barbarians->name);
+		  _("Native unrest near %s led by %s."),
+		  city_name(pc),
+		  player_name(barbarians));
   } else if (map_is_known_and_seen(utile, victim, V_MAIN)) {
     notify_player(victim, utile, E_UPRISING,
-		     _("Sea raiders seen near %s!"), pc->name);
+		  _("Sea raiders seen near %s!"),
+		  city_name(pc));
   }
 }
 

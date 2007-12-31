@@ -1661,7 +1661,7 @@ struct cm_state *cm_init_state(struct city *pcity)
   struct cm_state *state = fc_malloc(sizeof(*state));
 
   freelog(LOG_CM_STATE, "creating cm_state for %s (size %d)",
-	  pcity->name, pcity->size);
+	  city_name(pcity), pcity->size);
 
   /* copy the arguments */
   state->pcity = pcity;
@@ -2040,7 +2040,7 @@ static void print_performance(struct one_perf *counts)
 void cm_print_city(const struct city *pcity)
 {
   freelog(LOG_NORMAL, "print_city(city='%s'(id=%d))",
-          pcity->name, pcity->id);
+          city_name(pcity), pcity->id);
   freelog(LOG_NORMAL,
 	  "  size=%d, specialists=%s",
 	  pcity->size, specialists_string(pcity->specialists));

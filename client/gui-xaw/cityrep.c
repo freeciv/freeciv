@@ -600,7 +600,7 @@ void city_report_dialog_update_city(struct city *pcity)
       char new_city_line[MAX_LEN_CITY_TEXT];
 
       XtVaGetValues(city_list, XtNnumberStrings, &n, XtNlist, &list, NULL);
-      if (0 != strcmp(pcity->name, list[i])) {
+      if (0 != strcmp(city_name(pcity), list[i])) {
 	break;
       }
       get_city_text(pcity, new_city_line, sizeof(new_city_line));

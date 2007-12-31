@@ -59,7 +59,7 @@ void TECH_LOG(int level, const struct player *pplayer,
   }
 
   my_snprintf(buffer, sizeof(buffer), "%s::%s (want %d, dist %d) ", 
-              pplayer->name,
+              player_name(pplayer),
               advance_name_by_player(pplayer, advance_number(padvance)), 
               pplayer->ai.tech_want[advance_index(padvance)], 
               num_unknown_techs_for_goal(pplayer, advance_number(padvance)));
@@ -99,9 +99,12 @@ void DIPLO_LOG(int level, const struct player *pplayer,
   adip = ai_diplomacy_get(pplayer, aplayer);
 
   my_snprintf(buffer, sizeof(buffer), "%s->%s(l%d,c%d,d%d%s): ", 
-              pplayer->name, aplayer->name, 
-              pplayer->ai.love[player_index(aplayer)], adip->countdown, 
-              adip->distance, adip->is_allied_with_enemy ? "?" :
+              player_name(pplayer),
+              player_name(aplayer), 
+              pplayer->ai.love[player_index(aplayer)],
+              adip->countdown, 
+              adip->distance,
+              adip->is_allied_with_enemy ? "?" :
               (adip->at_war_with_ally ? "!" : ""));
 
   va_start(ap, msg);
@@ -134,7 +137,7 @@ void CITY_LOG(int level, const struct city *pcity, const char *msg, ...)
 
   my_snprintf(buffer, sizeof(buffer), "%s %s(%d,%d) [s%d d%d u%d g%d] ",
               nation_rule_name(nation_of_city(pcity)),
-              pcity->name,
+              city_name(pcity),
               TILE_XY(pcity->tile), pcity->size,
               pcity->ai.danger, pcity->ai.urgency,
               pcity->ai.grave_danger);
@@ -246,7 +249,7 @@ void BODYGUARD_LOG(int level, const struct unit *punit, const char *msg)
     charge_y = pcity->tile->y;
     id = pcity->id;
     type = "cityguard";
-    s = pcity->name;
+    s = city_name(pcity);
   }
   /* else perhaps the charge died */
 

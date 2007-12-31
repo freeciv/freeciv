@@ -153,7 +153,7 @@ static void ai_airlift(struct player *pplayer)
       return;
     }
     UNIT_LOG(LOG_DEBUG, transported, "airlifted to defend %s",
-             most_needed->name);
+             city_name(most_needed));
     do_airline(transported, most_needed);
   } while (TRUE);
 }
@@ -911,7 +911,7 @@ int look_for_charge(struct player *pplayer, struct unit *punit,
            "type=%s(%d,%d)",
            best * 100 / toughness,
            *acity
-           ? (*acity)->name
+           ? city_name(*acity)
            : (*aunit
               ? unit_rule_name(*aunit)
               : ""), 
@@ -1043,7 +1043,7 @@ static void ai_military_defend(struct player *pplayer,struct unit *punit)
   if (ai_military_rampage(punit, RAMPAGE_ANYTHING, RAMPAGE_ANYTHING)) {
     /* ... we survived */
     if (pcity) {
-      UNIT_LOG(LOG_DEBUG, punit, "go to defend %s", pcity->name);
+      UNIT_LOG(LOG_DEBUG, punit, "go to defend %s", city_name(pcity));
       if (same_pos(punit->tile, pcity->tile)) {
         UNIT_LOG(LOG_DEBUG, punit, "go defend successful");
         punit->ai.done = TRUE;
@@ -1221,7 +1221,13 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
   if (unit_type(punit)->fuel
       || is_losing_hp(punit)) {
     /* Don't know what to do with them! */
-    UNIT_LOG(LOG_ERROR, punit, "bad unit type passed to fstk");
+    /* This is not LOG_ERROR in stable branch, as calling
+     * fstk is in many cases right thing to do when custom
+     * rulesets are used - and callers correctly handle cases
+     * where fstk failed to find target.
+     * FIXME: handling of units different to those in default
+     * ruleset should be improved. */
+    UNIT_LOG(LOG_VERBOSE, punit, "find_something_to_kill() bad unit type");
     return 0;
   }
 
@@ -1488,9 +1494,9 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
         UNIT_LOG(LOG_DEBUG, punit, "in fstk with boat %s@(%d, %d) -> %s@(%d, %d)"
                  " (go_by_boat=%d, move_time=%d, want=%d, best=%d)",
                  unit_rule_name(ferryboat),
-                 ferryboat->tile->x,
-                 ferryboat->tile->y,
-                 acity->name, TILE_XY(acity->tile), 
+                 TILE_XY(ferryboat->tile),
+                 city_name(acity),
+                 TILE_XY(acity->tile), 
                  go_by_boat, move_time, want, best);
       }
       
@@ -1657,7 +1663,8 @@ static void ai_military_attack_barbarian(struct player *pplayer,
 
   if ((pc = dist_nearest_city(pplayer, punit->tile, any_continent, TRUE))) {
     if (can_unit_exist_at_tile(punit, punit->tile)) {
-      UNIT_LOG(LOG_DEBUG, punit, "Barbarian heading to conquer %s", pc->name);
+      UNIT_LOG(LOG_DEBUG, punit, "Barbarian heading to conquer %s",
+               city_name(pc));
       (void) ai_gothere(pplayer, punit, pc->tile);
     } else {
       struct unit *ferry = NULL;
@@ -1684,12 +1691,12 @@ static void ai_military_attack_barbarian(struct player *pplayer,
 
       if (ferry) {
 	UNIT_LOG(LOG_DEBUG, punit, "Barbarian sailing to conquer %s",
-		 pc->name);
+		 city_name(pc));
 	(void)aiferry_goto_amphibious(ferry, punit, pc->tile);
       } else {
         /* This is not an error. Somebody else might be in charge
          * of the ferry. */
-	UNIT_LOG(LOG_DEBUG, punit, "unable to find barbarian ferry");
+        UNIT_LOG(LOG_DEBUG, punit, "unable to find barbarian ferry");
       }
     }
   } else {
@@ -1833,7 +1840,7 @@ static void ai_caravan_goto(struct player *pplayer,
             unit_rule_name(punit),
             punit->id,
             TILE_XY(punit->tile),
-            help_wonder ? "help a wonder" : "trade", pcity->name);
+            help_wonder ? "help a wonder" : "trade", city_name(pcity));
     alive = ai_unit_goto(punit, pcity->tile); 
   }
 
@@ -1850,7 +1857,7 @@ static void ai_caravan_goto(struct player *pplayer,
               unit_rule_name(punit),
               punit->id,
               TILE_XY(punit->tile),
-              pcity->name);
+              city_name(pcity));
 	handle_unit_help_build_wonder(pplayer, punit->id);
     } else {
       freelog(LOG_CARAVAN, "%s %s[%d](%d,%d) creates trade route in %s",
@@ -1858,7 +1865,7 @@ static void ai_caravan_goto(struct player *pplayer,
               unit_rule_name(punit),
               punit->id,
               TILE_XY(punit->tile),
-              pcity->name);
+              city_name(pcity));
       handle_unit_establish_trade(pplayer, punit->id);
     }
   }
@@ -1878,9 +1885,10 @@ static void caravan_optimize_callback(const struct caravan_result *result,
           unit_rule_name(caravan),
           caravan->id,
           TILE_XY(caravan->tile),
-	  result->src->name,
+	  city_name(result->src),
 	  result->help_wonder ? "wonder in" : "trade to",
-	  result->dest->name, result->value);
+	  city_name(result->dest),
+	  result->value);
 }
 
 /*************************************************************************
@@ -1956,7 +1964,8 @@ static void ai_manage_hitpoint_recovery(struct unit *punit)
     /* find city to stay and go there */
     safe = find_nearest_safe_city(punit);
     if (safe) {
-      UNIT_LOG(LOGLEVEL_RECOVERY, punit, "going to %s to recover", safe->name);
+      UNIT_LOG(LOGLEVEL_RECOVERY, punit, "going to %s to recover",
+               city_name(safe));
       if (!ai_unit_goto(punit, safe->tile)) {
         freelog(LOGLEVEL_RECOVERY, "died trying to hide and recover");
         return;

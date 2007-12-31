@@ -190,7 +190,7 @@ void create_intel_dialog(struct intel_dialog *pdialog, bool raise)
 
   my_snprintf(buf, sizeof(buf), _("Ruler: %s %s"),
 	      ruler_title_translation(pdialog->pplayer),
-	      pdialog->pplayer->name);
+	      player_name(pdialog->pplayer));
   XtVaCreateManagedWidget("intelnamelabel",
 			  labelWidgetClass,
 			  pdialog->intel_form,
@@ -256,7 +256,7 @@ void create_intel_dialog(struct intel_dialog *pdialog, bool raise)
 
   pcity = find_palace(pdialog->pplayer);
   my_snprintf(buf, sizeof(buf), _("Capital: %s"),
-	      (!pcity)?_("(Unknown)"):pcity->name);
+	      (!pcity) ? _("(Unknown)") : city_name(pcity));
   XtVaCreateManagedWidget("intelcapitallabel",
 			  labelWidgetClass,
 			  pdialog->intel_form,
@@ -427,7 +427,7 @@ void create_intel_diplo_dialog(struct intel_dialog *pdialog, bool raise)
    
   my_snprintf(buf, sizeof(buf), _("Ruler: %s %s"), 
 	      ruler_title_translation(pdialog->pplayer),
-	      pdialog->pplayer->name);
+	      player_name(pdialog->pplayer));
   XtVaCreateManagedWidget("inteldiplonamelabel", 
 			  labelWidgetClass, 
 			  pdialog->intel_diplo_form, 
@@ -479,7 +479,7 @@ void update_intel_diplo_dialog(struct intel_dialog *pdialog)
       state = pplayer_get_diplstate(pdialog->pplayer, other);
       my_snprintf(namelist_text[i], sizeof(namelist_text[i]),
 		  "%-32s %-16s %-16s",
-		  other->name,
+		  player_name(other),
 		  nation_adjective_for_player(other),
 		  diplstate_text(state->type));
       namelist_ptrs[i] = namelist_text[i];

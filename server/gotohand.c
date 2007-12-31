@@ -433,7 +433,7 @@ for now.
 void generate_warmap(struct city *pcity, struct unit *punit)
 {
   freelog(LOG_DEBUG, "Generating warmap, pcity = %s, punit = %s",
-	  (pcity ? pcity->name : "NULL"),
+	  (pcity ? city_name(pcity) : "NULL"),
 	  (punit ? unit_rule_name(punit) : "NULL"));
 
   if (punit) {
@@ -648,7 +648,7 @@ int air_can_move_between(int moves, struct tile *src_tile,
   freelog(LOG_DEBUG,
 	  "air_can_move_between(moves=%d, src=(%i,%i), "
 	  "dest=(%i,%i), player=%s)", moves, TILE_XY(src_tile),
-	  TILE_XY(dest_tile), pplayer->name);
+	  TILE_XY(dest_tile), player_name(pplayer));
 
   /* First we do some very simple O(1) checks. */
   if (total_distance > moves) {

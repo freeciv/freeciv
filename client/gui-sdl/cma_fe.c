@@ -852,9 +852,10 @@ void popup_city_cma_dialog(struct city *pCity)
   /* --------------------------- */
     
   my_snprintf(cBuf, sizeof(cBuf),
-	 _("City of %s (Population %s citizens) : %s"),
-	  pCity->name, population_to_text(city_population(pCity)),
-  					_("Citizen Governor"));
+	      _("City of %s (Population %s citizens) : %s"),
+	      city_name(pCity),
+	      population_to_text(city_population(pCity)),
+	      _("Citizen Governor"));
   
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;

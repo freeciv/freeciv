@@ -31,7 +31,7 @@ void send_save_game(char *filename);
 
 void set_ruleset(const char *ruleset);
 
-extern char player_name[MAX_LEN_NAME];
+extern char leader_name[MAX_LEN_NAME];
 extern char *current_filename;
 
 #endif  /* FC__CONNECTDLG_COMMON_H */ 

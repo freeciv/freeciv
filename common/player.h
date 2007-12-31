@@ -211,10 +211,12 @@ int player_number(const struct player *pplayer);
 struct player *player_by_number(const int player_id);
 struct player *valid_player_by_number(const int player_id);
 
+const char *player_name(const struct player *pplayer);
 struct player *find_player_by_name(const char *name);
 struct player *find_player_by_name_prefix(const char *name,
 					  enum m_pre_result *result);
 struct player *find_player_by_user(const char *name);
+
 bool player_set_nation(struct player *pplayer, struct nation_type *pnation);
 void player_set_unit_focus_status(struct player *pplayer);
 bool player_has_embassy(const struct player *pplayer,

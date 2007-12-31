@@ -201,7 +201,7 @@ static void get_player_landarea(struct claim_map *pcmap,
 {
   if (pcmap && pplayer) {
 #if LAND_AREA_DEBUG >= 1
-    printf("%-14s", pplayer->name);
+    printf("%-14s", player_name(pplayer));
 #endif
     if (return_landarea) {
       *return_landarea
@@ -409,7 +409,7 @@ void save_ppm(void)
             col[player_index(pplayer)][0],
             col[player_index(pplayer)][1],
             col[player_index(pplayer)][2],
-            pplayer->name);
+            player_name(pplayer));
   } players_iterate_end;
 
   fprintf(fp, "%d %d\n", map.xsize, map.ysize);
@@ -530,14 +530,16 @@ void rank_users(void)
   fprintf(fp, "winners: ");
   players_iterate(pplayer) {
     if (plr_state[player_index(pplayer)] == VS_WINNER) {
-      fprintf(fp, "%s (%s,%s), ", pplayer->ranked_username, pplayer->name,
+      fprintf(fp, "%s (%s,%s), ", pplayer->ranked_username,
+                                  player_name(pplayer),
                                   pplayer->username);
     }
   } players_iterate_end;
   fprintf(fp, "\nlosers: ");
   players_iterate(pplayer) {
     if (plr_state[player_index(pplayer)] == VS_LOSER) {
-      fprintf(fp, "%s (%s,%s), ", pplayer->ranked_username, pplayer->name,
+      fprintf(fp, "%s (%s,%s), ", pplayer->ranked_username,
+                                  player_name(pplayer),
                                   pplayer->username);
     }
   } players_iterate_end;

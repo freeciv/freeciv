@@ -1030,7 +1030,7 @@ static gint cmp_func(gconstpointer ap, gconstpointer bp)
  *****************************************************************/
 static void select_random_leader(void)
 {
-  struct leader *leaders;
+  struct nation_leader *leaders;
   int i, nleaders;
   GList *items = NULL;
   GtkWidget *text, *list;

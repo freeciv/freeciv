@@ -450,7 +450,7 @@ void handle_city_info(struct packet_city_info *packet)
     idex_register_city(pcity);
     update_descriptions = TRUE;
   } else {
-    name_changed = (strcmp(pcity->name, packet->name) != 0);
+    name_changed = (strcmp(city_name(pcity), packet->name) != 0);
 
     /* Check if city desciptions should be updated */
     if (draw_city_names && name_changed) {
@@ -495,7 +495,7 @@ void handle_city_info(struct packet_city_info *packet)
             " %d citizens not equal %d city size in \"%s\".",
             pcity->size,
             packet->size,
-            pcity->name);
+            city_name(pcity));
     pcity->size = packet->size;
   }
 
@@ -710,7 +710,7 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
   if(is_new) {
     freelog(LOG_DEBUG, "New %s city %s id %d (%d %d)",
 	    nation_rule_name(nation_of_city(pcity)),
-	    pcity->name, pcity->id, TILE_XY(pcity->tile));
+	    city_name(pcity), pcity->id, TILE_XY(pcity->tile));
   }
 }
 
@@ -741,7 +741,7 @@ void handle_city_short_info(struct packet_city_short_info *packet)
     idex_register_city(pcity);
   } else {
     /* Check if city desciptions should be updated */
-    if (draw_city_names && strcmp(pcity->name, packet->name) != 0) {
+    if (draw_city_names && strcmp(city_name(pcity), packet->name) != 0) {
       update_descriptions = TRUE;
     }
 
@@ -1304,7 +1304,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 	    TILE_XY(punit->tile),
 	    punit->id,
 	    punit->homecity,
-	    (pcity ? pcity->name : "(unknown)"));
+	    (pcity ? city_name(pcity) : "(unknown)"));
 
     repaint_unit = (punit->transported_by == -1);
     agents_unit_new(punit);
@@ -2152,7 +2152,7 @@ void handle_tile_info(struct packet_tile_info *packet)
               punit->id,
               unit_rule_name(punit),
               TILE_XY(punit->tile),
-              unit_owner(punit)->name);
+              player_name(unit_owner(punit)));
     } unit_list_iterate_end;
     assert(unit_list_size(ptile->units) == 0);
     unit_list_unlink_all(ptile->units);

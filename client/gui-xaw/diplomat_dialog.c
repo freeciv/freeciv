@@ -639,7 +639,7 @@ void popup_incite_dialog(struct city *pcity, int cost)
 
   if (INCITE_IMPOSSIBLE_COST == cost) {
     my_snprintf(buf, sizeof(buf), _("You can't incite a revolt in %s."),
-		pcity->name);
+		city_name(pcity));
     popup_message_dialog(toplevel, "diplomatnogolddialog", buf,
 			 diplomat_incite_no_callback, 0, 0, NULL);
   } else if (game.player_ptr->economic.gold >= cost) {
@@ -716,7 +716,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
     my_snprintf(buf, sizeof(buf),
 		_("Your %s has arrived at %s.\nWhat is your command?"),
 		unit_name_translation(punit),
-		pcity->name);
+		city_name(pcity));
 
     if (!unit_has_type_flag(punit, F_SPY)) {
       diplomat_dialog =

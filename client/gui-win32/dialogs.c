@@ -322,7 +322,7 @@ static void select_random_race(HWND hWnd)
 static void select_random_leader(HWND hWnd)
 {
   int j,leader_num;
-  struct leader *leaders 
+  struct nation_leader *leaders 
     = get_nation_leaders(nation_by_number(selected_nation), &leader_num);
 
   ComboBox_ResetContent(GetDlgItem(hWnd,ID_RACESDLG_LEADER));
@@ -804,7 +804,7 @@ popup_unit_select_dialog(struct tile *ptile)
       pcity=player_find_city_by_id(game.player_ptr, punit->homecity);
       my_snprintf(buffer, sizeof(buffer), "%s(%s)\n%s",
 		  utype_name_translation(punittemp),
-		  pcity ? pcity->name : "",
+		  pcity ? city_name(pcity) : "",
 		  unit_activity_text(punit));
       DrawText(hdc,buffer,strlen(buffer),&rc,DT_CALCRECT);
       if ((rc.right-rc.left)>max_width)
@@ -839,7 +839,7 @@ popup_unit_select_dialog(struct tile *ptile)
       pcity=player_find_city_by_id(game.player_ptr, punit->homecity);
       my_snprintf(buffer, sizeof(buffer), "%s(%s)\n%s",
 		  utype_name_translation(punittemp),
-		  pcity ? pcity->name : "",
+		  pcity ? city_name(pcity) : "",
 		  unit_activity_text(punit));
       unit_select_labels[i]=CreateWindow("STATIC",buffer,
 					 WS_CHILD | WS_VISIBLE | SS_LEFT,
@@ -1035,7 +1035,7 @@ popup_caravan_dialog(struct unit *punit,
   
   my_snprintf(buf, sizeof(buf),
               _("Your caravan from %s reaches the city of %s.\nWhat now?"),
-              phomecity->name, pdestcity->name);
+              city_name(phomecity), city_name(pdestcity));
  
   caravan_city_id=pdestcity->id; /* callbacks need these */
   caravan_unit_id=punit->id;
@@ -1544,7 +1544,7 @@ void popup_incite_dialog(struct city *pcity, int cost)
 
   if (INCITE_IMPOSSIBLE_COST == cost) {
     my_snprintf(buf, sizeof(buf), _("You can't incite a revolt in %s."),
-		pcity->name);
+		city_name(pcity));
     popup_message_dialog(root_window, _("City can't be incited!"), buf,
 			 _("Darn"), diplomat_incite_no_callback, 0, 0);
   } else if (game.player_ptr->economic.gold >= cost) {
@@ -1598,11 +1598,11 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *ptile)
     my_snprintf(buf, sizeof(buf),
 		_("Your %s has arrived at %s.\nWhat is your command?"),
 		unit_name_translation(punit),
-		pcity->name);
+		city_name(pcity));
 
     if(!unit_has_type_flag(punit, F_SPY)){
       shl=popup_message_dialog(root_window, /*"diplomatdialog"*/
-			       _(" Choose Your Diplomat's Strategy"), buf,
+			       _("Choose Your Diplomat's Strategy"), buf,
          		     _("Establish _Embassy"), diplomat_embassy_callback, 0,
          		     _("_Investigate City"), diplomat_investigate_callback, 0,
          		     _("_Sabotage City"), diplomat_sabotage_callback, 0,

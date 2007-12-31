@@ -1165,7 +1165,7 @@ void popup_incite_dialog(struct city *pCity, int cost)
     /* --------------- */
     
     my_snprintf(cBuf, sizeof(cBuf), _("You can't incite a revolt in %s."),
-		pCity->name);
+		city_name(pCity));
 
     create_active_iconlabel(pBuf, pWindow->dst, pStr, cBuf, NULL);
         

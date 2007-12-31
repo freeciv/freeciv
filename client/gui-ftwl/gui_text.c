@@ -143,7 +143,8 @@ const char *mapview_get_terrain_tooltip_text(struct tile *ptile)
 
 #ifdef DEBUG
   add_line(_("Location: (%d, %d) [%d]"),
-	   ptile->x, ptile->y, tile_continent(ptile));
+	   TILE_XY(ptile),
+	   tile_continent(ptile));
 #endif
   add_line("%s", tile_get_info_text(ptile, 0));
   if (count > 0) {
@@ -361,8 +362,8 @@ const char *mapview_get_city_tooltip_text(struct city *pcity)
   struct player *owner = city_owner(pcity);
   INIT;
 
-  add_line("%s", pcity->name);
-  add_line("%s", owner->name);
+  add_line("%s", city_name(pcity));
+  add_line("%s", player_name(owner));
   RETURN;
 }
 
@@ -373,7 +374,7 @@ const char *mapview_get_city_info_text(struct city *pcity)
 {
   INIT;
 
-  add_line(_("City: %s (%s)"), pcity->name,
+  add_line(_("City: %s (%s)"), city_name(pcity),
 	   nation_adjective_for_player(city_owner(pcity)));
   if (city_got_citywalls(pcity)) {
     add(_(" with City Walls"));
@@ -398,7 +399,7 @@ const char *mapview_get_unit_tooltip_text(struct unit *punit)
   add("\n");
   add_line("%s", unit_activity_text(punit));
   if (pcity) {
-    add_line("%s", pcity->name);
+    add_line("%s", city_name(pcity));
   }
   RETURN;
 }
@@ -428,7 +429,7 @@ const char *mapview_get_unit_info_text(struct unit *punit)
 	add_line(&str, _("Unit: %s (%s, %s)"),
 		 utype_name_translation(ptype),
 		 nation_adjective_for_player(owner),
-		 pcity->name);
+		 city_name(pcity));
       } else {
 	/* TRANS: "Unit: Musketeers (Polish)" */
 	add_line(&str, _("Unit: %s (%s)"),

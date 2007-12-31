@@ -32,7 +32,7 @@
 #define MAX_NUM_NATION_GROUPS 128
 
 /*
- * The city_name structure holds information about a default choice for
+ * The nation_city structure holds information about a default choice for
  * the city name.  The "name" field is, of course, just the name for
  * the city.  The "river" and "terrain" fields are entries recording
  * whether the terrain is present near the city - we give higher priority
@@ -46,13 +46,14 @@
  *   cities = "Washington (ocean, river, swamp)", "New York (!mountains)"
  */
 typedef int ternary;
-struct city_name {
-  char* name;
+
+struct nation_city {
+  char *name;
   ternary river;
   ternary terrain[MAX_NUM_TERRAINS];	
 };
 
-struct leader {
+struct nation_leader {
   char *name;
   bool is_male;
 };
@@ -74,9 +75,9 @@ struct nation_type {
   char flag_graphic_str[MAX_LEN_NAME];
   char flag_graphic_alt[MAX_LEN_NAME];
   int  leader_count;
-  struct leader *leaders;
+  struct nation_leader *leaders;
   int city_style;
-  struct city_name *city_names;		/* The default city names. */
+  struct nation_city *city_names;	/* The default city names. */
   char *legend;				/* may be empty */
 
   bool is_playable;
@@ -138,7 +139,7 @@ bool can_conn_edit_players_nation(const struct connection *pconn,
 				  const struct player *pplayer);
 
 /* General nation leader accessor functions. */
-struct leader *get_nation_leaders(const struct nation_type *nation, int *dim);
+struct nation_leader *get_nation_leaders(const struct nation_type *nation, int *dim);
 struct nation_type **get_nation_civilwar(const struct nation_type *nation);
 bool get_nation_leader_sex(const struct nation_type *nation,
 			   const char *name);
@@ -177,7 +178,7 @@ const struct nation_group *nation_group_array_last(void);
 /* Initialization and iteration */
 void nations_alloc(int num);
 void nations_free(void);
-void nation_city_names_free(struct city_name *city_names);
+void nation_city_names_free(struct nation_city *city_names);
 
 struct nation_type *nation_array_first(void);
 const struct nation_type *nation_array_last(void);

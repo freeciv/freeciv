@@ -67,7 +67,7 @@ HANDLE loghandle = INVALID_HANDLE_VALUE;
 static pid_t server_pid = - 1;
 #endif
 
-char player_name[MAX_LEN_NAME];
+char leader_name[MAX_LEN_NAME];
 char *current_filename = NULL;
 
 static char challenge_fullname[MAX_LEN_PATH];
@@ -492,7 +492,7 @@ void send_start_saved_game(void)
   send_chat("/set timeout 0");
   send_chat("/set autotoggle 1");
   my_snprintf(buf, sizeof(buf), "/take \"%s\" \"%s\"",
-      	      user_name, player_name);
+      	      user_name, leader_name);
   send_chat(buf);
   send_chat("/start");
 }

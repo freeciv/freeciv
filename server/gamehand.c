@@ -151,7 +151,7 @@ static struct tile *place_starting_unit(struct tile *starttile,
     tile_clear_special(ptile, S_HUT);
     update_tile_knowledge(ptile);
     freelog(LOG_VERBOSE, "Removed hut on start position for %s",
-	    pplayer->name);
+	    player_name(pplayer));
   }
 
   /* Expose visible area. */
@@ -322,7 +322,7 @@ void init_new_game(void)
   players_iterate(pplayer) {
     if (placed_units[player_index(pplayer)] == 0) {
       /* No units at all for some player! */
-      die(_("No units placed for %s!"), pplayer->name);
+      die(_("No units placed for %s!"), player_name(pplayer));
     }
   } players_iterate_end;
 

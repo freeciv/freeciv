@@ -1039,12 +1039,12 @@ bool teleport_unit_to_city(struct unit *punit, struct city *pcity,
 	    nation_rule_name(nation_of_unit(punit)),
 	    unit_rule_name(punit),
 	    TILE_XY(src_tile),
-	    pcity->name);
+	    city_name(pcity));
     if (verbose) {
       notify_player(unit_owner(punit), pcity->tile, E_UNIT_RELOCATED,
 		       _("Teleported your %s to %s."),
 		       unit_name_translation(punit),
-		       pcity->name);
+		       city_name(pcity));
     }
 
     /* Silently free orders since they won't be applicable anymore. */
@@ -1410,7 +1410,7 @@ static void server_remove_unit(struct unit *punit)
     notify_conn(game.est_connections, punit->tile, E_UNIT_LOST,
                    _("Unable to defend %s, %s has lost the game."),
                    unit_name_translation(punit),
-                   unit_owner(punit)->name);
+                   player_name(unit_owner(punit)));
     notify_player(unit_owner(punit), punit->tile, E_GAME_END,
 		  _("Losing %s meant losing the game! "
                   "Be more careful next time!"),
@@ -1524,7 +1524,7 @@ void wipe_unit(struct unit *punit)
                               "fled to %s."),
                             unit_name_translation(pcargo),
                             utype_name_translation(putype_save),
-                            pcity->name);
+                            city_name(pcity));
 	    }
           }
           if (!unit_has_type_flag(pcargo, F_UNDISBANDABLE) || !pcity) {
@@ -1993,7 +1993,7 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
   if (pcity) {
     notify_player(city_owner(pcity), ptile, E_CITY_NUKED,
 		  _("%s was nuked by %s."),
-		  pcity->name,
+		  city_name(pcity),
 		  pplayer == city_owner(pcity)
 		  ? _("yourself")
 		  : nation_plural_for_player(pplayer));
@@ -2001,7 +2001,7 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
     if (city_owner(pcity) != pplayer) {
       notify_player(pplayer, ptile, E_CITY_NUKED,
 		    _("You nuked %s."),
-		    pcity->name);
+		    city_name(pcity));
     }
 
     city_reduce_size(pcity, pcity->size / 2);

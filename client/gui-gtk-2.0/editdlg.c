@@ -423,10 +423,10 @@ static GtkWidget *create_units_palette(void)
 
     if (pplayer->nation) {
       my_snprintf(data, sizeof(data), "%s (%s)",
-		  pplayer->name,
+		  player_name(pplayer),
 		  nation_adjective_for_player(pplayer));
     } else {
-      my_snprintf(data, sizeof(data), "%s", pplayer->name);
+      my_snprintf(data, sizeof(data), "%s", player_name(pplayer));
 
     }
     item = gtk_menu_item_new_with_label(data);
@@ -489,10 +489,10 @@ static GtkWidget *create_city_palette(void)
 
     if (pplayer->nation) {
       my_snprintf(data, sizeof(data), "%s (%s)",
-		  pplayer->name,
+		  player_name(pplayer),
 		  nation_adjective_for_player(pplayer));
     } else {
-      my_snprintf(data, sizeof(data), "%s", pplayer->name);
+      my_snprintf(data, sizeof(data), "%s", player_name(pplayer));
 
     }
     item = gtk_menu_item_new_with_label(data);
@@ -545,10 +545,10 @@ static GtkWidget *create_vision_palette(void)
 
     if (pplayer->nation) {
       my_snprintf(data, sizeof(data), "%s (%s)",
-		  pplayer->name,
+		  player_name(pplayer),
 		  nation_adjective_for_player(pplayer));
     } else {
-      my_snprintf(data, sizeof(data), "%s", pplayer->name);
+      my_snprintf(data, sizeof(data), "%s", player_name(pplayer));
 
     }
     item = gtk_menu_item_new_with_label(data);

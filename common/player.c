@@ -363,6 +363,15 @@ struct player *find_player_by_name(const char *name)
   return NULL;
 }
 
+/**************************************************************************
+  Return the leader name of the player.
+**************************************************************************/
+const char *player_name(const struct player *pplayer)
+{
+  assert(NULL != pplayer && NULL != pplayer->name);
+  return pplayer->name;
+}
+
 /***************************************************************
   Find player by name, allowing unambigous prefix (ie abbreviation).
   Returns NULL if could not match, or if ambiguous or other

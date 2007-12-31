@@ -78,7 +78,7 @@ static bool ai_should_we_air_attack_tile(struct unit *punit,
   if (acity && !TEST_BIT(acity->ai.invasion, INVASION_OCCUPY) && punit->id != 0) {
     /* No ground troups are invading */
     freelog(LOG_DEBUG, "Don't want to attack %s, although we could", 
-            acity->name);
+            city_name(acity));
     return FALSE;
   }
 
@@ -355,10 +355,10 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
     } else if (ai_find_strategic_airbase(punit, &dst_tile)) {
       freelog(LOG_DEBUG, "%s will fly to (%i, %i) (%s) to fight there",
               unit_rule_name(punit),
-              dst_tile->x,
-              dst_tile->y,
-              (tile_city(dst_tile) ? 
-               tile_city(dst_tile)->name : ""));
+              TILE_XY(dst_tile),
+              tile_city(dst_tile)
+              ? city_name(tile_city(dst_tile))
+              : "");
       punit->goto_tile = dst_tile;
       punit->ai.done = TRUE; /* Wait for next turn */
       (void) ai_unit_goto(punit, punit->goto_tile);
@@ -429,12 +429,12 @@ bool ai_choose_attacker_air(struct player *pplayer, struct city *pcity,
 	choice->need_boat = FALSE;
 	want_something = TRUE;
 	freelog(LOG_DEBUG, "%s wants to build %s (want=%d)",
-		pcity->name,
+		city_name(pcity),
 		utype_rule_name(punittype),
 		profit);
       } else {
       freelog(LOG_DEBUG, "%s doesn't want to build %s (want=%d)",
-		pcity->name,
+		city_name(pcity),
 		utype_rule_name(punittype),
 		profit);
       }

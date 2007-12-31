@@ -1525,14 +1525,14 @@ void show_city_descriptions(int canvas_x, int canvas_y,
 
       show_city_desc(mapview.store, canvas_x, canvas_y,
 		     pcity, &width, &height);
-      freelog(LOG_DEBUG, "Drawing %s.", pcity->name);
+      freelog(LOG_DEBUG, "Drawing %s.", city_name(pcity));
 
       if (width > max_desc_width || height > max_desc_height) {
 	/* The update was incomplete!  We queue a new update.  Note that
 	 * this is recursively queueing an update within a dequeuing of an
 	 * update.  This is allowed specifically because of the code in
 	 * unqueue_mapview_updates.  See that function for more. */
-	freelog(LOG_DEBUG, "Re-queuing %s.", pcity->name);
+	freelog(LOG_DEBUG, "Re-queuing %s.", city_name(pcity));
 	update_city_description(pcity);
       }
       new_max_width = MAX(width, new_max_width);
@@ -2134,7 +2134,7 @@ void get_city_mapview_name_and_growth(struct city *pcity,
 				      size_t growth_buffer_len,
 				      enum color_std *growth_color)
 {
-  my_snprintf(name_buffer, name_buffer_len, pcity->name);
+  my_snprintf(name_buffer, name_buffer_len, city_name(pcity));
 
   if (!game.player_ptr || city_owner(pcity) == game.player_ptr) {
     int turns = city_turns_to_grow(pcity);

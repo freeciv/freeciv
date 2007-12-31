@@ -98,7 +98,8 @@ const char *popup_info_text(struct tile *ptile)
   astr_clear(&str);
 #ifdef DEBUG
   astr_add_line(&str, _("Location: (%d, %d) [%d]"), 
-		ptile->x, ptile->y, tile_continent(ptile)); 
+		TILE_XY(ptile),
+		tile_continent(ptile)); 
 #endif /*DEBUG*/
 
   if (client_tile_get_known(ptile) == TILE_UNKNOWN) {
@@ -148,13 +149,13 @@ const char *popup_info_text(struct tile *ptile)
     /* Look at city owner, not tile owner (the two should be the same, if
      * borders are in use). */
     struct player *owner = city_owner(pcity);
-    bool has_improvements = FALSE;
+    int has_improvements = 0;
     struct impr_type *prev_impr = NULL;
 
     if (!game.player_ptr || owner == game.player_ptr){
       /* TRANS: "City: Warsaw (Polish)" */
       astr_add_line(&str, _("City: %s (%s)"), 
-		    pcity->name,
+		    city_name(pcity),
 		    nation_adjective_for_player(owner));
     } else {
       struct player_diplstate *ds = game.player_ptr->diplstates;
@@ -166,13 +167,13 @@ const char *popup_info_text(struct tile *ptile)
         astr_add_line(&str, PL_("City: %s (%s, %d turn cease-fire)",
 				"City: %s (%s, %d turn cease-fire)",
 				turns),
-		      pcity->name,
+		      city_name(pcity),
 		      nation_adjective_for_player(owner),
 		      turns);
       } else {
         /* TRANS: "City: Warsaw (Polish,friendly)" */
         astr_add_line(&str, _("City: %s (%s, %s)"),
-		      pcity->name,
+		      city_name(pcity),
 		      nation_adjective_for_player(owner),
 		      diplo_city_adjectives[ds[player_index(owner)].type]);
       }
@@ -180,28 +181,32 @@ const char *popup_info_text(struct tile *ptile)
     improvement_iterate(pimprove) {
       if (is_improvement_visible(pimprove)
        && city_has_building(pcity, pimprove)) {
-	/* TRANS: previous lines gave other information about the city. */
         if (NULL != prev_impr) {
-          if (has_improvements) {
-            astr_add(&str, Q_("?blistmore:, "));
+          if (has_improvements++ > 0) {
+            /* TRANS: continue list, in case comma is not the separator of choice. */
+            astr_add(&str, Q_("?clistmore:, %s"),
+        	     improvement_name_translation(prev_impr));
+          } else {
+	    /* TRANS: previous lines gave other information about the city. */
+            astr_add(&str, Q_("?clistbegin: with %s"),
+        	     improvement_name_translation(prev_impr));
           }
-          astr_add(&str, improvement_name_translation(prev_impr));
-          has_improvements = TRUE;
-        } else {
-          astr_add(&str, Q_("?blistbegin: with "));
         }
         prev_impr = pimprove;
       }
     } improvement_iterate_end;
 
     if (NULL != prev_impr) {
-      if (has_improvements) {
-        /* More than one improvement */
-        /* TRANS: This does not appear if there is only one building in the list */
-        astr_add(&str, Q_("?blistlast: and "));
+      if (has_improvements > 1) {
+        /* TRANS: This appears with two or more previous entries in the list */
+        astr_add(&str, Q_("?clistlast:, and %s"),
+		 improvement_name_translation(prev_impr));
+      } else if (has_improvements > 0) {
+        /* TRANS: This appears with only one previous entry in the list */
+        astr_add(&str, Q_("?clistlast: and %s"),
+		 improvement_name_translation(prev_impr));
       }
-      astr_add(&str, improvement_name_translation(prev_impr));
-      astr_add(&str, Q_("?blistend:"));
+      astr_add(&str, Q_("?clistend:."));
     }
 
     unit_list_iterate(get_units_in_focus(), pfocus_unit) {
@@ -212,7 +217,8 @@ const char *popup_info_text(struct tile *ptile)
 	  && can_establish_trade_route(hcity, pcity)) {
 	/* TRANS: "Trade from Warsaw: 5" */
 	astr_add_line(&str, _("Trade from %s: %d"),
-		      hcity->name, trade_between_cities(hcity, pcity));
+		      city_name(hcity),
+		      trade_between_cities(hcity, pcity));
       }
     } unit_list_iterate_end;
   }
@@ -237,7 +243,7 @@ const char *popup_info_text(struct tile *ptile)
 	astr_add_line(&str, _("Unit: %s (%s, %s)"),
 		      utype_name_translation(ptype),
 		      nation_adjective_for_player(owner),
-		      pcity->name);
+		      city_name(pcity));
       } else {
 	/* TRANS: "Unit: Musketeers (Polish)" */
 	astr_add_line(&str, _("Unit: %s (%s)"),
@@ -370,10 +376,19 @@ const char *get_nearest_city_text(struct city *pcity, int sq_dist)
     sq_dist = -1;
   }
 
-  astr_add(&str, (sq_dist >= FAR_CITY_SQUARE_DIST) ? _("far from %s")
-      : (sq_dist > 0) ? _("near %s")
-      : (sq_dist == 0) ? _("in %s")
-      : "%s", pcity ? pcity->name : "");
+  astr_add(&str, (sq_dist >= FAR_CITY_SQUARE_DIST)
+                 /* TRANS: on own line immediately following \n, ... <city> */
+                 ? _("far from %s")
+                 : (sq_dist > 0)
+                   /* TRANS: on own line immediately following \n, ... <city> */
+                   ? _("near %s")
+                   : (sq_dist == 0)
+                     /* TRANS: on own line immediately following \n, ... <city> */
+                     ? _("in %s")
+                     : "%s",
+                 pcity
+                 ? city_name(pcity)
+                 : "");
 
   return str.str;
 }
@@ -401,8 +416,8 @@ const char *unit_description(struct unit *punit)
   astr_add_line(&str, "%s", unit_activity_text(punit));
 
   if (pcity) {
-    /* TRANS: "from Warsaw" */
-    astr_add_line(&str, _("from %s"), pcity->name);
+    /* TRANS: on own line immediately following \n, ... <city> */
+    astr_add_line(&str, _("from %s"), city_name(pcity));
   } else {
     astr_add(&str, "\n");
   }
@@ -605,7 +620,8 @@ const char *get_info_label_text(void)
 		  game.player_ptr->economic.science);
   }
   if (!game.info.simultaneous_phases) {
-    astr_add_line(&str, _("Moving: %s"), player_by_number(game.info.phase)->name);
+    astr_add_line(&str, _("Moving: %s"),
+		  player_name(player_by_number(game.info.phase)));
   }
   astr_add_line(&str, _("(Click for more info)"));
   return str.str;
@@ -746,7 +762,7 @@ const char *get_unit_info_label_text2(struct unit_list *punits, int linebreaks)
       astr_add_line(&str, " ");
     }
     if (pcity) {
-      astr_add_line(&str, "%s", pcity->name);
+      astr_add_line(&str, "%s", city_name(pcity));
     } else {
       astr_add_line(&str, " ");
     }
@@ -1130,7 +1146,7 @@ const char *get_report_title(const char *report_name)
 
     astr_add_line(&str, "%s %s: %s",
 		  ruler_title_translation(game.player_ptr),
-		  game.player_ptr->name,
+		  player_name(game.player_ptr),
 		  textyear(game.info.year));
   } else {
     /* TRANS: "Observer: 1985" */
@@ -1145,9 +1161,9 @@ const char *get_report_title(const char *report_name)
 ****************************************************************************/
 const char *get_happiness_buildings(const struct city *pcity)
 {
+  char buf[512];
   int faces = 0;
   struct effect_list *plist = effect_list_new();
-  char buf[512];
   static struct astring str = ASTRING_INIT;
 
   astr_clear(&str);
@@ -1157,12 +1173,13 @@ const char *get_happiness_buildings(const struct city *pcity)
   get_city_bonus_effects(plist, pcity, NULL, EFT_MAKE_CONTENT);
 
   effect_list_iterate(plist, peffect) {
-    if (faces != 0) {
-      astr_add(&str, _(", "));
-    }
     get_effect_req_text(peffect, buf, sizeof(buf));
-    astr_add(&str, _("%s"), buf);
-    faces++;
+    if (faces++ > 0) {
+      /* only one comment to translators needed. */
+      astr_add(&str, Q_("?clistmore:, %s"), buf);
+    } else {
+      astr_add(&str, "%s", buf);
+    }
   } effect_list_iterate_end;
   effect_list_unlink_all(plist);
   effect_list_free(plist);
@@ -1170,7 +1187,7 @@ const char *get_happiness_buildings(const struct city *pcity)
   if (faces == 0) {
     astr_add(&str, _("None. "));
   } else {
-    astr_add(&str, _("."));
+    astr_add(&str, Q_("?clistend:."));
   }
 
   return str.str;
@@ -1181,9 +1198,9 @@ const char *get_happiness_buildings(const struct city *pcity)
 ****************************************************************************/
 const char *get_happiness_wonders(const struct city *pcity)
 {
+  char buf[512];
   int faces = 0;
   struct effect_list *plist = effect_list_new();
-  char buf[512];
   static struct astring str = ASTRING_INIT;
 
   astr_clear(&str);
@@ -1194,12 +1211,13 @@ const char *get_happiness_wonders(const struct city *pcity)
   get_city_bonus_effects(plist, pcity, NULL, EFT_NO_UNHAPPY);
 
   effect_list_iterate(plist, peffect) {
-    if (faces != 0) {
-      astr_add(&str, _(", "));
-    }
     get_effect_req_text(peffect, buf, sizeof(buf));
-    astr_add(&str, _("%s"), buf);
-    faces++;
+    if (faces++ > 0) {
+      /* only one comment to translators needed. */
+      astr_add(&str, Q_("?clistmore:, %s"), buf);
+    } else {
+      astr_add(&str, "%s", buf);
+    }
   } effect_list_iterate_end;
 
   effect_list_unlink_all(plist);
@@ -1208,7 +1226,7 @@ const char *get_happiness_wonders(const struct city *pcity)
   if (faces == 0) {
     astr_add(&str, _("None. "));
   } else {
-    astr_add(&str, _("."));
+    astr_add(&str, Q_("?clistend:."));
   }
 
   return str.str;

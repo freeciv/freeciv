@@ -542,7 +542,7 @@ void popup_incite_dialog(struct city *pcity, int cost)
       0,
       GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
       _("You can't incite a revolt in %s."),
-      pcity->name);
+      city_name(pcity));
     gtk_window_set_title(GTK_WINDOW(shell), _("City can't be incited!"));
   setup_dialog(shell, toplevel);
   } else if (game.player_ptr->economic.gold >= cost) {
@@ -622,11 +622,11 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
     my_snprintf(buf, sizeof(buf),
 		_("Your %s has arrived at %s.\nWhat is your command?"),
 		unit_name_translation(punit),
-		pcity->name);
+		city_name(pcity));
 
     if (!unit_has_type_flag(punit, F_SPY)){
       shl = popup_choice_dialog(GTK_WINDOW(toplevel),
-	_(" Choose Your Diplomat's Strategy"), buf,
+	_("Choose Your Diplomat's Strategy"), buf,
 	_("Establish _Embassy"), diplomat_embassy_callback, NULL,
 	_("_Investigate City"), diplomat_investigate_callback, NULL,
 	_("_Sabotage City"), diplomat_sabotage_callback, NULL,

@@ -145,8 +145,9 @@ bool add_clause(struct Treaty *ptreaty, struct player *pfrom,
           || (ds == DS_CEASEFIRE && type == CLAUSE_CEASEFIRE))) {
     /* we already have this diplomatic state */
     freelog(LOG_ERROR, "Illegal treaty suggested between %s and %s - they "
-                       "already have this treaty level.", ptreaty->plr0->name, 
-                       ptreaty->plr1->name);
+                       "already have this treaty level.",
+                       nation_rule_name(nation_of_player(ptreaty->plr0)), 
+                       nation_rule_name(nation_of_player(ptreaty->plr1)));
     return FALSE;
   }
 

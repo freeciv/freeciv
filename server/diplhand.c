@@ -148,7 +148,9 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	case CLAUSE_EMBASSY:
           if (player_has_embassy(pother, pplayer)) {
             freelog(LOG_ERROR, "%s tried to give embassy to %s, who already "
-                    "has an embassy", pplayer->name, pother->name);
+                    "has an embassy",
+                    player_name(pplayer),
+                    player_name(pother));
             return;
           }
           break;
@@ -188,14 +190,14 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	  if (city_owner(pcity) != pplayer) {
 	    notify_player(pplayer, NULL, E_DIPLOMACY,
 			  _("You are not owner of %s, you can't accept treaty."),
-			  pcity->name);
+			  city_name(pcity));
 	    return;
 	  }
 	  if (is_capital(pcity)) {
 	    notify_player(pplayer, NULL, E_DIPLOMACY,
 			  _("Your capital (%s) is requested, "
 			    "you can't accept treaty."),
-			  pcity->name);
+			  city_name(pcity));
 	    return;
 	  }
 	  break;
@@ -287,18 +289,19 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 			  _("The %s no longer control %s! "
 			    "Treaty canceled!"),
 			  nation_plural_for_player(pother),
-			  pcity->name);
+			  city_name(pcity));
 	    notify_player(pother, NULL, E_DIPLOMACY,
 			  _("The %s no longer control %s! "
 			    "Treaty canceled!"),
 			  nation_plural_for_player(pother),
-			  pcity->name);
+			  city_name(pcity));
 	    goto cleanup;
 	  }
 	  if (is_capital(pcity)) {
 	    notify_player(pother, NULL, E_DIPLOMACY,
 			  _("Your capital (%s) is requested, "
-			    "you can't accept treaty."), pcity->name);
+			    "you can't accept treaty."),
+			  city_name(pcity));
 	    goto cleanup;
 	  }
 
@@ -360,10 +363,10 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
         establish_embassy(pdest, pgiver); /* sic */
         notify_player(pgiver, NULL, E_TREATY_SHARED_VISION,
                          _("You gave an embassy to %s."),
-                         pdest->name);
+                         player_name(pdest));
         notify_player(pdest, NULL, E_TREATY_SHARED_VISION,
                          _("%s allowed you to create an embassy!"),
-                         pgiver->name);
+                         player_name(pgiver));
         break;
       case CLAUSE_ADVANCE:
         /* It is possible that two players open the diplomacy dialog
@@ -432,11 +435,13 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 
 	  notify_player(pdest, pcity->tile, E_CITY_TRANSFER,
 			   _("You receive city of %s from %s."),
-			   pcity->name, pgiver->name);
+			   city_name(pcity),
+			   player_name(pgiver));
 
 	  notify_player(pgiver, pcity->tile, E_CITY_LOST,
 			   _("You give city of %s to %s."),
-			   pcity->name, pdest->name);
+			   city_name(pcity),
+			   player_name(pdest));
 
 	  transfer_city(pdest, pcity, -1, TRUE, TRUE, FALSE);
 	  break;
@@ -448,10 +453,10 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	pdest->diplstates[player_index(pgiver)].turns_left = TURNS_LEFT;
 	notify_player(pgiver, NULL, E_TREATY_CEASEFIRE,
 			 _("You agree on a cease-fire with %s."),
-			 pdest->name);
+			 player_name(pdest));
 	notify_player(pdest, NULL, E_TREATY_CEASEFIRE,
 			 _("You agree on a cease-fire with %s."),
-			 pgiver->name);
+			 player_name(pgiver));
 	if (old_diplstate == DS_ALLIANCE) {
 	  update_players_after_alliance_breakup(pgiver, pdest);
 	}
@@ -506,10 +511,10 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
           MAX(DS_ALLIANCE, pdest->diplstates[player_index(pgiver)].max_state);
 	notify_player(pgiver, NULL, E_TREATY_ALLIANCE,
 			 _("You agree on an alliance with %s."),
-			 pdest->name);
+			 player_name(pdest));
 	notify_player(pdest, NULL, E_TREATY_ALLIANCE,
 			 _("You agree on an alliance with %s."),
-			 pgiver->name);
+			 player_name(pgiver));
 
         worker_refresh_required = TRUE;
 	break;
@@ -517,10 +522,10 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	give_shared_vision(pgiver, pdest);
 	notify_player(pgiver, NULL, E_TREATY_SHARED_VISION,
 			 _("You give shared vision to %s."),
-			 pdest->name);
+			 player_name(pdest));
 	notify_player(pdest, NULL, E_TREATY_SHARED_VISION,
 			 _("%s gives you shared vision."),
-			 pgiver->name);
+			 player_name(pgiver));
 
         /* Yes, shared vision may let us to _know_ tiles
          * within radius of our own city. */
@@ -667,14 +672,14 @@ static void really_diplomacy_cancel_meeting(struct player *pplayer,
 					   player_number(pplayer));
     notify_player(pother, NULL, E_DIPLOMACY,
 		  _("%s canceled the meeting!"), 
-		  pplayer->name);
+		  player_name(pplayer));
     /* Need to send to pplayer too, for multi-connects: */
     dlsend_packet_diplomacy_cancel_meeting(pplayer->connections,
 					   player_number(pother),
 					   player_number(pplayer));
     notify_player(pplayer, NULL, E_DIPLOMACY,
 		  _("Meeting with %s canceled."), 
-		  pother->name);
+		  player_name(pother));
     treaty_list_unlink(treaties, ptreaty);
     clear_treaty(ptreaty);
     free(ptreaty);
@@ -693,7 +698,7 @@ void handle_diplomacy_cancel_meeting_req(struct player *pplayer,
     return;
   }
 
-  really_diplomacy_cancel_meeting(pplayer, player_by_number(counterpart));
+  really_diplomacy_cancel_meeting(pplayer, pother);
 }
 
 /**************************************************************************
