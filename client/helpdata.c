@@ -1011,8 +1011,44 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
     sprintf(buf + strlen(buf),
 	    _("* Will never achieve veteran status.\n"));
   } else {
-    sprintf(buf + strlen(buf),
-	    _("* May become veteran through training or combat.\n"));
+    switch(utype_move_type(utype)) {
+      case AIR_MOVING:
+      case HELI_MOVING:
+        sz_strlcat(buf,
+          _("* Will be built as a veteran in cities with appropriate"
+            " training facilities (see Airport.)\n"));
+        sz_strlcat(buf,
+          _("* May be promoted after defeating an enemy unit.\n"));
+        break;
+      case LAND_MOVING:
+        if (utype_has_flag(utype, F_DIPLOMAT)||utype_has_flag(utype, F_SPY)) {
+          sz_strlcat(buf,
+            _("* Will be built as a veteran under communist governments.\n"));
+          sz_strlcat(buf,
+            _("* May be promoted after a successful mission.\n"));
+        } else {
+          sz_strlcat(buf,
+            _("* Will be built as a veteran in cities with appropriate"
+              " training facilities (see Barracks.)\n"));
+          sz_strlcat(buf,
+            _("* May be promoted after defeating an enemy unit.\n"));
+        }
+        break;
+      case SEA_MOVING:
+        sz_strlcat(buf,
+          _("* Will be built as a veteran in cities with appropriate"
+            " training facilities (see Port Facility)."));
+        sz_strlcat(buf,
+          _("* May be promoted after defeating an enemy unit.\n"));
+        if (utype_has_flag(utype, F_TRIREME))
+          sz_strlcat(buf,
+            _("* May be promoted after survival on the high seas.\n"));
+        break;
+      default:          /* should never happen in default rulesets */
+        sz_strlcat(buf,
+          _("* May be promoted through combat or training\n"));
+        break;
+    };
   }
   if (utype_has_flag(utype, F_TRIREME)) {
     sprintf(buf + strlen(buf),
