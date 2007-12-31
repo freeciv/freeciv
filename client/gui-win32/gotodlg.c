@@ -191,7 +191,7 @@ static void update_goto_dialog(HWND list)
       continue;
     }
     city_list_iterate(pplayer->cities, pcity) {
-      sz_strlcpy(name, pcity->name);
+      sz_strlcpy(name, city_name(pcity));
       /* FIXME: should use unit_can_airlift_to(). */
       if (pcity->airlift) {
         sz_strlcat(name, "(A)");

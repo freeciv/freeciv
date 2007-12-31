@@ -110,7 +110,7 @@ static void load_government_names(struct section_file *file);
 static void load_terrain_names(struct section_file *file);
 static void load_citystyle_names(struct section_file *file);
 static void load_nation_names(struct section_file *file);
-static struct city_name* load_city_name_list(struct section_file *file,
+static struct nation_city* load_city_name_list(struct section_file *file,
 					     const char *secfile_str1,
 					     const char *secfile_str2);
 
@@ -2216,12 +2216,12 @@ static void load_nation_names(struct section_file *file)
   two section names (which will be concatenated) are passed in.  The
   malloc'ed city name list (which is all filled out) will be returned.
 **************************************************************************/
-static struct city_name* load_city_name_list(struct section_file *file,
+static struct nation_city* load_city_name_list(struct section_file *file,
 					     const char *secfile_str1,
 					     const char *secfile_str2)
 {
   int dim, j;
-  struct city_name *city_names;
+  struct nation_city *city_names;
   int value;
 
   /* First we read the strings from the section file (above). */
@@ -2243,7 +2243,7 @@ static struct city_name* load_city_name_list(struct section_file *file,
    * for the city (or "river"), with a preceeding ! to negate it.
    * The parentheses are optional (but necessary to have the
    * settings, of course).  Our job is now to parse this into the
-   * city_name structure.
+   * nation_city structure.
    */
   for (j = 0, value = 1; j < dim; j++, value++) {
     char *name = strchr(cities[j], '(');

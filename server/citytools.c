@@ -61,10 +61,7 @@
 #include "aicity.h"
 #include "aiunit.h"
 
-static int evaluate_city_name_priority(struct tile *ptile,
-				       struct city_name *city_name,
-				       int default_priority);
-static char *search_for_city_name(struct tile *ptile, struct city_name *city_names,
+static char *search_for_city_name(struct tile *ptile, struct nation_city *city_names,
 				  struct player *pplayer);
 static void server_set_tile_city(struct city *pcity, int city_x, int city_y,
 				 enum city_tile_type type);
@@ -126,7 +123,7 @@ This function takes into account game.natural_city_names, and
 should be able to deal with any future options we want to add.
 *****************************************************************/
 static int evaluate_city_name_priority(struct tile *ptile,
-				       struct city_name *city_name,
+				       struct nation_city *nc,
 				       int default_priority)
 {
   /* Lower values mean higher priority. */
@@ -168,7 +165,7 @@ static int evaluate_city_name_priority(struct tile *ptile,
   priority *= 10.0 + myrand(5);
 
   /*
-   * The terrain priority in the city_name struct will be either
+   * The terrain priority in the struct nation_city will be either
    * -1, 0, or 1.  We therefore take this as-is if the terrain is
    * present, or negate it if not.
    *
@@ -179,7 +176,7 @@ static int evaluate_city_name_priority(struct tile *ptile,
    * terrain labels would have their priorities hurt (or helped).
    */
   goodness = tile_has_special(ptile, S_RIVER) ?
-	      city_name->river : -city_name->river;
+	      nc->river : -nc->river;
   if (goodness > 0) {
     priority /= mult_factor;
   } else if (goodness < 0) {
@@ -190,8 +187,8 @@ static int evaluate_city_name_priority(struct tile *ptile,
     /* Now we do the same for every available terrain. */
     goodness
       = is_terrain_near_tile(ptile, pterrain)
-      ? city_name->terrain[terrain_index(pterrain)]
-      : -city_name->terrain[terrain_index(pterrain)];
+      ? nc->terrain[terrain_index(pterrain)]
+      : -nc->terrain[terrain_index(pterrain)];
     if (goodness > 0) {
       priority /= mult_factor;
     } else if (goodness < 0) {
@@ -221,14 +218,14 @@ static bool is_default_city_name(const char *name, struct player *pplayer)
 }
 
 /****************************************************************
-Searches through a city name list (a struct city_name array)
+Searches through a city name list (a struct nation_city array)
 to pick the best available city name, and returns a pointer to
 it.  The function checks if the city name is available and calls
 evaluate_city_name_priority to determine the priority of the
 city name.  If the list has no valid entries in it, NULL will be
 returned.
 *****************************************************************/
-static char *search_for_city_name(struct tile *ptile, struct city_name *city_names,
+static char *search_for_city_name(struct tile *ptile, struct nation_city *city_names,
 				  struct player *pplayer)
 {
   int choice, best_priority = -1;
@@ -262,17 +259,17 @@ reason for rejection. There's 4 different modes:
    Finns' default city names.  Duplicated names may be used by
    either nation.)
 **************************************************************************/
-bool is_allowed_city_name(struct player *pplayer, const char *city_name,
+bool is_allowed_city_name(struct player *pplayer, const char *cityname,
 			  char *error_buf, size_t bufsz)
 {
   struct connection *pconn = find_conn_by_user(pplayer->username);
 
   /* Mode 1: A city name has to be unique for each player. */
   if (game.info.allowed_city_names == 1 &&
-      city_list_find_name(pplayer->cities, city_name)) {
+      city_list_find_name(pplayer->cities, cityname)) {
     if (error_buf) {
       my_snprintf(error_buf, bufsz, _("You already have a city called %s."),
-		  city_name);
+		  cityname);
     }
     return FALSE;
   }
@@ -280,16 +277,16 @@ bool is_allowed_city_name(struct player *pplayer, const char *city_name,
   /* Modes 2,3: A city name has to be globally unique. */
   if ((game.info.allowed_city_names == 2 
        || game.info.allowed_city_names == 3)
-      && game_find_city_by_name(city_name)) {
+      && game_find_city_by_name(cityname)) {
     if (error_buf) {
       my_snprintf(error_buf, bufsz,
-		  _("A city called %s already exists."), city_name);
+		  _("A city called %s already exists."), cityname);
     }
     return FALSE;
   }
 
   /* General rule: any name in our ruleset is allowed. */
-  if (is_default_city_name(city_name, pplayer)) {
+  if (is_default_city_name(cityname, pplayer)) {
     return TRUE;
   }
 
@@ -302,7 +299,7 @@ bool is_allowed_city_name(struct player *pplayer, const char *city_name,
     struct player *pother = NULL;
 
     players_iterate(player2) {
-      if (player2 != pplayer && is_default_city_name(city_name, player2)) {
+      if (player2 != pplayer && is_default_city_name(cityname, player2)) {
 	pother = player2;
 	break;
       }
@@ -312,7 +309,7 @@ bool is_allowed_city_name(struct player *pplayer, const char *city_name,
       if (error_buf) {
 	my_snprintf(error_buf, bufsz, _("Can't use %s as a city name. It is "
 					"reserved for %s."),
-		    city_name,
+		    cityname,
 		    nation_plural_for_player(pother));
       }
       return FALSE;
@@ -326,13 +323,13 @@ bool is_allowed_city_name(struct player *pplayer, const char *city_name,
    * We can even reach here for an AI player, if all the cities of the
    * original nation are exhausted and the backup nations have non-ascii
    * names in them. */
-  if (!is_ascii_name(city_name)
+  if (!is_ascii_name(cityname)
       && (!pconn || pconn->access_level != ALLOW_HACK)) {
     if (error_buf) {
       my_snprintf(error_buf, bufsz,
 		  _("%s is not a valid name. Only ASCII or "
 		    "ruleset names are allowed for cities."),
-		  city_name);
+		  cityname);
     }
     return FALSE;
   }
@@ -381,7 +378,8 @@ char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
    */
 
   freelog(LOG_VERBOSE, "Suggesting city name for %s at (%d,%d)",
-	  pplayer->name, ptile->x, ptile->y);
+	  player_name(pplayer),
+	  TILE_XY(ptile));
   
   memset(nations_selected, 0, sizeof(nations_selected));
 
@@ -505,26 +503,26 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
     freelog(LOG_VERBOSE, "Changed homecity of %s %s to %s",
 	    nation_rule_name(nation_of_player(from_player)),
 	    unit_rule_name(punit),
-	    tocity->name);
+	    city_name(tocity));
     if (verbose) {
       notify_player(from_player, punit->tile, E_UNIT_RELOCATED,
 		    _("Changed homecity of %s to %s."),
 		    unit_name_translation(punit),
-		    tocity->name);
+		    city_name(tocity));
     }
   } else {
     struct city *in_city = tile_city(punit->tile);
     if (in_city) {
       freelog(LOG_VERBOSE, "Transfered %s in %s from %s to %s",
 	      unit_rule_name(punit),
-	      in_city->name,
+	      city_name(in_city),
 	      nation_rule_name(nation_of_player(from_player)),
 	      nation_rule_name(nation_of_player(to_player)));
       if (verbose) {
 	notify_player(from_player, punit->tile, E_UNIT_RELOCATED,
 		      _("Transfered %s in %s from %s to %s."),
 		      unit_name_translation(punit),
-		      in_city->name,
+		      city_name(in_city),
 		      nation_plural_for_player(from_player),
 		      nation_plural_for_player(to_player));
       }
@@ -547,11 +545,12 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
 	      nation_rule_name(nation_of_player(to_player)));
       if (verbose) {
 	notify_player(from_player, punit->tile, E_UNIT_LOST,
+		      /* TRANS: Polish Destroyer ... German <city> */
 		      _("%s %s lost in transfer to %s %s"),
 		      nation_adjective_for_player(from_player),
 		      unit_name_translation(punit),
 		      nation_adjective_for_player(to_player),
-		      tocity->name);
+		      city_name(tocity));
       }
       wipe_unit(punit);
       return;
@@ -626,13 +625,13 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 	      nation_rule_name(nation_of_unit(vunit)),
 	      unit_rule_name(vunit),
 	      TILE_XY(vunit->tile),
-	      pcity->name);
+	      city_name(pcity));
       if (verbose) {
 	notify_player(unit_owner(vunit), vunit->tile,
 			 E_UNIT_LOST,
 			 _("%s lost along with control of %s."),
 			 unit_name_translation(vunit),
-			 pcity->name);
+			 city_name(pcity));
       }
       wipe_unit(vunit);
     }
@@ -761,7 +760,7 @@ static void build_free_small_wonders(struct player *pplayer,
 		    _("You lost %s. A new %s was built in %s."),
 		    old_capital_name,
 		    improvement_name_translation(pimprove),
-		    pnew_city->name);
+		    city_name(pnew_city));
       /* 
        * The enemy want to see the new capital in his intelligence
        * report. 
@@ -832,15 +831,16 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 
   ASSERT_VISION(new_vision);
 
-  sz_strlcpy(old_city_name, pcity->name);
+  sz_strlcpy(old_city_name, city_name(pcity));
   if (game.info.allowed_city_names == 1
-      && city_list_find_name(ptaker->cities, pcity->name)) {
+      && city_list_find_name(ptaker->cities, city_name(pcity))) {
     sz_strlcpy(pcity->name,
 	       city_name_suggestion(ptaker, pcity->tile));
     notify_player(ptaker, pcity->tile, E_BAD_COMMAND,
-		     _("You already had a city called %s."
-		       " The city was renamed to %s."), old_city_name,
-		     pcity->name);
+		  _("You already had a city called %s."
+		    " The city was renamed to %s."),
+		  old_city_name,
+		  city_name(pcity));
   }
 
   /* Has to follow the unfog call above. */
@@ -929,7 +929,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 		    " technological insight!\n"
 		    "      Workers spontaneously gather and upgrade"
 		    " the city with railroads."),
-		  pcity->name);
+		  city_name(pcity));
     tile_set_special(pcity->tile, S_RAILROAD);
     update_tile_knowledge(pcity->tile);
   }
@@ -937,7 +937,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   /* Build a new palace for free if the player lost her capital and
      savepalace is on. */
   if (game.info.savepalace) {
-    build_free_small_wonders(pgiver, pcity->name, &had_small_wonders);
+    build_free_small_wonders(pgiver, city_name(pcity), &had_small_wonders);
   }
 
   /* Remove the sight points from the giver...and refresh the city's
@@ -1063,7 +1063,8 @@ void create_city(struct player *pplayer, struct tile *ptile,
   sync_cities(); /* Will also send pcity. */
 
   notify_player(pplayer, ptile, E_CITY_BUILD,
-		   _("You have founded %s."), pcity->name);
+		_("You have founded %s."),
+		city_name(pcity));
   maybe_make_contact(ptile, city_owner(pcity));
 
   unit_list_iterate((ptile)->units, punit) {
@@ -1094,7 +1095,7 @@ void remove_city(struct city *pcity)
   struct player *pplayer = city_owner(pcity);
   struct tile *ptile = pcity->tile;
   bv_imprs had_small_wonders;
-  char *city_name = mystrdup(pcity->name);
+  char *cityname = mystrdup(city_name(pcity));
   struct vision *old_vision;
   int id = pcity->id; /* We need this even after memory has been freed */
 
@@ -1138,7 +1139,7 @@ void remove_city(struct city *pcity)
                           _("Moved %s out of disbanded city %s "
                             "since it cannot stay on %s."),
                           unit_name_translation(punit),
-                          pcity->name,
+                          city_name(pcity),
                           terrain_name_translation(tile_terrain(ptile)));
             break;
 	  }
@@ -1149,7 +1150,7 @@ void remove_city(struct city *pcity)
       notify_player(unit_owner(punit), NULL, E_UNIT_LOST,
 		       _("When %s was disbanded your %s could not "
 			 "get out, and it was therefore lost."),
-		       pcity->name,
+		       city_name(pcity),
 		       unit_name_translation(punit));
       wipe_unit(punit);
     }
@@ -1212,10 +1213,10 @@ void remove_city(struct city *pcity)
   /* Build a new palace for free if the player lost her capital and
      savepalace is on. */
   if (game.info.savepalace) {
-    build_free_small_wonders(pplayer, city_name, &had_small_wonders);
+    build_free_small_wonders(pplayer, cityname, &had_small_wonders);
   }
 
-  free(city_name);
+  free(cityname);
 
   sync_cities();
 }
@@ -1282,10 +1283,12 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
    */
   if (pcity->size <= 1) {
     notify_player(pplayer, pcity->tile, E_UNIT_WIN_ATT,
-		     _("You destroy %s completely."), pcity->name);
+		  _("You destroy %s completely."),
+		  city_name(pcity));
     notify_player(cplayer, pcity->tile, E_CITY_LOST, 
 		     _("%s has been destroyed by %s."), 
-		     pcity->name, pplayer->name);
+		     city_name(pcity),
+		     player_name(pplayer));
     remove_city(pcity);
     if (do_civil_war) {
       civil_war(cplayer);
@@ -1305,18 +1308,24 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
 			" to %d gold!",
 			"You conquer %s; your lootings accumulate"
 			" to %d gold!", coins), 
-		    pcity->name, coins);
+		    city_name(pcity),
+		    coins);
       notify_player(cplayer, pcity->tile, E_CITY_LOST, 
 		    PL_("%s conquered %s and looted %d gold"
 			" from the city.",
 			"%s conquered %s and looted %d gold"
 			" from the city.", coins),
-		    pplayer->name, pcity->name, coins);
+		    player_name(pplayer),
+		    city_name(pcity),
+		    coins);
     } else {
       notify_player(pplayer, pcity->tile, E_UNIT_WIN_ATT, 
-		    _("You conquer %s"), pcity->name);
+		    _("You conquer %s"),
+		    city_name(pcity));
       notify_player(cplayer, pcity->tile, E_CITY_LOST, 
-		    _("%s conquered %s."), pplayer->name, pcity->name);
+		    _("%s conquered %s."),
+		    player_name(pplayer),
+		    city_name(pcity));
     }
   } else {
     if (coins > 0) {
@@ -1325,18 +1334,24 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
 			" Lootings accumulate to %d gold.",
 			"You have liberated %s!"
 			" Lootings accumulate to %d gold.", coins),
-		    pcity->name, coins);
+		    city_name(pcity),
+		    coins);
       notify_player(cplayer, pcity->tile, E_CITY_LOST, 
 		    PL_("%s liberated %s and looted %d gold"
 			" from the city.",
 			"%s liberated %s and looted %d gold"
 			" from the city.", coins),
-		    pplayer->name, pcity->name, coins);
+		    player_name(pplayer),
+		    city_name(pcity),
+		    coins);
     } else {
       notify_player(pplayer, pcity->tile, E_UNIT_WIN_ATT, 
-		    _("You have liberated %s!"), pcity->name);
+		    _("You have liberated %s!"),
+		    city_name(pcity));
       notify_player(cplayer, pcity->tile, E_CITY_LOST, 
-		    _("%s liberated %s."), pplayer->name, pcity->name);
+		    _("%s liberated %s."),
+		    player_name(pplayer),
+		    city_name(pcity));
     }
   }
 
@@ -1633,7 +1648,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   packet->owner = player_number(city_owner(pcity));
   packet->x = pcity->tile->x;
   packet->y = pcity->tile->y;
-  sz_strlcpy(packet->name, pcity->name);
+  sz_strlcpy(packet->name, city_name(pcity));
 
   packet->size=pcity->size;
   for (i = 0; i < FEELING_LAST; i++) {
@@ -1739,7 +1754,7 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
   } else if (pdcity->identity == pcity->id
 	  && vision_owner(pdcity) == city_owner(pcity)
 	  && pdcity->size == pcity->size
-	  && 0 == strcmp(pdcity->name, pcity->name)
+	  && 0 == strcmp(pdcity->name, city_name(pcity))
 	  && pdcity->occupied == occupied
 	  && pdcity->walls == walls
 	  && pdcity->happy == happy
@@ -1751,7 +1766,8 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
   if (pdcity->identity != pcity->id) {
     freelog(LOG_ERROR, "Trying to update old city (wrong ID)"
 	    " at %i,%i for player %s",
-	    TILE_XY(pcity->tile), pplayer->name);
+	    TILE_XY(pcity->tile),
+	    player_name(pplayer));
     pdcity->identity = pcity->id;   /* ?? */
   }
   pdcity->occupied = occupied;
@@ -1908,7 +1924,7 @@ void change_build_target(struct player *pplayer, struct city *pcity,
 		     _("The %s have stopped building The %s in %s."),
 		     nation_plural_for_player(pplayer),
 		     city_production_name_translation(pcity),
-		     pcity->name);
+		     city_name(pcity));
   }
 
   /* Manage the city change-production penalty.
@@ -1935,7 +1951,8 @@ void change_build_target(struct player *pplayer, struct city *pcity,
   notify_player(pplayer, pcity->tile, event,
 		/* TRANS: "<city> is building <production><source>." */
 		_("%s is building %s%s."),
-		pcity->name, name, source);
+		city_name(pcity),
+		name, source);
 
   /* If the city is building a wonder, tell the rest of the world
      about it. */
@@ -1945,7 +1962,7 @@ void change_build_target(struct player *pplayer, struct city *pcity,
 		  _("The %s have started building The %s in %s."),
 		  nation_plural_for_player(pplayer),
 		  name,
-		  pcity->name);
+		  city_name(pcity));
   }
 }
 
@@ -2183,7 +2200,7 @@ void city_landlocked_sell_coastal_improvements(struct tile *ptile)
                           _("You sell %s in %s (now landlocked)"
                             " for %d gold."),
                           improvement_name_translation(pimprove),
-                          pcity->name,
+                          city_name(pcity),
                           impr_sell_gold(pimprove)); 
 	  }
 	} requirement_vector_iterate_end;

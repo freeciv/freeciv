@@ -169,7 +169,10 @@ void handle_diplomacy_create_clause(int counterpart, int giver,
   }
   
   clause_list_iterate(pdialog->treaty.clauses, pclause) {
-    remove_clause_widget_from_list(player_number(pdialog->treaty.plr1), player_number(pclause->from), pclause->type, pclause->value);
+    remove_clause_widget_from_list(player_number(pdialog->treaty.plr1),
+                                   player_number(pclause->from),
+                                   pclause->type,
+                                   pclause->value);
   } clause_list_iterate_end;
   
   add_clause(&pdialog->treaty, player_by_number(giver), type, value);
@@ -191,7 +194,10 @@ void handle_diplomacy_remove_clause(int counterpart, int giver,
   }
   
   clause_list_iterate(pdialog->treaty.clauses, pclause) {
-    remove_clause_widget_from_list(player_number(pdialog->treaty.plr1), player_number(pclause->from), pclause->type, pclause->value);
+    remove_clause_widget_from_list(player_number(pdialog->treaty.plr1),
+                                   player_number(pclause->from),
+                                   pclause->type,
+                                   pclause->value);
   } clause_list_iterate_end;
 
   remove_clause(&pdialog->treaty, player_by_number(giver), type, value);
@@ -660,7 +666,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
       qsort(city_list_ptrs, i, sizeof(struct city *), city_name_compare);
         
       for (j = 0; j < i; j++) {
-	my_snprintf(cBuf, sizeof(cBuf), "  %s", city_list_ptrs[j]->name);
+	my_snprintf(cBuf, sizeof(cBuf), "  %s", city_name(city_list_ptrs[j]));
   
         pBuf = create_iconlabel_from_chars(NULL, pWindow->dst, cBuf, adj_font(12),
 	     (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
@@ -1259,10 +1265,11 @@ static void popup_war_dialog(struct player *pPlayer)
   }
   
   pSDip_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
-      
-    
+
   my_snprintf(cBuf, sizeof(cBuf),
-       _("%s incident !"), nation_adjective_for_player(pPlayer));
+              /* TRANS: "Polish incident !" FIXME!!! */
+              _("%s incident !"),
+              nation_adjective_for_player(pPlayer));
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
 

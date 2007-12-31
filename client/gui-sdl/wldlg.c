@@ -85,7 +85,7 @@ struct EDITOR {
 static int worklist_editor_item_callback(struct widget *pWidget);
 static SDL_Surface * get_progress_icon(int stock, int cost, int *progress);
 static const char * get_production_name(struct city *pCity,
-					  struct universal prod, int *cost);
+					struct universal prod, int *cost);
 static void refresh_worklist_count_label(void);
 static void refresh_production_label(int stock);
 
@@ -1041,7 +1041,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   
   /* ---------------- */
   if(pCity) {
-    my_snprintf(cBuf, sizeof(cBuf), _("Worklist of\n%s"), pCity->name);
+    my_snprintf(cBuf, sizeof(cBuf), _("Worklist of\n%s"), city_name(pCity));
   } else {
     my_snprintf(cBuf, sizeof(cBuf), "%s", pWorkList->name);
   }

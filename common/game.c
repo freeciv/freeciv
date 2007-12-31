@@ -171,10 +171,9 @@ void game_remove_unit(struct unit *punit)
 
   if (pcity) {
     freelog(LOG_DEBUG, "home city %s, %s, (%d %d)",
-	  pcity->name,
+	  city_name(pcity),
 	  nation_rule_name(nation_of_city(pcity)),
-	  pcity->tile->x,
-	  pcity->tile->y);
+	  TILE_XY(pcity->tile));
   }
 
   unit_list_unlink(punit->tile->units, punit);
@@ -195,10 +194,9 @@ void game_remove_city(struct city *pcity)
 {
   freelog(LOG_DEBUG, "game_remove_city %d", pcity->id);
   freelog(LOG_DEBUG, "removing city %s, %s, (%d %d)",
-	  pcity->name,
+	  city_name(pcity),
 	  nation_rule_name(nation_of_city(pcity)),
-	  pcity->tile->x,
-	  pcity->tile->y);
+	  TILE_XY(pcity->tile));
 
   /* Opaque server-only variable: the server must free this earlier. */
   assert(pcity->server.vision == NULL);

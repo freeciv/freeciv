@@ -46,7 +46,7 @@ static const char *cr_entry_cityname(const struct city *pcity,
   /* We used to truncate the name to 14 bytes.  This should not be needed
    * in any modern GUI library and may give an invalid string if a
    * multibyte character is clipped. */
-  return pcity->name;
+  return city_name(pcity);
 }
 
 static const char *cr_entry_size(const struct city *pcity,

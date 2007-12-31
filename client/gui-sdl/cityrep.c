@@ -258,7 +258,7 @@ static void real_info_city_report_dialog_update(void)
   count = 0; 
   city_list_iterate(game.player_ptr->cities, pCity) {
     
-    pStr = create_str16_from_char(pCity->name, adj_font(12));
+    pStr = create_str16_from_char(city_name(pCity), adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
 			(WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR));

@@ -224,7 +224,7 @@ static void popup_cities_menu(struct Diplomacy_dialog *pdialog,int plr)
   qsort(city_list_ptrs, i, sizeof(struct city*), city_name_compare);
   
   for(j=0; j<i; j++) {
-    AppendMenu(menu,MF_STRING,ID_CITIES_BASE+j,city_list_ptrs[j]->name);
+    AppendMenu(menu,MF_STRING,ID_CITIES_BASE+j,city_name(city_list_ptrs[j]));
     iteminfo.dwItemData=city_list_ptrs[j]->id*1024 + 
       player_number(plr0)*32 + player_number(plr1);
     iteminfo.fMask = MIIM_DATA;
@@ -628,10 +628,10 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(int other_player_id)
 		"The %s %s %s\nand\nThe %s %s %s"),
 	      nation_adjective_for_player(plr0),
 	      ruler_title_translation(plr0),
-	      plr0->name,
+	      player_name(plr0),
 	      nation_adjective_for_player(plr1),
 	      ruler_title_translation(plr1),
-	      plr1->name);
+	      player_name(plr1));
   fcwin_box_add_static(vbox,buf,0,SS_CENTER,FALSE,FALSE,5);
   pdialog->list=fcwin_box_add_list(vbox,6,ID_LIST,WS_VSCROLL,TRUE,TRUE,5);
   hbox2=fcwin_hbox_new(pdialog->mainwin,FALSE);

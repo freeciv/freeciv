@@ -87,8 +87,8 @@ void idex_register_city(struct city *pcity)
   if (old) {
     /* error */
     freelog(LOG_IDEX_ERR, "IDEX: city collision: new %d %p %s, old %d %p %s",
-	    pcity->id, (void*)pcity, pcity->name,
-	    old->id, (void*)old, old->name);
+	    pcity->id, (void*)pcity, city_name(pcity),
+	    old->id, (void*)old, city_name(old));
     if (IDEX_DIE) {
       die("byebye");
     }
@@ -127,7 +127,7 @@ void idex_unregister_city(struct city *pcity)
   if (!old) {
     /* error */
     freelog(LOG_IDEX_ERR, "IDEX: city unreg missing: %d %p %s",
-	    pcity->id, (void*)pcity, pcity->name);
+	    pcity->id, (void*)pcity, city_name(pcity));
     if (IDEX_DIE) {
       die("byebye");
     }
@@ -135,8 +135,8 @@ void idex_unregister_city(struct city *pcity)
     /* error */
     freelog(LOG_IDEX_ERR,
 	    "IDEX: city unreg mismatch: unreg %d %p %s, old %d %p %s",
-	    pcity->id, (void*)pcity, pcity->name,
-	    old->id, (void*)old, old->name);
+	    pcity->id, (void*)pcity, city_name(pcity),
+	    old->id, (void*)old, city_name(old));
     if (IDEX_DIE) {
       die("byebye");
     }

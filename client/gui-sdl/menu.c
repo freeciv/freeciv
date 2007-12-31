@@ -1063,13 +1063,16 @@ void update_menus(void)
 	
         if (can_establish_trade_route(pHomecity, pCity)) {
           my_snprintf(cBuf, sizeof(cBuf),
-      		_("Form Traderoute with %s ( %d R&G + %d trade ) (R)"),
-      		pHomecity->name, revenue,
-      			trade_between_cities(pHomecity, pCity));
-	} else {
+                      _("Form Traderoute with %s ( %d R&G + %d trade ) (R)"),
+                      city_name(pHomecity),
+                      revenue,
+                      trade_between_cities(pHomecity, pCity));
+        } else {
           revenue = (revenue + 2) / 3;
           my_snprintf(cBuf, sizeof(cBuf),
-		_("Trade with %s ( %d R&G bonus ) (R)"), pHomecity->name, revenue);
+                      _("Trade with %s ( %d R&G bonus ) (R)"),
+                      city_name(pHomecity),
+                      revenue);
         }
 	copy_chars_to_string16(pOrder_Trade_Button->string16, cBuf);
 	clear_wflag(pOrder_Trade_Button, WF_HIDDEN);

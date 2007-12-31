@@ -98,7 +98,7 @@ void popup_caravan_dialog(struct unit *punit,
   
   my_snprintf(buf, sizeof(buf),
 	      _("Your caravan from %s reaches the city of %s.\nWhat now?"),
-	      phomecity->name, pdestcity->name);
+	      city_name(phomecity), city_name(pdestcity));
   
   caravan_city_id=pdestcity->id; /* callbacks need these */
   caravan_unit_id=punit->id;

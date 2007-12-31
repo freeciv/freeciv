@@ -594,8 +594,10 @@ void redraw_unit_info_label(struct unit_list *punitlist)
      			  "" /*unused, DS_CEASEFIRE */, Q_("?city:Peaceful"),
 			  Q_("?city:Friendly"), Q_("?city:Mysterious")};
 			  
-	    cat_snprintf(buffer, sizeof(buffer), _("\nCity of %s"), pCity->name);
-            	  
+	    cat_snprintf(buffer, sizeof(buffer),
+			 _("\nCity of %s"),
+			 city_name(pCity));
+
 	    citywall = pCity->client.walls;
                           
 #if 0       
@@ -765,7 +767,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
                 (aunit->veteran ? _("\nveteran") : ""),
                 unit_activity_text(aunit),
 		aunit->hp, pUType->hp,
-		pHome_City ? pHome_City->name : _("None"));
+		pHome_City ? city_name(pHome_City) : _("None"));
       
 	  pBuf_Surf = create_surf(tileset_full_tile_width(tileset),
 	    				tileset_full_tile_height(tileset), SDL_SWSURFACE);

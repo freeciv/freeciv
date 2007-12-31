@@ -1180,7 +1180,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 
 
 
-  pdialog->shell = gtk_dialog_new_with_buttons(pcity->name,
+  pdialog->shell = gtk_dialog_new_with_buttons(city_name(pcity),
 	NULL,
   	0,
 	NULL);
@@ -1318,7 +1318,7 @@ static void city_dialog_update_title(struct city_dialog *pdialog)
   const gchar *now;
 
   my_snprintf(buf, sizeof(buf), _("<b>%s</b> - %s citizens"),
-	      pdialog->pcity->name,
+	      city_name(pdialog->pcity),
 	      population_to_text(city_population(pdialog->pcity)));
 
   if (city_unhappy(pdialog->pcity)) {
@@ -1331,7 +1331,7 @@ static void city_dialog_update_title(struct city_dialog *pdialog)
 
   now = gtk_label_get_text(GTK_LABEL(pdialog->name_label));
   if (strcmp(now, buf) != 0) {
-    gtk_window_set_title(GTK_WINDOW(pdialog->shell), pdialog->pcity->name);
+    gtk_window_set_title(GTK_WINDOW(pdialog->shell), city_name(pdialog->pcity));
     gtk_label_set_markup(GTK_LABEL(pdialog->name_label), buf);
   }
 }
@@ -2592,9 +2592,8 @@ static void rename_callback(GtkWidget * w, gpointer data)
   pdialog->rename_shell = input_dialog_create(GTK_WINDOW(pdialog->shell),
 					      /*"shellrenamecity" */
 					      _("Rename City"),
-					      _
-					      ("What should we rename the city to?"),
-					      pdialog->pcity->name,
+					      _("What should we rename the city to?"),
+					      city_name(pdialog->pcity),
 					      G_CALLBACK(rename_callback_yes),
 					      pdialog,
 					      G_CALLBACK(rename_callback_no),

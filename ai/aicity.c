@@ -281,7 +281,7 @@ static void want_tech_for_improvement_effect(struct player *pplayer,
    * so activate it only while necessary. */
   TECH_LOG(LOG_DEBUG, pplayer, tech,
     "wanted by %s for %s: %d -> %d",
-    pcity->name, improvement_rule_name(pimprove),
+    city_name(pcity), improvement_rule_name(pimprove),
     building_want, tech_want);
 #endif
   if (tech) {
@@ -1391,7 +1391,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
 	     ai_choice_rule_name(&pcity->ai.choice),
 	     pcity->ai.choice.want);
     
-    /* parallel to citytools change_build_target() */
+    /* FIXME: parallel to citytools change_build_target() */
     if (VUT_IMPROVEMENT == pcity->production.kind
      && is_great_wonder(pcity->production.value.building)
      && (CT_BUILDING != pcity->ai.choice.type
@@ -1400,7 +1400,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
 		    _("The %s have stopped building The %s in %s."),
 		    nation_plural_for_player(pplayer),
 		    city_production_name_translation(pcity),
-		    pcity->name);
+		    city_name(pcity));
     }
     if (CT_BUILDING == pcity->ai.choice.type
       && is_great_wonder(pcity->ai.choice.value.building)
@@ -1410,7 +1410,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
 		    _("The %s have started building The %s in %s."),
 		    nation_plural_for_player(city_owner(pcity)),
 		    city_improvement_name_translation(pcity, pcity->ai.choice.value.building),
-		    pcity->name);
+		    city_name(pcity));
     }
 
     switch (pcity->ai.choice.type) {
@@ -1653,7 +1653,7 @@ static void ai_spend_gold(struct player *pplayer)
   }
 
   freelog(LOG_BUY, "%s wants to keep %d in reserve (tax factor %d)", 
-          pplayer->name, cached_limit, pplayer->ai.maxbuycost);
+          player_name(pplayer), cached_limit, pplayer->ai.maxbuycost);
 }
 
 /**************************************************************************
@@ -1746,7 +1746,7 @@ static void ai_sell_obsolete_buildings(struct city *pcity)
       do_sell_building(pplayer, pcity, pimprove);
       notify_player(pplayer, pcity->tile, E_IMP_SOLD,
 		       _("%s is selling %s (not needed) for %d."), 
-		       pcity->name,
+		       city_name(pcity),
 		       improvement_name_translation(pimprove), 
 		       impr_sell_gold(pimprove));
       return; /* max 1 building each turn */
@@ -1780,7 +1780,8 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
 
   freelog(LOG_EMERGENCY,
           "Emergency in %s (%s, angry%d, unhap%d food%d, prod%d)",
-          pcity->name, city_unhappy(pcity) ? "unhappy" : "content",
+          city_name(pcity),
+          city_unhappy(pcity) ? "unhappy" : "content",
           pcity->feel[CITIZEN_ANGRY][FEELING_FINAL],
           pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL],
           pcity->surplus[O_FOOD],
@@ -1794,7 +1795,9 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
 
     if (acity && acity != pcity && city_owner(acity) == city_owner(pcity))  {
       freelog(LOG_DEBUG, "%s taking over %s square in (%d, %d)",
-              pcity->name, acity->name, ptile->x, ptile->y);
+              city_name(pcity),
+              city_name(acity),
+              TILE_XY(ptile));
       is_valid = map_to_city_map(&city_map_x, &city_map_y, acity, ptile);
       assert(is_valid);
       if (!is_valid || is_free_worked_tile(city_map_x, city_map_y)) {
@@ -1811,7 +1814,8 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
   auto_arrange_workers(pcity);
 
   if (!CITY_EMERGENCY(pcity)) {
-    freelog(LOG_EMERGENCY, "Emergency in %s resolved", pcity->name);
+    freelog(LOG_EMERGENCY, "Emergency in %s resolved",
+            city_name(pcity));
     goto cleanup;
   }
 
@@ -1828,10 +1832,11 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
 
   if (CITY_EMERGENCY(pcity)) {
     freelog(LOG_EMERGENCY, "Emergency in %s remains unresolved", 
-            pcity->name);
+            city_name(pcity));
   } else {
     freelog(LOG_EMERGENCY, 
-            "Emergency in %s resolved by disbanding unit(s)", pcity->name);
+            "Emergency in %s resolved by disbanding unit(s)",
+            city_name(pcity));
   }
 
   cleanup:

@@ -603,7 +603,7 @@ static unsigned int assess_danger(struct city *pcity)
     if (danger[i] < 0 || danger[i] > 1<<24) {
       /* I hope never to see this! */
       freelog(LOG_ERROR, "Dangerous danger[%d] (%d) in %s.  Beware of "
-              "overflow.", i, danger[i], pcity->name);
+              "overflow.", i, danger[i], city_name(pcity));
       danger[i] = danger[i]>>2; /* reduce danger of overflow */
     }
   }
@@ -822,7 +822,7 @@ static bool process_defender_want(struct player *pplayer, struct city *pcity,
                "+ %d for %s to defend %s",
                desire,
                utype_rule_name(punittype),
-               pcity->name);
+               city_name(pcity));
     }
   } simple_ai_unit_type_iterate_end;
 
@@ -1001,7 +1001,7 @@ static void process_attacker_want(struct city *pcity,
                    "+ %d for %s vs %s(%d,%d)",
                    want,
                    utype_rule_name(punittype),
-                   (acity ? acity->name : utype_rule_name(victim_unit_type)),
+                   (acity ? city_name(acity) : utype_rule_name(victim_unit_type)),
                    TILE_XY(ptile));
         } else if (want > best_choice->want) {
           struct impr_type *impr_req = punittype->need_improvement;
@@ -1221,7 +1221,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
     /* We want attacker more than what we have selected before */
     copy_if_better_choice(&best_choice, choice);
     CITY_LOG(LOG_DEBUG, pcity, "ksw: %s has chosen attacker, %s, want=%d",
-	     pcity->name,
+	     city_name(pcity),
 	     utype_rule_name(best_choice.value.utype),
 	     best_choice.want);
 
@@ -1236,7 +1236,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
 
         freelog(LOG_DEBUG,
                 "%s has chosen attacker ferry, %s, want=%d, %d of %d free",
-                pcity->name,
+                city_name(pcity),
                 utype_rule_name(choice->value.utype),
 		choice->want,
                 ai->stats.available_boats, ai->stats.boats);

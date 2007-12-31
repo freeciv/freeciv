@@ -221,7 +221,8 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
   
   pdialog=fc_malloc(sizeof(struct spaceship_dialog));
   pdialog->pplayer=pplayer;
-  pdialog->mainwin=fcwin_create_layouted_window(spaceship_proc,pplayer->name,
+  pdialog->mainwin=fcwin_create_layouted_window(spaceship_proc,
+						player_name(pplayer),
 						WS_OVERLAPPEDWINDOW,
 						CW_USEDEFAULT,CW_USEDEFAULT,
 						root_window,NULL,

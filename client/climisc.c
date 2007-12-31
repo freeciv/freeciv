@@ -106,7 +106,7 @@ void client_remove_unit(struct unit *punit)
 
     refresh_city_dialog(pcity);
     freelog(LOG_DEBUG, "map city %s, %s, (%d %d)",
-	    pcity->name,
+	    city_name(pcity),
 	    nation_rule_name(nation_of_city(pcity)),
 	    TILE_XY(pcity->tile));
   }
@@ -117,7 +117,7 @@ void client_remove_unit(struct unit *punit)
     if (pcity) {
       refresh_city_dialog(pcity);
       freelog(LOG_DEBUG, "home city %s, %s, (%d %d)",
-	      pcity->name,
+	      city_name(pcity),
 	      nation_rule_name(nation_of_city(pcity)),
 	      TILE_XY(pcity->tile));
     }
@@ -136,7 +136,7 @@ void client_remove_city(struct city *pcity)
   struct city old_city = *pcity;
 
   freelog(LOG_DEBUG, "removing city %s, %s, (%d %d)",
-	  pcity->name,
+	  city_name(pcity),
 	  nation_rule_name(nation_of_city(pcity)),
 	  TILE_XY(ptile));
 
@@ -231,7 +231,7 @@ void client_diplomacy_clause_string(char *buf, int bufsiz,
     if (pcity) {
       my_snprintf(buf, bufsiz, _("The %s give %s"),
                   nation_plural_for_player(pclause->from),
-		  pcity->name);
+		  city_name(pcity));
     } else {
       my_snprintf(buf, bufsiz,_("The %s give unknown city."),
                   nation_plural_for_player(pclause->from));
@@ -998,7 +998,7 @@ void cityrep_buy(struct city *pcity)
     create_event(pcity->tile, E_BAD_COMMAND,
 		_("You don't buy %s in %s!"),
 		improvement_name_translation(pcity->production.value.building),
-		pcity->name);
+		city_name(pcity));
     return;
   }
   value = city_production_buy_gold_cost(pcity);

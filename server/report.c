@@ -270,7 +270,8 @@ void report_top_five_cities(struct conn_list *dest)
     cat_snprintf(buffer, sizeof(buffer),
 		 _("%2d: The %s City of %s of size %d, "), i + 1,
 		 nation_adjective_for_player(city_owner(size[i].city)),
-		 size[i].city->name, size[i].city->size);
+		 city_name(size[i].city),
+		 size[i].city->size);
 
     wonders = nr_wonders(size[i].city);
     if (wonders == 0) {
@@ -301,7 +302,7 @@ void report_wonders_of_the_world(struct conn_list *dest)
       if (pcity) {
 	cat_snprintf(buffer, sizeof(buffer), _("%s in %s (%s)\n"),
 		     city_improvement_name_translation(pcity, i),
-		     pcity->name,
+		     city_name(pcity),
 		     nation_adjective_for_player(city_owner(pcity)));
       } else if (great_wonder_was_built(i)) {
 	cat_snprintf(buffer, sizeof(buffer), _("%s has been DESTROYED\n"),
@@ -319,7 +320,7 @@ void report_wonders_of_the_world(struct conn_list *dest)
 	    cat_snprintf(buffer, sizeof(buffer),
 			 _("(building %s in %s (%s))\n"),
 			 improvement_name_translation(i),
-			 pcity->name,
+			 city_name(pcity),
 			 nation_adjective_for_player(pplayer));
 	  }
 	} city_list_iterate_end;
@@ -1007,20 +1008,22 @@ static void log_civ_score(void)
   players_iterate(pplayer) {
     if (GOOD_PLAYER(pplayer)
 	&& strlen(player_names[player_index(pplayer)]) == 0) {
-      fprintf(fp, "addplayer %d %d %s\n", game.info.turn, player_number(pplayer),
-	      pplayer->name);
-      mystrlcpy(player_name_ptrs[player_index(pplayer)], pplayer->name,
+      fprintf(fp, "addplayer %d %d %s\n", game.info.turn,
+	      player_number(pplayer),
+	      player_name(pplayer));
+      mystrlcpy(player_name_ptrs[player_index(pplayer)], player_name(pplayer),
 		MAX_LEN_NAME);
     }
   } players_iterate_end;
 
   players_iterate(pplayer) {
     if (GOOD_PLAYER(pplayer)
-	&& strcmp(player_names[player_index(pplayer)], pplayer->name) != 0) {
+	&& strcmp(player_names[player_index(pplayer)], player_name(pplayer)) != 0) {
       fprintf(fp, "delplayer %d %d\n", game.info.turn - 1, player_number(pplayer));
-      fprintf(fp, "addplayer %d %d %s\n", game.info.turn, player_number(pplayer),
-	      pplayer->name);
-      mystrlcpy(player_names[player_index(pplayer)], pplayer->name,
+      fprintf(fp, "addplayer %d %d %s\n", game.info.turn,
+	      player_number(pplayer),
+	      player_name(pplayer));
+      mystrlcpy(player_names[player_index(pplayer)], player_name(pplayer),
 		MAX_LEN_NAME);
     }
   } players_iterate_end;
@@ -1031,8 +1034,8 @@ static void log_civ_score(void)
 	continue;
       }
 
-      fprintf(fp, "data %d %d %d %d\n", game.info.turn, i, player_number(pplayer),
-	      score_tags[i].get_value(pplayer));
+      fprintf(fp, "data %d %d %d %d\n", game.info.turn, i,
+	      player_number(pplayer), score_tags[i].get_value(pplayer));
     } players_iterate_end;
   }
 

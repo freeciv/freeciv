@@ -327,7 +327,7 @@ void update_intel_dialog(struct player *p)
       gtk_tree_store_append(pdialog->diplstates, &it,
 			    &diplstates[state->type]);
       g_value_init(&v, G_TYPE_STRING);
-      g_value_set_static_string(&v, other->name);
+      g_value_set_static_string(&v, player_name(other));
       gtk_tree_store_set_value(pdialog->diplstates, &it, 0, &v);
       g_value_unset(&v);
     } players_iterate_end;
@@ -357,14 +357,14 @@ void update_intel_dialog(struct player *p)
 	  case LABEL_RULER:
 	    my_snprintf(buf, sizeof(buf), "%s %s", 
 		ruler_title_translation(p),
-		p->name);
+		player_name(p));
 	    break;
 	  case LABEL_GOVERNMENT:
 	    sz_strlcpy(buf, government_name_for_player(p));
 	    break;
 	  case LABEL_CAPITAL:
 	    pcity = find_palace(p);
-	    sz_strlcpy(buf, (!pcity) ? _("(Unknown)") : pcity->name);
+	    sz_strlcpy(buf, (!pcity) ? _("(Unknown)") : city_name(pcity));
 	    break;
 	  case LABEL_GOLD:
 	    my_snprintf(buf, sizeof(buf), "%d", p->economic.gold);

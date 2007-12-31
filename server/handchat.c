@@ -43,10 +43,10 @@ static void form_chat_name(struct connection *pconn, char *buffer, size_t len)
 
   if (!pplayer
       || pconn->observer
-      || strcmp(pplayer->name, ANON_PLAYER_NAME) == 0) {
+      || strcmp(player_name(pplayer), ANON_PLAYER_NAME) == 0) {
     my_snprintf(buffer, len, "(%s)", pconn->username);
   } else {
-    my_snprintf(buffer, len, "%s", pplayer->name);
+    my_snprintf(buffer, len, "%s", player_name(pplayer));
   }
 }
 				
@@ -114,7 +114,7 @@ static void chat_msg_to_player_multi(struct connection *sender,
   
   form_chat_name(sender, sender_name, sizeof(sender_name));
 
-  my_snprintf(message, sizeof(message), "->[%s] %s", pdest->name, msg);
+  my_snprintf(message, sizeof(message), "->[%s] %s", player_name(pdest), msg);
   dsend_packet_chat_msg(sender, message, -1, -1, E_CHAT_MSG, sender->id);
 
   my_snprintf(message, sizeof(message), "[%s] %s", sender_name, msg);
@@ -258,7 +258,7 @@ void handle_chat_msg_req(struct connection *pconn, char *message)
 	complain_ambiguous(pconn, name, 0);
 	return;
       }
-      if (pdest && strcmp(pdest->name, ANON_PLAYER_NAME) == 0) {
+      if (pdest && strcmp(player_name(pdest), ANON_PLAYER_NAME) == 0) {
         complain_ambiguous(pconn, name, 2);
         return;
       }
@@ -285,7 +285,8 @@ void handle_chat_msg_req(struct connection *pconn, char *message)
       if (pdest && match_result_player < M_PRE_AMBIGUOUS) {
 	/* Would have done something above if connected */
 	my_snprintf(chat, sizeof(chat),
-		    _("%s is not connected."), pdest->name);
+		    _("%s is not connected."),
+		    player_name(pdest));
 	dsend_packet_chat_msg(pconn, chat, -1, -1, E_CHAT_ERROR, -1);
 	return;
       }

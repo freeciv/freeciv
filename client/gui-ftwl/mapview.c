@@ -335,7 +335,7 @@ static struct city_descr_style *find_city_descr_style(struct city *pcity)
     }
   }
   freelog(LOG_ERROR, "No matching city description style found for %s "
-          "which is of size %d", pcity->name, pcity->size);
+          "which is of size %d", city_name(pcity), pcity->size);
   return &city_descr_styles.style[0];
 }
 
@@ -369,7 +369,7 @@ void show_city_desc(struct canvas *pcanvas, int canvas_x, int canvas_y,
 
 #if 0
   /* try to trace that hard-to-find assert that we sometimes get */
-  freelog(LOG_NORMAL, "show_city_desc(%s) pcx=%d->%d (%d) pcy=%d->%d (%d)", pcity->name,
+  freelog(LOG_NORMAL, "show_city_desc(%s) pcx=%d->%d (%d) pcy=%d->%d (%d)", city_name(pcity),
           canvas_x, canvas_x+tileset_tile_width(tileset) / 2, all_rect.width,
           canvas_y, canvas_y+tileset_tile_height(tileset), all_rect.height);
 #endif

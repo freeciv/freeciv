@@ -299,7 +299,7 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
 	                 _("Discovery of %s OBSOLETES %s in %s!"), 
 	                 advance_name_for_player(city_owner(pcity), tech_found),
 			 improvement_name_translation(pimprove),
-	                 pcity->name);
+	                 city_name(pcity));
       }
     } improvement_iterate_end;
   }

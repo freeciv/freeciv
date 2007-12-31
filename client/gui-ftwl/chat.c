@@ -252,7 +252,7 @@ void chat_add(const char *astring, int conn_id)
   }
 
   freelog(LOG_NORMAL, "id=%d conn=%p player=%s", conn_id, conn,
-	  pplayer ? pplayer->name : "none");
+	  pplayer ? player_name(pplayer) : "none");
   
   string = ct_string_clone4(output.template, astring, pcolor->color);
   string = ct_string_wrap(string, output.inner_bounds.width);

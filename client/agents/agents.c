@@ -522,7 +522,7 @@ void agents_unit_changed(struct unit *punit)
 	  punit->id,
 	  unit_rule_name(punit),
 	  TILE_XY(punit->tile),
-	  unit_owner(punit)->name);
+	  player_name(unit_owner(punit)));
 
   for (i = 0; i < agents.entries_used; i++) {
     struct my_agent *agent = &agents.entries[i];
@@ -550,7 +550,7 @@ void agents_unit_new(struct unit *punit)
 	  punit->id,
 	  unit_rule_name(punit),
 	  TILE_XY(punit->tile),
-	  unit_owner(punit)->name);
+	  player_name(unit_owner(punit)));
 
   for (i = 0; i < agents.entries_used; i++) {
     struct my_agent *agent = &agents.entries[i];
@@ -579,7 +579,7 @@ void agents_unit_remove(struct unit *punit)
 	  punit->id,
 	  unit_rule_name(punit),
 	  TILE_XY(punit->tile),
-	  unit_owner(punit)->name);
+	  player_name(unit_owner(punit)));
 
   for (i = 0; i < agents.entries_used; i++) {
     struct my_agent *agent = &agents.entries[i];
@@ -604,7 +604,9 @@ void agents_city_changed(struct city *pcity)
   int i;
 
   freelog(LOG_DEBUG, "A: agents_city_changed(city='%s'(%d)) owner=%s",
-	  pcity->name, pcity->id, city_owner(pcity)->name);
+	  city_name(pcity),
+	  pcity->id,
+	  player_name(city_owner(pcity)));
 
   for (i = 0; i < agents.entries_used; i++) {
     struct my_agent *agent = &agents.entries[i];
@@ -630,8 +632,8 @@ void agents_city_new(struct city *pcity)
 
   freelog(LOG_DEBUG,
 	  "A: agents_city_new(city='%s'(%d)) pos=(%d,%d) owner=%s",
-	  pcity->name, pcity->id, TILE_XY(pcity->tile),
-	  city_owner(pcity)->name);
+	  city_name(pcity), pcity->id, TILE_XY(pcity->tile),
+	  player_name(city_owner(pcity)));
 
   for (i = 0; i < agents.entries_used; i++) {
     struct my_agent *agent = &agents.entries[i];
@@ -657,8 +659,8 @@ void agents_city_remove(struct city *pcity)
 
   freelog(LOG_DEBUG,
 	  "A: agents_city_remove(city='%s'(%d)) pos=(%d,%d) owner=%s",
-	  pcity->name, pcity->id, TILE_XY(pcity->tile),
-	  city_owner(pcity)->name);
+	  city_name(pcity), pcity->id, TILE_XY(pcity->tile),
+	  player_name(city_owner(pcity)));
 
   for (i = 0; i < agents.entries_used; i++) {
     struct my_agent *agent = &agents.entries[i];

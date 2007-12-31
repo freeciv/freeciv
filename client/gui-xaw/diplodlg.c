@@ -297,7 +297,7 @@ static int fill_diplomacy_city_menu(Widget popupmenu,
   
   for(j=0; j<i; j++) {
     Widget entry=
-      XtVaCreateManagedWidget(city_list_ptrs[j]->name, smeBSBObjectClass, 
+      XtVaCreateManagedWidget(city_name(city_list_ptrs[j]), smeBSBObjectClass, 
 			      popupmenu, NULL);
     XtAddCallback(entry, XtNcallback, diplomacy_dialog_city_callback,
 		  INT_TO_XTPOINTER((player_number(plr0) << 24) |
@@ -542,10 +542,10 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 		 "The %s %s %s\nand\nThe %s %s %s"),
 	  nation_adjective_for_player(plr0),
 	  ruler_title_translation(plr0),
-	  plr0->name,
+	  player_name(plr0),
 	  nation_adjective_for_player(plr1),
 	  ruler_title_translation(plr1),
-	  plr1->name);
+	  player_name(plr1));
   
   pheadlinem=create_centered_string(buf);
   pdialog->dip_headline1=XtVaCreateManagedWidget("dipheadlinem", 

@@ -66,7 +66,7 @@ void popup_notify_dialog(const char *caption, const char *headline,
 static void connect_callback(struct sw_widget *list, void *data)
 {
   int leader_count, leader=sw_list_get_selected_row(leaders_list);
-  struct leader *leaders = get_nation_leaders(selected_nation, &leader_count);
+  struct nation_leader *leaders = get_nation_leaders(selected_nation, &leader_count);
 
   if (strlen(leaders[leader].name) == 0) {
     append_output_window(_("You must type a legal name."));
@@ -116,7 +116,7 @@ static void nations_list_selection_changed(struct sw_widget *widget,
   int row = sw_list_get_selected_row(nations_list);
   struct nation_type *nation = nation_by_number(row);
   int leader_count, i;
-  struct leader *leaders = get_nation_leaders(row, &leader_count);
+  struct nation_leader *leaders = get_nation_leaders(row, &leader_count);
 
   selected_nation = row;
 
@@ -144,7 +144,7 @@ static void leaders_list_selection_changed(struct sw_widget *widget,
 {
   int row = sw_list_get_selected_row(leaders_list);
   int leader_count;
-  struct leader *leaders = get_nation_leaders(selected_nation, &leader_count);
+  struct nation_leader *leaders = get_nation_leaders(selected_nation, &leader_count);
 
   sw_list_set_selected_row(leaders_sex_list, leaders[row].is_male ? 0 : 1,
 			   FALSE);

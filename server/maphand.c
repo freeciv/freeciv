@@ -891,7 +891,7 @@ void map_show_tile(struct player *src_player, struct tile *ptile)
 {
   static int recurse = 0;
   freelog(LOG_DEBUG, "Showing %i,%i to %s",
-	  TILE_XY(ptile), src_player->name);
+	  TILE_XY(ptile), player_name(src_player));
 
   assert(recurse == 0);
   recurse++;
@@ -1418,7 +1418,8 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
   if (gives_shared_vision(pfrom, pto)) {
     freelog(LOG_ERROR, "Trying to give shared vision from %s to %s, "
 	    "but that vision is already given!",
-	    pfrom->name, pto->name);
+	    player_name(pfrom),
+	    player_name(pto));
     return;
   }
 
@@ -1429,7 +1430,8 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
   pfrom->gives_shared_vision |= 1<<player_index(pto);
   create_vision_dependencies();
   freelog(LOG_DEBUG, "giving shared vision from %s to %s\n",
-	  pfrom->name, pto->name);
+	  player_name(pfrom),
+	  player_name(pto));
 
   players_iterate(pplayer) {
     buffer_shared_vision(pplayer);
@@ -1437,7 +1439,8 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
       if (really_gives_vision(pplayer, pplayer2)
 	  && !TEST_BIT(save_vision[player_index(pplayer)], player_index(pplayer2))) {
 	freelog(LOG_DEBUG, "really giving shared vision from %s to %s\n",
-	       pplayer->name, pplayer2->name);
+	       player_name(pplayer),
+	       player_name(pplayer2));
 	whole_map_iterate(ptile) {
 	  vision_layer_iterate(v) {
 	    int change = map_get_own_seen(ptile, pplayer, v);
@@ -1475,7 +1478,8 @@ void remove_shared_vision(struct player *pfrom, struct player *pto)
   if (!gives_shared_vision(pfrom, pto)) {
     freelog(LOG_ERROR, "Tried removing the shared vision from %s to %s, "
 	    "but it did not exist in the first place!",
-	    pfrom->name, pto->name);
+	    player_name(pfrom),
+	    player_name(pto));
     return;
   }
 
@@ -1484,7 +1488,8 @@ void remove_shared_vision(struct player *pfrom, struct player *pto)
   } players_iterate_end;
 
   freelog(LOG_DEBUG, "removing shared vision from %s to %s\n",
-	 pfrom->name, pto->name);
+	  player_name(pfrom),
+	  player_name(pto));
 
   pfrom->gives_shared_vision &= ~(1<<player_index(pto));
   create_vision_dependencies();
@@ -1495,7 +1500,8 @@ void remove_shared_vision(struct player *pfrom, struct player *pto)
       if (!really_gives_vision(pplayer, pplayer2)
 	  && TEST_BIT(save_vision[player_index(pplayer)], player_index(pplayer2))) {
 	freelog(LOG_DEBUG, "really removing shared vision from %s to %s\n",
-	       pplayer->name, pplayer2->name);
+	       player_name(pplayer),
+	       player_name(pplayer2));
 	whole_map_iterate(ptile) {
 	  vision_layer_iterate(v) {
 	    int change = map_get_own_seen(ptile, pplayer, v);
@@ -1933,7 +1939,7 @@ void map_calculate_borders(void)
           freelog(LOG_DEBUG, "%s %s(%d,%d) acquired tile (%d,%d) from "
                   "(%d,%d)",
                   nation_rule_name(nation_of_player(tile_owner(ptile))),
-                  pcity->name,
+                  city_name(pcity),
                   TILE_XY(pcity->tile),
                   TILE_XY(ptile),
                   TILE_XY(ptile->owner_source));

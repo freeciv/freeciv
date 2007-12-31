@@ -130,8 +130,8 @@ void popup_caravan_dialog(struct unit *pUnit,
   is_unit_move_blocked = TRUE;
       
   my_snprintf(cBuf, sizeof(cBuf), _("Your caravan has arrived at %s"),
-							  pDestcity->name);
-  
+              city_name(pDestcity));
+
   /* window */
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
@@ -154,9 +154,10 @@ void popup_caravan_dialog(struct unit *pUnit,
     
     if (can_establish_trade_route(pHomecity, pDestcity)) {
       my_snprintf(cBuf, sizeof(cBuf),
-      		_("Establish Traderoute with %s ( %d R&G + %d trade )"),
-      		pHomecity->name, revenue,
-      			trade_between_cities(pHomecity, pDestcity));
+                  _("Establish Traderoute with %s ( %d R&G + %d trade )"),
+                  city_name(pHomecity),
+                  revenue,
+                  trade_between_cities(pHomecity, pDestcity));
     } else {
       revenue = (revenue + 2) / 3;
       my_snprintf(cBuf, sizeof(cBuf),

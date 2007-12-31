@@ -64,7 +64,7 @@
 /* Logging in find_ferry functions */
 #define LOGLEVEL_FINDFERRY LOG_DEBUG
 /* Extra consistency checks */
-#define DEBUG_FERRY_STATS 0
+#undef LOGLEVEL_FERRY_STATS
 
 
 /* ========= managing statistics and boat/passanger assignments ======== */
@@ -104,15 +104,16 @@ void aiferry_init_stats(struct player *pplayer)
 /**************************************************************************
   Print the list of boats of pplayer.
 **************************************************************************/
-#if DEBUG_FERRY_STATS
+#ifdef LOGLEVEL_FERRY_STATS
 static void aiferry_print_stats(struct player *pplayer)
 {
   struct ai_data *ai = ai_data_get(pplayer);
   int n = 1;
 
-  freelog(LOG_NORMAL, "Boat stats for %s[%d]", 
-	  pplayer->name, player_number(pplayer));
-  freelog(LOG_NORMAL, "Registered: %d free out of total %d",
+  freelog(LOGLEVEL_FERRY_STATS, "Boat stats for %s[%d]", 
+	  player_name(pplayer),
+	  player_number(pplayer));
+  freelog(LOGLEVEL_FERRY_STATS, "Registered: %d free out of total %d",
 	  ai->stats.available_boats, ai->stats.boats);
   unit_list_iterate(pplayer->units, punit) {
     if (is_sailing_unit(punit)) {
@@ -120,7 +121,7 @@ static void aiferry_print_stats(struct player *pplayer)
           if (punitclass->move_type == LAND_MOVING
               && can_unit_type_transport(unit_type(punit), punitclass)) {
             /* Can transport some land units. */
-            freelog(LOG_NORMAL, "#%d. %s[%d], psngr=%d",
+            freelog(LOGLEVEL_FERRY_STATS, "#%d. %s[%d], psngr=%d",
                     n,
                     unit_rule_name(punit),
                     punit->id,
@@ -132,7 +133,7 @@ static void aiferry_print_stats(struct player *pplayer)
     }
   } unit_list_iterate_end;
 }
-#endif /* DEBUG_FERRY_STATS */
+#endif /* LOGLEVEL_FERRY_STATS */
 
 /**************************************************************************
   Initialize new ferry when player gets it
@@ -244,7 +245,7 @@ static int aiferry_avail_boats(struct player *pplayer)
    * ferry code. */
   /* There is one "legitimate" reason for failing this check: a ferry got
    * killed but wasn't taken off the register */
-#if DEBUG_FERRY_STATS
+#ifdef LOGLEVEL_FERRY_STATS
   int boats = 0;
 
   unit_list_iterate(pplayer->units, punit) {
@@ -262,11 +263,11 @@ static int aiferry_avail_boats(struct player *pplayer)
   } unit_list_iterate_end;
 
   if (boats != ai->stats.available_boats) {
-    freelog(LOG_ERROR, "Player[%d] in turn %d: boats miscounted.",
+    freelog(LOGLEVEL_FERRY_STATS, "Player[%d] in turn %d: boats miscounted.",
 	    player_number(pplayer), game.info.turn);
     aiferry_print_stats(pplayer);
   }
-#endif /* DEBUG_FERRY_STATS */
+#endif /* LOGLEVEL_FERRY_STATS */
 
   return ai->stats.available_boats;
 }
@@ -876,19 +877,21 @@ static bool aiferry_find_interested_city(struct unit *pferry)
       int turns = city_production_turns_to_build(pcity, TRUE);
 
       UNIT_LOG(LOGLEVEL_FERRY, pferry, "%s (%d, %d) looks promising...", 
-               pcity->name, TILE_XY(pcity->tile));
+               city_name(pcity), TILE_XY(pcity->tile));
 
       if (pos.turn > turns
           && VUT_UTYPE == pcity->production.kind
           && utype_has_role(pcity->production.value.utype, L_FERRYBOAT)) {
         UNIT_LOG(LOGLEVEL_FERRY, pferry, "%s is NOT suitable: "
-                 "will finish building its own ferry too soon", pcity->name);
+                 "will finish building its own ferry too soon",
+                 city_name(pcity));
         continue;
       }
 
       if (turns >= turns_horizon) {
         UNIT_LOG(LOGLEVEL_FERRY, pferry, "%s is NOT suitable: "
-                 "has just started building", pcity->name);
+                 "has just started building",
+                 city_name(pcity));
         continue;
       }
 
@@ -897,7 +900,8 @@ static bool aiferry_find_interested_city(struct unit *pferry)
             && unit_has_type_role(aunit, L_FERRYBOAT)) {
 
           UNIT_LOG(LOGLEVEL_FERRY, pferry, "%s is NOT suitable: "
-                   "has another ferry", pcity->name);
+                   "has another ferry",
+                   city_name(pcity));
 	  really_needed = FALSE;
 	  break;
 	}
@@ -905,7 +909,8 @@ static bool aiferry_find_interested_city(struct unit *pferry)
 
       if (really_needed) {
         UNIT_LOG(LOGLEVEL_FERRY, pferry, "will go to %s unless we "
-                 "find something better", pcity->name);
+                 "find something better",
+                 city_name(pcity));
 	pferry->goto_tile = pos.tile;
         turns_horizon = turns;
         needed = TRUE;
@@ -938,7 +943,7 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   if (punit->hp < unit_type(punit)->hp 
       && (pcity = tile_city(punit->tile))) {
     UNIT_LOG(LOGLEVEL_FERRY, punit, "waiting in %s to recover hitpoints", 
-             pcity->name);
+             city_name(pcity));
     punit->ai.done = TRUE;
     return;
   }

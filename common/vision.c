@@ -103,7 +103,7 @@ struct vision_site *create_vision_site_from_city(const struct city *pcity)
 						 city_owner(pcity));
 
   psite->size = pcity->size;
-  sz_strlcpy(psite->name, pcity->name);
+  sz_strlcpy(psite->name, city_name(pcity));
   return psite;
 }
 
@@ -116,6 +116,6 @@ struct vision_site *update_vision_site_from_city(struct vision_site *psite,
   psite->identity = pcity->id;
   psite->owner = pcity->owner;
   psite->size = pcity->size;
-  sz_strlcpy(psite->name, pcity->name);
+  sz_strlcpy(psite->name, city_name(pcity));
   return psite;
 }

@@ -181,7 +181,7 @@ void really_handle_city_sell(struct player *pplayer, struct city *pcity,
   notify_player(pplayer, pcity->tile, E_IMP_SOLD,
 		   _("You sell %s in %s for %d gold."), 
 		   improvement_name_translation(pimprove),
-		   pcity->name,
+		   city_name(pcity),
 		   impr_sell_gold(pimprove));
   do_sell_building(pplayer, pcity, pimprove);
 
@@ -388,7 +388,7 @@ void handle_city_rename(struct player *pplayer, int city_id, char *name)
 
   if (!is_allowed_city_name(pplayer, name, message, sizeof(message))) {
     notify_player(pplayer, pcity->tile, E_BAD_COMMAND,
-		     _("%s"),  message);
+		  message);
     return;
   }
 

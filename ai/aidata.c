@@ -362,7 +362,7 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
       for(j = 1; j <= ai->num_oceans; j++) {
         if (ai->channels[i * ai->num_oceans + j]) {
           freelog(LOG_NORMAL, "%s: oceans %d and %d are connected",
-                  pplayer->name, i, j);
+                  player_name(pplayer), i, j);
        }
       }
     }

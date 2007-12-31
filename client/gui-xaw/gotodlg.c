@@ -233,7 +233,7 @@ void update_goto_dialog(Widget goto_list)
     }
     city_list_iterate(pplayer->cities, pcity) {
       char name[MAX_LEN_NAME+3];
-      sz_strlcpy(name, pcity->name);
+      sz_strlcpy(name, city_name(pcity));
       /* FIXME: should use unit_can_airlift_to(). */
       if (pcity->airlift) {
 	sz_strlcat(name, "(A)");

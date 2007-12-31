@@ -443,15 +443,6 @@ int city_production_turns_to_build(const struct city *pcity,
 }
 
 /**************************************************************************
-  Return the owner of the city.
-**************************************************************************/
-struct player *city_owner(const struct city *pcity)
-{
-  assert(NULL != pcity->owner);
-  return pcity->owner;
-}
-
-/**************************************************************************
   Return whether given city can build given building, ignoring whether
   it is obsolete.
 **************************************************************************/
@@ -644,6 +635,24 @@ bool city_can_use_specialist(const struct city *pcity,
 bool city_can_change_build(const struct city *pcity)
 {
   return !pcity->did_buy || pcity->shield_stock <= 0;
+}
+
+/**************************************************************************
+  Return the name of the city.
+**************************************************************************/
+const char *city_name(const struct city *pcity)
+{
+  assert(NULL != pcity && NULL != pcity->name);
+  return pcity->name;
+}
+
+/**************************************************************************
+  Return the owner of the city.
+**************************************************************************/
+struct player *city_owner(const struct city *pcity)
+{
+  assert(NULL != pcity && NULL != pcity->owner);
+  return pcity->owner;
 }
 
 /**************************************************************************
@@ -848,13 +857,13 @@ int base_city_get_output_tile(int city_x, int city_y,
 			      city_x, city_y, is_celebrating, otype);
 }
 
-/****************************************************************************
+/**************************************************************************
   Returns TRUE if the given unit can build a city at the given map
   coordinates.
 
   punit is the founding unit.  It may be NULL if a city is built out of the
   blue (e.g., through editing).
-****************************************************************************/
+***************************************************************************/
 bool city_can_be_built_here(const struct tile *ptile, const struct unit *punit)
 {
   int citymindist;

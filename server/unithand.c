@@ -451,7 +451,7 @@ static void city_add_or_build_error(struct player *pplayer,
     notify_player(pplayer, punit->tile, E_BAD_COMMAND,
 		     _("%s unit has no moves left to add to %s."),
 		     unit_name_translation(punit),
-		     pcity->name);
+		     city_name(pcity));
     break;
   case AB_NO_MOVES_BUILD:
     notify_player(pplayer, punit->tile, E_BAD_COMMAND,
@@ -461,25 +461,25 @@ static void city_add_or_build_error(struct player *pplayer,
   case AB_TOO_BIG:
     notify_player(pplayer, punit->tile, E_BAD_COMMAND,
 		     _("%s is too big to add %s."),
-		     pcity->name,
+		     city_name(pcity),
 		     unit_name_translation(punit));
     break;
   case AB_NO_SPACE:
     notify_player(pplayer, punit->tile, E_BAD_COMMAND,
 		     _("%s needs an improvement to grow, so "
 		       "you cannot add %s."),
-		     pcity->name,
+		     city_name(pcity),
 		     unit_name_translation(punit));
     break;
   default:
     /* Shouldn't happen */
     freelog(LOG_ERROR, "Cannot add %s to %s for unknown reason",
 	    unit_rule_name(punit),
-	    pcity->name);
+	    city_name(pcity));
     notify_player(pplayer, punit->tile, E_BAD_COMMAND,
 		     _("Can't add %s to %s."),
 		     unit_name_translation(punit),
-		     pcity->name);
+		     city_name(pcity));
     break;
   }
 }
@@ -501,7 +501,7 @@ static void city_add_unit(struct player *pplayer, struct unit *punit)
   notify_player(pplayer, pcity->tile, E_CITY_BUILD,
 		   _("%s added to aid %s in growing."),
 		   unit_name_translation(punit),
-		   pcity->name);
+		   city_name(pcity));
   wipe_unit(punit);
   send_city_info(NULL, pcity);
 }
@@ -804,7 +804,7 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
 			 " SDI defences, what a waste."));
       notify_player(city_owner(pcity), def_tile, E_UNIT_WIN,
 		       _("The nuclear attack on %s was avoided by"
-			 " your SDI defense."), pcity->name);
+			 " your SDI defense."), city_name(pcity));
       wipe_unit(punit);
       return;
     } 
@@ -872,6 +872,7 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
 	    unit_rule_name(pdefender));
 
     notify_player(unit_owner(pwinner), pwinner->tile, E_UNIT_WIN,
+		  /* TRANS: "Your Cannon ... the Polish Destroyer." */
 		  _("Your %s survived the pathetic attack from the %s %s."),
 		  unit_name_translation(pwinner),
 		  nation_adjective_for_player(unit_owner(plooser)),
@@ -880,6 +881,7 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
       notify_unit_experience(pwinner, TRUE);
     }
     notify_player(unit_owner(plooser), def_tile, E_UNIT_LOST_ATT,
+		  /* TRANS: "... Cannon ... the Polish Destroyer." */
 		  _("Your attacking %s failed against the %s %s!"),
 		  unit_name_translation(plooser),
 		  nation_adjective_for_player(unit_owner(pwinner)),
@@ -974,8 +976,9 @@ static bool can_unit_move_to_tile_with_notify(struct unit *punit,
 		     unit_name_translation(punit));
   } else if (reason == MR_PEACE) {
     notify_player(unit_owner(punit), src_tile, E_BAD_COMMAND,
-                   _("Cannot invade unless you break peace with "
-                     "%s first."), tile_owner(dest_tile)->name);
+                  _("Cannot invade unless you break peace with "
+                    "%s first."),
+                  player_name(tile_owner(dest_tile)));
   }
 
   return FALSE;
@@ -1087,9 +1090,11 @@ bool handle_unit_move_request(struct unit *punit, struct tile *pdesttile,
     if ((pcity && !pplayers_at_war(city_owner(pcity), pplayer))
         || (victim = is_non_attack_unit_tile(pdesttile, pplayer))) {
       notify_player(pplayer, punit->tile, E_BAD_COMMAND,
-                       _("You must declare war on %s first.  Try using "
-                         "players dialog (F3)."), victim == NULL ?
-                       city_owner(pcity)->name : unit_owner(victim)->name);
+                    _("You must declare war on %s first.  Try using "
+                      "players dialog (F3)."),
+                    victim == NULL
+                    ? player_name(city_owner(pcity))
+                    : player_name(unit_owner(victim)));
       return FALSE;
     }
 
@@ -1208,7 +1213,7 @@ void handle_unit_help_build_wonder(struct player *pplayer, int unit_id)
 		   text, /* Must match arguments below. */
 		   unit_name_translation(punit),
 		   improvement_name_translation(pcity_dest->production.value.building),
-		   pcity_dest->name, 
+		   city_name(pcity_dest), 
 		   abs(build_points_left(pcity_dest)));
 
   wipe_unit(punit);
@@ -1259,8 +1264,8 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
 		     _("Sorry, your %s cannot establish"
 		       " a trade route between %s and %s"),
 		     unit_name_translation(punit),
-		     pcity_homecity->name,
-		     pcity_dest->name);
+		     city_name(pcity_homecity),
+		     city_name(pcity_dest));
     return FALSE;
   }
   
@@ -1290,7 +1295,8 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
 		       unit_name_translation(punit));
         notify_player(pplayer, pcity_dest->tile, E_BAD_COMMAND,
 		       _("      The city of %s already has %d "
-			 "better trade routes!"), pcity_homecity->name,
+			 "better trade routes!"),
+		       city_name(pcity_homecity),
 		       NUM_TRADEROUTES);
 	can_establish = FALSE;
       }
@@ -1308,7 +1314,8 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
 		       unit_name_translation(punit));
         notify_player(pplayer, pcity_dest->tile, E_BAD_COMMAND,
 		       _("      The city of %s already has %d "
-			 "better trade routes!"), pcity_dest->name,
+			 "better trade routes!"),
+		       city_name(pcity_dest),
 		       NUM_TRADEROUTES);
 	can_establish = FALSE;
       }
@@ -1321,8 +1328,9 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
 		       pcity_out_of_home->tile, E_CARAVAN_ACTION,
 		       _("Sorry, %s has canceled the trade route "
 			 "from %s to your city %s."),
-		       city_owner(pcity_homecity)->name,
-		       pcity_homecity->name, pcity_out_of_home->name);
+		       player_name(city_owner(pcity_homecity)),
+		       city_name(pcity_homecity),
+		       city_name(pcity_out_of_home));
     }
 
     /* And the same for the dest city. */
@@ -1332,8 +1340,9 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
 		       pcity_out_of_dest->tile, E_CARAVAN_ACTION,
 		       _("Sorry, %s has canceled the trade route "
 			 "from %s to your city %s."),
-		       city_owner(pcity_dest)->name,
-		       pcity_dest->name, pcity_out_of_dest->name);
+		       player_name(city_owner(pcity_dest)),
+		       city_name(pcity_dest),
+		       city_name(pcity_out_of_dest));
     }
   }
   
@@ -1365,8 +1374,9 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
 		   _("Your %s from %s has arrived in %s,"
 		     " and revenues amount to %d in gold and research."), 
 		   unit_name_translation(punit),
-		   pcity_homecity->name,
-		   pcity_dest->name, revenue);
+		   city_name(pcity_homecity),
+		   city_name(pcity_dest),
+		   revenue);
   wipe_unit(punit);
   pplayer->economic.gold += revenue;
   update_tech(pplayer, revenue);

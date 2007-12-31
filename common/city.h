@@ -403,6 +403,7 @@ void add_specialist_output(const struct city *pcity, int *output);
 
 /* properties */
 
+const char *city_name(const struct city *pcity);
 struct player *city_owner(const struct city *pcity);
 int city_population(const struct city *pcity);
 int city_unit_unhappiness(struct unit *punit, int *free_happy);

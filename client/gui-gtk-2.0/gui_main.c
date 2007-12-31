@@ -1621,7 +1621,7 @@ void update_conn_list_dialog(void)
 	leader = "";
       } else {
 	nation = nation_adjective_for_player(pplayer);
-	leader = pplayer->name;
+	leader = player_name(pplayer);
       }
       team = pplayer->team ? team_name_translation(pplayer->team) : "";
 
