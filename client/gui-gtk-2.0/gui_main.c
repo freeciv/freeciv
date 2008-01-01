@@ -295,7 +295,6 @@ static GtkWidget *detached_widget_fill(GtkWidget *ahbox);
 
 static gboolean select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev, 
 					    gpointer data);
-static gint timer_callback(gpointer data);
 static gboolean quit_dialog_callback(void);
 
 
@@ -326,6 +325,19 @@ static void log_callback_utf8(int level, const char *message, bool file_too)
   if (! file_too || level <= LOG_FATAL) {
     fc_fprintf(stderr, "%d: %s\n", level, message);
   }
+}
+
+/**************************************************************************
+ Called while in gtk_main() (which is all of the time)
+ TIMER_INTERVAL is now set by real_timer_callback()
+**************************************************************************/
+static gboolean timer_callback(gpointer data)
+{
+  double seconds = real_timer_callback();
+
+  timer_id = g_timeout_add(seconds * 1000, timer_callback, NULL);
+
+  return FALSE;
 }
 
 /**************************************************************************
@@ -1513,15 +1525,17 @@ void ui_main(int argc, char **argv)
   history_list = genlist_new();
   history_pos = -1;
 
-  gtk_widget_show(toplevel);
-
-  timer_id = gtk_timeout_add(TIMER_INTERVAL, timer_callback, NULL);
-
   init_mapcanvas_and_overview();
 
+  tileset_use_prefered_theme(tileset);
+
+  gtk_widget_show(toplevel);
+
+  /* assumes toplevel showing */
   set_client_state(C_S_PREPARING);
   
-  tileset_use_prefered_theme(tileset);
+  /* assumes client_state is set */
+  timer_id = g_timeout_add(TIMER_INTERVAL, timer_callback, NULL);
 
   gtk_main();
 
@@ -1783,19 +1797,6 @@ static gboolean select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev,
   }
 
   return TRUE;
-}
-
-/**************************************************************************
- this is called every TIMER_INTERVAL milliseconds whilst we are in 
- gtk_main() (which is all of the time) TIMER_INTERVAL needs to be .5s
-**************************************************************************/
-static gint timer_callback(gpointer data)
-{
-  double seconds = real_timer_callback();
-
-  timer_id = gtk_timeout_add(seconds * 1000, timer_callback, NULL);
-
-  return FALSE;
 }
 
 /**************************************************************************
