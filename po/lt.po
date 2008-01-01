@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-09-01 21:46+0300\n"
-"PO-Revision-Date: 2007-12-23 22:12+0300\n"
+"PO-Revision-Date: 2008-01-01 02:48+0300\n"
 "Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
 "MIME-Version: 1.0\n"
@@ -1542,9 +1542,9 @@ msgstr "*%s (DI)* Kaip iš šlovingųjų sąjungininkų mes tikimės Jūsų paga
 #, c-format
 msgid "*%s (AI)* We will honour our alliance and declare war on %s in %d turn.  Hold on - we are coming!"
 msgid_plural "*%s (AI)* We will honour our alliance and declare war on %s in %d turns.  Hold on - we are coming!"
-msgstr[0] "*%s (DI)* Mes gerbiame mūsų sąjungą ir karą %s paskelbsime per %d ėjimą.  Laikykitės - mes ateinam!"
-msgstr[1] "*%s (DI)* Mes gerbiame mūsų sąjungą ir karą %s paskelbsime per %d ėjimus.  Laikykitės - mes ateinam!"
-msgstr[2] "*%s (DI)* Mes gerbiame mūsų sąjungą ir karą %s paskelbsime per %d ėjimų.  Laikykitės - mes ateinam!"
+msgstr[0] "*%s (DI)* Mes gerbiame mūsų sąjungą ir karą %s paskelbsime per %d ėjimą.  Laikykitės – mes ateinam!"
+msgstr[1] "*%s (DI)* Mes gerbiame mūsų sąjungą ir karą %s paskelbsime per %d ėjimus.  Laikykitės – mes ateinam!"
+msgstr[2] "*%s (DI)* Mes gerbiame mūsų sąjungą ir karą %s paskelbsime per %d ėjimų.  Laikykitės – mes ateinam!"
 
 #: ai/advdiplomacy.c:1244
 #, c-format
@@ -3647,7 +3647,7 @@ msgstr "%s ir %s susitiko ir vienas kitam paskelbė karą. Jūs nutraukiate sąj
 #: server/plrhand.c:1677
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
-msgstr "Negalima įvelti %s į pilietinį karą - per daug žaidėjų"
+msgstr "Negalima įvelti %s į pilietinį karą – per daug žaidėjų"
 
 #: server/plrhand.c:1699
 #, c-format
@@ -7285,9 +7285,8 @@ msgid "  -n, --name NAME\tUse NAME as name\n"
 msgstr ""
 
 #: client/civclient.c:218
-#, fuzzy
 msgid "  -p, --port PORT\tConnect to server port PORT (usually with -a)\n"
-msgstr "  -p, --port PRIEVADAS\tPrisijungti prie serverio prievado PRIEVADAS\n"
+msgstr "  -p, --port PRIEVADAS\tPrisijungti prie serverio prievado PRIEVADAS (paprastai su -a)\n"
 
 #: client/civclient.c:220
 #, c-format
@@ -10161,7 +10160,7 @@ msgstr "_Kitas miestas"
 #: client/gui-gtk-2.0/citydlg.c:1320
 #, c-format
 msgid "<b>%s</b> - %s citizens"
-msgstr "<b>%s</b> - %s piliečių"
+msgstr "<b>%s</b> – %s piliečių"
 
 #: client/gui-gtk-2.0/citydlg.c:1325
 #: client/gui-mui/citydlg.c:1994
@@ -13004,7 +13003,7 @@ msgstr ""
 
 #: client/gui-mui/citydlg.c:1168
 msgid "Freeciv - Cityproduction"
-msgstr "Freeciv - Miesto gamyba"
+msgstr "Freeciv – Miesto gamyba"
 
 #: client/gui-mui/citydlg.c:1183
 #: client/gui-mui/cityrep.c:282
@@ -13080,7 +13079,7 @@ msgstr "Šitas įvairių nustatymų puslapis"
 
 #: client/gui-mui/citydlg.c:1342
 msgid "Freeciv - Cityview"
-msgstr "Freeciv - Miesto vaizdas"
+msgstr "Freeciv – Miesto vaizdas"
 
 #: client/gui-mui/citydlg.c:1369
 msgid "City Output"
@@ -13214,7 +13213,7 @@ msgstr "%s piliečių%s"
 #: client/gui-mui/citydlg.c:2008
 #, c-format
 msgid "%s - %s citizens%s"
-msgstr "%s - %s piliečių%s"
+msgstr "%s – %s piliečių%s"
 
 #: client/gui-mui/citydlg.c:2159
 #, c-format
@@ -13428,11 +13427,11 @@ msgstr "_Padėti pastatyti stebuklą"
 
 #: client/gui-mui/dialogs.c:1120
 msgid "Freeciv - Pillage"
-msgstr "Freeciv - Plėšti"
+msgstr "Freeciv – Plėšti"
 
 #: client/gui-mui/dialogs.c:1210
 msgid "Freeciv - Connect"
-msgstr "Freeciv - Jungti"
+msgstr "Freeciv – Jungti"
 
 #: client/gui-mui/dialogs.c:1211
 #: data/Freeciv.in:2519
@@ -13441,7 +13440,7 @@ msgstr "Pasirinkite dalinio veiksmą:"
 
 #: client/gui-mui/dialogs.c:1365
 msgid "Freeciv - Select an unit"
-msgstr "Freeciv - pasirinkite dalinį"
+msgstr "Freeciv – Pasirinkite dalinį"
 
 #: client/gui-mui/dialogs.c:1369
 msgid "_Ready All"
@@ -13470,7 +13469,7 @@ msgstr "Moteris"
 
 #: client/gui-mui/dialogs.c:1618
 msgid "Freeciv - Select a Nation"
-msgstr "Freeciv - pasirinkite tautą"
+msgstr "Freeciv – Pasirinkite tautą"
 
 #: client/gui-mui/dialogs.c:1641
 msgid "_Leader Name"
@@ -14405,7 +14404,7 @@ msgstr "tuščias darbų sąrašas"
 
 #: client/gui-mui/wldlg.c:250
 msgid "Freeciv - Edit Worklists"
-msgstr "Freeciv - Keisti darbų sąrašą"
+msgstr "Freeciv – Keisti darbų sąrašą"
 
 #: client/gui-mui/wldlg.c:257
 msgid "Available Worklists"
@@ -14426,7 +14425,7 @@ msgstr "_Šalinti"
 
 #: client/gui-mui/wldlg.c:306
 msgid "Freeciv - Edit Worklist"
-msgstr "Freeciv - Keisti darbų sąrašą"
+msgstr "Freeciv – Keisti darbų sąrašą"
 
 #: client/gui-mui/worklistclass.c:180
 msgid "entry"
@@ -14813,7 +14812,7 @@ msgstr "baigta"
 #: client/gui-sdl/citydlg.c:3606
 #, c-format
 msgid "City of %s (Population %s citizens)"
-msgstr "Miestas %s (populiacija - %s žmonių)"
+msgstr "Miestas %s (Populiacija – %s žmonių)"
 
 #: client/gui-sdl/citydlg.c:3622
 #, fuzzy
@@ -16734,7 +16733,7 @@ msgstr ""
 #: client/gui-xaw/citydlg.c:1785
 #, c-format
 msgid "%s - %s citizens  Governor: %s"
-msgstr "%s - %s piliečių  Valdytojas: %s"
+msgstr "%s – %s piliečių  Valdytojas: %s"
 
 #: client/gui-xaw/cma_fe.c:431
 msgid "What should we name the new preset?"
@@ -22387,7 +22386,7 @@ msgstr "?plural:Kinai"
 
 #: data/nation/chinese.ruleset:6
 msgid "China is the oldest major civilization that is still in existence today, with written records dating back over 3,500 years.  After first being unified by the Qin dynasty in 221BC, China alternated between periods of unity and disunity, and was often conquered by external ethnicities.  Today, the People's Republic of China, established by the Communists in 1949, occupies the mainland, while the former Nationalist government of the Republic of China had fled to the island of Taiwan after the civil war."
-msgstr "Kinija yra seniausia pagrindinė dar egzistuojanti civilizacija, kurios rašytiniai šaltiniai datuojami 3500m. prieš Kristų. Po to, kai buvo suvienyta Qin dinastijos 221m. prieš Kristų, Kinijoje pastoviai keitėsi du periodai - vienybės ir skaidymosi. Dėl to Kinija dažnai buvo užkariaujama išorinių genčių. Šiais laikais, Kinijos liaudies respublika, komunistų įkurta 1949m., užima žemyninę dalį, kai ankstesnė nacionalistinė Kinijos respublikos vyriausybė valdo Taivaną, į kurį paspruko po kilusio pilietinio karo."
+msgstr "Kinija yra seniausia pagrindinė dar egzistuojanti civilizacija, kurios rašytiniai šaltiniai datuojami 3500m. prieš Kristų. Po to, kai buvo suvienyta Qin dinastijos 221m. prieš Kristų, Kinijoje pastoviai keitėsi du periodai – vienybės ir skaidymosi. Dėl to Kinija dažnai buvo užkariaujama išorinių genčių. Šiais laikais, Kinijos liaudies respublika, komunistų įkurta 1949m., užima žemyninę dalį, kai ankstesnė nacionalistinė Kinijos respublikos vyriausybė valdo Taivaną, į kurį paspruko po kilusio pilietinio karo."
 
 #: data/nation/chinese.ruleset:31
 #: data/nation/ethiopian.ruleset:24
@@ -23068,7 +23067,7 @@ msgstr "?plural:Islandai"
 
 #: data/nation/icelandic.ruleset:6
 msgid "Iceland was long one of the largest uninhabited islands in the world, until it was settled by Norwegian Vikings in the late 9th century. The island was kept initially under the Norwegian and later the Danish crown until independence from Denmark in 1944."
-msgstr "Islandija buvo atrasta ir apgyvendinta Norvegijos vikingų IX a. pabaigoje. Sala priklausė Norvegijos karūnai, vėliau - Danijos, kol gavo nepriklausomybę nuo Danijos 1944 m."
+msgstr "Islandija buvo atrasta ir apgyvendinta Norvegijos vikingų IX a. pabaigoje. Sala priklausė Norvegijos karūnai, vėliau – Danijos, kol gavo nepriklausomybę nuo Danijos 1944 m."
 
 #: data/nation/illyrian.ruleset:3
 msgid "Illyrian"
@@ -24313,7 +24312,7 @@ msgstr "?plural:Žemaičiai"
 
 #: data/nation/samogitian.ruleset:6
 msgid "Samogitia - historical country near the Baltic Sea - home to the last pagans in Europe (official until 1413). Today, Samogitia is a region of Lithuania"
-msgstr "Žemaitija - istorinė šalis prie Baltijos jūros - paskutinių Europos pagonių namai (oficialiai iki 1413). Šiandien Žemaitija yra Lietuvos regionas"
+msgstr "Žemaitija – istorinė šalis prie Baltijos jūros - paskutinių Europos pagonių namai (oficialiai iki 1413). Šiandien Žemaitija yra Lietuvos regionas"
 
 #: data/nation/scottish.ruleset:3
 msgid "Scottish"
@@ -24589,7 +24588,7 @@ msgstr "?plural:Švedai"
 
 #: data/nation/swedish.ruleset:6
 msgid "The Kingdom of Sweden was christianized and consolidated as a political entity by the 12th century AD. The country rose to prominence as one of the great powers of Europe in the 17th century, following substantial military conquests by the so called Warrior Kings. However, due to a worsening economy and several disastrous defeats to Russia, Sweden soon lost most of its gained territory. The country has not been involved in an armed conflict since 1814."
-msgstr "Švedijos karalystė buvo apkrikštyta ir sujungta į politinę vienovę XIIa. po Kristaus. Šalis, kaip viena didžiųjų Europos jėgų, tapo žymi XVIIa. po svarbių taip vadinamų Karių - Karalių užkariavimų. Kaip bebūtų, dėl blogėjančios ekonomikos ir keleto skaudžių pralaimėjimų Rusijai, Švedija prarado didžiąja dalį savo užkariautos teritorijos. Šalis nebuvo įsitraukusi į ginkluotą konfliktą nuo 1814m."
+msgstr "Švedijos karalystė buvo apkrikštyta ir sujungta į politinę vienovę XIIa. po Kristaus. Šalis, kaip viena didžiųjų Europos jėgų, tapo žymi XVIIa. po svarbių taip vadinamų Karių – Karalių užkariavimų. Kaip bebūtų, dėl blogėjančios ekonomikos ir keleto skaudžių pralaimėjimų Rusijai, Švedija prarado didžiąja dalį savo užkariautos teritorijos. Šalis nebuvo įsitraukusi į ginkluotą konfliktą nuo 1814m."
 
 #: data/nation/swiss.ruleset:3
 msgid "Swiss"
