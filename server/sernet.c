@@ -66,6 +66,7 @@
 #include "dataio.h"
 #include "events.h"
 #include "fcintl.h"
+#include "game.h"
 #include "log.h"
 #include "mem.h"
 #include "netintf.h"
@@ -1181,7 +1182,7 @@ static void send_lanserver_response(void)
   }
 
    my_snprintf(players, sizeof(players), "%d",
-               get_num_human_and_ai_players());
+               player_count_no_barbarians());
    my_snprintf(port, sizeof(port), "%d",
               srvarg.port );
 

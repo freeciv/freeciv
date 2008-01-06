@@ -32,8 +32,10 @@
 
 #include "citytools.h"
 #include "maphand.h"
-#include "sanitycheck.h"
+#include "srv_main.h"
 #include "unittools.h"
+
+#include "sanitycheck.h"
 
 #ifdef SANITY_CHECKING
 
@@ -145,7 +147,7 @@ static void check_misc(void)
       nbarbs++;
     }
   } players_iterate_end;
-  SANITY_CHECK(nbarbs == game.info.nbarbarians);
+  SANITY_CHECK(nbarbs == server.nbarbarians);
 
   SANITY_CHECK(player_count() <= MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
   SANITY_CHECK(team_count() <= MAX_NUM_TEAMS);

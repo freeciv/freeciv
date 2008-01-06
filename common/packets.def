@@ -415,7 +415,6 @@ PACKET_GAME_INFO=15; sc
   BOOL auto_ai_toggle;
   BOOL fogofwar;  
   UINT8 borders;
-  UINT8 nbarbarians;
   BOOL happyborders;
   BOOL slow_invasions;
   UINT8 add_to_size_limit;
@@ -636,8 +635,8 @@ end
 
 /************** Player packets **********************/
 
-PACKET_PLAYER_REMOVE=38; sc,dsend,lsend
-  PLAYER player_id;
+PACKET_PLAYER_CONTROL=38; sc,dsend,lsend
+  PLAYER playerno;
 end
 
 PACKET_PLAYER_INFO=39; sc
@@ -1344,7 +1343,7 @@ end
 
 PACKET_GAME_LOAD=111;sc,handle-via-packet,lsend
   BOOL load_successful;
-  UINT8 nplayers;
+  PLAYER nplayers;
   STRING load_filename[MAX_LEN_PACKET];
   STRING name[MAX_NUM_PLAYERS:nplayers][MAX_LEN_NAME]; 
   STRING username[MAX_NUM_PLAYERS:nplayers][MAX_LEN_NAME]; 

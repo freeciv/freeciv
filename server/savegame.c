@@ -1800,7 +1800,9 @@ static void player_load(struct player *plr, int plrno,
 
   plr->ai.barbarian_type = secfile_lookup_int_default(file, 0, "player%d.ai.is_barbarian",
                                                     plrno);
-  if (is_barbarian(plr)) game.info.nbarbarians++;
+  if (is_barbarian(plr)) {
+    server.nbarbarians++;
+  }
 
   sz_strlcpy(plr->name, secfile_lookup_str(file, "player%d.name", plrno));
   sz_strlcpy(plr->username,
@@ -3808,7 +3810,7 @@ void game_load(struct section_file *file)
     game.info.revolution_length
       = secfile_lookup_int_default(file, game.info.revolution_length,
 				   "game.revolen");
-    game.info.nbarbarians = 0; /* counted in player_load for compatibility with 
+    server.nbarbarians = 0; /* counted in player_load for compatibility with 
 			     1.10.0 */
     game.info.occupychance = secfile_lookup_int_default(file, game.info.occupychance,
 						   "game.occupychance");

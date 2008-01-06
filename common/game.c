@@ -267,7 +267,6 @@ void game_init(void)
   game.info.fulltradesize = GAME_DEFAULT_FULLTRADESIZE;
   game.info.barbarianrate = GAME_DEFAULT_BARBARIANRATE;
   game.info.onsetbarbarian= GAME_DEFAULT_ONSETBARBARIAN;
-  game.info.nbarbarians   = 0;
   game.info.occupychance  = GAME_DEFAULT_OCCUPYCHANCE;
   game.info.autoattack    = GAME_DEFAULT_AUTOATTACK;
   game.info.revolution_length = GAME_DEFAULT_REVOLUTION_LENGTH;
@@ -389,8 +388,7 @@ static void game_remove_all_players(void)
     game_remove_player(&game.players[i]);
   }
 
-  game.info.nplayers=0;
-  game.info.nbarbarians=0;
+  set_player_count(0);
 }
 
 /***************************************************************
@@ -544,18 +542,12 @@ void game_remove_player(struct player *pplayer)
 
   /* This comes last because log calls in the above functions may use it. */
   if (pplayer->nation != NULL) {
-    /* There never was nation assigned to this player */
     player_set_nation(pplayer, NULL);
   }
-
-  if (is_barbarian(pplayer)) game.info.nbarbarians--;
 }
 
 /****************************************************************************
-  After calling game_remove_player, you should always call this function to
-  renumber players to fill in the gap left by the empty player.
-
-  FIXME: maybe this should be called directly by game_remove_player?
+  Called after game_remove_player() to fill the empty player gap.
 
   FIXME: this cannot be called once the game is started.  You can't remove
   players of a running game.
@@ -565,17 +557,19 @@ void game_renumber_players(int plrno)
   int i;
 
   for (i = plrno; i < game.info.nplayers - 1; i++) {
-    game.players[i]=game.players[i+1];
-    game.players[i].player_no=i;
+    /* structure copy including pointers */
+    game.players[i] = game.players[i+1];
+
     conn_list_iterate(game.players[i].connections, pconn) {
       pconn->player = &game.players[i];
     } conn_list_iterate_end;
+
     if (game.players[i].nation) {
       game.players[i].nation->player = &game.players[i];
     }
 
-    /* We could renumber players in-game if we updated the unit and
-     * city owners.  But for now we just make sure these lists are empty. */
+    /* FiXME: This could renumber players in-game by updating the unit and
+     * city owners.  But for now, just make sure these lists are empty. */
     assert(unit_list_size(game.players[i].units) == 0);
     assert(city_list_size(game.players[i].cities) == 0);
   }
@@ -588,15 +582,6 @@ void game_renumber_players(int plrno)
   game.info.nplayers--;
 
   player_init(&game.players[game.info.nplayers]);
-}
-
-/**************************************************************************
-This function is used by is_wonder_useful to estimate if it is worthwhile
-to build the great library.
-**************************************************************************/
-int get_num_human_and_ai_players(void)
-{
-  return game.info.nplayers - game.info.nbarbarians;
 }
 
 /**************************************************************************

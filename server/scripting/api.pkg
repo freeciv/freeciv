@@ -34,8 +34,6 @@ struct Player {
   Nation_Type *nation;
 
   Player_ai ai;
-
-  const int player_no @ id;
 };
 
 struct City {

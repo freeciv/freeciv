@@ -901,7 +901,11 @@ static bool create_ai_player(struct connection *caller, char *arg, bool check)
   sz_strlcpy(pplayer->username, ANON_USER_NAME);
   pplayer->was_created = TRUE; /* must use /remove explicitly to remove */
 
-  game.info.nplayers++;
+  dlsend_packet_player_control(game.est_connections, ++game.info.nplayers);
+
+  pplayer->ai.control = TRUE;
+  set_ai_level_directer(pplayer, game.info.skill_level);
+  send_player_info_c(pplayer, game.est_connections);
 
   notify_conn(NULL, NULL, E_SETTING,
 	      _("%s has been added as an AI-controlled player."),
@@ -915,11 +919,7 @@ static bool create_ai_player(struct connection *caller, char *arg, bool check)
     return FALSE;
   }
 
-  pplayer->ai.control = TRUE;
-  set_ai_level_directer(pplayer, game.info.skill_level);
   aifill(game.info.aifill);
-  send_game_info(NULL);
-  send_player_info(pplayer, NULL);
   reset_all_start_commands();
   (void) send_server_info_to_metaserver(META_INFO);
   return TRUE;
@@ -2850,8 +2850,8 @@ static bool observe_command(struct connection *caller, char *str, bool check)
     send_packet_thaw_hint(pconn);
     dsend_packet_start_phase(pconn, game.info.phase);
   } else {
+    send_game_info(pconn->self);
     /* send changed player connection to everybody */
-    send_game_info(game.est_connections);
     send_player_info_c(pplayer, game.est_connections);
     /* we already know existing connections */
   }
@@ -3027,8 +3027,8 @@ static bool take_command(struct connection *caller, char *str, bool check)
     send_packet_thaw_hint(pconn);
     dsend_packet_start_phase(pconn, game.info.phase);
   } else {
+    send_game_info(pconn->self);
     /* send changed player connection to everybody */
-    send_game_info(game.est_connections);
     send_player_info_c(pplayer, game.est_connections);
     /* we already know existing connections */
   }

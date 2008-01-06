@@ -892,9 +892,10 @@ void handle_end_phase(void)
 void handle_start_phase(int phase)
 {
 
-  if (phase < 0 || phase >= game.info.nplayers) {
-    /* Illegal phase */
-    freelog(LOG_ERROR, "Illegal phase %d received from server!", phase);
+  if (phase < 0 || phase >= player_count()) {
+    freelog(LOG_ERROR,
+            "handle_start_phase() illegal phase %d.",
+            phase);
     return;
   }
 
@@ -2204,11 +2205,29 @@ void handle_tile_info(struct packet_tile_info *packet)
 }
 
 /**************************************************************************
-...
+  Decrease or increase the player_count(), removing by player_index(),
+  or setting the new value.
 **************************************************************************/
-void handle_player_remove(int player_id)
+void handle_player_control(int playerno)
 {
-  client_remove_player(player_id);
+  if (0 > playerno) {
+    freelog(LOG_ERROR,
+            "handle_player_control() invalid player index %d.",
+            playerno);
+    return;
+  } else if (player_count() > playerno) {
+    client_remove_player(playerno);
+  } else if (MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS >= playerno) {
+    if (game.info.max_players < playerno) {
+      game.info.max_players = playerno;
+    }
+    set_player_count(playerno);
+  } else {
+    freelog(LOG_ERROR,
+            "handle_player_control() invalid player index %d.",
+            playerno);
+    return;
+  }
   update_conn_list_dialog();
 }
 

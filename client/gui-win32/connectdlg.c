@@ -182,7 +182,7 @@ void handle_game_load(struct packet_game_load *packet)
   ShowWindow(start_dlg, SW_HIDE);
   ShowWindow(players_dlg, SW_SHOWNORMAL);
 
-  game.info.nplayers = packet->nplayers;
+  set_player_count(packet->nplayers);
   ListView_DeleteAllItems(players_listview);
 
   for (i = 0; i < packet->nplayers; i++) {

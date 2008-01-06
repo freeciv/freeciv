@@ -116,6 +116,9 @@ static void announce_player(struct player *pplayer);
 /* command-line arguments to server */
 struct server_arguments srvarg;
 
+/* server aggregate information */
+struct civserver server;
+
 /* server state information */
 static enum server_states civserver_state = S_S_INITIAL;
 bool nocity_send = FALSE;
@@ -1077,6 +1080,14 @@ int get_next_id_number(void)
 }
 
 /**************************************************************************
+...
+**************************************************************************/
+int player_count_no_barbarians(void)
+{
+  return player_count() - server.nbarbarians;
+}
+
+/**************************************************************************
 Returns 0 if connection should be closed (because the clients was
 rejected). Returns 1 else.
 **************************************************************************/
@@ -1558,8 +1569,7 @@ void aifill(int amount)
   amount = MIN(amount, game.info.max_players);
 
   while (game.info.nplayers < amount) {
-    const int old_nplayers = game.info.nplayers;
-    struct player *pplayer = player_by_number(old_nplayers);
+    struct player *pplayer = player_by_number(game.info.nplayers);
     char leader_name[ARRAY_SIZE(pplayer->name)];
 
     server_player_init(pplayer, FALSE, TRUE);
@@ -1583,20 +1593,17 @@ void aifill(int amount)
 		player_name(pplayer),
 		ai_level_name(pplayer->ai.skill_level));
 
-    game.info.nplayers++;
-
-    send_game_info(NULL);
+    dlsend_packet_player_control(game.est_connections, ++game.info.nplayers);
     send_player_info(pplayer, NULL);
   }
 
   remove = game.info.nplayers - 1;
   while (game.info.nplayers > amount && remove >= 0) {
-    struct player *pplayer = player_by_number(remove);
+    struct player *pplayer = player_by_number(remove--);
 
     if (!pplayer->is_connected && !pplayer->was_created) {
       server_remove_player(pplayer);
     }
-    remove--;
   }
 }
 
@@ -2095,6 +2102,8 @@ static void srv_ready(void)
 void server_game_init(void)
 {
   game_init();
+
+  server.nbarbarians = 0;
 
   /* Rulesets are loaded on game initialization, but may be changed later
    * if /load or /rulesetdir is done. */

@@ -82,9 +82,9 @@ bool is_sea_barbarian(struct player *pplayer)
 **************************************************************************/
 static struct player *create_barbarian_player(enum barbarian_type type)
 {
-  int newplayer = game.info.nplayers;
   struct player *barbarians;
   struct nation_type *nation;
+  int newplayer = player_count();
 
   players_iterate(barbarians) {
     if ((type == LAND_BARBARIAN && is_land_barbarian(barbarians))
@@ -119,9 +119,9 @@ static struct player *create_barbarian_player(enum barbarian_type type)
   player_set_nation(barbarians, nation);
   pick_random_player_name(nation, barbarians->name);
 
-  game.info.nplayers++;
-  game.info.nbarbarians++;
-  game.info.max_players = game.info.nplayers;
+  server.nbarbarians++;
+  dlsend_packet_player_control(game.est_connections,
+                               (game.info.max_players = ++game.info.nplayers));
 
   sz_strlcpy(barbarians->username, ANON_USER_NAME);
   barbarians->is_connected = FALSE;
@@ -156,7 +156,6 @@ static struct player *create_barbarian_player(enum barbarian_type type)
                 nation_plural_for_player(barbarians),
                 player_name(barbarians));
 
-  send_game_info(NULL);
   send_player_info(barbarians, NULL);
 
   return barbarians;

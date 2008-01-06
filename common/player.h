@@ -154,7 +154,6 @@ struct attribute_block_s {
 };
 
 struct player {
-  int player_no;
   char name[MAX_LEN_NAME];
   char username[MAX_LEN_NAME];
   char ranked_username[MAX_LEN_NAME]; /* the user who will be ranked */
@@ -205,6 +204,8 @@ struct player {
 
 /* General player accessor functions. */
 int player_count(void);
+void set_player_count(int count);
+
 int player_index(const struct player *pplayer);
 int player_number(const struct player *pplayer);
 
