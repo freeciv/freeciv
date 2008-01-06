@@ -1488,9 +1488,17 @@ static void settable_options_processing(GtkWidget *final)
 *****************************************************************/
 static void settable_options_callback(GtkWidget *win, gint rid, GtkWidget *w)
 {
-  if (rid == GTK_RESPONSE_OK) {
+  switch (rid) {
+  case GTK_RESPONSE_ACCEPT:
     settable_options_processing(w);
-  }
+    save_options();
+    break;
+  case GTK_RESPONSE_APPLY:
+    settable_options_processing(w);
+    break;
+  default:
+    break;
+  };
   gtk_widget_destroy(win);
 }
 
@@ -1509,7 +1517,8 @@ static void create_settable_options_dialog(void)
     gtk_dialog_new_with_buttons(_("Game Settings"),
       NULL, 0,
       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-      GTK_STOCK_OK, GTK_RESPONSE_OK,
+      GTK_STOCK_APPLY, GTK_RESPONSE_APPLY,
+      GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
       NULL);
   win = settable_options_dialog_shell;
 

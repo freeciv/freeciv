@@ -368,12 +368,11 @@ static GtkWidget *option_dialog_shell;
 /**************************************************************************
 ...
 **************************************************************************/
-static void option_command_callback(GtkWidget *w, gint response_id)
+static void option_command_processing(void)
 {
-  if (response_id == GTK_RESPONSE_OK) {
-    const char *dp;
-    bool b;
-    int val;
+  const char *dp;
+  bool b;
+  int val;
 
     client_options_iterate(o) {
       switch (o->type) {
@@ -435,8 +434,25 @@ static void option_command_callback(GtkWidget *w, gint response_id)
     }
 
     gtk_rc_reset_styles(gtk_settings_get_default());
-  }
-  gtk_widget_destroy(option_dialog_shell);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void option_command_callback(GtkWidget *win, gint rid)
+{
+  switch (rid) {
+  case GTK_RESPONSE_ACCEPT:
+    option_command_processing();
+    save_options();
+    break;
+  case GTK_RESPONSE_APPLY:
+    option_command_processing();
+    break;
+  default:
+    break;
+  };
+  gtk_widget_destroy(win);
 }
 
 /****************************************************************
@@ -452,14 +468,11 @@ static void create_option_dialog(void)
   option_dialog_shell = gtk_dialog_new_with_buttons(_("Set local options"),
   	NULL,
 	0,
-	GTK_STOCK_CANCEL,
-	GTK_RESPONSE_CANCEL,
-	GTK_STOCK_OK,
-	GTK_RESPONSE_OK,
+	GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+	GTK_STOCK_APPLY, GTK_RESPONSE_APPLY,
+	GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
 	NULL);
   setup_dialog(option_dialog_shell, toplevel);
-  gtk_dialog_set_default_response(GTK_DIALOG(option_dialog_shell),
-				  GTK_RESPONSE_OK);
   gtk_window_set_position (GTK_WINDOW(option_dialog_shell), GTK_WIN_POS_MOUSE);
 
   notebook = gtk_notebook_new();
