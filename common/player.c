@@ -188,8 +188,6 @@ void player_init(struct player *plr)
 {
   int i;
 
-  plr->player_no = plr - game.players;
-
   sz_strlcpy(plr->name, ANON_PLAYER_NAME);
   sz_strlcpy(plr->username, ANON_USER_NAME);
   sz_strlcpy(plr->ranked_username, ANON_USER_NAME);
@@ -277,6 +275,14 @@ int player_count(void)
   return game.info.nplayers;
 }
 
+/***************************************************************
+  Set the number of players.
+***************************************************************/
+void set_player_count(int count)
+{
+  game.info.nplayers = count;
+}
+
 /**************************************************************************
   Return the player index.
 
@@ -295,7 +301,7 @@ int player_index(const struct player *pplayer)
 int player_number(const struct player *pplayer)
 {
   assert(pplayer);
-  return pplayer->player_no;
+  return pplayer - game.players;
 }
 
 /**************************************************************************
@@ -310,7 +316,6 @@ struct player *player_by_number(const int player_id)
     /* This isn't an error; some callers rely on this behavior. */
     return NULL;
   }
-  assert(game.players[player_id].player_no == player_id);
   return &game.players[player_id];
 }
 
@@ -324,7 +329,6 @@ struct player *valid_player_by_number(const int player_id)
    || player_id >= ARRAY_SIZE(game.players)) {
     return NULL;
   }
-  assert(game.players[player_id].player_no == player_id);
   return &game.players[player_id];
 }
 

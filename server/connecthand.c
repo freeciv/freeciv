@@ -125,18 +125,19 @@ void establish_new_connection(struct connection *pconn)
       send_packet_thaw_hint(pconn);
       dsend_packet_start_phase(pconn, game.info.phase);
     } else {
+      send_game_info(dest);
       /* send new player connection to everybody */
-      send_game_info(game.est_connections);
       send_player_info_c(NULL, game.est_connections);
       send_conn_info(game.est_connections, dest);
     }
   } else {
+    send_game_info(dest);
+
     if (S_S_INITIAL == server_state() && game.info.is_new_game) {
       if (attach_connection_to_player(pconn, NULL)) {
         sz_strlcpy(pconn->player->name, pconn->username);
 
         /* send new player connection to everybody */
-        send_game_info(game.est_connections);
         send_player_info_c(NULL, game.est_connections);
       } else {
         notify_conn(dest, NULL, E_CONNECTION,
@@ -144,12 +145,10 @@ void establish_new_connection(struct connection *pconn)
         freelog(LOG_VERBOSE, "%s is not attached to a player", pconn->username);
 
         /* send old player connections to self */
-        send_game_info(dest);
         send_player_info_c(NULL, dest);
       }
     } else {
       /* send old player connections to self */
-      send_game_info(dest);
       send_player_info_c(NULL, dest);
     }
     send_conn_info(game.est_connections, dest);
@@ -441,8 +440,8 @@ bool attach_connection_to_player(struct connection *pconn,
     } else {
       pplayer = &game.players[game.info.nplayers];
       server_player_init(pplayer, FALSE, TRUE);
-      game.info.nplayers++;
-      send_game_info(game.est_connections);
+
+      dlsend_packet_player_control(game.est_connections, ++game.info.nplayers);
     }
   }
 

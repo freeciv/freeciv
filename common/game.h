@@ -32,14 +32,6 @@ enum debug_globals {
   DEBUG_LAST
 };
 
-/* used in savegame values */
-enum server_states { 
-  S_S_INITIAL = 0, 
-  S_S_GENERATING_WAITING = 1,
-  S_S_RUNNING = 2,
-  S_S_OVER = 3,
-};
-
 #define CONTAMINATION_POLLUTION 1
 #define CONTAMINATION_FALLOUT   2
 
@@ -141,7 +133,6 @@ void game_remove_unit(struct unit *punit);
 void game_remove_city(struct city *pcity);
 void initialize_globals(void);
 
-int get_num_human_and_ai_players(void);
 bool is_player_phase(const struct player *pplayer, int phase);
 
 const char *population_to_text(int thousand_citizen);

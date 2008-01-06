@@ -30,6 +30,7 @@
 #include "base.h"
 #include "city.h"
 #include "events.h"
+#include "game.h"
 #include "government.h"
 #include "improvement.h"
 #include "idex.h"
@@ -1251,7 +1252,7 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
   BV_CLR_ALL(saw_entering);
   players_iterate(pplayer) {
     if (map_is_known_and_seen(pcity->tile, pplayer, V_MAIN)) {
-      BV_SET(saw_entering, pplayer->player_no);
+      BV_SET(saw_entering, player_index(pplayer));
     }
   } players_iterate_end;
 
@@ -1264,7 +1265,7 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
   if (is_capital(pcity)
       && city_list_size(cplayer->cities) >= game.info.civilwarsize
       && game.info.civilwarsize < GAME_MAX_CIVILWARSIZE
-      && get_num_human_and_ai_players() < MAX_NUM_PLAYERS
+      && player_count_no_barbarians() < MAX_NUM_PLAYERS
       && civil_war_triggered(cplayer)) {
     /* Do a civil war only if there's an available unused nation. */
     nations_iterate(pnation) {
@@ -1364,11 +1365,11 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
 
   /* After city has been transferred, some players may no longer see inside. */
   players_iterate(pplayer) {
-    if (BV_ISSET(saw_entering, pplayer->player_no)
+    if (BV_ISSET(saw_entering, player_index(pplayer))
         && !can_player_see_unit_at(pplayer, punit, pcity->tile)) {
       /* Player saw unit entering, but now unit is hiding inside city */
       unit_goes_out_of_sight(pplayer, punit);
-    } else if (!BV_ISSET(saw_entering, pplayer->player_no)
+    } else if (!BV_ISSET(saw_entering, player_index(pplayer))
                && can_player_see_unit_at(pplayer, punit, pcity->tile)) {
       /* Player sees inside cities of new owner */
       send_unit_info_to_onlookers(pplayer->connections, punit,

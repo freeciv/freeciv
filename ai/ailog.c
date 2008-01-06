@@ -19,6 +19,7 @@
 
 #include "astring.h"
 #include "city.h"
+#include "game.h"
 #include "log.h"
 #include "shared.h"
 #include "support.h"

@@ -34,6 +34,7 @@
 
 #include "fciconv.h"
 #include "fcintl.h"
+#include "game.h"
 #include "log.h"
 #include "shared.h"
 #include "support.h"

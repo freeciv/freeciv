@@ -27,6 +27,7 @@
 
 #include "diptreaty.h"
 #include "events.h"
+#include "game.h"
 #include "government.h"
 #include "movement.h"
 #include "packets.h"
@@ -1094,7 +1095,6 @@ void server_player_init(struct player *pplayer,
   if (initmap) {
     player_map_allocate(pplayer);
   }
-  pplayer->player_no = pplayer - game.players;
   if (needs_team) {
     team_add_player(pplayer, find_empty_team());
   }
@@ -1119,8 +1119,11 @@ void server_remove_player(struct player *pplayer)
   notify_conn(game.est_connections, NULL, E_CONNECTION,
 	      _("%s has been removed from the game."),
 	      player_name(pplayer));
-  
-  dlsend_packet_player_remove(game.est_connections, player_number(pplayer));
+
+  if (is_barbarian(pplayer)) {
+    server.nbarbarians--;
+  }
+  dlsend_packet_player_control(game.est_connections, player_index(pplayer));
 
   /* Note it is ok to remove the _current_ item in a list_iterate. */
   conn_list_iterate(pplayer->connections, pconn) {
@@ -1457,11 +1460,10 @@ split between both players.
 ***********************************************************************/
 static struct player *split_player(struct player *pplayer)
 {
-  int newplayer = player_count();
-  struct player *cplayer = &game.players[newplayer];
+  struct player_research *new_research, *old_research;
+  struct player *cplayer = &game.players[player_count()];
   struct nation_type **civilwar_nations
     = get_nation_civilwar(nation_of_player(pplayer));
-  struct player_research *new_research, *old_research;
 
   /* make a new player */
   server_player_init(cplayer, TRUE, TRUE);
@@ -1500,11 +1502,11 @@ static struct player *split_player(struct player *pplayer)
     if (other_player != pplayer) {
       send_player_info(other_player, other_player);
     }
-  }
-  players_iterate_end;
+  } players_iterate_end;
 
-  game.info.nplayers++;
-  game.info.max_players = game.info.nplayers;
+  /* FIXME: this should be sent before above, so that fields can be verified? */
+  dlsend_packet_player_control(game.est_connections,
+                               (game.info.max_players = ++game.info.nplayers));
 
   /* Split the resources */
   cplayer->economic.gold = pplayer->economic.gold;
@@ -1656,9 +1658,6 @@ void civil_war(struct player *pplayer)
 
   cplayer = split_player(pplayer);
 
-  /* So that clients get the correct number of players */
-  send_game_info(NULL);
-  
   /* Before units, cities, so clients know name of new nation
    * (for debugging etc).
    */

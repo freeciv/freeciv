@@ -1998,7 +1998,7 @@ static void update_nation_page(struct packet_game_load *packet)
 {
   int i;
 
-  game.info.nplayers = packet->nplayers;
+  set_player_count(packet->nplayers);
 
   gtk_list_store_clear(nation_store);
 

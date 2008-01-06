@@ -1,4 +1,4 @@
-#  Copyright (C) 2004 Freeciv team
+#  Copyright (C) 2004-2008 Freeciv team
 
 # Version definition for Freeciv.
 
@@ -20,7 +20,7 @@ RELEASE_MONTH=1
 #   - No new mandatory capabilities can be added to the release branch; doing
 #     so would break network capability of supposedly "compatible" releases.
 #
-#   - Avoid adding a new mandatory capbility to the development branch for
+#   - Avoid adding a new mandatory capability to the development branch for
 #     as long as possible.  We want to maintain network compatibility with
 #     the stable branch for as long as possible.
-NETWORK_CAPSTRING="+Freeciv.Devel.2007.Dec.07"
+NETWORK_CAPSTRING="+Freeciv.Devel.2008.Jan.04"
