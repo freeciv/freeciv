@@ -818,7 +818,7 @@ static void help_update_unit_type(const struct help_item *pitem,
 			 utype_name_translation(utype->obsoleted_by));
     }
 
-    helptext_unit(buf, utype, pitem->text);
+    helptext_unit(buf, sizeof(buf), utype, pitem->text);
 
     gtk_text_buffer_set_text(help_text, buf, -1);
     gtk_widget_show(help_text_sw);

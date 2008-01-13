@@ -837,7 +837,7 @@ void popup_unit_info(Unit_type_id type_id)
   start_x = (area.x + 1 + scrollbar_width + pHelpDlg->pActiveWidgetList->size.w + adj_size(20));
 
   buffer[0] = '\0';
-  helptext_unit(buffer, utype_by_number(type_id), "");
+  helptext_unit(buffer, sizeof(buffer), utype_by_number(type_id), "");
   if (buffer[0] != '\0') {
     SDL_String16 *pStr = create_str16_from_char(buffer, adj_font(12));
     convert_string_to_const_surface_width(pStr, adj_size(640) - start_x - adj_size(20));
