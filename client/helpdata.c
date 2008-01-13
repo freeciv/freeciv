@@ -44,6 +44,9 @@
 
 #include "helpdata.h"
 
+/* helper macro for easy conversion from snprintf and cat_snprintf */
+#define CATLSTR(_b, _s, _t) mystrlcat(_b, _t, _s)
+
 static const char * const help_type_names[] = {
   "(Any)", "(Text)", "Units", "Improvements", "Wonders",
   "Techs", "Terrain", "Governments", NULL
@@ -249,9 +252,8 @@ static void insert_allows(struct universal *psource,
   /* FIXME: show other data like range and survives. */
 #define COREQ_APPEND(s)							    \
   (coreq_buf[0] != '\0'							    \
-   ? cat_snprintf(coreq_buf, sizeof(coreq_buf),        ", %s", (s))	    \
+   ? cat_snprintf(coreq_buf, sizeof(coreq_buf), Q_("?clistmore:, %s"), (s))  \
    : sz_strlcpy(coreq_buf, (s)))
-
 
   improvement_iterate(pimprove) {
     requirement_vector_iterate(&pimprove->reqs, req) {
@@ -628,15 +630,6 @@ const struct help_item *help_iter_next(void)
 
 /****************************************************************
   FIXME:
-  All these helptext_* functions have a pretty crappy interface:
-  we just write to buf and hope that its long enough.
-  But I'm not going to fix it right now --dwp.
-  
-  Could also reduce amount/length of strlen's by inserting
-  a few 'buf += strlen(buf)'.
-
-  These functions should always ensure final buf is null-terminated.
-  
   Also, in principle these could be auto-generated once, inserted
   into pitem->text, and then don't need to keep re-generating them.
   Only thing to be careful of would be changeable data, but don't
@@ -661,7 +654,7 @@ char *helptext_building(char *buf, size_t bufsz,
     .value = {.building = pimprove}
   };
 
-  assert(buf);
+  assert(NULL != buf && 0 < bufsz);
   buf[0] = '\0';
 
   if (NULL == pimprove) {
@@ -740,15 +733,17 @@ static int techs_with_flag_string(enum tech_flag_id flag,
 {
   int count = 0;
 
-  assert(bufsz > 0);
+  assert(NULL != buf && 0 < bufsz);
   buf[0] = '\0';
+
   techs_with_flag_iterate(flag, tech_id) {
     const char *name = advance_name_for_player(game.player_ptr, tech_id);
 
     if (buf[0] == '\0') {
-      cat_snprintf(buf, bufsz, "%s", name);
+      CATLSTR(buf, bufsz, name);
     } else {
-      cat_snprintf(buf, bufsz, ", %s", name);
+      /* TRANS: continue list, in case comma is not the separator of choice. */
+      cat_snprintf(buf, bufsz, Q_("?clistmore:, %s"), name);
     }
     count++;
   } techs_with_flag_iterate_end;
@@ -760,300 +755,300 @@ static int techs_with_flag_string(enum tech_flag_id flag,
   Append misc dynamic text for units.
   Transport capacity, unit flags, fuel.
 *****************************************************************/
-void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
+char *helptext_unit(char *buf, size_t bufsz, struct unit_type *utype,
+		    const char *user_text)
 {
-  assert(buf&&user_text);
+  assert(NULL != buf && 0 < bufsz && NULL != user_text);
+
   if (!utype) {
     freelog(LOG_ERROR, "Unknown unit!");
-    strcpy(buf, user_text);
-    return;
+    mystrlcpy(buf, user_text, bufsz);
+    return buf;
   }
-  
   buf[0] = '\0';
 
-  sprintf(buf + strlen(buf), _("* Belongs to %s units class.\n"),
-          uclass_name_translation(utype_class(utype)));
+  cat_snprintf(buf, bufsz,
+               _("* Belongs to %s units class.\n"),
+               uclass_name_translation(utype_class(utype)));
   if (uclass_has_flag(utype_class(utype), UCF_CAN_OCCUPY)
       && !utype_has_flag(utype, F_CIVILIAN)) {
-    sprintf(buf + strlen(buf), _("  * Can occupy empty enemy cities.\n"));
+    CATLSTR(buf, bufsz, _("  * Can occupy empty enemy cities.\n"));
   }
   if (!uclass_has_flag(utype_class(utype), UCF_TERRAIN_SPEED)) {
-    sprintf(buf + strlen(buf), _("  * Speed is not affected by terrain.\n"));
+    CATLSTR(buf, bufsz, _("  * Speed is not affected by terrain.\n"));
   }
   if (uclass_has_flag(utype_class(utype), UCF_DAMAGE_SLOWS)) {
-    sprintf(buf + strlen(buf), _("  * Slowed down while damaged\n"));
+    CATLSTR(buf, bufsz, _("  * Slowed down while damaged\n"));
   }
   if (uclass_has_flag(utype_class(utype), UCF_MISSILE)) {
-    sprintf(buf + strlen(buf),
-	    _("  * Gets used up in making an attack.\n"));
+    CATLSTR(buf, bufsz, _("  * Gets used up in making an attack.\n"));
   }
   if (uclass_has_flag(utype_class(utype), UCF_UNREACHABLE)) {
-    sprintf(buf + strlen(buf),
+    CATLSTR(buf, bufsz,
 	    _("  * Is unreachable. Most units cannot attack this one.\n"));
   }
 
   if (utype->need_improvement) {
-    sprintf(buf + strlen(buf),
-	    _("* Can only be built if there is %s in the city.\n"), 
-            improvement_name_translation(utype->need_improvement));
+    cat_snprintf(buf, bufsz,
+                 _("* Can only be built if there is %s in the city.\n"),
+                 improvement_name_translation(utype->need_improvement));
   }
 
   if (utype->need_government) {
-    sprintf(buf + strlen(buf),
-	    _("* Can only be built with %s as government.\n"), 
-            government_name_translation(utype->need_government));
+    cat_snprintf(buf, bufsz,
+                 _("* Can only be built with %s as government.\n"),
+                 government_name_translation(utype->need_government));
   }
   
   if (utype_has_flag(utype, F_NOBUILD)) {
-    sprintf(buf + strlen(buf),
-	    _("* May not be built in cities.\n"));
+    CATLSTR(buf, bufsz, _("* May not be built in cities.\n"));
   }
   if (utype_has_flag(utype, F_BARBARIAN_ONLY)) {
-    sprintf(buf + strlen(buf),
-	    _("* Only barbarians may build this.\n"));
+    CATLSTR(buf, bufsz, _("* Only barbarians may build this.\n"));
   }
   if (utype_has_flag(utype, F_NOHOME)) {
-    sprintf(buf + strlen(buf), _("* Never has a home city.\n"));
+    CATLSTR(buf, bufsz, _("* Never has a home city.\n"));
   }
   if (utype_has_flag(utype, F_GAMELOSS)) {
-    sprintf(buf + strlen(buf),
-	    _("* Losing this unit will lose you the game!\n"));
+    CATLSTR(buf, bufsz, _("* Losing this unit will lose you the game!\n"));
   }
   if (utype_has_flag(utype, F_UNIQUE)) {
-    sprintf(buf + strlen(buf),
+    CATLSTR(buf, bufsz,
 	    _("* Each player may only have one of this type of unit.\n"));
   }
   if (utype->pop_cost > 0) {
-    sprintf(buf + strlen(buf), _("* Requires %d population to build.\n"),
-	    utype->pop_cost);
+    cat_snprintf(buf, bufsz,
+                 _("* Requires %d population to build.\n"),
+                 utype->pop_cost);
   }
   if (utype->transport_capacity > 0) {
-    sprintf(buf + strlen(buf),
-            PL_("* Can carry and refuel %d unit from classes:\n",
-                "* Can carry and refuel up to %d units from classes:\n",
-                utype->transport_capacity), utype->transport_capacity);
+    cat_snprintf(buf, bufsz,
+                 PL_("* Can carry and refuel %d unit from classes:\n",
+                     "* Can carry and refuel up to %d units from classes:\n",
+                     utype->transport_capacity),
+                 utype->transport_capacity);
     unit_class_iterate(uclass) {
       if (can_unit_type_transport(utype, uclass)) {
-        sprintf(buf + strlen(buf), _("  * %s units\n"),
-                                   uclass_name_translation(uclass));
+        cat_snprintf(buf, bufsz,
+                     _("  * %s units\n"),
+                     uclass_name_translation(uclass));
       }
     } unit_class_iterate_end
   }
   if (utype_has_flag(utype, F_TRADE_ROUTE)) {
     /* TRANS: "Manhattan" distance is the distance along gridlines, with
      * no diagonals allowed. */
-    sprintf(buf + strlen(buf), _("* Can establish trade routes (must travel "
-				 "to target city and must be at least 9 "
-				 "tiles [in Manhattan distance] from this "
-				 "unit's home city).\n"));
+    CATLSTR(buf, bufsz,
+	    _("* Can establish trade routes (must travel to target city"
+	      " and must be at least 9 tiles [in Manhattan distance] from"
+	      " this unit's home city).\n"));
   }
   if (utype_has_flag(utype, F_HELP_WONDER)) {
-    sprintf(buf + strlen(buf),
-	    _("* Can help build wonders (adds %d production).\n"),
-	    utype_build_shield_cost(utype));
+    cat_snprintf(buf, bufsz,
+		 _("* Can help build wonders (adds %d production).\n"),
+		 utype_build_shield_cost(utype));
   }
   if (utype_has_flag(utype, F_UNDISBANDABLE)) {
-    sprintf(buf + strlen(buf), _("* May not be disbanded.\n"));
+    CATLSTR(buf, bufsz, _("* May not be disbanded.\n"));
   } else {
-    sprintf(buf + strlen(buf), _("* May be disbanded in a city to "
-				 "recover 50%% of the production cost.\n"));
+    CATLSTR(buf, bufsz,
+	    _("* May be disbanded in a city to recover 50% of the"
+	      " production cost.\n"));
   }
   if (utype_has_flag(utype, F_CITIES)) {
-    sprintf(buf + strlen(buf), _("* Can build new cities.\n"));
+    CATLSTR(buf, bufsz, _("* Can build new cities.\n"));
   }
   if (utype_has_flag(utype, F_ADD_TO_CITY)) {
-    sprintf(buf + strlen(buf), _("* Can add on %d population to "
-				 "cities of no more than size %d.\n"),
-	    utype_pop_value(utype),
-	    game.info.add_to_size_limit - utype_pop_value(utype));
+    cat_snprintf(buf, bufsz,
+		 _("* Can add on %d population to cities of no more than"
+		   " size %d.\n"),
+		 utype_pop_value(utype),
+		 game.info.add_to_size_limit - utype_pop_value(utype));
   }
   if (utype_has_flag(utype, F_SETTLERS)) {
     char buf2[1024];
 
     /* Roads, rail, mines, irrigation. */
-    sprintf(buf + strlen(buf), _("* Can build roads and railroads.\n"));
-    sprintf(buf + strlen(buf), _("* Can build mines on tiles.\n"));
-    sprintf(buf + strlen(buf), _("* Can build irrigation on tiles.\n"));
+    CATLSTR(buf, bufsz, _("* Can build roads and railroads.\n"));
+    CATLSTR(buf, bufsz, _("* Can build mines on tiles.\n"));
+    CATLSTR(buf, bufsz, _("* Can build irrigation on tiles.\n"));
 
     /* Farmland. */
     switch (techs_with_flag_string(TF_FARMLAND, buf2, sizeof(buf2))) {
     case 0:
-      sprintf(buf + strlen(buf), _("* Can build farmland.\n"));
+      CATLSTR(buf, bufsz, _("* Can build farmland.\n"));
       break;
     case 1:
-      sprintf(buf + strlen(buf),
-	      _("* Can build farmland (if %s is known).\n"), buf2);
+      cat_snprintf(buf, bufsz,
+		   _("* Can build farmland (if %s is known).\n"), buf2);
       break;
     default:
-      sprintf(buf + strlen(buf),
-	      _("* Can build farmland (if any of the following are "
-		"known: %s).\n"), buf2);
+      cat_snprintf(buf, bufsz,
+		   _("* Can build farmland (if any of the following are"
+		     " known: %s).\n"), buf2);
       break;
     }
 
     /* Fortress. */
-    sprintf(buf + strlen(buf), _("* Can build fortresses.\n"));
+    CATLSTR(buf, bufsz, _("* Can build fortresses.\n"));
  
     /* Pollution, fallout. */
-    sprintf(buf + strlen(buf), _("* Can clean pollution from tiles.\n"));
-    sprintf(buf + strlen(buf),
-	    _("* Can clean nuclear fallout from tiles.\n"));
+    CATLSTR(buf, bufsz, _("* Can clean pollution from tiles.\n"));
+    CATLSTR(buf, bufsz, _("* Can clean nuclear fallout from tiles.\n"));
   }
   if (utype_has_flag(utype, F_TRANSFORM)) {
-    sprintf(buf + strlen(buf), _("* Can transform tiles.\n"));
+    CATLSTR(buf, bufsz, _("* Can transform tiles.\n"));
   }
   if (is_ground_unittype(utype) && !utype_has_flag(utype, F_SETTLERS)) {
-    sprintf(buf + strlen(buf),
-	    _("* May fortify, granting a 50%% defensive bonus.\n"));
+    CATLSTR(buf, bufsz, _("* May fortify, granting a 50% defensive bonus.\n"));
   }
   if (is_ground_unittype(utype)) {
-    sprintf(buf + strlen(buf),
-	    _("* May pillage to destroy infrastructure from tiles.\n"));
+    CATLSTR(buf, bufsz, _("* May pillage to destroy infrastructure from tiles.\n"));
   }
   if (utype_has_flag(utype, F_DIPLOMAT)) {
     if (utype_has_flag(utype, F_SPY)) {
-      sprintf(buf + strlen(buf), _("* Can perform diplomatic actions,"
-				   " plus special spy abilities.\n"));
+      CATLSTR(buf, bufsz, _("* Can perform diplomatic actions,"
+			    " plus special spy abilities.\n"));
     } else {
-      sprintf(buf + strlen(buf), _("* Can perform diplomatic actions.\n"));
+      CATLSTR(buf, bufsz, _("* Can perform diplomatic actions.\n"));
     }
   }
   if (utype_has_flag(utype, F_SUPERSPY)) {
-    sprintf(buf + strlen(buf), _("* Will never lose a "
-				 "diplomat-versus-diplomat fight.\n"));
+    CATLSTR(buf, bufsz, _("* Will never lose a diplomat-versus-diplomat fight.\n"));
   }
   if (utype_has_flag(utype, F_UNBRIBABLE)) {
-    sprintf(buf + strlen(buf), _("* May not be bribed.\n"));
+    CATLSTR(buf, bufsz, _("* May not be bribed.\n"));
   }
   if (utype_has_flag(utype, F_ATTACK_ANY)) {
-    sprintf(buf + strlen(buf), _("* Can attack otherwise unreachable enemy units.\n"));
+    CATLSTR(buf, bufsz, _("* Can attack otherwise unreachable enemy units.\n"));
   }
   if (utype_has_flag(utype, F_PARTIAL_INVIS)) {
-    sprintf(buf + strlen(buf), _("* Is invisible except when next to an"
-				 " enemy unit or city.\n"));
+    CATLSTR(buf, bufsz,
+            _("* Is invisible except when next to an enemy unit or city.\n"));
   }
   if (utype_has_flag(utype, F_NO_LAND_ATTACK)) {
-    sprintf(buf + strlen(buf), _("* Can only attack units on ocean squares"
-				 " (no land attacks).\n"));
+    CATLSTR(buf, bufsz,
+            _("* Can only attack units on ocean squares (no land attacks).\n"));
   }
   if (utype_has_flag(utype, F_MARINES)) {
-    sprintf(buf + strlen(buf),
+    CATLSTR(buf, bufsz,
 	    _("* Can attack from aboard sea units: against"
 	      " enemy cities and onto land squares.\n"));
   }
   if (utype_has_flag(utype, F_PARATROOPERS)) {
-    sprintf(buf + strlen(buf),
-	    _("* Can be paradropped from a friendly city"
-	      " (Range: %d).\n"), utype->paratroopers_range);
+    cat_snprintf(buf, bufsz,
+		 _("* Can be paradropped from a friendly city"
+		   " (Range: %d).\n"),
+		 utype->paratroopers_range);
   }
   if (utype_has_flag(utype, F_PIKEMEN)) {
-    sprintf(buf + strlen(buf), _("* Gets double defense against units"
-				 " specified as 'mounted'.\n"));
+    CATLSTR(buf, bufsz,
+            _("* Gets double defense against units specified as 'mounted'.\n"));
   }
   if (utype_has_flag(utype, F_HORSE)) {
-    sprintf(buf + strlen(buf),
+    CATLSTR(buf, bufsz,
 	    _("* Counts as 'mounted' against certain defenders.\n"));
   }
   if (utype_has_flag(utype, F_HELICOPTER)) {
-    sprintf(buf + strlen(buf),
+    CATLSTR(buf, bufsz,
             _("* Counts as 'helicopter' against certain attackers.\n"));
   }
   if (utype_has_flag(utype, F_FIGHTER)) {
-    sprintf(buf + strlen(buf),
+    CATLSTR(buf, bufsz,
             _("* Very good at attacking 'helicopter' units.\n"));
   }
   if (utype_has_flag(utype, F_AIRUNIT)) {
-    sprintf(buf + strlen(buf),
+    CATLSTR(buf, bufsz,
             _("* Very bad at attacking AEGIS units.\n"));
   }
   if (!uclass_has_flag(utype_class(utype), UCF_MISSILE)
       && utype_has_flag(utype, F_ONEATTACK)) {
-    sprintf(buf + strlen(buf),
+    CATLSTR(buf, bufsz,
 	    _("* Making an attack ends this unit's turn.\n"));
   }
   if (utype_has_flag(utype, F_NUCLEAR)) {
-    sprintf(buf + strlen(buf),
+    CATLSTR(buf, bufsz,
 	    _("* This unit's attack causes a nuclear explosion!\n"));
   }
   if (utype_has_flag(utype, F_CITYBUSTER)) {
-    sprintf(buf + strlen(buf),
+    CATLSTR(buf, bufsz,
 	    _("* Gets double firepower when attacking cities.\n"));
   }
   if (utype_has_flag(utype, F_IGWALL)) {
-    sprintf(buf + strlen(buf), _("* Ignores the effects of city walls.\n"));
+    CATLSTR(buf, bufsz, _("* Ignores the effects of city walls.\n"));
   }
   if (utype_has_flag(utype, F_BOMBARDER)) {
-    sprintf(buf + strlen(buf),
-	    _("* Does bombard attacks (%d per turn).  These attacks will "
-	      "only damage (never kill) the defender but has no risk to "
-	      "the attacker.\n"), utype->bombard_rate);
+    cat_snprintf(buf, bufsz,
+		 _("* Does bombard attacks (%d per turn).  These attacks will"
+		   " only damage (never kill) the defender, but has no risk to"
+		   " the attacker.\n"),
+		 utype->bombard_rate);
   }
   if (utype_has_flag(utype, F_AEGIS)) {
-    sprintf(buf + strlen(buf),
-	    _("* Gets quintuple defence against missiles and aircraft.\n"));
+    CATLSTR(buf, bufsz,
+	    _("* Gets quintuple defense against missiles and aircraft.\n"));
   }
   if (utype_has_flag(utype, F_IGTER)) {
-    sprintf(buf + strlen(buf),
+    CATLSTR(buf, bufsz,
 	    _("* Ignores terrain effects (treats all squares as roads).\n"));
   }
   if (utype_has_flag(utype, F_IGZOC)) {
-    sprintf(buf + strlen(buf), _("* Ignores zones of control.\n"));
+    CATLSTR(buf, bufsz, _("* Ignores zones of control.\n"));
   }
   if (utype_has_flag(utype, F_CIVILIAN)) {
-    sprintf(buf + strlen(buf), _("* A non-military unit"
-				 " (cannot attack; no martial law).\n"));
+    CATLSTR(buf, bufsz,
+            _("* A non-military unit (cannot attack; no martial law).\n"));
   }
   if (utype_has_flag(utype, F_FIELDUNIT)) {
-    sprintf(buf + strlen(buf), _("* A field unit: one unhappiness applies"
-				 " even when non-aggressive.\n"));
+    CATLSTR(buf, bufsz,
+            _("* A field unit: one unhappiness applies even when non-aggressive.\n"));
   }
   if (utype_has_flag(utype, F_NO_VETERAN)) {
-    sprintf(buf + strlen(buf),
-	    _("* Will never achieve veteran status.\n"));
+    CATLSTR(buf, bufsz, _("* Will never achieve veteran status.\n"));
   } else {
     switch(utype_move_type(utype)) {
       case AIR_MOVING:
       case HELI_MOVING:
-        sz_strlcat(buf,
-          _("* Will be built as a veteran in cities with appropriate"
-            " training facilities (see Airport.)\n"));
-        sz_strlcat(buf,
-          _("* May be promoted after defeating an enemy unit.\n"));
+        CATLSTR(buf, bufsz,
+                _("* Will be built as a veteran in cities with appropriate"
+                  " training facilities (see Airport).\n"));
+        CATLSTR(buf, bufsz,
+                _("* May be promoted after defeating an enemy unit.\n"));
         break;
       case LAND_MOVING:
         if (utype_has_flag(utype, F_DIPLOMAT)||utype_has_flag(utype, F_SPY)) {
-          sz_strlcat(buf,
-            _("* Will be built as a veteran under communist governments.\n"));
-          sz_strlcat(buf,
-            _("* May be promoted after a successful mission.\n"));
+          CATLSTR(buf, bufsz,
+                  _("* Will be built as a veteran under communist governments.\n"));
+          CATLSTR(buf, bufsz,
+                  _("* May be promoted after a successful mission.\n"));
         } else {
-          sz_strlcat(buf,
-            _("* Will be built as a veteran in cities with appropriate"
-              " training facilities (see Barracks.)\n"));
-          sz_strlcat(buf,
-            _("* May be promoted after defeating an enemy unit.\n"));
+          CATLSTR(buf, bufsz,
+                  _("* Will be built as a veteran in cities with appropriate"
+                    " training facilities (see Barracks).\n"));
+          CATLSTR(buf, bufsz,
+                  _("* May be promoted after defeating an enemy unit.\n"));
         }
         break;
       case SEA_MOVING:
-        sz_strlcat(buf,
-          _("* Will be built as a veteran in cities with appropriate"
-            " training facilities (see Port Facility)."));
-        sz_strlcat(buf,
-          _("* May be promoted after defeating an enemy unit.\n"));
+        CATLSTR(buf, bufsz,
+                _("* Will be built as a veteran in cities with appropriate"
+                  " training facilities (see Port Facility).\n"));
+        CATLSTR(buf, bufsz,
+                _("* May be promoted after defeating an enemy unit.\n"));
         if (utype_has_flag(utype, F_TRIREME))
-          sz_strlcat(buf,
-            _("* May be promoted after survival on the high seas.\n"));
+          CATLSTR(buf, bufsz,
+                  _("* May be promoted after survival on the high seas.\n"));
         break;
       default:          /* should never happen in default rulesets */
-        sz_strlcat(buf,
-          _("* May be promoted through combat or training\n"));
+        CATLSTR(buf, bufsz,
+                _("* May be promoted through combat or training\n"));
         break;
     };
   }
   if (utype_has_flag(utype, F_TRIREME)) {
-    sprintf(buf + strlen(buf),
+    CATLSTR(buf, bufsz,
 	    _("* Must end turn in a city or next to land,"
-	      " or has a 50%% risk of being lost at sea.\n"));
+	      " or has a 50% risk of being lost at sea.\n"));
   }
   if (utype->fuel > 0) {
     char allowed_units[10][64];
@@ -1082,7 +1077,9 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
       strcat(astr.str, allowed_units[j]);
 
       if (j == num_allowed_units - 2) {
-	deli_str = _(" or ");
+        /* TRANS: List of possible unit types has this between
+         *        last two elements */
+	deli_str = Q_(" or ");
       } else if (j < num_allowed_units - 1) {
 	deli_str = Q_("?or:, ");
       }
@@ -1095,22 +1092,25 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
     
     assert(num_allowed_units > 0);
 
-    sprintf(buf + strlen(buf),
-	    PL_("* Unit has to be in a city, or on a %s"
-		" after %d turn.\n",
-		"* Unit has to be in a city, or on a %s"
-		" after %d turns.\n", utype->fuel),
-	    astr.str, utype->fuel);
+    cat_snprintf(buf, bufsz,
+                 PL_("* Unit has to be in a city, or on a %s"
+                     " after %d turn.\n",
+                     "* Unit has to be in a city, or on a %s"
+                     " after %d turns.\n",
+                     utype->fuel),
+                 astr.str,
+                 utype->fuel);
     astr_free(&astr);
   }
   if (strlen(buf) > 0) {
-    sprintf(buf + strlen(buf), "\n");
+    CATLSTR(buf, bufsz, "\n");
   } 
   if (utype->helptext && utype->helptext[0] != '\0') {
-    sprintf(buf + strlen(buf), "%s\n\n", _(utype->helptext));
+    cat_snprintf(buf, bufsz, "%s\n\n", _(utype->helptext));
   }
-  strcpy(buf + strlen(buf), user_text);
+  CATLSTR(buf, bufsz, user_text);
   wordwrap_string(buf, 68);
+  return buf;
 }
 
 /****************************************************************
@@ -1124,81 +1124,83 @@ void helptext_tech(char *buf, size_t bufsz, int i, const char *user_text)
     .value = {.advance = vap}
   };
 
-  assert(buf&&user_text);
-  strcpy(buf, user_text);
+  assert(NULL != buf && 0 < bufsz && NULL != user_text);
+  strlcpy(buf, user_text, bufsz);
 
   if (NULL == vap) {
     freelog(LOG_ERROR, "Unknown tech %d.", i);
-    strcpy(buf, user_text);
     return;
   }
 
   if (player_invention_state(game.player_ptr, i) != TECH_KNOWN) {
     if (player_invention_state(game.player_ptr, i) == TECH_REACHABLE) {
-      sprintf(buf + strlen(buf),
-	      _("If we would now start with %s we would need %d bulbs."),
-	      advance_name_for_player(game.player_ptr, i),
-	      base_total_bulbs_required(game.player_ptr, i));
+      cat_snprintf(buf, bufsz,
+		   _("If we would now start with %s we would need %d bulbs."),
+		   advance_name_for_player(game.player_ptr, i),
+		   base_total_bulbs_required(game.player_ptr, i));
     } else if (player_invention_is_ready(game.player_ptr, i)) {
-      sprintf(buf + strlen(buf),
-	      _("To reach %s we need to obtain %d other "
-		"technologies first. The whole project "
-		"will require %d bulbs to complete."),
-	      advance_name_for_player(game.player_ptr, i),
-	      num_unknown_techs_for_goal(game.player_ptr, i) - 1,
-	      total_bulbs_required_for_goal(game.player_ptr, i));
+      cat_snprintf(buf, bufsz,
+		   _("To reach %s we need to obtain %d other"
+		     " technologies first. The whole project"
+		     " will require %d bulbs to complete."),
+		   advance_name_for_player(game.player_ptr, i),
+		   num_unknown_techs_for_goal(game.player_ptr, i) - 1,
+		   total_bulbs_required_for_goal(game.player_ptr, i));
     } else {
-      sprintf(buf + strlen(buf),
+      CATLSTR(buf, bufsz,
 	      _("You cannot research this technology."));
     }
     if (!techs_have_fixed_costs()
      && player_invention_is_ready(game.player_ptr, i)) {
-      sprintf(buf + strlen(buf),
+      CATLSTR(buf, bufsz,
 	      _(" This number may vary depending on what "
 		"other players will research.\n"));
     } else {
-      sprintf(buf + strlen(buf), "\n");
+      CATLSTR(buf, bufsz, "\n");
     }
   }
 
-  sprintf(buf + strlen(buf), "\n");
+  CATLSTR(buf, bufsz, "\n");
   insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
 
   if (advance_has_flag(i, TF_BONUS_TECH)) {
-    sprintf(buf + strlen(buf), _("* The first player to research %s gets "
-				 "an immediate advance.\n"),
-	    advance_name_for_player(game.player_ptr, i));
+    cat_snprintf(buf, bufsz,
+		 _("* The first player to research %s gets"
+		   " an immediate advance.\n"),
+		 advance_name_for_player(game.player_ptr, i));
   }
   if (advance_has_flag(i, TF_POPULATION_POLLUTION_INC))
-    sprintf(buf + strlen(buf), _("* Increases the pollution generated by "
-				 "the population.\n"));
+    CATLSTR(buf, bufsz,
+            _("* Increases the pollution generated by the population.\n"));
 
   if (advance_has_flag(i, TF_BRIDGE)) {
     const char *units_str = role_units_translations(F_SETTLERS);
-    sprintf(buf + strlen(buf), _("* Allows %s to build roads on river "
-				 "squares.\n"), units_str);
+    cat_snprintf(buf, bufsz,
+		 _("* Allows %s to build roads on river squares.\n"),
+		 units_str);
     free((void *) units_str);
   }
 
   if (advance_has_flag(i, TF_RAILROAD)) {
     const char *units_str = role_units_translations(F_SETTLERS);
-    sprintf(buf + strlen(buf),
-	    _("* Allows %s to upgrade roads to railroads.\n"), units_str);
+    cat_snprintf(buf, bufsz,
+		 _("* Allows %s to upgrade roads to railroads.\n"),
+		 units_str);
     free((void *) units_str);
   }
 
   if (advance_has_flag(i, TF_FARMLAND)) {
     const char *units_str = role_units_translations(F_SETTLERS);
-    sprintf(buf + strlen(buf),
-	    _("* Allows %s to upgrade irrigation to farmland.\n"),
-	    units_str);
+    cat_snprintf(buf, bufsz,
+		 _("* Allows %s to upgrade irrigation to farmland.\n"),
+		 units_str);
     free((void *) units_str);
   }
   if (vap->helptext && vap->helptext[0] != '\0') {
     if (strlen(buf) > 0) {
-      sprintf(buf + strlen(buf), "\n");
+      CATLSTR(buf, bufsz, "\n");
     }
-    sprintf(buf + strlen(buf), "%s\n", _(vap->helptext));
+    cat_snprintf(buf, bufsz, "%s\n", _(vap->helptext));
   }
 }
 
@@ -1212,8 +1214,10 @@ void helptext_terrain(char *buf, size_t bufsz, struct terrain *pterrain,
     .kind = VUT_TERRAIN,
     .value = {.terrain = pterrain}
   };
+
+  assert(NULL != buf && 0 < bufsz);
   buf[0] = '\0';
-  
+
   if (!pterrain) {
     freelog(LOG_ERROR, "Unknown terrain!");
     return;
@@ -1221,36 +1225,36 @@ void helptext_terrain(char *buf, size_t bufsz, struct terrain *pterrain,
 
   insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
   if (terrain_has_flag(pterrain, TER_NO_POLLUTION)) {
-    sprintf(buf + strlen(buf),
+    CATLSTR(buf, bufsz,
 	    _("* Pollution cannot be generated on this terrain."));
-    strcat(buf, "\n");
+    CATLSTR(buf, bufsz, "\n");
   }
   if (terrain_has_flag(pterrain, TER_NO_CITIES)) {
-    sprintf(buf + strlen(buf),
+    CATLSTR(buf, bufsz,
 	    _("* You cannot build cities on this terrain."));
-    strcat(buf, "\n");
+    CATLSTR(buf, bufsz, "\n");
   }
   if (terrain_has_flag(pterrain, TER_UNSAFE_COAST)
       && !terrain_has_flag(pterrain, TER_OCEANIC)) {
-    sprintf(buf + strlen(buf),
+    CATLSTR(buf, bufsz,
 	    _("* The coastline of this terrain is unsafe."));
-    strcat(buf, "\n");
+    CATLSTR(buf, bufsz, "\n");
   }
   if (terrain_has_flag(pterrain, TER_OCEANIC)) {
-    sprintf(buf + strlen(buf),
+    CATLSTR(buf, bufsz,
 	    _("* Land units cannot travel on oceanic terrains."));
-    strcat(buf, "\n");
+    CATLSTR(buf, bufsz, "\n");
   }
 
   if (pterrain->helptext[0] != '\0') {
     if (buf[0] != '\0') {
-      strcat(buf, "\n");
+      CATLSTR(buf, bufsz, "\n");
     }
-    sprintf(buf + strlen(buf), "%s", _(pterrain->helptext));
+    CATLSTR(buf, bufsz, _(pterrain->helptext));
   }
   if (user_text && user_text[0] != '\0') {
-    strcat(buf, "\n\n");
-    strcat(buf, user_text);
+    CATLSTR(buf, bufsz, "\n\n");
+    CATLSTR(buf, bufsz, user_text);
   }
   wordwrap_string(buf, 68);
 }
@@ -1269,10 +1273,11 @@ void helptext_government(char *buf, size_t bufsz, struct government *gov,
     .value = {.govern = gov}
   };
 
+  assert(NULL != buf && 0 < bufsz);
   buf[0] = '\0';
 
   if (gov->helptext[0] != '\0') {
-    sprintf(buf, "%s\n\n", _(gov->helptext));
+    cat_snprintf(buf, bufsz, "%s\n\n", _(gov->helptext));
   }
 
   /* Add requirement text for government itself */
@@ -1281,7 +1286,7 @@ void helptext_government(char *buf, size_t bufsz, struct government *gov,
   } requirement_vector_iterate_end;
 
   /* Effects */
-  sprintf(buf + strlen(buf), _("Features:\n"));
+  CATLSTR(buf, bufsz, _("Features:\n"));
   insert_allows(&source, buf, bufsz);
   effect_list_iterate(get_req_source_effects(&source), peffect) {
     Output_type_id output_type = O_LAST;
@@ -1364,9 +1369,9 @@ void helptext_government(char *buf, size_t bufsz, struct government *gov,
           if (!harvested_only || pot->harvested) {
             if (prev2 != NULL) {
               astr_add(&outputs_or,  prev2);
-              astr_add(&outputs_or,  ", ");
+              astr_add(&outputs_or,  Q_("?or:, "));
               astr_add(&outputs_and, prev2);
-              astr_add(&outputs_and, ", ");
+              astr_add(&outputs_and, Q_("?and:, "));
             }
             prev2 = prev;
             prev = _(pot->name);
@@ -1376,11 +1381,11 @@ void helptext_government(char *buf, size_t bufsz, struct government *gov,
           astr_add(&outputs_or, prev2);
           /* TRANS: List of possible output types has this between
            *        last two elements */
-          astr_add(&outputs_or,  Q_("?outputlist: or "));
+          astr_add(&outputs_or,  Q_(" or "));
           astr_add(&outputs_and, prev2);
           /* TRANS: List of possible output types has this between
            *        last two elements */
-          astr_add(&outputs_and, Q_("?outputlist: and "));
+          astr_add(&outputs_and, Q_(" and "));
         }
         if (prev != NULL) {
           astr_add(&outputs_or, prev);
@@ -1392,133 +1397,153 @@ void helptext_government(char *buf, size_t bufsz, struct government *gov,
         }
       }
 
-    switch (peffect->type) {
+      switch (peffect->type) {
       case EFT_UNHAPPY_FACTOR:
-        if (peffect->value == 1) {
-          sprintf(buf + strlen(buf), _("* Military units away from home and "
-                  "field units will cause one citizen to become unhappy.\n"));
-        } else {
-          sprintf(buf + strlen(buf), _("* Military units away from home and "
-                  "field units will cause %d citizens to become unhappy.\n"),
-                  peffect->value);
-        }
+        cat_snprintf(buf, bufsz,
+                     PL_("* Military units away from home and field units"
+                         " will cause %d citizen to become unhappy.\n",
+                         "* Military units away from home and field units"
+                         " will cause %d citizens to become unhappy.\n",
+                         peffect->value),
+                     peffect->value);
         break;
       case EFT_MAKE_CONTENT:
       case EFT_FORCE_CONTENT:
-        sprintf(buf + strlen(buf), _("* Each of your cities will avoid "
-                "%d unhappiness that would otherwise be caused by units.\n"),
-                peffect->value);
+        cat_snprintf(buf, bufsz,
+                     _("* Each of your cities will avoid %d unhappiness"
+                       " that would otherwise be caused by units.\n"),
+                     peffect->value);
         break;
       case EFT_UPKEEP_FACTOR:
         if (peffect->value > 1 && output_type != O_LAST) {
-          /* TRANS: %s is always only one output type, never list */
-          sprintf(buf + strlen(buf),
-                  _("* You pay %d times normal %s upkeep for your units.\n"),
-                  peffect->value, outputs_and.str);
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: %s is the output type, like 'shield' or 'gold'. */
+                       _("* You pay %d times normal %s upkeep for your units.\n"),
+                       peffect->value,
+                       outputs_and.str);
         } else if (peffect->value > 1) {
-          sprintf(buf + strlen(buf), _("* You pay %d times normal "
-                  "upkeep for your units.\n"), peffect->value);
-         } else if (peffect->value == 0 && output_type != O_LAST) {
-          /* TRANS: %s is output type */
-          sprintf(buf + strlen(buf),
-                  _("* You pay no %s upkeep for your units.\n"),
-                  outputs_and.str);
+          cat_snprintf(buf, bufsz,
+                       _("* You pay %d times normal upkeep for your units.\n"),
+                       peffect->value);
+        } else if (peffect->value == 0 && output_type != O_LAST) {
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: %s is the output type, like 'shield' or 'gold'. */
+                       _("* You pay no %s upkeep for your units.\n"),
+                       outputs_and.str);
         } else if (peffect->value == 0) {
-          /* TRANS: No upkeep of any type */
-          sprintf(buf + strlen(buf),
-                   _("* You pay no upkeep for your units.\n"));
+          CATLSTR(buf, bufsz,
+                  _("* You pay no upkeep for your units.\n"));
         }
         break;
       case EFT_UNIT_UPKEEP_FREE_PER_CITY:
         if (output_type != O_LAST) {
-	  /* TRANS: %s is the output type, like 'shield' or 'gold'. There
-	   * is currently no way to control the singular/plural version of
-	   * this. */
-          sprintf(buf + strlen(buf), _("* Each of your cities will avoid "
-                  "paying %d %s towards unit upkeep.\n"), peffect->value, 
-                  outputs_and.str);
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: %s is the output type, like 'shield' or 'gold'.
+                        * There is currently no way to control the
+                        * singular/plural version of these. */
+                       _("* Each of your cities will avoid paying %d %s"
+                         " upkeep for your units.\n"),
+                       peffect->value,
+                       outputs_and.str);
         } else {
-          /* TRANS: Amount is subtracted from upkeep cost in each upkeep
-           *        type. */
-          sprintf(buf + strlen(buf), _("* Each of your cities will avoid "
-                  "paying %d towards unit upkeep.\n"), peffect->value);
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: Amount is subtracted from upkeep cost
+                        * for each upkeep type. */
+                       _("* Each of your cities will avoid paying %d"
+                         " upkeep for your units.\n"),
+                       peffect->value);
         }
         break;
       case EFT_CIVIL_WAR_CHANCE:
-        sprintf(buf + strlen(buf), _("* Chance of civil war is %d%% if you "
-                "lose your capital.\n"), peffect->value);
+        cat_snprintf(buf, bufsz,
+                     _("* If you lose your capital,"
+                       " chance of civil war is %d%%.\n"),
+                     peffect->value);
         break;
       case EFT_EMPIRE_SIZE_BASE:
-        sprintf(buf + strlen(buf), _("* The first unhappy citizen in each "
-        	      "city due to civilization size will appear when you have %d"
- 	              " cities.\n"), peffect->value);
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %d should always be greater than 2. */
+                     _("* When you have %d cities, the first unhappy citizen"
+                       " will appear in each city due to civilization size.\n"),
+                     peffect->value);
         break;
       case EFT_EMPIRE_SIZE_STEP:
-        sprintf(buf + strlen(buf), _("* After the first unhappy citizen "
-                "due to civilization size, for each %d additional cities, "
-                "another unhappy citizen will appear.\n"), peffect->value);
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %d should always be greater than 2. */
+                     _("* After the first unhappy citizen due to"
+                       " civilization size, for each %d additional cities"
+                       " another unhappy citizen will appear.\n"),
+                     peffect->value);
         break;
       case EFT_MAX_RATES:
         if (peffect->value < 100 && game.info.changable_tax) {
-          sprintf(buf + strlen(buf), 
-                  _("* The maximum rate you can set for science, "
-	                  "gold, or luxuries is %d%%.\n"), peffect->value);
+          cat_snprintf(buf, bufsz,
+                       _("* The maximum rate you can set for science,"
+                          " gold, or luxuries is %d%%.\n"),
+                       peffect->value);
         } else if (game.info.changable_tax) {
-          sprintf(buf + strlen(buf), 
+          CATLSTR(buf, bufsz, 
                   _("* Has unlimited science/gold/luxuries rates.\n"));
         }
         break;
       case EFT_MARTIAL_LAW_EACH:
-        if (peffect->value == 1) {
-          sprintf(buf + strlen(buf), _("* Your units may impose martial "
-                  "law. Each military unit inside a city will force an "
-                  "unhappy citizen to become content.\n"));
-        } else {
-          sprintf(buf + strlen(buf), _("* Your units may impose martial law. "
-                  "Each military unit inside a city will force %d unhappy "
-                  "citizens to become content.\n"), peffect->value);
-        }
+        cat_snprintf(buf, bufsz,
+                     PL_("* Your units may impose martial law."
+                         " Each military unit inside a city will force %d"
+                         " unhappy citizen to become content.\n",
+                         "* Your units may impose martial law."
+                         " Each military unit inside a city will force %d"
+                         " unhappy citizens to become content.\n",
+                         peffect->value),
+                     peffect->value);
         break;
       case EFT_MARTIAL_LAW_MAX:
         if (peffect->value < 100) {
-          sprintf(buf + strlen(buf), _("* A maximum of %d units in each city "
-                  "can enforce martial law.\n"), peffect->value);
+          cat_snprintf(buf, bufsz,
+                       PL_("* A maximum of %d unit in each city can enforce"
+                           " martial law.\n",
+                           "* A maximum of %d units in each city can enforce"
+                           " martial law.\n",
+                           peffect->value),
+                       peffect->value);
         }
         break;
       case EFT_RAPTURE_GROW:
-        sprintf(buf + strlen(buf), _("* You may grow your cities by "
-                "means of celebrations.  Your cities must be at least "
-                "size %d before they can grown in this manner.\n"),
-                peffect->value);
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %d should always be greater than 2. */
+                     _("* You may grow your cities by means of celebrations."
+                       " Your cities must be at least size %d.\n"),
+                     peffect->value);
         break;
       case EFT_UNBRIBABLE_UNITS:
-        sprintf(buf + strlen(buf), _("* Your units cannot be bribed.\n"));
+        CATLSTR(buf, bufsz, _("* Your units cannot be bribed.\n"));
         break;
       case EFT_NO_INCITE:
-        sprintf(buf + strlen(buf), _("* Your cities cannot be incited.\n"));
+        CATLSTR(buf, bufsz, _("* Your cities cannot be incited.\n"));
         break;
       case EFT_REVOLUTION_WHEN_UNHAPPY:
-        sprintf(buf + strlen(buf), _("* Government will fall into anarchy "
-                "if any city is in disorder for more than two turns in "
-                "a row.\n"));
+        CATLSTR(buf, bufsz,
+                _("* If any city is in disorder for more than two turns in a row,"
+                  " government will fall into anarchy.\n"));
         break;
       case EFT_HAS_SENATE:
-        sprintf(buf + strlen(buf), _("* Has a senate that may prevent "
-                "declaration of war.\n"));
+        CATLSTR(buf, bufsz,
+                _("* Has a senate that may prevent declaration of war.\n"));
         break;
       case EFT_INSPIRE_PARTISANS:
-        sprintf(buf + strlen(buf), _("* Allows partisans when cities are "
-                "taken by the enemy.\n"));
+        CATLSTR(buf, bufsz,
+                _("* Allows partisans when cities are taken by the enemy.\n"));
         break;
       case EFT_HAPPINESS_TO_GOLD:
-        sprintf(buf + strlen(buf), _("* Buildings that normally confer "
-                "bonuses against unhappiness will instead give gold.\n"));
+        CATLSTR(buf, bufsz,
+                _("* Buildings that normally confer bonuses against"
+                  " unhappiness will instead give gold.\n"));
         break;
       case EFT_FANATICS:
-        sprintf(buf + strlen(buf), _("* Pays no upkeep for fanatics.\n"));
+        CATLSTR(buf, bufsz, _("* Pays no upkeep for fanatics.\n"));
         break;
       case EFT_NO_UNHAPPY:
-        sprintf(buf + strlen(buf), _("* Has no unhappy citizens.\n"));
+        CATLSTR(buf, bufsz, _("* Has no unhappy citizens.\n"));
         break;
       case EFT_VETERAN_BUILD:
         /* FIXME: There could be both class and flag requirement.
@@ -1527,75 +1552,94 @@ void helptext_government(char *buf, size_t bufsz, struct government *gov,
          *        flag related string to be at least qualified to allow
          *        different translations? */
         if (unitclass) {
-          sprintf(buf + strlen(buf), _("* Veteran %s units.\n"),
-                  uclass_name_translation(unitclass));
+          cat_snprintf(buf, bufsz,
+                       _("* Veteran %s units.\n"),
+                       uclass_name_translation(unitclass));
         } else if (unittype != NULL) {
-          sprintf(buf + strlen(buf), _("* Veteran %s units.\n"),
-                  utype_name_translation(unittype));
+          cat_snprintf(buf, bufsz,
+                       _("* Veteran %s units.\n"),
+                       utype_name_translation(unittype));
         } else if (unitflag != F_LAST) {
-          sprintf(buf + strlen(buf), _("* Veteran %s units.\n"),
-                  unit_flag_rule_name(unitflag));
+          cat_snprintf(buf, bufsz,
+                       _("* Veteran %s units.\n"),
+                       unit_flag_rule_name(unitflag));
         } else {
-          sprintf(buf + strlen(buf), _("* Veteran units.\n"));
+          CATLSTR(buf, bufsz, _("* Veteran units.\n"));
         }
         break;
       case EFT_OUTPUT_PENALTY_TILE:
-        /* TRANS: %s is list of output types, with 'or' */
-        sprintf(buf + strlen(buf), _("* Each worked tile that gives more "
-                "than %d %s will suffer a -1 penalty when not "
-                "celebrating.\n"), peffect->value, outputs_or.str);
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %s is list of output types, with 'or' */
+                     _("* Each worked tile that gives more than %d %s will"
+                       " suffer a -1 penalty unless celebrating.\n"),
+                     peffect->value,
+                     outputs_or.str);
         break;
       case EFT_OUTPUT_INC_TILE_CELEBRATE:
-        /* TRANS: %s is list of output types, with 'or' */
-        sprintf(buf + strlen(buf), _("* Each worked tile with at least 1 "
-                "%s will yield %d more of it when celebrating.\n"),
-                outputs_or.str, peffect->value);
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %s is list of output types, with 'or' */
+                     _("* Each worked tile with at least 1 %s will yield"
+                       " %d more of it while celebrating.\n"),
+                     outputs_or.str,
+                     peffect->value);
         break;
       case EFT_OUTPUT_INC_TILE:
-        /* TRANS: %s is list of output types, with 'or' */
-        sprintf(buf + strlen(buf), _("* Each worked tile with at least 1 "
-                "%s will yield %d more of it.\n"), outputs_or.str, 
-                peffect->value);
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %s is list of output types, with 'or' */
+                     _("* Each worked tile with at least 1 %s will yield"
+                       " %d more of it.\n"),
+                     outputs_or.str,
+                     peffect->value);
         break;
       case EFT_OUTPUT_BONUS:
       case EFT_OUTPUT_BONUS_2:
-        /* TRANS: %s is list of output types, with 'and' */
-        sprintf(buf + strlen(buf), _("* %s production is increased %d%%.\n"),
-                outputs_and.str, peffect->value);
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %s is list of output types, with 'and' */
+                     _("* %s production is increased %d%%.\n"),
+                     outputs_and.str,
+                     peffect->value);
         break;
       case EFT_OUTPUT_WASTE:
         if (peffect->value > 30) {
-          /* TRANS: %s is list of output types, with 'and' */
-          sprintf(buf + strlen(buf), _("* %s production will suffer "
-                  "massive waste.\n"), outputs_and.str);
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: %s is list of output types, with 'and' */
+                       _("* %s production will suffer massive waste.\n"),
+                       outputs_and.str);
         } else if (peffect->value >= 15) {
-          /* TRANS: %s is list of output types, with 'and' */
-          sprintf(buf + strlen(buf), _("* %s production will suffer "
-                  "some waste.\n"), outputs_and.str);
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: %s is list of output types, with 'and' */
+                       _("* %s production will suffer some waste.\n"),
+                       outputs_and.str);
         } else {
-          /* TRANS: %s is list of output types, with 'and' */
-          sprintf(buf + strlen(buf), _("* %s production will suffer "
-                  "a small amount of waste.\n"), outputs_and.str);
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: %s is list of output types, with 'and' */
+                       _("* %s production will suffer a small amount of waste.\n"),
+                       outputs_and.str);
         }
         break;
       case EFT_OUTPUT_WASTE_BY_DISTANCE:
         if (peffect->value >= 3) {
-          /* TRANS: %s is list of output types, with 'and' */
-          sprintf(buf + strlen(buf), _("* %s waste will increase quickly "
-                  "with distance from capital.\n"), outputs_and.str);
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: %s is list of output types, with 'and' */
+                       _("* %s waste will increase quickly"
+                         " with distance from capital.\n"),
+                       outputs_and.str);
         } else if (peffect->value == 2) {
-          /* TRANS: %s is list of output types, with 'and' */
-          sprintf(buf + strlen(buf), _("* %s waste will increase "
-                  "with distance from capital.\n"), outputs_and.str);
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: %s is list of output types, with 'and' */
+                       _("* %s waste will increase"
+                         " with distance from capital.\n"),
+                       outputs_and.str);
         } else {
-          /* TRANS: %s is list of output types, with 'and' */
-          sprintf(buf + strlen(buf), _("* %s waste will increase slowly "
-                  "with distance from capital.\n"), outputs_and.str);
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: %s is list of output types, with 'and' */
+                       _("* %s waste will increase slowly"
+                         " with distance from capital.\n"),
+                       outputs_and.str);
         }
       default:
         break;
-    }
-
+      };
     }
 
     astr_clear(&outputs_or);
@@ -1605,12 +1649,13 @@ void helptext_government(char *buf, size_t bufsz, struct government *gov,
 
   unit_type_iterate(utype) {
     if (utype->need_government == gov) {
-      sprintf(buf + strlen(buf),
-	      _("* Allows you to build %s.\n"),
-	      utype_name_translation(utype));
+      cat_snprintf(buf, bufsz,
+                   _("* Allows you to build %s.\n"),
+                   utype_name_translation(utype));
     }
   } unit_type_iterate_end;
-  strcat(buf, user_text);
+
+  CATLSTR(buf, bufsz, user_text);
   wordwrap_string(buf, 68);
 }
 
@@ -1633,7 +1678,7 @@ char *helptext_unit_upkeep_str(struct unit_type *utype)
     if (utype->upkeep[o] > 0) {
       /* TRANS: "2 Food" or ", 1 shield" */
       cat_snprintf(buf, sizeof(buf), _("%s%d %s"),
-	      (any > 0 ? ", " : ""), utype->upkeep[o],
+	      (any > 0 ? Q_("?blistmore:, ") : ""), utype->upkeep[o],
 	      get_output_name(o));
       any++;
     }
@@ -1641,7 +1686,7 @@ char *helptext_unit_upkeep_str(struct unit_type *utype)
   if (utype->happy_cost > 0) {
     /* TRANS: "2 unhappy" or ", 1 unhappy" */
     cat_snprintf(buf, sizeof(buf), _("%s%d unhappy"),
-	    (any > 0 ? ", " : ""), utype->happy_cost);
+	    (any > 0 ? Q_("?blistmore:, ") : ""), utype->happy_cost);
     any++;
   }
 

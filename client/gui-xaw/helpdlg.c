@@ -863,7 +863,7 @@ static void help_update_unit_type(const struct help_item *pitem,
 		    utype_name_translation(punittype->obsoleted_by));
     }
     /* add text for transport_capacity, fuel, and flags: */
-    helptext_unit(buf, punittype, pitem->text);
+    helptext_unit(buf, sizeof(buf), punittype, pitem->text);
     XtVaSetValues(help_text, XtNstring, buf, NULL);
   }
   else {

@@ -734,7 +734,7 @@ static void help_update_unit_type(const struct help_item *pitem,
                     utype_name_translation(utype->obsoleted_by));
     }
 
-    helptext_unit(buf, utype, pitem->text);
+    helptext_unit(buf, sizeof(buf), utype, pitem->text);
     set_help_text(buf);
   }
   else {

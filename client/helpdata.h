@@ -41,8 +41,8 @@ const struct help_item *help_iter_next(void);
 char *helptext_building(char *buf, size_t bufsz,
 			struct impr_type *pimprove,
 			const char *user_text);
-void helptext_unit(char *buf, struct unit_type *punittype,
-		   const char *user_text);
+char *helptext_unit(char *buf, size_t bufsz, struct unit_type *putype,
+		    const char *user_text);
 void helptext_tech(char *buf, size_t bufsz, int i, const char *user_text);
 void helptext_terrain(char *buf, size_t bufsz, struct terrain *pterrain,
 		      const char *user_text);
