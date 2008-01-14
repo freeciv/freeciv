@@ -88,8 +88,6 @@ static Widget help_terrain_irrigation_result_time, help_terrain_irrigation_resul
 static Widget help_terrain_mining_result_time, help_terrain_mining_result_time_data;
 static Widget help_terrain_transform_result_time, help_terrain_transform_result_time_data;
 
-/* HACK: we use a static string for convenience. */
-static char long_buffer[64000];
 
 static void create_help_page(enum help_page_type type);
 
@@ -830,7 +828,7 @@ static void help_update_wonder(const struct help_item *pitem,
 static void help_update_unit_type(const struct help_item *pitem,
 				  char *title, struct unit_type *punittype)
 {
-  char *buf = &long_buffer[0];
+  char buf[64000];
   
   create_help_page(HELP_UNIT);
   if (punittype) {
@@ -866,7 +864,7 @@ static void help_update_unit_type(const struct help_item *pitem,
 		    utype_name_translation(punittype->obsoleted_by));
     }
     /* add text for transport_capacity, fuel, and flags: */
-    helptext_unit(buf, punittype, pitem->text);
+    helptext_unit(buf, sizeof(buf), punittype, pitem->text);
     XtVaSetValues(help_text, XtNstring, buf, NULL);
   }
   else {

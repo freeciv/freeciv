@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-30 19:00-0500\n"
+"POT-Creation-Date: 2008-01-13 19:21-0500\n"
 "PO-Revision-Date: 2007-09-05 04:24+0300\n"
 "Last-Translator: Roman Festchook <roma@polesye.net>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -799,11 +799,13 @@ msgstr "Ав╕абаза"
 msgid "Nuclear"
 msgstr "Атомна бомба"
 
-#: common/unittype.c:349
+#. TRANS: List of possible output types has this between
+#. *        last two elements
+#: common/unittype.c:349 client/helpdata.c:1402
 msgid " and "
 msgstr " та "
 
-#: common/unittype.c:355
+#: common/unittype.c:355 client/helpdata.c:1388
 msgid "?and:, "
 msgstr "?та:, "
 
@@ -2068,7 +2070,7 @@ msgstr "  -l, --log ФАЙЛ\tВикористовувати ФАЙЛ як журнал\n"
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tВивести верс╕ю\n"
 
-#: server/civserver.c:248 client/gui-gtk-2.0/gui_main.c:267
+#: server/civserver.c:248 client/gui-gtk-2.0/gui_main.c:279
 #: client/gui-sdl/gui_main.c:209 client/gui-xaw/gui_main.c:247
 #: manual/civmanual.c:384
 #, fuzzy, c-format
@@ -6379,8 +6381,9 @@ msgid ", difficulty level %s"
 msgstr ", р╕вень складност╕ %s"
 
 #. TRANS: continue list, in case comma is not the separator of choice.
-#: server/stdinhand.c:4137 server/stdinhand.c:4141 client/text.c:185
-#: client/text.c:1159 client/text.c:1197
+#: server/stdinhand.c:4137 server/stdinhand.c:4141 client/helpdata.c:238
+#: client/helpdata.c:750 client/text.c:185 client/text.c:1159
+#: client/text.c:1197
 #, c-format
 msgid "?clistmore:, %s"
 msgstr ", %s"
@@ -7903,83 +7906,83 @@ msgstr "Не знайдено шляху до ц╕л╕!"
 msgid "Oh my! You seem to have no capital!"
 msgstr "Ой в╓й! Зда╓ться у Вас не ма╓ столиц╕!"
 
-#: client/helpdata.c:120
+#: client/helpdata.c:123
 msgid "Terrain     Road   Irrigation     Mining         Transform\n"
 msgstr "Тер╕тор╕я  Шлях   Зрошення       Шахти          Зм╕на    \n"
 
-#: client/helpdata.c:146
+#: client/helpdata.c:149
 msgid "(Railroads and fortresses require 3 turns, regardless of terrain.)"
 msgstr ""
 "(Зал╕зниц╕ та Укр╕плення потребують 3 ходи на буд╕вництво, залежно в╕д "
 "тер╕тор╕╖.)"
 
-#: client/helpdata.c:166
+#: client/helpdata.c:169
 #, c-format
 msgid "Requires the %s technology.\n"
 msgstr ""
 
-#: client/helpdata.c:170
+#: client/helpdata.c:173
 #, c-format
 msgid "Requires the %s government.\n"
 msgstr ""
 
-#: client/helpdata.c:174
+#: client/helpdata.c:177
 #, c-format
 msgid "Requires the %s building.\n"
 msgstr ""
 
-#: client/helpdata.c:178
+#: client/helpdata.c:181
 #, c-format
 msgid "Requires the %s terrain special.\n"
 msgstr ""
 
-#: client/helpdata.c:182
+#: client/helpdata.c:185
 #, c-format
 msgid "Requires the %s terrain.\n"
 msgstr ""
 
-#: client/helpdata.c:186
+#: client/helpdata.c:189
 #, c-format
 msgid "Requires the %s nation.\n"
 msgstr ""
 
-#: client/helpdata.c:190 client/helpdata.c:194 client/helpdata.c:198
+#: client/helpdata.c:193 client/helpdata.c:197 client/helpdata.c:201
 #, c-format
 msgid "Only applies to %s units.\n"
 msgstr ""
 
-#: client/helpdata.c:202 client/helpdata.c:206
+#: client/helpdata.c:205 client/helpdata.c:209
 #, c-format
 msgid "Applies only to %s.\n"
 msgstr ""
 
-#: client/helpdata.c:210
+#: client/helpdata.c:213
 #, c-format
 msgid "Requires a minimum size of %d.\n"
 msgstr ""
 
-#: client/helpdata.c:256
+#: client/helpdata.c:259
 #, fuzzy, c-format
 msgid "Allows %s."
 msgstr "Дозволя╓ %s.\n"
 
-#: client/helpdata.c:259
+#: client/helpdata.c:262
 #, fuzzy, c-format
 msgid "Allows %s (with %s)."
 msgstr "Дозволя╓ %s (з %s).\n"
 
 #. TRANS: preserve single space at beginning
-#: client/helpdata.c:411
+#: client/helpdata.c:414
 #, fuzzy
 msgid " Rivers"
 msgstr "  Р╕чки"
 
-#: client/helpdata.c:569
+#: client/helpdata.c:572
 #, c-format
 msgid "Sorry, no help topic for %s.\n"
 msgstr "Вибачте, не ма╓ допомоги по %s.\n"
 
-#: client/helpdata.c:573
+#: client/helpdata.c:576
 #, c-format
 msgid ""
 "Sorry, no help topic for %s.\n"
@@ -7990,13 +7993,13 @@ msgstr ""
 "Цю стор╕нку сгенеровано автоматично.\n"
 "\n"
 
-#: client/helpdata.c:672
+#: client/helpdata.c:666
 msgid ""
 "Requires: Nothing\n"
 "\n"
 msgstr ""
 
-#: client/helpdata.c:677
+#: client/helpdata.c:671
 #, fuzzy, c-format
 msgid "* The discovery of %s will make %s obsolete.\n"
 msgstr ""
@@ -8004,57 +8007,54 @@ msgstr ""
 "\n"
 "В╕дкриття %s робить застар╕лим %s.  "
 
-#: client/helpdata.c:696
+#: client/helpdata.c:690
 #, fuzzy, c-format
 msgid "* Allows all players with knowledge of %s to build %s units.\n"
 msgstr "Дозволя╓ ус╕м гравцям що в╕дкрили %s будувати п╕дрозд╕ли %s.  "
 
-#: client/helpdata.c:708
+#: client/helpdata.c:702
 #, fuzzy, c-format
 msgid "* Allows %s (with %s).\n"
 msgstr "Дозволя╓ %s (з %s).\n"
 
-#: client/helpdata.c:712
+#: client/helpdata.c:706
 #, fuzzy, c-format
 msgid "* Allows %s.\n"
 msgstr "Дозволя╓ %s.\n"
 
-#: client/helpdata.c:779
+#: client/helpdata.c:776
 #, c-format
 msgid "* Can only be built if there is %s in the city.\n"
 msgstr ""
 
-#: client/helpdata.c:785
+#: client/helpdata.c:782
 #, c-format
 msgid "* Can only be built with %s as government.\n"
 msgstr ""
 
-#: client/helpdata.c:791
-#, fuzzy, c-format
+#: client/helpdata.c:787
+#, fuzzy
 msgid "* May not be built in cities.\n"
 msgstr "* Можуть засновувати м╕ста.\n"
 
-#: client/helpdata.c:794
-#, c-format
+#: client/helpdata.c:790
 msgid "* Never has a home city.\n"
 msgstr ""
 
-#: client/helpdata.c:798
-#, c-format
+#: client/helpdata.c:793
 msgid "* Losing this unit will lose you the game!\n"
 msgstr ""
 
-#: client/helpdata.c:802
-#, c-format
+#: client/helpdata.c:797
 msgid "* Each player may only have one of this type of unit.\n"
 msgstr ""
 
-#: client/helpdata.c:805
+#: client/helpdata.c:801
 #, c-format
 msgid "* Requires %d population to build.\n"
 msgstr ""
 
-#: client/helpdata.c:811
+#: client/helpdata.c:807
 #, c-format
 msgid "* Can carry and refuel %d air unit.\n"
 msgid_plural "* Can carry and refuel %d air units.\n"
@@ -8062,7 +8062,7 @@ msgstr[0] "* Може нести та заправляти %d ав╕азагон.\n"
 msgstr[1] "* Може нести та заправляти %d ав╕азагони.\n"
 msgstr[2] "* Може нести та заправляти %d ав╕азагон╕в.\n"
 
-#: client/helpdata.c:816
+#: client/helpdata.c:812
 #, c-format
 msgid "* Can carry and refuel %d missile unit.\n"
 msgid_plural "* Can carry and refuel %d missile units.\n"
@@ -8070,7 +8070,7 @@ msgstr[0] "* Може нести та заправляти %d ракетний п╕дрозд╕л.\n"
 msgstr[1] "* Може нести та заправляти %d ракетн╕ п╕дрозд╕ли.\n"
 msgstr[2] "* Може нести та заправляти %d ракетних п╕дрозд╕л╕в.\n"
 
-#: client/helpdata.c:821
+#: client/helpdata.c:817
 #, c-format
 msgid "* Can carry %d ground unit across water.\n"
 msgid_plural "* Can carry %d ground units across water.\n"
@@ -8078,155 +8078,141 @@ msgstr[0] "* Може перевезти %d наземний п╕дрозд╕л по вод╕.\n"
 msgstr[1] "* Може перевезти %d наземн╕ п╕дрозд╕ли по вод╕.\n"
 msgstr[2] "* Може перевезти %d наземних п╕дрозд╕л╕в по вод╕.\n"
 
-#. TRANS: "Manhattan" distance is the distance along gridlines, with
-#. * no diagonals allowed.
-#: client/helpdata.c:829
-#, c-format
+#: client/helpdata.c:826
 msgid ""
 "* Can establish trade routes (must travel to target city and must be at "
 "least 9 tiles [in Manhattan distance] from this unit's home city).\n"
 msgstr ""
 
-#: client/helpdata.c:836
+#: client/helpdata.c:832
 #, fuzzy, c-format
 msgid "* Can help build wonders (adds %d production).\n"
 msgstr "* Допомогають будувати дива.\n"
 
-#: client/helpdata.c:840
-#, c-format
+#: client/helpdata.c:836
 msgid "* May not be disbanded.\n"
 msgstr ""
 
-#: client/helpdata.c:842
+#: client/helpdata.c:838
 #, c-format
 msgid "* May be disbanded in a city to recover 50%% of the production cost.\n"
 msgstr ""
 
-#: client/helpdata.c:846
-#, c-format
+#: client/helpdata.c:842
 msgid "* Can build new cities.\n"
 msgstr "* Можуть засновувати м╕ста.\n"
 
-#: client/helpdata.c:849
+#: client/helpdata.c:845
 #, c-format
 msgid "* Can add on %d population to cities of no more than size %d.\n"
 msgstr ""
 
-#: client/helpdata.c:858
-#, fuzzy, c-format
+#: client/helpdata.c:854
+#, fuzzy
 msgid "* Can build roads and railroads.\n"
 msgstr "* Допомогають будувати дива.\n"
 
-#: client/helpdata.c:859
-#, fuzzy, c-format
+#: client/helpdata.c:855
+#, fuzzy
 msgid "* Can build mines on tiles.\n"
 msgstr "* Можуть засновувати м╕ста.\n"
 
-#: client/helpdata.c:860
-#, fuzzy, c-format
+#: client/helpdata.c:856
+#, fuzzy
 msgid "* Can build irrigation on tiles.\n"
 msgstr "* Можуть засновувати м╕ста.\n"
 
-#: client/helpdata.c:865
-#, fuzzy, c-format
+#: client/helpdata.c:861
+#, fuzzy
 msgid "* Can build farmland.\n"
 msgstr "Будувати ферму"
 
-#: client/helpdata.c:869
+#: client/helpdata.c:865
 #, fuzzy, c-format
 msgid "* Can build farmland (if %s is known).\n"
 msgstr "* Можуть засновувати м╕ста.\n"
 
-#: client/helpdata.c:873
+#: client/helpdata.c:869
 #, c-format
 msgid "* Can build farmland (if any of the following are known: %s).\n"
 msgstr ""
 
-#: client/helpdata.c:881
-#, fuzzy, c-format
+#: client/helpdata.c:877
+#, fuzzy
 msgid "* Can build fortresses.\n"
 msgstr "Дозволя╓ %s будувати укр╕плення.\n"
 
-#: client/helpdata.c:885
+#: client/helpdata.c:881
 #, c-format
 msgid "* Can build fortresses (if %s is known).\n"
 msgstr ""
 
-#: client/helpdata.c:889
+#: client/helpdata.c:885
 #, c-format
 msgid "* Can build fortresses (if any of the following are known: %s).\n"
 msgstr ""
 
-#: client/helpdata.c:895
-#, c-format
+#: client/helpdata.c:891
 msgid "* Can clean pollution from tiles.\n"
 msgstr ""
 
-#: client/helpdata.c:897
-#, fuzzy, c-format
+#: client/helpdata.c:892
+#, fuzzy
 msgid "* Can clean nuclear fallout from tiles.\n"
 msgstr "Очистити рад╕ац╕ю"
 
-#: client/helpdata.c:900
-#, fuzzy, c-format
+#: client/helpdata.c:895
+#, fuzzy
 msgid "* Can transform tiles.\n"
 msgstr "* Можуть виконувати д╕╖ колон╕ст╕в.\n"
 
-#: client/helpdata.c:903
-#, fuzzy, c-format
+#: client/helpdata.c:898
+#, fuzzy
 msgid "* Can build airbases.\n"
 msgstr "* Можуть засновувати м╕ста.\n"
 
-#: client/helpdata.c:907
+#: client/helpdata.c:902
 #, c-format
 msgid "* May fortify, granting a 50%% defensive bonus.\n"
 msgstr ""
 
-#: client/helpdata.c:911
-#, c-format
+#: client/helpdata.c:905
 msgid "* May pillage to destroy infrastructure from tiles.\n"
 msgstr ""
 
-#: client/helpdata.c:915
-#, c-format
+#: client/helpdata.c:909
 msgid "* Can perform diplomatic actions, plus special spy abilities.\n"
 msgstr ""
 "* Можуть виконувати д╕пломатичн╕ д╕╖, а також деяк╕ мають шпигунськ╕ "
 "можливост╕.\n"
 
-#: client/helpdata.c:918
-#, c-format
+#: client/helpdata.c:912
 msgid "* Can perform diplomatic actions.\n"
 msgstr "* Можуть виконувати д╕пломатичн╕ д╕╖.\n"
 
-#: client/helpdata.c:922
-#, c-format
+#: client/helpdata.c:916
 msgid "* Will never lose a diplomat-versus-diplomat fight.\n"
 msgstr ""
 
-#: client/helpdata.c:926
-#, c-format
+#: client/helpdata.c:919
 msgid "* May not be bribed.\n"
 msgstr ""
 
-#: client/helpdata.c:929
-#, c-format
+#: client/helpdata.c:922
 msgid "* Can attack enemy air units.\n"
 msgstr "* Можуть атакувати ворож╕ пов╕трян╕ п╕дрозд╕ли.\n"
 
-#: client/helpdata.c:932
-#, c-format
+#: client/helpdata.c:926
 msgid "* Is invisible except when next to an enemy unit or city.\n"
 msgstr ""
 "* Невидимий якщо у сус╕дн╕й кл╕тинц╕ не ма╓ ворожого п╕дрозд╕лу або м╕ста.\n"
 
-#: client/helpdata.c:936
-#, c-format
+#: client/helpdata.c:930
 msgid "* Can only attack units on ocean squares (no land attacks).\n"
 msgstr "* Можуть атакувати лише у океан╕ (не на суш╕)\n"
 
-#: client/helpdata.c:941
-#, fuzzy, c-format
+#: client/helpdata.c:934
+#, fuzzy
 msgid ""
 "* Can attack from aboard sea units: against enemy cities and onto land "
 "squares.\n"
@@ -8234,90 +8220,76 @@ msgstr ""
 "* Мож╓ атакувати з водних п╕дрозд╕л╕в ворож╕ м╕ста або п╕дрозд╕ли на "
 "сухопутних територ╕ях."
 
-#: client/helpdata.c:946
+#: client/helpdata.c:939
 #, fuzzy, c-format
 msgid "* Can be paradropped from a friendly city (Range: %d).\n"
 msgstr "* Може буди парашутовано з дружнього м╕ста (В╕дстань: %d)."
 
-#: client/helpdata.c:950
-#, c-format
+#: client/helpdata.c:945
 msgid "* Gets double defense against units specified as 'mounted'.\n"
 msgstr "* Ма╓ подв╕йний захист в╕д 'к╕нних' п╕дрозд╕л╕в.\n"
 
-#: client/helpdata.c:955
-#, c-format
+#: client/helpdata.c:949
 msgid "* Counts as 'mounted' against certain defenders.\n"
 msgstr "* Раху╓ться як 'к╕нний' проти деяких захисник╕в.\n"
 
-#: client/helpdata.c:959
-#, c-format
+#: client/helpdata.c:953
 msgid "* A missile unit: gets used up in making an attack.\n"
 msgstr "* Ракетний п╕дрозд╕л: втрача╓ться п╕сля виконано╖ атаки.\n"
 
-#: client/helpdata.c:962
-#, c-format
+#: client/helpdata.c:956
 msgid "* Making an attack ends this unit's turn.\n"
 msgstr "* Атака зак╕нчу╓ х╕д цього п╕дрозд╕ла.\n"
 
-#: client/helpdata.c:966
-#, c-format
+#: client/helpdata.c:960
 msgid "* This unit's attack causes a nuclear explosion!\n"
 msgstr "* Атака цим п╕дрозд╕лом спричиня╓ рад╕ац╕йне забруднення!\n"
 
-#: client/helpdata.c:970
-#, c-format
+#: client/helpdata.c:964
 msgid "* Gets double firepower when attacking cities.\n"
 msgstr ""
 
-#: client/helpdata.c:973
-#, c-format
+#: client/helpdata.c:967
 msgid "* Ignores the effects of city walls.\n"
 msgstr "* ╤гнору╓ Ст╕ни м╕ста.\n"
 
-#: client/helpdata.c:977
+#: client/helpdata.c:971
 #, c-format
 msgid ""
 "* Does bombard attacks (%d per turn).  These attacks will only damage (never "
-"kill) the defender but has no risk to the attacker.\n"
+"kill) the defender, but have no risk for the attacker.\n"
 msgstr ""
 
-#: client/helpdata.c:983
-#, c-format
-msgid "* Gets quintuple defence against missiles and aircraft.\n"
+#: client/helpdata.c:978
+msgid "* Gets quintuple defense against missiles and aircraft.\n"
 msgstr "* Нада╓ п'ятикратний захист проти ракет та л╕так╕в.\n"
 
-#: client/helpdata.c:987
-#, c-format
+#: client/helpdata.c:982
 msgid "* Ignores terrain effects (treats all squares as roads).\n"
 msgstr "* ╤гнору╓ ланшафт (тракту╓ усю сушу як дороги).\n"
 
-#: client/helpdata.c:990
-#, c-format
+#: client/helpdata.c:985
 msgid "* Ignores zones of control.\n"
 msgstr "* ╤гнору╓ зони контролю.\n"
 
-#: client/helpdata.c:993
-#, c-format
+#: client/helpdata.c:989
 msgid "* A non-military unit (cannot attack; no martial law).\n"
 msgstr ""
 "* Не в╕йськовий п╕дрозд╕л (неможе атакувати; нема╓ в╕йськового положення).\n"
 
-#: client/helpdata.c:997
-#, c-format
+#: client/helpdata.c:993
 msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
 msgstr "* Польовий п╕дрозд╕л: один нещасний нав╕ть якщо й неагресивний.\n"
 
-#: client/helpdata.c:1002
-#, c-format
+#: client/helpdata.c:996
 msgid "* Will never achieve veteran status.\n"
 msgstr ""
 
-#: client/helpdata.c:1005
-#, c-format
+#: client/helpdata.c:998
 msgid "* May become veteran through training or combat.\n"
 msgstr ""
 
-#: client/helpdata.c:1011
+#: client/helpdata.c:1004
 #, fuzzy, c-format
 msgid ""
 "* Must end turn in a city or next to land, or has a 50%% risk of being lost "
@@ -8326,25 +8298,29 @@ msgstr ""
 "* Повинен завершити х╕д у м╕ст╕ або поблизу в╕д земл╕, ╕накше ма╓ 50%% "
 "в╕рог╕дн╕сть бути втраченим у мор╕."
 
-#: client/helpdata.c:1015
+#: client/helpdata.c:1008
 #, c-format
 msgid "* The discovery of %s reduces the risk to 25%%.\n"
 msgstr ""
 
-#: client/helpdata.c:1020
+#: client/helpdata.c:1013
 #, c-format
 msgid "* %s reduces the risk to 12%%.\n"
 msgstr ""
 
-#: client/helpdata.c:1069
+#. TRANS: List of possible unit types has this between
+#. *        last two elements
+#. TRANS: List of possible output types has this between
+#. *        last two elements
+#: client/helpdata.c:1064 client/helpdata.c:1398
 msgid " or "
 msgstr " або "
 
-#: client/helpdata.c:1071
+#: client/helpdata.c:1066 client/helpdata.c:1386
 msgid "?or:, "
 msgstr "?або:, "
 
-#: client/helpdata.c:1083
+#: client/helpdata.c:1078
 #, c-format
 msgid "* Unit has to be in a city, or on a %s after %d turn.\n"
 msgid_plural "* Unit has to be in a city, or on a %s after %d turns.\n"
@@ -8352,12 +8328,12 @@ msgstr[0] "* П╕дрозд╕л ма╓ бути у м╕ст╕ або на п╕дрозд╕л╕ %s п╕сля %d ходу.\n"
 msgstr[1] "* П╕дрозд╕л ма╓ бути у м╕ст╕ або на п╕дрозд╕л╕ %s п╕сля %d ход╕в.\n"
 msgstr[2] "* П╕дрозд╕л ма╓ бути у м╕ст╕ або на п╕дрозд╕л╕ %s п╕сля %d ход╕в.\n"
 
-#: client/helpdata.c:1121
+#: client/helpdata.c:1120
 #, c-format
 msgid "If we would now start with %s we would need %d bulbs."
 msgstr "Якщо розпочнемо з %s то будемо потребувати %d бал╕в."
 
-#: client/helpdata.c:1126
+#: client/helpdata.c:1125
 #, c-format
 msgid ""
 "To reach %s we need to obtain %d other technologies first. The whole project "
@@ -8366,13 +8342,11 @@ msgstr ""
 "Аби досл╕дити %s нам спершу потр╕бно отримати %d ╕нших технолог╕й. Вц╕лому "
 "нам знадобиться %d бал╕в для завершення."
 
-#: client/helpdata.c:1134
-#, c-format
+#: client/helpdata.c:1133
 msgid "You cannot research this technology."
 msgstr ""
 
-#: client/helpdata.c:1138
-#, c-format
+#: client/helpdata.c:1137
 msgid " This number may vary depending on what other players will research.\n"
 msgstr " Це число багато в чому залежить в╕д того, що в╕дкриють ╕нш╕ гравц╕.\n"
 
@@ -8391,250 +8365,230 @@ msgstr ""
 msgid "* Reduces the chance of losing boats on the high seas to 12%%.\n"
 msgstr ""
 
-#: client/helpdata.c:1160
-#, fuzzy, c-format
+#: client/helpdata.c:1161
+#, fuzzy
 msgid "* Increases the pollution generated by the population.\n"
 msgstr "П╕двищу╓ забруднення що спричинено населенням.\n"
 
-#: client/helpdata.c:1165
+#: client/helpdata.c:1166
 #, fuzzy, c-format
 msgid "* Allows %s to build roads on river squares.\n"
 msgstr "%s - дозволя╓ будувати шляхи через р╕ки.\n"
 
-#: client/helpdata.c:1172
+#: client/helpdata.c:1173
 #, fuzzy, c-format
 msgid "* Allows %s to build fortresses.\n"
 msgstr "Дозволя╓ %s будувати укр╕плення.\n"
 
-#: client/helpdata.c:1180
+#: client/helpdata.c:1181
 #, fuzzy, c-format
 msgid "* Allows %s to build airbases.\n"
 msgstr "Дозволя╓ %s будувати ав╕абази.\n"
 
-#: client/helpdata.c:1189
+#: client/helpdata.c:1190
 #, fuzzy, c-format
 msgid "* Allows %s to upgrade roads to railroads.\n"
 msgstr "Дозволя╓ %s модерн╕зувати Шляхи до Зал╕зниць.\n"
 
-#: client/helpdata.c:1196
+#: client/helpdata.c:1198
 #, fuzzy, c-format
 msgid "* Allows %s to upgrade irrigation to farmland.\n"
 msgstr "Дозволя╓ %s перетворювати зрошення на ферми.\n"
 
-#: client/helpdata.c:1228
-#, c-format
+#: client/helpdata.c:1232
 msgid "* Pollution cannot be generated on this terrain."
 msgstr ""
 
-#: client/helpdata.c:1233
-#, fuzzy, c-format
+#: client/helpdata.c:1237
+#, fuzzy
 msgid "* You cannot build cities on this terrain."
 msgstr "Ви не можете перетягнути на св╕й б╕к п╕дрозд╕л ц╕╓╖ нац╕╖."
 
-#: client/helpdata.c:1239
-#, c-format
+#: client/helpdata.c:1243
 msgid "* The coastline of this terrain is unsafe."
 msgstr ""
 
-#: client/helpdata.c:1244
-#, c-format
+#: client/helpdata.c:1248
 msgid "* This terrain is unsafe for units to travel on."
 msgstr ""
 
-#: client/helpdata.c:1249
-#, c-format
+#: client/helpdata.c:1253
 msgid "* Land units cannot travel on oceanic terrains."
 msgstr ""
 
-#: client/helpdata.c:1298
-#, c-format
+#: client/helpdata.c:1303
 msgid "Features:\n"
 msgstr ""
 
-#. TRANS: List of possible output types has this between
-#. *        last two elements
-#: client/helpdata.c:1393
-msgid "?outputlist: or "
-msgstr ""
-
-#. TRANS: List of possible output types has this between
-#. *        last two elements
-#: client/helpdata.c:1397
-msgid "?outputlist: and "
-msgstr ""
-
 #. TRANS: Empty output type list, should never happen.
-#: client/helpdata.c:1404 client/helpdata.c:1405
+#: client/helpdata.c:1409 client/helpdata.c:1410
 msgid "?outputlist: Nothing "
 msgstr ""
 
-#: client/helpdata.c:1412
+#: client/helpdata.c:1417
 #, fuzzy, c-format
 msgid ""
-"* Military units away from home and field units will cause one citizen to "
+"* Military units away from home and field units will cause %d citizen to "
 "become unhappy.\n"
-msgstr "В╕йськов╕ п╕дрозд╕ли у пол╕ можуть спричинити нещастя."
-
-#: client/helpdata.c:1415
-#, fuzzy, c-format
-msgid ""
+msgid_plural ""
 "* Military units away from home and field units will cause %d citizens to "
 "become unhappy.\n"
-msgstr "В╕йськов╕ п╕дрозд╕ли у пол╕ можуть спричинити нещастя."
+msgstr[0] "В╕йськов╕ п╕дрозд╕ли у пол╕ можуть спричинити нещастя."
+msgstr[1] "В╕йськов╕ п╕дрозд╕ли у пол╕ можуть спричинити нещастя."
+msgstr[2] "В╕йськов╕ п╕дрозд╕ли у пол╕ можуть спричинити нещастя."
 
-#: client/helpdata.c:1422
+#: client/helpdata.c:1427
 #, c-format
 msgid ""
 "* Each of your cities will avoid %d unhappiness that would otherwise be "
 "caused by units.\n"
 msgstr ""
 
-#: client/helpdata.c:1430
+#. TRANS: %s is the output type, like 'shield' or 'gold'.
+#: client/helpdata.c:1435
 #, c-format
 msgid "* You pay %d times normal %s upkeep for your units.\n"
 msgstr ""
 
-#: client/helpdata.c:1433
+#: client/helpdata.c:1440
 #, c-format
 msgid "* You pay %d times normal upkeep for your units.\n"
 msgstr ""
 
-#: client/helpdata.c:1438
+#. TRANS: %s is the output type, like 'shield' or 'gold'.
+#: client/helpdata.c:1445
 #, c-format
 msgid "* You pay no %s upkeep for your units.\n"
 msgstr ""
 
-#: client/helpdata.c:1443
-#, c-format
+#: client/helpdata.c:1449
 msgid "* You pay no upkeep for your units.\n"
 msgstr ""
 
-#. TRANS: %s is the output type, like 'shield' or 'gold'. There
-#. * is currently no way to control the singular/plural version of
-#. * this.
-#: client/helpdata.c:1451
+#. TRANS: %s is the output type, like 'shield' or 'gold'.
+#. * There is currently no way to control the
+#. * singular/plural version of these.
+#: client/helpdata.c:1458
 #, c-format
 msgid "* Each of your cities will avoid paying %d %s towards unit upkeep.\n"
 msgstr ""
 
-#. TRANS: Amount is subtracted from upkeep cost in each upkeep
-#. *        type.
-#: client/helpdata.c:1457
+#. TRANS: Amount is subtracted from upkeep cost
+#. * for each upkeep type.
+#: client/helpdata.c:1466
 #, c-format
 msgid "* Each of your cities will avoid paying %d towards unit upkeep.\n"
 msgstr ""
 
-#: client/helpdata.c:1462
+#: client/helpdata.c:1473
 #, c-format
 msgid "* Chance of civil war is %d%% if you lose your capital.\n"
 msgstr ""
 
-#: client/helpdata.c:1466
+#. TRANS: %d should always be greater than 2.
+#: client/helpdata.c:1480
 #, c-format
 msgid ""
 "* The first unhappy citizen in each city due to civilization size will "
 "appear when you have %d cities.\n"
 msgstr ""
 
-#: client/helpdata.c:1471
+#. TRANS: %d should always be greater than 2.
+#: client/helpdata.c:1487
 #, c-format
 msgid ""
 "* After the first unhappy citizen due to city size, for each %d additional "
 "cities, another unhappy citizen will appear.\n"
 msgstr ""
 
-#: client/helpdata.c:1478
+#: client/helpdata.c:1495
 #, c-format
 msgid "The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
 msgstr ""
 
-#: client/helpdata.c:1482
-#, c-format
+#: client/helpdata.c:1500
 msgid "Has unlimited science/gold/luxuries rates.\n"
 msgstr ""
 
-#: client/helpdata.c:1487
+#: client/helpdata.c:1505
 #, c-format
 msgid ""
 "* Your units may impose martial law. Each military unit inside a city will "
-"force an unhappy citizen to become content.\n"
-msgstr ""
-
-#: client/helpdata.c:1491
-#, c-format
-msgid ""
+"force %d unhappy citizen to become content.\n"
+msgid_plural ""
 "* Your units may impose martial law. Each military unit inside a city will "
 "force %d unhappy citizens to become content.\n"
-msgstr ""
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: client/helpdata.c:1498
+#: client/helpdata.c:1517
 #, c-format
-msgid "* A maximum of %d units in each city can enforce martial law.\n"
-msgstr ""
+msgid "* A maximum of %d unit in each city can enforce martial law.\n"
+msgid_plural "* A maximum of %d units in each city can enforce martial law.\n"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: client/helpdata.c:1503
+#. TRANS: %d should always be greater than 2.
+#: client/helpdata.c:1528
 #, c-format
 msgid ""
 "* You may grow your cities by means of celebrations.  Your cities must be at "
-"least size %d before they can grown in this manner.\n"
+"least size %d before they can grow in this manner.\n"
 msgstr ""
 
-#: client/helpdata.c:1509
-#, fuzzy, c-format
+#: client/helpdata.c:1534
+#, fuzzy
 msgid "* Your units cannot be bribed.\n"
 msgstr "Цей п╕дрозд╕л не може бути парашутований."
 
-#: client/helpdata.c:1512
-#, fuzzy, c-format
+#: client/helpdata.c:1537
+#, fuzzy
 msgid "* Your cities cannot be incited.\n"
 msgstr "М╕сто не може бути п╕дбурено!"
 
-#: client/helpdata.c:1515
-#, c-format
+#: client/helpdata.c:1541
 msgid ""
 "* Government will fall into anarchy if any city is in disorder for more than "
 "two turns in a row.\n"
 msgstr ""
 
-#: client/helpdata.c:1520
-#, c-format
+#: client/helpdata.c:1547
 msgid "* Has a senate that may prevent declaration of war.\n"
 msgstr ""
 
-#: client/helpdata.c:1524
-#, c-format
+#: client/helpdata.c:1551
 msgid "* Allows partisans when cities are taken by the enemy.\n"
 msgstr ""
 
-#: client/helpdata.c:1528
-#, c-format
+#: client/helpdata.c:1555
 msgid ""
 "* Buildings that normally confer bonuses against unhappiness will instead "
 "give gold.\n"
 msgstr ""
 
-#: client/helpdata.c:1532
-#, c-format
+#: client/helpdata.c:1559
 msgid "* Pays no upkeep for fanatics.\n"
 msgstr ""
 
-#: client/helpdata.c:1535
-#, fuzzy, c-format
+#: client/helpdata.c:1562
+#, fuzzy
 msgid "* Has no unhappy citizens.\n"
 msgstr "%d додаткових нещасних городян."
 
-#: client/helpdata.c:1544 client/helpdata.c:1547 client/helpdata.c:1550
+#: client/helpdata.c:1572 client/helpdata.c:1576 client/helpdata.c:1580
 #, c-format
 msgid "* Veteran %s units.\n"
 msgstr ""
 
-#: client/helpdata.c:1553
-#, fuzzy, c-format
+#: client/helpdata.c:1583
+#, fuzzy
 msgid "* Veteran units.\n"
 msgstr "Морськ╕ п╕дрозд╕ли"
 
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:1558
+#: client/helpdata.c:1589
 #, c-format
 msgid ""
 "* Each worked tile that gives more than %d %s will suffer a -1 penalty when "
@@ -8642,7 +8596,7 @@ msgid ""
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:1564
+#: client/helpdata.c:1598
 #, c-format
 msgid ""
 "* Each worked tile with at least 1 %s will yield %d more of it when "
@@ -8650,66 +8604,71 @@ msgid ""
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:1570
+#: client/helpdata.c:1606
 #, c-format
 msgid "* Each worked tile with at least 1 %s will yield %d more of it.\n"
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1577
+#: client/helpdata.c:1615
 #, c-format
 msgid "* %s production is increased %d%%.\n"
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1583
+#: client/helpdata.c:1623
 #, c-format
 msgid "* %s production will suffer massive waste.\n"
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1587
+#: client/helpdata.c:1628
 #, c-format
 msgid "* %s production will suffer some waste.\n"
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1591
+#: client/helpdata.c:1633
 #, c-format
 msgid "* %s production will suffer a small amount of waste.\n"
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1598
+#: client/helpdata.c:1641
 #, c-format
 msgid "* %s waste will increase quickly with distance from capital.\n"
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1602
+#: client/helpdata.c:1647
 #, c-format
 msgid "* %s waste will increase with distance from capital.\n"
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1606
+#: client/helpdata.c:1653
 #, c-format
 msgid "* %s waste will increase slowly with distance from capital.\n"
 msgstr ""
 
-#: client/helpdata.c:1623
+#: client/helpdata.c:1670
 #, fuzzy, c-format
 msgid "* Allows you to build %s.\n"
 msgstr "Дозволя╓ %s будувати ав╕абази.\n"
 
 #. TRANS: "2 Food" or ", 1 shield"
-#: client/helpdata.c:1649
+#: client/helpdata.c:1697
 #, fuzzy, c-format
 msgid "%s%d %s"
 msgstr "%3d/%3d %s"
 
+#: client/helpdata.c:1698 client/helpdata.c:1706 client/gui-sdl/mapview.c:810
+#: client/gui-sdl/mapview.c:816 client/gui-sdl/mapview.c:822
+msgid "?blistmore:, "
+msgstr ", "
+
 #. TRANS: "2 unhappy" or ", 1 unhappy"
-#: client/helpdata.c:1657
+#: client/helpdata.c:1705
 #, c-format
 msgid "%s%d unhappy"
 msgstr "%s%d нещаслив╕"
@@ -10963,7 +10922,7 @@ msgstr "Блокувати"
 msgid "%s max rate: %d%%"
 msgstr "%s максимальний р╕вень: %d%%"
 
-#: client/gui-gtk-2.0/gamedlgs.c:440 client/gui-win32/optiondlg.c:106
+#: client/gui-gtk-2.0/gamedlgs.c:456 client/gui-win32/optiondlg.c:106
 #: data/Freeciv.in:1228
 msgid "Set local options"
 msgstr "Встановити локальн╕ опц╕╖"
@@ -11049,28 +11008,28 @@ msgid ""
 "is not any slower but will consume about twice as much memory."
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:265 client/gui-xaw/gui_main.c:245
+#: client/gui-gtk-2.0/gui_main.c:277 client/gui-xaw/gui_main.c:245
 msgid ""
 "This client has no special command line options\n"
 "\n"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:711 client/gui-gtk-2.0/gui_main.c:1333
+#: client/gui-gtk-2.0/gui_main.c:723 client/gui-gtk-2.0/gui_main.c:1345
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:1076 client/gui-gtk-2.0/gui_main.c:1083
+#: client/gui-gtk-2.0/gui_main.c:1088 client/gui-gtk-2.0/gui_main.c:1095
 #: client/gui-sdl/mapctrl.c:1566 client/gui-win32/gui_main.c:482
 #: data/Freeciv.in:2618
 msgid "Turn Done"
 msgstr "Завершено х╕д"
 
-#: client/gui-gtk-2.0/gui_main.c:1083 client/gui-sdl/mapctrl.c:1566
+#: client/gui-gtk-2.0/gui_main.c:1095 client/gui-sdl/mapctrl.c:1566
 #: client/gui-sdl/mapview.c:1082
 msgid "Shift+Return"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1115 client/gui-gtk-2.0/menu.c:764
+#: client/gui-gtk-2.0/gui_main.c:1127 client/gui-gtk-2.0/menu.c:764
 #: client/gui-gtk-2.0/menu.c:766 client/gui-gtk-2.0/menu.c:768
 #: client/gui-gtk-2.0/menu.c:770 client/gui-gtk-2.0/menu.c:772
 #: client/gui-gtk-2.0/menu.c:774 client/gui-gtk-2.0/menu.c:776
@@ -11088,12 +11047,12 @@ msgstr ""
 msgid "View"
 msgstr "Дивитись"
 
-#: client/gui-gtk-2.0/gui_main.c:1196
+#: client/gui-gtk-2.0/gui_main.c:1208
 #, fuzzy
 msgid "Chat"
 msgstr "Колесн╕ця"
 
-#: client/gui-gtk-2.0/gui_main.c:1212 client/gui-win32/gui_main.c:538
+#: client/gui-gtk-2.0/gui_main.c:1224 client/gui-win32/gui_main.c:538
 #: data/Freeciv.in:2809
 msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it\n"
@@ -11105,75 +11064,75 @@ msgstr ""
 "А тепер задайте ╖м перцю!\n"
 "Слава Укра╖н╕! Героям слава!"
 
-#: client/gui-gtk-2.0/gui_main.c:1477
+#: client/gui-gtk-2.0/gui_main.c:1491
 msgid "Not _ready"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1488 client/gui-gtk-2.0/pages.c:1582
+#: client/gui-gtk-2.0/gui_main.c:1502 client/gui-gtk-2.0/pages.c:1582
 #, fuzzy
 msgid "_Ready"
 msgstr "Готовн╕сть ус╕х"
 
-#: client/gui-gtk-2.0/gui_main.c:1492 client/gui-gtk-2.0/gui_main.c:1498
+#: client/gui-gtk-2.0/gui_main.c:1506 client/gui-gtk-2.0/gui_main.c:1512
 #: client/gui-gtk-2.0/pages.c:2109
 #, fuzzy
 msgid "_Start"
 msgstr "Стан"
 
-#: client/gui-gtk-2.0/gui_main.c:1502 client/gui-gtk-2.0/pages.c:1572
+#: client/gui-gtk-2.0/gui_main.c:1516 client/gui-gtk-2.0/pages.c:1572
 #, fuzzy
 msgid "Pick _Nation"
 msgstr "В╕дд╕л м╕л╕ц╕╖"
 
-#: client/gui-gtk-2.0/gui_main.c:1508 client/gui-gtk-2.0/pages.c:1577
+#: client/gui-gtk-2.0/gui_main.c:1522 client/gui-gtk-2.0/pages.c:1577
 #, fuzzy
 msgid "_Observe"
 msgstr " (спостер╕гач)"
 
-#: client/gui-gtk-2.0/gui_main.c:1510
+#: client/gui-gtk-2.0/gui_main.c:1524
 #, fuzzy
 msgid "Do not _observe"
 msgstr "тепер контролю╓ться"
 
-#: client/gui-gtk-2.0/gui_main.c:1532
+#: client/gui-gtk-2.0/gui_main.c:1546
 #, fuzzy
 msgid "<AI>"
 msgstr "Комп'ютер"
 
-#: client/gui-gtk-2.0/gui_main.c:1535
+#: client/gui-gtk-2.0/gui_main.c:1549
 msgid "<Novice AI>"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1538
+#: client/gui-gtk-2.0/gui_main.c:1552
 #, fuzzy
 msgid "<Easy AI>"
 msgstr "Комп'ютер"
 
-#: client/gui-gtk-2.0/gui_main.c:1541
+#: client/gui-gtk-2.0/gui_main.c:1555
 msgid "<Normal AI>"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1544
+#: client/gui-gtk-2.0/gui_main.c:1558
 #, fuzzy
 msgid "<Hard AI>"
 msgstr "Комп'ютер"
 
-#: client/gui-gtk-2.0/gui_main.c:1554 client/gui-win32/dialogs.c:594
+#: client/gui-gtk-2.0/gui_main.c:1568 client/gui-win32/dialogs.c:594
 #, fuzzy
 msgid "Random"
 msgstr "Рад╕о"
 
-#: client/gui-gtk-2.0/gui_main.c:1616
+#: client/gui-gtk-2.0/gui_main.c:1630
 #, fuzzy
 msgid "Observer"
 msgstr " (спостер╕гач)"
 
-#: client/gui-gtk-2.0/gui_main.c:1616
+#: client/gui-gtk-2.0/gui_main.c:1630
 #, fuzzy
 msgid "Detached"
 msgstr ", Помер"
 
-#: client/gui-gtk-2.0/gui_main.c:1886
+#: client/gui-gtk-2.0/gui_main.c:1887
 msgid "Are you sure you want to quit?"
 msgstr ""
 
@@ -12607,22 +12566,22 @@ msgstr "Л╕тература"
 msgid "Spaceship\n"
 msgstr "Косм╕чний човен"
 
-#: client/gui-gtk-2.0/repodlgs.c:1470 data/Freeciv.in:3390
+#: client/gui-gtk-2.0/repodlgs.c:1478 data/Freeciv.in:3390
 #: data/Freeciv.in:3399
 #, fuzzy
 msgid "Game Settings"
 msgstr "Зберегти установки"
 
-#: client/gui-gtk-2.0/repodlgs.c:1574 client/gui-xaw/repodlgs.c:1399
+#: client/gui-gtk-2.0/repodlgs.c:1583 client/gui-xaw/repodlgs.c:1399
 msgid "true"
 msgstr ""
 
-#: client/gui-gtk-2.0/repodlgs.c:1574 client/gui-xaw/repodlgs.c:1399
+#: client/gui-gtk-2.0/repodlgs.c:1583 client/gui-xaw/repodlgs.c:1399
 #, fuzzy
 msgid "false"
 msgstr "Чолов╕к"
 
-#: client/gui-gtk-2.0/repodlgs.c:1584 client/gui-xaw/repodlgs.c:1409
+#: client/gui-gtk-2.0/repodlgs.c:1593 client/gui-xaw/repodlgs.c:1409
 msgid "(hidden)"
 msgstr ""
 
@@ -13864,11 +13823,6 @@ msgstr " з "
 #: data/civ2/buildings.ruleset:96 data/civ1/buildings.ruleset:69
 msgid "Barracks"
 msgstr "Казарми"
-
-#: client/gui-sdl/mapview.c:810 client/gui-sdl/mapview.c:816
-#: client/gui-sdl/mapview.c:822
-msgid "?blistmore:, "
-msgstr ", "
 
 #: client/gui-sdl/mapview.c:820 data/default/buildings.ruleset:45
 #: data/civ2/buildings.ruleset:28
@@ -24921,6 +24875,12 @@ msgstr "Команда"
 #, fuzzy
 msgid "Team 31"
 msgstr "Команда"
+
+#, fuzzy
+#~ msgid ""
+#~ "* Military units away from home and field units will cause one citizen to "
+#~ "become unhappy.\n"
+#~ msgstr "В╕йськов╕ п╕дрозд╕ли у пол╕ можуть спричинити нещастя."
 
 #, fuzzy
 #~ msgid ""

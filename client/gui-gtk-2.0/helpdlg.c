@@ -110,9 +110,6 @@ static const char *help_tlabel_name[4][5] =
 #define REQ_NONE _("None")
 #define REQ_NEVER _("(Never)")
 
-/* HACK: we use a static string for convenience. */
-static char long_buffer[64000];
-
 
 static void create_help_dialog(void);
 static void help_update_dialog(const struct help_item *pitem);
@@ -784,7 +781,7 @@ static void help_update_wonder(const struct help_item *pitem,
 static void help_update_unit_type(const struct help_item *pitem,
 				  char *title, struct unit_type *utype)
 {
-  char *buf = &long_buffer[0];
+  char buf[64000];
 
   create_help_page(HELP_UNIT);
 
@@ -820,7 +817,7 @@ static void help_update_unit_type(const struct help_item *pitem,
 			 utype_name_translation(utype->obsoleted_by));
     }
 
-    helptext_unit(buf, utype, pitem->text);
+    helptext_unit(buf, sizeof(buf), utype, pitem->text);
 
     gtk_text_buffer_set_text(help_text, buf, -1);
     gtk_widget_show(help_text_sw);
