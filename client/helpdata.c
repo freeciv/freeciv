@@ -1124,7 +1124,7 @@ void helptext_tech(char *buf, size_t bufsz, int i, const char *user_text)
   };
 
   assert(NULL != buf && 0 < bufsz && NULL != user_text);
-  strlcpy(buf, user_text, bufsz);
+  mystrlcpy(buf, user_text, bufsz);
 
   if (NULL == vap) {
     freelog(LOG_ERROR, "Unknown tech %d.", i);
