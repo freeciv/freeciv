@@ -88,8 +88,6 @@ static Widget help_terrain_irrigation_result_time, help_terrain_irrigation_resul
 static Widget help_terrain_mining_result_time, help_terrain_mining_result_time_data;
 static Widget help_terrain_transform_result_time, help_terrain_transform_result_time_data;
 
-/* HACK: we use a static string for convenience. */
-static char long_buffer[64000];
 
 static void create_help_page(enum help_page_type type);
 
@@ -826,7 +824,7 @@ static void help_update_wonder(const struct help_item *pitem,
 static void help_update_unit_type(const struct help_item *pitem,
 				  char *title)
 {
-  char *buf = &long_buffer[0];
+  char buf[64000];
   struct unit_type *punittype = find_unit_type_by_translated_name(title);
   
   create_help_page(HELP_UNIT);

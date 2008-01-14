@@ -118,17 +118,16 @@ void free_help_texts(void)
 
   Currently only for terrain ("TerrainAlterations") is such a table created.
 ****************************************************************************/
-static void insert_generated_table(const char* name, char* outbuf)
+static void insert_generated_table(char *outbuf, size_t outlen, const char *name)
 {
   if (0 == strcmp (name, "TerrainAlterations")) {
-    strcat(outbuf, _("Terrain     Road   Irrigation     Mining         "
-		      "Transform\n"));
-    strcat(outbuf, "---------------------------------------------------"
-	   "------------\n");
+    CATLSTR(outbuf, outlen,
+            _("Terrain     Road   Irrigation     Mining         Transform\n"));
+    CATLSTR(outbuf, outlen,
+            "---------------------------------------------------------------\n");
     terrain_type_iterate(pterrain) {
       if (0 != strlen(terrain_rule_name(pterrain))) {
-	outbuf = strchr(outbuf, '\0');
-	sprintf(outbuf,
+	cat_snprintf(outbuf, outlen,
 		"%-10s %3d    %3d %-10s %3d %-10s %3d %-10s\n",
 		terrain_name_translation(pterrain),
 		pterrain->road_time,
@@ -146,9 +145,9 @@ static void insert_generated_table(const char* name, char* outbuf)
 		 : terrain_name_translation(pterrain->transform_result)));
       }
     } terrain_type_iterate_end;
-    strcat(outbuf, "\n");
-    strcat(outbuf, _("(Railroads and fortresses require 3 turns, "
-		     "regardless of terrain.)"));
+    CATLSTR(outbuf, outlen, "\n");
+    CATLSTR(outbuf, outlen,
+            _("(Railroads and fortresses require 3 turns, regardless of terrain.)"));
   }
   return;
 }
@@ -426,7 +425,7 @@ void boot_help_texts(void)
 	    pitem = new_help_item(HELP_TEXT);
 	    /* TRANS: preserve single space at beginning */
 	    pitem->topic = mystrdup(_(" Rivers"));
-	    strcpy(long_buffer, _(terrain_control.river_help_text));
+	    sz_strlcpy(long_buffer, _(terrain_control.river_help_text));
 	    wordwrap_string(long_buffer, 68);
 	    pitem->text = mystrdup(long_buffer);
 	    help_list_append(category_nodes, pitem);
@@ -486,12 +485,12 @@ void boot_help_texts(void)
     for (i=0; i<npara; i++) {
       char *para = paras[i];
       if(strncmp(para, "$", 1)==0) {
-	insert_generated_table(para+1, long_buffer+strlen(long_buffer));
+        insert_generated_table(long_buffer, sizeof(long_buffer), para+1);
       } else {
-	strcat(long_buffer, _(para));
+        sz_strlcat(long_buffer, _(para));
       }
       if (i!=npara-1) {
-	strcat(long_buffer, "\n\n");
+        sz_strlcat(long_buffer, "\n\n");
       }
     }
     free(paras);
@@ -980,8 +979,8 @@ char *helptext_unit(char *buf, size_t bufsz, struct unit_type *utype,
   if (utype_has_flag(utype, F_BOMBARDER)) {
     cat_snprintf(buf, bufsz,
 		 _("* Does bombard attacks (%d per turn).  These attacks will"
-		   " only damage (never kill) the defender, but has no risk to"
-		   " the attacker.\n"),
+		   " only damage (never kill) the defender, but have no risk"
+		   " for the attacker.\n"),
 		 utype->bombard_rate);
   }
   if (utype_has_flag(utype, F_AEGIS)) {
@@ -1310,7 +1309,7 @@ void helptext_government(char *buf, size_t bufsz, struct government *gov,
             * output cannot be of multiple types)
             * Ruleset loading code should check against that. */
            const char *oname;
-           
+
            output_type = preq->source.value.outputtype;
            oname = get_output_name(output_type);
            astr_add(&outputs_or, oname);
@@ -1347,7 +1346,7 @@ void helptext_government(char *buf, size_t bufsz, struct government *gov,
 
     if (!extra_reqs) {
       /* Only list effects that have no special requirements. */
- 
+
       if (output_type == O_LAST) {
         /* There was no outputtype requirement. Effect is active for all
          * output types. Generate lists for that. */
@@ -1362,10 +1361,10 @@ void helptext_government(char *buf, size_t bufsz, struct government *gov,
           /* Effect can use or require any kind of output */
           harvested_only = FALSE;
         }
- 
+
         output_type_iterate(ot) {
           struct output_type *pot = get_output_type(ot);
- 
+
           if (!harvested_only || pot->harvested) {
             if (prev2 != NULL) {
               astr_add(&outputs_or,  prev2);
@@ -1482,7 +1481,7 @@ void helptext_government(char *buf, size_t bufsz, struct government *gov,
                           " gold, or luxuries is %d%%.\n"),
                        peffect->value);
         } else if (game.info.changable_tax) {
-          CATLSTR(buf, bufsz, 
+          CATLSTR(buf, bufsz,
                   _("* Has unlimited science/gold/luxuries rates.\n"));
         }
         break;
