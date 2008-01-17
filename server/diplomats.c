@@ -417,7 +417,7 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 
   /* Now, try to move the briber onto the victim's square. */
   diplomat_id = pdiplomat->id;
-  if (!handle_unit_move_request(pdiplomat, victim_tile, FALSE, FALSE)) {
+  if (!unit_move_handling(pdiplomat, victim_tile, FALSE, FALSE)) {
     pdiplomat->moves_left = 0;
   }
   if (player_find_unit_by_id(pplayer, diplomat_id)) {

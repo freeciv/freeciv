@@ -557,7 +557,7 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
       return;
     }
   }
-  real_unit_change_homecity(punit, tocity);
+  unit_change_homecity_handling(punit, tocity);
 }
 
 /*********************************************************************
@@ -1073,7 +1073,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
 
     /* Catch fortress building, transforming into ocean, etc. */
     if (!can_unit_continue_current_activity(punit)) {
-      handle_unit_activity_request(punit, ACTIVITY_IDLE);
+      unit_activity_handling(punit, ACTIVITY_IDLE);
     }
 
     /* Update happiness (the unit may no longer cause unrest). */
@@ -1129,12 +1129,12 @@ void remove_city(struct city *pcity)
       continue;
     }
 
-    handle_unit_activity_request(punit, ACTIVITY_IDLE);
+    unit_activity_handling(punit, ACTIVITY_IDLE);
     moved = FALSE;
     adjc_iterate(ptile, tile1) {
       if (!moved && is_native_tile(punittype, tile1)) {
 	if (could_unit_move_to_tile(punit, tile1) == 1) {
-	  moved = handle_unit_move_request(punit, tile1, FALSE, TRUE);
+	  moved = unit_move_handling(punit, tile1, FALSE, TRUE);
 	  if (moved) {
 	    notify_player(unit_owner(punit), NULL, E_UNIT_RELOCATED,
                           _("Moved %s out of disbanded city %s "
@@ -1225,7 +1225,7 @@ void remove_city(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_unit_enter_city(struct unit *punit, struct city *pcity)
+void unit_enter_city(struct unit *punit, struct city *pcity)
 {
   bool do_civil_war = FALSE;
   int coins;

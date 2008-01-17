@@ -944,7 +944,7 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
     if (can_unit_do_activity(punit, ACTIVITY_PILLAGE)
 	&& is_land_barbarian(pplayer)) {
       /* land barbarians pillage */
-      handle_unit_activity_request(punit, ACTIVITY_PILLAGE);
+      unit_activity_handling(punit, ACTIVITY_PILLAGE);
     }
     ai_unit_new_role(punit, AIUNIT_NONE, NULL);
     return;
@@ -2092,17 +2092,17 @@ void ai_manage_military(struct player *pplayer, struct unit *punit)
     struct city *pcity = tile_city(punit->tile);
 
     if (unit_list_find(punit->tile->units, punit->ai.ferryboat)) {
-      handle_unit_activity_request(punit, ACTIVITY_SENTRY);
+      unit_activity_handling(punit, ACTIVITY_SENTRY);
     } else if (pcity || punit->activity == ACTIVITY_IDLE) {
       /* We do not need to fortify in cities - we fortify and sentry
        * according to home defense setup, for easy debugging. */
       if (!pcity || punit->ai.ai_role == AIUNIT_DEFEND_HOME) {
         if (punit->activity == ACTIVITY_IDLE
             || punit->activity == ACTIVITY_SENTRY) {
-          handle_unit_activity_request(punit, ACTIVITY_FORTIFYING);
+          unit_activity_handling(punit, ACTIVITY_FORTIFYING);
         }
       } else {
-        handle_unit_activity_request(punit, ACTIVITY_SENTRY);
+        unit_activity_handling(punit, ACTIVITY_SENTRY);
       }
     }
   }
@@ -2376,7 +2376,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer,
   if (leader->moves_left == 0
       || (can_unit_survive_at_tile(leader, leader->tile)
           && unit_list_size(leader->tile->units) > 1) ) {
-      handle_unit_activity_request(leader, ACTIVITY_SENTRY);
+      unit_activity_handling(leader, ACTIVITY_SENTRY);
       return;
   }
 
@@ -2467,7 +2467,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer,
   }
 
   if (!closest_unit) {
-    handle_unit_activity_request(leader, ACTIVITY_IDLE);
+    unit_activity_handling(leader, ACTIVITY_IDLE);
     UNIT_LOG(LOG_DEBUG, leader, "Barbarian leader: no enemy.");
     return;
   }
@@ -2497,7 +2497,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer,
     if (same_pos(leader->tile, safest_tile)) {
       UNIT_LOG(LOG_DEBUG, leader, 
                "Barbarian leader: reached the safest position.");
-      handle_unit_activity_request(leader, ACTIVITY_IDLE);
+      unit_activity_handling(leader, ACTIVITY_IDLE);
       return;
     }
 

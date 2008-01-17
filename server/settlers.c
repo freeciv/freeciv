@@ -80,7 +80,7 @@ static bool ai_do_build_city(struct player *pplayer, struct unit *punit)
   struct city *pcity;
 
   assert(pplayer == unit_owner(punit));
-  handle_unit_activity_request(punit, ACTIVITY_IDLE);
+  unit_activity_handling(punit, ACTIVITY_IDLE);
 
   /* Free city reservations */
   ai_unit_new_role(punit, AIUNIT_NONE, NULL);
@@ -1119,8 +1119,8 @@ static void auto_settler_findwork(struct player *pplayer,
       if (alive && same_pos(punit->tile, best_tile)
 	  && punit->moves_left > 0) {
 	/* Reached destination and can start working immediately */
-        handle_unit_activity_request(punit, best_act);
-        send_unit_info(NULL, punit);
+        unit_activity_handling(punit, best_act);
+        send_unit_info(NULL, punit); /* FIXME: probably duplicate */
       }
 
       pf_destroy_path(path);
@@ -1270,10 +1270,10 @@ void auto_settlers_player(struct player *pplayer)
 	      nation_rule_name(nation_of_player(pplayer)),
 	      TILE_XY(punit->tile)); 
       if (punit->activity == ACTIVITY_SENTRY) {
-	handle_unit_activity_request(punit, ACTIVITY_IDLE);
+	unit_activity_handling(punit, ACTIVITY_IDLE);
       }
       if (punit->activity == ACTIVITY_GOTO && punit->moves_left > 0) {
-        handle_unit_activity_request(punit, ACTIVITY_IDLE);
+        unit_activity_handling(punit, ACTIVITY_IDLE);
       }
       if (punit->activity == ACTIVITY_IDLE) {
         auto_settler_findwork(pplayer, punit, state, 0);

@@ -395,7 +395,7 @@ void global_warming(int effect)
       update_tile_knowledge(ptile);
       unit_list_iterate(ptile->units, punit) {
 	if (!can_unit_continue_current_activity(punit)) {
-	  handle_unit_activity_request(punit, ACTIVITY_IDLE);
+	  unit_activity_handling(punit, ACTIVITY_IDLE);
 	}
       } unit_list_iterate_end;
     } else if (old == new) {
@@ -439,7 +439,7 @@ void nuclear_winter(int effect)
       update_tile_knowledge(ptile);
       unit_list_iterate(ptile->units, punit) {
 	if (!can_unit_continue_current_activity(punit)) {
-	  handle_unit_activity_request(punit, ACTIVITY_IDLE);
+	  unit_activity_handling(punit, ACTIVITY_IDLE);
 	}
       } unit_list_iterate_end;
     } else if (old == new) {
@@ -1622,7 +1622,7 @@ static void bounce_units_on_terrain_change(struct tile *ptile)
 			   unit_name_translation(punit));
 	  unit_alive = move_unit(punit, ptile2, 0);
 	  if (unit_alive && punit->activity == ACTIVITY_SENTRY) {
-	    handle_unit_activity_request(punit, ACTIVITY_IDLE);
+	    unit_activity_handling(punit, ACTIVITY_IDLE);
 	  }
 	  break;
 	}
