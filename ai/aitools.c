@@ -406,12 +406,12 @@ bool ai_follow_path(struct unit *punit, struct pf_path *path,
     return TRUE;
   }
   punit->goto_tile = ptile;
-  handle_unit_activity_request(punit, ACTIVITY_GOTO);
+  unit_activity_handling(punit, ACTIVITY_GOTO);
   alive = ai_unit_execute_path(punit, path);
   if (alive) {
-    handle_unit_activity_request(punit, ACTIVITY_IDLE);
-    send_unit_info(NULL, punit);
-    handle_unit_activity_request(punit, activity);
+    unit_activity_handling(punit, ACTIVITY_IDLE);
+    send_unit_info(NULL, punit); /* FIXME: probably duplicate */
+    unit_activity_handling(punit, activity);
     punit->goto_tile = old_tile; /* May be NULL. */
     send_unit_info(NULL, punit);
   }
@@ -840,7 +840,7 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
 
   if (punit->activity == ACTIVITY_GOTO) {
     /* It would indicate we're going somewhere otherwise */
-    handle_unit_activity_request(punit, ACTIVITY_IDLE);
+    unit_activity_handling(punit, ACTIVITY_IDLE);
   }
 
   if (punit->ai.ai_role == AIUNIT_BUILD_CITY) {
@@ -957,7 +957,7 @@ static void ai_unit_bodyguard_move(struct unit *bodyguard, struct tile *ptile)
     return;
   }
 
-  handle_unit_activity_request(bodyguard, ACTIVITY_IDLE);
+  unit_activity_handling(bodyguard, ACTIVITY_IDLE);
   (void) ai_unit_move(bodyguard, ptile);
 }
 
@@ -974,8 +974,8 @@ bool ai_unit_attack(struct unit *punit, struct tile *ptile)
   assert(unit_owner(punit)->ai.control);
   assert(is_tiles_adjacent(punit->tile, ptile));
 
-  handle_unit_activity_request(punit, ACTIVITY_IDLE);
-  (void) handle_unit_move_request(punit, ptile, FALSE, FALSE);
+  unit_activity_handling(punit, ACTIVITY_IDLE);
+  (void) unit_move_handling(punit, ptile, FALSE, FALSE);
   alive = (game_find_unit_by_number(sanity) != NULL);
 
   if (alive && same_pos(ptile, punit->tile)
@@ -1040,8 +1040,8 @@ bool ai_unit_move(struct unit *punit, struct tile *ptile)
   }
 
   /* go */
-  handle_unit_activity_request(punit, ACTIVITY_IDLE);
-  (void) handle_unit_move_request(punit, ptile, FALSE, TRUE);
+  unit_activity_handling(punit, ACTIVITY_IDLE);
+  (void) unit_move_handling(punit, ptile, FALSE, TRUE);
 
   /* handle the results */
   if (game_find_unit_by_number(sanity) && same_pos(ptile, punit->tile)) {

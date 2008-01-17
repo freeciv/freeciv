@@ -501,7 +501,7 @@ static void ai_activate_passengers(struct unit *ferry)
 {
   unit_list_iterate_safe(ferry->tile->units, aunit) {
     if (aunit->transported_by == ferry->id) {
-      handle_unit_activity_request(aunit, ACTIVITY_IDLE);
+      unit_activity_handling(aunit, ACTIVITY_IDLE);
       aunit->ai.done = FALSE;
       ai_manage_unit(unit_owner(aunit), aunit);
     }
@@ -743,7 +743,7 @@ bool aiferry_gobyboat(struct player *pplayer, struct unit *punit,
       }
       if (same_pos(punit->tile, dest_tile)) {
         /* Arrived */
-        handle_unit_activity_request(punit, ACTIVITY_IDLE);
+        unit_activity_handling(punit, ACTIVITY_IDLE);
       } else {
         /* We are in still transit */
         punit->ai.done = TRUE;
@@ -1056,7 +1056,7 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   UNIT_LOG(LOGLEVEL_FERRY, punit, "Ferryboat is not carrying anyone "
 	   "(moves left: %d).", punit->moves_left);
   aiferry_make_available(punit);
-  handle_unit_activity_request(punit, ACTIVITY_IDLE);
+  unit_activity_handling(punit, ACTIVITY_IDLE);
   ai_unit_new_role(punit, AIUNIT_NONE, NULL);
   CHECK_UNIT(punit);
 

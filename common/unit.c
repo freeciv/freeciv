@@ -112,7 +112,7 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
     }
   } else { /* Action against a unit at a tile */
     /* If it is made possible to do action against allied units
-       handle_unit_move_request() should be changed so that pdefender
+       unit_move_handling() should be changed so that pdefender
        is also set to allied units */
     struct unit *punit;
 

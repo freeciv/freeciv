@@ -401,7 +401,7 @@ void player_restore_units(struct player *pplayer)
               if (alive) {
                 /* Clear activity. Unit info will be sent in the end of
 	         * the function. */
-                handle_unit_activity_request(punit, ACTIVITY_IDLE);
+                unit_activity_handling(punit, ACTIVITY_IDLE);
                 punit->goto_tile = NULL;
 
                 if (!is_unit_being_refueled(punit)) {
@@ -551,7 +551,7 @@ static int hp_gain_coord(struct unit *punit)
   Calculate the total amount of activity performed by all units on a tile
   for a given task.
 **************************************************************************/
-static int total_activity (struct tile *ptile, enum unit_activity act)
+static int total_activity(struct tile *ptile, enum unit_activity act)
 {
   int total = 0;
 
@@ -594,6 +594,15 @@ static int total_activity_base(struct tile *ptile, enum base_type_id base)
     }
   unit_list_iterate_end;
   return total;
+}
+
+/**************************************************************************
+  Check the total amount of activity performed by all units on a tile
+  for a given task.
+**************************************************************************/
+static bool total_activity_done(struct tile *ptile, enum unit_activity act)
+{
+  return total_activity(ptile, act) >= tile_activity_time(act, ptile);
 }
 
 /***************************************************************************
@@ -647,21 +656,60 @@ static void update_unit_activity(struct unit *punit)
   struct tile *ptile = punit->tile;
   bool check_adjacent_units = FALSE;
   
-  if (activity != ACTIVITY_IDLE && activity != ACTIVITY_FORTIFIED
-      && activity != ACTIVITY_GOTO && activity != ACTIVITY_EXPLORE) {
+  switch (activity) {
+  case ACTIVITY_IDLE:
+  case ACTIVITY_EXPLORE:
+  case ACTIVITY_FORTIFIED:
+  case ACTIVITY_GOTO:
+  case ACTIVITY_PATROL_UNUSED:
+  case ACTIVITY_UNKNOWN:
+  case ACTIVITY_LAST:
     /*  We don't need the activity_count for the above */
+    break;
+
+  case ACTIVITY_FORTIFYING:
+  case ACTIVITY_SENTRY:
+    punit->activity_count += get_activity_rate_this_turn(punit);
+    break;
+
+  case ACTIVITY_POLLUTION:
+  case ACTIVITY_ROAD:
+  case ACTIVITY_MINE:
+  case ACTIVITY_IRRIGATE:
+  case ACTIVITY_FORTRESS:
+  case ACTIVITY_RAILROAD:
+  case ACTIVITY_PILLAGE:
+  case ACTIVITY_TRANSFORM:
+  case ACTIVITY_AIRBASE:
+  case ACTIVITY_FALLOUT:
+  case ACTIVITY_BASE:
     punit->activity_count += get_activity_rate_this_turn(punit);
 
     /* settler may become veteran when doing something useful */
-    if (activity != ACTIVITY_FORTIFYING && activity != ACTIVITY_SENTRY
-       && maybe_settler_become_veteran(punit)) {
+    if (maybe_settler_become_veteran(punit)) {
       notify_unit_experience(punit, FALSE);
     }
-  }
+    break;
+  };
 
   unit_restore_movepoints(pplayer, punit);
 
-  if (activity == ACTIVITY_EXPLORE) {
+  switch (activity) {
+  case ACTIVITY_IDLE:
+  case ACTIVITY_FORTIFIED:
+  case ACTIVITY_FORTRESS:
+  case ACTIVITY_SENTRY:
+  case ACTIVITY_GOTO:
+  case ACTIVITY_UNKNOWN:
+  case ACTIVITY_AIRBASE:
+  case ACTIVITY_FORTIFYING:
+  case ACTIVITY_PATROL_UNUSED:
+  case ACTIVITY_LAST:
+    /* no default, ensure all handled */
+    break;
+
+  case ACTIVITY_EXPLORE:
+  {
     bool more_to_explore = ai_manage_explorer(punit);
 
     if (!player_find_unit_by_id(pplayer, id)) {
@@ -672,7 +720,7 @@ static void update_unit_activity(struct unit *punit)
     /* ai_manage_explorer isn't supposed to change the activity but we
      * don't count on this. */
     if (punit->activity != ACTIVITY_EXPLORE || !more_to_explore) {
-      handle_unit_activity_request(punit, ACTIVITY_IDLE);
+      unit_activity_handling(punit, ACTIVITY_IDLE);
 
       /* FIXME: When the ai_manage_explorer call changes the activity from
        * EXPLORE to IDLE, then for some reason the ai.control value gets left
@@ -683,7 +731,7 @@ static void update_unit_activity(struct unit *punit)
     return;
   }
 
-  if (activity==ACTIVITY_PILLAGE) {
+  case ACTIVITY_PILLAGE:
     if (punit->activity_target == S_LAST) { /* case for old save files */
       if (punit->activity_count >= 1) {
 	enum tile_special_type what
@@ -728,25 +776,23 @@ static void update_unit_activity(struct unit *punit)
       /* Change vision if effects have changed. */
       unit_list_refresh_vision(ptile->units);
     }
-  }
+    break;
 
-  if (activity == ACTIVITY_POLLUTION) {
-    if (total_activity(ptile, ACTIVITY_POLLUTION)
-	>= tile_activity_time(ACTIVITY_POLLUTION, ptile)) {
+  case ACTIVITY_POLLUTION:
+    if (total_activity_done(ptile, ACTIVITY_POLLUTION)) {
       tile_clear_special(ptile, S_POLLUTION);
       unit_activity_done = TRUE;
     }
-  }
+    break;
 
-  if (activity == ACTIVITY_FALLOUT) {
-    if (total_activity(ptile, ACTIVITY_FALLOUT)
-	>= tile_activity_time(ACTIVITY_FALLOUT, ptile)) {
+  case ACTIVITY_FALLOUT:
+    if (total_activity_done(ptile, ACTIVITY_FALLOUT)) {
       tile_clear_special(ptile, S_FALLOUT);
       unit_activity_done = TRUE;
     }
-  }
+    break;
 
-  if (activity == ACTIVITY_BASE) {
+  case ACTIVITY_BASE:
     if (total_activity_base(ptile, punit->activity_base)
         >= tile_activity_base_time(ptile, punit->activity_base)) {
       tile_add_base(ptile, base_by_number(punit->activity_base));
@@ -763,59 +809,46 @@ static void update_unit_activity(struct unit *punit)
 
       unit_activity_done = TRUE;
     }
-  }
-  
-  if (activity == ACTIVITY_IRRIGATE) {
-    if (total_activity (ptile, ACTIVITY_IRRIGATE)
-        >= tile_activity_time(ACTIVITY_IRRIGATE, ptile)) {
+    break;
+
+  case ACTIVITY_IRRIGATE:
+    if (total_activity_done(ptile, ACTIVITY_IRRIGATE)) {
       struct terrain *old = tile_terrain(ptile);
 
       tile_apply_activity(ptile, ACTIVITY_IRRIGATE);
       check_terrain_change(ptile, old);
       unit_activity_done = TRUE;
     }
-  }
+    break;
 
-  if (activity == ACTIVITY_ROAD) {
+  case ACTIVITY_MINE:
+  case ACTIVITY_TRANSFORM:
+    if (total_activity_done(ptile, activity)) {
+      struct terrain *old = tile_terrain(ptile);
+
+      tile_apply_activity(ptile, activity);
+      check_terrain_change(ptile, old);
+      unit_activity_done = TRUE;
+      check_adjacent_units = TRUE;
+    }
+    break;
+
+  case ACTIVITY_ROAD:
     if (total_activity (ptile, ACTIVITY_ROAD)
 	+ total_activity (ptile, ACTIVITY_RAILROAD)
         >= tile_activity_time(ACTIVITY_ROAD, ptile)) {
       tile_set_special(ptile, S_ROAD);
       unit_activity_done = TRUE;
     }
-  }
+    break;
 
-  if (activity == ACTIVITY_RAILROAD) {
-    if (total_activity (ptile, ACTIVITY_RAILROAD)
-	>= tile_activity_time(ACTIVITY_RAILROAD, ptile)) {
+  case ACTIVITY_RAILROAD:
+    if (total_activity_done(ptile, ACTIVITY_RAILROAD)) {
       tile_set_special(ptile, S_RAILROAD);
       unit_activity_done = TRUE;
     }
-  }
-  
-  if (activity == ACTIVITY_MINE) {
-    if (total_activity (ptile, ACTIVITY_MINE)
-        >= tile_activity_time(ACTIVITY_MINE, ptile)) {
-      struct terrain *old = tile_terrain(ptile);
-
-      tile_apply_activity(ptile, ACTIVITY_MINE);
-      check_terrain_change(ptile, old);
-      unit_activity_done = TRUE;
-      check_adjacent_units = TRUE;
-    }
-  }
-
-  if (activity == ACTIVITY_TRANSFORM) {
-    if (total_activity (ptile, ACTIVITY_TRANSFORM)
-        >= tile_activity_time(ACTIVITY_TRANSFORM, ptile)) {
-      struct terrain *old = tile_terrain(ptile);
-
-      tile_apply_activity(ptile, ACTIVITY_TRANSFORM);
-      check_terrain_change(ptile, old);
-      unit_activity_done = TRUE;
-      check_adjacent_units = TRUE;
-    }
-  }
+    break;
+  };
 
   if (unit_activity_done) {
     update_tile_knowledge(ptile);
@@ -832,13 +865,13 @@ static void update_unit_activity(struct unit *punit)
     adjc_iterate(ptile, ptile2) {
       unit_list_iterate(ptile2->units, punit2) {
         if (!can_unit_continue_current_activity(punit2)) {
-          handle_unit_activity_request(punit2, ACTIVITY_IDLE);
+          unit_activity_handling(punit2, ACTIVITY_IDLE);
         }
       } unit_list_iterate_end;
     } adjc_iterate_end;
   }
 
-  if (activity==ACTIVITY_FORTIFYING) {
+  if (activity == ACTIVITY_FORTIFYING) {
     if (punit->activity_count >= 1) {
       set_unit_activity(punit,ACTIVITY_FORTIFIED);
     }
@@ -858,7 +891,7 @@ static void update_unit_activity(struct unit *punit)
   unit_list_iterate(ptile->units, punit2) {
     if (!can_unit_continue_current_activity(punit2))
     {
-      handle_unit_activity_request(punit2, ACTIVITY_IDLE);
+      unit_activity_handling(punit2, ACTIVITY_IDLE);
     }
   } unit_list_iterate_end;
 }
@@ -2366,8 +2399,8 @@ static bool unit_survive_autoattack(struct unit *punit)
               threshold);
 #endif
 
-      handle_unit_activity_request(penemy, ACTIVITY_IDLE);
-      (void) handle_unit_move_request(penemy, punit->tile, FALSE, FALSE);
+      unit_activity_handling(penemy, ACTIVITY_IDLE);
+      (void) unit_move_handling(penemy, punit->tile, FALSE, FALSE);
     }
 #ifdef REALLY_DEBUG_THIS
       else {
@@ -2458,31 +2491,32 @@ static void wakeup_neighbor_sentries(struct unit *punit)
 }
 
 /**************************************************************************
-Does: 1) updates  the units homecity and the city it enters/leaves (the
-         cities happiness varies). This also takes into account if the
+Does: 1) updates the unit's homecity and the city it enters/leaves (the
+         city's happiness varies). This also takes into account when the
 	 unit enters/leaves a fortress.
-      2) handles any huts at the units destination.
+      2) process any huts at the unit's destination.
       3) updates adjacent cities' unavailable tiles.
 
-FIXME: Sometimes it is not neccesary to send cities because the goverment
-       doesn't care if a unit is away or not.
+FIXME: Sometimes it is not necessary to send cities because the goverment
+       doesn't care whether a unit is away or not.
 **************************************************************************/
-static void handle_unit_move_consequences(struct unit *punit,
-					  struct tile *src_tile,
-					  struct tile *dst_tile)
+static void unit_move_consequences(struct unit *punit,
+				   struct tile *src_tile,
+				   struct tile *dst_tile)
 {
   struct city *fromcity = tile_city(src_tile);
   struct city *tocity = tile_city(dst_tile);
   struct city *homecity = NULL;
   struct player *pplayer = unit_owner(punit);
-  /*  struct government *g = government_of_player(pplayer);*/
   bool refresh_homecity = FALSE;
   
-  if (punit->homecity != 0)
+  if (0 != punit->homecity) {
     homecity = game_find_city_by_number(punit->homecity);
+  }
 
-  if (tocity)
-    handle_unit_enter_city(punit, tocity);
+  if (tocity) {
+    unit_enter_city(punit, tocity);
+  }
 
   /* We only do this for non-AI players to now make sure the AI turns
      doesn't take too long. Perhaps we should make a special refresh_city
@@ -2565,12 +2599,31 @@ Check if the units activity is legal for a move , and reset it if it isn't.
 **************************************************************************/
 static void check_unit_activity(struct unit *punit)
 {
-  if (punit->activity != ACTIVITY_IDLE
-      && punit->activity != ACTIVITY_SENTRY
-      && punit->activity != ACTIVITY_EXPLORE
-      && punit->activity != ACTIVITY_GOTO) {
+  switch (punit->activity) {
+  case ACTIVITY_IDLE:
+  case ACTIVITY_SENTRY:
+  case ACTIVITY_EXPLORE:
+  case ACTIVITY_GOTO:
+    break;
+  case ACTIVITY_POLLUTION:
+  case ACTIVITY_ROAD:
+  case ACTIVITY_MINE:
+  case ACTIVITY_IRRIGATE:
+  case ACTIVITY_FORTIFIED:
+  case ACTIVITY_FORTRESS:
+  case ACTIVITY_RAILROAD:
+  case ACTIVITY_PILLAGE:
+  case ACTIVITY_TRANSFORM:
+  case ACTIVITY_UNKNOWN:
+  case ACTIVITY_AIRBASE:
+  case ACTIVITY_FORTIFYING:
+  case ACTIVITY_FALLOUT:
+  case ACTIVITY_PATROL_UNUSED:
+  case ACTIVITY_BASE:
+  case ACTIVITY_LAST:
     set_unit_activity(punit, ACTIVITY_IDLE);
-  }
+    break;
+  };
 }
 
 /**************************************************************************
@@ -2635,7 +2688,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
       vision_clear_sight(old_vision);
       vision_free(old_vision);
 
-      handle_unit_move_consequences(pcargo, psrctile, pdesttile);
+      unit_move_consequences(pcargo, psrctile, pdesttile);
     } unit_list_iterate_end;
     unit_list_unlink_all(cargo_units);
     unit_list_free(cargo_units);
@@ -2697,8 +2750,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
    * be cities at both src and dest under some rulesets.
    *   If unit is about to take over enemy city, unit is seen by
    * those players seeing inside cities of old city owner. After city
-   * has been transferred, updated info is sent inside
-   * handle_unit_enter_city() */
+   * has been transferred, updated info is sent by unit_enter_city() */
   send_unit_info_to_onlookers(NULL, punit, psrctile, FALSE);
     
   /* Special checks for ground units in the ocean. */
@@ -2760,7 +2812,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
     } players_iterate_end;
   } square_iterate_end;
 
-  handle_unit_move_consequences(punit, psrctile, pdesttile);
+  unit_move_consequences(punit, psrctile, pdesttile);
   script_signal_emit("unit_moved", 3,
 		     API_TYPE_UNIT, punit,
 		     API_TYPE_TILE, psrctile,
@@ -3010,7 +3062,7 @@ bool execute_orders(struct unit *punit)
 
       freelog(LOG_DEBUG, "  moving to %d,%d",
 	      dst_tile->x, dst_tile->y);
-      res = handle_unit_move_request(punit, dst_tile, FALSE, !last_order);
+      res = unit_move_handling(punit, dst_tile, FALSE, !last_order);
       if (!player_find_unit_by_id(pplayer, unitid)) {
 	freelog(LOG_DEBUG, "  unit died while moving.");
 	/* A player notification should already have been sent. */

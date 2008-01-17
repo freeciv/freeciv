@@ -234,7 +234,7 @@ bool unleash_barbarians(struct tile *ptile)
 	  do {
 	    utile = rand_neighbour(ptile);
 	  } while (!is_free_land(utile, barbarians));
-        } while (!handle_unit_move_request(punit2, utile, TRUE, FALSE));
+        } while (!unit_move_handling(punit2, utile, TRUE, FALSE));
         freelog(LOG_DEBUG, "Moved barbarian unit from %d %d to %d, %d", 
                 ptile->x, ptile->y, utile->x, utile->y);
       }
@@ -264,7 +264,7 @@ bool unleash_barbarians(struct tile *ptile)
 	      break;
 	    }
           }
-          (void) handle_unit_move_request(punit2, utile, TRUE, FALSE);
+          (void) unit_move_handling(punit2, utile, TRUE, FALSE);
         }
       } unit_list_iterate_end;
     } else {             /* The village is surrounded! Kill the explorer. */

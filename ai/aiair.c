@@ -347,10 +347,9 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
       /* goto would be aborted: "Aborting GOTO for AI attack procedures"
        * now actually need to attack */
       /* We could use ai_military_findvictim here, but I don't trust it... */
-      handle_unit_activity_request(punit, ACTIVITY_IDLE);
+      unit_activity_handling(punit, ACTIVITY_IDLE);
       if (is_tiles_adjacent(punit->tile, punit->goto_tile)) {
-        (void) handle_unit_move_request(punit, punit->goto_tile,
-					TRUE, FALSE);
+        (void) unit_move_handling(punit, punit->goto_tile, TRUE, FALSE);
       }
     } else if (ai_find_strategic_airbase(punit, &dst_tile)) {
       freelog(LOG_DEBUG, "%s will fly to (%i, %i) (%s) to fight there",
@@ -366,7 +365,7 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
       freelog(LOG_DEBUG, "%s cannot find anything to kill and is staying put", 
               unit_rule_name(punit));
       punit->ai.done = TRUE;
-      handle_unit_activity_request(punit, ACTIVITY_IDLE);
+      unit_activity_handling(punit, ACTIVITY_IDLE);
     }
   }
 

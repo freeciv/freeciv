@@ -285,7 +285,7 @@ static void ai_diplomat_city(struct unit *punit, struct city *ctarget)
     UNIT_LOG(LOG_ERROR, punit, "no moves left in ai_diplomat_city()!");
   }
 
-  handle_unit_activity_request(punit, ACTIVITY_IDLE);
+  unit_activity_handling(punit, ACTIVITY_IDLE);
 
 #define T(my_act,my_val)                                            \
   if (diplomat_can_do_action(punit, my_act, ctarget->tile)) {       \
