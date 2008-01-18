@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fa\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-13 19:21-0500\n"
+"POT-Creation-Date: 2008-01-18 06:05-0500\n"
 "PO-Revision-Date: 2007-08-11 02:17+0300\n"
 "Last-Translator: Arman Ordookhani <arman_o71@Yahoo.com>\n"
 "Language-Team: Farsi(Persian)\n"
@@ -585,8 +585,8 @@ msgstr ""
 
 #. TRANS: (none) as in "Resources: (none)".
 #: common/requirements.c:1013 common/team.c:131
-#: client/gui-gtk-2.0/helpdlg.c:1058 client/gui-win32/helpdlg.c:586
-#: client/gui-xaw/helpdlg.c:993
+#: client/gui-gtk-2.0/helpdlg.c:1055 client/gui-win32/helpdlg.c:586
+#: client/gui-xaw/helpdlg.c:991
 #, c-format
 msgid "(none)"
 msgstr "(هیچ)"
@@ -614,8 +614,8 @@ msgstr "تکنولوژی آینده %d"
 #: client/gui-sdl/helpdlg.c:817 client/gui-sdl/mapview.c:962
 #: client/gui-win32/helpdlg.c:165 client/gui-win32/helpdlg.c:545
 #: client/gui-win32/helpdlg.c:715 client/gui-win32/helpdlg.c:735
-#: client/gui-xaw/helpdlg.c:819 client/gui-xaw/helpdlg.c:863
-#: client/gui-xaw/helpdlg.c:882 manual/civmanual.c:327 manual/civmanual.c:333
+#: client/gui-xaw/helpdlg.c:817 client/gui-xaw/helpdlg.c:861
+#: client/gui-xaw/helpdlg.c:880 manual/civmanual.c:327 manual/civmanual.c:333
 msgid "None"
 msgstr "هیچ"
 
@@ -7322,11 +7322,11 @@ msgstr "راهی برای رسیدن به مقصد وجود ندارد!"
 msgid "Oh my! You seem to have no capital!"
 msgstr ""
 
-#: client/helpdata.c:123
+#: client/helpdata.c:125
 msgid "Terrain     Road   Irrigation     Mining         Transform\n"
 msgstr "نوع زمین    جاده    آبیاری    زدن معدن    تغییر نوع\n"
 
-#: client/helpdata.c:149
+#: client/helpdata.c:150
 msgid "(Railroads and fortresses require 3 turns, regardless of terrain.)"
 msgstr ""
 
@@ -9154,6 +9154,63 @@ msgstr "?clistend:."
 msgid "Wonders: "
 msgstr "شگفتی‌ها: "
 
+#: client/text.c:1243
+#, c-format
+msgid "Cities: %d total, %d over threshold of %d cities."
+msgstr "شهرها: مجموع %d، %d شهر بیش از حد %d شهر در آستانه."
+
+#. TRANS: 0-21 content [citizen(s)] ...
+#: client/text.c:1247
+#, fuzzy, c-format
+msgid "%d content before penalty."
+msgid_plural "%d content before penalty."
+msgstr[0] "%d قبل از جزا با "
+msgstr[1] "%d قبل از جزا با "
+
+#. TRANS: 0-21 unhappy citizen(s).
+#: client/text.c:1253
+#, fuzzy, c-format
+msgid "%d additional unhappy citizen."
+msgid_plural "%d additional unhappy citizens."
+msgstr[0] "%d شهر ناراضی اضافه."
+msgstr[1] "%d شهر ناراضی اضافه."
+
+#. TRANS: Martial law opening parenthesis
+#: client/text.c:1275
+msgid "Martial law in effect ("
+msgstr ""
+
+#. TRANS: no [unit] maximum
+#: client/text.c:1280
+msgid "no maximum, "
+msgstr ""
+
+#: client/text.c:1283
+#, c-format
+msgid "%d unit maximum, "
+msgid_plural "%d units maximum, "
+msgstr[0] ""
+msgstr[1] ""
+
+#. TRANS: Martial law closing parenthesis
+#: client/text.c:1290
+#, c-format
+msgid "%d per unit). "
+msgstr ""
+
+#: client/text.c:1294
+msgid "Military units in the field may cause unhappiness. "
+msgstr ""
+
+#: client/text.c:1297
+msgid "Military units have no happiness effect. "
+msgstr ""
+
+#: client/text.c:1312
+#, c-format
+msgid "Luxury: %d total."
+msgstr "رفاه: مجموعا %d."
+
 #: client/tilespec.c:865
 msgid "No usable default tileset found, aborting!"
 msgstr ""
@@ -10413,64 +10470,12 @@ msgstr ""
 msgid "Ctrl+W"
 msgstr ""
 
-#: client/gui-gtk-2.0/happiness.c:122 client/gui-sdl/citydlg.c:2042
+#: client/gui-gtk-2.0/happiness.c:112 client/gui-sdl/citydlg.c:2042
 #: client/gui-sdl/citydlg.c:3721 client/gui-win32/citydlg.c:726
-#: client/gui-win32/happiness.c:95 client/gui-xaw/menu.c:249
+#: client/gui-win32/happiness.c:85 client/gui-xaw/menu.c:249
 #: data/helpdata.txt:1391
 msgid "Happiness"
 msgstr "خوشی"
-
-#: client/gui-gtk-2.0/happiness.c:246 client/gui-win32/happiness.c:198
-#, c-format
-msgid "Cities: %d total, %d over threshold of %d cities.\n"
-msgstr "شهرها: مجموع %d، %d شهر بیش از حد %d شهر در آستانه.\n"
-
-#: client/gui-gtk-2.0/happiness.c:250 client/gui-win32/happiness.c:202
-#, c-format
-msgid "%d content before penalty with "
-msgstr "%d قبل از جزا با "
-
-#: client/gui-gtk-2.0/happiness.c:252 client/gui-win32/happiness.c:204
-#, c-format
-msgid "%d additional unhappy citizens."
-msgstr "%d شهر ناراضی اضافه."
-
-#: client/gui-gtk-2.0/happiness.c:268 client/gui-win32/happiness.c:221
-#, c-format
-msgid "Luxury: %d total."
-msgstr "رفاه: مجموعا %d."
-
-#: client/gui-gtk-2.0/happiness.c:295 client/gui-win32/happiness.c:248
-msgid "Units: "
-msgstr "مهره‌ها: "
-
-#: client/gui-gtk-2.0/happiness.c:299 client/gui-win32/happiness.c:252
-msgid "Martial law in effect ("
-msgstr ""
-
-#: client/gui-gtk-2.0/happiness.c:303 client/gui-win32/happiness.c:256
-msgid "no maximum, "
-msgstr ""
-
-#: client/gui-gtk-2.0/happiness.c:305 client/gui-win32/happiness.c:258
-#, c-format
-msgid "%d unit maximum, "
-msgid_plural "%d units maximum, "
-msgstr[0] ""
-msgstr[1] ""
-
-#: client/gui-gtk-2.0/happiness.c:309 client/gui-win32/happiness.c:262
-#, c-format
-msgid "%d per unit). "
-msgstr ""
-
-#: client/gui-gtk-2.0/happiness.c:314 client/gui-win32/happiness.c:267
-msgid "Military units in the field may cause unhappiness. "
-msgstr ""
-
-#: client/gui-gtk-2.0/happiness.c:318 client/gui-win32/happiness.c:271
-msgid "Military units have no happiness effect. "
-msgstr ""
 
 #: client/gui-gtk-2.0/helpdlg.c:88 client/gui-gtk-2.0/helpdlg.c:91
 #: client/gui-gtk-2.0/helpdlg.c:95 client/gui-sdl/helpdlg.c:344
@@ -10568,81 +10573,81 @@ msgstr "تبدیل نتیجه/زمان:"
 #: client/gui-gtk-2.0/helpdlg.c:111 client/gui-win32/helpdlg.c:165
 #: client/gui-win32/helpdlg.c:501 client/gui-win32/helpdlg.c:544
 #: client/gui-win32/helpdlg.c:709 client/gui-win32/helpdlg.c:733
-#: client/gui-xaw/helpdlg.c:761 client/gui-xaw/helpdlg.c:810
-#: client/gui-xaw/helpdlg.c:818 client/gui-xaw/helpdlg.c:855
-#: client/gui-xaw/helpdlg.c:880
+#: client/gui-xaw/helpdlg.c:759 client/gui-xaw/helpdlg.c:808
+#: client/gui-xaw/helpdlg.c:816 client/gui-xaw/helpdlg.c:853
+#: client/gui-xaw/helpdlg.c:878
 msgid "(Never)"
 msgstr "(هیچ وقت)"
 
-#: client/gui-gtk-2.0/helpdlg.c:132 client/gui-xaw/helpdlg.c:125
+#: client/gui-gtk-2.0/helpdlg.c:129 client/gui-xaw/helpdlg.c:123
 #: client/gui-xaw/menu.c:253 data/helpdata.txt:37
 msgid "About"
 msgstr "درباره"
 
-#: client/gui-gtk-2.0/helpdlg.c:199 client/gui-xaw/helpdlg.c:271
+#: client/gui-gtk-2.0/helpdlg.c:196 client/gui-xaw/helpdlg.c:269
 msgid "Removed"
 msgstr "برداشته شده"
 
-#: client/gui-gtk-2.0/helpdlg.c:429 client/gui-win32/helpdlg.c:424
+#: client/gui-gtk-2.0/helpdlg.c:426 client/gui-win32/helpdlg.c:424
 #: data/Freeciv.in:576
 msgid "Freeciv Help Browser"
 msgstr "راهنمای Freeciv"
 
-#: client/gui-gtk-2.0/helpdlg.c:657
+#: client/gui-gtk-2.0/helpdlg.c:654
 msgid "Expand All"
 msgstr "باز کردن همه"
 
-#: client/gui-gtk-2.0/helpdlg.c:658
+#: client/gui-gtk-2.0/helpdlg.c:655
 msgid "Collapse All"
 msgstr "بستن همه"
 
-#: client/gui-gtk-2.0/helpdlg.c:942 client/gui-gtk-2.0/helpdlg.c:969
-#: client/gui-gtk-2.0/helpdlg.c:981 client/gui-gtk-2.0/helpdlg.c:990
-#: client/gui-gtk-2.0/helpdlg.c:1007 client/gui-sdl/helpdlg.c:978
+#: client/gui-gtk-2.0/helpdlg.c:939 client/gui-gtk-2.0/helpdlg.c:966
+#: client/gui-gtk-2.0/helpdlg.c:978 client/gui-gtk-2.0/helpdlg.c:987
+#: client/gui-gtk-2.0/helpdlg.c:1004 client/gui-sdl/helpdlg.c:978
 msgid "Allows"
 msgstr "مجاز می‌کند"
 
-#: client/gui-gtk-2.0/helpdlg.c:954
+#: client/gui-gtk-2.0/helpdlg.c:951
 msgid "Obsoletes"
 msgstr "منسوخ می‌کند"
 
-#: client/gui-gtk-2.0/helpdlg.c:994 client/gui-gtk-2.0/helpdlg.c:1011
+#: client/gui-gtk-2.0/helpdlg.c:991 client/gui-gtk-2.0/helpdlg.c:1008
 msgid "with"
 msgstr "را با"
 
-#: client/gui-gtk-2.0/helpdlg.c:999 client/gui-gtk-2.0/helpdlg.c:1016
+#: client/gui-gtk-2.0/helpdlg.c:996 client/gui-gtk-2.0/helpdlg.c:1013
 msgid "?techhelp:"
 msgstr "?techhelp:"
 
-#: client/gui-gtk-2.0/helpdlg.c:1063 client/gui-win32/helpdlg.c:591
-#: client/gui-xaw/helpdlg.c:998
+#: client/gui-gtk-2.0/helpdlg.c:1060 client/gui-win32/helpdlg.c:591
+#: client/gui-xaw/helpdlg.c:996
 #, c-format
 msgid "+%d Trade / %d"
 msgstr "+%d تجارت / %d"
 
-#: client/gui-gtk-2.0/helpdlg.c:1067 client/gui-win32/helpdlg.c:595
-#: client/gui-xaw/helpdlg.c:1002
+#: client/gui-gtk-2.0/helpdlg.c:1064 client/gui-win32/helpdlg.c:595
+#: client/gui-xaw/helpdlg.c:1000
 #, c-format
 msgid "no extra / %d"
 msgstr ""
 
-#: client/gui-gtk-2.0/helpdlg.c:1070 client/gui-gtk-2.0/helpdlg.c:1074
-#: client/gui-gtk-2.0/helpdlg.c:1088 client/gui-win32/helpdlg.c:598
+#: client/gui-gtk-2.0/helpdlg.c:1067 client/gui-gtk-2.0/helpdlg.c:1071
+#: client/gui-gtk-2.0/helpdlg.c:1085 client/gui-win32/helpdlg.c:598
 #: client/gui-win32/helpdlg.c:602 client/gui-win32/helpdlg.c:616
-#: client/gui-win32/helpdlg.c:635 client/gui-xaw/helpdlg.c:1004
-#: client/gui-xaw/helpdlg.c:1008 client/gui-xaw/helpdlg.c:1022
-#: client/gui-xaw/helpdlg.c:1041
+#: client/gui-win32/helpdlg.c:635 client/gui-xaw/helpdlg.c:1002
+#: client/gui-xaw/helpdlg.c:1006 client/gui-xaw/helpdlg.c:1020
+#: client/gui-xaw/helpdlg.c:1039
 msgid "n/a"
 msgstr "نامشخص"
 
-#: client/gui-gtk-2.0/helpdlg.c:1077 client/gui-win32/helpdlg.c:605
-#: client/gui-xaw/helpdlg.c:1011
+#: client/gui-gtk-2.0/helpdlg.c:1074 client/gui-win32/helpdlg.c:605
+#: client/gui-xaw/helpdlg.c:1009
 #, c-format
 msgid "+%d Food / %d"
 msgstr "+%d غذا / %d"
 
-#: client/gui-gtk-2.0/helpdlg.c:1091 client/gui-win32/helpdlg.c:619
-#: client/gui-xaw/helpdlg.c:1025
+#: client/gui-gtk-2.0/helpdlg.c:1088 client/gui-win32/helpdlg.c:619
+#: client/gui-xaw/helpdlg.c:1023
 #, c-format
 msgid "+%d Res. / %d"
 msgstr "+%d منبع / %d"
@@ -14454,18 +14459,18 @@ msgstr ""
 msgid "Font for charset %s is lacking"
 msgstr ""
 
-#: client/gui-xaw/helpdlg.c:915 client/gui-xaw/helpdlg.c:926
-#: client/gui-xaw/helpdlg.c:933
+#: client/gui-xaw/helpdlg.c:913 client/gui-xaw/helpdlg.c:924
+#: client/gui-xaw/helpdlg.c:931
 #, c-format
 msgid "Allows %s.\n"
 msgstr ""
 
-#: client/gui-xaw/helpdlg.c:920
+#: client/gui-xaw/helpdlg.c:918
 #, c-format
 msgid "Obsoletes %s.\n"
 msgstr ""
 
-#: client/gui-xaw/helpdlg.c:936 client/gui-xaw/helpdlg.c:941
+#: client/gui-xaw/helpdlg.c:934 client/gui-xaw/helpdlg.c:939
 #, c-format
 msgid "Allows %s (with %s).\n"
 msgstr ""
@@ -22504,6 +22509,9 @@ msgstr "تیم ۳۰"
 #: data/default/game.ruleset:160
 msgid "Team 31"
 msgstr "تیم ۳۱"
+
+#~ msgid "Units: "
+#~ msgstr "مهره‌ها: "
 
 #~ msgid "%s"
 #~ msgstr "%s"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.1.0-beta3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-13 19:21-0500\n"
+"POT-Creation-Date: 2008-01-18 06:05-0500\n"
 "PO-Revision-Date: 2007-09-01 23:06+0300\n"
 "Last-Translator: Jose Carlos Medeiros <jose@psabs.com.br>\n"
 "Language-Team: Portuguese/Brazil <gnome-l10n-br@listas.cipsga.org.br>\n"
@@ -584,8 +584,8 @@ msgstr "Suprimentos somente são suportados pelo mundo."
 
 #. TRANS: (none) as in "Resources: (none)".
 #: common/requirements.c:1013 common/team.c:131
-#: client/gui-gtk-2.0/helpdlg.c:1058 client/gui-win32/helpdlg.c:586
-#: client/gui-xaw/helpdlg.c:993
+#: client/gui-gtk-2.0/helpdlg.c:1055 client/gui-win32/helpdlg.c:586
+#: client/gui-xaw/helpdlg.c:991
 #, c-format
 msgid "(none)"
 msgstr "(nada)"
@@ -613,8 +613,8 @@ msgstr "Tecn. Futura %d"
 #: client/gui-sdl/helpdlg.c:817 client/gui-sdl/mapview.c:962
 #: client/gui-win32/helpdlg.c:165 client/gui-win32/helpdlg.c:545
 #: client/gui-win32/helpdlg.c:715 client/gui-win32/helpdlg.c:735
-#: client/gui-xaw/helpdlg.c:819 client/gui-xaw/helpdlg.c:863
-#: client/gui-xaw/helpdlg.c:882 manual/civmanual.c:327 manual/civmanual.c:333
+#: client/gui-xaw/helpdlg.c:817 client/gui-xaw/helpdlg.c:861
+#: client/gui-xaw/helpdlg.c:880 manual/civmanual.c:327 manual/civmanual.c:333
 msgid "None"
 msgstr "Nenhum"
 
@@ -7738,11 +7738,11 @@ msgstr "Incapaz de encontrar uma rota para o destino!"
 msgid "Oh my! You seem to have no capital!"
 msgstr "Oh! Parece que você não tem uma capital!"
 
-#: client/helpdata.c:123
+#: client/helpdata.c:125
 msgid "Terrain     Road   Irrigation     Mining         Transform\n"
 msgstr "Terreno     Estrada Irrigação     Minas          Transformado\n"
 
-#: client/helpdata.c:149
+#: client/helpdata.c:150
 #, fuzzy
 msgid "(Railroads and fortresses require 3 turns, regardless of terrain.)"
 msgstr ""
@@ -9649,6 +9649,66 @@ msgstr "."
 msgid "Wonders: "
 msgstr "Maravilhas: "
 
+#: client/text.c:1243
+#, fuzzy, c-format
+msgid "Cities: %d total, %d over threshold of %d cities."
+msgstr "Cidades: %d total, %d acima do patamar de %d cidades."
+
+#. TRANS: 0-21 content [citizen(s)] ...
+#: client/text.c:1247
+#, fuzzy, c-format
+msgid "%d content before penalty."
+msgid_plural "%d content before penalty."
+msgstr[0] "%d contentes antes de penalização com "
+msgstr[1] "%d contentes antes de penalização com "
+
+#. TRANS: 0-21 unhappy citizen(s).
+#: client/text.c:1253
+#, fuzzy, c-format
+msgid "%d additional unhappy citizen."
+msgid_plural "%d additional unhappy citizens."
+msgstr[0] "%d cidadãos descontentes adicionais."
+msgstr[1] "%d cidadãos descontentes adicionais."
+
+#. TRANS: Martial law opening parenthesis
+#: client/text.c:1275
+#, fuzzy
+msgid "Martial law in effect ("
+msgstr "Lei marcial em prática ("
+
+#. TRANS: no [unit] maximum
+#: client/text.c:1280
+#, fuzzy
+msgid "no maximum, "
+msgstr "sem máximo, "
+
+#: client/text.c:1283
+#, fuzzy, c-format
+msgid "%d unit maximum, "
+msgid_plural "%d units maximum, "
+msgstr[0] "%d unidade no máximo, "
+
+#. TRANS: Martial law closing parenthesis
+#: client/text.c:1290
+#, fuzzy, c-format
+msgid "%d per unit). "
+msgstr "%d por unidade). "
+
+#: client/text.c:1294
+#, fuzzy
+msgid "Military units in the field may cause unhappiness. "
+msgstr "Unidades militares no campo poderão causar infelicidade. "
+
+#: client/text.c:1297
+#, fuzzy
+msgid "Military units have no happiness effect. "
+msgstr "Unidades militares não têm qualquer efeito na felicidade. "
+
+#: client/text.c:1312
+#, fuzzy, c-format
+msgid "Luxury: %d total."
+msgstr "Luxo: %d total."
+
 #: client/tilespec.c:865
 #, fuzzy
 msgid "No usable default tileset found, aborting!"
@@ -10954,68 +11014,13 @@ msgstr "Largura da tabulação"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: client/gui-gtk-2.0/happiness.c:122 client/gui-sdl/citydlg.c:2042
+#: client/gui-gtk-2.0/happiness.c:112 client/gui-sdl/citydlg.c:2042
 #: client/gui-sdl/citydlg.c:3721 client/gui-win32/citydlg.c:726
-#: client/gui-win32/happiness.c:95 client/gui-xaw/menu.c:249
+#: client/gui-win32/happiness.c:85 client/gui-xaw/menu.c:249
 #: data/helpdata.txt:1391
 #, fuzzy
 msgid "Happiness"
 msgstr "Felicidade"
-
-#: client/gui-gtk-2.0/happiness.c:246 client/gui-win32/happiness.c:198
-#, fuzzy, c-format
-msgid "Cities: %d total, %d over threshold of %d cities.\n"
-msgstr "Cidades: %d total, %d acima do patamar de %d cidades.\n"
-
-#: client/gui-gtk-2.0/happiness.c:250 client/gui-win32/happiness.c:202
-#, fuzzy, c-format
-msgid "%d content before penalty with "
-msgstr "%d contentes antes de penalização com "
-
-#: client/gui-gtk-2.0/happiness.c:252 client/gui-win32/happiness.c:204
-#, fuzzy, c-format
-msgid "%d additional unhappy citizens."
-msgstr "%d cidadãos descontentes adicionais."
-
-#: client/gui-gtk-2.0/happiness.c:268 client/gui-win32/happiness.c:221
-#, fuzzy, c-format
-msgid "Luxury: %d total."
-msgstr "Luxo: %d total."
-
-#: client/gui-gtk-2.0/happiness.c:295 client/gui-win32/happiness.c:248
-msgid "Units: "
-msgstr "Unidades: "
-
-#: client/gui-gtk-2.0/happiness.c:299 client/gui-win32/happiness.c:252
-#, fuzzy
-msgid "Martial law in effect ("
-msgstr "Lei marcial em prática ("
-
-#: client/gui-gtk-2.0/happiness.c:303 client/gui-win32/happiness.c:256
-#, fuzzy
-msgid "no maximum, "
-msgstr "sem máximo, "
-
-#: client/gui-gtk-2.0/happiness.c:305 client/gui-win32/happiness.c:258
-#, fuzzy, c-format
-msgid "%d unit maximum, "
-msgid_plural "%d units maximum, "
-msgstr[0] "%d unidade no máximo, "
-
-#: client/gui-gtk-2.0/happiness.c:309 client/gui-win32/happiness.c:262
-#, fuzzy, c-format
-msgid "%d per unit). "
-msgstr "%d por unidade). "
-
-#: client/gui-gtk-2.0/happiness.c:314 client/gui-win32/happiness.c:267
-#, fuzzy
-msgid "Military units in the field may cause unhappiness. "
-msgstr "Unidades militares no campo poderão causar infelicidade. "
-
-#: client/gui-gtk-2.0/happiness.c:318 client/gui-win32/happiness.c:271
-#, fuzzy
-msgid "Military units have no happiness effect. "
-msgstr "Unidades militares não têm qualquer efeito na felicidade. "
 
 #: client/gui-gtk-2.0/helpdlg.c:88 client/gui-gtk-2.0/helpdlg.c:91
 #: client/gui-gtk-2.0/helpdlg.c:95 client/gui-sdl/helpdlg.c:344
@@ -11120,81 +11125,81 @@ msgstr "Resul/Data Transp:"
 #: client/gui-gtk-2.0/helpdlg.c:111 client/gui-win32/helpdlg.c:165
 #: client/gui-win32/helpdlg.c:501 client/gui-win32/helpdlg.c:544
 #: client/gui-win32/helpdlg.c:709 client/gui-win32/helpdlg.c:733
-#: client/gui-xaw/helpdlg.c:761 client/gui-xaw/helpdlg.c:810
-#: client/gui-xaw/helpdlg.c:818 client/gui-xaw/helpdlg.c:855
-#: client/gui-xaw/helpdlg.c:880
+#: client/gui-xaw/helpdlg.c:759 client/gui-xaw/helpdlg.c:808
+#: client/gui-xaw/helpdlg.c:816 client/gui-xaw/helpdlg.c:853
+#: client/gui-xaw/helpdlg.c:878
 msgid "(Never)"
 msgstr "(Nunca)"
 
-#: client/gui-gtk-2.0/helpdlg.c:132 client/gui-xaw/helpdlg.c:125
+#: client/gui-gtk-2.0/helpdlg.c:129 client/gui-xaw/helpdlg.c:123
 #: client/gui-xaw/menu.c:253 data/helpdata.txt:37
 msgid "About"
 msgstr "Sobre"
 
-#: client/gui-gtk-2.0/helpdlg.c:199 client/gui-xaw/helpdlg.c:271
+#: client/gui-gtk-2.0/helpdlg.c:196 client/gui-xaw/helpdlg.c:269
 msgid "Removed"
 msgstr "Removido"
 
-#: client/gui-gtk-2.0/helpdlg.c:429 client/gui-win32/helpdlg.c:424
+#: client/gui-gtk-2.0/helpdlg.c:426 client/gui-win32/helpdlg.c:424
 #: data/Freeciv.in:576
 msgid "Freeciv Help Browser"
 msgstr "Navegador de Ajuda do Freeciv"
 
-#: client/gui-gtk-2.0/helpdlg.c:657
+#: client/gui-gtk-2.0/helpdlg.c:654
 msgid "Expand All"
 msgstr "Expandir Tudo"
 
-#: client/gui-gtk-2.0/helpdlg.c:658
+#: client/gui-gtk-2.0/helpdlg.c:655
 msgid "Collapse All"
 msgstr "Recolher Tudo"
 
-#: client/gui-gtk-2.0/helpdlg.c:942 client/gui-gtk-2.0/helpdlg.c:969
-#: client/gui-gtk-2.0/helpdlg.c:981 client/gui-gtk-2.0/helpdlg.c:990
-#: client/gui-gtk-2.0/helpdlg.c:1007 client/gui-sdl/helpdlg.c:978
+#: client/gui-gtk-2.0/helpdlg.c:939 client/gui-gtk-2.0/helpdlg.c:966
+#: client/gui-gtk-2.0/helpdlg.c:978 client/gui-gtk-2.0/helpdlg.c:987
+#: client/gui-gtk-2.0/helpdlg.c:1004 client/gui-sdl/helpdlg.c:978
 msgid "Allows"
 msgstr "Permite"
 
-#: client/gui-gtk-2.0/helpdlg.c:954
+#: client/gui-gtk-2.0/helpdlg.c:951
 msgid "Obsoletes"
 msgstr "Obsoleta"
 
-#: client/gui-gtk-2.0/helpdlg.c:994 client/gui-gtk-2.0/helpdlg.c:1011
+#: client/gui-gtk-2.0/helpdlg.c:991 client/gui-gtk-2.0/helpdlg.c:1008
 msgid "with"
 msgstr "com"
 
-#: client/gui-gtk-2.0/helpdlg.c:999 client/gui-gtk-2.0/helpdlg.c:1016
+#: client/gui-gtk-2.0/helpdlg.c:996 client/gui-gtk-2.0/helpdlg.c:1013
 msgid "?techhelp:"
 msgstr "?techhelp:"
 
-#: client/gui-gtk-2.0/helpdlg.c:1063 client/gui-win32/helpdlg.c:591
-#: client/gui-xaw/helpdlg.c:998
+#: client/gui-gtk-2.0/helpdlg.c:1060 client/gui-win32/helpdlg.c:591
+#: client/gui-xaw/helpdlg.c:996
 #, c-format
 msgid "+%d Trade / %d"
 msgstr "+%d Comércio / %d"
 
-#: client/gui-gtk-2.0/helpdlg.c:1067 client/gui-win32/helpdlg.c:595
-#: client/gui-xaw/helpdlg.c:1002
+#: client/gui-gtk-2.0/helpdlg.c:1064 client/gui-win32/helpdlg.c:595
+#: client/gui-xaw/helpdlg.c:1000
 #, c-format
 msgid "no extra / %d"
 msgstr "sem extra / %d"
 
-#: client/gui-gtk-2.0/helpdlg.c:1070 client/gui-gtk-2.0/helpdlg.c:1074
-#: client/gui-gtk-2.0/helpdlg.c:1088 client/gui-win32/helpdlg.c:598
+#: client/gui-gtk-2.0/helpdlg.c:1067 client/gui-gtk-2.0/helpdlg.c:1071
+#: client/gui-gtk-2.0/helpdlg.c:1085 client/gui-win32/helpdlg.c:598
 #: client/gui-win32/helpdlg.c:602 client/gui-win32/helpdlg.c:616
-#: client/gui-win32/helpdlg.c:635 client/gui-xaw/helpdlg.c:1004
-#: client/gui-xaw/helpdlg.c:1008 client/gui-xaw/helpdlg.c:1022
-#: client/gui-xaw/helpdlg.c:1041
+#: client/gui-win32/helpdlg.c:635 client/gui-xaw/helpdlg.c:1002
+#: client/gui-xaw/helpdlg.c:1006 client/gui-xaw/helpdlg.c:1020
+#: client/gui-xaw/helpdlg.c:1039
 msgid "n/a"
 msgstr "n/d"
 
-#: client/gui-gtk-2.0/helpdlg.c:1077 client/gui-win32/helpdlg.c:605
-#: client/gui-xaw/helpdlg.c:1011
+#: client/gui-gtk-2.0/helpdlg.c:1074 client/gui-win32/helpdlg.c:605
+#: client/gui-xaw/helpdlg.c:1009
 #, fuzzy, c-format
 msgid "+%d Food / %d"
 msgstr "+%d Comida / %d"
 
-#: client/gui-gtk-2.0/helpdlg.c:1091 client/gui-win32/helpdlg.c:619
-#: client/gui-xaw/helpdlg.c:1025
+#: client/gui-gtk-2.0/helpdlg.c:1088 client/gui-win32/helpdlg.c:619
+#: client/gui-xaw/helpdlg.c:1023
 #, c-format
 msgid "+%d Res. / %d"
 msgstr "+%d Res. / %d"
@@ -15155,18 +15160,18 @@ msgstr ""
 msgid "Font for charset %s is lacking"
 msgstr ""
 
-#: client/gui-xaw/helpdlg.c:915 client/gui-xaw/helpdlg.c:926
-#: client/gui-xaw/helpdlg.c:933
+#: client/gui-xaw/helpdlg.c:913 client/gui-xaw/helpdlg.c:924
+#: client/gui-xaw/helpdlg.c:931
 #, c-format
 msgid "Allows %s.\n"
 msgstr "Permite %s.\n"
 
-#: client/gui-xaw/helpdlg.c:920
+#: client/gui-xaw/helpdlg.c:918
 #, c-format
 msgid "Obsoletes %s.\n"
 msgstr "Torna Obsoleta %s.\n"
 
-#: client/gui-xaw/helpdlg.c:936 client/gui-xaw/helpdlg.c:941
+#: client/gui-xaw/helpdlg.c:934 client/gui-xaw/helpdlg.c:939
 #, c-format
 msgid "Allows %s (with %s).\n"
 msgstr "Permite %s (com %s).\n"
@@ -15301,7 +15306,7 @@ msgstr "Licença"
 #: client/gui-xaw/repodlgs.c:228 client/gui-xaw/repodlgs.c:491
 #, fuzzy, c-format
 msgid "Researching %s: %d/%s"
-msgstr "A Pesquisar"
+msgstr "A Pesquisar %s: %d/%s"
 
 #: client/gui-xaw/repodlgs.c:231 client/gui-xaw/repodlgs.c:494
 msgid "unknown"
@@ -15877,12 +15882,18 @@ msgid "  Present administrators: "
 msgstr "  Administradores actuais: "
 
 #: data/helpdata.txt:55
+#, fuzzy
 msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
 "by visiting the Freeciv Bug Tracking System, at:\n"
 "\n"
 "  http://bugs.freeciv.org/"
 msgstr ""
+"Se encontrar quaisquer erros (bugs), envie-nos um relatório de erro. A "
+"melhor forma é visitando o Sistema de Acompanhamento de Bugs do Freeciv, "
+"em:\n"
+"\n"
+"  http://bugs.freeciv.org/"
 
 #: data/helpdata.txt:60
 #, fuzzy
@@ -15901,6 +15912,7 @@ msgid "Freeciv is covered by the GPL, which is included here: "
 msgstr "O Freeciv está sob a LPG, que é aqui descrita: "
 
 #: data/helpdata.txt:379
+#, fuzzy
 msgid ""
 "Freeciv supports several local languages.  See the Native Language Support "
 "section of the README file for instructions on how to use one of these "
@@ -15920,6 +15932,22 @@ msgid ""
 "\n"
 "  freeciv-i18n@gna.org"
 msgstr ""
+"Freeciv suporta vários idiomas locais.  Consulte a secção de Suporte de "
+"Idiomas Nativos do ficheiro README para instruções sobre como utilizar um "
+"destes idiomas.\n"
+"\n"
+"Caso deseje adicionar uma localização (tradução) para o seu idioma, consulte "
+"as instruções em:\n"
+"\n"
+"  http://www.freeciv.org/l10n.phtml\n"
+"\n"
+"(Verifique primeiro se já está em desenvolvimento uma localização para o seu "
+"idioma.)\n"
+"\n"
+"Agradecemos-lhe também que envie quaisquer questões para a lista de email "
+"freeciv-dev:\n"
+"\n"
+"  freeciv-dev@freeciv.org"
 
 #: data/helpdata.txt:402
 #, fuzzy
@@ -15972,6 +16000,7 @@ msgstr ""
 "nomes dos jogadores."
 
 #: data/helpdata.txt:430
+#, fuzzy
 msgid ""
 "Unit Orders:\n"
 "============\n"
@@ -16016,6 +16045,63 @@ msgid ""
 "Shift-Ctrl-L: Connect current and target tile with rai(L)\n"
 "Shift-Ctrl-I: Connect current and target tile with (I)rrigation\n"
 msgstr ""
+"Teclado:\n"
+"=========\n"
+"  a: (a)uto-colono  (unidades colono/engenheiro)\n"
+"  a: (a)uto-ataque  (unidades militares)\n"
+"  b: fundar cidade  (unidades colono/engenheiro)\n"
+"  b: ajudar construir maravilha  (unidades caravana)\n"
+"  c: (c)entrar vista na unidade\n"
+"  C: ligação unidade  (depois clique-esquerdo para seleccionar destino)\n"
+"  d: acções (d)iplomatas/espiões  (unidades diplomata/espião)\n"
+"  D: (D)issolver unidade\n"
+"  e: construir bas(e) aérea  (unidades base aérea)\n"
+"  f: (f)ortificar unidade  (unidades militares)\n"
+"  f: construir (f)ortaleza  (unidades colono/engenheiro)\n"
+"  F: abrir diálogo de Encontrar Cidade\n"
+"  g: ir para de unidade  (depois clique-esquerdo para seleccionar destino)\n"
+"  h: alterar cidade origem  (para a cidade da localização actual)\n"
+"  i: construir (i)rrigação/quinta  (unidades colono/engenheiro; pode "
+"converter terreno)\n"
+"  l: ir/aerotransportar para cidade\n"
+"  L: abrir diálogo de (L)istas de Tarefas\n"
+"  m: construir (m)ina  (unidades colono/engenheiro; pode converter terreno)\n"
+"  n: limpar chuva (n)uclear\n"
+"  N: detonar (N)uclear\n"
+"  o: transf(o)rmar terreno\n"
+"  p: limpar (p)oluição  (unidades colono/engenheiro)\n"
+"  p: lançar (p)araquedas  (unidades paraquedistas)\n"
+"  P: (P)ilhar alteração de terreno\n"
+"  q: unidade patrulha  (depois clique-esquerdo para seleccionar destino)\n"
+"  r: construir est(r)ada/ferrovia  (unidades colono/engeneiro)\n"
+"  r: estabelecer (r)ota comercial  (unidades caravana)\n"
+"  R: incitar uma (R)evolução\n"
+"  s: colocar unidade em (s)entinela\n"
+"  t: mostrar quadrículas que a cidade está a u(t)ilizar  (rato junto ou "
+"sobre cidade)\n"
+"  T: abrir diálogo de (T)axas de Imp/Lux/Ciê\n"
+"  u: desembarcar\n"
+"  w: aguardar até mais tarde no turno\n"
+"  W: Acordar outras unidades na mesma quadrícula\n"
+"  x: auto-e(x)plorar\n"
+"\n"
+"  1: mover sudoeste                    F1: abrir Relatório Cidades\n"
+"  2: mover sul                         F2: abrir Relatório Unidades\n"
+"  3: mover sudeste                     F3: abrir diálogo de Jogadores\n"
+"  4: mover oeste                       F5: abrir Relatório da Economia\n"
+"  5: focus na unidade seguinte         F6: abrir Relatório da Investigação\n"
+"  6: mover leste                       F7: abrir Maravilhas do Mundo\n"
+"  7: mover noroeste                    F8: abrir As Cinco Maiores Cidades\n"
+"  8: mover norte                      F10: abrir diálogo de Mensagens\n"
+"  9: mover nordeste                   F11: abrir Relatório Demográfico\n"
+"                                      F12: abrir Nave Espacial\n"
+"\n"
+"   setas: mover unidade           Control-g: quadrícula visível/invisível\n"
+"   space: unidade fica parada     Control-n: nomes das cidades visíveis/"
+"invisíveis\n"
+"     tab: focar unidade seguinte  Control-p: produção das cidades visível/"
+"invisível\n"
+"  return: turno terminado"
 
 #: data/helpdata.txt:473
 msgid ""
@@ -16109,10 +16195,14 @@ msgstr ""
 "são enviadas a todos os jogadores, excepto:"
 
 #: data/helpdata.txt:550
+#, fuzzy
 msgid ""
 "  - Messages starting with '/' are interpreted as server commands and "
 "executed, if you have the required access level."
 msgstr ""
+"  - As mensagens iniciadas por '/' são interpretadas como comandos do "
+"servidor (caso o servidor seja recente; os servidores 1.8.0 não o são) e por "
+"ele executados, caso tenha os respectivos direitos de acesso."
 
 #: data/helpdata.txt:553
 msgid ""
@@ -16122,10 +16212,13 @@ msgid ""
 msgstr ""
 
 #: data/helpdata.txt:558
+#, fuzzy
 msgid ""
 "  - Messages starting with 'John::' are private messages as above, but will "
 "match only users (not players) named 'John'.  'Johnathan' will still match."
 msgstr ""
+"  - As mensagens que iniciadas por 'foo:' são mensagens privadas para o "
+"jogador de nome 'foo'; os nomes dos jogadores podem ser abreviados."
 
 #: data/helpdata.txt:562
 msgid "  - Messages starting with '.' will be sent only to all your allies."
@@ -16516,6 +16609,7 @@ msgstr ""
 "contactar outros jogadores."
 
 #: data/helpdata.txt:734
+#, fuzzy
 msgid ""
 " 10. Interacting with other players (Diplomacy).\n"
 "\n"
@@ -16526,6 +16620,11 @@ msgid ""
 "entry under the embassy column is not blank and the other player is "
 "connected (or is a server AI) then a diplomacy menu will pop up."
 msgstr ""
+"    Se tiver estabelecido uma embaixada junto a outro jogador humano, pode "
+"iniciar conversações diplomáticas. Isto é feito indo ao menu `Relatórios', "
+"seleccionado `Jogadores' e clicando no jogador com quem se quer encontrar.  "
+"Se possuir uma embaixada (assinalada por um X) e o outro jogador estiver "
+"ligado irá aparecer um menu de diplomacia."
 
 #: data/helpdata.txt:744
 #, fuzzy
@@ -16659,6 +16758,7 @@ msgid ""
 msgstr ""
 
 #: data/helpdata.txt:821
+#, fuzzy
 msgid ""
 "The Citizen Governor (formerly called the CMA) helps you manage your cities. "
 "It deploys the available workers on the free tiles around the city to "
@@ -16702,6 +16802,52 @@ msgid ""
 "hints, some background information, and some preset examples in the file "
 "README.cma, included with Freeciv.\n"
 msgstr ""
+"O Agente de Gestão Citadina (AGC) ajuda-o a gerir as suas cidades. Assigna "
+"os trabalhadores disponíveis nas quadrículas livres em redor da cidade por "
+"forma a obter a máxima produção da cidade. Também converte trabalhadores em "
+"cientistas, cobradores de impostos ou artistas, se necessário. E o AGC tem "
+"outra capacidade maravilhosa: sempre que possível, mantém os seus cidadãos "
+"contentes.\n"
+"\n"
+"Existem várias formas de dizer ao seu AGC que tipo de resultados deseja. "
+"Abra a janela da cidade e vá à aba do AGC. Existem dois tipos de barras "
+"reguláveis: À esquerda, pode definir o Excedente Mínimo para cada tipo de "
+"produção; por ex. Moedas = +3 cignifica que a cidade gera mais três moedas "
+"do que as que necessita para manter as suas construções. À direita, as "
+"barras permitem-lhe definir quanto prefere um tipo de resultados em "
+"deterimento de outro; definir ciência para 3 significa que prefere uma "
+"lâmpada em deterimento de três escudos (ou moedas, comércio,...). Pode "
+"definir diferentes factores para cada tipo de produção, de acordo com as "
+"suas necessidades.\n"
+"\n"
+"Se definir Excedentes Mínimos que sejam impossíveis de cumprir, o AGC não "
+"poderá ser activado. Sempre que o AGC não conseguir cumprir a sua tarefa no "
+"decorrer do jogo, devolver-lhe-á o controlo. Assim, não deverá definir "
+"excedentes demasiado elevados; em vez disso, utilize factores para atingir "
+"os seus objectivos.\n"
+"\n"
+"A caixa de selecção Celebração permite à sua cidade celebrar. Isto apenas "
+"ocorrerá com uma taxa de luxo elevada. Consulte a ajuda sobre 'Felicidade'.\n"
+"\n"
+"Primir 'Controlar cidade' coloca a cidade sob o controlo do AGC, 'Libertar "
+"cidade' devolve-lhe o controlo.\n"
+"\n"
+"Para tornar a utilização mais simples, poderá gravar as suas definições de "
+"barras como uma pré-definição com um nome. Clique em 'adicionar pré-"
+"definição' e introduza um nome para a sua definição. Poderá utilizar esta "
+"definição em todas as cidades bastando clicar no seu nome. Poderá também "
+"controlar as suas definições a partir do relatório de cidade, na coluna AGC. "
+"Poderá ainda altera-lo a partir daí (utilize 'alterar' --> 'AGC'), caso o "
+"tenha gravado como uma pré-definição.\n"
+"\n"
+"Utilize 'Jogo' --> 'Gravar Definições' para gravar permanentemente as suas "
+"pré-definições.\n"
+"\n"
+"Mas tenha cautela! Se utilizar o AGC para apenas algumas das suas cidades, "
+"terá algumas dificuldades em gerir manualmente as cidades próximas. É mais "
+"simples gerir todas as cidades numa ilha ou manualmente ou utilizando o AGC. "
+"Leia mais dicas, alguma informação histórica e exemplos de pré-definições no "
+"ficheiro README.cma, incluido no Freeciv.\n"
 
 #: data/helpdata.txt:870
 msgid "City Improvements"
@@ -17147,11 +17293,15 @@ msgid " Combat example 1"
 msgstr " 1º Exemplo de combate"
 
 #: data/helpdata.txt:1090
+#, fuzzy
 msgid ""
 "Suppose a Cannon (A:8, D:1, HP:20, F:1) attacks a Musketeer (A:3, D:3, "
 "HP:20, F:1) inside a city with City Walls built on a Forest tile.  Neither "
 "are veteran."
 msgstr ""
+"Imagine que um Canhão veterano (A:8, D:1, R:20, F:1) com 2/3 dos pontos de "
+"movimento ataca Mosqueteiros não-veteranos (A:3, D:3, R:20, F:1) dentro de "
+"uma cidade com Muralhas e construida sobre uma quadrícula de Floresta."
 
 #: data/helpdata.txt:1094
 #, fuzzy
@@ -18129,11 +18279,16 @@ msgid "Courthouse"
 msgstr "Tribunal"
 
 #: data/default/buildings.ruleset:290
+#, fuzzy
 msgid ""
 "Reduces the corruption and waste in a city by 50%.  Under a Democracy, a "
 "Courthouse makes 1 unhappy citizen content.  Also makes the revolt cost of "
 "the city 4 times bigger."
 msgstr ""
+"Reduz a corrupção e desperdício de uma cidade em 50%.  Sob uma Democracia, "
+"um Tribunal torna 1 cidadão descontente em contente.  Também reduz em metade "
+"a distância efectiva em relação à capital, para efeitos de cálculo de custo "
+"de revolta."
 
 #: data/default/buildings.ruleset:297 data/civ2/buildings.ruleset:276
 #: data/civ1/buildings.ruleset:223
@@ -18298,7 +18453,7 @@ msgid "Palace"
 msgstr "Palácio"
 
 #: data/default/buildings.ruleset:552
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "Makes a city the capital and the center of your government.  Corruption in "
 "other cities is related to how far away from the capital they are, except "
@@ -18313,6 +18468,15 @@ msgid ""
 "Under Despotism the palace gives you a +75% production bonus, and under "
 "Monarchy a +50% production bonus."
 msgstr ""
+"Torna uma cidade na capital e o centro do seu governo.  A corrupção nas "
+"outras cidades depende de quão distantes estão da capital, excepto quando o "
+"governo é uma Democracia ou Comunismo.  O custo de incitar uma revolta na "
+"cidade também depende da distância desta à capital (sob qualquer forma de "
+"governo).\n"
+"\n"
+"Tome bem conta da sua capital, visto que a sua perca pode resultar numa "
+"guerra civil no seu império. Perder o seu palácio irá também resultar na "
+"perca de qualquer nave espacial que possa possuir."
 
 #: data/default/buildings.ruleset:569 data/civ2/buildings.ruleset:539
 msgid "Police Station"
@@ -18621,10 +18785,13 @@ msgid "A.Smith's Trading Co."
 msgstr "Companhia Comercial A.Smith"
 
 #: data/default/buildings.ruleset:983
+#, fuzzy
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all your cities."
 msgstr ""
+"Construções de cidade que normalmente teriam uma manutenção de 1 ficam "
+"livres de qualquer manutenção, em todas as cidades."
 
 #: data/default/buildings.ruleset:989 data/civ2/buildings.ruleset:979
 #: data/civ1/buildings.ruleset:655
@@ -18658,10 +18825,13 @@ msgid "Cure For Cancer"
 msgstr "Cura do Câncer"
 
 #: data/default/buildings.ruleset:1043
+#, fuzzy
 msgid ""
 "This stunning technological achievement makes one unhappy citizen content in "
 "all your cities."
 msgstr ""
+"Esta maravilhosa meta científica torna um cidadão descontente em contente em "
+"todas as cidades."
 
 #: data/default/buildings.ruleset:1051 data/civ2/buildings.ruleset:1039
 #: data/civ1/buildings.ruleset:715
@@ -18711,8 +18881,9 @@ msgid "Great Wall"
 msgstr "A Grande Muralha"
 
 #: data/default/buildings.ruleset:1127
+#, fuzzy
 msgid "Works as a City Wall in all your cities."
-msgstr ""
+msgstr "Funciona como Muralhas em todas as cidades."
 
 #: data/default/buildings.ruleset:1135 data/civ2/buildings.ruleset:1122
 #: data/civ1/buildings.ruleset:777
@@ -18755,11 +18926,11 @@ msgid "Isaac Newton's College"
 msgstr "Colégio de Isaac Newton"
 
 #: data/default/buildings.ruleset:1194
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "Boosts science production by 100% in every city you control that has a "
 "University."
-msgstr ""
+msgstr "Aumenta a produção científica da cidade onde for construido em 100%."
 
 #: data/default/buildings.ruleset:1200 data/civ2/buildings.ruleset:1185
 #: data/civ1/buildings.ruleset:842
@@ -18797,11 +18968,15 @@ msgid "Lighthouse"
 msgstr "Farol"
 
 #: data/default/buildings.ruleset:1273
+#, fuzzy
 msgid ""
 "Gives all your sea units 1 additional movement point and eliminates the risk "
 "of losing Triremes on the high seas.  Makes all your new sea units veterans "
 "(for all your cities)."
 msgstr ""
+"Dá a todas as unidades marítimas um ponto de movimento adicional e elimina o "
+"risco de perder triremes em alto mar.  Torna todas as novas unidades "
+"marítimas veteranas (em todas as cidades)."
 
 #: data/default/buildings.ruleset:1280 data/civ2/buildings.ruleset:1264
 #: data/civ1/buildings.ruleset:885
@@ -18809,8 +18984,9 @@ msgid "Magellan's Expedition"
 msgstr "Expedição de Magalhães"
 
 #: data/default/buildings.ruleset:1295
+#, fuzzy
 msgid "Gives all your sea units 2 additional movement points."
-msgstr ""
+msgstr "Dá a todas as unidades marítimas dois pontos de movimento adicionais."
 
 #: data/default/buildings.ruleset:1300 data/civ2/buildings.ruleset:1283
 #: data/civ1/buildings.ruleset:904
@@ -18853,8 +19029,9 @@ msgid "Oracle"
 msgstr "Oráculo"
 
 #: data/default/buildings.ruleset:1375
+#, fuzzy
 msgid "Makes two of your unhappy citizens content in every city with a temple."
-msgstr ""
+msgstr "Torna dois cidadãos descontentes em contentes em cada cidade."
 
 #: data/default/buildings.ruleset:1380 data/civ2/buildings.ruleset:1363
 #: data/civ1/buildings.ruleset:960
@@ -18862,11 +19039,15 @@ msgid "Pyramids"
 msgstr "Pirâmides"
 
 #: data/default/buildings.ruleset:1394
+#, fuzzy
 msgid ""
 "The amount of stored food lost when one of your cities grows or shrinks is "
 "reduced by 25%.  This helps a city to grow faster and more easily withstand "
 "famine.  Cumulative with Granary."
 msgstr ""
+"A quantidade de comida armazenada será colocada a metade sempre que a cidade "
+"com Celeiro aumente ou diminua. Isto leva a que uma cidade cresca mais "
+"rapidamente e melhor resista à fome."
 
 #: data/default/buildings.ruleset:1401 data/civ2/buildings.ruleset:1382
 #: data/civ1/buildings.ruleset:981
@@ -18874,8 +19055,9 @@ msgid "SETI Program"
 msgstr "Programa SETI"
 
 #: data/default/buildings.ruleset:1415
+#, fuzzy
 msgid "Boosts science production in each city with a Research Lab by 100%. "
-msgstr ""
+msgstr "Aumenta a produção científica em cada cidade por 100%."
 
 #: data/default/buildings.ruleset:1420 data/civ2/buildings.ruleset:1402
 #: data/civ1/buildings.ruleset:1001
@@ -18911,10 +19093,14 @@ msgid "Sun Tzu's War Academy"
 msgstr "Academia Militar de Sun Tzu"
 
 #: data/default/buildings.ruleset:1474
+#, fuzzy
 msgid ""
 "All your new ground units start at the first veteran level. The  chance of a "
 "unit getting the next veteran level after a battle  increases by half."
 msgstr ""
+"Todas as suas unidades terrestres tornam-se veteranas (em todas as "
+"cidades).  A probabilidade de uma unidade se tornar veterana após uma "
+"batalha aumenta de 50% para 100%."
 
 #: data/default/buildings.ruleset:1481 data/civ2/buildings.ruleset:1463
 #: data/civ1/buildings.ruleset:1020
@@ -18922,8 +19108,9 @@ msgid "United Nations"
 msgstr "Nações Unidas"
 
 #: data/default/buildings.ruleset:1495
+#, fuzzy
 msgid "All your units regain two extra hitpoints per turn."
-msgstr ""
+msgstr "Unidades recuperam dois pontos de resistência adicionais por turno."
 
 #: data/default/buildings.ruleset:1508 data/civ2/buildings.ruleset:1490
 #: data/civ1/buildings.ruleset:1046
@@ -19528,6 +19715,7 @@ msgid "?female:Comrade"
 msgstr "Camarada"
 
 #: data/default/governments.ruleset:124 data/civ1/governments.ruleset:124
+#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -19536,6 +19724,32 @@ msgid ""
 "Under Communism, corruption does not vary by distance from the capital; all "
 "cities (including the capital) have a modest amount of corruption."
 msgstr ""
+"Um governo Comunista é baseado no ideal de que todas a pessoas são iguais.  "
+"Toda a propriedade é do estado, e não de cidadãos privados.  O Comunismo é "
+"um compromisso entre os estilos militar e comercial de governo.\n"
+"\n"
+"Sob Comunismo, a corrupção não varia com a distância da capital; todas as "
+"cidades (incluindo a capital) têm uma quantidade diminuta de corrupção.  "
+"Adicionalmente, cidades Comunistas a mais de 10 quadrículas de distância da "
+"capital são consideradas como a apenas 10 quadrículas de distância ao ser "
+"efectuado o cálculo do custo de incitar uma revolta (ver Unidades, "
+"Diplomata).\n"
+"\n"
+"Os Colonos consomem 2 recursos de comida por turno sob o Comunismo.\n"
+"\n"
+"Se uma cidade governada por Comunismo estiver em celebração, esta receberá "
+"um bónus de 1 recurso de comércio por cada quadrícula que já produza pelo "
+"menos 1 recurso de comércio.  Consulte Felicidade para mais detalhes.\n"
+"\n"
+"Diplomatas e Espiões criados sob Comunismo são sempre veteranos.\n"
+"\n"
+"Sob Comunismo, as suas cidades podem suportar até 3 unidades militares sem "
+"pagar escudos de manutenção.  (Unidades adicionais requerem 1 escudo de "
+"produção cada.)\n"
+"\n"
+"Você pode impor uma lei marcial limitada mas eficiente sob o Comunismo. Cada "
+"unidade militar no interior de uma cidade, até ao máximo de 3, manterá "
+"contentes 2 cidadãos descontentes."
 
 #: data/default/governments.ruleset:138 data/civ2/governments.ruleset:164
 #: data/civ1/governments.ruleset:138
@@ -19626,6 +19840,7 @@ msgid ""
 msgstr ""
 
 #: data/civ2/governments.ruleset:122
+#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -19635,6 +19850,32 @@ msgid ""
 "capital; all cities (including the capital) have a modest amount of "
 "corruption."
 msgstr ""
+"Um governo Comunista é baseado no ideal de que todas a pessoas são iguais.  "
+"Toda a propriedade é do estado, e não de cidadãos privados.  O Comunismo é "
+"um compromisso entre os estilos militar e comercial de governo.\n"
+"\n"
+"Sob Comunismo, a corrupção não varia com a distância da capital; todas as "
+"cidades (incluindo a capital) têm uma quantidade diminuta de corrupção.  "
+"Adicionalmente, cidades Comunistas a mais de 10 quadrículas de distância da "
+"capital são consideradas como a apenas 10 quadrículas de distância ao ser "
+"efectuado o cálculo do custo de incitar uma revolta (ver Unidades, "
+"Diplomata).\n"
+"\n"
+"Os Colonos consomem 2 recursos de comida por turno sob o Comunismo.\n"
+"\n"
+"Se uma cidade governada por Comunismo estiver em celebração, esta receberá "
+"um bónus de 1 recurso de comércio por cada quadrícula que já produza pelo "
+"menos 1 recurso de comércio.  Consulte Felicidade para mais detalhes.\n"
+"\n"
+"Diplomatas e Espiões criados sob Comunismo são sempre veteranos.\n"
+"\n"
+"Sob Comunismo, as suas cidades podem suportar até 3 unidades militares sem "
+"pagar escudos de manutenção.  (Unidades adicionais requerem 1 escudo de "
+"produção cada.)\n"
+"\n"
+"Você pode impor uma lei marcial limitada mas eficiente sob o Comunismo. Cada "
+"unidade militar no interior de uma cidade, até ao máximo de 3, manterá "
+"contentes 2 cidadãos descontentes."
 
 #: data/civ2/governments.ruleset:136 data/default/techs.ruleset:297
 #: data/civ2/techs.ruleset:284 data/civ1/techs.ruleset:282
@@ -19650,6 +19891,7 @@ msgid "High Priestess"
 msgstr "Suma Sacedotiza"
 
 #: data/civ2/governments.ruleset:146
+#, fuzzy
 msgid ""
 "Fundamentalism is a form of government organized around a central set of "
 "beliefs. The beliefs, usually religious in nature, form a rigid guideline "
@@ -19662,6 +19904,36 @@ msgid ""
 "produces `tithes' (gold) equivalent to the number of people they would "
 "convert, and require no maintenance."
 msgstr ""
+"Fundamentalismo é uma forma de governo organizada em torno de um conjunto de "
+"crenças. As crenças, normalmente religiosas em natureza, formam um conjunto "
+"rígido de acções e reacções tanto do governante como do povo.\n"
+"\n"
+"Numa sociedade fundamentalista, o povo e os governantes estão inteiramente "
+"devotados às suas crenças, e estão normalmente dispostos a morrer para as "
+"manter.\n"
+"\n"
+"Sob o Fundamentalismo, as suas cidades podem suportar até 10 unidades "
+"militares sem pagar escudos de manutenção. (Unidades adicionais requerem 1 "
+"escudo de produção cada.) Unidades Fanáticas não requerem manutenção.\n"
+"\n"
+"Colonos consomem 2 recursos de comida por turno, sob o Fundamentalismo.\n"
+"\n"
+"Se uma cidade governada por Fundamentalismo estiver em celebração, receberá "
+"um bónus de 1 recurso de comércio por cada quadrícula que já produza pelo "
+"menos um recurso de comércio.  Consulte Felicidade para mais detalhes.\n"
+"\n"
+"A taxa máxima de ciência, impostos ou luxo é de 80%.\n"
+"\n"
+"A taxa máxima efectiva de ciência é de 50%, sendo o excedente utilizado para "
+"cobrar impostos, sendo ainda que a produção científica é reduzida para "
+"metade.\n"
+"\n"
+"Cidades sob o Fundamentalismo sofrem uma quantidade reduzida de corrupção e "
+"desperdício.\n"
+"\n"
+"Construções que normalmente convertem cidadãos descontentes em contentes, "
+"produz `tithes' (moedas) equivalentes ao número de cidadãos que converteriam "
+"e não requerem manutenção."
 
 #: data/civ2/governments.ruleset:196
 msgid ""
@@ -20446,6 +20718,7 @@ msgstr ""
 "altamente vulnerável a ataques inimigos."
 
 #: data/default/units.ruleset:264
+#, fuzzy
 msgid ""
 "Workers are one of the key units in the game.  They can be used to irrigate "
 "land, build roads, railroads, fortresses, airbases and mines, and clean up "
@@ -20459,6 +20732,19 @@ msgid ""
 "and a group of Workers, Settlers and/or Engineers is highly vulnerable to "
 "enemy attacks."
 msgstr ""
+"Os Colonos são uma das unidades chave do jogo.  Podem ser utilizados para "
+"fundar novas cidades, irrigar terrenos, construir estradas, ferrovias, "
+"fortalezas, bases aéreas e minas, bem como limpar a poluição e a chuva "
+"nuclear.  A manutenção dos Colonos é em comida e em produção, e um Colono "
+"pode morrer se a sua cidade de origem ficar sem comida.\n"
+"\n"
+"Colonos e Engenheiros podem trabalhar em conjunto para reduzir o tempo "
+"necessário para projectos longos.  Se dois ou mais Colonos e/ou Engenheiros "
+"estiverem ambos a trabalhar na mesma tarefa na mesma quadrícula, os seus "
+"esforços serão unidos em cada turno até que a tarefa esteja terminada.  Seja "
+"cuidadoso para não dedicar demasiados trabalhadores a uma tarefa; excesso de "
+"esforço pode ser desperdiçado, e um grupo de Colonos e/ou Engenheiros é "
+"altamente vulnerável a ataques inimigos."
 
 #: data/default/units.ruleset:279 data/civ2/units.ruleset:133
 msgid "Engineers"
@@ -21214,10 +21500,15 @@ msgid "Fanatics"
 msgstr "Fanáticos"
 
 #: data/civ2/units.ruleset:394
+#, fuzzy
 msgid ""
 "Fundamentalist nations can maintain Fanatic units without having to pay any "
 "shields for upkeep."
 msgstr ""
+"Apenas nações Fundamentalistas podem construir unidades Fanáticas.\n"
+"\n"
+"Nações Fundamentalistas podem manter unidades Fanáticas sem terem de pagar "
+"quaisquer escudos de manutenção."
 
 #: data/civ2/units.ruleset:668
 msgid "Elephants"
@@ -21549,10 +21840,13 @@ msgid "?plural:Australians"
 msgstr "Australianos"
 
 #: data/nation/australian.ruleset:6
+#, fuzzy
 msgid ""
 "Australia was founded as a British penal colony in 1788AD. It is the only "
 "country on earth to occupy an entire continent."
 msgstr ""
+"A Austrália foi fundada como uma colónia penal Britãncia em 1788DC. É o "
+"único país no mundo a ocupar um continente inteiro."
 
 #: data/nation/austrian.ruleset:3
 msgid "Austrian"
@@ -21577,12 +21871,17 @@ msgid "?plural:Aztecs"
 msgstr "Astecas"
 
 #: data/nation/aztec.ruleset:6
+#, fuzzy
 msgid ""
 "The Azteca, a Nahuatl speaking people from the Sonoran desert, seized "
 "control of the Toltec-derived civilizations of Central Mexico during the "
 "15th century AD, reviving the practice of human sacrifice.  They were "
 "conquered by the Spanish under Cortez in 1524."
 msgstr ""
+"Os Astecas, um grupo de bárbaros do deserto de Sonoran, tomou controlo das "
+"civilizações derivadas dos Toltec do México Central durante o século XV DC, "
+"revivendo o sacrifício de vidas humanas.  Foram conquistados pelos "
+"Espanhois, liderados por Cortez, em 1524."
 
 #: data/nation/aztec.ruleset:21
 msgid "Tlatoani"
@@ -21690,11 +21989,16 @@ msgid "?plural:Boers"
 msgstr "Bóeres"
 
 #: data/nation/boer.ruleset:6
+#, fuzzy
 msgid ""
 "The Boers were Dutch settlers in British-controlled South Africa from "
 "1650AD.  They briefly controlled two republics, the Transvaal and the Orange "
 "Free State, before being defeated by the British in the war of 1899-1902."
 msgstr ""
+"Os Bóeres eram colonos Holandeses na África-do-Sul controlada pelos "
+"Britânicos desde 1650 DC.  Controlaram brevemente duas repúblicas, a "
+"Transvaal e o Estado Laranja Livre, antes de serem derrotados pelos "
+"Britânicos na guerra de 1899-1902."
 
 #: data/nation/bosnia.ruleset:3
 #, fuzzy
@@ -21888,11 +22192,15 @@ msgid "?plural:Carthaginians"
 msgstr "Cartagineses"
 
 #: data/nation/carthaginian.ruleset:8
+#, fuzzy
 msgid ""
 "The Carthaginians, descendants of Phoenician traders, ran a naval empire in "
 "the Mediterranean from the 5th to 2nd centuries BC. Carthage was destroyed "
 "by Rome in 146BC."
 msgstr ""
+"Os Cartaginenses, descendentes dos comerciantes Fenícios, governavam um "
+"império naval no Mediterrâneo desde o séc V ao séc II AC. Cartago foi "
+"destruida por Roma em 146 AC."
 
 #: data/nation/catalan.ruleset:3
 msgid "Catalan"
@@ -22171,11 +22479,15 @@ msgid "?plural:Egyptians"
 msgstr "Egípcios"
 
 #: data/nation/egyptian.ruleset:6
+#, fuzzy
 msgid ""
 "Egypt was the second-oldest of the world's civilizations.  Since ancient "
 "times it has been unusually urbanized, supporting a large population on silt "
 "deposited by the annual floodings of the Nile."
 msgstr ""
+"O Egipto foi a segunda mais antiga civilização do mundo.  Desde tempos "
+"antigos foi anormalmente urbanizada, suportando uma larga população baseada "
+"nas lamas depositadas anualmente pelas inundações do Nilo."
 
 #: data/nation/egyptian.ruleset:26
 msgid "Pharaoh"
@@ -22221,10 +22533,13 @@ msgid "?plural:Estonians"
 msgstr "Estónios"
 
 #: data/nation/estonian.ruleset:6
+#, fuzzy
 msgid ""
 "Estonia is a small country on the south shore of the eastern Baltic Sea.  "
 "Its people and language are closely related to those of Finland."
 msgstr ""
+"Estónia é um pequeno país na costa sul do Mar Báltico leste.  O seu povo e "
+"idioma são muito semelhantes aos da Finlândia."
 
 #: data/nation/ethiopian.ruleset:3
 msgid "Ethiopian"
@@ -22254,10 +22569,13 @@ msgid "?plural:Filipinos"
 msgstr "Filipinos"
 
 #: data/nation/filipino.ruleset:7
+#, fuzzy
 msgid ""
 "After centuries of Spanish rule, the Philippines were ceded to the Americans "
 "in 1898. They attained home rule in 1935 and independence in 1946."
 msgstr ""
+"Após séculos de somínio Espanhol, as Filipinas foram cedidas aos Americanos "
+"em 1898. Obtiveram governo interno em 1935 e a independência em 1946."
 
 #: data/nation/finnish.ruleset:3
 msgid "Finnish"
@@ -22268,10 +22586,14 @@ msgid "?plural:Finns"
 msgstr "Finlandeses"
 
 #: data/nation/finnish.ruleset:6
+#, fuzzy
 msgid ""
 "Finland is a small, cold country on the northern fringe of Europe, noted for "
 "exporting timber, cellular phones, and world-class operating systems."
 msgstr ""
+"A Finlândia é um país pequeno e frio na franja norte da Europa, reconhecida "
+"pela exportação de madeira, telefones celulares e sistemas operativos "
+"excelentes."
 
 #: data/nation/french.ruleset:3
 msgid "French"
@@ -22494,6 +22816,7 @@ msgid "?plural:Incas"
 msgstr "Incas"
 
 #: data/nation/inca.ruleset:6
+#, fuzzy
 msgid ""
 "The Inca were an Amerind people of the Northern Andes who conquered an "
 "empire stretching along the west coast of South America from what is now "
@@ -22501,6 +22824,10 @@ msgid ""
 "a few decades before the Spanish conquistadors arrived in their part of the "
 "world in the mid-1500s AD."
 msgstr ""
+"Os Incas eram um povo Américano dos Andes Norte que conquistaram um império "
+"que ia da costa oeste da América do Sul no que é agora o Chile até perto do "
+"Equador. Tiveram o azar de o fazer apenas algumas décadas antes de chegarem "
+"os conquistadores Espanhois à sua parte do mundo a meio de 1500 DC."
 
 #: data/nation/inca.ruleset:23
 msgid "?title:Inca"
@@ -22863,11 +23190,15 @@ msgid "?plural:Lithuanians"
 msgstr "Lituanos"
 
 #: data/nation/lithuanian.ruleset:6
+#, fuzzy
 msgid ""
 "Lithuania is a small country on the south coast of the Baltic Sea, northeast "
 "of Poland.  Lithuanian is the most archaic and complex of the northern Indo-"
 "European languages"
 msgstr ""
+"Lituânia é um pequeno pais na costa sul do Mar Báltico, a nordeste da "
+"Polónia.  Lituâno é o mais arcaico e complexo idioma dos Indo-Europeus do "
+"norte"
 
 #: data/nation/lithuanian.ruleset:28
 msgid "Great Duke"
@@ -23392,11 +23723,15 @@ msgid "?plural:Scots"
 msgstr "Escoceses"
 
 #: data/nation/scottish.ruleset:6
+#, fuzzy
 msgid ""
 "Scotland, originally settled in late Roman times by Irish raiders who "
 "displaced the native Picts, was an independent kingdom from around 1034AD to "
 "the Union of Crowns with England in 1701."
 msgstr ""
+"A Escócia, inicialmente colonizada no final da era Romana por piratas "
+"Irlandeses que deslocaram os nativos Pictos, foi um reino independente desde "
+"cerca de 1034DC até à União das Coroas com a Inglaterra em 1701."
 
 #: data/nation/scottish.ruleset:26
 msgid "First Minister"
@@ -23411,11 +23746,15 @@ msgid "?plural:Serbians"
 msgstr "Sérvios"
 
 #: data/nation/serbian.ruleset:6
+#, fuzzy
 msgid ""
 "Serbia is part of the region of the Southern Slavs that was conquered by the "
 "Ottomans after the collapse of the Byzantine Empire.  During most of the "
 "20th century it was part of the Yugoslav Federation."
 msgstr ""
+"A Sérvia é parte do território dos Eslavos Sul que foi conquistada pelos "
+"Otomanos após o colapso do Império Bizantino.  Durante a maior parte do séc. "
+"XX fez parte da Federação Jugoslava."
 
 #: data/nation/silesian.ruleset:3
 msgid "Silesian"
@@ -23442,10 +23781,13 @@ msgid "?plural:Singaporeans"
 msgstr "Singapuranos"
 
 #: data/nation/singaporean.ruleset:18
+#, fuzzy
 msgid ""
 "Singapore is a mercantile city-state located at the southernmost tip of the "
 "Malaysian Peninsula."
 msgstr ""
+"Singapura é uma cidade-estado mercantil localizada no extremo mais a sul da "
+"Península Malaia"
 
 #: data/nation/singaporean.ruleset:32
 msgid "Encik"
@@ -23490,10 +23832,13 @@ msgid "?plural:Slovakians"
 msgstr "Eslovaquianos"
 
 #: data/nation/slovakian.ruleset:6
+#, fuzzy
 msgid ""
 "Slovakia is a country in the heart of Europe. Formerly part of "
 "Czechoslovakia, until 1918 it was part of the Austro-Hungarian Empire."
 msgstr ""
+"A República Checa actual foi até 1933 parte da Checoslováquia, que tinha "
+"sido até 1918 parte do Império Austro-Húngaro."
 
 #: data/nation/slovakian.ruleset:29
 msgid "Pope"
@@ -23792,12 +24137,17 @@ msgid "?plural:Turks"
 msgstr "Turcos"
 
 #: data/nation/turk.ruleset:6
+#, fuzzy
 msgid ""
 "Modern Turkey is the successor state of the Ottoman Empire, which collapsed "
 "and was dismembered by the victors in World War I after backing the Central "
 "Powers.  The country was subsequently reformed and secularized by Kemal "
 "Mustapha, the hero of the defense of Gallipoli."
 msgstr ""
+"A Turquia moderna é o estado sucessor do Império Otomano, que entrou em "
+"colapso e foi desmantelado pelos vitoriosos da I Guerra Mundial por se ter "
+"aliado com as Forças do Eixo.  O país foi depois reformado e secularizado "
+"por Kemal Mustafá, o heroi da defesa de Gallipoli."
 
 #: data/nation/ukrainian.ruleset:3
 msgid "Ukrainian"
@@ -23888,11 +24238,15 @@ msgid "?plural:Vikings"
 msgstr "Vikings"
 
 #: data/nation/viking.ruleset:6
+#, fuzzy
 msgid ""
 "The Vikings raided and traded along the coasts of Europe between 800AD and "
 "1100AD. Viking raiders eventually became the rulers of Normandy, Russia, and "
 "a short-lived kingdom in Sicily."
 msgstr ""
+"Os Vikings atacavam e faziam comércio ao longo das costas da Europa entre "
+"800DC e 1100DC. Atacantes Viking vieram eventualmente a ser os governantes "
+"da Normandia, Rússia e um reino de curta duração na Sicília."
 
 #: data/nation/welsh.ruleset:3
 msgid "Welsh"
@@ -24479,6 +24833,9 @@ msgstr "Time 30"
 #: data/default/game.ruleset:160
 msgid "Team 31"
 msgstr "Time 31"
+
+#~ msgid "Units: "
+#~ msgstr "Unidades: "
 
 #~ msgid ""
 #~ "%s%s  -  %s%s\n"

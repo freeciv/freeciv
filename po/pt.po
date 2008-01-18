@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-13 19:21-0500\n"
+"POT-Creation-Date: 2008-01-18 06:05-0500\n"
 "PO-Revision-Date: 2007-09-01 22:56+0300\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: \n"
@@ -600,8 +600,8 @@ msgstr ""
 
 #. TRANS: (none) as in "Resources: (none)".
 #: common/requirements.c:1013 common/team.c:131
-#: client/gui-gtk-2.0/helpdlg.c:1058 client/gui-win32/helpdlg.c:586
-#: client/gui-xaw/helpdlg.c:993
+#: client/gui-gtk-2.0/helpdlg.c:1055 client/gui-win32/helpdlg.c:586
+#: client/gui-xaw/helpdlg.c:991
 #, fuzzy, c-format
 msgid "(none)"
 msgstr "nada"
@@ -629,8 +629,8 @@ msgstr "Tecn. Futura %d"
 #: client/gui-sdl/helpdlg.c:817 client/gui-sdl/mapview.c:962
 #: client/gui-win32/helpdlg.c:165 client/gui-win32/helpdlg.c:545
 #: client/gui-win32/helpdlg.c:715 client/gui-win32/helpdlg.c:735
-#: client/gui-xaw/helpdlg.c:819 client/gui-xaw/helpdlg.c:863
-#: client/gui-xaw/helpdlg.c:882 manual/civmanual.c:327 manual/civmanual.c:333
+#: client/gui-xaw/helpdlg.c:817 client/gui-xaw/helpdlg.c:861
+#: client/gui-xaw/helpdlg.c:880 manual/civmanual.c:327 manual/civmanual.c:333
 msgid "None"
 msgstr "Nenhum"
 
@@ -7932,11 +7932,11 @@ msgstr "Incapaz de encontrar uma rota para o destino!"
 msgid "Oh my! You seem to have no capital!"
 msgstr "Oh! Parece que você não tem uma capital!"
 
-#: client/helpdata.c:123
+#: client/helpdata.c:125
 msgid "Terrain     Road   Irrigation     Mining         Transform\n"
 msgstr "Terreno     Estrada Irrigação     Minas          Transformado\n"
 
-#: client/helpdata.c:149
+#: client/helpdata.c:150
 msgid "(Railroads and fortresses require 3 turns, regardless of terrain.)"
 msgstr ""
 "(Caminhos de ferro e fortalezas requerem 3 turnos, independentemente do "
@@ -9856,6 +9856,63 @@ msgstr "."
 msgid "Wonders: "
 msgstr "Maravilhas: "
 
+#: client/text.c:1243
+#, c-format
+msgid "Cities: %d total, %d over threshold of %d cities."
+msgstr "Cidades: %d total, %d acima do patamar de %d cidades."
+
+#. TRANS: 0-21 content [citizen(s)] ...
+#: client/text.c:1247
+#, fuzzy, c-format
+msgid "%d content before penalty."
+msgid_plural "%d content before penalty."
+msgstr[0] "%d contentes antes de penalização com "
+msgstr[1] "%d contentes antes de penalização com "
+
+#. TRANS: 0-21 unhappy citizen(s).
+#: client/text.c:1253
+#, fuzzy, c-format
+msgid "%d additional unhappy citizen."
+msgid_plural "%d additional unhappy citizens."
+msgstr[0] "%d cidadãos descontentes adicionais."
+msgstr[1] "%d cidadãos descontentes adicionais."
+
+#. TRANS: Martial law opening parenthesis
+#: client/text.c:1275
+msgid "Martial law in effect ("
+msgstr "Lei marcial em prática ("
+
+#. TRANS: no [unit] maximum
+#: client/text.c:1280
+msgid "no maximum, "
+msgstr "sem máximo, "
+
+#: client/text.c:1283
+#, c-format
+msgid "%d unit maximum, "
+msgid_plural "%d units maximum, "
+msgstr[0] "%d unidade no máximo, "
+msgstr[1] "%d unidades no máximo, "
+
+#. TRANS: Martial law closing parenthesis
+#: client/text.c:1290
+#, c-format
+msgid "%d per unit). "
+msgstr "%d por unidade). "
+
+#: client/text.c:1294
+msgid "Military units in the field may cause unhappiness. "
+msgstr "Unidades militares no campo poderão causar infelicidade. "
+
+#: client/text.c:1297
+msgid "Military units have no happiness effect. "
+msgstr "Unidades militares não têm qualquer efeito na felicidade. "
+
+#: client/text.c:1312
+#, c-format
+msgid "Luxury: %d total."
+msgstr "Luxo: %d total."
+
 #: client/tilespec.c:865
 msgid "No usable default tileset found, aborting!"
 msgstr ""
@@ -11158,64 +11215,12 @@ msgstr ""
 msgid "Ctrl+W"
 msgstr ""
 
-#: client/gui-gtk-2.0/happiness.c:122 client/gui-sdl/citydlg.c:2042
+#: client/gui-gtk-2.0/happiness.c:112 client/gui-sdl/citydlg.c:2042
 #: client/gui-sdl/citydlg.c:3721 client/gui-win32/citydlg.c:726
-#: client/gui-win32/happiness.c:95 client/gui-xaw/menu.c:249
+#: client/gui-win32/happiness.c:85 client/gui-xaw/menu.c:249
 #: data/helpdata.txt:1391
 msgid "Happiness"
 msgstr "Felicidade"
-
-#: client/gui-gtk-2.0/happiness.c:246 client/gui-win32/happiness.c:198
-#, c-format
-msgid "Cities: %d total, %d over threshold of %d cities.\n"
-msgstr "Cidades: %d total, %d acima do patamar de %d cidades.\n"
-
-#: client/gui-gtk-2.0/happiness.c:250 client/gui-win32/happiness.c:202
-#, c-format
-msgid "%d content before penalty with "
-msgstr "%d contentes antes de penalização com "
-
-#: client/gui-gtk-2.0/happiness.c:252 client/gui-win32/happiness.c:204
-#, c-format
-msgid "%d additional unhappy citizens."
-msgstr "%d cidadãos descontentes adicionais."
-
-#: client/gui-gtk-2.0/happiness.c:268 client/gui-win32/happiness.c:221
-#, c-format
-msgid "Luxury: %d total."
-msgstr "Luxo: %d total."
-
-#: client/gui-gtk-2.0/happiness.c:295 client/gui-win32/happiness.c:248
-msgid "Units: "
-msgstr "Unidades: "
-
-#: client/gui-gtk-2.0/happiness.c:299 client/gui-win32/happiness.c:252
-msgid "Martial law in effect ("
-msgstr "Lei marcial em prática ("
-
-#: client/gui-gtk-2.0/happiness.c:303 client/gui-win32/happiness.c:256
-msgid "no maximum, "
-msgstr "sem máximo, "
-
-#: client/gui-gtk-2.0/happiness.c:305 client/gui-win32/happiness.c:258
-#, c-format
-msgid "%d unit maximum, "
-msgid_plural "%d units maximum, "
-msgstr[0] "%d unidade no máximo, "
-msgstr[1] "%d unidades no máximo, "
-
-#: client/gui-gtk-2.0/happiness.c:309 client/gui-win32/happiness.c:262
-#, c-format
-msgid "%d per unit). "
-msgstr "%d por unidade). "
-
-#: client/gui-gtk-2.0/happiness.c:314 client/gui-win32/happiness.c:267
-msgid "Military units in the field may cause unhappiness. "
-msgstr "Unidades militares no campo poderão causar infelicidade. "
-
-#: client/gui-gtk-2.0/happiness.c:318 client/gui-win32/happiness.c:271
-msgid "Military units have no happiness effect. "
-msgstr "Unidades militares não têm qualquer efeito na felicidade. "
 
 #: client/gui-gtk-2.0/helpdlg.c:88 client/gui-gtk-2.0/helpdlg.c:91
 #: client/gui-gtk-2.0/helpdlg.c:95 client/gui-sdl/helpdlg.c:344
@@ -11314,81 +11319,81 @@ msgstr "Resul/Data Transp:"
 #: client/gui-gtk-2.0/helpdlg.c:111 client/gui-win32/helpdlg.c:165
 #: client/gui-win32/helpdlg.c:501 client/gui-win32/helpdlg.c:544
 #: client/gui-win32/helpdlg.c:709 client/gui-win32/helpdlg.c:733
-#: client/gui-xaw/helpdlg.c:761 client/gui-xaw/helpdlg.c:810
-#: client/gui-xaw/helpdlg.c:818 client/gui-xaw/helpdlg.c:855
-#: client/gui-xaw/helpdlg.c:880
+#: client/gui-xaw/helpdlg.c:759 client/gui-xaw/helpdlg.c:808
+#: client/gui-xaw/helpdlg.c:816 client/gui-xaw/helpdlg.c:853
+#: client/gui-xaw/helpdlg.c:878
 msgid "(Never)"
 msgstr "(Nunca)"
 
-#: client/gui-gtk-2.0/helpdlg.c:132 client/gui-xaw/helpdlg.c:125
+#: client/gui-gtk-2.0/helpdlg.c:129 client/gui-xaw/helpdlg.c:123
 #: client/gui-xaw/menu.c:253 data/helpdata.txt:37
 msgid "About"
 msgstr "Sobre"
 
-#: client/gui-gtk-2.0/helpdlg.c:199 client/gui-xaw/helpdlg.c:271
+#: client/gui-gtk-2.0/helpdlg.c:196 client/gui-xaw/helpdlg.c:269
 msgid "Removed"
 msgstr "Removido"
 
-#: client/gui-gtk-2.0/helpdlg.c:429 client/gui-win32/helpdlg.c:424
+#: client/gui-gtk-2.0/helpdlg.c:426 client/gui-win32/helpdlg.c:424
 #: data/Freeciv.in:576
 msgid "Freeciv Help Browser"
 msgstr "Navegador Ajuda Freeciv"
 
-#: client/gui-gtk-2.0/helpdlg.c:657
+#: client/gui-gtk-2.0/helpdlg.c:654
 msgid "Expand All"
 msgstr "Expandir Tudo"
 
-#: client/gui-gtk-2.0/helpdlg.c:658
+#: client/gui-gtk-2.0/helpdlg.c:655
 msgid "Collapse All"
 msgstr "Recolher Tudo"
 
-#: client/gui-gtk-2.0/helpdlg.c:942 client/gui-gtk-2.0/helpdlg.c:969
-#: client/gui-gtk-2.0/helpdlg.c:981 client/gui-gtk-2.0/helpdlg.c:990
-#: client/gui-gtk-2.0/helpdlg.c:1007 client/gui-sdl/helpdlg.c:978
+#: client/gui-gtk-2.0/helpdlg.c:939 client/gui-gtk-2.0/helpdlg.c:966
+#: client/gui-gtk-2.0/helpdlg.c:978 client/gui-gtk-2.0/helpdlg.c:987
+#: client/gui-gtk-2.0/helpdlg.c:1004 client/gui-sdl/helpdlg.c:978
 msgid "Allows"
 msgstr "Permite"
 
-#: client/gui-gtk-2.0/helpdlg.c:954
+#: client/gui-gtk-2.0/helpdlg.c:951
 msgid "Obsoletes"
 msgstr "Torna Obsoleta"
 
-#: client/gui-gtk-2.0/helpdlg.c:994 client/gui-gtk-2.0/helpdlg.c:1011
+#: client/gui-gtk-2.0/helpdlg.c:991 client/gui-gtk-2.0/helpdlg.c:1008
 msgid "with"
 msgstr "com"
 
-#: client/gui-gtk-2.0/helpdlg.c:999 client/gui-gtk-2.0/helpdlg.c:1016
+#: client/gui-gtk-2.0/helpdlg.c:996 client/gui-gtk-2.0/helpdlg.c:1013
 msgid "?techhelp:"
 msgstr "?techhelp:"
 
-#: client/gui-gtk-2.0/helpdlg.c:1063 client/gui-win32/helpdlg.c:591
-#: client/gui-xaw/helpdlg.c:998
+#: client/gui-gtk-2.0/helpdlg.c:1060 client/gui-win32/helpdlg.c:591
+#: client/gui-xaw/helpdlg.c:996
 #, c-format
 msgid "+%d Trade / %d"
 msgstr "+%d Comércio / %d"
 
-#: client/gui-gtk-2.0/helpdlg.c:1067 client/gui-win32/helpdlg.c:595
-#: client/gui-xaw/helpdlg.c:1002
+#: client/gui-gtk-2.0/helpdlg.c:1064 client/gui-win32/helpdlg.c:595
+#: client/gui-xaw/helpdlg.c:1000
 #, c-format
 msgid "no extra / %d"
 msgstr "sem extra / %d"
 
-#: client/gui-gtk-2.0/helpdlg.c:1070 client/gui-gtk-2.0/helpdlg.c:1074
-#: client/gui-gtk-2.0/helpdlg.c:1088 client/gui-win32/helpdlg.c:598
+#: client/gui-gtk-2.0/helpdlg.c:1067 client/gui-gtk-2.0/helpdlg.c:1071
+#: client/gui-gtk-2.0/helpdlg.c:1085 client/gui-win32/helpdlg.c:598
 #: client/gui-win32/helpdlg.c:602 client/gui-win32/helpdlg.c:616
-#: client/gui-win32/helpdlg.c:635 client/gui-xaw/helpdlg.c:1004
-#: client/gui-xaw/helpdlg.c:1008 client/gui-xaw/helpdlg.c:1022
-#: client/gui-xaw/helpdlg.c:1041
+#: client/gui-win32/helpdlg.c:635 client/gui-xaw/helpdlg.c:1002
+#: client/gui-xaw/helpdlg.c:1006 client/gui-xaw/helpdlg.c:1020
+#: client/gui-xaw/helpdlg.c:1039
 msgid "n/a"
 msgstr "n/d"
 
-#: client/gui-gtk-2.0/helpdlg.c:1077 client/gui-win32/helpdlg.c:605
-#: client/gui-xaw/helpdlg.c:1011
+#: client/gui-gtk-2.0/helpdlg.c:1074 client/gui-win32/helpdlg.c:605
+#: client/gui-xaw/helpdlg.c:1009
 #, c-format
 msgid "+%d Food / %d"
 msgstr "+%d Comida / %d"
 
-#: client/gui-gtk-2.0/helpdlg.c:1091 client/gui-win32/helpdlg.c:619
-#: client/gui-xaw/helpdlg.c:1025
+#: client/gui-gtk-2.0/helpdlg.c:1088 client/gui-win32/helpdlg.c:619
+#: client/gui-xaw/helpdlg.c:1023
 #, c-format
 msgid "+%d Res. / %d"
 msgstr "+%d Prod. / %d"
@@ -15359,18 +15364,18 @@ msgstr ""
 msgid "Font for charset %s is lacking"
 msgstr ""
 
-#: client/gui-xaw/helpdlg.c:915 client/gui-xaw/helpdlg.c:926
-#: client/gui-xaw/helpdlg.c:933
+#: client/gui-xaw/helpdlg.c:913 client/gui-xaw/helpdlg.c:924
+#: client/gui-xaw/helpdlg.c:931
 #, c-format
 msgid "Allows %s.\n"
 msgstr "Permite %s.\n"
 
-#: client/gui-xaw/helpdlg.c:920
+#: client/gui-xaw/helpdlg.c:918
 #, c-format
 msgid "Obsoletes %s.\n"
 msgstr "Torna Obsoleta %s.\n"
 
-#: client/gui-xaw/helpdlg.c:936 client/gui-xaw/helpdlg.c:941
+#: client/gui-xaw/helpdlg.c:934 client/gui-xaw/helpdlg.c:939
 #, c-format
 msgid "Allows %s (with %s).\n"
 msgstr "Permite %s (com %s).\n"
@@ -15509,7 +15514,7 @@ msgstr "Licença"
 #: client/gui-xaw/repodlgs.c:228 client/gui-xaw/repodlgs.c:491
 #, fuzzy, c-format
 msgid "Researching %s: %d/%s"
-msgstr "A Pesquisar %s: %d/%d"
+msgstr "A Pesquisar %s: %d/%s"
 
 #: client/gui-xaw/repodlgs.c:231 client/gui-xaw/repodlgs.c:494
 #, fuzzy
@@ -15546,17 +15551,19 @@ msgstr "Incapaz de escrever o ficheiro de script '%s'."
 msgid ""
 "<h1>Freeciv %s server options</h1>\n"
 "\n"
-msgstr "Selecção Servidor Freeciv"
+msgstr ""
+"<h1>Freeciv %s opções de servidor</h1>\n"
+"\n"
 
 #: manual/civmanual.c:144
 #, fuzzy, c-format
 msgid "Level: %s.<br>"
-msgstr "Nível: %s"
+msgstr "Nível: %s.<br>"
 
 #: manual/civmanual.c:145
 #, c-format
 msgid "Category: %s.<br>"
-msgstr ""
+msgstr "Categoria: %s.<br>"
 
 #: manual/civmanual.c:148
 #, c-format
@@ -17196,10 +17203,11 @@ msgstr ""
 "com sucesso."
 
 #: data/helpdata.txt:987
+#, fuzzy
 msgid ""
 "Default Combat Rules\n"
 "---------------------"
-msgstr ""
+msgstr "Mostrar animação de combate"
 
 #: data/helpdata.txt:988
 msgid ""
@@ -17390,14 +17398,16 @@ msgstr ""
 "juntamente com este."
 
 #: data/helpdata.txt:1078
+#, fuzzy
 msgid " Modifying Combat Rules"
-msgstr ""
+msgstr "Mostrar animação de combate"
 
 #: data/helpdata.txt:1079
+#, fuzzy
 msgid ""
 "Modifying Combat Rules\n"
 "----------------------"
-msgstr ""
+msgstr "Mostrar animação de combate"
 
 #: data/helpdata.txt:1080
 msgid ""
@@ -19092,7 +19102,7 @@ msgstr "Programa SETI"
 #: data/default/buildings.ruleset:1415
 #, fuzzy
 msgid "Boosts science production in each city with a Research Lab by 100%. "
-msgstr "Aumenta a produção científica em cada cidade por 50%."
+msgstr "Aumenta a produção científica em cada cidade por 100%."
 
 #: data/default/buildings.ruleset:1420 data/civ2/buildings.ruleset:1402
 #: data/civ1/buildings.ruleset:1001
@@ -23841,7 +23851,7 @@ msgstr "Veleiro"
 #: data/nation/sami.ruleset:4
 #, fuzzy
 msgid "?plural:Sami"
-msgstr "?plural:Tailandeses"
+msgstr "?plural:Sami"
 
 #: data/nation/sami.ruleset:6
 msgid ""
@@ -23996,12 +24006,12 @@ msgstr "Suma Sacerdotiza"
 #: data/nation/southafrican.ruleset:3
 #, fuzzy
 msgid "South African"
-msgstr "Americano"
+msgstr "Sul Africano"
 
 #: data/nation/southafrican.ruleset:4
 #, fuzzy
 msgid "?plural:South Africans"
-msgstr "?plural:Americanos"
+msgstr "?plural:Sul Africanos"
 
 #: data/nation/southafrican.ruleset:6
 msgid ""
@@ -24111,7 +24121,7 @@ msgstr "Veleiro"
 #: data/nation/swazi.ruleset:4
 #, fuzzy
 msgid "?plural:Swazis"
-msgstr "?plural:Suecos"
+msgstr "?plural:Swazis"
 
 #: data/nation/swazi.ruleset:6
 msgid ""
@@ -24150,12 +24160,12 @@ msgstr ""
 #: data/nation/swiss.ruleset:3
 #, fuzzy
 msgid "Swiss"
-msgstr "Sueco"
+msgstr "Swiss"
 
 #: data/nation/swiss.ruleset:4
 #, fuzzy
 msgid "?plural:Swiss"
-msgstr "?plural:Suecos"
+msgstr "?plural:Swiss"
 
 #: data/nation/swiss.ruleset:6
 msgid ""
@@ -24479,16 +24489,18 @@ msgid "Classic-style 85x80 map of the British Isles."
 msgstr ""
 
 #: data/scenario/earth-160x90-v2.sav:3
+#, fuzzy
 msgid "Earth (classic, large)"
-msgstr ""
+msgstr "Terra (classico, grande)"
 
 #: data/scenario/earth-160x90-v2.sav:4
 msgid "Classic-style 160x90 Earth scenario."
 msgstr ""
 
 #: data/scenario/earth-80x50-v2.sav:3
+#, fuzzy
 msgid "Earth (classic, small)"
-msgstr ""
+msgstr "Terra (clássico, pequeno)"
 
 #: data/scenario/earth-80x50-v2.sav:4
 msgid "Classic-style 80x50 Earth scenario."
@@ -24503,8 +24515,9 @@ msgid "Very large classic-style map of Europe."
 msgstr ""
 
 #: data/scenario/hagworld-120x60-v1.2.sav:5
+#, fuzzy
 msgid "Earth (classic, medium)"
-msgstr ""
+msgstr "Terra (clássico, médio)"
 
 #: data/scenario/hagworld-120x60-v1.2.sav:6
 msgid "Classic-style 120x60 Earth scenario."
@@ -24852,193 +24865,196 @@ msgstr "A ler conjuntos de regras"
 #: data/default/game.ruleset:129
 #, fuzzy
 msgid "Team 0"
-msgstr "Equipa"
+msgstr "Equipa 0"
 
 #: data/civ1/game.ruleset:102 data/civ2/game.ruleset:102
 #: data/default/game.ruleset:130
 #, fuzzy
 msgid "Team 1"
-msgstr "Equipa"
+msgstr "Equipa 1"
 
 #: data/civ1/game.ruleset:103 data/civ2/game.ruleset:103
 #: data/default/game.ruleset:131
 #, fuzzy
 msgid "Team 2"
-msgstr "Equipa"
+msgstr "Equipa 2"
 
 #: data/civ1/game.ruleset:104 data/civ2/game.ruleset:104
 #: data/default/game.ruleset:132
 #, fuzzy
 msgid "Team 3"
-msgstr "Equipa"
+msgstr "Equipa 3"
 
 #: data/civ1/game.ruleset:105 data/civ2/game.ruleset:105
 #: data/default/game.ruleset:133
 #, fuzzy
 msgid "Team 4"
-msgstr "Equipa"
+msgstr "Equipa 4"
 
 #: data/civ1/game.ruleset:106 data/civ2/game.ruleset:106
 #: data/default/game.ruleset:134
 #, fuzzy
 msgid "Team 5"
-msgstr "Equipa"
+msgstr "Equipa 5"
 
 #: data/civ1/game.ruleset:107 data/civ2/game.ruleset:107
 #: data/default/game.ruleset:135
 #, fuzzy
 msgid "Team 6"
-msgstr "Equipa"
+msgstr "Equipa 6"
 
 #: data/civ1/game.ruleset:108 data/civ2/game.ruleset:108
 #: data/default/game.ruleset:136
 #, fuzzy
 msgid "Team 7"
-msgstr "Equipa"
+msgstr "Equipa 7"
 
 #: data/civ1/game.ruleset:109 data/civ2/game.ruleset:109
 #: data/default/game.ruleset:137
 #, fuzzy
 msgid "Team 8"
-msgstr "Equipa"
+msgstr "Equipa 8"
 
 #: data/civ1/game.ruleset:110 data/civ2/game.ruleset:110
 #: data/default/game.ruleset:138
 #, fuzzy
 msgid "Team 9"
-msgstr "Equipa"
+msgstr "Equipa 9"
 
 #: data/civ1/game.ruleset:111 data/civ2/game.ruleset:111
 #: data/default/game.ruleset:139
 #, fuzzy
 msgid "Team 10"
-msgstr "Equipa"
+msgstr "Equipa 10"
 
 #: data/civ1/game.ruleset:112 data/civ2/game.ruleset:112
 #: data/default/game.ruleset:140
 #, fuzzy
 msgid "Team 11"
-msgstr "Equipa"
+msgstr "Equipa 11"
 
 #: data/civ1/game.ruleset:113 data/civ2/game.ruleset:113
 #: data/default/game.ruleset:141
 #, fuzzy
 msgid "Team 12"
-msgstr "Equipa"
+msgstr "Equipa 12"
 
 #: data/civ1/game.ruleset:114 data/civ2/game.ruleset:114
 #: data/default/game.ruleset:142
 #, fuzzy
 msgid "Team 13"
-msgstr "Equipa"
+msgstr "Equipa 13"
 
 #: data/civ1/game.ruleset:115 data/civ2/game.ruleset:115
 #: data/default/game.ruleset:143
 #, fuzzy
 msgid "Team 14"
-msgstr "Equipa"
+msgstr "Equipa 14"
 
 #: data/civ1/game.ruleset:116 data/civ2/game.ruleset:116
 #: data/default/game.ruleset:144
 #, fuzzy
 msgid "Team 15"
-msgstr "Equipa"
+msgstr "Equipa 15"
 
 #: data/civ1/game.ruleset:117 data/civ2/game.ruleset:117
 #: data/default/game.ruleset:145
 #, fuzzy
 msgid "Team 16"
-msgstr "Equipa"
+msgstr "Equipa 16"
 
 #: data/civ1/game.ruleset:118 data/civ2/game.ruleset:118
 #: data/default/game.ruleset:146
 #, fuzzy
 msgid "Team 17"
-msgstr "Equipa"
+msgstr "Equipa 17"
 
 #: data/civ1/game.ruleset:119 data/civ2/game.ruleset:119
 #: data/default/game.ruleset:147
 #, fuzzy
 msgid "Team 18"
-msgstr "Equipa"
+msgstr "Equipa 18"
 
 #: data/civ1/game.ruleset:120 data/civ2/game.ruleset:120
 #: data/default/game.ruleset:148
 #, fuzzy
 msgid "Team 19"
-msgstr "Equipa"
+msgstr "Equipa 19"
 
 #: data/civ1/game.ruleset:121 data/civ2/game.ruleset:121
 #: data/default/game.ruleset:149
 #, fuzzy
 msgid "Team 20"
-msgstr "Equipa"
+msgstr "Equipa 20"
 
 #: data/civ1/game.ruleset:122 data/civ2/game.ruleset:122
 #: data/default/game.ruleset:150
 #, fuzzy
 msgid "Team 21"
-msgstr "Equipa"
+msgstr "Equipa 21"
 
 #: data/civ1/game.ruleset:123 data/civ2/game.ruleset:123
 #: data/default/game.ruleset:151
 #, fuzzy
 msgid "Team 22"
-msgstr "Equipa"
+msgstr "Equipa 22"
 
 #: data/civ1/game.ruleset:124 data/civ2/game.ruleset:124
 #: data/default/game.ruleset:152
 #, fuzzy
 msgid "Team 23"
-msgstr "Equipa"
+msgstr "Equipa 23"
 
 #: data/civ1/game.ruleset:125 data/civ2/game.ruleset:125
 #: data/default/game.ruleset:153
 #, fuzzy
 msgid "Team 24"
-msgstr "Equipa"
+msgstr "Equipa 24"
 
 #: data/civ1/game.ruleset:126 data/civ2/game.ruleset:126
 #: data/default/game.ruleset:154
 #, fuzzy
 msgid "Team 25"
-msgstr "Equipa"
+msgstr "Equipa 25"
 
 #: data/civ1/game.ruleset:127 data/civ2/game.ruleset:127
 #: data/default/game.ruleset:155
 #, fuzzy
 msgid "Team 26"
-msgstr "Equipa"
+msgstr "Equipa 26"
 
 #: data/civ1/game.ruleset:128 data/civ2/game.ruleset:128
 #: data/default/game.ruleset:156
 #, fuzzy
 msgid "Team 27"
-msgstr "Equipa"
+msgstr "Equipa 27"
 
 #: data/civ1/game.ruleset:129 data/civ2/game.ruleset:129
 #: data/default/game.ruleset:157
 #, fuzzy
 msgid "Team 28"
-msgstr "Equipa"
+msgstr "Equipa 28"
 
 #: data/civ1/game.ruleset:130 data/civ2/game.ruleset:130
 #: data/default/game.ruleset:158
 #, fuzzy
 msgid "Team 29"
-msgstr "Equipa"
+msgstr "Equipa 29"
 
 #: data/civ1/game.ruleset:131 data/civ2/game.ruleset:131
 #: data/default/game.ruleset:159
 #, fuzzy
 msgid "Team 30"
-msgstr "Equipa"
+msgstr "Equipa 30"
 
 #: data/civ1/game.ruleset:132 data/civ2/game.ruleset:132
 #: data/default/game.ruleset:160
 #, fuzzy
 msgid "Team 31"
-msgstr "Equipa"
+msgstr "Equipa 31"
+
+#~ msgid "Units: "
+#~ msgstr "Unidades: "
 
 #, fuzzy
 #~ msgid ""
