@@ -709,27 +709,8 @@ static void update_unit_activity(struct unit *punit)
     break;
 
   case ACTIVITY_EXPLORE:
-  {
-    bool more_to_explore = ai_manage_explorer(punit);
-
-    if (!player_find_unit_by_id(pplayer, id)) {
-      /* Died */
-      return;
-    }
-
-    /* ai_manage_explorer isn't supposed to change the activity but we
-     * don't count on this. */
-    if (punit->activity != ACTIVITY_EXPLORE || !more_to_explore) {
-      unit_activity_handling(punit, ACTIVITY_IDLE);
-
-      /* FIXME: When the ai_manage_explorer call changes the activity from
-       * EXPLORE to IDLE, then for some reason the ai.control value gets left
-       * set.  We reset it here.  See PR#12931. */
-      punit->ai.control = FALSE;
-    }
-    send_unit_info(NULL, punit);
+    do_explore(punit);
     return;
-  }
 
   case ACTIVITY_PILLAGE:
     if (punit->activity_target == S_LAST) { /* case for old save files */
@@ -2106,6 +2087,35 @@ bool do_airline(struct unit *punit, struct city *city2)
   send_city_info(city_owner(city2), city2);
 
   return TRUE;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+void do_explore(struct unit *punit)
+{
+  switch (ai_manage_explorer(punit)) {
+  case MR_DEATH:
+    /* don't use punit! */
+    return;
+  case MR_OK:
+    /* FIXME: ai_manage_explorer() isn't supposed to change the activity,
+     * but don't count on this.  See PR#39792.
+     */
+    if (punit->activity == ACTIVITY_EXPLORE) {
+      break;
+    }
+    /* fallthru */
+  default:
+    unit_activity_handling(punit, ACTIVITY_IDLE);
+
+    /* FIXME: When the ai_manage_explorer() call changes the activity from
+     * EXPLORE to IDLE, in unit_activity_handling() ai.control is left
+     * alone.  We reset it here.  See PR#12931. */
+    punit->ai.control = FALSE;
+    break;
+  };
+  send_unit_info(NULL, punit); /* probably duplicate */
 }
 
 /**************************************************************************

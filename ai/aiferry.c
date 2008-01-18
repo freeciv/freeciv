@@ -1094,11 +1094,19 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   }
 
   UNIT_LOG(LOGLEVEL_FERRY, punit, "Passing control of ferry to explorer code");
-  if (!ai_manage_explorer(punit)) {
+  switch (ai_manage_explorer(punit)) {
+  case MR_DEATH:
+    /* don't use punit! */
+    return;
+  case MR_OK:
+    /* FIXME: continue moving? */
+    break;
+  default:
     punit->ai.done = TRUE;
-  }
+    break;
+  };
 
-  if (game_find_unit_by_number(sanity) && punit->moves_left > 0) {
+  if (punit->moves_left > 0) {
     struct city *pcity = find_nearest_safe_city(punit);
     if (pcity) {
       punit->goto_tile = pcity->tile;
