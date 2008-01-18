@@ -192,24 +192,28 @@ static bool could_be_my_zoc(struct unit *myunit, struct tile *ptile)
     0 if can't move
     1 if zoc_ok
    -1 if zoc could be ok?
+
+  see also unithand can_unit_move_to_tile_with_notify()
 **************************************************************************/
 int could_unit_move_to_tile(struct unit *punit, struct tile *dest_tile)
 {
-  enum unit_move_result result;
-
-  result =
+  enum unit_move_result reason =
       test_unit_move_to_tile(unit_type(punit), unit_owner(punit),
                              ACTIVITY_IDLE, punit->tile, 
                              dest_tile, unit_has_type_flag(punit, F_IGZOC));
-  if (result == MR_OK) {
+  switch (reason) {
+  case MR_OK:
     return 1;
-  }
 
-  if (result == MR_ZOC) {
+  case MR_ZOC:
     if (could_be_my_zoc(punit, punit->tile)) {
       return -1;
     }
-  }
+    break;
+
+  default:
+    break;
+  };
   return 0;
 }
 
@@ -1648,6 +1652,7 @@ struct city *find_nearest_safe_city(struct unit *punit)
 /*************************************************************************
   Go berserk, assuming there are no targets nearby.
   TODO: Is it not possible to remove this special casing for barbarians?
+  FIXME: enum unit_move_result
 **************************************************************************/
 static void ai_military_attack_barbarian(struct player *pplayer,
 					 struct unit *punit)
@@ -1802,11 +1807,17 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
     (void) ai_unit_goto(punit, pcity->tile);
   } else if (!is_barbarian(pplayer)) {
     /* Nothing else to do, so try exploring. */
-    if (ai_manage_explorer(punit)) {
+    switch (ai_manage_explorer(punit)) {
+    case MR_DEATH:
+      /* don't use punit! */
+      return;
+    case MR_OK:
       UNIT_LOG(LOG_DEBUG, punit, "nothing else to do, so exploring");
-    } else if (game_find_unit_by_number(id)) {
+      break;
+    default:
       UNIT_LOG(LOG_DEBUG, punit, "nothing to do - no more exploring either");
-    }
+      break;
+    };
   } else {
     /* You can still have some moves left here, but barbarians should
        not sit helplessly, but advance towards nearest known enemy city */
@@ -2073,7 +2084,18 @@ void ai_manage_military(struct player *pplayer, struct unit *punit)
     TIMING_LOG(AIT_BODYGUARD, TIMER_STOP);
     break;
   case AIUNIT_EXPLORE:
-    punit->ai.done = !(ai_manage_explorer(punit) && punit->moves_left > 0);
+    switch (ai_manage_explorer(punit)) {
+    case MR_DEATH:
+      /* don't use punit! */
+      return;
+    case MR_OK:
+      UNIT_LOG(LOG_DEBUG, punit, "more exploring");
+      break;
+    default:
+      UNIT_LOG(LOG_DEBUG, punit, "no more exploring either");
+      break;
+    };
+    punit->ai.done = (punit->moves_left <= 0);
     break;
   case AIUNIT_RECOVER:
     TIMING_LOG(AIT_RECOVER, TIMER_START);
@@ -2239,15 +2261,20 @@ void ai_manage_unit(struct player *pplayer, struct unit *punit)
     TIMING_LOG(AIT_MILITARY, TIMER_STOP);
     return;
   } else {
-    int id = punit->id;
-
-    UNIT_LOG(LOG_DEBUG, punit, "fell through all unit tasks, defending");
     /* what else could this be? -- Syela */
-    if (!ai_manage_explorer(punit)
-        && game_find_unit_by_number(id)) {
+    switch (ai_manage_explorer(punit)) {
+    case MR_DEATH:
+      /* don't use punit! */
+      break;
+    case MR_OK:
+      UNIT_LOG(LOG_DEBUG, punit, "now exploring");
+      break;
+    default:
+      UNIT_LOG(LOG_DEBUG, punit, "fell through all unit tasks, defending");
       ai_unit_new_role(punit, AIUNIT_DEFEND_HOME, NULL);
       ai_military_defend(pplayer, punit);
-    }
+      break;
+    };
     return;
   }
 }

@@ -182,9 +182,12 @@ static int explorer_desirable(struct tile *ptile, struct player *pplayer,
   Handle eXplore mode of a unit (explorers are always in eXplore mode 
   for AI) - explores unknown territory, finds huts.
 
-  Returns whether there is any more territory to be explored.
+  MR_OK: there is more territory to be explored.
+  MR_DEATH: unit died.
+  MR_PAUSE: unit cannot explore further now.
+  Other results: unit cannot explore further.
 **************************************************************************/
-bool ai_manage_explorer(struct unit *punit)
+enum unit_move_result ai_manage_explorer(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
   /* Loop prevention */
@@ -218,7 +221,7 @@ bool ai_manage_explorer(struct unit *punit)
 
   if (pplayer->ai.control && unit_has_type_flag(punit, F_GAMELOSS)) {
     UNIT_LOG(LOG_DEBUG, punit, "exploration too dangerous!");
-    return FALSE; /* too dangerous */
+    return MR_BAD_ACTIVITY; /* too dangerous */
   }
 
   TIMING_LOG(AIT_EXPLORER, TIMER_START);
@@ -297,7 +300,7 @@ bool ai_manage_explorer(struct unit *punit)
      * which goes beside the unknown, with a good EC callback... */
     if (!ai_unit_goto(punit, best_tile)) {
       /* Died?  Strange... */
-      return FALSE;
+      return MR_DEATH;
     }
     UNIT_LOG(LOG_DEBUG, punit, "exploration GOTO succeeded");
     if (punit->moves_left > 0) {
@@ -311,15 +314,15 @@ bool ai_manage_explorer(struct unit *punit)
 	return ai_manage_explorer(punit);          
       } else {
 	UNIT_LOG(LOG_DEBUG, punit, "done exploring (all finished)...");
-	return FALSE;
+	return MR_PAUSE;
       }
     }
     UNIT_LOG(LOG_DEBUG, punit, "done exploring (but more go go)...");
-    return TRUE;
+    return MR_OK;
   } else {
     /* Didn't find anything. */
     UNIT_LOG(LOG_DEBUG, punit, "failed to explore more");
-    return FALSE;
+    return MR_BAD_MAP_POSITION;
   }
 #undef DIST_FACTOR
 }
