@@ -13,17 +13,10 @@
 #ifndef FC__AIEXPLORER_H
 #define FC__AIEXPLORER_H
 
-#include "shared.h"		/* bool type */
+#include "unit.h"
 
-#include "fc_types.h"
 
-/*
- * Handle eXplore mode of a unit (explorers are always in eXplore mode 
- * for AI) - explores unknown territory, finds huts.
- *
- * Returns whether there is any more territory to be explored.
- */
-bool ai_manage_explorer(struct unit *punit);
+enum unit_move_result ai_manage_explorer(struct unit *punit);
 
 /*
  * TODO: Enable AI build new explorers.  Either (the old way) write a 

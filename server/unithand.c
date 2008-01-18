@@ -591,34 +591,35 @@ void handle_unit_change_activity(struct player *pplayer, int unit_id,
     return;
   }
 
-  if (punit->activity != activity ||
-      punit->activity_target != activity_target ||
-      punit->ai.control) {
+  if (punit->activity == activity
+   && punit->activity_target == activity_target
+   && !punit->ai.control) {
     /* Treat change in ai.control as change in activity, so
-       * idle autosettlers behave correctly when selected --dwp
+     * idle autosettlers behave correctly when selected --dwp
      */
-    punit->ai.control = FALSE;
-    punit->goto_tile = NULL;
+    return;
+  }
+
+  punit->ai.control = FALSE;
+  punit->goto_tile = NULL;
+
+  switch (activity) {
+  case ACTIVITY_EXPLORE:
     handle_unit_activity_request_targeted(punit, activity, activity_target);
 
     /* Exploring is handled here explicitly, since the player expects to
      * see an immediate response from setting a unit to auto-explore.
      * Handling it deeper in the code leads to some tricky recursive loops -
      * see PR#2631. */
-    if (punit->moves_left > 0 && activity == ACTIVITY_EXPLORE) {
-      int id = punit->id;
-      bool more_to_explore = ai_manage_explorer(punit);
-
-      if ((punit = game_find_unit_by_number(id))) {
-	assert(punit->activity == ACTIVITY_EXPLORE);
-	if (!more_to_explore) {
-	  set_unit_activity(punit, ACTIVITY_IDLE);
-	  punit->ai.control = FALSE;
-	}
-	send_unit_info(NULL, punit);
-      }
+    if (punit->moves_left > 0) {
+      do_explore(punit);
     }
-  }
+    break;
+
+  default:
+    handle_unit_activity_request_targeted(punit, activity, activity_target);
+    break;
+  };
 }
 
 /**************************************************************************
@@ -952,23 +953,24 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
 }
 
 /**************************************************************************
-...
+  see also aiunit could_unit_move_to_tile()
 **************************************************************************/
 static bool can_unit_move_to_tile_with_notify(struct unit *punit,
 					      struct tile *dest_tile,
 					      bool igzoc)
 {
-  enum unit_move_result reason;
   struct tile *src_tile = punit->tile;
-
-  reason =
+  enum unit_move_result reason =
       test_unit_move_to_tile(unit_type(punit), unit_owner(punit),
 			     punit->activity,
-			     punit->tile, dest_tile, igzoc);
-  if (reason == MR_OK)
+			     src_tile, dest_tile, igzoc);
+
+  switch (reason) {
+  case MR_OK:
     return TRUE;
 
-  if (reason == MR_BAD_TYPE_FOR_CITY_TAKE_OVER) {
+  case MR_BAD_TYPE_FOR_CITY_TAKE_OVER:
+  {
     const char *units_str = role_units_translations(F_MARINES);
     if (units_str) {
       notify_player(unit_owner(punit), src_tile,
@@ -979,20 +981,32 @@ static bool can_unit_move_to_tile_with_notify(struct unit *punit,
       notify_player(unit_owner(punit), src_tile,
 		       E_BAD_COMMAND, _("Cannot attack from sea."));
     }
-  } else if (reason == MR_NO_WAR) {
+    break;
+  }
+
+  case MR_NO_WAR:
     notify_player(unit_owner(punit), src_tile,
 		     E_BAD_COMMAND,
 		     _("Cannot attack unless you declare war first."));
-  } else if (reason == MR_ZOC) {
+    break;
+
+  case MR_ZOC:
     notify_player(unit_owner(punit), src_tile, E_BAD_COMMAND,
 		     _("%s can only move into your own zone of control."),
 		     unit_name_translation(punit));
-  } else if (reason == MR_PEACE) {
+    break;
+
+  case MR_PEACE:
     notify_player(unit_owner(punit), src_tile, E_BAD_COMMAND,
                   _("Cannot invade unless you break peace with "
                     "%s first."),
                   player_name(tile_owner(dest_tile)));
-  }
+    break;
+
+  default:
+    /* FIXME: need more explanations someday! */
+    break;
+  };
 
   return FALSE;
 }

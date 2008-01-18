@@ -13,7 +13,6 @@
 #ifndef FC__UNITHAND_H
 #define FC__UNITHAND_H
 
-#include "packets.h"
 #include "unit.h"
 
 #include "hand_gen.h"
