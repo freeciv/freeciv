@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-12 14:50+0100\n"
-"PO-Revision-Date: 2008-01-12 18:48+0100\n"
+"PO-Revision-Date: 2008-01-19 12:25+0100\n"
 "Last-Translator: Joan Creus <joan.creus at gmail dot com>\n"
 "Language-Team: Català <ca@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -721,7 +721,7 @@ msgstr "(Desconegut)"
 #: common/terrain.c:45 data/default/units.ruleset:88
 #: data/civ2/units.ruleset:82 data/civ1/units.ruleset:74
 msgid "Land"
-msgstr "Terra"
+msgstr "Terrestre"
 
 #: common/terrain.c:46
 msgid "Oceanic"
@@ -8272,7 +8272,7 @@ msgstr "* Permet %s.\n"
 #: client/helpdata.c:774
 #, c-format
 msgid "* Belongs to %s units class.\n"
-msgstr "* Pertany a la classe %s d'unitats.\n"
+msgstr "* Pertany a la classe d'unitats %s.\n"
 
 #: client/helpdata.c:778
 #, c-format
@@ -11396,16 +11396,15 @@ msgstr "ERROR"
 
 #: client/gui-gtk-2.0/gui_main.c:202
 msgid "Notify Label"
-msgstr ""
+msgstr "Etiqueta de Notificació"
 
 #: client/gui-gtk-2.0/gui_main.c:207
-#, fuzzy
 msgid "Spaceship Label"
-msgstr "Nau espacial"
+msgstr "Etiqueta de Nau espacial"
 
 #: client/gui-gtk-2.0/gui_main.c:212
 msgid "Help Label"
-msgstr ""
+msgstr "Etiqueta d'Ajuda"
 
 #: client/gui-gtk-2.0/gui_main.c:217
 msgid "Help Link"
@@ -11421,17 +11420,15 @@ msgstr "Àrea de xat"
 
 #: client/gui-gtk-2.0/gui_main.c:232
 msgid "Beta Label"
-msgstr ""
+msgstr "Etiqueta Beta"
 
 #: client/gui-gtk-2.0/gui_main.c:237
-#, fuzzy
 msgid "Small Font"
-msgstr "Meravella Normal"
+msgstr "Tipus de lletra petita"
 
 #: client/gui-gtk-2.0/gui_main.c:242
-#, fuzzy
 msgid "Comment Label"
-msgstr "Comentari"
+msgstr "Etiqueta de Comentari"
 
 #: client/gui-gtk-2.0/gui_main.c:247 client/gui-sdl/optiondlg.c:1556
 #: client/gui-xaw/menu.c:143
@@ -11483,9 +11480,8 @@ msgid "View"
 msgstr "Vista de mapa"
 
 #: client/gui-gtk-2.0/gui_main.c:1282
-#, fuzzy
 msgid "Chat"
-msgstr "_Xat"
+msgstr "Xat"
 
 #: client/gui-gtk-2.0/gui_main.c:1298 client/gui-win32/gui_main.c:538
 #: data/Freeciv.in:2816
@@ -11961,9 +11957,8 @@ msgid "Editing _Mode"
 msgstr "_Mode d'Edició"
 
 #: client/gui-gtk-2.0/menu.c:796
-#, fuzzy
 msgid "Editing _Tools"
-msgstr "Eines d'Edició"
+msgstr "_Eines d'Edició"
 
 #: client/gui-gtk-2.0/menu.c:798
 msgid "Recalculate _Borders"
@@ -12312,7 +12307,7 @@ msgstr "Ajuda"
 
 #: client/gui-gtk-2.0/menu.c:977 client/gui-win32/menu.c:416
 msgid "Language_s"
-msgstr "Idiome_s"
+msgstr "_Idiomes"
 
 #: client/gui-gtk-2.0/menu.c:979 client/gui-win32/menu.c:417
 msgid "Co_nnecting"
@@ -12332,11 +12327,11 @@ msgstr "Editor llista treball (_W)"
 
 #: client/gui-gtk-2.0/menu.c:987 client/gui-win32/menu.c:421
 msgid "Citizen _Management"
-msgstr "Gestió ciutadans (_M)"
+msgstr "_Gestió ciutadans"
 
 #: client/gui-gtk-2.0/menu.c:989 client/gui-win32/menu.c:422
 msgid "_Playing"
-msgstr "Com _jugar"
+msgstr "_Com jugar"
 
 #: client/gui-gtk-2.0/menu.c:993 client/gui-win32/menu.c:424
 msgid "City _Improvements"
@@ -12360,7 +12355,7 @@ msgstr "_Terreny"
 
 #: client/gui-gtk-2.0/menu.c:1005 client/gui-win32/menu.c:430
 msgid "Won_ders"
-msgstr "Meravelles (_d)"
+msgstr "_Meravelles"
 
 #: client/gui-gtk-2.0/menu.c:1009 client/gui-win32/menu.c:432
 msgid "Happin_ess"
@@ -15294,7 +15289,7 @@ msgstr "Desar la _Configuració"
 
 #: client/gui-win32/menu.c:308
 msgid "Server O_ptions"
-msgstr "O_pcions del Servidor."
+msgstr "Opcions del Ser_vidor"
 
 #: client/gui-win32/menu.c:316
 msgid "_Disconnect"
@@ -15310,7 +15305,7 @@ msgstr "Centra la Vista"
 
 #: client/gui-win32/menu.c:363
 msgid "Transf_orm to Hills"
-msgstr "Transf_ormar a turons"
+msgstr "Transf_ormar a Turons"
 
 #: client/gui-win32/menu.c:377 client/gui-win32/menu.c:1265
 #: client/gui-xaw/menu.c:194
@@ -15683,7 +15678,7 @@ msgstr "Desar Configuració"
 
 #: client/gui-xaw/menu.c:115
 msgid "Server Options"
-msgstr "Opcions de Servidor."
+msgstr "Opcions de Servidor"
 
 #: client/gui-xaw/menu.c:117
 msgid "Export Log"
@@ -21365,7 +21360,7 @@ msgstr "Helicòpter"
 #: data/default/units.ruleset:110 data/civ2/units.ruleset:104
 #: data/civ1/units.ruleset:89
 msgid "Air"
-msgstr "Aire"
+msgstr "Aèries"
 
 #: data/default/units.ruleset:266 data/civ2/units.ruleset:161
 #: data/civ1/units.ruleset:162
