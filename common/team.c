@@ -128,6 +128,7 @@ const char *team_get_name(const struct team *pteam)
 const char *team_get_name_orig(const struct team *pteam)
 {
   if (!pteam) {
+    /* TRANS: missing value */
     return N_("(none)");
   }
   return game.info.team_names_orig[pteam->index];

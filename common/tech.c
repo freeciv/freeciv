@@ -49,6 +49,18 @@ static const char *flag_names[] = {
    in common/tech.h */
 
 /**************************************************************************
+  Return the advance for the given advance index.
+**************************************************************************/
+struct advance *advance_by_number(const Tech_type_id atype)
+{
+  if (atype < 0 || atype >= game.control.num_tech_types) {
+    /* This isn't an error; some callers depend on it. */
+    return NULL;
+  }
+  return &advances[atype];
+}
+
+/**************************************************************************
   Returns state of the tech for current pplayer.
   This can be: TECH_KNOW, TECH_UNKNOWN or TECH_REACHABLE
   Should be called with existing techs or A_FUTURE
@@ -779,7 +791,7 @@ void techs_init(void)
   advances[A_FUTURE].name.translated = NULL;
 
   /* Initialize dummy tech A_UNKNOWN */
-  /* TRANS: "Unknown" tech */
+  /* TRANS: "Unknown" advance/technology */
   sz_strlcpy(advances[A_UNKNOWN].name.vernacular, N_("(Unknown)"));
   advances[A_UNKNOWN].name.translated = NULL;
 }

@@ -154,6 +154,8 @@ struct player_research {
 };
 
 /* General advance/technology accessor functions. */
+struct advance *advance_by_number(const Tech_type_id atype);
+
 const char *advance_name_by_player(const struct player *pplayer, Tech_type_id tech);
 const char *advance_name_for_player(const struct player *pplayer, Tech_type_id tech);
 const char *advance_name_researching(const struct player *pplayer);

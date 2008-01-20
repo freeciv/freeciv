@@ -1010,6 +1010,7 @@ char *get_req_source_text(const struct req_source *psource,
   buf[0] = '\0'; /* to be safe. */
   switch (psource->type) {
   case REQ_NONE:
+    /* TRANS: missing value */
     mystrlcat(buf, _("(none)"), bufsz);
     break;
   case REQ_TECH:
