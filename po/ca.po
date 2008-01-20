@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-18 06:05-0500\n"
-"PO-Revision-Date: 2008-01-19 00:03+0100\n"
+"PO-Revision-Date: 2008-01-20 01:42+0100\n"
 "Last-Translator: Joan Creus <joan.creus at gmail dot com>\n"
 "Language-Team: Català <ca@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3835,7 +3835,7 @@ msgstr "Meravelles del món"
 
 #: server/report.c:547
 msgid " sq. mi."
-msgstr " milla²."
+msgstr " milles²."
 
 #: server/report.c:557
 msgid " M tons"
@@ -3847,7 +3847,7 @@ msgstr " M béns"
 
 #: server/report.c:567
 msgid " bulbs"
-msgstr "bombetes"
+msgstr " bombetes"
 
 #: server/report.c:572
 msgid " month"
@@ -12532,8 +12532,8 @@ msgid ""
 "Land Area\n"
 "(sq. mi.)"
 msgstr ""
-"Àrea de terra\n"
-"(milla²)"
+"Àrea de terreny\n"
+"(milles²)"
 
 #: client/gui-gtk-2.0/repodlgs.c:1294
 msgid ""
@@ -12541,7 +12541,7 @@ msgid ""
 "(sq. mi.)"
 msgstr ""
 "Àrea colonitzada\n"
-"(milla²)"
+"(milles²)"
 
 #: client/gui-gtk-2.0/repodlgs.c:1295
 msgid ""
@@ -17016,7 +17016,7 @@ msgstr ""
 
 #: data/helpdata.txt:870
 msgid "City Improvements"
-msgstr "Edificis ciutat"
+msgstr "Edificis de ciutat"
 
 #: data/helpdata.txt:871
 msgid ""
