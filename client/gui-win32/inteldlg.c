@@ -124,19 +124,27 @@ static void intel_create_dialog(struct player *p)
   
   hbox=fcwin_hbox_new(intel_dialog,FALSE);
    
-  if (get_player_research(p)->researching != A_UNKNOWN) {
+  switch (get_player_research(p)->researching) {
+  case A_UNKNOWN:
+    my_snprintf(buf, sizeof(buf), _("Researching: (Unknown)"));
+    break;
+  case A_UNSET:
+    my_snprintf(buf, sizeof(buf), _("Researching: Unknown(%d/-)"),
+		get_player_research(p)->bulbs_researched);
+    break;
+  default:
     my_snprintf(buf, sizeof(buf), _("Researching: %s(%d/%d)"),
 	        advance_name_researching(p),
 	        get_player_research(p)->bulbs_researched,
 	        total_bulbs_required(p));
-  } else {
-    my_snprintf(buf, sizeof(buf), _("Researching: (Unknown)"));
-  }
+    break;
+  };
   fcwin_box_add_static(hbox,buf,0,SS_CENTER,TRUE,TRUE,10);
   
   pcity = find_palace(p);
   my_snprintf(buf, sizeof(buf), _("Capital: %s"),
-              (!pcity) ? _("(Unknown)") : city_name(pcity));
+              /* TRANS: "unknown" location */
+              (!pcity) ? _("(unknown)") : city_name(pcity));
   fcwin_box_add_static(hbox,buf,0,SS_CENTER,TRUE,TRUE,10);
   
   fcwin_box_add_box(vbox,hbox,FALSE,FALSE,5);

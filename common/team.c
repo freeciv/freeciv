@@ -171,6 +171,7 @@ const char *team_name_translation(struct team *pteam)
 const char *team_rule_name(const struct team *pteam)
 {
   if (!pteam) {
+    /* TRANS: missing value */
     return N_("(none)");
   }
   return game.info.team_names_orig[team_index(pteam)];

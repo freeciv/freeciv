@@ -1158,6 +1158,7 @@ const char *universal_rule_name(const struct universal *psource)
 {
   switch (psource->kind) {
   case VUT_NONE:
+    /* TRANS: missing value */
     return N_("(none)");
   case VUT_ADVANCE:
     return advance_rule_name(psource->value.advance);
@@ -1208,6 +1209,7 @@ const char *universal_name_translation(const struct universal *psource,
   buf[0] = '\0'; /* to be safe. */
   switch (psource->kind) {
   case VUT_NONE:
+    /* TRANS: missing value */
     mystrlcat(buf, _("(none)"), bufsz);
     break;
   case VUT_ADVANCE:

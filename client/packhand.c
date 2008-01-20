@@ -1640,7 +1640,16 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->bulbs_last_turn = pinfo->bulbs_last_turn;
   research->bulbs_researched = pinfo->bulbs_researched;
   research->techs_researched = pinfo->techs_researched;
-  research->researching=pinfo->researching;
+
+  /* check for bad values, complicated by discontinuous range */
+  if (NULL == advance_by_number(pinfo->researching)
+   && A_UNKNOWN != pinfo->researching
+   && A_FUTURE != pinfo->researching
+   && A_UNSET != pinfo->researching) {
+    research->researching = A_NONE; /* should never happen */
+  } else {
+    research->researching = pinfo->researching;
+  }
   research->future_tech = pinfo->future_tech;
   research->tech_goal=pinfo->tech_goal;
   

@@ -237,16 +237,21 @@ void create_intel_dialog(struct intel_dialog *pdialog, bool raise)
 			  XtNlabel, buf,
 			  NULL);
 
-  if (get_player_research(pdialog->pplayer)->researching == A_UNSET
-      || get_player_research(pdialog->pplayer)->researching == A_UNKNOWN) {
+  switch (get_player_research(pdialog->pplayer)->researching) {
+  case A_UNKNOWN:
+    my_snprintf(buf, sizeof(buf), _("Researching: (Unknown)"));
+    break;
+  case A_UNSET:
     my_snprintf(buf, sizeof(buf), _("Researching: Unknown(%d/-)"),
 		get_player_research(pdialog->pplayer)->bulbs_researched);
-  } else {
+    break;
+  default:
     my_snprintf(buf, sizeof(buf), _("Researching: %s(%d/%d)"),
 		advance_name_researching(pdialog->pplayer),
 		get_player_research(pdialog->pplayer)->bulbs_researched,
 		total_bulbs_required(pdialog->pplayer));
-  }
+    break;
+  };
 
   XtVaCreateManagedWidget("intelreslabel",
 			  labelWidgetClass,
@@ -256,7 +261,8 @@ void create_intel_dialog(struct intel_dialog *pdialog, bool raise)
 
   pcity = find_palace(pdialog->pplayer);
   my_snprintf(buf, sizeof(buf), _("Capital: %s"),
-	      (!pcity) ? _("(Unknown)") : city_name(pcity));
+	      /* TRANS: "unknown" location */
+	      (!pcity) ? _("(unknown)") : city_name(pcity));
   XtVaCreateManagedWidget("intelcapitallabel",
 			  labelWidgetClass,
 			  pdialog->intel_form,

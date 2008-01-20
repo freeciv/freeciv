@@ -280,27 +280,37 @@ void update_intel_dialog(struct player *p)
     research = get_player_research(p);
     change_ptsize16(pStr, adj_font(10));
     pStr->style &= ~TTF_STYLE_BOLD;
-    if (research->researching != A_UNKNOWN) {
+
+    /* FIXME: these should use common gui code, and avoid duplication! */
+    switch (research->researching) {
+    case A_UNKNOWN:
+    case A_UNSET:
+      my_snprintf(cBuf, sizeof(cBuf),
+        _("Ruler: %s %s  Government: %s\nCapital: %s  Gold: %d\nTax: %d%%"
+          " Science: %d%% Luxury: %d%%\nResearching: unknown"),
+        ruler_title_translation(p),
+        player_name(p),
+        government_name_for_player(p),
+        /* TRANS: "unknown" location */
+        (!pCapital) ? _("(unknown)") : city_name(pCapital),
+        p->economic.gold,
+        p->economic.tax, p->economic.science, p->economic.luxury);
+      break;
+    default:
       my_snprintf(cBuf, sizeof(cBuf),
         _("Ruler: %s %s  Government: %s\nCapital: %s  Gold: %d\nTax: %d%%"
           " Science: %d%% Luxury: %d%%\nResearching: %s(%d/%d)"),
         ruler_title_translation(p),
         player_name(p),
         government_name_for_player(p),
-        (!pCapital) ? _("(Unknown)") : city_name(pCapital), p->economic.gold,
+        /* TRANS: "unknown" location */
+        (!pCapital) ? _("(unknown)") : city_name(pCapital),
+        p->economic.gold,
         p->economic.tax, p->economic.science, p->economic.luxury,
         advance_name_researching(p),
         research->bulbs_researched, total_bulbs_required(p));
-    } else {
-      my_snprintf(cBuf, sizeof(cBuf),
-        _("Ruler: %s %s  Government: %s\nCapital: %s  Gold: %d\nTax: %d%%"
-          " Science: %d%% Luxury: %d%%\nResearching: Unknown"),
-        ruler_title_translation(p),
-        player_name(p),
-        government_name_for_player(p),
-        (!pCapital) ? _("(Unknown)") : city_name(pCapital), p->economic.gold,
-        p->economic.tax, p->economic.science, p->economic.luxury);
-    }
+      break;
+    };
     
     copy_chars_to_string16(pStr, cBuf);
     pInfo = create_text_surf_from_str16(pStr);

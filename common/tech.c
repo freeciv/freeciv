@@ -895,7 +895,7 @@ void techs_init(void)
   advances[A_FUTURE].name.translated = NULL;
 
   /* Initialize dummy tech A_UNKNOWN */
-  /* TRANS: "Unknown" tech */
+  /* TRANS: "Unknown" advance/technology */
   sz_strlcpy(advances[A_UNKNOWN].name.vernacular, N_("(Unknown)"));
   advances[A_UNKNOWN].name.translated = NULL;
 }

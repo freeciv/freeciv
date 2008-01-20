@@ -364,7 +364,8 @@ void update_intel_dialog(struct player *p)
 	    break;
 	  case LABEL_CAPITAL:
 	    pcity = find_palace(p);
-	    sz_strlcpy(buf, (!pcity) ? _("(Unknown)") : city_name(pcity));
+	    /* TRANS: "unknown" location */
+	    sz_strlcpy(buf, (!pcity) ? _("(unknown)") : city_name(pcity));
 	    break;
 	  case LABEL_GOLD:
 	    my_snprintf(buf, sizeof(buf), "%d", p->economic.gold);
@@ -380,13 +381,21 @@ void update_intel_dialog(struct player *p)
 	    break;
 	  case LABEL_RESEARCHING: {
 	    struct player_research* research = get_player_research(p);
-	    if (research->researching != A_UNKNOWN) {
+	    switch (research->researching) {
+	    case A_UNKNOWN:
+	      /* TRANS: "Unknown" advance/technology */
+	      my_snprintf(buf, sizeof(buf), _("(Unknown)"));
+	      break;
+	    case A_UNSET:
+	      /* TRANS: missing value */
+	      my_snprintf(buf, sizeof(buf), _("(none)"));
+	      break;
+	    default:
 	      my_snprintf(buf, sizeof(buf), "%s(%d/%d)",
 		  advance_name_researching(p),
 		  research->bulbs_researched, total_bulbs_required(p));
-	    } else {
-	      my_snprintf(buf, sizeof(buf), _("(Unknown)"));
-	    }
+	      break;
+	    };
 	    break;
 	  }
 	  default:
