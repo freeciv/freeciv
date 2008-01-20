@@ -361,10 +361,15 @@ static void cmd_reply_line(enum command_id cmd, struct connection *caller,
 			   enum rfc_status rfc_status, const char *prefix,
 			   const char *line)
 {
-  const char *cmdname = cmd < CMD_NUM ? commands[cmd].name :
-                  cmd == CMD_AMBIGUOUS ? _("(ambiguous)") :
-                  cmd == CMD_UNRECOGNIZED ? _("(unknown)") :
-			"(?!?)";  /* this case is a bug! */
+  const char *cmdname = cmd < CMD_NUM
+                        ? commands[cmd].name
+                        : cmd == CMD_AMBIGUOUS
+                          /* TRANS: ambiguous command */
+                          ? _("(ambiguous)")
+                          : cmd == CMD_UNRECOGNIZED
+                            /* TRANS: unrecognized command */
+                            ? _("(unknown)")
+                            : "(?!?)";  /* this case is a bug! */
 
   if (caller) {
     notify_conn(caller->self, NULL, E_SETTING,

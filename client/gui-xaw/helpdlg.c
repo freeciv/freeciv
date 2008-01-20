@@ -993,7 +993,7 @@ static void help_update_terrain(const struct help_item *pitem,
       }
       buf[strlen (buf) - 1] = '.';
     } else {
-      /* TRANS: (none) as in "Resources: (none)". */
+      /* TRANS: "Resources: (none)". */
       sprintf (buf + strlen (buf), _("(none)"));
     }
     xaw_set_label(help_terrain_resources, buf);

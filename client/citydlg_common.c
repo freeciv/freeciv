@@ -416,6 +416,7 @@ void get_city_dialog_output_text(const struct city *pcity,
 	 * trade_value[] array and simply don't give the name of the
 	 * city. */
 	struct city *trade_city = game_find_city_by_number(pcity->trade[i]);
+	/* TRANS: "unknown" location */
 	const char *name = trade_city ? city_name(trade_city) : _("(unknown)");
 
 	cat_snprintf(buf, bufsz, _("%+4d : Trade route with %s\n"),
