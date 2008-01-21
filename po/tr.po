@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-18 06:05-0500\n"
-"PO-Revision-Date: 2008-01-21 08:26+0200\n"
+"PO-Revision-Date: 2008-01-21 20:32+0200\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <yerellestirme@kde.org.tr>\n"
 "MIME-Version: 1.0\n"
@@ -4743,6 +4743,9 @@ msgid ""
 "your own units and cities will be revealed to you. You will not see new "
 "cities or terrain changes in tiles not observed."
 msgstr ""
+"Bu bir olarak ayarlanırsa, sadece sizin birimlerinizin ve şehirlerinizin "
+"görüş alanındaki arazileri görebilirsiniz. Bunun dışında kalan bölgelerdeki "
+"yeni kurulan şehirleri ve arazi değişikliklerini görmeyeceksiniz."
 
 #: server/settings.c:773
 msgid "Base chance for diplomats and spies to succeed."
@@ -4775,6 +4778,8 @@ msgid ""
 "player's capital is captured. If this option is set to the maximum value, "
 "civil wars are turned off altogether."
 msgstr ""
+"Bir oyuncunun en az bu sayıda şehri varsa ve başkenti ele geçirilirse iç "
+"savaş yaşanır. Bu ayar en yüksek değere getirilirse iç savaş asla yaşanmaz."
 
 #: server/settings.c:799
 msgid "Turns until player contact is lost"
@@ -4786,6 +4791,9 @@ msgid ""
 "last met, even when they do not have an embassy. If set to zero, then "
 "players cannot meet unless they have an embassy."
 msgstr ""
+"Oyuncular, birimlerinin son karşılaşmasından bu sayıda sıra geçene kadar "
+"elçilikleri olmasa bile diplomatik görüşme yapabilirler. Sıfır olarak ayarlanırsa "
+"elçilik olmadan diplomatik görüşme yapılamaz."
 
 #: server/settings.c:810
 msgid "Rebuild palace whenever capital is conquered"
@@ -4807,7 +4815,7 @@ msgstr "Doğal şehir adları kullanılsın"
 msgid ""
 "If enabled, the default city names will be determined based on the "
 "surrounding terrain."
-msgstr ""
+msgstr "Etkinse, öntanımlı şehir adları etraftaki araziye göre belirlenir."
 
 #: server/settings.c:834
 msgid "Players that users are allowed to take"
@@ -5262,7 +5270,7 @@ msgstr "Oyuncu %d"
 #: server/srv_main.c:1695 server/srv_main.c:1701
 #, c-format
 msgid "%s rules the %s."
-msgstr "%s, %s ulusuna hükmediyor."
+msgstr "%2$s tarafına %1$s hükmediyor."
 
 #: server/srv_main.c:1866
 msgid ""
@@ -6029,7 +6037,7 @@ msgstr ""
 #: server/stdinhand.c:3038
 #, c-format
 msgid "%s now controls %s (%s, %s)"
-msgstr ""
+msgstr "%2$s, %1$s tarafından kontrol ediliyor (%3$s, %4$s)"
 
 #: server/stdinhand.c:3042 server/stdinhand.c:4122
 #: data/nation/barbarian.ruleset:3
@@ -11077,7 +11085,7 @@ msgstr "+%d Ticaret / %d"
 #: client/gui-xaw/helpdlg.c:1000
 #, c-format
 msgid "no extra / %d"
-msgstr "fazladan yok / %d"
+msgstr "etkisiz / %d"
 
 #: client/gui-gtk-2.0/helpdlg.c:1067 client/gui-gtk-2.0/helpdlg.c:1071
 #: client/gui-gtk-2.0/helpdlg.c:1085 client/gui-win32/helpdlg.c:598
@@ -11188,7 +11196,7 @@ msgstr "Kütüğü _Yaz"
 
 #: client/gui-gtk-2.0/menu.c:704 client/gui-win32/menu.c:304
 msgid "Local _Options"
-msgstr "Yerel _Ayarlar"
+msgstr "_Yerel Ayarlar"
 
 #: client/gui-gtk-2.0/menu.c:706 client/gui-win32/menu.c:305
 msgid "_Message Options"
@@ -11204,15 +11212,15 @@ msgstr "Çıkışta Aya_rları Kaydet"
 
 #: client/gui-gtk-2.0/menu.c:716
 msgid "Sa_ve Options"
-msgstr "Ayarları _Kaydet"
+msgstr "_Ayarları Kaydet"
 
 #: client/gui-gtk-2.0/menu.c:720 client/gui-win32/menu.c:308
 msgid "Server O_ptions"
-msgstr "_Sunucu Ayarları"
+msgstr "S_unucu Ayarları"
 
 #: client/gui-gtk-2.0/menu.c:724 client/gui-win32/menu.c:310
 msgid "_Save Game"
-msgstr "Oyunu _Kaydet"
+msgstr "_Oyunu Kaydet"
 
 #: client/gui-gtk-2.0/menu.c:727 client/gui-win32/menu.c:311
 msgid "Save Game _As..."
@@ -11244,11 +11252,11 @@ msgstr "_Vergi Oranları"
 
 #: client/gui-gtk-2.0/menu.c:747 client/gui-win32/menu.c:324
 msgid "_Find City"
-msgstr "_Şehir Bul"
+msgstr "Ş_ehir Bul"
 
 #: client/gui-gtk-2.0/menu.c:749 client/gui-win32/menu.c:325
 msgid "_Worklists"
-msgstr "_İş Listeleri"
+msgstr "İş _Listeleri"
 
 #: client/gui-gtk-2.0/menu.c:753 client/gui-gtk-2.0/menu.c:755
 #: client/gui-gtk-2.0/menu.c:758 client/gui-win32/menu.c:327
@@ -11257,7 +11265,7 @@ msgstr "Yönetimi _Değiştir"
 
 #: client/gui-gtk-2.0/menu.c:755
 msgid "_Revolution..."
-msgstr "De_vrim"
+msgstr "De_vrim..."
 
 #: client/gui-gtk-2.0/menu.c:758 client/gui-gtk-2.0/menu.c:964
 #: client/gui-win32/menu.c:431
@@ -11420,7 +11428,7 @@ msgstr "_Nükleer Serpintiyi Temizle"
 
 #: client/gui-gtk-2.0/menu.c:843 client/gui-win32/menu.c:369
 msgid "_Sentry"
-msgstr "_Nöbet tut"
+msgstr "_Nöbet Tut"
 
 #: client/gui-gtk-2.0/menu.c:849 client/gui-win32/menu.c:372
 msgid "Make _Homecity"
@@ -11428,7 +11436,7 @@ msgstr "Memleketi Ya_p"
 
 #: client/gui-gtk-2.0/menu.c:851 client/gui-win32/menu.c:373
 msgid "_Load"
-msgstr "Araca _bindir"
+msgstr "Araca _Bindir"
 
 #: client/gui-gtk-2.0/menu.c:853
 msgid "_Unload Transporter"
@@ -11440,7 +11448,7 @@ msgstr "B_oşalt"
 
 #: client/gui-gtk-2.0/menu.c:857 client/gui-win32/menu.c:375
 msgid "Wake up o_thers"
-msgstr "_Diğerleri Kaldır"
+msgstr "_Diğerlerini Uyandır"
 
 #: client/gui-gtk-2.0/menu.c:861
 msgid "_Auto Settler"
@@ -11563,7 +11571,7 @@ msgstr "_Dünyanın Harikaları"
 
 #: client/gui-gtk-2.0/menu.c:920 client/gui-win32/menu.c:408
 msgid "_Top Five Cities"
-msgstr "_En İyi 5 Şehir"
+msgstr "E_n İyi 5 Şehir"
 
 #: client/gui-gtk-2.0/menu.c:922 client/gui-win32/menu.c:409
 msgid "_Messages"
@@ -11571,12 +11579,12 @@ msgstr "_Mesajlar"
 
 #: client/gui-gtk-2.0/menu.c:924 client/gui-win32/menu.c:410
 msgid "_Demographics"
-msgstr "_İstatistikler"
+msgstr "İ_statistikler"
 
 #: client/gui-gtk-2.0/menu.c:926 client/gui-gtk-2.0/plrdlg.c:471
 #: client/gui-win32/menu.c:411
 msgid "_Spaceship"
-msgstr "_Uzaygemisi"
+msgstr "_Uzay Gemisi"
 
 #: client/gui-gtk-2.0/menu.c:930 client/gui-win32/menu.c:415
 msgid "_Help"
@@ -11626,7 +11634,7 @@ msgstr "_Vatandaş Yönetimi"
 
 #: client/gui-gtk-2.0/menu.c:946 client/gui-win32/menu.c:422
 msgid "_Playing"
-msgstr "_Oynamak"
+msgstr "_Oynanış"
 
 #: client/gui-gtk-2.0/menu.c:950 client/gui-win32/menu.c:424
 msgid "City _Improvements"
@@ -11676,17 +11684,17 @@ msgstr "%s..."
 #: client/gui-gtk-2.0/menu.c:1337
 #, c-format
 msgid "Change to %s (_I)"
-msgstr "%s ile değiştir (_I)"
+msgstr "%s ile Değiştir (_I)"
 
 #: client/gui-gtk-2.0/menu.c:1338
 #, c-format
 msgid "Change to %s (_M)"
-msgstr "%s ile değiştir (_M)"
+msgstr "%s ile Değiştir (_M)"
 
 #: client/gui-gtk-2.0/menu.c:1339
 #, c-format
 msgid "Transf_orm to %s"
-msgstr "%s ile _değiştir"
+msgstr "%s ile _Değiştir"
 
 #: client/gui-gtk-2.0/menu.c:1412
 msgid "Help _Build Wonder"
@@ -16999,7 +17007,7 @@ msgid ""
 "The combat rules described before can be modified by changing the following "
 "modifiers in game.ruleset, section combat_rules: "
 msgstr ""
-"Yukarıda anlatılan savaş kuralları game.ruleset dosyasının combat_rules "
+"Önceki bölümde anlatılan savaş kuralları game.ruleset dosyasının combat_rules "
 "bölümü düzenlenerek değiştirilebilir: "
 
 #: data/helpdata.txt:1083
@@ -17019,7 +17027,7 @@ msgid ""
 "Suppose a Cannon (A:8, D:1, HP:20, F:1) attacks a Musketeer (A:3, D:3, "
 "HP:20, F:1) inside a city with City Walls built on a Forest tile.  Neither "
 "are veteran."
-msgstr ""
+msgstr "Bir Savaş Topu'nun (Sl:8, Sv:1, SP:20, F:1), ormanlık arazide kurulmuş ve surlara sahip şehri savunan bir Şilahşör'e (Sl:3, Sv:3, SP:20, F1) saldırdığını varsayalım.  Örnekte iki taraf da kıdemli değildir."
 
 #: data/helpdata.txt:1094
 msgid ""
@@ -17028,6 +17036,10 @@ msgid ""
 "to 13.5.  It is a ground unit inside a city, so its strength is increased to "
 "20.25."
 msgstr ""
+"Savunan tarafın ilk gücü 3'tür.  Orman arazisinde bulunduğu için 4,5 "
+"olur.  Surların arkasında olduğu içinse üçe katlanır ve 13,5 olur.  Son "
+"olarak şehri savunan bir kara birimi olduğu için gücü 20,25'e kadar "
+"çıkar."
 
 #: data/helpdata.txt:1099
 msgid ""
