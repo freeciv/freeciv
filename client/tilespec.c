@@ -3102,35 +3102,35 @@ static struct sprite *get_unit_nation_flag_sprite(const struct tileset *t,
   Assemble some data that is used in building the tile sprite arrays.
     (map_x, map_y) : the (normalized) map position
   The values we fill in:
-    ttype          : the terrain type of the tile
-    tspecial       : all specials the tile has
-    ttype_near     : terrain types of all adjacent terrain
+    tterrain_near  : terrain types of all adjacent terrain
     tspecial_near  : specials of all adjacent terrain
 **************************************************************************/
 static void build_tile_data(const struct tile *ptile,
-			    struct terrain **tterrain,
-			    bv_special *tspecial,
+			    struct terrain *pterrain,
 			    struct terrain **tterrain_near,
 			    bv_special *tspecial_near)
 {
   enum direction8 dir;
-
-  *tspecial = tile_specials(ptile);
-  *tterrain = tile_terrain(ptile);
 
   /* Loop over all adjacent tiles.  We should have an iterator for this. */
   for (dir = 0; dir < 8; dir++) {
     struct tile *tile1 = mapstep(ptile, dir);
 
     if (tile1 && client_tile_get_known(tile1) != TILE_UNKNOWN) {
-      tterrain_near[dir] = tile_terrain(tile1);
-      tspecial_near[dir] = tile_specials(tile1);
-    } else {
-      /* We draw the edges of the (known) map as if the same terrain just
-       * continued off the edge of the map. */
-      tterrain_near[dir] = *tterrain;
-      BV_CLR_ALL(tspecial_near[dir]);
+      struct terrain *terrain1 = tile_terrain(tile1);
+
+      if (NULL != terrain1) {
+        tterrain_near[dir] = terrain1;
+        tspecial_near[dir] = tile_specials(tile1);
+        continue;
+      }
+      freelog(LOG_ERROR, "build_tile_data() tile (%d,%d) has no terrain!",
+              TILE_XY(tile1));
     }
+    /* At the edges of the (known) map, pretend the same terrain continued
+     * past the edge of the map. */
+    tterrain_near[dir] = pterrain;
+    BV_CLR_ALL(tspecial_near[dir]);
   }
 }
 
@@ -3663,12 +3663,12 @@ static int fill_city_overlays_sprite_array(const struct tileset *t,
   Fill in the sprite array for blended terrain.
 ****************************************************************************/
 static int fill_terrain_sprite_blending(const struct tileset *t,
-				      struct drawn_sprite *sprs,
-				      const struct tile *ptile,
-				      struct terrain **tterrain_near)
+					struct drawn_sprite *sprs,
+					const struct tile *ptile,
+					const struct terrain *pterrain,
+					struct terrain **tterrain_near)
 {
   struct drawn_sprite *saved_sprs = sprs;
-  struct terrain *pterrain = tile_terrain(ptile);
   const int W = t->normal_tile_width, H = t->normal_tile_height;
   const int offsets[4][2] = {
     {W/2, 0}, {0, H / 2}, {W / 2, H / 2}, {0, 0}
@@ -3758,11 +3758,11 @@ static int fill_terrain_sprite_array(struct tileset *t,
 				     struct drawn_sprite *sprs,
 				     int l, /* layer_num */
 				     const struct tile *ptile,
-				     struct terrain **tterrain_near)
+				     const struct terrain *pterrain,
+				     struct terrain **tterrain_near,
+				     struct drawing_data *draw)
 {
   struct drawn_sprite *saved_sprs = sprs;
-  struct terrain *pterrain = tile_terrain(ptile);
-  struct drawing_data *draw = t->sprites.drawing[terrain_index(pterrain)];
   struct drawing_layer *dlp = &draw->layer[l];
   int this = dlp->match_index[0];
   int that = dlp->match_index[1];
@@ -3977,11 +3977,11 @@ static int fill_terrain_sprite_layer(struct tileset *t,
 				     struct drawn_sprite *sprs,
 				     int layer_num,
 				     const struct tile *ptile,
+				     const struct terrain *pterrain,
 				     struct terrain **tterrain_near)
 {
-  struct drawn_sprite *saved_sprs = sprs;
   struct sprite *sprite;
-  struct terrain *pterrain = tile_terrain(ptile);
+  struct drawn_sprite *saved_sprs = sprs;
   struct drawing_data *draw = t->sprites.drawing[terrain_index(pterrain)];
   const int l = (draw->is_reversed
 		 ? (draw->num_layers - layer_num - 1) : layer_num);
@@ -3999,10 +3999,10 @@ static int fill_terrain_sprite_layer(struct tileset *t,
   }
 
   if (l < draw->num_layers) {
-    sprs += fill_terrain_sprite_array(t, sprs, l, ptile, tterrain_near);
+    sprs += fill_terrain_sprite_array(t, sprs, l, ptile, pterrain, tterrain_near, draw);
 
     if ((l + 1) == draw->blending) {
-      sprs += fill_terrain_sprite_blending(t, sprs, ptile, tterrain_near);
+      sprs += fill_terrain_sprite_blending(t, sprs, ptile, pterrain, tterrain_near);
     }
   }
 
@@ -4210,8 +4210,8 @@ int fill_sprite_array(struct tileset *t,
 		      const struct city *citymode)
 {
   int tileno, dir;
-  bv_special tspecial;
   bv_special tspecial_near[8];
+  bv_special tspecial;
   struct terrain *tterrain_near[8];
   struct terrain *pterrain = NULL;
   struct drawn_sprite *save_sprs = sprs;
@@ -4255,8 +4255,15 @@ int fill_sprite_array(struct tileset *t,
   }
 
   if (ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
-    build_tile_data(ptile,
-		    &pterrain, &tspecial, tterrain_near, tspecial_near);
+    tspecial = tile_specials(ptile);
+    pterrain = tile_terrain(ptile);
+
+    if (NULL != pterrain) {
+      build_tile_data(ptile, pterrain, tterrain_near, tspecial_near);
+    } else {
+      freelog(LOG_ERROR, "fill_sprite_array() tile (%d,%d) has no terrain!",
+              TILE_XY(ptile));
+    }
   }
 
   switch (layer) {
@@ -4277,29 +4284,26 @@ int fill_sprite_array(struct tileset *t,
     break;
 
   case LAYER_TERRAIN1:
-    if (draw_terrain && !solid_bg
-      && ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
-      sprs += fill_terrain_sprite_layer(t, sprs, 0, ptile, tterrain_near);
+    if (NULL != pterrain && draw_terrain && !solid_bg) {
+      sprs += fill_terrain_sprite_layer(t, sprs, 0, ptile, pterrain, tterrain_near);
     }
     break;
 
   case LAYER_TERRAIN2:
-    if (draw_terrain && !solid_bg
-      && ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
-      sprs += fill_terrain_sprite_layer(t, sprs, 1, ptile, tterrain_near);
+    if (NULL != pterrain && draw_terrain && !solid_bg) {
+      sprs += fill_terrain_sprite_layer(t, sprs, 1, ptile, pterrain, tterrain_near);
     }
     break;
 
   case LAYER_TERRAIN3:
-    if (draw_terrain && !solid_bg
-      && ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
+    if (NULL != pterrain && draw_terrain && !solid_bg) {
       assert(MAX_NUM_LAYERS == 3);
-      sprs += fill_terrain_sprite_layer(t, sprs, 2, ptile, tterrain_near);
+      sprs += fill_terrain_sprite_layer(t, sprs, 2, ptile, pterrain, tterrain_near);
     }
     break;
 
   case LAYER_WATER:
-    if (ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
+    if (NULL != pterrain) {
       if (draw_terrain && !solid_bg
        && terrain_has_flag(pterrain, TER_OCEANIC)) {
 	for (dir = 0; dir < 4; dir++) {
@@ -4331,14 +4335,14 @@ int fill_sprite_array(struct tileset *t,
     break;
 
   case LAYER_ROADS:
-    if (ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
+    if (NULL != pterrain) {
       sprs += fill_road_rail_sprite_array(t, sprs,
 					  tspecial, tspecial_near, pcity);
     }
     break;
 
   case LAYER_SPECIAL1:
-    if (ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
+    if (NULL != pterrain) {
       if (draw_specials) {
 	if (tile_resource_is_valid(ptile)) {
 	  ADD_SPRITE_SIMPLE(t->sprites.resource[resource_index(tile_resource(ptile))]);
@@ -4350,9 +4354,12 @@ int fill_sprite_array(struct tileset *t,
         ADD_SPRITE_FULL(t->sprites.bases[base_index(pbase)].background);
       }
 
-      if (draw_mines && contains_special(tspecial, S_MINE)
-	  && t->sprites.drawing[terrain_index(pterrain)]->mine) {
-	ADD_SPRITE_SIMPLE(t->sprites.drawing[terrain_index(pterrain)]->mine);
+      if (draw_mines && contains_special(tspecial, S_MINE)) {
+        struct drawing_data *draw = t->sprites.drawing[terrain_index(pterrain)];
+
+        if (NULL != draw->mine) {
+	  ADD_SPRITE_SIMPLE(draw->mine);
+	}
       }
 
       if (draw_specials && contains_special(tspecial, S_HUT)) {
@@ -4398,7 +4405,7 @@ int fill_sprite_array(struct tileset *t,
     break;
 
   case LAYER_SPECIAL2:
-    if (ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
+    if (NULL != pterrain) {
       if (draw_fortress_airbase && pbase != NULL
           && t->sprites.bases[base_index(pbase)].middleground) {
         ADD_SPRITE_FULL(t->sprites.bases[base_index(pbase)].middleground);
@@ -4447,7 +4454,7 @@ int fill_sprite_array(struct tileset *t,
     break;
 
   case LAYER_SPECIAL3:
-    if (ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
+    if (NULL != pterrain) {
       if (draw_fortress_airbase && pbase != NULL
           && t->sprites.bases[base_index(pbase)].foreground) {
 	/* Draw fortress front in iso-view (non-iso view only has a fortress
