@@ -10824,9 +10824,8 @@ msgid "Cities"
 msgstr "Города"
 
 #: client/gui-gtk-2.0/cityrep.c:811
-#, fuzzy
 msgid "_Inspect"
-msgstr "_Окно"
+msgstr "Осмотреть (_I)"
 
 #: client/gui-gtk-2.0/cityrep.c:1217 client/gui-gtk-2.0/cityrep.c:1238
 #: client/gui-gtk-2.0/cityrep.c:1257 client/gui-gtk-2.0/cityrep.c:1276
@@ -10987,9 +10986,8 @@ msgid "Goto _Location"
 msgstr "_Идти к"
 
 #: client/gui-gtk-2.0/dialogs.c:200 client/gui-gtk-2.0/messagewin.c:190
-#, fuzzy
 msgid "Inspect _City"
-msgstr "Открыть город"
+msgstr "Осмотреть город (_C)"
 
 #: client/gui-gtk-2.0/dialogs.c:256 client/gui-sdl/dialogs.c:2085
 #: client/gui-win32/dialogs.c:976 client/gui-xaw/dialogs.c:513
@@ -11028,16 +11026,15 @@ msgstr "Выбор соединений"
 
 #: client/gui-gtk-2.0/dialogs.c:581
 msgid "_Ready all"
-msgstr "_Приготовить всех"
+msgstr "Приготовить всех (_R)"
 
 #: client/gui-gtk-2.0/dialogs.c:589
 msgid "_Sentry idle"
-msgstr "_Усыпить незанятых"
+msgstr "Усыпить незанятых (_S)"
 
 #: client/gui-gtk-2.0/dialogs.c:717
-#, fuzzy
 msgid "Nation _Groups:"
-msgstr "_Народы:"
+msgstr "Группы народов (_G):"
 
 #: client/gui-gtk-2.0/dialogs.c:762 data/Freeciv.in:3128
 msgid "What Nation Will You Be?"
@@ -11049,9 +11046,8 @@ msgid "Pick Nation"
 msgstr "Выбрать народ"
 
 #: client/gui-gtk-2.0/dialogs.c:772
-#, fuzzy
 msgid "_Random Nation"
-msgstr "Случайный народ"
+msgstr "Случайный народ (_R)"
 
 #: client/gui-gtk-2.0/dialogs.c:784 client/gui-win32/dialogs.c:517
 msgid "Select a nation"
@@ -11059,29 +11055,27 @@ msgstr "Выберите народ"
 
 #: client/gui-gtk-2.0/dialogs.c:802
 msgid "_Properties"
-msgstr "_Свойства"
+msgstr "Свойства (_P)"
 
 #: client/gui-gtk-2.0/dialogs.c:822
 msgid "_Leader:"
-msgstr "_Лидер:"
+msgstr "Лидер (_L):"
 
 #: client/gui-gtk-2.0/dialogs.c:829
 msgid "_Female"
-msgstr "_Женский"
+msgstr "Женский (_F)"
 
 #: client/gui-gtk-2.0/dialogs.c:834
 msgid "_Male"
-msgstr "_Мужской"
+msgstr "Мужской (_M)"
 
 #: client/gui-gtk-2.0/dialogs.c:861
-#, fuzzy
 msgid "City _Styles:"
-msgstr "_Стили городов:"
+msgstr "Стили городов (_S):"
 
 #: client/gui-gtk-2.0/dialogs.c:900
-#, fuzzy
 msgid "_Description"
-msgstr "_Легенда"
+msgstr "Описание (_D)"
 
 #: client/gui-gtk-2.0/dialogs.c:1242 client/gui-xaw/dialogs.c:1477
 msgid "You must select your sex."
@@ -11120,28 +11114,28 @@ msgstr "Карта морей"
 
 #: client/gui-gtk-2.0/diplodlg.c:243
 msgid "_Maps"
-msgstr "Карты"
+msgstr "Карты (_M)"
 
 #: client/gui-gtk-2.0/diplodlg.c:274
 msgid "_Advances"
-msgstr "Открытия"
+msgstr "Открытия (_A)"
 
 #: client/gui-gtk-2.0/diplodlg.c:324 client/gui-gtk-2.0/menu.c:904
 #: client/gui-win32/menu.c:399
 msgid "_Cities"
-msgstr "Города"
+msgstr "Города (_C)"
 
 #: client/gui-gtk-2.0/diplodlg.c:333
 msgid "_Give shared vision"
-msgstr "Поделиться зрением"
+msgstr "Поделиться зрением (_G)"
 
 #: client/gui-gtk-2.0/diplodlg.c:346
 msgid "Give _embassy"
-msgstr "Разрешить _посольство"
+msgstr "Разрешить посольство (_e)"
 
 #: client/gui-gtk-2.0/diplodlg.c:376
 msgid "_Pacts"
-msgstr "Договоры"
+msgstr "Договоры (_P)"
 
 #: client/gui-gtk-2.0/diplodlg.c:466
 #, c-format
@@ -11150,23 +11144,23 @@ msgstr "Дипломатия: %s"
 
 #: client/gui-gtk-2.0/diplodlg.c:473
 msgid "_Cancel meeting"
-msgstr "Отменить переговоры"
+msgstr "Отменить переговоры (_C)"
 
 #: client/gui-gtk-2.0/diplodlg.c:475
 msgid "Accept _treaty"
-msgstr "Подписать"
+msgstr "Подписать (_t)"
 
 #: client/gui-gtk-2.0/diplodlg.c:503
 msgid "C_lauses:"
-msgstr "Статьи:"
+msgstr "Статьи (_l):"
 
 #: client/gui-gtk-2.0/diplodlg.c:568 client/gui-gtk-2.0/diplodlg.c:642
 msgid "_Gold:"
-msgstr "Золото:"
+msgstr "Золото (_G):"
 
 #: client/gui-gtk-2.0/diplodlg.c:580 client/gui-gtk-2.0/diplodlg.c:654
 msgid "_Add Clause..."
-msgstr "Добавить статью..."
+msgstr "Добавить статью... (_A)"
 
 #: client/gui-gtk-2.0/diplodlg.c:699
 msgid "--- This treaty is blank. Please add some clauses. ---"
@@ -11185,7 +11179,7 @@ msgstr "Найти город"
 
 #: client/gui-gtk-2.0/finddlg.c:105 client/gui-gtk-2.0/gotodlg.c:175
 msgid "Ci_ties:"
-msgstr "Города"
+msgstr "Города (_t):"
 
 #: client/gui-gtk-2.0/gamedlgs.c:227 client/gui-win32/ratesdlg.c:295
 msgid "Select tax, luxury and science rates"
@@ -11220,9 +11214,8 @@ msgid "Air_lift"
 msgstr "Воздушная переброска"
 
 #: client/gui-gtk-2.0/gotodlg.c:129
-#, fuzzy
 msgid "_Goto"
-msgstr "_Идти к"
+msgstr "Идти к (_G)"
 
 #: client/gui-gtk-2.0/gotodlg.c:140 client/gui-sdl/gotodlg.c:234
 msgid "Select destination"
@@ -11230,7 +11223,7 @@ msgstr "Выбрать назначение"
 
 #: client/gui-gtk-2.0/gotodlg.c:183
 msgid "Show _All Cities"
-msgstr "Показать все города"
+msgstr "Показать все города (_A)"
 
 #: client/gui-gtk-2.0/gui_main.c:150
 msgid "Show Map Scrollbars"
@@ -11381,9 +11374,8 @@ msgid "_Observe"
 msgstr "Наблюдать (_O)"
 
 #: client/gui-gtk-2.0/gui_main.c:1524
-#, fuzzy
 msgid "Do not _observe"
-msgstr "Не наблюдать (_O)"
+msgstr "Не наблюдать (_o)"
 
 #: client/gui-gtk-2.0/gui_main.c:1546
 msgid "<AI>"
@@ -11391,7 +11383,7 @@ msgstr "<Компьютер>"
 
 #: client/gui-gtk-2.0/gui_main.c:1549
 msgid "<Novice AI>"
-msgstr "<Компьютер нормальный>"
+msgstr "<Компьютер новичок>"
 
 #: client/gui-gtk-2.0/gui_main.c:1552
 msgid "<Easy AI>"
@@ -11555,7 +11547,7 @@ msgstr "Удален"
 #: client/gui-gtk-2.0/helpdlg.c:426 client/gui-win32/helpdlg.c:424
 #: data/Freeciv.in:576
 msgid "Freeciv Help Browser"
-msgstr "Freeciv справка"
+msgstr "Справка Freeciv"
 
 #: client/gui-gtk-2.0/helpdlg.c:654
 msgid "Expand All"
@@ -11678,7 +11670,7 @@ msgstr "Выход из локальной игры завершит её!"
 
 #: client/gui-gtk-2.0/menu.c:694 client/gui-win32/menu.c:303
 msgid "_Game"
-msgstr "_Игра"
+msgstr "Игра (_G)"
 
 #: client/gui-gtk-2.0/menu.c:696 client/gui-gtk-2.0/menu.c:698
 #: client/gui-gtk-2.0/menu.c:700 client/gui-gtk-2.0/menu.c:702
@@ -11696,60 +11688,59 @@ msgstr "Игра"
 #: client/gui-gtk-2.0/menu.c:698 client/gui-gtk-2.0/menu.c:700
 #: client/gui-gtk-2.0/menu.c:702
 msgid "_Chat"
-msgstr "_Общение"
+msgstr "Общение (_C)"
 
 #: client/gui-gtk-2.0/menu.c:700 client/gui-win32/menu.c:314
 msgid "_Clear Log"
-msgstr "Очистить журнал"
+msgstr "Очистить журнал (_C)"
 
 #: client/gui-gtk-2.0/menu.c:702 client/gui-win32/menu.c:313
-#, fuzzy
 msgid "_Write Log"
-msgstr "_Экспортировать журнал"
+msgstr "Записать журнал (_W)"
 
 #: client/gui-gtk-2.0/menu.c:704 client/gui-win32/menu.c:304
 msgid "Local _Options"
-msgstr "_Локальные настройки"
+msgstr "Локальные настройки (_O)"
 
 #: client/gui-gtk-2.0/menu.c:706 client/gui-win32/menu.c:305
 msgid "_Message Options"
-msgstr "_Настройки сообщений"
+msgstr "Настройки сообщений (_M)"
 
 #: client/gui-gtk-2.0/menu.c:711
 msgid "_Reload Tileset"
-msgstr "_Перезагрузить рельефа"
+msgstr "Перезагрузить рельеф (_R)"
 
 #: client/gui-gtk-2.0/menu.c:714
 msgid "Save Options on _Exit"
-msgstr "Сохранить настройки _при выходе"
+msgstr "Сохранить настройки при выходе (_E)"
 
 #: client/gui-gtk-2.0/menu.c:716
 msgid "Sa_ve Options"
-msgstr "_Сохранить настройки"
+msgstr "Сохранить настройки (_v)"
 
 #: client/gui-gtk-2.0/menu.c:720 client/gui-win32/menu.c:308
 msgid "Server O_ptions"
-msgstr "Показать настройки _сервера"
+msgstr "Настройки сервера (_p)"
 
 #: client/gui-gtk-2.0/menu.c:724 client/gui-win32/menu.c:310
 msgid "_Save Game"
-msgstr "_Сохранить игру"
+msgstr "Сохранить игру (_S)"
 
 #: client/gui-gtk-2.0/menu.c:727 client/gui-win32/menu.c:311
 msgid "Save Game _As..."
-msgstr "Сохранить игру _как..."
+msgstr "Сохранить игру как... (_A)"
 
 #: client/gui-gtk-2.0/menu.c:732
 msgid "_Leave"
-msgstr "О_тключиться"
+msgstr "Отключиться (_L)"
 
 #: client/gui-gtk-2.0/menu.c:734 client/gui-win32/menu.c:317
 msgid "_Quit"
-msgstr "Выйти"
+msgstr "Выйти (_Q)"
 
 #: client/gui-gtk-2.0/menu.c:739 client/gui-win32/menu.c:321
 msgid "Gov_ernment"
-msgstr "Форма правления"
+msgstr "Форма правления (_e)"
 
 #: client/gui-gtk-2.0/menu.c:741 client/gui-gtk-2.0/menu.c:743
 #: client/gui-gtk-2.0/menu.c:745 client/gui-gtk-2.0/menu.c:747
@@ -11761,34 +11752,34 @@ msgstr "Форма правления"
 
 #: client/gui-gtk-2.0/menu.c:743 client/gui-win32/menu.c:322
 msgid "_Tax Rates"
-msgstr "_Налоговые ставки"
+msgstr "Налоговые ставки (_T)"
 
 #: client/gui-gtk-2.0/menu.c:747 client/gui-win32/menu.c:324
 msgid "_Find City"
-msgstr "Найти город"
+msgstr "Найти город (_F)"
 
 #: client/gui-gtk-2.0/menu.c:749 client/gui-win32/menu.c:325
 msgid "_Worklists"
-msgstr "_Рабочие списки"
+msgstr "Рабочие списки (_W)"
 
 #: client/gui-gtk-2.0/menu.c:753 client/gui-gtk-2.0/menu.c:755
 #: client/gui-gtk-2.0/menu.c:758 client/gui-win32/menu.c:327
 msgid "_Change Government"
-msgstr "_Сменить форму правления"
+msgstr "Сменить форму правления (_C)"
 
 #: client/gui-gtk-2.0/menu.c:755
 msgid "_Revolution..."
-msgstr "_Революция..."
+msgstr "Революция... (_R)"
 
 #: client/gui-gtk-2.0/menu.c:758 client/gui-gtk-2.0/menu.c:964
 #: client/gui-win32/menu.c:431
 msgid "_Government"
-msgstr "_Форма правления"
+msgstr "Форма правления (_G)"
 
 #: client/gui-gtk-2.0/menu.c:762 client/gui-gtk-2.0/menu.c:910
 #: client/gui-win32/menu.c:334
 msgid "_View"
-msgstr "_Вид"
+msgstr "Вид (_V)"
 
 #: client/gui-gtk-2.0/menu.c:766
 msgid "City Outlines"
@@ -11796,23 +11787,23 @@ msgstr "Границы города"
 
 #: client/gui-gtk-2.0/menu.c:768 client/gui-win32/menu.c:335
 msgid "Map _Grid"
-msgstr "Сетка на карте"
+msgstr "Сетка на карте (_G)"
 
 #: client/gui-gtk-2.0/menu.c:770 client/gui-win32/menu.c:336
 msgid "National _Borders"
-msgstr "Государственные границы"
+msgstr "Государственные границы (_B)"
 
 #: client/gui-gtk-2.0/menu.c:772 client/gui-win32/menu.c:337
 msgid "City _Names"
-msgstr "Названия городов"
+msgstr "Названия городов (_N)"
 
 #: client/gui-gtk-2.0/menu.c:774 client/gui-win32/menu.c:338
 msgid "City G_rowth"
-msgstr "Рост города"
+msgstr "Рост города (_r)"
 
 #: client/gui-gtk-2.0/menu.c:776 client/gui-win32/menu.c:339
 msgid "City _Productions"
-msgstr "Городское производство"
+msgstr "Городское производство (_P)"
 
 #: client/gui-gtk-2.0/menu.c:778 client/gui-sdl/optiondlg.c:1719
 msgid "Draw city worker map grid"
@@ -11864,15 +11855,15 @@ msgstr "Дым войны"
 
 #: client/gui-gtk-2.0/menu.c:812
 msgid "_Full Screen"
-msgstr "_Полноэкранный режим"
+msgstr "Полноэкранный режим (_F)"
 
 #: client/gui-gtk-2.0/menu.c:816
 msgid "_Center View"
-msgstr "Центральный вид"
+msgstr "Центральный вид (_C)"
 
 #: client/gui-gtk-2.0/menu.c:819 client/gui-win32/menu.c:358
 msgid "_Orders"
-msgstr "_Приказы"
+msgstr "Приказы (_O)"
 
 #: client/gui-gtk-2.0/menu.c:821 client/gui-gtk-2.0/menu.c:823
 #: client/gui-gtk-2.0/menu.c:825 client/gui-gtk-2.0/menu.c:827
@@ -11900,109 +11891,109 @@ msgstr "Приказы"
 #: client/gui-gtk-2.0/menu.c:823 client/gui-gtk-2.0/menu.c:1429
 #: client/gui-win32/menu.c:359
 msgid "_Build City"
-msgstr "Построить город"
+msgstr "Построить город (_B)"
 
 #: client/gui-gtk-2.0/menu.c:825 client/gui-gtk-2.0/menu.c:1451
 #: client/gui-gtk-2.0/menu.c:1457 client/gui-win32/menu.c:360
 msgid "Build _Road"
-msgstr "Построить дорогу"
+msgstr "Построить дорогу (_R)"
 
 #: client/gui-gtk-2.0/menu.c:827 client/gui-gtk-2.0/menu.c:1345
 #: client/gui-win32/menu.c:361
 msgid "Build _Irrigation"
-msgstr "Построить орошение"
+msgstr "Построить орошение (_I)"
 
 #: client/gui-gtk-2.0/menu.c:829 client/gui-gtk-2.0/menu.c:1346
 #: client/gui-win32/menu.c:362
 msgid "Build _Mine"
-msgstr "Построить шахту"
+msgstr "Построить шахту (_M)"
 
 #: client/gui-gtk-2.0/menu.c:831 client/gui-gtk-2.0/menu.c:1347
 msgid "Transf_orm Terrain"
-msgstr "Преобразовать рельеф"
+msgstr "Преобразовать рельеф (_o)"
 
 #: client/gui-gtk-2.0/menu.c:833 client/gui-gtk-2.0/menu.c:1493
 #: client/gui-win32/menu.c:364
 msgid "Build _Fortress"
-msgstr "Построить крепость"
+msgstr "Построить крепость (_F)"
 
 #: client/gui-gtk-2.0/menu.c:835 client/gui-win32/menu.c:365
 msgid "Build Airbas_e"
-msgstr "Построить аэродром"
+msgstr "Построить аэродром (_e)"
 
 #: client/gui-gtk-2.0/menu.c:837 client/gui-gtk-2.0/menu.c:1499
 #: client/gui-win32/menu.c:366
 msgid "Clean _Pollution"
-msgstr "Очистить загрязнение"
+msgstr "Очистить загрязнение (_P)"
 
 #: client/gui-gtk-2.0/menu.c:839 client/gui-win32/menu.c:367
 msgid "Clean _Nuclear Fallout"
-msgstr "Очистить радиацию"
+msgstr "Очистить ядерные выбросы (_N)"
 
 #: client/gui-gtk-2.0/menu.c:843 client/gui-win32/menu.c:369
 msgid "_Sentry"
-msgstr "Сторожить"
+msgstr "Сторожить (_S)"
 
 #: client/gui-gtk-2.0/menu.c:849 client/gui-win32/menu.c:372
 msgid "Make _Homecity"
-msgstr "Сделать домашним городом"
+msgstr "Сделать домашним городом (_H)"
 
 #: client/gui-gtk-2.0/menu.c:851 client/gui-win32/menu.c:373
 msgid "_Load"
-msgstr "_Загрузить"
+msgstr "Погрузить (_L)"
 
 #: client/gui-gtk-2.0/menu.c:853
 msgid "_Unload Transporter"
-msgstr "_Разгрузить Транспорт"
+msgstr "Разгрузить Транспорт (_U)"
 
 #: client/gui-gtk-2.0/menu.c:855 client/gui-win32/menu.c:374
 msgid "_Unload"
-msgstr "Раз_грузить"
+msgstr "Выгрузить (_U)"
 
 #: client/gui-gtk-2.0/menu.c:857 client/gui-win32/menu.c:375
 msgid "Wake up o_thers"
-msgstr "Разбудить других"
+msgstr "Разбудить других (_t)"
 
 #: client/gui-gtk-2.0/menu.c:861
 msgid "_Auto Settler"
-msgstr "Авто Колонисты"
+msgstr "Авто Колонисты (_A)"
 
 #: client/gui-gtk-2.0/menu.c:863 client/gui-win32/menu.c:378
 msgid "Auto E_xplore"
-msgstr "Авто исследовать"
+msgstr "Авто исследовать (_x)"
 
 #: client/gui-gtk-2.0/menu.c:865 client/gui-gtk-2.0/menu.c:867
 #: client/gui-gtk-2.0/menu.c:869
 msgid "_Connect"
-msgstr "Подключиться"
+msgstr "Подключиться (_C)"
 
 #: client/gui-gtk-2.0/menu.c:865 client/gui-win32/menu.c:380
 msgid "_Road"
-msgstr "_Дорога"
+msgstr "Дорога (_R)"
 
 #: client/gui-gtk-2.0/menu.c:867 client/gui-win32/menu.c:381
 msgid "Rai_l"
-msgstr "_Железная дорога"
+msgstr "Железная дорога (_l)"
 
 #: client/gui-gtk-2.0/menu.c:869 client/gui-win32/menu.c:382
 msgid "_Irrigate"
-msgstr "_Орошать"
+msgstr "Орошать (_I)"
 
 #: client/gui-gtk-2.0/menu.c:871
 msgid "Go _to"
-msgstr "_Идти к"
+msgstr "Идти к (_t)"
 
 #: client/gui-gtk-2.0/menu.c:871
 msgid "_Build city"
-msgstr "_Построить город"
+msgstr "Построить город (_B)"
 
 #: client/gui-gtk-2.0/menu.c:873
 msgid "Patrol (_Q)"
-msgstr "Патрулировать"
+msgstr "Патрулировать (_Q)"
 
 #: client/gui-gtk-2.0/menu.c:875 client/gui-win32/menu.c:385
 msgid "_Go to"
-msgstr "_Идти к"
+msgstr "Идти к (_G)"
 
 #: client/gui-gtk-2.0/menu.c:877
 msgid "Go\\/Airlift to City"
@@ -12038,7 +12029,7 @@ msgstr "Выбрать тот же тип"
 
 #: client/gui-gtk-2.0/menu.c:895 client/gui-win32/menu.c:393
 msgid "_Wait"
-msgstr "Ждать"
+msgstr "Ждать (_W)"
 
 #: client/gui-gtk-2.0/menu.c:897 client/gui-win32/menu.c:394
 #: client/gui-xaw/menu.c:213
@@ -12047,7 +12038,7 @@ msgstr "Сделано"
 
 #: client/gui-gtk-2.0/menu.c:900 client/gui-win32/menu.c:398
 msgid "_Reports"
-msgstr "_Отчёты"
+msgstr "Отчёты (_R)"
 
 #: client/gui-gtk-2.0/menu.c:902 client/gui-gtk-2.0/menu.c:904
 #: client/gui-gtk-2.0/menu.c:906 client/gui-gtk-2.0/menu.c:908
@@ -12062,48 +12053,46 @@ msgstr "Отчёты"
 #: client/gui-gtk-2.0/menu.c:906 client/gui-gtk-2.0/menu.c:952
 #: client/gui-win32/menu.c:400 client/gui-win32/menu.c:425
 msgid "_Units"
-msgstr "Сое_динения"
+msgstr "Соединения (_U)"
 
 #. TRANS: Nations report action
 #: client/gui-gtk-2.0/menu.c:908 client/gui-win32/menu.c:402
-#, fuzzy
 msgid "_Nations"
-msgstr "_Народы"
+msgstr "Народы (_N)"
 
 #: client/gui-gtk-2.0/menu.c:912 client/gui-win32/menu.c:403
 msgid "_Economy"
-msgstr "Экономика"
+msgstr "Экономика (_E)"
 
 #. TRANS: Research report action
 #: client/gui-gtk-2.0/menu.c:914 client/gui-win32/menu.c:405
-#, fuzzy
 msgid "_Research"
-msgstr "_Исследования"
+msgstr "Исследования (_R)"
 
 #: client/gui-gtk-2.0/menu.c:918 client/gui-win32/menu.c:407
 msgid "_Wonders of the World"
-msgstr "Чудеса Света"
+msgstr "Чудеса Света (_W)"
 
 #: client/gui-gtk-2.0/menu.c:920 client/gui-win32/menu.c:408
 msgid "_Top Five Cities"
-msgstr "Лучшие пять городов"
+msgstr "Лучшие пять городов (_T)"
 
 #: client/gui-gtk-2.0/menu.c:922 client/gui-win32/menu.c:409
 msgid "_Messages"
-msgstr "_Сообщения"
+msgstr "Сообщения (_M)"
 
 #: client/gui-gtk-2.0/menu.c:924 client/gui-win32/menu.c:410
 msgid "_Demographics"
-msgstr "Демография"
+msgstr "Демография (_D)"
 
 #: client/gui-gtk-2.0/menu.c:926 client/gui-gtk-2.0/plrdlg.c:471
 #: client/gui-win32/menu.c:411
 msgid "_Spaceship"
-msgstr "Космический корабль"
+msgstr "Космический корабль (_S)"
 
 #: client/gui-gtk-2.0/menu.c:930 client/gui-win32/menu.c:415
 msgid "_Help"
-msgstr "_Справка"
+msgstr "Справка (_H)"
 
 #: client/gui-gtk-2.0/menu.c:932 client/gui-gtk-2.0/menu.c:934
 #: client/gui-gtk-2.0/menu.c:936 client/gui-gtk-2.0/menu.c:938
@@ -12125,71 +12114,71 @@ msgstr "Справка"
 
 #: client/gui-gtk-2.0/menu.c:934 client/gui-win32/menu.c:416
 msgid "Language_s"
-msgstr "_Языки"
+msgstr "Языки (_s)"
 
 #: client/gui-gtk-2.0/menu.c:936 client/gui-win32/menu.c:417
 msgid "Co_nnecting"
-msgstr "_Подключение"
+msgstr "Подключение (_n)"
 
 #: client/gui-gtk-2.0/menu.c:938 client/gui-win32/menu.c:418
 msgid "C_ontrols"
-msgstr "_Управление"
+msgstr "Управление (_o)"
 
 #: client/gui-gtk-2.0/menu.c:940 client/gui-win32/menu.c:419
 msgid "C_hatline"
-msgstr "_Общение"
+msgstr "Общение (_h)"
 
 #: client/gui-gtk-2.0/menu.c:942 client/gui-win32/menu.c:420
 msgid "_Worklist Editor"
-msgstr "_Редактор рабочих списков"
+msgstr "Редактор рабочих списков (_W)"
 
 #: client/gui-gtk-2.0/menu.c:944 client/gui-win32/menu.c:421
 msgid "Citizen _Management"
-msgstr "Управление _гражданами"
+msgstr "Управление гражданами (_M)"
 
 #: client/gui-gtk-2.0/menu.c:946 client/gui-win32/menu.c:422
 msgid "_Playing"
-msgstr "_Игра"
+msgstr "Игра (_P)"
 
 #: client/gui-gtk-2.0/menu.c:950 client/gui-win32/menu.c:424
 msgid "City _Improvements"
-msgstr "Г_ородские здания"
+msgstr "Городские здания (_I)"
 
 #: client/gui-gtk-2.0/menu.c:954 client/gui-win32/menu.c:426
 msgid "Com_bat"
-msgstr "_Сражения"
+msgstr "Сражения (_b)"
 
 #: client/gui-gtk-2.0/menu.c:956 client/gui-win32/menu.c:427
 msgid "_ZOC"
-msgstr "_Зоны контроля"
+msgstr "Зоны контроля (_Z)"
 
 #: client/gui-gtk-2.0/menu.c:958 client/gui-win32/menu.c:428
 msgid "Techno_logy"
-msgstr "_Технологии"
+msgstr "Технологии (_l)"
 
 #: client/gui-gtk-2.0/menu.c:960 client/gui-win32/menu.c:429
 msgid "_Terrain"
-msgstr "Ре_льеф"
+msgstr "Рельеф (_T)"
 
 #: client/gui-gtk-2.0/menu.c:962 client/gui-win32/menu.c:430
 msgid "Won_ders"
-msgstr "_Чудеса"
+msgstr "Чудеса (_d)"
 
 #: client/gui-gtk-2.0/menu.c:966 client/gui-win32/menu.c:432
 msgid "Happin_ess"
-msgstr "С_частье"
+msgstr "Счастье (_e)"
 
 #: client/gui-gtk-2.0/menu.c:968 client/gui-win32/menu.c:433
 msgid "Space _Race"
-msgstr "_Космическая гонка"
+msgstr "Космическая гонка (_R)"
 
 #: client/gui-gtk-2.0/menu.c:972 client/gui-win32/menu.c:435
 msgid "_Copying"
-msgstr "Копиро_вание"
+msgstr "Копирование (_C)"
 
 #: client/gui-gtk-2.0/menu.c:974 client/gui-win32/menu.c:436
 msgid "_About"
-msgstr "О програ_мме"
+msgstr "О программе (_A)"
 
 #: client/gui-gtk-2.0/menu.c:1258
 #, c-format
@@ -12199,45 +12188,45 @@ msgstr "%s..."
 #: client/gui-gtk-2.0/menu.c:1337
 #, c-format
 msgid "Change to %s (_I)"
-msgstr "Изменить в %s"
+msgstr "Изменить в %s (_I)"
 
 #: client/gui-gtk-2.0/menu.c:1338
 #, c-format
 msgid "Change to %s (_M)"
-msgstr "Изменить в %s"
+msgstr "Изменить в %s (_M)"
 
 #: client/gui-gtk-2.0/menu.c:1339
 #, c-format
 msgid "Transf_orm to %s"
-msgstr "Преобразовать в %s"
+msgstr "Преобразовать в %s (_o)"
 
 #: client/gui-gtk-2.0/menu.c:1412
 msgid "Help _Build Wonder"
-msgstr "Помочь построить чудо"
+msgstr "Помочь построить чудо (_B)"
 
 #: client/gui-gtk-2.0/menu.c:1426
 msgid "Add to City (_B)"
-msgstr "Добавить к городу"
+msgstr "Добавить к городу (_B)"
 
 #: client/gui-gtk-2.0/menu.c:1434
 msgid "Make Trade _Route"
-msgstr "Установить торговый путь"
+msgstr "Установить торговый путь (_R)"
 
 #: client/gui-gtk-2.0/menu.c:1448
 msgid "Build _Railroad"
-msgstr "Построить железную дорогу"
+msgstr "Построить железную дорогу (_R)"
 
 #: client/gui-gtk-2.0/menu.c:1471
 msgid "Bu_ild Farmland"
-msgstr "Построить ферму"
+msgstr "Построить ферму (_i)"
 
 #: client/gui-gtk-2.0/menu.c:1491
 msgid "_Fortify"
-msgstr "Укрепить"
+msgstr "Укрепить (_F)"
 
 #: client/gui-gtk-2.0/menu.c:1497
 msgid "_Paradrop"
-msgstr "Сбросить с парашютом"
+msgstr "Сбросить с парашютом (_P)"
 
 #: client/gui-gtk-2.0/messagedlg.c:62 client/gui-win32/messagedlg.c:175
 #: client/gui-xaw/menu.c:112 data/Freeciv.in:1254
@@ -12292,48 +12281,47 @@ msgstr "Народы"
 
 #: client/gui-gtk-2.0/plrdlg.c:443
 msgid "_Intelligence"
-msgstr "Разведка"
+msgstr "Разведка (_I)"
 
 #: client/gui-gtk-2.0/plrdlg.c:450
 msgid "_Meet"
-msgstr "Встретить"
+msgstr "Встретить (_M)"
 
 #: client/gui-gtk-2.0/plrdlg.c:457
-#, fuzzy
 msgid "Cancel _Treaty"
-msgstr "Отмена договора"
+msgstr "Отмена договора (_T)"
 
 #: client/gui-gtk-2.0/plrdlg.c:464
 msgid "_Withdraw vision"
-msgstr "Убрать зрение"
+msgstr "Убрать зрение (_W)"
 
 #: client/gui-gtk-2.0/plrdlg.c:495
 msgid "_AI"
-msgstr "_Компьютер"
+msgstr "Компьютер (_A)"
 
 #: client/gui-gtk-2.0/plrdlg.c:501
 msgid "_Toggle AI Mode"
-msgstr "_Переключить компьютерный режим"
+msgstr "Переключить компьютерный режим (_T)"
 
 #: client/gui-gtk-2.0/pages.c:208
 msgid "Start _New Game"
-msgstr "_Начать новую игру"
+msgstr "Начать новую игру (_N)"
 
 #: client/gui-gtk-2.0/pages.c:214
 msgid "Start _Scenario Game"
-msgstr "Начать _игру по сценарию"
+msgstr "Начать игру по сценарию (_S)"
 
 #: client/gui-gtk-2.0/pages.c:220
 msgid "_Load Saved Game"
-msgstr "_Загрузить сохранённую игру"
+msgstr "Загрузить сохранённую игру (_L)"
 
 #: client/gui-gtk-2.0/pages.c:229
 msgid "C_onnect to Network Game"
-msgstr "_Подключиться к сетевой игре"
+msgstr "Подключиться к сетевой игре (_o)"
 
 #: client/gui-gtk-2.0/pages.c:236
 msgid "Connect to Gaming _Zone"
-msgstr "Подключиться к Gaming _Zone"
+msgstr "Подключиться к Gaming Zone (_Z)"
 
 #: client/gui-gtk-2.0/pages.c:610 client/gui-win32/connectdlg.c:300
 #: client/gui-xaw/connectdlg.c:326
@@ -12369,35 +12357,35 @@ msgstr "Комментарий"
 
 #: client/gui-gtk-2.0/pages.c:743
 msgid "Local _Area Network"
-msgstr "_Локальная сеть"
+msgstr "Локальная сеть (_A)"
 
 #: client/gui-gtk-2.0/pages.c:779
 msgid "Internet _Metaserver"
-msgstr "_Интернет Метасервер"
+msgstr "Интернет Метасервер (_M)"
 
 #: client/gui-gtk-2.0/pages.c:813
 msgid "_Host:"
-msgstr "_Сервер:"
+msgstr "Сервер (_H):"
 
 #: client/gui-gtk-2.0/pages.c:830
 msgid "_Port:"
-msgstr "П_орт:"
+msgstr "Порт (_P):"
 
 #: client/gui-gtk-2.0/pages.c:847
 msgid "_Login:"
-msgstr "Ло_гин:"
+msgstr "Логин (_L):"
 
 #: client/gui-gtk-2.0/pages.c:865
 msgid "Pass_word:"
-msgstr "_Пароль:"
+msgstr "Пароль (_w):"
 
 #: client/gui-gtk-2.0/pages.c:883
 msgid "Conf_irm Password:"
-msgstr "По_вторите Пароль:"
+msgstr "Повторите Пароль (_i):"
 
 #: client/gui-gtk-2.0/pages.c:908
 msgid "C_onnect"
-msgstr "_Подключиться"
+msgstr "Подключиться (_o)"
 
 #: client/gui-gtk-2.0/pages.c:1121
 #, c-format
@@ -12466,14 +12454,12 @@ msgid "Put on %s"
 msgstr "Включить в %s"
 
 #: client/gui-gtk-2.0/pages.c:1419
-#, fuzzy
 msgid "Number of _Players (including AI):"
-msgstr "_Число игроков (Включая компьютерных игроков):"
+msgstr "Число игроков (Включая компьютерных игроков) (_P):"
 
 #: client/gui-gtk-2.0/pages.c:1442
-#, fuzzy
 msgid "AI Skill _Level:"
-msgstr "_Уровень компьютерного противника (AI):"
+msgstr "Уровень компьютерного противника (AI) (_L):"
 
 #: client/gui-gtk-2.0/pages.c:1458
 #, fuzzy
@@ -12482,7 +12468,7 @@ msgstr "_Правила:"
 
 #: client/gui-gtk-2.0/pages.c:1466 client/gui-gtk-2.0/pages.c:2098
 msgid "_More Game Options..."
-msgstr "Н_астройки игры..."
+msgstr "Доп. настройки игры... (_M)"
 
 #: client/gui-gtk-2.0/pages.c:1491
 #, fuzzy
@@ -12490,7 +12476,6 @@ msgid "Record"
 msgstr "Рекорд"
 
 #: client/gui-gtk-2.0/pages.c:1496
-#, fuzzy
 msgid "Rating"
 msgstr "Рейтинг"
 
@@ -12509,12 +12494,12 @@ msgstr "Выберите сохранённую игру, которую Вы х
 
 #: client/gui-gtk-2.0/pages.c:1729
 msgid "Choose Saved Game to _Load:"
-msgstr "_Выберите игру, которую Вы хотите загрузить:"
+msgstr "Выберите игру, которую Вы хотите загрузить (_L):"
 
 #: client/gui-gtk-2.0/pages.c:1749 client/gui-gtk-2.0/pages.c:1942
 #: client/gui-gtk-2.0/pages.c:2352
 msgid "_Browse..."
-msgstr "_Обзор..."
+msgstr "Обзор... (_B)"
 
 #: client/gui-gtk-2.0/pages.c:1816
 msgid "Choose a Scenario"
@@ -12522,7 +12507,7 @@ msgstr "Выберите сценарий"
 
 #: client/gui-gtk-2.0/pages.c:1903
 msgid "Choose a _Scenario:"
-msgstr "Выберите _сценарий:"
+msgstr "Выберите сценарий (_S):"
 
 #: client/gui-gtk-2.0/pages.c:2068 client/gui-gtk-2.0/repodlgs.c:634
 #: client/gui-gtk-2.0/wldlg.c:1033 client/gui-win32/citydlg.c:1083
@@ -12533,7 +12518,7 @@ msgstr "Тип"
 
 #: client/gui-gtk-2.0/pages.c:2078
 msgid "Choose a _nation to play:"
-msgstr "Выберите _народ, которым Вы будете играть:"
+msgstr "Выберите народ, которым Вы будете играть (_n):"
 
 #: client/gui-gtk-2.0/pages.c:2264 client/gui-win32/menu.c:581
 msgid "Select Location to Save"
@@ -12545,11 +12530,11 @@ msgstr "Сохранить игру"
 
 #: client/gui-gtk-2.0/pages.c:2390
 msgid "Saved _Games:"
-msgstr "_Сохранённые игры:"
+msgstr "Сохранённые игры (_G):"
 
 #: client/gui-gtk-2.0/pages.c:2417
 msgid "Save _Filename:"
-msgstr "Имя _файла сохранения:"
+msgstr "Имя файла сохранения (_F):"
 
 #. TRANS: Research report title
 #. TRANS: Research report action
@@ -12562,7 +12547,6 @@ msgstr "Имя _файла сохранения:"
 #: client/gui-win32/repodlgs.c:93 client/gui-win32/repodlgs.c:273
 #: client/gui-xaw/menu.c:224 client/gui-xaw/repodlgs.c:274
 #: client/gui-xaw/repodlgs.c:485 data/Freeciv.in:1366
-#, fuzzy
 msgid "Research"
 msgstr "Исследования"
 
@@ -12601,11 +12585,11 @@ msgstr "Общая стоимость:"
 
 #: client/gui-gtk-2.0/repodlgs.c:714
 msgid "Sell _Obsolete"
-msgstr "Продать устаревшие"
+msgstr "Продать устаревшие (_O)"
 
 #: client/gui-gtk-2.0/repodlgs.c:719
 msgid "Sell _All"
-msgstr "_Продать всё"
+msgstr "Продать все (_A)"
 
 #: client/gui-gtk-2.0/repodlgs.c:797
 #, c-format
@@ -12630,9 +12614,8 @@ msgid "Unit Type"
 msgstr "Тип соединения"
 
 #: client/gui-gtk-2.0/repodlgs.c:934 client/gui-win32/repodlgs.c:696
-#, fuzzy
 msgid "?Upgradable unit [short]:U"
-msgstr "О"
+msgstr "М"
 
 #: client/gui-gtk-2.0/repodlgs.c:935 client/gui-win32/repodlgs.c:697
 msgid "In-Prog"
@@ -12767,7 +12750,7 @@ msgstr "(скрыто)"
 
 #: client/gui-gtk-2.0/spaceshipdlg.c:221
 msgid "_Launch"
-msgstr "Запустить"
+msgstr "Запустить (_L)"
 
 #: client/gui-gtk-2.0/theme_dlg.c:57
 msgid "Theme suggested"
@@ -13038,7 +13021,7 @@ msgstr "Настройки города"
 #: client/gui-sdl/citydlg.c:1779
 #, c-format
 msgid "Supported units: %d"
-msgstr "Поддерживаемые войска: %d"
+msgstr "Поддерживаемые соединения: %d"
 
 #: client/gui-sdl/citydlg.c:1837
 #, c-format
@@ -13632,8 +13615,6 @@ msgstr "Полноэкранный режим"
 msgid ""
 "If this option is set the client will use the whole screen area for drawing"
 msgstr ""
-"Если данная настройка установлена, то когда открыт диалог города, данный "
-"город центрируется автоматически."
 
 #: client/gui-sdl/gui_main.c:154
 msgid "Screen width"
@@ -13664,11 +13645,11 @@ msgid "  -f,  --fullscreen\tStart Client in Fullscreen mode\n"
 msgstr "  -f,  --fullscreen\tЗапустить клиент в полноэкранном режиме\n"
 
 #: client/gui-sdl/gui_main.c:205
-#, fuzzy
 msgid ""
 "  -e,  --eventthread\tInit Event Subsystem in other thread (only Linux and "
 "BeOS)\n"
-msgstr "  -e,  --eventthread\t (только Linux и BeOS)"
+msgstr "  -e,  --eventthread\t Инициализировать подсистему событий в "
+"другом потоке (только Linux и BeOS)\n"
 
 #: client/gui-sdl/gui_main.c:207
 msgid "  -t,  --theme THEME\tUse GUI theme THEME\n"
@@ -13784,6 +13765,10 @@ msgid ""
 "Tax: %d%% Science: %d%% Luxury: %d%%\n"
 "Researching: %s(%d/%d)"
 msgstr ""
+"Правитель: %s %s  Форма правления: %s\n"
+"Столица: %s  Золото: %d\n"
+"Налоги: %d%% Наука: %d%% Роскошь: %d%%\n"
+"Исследования: %s(%d/%d)"
 
 #: client/gui-sdl/inteldlg.c:296
 #, c-format
@@ -13793,6 +13778,10 @@ msgid ""
 "Tax: %d%% Science: %d%% Luxury: %d%%\n"
 "Researching: Unknown"
 msgstr ""
+"Правитель: %s %s  Форма правления: %s\n"
+"Столица: %s  Золото: %d\n"
+"Налоги: %d%% Наука: %d%% Роскошь: %d%%\n"
+"Исследования: неизвестно"
 
 #: client/gui-sdl/inteldlg.c:357
 msgid "Their techs that we don't have :"
@@ -13808,19 +13797,19 @@ msgstr ""
 
 #: client/gui-sdl/mapctrl.c:384
 msgid "Show MiniMap"
-msgstr ""
+msgstr "Показать миникарту"
 
 #: client/gui-sdl/mapctrl.c:462 client/gui-sdl/mapctrl.c:1658
 msgid "Hide MiniMap"
-msgstr ""
+msgstr "Убрать миникарту"
 
 #: client/gui-sdl/mapctrl.c:514
 msgid "Show Messages (F10)"
-msgstr ""
+msgstr "Показать сообщения (F10)"
 
 #: client/gui-sdl/mapctrl.c:517
 msgid "Hide Messages (F10)"
-msgstr ""
+msgstr "Убрать сообщения (F10)"
 
 #: client/gui-sdl/mapctrl.c:673
 msgid "Scale Minimap"
@@ -13835,7 +13824,6 @@ msgid "Single Tile Height"
 msgstr ""
 
 #: client/gui-sdl/mapctrl.c:733 client/gui-sdl/mapctrl.c:1077
-#, fuzzy
 msgid "Exit"
 msgstr "Выход"
 
@@ -13861,14 +13849,12 @@ msgid "or"
 msgstr "или"
 
 #: client/gui-sdl/mapctrl.c:1615
-#, fuzzy
 msgid "Hide Messages"
-msgstr "Сообщения"
+msgstr "Убрать сообщения"
 
 #: client/gui-sdl/mapctrl.c:1625
-#, fuzzy
 msgid "Toggle Minimap Mode"
-msgstr "_Переключить компьютерный режим"
+msgstr "Переключить режим миникарты"
 
 #: client/gui-sdl/mapctrl.c:1637 client/gui-sdl/optiondlg.c:2166
 #: client/gui-sdl/pages.c:241 data/Freeciv.in:1217
@@ -13884,14 +13870,14 @@ msgid ""
 msgstr ""
 
 #: client/gui-sdl/mapview.c:412
-#, fuzzy, c-format
+#, c-format
 msgid "%s Population: %s  Year: %s  Gold %d "
-msgstr "%s  Население: %s  Год: %s  Золото: %d  Нал: %d Роск: %d Наука: %d"
+msgstr "%s Население: %s  Год: %s  Золото: %d "
 
 #: client/gui-sdl/mapview.c:420
 #, c-format
 msgid "%s Population: %s  Year: %s  Gold %d Tax: %d Lux: %d Sci: %d "
-msgstr "%s  Население: %s  Год: %s  Золото: %d  Нал: %d Роск: %d Наука: %d"
+msgstr "%s Население: %s  Год: %s  Золото: %d  Нал: %d Роск: %d Наука: %d "
 
 #: client/gui-sdl/mapview.c:727 data/default/units.ruleset:24
 #: data/civ2/units.ruleset:18 data/civ1/units.ruleset:18
@@ -14219,7 +14205,7 @@ msgstr "Полноэкранный режим"
 
 #: client/gui-sdl/optiondlg.c:987
 msgid "Smooth unit move steps"
-msgstr ""
+msgstr "Сглаживать шаги хода соединения"
 
 #: client/gui-sdl/optiondlg.c:1041
 msgid "Show focus animation"
@@ -14287,9 +14273,8 @@ msgid "Worklists"
 msgstr "Рабочие списки"
 
 #: client/gui-sdl/optiondlg.c:2287
-#, fuzzy
 msgid "Leave Game"
-msgstr "Сохранить игру"
+msgstr "Покинуть игру"
 
 #: client/gui-sdl/optiondlg.c:2302 client/gui-sdl/pages.c:255
 #: client/gui-win32/connectdlg.c:1098 client/gui-xaw/menu.c:121
@@ -14348,7 +14333,6 @@ msgid ""
 msgstr "В разработке"
 
 #: client/gui-sdl/repodlgs.c:348
-#, fuzzy
 msgid ""
 "soonest\n"
 "completion"
@@ -14455,7 +14439,7 @@ msgid "The Greatest Civilizations in the world."
 msgstr "Величайшие Цивилизации в мире."
 
 #: client/gui-sdl/spaceshipdlg.c:142
-#, fuzzy, c-format
+#, c-format
 msgid "The %s Spaceship"
 msgstr "Космический корабль %s"
 
@@ -14570,60 +14554,72 @@ msgid "( %d entries )"
 msgstr "( %d вхождений )"
 
 #: client/gui-sdl/wldlg.c:1039
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Worklist of\n"
 "%s"
 msgstr ""
-"Рабочие списки\n"
+"Рабочий список\n"
 "%s"
 
 #: client/gui-sdl/wldlg.c:1347
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "(%s)\n"
 "%d/%d %s\n"
 "%s"
-msgstr "%3d/%3d %s"
+msgstr ""
+"(%s)\n"
+"%d/%d %s\n"
+"%s"
 
 #: client/gui-sdl/wldlg.c:1354
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%d/%d %s\n"
 "%s"
-msgstr "%3d/%3d %s"
+msgstr ""
+"%d/%d %s\n"
+"%s"
 
 #: client/gui-sdl/wldlg.c:1361
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "(%s)\n"
 "%d/%d %s\n"
 "%d %s"
-msgstr "%d/%d %d ходов"
+msgstr ""
+"(%s)\n"
+"%d/%d %s\n"
+"%d %s"
 
 #: client/gui-sdl/wldlg.c:1368
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%d/%d %s\n"
 "%d %s"
-msgstr "%d/%d %d ходов"
+msgstr ""
+"%d/%d %s\n"
+"%d %s"
 
 #: client/gui-sdl/wldlg.c:1377
-#, fuzzy, c-format
+#, c-format
 msgid "%d gold per turn"
-msgstr "%3d золота за ход"
+msgstr "%d золота за ход"
 
 #: client/gui-sdl/wldlg.c:1384
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "(%s)\n"
 "%d %s"
-msgstr "%s%d %s"
+msgstr ""
+"(%s)\n"
+"%d %s"
 
 #: client/gui-sdl/wldlg.c:1389
-#, fuzzy, c-format
+#, c-format
 msgid "%d %s"
-msgstr "%s%d %s"
+msgstr "%d %s"
 
 #: client/gui-sdl/wldlg.c:1395
 msgid "shields into gold"
@@ -14636,6 +14632,9 @@ msgid ""
 "%d/%d %s\n"
 "never"
 msgstr ""
+"(%d/%d/%d)\n"
+"%d/%d %s\n"
+"никогда"
 
 #: client/gui-sdl/wldlg.c:1481
 #, c-format
@@ -14644,13 +14643,18 @@ msgid ""
 "%d/%d %s\n"
 "%d %s"
 msgstr ""
+"(%d/%d/%d)\n"
+"%d/%d %s\n"
+"%d %s"
 
 #: client/gui-sdl/wldlg.c:1490
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "(%d/%d/%d)\n"
 "%d %s"
-msgstr "%3d/%3d %s"
+msgstr ""
+"(%d/%d/%d)\n"
+"%d %s"
 
 #: client/gui-win32/citydlg.c:285
 #, c-format
@@ -14734,13 +14738,13 @@ msgstr "Поддержка"
 #: client/gui-win32/citydlg.c:1448 client/gui-win32/dialogs.c:977
 #: client/gui-win32/dialogs.c:1372 client/gui-win32/dialogs.c:1558
 msgid "_Yes"
-msgstr "Да"
+msgstr "Да (_Y)"
 
 #: client/gui-win32/citydlg.c:908 client/gui-win32/citydlg.c:963
 #: client/gui-win32/citydlg.c:1450 client/gui-win32/dialogs.c:978
 #: client/gui-win32/dialogs.c:1373 client/gui-win32/dialogs.c:1559
 msgid "_No"
-msgstr "Нет"
+msgstr "Нет (_N)"
 
 #: client/gui-win32/citydlg.c:916 client/gui-win32/citydlg.c:1455
 #: client/gui-win32/dialogs.c:1380 client/gui-win32/dialogs.c:1551
@@ -14772,11 +14776,11 @@ msgstr "Команды соединения"
 #: client/gui-win32/dialogs.c:1613 client/gui-win32/dialogs.c:1635
 #: client/gui-win32/dialogs.c:1665
 msgid "_Cancel"
-msgstr "Отмена"
+msgstr "Отмена (_C)"
 
 #: client/gui-win32/citydlg.c:1522
 msgid "_Upgrade unit"
-msgstr "Модернизировать соединение"
+msgstr "Модернизировать соединение (_U)"
 
 #: client/gui-win32/citydlg.c:1987
 msgid "Elvises"
@@ -14870,7 +14874,7 @@ msgstr "Для информации о:"
 
 #: client/gui-win32/cma_fe.c:309
 msgid "CMA and presets"
-msgstr "АУГ и пре-установках,"
+msgstr "Губернаторе и пре-установках,"
 
 #: client/gui-win32/cma_fe.c:310
 msgid "including sample presets,"
@@ -18999,12 +19003,12 @@ msgid "Eiffel Tower"
 msgstr "Эйфелева башня"
 
 #: data/default/buildings.ruleset:1087
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Your reputation and goodwill among other nations is recovered twice as fast."
 msgstr ""
-"Ваша репутация и доброе к вам отношение растет среди других народов, пока вы "
-"владеете этим чудом. Репутация улучшается в два раза быстрее, чем обычно."
+"Ваша репутация и доброе к Вам отношение других народов восстанавливается "
+"в два раза быстрее."
 
 #: data/default/buildings.ruleset:1093 data/civ2/buildings.ruleset:1081
 #: data/civ1/buildings.ruleset:736
@@ -19472,13 +19476,13 @@ msgstr ""
 "в каждом городе."
 
 #: data/civ2/buildings.ruleset:1075
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Your reputation and goodwill among other nations is recovered four times as "
 "fast."
 msgstr ""
-"Ваша репутация и доброе к вам отношение растет среди других народов, пока вы "
-"владеете этим чудом. Репутация улучшается в два раза быстрее, чем обычно."
+"Ваша репутация и доброе к Вам отношение других народов восстанавливается "
+"в четыре раза быстрее"
 
 #: data/civ2/buildings.ruleset:1115 data/civ1/buildings.ruleset:770
 msgid "Works as a City Wall in all cities."
@@ -20940,6 +20944,8 @@ msgstr "Альпийские стрелки"
 #: data/default/units.ruleset:579 data/civ2/units.ruleset:466
 msgid "Alpine Troops are highly mobile units as well as excellent defenders."
 msgstr ""
+"Альпийские стрелки - высокомобильные соединения, также являющиеся "
+"великолепными защитниками."
 
 #: data/default/units.ruleset:585 data/civ2/units.ruleset:472
 #: data/civ1/units.ruleset:270
