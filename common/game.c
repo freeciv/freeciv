@@ -167,9 +167,7 @@ void game_remove_unit(struct unit *punit)
   pcity = player_find_city_by_id(unit_owner(punit), punit->homecity);
   if (pcity) {
     unit_list_unlink(pcity->units_supported, punit);
-  }
 
-  if (pcity) {
     freelog(LOG_DEBUG, "home city %s, %s, (%d %d)",
 	  city_name(pcity),
 	  nation_rule_name(nation_of_city(pcity)),

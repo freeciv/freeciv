@@ -1326,7 +1326,7 @@ void contemplate_new_city(struct city *pcity)
 			      -result.result : result.result);
     pcity->ai.founder_boat = result.overseas;
   }
-  free(virtualunit);
+  destroy_unit_virtual(virtualunit);
 }
 
 /**************************************************************************
@@ -1361,7 +1361,7 @@ void contemplate_terrain_improvements(struct city *pcity)
 			       NULL);
   want = (want - unit_food_upkeep(virtualunit) * FOOD_WEIGHTING) * 100
          / (40 + unit_foodbox_cost(virtualunit));
-  free(virtualunit);
+  destroy_unit_virtual(virtualunit);
 
   /* Massage our desire based on available statistics to prevent
    * overflooding with worker type units if they come cheap in

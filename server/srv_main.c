@@ -552,6 +552,33 @@ static void update_diplomatics(void)
   } players_iterate_end;
 }
 
+/****************************************************************************
+  Check all players to see whether they are dying.
+
+  WARNING: do not call this while doing any handling of players, units,
+  etc.  If a player dies, all his units will be wiped and other data will
+  be overwritten.
+
+  FIXME: merge is_alive (105) with is_dying (8) and surrendered (7)?
+****************************************************************************/
+static void kill_dying_players(void)
+{
+  players_iterate(pplayer) {
+    if (pplayer->is_alive) {
+      /* cities or units remain? */
+      if (0 == city_list_size(pplayer->cities)
+       && 0 == unit_list_size(pplayer->units)) {
+	pplayer->is_dying = TRUE;
+      }
+      /* also F_GAMELOSS in unittools server_remove_unit() */
+      if (pplayer->is_dying) {
+	pplayer->is_dying = FALSE; /* Can't get more dead than this. */
+	kill_player(pplayer);
+      }
+    }
+  } players_iterate_end;
+}
+
 /**************************************************************************
   Called at the start of each (new) phase to do AI activities.
 **************************************************************************/

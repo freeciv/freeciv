@@ -98,36 +98,15 @@ void send_player_turn_notifications(struct conn_list *dest)
   send_global_city_turn_notifications(dest);
 }
 
-/****************************************************************************
-  Check all players to see if they are dying.  Kill them if so.
-
-  WARNING: do not call this while doing any handling of players, units,
-  etc.  If a player dies, all his units will be wiped and other data will
-  be overwritten.
-****************************************************************************/
-void kill_dying_players(void)
-{
-  players_iterate(pplayer) {
-    if (pplayer->is_alive) {
-      if (unit_list_size(pplayer->units) == 0
-	  && city_list_size(pplayer->cities) == 0) {
-	pplayer->is_dying = TRUE;
-      }
-      if (pplayer->is_dying) {
-	kill_player(pplayer);
-      }
-    }
-  } players_iterate_end;
-}
-
 /**************************************************************************
   Murder a player in cold blood.
+
+  Called only from srv_main kill_dying_players()
 **************************************************************************/
 void kill_player(struct player *pplayer)
 {
   bool palace;
 
-  pplayer->is_dying = FALSE; /* Can't get more dead than this. */
   pplayer->is_alive = FALSE;
 
   /* Remove shared vision from dead player to friends. */
@@ -1143,7 +1122,8 @@ void server_remove_player(struct player *pplayer)
 void make_contact(struct player *pplayer1, struct player *pplayer2,
 		  struct tile *ptile)
 {
-  int player1 = player_number(pplayer1), player2 = player_number(pplayer2);
+  int player1 = player_index(pplayer1);
+  int player2 = player_index(pplayer2);
 
   if (pplayer1 == pplayer2
       || !pplayer1->is_alive

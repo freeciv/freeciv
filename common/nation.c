@@ -251,13 +251,18 @@ bool check_nation_leader_name(const struct nation_type *pnation,
 /****************************************************************************
   Return the nation of a player.
 ****************************************************************************/
-struct nation_type *nation_of_player(const struct player *plr)
+struct nation_type *nation_of_player(const struct player *pplayer)
 {
-  assert(plr != NULL);
-  if (!bounds_check_nation(plr->nation, LOG_FATAL, "nation_of_player")) {
+  assert(NULL != pplayer);
+  if (!bounds_check_nation(pplayer->nation, LOG_FATAL, "nation_of_player")) {
+#if defined(__APPLE__)
+    /* force trace log */
+    return ((struct nation_type **)pplayer)[0];
+#else
     die("bad nation");
+#endif
   }
-  return plr->nation;
+  return pplayer->nation;
 }
 
 /****************************************************************************
