@@ -46,6 +46,7 @@
 #include "netintf.h"
 
 /* common */
+#include "game.h"
 #include "unitlist.h"
 
 /* client */

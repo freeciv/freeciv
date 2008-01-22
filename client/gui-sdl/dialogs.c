@@ -32,6 +32,7 @@
 
 /* common */
 #include "combat.h"
+#include "game.h"
 #include "government.h"
 #include "movement.h"
 #include "unitlist.h"
