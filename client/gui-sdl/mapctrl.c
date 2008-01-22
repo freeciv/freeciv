@@ -29,6 +29,7 @@
 #include "log.h"
 
 /* common */
+#include "game.h"
 #include "unit.h"
 #include "unitlist.h"
 

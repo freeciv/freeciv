@@ -21,6 +21,9 @@
 #include "astring.h"
 #include "fcintl.h"
 
+/* common */
+#include "game.h"
+
 /* client */
 #include "civclient.h"
 #include "climisc.h"

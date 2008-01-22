@@ -20,6 +20,9 @@
 /* utility */
 #include "fcintl.h"
 
+/* common */
+#include "game.h"
+
 /* client */
 #include "civclient.h" /* can_client_issue_orders() */
 

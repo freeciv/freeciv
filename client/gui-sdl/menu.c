@@ -30,6 +30,7 @@
 #include "log.h"
 
 /* common */
+#include "game.h"
 #include "unitlist.h"
 
 /* client */
