@@ -2526,5 +2526,6 @@ struct city *create_city_virtual(struct player *pplayer,
 void remove_city_virtual(struct city *pcity)
 {
   unit_list_free(pcity->units_supported);
+  memset(pcity, 0, sizeof(*pcity)); /* ensure no pointers remain */
   free(pcity);
 }

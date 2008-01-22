@@ -25,41 +25,47 @@
 #include "map.h"
 #include "movement.h"
 #include "player.h"
+#include "specialist.h"
 #include "terrain.h"
 #include "unit.h"
 #include "unitlist.h"
 
 #include "citytools.h"
 #include "maphand.h"
-#include "sanitycheck.h"
+#include "srv_main.h"
 #include "unittools.h"
+
+#include "sanitycheck.h"
 
 #ifdef SANITY_CHECKING
 
 #define SANITY_CHECK(x)							\
   do {									\
     if (!(x)) {								\
-      freelog(LOG_ERROR, "Failed sanity check: %s (%s:%d)",		\
-	      #x, __FILE__,__LINE__);					\
+      freelog(LOG_ERROR, "Failed %s:%d (%s:%d): %s",			\
+	      __FILE__,__LINE__, file, line, #x);			\
     }									\
   } while(0)
 
 #define SANITY_TILE(ptile, check)					\
   do {									\
     if (!(check)) {							\
-      freelog(LOG_ERROR, "Failed sanity check at %s (%d, %d): "		\
-              "%s (%s:%d)", ptile->city ? city_name(ptile->city)	\
-              : ptile->terrain->name.vernacular, TILE_XY(ptile), 	\
-              #check, __FILE__,__LINE__);				\
+      struct city *pcity = tile_get_city(ptile);			\
+      freelog(LOG_ERROR, "Failed %s:%d (%s:%d) at %s (%d,%d): %s",	\
+	      __FILE__,__LINE__, file, line,				\
+	      NULL != pcity ? city_name(pcity)				\
+	      : terrain_rule_name(tile_get_terrain(ptile)),		\
+	      TILE_XY(ptile), #check);					\
     }									\
   } while(0)
 
 #define SANITY_CITY(pcity, check)					\
   do {									\
     if (!(check)) {							\
-      freelog(LOG_ERROR, "Failed sanity check in %s[%d](%d, %d): "	\
-              "%s (%s:%d)", city_name(pcity), pcity->size, 		\
-               TILE_XY(pcity->tile), #check, __FILE__,__LINE__);	\
+      freelog(LOG_ERROR, "Failed %s:%d (%s:%d) in %s[%d](%d,%d): %s",	\
+	      __FILE__,__LINE__, file, line,				\
+	      city_name(pcity), (pcity)->size,				\
+	      TILE_XY((pcity)->tile), #check);				\
     }									\
   } while(0)
 
@@ -67,7 +73,7 @@
 /**************************************************************************
   Sanity checking on map (tile) specials.
 **************************************************************************/
-static void check_specials(void)
+static void check_specials(const char *file, int line)
 {
   whole_map_iterate(ptile) {
     const struct terrain *pterrain = tile_get_terrain(ptile);
@@ -93,7 +99,7 @@ static void check_specials(void)
 /**************************************************************************
   Sanity checking on fog-of-war (visibility, shared vision, etc.).
 **************************************************************************/
-static void check_fow(void)
+static void check_fow(const char *file, int line)
 {
   whole_map_iterate(ptile) {
     players_iterate(pplayer) {
@@ -109,9 +115,9 @@ static void check_fow(void)
 	 * defined. */
 	if (game.info.fogofwar) {
 	  if (plr_tile->seen_count[v] > 0) {
-	    SANITY_TILE(ptile, BV_ISSET(ptile->tile_seen[v], pplayer->player_no));
+	    SANITY_TILE(ptile, BV_ISSET(ptile->tile_seen[v], player_index(pplayer)));
 	  } else {
-	    SANITY_TILE(ptile, !BV_ISSET(ptile->tile_seen[v], pplayer->player_no));
+	    SANITY_TILE(ptile, !BV_ISSET(ptile->tile_seen[v], player_index(pplayer)));
 	  }
 	}
 
@@ -134,7 +140,7 @@ static void check_fow(void)
 /**************************************************************************
   Miscellaneous sanity checks.
 **************************************************************************/
-static void check_misc(void)
+static void check_misc(const char *file, int line)
 {
   int nbarbs = 0;
   players_iterate(pplayer) {
@@ -151,7 +157,7 @@ static void check_misc(void)
 /**************************************************************************
   Sanity checks on the map itself.  See also check_specials.
 **************************************************************************/
-static void check_map(void)
+static void check_map(const char *file, int line)
 {
   whole_map_iterate(ptile) {
     struct city *pcity = tile_get_city(ptile);
@@ -161,7 +167,7 @@ static void check_map(void)
     CHECK_MAP_POS(ptile->x, ptile->y);
     CHECK_NATIVE_POS(ptile->nat_x, ptile->nat_y);
 
-    if (ptile->city) {
+    if (NULL != pcity) {
       SANITY_TILE(ptile, tile_owner(ptile) != NULL);
     }
     if (tile_owner(ptile) != NULL) {
@@ -344,13 +350,13 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
 /**************************************************************************
   Sanity checks on all cities in the world.
 **************************************************************************/
-static void check_cities(void)
+static void check_cities(const char *file, int line)
 {
   players_iterate(pplayer) {
     city_list_iterate(pplayer->cities, pcity) {
       SANITY_CITY(pcity, city_owner(pcity) == pplayer);
 
-      sanity_check_city(pcity);
+      real_sanity_check_city(pcity, file, line);
     } city_list_iterate_end;
   } players_iterate_end;
 
@@ -378,7 +384,7 @@ static void check_cities(void)
 /**************************************************************************
   Sanity checks on all units in the world.
 **************************************************************************/
-static void check_units(void) {
+static void check_units(const char *file, int line) {
   players_iterate(pplayer) {
     unit_list_iterate(pplayer->units, punit) {
       struct tile *ptile = punit->tile;
@@ -446,11 +452,12 @@ static void check_units(void) {
 /**************************************************************************
   Sanity checks on all players.
 **************************************************************************/
-static void check_players(void)
+static void check_players(const char *file, int line)
 {
   int player_no;
 
   players_iterate(pplayer) {
+    int one = player_index(pplayer);
     int found_palace = 0;
 
     if (!pplayer->is_alive) {
@@ -467,11 +474,12 @@ static void check_players(void)
     } city_list_iterate_end;
 
     players_iterate(pplayer2) {
-      SANITY_CHECK(pplayer->diplstates[pplayer2->player_no].type
-	     == pplayer2->diplstates[pplayer->player_no].type);
-      if (pplayer->diplstates[pplayer2->player_no].type == DS_CEASEFIRE) {
-	SANITY_CHECK(pplayer->diplstates[pplayer2->player_no].turns_left
-	       == pplayer2->diplstates[pplayer->player_no].turns_left);
+      int two = player_index(pplayer2);
+      SANITY_CHECK(pplayer->diplstates[two].type
+	     == pplayer2->diplstates[one].type);
+      if (pplayer->diplstates[two].type == DS_CEASEFIRE) {
+	SANITY_CHECK(pplayer->diplstates[two].turns_left
+	       == pplayer2->diplstates[one].turns_left);
       }
       if (pplayer->is_alive
           && pplayer2->is_alive
@@ -517,7 +525,7 @@ static void check_players(void)
 /****************************************************************************
   Sanity checking on teams.
 ****************************************************************************/
-static void check_teams(void)
+static void check_teams(const char *file, int line)
 {
   int count[MAX_NUM_TEAMS], i;
 
@@ -538,7 +546,7 @@ static void check_teams(void)
 /**************************************************************************
   Sanity checking on connections.
 **************************************************************************/
-static void check_connections(void)
+static void check_connections(const char *file, int line)
 {
   /* est_connections is a subset of all_connections */
   SANITY_CHECK(conn_list_size(game.all_connections)
@@ -554,21 +562,21 @@ static void check_connections(void)
   can't call it in the middle of an operation that is supposed to be
   atomic.
 **************************************************************************/
-void sanity_check(void)
+void real_sanity_check(const char *file, int line)
 {
   if (!map_is_empty()) {
     /* Don't sanity-check the map if it hasn't been created yet (this
      * happens when loading scenarios). */
-    check_specials();
-    check_map();
-    check_cities();
-    check_units();
-    check_fow();
+    check_specials(file, line);
+    check_map(file, line);
+    check_cities(file, line);
+    check_units(file, line);
+    check_fow(file, line);
   }
-  check_misc();
-  check_players();
-  check_teams();
-  check_connections();
+  check_misc(file, line);
+  check_players(file, line);
+  check_teams(file, line);
+  check_connections(file, line);
 }
 
 #endif /* SANITY_CHECKING */

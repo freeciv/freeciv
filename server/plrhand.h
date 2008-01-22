@@ -33,7 +33,6 @@ void server_player_init(struct player *pplayer,
 			bool initmap, bool needs_team);
 void server_remove_player(struct player *pplayer);
 void kill_player(struct player *pplayer);
-void kill_dying_players(void);
 void update_revolution(struct player *pplayer);
 
 struct nation_type *pick_a_nation(struct nation_type **choices,

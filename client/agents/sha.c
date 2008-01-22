@@ -89,6 +89,9 @@ static void sha_unit_remove(int id)
 
   assert(pold_unit);
   unit_list_unlink(previous_units, pold_unit);
+  /* list pointers were struct copied, cannot destroy_unit_virtual() */
+  memset(pold_unit, 0, sizeof(*pold_unit)); /* ensure no pointers remain */
+  free(pold_unit);
 }
 
 /**************************************************************************
