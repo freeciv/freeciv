@@ -1064,7 +1064,7 @@ void update_menus(void)
                       _("Form Traderoute with %s ( %d R&G + %d trade ) (R)"),
                       city_name(pHomecity),
                       revenue,
-                      trade_between_cities(pHomecity, pCity));
+                      trade_between_cities(pHomecity, pTile->city));
         } else {
           revenue = (revenue + 2) / 3;
           my_snprintf(cBuf, sizeof(cBuf),
