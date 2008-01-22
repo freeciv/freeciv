@@ -904,17 +904,18 @@ void create_races_dialog(struct player *pplayer)
   maxracelen = MIN(maxracelen, MAX_LEN_NAME-1);
   my_snprintf(maxracename, sizeof(maxracename), "%*s", maxracelen+2, "W");
 
-  races_dialog_shell = I_T(XtCreatePopupShell("racespopup", 
-					  transientShellWidgetClass,
-					  toplevel, NULL, 0));
+  races_dialog_shell =
+    I_T(XtCreatePopupShell("racespopup", 
+			   transientShellWidgetClass,
+			   toplevel, NULL, 0));
 
   races_form = XtVaCreateManagedWidget("racesform", 
 				       formWidgetClass, 
 				       races_dialog_shell, NULL);   
 
-  races_label = I_L(XtVaCreateManagedWidget("raceslabel", 
-				       labelWidgetClass, 
-				       races_form, NULL));  
+  races_label =
+    I_LW(XtVaCreateManagedWidget("raceslabel", labelWidgetClass, 
+				 races_form, NULL));  
 
   races_toggles_viewport =
     XtVaCreateManagedWidget("racestogglesviewport",
@@ -929,9 +930,13 @@ void create_races_dialog(struct player *pplayer)
 			    races_toggles_viewport,
 			    NULL);
 
-  free(races_toggles);
+  if (races_toggles) {
+    free(races_toggles);
+  }
   races_toggles = fc_calloc(nation_count(), sizeof(Widget));
-  free(races_toggles_to_nations);
+  if (races_toggles_to_nations) {
+    free(races_toggles_to_nations);
+  }
   races_toggles_to_nations = fc_calloc(nation_count(),
 				       sizeof(struct nation_type *));
 
@@ -1010,7 +1015,6 @@ void create_races_dialog(struct player *pplayer)
 			    formWidgetClass,
 			    races_form,
 			    XtNfromVert, races_toggles_viewport,
-/*			    XtNfromHoriz, races_toggles_viewport,*/
 			    NULL);
 
   XtVaGetValues(races_leader_form, XtNdefaultDistance, &space, NULL);
@@ -1028,40 +1032,40 @@ void create_races_dialog(struct player *pplayer)
   races_leader_pick_popupmenu = 0;
 
   races_leader_pick_menubutton =
-    I_L(XtVaCreateManagedWidget("racesleaderpickmenubutton",
-				menuButtonWidgetClass,
-				races_leader_form,
-/*				XtNfromVert, races_leader,*/
-				XtNfromHoriz, races_leader,
-				NULL));
+    I_LW(XtVaCreateManagedWidget("racesleaderpickmenubutton",
+				 menuButtonWidgetClass,
+				 races_leader_form,
+/*				 XtNfromVert, races_leader,*/
+				 XtNfromHoriz, races_leader,
+				 NULL));
 
-  races_sex_label = I_L(XtVaCreateManagedWidget("racessexlabel",
-				            labelWidgetClass,
-				            races_form,
-					    XtNfromVert, races_leader_form,
-					    NULL));
+  races_sex_label =
+    I_LW(XtVaCreateManagedWidget("racessexlabel", labelWidgetClass,
+				 races_form,
+				 XtNfromVert, races_leader_form,
+				 NULL));
 
-  races_sex_form = XtVaCreateManagedWidget("racessexform",
-					   formWidgetClass,
-					   races_form,
-					   XtNfromVert, races_sex_label,
-					   NULL);
+  races_sex_form =
+    XtVaCreateManagedWidget("racessexform", formWidgetClass, races_form,
+			    XtNfromVert, races_leader_form,
+			    XtNfromHoriz, races_sex_label,
+			    NULL);
 
   races_sex_toggles[0] =
-    I_L(XtVaCreateManagedWidget("racessextoggle0",
-				toggleWidgetClass,
-				races_sex_form,
-				NULL));
+    I_LW(XtVaCreateManagedWidget("racessextoggle0",
+				 toggleWidgetClass,
+				 races_sex_form,
+				 NULL));
 
   races_sex_toggles[1] =
-    I_L(XtVaCreateManagedWidget("racessextoggle1",
-				toggleWidgetClass,
-				races_sex_form,
-				XtNfromHoriz,
-				(XtArgVal)races_sex_toggles[0],
-				XtNradioGroup,
-				races_sex_toggles[0],
-				NULL));
+    I_LW(XtVaCreateManagedWidget("racessextoggle1",
+				 toggleWidgetClass,
+				 races_sex_form,
+				 XtNfromHoriz,
+				 (XtArgVal)races_sex_toggles[0],
+				 XtNradioGroup,
+				 races_sex_toggles[0],
+				 NULL));
 
   /* find out styles that can be used at the game beginning */
   /* Limit of 64 city_styles should be deleted. -ev */
@@ -1074,12 +1078,11 @@ void create_races_dialog(struct player *pplayer)
   }
 
   races_style_label =
-    I_L(XtVaCreateManagedWidget("racesstylelabel", 
-				labelWidgetClass, 
-				races_form,
-				XtNfromVert, races_sex_form,
-/*				XtNfromHoriz, races_toggles_viewport,*/
-				NULL));  
+    I_LW(XtVaCreateManagedWidget("racesstylelabel", 
+				 labelWidgetClass, 
+				 races_form,
+				 XtNfromVert, races_sex_form,
+				 NULL));  
 
   races_style_form =
     XtVaCreateManagedWidget("racesstyleform", 
@@ -1154,24 +1157,24 @@ void create_races_dialog(struct player *pplayer)
 					      NULL);
 
   races_ok_command =
-    I_L(XtVaCreateManagedWidget("racesokcommand",
-				commandWidgetClass,
-				races_action_form,
-				NULL));
+    I_LW(XtVaCreateManagedWidget("racesokcommand",
+				 commandWidgetClass,
+				 races_action_form,
+				 NULL));
 
   races_random_command =
-    I_L(XtVaCreateManagedWidget("racesdisconnectcommand",
-				commandWidgetClass,
-				races_action_form,
-				XtNfromHoriz, races_ok_command,
-				NULL));
+    I_LW(XtVaCreateManagedWidget("racesdisconnectcommand",
+				 commandWidgetClass,
+				 races_action_form,
+				 XtNfromHoriz, races_ok_command,
+				 NULL));
 
   races_quit_command =
-    I_L(XtVaCreateManagedWidget("racesquitcommand",
-				commandWidgetClass,
-				races_action_form,
-				XtNfromHoriz, races_random_command,
-				NULL));
+    I_LW(XtVaCreateManagedWidget("racesquitcommand",
+				 commandWidgetClass,
+				 races_action_form,
+				 XtNfromHoriz, races_random_command,
+				 NULL));
 
   XtAddCallback(races_random_command, XtNcallback,
 		races_random_command_callback, NULL);
