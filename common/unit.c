@@ -1362,6 +1362,7 @@ struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
 void destroy_unit_virtual(struct unit *punit)
 {
   free_unit_orders(punit);
+  memset(punit, 0, sizeof(*punit)); /* ensure no pointers remain */
   free(punit);
 }
 

@@ -25,7 +25,8 @@
 #  define sanity_check_city(x) real_sanity_check_city(x, __FILE__, __LINE__)
 void real_sanity_check_city(struct city *pcity, const char *file, int line);
 
-void sanity_check(void);
+#  define sanity_check() real_sanity_check(__FILE__, __LINE__)
+void real_sanity_check(const char *file, int line);
 
 #else /* SANITY_CHECKING */
 
