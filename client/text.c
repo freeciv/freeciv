@@ -1157,9 +1157,9 @@ const char *get_report_title(const char *report_name)
 }
 
 /****************************************************************************
-  Get the text describing buildings that affect happiness.
+  Describing buildings that affect happiness.
 ****************************************************************************/
-const char *get_happiness_buildings(const struct city *pcity)
+const char *text_happiness_buildings(const struct city *pcity)
 {
   char buf[512];
   int faces = 0;
@@ -1194,9 +1194,9 @@ const char *get_happiness_buildings(const struct city *pcity)
 }
 
 /****************************************************************************
-  Get the text describing wonders that affect happiness.
+  Describing wonders that affect happiness.
 ****************************************************************************/
-const char *get_happiness_wonders(const struct city *pcity)
+const char *text_happiness_wonders(const struct city *pcity)
 {
   char buf[512];
   int faces = 0;
@@ -1229,5 +1229,106 @@ const char *get_happiness_wonders(const struct city *pcity)
     astr_add(&str, Q_("?clistend:."));
   }
 
+  return str.str;
+}
+
+/****************************************************************************
+  Describing city factors that affect happiness.
+****************************************************************************/
+const char *text_happiness_cities(const struct city *pcity)
+{
+  struct player *pplayer = city_owner(pcity);
+  int cities = city_list_size(pplayer->cities);
+  int content = get_player_bonus(pplayer, EFT_CITY_UNHAPPY_SIZE);
+  int basis = get_player_bonus(pplayer, EFT_EMPIRE_SIZE_BASE);
+  int step = get_player_bonus(pplayer, EFT_EMPIRE_SIZE_STEP);
+  int excess = cities - basis;
+  int penalty = 0;
+  static struct astring str = ASTRING_INIT;
+
+  astr_clear(&str);
+
+  if (excess > 0) {
+    if (step > 0)
+      penalty = 1 + (excess - 1) / step;
+    else
+      penalty = 1;
+  } else {
+    excess = 0;
+    penalty = 0;
+  }
+
+  astr_add_line(&str,
+                _("Cities: %d total, %d over threshold of %d cities."),
+              cities, excess, basis);
+  astr_add_line(&str,
+                /* TRANS: 0-21 content [citizen(s)] ... */
+                PL_("%d content before penalty.",
+                    "%d content before penalty.",
+                    content),
+                content);
+  astr_add_line(&str,
+                /* TRANS: 0-21 unhappy citizen(s). */
+                PL_("%d additional unhappy citizen.",
+                    "%d additional unhappy citizens.",
+                    penalty),
+                penalty);
+  return str.str;
+}
+
+/****************************************************************************
+  Describing units that affect happiness.
+  FIXME: sentence fragments with parenthesis are hard to translate!
+****************************************************************************/
+const char *text_happiness_units(const struct city *pcity)
+{
+  int mlmax = get_city_bonus(pcity, EFT_MARTIAL_LAW_MAX);
+  int uhcfac = get_city_bonus(pcity, EFT_UNHAPPY_FACTOR);
+  static struct astring str = ASTRING_INIT;
+
+  astr_clear(&str);
+
+  if (mlmax > 0) {
+    astr_add_line(&str,
+                  /* TRANS: Martial law opening parenthesis */
+                  _("Martial law in effect ("));
+
+    if (mlmax == 100) {
+      astr_add(&str,
+               /* TRANS: no [unit] maximum */
+               _("no maximum, "));
+    } else {
+      astr_add(&str,
+               PL_("%d unit maximum, ",
+                   "%d units maximum, ",
+                   mlmax),
+               mlmax);
+    }
+    astr_add(&str,
+             /* TRANS: Martial law closing parenthesis */
+             _("%d per unit). "),
+             get_city_bonus(pcity, EFT_MARTIAL_LAW_EACH));
+  } else if (uhcfac > 0) {
+    astr_add_line(&str,
+                  _("Military units in the field may cause unhappiness. "));
+  } else {
+    astr_add_line(&str,
+                  _("Military units have no happiness effect. "));
+  }
+  return str.str;
+}
+
+/****************************************************************************
+  Describing luxuries that affect happiness.
+****************************************************************************/
+const char *text_happiness_luxuries(const struct city *pcity)
+{
+  static struct astring str = ASTRING_INIT;
+
+  astr_clear(&str);
+
+  astr_add_line(&str,
+                _("Luxury: %d total."),
+                pcity->prod[O_LUXURY]);
   return str.str;
 }
