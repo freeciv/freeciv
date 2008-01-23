@@ -1,4 +1,845 @@
 
+Tue, 22 Jan 2008 21:14:51 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/po/ar.po
+	   M /branches/S2_1/po/ca.po
+	   M /branches/S2_1/po/cs.po
+	   M /branches/S2_1/po/da.po
+	   M /branches/S2_1/po/de.po
+	   M /branches/S2_1/po/el.po
+	   M /branches/S2_1/po/en_GB.po
+	   M /branches/S2_1/po/es.po
+	   M /branches/S2_1/po/et.po
+	   M /branches/S2_1/po/fa.po
+	   M /branches/S2_1/po/fi.po
+	   M /branches/S2_1/po/fr.po
+	   M /branches/S2_1/po/he.po
+	   M /branches/S2_1/po/hu.po
+	   M /branches/S2_1/po/it.po
+	   M /branches/S2_1/po/ja.po
+	   M /branches/S2_1/po/ko.po
+	   M /branches/S2_1/po/lt.po
+	   M /branches/S2_1/po/nl.po
+	   M /branches/S2_1/po/no.po
+	   M /branches/S2_1/po/pl.po
+	   M /branches/S2_1/po/pt.po
+	   M /branches/S2_1/po/pt_BR.po
+	   M /branches/S2_1/po/ro.po
+	   M /branches/S2_1/po/ru.po
+	   M /branches/S2_1/po/sv.po
+	   M /branches/S2_1/po/tr.po
+	   M /branches/S2_1/po/uk.po
+	   M /branches/S2_1/po/zh_CN.po
+
+	make update-po
+
+	ar.po  3172 translated messages, 908 fuzzy translations, 194 untranslated messages.
+	cs.po  3250 translated messages, 528 fuzzy translations, 496 untranslated messages.
+	ca.po  4273 translated messages, 1 fuzzy translation.
+	da.po  4215 translated messages, 58 fuzzy translations, 1 untranslated message.
+	de.po  4241 translated messages, 33 fuzzy translations.
+	el.po  2209 translated messages, 168 fuzzy translations, 1897 untranslated messages.
+	en_GB.po  76 translated messages, 4198 untranslated messages.
+	es.po  3957 translated messages, 223 fuzzy translations, 94 untranslated messages.
+	et.po  3922 translated messages, 141 fuzzy translations, 211 untranslated messages.
+	fa.po  2199 translated messages, 124 fuzzy translations, 1951 untranslated messages.
+	fi.po  3637 translated messages, 389 fuzzy translations, 248 untranslated messages.
+	fr.po  4138 translated messages, 97 fuzzy translations, 39 untranslated messages.
+	he.po  2172 translated messages, 80 fuzzy translations, 2022 untranslated messages.
+	hu.po  2063 translated messages, 1215 fuzzy translations, 996 untranslated messages.
+	it.po  2958 translated messages, 814 fuzzy translations, 502 untranslated messages.
+	ja.po  3940 translated messages, 126 fuzzy translations, 208 untranslated messages.
+	ko.po  1952 translated messages, 28 fuzzy translations, 2294 untranslated messages.
+	lt.po  3168 translated messages, 93 fuzzy translations, 1013 untranslated messages.
+	nl.po  3924 translated messages, 254 fuzzy translations, 96 untranslated messages.
+	nb.po  3011 translated messages, 788 fuzzy translations, 475 untranslated messages.
+	no.po  3011 translated messages, 788 fuzzy translations, 475 untranslated messages.
+	pl.po  3435 translated messages, 543 fuzzy translations, 296 untranslated messages.
+	pt.po  2345 translated messages, 1148 fuzzy translations, 781 untranslated messages.
+	pt_BR.po  2511 translated messages, 1143 fuzzy translations, 620 untranslated messages.
+	ro.po  3422 translated messages, 405 fuzzy translations, 447 untranslated messages.
+	ru.po  4050 translated messages, 74 fuzzy translations, 150 untranslated messages.
+	sv.po  4274 translated messages.
+	tr.po  3899 translated messages, 1 fuzzy translation, 374 untranslated messages.
+	uk.po  2342 translated messages, 1134 fuzzy translations, 798 untranslated messages.
+	zh_CN.po  3398 translated messages, 500 fuzzy translations, 376 untranslated messages.
+
+
+Tue, 22 Jan 2008 16:18:12 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/data/nation/catalan.ruleset
+
+	Updates to Catalan nation. Patch by Joan Creus <joan.creus@gmail.com> with input from myself, Miguel, and William. PR#40001
+
+
+Tue, 22 Jan 2008 06:29:15 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/po/lt.po
+
+	hand merge lt.po from trunk r14221
+
+
+Tue, 22 Jan 2008 06:11:28 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/po/sv.po
+
+	4274 translated messages.
+
+
+Tue, 22 Jan 2008 05:50:06 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/po/cs.po
+
+	hand merge cs.po from trunk r14261
+
+
+Mon, 21 Jan 2008 22:10:55 -0800  evyscr:
+
+	Changed paths:
+	   M /branches/S2_1/po/ru.po
+
+	4051 translated messages, 73 fuzzy translations, 150 untranslated messages.
+
+
+Mon, 21 Jan 2008 22:08:05 -0800  evyscr:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-xaw/dialogs.c
+
+	Fix i18n'd elements width in races dialog.
+
+
+Mon, 21 Jan 2008 18:04:03 -0800  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-sdl/menu.c
+
+	Fixed SDL-client compilation
+
+	See #40034
+
+
+Mon, 21 Jan 2008 17:44:32 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/agents/sha.c
+	   M /branches/S2_1/common/city.c
+	   M /branches/S2_1/common/game.c
+	   M /branches/S2_1/common/nation.c
+	   M /branches/S2_1/common/unit.c
+	   M /branches/S2_1/server/plrhand.c
+	   M /branches/S2_1/server/plrhand.h
+	   M /branches/S2_1/server/sanitycheck.c
+	   M /branches/S2_1/server/sanitycheck.h
+	   M /branches/S2_1/server/settlers.c
+	   M /branches/S2_1/server/srv_main.c
+
+	(PR#40033) sanity checking and debugging
+
+
+Mon, 21 Jan 2008 12:58:22 -0800  evyscr:
+
+	Changed paths:
+	   M /branches/S2_1/po/ru.po
+
+	4005 translated, 110 fuzzies, 159 untranslated
+
+
+Mon, 21 Jan 2008 10:32:33 -0800  jnmbk:
+
+	Changed paths:
+	   M /branches/S2_1/po/tr.po
+
+	3900 translated, 374 untranslated messages
+
+
+Mon, 21 Jan 2008 09:02:55 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/tilespec.c
+
+	(PR#40011) client crash with bad tile(s)
+
+	Reported by:
+	  angelo.conte@email.it
+	  "Jerry James" <loganjerry@gmail.com>
+
+	Patch by me.
+
+	Even though the server tells the client a tile is not "unknown", it isn't
+	sending valid data.  For any error detected, leave the terrain black/blank.
+
+	Copious client error logging.  This does not fix any server issues.
+
+
+Sun, 20 Jan 2008 22:27:47 -0800  jnmbk:
+
+	Changed paths:
+	   M /branches/S2_1/po/tr.po
+
+	3893 translated, 381 untranslated messages
+
+
+Sat, 19 Jan 2008 19:02:52 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/citydlg_common.c
+	   M /branches/S2_1/client/gui-gtk-2.0/helpdlg.c
+	   M /branches/S2_1/client/gui-gtk-2.0/inteldlg.c
+	   M /branches/S2_1/client/gui-sdl/inteldlg.c
+	   M /branches/S2_1/client/gui-win32/helpdlg.c
+	   M /branches/S2_1/client/gui-win32/inteldlg.c
+	   M /branches/S2_1/client/gui-xaw/helpdlg.c
+	   M /branches/S2_1/client/gui-xaw/inteldlg.c
+	   M /branches/S2_1/client/packhand.c
+	   M /branches/S2_1/common/requirements.c
+	   M /branches/S2_1/common/team.c
+	   M /branches/S2_1/common/tech.c
+	   M /branches/S2_1/common/tech.h
+	   M /branches/S2_1/server/stdinhand.c
+
+	(PR#40021) view intelligence failed assertion:
+	  tech == A_FUTURE || (tech >= 0 && tech < game.control.num_tech_types)
+
+	Reported by:
+	  "Dave Daku" <jektal@gmail.com>
+
+	Emergency patch by me.
+
+	This does not fix the underlying problem.  But clients should not crash with
+	bad server data.  Check this datum as it is passed in from the network.
+
+	Only xaw checked its data for A_UNSET!  This updates that check, and fixes
+	gtk2 (and hopefully sdl and win32, although they remain untested).
+
+	Also, updated TRANS comments for various "(Unknown)", "(unknown)", and
+	"(none)" -- attempting some usage consistency.
+
+
+Sat, 19 Jan 2008 16:45:34 -0800  jcreus:
+
+	Changed paths:
+	   M /branches/S2_1/po/ca.po
+
+	Corrections
+
+
+Sat, 19 Jan 2008 03:10:44 -0800  jcreus:
+
+	Changed paths:
+	   M /branches/S2_1/po/ca.po
+
+	4274 translated messages
+
+
+Sat, 19 Jan 2008 01:29:16 -0800  jnmbk:
+
+	Changed paths:
+	   M /branches/S2_1/po/tr.po
+
+	3887 translated, 387 untranslated messages
+
+
+Sat, 19 Jan 2008 01:01:28 -0800  chrisk:
+
+	Changed paths:
+	   M /branches/S2_1/po/de.po
+
+	4242 translated messages, 32 fuzzy translations.
+
+
+Fri, 18 Jan 2008 14:43:39 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/po/fi.po
+
+	(PR#40026) Updated Finnish translation for 2.1 (and 2.2/trunk) -- Timo Jyrinki <timo.jyrinki@iki.fi>
+
+
+Fri, 18 Jan 2008 13:47:30 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/ai/aiexplorer.c
+	   M /branches/S2_1/ai/aiexplorer.h
+	   M /branches/S2_1/ai/aiferry.c
+	   M /branches/S2_1/ai/aiunit.c
+	   M /branches/S2_1/common/unit.h
+	   M /branches/S2_1/server/unithand.c
+	   M /branches/S2_1/server/unithand.h
+	   M /branches/S2_1/server/unittools.c
+	   M /branches/S2_1/server/unittools.h
+
+	(PR#39792) explore server assert
+
+	Reported by:
+	  "Brandon Van Every" <bvanevery@gmail.com>
+	  "Vincent J. Schiavoni" <hlingler@verizon.net>
+
+	Patch by me.
+
+	First and foremost, combine the similar code paths into do_explore(), which
+	will indirectly call unit_activity_dependencies().
+
+	Secondly, but perhaps more importantly, use enum unit_move_result returns
+	for ai_manage_explorer(), and pass along the new MR_DEATH result.  This
+	eliminates several crashing bugs where ai.done was set for dead units.
+
+	More FIXME added for future work!
+
+
+Fri, 18 Jan 2008 04:41:14 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-gtk-2.0/happiness.c
+	   M /branches/S2_1/client/gui-win32/happiness.c
+	   M /branches/S2_1/client/text.c
+	   M /branches/S2_1/client/text.h
+	   M /branches/S2_1/po/ar.po
+	   M /branches/S2_1/po/ca.po
+	   M /branches/S2_1/po/cs.po
+	   M /branches/S2_1/po/da.po
+	   M /branches/S2_1/po/de.po
+	   M /branches/S2_1/po/el.po
+	   M /branches/S2_1/po/en_GB.po
+	   M /branches/S2_1/po/es.po
+	   M /branches/S2_1/po/et.po
+	   M /branches/S2_1/po/fa.po
+	   M /branches/S2_1/po/fi.po
+	   M /branches/S2_1/po/fr.po
+	   M /branches/S2_1/po/he.po
+	   M /branches/S2_1/po/hu.po
+	   M /branches/S2_1/po/it.po
+	   M /branches/S2_1/po/ja.po
+	   M /branches/S2_1/po/ko.po
+	   M /branches/S2_1/po/lt.po
+	   M /branches/S2_1/po/nl.po
+	   M /branches/S2_1/po/no.po
+	   M /branches/S2_1/po/pl.po
+	   M /branches/S2_1/po/pt.po
+	   M /branches/S2_1/po/pt_BR.po
+	   M /branches/S2_1/po/ro.po
+	   M /branches/S2_1/po/ru.po
+	   M /branches/S2_1/po/sv.po
+	   M /branches/S2_1/po/tr.po
+	   M /branches/S2_1/po/uk.po
+	   M /branches/S2_1/po/zh_CN.po
+
+	(PR#40025) Happiness plurals -- reported by joan.creus@gmail.com
+
+
+Thu, 17 Jan 2008 23:28:54 -0800  jnmbk:
+
+	Changed paths:
+	   M /branches/S2_1/po/tr.po
+
+	3882 translated, 393 untranslated messages
+
+
+Mon, 14 Jan 2008 19:16:16 -0800  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/utility/shared.c
+
+	Added "'" to illegal characters to avoid broken SQL when
+	player authentication used.
+
+	See #40018
+
+
+Sun, 13 Jan 2008 20:05:05 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/helpdata.c
+
+	(PR#40014) helpdata.c implicit declaration of strlcpy()
+
+
+Sun, 13 Jan 2008 19:35:12 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-gtk-2.0/helpdlg.c
+	   M /branches/S2_1/client/gui-sdl/helpdlg.c
+	   M /branches/S2_1/client/gui-win32/helpdlg.c
+	   M /branches/S2_1/client/gui-xaw/helpdlg.c
+	   M /branches/S2_1/client/helpdata.c
+	   M /branches/S2_1/client/helpdata.h
+	   M /branches/S2_1/po/ar.po
+	   M /branches/S2_1/po/ca.po
+	   M /branches/S2_1/po/cs.po
+	   M /branches/S2_1/po/da.po
+	   M /branches/S2_1/po/de.po
+	   M /branches/S2_1/po/el.po
+	   M /branches/S2_1/po/en_GB.po
+	   M /branches/S2_1/po/es.po
+	   M /branches/S2_1/po/et.po
+	   M /branches/S2_1/po/fa.po
+	   M /branches/S2_1/po/fi.po
+	   M /branches/S2_1/po/fr.po
+	   M /branches/S2_1/po/he.po
+	   M /branches/S2_1/po/hu.po
+	   M /branches/S2_1/po/it.po
+	   M /branches/S2_1/po/ja.po
+	   M /branches/S2_1/po/ko.po
+	   M /branches/S2_1/po/lt.po
+	   M /branches/S2_1/po/nl.po
+	   M /branches/S2_1/po/no.po
+	   M /branches/S2_1/po/pl.po
+	   M /branches/S2_1/po/pt.po
+	   M /branches/S2_1/po/pt_BR.po
+	   M /branches/S2_1/po/ro.po
+	   M /branches/S2_1/po/ru.po
+	   M /branches/S2_1/po/sv.po
+	   M /branches/S2_1/po/tr.po
+	   M /branches/S2_1/po/uk.po
+	   M /branches/S2_1/po/zh_CN.po
+
+	(PR#40012) helpdata.c fails check of buffer size, and other problems
+	(PR#40013) helpdata.c more checking buffer sizes
+
+	reported by:
+	  Joan Creus <joan.creus@gmail.com>
+
+	Update helptext_unit() parameters to match helptext_building().
+
+	Finish the partially completed checks for helptext_tech(),
+	helptext_terrain(), and helptext_government().
+
+	Ensure the buffers are always '\0' terminated, use strlcat().
+
+	Fix some missing translation qualifiers for comma lists, both bare
+	("?blistmore:, ") and c-format ("?clistmore:, %s").
+
+	Fix a number of TRANS messages that were on the wrong line, and didn't
+	show up in the *.po files.
+
+	Fix several plural translations.
+
+	Fix some misspellings, maintaining older messages for 2.1 compatibility.
+
+
+Sat, 12 Jan 2008 10:12:37 -0800  jcreus:
+
+	Changed paths:
+	   M /branches/S2_1/po/ca.po
+
+	4279 translated messages
+
+
+Sun, 06 Jan 2008 12:22:28 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-gtk-2.0/gamedlgs.c
+	   M /branches/S2_1/client/gui-gtk-2.0/repodlgs.c
+
+	(PR#11823) Game doesn't save server options
+	(PR#39984) gtk2 server options setting and saving during start screen
+
+	reported by:
+	  Jukka Suomela <freeciv.org@sammal.pp.fi>
+	  Kevin Benton <kbenton@bentonfam.org>
+	  Core@copper.net
+	  Christian Knoke <chrisk@cknoke.de>
+
+	suggestions from warclient by:
+	  Madeline Book <madeline.book@gmail.com>
+
+	patch by me.
+
+	Settings and Options GTK2 dialogs now Cancel, Apply, Save, allowing
+	settings to be saved in early screens (in addition to menu saves and
+	saves on exit committed earlier).
+
+
+Mon, 31 Dec 2007 23:27:59 -0800  jnmbk:
+
+	Changed paths:
+	   M /branches/S2_1/po/tr.po
+
+	3869 translated, 410 unstranslated messages
+
+
+Mon, 31 Dec 2007 16:34:35 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-gtk-2.0/gui_main.c
+
+	(PR#39987) GTK2 toplevel window shown before theme
+
+
+Mon, 31 Dec 2007 04:28:13 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-gtk-2.0/gui_stuff.c
+	   M /branches/S2_1/client/gui-win32/repodlgs.c
+
+	(PR#39999) BUG: missing Q_() for report titles
+
+
+Sun, 30 Dec 2007 16:50:55 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/po/sv.po
+
+	4279 translated messages.
+
+
+Sun, 30 Dec 2007 16:14:15 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/ai/advdiplomacy.c
+	   M /branches/S2_1/ai/advdomestic.c
+	   M /branches/S2_1/ai/advmilitary.c
+	   M /branches/S2_1/ai/aiair.c
+	   M /branches/S2_1/ai/aicity.c
+	   M /branches/S2_1/ai/aidata.c
+	   M /branches/S2_1/ai/aidiplomat.c
+	   M /branches/S2_1/ai/aiferry.c
+	   M /branches/S2_1/ai/aiguard.c
+	   M /branches/S2_1/ai/aihand.c
+	   M /branches/S2_1/ai/aihunt.c
+	   M /branches/S2_1/ai/ailog.c
+	   M /branches/S2_1/ai/aiparatrooper.c
+	   M /branches/S2_1/ai/aisettler.c
+	   M /branches/S2_1/ai/aitech.c
+	   M /branches/S2_1/ai/aitools.c
+	   M /branches/S2_1/ai/aitools.h
+	   M /branches/S2_1/ai/aiunit.c
+	   M /branches/S2_1/client/agents/agents.c
+	   M /branches/S2_1/client/agents/cma_core.c
+	   M /branches/S2_1/client/agents/sha.c
+	   M /branches/S2_1/client/citydlg_common.c
+	   M /branches/S2_1/client/cityrepdata.c
+	   M /branches/S2_1/client/climisc.c
+	   M /branches/S2_1/client/connectdlg_common.c
+	   M /branches/S2_1/client/connectdlg_common.h
+	   M /branches/S2_1/client/control.c
+	   M /branches/S2_1/client/gui-ftwl/chat.c
+	   M /branches/S2_1/client/gui-ftwl/citydlg.c
+	   M /branches/S2_1/client/gui-ftwl/dialogs.c
+	   M /branches/S2_1/client/gui-ftwl/gui_text.c
+	   M /branches/S2_1/client/gui-ftwl/mapview.c
+	   M /branches/S2_1/client/gui-gtk-2.0/caravan_dialog.c
+	   M /branches/S2_1/client/gui-gtk-2.0/citydlg.c
+	   M /branches/S2_1/client/gui-gtk-2.0/cityrep.c
+	   M /branches/S2_1/client/gui-gtk-2.0/dialogs.c
+	   M /branches/S2_1/client/gui-gtk-2.0/diplodlg.c
+	   M /branches/S2_1/client/gui-gtk-2.0/diplomat_dialog.c
+	   M /branches/S2_1/client/gui-gtk-2.0/finddlg.c
+	   M /branches/S2_1/client/gui-gtk-2.0/gotodlg.c
+	   M /branches/S2_1/client/gui-gtk-2.0/gui_main.c
+	   M /branches/S2_1/client/gui-gtk-2.0/inteldlg.c
+	   M /branches/S2_1/client/gui-gtk-2.0/pages.c
+	   M /branches/S2_1/client/gui-gtk-2.0/plrdlg.c
+	   M /branches/S2_1/client/gui-gtk-2.0/repodlgs.c
+	   M /branches/S2_1/client/gui-gtk-2.0/spaceshipdlg.c
+	   M /branches/S2_1/client/gui-mui/citydlg.c
+	   M /branches/S2_1/client/gui-mui/dialogs.c
+	   M /branches/S2_1/client/gui-mui/mapclass.c
+	   M /branches/S2_1/client/gui-mui/mapview.c
+	   M /branches/S2_1/client/gui-sdl/caravan_dialog.c
+	   M /branches/S2_1/client/gui-sdl/citydlg.c
+	   M /branches/S2_1/client/gui-sdl/cityrep.c
+	   M /branches/S2_1/client/gui-sdl/cma_fe.c
+	   M /branches/S2_1/client/gui-sdl/dialogs.c
+	   M /branches/S2_1/client/gui-sdl/diplodlg.c
+	   M /branches/S2_1/client/gui-sdl/diplomat_dialog.c
+	   M /branches/S2_1/client/gui-sdl/finddlg.c
+	   M /branches/S2_1/client/gui-sdl/gotodlg.c
+	   M /branches/S2_1/client/gui-sdl/inteldlg.c
+	   M /branches/S2_1/client/gui-sdl/mapview.c
+	   M /branches/S2_1/client/gui-sdl/menu.c
+	   M /branches/S2_1/client/gui-sdl/repodlgs.c
+	   M /branches/S2_1/client/gui-sdl/wldlg.c
+	   M /branches/S2_1/client/gui-stub/citydlg.c
+	   M /branches/S2_1/client/gui-win32/citydlg.c
+	   M /branches/S2_1/client/gui-win32/connectdlg.c
+	   M /branches/S2_1/client/gui-win32/dialogs.c
+	   M /branches/S2_1/client/gui-win32/diplodlg.c
+	   M /branches/S2_1/client/gui-win32/finddlg.c
+	   M /branches/S2_1/client/gui-win32/gotodlg.c
+	   M /branches/S2_1/client/gui-win32/inteldlg.c
+	   M /branches/S2_1/client/gui-win32/menu.c
+	   M /branches/S2_1/client/gui-win32/repodlgs.c
+	   M /branches/S2_1/client/gui-win32/spaceshipdlg.c
+	   M /branches/S2_1/client/gui-xaw/citydlg.c
+	   M /branches/S2_1/client/gui-xaw/cityrep.c
+	   M /branches/S2_1/client/gui-xaw/dialogs.c
+	   M /branches/S2_1/client/gui-xaw/diplodlg.c
+	   M /branches/S2_1/client/gui-xaw/diplomat_dialog.c
+	   M /branches/S2_1/client/gui-xaw/finddlg.c
+	   M /branches/S2_1/client/gui-xaw/gotodlg.c
+	   M /branches/S2_1/client/gui-xaw/gui_main.c
+	   M /branches/S2_1/client/gui-xaw/inteldlg.c
+	   M /branches/S2_1/client/gui-xaw/pages.c
+	   M /branches/S2_1/client/gui-xaw/plrdlg.c
+	   M /branches/S2_1/client/gui-xaw/repodlgs.c
+	   M /branches/S2_1/client/gui-xaw/spaceshipdlg.c
+	   M /branches/S2_1/client/mapctrl_common.c
+	   M /branches/S2_1/client/mapview_common.c
+	   M /branches/S2_1/client/packhand.c
+	   M /branches/S2_1/client/plrdlg_common.c
+	   M /branches/S2_1/client/text.c
+	   M /branches/S2_1/common/aicore/caravan.c
+	   M /branches/S2_1/common/aicore/cm.c
+	   M /branches/S2_1/common/city.c
+	   M /branches/S2_1/common/city.h
+	   M /branches/S2_1/common/connection.c
+	   M /branches/S2_1/common/diptreaty.c
+	   M /branches/S2_1/common/game.c
+	   M /branches/S2_1/common/game.h
+	   M /branches/S2_1/common/idex.c
+	   M /branches/S2_1/common/improvement.c
+	   M /branches/S2_1/common/nation.c
+	   M /branches/S2_1/common/nation.h
+	   M /branches/S2_1/common/player.c
+	   M /branches/S2_1/common/player.h
+	   M /branches/S2_1/common/requirements.c
+	   M /branches/S2_1/common/unit.c
+	   M /branches/S2_1/common/unitlist.c
+	   M /branches/S2_1/common/unitlist.h
+	   M /branches/S2_1/manual/civmanual.c
+	   M /branches/S2_1/po/ar.po
+	   M /branches/S2_1/po/ca.po
+	   M /branches/S2_1/po/cs.po
+	   M /branches/S2_1/po/da.po
+	   M /branches/S2_1/po/de.po
+	   M /branches/S2_1/po/el.po
+	   M /branches/S2_1/po/en_GB.po
+	   M /branches/S2_1/po/es.po
+	   M /branches/S2_1/po/et.po
+	   M /branches/S2_1/po/fa.po
+	   M /branches/S2_1/po/fi.po
+	   M /branches/S2_1/po/fr.po
+	   M /branches/S2_1/po/he.po
+	   M /branches/S2_1/po/hu.po
+	   M /branches/S2_1/po/it.po
+	   M /branches/S2_1/po/ja.po
+	   M /branches/S2_1/po/ko.po
+	   M /branches/S2_1/po/lt.po
+	   M /branches/S2_1/po/nl.po
+	   M /branches/S2_1/po/no.po
+	   M /branches/S2_1/po/pl.po
+	   M /branches/S2_1/po/pt.po
+	   M /branches/S2_1/po/pt_BR.po
+	   M /branches/S2_1/po/ro.po
+	   M /branches/S2_1/po/ru.po
+	   M /branches/S2_1/po/sv.po
+	   M /branches/S2_1/po/tr.po
+	   M /branches/S2_1/po/uk.po
+	   M /branches/S2_1/po/zh_CN.po
+	   M /branches/S2_1/server/barbarian.c
+	   M /branches/S2_1/server/cityhand.c
+	   M /branches/S2_1/server/citytools.c
+	   M /branches/S2_1/server/citytools.h
+	   M /branches/S2_1/server/cityturn.c
+	   M /branches/S2_1/server/connecthand.c
+	   M /branches/S2_1/server/diplhand.c
+	   M /branches/S2_1/server/diplomats.c
+	   M /branches/S2_1/server/gamehand.c
+	   M /branches/S2_1/server/gotohand.c
+	   M /branches/S2_1/server/handchat.c
+	   M /branches/S2_1/server/maphand.c
+	   M /branches/S2_1/server/meta.c
+	   M /branches/S2_1/server/plrhand.c
+	   M /branches/S2_1/server/report.c
+	   M /branches/S2_1/server/ruleset.c
+	   M /branches/S2_1/server/sanitycheck.c
+	   M /branches/S2_1/server/savegame.c
+	   M /branches/S2_1/server/score.c
+	   M /branches/S2_1/server/settlers.c
+	   M /branches/S2_1/server/spacerace.c
+	   M /branches/S2_1/server/srv_main.c
+	   M /branches/S2_1/server/stdinhand.c
+	   M /branches/S2_1/server/techtools.c
+	   M /branches/S2_1/server/unithand.c
+	   M /branches/S2_1/server/unittools.c
+
+	(PR#39993) i18n get_nearest_city_text() problems -- partial solution
+	(PR#39994) i18n with, and, or, lists -- partial solution
+	(PR#39997) strings in need of TRANS comments
+	(PR#39998) access functions city_name() and player_name()
+
+
+Sun, 30 Dec 2007 02:23:50 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/po/sv.po
+
+	4275 translated messages, 4 fuzzy translations.
+
+
+Thu, 27 Dec 2007 07:32:23 -0800  elmo:
+
+	Changed paths:
+	   M /branches/S2_1/po/et.po
+
+	Some fixes
+
+
+Wed, 26 Dec 2007 10:33:17 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/ai/aicity.c
+	   M /branches/S2_1/ai/aidiplomat.c
+	   M /branches/S2_1/ai/aihunt.c
+	   M /branches/S2_1/ai/ailog.c
+	   M /branches/S2_1/ai/aitools.c
+	   M /branches/S2_1/ai/aiunit.c
+	   M /branches/S2_1/client/gui-gtk-2.0/diplomat_dialog.c
+	   M /branches/S2_1/client/gui-win32/dialogs.c
+	   M /branches/S2_1/common/combat.c
+	   M /branches/S2_1/po/ar.po
+	   M /branches/S2_1/po/ca.po
+	   M /branches/S2_1/po/cs.po
+	   M /branches/S2_1/po/da.po
+	   M /branches/S2_1/po/de.po
+	   M /branches/S2_1/po/el.po
+	   M /branches/S2_1/po/en_GB.po
+	   M /branches/S2_1/po/es.po
+	   M /branches/S2_1/po/et.po
+	   M /branches/S2_1/po/fa.po
+	   M /branches/S2_1/po/fi.po
+	   M /branches/S2_1/po/fr.po
+	   M /branches/S2_1/po/he.po
+	   M /branches/S2_1/po/hu.po
+	   M /branches/S2_1/po/it.po
+	   M /branches/S2_1/po/ja.po
+	   M /branches/S2_1/po/ko.po
+	   M /branches/S2_1/po/lt.po
+	   M /branches/S2_1/po/nl.po
+	   M /branches/S2_1/po/no.po
+	   M /branches/S2_1/po/pl.po
+	   M /branches/S2_1/po/pt.po
+	   M /branches/S2_1/po/pt_BR.po
+	   M /branches/S2_1/po/ro.po
+	   M /branches/S2_1/po/ru.po
+	   M /branches/S2_1/po/sv.po
+	   M /branches/S2_1/po/tr.po
+	   M /branches/S2_1/po/uk.po
+	   M /branches/S2_1/po/zh_CN.po
+	   M /branches/S2_1/server/citytools.c
+	   M /branches/S2_1/server/cityturn.c
+	   M /branches/S2_1/server/diplhand.c
+	   M /branches/S2_1/server/diplomats.c
+	   M /branches/S2_1/server/maphand.c
+	   M /branches/S2_1/server/plrhand.c
+	   M /branches/S2_1/server/savegame.c
+	   M /branches/S2_1/server/settlers.c
+	   M /branches/S2_1/server/stdinhand.c
+	   M /branches/S2_1/server/unithand.c
+	   M /branches/S2_1/server/unittools.c
+
+	(PR#39971) BUG: i18n possessive problems
+
+
+Tue, 25 Dec 2007 06:06:11 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/po/ar.po
+	   M /branches/S2_1/po/ca.po
+	   M /branches/S2_1/po/cs.po
+	   M /branches/S2_1/po/da.po
+	   M /branches/S2_1/po/de.po
+	   M /branches/S2_1/po/el.po
+	   M /branches/S2_1/po/en_GB.po
+	   M /branches/S2_1/po/es.po
+	   M /branches/S2_1/po/et.po
+	   M /branches/S2_1/po/fa.po
+	   M /branches/S2_1/po/fi.po
+	   M /branches/S2_1/po/fr.po
+	   M /branches/S2_1/po/he.po
+	   M /branches/S2_1/po/hu.po
+	   M /branches/S2_1/po/it.po
+	   M /branches/S2_1/po/ja.po
+	   M /branches/S2_1/po/ko.po
+	   M /branches/S2_1/po/lt.po
+	   M /branches/S2_1/po/nl.po
+	   M /branches/S2_1/po/no.po
+	   M /branches/S2_1/po/pl.po
+	   M /branches/S2_1/po/pt.po
+	   M /branches/S2_1/po/pt_BR.po
+	   M /branches/S2_1/po/ro.po
+	   M /branches/S2_1/po/ru.po
+	   M /branches/S2_1/po/sv.po
+	   M /branches/S2_1/po/tr.po
+	   M /branches/S2_1/po/uk.po
+	   M /branches/S2_1/po/zh_CN.po
+	   M /branches/S2_1/server/diplomats.c
+	   M /branches/S2_1/server/srv_main.c
+	   M /branches/S2_1/server/unithand.c
+	   M /branches/S2_1/server/unittools.c
+	   M /branches/S2_1/server/unittools.h
+
+	(PR#39973) i18n get_location_str() problems
+
+
+Mon, 24 Dec 2007 17:15:53 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/packhand.c
+	   M /branches/S2_1/po/ar.po
+	   M /branches/S2_1/po/ca.po
+	   M /branches/S2_1/po/cs.po
+	   M /branches/S2_1/po/da.po
+	   M /branches/S2_1/po/de.po
+	   M /branches/S2_1/po/el.po
+	   M /branches/S2_1/po/en_GB.po
+	   M /branches/S2_1/po/es.po
+	   M /branches/S2_1/po/et.po
+	   M /branches/S2_1/po/fa.po
+	   M /branches/S2_1/po/fi.po
+	   M /branches/S2_1/po/fr.po
+	   M /branches/S2_1/po/he.po
+	   M /branches/S2_1/po/hu.po
+	   M /branches/S2_1/po/it.po
+	   M /branches/S2_1/po/ja.po
+	   M /branches/S2_1/po/ko.po
+	   M /branches/S2_1/po/lt.po
+	   M /branches/S2_1/po/nl.po
+	   M /branches/S2_1/po/no.po
+	   M /branches/S2_1/po/pl.po
+	   M /branches/S2_1/po/pt.po
+	   M /branches/S2_1/po/pt_BR.po
+	   M /branches/S2_1/po/ro.po
+	   M /branches/S2_1/po/ru.po
+	   M /branches/S2_1/po/sv.po
+	   M /branches/S2_1/po/tr.po
+	   M /branches/S2_1/po/uk.po
+	   M /branches/S2_1/po/zh_CN.po
+	   M /branches/S2_1/server/connecthand.c
+
+	(PR#39979) i18n server login messages
+
+
+Sun, 23 Dec 2007 13:35:17 -0800  jcreus:
+
+	Changed paths:
+	   M /branches/S2_1/po/ca.po
+
+	Last minute corrections
+
+
+Sun, 23 Dec 2007 12:16:35 -0800  stikonas:
+
+	Changed paths:
+	   M /branches/S2_1/po/lt.po
+
+	More translations.
+
+
+Sun, 23 Dec 2007 02:37:38 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/ChangeLog
+
+	Update ChangeLog for 2.1.2
+
+
 Sun, 23 Dec 2007 02:00:03 -0800  dmarks:
 
 	Changed paths:
