@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-22 22:45-0500\n"
-"PO-Revision-Date: 2007-09-01 22:22+0300\n"
+"PO-Revision-Date: 2007-09-01 22:18+0300\n"
 "Last-Translator: Jelle Pelfrene <jelle.pelfrene@student.kuleuven.ac.be>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -714,11 +714,13 @@ msgstr "Voorwaarden op de gehele wereld zijn alleen mogelijk bij wonderen."
 
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:581
+#, fuzzy
 msgid "Player-ranged requirements are only supported for wonders."
 msgstr "Voorwaarden�op�een speler�zijn�alleen�mogelijk�bij�wonderen."
 
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:603
+#, fuzzy
 msgid "Island-ranged requirements are only supported for wonders."
 msgstr "Voorwaarden op een�continent zijn alleen mogelijk bij wonderen."
 
@@ -1305,7 +1307,7 @@ msgid "*%s (AI)* I simply do not trust you with an alliance yet, %s."
 msgstr "*%s (AI)* Ik vertrouw je nog niet genoeg voor een alliantie, %s."
 
 #: ai/advdiplomacy.c:424
-#, c-format
+#, fuzzy, c-format
 msgid "*%s (AI)* I do not know the city you mention."
 msgstr "*%s�(AI)*�I�ken de stad die je noemt niet."
 
@@ -1316,7 +1318,7 @@ msgstr ""
 "%s (AI)* Sorry, het delen van mijn gezichtsveld met jou is me te gevaarlijk"
 
 #: ai/advdiplomacy.c:557
-#, c-format
+#, fuzzy, c-format
 msgid "*%s (AI)* This deal was not very good for us, %s!"
 msgstr "*%s�(AI)*�Deze zaak was niet zo goed voor ons,�%s!"
 
@@ -1341,7 +1343,7 @@ msgid "*%s (AI)* Agreed. No more hostilities, %s."
 msgstr "*%s (AI)* Akkoord. Geen vijandelijkheden meer, %s."
 
 #: ai/advdiplomacy.c:817
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "*%s (AI)* Greetings %s! May we suggest a ceasefire while we get to know each "
 "other better?"
@@ -1355,7 +1357,7 @@ msgid "*%s (AI)* Space will never be yours. "
 msgstr "*%s (AI)* De ruimte zal je nooit kunnen beheersen."
 
 #: ai/advdiplomacy.c:1099
-#, c-format
+#, fuzzy, c-format
 msgid "*%s (AI)* I have tolerated your vicious antics long enough! To war!"
 msgstr ""
 "*%s�(AI)*�Ik heb uw gemene streken lang genoeg getolereerd! Ten oorlog!"
@@ -1375,7 +1377,7 @@ msgstr ""
 "komen met je misdaden?"
 
 #: ai/advdiplomacy.c:1116
-#, c-format
+#, fuzzy, c-format
 msgid "*%s (AI)* Your covert hostilities brought this war upon you!"
 msgstr ""
 "*%s�(AI)*�Uw achterbakse vijandelijkheden hebben u in deze oorlog geduwd!"
@@ -1386,7 +1388,7 @@ msgid "*%s (AI)* Your aggression against %s was your last mistake!"
 msgstr "*%s (AI)* Je agressie tegen %s was je laatste vergissing!"
 
 #: ai/advdiplomacy.c:1206
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* We will be launching an all-out war against %s in %d turn to stop "
 "the spaceship launch."
@@ -1394,25 +1396,21 @@ msgid_plural ""
 "*%s (AI)* We will be launching an all-out war against %s in %d turns to stop "
 "the spaceship launch."
 msgstr[0] ""
-"*%s�(KI)*�We gaan de volle oorlog openen tegen %s binnen %d beurt om de "
-"lancering van het ruimteschip tegen te houden.*%s (KI)* "
-"We�gaan�de�volle�oorlog�openen�tegen�%s�binnen�%"
-"d�beurten�om�de�lancering�van�het�ruimteschip�tegen�te�houden."
+"*%s (AI)* We gaan volle oorlog verklaren tegen %s binnen %dbeurt om de "
+"lancering van het ruimteschip te stoppen."
 msgstr[1] ""
-"*%s�(KI)*�We gaan de volle oorlog openen tegen %s binnen %d beurt om de "
-"lancering van het ruimteschip tegen te houden.*%s (KI)* "
-"We�gaan�de�volle�oorlog�openen�tegen�%s�binnen�%"
-"d�beurten�om�de�lancering�van�het�ruimteschip�tegen�te�houden."
+"*%s (AI)* We gaan volle oorlog verklaren tegen %s binnen %dbeurten om de "
+"lancering te stoppen."
 
 #: ai/advdiplomacy.c:1216
 #, c-format
 msgid ""
 "*%s (AI)* Your aid in this matter will be expected. Long live our glorious "
 "alliance!"
-msgstr "*%s�(AI)*�Uw hulp wordt verwacht. Lang leve onze alliantie!"
+msgstr "*%s (AI)* Uw hulp wordt verwacht. Lang leve onze alliantie!"
 
 #: ai/advdiplomacy.c:1222
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* %s has grossly violated his treaties with us for own gain.  We "
 "will answer in force in %d turn and expect you to honour your alliance with "
@@ -1422,22 +1420,16 @@ msgid_plural ""
 "will answer in force in %d turns and expect you to honour your alliance with "
 "us and do likewise!"
 msgstr[0] ""
-"*%s�(AI)*�%s�heeft zijn verdrag met ons schandalig verbroken. We gaan hem "
+"*%s (AI)* %s heeft zijn verdrag met ons schandalig verbroken. We gaan hem "
 "dat betaald zetten binnen %d beurt. We verwachten dat u onze alliantie "
-"respecteert en hetzelfde doet!*%s (AI)* %s "
-"heeft�zijn�verdrag�met�ons�schandalig�verbroken."
-"�We�gaan�hem�dat�betaald�zetten�binnen�%d�beurten."
-"�We�verwachten�dat�u�onze�alliantie�respecteert�en�hetzelfde�doet!"
+"respecteert en hetzelfde doet!"
 msgstr[1] ""
-"*%s�(AI)*�%s�heeft zijn verdrag met ons schandalig verbroken. We gaan hem "
-"dat betaald zetten binnen %d beurt. We verwachten dat u onze alliantie "
-"respecteert en hetzelfde doet!*%s (AI)* %s "
-"heeft�zijn�verdrag�met�ons�schandalig�verbroken."
-"�We�gaan�hem�dat�betaald�zetten�binnen�%d�beurten."
-"�We�verwachten�dat�u�onze�alliantie�respecteert�en�hetzelfde�doet!"
+"*%s (AI)* %s heeft zijn verdrag met ons schandalig verbroken. We gaan hem "
+"dat betaald zetten binnen %d beurten. We verwachten dat u onze alliantie "
+"respecteert en hetzelfde doet!"
 
 #: ai/advdiplomacy.c:1235
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We "
 "declare war in %d turn."
@@ -1445,24 +1437,20 @@ msgid_plural ""
 "*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We "
 "declare war in %d turns."
 msgstr[0] ""
-"*%s (KI)* We�zijn van plan om de rijke beschaving van %s te plunderen. We "
-"verklaren de oorlog binnen %d beurt.*%s�(KI)*�We "
-"zijn�van�plan�om�de�rijke�beschaving�van�%s�te�plunderen."
-"�We�verklaren�de�oorlog�binnen�%d�beurten."
+"*%s (AI)* We gaan het rijke land van %s overvallen en leegroven. We "
+"verklaren de oorlog binnen %d beurt."
 msgstr[1] ""
-"*%s (KI)* We�zijn van plan om de rijke beschaving van %s te plunderen. We "
-"verklaren de oorlog binnen %d beurt.*%s�(KI)*�We "
-"zijn�van�plan�om�de�rijke�beschaving�van�%s�te�plunderen."
-"�We�verklaren�de�oorlog�binnen�%d�beurten."
+"*%s (AI)* We gaan het rijke land van %s overvallen en leegroven. We "
+"verklaren de oorlog binnen %d beurten."
 
 #: ai/advdiplomacy.c:1243
 #, c-format
 msgid ""
 "*%s (AI)* If you want a piece of the loot, feel free to join in the action!"
-msgstr "*%s�(AI)*�Als je een deel van de plunderingen wil, kom gerust meedoen!"
+msgstr "*%s (AI)* Als je een deel van de plunderingen wil, kom gerust meedoen!"
 
 #: ai/advdiplomacy.c:1248
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* We have had it with %s. Let us tear this pathetic civilization "
 "apart. We declare war in %d turn."
@@ -1470,24 +1458,20 @@ msgid_plural ""
 "*%s (AI)* We have had it with %s. Let us tear this pathetic civilization "
 "apart. We declare war in %d turns."
 msgstr[0] ""
-"*%s�(AI)*�We hebben het helemaal gehad met %s.�Laat ons dit belachelijke "
-"landje kapotmaken. We verklaren de oorlog binnen %d beurt.*%s�(AI)*�We "
-"hebben het helemaal gehad met %s.�Laat ons dit belachelijke landje "
-"kapotmaken. We verklaren de oorlog binnen %d beurten."
+"*%s (AI)* We hebben het helemaal gehad met %s. Laat ons dit belachelijke "
+"landje kapotmaken. We verklaren de oorlog binnen %d beurt."
 msgstr[1] ""
-"*%s�(AI)*�We hebben het helemaal gehad met %s.�Laat ons dit belachelijke "
-"landje kapotmaken. We verklaren de oorlog binnen %d beurt.*%s�(AI)*�We "
-"hebben het helemaal gehad met %s.�Laat ons dit belachelijke landje "
-"kapotmaken. We verklaren de oorlog binnen %d beurten."
+"*%s (AI)* We hebben het helemaal gehad met %s. Laat ons dit belachelijke "
+"landje kapotmaken. We verklaren de oorlog binnen %d beurten."
 
 #: ai/advdiplomacy.c:1258
 #, c-format
 msgid "*%s (AI)* As our glorious allies, we expect your help in this war."
 msgstr ""
-"*%s�(AI)*�Als onze geallieerden verwachten we dat u meehelpt in deze oorlog."
+"*%s (AI)* Als onze geallieerden verwachten we dat u meehelpt in deze oorlog."
 
 #: ai/advdiplomacy.c:1264
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* We will honour our alliance and declare war on %s in %d turn.  "
 "Hold on - we are coming!"
@@ -1495,18 +1479,14 @@ msgid_plural ""
 "*%s (AI)* We will honour our alliance and declare war on %s in %d turns.  "
 "Hold on - we are coming!"
 msgstr[0] ""
-"*%s (KI)* We zullen onze alliantie respecteren en verklaren oorlog aan %s "
-"binnen %d beurt.  Hou vol - we komen eraan!*%s�(KI)"
-"*�We�zullen�onze�alliantie�respecteren�en�verklaren�oorlog�aan�%s�binnen�%"
-"d�beurten.��Hou�vol�-�we�komen�eraan!"
+"*%s (AI)* We zullen onze alliantie in eer houden en oorlog verklaren aan %s "
+"binnen %d beurt. Hou vol, we komen eraan!"
 msgstr[1] ""
-"*%s (KI)* We zullen onze alliantie respecteren en verklaren oorlog aan %s "
-"binnen %d beurt.  Hou vol - we komen eraan!*%s�(KI)"
-"*�We�zullen�onze�alliantie�respecteren�en�verklaren�oorlog�aan�%s�binnen�%"
-"d�beurten.��Hou�vol�-�we�komen�eraan!"
+"*%s (AI)* We zullen onze alliantie in eer houden en oorlog verklaren aan %s "
+"binnen %d beurten. Hou vol, we komen eraan!"
 
 #: ai/advdiplomacy.c:1273
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* We will honour our alliance with %s and declare war on %s in %d "
 "turns.  We expect you to do likewise."
@@ -1514,15 +1494,11 @@ msgid_plural ""
 "*%s (AI)* We will honour our alliance with %s and declare war on %s in %d "
 "turns.  We expect you to do likewise."
 msgstr[0] ""
-"*%s�(KI)*�We�zullen�onze�alliantie�met %s "
-"respecteren�en�verklaren�oorlog�aan�%s�binnen�%d�beurt.��We verwachten van u "
-"hetzelfde.*%s (KI)* We zullen onze alliantie met %s respecteren en verklaren "
-"oorlog aan %s binnen %d beurten.  We verwachten van u hetzelfde."
+"*%s (AI)* We zullen onze alliantie met %s in eer houden en oorlog verklaren "
+"aan %s binnen %d beurt. We verwachten van u hetzelfde."
 msgstr[1] ""
-"*%s�(KI)*�We�zullen�onze�alliantie�met %s "
-"respecteren�en�verklaren�oorlog�aan�%s�binnen�%d�beurt.��We verwachten van u "
-"hetzelfde.*%s (KI)* We zullen onze alliantie met %s respecteren en verklaren "
-"oorlog aan %s binnen %d beurten.  We verwachten van u hetzelfde."
+"*%s (AI)* We zullen onze alliantie met %s in eer houden en oorlog verklaren "
+"aan %s binnen %d beurten. We verwachten van u hetzelfde."
 
 #: ai/advdiplomacy.c:1341
 #, c-format
@@ -1609,7 +1585,7 @@ msgstr ""
 "van een einde aan het gevecht?"
 
 #: ai/advdiplomacy.c:1739
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "*%s (AI)* We have been savagely attacked by %s, and we need your help! "
 "Honour our glorious alliance and your name will never be forgotten!"
@@ -1717,7 +1693,7 @@ msgstr "Sorry, teveel mislukte pogingen..."
 #: server/auth.c:462
 #, c-format
 msgid "%s was rejected: Too many wrong password verifies for new user."
-msgstr "%s afgewezen: Te veel  verkeerde paswoorden voor nieuwe gebruiker."
+msgstr "%s afgewezen: Te veel verkeerde paswoorden voor nieuwe gebruiker."
 
 #: server/auth.c:478
 msgid ""
@@ -1864,7 +1840,7 @@ msgstr "%s overgeplaatst van %s naar %s."
 #: server/citytools.c:550
 #, fuzzy, c-format
 msgid "%s %s lost in transfer to %s %s"
-msgstr "%s van %s verloren bij een verhuis naar %s's %s"
+msgstr "%s %s verloren bij een verhuis naar %s %s"
 
 #: server/citytools.c:633
 #, c-format
@@ -2197,7 +2173,7 @@ msgid "%s is finished building %s."
 msgstr "%s is klaar met het bouwen van %s."
 
 #: server/cityturn.c:1393
-#, fuzzy, c-format
+#, c-format
 msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr "Onderhoud van %s in %s niet meer op te brengen, gebouw verkocht!"
 
@@ -3386,14 +3362,10 @@ msgid_plural ""
 "treaty. Move your units out of %s territory."
 msgstr[0] ""
 "Je gaat akkoord met een wapenstilstand met %s. Binnen %d beurt wordt het een "
-"vredesverdrag. Verwijder je eenheden uit het gebied van %s.Je gaat akkoord "
-"met een wapenstilstand met %s. Binnen %d beurten wordt het een "
 "vredesverdrag. Verwijder je eenheden uit het gebied van %s."
 msgstr[1] ""
-"Je gaat akkoord met een wapenstilstand met %s. Binnen %d beurt wordt het een "
-"vredesverdrag. Verwijder je eenheden uit het gebied van %s.Je gaat akkoord "
-"met een wapenstilstand met %s. Binnen %d beurten wordt het een "
-"vredesverdrag. Verwijder je eenheden uit het gebied van %s."
+"Je gaat akkoord met een wapenstilstand met %s. Binnen %d beurten wordt het "
+"een vredesverdrag. Verwijder je eenheden uit het gebied van %s."
 
 #: server/diplhand.c:513 server/diplhand.c:516
 #, c-format
@@ -3488,7 +3460,7 @@ msgstr "U kunt %s niet omkopen!"
 #: server/diplomats.c:457
 #, fuzzy, c-format
 msgid "Your %s succeeded in bribing the %s."
-msgstr "Uw %s heeft %s's %s met succes omgekocht."
+msgstr "Uw %s heeft %s met succes omgekocht."
 
 #. TRANS: <unit> ... <Poles>
 #: server/diplomats.c:465
@@ -3497,7 +3469,7 @@ msgid "Your %s was bribed by the %s."
 msgstr "Uw %s is omgekocht door %s."
 
 #: server/diplomats.c:596
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "%s was expecting your attempt to steal technology again. Your %s was caught "
 "and executed."
@@ -3620,7 +3592,7 @@ msgstr "Uw %s is ge-elimineerd bij de verdediging van %s tegen %s."
 #: server/diplomats.c:1109
 #, fuzzy, c-format
 msgid "Your %s has been eliminated defending against a %s."
-msgstr "Uw %s is ge-elimineerd bij de verdediging van %s tegen %s."
+msgstr "Uw %s is ge-elimineerd bij de verdediging van tegen %s."
 
 #: server/diplomats.c:1122
 #, c-format
@@ -3882,7 +3854,7 @@ msgstr "%s regeert de %s nu als een %s."
 #. TRANS: this is a message event so don't make it
 #. * too long.
 #: server/plrhand.c:332
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The %s have incited a revolt! %d turn of anarchy will ensue! Target "
 "government is %s."
@@ -3890,17 +3862,15 @@ msgid_plural ""
 "The %s have incited a revolt! %d turns of anarchy will ensue! Target "
 "government is %s."
 msgstr[0] ""
-"De�%s�zijn een revolutie begonnen!. %d�beurt anarchie volgt. De doel "
-"staatsvorm is %s.De�%s�zijn een revolutie begonnen!. %d�beurten anarchie "
-"volgen. De doel staatsvorm is %s."
+"De %s zijn een revolutie begonnen!. %d beurt anarchie volgt. De doel "
+"staatsvorm is %s."
 msgstr[1] ""
-"De�%s�zijn een revolutie begonnen!. %d�beurt anarchie volgt. De doel "
-"staatsvorm is %s.De�%s�zijn een revolutie begonnen!. %d�beurten anarchie "
-"volgen. De doel staatsvorm is %s."
+"De %s zijn een revolutie begonnen!. %d beurten anarchie volgen. De doel "
+"staatsvorm is %s."
 
 #: server/plrhand.c:345
 msgid "Revolution: returning to anarchy."
-msgstr "Revolutie:�terug naar anarchie."
+msgstr "Revolutie: terug naar anarchie."
 
 #: server/plrhand.c:406
 msgid "You should choose a new government from the government menu."
@@ -3963,8 +3933,8 @@ msgid ""
 " %s canceled the diplomatic agreement! The diplomatic state between the %s "
 "and the %s is now %s."
 msgstr ""
-" %s be�indigde de politieke overeenkomst! De diplomatieke toestand tussen de "
-"%s en de %s is nu %s."
+"%s be�indigde de politieke overeenkomst! De diplomatieke toestand tussen de %"
+"s en de %s is nu %s."
 
 #: server/plrhand.c:625
 #, c-format
@@ -4458,6 +4428,7 @@ msgstr "De kaarttopologie-index"
 
 #. TRANS: do not edit the ugly ASCII art
 #: server/settings.c:267
+#, fuzzy
 msgid ""
 "Freeciv maps are always two-dimensional. They may wrap at the north-south "
 "and east-west directions to form a flat map, a cylinder, or a torus (donut). "
@@ -4546,6 +4517,7 @@ msgid "Method used to choose start positions"
 msgstr "Methode om startposities te kiezen"
 
 #: server/settings.c:324
+#, fuzzy
 msgid ""
 "0 = Generator's choice.  Selecting this setting means\n"
 "    the default value will be picked based on the generator\n"
@@ -4702,7 +4674,6 @@ msgid "Amount of huts (minor tribe villages)"
 msgstr "Aantal hutten (kleine inboorlingendorpen)"
 
 #: server/settings.c:427
-#, fuzzy
 msgid ""
 "This setting gives the exact number of huts that will be placed on the "
 "entire map. Huts are small tribal villages that may be investigated by units."
@@ -4831,7 +4802,6 @@ msgid "Percentage penalty when changing tech"
 msgstr "Percentage boete bij veranderen van technologische doelen"
 
 #: server/settings.c:523
-#, fuzzy
 msgid ""
 "If you change your current research technology, and you have positive "
 "research points, you lose this percentage of those research points. This "
@@ -4863,7 +4833,6 @@ msgid "Penalty when getting tech from conquering"
 msgstr "Boete voor technologie verkregen door verovering"
 
 #: server/settings.c:544
-#, fuzzy
 msgid ""
 "For each technology you gain by conquering an enemy city, you lose research "
 "points equal to this percentage of the cost to research a new technology. If "
@@ -4879,7 +4848,6 @@ msgid "Penalty when getting a free tech"
 msgstr "Boete voor het verkrijgen van gratis technologie"
 
 #: server/settings.c:555
-#, fuzzy
 msgid ""
 "For each technology you gain \"for free\" (other than covered by diplcost or "
 "conquercost: specifically, from huts or from Great Library effects), you "
@@ -4913,7 +4881,6 @@ msgid "Percentage food lost when building needed"
 msgstr "Percentage voedingsverlies wanneer een aquaduct nodig is"
 
 #: server/settings.c:576
-#, fuzzy
 msgid ""
 "If a city would expand, but it can't because it needs an Aqueduct (or Sewer "
 "System), it loses this percentage of its foodbox (or half that amount when "
@@ -5014,7 +4981,6 @@ msgid "Chance of moving into tile after attack"
 msgstr "Kans op het verplaatsen naar een vlak na een aanval"
 
 #: server/settings.c:651
-#, fuzzy
 msgid ""
 "If set to 0, combat is Civ1/2-style (when you attack, you remain in place). "
 "If set to 100, attacking units will always move into the tile they attacked "
@@ -5046,7 +5012,6 @@ msgid "Reduce city population after attack"
 msgstr "Verminder de stedelijke bevolking na een aanval"
 
 #: server/settings.c:670
-#, fuzzy
 msgid ""
 "This flag indicates whether city population is reduced after successful "
 "attack of enemy unit, depending on its movement type (OR-ed):\n"
@@ -5214,7 +5179,6 @@ msgid "Minimum number of cities for civil war"
 msgstr "Minimum aantal steden voor burgeroorlog"
 
 #: server/settings.c:793
-#, fuzzy
 msgid ""
 "A civil war is triggered when a player has at least this many cities and the "
 "player's capital is captured. If this option is set to the maximum value, "
@@ -5229,7 +5193,6 @@ msgid "Turns until player contact is lost"
 msgstr "Beurten dat communicatie met andere spelers mogelijk is."
 
 #: server/settings.c:803
-#, fuzzy
 msgid ""
 "Players may meet for diplomacy this number of turns after their units have "
 "last met, even when they do not have an embassy. If set to zero, then "
@@ -5245,7 +5208,6 @@ msgid "Rebuild palace whenever capital is conquered"
 msgstr "Herbouw paleis indien hoofdstad is veroverd"
 
 #: server/settings.c:814
-#, fuzzy
 msgid ""
 "If this is set to 1, when the capital is conquered the palace is "
 "automatically rebuilt for free in another randomly choosen city. This is "
@@ -5396,7 +5358,6 @@ msgid "Whether to have simultaneous player phases."
 msgstr "Of er wel of niet gedeelde spelersbeurten gebruikt worden."
 
 #: server/settings.c:909
-#, fuzzy
 msgid ""
 "If true, all players' movement phases will occur simultaneously; if false, "
 "then players will alternate movement."
@@ -5699,8 +5660,7 @@ msgstr "Spel eindigde in een gelijkspel"
 #: server/srv_main.c:457 server/srv_main.c:468
 #, fuzzy, c-format
 msgid "Your %s was disbanded in accordance with your peace treaty with the %s."
-msgstr ""
-"Uw %s eenheid %s is ontbonden zoals volgens uw vredesverdrag met de %s."
+msgstr "Uw %s eenheid is ontbonden zoals volgens uw vredesverdrag met de %s."
 
 #: server/srv_main.c:508 server/srv_main.c:512
 #, c-format
@@ -6908,9 +6868,9 @@ msgstr ", moeilijkheidsniveau %s"
 #: server/stdinhand.c:4138 server/stdinhand.c:4142 client/helpdata.c:254
 #: client/helpdata.c:745 client/text.c:187 client/text.c:1179
 #: client/text.c:1217
-#, fuzzy, c-format
+#, c-format
 msgid "?clistmore:, %s"
-msgstr "?of:, "
+msgstr ", %s"
 
 #: server/stdinhand.c:4146
 msgid ", ready"
@@ -6946,10 +6906,10 @@ msgstr "Lijst van teams:"
 msgid "%2d : '%s' : %d player"
 msgid_plural "%2d : '%s' : %d players"
 msgstr[0] "%2d : %s : %d speler"
-msgstr[1] "%2d: %s' : %d spelers"
+msgstr[1] "%2d : %s' : %d spelers"
 
 #: server/stdinhand.c:4214
-#, c-format
+#, fuzzy, c-format
 msgid "%2d : '%s' : 1 player : %s"
 msgstr "%2d�:�'%s'�:�1�speler�:�%s"
 
@@ -7143,13 +7103,13 @@ msgstr "De kernaanval op %s is voorkomen door uw SDI verdediging."
 #: server/unithand.c:1013
 #, fuzzy, c-format
 msgid "Your %s survived the pathetic attack from the %s %s."
-msgstr "Uw %s%s overleefden de zielige aanval van %s's %s."
+msgstr "Uw %s overleefden de zielige aanval van %s %s."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
 #: server/unithand.c:1022
 #, fuzzy, c-format
 msgid "Your attacking %s failed against the %s %s!"
-msgstr "Uw aanvallende %s faalden tegen %s's %s%s!"
+msgstr "Uw aanvallende %s faalden tegen %s %s!"
 
 #: server/unithand.c:1096
 #, c-format
@@ -7262,7 +7222,7 @@ msgstr "Uw %s van %s is aangekomen in %s en brengt %d in goud en onderzoek op."
 #: server/unittools.c:258
 #, fuzzy, c-format
 msgid "%s was upgraded for free to %s."
-msgstr "%s is gratis opgewaardeerd naar %s%s."
+msgstr "%s is gratis opgewaardeerd naar %s."
 
 #: server/unittools.c:299
 #, c-format
@@ -7288,7 +7248,7 @@ msgstr "Uw %s heeft geen brandstof meer."
 #: server/unittools.c:635
 #, fuzzy
 msgid "And, became more experienced!"
-msgstr "Uw %s werd meer ervaren!"
+msgstr " en werden meer ervaren!"
 
 #. TRANS: Your <unit> became ...
 #: server/unittools.c:639
@@ -7337,13 +7297,13 @@ msgstr "Barbaarse leider gevangengenomen, %d goud losgeld betaald."
 #: server/unittools.c:1617
 #, fuzzy, c-format
 msgid "Your attacking %s succeeded against the %s %s!"
-msgstr "Uw aanvallende %s waren succesvol tegen %s's %s%s!"
+msgstr "Uw aanvallende %s waren succesvol tegen %s %s!"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
 #: server/unittools.c:1626 server/unittools.c:1684
 #, fuzzy, c-format
 msgid "%s lost to an attack by the %s %s."
-msgstr "%s verloren onder een aanval van %s's %s%s."
+msgstr "%s verloren onder een aanval van %s %s."
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
 #: server/unittools.c:1660
@@ -7351,8 +7311,10 @@ msgstr "%s verloren onder een aanval van %s's %s%s."
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
 "Your attacking %s succeeded against the %s %s (and %d other units)!"
-msgstr[0] "Uw aanvallende %s waren succesvol tegen %s's %s%s!"
-msgstr[1] "Uw aanvallende %s waren succesvol tegen %s's %s%s!"
+msgstr[0] ""
+"Uw aanvallende %s waren succesvol tegen %s's %s (en %d andere eenheid)!"
+msgstr[1] ""
+"Uw aanvallende %s waren succesvol tegen %s's %s (en %d andere eenheden)!"
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
@@ -7418,7 +7380,7 @@ msgid "The %s detonated a nuke!"
 msgstr "%s heeft een kernraket tot ontploffing gebracht."
 
 #: server/unittools.c:2080
-#, fuzzy, c-format
+#, c-format
 msgid "%s transported successfully."
 msgstr "%s succesvol overgeplaatst."
 
@@ -7611,7 +7573,6 @@ msgid "No real audio subsystem managed to initialize!"
 msgstr "Geen enkel audio-subsysteem lukte het te initialiseren!"
 
 #: client/audio.c:257
-#, fuzzy
 msgid "Perhaps there is some misconfiguration or bad permissions"
 msgstr "Misschien is er sprake van misconfiguratie of verkeerde permissies"
 
@@ -7677,7 +7638,7 @@ msgid "Small Wonder"
 msgstr "Klein Wonder"
 
 #: client/citydlg_common.c:396
-#, c-format
+#, fuzzy, c-format
 msgid "%+4d : Citizens\n"
 msgstr "%+4dÂ·:Â·Stedelingen\n"
 
@@ -7687,12 +7648,12 @@ msgid "%+4d : Taxed from trade\n"
 msgstr "%+4d : Handelsbelasting\n"
 
 #: client/citydlg_common.c:422
-#, c-format
+#, fuzzy, c-format
 msgid "%+4d : Trade route with %s\n"
 msgstr "%+4dÂ·:Â·Handelsroute met %s\n"
 
 #: client/citydlg_common.c:431
-#, c-format
+#, fuzzy, c-format
 msgid "%+4d : Building tithes\n"
 msgstr "%+4dÂ·: In belastingen\n"
 
@@ -8198,12 +8159,12 @@ msgid "The parties create an alliance"
 msgstr "De partijen sluiten een alliantie"
 
 #: client/climisc.c:291
-#, fuzzy, c-format
+#, c-format
 msgid "The %s give shared vision"
 msgstr "De %s geven gedeelde waarneming"
 
 #: client/climisc.c:295
-#, fuzzy, c-format
+#, c-format
 msgid "The %s give an embassy"
 msgstr "De %s geven een amassade"
 
@@ -8741,7 +8702,7 @@ msgid "* Ignores the effects of city walls.\n"
 msgstr "* Negeert de effecten van stadswallen.\n"
 
 #: client/helpdata.c:981
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* Does bombard attacks (%d per turn).  These attacks will only damage (never "
 "kill) the defender, but have no risk for the attacker.\n"
@@ -8750,7 +8711,6 @@ msgstr ""
 "de verdediger nooit doden en zijn geen enkel risico voor de aanvaller.\n"
 
 #: client/helpdata.c:988
-#, fuzzy
 msgid "* Gets quintuple defense against missiles and aircraft.\n"
 msgstr "* Levert vijfvoudige verdediging tegen raketten en vliegtuigen.\n"
 
@@ -9089,7 +9049,7 @@ msgid "* Has no unhappy citizens.\n"
 msgstr "* Heeft geen ontevreden burgers.\n"
 
 #: client/helpdata.c:1555 client/helpdata.c:1559 client/helpdata.c:1563
-#, c-format
+#, fuzzy, c-format
 msgid "* Veteran %s units.\n"
 msgstr "*�Veteraan�%s�eenheden.\n"
 
@@ -9178,9 +9138,8 @@ msgstr "%s%d %s"
 
 #: client/helpdata.c:1680 client/helpdata.c:1688 client/gui-sdl/mapview.c:618
 #: client/gui-sdl/mapview.c:624 client/gui-sdl/mapview.c:630
-#, fuzzy
 msgid "?blistmore:, "
-msgstr "?of:, "
+msgstr ", "
 
 #. TRANS: "2 unhappy" or ", 1 unhappy"
 #: client/helpdata.c:1687
@@ -9255,6 +9214,7 @@ msgid "Server port"
 msgstr "Server poort"
 
 #: client/options.c:120
+#, fuzzy
 msgid ""
 "This is the default server port that will be used in the connection dialogs "
 "or with the -a command-line parameter."
@@ -9562,6 +9522,7 @@ msgid "Terrain relief map layer"
 msgstr "Terrein reli�f kaart laag"
 
 #: client/options.c:253
+#, fuzzy
 msgid "The relief layer shows all terrains on the map."
 msgstr "Terrein�reli�f�kaart�laag toont alle terrein op de kaart"
 
@@ -9856,7 +9817,7 @@ msgstr "Ons territorium"
 #: client/text.c:122
 #, fuzzy, c-format
 msgid "%s territory"
-msgstr "Terrein"
+msgstr "Territorium van de %s"
 
 #. TRANS: "Polish territory (5 turn cease-fire)"
 #: client/text.c:131
@@ -9870,7 +9831,7 @@ msgstr[1] "%s territorium (%d beurten staakt-het-vuren)"
 #: client/text.c:140
 #, fuzzy, c-format
 msgid "%s territory (%s)"
-msgstr "%s territorium (%d beurt staakt-het-vuren)"
+msgstr "Territorium van de %s %s"
 
 #: client/text.c:145
 msgid "Unclaimed territory"
@@ -9898,9 +9859,9 @@ msgstr "Stad: %s (%s, %s)"
 
 #. TRANS: previous lines gave other information about the city.
 #: client/text.c:191
-#, c-format
+#, fuzzy, c-format
 msgid "?clistbegin: with %s"
-msgstr ""
+msgstr " met %s"
 
 #. TRANS: This appears with two or more previous entries in the list
 #: client/text.c:202
@@ -9916,7 +9877,7 @@ msgstr "Specialisten"
 
 #: client/text.c:209 client/text.c:1190 client/text.c:1229
 msgid "?clistend:."
-msgstr ""
+msgstr "."
 
 #. TRANS: "Trade from Warsaw: 5"
 #: client/text.c:219
@@ -9945,7 +9906,7 @@ msgstr "Eenheid: %s (%s, %s)"
 #: client/text.c:249
 #, fuzzy, c-format
 msgid "Unit: %s (%s)"
-msgstr "Eenheid: %s (%s%s)"
+msgstr "Eenheid: %s (%s)"
 
 #. TRANS:  "Unit: Musketeers (Polish, 5 turn cease-fire)"
 #: client/text.c:262
@@ -10192,7 +10153,7 @@ msgid "None of these units may be upgraded."
 msgstr "Geen van deze eenheden kan opgewaardeerd worden."
 
 #: client/text.c:886
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Upgrade %d unit for %d gold?\n"
 "Treasury contains %d gold."
@@ -10200,10 +10161,10 @@ msgid_plural ""
 "Upgrade %d units for %d gold?\n"
 "Treasury contains %d gold."
 msgstr[0] ""
-"Waardeer %s op naar %s voor %d goud?\n"
+"Waardeer %d eenheid op voor %d goud?\n"
 "Schatkist bevat %d goud."
 msgstr[1] ""
-"Waardeer %s op naar %s voor %d goud?\n"
+"Waardeer %d eenheden op voor %d goud?\n"
 "Schatkist bevat %d goud."
 
 #: client/text.c:907
@@ -10359,9 +10320,9 @@ msgid "Wonders: "
 msgstr "Wereldwonderen: "
 
 #: client/text.c:1262
-#, fuzzy, c-format
+#, c-format
 msgid "Cities: %d total, %d over threshold of %d cities."
-msgstr "Steden: %d totaal, %d boven drempelwaarde van %d steden.\n"
+msgstr "Steden: %d totaal, %d boven drempelwaarde van %d steden."
 
 #. TRANS: 0-21 content [citizen(s)] ...
 #: client/text.c:1266
@@ -10449,7 +10410,7 @@ msgid ""
 "Report this bug at %s"
 msgstr ""
 "Reistijden langer dan 99 beurten zijn niet ondersteund.\n"
-"Rapporteer deze fout aub aan bugs@freeciv.org."
+"Rapporteer deze fout aub aan %s."
 
 #: client/agents/cma_core.c:400
 #, c-format
@@ -10914,7 +10875,7 @@ msgstr "_Koop"
 #: client/gui-gtk-2.0/citydlg.c:899 client/gui-gtk-2.0/cityrep.c:687
 #, fuzzy
 msgid "_Production"
-msgstr "Productie"
+msgstr "Pro_ductie"
 
 #: client/gui-gtk-2.0/citydlg.c:950
 msgid "_Happiness"
@@ -11139,7 +11100,7 @@ msgstr "Kie_s"
 #: client/gui-gtk-2.0/cityrep.c:714 client/gui-gtk-2.0/plrdlg.c:496
 #, fuzzy
 msgid "_Display"
-msgstr "_Diplomaat"
+msgstr "_Toon..."
 
 #: client/gui-gtk-2.0/cityrep.c:795 client/gui-gtk-2.0/menu.c:843
 #: client/gui-sdl/diplodlg.c:689 client/gui-sdl/optiondlg.c:1799
@@ -11154,7 +11115,7 @@ msgstr "Steden"
 #: client/gui-gtk-2.0/cityrep.c:812
 #, fuzzy
 msgid "_Inspect"
-msgstr "Toevoegen"
+msgstr "Pop_up"
 
 #: client/gui-gtk-2.0/cityrep.c:1220 client/gui-gtk-2.0/cityrep.c:1241
 #: client/gui-gtk-2.0/cityrep.c:1260 client/gui-gtk-2.0/cityrep.c:1279
@@ -11318,7 +11279,7 @@ msgstr "Ga naar _locatie"
 #: client/gui-gtk-2.0/dialogs.c:202 client/gui-gtk-2.0/messagewin.c:190
 #, fuzzy
 msgid "Inspect _City"
-msgstr "Onderzoek Stad"
+msgstr "Pop_up Stad"
 
 #: client/gui-gtk-2.0/dialogs.c:258 client/gui-sdl/dialogs.c:2091
 #: client/gui-win32/dialogs.c:975 client/gui-xaw/dialogs.c:513
@@ -11415,7 +11376,7 @@ msgstr "_Stadsstijlen:"
 #: client/gui-gtk-2.0/dialogs.c:934
 #, fuzzy
 msgid "_Description"
-msgstr "Beschrijving:"
+msgstr "L_egenda"
 
 #: client/gui-gtk-2.0/dialogs.c:1273 client/gui-xaw/dialogs.c:1489
 msgid "You must select your sex."
@@ -11504,7 +11465,7 @@ msgstr "Extra cl_ausule..."
 
 #: client/gui-gtk-2.0/diplodlg.c:698
 msgid "--- This treaty is blank. Please add some clauses. ---"
-msgstr "--  Dit is een leeg verdrag. Voeg clausules toe. ---"
+msgstr "---  Dit is een leeg verdrag. Voeg clausules toe. ---"
 
 #: client/gui-gtk-2.0/diplodlg.c:904 client/gui-sdl/diplodlg.c:375
 #: client/gui-win32/diplodlg.c:263 client/gui-xaw/diplodlg.c:951
@@ -11734,9 +11695,8 @@ msgid "View"
 msgstr "Bekijk"
 
 #: client/gui-gtk-2.0/gui_main.c:1282
-#, fuzzy
 msgid "Chat"
-msgstr "_Praat"
+msgstr "Praat"
 
 #: client/gui-gtk-2.0/gui_main.c:1298 client/gui-win32/gui_main.c:538
 #: data/Freeciv.in:2816
@@ -11787,6 +11747,7 @@ msgid "Random"
 msgstr "Willekeurig"
 
 #: client/gui-gtk-2.0/gui_main.c:1696
+#, fuzzy
 msgid "Observer"
 msgstr " (waarnemer)"
 
@@ -12468,7 +12429,7 @@ msgstr "_Eenheden"
 #: client/gui-gtk-2.0/menu.c:951 client/gui-win32/menu.c:402
 #, fuzzy
 msgid "_Nations"
-msgstr "_Naties:"
+msgstr "_Naties"
 
 #: client/gui-gtk-2.0/menu.c:955 client/gui-win32/menu.c:403
 msgid "_Economy"
@@ -12476,6 +12437,7 @@ msgstr "_Economie"
 
 #. TRANS: Research report action
 #: client/gui-gtk-2.0/menu.c:957 client/gui-win32/menu.c:405
+#, fuzzy
 msgid "_Research"
 msgstr "_Onderzoek"
 
@@ -12701,7 +12663,7 @@ msgstr "Ont_moet"
 #: client/gui-gtk-2.0/plrdlg.c:463
 #, fuzzy
 msgid "Cancel _Treaty"
-msgstr "Verbreek Verdrag"
+msgstr "_Verbreek Verdrag"
 
 #: client/gui-gtk-2.0/plrdlg.c:470
 msgid "_Withdraw vision"
@@ -12737,7 +12699,7 @@ msgstr "_Laad Bewaard Spel"
 
 #: client/gui-gtk-2.0/pages.c:229
 msgid "C_onnect to Network Game"
-msgstr "Verbind met netwerkspel (_o)"
+msgstr "Verbind met netwerkspel (_O)"
 
 #: client/gui-gtk-2.0/pages.c:236
 msgid "Connect to Gaming _Zone"
@@ -12876,22 +12838,21 @@ msgstr "Zet op %s"
 #: client/gui-gtk-2.0/pages.c:1428
 #, fuzzy
 msgid "Number of _Players (including AI):"
-msgstr "Aantal spelers (KI inbegrepen): (_N)"
+msgstr "Aantal spelers (KI inbegrepen): (_P)"
 
 #: client/gui-gtk-2.0/pages.c:1455
 #, fuzzy
 msgid "AI Skill _Level:"
-msgstr "KI sterkte: (_A)"
+msgstr "KI sterkte: (_L)"
 
 #: client/gui-gtk-2.0/pages.c:1472
 #, fuzzy
 msgid "Ruleset _Version:"
-msgstr "Regelset:"
+msgstr "Regelset: (_V)"
 
 #: client/gui-gtk-2.0/pages.c:1480 client/gui-gtk-2.0/pages.c:2112
-#, fuzzy
 msgid "_More Game Options..."
-msgstr "Meer Spel _Opties"
+msgstr "_Meer Spel Opties"
 
 #: client/gui-gtk-2.0/pages.c:1505
 msgid "Record"
@@ -12964,7 +12925,7 @@ msgstr "Bewaar Spel in Bestand: (_f)"
 #: client/gui-xaw/repodlgs.c:499 data/Freeciv.in:1366
 #, fuzzy
 msgid "Research"
-msgstr "_Onderzoek"
+msgstr "Onderzoek"
 
 #: client/gui-gtk-2.0/repodlgs.c:309 client/gui-win32/repodlgs.c:281
 msgid "Researching"
@@ -13032,7 +12993,7 @@ msgstr "Eenheid Type"
 #: client/gui-gtk-2.0/repodlgs.c:959 client/gui-win32/repodlgs.c:711
 #, fuzzy
 msgid "?Upgradable unit [short]:U"
-msgstr "Waardeer eenheid op"
+msgstr "E"
 
 #: client/gui-gtk-2.0/repodlgs.c:960 client/gui-win32/repodlgs.c:712
 msgid "In-Prog"
@@ -14332,15 +14293,19 @@ msgstr ""
 "Ons gebied"
 
 #: client/gui-sdl/mapview.c:571
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "%s territory (%d turn ceasefire)"
 msgid_plural ""
 "\n"
 "%s territory (%d turn ceasefire)"
-msgstr[0] "%s territorium (%d beurt staakt-het-vuren)"
-msgstr[1] "%s territorium (%d beurten staakt-het-vuren)"
+msgstr[0] ""
+"\n"
+"%s territorium (%d beurt staakt-het-vuren)"
+msgstr[1] ""
+"\n"
+"%s territorium (%d beurten staakt-het-vuren)"
 
 #: client/gui-sdl/mapview.c:575
 #, c-format
@@ -14370,7 +14335,7 @@ msgstr ""
 
 #: client/gui-sdl/mapview.c:614
 msgid "?blistbegin: with "
-msgstr ""
+msgstr " met "
 
 #: client/gui-sdl/mapview.c:616 data/default/buildings.ruleset:113
 #: data/civ2/buildings.ruleset:96 data/civ1/buildings.ruleset:69
@@ -14389,7 +14354,7 @@ msgstr "Stadswallen"
 
 #: client/gui-sdl/mapview.c:637
 msgid "?blistend:"
-msgstr ""
+msgstr "?blistend:"
 
 #. TRANS: (<nation>,<diplomatic_state>)"
 #: client/gui-sdl/mapview.c:643
@@ -14727,23 +14692,20 @@ msgid "Start New Game"
 msgstr "Begin nieuw spel"
 
 #: client/gui-sdl/pages.c:199
-#, fuzzy
 msgid "Join Game"
-msgstr "Login naam"
+msgstr "Voeg u bij een spel"
 
 #: client/gui-sdl/pages.c:213
-#, fuzzy
 msgid "Join Pubserver"
-msgstr " (waarnemer)"
+msgstr "Doe mee met Pubserver"
 
 #: client/gui-sdl/pages.c:227
-#, fuzzy
 msgid "Join LAN Server"
-msgstr "Lokale Servers"
+msgstr "Verbind met LAN servers"
 
 #: client/gui-sdl/pages.c:308
 msgid "SDLClient welcomes you..."
-msgstr ""
+msgstr "SDLClient heet u welkom..."
 
 #: client/gui-sdl/pages.c:309
 #, fuzzy
@@ -14751,18 +14713,21 @@ msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it "
 "under certain conditions;"
 msgstr ""
-"Freeciv is vrije software en u bent vrij om onder bepaalde voorwaarden\n"
-"kopie�n ervan te verspreiden; Zie het \"Kopie�ren\" gedeelte in het Help "
-"menu.\n"
-"Nu.. Geef ze van katoen!"
+"Freeciv is vrije software en u bent vrij om onder bepaalde "
+"voorwaardennkopieÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ«n "
+"ervan te verspreiden;"
 
 #: client/gui-sdl/pages.c:312
+#, fuzzy
 msgid "See the \"Copying\" item on the Help menu."
 msgstr ""
+"Zie het "
+"\"KopieÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ«ren"
+"\" gedeelte in het Help menu."
 
 #: client/gui-sdl/pages.c:314
 msgid "Now.. Go give'em hell!"
-msgstr ""
+msgstr "Nu.. Geef ze van katoen!"
 
 #: client/gui-sdl/plrdlg.c:651
 msgid "disconnected"
@@ -14781,6 +14746,7 @@ msgstr ""
 "gebouwd"
 
 #: client/gui-sdl/repodlgs.c:357
+#, fuzzy
 msgid ""
 "soonest\n"
 "completion"
@@ -16127,7 +16093,7 @@ msgid "Can <b>not</b> be changed during a game. "
 msgstr "Kan <b>niet</b> veranderd worden tijdens een spel. "
 
 #: manual/civmanual.c:158
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "<p class=\"bounds\">Minimum: 0, Default: %d, Maximum: 1</p>\n"
 "\n"
@@ -16143,7 +16109,7 @@ msgstr ""
 "\n"
 
 #: manual/civmanual.c:167
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "<p class=\"bounds\">Minimum: %d, Default: %d, Maximum: %d</p>\n"
 "\n"
@@ -16179,7 +16145,7 @@ msgstr ""
 "\n"
 
 #: manual/civmanual.c:198
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "<table>\n"
 "<tr>\n"
@@ -16640,9 +16606,7 @@ msgstr ""
 "gemakkelijkst te doen door het Freeciv Fouten Tracerings Systeem te bezoeken "
 "op:\n"
 "\n"
-" �http://bugs.freeciv.org/\n"
-"\n"
-"of door email te sturen naar: bugs@freeciv.org"
+" �http://bugs.freeciv.org/"
 
 #: data/helpdata.txt:60
 msgid ""
@@ -20388,8 +20352,9 @@ msgstr "Opperhoofd"
 #: data/nation/maori.ruleset:24 data/nation/sioux.ruleset:28
 #: data/nation/southafrican.ruleset:25 data/nation/swazi.ruleset:22
 #: data/nation/zulu.ruleset:38
+#, fuzzy
 msgid "?female:Chief"
-msgstr "?female: Hoofd"
+msgstr "?female: Kameraad"
 
 #: data/default/governments.ruleset:81 data/civ1/governments.ruleset:81
 msgid ""
@@ -20520,7 +20485,7 @@ msgstr "President"
 #: data/nation/serbian.ruleset:37 data/nation/singaporean.ruleset:35
 #: data/nation/slovakian.ruleset:27 data/nation/slovenian.ruleset:19
 msgid "?female:President"
-msgstr "?female: Presidente"
+msgstr "?female:Presidente"
 
 #: data/default/governments.ruleset:170
 msgid ""
@@ -20657,6 +20622,7 @@ msgstr ""
 "niet tot opstand gebracht worden door vijandige Diplomaten en Spionnen."
 
 #: data/civ1/governments.ruleset:170
+#, fuzzy
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy "
 "offers the highest possible level of trade, but also offers the most "
@@ -21594,7 +21560,7 @@ msgstr "Helicopter"
 #: data/civ1/units.ruleset:89
 #, fuzzy
 msgid "Air"
-msgstr "Vlieg naar"
+msgstr "Luchthaven"
 
 #: data/default/units.ruleset:266 data/civ2/units.ruleset:161
 #: data/civ1/units.ruleset:162
@@ -23051,6 +23017,7 @@ msgstr "Tlatoani"
 
 #. TRANS: Huey Tlatoani = Great Speaker
 #: data/nation/aztec.ruleset:24
+#, fuzzy
 msgid "Huey Tlatoani"
 msgstr "Huey�Tlatoani"
 
@@ -23426,6 +23393,7 @@ msgid "Patriarch"
 msgstr "Patriarch"
 
 #: data/nation/bulgarian.ruleset:34
+#, fuzzy
 msgid "Sveta Maika"
 msgstr "Sveta�Maika"
 
@@ -23534,6 +23502,7 @@ msgid "Mwamikazi"
 msgstr "Malikta"
 
 #: data/nation/byzantium.ruleset:3
+#, fuzzy
 msgid "Byzantine"
 msgstr "ByzantiÃ«"
 
@@ -26958,6 +26927,7 @@ msgid "Dharma King"
 msgstr "Dharma Koning"
 
 #: data/nation/tibetan.ruleset:29
+#, fuzzy
 msgid "Dalai Lama"
 msgstr "Dalai�Lama"
 
@@ -27875,25 +27845,1265 @@ msgstr "Team 30"
 msgid "Team 31"
 msgstr "Team 31"
 
+#~ msgid "City: Building Unavailable Item"
+#~ msgstr "Stad: Bouw Niet-beschikbare Eenheid"
+
+#~ msgid "City: Captured/Destroyed"
+#~ msgstr "Stad: Veroverd/Vernietigd"
+
+#~ msgid "City: Celebrating"
+#~ msgstr "Stad: Festiviteiten"
+
+#~ msgid "City: Civil Disorder"
+#~ msgstr "Stad: Onlusten"
+
+#~ msgid "City: Famine"
+#~ msgstr "Stad: Hongersnood"
+
+#~ msgid "City: Famine Feared"
+#~ msgstr "Stad: Hongersnood gevreesd"
+
+#~ msgid "City: Growth"
+#~ msgstr "Stad: Groei"
+
+#~ msgid "City: May Soon Grow"
+#~ msgstr "Stad: Kan binnenkort groeien"
+
+#~ msgid "City: Needs Aqueduct"
+#~ msgstr "Stad: Heb aquaduct nodig"
+
+#~ msgid "City: Needs Aqueduct Being Built"
+#~ msgstr "Stad: Heb aquaduct in aanbouw nodig"
+
+#~ msgid "City: Normal"
+#~ msgstr "Stad: Normaal"
+
+#~ msgid "City: Nuked"
+#~ msgstr "Stad: Geatomiseerd"
+
+#~ msgid "City: Released from citizen governor"
+#~ msgstr "Stad: niet meer onder burgemeester"
+
+#~ msgid "City: Suggest Growth Throttling"
+#~ msgstr "Stad: Adviseer Groeibeperking"
+
+#~ msgid "City: Transfer"
+#~ msgstr "Stad: Verplaatsen"
+
+#~ msgid "City: Was Built"
+#~ msgstr "Stad: Gesticht"
+
+#~ msgid "City: Worklist Events"
+#~ msgstr "Stad: Werklijstgebeurtenissen"
+
+#~ msgid "City: Production changed"
+#~ msgstr "Stad: Productie gewijzigd"
+
+#~ msgid "Civ: Barbarian Uprising"
+#~ msgstr "Civ: Barbaarse opstand"
+
+#~ msgid "Civ: Civil War"
+#~ msgstr "Civ: Burgeroorlog"
+
+#~ msgid "Civ: Collapse to Anarchy"
+#~ msgstr "Civ: Ineenstorting naar Anarchie"
+
+#~ msgid "Civ: First Contact"
+#~ msgstr "Civ: Eerste contact"
+
+#~ msgid "Civ: Learned New Government"
+#~ msgstr "Civ: Leerde nieuwe regeringvorm"
+
+#~ msgid "Civ: Low Funds"
+#~ msgstr "Civ: Krap bij kas"
+
+#~ msgid "Civ: Pollution"
+#~ msgstr "Civ: Verontreiniging"
+
+#~ msgid "Civ: Revolt Ended"
+#~ msgstr "Civ: Opstand Be�indigd"
+
+#~ msgid "Civ: Revolt Started"
+#~ msgstr "Civ: Opstand Begonnen"
+
+#~ msgid "Civ: Spaceship Events"
+#~ msgstr "Civ: Ruimteschipgebeurtenissen"
+
+#~ msgid "Diplomat Action: Bribe"
+#~ msgstr "Diplomatieke Actie: Omkoping"
+
+#~ msgid "Diplomat Action: Caused Incident"
+#~ msgstr "Diplomatieke Actie: Schandaal veroorzaakt"
+
+#~ msgid "Diplomat Action: Escape"
+#~ msgstr "Diplomatieke Actie: Vlucht"
+
+#~ msgid "Diplomat Action: Embassy"
+#~ msgstr "Diplomatieke Actie: Ambassade"
+
+#~ msgid "Diplomat Action: Failed"
+#~ msgstr "Diplomatieke Actie: Gefaald"
+
+#~ msgid "Diplomat Action: Incite"
+#~ msgstr "Diplomatieke Actie: Opstand"
+
+#~ msgid "Diplomat Action: Poison"
+#~ msgstr "Diplomatieke Actie: Vergiftig"
+
+#~ msgid "Diplomat Action: Sabotage"
+#~ msgstr "Diplomatieke Actie: Sabotage"
+
+#~ msgid "Diplomat Action: Theft"
+#~ msgstr "Diplomatieke Actie: Diefstal"
+
+#~ msgid "Enemy Diplomat: Bribe"
+#~ msgstr "Vijandelijke Diplomaat: Omkoping"
+
+#~ msgid "Enemy Diplomat: Embassy"
+#~ msgstr "Vijandelijke Diplomaat: Ambassade"
+
+#~ msgid "Enemy Diplomat: Failed"
+#~ msgstr "Vijandelijke Diplomaat: Gefaald"
+
+#~ msgid "Enemy Diplomat: Incite"
+#~ msgstr "Vijandelijke Diplomaat: Opstand"
+
+#~ msgid "Enemy Diplomat: Poison"
+#~ msgstr "Vijandelijke Diplomaat: Vergif"
+
+#~ msgid "Enemy Diplomat: Sabotage"
+#~ msgstr "Vijandelijke Diplomaat: Sabotage"
+
+#~ msgid "Enemy Diplomat: Theft"
+#~ msgstr "Vijandelijke Diplomaat: Diefstal"
+
+#~ msgid "Global: Eco-Disaster"
+#~ msgstr "Spel: Milieuramp"
+
+#~ msgid "Global: Nuke Detonated"
+#~ msgstr "Spel: Kernbom Ontploft"
+
+#~ msgid "Hut: Barbarians in a Hut Roused"
+#~ msgstr "Hut: Barbaren in een Hut Ontketend"
+
+#~ msgid "Hut: City Founded from Hut"
+#~ msgstr "Hut: Stad gesticht vanuit Hut"
+
+#~ msgid "Hut: Gold Found in Hut"
+#~ msgstr "Hut: Goud Gevonden in Hut"
+
+#~ msgid "Hut: Killed by Barbarians in a Hut"
+#~ msgstr "Hut: Vermoord door Barbaren in een Hut"
+
+#~ msgid "Hut: Mercenaries Found in Hut"
+#~ msgstr "Hut: Huurlingen Gevonden in Hut"
+
+#~ msgid "Hut: Settler Found in Hut"
+#~ msgstr "Hut: Kolonisten Gevonden in Hut"
+
+#~ msgid "Hut: Tech Found in Hut"
+#~ msgstr "Hut: Technologie Gevonden in Hut"
+
+#~ msgid "Hut: Unit Spared by Barbarians"
+#~ msgstr "Hut: Eenheid Gespaard door Barbaren"
+
+#~ msgid "Improvement: Bought"
+#~ msgstr "Verbetering: Gekocht"
+
+#~ msgid "Improvement: Built"
+#~ msgstr "Verbetering: Gebouwd"
+
+#~ msgid "Improvement: Forced to Sell"
+#~ msgstr "Verbetering: Verplicht te verkopen"
+
+#~ msgid "Improvement: New Improvement Selected"
+#~ msgstr "Verbetering: Niewe Verbetering Gekozen"
+
+#~ msgid "Improvement: Sold"
+#~ msgstr "Verbetering: Verkocht"
+
+#~ msgid "Tech: Learned From Great Library"
+#~ msgstr "Tech: Geleerd van Grote Bibliotheek"
+
+#~ msgid "Tech: Learned New Tech"
+#~ msgstr "Tech: Nieuwe technologie geleerd"
+
+#~ msgid "Treaty: Alliance"
+#~ msgstr "Verdrag: Alliantie"
+
+#~ msgid "Treaty: Broken"
+#~ msgstr "Verdrag: Verbroken"
+
+#~ msgid "Treaty: Cease-fire"
+#~ msgstr "Verdrag: Wapenstilstand"
+
+#~ msgid "Treaty: Peace"
+#~ msgstr "Verdrag: Vrede"
+
+#~ msgid "Treaty: Shared Vision"
+#~ msgstr "Verdrag: Gedeelde waarneming"
+
+#~ msgid "Unit: Attack Failed"
+#~ msgstr "Eenheid: Aanval mislukt"
+
+#~ msgid "Unit: Attack Succeeded"
+#~ msgstr "Eenheid: Aanval gelukt"
+
+#~ msgid "Unit: Bought"
+#~ msgstr "Eenheid: Gekocht"
+
+#~ msgid "Unit: Built"
+#~ msgstr "Eenheid: Gebouwd"
+
+#~ msgid "Unit: Defender Destroyed"
+#~ msgstr "Eenheid: Verdediger vernietigd"
+
+#~ msgid "Unit: Defender Survived"
+#~ msgstr "Eenheid: Verdediger overleefde"
+
+#, fuzzy
+#~ msgid "Unit: Promoted to Veteran"
+#~ msgstr "Eenheid: Werd meer veteraan"
+
+#~ msgid "Unit: Production Upgraded"
+#~ msgstr "Eenheid: Productie opgewaardeerd"
+
+#~ msgid "Unit: Relocated"
+#~ msgstr "Eenheid: Herverdeeld"
+
+#~ msgid "Unit: Orders / goto events"
+#~ msgstr "Eenheid: Opdrachten / ga-naar gebeurtenissen"
+
+#~ msgid "Wonder: Finished"
+#~ msgstr "Wonder: Voltooid"
+
+#~ msgid "Wonder: Made Obsolete"
+#~ msgstr "Wonder: Verouderd geraakt"
+
+#~ msgid "Wonder: Started"
+#~ msgstr "Wonder: Begonnen"
+
+#~ msgid "Wonder: Stopped"
+#~ msgstr "Wonder: Gestopt"
+
+#~ msgid "Wonder: Will Finish Next Turn"
+#~ msgstr "Wonder: Zal volgende beurt voltooid zijn"
+
+#~ msgid "Treaty: Embassy"
+#~ msgstr "Verdrag: Ambassade"
+
+#~ msgid "Moved %s out of disbanded city %s to avoid being landlocked."
+#~ msgstr "%s uit verlaten stad %s gehaald om vastzitten te voorkomen."
+
+#~ msgid "We Love The %s Day celebrated in %s."
+#~ msgstr "Festival ter ere van %s in %s."
+
+#~ msgid "We Love The %s Day canceled in %s."
+#~ msgstr "Festival ter ere van %s afgezegd in %s."
+
+#, fuzzy
+#~ msgid "(%d) %s: connected [%s]"
+#~ msgstr "(%d) %s heeft verbinding vanaf %s."
+
+#, fuzzy
+#~ msgid "(%d) %s: connection request [%s]"
+#~ msgstr "(%d) Verzoek tot verbinding van %s van %s"
+
+#, fuzzy
+#~ msgid "The client is missing a capability that this server needs."
+#~ msgstr "De client mist een mogelijkheid die deze server nodig heeft."
+
+#, fuzzy
+#~ msgid "(%d) %s rejected: mismatched capabilities!"
+#~ msgstr "(%d) %s afgewezen: Afwijkende mogelijkheden."
+
+#, fuzzy
+#~ msgid "This server is missing a capability that the client needs."
+#~ msgstr "De server mist een mogelijkheid die de client nodig heeft."
+
+#, fuzzy
+#~ msgid "The username is invalid!"
+#~ msgstr "Ongeldige gebruikersnaam"
+
+#, fuzzy
+#~ msgid "(%d) %s rejected: invalid username [%s]"
+#~ msgstr "(%d) %s afgewezen: Ongeldige naam [%s]."
+
+#, fuzzy
+#~ msgid "Your username is already connected!"
+#~ msgstr "heeft al verbinding."
+
+#, fuzzy
+#~ msgid "(%d) %s rejected: duplicate username [%s]"
+#~ msgstr "(%d) %s afgewezen: Al gebruikte login naam [%s]."
+
+#~ msgid "%s report on the RICHEST Civilizations in the World."
+#~ msgstr "%s rapport over de RIJKSTE beschavingen ter wereld."
+
+#~ msgid "%s report on the most ADVANCED Civilizations in the World."
+#~ msgstr "%s rapport over de MODERNSTE beschavingen ter wereld."
+
+#~ msgid "%s report on the most MILITARIZED Civilizations in the World."
+#~ msgstr "%s rapport over de BEST BEWAPENDE beschavingen ter wereld."
+
+#~ msgid "%s report on the HAPPIEST Civilizations in the World."
+#~ msgstr "%s rapport over de GELUKKIGSTE beschavingen ter wereld."
+
+#~ msgid "%s report on the LARGEST Civilizations in the World."
+#~ msgstr "%s rapport over de GROOTSTE beschavingen ter wereld."
+
+#~ msgid "City size before people become unhappy"
+#~ msgstr "Stadsgrootte voordat inwoners ontevreden worden"
+
+#~ msgid ""
+#~ "Before other adjustments, the first unhappysize citizens in a city are "
+#~ "content, and subsequent citizens are unhappy. See also cityfactor."
+#~ msgstr ""
+#~ "Zonder verdere aanpassingen zijn de eerste unhappysize inwoners van een "
+#~ "stad tevreden en alle volgende inwoners ontevreden. Zie ook cityfactor."
+
+#~ msgid "Number of cities for higher unhappiness"
+#~ msgstr "Aantal steden voor grotere ontevredenheid"
+
+#~ msgid ""
+#~ "When the number of cities a player owns is greater than cityfactor, one "
+#~ "extra citizen is unhappy before other adjustments; see also unhappysize. "
+#~ "This assumes a Democracy; for other governments the effect occurs at "
+#~ "smaller numbers of cities."
+#~ msgstr ""
+#~ "Wanneer het aantal steden per speler groter wordt dan cityfactor, wordt "
+#~ "��n extra inwoner ontevreden zonder verdere verbeteringen; zie ook "
+#~ "unhappysize.  Dit veronderstelt Democratie; voor andere regeringsvormen "
+#~ "treedt het effect op bij een kleiner aantal steden."
+
+#~ msgid ""
+#~ "If non-zero, saved games will be compressed using zlib (gzip format). "
+#~ "Larger values will give better compression but take longer. If the "
+#~ "maximum is zero this server was not compiled to use zlib."
+#~ msgstr ""
+#~ "Als niet-nul zullen opgeslagen spelen gecomprimeerd worden met behulp van "
+#~ "zlib (gzip formaat). Grotere waarden zullen betere compressie leveren "
+#~ "maar langere compressietijden. Als het maximum nul is, dan is deze server "
+#~ "niet gecompileerd voor gebruik van zlib."
+
+#~ msgid ""
+#~ "Undefined arguments. Usage: debug <diplomacy <player> | city <x> <y> | "
+#~ "units <x> <y> | unit <id> | tech <player> | timing | info>."
+#~ msgstr ""
+#~ "Ongedefinieerde argumenten. Gebruik: debug <diplomacy <player> | city <x> "
+#~ "<y> | units <x> <y> | unit <id> | tech <player> | timing | info>."
+
+#~ msgid "Unit must be on land to perform diplomatic action."
+#~ msgstr "Eenheid moet zich op land bevinden voor diplomatieke acties."
+
+#~ msgid "Your %s has been lost on the high seas."
+#~ msgstr "Uw %s is verloren gegaan op de diepzee."
+
+#~ msgid "Your %s survived on the high seas and became more experienced!"
+#~ msgstr "Uw %s overleefde de diepzee en werd meer ervaren!"
+
+#~ msgid "Your %s has been lost on unsafe terrain."
+#~ msgstr "Uw %s is verloren gegaan op onveilig terrein."
+
+#~ msgid "The %s have acquired %s from ancient scrolls of wisdom."
+#~ msgstr "De %s hebben %s verkregen van oude boekrollen met wijsheid."
+
+#~ msgid "Plugin %s found but can't be initialized."
+#~ msgstr "Plugin %s gevonden, maar kan niet ge�nitialiseerd worden."
+
+#~ msgid "Couldn't find soundset \"%s\" trying \"%s\"."
+#~ msgstr "Kon geluidenverzameling \"%s\" niet vinden, probeer \"%s\"."
+
+#~ msgid "Proceeding with sound support disabled"
+#~ msgstr "Ga verder zonder geluidsondersteuning"
+
+#~ msgid "No sound spec-file given!"
+#~ msgstr "Geen audio spec-bestand opgegeven!"
+
+#~ msgid "Cannot find sound spec-file \"%s\"."
+#~ msgstr "Kon audio spec-bestand \"%s\" niet vinden."
+
+#~ msgid "Cannot find audio file %s"
+#~ msgstr "Kan audiobestand %s niet vinden"
+
+#~ msgid "%s (XX) %d/turn"
+#~ msgstr "%s (XX) %d/beurt"
+
+#~ msgid "%s (%d) %d turn"
+#~ msgid_plural "%s (%d) %d turns"
+#~ msgstr[0] "%s (%d) %d beurt"
+#~ msgstr[1] "%s (%d) %d beurten"
+
+#, fuzzy
+#~ msgid "Specialists"
+#~ msgstr "Specialisten"
+
+#~ msgid "novice"
+#~ msgstr "beginner"
+
+#~ msgid "easy"
+#~ msgstr "gemakkelijk"
+
+#~ msgid "normal"
+#~ msgstr "normaal"
+
+#~ msgid "hard"
+#~ msgstr "moeilijk"
+
+#~ msgid "experimental"
+#~ msgstr "experimenteel"
+
+#, fuzzy
+#~ msgid "Requires the %s technology.\n"
+#~ msgstr ""
+#~ "Dit heeft de %s technologie nodig.\n"
+#~ "\n"
+
+#, fuzzy
+#~ msgid "Requires the %s government.\n"
+#~ msgstr ""
+#~ "Dit heeft de %s staatsvorm nodig.\n"
+#~ "\n"
+
+#, fuzzy
+#~ msgid "Requires the %s building.\n"
+#~ msgstr ""
+#~ "Dit heeft het %s gebouw nodig.\n"
+#~ "\n"
+
+#, fuzzy
+#~ msgid "Requires the %s terrain special.\n"
+#~ msgstr ""
+#~ "Dit heeft de %s terreinbonus nodig.\n"
+#~ "\n"
+
+#, fuzzy
+#~ msgid "Requires the %s terrain.\n"
+#~ msgstr ""
+#~ "Dit heeft %s terrein nodig.\n"
+#~ "\n"
+
+#, fuzzy
+#~ msgid "Requires the %s nation.\n"
+#~ msgstr ""
+#~ "Dit heeft de %s natie nodig.\n"
+#~ "\n"
+
+#, fuzzy
+#~ msgid "Only applies to %s units.\n"
+#~ msgstr ""
+#~ "Alleen van toepassing op %s eenheden.\n"
+#~ "\n"
+
+#, fuzzy
+#~ msgid "Applies only to %s.\n"
+#~ msgstr ""
+#~ "Alleen van toepassing op %s.\n"
+#~ "\n"
+
+#, fuzzy
+#~ msgid "Requires a minimum size of %d.\n"
+#~ msgstr ""
+#~ "Vereist minimum grootte van %d.\n"
+#~ "\n"
+
+#, fuzzy
+#~ msgid ""
+#~ "Requires: Nothing\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Dit heeft het %s gebouw nodig.\n"
+#~ "\n"
+
+#~ msgid "* Can carry and refuel %d air unit.\n"
+#~ msgid_plural "* Can carry and refuel %d air units.\n"
+#~ msgstr[0] "* Kan %d luchteenheid vervoeren en van brandstof voorzien.\n"
+#~ msgstr[1] "* Kan %d luchteenheden vervoeren en van brandstof voorzien.\n"
+
+#~ msgid "* Can carry and refuel %d missile unit.\n"
+#~ msgid_plural "* Can carry and refuel %d missile units.\n"
+#~ msgstr[0] "* Kan %d raketeenheid vervoeren en van brandstof voorzien.\n"
+#~ msgstr[1] "* Kan %d raketeenheden vervoeren en van brandstof voorzien.\n"
+
+#~ msgid "* Can carry %d ground unit across water.\n"
+#~ msgid_plural "* Can carry %d ground units across water.\n"
+#~ msgstr[0] "* Kan %d landeenheid over water vervoeren.\n"
+#~ msgstr[1] "* Kan %d landeenheden over water vervoeren.\n"
+
+#~ msgid ""
+#~ "* May be disbanded in a city to recover 50%% of the production cost.\n"
+#~ msgstr ""
+#~ "* Kan ontbonden worden in een stad, recupereert de halve kostprijs.\n"
+
+#~ msgid "* Can build fortresses (if %s is known).\n"
+#~ msgstr "* Kan forten bouwen (als %s bekend is).\n"
+
+#~ msgid "* Can build fortresses (if any of the following are known: %s).\n"
+#~ msgstr "Kan forten bouwen (als een van %s bekend is).\n"
+
+#~ msgid "* Can build airbases.\n"
+#~ msgstr "* Kan vliegvelden bouwen.\n"
+
+#~ msgid "* May fortify, granting a 50%% defensive bonus.\n"
+#~ msgstr "* Kan zich ingraven, geeft 50%% defensiebonus.\n"
+
+#~ msgid "* Can attack enemy air units.\n"
+#~ msgstr "* Kan vijandelijke luchteenheden aanvallen.\n"
+
+#~ msgid "* A missile unit: gets used up in making an attack.\n"
+#~ msgstr "* Een raketeenheid: wordt verbruikt in de aanval.\n"
+
+#~ msgid "* May become veteran through training or combat.\n"
+#~ msgstr "* Kan door oefening of gevechtservaring een veteraan worden.\n"
+
+#~ msgid ""
+#~ "* Must end turn in a city or next to land, or has a 50%% risk of being "
+#~ "lost at sea.\n"
+#~ msgstr ""
+#~ "* Moet beurt in een stad of naast land eindigen, of heeft 50%% kans op "
+#~ "vergaan.\n"
+
+#~ msgid "* The discovery of %s reduces the risk to 25%%.\n"
+#~ msgstr "* De ontdekking van %s vermindert het risico tot 25%%.\n"
+
+#~ msgid "* %s reduces the risk to 12%%.\n"
+#~ msgstr "* %s vermindert het risico tot 12%%.\n"
+
+#~ msgid "* Reduces the chance of losing boats on the high seas to 25%%.\n"
+#~ msgstr "* Vermindert de kans op vergaan op de oceaan met 25%%.\n"
+
+#~ msgid "* Reduces the chance of losing boats on the high seas to 12%%.\n"
+#~ msgstr "* Vermindert de kans op vergaan op de oceaan met 12%%.\n"
+
+#~ msgid "* Allows %s to build fortresses.\n"
+#~ msgstr "* Staat %s om forten te bouwen.\n"
+
+#~ msgid "* Allows %s to build airbases.\n"
+#~ msgstr "* Staat %s toe om luchtbases te bouwen.\n"
+
+#~ msgid "* This terrain is unsafe for units to travel on."
+#~ msgstr "* Op dit terrein kunnen eenheden zich niet veilig verplaatsen."
+
+#~ msgid "* Each of your cities will avoid paying %d %s towards unit upkeep.\n"
+#~ msgstr ""
+#~ "* Elk van uw steden zal vermijden %d %s voor onderhoud te betalen.\n"
+
+#~ msgid "* Each of your cities will avoid paying %d towards unit upkeep.\n"
+#~ msgstr "* Elk van uw steden zal vermijden %d voor onderhoud te betalen.\n"
+
+#~ msgid "* Chance of civil war is %d%% if you lose your capital.\n"
+#~ msgstr "De kans op burgeroorlog is %d%% als u uw hoofdstad kwijtraakt.\n"
+
+#~ msgid ""
+#~ "* The first unhappy citizen in each city due to civilization size will "
+#~ "appear when you have %d cities.\n"
+#~ msgstr ""
+#~ "De eerste ontevreden burger in elke stad door de overmatige grootte van "
+#~ "uw land zal verschijnen als u %d steden heeft.\n"
+
+#~ msgid ""
+#~ "* After the first unhappy citizen due to city size, for each %d "
+#~ "additional cities, another unhappy citizen will appear.\n"
+#~ msgstr ""
+#~ "* Na de eerste ongelukkige burger door stadsgrootte, komt er nog 1 bij "
+#~ "per %d extra steden.\n"
+
+#~ msgid ""
+#~ "The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
+#~ msgstr ""
+#~ "De maximum hoeveelheid die u kan instellen voor wetenschap, goud of "
+#~ "luxegoederen is %d%%.\n"
+
+#~ msgid "Has unlimited science/gold/luxuries rates.\n"
+#~ msgstr "Heeft onbeperkte wetenschap/goud/luxegoederen normen.\n"
+
+#~ msgid ""
+#~ "* You may grow your cities by means of celebrations.  Your cities must be "
+#~ "at least size %d before they can grow in this manner.\n"
+#~ msgstr ""
+#~ "* U kan uw steden laten groeien door te vieren.  Uw steden moeten "
+#~ "tenminste grootte %d hebben voor ze met deze techniek kunnen "
+#~ "snelgroeien.\n"
+
+#~ msgid ""
+#~ "* Government will fall into anarchy if any city is in disorder for more "
+#~ "than two turns in a row.\n"
+#~ msgstr ""
+#~ "* De overheid vervalt tot anarchie wanneer eender welke stad meer dan "
+#~ "twee beurten op rij burgerlijke onrust kent.\n"
+
+#~ msgid ""
+#~ "* Each worked tile that gives more than %d %s will suffer a -1 penalty "
+#~ "when not celebrating.\n"
+#~ msgstr ""
+#~ "* Elk bewerkt vaksje dat meer dan %d %s geeft krijgt een -1 beperking "
+#~ "wanneer er niet gevierd wordt.\n"
+
+#, fuzzy
+#~ msgid ""
+#~ "* Each worked tile with at least 1 %s will yield %d more of it when "
+#~ "celebrating.\n"
+#~ msgstr ""
+#~ "* Elk bewerkt vakje met ten minste 1 %s zal %d extra %s geven wanneer er "
+#~ "gevierd wordt.\n"
+
+#, fuzzy
+#~ msgid "You were rejected from the game...."
+#~ msgstr "U werd uit het spel gezet:"
+
+#~ msgid ""
+#~ "Client does not support isometric tilesets. Using default tileset instead."
+#~ msgstr ""
+#~ "Client ondersteunt geen isometrische vlakkensets. Val terug op standaard "
+#~ "vlakkenset."
+
+#~ msgid ""
+#~ "Client does not support overhead view tilesets. Using default tileset "
+#~ "instead."
+#~ msgstr ""
+#~ "Client ondersteunt geen bovenaanzicht-vlakkensets. Val terug op standaard "
+#~ "vlakkenset."
+
+#~ msgid "<AI>"
+#~ msgstr "<KI>"
+
+#~ msgid "<Novice AI>"
+#~ msgstr "<Beginneling KI>"
+
+#~ msgid "<Easy AI>"
+#~ msgstr "<Makkelijke KI>"
+
+#~ msgid "<Normal AI>"
+#~ msgstr "<Normale KI>"
+
+#~ msgid "<Hard AI>"
+#~ msgstr "<Moeilijke KI>"
+
+#~ msgid "Sa_ve Options"
+#~ msgstr "Bewaar Opties"
+
+#~ msgid "Gov_ernment"
+#~ msgstr "Ov_erheid"
+
+#~ msgid "_Change Government"
+#~ msgstr "Re_geringswissel (_C)"
+
+#~ msgid ""
+#~ "Main Map (Keys):\n"
+#~ "================\n"
+#~ "    Shift-home: center on capital\n"
+#~ "  Shift-arrows: scroll map\n"
+#~ "        Ctrl-G: show grid lines on/off\n"
+#~ "        Ctrl-B: show national borders on/off\n"
+#~ "        Ctrl-N: show city names on/off\n"
+#~ "        Ctrl-R: show city growth on/off\n"
+#~ "        Ctrl-P: show city production on/off\n"
+#~ "             t: show city workers (mouse over or near city)\n"
+#~ msgstr ""
+#~ "Hoofdkaart (toetsen):\n"
+#~ "================\n"
+#~ "    Shift-home: centreer op hoofdstad\n"
+#~ "  Shift-pijlen: verschuif kaart\n"
+#~ "        Ctrl-G: toon raster aan/uit\n"
+#~ "        Ctrl-B: toon rijksgrens aan/uit\n"
+#~ "        Ctrl-N: toon stadsnamen aan/uit\n"
+#~ "        Ctrl-R: toon stadsaangroei aan/uit\n"
+#~ "        Ctrl-P: toon stadsproductie aan/uit\n"
+#~ "             t: toon stadsarbeiders (met muis dichtbij stad)\n"
+
+#, fuzzy
+#~ msgid ""
+#~ "Main Map (Mouse):\n"
+#~ "=================\n"
+#~ "  Left-click on city:          Pop up city dialog\n"
+#~ "  Left-click on unit:          Activate unit\n"
+#~ "  Left-click-and-drag on unit: Goto command for unit\n"
+#~ "  Center-click:                Show tile info\n"
+#~ "  Right-click:                 Center tile in view\n"
+#~ "\n"
+#~ "  Shift-Left-click:            Copy production (GTK)\n"
+#~ "  Shift-Right-click on city:   Paste production into city (GTK)\n"
+#~ "\n"
+#~ "  Shift-Control-Left-click:    Adjust city workers\n"
+#~ "  Control-Center-click:        Wake up sentried units\n"
+#~ "\n"
+#~ "  Area Selection mode (GTK):\n"
+#~ "  ==========================\n"
+#~ "  Right-click-and-drag: Enter Area Selection mode\n"
+#~ "  Left-click:           Toggle tile highlighting\n"
+#~ "  Shift-Right-click:    Paste production into highlighted cities\n"
+#~ "  Right-click:          Cancel Area Selection mode\n"
+#~ "\n"
+#~ "  The cities that become highlighted on the map,\n"
+#~ "  will also be highlighted in the City Report."
+#~ msgstr ""
+#~ "Hoofdkaart (Muis):\n"
+#~ "=================\n"
+#~ "  Linker-klik: (op stad):      Toon stadsdialoog\n"
+#~ "              (op eenheid):      Activeer eenheid\n"
+#~ "  Linker-klik en sleep (op eenheid): Ga-naar opdracht\n"
+#~ "  Middel-klik:                     Toon vlak-informatie\n"
+#~ "  Rechter-klik:                    Centreer vlak in venster\n"
+#~ "\n"
+#~ "  Shift-Linker-klik:                     Kopieer productie (GTK)\n"
+#~ "  Shift-Rechter-klik: (op stad):  Plak productie in stad (GTK)\n"
+#~ "\n"
+#~ "  Shift-Ctrl-Linker-klik:      Pas stadswerkers aant\n"
+#~ "  Ctrl-Middel-klik:            Wek eenheden op wacht\n"
+#~ "\n"
+#~ "  In Gebied-selectie modus (GTK):\n"
+#~ "  =========================\n"
+#~ "��Rechterklik-en-sleep:������Start�Gebied-selectie�modus\n"
+#~ "  Linker-klik:                       Wissel oplichten vlakken\n"
+#~ "��Shift-Rechter-klik:������  ���Plak�produktie�in�oplichtende�steden\n"
+#~ "  Rechter-klik:                    Einde gebied-selectie modus\n"
+#~ "\n"
+#~ "  De steden die oplichten op de kaart zullen ook\n"
+#~ "voorgeselecteerd zijn in de Steden-dialoog."
+
+#~ msgid ""
+#~ "Dialogs and Reports:\n"
+#~ "====================\n"
+#~ "     F1: open City Report\n"
+#~ "     F2: open Unit Report\n"
+#~ "     F3: open Players dialog\n"
+#~ "     F5: open Economy Report\n"
+#~ "     F6: open Science Report\n"
+#~ "     F7: open World Wonders\n"
+#~ "     F8: open Top Five Cities\n"
+#~ "     F9: open Messages dialog\n"
+#~ "    F11: open Demographics\n"
+#~ "    F12: open Spaceship\n"
+#~ "\n"
+#~ "      T: open Tax/Lux/Sci Rates dialog\n"
+#~ "      F: open Find City dialog\n"
+#~ " Ctrl-L: open Worklists dialog\n"
+#~ "      R: open Revolution dialog\n"
+#~ "\n"
+#~ "Shift-Return: Turn done"
+#~ msgstr ""
+#~ "Vensters en Verslagenn:\n"
+#~ "====================\n"
+#~ "     F1: open Stadsverslag\n"
+#~ "     F2: open Eenhedenverslag\n"
+#~ "     F3: open Spelersvenster\n"
+#~ "     F5: open Economieverslagt\n"
+#~ "     F6: open Wetenschapsverslag\n"
+#~ "     F7: open Werelwonderen\n"
+#~ "     F8: open Top 5 steden\n"
+#~ "     F9: open Boodschappenvenster\n"
+#~ "    F11: open Demografie\n"
+#~ "    F12: open Ruimteschip\n"
+#~ "\n"
+#~ "      T: open Tax/Lux/Wet venster\n"
+#~ "      F: open Zoek Stad Venster\n"
+#~ " Ctrl-L: open Werklijstenvenster\n"
+#~ "      R: open Revolutievenster\n"
+#~ "\n"
+#~ "Shift-Return: Beurt gedaan"
+
+#~ msgid ""
+#~ "Gives one extra food resource on all Ocean squares.  The city needs to be "
+#~ "coastal to build this improvement."
+#~ msgstr ""
+#~ "Geeft ��n extra voeding op alle Oceaanvlakken. De stad moet aan de kust "
+#~ "liggen om deze verbetering te kunnen bouwen."
+
+#~ msgid ""
+#~ "Reduces the amount of pollution generated by production in a city by "
+#~ "50%.  It also increases the shield production of a Factory or Mfg. Plant "
+#~ "in the city: a Factory and a Hydro Plant together give a 75% production "
+#~ "bonus, and a Factory, Mfg. Plant and Hydro Plant together give a 150% "
+#~ "production bonus.\n"
+#~ "\n"
+#~ "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant.  A "
+#~ "city can only build a Hydro Plant if it is next to (or on) a Mountain or "
+#~ "River tile."
+#~ msgstr ""
+#~ "Vermindert de hoeveelheid verontreiniging die een stad maakt met 50%. Het "
+#~ "verhoogt ook de schild-productie van een Fabriek of Assemblagehal in de "
+#~ "stad: een Fabriek en een Waterkrachtcentrale samen geven een bonus van "
+#~ "75% en een Fabriek, Assemblage Hal en een Waterkrachtcentrale samen geven "
+#~ "een bonus van 150%.\n"
+#~ "\n"
+#~ "Een stad kan slechts ��n Waterkrachtcentrale of ��n "
+#~ "Electriciteitscentrale of ��n Kerncentrale bezitten. Een stad kan alleen "
+#~ "een Waterkrachtcentrale bouwen als het op of naast een Berg- of "
+#~ "Riviervlak ligt."
+
+#~ msgid ""
+#~ "Reduces the amount of pollution generated by production in a city by "
+#~ "50%.  It also increases the shield production of a Factory or Mfg. Plant "
+#~ "in the city: a Factory and a Nuclear Plant together give a 75% production "
+#~ "bonus, and a Factory, Mfg. Plant and Nuclear Plant together give a 150% "
+#~ "production bonus.\n"
+#~ "\n"
+#~ "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
+#~ msgstr ""
+#~ "Vermindert de hoeveelheid verontreiniging die een stad maakt met 50%. Het "
+#~ "verhoogt ook de schild-productie van een Fabriek of Assemblagehal in de "
+#~ "stad: een Fabriek en een Kerncentrale samen geven een bonus van 75% en "
+#~ "een Fabriek, Assemblagehal en een Kerncentrale samen geven een bonus van "
+#~ "150%.\n"
+#~ "\n"
+#~ "Een stad kan slechts ��n Waterkrachtcentrale of ��n "
+#~ "Electriciteitscentrale of ��n Kerncentrale bezitten."
+
+#~ msgid ""
+#~ "Adds 1 extra shield resource on all Ocean squares in a city.  The city "
+#~ "needs to be coastal to build this improvement."
+#~ msgstr ""
+#~ "Geeft ��n extra schild voor alle Oceaanvlakken in een stad. De stad moet "
+#~ "aan de kust liggen om deze verbetering te kunnen bouwen."
+
+#~ msgid ""
+#~ "Increases the shield production of a Factory or Mfg. Plant in a city: a "
+#~ "Factory and a Power Plant together give a 75% production bonus, and a "
+#~ "Factory, Mfg. Plant and Power Plant together give a 150% production "
+#~ "bonus.  The extra production may lead to the city generating more "
+#~ "pollution.\n"
+#~ "\n"
+#~ "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
+#~ msgstr ""
+#~ "Verhoogt de schild-productie van een Fabriek of Assemblagehal in de stad: "
+#~ "een Fabriek en een Electriciteitscentrale samen geven een bonus van 75% "
+#~ "en een Fabriek, Assemblagehal en een Electriciteitscentrale samen geven "
+#~ "een bonus van 150%.\n"
+#~ "\n"
+#~ "Een stad kan slechts ��n Waterkrachtcentrale of ��n "
+#~ "Electriciteitscentrale of ��n Kerncentrale bezitten."
+
+#~ msgid ""
+#~ "Gives all your sea units 1 additional movement point and eliminates the "
+#~ "risk of losing Triremes on the high seas.  Makes all your new sea units "
+#~ "veterans (for all your cities)."
+#~ msgstr ""
+#~ "Geeft al uw zee-eenheden 1 extra bewegingspunt en verwijdert het risico "
+#~ "van het verliezen van Triremen in de diepzee.  Maakt alle nieuwe zee-"
+#~ "eenheden veteraan (voor alle steden)."
+
+#~ msgid ""
+#~ "Eliminates all pollution generated by production in a city.  It also "
+#~ "increases the shield production of a Factory or Mfg. Plant in the city: a "
+#~ "Factory and a Solar Plant together give a 100% production bonus, and a "
+#~ "Factory, Mfg. Plant and Solar Plant together give a 150% production "
+#~ "bonus.\n"
+#~ "\n"
+#~ "A city can only have one Solar Plant, Hydro Plant, Power Plant, or "
+#~ "Nuclear Plant."
+#~ msgstr ""
+#~ "Vermindert de hoeveelheid verontreiniging die een stad maakt. Het "
+#~ "verhoogt ook de schild-productie van een Fabriek of Assemblagehal in de "
+#~ "stad: een Fabriek en een Zonnekrachtcentrale samen geven een bonus van "
+#~ "100% en een Fabriek, Assemblagehal en een Zonnekrachtcentrale samen geven "
+#~ "een bonus van 150%.\n"
+#~ "\n"
+#~ "Een stad kan slechts ��n Zonnekrachtcentrale of ��n Waterkrachtcentrale "
+#~ "of ��n Electriciteitscentrale of ��n Kerncentrale bezitten."
+
+#~ msgid ""
+#~ "Gives all sea units 1 additional movement point and eliminates the risk "
+#~ "of losing Triremes on the high seas.  Makes all new sea units veterans "
+#~ "(for all cities)."
+#~ msgstr ""
+#~ "Geeft alle zee-eenheden 1 extra bewegingspunt en verwijdert het risico "
+#~ "van het verliezen van Triremen in de diepzee.  Maakt alle nieuwe zee-"
+#~ "eenheden veteraan (voor alle steden)."
+
+#~ msgid ""
+#~ "Fundamentalism is a form of government organized around a central set of "
+#~ "beliefs. The beliefs, usually religious in nature, form a rigid guideline "
+#~ "for actions and reactions of both the rulers and the people.\n"
+#~ "\n"
+#~ "In a fundamentalist society, the people and the rulers are entirely "
+#~ "devoted to their beliefs, and are usually willing to die to preserve "
+#~ "them.\n"
+#~ "\n"
+#~ "Improvement that normally convert unhappy citizens to content citizens, "
+#~ "produces `tithes' (gold) equivalent to the number of people they would "
+#~ "convert, and require no maintenance."
+#~ msgstr ""
+#~ "Fundamentalisme is een bestuursvorm die georganiseerd is rond een "
+#~ "centraal geloof. Het geloof, meestal religieus van aard, vormt een starre "
+#~ "richtlijn voor acties en reacties van zowel de bestuurders als het volk.\n"
+#~ "\n"
+#~ "In een fundamentalistische samenleving zullen de mensen en haar "
+#~ "bestuurders volledig toegewijd zijn aan hun geloof en zullen doorgaans "
+#~ "bereid zijn te sterven om dat in stand te houden.\n"
+#~ "\n"
+#~ "Verbeteringen die normaal ontevreden stedelingen tevreden zouden maken "
+#~ "produceren 'tienden' (goud) gelijk aan het aantal stedelingen dat zij "
+#~ "zouden be�nvloeden en vergen geen onderhoud."
+
+#~ msgid "Petroleum"
+#~ msgstr "Petroleum"
+
+#~ msgid ""
+#~ "This unit may be built from the start of the game.  It is the weakest "
+#~ "unit."
+#~ msgstr ""
+#~ "Deze eenheid mag vanaf het begin van het spel gebouwd worden. Het is de "
+#~ "zwakste eenheid."
+
+#~ msgid ""
+#~ "A number of Partisans are granted free when an enemy conquers your city, "
+#~ "but only under these conditions:\n"
+#~ "\n"
+#~ " - Guerilla Warfare must be known by at least 1 player.\n"
+#~ "\n"
+#~ " - You must be the player who originally built the city.\n"
+#~ "\n"
+#~ " - You must know about Communism and Gunpowder.\n"
+#~ "\n"
+#~ " - You must run either a Democracy or a Communist government."
+#~ msgstr ""
+#~ "Een aantal Partisanen worden gratis toegewezen wanneer een vijand uw stad "
+#~ "verovert, maar uitsluitend onder deze voorwaarden:\n"
+#~ "\n"
+#~ " - Guerilla Oorlogvoering moet bekend zijn bij tenminste ��n speler.\n"
+#~ "\n"
+#~ " - U moet de speler zijn die de stad oorspronkelijk heeft gebouwd.\n"
+#~ "\n"
+#~ " - U moet van Communisme en Kruit weten.\n"
+#~ "\n"
+#~ " - U moet een Communistisch of Democratisch bewind voeren."
+
+#~ msgid ""
+#~ "TIP:  A very fast unit, which is very useful for hunting down enemy "
+#~ "Transports."
+#~ msgstr ""
+#~ "TIP:  Een erg snelle eenheid, die zeer bruikbaar is voor het jagen op "
+#~ "vijandelijke Vrachtschepen."
+
+#~ msgid ""
+#~ "Submarines have a very high strategic value, but have a weak defence."
+#~ msgstr ""
+#~ "Onderzee�rs hebben een zeer hoge strategische waarde, maar hebben een "
+#~ "zwakke verdediging."
+
+#~ msgid ""
+#~ "TIP:  Guard Carriers with a handful of fast-moving ships and a "
+#~ "battleship, as losing a fully-equipped Carrier is VERY painful and "
+#~ "expensive."
+#~ msgstr ""
+#~ "TIP:  Bewaak Vliegkampschepen met een handvol snel-varende schepen en een "
+#~ "Slagschip, want het verliezen van een volledig uitgerust Vliegkampschip "
+#~ "is ERG pijnlijk en kostbaar."
+
+#~ msgid ""
+#~ "TIP:  A handful of these can successfully keep the waters around your "
+#~ "treasured homeland free of enemy ships."
+#~ msgstr ""
+#~ "TIP: Een handvol van deze kunnen met succes de wateren rond uw "
+#~ "gekoesterde vaderland vrij van vijandelijke schepen houden."
+
+#~ msgid ""
+#~ "Every Caravan that is used to build a wonder will add 50 shields towards "
+#~ "the production of the wonder.\n"
+#~ "\n"
+#~ "TIP:  You can stockpile a stack of Caravans in advance and bring them all "
+#~ "into a city where you have started to build a wonder, and finish it in "
+#~ "only one turn!"
+#~ msgstr ""
+#~ "Elke Karavaan die gebruikt wordt om een wonder te bouwen zal 50 schilden "
+#~ "bijdragen aan de productie van het wonder.\n"
+#~ "\n"
+#~ "TIP:  U kunt van tevoren een voorraadje Karavanen opbouwen en ze allemaal "
+#~ "tegelijk naar de stad brengen waar u met het wonder bent begonnen om het "
+#~ "gehele bouwwerk in een enkele beurt te voltooien!"
+
+#~ msgid "Explorers are very useful for mapping unknown territory."
+#~ msgstr ""
+#~ "Verkenners zijn zeer bruikbaar voor het in kaart brengen van onbekend "
+#~ "gebied."
+
+#~ msgid ""
+#~ "When barbarian leader is killed on a tile without any defending units, "
+#~ "the 100 gold ransom is paid, but only to land units and helicopters."
+#~ msgstr ""
+#~ "Waneer een barbarenleider wordt gedood op een vlak zonder verdedigende "
+#~ "eenheden, dan wordt het losgeld van 100 goud betaald, maar alleen aan "
+#~ "landeenheden en helicopters."
+
+#~ msgid ""
+#~ "Fundamentalist nations can maintain Fanatic units without having to pay "
+#~ "any shields for upkeep."
+#~ msgstr ""
+#~ "Fundamentalistische naties kunnen Fanatici onderhouden zonder hiervoor te "
+#~ "hoeven betalen in de vorm van productieverlies."
+
+#~ msgid ""
+#~ "When barbarian leader is killed on a tile without any defending units, "
+#~ "the 100 gold ransom is paid, but only to land units."
+#~ msgstr ""
+#~ "Waneer een barbarenleider wordt gedood op een vlak zonder verdedigende "
+#~ "eenheden, dan wordt het losgeld van 100 goud betaald, maar alleen aan "
+#~ "landeenheden."
+
+#~ msgid ""
+#~ "Australia was founded as a British penal colony in 1788AD. It is the only "
+#~ "country on earth to occupy an entire continent."
+#~ msgstr ""
+#~ "Australi� werd gevestigd als een Britse strafkolonie in 1788 AD. Het is "
+#~ "het enige land op aarde dat een volledig continent beslaat."
+
+#~ msgid "Bosnia & Herzegovina"
+#~ msgstr "Bosni� & Herzegovina"
+
+#~ msgid ""
+#~ "Brazil was founded as a colony of Portugal but became independent in "
+#~ "1822AD. It is the only country in the New World that has been the seat of "
+#~ "a monarchy."
+#~ msgstr ""
+#~ "Brazili� is gevestigd als een kolonie van Portugal, maar werd "
+#~ "onafhankelijk in 1822 AD. Het is het enige land in de Nieuwe Wereld dat "
+#~ "ooit een monarchie was."
+
+#~ msgid ""
+#~ "At the time of the decline of the old Roman empire, the Emperor "
+#~ "Constantine moved the empire's capital to Byzantium and formed a new "
+#~ "empire mostly known as the Eastern Roman empire or the Byzantine empire. "
+#~ "This empire lasted until 1453 when its capital fell to the Ottomans. At "
+#~ "the time of Justinian I, the Byzanines controlled nearly all of Middle "
+#~ "East, nothern Africa, Italy and parts of Spain."
+#~ msgstr ""
+#~ "Ten tijde van de achteruitgang van het oude Romeinse Rijk, verplaatste "
+#~ "keizer Constantijn de hoofdstad naar Byzantium en vormde hij een nieuw "
+#~ "rijk: het Oost-Romeinse of Byzantijnse Rijk. Dit overleefde tot 1453 "
+#~ "wanneer de hoofdstad onder de Ottomanen viel. Tijdens de heerschappij van "
+#~ "Justinianus I beheerste het rijk bijna heel het Midden-Oosten, Noord-"
+#~ "Afrika, Itali� en delen van Spanje."
+
+#~ msgid ""
+#~ "Catalunya (aka Catalonia in English) is the north-eastern-most coastal "
+#~ "region of Spain near the southern foot of the Pyrenees."
+#~ msgstr ""
+#~ "Cataloni� is het meest noordoostelijke kustgebid van Spanje aan de "
+#~ "zuidkant van de Pyrenee�n."
+
+#~ msgid ""
+#~ "Colombia is a country in northern South America. The region was an "
+#~ "Amerindian cultural center in pre-European time. The Spanish began "
+#~ "settling Colombia's north coast around 1500. In 1819 the The Republic of "
+#~ "Colombia gained independence."
+#~ msgstr ""
+#~ "Colombia is een land in noordelijk Zuid-Amerika. De regia was een "
+#~ "Amerindisch cultuurcentrum in de pre-Europese tijd. De Spanjaarde "
+#~ "begonnen isch op de noordelijke kust te vestigen rond 1500. In 1819 werd "
+#~ "de Republiek van Colombia onafhankelijk."
+
+#~ msgid "Emporer"
+#~ msgstr "Keizer"
+
+#~ msgid ""
+#~ "France has long been a major power in Europe. French conquerer kings like "
+#~ "Napoleon and Charlemagne each united large parts of Europe under the "
+#~ "French flag."
+#~ msgstr ""
+#~ "Frankrijk is lang een grootmacht in Europa geweest. Franse veroveraars "
+#~ "zoals Napoleon en Karel de Grote verzamelden elk grote delen van Europa "
+#~ "onder de Franse/Frankische vlag."
+
+#~ msgid ""
+#~ "The Gauls were a Celtic people occupying what is now France and Belgium."
+#~ msgstr ""
+#~ "De Galli�rs waren een Keltisch volk in wat nu Frankrijk en Belgi� zijn."
+
+#~ msgid ""
+#~ "The Inca were an Amerind people of the Northern Andes who conquered an "
+#~ "empire stretching along the west coast of South America from what is now "
+#~ "southern Chile nearly to the Equator. They had the bad timing to do it "
+#~ "just a few decades before the Spanish conquistadors arrived in their part "
+#~ "of the world in the mid-1500s AD."
+#~ msgstr ""
+#~ "De Incas waren een Amerind-volk uit de Noord-Andes die een imperium "
+#~ "veroverden dat strekte langs de westkust van Zuid-Amerika van wat nu Zuid-"
+#~ "Chili is tot vlakbij de evenaar. Ze hadden de slechte timing om dit "
+#~ "slechts enige tientallen jaren te doen voordat de Spaanse conquistadores "
+#~ "arriveerden in hun gedeelte van de wereld in het midden van de jaren 1500 "
+#~ "AD."
+
+#~ msgid "?title:Inca"
+#~ msgstr "?attitude:Inca"
+
+#~ msgid "Sapa Inca"
+#~ msgstr "Sapa Inca"
+
+#, fuzzy
+#~ msgid ""
+#~ "The Inuit people inhabits northern Canada and Greenland. Legend says that "
+#~ "the Great Shaman Qitdlarssuaq lead his people to Thule (Qaanaaq) on the "
+#~ "west coast of Greenland in the 10th century. All Inuit of today are "
+#~ "descendents of the Thule culture."
+#~ msgstr ""
+#~ "De Inuit of Eskimo's bewonen noordelijk Canada en Groenland. In de "
+#~ "legende leidde de Grote Shaman Qitdlarssuaq zijn volk naar Thule (:"
+#~ "Qaanaaq) en de westkust van Groendland in de 10de eeuw. Alle Inuit "
+#~ "vandaag zijn afstammelingen van die Thule cultuur."
+
+#~ msgid "Kampuchean"
+#~ msgstr "Kampucheisch"
+
+#~ msgid "?plural:Kampucheans"
+#~ msgstr "?plural:Kampucheanen"
+
+#~ msgid ""
+#~ "Kampuchea is the modern successor state of the mighty Khmer Empire, which "
+#~ "ruled most of the Indochinese Peninsula between the 11th and 14th "
+#~ "centuries."
+#~ msgstr ""
+#~ "Kompuchea is de moderne opvolger van wat het rijk van de Khmer was, die "
+#~ "over het grootste deel van het Indochinese schiereiland heersten tussen "
+#~ "de 11de en de 14de eeuw."
+
+#~ msgid ""
+#~ "According to legend, the first Korean kingdom was founded in prehistory "
+#~ "by the ancestral Tangun in southern Manchuria. The Korean kingdoms was "
+#~ "united in 668 by king Munmu. Today the Korean peninsula is divided into "
+#~ "two states, North and South Korea as a result of the stalemate after the "
+#~ "Korean war in 1953."
+#~ msgstr ""
+#~ "Het eerste Koreaanse koninkrijk werd volgens de legende gevormd in de "
+#~ "prehistorie door Tangun in zuidelijk Manchuri�. Koning Munmu verenigde de "
+#~ "verschillende koninkrijen in 668. Vandaag is het schiereilend opgedeeld "
+#~ "in twee landen: Noord- en Zuid-Korea. Dit als geval van de patstelling na "
+#~ "de Koreaanse oorlog in 1953."
+
+#~ msgid ""
+#~ "Sub-Saharan Africa has been a cultural and ethnical melting pot for "
+#~ "millennia. In medieval times, the region was home to a succession of "
+#~ "empires called the Sahelian kingdoms. Of these, the Islamic Mali empire "
+#~ "with it's capital in Timbuktu was the most influential. This empire "
+#~ "reigned from the 14th to the 17th century and was famed for it's wealth "
+#~ "and benevolent kings. The modern Republic of Mali derives its name from "
+#~ "this empire."
+#~ msgstr ""
+#~ "Sub-Sahara Afrika is al millenia lang een culturele en etnische smeltpot. "
+#~ "In de middeleeuwen was er een opeenvolging van rijken bekend als de "
+#~ "koninkrijken van de Sahel. Van deze was het Islamitische Mali rijk met de "
+#~ "hoofdstad in Timbuktu het meest invloedrijk. Deze macht heerste van de "
+#~ "14de tot de 17de eeuw en was beroemd voor haar rijkdom en welwillende "
+#~ "koningen. De moderne republiek Mali heeft haar naar hieraan ontleed."
+
+#~ msgid ""
+#~ "In the beginning of the 14th century Osman, a leader of a minor Turkic "
+#~ "tribe in western Anatolia, conquered all his neigboring tribes. A century "
+#~ "later the Byzantine capital fell to Turkic rule which gave the Ottoman "
+#~ "empire access to Europe. The Ottomans subsequently conquered large parts "
+#~ "of south-eastern Europe, the Islamic Arab world as well as Egypt and much "
+#~ "of north Africa, making it a regional superpower until its dissolution in "
+#~ "the aftermath of WWI."
+#~ msgstr ""
+#~ "In het begin van de 14de eeuw verorverde Osman, de leider van een kleine "
+#~ "Turkse stam in het westen van Anatoli� al de omliggende stammen. Een eeuw "
+#~ "later viel de hoofdstad van het Byzantijnse rijk onder Turkse "
+#~ "heerschappij en kreeg het Ottomaanse rijk zo toegang to Europa. De "
+#~ "Ottomanen veroverden grote delen van zuid-oost-Europa, de Islamistische "
+#~ "Arabische wereld, en Egypte en Noord-Afrika. Zo was het een grootmacht in "
+#~ "de regio tot de ontbinding na WO1."
+
+#~ msgid ""
+#~ "Phoenicia was an ancient civilization, based in what is now the coastal "
+#~ "regions of Lebanon and Syria."
+#~ msgstr ""
+#~ "Phoenici� was een oude beschaving in wat nu de kust van Libanon en Syri� "
+#~ "is."
+
+#~ msgid ""
+#~ "Romania as a nation was formed at the beginning of the 20th century, when "
+#~ "the states of Transylvania, Wallachia, and Moldavia merged. It is a "
+#~ "country inhabited by people speaking a language reminiscent from the time "
+#~ "of ancient Rome. It's history is convoluted as it was always at the "
+#~ "borders of great empires: Roman, Ottoman, Austro-Hungarian, and Russian."
+#~ msgstr ""
+#~ "Roemeni� werd als een natie gevormd in het begin van de 20ste eeuw toen "
+#~ "Transylvani�, Wallachi� en Moldavi� samensmolten. Het is een land met "
+#~ "bewoners die een taal spreken die doet denken aan de tijd van het oude "
+#~ "Rome. De geschiedenis is ingewikkeld omdat het altijd aan de grenzen van "
+#~ "grote imperia lag: het Romeinse, het Ottomaanse, het Oostenrijk-"
+#~ "Hongaarse, en het Russische."
+
+#~ msgid "Presedinte"
+#~ msgstr "Presedinte"
+
+#, fuzzy
+#~ msgid ""
+#~ "The Sami are a people of northern Scandinavia. Their nation spans over "
+#~ "the northernmost regions of the Scandinavian countries: Finnmark of "
+#~ "Norway and Lapland of Sweden and Finland."
+#~ msgstr ""
+#~ "De Sami of Lappen zijn een volk uit noordelijk Scandinavi�. Hun natie "
+#~ "beslaat de meest noordelijke gebieden: Finnmark in Noorwegen , en Lapland "
+#~ "in Zweden en Finland."
+
+#~ msgid "Elected King"
+#~ msgstr "Verkozen Koning"
+
+#~ msgid "Elected Queen"
+#~ msgstr "Verkozen Koningin"
+
+#, fuzzy
+#~ msgid "Elected Priest"
+#~ msgstr "Verkozen�Priester"
+
+#~ msgid "Elected Priestess"
+#~ msgstr "Verkozen Priesteres"
+
+#~ msgid ""
+#~ "Texas is second largest and second most populous state of the USA, famous "
+#~ "for it's \"larger than life\" cowboy mentality."
+#~ msgstr ""
+#~ "Texas is de tweede grootste en tweede meest bevolkte staat in de USA, en "
+#~ "beroemd voor de 'larger than life' cowboy mentaliteit."
+
+#~ msgid "Turk"
+#~ msgstr "Turkse"
+
+#~ msgid "Venezuela"
+#~ msgstr "Venezuela"
+
+#~ msgid ""
+#~ "Westphalia, before becoming a Prussian province, was the western region "
+#~ "the duchy of Saxony. Present-day it consists of the Northern part of the "
+#~ "largest German federal state, North Rhine-Westphalia."
+#~ msgstr ""
+#~ "Westphalen, was het westelijk deel van Saksen voor het een provincie van "
+#~ "Pruisen werd. Nu is het het noordelijk deel van de grootste staat in het "
+#~ "federale Duitsland, Nordrhein Westphalen"
+
+#~ msgid "Units: "
+#~ msgstr "Eenheden: "
+
+#~ msgid ""
+#~ "* Military units away from home and field units will cause one citizen to "
+#~ "become unhappy.\n"
+#~ msgstr ""
+#~ "* Militaire eenheden in het veld zullen 1 ontevreden bewoner "
+#~ "veroorzaken.\n"
+
+#~ msgid ""
+#~ "* Your units may impose martial law. Each military unit inside a city "
+#~ "will force an unhappy citizen to become content.\n"
+#~ msgstr ""
+#~ "* U mag krijgswet toepassen.  Elke militaire eenheid in een stad zal een "
+#~ "ontevreden burgers dwingen tevreden te zijn.\n"
+
+#~ msgid ""
+#~ "%s%s  -  %s%s\n"
+#~ "\n"
+#~ msgstr ""
+#~ "%s%s      %s%s\n"
+#~ "\n"
+
+#, fuzzy
 #~ msgid "%s"
 #~ msgstr "Spel: %s"
 
+#~ msgid ", "
+#~ msgstr ", "
+
 #~ msgid "Your %s succeeded in bribing %s's %s and became more experienced."
 #~ msgstr "Uw %s heeft %s's %s met succes omgekocht en kreeg meer ervaring."
-
-#~ msgid ""
-#~ "Eliminated %s %s while infiltrating %s. The defender became more "
-#~ "experienced."
-#~ msgstr ""
-#~ "Elimineerde %s %s tijdens het infiltreren van %s. De verdediger kreeg "
-#~ "meer ervaring."
-
-#~ msgid ""
-#~ "Eliminated %s %s while infiltrating our troops. The defender became more "
-#~ "experienced."
-#~ msgstr ""
-#~ "Elimineerde %s %s tijdens het infiltreren van onze troepen. De verdediger "
-#~ "kreeg meer ervaring."
 
 #~ msgid ""
 #~ "Your %s has successfully completed her mission and returned unharmed to %"
@@ -27901,21 +29111,6 @@ msgstr "Team 31"
 #~ msgstr ""
 #~ "Uw %s heeft haar missie met succes afgerond en keert ongedeerd terug naar "
 #~ "%s en heeft ervaring opgedaan."
-
-#~ msgid "Reason: line not found"
-#~ msgstr "Reden: regel niet gevonden"
-
-#~ msgid "Reason: line too short (expected %d got %lu"
-#~ msgstr "Reden: regel te kort (verwachtte %d kreeg %lu"
-
-#~ msgid "Ruleset directory name \"%s\" disallowed for security reasons."
-#~ msgstr "Spelregelfoldernaam \"%s\" verboden voor veiligheidsredenen."
-
-#~ msgid ", nation %s"
-#~ msgstr ", natie %s"
-
-#~ msgid ", team %s"
-#~ msgstr ", team %s"
 
 #~ msgid "Your bombarding %s%s became more experienced!"
 #~ msgstr "Uw bombarderende %s%s werd meer ervaren!"
@@ -27939,33 +29134,96 @@ msgstr "Team 31"
 #~ msgstr " bij %s"
 
 #~ msgid ""
-#~ "Your attacking %s succeeded against %s's %s%s and became more experienced!"
-#~ msgstr ""
-#~ "Uw aanvallende %s waren succesvol tegen %s's %s%s en werden meer ervaren!"
-
-#, fuzzy
-#~ msgid ""
 #~ "Your attacking %s succeeded against %s's %s (and %d other unit)%s and "
 #~ "became more experienced!"
 #~ msgid_plural ""
 #~ "Your attacking %s succeeded against %s's %s (and %d other units)%s and "
 #~ "became more experienced!"
 #~ msgstr[0] ""
-#~ "Uw aanvallende %s waren succesvol tegen %s's %s%s en werden meer ervaren!"
+#~ "Uw aanvallende %s waren succesvol tegen %s's %s(en %d andere eenheid)%s "
+#~ "en werden meer ervaren!"
 #~ msgstr[1] ""
-#~ "Uw aanvallende %s waren succesvol tegen %s's %s%s en werden meer ervaren!"
+#~ "Uw aanvallende %s waren succesvol tegen %s's %s(en %d andere eenheden)%s "
+#~ "en werden meer ervaren!"
 
 #~ msgid "%s lost to an attack from %s's %s."
 #~ msgstr "%s verloren onder een aanval van %s's %s."
 
-#~ msgid "Plugin %s found but can't be initialized."
-#~ msgstr "Plugin %s gevonden, maar kan niet ge�nitialiseerd worden."
+#~ msgid " Choose Your Diplomat's Strategy"
+#~ msgstr " Kies Uw Diplomaats Strategie"
+
+#~ msgid ""
+#~ "Eliminated %s %s while infiltrating %s. The defender became more "
+#~ "experienced."
+#~ msgstr ""
+#~ "Elimineerde %s %s tijdens het infiltreren van %s. De verdediger kreeg "
+#~ "meer ervaring."
+
+#~ msgid ""
+#~ "Eliminated %s %s while infiltrating our troops. The defender became more "
+#~ "experienced."
+#~ msgstr ""
+#~ "Elimineerde %s %s tijdens het infiltreren van onze troepen. De verdediger "
+#~ "kreeg meer ervaring."
+
+#, fuzzy
+#~ msgid ""
+#~ "Your client is too old. To use this server, please upgrade your client to "
+#~ "a Freeciv 2.1 or later."
+#~ msgstr ""
+#~ "Uw client is te oud. Waardeer uw client op tot CVS versie 2003-11-28 of "
+#~ "later of Freeciv 2.1 of later om deze server te gebruiken."
+
+#~ msgid "Ruleset directory name \"%s\" disallowed for security reasons."
+#~ msgstr "Spelregelfoldernaam \"%s\" verboden voor veiligheidsredenen."
+
+#~ msgid ", nation %s"
+#~ msgstr ", natie %s"
+
+#~ msgid ", team %s"
+#~ msgstr ", team %s"
+
+#~ msgid "_Map"
+#~ msgstr "Kaart (_M)"
+
+#~ msgid "Create _player"
+#~ msgstr "Maak Speler"
+
+#~ msgid "_Release player"
+#~ msgstr "Laat spele_r los"
+
+#~ msgid "Gover_nment"
+#~ msgstr "Overheid (_n)"
+
+#~ msgid "_Players"
+#~ msgstr "_Spelers"
+
+#~ msgid "_Science"
+#~ msgstr "Weten_schap"
+
+#~ msgid "S_paceship"
+#~ msgstr "Ruimteschi_p"
+
+#~ msgid "Game _Options..."
+#~ msgstr "Spel _Opties"
+
+#~ msgid "Clear _Log"
+#~ msgstr "Maak _Log Leeg"
+
+#~ msgid "Work_lists"
+#~ msgstr "Werk_lijsten"
+
+#~ msgid "Science Report"
+#~ msgstr "Wetenschappelijk Rapport"
+
+#~ msgid "Reason: line not found"
+#~ msgstr "Reden: regel niet gevonden"
+
+#~ msgid "Reason: line too short (expected %d got %lu"
+#~ msgstr "Reden: regel te kort (verwachtte %d kreeg %lu"
 
 #~ msgid "Plugin '%s' is now selected"
 #~ msgstr "Plugin '%s' is nu gekozen"
-
-#~ msgid "Couldn't find soundset \"%s\" trying \"%s\"."
-#~ msgstr "Kon geluidenverzameling \"%s\" niet vinden, probeer \"%s\"."
 
 #~ msgid "No real audio plugin present, proceeding with sound support disabled"
 #~ msgstr ""
@@ -27973,12 +29231,6 @@ msgstr "Team 31"
 
 #~ msgid "http://www.libsdl.org/projects/SDL_mixer/index.html"
 #~ msgstr "http://www.libsdl.org/projects/SDL_mixer/index.html"
-
-#~ msgid "No sound spec-file given!"
-#~ msgstr "Geen audio spec-bestand opgegeven!"
-
-#~ msgid "Cannot find sound spec-file \"%s\"."
-#~ msgstr "Kon audio spec-bestand \"%s\" niet vinden."
 
 #~ msgid "Will continue with disabled sounds."
 #~ msgstr "Zal doorgaan met geluiden uitgeschakeld."
@@ -27999,115 +29251,8 @@ msgstr "Team 31"
 #~ msgstr ""
 #~ "audio specbestand claimt vereiste optie(s) die we niet ondersteunen:"
 
-#~ msgid "Cannot find audio file %s"
-#~ msgstr "Kan audiobestand %s niet vinden"
-
-#~ msgid "%s (XX) %d/turn"
-#~ msgstr "%s (XX) %d/beurt"
-
-#~ msgid "%s (%d) %d turn"
-#~ msgid_plural "%s (%d) %d turns"
-#~ msgstr[0] "%s (%d) %d beurt"
-#~ msgstr[1] "%s (%d) %d beurten"
-
-#~ msgid ""
-#~ "* Military units away from home and field units will cause one citizen to "
-#~ "become unhappy.\n"
-#~ msgstr ""
-#~ "* Militaire eenheden in het veld zullen 1 ontevreden bewoner "
-#~ "veroorzaken.\n"
-
-#~ msgid "* Chance of civil war is %d%% if you lose your capital.\n"
-#~ msgstr "De kans op burgeroorlog is %d%% als u uw hoofdstad kwijtraakt.\n"
-
-#~ msgid ""
-#~ "* Your units may impose martial law. Each military unit inside a city "
-#~ "will force an unhappy citizen to become content.\n"
-#~ msgstr ""
-#~ "* U mag krijgswet toepassen.  Elke militaire eenheid in een stad zal een "
-#~ "ontevreden burgers dwingen tevreden te zijn.\n"
-
-#~ msgid "Territory of the %s"
-#~ msgstr "Territorium van de %s"
-
-#~ msgid "Territory of the %s %s"
-#~ msgstr "Territorium van de %s %s"
-
-#~ msgid ", "
-#~ msgstr ", "
-
-#~ msgid "."
-#~ msgstr ". "
-
-#~ msgid " Choose Your Diplomat's Strategy"
-#~ msgstr " Kies Uw Diplomaats Strategie"
-
-#~ msgid "Pro_duction"
-#~ msgstr "Pro_ductie"
-
-#~ msgid "S_how"
-#~ msgstr "_Toon..."
-
-#~ msgid "_Popup"
-#~ msgstr "_Popup"
-
-#~ msgid "_Goto location"
-#~ msgstr "_Ga naar locatie"
-
-#~ msgid "_Popup City"
-#~ msgstr "_Popup Stad"
-
-#~ msgid "L_egend"
-#~ msgstr "L_egenda"
-
-#~ msgid "_Map"
-#~ msgstr "Kaart (_M)"
-
-#~ msgid "Create _player"
-#~ msgstr "Maak Speler"
-
-#~ msgid "_Release player"
-#~ msgstr "Laat spele_r los"
-
-#~ msgid "Units: "
-#~ msgstr "Eenheden: "
-
-#~ msgid "Gover_nment"
-#~ msgstr "Overheid (_n)"
-
-#~ msgid "_Change Government"
-#~ msgstr "Re_geringswissel (_C)"
-
-#~ msgid "_Players"
-#~ msgstr "_Spelers"
-
-#~ msgid "_Science"
-#~ msgstr "Weten_schap"
-
-#~ msgid "S_paceship"
-#~ msgstr "Ruimteschi_p"
-
-#~ msgid "_Editing Mode"
-#~ msgstr "_Wijzig modus"
-
-#~ msgid "_Tools"
-#~ msgstr "_Tools"
-
-#~ msgid "_Cancel Treaty"
-#~ msgstr "_Verbreek Verdrag"
-
-#~ msgid "Game _Options..."
-#~ msgstr "Spel _Opties"
-
-#~ msgid "U"
-#~ msgstr "E"
-
-#~ msgid ""
-#~ "\n"
-#~ "finshed"
-#~ msgstr ""
-#~ "\n"
-#~ "gereed"
+#~ msgid "Goto _location"
+#~ msgstr "Ga naar _locatie"
 
 #~ msgid "Error in create_string16: Aborting ..."
 #~ msgstr "Fout in create_string16: Afbreken..."
@@ -28139,23 +29284,10 @@ msgstr "Team 31"
 #~ msgid "Error in unload_font: Trying unload from empty Font ARRAY"
 #~ msgstr "Fout in unload_font: Probeer unload van lege Font ARRAY"
 
-#, fuzzy
 #~ msgid ""
-#~ "Error in unload_font: Trying unload Font which is not included in Font "
+#~ "Error in unload_font: Trying unload Font which is not include in Font "
 #~ "ARRAY"
 #~ msgstr "Fout in unload_font: Probeer unload Font die niet in Font ARRAY zit"
-
-#~ msgid "Clear _Log"
-#~ msgstr "Maak _Log Leeg"
-
-#~ msgid "Gov_ernment"
-#~ msgstr "Ov_erheid"
-
-#~ msgid "Work_lists"
-#~ msgstr "Werk_lijsten"
-
-#~ msgid "Science Report"
-#~ msgstr "Wetenschappelijk Rapport"
 
 #~ msgid ""
 #~ "When built, every civilization's attitude toward you is improved by 25%."
@@ -28163,24 +29295,40 @@ msgstr "Team 31"
 #~ "Wanneer deze wordt gebouwt, dan verbetert de houding van elke beschaving "
 #~ "ten opzichte van u met 25%."
 
-#~ msgid "Petroleum"
-#~ msgstr "Petroleum"
-
 #~ msgid ""
-#~ "Brazil was founded as a colony of Portugal but became independent in "
-#~ "1822AD. It is the only country in the New World that has been the seat of "
-#~ "a monarchy."
+#~ "- A Diplomat can establish embassies with other civilizations by moving "
+#~ "into another player's city.\n"
+#~ "\n"
+#~ "- Diplomats can also try to sabotage enemy production, or steal an "
+#~ "advance from an enemy city.  (An advance can only be stolen once per "
+#~ "city).\n"
+#~ "\n"
+#~ "- A Diplomat can also bribe an enemy unit, if that unit is the only unit "
+#~ "on its square.\n"
+#~ "\n"
+#~ "- Diplomats can even start a revolution in an enemy city and turn it into "
+#~ "your own, if you have the money!\n"
+#~ "\n"
+#~ "- In some game strategies, hordes of Diplomats can be used to wreak havoc "
+#~ "on the enemy.  Little wonder that Diplomats are often viewed with "
+#~ "suspicion and fear!"
 #~ msgstr ""
-#~ "Brazili� is gevestigd als een kolonie van Portugal, maar werd "
-#~ "onafhankelijk in 1822 AD. Het is het enige land in de Nieuwe Wereld dat "
-#~ "ooit een monarchie was."
-
-#~ msgid ""
-#~ "Catalunya (aka Catalonia in English) is the north-eastern-most coastal "
-#~ "region of Spain near the southern foot of the Pyrenees."
-#~ msgstr ""
-#~ "Cataloni� is het meest noordoostelijke kustgebid van Spanje aan de "
-#~ "zuidkant van de Pyrenee�n."
+#~ "- Een Diplomaat kan een ambassade in een andere beschaving vestigen door "
+#~ "in een stad van een tegenspeler te gaan.\n"
+#~ "\n"
+#~ "- Diplomaten kunnen ook proberen de vijandelijke productie te saboteren, "
+#~ "of een vooruitgang te stelen van een stad. (Een vooruitgang kan maar "
+#~ "eenmaal per stad worden gestolen).\n"
+#~ "\n"
+#~ "- Diplomaten kunnen ook een vijandelijke eenheid overhalen over te lopen "
+#~ "indien die eenheid de enige is op zijn vlak.\n"
+#~ "\n"
+#~ "- Diplomaten kunnen zelfs een revolutie starten in een vijandelijke stad "
+#~ "en deze omzetten in uw eigen stad, als u genoeg geld hebt!\n"
+#~ "\n"
+#~ "- In sommige spelstrategie�n kunnen hordes Diplomaten worden gebruikt om "
+#~ "de vijand in wanhoop te brengen. Geen wonder dat Diplomaten vaak met "
+#~ "argwaan en angst worden bekeken!"
 
 #~ msgid "Team 32"
 #~ msgstr "Team 32"
@@ -28582,15 +29730,18 @@ msgstr "Team 31"
 #~ "%s\n"
 #~ "(geen onderzoek)"
 
-#, fuzzy
 #~ msgid ""
 #~ "%s\n"
 #~ "(%d turn/advance)"
 #~ msgid_plural ""
 #~ "%s\n"
 #~ "(%d turns/advance)"
-#~ msgstr[0] "Voortgang: %d beurt/vooruitgang"
-#~ msgstr[1] "Voortgang: %d beurten/vooruitgang"
+#~ msgstr[0] ""
+#~ "%s\n"
+#~ "(%d beurt/vooruitgang)"
+#~ msgstr[1] ""
+#~ "%s\n"
+#~ "(%d beurten/vooruitgang)"
 
 #~ msgid "_Goal"
 #~ msgstr "_Doel"
@@ -28643,6 +29794,9 @@ msgstr "Team 31"
 
 #~ msgid "_New"
 #~ msgstr "_Nieuw"
+
+#~ msgid "_Remove"
+#~ msgstr "_Verwijderd"
 
 #~ msgid "Freeciv - Edit Worklist"
 #~ msgstr "Freeciv - Wijzig werklijst"
@@ -28702,14 +29856,18 @@ msgstr "Team 31"
 #~ msgid "Exit Report"
 #~ msgstr "Eindrapport"
 
-#~ msgid "Modern"
-#~ msgstr "Modern"
+#~ msgid ""
+#~ "\n"
+#~ "finshed"
+#~ msgstr ""
+#~ "\n"
+#~ "gereed"
 
-#~ msgid "African"
-#~ msgstr "Afrikaans"
+#~ msgid "tech \"%s\": requires itself"
+#~ msgstr "tehh \"%s\": vereist zichzelf"
 
-#~ msgid "Fictional"
-#~ msgstr "Fictief"
+#~ msgid "%s's %s tried to build %s, which is not available."
+#~ msgstr "%s's %s probeerde %s te bouwen, wat niet beschikbaar is."
 
 #~ msgid ""
 #~ "Your %s was executed in %s on suspicion of spying.  The %s welcome future "
@@ -28725,111 +29883,6 @@ msgstr "Team 31"
 #~ msgstr ""
 #~ "U hebt een door de %2$s gestuurde %1$s ter dood veroordeeld bij het "
 #~ "vestigen van een ambassade in %3$s vanwege onbetrouwbaarheid"
-
-#~ msgid "City: Celebrating"
-#~ msgstr "Stad: Festiviteiten"
-
-#~ msgid "City: Growth"
-#~ msgstr "Stad: Groei"
-
-#~ msgid "City: Normal"
-#~ msgstr "Stad: Normaal"
-
-#~ msgid "City: Nuked"
-#~ msgstr "Stad: Geatomiseerd"
-
-#~ msgid "City: Transfer"
-#~ msgstr "Stad: Verplaatsen"
-
-#~ msgid "Civ: Civil War"
-#~ msgstr "Civ: Burgeroorlog"
-
-#~ msgid "Civ: Pollution"
-#~ msgstr "Civ: Verontreiniging"
-
-#~ msgid "Diplomat Action: Bribe"
-#~ msgstr "Diplomatieke Actie: Omkoping"
-
-#~ msgid "Diplomat Action: Caused Incident"
-#~ msgstr "Diplomatieke Actie: Schandaal veroorzaakt"
-
-#~ msgid "Diplomat Action: Escape"
-#~ msgstr "Diplomatieke Actie: Vlucht"
-
-#~ msgid "Diplomat Action: Embassy"
-#~ msgstr "Diplomatieke Actie: Ambassade"
-
-#~ msgid "Diplomat Action: Failed"
-#~ msgstr "Diplomatieke Actie: Gefaald"
-
-#~ msgid "Diplomat Action: Incite"
-#~ msgstr "Diplomatieke Actie: Opstand"
-
-#~ msgid "Diplomat Action: Poison"
-#~ msgstr "Diplomatieke Actie: Vergiftig"
-
-#~ msgid "Diplomat Action: Sabotage"
-#~ msgstr "Diplomatieke Actie: Sabotage"
-
-#~ msgid "Diplomat Action: Theft"
-#~ msgstr "Diplomatieke Actie: Diefstal"
-
-#~ msgid "Enemy Diplomat: Embassy"
-#~ msgstr "Vijandelijke Diplomaat: Ambassade"
-
-#~ msgid "Enemy Diplomat: Failed"
-#~ msgstr "Vijandelijke Diplomaat: Gefaald"
-
-#~ msgid "Enemy Diplomat: Incite"
-#~ msgstr "Vijandelijke Diplomaat: Opstand"
-
-#~ msgid "Enemy Diplomat: Poison"
-#~ msgstr "Vijandelijke Diplomaat: Vergif"
-
-#~ msgid "Enemy Diplomat: Sabotage"
-#~ msgstr "Vijandelijke Diplomaat: Sabotage"
-
-#~ msgid "Enemy Diplomat: Theft"
-#~ msgstr "Vijandelijke Diplomaat: Diefstal"
-
-#~ msgid "Improvement: Bought"
-#~ msgstr "Verbetering: Gekocht"
-
-#~ msgid "Improvement: Built"
-#~ msgstr "Verbetering: Gebouwd"
-
-#~ msgid "Improvement: Sold"
-#~ msgstr "Verbetering: Verkocht"
-
-#~ msgid "Treaty: Broken"
-#~ msgstr "Verdrag: Verbroken"
-
-#~ msgid "Treaty: Peace"
-#~ msgstr "Verdrag: Vrede"
-
-#~ msgid "Treaty: Shared Vision"
-#~ msgstr "Verdrag: Gedeelde waarneming"
-
-#~ msgid "Unit: Built"
-#~ msgstr "Eenheid: Gebouwd"
-
-#~ msgid "Wonder: Finished"
-#~ msgstr "Wonder: Voltooid"
-
-#~ msgid "Wonder: Made Obsolete"
-#~ msgstr "Wonder: Verouderd geraakt"
-
-#~ msgid "Wonder: Started"
-#~ msgstr "Wonder: Begonnen"
-
-#~ msgid "Treaty: Embassy"
-#~ msgstr "Verdrag: Ambassade"
-
-#~ msgid "tech \"%s\": requires itself"
-#~ msgstr "tehh \"%s\": vereist zichzelf"
-
-#~ msgid "%s's %s tried to build %s, which is not available."
-#~ msgstr "%s's %s probeerde %s te bouwen, wat niet beschikbaar is."
 
 #~ msgid "Sea moving start units are not yet supported, %s not created."
 #~ msgstr "Zeewaardige begineenheden nog niet ondersteund, %s niet gemaakt."
@@ -28855,10 +29908,6 @@ msgstr "Team 31"
 #~ msgid "Unknown terrain %s in entry %s."
 #~ msgstr "Onbekend terrein %s in %s"
 
-#, fuzzy
-#~ msgid "Unit %s has unknown unit class %s as cargo."
-#~ msgstr "Terrein %s heeft onbekende vlag %s"
-
 #~ msgid "Ruleset doesn't have any terrains (%s)"
 #~ msgstr "Spelregelbestand bevat geen enkel (%s) terrein"
 
@@ -28871,16 +29920,8 @@ msgstr "Team 31"
 #~ msgid "Terrain %s has unknown flag %s"
 #~ msgstr "Terrein %s heeft onbekende vlag %s"
 
-#, fuzzy
-#~ msgid "Terrain %s is native to unknown unit class %s"
-#~ msgstr "Terrein %s heeft onbekende vlag %s"
-
 #~ msgid "Resources %s and %s have the same identifier."
 #~ msgstr "Terreinen %s en %s hebben gelijke identificatie."
-
-#, fuzzy
-#~ msgid "Base %s has unknown flag %s"
-#~ msgstr "Terrein %s heeft onbekende vlag %s"
 
 #~ msgid "Section %s lists unknown effect type: \"%s\" (%s)"
 #~ msgstr "Sectie %s noemt onbekend effect type: \"%s\" (%s)"
@@ -28929,50 +29970,8 @@ msgstr "Team 31"
 #~ msgstr ""
 #~ "Niet-ondersteunde stadsstijl gevonden in player%d sectie. Omgezet naar %s"
 
-#~ msgid "Your %s has been lost on the high seas."
-#~ msgstr "Uw %s is verloren gegaan op de diepzee."
-
-#~ msgid "Your %s survived on the high seas and became more experienced!"
-#~ msgstr "Uw %s overleefde de diepzee en werd meer ervaren!"
-
-#~ msgid "Your %s has been lost on unsafe terrain."
-#~ msgstr "Uw %s is verloren gegaan op onveilig terrein."
-
 #~ msgid "Food Stock"
 #~ msgstr "Voedsel Voorraad"
-
-#~ msgid "* Can build fortresses (if %s is known).\n"
-#~ msgstr "* Kan forten bouwen (als %s bekend is).\n"
-
-#~ msgid "* Can build fortresses (if any of the following are known: %s).\n"
-#~ msgstr "Kan forten bouwen (als een van %s bekend is).\n"
-
-#~ msgid "* Can build airbases.\n"
-#~ msgstr "* Kan vliegvelden bouwen.\n"
-
-#~ msgid "* The discovery of %s reduces the risk to 25%%.\n"
-#~ msgstr "* De ontdekking van %s vermindert het risico tot 25%%.\n"
-
-#~ msgid "* %s reduces the risk to 12%%.\n"
-#~ msgstr "* %s vermindert het risico tot 12%%.\n"
-
-#~ msgid "* Reduces the chance of losing boats on the high seas to 25%%.\n"
-#~ msgstr "* Vermindert de kans op vergaan op de oceaan met 25%%.\n"
-
-#~ msgid "* Reduces the chance of losing boats on the high seas to 12%%.\n"
-#~ msgstr "* Vermindert de kans op vergaan op de oceaan met 12%%.\n"
-
-#~ msgid "* Allows %s to build fortresses.\n"
-#~ msgstr "* Staat %s om forten te bouwen.\n"
-
-#~ msgid "* Allows %s to build airbases.\n"
-#~ msgstr "* Staat %s toe om luchtbases te bouwen.\n"
-
-#~ msgid "* This terrain is unsafe for units to travel on."
-#~ msgstr "* Op dit terrein kunnen eenheden zich niet veilig verplaatsen."
-
-#~ msgid " with "
-#~ msgstr " met "
 
 #, fuzzy
 #~ msgid ""
@@ -29016,21 +30015,6 @@ msgstr "Team 31"
 #~ msgid "Missing base sprite tag \"%s1\"."
 #~ msgstr "Vind geen basis sprite tag \"%s1\"."
 
-#~ msgid "Moves Left"
-#~ msgstr "Beweegpunten"
-
-#~ msgid "<AI>"
-#~ msgstr "<KI>"
-
-#~ msgid "<Novice AI>"
-#~ msgstr "<Beginneling KI>"
-
-#~ msgid "<Normal AI>"
-#~ msgstr "<Normale KI>"
-
-#~ msgid "<Hard AI>"
-#~ msgstr "<Moeilijke KI>"
-
 #~ msgid "Economy (F5)"
 #~ msgstr "Economie (F5)"
 
@@ -29072,9 +30056,6 @@ msgstr "Team 31"
 #~ "Onderzoek (F6)\n"
 #~ "%s (%d/%d)"
 
-#~ msgid "Log"
-#~ msgstr "Log"
-
 #~ msgid ""
 #~ "Name : %s\n"
 #~ "Nation : %s\n"
@@ -29090,50 +30071,8 @@ msgstr "Team 31"
 #~ "Status : %s\n"
 #~ "Idle : %d %s"
 
-#~ msgid ""
-#~ "%s%s  -  %s%s\n"
-#~ "\n"
-#~ msgstr ""
-#~ "%s%s      %s%s\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "Gives all sea units 1 additional movement point and eliminates the risk "
-#~ "of losing Triremes on the high seas.  Makes all new sea units veterans "
-#~ "(for all cities)."
-#~ msgstr ""
-#~ "Geeft alle zee-eenheden 1 extra bewegingspunt en verwijdert het risico "
-#~ "van het verliezen van Triremen in de diepzee.  Maakt alle nieuwe zee-"
-#~ "eenheden veteraan (voor alle steden)."
-
-#~ msgid ""
-#~ "The Gauls were a Celtic people occupying what is now France and Belgium."
-#~ msgstr ""
-#~ "De Galli�rs waren een Keltisch volk in wat nu Frankrijk en Belgi� zijn."
-
-#~ msgid ""
-#~ "The Inca were an Amerind people of the Northern Andes who conquered an "
-#~ "empire stretching along the west coast of South America from what is now "
-#~ "southern Chile nearly to the Equator. They had the bad timing to do it "
-#~ "just a few decades before the Spanish conquistadors arrived in their part "
-#~ "of the world in the mid-1500s AD."
-#~ msgstr ""
-#~ "De Incas waren een Amerind-volk uit de Noord-Andes die een imperium "
-#~ "veroverden dat strekte langs de westkust van Zuid-Amerika van wat nu Zuid-"
-#~ "Chili is tot vlakbij de evenaar. Ze hadden de slechte timing om dit "
-#~ "slechts enige tientallen jaren te doen voordat de Spaanse conquistadores "
-#~ "arriveerden in hun gedeelte van de wereld in het midden van de jaren 1500 "
-#~ "AD."
-
-#~ msgid "?title:Inca"
-#~ msgstr "?attitude:Inca"
-
-#~ msgid ""
-#~ "Phoenicia was an ancient civilization, based in what is now the coastal "
-#~ "regions of Lebanon and Syria."
-#~ msgstr ""
-#~ "Phoenici� was een oude beschaving in wat nu de kust van Libanon en Syri� "
-#~ "is."
+#~ msgid "Log"
+#~ msgstr "Log"
 
 #~ msgid ""
 #~ "Start\n"
@@ -29184,101 +30123,8 @@ msgstr "Team 31"
 #~ msgid "%s F/R/T:"
 #~ msgstr "%s V/B/H:"
 
-#~ msgid ""
-#~ "The human being and his quest came to the western foothills of the "
-#~ "Pyrenees in search of a place to settle and live. Close to the natural "
-#~ "border formed by the mountains that stretch across the land joining the "
-#~ "Iberian peninsula to the rest of Europe, he found what he was looking "
-#~ "for.\n"
-#~ "\n"
-#~ " The Basques have lived since the immemorial times in this small region, "
-#~ "by maintaining their age-old cultural traditions, and keeping their "
-#~ "historic identity alive, the Basques provide a link with man's distant "
-#~ "past. Euskara , the language spoken by the Basque people, is probably the "
-#~ "oldest living language in Europe.\n"
-#~ "\n"
-#~ " Actually, the Basque Country (Euskadi) covers a surface area of 20,664 "
-#~ "square kilometres and consists of seven \"herrialdes,\" or districts: "
-#~ "Araba, Bizkaia, Gipuzkoa and Nafarroa situated in the Iberian peninsula, "
-#~ "and Lapurdi, Zuberoa and Benafarroa in French territory. This is the "
-#~ "place, the people, the tradition.\n"
-#~ "\n"
-#~ " 'Ongi etorri Euskadira, eta zorte on!' (Welcome to Euskadi and good "
-#~ "luck!)"
-#~ msgstr ""
-#~ "De mens kwam aan bij de westelijke heuvels bij de Pyrene�en op zoek naar "
-#~ "een plaats om te wonen. Dichtbij de natuurlijke grens gevormd door de "
-#~ "bergen die het Iberisch schiereiland met de rest van Europa verbinden "
-#~ "vond hij wat hij zocht.\n"
-#~ "\n"
-#~ " De Basken hebben sinds mensenheugenis geleefd in deze kleine regio, door "
-#~ "hun culturele tradities in stand te houden. Zo vormen de Basken een "
-#~ "verbinden met een vroegere tijd voor de mens. Euskara , de taal gesproken "
-#~ "door de Basken, is waarschijnlijk de oudste levende taal in Europa.\n"
-#~ "\n"
-#~ "Dezer dagen omvat Baskenland (Euskadi) een oppervlakte van 20.664 "
-#~ "vierkante kilometer en bestaat uit zeven 'herrialdes' of districten: "
-#~ "Araba, Bizkaia, Gipuzkoa en Naffaroa op het Iberisch schiereiland, en "
-#~ "Lapurdi, Zuberoa en Benafarroa in Frans gebied. Dit is de plaats, het "
-#~ "volk, de traditie.\n"
-#~ "\n"
-#~ "�'Ongi�etorri�Euskadira,�eta�zorte�on!'�(Welkom in Euskadi en veel geluk!)"
-
 #~ msgid "Ah"
 #~ msgstr "Ah"
-
-#~ msgid ""
-#~ "Your attacking %s succeeded against %s's %s (and %d other unit)%s and "
-#~ "became more experienced!Your attacking %s succeeded against %s's %s (and %"
-#~ "d other units)%s and became more experienced!"
-#~ msgstr ""
-#~ "Uw aanvallende %s waren succesvol tegen %s's %s (en %d andere eenheid)%s "
-#~ "en werden meer ervaren!Uw aanvallende %s waren succesvol tegen %s's %s "
-#~ "(en %d andere eenheden)%s en werden meer ervaren!"
-
-#~ msgid ""
-#~ "Your attacking %s succeeded against %s's %s (and %d other unit)%s!Your "
-#~ "attacking %s succeeded against %s's %s (and %d other units)%s!"
-#~ msgstr ""
-#~ "Uw aanvallende %s waren succesvol tegen %s's %s (en %d andere eenheid)%s!"
-#~ "Uw�aanvallende�%s�waren�succesvol�tegen�%s's�%s�(en�%d�andere�eenheden)%s!"
-
-#~ msgid "* Can carry and refuel %d missile unit.\n"
-#~ msgid_plural "* Can carry and refuel %d missile units.\n"
-#~ msgstr[0] "* Kan %d raketeenheid vervoeren en van brandstof voorzien.\n"
-#~ msgstr[1] "* Kan %d raketeenheden vervoeren en van brandstof voorzien.\n"
-
-#~ msgid "* Can carry %d ground unit across water.\n"
-#~ msgid_plural "* Can carry %d ground units across water.\n"
-#~ msgstr[0] "* Kan %d landeenheid over water vervoeren.\n"
-#~ msgstr[1] "* Kan %d landeenheden over water vervoeren.\n"
-
-#~ msgid ""
-#~ "Upgrade %d unit for %d gold?\n"
-#~ "Treasury contains %d gold.Upgrade %d units for %d gold?\n"
-#~ "Treasury contains %d gold."
-#~ msgstr ""
-#~ "Waardeer %d eenheid op voor %d goud?\n"
-#~ "Schatkist bevat %d goud.Waardeer %d eenheden voor %d goud?\n"
-#~ "Schatkist bevat %d goud."
-
-#~ msgid ""
-#~ "%s\n"
-#~ "(%d turn/advance)%s\n"
-#~ "(%d turns/advance)"
-#~ msgstr ""
-#~ "%s\n"
-#~ "(%d�beurt/vooruitgang)%s\n"
-#~ "(%d�beurten/vooruitgang)"
-
-#~ msgid ""
-#~ "\n"
-#~ "%s territory (%d turn ceasefire)\n"
-#~ "%s territory (%d turn ceasefire)"
-#~ msgstr ""
-#~ "\n"
-#~ "%s�territorium�(%d�beurt�staakt-het-vuren)\n"
-#~ "%s territorium (%d beurten staakt-het-vuren)"
 
 #~ msgid "%s load with own %d bpp format !"
 #~ msgstr "%s laden met eigen %d bpp formaat!"
@@ -29289,95 +30135,20 @@ msgstr "Team 31"
 #~ msgid "?nationgroup:Transitional"
 #~ msgstr "?nationgroup:Overgangs"
 
-#~ msgid "?female:Emir"
-#~ msgstr "?female: Emir"
+#~ msgid "Oceanian"
+#~ msgstr "Oceani�r"
 
-#~ msgid "?female:Mullah"
-#~ msgstr "?female:Mullah"
+#~ msgid "Modern"
+#~ msgstr "Modern"
 
-#~ msgid "?female:Caliph"
-#~ msgstr "?female:Kalief"
+#~ msgid "African"
+#~ msgstr "Afrikaans"
+
+#~ msgid "Fictional"
+#~ msgstr "Fictief"
 
 #~ msgid "Ancient"
 #~ msgstr "Oudheid"
 
-#~ msgid "?female:Tlatoani"
-#~ msgstr "?female:Tlatoani"
-
-#~ msgid "?female:Huey Tlatoani"
-#~ msgstr "?female:Huey Tlatoani"
-
-#~ msgid "?female:Lugal"
-#~ msgstr "?female:Lugal"
-
-#~ msgid "?female:Ban"
-#~ msgstr "?female:Ban"
-
-#~ msgid "female:Captain General"
-#~ msgstr "female:Kapitein Generaal"
-
-#~ msgid "?female:Supreme Director"
-#~ msgstr "?female:Hoofdbestuurder"
-
 #~ msgid "Transitional"
 #~ msgstr "Overgangs"
-
-#~ msgid "?female:Inca"
-#~ msgstr "?female:Inca"
-
-#~ msgid "?female:Sapa Inca"
-#~ msgstr "?female:Sapa Inca"
-
-#~ msgid "?female:Dictator"
-#~ msgstr "?female:Dictator"
-
-#~ msgid "?female:Shogun"
-#~ msgstr "?female:Shogun"
-
-#~ msgid "?female:Dey"
-#~ msgstr "?female:Dey"
-
-#~ msgid "?female:Colonel"
-#~ msgstr "?female:Colonel"
-
-#~ msgid "?female:Tun"
-#~ msgstr "?female:Tun"
-
-#~ msgid "?female:Mansa"
-#~ msgstr "?female:Mansa"
-
-#~ msgid "?female:Bey"
-#~ msgstr "?female:Bey"
-
-#~ msgid "?female:Hakan"
-#~ msgstr "?female:Hakan"
-
-#~ msgid "?female:Padisah"
-#~ msgstr "?female:Padisah"
-
-#~ msgid "?female:Imparator"
-#~ msgstr "?female:Imparator"
-
-#~ msgid "?female:Ayatollah"
-#~ msgstr "?female:Ayatollah"
-
-#~ msgid "Presedinte"
-#~ msgstr "Presedinte"
-
-#~ msgid "?female:Ensi"
-#~ msgstr "?female:Ensi"
-
-#~ msgid "?female:Lama"
-#~ msgstr "?female:Lama"
-
-#~ msgid "Dharma Queen"
-#~ msgstr "Dharma Koningin"
-
-#~ msgid "?female:Dalai Lama"
-#~ msgstr "?female:Dalai Lama"
-
-#~ msgid "?female:Hetman"
-#~ msgstr "?female:Hetman"
-
-#~ msgid "?female:Terrateniente"
-#~ msgstr "?female:Terrateniente"
