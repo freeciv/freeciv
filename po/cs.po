@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.0.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-08-10 16:58+0300\n"
-"PO-Revision-Date: 2008-01-21 15:42+0100\n"
+"PO-Revision-Date: 2008-01-23 10:29+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -142,19 +142,16 @@ msgid "Building Unavailable Item"
 msgstr "Žádné dostupné stavby"
 
 #: common/events.c:45
-#, fuzzy
 msgid "Captured/Destroyed"
-msgstr "Město: Dobito/Zničeno"
+msgstr "Dobito/Zničeno"
 
 #: common/events.c:46
-#, fuzzy
 msgid "Celebrating"
-msgstr " - oslavuje"
+msgstr "Oslavuje"
 
 #: common/events.c:47
-#, fuzzy
 msgid "Civil Disorder"
-msgstr "Občanské nepokoje ve městě %s."
+msgstr "Občanské nepokoje"
 
 #: common/events.c:48
 #, fuzzy
@@ -167,9 +164,8 @@ msgid "Famine Feared"
 msgstr "Varování: Hrozí hladomor ve městě %s."
 
 #: common/events.c:50
-#, fuzzy
 msgid "Growth"
-msgstr "Růst města"
+msgstr "Růst"
 
 #: common/events.c:51
 #, fuzzy
@@ -177,14 +173,12 @@ msgid "May Soon Grow"
 msgstr "Růst města"
 
 #: common/events.c:52
-#, fuzzy
 msgid "Needs Aqueduct"
-msgstr "Město: Potřebuje Akvadukt"
+msgstr "Potřebuje Akvadukt"
 
 #: common/events.c:53
-#, fuzzy
 msgid "Needs Aqueduct Being Built"
-msgstr "Město: Potřebuje Akvadukt"
+msgstr "Potřebuje postavit Akvadukt"
 
 #: common/events.c:54
 #: common/player.c:41
@@ -245,7 +239,6 @@ msgid "Barbarian Uprising"
 msgstr "Barbar"
 
 #: common/events.c:63
-#, fuzzy
 msgid "Civil War"
 msgstr "Občanská válka"
 
@@ -256,7 +249,7 @@ msgstr "Skrýt vše"
 
 #: common/events.c:65
 msgid "First Contact"
-msgstr ""
+msgstr "První kontakt"
 
 #: common/events.c:66
 #, fuzzy
@@ -301,9 +294,8 @@ msgstr "Kosmická loď"
 #: common/events.c:78
 #: common/events.c:79
 #: common/events.c:80
-#, fuzzy
 msgid "Diplomat Action"
-msgstr "Diplomatické/Špionážní akce"
+msgstr "Diplomatické akce"
 
 #: common/events.c:72
 #: common/events.c:81
@@ -368,9 +360,8 @@ msgstr "Chrám"
 #: common/events.c:85
 #: common/events.c:86
 #: common/events.c:87
-#, fuzzy
 msgid "Enemy Diplomat"
-msgstr "Diplomat"
+msgstr "Nepřátelský Diplomat"
 
 #: common/events.c:88
 #, fuzzy
@@ -557,9 +548,8 @@ msgid "Treaty"
 msgstr "Velcí"
 
 #: common/events.c:117
-#, fuzzy
 msgid "Alliance"
-msgstr "Technologie"
+msgstr "Aliance"
 
 #: common/events.c:118
 #, fuzzy
@@ -567,14 +557,12 @@ msgid "Broken"
 msgstr "Bratr"
 
 #: common/events.c:119
-#, fuzzy
 msgid "Cease-fire"
-msgstr "Velký vůdce"
+msgstr "Příměří"
 
 #: common/events.c:120
-#, fuzzy
 msgid "Peace"
-msgstr "Palác"
+msgstr "Mír"
 
 #: common/events.c:121
 #, fuzzy
@@ -645,9 +633,8 @@ msgid "Wonder"
 msgstr "Div světa"
 
 #: common/events.c:132
-#, fuzzy
 msgid "Finished"
-msgstr "ukončeno"
+msgstr "Dokončeno"
 
 #: common/events.c:133
 #, fuzzy
@@ -711,19 +698,16 @@ msgid "Away"
 msgstr "Pryč"
 
 #: common/player.c:41
-#, fuzzy
 msgid "Novice"
-msgstr "nováček"
+msgstr "Nováček"
 
 #: common/player.c:41
-#, fuzzy
 msgid "Easy"
-msgstr "lehká"
+msgstr "Lehká"
 
 #: common/player.c:42
-#, fuzzy
 msgid "Hard"
-msgstr "těžká"
+msgstr "Těžká"
 
 #: common/player.c:42
 #, fuzzy
@@ -731,9 +715,8 @@ msgid "Cheating"
 msgstr "Chatlinka"
 
 #: common/player.c:42
-#, fuzzy
 msgid "Experimental"
-msgstr "experimentální"
+msgstr "Experimentální"
 
 #: common/player.c:718
 msgid "?attitude:Genocidal"
@@ -2279,9 +2262,9 @@ msgstr "  -v, --version\t\tVypiš číslo verze\n"
 #: client/gui-sdl/gui_main.c:208
 #: client/gui-xaw/gui_main.c:247
 #: manual/civmanual.c:384
-#, fuzzy, c-format
+#, c-format
 msgid "Report bugs at %s.\n"
-msgstr "Chyby hlašte na <%s>.\n"
+msgstr "Chyby hlašte na %s.\n"
 
 #: server/commands.c:28
 msgid "Start the game, or restart after loading a savegame."
@@ -9312,9 +9295,9 @@ msgstr[2] "%d kroků"
 #, c-format
 msgid "%d bulb"
 msgid_plural "%d bulbs"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%d žárovka"
+msgstr[1] "%d žárovky"
+msgstr[2] "%d žárovek"
 
 #: client/text.c:563
 #: client/agents/cma_fec.c:269
@@ -9691,7 +9674,7 @@ msgstr "Klient nepodporuje izometrickou sadu dlaždic. Použije se namísto toho
 #: client/tilespec.c:1334
 #: client/tilespec.c:1343
 msgid "Using default tileset instead."
-msgstr ""
+msgstr "Použiji výchozí sadu dlaždic."
 
 #: client/tilespec.c:1342
 #, fuzzy
@@ -10066,9 +10049,8 @@ msgid "clear all"
 msgstr "Připravit všechny"
 
 #: client/gui-gtk-2.0/editdlg.c:76
-#, fuzzy
 msgid "Known"
-msgstr "Neznámý"
+msgstr "Známý"
 
 #: client/gui-gtk-2.0/editdlg.c:78
 msgid "Toggle"
@@ -14791,7 +14773,7 @@ msgstr "Pokračovat v pohybu"
 #: client/gui-sdl/chatline.c:469
 #, c-format
 msgid "Total users logged in : %d"
-msgstr ""
+msgstr "Celkem přihlášených uživatelů : %d"
 
 #: client/gui-sdl/chatline.c:523
 #: client/gui-sdl/optiondlg.c:2199
@@ -14805,11 +14787,8 @@ msgid "Start"
 msgstr "Start"
 
 #: client/gui-sdl/chatline.c:554
-#, fuzzy
 msgid "Server Settings"
-msgstr ""
-"Nastavení\n"
-"serveru"
+msgstr "Nastavení serveru"
 
 #: client/gui-sdl/citydlg.c:419
 #: client/gui-win32/citydlg.c:1483
@@ -15248,14 +15227,13 @@ msgstr "Vytvářím seznam serverů..."
 
 #: client/gui-sdl/connectdlg.c:279
 #: client/gui-sdl/connectdlg.c:343
-#, fuzzy
 msgid "No LAN servers found"
-msgstr "LAN servery"
+msgstr "Nenalezeny žádné LAN servery"
 
 #: client/gui-sdl/connectdlg.c:281
 #: client/gui-sdl/connectdlg.c:345
 msgid "No public servers found"
-msgstr ""
+msgstr "Nenalezeny žádné veřejné servery"
 
 #: client/gui-sdl/connectdlg.c:555
 msgid "Player Name :"
@@ -15450,7 +15428,7 @@ msgstr "Uspořádat Diplomatické setkání"
 
 #: client/gui-sdl/diplodlg.c:1514
 msgid "Send him back"
-msgstr ""
+msgstr "Poslat zpátky"
 
 #: client/gui-sdl/diplomat_dialog.c:586
 #: data/Freeciv.in:2285
@@ -15512,12 +15490,12 @@ msgstr ""
 #: client/gui-sdl/graphics.c:1012
 #, c-format
 msgid "Unable to initialize SDL library: %s"
-msgstr ""
+msgstr "Nelze inicializovat SDL knihovnu: %s"
 
 #: client/gui-sdl/graphics.c:1021
 #, c-format
 msgid "Unable to initialize  SDL_ttf library: %s"
-msgstr ""
+msgstr "Nelze inicializovat  SDL_ttf knihovnu: %s"
 
 #: client/gui-sdl/graphics.c:1058
 #, c-format
@@ -15539,9 +15517,8 @@ msgid "Setting resolution to: %d x %d %d bpp"
 msgstr ""
 
 #: client/gui-sdl/gui_main.c:149
-#, fuzzy
 msgid "Full Screen"
-msgstr "_Fullscreen"
+msgstr "Fullscreen"
 
 #: client/gui-sdl/gui_main.c:150
 msgid "If this option is set the client will use the whole screen area for drawing"
@@ -15589,7 +15566,7 @@ msgstr ""
 #: client/gui-sdl/gui_main.c:787
 #, c-format
 msgid "Using Video Output: %s"
-msgstr ""
+msgstr "Používám Video Výstup: %s"
 
 #: client/gui-sdl/gui_main.c:840
 msgid "Initializing Client"
@@ -15670,12 +15647,11 @@ msgstr "Vyberte jednotku(y)"
 #: client/gui-sdl/wldlg.c:1485
 #: client/gui-sdl/wldlg.c:1492
 #: client/gui-sdl/wldlg.c:1501
-#, fuzzy
 msgid "shield"
 msgid_plural "shields"
-msgstr[0] "Štít"
-msgstr[1] "Štít"
-msgstr[2] "Štít"
+msgstr[0] "štít"
+msgstr[1] "štíty"
+msgstr[2] "štítů"
 
 #: client/gui-sdl/helpdlg.c:713
 #: client/gui-sdl/helpdlg.c:736
@@ -15686,12 +15662,11 @@ msgstr[1] "obyvatelé"
 msgstr[2] "obyvatelů"
 
 #: client/gui-sdl/helpdlg.c:726
-#, fuzzy
 msgid "food"
 msgid_plural "foods"
-msgstr[0] "Jídlo"
-msgstr[1] "Jídlo"
-msgstr[2] "Jídlo"
+msgstr[0] "jídlo"
+msgstr[1] "jídla"
+msgstr[2] "jídla"
 
 #: client/gui-sdl/helpdlg.c:731
 msgid "gold"
@@ -15801,9 +15776,8 @@ msgstr "Výška"
 #: client/gui-sdl/mapview.c:331
 #: client/gui-sdl/mapview.c:334
 #: client/gui-sdl/mapview.c:339
-#, fuzzy
 msgid "Research"
-msgstr "_Výzkum"
+msgstr "Výzkum"
 
 #: client/gui-sdl/mapctrl.c:1424
 #: client/gui-sdl/mapview.c:311
@@ -15817,9 +15791,8 @@ msgid "or"
 msgstr " nebo "
 
 #: client/gui-sdl/mapctrl.c:1613
-#, fuzzy
 msgid "Hide Messages"
-msgstr "Zprávy"
+msgstr "Schovat Zprávy"
 
 #: client/gui-sdl/mapctrl.c:1623
 #, fuzzy
@@ -15946,7 +15919,7 @@ msgstr "Jídlo/Prod/Obch: %s"
 
 #: client/gui-sdl/mapview.c:1077
 msgid "End of Turn"
-msgstr ""
+msgstr "Konec tahu"
 
 #: client/gui-sdl/mapview.c:1077
 #, fuzzy
@@ -16057,9 +16030,8 @@ msgid "Irrigate to"
 msgstr "Závlaha (-I)"
 
 #: client/gui-sdl/menu.c:1083
-#, fuzzy
 msgid "Plant Forest"
-msgstr "Les"
+msgstr "Vysázet Les"
 
 #: client/gui-sdl/menu.c:1104
 msgid "Transform to"
@@ -16115,7 +16087,7 @@ msgstr "Ukazovat animace boje"
 
 #: client/gui-sdl/optiondlg.c:1102
 msgid "Use color cursors"
-msgstr ""
+msgstr "Použít barevné kurzory"
 
 #: client/gui-sdl/optiondlg.c:1616
 #: client/gui-xaw/menu.c:141
@@ -16124,7 +16096,7 @@ msgstr "Státní hranice"
 
 #: client/gui-sdl/optiondlg.c:1696
 msgid "Draw city map grid"
-msgstr ""
+msgstr "Kreslit mřížku na mapě města"
 
 #: client/gui-sdl/optiondlg.c:1726
 msgid "Draw city worker map grid"
@@ -16181,39 +16153,32 @@ msgid "Load Game"
 msgstr "Nahrát hru"
 
 #: client/gui-sdl/pages.c:188
-#, fuzzy
 msgid "Join Game"
-msgstr "Přihlašovací jméno"
+msgstr "Připojit do hry"
 
 #: client/gui-sdl/pages.c:202
-#, fuzzy
 msgid "Join Pubserver"
-msgstr " (pozorovatel)"
+msgstr "Připojit na Pubserver"
 
 #: client/gui-sdl/pages.c:216
-#, fuzzy
 msgid "Join LAN Server"
-msgstr "LAN servery"
+msgstr "Připojit na LAN server"
 
 #: client/gui-sdl/pages.c:297
 msgid "SDLClient welcomes you..."
-msgstr ""
+msgstr "SDL Klient tě vítá..."
 
 #: client/gui-sdl/pages.c:298
-#, fuzzy
 msgid "Freeciv is free software and you are welcome to distribute copies of it under certain conditions;"
-msgstr ""
-"Freeciv je svobodný software a je vítána distribuce jeho kopií\n"
-"za určitých podmínek; Přečtěte si položku \"Licenční ujednání\" v menu Nápovědy.\n"
-"Tak.. Jdeme na to!"
+msgstr "Freeciv je svobodný software a je vítána distribuce jeho kopií za určitých podmínek;"
 
 #: client/gui-sdl/pages.c:301
 msgid "See the \"Copying\" item on the Help menu."
-msgstr ""
+msgstr " Přečtěte si položku \"Licenční ujednání\" v menu Nápovědy."
 
 #: client/gui-sdl/pages.c:303
 msgid "Now.. Go give'em hell!"
-msgstr ""
+msgstr "Takže... Začněme!"
 
 #: client/gui-sdl/plrdlg.c:602
 msgid "Nations"
@@ -20980,7 +20945,7 @@ msgstr "Oceán"
 #: data/civ2/terrain.ruleset:326
 #: data/civ1/terrain.ruleset:318
 msgid "?ocean:Shelf"
-msgstr ""
+msgstr "?ocean:Mělčina"
 
 #: data/default/terrain.ruleset:376
 #: data/civ2/terrain.ruleset:361
@@ -20992,7 +20957,7 @@ msgstr ""
 #: data/civ2/terrain.ruleset:396
 #: data/civ1/terrain.ruleset:388
 msgid "?ocean:Abyss"
-msgstr ""
+msgstr "?ocean:Propast"
 
 #: data/default/terrain.ruleset:452
 #: data/civ2/terrain.ruleset:431
@@ -24394,7 +24359,7 @@ msgstr "?plural:Nigerijci"
 
 #: data/nation/nigerian.ruleset:6
 msgid "Nigeria won full independence from British rule in 1960."
-msgstr ""
+msgstr "Nigérie zvítězila v boji o nezávislost na Velké Británii v roce 1960."
 
 #: data/nation/northkorean.ruleset:3
 #, fuzzy
@@ -24408,7 +24373,7 @@ msgstr "?plural:Korejci"
 
 #: data/nation/northkorean.ruleset:6
 msgid "In 1945 Korea was split by the Soviet Union and the United States into two states along 38th parallel forming North Korea and South Korea. Even 60 years since then, North Korea remains a communist state of Stalinist type."
-msgstr ""
+msgstr "V roce 1945 byla Korea rozdělena Sovětským svazem a USA do dvou států v místech, které protíná 38.rovnoběžka. Po 60ti letech zůstává Severní Korea (KLDR) socialistickým státem Stalinského typu."
 
 #. TRANS: translates as the Great leader
 #: data/nation/northkorean.ruleset:22
@@ -26204,9 +26169,8 @@ msgid "Team 32"
 msgstr "Tým 32"
 
 #: data/default/game.ruleset:126
-#, fuzzy
 msgid "Team 0"
-msgstr "Tým 10"
+msgstr "Tým 0"
 
 #~ msgid ""
 #~ "Your %s was executed in %s on suspicion of spying.  The %s welcome future "
