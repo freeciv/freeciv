@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: 2.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-22 22:45-0500\n"
-"PO-Revision-Date: 2007-09-01 22:31+0300\n"
+"PO-Revision-Date: 2007-09-01 22:28+0300\n"
 "Last-Translator: Per I. Mathisen <per@freeciv.org>\n"
 "Language-Team: Norwegian <andrearo@stud.ntnu.no>\n"
 "MIME-Version: 1.0\n"
@@ -1823,7 +1823,7 @@ msgstr "Overførte %s fra %s til %s."
 #: server/citytools.c:550
 #, fuzzy, c-format
 msgid "%s %s lost in transfer to %s %s"
-msgstr "%s gikk tapt i et angrep fra %ss %s."
+msgstr "%s %s gikk tapt i et angrep fra %s %s."
 
 # problem
 #: server/citytools.c:633
@@ -2146,7 +2146,7 @@ msgid "%s is finished building %s."
 msgstr "%s har fullført byggingen av %s."
 
 #: server/cityturn.c:1393
-#, fuzzy, c-format
+#, c-format
 msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr "Har ikke råd til å opprettholde %s i %s, bygningen er blitt solgt!"
 
@@ -3432,7 +3432,7 @@ msgstr "Du kan ikke bestikke %s!"
 #: server/diplomats.c:457
 #, fuzzy, c-format
 msgid "Your %s succeeded in bribing the %s."
-msgstr "Din %s lyktes i å bestikke %ss %s."
+msgstr "Din %s lyktes i å bestikke %s."
 
 #. TRANS: <unit> ... <Poles>
 #: server/diplomats.c:465
@@ -3565,7 +3565,7 @@ msgstr "Din %s har blitt eliminert idet den forsvarte %s mot en %s."
 #: server/diplomats.c:1109
 #, fuzzy, c-format
 msgid "Your %s has been eliminated defending against a %s."
-msgstr "Din %s har blitt eliminert idet den forsvarte %s mot en %s."
+msgstr "Din %s har blitt eliminert idet den forsvarte mot en %s."
 
 #: server/diplomats.c:1122
 #, c-format
@@ -3893,7 +3893,7 @@ msgid "The diplomatic state between the %s and the %s is now %s."
 msgstr "Den diplomatiske status mellom %s og %s er nå %s."
 
 #: server/plrhand.c:607
-#, fuzzy, c-format
+#, c-format
 msgid ""
 " %s canceled the diplomatic agreement! The diplomatic state between the %s "
 "and the %s is now %s."
@@ -4649,7 +4649,6 @@ msgid "Amount of huts (minor tribe villages)"
 msgstr "Mengde hytter (mindre stammelandsbyer)"
 
 #: server/settings.c:427
-#, fuzzy
 msgid ""
 "This setting gives the exact number of huts that will be placed on the "
 "entire map. Huts are small tribal villages that may be investigated by units."
@@ -4778,7 +4777,6 @@ msgid "Percentage penalty when changing tech"
 msgstr "Prosentvis \"straff\" ved endring av forskning"
 
 #: server/settings.c:523
-#, fuzzy
 msgid ""
 "If you change your current research technology, and you have positive "
 "research points, you lose this percentage of those research points. This "
@@ -4811,7 +4809,6 @@ msgid "Penalty when getting tech from conquering"
 msgstr "Tap ved anskaffelse av teknologi fra erobring"
 
 #: server/settings.c:544
-#, fuzzy
 msgid ""
 "For each technology you gain by conquering an enemy city, you lose research "
 "points equal to this percentage of the cost to research a new technology. If "
@@ -4827,7 +4824,6 @@ msgid "Penalty when getting a free tech"
 msgstr "Tap av forskningspoeng når du får gratis teknologi"
 
 #: server/settings.c:555
-#, fuzzy
 msgid ""
 "For each technology you gain \"for free\" (other than covered by diplcost or "
 "conquercost: specifically, from huts or from Great Library effects), you "
@@ -4861,7 +4857,6 @@ msgid "Percentage food lost when building needed"
 msgstr "Prosentandel mat som går tapt når det er behov for akvedukt"
 
 #: server/settings.c:576
-#, fuzzy
 msgid ""
 "If a city would expand, but it can't because it needs an Aqueduct (or Sewer "
 "System), it loses this percentage of its foodbox (or half that amount when "
@@ -4957,7 +4952,6 @@ msgid "Chance of moving into tile after attack"
 msgstr "Sjanse for å flytte inn i felt etter angrep"
 
 #: server/settings.c:651
-#, fuzzy
 msgid ""
 "If set to 0, combat is Civ1/2-style (when you attack, you remain in place). "
 "If set to 100, attacking units will always move into the tile they attacked "
@@ -4987,7 +4981,6 @@ msgid "Reduce city population after attack"
 msgstr "Reduser bybefolkning etter angrep"
 
 #: server/settings.c:670
-#, fuzzy
 msgid ""
 "This flag indicates whether city population is reduced after successful "
 "attack of enemy unit, depending on its movement type (OR-ed):\n"
@@ -5152,7 +5145,6 @@ msgid "Minimum number of cities for civil war"
 msgstr "Minimum antall byer for borgerkrig"
 
 #: server/settings.c:793
-#, fuzzy
 msgid ""
 "A civil war is triggered when a player has at least this many cities and the "
 "player's capital is captured. If this option is set to the maximum value, "
@@ -5167,7 +5159,6 @@ msgid "Turns until player contact is lost"
 msgstr "Antall turer til kontakt med spiller er tapt"
 
 #: server/settings.c:803
-#, fuzzy
 msgid ""
 "Players may meet for diplomacy this number of turns after their units have "
 "last met, even when they do not have an embassy. If set to zero, then "
@@ -5183,7 +5174,6 @@ msgid "Rebuild palace whenever capital is conquered"
 msgstr "Bygg nytt palass dersom hovedstaden er erobret"
 
 #: server/settings.c:814
-#, fuzzy
 msgid ""
 "If this is set to 1, when the capital is conquered the palace is "
 "automatically rebuilt for free in another randomly choosen city. This is "
@@ -5210,7 +5200,6 @@ msgid "Players that users are allowed to take"
 msgstr "Spillere som har lov til å bruke kommandoen take"
 
 #: server/settings.c:838
-#, fuzzy
 msgid ""
 "This should be a string of characters, each of which specifies a type or "
 "status of a civilization (player). Clients will only be permitted to take or "
@@ -6660,7 +6649,6 @@ msgid "Unknown command.  Try '%shelp'."
 msgstr "Ukjent kommando.  Forsøk '%shelp'."
 
 #: server/stdinhand.c:3528
-#, fuzzy
 msgid "Your new vote canceled your previous vote."
 msgstr "Din nye stemme endret din tidligere stemme."
 
@@ -6824,9 +6812,9 @@ msgstr ", vanskelighetsgrad %s"
 #: server/stdinhand.c:4138 server/stdinhand.c:4142 client/helpdata.c:254
 #: client/helpdata.c:745 client/text.c:187 client/text.c:1179
 #: client/text.c:1217
-#, fuzzy, c-format
+#, c-format
 msgid "?clistmore:, %s"
-msgstr "?eller:, "
+msgstr ", %s"
 
 #: server/stdinhand.c:4146
 #, fuzzy
@@ -7061,13 +7049,13 @@ msgstr "Atomangrepet på %s ble unngått av ditt SDI-forsvar."
 #: server/unithand.c:1013
 #, fuzzy, c-format
 msgid "Your %s survived the pathetic attack from the %s %s."
-msgstr "Din %s%s overlevde det feige angrepet fra %s %s."
+msgstr "Din %s overlevde det feige angrepet fra %s %s."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
 #: server/unithand.c:1022
 #, fuzzy, c-format
 msgid "Your attacking %s failed against the %s %s!"
-msgstr "Din %s mislykkes i sitt angrep mot %ss %s%s!"
+msgstr "Din %s mislykkes i sitt angrep mot %s %s!"
 
 #: server/unithand.c:1096
 #, c-format
@@ -7182,7 +7170,7 @@ msgstr ""
 #: server/unittools.c:258
 #, fuzzy, c-format
 msgid "%s was upgraded for free to %s."
-msgstr "%s ble oppgradert gratis til %s%s."
+msgstr "%s ble oppgradert gratis til %s."
 
 #: server/unittools.c:299
 #, c-format
@@ -7208,7 +7196,7 @@ msgstr "Din %s har gått tom for drivstoff."
 #: server/unittools.c:635
 #, fuzzy
 msgid "And, became more experienced!"
-msgstr "Din %s ble mer erfaren!"
+msgstr " og ble mer erfaren!"
 
 #. TRANS: Your <unit> became ...
 #: server/unittools.c:639
@@ -7256,13 +7244,13 @@ msgstr "Barbarleder fanget, %d gull betalt i løsepenger."
 #: server/unittools.c:1617
 #, fuzzy, c-format
 msgid "Your attacking %s succeeded against the %s %s!"
-msgstr "Din %s lykkes i sitt angrep mot %ss %s%s!"
+msgstr "Din %s lykkes i sitt angrep mot %s %s!"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
 #: server/unittools.c:1626 server/unittools.c:1684
 #, fuzzy, c-format
 msgid "%s lost to an attack by the %s %s."
-msgstr "%s gikk tapt i et angrep fra %ss %s%s."
+msgstr "%s gikk tapt i et angrep fra %s %s."
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
 #: server/unittools.c:1660
@@ -7270,8 +7258,8 @@ msgstr "%s gikk tapt i et angrep fra %ss %s%s."
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
 "Your attacking %s succeeded against the %s %s (and %d other units)!"
-msgstr[0] "Din %s lykkes i sitt angrep mot %ss %s%s!"
-msgstr[1] "Din %s lykkes i sitt angrep mot %ss %s%s!"
+msgstr[0] "Din %s lykkes i sitt angrep mot %s %s %d!"
+msgstr[1] "Din %s lykkes i sitt angrep mot %s %s %d!"
 
 # problem
 #. TRANS: "Cannon lost when the Polish Destroyer
@@ -7287,7 +7275,7 @@ msgstr "%s gikk tapt i et angrep fra %ss %s."
 #: server/unittools.c:1708
 #, fuzzy, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
-msgstr "%s gikk tapt i et angrep fra %ss %s."
+msgstr "%s (%s) gikk tapt i et angrep fra %ss %s."
 
 # problem
 #. TRANS: "Musketeers and 3 other units lost to
@@ -7297,8 +7285,8 @@ msgstr "%s gikk tapt i et angrep fra %ss %s."
 #, fuzzy, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
-msgstr[0] "%s gikk tapt i et angrep fra %ss %s."
-msgstr[1] "%s gikk tapt i et angrep fra %ss %s."
+msgstr[0] "%s (%d) gikk tapt i et angrep fra %ss %s."
+msgstr[1] "%s (%d) gikk tapt i et angrep fra %ss %s."
 
 # problem
 #. TRANS: "2 units lost when the Polish Destroyer
@@ -7308,8 +7296,8 @@ msgstr[1] "%s gikk tapt i et angrep fra %ss %s."
 #, fuzzy, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
-msgstr[0] "%s gikk tapt i et angrep fra %ss %s."
-msgstr[1] "%s gikk tapt i et angrep fra %ss %s."
+msgstr[0] "%d gikk tapt i et angrep fra %ss %s."
+msgstr[1] "%d gikk tapt i et angrep fra %ss %s."
 
 #: server/unittools.c:1993
 #, c-format
@@ -7342,7 +7330,7 @@ msgid "The %s detonated a nuke!"
 msgstr "%s detonerte en atombombe!"
 
 #: server/unittools.c:2080
-#, fuzzy, c-format
+#, c-format
 msgid "%s transported successfully."
 msgstr "%s ble transportert trygt fram."
 
@@ -7531,7 +7519,6 @@ msgid "No real audio subsystem managed to initialize!"
 msgstr "Ingen lydsystemer klarte å starte!"
 
 #: client/audio.c:257
-#, fuzzy
 msgid "Perhaps there is some misconfiguration or bad permissions"
 msgstr "Kanskje det er feil ved konfigurasjonen"
 
@@ -8120,12 +8107,12 @@ msgid "The parties create an alliance"
 msgstr "Partene allierer seg"
 
 #: client/climisc.c:291
-#, fuzzy, c-format
+#, c-format
 msgid "The %s give shared vision"
 msgstr "%s gir deg utsyn"
 
 #: client/climisc.c:295
-#, fuzzy, c-format
+#, c-format
 msgid "The %s give an embassy"
 msgstr "%s gir en ambassade"
 
@@ -8640,7 +8627,7 @@ msgid "* Ignores the effects of city walls.\n"
 msgstr "* Bryr seg ikke om bymurer.\n"
 
 #: client/helpdata.c:981
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* Does bombard attacks (%d per turn).  These attacks will only damage (never "
 "kill) the defender, but have no risk for the attacker.\n"
@@ -8650,7 +8637,6 @@ msgstr ""
 "angriper.\n"
 
 #: client/helpdata.c:988
-#, fuzzy
 msgid "* Gets quintuple defense against missiles and aircraft.\n"
 msgstr "* Får femdoblet forsvar mot raketter og fly.\n"
 
@@ -9051,9 +9037,8 @@ msgstr "%3d/%3d %s"
 
 #: client/helpdata.c:1680 client/helpdata.c:1688 client/gui-sdl/mapview.c:618
 #: client/gui-sdl/mapview.c:624 client/gui-sdl/mapview.c:630
-#, fuzzy
 msgid "?blistmore:, "
-msgstr "?eller:, "
+msgstr ", "
 
 #. TRANS: "2 unhappy" or ", 1 unhappy"
 #: client/helpdata.c:1687
@@ -9689,7 +9674,7 @@ msgstr "Vårt territorie"
 #: client/text.c:122
 #, fuzzy, c-format
 msgid "%s territory"
-msgstr "Terreng"
+msgstr "Territoriet til %s"
 
 #. TRANS: "Polish territory (5 turn cease-fire)"
 #: client/text.c:131
@@ -9703,7 +9688,7 @@ msgstr[1] "%s territorie (%d runde våpenhvile)"
 #: client/text.c:140
 #, fuzzy, c-format
 msgid "%s territory (%s)"
-msgstr "%s territorie (%d runde våpenhvile)"
+msgstr "Territoriet til %s %s"
 
 #: client/text.c:145
 msgid "Unclaimed territory"
@@ -9731,9 +9716,9 @@ msgstr "By: %s(%s,%s)"
 
 #. TRANS: previous lines gave other information about the city.
 #: client/text.c:191
-#, c-format
+#, fuzzy, c-format
 msgid "?clistbegin: with %s"
-msgstr ""
+msgstr " med %s"
 
 #. TRANS: This appears with two or more previous entries in the list
 #: client/text.c:202
@@ -9749,7 +9734,7 @@ msgstr "Spesielle"
 
 #: client/text.c:209 client/text.c:1190 client/text.c:1229
 msgid "?clistend:."
-msgstr ""
+msgstr "."
 
 #. TRANS: "Trade from Warsaw: 5"
 #: client/text.c:219
@@ -9778,7 +9763,7 @@ msgstr "Enhet: %s (%s,%s)"
 #: client/text.c:249
 #, fuzzy, c-format
 msgid "Unit: %s (%s)"
-msgstr "Enhet: %s (%s%s)"
+msgstr "Enhet: %s (%s)"
 
 #. TRANS:  "Unit: Musketeers (Polish, 5 turn cease-fire)"
 #: client/text.c:262
@@ -10217,9 +10202,9 @@ msgid "Wonders: "
 msgstr "Underverk: "
 
 #: client/text.c:1262
-#, fuzzy, c-format
+#, c-format
 msgid "Cities: %d total, %d over threshold of %d cities."
-msgstr "Byer: %d totalt, %d over terskelen %d byer.\n"
+msgstr "Byer: %d totalt, %d over terskelen %d byer."
 
 #. TRANS: 0-21 content [citizen(s)] ...
 #: client/text.c:1266
@@ -10307,7 +10292,7 @@ msgid ""
 "Report this bug at %s"
 msgstr ""
 "Stier lenger enn 99 runder er ikke støttet.\n"
-" Rapporter feilen til bugs@freeciv.org."
+" Rapporter feilen til %s."
 
 #: client/agents/cma_core.c:400
 #, fuzzy, c-format
@@ -10779,7 +10764,7 @@ msgstr "_Kjøp"
 #: client/gui-gtk-2.0/citydlg.c:899 client/gui-gtk-2.0/cityrep.c:687
 #, fuzzy
 msgid "_Production"
-msgstr "Produksjon"
+msgstr "_Produksjon"
 
 #: client/gui-gtk-2.0/citydlg.c:950
 msgid "_Happiness"
@@ -11007,7 +10992,7 @@ msgstr "_Velg"
 #: client/gui-gtk-2.0/cityrep.c:714 client/gui-gtk-2.0/plrdlg.c:496
 #, fuzzy
 msgid "_Display"
-msgstr "_Diplomati"
+msgstr "V_is"
 
 #: client/gui-gtk-2.0/cityrep.c:795 client/gui-gtk-2.0/menu.c:843
 #: client/gui-sdl/diplodlg.c:689 client/gui-sdl/optiondlg.c:1799
@@ -11022,7 +11007,7 @@ msgstr "Byer"
 #: client/gui-gtk-2.0/cityrep.c:812
 #, fuzzy
 msgid "_Inspect"
-msgstr "Sett inn"
+msgstr "Vis _By"
 
 #: client/gui-gtk-2.0/cityrep.c:1220 client/gui-gtk-2.0/cityrep.c:1241
 #: client/gui-gtk-2.0/cityrep.c:1260 client/gui-gtk-2.0/cityrep.c:1279
@@ -11184,12 +11169,12 @@ msgstr "Fjern denne innstillingen?"
 #: client/gui-gtk-2.0/dialogs.c:197 client/gui-gtk-2.0/messagewin.c:186
 #, fuzzy
 msgid "Goto _Location"
-msgstr "Gå til _posisjon"
+msgstr "_Gå til"
 
 #: client/gui-gtk-2.0/dialogs.c:202 client/gui-gtk-2.0/messagewin.c:190
 #, fuzzy
 msgid "Inspect _City"
-msgstr "Inspiser by"
+msgstr "_Vis by"
 
 #: client/gui-gtk-2.0/dialogs.c:258 client/gui-sdl/dialogs.c:2091
 #: client/gui-win32/dialogs.c:975 client/gui-xaw/dialogs.c:513
@@ -11288,7 +11273,7 @@ msgstr "_Bystil:"
 #: client/gui-gtk-2.0/dialogs.c:934
 #, fuzzy
 msgid "_Description"
-msgstr "Beskrivelse"
+msgstr "_Forklaring"
 
 #: client/gui-gtk-2.0/dialogs.c:1273 client/gui-xaw/dialogs.c:1489
 msgid "You must select your sex."
@@ -11600,9 +11585,8 @@ msgid "View"
 msgstr "Kartvindu"
 
 #: client/gui-gtk-2.0/gui_main.c:1282
-#, fuzzy
 msgid "Chat"
-msgstr "_Beskjeder"
+msgstr "Beskjeder"
 
 #: client/gui-gtk-2.0/gui_main.c:1298 client/gui-win32/gui_main.c:538
 #: data/Freeciv.in:2816
@@ -11640,12 +11624,12 @@ msgstr "Politistasjon"
 #: client/gui-gtk-2.0/gui_main.c:1600 client/gui-gtk-2.0/pages.c:1591
 #, fuzzy
 msgid "_Observe"
-msgstr "Observatør"
+msgstr "_Observatør"
 
 #: client/gui-gtk-2.0/gui_main.c:1602
 #, fuzzy
 msgid "Do not _observe"
-msgstr "%s observerer nå %s"
+msgstr "_observerer nå"
 
 #. TRANS: "<Novice AI>"
 #: client/gui-gtk-2.0/gui_main.c:1625
@@ -12358,7 +12342,7 @@ msgstr "_Enheter"
 #: client/gui-gtk-2.0/menu.c:951 client/gui-win32/menu.c:402
 #, fuzzy
 msgid "_Nations"
-msgstr "_Nasjoner:"
+msgstr "_Nasjoner"
 
 #: client/gui-gtk-2.0/menu.c:955 client/gui-win32/menu.c:403
 msgid "_Economy"
@@ -12366,8 +12350,9 @@ msgstr "_Økonomi"
 
 #. TRANS: Research report action
 #: client/gui-gtk-2.0/menu.c:957 client/gui-win32/menu.c:405
+#, fuzzy
 msgid "_Research"
-msgstr "Fors_ker på"
+msgstr "_Forsker på"
 
 #: client/gui-gtk-2.0/menu.c:961 client/gui-win32/menu.c:407
 msgid "_Wonders of the World"
@@ -12593,7 +12578,7 @@ msgstr "_Møte"
 #: client/gui-gtk-2.0/plrdlg.c:463
 #, fuzzy
 msgid "Cancel _Treaty"
-msgstr "Avbryt avtale"
+msgstr "_Avbryt avtale"
 
 #: client/gui-gtk-2.0/plrdlg.c:470
 msgid "_Withdraw vision"
@@ -12791,7 +12776,6 @@ msgid "Ruleset _Version:"
 msgstr "Hersker:"
 
 #: client/gui-gtk-2.0/pages.c:1480 client/gui-gtk-2.0/pages.c:2112
-#, fuzzy
 msgid "_More Game Options..."
 msgstr "_Flere valg..."
 
@@ -12869,7 +12853,7 @@ msgstr "Lagre _filnavn:"
 #: client/gui-xaw/repodlgs.c:499 data/Freeciv.in:1366
 #, fuzzy
 msgid "Research"
-msgstr "Fors_ker på"
+msgstr "Forsker på"
 
 #: client/gui-gtk-2.0/repodlgs.c:309 client/gui-win32/repodlgs.c:281
 msgid "Researching"
@@ -12938,7 +12922,7 @@ msgstr "Enhets-type"
 #: client/gui-gtk-2.0/repodlgs.c:959 client/gui-win32/repodlgs.c:711
 #, fuzzy
 msgid "?Upgradable unit [short]:U"
-msgstr "Oppgrader enhet"
+msgstr "E"
 
 #: client/gui-gtk-2.0/repodlgs.c:960 client/gui-win32/repodlgs.c:712
 msgid "In-Prog"
@@ -14294,8 +14278,9 @@ msgid ""
 msgstr "%s"
 
 #: client/gui-sdl/mapview.c:614
+#, fuzzy
 msgid "?blistbegin: with "
-msgstr ""
+msgstr " med "
 
 #: client/gui-sdl/mapview.c:616 data/default/buildings.ruleset:113
 #: data/civ2/buildings.ruleset:96 data/civ1/buildings.ruleset:69
@@ -14314,7 +14299,7 @@ msgstr "Bymur"
 
 #: client/gui-sdl/mapview.c:637
 msgid "?blistend:"
-msgstr ""
+msgstr "?blistend:"
 
 #. TRANS: (<nation>,<diplomatic_state>)"
 #: client/gui-sdl/mapview.c:643
@@ -14518,7 +14503,7 @@ msgstr ""
 #: client/gui-sdl/menu.c:1091
 #, fuzzy
 msgid "Cut Down to"
-msgstr "Befolkning: %s"
+msgstr "Avbryter forbindelse til %s."
 
 # irrigert er tillatt på norsk, men skulle gjerne hatt et bedre ord
 #: client/gui-sdl/menu.c:1097 client/gui-sdl/menu.c:1122
@@ -16595,9 +16580,7 @@ msgstr ""
 "Dette gjøres mest hensiktsmessig ved å besøke Freeciv sitt "
 "feilhåndteringssystem, på:\n"
 "\n"
-"  http://bugs.freeciv.org/\n"
-"\n"
-"eller ved å sende epost til:  bugs@freeciv.org"
+"  http://bugs.freeciv.org/"
 
 #: data/helpdata.txt:60
 msgid ""
@@ -21461,7 +21444,7 @@ msgstr "Helikopter"
 #: data/civ1/units.ruleset:89
 #, fuzzy
 msgid "Air"
-msgstr "Lufthavn"
+msgstr "Flystripe"
 
 #: data/default/units.ruleset:266 data/civ2/units.ruleset:161
 #: data/civ1/units.ruleset:162
@@ -27662,27 +27645,1010 @@ msgstr "Lag"
 msgid "Team 31"
 msgstr "Lag"
 
+#~ msgid "City: Building Unavailable Item"
+#~ msgstr "By: Bygger utilgjengelig objekt"
+
+#~ msgid "City: Captured/Destroyed"
+#~ msgstr "By: Fanget/ødelagt"
+
+#~ msgid "City: Celebrating"
+#~ msgstr "By: Feirer"
+
+#~ msgid "City: Civil Disorder"
+#~ msgstr "By: Urolighet"
+
+#~ msgid "City: Famine"
+#~ msgstr "By: Hungersnød"
+
+#~ msgid "City: Famine Feared"
+#~ msgstr "By: Hungersnød fryktet"
+
+#~ msgid "City: Growth"
+#~ msgstr "By: Tilvekst"
+
+#~ msgid "City: May Soon Grow"
+#~ msgstr "By: Kan vokse snart"
+
+#~ msgid "City: Needs Aqueduct"
+#~ msgstr "By: Trenger akvedukt"
+
+#~ msgid "City: Needs Aqueduct Being Built"
+#~ msgstr "By: Trenger akvedukt, som bygges"
+
+#~ msgid "City: Normal"
+#~ msgstr "By: Normal"
+
+#~ msgid "City: Nuked"
+#~ msgstr "By: Atomangrep"
+
+#, fuzzy
+#~ msgid "City: Released from citizen governor"
+#~ msgstr "By: Løslatt fra Byforvaltning"
+
+#~ msgid "City: Suggest Growth Throttling"
+#~ msgstr "By: Forslag om stanset vekst"
+
+#~ msgid "City: Transfer"
+#~ msgstr "By: Overføring"
+
+#~ msgid "City: Was Built"
+#~ msgstr "By: Bygget"
+
+#~ msgid "City: Worklist Events"
+#~ msgstr "By: Arbeidsliste hendelser"
+
+#~ msgid "City: Production changed"
+#~ msgstr "By: Produksjon endret"
+
+#~ msgid "Civ: Barbarian Uprising"
+#~ msgstr "Civ: Barbaropprør"
+
+#~ msgid "Civ: Civil War"
+#~ msgstr "Civ: Borgerkrig"
+
+#~ msgid "Civ: Collapse to Anarchy"
+#~ msgstr "Civ: Kollaps til anarki"
+
+#~ msgid "Civ: First Contact"
+#~ msgstr "Civ: Første kontakt"
+
+#~ msgid "Civ: Learned New Government"
+#~ msgstr "Civ: Lærte om ny styreform"
+
+#~ msgid "Civ: Low Funds"
+#~ msgstr "Civ: Lite gull"
+
+#~ msgid "Civ: Pollution"
+#~ msgstr "Civ: Forurensning"
+
+#~ msgid "Civ: Revolt Ended"
+#~ msgstr "Opprør over"
+
+#~ msgid "Civ: Revolt Started"
+#~ msgstr "Opprør startet"
+
+#~ msgid "Civ: Spaceship Events"
+#~ msgstr "Civ: Romskip hendelser"
+
+#~ msgid "Diplomat Action: Bribe"
+#~ msgstr "Diplomataktivitet: Bestikkelse"
+
+#~ msgid "Diplomat Action: Caused Incident"
+#~ msgstr "Diplomataktivitet: Forårsaket ulykke"
+
+#~ msgid "Diplomat Action: Escape"
+#~ msgstr "Diplomataktivitet - Unnslapp"
+
+#~ msgid "Diplomat Action: Embassy"
+#~ msgstr "Diplomataktivitet - Ambassade"
+
+#~ msgid "Diplomat Action: Failed"
+#~ msgstr "Diplomataktivitet - Mislykket"
+
+#~ msgid "Diplomat Action: Incite"
+#~ msgstr "Diplomataktivitet - Infiltrert"
+
+#~ msgid "Diplomat Action: Poison"
+#~ msgstr "Diplomataktivitet - Forgiftning"
+
+#~ msgid "Diplomat Action: Sabotage"
+#~ msgstr "Diplomataktivitet - Sabotasje"
+
+#~ msgid "Diplomat Action: Theft"
+#~ msgstr "Diplomataktivitet - Tyveri"
+
+#~ msgid "Enemy Diplomat: Bribe"
+#~ msgstr "Fiendtlig diplomat: Bestikk"
+
+#~ msgid "Enemy Diplomat: Embassy"
+#~ msgstr "Fiendtlig diplomat: Ambassade"
+
+#~ msgid "Enemy Diplomat: Failed"
+#~ msgstr "Fiendtlig Diplomat: Mislykkes"
+
+#~ msgid "Enemy Diplomat: Incite"
+#~ msgstr "Fiendtlig diplomat: Infiltrert"
+
+#~ msgid "Enemy Diplomat: Poison"
+#~ msgstr "Fiendtlig diplomat: Forgiftning"
+
+#~ msgid "Enemy Diplomat: Sabotage"
+#~ msgstr "Fiendtlig diplomat: Sabotasje"
+
+#~ msgid "Enemy Diplomat: Theft"
+#~ msgstr "Fiendtlig diplomat: Tyveri"
+
+#~ msgid "Global: Eco-Disaster"
+#~ msgstr "Globalt: øko-katastrofe"
+
+#~ msgid "Global: Nuke Detonated"
+#~ msgstr "Globalt: Atombombe detonert"
+
+#~ msgid "Hut: Barbarians in a Hut Roused"
+#~ msgstr "Hytte: Barbarer sluppet fra en hytte"
+
+#~ msgid "Hut: City Founded from Hut"
+#~ msgstr "Hytte: By grunnlagt fra en hytte"
+
+#~ msgid "Hut: Gold Found in Hut"
+#~ msgstr "Hytte: Gull funnet i en hytte"
+
+#~ msgid "Hut: Killed by Barbarians in a Hut"
+#~ msgstr "Hytte: Drept av barbarer i en hytte"
+
+#~ msgid "Hut: Mercenaries Found in Hut"
+#~ msgstr "Hytte: Leiemordere funnet i en hytte"
+
+#~ msgid "Hut: Settler Found in Hut"
+#~ msgstr "Hytte: Nybygger funnet i en hytte"
+
+#~ msgid "Hut: Tech Found in Hut"
+#~ msgstr "Hytte: Teknologi funnet i en hytte"
+
+#~ msgid "Hut: Unit Spared by Barbarians"
+#~ msgstr "Hytte: Enhet reddet fra barbarer"
+
+#~ msgid "Improvement: Bought"
+#~ msgstr "Byforbedring: Kjøpt"
+
+#~ msgid "Improvement: Built"
+#~ msgstr "Byforbedring: Bygd ferdig"
+
+#~ msgid "Improvement: Forced to Sell"
+#~ msgstr "Byforbedring: Tvangssolgt"
+
+#~ msgid "Improvement: New Improvement Selected"
+#~ msgstr "Byforbedring: Ny forbedring valgt"
+
+#~ msgid "Improvement: Sold"
+#~ msgstr "Byforbedring: Solgt"
+
+#~ msgid "Tech: Learned From Great Library"
+#~ msgstr "Teknologi: Lært fra Verdensbiblioteket"
+
+#~ msgid "Tech: Learned New Tech"
+#~ msgstr "Ny teknologi oppdaget"
+
+#~ msgid "Treaty: Alliance"
+#~ msgstr "Avtale: Allianse"
+
+#~ msgid "Treaty: Broken"
+#~ msgstr "Avtale: Brutt"
+
+#, fuzzy
+#~ msgid "Treaty: Cease-fire"
+#~ msgstr "Avtale: Våpenhvile"
+
+#~ msgid "Treaty: Peace"
+#~ msgstr "Avtale: Fred"
+
+#~ msgid "Treaty: Shared Vision"
+#~ msgstr "Avtale: Delt utsyn"
+
+#~ msgid "Unit: Attack Failed"
+#~ msgstr "Enhet: Angrep mislykket"
+
+#~ msgid "Unit: Attack Succeeded"
+#~ msgstr "Enhet: Angrep vellykket"
+
+#~ msgid "Unit: Bought"
+#~ msgstr "Enhet: Kjøpt"
+
+#~ msgid "Unit: Built"
+#~ msgstr "Enhet: Bygget ferdig"
+
+#~ msgid "Unit: Defender Destroyed"
+#~ msgstr "Enhet: Forsvarer ble knust"
+
+#~ msgid "Unit: Defender Survived"
+#~ msgstr "Enhet: Forsvarer overlevde"
+
+#, fuzzy
+#~ msgid "Unit: Promoted to Veteran"
+#~ msgstr "Enhet: Ble mer erfaren veteran"
+
+#~ msgid "Unit: Production Upgraded"
+#~ msgstr "Enhet: Produksjon oppgradert"
+
+#~ msgid "Unit: Relocated"
+#~ msgstr "Enhet: Omplassert"
+
+#~ msgid "Unit: Orders / goto events"
+#~ msgstr "Enhet: Ordre / gå til hendelser"
+
+#~ msgid "Wonder: Finished"
+#~ msgstr "Underverk: Fullført"
+
+#~ msgid "Wonder: Made Obsolete"
+#~ msgstr "Underverk: Foreldet"
+
+#~ msgid "Wonder: Started"
+#~ msgstr "Underverk: Startet"
+
+#~ msgid "Wonder: Stopped"
+#~ msgstr "Underverk: Arbeid på underverk stanset"
+
+#~ msgid "Wonder: Will Finish Next Turn"
+#~ msgstr "Underverk: Blir fullført neste runde"
+
+#~ msgid "Treaty: Embassy"
+#~ msgstr "Avtale: Ambassade"
+
+#~ msgid "Moved %s out of disbanded city %s to avoid being landlocked."
+#~ msgstr "Flyttet %s ut av forlatt by %s for å unngå å bli låst fast."
+
+#~ msgid "We Love The %s Day celebrated in %s."
+#~ msgstr "Den nasjonale %s dagen feires i %s."
+
+#~ msgid "We Love The %s Day canceled in %s."
+#~ msgstr "Feiring av %s fødselsdag avlyst i %s."
+
+# problem
+#, fuzzy
+#~ msgid "(%d) %s: connected [%s]"
+#~ msgstr "(%d) %s har koblet til fra %s."
+
+#, fuzzy
+#~ msgid "(%d) %s: connection request [%s]"
+#~ msgstr "(%d) Forespørsel om forbindelse fra %s fra %s."
+
+#, fuzzy
+#~ msgid "The client is missing a capability that this server needs."
+#~ msgstr "Klienten mangler en egenskap som denne serveren trenger."
+
+#, fuzzy
+#~ msgid "(%d) %s rejected: mismatched capabilities!"
+#~ msgstr "(%d) %s ble vist bort. Manglet egenskaper."
+
+#, fuzzy
+#~ msgid "This server is missing a capability that the client needs."
+#~ msgstr "Tjener mangler en egenskap som denne klienten trenger."
+
+#, fuzzy
+#~ msgid "The username is invalid!"
+#~ msgstr "Ugyldig brukernavn"
+
+#, fuzzy
+#~ msgid "(%d) %s rejected: invalid username [%s]"
+#~ msgstr "(%d) %s ble vist bort. Manglet egenskaper [%s]"
+
+#, fuzzy
+#~ msgid "Your username is already connected!"
+#~ msgstr "er allerede tilkoblet."
+
+#, fuzzy
+#~ msgid "(%d) %s rejected: duplicate username [%s]"
+#~ msgstr "(%d) %s ble vist bort. Manglet egenskaper [%s]"
+
+#~ msgid "%s report on the RICHEST Civilizations in the World."
+#~ msgstr "%s rapport om de RIKESTE sivilisasjonene i verden."
+
+#~ msgid "%s report on the most ADVANCED Civilizations in the World."
+#~ msgstr "%s rapport om de mest AVANSERTE sivilisasjonene i verden."
+
+#~ msgid "%s report on the most MILITARIZED Civilizations in the World."
+#~ msgstr "%s rapport om de mest MILITARISERTE sivilisasjonene i verden."
+
+#~ msgid "%s report on the HAPPIEST Civilizations in the World."
+#~ msgstr "%s rapport om de LYKKELIGSTE sivilisasjonene i verden."
+
+#~ msgid "%s report on the LARGEST Civilizations in the World."
+#~ msgstr "%s rapport om de STØRSTE sivilisasjonene i verden."
+
+#~ msgid "City size before people become unhappy"
+#~ msgstr "Bystørrelse før folk blir ulykkelige"
+
+#~ msgid ""
+#~ "Before other adjustments, the first unhappysize citizens in a city are "
+#~ "content, and subsequent citizens are unhappy. See also cityfactor."
+#~ msgstr ""
+#~ "Før andre faktorer har innvirkning er de første unhappysize innbyggerne i "
+#~ "en by fornøyde, deretter er innbyggerne ulykkelige. Se også cityfactor."
+
+#~ msgid "Number of cities for higher unhappiness"
+#~ msgstr "Antall byer for øket ulykkelighet"
+
+#~ msgid ""
+#~ "When the number of cities a player owns is greater than cityfactor, one "
+#~ "extra citizen is unhappy before other adjustments; see also unhappysize. "
+#~ "This assumes a Democracy; for other governments the effect occurs at "
+#~ "smaller numbers of cities."
+#~ msgstr ""
+#~ "Når antallet byer som en spiller kontrollerer er større enn cityfactor, "
+#~ "blir ytterligere en innbygger tilfreds før andre faktorer har "
+#~ "innvirkning. Se også unhappysize. Dette forutsetter Demokrati, for andre "
+#~ "regjerninger er effekten mindre."
+
+#~ msgid ""
+#~ "If non-zero, saved games will be compressed using zlib (gzip format). "
+#~ "Larger values will give better compression but take longer. If the "
+#~ "maximum is zero this server was not compiled to use zlib."
+#~ msgstr ""
+#~ "Hvis ulik null, vil lagrede spill bli komprimert med zlib (gzip format). "
+#~ "Høyere tall vil gi høyere komprimering, men ta lenger tid. Dersom "
+#~ "maksimum er null så var ikke tjeneren kompilert for å bruke zlib."
+
+#, fuzzy
+#~ msgid ""
+#~ "Undefined arguments. Usage: debug <diplomacy <player> | city <x> <y> | "
+#~ "units <x> <y> | unit <id> | tech <player> | timing | info>."
+#~ msgstr ""
+#~ "Udefinert argument. Bruk: debug <diplomacy <spiller> | by <x> <y> | enhet "
+#~ "<x> <y> | enhet <id> | tech <spiller>>."
+
+#~ msgid "Unit must be on land to perform diplomatic action."
+#~ msgstr "Enheten må være på land for å utføre diplomatiske forhandlinger."
+
+#~ msgid "Your %s has been lost on the high seas."
+#~ msgstr "Din %s har gått tapt på havet."
+
+#~ msgid "Your %s survived on the high seas and became more experienced!"
+#~ msgstr "Din %s overlevde på havet og ble mer erfaren!"
+
+#~ msgid "Your %s has been lost on unsafe terrain."
+#~ msgstr "Din %s har gått tapt på usikkert terreng."
+
+#~ msgid "The %s have acquired %s from ancient scrolls of wisdom."
+#~ msgstr "%s har tilegnet seg %s fra eldgamle skriftruller med kunnskap."
+
+#~ msgid "Plugin %s found but can't be initialized."
+#~ msgstr "Plugin %s funnet, men kan ikke startes."
+
+#~ msgid "Couldn't find soundset \"%s\" trying \"%s\"."
+#~ msgstr "Klarte ikke å finne lydsettet \"%s\" forsøker \"%s\"."
+
+#~ msgid "Proceeding with sound support disabled"
+#~ msgstr "Fortsetter med lydstøtte deaktivert."
+
+#~ msgid "No sound spec-file given!"
+#~ msgstr "Ingen lydoppsett er spesifisert!"
+
+#~ msgid "Cannot find sound spec-file \"%s\"."
+#~ msgstr "Kunne ikke finne lydoppsett i filen \"%s\"."
+
+#~ msgid "Cannot find audio file %s"
+#~ msgstr "Klarer ikke å finne lydfilen %s"
+
+#~ msgid "%s (XX) %d/turn"
+#~ msgstr "%s (XX) %d/runde"
+
+#~ msgid "%s (%d) %d turn"
+#~ msgid_plural "%s (%d) %d turns"
+#~ msgstr[0] "%s (%d) %d runde"
+#~ msgstr[1] "%s (%d) %d runde"
+
+#, fuzzy
+#~ msgid "Specialists"
+#~ msgstr "Spesielle"
+
+#~ msgid "novice"
+#~ msgstr "nybegynner"
+
+#~ msgid "easy"
+#~ msgstr "lett"
+
+#~ msgid "normal"
+#~ msgstr "normal"
+
+#~ msgid "hard"
+#~ msgstr "vanskelig"
+
+#~ msgid "experimental"
+#~ msgstr "eksperimentell"
+
+#, fuzzy
+#~ msgid "Requires the %s technology.\n"
+#~ msgstr "Du kan ikke forske på denne teknologien."
+
+#, fuzzy
+#~ msgid "Requires the %s government.\n"
+#~ msgstr "Du kan ikke forske på denne teknologien."
+
+#, fuzzy
+#~ msgid "Requires the %s building.\n"
+#~ msgstr "Du kan ikke forske på denne teknologien."
+
+#, fuzzy
+#~ msgid "Requires the %s terrain special.\n"
+#~ msgstr "Du kan ikke forske på denne teknologien."
+
+#, fuzzy
+#~ msgid "Requires the %s terrain.\n"
+#~ msgstr "Du kan ikke forske på denne teknologien."
+
+#, fuzzy
+#~ msgid "Requires the %s nation.\n"
+#~ msgstr "Du kan ikke forske på denne teknologien."
+
+#, fuzzy
+#~ msgid ""
+#~ "Requires: Nothing\n"
+#~ "\n"
+#~ msgstr "Du kan ikke forske på denne teknologien."
+
+#~ msgid "* Can carry and refuel %d air unit.\n"
+#~ msgid_plural "* Can carry and refuel %d air units.\n"
+#~ msgstr[0] "* Kan frakte og fylle drivstoff på %d flyenhet.\n"
+#~ msgstr[1] "* Kan frakte og fylle drivstoff på %d flyenhet.\n"
+
+#~ msgid "* Can carry and refuel %d missile unit.\n"
+#~ msgid_plural "* Can carry and refuel %d missile units.\n"
+#~ msgstr[0] "* Kan transportere og fylle drivstoff på %d rakettenhet.\n"
+#~ msgstr[1] "* Kan transportere og fylle drivstoff på %d rakettenhet.\n"
+
+#~ msgid "* Can carry %d ground unit across water.\n"
+#~ msgid_plural "* Can carry %d ground units across water.\n"
+#~ msgstr[0] "* Kan transportere %d landenhet over vann.\n"
+#~ msgstr[1] "* Kan transportere %d landenhet over vann.\n"
+
+#~ msgid ""
+#~ "* May be disbanded in a city to recover 50%% of the production cost.\n"
+#~ msgstr ""
+#~ "* Kan oppløses i en by for å få tilbake 50%% av produksjonskonstnadene.\n"
+
+#~ msgid "* Can build fortresses (if %s is known).\n"
+#~ msgstr "* Tillater å bygge fort (dersom %s er kjent).\n"
+
+#~ msgid "* Can build fortresses (if any of the following are known: %s).\n"
+#~ msgstr "* Tillater å bygge fort (dersom en av følgende er kjent: %s).\n"
+
+#~ msgid "* Can build airbases.\n"
+#~ msgstr "* Kan bygge flyplasser.\n"
+
+#~ msgid "* May fortify, granting a 50%% defensive bonus.\n"
+#~ msgstr "* Kan befeste, som git 50%% forsvarsbonus.\n"
+
+#~ msgid "* Can attack enemy air units.\n"
+#~ msgstr "* Kan angripe fiendtlige luftenheter.\n"
+
+#~ msgid "* A missile unit: gets used up in making an attack.\n"
+#~ msgstr "* En rakettenhet: blir brukt opp idet den angriper.\n"
+
+#~ msgid "* May become veteran through training or combat.\n"
+#~ msgstr "* Kan bli oppnå veteran status gjennom trening eller kamp.\n"
+
+#~ msgid ""
+#~ "* Must end turn in a city or next to land, or has a 50%% risk of being "
+#~ "lost at sea.\n"
+#~ msgstr ""
+#~ "* Må avslutte runden i en by eller ved kysten, ellers har den en 50%% "
+#~ "sjanse for å gå tapt på havet.\n"
+
+#~ msgid "* The discovery of %s reduces the risk to 25%%.\n"
+#~ msgstr "* Oppdagelsen av %s reduserer risikoen til 25%%.\n"
+
+#~ msgid "* %s reduces the risk to 12%%.\n"
+#~ msgstr "* %s reduserer risikoen til 12%%.\n"
+
+#~ msgid "* Reduces the chance of losing boats on the high seas to 25%%.\n"
+#~ msgstr ""
+#~ "* Reduserer sannsynligheten for å miste en enhet på dypt hav til 25%%.\n"
+
+#~ msgid "* Reduces the chance of losing boats on the high seas to 12%%.\n"
+#~ msgstr ""
+#~ "* Reduserer sannsynligheten for å miste en enhet på dypt hav til 12%%.\n"
+
+#~ msgid "* Allows %s to build fortresses.\n"
+#~ msgstr "* Tillater %s å bygge fort.\n"
+
+#~ msgid "* Allows %s to build airbases.\n"
+#~ msgstr "* Tillater %s å bygge flybaser.\n"
+
+#~ msgid "* This terrain is unsafe for units to travel on."
+#~ msgstr "* Dette terrenget er utrygt for ferdsel."
+
+#, fuzzy
+#~ msgid "You were rejected from the game...."
+#~ msgstr "Du ble vist bort fra spillet:"
+
+#~ msgid ""
+#~ "Client does not support isometric tilesets. Using default tileset instead."
+#~ msgstr ""
+#~ "Klienten støtter ikke isometrisk grafikkoppsett.  Bruker alminnelig "
+#~ "grafikk istedet."
+
+#~ msgid ""
+#~ "Client does not support overhead view tilesets. Using default tileset "
+#~ "instead."
+#~ msgstr ""
+#~ "Klienten støtter ikke grafikkoppsett sett ovenfra. Benytter standard "
+#~ "grafikk i stedet."
+
+#, fuzzy
+#~ msgid "<AI>"
+#~ msgstr "AI"
+
+#, fuzzy
+#~ msgid "<Easy AI>"
+#~ msgstr "AI"
+
+#, fuzzy
+#~ msgid "<Hard AI>"
+#~ msgstr "AI"
+
+#, fuzzy
+#~ msgid "Sa_ve Options"
+#~ msgstr "Spill-innstillinger"
+
+#~ msgid "Gov_ernment"
+#~ msgstr "_Styreform"
+
+#~ msgid "_Change Government"
+#~ msgstr "_Endre styreform"
+
+#~ msgid ""
+#~ "Main Map (Keys):\n"
+#~ "================\n"
+#~ "    Shift-home: center on capital\n"
+#~ "  Shift-arrows: scroll map\n"
+#~ "        Ctrl-G: show grid lines on/off\n"
+#~ "        Ctrl-B: show national borders on/off\n"
+#~ "        Ctrl-N: show city names on/off\n"
+#~ "        Ctrl-R: show city growth on/off\n"
+#~ "        Ctrl-P: show city production on/off\n"
+#~ "             t: show city workers (mouse over or near city)\n"
+#~ msgstr ""
+#~ "Kartet (taster):\n"
+#~ "=================\n"
+#~ "  Shift-Home: sentrer på hovedstaden\n"
+#~ "  Shift-piltaster: skrolle kartet\n"
+#~ "      Control-G: rutenett av/på\n"
+#~ "      Control-B: grenser av/på\n"
+#~ "      Control-N: bynavn av/på\n"
+#~ "      Control-R: byvekst av/på\n"
+#~ "      Control-P: by produksjon av/på             t: vis arbeidere i en by "
+#~ "(muspeker over eller like ved en by)\n"
+
+#~ msgid ""
+#~ "Main Map (Mouse):\n"
+#~ "=================\n"
+#~ "  Left-click on city:          Pop up city dialog\n"
+#~ "  Left-click on unit:          Activate unit\n"
+#~ "  Left-click-and-drag on unit: Goto command for unit\n"
+#~ "  Center-click:                Show tile info\n"
+#~ "  Right-click:                 Center tile in view\n"
+#~ "\n"
+#~ "  Shift-Left-click:            Copy production (GTK)\n"
+#~ "  Shift-Right-click on city:   Paste production into city (GTK)\n"
+#~ "\n"
+#~ "  Shift-Control-Left-click:    Adjust city workers\n"
+#~ "  Control-Center-click:        Wake up sentried units\n"
+#~ "\n"
+#~ "  Area Selection mode (GTK):\n"
+#~ "  ==========================\n"
+#~ "  Right-click-and-drag: Enter Area Selection mode\n"
+#~ "  Left-click:           Toggle tile highlighting\n"
+#~ "  Shift-Right-click:    Paste production into highlighted cities\n"
+#~ "  Right-click:          Cancel Area Selection mode\n"
+#~ "\n"
+#~ "  The cities that become highlighted on the map,\n"
+#~ "  will also be highlighted in the City Report."
+#~ msgstr ""
+#~ "Kartet (mus):\n"
+#~ "=================\n"
+#~ "  Venstre-klikk på en by:          Vis byvinduet\n"
+#~ "  Venstre-klikk på en enhet:     Aktiver enhet\n"
+#~ "  Venstre-klikk-og-dra på en enhet: Gå-til-ordre for en enhet\n"
+#~ "  Senter-klikk:                     Vis kartrute informasjon\n"
+#~ "  Høyre-klikk:                      Sentrer kartruten\n"
+#~ "\n"
+#~ "  Shift-Venstre-klikk:              Kopier produksjon (GTK)\n"
+#~ "  Shift-Høyre-klikk på by:        Lim inn produksjon i byen (GTK)\n"
+#~ "\n"
+#~ "  Shift-Kontroll-Venstre-klikk:   Juster arbeidere i byen\n"
+#~ "  Kontroll-Senter-klikk:            Vekk opp enheter som holder stand\n"
+#~ "\n"
+#~ "  Merking av områder (GTK):\n"
+#~ "  ===========================\n"
+#~ "  Høyre-klikk og dra:  Velg merking av områder-modus\n"
+#~ "  Venstre-klikk:         Velg kartrute uthevning\n"
+#~ "  Shift-Høyre-klikk:    Lim inn produksjon i uthevede byer\n"
+#~ "  Høyre-klikk:            Avbryt merking av områder modus\n"
+#~ "\n"
+#~ "  Byene som blir uthevet på kartet vil også \n"
+#~ "  bli markert i byrapport-vinduet."
+
+#~ msgid ""
+#~ "Dialogs and Reports:\n"
+#~ "====================\n"
+#~ "     F1: open City Report\n"
+#~ "     F2: open Unit Report\n"
+#~ "     F3: open Players dialog\n"
+#~ "     F5: open Economy Report\n"
+#~ "     F6: open Science Report\n"
+#~ "     F7: open World Wonders\n"
+#~ "     F8: open Top Five Cities\n"
+#~ "     F9: open Messages dialog\n"
+#~ "    F11: open Demographics\n"
+#~ "    F12: open Spaceship\n"
+#~ "\n"
+#~ "      T: open Tax/Lux/Sci Rates dialog\n"
+#~ "      F: open Find City dialog\n"
+#~ " Ctrl-L: open Worklists dialog\n"
+#~ "      R: open Revolution dialog\n"
+#~ "\n"
+#~ "Shift-Return: Turn done"
+#~ msgstr ""
+#~ "Dialoger og rapporter:\n"
+#~ "========================\n"
+#~ "     F1: åpne Byrapporten\n"
+#~ "     F2: åpne Enhetsrapporten\n"
+#~ "     F3: åpne Spillererapporten\n"
+#~ "     F5: åpne Økonomirapporten\n"
+#~ "     F6: åpne Forskningsrapporten\n"
+#~ "     F7: åpne Underverksrapporten\n"
+#~ "     F8: åpne Top fem byer\n"
+#~ "     F9: åpne Meldinger dialogen\n"
+#~ "    F11: åpne Demografi\n"
+#~ "    F12: åpne Romskip\n"
+#~ "\n"
+#~ "       T: åpne Skatt/Luksus/Forsknings-dialogen\n"
+#~ "       F: åpne Finn by-dialogen\n"
+#~ " Ctrl-L: åpne Arbeidsliste-dialogen\n"
+#~ "       R: åpne Revolusjons-dialogen\n"
+#~ "\n"
+#~ "Shift-Enter: Runde over"
+
+#~ msgid ""
+#~ "Gives one extra food resource on all Ocean squares.  The city needs to be "
+#~ "coastal to build this improvement."
+#~ msgstr ""
+#~ "Gir en ekstra mat ressurs på alle sjøruter. Byen behøver å være i "
+#~ "nærheten av sjø for å bygge denne forbedringen."
+
+#~ msgid ""
+#~ "Reduces the amount of pollution generated by production in a city by "
+#~ "50%.  It also increases the shield production of a Factory or Mfg. Plant "
+#~ "in the city: a Factory and a Hydro Plant together give a 75% production "
+#~ "bonus, and a Factory, Mfg. Plant and Hydro Plant together give a 150% "
+#~ "production bonus.\n"
+#~ "\n"
+#~ "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant.  A "
+#~ "city can only build a Hydro Plant if it is next to (or on) a Mountain or "
+#~ "River tile."
+#~ msgstr ""
+#~ "Reduserer mengden forurensning generert av en by med 50%.  Det øker "
+#~ "produksjonen av skjold fra en fabrikk eller et fabrikk-kompleks i byen: "
+#~ "en fabrikk og et fabrikk-kompleks gir til sammen 75% produksjonsbonus, og "
+#~ "en fabrikk, et fabrikk-kompleks og et vannkraftverk gir tilsammen 150% "
+#~ "produksjonsbonus.\n"
+#~ "\n"
+#~ "En by kan kun ha et vannkraftverk, kraftverk eller atomkraftverk. En by "
+#~ "kan kun bygge vannkraftverk dersom den er ved siden av (eller på) et "
+#~ "fjell eller en elv."
+
+#~ msgid ""
+#~ "Reduces the amount of pollution generated by production in a city by "
+#~ "50%.  It also increases the shield production of a Factory or Mfg. Plant "
+#~ "in the city: a Factory and a Nuclear Plant together give a 75% production "
+#~ "bonus, and a Factory, Mfg. Plant and Nuclear Plant together give a 150% "
+#~ "production bonus.\n"
+#~ "\n"
+#~ "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
+#~ msgstr ""
+#~ "Reduserer mengden forurensning fra produksjon i en by med 50%. Det øker "
+#~ "også skjoldproduksjonen fra en fabrikk eller et fabrikk-kompleks i byen: "
+#~ "en fabrikk og et atomkraftverk gir tilsammen 75% produksjonsbonus, og en "
+#~ "fabrikk, et fabrikk-kompleks og et atomkraftverk gir tilsammen 150% "
+#~ "produksjonsbonus.\n"
+#~ "\n"
+#~ "En by kan kun ha et vannkraftverk, kraftverk eller atomkreftverk."
+
+#~ msgid ""
+#~ "Adds 1 extra shield resource on all Ocean squares in a city.  The city "
+#~ "needs to be coastal to build this improvement."
+#~ msgstr ""
+#~ "Legger til 1 ekstra skjold ressurs på alle sjøruter i byen. Byen må være "
+#~ "en kystby for å bygge denne forbedringen."
+
+#~ msgid ""
+#~ "Increases the shield production of a Factory or Mfg. Plant in a city: a "
+#~ "Factory and a Power Plant together give a 75% production bonus, and a "
+#~ "Factory, Mfg. Plant and Power Plant together give a 150% production "
+#~ "bonus.  The extra production may lead to the city generating more "
+#~ "pollution.\n"
+#~ "\n"
+#~ "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
+#~ msgstr ""
+#~ "Det øker produksjonen av skjold fra en fabrikk eller et fabrikk-kompleks "
+#~ "i en by: en fabrikk og et fabrikk-kompleks gir til sammen 75%  "
+#~ "produksjonsbonus, og en fabrikk, et fabrikk-kompleks og et kraftverk gir "
+#~ "tilsammen 150% produksjonsbonus.\n"
+#~ "\n"
+#~ "En by kan kun ha et vannkraftverk, kraftverk eller atomkraftverk. "
+
+#~ msgid ""
+#~ "Gives all your sea units 1 additional movement point and eliminates the "
+#~ "risk of losing Triremes on the high seas.  Makes all your new sea units "
+#~ "veterans (for all your cities)."
+#~ msgstr ""
+#~ "Gir alle dine sjøenheter 1 ekstra forflytningspoeng og eliminerer "
+#~ "risikoen for å miste Triremer på sjøen. Gjør alle nye sjøenheter til "
+#~ "veteran (i alle dine byer)."
+
+#~ msgid ""
+#~ "Eliminates all pollution generated by production in a city.  It also "
+#~ "increases the shield production of a Factory or Mfg. Plant in the city: a "
+#~ "Factory and a Solar Plant together give a 100% production bonus, and a "
+#~ "Factory, Mfg. Plant and Solar Plant together give a 150% production "
+#~ "bonus.\n"
+#~ "\n"
+#~ "A city can only have one Solar Plant, Hydro Plant, Power Plant, or "
+#~ "Nuclear Plant."
+#~ msgstr ""
+#~ "Fjerner all forurensning fra produksjon i en by. Det øker også "
+#~ "skjoldproduksjonen fra en fabrikk eller et fabrikk-kompleks i byen: en "
+#~ "fabrikk og solcellekraftverk gir tilsammen 100% produksjonsbonus, og en "
+#~ "fabrikk, fabrikk-kompleks og solcellekraftverk gir tilsammen 150% "
+#~ "produksjonsbonus.\n"
+#~ "\n"
+#~ "En by kan bare ha ett solcellekraftverk, vannkraftverk, kraftverk eller "
+#~ "atomkraftverk."
+
+#~ msgid ""
+#~ "Gives all sea units 1 additional movement point and eliminates the risk "
+#~ "of losing Triremes on the high seas.  Makes all new sea units veterans "
+#~ "(for all cities)."
+#~ msgstr ""
+#~ "Gir alle sjø enheter 1 ekstra forflytningspoeng og eliminerer risikoen "
+#~ "for å miste Triremer på sjøen. Gjør alle nye sjøenheter til veteran (i "
+#~ "alle byer)."
+
+#, fuzzy
+#~ msgid ""
+#~ "Fundamentalism is a form of government organized around a central set of "
+#~ "beliefs. The beliefs, usually religious in nature, form a rigid guideline "
+#~ "for actions and reactions of both the rulers and the people.\n"
+#~ "\n"
+#~ "In a fundamentalist society, the people and the rulers are entirely "
+#~ "devoted to their beliefs, and are usually willing to die to preserve "
+#~ "them.\n"
+#~ "\n"
+#~ "Improvement that normally convert unhappy citizens to content citizens, "
+#~ "produces `tithes' (gold) equivalent to the number of people they would "
+#~ "convert, and require no maintenance."
+#~ msgstr ""
+#~ "Fundamentalisme er en styreform organisert omkring en sterk tro, "
+#~ "vanligvis av religiøs natur, som former en fast veiledning for handlinger "
+#~ "og reaksjoner for ledere og folket.\n"
+#~ "\n"
+#~ "I et fundamentalistisk samfunn er folket og lederne helt overbevist av "
+#~ "sine trosforestillinger og er vanligvis forberedt på å dø for å bevare "
+#~ "de.\n"
+#~ "\n"
+#~ "Under fundamentalisme kan dine byer støtte opp til 10 militære enheter "
+#~ "uten å betale utgifter for det. (Ekstra enheter koster 1 skjold per "
+#~ "runde. Fanatiske enheter har ingen utgifter.\n"
+#~ "\n"
+#~ "Nybyggere forbruker 2 mat per runde under fundamentalisme.\n"
+#~ "\n"
+#~ "Dersom en by feirer som er under fundamentalistisk styre får den 1 "
+#~ "ytterligere handel i hver rute som allerede gir minst 1 handel. Se "
+#~ "lykkelighet for mer detaljer.\n"
+#~ "\n"
+#~ "Den høyeste satsen for forskning, skatt og luksus er 80%.\n"
+#~ "\n"
+#~ "Den høyeste virksomme satsen for forskning er 50%, siden overskuddet blir "
+#~ "brukt til å hente inn skatt. Dessuten er forkningssatsen halvert.\n"
+#~ "\n"
+#~ "Små mengder korrupsjon og avfall forekommer i fundamentalistiske byer.\n"
+#~ "\n"
+#~ "Byforbedringer som vanligvis gjør ulykkelige borgere fornøyde, gir i "
+#~ "stedet offergaver (gull) tilsvarende innbyggertallet de skulle ha "
+#~ "omvendt, og har ingen utgifter til vedlikehold."
+
+#, fuzzy
+#~ msgid "Petroleum"
+#~ msgstr "Patruljer"
+
+#~ msgid ""
+#~ "This unit may be built from the start of the game.  It is the weakest "
+#~ "unit."
+#~ msgstr ""
+#~ "Denne enheten kan bygges helt fra starten av spillet.  Det er den "
+#~ "svakeste enheten."
+
+#~ msgid ""
+#~ "A number of Partisans are granted free when an enemy conquers your city, "
+#~ "but only under these conditions:\n"
+#~ "\n"
+#~ " - Guerilla Warfare must be known by at least 1 player.\n"
+#~ "\n"
+#~ " - You must be the player who originally built the city.\n"
+#~ "\n"
+#~ " - You must know about Communism and Gunpowder.\n"
+#~ "\n"
+#~ " - You must run either a Democracy or a Communist government."
+#~ msgstr ""
+#~ "Man får et antall partisaner gratis dersom man mister en by til fienden, "
+#~ "men bare etter disse vilkårene:\n"
+#~ "\n"
+#~ " - Geriljakrigføring må være kjent av minst 1 spiller.\n"
+#~ "\n"
+#~ " - Man må være den spilleren som opprinnelig grunnla byen.\n"
+#~ "\n"
+#~ " - Man må ha oppdaget kommunisme og krutt.\n"
+#~ "\n"
+#~ " - Man må ha demokrati eller kommunisme som styreform."
+
+#~ msgid ""
+#~ "TIP:  A very fast unit, which is very useful for hunting down enemy "
+#~ "Transports."
+#~ msgstr ""
+#~ "TIPS:  En meget kjapp enhet som er svært nyttig i jakten på fiendtlige "
+#~ "transportskip."
+
+#~ msgid ""
+#~ "Submarines have a very high strategic value, but have a weak defence."
+#~ msgstr "Ubåter har en svært høy strategisk verdi, men dårlig egetforsvar."
+
+#~ msgid ""
+#~ "TIP:  Guard Carriers with a handful of fast-moving ships and a "
+#~ "battleship, as losing a fully-equipped Carrier is VERY painful and "
+#~ "expensive."
+#~ msgstr ""
+#~ "Tips: Beskytt hangarfartøy med en håndfull raske skip og et slagskip "
+#~ "siden det er veldig plagsomt og dyrt å miste et fullt utstyrt hangarskip."
+
+#~ msgid ""
+#~ "TIP:  A handful of these can successfully keep the waters around your "
+#~ "treasured homeland free of enemy ships."
+#~ msgstr ""
+#~ "Tips: Et par av disse kan holde sjøen rundt ditt hjemland fritt for "
+#~ "fiendtlige skip.\t"
+
+#~ msgid ""
+#~ "Every Caravan that is used to build a wonder will add 50 shields towards "
+#~ "the production of the wonder.\n"
+#~ "\n"
+#~ "TIP:  You can stockpile a stack of Caravans in advance and bring them all "
+#~ "into a city where you have started to build a wonder, and finish it in "
+#~ "only one turn!"
+#~ msgstr ""
+#~ "Hver karavane som brukes til å bygge et underverk bidrar med 50 skjold "
+#~ "til byggverket.\n"
+#~ "\n"
+#~ "Tips: Du kan samle opp mange karavaner og ta inn alle i en by når du har "
+#~ "begynt å bygge et underverk, også bygge det ferdig på kun en runde!"
+
+#~ msgid "Explorers are very useful for mapping unknown territory."
+#~ msgstr "Utforskere er nyttig til å kartlegge ukjent territorie."
+
+#~ msgid ""
+#~ "When barbarian leader is killed on a tile without any defending units, "
+#~ "the 100 gold ransom is paid, but only to land units and helicopters."
+#~ msgstr ""
+#~ "Når en barbarhøvding drepes på en rute uten forsvarende enheter, betales "
+#~ "100 gull i løsepenger, men bare til landenheter og helikopter."
+
+#, fuzzy
+#~ msgid ""
+#~ "Fundamentalist nations can maintain Fanatic units without having to pay "
+#~ "any shields for upkeep."
+#~ msgstr ""
+#~ "Bare fundamentalistiske nasjoner kan bygge fanatiske enheter.\n"
+#~ "\n"
+#~ "Fundamentalistiske nasjonen kan opprettholde fanatiske enheter uten å "
+#~ "betale skjold i vedlikehold."
+
+#~ msgid ""
+#~ "When barbarian leader is killed on a tile without any defending units, "
+#~ "the 100 gold ransom is paid, but only to land units."
+#~ msgstr ""
+#~ "Når en barbarhøvding drepes på en rute uten forsvarende enheter, betales "
+#~ "100 gull i løsepenger, men bare til landenheter og helikopter."
+
+#~ msgid ""
+#~ "Australia was founded as a British penal colony in 1788AD. It is the only "
+#~ "country on earth to occupy an entire continent."
+#~ msgstr ""
+#~ "Australia ble grunnlagt som en britisk fangekoloni i 1788 e.Kr. Det er "
+#~ "den eneste landet i verden som okkuperer et helt kontinent."
+
+#~ msgid "Bosnia & Herzegovina"
+#~ msgstr "bosnier"
+
+#~ msgid ""
+#~ "Brazil was founded as a colony of Portugal but became independent in "
+#~ "1822AD. It is the only country in the New World that has been the seat of "
+#~ "a monarchy."
+#~ msgstr ""
+#~ "Brasil ble grunnlagt som en portugisisk koloni, men ble uavhengig i 1822 "
+#~ "e.Kr. Det er det eneste landet i den nye verden som hadde monarki."
+
+#~ msgid ""
+#~ "Catalunya (aka Catalonia in English) is the north-eastern-most coastal "
+#~ "region of Spain near the southern foot of the Pyrenees."
+#~ msgstr ""
+#~ "Katalonia er det nordøstligste kystområdet i Spania, nær foten av "
+#~ "Pyrineene."
+
+#~ msgid "Emporer"
+#~ msgstr "Keiser"
+
+#, fuzzy
+#~ msgid ""
+#~ "The Inca were an Amerind people of the Northern Andes who conquered an "
+#~ "empire stretching along the west coast of South America from what is now "
+#~ "southern Chile nearly to the Equator. They had the bad timing to do it "
+#~ "just a few decades before the Spanish conquistadors arrived in their part "
+#~ "of the world in the mid-1500s AD."
+#~ msgstr ""
+#~ "Inkaene var et amerindfolk fra nord i Andesfjellene. De erobret et rike "
+#~ "som strakk seg langs vestkysten av Sør-Amerika fra det nåværende sørlige "
+#~ "Chile til ekvator. Desværre var deres ankomst kun noen få tiår før "
+#~ "spanjolenes erobring av verdensdelen på midten av 1500-tallet e.Kr."
+
+#, fuzzy
+#~ msgid "?title:Inca"
+#~ msgstr "Folkemorder"
+
+#, fuzzy
+#~ msgid "Sapa Inca"
+#~ msgstr "inka"
+
+#~ msgid "Kampuchean"
+#~ msgstr "kambodsja"
+
+#~ msgid "?plural:Kampucheans"
+#~ msgstr "?plural:kambodsjerne"
+
+#, fuzzy
+#~ msgid "Presedinte"
+#~ msgstr "President"
+
+#, fuzzy
+#~ msgid "Elected Priest"
+#~ msgstr "Slett forhåndsvalg"
+
+#, fuzzy
+#~ msgid "Elected Priestess"
+#~ msgstr "Høyeste prestinne"
+
+#~ msgid "Turk"
+#~ msgstr "tyrkisk"
+
+#~ msgid "Units: "
+#~ msgstr "Enheter: "
+
+#, fuzzy
+#~ msgid ""
+#~ "* Military units away from home and field units will cause one citizen to "
+#~ "become unhappy.\n"
+#~ msgstr "Militære enheter i felten kan føre til ulykkelighet. "
+
+#~ msgid ""
+#~ "%s%s  -  %s%s\n"
+#~ "\n"
+#~ msgstr ""
+#~ "%s%s  -  %s%s\n"
+#~ "\n"
+
 #~ msgid "%s"
 #~ msgstr "%s"
 
 #~ msgid "Your %s succeeded in bribing %s's %s and became more experienced."
 #~ msgstr "Din %s lyktes i å bestikke %ss %s og ble med erfaren."
-
-# problem
-#~ msgid ""
-#~ "Eliminated %s %s while infiltrating %s. The defender became more "
-#~ "experienced."
-#~ msgstr ""
-#~ "En %s %s ble eliminert i et forsøk på å infiltrere %s. Forsvareren ble "
-#~ "med erfaren."
-
-# problem
-#~ msgid ""
-#~ "Eliminated %s %s while infiltrating our troops. The defender became more "
-#~ "experienced."
-#~ msgstr ""
-#~ "En %s %s ble eliminert i et forsøk på å infiltrere våre tropper. "
-#~ "Forsvareren ble mer erfaren."
 
 #~ msgid ""
 #~ "Your %s has successfully completed her mission and returned unharmed to %"
@@ -27690,24 +28656,6 @@ msgstr "Lag"
 #~ msgstr ""
 #~ "Din %s har klart sitt oppdrag og har returnert uskadet og mer erfaren til "
 #~ "%s."
-
-#~ msgid "Reason: line not found"
-#~ msgstr "Begrunnelse: linjen ble ikke funnet"
-
-#~ msgid "Reason: line too short (expected %d got %lu"
-#~ msgstr "Begrunnelse: linjen er for kort (forventet %d, men fikk %lu"
-
-#, fuzzy
-#~ msgid "Ruleset directory name \"%s\" disallowed for security reasons."
-#~ msgstr "Kunne ikke finne regeloppsettskatalogen \"%s\""
-
-#~ msgid ", nation %s"
-#~ msgstr ", nasjon: %s"
-
-# problem
-#, fuzzy
-#~ msgid ", team %s"
-#~ msgstr " nær %s"
 
 #~ msgid "Your bombarding %s%s became more experienced!"
 #~ msgstr "Ditt bombarderende %s %s ble mer erfaren!"
@@ -27734,10 +28682,6 @@ msgstr "Lag"
 #~ msgid " near %s"
 #~ msgstr " nær %s"
 
-#~ msgid ""
-#~ "Your attacking %s succeeded against %s's %s%s and became more experienced!"
-#~ msgstr "Din %s lykkes i sitt angrep mot %ss %s%s og ble mer erfaren!"
-
 #, fuzzy
 #~ msgid ""
 #~ "Your attacking %s succeeded against %s's %s (and %d other unit)%s and "
@@ -27752,14 +28696,88 @@ msgstr "Lag"
 #~ msgid "%s lost to an attack from %s's %s."
 #~ msgstr "%s gikk tapt i et angrep fra %ss %s."
 
-#~ msgid "Plugin %s found but can't be initialized."
-#~ msgstr "Plugin %s funnet, men kan ikke startes."
+#~ msgid " Choose Your Diplomat's Strategy"
+#~ msgstr " Velg din diplomats strategi"
+
+# problem
+#~ msgid ""
+#~ "Eliminated %s %s while infiltrating %s. The defender became more "
+#~ "experienced."
+#~ msgstr ""
+#~ "En %s %s ble eliminert i et forsøk på å infiltrere %s. Forsvareren ble "
+#~ "med erfaren."
+
+# problem
+#~ msgid ""
+#~ "Eliminated %s %s while infiltrating our troops. The defender became more "
+#~ "experienced."
+#~ msgstr ""
+#~ "En %s %s ble eliminert i et forsøk på å infiltrere våre tropper. "
+#~ "Forsvareren ble mer erfaren."
+
+#, fuzzy
+#~ msgid ""
+#~ "Your client is too old. To use this server, please upgrade your client to "
+#~ "a Freeciv 2.1 or later."
+#~ msgstr ""
+#~ "Din klient er for gammel. For å bruke denne serveren må du oppdatere din "
+#~ "klient til en CVS versjon etter 2003-11-28 eller Freeciv 2.1 eller senere."
+
+#, fuzzy
+#~ msgid "Ruleset directory name \"%s\" disallowed for security reasons."
+#~ msgstr "Kunne ikke finne regeloppsettskatalogen \"%s\""
+
+#~ msgid ", nation %s"
+#~ msgstr ", nasjon: %s"
+
+# problem
+#, fuzzy
+#~ msgid ", team %s"
+#~ msgstr " nær %s"
+
+#~ msgid "_Map"
+#~ msgstr "_Kart"
+
+#, fuzzy
+#~ msgid "Create _player"
+#~ msgstr "create <spillernavn>"
+
+#, fuzzy
+#~ msgid "_Release player"
+#~ msgstr "_Spiller"
+
+#~ msgid "Gover_nment"
+#~ msgstr "_Styreform"
+
+#~ msgid "_Players"
+#~ msgstr "_Spillere"
+
+#~ msgid "_Science"
+#~ msgstr "_Forskning"
+
+#~ msgid "S_paceship"
+#~ msgstr "_Romskip"
+
+#~ msgid "Game _Options..."
+#~ msgstr "Spill-_innstillinger..."
+
+#~ msgid "Clear _Log"
+#~ msgstr "_Rens logg"
+
+#~ msgid "Work_lists"
+#~ msgstr "_Arbeidsliste"
+
+#~ msgid "Science Report"
+#~ msgstr "Forskningsrapport"
+
+#~ msgid "Reason: line not found"
+#~ msgstr "Begrunnelse: linjen ble ikke funnet"
+
+#~ msgid "Reason: line too short (expected %d got %lu"
+#~ msgstr "Begrunnelse: linjen er for kort (forventet %d, men fikk %lu"
 
 #~ msgid "Plugin '%s' is now selected"
 #~ msgstr "Plugin '%s' er nå valgt"
-
-#~ msgid "Couldn't find soundset \"%s\" trying \"%s\"."
-#~ msgstr "Klarte ikke å finne lydsettet \"%s\" forsøker \"%s\"."
 
 #~ msgid "No real audio plugin present, proceeding with sound support disabled"
 #~ msgstr "Ingen lydplugin funnet, fortsetter med lyd deaktivert."
@@ -27767,12 +28785,6 @@ msgstr "Lag"
 #, fuzzy
 #~ msgid "http://www.libsdl.org/projects/SDL_mixer/index.html"
 #~ msgstr "SDL_mixer: http://www.libsdl.org/projects/SDL_mixer/index.html"
-
-#~ msgid "No sound spec-file given!"
-#~ msgstr "Ingen lydoppsett er spesifisert!"
-
-#~ msgid "Cannot find sound spec-file \"%s\"."
-#~ msgstr "Kunne ikke finne lydoppsett i filen \"%s\"."
 
 #~ msgid "Will continue with disabled sounds."
 #~ msgstr "Fortsetter uten lyd."
@@ -27792,114 +28804,12 @@ msgstr "Lag"
 #~ msgid "sound spec-file claims required option(s) which we don't support:"
 #~ msgstr "lydoppsettet krever alternativ som vi ikke støtter:"
 
-#~ msgid "Cannot find audio file %s"
-#~ msgstr "Klarer ikke å finne lydfilen %s"
-
-#~ msgid "%s (XX) %d/turn"
-#~ msgstr "%s (XX) %d/runde"
-
-#~ msgid "%s (%d) %d turn"
-#~ msgid_plural "%s (%d) %d turns"
-#~ msgstr[0] "%s (%d) %d runde"
-#~ msgstr[1] "%s (%d) %d runde"
-
-#, fuzzy
-#~ msgid ""
-#~ "* Military units away from home and field units will cause one citizen to "
-#~ "become unhappy.\n"
-#~ msgstr "Militære enheter i felten kan føre til ulykkelighet. "
-
-#, fuzzy
-#~ msgid "Territory of the %s"
-#~ msgstr "Territoriet til %s %s"
-
-#~ msgid "Territory of the %s %s"
-#~ msgstr "Territoriet til %s %s"
-
-#~ msgid " Choose Your Diplomat's Strategy"
-#~ msgstr " Velg din diplomats strategi"
-
-#~ msgid "Pro_duction"
-#~ msgstr "_Produksjon"
-
-#~ msgid "S_how"
-#~ msgstr "V_is"
-
-#~ msgid "_Popup"
-#~ msgstr "Vis _By"
-
-#~ msgid "_Goto location"
-#~ msgstr "_Gå til"
-
-#~ msgid "_Popup City"
-#~ msgstr "_Vis by"
-
-#~ msgid "L_egend"
-#~ msgstr "_Forklaring"
-
-#~ msgid "_Map"
-#~ msgstr "_Kart"
-
-#, fuzzy
-#~ msgid "Create _player"
-#~ msgstr "create <spillernavn>"
-
-#, fuzzy
-#~ msgid "_Release player"
-#~ msgstr "F_rigi byen"
-
-#~ msgid "Units: "
-#~ msgstr "Enheter: "
-
-#~ msgid "Gover_nment"
-#~ msgstr "_Styreform"
-
-#~ msgid "_Change Government"
-#~ msgstr "_Endre styreform"
-
-#~ msgid "_Players"
-#~ msgstr "_Spillere"
-
-#~ msgid "_Science"
-#~ msgstr "_Forskning"
-
-#~ msgid "S_paceship"
-#~ msgstr "_Romskip"
-
-#, fuzzy
-#~ msgid "_Tools"
-#~ msgstr "Totalt"
-
-#~ msgid "_Cancel Treaty"
-#~ msgstr "_Avbryt avtale"
-
-#~ msgid "Game _Options..."
-#~ msgstr "Spill-_innstillinger..."
-
-#~ msgid "U"
-#~ msgstr "E"
-
-#, fuzzy
-#~ msgid ""
-#~ "\n"
-#~ "finshed"
-#~ msgstr "fastsatt"
+#~ msgid "Goto _location"
+#~ msgstr "Gå til _posisjon"
 
 #, fuzzy
 #~ msgid "Couldn't blit text to display: %s"
 #~ msgstr "Kan ikke konvertere tekst fra %s til %s: %s"
-
-#~ msgid "Clear _Log"
-#~ msgstr "_Rens logg"
-
-#~ msgid "Gov_ernment"
-#~ msgstr "_Styreform"
-
-#~ msgid "Work_lists"
-#~ msgstr "_Arbeidsliste"
-
-#~ msgid "Science Report"
-#~ msgstr "Forskningsrapport"
 
 #~ msgid ""
 #~ "When built, every civilization's attitude toward you is improved by 25%."
@@ -27907,24 +28817,40 @@ msgstr "Lag"
 #~ "Når det bygges ferdig vil hver sivilisasjons innstilling til deg "
 #~ "forbedres med 25%."
 
-#, fuzzy
-#~ msgid "Petroleum"
-#~ msgstr "Patruljer"
-
 #~ msgid ""
-#~ "Brazil was founded as a colony of Portugal but became independent in "
-#~ "1822AD. It is the only country in the New World that has been the seat of "
-#~ "a monarchy."
+#~ "- A Diplomat can establish embassies with other civilizations by moving "
+#~ "into another player's city.\n"
+#~ "\n"
+#~ "- Diplomats can also try to sabotage enemy production, or steal an "
+#~ "advance from an enemy city.  (An advance can only be stolen once per "
+#~ "city).\n"
+#~ "\n"
+#~ "- A Diplomat can also bribe an enemy unit, if that unit is the only unit "
+#~ "on its square.\n"
+#~ "\n"
+#~ "- Diplomats can even start a revolution in an enemy city and turn it into "
+#~ "your own, if you have the money!\n"
+#~ "\n"
+#~ "- In some game strategies, hordes of Diplomats can be used to wreak havoc "
+#~ "on the enemy.  Little wonder that Diplomats are often viewed with "
+#~ "suspicion and fear!"
 #~ msgstr ""
-#~ "Brasil ble grunnlagt som en portugisisk koloni, men ble uavhengig i 1822 "
-#~ "e.Kr. Det er det eneste landet i den nye verden som hadde monarki."
-
-#~ msgid ""
-#~ "Catalunya (aka Catalonia in English) is the north-eastern-most coastal "
-#~ "region of Spain near the southern foot of the Pyrenees."
-#~ msgstr ""
-#~ "Katalonia er det nordøstligste kystområdet i Spania, nær foten av "
-#~ "Pyrineene."
+#~ "- En diplomat kan opprette ambassader hos andre sivilisasjoner ved å "
+#~ "flytte inn i en annen spillers by.\n"
+#~ "\n"
+#~ "- Diplomater kan også sabotere fiendens produksjon, eller stjele et "
+#~ "fremskritt fra en fiendtlig by. (Kun et fremskritt kan stjeles fra en "
+#~ "by).\n"
+#~ "\n"
+#~ "- En diplomat kan også bestikke en fiendtlig enhet, dersom den enheten er "
+#~ "den eneste enheten på sin rute.\n"
+#~ "\n"
+#~ "- Diplomater kan også starte en revolusjon i en fiendtlig by og gjøre den "
+#~ "til din egen, dersom du kan betale!\n"
+#~ "\n"
+#~ "- I visse spillstrategier kan horder av diplomater brukes til å overta "
+#~ "mange byer på veldig kort tid. Ikke rart at diplomater ofte blir sett på "
+#~ "med mistenksomhet og frykt!"
 
 #, fuzzy
 #~ msgid "Team 32"
@@ -28392,6 +29318,9 @@ msgstr "Lag"
 #~ msgid "_New"
 #~ msgstr "_Ny"
 
+#~ msgid "_Remove"
+#~ msgstr "Fje_rne"
+
 #~ msgid "Freeciv - Edit Worklist"
 #~ msgstr "Freeciv - Endre arbeidslister"
 
@@ -28440,15 +29369,18 @@ msgstr "Lag"
 #~ msgid "Exit Report"
 #~ msgstr "Byrapport"
 
-#~ msgid "Modern"
-#~ msgstr "Moderne"
+#, fuzzy
+#~ msgid ""
+#~ "\n"
+#~ "finshed"
+#~ msgstr "fastsatt"
+
+#~ msgid "tech \"%s\": requires itself"
+#~ msgstr "fremstritt \"%s\": krever seg selv"
 
 #, fuzzy
-#~ msgid "African"
-#~ msgstr "amerikansk"
-
-#~ msgid "Fictional"
-#~ msgstr "Fiksjon"
+#~ msgid "%s's %s tried to build %s, which is not available."
+#~ msgstr "%ss %s bygger %s, som ikke lengre er tilgjengelig."
 
 #~ msgid ""
 #~ "Your %s was executed in %s on suspicion of spying.  The %s welcome future "
@@ -28463,109 +29395,6 @@ msgstr "Lag"
 #~ msgstr ""
 #~ "Du henrettet en %s som %s sendte for å etablere ambassade i %s for ikke å "
 #~ "ha vært troverdig."
-
-#~ msgid "City: Celebrating"
-#~ msgstr "By: Feirer"
-
-#~ msgid "City: Growth"
-#~ msgstr "By: Tilvekst"
-
-#~ msgid "City: Normal"
-#~ msgstr "By: Normal"
-
-#~ msgid "City: Transfer"
-#~ msgstr "By: Overføring"
-
-#~ msgid "Civ: Civil War"
-#~ msgstr "Civ: Borgerkrig"
-
-#~ msgid "Civ: Pollution"
-#~ msgstr "Civ: Forurensning"
-
-#~ msgid "Diplomat Action: Bribe"
-#~ msgstr "Diplomataktivitet: Bestikkelse"
-
-#~ msgid "Diplomat Action: Caused Incident"
-#~ msgstr "Diplomataktivitet: Forårsaket ulykke"
-
-#~ msgid "Diplomat Action: Escape"
-#~ msgstr "Diplomataktivitet - Unnslapp"
-
-#~ msgid "Diplomat Action: Embassy"
-#~ msgstr "Diplomataktivitet - Ambassade"
-
-#~ msgid "Diplomat Action: Failed"
-#~ msgstr "Diplomataktivitet - Mislykket"
-
-#~ msgid "Diplomat Action: Incite"
-#~ msgstr "Diplomataktivitet - Infiltrert"
-
-#~ msgid "Diplomat Action: Poison"
-#~ msgstr "Diplomataktivitet - Forgiftning"
-
-#~ msgid "Diplomat Action: Sabotage"
-#~ msgstr "Diplomataktivitet - Sabotasje"
-
-#~ msgid "Diplomat Action: Theft"
-#~ msgstr "Diplomataktivitet - Tyveri"
-
-#~ msgid "Enemy Diplomat: Embassy"
-#~ msgstr "Fiendtlig diplomat: Ambassade"
-
-#~ msgid "Enemy Diplomat: Failed"
-#~ msgstr "Fiendtlig Diplomat: Mislykkes"
-
-#~ msgid "Enemy Diplomat: Incite"
-#~ msgstr "Fiendtlig diplomat: Infiltrert"
-
-#~ msgid "Enemy Diplomat: Poison"
-#~ msgstr "Fiendtlig diplomat: Forgiftning"
-
-#~ msgid "Enemy Diplomat: Sabotage"
-#~ msgstr "Fiendtlig diplomat: Sabotasje"
-
-#~ msgid "Enemy Diplomat: Theft"
-#~ msgstr "Fiendtlig diplomat: Tyveri"
-
-#~ msgid "Improvement: Bought"
-#~ msgstr "Byforbedring: Kjøpt"
-
-#~ msgid "Improvement: Built"
-#~ msgstr "Byforbedring: Bygd ferdig"
-
-#~ msgid "Improvement: Sold"
-#~ msgstr "Byforbedring: Solgt"
-
-#~ msgid "Treaty: Broken"
-#~ msgstr "Avtale: Brutt"
-
-#~ msgid "Treaty: Peace"
-#~ msgstr "Avtale: Fred"
-
-#~ msgid "Treaty: Shared Vision"
-#~ msgstr "Avtale: Delt utsyn"
-
-#~ msgid "Unit: Built"
-#~ msgstr "Enhet: Bygget ferdig"
-
-#~ msgid "Wonder: Finished"
-#~ msgstr "Underverk: Fullført"
-
-#~ msgid "Wonder: Made Obsolete"
-#~ msgstr "Underverk: Foreldet"
-
-#~ msgid "Wonder: Started"
-#~ msgstr "Underverk: Startet"
-
-#~ msgid "Treaty: Embassy"
-#~ msgstr "Avtale: Ambassade"
-
-#~ msgid "tech \"%s\": requires itself"
-#~ msgstr "fremstritt \"%s\": krever seg selv"
-
-#, fuzzy
-#~ msgid "%s's %s tried to build %s, which is not available."
-#~ msgstr "%ss %s bygger %s, som ikke lengre er tilgjengelig."
 
 #~ msgid "Sea moving start units are not yet supported, %s not created."
 #~ msgstr "Startende sjøenheter er ikke støttet, %s ble ikke laget."
@@ -28593,10 +29422,6 @@ msgstr "Lag"
 #~ msgid "Unknown terrain %s in entry %s."
 #~ msgstr "Ukjent terreng %s i %s."
 
-#, fuzzy
-#~ msgid "Unit %s has unknown unit class %s as cargo."
-#~ msgstr "Terrenget %s har ukjent flagg %s"
-
 #~ msgid "Ruleset doesn't have any terrains (%s)"
 #~ msgstr "Regeloppsett har ikke noe terreng (%s)"
 
@@ -28611,16 +29436,8 @@ msgstr "Lag"
 #~ msgstr "Terrenget %s har ukjent flagg %s"
 
 #, fuzzy
-#~ msgid "Terrain %s is native to unknown unit class %s"
-#~ msgstr "Terrenget %s har ukjent flagg %s"
-
-#, fuzzy
 #~ msgid "Resources %s and %s have the same identifier."
 #~ msgstr "Terrengene %s og %s har samme identifikator."
-
-#, fuzzy
-#~ msgid "Base %s has unknown flag %s"
-#~ msgstr "Terrenget %s har ukjent flagg %s"
 
 #, fuzzy
 #~ msgid "Section %s lists unknown effect type: \"%s\" (%s)"
@@ -28666,53 +29483,8 @@ msgstr "Lag"
 #~ msgid "Unsupported city style found in player%d section. Changed to %s"
 #~ msgstr "Ikke støttet by-stil finnet i spiller%d seksjon. Endret til %s"
 
-#~ msgid "Your %s has been lost on the high seas."
-#~ msgstr "Din %s har gått tapt på havet."
-
-#~ msgid "Your %s survived on the high seas and became more experienced!"
-#~ msgstr "Din %s overlevde på havet og ble mer erfaren!"
-
-#~ msgid "Your %s has been lost on unsafe terrain."
-#~ msgstr "Din %s har gått tapt på usikkert terreng."
-
 #~ msgid "Food Stock"
 #~ msgstr "Matbeholdning"
-
-#~ msgid "* Can build fortresses (if %s is known).\n"
-#~ msgstr "* Tillater å bygge fort (dersom %s er kjent).\n"
-
-#~ msgid "* Can build fortresses (if any of the following are known: %s).\n"
-#~ msgstr "* Tillater å bygge fort (dersom en av følgende er kjent: %s).\n"
-
-#~ msgid "* Can build airbases.\n"
-#~ msgstr "* Kan bygge flyplasser.\n"
-
-#~ msgid "* The discovery of %s reduces the risk to 25%%.\n"
-#~ msgstr "* Oppdagelsen av %s reduserer risikoen til 25%%.\n"
-
-#~ msgid "* %s reduces the risk to 12%%.\n"
-#~ msgstr "* %s reduserer risikoen til 12%%.\n"
-
-#~ msgid "* Reduces the chance of losing boats on the high seas to 25%%.\n"
-#~ msgstr ""
-#~ "* Reduserer sannsynligheten for å miste en enhet på dypt hav til 25%%.\n"
-
-#~ msgid "* Reduces the chance of losing boats on the high seas to 12%%.\n"
-#~ msgstr ""
-#~ "* Reduserer sannsynligheten for å miste en enhet på dypt hav til 12%%.\n"
-
-#~ msgid "* Allows %s to build fortresses.\n"
-#~ msgstr "* Tillater %s å bygge fort.\n"
-
-#~ msgid "* Allows %s to build airbases.\n"
-#~ msgstr "* Tillater %s å bygge flybaser.\n"
-
-#~ msgid "* This terrain is unsafe for units to travel on."
-#~ msgstr "* Dette terrenget er utrygt for ferdsel."
-
-#, fuzzy
-#~ msgid " with "
-#~ msgstr " (med "
 
 #, fuzzy
 #~ msgid ""
@@ -28757,18 +29529,6 @@ msgstr "Lag"
 #~ msgstr "Mangler den grunnleggende grafikk-taggen \"%s1\"."
 
 #, fuzzy
-#~ msgid "Moves Left"
-#~ msgstr "Flytt"
-
-#, fuzzy
-#~ msgid "<AI>"
-#~ msgstr "AI"
-
-#, fuzzy
-#~ msgid "<Hard AI>"
-#~ msgstr "AI"
-
-#, fuzzy
 #~ msgid "Economy (F5)"
 #~ msgstr "Økonomi"
 
@@ -28798,39 +29558,6 @@ msgstr "Lag"
 #~ msgid "Log"
 #~ msgstr "Navn:"
 
-#~ msgid ""
-#~ "%s%s  -  %s%s\n"
-#~ "\n"
-#~ msgstr ""
-#~ "%s%s  -  %s%s\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "Gives all sea units 1 additional movement point and eliminates the risk "
-#~ "of losing Triremes on the high seas.  Makes all new sea units veterans "
-#~ "(for all cities)."
-#~ msgstr ""
-#~ "Gir alle sjø enheter 1 ekstra forflytningspoeng og eliminerer risikoen "
-#~ "for å miste Triremer på sjøen. Gjør alle nye sjøenheter til veteran (i "
-#~ "alle byer)."
-
-#, fuzzy
-#~ msgid ""
-#~ "The Inca were an Amerind people of the Northern Andes who conquered an "
-#~ "empire stretching along the west coast of South America from what is now "
-#~ "southern Chile nearly to the Equator. They had the bad timing to do it "
-#~ "just a few decades before the Spanish conquistadors arrived in their part "
-#~ "of the world in the mid-1500s AD."
-#~ msgstr ""
-#~ "Inkaene var et amerindfolk fra nord i Andesfjellene. De erobret et rike "
-#~ "som strakk seg langs vestkysten av Sør-Amerika fra det nåværende sørlige "
-#~ "Chile til ekvator. Desværre var deres ankomst kun noen få tiår før "
-#~ "spanjolenes erobring av verdensdelen på midten av 1500-tallet e.Kr."
-
-#, fuzzy
-#~ msgid "?title:Inca"
-#~ msgstr "Folkemorder"
-
 #, fuzzy
 #~ msgid ""
 #~ "Start\n"
@@ -28858,6 +29585,32 @@ msgstr "Lag"
 #~ msgid "Ah"
 #~ msgstr "Ah"
 
+#, fuzzy
+#~ msgid "If enabled then cities will be drawn on the overview."
+#~ msgstr "Om dette er valgt styrer bynavnene etter landskapet rundt byen."
+
+#, fuzzy
+#~ msgid "Oceanian"
+#~ msgstr "Hav"
+
+#~ msgid "Modern"
+#~ msgstr "Moderne"
+
+#, fuzzy
+#~ msgid "African"
+#~ msgstr "amerikansk"
+
+#~ msgid "Fictional"
+#~ msgstr "Fiksjon"
+
+#, fuzzy
+#~ msgid "Transitional"
+#~ msgstr "Fiksjon"
+
+#, fuzzy
+#~ msgid "Qween"
+#~ msgstr "Dronning"
+
 #~ msgid ""
 #~ "Only the console and connections with cmdlevel 'hack' can force other "
 #~ "connections to take over a player. If you're not one of these, only the "
@@ -28867,26 +29620,9 @@ msgstr "Lag"
 #~ "forbindelser til å ta over en spiller. Dersom du ikke er dette er kun "
 #~ "<spillernavn> argumentet lovlig."
 
-#~ msgid "Unit must be on land to perform diplomatic action."
-#~ msgstr "Enheten må være på land for å utføre diplomatiske forhandlinger."
-
-#~ msgid "* Can carry and refuel %d missile unit.\n"
-#~ msgid_plural "* Can carry and refuel %d missile units.\n"
-#~ msgstr[0] "* Kan transportere og fylle drivstoff på %d rakettenhet.\n"
-#~ msgstr[1] "* Kan transportere og fylle drivstoff på %d rakettenhet.\n"
-
-#~ msgid "* Can carry %d ground unit across water.\n"
-#~ msgid_plural "* Can carry %d ground units across water.\n"
-#~ msgstr[0] "* Kan transportere %d landenhet over vann.\n"
-#~ msgstr[1] "* Kan transportere %d landenhet over vann.\n"
-
 #~ msgid "* Attacks with full strength even if less than one movement left.\n"
 #~ msgstr ""
 #~ "* Angriper med full styrke selv om det er mindre enn ett flytt igjen.\n"
-
-#, fuzzy
-#~ msgid "If enabled then cities will be drawn on the overview."
-#~ msgstr "Om dette er valgt styrer bynavnene etter landskapet rundt byen."
 
 #~ msgid ""
 #~ " - \"Exhausted\" attackers are weaker: if the attacker has only 1/3 "
@@ -28906,44 +29642,14 @@ msgstr "Lag"
 #~ "Angriperens grunnstyrke er 8. Veteran statusen gjør dette til 12, men "
 #~ "fordi den bare har 2/3 flytt igjen blir den endelige Angrepsstyrken 8."
 
+#~ msgid "Tropical"
+#~ msgstr "Tropisk"
+
 #~ msgid "Industrial"
 #~ msgstr "Industriell"
 
 #~ msgid "PostModern"
 #~ msgstr "Postmoderne"
-
-#~ msgid ""
-#~ "Australia was founded as a British penal colony in 1788AD. It is the only "
-#~ "country on earth to occupy an entire continent."
-#~ msgstr ""
-#~ "Australia ble grunnlagt som en britisk fangekoloni i 1788 e.Kr. Det er "
-#~ "den eneste landet i verden som okkuperer et helt kontinent."
-
-#, fuzzy
-#~ msgid "Transitional"
-#~ msgstr "Fiksjon"
-
-#~ msgid "Emporer"
-#~ msgstr "Keiser"
-
-#, fuzzy
-#~ msgid "Presedinte"
-#~ msgstr "President"
-
-#, fuzzy
-#~ msgid "Qween"
-#~ msgstr "Dronning"
-
-#, fuzzy
-#~ msgid "Elected Priest"
-#~ msgstr "Slett forhåndsvalg"
-
-#, fuzzy
-#~ msgid "Elected Priestess"
-#~ msgstr "Høyeste prestinne"
-
-#~ msgid "We Love The %s Day celebrated in %s."
-#~ msgstr "Den nasjonale %s dagen feires i %s."
 
 #~ msgid "  -g, --gamelog FILE\tUse FILE as game logfile\n"
 #~ msgstr "  -g, --gamelog FILE\tBruk FILE som loggfil for spillet\n"
@@ -28956,30 +29662,6 @@ msgstr "Lag"
 
 #~ msgid "Couldn't open gamelogfile \"%s\" for appending."
 #~ msgstr "Klarte ikke å åpne spill-loggfilen \"%s\" for tilføyelser."
-
-#~ msgid "City size before people become unhappy"
-#~ msgstr "Bystørrelse før folk blir ulykkelige"
-
-#~ msgid ""
-#~ "Before other adjustments, the first unhappysize citizens in a city are "
-#~ "content, and subsequent citizens are unhappy. See also cityfactor."
-#~ msgstr ""
-#~ "Før andre faktorer har innvirkning er de første unhappysize innbyggerne i "
-#~ "en by fornøyde, deretter er innbyggerne ulykkelige. Se også cityfactor."
-
-#~ msgid "Number of cities for higher unhappiness"
-#~ msgstr "Antall byer for øket ulykkelighet"
-
-#~ msgid ""
-#~ "When the number of cities a player owns is greater than cityfactor, one "
-#~ "extra citizen is unhappy before other adjustments; see also unhappysize. "
-#~ "This assumes a Democracy; for other governments the effect occurs at "
-#~ "smaller numbers of cities."
-#~ msgstr ""
-#~ "Når antallet byer som en spiller kontrollerer er større enn cityfactor, "
-#~ "blir ytterligere en innbygger tilfreds før andre faktorer har "
-#~ "innvirkning. Se også unhappysize. Dette forutsetter Demokrati, for andre "
-#~ "regjerninger er effekten mindre."
 
 #~ msgid "Detail level for logging game events"
 #~ msgstr "Detaljnivå for logging av spill-hendelser"
@@ -29080,6 +29762,12 @@ msgstr "Lag"
 
 #~ msgid "Queen of Doriath"
 #~ msgstr "Dronningen av Doriath"
+
+#~ msgid "Hobbit"
+#~ msgstr "hobbit"
+
+#~ msgid "?plural:Hobbits"
+#~ msgstr "?plural:hobbitene"
 
 #, fuzzy
 #~ msgid ""
@@ -30016,6 +30704,9 @@ msgstr "Lag"
 #~ msgid "Class:"
 #~ msgstr "Klasse:"
 
+#~ msgid "Description"
+#~ msgstr "Beskrivelse"
+
 #~ msgid "Your leader name"
 #~ msgstr "Din leders navn"
 
@@ -30217,8 +30908,23 @@ msgstr "Lag"
 #~ msgid "Bad value \"%s\" for b_special.default (%s)"
 #~ msgstr "Ugyldig verdi \"%s\" for b_special.default (%s)"
 
-#~ msgid "_Player"
-#~ msgstr "_Spiller"
+#~ msgid ""
+#~ "Eliminates all pollution generated by production in a city.  It also "
+#~ "increases the shield production of a Factory or Mfg. Plant in the city: a "
+#~ "Factory and a Solar Plant together give a 75% production bonus, and a "
+#~ "Factory, Mfg. Plant and Solar Plant together give a 150% production "
+#~ "bonus.\n"
+#~ "\n"
+#~ "A city can only have one Solar Plant, Hydro Plant, Power Plant, or "
+#~ "Nuclear Plant."
+#~ msgstr ""
+#~ "Fjerner all forurensning fra produksjon i en by.Det øker også "
+#~ "produksjonen av skjold fra en fabrikk eller et fabrikk-kompleks i en by: "
+#~ "en fabrikk og et fabrikk-kompleks gir til sammen 75%  produksjonsbonus, "
+#~ "og en fabrikk, et fabrikk-kompleks og et solkraftverk gir tilsammen 150% "
+#~ "produksjonsbonus.\n"
+#~ "\n"
+#~ "En by kan kun ha et vannkraftverk, kraftverk eller atomkraftverk. "
 
 #, fuzzy
 #~ msgid "Game: The %s have stopped building The %s in %s."
@@ -30317,6 +31023,9 @@ msgstr "Lag"
 #~ msgid "_Misc. Settings"
 #~ msgstr "_Innstillinger"
 
+#~ msgid "City name"
+#~ msgstr "Byens navn"
+
 #~ msgid "%s - %s citizens"
 #~ msgstr "%s - %s innbyggere"
 
@@ -30381,6 +31090,17 @@ msgstr "Lag"
 
 #~ msgid "?techhelp:."
 #~ msgstr "?techhelp:."
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# SES 13. Nov 99:
+#
+# There seems to be an ugly bug when this word is any longer
+# in the gtk gui (menu-init) which is also noted in the
+# german translation.
+#
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#~ msgid "_Local Options"
+#~ msgstr "_Lokale innstillinger"
 
 #~ msgid "Messa_ge Options"
 #~ msgstr "_Beskjed innstillinger"
@@ -30751,6 +31471,9 @@ msgstr "Lag"
 
 #~ msgid " with City Walls"
 #~ msgstr " med bymurer"
+
+#~ msgid "%s. "
+#~ msgstr "%s. "
 
 #~ msgid "CMA: You lost control of %s. Detaching from city."
 #~ msgstr "Byforvaltning: Du mistet kontrollen over %s. Fjernes fra byen."
