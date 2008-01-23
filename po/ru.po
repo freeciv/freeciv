@@ -10,16 +10,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv-2.2\n"
-"Report-Msgid-Bugs-To: freeciv-dev@gna.org\n"
-"POT-Creation-Date: 2008-01-22 21:05+0300\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-01-22 22:45-0500\n"
 "PO-Revision-Date: 2008-01-22 21:20+0300\n"
 "Last-Translator: Egor Vyscrebentsov <evyscr@murom.net>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 &&"
-" n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 #: common/city.c:56 client/gui-gtk-2.0/repodlgs.c:963
 #: client/gui-win32/repodlgs.c:715
@@ -356,7 +356,6 @@ msgid "Hut"
 msgstr "Хижина"
 
 #: common/events.c:101
-#, fuzzy
 msgid "Barbarians in a Hut Roused"
 msgstr ""
 
@@ -782,7 +781,7 @@ msgstr "Дорога"
 
 #: common/terrain.c:483 common/terrain.c:677 common/unit.c:527
 #: client/gui-gtk-2.0/menu.c:833 client/gui-sdl/optiondlg.c:1905
-#: client/gui-win32/menu.c:344 client/gui-xaw/menu.c:151
+#: client/gui-win32/menu.c:344 client/gui-xaw/menu.c:156
 #: manual/civmanual.c:224
 msgid "Irrigation"
 msgstr "Орошение"
@@ -831,12 +830,12 @@ msgstr "Укрепляется"
 msgid "Fortified"
 msgstr "Укреплен(ы)"
 
-#: common/unit.c:535 client/gui-sdl/menu.c:662 client/gui-xaw/menu.c:184
+#: common/unit.c:535 client/gui-sdl/menu.c:662 client/gui-xaw/menu.c:189
 msgid "Sentry"
 msgstr "Сторожить"
 
 #: common/unit.c:539 client/gui-gtk-2.0/menu.c:886 client/gui-sdl/menu.c:649
-#: client/gui-win32/menu.c:370 client/gui-xaw/menu.c:185
+#: client/gui-win32/menu.c:370 client/gui-xaw/menu.c:190
 msgid "Pillage"
 msgstr "Разрушать"
 
@@ -859,7 +858,7 @@ msgstr "Василевс"
 
 #: common/unit.c:559 client/text.c:106 client/gui-gtk-2.0/editdlg.c:77
 #: client/gui-sdl/citydlg.c:1981 client/gui-win32/citydlg.c:1217
-#: client/gui-xaw/citydlg.c:1426
+#: client/gui-xaw/citydlg.c:1430
 msgid "Unknown"
 msgstr "Неизвестно"
 
@@ -4212,7 +4211,7 @@ msgstr "%s был РАЗРУШЕН\n"
 msgid "(building %s in %s (%s))\n"
 msgstr "(строится %s в %s (%s))\n"
 
-#: server/report.c:332 client/gui-xaw/menu.c:226 data/helpdata.txt:899
+#: server/report.c:332 client/gui-xaw/menu.c:231 data/helpdata.txt:899
 msgid "Wonders of the World"
 msgstr "Чудеса Света"
 
@@ -7813,7 +7812,7 @@ msgstr "?Злые рабочие:З"
 msgid "Workers: Angry"
 msgstr "Рабочие: Злые"
 
-#: client/cityrepdata.c:457 client/gui-xaw/citydlg.c:2357
+#: client/cityrepdata.c:457 client/gui-xaw/citydlg.c:2361
 #: data/default/units.ruleset:310
 msgid "Workers"
 msgstr "Рабочие"
@@ -7854,8 +7853,8 @@ msgstr "Лучшие защитные соединения"
 #: client/gui-sdl/optiondlg.c:1826 client/gui-sdl/repodlgs.c:365
 #: client/gui-win32/menu.c:351 client/gui-win32/repodlgs.c:614
 #: client/gui-win32/repodlgs.c:722 client/gui-win32/repodlgs.c:731
-#: client/gui-xaw/menu.c:157 client/gui-xaw/menu.c:219
-#: client/gui-xaw/menu.c:248 client/gui-xaw/repodlgs.c:903
+#: client/gui-xaw/menu.c:162 client/gui-xaw/menu.c:224
+#: client/gui-xaw/menu.c:253 client/gui-xaw/repodlgs.c:903
 #: client/gui-xaw/repodlgs.c:1096 data/Freeciv.in:1895 data/helpdata.txt:910
 msgid "Units"
 msgstr "Соединения"
@@ -7961,7 +7960,7 @@ msgstr "Коррупция"
 
 #: client/cityrepdata.c:501 client/gui-gtk-2.0/repodlgs.c:665
 #: client/gui-sdl/mapctrl.c:1401 client/gui-win32/repodlgs.c:332
-#: client/gui-xaw/menu.c:222 client/gui-xaw/repodlgs.c:666
+#: client/gui-xaw/menu.c:227 client/gui-xaw/repodlgs.c:666
 #: client/gui-xaw/repodlgs.c:795 data/Freeciv.in:1819
 msgid "Economy"
 msgstr "Экономика"
@@ -10368,6 +10367,66 @@ msgstr "Нет.  "
 msgid "Wonders: "
 msgstr "Чудеса: "
 
+#: client/text.c:1262
+#, fuzzy, c-format
+msgid "Cities: %d total, %d over threshold of %d cities."
+msgstr "Города: всего %d, на %d больше, чем порог (%d городов)."
+
+#. TRANS: 0-21 content [citizen(s)] ...
+#: client/text.c:1266
+#, fuzzy, c-format
+msgid "%d content before penalty."
+msgid_plural "%d content before penalty."
+msgstr[0] "%d нейтральный до штрафа."
+msgstr[1] "%d нейтральный до штрафа."
+msgstr[2] "%d нейтральный до штрафа."
+
+#. TRANS: 0-21 unhappy citizen(s).
+#: client/text.c:1272
+#, fuzzy, c-format
+msgid "%d additional unhappy citizen."
+msgid_plural "%d additional unhappy citizens."
+msgstr[0] "%d дополнительный несчастный гражданин."
+msgstr[1] "%d дополнительный несчастный гражданин."
+msgstr[2] "%d дополнительный несчастный гражданин."
+
+#. TRANS: Martial law opening parenthesis
+#: client/text.c:1294
+msgid "Martial law in effect ("
+msgstr "Действует военное положение ("
+
+#. TRANS: no [unit] maximum
+#: client/text.c:1299
+msgid "no maximum, "
+msgstr "без максимума, "
+
+#: client/text.c:1302
+#, c-format
+msgid "%d unit maximum, "
+msgid_plural "%d units maximum, "
+msgstr[0] "%d соединение максимум, "
+msgstr[1] "%d соединения максимум, "
+msgstr[2] "%d соединений максимум, "
+
+#. TRANS: Martial law closing parenthesis
+#: client/text.c:1309
+#, c-format
+msgid "%d per unit). "
+msgstr "%d на соединение).  "
+
+#: client/text.c:1313
+msgid "Military units in the field may cause unhappiness. "
+msgstr "Военные соединения вне городов могут вызвать недовольство. "
+
+#: client/text.c:1316
+msgid "Military units have no happiness effect. "
+msgstr "Военные соединения не имеют эффекта на счастье."
+
+#: client/text.c:1331
+#, c-format
+msgid "Luxury: %d total."
+msgstr "Роскошь: %d всего."
+
 #: client/tilespec.c:875
 msgid "No usable default tileset found, aborting!"
 msgstr "Не найдено ни одного набора рельефа, прерываем выполнение!"
@@ -10888,12 +10947,12 @@ msgid "Entertainers"
 msgstr "Артисты"
 
 #: client/gui-gtk-2.0/citydlg.c:1030 client/gui-win32/citydlg.c:1949
-#: client/gui-xaw/citydlg.c:2357
+#: client/gui-xaw/citydlg.c:2361
 msgid "Scientists"
 msgstr "Ученые"
 
 #: client/gui-gtk-2.0/citydlg.c:1031 client/gui-win32/citydlg.c:1951
-#: client/gui-xaw/citydlg.c:2357
+#: client/gui-xaw/citydlg.c:2361
 msgid "Taxmen"
 msgstr "Налогосборщики"
 
@@ -11026,7 +11085,7 @@ msgid "U_pgrade unit"
 msgstr "Модернизировать соединение (_p)"
 
 #: client/gui-gtk-2.0/citydlg.c:2445 client/gui-sdl/citydlg.c:1168
-#: client/gui-win32/citydlg.c:908 client/gui-xaw/citydlg.c:1894
+#: client/gui-win32/citydlg.c:908 client/gui-xaw/citydlg.c:1898
 #, c-format
 msgid ""
 "Buy %s for %d gold?\n"
@@ -11042,7 +11101,7 @@ msgid "Buy It!"
 msgstr "Купить!"
 
 #: client/gui-gtk-2.0/citydlg.c:2457 client/gui-sdl/citydlg.c:1173
-#: client/gui-win32/citydlg.c:917 client/gui-xaw/citydlg.c:1903
+#: client/gui-win32/citydlg.c:917 client/gui-xaw/citydlg.c:1907
 #, c-format
 msgid ""
 "%s costs %d gold.\n"
@@ -11052,7 +11111,7 @@ msgstr ""
 "В казне %d золота."
 
 #: client/gui-gtk-2.0/citydlg.c:2511 client/gui-sdl/citydlg.c:1415
-#: client/gui-win32/citydlg.c:962 client/gui-xaw/citydlg.c:2257
+#: client/gui-win32/citydlg.c:962 client/gui-xaw/citydlg.c:2261
 #, c-format
 msgid "Sell %s for %d gold?"
 msgstr "Продать %s за %d золотых?"
@@ -11067,7 +11126,7 @@ msgid "Rename City"
 msgstr "Переименовать город"
 
 #: client/gui-gtk-2.0/citydlg.c:2595 client/gui-win32/citydlg.c:1162
-#: client/gui-xaw/citydlg.c:1383
+#: client/gui-xaw/citydlg.c:1387
 msgid "What should we rename the city to?"
 msgstr "Как переименовать город?"
 
@@ -11099,8 +11158,8 @@ msgstr "Показать (_D)"
 #: client/gui-sdl/diplodlg.c:689 client/gui-sdl/optiondlg.c:1799
 #: client/gui-win32/diplodlg.c:611 client/gui-win32/diplodlg.c:663
 #: client/gui-win32/menu.c:350 client/gui-xaw/cityrep.c:228
-#: client/gui-xaw/cityrep.c:533 client/gui-xaw/menu.c:156
-#: client/gui-xaw/menu.c:218 data/Freeciv.in:410 data/Freeciv.in:419
+#: client/gui-xaw/cityrep.c:533 client/gui-xaw/menu.c:161
+#: client/gui-xaw/menu.c:223 data/Freeciv.in:410 data/Freeciv.in:419
 #: data/Freeciv.in:1561
 msgid "Cities"
 msgstr "Города"
@@ -11115,13 +11174,13 @@ msgstr "Осмотреть (_I)"
 #: client/gui-gtk-2.0/menu.c:831 client/gui-gtk-2.0/menu.c:833
 #: client/gui-gtk-2.0/menu.c:835 client/gui-gtk-2.0/menu.c:837
 #: client/gui-sdl/helpdlg.c:297 client/gui-win32/menu.c:342
-#: client/gui-xaw/menu.c:247
+#: client/gui-xaw/menu.c:252
 msgid "Improvements"
 msgstr "Здания"
 
 #: client/gui-gtk-2.0/cityrep.c:1222 client/gui-gtk-2.0/cityrep.c:1243
 #: client/gui-gtk-2.0/cityrep.c:1262 client/gui-gtk-2.0/cityrep.c:1281
-#: client/gui-xaw/menu.c:253
+#: client/gui-xaw/menu.c:258
 msgid "Wonders"
 msgstr "Чудеса"
 
@@ -11461,7 +11520,7 @@ msgstr "Указано неверное количество золота."
 
 #: client/gui-gtk-2.0/finddlg.c:64 client/gui-sdl/finddlg.c:127
 #: client/gui-sdl/mapctrl.c:1592 client/gui-win32/finddlg.c:115
-#: client/gui-xaw/menu.c:128 data/Freeciv.in:1066
+#: client/gui-xaw/menu.c:133 data/Freeciv.in:1066
 msgid "Find City"
 msgstr "Найти город"
 
@@ -11640,11 +11699,11 @@ msgid "Comment Label"
 msgstr "Комментарий"
 
 #: client/gui-gtk-2.0/gui_main.c:247 client/gui-sdl/optiondlg.c:1556
-#: client/gui-xaw/menu.c:143
+#: client/gui-xaw/menu.c:148
 msgid "City Names"
 msgstr "Названия городов"
 
-#: client/gui-gtk-2.0/gui_main.c:252 client/gui-xaw/menu.c:146
+#: client/gui-gtk-2.0/gui_main.c:252 client/gui-xaw/menu.c:151
 msgid "City Productions"
 msgstr "Городское производство"
 
@@ -11764,65 +11823,12 @@ msgstr ""
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: client/gui-gtk-2.0/happiness.c:122 client/gui-sdl/citydlg.c:2051
+#: client/gui-gtk-2.0/happiness.c:112 client/gui-sdl/citydlg.c:2051
 #: client/gui-sdl/citydlg.c:3727 client/gui-win32/citydlg.c:735
-#: client/gui-win32/happiness.c:95 client/gui-xaw/menu.c:255
+#: client/gui-win32/happiness.c:85 client/gui-xaw/menu.c:260
 #: data/helpdata.txt:1392
 msgid "Happiness"
 msgstr "Счастье"
-
-#: client/gui-gtk-2.0/happiness.c:245 client/gui-win32/happiness.c:197
-#, fuzzy, c-format
-msgid "Cities: %d total, %d over threshold of %d cities.\n"
-msgstr "Города: всего %d, на %d больше, чем порог (%d городов)."
-
-#: client/gui-gtk-2.0/happiness.c:249 client/gui-win32/happiness.c:201
-#, fuzzy, c-format
-msgid "%d content before penalty with "
-msgstr "%d нейтральный до штрафа."
-
-#: client/gui-gtk-2.0/happiness.c:251 client/gui-win32/happiness.c:203
-#, fuzzy, c-format
-msgid "%d additional unhappy citizens."
-msgstr "%d дополнительный несчастный гражданин."
-
-#: client/gui-gtk-2.0/happiness.c:267 client/gui-win32/happiness.c:220
-#, c-format
-msgid "Luxury: %d total."
-msgstr "Роскошь: %d всего."
-
-#: client/gui-gtk-2.0/happiness.c:294 client/gui-win32/happiness.c:247
-msgid "Units: "
-msgstr "Соединения: "
-
-#: client/gui-gtk-2.0/happiness.c:298 client/gui-win32/happiness.c:251
-msgid "Martial law in effect ("
-msgstr "Действует военное положение ("
-
-#: client/gui-gtk-2.0/happiness.c:302 client/gui-win32/happiness.c:255
-msgid "no maximum, "
-msgstr "без максимума, "
-
-#: client/gui-gtk-2.0/happiness.c:304 client/gui-win32/happiness.c:257
-#, c-format
-msgid "%d unit maximum, "
-msgid_plural "%d units maximum, "
-msgstr[0] "%d соединение максимум, "
-msgstr[1] "%d соединения максимум, "
-msgstr[2] "%d соединений максимум, "
-
-#: client/gui-gtk-2.0/happiness.c:308 client/gui-win32/happiness.c:261
-#, c-format
-msgid "%d per unit). "
-msgstr "%d на соединение).  "
-
-#: client/gui-gtk-2.0/happiness.c:313 client/gui-win32/happiness.c:266
-msgid "Military units in the field may cause unhappiness. "
-msgstr "Военные соединения вне городов могут вызвать недовольство. "
-
-#: client/gui-gtk-2.0/happiness.c:317 client/gui-win32/happiness.c:270
-msgid "Military units have no happiness effect. "
-msgstr "Военные соединения не имеют эффекта на счастье."
 
 #: client/gui-gtk-2.0/helpdlg.c:88 client/gui-gtk-2.0/helpdlg.c:91
 #: client/gui-gtk-2.0/helpdlg.c:95 client/gui-sdl/helpdlg.c:343
@@ -11927,7 +11933,7 @@ msgid "(Never)"
 msgstr "(Никогда)"
 
 #: client/gui-gtk-2.0/helpdlg.c:128 client/gui-xaw/helpdlg.c:123
-#: client/gui-xaw/menu.c:259 data/helpdata.txt:37
+#: client/gui-xaw/menu.c:264 data/helpdata.txt:37
 msgid "About"
 msgstr "О программе"
 
@@ -12220,13 +12226,13 @@ msgid "City _Productions"
 msgstr "Городское производство (_P)"
 
 #: client/gui-gtk-2.0/menu.c:823 client/gui-sdl/optiondlg.c:1634
-#: client/gui-win32/menu.c:340 client/gui-xaw/menu.c:148
-#: client/gui-xaw/menu.c:252 manual/civmanual.c:220 data/helpdata.txt:1221
+#: client/gui-win32/menu.c:340 client/gui-xaw/menu.c:153
+#: client/gui-xaw/menu.c:257 manual/civmanual.c:220 data/helpdata.txt:1221
 msgid "Terrain"
 msgstr "Рельеф"
 
 #: client/gui-gtk-2.0/menu.c:825 client/gui-win32/menu.c:341
-#: client/gui-xaw/menu.c:149
+#: client/gui-xaw/menu.c:154
 msgid "Coastline"
 msgstr "Побережье"
 
@@ -12235,7 +12241,7 @@ msgid "Roads & Rails"
 msgstr "Дороги и железные дороги"
 
 #: client/gui-gtk-2.0/menu.c:835 client/gui-sdl/optiondlg.c:1932
-#: client/gui-win32/menu.c:345 client/gui-xaw/menu.c:152
+#: client/gui-win32/menu.c:345 client/gui-xaw/menu.c:157
 msgid "Mines"
 msgstr "Шахты"
 
@@ -12244,22 +12250,22 @@ msgid "Fortress & Airbase"
 msgstr "Крепость и аэродром"
 
 #: client/gui-gtk-2.0/menu.c:839 client/gui-win32/menu.c:348
-#: client/gui-xaw/menu.c:154
+#: client/gui-xaw/menu.c:159
 msgid "Specials"
 msgstr "Особое"
 
 #: client/gui-gtk-2.0/menu.c:841 client/gui-win32/menu.c:349
-#: client/gui-xaw/menu.c:155
+#: client/gui-xaw/menu.c:160
 msgid "Pollution & Fallout"
 msgstr "Загрязнение и радиация"
 
 #: client/gui-gtk-2.0/menu.c:847 client/gui-win32/menu.c:352
-#: client/gui-xaw/menu.c:158
+#: client/gui-xaw/menu.c:163
 msgid "Focus Unit"
 msgstr "Фокус на соединении"
 
 #: client/gui-gtk-2.0/menu.c:849 client/gui-sdl/optiondlg.c:1853
-#: client/gui-win32/menu.c:353 client/gui-xaw/menu.c:159
+#: client/gui-win32/menu.c:353 client/gui-xaw/menu.c:164
 msgid "Fog of War"
 msgstr "Дым войны"
 
@@ -12411,12 +12417,12 @@ msgid "Go\\/Airlift to City"
 msgstr "Идти\\/Перебросить к городу"
 
 #: client/gui-gtk-2.0/menu.c:920 client/gui-sdl/menu.c:451
-#: client/gui-win32/menu.c:387 client/gui-xaw/menu.c:203
+#: client/gui-win32/menu.c:387 client/gui-xaw/menu.c:208
 msgid "Return to nearest city"
 msgstr "Вернуться к ближайшему городу"
 
 #: client/gui-gtk-2.0/menu.c:924 client/gui-win32/menu.c:389
-#: client/gui-xaw/menu.c:205
+#: client/gui-xaw/menu.c:210
 msgid "Disband Unit"
 msgstr "Распустить отряд"
 
@@ -12430,7 +12436,7 @@ msgid "Diplomat\\/Spy Actions"
 msgstr "Действия дипломата\\/шпиона"
 
 #: client/gui-gtk-2.0/menu.c:930 client/gui-sdl/menu.c:400
-#: client/gui-win32/menu.c:391 client/gui-xaw/menu.c:209
+#: client/gui-win32/menu.c:391 client/gui-xaw/menu.c:214
 msgid "Explode Nuclear"
 msgstr "Взорвать атомную бомбу"
 
@@ -12448,7 +12454,7 @@ msgid "_Wait"
 msgstr "Ждать (_W)"
 
 #: client/gui-gtk-2.0/menu.c:940 client/gui-win32/menu.c:394
-#: client/gui-xaw/menu.c:213
+#: client/gui-xaw/menu.c:218
 msgid "Done"
 msgstr "Сделано"
 
@@ -12645,7 +12651,7 @@ msgid "_Paradrop"
 msgstr "Сбросить с парашютом (_P)"
 
 #: client/gui-gtk-2.0/messagedlg.c:62 client/gui-win32/messagedlg.c:175
-#: client/gui-xaw/menu.c:112 data/Freeciv.in:1254
+#: client/gui-xaw/menu.c:117 data/Freeciv.in:1254
 msgid "Message Options"
 msgstr "Настройки сообщений"
 
@@ -12676,7 +12682,7 @@ msgid "Pop"
 msgstr "Отк"
 
 #: client/gui-gtk-2.0/messagewin.c:155 client/gui-sdl/messagewin.c:247
-#: client/gui-win32/messagewin.c:132 client/gui-xaw/menu.c:228
+#: client/gui-win32/messagewin.c:132 client/gui-xaw/menu.c:233
 #: data/Freeciv.in:3280 data/Freeciv.in:3281 data/Freeciv.in:3290
 msgid "Messages"
 msgstr "Сообщения"
@@ -12691,7 +12697,7 @@ msgstr "Умершие игроки"
 #. TRANS: Nations report action
 #: client/gui-gtk-2.0/plrdlg.c:356 client/gui-sdl/mapctrl.c:1581
 #: client/gui-sdl/plrdlg.c:607 client/gui-win32/plrdlg.c:344
-#: client/gui-xaw/menu.c:221 data/Freeciv.in:3199 data/Freeciv.in:3200
+#: client/gui-xaw/menu.c:226 data/Freeciv.in:3199 data/Freeciv.in:3200
 msgid "Nations"
 msgstr "Народы"
 
@@ -12964,7 +12970,7 @@ msgstr "Имя файла сохранения (_F):"
 #: client/gui-sdl/mapview.c:333 client/gui-sdl/mapview.c:337
 #: client/gui-sdl/mapview.c:343 client/gui-sdl/repodlgs.c:3266
 #: client/gui-win32/repodlgs.c:93 client/gui-win32/repodlgs.c:271
-#: client/gui-xaw/menu.c:224 client/gui-xaw/repodlgs.c:276
+#: client/gui-xaw/menu.c:229 client/gui-xaw/repodlgs.c:276
 #: client/gui-xaw/repodlgs.c:499 data/Freeciv.in:1366
 msgid "Research"
 msgstr "Исследования"
@@ -13398,7 +13404,7 @@ msgstr "Купить?"
 #: client/gui-sdl/diplodlg.c:1333 client/gui-sdl/diplomat_dialog.c:1211
 #: client/gui-sdl/diplomat_dialog.c:1417 client/gui-sdl/plrdlg.c:225
 #: client/gui-sdl/repodlgs.c:230 client/gui-sdl/repodlgs.c:1569
-#: client/gui-win32/repodlgs.c:578 client/gui-xaw/citydlg.c:2383
+#: client/gui-win32/repodlgs.c:578 client/gui-xaw/citydlg.c:2387
 #: client/gui-xaw/cityrep.c:666 client/gui-xaw/cma_fe.c:327
 #: client/gui-xaw/cma_fe.c:511 client/gui-xaw/cma_fe.c:765
 #: client/gui-xaw/messagedlg.c:72 client/gui-xaw/optiondlg.c:76
@@ -13414,7 +13420,7 @@ msgstr "Нет"
 #: client/gui-sdl/diplodlg.c:1343 client/gui-sdl/diplomat_dialog.c:1200
 #: client/gui-sdl/diplomat_dialog.c:1407 client/gui-sdl/plrdlg.c:225
 #: client/gui-sdl/repodlgs.c:241 client/gui-win32/repodlgs.c:576
-#: client/gui-xaw/citydlg.c:2383 client/gui-xaw/cityrep.c:666
+#: client/gui-xaw/citydlg.c:2387 client/gui-xaw/cityrep.c:666
 #: client/gui-xaw/cma_fe.c:327 client/gui-xaw/cma_fe.c:511
 #: client/gui-xaw/cma_fe.c:765 client/gui-xaw/messagedlg.c:72
 #: client/gui-xaw/optiondlg.c:76 client/gui-xaw/optiondlg.c:310
@@ -14258,7 +14264,7 @@ msgid "Height"
 msgstr "Высота"
 
 #: client/gui-sdl/mapctrl.c:1426 client/gui-sdl/mapview.c:312
-#: client/gui-sdl/mapview.c:315 client/gui-xaw/menu.c:131
+#: client/gui-sdl/mapview.c:315 client/gui-xaw/menu.c:136
 msgid "Revolution"
 msgstr "Революция"
 
@@ -14413,7 +14419,7 @@ msgstr "Нет приказов"
 msgid "Space"
 msgstr "Пробел"
 
-#: client/gui-sdl/menu.c:388 client/gui-xaw/menu.c:212
+#: client/gui-sdl/menu.c:388 client/gui-xaw/menu.c:217
 msgid "Wait"
 msgstr "Ждать"
 
@@ -14440,7 +14446,7 @@ msgid "Goto location"
 msgstr "Идти к"
 
 #: client/gui-sdl/menu.c:502 client/gui-win32/menu.c:384
-#: client/gui-xaw/menu.c:200
+#: client/gui-xaw/menu.c:205
 msgid "Patrol"
 msgstr "Патрулировать"
 
@@ -14472,15 +14478,15 @@ msgstr "Авто-Колонисты"
 msgid "Wake Up Others"
 msgstr "Разбудить других"
 
-#: client/gui-sdl/menu.c:600 client/gui-xaw/menu.c:188
+#: client/gui-sdl/menu.c:600 client/gui-xaw/menu.c:193
 msgid "Unload Transporter"
 msgstr "Разгрузить Транспорт"
 
-#: client/gui-sdl/menu.c:613 client/gui-xaw/menu.c:190
+#: client/gui-sdl/menu.c:613 client/gui-xaw/menu.c:195
 msgid "Load"
 msgstr "Загрузить"
 
-#: client/gui-sdl/menu.c:625 client/gui-xaw/menu.c:191
+#: client/gui-sdl/menu.c:625 client/gui-xaw/menu.c:196
 msgid "Unload"
 msgstr "Разгрузить"
 
@@ -14488,31 +14494,31 @@ msgstr "Разгрузить"
 msgid "Find Homecity"
 msgstr "Найти родной город"
 
-#: client/gui-sdl/menu.c:674 client/gui-xaw/menu.c:181
+#: client/gui-sdl/menu.c:674 client/gui-xaw/menu.c:186
 msgid "Clean Nuclear Fallout"
 msgstr "Очистить радиацию"
 
 #: client/gui-sdl/menu.c:686 client/gui-win32/menu.c:1255
-#: client/gui-xaw/menu.c:180
+#: client/gui-xaw/menu.c:185
 msgid "Paradrop"
 msgstr "Сбросить с парашютом"
 
 #: client/gui-sdl/menu.c:698 client/gui-win32/menu.c:1257
-#: client/gui-xaw/menu.c:179
+#: client/gui-xaw/menu.c:184
 msgid "Clean Pollution"
 msgstr "Очистить загрязнение"
 
-#: client/gui-sdl/menu.c:710 client/gui-xaw/menu.c:178
+#: client/gui-sdl/menu.c:710 client/gui-xaw/menu.c:183
 msgid "Build Airbase"
 msgstr "Построить аэродром"
 
 #: client/gui-sdl/menu.c:722 client/gui-win32/menu.c:1248
-#: client/gui-xaw/menu.c:183
+#: client/gui-xaw/menu.c:188
 msgid "Fortify"
 msgstr "Укрепить"
 
 #: client/gui-sdl/menu.c:734 client/gui-win32/menu.c:1250
-#: client/gui-xaw/menu.c:177
+#: client/gui-xaw/menu.c:182
 msgid "Build Fortress"
 msgstr "Построить крепость"
 
@@ -14522,12 +14528,12 @@ msgid "Transform Tile"
 msgstr "Преобразовать"
 
 #: client/gui-sdl/menu.c:759 client/gui-sdl/menu.c:1139
-#: client/gui-win32/menu.c:1117 client/gui-xaw/menu.c:173
+#: client/gui-win32/menu.c:1117 client/gui-xaw/menu.c:178
 msgid "Build Mine"
 msgstr "Построить шахту"
 
 #: client/gui-sdl/menu.c:773 client/gui-sdl/menu.c:1104
-#: client/gui-win32/menu.c:1116 client/gui-xaw/menu.c:170
+#: client/gui-win32/menu.c:1116 client/gui-xaw/menu.c:175
 msgid "Build Irrigation"
 msgstr "Построить орошение"
 
@@ -14536,23 +14542,23 @@ msgid "Form Traderoute"
 msgstr "Установить торговый путь"
 
 #: client/gui-sdl/menu.c:802 client/gui-sdl/menu.c:1043
-#: client/gui-win32/menu.c:1206 client/gui-xaw/menu.c:169
+#: client/gui-win32/menu.c:1206 client/gui-xaw/menu.c:174
 msgid "Build Railroad"
 msgstr "Построить железную дорогу"
 
 #: client/gui-sdl/menu.c:806 client/gui-sdl/menu.c:1049
 #: client/gui-win32/menu.c:1209 client/gui-win32/menu.c:1214
-#: client/gui-xaw/menu.c:168
+#: client/gui-xaw/menu.c:173
 msgid "Build Road"
 msgstr "Построить дорогу"
 
 #: client/gui-sdl/menu.c:826 client/gui-win32/menu.c:1188
-#: client/gui-xaw/menu.c:206
+#: client/gui-xaw/menu.c:211
 msgid "Help Build Wonder"
 msgstr "Помочь построить чудо"
 
 #: client/gui-sdl/menu.c:838 client/gui-sdl/menu.c:1022
-#: client/gui-win32/menu.c:1192 client/gui-xaw/menu.c:167
+#: client/gui-win32/menu.c:1192 client/gui-xaw/menu.c:172
 msgid "Add to City"
 msgstr "Добавить к городу"
 
@@ -14637,11 +14643,11 @@ msgstr "Показывать анимацию курсора"
 msgid "Use color cursors"
 msgstr "Использовать цветные курсоры"
 
-#: client/gui-sdl/optiondlg.c:1608 client/gui-xaw/menu.c:141
+#: client/gui-sdl/optiondlg.c:1608 client/gui-xaw/menu.c:146
 msgid "National Borders"
 msgstr "Государственные границы"
 
-#: client/gui-sdl/optiondlg.c:1660 client/gui-xaw/menu.c:140
+#: client/gui-sdl/optiondlg.c:1660 client/gui-xaw/menu.c:145
 msgid "Map Grid"
 msgstr "Сетка на карте"
 
@@ -14657,11 +14663,11 @@ msgstr "Отображать сетку карты рабочих города"
 msgid "Special Resources"
 msgstr "Специальные ресурсы"
 
-#: client/gui-sdl/optiondlg.c:1879 client/gui-xaw/menu.c:150
+#: client/gui-sdl/optiondlg.c:1879 client/gui-xaw/menu.c:155
 msgid "Roads and Rails"
 msgstr "Дороги и ж/д"
 
-#: client/gui-sdl/optiondlg.c:1958 client/gui-xaw/menu.c:153
+#: client/gui-sdl/optiondlg.c:1958 client/gui-xaw/menu.c:158
 msgid "Fortress and Airbase"
 msgstr "Крепости и аэродромы"
 
@@ -14685,7 +14691,7 @@ msgstr "Настройки игры"
 msgid "Map options"
 msgstr "Настройки карты"
 
-#: client/gui-sdl/optiondlg.c:2258 client/gui-xaw/menu.c:129
+#: client/gui-sdl/optiondlg.c:2258 client/gui-xaw/menu.c:134
 #: data/Freeciv.in:1971
 msgid "Worklists"
 msgstr "Рабочие списки"
@@ -14695,7 +14701,7 @@ msgid "Leave Game"
 msgstr "Покинуть игру"
 
 #: client/gui-sdl/optiondlg.c:2301 client/gui-sdl/pages.c:255
-#: client/gui-win32/connectdlg.c:1104 client/gui-xaw/menu.c:121
+#: client/gui-win32/connectdlg.c:1104 client/gui-xaw/menu.c:126
 #: data/Freeciv.in:115 data/Freeciv.in:3187
 msgid "Quit"
 msgstr "Выйти"
@@ -15534,7 +15540,7 @@ msgstr "_Отключиться"
 msgid "_Revolution"
 msgstr "_Революция"
 
-#: client/gui-win32/menu.c:355 client/gui-xaw/menu.c:161
+#: client/gui-win32/menu.c:355 client/gui-xaw/menu.c:166
 msgid "Center View"
 msgstr "Центральный вид"
 
@@ -15543,47 +15549,47 @@ msgid "Transf_orm to Hills"
 msgstr "Преобразовать в холмы"
 
 #: client/gui-win32/menu.c:377 client/gui-win32/menu.c:1265
-#: client/gui-xaw/menu.c:194
+#: client/gui-xaw/menu.c:199
 msgid "Auto Settler"
 msgstr "Авто Колонисты"
 
-#: client/gui-win32/menu.c:386 client/gui-xaw/menu.c:202
+#: client/gui-win32/menu.c:386 client/gui-xaw/menu.c:207
 msgid "Go/Airlift to City"
 msgstr "Идти/Перебросить к городу"
 
-#: client/gui-win32/menu.c:390 client/gui-xaw/menu.c:208
+#: client/gui-win32/menu.c:390 client/gui-xaw/menu.c:213
 msgid "Diplomat/Spy Actions"
 msgstr "Действия дипломата/шпиона"
 
 #: client/gui-win32/menu.c:1109 client/gui-win32/menu.c:1110
-#: client/gui-xaw/menu.c:172 client/gui-xaw/menu.c:174
+#: client/gui-xaw/menu.c:177 client/gui-xaw/menu.c:179
 #, c-format
 msgid "Change to %s"
 msgstr "Изменить в %s"
 
-#: client/gui-win32/menu.c:1111 client/gui-xaw/menu.c:176
+#: client/gui-win32/menu.c:1111 client/gui-xaw/menu.c:181
 #, c-format
 msgid "Transform to %s"
 msgstr "Преобразовать в %s"
 
-#: client/gui-win32/menu.c:1118 client/gui-xaw/menu.c:175
+#: client/gui-win32/menu.c:1118 client/gui-xaw/menu.c:180
 msgid "Transform Terrain"
 msgstr "Преобразовать рельеф"
 
 #: client/gui-win32/menu.c:1195 client/gui-win32/menu.c:1199
-#: client/gui-xaw/menu.c:166
+#: client/gui-xaw/menu.c:171
 msgid "Build City"
 msgstr "Построить город"
 
-#: client/gui-win32/menu.c:1203 client/gui-xaw/menu.c:207
+#: client/gui-win32/menu.c:1203 client/gui-xaw/menu.c:212
 msgid "Make Trade Route"
 msgstr "Установить торговый путь"
 
-#: client/gui-win32/menu.c:1227 client/gui-xaw/menu.c:171
+#: client/gui-win32/menu.c:1227 client/gui-xaw/menu.c:176
 msgid "Build Farmland"
 msgstr "Построить ферму"
 
-#: client/gui-win32/menu.c:1262 client/gui-xaw/menu.c:195
+#: client/gui-win32/menu.c:1262 client/gui-xaw/menu.c:200
 msgid "Auto Attack"
 msgstr "Авто-атаковать"
 
@@ -15642,7 +15648,7 @@ msgstr "Разведка"
 msgid "Meet"
 msgstr "Встретить"
 
-#: client/gui-win32/plrdlg.c:360 client/gui-xaw/menu.c:230
+#: client/gui-win32/plrdlg.c:360 client/gui-xaw/menu.c:235
 #: data/Freeciv.in:3269
 msgid "Spaceship"
 msgstr "Космический корабль"
@@ -15732,17 +15738,17 @@ msgstr "Показать будущие цели"
 msgid "Undo"
 msgstr "Отменить последнее"
 
-#: client/gui-xaw/citydlg.c:205
+#: client/gui-xaw/citydlg.c:209
 #, c-format
 msgid "Pollution:    %3d"
 msgstr "Загрязнение:    %3d"
 
-#: client/gui-xaw/citydlg.c:225
+#: client/gui-xaw/citydlg.c:229
 #, c-format
 msgid "Granary:  %3d/%-3d"
 msgstr "Запас еды: %3d/%-3d"
 
-#: client/gui-xaw/citydlg.c:254
+#: client/gui-xaw/citydlg.c:258
 #, c-format
 msgid ""
 "Food:  %3d (%+-4d)\n"
@@ -15753,7 +15759,7 @@ msgstr ""
 "Произ: %3d (%+-4d)\n"
 "Торг:  %3d (%+-4d)"
 
-#: client/gui-xaw/citydlg.c:283
+#: client/gui-xaw/citydlg.c:287
 #, c-format
 msgid ""
 "Gold:  %3d (%+-4d)\n"
@@ -15764,29 +15770,29 @@ msgstr ""
 "Роск:  %3d\n"
 "Наук:  %3d"
 
-#: client/gui-xaw/citydlg.c:309
+#: client/gui-xaw/citydlg.c:313
 msgid "(is empty)"
 msgstr "(пуст)"
 
-#: client/gui-xaw/citydlg.c:311
+#: client/gui-xaw/citydlg.c:315
 msgid "(in prog.)"
 msgstr "(в проц.)"
 
-#: client/gui-xaw/citydlg.c:1412
+#: client/gui-xaw/citydlg.c:1416
 #, c-format
 msgid "These trade routes have been established with %s:\n"
 msgstr "Эти торговые пути были установлены с %s:\n"
 
-#: client/gui-xaw/citydlg.c:1422 client/gui-xaw/citydlg.c:1426
+#: client/gui-xaw/citydlg.c:1426 client/gui-xaw/citydlg.c:1430
 #, c-format
 msgid "%32s: %2d Trade/Year\n"
 msgstr "%32s: %2d Торговли/Год\n"
 
-#: client/gui-xaw/citydlg.c:1432
+#: client/gui-xaw/citydlg.c:1436
 msgid "No trade routes exist.\n"
 msgstr "Нет торговых путей.\n"
 
-#: client/gui-xaw/citydlg.c:1434
+#: client/gui-xaw/citydlg.c:1438
 #, c-format
 msgid ""
 "\n"
@@ -15795,7 +15801,7 @@ msgstr ""
 "\n"
 "Всего торговли %d Торговли/Год\n"
 
-#: client/gui-xaw/citydlg.c:1781
+#: client/gui-xaw/citydlg.c:1785
 #, c-format
 msgid "%s - %s citizens  Governor: %s"
 msgstr "%s - %s граждан  Губернатор: %s"
@@ -15901,128 +15907,128 @@ msgstr "Позволяет %s (с %s).\n"
 msgid "Intelligence Diplomacy Information for the %s Empire"
 msgstr "Разведанная дипломатическая информация для империи %s"
 
-#: client/gui-xaw/menu.c:111
+#: client/gui-xaw/menu.c:116
 msgid "Local Options"
 msgstr "Локальные настройки"
 
-#: client/gui-xaw/menu.c:113
+#: client/gui-xaw/menu.c:118
 msgid "Save Settings"
 msgstr "Сохранить настройки"
 
-#: client/gui-xaw/menu.c:115
+#: client/gui-xaw/menu.c:120
 msgid "Server Options"
 msgstr "Настройки сервера"
 
-#: client/gui-xaw/menu.c:117
+#: client/gui-xaw/menu.c:122
 msgid "Export Log"
 msgstr "Экспортировать журнал"
 
-#: client/gui-xaw/menu.c:118
+#: client/gui-xaw/menu.c:123
 msgid "Clear Log"
 msgstr "Очистить журнал"
 
-#: client/gui-xaw/menu.c:120 data/Freeciv.in:3185
+#: client/gui-xaw/menu.c:125 data/Freeciv.in:3185
 msgid "Disconnect"
 msgstr "Отключиться"
 
-#: client/gui-xaw/menu.c:126
+#: client/gui-xaw/menu.c:131
 msgid "Tax Rates"
 msgstr "Налоговые ставки"
 
-#: client/gui-xaw/menu.c:144
+#: client/gui-xaw/menu.c:149
 msgid "City Growth"
 msgstr "Рост города"
 
-#: client/gui-xaw/menu.c:187
+#: client/gui-xaw/menu.c:192
 msgid "Make Homecity"
 msgstr "Сделать домашним городом"
 
-#: client/gui-xaw/menu.c:192
+#: client/gui-xaw/menu.c:197
 msgid "Wake up others"
 msgstr "Разбудить других"
 
-#: client/gui-xaw/menu.c:196
+#: client/gui-xaw/menu.c:201
 msgid "Auto Explore"
 msgstr "Авто-исследовать"
 
-#: client/gui-xaw/menu.c:197
+#: client/gui-xaw/menu.c:202
 msgid "Connect/Road"
 msgstr "Соединить/Дорогу"
 
-#: client/gui-xaw/menu.c:198
+#: client/gui-xaw/menu.c:203
 msgid "Connect/Rail"
 msgstr "Соединить/Железную дорогу"
 
-#: client/gui-xaw/menu.c:199
+#: client/gui-xaw/menu.c:204
 msgid "Connect/Irrigation"
 msgstr "Соединить/Орошение"
 
-#: client/gui-xaw/menu.c:201
+#: client/gui-xaw/menu.c:206
 msgid "Go to"
 msgstr "Идти к"
 
-#: client/gui-xaw/menu.c:211
+#: client/gui-xaw/menu.c:216
 msgid "Select Same Type"
 msgstr "Выбрать тот же тип"
 
-#: client/gui-xaw/menu.c:227
+#: client/gui-xaw/menu.c:232
 msgid "Top Five Cities"
 msgstr "Лучшие пять городов"
 
-#: client/gui-xaw/menu.c:229
+#: client/gui-xaw/menu.c:234
 msgid "Demographics"
 msgstr "Демография"
 
-#: client/gui-xaw/menu.c:235
+#: client/gui-xaw/menu.c:240
 msgid "Editing Mode"
 msgstr ""
 
-#: client/gui-xaw/menu.c:236
+#: client/gui-xaw/menu.c:241
 #, fuzzy
 msgid "Tools"
 msgstr "Итого"
 
-#: client/gui-xaw/menu.c:241 data/helpdata.txt:378
+#: client/gui-xaw/menu.c:246 data/helpdata.txt:378
 msgid "Languages"
 msgstr "Языки"
 
-#: client/gui-xaw/menu.c:242 data/helpdata.txt:401
+#: client/gui-xaw/menu.c:247 data/helpdata.txt:401
 msgid "Connecting"
 msgstr "Подключение"
 
-#: client/gui-xaw/menu.c:243 data/helpdata.txt:429
+#: client/gui-xaw/menu.c:248 data/helpdata.txt:429
 msgid "Controls"
 msgstr "Управление"
 
-#: client/gui-xaw/menu.c:244 data/helpdata.txt:547
+#: client/gui-xaw/menu.c:249 data/helpdata.txt:547
 msgid "Chatline"
 msgstr "Общение"
 
-#: client/gui-xaw/menu.c:245
+#: client/gui-xaw/menu.c:250
 msgid "Playing"
 msgstr "Игра"
 
-#: client/gui-xaw/menu.c:249 data/helpdata.txt:987
+#: client/gui-xaw/menu.c:254 data/helpdata.txt:987
 msgid "Combat"
 msgstr "Сражения"
 
-#: client/gui-xaw/menu.c:250
+#: client/gui-xaw/menu.c:255
 msgid "ZOC"
 msgstr "Зоны контроля"
 
-#: client/gui-xaw/menu.c:251 data/helpdata.txt:888
+#: client/gui-xaw/menu.c:256 data/helpdata.txt:888
 msgid "Technology"
 msgstr "Технология"
 
-#: client/gui-xaw/menu.c:254 data/Freeciv.in:2027 data/helpdata.txt:1321
+#: client/gui-xaw/menu.c:259 data/Freeciv.in:2027 data/helpdata.txt:1321
 msgid "Government"
 msgstr "Форма правления"
 
-#: client/gui-xaw/menu.c:256 data/helpdata.txt:1465
+#: client/gui-xaw/menu.c:261 data/helpdata.txt:1465
 msgid "Space Race"
 msgstr "Космическая гонка"
 
-#: client/gui-xaw/menu.c:258 data/helpdata.txt:76
+#: client/gui-xaw/menu.c:263 data/helpdata.txt:76
 msgid "Copying"
 msgstr "Копирование"
 
@@ -27580,3 +27586,6 @@ msgstr "Команда 30"
 #: data/default/game.ruleset:157
 msgid "Team 31"
 msgstr "Команда 31"
+
+#~ msgid "Units: "
+#~ msgstr "Соединения: "
