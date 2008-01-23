@@ -1,22 +1,23 @@
+# translation of fa.po to Farsi
 # Persian Translation for Freeciv
 # Copyright (C) 2006 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Freeciv package. (GNU GPL)
-#
 # Arman Ordookhani <arman_o71@Yahoo.com>, 2006.
+#
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: fa_IR\n"
+"Project-Id-Version: fa\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-22 22:45-0500\n"
-"PO-Revision-Date: 2007-08-11 02:21+0300\n"
+"PO-Revision-Date: 2007-08-11 02:17+0300\n"
 "Last-Translator: Arman Ordookhani <arman_o71@Yahoo.com>\n"
-"Language-Team: Farsi\n"
+"Language-Team: Farsi(Persian)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural= n != 1;\n"
-"X-Generator: KBabel 1.10\n"
+"X-Generator: KBabel 1.10.2\n"
 
 #: common/city.c:56 client/gui-gtk-2.0/repodlgs.c:963
 #: client/gui-win32/repodlgs.c:715
@@ -560,7 +561,7 @@ msgstr "پیام دیپلماتیک"
 
 #: common/events.c:139
 msgid "Error message from bad command"
-msgstr ""
+msgstr "پیام خطا از دستور اشتباه"
 
 #: common/events.c:140
 msgid "Server settings changed"
@@ -788,8 +789,9 @@ msgstr "(ناشناس)"
 
 #: common/terrain.c:45 data/default/units.ruleset:88
 #: data/civ2/units.ruleset:82 data/civ1/units.ruleset:74
+#, fuzzy
 msgid "Land"
-msgstr "سوار"
+msgstr "سوار کردن"
 
 #: common/terrain.c:46
 #, fuzzy
@@ -1012,9 +1014,9 @@ msgid ""
 "Freeciv %s will be released in\n"
 "%s, at %s"
 msgstr ""
-"این یک نسخه‌ی آزمایشی ست\n"
-"Freeciv %s در %s, در %s\n"
-"منتشر می‌شود."
+"این یک نسخه‌ی آزمایشی است\n"
+"Freeciv %s در ماه %s\n"
+"در %s منتشر می‌شود."
 
 #: common/version.c:123
 msgid "'Cause civilization should be free!"
@@ -3168,7 +3170,7 @@ msgstr "شما نمی‌توانید %s را تطميع کنید!"
 #: server/diplomats.c:457
 #, fuzzy, c-format
 msgid "Your %s succeeded in bribing the %s."
-msgstr "%s شما موفق شد %s %s را تطمیع کند."
+msgstr "%s شما موفق شد %s را تطمیع کند."
 
 #. TRANS: <unit> ... <Poles>
 #: server/diplomats.c:465
@@ -3610,7 +3612,8 @@ msgstr "وضعیت دیپلماتیک بین %s و %s %s است."
 msgid ""
 " %s canceled the diplomatic agreement! The diplomatic state between the %s "
 "and the %s is now %s."
-msgstr "%s قرارداد دیپلماتیک را لغو کرد! وضعیت دیپلماتیک بین %s و %s %s است."
+msgstr ""
+"%s قرارداد دیپلماتیک را لغو کرد! وضعیت دیپلماتیک بین %s و %s اکنون %s است."
 
 #: server/plrhand.c:625
 #, c-format
@@ -6163,9 +6166,9 @@ msgstr ""
 #: server/stdinhand.c:4138 server/stdinhand.c:4142 client/helpdata.c:254
 #: client/helpdata.c:745 client/text.c:187 client/text.c:1179
 #: client/text.c:1217
-#, fuzzy, c-format
+#, c-format
 msgid "?clistmore:, %s"
-msgstr "، "
+msgstr ", %s"
 
 #: server/stdinhand.c:4146
 msgid ", ready"
@@ -6392,7 +6395,7 @@ msgstr ""
 #: server/unithand.c:1013
 #, fuzzy, c-format
 msgid "Your %s survived the pathetic attack from the %s %s."
-msgstr "%s%s شما از حمله‌ی %s %s نجات یافت."
+msgstr "%s شما از حمله‌ی %s %s نجات یافت."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
 #: server/unithand.c:1022
@@ -6508,7 +6511,7 @@ msgstr ""
 #: server/unittools.c:258
 #, fuzzy, c-format
 msgid "%s was upgraded for free to %s."
-msgstr "%s مجانی به %s%s ترفیع یافت."
+msgstr "%s مجانی به %s ترفیع یافت."
 
 #: server/unittools.c:299
 #, c-format
@@ -6586,16 +6589,16 @@ msgstr "%s شما موفق شد %s %s را خراب کند."
 #: server/unittools.c:1626 server/unittools.c:1684
 #, fuzzy, c-format
 msgid "%s lost to an attack by the %s %s."
-msgstr "%s بر اثر حمله‌ی %s %s%s از بین رفت."
+msgstr "%s بر اثر حمله‌ی %s %s از بین رفت."
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
 #: server/unittools.c:1660
-#, fuzzy, c-format
+#, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
 "Your attacking %s succeeded against the %s %s (and %d other units)!"
-msgstr[0] "بازی: %s شما موفق شد %s %s‌را تطمیع کند و تجربه‌اش بیشتر شود."
-msgstr[1] "بازی: %s شما موفق شد %s %s‌را تطمیع کند و تجربه‌اش بیشتر شود."
+msgstr[0] ""
+msgstr[1] ""
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
@@ -6615,11 +6618,11 @@ msgstr "%s بر اثر حمله‌ی %s %s از بین رفت."
 #. * an attack from the Polish Destroyer."
 #. * (only happens with at least 2 other units)
 #: server/unittools.c:1718
-#, fuzzy, c-format
+#, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
-msgstr[0] "%s بر اثر حمله‌ی %s %s از بین رفت."
-msgstr[1] "%s بر اثر حمله‌ی %s %s از بین رفت."
+msgstr[0] ""
+msgstr[1] ""
 
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
@@ -7178,6 +7181,7 @@ msgid "Surplus: Trade"
 msgstr "مازاد: تجارت"
 
 #: client/cityrepdata.c:498
+#, fuzzy
 msgid "?Trade loss (corruption) [short]:-T"
 msgstr "-ت"
 
@@ -7421,12 +7425,12 @@ msgid "The parties create an alliance"
 msgstr "دو طرف به اتحاد راضی هستند."
 
 #: client/climisc.c:291
-#, fuzzy, c-format
+#, c-format
 msgid "The %s give shared vision"
 msgstr "%s دید مشترک می‌دهند"
 
 #: client/climisc.c:295
-#, fuzzy, c-format
+#, c-format
 msgid "The %s give an embassy"
 msgstr "%s یک سفارت می‌دهند"
 
@@ -8323,9 +8327,8 @@ msgstr "%s%d %s"
 
 #: client/helpdata.c:1680 client/helpdata.c:1688 client/gui-sdl/mapview.c:618
 #: client/gui-sdl/mapview.c:624 client/gui-sdl/mapview.c:630
-#, fuzzy
 msgid "?blistmore:, "
-msgstr "، "
+msgstr ", "
 
 #. TRANS: "2 unhappy" or ", 1 unhappy"
 #: client/helpdata.c:1687
@@ -8341,15 +8344,15 @@ msgstr "شما نمی‌دانید چگونه  %s را بسازید!"
 #: client/mapctrl_common.c:397
 #, c-format
 msgid "Copy %s to clipboard."
-msgstr ""
+msgstr "کپی %s به clipboard."
 
 #: client/mapctrl_common.c:411
 msgid "Clipboard is empty."
-msgstr ""
+msgstr "Clipboard خالی است."
 
 #: client/options.c:97
 msgid "Graphics"
-msgstr ""
+msgstr "گرافیک"
 
 #: client/options.c:98
 msgid "Overview"
@@ -8361,11 +8364,11 @@ msgstr "صدا"
 
 #: client/options.c:100
 msgid "Interface"
-msgstr ""
+msgstr "صورت"
 
 #: client/options.c:101
 msgid "Network"
-msgstr ""
+msgstr "شبکه"
 
 #: client/options.c:102
 msgid "Font"
@@ -8444,7 +8447,7 @@ msgstr ""
 
 #: client/options.c:148
 msgid "Tileset"
-msgstr ""
+msgstr "مجموعه خانه"
 
 #: client/options.c:149
 msgid ""
@@ -8506,7 +8509,7 @@ msgstr ""
 
 #: client/options.c:184
 msgid "Draw the citybar"
-msgstr ""
+msgstr "کشیدن "
 
 #: client/options.c:185
 msgid ""
@@ -8745,7 +8748,7 @@ msgstr "مرده"
 
 #: client/plrdlg_common.c:202
 msgid "waiting"
-msgstr "انتظار"
+msgstr "منتظر"
 
 #: client/plrdlg_common.c:204 client/gui-sdl/plrdlg.c:646
 #: client/gui-win32/plrdlg.c:155 client/gui-xaw/plrdlg.c:238
@@ -8922,7 +8925,7 @@ msgstr "نوع خانه: %s"
 #: client/text.c:110
 #, c-format
 msgid "Food/Prod/Trade: %s"
-msgstr "غذا/تولید/تجارت: %s"
+msgstr "تجارت/تولید/غذا: %s"
 
 #: client/text.c:113
 msgid "Minor Tribe Village"
@@ -8937,25 +8940,25 @@ msgstr "خانه‌ی ما"
 #: client/text.c:122
 #, fuzzy, c-format
 msgid "%s territory"
-msgstr "نوع خانه"
+msgstr "خانه‌ی %s"
 
 #. TRANS: "Polish territory (5 turn cease-fire)"
 #: client/text.c:131
 #, c-format
 msgid "%s territory (%d turn cease-fire)"
 msgid_plural "%s territory (%d turn cease-fire)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "خانه %s (%d نوبت آتش‌بس)"
+msgstr[1] "خانه %s (%d نوبت آتش‌بس)"
 
 #. TRANS: "Polish territory (friendly)"
 #: client/text.c:140
 #, fuzzy, c-format
 msgid "%s territory (%s)"
-msgstr "خانه‌ی %s"
+msgstr "خانه‌ی %s %s"
 
 #: client/text.c:145
 msgid "Unclaimed territory"
-msgstr ""
+msgstr "خانه بی مالک"
 
 #. TRANS: "City: Warsaw (Polish)"
 #: client/text.c:157
@@ -8979,9 +8982,9 @@ msgstr "شهر: %s (%s,%s)"
 
 #. TRANS: previous lines gave other information about the city.
 #: client/text.c:191
-#, c-format
+#, fuzzy, c-format
 msgid "?clistbegin: with %s"
-msgstr ""
+msgstr " با %s"
 
 #. TRANS: This appears with two or more previous entries in the list
 #: client/text.c:202
@@ -8997,7 +9000,7 @@ msgstr "لیست ویژه‌ها"
 
 #: client/text.c:209 client/text.c:1190 client/text.c:1229
 msgid "?clistend:."
-msgstr ""
+msgstr "?clistend:."
 
 #. TRANS: "Trade from Warsaw: 5"
 #: client/text.c:219
@@ -9026,7 +9029,7 @@ msgstr "مهره: %s (%s,%s)"
 #: client/text.c:249
 #, fuzzy, c-format
 msgid "Unit: %s (%s)"
-msgstr "مهره: %s (%s%s)"
+msgstr "مهره: %s (%s)"
 
 #. TRANS:  "Unit: Musketeers (Polish, 5 turn cease-fire)"
 #: client/text.c:262
@@ -9147,7 +9150,7 @@ msgstr "جمعیت: %s"
 #: client/text.c:612
 #, c-format
 msgid "Year: %s (T%d)"
-msgstr "سال: %s (T%d)"
+msgstr "سال: %s (ن%d)"
 
 #: client/text.c:615
 #, c-format
@@ -9162,7 +9165,7 @@ msgstr "مالیات: %d رفاه: %d علم: %d"
 #: client/text.c:623
 #, c-format
 msgid "Moving: %s"
-msgstr ""
+msgstr "متحرک: %s"
 
 #: client/text.c:626
 msgid "(Click for more info)"
@@ -9171,7 +9174,7 @@ msgstr "(برای اطلاعات بیشتر کلیک کنید)"
 #: client/text.c:642
 #, c-format
 msgid "%s People"
-msgstr "مردم %s"
+msgstr "جمعیت %s"
 
 #: client/text.c:646
 #, c-format
@@ -9187,7 +9190,7 @@ msgstr "طلا: %d"
 #: client/text.c:649
 #, c-format
 msgid "Net Income: %d"
-msgstr ""
+msgstr "درآمد خالص: %d"
 
 #. TRANS: Gold, luxury, and science rates are in percentage values.
 #: client/text.c:652
@@ -9293,7 +9296,7 @@ msgstr "پیشرفت شما را در تکنولوژی حاضر نسان می‌
 
 #: client/text.c:913
 msgid "no research target."
-msgstr ""
+msgstr "بدون هدف پژوهش."
 
 #. TRANS: <tech>: <amount>/<total bulbs>
 #: client/text.c:916
@@ -9440,9 +9443,9 @@ msgid "Wonders: "
 msgstr "شگفتی‌ها: "
 
 #: client/text.c:1262
-#, fuzzy, c-format
+#, c-format
 msgid "Cities: %d total, %d over threshold of %d cities."
-msgstr "شهرها: مجموع %d، %d شهر بیش از حد %d شهر در آستانه.\n"
+msgstr "شهرها: مجموع %d، %d شهر بیش از حد %d شهر در آستانه."
 
 #. TRANS: 0-21 content [citizen(s)] ...
 #: client/text.c:1266
@@ -10206,7 +10209,7 @@ msgstr "انتخاب"
 #: client/gui-gtk-2.0/cityrep.c:714 client/gui-gtk-2.0/plrdlg.c:496
 #, fuzzy
 msgid "_Display"
-msgstr "دیپلماسی"
+msgstr "نشان بده"
 
 #: client/gui-gtk-2.0/cityrep.c:795 client/gui-gtk-2.0/menu.c:843
 #: client/gui-sdl/diplodlg.c:689 client/gui-sdl/optiondlg.c:1799
@@ -10221,7 +10224,7 @@ msgstr "شهرها"
 #: client/gui-gtk-2.0/cityrep.c:812
 #, fuzzy
 msgid "_Inspect"
-msgstr "درج"
+msgstr "باز کردن"
 
 #: client/gui-gtk-2.0/cityrep.c:1220 client/gui-gtk-2.0/cityrep.c:1241
 #: client/gui-gtk-2.0/cityrep.c:1260 client/gui-gtk-2.0/cityrep.c:1279
@@ -10374,14 +10377,13 @@ msgid "Remove this preset?"
 msgstr ""
 
 #: client/gui-gtk-2.0/dialogs.c:197 client/gui-gtk-2.0/messagewin.c:186
-#, fuzzy
 msgid "Goto _Location"
-msgstr "برو به محل"
+msgstr "برو به مکان"
 
 #: client/gui-gtk-2.0/dialogs.c:202 client/gui-gtk-2.0/messagewin.c:190
 #, fuzzy
 msgid "Inspect _City"
-msgstr "بازجویی شهر"
+msgstr "باز کردن"
 
 #: client/gui-gtk-2.0/dialogs.c:258 client/gui-sdl/dialogs.c:2091
 #: client/gui-win32/dialogs.c:975 client/gui-xaw/dialogs.c:513
@@ -10478,7 +10480,7 @@ msgstr "سبک شهرها:"
 #: client/gui-gtk-2.0/dialogs.c:934
 #, fuzzy
 msgid "_Description"
-msgstr "توضیح:"
+msgstr "داستان"
 
 #: client/gui-gtk-2.0/dialogs.c:1273 client/gui-xaw/dialogs.c:1489
 msgid "You must select your sex."
@@ -10784,7 +10786,6 @@ msgid "View"
 msgstr "نمایش"
 
 #: client/gui-gtk-2.0/gui_main.c:1282
-#, fuzzy
 msgid "Chat"
 msgstr "گفتگو"
 
@@ -10823,7 +10824,7 @@ msgstr "ناظر"
 #: client/gui-gtk-2.0/gui_main.c:1602
 #, fuzzy
 msgid "Do not _observe"
-msgstr "%s اکنون ناظر است"
+msgstr "نا ناظر"
 
 #. TRANS: "<Novice AI>"
 #: client/gui-gtk-2.0/gui_main.c:1625
@@ -10946,19 +10947,19 @@ msgstr "منابع:"
 
 #: client/gui-gtk-2.0/helpdlg.c:106 client/gui-win32/helpdlg.c:97
 msgid "Road Rslt/Time:"
-msgstr ""
+msgstr "جاده نتیجه/زمان:"
 
 #: client/gui-gtk-2.0/helpdlg.c:106 client/gui-win32/helpdlg.c:97
 msgid "Irrig. Rslt/Time:"
-msgstr ""
+msgstr "آبیاری نتیجه/زمان:"
 
 #: client/gui-gtk-2.0/helpdlg.c:107 client/gui-win32/helpdlg.c:98
 msgid "Mine Rslt/Time:"
-msgstr ""
+msgstr "معدن نتیجه/زمان:"
 
 #: client/gui-gtk-2.0/helpdlg.c:107 client/gui-win32/helpdlg.c:98
 msgid "Trans. Rslt/Time:"
-msgstr ""
+msgstr "تبدیل نتیجه/زمان:"
 
 #: client/gui-gtk-2.0/helpdlg.c:111 client/gui-win32/helpdlg.c:165
 #: client/gui-win32/helpdlg.c:501 client/gui-win32/helpdlg.c:544
@@ -11007,7 +11008,7 @@ msgstr "را با"
 
 #: client/gui-gtk-2.0/helpdlg.c:1000 client/gui-gtk-2.0/helpdlg.c:1017
 msgid "?techhelp:"
-msgstr ""
+msgstr "?techhelp:"
 
 #: client/gui-gtk-2.0/helpdlg.c:1065 client/gui-win32/helpdlg.c:592
 #: client/gui-xaw/helpdlg.c:1002
@@ -11044,7 +11045,7 @@ msgstr "+%d منبع / %d"
 
 #: client/gui-gtk-2.0/inteldlg.c:41
 msgid "Ruler:"
-msgstr ""
+msgstr "حاکم:"
 
 #: client/gui-gtk-2.0/inteldlg.c:42
 msgid "Government:"
@@ -11084,7 +11085,7 @@ msgstr "ساختن شهر جدید"
 #: client/gui-gtk-2.0/mapctrl.c:196 client/gui-sdl/mapctrl.c:2595
 #: client/gui-win32/mapctrl.c:354 client/gui-xaw/mapctrl.c:89
 msgid "What should we call our new city?"
-msgstr ""
+msgstr "شهر جدیدمان را چه باید بنامیم؟"
 
 #: client/gui-gtk-2.0/mapview.c:147
 msgid "Shows your current luxury/science/tax rates;click to toggle them."
@@ -11178,7 +11179,7 @@ msgstr "ذخیره تنظیمات هنگام خروج"
 
 #: client/gui-gtk-2.0/menu.c:765
 msgid "_Reload Tileset"
-msgstr ""
+msgstr "دوبارگذاری مجموعه خانه"
 
 #: client/gui-gtk-2.0/menu.c:768 client/gui-win32/menu.c:310
 msgid "_Save Game"
@@ -11464,7 +11465,7 @@ msgstr "از بین بردن"
 #: client/gui-gtk-2.0/menu.c:926 client/gui-sdl/citydlg.c:532
 #: data/Freeciv.in:1186
 msgid "Upgrade unit"
-msgstr ""
+msgstr "ترفیع مهره"
 
 #: client/gui-gtk-2.0/menu.c:928
 msgid "Diplomat\\/Spy Actions"
@@ -11477,7 +11478,7 @@ msgstr "انفجار اتمی"
 
 #: client/gui-gtk-2.0/menu.c:934
 msgid "Select same type"
-msgstr ""
+msgstr "انتخاب هم نوعان"
 
 #: client/gui-gtk-2.0/menu.c:936
 #, fuzzy
@@ -11516,7 +11517,7 @@ msgstr "مهره‌ها"
 #: client/gui-gtk-2.0/menu.c:951 client/gui-win32/menu.c:402
 #, fuzzy
 msgid "_Nations"
-msgstr "ملیت ها"
+msgstr "_ملیت ها"
 
 #: client/gui-gtk-2.0/menu.c:955 client/gui-win32/menu.c:403
 msgid "_Economy"
@@ -11524,8 +11525,9 @@ msgstr "اقتصاد"
 
 #. TRANS: Research report action
 #: client/gui-gtk-2.0/menu.c:957 client/gui-win32/menu.c:405
+#, fuzzy
 msgid "_Research"
-msgstr "پژوهش"
+msgstr "_پژوهش"
 
 #: client/gui-gtk-2.0/menu.c:961 client/gui-win32/menu.c:407
 msgid "_Wonders of the World"
@@ -11704,11 +11706,11 @@ msgstr "رویداد"
 
 #: client/gui-gtk-2.0/messagedlg.c:127
 msgid "Out"
-msgstr "بیرون"
+msgstr "خروجی"
 
 #: client/gui-gtk-2.0/messagedlg.c:134
 msgid "Mes"
-msgstr ""
+msgstr "پبام"
 
 #: client/gui-gtk-2.0/messagedlg.c:141
 msgid "Pop"
@@ -11877,7 +11879,7 @@ msgstr "اطلاعات %s"
 
 #: client/gui-gtk-2.0/pages.c:1179
 msgid "Toggle player ready"
-msgstr ""
+msgstr "تغییر آمادگی بازیکن"
 
 #: client/gui-gtk-2.0/pages.c:1187
 msgid "Pick nation"
@@ -11897,7 +11899,7 @@ msgstr "بریدن اتصال"
 
 #: client/gui-gtk-2.0/pages.c:1231
 msgid "Aitoggle player"
-msgstr ""
+msgstr "تغییر هوش‌مصنوعی بازیکن"
 
 #: client/gui-gtk-2.0/pages.c:1240
 msgid "Remove player"
@@ -11905,11 +11907,11 @@ msgstr "برداشتن بازیکن"
 
 #: client/gui-gtk-2.0/pages.c:1251
 msgid "Give info access"
-msgstr ""
+msgstr "دادن دسترسی اطلاعات"
 
 #: client/gui-gtk-2.0/pages.c:1259
 msgid "Give ctrl access"
-msgstr ""
+msgstr "دادن دسترسی کنترل"
 
 #. TRANS: e.g., "Put on Team 5"
 #: client/gui-gtk-2.0/pages.c:1324
@@ -11933,17 +11935,16 @@ msgid "Ruleset _Version:"
 msgstr "مجموعه قوانین"
 
 #: client/gui-gtk-2.0/pages.c:1480 client/gui-gtk-2.0/pages.c:2112
-#, fuzzy
 msgid "_More Game Options..."
 msgstr "تنظیمات دیگر..."
 
 #: client/gui-gtk-2.0/pages.c:1505
 msgid "Record"
-msgstr ""
+msgstr "رکورد"
 
 #: client/gui-gtk-2.0/pages.c:1510
 msgid "Rating"
-msgstr ""
+msgstr "درجه"
 
 #: client/gui-gtk-2.0/pages.c:1516
 msgid "Ready"
@@ -11956,11 +11957,11 @@ msgstr "رهبر"
 
 #: client/gui-gtk-2.0/pages.c:1651 client/gui-sdl/chatline.c:185
 msgid "Choose Saved Game to Load"
-msgstr ""
+msgstr "بازی ذخیره شده را برای بارگذاری انتخاب کنید"
 
 #: client/gui-gtk-2.0/pages.c:1743
 msgid "Choose Saved Game to _Load:"
-msgstr ""
+msgstr "بازی ذخیره شده را برای بارگذاری انتخاب کنید"
 
 #: client/gui-gtk-2.0/pages.c:1763 client/gui-gtk-2.0/pages.c:1956
 #: client/gui-gtk-2.0/pages.c:2366
@@ -12054,7 +12055,7 @@ msgstr "فروختن همه"
 #: client/gui-gtk-2.0/repodlgs.c:816
 #, c-format
 msgid "Do you really wish to sell your %s?\n"
-msgstr ""
+msgstr "آیا واقعاً می‌خواهید %s خود را بفروشید؟\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:819
 msgid "Sell Improvements"
@@ -12067,7 +12068,7 @@ msgstr ""
 #: client/gui-gtk-2.0/repodlgs.c:911
 #, c-format
 msgid "Income: %d    Total Costs: %d"
-msgstr ""
+msgstr "درآمد: %d    قیمت کل: %d"
 
 #: client/gui-gtk-2.0/repodlgs.c:958 client/gui-win32/repodlgs.c:710
 msgid "Unit Type"
@@ -12076,7 +12077,7 @@ msgstr "نوع مهره"
 #: client/gui-gtk-2.0/repodlgs.c:959 client/gui-win32/repodlgs.c:711
 #, fuzzy
 msgid "?Upgradable unit [short]:U"
-msgstr "+ت"
+msgstr "ت"
 
 #: client/gui-gtk-2.0/repodlgs.c:960 client/gui-win32/repodlgs.c:712
 msgid "In-Prog"
@@ -12101,6 +12102,8 @@ msgid ""
 "Upgrade as many %s to %s as possible for %d gold each?\n"
 "Treasury contains %d gold."
 msgstr ""
+"ترفیع تمام %sها به %s با %d طلا برای هرکدام؟\n"
+"خزانه %d طلا دارد."
 
 #: client/gui-gtk-2.0/repodlgs.c:1299
 msgid "Totals:"
@@ -12238,7 +12241,7 @@ msgstr ""
 #: client/gui-gtk-2.0/tileset_dlg.c:54
 #, fuzzy
 msgid "Load tileset"
-msgstr "بارگزاری تنظیمات"
+msgstr "دوبارگذاری مجموعه خانه"
 
 #: client/gui-gtk-2.0/tileset_dlg.c:56
 msgid "Keep current tileset"
@@ -13292,7 +13295,7 @@ msgstr "ارتفاع"
 #: client/gui-sdl/mapctrl.c:1426 client/gui-sdl/mapview.c:312
 #: client/gui-sdl/mapview.c:315 client/gui-xaw/menu.c:136
 msgid "Revolution"
-msgstr ""
+msgstr "انقلاب"
 
 #: client/gui-sdl/mapctrl.c:1592
 #, fuzzy
@@ -13384,7 +13387,7 @@ msgstr ""
 
 #: client/gui-sdl/mapview.c:614
 msgid "?blistbegin: with "
-msgstr ""
+msgstr " با "
 
 #: client/gui-sdl/mapview.c:616 data/default/buildings.ruleset:113
 #: data/civ2/buildings.ruleset:96 data/civ1/buildings.ruleset:69
@@ -13403,7 +13406,7 @@ msgstr "دیوار شهر"
 
 #: client/gui-sdl/mapview.c:637
 msgid "?blistend:"
-msgstr ""
+msgstr "?blistend:"
 
 #. TRANS: (<nation>,<diplomatic_state>)"
 #: client/gui-sdl/mapview.c:643
@@ -13475,17 +13478,17 @@ msgstr ""
 #: client/gui-sdl/menu.c:514
 #, fuzzy
 msgid "Connect irrigation"
-msgstr "خدمت سربازي"
+msgstr "اتصال/آبیاری"
 
 #: client/gui-sdl/menu.c:527
 #, fuzzy
 msgid "Connect road"
-msgstr "وصل کردن اینجا"
+msgstr "اتصال/جاده"
 
 #: client/gui-sdl/menu.c:540
 #, fuzzy
 msgid "Connect railroad"
-msgstr "وصل کردن اینجا"
+msgstr "اتصال/جاده"
 
 #: client/gui-sdl/menu.c:553
 msgid "Auto-Explore"
@@ -14105,7 +14108,7 @@ msgstr "راه‌های تجاری"
 
 #: client/gui-win32/citydlg.c:737
 msgid "Misc. Settings"
-msgstr ""
+msgstr "تنظیمات متفرقه"
 
 #: client/gui-win32/citydlg.c:801 client/gui-win32/cityrep.c:878
 #: data/Freeciv.in:1629
@@ -14596,15 +14599,15 @@ msgstr "حمله اتوماتیک"
 
 #: client/gui-win32/messagedlg.c:138 client/gui-win32/messagedlg.c:142
 msgid "Out:"
-msgstr ""
+msgstr "خروجی:"
 
 #: client/gui-win32/messagedlg.c:139 client/gui-win32/messagedlg.c:143
 msgid "Mes:"
-msgstr ""
+msgstr "پیام:"
 
 #: client/gui-win32/messagedlg.c:140 client/gui-win32/messagedlg.c:144
 msgid "Pop:"
-msgstr ""
+msgstr "Pop:"
 
 #: client/gui-win32/messagedlg.c:184
 msgid ""
@@ -14661,7 +14664,7 @@ msgstr[1] "(%d مرحله)"
 #: client/gui-win32/repodlgs.c:354 client/gui-xaw/repodlgs.c:821
 #, c-format
 msgid "Income:%6d    Total Costs: %6d"
-msgstr ""
+msgstr "درآمد:%6d    قیمت کل: %6d"
 
 #: client/gui-win32/repodlgs.c:378 client/gui-xaw/repodlgs.c:777
 msgid "Sell-Off:"
@@ -14897,7 +14900,7 @@ msgstr ""
 
 #: client/gui-xaw/menu.c:116
 msgid "Local Options"
-msgstr ""
+msgstr "تنظیمات محلی"
 
 #: client/gui-xaw/menu.c:118
 msgid "Save Settings"
@@ -14925,7 +14928,7 @@ msgstr ""
 
 #: client/gui-xaw/menu.c:149
 msgid "City Growth"
-msgstr ""
+msgstr "رشد شهر"
 
 #: client/gui-xaw/menu.c:192
 msgid "Make Homecity"
@@ -14941,15 +14944,15 @@ msgstr "گشتن اتوماتیک"
 
 #: client/gui-xaw/menu.c:202
 msgid "Connect/Road"
-msgstr ""
+msgstr "اتصال/جاده"
 
 #: client/gui-xaw/menu.c:203
 msgid "Connect/Rail"
-msgstr ""
+msgstr "اتصال/خط‌آهن"
 
 #: client/gui-xaw/menu.c:204
 msgid "Connect/Irrigation"
-msgstr ""
+msgstr "اتصال/آبیاری"
 
 #: client/gui-xaw/menu.c:206
 msgid "Go to"
@@ -14957,7 +14960,7 @@ msgstr "برو به"
 
 #: client/gui-xaw/menu.c:216
 msgid "Select Same Type"
-msgstr ""
+msgstr "انتخاب هم نوعان"
 
 #: client/gui-xaw/menu.c:232
 msgid "Top Five Cities"
@@ -15192,7 +15195,7 @@ msgstr "پاک کردن غبار اتمی"
 
 #: manual/civmanual.c:262 manual/civmanual.c:272
 msgid "impossible"
-msgstr ""
+msgstr "غیر ممکن"
 
 #: manual/civmanual.c:295
 #, c-format
@@ -15218,7 +15221,7 @@ msgstr "منسوخ می‌شود به وسیله‌ی"
 
 #: manual/civmanual.c:303
 msgid "More info"
-msgstr ""
+msgstr "اطلاعات بیشتر"
 
 #: data/Freeciv.in:68
 msgid "Connect to Freeciv Server"
@@ -15230,7 +15233,7 @@ msgstr ""
 
 #: data/Freeciv.in:129
 msgid "Freeciv Server List"
-msgstr ""
+msgstr "لیست سرور Freeciv"
 
 #: data/Freeciv.in:132
 msgid ""
@@ -15240,7 +15243,7 @@ msgstr ""
 
 #: data/Freeciv.in:215
 msgid "Diplomacy"
-msgstr ""
+msgstr "دیپلماسی"
 
 #: data/Freeciv.in:310
 msgid "The following clauses have been agreed upon:"
@@ -15252,11 +15255,11 @@ msgstr ""
 
 #: data/Freeciv.in:474 data/Freeciv.in:483
 msgid "Shared vision"
-msgstr ""
+msgstr "دید مشترک"
 
 #: data/Freeciv.in:558
 msgid "Select Unit(s)"
-msgstr ""
+msgstr "انتخاب مهره(ها)"
 
 #: data/Freeciv.in:672 data/Freeciv.in:751
 msgid "Variant:"
@@ -15268,23 +15271,23 @@ msgstr "قدرت‌آتش:"
 
 #: data/Freeciv.in:932
 msgid "Movement/Defense:"
-msgstr ""
+msgstr "حرکت/دفاع:"
 
 #: data/Freeciv.in:951
 msgid "Food/Resources/Trade:"
-msgstr ""
+msgstr "غذا/منبع/تجارت:"
 
 #: data/Freeciv.in:980
 msgid "Road Result/Time:"
-msgstr ""
+msgstr "جاده نتیجه/زمان:"
 
 #: data/Freeciv.in:1000
 msgid "Irrig. Result/Time:"
-msgstr ""
+msgstr "آبیاری نتیجه/زمان:"
 
 #: data/Freeciv.in:1021
 msgid "Mine Result/Time:"
-msgstr ""
+msgstr "معدن نتیجه/زمان:"
 
 #: data/Freeciv.in:1041
 msgid "Trans. Result/Time:"
@@ -15292,7 +15295,7 @@ msgstr ""
 
 #: data/Freeciv.in:1105
 msgid "Select destination:"
-msgstr ""
+msgstr "انتخاب مقصد:"
 
 #: data/Freeciv.in:1264
 msgid "Where to Display Messages"
@@ -16733,7 +16736,7 @@ msgstr ""
 
 #: data/helpdata.txt:1295
 msgid "  Pillaging"
-msgstr ""
+msgstr "  غارت کردن"
 
 #: data/helpdata.txt:1296
 msgid ""
@@ -18351,8 +18354,9 @@ msgstr "چیف"
 #: data/nation/maori.ruleset:24 data/nation/sioux.ruleset:28
 #: data/nation/southafrican.ruleset:25 data/nation/swazi.ruleset:22
 #: data/nation/zulu.ruleset:38
+#, fuzzy
 msgid "?female:Chief"
-msgstr "چیف"
+msgstr "رفیق"
 
 #: data/default/governments.ruleset:81 data/civ1/governments.ruleset:81
 msgid ""
@@ -19043,8 +19047,9 @@ msgstr "لانکس"
 #: data/default/terrain.ruleset:258 data/civ2/terrain.ruleset:252
 #: data/civ1/terrain.ruleset:244 data/default/units.ruleset:96
 #: data/civ2/units.ruleset:90 data/civ1/units.ruleset:82
+#, fuzzy
 msgid "Sea"
-msgstr "دریا"
+msgstr "دزدیدن"
 
 #: data/default/terrain.ruleset:296 data/civ2/terrain.ruleset:287
 #: data/civ1/terrain.ruleset:279
@@ -19433,8 +19438,9 @@ msgstr "نخبه"
 
 #: data/default/units.ruleset:80 data/civ2/units.ruleset:74
 #: data/civ1/units.ruleset:97
+#, fuzzy
 msgid "Missile"
-msgstr "موشك"
+msgstr "غیر ممکن"
 
 #: data/default/units.ruleset:103 data/default/units.ruleset:1181
 #: data/civ2/units.ruleset:97 data/civ2/units.ruleset:1134
@@ -19443,8 +19449,9 @@ msgstr "هلیکوپتر"
 
 #: data/default/units.ruleset:110 data/civ2/units.ruleset:104
 #: data/civ1/units.ruleset:89
+#, fuzzy
 msgid "Air"
-msgstr "هوا"
+msgstr "پایگاه هوایی"
 
 #: data/default/units.ruleset:266 data/civ2/units.ruleset:161
 #: data/civ1/units.ruleset:162
@@ -24947,7 +24954,7 @@ msgstr ""
 #: data/scenario/tutorial.sav:380
 #, fuzzy
 msgid "Loading tutorial events."
-msgstr "بارگزاری تنظیمات"
+msgstr "دوبارگذاری مجموعه خانه"
 
 #: data/civ1/game.ruleset:98 data/civ2/game.ruleset:98
 #: data/default/game.ruleset:126
@@ -25110,6 +25117,453 @@ msgstr "تیم ۳۰"
 msgid "Team 31"
 msgstr "تیم ۳۱"
 
+#~ msgid "City: Building Unavailable Item"
+#~ msgstr "شهر: ساخت عنصری که در دسترس نیست"
+
+#~ msgid "City: Captured/Destroyed"
+#~ msgstr "شهر: گرفته شد/خراب شد"
+
+#~ msgid "City: Celebrating"
+#~ msgstr "شهر: جشن گرفته‌اند"
+
+#~ msgid "City: Civil Disorder"
+#~ msgstr "شهر: مختل شده"
+
+#~ msgid "City: Famine"
+#~ msgstr "شهر: قحطی"
+
+#~ msgid "City: Famine Feared"
+#~ msgstr "شهر: احتمال قحطی"
+
+#~ msgid "City: Growth"
+#~ msgstr "شهر: در حال رشد"
+
+#~ msgid "City: May Soon Grow"
+#~ msgstr "شهر: بزودی رشد می‌کند"
+
+#~ msgid "City: Needs Aqueduct"
+#~ msgstr "شهر: نیاز به آبراه دارد"
+
+#~ msgid "City: Needs Aqueduct Being Built"
+#~ msgstr "شهر: نیاز به آبراه دارد (در حال ساخت)"
+
+#~ msgid "City: Normal"
+#~ msgstr "شهر: معمولی"
+
+#~ msgid "City: Nuked"
+#~ msgstr "شهر: بمباران اتمی شده"
+
+#~ msgid "City: Released from citizen governor"
+#~ msgstr "شهر: از حاکم شهر جدا شد"
+
+#~ msgid "City: Transfer"
+#~ msgstr "شهر: جابجایی"
+
+#~ msgid "City: Was Built"
+#~ msgstr "شهر: ساخته شده"
+
+#~ msgid "City: Worklist Events"
+#~ msgstr "شهر: رویدادهای لیست کار"
+
+#~ msgid "City: Production changed"
+#~ msgstr "شهر: محصول تغییر کرد"
+
+#~ msgid "Civ: Barbarian Uprising"
+#~ msgstr "شهر: بیگانگان قیام کردند"
+
+#~ msgid "Civ: Civil War"
+#~ msgstr "تمدن: جنگ تمدن"
+
+#~ msgid "Civ: Collapse to Anarchy"
+#~ msgstr "تمدن: حکومت به هرج‌و‌مرج تبدیل شد"
+
+#~ msgid "Civ: First Contact"
+#~ msgstr "تمدن: اولین ارتباط"
+
+#~ msgid "Civ: Learned New Government"
+#~ msgstr "تمدن: حکومت جدید فراگرفته شد"
+
+#~ msgid "Civ: Low Funds"
+#~ msgstr "تمدن: سرمایه کم"
+
+#~ msgid "Civ: Pollution"
+#~ msgstr "تمدن: آلودگی"
+
+#~ msgid "Civ: Revolt Ended"
+#~ msgstr "تمدن: انقلاب پایان یافت"
+
+#~ msgid "Civ: Revolt Started"
+#~ msgstr "تمدن: انقلااب شروع شد"
+
+#~ msgid "Civ: Spaceship Events"
+#~ msgstr "تمدن: رویدادهای سفینه فضایی"
+
+#~ msgid "Diplomat Action: Bribe"
+#~ msgstr "فعالیت دیپلمات: تطمیع"
+
+#~ msgid "Diplomat Action: Caused Incident"
+#~ msgstr "فعالیت دیپلمات: باعث انقلاب شدن"
+
+#~ msgid "Diplomat Action: Escape"
+#~ msgstr "فعالیت دیپلمات: فرار"
+
+#~ msgid "Diplomat Action: Embassy"
+#~ msgstr "فعالیت دیپلمات: سفارت"
+
+#~ msgid "Diplomat Action: Failed"
+#~ msgstr "فعالیت دیپلمات: ناموفق"
+
+#~ msgid "Diplomat Action: Incite"
+#~ msgstr "فعالیت دیپلمات: انقلاب کردن"
+
+#~ msgid "Diplomat Action: Poison"
+#~ msgstr "فعالیت دیپلمات: سمی کردن"
+
+#~ msgid "Diplomat Action: Sabotage"
+#~ msgstr "فعالیت دیپلمات: خراب کاری"
+
+#~ msgid "Diplomat Action: Theft"
+#~ msgstr "فعالیت دیپلمات: دزدی"
+
+#~ msgid "Enemy Diplomat: Bribe"
+#~ msgstr "دیپلمات حریف: تطمیع"
+
+#~ msgid "Enemy Diplomat: Embassy"
+#~ msgstr "دیپلمات حریف: سفارت"
+
+#~ msgid "Enemy Diplomat: Failed"
+#~ msgstr "دیپلمات حریف: ناموفق"
+
+#~ msgid "Enemy Diplomat: Incite"
+#~ msgstr "دیپلمات حریف: انقلاب کردن"
+
+#~ msgid "Enemy Diplomat: Poison"
+#~ msgstr "دیپلمات حریف: سمی کردن"
+
+#~ msgid "Enemy Diplomat: Sabotage"
+#~ msgstr "دیپلمات حریف: خراب کاری"
+
+#~ msgid "Enemy Diplomat: Theft"
+#~ msgstr "دیپلمات حریف: دزدی"
+
+#~ msgid "Hut: Barbarians in a Hut Roused"
+#~ msgstr "کلبه: بیگانگان در کلبه بیدار شدند"
+
+#~ msgid "Hut: City Founded from Hut"
+#~ msgstr "کلبه: در کلبه شهر پیدا شد"
+
+#~ msgid "Hut: Gold Found in Hut"
+#~ msgstr "کلبه: در کلبه طلا پیدا شد"
+
+#~ msgid "Hut: Killed by Barbarians in a Hut"
+#~ msgstr "کلبه: نوسط بیگانگان در کلبه کشته شدند"
+
+#~ msgid "Hut: Mercenaries Found in Hut"
+#~ msgstr "کلبه: در کلبه سرباز بی طرف پیدا شد"
+
+#~ msgid "Hut: Settler Found in Hut"
+#~ msgstr "کلبه: در کلبه سازنده پیدا شد"
+
+#~ msgid "Hut: Tech Found in Hut"
+#~ msgstr "کلبه: در کلبه تکنولوژی پیدا شد"
+
+#~ msgid "Improvement: Bought"
+#~ msgstr "اصلاحیه: خریده شد"
+
+#~ msgid "Improvement: Built"
+#~ msgstr "اصلاحیه: ساخته شد"
+
+#~ msgid "Improvement: Forced to Sell"
+#~ msgstr "اصلاحیه: مجبور به فروختن شد"
+
+#~ msgid "Improvement: New Improvement Selected"
+#~ msgstr "اصلاحیه: اصلاحیه جدید انتخاب شد"
+
+#~ msgid "Improvement: Sold"
+#~ msgstr "اصلاحیه: فروخته شد"
+
+#~ msgid "Tech: Learned From Great Library"
+#~ msgstr "تکنولوژی: از کتابخانه بزرگ یاد گرفته شد"
+
+#~ msgid "Tech: Learned New Tech"
+#~ msgstr "تکنولوژی: تکنولوژی جدید یاد گرفته شد"
+
+#~ msgid "Treaty: Alliance"
+#~ msgstr "قرارداد: اتحاد"
+
+#~ msgid "Treaty: Broken"
+#~ msgstr "قرارداد: شکسته شد"
+
+#~ msgid "Treaty: Cease-fire"
+#~ msgstr "قرارداد: آتش بس"
+
+#~ msgid "Treaty: Peace"
+#~ msgstr "قرارداد: صلح"
+
+#~ msgid "Treaty: Shared Vision"
+#~ msgstr "قرارداد: دید مشترک"
+
+#~ msgid "Unit: Attack Failed"
+#~ msgstr "مهره: حمله موفق نشد"
+
+#~ msgid "Unit: Attack Succeeded"
+#~ msgstr "مهره: حمله موفق شد"
+
+#~ msgid "Unit: Bought"
+#~ msgstr "مهره: خریده شد"
+
+#~ msgid "Unit: Built"
+#~ msgstr "مهره: ساخته شد"
+
+#~ msgid "Unit: Defender Destroyed"
+#~ msgstr "مهره: مدافع از بین رفت"
+
+#~ msgid "Unit: Defender Survived"
+#~ msgstr "مهره: مدافع زنده ماند"
+
+#, fuzzy
+#~ msgid "Unit: Promoted to Veteran"
+#~ msgstr "مهره: کارآزموده‌تر شد"
+
+#~ msgid "Unit: Production Upgraded"
+#~ msgstr "مهره: محصول ترفیع شد"
+
+#~ msgid "Unit: Relocated"
+#~ msgstr "مهره: بازگیری شد"
+
+#~ msgid "Unit: Orders / goto events"
+#~ msgstr "مهره: رویداد‌های دستور / برو به"
+
+#~ msgid "Wonder: Finished"
+#~ msgstr "شگفتی: تمام شد"
+
+#~ msgid "Wonder: Made Obsolete"
+#~ msgstr "شگفتی: منسوخ شد"
+
+#~ msgid "Wonder: Started"
+#~ msgstr "شگفتی: شروع شد"
+
+#~ msgid "Wonder: Stopped"
+#~ msgstr "شگفتی: متوقف شد"
+
+#~ msgid "Wonder: Will Finish Next Turn"
+#~ msgstr "شگفتی: نوبت بعد تمام می‌شود"
+
+#~ msgid "Treaty: Embassy"
+#~ msgstr "قرارداد: سفارت"
+
+#, fuzzy
+#~ msgid "(%d) %s: connected [%s]"
+#~ msgstr "(%d) %s وصل شده است از %s."
+
+#~ msgid "%s report on the RICHEST Civilizations in the World."
+#~ msgstr "گزارش %s درباره ثروتمندترین تمدن جهان."
+
+#~ msgid "%s report on the most ADVANCED Civilizations in the World."
+#~ msgstr "گزارش %s درباره پیشرفته‌ترین تمدن جهان."
+
+#~ msgid "%s report on the most MILITARIZED Civilizations in the World."
+#~ msgstr "گزارش %s درباره مسلح‌ترین تمدن جهان."
+
+#~ msgid "%s report on the HAPPIEST Civilizations in the World."
+#~ msgstr "گزارش %s درباره خوشحال‌ترین تمدن جهان."
+
+#~ msgid "%s report on the LARGEST Civilizations in the World."
+#~ msgstr "گزارش %s درباره بزرگ‌ترین تمدن جهان."
+
+#~ msgid "Unit must be on land to perform diplomatic action."
+#~ msgstr "مهره باید روی زمین باشد تا بتواند فعالیت دیپلماتیک انجام دهد."
+
+#~ msgid "The %s have acquired %s from ancient scrolls of wisdom."
+#~ msgstr "بازی: %s %s را از نوشته‌های دانشمندان قدیم پیدا کردند."
+
+#~ msgid "%s (XX) %d/turn"
+#~ msgstr "%s (XX) %d/نوبت"
+
+#~ msgid "%s (%d) %d turn"
+#~ msgid_plural "%s (%d) %d turns"
+#~ msgstr[0] "%s (%d) %d نوبت"
+#~ msgstr[1] "%s (%d) %d نوبت"
+
+#, fuzzy
+#~ msgid "Specialists"
+#~ msgstr "لیست ویژه‌ها"
+
+#~ msgid "novice"
+#~ msgstr "نوآموز"
+
+#~ msgid "easy"
+#~ msgstr "آسان"
+
+#~ msgid "normal"
+#~ msgstr "متوسط"
+
+#~ msgid "hard"
+#~ msgstr "سخت"
+
+#~ msgid "experimental"
+#~ msgstr "پیشرفته"
+
+#, fuzzy
+#~ msgid "Requires the %s building.\n"
+#~ msgstr "* برای ساختن نیاز به  %d نفر جمعیت دارد.\n"
+
+#, fuzzy
+#~ msgid "Requires the %s nation.\n"
+#~ msgstr "* برای ساختن نیاز به  %d نفر جمعیت دارد.\n"
+
+#~ msgid ""
+#~ "* May be disbanded in a city to recover 50%% of the production cost.\n"
+#~ msgstr "* می‌تواند منحل شود تا 50%% امتیاز ساخت را برگرداند. \n"
+
+#~ msgid "* Can build fortresses (if %s is known).\n"
+#~ msgstr "* می‌تواند دژ بسازد.(اگر %s را بدانید)\n"
+
+#~ msgid "* Can build fortresses (if any of the following are known: %s).\n"
+#~ msgstr "* می‌تواند دژ بسازد(اگر این‌ها را بدانید: %s).\n"
+
+#~ msgid "* Can build airbases.\n"
+#~ msgstr "* می‌تواند پایگاه هوایی بسازد.\n"
+
+#~ msgid "* May fortify, granting a 50%% defensive bonus.\n"
+#~ msgstr "* می‌تواند تقویت شود تا 50%% قدرت دفاعش افزایش یابد.\n"
+
+#~ msgid "* Can attack enemy air units.\n"
+#~ msgstr "* می‌تواند به مهره‌های هوایی دشمن حمله کند.\n"
+
+#~ msgid "* May become veteran through training or combat.\n"
+#~ msgstr "* ممکن است در تمرین یا جنگ کارآزموده شود.\n"
+
+#~ msgid ""
+#~ "* Must end turn in a city or next to land, or has a 50%% risk of being "
+#~ "lost at sea.\n"
+#~ msgstr ""
+#~ "در پایان نوبتش باید در یک شهر یا در کنار زمین باشد وگرنه ریسک 50%% "
+#~ "گمشدندر دریا را دارد.\n"
+
+#~ msgid "* The discovery of %s reduces the risk to 25%%.\n"
+#~ msgstr "* کشف %s ریسک را به  25%% کم می‌کند.\n"
+
+#~ msgid "* %s reduces the risk to 12%%.\n"
+#~ msgstr "* %s ریسک را به  12%% کم می‌کند.\n"
+
+#~ msgid "* Reduces the chance of losing boats on the high seas to 25%%.\n"
+#~ msgstr "* شانس از دست دادن قایق‌ها را در دریای آزاد 25%% کاهش می‌دهد.\n"
+
+#~ msgid "* Reduces the chance of losing boats on the high seas to 12%%.\n"
+#~ msgstr "* شانس از دست دادن قایق‌ها را در دریای آزاد 12%% کاهش می‌دهد.\n"
+
+#~ msgid "* Allows %s to build fortresses.\n"
+#~ msgstr "* به %s اجازه می‌دهد تا دژ بسازد.\n"
+
+#~ msgid "* Allows %s to build airbases.\n"
+#~ msgstr "* به %s اجازه می‌دهد پایگاه هوایی بسازد.\n"
+
+#~ msgid "<AI>"
+#~ msgstr "<ه‌م>"
+
+#~ msgid "<Novice AI>"
+#~ msgstr "<ه‌م نوآموز>"
+
+#~ msgid "<Easy AI>"
+#~ msgstr "<ه‌م آسان>"
+
+#~ msgid "<Normal AI>"
+#~ msgstr "<ه‌م متوسط>"
+
+#~ msgid "<Hard AI>"
+#~ msgstr "<ه‌م سخت>"
+
+#~ msgid "Sa_ve Options"
+#~ msgstr "ذخیره تنظیمات"
+
+#~ msgid "Gov_ernment"
+#~ msgstr "حکومت"
+
+#~ msgid "_Change Government"
+#~ msgstr "تغییر حکومت"
+
+#~ msgid ""
+#~ "Gives one extra food resource on all Ocean squares.  The city needs to be "
+#~ "coastal to build this improvement."
+#~ msgstr ""
+#~ "به تمام خانه‌های اقیانوس یک امتیاز اضافه‌ی غذا می‌دهد. شهر باید ساحلی باشد "
+#~ "تا این اصلاحیه را بسازد."
+
+#~ msgid ""
+#~ "Reduces the amount of pollution generated by production in a city by "
+#~ "50%.  It also increases the shield production of a Factory or Mfg. Plant "
+#~ "in the city: a Factory and a Hydro Plant together give a 75% production "
+#~ "bonus, and a Factory, Mfg. Plant and Hydro Plant together give a 150% "
+#~ "production bonus.\n"
+#~ "\n"
+#~ "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant.  A "
+#~ "city can only build a Hydro Plant if it is next to (or on) a Mountain or "
+#~ "River tile."
+#~ msgstr ""
+#~ "مقدار آلودگی بر اثر محصولات را ۵۰٪ کاهش می‌دهد و اثر یک کارخانه یا تأسیسات "
+#~ "ساخت را زیاد می‌کند: تأسیسات آبداری با کارخانه ۷۵٪ امتیاز محصول را افزایش "
+#~ "می‌دهد؛ تأسیسات آبداری با کارخانه و تأسیسات ساخت ۱۵۰٪ امتیاز محصول را  "
+#~ "افزایش می‌دهد.\n"
+#~ "\n"
+#~ "یک شهر می‌تواند تنها یک تأسیسات آبداری یا تأسیسات قدرت یا تأسیسات اتمی "
+#~ "داشته باشد. یک شهر تنها در صورت اینکه روی (یا کنار) کوه یا رود باشد "
+#~ "می‌تواند تأسیسات آبداری بسازد."
+
+#~ msgid ""
+#~ "Reduces the amount of pollution generated by production in a city by "
+#~ "50%.  It also increases the shield production of a Factory or Mfg. Plant "
+#~ "in the city: a Factory and a Nuclear Plant together give a 75% production "
+#~ "bonus, and a Factory, Mfg. Plant and Nuclear Plant together give a 150% "
+#~ "production bonus.\n"
+#~ "\n"
+#~ "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
+#~ msgstr ""
+#~ "آلودگی بر اثر محصول را ۵۰٪ کاهش می‌دهد و امتیاز محصول یک کارخانه یا "
+#~ "تأسیسات ساخت را زیاد می‌کند: یک کارخانه با تأسیسات هسته‌ای امتیاز محصول را "
+#~ "۷۵٪ افزایش می‌دهد؛ یک کارخانه با تأسیسات ساخت و تأسیسات هسته‌ای امتیاز "
+#~ "محصول را ۱۵۰٪ افزایش می‌دهد.\n"
+#~ "\n"
+#~ "یک شهر می‌تواند تنها یک تأسیسات آبداری یا تأسیسات قدرت یا تأسیسات اتمی "
+#~ "داشته باشد. "
+
+#~ msgid ""
+#~ "Adds 1 extra shield resource on all Ocean squares in a city.  The city "
+#~ "needs to be coastal to build this improvement."
+#~ msgstr ""
+#~ "به تمام خانه‌های اقیانوس شهر یک امتیاز دفاعی می‌دهد. شهر برای ساختن این "
+#~ "اصلاحیه باید ساحلی باشد."
+
+#~ msgid "Bosnia & Herzegovina"
+#~ msgstr "بسنی و هرزگوین"
+
+#~ msgid "Emporer"
+#~ msgstr "امپراطور"
+
+#~ msgid "?title:Inca"
+#~ msgstr "اینکا"
+
+#~ msgid "Sapa Inca"
+#~ msgstr "ساپا اینکا"
+
+#~ msgid "Kampuchean"
+#~ msgstr "کامبوج"
+
+#~ msgid "?plural:Kampucheans"
+#~ msgstr "کامبوجی‌ها"
+
+#~ msgid "Presedinte"
+#~ msgstr "پرزیدنت"
+
+#~ msgid "Turk"
+#~ msgstr "ترکیه"
+
+#~ msgid "Venezuela"
+#~ msgstr "ونزوئلا"
+
+#~ msgid "Units: "
+#~ msgstr "مهره‌ها: "
+
 #~ msgid "%s"
 #~ msgstr "%s"
 
@@ -25121,37 +25575,21 @@ msgstr "تیم ۳۱"
 #~ "experienced!"
 #~ msgstr "%s%s شما از حمله‌ی %s %s نجات یافت و با تجربه‌تر شد!"
 
-#~ msgid "file: \"%s\""
-#~ msgstr "فایل:\"%s\" "
+#, fuzzy
+#~ msgid ""
+#~ "Your attacking %s succeeded against %s's %s (and %d other unit)%s and "
+#~ "became more experienced!"
+#~ msgid_plural ""
+#~ "Your attacking %s succeeded against %s's %s (and %d other units)%s and "
+#~ "became more experienced!"
+#~ msgstr[0] "بازی: %s شما موفق شد %s %s‌را تطمیع کند و تجربه‌اش بیشتر شود."
+#~ msgstr[1] "بازی: %s شما موفق شد %s %s‌را تطمیع کند و تجربه‌اش بیشتر شود."
 
-#~ msgid "%s (XX) %d/turn"
-#~ msgstr "%s (XX) %d/نوبت"
-
-#~ msgid "%s (%d) %d turn"
-#~ msgid_plural "%s (%d) %d turns"
-#~ msgstr[0] "%s (%d) %d نوبت"
-#~ msgstr[1] "%s (%d) %d نوبت"
-
-#~ msgid "Territory of the %s %s"
-#~ msgstr "خانه‌ی %s %s"
+#~ msgid "%s lost to an attack from %s's %s."
+#~ msgstr "%s بر اثر حمله‌ی %s %s از بین رفت."
 
 #~ msgid " Choose Your Diplomat's Strategy"
 #~ msgstr " استراتژی دیپلماتتان را انتخاب کنید"
-
-#~ msgid "Pro_duction"
-#~ msgstr "محصول"
-
-#~ msgid "S_how"
-#~ msgstr "نشان بده"
-
-#~ msgid "_Popup"
-#~ msgstr "باز کردن"
-
-#~ msgid "_Goto location"
-#~ msgstr "برو به مکان"
-
-#~ msgid "L_egend"
-#~ msgstr "داستان"
 
 #~ msgid "_Map"
 #~ msgstr "نقشه"
@@ -25162,14 +25600,8 @@ msgstr "تیم ۳۱"
 #~ msgid "_Release player"
 #~ msgstr "آزادکردن بازیکن"
 
-#~ msgid "Units: "
-#~ msgstr "مهره‌ها: "
-
 #~ msgid "Gover_nment"
 #~ msgstr "حکومت"
-
-#~ msgid "_Change Government"
-#~ msgstr "تغییر حکومت"
 
 #~ msgid "_Players"
 #~ msgstr "بازیکنان"
@@ -25180,23 +25612,23 @@ msgstr "تیم ۳۱"
 #~ msgid "S_paceship"
 #~ msgstr "سفینه فضایی"
 
-#~ msgid "_Tools"
-#~ msgstr "ابزارها"
-
 #~ msgid "Game _Options..."
 #~ msgstr "تنظیمات بازی..."
-
-#~ msgid "U"
-#~ msgstr "ت"
 
 #~ msgid "Clear _Log"
 #~ msgstr "پاک کردن سیاهه"
 
-#~ msgid "Gov_ernment"
-#~ msgstr "حکومت"
+#~ msgid "file: \"%s\""
+#~ msgstr "فایل:\"%s\" "
+
+#~ msgid "Goto _location"
+#~ msgstr "برو به محل"
 
 #~ msgid "Team 32"
 #~ msgstr "تیم ۳۲"
+
+#~ msgid "Cleared output window.\n"
+#~ msgstr "پاک کردن پنجره خروجی.\n"
 
 #~ msgid "City Overview page"
 #~ msgstr "صفحه‌ی نمای کلی شهر"
@@ -25364,6 +25796,9 @@ msgstr "تیم ۳۱"
 #~ msgid "City %s"
 #~ msgstr "شهر %s"
 
+#~ msgid "Unit %s"
+#~ msgstr "مهره %s"
+
 #~ msgid "Tile %s"
 #~ msgstr "خانه %s"
 
@@ -25379,157 +25814,31 @@ msgstr "تیم ۳۱"
 #~ msgid "Tax:%d Lux:%d Sci:%d"
 #~ msgstr "مالیات:%d رفاه:%d علم:%d"
 
+#~ msgid "_Goto Location"
+#~ msgstr "برو به مکان"
+
 #~ msgid "Reputation"
 #~ msgstr "شهرت"
 
+#~ msgid "(%ld steps)"
+#~ msgstr "(%ld مرحله)"
+
 #~ msgid "_Goal"
 #~ msgstr "هدف"
+
+#~ msgid "Military Report"
+#~ msgstr "گزارش نظامی"
 
 #~ msgid "unit"
 #~ msgid_plural "units"
 #~ msgstr[0] "مهره"
 #~ msgstr[1] " مهره"
 
-#~ msgid "Modern"
-#~ msgstr "مدرن"
-
-#~ msgid "African"
-#~ msgstr "آفریقایی"
-
-#~ msgid "Fictional"
-#~ msgstr "تخیلی"
-
-#~ msgid "City: Celebrating"
-#~ msgstr "شهر: جشن گرفته‌اند"
-
-#~ msgid "City: Normal"
-#~ msgstr "شهر: معمولی"
-
-#~ msgid "City: Nuked"
-#~ msgstr "شهر: بمباران اتمی شده"
-
-#~ msgid "City: Transfer"
-#~ msgstr "شهر: جابجایی"
-
-#~ msgid "Civ: Pollution"
-#~ msgstr "تمدن: آلودگی"
-
-#~ msgid "Diplomat Action: Bribe"
-#~ msgstr "فعالیت دیپلمات: تطمیع"
-
-#~ msgid "Diplomat Action: Escape"
-#~ msgstr "فعالیت دیپلمات: فرار"
-
-#~ msgid "Diplomat Action: Embassy"
-#~ msgstr "فعالیت دیپلمات: سفارت"
-
-#~ msgid "Diplomat Action: Failed"
-#~ msgstr "فعالیت دیپلمات: ناموفق"
-
-#~ msgid "Diplomat Action: Incite"
-#~ msgstr "فعالیت دیپلمات: انقلاب کردن"
-
-#~ msgid "Diplomat Action: Poison"
-#~ msgstr "فعالیت دیپلمات: سمی کردن"
-
-#~ msgid "Diplomat Action: Sabotage"
-#~ msgstr "فعالیت دیپلمات: خراب کاری"
-
-#~ msgid "Diplomat Action: Theft"
-#~ msgstr "فعالیت دیپلمات: دزدی"
-
-#~ msgid "Enemy Diplomat: Embassy"
-#~ msgstr "دیپلمات حریف: سفارت"
-
-#~ msgid "Enemy Diplomat: Failed"
-#~ msgstr "دیپلمات حریف: ناموفق"
-
-#~ msgid "Enemy Diplomat: Incite"
-#~ msgstr "دیپلمات حریف: انقلاب کردن"
-
-#~ msgid "Enemy Diplomat: Poison"
-#~ msgstr "دیپلمات حریف: سمی کردن"
-
-#~ msgid "Enemy Diplomat: Sabotage"
-#~ msgstr "دیپلمات حریف: خراب کاری"
-
-#~ msgid "Enemy Diplomat: Theft"
-#~ msgstr "دیپلمات حریف: دزدی"
-
-#~ msgid "Improvement: Bought"
-#~ msgstr "اصلاحیه: خریده شد"
-
-#~ msgid "Improvement: Built"
-#~ msgstr "اصلاحیه: ساخته شد"
-
-#~ msgid "Improvement: Sold"
-#~ msgstr "اصلاحیه: فروخته شد"
-
-#~ msgid "Treaty: Broken"
-#~ msgstr "قرارداد: شکسته شد"
-
-#~ msgid "Treaty: Peace"
-#~ msgstr "قرارداد: صلح"
-
-#~ msgid "Unit: Built"
-#~ msgstr "مهره: ساخته شد"
-
-#~ msgid "Wonder: Finished"
-#~ msgstr "شگفتی: تمام شد"
-
-#~ msgid "Wonder: Started"
-#~ msgstr "شگفتی: شروع شد"
-
-#~ msgid "Treaty: Embassy"
-#~ msgstr "قرارداد: سفارت"
-
 #~ msgid "tech \"%s\": requires itself"
 #~ msgstr "تکنولوژی \"%s\": به خودش نیاز دارد"
 
 #~ msgid "Food Stock"
 #~ msgstr "ذخیره غذا"
-
-#~ msgid "* Can build fortresses (if %s is known).\n"
-#~ msgstr "* می‌تواند دژ بسازد.(اگر %s را بدانید)\n"
-
-#~ msgid "* Can build fortresses (if any of the following are known: %s).\n"
-#~ msgstr "* می‌تواند دژ بسازد(اگر این‌ها را بدانید: %s).\n"
-
-#~ msgid "* Can build airbases.\n"
-#~ msgstr "* می‌تواند پایگاه هوایی بسازد.\n"
-
-#~ msgid "* The discovery of %s reduces the risk to 25%%.\n"
-#~ msgstr "* کشف %s ریسک را به  25%% کم می‌کند.\n"
-
-#~ msgid "* %s reduces the risk to 12%%.\n"
-#~ msgstr "* %s ریسک را به  12%% کم می‌کند.\n"
-
-#~ msgid "* Reduces the chance of losing boats on the high seas to 25%%.\n"
-#~ msgstr "* شانس از دست دادن قایق‌ها را در دریای آزاد 25%% کاهش می‌دهد.\n"
-
-#~ msgid "* Reduces the chance of losing boats on the high seas to 12%%.\n"
-#~ msgstr "* شانس از دست دادن قایق‌ها را در دریای آزاد 12%% کاهش می‌دهد.\n"
-
-#~ msgid "* Allows %s to build fortresses.\n"
-#~ msgstr "* به %s اجازه می‌دهد تا دژ بسازد.\n"
-
-#~ msgid "* Allows %s to build airbases.\n"
-#~ msgstr "* به %s اجازه می‌دهد پایگاه هوایی بسازد.\n"
-
-#~ msgid " with "
-#~ msgstr " با "
-
-#~ msgid "<AI>"
-#~ msgstr "<ه‌م>"
-
-#~ msgid "<Novice AI>"
-#~ msgstr "<ه‌م نوآموز>"
-
-#~ msgid "<Normal AI>"
-#~ msgstr "<ه‌م متوسط>"
-
-#~ msgid "<Hard AI>"
-#~ msgstr "<ه‌م سخت>"
 
 #~ msgid "Economy (F5)"
 #~ msgstr "اقتصاد (F5)"
@@ -25553,9 +25862,6 @@ msgstr "تیم ۳۱"
 #~ "پژوهش (F6)\n"
 #~ "%s (%d/%d)"
 
-#~ msgid "?title:Inca"
-#~ msgstr "اینکا"
-
 #~ msgid ""
 #~ "Start\n"
 #~ "Game"
@@ -25572,95 +25878,20 @@ msgstr "تیم ۳۱"
 #~ msgid "?nationgroup:Transitional"
 #~ msgstr "گذرا"
 
-#~ msgid "?female:Emir"
-#~ msgstr "امیر"
+#~ msgid "Oceanian"
+#~ msgstr "اقیانوسیه‌ای"
 
-#~ msgid "?female:Mullah"
-#~ msgstr "ملا"
+#~ msgid "Modern"
+#~ msgstr "مدرن"
 
-#~ msgid "?female:Caliph"
-#~ msgstr "کالیف"
+#~ msgid "African"
+#~ msgstr "آفریقایی"
+
+#~ msgid "Fictional"
+#~ msgstr "تخیلی"
 
 #~ msgid "Ancient"
 #~ msgstr "باستانی"
 
-#~ msgid "?female:Tlatoani"
-#~ msgstr "تلاتوآنی"
-
-#~ msgid "?female:Huey Tlatoani"
-#~ msgstr "هوی تلاتوآنی"
-
-#~ msgid "?female:Lugal"
-#~ msgstr "لوگال"
-
-#~ msgid "?female:Ban"
-#~ msgstr "بَن"
-
-#~ msgid "female:Captain General"
-#~ msgstr "کاپیتان ژنرال"
-
-#~ msgid "?female:Supreme Director"
-#~ msgstr "سوپرم دایرکتور"
-
 #~ msgid "Transitional"
 #~ msgstr "گذرا"
-
-#~ msgid "?female:Inca"
-#~ msgstr "اینکا"
-
-#~ msgid "?female:Sapa Inca"
-#~ msgstr "ساپا اینکا"
-
-#~ msgid "?female:Dictator"
-#~ msgstr "دیکتاتور"
-
-#~ msgid "?female:Shogun"
-#~ msgstr "شوگان"
-
-#~ msgid "?female:Dey"
-#~ msgstr "دی"
-
-#~ msgid "?female:Colonel"
-#~ msgstr "کُلُنل"
-
-#~ msgid "?female:Tun"
-#~ msgstr "تان"
-
-#~ msgid "?female:Mansa"
-#~ msgstr "مانسا"
-
-#~ msgid "?female:Bey"
-#~ msgstr "بی"
-
-#~ msgid "?female:Hakan"
-#~ msgstr "هاکان"
-
-#~ msgid "?female:Padisah"
-#~ msgstr "پردیساه"
-
-#~ msgid "?female:Imparator"
-#~ msgstr "امپراطور"
-
-#~ msgid "?female:Ayatollah"
-#~ msgstr "آیت الله"
-
-#~ msgid "Presedinte"
-#~ msgstr "پرزیدنت"
-
-#~ msgid "?female:Ensi"
-#~ msgstr "انسی"
-
-#~ msgid "?female:Lama"
-#~ msgstr "لاما"
-
-#~ msgid "Dharma Queen"
-#~ msgstr "دهارما کویین"
-
-#~ msgid "?female:Dalai Lama"
-#~ msgstr "دالای لاما"
-
-#~ msgid "?female:Hetman"
-#~ msgstr "هتمن"
-
-#~ msgid "?female:Terrateniente"
-#~ msgstr "تراتنینته"
