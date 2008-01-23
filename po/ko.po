@@ -2,14 +2,15 @@
 # Copyright (C) 1996 A Kjeldberg, L Gregersen, P Unold
 # This file is distributed under the same license as the Freeciv package.
 # Daniel Markstedt <himasaram@spray.se>, 2007
+# Jungho Lee <junghoya@gmail.com>, 2007
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-22 22:45-0500\n"
-"PO-Revision-Date: 2007-09-05 19:11+0900\n"
-"Last-Translator: Daniel Markstedt <himasaram@spray.se>\n"
+"PO-Revision-Date: 2007-12-10 21:13+0900\n"
+"Last-Translator: jeongho <fp33@naver.com>\n"
 "Language-Team: Korean language team\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -265,7 +266,7 @@ msgstr "공해"
 #: common/events.c:79 common/events.c:86 client/gui-win32/dialogs.c:1490
 #: data/Freeciv.in:2415
 msgid "Sabotage"
-msgstr ""
+msgstr "방해"
 
 #: common/events.c:80 common/events.c:87
 #, fuzzy
@@ -280,47 +281,47 @@ msgstr "외교관"
 
 #: common/events.c:88
 msgid "Caravan actions"
-msgstr ""
+msgstr "이주민 마차대의 행동"
 
 #: common/events.c:89
 msgid "Tutorial message"
-msgstr ""
+msgstr "지침 메세지"
 
 #: common/events.c:90
 msgid "Broadcast Report"
-msgstr ""
+msgstr "방송 보도"
 
 #: common/events.c:91
 msgid "Game Ended"
-msgstr ""
+msgstr "게임 끝남"
 
 #: common/events.c:92
 msgid "Game Started"
-msgstr ""
+msgstr "게임 시작됨"
 
 #: common/events.c:93
 msgid "Message from Server Operator"
-msgstr ""
+msgstr "서버로부터의 메세지"
 
 #: common/events.c:94
 msgid "Nation Selected"
-msgstr ""
+msgstr "국가 선택"
 
 #: common/events.c:95
 msgid "Player Destroyed"
-msgstr ""
+msgstr "플레이어 멸망함"
 
 #: common/events.c:96
 msgid "Report"
-msgstr ""
+msgstr "보고"
 
 #: common/events.c:97
 msgid "Turn Bell"
-msgstr ""
+msgstr "턴 벨"
 
 #: common/events.c:98
 msgid "Year Advance"
-msgstr ""
+msgstr "년간 진보"
 
 #: common/events.c:99 common/events.c:100
 #, fuzzy
@@ -376,7 +377,7 @@ msgstr ""
 #: common/events.c:109 common/events.c:110 common/events.c:111
 #: common/events.c:112 common/events.c:113 client/gui-win32/citydlg.c:855
 msgid "Improvement"
-msgstr ""
+msgstr "향상"
 
 #: common/events.c:109 common/events.c:124
 msgid "Bought"
@@ -523,31 +524,31 @@ msgstr ""
 
 #: common/events.c:137
 msgid "Diplomatic Message"
-msgstr ""
+msgstr "외교상 메세지"
 
 #: common/events.c:139
 msgid "Error message from bad command"
-msgstr ""
+msgstr "잘못된 명령으로 부터의 에러메세지"
 
 #: common/events.c:140
 msgid "Server settings changed"
-msgstr ""
+msgstr "서버 세팅이 바뀜"
 
 #: common/events.c:141
 msgid "Chat messages"
-msgstr ""
+msgstr "채팅 메세지"
 
 #: common/events.c:142
 msgid "Chat error messages"
-msgstr ""
+msgstr "채팅 에러 메세지"
 
 #: common/events.c:143
 msgid "Connect/disconnect messages"
-msgstr ""
+msgstr "연결/미연결 메세지"
 
 #: common/events.c:144
 msgid "AI Debug messages"
-msgstr ""
+msgstr "AI 디버그 메세지"
 
 #: common/events.c:145
 #, fuzzy
@@ -670,22 +671,22 @@ msgstr "팀"
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:525 common/requirements.c:540
 msgid "World-ranged requirements are only supported for wonders."
-msgstr ""
+msgstr "여러지역에 분포된 요구사항은 불가사의에 의해 원조됩니다"
 
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:581
 msgid "Player-ranged requirements are only supported for wonders."
-msgstr ""
+msgstr "사용자주변 요구사항은 불가사의에 의해 유지됩니다"
 
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:603
 msgid "Island-ranged requirements are only supported for wonders."
-msgstr ""
+msgstr "섬주변 요구사항은 불가사의에 의해 지탱됩니다."
 
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:653
 msgid "Surviving requirements are only supported at world range."
-msgstr ""
+msgstr "생존 필요조건은 여러지역 분포에 의해 지탱됩니다."
 
 #. TRANS: missing value
 #. TRANS: "Resources: (none)"
@@ -697,7 +698,7 @@ msgstr ""
 #: client/gui-win32/helpdlg.c:587 client/gui-xaw/helpdlg.c:997
 #, c-format
 msgid "(none)"
-msgstr ""
+msgstr "(없음)"
 
 #: common/requirements.c:1188 common/requirements.c:1257
 #, c-format
@@ -712,7 +713,7 @@ msgstr "%d 부대"
 #: common/requirements.c:1242
 #, c-format
 msgid "%s units"
-msgstr ""
+msgstr "%s 부대"
 
 #. TRANS: "Hard AI"
 #: common/requirements.c:1262
@@ -729,7 +730,7 @@ msgstr "호주"
 #: common/tech.c:809 client/gui-gtk-2.0/repodlgs.c:510
 #, c-format
 msgid "Future Tech. %d"
-msgstr ""
+msgstr "미래기술. %d"
 
 #. TRANS: "None" tech
 #: common/tech.c:886 common/tech.c:890 server/settings.c:42
@@ -742,11 +743,11 @@ msgstr ""
 #: client/gui-xaw/helpdlg.c:813 client/gui-xaw/helpdlg.c:858
 #: client/gui-xaw/helpdlg.c:877 manual/civmanual.c:327 manual/civmanual.c:333
 msgid "None"
-msgstr ""
+msgstr "없음"
 
 #: common/tech.c:894
 msgid "Future Tech."
-msgstr ""
+msgstr "미래 기술"
 
 #. TRANS: "Unknown" advance/technology
 #: common/tech.c:899 client/gui-gtk-2.0/inteldlg.c:387
@@ -809,36 +810,36 @@ msgstr "방사능 낙진"
 
 #: common/unit.c:519 client/gui-win32/plrdlg.c:337
 msgid "Idle"
-msgstr ""
+msgstr "한가함(idle)"
 
 #: common/unit.c:529
 msgid "Fortifying"
-msgstr ""
+msgstr "요새화"
 
 #: common/unit.c:531
 msgid "Fortified"
-msgstr ""
+msgstr "강화됨"
 
 #: common/unit.c:535 client/gui-sdl/menu.c:662 client/gui-xaw/menu.c:189
 msgid "Sentry"
-msgstr ""
+msgstr "감시"
 
 #: common/unit.c:539 client/gui-gtk-2.0/menu.c:886 client/gui-sdl/menu.c:649
 #: client/gui-win32/menu.c:370 client/gui-xaw/menu.c:190
 msgid "Pillage"
-msgstr ""
+msgstr "약탈"
 
 #: common/unit.c:541 client/gui-win32/gotodlg.c:165 data/Freeciv.in:1123
 msgid "Goto"
-msgstr ""
+msgstr "이동"
 
 #: common/unit.c:543
 msgid "Explore"
-msgstr ""
+msgstr "조사하기"
 
 #: common/unit.c:545 manual/civmanual.c:224
 msgid "Transform"
-msgstr ""
+msgstr "변환"
 
 #: common/unit.c:551
 #, fuzzy
@@ -849,11 +850,11 @@ msgstr "레이저"
 #: client/gui-sdl/citydlg.c:1981 client/gui-win32/citydlg.c:1217
 #: client/gui-xaw/citydlg.c:1430
 msgid "Unknown"
-msgstr ""
+msgstr "알려지지 않은"
 
 #: common/unit.c:1045
 msgid "Moves"
-msgstr ""
+msgstr "이동"
 
 #: common/unit.c:1480
 #, c-format
@@ -861,11 +862,13 @@ msgid ""
 "Upgrade %s to %s for %d gold?\n"
 "Treasury contains %d gold."
 msgstr ""
+"%s에서 %s로 %d의 금이 필요한데 업그레이드 하시겠습니까?\n"
+" %d의 금을 자금으로 갖고 있습니다."
 
 #: common/unit.c:1488
 #, c-format
 msgid "Sorry, cannot upgrade %s (yet)."
-msgstr ""
+msgstr "미안하지만 %s를(을) 업그레이드 할수 없습니다(아직)"
 
 #: common/unit.c:1494
 #, c-format
@@ -873,15 +876,17 @@ msgid ""
 "Upgrading %s to %s costs %d gold.\n"
 "Treasury contains %d gold."
 msgstr ""
+"%s에서 %s로 %d의 금을 소비하여 업그레이드 합니다\n"
+" %d의 금을 자금으로 갖고 있습니다."
 
 #: common/unit.c:1503
 msgid "You can only upgrade units in your cities."
-msgstr ""
+msgstr "당신은 오직 당신도시 안에서 부대를 업그레이드 시킬수 있습니다"
 
 #: common/unit.c:1507
 #, c-format
 msgid "Upgrading this %s would strand units it transports."
-msgstr ""
+msgstr "이  %s의 업그레이드는 해안가로 운반할 것입니다"
 
 #. TRANS: List of possible output types has this between
 #. *        last two elements
@@ -896,7 +901,7 @@ msgstr ", "
 #: common/version.c:38
 #, c-format
 msgid "Freeciv version %s %s"
-msgstr ""
+msgstr "Freeciv 버젼 %s %s"
 
 #: common/version.c:39
 msgid "(beta version)"
@@ -910,7 +915,7 @@ msgstr "Freeciv 서버 :"
 #: common/version.c:44
 #, c-format
 msgid "Freeciv version %s"
-msgstr ""
+msgstr "Freeciv 버젼 %s"
 
 #: common/version.c:57
 msgid "betatest version "
@@ -918,7 +923,7 @@ msgstr "베타판 "
 
 #: common/version.c:59
 msgid "version "
-msgstr ""
+msgstr "버젼"
 
 #: common/version.c:87
 msgid "January"
@@ -981,7 +986,7 @@ msgstr ""
 
 #: common/version.c:123
 msgid "'Cause civilization should be free!"
-msgstr ""
+msgstr "문명은 자유이기 때문입니다"
 
 #: utility/fciconv.c:133
 #, c-format
@@ -991,13 +996,17 @@ msgid ""
 "may not be displayed properly.  You can download iconv\n"
 "at http://gnu.org/.\n"
 msgstr ""
+"당신은 iconv없이 Freeicv를 하고 계십니다. \n"
+"라틴1 문자세트를 사용하지 않는 다면, \n"
+"몇몇 문자가 적절하게 화면에 나오지 않을 수 있습니다\n"
+"당신은 http://gnu.org/ 에서 iconv를 다운받을 수 있습니다\n"
 
 #. TRANS: "Could not convert text from <encoding a> to <encoding b>:"
 #. * TRANS: <error string>."
 #: utility/fciconv.c:206
 #, c-format
 msgid "Could not convert text from %s to %s: %s"
-msgstr ""
+msgstr " %s에서  %s로 텍스트를 전환할수 없습니다: %s"
 
 #: utility/ioz.c:503 client/gui-sdl/dialogs.c:2484
 #: client/gui-sdl/dialogs.c:2908 client/gui-sdl/mapctrl.c:2576
@@ -1077,137 +1086,139 @@ msgstr ""
 #: utility/log.c:84
 #, c-format
 msgid "Bad log level \"%s\".\n"
-msgstr ""
+msgstr "틀린 로그 레벨 \"%s\".\n"
 
 #: utility/log.c:90
 #, c-format
 msgid "Bad log level %d in \"%s\".\n"
-msgstr ""
+msgstr "틀린 로그 레벨 %d in \"%s\".\n"
 
 #: utility/log.c:92 utility/log.c:103
 #, c-format
 msgid "Freeciv must be compiled with the DEBUG flag to use debug level %d.\n"
 msgstr ""
+"Freeciv는 반드시  디버그 레벨 %d를 사용하기 위해 DEBUG flag와 함께 번역되어"
+"야 합니다\n"
 
 #: utility/log.c:108 utility/log.c:120 utility/log.c:161
 #, c-format
 msgid "Badly formed log level argument \"%s\".\n"
-msgstr ""
+msgstr "불량하게 형성된 로그 레벨 인수 \"%s\".\n"
 
 #: utility/log.c:138 utility/log.c:143
 #, c-format
 msgid "Not an integer: '%s'\n"
-msgstr ""
+msgstr "정수가 아닙니다: '%s'\n"
 
 #: utility/log.c:150
 #, c-format
 msgid "Empty filename in log level argument \"%s\".\n"
-msgstr ""
+msgstr "로그레벨 인수에서 파일이름이 비어있습니다 \"%s\".\n"
 
 #: utility/log.c:276
 #, c-format
 msgid "Couldn't open logfile: %s for appending \"%s\".\n"
-msgstr ""
+msgstr "로그파일을 읽을수 없습니다: %s for appending \"%s\".\n"
 
 #: utility/log.c:290 utility/log.c:309
 #, c-format
 msgid "last message repeated %d time"
 msgid_plural "last message repeated %d times"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "마지막 메세지는 %d 번 반복되었습니다"
+msgstr[1] "마지막 메세지는 %d 번 반복되었습니다"
 
 #: utility/log.c:295 utility/log.c:314
 #, c-format
 msgid " (total %d repeat)"
 msgid_plural " (total %d repeats)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "(전체 %d번 반복)"
+msgstr[1] "(전체 %d번 반복)"
 
 #: utility/shared.c:171
 #, c-format
 msgid "Empty argument for \"%s\".\n"
-msgstr ""
+msgstr "\"%s\" 비어있는 인수.\n"
 
 #: utility/shared.c:175
 #, c-format
 msgid "Missing argument for \"%s\".\n"
-msgstr ""
+msgstr "\"%s\" 놓친 인수 .\n"
 
 #: utility/shared.c:463
 #, c-format
 msgid "%d BC"
-msgstr ""
+msgstr "%d 기원전"
 
 #: utility/shared.c:465
 #, c-format
 msgid "%d AD"
-msgstr ""
+msgstr "%d 기원후"
 
 #: utility/shared.c:862
 msgid "FREECIV_PATH is set but empty; using default path instead."
-msgstr ""
+msgstr "FREECIV_PATH는 배치되 있지만 비어있습니다; 대신 기본경로로 사용합니다"
 
 #: utility/shared.c:966
 #, c-format
 msgid "Could not read data directory %s: %s."
-msgstr ""
+msgstr "디렉토리 %s에서 데이터를 읽을 수 없습니다: %s."
 
 #: utility/shared.c:1217
 msgid "The data path may be set via the environment variable FREECIV_PATH."
-msgstr ""
+msgstr "데이터 경로는 변경할수 있는 FREECIV_PATH환경을 통해 세팅할수 있습니다."
 
 #: utility/shared.c:1219
 #, c-format
 msgid "Current data path is: \"%s\""
-msgstr ""
+msgstr "현재 데이터 경로는 : \"%s\""
 
 #: utility/shared.c:1221
 #, c-format
 msgid "The \"%s\" file is required ... aborting!"
-msgstr ""
+msgstr " \"%s\"이 요구됩니다... 거부!"
 
 #: utility/shared.c:1395
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
-msgstr ""
+msgstr "%s:치명적 에러: 당신은 관리자되려고 시도하려고 했습니다!\n"
 
 #: utility/shared.c:1397
 msgid "Use a non-privileged account instead.\n"
-msgstr ""
+msgstr "일반계정을 대신 사용하세요\n"
 
 #: utility/shared.c:1413
 msgid "exact match"
-msgstr ""
+msgstr "정확한 맞음(match)"
 
 #: utility/shared.c:1414
 msgid "only match"
-msgstr ""
+msgstr "오직 경기"
 
 #: utility/shared.c:1415
 msgid "ambiguous"
-msgstr ""
+msgstr "애매모한"
 
 #: utility/shared.c:1416
 msgid "empty"
-msgstr ""
+msgstr "비어있음"
 
 #: utility/shared.c:1417
 msgid "too long"
-msgstr ""
+msgstr "너무 깁니다"
 
 #: utility/shared.c:1418
 msgid "non-match"
-msgstr ""
+msgstr "맞지 않습니다"
 
 #: utility/support.c:205
 #, c-format
 msgid "error %ld (failed FormatMessage)"
-msgstr ""
+msgstr "에러 %ld(포멧메세지 실패)"
 
 #: utility/support.c:215
 #, c-format
 msgid "error %d (compiled without strerror)"
-msgstr ""
+msgstr "에러 %d(sterror이 없는 컴파일)"
 
 #: ai/aicity.c:1401 server/citytools.c:1925
 #, c-format
@@ -1249,64 +1260,64 @@ msgstr ""
 #: ai/advdiplomacy.c:331
 #, c-format
 msgid "*%s (AI)* I simply do not trust you with an alliance yet, %s."
-msgstr ""
+msgstr "*%s (AI)* 난 아직 동맹을 할만큼 당신을 신뢰할수 없소, %s."
 
 #: ai/advdiplomacy.c:424
 #, c-format
 msgid "*%s (AI)* I do not know the city you mention."
-msgstr ""
+msgstr "*%s(AI)*당신이 언급하는 그 도시는 난 모릅니다"
 
 #: ai/advdiplomacy.c:451
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is not safe."
-msgstr ""
+msgstr "*%s (AI)* 미안하지만 시야를  공유하는 건 안전하지 않소."
 
 #: ai/advdiplomacy.c:557
 #, c-format
 msgid "*%s (AI)* This deal was not very good for us, %s!"
-msgstr ""
+msgstr "*%s (AI)* 이 거래는 우리에게 유익하지 않소, %s!"
 
 #: ai/advdiplomacy.c:579
 #, c-format
 msgid "*%s (AI)* Welcome into our alliance %s!"
-msgstr ""
+msgstr "*%s (AI)* 우리 동맹국으로 들어온걸 환영하오 %s!"
 
 #: ai/advdiplomacy.c:583
 #, c-format
 msgid "*%s (AI)* Yes, may we forever stand united, %s."
-msgstr ""
+msgstr "*%s (AI)* 그렇소, 아마 우리는 영원한 연합체로 설 것이오, %s"
 
 #: ai/advdiplomacy.c:590
 #, c-format
 msgid "*%s (AI)* Yes, peace in our time!"
-msgstr ""
+msgstr "*%s (AI)* 맞소, 평화는 우리의 시간이오"
 
 #: ai/advdiplomacy.c:595
 #, c-format
 msgid "*%s (AI)* Agreed. No more hostilities, %s."
-msgstr ""
+msgstr "*%s (AI)* 동의하오. 더의상의 적의는 없소, %s"
 
 #: ai/advdiplomacy.c:817
 #, c-format
 msgid ""
 "*%s (AI)* Greetings %s! May we suggest a ceasefire while we get to know each "
 "other better?"
-msgstr ""
+msgstr "*%s (AI)* 환영합니다 %s! 서로를 더 알아가는 동안 우리 휴전은 어떻소?"
 
 #: ai/advdiplomacy.c:1094
 #, c-format
 msgid "*%s (AI)* Space will never be yours. "
-msgstr ""
+msgstr "*%s (AI)* 우주는 결코 당신의 것이 될수 없어"
 
 #: ai/advdiplomacy.c:1099
 #, c-format
 msgid "*%s (AI)* I have tolerated your vicious antics long enough! To war!"
-msgstr ""
+msgstr "*%s (AI)* 나는 당신의 기괴한 사악함은 충분이 묵과했소! 전쟁이다!"
 
 #: ai/advdiplomacy.c:1105
 #, c-format
 msgid "*%s (AI)* Peace in ... some other time."
-msgstr ""
+msgstr "*%s (AI)* 평화는....다음에."
 
 #: ai/advdiplomacy.c:1110
 #, c-format
@@ -1314,16 +1325,18 @@ msgid ""
 "*%s (AI)* Finally I get around to you! Did you really think you could get "
 "away with your crimes?"
 msgstr ""
+"*%s (AI)* 마침내 당신 주변에 왔소! 정말 당신은 당신의 범죄들로부터멀어질수 있"
+"소?"
 
 #: ai/advdiplomacy.c:1116
 #, c-format
 msgid "*%s (AI)* Your covert hostilities brought this war upon you!"
-msgstr ""
+msgstr "*%s (AI)*당신의 사악함으로의 전향은 이 전쟁을 불러왔소!"
 
 #: ai/advdiplomacy.c:1123
 #, c-format
 msgid "*%s (AI)* Your aggression against %s was your last mistake!"
-msgstr ""
+msgstr "*%s (AI)* %s에 향한 당신의 공격성은 당신의 마지막 실수였소!"
 
 #: ai/advdiplomacy.c:1206
 #, c-format
@@ -1489,52 +1502,54 @@ msgstr ""
 #: server/auth.c:164
 #, c-format
 msgid "Auth option \"%s\":"
-msgstr ""
+msgstr "권한이 있는 옵션 \"%s\":"
 
 #. TRANS: After 'Auth option "user":'. Option value
 #. may have been inserted between these.
 #: server/auth.c:177
 msgid " missing from config file (using default)"
-msgstr ""
+msgstr "설정파일이 없습니다(기본값을 사용합니다)"
 
 #. TRANS: auth option originates from internal default
 #: server/auth.c:180
 msgid " (default)"
-msgstr ""
+msgstr "(기본값)"
 
 #. TRANS: auth option originates from config file
 #: server/auth.c:185
 msgid " (config)"
-msgstr ""
+msgstr "(편집)"
 
 #. TRANS: auth option has been set from prompt
 #: server/auth.c:189
 msgid " (set)"
-msgstr ""
+msgstr "(배치)"
 
 #: server/auth.c:262
 #, c-format
 msgid "Auth config filename \"%s\" not allowed!"
-msgstr ""
+msgstr "권한이있는 편집화일이름 \"%s\"는 허용되지 않습니다!"
 
 #: server/auth.c:267
 #, c-format
 msgid "Cannot load auth config file \"%s\"!"
-msgstr ""
+msgstr "권한있는 편집화일 \"%s\"는 읽을 수 없습니다!"
 
 #: server/auth.c:373
 #, c-format
 msgid "Warning: the guest name '%s' has been taken, renaming to user '%s'."
 msgstr ""
+"경고 :  '%s'  이름의 손님이름은 이미 있습니다, 사용자  '%s'의 이름을 다시 이"
+"름바꾸세요."
 
 #: server/auth.c:379
 msgid "Guests are not allowed on this server. Sorry."
-msgstr ""
+msgstr "죄송하지만 손님은 이곳 서버에서 허용하지 않습니다"
 
 #: server/auth.c:381
 #, c-format
 msgid "%s was rejected: Guests not allowed."
-msgstr ""
+msgstr "%s는 거부당했습니다:손님은 허용되지 않습니다"
 
 #: server/auth.c:400
 #, c-format
@@ -1542,73 +1557,80 @@ msgid ""
 "There was an error reading the user database, logging in as guest connection "
 "'%s'."
 msgstr ""
+"손님 %s로 로그인하여 사용자 데이터베이스를 읽는 도중 에러가 발생했습니다."
 
 #: server/auth.c:405
 msgid ""
 "There was an error reading the user database and guest logins are not "
 "allowed. Sorry"
 msgstr ""
+"사용자 데이터베이스를 읽는도중 에러가 발생하고 손님로그인이 허용되지 않습니"
+"다. 죄송합니다"
 
 #: server/auth.c:409
 #, c-format
 msgid "%s was rejected: Database error and guests not allowed."
 msgstr ""
+"%s는 거부당했습니다 : 데이터베이스 오류, 그리고 손님은 허용되지 않습니다"
 
 #: server/auth.c:416
 #, c-format
 msgid "Enter password for %s:"
-msgstr ""
+msgstr "%s에 대한 암호를 입력하세요:"
 
 #: server/auth.c:425
 msgid "Enter a new password (and remember it)."
-msgstr ""
+msgstr "새로운 암호를 입력하세요(그리고 기억해두세요)"
 
 #: server/auth.c:430
 msgid "This server allows only preregistered users. Sorry."
-msgstr ""
+msgstr "이 서버는 오직 미리등록한 사용자에게만 허용합니다. 미안합니다"
 
 #: server/auth.c:433
 #, c-format
 msgid "%s was rejected: Only preregister users allowed."
-msgstr ""
+msgstr "%s는 거부되었습니다 : 오직 미리등록사용자에게만 허용됩니다."
 
 #: server/auth.c:461 server/auth.c:519
 msgid "Sorry, too many wrong tries..."
-msgstr ""
+msgstr "미안하지만 잘못된 시도를 너무 많이 하셨습니다"
 
 #: server/auth.c:462
 #, c-format
 msgid "%s was rejected: Too many wrong password verifies for new user."
 msgstr ""
+" %s 는 거부당했습니다: 새로운 사용자를 위한 암호검증횟수가 너무 많습니다"
 
 #: server/auth.c:478
 msgid ""
 "Warning: There was an error in saving to the database. Continuing, but your "
 "stats will not be saved."
 msgstr ""
+"경고: 데이터베이스에 저장하는데 에러가 발생하였습니다. 진행되지만 저장되지 않"
+"습니다."
 
 #: server/auth.c:521
 #, c-format
 msgid "%s was rejected: Too many wrong password tries."
-msgstr ""
+msgstr "%s번 거부되었습니다: 너무 많은 비밀번호시도를 했습니다"
 
 #: server/auth.c:530
 msgid "Your password is incorrect. Try again."
-msgstr ""
+msgstr "당신의 암호는 정확하지 않습니다. 다시 시도하세요."
 
 #: server/auth.c:540
 msgid "Sorry, your connection timed out..."
-msgstr ""
+msgstr "죄송하지만 당신의 연결 시간 초과 되었습니다..."
 
 #: server/auth.c:542
 #, c-format
 msgid "%s was rejected: Connection timeout waiting for password."
-msgstr ""
+msgstr "%s 이(가) 거부당했음 : 암호에 대한 입력 시간이 초과되었습니다"
 
 #: server/auth.c:607
 #, c-format
 msgid "Your password is too short, the minimum length is %d. Try again."
-msgstr ""
+msgstr "당신의 암호는 너무 짧습니다, 최소길이는 %d입니다. 다시 시도하세요"
 
 #: server/auth.c:613
 #, c-format
@@ -1616,6 +1638,8 @@ msgid ""
 "The password must have at least %d capital letters, %d numbers, and be at "
 "minimum %d [printable] characters long. Try again."
 msgstr ""
+"암호는 적어도 %d 개의 대문자가 사용되어야 합니다, %d 숫자들, 그리고 최소 %d"
+"[화면상에 출력되는] 문자길이여야 합니다, 다시 시도하세요"
 
 #: server/barbarian.c:154
 #, c-format
@@ -1625,61 +1649,61 @@ msgstr ""
 #: server/barbarian.c:445
 #, c-format
 msgid "Native unrest near %s led by %s."
-msgstr ""
+msgstr "%s에 국가적 불안이 %s에 의해 인접하였습니다"
 
 #: server/barbarian.c:450
 #, c-format
 msgid "Sea raiders seen near %s!"
-msgstr ""
+msgstr "바다수색자가 %s에서 보였습니다!"
 
 #: server/cityhand.c:118
 msgid "You don't have a worker here."
-msgstr ""
+msgstr "여기에 일꾼을 가질수 없습니다"
 
 #: server/cityhand.c:173
 msgid "You have already sold something here this turn."
-msgstr ""
+msgstr "이번 턴에서 당신은 이미 무엇을 팔았습니다"
 
 #: server/cityhand.c:182
 #, c-format
 msgid "You sell %s in %s for %d gold."
-msgstr ""
+msgstr "당신은 %s을 %s안에 있는, 금%d에 팔았습니다"
 
 #: server/cityhand.c:222
 msgid "Cannot buy in city created this turn."
-msgstr ""
+msgstr "이번턴에서 만들어진 도시는 살수 없습니다"
 
 #: server/cityhand.c:228
 msgid "You have already bought this turn."
-msgstr ""
+msgstr "당신은 이번턴에서 이미 구입했습니다"
 
 #: server/cityhand.c:234
 #, c-format
 msgid "You don't buy %s!"
-msgstr ""
+msgstr "당신은 %s 을(를) 살수 없습니다"
 
 #: server/cityhand.c:241
 msgid "Can't buy units when city is in disorder."
-msgstr ""
+msgstr "도시가 무질서일때는 부대를 살수 없습니다"
 
 #: server/cityhand.c:254
 #, c-format
 msgid "%d gold required.  You only have %d gold."
-msgstr ""
+msgstr "%d 의 돈이 필요합니다. 당신은 오직 %d의 금을 가지고 있군요"
 
 #: server/cityhand.c:366
 msgid "You have bought this turn, can't change."
-msgstr ""
+msgstr "당신은 이번턴에서 구입했습니다. 바꿀수 없습니다"
 
 #: server/citytools.c:272
 #, c-format
 msgid "You already have a city called %s."
-msgstr ""
+msgstr "당신은 이미 %s라고 도시를 이름지었습니다"
 
 #: server/citytools.c:284
 #, c-format
 msgid "A city called %s already exists."
-msgstr ""
+msgstr "%s의 도시이름은 이미 존재합니다"
 
 #: server/citytools.c:311
 #, c-format
@@ -1691,30 +1715,32 @@ msgstr ""
 msgid ""
 "%s is not a valid name. Only ASCII or ruleset names are allowed for cities."
 msgstr ""
+"%s는 사용가능한 이름이 아닙니다. 오직 아스키나  규칙에 맞는 이름만 도시에 허"
+"용됩니다."
 
 #: server/citytools.c:451
 #, c-format
 msgid "City no. %d"
-msgstr ""
+msgstr "도시 번호, %d"
 
 #: server/citytools.c:459
 msgid "A poorly-named city"
-msgstr ""
+msgstr "안타깝게 이름지어진 도시"
 
 #: server/citytools.c:510
 #, c-format
 msgid "Changed homecity of %s to %s."
-msgstr ""
+msgstr "홈시티를  %s 에서  %s 로(으로) 변경하였습니다"
 
 #: server/citytools.c:524
 #, c-format
 msgid "Transfered %s in %s from %s to %s."
-msgstr ""
+msgstr "%s을 %s안에 있는, %s에서 %s로 옮겼습니다"
 
 #: server/citytools.c:537
 #, c-format
 msgid "Transfered %s from %s to %s."
-msgstr ""
+msgstr " %2$s에서  %3$s로  %1$s를 운반하였습니다"
 
 #. TRANS: Polish Destroyer ... German <city>
 #: server/citytools.c:550
@@ -1730,12 +1756,14 @@ msgstr ""
 #: server/citytools.c:761
 #, c-format
 msgid "You lost %s. A new %s was built in %s."
-msgstr ""
+msgstr "당신은  %s 을 잃었습니다. 새로운  %s 는  %s 에 지어졌습니다"
 
 #: server/citytools.c:841
 #, c-format
 msgid "You already had a city called %s. The city was renamed to %s."
 msgstr ""
+"당신은 이미  %s 라 불리우는 도시를 갖고 있습니다. 그 도시는  %s 로 다시 이름"
+"지어졌습니다"
 
 #: server/citytools.c:929
 #, c-format
@@ -1747,7 +1775,7 @@ msgstr ""
 #: server/citytools.c:1067
 #, c-format
 msgid "You have founded %s."
-msgstr ""
+msgstr "당신은  %s 을(를) 발견하였습니다"
 
 #: server/citytools.c:1140
 #, c-format
@@ -1763,12 +1791,12 @@ msgstr ""
 #: server/citytools.c:1287
 #, c-format
 msgid "You destroy %s completely."
-msgstr ""
+msgstr "당신은%s를 완전히 파괴시켰습니다"
 
 #: server/citytools.c:1290
 #, c-format
 msgid "%s has been destroyed by %s."
-msgstr ""
+msgstr "%s는 %s에 의해 파괴되었습니다."
 
 #: server/citytools.c:1308
 #, c-format
@@ -1787,12 +1815,12 @@ msgstr[1] ""
 #: server/citytools.c:1324
 #, c-format
 msgid "You conquer %s"
-msgstr ""
+msgstr "당신은  %s를 정복했습니다"
 
 #: server/citytools.c:1327
 #, c-format
 msgid "%s conquered %s."
-msgstr ""
+msgstr "%s 가 %s를 정복했습니다"
 
 #: server/citytools.c:1334
 #, c-format
@@ -1811,22 +1839,22 @@ msgstr[1] ""
 #: server/citytools.c:1350
 #, c-format
 msgid "You have liberated %s!"
-msgstr ""
+msgstr "당신은 %s를 약탈했습니다!"
 
 #: server/citytools.c:1353
 #, c-format
 msgid "%s liberated %s."
-msgstr ""
+msgstr "%s는 %s를 약탈했습니다"
 
 #: server/citytools.c:1942
 msgid " from the worklist"
-msgstr ""
+msgstr "작업리스트로 부터"
 
 #. TRANS: "<city> is building <production><source>."
 #: server/citytools.c:1954
 #, c-format
 msgid "%s is building %s%s."
-msgstr ""
+msgstr "%s는 %s%s를 건설하고 있습니다"
 
 #: server/citytools.c:2201
 #, c-format
@@ -1841,7 +1869,7 @@ msgstr ""
 #: server/cityturn.c:309
 #, c-format
 msgid "Notice: Wonder %s in %s will be finished next turn."
-msgstr ""
+msgstr "알림: %2$s의 불가사의 %1$s는(은) 다음턴에서 완성됩니다"
 
 #: server/cityturn.c:345
 #, c-format
@@ -1852,16 +1880,16 @@ msgstr ""
 #: server/cityturn.c:357
 #, c-format
 msgid "%s may soon grow to size %i."
-msgstr ""
+msgstr "%s는 곧 성장하여 크기 %i에 도달할것입니다"
 
 #: server/cityturn.c:366
 #, c-format
 msgid "Warning: Famine feared in %s."
-msgstr ""
+msgstr "경고 :  %s 에  기아공포가 생겼습니다"
 
 #: server/cityturn.c:389
 msgid "WARNING, we're LOW on FUNDS sire."
-msgstr ""
+msgstr "경고,우리는 창시하는데 적은 소지금이 있습니다"
 
 #: server/cityturn.c:491
 #, c-format
@@ -1876,22 +1904,22 @@ msgstr ""
 #: server/cityturn.c:549
 #, c-format
 msgid "%s grows to size %d."
-msgstr ""
+msgstr " %s 가(이) %d까지 성장하였습니다"
 
 #: server/cityturn.c:608
 #, c-format
 msgid "Famine feared in %s, %s lost!"
-msgstr ""
+msgstr "%s의 기아 공포, %s이 파멸되었습니다"
 
 #: server/cityturn.c:621
 #, c-format
 msgid "Famine causes population loss in %s."
-msgstr ""
+msgstr " %s 의 기아는 인구감소를 야기시켰습니다"
 
 #: server/cityturn.c:625
 #, c-format
 msgid "Famine destroys %s entirely."
-msgstr ""
+msgstr "기아는 %s를 전부 파괴시켰습니다"
 
 #: server/cityturn.c:702
 #, c-format
@@ -1908,7 +1936,7 @@ msgstr ""
 #: server/cityturn.c:1080
 #, c-format
 msgid "Production of %s is upgraded to %s in %s."
-msgstr ""
+msgstr " %s 의 생산은  %s을 업그레이드 시켰습니다  %s 안에서"
 
 #: server/cityturn.c:778
 #, c-format
@@ -1971,22 +1999,23 @@ msgstr ""
 #, c-format
 msgid "%s can't build %s from the worklist; Reason unknown!  Postponing..."
 msgstr ""
+"%s에서 작업리스트 %s는 건설할수 없습니다; 이유없이 연기되고 있습니다..."
 
 #. TRANS: The <city> worklist ....
 #: server/cityturn.c:956
-#, c-format
+#, fuzzy, c-format
 msgid "The %s worklist is now empty."
-msgstr ""
+msgstr "%s의 작업리스트는 현재 비어있지 않습니다"
 
 #: server/cityturn.c:1101
 #, c-format
 msgid "%s can't upkeep %s, unit disbanded."
-msgstr ""
+msgstr "%s는 %s를 유지할수 없어서 부대를 해산시켰습니다"
 
 #: server/cityturn.c:1121
 #, c-format
 msgid "Citizens in %s perish for their failure to upkeep %s!"
-msgstr ""
+msgstr "%s의 시민은 %s를 유지실패로 멸망했습니다"
 
 #: server/cityturn.c:1166 server/cityturn.c:1286
 #, c-format
@@ -1996,7 +2025,7 @@ msgstr ""
 #: server/cityturn.c:1208
 #, c-format
 msgid "The %s have finished building %s in %s."
-msgstr ""
+msgstr "%1$s는 %3$s의 %2$s건설을 마쳤습니다"
 
 #: server/cityturn.c:1218
 #, c-format
@@ -2023,13 +2052,13 @@ msgstr ""
 #: server/cityturn.c:1311
 #, c-format
 msgid "%s can't build %s yet."
-msgstr ""
+msgstr "%s는 %s를 아직 건설할수 없습니다"
 
 #. TRANS: <city> is finished building <unit/building>.
 #: server/cityturn.c:1344
 #, c-format
 msgid "%s is finished building %s."
-msgstr ""
+msgstr "%s는 건물 %s을 완성했습니다"
 
 #: server/cityturn.c:1393
 #, c-format
@@ -2039,7 +2068,7 @@ msgstr ""
 #: server/cityturn.c:1429
 #, c-format
 msgid "Pollution near %s."
-msgstr ""
+msgstr "%s에 오염이 근접했습니다"
 
 #: server/cityturn.c:1570
 #, c-format
@@ -2054,17 +2083,17 @@ msgstr ""
 #: server/cityturn.c:1605
 #, c-format
 msgid "Civil disorder in %s."
-msgstr ""
+msgstr "%s에서의 문명 무질서"
 
 #: server/cityturn.c:1609
 #, c-format
 msgid "CIVIL DISORDER CONTINUES in %s."
-msgstr ""
+msgstr "%s에서 문명 무질서가 계속되고 있습니다"
 
 #: server/cityturn.c:1615
 #, c-format
 msgid "Order restored in %s."
-msgstr ""
+msgstr "%s의 명령 복구."
 
 #: server/cityturn.c:1625
 #, c-format
@@ -2094,16 +2123,17 @@ msgstr ""
 #, c-format
 msgid "Warning: the %s option is obsolete.  Use -m to enable the metaserver.\n"
 msgstr ""
+"경고 : %s옵션은 쓸모없습니다. 메타서버를 가능하게 하려면 -m을 사용하세요\n"
 
 #: server/civserver.c:196
 #, c-format
 msgid "Error: unknown option '%s'\n"
-msgstr ""
+msgstr "에러: 알려지지 않은 옵션 '%s'\n"
 
 #: server/civserver.c:207
 #, c-format
 msgid "This is the server for %s"
-msgstr ""
+msgstr "여기는 %s 서버입니다"
 
 #: server/civserver.c:208
 #, c-format
@@ -2116,6 +2146,8 @@ msgid ""
 "Usage: %s [option ...]\n"
 "Valid options are:\n"
 msgstr ""
+"사용법 : %s [옵션 ...] \n"
+"가능한 옵션은 : \n"
 
 #: server/civserver.c:215
 msgid ""
@@ -2205,11 +2237,11 @@ msgstr ""
 #: manual/civmanual.c:384
 #, c-format
 msgid "Report bugs at %s.\n"
-msgstr ""
+msgstr "%s에 버그리포트.\n"
 
 #: server/commands.c:28
 msgid "Start the game, or restart after loading a savegame."
-msgstr ""
+msgstr "게임을 시작하거나, 또는 저장된 게임을 로딩후에 재시작하십시요."
 
 #: server/commands.c:29
 msgid ""
@@ -2234,7 +2266,7 @@ msgstr ""
 
 #: server/commands.c:47
 msgid "Show help about server commands and server options."
-msgstr ""
+msgstr "서버 명령과 서버옵션에 대해 도움말 보기"
 
 #: server/commands.c:48
 msgid ""
@@ -2259,16 +2291,16 @@ msgstr ""
 
 #: server/commands.c:70
 msgid "Quit the game and shutdown the server."
-msgstr ""
+msgstr "게임을 그만두고, 서버를 종료합니다."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:74
 msgid "cut <connection-name>"
-msgstr ""
+msgstr "cut <접속 이름>"
 
 #: server/commands.c:75
 msgid "Cut a client's connection to server."
-msgstr ""
+msgstr "서버에 접속한 클라이언트 접속 끊기"
 
 #: server/commands.c:76
 msgid ""
@@ -2287,7 +2319,7 @@ msgstr ""
 
 #: server/commands.c:85
 msgid "Explain server options."
-msgstr ""
+msgstr "서버옵션 설명."
 
 #: server/commands.c:86
 msgid ""
@@ -2307,7 +2339,7 @@ msgstr ""
 
 #: server/commands.c:96
 msgid "Show server options."
-msgstr ""
+msgstr "서버 옵션 보기."
 
 #: server/commands.c:97
 msgid ""
@@ -2318,11 +2350,11 @@ msgstr ""
 
 #: server/commands.c:102
 msgid "wall <message>"
-msgstr ""
+msgstr "wall <메세지>"
 
 #: server/commands.c:103
 msgid "Send message to all connections."
-msgstr ""
+msgstr "모든 접속자에게 메세지를 보냅니다."
 
 #: server/commands.c:104
 msgid ""
@@ -2331,11 +2363,11 @@ msgstr ""
 
 #: server/commands.c:108
 msgid "vote yes|no [vote number]"
-msgstr ""
+msgstr "투표 예|아니오[투표 수]"
 
 #: server/commands.c:109
 msgid "Cast a vote."
-msgstr ""
+msgstr "투표합니다"
 
 #: server/commands.c:111
 #, no-c-format
@@ -2368,15 +2400,15 @@ msgstr ""
 
 #: server/commands.c:129
 msgid "set <option-name> <value>"
-msgstr ""
+msgstr "set <옵션이름> <값>"
 
 #: server/commands.c:130
 msgid "Set server option."
-msgstr ""
+msgstr "서버 옵션 설정."
 
 #: server/commands.c:133
 msgid "team <player> [team]"
-msgstr ""
+msgstr "팀 <플레이어> [팀]"
 
 #: server/commands.c:134
 msgid "Change, add or remove a player's team affiliation."
@@ -2392,7 +2424,7 @@ msgstr ""
 
 #: server/commands.c:142
 msgid "rulesetdir <directory>"
-msgstr ""
+msgstr "rulesetdir <디렉토리>"
 
 #: server/commands.c:143
 msgid "Choose new ruleset directory or modpack."
@@ -2424,7 +2456,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:159
 msgid "metapatch <meta-line>"
-msgstr ""
+msgstr "metapatch <메타라인>"
 
 #: server/commands.c:160
 msgid "Set metaserver patches line."
@@ -2444,7 +2476,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:173
 msgid "metaserver <address>"
-msgstr ""
+msgstr "metaserver <주소>"
 
 #: server/commands.c:174
 msgid "Set address (URL) for metaserver to report to."
@@ -2462,7 +2494,7 @@ msgstr ""
 #. TRANS: translate text between [] and <> only
 #: server/commands.c:183
 msgid "take [connection-name] <player-name>"
-msgstr ""
+msgstr "take [접속이름] <사용자 이름>"
 
 #: server/commands.c:184
 msgid "Take over a player's place in the game."
@@ -2480,7 +2512,7 @@ msgstr ""
 #. TRANS: translate text between [] only
 #: server/commands.c:193
 msgid "observe [connection-name] [player-name]"
-msgstr ""
+msgstr "observe [접속이름] [사용자 이름]"
 
 #: server/commands.c:194
 msgid "Observe a player or the whole game."
@@ -2498,11 +2530,11 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:203
 msgid "detach <connection-name>"
-msgstr ""
+msgstr "detach <접속이름>"
 
 #: server/commands.c:204
 msgid "detach from a player."
-msgstr ""
+msgstr "사용자로부터 분리"
 
 #: server/commands.c:205
 msgid ""
@@ -2513,7 +2545,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:210
 msgid "create <player-name>"
-msgstr ""
+msgstr "create <사용자 이름>"
 
 #: server/commands.c:211
 msgid "Create an AI player with a given name."
@@ -2565,7 +2597,7 @@ msgstr ""
 
 #: server/commands.c:234
 msgid "Set one or all AI players to 'easy'."
-msgstr ""
+msgstr "하나 또는 모든 AI 사용자를 '쉬움'으로 설정"
 
 #: server/commands.c:235
 msgid ""
@@ -2706,20 +2738,20 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:319
 msgid "endgame"
-msgstr ""
+msgstr "게임종료"
 
 #: server/commands.c:320
 msgid "End the game immediately in a draw."
-msgstr ""
+msgstr "즉시 비기는 것으로 게임끝냄"
 
 #. TRANS: translate text between <> only
 #: server/commands.c:324
 msgid "surrender"
-msgstr ""
+msgstr "양도하기"
 
 #: server/commands.c:325
 msgid "Concede the game."
-msgstr ""
+msgstr "패배인정"
 
 #: server/commands.c:326
 msgid ""
@@ -2819,7 +2851,7 @@ msgstr ""
 #: server/connecthand.c:90
 #, c-format
 msgid "Welcome to the %s Server at port %d."
-msgstr ""
+msgstr "서버 %s의 %d 포트에 오신것을 환영합니다"
 
 #: server/connecthand.c:98
 #, c-format
@@ -2829,7 +2861,7 @@ msgstr "%s(은)는 %s에서 연결했습니다."
 #: server/connecthand.c:103
 #, c-format
 msgid "Server: %s has connected from %s."
-msgstr ""
+msgstr "서버 : %s는 %s로부터 접속되었습니다"
 
 #: server/connecthand.c:144
 msgid "Couldn't attach your connection to new player."
@@ -2912,7 +2944,7 @@ msgstr ""
 #: server/connecthand.c:315 server/connecthand.c:324
 #, c-format
 msgid "Lost connection: %s."
-msgstr ""
+msgstr "접속 끊김: %s"
 
 #: server/console.c:167
 msgid "Ok. RFC-style set."
@@ -2924,12 +2956,12 @@ msgstr ""
 
 #: server/console.c:189
 msgid "For introductory help, type 'help'."
-msgstr ""
+msgstr "도움말을 보기 위해선, 'help'라고 입력하세요"
 
 #: server/diplhand.c:165
 #, c-format
 msgid "The %s can't accept %s."
-msgstr ""
+msgstr "%s는 %s를 수락할수 없습니다"
 
 #: server/diplhand.c:177
 #, c-format
@@ -2952,7 +2984,7 @@ msgstr ""
 
 #: server/diplhand.c:225
 msgid "You don't have enough gold, you can't accept treaty."
-msgstr ""
+msgstr "충분한 금이 없으므로 조약을 받아들일 수 없습니다"
 
 #: server/diplhand.c:257 server/diplhand.c:262
 #, c-format
@@ -2979,7 +3011,7 @@ msgstr ""
 #: server/diplhand.c:365
 #, c-format
 msgid "You gave an embassy to %s."
-msgstr ""
+msgstr "당신은 %s에 사절단을 주었습니다"
 
 #: server/diplhand.c:368
 #, c-format
@@ -2999,7 +3031,7 @@ msgstr ""
 #: server/diplhand.c:403
 #, c-format
 msgid "You get %d gold."
-msgstr ""
+msgstr "%d의 금을 얻었습니다"
 
 #. TRANS: ... Polish worldmap.
 #: server/diplhand.c:411
@@ -3053,7 +3085,7 @@ msgstr ""
 #: server/diplhand.c:527
 #, c-format
 msgid "%s gives you shared vision."
-msgstr ""
+msgstr "%s 가(이) 시야를 제공했습니다"
 
 #: server/diplhand.c:674
 #, c-format
@@ -3063,7 +3095,7 @@ msgstr ""
 #: server/diplhand.c:681
 #, c-format
 msgid "Meeting with %s canceled."
-msgstr ""
+msgstr "%s와의 모임이 취소되었습니다"
 
 #: server/diplhand.c:723
 msgid "Your diplomatic envoy was decapitated!"
@@ -3125,9 +3157,9 @@ msgid "You don't have enough gold to bribe the %s %s."
 msgstr ""
 
 #: server/diplomats.c:433
-#, c-format
+#, fuzzy, c-format
 msgid "You cannot bribe the %s!"
-msgstr ""
+msgstr "%s에게 뇌물을 줄수 없습니다"
 
 #. TRANS: <diplomat> ... <unit>
 #: server/diplomats.c:457
@@ -3137,9 +3169,9 @@ msgstr ""
 
 #. TRANS: <unit> ... <Poles>
 #: server/diplomats.c:465
-#, c-format
+#, fuzzy, c-format
 msgid "Your %s was bribed by the %s."
-msgstr ""
+msgstr "당신의 %s는 %s로부터 뇌물을 받았습니다"
 
 #: server/diplomats.c:596
 #, c-format
@@ -3161,11 +3193,11 @@ msgstr ""
 #: server/diplomats.c:622
 #, c-format
 msgid "No new technology found in %s."
-msgstr ""
+msgstr "%s에서 새로운 기술을 찾을수 없습니다"
 
 #: server/diplomats.c:678
 msgid "You can't subvert this city."
-msgstr ""
+msgstr "당신은 이 도시를 멸망시킬수 없습니다"
 
 #: server/diplomats.c:689
 #, c-format
@@ -3431,7 +3463,7 @@ msgstr ""
 
 #: server/maphand.c:408
 msgid "Global warming has occurred!"
-msgstr ""
+msgstr "온난화가 생겼습니다"
 
 #: server/maphand.c:410
 msgid ""
@@ -3441,7 +3473,7 @@ msgstr ""
 
 #: server/maphand.c:452
 msgid "Nuclear winter has occurred!"
-msgstr ""
+msgstr "핵"
 
 #: server/maphand.c:454
 msgid "Wetlands have dried up and vast ranges of grassland have become tundra."
@@ -3543,7 +3575,7 @@ msgstr ""
 #: server/plrhand.c:500
 #, c-format
 msgid "%s no longer gives us shared vision!"
-msgstr ""
+msgstr "%s는 더이상 시야를 공유하지 않습니다"
 
 #: server/plrhand.c:511
 #, c-format
@@ -3593,11 +3625,11 @@ msgstr ""
 #: server/plrhand.c:1113
 #, c-format
 msgid "Removing player %s."
-msgstr ""
+msgstr " %s플레이어 없앰"
 
 #: server/plrhand.c:1115
 msgid "You've been removed from the game!"
-msgstr ""
+msgstr "당신은 게임으로 부터 제거 되었습니다"
 
 #: server/plrhand.c:1118
 #, c-format
@@ -3708,7 +3740,7 @@ msgstr ""
 
 #: server/report.c:118
 msgid "Settled Area"
-msgstr ""
+msgstr "이주민 지역"
 
 #: server/report.c:119
 msgid "Research Speed"
@@ -3747,7 +3779,7 @@ msgstr "의대한"
 
 #: server/report.c:149
 msgid "Decent"
-msgstr "적단한"
+msgstr "적당한"
 
 #: server/report.c:150
 msgid "Mediocre"
@@ -3759,7 +3791,7 @@ msgstr "웃기는"
 
 #: server/report.c:150
 msgid "Worthless"
-msgstr "무익한"
+msgstr "쓸모없는"
 
 #: server/report.c:150
 msgid "Pathetic"
@@ -3949,11 +3981,11 @@ msgstr ""
 
 #: server/settings.c:36
 msgid "Military"
-msgstr ""
+msgstr "군대"
 
 #: server/settings.c:37
 msgid "Scientific"
-msgstr ""
+msgstr "과학적인"
 
 #: server/settings.c:38
 msgid "Internal"
@@ -3961,20 +3993,20 @@ msgstr ""
 
 #: server/settings.c:39
 msgid "Networking"
-msgstr ""
+msgstr "네트워킹"
 
 #: server/settings.c:43 client/gui-gtk-2.0/dialogs.c:762
 #: client/gui-win32/dialogs.c:534
 msgid "All"
-msgstr ""
+msgstr "모두"
 
 #: server/settings.c:44
 msgid "Vital"
-msgstr ""
+msgstr "중요한"
 
 #: server/settings.c:45
 msgid "Situational"
-msgstr ""
+msgstr "상황적인"
 
 #: server/settings.c:46
 msgid "Rare"
@@ -3982,7 +4014,7 @@ msgstr ""
 
 #: server/settings.c:47
 msgid "Changed"
-msgstr ""
+msgstr "바뀜"
 
 #: server/settings.c:103
 msgid ""
@@ -4120,7 +4152,7 @@ msgstr ""
 
 #: server/settings.c:350
 msgid "All the map is temperate"
-msgstr ""
+msgstr "모든 지도는 온화합니다"
 
 #: server/settings.c:351
 msgid "0 = normal Earth-like planet; 1 = all-temperate planet "
@@ -4280,7 +4312,7 @@ msgstr ""
 
 #: server/settings.c:495
 msgid "Starting gold per player"
-msgstr ""
+msgstr "한 플레이어당 시작 금(gold)"
 
 #: server/settings.c:496
 msgid "At the beginning of the game, each player is given this much gold."
@@ -4516,7 +4548,7 @@ msgstr ""
 
 #: server/settings.c:710
 msgid "Allowed city names"
-msgstr ""
+msgstr "허용된 도시 이름들"
 
 #: server/settings.c:711
 msgid ""
@@ -4535,7 +4567,7 @@ msgstr ""
 
 #: server/settings.c:739
 msgid "Barbarian appearance frequency"
-msgstr ""
+msgstr "미개인의 등장 빈번도"
 
 #: server/settings.c:740
 msgid ""
@@ -4548,15 +4580,15 @@ msgstr ""
 
 #: server/settings.c:750
 msgid "Barbarian onset year"
-msgstr ""
+msgstr "미개인 습격 시작년도"
 
 #: server/settings.c:751
 msgid "Barbarians will not appear before this year."
-msgstr ""
+msgstr "미개인들은 이번년도 전에는 나타나지 않을것입니다"
 
 #: server/settings.c:757
 msgid "Length in turns of revolution"
-msgstr ""
+msgstr "혁명의 턴 길이"
 
 #: server/settings.c:758
 msgid ""
@@ -4596,7 +4628,7 @@ msgstr ""
 
 #: server/settings.c:792
 msgid "Minimum number of cities for civil war"
-msgstr ""
+msgstr "문명 전쟁을 위한 최소 도시의 수"
 
 #: server/settings.c:793
 msgid ""
@@ -4688,15 +4720,15 @@ msgstr ""
 
 #: server/settings.c:880
 msgid "Year the game ends"
-msgstr ""
+msgstr "게임이 끝나는 년도"
 
 #: server/settings.c:881
 msgid "The game will end at the end of the given year."
-msgstr ""
+msgstr "이 게임은 주어진 마지막 년도에 끝날 것입니다"
 
 #: server/settings.c:887
 msgid "Maximum seconds per turn"
-msgstr ""
+msgstr "한 턴당 최대 시간(seconds)"
 
 #: server/settings.c:888
 msgid ""
@@ -4878,15 +4910,15 @@ msgstr ""
 
 #: server/spacerace.c:165
 msgid "You need to have a capital in order to launch your spaceship."
-msgstr ""
+msgstr "당신의 우주선을 작동시키기 위해선 수도를 가질 필요가 있습니다"
 
 #: server/spacerace.c:171
 msgid "Your spaceship is already launched!"
-msgstr ""
+msgstr "당신의 우주선은 이미 작동되었습니다"
 
 #: server/spacerace.c:177
 msgid "Your spaceship can't be launched yet!"
-msgstr ""
+msgstr "당신의 우주선은 아직 작동할수 없습니다"
 
 #: server/spacerace.c:186
 #, c-format
@@ -4901,7 +4933,7 @@ msgstr ""
 
 #: server/spacerace.c:210
 msgid "You can't modify your spaceship after launch!"
-msgstr ""
+msgstr "우주선 작동뒤엔 수정할수 없습니다"
 
 #: server/spacerace.c:219
 msgid "You don't have any unplaced Space Structurals!"
@@ -4956,16 +4988,16 @@ msgstr ""
 #: server/srv_main.c:283 server/srv_main.c:318
 #, c-format
 msgid "Team victory to %s"
-msgstr ""
+msgstr "%s이(가) 팀승리함"
 
 #: server/srv_main.c:293 server/srv_main.c:334
 #, c-format
 msgid "Game ended in victory for %s"
-msgstr ""
+msgstr "%s가(이) 승리함으로 게임이 끝났습니다"
 
 #: server/srv_main.c:341
 msgid "Game ended in a draw"
-msgstr ""
+msgstr "게임이 비김으로 끝났습니다"
 
 #: server/srv_main.c:457 server/srv_main.c:468
 #, c-format
@@ -4993,7 +5025,7 @@ msgstr ""
 #: server/srv_main.c:966
 #, c-format
 msgid "Failed saving game as %s"
-msgstr ""
+msgstr "%s 로 게임저장 실패"
 
 #: server/srv_main.c:968
 #, c-format
@@ -5002,7 +5034,7 @@ msgstr ""
 
 #: server/srv_main.c:998
 msgid "The game is already running."
-msgstr ""
+msgstr "게임은 이미 진행중입니다."
 
 #: server/srv_main.c:1006
 #, c-format
@@ -5011,7 +5043,7 @@ msgstr ""
 
 #: server/srv_main.c:1013
 msgid "Starting game."
-msgstr ""
+msgstr "게임 시작"
 
 #: server/srv_main.c:1070
 #, c-format
@@ -5021,7 +5053,7 @@ msgstr ""
 #: server/srv_main.c:1140
 #, c-format
 msgid "Warning: rejecting old client %s"
-msgstr ""
+msgstr "경고 : 오래된 클라이언트 %s 가(이) 거부됨"
 
 #: server/srv_main.c:1149
 msgid ""
@@ -5040,12 +5072,12 @@ msgstr ""
 
 #: server/srv_main.c:1355
 msgid "That nation is already in use."
-msgstr ""
+msgstr "그 국가는 이미 사용되고 있습니다."
 
 #: server/srv_main.c:1371
 #, c-format
 msgid "Another player already has the name '%s'.  Please choose another name."
-msgstr ""
+msgstr "또다른 플레이어가 이미 %s 이름을 갖고 있습니다. 다른 이름을 사용하세요"
 
 #: server/srv_main.c:1392
 msgid "Please choose a name containing only ASCII characters."
@@ -5054,7 +5086,7 @@ msgstr ""
 #: server/srv_main.c:1489
 #, c-format
 msgid "%s nation is not available in this scenario."
-msgstr ""
+msgstr "%s 이름의 나라는 이 시나리오에서 가능하지 않습니다"
 
 #: server/srv_main.c:1495
 #, c-format
@@ -5069,7 +5101,7 @@ msgstr "%s(은)는 %s의 통치자 %s입니다."
 #: server/srv_main.c:1569
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
-msgstr ""
+msgstr "게임시작을 기다립니다: (%d 명 총 %d 명중) 이 이미 시작하였습니다"
 
 #: server/srv_main.c:1574
 msgid "All players are ready; starting game."
@@ -5135,11 +5167,11 @@ msgstr ""
 
 #: server/stdinhand.c:461
 msgid "Name is empty, so cannot be a player."
-msgstr ""
+msgstr "이름이 비어있습니다, 따라서 플레이어가 될수 없습니다"
 
 #: server/stdinhand.c:465
 msgid "Name is too long, so cannot be a player."
-msgstr ""
+msgstr "이름이 너무 깁니다, 따라서 플레이어가 될수 없습니다"
 
 #: server/stdinhand.c:469
 #, c-format
@@ -5158,11 +5190,11 @@ msgstr ""
 
 #: server/stdinhand.c:496
 msgid "Name is empty, so cannot be a connection."
-msgstr ""
+msgstr "이름이 비어있어서 접속할수 없습니다"
 
 #: server/stdinhand.c:500
 msgid "Name is too long, so cannot be a connection."
-msgstr ""
+msgstr "이름이 너무 길어서 접속할수 없습니다"
 
 #: server/stdinhand.c:504
 #, c-format
@@ -5271,15 +5303,15 @@ msgstr ""
 
 #: server/stdinhand.c:874
 msgid "That name is not allowed."
-msgstr ""
+msgstr "그 이름은 허용되지 않습니다"
 
 #: server/stdinhand.c:880
 msgid "A player already exists by that name."
-msgstr ""
+msgstr "그 이름의 플레이어는 이미 존재합니다"
 
 #: server/stdinhand.c:886
 msgid "A user already exists by that name."
-msgstr ""
+msgstr "그 이름의 사용자가 이미 존재합니다"
 
 #: server/stdinhand.c:916
 #, c-format
@@ -5289,7 +5321,7 @@ msgstr ""
 #: server/stdinhand.c:923
 #, c-format
 msgid "Error creating new AI player: %s."
-msgstr ""
+msgstr "AI 플레이어를 생성하는데 에러발생 : %s"
 
 #: server/stdinhand.c:952
 msgid "Players cannot be removed once the game has started."
@@ -5313,7 +5345,7 @@ msgstr ""
 #: server/stdinhand.c:1023
 #, c-format
 msgid "Loading script file: %s"
-msgstr ""
+msgstr "스크립트 파일을 로딩중 : %s"
 
 #: server/stdinhand.c:1038
 #, c-format
@@ -5323,7 +5355,7 @@ msgstr ""
 #: server/stdinhand.c:1040
 #, c-format
 msgid "Could not read script file '%s'."
-msgstr ""
+msgstr "스크립트 파일  '%s' 을 읽읈 ㅜ없습니다"
 
 #: server/stdinhand.c:1127
 #, c-format
@@ -5413,7 +5445,7 @@ msgstr ""
 #: server/stdinhand.c:1446
 #, c-format
 msgid "Invalid argument %d."
-msgstr ""
+msgstr "유효하지 않은 인자 %d."
 
 #: server/stdinhand.c:1453
 msgid "Usage: timeoutincrease <turn> <turnadd> <value> <valuemult>."
@@ -5426,7 +5458,7 @@ msgstr ""
 
 #: server/stdinhand.c:1521 server/stdinhand.c:1524
 msgid "Option:"
-msgstr ""
+msgstr "옵션:"
 
 #: server/stdinhand.c:1534 server/stdinhand.c:3894
 msgid "Description:"
@@ -5435,7 +5467,7 @@ msgstr ""
 #: server/stdinhand.c:1539
 #, c-format
 msgid "Status: %s"
-msgstr ""
+msgstr "상태: %s"
 
 #: server/stdinhand.c:1540
 msgid "changeable"
@@ -5494,11 +5526,11 @@ msgstr ""
 
 #: server/stdinhand.c:1846 server/stdinhand.c:2150
 msgid "This command is client only."
-msgstr ""
+msgstr "이 명령은 오직 클라이언트에서만 됩니다"
 
 #: server/stdinhand.c:1849
 msgid "Usage: away"
-msgstr ""
+msgstr "사용법 : 승리"
 
 #: server/stdinhand.c:1854
 msgid "Only players may use the away command."
@@ -5530,19 +5562,19 @@ msgstr ""
 
 #: server/stdinhand.c:1942
 msgid "All options"
-msgstr ""
+msgstr "모든 옵션들"
 
 #: server/stdinhand.c:1945
 msgid "Vital options"
-msgstr ""
+msgstr "중요한 옵션들"
 
 #: server/stdinhand.c:1948
 msgid "Situational options"
-msgstr ""
+msgstr "상황별 옵션"
 
 #: server/stdinhand.c:1951
 msgid "Rarely used options"
-msgstr ""
+msgstr "거의 사용되지 않는 옵션들"
 
 #: server/stdinhand.c:1954
 msgid "+ means you may change the option"
@@ -5559,11 +5591,11 @@ msgstr ""
 
 #: server/stdinhand.c:1958
 msgid "Option"
-msgstr ""
+msgstr "옵션"
 
 #: server/stdinhand.c:1961
 msgid "description"
-msgstr ""
+msgstr "묘사"
 
 #: server/stdinhand.c:2030
 msgid ""
@@ -5586,7 +5618,7 @@ msgstr ""
 
 #: server/stdinhand.c:2117
 msgid "Cannot team a barbarian."
-msgstr ""
+msgstr "미개인을 팀으로 할수 없습니다"
 
 #: server/stdinhand.c:2123
 #, c-format
@@ -5679,7 +5711,7 @@ msgstr ""
 
 #: server/stdinhand.c:2350
 msgid "No city at this coordinate."
-msgstr ""
+msgstr "여기에 동등한 도시가 없습니다"
 
 #: server/stdinhand.c:2355
 #, c-format
@@ -5706,12 +5738,12 @@ msgstr ""
 
 #: server/stdinhand.c:2411
 msgid "Value 2 must be integer."
-msgstr ""
+msgstr "값 2는 반드시 정수여야 합니다"
 
 #: server/stdinhand.c:2415
 #, c-format
 msgid "Unit %d does not exist."
-msgstr ""
+msgstr "부대 %d는 존재하지 않습니다"
 
 #: server/stdinhand.c:2473
 msgid "Undefined argument.  Usage: set <option> <value>."
@@ -5719,7 +5751,7 @@ msgstr ""
 
 #: server/stdinhand.c:2483
 msgid "You are not allowed to set this option."
-msgstr ""
+msgstr "당신은 이 옵션을 설정하도록 허용되지 않았습니다"
 
 #: server/stdinhand.c:2488 server/stdinhand.c:3366
 msgid "This setting can't be modified after the game has started."
@@ -5755,7 +5787,7 @@ msgstr ""
 
 #: server/stdinhand.c:2580
 msgid "String value too long.  Usage: set <option> <value>."
-msgstr ""
+msgstr "문자열이 너무 깁니다. 사용법 : set <옵션> <값>."
 
 #: server/stdinhand.c:2592
 #, c-format
@@ -5849,15 +5881,15 @@ msgstr ""
 
 #: server/stdinhand.c:2910
 msgid "Usage: take <connection-name> <player-name>"
-msgstr ""
+msgstr "사용법: take <접속이름> <사용자 이름>"
 
 #: server/stdinhand.c:2915
 msgid "Usage: take <player-name>"
-msgstr ""
+msgstr "사용법 : take <사용자 이름>"
 
 #: server/stdinhand.c:2921
 msgid "Usage: take [connection-name] <player-name>"
-msgstr ""
+msgstr "사용법 : take [접속 이름] <사용자이름>"
 
 #: server/stdinhand.c:2951
 #, c-format
@@ -6129,7 +6161,7 @@ msgstr ""
 #: client/text.c:1217
 #, c-format
 msgid "?clistmore:, %s"
-msgstr ""
+msgstr ", %s"
 
 #: server/stdinhand.c:4146
 msgid ", ready"
@@ -7011,19 +7043,19 @@ msgstr ""
 
 #: client/cityrepdata.c:462
 msgid "attack"
-msgstr ""
+msgstr "공격"
 
 #: client/cityrepdata.c:463
 msgid "Best attacking units"
-msgstr ""
+msgstr "최고의 공격부대"
 
 #: client/cityrepdata.c:464
 msgid "defense"
-msgstr ""
+msgstr "방어"
 
 #: client/cityrepdata.c:465
 msgid "Best defending units"
-msgstr ""
+msgstr "최고의 방어부대"
 
 #: client/cityrepdata.c:466 client/cityrepdata.c:470
 #: client/gui-gtk-2.0/cityrep.c:1218 client/gui-gtk-2.0/cityrep.c:1239
@@ -7046,7 +7078,7 @@ msgstr ""
 
 #: client/cityrepdata.c:469
 msgid "Number of units present"
-msgstr ""
+msgstr "현재 부대의 수"
 
 #. TRANS: Header "Number of units supported by given city"
 #: client/cityrepdata.c:472
@@ -7055,7 +7087,7 @@ msgstr ""
 
 #: client/cityrepdata.c:473
 msgid "Number of units supported"
-msgstr ""
+msgstr "지원하는 부대의 수"
 
 #. TRANS: Header "It will take this many turns before city grows"
 #: client/cityrepdata.c:476
@@ -7104,7 +7136,7 @@ msgstr ""
 
 #: client/cityrepdata.c:490
 msgid "Surplus: Food"
-msgstr ""
+msgstr "과잉 : 식량"
 
 #: client/cityrepdata.c:492
 msgid "?Production surplus [short]:+P"
@@ -7290,11 +7322,11 @@ msgstr ""
 
 #: client/civclient.c:536
 msgid "Game started."
-msgstr ""
+msgstr "게임이 시작되었습니다"
 
 #: client/civclient.c:574
 msgid "There was an error while auto connecting; aborting."
-msgstr ""
+msgstr "자동연결중 이상이 발생되었습니다; 중단"
 
 #: client/climisc.c:176
 #, c-format
@@ -7408,7 +7440,7 @@ msgstr ""
 
 #: client/clinet.c:143
 msgid "Lost connection to server!"
-msgstr ""
+msgstr "서버로부터 연결을 놓쳤습니다"
 
 #: client/clinet.c:186
 msgid "Failed looking up host."
@@ -7416,11 +7448,11 @@ msgstr ""
 
 #: client/clinet.c:210
 msgid "Connection in progress."
-msgstr ""
+msgstr "접속중입니다"
 
 #: client/clinet.c:284
 msgid "Disconnected from server."
-msgstr ""
+msgstr "서버로부터 연결이 끊겼습니다"
 
 #: client/clinet.c:469
 #, c-format
@@ -7429,7 +7461,7 @@ msgstr ""
 
 #: client/clinet.c:484 client/clinet.c:486
 msgid "Connection to server refused. Please start the server."
-msgstr ""
+msgstr "서버의 접속이 거부당했습니다 서버를 시작하십시요."
 
 #: client/clinet.c:495 client/clinet.c:523
 #, c-format
@@ -7447,11 +7479,11 @@ msgstr ""
 
 #: client/connectdlg_common.c:204
 msgid "Starting server..."
-msgstr ""
+msgstr "서버를 시작하고 있습니다..."
 
 #: client/connectdlg_common.c:321
 msgid "Couldn't start the server."
-msgstr ""
+msgstr "서버를 시작할수 없습니다"
 
 #: client/connectdlg_common.c:322 client/connectdlg_common.c:355
 msgid "You'll have to start one manually. Sorry..."
@@ -7459,7 +7491,7 @@ msgstr ""
 
 #: client/connectdlg_common.c:353
 msgid "Couldn't connect to the server."
-msgstr ""
+msgstr "서버에 연결할수 없습니다"
 
 #: client/connectdlg_common.c:354
 msgid "We probably couldn't start it from here."
@@ -7483,7 +7515,7 @@ msgstr ""
 
 #: client/control.c:1493
 msgid "Only nuclear units can do this."
-msgstr ""
+msgstr "오직 핵 부대만이 이것을 할 수 있습니다"
 
 #: client/control.c:1522
 msgid "Only paratrooper units can do this."
@@ -7491,7 +7523,7 @@ msgstr ""
 
 #: client/control.c:1971
 msgid "Too far for this unit."
-msgstr ""
+msgstr "이 부대로부터 너무 멀리 있습니다"
 
 #: client/control.c:2181 client/control.c:2211 client/control.c:2227
 msgid "Didn't find a route to the destination!"
@@ -7499,7 +7531,7 @@ msgstr ""
 
 #: client/control.c:2271
 msgid "Oh my! You seem to have no capital!"
-msgstr ""
+msgstr "오 세상에! 당신은 수도가 없어 보입니다."
 
 #: client/helpdata.c:125
 msgid "Terrain     Road   Irrigation     Mining         Transform\n"
@@ -8265,7 +8297,7 @@ msgstr ""
 #: client/helpdata.c:1680 client/helpdata.c:1688 client/gui-sdl/mapview.c:618
 #: client/gui-sdl/mapview.c:624 client/gui-sdl/mapview.c:630
 msgid "?blistmore:, "
-msgstr ""
+msgstr ", "
 
 #. TRANS: "2 unhappy" or ", 1 unhappy"
 #: client/helpdata.c:1687
@@ -8923,9 +8955,9 @@ msgstr ""
 
 #. TRANS: previous lines gave other information about the city.
 #: client/text.c:191
-#, c-format
+#, fuzzy, c-format
 msgid "?clistbegin: with %s"
-msgstr ""
+msgstr "?clistbegin: %s"
 
 #. TRANS: This appears with two or more previous entries in the list
 #: client/text.c:202
@@ -8941,7 +8973,7 @@ msgstr ""
 
 #: client/text.c:209 client/text.c:1190 client/text.c:1229
 msgid "?clistend:."
-msgstr ""
+msgstr "."
 
 #. TRANS: "Trade from Warsaw: 5"
 #: client/text.c:219
@@ -9003,13 +9035,13 @@ msgstr ""
 #: client/text.c:381
 #, c-format
 msgid "far from %s"
-msgstr ""
+msgstr " %s 로 부터 멀리 있습니다"
 
 #. TRANS: on own line immediately following \n, ... <city>
 #: client/text.c:384
 #, c-format
 msgid "near %s"
-msgstr ""
+msgstr " %s 로 부터 가깝습니다"
 
 #. TRANS: on own line immediately following \n, ... <city>
 #: client/text.c:387
@@ -9210,7 +9242,7 @@ msgstr ""
 
 #: client/text.c:855
 msgid "No units to upgrade!"
-msgstr ""
+msgstr "업그레이드 할수 있는 부대가 없습니다"
 
 #: client/text.c:880
 msgid "None of these units may be upgraded."
@@ -9233,7 +9265,7 @@ msgstr ""
 
 #: client/text.c:913
 msgid "no research target."
-msgstr ""
+msgstr "조사대상이 없음"
 
 #. TRANS: <tech>: <amount>/<total bulbs>
 #: client/text.c:916
@@ -9248,7 +9280,7 @@ msgstr ""
 #: client/text.c:937
 #, c-format
 msgid "Pollution rate: %d%%"
-msgstr ""
+msgstr "오염도 : %d%%"
 
 #: client/text.c:939
 #, c-format
@@ -9271,25 +9303,25 @@ msgstr ""
 
 #: client/text.c:973
 msgid "Shows your current government:"
-msgstr ""
+msgstr "당신의 현재정부 보이기"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:997
 #, c-format
 msgid "Population:      %5d"
-msgstr ""
+msgstr "인구:      %5d"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:1000
 #, c-format
 msgid "Support:         %5d %%"
-msgstr ""
+msgstr "지원:         %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:1004
 #, c-format
 msgid "Energy:          %5d %%"
-msgstr ""
+msgstr "에너지:          %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:1008
@@ -9303,12 +9335,12 @@ msgstr[1] ""
 #: client/text.c:1014
 #, c-format
 msgid "Travel time:     %5.1f years"
-msgstr ""
+msgstr "여행 시간 :     %5.1f years"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:1018
 msgid "Travel time:        N/A     "
-msgstr ""
+msgstr "여행 시간:       N/A     "
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:1022
@@ -9369,11 +9401,11 @@ msgstr "관찰자: %s"
 
 #: client/text.c:1171
 msgid "Buildings: "
-msgstr ""
+msgstr "건물들:"
 
 #: client/text.c:1188 client/text.c:1227
 msgid "None. "
-msgstr ""
+msgstr "없음."
 
 #: client/text.c:1208
 msgid "Wonders: "
@@ -9408,7 +9440,7 @@ msgstr ""
 #. TRANS: no [unit] maximum
 #: client/text.c:1299
 msgid "no maximum, "
-msgstr ""
+msgstr "최대 제한 없음,"
 
 #: client/text.c:1302
 #, c-format
@@ -9421,11 +9453,11 @@ msgstr[1] ""
 #: client/text.c:1309
 #, c-format
 msgid "%d per unit). "
-msgstr ""
+msgstr "한 부대당 %d),"
 
 #: client/text.c:1313
 msgid "Military units in the field may cause unhappiness. "
-msgstr ""
+msgstr "평지상에서 군 부대는 불행을 야기할수 있습니다."
 
 #: client/text.c:1316
 msgid "Military units have no happiness effect. "
@@ -9481,11 +9513,11 @@ msgstr ""
 #: client/agents/cma_fec.c:219 client/gui-gtk-2.0/cityrep.c:547
 #: client/gui-gtk-2.0/cityrep.c:573 client/gui-sdl/citydlg.c:2018
 msgid "none"
-msgstr ""
+msgstr "없음"
 
 #: client/agents/cma_fec.c:235 client/gui-gtk-2.0/cityrep.c:594
 msgid "custom"
-msgstr ""
+msgstr "관습"
 
 #: client/agents/cma_fec.c:336
 msgid " happy"
@@ -9526,11 +9558,11 @@ msgstr ""
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:85 client/gui-win32/dialogs.c:1361
 msgid "Ooops..."
-msgstr ""
+msgstr "웁스..."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:86 client/gui-win32/dialogs.c:1362
 msgid "This unit cannot be bribed!"
-msgstr ""
+msgstr "이 부대는 뇌물을 받을수 없습니다"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:93
 #: client/gui-sdl/diplomat_dialog.c:1395 client/gui-win32/dialogs.c:1366
@@ -9544,7 +9576,7 @@ msgstr ""
 #: client/gui-sdl/diplomat_dialog.c:701 client/gui-sdl/diplomat_dialog.c:1377
 #: client/gui-win32/dialogs.c:1368 data/Freeciv.in:2426 data/Freeciv.in:2439
 msgid "Bribe Enemy Unit"
-msgstr ""
+msgstr "적 부대를 매수하기"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:101
 #: client/gui-sdl/diplomat_dialog.c:1442 client/gui-win32/dialogs.c:1374
@@ -9566,7 +9598,7 @@ msgstr ""
 #: client/gui-sdl/diplomat_dialog.c:650 client/gui-win32/dialogs.c:1276
 #: data/Freeciv.in:2292 data/Freeciv.in:2325 data/Freeciv.in:2342
 msgid "Steal Technology"
-msgstr ""
+msgstr "훔친 기술"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:238
 msgid "_Steal"
@@ -9612,7 +9644,7 @@ msgstr ""
 #: client/gui-sdl/diplomat_dialog.c:874 client/gui-sdl/optiondlg.c:1582
 #: client/gui-win32/dialogs.c:1391
 msgid "City Production"
-msgstr ""
+msgstr "도시 생산"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:544
 #: client/gui-sdl/diplomat_dialog.c:1167 client/gui-win32/dialogs.c:1546
@@ -9692,13 +9724,13 @@ msgstr ""
 #: client/gui-gtk-2.0/diplomat_dialog.c:660
 #: client/gui-gtk-2.0/caravan_dialog.c:119 client/gui-win32/dialogs.c:1053
 msgid "_Keep moving"
-msgstr ""
+msgstr "_계속 이동"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:653
 #: client/gui-sdl/diplomat_dialog.c:552 client/gui-win32/dialogs.c:1626
 #: data/Freeciv.in:2306
 msgid "Choose Your Spy's Strategy"
-msgstr ""
+msgstr "당신의 스파이의 전략을 선택하세요"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:656 client/gui-win32/dialogs.c:1629
 msgid "_Poison City"
@@ -9715,12 +9747,14 @@ msgid "Subvert Enemy Unit"
 msgstr ""
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:696 client/gui-win32/dialogs.c:1659
+#, fuzzy
 msgid "The diplomat is waiting for your command"
-msgstr ""
+msgstr "선생님, 외교관이 당신의 명령을 기다리고 있습니다"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:697 client/gui-win32/dialogs.c:1660
+#, fuzzy
 msgid "The spy is waiting for your command"
-msgstr ""
+msgstr "선생님, 스파이가 당신의 명령을 기다리고 있습니다"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:698 client/gui-win32/dialogs.c:1661
 msgid "_Bribe Enemy Unit"
@@ -9756,7 +9790,7 @@ msgstr "사용자"
 #: client/gui-gtk-2.0/editdlg.c:82 client/gui-win32/cma_fe.c:470
 #: client/gui-win32/wldlg.c:435 data/Freeciv.in:2016 data/Freeciv.in:2165
 msgid "Delete"
-msgstr ""
+msgstr "삭제"
 
 #: client/gui-gtk-2.0/editdlg.c:373
 #, fuzzy
@@ -9794,7 +9828,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/caravan_dialog.c:85 client/gui-win32/dialogs.c:1052
 msgid "Help build _Wonder"
-msgstr ""
+msgstr "불가사의 건설 도움말"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:100 client/gui-win32/dialogs.c:1037
 #: client/gui-xaw/dialogs.c:443
@@ -9803,19 +9837,21 @@ msgid ""
 "Your caravan from %s reaches the city of %s.\n"
 "What now?"
 msgstr ""
+"당신의 캐러번이 %s에서 도시%s로 도착했습니다.\n"
+"무엇을 하시겠습니까?"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:114 client/gui-win32/dialogs.c:1048
 #: data/Freeciv.in:2266
 msgid "Your Caravan Has Arrived"
-msgstr ""
+msgstr "당신의 캐러번이 도착하였음"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:116 client/gui-win32/dialogs.c:1050
 msgid "Establish _Traderoute"
-msgstr ""
+msgstr "무역경로 확립"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:117 client/gui-win32/dialogs.c:1051
 msgid "Enter Marketplace"
-msgstr ""
+msgstr "시장 들어가기"
 
 #: client/gui-gtk-2.0/chatline.c:144 client/gui-win32/chatline.c:134
 #: client/gui-xaw/chatline.c:120
@@ -9863,15 +9899,15 @@ msgstr ""
 
 #: client/gui-gtk-2.0/citydlg.c:587 client/gui-win32/citydlg.c:680
 msgid "Waste:"
-msgstr ""
+msgstr "낭비:"
 
 #: client/gui-gtk-2.0/citydlg.c:588 client/gui-win32/citydlg.c:681
 msgid "Pollution:"
-msgstr ""
+msgstr "환경오염:"
 
 #: client/gui-gtk-2.0/citydlg.c:642 client/gui-gtk-2.0/inteldlg.c:191
 msgid "_Overview"
-msgstr ""
+msgstr "개관"
 
 #: client/gui-gtk-2.0/citydlg.c:671 client/gui-gtk-2.0/wldlg.c:1008
 #: client/gui-win32/citydlg.c:1091 client/gui-win32/wldlg.c:801
@@ -9925,7 +9961,7 @@ msgstr ""
 #: client/gui-gtk-2.0/citydlg.c:1030 client/gui-win32/citydlg.c:1949
 #: client/gui-xaw/citydlg.c:2361
 msgid "Scientists"
-msgstr ""
+msgstr "과학자들"
 
 #: client/gui-gtk-2.0/citydlg.c:1031 client/gui-win32/citydlg.c:1951
 #: client/gui-xaw/citydlg.c:2361
@@ -9938,36 +9974,36 @@ msgstr ""
 
 #: client/gui-gtk-2.0/citydlg.c:1037
 msgid "Overview page"
-msgstr ""
+msgstr "페이지 다시보기"
 
 #: client/gui-gtk-2.0/citydlg.c:1038
 msgid "Production page"
-msgstr ""
+msgstr "생산 면"
 
 #: client/gui-gtk-2.0/citydlg.c:1039
 msgid "Happiness page"
-msgstr ""
+msgstr "행복 면"
 
 #: client/gui-gtk-2.0/citydlg.c:1040
 msgid "Governor page"
-msgstr ""
+msgstr "정부 면"
 
 #: client/gui-gtk-2.0/citydlg.c:1041
 msgid "This Settings page"
-msgstr ""
+msgstr "이 세팅 페이지는"
 
 #: client/gui-gtk-2.0/citydlg.c:1042
 msgid "Last active page"
-msgstr ""
+msgstr "다음 활동 페이지"
 
 #: client/gui-gtk-2.0/citydlg.c:1068 client/gui-sdl/citydlg.c:984
 #: client/gui-win32/citydlg.c:1946
 msgid "New citizens are"
-msgstr ""
+msgstr "새로운 시민들은"
 
 #: client/gui-gtk-2.0/citydlg.c:1088
 msgid "Next time open"
-msgstr ""
+msgstr "다음번에 열립니다"
 
 #: client/gui-gtk-2.0/citydlg.c:1117
 msgid "_Rename..."
@@ -10072,7 +10108,7 @@ msgstr ""
 #: client/gui-win32/citydlg.c:911 client/gui-win32/citydlg.c:920
 #: data/Freeciv.in:2227 data/Freeciv.in:2257
 msgid "Buy It!"
-msgstr ""
+msgstr "사버려!"
 
 #: client/gui-gtk-2.0/citydlg.c:2457 client/gui-sdl/citydlg.c:1173
 #: client/gui-win32/citydlg.c:917 client/gui-xaw/citydlg.c:1907
@@ -10091,11 +10127,11 @@ msgstr ""
 #: client/gui-gtk-2.0/citydlg.c:2517 client/gui-win32/citydlg.c:967
 #: data/Freeciv.in:2246
 msgid "Sell It!"
-msgstr ""
+msgstr "팔아버려!"
 
 #: client/gui-gtk-2.0/citydlg.c:2594 client/gui-win32/citydlg.c:1161
 msgid "Rename City"
-msgstr ""
+msgstr "도시이름 바꾸기"
 
 #: client/gui-gtk-2.0/citydlg.c:2595 client/gui-win32/citydlg.c:1162
 #: client/gui-xaw/citydlg.c:1387
@@ -10139,7 +10175,7 @@ msgstr "도시"
 #: client/gui-gtk-2.0/cityrep.c:812
 #, fuzzy
 msgid "_Inspect"
-msgstr "연결(_O)"
+msgstr "끼워넣기"
 
 #: client/gui-gtk-2.0/cityrep.c:1220 client/gui-gtk-2.0/cityrep.c:1241
 #: client/gui-gtk-2.0/cityrep.c:1260 client/gui-gtk-2.0/cityrep.c:1279
@@ -10155,16 +10191,16 @@ msgstr ""
 #: client/gui-gtk-2.0/cityrep.c:1262 client/gui-gtk-2.0/cityrep.c:1281
 #: client/gui-xaw/menu.c:258
 msgid "Wonders"
-msgstr ""
+msgstr "불가사의한 것들"
 
 #: client/gui-gtk-2.0/cityrep.c:1393 client/gui-win32/cityrep.c:439
 #: client/gui-win32/gotodlg.c:169 data/Freeciv.in:1138
 msgid "All Cities"
-msgstr ""
+msgstr "모든 도시"
 
 #: client/gui-gtk-2.0/cityrep.c:1398 client/gui-win32/cityrep.c:440
 msgid "No Cities"
-msgstr ""
+msgstr "도시 없음"
 
 #: client/gui-gtk-2.0/cityrep.c:1403 client/gui-win32/cityrep.c:441
 msgid "Invert Selection"
@@ -10180,11 +10216,11 @@ msgstr ""
 
 #: client/gui-gtk-2.0/cityrep.c:1425
 msgid "Building Wonders"
-msgstr ""
+msgstr "불가사의 건설"
 
 #: client/gui-gtk-2.0/cityrep.c:1437
 msgid "Building Unit"
-msgstr ""
+msgstr "부대 건설"
 
 #: client/gui-gtk-2.0/cityrep.c:1441
 msgid "Building Improvement"
@@ -10204,31 +10240,31 @@ msgstr ""
 
 #: client/gui-gtk-2.0/cityrep.c:1468 client/gui-win32/cityrep.c:447
 msgid "Supported Units"
-msgstr ""
+msgstr "원조하는 부대"
 
 #: client/gui-gtk-2.0/cityrep.c:1471 client/gui-win32/cityrep.c:454
 msgid "Units Present"
-msgstr ""
+msgstr "부대 상태"
 
 #: client/gui-gtk-2.0/cityrep.c:1475 client/gui-win32/cityrep.c:469
 msgid "Improvements in City"
-msgstr ""
+msgstr "도시의 진보"
 
 #: client/gui-gtk-2.0/cityrep.c:1479
 msgid "Wonders in City"
-msgstr ""
+msgstr "도시안의 불가사의 "
 
 #: client/gui-gtk-2.0/cityrep.c:1488
 msgid "Available Units"
-msgstr ""
+msgstr "가능한 부대"
 
 #: client/gui-gtk-2.0/cityrep.c:1491
 msgid "Available Improvements"
-msgstr ""
+msgstr "가능한 진보"
 
 #: client/gui-gtk-2.0/cityrep.c:1494
 msgid "Available Wonders"
-msgstr ""
+msgstr "가능한 불가사의"
 
 #: client/gui-gtk-2.0/cma_fe.c:253 client/gui-xaw/cma_fe.c:78
 msgid ""
@@ -10245,7 +10281,7 @@ msgstr ""
 #: client/gui-gtk-2.0/cma_fe.c:302 client/gui-win32/cma_fe.c:482
 #: client/gui-win32/repodlgs.c:378 client/gui-xaw/repodlgs.c:777
 msgid "Results"
-msgstr ""
+msgstr "결과"
 
 #: client/gui-gtk-2.0/cma_fe.c:316 client/gui-sdl/cma_fe.c:890
 #: client/gui-win32/cma_fe.c:215
@@ -10255,7 +10291,7 @@ msgstr ""
 #: client/gui-gtk-2.0/cma_fe.c:319 client/gui-sdl/cma_fe.c:893
 #: client/gui-win32/cma_fe.c:216
 msgid "Factor"
-msgstr ""
+msgstr "요인"
 
 #: client/gui-gtk-2.0/cma_fe.c:354 client/gui-sdl/cma_fe.c:940
 #: client/gui-win32/cma_fe.c:220 client/gui-xaw/cma_fe.c:179
@@ -10275,12 +10311,12 @@ msgstr ""
 #: client/gui-sdl/cma_fe.c:311 client/gui-win32/cma_fe.c:385
 #: client/gui-xaw/cma_fe.c:432
 msgid "new preset"
-msgstr ""
+msgstr "새로운 프리셋"
 
 #: client/gui-gtk-2.0/cma_fe.c:540 client/gui-sdl/cma_fe.c:284
 #: client/gui-win32/cma_fe.c:383
 msgid "Name new preset"
-msgstr ""
+msgstr "새로운 프리셋 이름짓기"
 
 #: client/gui-gtk-2.0/cma_fe.c:541 client/gui-sdl/cma_fe.c:300
 #: client/gui-win32/cma_fe.c:384
@@ -10289,25 +10325,26 @@ msgstr ""
 
 #: client/gui-gtk-2.0/cma_fe.c:648
 msgid "Remove this preset?"
-msgstr ""
+msgstr "이 프리셋을 지우시겠습니까?"
 
 #: client/gui-gtk-2.0/dialogs.c:197 client/gui-gtk-2.0/messagewin.c:186
 msgid "Goto _Location"
 msgstr ""
 
 #: client/gui-gtk-2.0/dialogs.c:202 client/gui-gtk-2.0/messagewin.c:190
+#, fuzzy
 msgid "Inspect _City"
-msgstr ""
+msgstr "도시 조사"
 
 #: client/gui-gtk-2.0/dialogs.c:258 client/gui-sdl/dialogs.c:2091
 #: client/gui-win32/dialogs.c:975 client/gui-xaw/dialogs.c:513
 msgid "You say you wanna revolution?"
-msgstr ""
+msgstr "당신이 혁명을 원한다고 하셨습니까?"
 
 #: client/gui-gtk-2.0/dialogs.c:259 client/gui-sdl/dialogs.c:2110
 #: client/gui-win32/dialogs.c:974 data/Freeciv.in:2469
 msgid "Revolution!"
-msgstr "형명!"
+msgstr "혁명!"
 
 #: client/gui-gtk-2.0/dialogs.c:313 client/gui-sdl/dialogs.c:1744
 #: client/gui-win32/dialogs.c:1747 data/Freeciv.in:2507
@@ -10328,7 +10365,7 @@ msgstr "이름"
 
 #: client/gui-gtk-2.0/dialogs.c:542 client/gui-sdl/dialogs.c:628
 msgid "Unit selection"
-msgstr ""
+msgstr "부대 선택"
 
 #: client/gui-gtk-2.0/dialogs.c:605
 msgid "_Ready all"
@@ -10395,7 +10432,7 @@ msgstr "도시형:(_C)"
 #: client/gui-gtk-2.0/dialogs.c:934
 #, fuzzy
 msgid "_Description"
-msgstr "징병 제도"
+msgstr "묘사"
 
 #: client/gui-gtk-2.0/dialogs.c:1273 client/gui-xaw/dialogs.c:1489
 msgid "You must select your sex."
@@ -10511,7 +10548,7 @@ msgstr ""
 #: client/gui-win32/ratesdlg.c:318 client/gui-win32/ratesdlg.c:324
 #: data/Freeciv.in:1311 data/Freeciv.in:1329 data/Freeciv.in:1348
 msgid "Lock"
-msgstr ""
+msgstr "잠금"
 
 #: client/gui-gtk-2.0/gamedlgs.c:354 client/gui-win32/ratesdlg.c:331
 #: client/gui-xaw/ratesdlg.c:98
@@ -10534,20 +10571,21 @@ msgid "Air_lift"
 msgstr ""
 
 #: client/gui-gtk-2.0/gotodlg.c:129
+#, fuzzy
 msgid "_Goto"
-msgstr ""
+msgstr "이동"
 
 #: client/gui-gtk-2.0/gotodlg.c:140 client/gui-sdl/gotodlg.c:234
 msgid "Select destination"
-msgstr ""
+msgstr "목적지 설정"
 
 #: client/gui-gtk-2.0/gotodlg.c:183
 msgid "Show _All Cities"
-msgstr ""
+msgstr "모든 도시 보기"
 
 #: client/gui-gtk-2.0/gui_main.c:163
 msgid "Show Map Scrollbars"
-msgstr ""
+msgstr "맵 스크롤 바 보이기"
 
 #: client/gui-gtk-2.0/gui_main.c:164
 msgid "Disable this option to hide the scrollbars on the map view."
@@ -10565,7 +10603,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/gui_main.c:174
 msgid "Keep dialogs on top"
-msgstr ""
+msgstr "다이얼로그 항상 위에"
 
 #: client/gui-gtk-2.0/gui_main.c:175
 msgid ""
@@ -10665,28 +10703,30 @@ msgstr "도시 이름"
 
 #: client/gui-gtk-2.0/gui_main.c:252 client/gui-xaw/menu.c:151
 msgid "City Productions"
-msgstr ""
+msgstr "도시 생산"
 
 #: client/gui-gtk-2.0/gui_main.c:350 client/gui-xaw/gui_main.c:245
 msgid ""
 "This client has no special command line options\n"
 "\n"
 msgstr ""
+"이 클라이언트는 특별한 명령줄 옵션이 없습니다\n"
+"\n"
 
 #: client/gui-gtk-2.0/gui_main.c:796 client/gui-gtk-2.0/gui_main.c:1423
 msgid "Freeciv"
-msgstr ""
+msgstr "Freeciv"
 
 #: client/gui-gtk-2.0/gui_main.c:1162 client/gui-gtk-2.0/gui_main.c:1169
 #: client/gui-sdl/mapctrl.c:1567 client/gui-win32/gui_main.c:482
 #: data/Freeciv.in:2625
 msgid "Turn Done"
-msgstr ""
+msgstr "턴 종료"
 
 #: client/gui-gtk-2.0/gui_main.c:1169 client/gui-sdl/mapctrl.c:1567
 #: client/gui-sdl/mapview.c:890
 msgid "Shift+Return"
-msgstr ""
+msgstr "Shift+Return"
 
 #: client/gui-gtk-2.0/gui_main.c:1201 client/gui-gtk-2.0/menu.c:806
 #: client/gui-gtk-2.0/menu.c:808 client/gui-gtk-2.0/menu.c:810
@@ -10717,14 +10757,18 @@ msgid ""
 "under certain conditions; See the \"Copying\" item on the Help menu.\n"
 "Now.. Go give'em hell!"
 msgstr ""
+"Freeciv는 자유 소프트웨어 이고 당신의 이것에 대한 확실한\n"
+" 조건하에서 복사가 허용됩니다; 도움말 메뉴에서 \"Copying\" 을 보기 바랍니"
+"다.\n"
+" 그리고... 해보자구요."
 
 #: client/gui-gtk-2.0/gui_main.c:1569
 msgid "Not _ready"
-msgstr "준비 안 됐슴(_R)"
+msgstr "준비 안 됐음(_R)"
 
 #: client/gui-gtk-2.0/gui_main.c:1580 client/gui-gtk-2.0/pages.c:1596
 msgid "_Ready"
-msgstr "준비 됐슴(_R)"
+msgstr "준비 됐음(_R)"
 
 #: client/gui-gtk-2.0/gui_main.c:1584 client/gui-gtk-2.0/gui_main.c:1590
 #: client/gui-gtk-2.0/pages.c:2123
@@ -10760,7 +10804,7 @@ msgstr "관찰자"
 
 #: client/gui-gtk-2.0/gui_main.c:1696
 msgid "Detached"
-msgstr ""
+msgstr "붙임"
 
 #: client/gui-gtk-2.0/gui_main.c:1953
 msgid "Are you sure you want to quit?"
@@ -10777,14 +10821,14 @@ msgstr ""
 
 #: client/gui-gtk-2.0/gui_stuff.c:577
 msgid "Ctrl+W"
-msgstr ""
+msgstr "Ctrl+W"
 
 #: client/gui-gtk-2.0/happiness.c:112 client/gui-sdl/citydlg.c:2051
 #: client/gui-sdl/citydlg.c:3727 client/gui-win32/citydlg.c:735
 #: client/gui-win32/happiness.c:85 client/gui-xaw/menu.c:260
 #: data/helpdata.txt:1392
 msgid "Happiness"
-msgstr "만족"
+msgstr "만족도"
 
 #: client/gui-gtk-2.0/helpdlg.c:88 client/gui-gtk-2.0/helpdlg.c:91
 #: client/gui-gtk-2.0/helpdlg.c:95 client/gui-sdl/helpdlg.c:343
@@ -10806,7 +10850,7 @@ msgstr ""
 #: client/gui-win32/helpdlg.c:82 client/gui-win32/helpdlg.c:90
 #: data/Freeciv.in:694
 msgid "Requirement:"
-msgstr ""
+msgstr "요구 : "
 
 #: client/gui-gtk-2.0/helpdlg.c:91 client/gui-gtk-2.0/helpdlg.c:99
 #: client/gui-sdl/helpdlg.c:394 client/gui-sdl/helpdlg.c:810
@@ -10861,7 +10905,7 @@ msgstr "음식/연구/무역:"
 #: client/gui-gtk-2.0/helpdlg.c:105 client/gui-win32/helpdlg.c:96
 #: data/Freeciv.in:972
 msgid "Resources:"
-msgstr ""
+msgstr "자원:"
 
 #: client/gui-gtk-2.0/helpdlg.c:106 client/gui-win32/helpdlg.c:97
 msgid "Road Rslt/Time:"
@@ -10891,30 +10935,30 @@ msgstr ""
 #: client/gui-gtk-2.0/helpdlg.c:128 client/gui-xaw/helpdlg.c:123
 #: client/gui-xaw/menu.c:264 data/helpdata.txt:37
 msgid "About"
-msgstr ""
+msgstr "대해서"
 
 #: client/gui-gtk-2.0/helpdlg.c:196 client/gui-xaw/helpdlg.c:270
 msgid "Removed"
-msgstr ""
+msgstr "제거됨"
 
 #: client/gui-gtk-2.0/helpdlg.c:426 client/gui-win32/helpdlg.c:424
 #: data/Freeciv.in:576
 msgid "Freeciv Help Browser"
-msgstr ""
+msgstr "Freeciv 도움 창"
 
 #: client/gui-gtk-2.0/helpdlg.c:654
 msgid "Expand All"
-msgstr ""
+msgstr "모두 펼치기"
 
 #: client/gui-gtk-2.0/helpdlg.c:655
 msgid "Collapse All"
-msgstr ""
+msgstr "모두 붕괴"
 
 #: client/gui-gtk-2.0/helpdlg.c:941 client/gui-gtk-2.0/helpdlg.c:971
 #: client/gui-gtk-2.0/helpdlg.c:983 client/gui-gtk-2.0/helpdlg.c:991
 #: client/gui-gtk-2.0/helpdlg.c:1008 client/gui-sdl/helpdlg.c:979
 msgid "Allows"
-msgstr ""
+msgstr "허락"
 
 #: client/gui-gtk-2.0/helpdlg.c:954
 msgid "Obsoletes"
@@ -10922,7 +10966,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/helpdlg.c:995 client/gui-gtk-2.0/helpdlg.c:1012
 msgid "with"
-msgstr ""
+msgstr "함께"
 
 #: client/gui-gtk-2.0/helpdlg.c:1000 client/gui-gtk-2.0/helpdlg.c:1017
 msgid "?techhelp:"
@@ -10947,7 +10991,7 @@ msgstr ""
 #: client/gui-xaw/helpdlg.c:1012 client/gui-xaw/helpdlg.c:1026
 #: client/gui-xaw/helpdlg.c:1045
 msgid "n/a"
-msgstr ""
+msgstr "n/a"
 
 #: client/gui-gtk-2.0/helpdlg.c:1079 client/gui-win32/helpdlg.c:606
 #: client/gui-xaw/helpdlg.c:1015
@@ -11165,11 +11209,11 @@ msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:814 client/gui-win32/menu.c:337
 msgid "City _Names"
-msgstr ""
+msgstr "도시 이름들"
 
 #: client/gui-gtk-2.0/menu.c:816 client/gui-win32/menu.c:338
 msgid "City G_rowth"
-msgstr ""
+msgstr "도시 성장"
 
 #: client/gui-gtk-2.0/menu.c:819 client/gui-win32/menu.c:339
 msgid "City _Productions"
@@ -11184,16 +11228,16 @@ msgstr ""
 #: client/gui-gtk-2.0/menu.c:825 client/gui-win32/menu.c:341
 #: client/gui-xaw/menu.c:154
 msgid "Coastline"
-msgstr ""
+msgstr "해안선"
 
 #: client/gui-gtk-2.0/menu.c:831 client/gui-win32/menu.c:343
 msgid "Roads & Rails"
-msgstr ""
+msgstr "다리와 철도"
 
 #: client/gui-gtk-2.0/menu.c:835 client/gui-sdl/optiondlg.c:1932
 #: client/gui-win32/menu.c:345 client/gui-xaw/menu.c:157
 msgid "Mines"
-msgstr ""
+msgstr "광산"
 
 #: client/gui-gtk-2.0/menu.c:837 client/gui-win32/menu.c:346
 msgid "Fortress & Airbase"
@@ -11207,7 +11251,7 @@ msgstr ""
 #: client/gui-gtk-2.0/menu.c:841 client/gui-win32/menu.c:349
 #: client/gui-xaw/menu.c:160
 msgid "Pollution & Fallout"
-msgstr ""
+msgstr "오염과 방사전 낙진"
 
 #: client/gui-gtk-2.0/menu.c:847 client/gui-win32/menu.c:352
 #: client/gui-xaw/menu.c:163
@@ -11263,7 +11307,7 @@ msgstr "도시 건설(_B)"
 #: client/gui-gtk-2.0/menu.c:866 client/gui-gtk-2.0/menu.c:1510
 #: client/gui-gtk-2.0/menu.c:1516 client/gui-win32/menu.c:360
 msgid "Build _Road"
-msgstr ""
+msgstr "다리 건설"
 
 #: client/gui-gtk-2.0/menu.c:868 client/gui-gtk-2.0/menu.c:1404
 #: client/gui-win32/menu.c:361
@@ -11327,7 +11371,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:904 client/gui-win32/menu.c:378
 msgid "Auto E_xplore"
-msgstr ""
+msgstr "자동 탐험"
 
 #: client/gui-gtk-2.0/menu.c:906 client/gui-gtk-2.0/menu.c:908
 #: client/gui-gtk-2.0/menu.c:910
@@ -11369,17 +11413,17 @@ msgstr ""
 #: client/gui-gtk-2.0/menu.c:920 client/gui-sdl/menu.c:451
 #: client/gui-win32/menu.c:387 client/gui-xaw/menu.c:208
 msgid "Return to nearest city"
-msgstr ""
+msgstr "제일 가까운 도시로 복귀"
 
 #: client/gui-gtk-2.0/menu.c:924 client/gui-win32/menu.c:389
 #: client/gui-xaw/menu.c:210
 msgid "Disband Unit"
-msgstr ""
+msgstr "부대해산"
 
 #: client/gui-gtk-2.0/menu.c:926 client/gui-sdl/citydlg.c:532
 #: data/Freeciv.in:1186
 msgid "Upgrade unit"
-msgstr ""
+msgstr "부대업그레이드"
 
 #: client/gui-gtk-2.0/menu.c:928
 msgid "Diplomat\\/Spy Actions"
@@ -11388,11 +11432,11 @@ msgstr ""
 #: client/gui-gtk-2.0/menu.c:930 client/gui-sdl/menu.c:400
 #: client/gui-win32/menu.c:391 client/gui-xaw/menu.c:214
 msgid "Explode Nuclear"
-msgstr ""
+msgstr "핵폭발"
 
 #: client/gui-gtk-2.0/menu.c:934
 msgid "Select same type"
-msgstr ""
+msgstr "같은 유형 선택"
 
 #: client/gui-gtk-2.0/menu.c:936
 #, fuzzy
@@ -11616,7 +11660,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/messagedlg.c:117
 msgid "Event"
-msgstr ""
+msgstr "이벤트"
 
 #: client/gui-gtk-2.0/messagedlg.c:127
 msgid "Out"
@@ -11661,7 +11705,7 @@ msgstr "회합(_M)"
 #: client/gui-gtk-2.0/plrdlg.c:463
 #, fuzzy
 msgid "Cancel _Treaty"
-msgstr "취소"
+msgstr "조약 파기"
 
 #: client/gui-gtk-2.0/plrdlg.c:470
 msgid "_Withdraw vision"
@@ -11702,7 +11746,7 @@ msgstr "네트웍 게임에 연결(_O)"
 
 #: client/gui-gtk-2.0/pages.c:236
 msgid "Connect to Gaming _Zone"
-msgstr "게임잉 존에 연결(_Z)"
+msgstr "게임 영역에 연결(_Z)"
 
 #: client/gui-gtk-2.0/pages.c:610 client/gui-win32/connectdlg.c:300
 #: client/gui-xaw/connectdlg.c:326
@@ -11802,15 +11846,15 @@ msgstr "민족을 선택"
 
 #: client/gui-gtk-2.0/pages.c:1197
 msgid "Observe this player"
-msgstr ""
+msgstr "이 플레이어를 관찰"
 
 #: client/gui-gtk-2.0/pages.c:1204
 msgid "Take this player"
-msgstr ""
+msgstr "이 사용자 데려오기"
 
 #: client/gui-gtk-2.0/pages.c:1221
 msgid "Cut connection"
-msgstr ""
+msgstr "연결 끊기"
 
 #: client/gui-gtk-2.0/pages.c:1231
 msgid "Aitoggle player"
@@ -11818,7 +11862,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1240
 msgid "Remove player"
-msgstr ""
+msgstr "사용자 제거"
 
 #: client/gui-gtk-2.0/pages.c:1251
 msgid "Give info access"
@@ -11835,12 +11879,14 @@ msgid "Put on %s"
 msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1428
+#, fuzzy
 msgid "Number of _Players (including AI):"
-msgstr ""
+msgstr "플레이어 수(AI 포함)"
 
 #: client/gui-gtk-2.0/pages.c:1455
+#, fuzzy
 msgid "AI Skill _Level:"
-msgstr ""
+msgstr "AI 숙련 레벨 :"
 
 #: client/gui-gtk-2.0/pages.c:1472
 msgid "Ruleset _Version:"
@@ -11849,15 +11895,15 @@ msgstr ""
 #: client/gui-gtk-2.0/pages.c:1480 client/gui-gtk-2.0/pages.c:2112
 #, fuzzy
 msgid "_More Game Options..."
-msgstr "메세지 옵션(_M)"
+msgstr "게임 옵션..."
 
 #: client/gui-gtk-2.0/pages.c:1505
 msgid "Record"
-msgstr ""
+msgstr "기록"
 
 #: client/gui-gtk-2.0/pages.c:1510
 msgid "Rating"
-msgstr ""
+msgstr "비율"
 
 #: client/gui-gtk-2.0/pages.c:1516
 msgid "Ready"
@@ -11870,11 +11916,11 @@ msgstr "지도자"
 
 #: client/gui-gtk-2.0/pages.c:1651 client/gui-sdl/chatline.c:185
 msgid "Choose Saved Game to Load"
-msgstr ""
+msgstr "로드하기 위해 저장된 게임을 선택하세요"
 
 #: client/gui-gtk-2.0/pages.c:1743
 msgid "Choose Saved Game to _Load:"
-msgstr ""
+msgstr "로드하기 위해 저장된 게임을 선택하세요:"
 
 #: client/gui-gtk-2.0/pages.c:1763 client/gui-gtk-2.0/pages.c:1956
 #: client/gui-gtk-2.0/pages.c:2366
@@ -11895,7 +11941,7 @@ msgstr "민족을 선택하세요:(_N)"
 
 #: client/gui-gtk-2.0/pages.c:2278 client/gui-win32/menu.c:581
 msgid "Select Location to Save"
-msgstr ""
+msgstr "저장하기 위한 장소 선택"
 
 #: client/gui-gtk-2.0/pages.c:2363 client/gui-sdl/optiondlg.c:2272
 msgid "Save Game"
@@ -11903,11 +11949,11 @@ msgstr "게임 저장"
 
 #: client/gui-gtk-2.0/pages.c:2404
 msgid "Saved _Games:"
-msgstr ""
+msgstr "저장된 게임들 :"
 
 #: client/gui-gtk-2.0/pages.c:2431
 msgid "Save _Filename:"
-msgstr ""
+msgstr "파일이름 저장 : "
 
 #. TRANS: Research report title
 #. TRANS: Research report action
@@ -11925,12 +11971,12 @@ msgstr "연구"
 
 #: client/gui-gtk-2.0/repodlgs.c:309 client/gui-win32/repodlgs.c:281
 msgid "Researching"
-msgstr ""
+msgstr "조사"
 
 #: client/gui-gtk-2.0/repodlgs.c:330 client/gui-win32/repodlgs.c:291
 #: data/Freeciv.in:1429
 msgid "Goal"
-msgstr ""
+msgstr "목표"
 
 #: client/gui-gtk-2.0/repodlgs.c:646
 msgid "?Building:Name"
@@ -11938,7 +11984,7 @@ msgstr "이름"
 
 #: client/gui-gtk-2.0/repodlgs.c:647 client/gui-win32/repodlgs.c:460
 msgid "Count"
-msgstr ""
+msgstr "수(count)"
 
 #: client/gui-gtk-2.0/repodlgs.c:648 client/gui-gtk-2.0/wldlg.c:1008
 #: client/gui-win32/citydlg.c:1095 client/gui-win32/repodlgs.c:464
@@ -11950,11 +11996,11 @@ msgstr "비용"
 #: client/gui-gtk-2.0/repodlgs.c:649 client/gui-sdl/repodlgs.c:2042
 #: client/gui-win32/repodlgs.c:466
 msgid "U Total"
-msgstr ""
+msgstr "당신의 총합"
 
 #: client/gui-gtk-2.0/repodlgs.c:719
 msgid "Total Cost:"
-msgstr ""
+msgstr "총 비용:"
 
 #: client/gui-gtk-2.0/repodlgs.c:725
 msgid "Sell _Obsolete"
@@ -11962,12 +12008,12 @@ msgstr ""
 
 #: client/gui-gtk-2.0/repodlgs.c:730
 msgid "Sell _All"
-msgstr ""
+msgstr "모두 팔기"
 
 #: client/gui-gtk-2.0/repodlgs.c:816
 #, c-format
 msgid "Do you really wish to sell your %s?\n"
-msgstr ""
+msgstr "정말 당신의 %s를(을) 팔기 원합니까?\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:819
 msgid "Sell Improvements"
@@ -11975,7 +12021,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/repodlgs.c:851
 msgid "Sell-Off: Results"
-msgstr ""
+msgstr "팔아치움: 결과"
 
 #: client/gui-gtk-2.0/repodlgs.c:911
 #, c-format
@@ -11984,7 +12030,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/repodlgs.c:958 client/gui-win32/repodlgs.c:710
 msgid "Unit Type"
-msgstr ""
+msgstr "부대 타입"
 
 #: client/gui-gtk-2.0/repodlgs.c:959 client/gui-win32/repodlgs.c:711
 msgid "?Upgradable unit [short]:U"
@@ -12000,7 +12046,7 @@ msgstr "활동중"
 
 #: client/gui-gtk-2.0/repodlgs.c:1034
 msgid "Find _Nearest"
-msgstr ""
+msgstr "제일 가까운곳 찾기"
 
 #: client/gui-gtk-2.0/repodlgs.c:1039
 msgid "_Upgrade"
@@ -12099,19 +12145,19 @@ msgstr "우주선\n"
 #: client/gui-gtk-2.0/repodlgs.c:1517 data/Freeciv.in:3397
 #: data/Freeciv.in:3406
 msgid "Game Settings"
-msgstr ""
+msgstr "게임 설정"
 
 #: client/gui-gtk-2.0/repodlgs.c:1622 client/gui-xaw/repodlgs.c:1441
 msgid "true"
-msgstr ""
+msgstr "진실"
 
 #: client/gui-gtk-2.0/repodlgs.c:1622 client/gui-xaw/repodlgs.c:1441
 msgid "false"
-msgstr ""
+msgstr "거짓"
 
 #: client/gui-gtk-2.0/repodlgs.c:1632 client/gui-xaw/repodlgs.c:1451
 msgid "(hidden)"
-msgstr ""
+msgstr "(숨김)"
 
 #: client/gui-gtk-2.0/spaceshipdlg.c:221
 msgid "_Launch"
@@ -12119,15 +12165,15 @@ msgstr "발사(_L)"
 
 #: client/gui-gtk-2.0/theme_dlg.c:57
 msgid "Theme suggested"
-msgstr ""
+msgstr "제안하는 테마"
 
 #: client/gui-gtk-2.0/theme_dlg.c:60
 msgid "Load theme"
-msgstr ""
+msgstr "테마 불러오기"
 
 #: client/gui-gtk-2.0/theme_dlg.c:62
 msgid "Keep current theme"
-msgstr ""
+msgstr "현재 테마 유지"
 
 #: client/gui-gtk-2.0/theme_dlg.c:69
 #, c-format
@@ -12158,15 +12204,15 @@ msgstr ""
 
 #: client/gui-gtk-2.0/wldlg.c:164
 msgid "new"
-msgstr ""
+msgstr "새로운"
 
 #: client/gui-gtk-2.0/wldlg.c:227 client/gui-win32/wldlg.c:418
 msgid "Edit worklists"
-msgstr ""
+msgstr "작업리스트를 수정"
 
 #: client/gui-gtk-2.0/wldlg.c:277
 msgid "_Worklists:"
-msgstr ""
+msgstr "_작업리스트"
 
 #: client/gui-gtk-2.0/wldlg.c:520
 msgid "Edit Global _Worklists"
@@ -12175,7 +12221,7 @@ msgstr ""
 #: client/gui-gtk-2.0/wldlg.c:1008 client/gui-win32/citydlg.c:1097
 #: client/gui-win32/wldlg.c:809
 msgid "Turns"
-msgstr ""
+msgstr "턴"
 
 #: client/gui-gtk-2.0/wldlg.c:1124
 msgid "Source _Tasks:"
@@ -12214,12 +12260,12 @@ msgstr ""
 
 #: client/gui-sdl/caravan_dialog.c:182 data/Freeciv.in:2270
 msgid "Help build Wonder"
-msgstr ""
+msgstr "불가사의 건설 도움말"
 
 #: client/gui-sdl/caravan_dialog.c:195 client/gui-sdl/diplomat_dialog.c:679
 #: data/Freeciv.in:2273 data/Freeciv.in:2297 data/Freeciv.in:2332
 msgid "Keep moving"
-msgstr ""
+msgstr "계속 이동"
 
 #: client/gui-sdl/chatline.c:201 client/gui-sdl/citydlg.c:3690
 #: client/gui-sdl/cma_fe.c:472 client/gui-sdl/cma_fe.c:879
@@ -12259,15 +12305,15 @@ msgstr "로드 게임"
 
 #: client/gui-sdl/chatline.c:865
 msgid "Server Settings"
-msgstr ""
+msgstr "서버 세팅"
 
 #: client/gui-sdl/citydlg.c:425
 msgid "Unit commands"
-msgstr ""
+msgstr "부대 명령"
 
 #: client/gui-sdl/citydlg.c:449 data/Freeciv.in:1162 data/Freeciv.in:1198
 msgid "Activate unit"
-msgstr ""
+msgstr "활동 부대"
 
 #: client/gui-sdl/citydlg.c:460 data/Freeciv.in:1166 data/Freeciv.in:1202
 msgid "Activate unit, close dialog"
@@ -12275,15 +12321,15 @@ msgstr ""
 
 #: client/gui-sdl/citydlg.c:473 data/Freeciv.in:1170
 msgid "Sentry unit"
-msgstr ""
+msgstr "보초 부대"
 
 #: client/gui-sdl/citydlg.c:488 data/Freeciv.in:1174
 msgid "Fortify unit"
-msgstr ""
+msgstr "요새화 부대"
 
 #: client/gui-sdl/citydlg.c:504 data/Freeciv.in:1178 data/Freeciv.in:1206
 msgid "Disband unit"
-msgstr ""
+msgstr "해산 부대"
 
 #: client/gui-sdl/citydlg.c:518 data/Freeciv.in:1182
 msgid "Make new homecity"
@@ -12315,6 +12361,8 @@ msgid ""
 "\n"
 "veteran"
 msgstr ""
+"\n"
+"숙련자"
 
 #: client/gui-sdl/citydlg.c:963
 msgid ""
@@ -12324,11 +12372,11 @@ msgstr ""
 
 #: client/gui-sdl/citydlg.c:1180
 msgid "Sorry, you have already bought here in this turn."
-msgstr ""
+msgstr "죄송하지만 당신은 이미 이번턴에 여기로 데려왔습니다"
 
 #: client/gui-sdl/citydlg.c:1183
 msgid "Sorry, you can't buy here in this turn."
-msgstr ""
+msgstr "미안하지만 당신은 이번턴에서 여기를 살수 없습니다"
 
 #: client/gui-sdl/citydlg.c:1187
 msgid "Buy it?"
@@ -12380,12 +12428,12 @@ msgstr "도시 옵션"
 #: client/gui-sdl/citydlg.c:1788
 #, c-format
 msgid "Supported units: %d"
-msgstr ""
+msgstr "지원하는 부대 : %d"
 
 #: client/gui-sdl/citydlg.c:1846
 #, c-format
 msgid "Present units: %d"
-msgstr ""
+msgstr "현재 부대 : %d"
 
 #: client/gui-sdl/citydlg.c:1895 client/gui-sdl/citydlg.c:3739
 #: client/gui-win32/citydlg.c:787
@@ -12403,7 +12451,7 @@ msgstr "오염: 없음"
 
 #: client/gui-sdl/citydlg.c:1957
 msgid "Trade routes: "
-msgstr ""
+msgstr "무역 경로"
 
 #: client/gui-sdl/citydlg.c:2006
 #, c-format
@@ -12416,7 +12464,7 @@ msgstr "시민"
 
 #: client/gui-sdl/citydlg.c:2560
 msgid "City improvements"
-msgstr ""
+msgstr "도시 향상"
 
 #: client/gui-sdl/citydlg.c:2575
 #, c-format
@@ -12441,12 +12489,12 @@ msgstr ""
 #: client/gui-sdl/citydlg.c:2744
 #, c-format
 msgid "Trade: %d per turn"
-msgstr ""
+msgstr "무역 : 매턴당 %d"
 
 #: client/gui-sdl/citydlg.c:2778
 #, c-format
 msgid "Corruption: %d"
-msgstr ""
+msgstr "부패: %d"
 
 #: client/gui-sdl/citydlg.c:2815
 #, c-format
@@ -12456,7 +12504,7 @@ msgstr ""
 #: client/gui-sdl/citydlg.c:2862
 #, c-format
 msgid "Upkeep: %d"
-msgstr ""
+msgstr "유지 : %d"
 
 #: client/gui-sdl/citydlg.c:2901
 #, c-format
@@ -12466,15 +12514,15 @@ msgstr ""
 #: client/gui-sdl/citydlg.c:2941
 #, c-format
 msgid "Luxury: %d per turn"
-msgstr ""
+msgstr "사치: 매턴당 %d "
 
 #: client/gui-sdl/citydlg.c:2979
 msgid "City growth: blocked"
-msgstr ""
+msgstr "도시성장: 막힘"
 
 #: client/gui-sdl/citydlg.c:2981
 msgid "City growth: never"
-msgstr ""
+msgstr "도시 성장 : 결코 안됨."
 
 #: client/gui-sdl/citydlg.c:2985
 #, c-format
@@ -12501,11 +12549,11 @@ msgstr[1] "턴"
 #: client/gui-sdl/citydlg.c:2989
 #, c-format
 msgid "City growth: %d %s"
-msgstr ""
+msgstr "도시 성장 : %d %s"
 
 #: client/gui-sdl/citydlg.c:3028 client/gui-sdl/citydlg.c:3140
 msgid "Stock"
-msgstr ""
+msgstr "주식"
 
 #: client/gui-sdl/citydlg.c:3039 data/default/buildings.ruleset:322
 #: data/civ2/buildings.ruleset:301 data/civ1/buildings.ruleset:248
@@ -12588,11 +12636,12 @@ msgid "worklist"
 msgstr ""
 
 #: client/gui-sdl/cityrep.c:521
-#, fuzzy
 msgid ""
 "\n"
 "finished"
-msgstr "완성"
+msgstr ""
+"\n"
+"완성"
 
 #: client/gui-sdl/cma_fe.c:455 client/gui-win32/cma_fe.c:458
 msgid "Presets"
@@ -12665,7 +12714,7 @@ msgstr "다음"
 #: client/gui-sdl/dialogs.c:464 client/gui-sdl/menu.c:438
 #: client/gui-win32/repodlgs.c:739 data/Freeciv.in:1951
 msgid "Upgrade"
-msgstr ""
+msgstr "업그레이드"
 
 #: client/gui-sdl/dialogs.c:661
 #, c-format
@@ -12695,7 +12744,7 @@ msgstr ""
 
 #: client/gui-sdl/dialogs.c:1191
 msgid "Advanced Menu"
-msgstr ""
+msgstr "향상된 메뉴"
 
 #: client/gui-sdl/dialogs.c:1245
 #, c-format
@@ -12740,7 +12789,7 @@ msgstr "%s %s %s (공:%d 방:%d 이:%d 화:%d) 체:%d%%"
 #: client/gui-sdl/dialogs.c:1475 client/gui-win32/dialogs.c:763
 #: data/Freeciv.in:561
 msgid "Ready all"
-msgstr ""
+msgstr "모두 준비됨"
 
 #: client/gui-sdl/dialogs.c:1484
 msgid "Sentry idle"
@@ -12851,11 +12900,11 @@ msgstr ""
 
 #: client/gui-sdl/diplodlg.c:1463
 msgid "Declare WAR"
-msgstr ""
+msgstr "전쟁 선포"
 
 #: client/gui-sdl/diplodlg.c:1465 client/gui-win32/plrdlg.c:357
 msgid "Cancel Treaty"
-msgstr ""
+msgstr "조약 파기"
 
 #: client/gui-sdl/diplodlg.c:1488 client/gui-win32/plrdlg.c:358
 #: data/Freeciv.in:3261
@@ -12868,16 +12917,16 @@ msgstr ""
 
 #: client/gui-sdl/diplodlg.c:1519
 msgid "Send him back"
-msgstr ""
+msgstr "그를 되돌려 보냄"
 
 #: client/gui-sdl/diplomat_dialog.c:590 data/Freeciv.in:2285
 #: data/Freeciv.in:2311
 msgid "Establish Embassy"
-msgstr ""
+msgstr "대사관 설립"
 
 #: client/gui-sdl/diplomat_dialog.c:605 data/Freeciv.in:2287
 msgid "Investigate City"
-msgstr ""
+msgstr "도시 조사"
 
 #: client/gui-sdl/diplomat_dialog.c:620 data/Freeciv.in:2318
 msgid "Poison City"
@@ -12952,7 +13001,7 @@ msgstr ""
 
 #: client/gui-sdl/gui_main.c:151
 msgid "Full Screen"
-msgstr ""
+msgstr "전체 화면"
 
 #: client/gui-sdl/gui_main.c:152
 msgid ""
@@ -12961,7 +13010,7 @@ msgstr ""
 
 #: client/gui-sdl/gui_main.c:155
 msgid "Screen width"
-msgstr ""
+msgstr "스크린 폭"
 
 #: client/gui-sdl/gui_main.c:156
 msgid "This option saves the width of the selected screen resolution"
@@ -12969,7 +13018,7 @@ msgstr ""
 
 #: client/gui-sdl/gui_main.c:159
 msgid "Screen height"
-msgstr ""
+msgstr "스크린 높이"
 
 #: client/gui-sdl/gui_main.c:160
 msgid "This option saves the height of the selected screen resolution"
@@ -13068,11 +13117,11 @@ msgstr[1] "금화"
 
 #: client/gui-sdl/helpdlg.c:1001
 msgid "( with "
-msgstr ""
+msgstr "( 함께"
 
 #: client/gui-sdl/helpdlg.c:1004
 msgid " )"
-msgstr ""
+msgstr " )"
 
 #: client/gui-sdl/helpdlg.c:1902
 msgid "Help : Advances Tree"
@@ -13126,19 +13175,19 @@ msgstr ""
 
 #: client/gui-sdl/mapctrl.c:275
 msgid "Show Unit Info Window"
-msgstr ""
+msgstr "부대 정보 창 보이기"
 
 #: client/gui-sdl/mapctrl.c:331 client/gui-sdl/mapctrl.c:1448
 msgid "Hide Unit Info Window"
-msgstr ""
+msgstr "부대 정보 창 숨기기"
 
 #: client/gui-sdl/mapctrl.c:385
 msgid "Show MiniMap"
-msgstr ""
+msgstr "미니맵 보이기"
 
 #: client/gui-sdl/mapctrl.c:463 client/gui-sdl/mapctrl.c:1659
 msgid "Hide MiniMap"
-msgstr ""
+msgstr "미니맵 숨기기"
 
 #: client/gui-sdl/mapctrl.c:515
 msgid "Show Messages (F10)"
@@ -13162,7 +13211,7 @@ msgstr ""
 
 #: client/gui-sdl/mapctrl.c:734 client/gui-sdl/mapctrl.c:1078
 msgid "Exit"
-msgstr ""
+msgstr "나가기"
 
 #: client/gui-sdl/mapctrl.c:1032
 msgid "Scale Unit Info"
@@ -13170,11 +13219,11 @@ msgstr ""
 
 #: client/gui-sdl/mapctrl.c:1042
 msgid "Width"
-msgstr ""
+msgstr "폭"
 
 #: client/gui-sdl/mapctrl.c:1046
 msgid "Height"
-msgstr ""
+msgstr "높이"
 
 #: client/gui-sdl/mapctrl.c:1426 client/gui-sdl/mapview.c:312
 #: client/gui-sdl/mapview.c:315 client/gui-xaw/menu.c:136
@@ -13219,7 +13268,7 @@ msgstr "%s 인구: %s  서기: %s  금화 %d 세금: %d 고급: %d 과학: %d "
 #: client/gui-sdl/mapview.c:531 data/default/units.ruleset:24
 #: data/civ2/units.ruleset:18 data/civ1/units.ruleset:18
 msgid "veteran"
-msgstr ""
+msgstr "숙련가"
 
 #: client/gui-sdl/mapview.c:565
 msgid ""
@@ -13264,7 +13313,7 @@ msgstr ""
 
 #: client/gui-sdl/mapview.c:614
 msgid "?blistbegin: with "
-msgstr ""
+msgstr "?blistbegin: "
 
 #: client/gui-sdl/mapview.c:616 data/default/buildings.ruleset:113
 #: data/civ2/buildings.ruleset:96 data/civ1/buildings.ruleset:69
@@ -13283,7 +13332,7 @@ msgstr "성벽"
 
 #: client/gui-sdl/mapview.c:637
 msgid "?blistend:"
-msgstr ""
+msgstr "?blistend:"
 
 #. TRANS: (<nation>,<diplomatic_state>)"
 #: client/gui-sdl/mapview.c:643
@@ -13306,7 +13355,7 @@ msgstr ""
 
 #: client/gui-sdl/mapview.c:890
 msgid "End of Turn"
-msgstr ""
+msgstr "마지막 턴"
 
 #: client/gui-sdl/mapview.c:890
 msgid "Press"
@@ -13315,7 +13364,7 @@ msgstr ""
 #. TRANS: keyboard
 #: client/gui-sdl/menu.c:374
 msgid "No orders"
-msgstr ""
+msgstr "명령 없음"
 
 #: client/gui-sdl/menu.c:374
 msgid "Space"
@@ -13323,19 +13372,19 @@ msgstr "우주"
 
 #: client/gui-sdl/menu.c:388 client/gui-xaw/menu.c:217
 msgid "Wait"
-msgstr ""
+msgstr "기다림"
 
 #: client/gui-sdl/menu.c:413
 msgid "Diplomat|Spy Actions"
-msgstr ""
+msgstr "외교관|스파이 행동"
 
 #: client/gui-sdl/menu.c:425
 msgid "Disband"
-msgstr ""
+msgstr "해제"
 
 #: client/gui-sdl/menu.c:464
 msgid "Goto City"
-msgstr ""
+msgstr "도시로 이동"
 
 #: client/gui-sdl/menu.c:477 client/gui-win32/gotodlg.c:167
 #: data/Freeciv.in:1130
@@ -13350,7 +13399,7 @@ msgstr ""
 #: client/gui-sdl/menu.c:502 client/gui-win32/menu.c:384
 #: client/gui-xaw/menu.c:205
 msgid "Patrol"
-msgstr ""
+msgstr "순찰"
 
 #: client/gui-sdl/menu.c:514
 msgid "Connect irrigation"
@@ -13431,7 +13480,7 @@ msgstr ""
 #: client/gui-sdl/menu.c:759 client/gui-sdl/menu.c:1139
 #: client/gui-win32/menu.c:1117 client/gui-xaw/menu.c:178
 msgid "Build Mine"
-msgstr ""
+msgstr "광산 건축"
 
 #: client/gui-sdl/menu.c:773 client/gui-sdl/menu.c:1104
 #: client/gui-win32/menu.c:1116 client/gui-xaw/menu.c:175
@@ -13492,7 +13541,7 @@ msgstr ""
 #: client/gui-sdl/optiondlg.c:214 client/gui-win32/wldlg.c:330
 #: client/gui-xaw/wldlg.c:676
 msgid "empty worklist"
-msgstr "공 작업 리스트"
+msgstr "빈 작업 리스트"
 
 #: client/gui-sdl/optiondlg.c:337
 msgid "Add new worklist"
@@ -13594,7 +13643,6 @@ msgid "Worklists"
 msgstr "작업 리스트"
 
 #: client/gui-sdl/optiondlg.c:2286
-#, fuzzy
 msgid "Leave Game"
 msgstr "게임 저장"
 
@@ -13723,13 +13771,13 @@ msgstr ""
 
 #: client/gui-sdl/repodlgs.c:3045
 msgid "Select target :"
-msgstr ""
+msgstr "목표 설정:"
 
 #: client/gui-sdl/repodlgs.c:3113
 msgid "step"
 msgid_plural "steps"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "단계"
+msgstr[1] "단계들"
 
 #: client/gui-sdl/repodlgs.c:3392 client/gui-win32/repodlgs.c:779
 #: client/gui-xaw/repodlgs.c:1195
@@ -13742,7 +13790,7 @@ msgstr[1] ""
 #: client/gui-sdl/repodlgs.c:3400 client/gui-win32/repodlgs.c:787
 #: client/gui-xaw/repodlgs.c:1203
 msgid "Final Report:"
-msgstr ""
+msgstr "최종 보고:"
 
 #: client/gui-sdl/repodlgs.c:3401 client/gui-win32/repodlgs.c:788
 #: client/gui-xaw/repodlgs.c:1204
@@ -13906,7 +13954,7 @@ msgstr ""
 #: client/gui-sdl/wldlg.c:1386
 #, c-format
 msgid "%d gold per turn"
-msgstr ""
+msgstr "한턴당 금화 %d"
 
 #: client/gui-sdl/wldlg.c:1393
 #, c-format
@@ -13957,20 +14005,20 @@ msgstr ""
 #: client/gui-win32/citydlg.c:286
 #, c-format
 msgid "Upkeep (Total: %d)"
-msgstr ""
+msgstr "유지 (총합: %d)"
 
 #: client/gui-win32/citydlg.c:734
 msgid "City Overview"
-msgstr ""
+msgstr "도시 개괄"
 
 #: client/gui-win32/citydlg.c:734 client/gui-win32/wldlg.c:1081
 #: client/gui-win32/wldlg.c:1130
 msgid "Worklist"
-msgstr ""
+msgstr "작업목록"
 
 #: client/gui-win32/citydlg.c:736 data/Freeciv.in:2238
 msgid "Trade Routes"
-msgstr ""
+msgstr "무역 경로"
 
 #: client/gui-win32/citydlg.c:737
 msgid "Misc. Settings"
@@ -13990,7 +14038,7 @@ msgstr "바꾸기"
 
 #: client/gui-win32/citydlg.c:822
 msgid "Units present"
-msgstr ""
+msgstr "부대 미리설정"
 
 #: client/gui-win32/citydlg.c:828 client/gui-win32/cityrep.c:132
 #: client/gui-win32/cityrep.c:875 client/gui-win32/dialogs.c:190
@@ -14014,19 +14062,19 @@ msgstr "닫기"
 #: client/gui-win32/citydlg.c:830 client/gui-win32/wldlg.c:433
 #: data/Freeciv.in:2001
 msgid "Rename"
-msgstr ""
+msgstr "이름 바꾸기"
 
 #: client/gui-win32/citydlg.c:834 data/Freeciv.in:3069
 msgid "Activate Units"
-msgstr ""
+msgstr "활동 부대"
 
 #: client/gui-win32/citydlg.c:837
 msgid "Unit List"
-msgstr ""
+msgstr "부대 목록"
 
 #: client/gui-win32/citydlg.c:858 manual/civmanual.c:302
 msgid "Upkeep"
-msgstr ""
+msgstr "유지"
 
 #: client/gui-win32/citydlg.c:912 client/gui-win32/citydlg.c:967
 #: client/gui-win32/citydlg.c:1408 client/gui-win32/dialogs.c:976
@@ -14082,7 +14130,7 @@ msgstr ""
 
 #: client/gui-win32/cityrep.c:99
 msgid "Configure City Report"
-msgstr ""
+msgstr "도시 보고서를 설정합니다"
 
 #: client/gui-win32/cityrep.c:127 data/Freeciv.in:1725
 msgid "Set columns shown"
@@ -14090,19 +14138,19 @@ msgstr ""
 
 #: client/gui-win32/cityrep.c:245
 msgid "No Buildings Available"
-msgstr ""
+msgstr "가능한 건물이 없습니다"
 
 #: client/gui-win32/cityrep.c:255
 msgid "No Units Available"
-msgstr ""
+msgstr "가능한 부대가 없습니다"
 
 #: client/gui-win32/cityrep.c:268
 msgid "No Wonders Available"
-msgstr ""
+msgstr "가능한 불가사의가 없습니다"
 
 #: client/gui-win32/cityrep.c:462
 msgid "Available To Build"
-msgstr ""
+msgstr "건설가능한 것"
 
 #: client/gui-win32/cityrep.c:683
 msgid "Select a unit or improvement to change production from."
@@ -14114,7 +14162,7 @@ msgstr ""
 
 #: client/gui-win32/cityrep.c:698
 msgid "That's the same thing!"
-msgstr ""
+msgstr "똑같잖아!"
 
 #: client/gui-win32/cityrep.c:733 data/Freeciv.in:1739
 msgid "Change Production Everywhere"
@@ -14122,16 +14170,16 @@ msgstr ""
 
 #: client/gui-win32/cityrep.c:741 data/Freeciv.in:1745
 msgid "From:"
-msgstr ""
+msgstr "출발점:"
 
 #: client/gui-win32/cityrep.c:749 data/Freeciv.in:1755
 msgid "To:"
-msgstr ""
+msgstr "도착점:"
 
 #: client/gui-win32/cityrep.c:876 client/gui-win32/finddlg.c:126
 #: data/Freeciv.in:1085 data/Freeciv.in:1613
 msgid "Center"
-msgstr ""
+msgstr "중앙"
 
 #: client/gui-win32/cityrep.c:877 data/Freeciv.in:1621
 msgid "Popup"
@@ -14180,71 +14228,71 @@ msgstr ""
 
 #: client/gui-win32/cma_fe.c:467
 msgid "New"
-msgstr ""
+msgstr "새로운"
 
 #: client/gui-win32/connectdlg.c:147
 msgid "Password:"
-msgstr ""
+msgstr "암호 :"
 
 #: client/gui-win32/connectdlg.c:169
 msgid "Couldn't load the savegame"
-msgstr ""
+msgstr "세이브된 게임을 읽을수가 없습니다"
 
 #: client/gui-win32/connectdlg.c:284 client/gui-xaw/connectdlg.c:311
 msgid "Verify Password"
-msgstr ""
+msgstr "암호 수정"
 
 #: client/gui-win32/connectdlg.c:912 data/Freeciv.in:73
 msgid "Freeciv Server Selection"
-msgstr ""
+msgstr "Freeciv 서버 선택"
 
 #: client/gui-win32/connectdlg.c:913
 msgid "Local Area Network"
-msgstr ""
+msgstr "지역 네트워크"
 
 #: client/gui-win32/connectdlg.c:948
 msgid "Welcome to Freeciv"
-msgstr ""
+msgstr "Freeciv에 오신걸 환영합니다"
 
 #: client/gui-win32/connectdlg.c:966
 msgid "Load Saved Game"
-msgstr ""
+msgstr "저장된 게임 불러오기"
 
 #: client/gui-win32/connectdlg.c:968
 msgid "Connect To Network Game"
-msgstr ""
+msgstr "네트워크 게임 연결하기"
 
 #: client/gui-win32/connectdlg.c:978
 msgid "Choose a nation to play"
-msgstr ""
+msgstr "플레이를 위한 국가선택"
 
 #: client/gui-win32/connectdlg.c:1013
 msgid "Number of players (Including AI):"
-msgstr ""
+msgstr "플레이어 수(AI 포함)"
 
 #: client/gui-win32/connectdlg.c:1021
 msgid "AI skill level:"
-msgstr ""
+msgstr "AI 숙련 레벨 :"
 
 #: client/gui-win32/connectdlg.c:1040 client/gui-win32/repodlgs.c:946
 msgid "Game Options"
-msgstr ""
+msgstr "게임 설정"
 
 #: client/gui-win32/connectdlg.c:1044
 msgid "Start Game"
-msgstr ""
+msgstr "게임 시작"
 
 #: client/gui-win32/connectdlg.c:1063
 msgid "Login:"
-msgstr ""
+msgstr "로그인 :"
 
 #: client/gui-win32/connectdlg.c:1065
 msgid "Host:"
-msgstr ""
+msgstr "호스트 ip :"
 
 #: client/gui-win32/connectdlg.c:1066
 msgid "Port:"
-msgstr ""
+msgstr "포트 :"
 
 #: client/gui-win32/dialogs.c:191 data/Freeciv.in:549
 msgid "Goto and Close"
@@ -14256,19 +14304,19 @@ msgstr "지도자:"
 
 #: client/gui-win32/dialogs.c:577
 msgid "City Style:"
-msgstr ""
+msgstr "도시 스타일 :"
 
 #: client/gui-win32/dialogs.c:781
 msgid "Unit Selection"
-msgstr ""
+msgstr "부대 선택"
 
 #: client/gui-win32/dialogs.c:1196
 msgid "NONE"
-msgstr ""
+msgstr "없음"
 
 #: client/gui-win32/dialogs.c:1290 data/Freeciv.in:2373
 msgid "Steal"
-msgstr ""
+msgstr "도둑질"
 
 #: client/gui-win32/diplodlg.c:606 client/gui-win32/diplodlg.c:658
 #: client/gui-xaw/diplodlg.c:358 client/gui-xaw/diplodlg.c:366
@@ -14298,7 +14346,7 @@ msgstr ""
 
 #: client/gui-win32/finddlg.c:122 data/Freeciv.in:1067
 msgid "Select a city:"
-msgstr ""
+msgstr "도시 선택:"
 
 #: client/gui-win32/gui_main.c:116
 msgid "Enable alpha blending"
@@ -14315,31 +14363,31 @@ msgstr ""
 #: client/gui-win32/helpdlg.c:830 client/gui-win32/helpdlg.c:836
 #: client/gui-win32/helpdlg.c:849
 msgid "Allows "
-msgstr ""
+msgstr "허용"
 
 #: client/gui-win32/helpdlg.c:802
 msgid "Obsoletes "
-msgstr ""
+msgstr "폐물"
 
 #: client/gui-win32/helpdlg.c:839 client/gui-win32/helpdlg.c:852
 msgid " (with "
-msgstr ""
+msgstr "(함께"
 
 #: client/gui-win32/helpdlg.c:842 client/gui-win32/helpdlg.c:855
 msgid "?techhelp:)."
-msgstr ""
+msgstr "?기술도움말:)."
 
 #: client/gui-win32/inteldlg.c:99 client/gui-xaw/inteldlg.c:191
 #: client/gui-xaw/inteldlg.c:434
 #, c-format
 msgid "Ruler: %s %s"
-msgstr ""
+msgstr "규칙:  %s %s"
 
 #: client/gui-win32/inteldlg.c:114 client/gui-xaw/inteldlg.c:216
 #: client/gui-xaw/ratesdlg.c:311
 #, c-format
 msgid "Tax: %d%%"
-msgstr ""
+msgstr "세금: %d%%"
 
 #: client/gui-win32/inteldlg.c:117 client/gui-xaw/inteldlg.c:224
 #: client/gui-xaw/ratesdlg.c:327
@@ -14351,26 +14399,26 @@ msgstr "과학: %d%%"
 #: client/gui-xaw/ratesdlg.c:319
 #, c-format
 msgid "Luxury: %d%%"
-msgstr ""
+msgstr "사치 : %d%%"
 
 #: client/gui-win32/inteldlg.c:129 client/gui-xaw/inteldlg.c:242
 msgid "Researching: (Unknown)"
-msgstr ""
+msgstr "조사 :(알려지지 않음)"
 
 #: client/gui-win32/inteldlg.c:132 client/gui-xaw/inteldlg.c:245
 #, c-format
 msgid "Researching: Unknown(%d/-)"
-msgstr ""
+msgstr "조사 : 알려지지 않음(%d/-)"
 
 #: client/gui-win32/inteldlg.c:136 client/gui-xaw/inteldlg.c:249
 #, c-format
 msgid "Researching: %s(%d/%d)"
-msgstr ""
+msgstr "조사 : %s(%d/%d)"
 
 #: client/gui-win32/inteldlg.c:145 client/gui-xaw/inteldlg.c:263
 #, c-format
 msgid "Capital: %s"
-msgstr ""
+msgstr "수도 : %s"
 
 #: client/gui-win32/mapview.c:170
 #, c-format
@@ -14380,6 +14428,10 @@ msgid ""
 "Gold: %d\n"
 "Tax: %d Lux: %d Sci: %d"
 msgstr ""
+"인구: %s\n"
+"년도r: %s\n"
+"금화: %d\n"
+"세금: %d 사치: %d 과학i: %d"
 
 #: client/gui-win32/menu.c:304
 msgid "Local _Options"
@@ -14391,7 +14443,7 @@ msgstr "메세지 옵션(_M)"
 
 #: client/gui-win32/menu.c:306
 msgid "Sa_ve Settings"
-msgstr ""
+msgstr "저장 설정"
 
 #: client/gui-win32/menu.c:308
 msgid "Server O_ptions"
@@ -14399,64 +14451,64 @@ msgstr "서버 옵션(_P)"
 
 #: client/gui-win32/menu.c:316
 msgid "_Disconnect"
-msgstr ""
+msgstr "_연결끊기"
 
 #: client/gui-win32/menu.c:328
 msgid "_Revolution"
-msgstr ""
+msgstr "_혁명"
 
 #: client/gui-win32/menu.c:355 client/gui-xaw/menu.c:166
 msgid "Center View"
-msgstr ""
+msgstr "가운데 보기"
 
 #: client/gui-win32/menu.c:363
 msgid "Transf_orm to Hills"
-msgstr ""
+msgstr "언덕으로의 수송"
 
 #: client/gui-win32/menu.c:377 client/gui-win32/menu.c:1265
 #: client/gui-xaw/menu.c:199
 msgid "Auto Settler"
-msgstr ""
+msgstr "이주민 자동"
 
 #: client/gui-win32/menu.c:386 client/gui-xaw/menu.c:207
 msgid "Go/Airlift to City"
-msgstr ""
+msgstr "출발/한 도시로 공수"
 
 #: client/gui-win32/menu.c:390 client/gui-xaw/menu.c:213
 msgid "Diplomat/Spy Actions"
-msgstr ""
+msgstr "외교관/스파이행위"
 
 #: client/gui-win32/menu.c:1109 client/gui-win32/menu.c:1110
 #: client/gui-xaw/menu.c:177 client/gui-xaw/menu.c:179
 #, c-format
 msgid "Change to %s"
-msgstr ""
+msgstr " %s로 변경"
 
 #: client/gui-win32/menu.c:1111 client/gui-xaw/menu.c:181
 #, c-format
 msgid "Transform to %s"
-msgstr ""
+msgstr "%s으로 변경"
 
 #: client/gui-win32/menu.c:1118 client/gui-xaw/menu.c:180
 msgid "Transform Terrain"
-msgstr ""
+msgstr "지대 변경"
 
 #: client/gui-win32/menu.c:1195 client/gui-win32/menu.c:1199
 #: client/gui-xaw/menu.c:171
 msgid "Build City"
-msgstr ""
+msgstr "도시 건설"
 
 #: client/gui-win32/menu.c:1203 client/gui-xaw/menu.c:212
 msgid "Make Trade Route"
-msgstr ""
+msgstr "무역 경로 만들기"
 
 #: client/gui-win32/menu.c:1227 client/gui-xaw/menu.c:176
 msgid "Build Farmland"
-msgstr ""
+msgstr "농지 건설"
 
 #: client/gui-win32/menu.c:1262 client/gui-xaw/menu.c:200
 msgid "Auto Attack"
-msgstr ""
+msgstr "자동 공격"
 
 #: client/gui-win32/messagedlg.c:138 client/gui-win32/messagedlg.c:142
 msgid "Out:"
@@ -14481,7 +14533,7 @@ msgstr ""
 #: data/Freeciv.in:1245 data/Freeciv.in:1278 data/Freeciv.in:1355
 #: data/Freeciv.in:1550 data/Freeciv.in:3426
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: client/gui-win32/messagewin.c:151 data/Freeciv.in:3329
 msgid "Popup City"
@@ -14504,56 +14556,56 @@ msgstr ""
 
 #: client/gui-win32/plrdlg.c:355 data/Freeciv.in:3237
 msgid "Intelligence"
-msgstr ""
+msgstr "첩보"
 
 #: client/gui-win32/plrdlg.c:356 data/Freeciv.in:3245
 msgid "Meet"
-msgstr ""
+msgstr "회견"
 
 #: client/gui-win32/plrdlg.c:360 client/gui-xaw/menu.c:235
 #: data/Freeciv.in:3269
 msgid "Spaceship"
-msgstr ""
+msgstr "우주선"
 
 #: client/gui-win32/repodlgs.c:181 client/gui-win32/repodlgs.c:234
 #, c-format
 msgid "(%d step)"
 msgid_plural "(%d steps)"
-msgstr[0] ""
+msgstr[0] "(%d번째 단계)"
 msgstr[1] ""
 
 #: client/gui-win32/repodlgs.c:354 client/gui-xaw/repodlgs.c:821
 #, c-format
 msgid "Income:%6d    Total Costs: %6d"
-msgstr ""
+msgstr "수입:%6d    총 비용: %6d"
 
 #: client/gui-win32/repodlgs.c:378 client/gui-xaw/repodlgs.c:777
 msgid "Sell-Off:"
-msgstr ""
+msgstr "팔아치움:"
 
 #: client/gui-win32/repodlgs.c:436
 msgid "Trade Report"
-msgstr ""
+msgstr "무역 보고"
 
 #: client/gui-win32/repodlgs.c:452 data/Freeciv.in:1876
 msgid "Sell Obsolete"
-msgstr ""
+msgstr "폐물 팔기"
 
 #: client/gui-win32/repodlgs.c:454 data/Freeciv.in:1884
 msgid "Sell All"
-msgstr ""
+msgstr "전부다 팔기"
 
 #: client/gui-win32/repodlgs.c:457
 msgid "Building Name"
-msgstr ""
+msgstr "건물 이름"
 
 #: client/gui-win32/repodlgs.c:682
 msgid "Totals"
-msgstr ""
+msgstr "총합"
 
 #: client/gui-win32/wldlg.c:367
 msgid "Rename Worklist"
-msgstr ""
+msgstr "작업목록 이름바꾸기"
 
 #: client/gui-win32/wldlg.c:368 client/gui-xaw/wldlg.c:623
 msgid "What should the new name be?"
@@ -14561,48 +14613,48 @@ msgstr ""
 
 #: client/gui-win32/wldlg.c:428 data/Freeciv.in:1973
 msgid "Available worklists"
-msgstr ""
+msgstr "가능한 작업목록"
 
 #: client/gui-win32/wldlg.c:432 data/Freeciv.in:1995
 msgid "Edit"
-msgstr ""
+msgstr "수정"
 
 #: client/gui-win32/wldlg.c:434 data/Freeciv.in:2010 data/Freeciv.in:2159
 msgid "Insert"
-msgstr ""
+msgstr "끼워넣기"
 
 #: client/gui-win32/wldlg.c:826 data/Freeciv.in:2120
 msgid "Current worklist"
-msgstr ""
+msgstr "현재 작업목록"
 
 #: client/gui-win32/wldlg.c:832 data/Freeciv.in:2171
 msgid "Up"
-msgstr ""
+msgstr "위로"
 
 #: client/gui-win32/wldlg.c:833 data/Freeciv.in:2177
 msgid "Down"
-msgstr ""
+msgstr "아래로"
 
 #: client/gui-win32/wldlg.c:834
 msgid "Remove"
-msgstr ""
+msgstr "제거하기"
 
 #: client/gui-win32/wldlg.c:838
 msgid "Available items"
-msgstr ""
+msgstr "가능한 아이템"
 
 #: client/gui-win32/wldlg.c:844
 msgid "Show future targets"
-msgstr ""
+msgstr "미래 목표 보이기"
 
 #: client/gui-win32/wldlg.c:852
 msgid "Undo"
-msgstr ""
+msgstr "되돌리기"
 
 #: client/gui-xaw/citydlg.c:209
 #, c-format
 msgid "Pollution:    %3d"
-msgstr ""
+msgstr "오염:    %3d"
 
 #: client/gui-xaw/citydlg.c:229
 #, c-format
@@ -14627,11 +14679,11 @@ msgstr ""
 
 #: client/gui-xaw/citydlg.c:313
 msgid "(is empty)"
-msgstr ""
+msgstr "(는 비어있음)"
 
 #: client/gui-xaw/citydlg.c:315
 msgid "(in prog.)"
-msgstr ""
+msgstr "(진행중)"
 
 #: client/gui-xaw/citydlg.c:1416
 #, c-format
@@ -14666,20 +14718,20 @@ msgstr ""
 #: client/gui-xaw/cma_fe.c:448
 #, c-format
 msgid "Do you really want to remove %s?"
-msgstr ""
+msgstr " %s을(를) 정말 지우시겠습니까?"
 
 #: client/gui-xaw/connectdlg.c:178
 msgid "Pass"
-msgstr ""
+msgstr "통과"
 
 #: client/gui-xaw/dialogs.c:1484
 msgid "You must select a nation."
-msgstr ""
+msgstr "국가를 선택하셔야 합니다."
 
 #: client/gui-xaw/graphics.c:343
 #, c-format
 msgid "Failed reading PNG file: %s"
-msgstr ""
+msgstr "PNG 파일을 읽는데 실패함: %s"
 
 #: client/gui-xaw/graphics.c:349 client/gui-xaw/graphics.c:355
 msgid "Failed creating PNG struct"
@@ -14742,7 +14794,7 @@ msgstr ""
 #: client/gui-xaw/helpdlg.c:931
 #, c-format
 msgid "Allows %s.\n"
-msgstr ""
+msgstr "%s를 허용함.\n"
 
 #: client/gui-xaw/helpdlg.c:916
 #, c-format
@@ -14761,23 +14813,23 @@ msgstr ""
 
 #: client/gui-xaw/menu.c:116
 msgid "Local Options"
-msgstr ""
+msgstr "지역설정"
 
 #: client/gui-xaw/menu.c:118
 msgid "Save Settings"
-msgstr ""
+msgstr "저장 설정"
 
 #: client/gui-xaw/menu.c:120
 msgid "Server Options"
-msgstr ""
+msgstr "서버 옵션들"
 
 #: client/gui-xaw/menu.c:122
 msgid "Export Log"
-msgstr ""
+msgstr "기록 출력"
 
 #: client/gui-xaw/menu.c:123
 msgid "Clear Log"
-msgstr ""
+msgstr "기록 지우기"
 
 #: client/gui-xaw/menu.c:125 data/Freeciv.in:3185
 msgid "Disconnect"
@@ -14789,7 +14841,7 @@ msgstr "세율"
 
 #: client/gui-xaw/menu.c:149
 msgid "City Growth"
-msgstr ""
+msgstr "도시 성장"
 
 #: client/gui-xaw/menu.c:192
 msgid "Make Homecity"
@@ -14797,39 +14849,39 @@ msgstr ""
 
 #: client/gui-xaw/menu.c:197
 msgid "Wake up others"
-msgstr ""
+msgstr "다른 사람 깨우기"
 
 #: client/gui-xaw/menu.c:201
 msgid "Auto Explore"
-msgstr ""
+msgstr "자동 탐험"
 
 #: client/gui-xaw/menu.c:202
 msgid "Connect/Road"
-msgstr ""
+msgstr "연결/도로"
 
 #: client/gui-xaw/menu.c:203
 msgid "Connect/Rail"
-msgstr ""
+msgstr "연결/철도"
 
 #: client/gui-xaw/menu.c:204
 msgid "Connect/Irrigation"
-msgstr ""
+msgstr "연결/관개"
 
 #: client/gui-xaw/menu.c:206
 msgid "Go to"
-msgstr ""
+msgstr "이동"
 
 #: client/gui-xaw/menu.c:216
 msgid "Select Same Type"
-msgstr ""
+msgstr "같은 유형 선택"
 
 #: client/gui-xaw/menu.c:232
 msgid "Top Five Cities"
-msgstr ""
+msgstr "상위 5개 도시"
 
 #: client/gui-xaw/menu.c:234
 msgid "Demographics"
-msgstr ""
+msgstr "인구통계"
 
 #: client/gui-xaw/menu.c:240
 msgid "Editing Mode"
@@ -14842,27 +14894,27 @@ msgstr "합계:"
 
 #: client/gui-xaw/menu.c:246 data/helpdata.txt:378
 msgid "Languages"
-msgstr ""
+msgstr "언어"
 
 #: client/gui-xaw/menu.c:247 data/helpdata.txt:401
 msgid "Connecting"
-msgstr ""
+msgstr "연결중"
 
 #: client/gui-xaw/menu.c:248 data/helpdata.txt:429
 msgid "Controls"
-msgstr ""
+msgstr "제어"
 
 #: client/gui-xaw/menu.c:249 data/helpdata.txt:547
 msgid "Chatline"
-msgstr ""
+msgstr "채팅 라인"
 
 #: client/gui-xaw/menu.c:250
 msgid "Playing"
-msgstr ""
+msgstr "게임중"
 
 #: client/gui-xaw/menu.c:254 data/helpdata.txt:987
 msgid "Combat"
-msgstr ""
+msgstr "전쟁"
 
 #: client/gui-xaw/menu.c:255
 msgid "ZOC"
@@ -14870,7 +14922,7 @@ msgstr ""
 
 #: client/gui-xaw/menu.c:256 data/helpdata.txt:888
 msgid "Technology"
-msgstr ""
+msgstr "기술"
 
 #: client/gui-xaw/menu.c:259 data/Freeciv.in:2027 data/helpdata.txt:1321
 msgid "Government"
@@ -14878,45 +14930,45 @@ msgstr "정부"
 
 #: client/gui-xaw/menu.c:261 data/helpdata.txt:1465
 msgid "Space Race"
-msgstr ""
+msgstr "우주 경주"
 
 #: client/gui-xaw/menu.c:263 data/helpdata.txt:76
 msgid "Copying"
-msgstr ""
+msgstr "복사"
 
 #: client/gui-xaw/repodlgs.c:229 client/gui-xaw/repodlgs.c:505
 #, c-format
 msgid "Researching %s: %d/%s"
-msgstr ""
+msgstr "%s 조사중 : %d/%s"
 
 #: client/gui-xaw/repodlgs.c:232 client/gui-xaw/repodlgs.c:508
 msgid "unknown"
-msgstr ""
+msgstr "모름"
 
 #: client/gui-xaw/repodlgs.c:235 client/gui-xaw/repodlgs.c:511
 #, c-format
 msgid "Researching %s: %d/%d"
-msgstr ""
+msgstr "%s 조사중: %d/%d"
 
 #: client/gui-xaw/repodlgs.c:243 client/gui-xaw/repodlgs.c:248
 #: client/gui-xaw/repodlgs.c:521 client/gui-xaw/repodlgs.c:526
 #, c-format
 msgid "Goal: %s (%d steps)"
-msgstr ""
+msgstr "목표: %s (%d번째 단계)"
 
 #: client/gui-xaw/repodlgs.c:926
 msgid "Totals: ..."
-msgstr ""
+msgstr "총합: ..."
 
 #: client/gui-xaw/repodlgs.c:1166
 #, c-format
 msgid "Totals:                     %9d%9d%9d%9d"
-msgstr ""
+msgstr "총합:                     %9d%9d%9d%9d"
 
 #: manual/civmanual.c:120
 #, c-format
 msgid "Could not write manual file %s."
-msgstr ""
+msgstr "메뉴얼 파일 %s에 기록할수 없습니다."
 
 #: manual/civmanual.c:128
 #, c-format
@@ -14924,26 +14976,28 @@ msgid ""
 "<h1>Freeciv %s server options</h1>\n"
 "\n"
 msgstr ""
+"<h1>Freeciv %s 서버옵션</h1>\n"
+"\n"
 
 #: manual/civmanual.c:144
 #, c-format
 msgid "Level: %s.<br>"
-msgstr ""
+msgstr "레벨: %s.<br>"
 
 #: manual/civmanual.c:145
 #, c-format
 msgid "Category: %s.<br>"
-msgstr ""
+msgstr "카테고리: %s.<br>"
 
 #: manual/civmanual.c:148
 #, c-format
 msgid "Can only be used in server console. "
-msgstr ""
+msgstr "서버 콘솔상에서만 오직 사용할수 있습니다."
 
 #: manual/civmanual.c:151
 #, c-format
 msgid "Can be changed during a game. "
-msgstr ""
+msgstr "게임도중 변경할 수 없습니다."
 
 #: manual/civmanual.c:153
 #, c-format
@@ -15025,39 +15079,39 @@ msgstr ""
 #: manual/civmanual.c:221 data/default/terrain.ruleset:1810
 #: data/civ2/terrain.ruleset:1693 data/civ1/terrain.ruleset:1655
 msgid "Resources"
-msgstr ""
+msgstr "자원"
 
 #: manual/civmanual.c:222
 msgid "Move cost"
-msgstr ""
+msgstr "이동 비용"
 
 #: manual/civmanual.c:222
 msgid "Defense bonus"
-msgstr ""
+msgstr "방어 보너스"
 
 #: manual/civmanual.c:224
 msgid "Mining"
-msgstr ""
+msgstr "광산"
 
 #: manual/civmanual.c:224
 msgid "turns"
-msgstr ""
+msgstr "턴"
 
 #: manual/civmanual.c:226
 msgid "Rail"
-msgstr ""
+msgstr "철도"
 
 #: manual/civmanual.c:227
 msgid "Clean pollution"
-msgstr ""
+msgstr "오염 없앰"
 
 #: manual/civmanual.c:227
 msgid "Clean fallout"
-msgstr ""
+msgstr "방사전 낙진 없앰"
 
 #: manual/civmanual.c:262 manual/civmanual.c:272
 msgid "impossible"
-msgstr ""
+msgstr "불가능"
 
 #: manual/civmanual.c:295
 #, c-format
@@ -15065,6 +15119,8 @@ msgid ""
 "<h1>Freeciv %s buildings help</h1>\n"
 "\n"
 msgstr ""
+"<h1>Freeciv %s건물 도움말</h1>\n"
+"\n"
 
 #: manual/civmanual.c:297
 #, c-format
@@ -15072,40 +15128,43 @@ msgid ""
 "<h1>Freeciv %s wonders help</h1>\n"
 "\n"
 msgstr ""
+"<h1>Freeciv %s 불가사의 도움말</h1>\n"
+"\n"
 
 #: manual/civmanual.c:303
 msgid "Requirement"
-msgstr ""
+msgstr "필요사항"
 
 #: manual/civmanual.c:303
 msgid "Obsolete by"
-msgstr ""
+msgstr "의해 쇠퇴함"
 
 #: manual/civmanual.c:303
 msgid "More info"
-msgstr ""
+msgstr "더 많은 정보"
 
 #: data/Freeciv.in:68
 msgid "Connect to Freeciv Server"
-msgstr ""
+msgstr " Freeciv 서버에 연결하기"
 
 #: data/Freeciv.in:111
 msgid "LAN Servers"
-msgstr ""
+msgstr "LAN 서버들"
 
 #: data/Freeciv.in:129
 msgid "Freeciv Server List"
-msgstr ""
+msgstr "Freeciv 서버목록"
 
 #: data/Freeciv.in:132
 msgid ""
 "Server Name                         Port  Version     Status  Players  "
 "Comment"
 msgstr ""
+"서버     이름                          포트   버젼     상태   사용자    설명"
 
 #: data/Freeciv.in:215
 msgid "Diplomacy"
-msgstr ""
+msgstr "외교"
 
 #: data/Freeciv.in:310
 msgid "The following clauses have been agreed upon:"
@@ -15113,35 +15172,35 @@ msgstr ""
 
 #: data/Freeciv.in:366
 msgid "Erase clause"
-msgstr ""
+msgstr "조항 삭제"
 
 #: data/Freeciv.in:474 data/Freeciv.in:483
 msgid "Shared vision"
-msgstr ""
+msgstr "시야 공유"
 
 #: data/Freeciv.in:558
 msgid "Select Unit(s)"
-msgstr ""
+msgstr "부대 선택"
 
 #: data/Freeciv.in:672 data/Freeciv.in:751
 msgid "Variant:"
-msgstr ""
+msgstr "변형:"
 
 #: data/Freeciv.in:859
 msgid "Firepower:"
-msgstr ""
+msgstr "화력:"
 
 #: data/Freeciv.in:932
 msgid "Movement/Defense:"
-msgstr ""
+msgstr "이동/방어:"
 
 #: data/Freeciv.in:951
 msgid "Food/Resources/Trade:"
-msgstr ""
+msgstr "식량/자원/무역:"
 
 #: data/Freeciv.in:980
 msgid "Road Result/Time:"
-msgstr ""
+msgstr "도로 결과/시간"
 
 #: data/Freeciv.in:1000
 msgid "Irrig. Result/Time:"
@@ -15149,19 +15208,19 @@ msgstr ""
 
 #: data/Freeciv.in:1021
 msgid "Mine Result/Time:"
-msgstr ""
+msgstr "광산 결과/시간:"
 
 #: data/Freeciv.in:1041
 msgid "Trans. Result/Time:"
-msgstr ""
+msgstr "수송. 결과 /시간:"
 
 #: data/Freeciv.in:1105
 msgid "Select destination:"
-msgstr ""
+msgstr "목적지 설정:"
 
 #: data/Freeciv.in:1264
 msgid "Where to Display Messages"
-msgstr ""
+msgstr "메세지 보이기"
 
 #: data/Freeciv.in:1265
 msgid ""
@@ -15175,11 +15234,11 @@ msgstr ""
 
 #: data/Freeciv.in:1287
 msgid "Rates"
-msgstr ""
+msgstr "세율"
 
 #: data/Freeciv.in:1289
 msgid "Select tax, luxury and science rates:"
-msgstr ""
+msgstr "세금선택, 사치과 과학 세율:"
 
 #: data/Freeciv.in:1397
 msgid "Help:"
@@ -15187,39 +15246,39 @@ msgstr "도움말:"
 
 #: data/Freeciv.in:1465
 msgid "Citizen governor..."
-msgstr ""
+msgstr "시민 통치자..."
 
 #: data/Freeciv.in:1468
 msgid "Add Preset"
-msgstr ""
+msgstr "미리 설정된 것 더하기"
 
 #: data/Freeciv.in:1469
 msgid "Remove Preset"
-msgstr ""
+msgstr "미리설정된것 지우기"
 
 #: data/Freeciv.in:1471
 msgid "Control City"
-msgstr ""
+msgstr "도시 제어"
 
 #: data/Freeciv.in:1472
 msgid "Release City"
-msgstr ""
+msgstr "도시 해방"
 
 #: data/Freeciv.in:1474
 msgid "Minimal Surplus:"
-msgstr ""
+msgstr "최소 잉여금:"
 
 #: data/Freeciv.in:1476
 msgid "Factor:"
-msgstr ""
+msgstr "요소:"
 
 #: data/Freeciv.in:1491
 msgid "Remove preset?"
-msgstr ""
+msgstr "미리설정 삭제?"
 
 #: data/Freeciv.in:1502
 msgid "City Options"
-msgstr ""
+msgstr "도시 옵션"
 
 #: data/Freeciv.in:1512
 msgid "Make new citizens into:     "
@@ -15235,39 +15294,39 @@ msgstr ""
 
 #: data/Freeciv.in:1532
 msgid "Auto-attack vs sea units:          "
-msgstr ""
+msgstr "자동 공격 vs 해상 유닛:"
 
 #: data/Freeciv.in:1538
 msgid "Auto-attack vs air units:          "
-msgstr ""
+msgstr "자동 공격 vs 공수부대:"
 
 #: data/Freeciv.in:1544
 msgid "Auto-attack vs helicopters:        "
-msgstr ""
+msgstr "자동 공격 vs 헬리콥터:"
 
 #: data/Freeciv.in:1645
 msgid "Change All..."
-msgstr ""
+msgstr "모두 변경:"
 
 #: data/Freeciv.in:1661
 msgid "Configure..."
-msgstr ""
+msgstr "구성하다..."
 
 #: data/Freeciv.in:1720
 msgid "Configure Cities Report"
-msgstr ""
+msgstr "도시 보고를 수정"
 
 #: data/Freeciv.in:1846
 msgid "Building Name       Count Cost Total"
-msgstr ""
+msgstr "건물 이름               수     비용   총합"
 
 #: data/Freeciv.in:1922
 msgid "Unit Type            Upgrade  In-Prog   Active   Shield     Food"
-msgstr ""
+msgstr "부대 유형            업그레이드  진행중  활동  방어   식량"
 
 #: data/Freeciv.in:2006
 msgid "Rename worklist"
-msgstr ""
+msgstr "작업리스트 이름바꾸기"
 
 #: data/Freeciv.in:2031
 msgid "Editor"
@@ -15275,63 +15334,63 @@ msgstr ""
 
 #: data/Freeciv.in:2082
 msgid "Select new production"
-msgstr ""
+msgstr "새로운 생산을 선택하세요"
 
 #: data/Freeciv.in:2118
 msgid "Production Worklist"
-msgstr ""
+msgstr "생산 작업리스트"
 
 #: data/Freeciv.in:2127
 msgid "Available targets"
-msgstr ""
+msgstr "가능한 표적들"
 
 #: data/Freeciv.in:2153
 msgid "Prepend"
-msgstr ""
+msgstr "미결"
 
 #: data/Freeciv.in:2189
 msgid "  Ok  "
-msgstr ""
+msgstr "  Ok  "
 
 #: data/Freeciv.in:2207
 msgid "Show future targets:"
-msgstr ""
+msgstr "미래 목표치 보이기:"
 
 #: data/Freeciv.in:2268
 msgid "Establish traderoute"
-msgstr ""
+msgstr "항로 확립"
 
 #: data/Freeciv.in:2314
 msgid "Investigate City (free)"
-msgstr ""
+msgstr "도시 연구(공짜)"
 
 #: data/Freeciv.in:2321
 msgid "Industrial Sabotage"
-msgstr ""
+msgstr "산업적 파괴활동"
 
 #: data/Freeciv.in:2499
 msgid "Your New Government"
-msgstr ""
+msgstr "당신의 새로운 정부"
 
 #: data/Freeciv.in:2501
 msgid "Select government type:"
-msgstr ""
+msgstr "정부형태를 선택하세요"
 
 #: data/Freeciv.in:2519
 msgid "Choose unit activity:"
-msgstr ""
+msgstr "부대활동을 선택하세요:"
 
 #: data/Freeciv.in:3058
 msgid " Sell "
-msgstr ""
+msgstr "팔다"
 
 #: data/Freeciv.in:3065
 msgid "Rename..."
-msgstr ""
+msgstr "이름바꾸기..."
 
 #: data/Freeciv.in:3071
 msgid "Unit List..."
-msgstr ""
+msgstr "부대리스트..."
 
 #: data/Freeciv.in:3073
 msgid "City Options..."
@@ -15347,15 +15406,15 @@ msgstr "바꾸기..."
 
 #: data/Freeciv.in:3079
 msgid "Worklist..."
-msgstr ""
+msgstr "작업리스트..."
 
 #: data/Freeciv.in:3081
 msgid "Supported units:"
-msgstr ""
+msgstr "지원하는 부대들:"
 
 #: data/Freeciv.in:3104
 msgid "Units present:"
-msgstr ""
+msgstr "현재 부대들:"
 
 #: data/Freeciv.in:3142
 msgid "Select nation and name:"
@@ -15385,19 +15444,19 @@ msgstr " 확인 "
 msgid ""
 "Name             Nation       Embassy  Dipl.State      Vision   "
 "Reputation    State    Host"
-msgstr ""
+msgstr "           "
 
 #: data/Freeciv.in:3253
 msgid "Cancel pact"
-msgstr ""
+msgstr "계약 파기"
 
 #: data/Freeciv.in:3340 data/Freeciv.in:3341
 msgid "Pregame"
-msgstr ""
+msgstr "이전 게임"
 
 #: data/Freeciv.in:3357
 msgid "Name              Ready Leader          Nation          "
-msgstr ""
+msgstr "이름            준비된 지도자        국가"
 
 #: data/helpdata.txt:38
 msgid ""
@@ -15405,16 +15464,20 @@ msgid ""
 "leader of a civilization, fighting to obtain the ultimate goal: the "
 "extinction of all other civilizations."
 msgstr ""
+"Freeciv는 턴제기반의 전략게임입니다, 각각의 사용자는 문명의 지도자가 됩니다, "
+"궁극의 목표에 도달하기 위해 전쟁을 합니다: 다른 모든 문명의 소멸"
 
 #: data/helpdata.txt:42
 msgid ""
 "  Original authors:\n"
 "    (they are no longer involved, please don't mail them!)"
 msgstr ""
+"  원래 만든이:\n"
+"    (더이상 그들은 참여하지 않습니다, 그들에게 메일보내지 말아주세요!)"
 
 #: data/helpdata.txt:49
 msgid "  Present administrators: "
-msgstr ""
+msgstr "현재 관리자 : "
 
 #: data/helpdata.txt:55
 msgid ""
@@ -15423,6 +15486,10 @@ msgid ""
 "\n"
 "  http://bugs.freeciv.org/"
 msgstr ""
+"만약 어떤 버그를 찾게 된다면, 우리에게 버그리포트를 보내주세요. 최선 방법은 "
+"아래의  Freeciv 버그 추적 시스템에 방문하는 것입니다, :\n"
+"\n"
+"  http://bugs.freeciv.org/"
 
 #: data/helpdata.txt:60
 msgid ""
@@ -15433,7 +15500,7 @@ msgstr ""
 
 #: data/helpdata.txt:77
 msgid "Freeciv is covered by the GPL, which is included here: "
-msgstr ""
+msgstr "Freeciv는 GPL정책에 따릅니다, GPL은 아래내용을 포함합니다:"
 
 #: data/helpdata.txt:379
 msgid ""
@@ -15455,6 +15522,18 @@ msgid ""
 "\n"
 "  freeciv-i18n@gna.org"
 msgstr ""
+"Freeciv는 몇몇 언어를 지원합니다. 만약 당신나라의 언어로 번역을 추가하고 싶다"
+"면, 아래 지시를 따르십시요:\n"
+"\n"
+"  http://www.freeciv.org/wiki/Localization\n"
+"\n"
+"당신의 언어가 이미 진행중에 있는지 먼저 확인하십시요:\n"
+"\n"
+"  http://www.freeciv.org/wiki/Translations\n"
+"\n"
+"또한 아래  freeciv-i18n 메일링 리스트에 질문하는 것또한 환영합니다:\n"
+"\n"
+"  freeciv-i18n@gna.org"
 
 #: data/helpdata.txt:402
 msgid ""
@@ -15645,7 +15724,7 @@ msgstr ""
 
 #: data/helpdata.txt:568
 msgid "Worklist Editor"
-msgstr ""
+msgstr "작업목록 편집기"
 
 #: data/helpdata.txt:569
 msgid ""
@@ -15660,6 +15739,9 @@ msgid ""
 "available items. You can also press the Help button to get help on the "
 "selected item. Pressing Help with no item selected will display this page."
 msgstr ""
+"작업리스트에 아이템을 추가하기 위해서는 가능한 아이템의 목록중 원하는 아이템"
+"을 더블클릭하십시요. 선택 아이템에 도움말 버튼을 통해 도움을 얻을 수 있습니"
+"다. 아이템선택없이 도움말을 누르면 이 페이지에 대한 설명이 나옵니다."
 
 #: data/helpdata.txt:577
 msgid ""
@@ -15681,22 +15763,27 @@ msgid ""
 "If you want to buy the unit that's first on the list, you can do that from "
 "the City Overview window."
 msgstr ""
+"만약 당신이 목록에서 첫번째 부대를 구입하고 싶다면, 당신은 도시 개관 윈도우"
+"를 통해 할수 있습니다."
 
 #: data/helpdata.txt:592
 msgid "Strategy and tactics"
-msgstr ""
+msgstr "전략과 전술"
 
 #: data/helpdata.txt:593
 msgid ""
 "While every game is different, there's a basic strategy which most players "
 "follow, especially at the start of the game."
 msgstr ""
+"모든 게임이 다른 반면, 특별히 게임시작할때 많은 사용자가 선호하는 기본 전략"
+"이 있습니다."
 
 #: data/helpdata.txt:596
 msgid ""
 "These steps may vary depending upon the server options, but in general, the "
 "steps are: "
 msgstr ""
+"서버옵션에 따라 이러한 단계는 다양해질수 있습니다, 하지만 일반적으로 단계는 :"
 
 #: data/helpdata.txt:599
 msgid ""
@@ -15959,6 +16046,9 @@ msgid ""
 "will turn into a permanent Peace treaty. Breaking an Armistice will drop you "
 "directly back to War."
 msgstr ""
+"     만약 당신이 다른 플레이어와 지속적인 평화적 공존을 유지하고 싶다면, 당신"
+"은 휴전에 들어갈 것이고, 그 후 또다른 턴에서 평화조약으로 들어서는 것입니다. "
+"협정파기는 곧바로 당신을 전쟁으로 돌아가게 할 것입니다."
 
 #: data/helpdata.txt:803
 msgid ""
@@ -16028,7 +16118,7 @@ msgstr ""
 
 #: data/helpdata.txt:871
 msgid "City Improvements"
-msgstr ""
+msgstr "도시 향상"
 
 #: data/helpdata.txt:872
 msgid ""
@@ -16144,6 +16234,8 @@ msgid ""
 "Default Combat Rules\n"
 "---------------------"
 msgstr ""
+"전쟁 규칙을 기본으로 정합니다\n"
+"---------------------"
 
 #: data/helpdata.txt:989
 msgid ""
@@ -16151,6 +16243,9 @@ msgid ""
 "or the defender will be destroyed -- never both (unless the attacker was a "
 "missile).  The outcome depends on several factors, including chance."
 msgstr ""
+"한 부대가 다른 부대를 공격할때,공격자가 파괴되거나 방어자가 파괴될것입니다 --"
+"둘다파괴는 없음(공격자가 탄도병기가 아니라면)결과는 운을 포함해서 몇몇 요인"
+"에 달려있습니다"
 
 #: data/helpdata.txt:994
 msgid "First, the attacker's strength is modified."
@@ -16158,16 +16253,16 @@ msgstr ""
 
 #: data/helpdata.txt:996
 msgid " - If the attacker is a veteran, its strength is multiplied by 1.5."
-msgstr ""
+msgstr "- 만약 공격자가 숙련자 라면, 공격능력치가 1.5까지 증가됩니다."
 
 #: data/helpdata.txt:998
 msgid "Next, the defender's strength is modified."
-msgstr ""
+msgstr "다음번에, 방어자의 힘은 수정됩니다."
 
 #: data/helpdata.txt:1000
 msgid ""
 " - If the defender is a veteran, then its strength is multiplied by 1.5."
-msgstr ""
+msgstr " - 만약 방어자가 숙련자라면, 방어능력치가 1.5까지 증가됩니다."
 
 #: data/helpdata.txt:1003
 msgid ""
@@ -16287,13 +16382,15 @@ msgstr ""
 
 #: data/helpdata.txt:1079
 msgid " Modifying Combat Rules"
-msgstr ""
+msgstr "전쟁 규칙을 수정함"
 
 #: data/helpdata.txt:1080
 msgid ""
 "Modifying Combat Rules\n"
 "----------------------"
 msgstr ""
+"전쟁 규칙을 수정함 \n"
+"----------------------"
 
 #: data/helpdata.txt:1081
 msgid ""
@@ -16309,7 +16406,7 @@ msgstr ""
 
 #: data/helpdata.txt:1090
 msgid " Combat example 1"
-msgstr ""
+msgstr "전투 예 1"
 
 #: data/helpdata.txt:1091
 msgid ""
@@ -16357,7 +16454,7 @@ msgstr ""
 
 #: data/helpdata.txt:1128
 msgid " Combat example 2"
-msgstr ""
+msgstr "전투 예제2"
 
 #: data/helpdata.txt:1129
 msgid ""
@@ -16409,7 +16506,7 @@ msgstr ""
 
 #: data/helpdata.txt:1169
 msgid "Zones of Control"
-msgstr ""
+msgstr "조종가능한 구역"
 
 #: data/helpdata.txt:1170
 msgid ""
@@ -16489,13 +16586,14 @@ msgstr ""
 
 #: data/helpdata.txt:1236
 msgid " Terrain Alterations"
-msgstr ""
+msgstr "지대 변경"
 
 #: data/helpdata.txt:1237
 msgid ""
 "Settlers and Engineers have the ability to alter terrain squares in several "
 "ways."
 msgstr ""
+"이주민과 기술자는 지대면적을 몇가지 종류로 바꿀수 있는 능력이 있습니다."
 
 #: data/helpdata.txt:1240
 msgid ""
@@ -16578,7 +16676,7 @@ msgstr ""
 
 #: data/helpdata.txt:1295
 msgid "  Pillaging"
-msgstr ""
+msgstr "약탈"
 
 #: data/helpdata.txt:1296
 msgid ""
@@ -16660,7 +16758,7 @@ msgstr ""
 
 #: data/helpdata.txt:1361
 msgid " Civil War"
-msgstr ""
+msgstr "문명 전쟁"
 
 #: data/helpdata.txt:1362
 msgid ""
@@ -16690,6 +16788,8 @@ msgid ""
 "civil war.  Governments with universal franchise are far less likely to "
 "revolt than those more despotic in nature."
 msgstr ""
+"추가로 정부의 설립은 직접적으로 문명전쟁에 기여할수 있습니다. 국제적 선거권"
+"의 정부들은 독제체제보다 폭동이 덜 발생합니다."
 
 #: data/helpdata.txt:1381
 msgid ""
@@ -16829,6 +16929,9 @@ msgid ""
 "build a light spaceship with many propulsion units that will arrive "
 "earlier.  The only other option is to capture their capital."
 msgstr ""
+"팁: 만약 적군이 우주선을 작동하게 된다면 일찍 도착할수 있는 높은 추진력의 부"
+"대와 함께 라이트 우주선을 건설하십시요.다른 방법은 오직 그들의 수도를 점령하"
+"는 것입니다."
 
 #: data/default/buildings.ruleset:59 data/civ2/buildings.ruleset:42
 msgid ""
@@ -16840,6 +16943,12 @@ msgid ""
 "the unit's movement points.  A unit must have some movement points left to "
 "be airlifted."
 msgstr ""
+"도시의 전문 공군부대의 생산을 허용합니다. 또한 피해입은 공군부대는 아무런 명"
+"령없이 도시안에 1턴동안 있으면 완전히 회복됩니다.\n"
+"\n"
+"2개의 도시에 있는 공항은 매턴당 하나의 부대가 공수할수 있습니다. 공수는 즉시 "
+"한 부대를 다른 도시로 모든 부대의 움직임에 설정할수 있습니다. 한 부대가 반드"
+"시 공수되기 위해서 몇몇 이동점이 필요합니다."
 
 #: data/default/buildings.ruleset:71 data/civ2/buildings.ruleset:54
 #: data/civ1/buildings.ruleset:28
@@ -17001,7 +17110,7 @@ msgstr "도서관"
 #: data/default/buildings.ruleset:416
 #, no-c-format
 msgid "Increases the science output in a city by 100%."
-msgstr ""
+msgstr "도시안의 과학 결과물이 100% 증가합니다"
 
 #: data/default/buildings.ruleset:421 data/civ2/buildings.ruleset:397
 #: data/civ1/buildings.ruleset:323
@@ -17012,7 +17121,7 @@ msgstr "시장"
 #: data/civ1/buildings.ruleset:338
 #, no-c-format
 msgid "Increases the luxury and tax output in a city by 50%."
-msgstr ""
+msgstr "도시안의 사치와 세금이 50% 증가합니다"
 
 #: data/default/buildings.ruleset:441 data/civ2/buildings.ruleset:417
 #: data/civ1/buildings.ruleset:343
@@ -17109,6 +17218,8 @@ msgid ""
 "Allows a city to build veteran sea units.  Also, damaged sea units which "
 "stay in town for one full turn without moving are completely restored."
 msgstr ""
+"숙련된 해상부대를 짓도록 도시를허용하십시요. 또한 부상당한 해상부대가 한 턴동"
+"안 아무런 명령없이 이곳에 머무르면 완전히 회복됩니다."
 
 #: data/default/buildings.ruleset:618 data/civ2/buildings.ruleset:585
 #: data/civ1/buildings.ruleset:447
@@ -17267,7 +17378,7 @@ msgstr "증권 거래소"
 msgid ""
 "Together with a Marketplace and a Bank, a Stock Exchange boosts tax and "
 "luxury production in a city by 150%."
-msgstr ""
+msgstr "시장과 은행이 함께 있으면, 주식거래세금과 귀금속 생산이 150%이 됩니다."
 
 #: data/default/buildings.ruleset:892 data/civ2/buildings.ruleset:853
 msgid "Super Highways"
@@ -17277,7 +17388,7 @@ msgstr "고속 도로"
 #, no-c-format
 msgid ""
 "Increases trade resources by 50% on all squares with roads or railroads."
-msgstr ""
+msgstr "도로와 철도가 있는 모든 면적은 교역자원이 50% 증가합니다"
 
 #: data/default/buildings.ruleset:915 data/civ2/buildings.ruleset:874
 msgid "Supermarket"
@@ -17415,7 +17526,7 @@ msgstr "만리장성"
 
 #: data/default/buildings.ruleset:1159
 msgid "Works as a City Wall in all your cities."
-msgstr ""
+msgstr "모든 당신의 도시성곽처럼 동작하고 있습니다."
 
 #: data/default/buildings.ruleset:1167 data/civ2/buildings.ruleset:1123
 #: data/civ1/buildings.ruleset:784
@@ -17462,7 +17573,7 @@ msgstr "바흐의 대성당"
 
 #: data/default/buildings.ruleset:1246 data/civ2/buildings.ruleset:1200
 msgid "Makes two unhappy citizens content in every city."
-msgstr ""
+msgstr "모든 도시의 불행한 2도시를 만족하게 만듭니다"
 
 #: data/default/buildings.ruleset:1251 data/civ2/buildings.ruleset:1205
 msgid "King Richard's Crusade"
@@ -17480,7 +17591,7 @@ msgstr "레오나르도의 공방"
 
 #: data/default/buildings.ruleset:1285 data/civ2/buildings.ruleset:1239
 msgid "Upgrades one obsolete unit per game turn."
-msgstr ""
+msgstr "게임턴당 쓸모없는 유닛을 업그레이드 합니다"
 
 #: data/default/buildings.ruleset:1290 data/civ2/buildings.ruleset:1244
 #: data/civ1/buildings.ruleset:869
@@ -17500,7 +17611,7 @@ msgstr "마젤란의 탐험"
 
 #: data/default/buildings.ruleset:1326
 msgid "Gives all your sea units 2 additional movement points."
-msgstr ""
+msgstr "모든 해상부대에게 추가 2의 이동포인트를 줍니다."
 
 #: data/default/buildings.ruleset:1331 data/civ2/buildings.ruleset:1283
 #: data/civ1/buildings.ruleset:910
@@ -17600,7 +17711,7 @@ msgstr "국제 연합"
 
 #: data/default/buildings.ruleset:1528
 msgid "All your units regain two extra hitpoints per turn."
-msgstr ""
+msgstr "당신의 모든 부대는 매 턴당 2의 추가 타격포인트를 회복하였습니다"
 
 #: data/default/buildings.ruleset:1541 data/civ2/buildings.ruleset:1492
 #: data/civ1/buildings.ruleset:1052
@@ -17624,6 +17735,8 @@ msgid ""
 "Coinage means its shield production is converted to tax output (money, "
 "coins!)."
 msgstr ""
+"이것은 정상적인 성장이 아닙니다. 그보다도, 도시의 화폐주조는 세금생산에 후원"
+"자역할을 합니다.(돈, 화폐)"
 
 #: data/default/nations.ruleset:20
 msgid "?nationgroup:Ancient"
@@ -17666,6 +17779,8 @@ msgid ""
 "Entertains the citizens of a city, making 3 unhappy citizens content.  (Four "
 "after the discovery of Electronics.)"
 msgstr ""
+"한 도시의 시민 즐겁게 하면,불행한 시민 3곳을 불평없게 만듭니다.(전기의 발견이"
+"후는 4곳)"
 
 #: data/civ2/buildings.ruleset:272
 #, no-c-format
@@ -17825,7 +17940,7 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1514
 msgid "Capitalization"
-msgstr ""
+msgstr "수도화"
 
 #: data/civ2/buildings.ruleset:1527
 msgid ""
@@ -17836,7 +17951,7 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:42
 msgid "Allows a city to grow larger than size 10."
-msgstr ""
+msgstr "도시가 사이즈10보다 더 성장가능하도록 허용함."
 
 #: data/civ1/buildings.ruleset:84 data/civ1/buildings.ruleset:108
 #: data/civ1/buildings.ruleset:132
@@ -17847,6 +17962,9 @@ msgid ""
 "increased by 50%.  Also, damaged units which stay in town for one full turn "
 "without moving are completely restored."
 msgstr ""
+"막사와 함께 도시안의 각각의 부대는 퇴역군인을 자동으로 가지는 상태가 됩니다 "
+"이 의미는 이들이 50%의 공격, 방어 힘을 증가시킵니다. 또한 한 턴동안 어떠한 명"
+"령없이 도시에 머무른 피해입은 부대는 완전하게 회복됩니다"
 
 #: data/civ1/buildings.ruleset:155
 msgid ""
@@ -17954,15 +18072,15 @@ msgstr ""
 
 #: data/default/cities.ruleset:29 data/civ2/cities.ruleset:29
 msgid "elvis"
-msgstr ""
+msgstr "엘비스"
 
 #: data/default/cities.ruleset:30 data/civ2/cities.ruleset:30
 msgid "?Elvis:E"
-msgstr ""
+msgstr "?엘비스:E"
 
 #: data/default/cities.ruleset:37 data/civ2/cities.ruleset:37
 msgid "scientist"
-msgstr ""
+msgstr "과학자"
 
 #: data/default/cities.ruleset:38 data/civ2/cities.ruleset:38
 msgid "?Scientist:S"
@@ -17970,11 +18088,11 @@ msgstr ""
 
 #: data/default/cities.ruleset:45 data/civ2/cities.ruleset:45
 msgid "taxman"
-msgstr ""
+msgstr "세금관리자"
 
 #: data/default/cities.ruleset:46 data/civ2/cities.ruleset:46
 msgid "?Taxman:T"
-msgstr ""
+msgstr "?세금관리자:T"
 
 #: data/default/cities.ruleset:75 data/civ2/cities.ruleset:74
 msgid "?citystyle:European"
@@ -18406,7 +18524,7 @@ msgstr "전기학"
 
 #: data/default/techs.ruleset:236 data/civ2/techs.ruleset:225
 msgid "Improves the effect of Colosseums."
-msgstr ""
+msgstr "콜로세움의 영향으로 향상됨"
 
 #: data/default/techs.ruleset:239 data/civ2/techs.ruleset:228
 #: data/civ1/techs.ruleset:202
@@ -18552,7 +18670,7 @@ msgstr "신비주의"
 #: data/default/techs.ruleset:493 data/civ2/techs.ruleset:490
 #: data/civ1/techs.ruleset:384
 msgid "Improves the effect of Temples."
-msgstr ""
+msgstr "신전의 영향으로 향상됨"
 
 #: data/default/techs.ruleset:496 data/civ2/techs.ruleset:493
 #: data/civ1/techs.ruleset:387
@@ -18571,7 +18689,7 @@ msgstr "원자력"
 
 #: data/default/techs.ruleset:518 data/civ2/techs.ruleset:515
 msgid "Gives sea units one extra move."
-msgstr ""
+msgstr "해상 부대에게 추가 이동을 주었습니다"
 
 #: data/default/techs.ruleset:521 data/civ2/techs.ruleset:518
 #: data/civ1/techs.ruleset:411
@@ -18688,7 +18806,7 @@ msgstr "신학"
 
 #: data/default/techs.ruleset:713 data/civ2/techs.ruleset:710
 msgid "Improves the effect of Cathedrals."
-msgstr ""
+msgstr "성당의 영향으로 향상됨"
 
 #: data/default/techs.ruleset:716 data/civ2/techs.ruleset:713
 #: data/civ1/techs.ruleset:547
@@ -18840,7 +18958,7 @@ msgstr "사막"
 msgid ""
 "In addition to being amenable to agriculture, Hills are frequently rich in "
 "resources."
-msgstr ""
+msgstr "추가로 농업이 받아들여지기 위해선, 언덕이 자원에 충족해야 합니다"
 
 #: data/default/terrain.ruleset:674
 #, fuzzy
@@ -19137,11 +19255,11 @@ msgstr "신병"
 
 #: data/default/units.ruleset:24
 msgid "hardened"
-msgstr ""
+msgstr "견고해짐"
 
 #: data/default/units.ruleset:24
 msgid "elite"
-msgstr ""
+msgstr "엘리트"
 
 #: data/default/units.ruleset:80 data/civ2/units.ruleset:74
 #: data/civ1/units.ruleset:97
@@ -19324,7 +19442,7 @@ msgstr "해병"
 
 #: data/default/units.ruleset:718 data/civ2/units.ruleset:607
 msgid "Marines are infantry who are experts at marine warfare."
-msgstr ""
+msgstr "해병은 해상 전투에 있어 달인인 보병입니다."
 
 #: data/default/units.ruleset:723 data/civ2/units.ruleset:612
 msgid "Paratroopers"
@@ -19332,7 +19450,7 @@ msgstr "낙하산병"
 
 #: data/default/units.ruleset:749 data/civ2/units.ruleset:638
 msgid "Paratroopers are experts at airborne attacks."
-msgstr ""
+msgstr "낙하산병은 공수 공격에 있어서 전문가입니다"
 
 #: data/default/units.ruleset:758 data/civ2/units.ruleset:647
 #: data/civ1/units.ruleset:367
@@ -19375,7 +19493,7 @@ msgstr "기사"
 #: data/default/units.ruleset:883 data/civ2/units.ruleset:836
 #: data/civ1/units.ruleset:492
 msgid "Knights are mounted and heavily armored warriors."
-msgstr ""
+msgstr "기사는 육중하게 무장한 전사가 올라타 있습니다"
 
 #: data/default/units.ruleset:888 data/civ2/units.ruleset:841
 msgid "Dragoons"
@@ -19483,6 +19601,9 @@ msgid ""
 "health for every turn not spent in a city, unless you have the United "
 "Nations wonder."
 msgstr ""
+"헬리콥터는 도시를 점령하고 비행하는 가장 강력한 부대입니다.도시에서 매턴마다 "
+"작은 양의 health를 잃기때문에 국제연합 불가사의를 갖기 전까지 잘 훈련시키도"
+"록 돌봐야 합니다"
 
 #: data/default/units.ruleset:1215 data/civ2/units.ruleset:1168
 msgid "Stealth Fighter"
@@ -19490,7 +19611,7 @@ msgstr "스텔스 전투기"
 
 #: data/default/units.ruleset:1241 data/civ2/units.ruleset:1194
 msgid "An improved Fighter, with improved attack and a higher movement radius."
-msgstr ""
+msgstr "향상된 전투기, 향상된 공격력과 높은 이동반경."
 
 #: data/default/units.ruleset:1247 data/civ2/units.ruleset:1200
 msgid "Stealth Bomber"
@@ -19575,7 +19696,7 @@ msgstr "순양함"
 #: data/default/units.ruleset:1507 data/civ2/units.ruleset:1460
 #: data/civ1/units.ruleset:854
 msgid "The Cruiser is a strong offensive boat unit."
-msgstr ""
+msgstr "순양함은 강하고 공격적인 범선부대입니다."
 
 #: data/default/units.ruleset:1512 data/civ2/units.ruleset:1465
 msgid "AEGIS Cruiser"
@@ -19596,7 +19717,7 @@ msgstr "전함"
 msgid ""
 "The Battleship is the supreme naval unit with excellent offensive and "
 "defensive values."
-msgstr ""
+msgstr "전함은 완벽한 공격력과 방어력을 가진 해군 부대입니다."
 
 #: data/default/units.ruleset:1576 data/civ2/units.ruleset:1529
 #: data/civ1/units.ruleset:891
@@ -19748,7 +19869,7 @@ msgstr "운반차"
 
 #: data/default/units.ruleset:1922 data/civ2/units.ruleset:1875
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
-msgstr ""
+msgstr "화물유닛은 사막여행대(caravan)로 교체했고, 2배의 속도로 움직입니다"
 
 #: data/default/units.ruleset:1927 data/civ2/units.ruleset:1880
 msgid "Explorer"
@@ -19763,6 +19884,8 @@ msgstr ""
 #: data/default/units.ruleset:1987
 msgid "This is you. If you lose this unit, you lose the game. So don't."
 msgstr ""
+"이것이 당신입니다. 만약 이 부대를 잃으면 게임에서 지게 됩니다. 따라서 하지 마"
+"십시요"
 
 #: data/default/units.ruleset:1992 data/civ2/units.ruleset:1912
 #: data/civ1/units.ruleset:1131
@@ -19978,7 +20101,7 @@ msgstr ""
 #: data/nation/afghani.ruleset:24 data/nation/emirati.ruleset:25
 #: data/nation/kurd.ruleset:25 data/nation/uzbek.ruleset:28
 msgid "Emir"
-msgstr ""
+msgstr "족장"
 
 #: data/nation/afghani.ruleset:25 data/nation/slovakian.ruleset:30
 #: data/nation/soviet.ruleset:27
@@ -20107,7 +20230,7 @@ msgstr ""
 
 #: data/nation/american.ruleset:51 data/nation/scottish.ruleset:25
 msgid "Speaker"
-msgstr ""
+msgstr "연설자"
 
 #: data/nation/american.ruleset:51 data/nation/scottish.ruleset:25
 #, fuzzy
@@ -20340,7 +20463,7 @@ msgstr "가한"
 #: data/nation/azeri.ruleset:41 data/nation/iranian.ruleset:43
 #: data/nation/persian.ruleset:21
 msgid "Shah"
-msgstr "샤"
+msgstr "샤(Shah)"
 
 #: data/nation/azeri.ruleset:41 data/nation/iranian.ruleset:43
 #: data/nation/persian.ruleset:21
@@ -20528,7 +20651,7 @@ msgstr ""
 
 #: data/nation/bengali.ruleset:25
 msgid "Nabob"
-msgstr ""
+msgstr "태수"
 
 #: data/nation/bengali.ruleset:25
 #, fuzzy
@@ -20607,7 +20730,7 @@ msgstr ""
 #: data/nation/brazilian.ruleset:25 data/nation/byzantium.ruleset:25
 #: data/nation/roman.ruleset:40
 msgid "Imperator"
-msgstr ""
+msgstr "대장군"
 
 #: data/nation/brazilian.ruleset:25 data/nation/byzantium.ruleset:25
 #: data/nation/roman.ruleset:40
@@ -20616,16 +20739,16 @@ msgstr ""
 
 #: data/nation/brazilian.ruleset:26 data/nation/chinese.ruleset:32
 msgid "Chairman"
-msgstr ""
+msgstr "의장"
 
 #: data/nation/brazilian.ruleset:26 data/nation/chinese.ruleset:32
 #: data/nation/un.ruleset:23
 msgid "Chairperson"
-msgstr ""
+msgstr "의장"
 
 #: data/nation/brazilian.ruleset:27 data/nation/romanian.ruleset:39
 msgid "Director-President"
-msgstr ""
+msgstr "지도자-대통령"
 
 #: data/nation/brazilian.ruleset:27
 #, fuzzy
@@ -20703,7 +20826,7 @@ msgstr ""
 
 #: data/nation/bulgarian.ruleset:31
 msgid "Tzar"
-msgstr ""
+msgstr "황제"
 
 #: data/nation/bulgarian.ruleset:31
 msgid "Tzaritza"
@@ -20720,7 +20843,7 @@ msgstr ""
 #: data/nation/bulgarian.ruleset:34 data/nation/byzantium.ruleset:26
 #: data/nation/russian.ruleset:49
 msgid "Patriarch"
-msgstr ""
+msgstr "족장"
 
 #: data/nation/bulgarian.ruleset:34
 msgid "Sveta Maika"
@@ -20878,15 +21001,15 @@ msgstr ""
 
 #: data/nation/cambodian.ruleset:21 data/nation/manchu.ruleset:20
 msgid "Warlord"
-msgstr ""
+msgstr "장군"
 
 #: data/nation/cambodian.ruleset:22
 msgid "Brother"
-msgstr ""
+msgstr "형제"
 
 #: data/nation/cambodian.ruleset:22
 msgid "Sister"
-msgstr ""
+msgstr "자매"
 
 #: data/nation/canadian.ruleset:3
 msgid "Canadian"
@@ -20957,7 +21080,7 @@ msgstr ""
 #. TRANS: Rei/Reina = King/Queen
 #: data/nation/catalan.ruleset:34 data/nation/galician.ruleset:26
 msgid "Rei"
-msgstr ""
+msgstr "레이(화폐단위)"
 
 #: data/nation/catalan.ruleset:34
 msgid "Reina"
@@ -20990,7 +21113,7 @@ msgstr ""
 #: data/nation/cherokee.ruleset:23 data/nation/iroquois.ruleset:27
 #: data/nation/muskogee.ruleset:32 data/nation/sioux.ruleset:29
 msgid "Great Chief"
-msgstr ""
+msgstr "위대한  추장"
 
 #: data/nation/cherokee.ruleset:23 data/nation/iroquois.ruleset:27
 #: data/nation/sioux.ruleset:29
@@ -21002,13 +21125,13 @@ msgstr "추장"
 #: data/nation/muskogee.ruleset:33 data/nation/sami.ruleset:23
 #: data/nation/sioux.ruleset:30 data/nation/zulu.ruleset:39
 msgid "Spokesman"
-msgstr ""
+msgstr "연설가"
 
 #: data/nation/cherokee.ruleset:24 data/nation/iroquois.ruleset:28
 #: data/nation/muskogee.ruleset:33 data/nation/sami.ruleset:23
 #: data/nation/sioux.ruleset:30 data/nation/zulu.ruleset:39
 msgid "Spokeswoman"
-msgstr ""
+msgstr "연설가(여성)"
 
 #: data/nation/cherokee.ruleset:25
 msgid "Principal Chief"
@@ -21038,11 +21161,11 @@ msgstr ""
 #: data/nation/chilean.ruleset:25 data/nation/french.ruleset:28
 #: data/nation/german.ruleset:35 data/nation/irish.ruleset:46
 msgid "Archbishop"
-msgstr ""
+msgstr "대주교"
 
 #: data/nation/chilean.ruleset:26
 msgid "Supreme Director"
-msgstr ""
+msgstr "최고 감독자"
 
 #: data/nation/chinese.ruleset:3
 msgid "Chinese"
@@ -21071,7 +21194,7 @@ msgstr "황제"
 
 #: data/nation/chinese.ruleset:31
 msgid "Dowager"
-msgstr ""
+msgstr "귀부인"
 
 #: data/nation/chola.ruleset:3
 #, fuzzy
@@ -21116,7 +21239,7 @@ msgstr "장군"
 
 #: data/nation/colombian.ruleset:22 data/nation/venezuelan.ruleset:27
 msgid "Governador"
-msgstr ""
+msgstr "통치자"
 
 #: data/nation/colombian.ruleset:22 data/nation/venezuelan.ruleset:27
 msgid "Governadora"
@@ -21250,11 +21373,11 @@ msgstr ""
 
 #: data/nation/czech.ruleset:36
 msgid "Thane"
-msgstr ""
+msgstr "귀족"
 
 #: data/nation/czech.ruleset:36
 msgid "Prophetess"
-msgstr ""
+msgstr "예언자(女)"
 
 #: data/nation/danish.ruleset:3
 msgid "Danish"
@@ -21334,7 +21457,7 @@ msgstr "동무"
 
 #: data/nation/egyptian.ruleset:27 data/nation/nubian.ruleset:34
 msgid "Great Pharaoh"
-msgstr "大파라오"
+msgstr "대(大) 파라오"
 
 #: data/nation/egyptian.ruleset:27 data/nation/nubian.ruleset:34
 #, fuzzy
@@ -21562,12 +21685,12 @@ msgstr ""
 #: data/nation/venezuelan.ruleset:31 data/nation/venezuelan.ruleset:32
 #: data/nation/venezuelan.ruleset:33
 msgid "Presidente"
-msgstr ""
+msgstr "대통령"
 
 #: data/nation/galician.ruleset:27 data/nation/venezuelan.ruleset:31
 #: data/nation/venezuelan.ruleset:32 data/nation/venezuelan.ruleset:33
 msgid "Presidenta"
-msgstr ""
+msgstr "대통령"
 
 #: data/nation/galician.ruleset:28
 msgid "Gran Bardo"
@@ -21579,11 +21702,11 @@ msgstr ""
 
 #: data/nation/gallic.ruleset:3
 msgid "Gallic"
-msgstr "골"
+msgstr "골(Gallic)"
 
 #: data/nation/gallic.ruleset:4
 msgid "?plural:Gauls"
-msgstr "골 사람"
+msgstr "골(Gallic) 사람"
 
 #: data/nation/gallic.ruleset:6
 msgid ""
@@ -21599,7 +21722,7 @@ msgstr ""
 
 #: data/nation/gallic.ruleset:30
 msgid "Druid"
-msgstr ""
+msgstr "드루이드 "
 
 #: data/nation/gallic.ruleset:30
 #, fuzzy
@@ -21638,7 +21761,7 @@ msgstr ""
 
 #: data/nation/german.ruleset:34
 msgid "Chancellor"
-msgstr ""
+msgstr "대법관"
 
 #: data/nation/german.ruleset:34
 #, fuzzy
@@ -21647,7 +21770,7 @@ msgstr "추장"
 
 #: data/nation/german.ruleset:36
 msgid "First Secretary"
-msgstr ""
+msgstr "첫번째 장관"
 
 #: data/nation/german.ruleset:36
 #, fuzzy
@@ -21664,11 +21787,11 @@ msgstr "헬라스 사람"
 
 #: data/nation/greek.ruleset:6
 msgid "The ancient Greeks, between Mycenae and the Roman conquest."
-msgstr ""
+msgstr "고대 그리스, 미케네와 로마인의 정복사이"
 
 #: data/nation/greek.ruleset:19
 msgid "Despot"
-msgstr ""
+msgstr "독재자"
 
 #: data/nation/greek.ruleset:19
 #, fuzzy
@@ -22052,11 +22175,11 @@ msgstr ""
 
 #: data/nation/irish.ruleset:45
 msgid "High King"
-msgstr ""
+msgstr "높은 왕"
 
 #: data/nation/irish.ruleset:45
 msgid "High Queen"
-msgstr ""
+msgstr "높은 여왕"
 
 #: data/nation/irish.ruleset:46
 msgid "Mother Superior"
@@ -22410,7 +22533,7 @@ msgstr ""
 
 #: data/nation/libyan.ruleset:23
 msgid "Dey"
-msgstr "데이"
+msgstr " 태수(太守)"
 
 #: data/nation/libyan.ruleset:24
 msgid "Colonel"
@@ -22437,7 +22560,7 @@ msgstr ""
 
 #: data/nation/lithuanian.ruleset:28
 msgid "Great Duchess"
-msgstr ""
+msgstr "거대한 네덜란드"
 
 #: data/nation/lojbanistani.ruleset:3
 #, fuzzy
@@ -23352,11 +23475,11 @@ msgstr "여왕"
 
 #: data/nation/sami.ruleset:3
 msgid "Sami"
-msgstr "사미"
+msgstr "사미(Sami)"
 
 #: data/nation/sami.ruleset:4
 msgid "?plural:Sami"
-msgstr "사미 사람"
+msgstr "사미(Sami) 사람"
 
 #: data/nation/sami.ruleset:6
 msgid ""
@@ -23582,7 +23705,7 @@ msgstr ""
 
 #: data/nation/soviet.ruleset:28
 msgid "Great Leader"
-msgstr "위대한 수령"
+msgstr "위대한 지도자"
 
 #: data/nation/soviet.ruleset:28
 #, fuzzy
@@ -24341,11 +24464,11 @@ msgstr ""
 
 #: data/scenario/earth-80x50-v2.sav:3
 msgid "Earth (classic, small)"
-msgstr ""
+msgstr "대지(전형적인, 작은)"
 
 #: data/scenario/earth-80x50-v2.sav:4
 msgid "Classic-style 80x50 Earth scenario."
-msgstr ""
+msgstr "전형적인 스타일 80X50지면  시나리오"
 
 #: data/scenario/europe-200x100-v2.sav:3
 msgid "Europe (giant/classic)"
@@ -24353,15 +24476,15 @@ msgstr ""
 
 #: data/scenario/europe-200x100-v2.sav:4
 msgid "Very large classic-style map of Europe."
-msgstr ""
+msgstr "유럽의 아주 큰 고전풍 지도"
 
 #: data/scenario/hagworld-120x60-v1.2.sav:5
 msgid "Earth (classic, medium)"
-msgstr ""
+msgstr "지구 (클래식, 보통)"
 
 #: data/scenario/hagworld-120x60-v1.2.sav:6
 msgid "Classic-style 120x60 Earth scenario."
-msgstr ""
+msgstr "클래식풍의 120x60 지도 시나리오"
 
 #: data/scenario/iberian-peninsula-136x100-v1.0.sav:3
 msgid "Iberian Peninsula (classic/large)"
@@ -24375,11 +24498,11 @@ msgstr ""
 
 #: data/scenario/tutorial.sav:3
 msgid "Tutorial"
-msgstr ""
+msgstr "지침서"
 
 #: data/scenario/tutorial.sav:4
 msgid "Tutorial Scenario."
-msgstr ""
+msgstr "지침 시나리오"
 
 #: data/scenario/tutorial.sav:18
 msgid ""
@@ -24389,6 +24512,11 @@ msgid ""
 "and using your settlers to find a good place to build\n"
 "a city.  Use the number pad to move units around."
 msgstr ""
+"Freeciv에 오신 것을 환영합니다. 당신은 문명을 이끌어나갈것입니다\n"
+"해야 할일은 세계를 정복하는 것입니다!\n"
+"탐험가와 함께 지역주변을 조사를 시작하세요\n"
+"그리고 개척자로 하여금 좋은 장소에 도시를 건설하십시요\n"
+"숫자패드를 통해 부대를 주변으로 움직이십시요"
 
 #: data/scenario/tutorial.sav:34
 msgid ""
@@ -24399,6 +24527,13 @@ msgid ""
 "is the most important resource for any city.  Grassland and plains\n"
 "provide plenty of food."
 msgstr ""
+"여기는 도시를 건설하기에 좋은 곳으로 보입니다\n"
+"다음턴에서 부태가 움직일 기회가 오면 (b)를 눌러 도시를 만드십시요\n"
+"\n"
+"일반적으로 당신은 물에 가까운 훤히 트인 땅에 도시를 건설하는 것을 원할 것입니"
+"다\n"
+"식량은 어느 도시에서나 가장 중요한 자원입니다.\n"
+"목초지는 평지는 풍부한 식량을 제공합니다"
 
 #: data/scenario/tutorial.sav:49
 msgid ""
@@ -24414,6 +24549,20 @@ msgid ""
 "dialog.  If all goes well the city should display the settler\n"
 "production on the map view."
 msgstr ""
+"자, 이제 당신은 첫번째 도시를 건설하였습니다.\n"
+"만약 그 도시를 보기 위해 클릭하지 않는다해도그 도시의 관찰할 기회는 언제든 열"
+"려있습니다\n"
+"도시들은 Freeciv 필수요소입니다. 따라서 당신은 도시 창(window)을 다뤄봄으로"
+"서 \n"
+"익숙해질 필요가 있습니다.\n"
+"좀더 자세한 사항은 help메뉴를 참고하세요\n"
+"첫번째 이주민이 건설한것처럼 당신은 당신의 문명이 \n"
+"더 확장되길 원할지 모릅니다\n"
+"생산 탭(tab)을 클릭하고, 가능한 생산목록(list)에서\n"
+" 이주민(settler) 부대를 클릭합니다. 그리고 순서바꾸는 버튼을 이용해생산을 시"
+"작합니다.\n"
+"생산이 마치면 도시 다이얼로그(dialog)를 닫습니다.\n"
+"만약 모든 것이 잘되었다면 지도상에 생산된 이주민이 보여질 것입니다."
 
 #: data/scenario/tutorial.sav:62
 msgid ""
@@ -24422,6 +24571,10 @@ msgid ""
 "because of the terrain around it.  You probably want to build\n"
 "settlers here too."
 msgstr ""
+"축하합니다, 당신은 2번째 도시를 발견하셨습니다\n"
+"이 도시는 첫번째도시처럼 움직일 것입니다.\n"
+"지형에 따라 약간씩 도시가 다를 수 있습니다.\n"
+"당신은 여기에도 이주민이 건물을 짓기를 원할 것입니다"
 
 #: data/scenario/tutorial.sav:68
 msgid ""
@@ -24439,6 +24592,19 @@ msgid ""
 "append it to the worklist.  As soon as the Barracks are complete the\n"
 "city will automatically switch over to producing the unit."
 msgstr ""
+"3번째 도시를 지으셨군요! 당신은 문명이 점점 왕성해져 가고 있습니다\n"
+"군대에 대해 고려해볼 때가 온거 같습니다\n"
+"도시중의 생산이 높은 도시를 선택하여, 군부대로 전환하십시요\n"
+"병영(Barracks)를 먼저 짓고, 군대 부대에 업무를 할당하십시요\n"
+"선택가능한 최선의 부대를 고르십시요\n"
+"게임의 처음부분에서는 전사(warrior)만 선택할수 있을 것입니다\n"
+"하지만 당신은 곧 다양한 옵션을 갖게 될 것입니다.\n"
+"이때 도시다이얼로그 생산보고서(city dialog production report)\n"
+"의 작업리스트를 사용할 때가 온 것 같습니다.\n"
+"병영(Barracks)을 먼저 클릭하고 그들의 생산을 시작하십시요.\n"
+"군부대를 더블 클릭하면 작업리스트에 추가가 될 것입니다.\n"
+"병영(Barracks)이 완성되자 마자 도시는 자동적으로 부대를\n"
+"생산하게 될 것입니다."
 
 #: data/scenario/tutorial.sav:83
 msgid ""
@@ -24607,6 +24773,15 @@ msgid ""
 "founding a new city, make sure it is built on terrain that provides\n"
 "enough food - grassland is best; plains or hills are almost as good."
 msgstr ""
+"당신의 도시는 이주민을 만들수 없습니다. 이주민은 한번에 한 부대를\n"
+" 만들수 있습니다. 따라서 하나의 크기의 도시는 해산시키지 않고는\n"
+" 더 만들수 없습니다. \n"
+"이것을 복구하기 위해선, 당신은 도시에 도시가 성장하기에 충분한\n"
+"식량을 시민에게 제공하도록 조정해야 합니다.충분한 식량이 없는\n"
+" 도시들은 이주민을 생산하도록 시도하지 않는 것이 낫습니다\n"
+"새로운 도시를 발견했을때, 충분한 식량을 제공할 지형에 지을\n"
+"것인지 분명하게 하십시요- 목초기가 제일좋고; 평야나 언덕은\n"
+"괜찮습니다"
 
 #: data/scenario/tutorial.sav:279
 msgid ""
@@ -24696,7 +24871,7 @@ msgstr ""
 
 #: data/scenario/tutorial.sav:380
 msgid "Loading tutorial events."
-msgstr ""
+msgstr "지침 이벤트를 불러오고 있습니다."
 
 #: data/civ1/game.ruleset:98 data/civ2/game.ruleset:98
 #: data/default/game.ruleset:126
@@ -24858,17 +25033,433 @@ msgstr "팀 30"
 msgid "Team 31"
 msgstr "팀 31"
 
+#~ msgid "City: Building Unavailable Item"
+#~ msgstr "도시: 이용할 수 없는 항목을 만들기"
+
+#~ msgid "City: Captured/Destroyed"
+#~ msgstr "도시 : 점령/파괴"
+
+#~ msgid "City: Celebrating"
+#~ msgstr "도시 : 축제"
+
+#~ msgid "City: Civil Disorder"
+#~ msgstr "도시 : 무질서"
+
+#~ msgid "City: Famine"
+#~ msgstr "도시 : 기아"
+
+#~ msgid "City: Famine Feared"
+#~ msgstr "도시 : 기아 공포"
+
+#~ msgid "City: Growth"
+#~ msgstr "도시 : 성장"
+
+#~ msgid "City: May Soon Grow"
+#~ msgstr "도시 : 금새 성장할수 있음"
+
+#~ msgid "City: Needs Aqueduct"
+#~ msgstr "도시 : 수도관이 필요"
+
+#~ msgid "City: Needs Aqueduct Being Built"
+#~ msgstr "도시 : 수도관 건설 필요"
+
+#~ msgid "City: Normal"
+#~ msgstr "도시 : 보통"
+
+#~ msgid "City: Nuked"
+#~ msgstr "도시 : 원자력 발전소"
+
+#~ msgid "City: Released from citizen governor"
+#~ msgstr "도시 : 시민통치자로 부터 해방"
+
+#~ msgid "City: Suggest Growth Throttling"
+#~ msgstr "도시 : 숨막히는 성장 제안"
+
+#~ msgid "City: Transfer"
+#~ msgstr "도시 : 교통"
+
+#~ msgid "City: Was Built"
+#~ msgstr "도시 : 건설되었음"
+
+#~ msgid "City: Worklist Events"
+#~ msgstr "도시 : 작업리스트 결과"
+
+#~ msgid "City: Production changed"
+#~ msgstr "도시 : 생산 변경됨"
+
+#~ msgid "Civ: Barbarian Uprising"
+#~ msgstr "도시 : 미개인의 반란"
+
+#~ msgid "Civ: Civil War"
+#~ msgstr "도시 : 내란"
+
+#~ msgid "Civ: Collapse to Anarchy"
+#~ msgstr "도시 : 무정부 상태로의 붕괴"
+
+#~ msgid "Civ: First Contact"
+#~ msgstr "도시 : 첫번째 접촉"
+
+#~ msgid "Civ: Learned New Government"
+#~ msgstr "도시 : 새로운 정부 가르침"
+
+#~ msgid "Civ: Low Funds"
+#~ msgstr "도시 : 낮은 자금"
+
+#~ msgid "Civ: Pollution"
+#~ msgstr "도시 : 환경 오염"
+
+#~ msgid "Civ: Revolt Ended"
+#~ msgstr "도시 : 폭동 종료"
+
+#~ msgid "Civ: Revolt Started"
+#~ msgstr "도시 : 반란 시작됨"
+
+#~ msgid "Civ: Spaceship Events"
+#~ msgstr "도시 : 우주선 사건"
+
+#~ msgid "Diplomat Action: Bribe"
+#~ msgstr "외교관 행동 : 뇌물"
+
+#~ msgid "Diplomat Action: Caused Incident"
+#~ msgstr "외교관 행동 : 대의 분쟁"
+
+#~ msgid "Diplomat Action: Escape"
+#~ msgstr "외교관 행동 : 탈출"
+
+#~ msgid "Diplomat Action: Embassy"
+#~ msgstr "외교관 행동 : 사절단"
+
+#~ msgid "Diplomat Action: Failed"
+#~ msgstr "외교관 행동 : 실패함"
+
+#~ msgid "Diplomat Action: Incite"
+#~ msgstr "외교관 행동 : 선동"
+
+#~ msgid "Diplomat Action: Poison"
+#~ msgstr "외교관 행동 : 독살"
+
+#~ msgid "Diplomat Action: Sabotage"
+#~ msgstr "외교관 행동 : 방해공작"
+
+#~ msgid "Diplomat Action: Theft"
+#~ msgstr "외교관 행동 : 절도"
+
+#~ msgid "Enemy Diplomat: Bribe"
+#~ msgstr "적군 외교관 : 뇌물"
+
+#~ msgid "Enemy Diplomat: Embassy"
+#~ msgstr "적군 외교관 : 사절단"
+
+#~ msgid "Enemy Diplomat: Failed"
+#~ msgstr "적군 외교관 : 실패함"
+
+#~ msgid "Enemy Diplomat: Incite"
+#~ msgstr "적군 외교관 : 선동"
+
+#~ msgid "Enemy Diplomat: Poison"
+#~ msgstr "적군 외교관 : 독살"
+
+#~ msgid "Enemy Diplomat: Sabotage"
+#~ msgstr "적군 외교관 : 방해공작"
+
+#~ msgid "Enemy Diplomat: Theft"
+#~ msgstr "적군 외교관 : 절도"
+
+#~ msgid "Global: Eco-Disaster"
+#~ msgstr "세계 : 경제 공황"
+
+#~ msgid "Global: Nuke Detonated"
+#~ msgstr "세계 : 원자력발전소 폭발"
+
+#~ msgid "Hut: Barbarians in a Hut Roused"
+#~ msgstr "부락 : 미개인"
+
+#~ msgid "Hut: City Founded from Hut"
+#~ msgstr "부락 : 부락으로 부터 도시 발견됨"
+
+#~ msgid "Hut: Gold Found in Hut"
+#~ msgstr "부락 : 부락에서 돈이 발견됨"
+
+#~ msgid "Hut: Killed by Barbarians in a Hut"
+#~ msgstr "부락 : 부락안의 미개인들에 의해 살해됨"
+
+#~ msgid "Hut: Mercenaries Found in Hut"
+#~ msgstr "부락 : 부락에서 용병이 발견됨"
+
+#~ msgid "Hut: Settler Found in Hut"
+#~ msgstr "부락 : 부락안에서 이주민 발견됨"
+
+#~ msgid "Hut: Tech Found in Hut"
+#~ msgstr "부락 : 부락안에서 기술이 발견됨"
+
+#~ msgid "Hut: Unit Spared by Barbarians"
+#~ msgstr "부락 : 미개인에 의해 부대가 빈약해짐"
+
+#~ msgid "Improvement: Bought"
+#~ msgstr "진보 : 매수"
+
+#~ msgid "Improvement: Built"
+#~ msgstr "진보 : 건축"
+
+#~ msgid "Improvement: Forced to Sell"
+#~ msgstr "진보 : 강매"
+
+#~ msgid "Improvement: New Improvement Selected"
+#~ msgstr "진보 : 극상품의 새로운 개량"
+
+#~ msgid "Improvement: Sold"
+#~ msgstr "진보 : 매각"
+
+#~ msgid "Tech: Learned From Great Library"
+#~ msgstr "기술 : 위대한 도서관으로의 배움"
+
+#~ msgid "Tech: Learned New Tech"
+#~ msgstr "기술 : 새로운 기술의 배움"
+
+#~ msgid "Treaty: Alliance"
+#~ msgstr "조약 : 동맹"
+
+#~ msgid "Treaty: Broken"
+#~ msgstr "조약 : 파기"
+
+#~ msgid "Treaty: Cease-fire"
+#~ msgstr "조약 : 휴전"
+
+#~ msgid "Treaty: Peace"
+#~ msgstr "조약 : 평화"
+
+#~ msgid "Treaty: Shared Vision"
+#~ msgstr "조약 : 시야 공유"
+
+#~ msgid "Unit: Attack Failed"
+#~ msgstr "부대 : 공격 실패"
+
+#~ msgid "Unit: Attack Succeeded"
+#~ msgstr "부대 : 공격 성공"
+
+#~ msgid "Unit: Bought"
+#~ msgstr "부대 : 구입함"
+
+#~ msgid "Unit: Built"
+#~ msgstr "부대 : 건설"
+
+#~ msgid "Unit: Defender Destroyed"
+#~ msgstr "부대 : 방어자 파괴됨"
+
+#~ msgid "Unit: Defender Survived"
+#~ msgstr "부대 : 방어자 살아남음"
+
+#, fuzzy
+#~ msgid "Unit: Promoted to Veteran"
+#~ msgstr "부대 : 좀더 숙련됨"
+
+#~ msgid "Unit: Production Upgraded"
+#~ msgstr "부대 : 생산 업그레이드"
+
+#~ msgid "Unit: Relocated"
+#~ msgstr "부대 : 새 배치"
+
+#~ msgid "Unit: Orders / goto events"
+#~ msgstr "부대 : 명령 / 사건으로 이동"
+
+#~ msgid "Wonder: Finished"
+#~ msgstr "불가사의 : 완료"
+
+#~ msgid "Wonder: Made Obsolete"
+#~ msgstr "불가사의 : 폐물만듬"
+
+#~ msgid "Wonder: Started"
+#~ msgstr "불가사의 : 시작됨"
+
+#~ msgid "Wonder: Stopped"
+#~ msgstr "불가사의 : 멈춤"
+
+#~ msgid "Wonder: Will Finish Next Turn"
+#~ msgstr "불가사의 : 다음 턴에서 완성됨"
+
+#~ msgid "Treaty: Embassy"
+#~ msgstr "조약 : 대사관"
+
+#~ msgid "We Love The %s Day canceled in %s."
+#~ msgstr "우리는 %s에서 %s 의 날이 무효된 것을 기뻐합니다"
+
+#, fuzzy
+#~ msgid "(%d) %s: connected [%s]"
+#~ msgstr "(%d) %s(은)는 %s에서 연결했습니다."
+
+#, fuzzy
+#~ msgid "The username is invalid!"
+#~ msgstr "유효한 사용자 이름이 아닙니다"
+
+#~ msgid "novice"
+#~ msgstr "초보"
+
+#~ msgid "easy"
+#~ msgstr "쉬움"
+
+#~ msgid "normal"
+#~ msgstr "보통"
+
+#~ msgid "hard"
+#~ msgstr "어려움"
+
+#~ msgid "experimental"
+#~ msgstr "실험적인"
+
+#~ msgid "<AI>"
+#~ msgstr "<AI>"
+
+#~ msgid "Sa_ve Options"
+#~ msgstr "옵션 저장(_V)"
+
+#~ msgid "Gov_ernment"
+#~ msgstr "정부"
+
+#~ msgid "_Change Government"
+#~ msgstr "정부를 바꾸기(_C)"
+
+#~ msgid "Petroleum"
+#~ msgstr "석유"
+
+#~ msgid ""
+#~ "TIP:  A very fast unit, which is very useful for hunting down enemy "
+#~ "Transports."
+#~ msgstr "팁: 가장 빠른 부대는 적의 수송을 추적하는데 유용합니다"
+
+#~ msgid "Bosnia & Herzegovina"
+#~ msgstr "보스니아 헤르체고비나"
+
+#~ msgid "?title:Inca"
+#~ msgstr "잉카"
+
+#~ msgid "Sapa Inca"
+#~ msgstr "사파 잉카"
+
+#~ msgid "Kampuchean"
+#~ msgstr "캄보디아"
+
+#~ msgid "?plural:Kampucheans"
+#~ msgstr "캄보디아 사람"
+
+#~ msgid "Elected King"
+#~ msgstr "선출된 왕"
+
+#~ msgid "Elected Queen"
+#~ msgstr "선출된 여왕"
+
+#~ msgid "Elected Priest"
+#~ msgstr "선출된 성직자"
+
+#~ msgid "Turk"
+#~ msgstr "터키"
+
+#~ msgid "Venezuela"
+#~ msgstr "베네수엘라"
+
+#~ msgid ""
+#~ "You have built your first military unit!  Military units have two\n"
+#~ "basic purposes: attack and defense.  Each unit has an attack strength\n"
+#~ "and a defense strength.  While a Warriors is a measly 1/1, a Phalanx\n"
+#~ "is a must stronger defender with 2 defense (1/2).  A Catapult is a good\n"
+#~ "attacking unit because it has 6 attack (6/1).\n"
+#~ "\n"
+#~ "Usually it is a good idea to keep one or two defenders in each city.\n"
+#~ "Important cities like your capital may deserve extra protection.  Units\n"
+#~ "built in one city may be sent to another city to defend (press the G\n"
+#~ "key to enter goto mode to move units easily over distances).  If you\n"
+#~ "are at war, however, you may wish to move your unit toward an enemy\n"
+#~ "city to attack.  Be careful not to lose it though!"
+#~ msgstr ""
+#~ "첫번째 군 부대를 만들었습니다! 군 부대는 \n"
+#~ "두가지 기본 목적을 가지고 있습니다: 공격, 방어. 각각의 부대는\n"
+#~ "공격과 방어의 힘을 가지고 있습니다. 전사(warrior)는 1/1, 창병은 \n"
+#~ "방어능력이 2배더 뛰어납니다. 1/2. 투석기는 6공격력을 가진(6/1)\n"
+#~ "부대이므로 공격에 좋은 부대입니다\n"
+#~ "\n"
+#~ "일반적으로 각각의 도시에 1또는 2의 방어자를 세우는 건 좋은 생각\n"
+#~ "입니다.당신의 수도와 같은 중요도시는 추가보호를 해야 할 가치가\n"
+#~ " 있을것입다.하나의 도시안에서 지어진 부대는 또 다른 도시방어를\n"
+#~ "위해 (G키를 클릭하면 거리를 넘어 쉽게 부대가 이동모드로 들어\n"
+#~ "갑니다).만약 당신이 전쟁중이라면, 당신의 부대를 적진속으로 공격을\n"
+#~ "하고 싶어할수도 있습니다. 부대를 잃지 않도록 조심하십시요!"
+
+#~ msgid ""
+#~ "You have successfully completed research into The Republic.  This\n"
+#~ "technology is particularly useful because it allows a new form of\n"
+#~ "government.  The government your civilization follows is very\n"
+#~ "important in determining your development.  In the beginning you\n"
+#~ "started as a Despotism, a very inefficient form of government.  Later\n"
+#~ "government options will give you some choice of whether your\n"
+#~ "civilization is to be a peaceful trading nation or a conquering\n"
+#~ "juggernaut.  Each has advantages.\n"
+#~ "\n"
+#~ "For now, you probably want to switch staight into Republic.  In the\n"
+#~ "Government menu, go to the Change Government submenu and choose\n"
+#~ "Republic.  Yes you want a revolution!  Changing governments means\n"
+#~ "going through a few turns of anarchy, so it is not without cost.\n"
+#~ "However Republic is a substantially better form of government\n"
+#~ "than Despotism so the investment will soon pay off."
+#~ msgstr ""
+#~ "당신은 성공적으로 \"공화제\" 연구를 완료하였습니다\n"
+#~ " 이 기술은  새로운 통치형태를 승인하도록 해주기 때문에 부분적으로 유용합니"
+#~ "다.\n"
+#~ " 당신 문명이 추구하고자 하는 통치형태는 당신의 개발에 따라 결정되므로 중요"
+#~ "합니다.\n"
+#~ "첫번째로,당신이 독재체제로 시작한다면,이것은 비효율적인 통치형태입니다.\n"
+#~ "나중에 정부선택 옵션이 당신에게 몇몇 선택권을 줄 것입니다.\n"
+#~ "당신문명이 평화로운 무역국가가 될것인지, \n"
+#~ "파괴하고 정복하는 국가가 될것인지 선택하는 겁니다.\n"
+#~ "각자 나름대로 장점을 가지고 있습니다.\n"
+#~ "\n"
+#~ "현재까지, 당신은 아마 공화국으로 가려는 것같습니다.\n"
+#~ "정부(Government) 메뉴에서, 통치형태 하위메뉴(submenu)로 가셔서\n"
+#~ " 공화제을 선택하십시요."
+
+#~ msgid ""
+#~ "Your unit has found a Hut.  These are small villages scattered across\n"
+#~ "the landscape.  When a unit enters one several things may happen.  The\n"
+#~ "most likely outcome is that you will find resources worth a small\n"
+#~ "amount of gold.  However it is also possible to find technologies or\n"
+#~ "mercenary units inside a hut.  Some huts contain native settlers\n"
+#~ "that will join your civilization and bring a new city into your\n"
+#~ "empire.  Finally, some huts contain barbarians which will kill your\n"
+#~ "unit instantly.  On average, it is beneficial to search out and enter\n"
+#~ "any huts you find as soon as possible."
+#~ msgstr ""
+#~ "당신의 유닛이 부락을 찾았습니다. 이러한 작은 부락들은 주변에\n"
+#~ "흩어져 있습니다. 당신의 유닛이 그곳에 접근했을때 몇가지 사건들이 발생합니"
+#~ "다.\n"
+#~ "대부분의 경우 작은양의 금(gold)의 가치에 해당하는 자원을 획득할것입니다. "
+#~ "하지만, 부락에 따라 기술이나 \n"
+#~ "용병유닛이 발견할수도 있습니다.\n"
+#~ "몇몇 부락의 원주민들은 당신의 문명에 참가하고 새로운 도시를 당신의 제국에 "
+#~ "가져올 것입니다.\n"
+#~ " 마지막으로 몇몇 야만인이 있는 부락은 당신을 즉시 죽일 것입니다\n"
+#~ "평균적으로, 당신이 가능한한 빨리 찾아내서 들어가는 것이 유리합니다."
+
+#~ msgid "Units: "
+#~ msgstr "부대: "
+
+#~ msgid "%s"
+#~ msgstr "%s"
+
+#~ msgid ", "
+#~ msgstr ", "
+
+#~ msgid "_Players"
+#~ msgstr "플레이어(_P)"
+
+#~ msgid "_Science"
+#~ msgstr "과학(_S)"
+
+#~ msgid "S_paceship"
+#~ msgstr "우주선(_S)"
+
 #~ msgid ", nation %s"
 #~ msgstr ", %s민족"
 
 #~ msgid ", team %s"
 #~ msgstr ", %s팀"
-
-#~ msgid ", "
-#~ msgstr ", "
-
-#~ msgid "."
-#~ msgstr "."
 
 #~ msgid "L_egend"
 #~ msgstr "전설(_E)"
@@ -24879,24 +25470,8 @@ msgstr "팀 31"
 #~ msgid "Gover_nment"
 #~ msgstr "정부(_N)"
 
-#~ msgid "_Change Government"
-#~ msgstr "정부를 바꾸기(_C)"
+#~ msgid "Clear _Log"
+#~ msgstr "지난기록 삭제"
 
-#~ msgid "_Players"
-#~ msgstr "플레이어(_P)"
-
-#~ msgid "_Science"
-#~ msgstr "과학(_S)"
-
-#~ msgid "Petroleum"
-#~ msgstr "석유"
-
-#~ msgid "Team 32"
-#~ msgstr "팀 32"
-
-#~ msgid ""
-#~ "\n"
-#~ "finshed"
-#~ msgstr ""
-#~ "\n"
-#~ "완성"
+#~ msgid "Work_lists"
+#~ msgstr "작업리스트"
