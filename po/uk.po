@@ -1,6 +1,7 @@
 # translation of uk.po to Ukrainian
 # Roman Festchook <roma@polesye.net>, 2003-2006.
 # Daniil Ivanov <daniil.ivanov@gmail.com>, 2007.
+# Yuri Chornoivan <yurchor@ukr.net>, 2007.
 # FreeCiv ukrainian translation
 # Copyright (C)2003-2006 Roman Festchook
 # This file is distributed under the same license as the freeciv package.
@@ -9,7 +10,7 @@ msgstr ""
 "Project-Id-Version: uk\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-22 22:45-0500\n"
-"PO-Revision-Date: 2007-09-05 04:30+0300\n"
+"PO-Revision-Date: 2007-12-03 23:03+0200\n"
 "Last-Translator: Daniil Ivanov <daniil.ivanov@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +18,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Poedit-Basepath: ..\n"
 
 #: common/city.c:56 client/gui-gtk-2.0/repodlgs.c:963
 #: client/gui-win32/repodlgs.c:715
@@ -52,19 +52,19 @@ msgstr "Наука"
 
 #: common/city.c:356
 msgid "?obsolete:O"
-msgstr "?застар╕ле:С"
+msgstr "З"
 
 #: common/city.c:359
 msgid "?redundant:*"
-msgstr "?зайве:*"
+msgstr "*"
 
 #: common/city.c:364
 msgid "?built:B"
-msgstr "?збудоване:Б"
+msgstr "Б"
 
 #: common/city.c:366
 msgid "?wonder:w"
-msgstr "?диво:д"
+msgstr "д"
 
 #: common/connection.c:514
 #, c-format
@@ -261,11 +261,11 @@ msgstr "Грабування"
 #: common/events.c:81 common/events.c:82 common/events.c:83 common/events.c:84
 #: common/events.c:85 common/events.c:86 common/events.c:87
 msgid "Enemy Diplomat"
-msgstr "Ворож╕й д╕пломат"
+msgstr "Ворожий д╕пломат"
 
 #: common/events.c:88
 msgid "Caravan actions"
-msgstr "Д╕╖ каравана"
+msgstr "Д╕╖ каравану"
 
 #: common/events.c:89
 msgid "Tutorial message"
@@ -285,11 +285,11 @@ msgstr "Гру розпочато"
 
 #: common/events.c:93
 msgid "Message from Server Operator"
-msgstr "Пов╕домлення в╕д оператора серверу"
+msgstr "Пов╕домлення в╕д оператора сервера"
 
 #: common/events.c:94
 msgid "Nation Selected"
-msgstr "Нац╕ю обрано"
+msgstr "Обрано нац╕ю"
 
 #: common/events.c:95
 msgid "Player Destroyed"
@@ -335,7 +335,7 @@ msgstr "М╕сто засноване з хутора"
 
 #: common/events.c:103
 msgid "Gold Found in Hut"
-msgstr "Найдено грош╕ на хутор╕"
+msgstr "На хутор╕ знайдено грош╕"
 
 #: common/events.c:104
 msgid "Killed by Barbarians in a Hut"
@@ -355,7 +355,7 @@ msgstr "Знайдено знання на хутор╕"
 
 #: common/events.c:108
 msgid "Unit Spared by Barbarians"
-msgstr "З'╓днання не зачипили дикуни"
+msgstr "Дикуни пощадили п╕дрозд╕л"
 
 #: common/events.c:109 common/events.c:110 common/events.c:111
 #: common/events.c:112 common/events.c:113 client/gui-win32/citydlg.c:855
@@ -431,7 +431,7 @@ msgstr "Сп╕льне бачення"
 #: common/events.c:131 client/gui-gtk-2.0/editdlg.c:82
 #: client/gui-gtk-2.0/dialogs.c:529
 msgid "Unit"
-msgstr "П╕дрозд╕ли"
+msgstr "П╕дрозд╕л"
 
 #: common/events.c:122
 msgid "Attack Failed"
@@ -450,9 +450,8 @@ msgid "Defender Survived"
 msgstr "Захисник Вц╕л╕в"
 
 #: common/events.c:128
-#, fuzzy
 msgid "Promoted to Veteran"
-msgstr "П╕двищ╕ти р╕вень ветерана"
+msgstr "П╕двищити р╕вень ветерана"
 
 #: common/events.c:129
 msgid "Production Upgraded"
@@ -494,11 +493,11 @@ msgstr "Буде завершено наступного ходу"
 
 #: common/events.c:137
 msgid "Diplomatic Message"
-msgstr "Д╕пломатичне послання"
+msgstr "Дипломатичне послання"
 
 #: common/events.c:139
 msgid "Error message from bad command"
-msgstr "Пов╕домлення про помилку в╕д хибно╖ команди"
+msgstr "Пов╕домлення про нев╕рну команду"
 
 #: common/events.c:140
 msgid "Server settings changed"
@@ -506,11 +505,11 @@ msgstr "Установки сервера зм╕нено"
 
 #: common/events.c:141
 msgid "Chat messages"
-msgstr "Пов╕домлення"
+msgstr "Пов╕домлення перемовин"
 
 #: common/events.c:142
 msgid "Chat error messages"
-msgstr "Пов╕домлення про помилки"
+msgstr "Пов╕домлення про помилки перемовин"
 
 #: common/events.c:143
 msgid "Connect/disconnect messages"
@@ -553,90 +552,90 @@ msgstr "Шахраювати"
 
 #: common/player.c:43
 msgid "Experimental"
-msgstr "Експер╕ментальний"
+msgstr "Експериментальний"
 
 #: common/player.c:762
 msgid "?attitude:Genocidal"
-msgstr "?ставлення:Геноцид"
+msgstr "Геноцид"
 
 #: common/player.c:764
 msgid "?attitude:Belligerent"
-msgstr "?ставлення:У стан╕ в╕йни"
+msgstr "Войовниче"
 
 #: common/player.c:766
 msgid "?attitude:Hostile"
-msgstr "?ставлення:Ворожий"
+msgstr "Вороже"
 
 #: common/player.c:768
 msgid "?attitude:Uncooperative"
-msgstr "?ставлення:Не схильний до сп╕вроб╕тництва"
+msgstr "Недружн╓"
 
 #: common/player.c:770
 msgid "?attitude:Uneasy"
-msgstr "?ставлення:Складне"
+msgstr "Складне"
 
 #: common/player.c:772
 msgid "?attitude:Neutral"
-msgstr "?ставлення:Нейтральний"
+msgstr "Нейтральне"
 
 #: common/player.c:774
 msgid "?attitude:Respectful"
-msgstr "?ставлення:Поважний"
+msgstr "Повага"
 
 #: common/player.c:776
 msgid "?attitude:Helpful"
-msgstr "?ставлення:Схильний до допомоги"
+msgstr "Вза╓модопомога"
 
 #: common/player.c:778
 msgid "?attitude:Enthusiastic"
-msgstr "?ставлення:Ентуз╕астичний"
+msgstr "Ентуз╕азм"
 
 #: common/player.c:780
 msgid "?attitude:Admiring"
-msgstr "?ставлення:Захоплення"
+msgstr "Захоплення"
 
 #: common/player.c:783
 msgid "?attitude:Worshipful"
-msgstr "?ставлення:Пошана"
+msgstr "Поклон╕ння"
 
 #: common/player.c:794
 msgid "?diplomatic_state:Armistice"
-msgstr "?д╕пломатичний_стан:Перемир'я"
+msgstr "Замирення"
 
 #: common/player.c:795
 msgid "?diplomatic_state:War"
-msgstr "?д╕пломатичний_стан:В╕йна"
+msgstr "В╕йна"
 
 #: common/player.c:796 client/gui-gtk-2.0/diplodlg.c:360
 #: client/gui-sdl/diplodlg.c:462 client/gui-win32/diplodlg.c:307
 #: client/gui-xaw/diplodlg.c:526
 msgid "?diplomatic_state:Cease-fire"
-msgstr "?д╕пломатичний_стан:Припинення вогню"
+msgstr "Припинення вогню"
 
 #: common/player.c:797 client/gui-gtk-2.0/diplodlg.c:365
 #: client/gui-sdl/diplodlg.c:476 client/gui-win32/diplodlg.c:308
 #: client/gui-xaw/diplodlg.c:530
 msgid "?diplomatic_state:Peace"
-msgstr "?д╕пломатичний_стан:Мир"
+msgstr "Мир"
 
 #: common/player.c:798 client/gui-gtk-2.0/diplodlg.c:370
 #: client/gui-sdl/diplodlg.c:491 client/gui-win32/diplodlg.c:309
 #: client/gui-xaw/diplodlg.c:534
 msgid "?diplomatic_state:Alliance"
-msgstr "?д╕пломатичний_стан:Альянс"
+msgstr "Альянс"
 
 #: common/player.c:799
 msgid "?diplomatic_state:Never met"
-msgstr "?д╕пломатичний_стан:Не зустр╕чалися"
+msgstr "Не зустр╕чалися"
 
 #: common/player.c:800
 msgid "?diplomatic_state:Team"
-msgstr "?д╕пломатичний_стан:Команда"
+msgstr "Команда"
 
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:525 common/requirements.c:540
 msgid "World-ranged requirements are only supported for wonders."
-msgstr "Вимоги мирового обсягу п╕дтримуються т╕льки для див."
+msgstr "Вимоги всесв╕тнього характеру п╕дтримуються т╕льки для див."
 
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:581
@@ -1787,7 +1786,7 @@ msgstr "Переправлено %s з %s у %s."
 #: server/citytools.c:550
 #, fuzzy, c-format
 msgid "%s %s lost in transfer to %s %s"
-msgstr "%s з %s втрачено у атац╕ в╕д %s %s."
+msgstr "%s %s втрачено у атац╕ в╕д %s %s."
 
 #: server/citytools.c:633
 #, c-format
@@ -3291,7 +3290,7 @@ msgstr "Ви досягли замирення з %s."
 
 #. TRANS: ... the Poles ... Polish territory.
 #: server/diplhand.c:477 server/diplhand.c:489
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You agree on an armistice with the %s. In %d turn, it will become a peace "
 "treaty. Move your units out of %s territory."
@@ -3299,14 +3298,8 @@ msgid_plural ""
 "You agree on an armistice with the %s. In %d turns, it will become a peace "
 "treaty. Move your units out of %s territory."
 msgstr[0] ""
-"Ви домовилися на препинення вогню ╕з %s. За %d х╕д мирний догов╕р набере "
-"чинност╕. Перем╕стить Ваш╕ п╕дрозд╕ли з теритоор╕╖ %s."
 msgstr[1] ""
-"Ви домовилися на препинення вогню ╕з %s. За %d хода мирний догов╕р набере "
-"чинност╕. Перем╕стить Ваш╕ п╕дрозд╕ли з теритоор╕╖ %s."
 msgstr[2] ""
-"Ви домовилися на препинення вогню ╕з %s. За %d ход╕в мирний догов╕р набере "
-"чинност╕. Перем╕стить Ваш╕ п╕дрозд╕ли з теритоор╕╖ %s."
 
 #: server/diplhand.c:513 server/diplhand.c:516
 #, c-format
@@ -3395,13 +3388,13 @@ msgstr "У Вас не вистача╓ кошт╕в перетягнути на св╕й б╕к %s %s."
 #: server/diplomats.c:433
 #, fuzzy, c-format
 msgid "You cannot bribe the %s!"
-msgstr "Ви не можете п╕дкупити %s!"
+msgstr "Ви не купили %s!"
 
 #. TRANS: <diplomat> ... <unit>
 #: server/diplomats.c:457
 #, fuzzy, c-format
 msgid "Your %s succeeded in bribing the %s."
-msgstr "Ваш %s перетягнув на св╕й б╕к %s %s."
+msgstr "Ваш %s перетягнув на св╕й б╕к %s."
 
 #. TRANS: <unit> ... <Poles>
 #: server/diplomats.c:465
@@ -3524,7 +3517,7 @@ msgstr "%s знищив %s у %s."
 #: server/diplomats.c:1094
 #, fuzzy, c-format
 msgid "An enemy %s has been eliminated by your %s."
-msgstr "Ворож╕й п╕дрозд╕л %s загинув захищаючи %s."
+msgstr "Ваш п╕дрозд╕л %s загинув захищаючи %s."
 
 #. TRANS: <unit> ... <city> ... <diplomat>
 #: server/diplomats.c:1101
@@ -3536,7 +3529,7 @@ msgstr "Ваш п╕дрозд╕л %s загинув захищаючись проти %s у %s."
 #: server/diplomats.c:1109
 #, fuzzy, c-format
 msgid "Your %s has been eliminated defending against a %s."
-msgstr "Ваш п╕дрозд╕л %s загинув захищаючись проти %s у %s."
+msgstr "Ваш п╕дрозд╕л %s загинув захищаючись проти у %s."
 
 #: server/diplomats.c:1122
 #, c-format
@@ -6266,12 +6259,12 @@ msgstr "%s б╕льше не у стан╕ в╕дладки"
 #: server/stdinhand.c:2381 server/stdinhand.c:2420
 #, fuzzy, c-format
 msgid "%s %s no longer debugged."
-msgstr "%s %s б╕льше не у стан╕ в╕дладки."
+msgstr "%s %s атаковано атомною бомбою."
 
 #: server/stdinhand.c:2386 server/stdinhand.c:2425
 #, fuzzy, c-format
 msgid "%s %s debugged."
-msgstr "%s %s  у стан╕ в╕дладки."
+msgstr "%s %s атаковано атомною бомбою."
 
 #: server/stdinhand.c:2396
 msgid "Ferry system is no longer in debug mode."
@@ -6728,9 +6721,9 @@ msgstr ", р╕вень складност╕ %s"
 #: server/stdinhand.c:4138 server/stdinhand.c:4142 client/helpdata.c:254
 #: client/helpdata.c:745 client/text.c:187 client/text.c:1179
 #: client/text.c:1217
-#, fuzzy, c-format
+#, c-format
 msgid "?clistmore:, %s"
-msgstr "?blistmore:, "
+msgstr ", %s"
 
 #: server/stdinhand.c:4146
 msgid ", ready"
@@ -6961,13 +6954,13 @@ msgstr "Атомну атаку у %s було нейтрал╕зовано завдяки Вашому СО╤."
 #: server/unithand.c:1013
 #, fuzzy, c-format
 msgid "Your %s survived the pathetic attack from the %s %s."
-msgstr "Ваш %s%s витримав невдалу атаку в╕д %s %s."
+msgstr "Ваш %s витримав невдалу атаку в╕д %s %s."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
 #: server/unithand.c:1022
 #, fuzzy, c-format
 msgid "Your attacking %s failed against the %s %s!"
-msgstr "Ваша атака п╕дрозд╕лом %s проти %s п╕дрозд╕лу %s%s провалилася!"
+msgstr "Ваша атака п╕дрозд╕лом %s проти %s п╕дрозд╕лу %s провалилася!"
 
 #: server/unithand.c:1096
 #, c-format
@@ -7083,7 +7076,7 @@ msgstr ""
 #: server/unittools.c:258
 #, fuzzy, c-format
 msgid "%s was upgraded for free to %s."
-msgstr "%s був модерн╕зований безкоштовно до %s%s."
+msgstr "%s модерн╕зував до %s."
 
 #: server/unittools.c:299
 #, c-format
@@ -7109,7 +7102,7 @@ msgstr "Вашому п╕дрозд╕лу %s не вистачило палива."
 #: server/unittools.c:635
 #, fuzzy
 msgid "And, became more experienced!"
-msgstr "Ваш п╕дрозд╕л %s став б╕льш досв╕дченним!"
+msgstr " вдалася!"
 
 #. TRANS: Your <unit> became ...
 #: server/unittools.c:639
@@ -7156,13 +7149,13 @@ msgstr "Голову дикун╕в схоплено, %d гривень отримано."
 #: server/unittools.c:1617
 #, fuzzy, c-format
 msgid "Your attacking %s succeeded against the %s %s!"
-msgstr "ВаВаш атакуючий %s усп╕шно знищив %s %s%s!"
+msgstr "Ваша атака %s проти %s %s вдалася!"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
 #: server/unittools.c:1626 server/unittools.c:1684
 #, fuzzy, c-format
 msgid "%s lost to an attack by the %s %s."
-msgstr "%s втрачено у атац╕ на %s %s%s."
+msgstr "%s втрачено у атац╕ на %s %s."
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
 #: server/unittools.c:1660
@@ -7170,23 +7163,23 @@ msgstr "%s втрачено у атац╕ на %s %s%s."
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
 "Your attacking %s succeeded against the %s %s (and %d other units)!"
-msgstr[0] "Ваша атака %s проти %s %s (та %d ╕ншого п╕дрозд╕ла)%s вдалася!"
-msgstr[1] "Ваша атака %s проти %s %s (та %d ╕нших п╕дрозд╕л╕в)%s вдалася!"
-msgstr[2] "Ваша атака %s проти %s %s (та %d ╕нших п╕дрозд╕л╕в)%s вдалася!"
+msgstr[0] "Ваша атака %s проти %s %s вдалася!"
+msgstr[1] "Ваша атака %s проти %s %s вдалася!"
+msgstr[2] "Ваша атака %s проти %s %s вдалася!"
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #: server/unittools.c:1693
 #, fuzzy, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
-msgstr "%s втрачено у атац╕ %s %s на %s %s."
+msgstr "%s втрачено у атац╕ в╕д %s %s."
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
 #: server/unittools.c:1708
 #, fuzzy, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
-msgstr "%s (та %s) втрачено у атац╕ в╕д %s %s."
+msgstr "%s (%s) втрачено у атац╕ в╕д %s %s."
 
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
@@ -7195,9 +7188,9 @@ msgstr "%s (та %s) втрачено у атац╕ в╕д %s %s."
 #, fuzzy, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
-msgstr[0] "%s та %d ╕нший п╕дроз╕л втрачено у атац╕ в╕д %s %s."
-msgstr[1] "%s та %d ╕нших п╕дроз╕ла втрачено у атац╕ в╕д %s %s."
-msgstr[2] "%s та %d ╕нших п╕дроз╕л╕в втрачено у атац╕ в╕д %s %s."
+msgstr[0] "%s (%d) втрачено у атац╕ в╕д %s %s."
+msgstr[1] "%s (%d) втрачено у атац╕ в╕д %s %s."
+msgstr[2] "%s (%d) втрачено у атац╕ в╕д %s %s."
 
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
@@ -7206,9 +7199,9 @@ msgstr[2] "%s та %d ╕нших п╕дроз╕л╕в втрачено у атац╕ в╕д %s %s."
 #, fuzzy, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
-msgstr[0] "%d п╕дрозд╕л втрачено коли %s %s атакував %s %s."
-msgstr[1] "%d п╕дрозд╕ла втрачено коли %s %s атакував %s %s."
-msgstr[2] "%d п╕дрозд╕л╕в втрачено коли %s %s атакував %s %s."
+msgstr[0] "%d Авто-Атака: %s %s атакував %s %s"
+msgstr[1] "%d Авто-Атака: %s %s атакував %s %s"
+msgstr[2] "%d Авто-Атака: %s %s атакував %s %s"
 
 #: server/unittools.c:1993
 #, c-format
@@ -7237,7 +7230,7 @@ msgstr "Вами п╕ддали %s атомн╕й атац╕."
 #: server/unittools.c:2056
 #, fuzzy, c-format
 msgid "The %s detonated a nuke!"
-msgstr "%s використав атомну зброю!"
+msgstr "%s атакував атомною бомбою!"
 
 #: server/unittools.c:2080
 #, fuzzy, c-format
@@ -8023,7 +8016,7 @@ msgstr "%s да╓ сп╕льне бачення"
 #: client/climisc.c:295
 #, fuzzy, c-format
 msgid "The %s give an embassy"
-msgstr "%s да╓ посольство"
+msgstr "%s да╓ %s"
 
 #: client/climisc.c:896
 msgid "Popup Request"
@@ -8568,7 +8561,6 @@ msgstr ""
 "шкоду захисников╕ (не знищать), проте не становлять ризику для нападника.\n"
 
 #: client/helpdata.c:988
-#, fuzzy
 msgid "* Gets quintuple defense against missiles and aircraft.\n"
 msgstr "* Нада╓ п'ятикратний захист проти ракет та л╕так╕в.\n"
 
@@ -8740,15 +8732,9 @@ msgid ""
 msgid_plural ""
 "* Military units away from home and field units will cause %d citizens to "
 "become unhappy.\n"
-msgstr[0] ""
-"* В╕йськов╕ п╕дрозд╕ли залишивш╕ р╕дне м╕сто та польов╕ п╕дрозд╕ли "
-"спричинять %d городян до стану нещастя.\n"
-msgstr[1] ""
-"* В╕йськов╕ п╕дрозд╕ли залишивш╕ р╕дне м╕сто та польов╕ п╕дрозд╕ли "
-"спричинять %d городян до стану нещастя.\n"
-msgstr[2] ""
-"* В╕йськов╕ п╕дрозд╕ли залишивш╕ р╕дне м╕сто та польов╕ п╕дрозд╕ли "
-"спричинять %d городян до стану нещастя.\n"
+msgstr[0] "В╕йськов╕ п╕дрозд╕ли у пол╕ можуть спричинити нещастя."
+msgstr[1] "В╕йськов╕ п╕дрозд╕ли у пол╕ можуть спричинити нещастя."
+msgstr[2] "В╕йськов╕ п╕дрозд╕ли у пол╕ можуть спричинити нещастя."
 
 #: client/helpdata.c:1412
 #, c-format
@@ -8844,7 +8830,7 @@ msgid "* Has unlimited science/gold/luxuries rates.\n"
 msgstr "Ма╓ необмежен╕ в╕дношення наука/грош╕/розк╕ш.\n"
 
 #: client/helpdata.c:1490
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* Your units may impose martial law. Each military unit inside a city will "
 "force %d unhappy citizen to become content.\n"
@@ -8852,28 +8838,16 @@ msgid_plural ""
 "* Your units may impose martial law. Each military unit inside a city will "
 "force %d unhappy citizens to become content.\n"
 msgstr[0] ""
-"* Ваш╕ п╕дрозд╕ли можуть встановлювати в╕йськове положення. Кожен в╕йськовий "
-"п╕дрозд╕л у м╕ст╕ буде спричиняти %d нещасливих городян до спокою.\n"
 msgstr[1] ""
-"* Ваш╕ п╕дрозд╕ли можуть встановлювати в╕йськове положення. Кожен в╕йськовий "
-"п╕дрозд╕л у м╕ст╕ буде спричиняти %d нещасливих городян до спокою.\n"
 msgstr[2] ""
-"* Ваш╕ п╕дрозд╕ли можуть встановлювати в╕йськове положення. Кожен в╕йськовий "
-"п╕дрозд╕л у м╕ст╕ буде спричиняти %d нещасливих городян до спокою.\n"
 
 #: client/helpdata.c:1502
-#, fuzzy, c-format
+#, c-format
 msgid "* A maximum of %d unit in each city can enforce martial law.\n"
 msgid_plural "* A maximum of %d units in each city can enforce martial law.\n"
 msgstr[0] ""
-"* Щонайб╕льш %d п╕дрозд╕л╕в у кожному м╕ст╕ можуть встановити в╕йськове "
-"положення.\n"
 msgstr[1] ""
-"* Щонайб╕льш %d п╕дрозд╕л╕в у кожному м╕ст╕ можуть встановити в╕йськове "
-"положення.\n"
 msgstr[2] ""
-"* Щонайб╕льш %d п╕дрозд╕л╕в у кожному м╕ст╕ можуть встановити в╕йськове "
-"положення.\n"
 
 #. TRANS: %d should always be greater than 2.
 #: client/helpdata.c:1513
@@ -9180,8 +9154,8 @@ msgid ""
 "turn.  You can control the behavior of the \"bell\" event by editing the "
 "message options."
 msgstr ""
-"Якщо цю опц╕ю включено, под╕я \"дзв╕нок\" буде генеруватися на початку "
-"кожного ходу.  Ви можете контролювати повед╕нку под╕╖  \"дзв╕нок\" за "
+"Якщо цю опц╕ю включено, под╕я \"дзвоник\" буде генеруватися на початку "
+"кожного ходу.  Ви можете контролювати повед╕нку под╕╖  \"дзвоник\" за "
 "допомогю редагування опц╕й пов╕домленнь."
 
 #: client/options.c:168
@@ -9678,13 +9652,13 @@ msgstr "Хут╕р маленького роду"
 #: client/text.c:119
 #, fuzzy
 msgid "Our territory"
-msgstr "Наша Територ╕я"
+msgstr "%s"
 
 #. TRANS: "Polish territory"
 #: client/text.c:122
 #, fuzzy, c-format
 msgid "%s territory"
-msgstr "%s земля"
+msgstr "%s"
 
 #. TRANS: "Polish territory (5 turn cease-fire)"
 #: client/text.c:131
@@ -9699,7 +9673,7 @@ msgstr[2] "%s територ╕я (%d ход╕в припинення вогню)"
 #: client/text.c:140
 #, fuzzy, c-format
 msgid "%s territory (%s)"
-msgstr "%s територ╕я (%d х╕д припинення вогню)"
+msgstr "%s з %s"
 
 #: client/text.c:145
 msgid "Unclaimed territory"
@@ -9730,7 +9704,7 @@ msgstr "М╕сто: %s (%s, %s)"
 #: client/text.c:191
 #, fuzzy, c-format
 msgid "?clistbegin: with %s"
-msgstr "?blistbegin: з "
+msgstr " з %s"
 
 #. TRANS: This appears with two or more previous entries in the list
 #: client/text.c:202
@@ -9745,7 +9719,6 @@ msgid "?clistlast: and %s"
 msgstr "?blistlast: та "
 
 #: client/text.c:209 client/text.c:1190 client/text.c:1229
-#, fuzzy
 msgid "?clistend:."
 msgstr "?blistend:"
 
@@ -9776,7 +9749,7 @@ msgstr "П╕дрозд╕л: %s (%s, %s)"
 #: client/text.c:249
 #, fuzzy, c-format
 msgid "Unit: %s (%s)"
-msgstr "П╕дрозд╕л: %s (%s%s)"
+msgstr "П╕дрозд╕л: %s(%s)"
 
 #. TRANS:  "Unit: Musketeers (Polish, 5 turn cease-fire)"
 #: client/text.c:262
@@ -10203,9 +10176,9 @@ msgid "Wonders: "
 msgstr "Дива: "
 
 #: client/text.c:1262
-#, fuzzy, c-format
+#, c-format
 msgid "Cities: %d total, %d over threshold of %d cities."
-msgstr "М╕ста: загалом %d, на %d б╕льше н╕ж пор╕г у %d м╕ст.\n"
+msgstr "М╕ста: загалом %d, на %d б╕льше н╕ж пор╕г у %d м╕ст."
 
 #. TRANS: 0-21 content [citizen(s)] ...
 #: client/text.c:1266
@@ -11210,7 +11183,7 @@ msgstr "Обер╕ть"
 #: client/gui-gtk-2.0/dialogs.c:749
 #, fuzzy
 msgid "Nation _Groups:"
-msgstr "Нац╕╖:"
+msgstr "_Нац╕╖:"
 
 #: client/gui-gtk-2.0/dialogs.c:794
 msgid "Edit Nation"
@@ -11228,7 +11201,7 @@ msgstr "Обер╕ть Нац╕ю"
 #: client/gui-gtk-2.0/dialogs.c:806
 #, fuzzy
 msgid "_Random Nation"
-msgstr "Випадкова Нац╕я"
+msgstr "Об'╓днанн╕ нац╕╖"
 
 #: client/gui-gtk-2.0/dialogs.c:818 client/gui-win32/dialogs.c:519
 msgid "Select a nation"
@@ -11258,7 +11231,7 @@ msgstr "Стиль м╕ст:"
 #: client/gui-gtk-2.0/dialogs.c:934
 #, fuzzy
 msgid "_Description"
-msgstr "Опис:"
+msgstr "Легенда"
 
 #: client/gui-gtk-2.0/dialogs.c:1273 client/gui-xaw/dialogs.c:1489
 msgid "You must select your sex."
@@ -11615,7 +11588,7 @@ msgstr "Спостер╕гати"
 #: client/gui-gtk-2.0/gui_main.c:1602
 #, fuzzy
 msgid "Do not _observe"
-msgstr "Не спостер╕гати"
+msgstr "тепер контролю╓ться"
 
 #. TRANS: "<Novice AI>"
 #: client/gui-gtk-2.0/gui_main.c:1625
@@ -12310,7 +12283,7 @@ msgstr "П╕дрозд╕ли"
 #: client/gui-gtk-2.0/menu.c:951 client/gui-win32/menu.c:402
 #, fuzzy
 msgid "_Nations"
-msgstr "Нац╕╖:"
+msgstr "_Нац╕╖"
 
 #: client/gui-gtk-2.0/menu.c:955 client/gui-win32/menu.c:403
 msgid "_Economy"
@@ -12716,7 +12689,7 @@ msgstr "Додати до %s"
 #: client/gui-gtk-2.0/pages.c:1428
 #, fuzzy
 msgid "Number of _Players (including AI):"
-msgstr "К╕льк╕сть Гравц╕в (включно з  Ш╤)."
+msgstr "К╕льк╕сть комп'ютерних гравц╕в."
 
 #: client/gui-gtk-2.0/pages.c:1455
 #, fuzzy
@@ -12726,12 +12699,12 @@ msgstr "Р╕вень Ш╤:"
 #: client/gui-gtk-2.0/pages.c:1472
 #, fuzzy
 msgid "Ruleset _Version:"
-msgstr "Зб╕р правил:"
+msgstr "Предустановки:"
 
 #: client/gui-gtk-2.0/pages.c:1480 client/gui-gtk-2.0/pages.c:2112
 #, fuzzy
 msgid "_More Game Options..."
-msgstr "Б╕льше Опц╕й Гри..."
+msgstr "Опц╕╖ пов╕домлень..."
 
 #: client/gui-gtk-2.0/pages.c:1505
 msgid "Record"
@@ -12871,7 +12844,7 @@ msgstr "Тип п╕дрозд╕лу"
 #: client/gui-gtk-2.0/repodlgs.c:959 client/gui-win32/repodlgs.c:711
 #, fuzzy
 msgid "?Upgradable unit [short]:U"
-msgstr "Модерн╕зувати п╕дрозд╕л"
+msgstr "П"
 
 #: client/gui-gtk-2.0/repodlgs.c:960 client/gui-win32/repodlgs.c:712
 msgid "In-Prog"
@@ -13129,8 +13102,9 @@ msgstr "Продовжувати рух"
 #: client/gui-sdl/repodlgs.c:2001 client/gui-sdl/repodlgs.c:2874
 #: client/gui-sdl/repodlgs.c:3061 client/gui-sdl/repodlgs.c:3326
 #: client/gui-sdl/spaceshipdlg.c:162
+#, fuzzy
 msgid "Close Dialog (Esc)"
-msgstr ""
+msgstr "Закрити в╕кно"
 
 #: client/gui-sdl/chatline.c:773
 #, c-format
@@ -13474,8 +13448,9 @@ msgid "Cities Report"
 msgstr "Зв╕т по М╕стам"
 
 #: client/gui-sdl/cityrep.c:201
+#, fuzzy
 msgid "Close Dialog"
-msgstr ""
+msgstr "Закрити в╕кно"
 
 #: client/gui-sdl/cityrep.c:215
 msgid "Information Report"
@@ -14716,7 +14691,7 @@ msgstr "Найвеличн╕ш╕ цив╕л╕зац╕╖ в св╕т╕."
 #: client/gui-sdl/spaceshipdlg.c:142
 #, fuzzy, c-format
 msgid "The %s Spaceship"
-msgstr "Косм╕чний човен %s"
+msgstr "Косм╕чний човен"
 
 #: client/gui-sdl/spaceshipdlg.c:172 client/gui-win32/spaceshipdlg.c:241
 #: data/Freeciv.in:1709
@@ -20060,6 +20035,7 @@ msgid "?female:Comrade"
 msgstr "?female:Товариш"
 
 #: data/default/governments.ruleset:124 data/civ1/governments.ruleset:124
+#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -20068,6 +20044,34 @@ msgid ""
 "Under Communism, corruption does not vary by distance from the capital; all "
 "cities (including the capital) have a modest amount of corruption."
 msgstr ""
+"Комун╕зм базу╓ться на утоп╕╖ що ус╕ люди р╕вн╕. Ус╕ма статками волод╕╓ "
+"держава, а не приватн╕ особи. Комун╕зм да╓ баланс м╕ж в╕йськовими та "
+"комерц╕йними формами правл╕ння.\n"
+"\n"
+"За Комун╕зма, корупц╕я не зм╕ню╓ться в залежност╕ в╕д в╕дстан╕ до столиц╕; "
+"ус╕ м╕ста (включаючи столицю) мають невеликий р╕вень корупц╕╖. Надодаток, за "
+"Комун╕зму м╕ста що розташован╕ б╕льш н╕ж на 10 кл╕тин в╕д столиц╕,  "
+"рахуються як розташован╕ на 10 кл╕тин в╕д столиц╕ при обрахунку кошту "
+"влаштування революц╕╖. Дивись: П╕дрозд╕ли, Д╕пломат.\n"
+"\n"
+"Колон╕сти споживають 2 одиниц╕ ╖ж╕ за х╕д при Комун╕зм╕.\n"
+"\n"
+"Якщо м╕сто за Комун╕зма святку╓, воно отриму╓ бонус у одиницю торг╕вл╕ на "
+"кожну кл╕тинку що вже да╓ хоча б одиницю торг╕вл╕. Дивись Щастя для "
+"додатково╖ ╕нформац╕╖.\n"
+"\n"
+"Найб╕льший р╕вень що Ви можете встановити для науки, податк╕в або розкош╕ "
+"становить 80%.\n"
+"\n"
+"Д╕пломати та Шпигуни створен╕ за комун╕зму завжди ветерани.\n"
+"\n"
+"За Комун╕зму, кожне з Ваших м╕ст може п╕дтримувати к╕льк╕сть в╕йськових "
+"загон╕в що дор╕вню╓ його розм╕ру без виплат виробництва на утримання. "
+"(Додатков╕ загони вимагають 1 виробництво на кожен.)\n"
+"\n"
+"Ви можете використовувати обмежене але ефективне в╕йськове положення за "
+"Комун╕зму: кожен в╕йськовий заг╕н у м╕ст╕, але не б╕льше трьох, може "
+"нейтрал╕зувати двох нещасних у м╕ст╕. "
 
 #: data/default/governments.ruleset:138 data/civ2/governments.ruleset:164
 #: data/civ1/governments.ruleset:138
@@ -20157,6 +20161,7 @@ msgid ""
 msgstr ""
 
 #: data/civ2/governments.ruleset:122
+#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -20166,6 +20171,34 @@ msgid ""
 "capital; all cities (including the capital) have a modest amount of "
 "corruption."
 msgstr ""
+"Комун╕зм базу╓ться на утоп╕╖ що ус╕ люди р╕вн╕. Ус╕ма статками волод╕╓ "
+"держава, а не приватн╕ особи. Комун╕зм да╓ баланс м╕ж в╕йськовими та "
+"комерц╕йними формами правл╕ння.\n"
+"\n"
+"За Комун╕зма, корупц╕я не зм╕ню╓ться в залежност╕ в╕д в╕дстан╕ до столиц╕; "
+"ус╕ м╕ста (включаючи столицю) мають невеликий р╕вень корупц╕╖. Надодаток, за "
+"Комун╕зму м╕ста що розташован╕ б╕льш н╕ж на 10 кл╕тин в╕д столиц╕,  "
+"рахуються як розташован╕ на 10 кл╕тин в╕д столиц╕ при обрахунку кошту "
+"влаштування революц╕╖. Дивись: П╕дрозд╕ли, Д╕пломат.\n"
+"\n"
+"Колон╕сти споживають 2 одиниц╕ ╖ж╕ за х╕д при Комун╕зм╕.\n"
+"\n"
+"Якщо м╕сто за Комун╕зма святку╓, воно отриму╓ бонус у одиницю торг╕вл╕ на "
+"кожну кл╕тинку що вже да╓ хоча б одиницю торг╕вл╕. Дивись Щастя для "
+"додатково╖ ╕нформац╕╖.\n"
+"\n"
+"Найб╕льший р╕вень що Ви можете встановити для науки, податк╕в або розкош╕ "
+"становить 80%.\n"
+"\n"
+"Д╕пломати та Шпигуни створен╕ за комун╕зму завжди ветерани.\n"
+"\n"
+"За Комун╕зму, кожне з Ваших м╕ст може п╕дтримувати к╕льк╕сть в╕йськових "
+"загон╕в що дор╕вню╓ його розм╕ру без виплат виробництва на утримання. "
+"(Додатков╕ загони вимагають 1 виробництво на кожен.)\n"
+"\n"
+"Ви можете використовувати обмежене але ефективне в╕йськове положення за "
+"Комун╕зму: кожен в╕йськовий заг╕н у м╕ст╕, але не б╕льше трьох, може "
+"нейтрал╕зувати двох нещасних у м╕ст╕. "
 
 #: data/civ2/governments.ruleset:136 data/civ2/techs.ruleset:284
 msgid "Fundamentalism"
@@ -21761,15 +21794,15 @@ msgid ""
 "the enemy.  Little wonder that Diplomats are often viewed with suspicion and "
 "fear!"
 msgstr ""
-"- Д╕пломат може засновувати посольство з ╕ншими цив╕л╕зац╕ями рухаючись у "
+"- Д╕пломат може засновувати амбасаду з ╕ншими цив╕л╕зац╕ями рухаючись у "
 "м╕ста ╕нш╕х гравц╕в.\n"
 "\n"
 "- Д╕пломати також можуть спробувати саботувати вороже виробництво, або "
 "вкрасти знання з ворожого м╕ста. (Знання може бути вкрадено лише одного разу "
 "на м╕сто).\n"
 "\n"
-"- Д╕пломат також може п╕дкупити ворожий п╕дрозд╕л, якщо цей п╕дрозд╕л лише "
-"один на кл╕тинц╕.\n"
+"- Д╕пломат також може п╕дкупити ворожий заг╕н, якщо цей заг╕н лише один на "
+"кл╕тинц╕.\n"
 "\n"
 "- Д╕пломати також можуть розпочати революц╕ю у ворожому м╕ст╕ та зробити "
 "його Ваш╕м, якщо вистачить грошей!\n"
@@ -21804,9 +21837,9 @@ msgstr ""
 "мистецтв╕ шпигунства н╕ж його попередник - Д╕пломат.\n"
 "\n"
 "Найб╕льш потужн╕ навички Шпигуна - це його можлив╕сть досл╕джувати м╕ста - "
-"отримувати детальну ╕нформац╕ю, та засновувати посольства. Але зауважте, "
-"якщо Ваш Шпигун ма╓ погану репутац╕ю, його стратять при спроб╕ заснувати "
-"посольство..\n"
+"отримувати детальну ╕нформац╕ю, та засновувати амбасади. Але зауважте, якщо "
+"Ваш Шпигун ма╓ погану репутац╕ю, його стратять при спроб╕ заснувати "
+"амбасаду..\n"
 "\n"
 "В╕н також може бути використаний для: отру╓ння водогону у ворожому м╕ст╕ "
 "(зменшення населення); вкрасти специф╕чну технолог╕ю; та саботувати "
@@ -21814,7 +21847,7 @@ msgstr ""
 "Ст╕н М╕ста зб╕льшу╓ можлив╕сть захоплення). Шпигун також може п╕дбурити "
 "м╕сто та влаштувати революц╕ю.\n"
 "\n"
-"Шпигун може допомогти й на пол╕ битви - саботувавши ворожий п╕дрозд╕л або "
+"Шпигун може допомогти й на пол╕ битви - саботувавши ворожий заг╕н або "
 "п╕дкупивши його аби в╕н перейшов п╕д Вашу владу."
 
 #: data/default/units.ruleset:1857 data/civ2/units.ruleset:1810
@@ -24410,8 +24443,8 @@ msgid ""
 "dissolution of the Soviet Union. It is one of ten largest states in the "
 "world by area."
 msgstr ""
-"Казахи нащадки тюркських та монгольских кочовик╕в, Захоплений Росс╕╓ю у 18-"
-"му строр╕чч╕, Казахстан став незалежним ╕з розпадом Радянського Союзу у 1991 "
+"Казахи нащадки тюркських та монгольских кочовик╕в, Захоплений Рос╕╓ю у 18-му "
+"строр╕чч╕, Казахстан став незалежним ╕з розпадом Радянського Союзу у 1991 "
 "роц╕. Казахстан ╓ одн╕╓ю ╕з десяти найб╕льших за розмром кра╖н."
 
 #: data/nation/kenyan.ruleset:3
@@ -25353,7 +25386,7 @@ msgid ""
 "Age near the end of the 16th century."
 msgstr ""
 "Польська держава була заснована близько тисяч╕ рок╕в тому, та досягла "
-"Золотого В╕ку близько к╕нця 16 стор╕ччя."
+"Золотого В╕ку наприк╕нц╕ 16 стор╕ччя."
 
 #. TRANS: Dyktator/Dyktatorka = Dictator
 #: data/nation/polish.ruleset:27
@@ -25615,7 +25648,7 @@ msgid ""
 "northernmost regions of the Scandinavian countries and northwestern Russia."
 msgstr ""
 "Саами - народ п╕вн╕чно╖ Скандинав╕╖. ╤х нац╕я под╕лена м╕ж п╕вн╕чними "
-"рег╕онами скандинавських стран та п╕н╕чно-зах╕дною Росс╕╓ю."
+"рег╕онами скандинавських кра╖н та п╕н╕чно-зах╕дною Рос╕╓ю."
 
 #. TRANS: Noaydde = Shaman
 #: data/nation/sami.ruleset:22
@@ -25681,7 +25714,7 @@ msgid ""
 "20th century it was part of the Yugoslav Federation."
 msgstr ""
 "Серб╕я це частина рег╕ону П╕вденних Словян що була захоплена Отоманською "
-"╕мпер╕╓ю п╕сля розпаду В╕зант╕╖. Напротяз╕ б╕льшост╕ часу 20 стор╕ччя це "
+"╕мпер╕╓ю п╕сля розпаду В╕зант╕╖. Напротяз╕ зачно╖ частини 20 стор╕ччя це "
 "була частина Югославсько╖ Федерац╕╖."
 
 #: data/nation/silesian.ruleset:3
@@ -25844,7 +25877,7 @@ msgstr ""
 "╤стор╕я Радянського Союзу розпочалася у Листопад╕ 1917 року, коли п╕д "
 "кер╕вництвом Лен╕на в╕дбулася третя рос╕йська революц╕я (друга за той р╕к). "
 "31 грудня 1922 року чотири радянськ╕ республ╕ки об'╓дналися у ╓дину кра╖ну. "
-"Радянський Союз став одною ╕з найб╕льш могутн╕х держав 20-го стор╕чча. Проте "
+"Радянський Союз став одною ╕з найб╕льш могутн╕х держав 20-го стор╕ччя. Проте "
 "у к╕нц╕ 1991 року п╕сля багатьох соц╕альних негаразд╕в в╕н розпався на "
 "пятнадцять незалежних кра╖н."
 
@@ -25930,11 +25963,11 @@ msgstr ""
 
 #: data/nation/sumerian.ruleset:3
 msgid "Sumerian"
-msgstr "Шумерц╕"
+msgstr "Шумери"
 
 #: data/nation/sumerian.ruleset:4
 msgid "?plural:Sumerians"
-msgstr "Шумерц╕"
+msgstr "Шумери"
 
 #: data/nation/sumerian.ruleset:6
 msgid ""
@@ -25999,12 +26032,12 @@ msgid ""
 "its gained territory. The country has not been involved in an armed conflict "
 "since 1814."
 msgstr ""
-"Корол╕вство Швец╕╖ було христиан╕зовано та об'╓днано як пол╕тична одиниця к "
-"12-му стор╕ччу. Кра╖на набула могутност╕ як одна ╕з найб╕льших сил у ╢вроп╕ "
+"Корол╕вство Швец╕╖ було христиан╕зоване та об'╓днане як пол╕тична одиниця до "
+"12-го стор╕ччя. Кра╖на набула могутност╕ як одна ╕з найб╕льших сил у ╢вроп╕ "
 "у 17-му стор╕чч╕, як результат пост╕йний в╕йскових захопленнь так званими "
 "королями-во╖нами. Проте, через пог╕ршення економ╕чного становища та "
-"дек╕лькох катастроф╕чних поразок в╕д Рос╕╖, Швец╕я швидко втратила б╕кьш╕сть "
-"╕з захоплених територ╕й. Кра╖на не приймала участ╕ у в╕йскових д╕ях ╕з 1814 "
+"дек╕лькох катастроф╕чних поразок в╕д Рос╕╖, Швец╕я швидко втратила б╕льш╕сть "
+"╕з захоплених територ╕й. Кра╖на не брала участ╕ у в╕йскових д╕ях ╕з 1814 "
 "року."
 
 #: data/nation/swiss.ruleset:3
@@ -26528,7 +26561,7 @@ msgid ""
 "Liberator."
 msgstr ""
 "Венесуела ╓ самою п╕вн╕чною кра╖ною п╕вденно╖ Америки. Вона була ╕спанською "
-"колон╕╓ю с 16-го стор╕чча, кра╖на набула незалежност╕ 5 липня 1811 року п╕д "
+"колон╕╓ю с 16-го стор╕ччя, кра╖на набула незалежност╕ 5 липня 1811 року п╕д "
 "кер╕вництвом Ель Л╕бертадор С╕мона Бол╕вара - Визволителя."
 
 #. TRANS: Terrateniente = Junker
@@ -27187,8 +27220,69 @@ msgstr "Команда 31"
 #~ msgid "%s"
 #~ msgstr "%s"
 
+#~ msgid "%s from %s lost in transfer to %s's %s"
+#~ msgstr "%s з %s втрачено у атац╕ в╕д %s %s."
+
+#~ msgid "%s's worklist is now empty."
+#~ msgstr "План буд╕вництва у %s пустий."
+
+#~ msgid "Wild celebrations in your honour in %s."
+#~ msgstr "Дик╕ святкування на вашу честь у %s."
+
+#~ msgid "Celebrations cancelled in %s."
+#~ msgstr "Святкування зак╕нчилось у %s."
+
+#~ msgid "You receive %s's worldmap."
+#~ msgstr "Ви отримали карту св╕ту в╕д %s."
+
+#~ msgid "You receive %s's seamap."
+#~ msgstr "Ви отримали карту океану в╕д %s."
+
+#~ msgid ""
+#~ "You agree on an armistice with %s. In %d turn it will turn into a peace "
+#~ "treaty. Move your units out of %s's territory."
+#~ msgid_plural ""
+#~ "You agree on an armistice with %s. In %d turns it will turn into a peace "
+#~ "treaty. Move your units out of %s's territory."
+#~ msgstr[0] ""
+#~ "Ви домовилися на препинення вогню ╕з %s. За %d х╕д мирний догов╕р набере "
+#~ "чинност╕. Перем╕стить Ваш╕ п╕дрозд╕ли з теритоор╕╖ %s."
+#~ msgstr[1] ""
+#~ "Ви домовилися на препинення вогню ╕з %s. За %d хода мирний догов╕р набере "
+#~ "чинност╕. Перем╕стить Ваш╕ п╕дрозд╕ли з теритоор╕╖ %s."
+#~ msgstr[2] ""
+#~ "Ви домовилися на препинення вогню ╕з %s. За %d ход╕в мирний догов╕р "
+#~ "набере чинност╕. Перем╕стить Ваш╕ п╕дрозд╕ли з теритоор╕╖ %s."
+
+#~ msgid "Your %s could not sabotage %s's %s."
+#~ msgstr "Ваш %s не може саботувати %s %s."
+
+#~ msgid "Your %s succeeded in sabotaging %s's %s."
+#~ msgstr "Ваш %s саботував %s %s."
+
+#~ msgid "Your %s was sabotaged by %s!"
+#~ msgstr "Вашого %s саботовано намаганнями %s!"
+
+#~ msgid "You don't have enough gold to bribe %s's %s."
+#~ msgstr "У Вас не вистача╓ кошт╕в перетягнути на св╕й б╕к %s %s."
+
+#~ msgid "You cannot bribe %s!"
+#~ msgstr "Ви не можете п╕дкупити %s!"
+
 #~ msgid "Your %s succeeded in bribing %s's %s and became more experienced."
 #~ msgstr "Ваш %s перетягнув на св╕й б╕к %s %s та став б╕льш досв╕дченим."
+
+#~ msgid "Your %s succeeded in bribing %s's %s."
+#~ msgstr "Ваш %s перетягнув на св╕й б╕к %s %s."
+
+#~ msgid "Your %s was bribed by %s."
+#~ msgstr "Вашого %s перетягнули на б╕к ворога %s."
+
+#~ msgid "%s's %s failed to steal technology from %s."
+#~ msgstr "%s %s не зм╕г вкрасти технолог╕ю з %s."
+
+#~ msgid "An enemy %s has been eliminated defending %s."
+#~ msgstr "Ворож╕й п╕дрозд╕л %s загинув захищаючи %s."
 
 #~ msgid ""
 #~ "Eliminated %s %s while infiltrating %s. The defender became more "
@@ -27210,11 +27304,50 @@ msgstr "Команда 31"
 #~ "Ваш %s вдало виконав сво╓ завдання та повернувся неушкодженим у %s та "
 #~ "став б╕льш досв╕дченним."
 
-#~ msgid "Reason: line not found"
-#~ msgstr "Причина: строки не знайдено"
+#~ msgid ""
+#~ "Your %s has successfully completed her mission and returned unharmed to %"
+#~ "s."
+#~ msgstr "Ваш %s вдало виконав сво╓ завдання та повернувся неушкодженим у %s."
 
-#~ msgid "Reason: line too short (expected %d got %lu"
-#~ msgstr "Причина: строка задовга (очикувано %d отримано %lu"
+#~ msgid "Your %s was captured after completing her mission in %s."
+#~ msgstr ""
+#~ "Ваш %s був захоплений п╕сля того як вдало виконав сво╓ завдання у %s."
+
+#~ msgid "Your %s was captured after completing her mission."
+#~ msgstr "Ваш %s був захоплений п╕сля того як вдало виконав сво╓ завдання."
+
+#~ msgid "You have caused an incident while bribing %s's %s."
+#~ msgstr "Ви призвели до ╕нциденту при куп╕вл╕ %s %s."
+
+#~ msgid ""
+#~ "The capture of %s's capital and the destruction of the empire's "
+#~ "administrative\n"
+#~ "      structures have sparked a civil war.  Opportunists have flocked to "
+#~ "the rebel cause,\n"
+#~ "      and the upstart %s now holds power in %d rebel provinces."
+#~ msgstr ""
+#~ "Захоплення столиц╕ %s та руйнуванння адм╕н╕стративно╖ структури кра╖ни "
+#~ "викликало громадянську в╕йну.\n"
+#~ "Сили спротиву п╕д керуванням %s контролюють %d бунт╕вних областей."
+
+#~ msgid ""
+#~ "Illegal alliance structure detected: %s's alliance to %s reduced to peace "
+#~ "treaty."
+#~ msgstr ""
+#~ "Знайдено заборонену структуру альянсу: альянс %s ╕з %s спрощено до мирно╖ "
+#~ "угоди."
+
+#~ msgid ""
+#~ "Your %s unit %s was disbanded in accordance with your peace treaty with "
+#~ "the %s."
+#~ msgstr ""
+#~ "Ваш %s п╕дрозд╕л %s було розформовано зг╕дно ╕з мирною угодою ╕з %s."
+
+#~ msgid "%s's %s no longer debugged."
+#~ msgstr "%s %s б╕льше не у стан╕ в╕дладки."
+
+#~ msgid "%s's %s debugged."
+#~ msgstr "%s %s  у стан╕ в╕дладки."
 
 #~ msgid "Ruleset directory name \"%s\" disallowed for security reasons."
 #~ msgstr "Каталог правил \"%s\" не дозволений з м╕ркувань безпеки."
@@ -27234,6 +27367,15 @@ msgstr "Команда 31"
 #~ msgstr ""
 #~ "Ваш %s%s витримав невдалу атаку в╕д %s %s та став б╕льш досв╕дчений."
 
+#~ msgid "Your %s%s survived the pathetic attack from %s's %s."
+#~ msgstr "Ваш %s%s витримав невдалу атаку в╕д %s %s."
+
+#~ msgid "Your attacking %s failed against %s's %s%s!"
+#~ msgstr "Ваша атака п╕дрозд╕лом %s проти %s п╕дрозд╕лу %s%s провалилася!"
+
+#~ msgid "%s was upgraded for free to %s%s."
+#~ msgstr "%s був модерн╕зований безкоштовно до %s%s."
+
 #~ msgid " at %s"
 #~ msgstr " у %s"
 
@@ -27249,6 +27391,12 @@ msgstr "Команда 31"
 #~ msgid ""
 #~ "Your attacking %s succeeded against %s's %s%s and became more experienced!"
 #~ msgstr "Ваш атакуючий %s усп╕шно знищив %s %s%s та став б╕льш досв╕дченим!"
+
+#~ msgid "Your attacking %s succeeded against %s's %s%s!"
+#~ msgstr "ВаВаш атакуючий %s усп╕шно знищив %s %s%s!"
+
+#~ msgid "%s lost to an attack by %s's %s%s."
+#~ msgstr "%s втрачено у атац╕ на %s %s%s."
 
 #~ msgid ""
 #~ "Your attacking %s succeeded against %s's %s (and %d other unit)%s and "
@@ -27266,8 +27414,348 @@ msgstr "Команда 31"
 #~ "Ваш атакуючий %s досяг усп╕ху проти %s %s (та %d ╕нших п╕дрозд╕л╕в)%s та "
 #~ "став б╕льш досв╕дченим!"
 
+#~ msgid "Your attacking %s succeeded against %s's %s (and %d other unit)%s!"
+#~ msgid_plural ""
+#~ "Your attacking %s succeeded against %s's %s (and %d other units)%s!"
+#~ msgstr[0] "Ваша атака %s проти %s %s (та %d ╕ншого п╕дрозд╕ла)%s вдалася!"
+#~ msgstr[1] "Ваша атака %s проти %s %s (та %d ╕нших п╕дрозд╕л╕в)%s вдалася!"
+#~ msgstr[2] "Ваша атака %s проти %s %s (та %d ╕нших п╕дрозд╕л╕в)%s вдалася!"
+
 #~ msgid "%s lost to an attack from %s's %s."
 #~ msgstr "%s втрачено у атац╕ в╕д %s %s."
+
+#~ msgid "%s lost when %s's %s attacked %s's %s."
+#~ msgstr "%s втрачено у атац╕ %s %s на %s %s."
+
+#~ msgid "%s (and %s) lost to an attack from %s's %s."
+#~ msgstr "%s (та %s) втрачено у атац╕ в╕д %s %s."
+
+#~ msgid "%s and %d other unit lost to an attack from %s's %s."
+#~ msgid_plural "%s and %d other units lost to an attack from %s's %s."
+#~ msgstr[0] "%s та %d ╕нший п╕дроз╕л втрачено у атац╕ в╕д %s %s."
+#~ msgstr[1] "%s та %d ╕нших п╕дроз╕ла втрачено у атац╕ в╕д %s %s."
+#~ msgstr[2] "%s та %d ╕нших п╕дроз╕л╕в втрачено у атац╕ в╕д %s %s."
+
+#~ msgid "%d unit lost when %s's %s attacked %s's %s."
+#~ msgid_plural "%d units lost when %s's %s attacked %s's %s."
+#~ msgstr[0] "%d п╕дрозд╕л втрачено коли %s %s атакував %s %s."
+#~ msgstr[1] "%d п╕дрозд╕ла втрачено коли %s %s атакував %s %s."
+#~ msgstr[2] "%d п╕дрозд╕л╕в втрачено коли %s %s атакував %s %s."
+
+#~ msgid "%s's %s was nuked."
+#~ msgstr "%s %s атаковано атомною бомбою."
+
+#~ msgid "%s detonated a nuke!"
+#~ msgstr "%s використав атомну зброю!"
+
+#~ msgid ""
+#~ "* May be disbanded in a city to recover 50%% of the production cost.\n"
+#~ msgstr ""
+#~ "* Може бути розпущеним у м╕ст╕ та повернути 50%% вартост╕ його "
+#~ "виробництва.\n"
+
+#~ msgid "* May fortify, granting a 50%% defensive bonus.\n"
+#~ msgstr "* Може укр╕плятися, отримуючи 50%% п╕дв╕щення захисту.\n"
+
+#~ msgid ""
+#~ "* Does bombard attacks (%d per turn).  These attacks will only damage "
+#~ "(never kill) the defender but has no risk to the attacker.\n"
+#~ msgstr ""
+#~ "* Викону╓ бомбардувальн╕ напади (%d за х╕д).  Ц╕ напади т╕льки спричинять "
+#~ "шкоду захисников╕ (не знищать), проте не становлять ризику для "
+#~ "нападника.\n"
+
+#~ msgid "* Gets quintuple defence against missiles and aircraft.\n"
+#~ msgstr "* Нада╓ п'ятикратний захист проти ракет та л╕так╕в.\n"
+
+#~ msgid "* May become veteran through training or combat.\n"
+#~ msgstr "* Може стати ветераном через тренування або б╕й.\n"
+
+#~ msgid ""
+#~ "* Must end turn in a city or next to land, or has a 50%% risk of being "
+#~ "lost at sea.\n"
+#~ msgstr ""
+#~ "* Повинен завершити х╕д у м╕ст╕ або поблизу в╕д земл╕, ╕накше ма╓ 50%% "
+#~ "в╕рог╕дн╕сть бути втраченим у мор╕.\n"
+
+#, fuzzy
+#~ msgid "?outputlist: and "
+#~ msgstr "?blistlast: та "
+
+#~ msgid ""
+#~ "* Military units away from home and field units will cause one citizen to "
+#~ "become unhappy.\n"
+#~ msgstr ""
+#~ "* В╕йськов╕ п╕дрозд╕ли залишивш╕ р╕дне м╕сто та польов╕ п╕дрозд╕ли "
+#~ "спричинять одного городян до стану нещастя.\n"
+
+#~ msgid ""
+#~ "* Military units away from home and field units will cause %d citizens to "
+#~ "become unhappy.\n"
+#~ msgstr ""
+#~ "* В╕йськов╕ п╕дрозд╕ли залишивш╕ р╕дне м╕сто та польов╕ п╕дрозд╕ли "
+#~ "спричинять %d городян до стану нещастя.\n"
+
+#~ msgid "* Each of your cities will avoid paying %d %s towards unit upkeep.\n"
+#~ msgstr ""
+#~ "* Кожне ╕з ваших м╕ст не буде сплачувати %d %s за утримання п╕дрозд╕ла.\n"
+
+#~ msgid "* Each of your cities will avoid paying %d towards unit upkeep.\n"
+#~ msgstr ""
+#~ "* Кожне ╕з ваших м╕ст не буде сплачувати %d за утримання п╕дрозд╕ла.\n"
+
+#~ msgid "* Chance of civil war is %d%% if you lose your capital.\n"
+#~ msgstr "* Шанс громадянсько╖ в╕йни ╓ %d%%, якщо Ви втратите столицю.\n"
+
+#~ msgid ""
+#~ "* The first unhappy citizen in each city due to civilization size will "
+#~ "appear when you have %d cities.\n"
+#~ msgstr ""
+#~ "* У кожному м╕сц╕ з'явиться перший нещасливий через розм╕р цив╕л╕зац╕╖ "
+#~ "городянин, коли Ви будете мати %d м╕ст.\n"
+
+#~ msgid ""
+#~ "* After the first unhappy citizen due to civilization size, for each %d "
+#~ "additional cities, another unhappy citizen will appear.\n"
+#~ msgstr ""
+#~ "* П╕сля першого нещасливого через розм╕р цив╕л╕зац╖╖ городянина, буде "
+#~ "з'являтися ще один нещасливий городянин ╕з прир╕стом кожних %d м╕ст.\n"
+
+#~ msgid ""
+#~ "* Your units may impose martial law. Each military unit inside a city "
+#~ "will force an unhappy citizen to become content.\n"
+#~ msgstr ""
+#~ "* Ваш╕ п╕дрозд╕ли можуть встановлювати в╕йськове положення. Кожен "
+#~ "в╕йськовий п╕дрозд╕л у м╕ст╕ буде спричиняти нещасливого городянина до "
+#~ "спокою.\n"
+
+#~ msgid ""
+#~ "* Your units may impose martial law. Each military unit inside a city "
+#~ "will force %d unhappy citizens to become content.\n"
+#~ msgstr ""
+#~ "* Ваш╕ п╕дрозд╕ли можуть встановлювати в╕йськове положення. Кожен "
+#~ "в╕йськовий п╕дрозд╕л у м╕ст╕ буде спричиняти %d нещасливих городян до "
+#~ "спокою.\n"
+
+#~ msgid "* A maximum of %d units in each city can enforce martial law.\n"
+#~ msgstr ""
+#~ "* Щонайб╕льш %d п╕дрозд╕л╕в у кожному м╕ст╕ можуть встановити в╕йськове "
+#~ "положення.\n"
+
+#~ msgid ""
+#~ "* You may grow your cities by means of celebrations.  Your cities must be "
+#~ "at least size %d before they can grown in this manner.\n"
+#~ msgstr ""
+#~ "* Ви можете зб╕льшувати Ваш╕ м╕ста за допомогою святкуваннь.  Ваш╕ м╕ста "
+#~ "мають бути не меньш╕ н╕ж %d доки вони зможуть рости у такуй спос╕б.\n"
+
+#~ msgid ""
+#~ "* Government will fall into anarchy if any city is in disorder for more "
+#~ "than two turns in a row.\n"
+#~ msgstr ""
+#~ "* Уряд буде скинуто та встановиться анарх╕я, якщо безладдя трива╓ у м╕сц╕ "
+#~ "довше н╕ж два ходи п╕дряд.\n"
+
+#~ msgid ""
+#~ "* Each worked tile that gives more than %d %s will suffer a -1 penalty "
+#~ "when not celebrating.\n"
+#~ msgstr ""
+#~ "* Кожна працююча кл╕тинка, яка да╓ б╕льш н╕ж %d %s втратить 1 коли "
+#~ "святкування в╕дсутн╓.\n"
+
+#, fuzzy
+#~ msgid ""
+#~ "* Each worked tile with at least 1 %s will yield %d more of it when "
+#~ "celebrating.\n"
+#~ msgstr ""
+#~ "* Кожна працююча кл╕тинка з не меньш н╕ж 1 %s отрима╓ %d додаткових %s "
+#~ "п╕д час святкування.\n"
+
+#~ msgid "Our Territory"
+#~ msgstr "Наша Територ╕я"
+
+#~ msgid "Territory of the %s"
+#~ msgstr "Трирот╕я %s"
+
+#~ msgid "Territory of the %s %s"
+#~ msgstr "Територ╕я %s %s"
+
+#~ msgid "?blistlast: and "
+#~ msgstr "?blistlast: та "
+
+#~ msgid "Unit: %s (%s%s)"
+#~ msgstr "П╕дрозд╕л: %s (%s%s)"
+
+#~ msgid ", "
+#~ msgstr ", "
+
+#~ msgid "."
+#~ msgstr "."
+
+#~ msgid " Choose Your Diplomat's Strategy"
+#~ msgstr " Обер╕ть стратег╕ю Вашого Д╕пломата"
+
+#~ msgid "_Nations:"
+#~ msgstr "Нац╕╖:"
+
+#~ msgid "Random Nation"
+#~ msgstr "Випадкова Нац╕я"
+
+#~ msgid "_City Styles:"
+#~ msgstr "Стиль м╕ст:"
+
+#~ msgid "L_egend"
+#~ msgstr "Легенда"
+
+#~ msgid "_Map"
+#~ msgstr "Мапа"
+
+#~ msgid "Create _player"
+#~ msgstr "Створити гравця"
+
+#~ msgid "_Release player"
+#~ msgstr "В╕дпустити гравця"
+
+#~ msgid "_Do not observe"
+#~ msgstr "Не спостер╕гати"
+
+#~ msgid "Cities: %d total, %d over threshold of %d cities.\n"
+#~ msgstr "М╕ста: загалом %d, на %d б╕льше н╕ж пор╕г у %d м╕ст.\n"
+
+#~ msgid "%d content before penalty with "
+#~ msgstr "%d нейтральних до штрафу "
+
+#~ msgid "%d additional unhappy citizens."
+#~ msgstr "%d додаткових нещасних городян."
+
+#~ msgid "Units: "
+#~ msgstr "П╕дрозд╕ли: "
+
+#~ msgid "_Players"
+#~ msgstr "Гравц╕"
+
+#~ msgid "_Science"
+#~ msgstr "Наука"
+
+#~ msgid "S_paceship"
+#~ msgstr "Косм╕чний корабель"
+
+#~ msgid "_Number of Players (including AI):"
+#~ msgstr "К╕льк╕сть Гравц╕в (включно з  Ш╤)."
+
+#~ msgid "_AI Skill Level:"
+#~ msgstr "Р╕вень Ш╤:"
+
+#~ msgid "_Ruleset:"
+#~ msgstr "Зб╕р правил:"
+
+#~ msgid "More Game _Options..."
+#~ msgstr "Б╕льше Опц╕й Гри..."
+
+#~ msgid "Game _Options..."
+#~ msgstr "Опц╕╖ Гри..."
+
+#~ msgid "U"
+#~ msgstr "П"
+
+#~ msgid ""
+#~ "Ruler: %s %s  Government: %s\n"
+#~ "Capital: %s  Gold: %d\n"
+#~ "Tax: %d%% Science: %d%% Luxury: %d%%\n"
+#~ "Researching: Unknown"
+#~ msgstr ""
+#~ "Правитель: %s %s  Уряд: %s\n"
+#~ "Столиця: %s  Грош╕: %d\n"
+#~ "Податки: %d%% Наука: %d%% Розк╕ш: %d%%\n"
+#~ "Досл╕джу╓: Нев╕домо"
+
+#~ msgid "%s's SpaceShip"
+#~ msgstr "Косм╕чний човен %s"
+
+#~ msgid "Science Report"
+#~ msgstr "Науковий зв╕т"
+
+#, fuzzy
+#~ msgid ""
+#~ "A Diplomat is an official that carries your dispatches and is authorized "
+#~ "to deal with foreign dignitaries. He may also undertake various covert "
+#~ "operations with the intent of harming your opponents.\n"
+#~ "\n"
+#~ "- A Diplomat can establish embassies with other civilizations by moving "
+#~ "into another player's city.\n"
+#~ "\n"
+#~ "- Diplomats can also try to sabotage enemy production, or steal an "
+#~ "advance from an enemy city.  (An advance can only be stolen once per "
+#~ "city).\n"
+#~ "\n"
+#~ "- A Diplomat can also bribe an enemy unit, if that unit is the only unit "
+#~ "on its square.\n"
+#~ "\n"
+#~ "- Diplomats can even start a revolution in an enemy city and turn it into "
+#~ "your own, if you have the money!\n"
+#~ "\n"
+#~ "- In some game strategies, hordes of Diplomats can be used to wreak havoc "
+#~ "on the enemy.  Little wonder that Diplomats are often viewed with "
+#~ "suspicion and fear!"
+#~ msgstr ""
+#~ "- Д╕пломат може засновувати посольство з ╕ншими цив╕л╕зац╕ями рухаючись у "
+#~ "м╕ста ╕нш╕х гравц╕в.\n"
+#~ "\n"
+#~ "- Д╕пломати також можуть спробувати саботувати вороже виробництво, або "
+#~ "вкрасти знання з ворожого м╕ста. (Знання може бути вкрадено лише одного "
+#~ "разу на м╕сто).\n"
+#~ "\n"
+#~ "- Д╕пломат також може п╕дкупити ворожий п╕дрозд╕л, якщо цей п╕дрозд╕л "
+#~ "лише один на кл╕тинц╕.\n"
+#~ "\n"
+#~ "- Д╕пломати також можуть розпочати революц╕ю у ворожому м╕ст╕ та зробити "
+#~ "його Ваш╕м, якщо вистачить грошей!\n"
+#~ "\n"
+#~ "- У деяк╕х стратег╕ях гри, велика к╕льк╕сть Д╕пломат╕в може бути "
+#~ "використана аби викликати спустошення у ворога. Невелике диво, що на "
+#~ "Д╕пломат╕в дивляться ╕з острахом та п╕дозрою!"
+
+#~ msgid ""
+#~ "A Spy is a full time professional and as such is much more skilled in the "
+#~ "arts of espionage than her Diplomat predecessor.\n"
+#~ "\n"
+#~ "The most inoffensive skills in a Spy's repertoire are her ability to "
+#~ "investigate cities - revealing detailed information, and the "
+#~ "establishment of embassies.  However, if your Spy has gained herself a "
+#~ "reputation for clandestine behaviour she will be executed if she tries to "
+#~ "establish an embassy.\n"
+#~ "\n"
+#~ "She can also be used to: poison the water supply of an enemy city "
+#~ "(reducing the population); steal specific technology; and sabotage "
+#~ "predetermined city targets (note: sabotaging improvements in a capital or "
+#~ "sabotaging City Walls increases the risks of capture). A Spy can also "
+#~ "infiltrate a city and ferment a revolt.\n"
+#~ "\n"
+#~ "A Spy can also be of aid on the battlefield - sabotaging enemy units as "
+#~ "well as bribing them to change allegiance."
+#~ msgstr ""
+#~ "Шпигун це добре навчений профес╕онал що волод╕╓ б╕льшою майстерн╕стю у "
+#~ "мистецтв╕ шпигунства н╕ж його попередник - Д╕пломат.\n"
+#~ "\n"
+#~ "Найб╕льш потужн╕ навички Шпигуна - це його можлив╕сть досл╕джувати м╕ста "
+#~ "- отримувати детальну ╕нформац╕ю, та засновувати посольства. Але "
+#~ "зауважте, якщо Ваш Шпигун ма╓ погану репутац╕ю, його стратять при спроб╕ "
+#~ "заснувати посольство..\n"
+#~ "\n"
+#~ "В╕н також може бути використаний для: отру╓ння водогону у ворожому м╕ст╕ "
+#~ "(зменшення населення); вкрасти специф╕чну технолог╕ю; та саботувати "
+#~ "встановлен╕ ц╕л╕ у м╕ст╕ (зауважте: саботаж буд╕вл╕ у столиц╕ або саботаж "
+#~ "Ст╕н М╕ста зб╕льшу╓ можлив╕сть захоплення). Шпигун також може п╕дбурити "
+#~ "м╕сто та влаштувати революц╕ю.\n"
+#~ "\n"
+#~ "Шпигун може допомогти й на пол╕ битви - саботувавши ворожий п╕дрозд╕л або "
+#~ "п╕дкупивши його аби в╕н перейшов п╕д Вашу владу."
+
+#~ msgid "Reason: line not found"
+#~ msgstr "Причина: строки не знайдено"
+
+#~ msgid "Reason: line too short (expected %d got %lu"
+#~ msgstr "Причина: строка задовга (очикувано %d отримано %lu"
 
 #~ msgid "Plugin %s found but can't be initialized."
 #~ msgstr "Додаток %s знайдено але не ╕н╕циал╕зовано."
@@ -27308,9 +27796,6 @@ msgstr "Команда 31"
 #~ msgid "sound spec-file claims required option(s) which we don't support:"
 #~ msgstr "файл спец╕ф╕кац╕й звуку вимага╓ неп╕дтримуваних опц╕й:"
 
-#~ msgid "Cannot find audio file %s"
-#~ msgstr "Не знайдено ауд╕о файл %s"
-
 #~ msgid "%s (XX) %d/turn"
 #~ msgstr "%s (XX) %d/х╕д"
 
@@ -27320,42 +27805,8 @@ msgstr "Команда 31"
 #~ msgstr[1] "%s (%d) %d ходи"
 #~ msgstr[2] "%s (%d) %d ход╕в"
 
-#, fuzzy
-#~ msgid "?outputlist: and "
-#~ msgstr "?blistlast: та "
-
-#~ msgid ""
-#~ "* Military units away from home and field units will cause one citizen to "
-#~ "become unhappy.\n"
-#~ msgstr ""
-#~ "* В╕йськов╕ п╕дрозд╕ли залишивш╕ р╕дне м╕сто та польов╕ п╕дрозд╕ли "
-#~ "спричинять одного городян до стану нещастя.\n"
-
-#~ msgid "* Chance of civil war is %d%% if you lose your capital.\n"
-#~ msgstr "* Шанс громадянсько╖ в╕йни ╓ %d%%, якщо Ви втратите столицю.\n"
-
-#~ msgid ""
-#~ "* Your units may impose martial law. Each military unit inside a city "
-#~ "will force an unhappy citizen to become content.\n"
-#~ msgstr ""
-#~ "* Ваш╕ п╕дрозд╕ли можуть встановлювати в╕йськове положення. Кожен "
-#~ "в╕йськовий п╕дрозд╕л у м╕ст╕ буде спричиняти нещасливого городянина до "
-#~ "спокою.\n"
-
-#~ msgid "Territory of the %s"
-#~ msgstr "Трирот╕я %s"
-
-#~ msgid "Territory of the %s %s"
-#~ msgstr "Територ╕я %s %s"
-
-#~ msgid ", "
-#~ msgstr ", "
-
-#~ msgid "."
-#~ msgstr "."
-
-#~ msgid " Choose Your Diplomat's Strategy"
-#~ msgstr " Обер╕ть стратег╕ю Вашого Д╕пломата"
+#~ msgid "The %s gives an embassy"
+#~ msgstr "%s да╓ посольство"
 
 #~ msgid "Pro_duction"
 #~ msgstr "Виробництво"
@@ -27372,35 +27823,11 @@ msgstr "Команда 31"
 #~ msgid "_Popup City"
 #~ msgstr "В╕дкрити м╕сто"
 
-#~ msgid "L_egend"
-#~ msgstr "Легенда"
-
-#~ msgid "_Map"
-#~ msgstr "Мапа"
-
-#~ msgid "Create _player"
-#~ msgstr "Створити гравця"
-
-#~ msgid "_Release player"
-#~ msgstr "В╕дпустити гравця"
-
-#~ msgid "Units: "
-#~ msgstr "П╕дрозд╕ли: "
-
 #~ msgid "Gover_nment"
 #~ msgstr "Уряд"
 
 #~ msgid "_Change Government"
 #~ msgstr "Зм╕н╕ти Уряд"
-
-#~ msgid "_Players"
-#~ msgstr "Гравц╕"
-
-#~ msgid "_Science"
-#~ msgstr "Наука"
-
-#~ msgid "S_paceship"
-#~ msgstr "Косм╕чний корабель"
 
 #~ msgid "_Editing Mode"
 #~ msgstr "Режим Редагування"
@@ -27410,97 +27837,6 @@ msgstr "Команда 31"
 
 #~ msgid "_Cancel Treaty"
 #~ msgstr "Роз╕рвати угоду"
-
-#~ msgid "Game _Options..."
-#~ msgstr "Опц╕╖ Гри..."
-
-#~ msgid "U"
-#~ msgstr "П"
-
-#~ msgid ""
-#~ "\n"
-#~ "finshed"
-#~ msgstr ""
-#~ "\n"
-#~ "завершено"
-
-#~ msgid "Error in create_string16: Aborting ..."
-#~ msgstr "Помилка у create_string16: Припиняю..."
-
-#~ msgid "Couldn't blit text to display: %s"
-#~ msgstr "Не можу завантажити текст для в╕дображення: %s"
-
-#~ msgid ""
-#~ "Error in SDL_create_str16_surf: Couldn't convert text to display format: %"
-#~ "s"
-#~ msgstr ""
-#~ "Error in SDL_create_str16_surf: Не можу перетворити текст до формату "
-#~ "в╕дображення: %s"
-
-#~ msgid ""
-#~ "SDL_create_str16_surf: Font is generally %d big, and string is %hd big"
-#~ msgstr ""
-#~ "SDL_create_str16_surf: Шрифт взагал╕ %d за величиною, а строка ╓ %hd за "
-#~ "величиною"
-
-#~ msgid "SDL_create_str16_surf: String is %d lenght"
-#~ msgstr "SDL_create_str16_surf: Строка ма╓ довжину %d"
-
-#~ msgid "Error in change_ptsize: Change ptsize failed"
-#~ msgstr "Помилка у change_ptsize: Зм╕на ptsize не вдалася"
-
-#~ msgid "Error in load_font: Couldn't load %d pt font from %s: %s"
-#~ msgstr "Помилка у load_font: Не можу завантажити шрифт %d пункт╕в з %s: %s"
-
-#~ msgid "Error in unload_font: Trying unload from empty Font ARRAY"
-#~ msgstr "Помилка у unload_font: Спроба вивантажити з пустого МАСИВУ Шрифт╕в"
-
-#, fuzzy
-#~ msgid ""
-#~ "Error in unload_font: Trying unload Font which is not included in Font "
-#~ "ARRAY"
-#~ msgstr ""
-#~ "Помилка у unload_font: Спроба вивантажити Шрифт, який не входить до "
-#~ "МАСИВУ Шрифт╕в"
-
-#~ msgid "Clear _Log"
-#~ msgstr "Очистити журнал"
-
-#~ msgid "Gov_ernment"
-#~ msgstr "Уряд"
-
-#~ msgid "Work_lists"
-#~ msgstr "План буд╕вництва"
-
-#~ msgid "Science Report"
-#~ msgstr "Науковий зв╕т"
-
-#~ msgid ""
-#~ "When built, every civilization's attitude toward you is improved by 25%."
-#~ msgstr ""
-#~ "П╕сля того як побудовано, в╕дношення до Вас ╕нших цив╕л╕зац╕й "
-#~ "покращу╓ться на 25%."
-
-#~ msgid "Petroleum"
-#~ msgstr "Нафта"
-
-#~ msgid ""
-#~ "Brazil was founded as a colony of Portugal but became independent in "
-#~ "1822AD. It is the only country in the New World that has been the seat of "
-#~ "a monarchy."
-#~ msgstr ""
-#~ "Браз╕л╕ю було засновано як колон╕ю Португал╕╖, вона набула незалежност╕ у "
-#~ "1822. Це ╓дина кра╖на у Новому Св╕т╕ у як╕й була монарх╕я."
-
-#~ msgid ""
-#~ "Catalunya (aka Catalonia in English) is the north-eastern-most coastal "
-#~ "region of Spain near the southern foot of the Pyrenees."
-#~ msgstr ""
-#~ "Каталон╕я це п╕вн╕чно-сх╕дне узбережжя ╤спан╕╖ б╕ля п╕вденного п╕дн╕жжя "
-#~ "П╕р╕не╖в."
-
-#~ msgid "Team 32"
-#~ msgstr "Команда 32"
 
 #~ msgid "Cleared output window.\n"
 #~ msgstr "Очищено окно виводу.\n"
@@ -28025,6 +28361,88 @@ msgstr "Команда 31"
 
 #~ msgid "Exit Report"
 #~ msgstr "Зв╕т за Вих╕дом"
+
+#~ msgid ""
+#~ "\n"
+#~ "finshed"
+#~ msgstr ""
+#~ "\n"
+#~ "завершено"
+
+#~ msgid "Error in create_string16: Aborting ..."
+#~ msgstr "Помилка у create_string16: Припиняю..."
+
+#~ msgid "Couldn't blit text to display: %s"
+#~ msgstr "Не можу завантажити текст для в╕дображення: %s"
+
+#~ msgid ""
+#~ "Error in SDL_create_str16_surf: Couldn't convert text to display format: %"
+#~ "s"
+#~ msgstr ""
+#~ "Error in SDL_create_str16_surf: Не можу перетворити текст до формату "
+#~ "в╕дображення: %s"
+
+#~ msgid ""
+#~ "SDL_create_str16_surf: Font is generally %d big, and string is %hd big"
+#~ msgstr ""
+#~ "SDL_create_str16_surf: Шрифт взагал╕ %d за величиною, а строка ╓ %hd за "
+#~ "величиною"
+
+#~ msgid "SDL_create_str16_surf: String is %d lenght"
+#~ msgstr "SDL_create_str16_surf: Строка ма╓ довжину %d"
+
+#~ msgid "Error in change_ptsize: Change ptsize failed"
+#~ msgstr "Помилка у change_ptsize: Зм╕на ptsize не вдалася"
+
+#~ msgid "Error in load_font: Couldn't load %d pt font from %s: %s"
+#~ msgstr "Помилка у load_font: Не можу завантажити шрифт %d пункт╕в з %s: %s"
+
+#~ msgid "Error in unload_font: Trying unload from empty Font ARRAY"
+#~ msgstr "Помилка у unload_font: Спроба вивантажити з пустого МАСИВУ Шрифт╕в"
+
+#, fuzzy
+#~ msgid ""
+#~ "Error in unload_font: Trying unload Font which is not included in Font "
+#~ "ARRAY"
+#~ msgstr ""
+#~ "Помилка у unload_font: Спроба вивантажити Шрифт, який не входить до "
+#~ "МАСИВУ Шрифт╕в"
+
+#~ msgid "Clear _Log"
+#~ msgstr "Очистити журнал"
+
+#~ msgid "Gov_ernment"
+#~ msgstr "Уряд"
+
+#~ msgid "Work_lists"
+#~ msgstr "План буд╕вництва"
+
+#~ msgid ""
+#~ "When built, every civilization's attitude toward you is improved by 25%."
+#~ msgstr ""
+#~ "П╕сля того як побудовано, в╕дношення до Вас ╕нших цив╕л╕зац╕й "
+#~ "покращу╓ться на 25%."
+
+#~ msgid "Petroleum"
+#~ msgstr "Нафта"
+
+#~ msgid ""
+#~ "Brazil was founded as a colony of Portugal but became independent in "
+#~ "1822AD. It is the only country in the New World that has been the seat of "
+#~ "a monarchy."
+#~ msgstr ""
+#~ "Браз╕л╕ю було засновано як колон╕ю Португал╕╖, вона набула незалежност╕ у "
+#~ "1822. Це ╓дина кра╖на у Новому Св╕т╕ у як╕й була монарх╕я."
+
+#~ msgid ""
+#~ "Catalunya (aka Catalonia in English) is the north-eastern-most coastal "
+#~ "region of Spain near the southern foot of the Pyrenees."
+#~ msgstr ""
+#~ "Каталон╕я це п╕вн╕чно-сх╕дне узбережжя ╤спан╕╖ б╕ля п╕вденного п╕дн╕жжя "
+#~ "П╕р╕не╖в."
+
+#~ msgid "Team 32"
+#~ msgstr "Команда 32"
 
 #~ msgid ""
 #~ "Your %s was executed in %s on suspicion of spying.  The %s welcome future "
