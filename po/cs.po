@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.0.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-22 22:45-0500\n"
-"PO-Revision-Date: 2007-08-10 18:36+0300\n"
+"PO-Revision-Date: 2008-01-23 10:29+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -102,19 +102,16 @@ msgid "Building Unavailable Item"
 msgstr "Žádné dostupné stavby"
 
 #: common/events.c:45
-#, fuzzy
 msgid "Captured/Destroyed"
-msgstr "Město: Dobito/Zničeno"
+msgstr "Dobito/Zničeno"
 
 #: common/events.c:46
-#, fuzzy
 msgid "Celebrating"
-msgstr " - oslavuje"
+msgstr "Oslavuje"
 
 #: common/events.c:47
-#, fuzzy
 msgid "Civil Disorder"
-msgstr "Občanské nepokoje ve městě %s."
+msgstr "Občanské nepokoje"
 
 #: common/events.c:48
 #, fuzzy
@@ -127,9 +124,8 @@ msgid "Famine Feared"
 msgstr "Varování: Hrozí hladomor ve městě %s."
 
 #: common/events.c:50
-#, fuzzy
 msgid "Growth"
-msgstr "Růst města"
+msgstr "Růst"
 
 #: common/events.c:51
 #, fuzzy
@@ -137,14 +133,12 @@ msgid "May Soon Grow"
 msgstr "Růst města"
 
 #: common/events.c:52
-#, fuzzy
 msgid "Needs Aqueduct"
-msgstr "Město: Potřebuje Akvadukt"
+msgstr "Potřebuje Akvadukt"
 
 #: common/events.c:53
-#, fuzzy
 msgid "Needs Aqueduct Being Built"
-msgstr "Město: Potřebuje Akvadukt"
+msgstr "Potřebuje postavit Akvadukt"
 
 #: common/events.c:54 common/player.c:42
 #, fuzzy
@@ -197,7 +191,6 @@ msgid "Barbarian Uprising"
 msgstr "Barbar"
 
 #: common/events.c:63
-#, fuzzy
 msgid "Civil War"
 msgstr "Občanská válka"
 
@@ -208,7 +201,7 @@ msgstr "Skrýt vše"
 
 #: common/events.c:65
 msgid "First Contact"
-msgstr ""
+msgstr "První kontakt"
 
 #: common/events.c:66
 #, fuzzy
@@ -244,9 +237,8 @@ msgstr "Kosmická loď"
 #: common/events.c:72 common/events.c:73 common/events.c:74 common/events.c:75
 #: common/events.c:76 common/events.c:77 common/events.c:78 common/events.c:79
 #: common/events.c:80
-#, fuzzy
 msgid "Diplomat Action"
-msgstr "Diplomatické/Špionážní akce"
+msgstr "Diplomatické akce"
 
 #: common/events.c:72 common/events.c:81
 msgid "Bribe"
@@ -294,9 +286,8 @@ msgstr "Chrám"
 
 #: common/events.c:81 common/events.c:82 common/events.c:83 common/events.c:84
 #: common/events.c:85 common/events.c:86 common/events.c:87
-#, fuzzy
 msgid "Enemy Diplomat"
-msgstr "Diplomat"
+msgstr "Nepřátelský Diplomat"
 
 #: common/events.c:88
 #, fuzzy
@@ -459,9 +450,8 @@ msgid "Treaty"
 msgstr "Velcí"
 
 #: common/events.c:117
-#, fuzzy
 msgid "Alliance"
-msgstr "Technologie"
+msgstr "Aliance"
 
 #: common/events.c:118
 #, fuzzy
@@ -469,14 +459,12 @@ msgid "Broken"
 msgstr "Bratr"
 
 #: common/events.c:119
-#, fuzzy
 msgid "Cease-fire"
-msgstr "Velký vůdce"
+msgstr "Příměří"
 
 #: common/events.c:120
-#, fuzzy
 msgid "Peace"
-msgstr "Palác"
+msgstr "Mír"
 
 #: common/events.c:121
 #, fuzzy
@@ -534,9 +522,8 @@ msgid "Wonder"
 msgstr "Div světa"
 
 #: common/events.c:132
-#, fuzzy
 msgid "Finished"
-msgstr "ukončeno"
+msgstr "Dokončeno"
 
 #: common/events.c:133
 #, fuzzy
@@ -604,22 +591,19 @@ msgstr ""
 
 #: common/player.c:42
 msgid "Away"
-msgstr ""
+msgstr "Pryč"
 
 #: common/player.c:42
-#, fuzzy
 msgid "Novice"
-msgstr "nováček"
+msgstr "Nováček"
 
 #: common/player.c:42
-#, fuzzy
 msgid "Easy"
-msgstr "lehká"
+msgstr "Lehká"
 
 #: common/player.c:43
-#, fuzzy
 msgid "Hard"
-msgstr "těžká"
+msgstr "Těžká"
 
 #: common/player.c:43
 #, fuzzy
@@ -627,9 +611,8 @@ msgid "Cheating"
 msgstr "Chatlinka"
 
 #: common/player.c:43
-#, fuzzy
 msgid "Experimental"
-msgstr "experimentální"
+msgstr "Experimentální"
 
 #: common/player.c:762
 msgid "?attitude:Genocidal"
@@ -1811,7 +1794,7 @@ msgstr "%s patřící %s převedena na %s."
 #: server/citytools.c:550
 #, fuzzy, c-format
 msgid "%s %s lost in transfer to %s %s"
-msgstr "%s ztracena při útoku %s %s."
+msgstr "%s %s ztracena při útoku %s %s."
 
 #: server/citytools.c:633
 #, c-format
@@ -2337,9 +2320,9 @@ msgstr "  -v, --version\t\tVypiš číslo verze\n"
 #: server/civserver.c:255 client/gui-gtk-2.0/gui_main.c:352
 #: client/gui-sdl/gui_main.c:210 client/gui-xaw/gui_main.c:247
 #: manual/civmanual.c:384
-#, fuzzy, c-format
+#, c-format
 msgid "Report bugs at %s.\n"
-msgstr "Chyby hlašte na <%s>.\n"
+msgstr "Chyby hlašte na %s.\n"
 
 #: server/commands.c:28
 msgid "Start the game, or restart after loading a savegame."
@@ -2980,7 +2963,7 @@ msgstr "Hra skončila remízou"
 #. TRANS: translate text between <> only
 #: server/commands.c:324
 msgid "surrender"
-msgstr ""
+msgstr "kapitulace"
 
 #: server/commands.c:325
 #, fuzzy
@@ -3421,7 +3404,7 @@ msgstr "%s nemůžete uplatit!"
 #: server/diplomats.c:457
 #, fuzzy, c-format
 msgid "Your %s succeeded in bribing the %s."
-msgstr "Váš %1$s uspěl při uplácení jednotky %3$s hráče %2$s."
+msgstr "Váš %s uspěl při uplácení jednotky %s."
 
 #. TRANS: <unit> ... <Poles>
 #: server/diplomats.c:465
@@ -3551,7 +3534,7 @@ msgstr "Váš %s byl zlikvidován při obraně města %s proti %s."
 #: server/diplomats.c:1109
 #, fuzzy, c-format
 msgid "Your %s has been eliminated defending against a %s."
-msgstr "Váš %s byl zlikvidován při obraně města %s proti %s."
+msgstr "Váš %s byl zlikvidován při obraně města proti %s."
 
 #: server/diplomats.c:1122
 #, c-format
@@ -4623,7 +4606,6 @@ msgid "Amount of huts (minor tribe villages)"
 msgstr "Počet chýší (vesnic drobných kmenů)"
 
 #: server/settings.c:427
-#, fuzzy
 msgid ""
 "This setting gives the exact number of huts that will be placed on the "
 "entire map. Huts are small tribal villages that may be investigated by units."
@@ -4751,7 +4733,6 @@ msgid "Percentage penalty when changing tech"
 msgstr "Procentuální penále při změně technologie"
 
 #: server/settings.c:523
-#, fuzzy
 msgid ""
 "If you change your current research technology, and you have positive "
 "research points, you lose this percentage of those research points. This "
@@ -4783,7 +4764,6 @@ msgid "Penalty when getting tech from conquering"
 msgstr "Penále za zisk technologie dobytím města"
 
 #: server/settings.c:544
-#, fuzzy
 msgid ""
 "For each technology you gain by conquering an enemy city, you lose research "
 "points equal to this percentage of the cost to research a new technology. If "
@@ -4798,7 +4778,6 @@ msgid "Penalty when getting a free tech"
 msgstr "Penále za bezplatné získání technologie"
 
 #: server/settings.c:555
-#, fuzzy
 msgid ""
 "For each technology you gain \"for free\" (other than covered by diplcost or "
 "conquercost: specifically, from huts or from Great Library effects), you "
@@ -4831,7 +4810,6 @@ msgid "Percentage food lost when building needed"
 msgstr "Ztráta jídla při neexistenci akvaduktu"
 
 #: server/settings.c:576
-#, fuzzy
 msgid ""
 "If a city would expand, but it can't because it needs an Aqueduct (or Sewer "
 "System), it loses this percentage of its foodbox (or half that amount when "
@@ -4927,7 +4905,6 @@ msgid "Chance of moving into tile after attack"
 msgstr "Šance na obsazení pole po útoku"
 
 #: server/settings.c:651
-#, fuzzy
 msgid ""
 "If set to 0, combat is Civ1/2-style (when you attack, you remain in place). "
 "If set to 100, attacking units will always move into the tile they attacked "
@@ -4955,7 +4932,6 @@ msgid "Reduce city population after attack"
 msgstr "Snížit počet obyvatel po útoku"
 
 #: server/settings.c:670
-#, fuzzy
 msgid ""
 "This flag indicates whether city population is reduced after successful "
 "attack of enemy unit, depending on its movement type (OR-ed):\n"
@@ -5121,7 +5097,6 @@ msgid "Minimum number of cities for civil war"
 msgstr "Minimální počet měst pro občanskou válku"
 
 #: server/settings.c:793
-#, fuzzy
 msgid ""
 "A civil war is triggered when a player has at least this many cities and the "
 "player's capital is captured. If this option is set to the maximum value, "
@@ -5136,7 +5111,6 @@ msgid "Turns until player contact is lost"
 msgstr "Počet tahů, než je ztracen kontakt s jiným hráčem"
 
 #: server/settings.c:803
-#, fuzzy
 msgid ""
 "Players may meet for diplomacy this number of turns after their units have "
 "last met, even when they do not have an embassy. If set to zero, then "
@@ -5152,7 +5126,6 @@ msgid "Rebuild palace whenever capital is conquered"
 msgstr "Vybudování paláce při dobytí hl. města"
 
 #: server/settings.c:814
-#, fuzzy
 msgid ""
 "If this is set to 1, when the capital is conquered the palace is "
 "automatically rebuilt for free in another randomly choosen city. This is "
@@ -5180,7 +5153,6 @@ msgid "Players that users are allowed to take"
 msgstr "Hráči, které jsou uživatelé oprávněni vzít"
 
 #: server/settings.c:838
-#, fuzzy
 msgid ""
 "This should be a string of characters, each of which specifies a type or "
 "status of a civilization (player). Clients will only be permitted to take or "
@@ -6793,9 +6765,9 @@ msgstr ", úroveň obtížnosti %s"
 #: server/stdinhand.c:4138 server/stdinhand.c:4142 client/helpdata.c:254
 #: client/helpdata.c:745 client/text.c:187 client/text.c:1179
 #: client/text.c:1217
-#, fuzzy, c-format
+#, c-format
 msgid "?clistmore:, %s"
-msgstr "?or:, "
+msgstr ", %s"
 
 #: server/stdinhand.c:4146
 msgid ", ready"
@@ -7030,13 +7002,13 @@ msgstr "Vaše SDI obrana zabránila atomovému útoku na město %s."
 #: server/unithand.c:1013
 #, fuzzy, c-format
 msgid "Your %s survived the pathetic attack from the %s %s."
-msgstr "Vaše %s%s přežila patetický útok %s %s."
+msgstr "Vaše %s přežila patetický útok %s %s."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
 #: server/unithand.c:1022
 #, fuzzy, c-format
 msgid "Your attacking %s failed against the %s %s!"
-msgstr "Vaše útočící %s selhala proti %s's %s%s!"
+msgstr "Vaše útočící %s selhala proti %s %s!"
 
 #: server/unithand.c:1096
 #, c-format
@@ -7152,7 +7124,7 @@ msgstr ""
 #: server/unittools.c:258
 #, fuzzy, c-format
 msgid "%s was upgraded for free to %s."
-msgstr "Jednotka %s vylepšena zdarma na %s%s."
+msgstr "Jednotka %s vylepšena zdarma na %s."
 
 #: server/unittools.c:299
 #, c-format
@@ -7178,7 +7150,7 @@ msgstr "Jednotce %s došlo palivo."
 #: server/unittools.c:635
 #, fuzzy
 msgid "And, became more experienced!"
-msgstr "Váš %s se stal zkušenější!"
+msgstr " a stala se více zkušenou!"
 
 #. TRANS: Your <unit> became ...
 #: server/unittools.c:639
@@ -7225,13 +7197,13 @@ msgstr "Vůdce barbarů byl zajat a prodán za výkupné %d zlatých."
 #: server/unittools.c:1617
 #, fuzzy, c-format
 msgid "Your attacking %s succeeded against the %s %s!"
-msgstr "Vaše útočící %s byla uspěšná proti %s %s%s!"
+msgstr "Vaše útočící %s byla uspěšná proti %s %s!"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
 #: server/unittools.c:1626 server/unittools.c:1684
 #, fuzzy, c-format
 msgid "%s lost to an attack by the %s %s."
-msgstr "%s ztracena při útoku %s %s%s."
+msgstr "%s ztracena při útoku %s %s."
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
 #: server/unittools.c:1660
@@ -7239,23 +7211,23 @@ msgstr "%s ztracena při útoku %s %s%s."
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
 "Your attacking %s succeeded against the %s %s (and %d other units)!"
-msgstr[0] "Vaše útočící %s byla uspěšná proti %s %s%s!"
-msgstr[1] "Vaše útočící %s byla uspěšná proti %s %s%s!"
-msgstr[2] "Vaše útočící %s byla uspěšná proti %s %s%s!"
+msgstr[0] "Vaše útočící %s byla uspěšná proti %s %s!"
+msgstr[1] "Vaše útočící %s byla uspěšná proti %s %s!"
+msgstr[2] "Vaše útočící %s byla uspěšná proti %s %s!"
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #: server/unittools.c:1693
 #, fuzzy, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
-msgstr "%s ztracena při útoku %s %s."
+msgstr "%s ztracena %s %s při útoku %s %s."
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
 #: server/unittools.c:1708
 #, fuzzy, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
-msgstr "%s ztracena při útoku %s %s."
+msgstr "%s (%s) ztracena při útoku %s %s."
 
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
@@ -7264,9 +7236,9 @@ msgstr "%s ztracena při útoku %s %s."
 #, fuzzy, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
-msgstr[0] "%s ztracena při útoku %s %s."
-msgstr[1] "%s ztracena při útoku %s %s."
-msgstr[2] "%s ztracena při útoku %s %s."
+msgstr[0] "%s (%d) ztracena při útoku %s %s."
+msgstr[1] "%s (%d) ztracena při útoku %s %s."
+msgstr[2] "%s (%d) ztracena při útoku %s %s."
 
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
@@ -7275,9 +7247,9 @@ msgstr[2] "%s ztracena při útoku %s %s."
 #, fuzzy, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
-msgstr[0] "%s ztracena při útoku %s %s."
-msgstr[1] "%s ztracena při útoku %s %s."
-msgstr[2] "%s ztracena při útoku %s %s."
+msgstr[0] "%d ztracena %s %s při útoku %s %s."
+msgstr[1] "%d ztracena %s %s při útoku %s %s."
+msgstr[2] "%d ztracena %s %s při útoku %s %s."
 
 #: server/unittools.c:1993
 #, c-format
@@ -7309,7 +7281,7 @@ msgid "The %s detonated a nuke!"
 msgstr "%s odpálili atomovou zbraň."
 
 #: server/unittools.c:2080
-#, fuzzy, c-format
+#, c-format
 msgid "%s transported successfully."
 msgstr "Jednotka %s byla úspěšně transportována."
 
@@ -7500,7 +7472,6 @@ msgid "No real audio subsystem managed to initialize!"
 msgstr "Nepodařilo se inicializovat žádný ze zvukových subsystémů!"
 
 #: client/audio.c:257
-#, fuzzy
 msgid "Perhaps there is some misconfiguration or bad permissions"
 msgstr "Je možné, že příčinou je špatná konfigurace nebo oprávnění"
 
@@ -8089,12 +8060,12 @@ msgid "The parties create an alliance"
 msgstr "Jednající vytvořili alianci"
 
 #: client/climisc.c:291
-#, fuzzy, c-format
+#, c-format
 msgid "The %s give shared vision"
 msgstr "%s dovolí nahlížet do svých map"
 
 #: client/climisc.c:295
-#, fuzzy, c-format
+#, c-format
 msgid "The %s give an embassy"
 msgstr "%s dají ambasádu"
 
@@ -8609,7 +8580,7 @@ msgid "* Ignores the effects of city walls.\n"
 msgstr "* Ignoruje efekt městských hradeb.\n"
 
 #: client/helpdata.c:981
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* Does bombard attacks (%d per turn).  These attacks will only damage (never "
 "kill) the defender, but have no risk for the attacker.\n"
@@ -8618,7 +8589,6 @@ msgstr ""
 "(nikdy nezabije), ale není žádným rizikem pro útočníka.\n"
 
 #: client/helpdata.c:988
-#, fuzzy
 msgid "* Gets quintuple defense against missiles and aircraft.\n"
 msgstr "* Získává čtyřnásobnou obranu proti raketám a letadlům.\n"
 
@@ -9145,9 +9115,8 @@ msgid ""
 msgstr ""
 
 #: client/options.c:144 client/gui-sdl/gui_main.c:163
-#, fuzzy
 msgid "Theme"
-msgstr "Chrám"
+msgstr "Motiv"
 
 #: client/options.c:145
 msgid "By changing this option you change the active theme."
@@ -9662,7 +9631,7 @@ msgstr "Naše území"
 #: client/text.c:122
 #, fuzzy, c-format
 msgid "%s territory"
-msgstr "Terén"
+msgstr "Území %s"
 
 #. TRANS: "Polish territory (5 turn cease-fire)"
 #: client/text.c:131
@@ -9677,7 +9646,7 @@ msgstr[2] "%s území (%d tahů příměří)"
 #: client/text.c:140
 #, fuzzy, c-format
 msgid "%s territory (%s)"
-msgstr "%s území (%d tah příměří)"
+msgstr "Území %s %s"
 
 #: client/text.c:145
 msgid "Unclaimed territory"
@@ -9706,9 +9675,9 @@ msgstr "Město: %s (%s,%s)"
 
 #. TRANS: previous lines gave other information about the city.
 #: client/text.c:191
-#, c-format
+#, fuzzy, c-format
 msgid "?clistbegin: with %s"
-msgstr ""
+msgstr " s %s"
 
 #. TRANS: This appears with two or more previous entries in the list
 #: client/text.c:202
@@ -9724,7 +9693,7 @@ msgstr "Specialisté"
 
 #: client/text.c:209 client/text.c:1190 client/text.c:1229
 msgid "?clistend:."
-msgstr ""
+msgstr "."
 
 #. TRANS: "Trade from Warsaw: 5"
 #: client/text.c:219
@@ -9753,7 +9722,7 @@ msgstr "Jednotka: %s (%s, %s)"
 #: client/text.c:249
 #, fuzzy, c-format
 msgid "Unit: %s (%s)"
-msgstr "Jednotka: %s(%s%s)"
+msgstr "Jednotka: %s(%s)"
 
 #. TRANS:  "Unit: Musketeers (Polish, 5 turn cease-fire)"
 #: client/text.c:262
@@ -9870,9 +9839,9 @@ msgstr[2] "%d kroků"
 #, c-format
 msgid "%d bulb"
 msgid_plural "%d bulbs"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%d žárovka"
+msgstr[1] "%d žárovky"
+msgstr[2] "%d žárovek"
 
 #: client/text.c:609
 #, c-format
@@ -10199,9 +10168,9 @@ msgid "Wonders: "
 msgstr "Divy: "
 
 #: client/text.c:1262
-#, fuzzy, c-format
+#, c-format
 msgid "Cities: %d total, %d over threshold of %d cities."
-msgstr "Města: %d celkem, %d nad hranicí z %d měst.\n"
+msgstr "Města: %d celkem, %d nad hranicí z %d měst."
 
 #. TRANS: 0-21 content [citizen(s)] ...
 #: client/text.c:1266
@@ -10276,7 +10245,7 @@ msgstr ""
 
 #: client/tilespec.c:1336 client/tilespec.c:1345
 msgid "Using default tileset instead."
-msgstr ""
+msgstr "Použiji výchozí sadu dlaždic."
 
 #: client/tilespec.c:1344
 #, fuzzy
@@ -10586,9 +10555,8 @@ msgid "clear all"
 msgstr "Připravit všechny"
 
 #: client/gui-gtk-2.0/editdlg.c:76
-#, fuzzy
 msgid "Known"
-msgstr "Neznámý"
+msgstr "Známý"
 
 #: client/gui-gtk-2.0/editdlg.c:78
 msgid "Toggle"
@@ -10757,7 +10725,7 @@ msgstr "_Koupit"
 #: client/gui-gtk-2.0/citydlg.c:899 client/gui-gtk-2.0/cityrep.c:687
 #, fuzzy
 msgid "_Production"
-msgstr "Produkce"
+msgstr "P_rodukce"
 
 #: client/gui-gtk-2.0/citydlg.c:950
 msgid "_Happiness"
@@ -10983,7 +10951,7 @@ msgstr "_Vybrat"
 #: client/gui-gtk-2.0/cityrep.c:714 client/gui-gtk-2.0/plrdlg.c:496
 #, fuzzy
 msgid "_Display"
-msgstr "_Diplomacie"
+msgstr "_Zobrazit"
 
 #: client/gui-gtk-2.0/cityrep.c:795 client/gui-gtk-2.0/menu.c:843
 #: client/gui-sdl/diplodlg.c:689 client/gui-sdl/optiondlg.c:1799
@@ -10998,7 +10966,7 @@ msgstr "Města"
 #: client/gui-gtk-2.0/cityrep.c:812
 #, fuzzy
 msgid "_Inspect"
-msgstr "Vložit"
+msgstr "_Samostatné"
 
 #: client/gui-gtk-2.0/cityrep.c:1220 client/gui-gtk-2.0/cityrep.c:1241
 #: client/gui-gtk-2.0/cityrep.c:1260 client/gui-gtk-2.0/cityrep.c:1279
@@ -11165,7 +11133,7 @@ msgstr "Jít k po_loze"
 #: client/gui-gtk-2.0/dialogs.c:202 client/gui-gtk-2.0/messagewin.c:190
 #, fuzzy
 msgid "Inspect _City"
-msgstr "Prozkoumat město"
+msgstr "_Ukázat město"
 
 #: client/gui-gtk-2.0/dialogs.c:258 client/gui-sdl/dialogs.c:2091
 #: client/gui-win32/dialogs.c:975 client/gui-xaw/dialogs.c:513
@@ -11262,7 +11230,7 @@ msgstr "_Styl měst:"
 #: client/gui-gtk-2.0/dialogs.c:934
 #, fuzzy
 msgid "_Description"
-msgstr "Popis:"
+msgstr "L_egenda"
 
 #: client/gui-gtk-2.0/dialogs.c:1273 client/gui-xaw/dialogs.c:1489
 msgid "You must select your sex."
@@ -11573,9 +11541,8 @@ msgid "View"
 msgstr "Zobrazit"
 
 #: client/gui-gtk-2.0/gui_main.c:1282
-#, fuzzy
 msgid "Chat"
-msgstr "_Chat"
+msgstr "Chat"
 
 #: client/gui-gtk-2.0/gui_main.c:1298 client/gui-win32/gui_main.c:538
 #: data/Freeciv.in:2816
@@ -11615,7 +11582,7 @@ msgstr "Pozorovatel"
 #: client/gui-gtk-2.0/gui_main.c:1602
 #, fuzzy
 msgid "Do not _observe"
-msgstr "%s nyní pozoruje %s"
+msgstr "nyní _pozoruje"
 
 #. TRANS: "<Novice AI>"
 #: client/gui-gtk-2.0/gui_main.c:1625
@@ -12313,7 +12280,7 @@ msgstr "_Jednotky"
 #: client/gui-gtk-2.0/menu.c:951 client/gui-win32/menu.c:402
 #, fuzzy
 msgid "_Nations"
-msgstr "_Národy:"
+msgstr "_Národy"
 
 #: client/gui-gtk-2.0/menu.c:955 client/gui-win32/menu.c:403
 msgid "_Economy"
@@ -12547,7 +12514,7 @@ msgstr "_Setkat se"
 #: client/gui-gtk-2.0/plrdlg.c:463
 #, fuzzy
 msgid "Cancel _Treaty"
-msgstr "Zrušit dohodu"
+msgstr "_Zrušit dohodu"
 
 #: client/gui-gtk-2.0/plrdlg.c:470
 msgid "_Withdraw vision"
@@ -12740,7 +12707,6 @@ msgid "Ruleset _Version:"
 msgstr "Vládce:"
 
 #: client/gui-gtk-2.0/pages.c:1480 client/gui-gtk-2.0/pages.c:2112
-#, fuzzy
 msgid "_More Game Options..."
 msgstr "Více M_ožností Hry..."
 
@@ -12814,9 +12780,8 @@ msgstr "Uložit _soubor:"
 #: client/gui-win32/repodlgs.c:93 client/gui-win32/repodlgs.c:271
 #: client/gui-xaw/menu.c:229 client/gui-xaw/repodlgs.c:276
 #: client/gui-xaw/repodlgs.c:499 data/Freeciv.in:1366
-#, fuzzy
 msgid "Research"
-msgstr "_Výzkum"
+msgstr "Výzkum"
 
 #: client/gui-gtk-2.0/repodlgs.c:309 client/gui-win32/repodlgs.c:281
 msgid "Researching"
@@ -12885,7 +12850,7 @@ msgstr "Typ jednotky"
 #: client/gui-gtk-2.0/repodlgs.c:959 client/gui-win32/repodlgs.c:711
 #, fuzzy
 msgid "?Upgradable unit [short]:U"
-msgstr "Vylepšit jednotku"
+msgstr "V"
 
 #: client/gui-gtk-2.0/repodlgs.c:960 client/gui-win32/repodlgs.c:712
 msgid "In-Prog"
@@ -13044,7 +13009,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/tileset_dlg.c:51
 msgid "Prefered tileset"
-msgstr ""
+msgstr "Preferovaná sada dlaždic"
 
 #: client/gui-gtk-2.0/tileset_dlg.c:54
 #, fuzzy
@@ -13149,7 +13114,7 @@ msgstr ""
 #: client/gui-sdl/chatline.c:773
 #, c-format
 msgid "Total users logged in : %d"
-msgstr ""
+msgstr "Celkem přihlášených uživatelů : %d"
 
 #: client/gui-sdl/chatline.c:821 client/gui-win32/connectdlg.c:1100
 msgid "Back"
@@ -13165,11 +13130,8 @@ msgid "Load Game"
 msgstr "Nahrát hru"
 
 #: client/gui-sdl/chatline.c:865
-#, fuzzy
 msgid "Server Settings"
-msgstr ""
-"Nastavení\n"
-"serveru"
+msgstr "Nastavení serveru"
 
 #: client/gui-sdl/citydlg.c:425
 #, fuzzy
@@ -13249,7 +13211,7 @@ msgstr "V tomto kole jste již nakoupil(a)."
 #: client/gui-sdl/citydlg.c:1187
 #, fuzzy
 msgid "Buy it?"
-msgstr "Koupit?"
+msgstr "Koupit!"
 
 #: client/gui-sdl/citydlg.c:1213 client/gui-sdl/cma_fe.c:330
 #: client/gui-sdl/diplodlg.c:1333 client/gui-sdl/diplomat_dialog.c:1211
@@ -13285,7 +13247,7 @@ msgstr "Ano"
 #: client/gui-sdl/citydlg.c:1402
 #, fuzzy
 msgid "Sell it?"
-msgstr "Prodat?"
+msgstr "Prodat!"
 
 #: client/gui-sdl/citydlg.c:1435 client/gui-win32/citydlg.c:796
 msgid "Sell"
@@ -13312,17 +13274,15 @@ msgid "City info"
 msgstr "Info o městě"
 
 #: client/gui-sdl/citydlg.c:1916
-#, fuzzy, c-format
+#, c-format
 msgid "Pollution: %d"
 msgstr "Znečištění: %d"
 
 #: client/gui-sdl/citydlg.c:1944
-#, fuzzy
 msgid "Pollution: none"
 msgstr "Znečištění: žádné"
 
 #: client/gui-sdl/citydlg.c:1957
-#, fuzzy
 msgid "Trade routes: "
 msgstr "Obchodní cesty:"
 
@@ -13473,7 +13433,7 @@ msgstr "Produkce města"
 #: client/gui-sdl/citydlg.c:3831
 #, fuzzy
 msgid "Previous city"
-msgstr "Předchozí město"
+msgstr "_Předchozí město"
 
 #: client/gui-sdl/citydlg.c:3846
 msgid "Next city"
@@ -13528,7 +13488,7 @@ msgstr "seznam prací"
 msgid ""
 "\n"
 "finished"
-msgstr "ukončeno"
+msgstr "Finský"
 
 #: client/gui-sdl/cma_fe.c:455 client/gui-win32/cma_fe.c:458
 msgid "Presets"
@@ -13569,13 +13529,12 @@ msgid "Creating Server List..."
 msgstr "Vytvářím seznam serverů..."
 
 #: client/gui-sdl/connectdlg.c:279 client/gui-sdl/connectdlg.c:343
-#, fuzzy
 msgid "No LAN servers found"
-msgstr "LAN servery"
+msgstr "Nenalezeny žádné LAN servery"
 
 #: client/gui-sdl/connectdlg.c:281 client/gui-sdl/connectdlg.c:345
 msgid "No public servers found"
-msgstr ""
+msgstr "Nenalezeny žádné veřejné servery"
 
 #: client/gui-sdl/connectdlg.c:555
 msgid "Player Name :"
@@ -13806,7 +13765,7 @@ msgstr "Uspořádat Diplomatické setkání"
 
 #: client/gui-sdl/diplodlg.c:1519
 msgid "Send him back"
-msgstr ""
+msgstr "Poslat zpátky"
 
 #: client/gui-sdl/diplomat_dialog.c:590 data/Freeciv.in:2285
 #: data/Freeciv.in:2311
@@ -13862,12 +13821,12 @@ msgstr ""
 #: client/gui-sdl/graphics.c:1012
 #, c-format
 msgid "Unable to initialize SDL library: %s"
-msgstr ""
+msgstr "Nelze inicializovat SDL knihovnu: %s"
 
 #: client/gui-sdl/graphics.c:1021
 #, c-format
 msgid "Unable to initialize  SDL_ttf library: %s"
-msgstr ""
+msgstr "Nelze inicializovat  SDL_ttf knihovnu: %s"
 
 #: client/gui-sdl/graphics.c:1058
 #, c-format
@@ -13889,9 +13848,8 @@ msgid "Setting resolution to: %d x %d %d bpp"
 msgstr ""
 
 #: client/gui-sdl/gui_main.c:151
-#, fuzzy
 msgid "Full Screen"
-msgstr "_Fullscreen"
+msgstr "Fullscreen"
 
 #: client/gui-sdl/gui_main.c:152
 msgid ""
@@ -13944,7 +13902,7 @@ msgstr ""
 #: client/gui-sdl/gui_main.c:793
 #, c-format
 msgid "Using Video Output: %s"
-msgstr ""
+msgstr "Používám Video Výstup: %s"
 
 #: client/gui-sdl/gui_main.c:846
 msgid "Initializing Client"
@@ -13986,12 +13944,11 @@ msgstr "Vyberte jednotku(y)"
 #: client/gui-sdl/wldlg.c:1395 client/gui-sdl/wldlg.c:1400
 #: client/gui-sdl/wldlg.c:1487 client/gui-sdl/wldlg.c:1494
 #: client/gui-sdl/wldlg.c:1503
-#, fuzzy
 msgid "shield"
 msgid_plural "shields"
-msgstr[0] "Štít"
-msgstr[1] "Štít"
-msgstr[2] "Štít"
+msgstr[0] "štít"
+msgstr[1] "štíty"
+msgstr[2] "štítů"
 
 #: client/gui-sdl/helpdlg.c:740 client/gui-sdl/helpdlg.c:763
 msgid "citizen"
@@ -14001,12 +13958,11 @@ msgstr[1] "obyvatelé"
 msgstr[2] "obyvatelů"
 
 #: client/gui-sdl/helpdlg.c:753
-#, fuzzy
 msgid "food"
 msgid_plural "foods"
-msgstr[0] "Jídlo"
-msgstr[1] "Jídlo"
-msgstr[2] "Jídlo"
+msgstr[0] "jídlo"
+msgstr[1] "jídla"
+msgstr[2] "jídla"
 
 #: client/gui-sdl/helpdlg.c:758
 msgid "gold"
@@ -14126,14 +14082,12 @@ msgid "Revolution"
 msgstr "Revoluce"
 
 #: client/gui-sdl/mapctrl.c:1592
-#, fuzzy
 msgid "or"
 msgstr " nebo "
 
 #: client/gui-sdl/mapctrl.c:1616
-#, fuzzy
 msgid "Hide Messages"
-msgstr "Zprávy"
+msgstr "Schovat Zprávy"
 
 #: client/gui-sdl/mapctrl.c:1626
 #, fuzzy
@@ -14218,8 +14172,9 @@ msgid ""
 msgstr "Město %s"
 
 #: client/gui-sdl/mapview.c:614
+#, fuzzy
 msgid "?blistbegin: with "
-msgstr ""
+msgstr " s "
 
 #: client/gui-sdl/mapview.c:616 data/default/buildings.ruleset:113
 #: data/civ2/buildings.ruleset:96 data/civ1/buildings.ruleset:69
@@ -14238,7 +14193,7 @@ msgstr "Hradby"
 
 #: client/gui-sdl/mapview.c:637
 msgid "?blistend:"
-msgstr ""
+msgstr "?blistend:"
 
 #. TRANS: (<nation>,<diplomatic_state>)"
 #: client/gui-sdl/mapview.c:643
@@ -14259,7 +14214,7 @@ msgstr "Jídlo/Prod/Obch: %s"
 
 #: client/gui-sdl/mapview.c:890
 msgid "End of Turn"
-msgstr ""
+msgstr "Konec tahu"
 
 #: client/gui-sdl/mapview.c:890
 #, fuzzy
@@ -14449,9 +14404,8 @@ msgid "Irrigate to"
 msgstr "Závlaha (-I)"
 
 #: client/gui-sdl/menu.c:1132
-#, fuzzy
 msgid "Plant Forest"
-msgstr "Les"
+msgstr "Vysázet Les"
 
 #: client/gui-sdl/menu.c:1153
 msgid "Transform to"
@@ -14510,7 +14464,7 @@ msgstr "Ukazovat animace boje"
 
 #: client/gui-sdl/optiondlg.c:1094
 msgid "Use color cursors"
-msgstr ""
+msgstr "Použít barevné kurzory"
 
 #: client/gui-sdl/optiondlg.c:1608 client/gui-xaw/menu.c:146
 msgid "National Borders"
@@ -14522,7 +14476,7 @@ msgstr "Mřížka mapy"
 
 #: client/gui-sdl/optiondlg.c:1688
 msgid "Draw city map grid"
-msgstr ""
+msgstr "Kreslit mřížku na mapě města"
 
 #: client/gui-sdl/optiondlg.c:1718
 msgid "Draw city worker map grid"
@@ -14581,42 +14535,36 @@ msgid "Start New Game"
 msgstr "Start nové hry"
 
 #: client/gui-sdl/pages.c:199
-#, fuzzy
 msgid "Join Game"
-msgstr "Přihlašovací jméno"
+msgstr "Připojit do hry"
 
 #: client/gui-sdl/pages.c:213
-#, fuzzy
 msgid "Join Pubserver"
-msgstr " (pozorovatel)"
+msgstr "Připojit na Pubserver"
 
 #: client/gui-sdl/pages.c:227
-#, fuzzy
 msgid "Join LAN Server"
-msgstr "LAN servery"
+msgstr "Připojit na LAN server"
 
 #: client/gui-sdl/pages.c:308
 msgid "SDLClient welcomes you..."
-msgstr ""
+msgstr "SDL Klient tě vítá..."
 
 #: client/gui-sdl/pages.c:309
-#, fuzzy
 msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it "
 "under certain conditions;"
 msgstr ""
-"Freeciv je svobodný software a je vítána distribuce jeho kopií\n"
-"za určitých podmínek; Přečtěte si položku \"Licenční ujednání\" v menu "
-"Nápovědy.\n"
-"Tak.. Jdeme na to!"
+"Freeciv je svobodný software a je vítána distribuce jeho kopií za určitých "
+"podmínek;"
 
 #: client/gui-sdl/pages.c:312
 msgid "See the \"Copying\" item on the Help menu."
-msgstr ""
+msgstr " Přečtěte si položku \"Licenční ujednání\" v menu Nápovědy."
 
 #: client/gui-sdl/pages.c:314
 msgid "Now.. Go give'em hell!"
-msgstr ""
+msgstr "Takže... Začněme!"
 
 #: client/gui-sdl/plrdlg.c:651
 msgid "disconnected"
@@ -14708,9 +14656,8 @@ msgid "What should we focus on now?"
 msgstr "Jak budeme nazývat naše nové město?"
 
 #: client/gui-sdl/repodlgs.c:3045
-#, fuzzy
 msgid "Select target :"
-msgstr "Vyberte cíl:"
+msgstr "Vyberte cíl :"
 
 #: client/gui-sdl/repodlgs.c:3113
 msgid "step"
@@ -14741,7 +14688,7 @@ msgstr "Největší civilizace světa"
 #: client/gui-sdl/spaceshipdlg.c:142
 #, fuzzy, c-format
 msgid "The %s Spaceship"
-msgstr "%s Kosmická loď"
+msgstr "Kosmická loď"
 
 #: client/gui-sdl/spaceshipdlg.c:172 client/gui-win32/spaceshipdlg.c:241
 #: data/Freeciv.in:1709
@@ -15357,7 +15304,7 @@ msgstr "Luxus: %d%%"
 #: client/gui-win32/inteldlg.c:129 client/gui-xaw/inteldlg.c:242
 #, fuzzy
 msgid "Researching: (Unknown)"
-msgstr "Zkoumá se: Neznámý(%d/-)"
+msgstr "Zkoumáme: %s(%d/%d)"
 
 #: client/gui-win32/inteldlg.c:132 client/gui-xaw/inteldlg.c:245
 #, c-format
@@ -20802,7 +20749,7 @@ msgstr "Oceán"
 #: data/default/terrain.ruleset:334 data/civ2/terrain.ruleset:322
 #: data/civ1/terrain.ruleset:314
 msgid "?ocean:Shelf"
-msgstr ""
+msgstr "?ocean:Mělčina"
 
 #: data/default/terrain.ruleset:372 data/civ2/terrain.ruleset:357
 #: data/civ1/terrain.ruleset:349
@@ -20812,7 +20759,7 @@ msgstr ""
 #: data/default/terrain.ruleset:410 data/civ2/terrain.ruleset:392
 #: data/civ1/terrain.ruleset:384
 msgid "?ocean:Abyss"
-msgstr ""
+msgstr "?ocean:Propast"
 
 #: data/default/terrain.ruleset:448 data/civ2/terrain.ruleset:427
 #: data/civ1/terrain.ruleset:419
@@ -25158,7 +25105,7 @@ msgstr "?plural:Nigerijci"
 
 #: data/nation/nigerian.ruleset:6
 msgid "Nigeria won full independence from British rule in 1960."
-msgstr ""
+msgstr "Nigérie zvítězila v boji o nezávislost na Velké Británii v roce 1960."
 
 #: data/nation/norman.ruleset:3
 #, fuzzy
@@ -25205,6 +25152,9 @@ msgid ""
 "states along 38th parallel forming North Korea and South Korea. Even 60 "
 "years since then, North Korea remains a communist state of Stalinist type."
 msgstr ""
+"V roce 1945 byla Korea rozdělena Sovětským svazem a USA do dvou států v "
+"místech, které protíná 38.rovnoběžka. Po 60ti letech zůstává Severní Korea "
+"(KLDR) socialistickým státem Stalinského typu."
 
 #. TRANS: translates as the Great leader
 #: data/nation/northkorean.ruleset:22
@@ -27141,9 +27091,8 @@ msgstr "Nahrávám pravidla"
 
 #: data/civ1/game.ruleset:98 data/civ2/game.ruleset:98
 #: data/default/game.ruleset:126
-#, fuzzy
 msgid "Team 0"
-msgstr "Tým 10"
+msgstr "Tým 0"
 
 #: data/civ1/game.ruleset:99 data/civ2/game.ruleset:99
 #: data/default/game.ruleset:127
@@ -27303,8 +27252,55 @@ msgstr "Tým 31"
 #~ msgid "%s"
 #~ msgstr "%s"
 
+#, fuzzy
+#~ msgid "%s from %s lost in transfer to %s's %s"
+#~ msgstr "%s ztracena při útoku %s %s."
+
+#~ msgid "%s's worklist is now empty."
+#~ msgstr "Město %s má nyní prázdný seznam prací."
+
+#, fuzzy
+#~ msgid "Celebrations cancelled in %s."
+#~ msgstr "%s už nadále není oslavován ve městě %s."
+
+#~ msgid "  -a  --auth\t\tEnable server authentication.\n"
+#~ msgstr "  -a  --auth\t\tZapne autentifikaci serveru.\n"
+
+#~ msgid "You receive %s's worldmap."
+#~ msgstr "Získal(a) jste mapu kontinentů, které %s zná."
+
+#~ msgid "You receive %s's seamap."
+#~ msgstr "Získal(a) jste mapu moří, které %s zná."
+
+#~ msgid "Your %s could not sabotage %s's %s."
+#~ msgstr "Váš %1$s neuspěl při sabotáži jednotky %3$s hráče %2$s."
+
+#~ msgid "Your %s succeeded in sabotaging %s's %s."
+#~ msgstr "Váš %1$s uspěl při sabotáži jednotky %3$s hráče %2$s."
+
+#~ msgid "Your %s was sabotaged by %s!"
+#~ msgstr "Váš %s byl sabotován hráčem %s!"
+
+#~ msgid "You don't have enough gold to bribe %s's %s."
+#~ msgstr "Nemáte dostatek peněz na uplacení jednotky %2$s hráče %1$s."
+
+#~ msgid "You cannot bribe %s!"
+#~ msgstr "%s nemůžete uplatit!"
+
 #~ msgid "Your %s succeeded in bribing %s's %s and became more experienced."
 #~ msgstr "Váš %s uspěl při uplácení jednotky %s %s a získal více zkušeností."
+
+#~ msgid "Your %s succeeded in bribing %s's %s."
+#~ msgstr "Váš %1$s uspěl při uplácení jednotky %3$s hráče %2$s."
+
+#~ msgid "Your %s was bribed by %s."
+#~ msgstr "Jednotka %s byla uplacena hráčem %s."
+
+#~ msgid "%s's %s failed to steal technology from %s."
+#~ msgstr "%2$s hráče %1$s neuspěla při krádeži technologie ve městě %3$s."
+
+#~ msgid "An enemy %s has been eliminated defending %s."
+#~ msgstr "Nepřátelský %s byl zlikvidován při obraně %s."
 
 #~ msgid ""
 #~ "Eliminated %s %s while infiltrating %s. The defender became more "
@@ -27327,11 +27323,278 @@ msgstr "Tým 31"
 #~ "Váš %s úspěšně spnil misi a vrátil se nepozorovaně do města %s. Stal se "
 #~ "zkušenějším."
 
+#~ msgid ""
+#~ "Your %s has successfully completed her mission and returned unharmed to %"
+#~ "s."
+#~ msgstr "Váš %s úspěšně spnil misi a vrátil se nepozorovaně do města %s."
+
+#~ msgid "Your %s was captured after completing her mission in %s."
+#~ msgstr "Váš %s byl zajat poté, co dokončil svoji misi ve městě %s."
+
+#~ msgid "Your %s was captured after completing her mission."
+#~ msgstr "Váš %s byl zajat poté, co dokončil svoji misi."
+
+#~ msgid "You have caused an incident while bribing %s's %s."
+#~ msgstr "Váš pokus o uplacení %2$s hráče %1$s vyvolal incident."
+
+#~ msgid ""
+#~ "The capture of %s's capital and the destruction of the empire's "
+#~ "administrative\n"
+#~ "      structures have sparked a civil war.  Opportunists have flocked to "
+#~ "the rebel cause,\n"
+#~ "      and the upstart %s now holds power in %d rebel provinces."
+#~ msgstr ""
+#~ "Pád hlavního města %s a zničení imperiální administrativy\n"
+#~ "      zažehlo občanskou válku.  Opportunisté se shromáždili k rebeliím\n"
+#~ "      a zbohatlík %s má v rukou %d vzbouřených provincií."
+
+#~ msgid ""
+#~ "The save file contains incomplete map data.  This can happen with old "
+#~ "saved games, or it may indicate an invalid saved game file.  Proceed at "
+#~ "your own risk."
+#~ msgstr ""
+#~ "Uložená hra obsahuje neúplná data mapy. Může se jednat o starší verzi "
+#~ "souboru nebo o neplatný soubor. Pokračujte na vlastní nebezpečí."
+
 #~ msgid "Reason: line not found"
 #~ msgstr "Důvod: řádek nenalezen"
 
 #~ msgid "Reason: line too short (expected %d got %lu"
 #~ msgstr "Důvod: řádek je příliš krátký (očekáván %d dostal %lu"
+
+#~ msgid "Savegame too old, at least version 1.9.0 required."
+#~ msgstr "Uložená hra je příliš stará. Nutná je alespoň verze 1.9.0."
+
+#~ msgid ""
+#~ "The savegame uses the classic terrain ruleset which is no longer "
+#~ "supported."
+#~ msgstr ""
+#~ "Uložená hra používá soubor pravidel pro terén, který již není podporován."
+
+#~ msgid ""
+#~ "Illegal alliance structure detected: %s's alliance to %s reduced to peace "
+#~ "treaty."
+#~ msgstr "Neplatná struktura aliance: Aliance %s s %s byla redukována na mír."
+
+#~ msgid "Number of players is higher than requested value; Keeping old value."
+#~ msgstr ""
+#~ "Počet hráčů je vyšší než požadovaná hodnota, zůstává původní hodnota"
+
+#~ msgid ""
+#~ "This setting gives the exact number of huts that will be placed on the "
+#~ "entire map. Huts are small tribal villages that may be investiged by "
+#~ "units."
+#~ msgstr ""
+#~ "Toto nastavení říká, kolik chýší se má na mapě nacházet. Chýše jsou palé "
+#~ "vesnice domorodců, jež mohou být nalezeny Vašimi jednotkami."
+
+#~ msgid ""
+#~ "If you change your current research technology, and you have positive "
+#~ "research points, you lose this percentage of those research points. This "
+#~ "does not apply if you have just gained a technology this turn."
+#~ msgstr ""
+#~ "Pokud změníte cíl výzkumu a máte li již v původním nějaké body, ztratíte "
+#~ "z nich určité procento. Penalizace se nepočítá, pokud jste tento tah "
+#~ "technologii dokončili."
+
+#, fuzzy
+#~ msgid ""
+#~ "For each technology you gain from a diplomatic treaty, you lost research "
+#~ "points equal to this percentage of the cost to research a new technology. "
+#~ "You can end up with negative research points if this is non-zero. Also "
+#~ "applies to gold transfers in diplomatic treaties."
+#~ msgstr ""
+#~ "Za každou technologii, získanou diplomatickou cestou, ztratíte tyto "
+#~ "procenta při výzkumu nové technologie. Pokud tato hodnota není nulová, "
+#~ "můžete skončit i se zápornou hodnotou bodů na výzkum."
+
+#~ msgid ""
+#~ "For each technology you gain by conquering an enemy city, you lose "
+#~ "research points equal to this percentage of the cost to research a new "
+#~ "technology. You can end up with negative research points if this is non-"
+#~ "zero."
+#~ msgstr ""
+#~ "Za každou technologii, získanou dobytím města, ztratíte tyto procenta při "
+#~ "výzkumu nové technologie. Pokud tento parametr není nulový, můžete "
+#~ "skončit i se zápornou hodnotou bodů na výzkum."
+
+#~ msgid ""
+#~ "For each technology you gain \"for free\" (other than covered by diplcost "
+#~ "or conquercost: specifically, from huts or from Great Library effects), "
+#~ "you lose research points equal to this percentage of the cost to research "
+#~ "a new technology. You can end up with negative research points if this is "
+#~ "non-zero."
+#~ msgstr ""
+#~ "Za každou technologii, získanou \"zdarma\" (jinak než diplomatickou nebo "
+#~ "vojenskou cestou, kontrétně z Velké knihovny nebo z chýše), ztratíte tyto "
+#~ "procenta při výzkumu nové technologie. Pokud tato hodnota není nulová, "
+#~ "můžete skončit i se zápornou hodnotou bodů na výzkum."
+
+#~ msgid "Percentage food lost when need aqueduct"
+#~ msgstr "Ztráta jídla při neexistenci akvaduktu"
+
+#~ msgid ""
+#~ "If a city would expand, but it can't because it needs an Aqueduct (or "
+#~ "Sewer System), it loses this percentage of its foodbox (or half that "
+#~ "amount if it has a Granary)."
+#~ msgstr ""
+#~ "Pokud by se město chtělo rozrůst, ale nemůže, protože potřebuje Akvadukt "
+#~ "(nebo kanalizaci), ztratí určité množství (v procentech) zásob jídla "
+#~ "(nebo polovinu tohoto množství, pokud je ve městě sýpka)."
+
+#~ msgid ""
+#~ "When a player founds a new city, it is checked if there is no other city "
+#~ "in citymindist distance. For example, if citymindist is 3, there have to "
+#~ "be at least two empty fields between two cities in every direction. If "
+#~ "set to 0 (default), the ruleset value will be used."
+#~ msgstr ""
+#~ "Pokud hráč zakládá nové město, je testováno, jestli již v okolí neleží "
+#~ "jiné ve vzdálenosti citymindist (minimální vzdálenost města). Například, "
+#~ "je-li citymindist 3, musí být mezi novým a původním městem alespoň 2 "
+#~ "prázdn políčka. Pokud je použita hodnota 0, bere se údaj z pravidel."
+
+#~ msgid ""
+#~ "If set to 0, combat is Civ1/2-style (when you attack, you remain in "
+#~ "place). If set to 100, attacking units will always move into the tile "
+#~ "they attacked if they win the combat (and no enemy units remain in the "
+#~ "tile). If set to a value between 0 and 100, this will be used as the "
+#~ "percent chance of \"occupying\" territory."
+#~ msgstr ""
+#~ "Pokud je nastaveno na 0, boj je ve stylu Civ1/2(pokud útočíš, zůstáváš na "
+#~ "místě). Pokud je nastaveno na 100, útočící jednotka se vždy přesune na "
+#~ "místo, na které útočí, když vyhraje (a nezbydou tam žádní neřátelé). "
+#~ "Hodnota mezi 0 a 100 je použita jako procentuální šance na \"obsazení\" "
+#~ "místa."
+
+#~ msgid ""
+#~ "This flag indicates if city population is reduced after successful attack "
+#~ "of enemy unit, depending on its movement type (OR-ed):\n"
+#~ "  1 = land\n"
+#~ "  2 = sea\n"
+#~ "  4 = heli\n"
+#~ "  8 = air"
+#~ msgstr ""
+#~ "Tento příznak indikuje, zda je populace města snížena po úspěšném útoku "
+#~ "nepřátelské jednotky, v závislosti na jejím typu (OR-ováno):\n"
+#~ "  1 = pozemní\n"
+#~ "  2 = námořní\n"
+#~ "  4 = helikoptéry\n"
+#~ "  8 = letectvo"
+
+#~ msgid ""
+#~ "A civil war is triggered if a player has at least this many cities and "
+#~ "the player's capital is captured. If this option is set to the maximum "
+#~ "value, civil wars are turned off altogether."
+#~ msgstr ""
+#~ "Občanská válka začne, pokud má hráč alespoň tento počet měst a ztratí "
+#~ "hlavní město. Pokud je tato volba nastavena na maximum, je občanská válka "
+#~ "celkově zakázána."
+
+#~ msgid ""
+#~ "Players may meet for diplomacy this number of turns after their units "
+#~ "have last met, even if they do not have an embassy. If set to zero then "
+#~ "players cannot meet unless they have an embassy."
+#~ msgstr ""
+#~ "Hráči se mohou scházet za účelem diplomacie tento počet tahů po té, co se "
+#~ "naposledy setkaly jejich jednotky, když nemají ambasádu. Pokud je tato "
+#~ "hodnota nastavena na 0, nemohou se sejít, pokud nemají ambasádu."
+
+#~ msgid "Rebuild palace if capital is conquered"
+#~ msgstr "Vybudování paláce při dobytí hl. města"
+
+#~ msgid ""
+#~ "If this is set to 1, then when the capital is conquered the palace is "
+#~ "automatically rebuilt for free in another randomly choosen city. This is "
+#~ "significant because the technology requirement for building a palace will "
+#~ "be ignored."
+#~ msgstr ""
+#~ "Pokud je nastaveno na 1, je po pádu hlavního města postaven automaticky "
+#~ "palác v jiném, náhodně zvoleném, městě. To je podstatné, protože "
+#~ "technologie potřebná k budování paláce bude ignorována."
+
+#~ msgid ""
+#~ "This should be a string of characters, each of which specifies a type or "
+#~ "status of a civilization (player). Clients will only be permitted to take "
+#~ "or observe those players which match one of the specified letters. This "
+#~ "only affects future uses of the take or observe command; it is not "
+#~ "retroactive. The characters and their meanings are:\n"
+#~ "    o,O = Global observer\n"
+#~ "    b   = Barbarian players\n"
+#~ "    d   = Dead players\n"
+#~ "    a,A = AI players\n"
+#~ "    h,H = Human players\n"
+#~ "The first description on this list which matches a player is the one "
+#~ "which applies. Thus 'd' does not include dead barbarians, 'a' does not "
+#~ "include dead AI players, and so on. Upper case letters apply before the "
+#~ "game has started, lower case letters afterwards.\n"
+#~ "\n"
+#~ "Each character above may be followed by one of the following numbers to "
+#~ "allow or restrict the manner of connection:\n"
+#~ "\n"
+#~ "(none) = Controller allowed, observers allowed, can displace connections. "
+#~ "(Displacing a connection means that you may take over a player, even if "
+#~ "another user already controls that player.)\n"
+#~ "\n"
+#~ "1 = Controller allowed, observers allowed, can't displace connections;\n"
+#~ "\n"
+#~ "2 = Controller allowed, no observers allowed, can displace connections;\n"
+#~ "\n"
+#~ "3 = Controller allowed, no observers allowed, can't displace "
+#~ "connections;\n"
+#~ "\n"
+#~ "4 = No controller allowed, observers allowed;\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Toto je řetězec znaků, každý určuje typ nebo status civilizace (hráče). "
+#~ "Klienti mohou vzít nebo pozorovat jen ty hráče, ke kterým jim pasují "
+#~ "uvedené písmena. Toto omezuje pouze budoucí uživatele ve výběru nebo "
+#~ "pozorování, neuplatňuje se zpětně.Významy jednotlivých znaků jsou:\n"
+#~ "    o,O = Globální pozorovatel\n"
+#~ "    b   = Barbaři\n"
+#~ "    d   = Mrtví hráči\n"
+#~ "    a,A = Hráči řízeni počítačem\n"
+#~ "    h,H = Hráči řízeni člověkem\n"
+#~ "Pouze první popis, který vyhovuje bude zahrnovat hráče. Takže 'd' "
+#~ "nezahrnuje mrtvé barbary, 'a' se nevztahuje na mrtvé hráče řízené "
+#~ "počítačem. Velké písmena se aplikují při startu hry, malé potom.\n"
+#~ "\n"
+#~ "Každé písmeno může být následováno číslem, určujícím nebo omezujícím typ "
+#~ "připojení:\n"
+#~ "\n"
+#~ "(žádné) = Ovládání povoleno, Pozorování povoleno, může převzít spojení. "
+#~ "(převzetí spojení znamená, že převezmete hráče ikdyž je již někým "
+#~ "ovládán.)\n"
+#~ "\n"
+#~ "1 = Ovládání povoleno, Pozorování povoleno, nemůže převzít spojení;\n"
+#~ "\n"
+#~ "2 = Ovládání povoleno, Pozorování zakázáno, může převzít spojení;\n"
+#~ "\n"
+#~ "3 = Ovládání povoleno, Pozorování zakázáno, nemůže převzít spojení;\n"
+#~ "\n"
+#~ "4 = Ovládání není povoleno, Pozorování povoleno;\n"
+#~ "\n"
+
+#~ msgid ""
+#~ "Any time a unit moves when in sight of an enemy player, the remaining "
+#~ "timeout is set to this value if it was lower."
+#~ msgstr ""
+#~ "Kdykoliv se přesouvá jednotka poblíž nepřátelského hráče, zbývající "
+#~ "prodlevy jsou nastaveny na tuto hodnotu, když jsou nižší."
+
+#, fuzzy
+#~ msgid ""
+#~ "If this is set to 1 the game turn will not advance until the timeout has "
+#~ "expired, even if all players have clicked on \"Turn Done\"."
+#~ msgstr ""
+#~ "Pokud je tato volba nastavena na 1 nepřejde hra do dalšího kola dříve než "
+#~ "uplyne čas potřebný pro jedno kolo, bez ohledu na to zda hráči stiskli "
+#~ "\"Konec tahu\"."
+
+#~ msgid "%s's %s no longer debugged."
+#~ msgstr "%s %s se již neladí."
+
+#~ msgid "%s's %s debugged."
+#~ msgstr "%s %s se ladí."
 
 #, fuzzy
 #~ msgid "Ruleset directory name \"%s\" disallowed for security reasons."
@@ -27352,6 +27615,15 @@ msgstr "Tým 31"
 #~ msgstr ""
 #~ "Vaše %s%s přežila patetický útok %s %s a stala se více zkušenou jednotkou!"
 
+#~ msgid "Your %s%s survived the pathetic attack from %s's %s."
+#~ msgstr "Vaše %s%s přežila patetický útok %s %s."
+
+#~ msgid "Your attacking %s failed against %s's %s%s!"
+#~ msgstr "Vaše útočící %s selhala proti %s's %s%s!"
+
+#~ msgid "%s was upgraded for free to %s%s."
+#~ msgstr "Jednotka %s vylepšena zdarma na %s%s."
+
 #~ msgid " at %s"
 #~ msgstr " na %s"
 
@@ -27369,6 +27641,12 @@ msgstr "Tým 31"
 #~ msgstr ""
 #~ "Vaše útočící jednotka %s zvítězila proti %s %s%s a stala se více zkušenou!"
 
+#~ msgid "Your attacking %s succeeded against %s's %s%s!"
+#~ msgstr "Vaše útočící %s byla uspěšná proti %s %s%s!"
+
+#~ msgid "%s lost to an attack by %s's %s%s."
+#~ msgstr "%s ztracena při útoku %s %s%s."
+
 #, fuzzy
 #~ msgid ""
 #~ "Your attacking %s succeeded against %s's %s (and %d other unit)%s and "
@@ -27383,8 +27661,50 @@ msgstr "Tým 31"
 #~ msgstr[2] ""
 #~ "Vaše útočící jednotka %s zvítězila proti %s %s%s a stala se více zkušenou!"
 
+#, fuzzy
+#~ msgid "Your attacking %s succeeded against %s's %s (and %d other unit)%s!"
+#~ msgid_plural ""
+#~ "Your attacking %s succeeded against %s's %s (and %d other units)%s!"
+#~ msgstr[0] "Vaše útočící %s byla uspěšná proti %s %s%s!"
+#~ msgstr[1] "Vaše útočící %s byla uspěšná proti %s %s%s!"
+#~ msgstr[2] "Vaše útočící %s byla uspěšná proti %s %s%s!"
+
 #~ msgid "%s lost to an attack from %s's %s."
 #~ msgstr "%s ztracena při útoku %s %s."
+
+#, fuzzy
+#~ msgid "%s lost when %s's %s attacked %s's %s."
+#~ msgstr "%s ztracena při útoku %s %s."
+
+#, fuzzy
+#~ msgid "%s (and %s) lost to an attack from %s's %s."
+#~ msgstr "%s ztracena při útoku %s %s."
+
+#, fuzzy
+#~ msgid "%s and %d other unit lost to an attack from %s's %s."
+#~ msgid_plural "%s and %d other units lost to an attack from %s's %s."
+#~ msgstr[0] "%s ztracena při útoku %s %s."
+#~ msgstr[1] "%s ztracena při útoku %s %s."
+#~ msgstr[2] "%s ztracena při útoku %s %s."
+
+#, fuzzy
+#~ msgid "%d unit lost when %s's %s attacked %s's %s."
+#~ msgid_plural "%d units lost when %s's %s attacked %s's %s."
+#~ msgstr[0] "%s ztracena při útoku %s %s."
+#~ msgstr[1] "%s ztracena při útoku %s %s."
+#~ msgstr[2] "%s ztracena při útoku %s %s."
+
+#~ msgid "%s's %s was nuked."
+#~ msgstr "Na %s %s byl proveden jaderný útok."
+
+#~ msgid "%s detonated a nuke!"
+#~ msgstr "%s odpálili atomovou zbraň."
+
+#~ msgid "%s transported succesfully."
+#~ msgstr "Jednotka %s byla úspěšně transportována."
+
+#~ msgid "You cannot paradrop a transporter unit."
+#~ msgstr "Nelze provést výsadek transportní jednotky."
 
 #~ msgid "Plugin %s found but can't be initialized."
 #~ msgstr "Zásuvný modul %s nalezen, ale nemůže být inicializován."
@@ -27394,6 +27714,9 @@ msgstr "Tým 31"
 
 #~ msgid "Couldn't find soundset \"%s\" trying \"%s\"."
 #~ msgstr "Nemohu najít zvukovou sadu \"%s\" zkouším \"%s\"."
+
+#~ msgid "Proceeding with sound support disabled"
+#~ msgstr "Pokračuji bez podpory zvuku"
 
 #~ msgid "No real audio plugin present, proceeding with sound support disabled"
 #~ msgstr "Není přítomný žádný zvukový zásuvný modul, pokračujeme bez zvuků"
@@ -27425,6 +27748,9 @@ msgstr "Tým 31"
 #~ msgid "sound spec-file claims required option(s) which we don't support:"
 #~ msgstr "volby zvukového spec souboru, které nepodporujeme:"
 
+#~ msgid "Perhaps there is some misconfigurationg or bad permissions"
+#~ msgstr "Je možné, že příčinou je špatná konfigurace nebo oprávnění"
+
 #~ msgid "Cannot find audio file %s"
 #~ msgstr "Nelze nalézt zvukový soubor %s"
 
@@ -27437,6 +27763,47 @@ msgstr "Tým 31"
 #~ msgstr[1] "%s (%d) %d tahy"
 #~ msgstr[2] "%s (%d) %d tahů"
 
+#~ msgid "  -p, --port PORT\tConnect to server port PORT\n"
+#~ msgstr "  -p, --port PORT\tPřipojit na port serveru PORT\n"
+
+#~ msgid "  -s, --server HOST\tConnect to the server at HOST\n"
+#~ msgstr "  -s, --server HOST\tPřipojit k serveru HOST\n"
+
+#~ msgid "The %s gives shared vision"
+#~ msgstr "%s dovolí nahlížet do svých map"
+
+#~ msgid "The %s gives an embassy"
+#~ msgstr "%s dají ambasádu"
+
+#~ msgid ""
+#~ "* May be disbanded in a city to recover 50%% of the production cost.\n"
+#~ msgstr ""
+#~ "* Může být rozložen ve městě, za účelem získání 50%% surovin potřebných k "
+#~ "výrobě.\n"
+
+#~ msgid "* May fortify, granting a 50%% defensive bonus.\n"
+#~ msgstr "* Může se opevnit, aby ziskal o 50%% vyšší obrannou sílu.\n"
+
+#~ msgid ""
+#~ "* Does bombard attacks (%d per turn).  These attacks will only damage "
+#~ "(never kill) the defender but has no risk to the attacker.\n"
+#~ msgstr ""
+#~ "* Provádí bombardování (%d za tah).  Tento typ útoku jenom zraní obránce "
+#~ "(nikdy nezabije), ale není žádným rizikem pro útočníka.\n"
+
+#~ msgid "* Gets quintuple defence against missiles and aircraft.\n"
+#~ msgstr "* Získává čtyřnásobnou obranu proti raketám a letadlům.\n"
+
+#~ msgid "* May become veteran through training or combat.\n"
+#~ msgstr "* Může se stát vetránem během tréninku nebo boje.\n"
+
+#~ msgid ""
+#~ "* Must end turn in a city or next to land, or has a 50%% risk of being "
+#~ "lost at sea.\n"
+#~ msgstr ""
+#~ "* Musí končit kolo ve městě nebo u pevniny, nebo je 50%% pravděpodobnost "
+#~ "ztráty v moři.\n"
+
 #, fuzzy
 #~ msgid ""
 #~ "* Military units away from home and field units will cause one citizen to "
@@ -27446,11 +27813,26 @@ msgstr "Tým 31"
 #~ "nespokojenost.\n"
 #~ " "
 
+#, fuzzy
+#~ msgid ""
+#~ "* Military units away from home and field units will cause %d citizens to "
+#~ "become unhappy.\n"
+#~ msgstr ""
+#~ "* Vojenské jednotky vzdálené od domova a  v poli mohou způsobit "
+#~ "nespokojenost.\n"
+#~ " "
+
+#~ msgid "Our Territory"
+#~ msgstr "Naše území"
+
 #~ msgid "Territory of the %s"
 #~ msgstr "Území %s"
 
 #~ msgid "Territory of the %s %s"
 #~ msgstr "Území %s %s"
+
+#~ msgid "Unit: %s (%s%s)"
+#~ msgstr "Jednotka: %s(%s%s)"
 
 #~ msgid ", "
 #~ msgstr ", "
@@ -27460,6 +27842,12 @@ msgstr "Tým 31"
 
 #~ msgid " Choose Your Diplomat's Strategy"
 #~ msgstr " Vyberte strategii vašeho diplomata"
+
+#~ msgid "Sir, the diplomat is waiting for your command"
+#~ msgstr "Pane, diplomat očekává Vaše rozkazy"
+
+#~ msgid "Sir, the spy is waiting for your command"
+#~ msgstr "Pane, špion očekává Vaše rozkazy"
 
 #~ msgid "Pro_duction"
 #~ msgstr "P_rodukce"
@@ -27476,6 +27864,15 @@ msgstr "Tým 31"
 #~ msgid "_Popup City"
 #~ msgstr "_Ukázat město"
 
+#~ msgid "_Nations:"
+#~ msgstr "_Národy:"
+
+#~ msgid "Random Nation"
+#~ msgstr "Náhodný národ"
+
+#~ msgid "_City Styles:"
+#~ msgstr "_Styl měst:"
+
 #~ msgid "L_egend"
 #~ msgstr "L_egenda"
 
@@ -27490,8 +27887,28 @@ msgstr "Tým 31"
 #~ msgid "_Release player"
 #~ msgstr "Uvo_lnit město"
 
+#, fuzzy
+#~ msgid "_Do not observe"
+#~ msgstr "%s nyní pozoruje %s"
+
+#~ msgid "Cities: %d total, %d over threshold of %d cities.\n"
+#~ msgstr "Města: %d celkem, %d nad hranicí z %d měst.\n"
+
+#~ msgid "%d content before penalty with "
+#~ msgstr "%d spokojený před postihem s "
+
+#~ msgid "%d additional unhappy citizens."
+#~ msgstr "%d dalších nespokojených obyvatel."
+
 #~ msgid "Units: "
 #~ msgstr "Jednotek: "
+
+#, fuzzy
+#~ msgid "Sa_ve Options"
+#~ msgstr "Možnosti hry"
+
+#~ msgid "E_xport Log"
+#~ msgstr "E_xportovat log"
 
 #~ msgid "Gover_nment"
 #~ msgstr "_Státní zřízení"
@@ -27508,65 +27925,37 @@ msgstr "Tým 31"
 #~ msgid "S_paceship"
 #~ msgstr "_Vesmírná loď"
 
+#, fuzzy
+#~ msgid "_Editing Mode"
+#~ msgstr "_Upravit"
+
 #~ msgid "_Tools"
 #~ msgstr "_Nástroje"
 
+#~ msgid "Goto _location"
+#~ msgstr "Jít k po_loze"
+
 #~ msgid "_Cancel Treaty"
 #~ msgstr "_Zrušit dohodu"
+
+#~ msgid "_Number of Players (including AI):"
+#~ msgstr "_Počet hráčů (včetně počítačových):"
+
+#~ msgid "_AI Skill Level:"
+#~ msgstr "Úroveň počítačem ovládaných hráčů:"
+
+#, fuzzy
+#~ msgid "_Ruleset:"
+#~ msgstr "Vládce:"
+
+#~ msgid "More Game _Options..."
+#~ msgstr "Více M_ožností Hry..."
 
 #~ msgid "Game _Options..."
 #~ msgstr "M_ožnosti hry.."
 
 #~ msgid "U"
 #~ msgstr "V"
-
-#, fuzzy
-#~ msgid ""
-#~ "\n"
-#~ "finshed"
-#~ msgstr "neměnné"
-
-#, fuzzy
-#~ msgid "Couldn't blit text to display: %s"
-#~ msgstr "Nelze konvertovat text z %s do %s: %s"
-
-#~ msgid "Clear _Log"
-#~ msgstr "Smazat _log"
-
-#~ msgid "Gov_ernment"
-#~ msgstr "Státní zříz_ení"
-
-#~ msgid "Work_lists"
-#~ msgstr "Sezn_amy prací"
-
-#~ msgid "Science Report"
-#~ msgstr "Vědecký přehled"
-
-#~ msgid ""
-#~ "When built, every civilization's attitude toward you is improved by 25%."
-#~ msgstr ""
-#~ "Pokud je postaveno, názor na Vás se zlepší o 25% u všech ostatních národů."
-
-#~ msgid "Petroleum"
-#~ msgstr "Ropa"
-
-#~ msgid ""
-#~ "Brazil was founded as a colony of Portugal but became independent in "
-#~ "1822AD. It is the only country in the New World that has been the seat of "
-#~ "a monarchy."
-#~ msgstr ""
-#~ "Brazílie vznikla jako Portugalská kolonie a stala se nezávislou v roce "
-#~ "1822. Je to jediná země v Novém Světě, která měla kořeny v monarchii."
-
-#~ msgid ""
-#~ "Catalunya (aka Catalonia in English) is the north-eastern-most coastal "
-#~ "region of Spain near the southern foot of the Pyrenees."
-#~ msgstr ""
-#~ "Kalalánie je severovýchodní pobřežní region Španělska blízko jižního "
-#~ "úpatí Pyrenejí."
-
-#~ msgid "Team 32"
-#~ msgstr "Tým 32"
 
 #~ msgid "Cleared output window.\n"
 #~ msgstr "Výstupní okno smazáno.\n"
@@ -27741,6 +28130,9 @@ msgstr "Tým 31"
 
 #~ msgid "_Ready All"
 #~ msgstr "_Připravit vše"
+
+#~ msgid " (veteran)"
+#~ msgstr " (veterán)"
 
 #~ msgid "Freeciv - Select a Nation"
 #~ msgstr "Freeciv - Vyberte národ"
@@ -28033,6 +28425,9 @@ msgstr "Tým 31"
 #~ msgid "_New"
 #~ msgstr "_Nový"
 
+#~ msgid "_Remove"
+#~ msgstr "_Odebrat"
+
 #~ msgid "Freeciv - Edit Worklist"
 #~ msgstr "Freeciv - Upravit seznam prací"
 
@@ -28061,6 +28456,17 @@ msgstr "Tým 31"
 #~ msgstr "Název seznamu prací"
 
 #, fuzzy
+#~ msgid "Sorry, You have already bought here in this turn."
+#~ msgstr "V tomto kole jste již nakoupil(a)."
+
+#, fuzzy
+#~ msgid "Sorry, You can't buy here in this turn."
+#~ msgstr "V tomto kole jste již nakoupil(a)."
+
+#~ msgid "Buy It?"
+#~ msgstr "Koupit?"
+
+#, fuzzy
 #~ msgid "Options panel"
 #~ msgstr "Možnosti"
 
@@ -28078,18 +28484,414 @@ msgstr "Tým 31"
 #~ msgid "Information panel"
 #~ msgstr "Pro informace o:"
 
+#~ msgid "Prev city"
+#~ msgstr "Předchozí město"
+
 #, fuzzy
 #~ msgid "Exit Report"
 #~ msgstr "Přehled města"
 
+#, fuzzy
+#~ msgid ""
+#~ "\n"
+#~ "finshed"
+#~ msgstr "neměnné"
+
+#, fuzzy
+#~ msgid "Couldn't blit text to display: %s"
+#~ msgstr "Nelze konvertovat text z %s do %s: %s"
+
+#~ msgid "%s's SpaceShip"
+#~ msgstr "%s Kosmická loď"
+
+#~ msgid "Clear _Log"
+#~ msgstr "Smazat _log"
+
+#~ msgid "Gov_ernment"
+#~ msgstr "Státní zříz_ení"
+
+#~ msgid "Work_lists"
+#~ msgstr "Sezn_amy prací"
+
+#~ msgid "Science Report"
+#~ msgstr "Vědecký přehled"
+
+#~ msgid ""
+#~ "Freeciv supports several local languages.  See the Native Language "
+#~ "Support section of the README file for instructions on how to use one of "
+#~ "these languages.\n"
+#~ "\n"
+#~ "If you would like to add a localization (translation) for your language, "
+#~ "please see the instructions at:\n"
+#~ "\n"
+#~ "  http://www.freeciv.org/index.php/Localization\n"
+#~ "\n"
+#~ "Check first if a localization is already in progress for your language:\n"
+#~ "\n"
+#~ "  http://www.freeciv.org/index.php/Translations\n"
+#~ "\n"
+#~ "You are also welcome to send any questions to the freeciv-i18n mailing "
+#~ "list:\n"
+#~ "\n"
+#~ "  freeciv-i18n@freeciv.org"
+#~ msgstr ""
+#~ "Freeciv podporuje několik jazyků.  Podívejte se do sekce Native Language "
+#~ "Support v souboru README pro instrukce jak použít tyto jazyky.\n"
+#~ "\n"
+#~ "Pokud chcete přidat lokalizaci (překlad) pro svůj jazyk, prosím podívejte "
+#~ "se na instrukce na:\n"
+#~ "\n"
+#~ "  http://www.freeciv.org/index.php/Localization\n"
+#~ "\n"
+#~ "Nejdříve si zkontrolujte, zda již lokalizace pro váš jazyk neprobíhá.\n"
+#~ "\n"
+#~ "Rádi uvítáme poslané otázky do mailing listu freeciv-i18n:\n"
+#~ "\n"
+#~ "  freeciv-i18n@freeciv.org"
+
+#~ msgid ""
+#~ "Main Map (Keys):\n"
+#~ "================\n"
+#~ "    Shift-home: center on capital\n"
+#~ "  Shift-arrows: scroll map\n"
+#~ "        Ctrl-G: show grid lines on/off\n"
+#~ "        Ctrl-B: show national borders on/off\n"
+#~ "        Ctrl-N: show city names on/off\n"
+#~ "        Ctrl-R: show city growth on/off\n"
+#~ "        Ctrl-P: show city production on/off\n"
+#~ "             t: show city workers (mouse over or near city)\n"
+#~ msgstr ""
+#~ "Hlavní mapa (klávesy):\n"
+#~ "===================\n"
+#~ "    Shift-home: centrovat na hlavní město\n"
+#~ "    Shift-šipky: skrolování mapou\n"
+#~ "        Ctrl-G: zobrazit mřížku zap/vyp\n"
+#~ "        Ctrl-B: zobrazit státní hranice zap/vyp\n"
+#~ "        Ctrl-N: zobrazit názvy měst zap/vyp\n"
+#~ "        Ctrl-R: zobrazit růst měst zap/vyp\n"
+#~ "        Ctrl-P: zobrazit produkci měst zap/vyp\n"
+#~ "             t: zobrazit pracovníky města (myš nad nebo blízko města)\n"
+
+#~ msgid ""
+#~ "Main Map (Mouse):\n"
+#~ "=================\n"
+#~ "  Left-click on city:          Pop up city dialog\n"
+#~ "  Left-click on unit:          Activate unit\n"
+#~ "  Left-click-and-drag on unit: Goto command for unit\n"
+#~ "  Center-click:                Show tile info\n"
+#~ "  Right-click:                 Center tile in view\n"
+#~ "\n"
+#~ "  Shift-Left-click:            Copy production (GTK)\n"
+#~ "  Shift-Right-click on city:   Paste production into city (GTK)\n"
+#~ "\n"
+#~ "  Shift-Control-Left-click:    Adjust city workers\n"
+#~ "  Control-Center-click:        Wake up sentried units\n"
+#~ "\n"
+#~ "  Area Selection mode (GTK):\n"
+#~ "  ==========================\n"
+#~ "  Right-click-and-drag: Enter Area Selection mode\n"
+#~ "  Left-click:           Toggle tile highlighting\n"
+#~ "  Shift-Right-click:    Paste production into highlighted cities\n"
+#~ "  Right-click:          Cancel Area Selection mode\n"
+#~ "\n"
+#~ "  The cities that become highlighted on the map,\n"
+#~ "  will also be highlighted in the City Report."
+#~ msgstr ""
+#~ "Hlavní mapa (myš):\n"
+#~ "=================\n"
+#~ "  Levý-klik na město:   Zobrazí okno města\n"
+#~ "  Levý klik na jednotku: Aktivuje jednotku\n"
+#~ "  Levý klik a drag na jednotku: Přesun jednotky\n"
+#~ "  Střední-klik:              Ukáže vlastnosti políčka\n"
+#~ "  Pravý klik:                Vycentruje výhled na políčko\n"
+#~ "\n"
+#~ "  Shift-Levý-klik:                   Kopírovat produkci (GTK)\n"
+#~ "  Shift-Pravý-klik na město:    Vložit produkci do města (GTK)\n"
+#~ "\n"
+#~ "  Shift-Ctrl-Levý-klik:     Přizpůsobí zaměstnanost pracovníků ve městě\n"
+#~ "  Ctrl-Střední-klik:        Probudí stážící jednotky\n"
+#~ "\n"
+#~ "   V režimu výběru oblasti (GTK):\n"
+#~ "  =============================\n"
+#~ "  Levý-klik a drag:         Vstup do výběru políčka\n"
+#~ "  Levý-klik:           Přepne zvýraznění políčka\n"
+#~ "  Shift-Pravý-klik:  Vložit produkci vybraným městům\n"
+#~ "\n"
+#~ "  Pravý-klik:        Zruší režim výběru oblasti\n"
+#~ "\n"
+#~ "  Města zvýrazněná na mapě,\n"
+#~ " budou zvýrazněna i v přehledu měst."
+
+#~ msgid ""
+#~ "Dialogs and Reports:\n"
+#~ "====================\n"
+#~ "     F1: open City Report\n"
+#~ "     F2: open Unit Report\n"
+#~ "     F3: open Players dialog\n"
+#~ "     F5: open Economy Report\n"
+#~ "     F6: open Science Report\n"
+#~ "     F7: open World Wonders\n"
+#~ "     F8: open Top Five Cities\n"
+#~ "     F9: open Messages dialog\n"
+#~ "    F11: open Demographics\n"
+#~ "    F12: open Spaceship\n"
+#~ "\n"
+#~ "      T: open Tax/Lux/Sci Rates dialog\n"
+#~ "      F: open Find City dialog\n"
+#~ " Ctrl-L: open Worklists dialog\n"
+#~ "      R: open Revolution dialog\n"
+#~ "\n"
+#~ "Shift-Return: Turn done"
+#~ msgstr ""
+#~ "Dialogy a Přehledy:\n"
+#~ "================\n"
+#~ "     F1: otevře Přehled města\n"
+#~ "     F2: otevře Přehled jednotek\n"
+#~ "     F3: otevře dialog Hráčů\n"
+#~ "     F5: otevře Ekonomický přehled\n"
+#~ "     F6: otevře Vědecký přehled\n"
+#~ "     F7: otevře Divy Světa\n"
+#~ "     F8: otevře Pět Nej Měst\n"
+#~ "     F9: otevře dialog Zpráv\n"
+#~ "    F11: otevře Demografii\n"
+#~ "    F12: optevře Kosmickou loď\n"
+#~ "\n"
+#~ "      T: otevře dialog Daň/Lux/Věd hodnot\n"
+#~ "      F: otevře dialog Hledání města\n"
+#~ " Ctrl-L: otevře dialog Seznamu prací\n"
+#~ "      R: otevře dialog Revoluce\n"
+#~ "\n"
+#~ "Shift-Return: Konec tahu"
+
+#~ msgid ""
+#~ "Your reputation and goodwill among other nations is increased while you "
+#~ "possess this wonder.  Reputation is recovered twice as fast as it would "
+#~ "otherwise."
+#~ msgstr ""
+#~ "Vaše reputace a dobrá vůle vůči ostatním národům se zvýší, pokud "
+#~ "vlastníte tento div. Reputace se navrací dvakrát rychleji než normálně."
+
+#~ msgid ""
+#~ "When built, every civilization's attitude toward you is improved by 25%."
+#~ msgstr ""
+#~ "Pokud je postaveno, názor na Vás se zlepší o 25% u všech ostatních národů."
+
+#~ msgid ""
+#~ "Fundamentalism is a form of government organized around a central set of "
+#~ "beliefs. The beliefs, usually religious in nature, form a rigid guideline "
+#~ "for actions and reactions of both the rulers and the people.\n"
+#~ "\n"
+#~ "In a fundamentalist society, the people and the rulers are entirely "
+#~ "devoted to their beliefs, and are usually willing to die to preserve "
+#~ "them.\n"
+#~ "\n"
+#~ "Improvement that normally convert unhappy citizens to content citizens, "
+#~ "produces `tithes' (gold) equivalent to the number of people they would "
+#~ "convert, and require no maintenance."
+#~ msgstr ""
+#~ "Ve fundamentalismu je vláda soustředěna kolem víry. Vláda, obvykle "
+#~ "náboženského rázu, vytyčuje pevné vymezení akcí a reakcí jak pro vládce "
+#~ "tak pro lid.\n"
+#~ "\n"
+#~ "Ve fundamentalisticé společnosti jsou jak lidé, tak vládci kompletně "
+#~ "oddáni své víře, obvykle ochotní pro ni i zemřít..\n"
+#~ "\n"
+#~ "Stavby, které normálně konvertují obyvatele z nespokojených na spokojené "
+#~ "produkují desátky (zlato) úměrné počtu lidí, které konvertují a "
+#~ "nepotřebují údržbu."
+
+#~ msgid "Petroleum"
+#~ msgstr "Ropa"
+
+#~ msgid ""
+#~ "This unit may be built from the start of the game.  It is the weakest "
+#~ "unit."
+#~ msgstr ""
+#~ "Tato jednotka může být postavena již od začátku hry. Je ovšem taky "
+#~ "nejslabší."
+
+#~ msgid ""
+#~ "A number of Partisans are granted free when an enemy conquers your city, "
+#~ "but only under these conditions:\n"
+#~ "\n"
+#~ " - Guerilla Warfare must be known by at least 1 player.\n"
+#~ "\n"
+#~ " - You must be the player who originally built the city.\n"
+#~ "\n"
+#~ " - You must know about Communism and Gunpowder.\n"
+#~ "\n"
+#~ " - You must run either a Democracy or a Communist government."
+#~ msgstr ""
+#~ "Skupinu partyzánů dostanete zdarma, pokud Vám nepřítel obsadí město, ale "
+#~ "jen pokud jsou splněny následující podmínky: \n"
+#~ "\n"
+#~ " - Partyzánská válka musí být známa alespoň jednomu národu. \n"
+#~ "\n"
+#~ " - Musíte být hráč, který město původně založil.\n"
+#~ "\n"
+#~ " - Musíte znát technologie Střelný prach a Socialismus.\n"
+#~ "\n"
+#~ " - Typ vlády musí být buď Socialismus nebo Demokracie."
+
+#~ msgid ""
+#~ "TIP:  A very fast unit, which is very useful for hunting down enemy "
+#~ "Transports."
+#~ msgstr ""
+#~ "TIP: Velmi rychlá jednotka, která je vhodná ke stíhání nepřátelských "
+#~ "transportů."
+
+#~ msgid ""
+#~ "Submarines have a very high strategic value, but have a weak defence."
+#~ msgstr ""
+#~ "Ponorky mají velmi vysokou strategickou hodnotu, ale jsou velmi "
+#~ "zranitelné."
+
+#~ msgid ""
+#~ "TIP:  Guard Carriers with a handful of fast-moving ships and a "
+#~ "battleship, as losing a fully-equipped Carrier is VERY painful and "
+#~ "expensive."
+#~ msgstr ""
+#~ "TIP :  Hlídejte si letadlové lodě spoustou rychlých a bitevních lodí, "
+#~ "neboť ztráta plně naložené letadlové lodi je velmi bolestivá a drahá."
+
+#~ msgid ""
+#~ "TIP:  A handful of these can successfully keep the waters around your "
+#~ "treasured homeland free of enemy ships."
+#~ msgstr ""
+#~ "TIP : Pár těchto milých hraček udrží s přehledem vody kolem Vašeho "
+#~ "milovaného domova bez nepřátelských lodí."
+
+#~ msgid ""
+#~ "- A Diplomat can establish embassies with other civilizations by moving "
+#~ "into another player's city.\n"
+#~ "\n"
+#~ "- Diplomats can also try to sabotage enemy production, or steal an "
+#~ "advance from an enemy city.  (An advance can only be stolen once per "
+#~ "city).\n"
+#~ "\n"
+#~ "- A Diplomat can also bribe an enemy unit, if that unit is the only unit "
+#~ "on its square.\n"
+#~ "\n"
+#~ "- Diplomats can even start a revolution in an enemy city and turn it into "
+#~ "your own, if you have the money!\n"
+#~ "\n"
+#~ "- In some game strategies, hordes of Diplomats can be used to wreak havoc "
+#~ "on the enemy.  Little wonder that Diplomats are often viewed with "
+#~ "suspicion and fear!"
+#~ msgstr ""
+#~ " - Diplomaté mohou zřízovat ambasády u ostatních civilizací tak, že "
+#~ "vstoupí do jejich měst.\n"
+#~ "\n"
+#~ " - Mohou sabotovat nepřátelskou produkci nebo ukrást technologii (z města "
+#~ "může být ukradena jen jedna technologie)\n"
+#~ "\n"
+#~ "Diplomat může podplatit nepřátelskou jednotku, pokud ta je na svém "
+#~ "políčku sama\n"
+#~ "\n"
+#~ " - Mohou vyvolat revoluci v nepřátelském městě a dostat je tak pod "
+#~ "vlastní kontrolu, pokud na to máte finance!\n"
+#~ "\n"
+#~ " - V některých strategiích mohou být stáda diplomatů použity k pustošení "
+#~ "nepřítele. Není se čemu divit, že se na diplomaty často hledí s "
+#~ "oprávněným strachem."
+
+#~ msgid ""
+#~ "A Spy is a full time professional and as such is much more skilled in the "
+#~ "arts of espionage than her Diplomat predecessor.\n"
+#~ "\n"
+#~ "The most inoffensive skills in a Spy's repertoire are her ability to "
+#~ "investigate cities - revealing detailed information, and the "
+#~ "establishment of embassies.  However, if your Spy has gained herself a "
+#~ "reputation for clandestine behaviour she will be executed if she tries to "
+#~ "establish an embassy.\n"
+#~ "\n"
+#~ "She can also be used to: poison the water supply of an enemy city "
+#~ "(reducing the population); steal specific technology; and sabotage "
+#~ "predetermined city targets (note: sabotaging improvements in a capital or "
+#~ "sabotaging City Walls increases the risks of capture). A Spy can also "
+#~ "infiltrate a city and ferment a revolt.\n"
+#~ "\n"
+#~ "A Spy can also be of aid on the battlefield - sabotaging enemy units as "
+#~ "well as bribing them to change allegiance."
+#~ msgstr ""
+#~ "Špion je jako profesionál na plný úvazek daleko zdatnější než jeho "
+#~ "předchůdce Diplomat.\n"
+#~ "\n"
+#~ "Nejmíň útočnou schopností špionů je repertoár možností průzkumu měst - "
+#~ "zjišťování podrobných informací a zřizování ambasád.\n"
+#~ "\n"
+#~ "Může být též použit otraě vody ve městě (což poněkud snižuje populaci), "
+#~ "kradení technologií dle vlastního uvážení, sabotáže vybavení města "
+#~ "(sabotáže v hlavním městě nebo sabotáže hradeb zvyšují šanci na "
+#~ "dopadení). Může taky infiltrovat město a podnítit převrat.\n"
+#~ "\n"
+#~ "Špion najde užitek i v boji - zvládá jak podplácení tak sabotáže "
+#~ "nepřátelských jednotek."
+
+#~ msgid ""
+#~ "Every Caravan that is used to build a wonder will add 50 shields towards "
+#~ "the production of the wonder.\n"
+#~ "\n"
+#~ "TIP:  You can stockpile a stack of Caravans in advance and bring them all "
+#~ "into a city where you have started to build a wonder, and finish it in "
+#~ "only one turn!"
+#~ msgstr ""
+#~ "Každá karavana, která je použita při stavbě divu světa přidá 50 štítů k "
+#~ "jeho produkci.\n"
+#~ "\n"
+#~ "TIP:  Můžete nakupit spoustu karavan a poslat je všechny do města, kde "
+#~ "jste začali stavět div světa a dokončit jej tak za jediný tah!"
+
+#~ msgid "Explorers are very useful for mapping unknown territory."
+#~ msgstr "Průzkumníci jsou velice užiteční při mapování neznámého území."
+
+#~ msgid ""
+#~ "When barbarian leader is killed on a tile without any defending units, "
+#~ "the 100 gold ransom is paid, but only to land units and helicopters."
+#~ msgstr ""
+#~ "Pokud je barbarský vůdce zabit na políčku bez obranných jednotek, je "
+#~ "vyplacena odměna 100 zlatých, ale jen pozemním jednotkám nebo vrtulníkům."
+
+#~ msgid ""
+#~ "Fundamentalist nations can maintain Fanatic units without having to pay "
+#~ "any shields for upkeep."
+#~ msgstr ""
+#~ "Fundamentalistické národy jsou schopny udržovat fanatiky bez nutnosti "
+#~ "platit štíty pro údržbu."
+
+#~ msgid ""
+#~ "When barbarian leader is killed on a tile without any defending units, "
+#~ "the 100 gold ransom is paid, but only to land units."
+#~ msgstr ""
+#~ "Pokud vůdce barbarů zemře na políčku bez obránců, bude vyplacena odměna "
+#~ "100 zlatých, ale jen v případě pozemních jednotek."
+
 #~ msgid "Modern"
 #~ msgstr "Moderní"
+
+#~ msgid ""
+#~ "Brazil was founded as a colony of Portugal but became independent in "
+#~ "1822AD. It is the only country in the New World that has been the seat of "
+#~ "a monarchy."
+#~ msgstr ""
+#~ "Brazílie vznikla jako Portugalská kolonie a stala se nezávislou v roce "
+#~ "1822. Je to jediná země v Novém Světě, která měla kořeny v monarchii."
+
+#~ msgid ""
+#~ "Catalunya (aka Catalonia in English) is the north-eastern-most coastal "
+#~ "region of Spain near the southern foot of the Pyrenees."
+#~ msgstr ""
+#~ "Kalalánie je severovýchodní pobřežní region Španělska blízko jižního "
+#~ "úpatí Pyrenejí."
 
 #~ msgid "African"
 #~ msgstr "Africký"
 
 #~ msgid "Fictional"
 #~ msgstr "Fiktivní"
+
+#~ msgid "Team 32"
+#~ msgstr "Tým 32"
 
 #~ msgid ""
 #~ "Your %s was executed in %s on suspicion of spying.  The %s welcome future "
@@ -28545,6 +29347,9 @@ msgstr "Tým 31"
 #~ msgstr ""
 #~ "Útočníkova základní síla je 8. Status veteran mu ji zvedne na 12, ale 2/3 "
 #~ "bodu na pohyb to srazí zpět na 8."
+
+#~ msgid "Tropical"
+#~ msgstr "Tropický"
 
 #~ msgid "Industrial"
 #~ msgstr "Průmyslový"
