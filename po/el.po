@@ -1,3 +1,4 @@
+# ------------ Greek traslation for Freeciv ---------------
 # ------------------------------------------------------------------
 #                   Greek translation for Freeciv
 # ------------------------------------------------------------------
@@ -8,7 +9,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.1.0 \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-22 22:45-0500\n"
-"PO-Revision-Date: 2007-08-11 01:41+0300\n"
+"PO-Revision-Date: 2007-08-11 01:36+0300\n"
 "Last-Translator: Prekates Alexandros <chomwitt@yahoo.gr>,2006 \n"
 "Language-Team: Greek translation team  <gr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3762,7 +3763,7 @@ msgid "The diplomatic state between the %s and the %s is now %s."
 msgstr "Η διπλωματική κατάσταση ανάμεσα σε %s και σε %s είναι τώρα %s."
 
 #: server/plrhand.c:607
-#, c-format
+#, fuzzy, c-format
 msgid ""
 " %s canceled the diplomatic agreement! The diplomatic state between the %s "
 "and the %s is now %s."
@@ -4514,7 +4515,6 @@ msgid "Amount of huts (minor tribe villages)"
 msgstr "Ποσότητα από καλύβες (μικρά χωριά από φυλές)"
 
 #: server/settings.c:427
-#, fuzzy
 msgid ""
 "This setting gives the exact number of huts that will be placed on the "
 "entire map. Huts are small tribal villages that may be investigated by units."
@@ -4647,7 +4647,6 @@ msgid "Percentage penalty when changing tech"
 msgstr "Ποσοστό ποινής με αλλαγή τεχνολογίας"
 
 #: server/settings.c:523
-#, fuzzy
 msgid ""
 "If you change your current research technology, and you have positive "
 "research points, you lose this percentage of those research points. This "
@@ -4680,7 +4679,6 @@ msgid "Penalty when getting tech from conquering"
 msgstr "Ποινή όταν αποχτάς τεχνολογία με κατακτήσεις"
 
 #: server/settings.c:544
-#, fuzzy
 msgid ""
 "For each technology you gain by conquering an enemy city, you lose research "
 "points equal to this percentage of the cost to research a new technology. If "
@@ -4696,7 +4694,6 @@ msgid "Penalty when getting a free tech"
 msgstr "Ποινή όταν αποχτάς μια δωρεάν τεχνολογία"
 
 #: server/settings.c:555
-#, fuzzy
 msgid ""
 "For each technology you gain \"for free\" (other than covered by diplcost or "
 "conquercost: specifically, from huts or from Great Library effects), you "
@@ -4729,7 +4726,6 @@ msgid "Percentage food lost when building needed"
 msgstr "Ποσοστό φαγητού που χάνεται όταν απαιτείται υδραγωγείο"
 
 #: server/settings.c:576
-#, fuzzy
 msgid ""
 "If a city would expand, but it can't because it needs an Aqueduct (or Sewer "
 "System), it loses this percentage of its foodbox (or half that amount when "
@@ -4826,7 +4822,6 @@ msgid "Chance of moving into tile after attack"
 msgstr "Πιθανότητα να μετακινηθείς σε ένα πλακίδιο μετά από επίθεση"
 
 #: server/settings.c:651
-#, fuzzy
 msgid ""
 "If set to 0, combat is Civ1/2-style (when you attack, you remain in place). "
 "If set to 100, attacking units will always move into the tile they attacked "
@@ -4858,7 +4853,6 @@ msgid "Reduce city population after attack"
 msgstr "Μείωσε τον πληθυσμό πόλης που δέχεται επίθεση"
 
 #: server/settings.c:670
-#, fuzzy
 msgid ""
 "This flag indicates whether city population is reduced after successful "
 "attack of enemy unit, depending on its movement type (OR-ed):\n"
@@ -5027,7 +5021,6 @@ msgid "Minimum number of cities for civil war"
 msgstr "Ελάχιστος αριθμός πόλεων για εμφύλιο πόλεμο"
 
 #: server/settings.c:793
-#, fuzzy
 msgid ""
 "A civil war is triggered when a player has at least this many cities and the "
 "player's capital is captured. If this option is set to the maximum value, "
@@ -5042,7 +5035,6 @@ msgid "Turns until player contact is lost"
 msgstr "Γύροι κατά τους οποίους χάνεται επαφή με παίχτη"
 
 #: server/settings.c:803
-#, fuzzy
 msgid ""
 "Players may meet for diplomacy this number of turns after their units have "
 "last met, even when they do not have an embassy. If set to zero, then "
@@ -5058,7 +5050,6 @@ msgid "Rebuild palace whenever capital is conquered"
 msgstr "Επαναχτίσιμο παλατίου αν κατακτηθεί "
 
 #: server/settings.c:814
-#, fuzzy
 msgid ""
 "If this is set to 1, when the capital is conquered the palace is "
 "automatically rebuilt for free in another randomly choosen city. This is "
@@ -5086,7 +5077,6 @@ msgid "Players that users are allowed to take"
 msgstr "Παίχτες που οι παίχτες επιτρέπονται να πάρουν"
 
 #: server/settings.c:838
-#, fuzzy
 msgid ""
 "This should be a string of characters, each of which specifies a type or "
 "status of a civilization (player). Clients will only be permitted to take or "
@@ -5209,7 +5199,6 @@ msgid "Whether to have simultaneous player phases."
 msgstr "Αν θα επιτραπούν φάσεις ταυτόχρονου παιχνιδιού."
 
 #: server/settings.c:909
-#, fuzzy
 msgid ""
 "If true, all players' movement phases will occur simultaneously; if false, "
 "then players will alternate movement."
@@ -6676,9 +6665,9 @@ msgstr ""
 #: server/stdinhand.c:4138 server/stdinhand.c:4142 client/helpdata.c:254
 #: client/helpdata.c:745 client/text.c:187 client/text.c:1179
 #: client/text.c:1217
-#, fuzzy, c-format
+#, c-format
 msgid "?clistmore:, %s"
-msgstr "Ειδικοί πόροι"
+msgstr ", %s"
 
 #: server/stdinhand.c:4146
 msgid ", ready"
@@ -7750,7 +7739,6 @@ msgid "Number of Trade Routes"
 msgstr "Αριθμός εμπορικών διαδρομές"
 
 #: client/cityrepdata.c:513
-#, fuzzy
 msgid "?pollution [short]:Pol"
 msgstr "?pollution [short]:Μλν"
 
@@ -8866,7 +8854,7 @@ msgstr ""
 #: client/helpdata.c:1680 client/helpdata.c:1688 client/gui-sdl/mapview.c:618
 #: client/gui-sdl/mapview.c:624 client/gui-sdl/mapview.c:630
 msgid "?blistmore:, "
-msgstr ""
+msgstr ", "
 
 #. TRANS: "2 unhappy" or ", 1 unhappy"
 #: client/helpdata.c:1687
@@ -8975,8 +8963,9 @@ msgid ""
 msgstr ""
 
 #: client/options.c:144 client/gui-sdl/gui_main.c:163
+#, fuzzy
 msgid "Theme"
-msgstr ""
+msgstr "Ναός"
 
 #: client/options.c:145
 msgid "By changing this option you change the active theme."
@@ -9478,7 +9467,7 @@ msgstr "Η περιοχή μας"
 #: client/text.c:122
 #, fuzzy, c-format
 msgid "%s territory"
-msgstr "Έδαφός"
+msgstr "Περιοχή των  %s"
 
 #. TRANS: "Polish territory (5 turn cease-fire)"
 #: client/text.c:131
@@ -9492,7 +9481,7 @@ msgstr[1] "%s περιοχή  (κατάπαυση πυρός %d γύροι)"
 #: client/text.c:140
 #, fuzzy, c-format
 msgid "%s territory (%s)"
-msgstr "%s περιοχή  (κατάπαυση πυρός %d γύρος)"
+msgstr "Περιοχή των %s %s"
 
 #: client/text.c:145
 msgid "Unclaimed territory"
@@ -9520,9 +9509,9 @@ msgstr "Πόλη: %s (%s, %s)"
 
 #. TRANS: previous lines gave other information about the city.
 #: client/text.c:191
-#, c-format
+#, fuzzy, c-format
 msgid "?clistbegin: with %s"
-msgstr ""
+msgstr " με %s"
 
 #. TRANS: This appears with two or more previous entries in the list
 #: client/text.c:202
@@ -9538,7 +9527,7 @@ msgstr "Ειδικοί πόροι"
 
 #: client/text.c:209 client/text.c:1190 client/text.c:1229
 msgid "?clistend:."
-msgstr ""
+msgstr "."
 
 #. TRANS: "Trade from Warsaw: 5"
 #: client/text.c:219
@@ -9567,7 +9556,7 @@ msgstr "Μονάδα: %s (%s, %s)"
 #: client/text.c:249
 #, fuzzy, c-format
 msgid "Unit: %s (%s)"
-msgstr "Μονάδα:%s (%s%s)  "
+msgstr "Μονάδα:%s (%s)  "
 
 #. TRANS:  "Unit: Musketeers (Polish, 5 turn cease-fire)"
 #: client/text.c:262
@@ -9981,9 +9970,9 @@ msgid "Wonders: "
 msgstr "Θαύματα: "
 
 #: client/text.c:1262
-#, fuzzy, c-format
+#, c-format
 msgid "Cities: %d total, %d over threshold of %d cities."
-msgstr "Πόλεις: %d σύνολο, %d πάνω από όριο από  %d πόλεις.\n"
+msgstr "Πόλεις: %d σύνολο, %d πάνω από όριο από  %d πόλεις."
 
 #. TRANS: 0-21 content [citizen(s)] ...
 #: client/text.c:1266
@@ -10529,7 +10518,7 @@ msgstr "_Αγόρασε"
 #: client/gui-gtk-2.0/citydlg.c:899 client/gui-gtk-2.0/cityrep.c:687
 #, fuzzy
 msgid "_Production"
-msgstr "Παραγωγή"
+msgstr "_Παραγωγή"
 
 #: client/gui-gtk-2.0/citydlg.c:950
 msgid "_Happiness"
@@ -10754,7 +10743,7 @@ msgstr "Επέλε_ξε"
 #: client/gui-gtk-2.0/cityrep.c:714 client/gui-gtk-2.0/plrdlg.c:496
 #, fuzzy
 msgid "_Display"
-msgstr "_Διπλωματία"
+msgstr "Εμ_φάνισε"
 
 #: client/gui-gtk-2.0/cityrep.c:795 client/gui-gtk-2.0/menu.c:843
 #: client/gui-sdl/diplodlg.c:689 client/gui-sdl/optiondlg.c:1799
@@ -10769,7 +10758,7 @@ msgstr "Πόλεις"
 #: client/gui-gtk-2.0/cityrep.c:812
 #, fuzzy
 msgid "_Inspect"
-msgstr "_Σύνδεσε"
+msgstr "Ά_νοιξε"
 
 #: client/gui-gtk-2.0/cityrep.c:1220 client/gui-gtk-2.0/cityrep.c:1241
 #: client/gui-gtk-2.0/cityrep.c:1260 client/gui-gtk-2.0/cityrep.c:1279
@@ -10927,14 +10916,13 @@ msgid "Remove this preset?"
 msgstr "Να αφαιρεθεί αυτός ο κυβερνητικός στόχος;"
 
 #: client/gui-gtk-2.0/dialogs.c:197 client/gui-gtk-2.0/messagewin.c:186
-#, fuzzy
 msgid "Goto _Location"
-msgstr "Πήγαινε σε περιοχή"
+msgstr "_Πήγαινε στην τοποθεσία"
 
 #: client/gui-gtk-2.0/dialogs.c:202 client/gui-gtk-2.0/messagewin.c:190
 #, fuzzy
 msgid "Inspect _City"
-msgstr "_Ερεύνησε την πόλη"
+msgstr "_Άνοιξε πόλη"
 
 #: client/gui-gtk-2.0/dialogs.c:258 client/gui-sdl/dialogs.c:2091
 #: client/gui-win32/dialogs.c:975 client/gui-xaw/dialogs.c:513
@@ -11031,7 +11019,7 @@ msgstr "_Στυλ πόλης"
 #: client/gui-gtk-2.0/dialogs.c:934
 #, fuzzy
 msgid "_Description"
-msgstr "Στρατολογία"
+msgstr "Λε_ζάντα"
 
 #: client/gui-gtk-2.0/dialogs.c:1273 client/gui-xaw/dialogs.c:1489
 msgid "You must select your sex."
@@ -11353,9 +11341,8 @@ msgid "View"
 msgstr "Προβολή"
 
 #: client/gui-gtk-2.0/gui_main.c:1282
-#, fuzzy
 msgid "Chat"
-msgstr "_Κουβεντούλα"
+msgstr "Κουβεντούλα"
 
 #: client/gui-gtk-2.0/gui_main.c:1298 client/gui-win32/gui_main.c:538
 #: data/Freeciv.in:2816
@@ -12100,7 +12087,7 @@ msgstr "_Οικονομία"
 #: client/gui-gtk-2.0/menu.c:957 client/gui-win32/menu.c:405
 #, fuzzy
 msgid "_Research"
-msgstr "Έρευνα"
+msgstr "_Έρευνα"
 
 #: client/gui-gtk-2.0/menu.c:961 client/gui-win32/menu.c:407
 msgid "_Wonders of the World"
@@ -12509,7 +12496,6 @@ msgid "Ruleset _Version:"
 msgstr "_ΣύνολοΚανόνων"
 
 #: client/gui-gtk-2.0/pages.c:1480 client/gui-gtk-2.0/pages.c:2112
-#, fuzzy
 msgid "_More Game Options..."
 msgstr "Περισσότερες επι_λογές παιχνιδίου..."
 
@@ -12653,7 +12639,7 @@ msgstr "Τύπος μονάδας"
 #: client/gui-gtk-2.0/repodlgs.c:959 client/gui-win32/repodlgs.c:711
 #, fuzzy
 msgid "?Upgradable unit [short]:U"
-msgstr "Αναβάθμισε μονάδα"
+msgstr "U"
 
 #: client/gui-gtk-2.0/repodlgs.c:960 client/gui-win32/repodlgs.c:712
 msgid "In-Prog"
@@ -13075,22 +13061,24 @@ msgid "City info"
 msgstr ""
 
 #: client/gui-sdl/citydlg.c:1916
-#, c-format
+#, fuzzy, c-format
 msgid "Pollution: %d"
-msgstr ""
+msgstr "Μόλυνση"
 
 #: client/gui-sdl/citydlg.c:1944
+#, fuzzy
 msgid "Pollution: none"
-msgstr ""
+msgstr "Μόλυνση"
 
 #: client/gui-sdl/citydlg.c:1957
+#, fuzzy
 msgid "Trade routes: "
-msgstr ""
+msgstr "?trade_routes:Ε"
 
 #: client/gui-sdl/citydlg.c:2006
-#, c-format
+#, fuzzy, c-format
 msgid "Trade: +%d"
-msgstr ""
+msgstr "+%d Εμπόριο / %d"
 
 #: client/gui-sdl/citydlg.c:2546
 msgid "Citizens"
@@ -13112,9 +13100,9 @@ msgid "?food:Surplus: %d"
 msgstr "Πλεόνασμα: %d"
 
 #: client/gui-sdl/citydlg.c:2660
-#, c-format
+#, fuzzy, c-format
 msgid "Production: %d (%d) per turn"
-msgstr ""
+msgstr "Σελίδα παραγωγής"
 
 #: client/gui-sdl/citydlg.c:2706
 #, c-format
@@ -13122,14 +13110,14 @@ msgid "?production:Support: %d"
 msgstr ""
 
 #: client/gui-sdl/citydlg.c:2744
-#, c-format
+#, fuzzy, c-format
 msgid "Trade: %d per turn"
-msgstr ""
+msgstr "+%d Εμπόριο / %d"
 
 #: client/gui-sdl/citydlg.c:2778
-#, c-format
+#, fuzzy, c-format
 msgid "Corruption: %d"
-msgstr ""
+msgstr "Διαφθορά:"
 
 #: client/gui-sdl/citydlg.c:2815
 #, c-format
@@ -13137,9 +13125,9 @@ msgid "Gold: %d (%d) per turn"
 msgstr ""
 
 #: client/gui-sdl/citydlg.c:2862
-#, c-format
+#, fuzzy, c-format
 msgid "Upkeep: %d"
-msgstr ""
+msgstr "Συντήρηση:"
 
 #: client/gui-sdl/citydlg.c:2901
 #, c-format
@@ -13152,17 +13140,19 @@ msgid "Luxury: %d per turn"
 msgstr ""
 
 #: client/gui-sdl/citydlg.c:2979
+#, fuzzy
 msgid "City growth: blocked"
-msgstr ""
+msgstr "Πολή: Ανάπτυξη"
 
 #: client/gui-sdl/citydlg.c:2981
+#, fuzzy
 msgid "City growth: never"
-msgstr ""
+msgstr "_Ανάπτυξη πόλης"
 
 #: client/gui-sdl/citydlg.c:2985
-#, c-format
+#, fuzzy, c-format
 msgid "City shrinks: %d %s"
-msgstr ""
+msgstr "Πόλη: %s (%s)"
 
 #: client/gui-sdl/citydlg.c:2986 client/gui-sdl/citydlg.c:2990
 #: client/gui-sdl/citydlg.c:3310 client/gui-sdl/cityrep.c:534
@@ -13182,9 +13172,9 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: client/gui-sdl/citydlg.c:2989
-#, c-format
+#, fuzzy, c-format
 msgid "City growth: %d %s"
-msgstr ""
+msgstr "_Ανάπτυξη πόλης"
 
 #: client/gui-sdl/citydlg.c:3028 client/gui-sdl/citydlg.c:3140
 msgid "Stock"
@@ -13205,8 +13195,9 @@ msgid "City of %s (Population %s citizens)"
 msgstr ""
 
 #: client/gui-sdl/citydlg.c:3624
+#, fuzzy
 msgid " - under Citizen Governor control."
-msgstr ""
+msgstr "Κυβερνήτης Πόλης"
 
 #: client/gui-sdl/citydlg.c:3703
 #, fuzzy
@@ -13394,8 +13385,9 @@ msgid "Change Production"
 msgstr ""
 
 #: client/gui-sdl/dialogs.c:1283
+#, fuzzy
 msgid "Change City Governor settings"
-msgstr ""
+msgstr "Ρυθμίσεις παιχνιδίου"
 
 #: client/gui-sdl/dialogs.c:1304
 msgid "Goto here"
@@ -13637,8 +13629,9 @@ msgid "Setting resolution to: %d x %d %d bpp"
 msgstr ""
 
 #: client/gui-sdl/gui_main.c:151
+#, fuzzy
 msgid "Full Screen"
-msgstr ""
+msgstr "Π_λήρης οθόνη"
 
 #: client/gui-sdl/gui_main.c:152
 msgid ""
@@ -13654,8 +13647,9 @@ msgid "This option saves the width of the selected screen resolution"
 msgstr ""
 
 #: client/gui-sdl/gui_main.c:159
+#, fuzzy
 msgid "Screen height"
-msgstr ""
+msgstr "Διαστημική πτήση"
 
 #: client/gui-sdl/gui_main.c:160
 msgid "This option saves the height of the selected screen resolution"
@@ -13947,7 +13941,7 @@ msgstr ""
 
 #: client/gui-sdl/mapview.c:614
 msgid "?blistbegin: with "
-msgstr ""
+msgstr " με "
 
 #: client/gui-sdl/mapview.c:616 data/default/buildings.ruleset:113
 #: data/civ2/buildings.ruleset:96 data/civ1/buildings.ruleset:69
@@ -13966,7 +13960,7 @@ msgstr "Τοίχοι πόλης"
 
 #: client/gui-sdl/mapview.c:637
 msgid "?blistend:"
-msgstr ""
+msgstr "?blistend:"
 
 #. TRANS: (<nation>,<diplomatic_state>)"
 #: client/gui-sdl/mapview.c:643
@@ -16122,9 +16116,7 @@ msgstr ""
 "σφάλματος. Αυτό γίνεται καλύτερα με το να επισκεπτείτε το σύστημα "
 "παρακολούθησης σφαλμάτων: \n"
 "\n"
-"  http://bugs.freeciv.org/\n"
-"\n"
-"ή στέλνοντας email στην ηλ.διεύθυνση :  bugs@freeciv.org"
+"  http://bugs.freeciv.org/"
 
 #: data/helpdata.txt:60
 msgid ""
@@ -19632,8 +19624,9 @@ msgstr "Αρχηγός"
 #: data/nation/maori.ruleset:24 data/nation/sioux.ruleset:28
 #: data/nation/southafrican.ruleset:25 data/nation/swazi.ruleset:22
 #: data/nation/zulu.ruleset:38
+#, fuzzy
 msgid "?female:Chief"
-msgstr ""
+msgstr "?female:Χαν"
 
 #: data/default/governments.ruleset:81 data/civ1/governments.ruleset:81
 msgid ""
@@ -26553,7 +26546,7 @@ msgstr ""
 #: data/scenario/tutorial.sav:380
 #, fuzzy
 msgid "Loading tutorial events."
-msgstr "Κακό επίπεδο ημερολογίου \"%s\".\n"
+msgstr "Επαναφ_όρτωση ομάδαςΠλακιδίων"
 
 #: data/civ1/game.ruleset:98 data/civ2/game.ruleset:98
 #: data/default/game.ruleset:126
@@ -26716,123 +26709,94 @@ msgstr "Ομάδα 30"
 msgid "Team 31"
 msgstr "Ομάδα 31"
 
-#~ msgid "%s"
-#~ msgstr "%s"
+#~ msgid "City: Building Unavailable Item"
+#~ msgstr "Πόλη: Χτίζεται μη διαθέσιμο αντικείμενο"
 
-#~ msgid "file: \"%s\""
-#~ msgstr "αρχείο: \"%s\""
-
-#~ msgid "file options: %s"
-#~ msgstr "επιλογές αρχείου: %s "
-
-#~ msgid "Territory of the %s"
-#~ msgstr "Περιοχή των  %s"
-
-#~ msgid "Territory of the %s %s"
-#~ msgstr "Περιοχή των %s %s"
-
-#~ msgid "."
-#~ msgstr "."
-
-#~ msgid " Choose Your Diplomat's Strategy"
-#~ msgstr " Επέλεξε την στρατηγική του διπλωμάτη σου"
-
-#~ msgid "Pro_duction"
-#~ msgstr "_Παραγωγή"
-
-#~ msgid "S_how"
-#~ msgstr "Εμ_φάνισε"
-
-#~ msgid "_Popup"
-#~ msgstr "Ά_νοιξε"
-
-#~ msgid "_Goto location"
-#~ msgstr "_Πήγαινε στην τοποθεσία"
-
-#~ msgid "_Popup City"
-#~ msgstr "_Άνοιξε πόλη"
-
-#~ msgid "L_egend"
-#~ msgstr "Λε_ζάντα"
-
-#~ msgid "_Map"
-#~ msgstr "_Χάρτης"
-
-#~ msgid "Create _player"
-#~ msgstr "Δημιούργησε _παίχτη"
-
-#~ msgid "_Release player"
-#~ msgstr "_Αποδέσμευσε παίχτη"
-
-#~ msgid "Units: "
-#~ msgstr "Μονάδες: "
-
-#~ msgid "Gover_nment"
-#~ msgstr "Π_ολίτευμα"
-
-#~ msgid "_Change Government"
-#~ msgstr "_Αλλαγή πολιτεύματος"
-
-#~ msgid "_Players"
-#~ msgstr "_Παίχτες"
-
-#~ msgid "_Science"
-#~ msgstr "_Επιστήμη"
-
-#~ msgid "_Tools"
-#~ msgstr "_Εργαλεία"
-
-#~ msgid "Game _Options..."
-#~ msgstr "_Επιλογές παιχνιδίου"
-
-#~ msgid "U"
-#~ msgstr "U"
-
-#~ msgid "Petroleum"
-#~ msgstr "Πετρέλαιο"
-
-#~ msgid ""
-#~ "Catalunya (aka Catalonia in English) is the north-eastern-most coastal "
-#~ "region of Spain near the southern foot of the Pyrenees."
-#~ msgstr ""
-#~ "Η Καταλονούνια (Καταλονία στα αγγλικά) είναι το το ποιό βορειό-ανατολικό "
-#~ "παραθαλλάσιο κομμάτι της Ισπανίας κοντά στους νότιους πρόποδες των "
-#~ "Πυρηναίων."
-
-#~ msgid "Team 32"
-#~ msgstr "Ομάδα 32 "
-
-#~ msgid "Cleared output window.\n"
-#~ msgstr "Καθάρισε παράθυρο εξόδου. \n"
-
-#, fuzzy
-#~ msgid "Modern"
-#~ msgstr "Σύνορα"
-
-#, fuzzy
-#~ msgid "African"
-#~ msgstr "Αμερικάνοί"
-
-#, fuzzy
-#~ msgid "Fictional"
-#~ msgstr "Περιστασιακά"
+#~ msgid "City: Captured/Destroyed"
+#~ msgstr "Πολή: Αιχμαλωτισμένη/Κατεστραμμένη"
 
 #~ msgid "City: Celebrating"
 #~ msgstr "Πολή: Γιορτάζει"
 
+#~ msgid "City: Civil Disorder"
+#~ msgstr "Πολή: Αναταραχές"
+
+#~ msgid "City: Famine"
+#~ msgstr "Πολή: Πείνα"
+
+#~ msgid "City: Famine Feared"
+#~ msgstr "Πολή: Φόβος πείνας"
+
+#~ msgid "City: Growth"
+#~ msgstr "Πολή: Ανάπτυξη"
+
+#~ msgid "City: May Soon Grow"
+#~ msgstr "Πολή: Ίσως αυξηθεί σύντομα"
+
+#~ msgid "City: Needs Aqueduct"
+#~ msgstr "Πόλη: Χρειάζεται υδραγωγείο"
+
+#~ msgid "City: Needs Aqueduct Being Built"
+#~ msgstr "Πολή: Χρειάζεται να χτιστεί υδραγωγείο"
+
 #~ msgid "City: Normal"
 #~ msgstr "Πολή: Όλα εντάξει"
+
+#~ msgid "City: Nuked"
+#~ msgstr "Πολή: Δέχτηκε πυρηνικό χτύπημα!"
+
+#~ msgid "City: Released from citizen governor"
+#~ msgstr "Πολή: Απελευθερώθηκε από κυβέρνηση πολιτών"
+
+#~ msgid "City: Suggest Growth Throttling"
+#~ msgstr "Πολή: Προτείνει ενίσχυση αύξησης "
 
 #~ msgid "City: Transfer"
 #~ msgstr "Πόλη: Μεταφορά"
 
+#~ msgid "City: Was Built"
+#~ msgstr "Πόλη: Χτίστηκε"
+
+#~ msgid "City: Worklist Events"
+#~ msgstr "Πόλη: Γεγονότα λίστας εργασιών"
+
+#~ msgid "City: Production changed"
+#~ msgstr "Πόλη: Άλλαξε η παραγωγή"
+
+#~ msgid "Civ: Barbarian Uprising"
+#~ msgstr "Πολιτισμός: Ξεσηκωμός βαρβάρων"
+
 #~ msgid "Civ: Civil War"
 #~ msgstr "Πολιτισμός: Εμφύλιος πόλεμος"
+
+#~ msgid "Civ: Collapse to Anarchy"
+#~ msgstr "Πολιτισμός: Κατάρρευση σε αναρχία"
+
+#~ msgid "Civ: First Contact"
+#~ msgstr "Πολιτισμός: Πρώτη επαφή"
+
+#~ msgid "Civ: Learned New Government"
+#~ msgstr "Πολιτισμός: Μαθεύτηκε νέα μορφή κυβέρνησης"
+
+#~ msgid "Civ: Low Funds"
+#~ msgstr "Πολιτισμός: Χαμηλά κεφάλαια"
 
 #~ msgid "Civ: Pollution"
 #~ msgstr "Πολιτισμός: Μόλυνση"
 
+#~ msgid "Civ: Revolt Ended"
+#~ msgstr "Πολιτισμός: Ο ξεσηκωμός τελείωσε"
+
+#~ msgid "Civ: Revolt Started"
+#~ msgstr "Πολιτισμός: Άρχισε ξεσηκωμός"
+
+#~ msgid "Civ: Spaceship Events"
+#~ msgstr "Πολιτισμός: Γεγονότα διαστημοπλοίου"
+
 #~ msgid "Diplomat Action: Bribe"
+#~ msgstr "Διπλωματική ενέργεια:"
+
+#~ msgid "Diplomat Action: Caused Incident"
 #~ msgstr "Διπλωματική ενέργεια:"
 
 #~ msgid "Diplomat Action: Escape"
@@ -26856,6 +26820,9 @@ msgstr "Ομάδα 31"
 #~ msgid "Diplomat Action: Theft"
 #~ msgstr "Διπλωματική ενέργεια:"
 
+#~ msgid "Enemy Diplomat: Bribe"
+#~ msgstr "Εχθρικός διπλωμάτης:"
+
 #~ msgid "Enemy Diplomat: Embassy"
 #~ msgstr "Εχθρικός διπλωμάτης:"
 
@@ -26874,6 +26841,37 @@ msgstr "Ομάδα 31"
 #~ msgid "Enemy Diplomat: Theft"
 #~ msgstr "Εχθρικός διπλωμάτης:"
 
+#~ msgid "Global: Eco-Disaster"
+#~ msgstr "Παγκόσμια: Οικό-Καταστροφή"
+
+#~ msgid "Global: Nuke Detonated"
+#~ msgstr "Παγκόσμια: Πυροδοτήθηκε Πυρηνικό"
+
+#, fuzzy
+#~ msgid "Hut: Barbarians in a Hut Roused"
+#~ msgstr "Καλύβα:"
+
+#~ msgid "Hut: City Founded from Hut"
+#~ msgstr "Καλύβα:"
+
+#~ msgid "Hut: Gold Found in Hut"
+#~ msgstr "Καλύβα:"
+
+#~ msgid "Hut: Killed by Barbarians in a Hut"
+#~ msgstr "Καλύβα:"
+
+#~ msgid "Hut: Mercenaries Found in Hut"
+#~ msgstr "Καλύβα:"
+
+#~ msgid "Hut: Settler Found in Hut"
+#~ msgstr "Καλύβα:"
+
+#~ msgid "Hut: Tech Found in Hut"
+#~ msgstr "Καλύβα: Βρέθηκε τεχνολογία στην Καλύβα"
+
+#~ msgid "Hut: Unit Spared by Barbarians"
+#~ msgstr "Καλύβα: Περισσευούμενη Βάρβαρη μονάδα"
+
 #, fuzzy
 #~ msgid "Improvement: Bought"
 #~ msgstr "Έργο: Αγοράστηκε"
@@ -26881,27 +26879,707 @@ msgstr "Ομάδα 31"
 #~ msgid "Improvement: Built"
 #~ msgstr "Έργο: Χτίστηκε"
 
+#~ msgid "Improvement: Forced to Sell"
+#~ msgstr "Έργο: Πουλήθηκε αναγκαστικά"
+
+#~ msgid "Improvement: New Improvement Selected"
+#~ msgstr "Έργο: Επιλέχτηκε νεο έργο"
+
 #~ msgid "Improvement: Sold"
 #~ msgstr "Έργο: Πουλήθηκε"
+
+#~ msgid "Tech: Learned From Great Library"
+#~ msgstr "Τεχνολογικά: Νέα τεχνολογία μαθεύτηκε από την Μεγάλη Βιβλιοθήκη"
+
+#~ msgid "Tech: Learned New Tech"
+#~ msgstr "Τεχνολογικά: Μαθεύτηκε νέα τεχνολογία"
+
+#~ msgid "Treaty: Alliance"
+#~ msgstr "Συνθήκη: Συμμαχία"
 
 #, fuzzy
 #~ msgid "Treaty: Broken"
 #~ msgstr "Συνθήκη: Χάλασε"
 
+#~ msgid "Treaty: Cease-fire"
+#~ msgstr "Συνθήκη: Κατάπαυση πυρός"
+
 #~ msgid "Treaty: Peace"
 #~ msgstr "Συνθήκη: Ειρήνη"
 
+#~ msgid "Treaty: Shared Vision"
+#~ msgstr "Συνθήκη: Κοινά οράματα"
+
+#~ msgid "Unit: Attack Failed"
+#~ msgstr "Μονάδα:"
+
+#~ msgid "Unit: Attack Succeeded"
+#~ msgstr "Μονάδα:"
+
+#~ msgid "Unit: Bought"
+#~ msgstr "Μονάδα:"
+
 #~ msgid "Unit: Built"
+#~ msgstr "Μονάδα:"
+
+#~ msgid "Unit: Defender Destroyed"
+#~ msgstr "Μονάδα:"
+
+#~ msgid "Unit: Defender Survived"
+#~ msgstr "Μονάδα:"
+
+#, fuzzy
+#~ msgid "Unit: Promoted to Veteran"
+#~ msgstr "Μονάδα:"
+
+#~ msgid "Unit: Production Upgraded"
+#~ msgstr "Μονάδα:"
+
+#~ msgid "Unit: Relocated"
+#~ msgstr "Μονάδα:"
+
+#~ msgid "Unit: Orders / goto events"
 #~ msgstr "Μονάδα:"
 
 #~ msgid "Wonder: Finished"
 #~ msgstr "Θαύμα:"
 
+#~ msgid "Wonder: Made Obsolete"
+#~ msgstr "Θαύμα:"
+
 #~ msgid "Wonder: Started"
+#~ msgstr "Θαύμα:"
+
+#~ msgid "Wonder: Stopped"
+#~ msgstr "Θαύμα:"
+
+#~ msgid "Wonder: Will Finish Next Turn"
 #~ msgstr "Θαύμα:"
 
 #~ msgid "Treaty: Embassy"
 #~ msgstr "Συνθήκη: Πρεσβεία"
+
+#~ msgid "Moved %s out of disbanded city %s to avoid being landlocked."
+#~ msgstr ""
+#~ "Μετακινήθηκαν %s έξω από διασκορπισθείσα πόλη %s για την αποφυγή "
+#~ "αποκλεισμού. "
+
+#~ msgid "%s report on the RICHEST Civilizations in the World."
+#~ msgstr "%s αναφέρει για τους ΠΛΟΥΣΙΕΣΤΕΡΟΥΣ πολιτισμούς του κόσμου."
+
+#~ msgid "%s report on the most ADVANCED Civilizations in the World."
+#~ msgstr "%s αναφέρει για τους ποιό ΠΡΟΗΓΜΕΝΟΥΣ πολιτισμούς του κόσμου."
+
+#~ msgid "%s report on the most MILITARIZED Civilizations in the World."
+#~ msgstr "%s αναφέρει για τους ΣΤΡΑΤΙΚΟΠΟΙΗΜΕΝΟΥΣ πολιτισμούς του κόσμου."
+
+#~ msgid "%s report on the HAPPIEST Civilizations in the World."
+#~ msgstr "%s αναφέρει για τους ποιό ΧΑΡΟΥΜΕΝΟΥΣ πολιτισμούς του κόσμου."
+
+#~ msgid "%s report on the LARGEST Civilizations in the World."
+#~ msgstr "%s αναφέρει για τους ΜΕΓΑΛΥΤΕΡΟΥΣ πολιτισμούς του κόσμου."
+
+#~ msgid ""
+#~ "If non-zero, saved games will be compressed using zlib (gzip format). "
+#~ "Larger values will give better compression but take longer. If the "
+#~ "maximum is zero this server was not compiled to use zlib."
+#~ msgstr ""
+#~ "Αν μη-μηδενικό, αποθηκευμένα παιχνίδια θα συμπιέζονται με χρήση της zlib "
+#~ "(gzip φορμάτ). Μεγαλύτερες τιμές θα δώσουν καλύτερη συμπίεση που θα "
+#~ "διαρκεί όμως περισσότερο, Αν το μέγιστο είναι μηδέν τότε ο εξυπηρετητής "
+#~ "δεν μεταγλωτίστηκε με τη zlib."
+
+#~ msgid "novice"
+#~ msgstr "αρχάριο"
+
+#~ msgid "easy"
+#~ msgstr "εύκολο"
+
+#~ msgid "normal"
+#~ msgstr "κανονικό"
+
+#~ msgid "hard"
+#~ msgstr "δύσκολο"
+
+#~ msgid "experimental"
+#~ msgstr "πειραματικό"
+
+#, fuzzy
+#~ msgid "Requires the %s technology.\n"
+#~ msgstr ""
+#~ "Απαιτεί την τεχνολογία %s.\n"
+#~ "\n"
+
+#, fuzzy
+#~ msgid "Requires the %s government.\n"
+#~ msgstr ""
+#~ "Απαιτεί το πολίτευμα %s.\n"
+#~ "\n"
+
+#, fuzzy
+#~ msgid "Requires the %s building.\n"
+#~ msgstr ""
+#~ "Απαιτεί το κτίριο %s .\n"
+#~ "\n"
+
+#, fuzzy
+#~ msgid "Requires the %s terrain special.\n"
+#~ msgstr ""
+#~ "Απαιτεί το ειδικό έδαφος %s .\n"
+#~ "\n"
+
+#, fuzzy
+#~ msgid "Requires the %s terrain.\n"
+#~ msgstr ""
+#~ "Απαιτεί το έδαφος %s .\n"
+#~ "\n"
+
+#, fuzzy
+#~ msgid "Requires the %s nation.\n"
+#~ msgstr ""
+#~ "Απαιτεί το έθνος %s.\n"
+#~ "\n"
+
+#, fuzzy
+#~ msgid "Only applies to %s units.\n"
+#~ msgstr ""
+#~ "Έχει εφαρμογή μόνο σε μονάδες %s.\n"
+#~ "\n"
+
+#, fuzzy
+#~ msgid "Applies only to %s.\n"
+#~ msgstr ""
+#~ "Έχει εφαρμογή μόνο σε %s.\n"
+#~ "\n"
+
+#, fuzzy
+#~ msgid "Requires a minimum size of %d.\n"
+#~ msgstr ""
+#~ "Απαιτεί ένα ελάχιστο μέγεθος από %d.\n"
+#~ "\n"
+
+#, fuzzy
+#~ msgid ""
+#~ "Requires: Nothing\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Απαιτεί το κτίριο %s .\n"
+#~ "\n"
+
+#, fuzzy
+#~ msgid "* Can carry and refuel %d air unit.\n"
+#~ msgid_plural "* Can carry and refuel %d air units.\n"
+#~ msgstr[0] ""
+#~ "* Δεν μπορεί να μεταφέρει και να ανεφοδιάσει %d μονάδα από τις κλάσεις:\n"
+#~ msgstr[1] ""
+#~ "* Δεν μπορεί να μεταφέρει και να ανεφοδιάσει %d μονάδες από τις κλάσεις:\n"
+
+#, fuzzy
+#~ msgid "* Can carry and refuel %d missile unit.\n"
+#~ msgid_plural "* Can carry and refuel %d missile units.\n"
+#~ msgstr[0] ""
+#~ "* Δεν μπορεί να μεταφέρει και να ανεφοδιάσει %d μονάδα από τις κλάσεις:\n"
+#~ msgstr[1] ""
+#~ "* Δεν μπορεί να μεταφέρει και να ανεφοδιάσει %d μονάδες από τις κλάσεις:\n"
+
+#, fuzzy
+#~ msgid "* Can carry %d ground unit across water.\n"
+#~ msgid_plural "* Can carry %d ground units across water.\n"
+#~ msgstr[0] ""
+#~ "* Δεν μπορεί να μεταφέρει και να ανεφοδιάσει %d μονάδα από τις κλάσεις:\n"
+#~ msgstr[1] ""
+#~ "* Δεν μπορεί να μεταφέρει και να ανεφοδιάσει %d μονάδες από τις κλάσεις:\n"
+
+#, fuzzy
+#~ msgid "* A missile unit: gets used up in making an attack.\n"
+#~ msgstr "  * Καταναλώνεται στην εκτέλεση της επίθεσης .\n"
+
+#, fuzzy
+#~ msgid "You were rejected from the game...."
+#~ msgstr "Αποβλήθηκες από το παιχνίδι:"
+
+#~ msgid "<AI>"
+#~ msgstr "<ΤΝ>"
+
+#~ msgid "<Novice AI>"
+#~ msgstr "<Αρχάρια ΤΝ>"
+
+#~ msgid "<Easy AI>"
+#~ msgstr "<Εύκολη ΤΝ>"
+
+#~ msgid "<Normal AI>"
+#~ msgstr "<Δύσκολη ΤΝ>"
+
+#~ msgid "<Hard AI>"
+#~ msgstr "<Σκληρή ΤΝ>"
+
+#~ msgid "Sa_ve Options"
+#~ msgstr "Σ_ώσε Επιλογές"
+
+#~ msgid "_Change Government"
+#~ msgstr "_Αλλαγή πολιτεύματος"
+
+#~ msgid ""
+#~ "Main Map (Keys):\n"
+#~ "================\n"
+#~ "    Shift-home: center on capital\n"
+#~ "  Shift-arrows: scroll map\n"
+#~ "        Ctrl-G: show grid lines on/off\n"
+#~ "        Ctrl-B: show national borders on/off\n"
+#~ "        Ctrl-N: show city names on/off\n"
+#~ "        Ctrl-R: show city growth on/off\n"
+#~ "        Ctrl-P: show city production on/off\n"
+#~ "             t: show city workers (mouse over or near city)\n"
+#~ msgstr ""
+#~ "Κεντρικός χάρτης (Πλήκτρα):\n"
+#~ "================\n"
+#~ "    Shift-home:  κεντράρισε στην πρωτεύουσα\n"
+#~ " Shift-βελάκια:  κύλισε χάρτη\n"
+#~ "        Ctrl-G:  εμφάνισε/κρύψε γραμμές πλέγματος \n"
+#~ "        Ctrl-B:  εμφάνισε/κρύψε εθνικά σύνορα\n"
+#~ "        Ctrl-N:  εμφάνισε/κρύψε ονόματα πόλης\n"
+#~ "        Ctrl-R:  εμφάνισε/κρύψε αύξηση πόλης\n"
+#~ "        Ctrl-P:  εμφάνισε/κρύψε παραγωγή πόλης\n"
+#~ "             t:  εμφάνισε εργάτες πόλης (κουμπί πάνω ή κοντά σε πόλη)\n"
+
+#~ msgid ""
+#~ "Main Map (Mouse):\n"
+#~ "=================\n"
+#~ "  Left-click on city:          Pop up city dialog\n"
+#~ "  Left-click on unit:          Activate unit\n"
+#~ "  Left-click-and-drag on unit: Goto command for unit\n"
+#~ "  Center-click:                Show tile info\n"
+#~ "  Right-click:                 Center tile in view\n"
+#~ "\n"
+#~ "  Shift-Left-click:            Copy production (GTK)\n"
+#~ "  Shift-Right-click on city:   Paste production into city (GTK)\n"
+#~ "\n"
+#~ "  Shift-Control-Left-click:    Adjust city workers\n"
+#~ "  Control-Center-click:        Wake up sentried units\n"
+#~ "\n"
+#~ "  Area Selection mode (GTK):\n"
+#~ "  ==========================\n"
+#~ "  Right-click-and-drag: Enter Area Selection mode\n"
+#~ "  Left-click:           Toggle tile highlighting\n"
+#~ "  Shift-Right-click:    Paste production into highlighted cities\n"
+#~ "  Right-click:          Cancel Area Selection mode\n"
+#~ "\n"
+#~ "  The cities that become highlighted on the map,\n"
+#~ "  will also be highlighted in the City Report."
+#~ msgstr ""
+#~ "Κεντρικός χάρτης (Ποντίκι):\n"
+#~ "===========================\n"
+#~ "  Αριστερό-κλικ στην πόλη:          Εμφάνισε διάλογο πόλης\n"
+#~ "  Αριστερό-κλικ σε μονάδα:          Ενεργοποιήσε μονάδα\n"
+#~ "  Αριστερό-κλικ και σύρε σε μονάδα: Εντολή πήγαινε σε μονάδα\n"
+#~ "  Κεντρικό-κλικ:                    Εμφάνισε πληροφορίες τετραγώνου\n"
+#~ "  Δεξί-κλικ:                        Κεντράρισε τετράγωνο σε οθόνη\n"
+#~ "\n"
+#~ "  Shift-Αριστερό-κλικ:              Αντέγραψε παραγωγή (GTK)\n"
+#~ "  Shift-Δεξί-κλικ σε πόλη:          Επικόλλησε παραγωγή σε πόλη (GTK)\n"
+#~ "\n"
+#~ "  Shift-Control-Αριστερό-κλικ:      Προσάσμοσε εργάτες πόλης\n"
+#~ "  Control-κεντρικό-κλικ:            Ενεργοποίησε μονάδες φρουρούς\n"
+#~ "\n"
+#~ "  Λειτουργία επιλογής περιοχής (GTK):\n"
+#~ "  ===================================\n"
+#~ "  Δεξί-κλικ-και-σύρε:     Ενεργοποίησε λειτουργία επιλογής περιοχής\n"
+#~ "  Αριστερό-κλικ:          Ενεργ/Απενργ επισήμανσης τετραγώνων\n"
+#~ "  Shift-δεξί-κλικ:        Επικόλλησε παραγωγή σε επισημανσμένες πόλεις\n"
+#~ "  Δεξί-κλικ:              Απενεργοποίησε λειτουργία επιλογής περιοχής\n"
+#~ "\n"
+#~ "  Οι πόλεις που επισημαίνονται στον χάρτη ,\n"
+#~ "  θα επισημαίνονται και στην αναφορά πόλης."
+
+#~ msgid ""
+#~ "Dialogs and Reports:\n"
+#~ "====================\n"
+#~ "     F1: open City Report\n"
+#~ "     F2: open Unit Report\n"
+#~ "     F3: open Players dialog\n"
+#~ "     F5: open Economy Report\n"
+#~ "     F6: open Science Report\n"
+#~ "     F7: open World Wonders\n"
+#~ "     F8: open Top Five Cities\n"
+#~ "     F9: open Messages dialog\n"
+#~ "    F11: open Demographics\n"
+#~ "    F12: open Spaceship\n"
+#~ "\n"
+#~ "      T: open Tax/Lux/Sci Rates dialog\n"
+#~ "      F: open Find City dialog\n"
+#~ " Ctrl-L: open Worklists dialog\n"
+#~ "      R: open Revolution dialog\n"
+#~ "\n"
+#~ "Shift-Return: Turn done"
+#~ msgstr ""
+#~ "Διάλογοι και αναφορές:\n"
+#~ "====================\n"
+#~ "     F1: άνοιξε αναφορά πόλης\n"
+#~ "     F2: άνοιξε αναφορά μονάδων\n"
+#~ "     F3: άνοιξε διάλογο παιχτών\n"
+#~ "     F5: άνοιξε αναφορά οικονομίας\n"
+#~ "     F6: άνοιξε αναφορά επιστήμης\n"
+#~ "     F7: άνοιξε παγκόσμια θαύματα\n"
+#~ "     F8: άνοιξε πέντε καλύτερες πόλεις\n"
+#~ "     F9: άνοιξε διάλογο μηνυμάτων\n"
+#~ "    F11: άνοιξε δημογραφικά\n"
+#~ "    F12: άνοιξε διαστημόπλοιο\n"
+#~ "\n"
+#~ "      T: άνοιξε διάλογο Φορ/Ανσ/Επσ\n"
+#~ "      F: άνοιξε διάλογο εύρεση πόλη\n"
+#~ " Ctrl-L: άνοιξε διάλογο λίστας εργασιών\n"
+#~ "      R: άνοιξε διάλογο επανάστασης \n"
+#~ "\n"
+#~ "Shift-Return: Τέλος γύρου"
+
+#~ msgid ""
+#~ "Gives one extra food resource on all Ocean squares.  The city needs to be "
+#~ "coastal to build this improvement."
+#~ msgstr ""
+#~ "Δίνει επιπλέων μια μονάδα τροφής σε όλα τα τετράγωνα ωκεανών. Η πόλη "
+#~ "πρέπει να είναι παραλιακή για να μπορεί να χτίσει λιμάνι. "
+
+#~ msgid ""
+#~ "Reduces the amount of pollution generated by production in a city by "
+#~ "50%.  It also increases the shield production of a Factory or Mfg. Plant "
+#~ "in the city: a Factory and a Hydro Plant together give a 75% production "
+#~ "bonus, and a Factory, Mfg. Plant and Hydro Plant together give a 150% "
+#~ "production bonus.\n"
+#~ "\n"
+#~ "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant.  A "
+#~ "city can only build a Hydro Plant if it is next to (or on) a Mountain or "
+#~ "River tile."
+#~ msgstr ""
+#~ "Μειώνει τη μόλυνση που παράγεται σε μια πόλη κατά 50%. Επίσης αυξάνει την "
+#~ "παραγωγή ασπίδων ενός Εργοστασίου ή Βιομηχανίας στην πόλη: Σε συνδυασμό "
+#~ "με εργοστάσιο αυξάνει κατά 75% την παραγωγή και σε συνδυασμό με "
+#~ "εργοστάσιο και βιομηχανία δίνουν 150% αύξηση της παραγωγής. \n"
+#~ "\n"
+#~ "Μια πόλη μπορεί να έχει μόνο ένα Υδροηλεκτρικό εργοστάσιο, Σταθμό "
+#~ "Ενέργειας ή Πυρηνικό Σταθμό. Μια πόλη μπορεί να χτίσει  Υδροηλεκτρικό "
+#~ "εργοστάσιο αν είναι κοντά σε βουνό ή ποτάμι."
+
+#~ msgid ""
+#~ "Reduces the amount of pollution generated by production in a city by "
+#~ "50%.  It also increases the shield production of a Factory or Mfg. Plant "
+#~ "in the city: a Factory and a Nuclear Plant together give a 75% production "
+#~ "bonus, and a Factory, Mfg. Plant and Nuclear Plant together give a 150% "
+#~ "production bonus.\n"
+#~ "\n"
+#~ "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
+#~ msgstr ""
+#~ "Μειώνει τη μόλυνση που παράγεται σε μια πόλη κατά 50%. Επίσης αυξάνει την "
+#~ "παραγωγή ασπίδων ενός εργοστασίου ή Βιομηχανίας στην πόλη: σε συνδυασμό "
+#~ "με εργοστάσιο δίνει 75% αύξηση παραγωγής, και μαζί με εργοστάσιο και "
+#~ "βιομηχανία δίνουν μια αύξηση 150% στην παραγωγή.\n"
+#~ "Μια πόλη μπορεί να έχει μόνο ένα Υδροηλεκτρικό εργοστάσιο, Σταθμό "
+#~ "Ενέργειας ή Πυρηνικό Σταθμό."
+
+#~ msgid ""
+#~ "Adds 1 extra shield resource on all Ocean squares in a city.  The city "
+#~ "needs to be coastal to build this improvement."
+#~ msgstr ""
+#~ "Προσθέτει 1 επιπλέον ασπίδα σε όλα τα τετράγωνα ωκεανού που περιβάλουν "
+#~ "μια πόλη.Η πόλη πρέπει να είναι παραθαλάσσια."
+
+#~ msgid ""
+#~ "Increases the shield production of a Factory or Mfg. Plant in a city: a "
+#~ "Factory and a Power Plant together give a 75% production bonus, and a "
+#~ "Factory, Mfg. Plant and Power Plant together give a 150% production "
+#~ "bonus.  The extra production may lead to the city generating more "
+#~ "pollution.\n"
+#~ "\n"
+#~ "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
+#~ msgstr ""
+#~ "Αυξάνει την παραγωγή ασπίδων σε ένα Εργοστάσιο ή σε μια Βιομηχανία σε μια "
+#~ "πόλη: ένα Εργοστάσιο και ένας ηλεκτρικός σταθμός δίνουν μαζί 75% μπόνους "
+#~ "παραγωγής, και ένα Εργοστάσιο,Βιομηχανία και Ηλεκτρικός Σταθμός δίνουν "
+#~ "150% μπόνους παραγωγής.Η επιπλέον παραγωγικότητα ίσως οδηγήσει στη "
+#~ "παραγωγή μόλυνσης.\n"
+#~ "\n"
+#~ "Μια πόλη μπορεί να έχει έναν Υδροηλεκτρικό Σταθμό, Ηλεκτρικό ή Πυρηνικό "
+#~ "Σταθμό."
+
+#~ msgid ""
+#~ "Gives all your sea units 1 additional movement point and eliminates the "
+#~ "risk of losing Triremes on the high seas.  Makes all your new sea units "
+#~ "veterans (for all your cities)."
+#~ msgstr ""
+#~ "Δίνει σε όλες τις θαλάσσιες μονάδες 1 επιπλέον μονάδα κίνησης μειώνοντας "
+#~ "τον κίνδυνο να χάσεις μια Τρίηρη σε μεγάλες θάλασσες. Κάνει όλες τις "
+#~ "θαλάσσιες μονάδες βετεράνους (σε όλες τις πόλεις)."
+
+#~ msgid ""
+#~ "Fundamentalism is a form of government organized around a central set of "
+#~ "beliefs. The beliefs, usually religious in nature, form a rigid guideline "
+#~ "for actions and reactions of both the rulers and the people.\n"
+#~ "\n"
+#~ "In a fundamentalist society, the people and the rulers are entirely "
+#~ "devoted to their beliefs, and are usually willing to die to preserve "
+#~ "them.\n"
+#~ "\n"
+#~ "Improvement that normally convert unhappy citizens to content citizens, "
+#~ "produces `tithes' (gold) equivalent to the number of people they would "
+#~ "convert, and require no maintenance."
+#~ msgstr ""
+#~ "Ο Φονταμενταλισμός είναι μια μορφή πολιτεύματος οργανωμένου σε έναν "
+#~ "πυρήνα πίστεων. Αυτές είναι συνήθως θρησκευτικού χαρακτήρα στη φύση τους, "
+#~ "και συνθέτουν ένα αυστηρό ηθικό πλαίσιο που καθορίζει τις αντιδράσεις του "
+#~ "ηγέτη και των ανθρώπων του.\n"
+#~ "\n"
+#~ "Σε μια φονταμενταλιστική κοινωνία, οι άνθρωποι και ο ηγέτης είνα αυστηρά "
+#~ "προσκολλημένη στα πιστεύω τους και είναι συνήθως πρόθυμοι να πεθάνουν για "
+#~ "να τα διατηρήσουν. \n"
+#~ "\n"
+#~ "Υποδομές που συνήθως θα μετέτρεπαν δυστυχισμένους πολίτες σε "
+#~ "ικανοποιημένους, παράγουν χρυσό , ισοδύναμο με τον αριθμό των πολιτών που "
+#~ "θα μετέτρεπαν, και δεν απαιτούν συντήρηση."
+
+#~ msgid "Petroleum"
+#~ msgstr "Πετρέλαιο"
+
+#~ msgid ""
+#~ "This unit may be built from the start of the game.  It is the weakest "
+#~ "unit."
+#~ msgstr ""
+#~ "Αυτή η μονάδα μπορεί να χτιστεί από την αρχή του παιχνιδίου. Έιναι η "
+#~ "ασθενέστερη μονάδα."
+
+#~ msgid ""
+#~ "A number of Partisans are granted free when an enemy conquers your city, "
+#~ "but only under these conditions:\n"
+#~ "\n"
+#~ " - Guerilla Warfare must be known by at least 1 player.\n"
+#~ "\n"
+#~ " - You must be the player who originally built the city.\n"
+#~ "\n"
+#~ " - You must know about Communism and Gunpowder.\n"
+#~ "\n"
+#~ " - You must run either a Democracy or a Communist government."
+#~ msgstr ""
+#~ "Ένας αριθμός από Παρτιζάνους σου δίνονται δωρεάν όταν εχθρός καταλαμβάνει "
+#~ "μια πόλη σου αλλά μόνο υπό αυτές τις συνθήκες:\n"
+#~ "\n"
+#~ " - Ένας παίχτης τουλάχιστον πρέπει να γνωρίζει τον Ανταρτοπόλεμο.\n"
+#~ "\n"
+#~ " - Πρέπει να είσαι ο παίχτης που αρχικά έχτισε την πόλη.\n"
+#~ "\n"
+#~ " - Πρέπει να ξέρεις για τον Κομμουνισμό και την πυρίτιδα.\n"
+#~ "\n"
+#~ " - Το πολίτευμά σου πρέπει να είναι είτε Δημοκρατία είτε Κομμουνισμός."
+
+#~ msgid ""
+#~ "TIP:  A very fast unit, which is very useful for hunting down enemy "
+#~ "Transports."
+#~ msgstr ""
+#~ "Συμβουλή: Μια πολύ γρήγορη μονάδα, που είναι πολύ χρήσιμη στο να κυνηγάει "
+#~ "εχθρικά μεταφορικά πλοία."
+
+#~ msgid ""
+#~ "Submarines have a very high strategic value, but have a weak defence."
+#~ msgstr "Τα υποβρύχια έχουν μεγάλη στρατηγική σημασία ,αλλά ασθενή άμυνα."
+
+#~ msgid ""
+#~ "TIP:  Guard Carriers with a handful of fast-moving ships and a "
+#~ "battleship, as losing a fully-equipped Carrier is VERY painful and "
+#~ "expensive."
+#~ msgstr ""
+#~ "Συμβουλή: Να φυλάς τα αεροπλανοφόρα με μια ομάδα γρήγορων πλοίων και ένα "
+#~ "καταδρομικό καθώς το χάσιμο ενός αεροπλανοφόρου είναι πολύ δαπανηρό και "
+#~ "οδυνηρό."
+
+#~ msgid ""
+#~ "TIP:  A handful of these can successfully keep the waters around your "
+#~ "treasured homeland free of enemy ships."
+#~ msgstr ""
+#~ "Συμβουλή: Λίγοι από αυτούς μπορούν με επιτυχία να κρατήσουν τις θάλασσες "
+#~ "γύρω από τα εδάφη σου ασφαλείς από εχθρικά πλοία."
+
+#~ msgid ""
+#~ "Every Caravan that is used to build a wonder will add 50 shields towards "
+#~ "the production of the wonder.\n"
+#~ "\n"
+#~ "TIP:  You can stockpile a stack of Caravans in advance and bring them all "
+#~ "into a city where you have started to build a wonder, and finish it in "
+#~ "only one turn!"
+#~ msgstr ""
+#~ "Κάθε καραβάνι που χρησιμοποιείται για το χτίσιμο ενός θαύματος θα "
+#~ "συνεισφέρει με 50 ασπίδες στην παραγωγή του θαύματος. \n"
+#~ "\n"
+#~ "Συμβουλή: Μπορείς να σωρεύσεις από πριν ένα συνόλο καραβανιών και να τα "
+#~ "φέρεις όλα μαζί μέσα στην πόλη που χτίζεται το θαύμα, και να το "
+#~ "τελειώσεις σε ένα γύρο:"
+
+#~ msgid "Explorers are very useful for mapping unknown territory."
+#~ msgstr ""
+#~ "Οι εξευρευνητές είναι πολύ χρήσιμοι για την ανίχνευση άγνωστης περιοχής."
+
+#~ msgid ""
+#~ "When barbarian leader is killed on a tile without any defending units, "
+#~ "the 100 gold ransom is paid, but only to land units and helicopters."
+#~ msgstr ""
+#~ "Όταν ο Αρχηγός των Βαρβάρων σκοτωθεί σε ένα τετράγωνο που δεν περιέχει "
+#~ "άλλεςμονάδες άμυνας τότε πληρώνονται λύτρα 100 χρυσά , αλλά μόνο σε "
+#~ "μονάδες ξηράς και ελικόπτερα."
+
+#, fuzzy
+#~ msgid "Bosnia & Herzegovina"
+#~ msgstr "Βόσνιο"
+
+#~ msgid ""
+#~ "Catalunya (aka Catalonia in English) is the north-eastern-most coastal "
+#~ "region of Spain near the southern foot of the Pyrenees."
+#~ msgstr ""
+#~ "Η Καταλονούνια (Καταλονία στα αγγλικά) είναι το το ποιό βορειό-ανατολικό "
+#~ "παραθαλλάσιο κομμάτι της Ισπανίας κοντά στους νότιους πρόποδες των "
+#~ "Πυρηναίων."
+
+#~ msgid ""
+#~ "Colombia is a country in northern South America. The region was an "
+#~ "Amerindian cultural center in pre-European time. The Spanish began "
+#~ "settling Colombia's north coast around 1500. In 1819 the The Republic of "
+#~ "Colombia gained independence."
+#~ msgstr ""
+#~ "Η Κολομβία είναι μια χώρα της νότιας Αμερικής. Η περιοχή ήταν Αμερινδιανό "
+#~ "πολιτιστικό κέντρο τα προ-ευρωπαικά χρόνια. Οι ισπανοί άρχισαν να "
+#~ "αποικίζουν τα βόρεια παράλιο της Κολομβίας γύρω στο 1500. Το 1819 η "
+#~ "δημοκρατία της Κολομβίας απέκτησε ανεξαρτησία."
+
+#, fuzzy
+#~ msgid "Emporer"
+#~ msgstr "Εξευρευνητής"
+
+#, fuzzy
+#~ msgid ""
+#~ "France has long been a major power in Europe. French conquerer kings like "
+#~ "Napoleon and Charlemagne each united large parts of Europe under the "
+#~ "French flag."
+#~ msgstr ""
+#~ "Η Γαλλία είναι από παλιά μια σημαντική δύναμη στην Ευρώπη. Οι Γάλλοι "
+#~ "κατακτητές όπως ο Αυτοκράτορας Ναπολέων και ο Βασιλιάς Καρλομάγνος "
+#~ "ενωποίησαν μεγάλα μέρη της Ευρώπης υπό τη γαλλική σημαία."
+
+#~ msgid ""
+#~ "The Inca were an Amerind people of the Northern Andes who conquered an "
+#~ "empire stretching along the west coast of South America from what is now "
+#~ "southern Chile nearly to the Equator. They had the bad timing to do it "
+#~ "just a few decades before the Spanish conquistadors arrived in their part "
+#~ "of the world in the mid-1500s AD."
+#~ msgstr ""
+#~ "Οι Ίνκας ήταν κάτοικοι των βόρειων Άνδεων που δημιουργήσαν μια "
+#~ "αυτοκρατορία που απλώνονταν σε μια έκταση που καταλαμβάνει η σημερινή "
+#~ "Χιλή. Αλλά ήταν άτυχοι στο ότι έφτασαν στο απώγειο της δυναμής τους λίγες "
+#~ "δεκαετίες πριν την άφιξη των ισπανών κονκισταδόρων τα μέσα του 1500 μ.Χ "
+
+#~ msgid "Kampuchean"
+#~ msgstr "Καμποτζιανό"
+
+#~ msgid "?plural:Kampucheans"
+#~ msgstr "?plural:Καμποτζιανοί"
+
+#, fuzzy
+#~ msgid "Presedinte"
+#~ msgstr "Πρόεδρος"
+
+#, fuzzy
+#~ msgid "Elected Priest"
+#~ msgstr "Ηλεκτρισμος"
+
+#, fuzzy
+#~ msgid "Elected Priestess"
+#~ msgstr "Υψηλή Ιέρεια"
+
+#~ msgid "Turk"
+#~ msgstr "Τούρκος"
+
+#~ msgid "Units: "
+#~ msgstr "Μονάδες: "
+
+#~ msgid "%s"
+#~ msgstr "%s"
+
+#~ msgid " Choose Your Diplomat's Strategy"
+#~ msgstr " Επέλεξε την στρατηγική του διπλωμάτη σου"
+
+#, fuzzy
+#~ msgid ""
+#~ "Your client is too old. To use this server, please upgrade your client to "
+#~ "a Freeciv 2.1 or later."
+#~ msgstr ""
+#~ "Η εκδοσή σου είναι πολύ παλία. Για να χρησιμοποιήσεις αυτόν τον "
+#~ "εξυπηρετητή παρακαλώ αναβάθμισε τον πελάτη σου σε μια CVS έκδοση ύστερη "
+#~ "από 2003-11-28 ή Freeciv 2.1 ή μετά."
+
+#~ msgid "_Map"
+#~ msgstr "_Χάρτης"
+
+#~ msgid "Create _player"
+#~ msgstr "Δημιούργησε _παίχτη"
+
+#~ msgid "_Release player"
+#~ msgstr "_Αποδέσμευσε παίχτη"
+
+#~ msgid "Gover_nment"
+#~ msgstr "Π_ολίτευμα"
+
+#~ msgid "_Players"
+#~ msgstr "_Παίχτες"
+
+#~ msgid "_Science"
+#~ msgstr "_Επιστήμη"
+
+#~ msgid "S_paceship"
+#~ msgstr "Δια_στημόπλοιο"
+
+#~ msgid "Game _Options..."
+#~ msgstr "_Επιλογές παιχνιδίου"
+
+#~ msgid "file: \"%s\""
+#~ msgstr "αρχείο: \"%s\""
+
+#~ msgid "file options: %s"
+#~ msgstr "επιλογές αρχείου: %s "
+
+#~ msgid ""
+#~ "- A Diplomat can establish embassies with other civilizations by moving "
+#~ "into another player's city.\n"
+#~ "\n"
+#~ "- Diplomats can also try to sabotage enemy production, or steal an "
+#~ "advance from an enemy city.  (An advance can only be stolen once per "
+#~ "city).\n"
+#~ "\n"
+#~ "- A Diplomat can also bribe an enemy unit, if that unit is the only unit "
+#~ "on its square.\n"
+#~ "\n"
+#~ "- Diplomats can even start a revolution in an enemy city and turn it into "
+#~ "your own, if you have the money!\n"
+#~ "\n"
+#~ "- In some game strategies, hordes of Diplomats can be used to wreak havoc "
+#~ "on the enemy.  Little wonder that Diplomats are often viewed with "
+#~ "suspicion and fear!"
+#~ msgstr ""
+#~ "- Ένας διπλωμάτης μπορεί να ιδρύσει πρεσβείες σε άλλους πολιτισμούς με το "
+#~ "που εισέρχεται σε μια πόλη.\n"
+#~ "\n"
+#~ "Ένας διπλωμάτης μπορεί επίσης να σαμποτάρει την εχθρική παραγωγή, ή να "
+#~ "κλέψει μια τεχνολογία από την πόλη. (Μπορεί να κλαπεί μόνο μια τεχνολογία "
+#~ "ανά πόλη). \n"
+#~ "\n"
+#~ "- Ένας διπλωμάτης μπορεί επίσης να δωροδοκήσει μια εχθρική μονάδα , αν "
+#~ "αυτή η μονάδα είναι μόνη της στο τετράγωνο που καταλαμβάνει.\n"
+#~ "\n"
+#~ "- Διπλωμάτες μπορούν ακόμα και να ξεκινήσουν επανάσταση σε μια εχθρική "
+#~ "πόλη και να την πάρουν με το μέρος τους, αν έχουν αρκετά λεφτά! \n"
+#~ "\n"
+#~ "- Σε μερικές στρατηγικές, ορδές διπλωματών μπορούν να χρησιμοποιηθούν για "
+#~ "να προκαλέσουν χάος στον εχθρό. Δεν είναι λοιπόν παράξενο που οι "
+#~ "διπλωμάτες αντιμετωπίζονται συχνά με καχυποψία και φόβο!"
+
+#~ msgid "Team 32"
+#~ msgstr "Ομάδα 32 "
+
+#~ msgid "Cleared output window.\n"
+#~ msgstr "Καθάρισε παράθυρο εξόδου. \n"
 
 #~ msgid "Trying alternative ruleset filename syntax."
 #~ msgstr "Προσπαθώ εναλλακτικό συντακτικό ονόματος αρχείου συνόλου-κανόνων."
@@ -26914,24 +27592,6 @@ msgstr "Ομάδα 31"
 
 #~ msgid "Food Stock"
 #~ msgstr "Απόθεμα τροφής"
-
-#~ msgid "Moves Left"
-#~ msgstr "Υπόλοιπο κινήσεων"
-
-#~ msgid "<AI>"
-#~ msgstr "<ΤΝ>"
-
-#~ msgid "<Novice AI>"
-#~ msgstr "<Αρχάρια ΤΝ>"
-
-#~ msgid "<Normal AI>"
-#~ msgstr "<Δύσκολη ΤΝ>"
-
-#~ msgid "<Hard AI>"
-#~ msgstr "<Σκληρή ΤΝ>"
-
-#~ msgid "Log"
-#~ msgstr "Ηερολόγιο"
 
 #~ msgid ""
 #~ "Name : %s\n"
@@ -26948,14 +27608,21 @@ msgstr "Ομάδα 31"
 #~ "Κατάσταση : %s\n"
 #~ "Ανενεργός : %d %s"
 
-#~ msgid ""
-#~ "The Inca were an Amerind people of the Northern Andes who conquered an "
-#~ "empire stretching along the west coast of South America from what is now "
-#~ "southern Chile nearly to the Equator. They had the bad timing to do it "
-#~ "just a few decades before the Spanish conquistadors arrived in their part "
-#~ "of the world in the mid-1500s AD."
-#~ msgstr ""
-#~ "Οι Ίνκας ήταν κάτοικοι των βόρειων Άνδεων που δημιουργήσαν μια "
-#~ "αυτοκρατορία που απλώνονταν σε μια έκταση που καταλαμβάνει η σημερινή "
-#~ "Χιλή. Αλλά ήταν άτυχοι στο ότι έφτασαν στο απώγειο της δυναμής τους λίγες "
-#~ "δεκαετίες πριν την άφιξη των ισπανών κονκισταδόρων τα μέσα του 1500 μ.Χ "
+#, fuzzy
+#~ msgid "Citizen Management Agent"
+#~ msgstr "Κυβέρνηση π_ολιτών"
+
+#~ msgid "Log"
+#~ msgstr "Ηερολόγιο"
+
+#~ msgid "Moves Left"
+#~ msgstr "Υπόλοιπο κινήσεων"
+
+#~ msgid "_Editing Mode"
+#~ msgstr "Λειτουργία _Επεξεργασίας"
+
+#~ msgid "_Tools"
+#~ msgstr "_Εργαλεία"
+
+#~ msgid "_Recalculate Borders"
+#~ msgstr "Επαναυπολογισμός _Συνόρων"
