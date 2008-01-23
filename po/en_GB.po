@@ -2,13 +2,17 @@
 # Copyright (C) 1999 Free Software Foundation, Inc.
 # Robert Brady <rwb197@ecs.soton.ac.uk>, 1999.
 #
+# Translated words are:
+#
+#   traveller, centre, railway, cancelled, colour, neighbour
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: freeciv 1.9.0\n"
+"Project-Id-Version: freeciv 2.2.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-22 22:45-0500\n"
-"PO-Revision-Date: 1999-10-21 20:02+0100\n"
-"Last-Translator: Robert Brady <rwb197@ecs.soton.ac.uk>\n"
+"PO-Revision-Date: 2007-09-09 07:42+0900\n"
+"Last-Translator: Daniel Markstedt <himasaram@spray.se>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
@@ -130,9 +134,8 @@ msgid "Needs Aqueduct Being Built"
 msgstr ""
 
 #: common/events.c:54 common/player.c:42
-#, fuzzy
 msgid "Normal"
-msgstr "Honourable"
+msgstr ""
 
 #: common/events.c:55
 msgid "Nuked"
@@ -235,9 +238,8 @@ msgid "Embassy"
 msgstr ""
 
 #: common/events.c:76 common/events.c:83
-#, fuzzy
 msgid "Failed"
-msgstr "Railway"
+msgstr ""
 
 #: common/events.c:77 common/events.c:84
 msgid "Incite"
@@ -294,9 +296,8 @@ msgid "Player Destroyed"
 msgstr ""
 
 #: common/events.c:96
-#, fuzzy
 msgid "Report"
-msgstr "Traveller's Report:"
+msgstr ""
 
 #: common/events.c:97
 msgid "Turn Bell"
@@ -546,9 +547,8 @@ msgid "Hard"
 msgstr ""
 
 #: common/player.c:43
-#, fuzzy
 msgid "Cheating"
-msgstr "Railway"
+msgstr ""
 
 #: common/player.c:43
 msgid "Experimental"
@@ -724,9 +724,8 @@ msgid "Land"
 msgstr ""
 
 #: common/terrain.c:46
-#, fuzzy
 msgid "Oceanic"
-msgstr "Railway"
+msgstr ""
 
 #: common/terrain.c:482 common/terrain.c:670 common/unit.c:523
 #: manual/civmanual.c:224
@@ -1999,14 +1998,14 @@ msgid "Pollution near %s."
 msgstr ""
 
 #: server/cityturn.c:1570
-#, fuzzy, c-format
+#, c-format
 msgid "Celebrations in your honour in %s."
-msgstr "We Love The %s Day cancelled in %s."
+msgstr "Celebrations in your honour in %s."
 
 #: server/cityturn.c:1576
-#, fuzzy, c-format
+#, c-format
 msgid "Celebrations canceled in %s."
-msgstr "We Love The %s Day cancelled in %s."
+msgstr "Celebrations cancelled in %s."
 
 #: server/cityturn.c:1605
 #, c-format
@@ -2922,11 +2921,12 @@ msgstr[1] ""
 #, c-format
 msgid "One of the cities the %s are giving away is destroyed! Treaty canceled!"
 msgstr ""
+"One of the cities the %s are giving away is destroyed! Treaty cancelled!"
 
 #: server/diplhand.c:289 server/diplhand.c:294
 #, c-format
 msgid "The %s no longer control %s! Treaty canceled!"
-msgstr ""
+msgstr "The %s no longer control %s! Treaty cancelled!"
 
 #: server/diplhand.c:332 server/diplhand.c:336
 #, c-format
@@ -3020,7 +3020,7 @@ msgstr "%s cancelled the meeting!"
 #: server/diplhand.c:681
 #, c-format
 msgid "Meeting with %s canceled."
-msgstr ""
+msgstr "Meeting with %s cancelled."
 
 #: server/diplhand.c:723
 msgid "Your diplomatic envoy was decapitated!"
@@ -3539,6 +3539,8 @@ msgid ""
 " %s canceled the diplomatic agreement! The diplomatic state between the %s "
 "and the %s is now %s."
 msgstr ""
+" %s cancelled the diplomatic agreement! The diplomatic state between the %s "
+"and the %s is now %s."
 
 #: server/plrhand.c:625
 #, c-format
@@ -4132,9 +4134,8 @@ msgid ""
 msgstr ""
 
 #: server/settings.c:388
-#, fuzzy
 msgid "Amount of water on lands"
-msgstr "Auto Centre on Units"
+msgstr ""
 
 #: server/settings.c:389
 msgid ""
@@ -5952,7 +5953,7 @@ msgstr ""
 
 #: server/stdinhand.c:3528
 msgid "Your new vote canceled your previous vote."
-msgstr ""
+msgstr "Your new vote cancelled your previous vote."
 
 #: server/stdinhand.c:3536
 #, c-format
@@ -6093,7 +6094,7 @@ msgstr ""
 #: client/text.c:1217
 #, c-format
 msgid "?clistmore:, %s"
-msgstr ""
+msgstr ", %s"
 
 #: server/stdinhand.c:4146
 msgid ", ready"
@@ -6424,7 +6425,7 @@ msgstr ""
 #: server/unithand.c:1498 server/unithand.c:1510
 #, c-format
 msgid "Sorry, %s has canceled the trade route from %s to your city %s."
-msgstr ""
+msgstr "Sorry, %s has cancelled the trade route from %s to your city %s."
 
 #: server/unithand.c:1543
 #, c-format
@@ -7471,7 +7472,7 @@ msgstr ""
 
 #: client/helpdata.c:150
 msgid "(Railroads and fortresses require 3 turns, regardless of terrain.)"
-msgstr ""
+msgstr "(Railways and fortresses require 3 turns, regardless of terrain.)"
 
 #: client/helpdata.c:167
 #, c-format
@@ -7707,9 +7708,8 @@ msgid "* Can add on %d population to cities of no more than size %d.\n"
 msgstr ""
 
 #: client/helpdata.c:871
-#, fuzzy
 msgid "* Can build roads and railroads.\n"
-msgstr "Allows %s to upgrade roads to railways.\n"
+msgstr "* Can build roads and railways.\n"
 
 #: client/helpdata.c:872
 msgid "* Can build mines on tiles.\n"
@@ -7842,7 +7842,7 @@ msgstr ""
 
 #: client/helpdata.c:988
 msgid "* Gets quintuple defense against missiles and aircraft.\n"
-msgstr ""
+msgstr "* Gets quintuple defence against missiles and aircraft.\n"
 
 #: client/helpdata.c:992
 msgid "* Ignores terrain effects (treats all squares as roads).\n"
@@ -7957,19 +7957,19 @@ msgid "* Increases the pollution generated by the population.\n"
 msgstr ""
 
 #: client/helpdata.c:1178
-#, fuzzy, c-format
+#, c-format
 msgid "* Allows %s to build roads on river squares.\n"
-msgstr "Allows %s to upgrade roads to railways.\n"
+msgstr "* Allows %s to build roads on river squares.\n"
 
 #: client/helpdata.c:1186
-#, fuzzy, c-format
+#, c-format
 msgid "* Allows %s to upgrade roads to railroads.\n"
-msgstr "Allows %s to upgrade roads to railways.\n"
+msgstr "* Allows %s to upgrade roads to railways.\n"
 
 #: client/helpdata.c:1194
-#, fuzzy, c-format
+#, c-format
 msgid "* Allows %s to upgrade irrigation to farmland.\n"
-msgstr "Allows %s to upgrade roads to railways.\n"
+msgstr "* Allows %s to upgrade irrigation to farmland.\n"
 
 #: client/helpdata.c:1228
 msgid "* Pollution cannot be generated on this terrain."
@@ -8230,7 +8230,7 @@ msgstr ""
 #: client/helpdata.c:1680 client/helpdata.c:1688 client/gui-sdl/mapview.c:618
 #: client/gui-sdl/mapview.c:624 client/gui-sdl/mapview.c:630
 msgid "?blistmore:, "
-msgstr ""
+msgstr ", "
 
 #. TRANS: "2 unhappy" or ", 1 unhappy"
 #: client/helpdata.c:1687
@@ -8297,9 +8297,8 @@ msgid ""
 msgstr ""
 
 #: client/options.c:119
-#, fuzzy
 msgid "Server port"
-msgstr "Traveller's Report:"
+msgstr ""
 
 #: client/options.c:120
 msgid ""
@@ -8366,6 +8365,8 @@ msgid ""
 "Setting this option will cause units on the map view to be drawn with a "
 "solid background color instead of the flag backdrop."
 msgstr ""
+"Setting this option will cause units on the map view to be drawn with a "
+"solid background colour instead of the flag backdrop."
 
 #: client/options.c:161 client/gui-sdl/optiondlg.c:959
 msgid "Sound bell at new turn"
@@ -8390,7 +8391,7 @@ msgstr ""
 
 #: client/options.c:174
 msgid "Mapview recentering time (milliseconds)"
-msgstr ""
+msgstr "Mapview recentring time (milliseconds)"
 
 #: client/options.c:175
 msgid ""
@@ -8398,6 +8399,9 @@ msgid ""
 "new position.  This option controls how long this slide lasts.  Set it to 0 "
 "to disable mapview sliding entirely."
 msgstr ""
+"When the map view is recentred, it will slide smoothly over the map to its "
+"new position.  This option controls how long this slide lasts.  Set it to 0 "
+"to disable mapview sliding entirely."
 
 #: client/options.c:180 client/gui-sdl/optiondlg.c:1013
 msgid "Show combat animation"
@@ -8459,6 +8463,8 @@ msgid ""
 "Set this option to have the active unit centered automatically when the unit "
 "focus changes."
 msgstr ""
+"Set this option to have the active unit centred automatically when the unit "
+"focus changes."
 
 #: client/options.c:211 client/gui-sdl/optiondlg.c:1146
 msgid "Auto Center on Combat"
@@ -8470,6 +8476,9 @@ msgid ""
 "will speed up the time between turns but may cause you to miss combat "
 "entirely."
 msgstr ""
+"Set this option to have any combat be centred automatically.  Disabled this "
+"will speed up the time between turns but may cause you to miss combat "
+"entirely."
 
 #: client/options.c:217 client/gui-sdl/optiondlg.c:1173
 msgid "Focus on Awakened Units"
@@ -8498,6 +8507,8 @@ msgid ""
 "Setting this option makes the mapview center on a city when its city dialog "
 "is popped up."
 msgstr ""
+"Setting this option makes the mapview centre on a city when its city dialog "
+"is popped up."
 
 #: client/options.c:230
 msgid "Concise City Production"
@@ -8885,7 +8896,7 @@ msgstr ""
 #: client/text.c:191
 #, c-format
 msgid "?clistbegin: with %s"
-msgstr ""
+msgstr "?clistbegin: with %s"
 
 #. TRANS: This appears with two or more previous entries in the list
 #: client/text.c:202
@@ -8901,7 +8912,7 @@ msgstr ""
 
 #: client/text.c:209 client/text.c:1190 client/text.c:1229
 msgid "?clistend:."
-msgstr ""
+msgstr "?clistend:."
 
 #. TRANS: "Trade from Warsaw: 5"
 #: client/text.c:219
@@ -9703,9 +9714,8 @@ msgid "Toggle"
 msgstr ""
 
 #: client/gui-gtk-2.0/editdlg.c:82
-#, fuzzy
 msgid "Paint"
-msgstr "Railway"
+msgstr ""
 
 #: client/gui-gtk-2.0/editdlg.c:82 client/gui-gtk-2.0/editdlg.c:535
 msgid "Player"
@@ -10219,9 +10229,8 @@ msgid "Celebrate"
 msgstr ""
 
 #: client/gui-gtk-2.0/cma_fe.c:463
-#, fuzzy
 msgid "Governor Enabl_ed"
-msgstr "Honourable"
+msgstr ""
 
 #: client/gui-gtk-2.0/cma_fe.c:468
 msgid "Governor Disabl_ed"
@@ -10291,18 +10300,16 @@ msgid "_Ready all"
 msgstr ""
 
 #: client/gui-gtk-2.0/dialogs.c:613
-#, fuzzy
 msgid "_Sentry idle"
-msgstr "_Centre View"
+msgstr ""
 
 #: client/gui-gtk-2.0/dialogs.c:621
 msgid "Select _all"
 msgstr ""
 
 #: client/gui-gtk-2.0/dialogs.c:749
-#, fuzzy
 msgid "Nation _Groups:"
-msgstr "Railway"
+msgstr ""
 
 #: client/gui-gtk-2.0/dialogs.c:794
 msgid "Edit Nation"
@@ -10652,9 +10659,8 @@ msgid "View"
 msgstr ""
 
 #: client/gui-gtk-2.0/gui_main.c:1282
-#, fuzzy
 msgid "Chat"
-msgstr "Railway"
+msgstr ""
 
 #: client/gui-gtk-2.0/gui_main.c:1298 client/gui-win32/gui_main.c:538
 #: data/Freeciv.in:2816
@@ -10669,9 +10675,8 @@ msgid "Not _ready"
 msgstr ""
 
 #: client/gui-gtk-2.0/gui_main.c:1580 client/gui-gtk-2.0/pages.c:1596
-#, fuzzy
 msgid "_Ready"
-msgstr "Railway"
+msgstr ""
 
 #: client/gui-gtk-2.0/gui_main.c:1584 client/gui-gtk-2.0/gui_main.c:1590
 #: client/gui-gtk-2.0/pages.c:2123
@@ -10955,7 +10960,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/mapview.c:642 client/gui-win32/canvas.c:275
 msgid "Better fog will only work in truecolor.  Disabling it"
-msgstr ""
+msgstr "Better fog will only work in truecolour.  Disabling it"
 
 #: client/gui-gtk-2.0/menu.c:258
 msgid "Leaving a local game will end it!"
@@ -11010,9 +11015,8 @@ msgstr ""
 #: client/gui-gtk-2.0/menu.c:750 client/gui-gtk-2.0/menu.c:752
 #: client/gui-gtk-2.0/menu.c:754 client/gui-gtk-2.0/menu.c:756
 #: client/gui-gtk-2.0/menu.c:758 client/gui-gtk-2.0/menu.c:760
-#, fuzzy
 msgid "_Options"
-msgstr "Railway"
+msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:752
 msgid "_Local Client"
@@ -11027,9 +11031,8 @@ msgid "_Remote Server"
 msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:758
-#, fuzzy
 msgid "Save Options _Now"
-msgstr "Traveller's Report:"
+msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:760
 msgid "Save Options on _Exit"
@@ -11276,14 +11279,12 @@ msgid "_Connect"
 msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:906 client/gui-win32/menu.c:380
-#, fuzzy
 msgid "_Road"
-msgstr "Railway"
+msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:908 client/gui-win32/menu.c:381
-#, fuzzy
 msgid "Rai_l"
-msgstr "Railway"
+msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:910 client/gui-win32/menu.c:382
 msgid "_Irrigate"
@@ -11371,9 +11372,8 @@ msgstr ""
 
 #. TRANS: Nations report action
 #: client/gui-gtk-2.0/menu.c:951 client/gui-win32/menu.c:402
-#, fuzzy
 msgid "_Nations"
-msgstr "Railway"
+msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:955 client/gui-win32/menu.c:403
 msgid "_Economy"
@@ -11588,9 +11588,8 @@ msgstr ""
 #: client/gui-gtk-2.0/plrdlg.c:356 client/gui-sdl/mapctrl.c:1581
 #: client/gui-sdl/plrdlg.c:607 client/gui-win32/plrdlg.c:344
 #: client/gui-xaw/menu.c:226 data/Freeciv.in:3199 data/Freeciv.in:3200
-#, fuzzy
 msgid "Nations"
-msgstr "Railway"
+msgstr ""
 
 #: client/gui-gtk-2.0/plrdlg.c:449
 msgid "_Intelligence"
@@ -11787,24 +11786,20 @@ msgid "Ruleset _Version:"
 msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1480 client/gui-gtk-2.0/pages.c:2112
-#, fuzzy
 msgid "_More Game Options..."
-msgstr "Traveller's Report:"
+msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1505
-#, fuzzy
 msgid "Record"
-msgstr "Traveller's Report:"
+msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1510
-#, fuzzy
 msgid "Rating"
-msgstr "Railway"
+msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1516
-#, fuzzy
 msgid "Ready"
-msgstr "Railway"
+msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1523 data/default/units.ruleset:1959
 #: data/nation/slovakian.ruleset:26
@@ -12193,9 +12188,8 @@ msgid "Load Game"
 msgstr ""
 
 #: client/gui-sdl/chatline.c:865
-#, fuzzy
 msgid "Server Settings"
-msgstr "Traveller's Report:"
+msgstr ""
 
 #: client/gui-sdl/citydlg.c:425
 msgid "Unit commands"
@@ -12247,11 +12241,10 @@ msgid "Cancel"
 msgstr ""
 
 #: client/gui-sdl/citydlg.c:735 client/gui-sdl/mapview.c:767
-#, fuzzy
 msgid ""
 "\n"
 "veteran"
-msgstr "Centre"
+msgstr ""
 
 #: client/gui-sdl/citydlg.c:963
 msgid ""
@@ -12311,9 +12304,8 @@ msgid "Sell"
 msgstr ""
 
 #: client/gui-sdl/citydlg.c:1743 client/gui-sdl/citydlg.c:3772
-#, fuzzy
 msgid "City options"
-msgstr "Traveller's Report:"
+msgstr ""
 
 #: client/gui-sdl/citydlg.c:1788
 #, c-format
@@ -12498,9 +12490,8 @@ msgid ""
 msgstr ""
 
 #: client/gui-sdl/cityrep.c:185 client/gui-sdl/mapctrl.c:1591
-#, fuzzy
 msgid "Cities Report"
-msgstr "Traveller's Report:"
+msgstr ""
 
 #: client/gui-sdl/cityrep.c:201
 msgid "Close Dialog"
@@ -12515,9 +12506,8 @@ msgid "Happiness Report"
 msgstr ""
 
 #: client/gui-sdl/cityrep.c:237
-#, fuzzy
 msgid "Garrison Report"
-msgstr "Traveller's Report:"
+msgstr ""
 
 #: client/gui-sdl/cityrep.c:248
 msgid "Maintenance Report"
@@ -12614,9 +12604,8 @@ msgstr ""
 #: client/gui-sdl/dialogs.c:662 client/gui-sdl/dialogs.c:674
 #: client/gui-sdl/dialogs.c:1397 client/gui-sdl/dialogs.c:1416
 #: client/gui-sdl/dialogs.c:1513 client/gui-sdl/dialogs.c:1541
-#, fuzzy
 msgid "Veteran"
-msgstr "Centre"
+msgstr ""
 
 #: client/gui-sdl/dialogs.c:672
 #, c-format
@@ -12683,9 +12672,8 @@ msgid "Ready all"
 msgstr ""
 
 #: client/gui-sdl/dialogs.c:1484
-#, fuzzy
 msgid "Sentry idle"
-msgstr "_Centre View"
+msgstr ""
 
 #: client/gui-sdl/dialogs.c:1570
 #, c-format
@@ -13150,9 +13138,8 @@ msgstr ""
 
 #: client/gui-sdl/mapview.c:531 data/default/units.ruleset:24
 #: data/civ2/units.ruleset:18 data/civ1/units.ruleset:18
-#, fuzzy
 msgid "veteran"
-msgstr "Centre"
+msgstr ""
 
 #: client/gui-sdl/mapview.c:565
 msgid ""
@@ -13193,7 +13180,7 @@ msgstr ""
 
 #: client/gui-sdl/mapview.c:614
 msgid "?blistbegin: with "
-msgstr ""
+msgstr "?blistbegin: with "
 
 #: client/gui-sdl/mapview.c:616 data/default/buildings.ruleset:113
 #: data/civ2/buildings.ruleset:96 data/civ1/buildings.ruleset:69
@@ -13212,7 +13199,7 @@ msgstr ""
 
 #: client/gui-sdl/mapview.c:637
 msgid "?blistend:"
-msgstr ""
+msgstr "?blistend:"
 
 #. TRANS: (<nation>,<diplomatic_state>)"
 #: client/gui-sdl/mapview.c:643
@@ -13286,9 +13273,8 @@ msgid "Connect road"
 msgstr ""
 
 #: client/gui-sdl/menu.c:540
-#, fuzzy
 msgid "Connect railroad"
-msgstr "railways"
+msgstr "Connect railway"
 
 #: client/gui-sdl/menu.c:553
 msgid "Auto-Explore"
@@ -13371,7 +13357,7 @@ msgstr ""
 #: client/gui-sdl/menu.c:802 client/gui-sdl/menu.c:1043
 #: client/gui-win32/menu.c:1206 client/gui-xaw/menu.c:174
 msgid "Build Railroad"
-msgstr ""
+msgstr "Build Railway"
 
 #: client/gui-sdl/menu.c:806 client/gui-sdl/menu.c:1049
 #: client/gui-win32/menu.c:1209 client/gui-win32/menu.c:1214
@@ -13464,7 +13450,7 @@ msgstr ""
 
 #: client/gui-sdl/optiondlg.c:1094
 msgid "Use color cursors"
-msgstr ""
+msgstr "Use colour cursors"
 
 #: client/gui-sdl/optiondlg.c:1608 client/gui-xaw/menu.c:146
 msgid "National Borders"
@@ -13507,9 +13493,8 @@ msgid "Sound options"
 msgstr ""
 
 #: client/gui-sdl/optiondlg.c:2237
-#, fuzzy
 msgid "Game options"
-msgstr "Traveller's Report:"
+msgstr ""
 
 #: client/gui-sdl/optiondlg.c:2247
 msgid "Map options"
@@ -13589,9 +13574,8 @@ msgid "Total"
 msgstr ""
 
 #: client/gui-sdl/repodlgs.c:372
-#, fuzzy
 msgid "Units Report"
-msgstr "Traveller's Report:"
+msgstr ""
 
 #: client/gui-sdl/repodlgs.c:1528
 #, c-format
@@ -13611,9 +13595,8 @@ msgid "Sell It?"
 msgstr ""
 
 #: client/gui-sdl/repodlgs.c:1771
-#, fuzzy
 msgid "Economy Report"
-msgstr "Traveller's Report:"
+msgstr ""
 
 #: client/gui-sdl/repodlgs.c:1786
 msgid "Treasury: "
@@ -14018,9 +14001,8 @@ msgid "Select a unit or improvement to change production to."
 msgstr ""
 
 #: client/gui-win32/cityrep.c:698
-#, fuzzy
 msgid "That's the same thing!"
-msgstr "%s cancelled the meeting!"
+msgstr ""
 
 #: client/gui-win32/cityrep.c:733 data/Freeciv.in:1739
 msgid "Change Production Everywhere"
@@ -14674,9 +14656,8 @@ msgid "Save Settings"
 msgstr ""
 
 #: client/gui-xaw/menu.c:120
-#, fuzzy
 msgid "Server Options"
-msgstr "Traveller's Report:"
+msgstr ""
 
 #: client/gui-xaw/menu.c:122
 msgid "Export Log"
@@ -14950,7 +14931,6 @@ msgid "turns"
 msgstr ""
 
 #: manual/civmanual.c:226
-#, fuzzy
 msgid "Rail"
 msgstr "Railway"
 
@@ -15393,7 +15373,6 @@ msgid ""
 msgstr ""
 
 #: data/helpdata.txt:430
-#, fuzzy
 msgid ""
 "Unit Orders:\n"
 "============\n"
@@ -15438,59 +15417,48 @@ msgid ""
 "Shift-Ctrl-L: Connect current and target tile with rai(L)\n"
 "Shift-Ctrl-I: Connect current and target tile with (I)rrigation\n"
 msgstr ""
-"Keyboard:\n"
-"=========\n"
-"  a: (a)uto-settler  (settler units)\n"
-"  a: (a)uto-attack  (military units)\n"
-"  b: (b)uild city  (settler units)\n"
-"  b: help (b)uild wonder  (caravan units)\n"
-"  c: (c)entre view on unit\n"
-"  C: unit (c)onnect  (then left-click mouse to select destination)\n"
-"  d: (d)iplomat/spy actions  (diplomat/spy units)\n"
-"  D: (D)isband unit\n"
-"  e: build airbas(e)  (airbase units)\n"
-"  f: (f)ortify unit  (military units)\n"
-"  f: build (f)ortress on tile  (settler units)\n"
-"  F: open (F)ind City dialog\n"
-"  g: unit (g)oto  (then left-click mouse to select destination)\n"
-"  h: change (h)omecity  (to city at current location)\n"
-"  i: build (i)rrigation/farmland  (settler units; may convert terr)\n"
-"  l: go/air(l)ift to city\n"
-"  L: open Work(L)ists dialog\n"
-"  m: build (m)ine  (settler units; may convert terrain)\n"
-"  n: clean (n)uclear fallout\n"
-"  N: explode (N)uclear\n"
-"  o: transf(o)rm terrain\n"
-"  p: clean (p)ollution  (settler units)\n"
-"  p: (p)aradrop  (paratroop units)\n"
-"  P: (P)illage terrain alteration\n"
-"  q: unit patrol  (then left-click mouse to select destination)\n"
-"  r: build (r)oad/railway  (settler units)\n"
-"  r: establish trade (r)oute  (caravan units)\n"
-"  R: incite a (R)evolution\n"
-"  s: (s)entry unit\n"
-"  t: show (t)iles city is using  (mouse over or near city)\n"
-"  T: open (T)ax/Lux/Sci Rates dialog\n"
-"  u: (u)nload boat\n"
-"  w: (w)ait until later in turn\n"
-"  W: (W)ake up other units on tile\n"
-"  x: auto-e(x)plore\n"
+"Unit Orders:\n"
+"============\n"
+"    a: (a)uto-settler  (settler/worker units)\n"
+"    b: (b)uild city  (settler units)\n"
+"    b: help (b)uild wonder  (caravan units)\n"
+"    C: unit (c)onnect  (then left-click mouse to select destination)\n"
+"    d: (d)iplomat/spy actions  (diplomat/spy units)\n"
+"    D: (D)isband unit\n"
+"    e: build airbas(e)  (airbase units)\n"
+"    f: (f)ortify unit  (military units)\n"
+"    f: build (f)ortress  (settler/worker units)\n"
+"    g: unit (g)oto  (then left-click mouse to select destination)\n"
+"    g: add a (g)oto waypoint (when in goto mode)\n"
+"    G: (G)oto/return to nearest city\n"
+"    h: change (h)omecity  (to city at current location)\n"
+"    i: build (i)rrigation or convert terrain (settler/worker units)\n"
+"    l: (l)oad unit on boat\n"
+"    L: go/air(l)ift to city\n"
+"    m: build (m)ine or convert terrain (settler/worker units)\n"
+"    n: clean (n)uclear fallout\n"
+"    N: explode (N)uclear\n"
+"    o: transf(o)rm terrain (engineer unit)\n"
+"    p: clean (p)ollution  (settler/worker units)\n"
+"    p: (p)aradrop  (paratroop units)\n"
+"    P: (P)illage terrain alteration\n"
+"    q: unit patrol  (then left-click mouse to select destination)\n"
+"    q: add a patrol waypoint (when in patrol mode)\n"
+"    r: build (r)oad/railway  (settler/worker units)\n"
+"    r: establish trade (r)oute  (caravan units)\n"
+"    s: (s)entry unit\n"
+"    u: (u)nload unit\n"
+"    U: (U)nload all units from a boat\n"
+"    W: (W)ake up other units on tile\n"
+"    x: auto-e(x)plore\n"
+"    y: Select all idle units of the same type as the active unit\n"
+"space: unit stay put\n"
 "\n"
-"  1: move south-west                  F1: open City Report\n"
-"  2: move south                       F2: open Unit Report\n"
-"  3: move south-east                  F3: open Players dialog\n"
-"  4: move west                        F5: open Economy Report\n"
-"  5: focus on next unit               F6: open Science Report\n"
-"  6: move east                        F7: open World Wonders\n"
-"  7: move north-west                  F8: open Top Five Cities\n"
-"  8: move north                      F10: open Messages dialog\n"
-"  9: move north-east                 F11: open Demographics\n"
-"                                     F12: open Spaceship\n"
-"\n"
-"  arrows: move unit            Control-g: grid lines on/off\n"
-"   space: unit stay put        Control-n: city names on/off\n"
-"     tab: focus on next unit   Control-p: city production on/off\n"
-"  return: turn done"
+"      Ctrl-U: (u)pgrade unit\n"
+"Shift-Ctrl-B: Goto and (B)uild city on target\n"
+"Shift-Ctrl-R: Connect current and target tile with (R)oad\n"
+"Shift-Ctrl-L: Connect current and target tile with rai(L)\n"
+"Shift-Ctrl-I: Connect current and target tile with (I)rrigation\n"
 
 #: data/helpdata.txt:473
 msgid ""
@@ -15509,6 +15477,20 @@ msgid ""
 "  w: focus on next unit (wait)\n"
 "  c: center view on unit\n"
 msgstr ""
+"Unit Movement:\n"
+"==============\n"
+"  1: move south-west\n"
+"  2: move south\n"
+"  3: move south-east\n"
+"  4: move west\n"
+"  6: move east\n"
+"  7: move north-west\n"
+"  8: move north\n"
+"  9: move north-east\n"
+"\n"
+"  5: focus on previous unit\n"
+"  w: focus on next unit (wait)\n"
+"  c: centre view on unit\n"
 
 #: data/helpdata.txt:488
 msgid ""
@@ -16556,6 +16538,12 @@ msgid ""
 "center may have a ruleset-dependent minimum for food, shield, and trade "
 "output."
 msgstr ""
+"City centres (the tile a city is on) are special.  A city centre is worked "
+"for free in the default rules. When a city is built a road is automatically "
+"put on the city, and a railway will also be placed there whenever possible.  "
+"City centres are auto-irrigated: they get the benefits of irrigation, "
+"although they are not actually irrigated. Finally the city centre may have a "
+"ruleset-dependent minimum for food, shield, and trade output."
 
 #: data/helpdata.txt:1295
 msgid "  Pillaging"
@@ -17067,7 +17055,7 @@ msgid "Palace"
 msgstr ""
 
 #: data/default/buildings.ruleset:555
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Makes a city the capital and the center of your government.  Corruption in "
 "other cities is related to how far away from the capital they are, except "
@@ -17089,7 +17077,11 @@ msgstr ""
 "(under all forms of government).\n"
 "\n"
 "Take good care of your capital, as it's loss may result in your empire "
-"plunging into civil war."
+"plunging into civil war. Losing your current palace also results in losing "
+"whatever spaceship you might have.\n"
+"\n"
+"Under Despotism the palace gives you a +75% production bonus, and under "
+"Monarchy a +50% production bonus."
 
 #: data/default/buildings.ruleset:572 data/civ2/buildings.ruleset:542
 msgid "Police Station"
@@ -17136,12 +17128,12 @@ msgstr "Recycling Centre"
 
 #: data/default/buildings.ruleset:664 data/civ2/buildings.ruleset:628
 #: data/civ1/buildings.ruleset:490
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Building a Recycling Center reduces the amount of pollution generated by "
 "production in a city by 66%."
 msgstr ""
-"Building a recycling centre reduces the amount of pollution generated by "
+"Building a Recycling Centre reduces the amount of pollution generated by "
 "production in a city by 66%."
 
 #: data/default/buildings.ruleset:670 data/civ2/buildings.ruleset:634
@@ -17713,7 +17705,6 @@ msgid ""
 msgstr ""
 
 #: data/civ2/buildings.ruleset:528 data/civ1/buildings.ruleset:433
-#, fuzzy
 msgid ""
 "Makes a city the capital and the center of your government.  Corruption in "
 "other cities is related to how far away from the capital they are, except "
@@ -17732,7 +17723,8 @@ msgstr ""
 "(under all forms of government).\n"
 "\n"
 "Take good care of your capital, as it's loss may result in your empire "
-"plunging into civil war."
+"plunging into civil war. Losing your current palace also results in losing "
+"whatever spaceship you might have."
 
 #: data/civ2/buildings.ruleset:601
 #, no-c-format
@@ -18804,9 +18796,8 @@ msgstr ""
 
 #: data/default/terrain.ruleset:486 data/civ2/terrain.ruleset:462
 #: data/civ1/terrain.ruleset:454
-#, fuzzy
 msgid "Oceanic Vent"
-msgstr "Railway"
+msgstr ""
 
 #: data/default/terrain.ruleset:524 data/civ2/terrain.ruleset:497
 #: data/civ2/terrain.ruleset:531
@@ -19178,7 +19169,6 @@ msgid "Settlers"
 msgstr ""
 
 #: data/default/units.ruleset:292
-#, fuzzy
 msgid ""
 "Settlers are one of the key units in the game.  They can be used to found "
 "new cities, irrigate land, build roads, railroads, fortresses and mines, and "
@@ -19195,9 +19185,10 @@ msgid ""
 "attacks."
 msgstr ""
 "Setters are one of the key units in the game.  They can be used to found new "
-"cities, irrigate land, build roads, railways, fortresses, airbases and "
-"mines, and clean up pollution.  Upkeep for Settlers is in food as well as "
-"production, and a Setter can die if its supporting city runs out of food.\n"
+"cities, irrigate land, build roads, railways, fortresses and mines, and "
+"clean up pollution and nuclear fallout.  Upkeep for Settlers is in food as "
+"well as production, and a Setter can die if its supporting city runs out of "
+"food.\n"
 "\n"
 "Settlers and Engineers may work together to decrease the amount of time "
 "required for long projects.  If two or more Settlers and/or Engineers are "
@@ -19208,7 +19199,6 @@ msgstr ""
 "attacks."
 
 #: data/default/units.ruleset:336
-#, fuzzy
 msgid ""
 "Workers are one of the key units in the game.  They can be used to irrigate "
 "land, build roads, railroads, fortresses, airbases and mines, and clean up "
@@ -19222,18 +19212,17 @@ msgid ""
 "and a group of Workers, Settlers and/or Engineers is highly vulnerable to "
 "enemy attacks."
 msgstr ""
-"Setters are one of the key units in the game.  They can be used to found new "
-"cities, irrigate land, build roads, railways, fortresses, airbases and "
-"mines, and clean up pollution.  Upkeep for Settlers is in food as well as "
-"production, and a Setter can die if its supporting city runs out of food.\n"
+"Workers are one of the key units in the game.  They can be used to irrigate "
+"land, build roads, railways, fortresses, airbases and mines, and clean up "
+"pollution and nuclear fallout. \n"
 "\n"
-"Settlers and Engineers may work together to decrease the amount of time "
-"required for long projects.  If two or more Settlers and/or Engineers are "
-"both working on the same task in the same square, their efforts will be "
+"Settlers, Workers and Engineers may work together to decrease the amount of "
+"time required for long projects.  If two or more Workers and/or Engineers "
+"are both working on the same task in the same square, their efforts will be "
 "added together each turn until the task is finished.  Be careful not to "
 "dedicate too many workers to one task, though; excess effort can be wasted, "
-"and a group of Settlers and/or Engineers is highly vulnerable to enemy "
-"attacks."
+"and a group of Workers, Settlers and/or Engineers is highly vulnerable to "
+"enemy attacks."
 
 #: data/default/units.ruleset:351 data/civ2/units.ruleset:205
 msgid "Engineers"
@@ -20011,9 +20000,8 @@ msgid "Australian Aboriginal"
 msgstr ""
 
 #: data/nation/aborigines.ruleset:4
-#, fuzzy
 msgid "?plural:Aborigines"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/aborigines.ruleset:6
 msgid ""
@@ -20028,9 +20016,8 @@ msgid "Afghani"
 msgstr ""
 
 #: data/nation/afghani.ruleset:4
-#, fuzzy
 msgid "?plural:Afghanis"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/afghani.ruleset:6
 msgid ""
@@ -20094,9 +20081,8 @@ msgid "Ainu"
 msgstr ""
 
 #: data/nation/ainu.ruleset:4
-#, fuzzy
 msgid "?plural:Ainu"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/ainu.ruleset:7
 msgid ""
@@ -20119,9 +20105,8 @@ msgid "Akwe"
 msgstr ""
 
 #: data/nation/akwe.ruleset:4
-#, fuzzy
 msgid "?plural:Akwe"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/akwe.ruleset:7
 msgid ""
@@ -20147,9 +20132,8 @@ msgid "Algerian"
 msgstr ""
 
 #: data/nation/algerian.ruleset:4
-#, fuzzy
 msgid "?plural:Algerians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/algerian.ruleset:6
 msgid ""
@@ -20192,9 +20176,8 @@ msgid "Antarctican"
 msgstr ""
 
 #: data/nation/antarctican.ruleset:4
-#, fuzzy
 msgid "?plural:Antarcticans"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/antarctican.ruleset:6
 msgid "Independent South Pole, land of penguins."
@@ -20221,9 +20204,8 @@ msgid "Aramean"
 msgstr ""
 
 #: data/nation/aramean.ruleset:4
-#, fuzzy
 msgid "?plural:Arameans"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/aramean.ruleset:6
 msgid ""
@@ -20252,14 +20234,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/armenian.ruleset:3
-#, fuzzy
 msgid "Armenian"
-msgstr "Railway"
+msgstr ""
 
 #: data/nation/armenian.ruleset:4
-#, fuzzy
 msgid "?plural:Armenians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/armenian.ruleset:6
 msgid ""
@@ -20273,9 +20253,8 @@ msgid "Assyrian"
 msgstr ""
 
 #: data/nation/assyrian.ruleset:4
-#, fuzzy
 msgid "?plural:Assyrians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/assyrian.ruleset:6
 msgid ""
@@ -20311,9 +20290,8 @@ msgid "Austrian"
 msgstr ""
 
 #: data/nation/austrian.ruleset:4
-#, fuzzy
 msgid "?plural:Austrians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/austrian.ruleset:6
 msgid ""
@@ -20326,9 +20304,8 @@ msgid "Aymara"
 msgstr ""
 
 #: data/nation/aymara.ruleset:4
-#, fuzzy
 msgid "?plural:Aymaras"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/aymara.ruleset:6
 msgid ""
@@ -20359,9 +20336,8 @@ msgstr ""
 
 #. TRANS: Mama = Priest
 #: data/nation/aymara.ruleset:34 data/nation/tairona.ruleset:30
-#, fuzzy
 msgid "Mama"
-msgstr "Railway"
+msgstr ""
 
 #: data/nation/aymara.ruleset:35
 msgid "Markachiri"
@@ -20372,9 +20348,8 @@ msgid "Azeri"
 msgstr ""
 
 #: data/nation/azeri.ruleset:4
-#, fuzzy
 msgid "?plural:Azeris"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/azeri.ruleset:6
 msgid ""
@@ -20470,9 +20445,8 @@ msgid "Basque"
 msgstr ""
 
 #: data/nation/basque.ruleset:4
-#, fuzzy
 msgid "?plural:Basques"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/basque.ruleset:6
 msgid ""
@@ -20507,9 +20481,8 @@ msgid "Errege"
 msgstr ""
 
 #: data/nation/basque.ruleset:37
-#, fuzzy
 msgid "Erregina"
-msgstr "Railway"
+msgstr ""
 
 #. TRANS: Lehendakari = similar to President
 #. ; /* TRANS: (but is quite inexact for Basques to call him/her "president")
@@ -20540,9 +20513,8 @@ msgid "Belarusian"
 msgstr ""
 
 #: data/nation/belarusian.ruleset:4
-#, fuzzy
 msgid "?plural:Belarusians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/belarusian.ruleset:6
 msgid ""
@@ -20557,9 +20529,8 @@ msgid "Belgian"
 msgstr ""
 
 #: data/nation/belgian.ruleset:4
-#, fuzzy
 msgid "?plural:Belgians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/belgian.ruleset:6
 msgid ""
@@ -20574,9 +20545,8 @@ msgid "Bengali"
 msgstr ""
 
 #: data/nation/bengali.ruleset:4
-#, fuzzy
 msgid "?plural:Bengalis"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/bengali.ruleset:6
 msgid ""
@@ -20600,9 +20570,8 @@ msgid "Major"
 msgstr ""
 
 #: data/nation/bengali.ruleset:26
-#, fuzzy
 msgid "?female:Major"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/boer.ruleset:3
 msgid "Boer"
@@ -20624,9 +20593,8 @@ msgid "Bosnian-Herzegovinian"
 msgstr ""
 
 #: data/nation/bosnia.ruleset:4
-#, fuzzy
 msgid "?plural:Bosnians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/bosnia.ruleset:6
 msgid ""
@@ -20696,9 +20664,8 @@ msgid "Breton"
 msgstr ""
 
 #: data/nation/breton.ruleset:4
-#, fuzzy
 msgid "?plural:Bretons"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/breton.ruleset:6
 msgid ""
@@ -20732,9 +20699,8 @@ msgid "British"
 msgstr ""
 
 #: data/nation/british.ruleset:4
-#, fuzzy
 msgid "?plural:Britons"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/british.ruleset:6
 msgid ""
@@ -20749,9 +20715,8 @@ msgid "Bulgarian"
 msgstr ""
 
 #: data/nation/bulgarian.ruleset:4
-#, fuzzy
 msgid "?plural:Bulgarians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/bulgarian.ruleset:6
 msgid ""
@@ -20789,9 +20754,8 @@ msgid "Burgundian"
 msgstr ""
 
 #: data/nation/burgundian.ruleset:4
-#, fuzzy
 msgid "?plural:Burgundians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/burgundian.ruleset:6
 msgid ""
@@ -20827,9 +20791,8 @@ msgid "Burmese"
 msgstr ""
 
 #: data/nation/burmese.ruleset:4
-#, fuzzy
 msgid "?plural:Burmese"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/burmese.ruleset:6
 msgid ""
@@ -20858,9 +20821,8 @@ msgid "Burundi"
 msgstr ""
 
 #: data/nation/burundi.ruleset:4
-#, fuzzy
 msgid "?plural:Burundi"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/burundi.ruleset:7
 msgid ""
@@ -20874,23 +20836,20 @@ msgstr ""
 #. TRANS: Mwami/Mwamikazi = King/Queen
 #. TRANS: Mwami = King
 #: data/nation/burundi.ruleset:28 data/nation/rwandan.ruleset:23
-#, fuzzy
 msgid "Mwami"
-msgstr "Railway"
+msgstr ""
 
 #: data/nation/burundi.ruleset:28
-#, fuzzy
 msgid "Mwamikazi"
-msgstr "Railway"
+msgstr ""
 
 #: data/nation/byzantium.ruleset:3
 msgid "Byzantine"
 msgstr ""
 
 #: data/nation/byzantium.ruleset:4
-#, fuzzy
 msgid "?plural:Byzantines"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/byzantium.ruleset:6
 msgid ""
@@ -20920,9 +20879,8 @@ msgid "Cambodian"
 msgstr ""
 
 #: data/nation/cambodian.ruleset:4
-#, fuzzy
 msgid "?plural:Cambodians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/cambodian.ruleset:6
 msgid ""
@@ -21032,9 +20990,8 @@ msgid "Cherokee"
 msgstr ""
 
 #: data/nation/cherokee.ruleset:4
-#, fuzzy
 msgid "?plural:Cherokees"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/cherokee.ruleset:6
 msgid ""
@@ -21131,9 +21088,8 @@ msgid "Chola"
 msgstr ""
 
 #: data/nation/chola.ruleset:4
-#, fuzzy
 msgid "?plural:Cholas"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/chola.ruleset:7
 msgid ""
@@ -21151,9 +21107,8 @@ msgid "Colombian"
 msgstr ""
 
 #: data/nation/colombian.ruleset:4
-#, fuzzy
 msgid "?plural:Colombians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/colombian.ruleset:6
 msgid ""
@@ -21164,9 +21119,8 @@ msgid ""
 msgstr ""
 
 #: data/nation/colombian.ruleset:21 data/nation/swiss.ruleset:19
-#, fuzzy
 msgid "General"
-msgstr "Honourable"
+msgstr ""
 
 #: data/nation/colombian.ruleset:22 data/nation/venezuelan.ruleset:27
 msgid "Governador"
@@ -21181,9 +21135,8 @@ msgid "Confederate"
 msgstr ""
 
 #: data/nation/confederate.ruleset:4
-#, fuzzy
 msgid "?plural:Confederates"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/confederate.ruleset:6
 msgid ""
@@ -21220,14 +21173,12 @@ msgid "?female:Chieftain"
 msgstr ""
 
 #: data/nation/cree.ruleset:3
-#, fuzzy
 msgid "Cree"
-msgstr "Centre"
+msgstr ""
 
 #: data/nation/cree.ruleset:4
-#, fuzzy
 msgid "?plural:Cree"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/cree.ruleset:7
 msgid ""
@@ -21278,9 +21229,8 @@ msgid "Cuban"
 msgstr ""
 
 #: data/nation/cuban.ruleset:4
-#, fuzzy
 msgid "?plural:Cubans"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/cuban.ruleset:6
 msgid ""
@@ -21329,14 +21279,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/dominican.ruleset:3
-#, fuzzy
 msgid "Dominican"
-msgstr "Railway"
+msgstr ""
 
 #: data/nation/dominican.ruleset:4
-#, fuzzy
 msgid "?plural:Dominican"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/dominican.ruleset:6
 msgid ""
@@ -21399,9 +21347,8 @@ msgid "Emirati"
 msgstr ""
 
 #: data/nation/emirati.ruleset:4
-#, fuzzy
 msgid "?plural:Emiratis"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/emirati.ruleset:6
 msgid ""
@@ -21447,9 +21394,8 @@ msgid "Esperant"
 msgstr ""
 
 #: data/nation/esperant.ruleset:4
-#, fuzzy
 msgid "?plural:Esperants"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/esperant.ruleset:6
 msgid "The Esperants are a world community united by the Esperanto language."
@@ -21474,9 +21420,8 @@ msgid "Ethiopian"
 msgstr ""
 
 #: data/nation/ethiopian.ruleset:4
-#, fuzzy
 msgid "?plural:Ethiopians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/ethiopian.ruleset:6
 msgid ""
@@ -21494,9 +21439,8 @@ msgid "European"
 msgstr ""
 
 #: data/nation/european.ruleset:4
-#, fuzzy
 msgid "?plural:Europeans"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/european.ruleset:6
 msgid ""
@@ -21578,9 +21522,8 @@ msgid "Galician"
 msgstr ""
 
 #: data/nation/galician.ruleset:4
-#, fuzzy
 msgid "?plural:Galicians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/galician.ruleset:6
 msgid "Galicia is a region in the northwest of Spain, just above Portugal."
@@ -21605,9 +21548,8 @@ msgid "Dona"
 msgstr ""
 
 #: data/nation/galician.ruleset:26
-#, fuzzy
 msgid "Raina"
-msgstr "Railway"
+msgstr ""
 
 #: data/nation/galician.ruleset:27 data/nation/moldovan.ruleset:25
 #: data/nation/venezuelan.ruleset:31 data/nation/venezuelan.ruleset:32
@@ -21633,9 +21575,8 @@ msgid "Gallic"
 msgstr ""
 
 #: data/nation/gallic.ruleset:4
-#, fuzzy
 msgid "?plural:Gauls"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/gallic.ruleset:6
 msgid ""
@@ -21662,9 +21603,8 @@ msgid "Georgian"
 msgstr ""
 
 #: data/nation/georgian.ruleset:4
-#, fuzzy
 msgid "?plural:Georgians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/georgian.ruleset:6
 msgid ""
@@ -21717,23 +21657,20 @@ msgid "The ancient Greeks, between Mycenae and the Roman conquest."
 msgstr ""
 
 #: data/nation/greek.ruleset:19
-#, fuzzy
 msgid "Despot"
-msgstr "Traveller's Report:"
+msgstr ""
 
 #: data/nation/greek.ruleset:19
-#, fuzzy
 msgid "?female:Despot"
-msgstr "Traveller's Report:"
+msgstr ""
 
 #: data/nation/gupta.ruleset:3
 msgid "Gupta"
 msgstr ""
 
 #: data/nation/gupta.ruleset:4
-#, fuzzy
 msgid "?plural:Gupta"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/gupta.ruleset:7
 msgid ""
@@ -21751,9 +21688,8 @@ msgid "Hacker"
 msgstr ""
 
 #: data/nation/hacker.ruleset:4
-#, fuzzy
 msgid "?plural:Hackers"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/hacker.ruleset:6
 msgid "h4xx0r r0xx0rz!"
@@ -21772,9 +21708,8 @@ msgid "Hawaiian"
 msgstr ""
 
 #: data/nation/hawaiian.ruleset:4
-#, fuzzy
 msgid "?plural:Hawaiians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/hawaiian.ruleset:7
 msgid ""
@@ -21788,9 +21723,8 @@ msgid "Hellenic"
 msgstr ""
 
 #: data/nation/hellenic.ruleset:4
-#, fuzzy
 msgid "?plural:Hellenes"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/hellenic.ruleset:6
 msgid ""
@@ -21803,9 +21737,8 @@ msgid "Himyarite"
 msgstr ""
 
 #: data/nation/himyarite.ruleset:4
-#, fuzzy
 msgid "?plural:Himyar"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/himyarite.ruleset:7
 msgid ""
@@ -21828,9 +21761,8 @@ msgid "Hittite"
 msgstr ""
 
 #: data/nation/hittite.ruleset:4
-#, fuzzy
 msgid "?plural:Hittites"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/hittite.ruleset:6
 msgid ""
@@ -21845,9 +21777,8 @@ msgid "Hopi"
 msgstr ""
 
 #: data/nation/hopi.ruleset:4
-#, fuzzy
 msgid "?plural:Hopis"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/hopi.ruleset:7
 msgid ""
@@ -21877,9 +21808,8 @@ msgid "Icelandic"
 msgstr ""
 
 #: data/nation/icelandic.ruleset:4
-#, fuzzy
 msgid "?plural:Icelanders"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/icelandic.ruleset:6
 msgid ""
@@ -21894,9 +21824,8 @@ msgid "Illyrian"
 msgstr ""
 
 #: data/nation/illyrian.ruleset:4
-#, fuzzy
 msgid "?plural:Illyrians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/illyrian.ruleset:6
 msgid ""
@@ -21960,9 +21889,8 @@ msgid ""
 msgstr ""
 
 #: data/nation/indian.ruleset:19 data/nation/majapahit.ruleset:26
-#, fuzzy
 msgid "Raja"
-msgstr "Railway"
+msgstr ""
 
 #: data/nation/indian.ruleset:19
 msgid "?female:Raja"
@@ -21989,9 +21917,8 @@ msgid "Indonesian"
 msgstr ""
 
 #: data/nation/indonesian.ruleset:4
-#, fuzzy
 msgid "?plural:Indonesians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/indonesian.ruleset:6
 msgid ""
@@ -22005,9 +21932,8 @@ msgid "Inuit"
 msgstr ""
 
 #: data/nation/inuit.ruleset:4
-#, fuzzy
 msgid "?plural:Inuits"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/inuit.ruleset:6
 msgid ""
@@ -22034,14 +21960,12 @@ msgid "?female:Great Shaman"
 msgstr ""
 
 #: data/nation/iranian.ruleset:3
-#, fuzzy
 msgid "Iranian"
-msgstr "Railway"
+msgstr ""
 
 #: data/nation/iranian.ruleset:4
-#, fuzzy
 msgid "?plural:Iranians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/iranian.ruleset:6
 msgid ""
@@ -22064,9 +21988,8 @@ msgid "Iraqi"
 msgstr ""
 
 #: data/nation/iraqi.ruleset:4
-#, fuzzy
 msgid "?plural:Iraqis"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/iraqi.ruleset:6
 msgid ""
@@ -22122,9 +22045,8 @@ msgid "Iroquois"
 msgstr ""
 
 #: data/nation/iroquois.ruleset:4
-#, fuzzy
 msgid "?plural:Iroquois"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/iroquois.ruleset:6
 msgid ""
@@ -22190,9 +22112,8 @@ msgid "Kanem-Bornu"
 msgstr ""
 
 #: data/nation/kanem-bornu.ruleset:4
-#, fuzzy
 msgid "?plural:Kanem-Bornu"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/kanem-bornu.ruleset:7
 msgid ""
@@ -22209,9 +22130,8 @@ msgid "Kazakh"
 msgstr ""
 
 #: data/nation/kazakh.ruleset:4
-#, fuzzy
 msgid "?plural:Kazakhs"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/kazakh.ruleset:6
 msgid ""
@@ -22242,9 +22162,8 @@ msgid "Khwarezmian"
 msgstr ""
 
 #: data/nation/khwarezmian.ruleset:4
-#, fuzzy
 msgid "?plural:Khwarezmians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/khwarezmian.ruleset:7
 msgid ""
@@ -22267,9 +22186,8 @@ msgid "Kongo"
 msgstr ""
 
 #: data/nation/kongo.ruleset:4
-#, fuzzy
 msgid "?plural:Kongo"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/kongo.ruleset:7
 msgid ""
@@ -22306,14 +22224,12 @@ msgid "Kurdish"
 msgstr ""
 
 #: data/nation/kurd.ruleset:4
-#, fuzzy
 msgid "?plural:Kurds"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/kurd.ruleset:5
-#, fuzzy
 msgid "Asian"
-msgstr "Railway"
+msgstr ""
 
 #: data/nation/kurd.ruleset:5
 msgid "Medieval"
@@ -22337,9 +22253,8 @@ msgid "Kyrgyz"
 msgstr ""
 
 #: data/nation/kyrgyz.ruleset:4
-#, fuzzy
 msgid "?plural:Kyrgyzs"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/kyrgyz.ruleset:6
 msgid ""
@@ -22358,9 +22273,8 @@ msgid "Lankese"
 msgstr ""
 
 #: data/nation/lankese.ruleset:4
-#, fuzzy
 msgid "?plural:Lankese"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/lankese.ruleset:6
 msgid ""
@@ -22398,14 +22312,12 @@ msgid "?female:Supreme Commander"
 msgstr ""
 
 #: data/nation/laotian.ruleset:3
-#, fuzzy
 msgid "Laotian"
-msgstr "Railway"
+msgstr ""
 
 #: data/nation/laotian.ruleset:4
-#, fuzzy
 msgid "?plural:Laotians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/laotian.ruleset:6
 msgid ""
@@ -22437,9 +22349,8 @@ msgid "Libyan"
 msgstr ""
 
 #: data/nation/libyan.ruleset:4
-#, fuzzy
 msgid "?plural:Libyans"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/libyan.ruleset:6
 msgid ""
@@ -22481,14 +22392,12 @@ msgid "Great Duchess"
 msgstr ""
 
 #: data/nation/lojbanistani.ruleset:3
-#, fuzzy
 msgid "Lojbanistani"
-msgstr "Railway"
+msgstr ""
 
 #: data/nation/lojbanistani.ruleset:4
-#, fuzzy
 msgid "?plural:Lojbanistanis"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/lojbanistani.ruleset:6
 msgid ""
@@ -22503,9 +22412,8 @@ msgid "Majapahit"
 msgstr ""
 
 #: data/nation/majapahit.ruleset:4
-#, fuzzy
 msgid "?plural:Majapahit"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/majapahit.ruleset:7
 msgid ""
@@ -22528,9 +22436,8 @@ msgid "Malagasy"
 msgstr ""
 
 #: data/nation/malagasy.ruleset:4
-#, fuzzy
 msgid "?plural:Malagasies"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/malagasy.ruleset:6
 msgid ""
@@ -22551,9 +22458,8 @@ msgid "Malaysian"
 msgstr ""
 
 #: data/nation/malaysian.ruleset:4
-#, fuzzy
 msgid "?plural:Malaysians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/malaysian.ruleset:6
 msgid ""
@@ -22580,9 +22486,8 @@ msgid "Malian"
 msgstr ""
 
 #: data/nation/malian.ruleset:4
-#, fuzzy
 msgid "?plural:Malians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/malian.ruleset:6
 msgid ""
@@ -22596,18 +22501,16 @@ msgstr ""
 
 #. TRANS: Mansa = King of kings
 #: data/nation/malian.ruleset:28
-#, fuzzy
 msgid "Mansa"
-msgstr "Railway"
+msgstr ""
 
 #: data/nation/manchu.ruleset:3
 msgid "Manchu"
 msgstr ""
 
 #: data/nation/manchu.ruleset:4
-#, fuzzy
 msgid "?plural:Manchus"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/manchu.ruleset:6
 msgid ""
@@ -22621,9 +22524,8 @@ msgid "Maori"
 msgstr ""
 
 #: data/nation/maori.ruleset:4
-#, fuzzy
 msgid "?plural:Maori"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/maori.ruleset:6
 msgid ""
@@ -22637,9 +22539,8 @@ msgid "Mapuche"
 msgstr ""
 
 #: data/nation/mapuche.ruleset:4
-#, fuzzy
 msgid "?plural:Mapuche"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/mapuche.ruleset:7
 msgid ""
@@ -22666,9 +22567,8 @@ msgid "Martian"
 msgstr ""
 
 #: data/nation/martian.ruleset:4
-#, fuzzy
 msgid "?plural:Martians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/martian.ruleset:6
 msgid "Marsmen landed on Earth in 4000 BC!"
@@ -22679,9 +22579,8 @@ msgid "Mayan"
 msgstr ""
 
 #: data/nation/mayan.ruleset:4
-#, fuzzy
 msgid "?plural:Mayas"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/mayan.ruleset:6
 msgid ""
@@ -22704,18 +22603,16 @@ msgid "Ah kin"
 msgstr ""
 
 #: data/nation/mayan.ruleset:22
-#, fuzzy
 msgid "?female:Ah kin"
-msgstr "Traveller's Report:"
+msgstr ""
 
 #: data/nation/mexican.ruleset:3
 msgid "Mexican"
 msgstr ""
 
 #: data/nation/mexican.ruleset:4
-#, fuzzy
 msgid "?plural:Mexicans"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/mexican.ruleset:6
 msgid ""
@@ -22727,9 +22624,8 @@ msgid "Moldovan"
 msgstr ""
 
 #: data/nation/moldovan.ruleset:4
-#, fuzzy
 msgid "?plural:Moldovans"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/moldovan.ruleset:6
 msgid ""
@@ -22794,9 +22690,8 @@ msgid "Muskogee"
 msgstr ""
 
 #: data/nation/muskogee.ruleset:4
-#, fuzzy
 msgid "?plural:Muskogee"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/muskogee.ruleset:6
 msgid ""
@@ -22812,9 +22707,8 @@ msgid "New Zealand"
 msgstr ""
 
 #: data/nation/newzealand.ruleset:4
-#, fuzzy
 msgid "?plural:New Zealanders"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/newzealand.ruleset:6
 msgid ""
@@ -22828,23 +22722,20 @@ msgid "Nigerian"
 msgstr ""
 
 #: data/nation/nigerian.ruleset:4
-#, fuzzy
 msgid "?plural:Nigerians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/nigerian.ruleset:6
 msgid "Nigeria won full independence from British rule in 1960."
 msgstr ""
 
 #: data/nation/norman.ruleset:3
-#, fuzzy
 msgid "Norman"
-msgstr "Honourable"
+msgstr ""
 
 #: data/nation/norman.ruleset:4
-#, fuzzy
 msgid "?plural:Normans"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/norman.ruleset:6
 msgid ""
@@ -22860,18 +22751,16 @@ msgid "Jarl"
 msgstr ""
 
 #: data/nation/norman.ruleset:22
-#, fuzzy
 msgid "?female:Jarl"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/northkorean.ruleset:3
 msgid "North Korean"
 msgstr ""
 
 #: data/nation/northkorean.ruleset:4
-#, fuzzy
 msgid "?plural:North Koreans"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/northkorean.ruleset:6
 msgid ""
@@ -22890,9 +22779,8 @@ msgid "Norwegian"
 msgstr ""
 
 #: data/nation/norwegian.ruleset:4
-#, fuzzy
 msgid "?plural:Norwegians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/norwegian.ruleset:6
 msgid ""
@@ -22906,9 +22794,8 @@ msgid "Nubian"
 msgstr ""
 
 #: data/nation/nubian.ruleset:4
-#, fuzzy
 msgid "?plural:Nubians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/nubian.ruleset:6
 msgid ""
@@ -22932,9 +22819,8 @@ msgid "Numidian"
 msgstr ""
 
 #: data/nation/numidian.ruleset:4
-#, fuzzy
 msgid "?plural:Numidians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/numidian.ruleset:7
 msgid ""
@@ -22954,9 +22840,8 @@ msgid "Nuu-chah-nulth"
 msgstr ""
 
 #: data/nation/nuu-chah-nulth.ruleset:4
-#, fuzzy
 msgid "?plural:Nuu-chah-nulth"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/nuu-chah-nulth.ruleset:7
 msgid ""
@@ -22982,9 +22867,8 @@ msgid "Ottoman"
 msgstr ""
 
 #: data/nation/ottoman.ruleset:4
-#, fuzzy
 msgid "?plural:Ottomans"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/ottoman.ruleset:6
 msgid ""
@@ -23014,14 +22898,12 @@ msgid "Imparator"
 msgstr ""
 
 #: data/nation/pakistani.ruleset:3
-#, fuzzy
 msgid "Pakistani"
-msgstr "Railway"
+msgstr ""
 
 #: data/nation/pakistani.ruleset:4
-#, fuzzy
 msgid "?plural:Pakistanis"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/pakistani.ruleset:6
 msgid ""
@@ -23034,18 +22916,16 @@ msgid "Papuan"
 msgstr ""
 
 #: data/nation/papuan.ruleset:4
-#, fuzzy
 msgid "?plural:Papuans"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/papuan.ruleset:6
 msgid "The Papuans are a Melanesian people on the island of New Guinea."
 msgstr ""
 
 #: data/nation/papuan.ruleset:16
-#, fuzzy
 msgid "Governor-General"
-msgstr "Honourable"
+msgstr ""
 
 #: data/nation/persian.ruleset:3
 msgid "Persian"
@@ -23066,9 +22946,8 @@ msgid "Peruvian"
 msgstr ""
 
 #: data/nation/peruvian.ruleset:4
-#, fuzzy
 msgid "?plural:Peruvians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/peruvian.ruleset:6
 msgid ""
@@ -23085,9 +22964,8 @@ msgid "Phoenician"
 msgstr ""
 
 #: data/nation/phoenician.ruleset:4
-#, fuzzy
 msgid "?plural:Phoenicians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/phoenician.ruleset:6
 msgid ""
@@ -23118,9 +22996,8 @@ msgid "Pirate"
 msgstr ""
 
 #: data/nation/pirate.ruleset:4
-#, fuzzy
 msgid "?plural:Pirates"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/pirate.ruleset:5
 msgid ""
@@ -23133,9 +23010,8 @@ msgid "Polish"
 msgstr ""
 
 #: data/nation/polish.ruleset:4
-#, fuzzy
 msgid "?plural:Poles"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/polish.ruleset:6
 msgid ""
@@ -23175,9 +23051,8 @@ msgid "Polynesian"
 msgstr ""
 
 #: data/nation/polynesian.ruleset:4
-#, fuzzy
 msgid "?plural:Polynesian"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/polynesian.ruleset:6
 msgid ""
@@ -23204,9 +23079,8 @@ msgid "Prussian"
 msgstr ""
 
 #: data/nation/prussian.ruleset:4
-#, fuzzy
 msgid "?plural:Prussians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/prussian.ruleset:7
 msgid ""
@@ -23227,18 +23101,16 @@ msgid "Grand Master"
 msgstr ""
 
 #: data/nation/prussian.ruleset:27
-#, fuzzy
 msgid "Elector"
-msgstr "Traveller's Report:"
+msgstr ""
 
 #: data/nation/purhepecha.ruleset:3
 msgid "P'urhepecha"
 msgstr ""
 
 #: data/nation/purhepecha.ruleset:4
-#, fuzzy
 msgid "?plural:P'urhepecha"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/purhepecha.ruleset:7
 msgid ""
@@ -23266,9 +23138,8 @@ msgid "Quebecois"
 msgstr ""
 
 #: data/nation/quebecois.ruleset:4
-#, fuzzy
 msgid "?plural:Quebecois"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/quebecois.ruleset:6
 msgid ""
@@ -23277,14 +23148,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/romanian.ruleset:3
-#, fuzzy
 msgid "Romanian"
-msgstr "Railway"
+msgstr ""
 
 #: data/nation/romanian.ruleset:4
-#, fuzzy
 msgid "?plural:Romanians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/romanian.ruleset:6
 msgid ""
@@ -23301,9 +23170,8 @@ msgid "Rege"
 msgstr ""
 
 #: data/nation/romanian.ruleset:36
-#, fuzzy
 msgid "Regina"
-msgstr "Railway"
+msgstr ""
 
 #: data/nation/roman.ruleset:3
 msgid "Roman"
@@ -23350,14 +23218,12 @@ msgid "Tsaritsa"
 msgstr ""
 
 #: data/nation/rwandan.ruleset:3
-#, fuzzy
 msgid "Rwandan"
-msgstr "Railway"
+msgstr ""
 
 #: data/nation/rwandan.ruleset:4
-#, fuzzy
 msgid "?plural:Rwandans"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/rwandan.ruleset:6
 msgid ""
@@ -23370,9 +23236,8 @@ msgid "Ryukyuan"
 msgstr ""
 
 #: data/nation/ryukyuan.ruleset:4
-#, fuzzy
 msgid "?plural:Ryukyuans"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/ryukyuan.ruleset:6
 msgid ""
@@ -23394,9 +23259,8 @@ msgid "Sami"
 msgstr ""
 
 #: data/nation/sami.ruleset:4
-#, fuzzy
 msgid "?plural:Sami"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/sami.ruleset:6
 msgid ""
@@ -23418,9 +23282,8 @@ msgid "Samogitian"
 msgstr ""
 
 #: data/nation/samogitian.ruleset:4
-#, fuzzy
 msgid "?plural:Samogitians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/samogitian.ruleset:6
 msgid ""
@@ -23523,9 +23386,8 @@ msgid "Slovakian"
 msgstr ""
 
 #: data/nation/slovakian.ruleset:4
-#, fuzzy
 msgid "?plural:Slovakians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/slovakian.ruleset:6
 msgid ""
@@ -23564,9 +23426,8 @@ msgid "South African"
 msgstr ""
 
 #: data/nation/southafrican.ruleset:4
-#, fuzzy
 msgid "?plural:South Africans"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/southafrican.ruleset:6
 msgid ""
@@ -23579,15 +23440,22 @@ msgid ""
 "prisoner Nelson Mandela was elected the first truly democratically elected "
 "president of South Africa."
 msgstr ""
+"Dutch settlers began colonizing southern Africa in the 17th century. After "
+"many wars between primarily Boers (descendants of Dutch settlers), British "
+"forces and Zulus, the Union of South Africa was created in 1910. The South "
+"African government became notorious for its \"apartheid\" policy of legal "
+"inequality based on the colour of a citizen's skin. Following the adoption "
+"of the country's first non-racial constitution in 1994, long-time political "
+"prisoner Nelson Mandela was elected the first truly democratically elected "
+"president of South Africa."
 
 #: data/nation/southkorean.ruleset:3
 msgid "South Korean"
 msgstr ""
 
 #: data/nation/southkorean.ruleset:4
-#, fuzzy
 msgid "?plural:South Koreans"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/southkorean.ruleset:6
 msgid ""
@@ -23603,9 +23471,8 @@ msgid "Soviet"
 msgstr ""
 
 #: data/nation/soviet.ruleset:4
-#, fuzzy
 msgid "?plural:Soviets"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/soviet.ruleset:6
 msgid ""
@@ -23661,9 +23528,8 @@ msgid "Sri Vijaya"
 msgstr ""
 
 #: data/nation/srivijaya.ruleset:4
-#, fuzzy
 msgid "?plural:Sri Vijaya"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/srivijaya.ruleset:7
 msgid ""
@@ -23683,9 +23549,8 @@ msgid "Sudanese"
 msgstr ""
 
 #: data/nation/sudanese.ruleset:4
-#, fuzzy
 msgid "?plural:Sudanese"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/sudanese.ruleset:6
 msgid ""
@@ -23698,9 +23563,8 @@ msgid "Sumerian"
 msgstr ""
 
 #: data/nation/sumerian.ruleset:4
-#, fuzzy
 msgid "?plural:Sumerians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/sumerian.ruleset:6
 msgid ""
@@ -23710,27 +23574,24 @@ msgid ""
 msgstr ""
 
 #: data/nation/sumerian.ruleset:27
-#, fuzzy
 msgid "Nin"
-msgstr "Railway"
+msgstr ""
 
 #: data/nation/sumerian.ruleset:29
 msgid "Ensi"
 msgstr ""
 
 #: data/nation/sumerian.ruleset:30
-#, fuzzy
 msgid "Sanga"
-msgstr "Railway"
+msgstr ""
 
 #: data/nation/swazi.ruleset:3
 msgid "Swazi"
 msgstr ""
 
 #: data/nation/swazi.ruleset:4
-#, fuzzy
 msgid "?plural:Swazis"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/swazi.ruleset:6
 msgid ""
@@ -23782,9 +23643,8 @@ msgid ""
 msgstr ""
 
 #: data/nation/swiss.ruleset:19
-#, fuzzy
 msgid "?female:General"
-msgstr "Honourable"
+msgstr ""
 
 #: data/nation/swiss.ruleset:20
 msgid "Bailiff"
@@ -23807,14 +23667,12 @@ msgid "?female:Federal Chancellor"
 msgstr ""
 
 #: data/nation/syrian.ruleset:3
-#, fuzzy
 msgid "Syrian"
-msgstr "Railway"
+msgstr ""
 
 #: data/nation/syrian.ruleset:4
-#, fuzzy
 msgid "?plural:Syrians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/syrian.ruleset:6
 msgid ""
@@ -23823,14 +23681,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/taino.ruleset:3
-#, fuzzy
 msgid "Taino"
-msgstr "Railway"
+msgstr ""
 
 #: data/nation/taino.ruleset:4
-#, fuzzy
 msgid "?plural:Taino"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/taino.ruleset:7
 msgid ""
@@ -23858,14 +23714,12 @@ msgid "Bohike"
 msgstr ""
 
 #: data/nation/tairona.ruleset:3
-#, fuzzy
 msgid "Tairona"
-msgstr "Railway"
+msgstr ""
 
 #: data/nation/tairona.ruleset:4
-#, fuzzy
 msgid "?plural:Tairona"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/tairona.ruleset:7
 msgid ""
@@ -23893,9 +23747,8 @@ msgid "Taiwanese"
 msgstr ""
 
 #: data/nation/taiwanese.ruleset:4
-#, fuzzy
 msgid "?plural:Taiwanese"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/taiwanese.ruleset:6
 msgid ""
@@ -23909,9 +23762,8 @@ msgid "Tajik"
 msgstr ""
 
 #: data/nation/tajik.ruleset:4
-#, fuzzy
 msgid "?plural:Tajiks"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/tajik.ruleset:6
 msgid ""
@@ -23924,9 +23776,8 @@ msgid "Knights Templar"
 msgstr ""
 
 #: data/nation/templar.ruleset:4
-#, fuzzy
 msgid "?plural:Templars"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/templar.ruleset:6
 msgid ""
@@ -23947,9 +23798,8 @@ msgid "Texan"
 msgstr ""
 
 #: data/nation/texan.ruleset:4
-#, fuzzy
 msgid "?plural:Texans"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/texan.ruleset:6
 msgid ""
@@ -23972,14 +23822,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/thracian.ruleset:3
-#, fuzzy
 msgid "Thracian"
-msgstr "Railway"
+msgstr ""
 
 #: data/nation/thracian.ruleset:4
-#, fuzzy
 msgid "?plural:Thracians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/thracian.ruleset:7
 msgid "The second most numerous people in the ancient western world."
@@ -23994,9 +23842,8 @@ msgid "Tibetan"
 msgstr ""
 
 #: data/nation/tibetan.ruleset:4
-#, fuzzy
 msgid "?plural:Tibetans"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/tibetan.ruleset:6
 msgid ""
@@ -24027,9 +23874,8 @@ msgid "Tocharian"
 msgstr ""
 
 #: data/nation/tocharian.ruleset:4
-#, fuzzy
 msgid "?plural:Tocharians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/tocharian.ruleset:7
 msgid ""
@@ -24055,23 +23901,20 @@ msgstr ""
 
 #. TRANS: Lant/Lantsa = King/Queen
 #: data/nation/tocharian.ruleset:35
-#, fuzzy
 msgid "Lant"
-msgstr "Railway"
+msgstr ""
 
 #: data/nation/tocharian.ruleset:35
-#, fuzzy
 msgid "Lantsa"
-msgstr "Railway"
+msgstr ""
 
 #: data/nation/tunisian.ruleset:3
 msgid "Tunisian"
 msgstr ""
 
 #: data/nation/tunisian.ruleset:4
-#, fuzzy
 msgid "?plural:Tunisians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/tunisian.ruleset:6
 msgid ""
@@ -24090,9 +23933,8 @@ msgid "Tupi"
 msgstr ""
 
 #: data/nation/tupi.ruleset:4
-#, fuzzy
 msgid "?plural:Tupi"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/tupi.ruleset:7
 msgid ""
@@ -24119,9 +23961,8 @@ msgid "Turkmen"
 msgstr ""
 
 #: data/nation/turkmen.ruleset:4
-#, fuzzy
 msgid "?plural:Turkmens"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/turkmen.ruleset:6
 msgid ""
@@ -24168,9 +24009,8 @@ msgid "UN"
 msgstr ""
 
 #: data/nation/un.ruleset:4
-#, fuzzy
 msgid "?plural:UN"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/un.ruleset:6
 msgid ""
@@ -24178,37 +24018,32 @@ msgid ""
 msgstr ""
 
 #: data/nation/un.ruleset:23
-#, fuzzy
 msgid "?female:Chairperson"
-msgstr "Traveller's Report:"
+msgstr ""
 
 #: data/nation/un.ruleset:24
-#, fuzzy
 msgid "Secretary-General"
-msgstr "Honourable"
+msgstr ""
 
 #: data/nation/un.ruleset:24
-#, fuzzy
 msgid "?female:Secretary-General"
-msgstr "Honourable"
+msgstr ""
 
 #: data/nation/un.ruleset:25
 msgid "Representative"
 msgstr ""
 
 #: data/nation/un.ruleset:25
-#, fuzzy
 msgid "?female:Representative"
-msgstr "Traveller's Report:"
+msgstr ""
 
 #: data/nation/uruguayan.ruleset:3
 msgid "Uruguayan"
 msgstr ""
 
 #: data/nation/uruguayan.ruleset:4
-#, fuzzy
 msgid "?plural:Uruguayans"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/uruguayan.ruleset:6
 msgid ""
@@ -24222,9 +24057,8 @@ msgid "Uyghur"
 msgstr ""
 
 #: data/nation/uyghur.ruleset:4
-#, fuzzy
 msgid "?plural:Uyghurs"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/uyghur.ruleset:6
 msgid ""
@@ -24241,9 +24075,8 @@ msgid "Uzbek"
 msgstr ""
 
 #: data/nation/uzbek.ruleset:4
-#, fuzzy
 msgid "?plural:Uzbeks"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/uzbek.ruleset:6
 msgid ""
@@ -24254,14 +24087,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/venezuelan.ruleset:3
-#, fuzzy
 msgid "Venezuelan"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/venezuelan.ruleset:4
-#, fuzzy
 msgid "?plural:Venezuelans"
-msgstr "Dúnedan"
+msgstr ""
 
 #. TRANS: The fourth letter in "Simon" should be
 #. TRANS: U+00F3 LATIN SMALL LETTER O WITH ACUTE if available in
@@ -24331,9 +24162,8 @@ msgid "Westphalian"
 msgstr ""
 
 #: data/nation/westphalian.ruleset:4
-#, fuzzy
 msgid "?plural:Westphalians"
-msgstr "Dúnedan"
+msgstr ""
 
 #: data/nation/westphalian.ruleset:6
 msgid ""
@@ -24488,6 +24318,17 @@ msgid ""
 "will take; it also shows how long the city will take to grow to the\n"
 "next largest size."
 msgstr ""
+"Another city!  You are really getting the hang of this.  You\n"
+"probably have a pretty good idea what to do with new cities by\n"
+"now.  Take a moment to look at the bar below the city on the map\n"
+"view.  This display shows some useful information about the city.\n"
+"The flag and background colour indicate what civilization the city\n"
+"belongs to (this will be useful when you meet other civilizations).\n"
+"The top row of the bar also shows the name and size of the city, and\n"
+"will show one or more stars to indicate if there are units in the\n"
+"city.  The bottom row shows what the city is building, and how long it\n"
+"will take; it also shows how long the city will take to grow to the\n"
+"next largest size."
 
 #: data/scenario/tutorial.sav:96
 msgid ""
@@ -24532,6 +24373,21 @@ msgid ""
 "specialists - right now they are all entertainers which provide\n"
 "only luxuries (which will not be useful until later)."
 msgstr ""
+"Your city has grown again!  Now with three citizens you have\n"
+"a fair amount of choice over where the city should focus its\n"
+"resources.  A city with three citizens gets to work three\n"
+"different tiles, in addition to its centre tile which is worked\n"
+"for free.  In the city dialog, the map shows which tiles are working\n"
+"and how much food, shields, and trade each provides.  Food is used\n"
+"to grow your city, shields are used for production of buildings\n"
+"and units, while trade provides taxable revenue that can be\n"
+"turned into science research, gold, or luxuries.\n"
+"\n"
+"Click on a worked tile to remove the citizen from that tile.  Then\n"
+"click on an unworked tile to place a worker there.  You may place\n"
+"up to three workers, of course.  The remaining citizens are all\n"
+"specialists - right now they are all entertainers which provide\n"
+"only luxuries (which will not be useful until later)."
 
 #: data/scenario/tutorial.sav:145
 #, c-format
@@ -24892,84 +24748,3 @@ msgstr ""
 msgid "Team 31"
 msgstr ""
 
-#, fuzzy
-#~ msgid "Exit Report"
-#~ msgstr "Traveller's Report:"
-
-#, fuzzy
-#~ msgid "African"
-#~ msgstr "Railway"
-
-#, fuzzy
-#~ msgid "* Allows %s to build airbases.\n"
-#~ msgstr "Allows %s to upgrade roads to railways.\n"
-
-#~ msgid "Dunedain"
-#~ msgstr "Dúnedain"
-
-#, fuzzy
-#~ msgid "?plural:Elves"
-#~ msgstr "Dúnedan"
-
-#~ msgid "Honorable"
-#~ msgstr "Honourable"
-
-#~ msgid "Dishonorable"
-#~ msgstr "Dishonourable"
-
-#~ msgid "Private colormap ran out of entries -  exiting."
-#~ msgstr "Private colourmap ran out of entries -  exiting."
-
-#~ msgid "Ran out of colors -  trying with a private colormap."
-#~ msgstr "Ran out of colours -  trying with a private colourmap."
-
-#~ msgid ""
-#~ "Mouse:\n"
-#~ "======\n"
-#~ "  Left-click:  (on city):  Pop up city window\n"
-#~ "               (on unit):  Activate unit\n"
-#~ "  Center-click or\n"
-#~ "     Control-right-click:  Show tile info\n"
-#~ "  Right-click:             Center tile in view\n"
-#~ "  Shift-click:             Adjust city workers from main map"
-#~ msgstr ""
-#~ "Mouse:\n"
-#~ "======\n"
-#~ "  Left-click:  (on city):  Pop up city window\n"
-#~ "               (on unit):  Activate unit\n"
-#~ "  Centre-click or\n"
-#~ "     Control-right-click:  Show tile info\n"
-#~ "  Right-click:             Centre tile in view\n"
-#~ "  Shift-click:             Adjust city workers from main map"
-
-#~ msgid ""
-#~ "In addition to providing for fishing, Rivers make for excellent lines of "
-#~ "communications and trade.\n"
-#~ "\n"
-#~ "Roads and railroads can only be built on River squares if your "
-#~ "civilization has learned Bridge Building technology."
-#~ msgstr ""
-#~ "In addition to providing for fishing, Rivers make for excellent lines of "
-#~ "communications and trade.\n"
-#~ "\n"
-#~ "Roads and railways can only be built on River squares if your "
-#~ "civilization has learned Bridge Building technology."
-
-#~ msgid ""
-#~ "Makes a city the capital and the center of your government.  Corruption "
-#~ "in other cities is related to how far away from the capital they are, "
-#~ "except when the government is Democracy or Communism.  The cost of "
-#~ "inciting a revolt in a city also depends upon the city's distance from "
-#~ "the capital (under all forms of government).\n"
-#~ "\n"
-#~ "Take good care of your capital, as it's loss may result in your empire "
-#~ "plunging into civil war."
-#~ msgstr ""
-#~ "Makes a city the capital and the centre of your government.  Corruption "
-#~ "in other cities is related to how far away from the capital they are, "
-#~ "except when the government is Democracy or Communism.  The cost of "
-#~ "inciting a revolt in a city also depends upon the city's distance from "
-#~ "the capital (under all forms of government).\n"
-#~ "\n"
-#~ "Take good care of your capital, as it's loss may result in your empire "
-#~ "plunging into civil war."
