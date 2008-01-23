@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-22 22:45-0500\n"
-"PO-Revision-Date: 2007-09-01 22:41+0300\n"
+"PO-Revision-Date: 2007-09-01 22:37+0300\n"
 "Last-Translator: Mateusz Stefek <matusik_s@o2.pl>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -2208,7 +2208,7 @@ msgid "%s is finished building %s."
 msgstr "Miasto %s skończyło budować %s."
 
 #: server/cityturn.c:1393
-#, fuzzy, c-format
+#, c-format
 msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr "Brak środków na utrzymanie %s w mieście %s, budynek sprzedany!"
 
@@ -3488,7 +3488,7 @@ msgstr "Nie można przekupić %s!"
 #: server/diplomats.c:457
 #, fuzzy, c-format
 msgid "Your %s succeeded in bribing the %s."
-msgstr "Twój %s przekupił %s %s."
+msgstr "Twój %s przekupił %s."
 
 #. TRANS: <unit> ... <Poles>
 #: server/diplomats.c:465
@@ -3621,7 +3621,7 @@ msgstr "Twój %s został wyeliminowany broniąc miasta %s przed %s."
 #: server/diplomats.c:1109
 #, fuzzy, c-format
 msgid "Your %s has been eliminated defending against a %s."
-msgstr "Twój %s został wyeliminowany broniąc miasta %s przed %s."
+msgstr "Twój %s został wyeliminowany broniąc miasta przed %s."
 
 #: server/diplomats.c:1122
 #, c-format
@@ -3948,7 +3948,7 @@ msgid "The diplomatic state between the %s and the %s is now %s."
 msgstr "Stanem dyplomatycznym między %s i %s jest teraz %s."
 
 #: server/plrhand.c:607
-#, fuzzy, c-format
+#, c-format
 msgid ""
 " %s canceled the diplomatic agreement! The diplomatic state between the %s "
 "and the %s is now %s."
@@ -4699,7 +4699,6 @@ msgid "Amount of huts (minor tribe villages)"
 msgstr "Liczba chatek (wiosek mniejszych plemion)"
 
 #: server/settings.c:427
-#, fuzzy
 msgid ""
 "This setting gives the exact number of huts that will be placed on the "
 "entire map. Huts are small tribal villages that may be investigated by units."
@@ -4830,7 +4829,6 @@ msgid "Percentage penalty when changing tech"
 msgstr "Procentowa strata za zmianę technologii"
 
 #: server/settings.c:523
-#, fuzzy
 msgid ""
 "If you change your current research technology, and you have positive "
 "research points, you lose this percentage of those research points. This "
@@ -4862,7 +4860,6 @@ msgid "Penalty when getting tech from conquering"
 msgstr "Strata przy uzyskiwaniu technologii przez podbój"
 
 #: server/settings.c:544
-#, fuzzy
 msgid ""
 "For each technology you gain by conquering an enemy city, you lose research "
 "points equal to this percentage of the cost to research a new technology. If "
@@ -4877,7 +4874,6 @@ msgid "Penalty when getting a free tech"
 msgstr "Strata przy uzyskiwaniu darmowej technologii"
 
 #: server/settings.c:555
-#, fuzzy
 msgid ""
 "For each technology you gain \"for free\" (other than covered by diplcost or "
 "conquercost: specifically, from huts or from Great Library effects), you "
@@ -4910,7 +4906,6 @@ msgid "Percentage food lost when building needed"
 msgstr "Procent żywności traconej z powodu braku akweduktu"
 
 #: server/settings.c:576
-#, fuzzy
 msgid ""
 "If a city would expand, but it can't because it needs an Aqueduct (or Sewer "
 "System), it loses this percentage of its foodbox (or half that amount when "
@@ -5011,7 +5006,6 @@ msgid "Chance of moving into tile after attack"
 msgstr "Szansa na ruch na atakowane pole po ataku"
 
 #: server/settings.c:651
-#, fuzzy
 msgid ""
 "If set to 0, combat is Civ1/2-style (when you attack, you remain in place). "
 "If set to 100, attacking units will always move into the tile they attacked "
@@ -5043,7 +5037,6 @@ msgid "Reduce city population after attack"
 msgstr "Zmniejsz populację po ataku"
 
 #: server/settings.c:670
-#, fuzzy
 msgid ""
 "This flag indicates whether city population is reduced after successful "
 "attack of enemy unit, depending on its movement type (OR-ed):\n"
@@ -5206,7 +5199,6 @@ msgid "Minimum number of cities for civil war"
 msgstr "Minimalna liczba miast przed wojną domową"
 
 #: server/settings.c:793
-#, fuzzy
 msgid ""
 "A civil war is triggered when a player has at least this many cities and the "
 "player's capital is captured. If this option is set to the maximum value, "
@@ -5221,7 +5213,6 @@ msgid "Turns until player contact is lost"
 msgstr "Utrata kontaktu po podanej liczbie tur"
 
 #: server/settings.c:803
-#, fuzzy
 msgid ""
 "Players may meet for diplomacy this number of turns after their units have "
 "last met, even when they do not have an embassy. If set to zero, then "
@@ -5237,7 +5228,6 @@ msgid "Rebuild palace whenever capital is conquered"
 msgstr "Odbuduj pałac po utracie stolicy"
 
 #: server/settings.c:814
-#, fuzzy
 msgid ""
 "If this is set to 1, when the capital is conquered the palace is "
 "automatically rebuilt for free in another randomly choosen city. This is "
@@ -5265,7 +5255,6 @@ msgid "Players that users are allowed to take"
 msgstr "Do jakich graczy użytkownicy mogą się przyłączyć"
 
 #: server/settings.c:838
-#, fuzzy
 msgid ""
 "This should be a string of characters, each of which specifies a type or "
 "status of a civilization (player). Clients will only be permitted to take or "
@@ -5383,7 +5372,6 @@ msgid "Whether to have simultaneous player phases."
 msgstr "Czy fazy gry są równoczesne dla wszystkich graczy."
 
 #: server/settings.c:909
-#, fuzzy
 msgid ""
 "If true, all players' movement phases will occur simultaneously; if false, "
 "then players will alternate movement."
@@ -5680,7 +5668,7 @@ msgstr "Gra zakończyła się remisem"
 #, fuzzy, c-format
 msgid "Your %s was disbanded in accordance with your peace treaty with the %s."
 msgstr ""
-"Twoja jednostka %s %s została rozwiązana zgodnie z układem pokojowym z %s."
+"Twoja jednostka %s została rozwiązana zgodnie z układem pokojowym z %s."
 
 #: server/srv_main.c:508 server/srv_main.c:512
 #, c-format
@@ -6738,7 +6726,6 @@ msgid "Unknown command.  Try '%shelp'."
 msgstr "Nieznana komenda.  Spróbuj '%shelp'."
 
 #: server/stdinhand.c:3528
-#, fuzzy
 msgid "Your new vote canceled your previous vote."
 msgstr "Twój nowy głos unieważnił poprzedni."
 
@@ -6900,9 +6887,9 @@ msgstr ", poziom trudności %s"
 #: server/stdinhand.c:4138 server/stdinhand.c:4142 client/helpdata.c:254
 #: client/helpdata.c:745 client/text.c:187 client/text.c:1179
 #: client/text.c:1217
-#, fuzzy, c-format
+#, c-format
 msgid "?clistmore:, %s"
-msgstr "?or:, "
+msgstr ", %s"
 
 #: server/stdinhand.c:4146
 msgid ", ready"
@@ -7135,13 +7122,13 @@ msgstr "Obrona SDI zapobiegła atakowi jądrowemu na miasto %s."
 #: server/unithand.c:1013
 #, fuzzy, c-format
 msgid "Your %s survived the pathetic attack from the %s %s."
-msgstr "Twoja jednostka %s stacjonująca %s obroniła się przed %s %s."
+msgstr "Twoja jednostka %s stacjonująca obroniła się przed %s %s."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
 #: server/unithand.c:1022
 #, fuzzy, c-format
 msgid "Your attacking %s failed against the %s %s!"
-msgstr "Twoja jednostka %s zawiodła podczas ataku przeciwko %s %s%s!"
+msgstr "Twoja jednostka %s zawiodła podczas ataku przeciwko %s %s!"
 
 #: server/unithand.c:1096
 #, c-format
@@ -7260,7 +7247,7 @@ msgstr ""
 #: server/unittools.c:258
 #, fuzzy, c-format
 msgid "%s was upgraded for free to %s."
-msgstr "Jednostka %s została za darmo ulepszona do %s%s."
+msgstr "Jednostka %s została za darmo ulepszona do %s."
 
 #: server/unittools.c:299
 #, c-format
@@ -7286,7 +7273,7 @@ msgstr "Skończyło się paliwo jednostce %s."
 #: server/unittools.c:635
 #, fuzzy
 msgid "And, became more experienced!"
-msgstr "Twoi %s są teraz bardziej doświadczeni."
+msgstr "Jednostka zyskała doświadczenie."
 
 #. TRANS: Your <unit> became ...
 #: server/unittools.c:639
@@ -7336,14 +7323,13 @@ msgstr ""
 #: server/unittools.c:1617
 #, fuzzy, c-format
 msgid "Your attacking %s succeeded against the %s %s!"
-msgstr ""
-"Twoja jednostka %1$s przeprowadziła udany atak %4$s przeciwko %2$s %3$s!"
+msgstr "Twoja jednostka %1$s przeprowadziła udany atak przeciwko %2$s %3$s!"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
 #: server/unittools.c:1626 server/unittools.c:1684
 #, fuzzy, c-format
 msgid "%s lost to an attack by the %s %s."
-msgstr "Jednostka %s utracona w wyniku ataku %s %s%s."
+msgstr "Jednostka %s utracona w wyniku ataku %s %s."
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
 #: server/unittools.c:1660
@@ -7353,13 +7339,13 @@ msgid_plural ""
 "Your attacking %s succeeded against the %s %s (and %d other units)!"
 msgstr[0] ""
 "Twoja jednostka %s przeprowadziła udany atak przeciwko %s %s. (i %d "
-"dodatkowej jednostce) %s !"
+"dodatkowej jednostce)!"
 msgstr[1] ""
 "Twoja jednostka %s przeprowadziła udany atak przeciwko %s %s. (i %d "
-"dodatkowym jednostkom) %s !"
+"dodatkowym jednostkom)!"
 msgstr[2] ""
 "Twoja jednostka %s przeprowadziła udany atak przeciwko %s %s. (i %d "
-"dodatkowym jednostkom) %s !"
+"dodatkowym jednostkom)!"
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
@@ -7430,7 +7416,7 @@ msgid "The %s detonated a nuke!"
 msgstr "%s użył(a) broni jądrowej!"
 
 #: server/unittools.c:2080
-#, fuzzy, c-format
+#, c-format
 msgid "%s transported successfully."
 msgstr "Jednostka %s bezpiecznie przetransportowana."
 
@@ -7629,7 +7615,6 @@ msgid "No real audio subsystem managed to initialize!"
 msgstr "Nie udało się zainicjalizować zwyczajnego systemu dźwięku!"
 
 #: client/audio.c:257
-#, fuzzy
 msgid "Perhaps there is some misconfiguration or bad permissions"
 msgstr ""
 "Prawdopodobnie wystąpił błąd w konfiguracji lub nie masz odpowiednich "
@@ -8229,12 +8214,12 @@ msgid "The parties create an alliance"
 msgstr "Strony przyjęły sojusz"
 
 #: client/climisc.c:291
-#, fuzzy, c-format
+#, c-format
 msgid "The %s give shared vision"
 msgstr "%s dają widok dzielony"
 
 #: client/climisc.c:295
-#, fuzzy, c-format
+#, c-format
 msgid "The %s give an embassy"
 msgstr "%s dają ambasadę"
 
@@ -8774,7 +8759,7 @@ msgid "* Ignores the effects of city walls.\n"
 msgstr "* Ignoruje efekt wywoływany przez mury miasta.\n"
 
 #: client/helpdata.c:981
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* Does bombard attacks (%d per turn).  These attacks will only damage (never "
 "kill) the defender, but have no risk for the attacker.\n"
@@ -8783,7 +8768,6 @@ msgstr ""
 "uszkodzić (nie zabić) obrońcę. Atakujący nie ponosi żadnych strat.\n"
 
 #: client/helpdata.c:988
-#, fuzzy
 msgid "* Gets quintuple defense against missiles and aircraft.\n"
 msgstr "* Osiąga pięciokrotną siłę obrony przed pociskami i samolotami.\n"
 
@@ -9222,9 +9206,8 @@ msgstr "%s%d %s"
 
 #: client/helpdata.c:1680 client/helpdata.c:1688 client/gui-sdl/mapview.c:618
 #: client/gui-sdl/mapview.c:624 client/gui-sdl/mapview.c:630
-#, fuzzy
 msgid "?blistmore:, "
-msgstr "?or:, "
+msgstr ", "
 
 #. TRANS: "2 unhappy" or ", 1 unhappy"
 #: client/helpdata.c:1687
@@ -9896,7 +9879,7 @@ msgstr "Nasze Terytorium"
 #: client/text.c:122
 #, fuzzy, c-format
 msgid "%s territory"
-msgstr "Teren"
+msgstr "%s"
 
 #. TRANS: "Polish territory (5 turn cease-fire)"
 #: client/text.c:131
@@ -9911,7 +9894,7 @@ msgstr[2] "%s (%d tur zawieszenia broni)"
 #: client/text.c:140
 #, fuzzy, c-format
 msgid "%s territory (%s)"
-msgstr "%s (%d tura zawieszenia broni)"
+msgstr "%s %s"
 
 #: client/text.c:145
 msgid "Unclaimed territory"
@@ -9940,9 +9923,9 @@ msgstr "Miasto: %s(%se, %s)"
 
 #. TRANS: previous lines gave other information about the city.
 #: client/text.c:191
-#, c-format
+#, fuzzy, c-format
 msgid "?clistbegin: with %s"
-msgstr ""
+msgstr " z %s"
 
 #. TRANS: This appears with two or more previous entries in the list
 #: client/text.c:202
@@ -9958,7 +9941,7 @@ msgstr "Specjaliści"
 
 #: client/text.c:209 client/text.c:1190 client/text.c:1229
 msgid "?clistend:."
-msgstr ""
+msgstr "."
 
 #. TRANS: "Trade from Warsaw: 5"
 #: client/text.c:219
@@ -9987,7 +9970,7 @@ msgstr "Jednostka: %s(%s,%s)"
 #: client/text.c:249
 #, fuzzy, c-format
 msgid "Unit: %s (%s)"
-msgstr "Jednostka: %s(%s%s)"
+msgstr "Jednostka: %s(%s)"
 
 #. TRANS:  "Unit: Musketeers (Polish, 5 turn cease-fire)"
 #: client/text.c:262
@@ -10416,9 +10399,9 @@ msgid "Wonders: "
 msgstr "Cuda: "
 
 #: client/text.c:1262
-#, fuzzy, c-format
+#, c-format
 msgid "Cities: %d total, %d over threshold of %d cities."
-msgstr "Liczba miast: %d, %d powyżej progu %d miast.\n"
+msgstr "Liczba miast: %d, %d powyżej progu %d miast."
 
 #. TRANS: 0-21 content [citizen(s)] ...
 #: client/text.c:1266
@@ -10505,7 +10488,7 @@ msgid ""
 "Report this bug at %s"
 msgstr ""
 "Ścieżki dłuższe niż 99 tur nie są wspierane.\n"
-"Zgłoś ten błąd pod adres bugs@freeciv.org."
+"Zgłoś ten błąd pod adres %s."
 
 #: client/agents/cma_core.c:400
 #, c-format
@@ -10979,7 +10962,7 @@ msgstr "_Kup"
 #: client/gui-gtk-2.0/citydlg.c:899 client/gui-gtk-2.0/cityrep.c:687
 #, fuzzy
 msgid "_Production"
-msgstr "Produkcja"
+msgstr "Pro_dukcja"
 
 #: client/gui-gtk-2.0/citydlg.c:950
 msgid "_Happiness"
@@ -11204,7 +11187,7 @@ msgstr "_Wybierz"
 #: client/gui-gtk-2.0/cityrep.c:714 client/gui-gtk-2.0/plrdlg.c:496
 #, fuzzy
 msgid "_Display"
-msgstr "_Dyplomacja"
+msgstr "Po_każ"
 
 #: client/gui-gtk-2.0/cityrep.c:795 client/gui-gtk-2.0/menu.c:843
 #: client/gui-sdl/diplodlg.c:689 client/gui-sdl/optiondlg.c:1799
@@ -11219,7 +11202,7 @@ msgstr "Miasta"
 #: client/gui-gtk-2.0/cityrep.c:812
 #, fuzzy
 msgid "_Inspect"
-msgstr "Wstaw"
+msgstr "Wyświetl"
 
 #: client/gui-gtk-2.0/cityrep.c:1220 client/gui-gtk-2.0/cityrep.c:1241
 #: client/gui-gtk-2.0/cityrep.c:1260 client/gui-gtk-2.0/cityrep.c:1279
@@ -11376,14 +11359,13 @@ msgid "Remove this preset?"
 msgstr "Usunąć ten schemat?"
 
 #: client/gui-gtk-2.0/dialogs.c:197 client/gui-gtk-2.0/messagewin.c:186
-#, fuzzy
 msgid "Goto _Location"
-msgstr "Idź do miejsca"
+msgstr "_Idź do miejsca zdarzenia"
 
 #: client/gui-gtk-2.0/dialogs.c:202 client/gui-gtk-2.0/messagewin.c:190
 #, fuzzy
 msgid "Inspect _City"
-msgstr "Zbadaj miasto"
+msgstr "_Wyświetl miasto"
 
 #: client/gui-gtk-2.0/dialogs.c:258 client/gui-sdl/dialogs.c:2091
 #: client/gui-win32/dialogs.c:975 client/gui-xaw/dialogs.c:513
@@ -11432,7 +11414,7 @@ msgstr "Wybierz"
 #: client/gui-gtk-2.0/dialogs.c:749
 #, fuzzy
 msgid "Nation _Groups:"
-msgstr "Narody:"
+msgstr "_Narody:"
 
 #: client/gui-gtk-2.0/dialogs.c:794
 #, fuzzy
@@ -11481,7 +11463,7 @@ msgstr "_Styl miast:"
 #: client/gui-gtk-2.0/dialogs.c:934
 #, fuzzy
 msgid "_Description"
-msgstr "Opis:"
+msgstr "O_pis"
 
 #: client/gui-gtk-2.0/dialogs.c:1273 client/gui-xaw/dialogs.c:1489
 msgid "You must select your sex."
@@ -11805,9 +11787,8 @@ msgid "View"
 msgstr "Widok"
 
 #: client/gui-gtk-2.0/gui_main.c:1282
-#, fuzzy
 msgid "Chat"
-msgstr "_Chat"
+msgstr "Chat"
 
 #: client/gui-gtk-2.0/gui_main.c:1298 client/gui-win32/gui_main.c:538
 #: data/Freeciv.in:2816
@@ -11840,12 +11821,12 @@ msgstr "Wybierz _naród"
 #: client/gui-gtk-2.0/gui_main.c:1600 client/gui-gtk-2.0/pages.c:1591
 #, fuzzy
 msgid "_Observe"
-msgstr "Obserwator: %s"
+msgstr "_Obserwator"
 
 #: client/gui-gtk-2.0/gui_main.c:1602
 #, fuzzy
 msgid "Do not _observe"
-msgstr "%s teraz obserwuje"
+msgstr "teraz _obserwuje"
 
 #. TRANS: "<Novice AI>"
 #: client/gui-gtk-2.0/gui_main.c:1625
@@ -12543,7 +12524,7 @@ msgstr "_Jednostki"
 #: client/gui-gtk-2.0/menu.c:951 client/gui-win32/menu.c:402
 #, fuzzy
 msgid "_Nations"
-msgstr "Narody:"
+msgstr "_Narody"
 
 #: client/gui-gtk-2.0/menu.c:955 client/gui-win32/menu.c:403
 msgid "_Economy"
@@ -12551,8 +12532,9 @@ msgstr "_Ekonomia"
 
 #. TRANS: Research report action
 #: client/gui-gtk-2.0/menu.c:957 client/gui-win32/menu.c:405
+#, fuzzy
 msgid "_Research"
-msgstr "Badania"
+msgstr "_Badania"
 
 #: client/gui-gtk-2.0/menu.c:961 client/gui-win32/menu.c:407
 msgid "_Wonders of the World"
@@ -12775,7 +12757,7 @@ msgstr "_Spotkanie"
 #: client/gui-gtk-2.0/plrdlg.c:463
 #, fuzzy
 msgid "Cancel _Treaty"
-msgstr "Anuluj Pakt"
+msgstr "_Anuluj Pakt"
 
 #: client/gui-gtk-2.0/plrdlg.c:470
 msgid "_Withdraw vision"
@@ -12971,7 +12953,6 @@ msgid "Ruleset _Version:"
 msgstr "_Zestaw zasad:"
 
 #: client/gui-gtk-2.0/pages.c:1480 client/gui-gtk-2.0/pages.c:2112
-#, fuzzy
 msgid "_More Game Options..."
 msgstr "Więcej _opcji..."
 
@@ -13116,7 +13097,7 @@ msgstr "Typ jednostki"
 #: client/gui-gtk-2.0/repodlgs.c:959 client/gui-win32/repodlgs.c:711
 #, fuzzy
 msgid "?Upgradable unit [short]:U"
-msgstr "Ulepsz jednostkę"
+msgstr "P"
 
 #: client/gui-gtk-2.0/repodlgs.c:960 client/gui-win32/repodlgs.c:712
 msgid "In-Prog"
@@ -14481,7 +14462,7 @@ msgstr "Miasto %s"
 
 #: client/gui-sdl/mapview.c:614
 msgid "?blistbegin: with "
-msgstr ""
+msgstr " z "
 
 #: client/gui-sdl/mapview.c:616 data/default/buildings.ruleset:113
 #: data/civ2/buildings.ruleset:96 data/civ1/buildings.ruleset:69
@@ -14500,7 +14481,7 @@ msgstr "Mury Obronne"
 
 #: client/gui-sdl/mapview.c:637
 msgid "?blistend:"
-msgstr ""
+msgstr "?blistend:"
 
 #. TRANS: (<nation>,<diplomatic_state>)"
 #: client/gui-sdl/mapview.c:643
@@ -14704,7 +14685,7 @@ msgstr ""
 #: client/gui-sdl/menu.c:1091
 #, fuzzy
 msgid "Cut Down to"
-msgstr "Populacja: %s"
+msgstr "Przerywam połączenie %s."
 
 #: client/gui-sdl/menu.c:1097 client/gui-sdl/menu.c:1122
 #, fuzzy
@@ -16747,8 +16728,6 @@ msgstr ""
 "przez odwiedzenie systemu zgłaszania błędów Freeciv, pod adresem:\n"
 "\n"
 "  http://bugs.freeciv.org\n"
-"\n"
-"lub przez wysłanie e-mail'a pod adres:  bugs@freeciv.org\n"
 "\n"
 "Jeżeli błąd dotyczy tłumaczenia, najlepiej poinformować o nim aktualnego "
 "tłumacza."
@@ -21600,7 +21579,7 @@ msgstr "Helikopter"
 #: data/civ1/units.ruleset:89
 #, fuzzy
 msgid "Air"
-msgstr "Lotnisko"
+msgstr "Lądowisko"
 
 #: data/default/units.ruleset:266 data/civ2/units.ruleset:161
 #: data/civ1/units.ruleset:162
@@ -25280,7 +25259,7 @@ msgstr "Malagaski"
 #: data/nation/malagasy.ruleset:4
 #, fuzzy
 msgid "?plural:Malagasies"
-msgstr "?plural:Melezyjczy"
+msgstr "?plural:Melezyjczycy"
 
 #: data/nation/malagasy.ruleset:6
 msgid ""
@@ -26377,8 +26356,9 @@ msgid "South African"
 msgstr "Południowoafrykański"
 
 #: data/nation/southafrican.ruleset:4
+#, fuzzy
 msgid "?plural:South Africans"
-msgstr ""
+msgstr "Amerykanie"
 
 #: data/nation/southafrican.ruleset:6
 msgid ""
@@ -26542,9 +26522,11 @@ msgstr "Towarzysz"
 msgid "Sanga"
 msgstr "Saya"
 
+# Nie ma oficjalnej wykładni na temat przymiotnika od rzeczownika Saam
 #: data/nation/swazi.ruleset:3
+#, fuzzy
 msgid "Swazi"
-msgstr ""
+msgstr "Saamijski"
 
 #: data/nation/swazi.ruleset:4
 #, fuzzy
@@ -27779,25 +27761,1104 @@ msgstr "Zespół"
 msgid "Team 31"
 msgstr "Zespół"
 
+#, fuzzy
+#~ msgid "City: Building Unavailable Item"
+#~ msgstr "Nie ma dostępnych budynków"
+
+#, fuzzy
+#~ msgid "City: Celebrating"
+#~ msgstr " - świętuje"
+
+#, fuzzy
+#~ msgid "City: Civil Disorder"
+#~ msgstr "Rozruchy w mieście %s."
+
+#, fuzzy
+#~ msgid "City: Famine"
+#~ msgstr "Nazwa miasta"
+
+#, fuzzy
+#~ msgid "City: Famine Feared"
+#~ msgstr "Kończą się zapasy żywności w mieście %s."
+
+#, fuzzy
+#~ msgid "City: Growth"
+#~ msgstr "Miasto: Wzrost"
+
+#, fuzzy
+#~ msgid "City: May Soon Grow"
+#~ msgstr "Miasto: Wzrost"
+
+#, fuzzy
+#~ msgid "City: Normal"
+#~ msgstr "Mapa okolic"
+
+#, fuzzy
+#~ msgid "City: Nuked"
+#~ msgstr "Nazwa miasta"
+
+#, fuzzy
+#~ msgid "City: Transfer"
+#~ msgstr "Zmień"
+
+#, fuzzy
+#~ msgid "City: Was Built"
+#~ msgstr "Mury Obronne"
+
+#, fuzzy
+#~ msgid "City: Worklist Events"
+#~ msgstr "Edytuj schemat pracy"
+
+#, fuzzy
+#~ msgid "City: Production changed"
+#~ msgstr "Produkcja Miejska"
+
+#, fuzzy
+#~ msgid "Civ: Civil War"
+#~ msgstr " Wojna Domowa"
+
+#, fuzzy
+#~ msgid "Civ: Learned New Government"
+#~ msgstr "Wybór nowego ustroju"
+
+#, fuzzy
+#~ msgid "Civ: Pollution"
+#~ msgstr "Zanieczyszczenie"
+
+#, fuzzy
+#~ msgid "Civ: Spaceship Events"
+#~ msgstr "Statek kosmiczny"
+
+#, fuzzy
+#~ msgid "Diplomat Action: Bribe"
+#~ msgstr "Działania dyplomatyczne/szpiegowskie"
+
+#, fuzzy
+#~ msgid "Diplomat Action: Caused Incident"
+#~ msgstr "Działania dyplomatyczne/szpiegowskie"
+
+#, fuzzy
+#~ msgid "Diplomat Action: Escape"
+#~ msgstr "Działania dyplomatyczne/szpiegowskie"
+
+#, fuzzy
+#~ msgid "Diplomat Action: Embassy"
+#~ msgstr "Działania dyplomatyczne/szpiegowskie"
+
+#, fuzzy
+#~ msgid "Diplomat Action: Failed"
+#~ msgstr "Działania dyplomatyczne/szpiegowskie"
+
+#, fuzzy
+#~ msgid "Diplomat Action: Incite"
+#~ msgstr "Działania dyplomatyczne/szpiegowskie"
+
+#, fuzzy
+#~ msgid "Diplomat Action: Poison"
+#~ msgstr "Działania dyplomatyczne/szpiegowskie"
+
+#, fuzzy
+#~ msgid "Diplomat Action: Sabotage"
+#~ msgstr "Działania dyplomatyczne/szpiegowskie"
+
+#, fuzzy
+#~ msgid "Diplomat Action: Theft"
+#~ msgstr "Działania dyplomatyczne/szpiegowskie"
+
+#, fuzzy
+#~ msgid "Improvement: Bought"
+#~ msgstr "Obiekt"
+
+#, fuzzy
+#~ msgid "Improvement: Built"
+#~ msgstr "Obiekt"
+
+#, fuzzy
+#~ msgid "Improvement: Sold"
+#~ msgstr "Obiekt"
+
+#, fuzzy
+#~ msgid "Treaty: Cease-fire"
+#~ msgstr "Wielki Lider"
+
+#, fuzzy
+#~ msgid "Treaty: Peace"
+#~ msgstr "Wielki Lider"
+
+#, fuzzy
+#~ msgid "Treaty: Shared Vision"
+#~ msgstr "Widok dzielony"
+
+#, fuzzy
+#~ msgid "Unit: Bought"
+#~ msgstr "Oddziały: "
+
+#, fuzzy
+#~ msgid "Unit: Built"
+#~ msgstr "Lista jednostek"
+
+#, fuzzy
+#~ msgid "Unit: Production Upgraded"
+#~ msgstr "Zakładkę produkcji"
+
+#, fuzzy
+#~ msgid "Unit: Relocated"
+#~ msgstr "%d jednostka zaznaczona"
+
+#, fuzzy
+#~ msgid "Wonder: Finished"
+#~ msgstr "Cuda w Mieście"
+
+#, fuzzy
+#~ msgid "Wonder: Made Obsolete"
+#~ msgstr "Ulepsz przestarzałe jednostki"
+
+#, fuzzy
+#~ msgid "Wonder: Started"
+#~ msgstr "Cuda: "
+
+#, fuzzy
+#~ msgid "Wonder: Stopped"
+#~ msgstr "Cuda: "
+
+#, fuzzy
+#~ msgid "Wonder: Will Finish Next Turn"
+#~ msgstr "Uwaga: Cud %s w mieście %s będzie gotowy w następnej turze."
+
+#, fuzzy
+#~ msgid "Treaty: Embassy"
+#~ msgstr "Ambasada"
+
+#~ msgid "Moved %s out of disbanded city %s to avoid being landlocked."
+#~ msgstr ""
+#~ "przeniesiono %s z byłego miasta %s by zapobiec `przywiązaniu do ziemi'"
+
+#~ msgid "We Love The %s Day celebrated in %s."
+#~ msgstr "Festiwal Poparcia Dla %s w mieście %s."
+
+#~ msgid "We Love The %s Day canceled in %s."
+#~ msgstr "Festiwal Poparcia Dla %s w mieście %s zakończony."
+
+#, fuzzy
+#~ msgid "(%d) %s: connected [%s]"
+#~ msgstr "(%d) Połączył się %s z %s."
+
+#, fuzzy
+#~ msgid "(%d) %s: connection request [%s]"
+#~ msgstr "(%d) %s z %s domaga się połączenia"
+
+#, fuzzy
+#~ msgid "The client is missing a capability that this server needs."
+#~ msgstr "Klientowi brakuje cech wymaganych przez serwer."
+
+#, fuzzy
+#~ msgid "(%d) %s rejected: mismatched capabilities!"
+#~ msgstr "(%d) %s został odrzucony: Niezgodność protokołu."
+
+#, fuzzy
+#~ msgid "This server is missing a capability that the client needs."
+#~ msgstr "Serwerowi brakuje cech wymaganych przez klienta."
+
+#, fuzzy
+#~ msgid "The username is invalid!"
+#~ msgstr "Nieprawidłowa nazwa użytkownika"
+
+#, fuzzy
+#~ msgid "(%d) %s rejected: invalid username [%s]"
+#~ msgstr "(%d) %s został odrzucony: Nieprawidłowa nazwa [%s]."
+
+#, fuzzy
+#~ msgid "Your username is already connected!"
+#~ msgstr "jest już połączony."
+
+#, fuzzy
+#~ msgid "(%d) %s rejected: duplicate username [%s]"
+#~ msgstr "(%d) %s został odrzucony: Zduplikowany login [%s]."
+
+#~ msgid "%s report on the RICHEST Civilizations in the World."
+#~ msgstr "Raport %s o NAJBOGATSZYCH Cywilizacjach Świata."
+
+#~ msgid "%s report on the most ADVANCED Civilizations in the World."
+#~ msgstr "Raport %s o Najbardziej ZAAWANSOWANYCH Cywilizacjach Świata."
+
+#~ msgid "%s report on the most MILITARIZED Civilizations in the World."
+#~ msgstr "Raport %s o Najbardziej ZMILITARYZOWANYCH Cywilizacjach Świata."
+
+#~ msgid "%s report on the HAPPIEST Civilizations in the World."
+#~ msgstr "Raport %s o NAJSZCZĘŚLIWSZYCH Cywilizacjach Świata."
+
+#~ msgid "%s report on the LARGEST Civilizations in the World."
+#~ msgstr "Raport %s o NAJWIĘKSZYCH Cywilizacjach Świata."
+
+#~ msgid "City size before people become unhappy"
+#~ msgstr "Rozmiar miasta zanim obywatele staną się nieszczęśliwi"
+
+#~ msgid ""
+#~ "Before other adjustments, the first unhappysize citizens in a city are "
+#~ "content, and subsequent citizens are unhappy. See also cityfactor."
+#~ msgstr ""
+#~ "Gdy nic innego nie wpływa na zadowolenie mieszkańców, tylko podana liczba "
+#~ "mieszkańców jest zadowolona, pozostali są niezadowoleni. Zobacz także "
+#~ "cityfactor."
+
+#~ msgid "Number of cities for higher unhappiness"
+#~ msgstr "Liczba miast, po której niezadowolenie wzrasta"
+
+#~ msgid ""
+#~ "When the number of cities a player owns is greater than cityfactor, one "
+#~ "extra citizen is unhappy before other adjustments; see also unhappysize. "
+#~ "This assumes a Democracy; for other governments the effect occurs at "
+#~ "smaller numbers of cities."
+#~ msgstr ""
+#~ "Jeżeli liczba miast, którymi włada gracz jest większa od podanego progu, "
+#~ "jeden dodatkowy niezadowolony mieszkaniec jest dodawany do miasta. (W "
+#~ "praktyce zmniejsza to unhappysize o 1). Podana wartość jest prawdziwa "
+#~ "jedynie dla Demokracji, dla innych ustrojów taki próg jest odpowiednio "
+#~ "mniejszy(w zależności od zasad)."
+
+#~ msgid ""
+#~ "If non-zero, saved games will be compressed using zlib (gzip format). "
+#~ "Larger values will give better compression but take longer. If the "
+#~ "maximum is zero this server was not compiled to use zlib."
+#~ msgstr ""
+#~ "Jeżeli różne od zera, save'y są kompresowane przy użyciu zlib (format "
+#~ "gzip). Większe wartości dają lepszą kompresję, która trwa dłużej. Jeżeli "
+#~ "maksimum jest równe zeru to serwer nie został skompilowany z możliwością "
+#~ "użycia zlib."
+
+#~ msgid ""
+#~ "Undefined arguments. Usage: debug <diplomacy <player> | city <x> <y> | "
+#~ "units <x> <y> | unit <id> | tech <player> | timing | info>."
+#~ msgstr ""
+#~ "Nieprawidłowe argumenty. Składnia: debug <diplomacy <gracz> | city <x> "
+#~ "<y> | units <x> <y> | unit <id> | tech <gracz> | timing | info>."
+
+#~ msgid "Unit must be on land to perform diplomatic action."
+#~ msgstr "Jednostka musi być na lądzie aby wykonywać czynności dyplomatyczne."
+
+#~ msgid "Your %s has been lost on the high seas."
+#~ msgstr "Twoja %s zatonęła na szerokich morzach."
+
+#~ msgid "Your %s survived on the high seas and became more experienced!"
+#~ msgstr ""
+#~ "Twoja %s nie zatonęła na szerokich morzach. Załoga zyskała nowe "
+#~ "doświadczenie."
+
+#~ msgid "Your %s has been lost on unsafe terrain."
+#~ msgstr "Twoja jednostka %s zaginęła w niebezpiecznym terenie."
+
+#~ msgid "The %s have acquired %s from ancient scrolls of wisdom."
+#~ msgstr "%s znaleźli technologię %s w pradawnych zbiorach wiedzy."
+
+#~ msgid "Plugin %s found but can't be initialized."
+#~ msgstr "Wtyczka %s znaleziona, ale inicjalizacja nieudana."
+
+#~ msgid "Couldn't find soundset \"%s\" trying \"%s\"."
+#~ msgstr "Nie mogę wczytać zestawu dźwiękowego \"%s\", próbuję \"%s\"."
+
+#~ msgid "Proceeding with sound support disabled"
+#~ msgstr "Kontynuuję z wyłączonym dźwiękiem"
+
+#~ msgid "No sound spec-file given!"
+#~ msgstr "Brak pliku spec (dźwięk)!"
+
+#~ msgid "Cannot find sound spec-file \"%s\"."
+#~ msgstr "Nie mogę znaleźć pliku specyfikacyjnego audio \"%s\"."
+
+#~ msgid "Cannot find audio file %s"
+#~ msgstr "Nie mogę znaleźć pliku audio %s"
+
+#~ msgid "%s (XX) %d/turn"
+#~ msgstr "%s (XX) %d na turę"
+
+#~ msgid "%s (%d) %d turn"
+#~ msgid_plural "%s (%d) %d turns"
+#~ msgstr[0] "%s (%d) %d tura"
+#~ msgstr[1] "%s (%d) %d tury"
+#~ msgstr[2] "%s (%d) %d tur"
+
+#, fuzzy
+#~ msgid "Specialists"
+#~ msgstr "Specjaliści"
+
+#~ msgid "novice"
+#~ msgstr "nowicjusz"
+
+#~ msgid "easy"
+#~ msgstr "łatwy"
+
+#~ msgid "normal"
+#~ msgstr "normalny"
+
+#~ msgid "hard"
+#~ msgstr "trudny"
+
+#~ msgid "experimental"
+#~ msgstr "eksperymentalny"
+
+#, fuzzy
+#~ msgid "Requires the %s technology.\n"
+#~ msgstr ""
+#~ "Wymagana jest technologia %s.\n"
+#~ "\n"
+
+#, fuzzy
+#~ msgid "Requires the %s government.\n"
+#~ msgstr ""
+#~ "Wymagany jest ustrój %s.\n"
+#~ "\n"
+
+#, fuzzy
+#~ msgid "Requires the %s building.\n"
+#~ msgstr ""
+#~ "Wymagany jest budynek %s.\n"
+#~ "\n"
+
+#, fuzzy
+#~ msgid "Requires the %s terrain special.\n"
+#~ msgstr ""
+#~ "Wymagany jest zasób %s.\n"
+#~ "\n"
+
+#, fuzzy
+#~ msgid "Requires the %s terrain.\n"
+#~ msgstr ""
+#~ "Wymagany jest teren %s.\n"
+#~ "\n"
+
+#, fuzzy
+#~ msgid "Requires the %s nation.\n"
+#~ msgstr ""
+#~ "Tylko dla narodu %sego.\n"
+#~ "\n"
+
+#, fuzzy
+#~ msgid "Only applies to %s units.\n"
+#~ msgstr ""
+#~ "Stosuje się do jednostek typu '%s'\n"
+#~ "\n"
+
+#, fuzzy
+#~ msgid "Applies only to %s.\n"
+#~ msgstr ""
+#~ "Zachodzi dla %s.\n"
+#~ "\n"
+
+#, fuzzy
+#~ msgid "Requires a minimum size of %d.\n"
+#~ msgstr "Wymaga rozmiaru miasta co najmniej %d.\n"
+
+#, fuzzy
+#~ msgid ""
+#~ "Requires: Nothing\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Wymagany jest budynek %s.\n"
+#~ "\n"
+
+#~ msgid "* Can carry and refuel %d air unit.\n"
+#~ msgid_plural "* Can carry and refuel %d air units.\n"
+#~ msgstr[0] "* Może przenosić i uzupełniać paliwo %d jednostki powietrznej.\n"
+#~ msgstr[1] ""
+#~ "* Może przenosić i uzupełniać paliwo %d jednostek powietrznych.\n"
+#~ msgstr[2] ""
+#~ "* Może przenosić i uzupełniać paliwo %d jednostek powietrznych.\n"
+
+#~ msgid "* Can carry and refuel %d missile unit.\n"
+#~ msgid_plural "* Can carry and refuel %d missile units.\n"
+#~ msgstr[0] "* Może przenosić i uzupełniać paliwo %d jednostki pocisków.\n"
+#~ msgstr[1] "* Może przenosić i uzupełniać paliwo %d jednostek pocisków.\n"
+#~ msgstr[2] "* Może przenosić i uzupełniać paliwo %d jednostek pocisków.\n"
+
+#~ msgid "* Can carry %d ground unit across water.\n"
+#~ msgid_plural "* Can carry %d ground units across water.\n"
+#~ msgstr[0] "* Może transportować %d jednostkę lądową.\n"
+#~ msgstr[1] "* Może transportować %d jednostki lądowe.\n"
+#~ msgstr[2] "* Może transportować %d jednostek lądowych.\n"
+
+#~ msgid ""
+#~ "* May be disbanded in a city to recover 50%% of the production cost.\n"
+#~ msgstr ""
+#~ "* Jednostka może zostać rozwiązana w mieście, aby odzyskać 50%% wartości "
+#~ "w postaci tarczek.\n"
+
+#~ msgid "* Can build fortresses (if %s is known).\n"
+#~ msgstr "* Potrafi budować fortece (Jeśli odkryto %s).\n"
+
+#~ msgid "* Can build fortresses (if any of the following are known: %s).\n"
+#~ msgstr "* Potrafi budować fortece (Jeśli odkryto %s).\n"
+
+#~ msgid "* Can build airbases.\n"
+#~ msgstr "* Potrafi budować bazy lotnicze.\n"
+
+#~ msgid "* May fortify, granting a 50%% defensive bonus.\n"
+#~ msgstr ""
+#~ "* Potrafi się fortyfikować, przez co otrzymuje 50%% dodatkowej siły "
+#~ "obrony.\n"
+
+#~ msgid "* Can attack enemy air units.\n"
+#~ msgstr "* Potrafi atakować jednostki powietrzne przeciwnika.\n"
+
+#~ msgid "* A missile unit: gets used up in making an attack.\n"
+#~ msgstr "* Jednostka pocisku: jest tracona podczas ataku.\n"
+
+#~ msgid "* May become veteran through training or combat.\n"
+#~ msgstr "* Może zostać weteranem w czasie szkolenia lub podczas bitwy.\n"
+
+#~ msgid ""
+#~ "* Must end turn in a city or next to land, or has a 50%% risk of being "
+#~ "lost at sea.\n"
+#~ msgstr ""
+#~ "* Musi kończyć turę w mieście lub przy lądzie, albo z prawdopodobieństwem "
+#~ "50%% zaginie w morzu.\n"
+
+#~ msgid "* The discovery of %s reduces the risk to 25%%.\n"
+#~ msgstr "* Technologia '%s' zmniejsza ryzyko do 25%%.\n"
+
+#~ msgid "* %s reduces the risk to 12%%.\n"
+#~ msgstr "* Technologia '%s' zmniejsza ryzyko do 12%%.\n"
+
+#~ msgid "* Reduces the chance of losing boats on the high seas to 25%%.\n"
+#~ msgstr "* Zmniejsza ryzyko zatonięcia łodzi na szerokich morzach do 25%%.\n"
+
+#~ msgid "* Reduces the chance of losing boats on the high seas to 12%%.\n"
+#~ msgstr "* Zmniejsza ryzyko zatonięcia łodzi na szerokich morzach do 12%%.\n"
+
+#~ msgid "* Allows %s to build fortresses.\n"
+#~ msgstr "* Pozwala %s budować fortece.\n"
+
+#~ msgid "* Allows %s to build airbases.\n"
+#~ msgstr "* Pozwala %s budować bazy lotnicze.\n"
+
+#~ msgid "* This terrain is unsafe for units to travel on."
+#~ msgstr ""
+#~ "* Ten teren nie jest niebezpieczny dla jednostek podróżujących po nim."
+
+#~ msgid "* Each of your cities will avoid paying %d %s towards unit upkeep.\n"
+#~ msgstr "* Każde miasto pozwala na uniknięcie płacenia %d %s za jednostki.\n"
+
+#~ msgid "* Each of your cities will avoid paying %d towards unit upkeep.\n"
+#~ msgstr ""
+#~ "* Każde miasto pozwala na uniknięcie płacenia %d złota za jednostki.\n"
+
+#~ msgid "* Chance of civil war is %d%% if you lose your capital.\n"
+#~ msgstr "* Szansa wojnę domową przy utracie stolicy wynosi %d%%.\n"
+
+#~ msgid ""
+#~ "* The first unhappy citizen in each city due to civilization size will "
+#~ "appear when you have %d cities.\n"
+#~ msgstr ""
+#~ "* Pierwszy niezadowolony mieszkaniec z powodu rozmiaru cywilizacji może "
+#~ "pojawić się gdy masz %d miast.\n"
+
+#~ msgid ""
+#~ "* After the first unhappy citizen due to city size, for each %d "
+#~ "additional cities, another unhappy citizen will appear.\n"
+#~ msgstr ""
+#~ "* Za każde dodatkowe %d miast jeden niezadowolony mieszkaniec będzie się "
+#~ "pojawiał w miastach.\n"
+
+#~ msgid ""
+#~ "The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
+#~ msgstr ""
+#~ "Maksymalny poziom podatku, jaki możesz ustawić na naukę, złoto czy "
+#~ "luksusy, wynosi %d%%.\n"
+
+#~ msgid "Has unlimited science/gold/luxuries rates.\n"
+#~ msgstr "Nie posiada ograniczeń podatków na naukę/złoto/luksusy.\n"
+
+#~ msgid ""
+#~ "* You may grow your cities by means of celebrations.  Your cities must be "
+#~ "at least size %d before they can grow in this manner.\n"
+#~ msgstr ""
+#~ "* Twoje miasta wzrastają w czasie świętowania.  Miasta muszą mieć rozmiar "
+#~ "co najmniej %d, aby mogły to wykorzystać.\n"
+
+#~ msgid ""
+#~ "* Government will fall into anarchy if any city is in disorder for more "
+#~ "than two turns in a row.\n"
+#~ msgstr ""
+#~ "* Państwo popadnie w anarchię jeśli w jakimkolwiek mieście zamieszki będą "
+#~ "trwały dwie tury z rzędu.\n"
+
+#~ msgid ""
+#~ "* Each worked tile that gives more than %d %s will suffer a -1 penalty "
+#~ "when not celebrating.\n"
+#~ msgstr ""
+#~ "* Każde pole wokół miasta, które produkuje więcej niż %d %s, faktycznie "
+#~ "produkuje o jeden mniej z wyjątkiem okresu świętowania.\n"
+
+#, fuzzy
+#~ msgid ""
+#~ "* Each worked tile with at least 1 %s will yield %d more of it when "
+#~ "celebrating.\n"
+#~ msgstr ""
+#~ "* Każde pole wokół miasta, które produkuje co najmniej 1 %s będzie "
+#~ "wytwarzać %d dodatkowy %s podczas świętowania.\n"
+
+#, fuzzy
+#~ msgid "You were rejected from the game...."
+#~ msgstr "Próba przyłączenia do serwera nie powiodła się:"
+
+#~ msgid ""
+#~ "Client does not support isometric tilesets. Using default tileset instead."
+#~ msgstr ""
+#~ "Klient nie obsługuje izometrycznej grafiki. Używam domyślnego zestawu."
+
+#~ msgid ""
+#~ "Client does not support overhead view tilesets. Using default tileset "
+#~ "instead."
+#~ msgstr ""
+#~ "Klient nie obsługuje 'wystającej' grafiki. Używam domyślnego zestawu."
+
+#~ msgid "<AI>"
+#~ msgstr "<AI>"
+
+#~ msgid "<Novice AI>"
+#~ msgstr "<AI - Nowicjusz>"
+
+#~ msgid "<Easy AI>"
+#~ msgstr "<AI - Łatwy>"
+
+#~ msgid "<Normal AI>"
+#~ msgstr "<AI - Normalny>"
+
+#~ msgid "<Hard AI>"
+#~ msgstr "<AI - Trudny>"
+
+#~ msgid "Sa_ve Options"
+#~ msgstr "Za_pisz opcje"
+
+#~ msgid "Gov_ernment"
+#~ msgstr "Ustrój"
+
+#~ msgid "_Change Government"
+#~ msgstr "_Zmień Ustrój"
+
+#~ msgid ""
+#~ "Main Map (Keys):\n"
+#~ "================\n"
+#~ "    Shift-home: center on capital\n"
+#~ "  Shift-arrows: scroll map\n"
+#~ "        Ctrl-G: show grid lines on/off\n"
+#~ "        Ctrl-B: show national borders on/off\n"
+#~ "        Ctrl-N: show city names on/off\n"
+#~ "        Ctrl-R: show city growth on/off\n"
+#~ "        Ctrl-P: show city production on/off\n"
+#~ "             t: show city workers (mouse over or near city)\n"
+#~ msgstr ""
+#~ "Główna Mapa (Klawisze):\n"
+#~ "=======================\n"
+#~ "    Shift+Home: Wycentruj na stolicę\n"
+#~ "Shift+strzałki: Przesuń mapę\n"
+#~ "        Ctrl+G: Pokaż/schowaj siatkę mapy\n"
+#~ "        Ctrl+B: Pokaż/schowaj granice państw\n"
+#~ "        Ctrl+N: Pokaż/schowaj nazwy miast\n"
+#~ "        Ctrl+R: Pokaż/schowaj wzrost miast\n"
+#~ "        Ctrl+P: Pokaż/schowaj produkcję miast\n"
+#~ "             t: Pokaż robotników danego miasta (myszka powinna znajdować "
+#~ "się przy mieście)\n"
+
+#~ msgid ""
+#~ "Main Map (Mouse):\n"
+#~ "=================\n"
+#~ "  Left-click on city:          Pop up city dialog\n"
+#~ "  Left-click on unit:          Activate unit\n"
+#~ "  Left-click-and-drag on unit: Goto command for unit\n"
+#~ "  Center-click:                Show tile info\n"
+#~ "  Right-click:                 Center tile in view\n"
+#~ "\n"
+#~ "  Shift-Left-click:            Copy production (GTK)\n"
+#~ "  Shift-Right-click on city:   Paste production into city (GTK)\n"
+#~ "\n"
+#~ "  Shift-Control-Left-click:    Adjust city workers\n"
+#~ "  Control-Center-click:        Wake up sentried units\n"
+#~ "\n"
+#~ "  Area Selection mode (GTK):\n"
+#~ "  ==========================\n"
+#~ "  Right-click-and-drag: Enter Area Selection mode\n"
+#~ "  Left-click:           Toggle tile highlighting\n"
+#~ "  Shift-Right-click:    Paste production into highlighted cities\n"
+#~ "  Right-click:          Cancel Area Selection mode\n"
+#~ "\n"
+#~ "  The cities that become highlighted on the map,\n"
+#~ "  will also be highlighted in the City Report."
+#~ msgstr ""
+#~ "Mapa (Mysz):\n"
+#~ "======\n"
+#~ "  Lewy przycisk     (na mieście): Otwórz okno miasta\n"
+#~ "                  (na jednostce): Aktywuj jednostkę\n"
+#~ "  Środkowy przycisk             : Wyświetl informację o polu\n"
+#~ "  Prawy przycisk                : Centruj widok na danym polu\n"
+#~ "\n"
+#~ "  Shift-lewy-Przycisk     (na mieście lub jednostce): Kopiuj produkcję "
+#~ "(GTK)\n"
+#~ "  Shift-prawy-przycisk (na mieście): Wklej produkcję (GTK)\n"
+#~ "\n"
+#~ "  Shift-Control-lewy-przycisk: Ustaw robotników bezpośrednio na mapie.\n"
+#~ "  Control-środkowy-przycisk  : Obudź wartowane jednostki.\n"
+#~ "\n"
+#~ "  Prawy przycisk z przeciągnięciem: Wejdź w tryb zaznaczania obszaru "
+#~ "(GTK)\n"
+#~ "\n"
+#~ "  Tryb zaznaczania obszaru(GTK):\n"
+#~ "  ========================\n"
+#~ "  Lewy przycisk     : Przełącz zaznaczenie pola\n"
+#~ "  Prawy przycisk    : Wyjdź z trybu zaznaczania obszaru\n"
+#~ "\n"
+#~ "  Shift-prawy-przycisk:  Wklej produkcję do wszystkich zaznaczonych "
+#~ "miast\n"
+#~ "\n"
+#~ "Miasta, zaznaczone w trybie zaznaczania obszaru,\n"
+#~ "będą podświetlane na liście miast."
+
+#~ msgid ""
+#~ "Dialogs and Reports:\n"
+#~ "====================\n"
+#~ "     F1: open City Report\n"
+#~ "     F2: open Unit Report\n"
+#~ "     F3: open Players dialog\n"
+#~ "     F5: open Economy Report\n"
+#~ "     F6: open Science Report\n"
+#~ "     F7: open World Wonders\n"
+#~ "     F8: open Top Five Cities\n"
+#~ "     F9: open Messages dialog\n"
+#~ "    F11: open Demographics\n"
+#~ "    F12: open Spaceship\n"
+#~ "\n"
+#~ "      T: open Tax/Lux/Sci Rates dialog\n"
+#~ "      F: open Find City dialog\n"
+#~ " Ctrl-L: open Worklists dialog\n"
+#~ "      R: open Revolution dialog\n"
+#~ "\n"
+#~ "Shift-Return: Turn done"
+#~ msgstr ""
+#~ "Okna dialogowe i raporty:\n"
+#~ "=========================\n"
+#~ "F1: wyświetl raport o miastach\n"
+#~ "F2: wyświetl raport o jednostkach\n"
+#~ "F3: wyświetl okno graczy\n"
+#~ "F5: wyświetl raport ekonomiczny\n"
+#~ "F6: wyświetl raport naukowy\n"
+#~ "F7: wyświetl cuda świata\n"
+#~ "F8: wyświetl pięć najwspanialszych miast\n"
+#~ "F9: otwórz okno komunikatów\n"
+#~ "F11: wyświetl raport demograficzny\n"
+#~ "F12: wyświetl statek kosmiczny\n"
+#~ "\n"
+#~ "Shift+T: otwórz dialog podatków\n"
+#~ "Shift+F: otwórz szukanie miast\n"
+#~ " Ctrl+L: Otwórz edytor schematów prac\n"
+#~ "Shift+R: Rozpocznij rewolucję\n"
+#~ "\n"
+#~ "Shift+Return: Koniec tury"
+
+#~ msgid ""
+#~ "Gives one extra food resource on all Ocean squares.  The city needs to be "
+#~ "coastal to build this improvement."
+#~ msgstr ""
+#~ "Dodaje dodatkową jednostkę żywności na wszystkich polach morskich.  "
+#~ "Miasto musi być nadbrzeżne aby zbudować Przystań."
+
+#~ msgid ""
+#~ "Reduces the amount of pollution generated by production in a city by "
+#~ "50%.  It also increases the shield production of a Factory or Mfg. Plant "
+#~ "in the city: a Factory and a Hydro Plant together give a 75% production "
+#~ "bonus, and a Factory, Mfg. Plant and Hydro Plant together give a 150% "
+#~ "production bonus.\n"
+#~ "\n"
+#~ "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant.  A "
+#~ "city can only build a Hydro Plant if it is next to (or on) a Mountain or "
+#~ "River tile."
+#~ msgstr ""
+#~ "Zmniejsza zanieczyszczenie tworzone przez miasto o 50% oraz zwiększa "
+#~ "produkcję fabryki lub fabryki zautomatyzowanej.  Fabryka + elektrownia "
+#~ "wodna dają 75% wzrost, a Fabryka + fabryka zautomatyzowana + elektrownia "
+#~ "wodna dają w sumie 150% wzrost.\n"
+#~ "\n"
+#~ "Miasto może mieć tylko jedną elektrownię: wodną, cieplną lub atomową.  "
+#~ "Elektrownia wodna może być budowana tylko obok albo na polu z rzeką lub "
+#~ "górą."
+
+#~ msgid ""
+#~ "Reduces the amount of pollution generated by production in a city by "
+#~ "50%.  It also increases the shield production of a Factory or Mfg. Plant "
+#~ "in the city: a Factory and a Nuclear Plant together give a 75% production "
+#~ "bonus, and a Factory, Mfg. Plant and Nuclear Plant together give a 150% "
+#~ "production bonus.\n"
+#~ "\n"
+#~ "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
+#~ msgstr ""
+#~ "Zmniejsza zanieczyszczenie tworzone przez miasto o 50% oraz zwiększa "
+#~ "produkcję fabryki lub fabryki zautomatyzowanej.  Fabryka + elektrownia "
+#~ "atomowa dają 75% wzrost, a Fabryka + fabryka zautomatyzowana + "
+#~ "elektrownia atomowa dają w sumie 150% wzrost.\n"
+#~ "\n"
+#~ "Miasto może mieć tylko jedną elektrownię: wodną, cieplną lub atomową."
+
+#~ msgid ""
+#~ "Adds 1 extra shield resource on all Ocean squares in a city.  The city "
+#~ "needs to be coastal to build this improvement."
+#~ msgstr ""
+#~ "Dodaje 1 dodatkową tarczkę (produkcję) do wszystkich pól morskich miasta. "
+#~ "Miasto musi być przybrzeżne aby mogło zbudować ten budynek."
+
+#~ msgid ""
+#~ "Increases the shield production of a Factory or Mfg. Plant in a city: a "
+#~ "Factory and a Power Plant together give a 75% production bonus, and a "
+#~ "Factory, Mfg. Plant and Power Plant together give a 150% production "
+#~ "bonus.  The extra production may lead to the city generating more "
+#~ "pollution.\n"
+#~ "\n"
+#~ "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
+#~ msgstr ""
+#~ "Zwiększa produkcję przemysłową Fabryki lub Mfg. Plant w mieście: a "
+#~ "Fabryka i Elektrownia Cieplna razem dają 75% bonus do produkcji, a "
+#~ "Fabryka, Mfg. Plant i Elektrownia Cieplna razem dają 150% bonus do "
+#~ "produkcji.  Dodatkowa produkcja prowadzi miasto do generowania większego "
+#~ "zanieczyszczenia.\n"
+#~ "\n"
+#~ "Miasto może mieć tylko 1 Elektrownie : Wodną, Cieplną bądź Jądrową."
+
+#~ msgid ""
+#~ "Gives all your sea units 1 additional movement point and eliminates the "
+#~ "risk of losing Triremes on the high seas.  Makes all your new sea units "
+#~ "veterans (for all your cities)."
+#~ msgstr ""
+#~ "Daje wszystkim jednostkom morskim dodatkowy punkt ruchu i eliminuje "
+#~ "ryzyko straty Trirem na otwartym morzu.  Czyni wszystkie nowe jednostki "
+#~ "morskie weteranami (we wszystkich twoich miastach)."
+
+#~ msgid ""
+#~ "Eliminates all pollution generated by production in a city.  It also "
+#~ "increases the shield production of a Factory or Mfg. Plant in the city: a "
+#~ "Factory and a Solar Plant together give a 100% production bonus, and a "
+#~ "Factory, Mfg. Plant and Solar Plant together give a 150% production "
+#~ "bonus.\n"
+#~ "\n"
+#~ "A city can only have one Solar Plant, Hydro Plant, Power Plant, or "
+#~ "Nuclear Plant."
+#~ msgstr ""
+#~ "Zmniejsza zanieczyszczenie tworzone podczas produkcji oraz zwiększa "
+#~ "produkcję fabryki lub fabryki zautomatyzowanej.  Fabryka + elektrownia "
+#~ "słoneczna dają 100% wzrost, a Fabryka + fabryka zautomatyzowana + "
+#~ "elektrownia słoneczna dają w sumie 150% wzrost.\n"
+#~ "\n"
+#~ "Miasto może mieć tylko jedną elektrownię: słoneczną, wodną, cieplną lub "
+#~ "atomową."
+
+#~ msgid ""
+#~ "Gives all sea units 1 additional movement point and eliminates the risk "
+#~ "of losing Triremes on the high seas.  Makes all new sea units veterans "
+#~ "(for all cities)."
+#~ msgstr ""
+#~ "Daje wszystkim jednostkom morskim dodatkowy punkt ruchu i eliminuje "
+#~ "ryzyko straty Trirem na otwartym morzu.  Czyni wszystkie nowe jednostki "
+#~ "morskie weteranami (we wszystkich miastach)."
+
+#~ msgid ""
+#~ "Fundamentalism is a form of government organized around a central set of "
+#~ "beliefs. The beliefs, usually religious in nature, form a rigid guideline "
+#~ "for actions and reactions of both the rulers and the people.\n"
+#~ "\n"
+#~ "In a fundamentalist society, the people and the rulers are entirely "
+#~ "devoted to their beliefs, and are usually willing to die to preserve "
+#~ "them.\n"
+#~ "\n"
+#~ "Improvement that normally convert unhappy citizens to content citizens, "
+#~ "produces `tithes' (gold) equivalent to the number of people they would "
+#~ "convert, and require no maintenance."
+#~ msgstr ""
+#~ "Fundamentalizm to ustrój opierający się na zasadach, najczęściej "
+#~ "religijnych, które kierują wszystkimi poczynaniami rządzących i "
+#~ "poddanych.\n"
+#~ "\n"
+#~ "Ludzie są najczęściej gotowi umrzeć za to, w co wierzą.\n"
+#~ "\n"
+#~ "Obiekty, które normalnie uszczęśliwiają mieszkańców, podczas "
+#~ "fundamentalizmu produkują 'dziesięcinę' (po 1 złota za każdego "
+#~ "uszczęśliwionego mieszkańca)."
+
+#~ msgid "Petroleum"
+#~ msgstr "Ropa"
+
+#~ msgid ""
+#~ "This unit may be built from the start of the game.  It is the weakest "
+#~ "unit."
+#~ msgstr ""
+#~ "Ta jednostka może zostać utworzona już na początku gry. Jest to "
+#~ "najsłabsza z jednostek."
+
+#~ msgid ""
+#~ "A number of Partisans are granted free when an enemy conquers your city, "
+#~ "but only under these conditions:\n"
+#~ "\n"
+#~ " - Guerilla Warfare must be known by at least 1 player.\n"
+#~ "\n"
+#~ " - You must be the player who originally built the city.\n"
+#~ "\n"
+#~ " - You must know about Communism and Gunpowder.\n"
+#~ "\n"
+#~ " - You must run either a Democracy or a Communist government."
+#~ msgstr ""
+#~ "Kilku Partyzantów dostajesz za darmo jeśli wróg podbije twoje miasto, ale "
+#~ "tylko jeśli:\n"
+#~ "\n"
+#~ " - Wojna Partyzancka musi być znana przynajmniej 1 graczowi.\n"
+#~ "\n"
+#~ " - Musisz być pierwotnym budowniczym miasta.\n"
+#~ "\n"
+#~ " - Musisz znać Komunizm i Proch Strzelniczy.\n"
+#~ "\n"
+#~ " - Musisz mieć Demokrację albo Komunizm."
+
+#~ msgid ""
+#~ "TIP:  A very fast unit, which is very useful for hunting down enemy "
+#~ "Transports."
+#~ msgstr ""
+#~ "PORADA: Bardzo szybka jednostka, przydatna do ścigania transportów wroga."
+
+#~ msgid ""
+#~ "Submarines have a very high strategic value, but have a weak defence."
+#~ msgstr ""
+#~ "Łodzie podwodne są strategicznie bardzo istotne, lecz mają słabą obronę."
+
+#~ msgid ""
+#~ "TIP:  Guard Carriers with a handful of fast-moving ships and a "
+#~ "battleship, as losing a fully-equipped Carrier is VERY painful and "
+#~ "expensive."
+#~ msgstr ""
+#~ "PORADA:  Chroń Lotniskowce kilkoma szybkimi statkami i pancernikiem, "
+#~ "strata w pełni załadowanego Lotniskowca jest BARDZO bolesna i kosztowna."
+
+#~ msgid ""
+#~ "TIP:  A handful of these can successfully keep the waters around your "
+#~ "treasured homeland free of enemy ships."
+#~ msgstr ""
+#~ "PORADA:  Kilka takich jednostek może skutecznie ochronić wody wokół "
+#~ "twojej drogiej ojczyzny przed wrogimi okrętami."
+
+#~ msgid ""
+#~ "Every Caravan that is used to build a wonder will add 50 shields towards "
+#~ "the production of the wonder.\n"
+#~ "\n"
+#~ "TIP:  You can stockpile a stack of Caravans in advance and bring them all "
+#~ "into a city where you have started to build a wonder, and finish it in "
+#~ "only one turn!"
+#~ msgstr ""
+#~ "Każda karawana użyta do budowy cudu dodaje 50 tarczek do produkcji tego "
+#~ "cudu.\n"
+#~ "\n"
+#~ "PORADA:  Możesz najpierw składować karawany, a potem przenieść je "
+#~ "wszystkie do miasta które właśnie zaczęło budować cud i skończyć go w "
+#~ "jedną turę!"
+
+#~ msgid "Explorers are very useful for mapping unknown territory."
+#~ msgstr "Badacze są przydatki przy badaniu nieznanego terytorium."
+
+#~ msgid ""
+#~ "When barbarian leader is killed on a tile without any defending units, "
+#~ "the 100 gold ransom is paid, but only to land units and helicopters."
+#~ msgstr ""
+#~ "Gdy zabity zostanie barbarzyński wódz na polu bez jednostek broniących, "
+#~ "100 złota zostaje wypłacone, ale tylko dla jednostek lądowych i "
+#~ "helikopterów."
+
+#~ msgid ""
+#~ "Fundamentalist nations can maintain Fanatic units without having to pay "
+#~ "any shields for upkeep."
+#~ msgstr ""
+#~ "Tylko narody fundamentalne mogą szkolić fanatyków bez konieczności "
+#~ "płacenia na ich utrzymanie."
+
+#~ msgid ""
+#~ "When barbarian leader is killed on a tile without any defending units, "
+#~ "the 100 gold ransom is paid, but only to land units."
+#~ msgstr ""
+#~ "Gdy zabity zostanie barbarzyński wódz na polu bez jednostek broniących, "
+#~ "100 złota zostaje wypłacone, ale tylko dla jednostek lądowych."
+
+#~ msgid ""
+#~ "Australia was founded as a British penal colony in 1788AD. It is the only "
+#~ "country on earth to occupy an entire continent."
+#~ msgstr ""
+#~ "Australia została założona jako Brytyjska kolonia karna w 1788. Jest to "
+#~ "jedyne państwo, którego obszar obejmuje cały kontynent."
+
+#~ msgid "Bosnia & Herzegovina"
+#~ msgstr "Bośnia i Harcegowina"
+
+#~ msgid ""
+#~ "Brazil was founded as a colony of Portugal but became independent in "
+#~ "1822AD. It is the only country in the New World that has been the seat of "
+#~ "a monarchy."
+#~ msgstr ""
+#~ "Brazylia została założona jako portugalska kolonia, ale uzyskała "
+#~ "niepodległość w 1822. Jest to jedyne państwo w Nowym Świecie, w którym "
+#~ "obowiązywała monarchia."
+
+#, fuzzy
+#~ msgid ""
+#~ "At the time of the decline of the old Roman empire, the Emperor "
+#~ "Constantine moved the empire's capital to Byzantium and formed a new "
+#~ "empire mostly known as the Eastern Roman empire or the Byzantine empire. "
+#~ "This empire lasted until 1453 when its capital fell to the Ottomans. At "
+#~ "the time of Justinian I, the Byzanines controlled nearly all of Middle "
+#~ "East, nothern Africa, Italy and parts of Spain."
+#~ msgstr ""
+#~ "W czasach upadku Imperium Rzymskiego Cesarz Konstantyn przeniósł stolicę "
+#~ "do Bizancjum tworząc tym samym nowe imperium znane jako Wschodnie "
+#~ "Cesarstwo Rzymskie. Przetrwało ono aż do roku 1453, w którym to zostało "
+#~ "podbite przez Ottomanów. W czasach Justyniana I Bizancjum kontrolowało "
+#~ "prawie cały Bliski Wschód, północną Afrykę, Włochy oraz część Hiszpanii."
+
+#~ msgid ""
+#~ "Catalunya (aka Catalonia in English) is the north-eastern-most coastal "
+#~ "region of Spain near the southern foot of the Pyrenees."
+#~ msgstr ""
+#~ "Katalonia, region w północno-wschodniej Hiszpanii, graniczący z Francją i "
+#~ "Andorą."
+
+#~ msgid ""
+#~ "Colombia is a country in northern South America. The region was an "
+#~ "Amerindian cultural center in pre-European time. The Spanish began "
+#~ "settling Colombia's north coast around 1500. In 1819 the The Republic of "
+#~ "Colombia gained independence."
+#~ msgstr ""
+#~ "Kolumbia to państwo na północy Ameryki Południowej. Region Kolumbii to "
+#~ "centrum Amerindiańskiej kultury przed czasami europejczyków. Hiszpanie "
+#~ "rozpoczęli kolonizację Kolumbijskiego wybrzeża około roku 1500. W roku "
+#~ "1819 Republika Kolumbii uzyskała niepodległość."
+
+#~ msgid "Emporer"
+#~ msgstr "Imperator"
+
+#~ msgid ""
+#~ "The Inca were an Amerind people of the Northern Andes who conquered an "
+#~ "empire stretching along the west coast of South America from what is now "
+#~ "southern Chile nearly to the Equator. They had the bad timing to do it "
+#~ "just a few decades before the Spanish conquistadors arrived in their part "
+#~ "of the world in the mid-1500s AD."
+#~ msgstr ""
+#~ "Inkowie - plemię zamieszkujące południowo-zachodnią część Ameryki "
+#~ "Południowej, które prawdopodobnie w połowie XII w. stworzyło doskonale "
+#~ "zorganizowane państwo o nazwie Tawantinsuyu (\"państwo pszczół\"). Dzięki "
+#~ "ekspansywnej polityce władców szybko wchłonęli okoliczne drobne "
+#~ "państewka, samodzielnie funkcjonujące wcześniej na terenie Ameryki "
+#~ "Południowej. Niestety kilka dekad później zostali podbici przez "
+#~ "Hiszpańskich konkwiskadorów w XVI w."
+
+#~ msgid "?title:Inca"
+#~ msgstr "?attitude:Inca"
+
+#~ msgid "Sapa Inca"
+#~ msgstr "Sapa Inca"
+
+#, fuzzy
+#~ msgid ""
+#~ "The Inuit people inhabits northern Canada and Greenland. Legend says that "
+#~ "the Great Shaman Qitdlarssuaq lead his people to Thule (Qaanaaq) on the "
+#~ "west coast of Greenland in the 10th century. All Inuit of today are "
+#~ "descendents of the Thule culture."
+#~ msgstr ""
+#~ "Inuici , zwani też Eskimosami, zamieszkują północną Kanadę i Grenlandię. "
+#~ "Legenda mówi, że Wielki Szaman Qitdlarssuaq przyprowadził swoich ludzi do "
+#~ "Thule (Qaanaaq) na zachodzie Grenlandii w X w."
+
+#~ msgid "Kampuchean"
+#~ msgstr "Kambodżyjski"
+
+#
+#~ msgid "?plural:Kampucheans"
+#~ msgstr "?plural:Khmerowie"
+
+#~ msgid ""
+#~ "Romania as a nation was formed at the beginning of the 20th century, when "
+#~ "the states of Transylvania, Wallachia, and Moldavia merged. It is a "
+#~ "country inhabited by people speaking a language reminiscent from the time "
+#~ "of ancient Rome. It's history is convoluted as it was always at the "
+#~ "borders of great empires: Roman, Ottoman, Austro-Hungarian, and Russian."
+#~ msgstr ""
+#~ "Rumunia pojawiła się na początku XX wieku kiedy małe państwa: "
+#~ "Transylwania, Wołoszczyzna i Mołdawia połączyły się. Rumunię zamieszkują "
+#~ "ludzie mówiący językiem wywodzącym się z czasów Imperium Rzymskiego. "
+#~ "Historia tego kraju jest burzliwa, bo zawsze znajdował się on na granicy "
+#~ "wielkich mocarstw: Rzymskiego, Ottomańskiego, Austro-Węgierskiego czy "
+#~ "Rosyjskiego."
+
+#~ msgid "Presedinte"
+#~ msgstr "Prezydent"
+
+#, fuzzy
+#~ msgid ""
+#~ "The Sami are a people of northern Scandinavia. Their nation spans over "
+#~ "the northernmost regions of the Scandinavian countries: Finnmark of "
+#~ "Norway and Lapland of Sweden and Finland."
+#~ msgstr ""
+#~ "Saamowie to ludność mieszkająca w północnej Skandynawii, są jej "
+#~ "najstarszymi mieszkańcami. Zamieszkują Finnmark w Norwegii oraz Lapland w "
+#~ "Szwecji i Finlandii. Znani z hodowli reniferów. Popularne określenie "
+#~ "'Lapończycy' dla samych zainteresowanych jest obelżywe."
+
+#~ msgid "Elected King"
+#~ msgstr "Król"
+
+#~ msgid "Elected Queen"
+#~ msgstr "Królowa"
+
+#, fuzzy
+#~ msgid "Elected Priest"
+#~ msgstr "Skasuj schemat"
+
+#, fuzzy
+#~ msgid "Elected Priestess"
+#~ msgstr "Kapłanka"
+
+#~ msgid ""
+#~ "Texas is second largest and second most populous state of the USA, famous "
+#~ "for it's \"larger than life\" cowboy mentality."
+#~ msgstr ""
+#~ "Teksas to największy pod względem ludności i powierzchni stan USA. Znany "
+#~ "z mentalności swoich mieszkańców."
+
+#~ msgid "Turk"
+#~ msgstr "Turecki"
+
+#~ msgid "Venezuela"
+#~ msgstr "Wenezuelski"
+
+#~ msgid "Units: "
+#~ msgstr "Oddziały: "
+
+#~ msgid ""
+#~ "* Military units away from home and field units will cause one citizen to "
+#~ "become unhappy.\n"
+#~ msgstr ""
+#~ "* Jednostki militarne poza miastem i granicami będą powodować "
+#~ "niezadowolenie.\n"
+
+#~ msgid ""
+#~ "* Your units may impose martial law. Each military unit inside a city "
+#~ "will force an unhappy citizen to become content.\n"
+#~ msgstr ""
+#~ "* Możesz wprowadzać stan wojenny.  Jednostki militarne w mieście będą "
+#~ "'zadawalać' mieszkańców.\n"
+
+#~ msgid ""
+#~ "%s%s  -  %s%s\n"
+#~ "\n"
+#~ msgstr ""
+#~ "%s%s  -  %s%s\n"
+#~ "\n"
+
 #~ msgid "%s"
 #~ msgstr "%s"
 
+#~ msgid ", "
+#~ msgstr ", "
+
 #~ msgid "Your %s succeeded in bribing %s's %s and became more experienced."
 #~ msgstr "Twój %s przekupił %s %s zwiększając swoje doświadczenie."
-
-#~ msgid ""
-#~ "Eliminated %s %s while infiltrating %s. The defender became more "
-#~ "experienced."
-#~ msgstr ""
-#~ "Wyeliminowano %s %s w trakcie infiltracji m. %s. Obrońca zyskał "
-#~ "doświadczenie."
-
-#~ msgid ""
-#~ "Eliminated %s %s while infiltrating our troops. The defender became more "
-#~ "experienced."
-#~ msgstr ""
-#~ "Wyeliminowano %s %s w trakcie infiltracji naszych oddziałów. Obrońca "
-#~ "zyskał doświadczenie"
 
 #~ msgid ""
 #~ "Your %s has successfully completed her mission and returned unharmed to %"
@@ -27805,23 +28866,6 @@ msgstr "Zespół"
 #~ msgstr ""
 #~ "Twój %s zakończył misję i wrócił zyskując doświadczenie nietknięty do "
 #~ "miasta %s."
-
-#~ msgid "Reason: line not found"
-#~ msgstr "Powód: linia nieznaleziona"
-
-#~ msgid "Reason: line too short (expected %d got %lu"
-#~ msgstr "Powód: linia zbyt krótka. Oczekiwano %d pobrano %lu"
-
-#~ msgid "Ruleset directory name \"%s\" disallowed for security reasons."
-#~ msgstr ""
-#~ "Nazwa \"%s\" jest niedozwolona dla katalogu z zasadami ze względów "
-#~ "bezpieczeństwa."
-
-#~ msgid ", nation %s"
-#~ msgstr ", %s"
-
-#~ msgid ", team %s"
-#~ msgstr ", zespół %s"
 
 #~ msgid "Your bombarding %s%s became more experienced!"
 #~ msgstr "Twój(a) bombardujący(a) %s%s zyskał(a) doświadczenie!"
@@ -27846,12 +28890,6 @@ msgstr "Zespół"
 #~ msgstr " koło miasta %s"
 
 #~ msgid ""
-#~ "Your attacking %s succeeded against %s's %s%s and became more experienced!"
-#~ msgstr ""
-#~ "Twoja jednostka %1$s przeprowadziła udany atak %4$s przeciwko %2$s %3$s. "
-#~ "Jednostka zyskała doświadczenie."
-
-#~ msgid ""
 #~ "Your attacking %s succeeded against %s's %s (and %d other unit)%s and "
 #~ "became more experienced!"
 #~ msgid_plural ""
@@ -27870,26 +28908,91 @@ msgstr "Zespół"
 #~ msgid "%s lost to an attack from %s's %s."
 #~ msgstr "Jednostka %s utracona podczas ataku %s %s."
 
-#~ msgid "Plugin %s found but can't be initialized."
-#~ msgstr "Wtyczka %s znaleziona, ale inicjalizacja nieudana."
+#~ msgid " Choose Your Diplomat's Strategy"
+#~ msgstr " Wybierz strategię twego dyplomaty"
+
+#~ msgid ""
+#~ "Eliminated %s %s while infiltrating %s. The defender became more "
+#~ "experienced."
+#~ msgstr ""
+#~ "Wyeliminowano %s %s w trakcie infiltracji m. %s. Obrońca zyskał "
+#~ "doświadczenie."
+
+#~ msgid ""
+#~ "Eliminated %s %s while infiltrating our troops. The defender became more "
+#~ "experienced."
+#~ msgstr ""
+#~ "Wyeliminowano %s %s w trakcie infiltracji naszych oddziałów. Obrońca "
+#~ "zyskał doświadczenie"
+
+#, fuzzy
+#~ msgid ""
+#~ "Your client is too old. To use this server, please upgrade your client to "
+#~ "a Freeciv 2.1 or later."
+#~ msgstr ""
+#~ "Twój klient jest zbyt stary. Aby wejść na ten serwer musisz używać "
+#~ "klienta w wersji co najmniej 2.1."
+
+#~ msgid "Ruleset directory name \"%s\" disallowed for security reasons."
+#~ msgstr ""
+#~ "Nazwa \"%s\" jest niedozwolona dla katalogu z zasadami ze względów "
+#~ "bezpieczeństwa."
+
+#~ msgid ", nation %s"
+#~ msgstr ", %s"
+
+#~ msgid ", team %s"
+#~ msgstr ", zespół %s"
+
+#~ msgid "_Map"
+#~ msgstr "_Mapa"
+
+#, fuzzy
+#~ msgid "Create _player"
+#~ msgstr "create <gracz>"
+
+#, fuzzy
+#~ msgid "_Release player"
+#~ msgstr "Targowisko"
+
+#~ msgid "Gover_nment"
+#~ msgstr "Ust_rój"
+
+#~ msgid "_Players"
+#~ msgstr "_Gracze"
+
+#~ msgid "_Science"
+#~ msgstr "_Nauka"
+
+#~ msgid "S_paceship"
+#~ msgstr "_Statek kosmiczny"
+
+#~ msgid "Game _Options..."
+#~ msgstr "_Opcje gry..."
+
+#~ msgid "Clear _Log"
+#~ msgstr "Wyczyść dziennik"
+
+#~ msgid "Work_lists"
+#~ msgstr "_Schematy prac"
+
+#~ msgid "Science Report"
+#~ msgstr "Raport Naukowy"
+
+#~ msgid "Reason: line not found"
+#~ msgstr "Powód: linia nieznaleziona"
+
+#~ msgid "Reason: line too short (expected %d got %lu"
+#~ msgstr "Powód: linia zbyt krótka. Oczekiwano %d pobrano %lu"
 
 #~ msgid "Plugin '%s' is now selected"
 #~ msgstr "Wybrano wtyczkę '%s'"
-
-#~ msgid "Couldn't find soundset \"%s\" trying \"%s\"."
-#~ msgstr "Nie mogę wczytać zestawu dźwiękowego \"%s\", próbuję \"%s\"."
 
 #~ msgid "No real audio plugin present, proceeding with sound support disabled"
 #~ msgstr "Brak prawdziwej wtyczki audio, kontynuuję z wyłączonym dźwiękiem"
 
 #~ msgid "http://www.libsdl.org/projects/SDL_mixer/index.html"
 #~ msgstr "http://www.libsdl.org/projects/SDL_mixer/index.html"
-
-#~ msgid "No sound spec-file given!"
-#~ msgstr "Brak pliku spec (dźwięk)!"
-
-#~ msgid "Cannot find sound spec-file \"%s\"."
-#~ msgstr "Nie mogę znaleźć pliku specyfikacyjnego audio \"%s\"."
 
 #~ msgid "Will continue with disabled sounds."
 #~ msgstr "Kontynuuję z wyłączonym dźwiękiem."
@@ -27912,131 +29015,12 @@ msgstr "Zespół"
 #~ msgstr ""
 #~ "Plik specyfikacyjny audio wymaga możliwości, których nie zapewniamy:"
 
-#~ msgid "Cannot find audio file %s"
-#~ msgstr "Nie mogę znaleźć pliku audio %s"
-
-#~ msgid "%s (XX) %d/turn"
-#~ msgstr "%s (XX) %d na turę"
-
-#~ msgid "%s (%d) %d turn"
-#~ msgid_plural "%s (%d) %d turns"
-#~ msgstr[0] "%s (%d) %d tura"
-#~ msgstr[1] "%s (%d) %d tury"
-#~ msgstr[2] "%s (%d) %d tur"
-
-#~ msgid ""
-#~ "* Military units away from home and field units will cause one citizen to "
-#~ "become unhappy.\n"
-#~ msgstr ""
-#~ "* Jednostki militarne poza miastem i granicami będą powodować "
-#~ "niezadowolenie.\n"
-
-#~ msgid "* Chance of civil war is %d%% if you lose your capital.\n"
-#~ msgstr "* Szansa wojnę domową przy utracie stolicy wynosi %d%%.\n"
-
-#~ msgid ""
-#~ "* Your units may impose martial law. Each military unit inside a city "
-#~ "will force an unhappy citizen to become content.\n"
-#~ msgstr ""
-#~ "* Możesz wprowadzać stan wojenny.  Jednostki militarne w mieście będą "
-#~ "'zadawalać' mieszkańców.\n"
-
-#~ msgid "Territory of the %s"
-#~ msgstr "%s"
-
-#~ msgid "Territory of the %s %s"
-#~ msgstr "%s %s"
-
-#~ msgid ", "
-#~ msgstr ", "
-
-#~ msgid "."
-#~ msgstr "."
-
-#~ msgid " Choose Your Diplomat's Strategy"
-#~ msgstr " Wybierz strategię twego dyplomaty"
-
-#~ msgid "Pro_duction"
-#~ msgstr "Pro_dukcja"
-
-#~ msgid "S_how"
-#~ msgstr "Po_każ"
-
-#~ msgid "_Popup"
-#~ msgstr "Wyświetl"
-
-#~ msgid "_Goto location"
-#~ msgstr "_Idź do miejsca zdarzenia"
-
-#~ msgid "_Popup City"
-#~ msgstr "_Wyświetl miasto"
-
-#~ msgid "L_egend"
-#~ msgstr "O_pis"
-
-#~ msgid "_Map"
-#~ msgstr "_Mapa"
-
-#, fuzzy
-#~ msgid "Create _player"
-#~ msgstr "create <gracz>"
-
-#, fuzzy
-#~ msgid "_Release player"
-#~ msgstr "_Zwolnij miasto"
-
-#~ msgid "Units: "
-#~ msgstr "Oddziały: "
-
-#~ msgid "Gover_nment"
-#~ msgstr "Ust_rój"
-
-#~ msgid "_Change Government"
-#~ msgstr "_Zmień Ustrój"
-
-#~ msgid "_Players"
-#~ msgstr "_Gracze"
-
-#~ msgid "_Science"
-#~ msgstr "_Nauka"
-
-#~ msgid "S_paceship"
-#~ msgstr "_Statek kosmiczny"
-
-#, fuzzy
-#~ msgid "_Tools"
-#~ msgstr "W sumie"
-
-#~ msgid "_Cancel Treaty"
-#~ msgstr "_Anuluj Pakt"
-
-#~ msgid "Game _Options..."
-#~ msgstr "_Opcje gry..."
-
-#~ msgid "U"
-#~ msgstr "P"
-
-#, fuzzy
-#~ msgid ""
-#~ "\n"
-#~ "finshed"
-#~ msgstr "stałe"
+#~ msgid "Goto _location"
+#~ msgstr "Idź do miejsca"
 
 #, fuzzy
 #~ msgid "Couldn't blit text to display: %s"
 #~ msgstr "Nie można przekonwertować tekstu z %s do %s: %s"
-
-#~ msgid "Clear _Log"
-#~ msgstr "Wyczyść dziennik"
-
-#~ msgid "Gov_ernment"
-#~ msgstr "Ustrój"
-
-#~ msgid "Work_lists"
-#~ msgstr "_Schematy prac"
-
-#~ msgid "Science Report"
-#~ msgstr "Raport Naukowy"
 
 #~ msgid ""
 #~ "When built, every civilization's attitude toward you is improved by 25%."
@@ -28044,24 +29028,40 @@ msgstr "Zespół"
 #~ "Po jej wybudowaniu szacunek pozostałych cywilizacji do Twojej wzrasta o "
 #~ "25%."
 
-#~ msgid "Petroleum"
-#~ msgstr "Ropa"
-
 #~ msgid ""
-#~ "Brazil was founded as a colony of Portugal but became independent in "
-#~ "1822AD. It is the only country in the New World that has been the seat of "
-#~ "a monarchy."
+#~ "- A Diplomat can establish embassies with other civilizations by moving "
+#~ "into another player's city.\n"
+#~ "\n"
+#~ "- Diplomats can also try to sabotage enemy production, or steal an "
+#~ "advance from an enemy city.  (An advance can only be stolen once per "
+#~ "city).\n"
+#~ "\n"
+#~ "- A Diplomat can also bribe an enemy unit, if that unit is the only unit "
+#~ "on its square.\n"
+#~ "\n"
+#~ "- Diplomats can even start a revolution in an enemy city and turn it into "
+#~ "your own, if you have the money!\n"
+#~ "\n"
+#~ "- In some game strategies, hordes of Diplomats can be used to wreak havoc "
+#~ "on the enemy.  Little wonder that Diplomats are often viewed with "
+#~ "suspicion and fear!"
 #~ msgstr ""
-#~ "Brazylia została założona jako portugalska kolonia, ale uzyskała "
-#~ "niepodległość w 1822. Jest to jedyne państwo w Nowym Świecie, w którym "
-#~ "obowiązywała monarchia."
-
-#~ msgid ""
-#~ "Catalunya (aka Catalonia in English) is the north-eastern-most coastal "
-#~ "region of Spain near the southern foot of the Pyrenees."
-#~ msgstr ""
-#~ "Katalonia, region w północno-wschodniej Hiszpanii, graniczący z Francją i "
-#~ "Andorą."
+#~ "- Dyplomata może zakładać ambasady przez wejście do miast innych graczy.\n"
+#~ "\n"
+#~ "- Dyplomata może też próbować zsabotować produkcję wroga, lub ukraść "
+#~ "technologię z wrogiego miasta. (Z danego miasta można ukraść technologię "
+#~ "tylko raz).\n"
+#~ "\n"
+#~ "- Dyplomata ma też możliwość przekupienia jednostki wroga, jeśli ta jest "
+#~ "jedyną jednostką na swoim polu.\n"
+#~ "\n"
+#~ "- Dyplomata może nawet wzniecić bunt w mieście wroga i przez to przejąć "
+#~ "kontrolę nad miastem, oczywiście jeśli masz wystarczająco dużo "
+#~ "pieniędzy!\n"
+#~ "\n"
+#~ "- Jedną z możliwych strategii gry jest wysłanie ogromnej ilości "
+#~ "dyplomatów, którzy zniszczą umocnienia wroga. Zauważ, że dyplomaci są "
+#~ "często jednostką, której gracze się boją!"
 
 #, fuzzy
 #~ msgid "Team 32"
@@ -28533,6 +29533,9 @@ msgstr "Zespół"
 #~ msgid "_New"
 #~ msgstr "_Nowa"
 
+#~ msgid "_Remove"
+#~ msgstr "Usuń"
+
 #~ msgid "Freeciv - Edit Worklist"
 #~ msgstr "Freeciv - Edycja Schematu Prac"
 
@@ -28583,14 +29586,18 @@ msgstr "Zespół"
 #~ msgid "Exit Report"
 #~ msgstr "Raport o miastach"
 
-#~ msgid "Modern"
-#~ msgstr "Współczesny"
+#, fuzzy
+#~ msgid ""
+#~ "\n"
+#~ "finshed"
+#~ msgstr "stałe"
 
-#~ msgid "African"
-#~ msgstr "Afrykański"
+#~ msgid "tech \"%s\": requires itself"
+#~ msgstr "technologia \"%s\" wymaga samej siebie"
 
-#~ msgid "Fictional"
-#~ msgstr "Fikcyjny"
+#, fuzzy
+#~ msgid "%s's %s tried to build %s, which is not available."
+#~ msgstr "%s miasto %s buduje %s, choć nie jest już ona dostępna."
 
 #~ msgid ""
 #~ "Your %s was executed in %s on suspicion of spying.  The %s welcome future "
@@ -28605,113 +29612,6 @@ msgstr "Zespół"
 #~ msgstr ""
 #~ "Wykonałeś egzekucję na %s, którego %s wysłali, aby założył ambasadę w "
 #~ "mieście %s, gdyż był on niegodny zaufania"
-
-#, fuzzy
-#~ msgid "City: Celebrating"
-#~ msgstr " - świętuje"
-
-#, fuzzy
-#~ msgid "City: Growth"
-#~ msgstr "Miasto: Wzrost"
-
-#, fuzzy
-#~ msgid "City: Normal"
-#~ msgstr "Mapa okolic"
-
-#, fuzzy
-#~ msgid "City: Nuked"
-#~ msgstr "Nazwa miasta"
-
-#, fuzzy
-#~ msgid "City: Transfer"
-#~ msgstr "Zmień"
-
-#, fuzzy
-#~ msgid "Civ: Civil War"
-#~ msgstr " Wojna Domowa"
-
-#, fuzzy
-#~ msgid "Civ: Pollution"
-#~ msgstr "Zanieczyszczenie"
-
-#, fuzzy
-#~ msgid "Diplomat Action: Bribe"
-#~ msgstr "Działania dyplomatyczne/szpiegowskie"
-
-#, fuzzy
-#~ msgid "Diplomat Action: Caused Incident"
-#~ msgstr "Działania dyplomatyczne/szpiegowskie"
-
-#, fuzzy
-#~ msgid "Diplomat Action: Escape"
-#~ msgstr "Działania dyplomatyczne/szpiegowskie"
-
-#, fuzzy
-#~ msgid "Diplomat Action: Embassy"
-#~ msgstr "Działania dyplomatyczne/szpiegowskie"
-
-#, fuzzy
-#~ msgid "Diplomat Action: Failed"
-#~ msgstr "Działania dyplomatyczne/szpiegowskie"
-
-#, fuzzy
-#~ msgid "Diplomat Action: Incite"
-#~ msgstr "Działania dyplomatyczne/szpiegowskie"
-
-#, fuzzy
-#~ msgid "Diplomat Action: Poison"
-#~ msgstr "Działania dyplomatyczne/szpiegowskie"
-
-#, fuzzy
-#~ msgid "Diplomat Action: Sabotage"
-#~ msgstr "Działania dyplomatyczne/szpiegowskie"
-
-#, fuzzy
-#~ msgid "Diplomat Action: Theft"
-#~ msgstr "Działania dyplomatyczne/szpiegowskie"
-
-#, fuzzy
-#~ msgid "Improvement: Bought"
-#~ msgstr "Obiekt"
-
-#, fuzzy
-#~ msgid "Improvement: Built"
-#~ msgstr "Obiekt"
-
-#, fuzzy
-#~ msgid "Treaty: Peace"
-#~ msgstr "Wielki Lider"
-
-#, fuzzy
-#~ msgid "Treaty: Shared Vision"
-#~ msgstr "Widok dzielony"
-
-#, fuzzy
-#~ msgid "Unit: Built"
-#~ msgstr "Lista jednostek"
-
-#, fuzzy
-#~ msgid "Wonder: Finished"
-#~ msgstr "Cuda w Mieście"
-
-#, fuzzy
-#~ msgid "Wonder: Made Obsolete"
-#~ msgstr "Ulepsz przestarzałe jednostki"
-
-#, fuzzy
-#~ msgid "Wonder: Started"
-#~ msgstr "Cuda: "
-
-#, fuzzy
-#~ msgid "Treaty: Embassy"
-#~ msgstr "Ambasada"
-
-#~ msgid "tech \"%s\": requires itself"
-#~ msgstr "technologia \"%s\" wymaga samej siebie"
-
-#, fuzzy
-#~ msgid "%s's %s tried to build %s, which is not available."
-#~ msgstr "%s miasto %s buduje %s, choć nie jest już ona dostępna."
 
 #~ msgid "Sea moving start units are not yet supported, %s not created."
 #~ msgstr ""
@@ -28739,10 +29639,6 @@ msgstr "Zespół"
 #~ msgid "Unknown terrain %s in entry %s."
 #~ msgstr "Nieznany teren %s w polu %s."
 
-#, fuzzy
-#~ msgid "Unit %s has unknown unit class %s as cargo."
-#~ msgstr "Teren %s używa nieznanej flagi %s"
-
 #~ msgid "Ruleset doesn't have any terrains (%s)"
 #~ msgstr "Zasady nie zawierają żadnego terenu (%s)"
 
@@ -28757,16 +29653,8 @@ msgstr "Zespół"
 #~ msgid "Terrain %s has unknown flag %s"
 #~ msgstr "Teren %s używa nieznanej flagi %s"
 
-#, fuzzy
-#~ msgid "Terrain %s is native to unknown unit class %s"
-#~ msgstr "Teren %s używa nieznanej flagi %s"
-
 #~ msgid "Resources %s and %s have the same identifier."
 #~ msgstr "Zasoby %s i %s mają te same nazwy."
-
-#, fuzzy
-#~ msgid "Base %s has unknown flag %s"
-#~ msgstr "Teren %s używa nieznanej flagi %s"
 
 #~ msgid "Section %s lists unknown effect type: \"%s\" (%s)"
 #~ msgstr "Sekcja %s zawiera nieznany typ efektu: \"%s\" (%s)"
@@ -28814,53 +29702,8 @@ msgstr "Zespół"
 #~ msgid "Unsupported city style found in player%d section. Changed to %s"
 #~ msgstr "Znaleziono nieznany styl miast w sekcji player%d. Zmieniono na %s"
 
-#~ msgid "Your %s has been lost on the high seas."
-#~ msgstr "Twoja %s zatonęła na szerokich morzach."
-
-#~ msgid "Your %s survived on the high seas and became more experienced!"
-#~ msgstr ""
-#~ "Twoja %s nie zatonęła na szerokich morzach. Załoga zyskała nowe "
-#~ "doświadczenie."
-
-#~ msgid "Your %s has been lost on unsafe terrain."
-#~ msgstr "Twoja jednostka %s zaginęła w niebezpiecznym terenie."
-
 #~ msgid "Food Stock"
 #~ msgstr "Zapasy żywności"
-
-#~ msgid "* Can build fortresses (if %s is known).\n"
-#~ msgstr "* Potrafi budować fortece (Jeśli odkryto %s).\n"
-
-#~ msgid "* Can build fortresses (if any of the following are known: %s).\n"
-#~ msgstr "* Potrafi budować fortece (Jeśli odkryto %s).\n"
-
-#~ msgid "* Can build airbases.\n"
-#~ msgstr "* Potrafi budować bazy lotnicze.\n"
-
-#~ msgid "* The discovery of %s reduces the risk to 25%%.\n"
-#~ msgstr "* Technologia '%s' zmniejsza ryzyko do 25%%.\n"
-
-#~ msgid "* %s reduces the risk to 12%%.\n"
-#~ msgstr "* Technologia '%s' zmniejsza ryzyko do 12%%.\n"
-
-#~ msgid "* Reduces the chance of losing boats on the high seas to 25%%.\n"
-#~ msgstr "* Zmniejsza ryzyko zatonięcia łodzi na szerokich morzach do 25%%.\n"
-
-#~ msgid "* Reduces the chance of losing boats on the high seas to 12%%.\n"
-#~ msgstr "* Zmniejsza ryzyko zatonięcia łodzi na szerokich morzach do 12%%.\n"
-
-#~ msgid "* Allows %s to build fortresses.\n"
-#~ msgstr "* Pozwala %s budować fortece.\n"
-
-#~ msgid "* Allows %s to build airbases.\n"
-#~ msgstr "* Pozwala %s budować bazy lotnicze.\n"
-
-#~ msgid "* This terrain is unsafe for units to travel on."
-#~ msgstr ""
-#~ "* Ten teren nie jest niebezpieczny dla jednostek podróżujących po nim."
-
-#~ msgid " with "
-#~ msgstr " z "
 
 #, fuzzy
 #~ msgid ""
@@ -28906,22 +29749,6 @@ msgstr "Zespół"
 #~ msgstr "Brakuje base sprite tag \"%s1\"."
 
 #, fuzzy
-#~ msgid "Moves Left"
-#~ msgstr "Punkty ruchu"
-
-#~ msgid "<AI>"
-#~ msgstr "<AI>"
-
-#~ msgid "<Novice AI>"
-#~ msgstr "<AI - Nowicjusz>"
-
-#~ msgid "<Normal AI>"
-#~ msgstr "<AI - Normalny>"
-
-#~ msgid "<Hard AI>"
-#~ msgstr "<AI - Trudny>"
-
-#, fuzzy
 #~ msgid "Economy (F5)"
 #~ msgstr "Ekonomia"
 
@@ -28950,40 +29777,6 @@ msgstr "Zespół"
 #, fuzzy
 #~ msgid "Log"
 #~ msgstr "Użytkownik:"
-
-#~ msgid ""
-#~ "%s%s  -  %s%s\n"
-#~ "\n"
-#~ msgstr ""
-#~ "%s%s  -  %s%s\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "Gives all sea units 1 additional movement point and eliminates the risk "
-#~ "of losing Triremes on the high seas.  Makes all new sea units veterans "
-#~ "(for all cities)."
-#~ msgstr ""
-#~ "Daje wszystkim jednostkom morskim dodatkowy punkt ruchu i eliminuje "
-#~ "ryzyko straty Trirem na otwartym morzu.  Czyni wszystkie nowe jednostki "
-#~ "morskie weteranami (we wszystkich miastach)."
-
-#~ msgid ""
-#~ "The Inca were an Amerind people of the Northern Andes who conquered an "
-#~ "empire stretching along the west coast of South America from what is now "
-#~ "southern Chile nearly to the Equator. They had the bad timing to do it "
-#~ "just a few decades before the Spanish conquistadors arrived in their part "
-#~ "of the world in the mid-1500s AD."
-#~ msgstr ""
-#~ "Inkowie - plemię zamieszkujące południowo-zachodnią część Ameryki "
-#~ "Południowej, które prawdopodobnie w połowie XII w. stworzyło doskonale "
-#~ "zorganizowane państwo o nazwie Tawantinsuyu (\"państwo pszczół\"). Dzięki "
-#~ "ekspansywnej polityce władców szybko wchłonęli okoliczne drobne "
-#~ "państewka, samodzielnie funkcjonujące wcześniej na terenie Ameryki "
-#~ "Południowej. Niestety kilka dekad później zostali podbici przez "
-#~ "Hiszpańskich konkwiskadorów w XVI w."
-
-#~ msgid "?title:Inca"
-#~ msgstr "?attitude:Inca"
 
 #, fuzzy
 #~ msgid ""
@@ -29017,34 +29810,6 @@ msgstr "Zespół"
 #~ msgstr "  -z, --zone\t\tWłącz tryb GGZ\n"
 
 #~ msgid ""
-#~ "Only the console and connections with cmdlevel 'hack' can force other "
-#~ "connections to take over a player. If you're not one of these, only the "
-#~ "<player-name> argument is allowed"
-#~ msgstr ""
-#~ "Aby zmienić stan dowolnego połączenia musisz mieć dostęp do konsoli lub "
-#~ "posiadać poziom dostępu 'hack'. Jeżeli nie masz takich uprawnień możesz "
-#~ "jedynie użyć parametru <nazwa-gracza>"
-
-#~ msgid "Unit must be on land to perform diplomatic action."
-#~ msgstr "Jednostka musi być na lądzie aby wykonywać czynności dyplomatyczne."
-
-#~ msgid "* Can carry and refuel %d missile unit.\n"
-#~ msgid_plural "* Can carry and refuel %d missile units.\n"
-#~ msgstr[0] "* Może przenosić i uzupełniać paliwo %d jednostki pocisków.\n"
-#~ msgstr[1] "* Może przenosić i uzupełniać paliwo %d jednostek pocisków.\n"
-#~ msgstr[2] "* Może przenosić i uzupełniać paliwo %d jednostek pocisków.\n"
-
-#~ msgid "* Can carry %d ground unit across water.\n"
-#~ msgid_plural "* Can carry %d ground units across water.\n"
-#~ msgstr[0] "* Może transportować %d jednostkę lądową.\n"
-#~ msgstr[1] "* Może transportować %d jednostki lądowe.\n"
-#~ msgstr[2] "* Może transportować %d jednostek lądowych.\n"
-
-#~ msgid "* Attacks with full strength even if less than one movement left.\n"
-#~ msgstr ""
-#~ "* Atakuje pełną siłą, nawet gdy posiada mniej niż jeden punkt ruchu.\n"
-
-#~ msgid ""
 #~ "If this option is set then instead of just the city name and attributes, "
 #~ "a large amount of data will be drawn beneath each city in the 'citybar'."
 #~ msgstr ""
@@ -29063,6 +29828,38 @@ msgstr "Zespół"
 
 #~ msgid "If enabled, fog of war is shown on the overview."
 #~ msgstr "Jeśli włączone, to na minimapie będzie widoczna mgła wojny."
+
+#~ msgid "Oceanian"
+#~ msgstr "Oceania"
+
+#~ msgid "Modern"
+#~ msgstr "Współczesny"
+
+#~ msgid "African"
+#~ msgstr "Afrykański"
+
+#~ msgid "Fictional"
+#~ msgstr "Fikcyjny"
+
+#, fuzzy
+#~ msgid "Transitional"
+#~ msgstr "Fikcyjny"
+
+#~ msgid "Qween"
+#~ msgstr "Królowa"
+
+#~ msgid ""
+#~ "Only the console and connections with cmdlevel 'hack' can force other "
+#~ "connections to take over a player. If you're not one of these, only the "
+#~ "<player-name> argument is allowed"
+#~ msgstr ""
+#~ "Aby zmienić stan dowolnego połączenia musisz mieć dostęp do konsoli lub "
+#~ "posiadać poziom dostępu 'hack'. Jeżeli nie masz takich uprawnień możesz "
+#~ "jedynie użyć parametru <nazwa-gracza>"
+
+#~ msgid "* Attacks with full strength even if less than one movement left.\n"
+#~ msgstr ""
+#~ "* Atakuje pełną siłą, nawet gdy posiada mniej niż jeden punkt ruchu.\n"
 
 #~ msgid ""
 #~ " - \"Exhausted\" attackers are weaker: if the attacker has only 1/3 "
@@ -29083,6 +29880,9 @@ msgstr "Zespół"
 #~ "status weterana, ale zmniejszona jest do 8, bo jednostka posiada tylko "
 #~ "2/3 punktu ruchu."
 
+#~ msgid "Tropical"
+#~ msgstr "Tropikalny"
+
 #~ msgid "Celtic"
 #~ msgstr "Celtycki"
 
@@ -29091,69 +29891,6 @@ msgstr "Zespół"
 
 #~ msgid "PostModern"
 #~ msgstr "Postmodernistyczny"
-
-#~ msgid ""
-#~ "Australia was founded as a British penal colony in 1788AD. It is the only "
-#~ "country on earth to occupy an entire continent."
-#~ msgstr ""
-#~ "Australia została założona jako Brytyjska kolonia karna w 1788. Jest to "
-#~ "jedyne państwo, którego obszar obejmuje cały kontynent."
-
-#, fuzzy
-#~ msgid "Transitional"
-#~ msgstr "Fikcyjny"
-
-#~ msgid "Emporer"
-#~ msgstr "Imperator"
-
-#~ msgid "Presedinte"
-#~ msgstr "Prezydent"
-
-#~ msgid "Qween"
-#~ msgstr "Królowa"
-
-#~ msgid "Elected King"
-#~ msgstr "Król"
-
-#~ msgid "Elected Queen"
-#~ msgstr "Królowa"
-
-#, fuzzy
-#~ msgid "Elected Priest"
-#~ msgstr "Skasuj schemat"
-
-#, fuzzy
-#~ msgid "Elected Priestess"
-#~ msgstr "Kapłanka"
-
-#~ msgid "We Love The %s Day celebrated in %s."
-#~ msgstr "Festiwal Poparcia Dla %s w mieście %s."
-
-#~ msgid "City size before people become unhappy"
-#~ msgstr "Rozmiar miasta zanim obywatele staną się nieszczęśliwi"
-
-#~ msgid ""
-#~ "Before other adjustments, the first unhappysize citizens in a city are "
-#~ "content, and subsequent citizens are unhappy. See also cityfactor."
-#~ msgstr ""
-#~ "Gdy nic innego nie wpływa na zadowolenie mieszkańców, tylko podana liczba "
-#~ "mieszkańców jest zadowolona, pozostali są niezadowoleni. Zobacz także "
-#~ "cityfactor."
-
-#~ msgid "Number of cities for higher unhappiness"
-#~ msgstr "Liczba miast, po której niezadowolenie wzrasta"
-
-#~ msgid ""
-#~ "When the number of cities a player owns is greater than cityfactor, one "
-#~ "extra citizen is unhappy before other adjustments; see also unhappysize. "
-#~ "This assumes a Democracy; for other governments the effect occurs at "
-#~ "smaller numbers of cities."
-#~ msgstr ""
-#~ "Jeżeli liczba miast, którymi włada gracz jest większa od podanego progu, "
-#~ "jeden dodatkowy niezadowolony mieszkaniec jest dodawany do miasta. (W "
-#~ "praktyce zmniejsza to unhappysize o 1). Podana wartość jest prawdziwa "
-#~ "jedynie dla Demokracji, dla innych ustrojów taki próg jest odpowiednio "
-#~ "mniejszy(w zależności od zasad)."
 
 #~ msgid "* Allows changing government to %s.\n"
 #~ msgstr "* Umożliwia zmianę typu rządów na %s.\n"
@@ -29188,6 +29925,12 @@ msgstr "Zespół"
 
 #~ msgid "Queen of Doriath"
 #~ msgstr "Królowa Doriath"
+
+#~ msgid "Hobbit"
+#~ msgstr "Hobbitów"
+
+#~ msgid "?plural:Hobbits"
+#~ msgstr "?plural:Hobbici"
 
 #~ msgid ""
 #~ "The Hobbits of the Shire, from J.R.R. Tolkien's Middle Earth fantasies."
