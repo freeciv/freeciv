@@ -46,16 +46,6 @@ struct happiness_dlg {
   POINT mod_bmp_pos[NUM_HAPPINESS_MODIFIERS];
 };
 
-static void happiness_dialog_update_cities(struct happiness_dlg
-                                           *pdialog);
-static void happiness_dialog_update_luxury(struct happiness_dlg
-                                           *pdialog);
-static void happiness_dialog_update_buildings(struct happiness_dlg
-                                              *pdialog);
-static void happiness_dialog_update_units(struct happiness_dlg
-                                          *pdialog);
-static void happiness_dialog_update_wonders(struct happiness_dlg
-                                            *pdialog);
 static void refresh_happiness_bitmap(HBITMAP bmp,
 				     struct city *pcity,
 				     enum citizen_feeling index);
@@ -145,144 +135,6 @@ void repaint_happiness_box(struct happiness_dlg *dlg, HDC hdc)
   DeleteDC(hdcsrc);
 }
 
-/****************************************************************
-...
-*****************************************************************/
-void refresh_happiness_box(struct happiness_dlg *dlg)
-{
-  HDC hdc;
-  int i;
-  for(i=0;i<NUM_HAPPINESS_MODIFIERS;i++) {
-    refresh_happiness_bitmap(dlg->mod_bmp[i],dlg->pcity,i);
-  }
-  hdc=GetDC(dlg->win);
-  repaint_happiness_box(dlg,hdc);
-  ReleaseDC(dlg->win,hdc);
-  happiness_dialog_update_cities(dlg);
-  happiness_dialog_update_luxury(dlg);
-  happiness_dialog_update_buildings(dlg);
-  happiness_dialog_update_units(dlg);
-  happiness_dialog_update_wonders(dlg);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void happiness_dialog_update_cities(struct happiness_dlg
-                                           *pdialog)
-{
-  char buf[512], *bptr = buf;
-  int nleft = sizeof(buf);
-
-  struct city *pcity = pdialog->pcity;
-  struct player *pplayer = city_owner(pcity);
-  int cities = city_list_size(pplayer->cities);
-  int content = get_player_bonus(pplayer, EFT_CITY_UNHAPPY_SIZE);
-  int basis = get_player_bonus(game.player_ptr, EFT_EMPIRE_SIZE_BASE);
-  int step = get_player_bonus(game.player_ptr, EFT_EMPIRE_SIZE_STEP);
-  int excess = cities - basis;
-  int penalty = 0;
-
-  if (excess > 0) {
-    if (step > 0)
-      penalty = 1 + (excess - 1) / step;
-    else
-      penalty = 1;
-  } else {
-    excess = 0;
-    penalty = 0;
-  }
-
-  my_snprintf(bptr, nleft,
-              _("Cities: %d total, %d over threshold of %d cities.\n"),
-              cities, excess, basis);
-  bptr = end_of_strn(bptr, &nleft);
-
-  my_snprintf(bptr, nleft, _("%d content before penalty with "), content);
-  bptr = end_of_strn(bptr, &nleft);
-  my_snprintf(bptr, nleft, _("%d additional unhappy citizens."), penalty);
-  bptr = end_of_strn(bptr, &nleft);
-
-  SetWindowText(pdialog->mod_label[CITIES], buf);
-}
-
-
-/**************************************************************************
-...
-**************************************************************************/
-static void happiness_dialog_update_luxury(struct happiness_dlg
-                                           *pdialog)
-{
-  char buf[512], *bptr = buf;
-  int nleft = sizeof(buf);
-  struct city *pcity = pdialog->pcity;
-
-  my_snprintf(bptr, nleft, _("Luxury: %d total."),
-              pcity->prod[O_LUXURY]);
-
-  SetWindowText(pdialog->mod_label[LUXURIES], buf);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void happiness_dialog_update_buildings(struct happiness_dlg
-                                              *pdialog)
-{
-  SetWindowText(pdialog->mod_label[BUILDINGS],
-		get_happiness_buildings(pdialog->pcity));
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void happiness_dialog_update_units(struct happiness_dlg *pdialog)
-{
-  char buf[512], *bptr = buf;
-  int nleft = sizeof(buf);
-  struct city *pcity = pdialog->pcity;
-  int mlmax = get_city_bonus(pcity, EFT_MARTIAL_LAW_MAX);
-  int uhcfac = get_player_bonus(city_owner(pcity), EFT_UNHAPPY_FACTOR);
-
-  my_snprintf(bptr, nleft, _("Units: "));
-  bptr = end_of_strn(bptr, &nleft);
-
-  if (mlmax > 0) {
-    my_snprintf(bptr, nleft, _("Martial law in effect ("));
-    bptr = end_of_strn(bptr, &nleft);
-
-    if (mlmax == 100)
-      my_snprintf(bptr, nleft, _("no maximum, "));
-    else
-      my_snprintf(bptr, nleft, PL_("%d unit maximum, ",
-                                   "%d units maximum", mlmax), mlmax);
-    bptr = end_of_strn(bptr, &nleft);
-
-    my_snprintf(bptr, nleft, _("%d per unit). "),
-		get_city_bonus(pcity, EFT_MARTIAL_LAW_EACH));
-  }
-  else if (uhcfac > 0) {
-    my_snprintf(bptr, nleft,
-                _("Military units in the field may cause unhappiness. "));
-  }
-  else {
-    my_snprintf(bptr, nleft,
-                _("Military units have no happiness effect. "));
-  }
-
-  SetWindowText(pdialog->mod_label[UNITS], buf);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void happiness_dialog_update_wonders(struct happiness_dlg
-                                            *pdialog)
-{
-  SetWindowText(pdialog->mod_label[WONDERS],
-		get_happiness_wonders(pdialog->pcity));
-}
-
 /**************************************************************************
 ...
 **************************************************************************/
@@ -313,4 +165,30 @@ static void refresh_happiness_bitmap(HBITMAP bmp,
 
   SelectObject(hdc,old);
   DeleteDC(hdc);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void refresh_happiness_box(struct happiness_dlg *dlg)
+{
+  HDC hdc;
+  int i;
+  for(i=0;i<NUM_HAPPINESS_MODIFIERS;i++) {
+    refresh_happiness_bitmap(dlg->mod_bmp[i],dlg->pcity,i);
+  }
+  hdc=GetDC(dlg->win);
+  repaint_happiness_box(dlg,hdc);
+  ReleaseDC(dlg->win,hdc);
+
+  SetWindowText(pdialog->mod_label[CITIES],
+		text_happiness_cities(dlg->pcity));
+  SetWindowText(dlg->mod_label[LUXURIES],
+		text_happiness_luxuries(dlg->pcity));
+  SetWindowText(dlg->mod_label[BUILDINGS],
+		text_happiness_buildings(dlg->pcity));
+  SetWindowText(pdialog->mod_label[UNITS],
+		text_happiness_units(dlg->pcity));
+  SetWindowText(dlg->mod_label[WONDERS],
+		text_happiness_wonders(dlg->pcity));
 }
