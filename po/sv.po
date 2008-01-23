@@ -42,7 +42,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-22 21:58+0900\n"
+"POT-Creation-Date: 2008-01-23 00:04-0500\n"
 "PO-Revision-Date: 2007-09-05 04:15+0300\n"
 "Last-Translator: Daniel Markstedt <markstedt@gmail.com>\n"
 "Language-Team: Swedish <freeciv.sv@freelists.org>\n"
@@ -8670,8 +8670,7 @@ msgstr[1] ""
 #, c-format
 msgid "* A maximum of %d unit in each city can enforce martial law.\n"
 msgid_plural "* A maximum of %d units in each city can enforce martial law.\n"
-msgstr[0] ""
-"* Som flest kan %d enhet i varje stad införa undantagstillstånd.\n"
+msgstr[0] "* Som flest kan %d enhet i varje stad införa undantagstillstånd.\n"
 msgstr[1] ""
 "* Som flest kan %d enheter i varje stad införa undantagstillstånd.\n"
 
@@ -19810,7 +19809,7 @@ msgstr "folkstyre"
 #: data/civ1/governments.ruleset:167 data/nation/assyrian.ruleset:22
 #: data/nation/bosnia.ruleset:28 data/nation/bosnia.ruleset:29
 #: data/nation/brazilian.ruleset:24 data/nation/bulgarian.ruleset:32
-#: data/nation/bulgarian.ruleset:33 data/nation/catalan.ruleset:25
+#: data/nation/bulgarian.ruleset:33 data/nation/catalan.ruleset:27
 #: data/nation/chilean.ruleset:27 data/nation/croatian.ruleset:35
 #: data/nation/croatian.ruleset:36 data/nation/finnish.ruleset:20
 #: data/nation/german.ruleset:33 data/nation/icelandic.ruleset:25
@@ -22334,37 +22333,37 @@ msgid ""
 "region of Spain near the southern foot of the Pyrenees."
 msgstr "Katalonien är ett område i nordöstra Spanien, vid foten av Pyrenéerna."
 
-#: data/nation/catalan.ruleset:22
+#: data/nation/catalan.ruleset:24
 msgid "Primer Ministre"
 msgstr "premiärminister"
 
-#: data/nation/catalan.ruleset:22
+#: data/nation/catalan.ruleset:24
 msgid "Primera Ministre"
 msgstr "premiärminister"
 
-#: data/nation/catalan.ruleset:23 data/nation/galician.ruleset:23
+#: data/nation/catalan.ruleset:25 data/nation/galician.ruleset:23
 #: data/nation/venezuelan.ruleset:29
 msgid "Dictador"
 msgstr "diktator"
 
-#: data/nation/catalan.ruleset:23 data/nation/galician.ruleset:23
+#: data/nation/catalan.ruleset:25 data/nation/galician.ruleset:23
 #: data/nation/venezuelan.ruleset:29
 msgid "Dictadora"
 msgstr "diktatorska"
 
-#: data/nation/catalan.ruleset:24 data/nation/galician.ruleset:24
+#: data/nation/catalan.ruleset:26 data/nation/galician.ruleset:24
 msgid "Rei"
 msgstr "konung"
 
-#: data/nation/catalan.ruleset:24
+#: data/nation/catalan.ruleset:26
 msgid "Reina"
 msgstr "drottning"
 
-#: data/nation/catalan.ruleset:26
+#: data/nation/catalan.ruleset:28
 msgid "Arquebisbe"
 msgstr "ärkebiskop"
 
-#: data/nation/catalan.ruleset:26
+#: data/nation/catalan.ruleset:28
 msgid "Gran Bruixa"
 msgstr "storbruxia"
 

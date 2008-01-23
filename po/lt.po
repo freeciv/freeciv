@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-22 07:39-0500\n"
+"POT-Creation-Date: 2008-01-23 00:04-0500\n"
 "PO-Revision-Date: 2007-12-16 11:12+0300\n"
 "Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
@@ -18251,7 +18251,7 @@ msgstr "Demokratija"
 #: data/civ1/governments.ruleset:167 data/nation/assyrian.ruleset:22
 #: data/nation/bosnia.ruleset:28 data/nation/bosnia.ruleset:29
 #: data/nation/brazilian.ruleset:24 data/nation/bulgarian.ruleset:32
-#: data/nation/bulgarian.ruleset:33 data/nation/catalan.ruleset:25
+#: data/nation/bulgarian.ruleset:33 data/nation/catalan.ruleset:27
 #: data/nation/chilean.ruleset:27 data/nation/croatian.ruleset:35
 #: data/nation/croatian.ruleset:36 data/nation/finnish.ruleset:20
 #: data/nation/german.ruleset:33 data/nation/icelandic.ruleset:25
@@ -20462,37 +20462,37 @@ msgstr ""
 "Catalunya (arba Katalonija lietuviškai) yra šiaurės rytų Ispanijos pakrantės "
 "regionas."
 
-#: data/nation/catalan.ruleset:22
+#: data/nation/catalan.ruleset:24
 msgid "Primer Ministre"
 msgstr "Ministras Pirmininkas"
 
-#: data/nation/catalan.ruleset:22
+#: data/nation/catalan.ruleset:24
 msgid "Primera Ministre"
 msgstr "Ministrė Pirmininkė"
 
-#: data/nation/catalan.ruleset:23 data/nation/galician.ruleset:23
+#: data/nation/catalan.ruleset:25 data/nation/galician.ruleset:23
 #: data/nation/venezuelan.ruleset:29
 msgid "Dictador"
 msgstr "Diktatorius"
 
-#: data/nation/catalan.ruleset:23 data/nation/galician.ruleset:23
+#: data/nation/catalan.ruleset:25 data/nation/galician.ruleset:23
 #: data/nation/venezuelan.ruleset:29
 msgid "Dictadora"
 msgstr "Diktatorė"
 
-#: data/nation/catalan.ruleset:24 data/nation/galician.ruleset:24
+#: data/nation/catalan.ruleset:26 data/nation/galician.ruleset:24
 msgid "Rei"
 msgstr ""
 
-#: data/nation/catalan.ruleset:24
+#: data/nation/catalan.ruleset:26
 msgid "Reina"
 msgstr ""
 
-#: data/nation/catalan.ruleset:26
+#: data/nation/catalan.ruleset:28
 msgid "Arquebisbe"
 msgstr "Arkivyskupas"
 
-#: data/nation/catalan.ruleset:26
+#: data/nation/catalan.ruleset:28
 msgid "Gran Bruixa"
 msgstr ""
 

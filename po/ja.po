@@ -144,7 +144,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.99-devel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-18 06:05-0500\n"
+"POT-Creation-Date: 2008-01-23 00:04-0500\n"
 "PO-Revision-Date: 2007-08-12 15:56+0300\n"
 "Last-Translator: MITA Yuusuke <clefs@mail.goo.ne.jp>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
@@ -175,12 +175,12 @@ msgstr "交易"
 msgid "Gold"
 msgstr "金"
 
-#: common/city.c:60 server/plrhand.c:214 client/gui-gtk-2.0/gamedlgs.c:262
+#: common/city.c:60 server/plrhand.c:193 client/gui-gtk-2.0/gamedlgs.c:262
 #: client/gui-win32/ratesdlg.c:315
 msgid "Luxury"
 msgstr "贅沢"
 
-#: common/city.c:61 server/plrhand.c:216 client/gui-gtk-2.0/gamedlgs.c:282
+#: common/city.c:61 server/plrhand.c:195 client/gui-gtk-2.0/gamedlgs.c:282
 #: client/gui-win32/ratesdlg.c:321
 msgid "Science"
 msgstr "科学"
@@ -742,31 +742,35 @@ msgstr "島単位での必要条件は不思議のみでサポートされてい
 msgid "Surviving requirements are only supported at world range."
 msgstr ""
 
-#. TRANS: (none) as in "Resources: (none)".
-#: common/requirements.c:1013 common/team.c:131
-#: client/gui-gtk-2.0/helpdlg.c:1055 client/gui-win32/helpdlg.c:586
-#: client/gui-xaw/helpdlg.c:991
+#. TRANS: missing value
+#. TRANS: "Resources: (none)"
+#. TRANS: missing value
+#. TRANS: "Resources: (none)"
+#. TRANS: "Resources: (none)".
+#: common/requirements.c:1014 common/team.c:132
+#: client/gui-gtk-2.0/helpdlg.c:1055 client/gui-gtk-2.0/inteldlg.c:390
+#: client/gui-win32/helpdlg.c:586 client/gui-xaw/helpdlg.c:991
 #, c-format
 msgid "(none)"
 msgstr "(なし)"
 
-#: common/requirements.c:1037 common/requirements.c:1041
+#: common/requirements.c:1038 common/requirements.c:1042
 #, c-format
 msgid "%s units"
 msgstr "%s 部隊"
 
-#: common/requirements.c:1051
+#: common/requirements.c:1052
 #, c-format
 msgid "Size %d"
 msgstr "規模 %d"
 
-#: common/tech.c:695 client/gui-gtk-2.0/repodlgs.c:498
+#: common/tech.c:707 client/gui-gtk-2.0/repodlgs.c:498
 #, c-format
 msgid "Future Tech. %d"
 msgstr "先端技術 %d"
 
 #. TRANS: "None" tech
-#: common/tech.c:770 common/tech.c:774 server/settings.c:41
+#: common/tech.c:782 common/tech.c:786 server/settings.c:41
 #: client/gui-gtk-2.0/helpdlg.c:110 client/gui-sdl/citydlg.c:722
 #: client/gui-sdl/gui_tilespec.c:482 client/gui-sdl/helpdlg.c:371
 #: client/gui-sdl/helpdlg.c:403 client/gui-sdl/helpdlg.c:792
@@ -778,15 +782,12 @@ msgstr "先端技術 %d"
 msgid "None"
 msgstr "なし"
 
-#: common/tech.c:778
+#: common/tech.c:790
 msgid "Future Tech."
 msgstr "先端技術"
 
-#. TRANS: "Unknown" tech
-#: common/tech.c:783 client/gui-gtk-2.0/inteldlg.c:366
-#: client/gui-gtk-2.0/inteldlg.c:387 client/gui-sdl/inteldlg.c:290
-#: client/gui-sdl/inteldlg.c:301 client/gui-win32/inteldlg.c:139
-#: client/gui-xaw/inteldlg.c:259
+#. TRANS: "Unknown" advance/technology
+#: common/tech.c:795 client/gui-gtk-2.0/inteldlg.c:386
 msgid "(Unknown)"
 msgstr "(なし)"
 
@@ -888,7 +889,7 @@ msgstr "不明"
 msgid "Moves"
 msgstr "移動"
 
-#: common/unit.c:1570
+#: common/unit.c:1571
 #, c-format
 msgid ""
 "Upgrade %s to %s for %d gold?\n"
@@ -898,13 +899,13 @@ msgstr ""
 "現在の資金は%dです。"
 
 # clefs
-#: common/unit.c:1578
+#: common/unit.c:1579
 #, c-format
 msgid "Sorry, cannot upgrade %s (yet)."
 msgstr "残念，%sを(まだ)新型にできません。"
 
 # ama, clefs
-#: common/unit.c:1584
+#: common/unit.c:1585
 #, c-format
 msgid ""
 "Upgrading %s to %s costs %d gold.\n"
@@ -913,14 +914,14 @@ msgstr ""
 "%1$sを%2$sへ新型にするには金%3$dが必要です。\n"
 "現在の資金は%4$dです。"
 
-#: common/unit.c:1593
+#: common/unit.c:1594
 msgid "You can only upgrade units in your cities."
 msgstr "自分の都市でのみ部隊をアップグレードできます。"
 
 # clefs
 # strandを「座礁」にしても矛盾は出ないかな？
 # フリゲートを装甲艦・駆逐艦にすると部隊を積めなくなります
-#: common/unit.c:1597
+#: common/unit.c:1598
 #, c-format
 msgid "Upgrading this %s would strand units it transports."
 msgstr ""
@@ -3804,27 +3805,27 @@ msgstr "このゲームではメタサーバへは報告していません。"
 msgid "Metaserver: bad address: [%s:%d]."
 msgstr "メタサーバ: 間違ったアドレス: [%s:%d]"
 
-#: server/plrhand.c:147
+#: server/plrhand.c:126
 #, c-format
 msgid "The %s are no more!"
 msgstr "%sは絶滅しました"
 
 # yasu
-#: server/plrhand.c:196
+#: server/plrhand.c:175
 msgid "Cannot change rates before game start."
 msgstr "ゲーム開始前に比率は変えられません。"
 
-#: server/plrhand.c:212 client/gui-gtk-2.0/gamedlgs.c:242
+#: server/plrhand.c:191 client/gui-gtk-2.0/gamedlgs.c:242
 #: client/gui-win32/ratesdlg.c:309
 msgid "Tax"
 msgstr "税"
 
-#: server/plrhand.c:220
+#: server/plrhand.c:199
 #, c-format
 msgid "%s rate exceeds the max rate for %s."
 msgstr "%sの割合が%sの最大を越えています。"
 
-#: server/plrhand.c:265
+#: server/plrhand.c:244
 #, c-format
 msgid "%s now governs the %s as a %s."
 msgstr "%sは%sを%sで治めるようになりました。"
@@ -3832,7 +3833,7 @@ msgstr "%sは%sを%sで治めるようになりました。"
 # Is it short enuf? (clefs)
 #. TRANS: this is a message event so don't make it
 #. * too long.
-#: server/plrhand.c:345
+#: server/plrhand.c:324
 #, c-format
 msgid ""
 "The %s have incited a revolt! %d turn of anarchy will ensue! Target "
@@ -3844,41 +3845,41 @@ msgstr[0] ""
 "%sは革命を起こしました！ %dターン無政府状態が続きます！ 目指す政体は%sです。"
 
 # clefs
-#: server/plrhand.c:358
+#: server/plrhand.c:337
 msgid "Revolution: returning to anarchy."
 msgstr "革命: 帝国は無政府状態に入ります。"
 
 # clefs
-#: server/plrhand.c:419
+#: server/plrhand.c:398
 msgid "You should choose a new government from the government menu."
 msgstr "「政治体制」メニューから新しい統治形態を選択してください。"
 
 # yasu
-#: server/plrhand.c:446
+#: server/plrhand.c:425
 #, c-format
 msgid "Tax rate exceeded the max rate for %s; adjusted."
 msgstr "税金の割合が %s の最大値を超えました。修正しました。"
 
 # yasu
-#: server/plrhand.c:452
+#: server/plrhand.c:431
 #, c-format
 msgid "Science rate exceeded the max rate for %s; adjusted."
 msgstr "科学の割合が %s の最大値を超えました。修正しました。"
 
 # yasu
-#: server/plrhand.c:458
+#: server/plrhand.c:437
 #, c-format
 msgid "Luxury rate exceeded the max rate for %s; adjusted."
 msgstr "贅沢の割合が %s の最大値を超えました。修正しました。"
 
 # yasu
-#: server/plrhand.c:513
+#: server/plrhand.c:492
 #, c-format
 msgid "%s no longer gives us shared vision!"
 msgstr "%s はもう視野を提供してくれません。"
 
 # clefs
-#: server/plrhand.c:524
+#: server/plrhand.c:503
 #, c-format
 msgid ""
 "The senate will not allow you to break treaty with the %s.  You must either "
@@ -3888,14 +3889,14 @@ msgstr ""
 "グを待つかする必要があります。"
 
 # yasu, clefs
-#: server/plrhand.c:577
+#: server/plrhand.c:556
 #, c-format
 msgid ""
 "The senate passes your bill because of the constant provocations of the %s."
 msgstr "%s の絶え間ない挑発のため，上院はあなたの議案を通過させました。"
 
 # clefs XXX
-#: server/plrhand.c:582
+#: server/plrhand.c:561
 #, c-format
 msgid ""
 "The senate refuses to break treaty with the %s, but you have no trouble "
@@ -3904,13 +3905,13 @@ msgstr ""
 "上院は%sとの条約破棄を承認しませんが，わけなく別の議会にすげ替えました。"
 
 # yasu
-#: server/plrhand.c:614
+#: server/plrhand.c:593
 #, c-format
 msgid "The diplomatic state between the %s and the %s is now %s."
 msgstr "%sと%sの外交状態はいま%sです。"
 
 # yasu, ama
-#: server/plrhand.c:620
+#: server/plrhand.c:599
 #, c-format
 msgid ""
 " %s canceled the diplomatic agreement! The diplomatic state between the %s "
@@ -3918,14 +3919,14 @@ msgid ""
 msgstr "%sは外交条約を破棄しました! %sと%sの外交状態はいま%sです。"
 
 # clefs
-#: server/plrhand.c:638
+#: server/plrhand.c:617
 #, c-format
 msgid ""
 "%s has attacked your ally %s! You cancel your alliance to the aggressor."
 msgstr "%s はあなたの同盟国の %sを攻撃しました! 侵略国との同盟を破棄します。"
 
 # clefs
-#: server/plrhand.c:650
+#: server/plrhand.c:629
 #, c-format
 msgid ""
 "Your team mate %s declared war on %s. You are obligated to cancel alliance "
@@ -3936,31 +3937,31 @@ msgstr ""
 
 # yasu, clefs
 # was "プレイヤー %s を中止させます。"
-#: server/plrhand.c:1121
+#: server/plrhand.c:1100
 #, c-format
 msgid "Removing player %s."
 msgstr "プレイヤー %s を除去します。"
 
 # yasu, clefs
 # was "あなたはゲームを中止させられました。"
-#: server/plrhand.c:1123
+#: server/plrhand.c:1102
 msgid "You've been removed from the game!"
 msgstr "あなたはゲームから除去されました！"
 
 # yasu, clefs
 # was "%sはゲームを中止させられました。"
-#: server/plrhand.c:1126
+#: server/plrhand.c:1105
 #, c-format
 msgid "%s has been removed from the game."
 msgstr "%sはゲームから除去されました。"
 
-#: server/plrhand.c:1168 server/plrhand.c:1173
+#: server/plrhand.c:1148 server/plrhand.c:1153
 #, c-format
 msgid "You have made contact with the %s, ruled by %s."
 msgstr "あなたは %2$s によって統治された %1$s と接触しました。"
 
 # clefs
-#: server/plrhand.c:1193
+#: server/plrhand.c:1173
 #, c-format
 msgid ""
 "%s and %s meet and go to instant war. You cancel your alliance with both."
@@ -3968,14 +3969,14 @@ msgstr ""
 "%s と %s は接触と同時に戦争状態となりました。両国との同盟を破棄します。"
 
 # clefs
-#: server/plrhand.c:1671
+#: server/plrhand.c:1651
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr "%sに内戦を起こせませんでした――プレイヤーが多すぎます"
 
 # yasu
 # XXX
-#: server/plrhand.c:1694
+#: server/plrhand.c:1674
 #, c-format
 msgid ""
 "Your nation is thrust into civil war,  %s is declared the leader of the "
@@ -3983,14 +3984,14 @@ msgid ""
 msgstr "あなたの国は内戦になりました。%sが叛乱者のリーダー宣言しました。"
 
 # yasu
-#: server/plrhand.c:1715
+#: server/plrhand.c:1695
 #, c-format
 msgid "%s declares allegiance to %s."
 msgstr "%sは%sに対する忠誠を宣言しました。"
 
 # clefs
 # 原文の2行目以降に行頭のスペースがあるのは、1行目の「Game:」を消した名残りか
-#: server/plrhand.c:1730
+#: server/plrhand.c:1710
 #, fuzzy, c-format
 msgid ""
 "Capture of the %s capital and destruction of the empire's administrative\n"
@@ -5733,131 +5734,131 @@ msgstr ""
 "%sと%sの停戦期間は終了しました。両国は戦争状態となりました。両方との同盟を破"
 "棄します。"
 
-#: server/srv_main.c:901
+#: server/srv_main.c:928
 #, c-format
 msgid "Failed saving game as %s"
 msgstr "%s という名前でゲームを保存失敗しました。"
 
-#: server/srv_main.c:903
+#: server/srv_main.c:930
 #, c-format
 msgid "Game saved as %s"
 msgstr "%s という名前でゲームをセーブしました。"
 
-#: server/srv_main.c:933
+#: server/srv_main.c:960
 msgid "The game is already running."
 msgstr "ゲームは既に始まっています。"
 
 # clefs
-#: server/srv_main.c:941
+#: server/srv_main.c:968
 #, c-format
 msgid "%s lost control cmdlevel on game start.  Use voting from now on."
 msgstr ""
 "%sはゲーム開始と同時にcontrolコマンドレベルを失いました。以後は投票システムを"
 "使用してください。"
 
-#: server/srv_main.c:948
+#: server/srv_main.c:975
 msgid "Starting game."
 msgstr "ゲームを開始しています。"
 
 # clefs
-#: server/srv_main.c:1005
+#: server/srv_main.c:1032
 #, c-format
 msgid "request for unknown report (type %d)"
 msgstr "不明な報告の要求です (タイプ %d)"
 
 # clefs
-#: server/srv_main.c:1070
+#: server/srv_main.c:1097
 #, c-format
 msgid "Warning: rejecting old client %s"
 msgstr "警告: 旧型のクライアント%sを拒否しました"
 
 # yasu
-#: server/srv_main.c:1172
+#: server/srv_main.c:1199
 #, c-format
 msgid "Got a packet of type %d from a dead or observer player"
 msgstr "%d タイプのパケットを全滅または観察中のプレイヤーから受け取りました。"
 
 # yasu
-#: server/srv_main.c:1272
+#: server/srv_main.c:1299
 msgid "Please choose a non-blank name."
 msgstr "空白ではない名前を選んで下さい。"
 
 # clefs
-#: server/srv_main.c:1288
+#: server/srv_main.c:1315
 msgid "That nation is already in use."
 msgstr "その民族は既に使われています。"
 
 # yasu, ama
-#: server/srv_main.c:1304
+#: server/srv_main.c:1331
 #, c-format
 msgid "Another player already has the name '%s'.  Please choose another name."
 msgstr ""
 "他のプレイヤーが既に'%s'という名前を選んでいます。他の名前を選んでください。"
 
 # yasu, clefs
-#: server/srv_main.c:1325
+#: server/srv_main.c:1352
 msgid "Please choose a name containing only ASCII characters."
 msgstr "ASCII文字だけで綴られた名前にしてください。"
 
 # clefs
-#: server/srv_main.c:1424
+#: server/srv_main.c:1451
 #, c-format
 msgid "%s nation is not available in this scenario."
 msgstr "このシナリオでは%sは選択できません。"
 
-#: server/srv_main.c:1430
+#: server/srv_main.c:1457
 #, c-format
 msgid "%s nation is already in use."
 msgstr "%sはもう他の誰かが選択しています。"
 
-#: server/srv_main.c:1448
+#: server/srv_main.c:1475
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%sは%sの支配者%sです。"
 
 # clefs
-#: server/srv_main.c:1504
+#: server/srv_main.c:1531
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr "ゲームの開始待ち中――%2$d人のうち%1$d人は準備を完了しています。"
 
 # clefs
-#: server/srv_main.c:1509
+#: server/srv_main.c:1536
 msgid "All players are ready; starting game."
 msgstr "全員準備が整いました。ゲームを開始します。"
 
-#: server/srv_main.c:1551 server/srv_main.c:1555
+#: server/srv_main.c:1578 server/srv_main.c:1582
 #, c-format
 msgid "%s has been added as %s level AI-controlled player."
 msgstr "%s は%sレベルのAIプレイヤーとして加わりました。"
 
-#: server/srv_main.c:1684
+#: server/srv_main.c:1711
 #, c-format
 msgid "Player %d"
 msgstr "プレイヤー %d"
 
 # clefs
-#: server/srv_main.c:1695 server/srv_main.c:1701
+#: server/srv_main.c:1722 server/srv_main.c:1728
 #, c-format
 msgid "%s rules the %s."
 msgstr "%sは%sを統治します。"
 
-#: server/srv_main.c:1866
+#: server/srv_main.c:1893
 msgid ""
 "This civserver program has player authentication support, but it's currently "
 "not in use."
 msgstr ""
 
-#: server/srv_main.c:1917
+#: server/srv_main.c:1944
 #, c-format
 msgid "Sending info to metaserver [%s]"
 msgstr "メタサーバに情報を送っています [%s]"
 
-#: server/srv_main.c:1948
+#: server/srv_main.c:1975
 msgid "The game is over..."
 msgstr "ゲームオーバーです!"
 
-#: server/srv_main.c:2161
+#: server/srv_main.c:2188
 msgid "Now accepting new client connections."
 msgstr "新しいクライアント接続を受け付けています。"
 
@@ -5873,94 +5874,100 @@ msgstr "投票 \"%s\" は賛成%d, 反対%d, 棄権%d で可決されました�
 msgid "Vote \"%s\" failed with %d against, %d for and %d abstentions."
 msgstr "投票 \"%s\" は反対%d, 賛成%d, 棄権%d で否決されました。"
 
-#: server/stdinhand.c:363
+#. TRANS: ambiguous command
+#: server/stdinhand.c:366
 msgid "(ambiguous)"
 msgstr "(あいまい)"
 
-#: server/stdinhand.c:364 client/citydlg_common.c:411
+#. TRANS: unrecognized command
+#. TRANS: "unknown" location
+#: server/stdinhand.c:369 client/citydlg_common.c:412
+#: client/gui-gtk-2.0/inteldlg.c:367 client/gui-sdl/inteldlg.c:295
+#: client/gui-sdl/inteldlg.c:307 client/gui-win32/inteldlg.c:147
+#: client/gui-xaw/inteldlg.c:265
 msgid "(unknown)"
 msgstr "(不明)"
 
-#: server/stdinhand.c:454
+#: server/stdinhand.c:459
 msgid "Name is empty, so cannot be a player."
 msgstr "名前が空です。プレイヤーを入力して下さい。"
 
-#: server/stdinhand.c:458
+#: server/stdinhand.c:463
 msgid "Name is too long, so cannot be a player."
 msgstr "名前が長過ぎます。プレイヤーを正しく入力して下さい。"
 
-#: server/stdinhand.c:462
+#: server/stdinhand.c:467
 #, c-format
 msgid "Player name prefix '%s' is ambiguous."
 msgstr "プレイヤー名の先頭部分 '%s' は一意ではありません。"
 
-#: server/stdinhand.c:466
+#: server/stdinhand.c:471
 #, c-format
 msgid "No player by the name of '%s'."
 msgstr "'%s' という名前のプレイヤーはいません。"
 
-#: server/stdinhand.c:470 server/stdinhand.c:505
+#: server/stdinhand.c:475 server/stdinhand.c:510
 #, c-format
 msgid "Unexpected match_result %d (%s) for '%s'."
 msgstr "'%3$s' に対して予期しない match_result %1$d (%2$s)。"
 
-#: server/stdinhand.c:489
+#: server/stdinhand.c:494
 msgid "Name is empty, so cannot be a connection."
 msgstr "名前が空なので接続できません。"
 
-#: server/stdinhand.c:493
+#: server/stdinhand.c:498
 msgid "Name is too long, so cannot be a connection."
 msgstr "名前が長過ぎるので接続できません。"
 
-#: server/stdinhand.c:497
+#: server/stdinhand.c:502
 #, c-format
 msgid "Connection name prefix '%s' is ambiguous."
 msgstr "接続名の先頭部分 '%s' は一意ではありません。"
 
-#: server/stdinhand.c:501
+#: server/stdinhand.c:506
 #, c-format
 msgid "No connection by the name of '%s'."
 msgstr "'%s' という名前の接続はありません。"
 
-#: server/stdinhand.c:521
+#: server/stdinhand.c:526
 #, c-format
 msgid "Open metaserver connection to [%s]."
 msgstr "[%s]へのメタサーバ接続を開きます。"
 
-#: server/stdinhand.c:534
+#: server/stdinhand.c:539
 #, c-format
 msgid "Close metaserver connection to [%s]."
 msgstr "[%s]へのメタサーバ接続を閉じます。"
 
-#: server/stdinhand.c:549
+#: server/stdinhand.c:554
 msgid "Metaserver connection is open."
 msgstr "メタサーバ接続は開いています。"
 
-#: server/stdinhand.c:552
+#: server/stdinhand.c:557
 msgid "Metaserver connection is closed."
 msgstr "メタサーバ接続は閉ざされました。"
 
-#: server/stdinhand.c:562
+#: server/stdinhand.c:567
 msgid "Metaserver connection is already open."
 msgstr "メタサーバ接続は既に開いています。"
 
-#: server/stdinhand.c:573
+#: server/stdinhand.c:578
 msgid "Metaserver connection is already closed."
 msgstr "メタサーバ接続は既に閉じています。"
 
-#: server/stdinhand.c:578
+#: server/stdinhand.c:583
 msgid "Argument must be 'u', 'up', 'd', 'down', or '?'."
 msgstr "引数は 'u', 'up', 'd', 'down', '?' のいずれかでなければなりません。"
 
 # clefs
 # patches stringはサーバに適用されているパッチの種類を広報する文字列
-#: server/stdinhand.c:599
+#: server/stdinhand.c:604
 #, c-format
 msgid "Metaserver patches string set to '%s'."
 msgstr "メタサーバのパッチ文字列を '%s' へ設定します。"
 
 # clefs
-#: server/stdinhand.c:602
+#: server/stdinhand.c:607
 #, c-format
 msgid "Metaserver patches string set to '%s', not reporting to metaserver."
 msgstr ""
@@ -5968,134 +5975,134 @@ msgstr ""
 "せん。"
 
 # clefs
-#: server/stdinhand.c:623
+#: server/stdinhand.c:628
 #, c-format
 msgid "Metaserver message string set to '%s'."
 msgstr "メタサーバのメッセージ文字列を '%s' へ設定します。"
 
 # clefs
-#: server/stdinhand.c:626
+#: server/stdinhand.c:631
 #, c-format
 msgid "Metaserver message string set to '%s', not reporting to metaserver."
 msgstr ""
 "メタサーバのメッセージ文字列を '%s' へ設定します。メタサーバへの通知は行って"
 "いません。"
 
-#: server/stdinhand.c:646
+#: server/stdinhand.c:651
 #, c-format
 msgid "Metaserver is now [%s]."
 msgstr "メタサーバは今では[%s]です。"
 
-#: server/stdinhand.c:656
+#: server/stdinhand.c:661
 #, c-format
 msgid "Server id: %s"
 msgstr "サーバID: %s"
 
-#: server/stdinhand.c:753
+#: server/stdinhand.c:758
 msgid "You cannot save games manually on this server."
 msgstr "このサーバではゲームを手動でセーブすることはできません。"
 
-#: server/stdinhand.c:770
+#: server/stdinhand.c:775
 msgid "Cannot toggle a barbarian player."
 msgstr "バーバリアン・プレイヤーはトグルできません。"
 
-#: server/stdinhand.c:777
+#: server/stdinhand.c:782
 #, c-format
 msgid "%s is now under AI control."
 msgstr "%s は AI が操作します。"
 
-#: server/stdinhand.c:797
+#: server/stdinhand.c:802
 #, c-format
 msgid "%s is now under human control."
 msgstr "%s は人間が操作します。"
 
-#: server/stdinhand.c:842
+#: server/stdinhand.c:847
 msgid "Can't add AI players once the game has begun."
 msgstr "一旦ゲームが始まると AI プレイヤーを追加できません。"
 
-#: server/stdinhand.c:861
+#: server/stdinhand.c:866
 msgid "Can't add more players, server is full."
 msgstr "プレイヤーを追加できません。サーバ満員です。"
 
-#: server/stdinhand.c:868
+#: server/stdinhand.c:873
 msgid "Can't use an empty name."
 msgstr "空の名前は使えません。"
 
-#: server/stdinhand.c:875
+#: server/stdinhand.c:880
 #, c-format
 msgid "That name exceeds the maximum of %d chars."
 msgstr "その名前は最長の%d文字を越えています。"
 
 # clefs
-#: server/stdinhand.c:881
+#: server/stdinhand.c:886
 msgid "That name is not allowed."
 msgstr "その名前は許可されていません。"
 
-#: server/stdinhand.c:887
+#: server/stdinhand.c:892
 msgid "A player already exists by that name."
 msgstr "その名前のプレイヤーは既に存在します。"
 
-#: server/stdinhand.c:893
+#: server/stdinhand.c:898
 msgid "A user already exists by that name."
 msgstr "その名前のユーザは既に存在します。"
 
-#: server/stdinhand.c:919
+#: server/stdinhand.c:924
 #, c-format
 msgid "%s has been added as an AI-controlled player."
 msgstr "%s は AI プレイヤーとして加わりました。"
 
-#: server/stdinhand.c:926
+#: server/stdinhand.c:931
 #, c-format
 msgid "Error creating new AI player: %s."
 msgstr "新しい AI プレイヤー作成エラー: %s"
 
-#: server/stdinhand.c:959
+#: server/stdinhand.c:964
 msgid "Players cannot be removed once the game has started."
 msgstr "一旦ゲームが開始された後では，プレイヤーを削除できません。"
 
-#: server/stdinhand.c:970
+#: server/stdinhand.c:975
 #, c-format
 msgid "Removed player %s from the game."
 msgstr "ゲームからプレイヤー %s を追い出しました。"
 
 # clefs
-#: server/stdinhand.c:1009 server/stdinhand.c:3255 server/stdinhand.c:3368
+#: server/stdinhand.c:1014 server/stdinhand.c:3260 server/stdinhand.c:3373
 #, c-format
 msgid "Name \"%s\" disallowed for security reasons."
 msgstr "\"%s\" という名前はセキュリティ上の理由から許可されていません。"
 
 # clefs
-#: server/stdinhand.c:1022
+#: server/stdinhand.c:1027
 #, c-format
 msgid "No command script found by the name \"%s\"."
 msgstr "'%s' という名前のコマンド・スクリプトはありません。"
 
-#: server/stdinhand.c:1030
+#: server/stdinhand.c:1035
 #, c-format
 msgid "Loading script file: %s"
 msgstr "スクリプトフィアルをロードしています: %s"
 
-#: server/stdinhand.c:1045
+#: server/stdinhand.c:1050
 #, c-format
 msgid "Cannot read command line scriptfile '%s'."
 msgstr "コマンドライン・スクリプトファイル '%s' を読むことができません。"
 
-#: server/stdinhand.c:1047
+#: server/stdinhand.c:1052
 #, c-format
 msgid "Could not read script file '%s'."
 msgstr "スクリプトファイル '%s' を読むことができませんでした。"
 
-#: server/stdinhand.c:1139
+#: server/stdinhand.c:1144
 #, c-format
 msgid "Could not write script file '%s'."
 msgstr "スクリプトファイル '%s' を書くことができませんでした。"
 
 # clefs
-#: server/stdinhand.c:1151
+#: server/stdinhand.c:1156
 msgid "You cannot use the write command on this server for security reasons."
 msgstr "セキュリティ上の理由で write コマンドは利用できません。"
 
-#: server/stdinhand.c:1179
+#: server/stdinhand.c:1184
 #, c-format
 msgid ""
 "Cannot decrease command access level '%s' for connection '%s'; you only have "
@@ -6105,34 +6112,34 @@ msgstr ""
 "しか持っていません。"
 
 # clefs
-#: server/stdinhand.c:1234
+#: server/stdinhand.c:1239
 #, c-format
 msgid ""
 "Anyone can now become game organizer '%s' by issuing the 'first' command."
 msgstr "誰でも 'first' コマンドを発行することでゲーム主催者 '%s' になれます。"
 
-#: server/stdinhand.c:1267
+#: server/stdinhand.c:1272
 msgid "Command access levels in effect:"
 msgstr "現在のコマンド利用権レベル:"
 
-#: server/stdinhand.c:1275
+#: server/stdinhand.c:1280
 #, c-format
 msgid "Command access level for new connections: %s"
 msgstr "新規接続者のコマンド利用権レベル: %s"
 
-#: server/stdinhand.c:1278
+#: server/stdinhand.c:1283
 #, c-format
 msgid "Command access level for first player to take it: %s"
 msgstr "最初のプレイヤーが取得するコマンド利用権レベル: %s"
 
-#: server/stdinhand.c:1287
+#: server/stdinhand.c:1292
 msgid ""
 "Error: command access level must be one of 'none', 'info', 'ctrl', or 'hack'."
 msgstr ""
 "エラー: コマンド利用権レベルは 'none', 'info', 'ctrl', 'hack' のいずれかでな"
 "ければなりません。"
 
-#: server/stdinhand.c:1292
+#: server/stdinhand.c:1297
 #, c-format
 msgid ""
 "Cannot increase command access level to '%s'; you only have '%s' yourself."
@@ -6140,198 +6147,198 @@ msgstr ""
 "'%1$s' へコマンド利用権レベルを上げられません; あなたは利用権 '%2$s' しか持っ"
 "ていません。"
 
-#: server/stdinhand.c:1319 server/stdinhand.c:1367
+#: server/stdinhand.c:1324 server/stdinhand.c:1372
 #, c-format
 msgid "Command access level set to '%s' for connection %s."
 msgstr "接続 %2$s のコマンド利用権レベルを '%1$s' に設定しました。"
 
-#: server/stdinhand.c:1323 server/stdinhand.c:1371
+#: server/stdinhand.c:1328 server/stdinhand.c:1376
 #, c-format
 msgid "Command access level could not be set to '%s' for connection %s."
 msgstr "接続 %2$s のコマンド利用権レベルを '%1$s' に設定できません。"
 
-#: server/stdinhand.c:1333 server/stdinhand.c:1343 server/stdinhand.c:1360
+#: server/stdinhand.c:1338 server/stdinhand.c:1348 server/stdinhand.c:1365
 #, c-format
 msgid "Command access level set to '%s' for new players."
 msgstr "新規プレイヤーのコマンド利用権レベルを '%s' に設定しました。"
 
-#: server/stdinhand.c:1337 server/stdinhand.c:1348 server/stdinhand.c:1355
+#: server/stdinhand.c:1342 server/stdinhand.c:1353 server/stdinhand.c:1360
 #, c-format
 msgid "Command access level set to '%s' for first player to grab it."
 msgstr "最初のプレイヤーが取得するコマンド利用権レベルを '%s' に設定しました。"
 
-#: server/stdinhand.c:1393
+#: server/stdinhand.c:1398
 msgid "The 'first' command makes no sense from the server command line."
 msgstr ""
 "サーバのコマンドラインで 'first' コマンドを利用しても意味がありません。"
 
-#: server/stdinhand.c:1397
+#: server/stdinhand.c:1402
 #, c-format
 msgid "You already have command access level '%s' or better."
 msgstr "既にコマンド利用権レベルは '%s' 以上です。"
 
 # clefs
-#: server/stdinhand.c:1402
+#: server/stdinhand.c:1407
 msgid "Someone else already is game organizer."
 msgstr "他の誰かが既にゲーム主催者になっています。"
 
 # clefs
-#: server/stdinhand.c:1407
+#: server/stdinhand.c:1412
 #, c-format
 msgid "Connection %s has opted to become the game organizer."
 msgstr "接続 %s がゲーム主催者になることを選択しました。"
 
-#: server/stdinhand.c:1458
+#: server/stdinhand.c:1463
 #, c-format
 msgid "Invalid argument %d."
 msgstr "無効な引数 %d"
 
-#: server/stdinhand.c:1465
+#: server/stdinhand.c:1470
 msgid "Usage: timeoutincrease <turn> <turnadd> <value> <valuemult>."
 msgstr "使用法: timeoutincrease <ターン> <ターン増加> <値> <乗値>"
 
-#: server/stdinhand.c:1473
+#: server/stdinhand.c:1478
 #, c-format
 msgid "Dynamic timeout set to %d %d %d %d"
 msgstr "動的タイムアオウトを %d %d %d %d へセットします"
 
-#: server/stdinhand.c:1533 server/stdinhand.c:1536
+#: server/stdinhand.c:1538 server/stdinhand.c:1541
 msgid "Option:"
 msgstr "オプション:"
 
-#: server/stdinhand.c:1546 server/stdinhand.c:3893
+#: server/stdinhand.c:1551 server/stdinhand.c:3898
 msgid "Description:"
 msgstr "説明:"
 
-#: server/stdinhand.c:1551
+#: server/stdinhand.c:1556
 #, c-format
 msgid "Status: %s"
 msgstr "状態: %s"
 
-#: server/stdinhand.c:1552
+#: server/stdinhand.c:1557
 msgid "changeable"
 msgstr "変更可"
 
-#: server/stdinhand.c:1552
+#: server/stdinhand.c:1557
 msgid "fixed"
 msgstr "固定"
 
-#: server/stdinhand.c:1558
+#: server/stdinhand.c:1563
 #, c-format
 msgid "Value: %d, Minimum: 0, Default: %d, Maximum: 1"
 msgstr "現在値: %d, 最小値: 0, 既定値: %d, 最大値: 1"
 
-#: server/stdinhand.c:1563
+#: server/stdinhand.c:1568
 #, c-format
 msgid "Value: %d, Minimum: %d, Default: %d, Maximum: %d"
 msgstr "現在値: %d, 最小値: %d, 既定値: %d, 最大値: %d"
 
-#: server/stdinhand.c:1569
+#: server/stdinhand.c:1574
 #, c-format
 msgid "Value: \"%s\", Default: \"%s\""
 msgstr "現在値: \"%s\", 既定値: \"%s\""
 
-#: server/stdinhand.c:1588
+#: server/stdinhand.c:1593
 msgid "Explanations are available for the following server options:"
 msgstr "以下に挙げるサーバオプションには，説明があります:"
 
-#: server/stdinhand.c:1633
+#: server/stdinhand.c:1638
 msgid "No explanation for that yet."
 msgstr "その説明はまだありません。"
 
-#: server/stdinhand.c:1636 server/stdinhand.c:2469
+#: server/stdinhand.c:1641 server/stdinhand.c:2474
 msgid "Ambiguous option name."
 msgstr "オプション名を省略し過ぎです。"
 
-#: server/stdinhand.c:1656
+#: server/stdinhand.c:1661
 #, c-format
 msgid "Server Operator: %s"
 msgstr "サーバオペレータ: %s"
 
 # clefs
-#: server/stdinhand.c:1780 server/stdinhand.c:1807 server/stdinhand.c:1825
+#: server/stdinhand.c:1785 server/stdinhand.c:1812 server/stdinhand.c:1830
 #, c-format
 msgid "Player '%s' now has AI skill level '%s'."
 msgstr "プレイヤー '%s' は 手腕 '%s' のAIになりました。"
 
-#: server/stdinhand.c:1812
+#: server/stdinhand.c:1817
 #, c-format
 msgid "%s is not controlled by the AI."
 msgstr "%s は AI で制御されていません。"
 
-#: server/stdinhand.c:1832
+#: server/stdinhand.c:1837
 #, c-format
 msgid "Default AI skill level set to '%s'."
 msgstr "デフォルトの AI 手腕を '%s' に設定しました。"
 
 # clefs
-#: server/stdinhand.c:1847 server/stdinhand.c:2151
+#: server/stdinhand.c:1852 server/stdinhand.c:2156
 msgid "This command is client only."
 msgstr "このコマンドはクライアントでしか利用できません。"
 
-#: server/stdinhand.c:1850
+#: server/stdinhand.c:1855
 msgid "Usage: away"
 msgstr "使用法: away"
 
-#: server/stdinhand.c:1855
+#: server/stdinhand.c:1860
 msgid "Only players may use the away command."
 msgstr "プレイヤーのみがawayコマンドを利用できます。"
 
 # clefs
-#: server/stdinhand.c:1859
+#: server/stdinhand.c:1864
 #, c-format
 msgid "%s set to away mode."
 msgstr "%sは不在モードになりました。"
 
-#: server/stdinhand.c:1867
+#: server/stdinhand.c:1872
 #, c-format
 msgid "%s returned to game."
 msgstr "%sがゲームに復帰しました。"
 
-#: server/stdinhand.c:1909
+#: server/stdinhand.c:1914
 #, c-format
 msgid "Sorry, you do not have access to view option '%s'."
 msgstr "残念ながらオプション '%s' を閲覧する権限を持っていません。"
 
-#: server/stdinhand.c:1915
+#: server/stdinhand.c:1920
 #, c-format
 msgid "Unknown option '%s'."
 msgstr "未知のオプション '%s'。"
 
 # ama, clefs
 # was "= は既定値のままのオプションを意味します。"
-#: server/stdinhand.c:1940
+#: server/stdinhand.c:1945
 msgid "All options with non-default values"
 msgstr "デフォルトから変更されている全てのオプション"
 
 # clefs
-#: server/stdinhand.c:1943
+#: server/stdinhand.c:1948
 msgid "All options"
 msgstr "全てのオプション"
 
 # clefs
-#: server/stdinhand.c:1946
+#: server/stdinhand.c:1951
 msgid "Vital options"
 msgstr "特に重要なオプション"
 
 # situationalってのはわかりにくいが、要は対戦の時にどれだけ意味を持つかによる
 # 分類のようです (clefs)
-#: server/stdinhand.c:1949
+#: server/stdinhand.c:1954
 msgid "Situational options"
 msgstr "状況により必要になるオプション設定"
 
 # clefs
-#: server/stdinhand.c:1952
+#: server/stdinhand.c:1957
 msgid "Rarely used options"
 msgstr "めったに使われないオプション"
 
 # ama, clefs
-#: server/stdinhand.c:1955
+#: server/stdinhand.c:1960
 msgid "+ means you may change the option"
 msgstr "+ は変更可能なオプションを意味します。"
 
 # ama, clefs
-#: server/stdinhand.c:1956
+#: server/stdinhand.c:1961
 msgid "= means the option is on its default value"
 msgstr "= は既定値のままのオプションを意味します。"
 
@@ -6340,21 +6347,21 @@ msgstr "= は既定値のままのオプションを意味します。"
 # /show: オプション 値      (最小,最大)    説明
 # /show: ----------------------------------------------------------------
 # /show: separatepoles +=1     (0,1)                 極地が大陸から離れて
-#: server/stdinhand.c:1959
+#: server/stdinhand.c:1964
 #, c-format
 msgid "%-*s value   (min,max)      "
 msgstr "%-*s 値      (最小,最大)    "
 
-#: server/stdinhand.c:1959
+#: server/stdinhand.c:1964
 msgid "Option"
 msgstr "オプション"
 
-#: server/stdinhand.c:1962
+#: server/stdinhand.c:1967
 msgid "description"
 msgstr "説明"
 
 # clefs
-#: server/stdinhand.c:2031
+#: server/stdinhand.c:2036
 msgid ""
 "Try 'show situational' or 'show rare' to show more options.\n"
 "Try 'show changed' to show settings with non-default values."
@@ -6363,43 +6370,43 @@ msgstr ""
 "す。\n"
 "'show changed' で，変更されたオプションのみを表示します。"
 
-#: server/stdinhand.c:2081
+#: server/stdinhand.c:2086
 msgid "Cannot change teams once game has begun."
 msgstr "一旦ゲームが始まるとチームを変更できません。"
 
 # clefs
-#: server/stdinhand.c:2091
+#: server/stdinhand.c:2096
 msgid "Undefined argument.  Usage: team <player> <team>."
 msgstr "定義されていない引数です。使用法: team <プレイヤー> [チーム]"
 
 # clefs
-#: server/stdinhand.c:2111
+#: server/stdinhand.c:2116
 #, c-format
 msgid "No such team %s.  Please give a valid team name or number."
 msgstr "%sというチームはありません。正しいチーム名か番号を入力してください。"
 
 # clefs
-#: server/stdinhand.c:2118
+#: server/stdinhand.c:2123
 msgid "Cannot team a barbarian."
 msgstr "バーバリアン・プレイヤーとはチームを組めません。"
 
-#: server/stdinhand.c:2124
+#: server/stdinhand.c:2129
 #, c-format
 msgid "Player %s set to team %s."
 msgstr "プレイヤー %s をチーム %s に加えました。"
 
 # clefs
-#: server/stdinhand.c:2146
+#: server/stdinhand.c:2151
 msgid "Undefined arguments. Usage: vote yes|no [vote number]."
 msgstr "定義されていない引数です。使用法: vote yes|no [投票番号]"
 
 # clefs
-#: server/stdinhand.c:2154
+#: server/stdinhand.c:2159
 msgid "Observers cannot vote."
 msgstr "観察者は投票できません。"
 
 # clefs
-#: server/stdinhand.c:2157
+#: server/stdinhand.c:2162
 msgid ""
 "You can only vote in a running game.  Use 'first' to become the game "
 "organizer if there currently is none."
@@ -6408,479 +6415,479 @@ msgstr ""
 "ら，'first' コマンドでゲーム主催者になってください。"
 
 # clefs
-#: server/stdinhand.c:2170
+#: server/stdinhand.c:2175
 #, c-format
 msgid "Vote %d \"%s\": %d for, %d against"
 msgstr "投票 %d \"%s\": 賛成 %d , 反対%d"
 
 # clefs
-#: server/stdinhand.c:2177
+#: server/stdinhand.c:2182
 msgid "There are no votes going on."
 msgstr "投票は行われていません。"
 
 # clefs
-#: server/stdinhand.c:2197
+#: server/stdinhand.c:2202
 msgid "No legal last vote."
 msgstr "まだ有効な投票はありません。"
 
-#: server/stdinhand.c:2202
+#: server/stdinhand.c:2207
 msgid "Value must be integer."
 msgstr "値は整数でなければなりません。"
 
-#: server/stdinhand.c:2213
+#: server/stdinhand.c:2218
 #, c-format
 msgid "No such vote (%d)."
 msgstr "そのような投票はありません (%d)。"
 
 # clefs
-#: server/stdinhand.c:2217
+#: server/stdinhand.c:2222
 #, c-format
 msgid "You voted for \"%s\""
 msgstr "\"%s\" に賛成票を投じました。"
 
 # clefs
-#: server/stdinhand.c:2221
+#: server/stdinhand.c:2226
 #, c-format
 msgid "You voted against \"%s\""
 msgstr "\"%s\" に反対票を投じました。"
 
-#: server/stdinhand.c:2248
+#: server/stdinhand.c:2253
 msgid ""
 "Undefined arguments. Usage: debug <diplomacy <player> | city <x> <y> | units "
 "<x> <y> | unit <id> | tech <player> | timing | info>."
 msgstr ""
 
-#: server/stdinhand.c:2254
+#: server/stdinhand.c:2259
 msgid "Can only use this command once game has begun."
 msgstr "このコマンドはゲーム開始後にのみ使用できます。"
 
-#: server/stdinhand.c:2283
+#: server/stdinhand.c:2288
 #, c-format
 msgid "%s diplomacy no longer debugged"
 msgstr ""
 
-#: server/stdinhand.c:2287
+#: server/stdinhand.c:2292
 #, c-format
 msgid "%s diplomacy debugged"
 msgstr ""
 
-#: server/stdinhand.c:2306
+#: server/stdinhand.c:2311
 #, c-format
 msgid "%s tech no longer debugged"
 msgstr ""
 
-#: server/stdinhand.c:2310
+#: server/stdinhand.c:2315
 #, c-format
 msgid "%s tech debugged"
 msgstr ""
 
-#: server/stdinhand.c:2341 server/stdinhand.c:2371
+#: server/stdinhand.c:2346 server/stdinhand.c:2376
 msgid "Value 2 & 3 must be integer."
 msgstr "値2・3は整数でなければなりません。"
 
-#: server/stdinhand.c:2345 server/stdinhand.c:2375
+#: server/stdinhand.c:2350 server/stdinhand.c:2380
 msgid "Bad map coordinates."
 msgstr ""
 
-#: server/stdinhand.c:2350
+#: server/stdinhand.c:2355
 msgid "No city at this coordinate."
 msgstr ""
 
-#: server/stdinhand.c:2355
+#: server/stdinhand.c:2360
 #, c-format
 msgid "%s no longer debugged"
 msgstr ""
 
-#: server/stdinhand.c:2381 server/stdinhand.c:2411
+#: server/stdinhand.c:2386 server/stdinhand.c:2416
 #, c-format
 msgid "%s %s no longer debugged."
 msgstr ""
 
-#: server/stdinhand.c:2386 server/stdinhand.c:2416
+#: server/stdinhand.c:2391 server/stdinhand.c:2421
 #, c-format
 msgid "%s %s debugged."
 msgstr ""
 
-#: server/stdinhand.c:2402
+#: server/stdinhand.c:2407
 msgid "Value 2 must be integer."
 msgstr "値2は整数でなければなりません。"
 
-#: server/stdinhand.c:2406
+#: server/stdinhand.c:2411
 #, c-format
 msgid "Unit %d does not exist."
 msgstr ""
 
-#: server/stdinhand.c:2464
+#: server/stdinhand.c:2469
 msgid "Undefined argument.  Usage: set <option> <value>."
 msgstr "不明な引数です。使用法: set <オプション名> <値>"
 
-#: server/stdinhand.c:2474
+#: server/stdinhand.c:2479
 msgid "You are not allowed to set this option."
 msgstr "このオプションの設定を許可されていません。"
 
-#: server/stdinhand.c:2479 server/stdinhand.c:3362
+#: server/stdinhand.c:2484 server/stdinhand.c:3367
 msgid "This setting can't be modified after the game has started."
 msgstr "ゲームが開始された後，この設定を変更できません。"
 
-#: server/stdinhand.c:2491 server/stdinhand.c:2530
+#: server/stdinhand.c:2496 server/stdinhand.c:2535
 msgid "Value must be an integer."
 msgstr "値は整数でなければなりません。"
 
-#: server/stdinhand.c:2501
+#: server/stdinhand.c:2506
 #, c-format
 msgid "The parameter %s should only contain digits 0-1."
 msgstr ""
 
-#: server/stdinhand.c:2508
+#: server/stdinhand.c:2513
 msgid "Value out of range (minimum: 0, maximum: 1)."
 msgstr "範囲外の値です (最小値: 0, 最大値: 1)"
 
-#: server/stdinhand.c:2521 server/stdinhand.c:2561
+#: server/stdinhand.c:2526 server/stdinhand.c:2566
 #, c-format
 msgid "Option: %s has been set to %d."
 msgstr "オプション: %s は %d に設定されました。"
 
-#: server/stdinhand.c:2541
+#: server/stdinhand.c:2546
 #, c-format
 msgid "The parameter %s should only contain +- and 0-9."
 msgstr ""
 
-#: server/stdinhand.c:2548
+#: server/stdinhand.c:2553
 #, c-format
 msgid "Value out of range (minimum: %d, maximum: %d)."
 msgstr "範囲外の値です (最小値: %d, 最大値: %d)"
 
-#: server/stdinhand.c:2571
+#: server/stdinhand.c:2576
 msgid "String value too long.  Usage: set <option> <value>."
 msgstr "文字列の値が長すぎます。使用法: set <オプション> <値>"
 
-#: server/stdinhand.c:2583
+#: server/stdinhand.c:2588
 #, c-format
 msgid "Option: %s has been set to \"%s\"."
 msgstr "オプション: %s は \"%s\" に設定されました。"
 
 # clefs
-#: server/stdinhand.c:2621
+#: server/stdinhand.c:2626
 msgid "Sorry, one can't observe globally in this game."
 msgstr "残念ながらこのゲームではゲーム全体の観察を認めていません。"
 
 # clefs
-#: server/stdinhand.c:2624
+#: server/stdinhand.c:2629
 msgid "Sorry, you can't take a global observer. Observe it instead."
 msgstr "残念ながら全体の観察者をtakeすることはできません。observeしましょう。"
 
 # clefs
-#: server/stdinhand.c:2636
+#: server/stdinhand.c:2641
 msgid "Sorry, one can't observe barbarians in this game."
 msgstr "残念ながらこのゲームではバーバリアンの観察はできません。"
 
 # clefs
-#: server/stdinhand.c:2639
+#: server/stdinhand.c:2644
 msgid "Sorry, one can't take barbarians in this game."
 msgstr "残念ながらこのゲームではバーバリアンの操作はできません。"
 
-#: server/stdinhand.c:2647
+#: server/stdinhand.c:2652
 msgid "Sorry, one can't observe dead players in this game."
 msgstr "残念ながらこのゲームでは死んだプレイヤーの観察はできません。"
 
 # clefs
-#: server/stdinhand.c:2650
+#: server/stdinhand.c:2655
 msgid "Sorry, one can't take dead players in this game."
 msgstr "残念ながらこのゲームでは死んだプレイヤーの操作はできません。"
 
-#: server/stdinhand.c:2658
+#: server/stdinhand.c:2663
 msgid "Sorry, one can't observe AI players in this game."
 msgstr "残念ながらこのゲームでは AI プレイヤーの観察はできません。"
 
 # clefs
-#: server/stdinhand.c:2661
+#: server/stdinhand.c:2666
 msgid "Sorry, one can't take AI players in this game."
 msgstr "残念ながらこのゲームでは AI プレイヤーの操作はできません。"
 
-#: server/stdinhand.c:2670
+#: server/stdinhand.c:2675
 msgid "Sorry, one can't observe human players in this game."
 msgstr "残念ながらこのゲームでは人間モードプレイヤーの観察はできません。"
 
-#: server/stdinhand.c:2673
+#: server/stdinhand.c:2678
 msgid "Sorry, one can't take human players in this game."
 msgstr "残念ながらこのゲームでは人間モードプレイヤーへの再接続はできません。"
 
 # clefs
-#: server/stdinhand.c:2683
+#: server/stdinhand.c:2688
 msgid "Sorry, one can't observe in this game."
 msgstr "残念ながらこのゲームでは観察を認めていません。"
 
-#: server/stdinhand.c:2688
+#: server/stdinhand.c:2693
 msgid "Sorry, one can't take players in this game."
 msgstr "残念ながらこのゲームでは新しいプレイヤーの参加を認めていません。"
 
 # clefs
-#: server/stdinhand.c:2694
+#: server/stdinhand.c:2699
 msgid "Sorry, one can't take players already connected in this game."
 msgstr "残念ながらこのゲームでは接続済のプレイヤーの乗っ取りを認めていません。"
 
 # clefs
-#: server/stdinhand.c:2725
+#: server/stdinhand.c:2730
 msgid "Usage: observe [connection-name [player-name]]"
 msgstr "使用法: observe [接続名 [プレイヤー名]]"
 
-#: server/stdinhand.c:2731
+#: server/stdinhand.c:2736
 msgid "Usage: observe [player-name]"
 msgstr "使用法: observe [プレイヤー名]"
 
 # clefs XXX
-#: server/stdinhand.c:2781
+#: server/stdinhand.c:2786
 #, c-format
 msgid "%s already controls %s. Using 'observe' would remove %s"
 msgstr "%sが既に%sを操作しています。'observe'で%sを除去します"
 
 # clefs
-#: server/stdinhand.c:2792
+#: server/stdinhand.c:2797
 #, c-format
 msgid "%s is already observing %s."
 msgstr "%sが既に%sを観察しています。"
 
 # clefs
-#: server/stdinhand.c:2797
+#: server/stdinhand.c:2802
 #, c-format
 msgid "%s is already observing."
 msgstr "%sは既に観察しています。"
 
 # clefs
-#: server/stdinhand.c:2859
+#: server/stdinhand.c:2864
 #, c-format
 msgid "%s now observes %s"
 msgstr "%s が %s を観察しています"
 
 # clefs
-#: server/stdinhand.c:2863
+#: server/stdinhand.c:2868
 #, c-format
 msgid "%s now observes"
 msgstr "%s は観察しています"
 
-#: server/stdinhand.c:2902
+#: server/stdinhand.c:2907
 msgid "Usage: take <connection-name> <player-name>"
 msgstr "使用法: take <接続名> <プレイヤー名>"
 
-#: server/stdinhand.c:2907
+#: server/stdinhand.c:2912
 msgid "Usage: take <player-name>"
 msgstr "使用法: take <プレイヤー名>"
 
-#: server/stdinhand.c:2913
+#: server/stdinhand.c:2918
 msgid "Usage: take [connection-name] <player-name>"
 msgstr "使用法: take [接続名] <プレイヤー名>"
 
 # clefs
-#: server/stdinhand.c:2943
+#: server/stdinhand.c:2948
 #, c-format
 msgid "%s already controls %s"
 msgstr "%sが既に%sを操作しています"
 
 # clefs
-#: server/stdinhand.c:2973
+#: server/stdinhand.c:2978
 #, c-format
 msgid "being detached from %s."
 msgstr "%sの操作を放棄します。"
 
-#: server/stdinhand.c:3038
+#: server/stdinhand.c:3043
 #, c-format
 msgid "%s now controls %s (%s, %s)"
 msgstr "%s は %s を操作します(%s, %s)"
 
-#: server/stdinhand.c:3042 server/stdinhand.c:4122
+#: server/stdinhand.c:3047 server/stdinhand.c:4127
 #: data/nation/barbarian.ruleset:3
 msgid "Barbarian"
 msgstr "バーバリアン"
 
-#: server/stdinhand.c:3044 server/stdinhand.c:4124 client/plrdlg_common.c:256
+#: server/stdinhand.c:3049 server/stdinhand.c:4129 client/plrdlg_common.c:256
 #: client/gui-gtk-2.0/pages.c:2007 client/gui-sdl/plrdlg.c:645
 #: client/gui-win32/connectdlg.c:201 client/gui-win32/plrdlg.c:335
 msgid "AI"
 msgstr "AI"
 
-#: server/stdinhand.c:3045 server/stdinhand.c:4126
+#: server/stdinhand.c:3050 server/stdinhand.c:4131
 #: client/gui-gtk-2.0/pages.c:2007 client/gui-gtk-2.0/pages.c:2030
 #: client/gui-win32/connectdlg.c:201 client/gui-win32/connectdlg.c:213
 msgid "Human"
 msgstr "人間"
 
-#: server/stdinhand.c:3047 client/gui-gtk-2.0/pages.c:2006
+#: server/stdinhand.c:3052 client/gui-gtk-2.0/pages.c:2006
 #: client/gui-gtk-2.0/pages.c:2029 client/gui-win32/connectdlg.c:200
 #: client/gui-win32/connectdlg.c:212
 msgid "Alive"
 msgstr "活躍中"
 
-#: server/stdinhand.c:3048 client/gui-gtk-2.0/pages.c:2006
+#: server/stdinhand.c:3053 client/gui-gtk-2.0/pages.c:2006
 #: client/gui-win32/connectdlg.c:200
 msgid "Dead"
 msgstr "死亡"
 
-#: server/stdinhand.c:3081
+#: server/stdinhand.c:3086
 msgid "Usage: detach <connection-name>"
 msgstr "使用法: detach <接続名>"
 
-#: server/stdinhand.c:3101
+#: server/stdinhand.c:3106
 msgid "You can not detach other users."
 msgstr "他のユーザはdetachできません。"
 
 # clefs
-#: server/stdinhand.c:3110
+#: server/stdinhand.c:3115
 #, c-format
 msgid "%s is not attached to any player."
 msgstr "%sは誰からも操作されていません。"
 
 # clefs
 # detachのうまい訳語ないかなあ
-#: server/stdinhand.c:3133
+#: server/stdinhand.c:3138
 #, c-format
 msgid "%s detaching from %s"
 msgstr "%sは%sを放棄しています"
 
 # clefs
-#: server/stdinhand.c:3139
+#: server/stdinhand.c:3144
 #, c-format
 msgid "%s no longer observing."
 msgstr "%sはもう観察していません。"
 
 # clefs
-#: server/stdinhand.c:3158
+#: server/stdinhand.c:3163
 #, c-format
 msgid "detaching from %s."
 msgstr "%sを放棄しています。"
 
-#: server/stdinhand.c:3244
+#: server/stdinhand.c:3249
 msgid "Usage: load <game name>"
 msgstr "使用法: load <ゲーム名>"
 
-#: server/stdinhand.c:3249
+#: server/stdinhand.c:3254
 msgid "Cannot load a game while another is running."
 msgstr "他のゲームの実行中はゲームをロードできません。"
 
 # clefs
-#: server/stdinhand.c:3271
+#: server/stdinhand.c:3276
 #, c-format
 msgid "Cannot find savegame or scenario with the name \"%s\"."
 msgstr "\"%s\"というセーブゲームもシナリオも見当たりません。"
 
-#: server/stdinhand.c:3288
+#: server/stdinhand.c:3293
 #, c-format
 msgid "Could not load savefile: %s"
 msgstr "セーブファイルをロードできません: %s"
 
-#: server/stdinhand.c:3357
+#: server/stdinhand.c:3362
 #, c-format
 msgid "Current ruleset directory is \"%s\""
 msgstr "現在のルールセット=ディレクトリは: \"%s\""
 
-#: server/stdinhand.c:3377
+#: server/stdinhand.c:3382
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
 msgstr "ルールセット=ディレクトリ \"%s\" が見つかりません"
 
 # clefs
-#: server/stdinhand.c:3383
+#: server/stdinhand.c:3388
 #, c-format
 msgid "Ruleset directory is already \"%s\""
 msgstr "ルールセット=ディレクトリは既に \"%s\" です"
 
-#: server/stdinhand.c:3387
+#: server/stdinhand.c:3392
 #, c-format
 msgid "Ruleset directory set to \"%s\""
 msgstr "ルールセット=ディレクトリを \"%s\" にセットします"
 
-#: server/stdinhand.c:3435
+#: server/stdinhand.c:3440
 msgid "Goodbye."
 msgstr "さようなら。"
 
-#: server/stdinhand.c:3466
+#: server/stdinhand.c:3471
 msgid "Sorry, you are not allowed to use server commands."
 msgstr "残念ですがサーバコマンドを使うことを許可されていません。"
 
-#: server/stdinhand.c:3502
+#: server/stdinhand.c:3507
 #, c-format
 msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
 msgstr ""
 "警告: '%1$s' は '%2$s' と解釈されましたが，'%1$s' は一意ではありません。'%3"
 "$shelp' と打って下さい。"
 
-#: server/stdinhand.c:3507
+#: server/stdinhand.c:3512
 #, c-format
 msgid "Unknown command.  Try '%shelp'."
 msgstr "不明なコマンドです。'%shelp'を見て下さい。"
 
 # clefs
-#: server/stdinhand.c:3524
+#: server/stdinhand.c:3529
 msgid "Your new vote canceled your previous vote."
 msgstr "再投票したので，前回の票は無効になります。"
 
 # clefs
-#: server/stdinhand.c:3532
+#: server/stdinhand.c:3537
 #, c-format
 msgid "New vote (number %d) by %s: %s."
 msgstr "%2$sによる新たな投票(番号%1$d): %3$s."
 
-#: server/stdinhand.c:3544
+#: server/stdinhand.c:3549
 #, c-format
 msgid "Your new vote (\"%s\") was not legal or was not recognized."
 msgstr ""
 
-#: server/stdinhand.c:3554
+#: server/stdinhand.c:3559
 msgid "You are not allowed to use this command."
 msgstr "そのコマンドを利用できません。"
 
-#: server/stdinhand.c:3579
+#: server/stdinhand.c:3584
 msgid "(server prompt)"
 msgstr "(サーバ・プロンプト)"
 
 # clefs
-#: server/stdinhand.c:3686
+#: server/stdinhand.c:3691
 msgid "Game ended in a draw."
 msgstr "ゲームは引き分けで終了しました。"
 
 # clefs
-#: server/stdinhand.c:3690
+#: server/stdinhand.c:3695
 msgid ""
 "Ending the game. The server will restart once all clients have disconnected."
 msgstr ""
 "ゲームを終了しています。全てのクライアントが切断し次第，サーバは再起動しま"
 "す。"
 
-#: server/stdinhand.c:3695
+#: server/stdinhand.c:3700
 msgid "Cannot end the game: no game running."
 msgstr "ゲームを終了できません: ゲームは始まっていません。"
 
 # clefs
-#: server/stdinhand.c:3711
+#: server/stdinhand.c:3716
 #, c-format
 msgid "%s has conceded the game and can no longer win."
 msgstr "%sは敗北宣言したのでもう勝利者になることはできません。"
 
-#: server/stdinhand.c:3716
+#: server/stdinhand.c:3721
 msgid "You cannot surrender now."
 msgstr "今は降参できません。"
 
-#: server/stdinhand.c:3762
+#: server/stdinhand.c:3767
 msgid "Not enough players, game will not start."
 msgstr "十分なプレイヤーがいないので，ゲームを開始できません。"
 
 # clefs
-#: server/stdinhand.c:3779
+#: server/stdinhand.c:3784
 msgid ""
 "Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr ""
 "ゲームを開始できません: ゲームは全てのクライアントが接続を切るのを待っていま"
 "す。"
 
-#: server/stdinhand.c:3786
+#: server/stdinhand.c:3791
 msgid "Cannot start the game: it is already running."
 msgstr "ゲームを開始できません: 既にゲームは始まっています。"
 
-#: server/stdinhand.c:3815
+#: server/stdinhand.c:3820
 #, c-format
 msgid "Cutting connection %s."
 msgstr "%sとの接続を切りました。"
 
-#: server/stdinhand.c:3834
+#: server/stdinhand.c:3839
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -6918,62 +6925,62 @@ msgstr ""
 "  save   -  現在のゲームを保存します。\n"
 "  quit   -  終了します。"
 
-#: server/stdinhand.c:3869 server/stdinhand.c:3872
+#: server/stdinhand.c:3874 server/stdinhand.c:3877
 msgid "Command:"
 msgstr "コマンド:"
 
-#: server/stdinhand.c:3876
+#: server/stdinhand.c:3881
 msgid "Synopsis: "
 msgstr "意味: "
 
-#: server/stdinhand.c:3885
+#: server/stdinhand.c:3890
 #, c-format
 msgid "Level: %s"
 msgstr "レベル: %s"
 
-#: server/stdinhand.c:3910
+#: server/stdinhand.c:3915
 msgid "The following server commands are available:"
 msgstr "以下のサーバコマンドが利用できます:"
 
-#: server/stdinhand.c:3985
+#: server/stdinhand.c:3990
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "ヘルプ引数 '%s' は省略しすぎです。"
 
-#: server/stdinhand.c:3990
+#: server/stdinhand.c:3995
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "ヘルプ引数 '%s' は理解できません。"
 
-#: server/stdinhand.c:4056
+#: server/stdinhand.c:4061
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "list の引数 '%s' は間違っています。 '%shelp list' を試みて下さい。"
 
-#: server/stdinhand.c:4096
+#: server/stdinhand.c:4101
 msgid "List of players:"
 msgstr "プレイヤーのリスト:"
 
-#: server/stdinhand.c:4101
+#: server/stdinhand.c:4106
 msgid "<no players>"
 msgstr "<なし>"
 
-#: server/stdinhand.c:4118
+#: server/stdinhand.c:4123
 #, c-format
 msgid "user %s, "
 msgstr "ユーザ名 %s, "
 
-#: server/stdinhand.c:4129
+#: server/stdinhand.c:4134
 msgid ", Dead"
 msgstr ", 死亡"
 
-#: server/stdinhand.c:4132
+#: server/stdinhand.c:4137
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", 難易度レベル %s"
 
 #. TRANS: continue list, in case comma is not the separator of choice.
-#: server/stdinhand.c:4137 server/stdinhand.c:4141 client/helpdata.c:238
+#: server/stdinhand.c:4142 server/stdinhand.c:4146 client/helpdata.c:238
 #: client/helpdata.c:750 client/text.c:185 client/text.c:1159
 #: client/text.c:1197
 #, c-format
@@ -6981,61 +6988,61 @@ msgid "?clistmore:, %s"
 msgstr ", %s"
 
 # clefs
-#: server/stdinhand.c:4145
+#: server/stdinhand.c:4150
 msgid ", ready"
 msgstr ", 準備完了"
 
 # clefs
-#: server/stdinhand.c:4147
+#: server/stdinhand.c:4152
 msgid ", not ready"
 msgstr ", 準備中"
 
-#: server/stdinhand.c:4155
+#: server/stdinhand.c:4160
 #, c-format
 msgid " %d connection:"
 msgid_plural " %d connections:"
 msgstr[0] " %d接続:"
 
-#: server/stdinhand.c:4161
+#: server/stdinhand.c:4166
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
 msgstr "  %s (%s から, コマンド利用権レベル %s), bufsize=%dkb"
 
-#: server/stdinhand.c:4166
+#: server/stdinhand.c:4171
 msgid " (observer mode)"
 msgstr " (観察者モード)"
 
-#: server/stdinhand.c:4184
+#: server/stdinhand.c:4189
 msgid "List of teams:"
 msgstr "チームのリスト:"
 
 #. TRANS: There will always be at least 2 players here.
-#: server/stdinhand.c:4194
+#: server/stdinhand.c:4199
 #, c-format
 msgid "%2d : '%s' : %d player"
 msgid_plural "%2d : '%s' : %d players"
 msgstr[0] ""
 
-#: server/stdinhand.c:4214
+#: server/stdinhand.c:4219
 #, c-format
 msgid "%2d : '%s' : 1 player : %s"
 msgstr ""
 
 # clefs
-#: server/stdinhand.c:4222
+#: server/stdinhand.c:4227
 #, c-format
 msgid "Empty team: %s"
 msgstr "空のチーム: %s"
 
-#: server/stdinhand.c:4233
+#: server/stdinhand.c:4238
 msgid "List of connections to server:"
 msgstr "サーバへの接続のリスト:"
 
-#: server/stdinhand.c:4237
+#: server/stdinhand.c:4242
 msgid "<no connections>"
 msgstr "<接続なし>"
 
-#: server/stdinhand.c:4261
+#: server/stdinhand.c:4266
 msgid "List of scenarios available:"
 msgstr "利用可能なシナリオ一覧:"
 
@@ -7201,131 +7208,131 @@ msgstr "%sを%sへ加えることはできません。"
 msgid "%s added to aid %s in growing."
 msgstr "%sは%sの拡大を助けるために加わりました。"
 
-#: server/unithand.c:821
+#: server/unithand.c:822
 msgid "Your Nuclear missile was shot down by SDI defences, what a waste."
 msgstr ""
 "あなたの核ミサイルは SDI 防衛システムによって撃ち落とされました。あぁ。"
 
-#: server/unithand.c:824
+#: server/unithand.c:825
 #, c-format
 msgid "The nuclear attack on %s was avoided by your SDI defense."
 msgstr "%s への核攻撃は SDI 防衛システムによって避けられました。"
 
 #. TRANS: "Your Cannon ... the Polish Destroyer."
-#: server/unithand.c:894
+#: server/unithand.c:895
 #, fuzzy, c-format
 msgid "Your %s survived the pathetic attack from the %s %s."
 msgstr "%sは，%sの%sからの攻撃を切り抜けました。"
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unithand.c:903
+#: server/unithand.c:904
 #, fuzzy, c-format
 msgid "Your attacking %s failed against the %s %s!"
 msgstr "%sは%sの%sを攻撃し，失敗しました。"
 
-#: server/unithand.c:975
+#: server/unithand.c:977
 #, c-format
 msgid "Only %s can attack from sea."
 msgstr "%sだけが海から攻撃できます。"
 
-#: server/unithand.c:980
+#: server/unithand.c:982
 msgid "Cannot attack from sea."
 msgstr "海から攻撃できません。"
 
-#: server/unithand.c:985 server/unittools.c:2088
+#: server/unithand.c:990 server/unittools.c:2100
 msgid "Cannot attack unless you declare war first."
 msgstr "戦争を宣言しなければ攻撃できません。"
 
-#: server/unithand.c:988
+#: server/unithand.c:995
 #, c-format
 msgid "%s can only move into your own zone of control."
 msgstr "%sはあなたのゾーンコントロールへだけ移動できます。"
 
 # Daniel
-#: server/unithand.c:992
+#: server/unithand.c:1001
 #, fuzzy, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr "%sとの平和条約を破棄しなければ攻撃できません。"
 
-#: server/unithand.c:1031
+#: server/unithand.c:1045
 msgid "This unit has no moves left."
 msgstr "この部隊はもう移動できません。"
 
-#: server/unithand.c:1086
+#: server/unithand.c:1100
 msgid "Unit must be on land to perform diplomatic action."
 msgstr "部隊が外交行為を行うには地上にいなければなりません。"
 
-#: server/unithand.c:1088
+#: server/unithand.c:1102
 msgid "No diplomat action possible."
 msgstr "外交行為を行えません。"
 
 # clefs
-#: server/unithand.c:1104
+#: server/unithand.c:1118
 #, c-format
 msgid "You must declare war on %s first.  Try using players dialog (F3)."
 msgstr "まず%sに宣戦しなければなりません。プレイヤーダイアログ参照(F3)。"
 
-#: server/unithand.c:1122
+#: server/unithand.c:1136
 msgid "This unit is being transported, and so cannot bombard."
 msgstr "この部隊は輸送中なので爆撃はできません。"
 
-#: server/unithand.c:1137
+#: server/unithand.c:1151
 msgid "You can't attack there."
 msgstr "そこへ攻撃できません。"
 
 # Daniel, clefs
 # was "Game: 地上の軍隊だけが都市を占領できます。"
-#: server/unithand.c:1159
+#: server/unithand.c:1173
 msgid "This type of troops cannot take over a city."
 msgstr "このタイプの部隊では都市を占領できません。"
 
 # clefs
 # 意訳。これで合ってるのかなあ。
-#: server/unithand.c:1177
+#: server/unithand.c:1191
 msgid "A transported unit is not allied to all units or city on target tile."
 msgstr ""
 "輸送されている部隊の中に，目的地に存在する全ての部隊および都市に対して同盟関"
 "係にないものが含まれています。"
 
-#: server/unithand.c:1219
+#: server/unithand.c:1233
 #, c-format
 msgid "Your %s helps build the %s in %s (%d remaining)."
 msgstr "%1$sは%3$sの%2$s建築を手伝いました(残り %4$d)。"
 
-#: server/unithand.c:1221
+#: server/unithand.c:1235
 #, c-format
 msgid "Your %s helps build the %s in %s (%d surplus)."
 msgstr "%1$sは%3$sの%2$s建築を手伝いました(余剰 %4$d)。"
 
-#: server/unithand.c:1265
+#: server/unithand.c:1279
 #, c-format
 msgid ""
 "Sorry, your %s cannot establish a trade route because it has no home city"
 msgstr "残念ながら，%sは本拠地を持たないのでここに交易路を確立できません!"
 
-#: server/unithand.c:1275
+#: server/unithand.c:1289
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route between %s and %s"
 msgstr "残念ながら，%sは%s・%s間に交易路を確立できません!"
 
-#: server/unithand.c:1304 server/unithand.c:1323
+#: server/unithand.c:1318 server/unithand.c:1337
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route here!"
 msgstr "残念ながら，%sはここに交易路を確立できません!"
 
-#: server/unithand.c:1308 server/unithand.c:1327
+#: server/unithand.c:1322 server/unithand.c:1341
 #, c-format
 msgid "      The city of %s already has %d better trade routes!"
 msgstr "      都市%sには既に %dのより良い交易路があります!"
 
 # clefs
-#: server/unithand.c:1340 server/unithand.c:1352
+#: server/unithand.c:1354 server/unithand.c:1366
 #, c-format
 msgid "Sorry, %s has canceled the trade route from %s to your city %s."
 msgstr "残念ですが，%sは%sからあなたの%sへの交易路を断絶させました。"
 
 # ama, clefs
-#: server/unithand.c:1385
+#: server/unithand.c:1399
 #, c-format
 msgid ""
 "Your %s from %s has arrived in %s, and revenues amount to %d in gold and "
@@ -7387,58 +7394,58 @@ msgstr "の攻撃に成功し，練度が増しました。"
 msgid "Your %s became more experienced!"
 msgstr "%s の練度が増しました。"
 
-#: server/unittools.c:1028
+#: server/unittools.c:1011
 #, c-format
 msgid "Teleported your %s to %s."
 msgstr "%sを%sへテレポートしました。"
 
-#: server/unittools.c:1058
+#: server/unittools.c:1041
 #, c-format
 msgid "Disbanded your %s."
 msgstr "%sを解散しました。"
 
 # clefs
-#: server/unittools.c:1381
+#: server/unittools.c:1364
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr "%sを守り切れなかったので，%sは負けになりました。"
 
 # clefs
-#: server/unittools.c:1385
+#: server/unittools.c:1368
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr "%sを失うと負けです！次はもっと気を付けて！"
 
-#: server/unittools.c:1487
+#: server/unittools.c:1470
 #, c-format
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "%1$sは%3$sにある%2$s建造物の破壊に成功しました。"
 
-#: server/unittools.c:1496
+#: server/unittools.c:1479
 #, c-format
 msgid "%s lost when %s was lost."
 msgstr "%2$sを失った時に%1$sを失いました。"
 
 # ama, clefs
-#: server/unittools.c:1545
+#: server/unittools.c:1528
 #, c-format
 msgid "Barbarian leader captured, %d gold ransom paid."
 msgstr "バーバリアンの指導者が捕えられ，身代金%dが支払われました。"
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unittools.c:1563
+#: server/unittools.c:1546
 #, fuzzy, c-format
 msgid "Your attacking %s succeeded against the %s %s!"
 msgstr "%1$sは%2$sの%3$sを攻撃し，成功しました。"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
-#: server/unittools.c:1572 server/unittools.c:1630
+#: server/unittools.c:1555 server/unittools.c:1613
 #, fuzzy, c-format
 msgid "%s lost to an attack by the %s %s."
 msgstr "%2$sの%3$sによる攻撃で%1$sを失いました。"
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
-#: server/unittools.c:1606
+#: server/unittools.c:1589
 #, fuzzy, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
@@ -7447,7 +7454,7 @@ msgstr[0] "%sは%sの%s(およびその他%d部隊)への攻撃に成功しま�
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
-#: server/unittools.c:1639
+#: server/unittools.c:1622
 #, fuzzy, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
 msgstr "%2$sの%3$sが%4$sの%5$sを攻撃した際に%1$sが失われました。"
@@ -7455,7 +7462,7 @@ msgstr "%2$sの%3$sが%4$sの%5$sを攻撃した際に%1$sが失われました�
 # 射手 lost to an attack from Lluis Companys's チャリオット.
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
-#: server/unittools.c:1654
+#: server/unittools.c:1637
 #, fuzzy, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
 msgstr "%3$sの%4$sからの攻撃で%1$s(と%2$s)を失いました。"
@@ -7464,7 +7471,7 @@ msgstr "%3$sの%4$sからの攻撃で%1$s(と%2$s)を失いました。"
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1664
+#: server/unittools.c:1647
 #, fuzzy, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
@@ -7473,188 +7480,188 @@ msgstr[0] "%3$sの%4$sからの攻撃で%1$sおよび他%2$d部隊を失いま�
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1678
+#: server/unittools.c:1661
 #, fuzzy, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
 msgstr[0] "%d部隊が，%sの%sが%sの%sを攻撃した際に失われました。"
 
-#: server/unittools.c:1942
+#: server/unittools.c:1925
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "%sは%sによって核攻撃されました。"
 
-#: server/unittools.c:1945 server/unittools.c:1961
+#: server/unittools.c:1928 server/unittools.c:1944
 msgid "yourself"
 msgstr "あなた自身"
 
-#: server/unittools.c:1949
+#: server/unittools.c:1932
 #, fuzzy, c-format
 msgid "The %s %s was nuked."
 msgstr "%sの%sは核攻撃されました。"
 
-#: server/unittools.c:1958
+#: server/unittools.c:1941
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "%sは%sによって核攻撃されました。"
 
-#: server/unittools.c:1966
+#: server/unittools.c:1949
 #, c-format
 msgid "You nuked %s."
 msgstr "%sを核攻撃しました。"
 
-#: server/unittools.c:2007
+#: server/unittools.c:1990
 #, fuzzy, c-format
 msgid "The %s detonated a nuke!"
 msgstr "%sは核を爆発させました！"
 
-#: server/unittools.c:2031
+#: server/unittools.c:2014
 #, c-format
 msgid "%s transported successfully."
 msgstr "%sは首尾よく輸送しました。"
 
-#: server/unittools.c:2054
+#: server/unittools.c:2066
 msgid "This unit type can not be paradropped."
 msgstr "この部隊のタイプは落下傘降下させられません。"
 
-#: server/unittools.c:2064
+#: server/unittools.c:2076
 #, fuzzy
 msgid "You cannot paradrop a unit that is transporting other units."
 msgstr "海へは落下傘降下できません。"
 
-#: server/unittools.c:2070
+#: server/unittools.c:2082
 msgid "The destination location is not known."
 msgstr "目的地は知られていません。"
 
-#: server/unittools.c:2077
+#: server/unittools.c:2089
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "%sへは落下傘降下できません。"
 
-#: server/unittools.c:2097
+#: server/unittools.c:2109
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr "目的への距離(%i)は，部隊の行動範囲(%i)を越えています。"
 
 # clefs
-#: server/unittools.c:2108
+#: server/unittools.c:2120
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "%sは%sに落下傘降下し消息を絶ちました。"
 
-#: server/unittools.c:2121
+#: server/unittools.c:2133
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "%sは降下目標地にいた敵部隊によって殺されました。"
 
-#: server/unittools.c:2143
+#: server/unittools.c:2155
 #, c-format
 msgid "You found %d gold."
 msgstr "金%dを見つけました。"
 
-#: server/unittools.c:2160
+#: server/unittools.c:2172
 #, c-format
 msgid "You found %s in ancient scrolls of wisdom."
 msgstr "%sを古代の知識の巻物の中から見つけました。"
 
-#: server/unittools.c:2167
+#: server/unittools.c:2179
 #, c-format
 msgid "The %s have acquired %s from ancient scrolls of wisdom."
 msgstr "%sは古代の知識の巻物から%sを得ました。"
 
-#: server/unittools.c:2181
+#: server/unittools.c:2193
 msgid "A band of friendly mercenaries joins your cause."
 msgstr "友好的な部隊が加わりました。"
 
-#: server/unittools.c:2199
+#: server/unittools.c:2211
 msgid "An abandoned village is here."
 msgstr "廃虚の村があります。"
 
-#: server/unittools.c:2209
+#: server/unittools.c:2221
 msgid "You have unleashed a horde of barbarians!"
 msgstr "バーバリアンの大群を解放してしまいました!"
 
-#: server/unittools.c:2212
+#: server/unittools.c:2224
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "%s はバーバリアンによって殺されました。"
 
-#: server/unittools.c:2228
+#: server/unittools.c:2240
 msgid "You found a friendly city."
 msgstr "友好的な都市を見つけました。"
 
-#: server/unittools.c:2242
+#: server/unittools.c:2254
 msgid "Friendly nomads are impressed by you, and join you."
 msgstr "友好的な放浪者があなたに感銘し，部隊に加わりました。"
 
 # clefs
-#: server/unittools.c:2267
+#: server/unittools.c:2279
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr "飛行物体を見て部族は驚き，恐れおののいて四散してしまいました。"
 
 # climb
-#: server/unittools.c:2525
+#: server/unittools.c:2537
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr "道をふさいでいる部隊がいるので，%sは移動を中断しました。"
 
 # climb
-#: server/unittools.c:2971
+#: server/unittools.c:2983
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "近くに部隊がいるので，%sは命令遂行を中断しました。"
 
 # climb
-#: server/unittools.c:3023
+#: server/unittools.c:3035
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr "都市を建設できなかったので，%sは命令遂行を中断しました。"
 
 # climb
-#: server/unittools.c:3036
+#: server/unittools.c:3048
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr "無効な活動が指定されているので，%sは命令遂行を中断しました。"
 
 # climb
-#: server/unittools.c:3050
+#: server/unittools.c:3062
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "無効な位置が指定されているので，%sは命令遂行を中断しました。"
 
 # climb
-#: server/unittools.c:3060
+#: server/unittools.c:3072
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "道をふさいでいる部隊がいるので，%sは命令遂行を中断しました。"
 
 # climb
-#: server/unittools.c:3086
+#: server/unittools.c:3098
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "移動に失敗したため，%sは命令遂行を中断しました。"
 
 # clefs
-#: server/unittools.c:3127
+#: server/unittools.c:3139
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr "帰属を%sに変えられませんでした。"
 
 # clefs
-#: server/unittools.c:3138
+#: server/unittools.c:3150
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "%sとの交易路の確立に失敗しました。"
 
 # clefs
 # 建設中の不思議がなかった場合
-#: server/unittools.c:3150
+#: server/unittools.c:3162
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "%sのために不思議建設をすることはできませんでした。"
 
 # clefs
-#: server/unittools.c:3159
+#: server/unittools.c:3171
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "%sには無効な命令が与えられています。"
@@ -7853,45 +7860,45 @@ msgid "%+4d : Taxed from trade\n"
 msgstr "%+4d : 交易からの徴収\n"
 
 # clefs
-#: client/citydlg_common.c:413
+#: client/citydlg_common.c:414
 #, c-format
 msgid "%+4d : Trade route with %s\n"
 msgstr "%+4d : %sとの交易路\n"
 
 # clefs
 # 都市一覧での「選択」メニュー
-#: client/citydlg_common.c:422
+#: client/citydlg_common.c:423
 #, c-format
 msgid "%+4d : Building tithes\n"
 msgstr "%+4d : 建造物からの十分の一税\n"
 
-#: client/citydlg_common.c:445
+#: client/citydlg_common.c:446
 #, c-format
 msgid "%+4d : Bonus from %s (%+d%%)\n"
 msgstr "%+4d : %s からのボーナス (%+d%%)\n"
 
 # clefs
-#: client/citydlg_common.c:457
+#: client/citydlg_common.c:458
 #, c-format
 msgid "%+4d : Waste\n"
 msgstr "%+4d : 浪費\n"
 
-#: client/citydlg_common.c:463
+#: client/citydlg_common.c:464
 #, c-format
 msgid "%+4d : Disorder\n"
 msgstr "%+4d : 混乱\n"
 
-#: client/citydlg_common.c:469
+#: client/citydlg_common.c:470
 #, c-format
 msgid "%+4d : Used\n"
 msgstr "%+4d : 消費\n"
 
 # 下に`total'とあるからこの部分は日本語では意味がない (clefs)
-#: client/citydlg_common.c:474
+#: client/citydlg_common.c:475
 msgid "==== : Adds up to\n"
 msgstr ""
 
-#: client/citydlg_common.c:476
+#: client/citydlg_common.c:477
 #, c-format
 msgid "%4d : Total surplus"
 msgstr "%4d : 剰余総計"
@@ -10693,7 +10700,7 @@ msgstr ""
 "ルトタイルセットを使います。"
 
 # clefs
-#: client/tilespec.c:3967
+#: client/tilespec.c:3968
 #, c-format
 msgid ""
 "Paths longer than 99 turns are not supported.\n"
@@ -11645,16 +11652,16 @@ msgstr "都市スタイル(_S):"
 msgid "_Description"
 msgstr "伝説(_D)"
 
-#: client/gui-gtk-2.0/dialogs.c:1242 client/gui-xaw/dialogs.c:1477
+#: client/gui-gtk-2.0/dialogs.c:1242 client/gui-xaw/dialogs.c:1480
 msgid "You must select your sex."
 msgstr "性別を選択して下さい。"
 
-#: client/gui-gtk-2.0/dialogs.c:1247 client/gui-xaw/dialogs.c:1482
+#: client/gui-gtk-2.0/dialogs.c:1247 client/gui-xaw/dialogs.c:1485
 msgid "You must select your city style."
 msgstr "都市スタイルをを選択して下さい。"
 
 #: client/gui-gtk-2.0/dialogs.c:1256 client/gui-sdl/dialogs.c:2203
-#: client/gui-win32/dialogs.c:358 client/gui-xaw/dialogs.c:1490
+#: client/gui-win32/dialogs.c:358 client/gui-xaw/dialogs.c:1493
 msgid "You must type a legal name."
 msgstr "適切な名前を入力して下さい。"
 
@@ -14424,7 +14431,16 @@ msgstr "%sの国の諜報情報"
 msgid "Intelligence Information for the %s Empire"
 msgstr "%sの国の諜報情報"
 
-#: client/gui-sdl/inteldlg.c:285
+#: client/gui-sdl/inteldlg.c:289
+#, c-format
+msgid ""
+"Ruler: %s %s  Government: %s\n"
+"Capital: %s  Gold: %d\n"
+"Tax: %d%% Science: %d%% Luxury: %d%%\n"
+"Researching: unknown"
+msgstr ""
+
+#: client/gui-sdl/inteldlg.c:301
 #, c-format
 msgid ""
 "Ruler: %s %s  Government: %s\n"
@@ -14433,16 +14449,7 @@ msgid ""
 "Researching: %s(%d/%d)"
 msgstr ""
 
-#: client/gui-sdl/inteldlg.c:296
-#, c-format
-msgid ""
-"Ruler: %s %s  Government: %s\n"
-"Capital: %s  Gold: %d\n"
-"Tax: %d%% Science: %d%% Luxury: %d%%\n"
-"Researching: Unknown"
-msgstr ""
-
-#: client/gui-sdl/inteldlg.c:357
+#: client/gui-sdl/inteldlg.c:367
 msgid "Their techs that we don't have :"
 msgstr ""
 
@@ -15367,7 +15374,7 @@ msgstr "都市にいる部隊"
 #: client/gui-win32/cityrep.c:875 client/gui-win32/dialogs.c:190
 #: client/gui-win32/dialogs.c:258 client/gui-win32/dialogs.c:762
 #: client/gui-win32/dialogs.c:1291 client/gui-win32/dialogs.c:1491
-#: client/gui-win32/helpdlg.c:453 client/gui-win32/inteldlg.c:159
+#: client/gui-win32/helpdlg.c:453 client/gui-win32/inteldlg.c:167
 #: client/gui-win32/messagewin.c:148 client/gui-win32/optiondlg.c:162
 #: client/gui-win32/plrdlg.c:354 client/gui-win32/repodlgs.c:303
 #: client/gui-win32/repodlgs.c:452 client/gui-win32/repodlgs.c:722
@@ -15731,7 +15738,7 @@ msgstr ")"
 
 # Ruler: 大統領 Lluis Companys
 #: client/gui-win32/inteldlg.c:99 client/gui-xaw/inteldlg.c:191
-#: client/gui-xaw/inteldlg.c:427
+#: client/gui-xaw/inteldlg.c:433
 #, c-format
 msgid "Ruler: %s %s"
 msgstr "統治者: %2$s%1$s"
@@ -15754,16 +15761,21 @@ msgstr "科学: %d%%"
 msgid "Luxury: %d%%"
 msgstr "贅沢: %d%%"
 
-#: client/gui-win32/inteldlg.c:128 client/gui-xaw/inteldlg.c:245
+#: client/gui-win32/inteldlg.c:129 client/gui-xaw/inteldlg.c:242
+msgid "Researching: (Unknown)"
+msgstr "研究中: (不明)"
+
+#: client/gui-win32/inteldlg.c:132 client/gui-xaw/inteldlg.c:245
+#, c-format
+msgid "Researching: Unknown(%d/-)"
+msgstr "研究中: 不明(%d/-)"
+
+#: client/gui-win32/inteldlg.c:136 client/gui-xaw/inteldlg.c:249
 #, c-format
 msgid "Researching: %s(%d/%d)"
 msgstr "研究中: %s(%d/%d)"
 
-#: client/gui-win32/inteldlg.c:133
-msgid "Researching: (Unknown)"
-msgstr "研究中: (不明)"
-
-#: client/gui-win32/inteldlg.c:138 client/gui-xaw/inteldlg.c:258
+#: client/gui-win32/inteldlg.c:145 client/gui-xaw/inteldlg.c:263
 #, c-format
 msgid "Capital: %s"
 msgstr "首都: %s"
@@ -16071,7 +16083,7 @@ msgstr ""
 msgid "Pass"
 msgstr ""
 
-#: client/gui-xaw/dialogs.c:1472
+#: client/gui-xaw/dialogs.c:1475
 msgid "You must select a nation."
 msgstr "民族を選択して下さい。"
 
@@ -16157,12 +16169,7 @@ msgstr "古い %s\n"
 msgid "Allows %s (with %s).\n"
 msgstr "可能 %s (共同 %s)\n"
 
-#: client/gui-xaw/inteldlg.c:242
-#, c-format
-msgid "Researching: Unknown(%d/-)"
-msgstr "研究中: 不明(%d/-)"
-
-#: client/gui-xaw/inteldlg.c:417
+#: client/gui-xaw/inteldlg.c:423
 #, c-format
 msgid "Intelligence Diplomacy Information for the %s Empire"
 msgstr "%sの国の諜報・外交情報"
@@ -20605,7 +20612,7 @@ msgstr "民主主義"
 #: data/civ1/governments.ruleset:167 data/nation/assyrian.ruleset:22
 #: data/nation/bosnia.ruleset:28 data/nation/bosnia.ruleset:29
 #: data/nation/brazilian.ruleset:24 data/nation/bulgarian.ruleset:32
-#: data/nation/bulgarian.ruleset:33 data/nation/catalan.ruleset:25
+#: data/nation/bulgarian.ruleset:33 data/nation/catalan.ruleset:27
 #: data/nation/chilean.ruleset:27 data/nation/croatian.ruleset:35
 #: data/nation/croatian.ruleset:36 data/nation/finnish.ruleset:20
 #: data/nation/german.ruleset:33 data/nation/icelandic.ruleset:25
@@ -23083,35 +23090,35 @@ msgstr ""
 "カタルーニャ(英語ではカタロニア)はスペイン最北東，ピレネー山脈南麓付近の海岸"
 "地域です。"
 
-#: data/nation/catalan.ruleset:22
+#: data/nation/catalan.ruleset:24
 msgid "Primer Ministre"
 msgstr "総理大臣"
 
-#: data/nation/catalan.ruleset:22
+#: data/nation/catalan.ruleset:24
 msgid "Primera Ministre"
 msgstr "総理大臣"
 
-#: data/nation/catalan.ruleset:23 data/nation/galician.ruleset:23
+#: data/nation/catalan.ruleset:25 data/nation/galician.ruleset:23
 #: data/nation/venezuelan.ruleset:29
 msgid "Dictador"
 msgstr "独裁者"
 
-#: data/nation/catalan.ruleset:23 data/nation/galician.ruleset:23
+#: data/nation/catalan.ruleset:25 data/nation/galician.ruleset:23
 #: data/nation/venezuelan.ruleset:29
 msgid "Dictadora"
 msgstr "独裁者"
 
 # 直訳すれば「王」ですが、雰囲気がでないので音訳(clefs)
-#: data/nation/catalan.ruleset:24 data/nation/galician.ruleset:24
+#: data/nation/catalan.ruleset:26 data/nation/galician.ruleset:24
 msgid "Rei"
 msgstr "レイ"
 
-#: data/nation/catalan.ruleset:24
+#: data/nation/catalan.ruleset:26
 msgid "Reina"
 msgstr "レイナ"
 
 # ntaka
-#: data/nation/catalan.ruleset:26
+#: data/nation/catalan.ruleset:28
 msgid "Arquebisbe"
 msgstr "大僧正"
 
@@ -23119,7 +23126,7 @@ msgstr "大僧正"
 # clefs ごめんなさい，「魔女」で行ってみます
 # 元首に「魔女」ってなかなか迫力ありそうかなと
 # 「偉大なる魔女」「グランブルーシャ」
-#: data/nation/catalan.ruleset:26
+#: data/nation/catalan.ruleset:28
 msgid "Gran Bruixa"
 msgstr "偉大なる魔女"
 
