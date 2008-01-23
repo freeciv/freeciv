@@ -7076,9 +7076,11 @@ msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
 "Your attacking %s succeeded against the %s %s (and %d other units)!"
 msgstr[0] ""
-"Der Angriff deiner %s gegen die %sen %s (und %d weitere Einheit) ist geglückt!"
+"Der Angriff deiner %s gegen die %sen %s (und %d weitere Einheit) ist "
+"geglückt!"
 msgstr[1] ""
-"Der Angriff deiner %s gegen die %sen %s (und %d weitere Einheiten) ist geglückt!"
+"Der Angriff deiner %s gegen die %sen %s (und %d weitere Einheiten) ist "
+"geglückt!"
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
@@ -8752,8 +8754,7 @@ msgstr[1] ""
 #, c-format
 msgid "* A maximum of %d unit in each city can enforce martial law.\n"
 msgid_plural "* A maximum of %d units in each city can enforce martial law.\n"
-msgstr[0] ""
-"* Höchstens %d Einheit in jeder Stadt kann Kriegsrecht anwenden.\n"
+msgstr[0] "* Höchstens %d Einheit in jeder Stadt kann Kriegsrecht anwenden.\n"
 msgstr[1] ""
 "* Höchstens %d Einheiten in jeder Stadt können Kriegsrecht anwenden.\n"
 
@@ -8847,7 +8848,7 @@ msgstr ""
 #: client/helpdata.c:1615
 #, c-format
 msgid "* %s production is increased %d%%.\n"
-msgstr "* Der Ertrag von % steigt um %d%%.\n"
+msgstr "* Der Ertrag von %s steigt um %d%%.\n"
 
 #. TRANS: %s is list of output types, with 'and'
 #: client/helpdata.c:1623
