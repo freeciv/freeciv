@@ -48,7 +48,6 @@ liblua_a_SOURCES = 	\
 	ltablib.c	\
 	ltm.c		\
 	ltm.h		\
-	lua.c		\
 	luac.c		\
 	luaconf.h	\
 	lua.h		\
