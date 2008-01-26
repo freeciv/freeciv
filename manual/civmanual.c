@@ -21,7 +21,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "astring.h"
 #include "fciconv.h"
 #include "fcintl.h"
 #include "log.h"
@@ -128,17 +127,13 @@ static bool manual_command(void)
       fprintf(doc, _("<h1>Freeciv %s server options</h1>\n\n"), VERSION_STRING);
       for (i = 0; settings[i].name; i++) {
         struct settings_s *op = &settings[i];
-        static struct astring abuf = ASTRING_INIT;
         const char *help = _(op->extra_help);
 
-        astr_minsize(&abuf, strlen(help) + 10);
-        strcpy(abuf.str, help);
-        wordwrap_string(abuf.str, 76);
         fprintf(doc, SEPARATOR);
         fprintf(doc, "%s%s - %s%s\n\n", SECTION_BEGIN, op->name,
                 _(op->short_help), SECTION_END);
         if (strlen(op->extra_help) > 0) {
-          fprintf(doc, "<pre>%s</pre>\n\n", abuf.str);
+          fprintf(doc, "<pre>%s</pre>\n\n", help);
         }
         fprintf(doc, "<p class=\"misc\">");
         fprintf(doc, _("Level: %s.<br>"), _(sset_level_names[op->slevel]));
@@ -202,14 +197,10 @@ static bool manual_command(void)
         fprintf(doc, _("<p class=\"level\">Level: %s</p>\n\n"),
                 cmdlevel_name(cmd->level));
         if (cmd->extra_help) {
-          static struct astring abuf = ASTRING_INIT;
           const char *help = _(cmd->extra_help);
 
-          astr_minsize(&abuf, strlen(help)+1);
-          strcpy(abuf.str, help);
-          wordwrap_string(abuf.str, 76);
           fprintf(doc, _("<p>Description:</p>\n\n"));
-          fprintf(doc, "<pre>%s</pre>\n\n", abuf.str);
+          fprintf(doc, "<pre>%s</pre>\n\n", help);
         }
       }
       break;
