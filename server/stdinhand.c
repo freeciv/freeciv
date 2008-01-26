@@ -29,7 +29,6 @@
 #endif
 #endif
 
-#include "astring.h"
 #include "fciconv.h"
 #include "fcintl.h"
 #include "log.h"
@@ -1518,22 +1517,23 @@ static void show_help_option(struct connection *caller,
 
   if (op->short_help) {
     cmd_reply(help_cmd, caller, C_COMMENT,
-	      "%s %s  -  %s", _("Option:"), op->name, _(op->short_help));
+	      /* TRANS: <untranslated name> - translated short help */
+	      _("Option: %s  -  %s"),
+	      op->name,
+	      _(op->short_help));
   } else {
     cmd_reply(help_cmd, caller, C_COMMENT,
-	      "%s %s", _("Option:"), op->name);
+	      /* TRANS: <untranslated name> */
+	      _("Option: %s"),
+	      op->name);
   }
 
   if(op->extra_help && strcmp(op->extra_help,"")!=0) {
-    static struct astring abuf = ASTRING_INIT;
     const char *help = _(op->extra_help);
 
-    astr_minsize(&abuf, strlen(help)+1);
-    strcpy(abuf.str, help);
-    wordwrap_string(abuf.str, 76);
     cmd_reply(help_cmd, caller, C_COMMENT, _("Description:"));
     cmd_reply_prefix(help_cmd, caller, C_COMMENT,
-		     "  ", "  %s", abuf.str);
+		     "  ", "  %s", help);
   }
   cmd_reply(help_cmd, caller, C_COMMENT,
 	    _("Status: %s"), (setting_is_changeable(id)
@@ -3832,6 +3832,7 @@ static void show_help_intro(struct connection *caller, enum command_id help_cmd)
 {
   /* This is formated like extra_help entries for settings and commands: */
   const char *help =
+    /* TRANS: line break width 70 */
     _("Welcome - this is the introductory help text for the Freeciv server.\n\n"
       "Two important server concepts are Commands and Options.\n"
       "Commands, such as 'help', are used to interact with the server.\n"
@@ -3847,12 +3848,7 @@ static void show_help_intro(struct connection *caller, enum command_id help_cmd)
       "  save   -  to save the current game\n"
       "  quit   -  to exit");
 
-  static struct astring abuf = ASTRING_INIT;
-      
-  astr_minsize(&abuf, strlen(help)+1);
-  strcpy(abuf.str, help);
-  wordwrap_string(abuf.str, 78);
-  cmd_reply(help_cmd, caller, C_COMMENT, abuf.str);
+  cmd_reply(help_cmd, caller, C_COMMENT, help);
 }
 
 /**************************************************************************
@@ -3867,10 +3863,15 @@ static void show_help_command(struct connection *caller,
   
   if (cmd->short_help) {
     cmd_reply(help_cmd, caller, C_COMMENT,
-	      "%s %s  -  %s", _("Command:"), cmd->name, _(cmd->short_help));
+	      /* TRANS: <untranslated name> - translated short help */
+	      _("Command: %s  -  %s"),
+	      cmd->name,
+	      _(cmd->short_help));
   } else {
     cmd_reply(help_cmd, caller, C_COMMENT,
-	      "%s %s", _("Command:"), cmd->name);
+	      /* TRANS: <untranslated name> */
+	      _("Command: %s"),
+	      cmd->name);
   }
   if (cmd->synopsis) {
     /* line up the synopsis lines: */
@@ -3885,15 +3886,11 @@ static void show_help_command(struct connection *caller,
   cmd_reply(help_cmd, caller, C_COMMENT,
 	    _("Level: %s"), cmdlevel_name(cmd->level));
   if (cmd->extra_help) {
-    static struct astring abuf = ASTRING_INIT;
     const char *help = _(cmd->extra_help);
       
-    astr_minsize(&abuf, strlen(help)+1);
-    strcpy(abuf.str, help);
-    wordwrap_string(abuf.str, 76);
     cmd_reply(help_cmd, caller, C_COMMENT, _("Description:"));
     cmd_reply_prefix(help_cmd, caller, C_COMMENT, "  ",
-		     "  %s", abuf.str);
+		     "  %s", help);
   }
 }
 

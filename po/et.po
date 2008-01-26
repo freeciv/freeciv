@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: et\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-22 22:45-0500\n"
+"POT-Creation-Date: 2008-01-26 09:23-0500\n"
 "PO-Revision-Date: 2007-10-02 21:29+0200\n"
 "Last-Translator: Silver Juurik <silverjuurik@gmail.com>\n"
 "Language-Team: eesti\n"
@@ -782,7 +782,7 @@ msgstr "Tuleviku tehnoloogia %d"
 #: client/gui-win32/helpdlg.c:165 client/gui-win32/helpdlg.c:545
 #: client/gui-win32/helpdlg.c:731 client/gui-win32/helpdlg.c:752
 #: client/gui-xaw/helpdlg.c:813 client/gui-xaw/helpdlg.c:858
-#: client/gui-xaw/helpdlg.c:877 manual/civmanual.c:327 manual/civmanual.c:333
+#: client/gui-xaw/helpdlg.c:877 manual/civmanual.c:318 manual/civmanual.c:324
 msgid "None"
 msgstr "Pole"
 
@@ -806,14 +806,14 @@ msgid "Oceanic"
 msgstr "Ookean"
 
 #: common/terrain.c:482 common/terrain.c:670 common/unit.c:523
-#: manual/civmanual.c:224
+#: manual/civmanual.c:215
 msgid "Road"
 msgstr "Tee"
 
 #: common/terrain.c:483 common/terrain.c:677 common/unit.c:527
 #: client/gui-gtk-2.0/menu.c:833 client/gui-sdl/optiondlg.c:1905
 #: client/gui-win32/menu.c:344 client/gui-xaw/menu.c:156
-#: manual/civmanual.c:224
+#: manual/civmanual.c:215
 msgid "Irrigation"
 msgstr "Niisutus"
 
@@ -878,7 +878,7 @@ msgstr "Mine"
 msgid "Explore"
 msgstr "Avasta"
 
-#: common/unit.c:545 manual/civmanual.c:224
+#: common/unit.c:545 manual/civmanual.c:215
 msgid "Transform"
 msgstr "Muuda"
 
@@ -931,11 +931,11 @@ msgstr "Selle %s uuendamine jätaks tema transporditud üksused maha."
 
 #. TRANS: List of possible output types has this between
 #. *        last two elements
-#: common/unittype.c:432 client/helpdata.c:1387
+#: common/unittype.c:432 client/helpdata.c:1381
 msgid " and "
 msgstr " ja "
 
-#: common/unittype.c:438 client/helpdata.c:1373
+#: common/unittype.c:438 client/helpdata.c:1367
 msgid "?and:, "
 msgstr "?and:, "
 
@@ -2246,7 +2246,7 @@ msgstr "See on %s server"
 msgid "You can learn a lot about Freeciv at %s"
 msgstr "Sa võid Freecivi kohta juurde õppida siin: %s"
 
-#: server/civserver.c:213 client/civclient.c:237 manual/civmanual.c:380
+#: server/civserver.c:213 client/civclient.c:237 manual/civmanual.c:371
 #, c-format
 msgid ""
 "Usage: %s [option ...]\n"
@@ -2293,7 +2293,7 @@ msgstr "  -d, --debug NUM\tMäära logimistase (0 - 3)\n"
 msgid "  -f, --file FILE\tLoad saved game FILE\n"
 msgstr "  -f, --file FAIL\tLae salvestatud mäng FAIL\n"
 
-#: server/civserver.c:232 client/civclient.c:248 manual/civmanual.c:382
+#: server/civserver.c:232 client/civclient.c:248 manual/civmanual.c:373
 msgid "  -h, --help\t\tPrint a summary of the options\n"
 msgstr "  -h, --help\t\tVõtmete ülevaade\n"
 
@@ -2341,13 +2341,13 @@ msgstr "  -r, --read FAIL\tLoe käivitusskript FAIL\n"
 msgid "  -R, --Ranklog FILE\tUse FILE as ranking logfile\n"
 msgstr "  -R, --Ranklog FILE\tKasuta FILEi kui edetabeli logifaili\n"
 
-#: server/civserver.c:254 client/civclient.c:267 manual/civmanual.c:383
+#: server/civserver.c:254 client/civclient.c:267 manual/civmanual.c:374
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tNäita versiooninumbrit\n"
 
 #: server/civserver.c:255 client/gui-gtk-2.0/gui_main.c:352
 #: client/gui-sdl/gui_main.c:210 client/gui-xaw/gui_main.c:247
-#: manual/civmanual.c:384
+#: manual/civmanual.c:375
 #, c-format
 msgid "Report bugs at %s.\n"
 msgstr "Teata vigadest aadressile %s.\n"
@@ -5734,331 +5734,339 @@ msgstr "Mäng on läbi..."
 msgid "Now accepting new client connections."
 msgstr "Ootan klientprogrammide ühendusi."
 
-#: server/stdinhand.c:249
+#: server/stdinhand.c:248
 #, c-format
 msgid "Vote \"%s\" is passed %d to %d with %d abstentions."
 msgstr "Hääletus \"%s\" läks läbi häältega %d %d vastu, %d jätsid hääletamata."
 
-#: server/stdinhand.c:256
+#: server/stdinhand.c:255
 #, c-format
 msgid "Vote \"%s\" failed with %d against, %d for and %d abstentions."
 msgstr ""
 "Hääletus \"%s\" lükati tagasi häältega %d %d vastu, %d jätsid hääletamata."
 
 #. TRANS: ambiguous command
-#: server/stdinhand.c:368
+#: server/stdinhand.c:367
 msgid "(ambiguous)"
 msgstr "(mitmetähenduslik)"
 
 #. TRANS: unrecognized command
 #. TRANS: "unknown" location
-#: server/stdinhand.c:371 client/citydlg_common.c:420
+#: server/stdinhand.c:370 client/citydlg_common.c:420
 #: client/gui-gtk-2.0/inteldlg.c:368 client/gui-sdl/inteldlg.c:295
 #: client/gui-sdl/inteldlg.c:307 client/gui-win32/inteldlg.c:147
 #: client/gui-xaw/inteldlg.c:265
 msgid "(unknown)"
 msgstr "(teadmata)"
 
-#: server/stdinhand.c:461
+#: server/stdinhand.c:460
 msgid "Name is empty, so cannot be a player."
 msgstr "Nimi on tühi, järelikult ei saa olla mängija."
 
-#: server/stdinhand.c:465
+#: server/stdinhand.c:464
 msgid "Name is too long, so cannot be a player."
 msgstr "Nimi on liiga pikk, järelikult ei saa olla mängija."
 
-#: server/stdinhand.c:469
+#: server/stdinhand.c:468
 #, c-format
 msgid "Player name prefix '%s' is ambiguous."
 msgstr "Mängija nime prefix '%s' on mitmesti mõistetav."
 
-#: server/stdinhand.c:473
+#: server/stdinhand.c:472
 #, c-format
 msgid "No player by the name of '%s'."
 msgstr "Pole mängijat nimega '%s'."
 
-#: server/stdinhand.c:477 server/stdinhand.c:512
+#: server/stdinhand.c:476 server/stdinhand.c:511
 #, c-format
 msgid "Unexpected match_result %d (%s) for '%s'."
 msgstr "Ootamatu match_result %d (%s) '%s' kohta."
 
-#: server/stdinhand.c:496
+#: server/stdinhand.c:495
 msgid "Name is empty, so cannot be a connection."
 msgstr "Nimi on tühi, seega see ei saa olla ühendus."
 
-#: server/stdinhand.c:500
+#: server/stdinhand.c:499
 msgid "Name is too long, so cannot be a connection."
 msgstr "Nimi on liiga pikk, seega ei saa olla ühendus."
 
-#: server/stdinhand.c:504
+#: server/stdinhand.c:503
 #, c-format
 msgid "Connection name prefix '%s' is ambiguous."
 msgstr "Ühenduse nimi '%s' on mitmesti mõistetav."
 
-#: server/stdinhand.c:508
+#: server/stdinhand.c:507
 #, c-format
 msgid "No connection by the name of '%s'."
 msgstr "Pole ühendust nimega '%s'."
 
-#: server/stdinhand.c:528
+#: server/stdinhand.c:527
 #, c-format
 msgid "Open metaserver connection to [%s]."
 msgstr "Ava metaserveri ühendus masinasse [%s]."
 
-#: server/stdinhand.c:541
+#: server/stdinhand.c:540
 #, c-format
 msgid "Close metaserver connection to [%s]."
 msgstr "Sule metaserveri ühendus masinasse [%s]."
 
-#: server/stdinhand.c:556
+#: server/stdinhand.c:555
 msgid "Metaserver connection is open."
 msgstr "Metaserveri ühendus on avatud."
 
-#: server/stdinhand.c:559
+#: server/stdinhand.c:558
 msgid "Metaserver connection is closed."
 msgstr "Metaserveri ühendus on suletud."
 
-#: server/stdinhand.c:569
+#: server/stdinhand.c:568
 msgid "Metaserver connection is already open."
 msgstr "Metaserveri ühendus on juba avatud."
 
-#: server/stdinhand.c:580
+#: server/stdinhand.c:579
 msgid "Metaserver connection is already closed."
 msgstr "Metaserveri ühendus on juba suletud."
 
-#: server/stdinhand.c:585
+#: server/stdinhand.c:584
 msgid "Argument must be 'u', 'up', 'd', 'down', or '?'."
 msgstr "Argument peab olema 'u', 'up', 'd', 'down' või '?'."
 
-#: server/stdinhand.c:606
+#: server/stdinhand.c:605
 #, c-format
 msgid "Metaserver patches string set to '%s'."
 msgstr "Metaserveri lappide string seatud väärtusele '%s'."
 
-#: server/stdinhand.c:609
+#: server/stdinhand.c:608
 #, c-format
 msgid "Metaserver patches string set to '%s', not reporting to metaserver."
 msgstr "Metaserveri lappide string seatud '%s', ei kanna ette metaserverile."
 
-#: server/stdinhand.c:630
+#: server/stdinhand.c:629
 #, c-format
 msgid "Metaserver message string set to '%s'."
 msgstr "Metaserveri sõnumi string seatud väärtusele '%s'."
 
-#: server/stdinhand.c:633
+#: server/stdinhand.c:632
 #, c-format
 msgid "Metaserver message string set to '%s', not reporting to metaserver."
 msgstr ""
 "Metaserveri sõnumi string seatud väärtusele '%s', ei kanna ette "
 "metaserverile."
 
-#: server/stdinhand.c:653
+#: server/stdinhand.c:652
 #, c-format
 msgid "Metaserver is now [%s]."
 msgstr "Metaserver on nüüd [%s]."
 
-#: server/stdinhand.c:663
+#: server/stdinhand.c:662
 #, c-format
 msgid "Server id: %s"
 msgstr "Serveri ID: %s"
 
-#: server/stdinhand.c:746
+#: server/stdinhand.c:745
 msgid "You cannot save games manually on this server."
 msgstr "Selles serveris ei saa mänge käsitsi salvestada."
 
-#: server/stdinhand.c:763
+#: server/stdinhand.c:762
 msgid "Cannot toggle a barbarian player."
 msgstr "Ei saa ümber lülitada barbar-mängijat."
 
-#: server/stdinhand.c:770
+#: server/stdinhand.c:769
 #, c-format
 msgid "%s is now under AI control."
 msgstr "%s on nüüd tehismõistuse juhitud."
 
-#: server/stdinhand.c:790
+#: server/stdinhand.c:789
 #, c-format
 msgid "%s is now under human control."
 msgstr "%s on nüüd inimese juhitud."
 
-#: server/stdinhand.c:835
+#: server/stdinhand.c:834
 msgid "Can't add AI players once the game has begun."
 msgstr "Ei saa lisada tehismõistusi, kui mäng juba käib."
 
-#: server/stdinhand.c:854
+#: server/stdinhand.c:853
 msgid "Can't add more players, server is full."
 msgstr "Rohkem mängijaid ei saa lisada, serveril on kuhi peal."
 
-#: server/stdinhand.c:861
+#: server/stdinhand.c:860
 msgid "Can't use an empty name."
 msgstr "Tühja nime ei saa kasutada."
 
-#: server/stdinhand.c:868
+#: server/stdinhand.c:867
 #, c-format
 msgid "That name exceeds the maximum of %d chars."
 msgstr "See nimi ületab piirpikkust %d märki."
 
-#: server/stdinhand.c:874
+#: server/stdinhand.c:873
 msgid "That name is not allowed."
 msgstr "See nimi pole lubatud."
 
-#: server/stdinhand.c:880
+#: server/stdinhand.c:879
 msgid "A player already exists by that name."
 msgstr "Sellise nimega mängija on juba olemas."
 
-#: server/stdinhand.c:886
+#: server/stdinhand.c:885
 msgid "A user already exists by that name."
 msgstr "Sellise nimega mängija on juba olemas."
 
-#: server/stdinhand.c:916
+#: server/stdinhand.c:915
 #, c-format
 msgid "%s has been added as an AI-controlled player."
 msgstr "%s liitus arvuti juhitud mängijana."
 
-#: server/stdinhand.c:923
+#: server/stdinhand.c:922
 #, c-format
 msgid "Error creating new AI player: %s."
 msgstr "Viga uue AI mängija %s loomisel"
 
-#: server/stdinhand.c:952
+#: server/stdinhand.c:951
 msgid "Players cannot be removed once the game has started."
 msgstr "Mängijaid ei saa eemaldada kui mäng juba käib."
 
-#: server/stdinhand.c:963
+#: server/stdinhand.c:962
 #, c-format
 msgid "Removed player %s from the game."
 msgstr "Mängija %s eemaldati mängust."
 
-#: server/stdinhand.c:1002 server/stdinhand.c:3259 server/stdinhand.c:3372
+#: server/stdinhand.c:1001 server/stdinhand.c:3259 server/stdinhand.c:3372
 #, c-format
 msgid "Name \"%s\" disallowed for security reasons."
 msgstr "Nime \"%s\" ei lubata turvapõhjustel."
 
-#: server/stdinhand.c:1015
+#: server/stdinhand.c:1014
 #, c-format
 msgid "No command script found by the name \"%s\"."
 msgstr "Ei leidu käsuskripti nimega \"%s\"."
 
-#: server/stdinhand.c:1023
+#: server/stdinhand.c:1022
 #, c-format
 msgid "Loading script file: %s"
 msgstr "Loen skriptifaili: %s"
 
-#: server/stdinhand.c:1038
+#: server/stdinhand.c:1037
 #, c-format
 msgid "Cannot read command line scriptfile '%s'."
 msgstr "Ei suuda lugeda käsurea skriptifaili '%s'."
 
-#: server/stdinhand.c:1040
+#: server/stdinhand.c:1039
 #, c-format
 msgid "Could not read script file '%s'."
 msgstr "Ei suutnud lugeda skriptifaili '%s'."
 
-#: server/stdinhand.c:1127
+#: server/stdinhand.c:1126
 #, c-format
 msgid "Could not write script file '%s'."
 msgstr "Ei suutnud kirjutada skriptifaili '%s'."
 
-#: server/stdinhand.c:1139
+#: server/stdinhand.c:1138
 msgid "You cannot use the write command on this server for security reasons."
 msgstr "Sa ei saa kasudada 'write' käsku siin serveris turvapõhjustel."
 
-#: server/stdinhand.c:1167
+#: server/stdinhand.c:1166
 #, c-format
 msgid ""
 "Cannot decrease command access level '%s' for connection '%s'; you only have "
 "'%s'."
 msgstr "Ei saa alandada käsutasest '%s' ühendusel '%s' — sul on ainult '%s'."
 
-#: server/stdinhand.c:1222
+#: server/stdinhand.c:1221
 #, c-format
 msgid ""
 "Anyone can now become game organizer '%s' by issuing the 'first' command."
 msgstr "Ükskõik kes võib nüüd saada mängujuhiks '%s' andes käsu 'first'."
 
-#: server/stdinhand.c:1255
+#: server/stdinhand.c:1254
 msgid "Command access levels in effect:"
 msgstr "Hetkel aktiivsed käsutasemed:"
 
-#: server/stdinhand.c:1263
+#: server/stdinhand.c:1262
 #, c-format
 msgid "Command access level for new connections: %s"
 msgstr "Käsutase uutele ühendustele: %s"
 
-#: server/stdinhand.c:1266
+#: server/stdinhand.c:1265
 #, c-format
 msgid "Command access level for first player to take it: %s"
 msgstr "Käsutase esimesele võtjale: %s"
 
-#: server/stdinhand.c:1275
+#: server/stdinhand.c:1274
 msgid ""
 "Error: command access level must be one of 'none', 'info', 'ctrl', or 'hack'."
 msgstr ""
 "Viga: käsutase peab olema üks neist: 'none', 'info', 'ctrl' või 'hack'."
 
-#: server/stdinhand.c:1280
+#: server/stdinhand.c:1279
 #, c-format
 msgid ""
 "Cannot increase command access level to '%s'; you only have '%s' yourself."
 msgstr "Ei saa tõsta käsutaset '%s' peale, sul on endal ainult '%s'."
 
-#: server/stdinhand.c:1307 server/stdinhand.c:1355
+#: server/stdinhand.c:1306 server/stdinhand.c:1354
 #, c-format
 msgid "Command access level set to '%s' for connection %s."
 msgstr "Käsutase seatud '%s'-iks ühendusel %s."
 
-#: server/stdinhand.c:1311 server/stdinhand.c:1359
+#: server/stdinhand.c:1310 server/stdinhand.c:1358
 #, c-format
 msgid "Command access level could not be set to '%s' for connection %s."
 msgstr "Ei saanud seada käsutaset '%s'-iks ühendusele %s."
 
-#: server/stdinhand.c:1321 server/stdinhand.c:1331 server/stdinhand.c:1348
+#: server/stdinhand.c:1320 server/stdinhand.c:1330 server/stdinhand.c:1347
 #, c-format
 msgid "Command access level set to '%s' for new players."
 msgstr "Käsutase seatud '%s'-iks uutele mängijatele."
 
-#: server/stdinhand.c:1325 server/stdinhand.c:1336 server/stdinhand.c:1343
+#: server/stdinhand.c:1324 server/stdinhand.c:1335 server/stdinhand.c:1342
 #, c-format
 msgid "Command access level set to '%s' for first player to grab it."
 msgstr "Käsutase seatud '%s' esimesele mängijale, kes selle võtab."
 
-#: server/stdinhand.c:1381
+#: server/stdinhand.c:1380
 msgid "The 'first' command makes no sense from the server command line."
 msgstr "Käsk 'first' on mõttetu serveri käsureal."
 
-#: server/stdinhand.c:1385
+#: server/stdinhand.c:1384
 #, c-format
 msgid "You already have command access level '%s' or better."
 msgstr "Sul on juba käsutase '%s' või parem."
 
-#: server/stdinhand.c:1390
+#: server/stdinhand.c:1389
 msgid "Someone else already is game organizer."
 msgstr "Keegi teine on juba mängujuht."
 
-#: server/stdinhand.c:1395
+#: server/stdinhand.c:1394
 #, c-format
 msgid "Connection %s has opted to become the game organizer."
 msgstr "Ühendus %s on vabatahtlik mängujuhiks saama."
 
-#: server/stdinhand.c:1446
+#: server/stdinhand.c:1445
 #, c-format
 msgid "Invalid argument %d."
 msgstr "Vigane argument %d."
 
-#: server/stdinhand.c:1453
+#: server/stdinhand.c:1452
 msgid "Usage: timeoutincrease <turn> <turnadd> <value> <valuemult>."
 msgstr ""
 "Kasutamine: timeoutincrease <käik> <käigulisand> <väärtus> <väärtusetegur>"
 
-#: server/stdinhand.c:1461
+#: server/stdinhand.c:1460
 #, c-format
 msgid "Dynamic timeout set to %d %d %d %d"
 msgstr "Dünaamiline ajapiirang seatud %d %d %d %d"
 
-#: server/stdinhand.c:1521 server/stdinhand.c:1524
-msgid "Option:"
-msgstr "Seade:"
+#. TRANS: <untranslated name> - translated short help
+#: server/stdinhand.c:1521
+#, fuzzy, c-format
+msgid "Option: %s  -  %s"
+msgstr "Seade: %s  -  %s."
 
-#: server/stdinhand.c:1534 server/stdinhand.c:3894
+#. TRANS: <untranslated name>
+#: server/stdinhand.c:1527
+#, fuzzy, c-format
+msgid "Option: %s"
+msgstr "Seaded: %s"
+
+#: server/stdinhand.c:1534 server/stdinhand.c:3891
 msgid "Description:"
 msgstr "Kirjeldus:"
 
@@ -6514,18 +6522,18 @@ msgstr "ühendub lahti %s-st"
 msgid "%s now controls %s (%s, %s)"
 msgstr " %s juhib nüüd %s (%s, %s)"
 
-#: server/stdinhand.c:3047 server/stdinhand.c:4123
+#: server/stdinhand.c:3047 server/stdinhand.c:4120
 #: data/nation/barbarian.ruleset:3
 msgid "Barbarian"
 msgstr "Barbar"
 
-#: server/stdinhand.c:3049 server/stdinhand.c:4125 client/plrdlg_common.c:256
+#: server/stdinhand.c:3049 server/stdinhand.c:4122 client/plrdlg_common.c:256
 #: client/gui-gtk-2.0/pages.c:2021 client/gui-sdl/plrdlg.c:642
 #: client/gui-win32/connectdlg.c:201 client/gui-win32/plrdlg.c:335
 msgid "AI"
 msgstr "Tehisintellekt"
 
-#: server/stdinhand.c:3050 server/stdinhand.c:4127
+#: server/stdinhand.c:3050 server/stdinhand.c:4124
 #: client/gui-gtk-2.0/pages.c:2021 client/gui-gtk-2.0/pages.c:2044
 #: client/gui-win32/connectdlg.c:201 client/gui-win32/connectdlg.c:213
 msgid "Human"
@@ -6691,7 +6699,8 @@ msgstr "Mängu ei saa alustada, see juba käib."
 msgid "Cutting connection %s."
 msgstr "Lõikas %s ühenduse."
 
-#: server/stdinhand.c:3835
+#. TRANS: line break width 70
+#: server/stdinhand.c:3836
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -6729,123 +6738,131 @@ msgstr ""
 "  save   -  praeguse mängu salvestamiseks\n"
 "  quit   -  väljumiseks"
 
-#: server/stdinhand.c:3870 server/stdinhand.c:3873
-msgid "Command:"
-msgstr "Käsk:"
+#. TRANS: <untranslated name> - translated short help
+#: server/stdinhand.c:3867
+#, fuzzy, c-format
+msgid "Command: %s  -  %s"
+msgstr "Käsk: %s  -  %s"
 
-#: server/stdinhand.c:3877
+#. TRANS: <untranslated name>
+#: server/stdinhand.c:3873
+#, fuzzy, c-format
+msgid "Command: %s"
+msgstr "Käsk: %s"
+
+#: server/stdinhand.c:3878
 msgid "Synopsis: "
 msgstr "Kokkuvõte:"
 
-#: server/stdinhand.c:3886
+#: server/stdinhand.c:3887
 #, c-format
 msgid "Level: %s"
 msgstr "Tase: %s"
 
-#: server/stdinhand.c:3911
+#: server/stdinhand.c:3908
 msgid "The following server commands are available:"
 msgstr "Järgmised serveri käsud on saadaval:"
 
-#: server/stdinhand.c:3986
+#: server/stdinhand.c:3983
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "Abi argument '%s' on mitmesti mõistetav."
 
-#: server/stdinhand.c:3991
+#: server/stdinhand.c:3988
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "Pole vasteid abi argumendile '%s'."
 
-#: server/stdinhand.c:4057
+#: server/stdinhand.c:4054
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "Halb listi argument: '%s'.  Vaata '%shelp list'."
 
-#: server/stdinhand.c:4097
+#: server/stdinhand.c:4094
 msgid "List of players:"
 msgstr "Mängijate nimekiri:"
 
-#: server/stdinhand.c:4102
+#: server/stdinhand.c:4099
 msgid "<no players>"
 msgstr "<mängijaid ei ole>"
 
-#: server/stdinhand.c:4119
+#: server/stdinhand.c:4116
 #, c-format
 msgid "user %s, "
 msgstr "kasutajanimi %s, "
 
-#: server/stdinhand.c:4130
+#: server/stdinhand.c:4127
 msgid ", Dead"
 msgstr ", Surnud"
 
-#: server/stdinhand.c:4133
+#: server/stdinhand.c:4130
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", raskusaste %s"
 
 #. TRANS: continue list, in case comma is not the separator of choice.
-#: server/stdinhand.c:4138 server/stdinhand.c:4142 client/helpdata.c:254
-#: client/helpdata.c:745 client/text.c:187 client/text.c:1179
+#: server/stdinhand.c:4135 server/stdinhand.c:4139 client/helpdata.c:254
+#: client/helpdata.c:741 client/text.c:187 client/text.c:1179
 #: client/text.c:1217
 #, c-format
 msgid "?clistmore:, %s"
 msgstr ", %s"
 
-#: server/stdinhand.c:4146
+#: server/stdinhand.c:4143
 msgid ", ready"
 msgstr ", valmis"
 
-#: server/stdinhand.c:4148
+#: server/stdinhand.c:4145
 msgid ", not ready"
 msgstr ", pole valmis"
 
-#: server/stdinhand.c:4156
+#: server/stdinhand.c:4153
 #, c-format
 msgid " %d connection:"
 msgid_plural " %d connections:"
 msgstr[0] " %d ühendus:"
 msgstr[1] " %d ühendust:"
 
-#: server/stdinhand.c:4162
+#: server/stdinhand.c:4159
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
 msgstr " %s %s-ist (käsutase %s), puhver=%dkb"
 
-#: server/stdinhand.c:4167
+#: server/stdinhand.c:4164
 msgid " (observer mode)"
 msgstr " (vaatlejarežiim)"
 
-#: server/stdinhand.c:4183
+#: server/stdinhand.c:4180
 msgid "List of teams:"
 msgstr "Meeskondade nimekiri:"
 
 #. TRANS: There will always be at least 2 players here.
-#: server/stdinhand.c:4192
+#: server/stdinhand.c:4189
 #, c-format
 msgid "%2d : '%s' : %d player"
 msgid_plural "%2d : '%s' : %d players"
 msgstr[0] "%2d : '%s' : %d mängija"
 msgstr[1] "%2d : '%s' : %d mängijat"
 
-#: server/stdinhand.c:4214
+#: server/stdinhand.c:4211
 #, c-format
 msgid "%2d : '%s' : 1 player : %s"
 msgstr "%2d : '%s' : 1 mängija : %s"
 
-#: server/stdinhand.c:4223
+#: server/stdinhand.c:4220
 #, c-format
 msgid "Empty team: %s"
 msgstr "Tühi meeskond: %s"
 
-#: server/stdinhand.c:4234
+#: server/stdinhand.c:4231
 msgid "List of connections to server:"
 msgstr "Nimekiri ühendustest serverisse:"
 
-#: server/stdinhand.c:4238
+#: server/stdinhand.c:4235
 msgid "<no connections>"
 msgstr "<ühendusi ei ole>"
 
-#: server/stdinhand.c:4262
+#: server/stdinhand.c:4259
 msgid "List of scenarios available:"
 msgstr "Nimekiri saadaolevatest stsenaariumidest:"
 
@@ -8300,12 +8317,12 @@ msgstr "Võimaldab ehitada %s (kui on olemas %s)."
 msgid " Rivers"
 msgstr "  Jõed"
 
-#: client/helpdata.c:585
+#: client/helpdata.c:583
 #, c-format
 msgid "Sorry, no help topic for %s.\n"
 msgstr "Kahjuks pole lisainfot teemal %s.\n"
 
-#: client/helpdata.c:589
+#: client/helpdata.c:587
 #, c-format
 msgid ""
 "Sorry, no help topic for %s.\n"
@@ -8316,99 +8333,99 @@ msgstr ""
 "See leht on automaatselt loodud.\n"
 "\n"
 
-#: client/helpdata.c:669
+#: client/helpdata.c:667
 #, c-format
 msgid "* The discovery of %s will make %s obsolete.\n"
 msgstr "* Teaduse %s avastamine muudab iganenuks teaduse %s.\n"
 
-#: client/helpdata.c:683
+#: client/helpdata.c:681
 #, c-format
 msgid "* Allows all players with knowledge of %s to build %s units.\n"
 msgstr "* Võimaldab mängijal, kes omab teadust %s, ehitada %s.\n"
 
-#: client/helpdata.c:696
+#: client/helpdata.c:694
 #, c-format
 msgid "* Allows %s (with %s).\n"
 msgstr "* Võimaldab %s (kui on %s).\n"
 
-#: client/helpdata.c:701
+#: client/helpdata.c:699
 #, c-format
 msgid "* Allows %s.\n"
 msgstr "* Võimaldab %s.\n"
 
-#: client/helpdata.c:770
+#: client/helpdata.c:766
 #, c-format
 msgid "* Belongs to %s units class.\n"
 msgstr ""
 
-#: client/helpdata.c:774
+#: client/helpdata.c:770
 msgid "  * Can occupy empty enemy cities.\n"
 msgstr ""
 
-#: client/helpdata.c:777
+#: client/helpdata.c:773
 msgid "  * Speed is not affected by terrain.\n"
 msgstr ""
 
-#: client/helpdata.c:780
+#: client/helpdata.c:776
 msgid "  * Slowed down while damaged\n"
 msgstr ""
 
-#: client/helpdata.c:783
+#: client/helpdata.c:779
 msgid "  * Gets used up in making an attack.\n"
 msgstr ""
 
-#: client/helpdata.c:787
+#: client/helpdata.c:783
 msgid "  * Is unreachable. Most units cannot attack this one.\n"
 msgstr ""
 
-#: client/helpdata.c:792
+#: client/helpdata.c:788
 #, c-format
 msgid "* Can only be built if there is %s in the city.\n"
 msgstr "* Saab ehitada, kui linnas on olemas %s.\n"
 
-#: client/helpdata.c:798
+#: client/helpdata.c:794
 #, c-format
 msgid "* Can only be built with %s as government.\n"
 msgstr "* Saab ehitada, kui valitsuseks on %s.\n"
 
-#: client/helpdata.c:803
+#: client/helpdata.c:799
 msgid "* May not be built in cities.\n"
 msgstr "* Ei saa ehitada linnadesse.\n"
 
-#: client/helpdata.c:806
+#: client/helpdata.c:802
 msgid "* Only barbarians may build this.\n"
 msgstr ""
 
-#: client/helpdata.c:809
+#: client/helpdata.c:805
 msgid "* Never has a home city.\n"
 msgstr "* Ei oma kodulinna.\n"
 
-#: client/helpdata.c:812
+#: client/helpdata.c:808
 msgid "* Losing this unit will lose you the game!\n"
 msgstr "* Selle üksuse kaotamisel kaotad kogu mängu!\n"
 
-#: client/helpdata.c:816
+#: client/helpdata.c:812
 msgid "* Each player may only have one of this type of unit.\n"
 msgstr "* Seda tüüpi üksusi võib igal mängijal olla vaid üks.\n"
 
-#: client/helpdata.c:820
+#: client/helpdata.c:816
 #, c-format
 msgid "* Requires %d population to build.\n"
 msgstr "* Vajab ehitamiseks rahvaarvu %d.\n"
 
-#: client/helpdata.c:825
+#: client/helpdata.c:821
 #, c-format
 msgid "* Can carry and refuel %d unit from classes:\n"
 msgid_plural "* Can carry and refuel up to %d units from classes:\n"
 msgstr[0] ""
 msgstr[1] ""
 
-#: client/helpdata.c:832
+#: client/helpdata.c:828
 #, fuzzy, c-format
 msgid "  * %s units\n"
 msgstr "%s üksust"
 
-#: client/helpdata.c:841
+#: client/helpdata.c:837
 msgid ""
 "* Can establish trade routes (must travel to target city and must be at "
 "least 9 tiles [in Manhattan distance] from this unit's home city).\n"
@@ -8416,160 +8433,160 @@ msgstr ""
 "* Saab luua kaubateid (selleks peab rändama mõnda linna, mis asub üksuse "
 "kodulinnast vähemalt 9 ruudukese kaugusel.\n"
 
-#: client/helpdata.c:847
+#: client/helpdata.c:843
 #, c-format
 msgid "* Can help build wonders (adds %d production).\n"
 msgstr ""
 "* Saab aidata kaasa ilmaimede ehitamisele (lisab toodangusse %d ühikut).\n"
 
-#: client/helpdata.c:851
+#: client/helpdata.c:847
 msgid "* May not be disbanded.\n"
 msgstr "* Ei saa laiali saata.\n"
 
-#: client/helpdata.c:854
+#: client/helpdata.c:850
 #, c-format
 msgid "* May be disbanded in a city to recover 50% of the production cost.\n"
 msgstr ""
 
-#: client/helpdata.c:858
+#: client/helpdata.c:854
 msgid "* Can build new cities.\n"
 msgstr "* Saab ehitada uusi linnu.\n"
 
-#: client/helpdata.c:862
+#: client/helpdata.c:858
 #, c-format
 msgid "* Can add on %d population to cities of no more than size %d.\n"
 msgstr "* Võib lisada %d rahvaarvule linnades, mille suurus on ülimalt %d.\n"
 
-#: client/helpdata.c:871
+#: client/helpdata.c:867
 msgid "* Can build roads and railroads.\n"
 msgstr "* Saab ehitada teid ja raudteid.\n"
 
-#: client/helpdata.c:872
+#: client/helpdata.c:868
 msgid "* Can build mines on tiles.\n"
 msgstr "* Saab ehitada kaevandusi.\n"
 
-#: client/helpdata.c:873
+#: client/helpdata.c:869
 msgid "* Can build irrigation on tiles.\n"
 msgstr "* Saab ehitada niisutust.\n"
 
-#: client/helpdata.c:878
+#: client/helpdata.c:874
 msgid "* Can build farmland.\n"
 msgstr "* Saab ehitada põllumaad.\n"
 
-#: client/helpdata.c:882
+#: client/helpdata.c:878
 #, c-format
 msgid "* Can build farmland (if %s is known).\n"
 msgstr "* Saab ehitada põllumaad (kui on teada %s).\n"
 
-#: client/helpdata.c:886
+#: client/helpdata.c:882
 #, c-format
 msgid "* Can build farmland (if any of the following are known: %s).\n"
 msgstr "* Saab ehitada põllumaad (kui on teada üks järgnevaist: %s).\n"
 
-#: client/helpdata.c:892
+#: client/helpdata.c:888
 msgid "* Can build fortresses.\n"
 msgstr "* Saab ehitada kindlusi.\n"
 
-#: client/helpdata.c:895
+#: client/helpdata.c:891
 msgid "* Can clean pollution from tiles.\n"
 msgstr "* Võib ruutudelt eemaldada reostust.\n"
 
-#: client/helpdata.c:896
+#: client/helpdata.c:892
 msgid "* Can clean nuclear fallout from tiles.\n"
 msgstr "* Võib puhastada kaardiruute tuumajäätmetest.\n"
 
-#: client/helpdata.c:899
+#: client/helpdata.c:895
 msgid "* Can transform tiles.\n"
 msgstr "* Võib muuta kaardiruute.\n"
 
-#: client/helpdata.c:902
+#: client/helpdata.c:898
 #, c-format
 msgid "* May fortify, granting a 50% defensive bonus.\n"
 msgstr ""
 
-#: client/helpdata.c:905
+#: client/helpdata.c:901
 msgid "* May pillage to destroy infrastructure from tiles.\n"
 msgstr "* Võib ruudukesi infrastruktuuri hävitamiseks rüüstada.\n"
 
-#: client/helpdata.c:909
+#: client/helpdata.c:905
 msgid "* Can perform diplomatic actions, plus special spy abilities.\n"
 msgstr "* Oskab lisaks diplomaatilistele tegevustele ka spiooni tegevusi.\n"
 
-#: client/helpdata.c:912
+#: client/helpdata.c:908
 msgid "* Can perform diplomatic actions.\n"
 msgstr "* Saab diplomaatilisi tegevusi teha.\n"
 
-#: client/helpdata.c:916
+#: client/helpdata.c:912
 msgid "* Will never lose a diplomat-versus-diplomat fight.\n"
 msgstr "* Ei kaota kunagi diplomaat-vs-diplomaat võitlust.\n"
 
-#: client/helpdata.c:919
+#: client/helpdata.c:915
 msgid "* May not be bribed.\n"
 msgstr "* Ei saa ära osta.\n"
 
-#: client/helpdata.c:922
+#: client/helpdata.c:918
 msgid "* Can attack otherwise unreachable enemy units.\n"
 msgstr ""
 
-#: client/helpdata.c:926
+#: client/helpdata.c:922
 msgid "* Is invisible except when next to an enemy unit or city.\n"
 msgstr "* Nähtamatu (välja arvatud vaenlase üksuse või linna kõrval).\n"
 
-#: client/helpdata.c:930
+#: client/helpdata.c:926
 msgid "* Can only attack units on ocean squares (no land attacks).\n"
 msgstr ""
 "* Saab rünnata ainult meres asuvaid üksusi (ei saa rünnata maismaaüksusi).\n"
 
-#: client/helpdata.c:934
+#: client/helpdata.c:930
 msgid ""
 "* Can attack from aboard sea units: against enemy cities and onto land "
 "squares.\n"
 msgstr "* Saab rünnata laevade pealt linnu ja maaüksusi.\n"
 
-#: client/helpdata.c:939
+#: client/helpdata.c:935
 #, c-format
 msgid "* Can be paradropped from a friendly city (Range: %d).\n"
 msgstr ""
 
-#: client/helpdata.c:945
+#: client/helpdata.c:941
 msgid "* Gets double defense against units specified as 'mounted'.\n"
 msgstr "* Kahekordne kaitsejõud ratsaüksuste vastu kaitstes.\n"
 
-#: client/helpdata.c:949
+#: client/helpdata.c:945
 msgid "* Counts as 'mounted' against certain defenders.\n"
 msgstr "* Arvestatakse teatud üksuste ründamisel ratsaüksuseks.\n"
 
-#: client/helpdata.c:953
+#: client/helpdata.c:949
 msgid "* Counts as 'helicopter' against certain attackers.\n"
 msgstr ""
 
-#: client/helpdata.c:957
+#: client/helpdata.c:953
 #, fuzzy
 msgid "* Very good at attacking 'helicopter' units.\n"
 msgstr "Parimad ründeüksused"
 
-#: client/helpdata.c:961
+#: client/helpdata.c:957
 #, fuzzy
 msgid "* Very bad at attacking AEGIS units.\n"
 msgstr "Parimad ründeüksused"
 
-#: client/helpdata.c:966
+#: client/helpdata.c:962
 msgid "* Making an attack ends this unit's turn.\n"
 msgstr "* Ründamine lõpetab selle üksuse käigu.\n"
 
-#: client/helpdata.c:970
+#: client/helpdata.c:966
 msgid "* This unit's attack causes a nuclear explosion!\n"
 msgstr "* Selle üksuse rünnak põhjustab tuumaplahvatuse!\n"
 
-#: client/helpdata.c:974
+#: client/helpdata.c:970
 msgid "* Gets double firepower when attacking cities.\n"
 msgstr "* Topelt tulejõud linnade ründamisel.\n"
 
-#: client/helpdata.c:977
+#: client/helpdata.c:973
 msgid "* Ignores the effects of city walls.\n"
 msgstr "* Linnamüüride mõju ei lähe arvesse.\n"
 
-#: client/helpdata.c:981
+#: client/helpdata.c:977
 #, c-format
 msgid ""
 "* Does bombard attacks (%d per turn).  These attacks will only damage (never "
@@ -8578,69 +8595,69 @@ msgstr ""
 "* Teeb pommitusrünnakuid (%d rünnakut käigu kohta). Need rünnakud "
 "kahjustavad (kuid ei tapa kunagi) kaitsjat, kuid ei ole ründajale ohtlikud.\n"
 
-#: client/helpdata.c:988
+#: client/helpdata.c:984
 msgid "* Gets quintuple defense against missiles and aircraft.\n"
 msgstr "* Neljakordselt tugev kaitse õhurünnakute vastu.\n"
 
-#: client/helpdata.c:992
+#: client/helpdata.c:988
 msgid "* Ignores terrain effects (treats all squares as roads).\n"
 msgstr "* Maastik ei mõjuta seda üksust (kõik ruudukesed käituvad teedena).\n"
 
-#: client/helpdata.c:995
+#: client/helpdata.c:991
 msgid "* Ignores zones of control.\n"
 msgstr "* Ei tee välja kontrolltsoonidest.\n"
 
-#: client/helpdata.c:999
+#: client/helpdata.c:995
 msgid "* A non-military unit (cannot attack; no martial law).\n"
 msgstr "* Tsiviilüksus (ei saa rünnata ega sõjaseisukorda kehtestada).\n"
 
-#: client/helpdata.c:1003
+#: client/helpdata.c:999
 msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
 msgstr ""
 
-#: client/helpdata.c:1006
+#: client/helpdata.c:1002
 msgid "* Will never achieve veteran status.\n"
 msgstr "* Ei saavuta kunagi veterani staatust.\n"
 
-#: client/helpdata.c:1012
+#: client/helpdata.c:1008
 msgid ""
 "* Will be built as a veteran in cities with appropriate training facilities "
 "(see Airport).\n"
 msgstr ""
 
-#: client/helpdata.c:1015 client/helpdata.c:1028 client/helpdata.c:1036
+#: client/helpdata.c:1011 client/helpdata.c:1024 client/helpdata.c:1032
 msgid "* May be promoted after defeating an enemy unit.\n"
 msgstr ""
 
-#: client/helpdata.c:1020
+#: client/helpdata.c:1016
 msgid "* Will be built as a veteran under communist governments.\n"
 msgstr ""
 
-#: client/helpdata.c:1022
+#: client/helpdata.c:1018
 msgid "* May be promoted after a successful mission.\n"
 msgstr ""
 
-#: client/helpdata.c:1025
+#: client/helpdata.c:1021
 msgid ""
 "* Will be built as a veteran in cities with appropriate training facilities "
 "(see Barracks).\n"
 msgstr ""
 
-#: client/helpdata.c:1033
+#: client/helpdata.c:1029
 msgid ""
 "* Will be built as a veteran in cities with appropriate training facilities "
 "(see Port Facility).\n"
 msgstr ""
 
-#: client/helpdata.c:1039
+#: client/helpdata.c:1035
 msgid "* May be promoted after survival on the high seas.\n"
 msgstr ""
 
-#: client/helpdata.c:1043
+#: client/helpdata.c:1039
 msgid "* May be promoted through combat or training\n"
 msgstr ""
 
-#: client/helpdata.c:1049
+#: client/helpdata.c:1045
 msgid ""
 "* Must end turn in a city or next to land, or has a 50% risk of being lost "
 "at sea.\n"
@@ -8650,27 +8667,27 @@ msgstr ""
 #. *        last two elements
 #. TRANS: List of possible output types has this between
 #. *        last two elements
-#: client/helpdata.c:1081 client/helpdata.c:1383
+#: client/helpdata.c:1077 client/helpdata.c:1377
 msgid " or "
 msgstr "või"
 
-#: client/helpdata.c:1083 client/helpdata.c:1371
+#: client/helpdata.c:1079 client/helpdata.c:1365
 msgid "?or:, "
 msgstr "?or:,"
 
-#: client/helpdata.c:1095
+#: client/helpdata.c:1091
 #, c-format
 msgid "* Unit has to be in a city, or on a %s after %d turn.\n"
 msgid_plural "* Unit has to be in a city, or on a %s after %d turns.\n"
 msgstr[0] "* Peab olema linnas või ehitises %s %d käigu järel.\n"
 msgstr[1] "* Peab olema linnas või ehitises %s %d käigu järel.\n"
 
-#: client/helpdata.c:1137
+#: client/helpdata.c:1132
 #, c-format
 msgid "If we would now start with %s we would need %d bulbs."
 msgstr "Kui me nüüd hakkaks pihta teadusega %s, oleks meil tarvis %d pirni."
 
-#: client/helpdata.c:1142
+#: client/helpdata.c:1137
 #, c-format
 msgid ""
 "To reach %s we need to obtain %d other technologies first. The whole project "
@@ -8679,66 +8696,66 @@ msgstr ""
 "Et jõuda tehnoloogiani %s, peame me enne %d muud tehnoloogiat saama. Kogu "
 "selle projekti peale läheb %d pirni."
 
-#: client/helpdata.c:1150
+#: client/helpdata.c:1145
 msgid "You cannot research this technology."
 msgstr "Seda teadust sa ei saa uurida."
 
-#: client/helpdata.c:1155
+#: client/helpdata.c:1150
 msgid " This number may vary depending on what other players will research.\n"
 msgstr ""
 "See number võib erineda, sõltuvalt sellest, millist tehnoloogiat teised "
 "mängijad uurivad.\n"
 
-#: client/helpdata.c:1167
+#: client/helpdata.c:1162
 #, c-format
 msgid "* The first player to research %s gets an immediate advance.\n"
 msgstr "* Esimene mängija, kes avastab %s, saab kohe ühe tehnoloogia lisaks.\n"
 
-#: client/helpdata.c:1173
+#: client/helpdata.c:1168
 msgid "* Increases the pollution generated by the population.\n"
 msgstr "* Suurendab rahvastiku poolt tekitatavat reostuse hulka.\n"
 
-#: client/helpdata.c:1178
+#: client/helpdata.c:1173
 #, c-format
 msgid "* Allows %s to build roads on river squares.\n"
 msgstr "* Võimaldab üksusel %s ehitada teid jõgedele.\n"
 
-#: client/helpdata.c:1186
+#: client/helpdata.c:1181
 #, c-format
 msgid "* Allows %s to upgrade roads to railroads.\n"
 msgstr "* Võimaldab üksusel %s uuendada teed raudteedeks.\n"
 
-#: client/helpdata.c:1194
+#: client/helpdata.c:1189
 #, c-format
 msgid "* Allows %s to upgrade irrigation to farmland.\n"
 msgstr "* Võimaldab üksusel %s uuendada niisutuse põllumaaks.\n"
 
-#: client/helpdata.c:1228
+#: client/helpdata.c:1223
 msgid "* Pollution cannot be generated on this terrain."
 msgstr "* Sellel pinnasel ei saa tekitada reostust."
 
-#: client/helpdata.c:1233
+#: client/helpdata.c:1228
 msgid "* You cannot build cities on this terrain."
 msgstr "* Sa ei saa sellele maastikule linnu ehitada."
 
-#: client/helpdata.c:1239
+#: client/helpdata.c:1234
 msgid "* The coastline of this terrain is unsafe."
 msgstr "* Selle piirkonna rannikuala on ebaturvaline."
 
-#: client/helpdata.c:1244
+#: client/helpdata.c:1239
 msgid "* Land units cannot travel on oceanic terrains."
 msgstr "* Maaüksused ei saa liikuda mere aladel."
 
-#: client/helpdata.c:1288
+#: client/helpdata.c:1282
 msgid "Features:\n"
 msgstr "Omadused:\n"
 
 #. TRANS: Empty output type list, should never happen.
-#: client/helpdata.c:1394 client/helpdata.c:1395
+#: client/helpdata.c:1388 client/helpdata.c:1389
 msgid "?outputlist: Nothing "
 msgstr ""
 
-#: client/helpdata.c:1402
+#: client/helpdata.c:1396
 #, c-format
 msgid ""
 "* Military units away from home and field units will cause %d citizen to "
@@ -8749,7 +8766,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: client/helpdata.c:1412
+#: client/helpdata.c:1406
 #, c-format
 msgid ""
 "* Each of your cities will avoid %d unhappiness that would otherwise be "
@@ -8758,24 +8775,24 @@ msgstr ""
 "* Igas su linnas muutub %d kodanikku vähem süjaväeüksuste tõttu õnnetuks.\n"
 
 #. TRANS: %s is the output type, like 'shield' or 'gold'.
-#: client/helpdata.c:1420
+#: client/helpdata.c:1414
 #, c-format
 msgid "* You pay %d times normal %s upkeep for your units.\n"
 msgstr "* Maksad %d korda tavalisest kõrgemat %s ülalpidamiskulu.\n"
 
-#: client/helpdata.c:1425
+#: client/helpdata.c:1419
 #, c-format
 msgid "* You pay %d times normal upkeep for your units.\n"
 msgstr ""
 "* Maksad tavalisest %d korda kõrgemaid ülalpidamiskulusid oma üksuste eest.\n"
 
 #. TRANS: %s is the output type, like 'shield' or 'gold'.
-#: client/helpdata.c:1430
+#: client/helpdata.c:1424
 #, fuzzy, c-format
 msgid "* You pay no %s upkeep for your units.\n"
 msgstr "* Maksad %d korda tavalisest kõrgemat %s ülalpidamiskulu.\n"
 
-#: client/helpdata.c:1434
+#: client/helpdata.c:1428
 #, fuzzy
 msgid "* You pay no upkeep for your units.\n"
 msgstr ""
@@ -8784,25 +8801,25 @@ msgstr ""
 #. TRANS: %s is the output type, like 'shield' or 'gold'.
 #. * There is currently no way to control the
 #. * singular/plural version of these.
-#: client/helpdata.c:1443
+#: client/helpdata.c:1437
 #, c-format
 msgid "* Each of your cities will avoid paying %d %s upkeep for your units.\n"
 msgstr ""
 
 #. TRANS: Amount is subtracted from upkeep cost
 #. * for each upkeep type.
-#: client/helpdata.c:1451
+#: client/helpdata.c:1445
 #, c-format
 msgid "* Each of your cities will avoid paying %d upkeep for your units.\n"
 msgstr ""
 
-#: client/helpdata.c:1458
+#: client/helpdata.c:1452
 #, c-format
 msgid "* If you lose your capital, chance of civil war is %d%%.\n"
 msgstr ""
 
 #. TRANS: %d should always be greater than 2.
-#: client/helpdata.c:1465
+#: client/helpdata.c:1459
 #, c-format
 msgid ""
 "* When you have %d cities, the first unhappy citizen will appear in each "
@@ -8810,24 +8827,24 @@ msgid ""
 msgstr ""
 
 #. TRANS: %d should always be greater than 2.
-#: client/helpdata.c:1472
+#: client/helpdata.c:1466
 #, c-format
 msgid ""
 "* After the first unhappy citizen due to civilization size, for each %d "
 "additional cities another unhappy citizen will appear.\n"
 msgstr ""
 
-#: client/helpdata.c:1480
+#: client/helpdata.c:1474
 #, c-format
 msgid ""
 "* The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
 msgstr ""
 
-#: client/helpdata.c:1485
+#: client/helpdata.c:1479
 msgid "* Has unlimited science/gold/luxuries rates.\n"
 msgstr ""
 
-#: client/helpdata.c:1490
+#: client/helpdata.c:1484
 #, c-format
 msgid ""
 "* Your units may impose martial law. Each military unit inside a city will "
@@ -8838,7 +8855,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: client/helpdata.c:1502
+#: client/helpdata.c:1496
 #, c-format
 msgid "* A maximum of %d unit in each city can enforce martial law.\n"
 msgid_plural "* A maximum of %d units in each city can enforce martial law.\n"
@@ -8846,36 +8863,36 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. TRANS: %d should always be greater than 2.
-#: client/helpdata.c:1513
+#: client/helpdata.c:1507
 #, c-format
 msgid ""
 "* You may grow your cities by means of celebrations. Your cities must be at "
 "least size %d.\n"
 msgstr ""
 
-#: client/helpdata.c:1518
+#: client/helpdata.c:1512
 msgid "* Your units cannot be bribed.\n"
 msgstr "* Su üksusi ei saa ära osta.\n"
 
-#: client/helpdata.c:1521
+#: client/helpdata.c:1515
 msgid "* Your cities cannot be incited.\n"
 msgstr "* Su linnu ei saa mässule õhutada.\n"
 
-#: client/helpdata.c:1525
+#: client/helpdata.c:1519
 msgid ""
 "* If any city is in disorder for more than two turns in a row, government "
 "will fall into anarchy.\n"
 msgstr ""
 
-#: client/helpdata.c:1530
+#: client/helpdata.c:1524
 msgid "* Has a senate that may prevent declaration of war.\n"
 msgstr "* Omab senatit, mis võib ära hoida sõja kuulutamise.\n"
 
-#: client/helpdata.c:1534
+#: client/helpdata.c:1528
 msgid "* Allows partisans when cities are taken by the enemy.\n"
 msgstr "* Lubab partisanidel tegutsema hakata, kui linnad vallutatakse.\n"
 
-#: client/helpdata.c:1538
+#: client/helpdata.c:1532
 msgid ""
 "* Buildings that normally confer bonuses against unhappiness will instead "
 "give gold.\n"
@@ -8883,25 +8900,25 @@ msgstr ""
 "* Ehitised, mis muidu annaks boonuseid õnnetu meeleolu vastu, toodavad "
 "hoopis kulda.\n"
 
-#: client/helpdata.c:1542
+#: client/helpdata.c:1536
 msgid "* Pays no upkeep for fanatics.\n"
 msgstr "* Ei maksa fanaatikute ülalpidamiskulusid.\n"
 
-#: client/helpdata.c:1545
+#: client/helpdata.c:1539
 msgid "* Has no unhappy citizens.\n"
 msgstr "* Pole õnnetuid kodanikke.\n"
 
-#: client/helpdata.c:1555 client/helpdata.c:1559 client/helpdata.c:1563
+#: client/helpdata.c:1549 client/helpdata.c:1553 client/helpdata.c:1557
 #, c-format
 msgid "* Veteran %s units.\n"
 msgstr "* Veteran-%s üksused.\n"
 
-#: client/helpdata.c:1566
+#: client/helpdata.c:1560
 msgid "* Veteran units.\n"
 msgstr "* Veteranid.\n"
 
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:1572
+#: client/helpdata.c:1566
 #, c-format
 msgid ""
 "* Each worked tile that gives more than %d %s will suffer a -1 penalty "
@@ -8909,7 +8926,7 @@ msgid ""
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:1580
+#: client/helpdata.c:1574
 #, c-format
 msgid ""
 "* Each worked tile with at least 1 %s will yield %d more of it while "
@@ -8917,37 +8934,37 @@ msgid ""
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:1588
+#: client/helpdata.c:1582
 #, c-format
 msgid "* Each worked tile with at least 1 %s will yield %d more of it.\n"
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1597
+#: client/helpdata.c:1591
 #, fuzzy, c-format
 msgid "* %s production is increased %d%%.\n"
 msgstr "* %s tootmisel läheb väga suur osa toodangust raisku.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1605
+#: client/helpdata.c:1599
 #, c-format
 msgid "* %s production will suffer massive waste.\n"
 msgstr "* %s tootmisel läheb väga suur osa toodangust raisku.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1610
+#: client/helpdata.c:1604
 #, c-format
 msgid "* %s production will suffer some waste.\n"
 msgstr "* %s tootmisel läheb veidike toodangust raisku.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1615
+#: client/helpdata.c:1609
 #, c-format
 msgid "* %s production will suffer a small amount of waste.\n"
 msgstr "* %s tootmisel läheb väike kogus toodangust raisku.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1623
+#: client/helpdata.c:1617
 #, fuzzy, c-format
 msgid "* %s waste will increase quickly with distance from capital.\n"
 msgstr ""
@@ -8955,38 +8972,38 @@ msgstr ""
 "pealinnast.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1629
+#: client/helpdata.c:1623
 #, c-format
 msgid "* %s waste will increase with distance from capital.\n"
 msgstr ""
 "* %s tootmisel kasvab raisku minev hulk võrreldes kaugusega pealinnast.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1635
+#: client/helpdata.c:1629
 #, c-format
 msgid "* %s waste will increase slowly with distance from capital.\n"
 msgstr ""
 "* %s tootmisel kasvab raisku minev hulk aeglaselt võrreldes kaugusega "
 "pealinnast.\n"
 
-#: client/helpdata.c:1652
+#: client/helpdata.c:1646
 #, c-format
 msgid "* Allows you to build %s.\n"
 msgstr "* Võimaldab ehitada ehitise %s.\n"
 
 #. TRANS: "2 Food" or ", 1 shield"
-#: client/helpdata.c:1679
+#: client/helpdata.c:1672
 #, c-format
 msgid "%s%d %s"
 msgstr "%s%d %s"
 
-#: client/helpdata.c:1680 client/helpdata.c:1688 client/gui-sdl/mapview.c:618
+#: client/helpdata.c:1673 client/helpdata.c:1681 client/gui-sdl/mapview.c:618
 #: client/gui-sdl/mapview.c:624 client/gui-sdl/mapview.c:630
 msgid "?blistmore:, "
 msgstr ", "
 
 #. TRANS: "2 unhappy" or ", 1 unhappy"
-#: client/helpdata.c:1687
+#: client/helpdata.c:1680
 #, c-format
 msgid "%s%d unhappy"
 msgstr "%s%d õnnetus"
@@ -11112,7 +11129,7 @@ msgstr "Vali mille maha lõhkuda:"
 #: client/gui-gtk-2.0/dialogs.c:530 client/gui-gtk-2.0/pages.c:1501
 #: client/gui-gtk-2.0/pages.c:2074 client/gui-gtk-2.0/wldlg.c:1008
 #: client/gui-win32/connectdlg.c:984 client/gui-win32/plrdlg.c:335
-#: manual/civmanual.c:302 data/Freeciv.in:80
+#: manual/civmanual.c:293 data/Freeciv.in:80
 msgid "Name"
 msgstr "Nimi"
 
@@ -11980,7 +11997,7 @@ msgstr "Linna toodang"
 
 #: client/gui-gtk-2.0/menu.c:823 client/gui-sdl/optiondlg.c:1634
 #: client/gui-win32/menu.c:340 client/gui-xaw/menu.c:153
-#: client/gui-xaw/menu.c:257 manual/civmanual.c:220 data/helpdata.txt:1221
+#: client/gui-xaw/menu.c:257 manual/civmanual.c:211 data/helpdata.txt:1221
 msgid "Terrain"
 msgstr "Maastik"
 
@@ -12752,7 +12769,7 @@ msgstr "Arv"
 #: client/gui-gtk-2.0/repodlgs.c:648 client/gui-gtk-2.0/wldlg.c:1008
 #: client/gui-win32/citydlg.c:1095 client/gui-win32/repodlgs.c:464
 #: client/gui-win32/wldlg.c:802 client/gui-win32/wldlg.c:808
-#: manual/civmanual.c:302
+#: manual/civmanual.c:293
 msgid "Cost"
 msgstr "Hind"
 
@@ -14895,7 +14912,7 @@ msgstr "Aktiveeri Üksused"
 msgid "Unit List"
 msgstr "Üksuste Nimekiri"
 
-#: client/gui-win32/citydlg.c:858 manual/civmanual.c:302
+#: client/gui-win32/citydlg.c:858 manual/civmanual.c:293
 msgid "Upkeep"
 msgstr "Ülalpidamine"
 
@@ -15800,12 +15817,12 @@ msgstr "Kokku: ..."
 msgid "Totals:                     %9d%9d%9d%9d"
 msgstr "Kokku:                     %9d%9d%9d%9d"
 
-#: manual/civmanual.c:120
+#: manual/civmanual.c:119
 #, c-format
 msgid "Could not write manual file %s."
 msgstr "Ei suutnud laadida reeglistiku faili \"%s\""
 
-#: manual/civmanual.c:128
+#: manual/civmanual.c:127
 #, c-format
 msgid ""
 "<h1>Freeciv %s server options</h1>\n"
@@ -15814,39 +15831,39 @@ msgstr ""
 "<h1>Freeciv'i serveri %s seaded</h1>\n"
 "\n"
 
-#: manual/civmanual.c:144
+#: manual/civmanual.c:139
 #, c-format
 msgid "Level: %s.<br>"
 msgstr "Tase: %s.<br>"
 
-#: manual/civmanual.c:145
+#: manual/civmanual.c:140
 #, c-format
 msgid "Category: %s.<br>"
 msgstr "Kategooria: %s.<br>"
 
-#: manual/civmanual.c:148
+#: manual/civmanual.c:143
 #, c-format
 msgid "Can only be used in server console. "
 msgstr "Saab kasutada ainult serveri käsureal."
 
-#: manual/civmanual.c:151
+#: manual/civmanual.c:146
 #, c-format
 msgid "Can be changed during a game. "
 msgstr "Saab muuta mängu kestel."
 
-#: manual/civmanual.c:153
+#: manual/civmanual.c:148
 #, c-format
 msgid "Can <b>not</b> be changed during a game. "
 msgstr "<b>Ei saa</b> muuta mängu kestel."
 
-#: manual/civmanual.c:158
+#: manual/civmanual.c:153
 #, c-format
 msgid ""
 "<p class=\"bounds\">Minimum: 0, Default: %d, Maximum: 1</p>\n"
 "\n"
 msgstr "<p class=\"bounds\">Miinimum: 0, vaikimisi: %d, maksimum: 1</p>\n"
 
-#: manual/civmanual.c:162 manual/civmanual.c:172
+#: manual/civmanual.c:157 manual/civmanual.c:167
 #, c-format
 msgid ""
 "<p class=\"changed\">Value set to %d</p>\n"
@@ -15855,7 +15872,7 @@ msgstr ""
 "<p class=\"changed\">Väärtuseks seati %d</p>\n"
 "\n"
 
-#: manual/civmanual.c:167
+#: manual/civmanual.c:162
 #, c-format
 msgid ""
 "<p class=\"bounds\">Minimum: %d, Default: %d, Maximum: %d</p>\n"
@@ -15864,7 +15881,7 @@ msgstr ""
 "<p class=\"bounds\">Miinimum: %d, vaikimisi: %d, maksimum: %d</p>\n"
 "\n"
 
-#: manual/civmanual.c:177
+#: manual/civmanual.c:172
 #, c-format
 msgid ""
 "<p class=\"bounds\">Default: \"%s\"</p>\n"
@@ -15873,7 +15890,7 @@ msgstr ""
 "<p class=\"bounds\">Vaikimisi: \"%s\"</p>\n"
 "\n"
 
-#: manual/civmanual.c:180
+#: manual/civmanual.c:175
 #, c-format
 msgid ""
 "<p class=\"changed\">Value set to %s</p>\n"
@@ -15882,7 +15899,7 @@ msgstr ""
 "<p class=\"changed\">Väärtuseks seati %s</p>\n"
 "\n"
 
-#: manual/civmanual.c:189
+#: manual/civmanual.c:184
 #, c-format
 msgid ""
 "<h1>Freeciv %s server commands</h1>\n"
@@ -15891,7 +15908,7 @@ msgstr ""
 "<h1>Freeciv %s serverikäsud</h1>\n"
 "\n"
 
-#: manual/civmanual.c:198
+#: manual/civmanual.c:193
 #, c-format
 msgid ""
 "<table>\n"
@@ -15904,7 +15921,7 @@ msgstr ""
 "<td valign=\"top\"><pre>Üldine kirjeldus:</pre></td>\n"
 "<td>"
 
-#: manual/civmanual.c:202
+#: manual/civmanual.c:197
 #, c-format
 msgid ""
 "<p class=\"level\">Level: %s</p>\n"
@@ -15913,7 +15930,7 @@ msgstr ""
 "<p class=\"level\">Tase: %s</p>\n"
 "\n"
 
-#: manual/civmanual.c:211
+#: manual/civmanual.c:202
 #, c-format
 msgid ""
 "<p>Description:</p>\n"
@@ -15922,7 +15939,7 @@ msgstr ""
 "<p>Kirjeldus:</p>\n"
 "\n"
 
-#: manual/civmanual.c:218
+#: manual/civmanual.c:209
 #, c-format
 msgid ""
 "<h1>Freeciv %s terrain help</h1>\n"
@@ -15931,44 +15948,44 @@ msgstr ""
 "<h1>Freeciv %s maastiku abiinfo</h1>\n"
 "\n"
 
-#: manual/civmanual.c:221 data/default/terrain.ruleset:1810
+#: manual/civmanual.c:212 data/default/terrain.ruleset:1810
 #: data/civ2/terrain.ruleset:1693 data/civ1/terrain.ruleset:1655
 msgid "Resources"
 msgstr "Loodusvarad"
 
-#: manual/civmanual.c:222
+#: manual/civmanual.c:213
 msgid "Move cost"
 msgstr "Käigu hind"
 
-#: manual/civmanual.c:222
+#: manual/civmanual.c:213
 msgid "Defense bonus"
 msgstr "Kaitseeelis"
 
-#: manual/civmanual.c:224
+#: manual/civmanual.c:215
 msgid "Mining"
 msgstr "Kaevandamine"
 
-#: manual/civmanual.c:224
+#: manual/civmanual.c:215
 msgid "turns"
 msgstr "käiku[TÕLGIMIND]"
 
-#: manual/civmanual.c:226
+#: manual/civmanual.c:217
 msgid "Rail"
 msgstr "Raudtee[TÕLGIMIND]"
 
-#: manual/civmanual.c:227
+#: manual/civmanual.c:218
 msgid "Clean pollution"
 msgstr "Puhasta reostus"
 
-#: manual/civmanual.c:227
+#: manual/civmanual.c:218
 msgid "Clean fallout"
 msgstr "Puhasta tuumajäätmetest"
 
-#: manual/civmanual.c:262 manual/civmanual.c:272
+#: manual/civmanual.c:253 manual/civmanual.c:263
 msgid "impossible"
 msgstr "võimatu"
 
-#: manual/civmanual.c:295
+#: manual/civmanual.c:286
 #, c-format
 msgid ""
 "<h1>Freeciv %s buildings help</h1>\n"
@@ -15977,7 +15994,7 @@ msgstr ""
 "<h1>Freeciv %s ehitiste lisainfo</h1>\n"
 "\n"
 
-#: manual/civmanual.c:297
+#: manual/civmanual.c:288
 #, c-format
 msgid ""
 "<h1>Freeciv %s wonders help</h1>\n"
@@ -15986,15 +16003,15 @@ msgstr ""
 "<h1>Freeciv %s ilmaimede lisainfo</h1>\n"
 "\n"
 
-#: manual/civmanual.c:303
+#: manual/civmanual.c:294
 msgid "Requirement"
 msgstr "Nõue"
 
-#: manual/civmanual.c:303
+#: manual/civmanual.c:294
 msgid "Obsolete by"
 msgstr "Kasutuks muudab"
 
-#: manual/civmanual.c:303
+#: manual/civmanual.c:294
 msgid "More info"
 msgstr "Lisainfo"
 
@@ -27364,6 +27381,9 @@ msgstr "Meeskond 30"
 #: data/default/game.ruleset:157
 msgid "Team 31"
 msgstr "Meeskond 31"
+
+#~ msgid "Option:"
+#~ msgstr "Seade:"
 
 #~ msgid "City: Building Unavailable Item"
 #~ msgstr "Linn: Ehitatav asi on aegunud"

@@ -426,7 +426,6 @@ void boot_help_texts(void)
 	    /* TRANS: preserve single space at beginning */
 	    pitem->topic = mystrdup(_(" Rivers"));
 	    sz_strlcpy(long_buffer, _(terrain_control.river_help_text));
-	    wordwrap_string(long_buffer, 68);
 	    pitem->text = mystrdup(long_buffer);
 	    help_list_append(category_nodes, pitem);
 	  }
@@ -495,7 +494,6 @@ void boot_help_texts(void)
     }
     free(paras);
     paras = NULL;
-    wordwrap_string(long_buffer, 68);
     pitem->text=mystrdup(long_buffer);
     help_list_append(help_nodes, pitem);
   }
@@ -707,8 +705,6 @@ char *helptext_building(char *buf, size_t bufsz,
   if (user_text && user_text[0] != '\0') {
     cat_snprintf(buf, bufsz, "\n\n%s", user_text);
   }
-
-  wordwrap_string(buf, 68);
   return buf;
 }
 
@@ -1108,7 +1104,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct unit_type *utype,
     cat_snprintf(buf, bufsz, "%s\n\n", _(utype->helptext));
   }
   CATLSTR(buf, bufsz, user_text);
-  wordwrap_string(buf, 68);
   return buf;
 }
 
@@ -1255,7 +1250,6 @@ void helptext_terrain(char *buf, size_t bufsz, struct terrain *pterrain,
     CATLSTR(buf, bufsz, "\n\n");
     CATLSTR(buf, bufsz, user_text);
   }
-  wordwrap_string(buf, 68);
 }
 
 /****************************************************************
@@ -1655,7 +1649,6 @@ void helptext_government(char *buf, size_t bufsz, struct government *gov,
   } unit_type_iterate_end;
 
   CATLSTR(buf, bufsz, user_text);
-  wordwrap_string(buf, 68);
 }
 
 /****************************************************************

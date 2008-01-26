@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-22 22:45-0500\n"
+"POT-Creation-Date: 2008-01-26 09:23-0500\n"
 "PO-Revision-Date: 2007-09-01 22:28+0300\n"
 "Last-Translator: Per I. Mathisen <per@freeciv.org>\n"
 "Language-Team: Norwegian <andrearo@stud.ntnu.no>\n"
@@ -801,7 +801,7 @@ msgstr "Forsker på Framtidsteknologi %d"
 #: client/gui-win32/helpdlg.c:165 client/gui-win32/helpdlg.c:545
 #: client/gui-win32/helpdlg.c:731 client/gui-win32/helpdlg.c:752
 #: client/gui-xaw/helpdlg.c:813 client/gui-xaw/helpdlg.c:858
-#: client/gui-xaw/helpdlg.c:877 manual/civmanual.c:327 manual/civmanual.c:333
+#: client/gui-xaw/helpdlg.c:877 manual/civmanual.c:318 manual/civmanual.c:324
 msgid "None"
 msgstr "Ingen"
 
@@ -827,7 +827,7 @@ msgid "Oceanic"
 msgstr "Hav"
 
 #: common/terrain.c:482 common/terrain.c:670 common/unit.c:523
-#: manual/civmanual.c:224
+#: manual/civmanual.c:215
 msgid "Road"
 msgstr "Vei"
 
@@ -835,7 +835,7 @@ msgstr "Vei"
 #: common/terrain.c:483 common/terrain.c:677 common/unit.c:527
 #: client/gui-gtk-2.0/menu.c:833 client/gui-sdl/optiondlg.c:1905
 #: client/gui-win32/menu.c:344 client/gui-xaw/menu.c:156
-#: manual/civmanual.c:224
+#: manual/civmanual.c:215
 msgid "Irrigation"
 msgstr "Irrigert land"
 
@@ -900,7 +900,7 @@ msgstr "Gå til"
 msgid "Explore"
 msgstr "Utforske"
 
-#: common/unit.c:545 manual/civmanual.c:224
+#: common/unit.c:545 manual/civmanual.c:215
 msgid "Transform"
 msgstr "Endre"
 
@@ -953,11 +953,11 @@ msgstr "Oppgradering av %s vil landsette enheter den transporterer."
 
 #. TRANS: List of possible output types has this between
 #. *        last two elements
-#: common/unittype.c:432 client/helpdata.c:1387
+#: common/unittype.c:432 client/helpdata.c:1381
 msgid " and "
 msgstr " og "
 
-#: common/unittype.c:438 client/helpdata.c:1373
+#: common/unittype.c:438 client/helpdata.c:1367
 msgid "?and:, "
 msgstr "?og:, "
 
@@ -2226,7 +2226,7 @@ msgstr "Dette er tjeneren for %s"
 msgid "You can learn a lot about Freeciv at %s"
 msgstr "Mer informasjon om Freeciv finnes på %s"
 
-#: server/civserver.c:213 client/civclient.c:237 manual/civmanual.c:380
+#: server/civserver.c:213 client/civclient.c:237 manual/civmanual.c:371
 #, c-format
 msgid ""
 "Usage: %s [option ...]\n"
@@ -2272,7 +2272,7 @@ msgstr "  -d, --debug NUM\tSett debug-loggnivå (0 til 3)\n"
 msgid "  -f, --file FILE\tLoad saved game FILE\n"
 msgstr "  -f, --file FILE\tLast inn lagret spill FILE\n"
 
-#: server/civserver.c:232 client/civclient.c:248 manual/civmanual.c:382
+#: server/civserver.c:232 client/civclient.c:248 manual/civmanual.c:373
 msgid "  -h, --help\t\tPrint a summary of the options\n"
 msgstr "  -h, --help\t\tSkriv ut sammendrag av alternativene\n"
 
@@ -2324,13 +2324,13 @@ msgstr "  -r, --read FILE\tLes oppstartsmanus i FILE\n"
 msgid "  -R, --Ranklog FILE\tUse FILE as ranking logfile\n"
 msgstr "  -l, --log FILE\tBruk FILE som loggfil.\n"
 
-#: server/civserver.c:254 client/civclient.c:267 manual/civmanual.c:383
+#: server/civserver.c:254 client/civclient.c:267 manual/civmanual.c:374
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tSkriv ut versjonsnummeret\n"
 
 #: server/civserver.c:255 client/gui-gtk-2.0/gui_main.c:352
 #: client/gui-sdl/gui_main.c:210 client/gui-xaw/gui_main.c:247
-#: manual/civmanual.c:384
+#: manual/civmanual.c:375
 #, fuzzy, c-format
 msgid "Report bugs at %s.\n"
 msgstr "Rapporter feil, unoter og/eller 'bugs' til <%s>.\n"
@@ -5744,236 +5744,236 @@ msgstr "Spillet er over..."
 msgid "Now accepting new client connections."
 msgstr "Aksepterer nå nye klientforbindelser."
 
-#: server/stdinhand.c:249
+#: server/stdinhand.c:248
 #, c-format
 msgid "Vote \"%s\" is passed %d to %d with %d abstentions."
 msgstr "Valget \"%s\" ble vedtatt med %d mot %d stemmer (%d stemte ikke)."
 
-#: server/stdinhand.c:256
+#: server/stdinhand.c:255
 #, c-format
 msgid "Vote \"%s\" failed with %d against, %d for and %d abstentions."
 msgstr ""
 "Valget \"%s\" ble ikke vedtatt med %d mot, %d for og %d som unnlot å stemme."
 
 #. TRANS: ambiguous command
-#: server/stdinhand.c:368
+#: server/stdinhand.c:367
 msgid "(ambiguous)"
 msgstr "(uklar)"
 
 #. TRANS: unrecognized command
 #. TRANS: "unknown" location
-#: server/stdinhand.c:371 client/citydlg_common.c:420
+#: server/stdinhand.c:370 client/citydlg_common.c:420
 #: client/gui-gtk-2.0/inteldlg.c:368 client/gui-sdl/inteldlg.c:295
 #: client/gui-sdl/inteldlg.c:307 client/gui-win32/inteldlg.c:147
 #: client/gui-xaw/inteldlg.c:265
 msgid "(unknown)"
 msgstr "(ukjent)"
 
-#: server/stdinhand.c:461
+#: server/stdinhand.c:460
 msgid "Name is empty, so cannot be a player."
 msgstr "Navnet er tomt, så det kan ikke være en spiller."
 
-#: server/stdinhand.c:465
+#: server/stdinhand.c:464
 msgid "Name is too long, so cannot be a player."
 msgstr "Navnet er for langt, så det kan ikke være en spiller."
 
-#: server/stdinhand.c:469
+#: server/stdinhand.c:468
 #, c-format
 msgid "Player name prefix '%s' is ambiguous."
 msgstr "Spillernavn prefikset '%s' er ikke entydig."
 
-#: server/stdinhand.c:473
+#: server/stdinhand.c:472
 #, c-format
 msgid "No player by the name of '%s'."
 msgstr "Ingen spiller med navn '%s'."
 
-#: server/stdinhand.c:477 server/stdinhand.c:512
+#: server/stdinhand.c:476 server/stdinhand.c:511
 #, c-format
 msgid "Unexpected match_result %d (%s) for '%s'."
 msgstr "Uventet match_result %d (%s) for '%s'."
 
-#: server/stdinhand.c:496
+#: server/stdinhand.c:495
 msgid "Name is empty, so cannot be a connection."
 msgstr "Navnet er tomt, så det kan ikke være en forbindelse."
 
-#: server/stdinhand.c:500
+#: server/stdinhand.c:499
 msgid "Name is too long, so cannot be a connection."
 msgstr "Navnet er for langt, så det kan ikke være en forbindelse."
 
-#: server/stdinhand.c:504
+#: server/stdinhand.c:503
 #, c-format
 msgid "Connection name prefix '%s' is ambiguous."
 msgstr "Spillernavn-prefikset '%s' er ikke-entydig."
 
-#: server/stdinhand.c:508
+#: server/stdinhand.c:507
 #, c-format
 msgid "No connection by the name of '%s'."
 msgstr "Ingen forbindelse med navn '%s'."
 
-#: server/stdinhand.c:528
+#: server/stdinhand.c:527
 #, c-format
 msgid "Open metaserver connection to [%s]."
 msgstr "Åpne metaserver kobling til [%s]."
 
-#: server/stdinhand.c:541
+#: server/stdinhand.c:540
 #, c-format
 msgid "Close metaserver connection to [%s]."
 msgstr "Lukk metaserver-tilknytningen til [%s]."
 
-#: server/stdinhand.c:556
+#: server/stdinhand.c:555
 msgid "Metaserver connection is open."
 msgstr "Metaserver-tilknytning er åpen."
 
-#: server/stdinhand.c:559
+#: server/stdinhand.c:558
 msgid "Metaserver connection is closed."
 msgstr "Metaserver-tilknytning er lukket."
 
-#: server/stdinhand.c:569
+#: server/stdinhand.c:568
 msgid "Metaserver connection is already open."
 msgstr "Metaserver-tilknytning er allerede åpen."
 
-#: server/stdinhand.c:580
+#: server/stdinhand.c:579
 msgid "Metaserver connection is already closed."
 msgstr "Metaserver-tilknytning er allerede lukket."
 
-#: server/stdinhand.c:585
+#: server/stdinhand.c:584
 msgid "Argument must be 'u', 'up', 'd', 'down', or '?'."
 msgstr "Argumentet må være 'u', 'up', 'd', 'down', eller '?'."
 
-#: server/stdinhand.c:606
+#: server/stdinhand.c:605
 #, c-format
 msgid "Metaserver patches string set to '%s'."
 msgstr "Metaserver endrings-streng satt til '%s'."
 
-#: server/stdinhand.c:609
+#: server/stdinhand.c:608
 #, c-format
 msgid "Metaserver patches string set to '%s', not reporting to metaserver."
 msgstr ""
 "Metaserver endringes-streng satt til '%s', ikke raportert til metaserver."
 
-#: server/stdinhand.c:630
+#: server/stdinhand.c:629
 #, c-format
 msgid "Metaserver message string set to '%s'."
 msgstr "Metaserver meldingsstreng satt til '%s'."
 
-#: server/stdinhand.c:633
+#: server/stdinhand.c:632
 #, c-format
 msgid "Metaserver message string set to '%s', not reporting to metaserver."
 msgstr ""
 "Metaserver meldingsstreng satt til '%s', ikke rapportert til metaserver."
 
-#: server/stdinhand.c:653
+#: server/stdinhand.c:652
 #, c-format
 msgid "Metaserver is now [%s]."
 msgstr "Metaserver er nå [%s]."
 
-#: server/stdinhand.c:663
+#: server/stdinhand.c:662
 #, c-format
 msgid "Server id: %s"
 msgstr "Tjener id: %s"
 
-#: server/stdinhand.c:746
+#: server/stdinhand.c:745
 #, fuzzy
 msgid "You cannot save games manually on this server."
 msgstr "Forlat spillet og avslutt tjeneren."
 
-#: server/stdinhand.c:763
+#: server/stdinhand.c:762
 msgid "Cannot toggle a barbarian player."
 msgstr "Kan ikke endre en 'barbar'-spiller."
 
-#: server/stdinhand.c:770
+#: server/stdinhand.c:769
 #, c-format
 msgid "%s is now under AI control."
 msgstr "%s er nå under AI-kontroll."
 
-#: server/stdinhand.c:790
+#: server/stdinhand.c:789
 #, c-format
 msgid "%s is now under human control."
 msgstr "%s er nå under menneskelig kontroll."
 
-#: server/stdinhand.c:835
+#: server/stdinhand.c:834
 msgid "Can't add AI players once the game has begun."
 msgstr "Kan ikke legge til AI spillere når spillet er startet."
 
-#: server/stdinhand.c:854
+#: server/stdinhand.c:853
 msgid "Can't add more players, server is full."
 msgstr "Kan ikke legge til flere spillere, serveren er full."
 
-#: server/stdinhand.c:861
+#: server/stdinhand.c:860
 msgid "Can't use an empty name."
 msgstr "Kan ikke bruke et tomt navn"
 
-#: server/stdinhand.c:868
+#: server/stdinhand.c:867
 #, c-format
 msgid "That name exceeds the maximum of %d chars."
 msgstr "Det navnet er lenger enn det maksimale som er %d tegn."
 
-#: server/stdinhand.c:874
+#: server/stdinhand.c:873
 msgid "That name is not allowed."
 msgstr "Det navnet er ikke tillat."
 
-#: server/stdinhand.c:880
+#: server/stdinhand.c:879
 msgid "A player already exists by that name."
 msgstr "Der finnes allerede en spiller med det navnet."
 
-#: server/stdinhand.c:886
+#: server/stdinhand.c:885
 msgid "A user already exists by that name."
 msgstr "Der finnes allerede en bruker med det navnet."
 
-#: server/stdinhand.c:916
+#: server/stdinhand.c:915
 #, c-format
 msgid "%s has been added as an AI-controlled player."
 msgstr "%s ble lagt til som en AI-styrt spiller."
 
-#: server/stdinhand.c:923
+#: server/stdinhand.c:922
 #, c-format
 msgid "Error creating new AI player: %s."
 msgstr "Feil ved opprettelse av ny AI spiller: %s."
 
-#: server/stdinhand.c:952
+#: server/stdinhand.c:951
 msgid "Players cannot be removed once the game has started."
 msgstr "Spillere kan ikke fjernes etter at spillet har startet."
 
-#: server/stdinhand.c:963
+#: server/stdinhand.c:962
 #, c-format
 msgid "Removed player %s from the game."
 msgstr "Fjernet spiller %s fra spillet."
 
-#: server/stdinhand.c:1002 server/stdinhand.c:3259 server/stdinhand.c:3372
+#: server/stdinhand.c:1001 server/stdinhand.c:3259 server/stdinhand.c:3372
 #, c-format
 msgid "Name \"%s\" disallowed for security reasons."
 msgstr ""
 
-#: server/stdinhand.c:1015
+#: server/stdinhand.c:1014
 #, fuzzy, c-format
 msgid "No command script found by the name \"%s\"."
 msgstr "Ingen forbindelse med navn '%s'."
 
-#: server/stdinhand.c:1023
+#: server/stdinhand.c:1022
 #, c-format
 msgid "Loading script file: %s"
 msgstr "Laster inn manus filen: %s"
 
-#: server/stdinhand.c:1038
+#: server/stdinhand.c:1037
 #, c-format
 msgid "Cannot read command line scriptfile '%s'."
 msgstr "Kunne ikke lese kommando manusfilen \"%s\"."
 
-#: server/stdinhand.c:1040
+#: server/stdinhand.c:1039
 #, c-format
 msgid "Could not read script file '%s'."
 msgstr "Klarte ikke å lese manusfilen '%s'."
 
-#: server/stdinhand.c:1127
+#: server/stdinhand.c:1126
 #, c-format
 msgid "Could not write script file '%s'."
 msgstr "Klarte ikke å skrive til manusfilen '%s'."
 
-#: server/stdinhand.c:1139
+#: server/stdinhand.c:1138
 msgid "You cannot use the write command on this server for security reasons."
 msgstr ""
 
-#: server/stdinhand.c:1167
+#: server/stdinhand.c:1166
 #, c-format
 msgid ""
 "Cannot decrease command access level '%s' for connection '%s'; you only have "
@@ -5981,7 +5981,7 @@ msgid ""
 msgstr ""
 "Kan ikke redusere tilgangsnivå '%s' for forbindelse '%s'; du har kun '%s'."
 
-#: server/stdinhand.c:1222
+#: server/stdinhand.c:1221
 #, fuzzy, c-format
 msgid ""
 "Anyone can now become game organizer '%s' by issuing the 'first' command."
@@ -5989,92 +5989,100 @@ msgstr ""
 "Alle kan få kommando tilgangsnivå '%s' nå ved å bruke 'firstlevel' "
 "kommandoen."
 
-#: server/stdinhand.c:1255
+#: server/stdinhand.c:1254
 msgid "Command access levels in effect:"
 msgstr "Kommando tilgangsnivå i bruk:"
 
-#: server/stdinhand.c:1263
+#: server/stdinhand.c:1262
 #, c-format
 msgid "Command access level for new connections: %s"
 msgstr "Kommando tilgangsnivå for nye forbindelser: %s"
 
-#: server/stdinhand.c:1266
+#: server/stdinhand.c:1265
 #, c-format
 msgid "Command access level for first player to take it: %s"
 msgstr "Kommando tilgangsnivå for første spiller: %s."
 
-#: server/stdinhand.c:1275
+#: server/stdinhand.c:1274
 msgid ""
 "Error: command access level must be one of 'none', 'info', 'ctrl', or 'hack'."
 msgstr ""
 "Feil: kommando tilgangsnivå må være en av 'none', 'info', 'ctrl', eller "
 "'hack'."
 
-#: server/stdinhand.c:1280
+#: server/stdinhand.c:1279
 #, c-format
 msgid ""
 "Cannot increase command access level to '%s'; you only have '%s' yourself."
 msgstr "Kan ikke øke kommando tilgangsnivå til '%s'; du har kun '%s' selv."
 
-#: server/stdinhand.c:1307 server/stdinhand.c:1355
+#: server/stdinhand.c:1306 server/stdinhand.c:1354
 #, c-format
 msgid "Command access level set to '%s' for connection %s."
 msgstr "Kommando tilgangsnivå satt til '%s' for forbindelse %s."
 
-#: server/stdinhand.c:1311 server/stdinhand.c:1359
+#: server/stdinhand.c:1310 server/stdinhand.c:1358
 #, c-format
 msgid "Command access level could not be set to '%s' for connection %s."
 msgstr "Kommando tilgangsnivå kunne ikke settes til '%s' for forbinselse %s."
 
-#: server/stdinhand.c:1321 server/stdinhand.c:1331 server/stdinhand.c:1348
+#: server/stdinhand.c:1320 server/stdinhand.c:1330 server/stdinhand.c:1347
 #, c-format
 msgid "Command access level set to '%s' for new players."
 msgstr "Kommando tilgangsnivå satt til '%s' for nye spillere."
 
-#: server/stdinhand.c:1325 server/stdinhand.c:1336 server/stdinhand.c:1343
+#: server/stdinhand.c:1324 server/stdinhand.c:1335 server/stdinhand.c:1342
 #, c-format
 msgid "Command access level set to '%s' for first player to grab it."
 msgstr "Kommando tilgangsnivå tildeles '%s' første spiller som kobler til."
 
-#: server/stdinhand.c:1381
+#: server/stdinhand.c:1380
 #, fuzzy
 msgid "The 'first' command makes no sense from the server command line."
 msgstr "'Førstenivå'-kommandoen gir ikke mening på server-kommandolinje."
 
-#: server/stdinhand.c:1385
+#: server/stdinhand.c:1384
 #, c-format
 msgid "You already have command access level '%s' or better."
 msgstr "Du har allerede tilgangsnivå '%s' eller bedre."
 
-#: server/stdinhand.c:1390
+#: server/stdinhand.c:1389
 #, fuzzy
 msgid "Someone else already is game organizer."
 msgstr "Noen andre har allerede tilgangsnivå '%s' eller bedre."
 
-#: server/stdinhand.c:1395
+#: server/stdinhand.c:1394
 #, c-format
 msgid "Connection %s has opted to become the game organizer."
 msgstr ""
 
-#: server/stdinhand.c:1446
+#: server/stdinhand.c:1445
 #, c-format
 msgid "Invalid argument %d."
 msgstr "Ugyldig argument %d"
 
-#: server/stdinhand.c:1453
+#: server/stdinhand.c:1452
 msgid "Usage: timeoutincrease <turn> <turnadd> <value> <valuemult>."
 msgstr "Bruk: timeoutincrease <runde> <rundetillegg> <verdi> <faktor>"
 
-#: server/stdinhand.c:1461
+#: server/stdinhand.c:1460
 #, c-format
 msgid "Dynamic timeout set to %d %d %d %d"
 msgstr "Dynamisk rundetidsbegrensning satt til %d %d %d %d"
 
-#: server/stdinhand.c:1521 server/stdinhand.c:1524
-msgid "Option:"
-msgstr "Alternativ:"
+#. TRANS: <untranslated name> - translated short help
+#: server/stdinhand.c:1521
+#, fuzzy, c-format
+msgid "Option: %s  -  %s"
+msgstr "Alternativ: %s  -  %s."
 
-#: server/stdinhand.c:1534 server/stdinhand.c:3894
+#. TRANS: <untranslated name>
+#: server/stdinhand.c:1527
+#, fuzzy, c-format
+msgid "Option: %s"
+msgstr "Alternativer: %s"
+
+#: server/stdinhand.c:1534 server/stdinhand.c:3891
 msgid "Description:"
 msgstr "Beskrivelse:"
 
@@ -6532,18 +6540,18 @@ msgstr "kobles fra %s."
 msgid "%s now controls %s (%s, %s)"
 msgstr "%s styrer nå %s (%s, %s)"
 
-#: server/stdinhand.c:3047 server/stdinhand.c:4123
+#: server/stdinhand.c:3047 server/stdinhand.c:4120
 #: data/nation/barbarian.ruleset:3
 msgid "Barbarian"
 msgstr "barbarsk"
 
-#: server/stdinhand.c:3049 server/stdinhand.c:4125 client/plrdlg_common.c:256
+#: server/stdinhand.c:3049 server/stdinhand.c:4122 client/plrdlg_common.c:256
 #: client/gui-gtk-2.0/pages.c:2021 client/gui-sdl/plrdlg.c:642
 #: client/gui-win32/connectdlg.c:201 client/gui-win32/plrdlg.c:335
 msgid "AI"
 msgstr "AI"
 
-#: server/stdinhand.c:3050 server/stdinhand.c:4127
+#: server/stdinhand.c:3050 server/stdinhand.c:4124
 #: client/gui-gtk-2.0/pages.c:2021 client/gui-gtk-2.0/pages.c:2044
 #: client/gui-win32/connectdlg.c:201 client/gui-win32/connectdlg.c:213
 msgid "Human"
@@ -6715,7 +6723,8 @@ msgstr "Kan ikke starte spill: det er allerede i gang."
 msgid "Cutting connection %s."
 msgstr "Avbryter forbindelse til %s."
 
-#: server/stdinhand.c:3835
+#. TRANS: line break width 70
+#: server/stdinhand.c:3836
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -6754,126 +6763,134 @@ msgstr ""
 "  save   -  lagre det nåværende spillet\n"
 "  quit   -  avslutte"
 
-#: server/stdinhand.c:3870 server/stdinhand.c:3873
-msgid "Command:"
-msgstr "Kommando:"
+#. TRANS: <untranslated name> - translated short help
+#: server/stdinhand.c:3867
+#, fuzzy, c-format
+msgid "Command: %s  -  %s"
+msgstr "Kommando: %s  -  %s"
 
-#: server/stdinhand.c:3877
+#. TRANS: <untranslated name>
+#: server/stdinhand.c:3873
+#, fuzzy, c-format
+msgid "Command: %s"
+msgstr "Kommando: %s"
+
+#: server/stdinhand.c:3878
 msgid "Synopsis: "
 msgstr "Betydning:"
 
-#: server/stdinhand.c:3886
+#: server/stdinhand.c:3887
 #, c-format
 msgid "Level: %s"
 msgstr "Nivå: %s"
 
-#: server/stdinhand.c:3911
+#: server/stdinhand.c:3908
 msgid "The following server commands are available:"
 msgstr "Følgende serverkommandoer er tilgjengelige:"
 
-#: server/stdinhand.c:3986
+#: server/stdinhand.c:3983
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "Hjelpeargument '%s' er ikke entydig."
 
-#: server/stdinhand.c:3991
+#: server/stdinhand.c:3988
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "Ingen treff funnet for hjelpeargument '%s'."
 
-#: server/stdinhand.c:4057
+#: server/stdinhand.c:4054
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "Ulovlig listeargument: '%s'.  Forsøk '%shelp list'."
 
-#: server/stdinhand.c:4097
+#: server/stdinhand.c:4094
 msgid "List of players:"
 msgstr "Liste over spillere:"
 
-#: server/stdinhand.c:4102
+#: server/stdinhand.c:4099
 msgid "<no players>"
 msgstr "<ingen spillere>"
 
-#: server/stdinhand.c:4119
+#: server/stdinhand.c:4116
 #, c-format
 msgid "user %s, "
 msgstr "bruker %s, "
 
-#: server/stdinhand.c:4130
+#: server/stdinhand.c:4127
 msgid ", Dead"
 msgstr ", Død"
 
-#: server/stdinhand.c:4133
+#: server/stdinhand.c:4130
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", vanskelighetsgrad %s"
 
 #. TRANS: continue list, in case comma is not the separator of choice.
-#: server/stdinhand.c:4138 server/stdinhand.c:4142 client/helpdata.c:254
-#: client/helpdata.c:745 client/text.c:187 client/text.c:1179
+#: server/stdinhand.c:4135 server/stdinhand.c:4139 client/helpdata.c:254
+#: client/helpdata.c:741 client/text.c:187 client/text.c:1179
 #: client/text.c:1217
 #, c-format
 msgid "?clistmore:, %s"
 msgstr ", %s"
 
-#: server/stdinhand.c:4146
+#: server/stdinhand.c:4143
 #, fuzzy
 msgid ", ready"
 msgstr ", Død"
 
-#: server/stdinhand.c:4148
+#: server/stdinhand.c:4145
 msgid ", not ready"
 msgstr ""
 
-#: server/stdinhand.c:4156
+#: server/stdinhand.c:4153
 #, c-format
 msgid " %d connection:"
 msgid_plural " %d connections:"
 msgstr[0] " %d forbindelse:"
 msgstr[1] " %d forbindelse:"
 
-#: server/stdinhand.c:4162
+#: server/stdinhand.c:4159
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
 msgstr "  %s fra %s (kommando tilgangsnivå: %s), buffer størrelse=%dkb"
 
 # heter AI på norsk.. ingen skjønner KI
-#: server/stdinhand.c:4167
+#: server/stdinhand.c:4164
 msgid " (observer mode)"
 msgstr " (observatør modus)"
 
-#: server/stdinhand.c:4183
+#: server/stdinhand.c:4180
 #, fuzzy
 msgid "List of teams:"
 msgstr "Liste over spillere:"
 
 #. TRANS: There will always be at least 2 players here.
-#: server/stdinhand.c:4192
+#: server/stdinhand.c:4189
 #, c-format
 msgid "%2d : '%s' : %d player"
 msgid_plural "%2d : '%s' : %d players"
 msgstr[0] ""
 msgstr[1] ""
 
-#: server/stdinhand.c:4214
+#: server/stdinhand.c:4211
 #, c-format
 msgid "%2d : '%s' : 1 player : %s"
 msgstr ""
 
-#: server/stdinhand.c:4223
+#: server/stdinhand.c:4220
 #, c-format
 msgid "Empty team: %s"
 msgstr ""
 
-#: server/stdinhand.c:4234
+#: server/stdinhand.c:4231
 msgid "List of connections to server:"
 msgstr "List opp forbindelser til server:"
 
-#: server/stdinhand.c:4238
+#: server/stdinhand.c:4235
 msgid "<no connections>"
 msgstr "<ingen forbindelser>"
 
-#: server/stdinhand.c:4262
+#: server/stdinhand.c:4259
 #, fuzzy
 msgid "List of scenarios available:"
 msgstr "Ingen enheter tilgjengelige"
@@ -8350,12 +8367,12 @@ msgstr "Tillater %s (med %s).\n"
 msgid " Rivers"
 msgstr " Elver"
 
-#: client/helpdata.c:585
+#: client/helpdata.c:583
 #, c-format
 msgid "Sorry, no help topic for %s.\n"
 msgstr "Beklager, ikke noe hjelpeemne for %s.\n"
 
-#: client/helpdata.c:589
+#: client/helpdata.c:587
 #, c-format
 msgid ""
 "Sorry, no help topic for %s.\n"
@@ -8366,102 +8383,102 @@ msgstr ""
 "Denne siden ble auto-generert.\n"
 "\n"
 
-#: client/helpdata.c:669
+#: client/helpdata.c:667
 #, c-format
 msgid "* The discovery of %s will make %s obsolete.\n"
 msgstr "* Oppdagelsen av %s vil forelde %s.\n"
 
-#: client/helpdata.c:683
+#: client/helpdata.c:681
 #, c-format
 msgid "* Allows all players with knowledge of %s to build %s units.\n"
 msgstr "* Tillater alle spillere med kunnskap om %s å bygge %s enheter.\n"
 
-#: client/helpdata.c:696
+#: client/helpdata.c:694
 #, c-format
 msgid "* Allows %s (with %s).\n"
 msgstr "* Tillater %s (med %s).\n"
 
-#: client/helpdata.c:701
+#: client/helpdata.c:699
 #, c-format
 msgid "* Allows %s.\n"
 msgstr "* Tillater %s.\n"
 
-#: client/helpdata.c:770
+#: client/helpdata.c:766
 #, c-format
 msgid "* Belongs to %s units class.\n"
 msgstr ""
 
-#: client/helpdata.c:774
+#: client/helpdata.c:770
 #, fuzzy
 msgid "  * Can occupy empty enemy cities.\n"
 msgstr "* Kan bygge nye byer.\n"
 
-#: client/helpdata.c:777
+#: client/helpdata.c:773
 msgid "  * Speed is not affected by terrain.\n"
 msgstr ""
 
-#: client/helpdata.c:780
+#: client/helpdata.c:776
 msgid "  * Slowed down while damaged\n"
 msgstr ""
 
-#: client/helpdata.c:783
+#: client/helpdata.c:779
 #, fuzzy
 msgid "  * Gets used up in making an attack.\n"
 msgstr "* En rakettenhet: blir brukt opp idet den angriper.\n"
 
-#: client/helpdata.c:787
+#: client/helpdata.c:783
 msgid "  * Is unreachable. Most units cannot attack this one.\n"
 msgstr ""
 
-#: client/helpdata.c:792
+#: client/helpdata.c:788
 #, c-format
 msgid "* Can only be built if there is %s in the city.\n"
 msgstr ""
 
-#: client/helpdata.c:798
+#: client/helpdata.c:794
 #, c-format
 msgid "* Can only be built with %s as government.\n"
 msgstr ""
 
-#: client/helpdata.c:803
+#: client/helpdata.c:799
 msgid "* May not be built in cities.\n"
 msgstr "* Kan ikke bygges i byer.\n"
 
-#: client/helpdata.c:806
+#: client/helpdata.c:802
 #, fuzzy
 msgid "* Only barbarians may build this.\n"
 msgstr "Kun fallskjermjegere kan gjøre dette."
 
-#: client/helpdata.c:809
+#: client/helpdata.c:805
 msgid "* Never has a home city.\n"
 msgstr "* Har aldri en hjemby.\n"
 
-#: client/helpdata.c:812
+#: client/helpdata.c:808
 msgid "* Losing this unit will lose you the game!\n"
 msgstr "* Å miste denne enheten gjør at du taper spiller!\n"
 
-#: client/helpdata.c:816
+#: client/helpdata.c:812
 msgid "* Each player may only have one of this type of unit.\n"
 msgstr "* Hver spiller kan kun ha en av denne enheten.\n"
 
-#: client/helpdata.c:820
+#: client/helpdata.c:816
 #, c-format
 msgid "* Requires %d population to build.\n"
 msgstr "* Krever befolkningstall på %d for å kunne bygges.\n"
 
-#: client/helpdata.c:825
+#: client/helpdata.c:821
 #, fuzzy, c-format
 msgid "* Can carry and refuel %d unit from classes:\n"
 msgid_plural "* Can carry and refuel up to %d units from classes:\n"
 msgstr[0] "* Kan frakte og fylle drivstoff på %d flyenhet.\n"
 msgstr[1] "* Kan frakte og fylle drivstoff på %d flyenhet.\n"
 
-#: client/helpdata.c:832
+#: client/helpdata.c:828
 #, fuzzy, c-format
 msgid "  * %s units\n"
 msgstr " enhet"
 
-#: client/helpdata.c:841
+#: client/helpdata.c:837
 msgid ""
 "* Can establish trade routes (must travel to target city and must be at "
 "least 9 tiles [in Manhattan distance] from this unit's home city).\n"
@@ -8469,164 +8486,164 @@ msgstr ""
 "* Kan etablere handelsruter (må reise til en annen by som er minst 9 ruter "
 "[i Manhattan avstand] fra denne enhetens hjemby). \n"
 
-#: client/helpdata.c:847
+#: client/helpdata.c:843
 #, c-format
 msgid "* Can help build wonders (adds %d production).\n"
 msgstr "* Kan hjelpe til å bygge underverk (legger til %d produksjon).\n"
 
-#: client/helpdata.c:851
+#: client/helpdata.c:847
 msgid "* May not be disbanded.\n"
 msgstr "* Kan ikke oppløses.\n"
 
-#: client/helpdata.c:854
+#: client/helpdata.c:850
 #, fuzzy, c-format
 msgid "* May be disbanded in a city to recover 50% of the production cost.\n"
 msgstr ""
 "* Kan oppløses i en by for å få tilbake 50%% av produksjonskonstnadene.\n"
 
-#: client/helpdata.c:858
+#: client/helpdata.c:854
 msgid "* Can build new cities.\n"
 msgstr "* Kan bygge nye byer.\n"
 
-#: client/helpdata.c:862
+#: client/helpdata.c:858
 #, c-format
 msgid "* Can add on %d population to cities of no more than size %d.\n"
 msgstr "* Kan legge til %d innbyggere til byer på størrelse mindre enn %d.\n"
 
-#: client/helpdata.c:871
+#: client/helpdata.c:867
 msgid "* Can build roads and railroads.\n"
 msgstr "* Kan bygge veier og jernbaner.\n"
 
-#: client/helpdata.c:872
+#: client/helpdata.c:868
 msgid "* Can build mines on tiles.\n"
 msgstr "* Kan bygge gruver.\n"
 
-#: client/helpdata.c:873
+#: client/helpdata.c:869
 msgid "* Can build irrigation on tiles.\n"
 msgstr "* Kan bygge irrigasjon.\n"
 
-#: client/helpdata.c:878
+#: client/helpdata.c:874
 msgid "* Can build farmland.\n"
 msgstr "- Kan bygge dyrket mark.\n"
 
-#: client/helpdata.c:882
+#: client/helpdata.c:878
 #, c-format
 msgid "* Can build farmland (if %s is known).\n"
 msgstr "* Kan bygge dyrket mark (dersom %s er kjent).\n"
 
-#: client/helpdata.c:886
+#: client/helpdata.c:882
 #, c-format
 msgid "* Can build farmland (if any of the following are known: %s).\n"
 msgstr "* Kan bygge dyrket mark (dersom en av %s er kjent).\n"
 
-#: client/helpdata.c:892
+#: client/helpdata.c:888
 msgid "* Can build fortresses.\n"
 msgstr "* Tillater å bygge fort.\n"
 
-#: client/helpdata.c:895
+#: client/helpdata.c:891
 msgid "* Can clean pollution from tiles.\n"
 msgstr "* Kan fjerne forurensing. \n"
 
-#: client/helpdata.c:896
+#: client/helpdata.c:892
 msgid "* Can clean nuclear fallout from tiles.\n"
 msgstr "* Kan fjerne atomavfall.\n"
 
-#: client/helpdata.c:899
+#: client/helpdata.c:895
 msgid "* Can transform tiles.\n"
 msgstr "* Kan transformere kartruter.\n"
 
-#: client/helpdata.c:902
+#: client/helpdata.c:898
 #, fuzzy, c-format
 msgid "* May fortify, granting a 50% defensive bonus.\n"
 msgstr "* Kan befeste, som git 50%% forsvarsbonus.\n"
 
-#: client/helpdata.c:905
+#: client/helpdata.c:901
 msgid "* May pillage to destroy infrastructure from tiles.\n"
 msgstr "* Kan plyndre for å ødelegge infrastrukturen på kartruter.\n"
 
-#: client/helpdata.c:909
+#: client/helpdata.c:905
 msgid "* Can perform diplomatic actions, plus special spy abilities.\n"
 msgstr ""
 "* Kan utføre diplomatiske forhandlinger, samt spesielle spion-egenskaper.\n"
 
-#: client/helpdata.c:912
+#: client/helpdata.c:908
 msgid "* Can perform diplomatic actions.\n"
 msgstr "* Kan utføre diplomatiske forhandlinger.\n"
 
-#: client/helpdata.c:916
+#: client/helpdata.c:912
 msgid "* Will never lose a diplomat-versus-diplomat fight.\n"
 msgstr "* Vil aldri tape en diplomat-mot-diplomat kamp.\n"
 
-#: client/helpdata.c:919
+#: client/helpdata.c:915
 msgid "* May not be bribed.\n"
 msgstr "* Denne enheten kan ikke bestikkes.\n"
 
-#: client/helpdata.c:922
+#: client/helpdata.c:918
 #, fuzzy
 msgid "* Can attack otherwise unreachable enemy units.\n"
 msgstr "* Kan angripe fiendtlige luftenheter.\n"
 
-#: client/helpdata.c:926
+#: client/helpdata.c:922
 msgid "* Is invisible except when next to an enemy unit or city.\n"
 msgstr ""
 "* Er usynlig unntatt når den er ved siden av en fremmed enhet eller by.\n"
 
-#: client/helpdata.c:930
+#: client/helpdata.c:926
 msgid "* Can only attack units on ocean squares (no land attacks).\n"
 msgstr "* Kan kunne angripe enheter på havet (ingen angrep mot land).\n"
 
 # dumbo translation
-#: client/helpdata.c:934
+#: client/helpdata.c:930
 msgid ""
 "* Can attack from aboard sea units: against enemy cities and onto land "
 "squares.\n"
 msgstr "* Kan fra sjøenheter angripe fiendens byer og enheter på land.\n"
 
-#: client/helpdata.c:939
+#: client/helpdata.c:935
 #, c-format
 msgid "* Can be paradropped from a friendly city (Range: %d).\n"
 msgstr "* Kan gjøre fallskjermhopp fra vennligsinnet by (Rekkevidde: %d).\n"
 
-#: client/helpdata.c:945
+#: client/helpdata.c:941
 msgid "* Gets double defense against units specified as 'mounted'.\n"
 msgstr "* Får dobbelt forsvar mot enheter som er 'til hest'.\n"
 
-#: client/helpdata.c:949
+#: client/helpdata.c:945
 msgid "* Counts as 'mounted' against certain defenders.\n"
 msgstr "* Teller som 'til hest' mot enkelte forsvarere.\n"
 
-#: client/helpdata.c:953
+#: client/helpdata.c:949
 #, fuzzy
 msgid "* Counts as 'helicopter' against certain attackers.\n"
 msgstr "* Teller som 'til hest' mot enkelte forsvarere.\n"
 
-#: client/helpdata.c:957
+#: client/helpdata.c:953
 #, fuzzy
 msgid "* Very good at attacking 'helicopter' units.\n"
 msgstr "Beste angripende enheter"
 
-#: client/helpdata.c:961
+#: client/helpdata.c:957
 #, fuzzy
 msgid "* Very bad at attacking AEGIS units.\n"
 msgstr "Beste angripende enheter"
 
-#: client/helpdata.c:966
+#: client/helpdata.c:962
 msgid "* Making an attack ends this unit's turn.\n"
 msgstr "* Et angrep avslutter denne enhetens runde.\n"
 
-#: client/helpdata.c:970
+#: client/helpdata.c:966
 msgid "* This unit's attack causes a nuclear explosion!\n"
 msgstr "* Denne enhetens angrep skaper en atomeksplosjon!\n"
 
-#: client/helpdata.c:974
+#: client/helpdata.c:970
 msgid "* Gets double firepower when attacking cities.\n"
 msgstr "* Får dobbel ildkraft ved angrep på byer.\n"
 
-#: client/helpdata.c:977
+#: client/helpdata.c:973
 msgid "* Ignores the effects of city walls.\n"
 msgstr "* Bryr seg ikke om bymurer.\n"
 
-#: client/helpdata.c:981
+#: client/helpdata.c:977
 #, c-format
 msgid ""
 "* Does bombard attacks (%d per turn).  These attacks will only damage (never "
@@ -8636,71 +8653,71 @@ msgstr ""
 "(aldri drepe) den forsvarende enheten, men innebærer ingen risiko for "
 "angriper.\n"
 
-#: client/helpdata.c:988
+#: client/helpdata.c:984
 msgid "* Gets quintuple defense against missiles and aircraft.\n"
 msgstr "* Får femdoblet forsvar mot raketter og fly.\n"
 
-#: client/helpdata.c:992
+#: client/helpdata.c:988
 msgid "* Ignores terrain effects (treats all squares as roads).\n"
 msgstr "* Bryr seg ikke om terreng (alle felt tilsvarer veier).\n"
 
-#: client/helpdata.c:995
+#: client/helpdata.c:991
 msgid "* Ignores zones of control.\n"
 msgstr "* Bryr seg ikke om kontrollsoner.\n"
 
-#: client/helpdata.c:999
+#: client/helpdata.c:995
 msgid "* A non-military unit (cannot attack; no martial law).\n"
 msgstr "* En ikke-militær enhet (kan ikke angripe; ingen unntakstilstand).\n"
 
-#: client/helpdata.c:1003
+#: client/helpdata.c:999
 msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
 msgstr ""
 "* En kampenhet: medfører 1 ulykkelig selv når den er ikke-aggressiv. \n"
 
-#: client/helpdata.c:1006
+#: client/helpdata.c:1002
 msgid "* Will never achieve veteran status.\n"
 msgstr "* Oppnår aldri status som veteran.\n"
 
-#: client/helpdata.c:1012
+#: client/helpdata.c:1008
 msgid ""
 "* Will be built as a veteran in cities with appropriate training facilities "
 "(see Airport).\n"
 msgstr ""
 
-#: client/helpdata.c:1015 client/helpdata.c:1028 client/helpdata.c:1036
+#: client/helpdata.c:1011 client/helpdata.c:1024 client/helpdata.c:1032
 msgid "* May be promoted after defeating an enemy unit.\n"
 msgstr ""
 
-#: client/helpdata.c:1020
+#: client/helpdata.c:1016
 msgid "* Will be built as a veteran under communist governments.\n"
 msgstr ""
 
-#: client/helpdata.c:1022
+#: client/helpdata.c:1018
 msgid "* May be promoted after a successful mission.\n"
 msgstr ""
 
-#: client/helpdata.c:1025
+#: client/helpdata.c:1021
 msgid ""
 "* Will be built as a veteran in cities with appropriate training facilities "
 "(see Barracks).\n"
 msgstr ""
 
-#: client/helpdata.c:1033
+#: client/helpdata.c:1029
 msgid ""
 "* Will be built as a veteran in cities with appropriate training facilities "
 "(see Port Facility).\n"
 msgstr ""
 
-#: client/helpdata.c:1039
+#: client/helpdata.c:1035
 msgid "* May be promoted after survival on the high seas.\n"
 msgstr ""
 
-#: client/helpdata.c:1043
+#: client/helpdata.c:1039
 #, fuzzy
 msgid "* May be promoted through combat or training\n"
 msgstr "* Kan bli oppnå veteran status gjennom trening eller kamp.\n"
 
-#: client/helpdata.c:1049
+#: client/helpdata.c:1045
 #, fuzzy
 msgid ""
 "* Must end turn in a city or next to land, or has a 50% risk of being lost "
@@ -8713,27 +8730,27 @@ msgstr ""
 #. *        last two elements
 #. TRANS: List of possible output types has this between
 #. *        last two elements
-#: client/helpdata.c:1081 client/helpdata.c:1383
+#: client/helpdata.c:1077 client/helpdata.c:1377
 msgid " or "
 msgstr " eller "
 
-#: client/helpdata.c:1083 client/helpdata.c:1371
+#: client/helpdata.c:1079 client/helpdata.c:1365
 msgid "?or:, "
 msgstr "?eller:, "
 
-#: client/helpdata.c:1095
+#: client/helpdata.c:1091
 #, c-format
 msgid "* Unit has to be in a city, or on a %s after %d turn.\n"
 msgid_plural "* Unit has to be in a city, or on a %s after %d turns.\n"
 msgstr[0] "* Enheten må være i en by, eller på en %s etter %d runde.\n"
 msgstr[1] "* Enheten må være i en by, eller på en %s etter %d runde.\n"
 
-#: client/helpdata.c:1137
+#: client/helpdata.c:1132
 #, c-format
 msgid "If we would now start with %s we would need %d bulbs."
 msgstr "Dersom vi hadde startet med %s ville vi trengt %d forskningspoeng."
 
-#: client/helpdata.c:1142
+#: client/helpdata.c:1137
 #, c-format
 msgid ""
 "To reach %s we need to obtain %d other technologies first. The whole project "
@@ -8742,65 +8759,65 @@ msgstr ""
 "For å nå %s trenger vi å anskaffe %d andre teknologier først. Hele "
 "prosjektet krever %d forskningspoeng for å fullføres."
 
-#: client/helpdata.c:1150
+#: client/helpdata.c:1145
 msgid "You cannot research this technology."
 msgstr "Du kan ikke forske på denne teknologien."
 
-#: client/helpdata.c:1155
+#: client/helpdata.c:1150
 msgid " This number may vary depending on what other players will research.\n"
 msgstr "Nummeret kan variere i forhold til hva andre spillere forsker på. \n"
 
-#: client/helpdata.c:1167
+#: client/helpdata.c:1162
 #, c-format
 msgid "* The first player to research %s gets an immediate advance.\n"
 msgstr ""
 "* Den første spilleren som forsker på %s får et umiddelbart fremskritt.\n"
 
-#: client/helpdata.c:1173
+#: client/helpdata.c:1168
 msgid "* Increases the pollution generated by the population.\n"
 msgstr "* Øker forurensningen skapt av befolkningen.\n"
 
-#: client/helpdata.c:1178
+#: client/helpdata.c:1173
 #, c-format
 msgid "* Allows %s to build roads on river squares.\n"
 msgstr "* Tillater %s å bygge veier på elve-felt\n"
 
-#: client/helpdata.c:1186
+#: client/helpdata.c:1181
 #, c-format
 msgid "* Allows %s to upgrade roads to railroads.\n"
 msgstr "* Tillater %s å oppgradere veier til jernbane.\n"
 
-#: client/helpdata.c:1194
+#: client/helpdata.c:1189
 #, c-format
 msgid "* Allows %s to upgrade irrigation to farmland.\n"
 msgstr "* Tillater %s å oppgradere irrigert land til jordbruksland.\n"
 
-#: client/helpdata.c:1228
+#: client/helpdata.c:1223
 msgid "* Pollution cannot be generated on this terrain."
 msgstr "* Dette terrenget kan ikke bli forurenset."
 
-#: client/helpdata.c:1233
+#: client/helpdata.c:1228
 msgid "* You cannot build cities on this terrain."
 msgstr "* Kan ikke bygge byer på slikt terreng."
 
-#: client/helpdata.c:1239
+#: client/helpdata.c:1234
 msgid "* The coastline of this terrain is unsafe."
 msgstr "* Kystlinja til dette terrenget er utrygg."
 
-#: client/helpdata.c:1244
+#: client/helpdata.c:1239
 msgid "* Land units cannot travel on oceanic terrains."
 msgstr "* Landenheter kan ikke ferdes over havterreng."
 
-#: client/helpdata.c:1288
+#: client/helpdata.c:1282
 msgid "Features:\n"
 msgstr ""
 
 #. TRANS: Empty output type list, should never happen.
-#: client/helpdata.c:1394 client/helpdata.c:1395
+#: client/helpdata.c:1388 client/helpdata.c:1389
 msgid "?outputlist: Nothing "
 msgstr ""
 
-#: client/helpdata.c:1402
+#: client/helpdata.c:1396
 #, fuzzy, c-format
 msgid ""
 "* Military units away from home and field units will cause %d citizen to "
@@ -8811,7 +8828,7 @@ msgid_plural ""
 msgstr[0] "Militære enheter i felten kan føre til ulykkelighet. "
 msgstr[1] "Militære enheter i felten kan føre til ulykkelighet. "
 
-#: client/helpdata.c:1412
+#: client/helpdata.c:1406
 #, c-format
 msgid ""
 "* Each of your cities will avoid %d unhappiness that would otherwise be "
@@ -8819,48 +8836,48 @@ msgid ""
 msgstr ""
 
 #. TRANS: %s is the output type, like 'shield' or 'gold'.
-#: client/helpdata.c:1420
+#: client/helpdata.c:1414
 #, c-format
 msgid "* You pay %d times normal %s upkeep for your units.\n"
 msgstr ""
 
-#: client/helpdata.c:1425
+#: client/helpdata.c:1419
 #, c-format
 msgid "* You pay %d times normal upkeep for your units.\n"
 msgstr ""
 
 #. TRANS: %s is the output type, like 'shield' or 'gold'.
-#: client/helpdata.c:1430
+#: client/helpdata.c:1424
 #, c-format
 msgid "* You pay no %s upkeep for your units.\n"
 msgstr ""
 
-#: client/helpdata.c:1434
+#: client/helpdata.c:1428
 msgid "* You pay no upkeep for your units.\n"
 msgstr ""
 
 #. TRANS: %s is the output type, like 'shield' or 'gold'.
 #. * There is currently no way to control the
 #. * singular/plural version of these.
-#: client/helpdata.c:1443
+#: client/helpdata.c:1437
 #, c-format
 msgid "* Each of your cities will avoid paying %d %s upkeep for your units.\n"
 msgstr ""
 
 #. TRANS: Amount is subtracted from upkeep cost
 #. * for each upkeep type.
-#: client/helpdata.c:1451
+#: client/helpdata.c:1445
 #, c-format
 msgid "* Each of your cities will avoid paying %d upkeep for your units.\n"
 msgstr ""
 
-#: client/helpdata.c:1458
+#: client/helpdata.c:1452
 #, c-format
 msgid "* If you lose your capital, chance of civil war is %d%%.\n"
 msgstr ""
 
 #. TRANS: %d should always be greater than 2.
-#: client/helpdata.c:1465
+#: client/helpdata.c:1459
 #, c-format
 msgid ""
 "* When you have %d cities, the first unhappy citizen will appear in each "
@@ -8868,24 +8885,24 @@ msgid ""
 msgstr ""
 
 #. TRANS: %d should always be greater than 2.
-#: client/helpdata.c:1472
+#: client/helpdata.c:1466
 #, c-format
 msgid ""
 "* After the first unhappy citizen due to civilization size, for each %d "
 "additional cities another unhappy citizen will appear.\n"
 msgstr ""
 
-#: client/helpdata.c:1480
+#: client/helpdata.c:1474
 #, c-format
 msgid ""
 "* The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
 msgstr ""
 
-#: client/helpdata.c:1485
+#: client/helpdata.c:1479
 msgid "* Has unlimited science/gold/luxuries rates.\n"
 msgstr ""
 
-#: client/helpdata.c:1490
+#: client/helpdata.c:1484
 #, c-format
 msgid ""
 "* Your units may impose martial law. Each military unit inside a city will "
@@ -8896,7 +8913,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: client/helpdata.c:1502
+#: client/helpdata.c:1496
 #, c-format
 msgid "* A maximum of %d unit in each city can enforce martial law.\n"
 msgid_plural "* A maximum of %d units in each city can enforce martial law.\n"
@@ -8904,64 +8921,64 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. TRANS: %d should always be greater than 2.
-#: client/helpdata.c:1513
+#: client/helpdata.c:1507
 #, c-format
 msgid ""
 "* You may grow your cities by means of celebrations. Your cities must be at "
 "least size %d.\n"
 msgstr ""
 
-#: client/helpdata.c:1518
+#: client/helpdata.c:1512
 #, fuzzy
 msgid "* Your units cannot be bribed.\n"
 msgstr "Denne enheten kan ikke bestikkes."
 
-#: client/helpdata.c:1521
+#: client/helpdata.c:1515
 #, fuzzy
 msgid "* Your cities cannot be incited.\n"
 msgstr "Byen kan ikke bli infiltrert!"
 
-#: client/helpdata.c:1525
+#: client/helpdata.c:1519
 msgid ""
 "* If any city is in disorder for more than two turns in a row, government "
 "will fall into anarchy.\n"
 msgstr ""
 
-#: client/helpdata.c:1530
+#: client/helpdata.c:1524
 msgid "* Has a senate that may prevent declaration of war.\n"
 msgstr ""
 
-#: client/helpdata.c:1534
+#: client/helpdata.c:1528
 msgid "* Allows partisans when cities are taken by the enemy.\n"
 msgstr ""
 
-#: client/helpdata.c:1538
+#: client/helpdata.c:1532
 msgid ""
 "* Buildings that normally confer bonuses against unhappiness will instead "
 "give gold.\n"
 msgstr ""
 
-#: client/helpdata.c:1542
+#: client/helpdata.c:1536
 msgid "* Pays no upkeep for fanatics.\n"
 msgstr ""
 
-#: client/helpdata.c:1545
+#: client/helpdata.c:1539
 #, fuzzy
 msgid "* Has no unhappy citizens.\n"
 msgstr "%d ulykkelige innbyggere."
 
-#: client/helpdata.c:1555 client/helpdata.c:1559 client/helpdata.c:1563
+#: client/helpdata.c:1549 client/helpdata.c:1553 client/helpdata.c:1557
 #, c-format
 msgid "* Veteran %s units.\n"
 msgstr ""
 
-#: client/helpdata.c:1566
+#: client/helpdata.c:1560
 #, fuzzy
 msgid "* Veteran units.\n"
 msgstr "Sjøenheter"
 
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:1572
+#: client/helpdata.c:1566
 #, c-format
 msgid ""
 "* Each worked tile that gives more than %d %s will suffer a -1 penalty "
@@ -8969,7 +8986,7 @@ msgid ""
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:1580
+#: client/helpdata.c:1574
 #, c-format
 msgid ""
 "* Each worked tile with at least 1 %s will yield %d more of it while "
@@ -8977,71 +8994,71 @@ msgid ""
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:1588
+#: client/helpdata.c:1582
 #, c-format
 msgid "* Each worked tile with at least 1 %s will yield %d more of it.\n"
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1597
+#: client/helpdata.c:1591
 #, c-format
 msgid "* %s production is increased %d%%.\n"
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1605
+#: client/helpdata.c:1599
 #, c-format
 msgid "* %s production will suffer massive waste.\n"
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1610
+#: client/helpdata.c:1604
 #, c-format
 msgid "* %s production will suffer some waste.\n"
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1615
+#: client/helpdata.c:1609
 #, c-format
 msgid "* %s production will suffer a small amount of waste.\n"
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1623
+#: client/helpdata.c:1617
 #, c-format
 msgid "* %s waste will increase quickly with distance from capital.\n"
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1629
+#: client/helpdata.c:1623
 #, c-format
 msgid "* %s waste will increase with distance from capital.\n"
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1635
+#: client/helpdata.c:1629
 #, c-format
 msgid "* %s waste will increase slowly with distance from capital.\n"
 msgstr ""
 
-#: client/helpdata.c:1652
+#: client/helpdata.c:1646
 #, fuzzy, c-format
 msgid "* Allows you to build %s.\n"
 msgstr "* Tillater %s å bygge flybaser.\n"
 
 #. TRANS: "2 Food" or ", 1 shield"
-#: client/helpdata.c:1679
+#: client/helpdata.c:1672
 #, fuzzy, c-format
 msgid "%s%d %s"
 msgstr "%3d/%3d %s"
 
-#: client/helpdata.c:1680 client/helpdata.c:1688 client/gui-sdl/mapview.c:618
+#: client/helpdata.c:1673 client/helpdata.c:1681 client/gui-sdl/mapview.c:618
 #: client/gui-sdl/mapview.c:624 client/gui-sdl/mapview.c:630
 msgid "?blistmore:, "
 msgstr ", "
 
 #. TRANS: "2 unhappy" or ", 1 unhappy"
-#: client/helpdata.c:1687
+#: client/helpdata.c:1680
 #, c-format
 msgid "%s%d unhappy"
 msgstr "%s%d ulykkelig"
@@ -11199,7 +11216,7 @@ msgstr "Velg hva som skal plyndres:"
 #: client/gui-gtk-2.0/dialogs.c:530 client/gui-gtk-2.0/pages.c:1501
 #: client/gui-gtk-2.0/pages.c:2074 client/gui-gtk-2.0/wldlg.c:1008
 #: client/gui-win32/connectdlg.c:984 client/gui-win32/plrdlg.c:335
-#: manual/civmanual.c:302 data/Freeciv.in:80
+#: manual/civmanual.c:293 data/Freeciv.in:80
 msgid "Name"
 msgstr "Navn"
 
@@ -12083,7 +12100,7 @@ msgstr "By_produksjon"
 
 #: client/gui-gtk-2.0/menu.c:823 client/gui-sdl/optiondlg.c:1634
 #: client/gui-win32/menu.c:340 client/gui-xaw/menu.c:153
-#: client/gui-xaw/menu.c:257 manual/civmanual.c:220 data/helpdata.txt:1221
+#: client/gui-xaw/menu.c:257 manual/civmanual.c:211 data/helpdata.txt:1221
 msgid "Terrain"
 msgstr "Terreng"
 
@@ -12876,7 +12893,7 @@ msgstr "Antall"
 #: client/gui-gtk-2.0/repodlgs.c:648 client/gui-gtk-2.0/wldlg.c:1008
 #: client/gui-win32/citydlg.c:1095 client/gui-win32/repodlgs.c:464
 #: client/gui-win32/wldlg.c:802 client/gui-win32/wldlg.c:808
-#: manual/civmanual.c:302
+#: manual/civmanual.c:293
 msgid "Cost"
 msgstr "Kostnad"
 
@@ -15078,7 +15095,7 @@ msgstr "Aktiver enheter"
 msgid "Unit List"
 msgstr "Enhetsliste"
 
-#: client/gui-win32/citydlg.c:858 manual/civmanual.c:302
+#: client/gui-win32/citydlg.c:858 manual/civmanual.c:293
 msgid "Upkeep"
 msgstr "Vedlikehold"
 
@@ -16012,12 +16029,12 @@ msgstr "Totalt: ..."
 msgid "Totals:                     %9d%9d%9d%9d"
 msgstr "Totalt:                     %9d%9d%9d%9d"
 
-#: manual/civmanual.c:120
+#: manual/civmanual.c:119
 #, c-format
 msgid "Could not write manual file %s."
 msgstr "Klarte ikke å skrive til manualfilen %s."
 
-#: manual/civmanual.c:128
+#: manual/civmanual.c:127
 #, c-format
 msgid ""
 "<h1>Freeciv %s server options</h1>\n"
@@ -16026,32 +16043,32 @@ msgstr ""
 "<h1>Freeciv %s tjener alternativ</h1>\n"
 "\n"
 
-#: manual/civmanual.c:144
+#: manual/civmanual.c:139
 #, c-format
 msgid "Level: %s.<br>"
 msgstr "Nivå: %s. <br>"
 
-#: manual/civmanual.c:145
+#: manual/civmanual.c:140
 #, c-format
 msgid "Category: %s.<br>"
 msgstr "Kategori: %s. <br>"
 
-#: manual/civmanual.c:148
+#: manual/civmanual.c:143
 #, c-format
 msgid "Can only be used in server console. "
 msgstr "Kan kun benyttes i tjener-konsollen. "
 
-#: manual/civmanual.c:151
+#: manual/civmanual.c:146
 #, c-format
 msgid "Can be changed during a game. "
 msgstr "Kan endres under spiller. "
 
-#: manual/civmanual.c:153
+#: manual/civmanual.c:148
 #, c-format
 msgid "Can <b>not</b> be changed during a game. "
 msgstr "Kan <b>ikke</b> endres under spiller. "
 
-#: manual/civmanual.c:158
+#: manual/civmanual.c:153
 #, c-format
 msgid ""
 "<p class=\"bounds\">Minimum: 0, Default: %d, Maximum: 1</p>\n"
@@ -16060,7 +16077,7 @@ msgstr ""
 "<p class=\"bounds\">Minimun: 0, Standard: %d, Maksimum: 1</p>\n"
 "\n"
 
-#: manual/civmanual.c:162 manual/civmanual.c:172
+#: manual/civmanual.c:157 manual/civmanual.c:167
 #, c-format
 msgid ""
 "<p class=\"changed\">Value set to %d</p>\n"
@@ -16069,7 +16086,7 @@ msgstr ""
 "<p class=\"changed\">Verdi satt til %d</p>\n"
 "\n"
 
-#: manual/civmanual.c:167
+#: manual/civmanual.c:162
 #, c-format
 msgid ""
 "<p class=\"bounds\">Minimum: %d, Default: %d, Maximum: %d</p>\n"
@@ -16078,7 +16095,7 @@ msgstr ""
 "<p class=\"bounds\">Minimum: %d, Default: %d, Maximum: %d</p>\n"
 "\n"
 
-#: manual/civmanual.c:177
+#: manual/civmanual.c:172
 #, c-format
 msgid ""
 "<p class=\"bounds\">Default: \"%s\"</p>\n"
@@ -16087,7 +16104,7 @@ msgstr ""
 "<p class=\"bounds\">Standard: \"%s\"</p>\n"
 "\n"
 
-#: manual/civmanual.c:180
+#: manual/civmanual.c:175
 #, c-format
 msgid ""
 "<p class=\"changed\">Value set to %s</p>\n"
@@ -16096,7 +16113,7 @@ msgstr ""
 "<p class=\"changed\">Verdi satt til %s</p>\n"
 "\n"
 
-#: manual/civmanual.c:189
+#: manual/civmanual.c:184
 #, c-format
 msgid ""
 "<h1>Freeciv %s server commands</h1>\n"
@@ -16105,7 +16122,7 @@ msgstr ""
 "<h1>Freeciv %s tjener kommandoer</h1>\n"
 "\n"
 
-#: manual/civmanual.c:198
+#: manual/civmanual.c:193
 #, c-format
 msgid ""
 "<table>\n"
@@ -16118,7 +16135,7 @@ msgstr ""
 "<td valign=\"top\"><pre>Sammendrag:</pre></td>\n"
 "<td>"
 
-#: manual/civmanual.c:202
+#: manual/civmanual.c:197
 #, c-format
 msgid ""
 "<p class=\"level\">Level: %s</p>\n"
@@ -16127,7 +16144,7 @@ msgstr ""
 "<p class=\"level\">Nivå: %s</p>\n"
 "\n"
 
-#: manual/civmanual.c:211
+#: manual/civmanual.c:202
 #, c-format
 msgid ""
 "<p>Description:</p>\n"
@@ -16136,7 +16153,7 @@ msgstr ""
 "<p>Beskrivelse:</p>\n"
 "\n"
 
-#: manual/civmanual.c:218
+#: manual/civmanual.c:209
 #, c-format
 msgid ""
 "<h1>Freeciv %s terrain help</h1>\n"
@@ -16145,51 +16162,51 @@ msgstr ""
 "<h1>Freeciv %s terreng hjelp</h1>\n"
 "\n"
 
-#: manual/civmanual.c:221 data/default/terrain.ruleset:1810
+#: manual/civmanual.c:212 data/default/terrain.ruleset:1810
 #: data/civ2/terrain.ruleset:1693 data/civ1/terrain.ruleset:1655
 msgid "Resources"
 msgstr "Ressurser"
 
-#: manual/civmanual.c:222
+#: manual/civmanual.c:213
 #, fuzzy
 msgid "Move cost"
 msgstr "Flyttekostnad: %ld"
 
-#: manual/civmanual.c:222
+#: manual/civmanual.c:213
 #, fuzzy
 msgid "Defense bonus"
 msgstr "Forsvar:"
 
-#: manual/civmanual.c:224
+#: manual/civmanual.c:215
 #, fuzzy
 msgid "Mining"
 msgstr "Vindmøllen"
 
-#: manual/civmanual.c:224
+#: manual/civmanual.c:215
 #, fuzzy
 msgid "turns"
 msgstr "Runder"
 
-#: manual/civmanual.c:226
+#: manual/civmanual.c:217
 #, fuzzy
 msgid "Rail"
 msgstr "_Jernbane"
 
-#: manual/civmanual.c:227
+#: manual/civmanual.c:218
 #, fuzzy
 msgid "Clean pollution"
 msgstr "Fjern forurensning"
 
-#: manual/civmanual.c:227
+#: manual/civmanual.c:218
 #, fuzzy
 msgid "Clean fallout"
 msgstr "Fjern forurensning"
 
-#: manual/civmanual.c:262 manual/civmanual.c:272
+#: manual/civmanual.c:253 manual/civmanual.c:263
 msgid "impossible"
 msgstr ""
 
-#: manual/civmanual.c:295
+#: manual/civmanual.c:286
 #, c-format
 msgid ""
 "<h1>Freeciv %s buildings help</h1>\n"
@@ -16198,7 +16215,7 @@ msgstr ""
 "<h1>Freeciv %s bygnings-hjelp</h1>\n"
 "\n"
 
-#: manual/civmanual.c:297
+#: manual/civmanual.c:288
 #, c-format
 msgid ""
 "<h1>Freeciv %s wonders help</h1>\n"
@@ -16207,17 +16224,17 @@ msgstr ""
 "<h1>Freeciv %s underverks-hjelp</h1>\n"
 "\n"
 
-#: manual/civmanual.c:303
+#: manual/civmanual.c:294
 #, fuzzy
 msgid "Requirement"
 msgstr "Krav:"
 
-#: manual/civmanual.c:303
+#: manual/civmanual.c:294
 #, fuzzy
 msgid "Obsolete by"
 msgstr "Foreldet av:"
 
-#: manual/civmanual.c:303
+#: manual/civmanual.c:294
 msgid "More info"
 msgstr ""
 
@@ -27644,6 +27661,9 @@ msgstr "Lag"
 #, fuzzy
 msgid "Team 31"
 msgstr "Lag"
+
+#~ msgid "Option:"
+#~ msgstr "Alternativ:"
 
 #~ msgid "City: Building Unavailable Item"
 #~ msgstr "By: Bygger utilgjengelig objekt"
