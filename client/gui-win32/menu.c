@@ -24,6 +24,7 @@
 #include "astring.h"
 #include "capability.h"
 #include "fcintl.h"
+#include "game.h"
 #include "log.h"
 #include "government.h"
 #include "map.h"
