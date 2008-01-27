@@ -19,6 +19,7 @@
 #include <windowsx.h>
 
 #include "city.h"
+#include "citydlg_common.h"
 #include "fcintl.h"
 #include "game.h"
 #include "government.h"
@@ -181,13 +182,13 @@ void refresh_happiness_box(struct happiness_dlg *dlg)
   repaint_happiness_box(dlg,hdc);
   ReleaseDC(dlg->win,hdc);
 
-  SetWindowText(pdialog->mod_label[CITIES],
+  SetWindowText(dlg->mod_label[CITIES],
 		text_happiness_cities(dlg->pcity));
   SetWindowText(dlg->mod_label[LUXURIES],
 		text_happiness_luxuries(dlg->pcity));
   SetWindowText(dlg->mod_label[BUILDINGS],
 		text_happiness_buildings(dlg->pcity));
-  SetWindowText(pdialog->mod_label[UNITS],
+  SetWindowText(dlg->mod_label[UNITS],
 		text_happiness_units(dlg->pcity));
   SetWindowText(dlg->mod_label[WONDERS],
 		text_happiness_wonders(dlg->pcity));
