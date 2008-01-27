@@ -1223,6 +1223,9 @@ char *datafilename_required(const char *filename)
   }
 }
 
+/***************************************************************************
+  Language environmental variable.
+***************************************************************************/
 char *get_langname(void)
 {
   char *langname = NULL;      

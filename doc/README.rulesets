@@ -75,6 +75,10 @@ self-explanatory.  A few points:
 Properties of units and advances are now fairly well generalised.
 Properties of buildings are still rather inflexible.
 
+(See utility/fciconv.[ch])
+The data charset is used in all data files and network transactions.
+This is UTF-8.  Currently, the rulesets are in latin1 (ISO-8859-1).
+
 ----------------------------------------------------------------------
 Restrictions and Limitations:
 -----------------------------

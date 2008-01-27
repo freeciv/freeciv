@@ -63,6 +63,9 @@ po/POTFILES.in
   Here is yet another list of nations files; again add your nation
   (data/nation/<nationname>.ruleset) to it.
 
+(See utility/fciconv.[ch])
+The data charset is used in all data files and network transactions.
+This is UTF-8.  Currently, the rulesets are in latin1 (ISO-8859-1).
 
 
 ----------------------------------------------------------------------
