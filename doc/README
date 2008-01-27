@@ -394,6 +394,15 @@ or
 
 (You could do this in your .profile or .login file.)
 
+Sometimes there is a conflict between the local library implementation
+and the internal locale determination.  It is often possible to work
+around problems with a more detailed descriptor:
+
+  LANG=de_DE.UTF-8
+
+We'd like to know about such problems.  Please report them as bugs
+(see BUGS).
+
 
 Log messages:
 =============
