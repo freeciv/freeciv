@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-28 13:00+0100\n"
+"POT-Creation-Date: 2008-01-28 18:00+0100\n"
 "PO-Revision-Date: 2007-08-11 01:23+0300\n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -6354,13 +6354,12 @@ msgid "You voted against \"%s\""
 msgstr "Sie haben gegen '%s' gestimmt."
 
 #: server/stdinhand.c:2247
-#, fuzzy
 msgid ""
 "Undefined arguments. Usage: debug < diplomacy <player> | city <x> <y> | "
 "units <x> <y> | unit <id> | tech <player> | timing | info | ferries >."
 msgstr ""
-"Fehlende Parameter. Anwendung: debug diplomacy <Spieler> | city <x> <y> | "
-"units <x> <y> | unit <id> | tech <Spieler> | timing | info."
+"Fehlende Parameter. Anwendung: debug < diplomacy <Spieler> | city <x> <y> | "
+"units <x> <y> | unit <id> | tech <Spieler> | timing | info | ferries >."
 
 #: server/stdinhand.c:2254
 msgid "Can only use this command once game has begun."
@@ -7168,9 +7167,9 @@ msgid "No diplomat action possible."
 msgstr "Verhandlungen sind nicht möglich."
 
 #: server/unithand.c:1228
-#, fuzzy, c-format
+#, c-format
 msgid "Unit cannot perform diplomatic action from %s."
-msgstr "* Kann diplomatische Tätigkeiten erledigen.\n"
+msgstr ""
 
 #: server/unithand.c:1246
 #, c-format
@@ -8380,12 +8379,12 @@ msgstr ""
 "\n"
 
 #: client/helpdata.c:196 client/helpdata.c:205
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Only applies to \"%s\" units.\n"
 "\n"
 msgstr ""
-"Betrifft nur %s.\n"
+"Betrifft nur '%s'-Einheiten.\n"
 "\n"
 
 #: client/helpdata.c:210 client/helpdata.c:214
@@ -8414,7 +8413,7 @@ msgid ""
 msgstr ""
 
 #: client/helpdata.c:226
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires %s terrain.\n"
 "\n"
@@ -8474,31 +8473,29 @@ msgid "* Allows %s.\n"
 msgstr "* Ermöglicht %s.\n"
 
 #: client/helpdata.c:766
-#, fuzzy, c-format
+#, c-format
 msgid "* Belongs to %s units class.\n"
-msgstr "* %s sind Veteranen.\n"
+msgstr "* Gehört zur Einheitenklasse %s.\n"
 
 #: client/helpdata.c:770
-#, fuzzy
 msgid "  * Can occupy empty enemy cities.\n"
-msgstr "* Kann neue Städte gründen.\n"
+msgstr "  * Kann leere feindliche Städte besetzen.\n"
 
 #: client/helpdata.c:773
 msgid "  * Speed is not affected by terrain.\n"
-msgstr ""
+msgstr "  * Geschwindigkeit ist geländeunabhängig.\n"
 
 #: client/helpdata.c:776
 msgid "  * Slowed down while damaged\n"
-msgstr ""
+msgstr "  * Verletzte Einheiten sind langsamer.\n"
 
 #: client/helpdata.c:779
-#, fuzzy
 msgid "  * Gets used up in making an attack.\n"
-msgstr "* Raketeneinheiten zerstören sich beim Angriff.\n"
+msgstr "  * Wird beim Angriff zerstört.\n"
 
 #: client/helpdata.c:783
 msgid "  * Is unreachable. Most units cannot attack this one.\n"
-msgstr ""
+msgstr "  * Immun. Kann nur von bestimmten Einheiten angegriffen werden.\n"
 
 #: client/helpdata.c:788
 #, c-format
@@ -8515,9 +8512,8 @@ msgid "* May not be built in cities.\n"
 msgstr "* Kann nicht in Städten gebaut werden.\n"
 
 #: client/helpdata.c:802
-#, fuzzy
 msgid "* Only barbarians may build this.\n"
-msgstr "Das können nur Fallschirmspringer."
+msgstr "* Kann nur von Barbaren gebaut werden.\n"
 
 #: client/helpdata.c:805
 msgid "* Never has a home city.\n"
@@ -8537,16 +8533,16 @@ msgid "* Requires %d population to build.\n"
 msgstr "* Benötigt %d Bürger zur Herstellung.\n"
 
 #: client/helpdata.c:821
-#, fuzzy, c-format
+#, c-format
 msgid "* Can carry and refuel %d unit from classes:\n"
 msgid_plural "* Can carry and refuel up to %d units from classes:\n"
-msgstr[0] "* Kann %d Lufteinheit transportieren und betanken.\n"
-msgstr[1] "* Kann %d Lufteinheiten transportieren und betanken.\n"
+msgstr[0] "* Kann bis zu %d Einheit folgender Klassen transportieren und betanken:\n"
+msgstr[1] "* Kann bis zu %d Einheiten folgender Klassen transportieren und betanken:\n"
 
 #: client/helpdata.c:828
-#, fuzzy, c-format
+#, c-format
 msgid "  * %s units\n"
-msgstr "%s Einheiten"
+msgstr "  * %s Einheiten\n"
 
 #: client/helpdata.c:837
 msgid ""
@@ -8567,7 +8563,7 @@ msgid "* May not be disbanded.\n"
 msgstr "* Kann nicht aufgelöst werden.\n"
 
 #: client/helpdata.c:851
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "* May be disbanded in a city to recover 50% of the production cost.\n"
 msgstr ""
 "* Kann in einer Stadt aufgelöst werden, um die Hälfte der Produktionskosten "
@@ -8629,7 +8625,7 @@ msgid "* Can transform tiles.\n"
 msgstr "* Kann Geländeveränderungen ausführen.\n"
 
 #: client/helpdata.c:901
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "* May fortify, granting a 50% defensive bonus.\n"
 msgstr "* Kann sich eingraben, ergibt 50% Verteidigungsbonus.\n"
 
@@ -8654,9 +8650,8 @@ msgid "* May not be bribed.\n"
 msgstr "* Ist unbestechlich.\n"
 
 #: client/helpdata.c:921
-#, fuzzy
 msgid "* Can attack otherwise unreachable enemy units.\n"
-msgstr "* Kann feindliche Lufteinheiten angreifen.\n"
+msgstr "* Kann sonst immune feindliche Einheiten angreifen.\n"
 
 #: client/helpdata.c:925
 msgid "* Is invisible except when next to an enemy unit or city.\n"
@@ -8690,19 +8685,16 @@ msgid "* Counts as 'mounted' against certain defenders.\n"
 msgstr "* Wird als 'beritten' gewertet.\n"
 
 #: client/helpdata.c:952
-#, fuzzy
 msgid "* Counts as 'helicopter' against certain attackers.\n"
-msgstr "* Wird als 'beritten' gewertet.\n"
+msgstr "* Gilt als 'Hubschrauber' gegen bestimmte Angreifer.\n"
 
 #: client/helpdata.c:956
-#, fuzzy
 msgid "* Very good at attacking 'helicopter' units.\n"
-msgstr "Bester Angreifer"
+msgstr "* Kann sehr gut 'Hubschrauber'-Einheiten angreifen.\n"
 
 #: client/helpdata.c:960
-#, fuzzy
 msgid "* Very bad at attacking AEGIS units.\n"
-msgstr "Bester Angreifer"
+msgstr "* Sehr schlecht beim Angriff gegen AEGIS-Kreuzer.\n"
 
 #: client/helpdata.c:965
 msgid "* Making an attack ends this unit's turn.\n"
@@ -8790,12 +8782,11 @@ msgid "* May be promoted after survival on the high seas.\n"
 msgstr ""
 
 #: client/helpdata.c:1042
-#, fuzzy
 msgid "* May be promoted through combat or training\n"
 msgstr "* Kann durch Training oder Kampf zum Veteran werden.\n"
 
 #: client/helpdata.c:1049
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "* Must end turn in a city or next to land, or has a 50% risk of being lost "
 "at sea.\n"
@@ -8946,14 +8937,14 @@ msgstr "* Du zahlst keinen Unterhalt für deine Einheiten.\n"
 #. * There is currently no way to control the
 #. * singular/plural version of these.
 #: client/helpdata.c:1441
-#, fuzzy, c-format
+#, c-format
 msgid "* Each of your cities will avoid paying %d %s upkeep for your units.\n"
 msgstr "* Jede Stadt erspart %d %s für den Unterhalt von Einheiten.\n"
 
 #. TRANS: Amount is subtracted from upkeep cost
 #. * for each upkeep type.
 #: client/helpdata.c:1449
-#, fuzzy, c-format
+#, c-format
 msgid "* Each of your cities will avoid paying %d upkeep for your units.\n"
 msgstr "* Jede Stadt erspart %d Goldstücke für den Unterhalt von Einheiten.\n"
 
@@ -8964,7 +8955,7 @@ msgstr ""
 
 #. TRANS: %d should always be greater than 2.
 #: client/helpdata.c:1463
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* When you have %d cities, the first unhappy citizen will appear in each "
 "city due to civilization size.\n"
@@ -8974,7 +8965,7 @@ msgstr ""
 
 #. TRANS: %d should always be greater than 2.
 #: client/helpdata.c:1470
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* After the first unhappy citizen due to civilization size, for each %d "
 "additional cities another unhappy citizen will appear.\n"
@@ -8983,15 +8974,14 @@ msgstr ""
 "wird für je %d zusätzliche Städte ein weiterer Bürger unzufrieden.\n"
 
 #: client/helpdata.c:1478
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
-msgstr "Die Höchstrate für Forschung, Steuern und Luxus beträgt %d%%.\n"
+msgstr "* Die Höchstrate für Forschung, Steuern oder Luxus beträgt %d%%.\n"
 
 #: client/helpdata.c:1483
-#, fuzzy
 msgid "* Has unlimited science/gold/luxuries rates.\n"
-msgstr "Die Raten für Forschung, Steuern und Luxus sind frei wählbar.\n"
+msgstr "* Die Raten für Forschung, Steuern und Luxus sind frei wählbar.\n"
 
 #: client/helpdata.c:1488
 #, c-format
@@ -9018,7 +9008,7 @@ msgstr[1] ""
 
 #. TRANS: %d should always be greater than 2.
 #: client/helpdata.c:1511
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* You may grow your cities by means of celebrations. Your cities must be at "
 "least size %d.\n"
@@ -9035,7 +9025,6 @@ msgid "* Your cities cannot be incited.\n"
 msgstr "* In deinen Städten kann es keine Revolte geben.\n"
 
 #: client/helpdata.c:1523
-#, fuzzy
 msgid ""
 "* If any city is in disorder for more than two turns in a row, government "
 "will fall into anarchy.\n"
@@ -9078,7 +9067,7 @@ msgstr "* Veteranen.\n"
 
 #. TRANS: %s is list of output types, with 'or'
 #: client/helpdata.c:1570
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* Each worked tile that gives more than %d %s will suffer a -1 penalty "
 "unless celebrating.\n"
@@ -9088,12 +9077,12 @@ msgstr ""
 
 #. TRANS: %s is list of output types, with 'or'
 #: client/helpdata.c:1578
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* Each worked tile with at least 1 %s will yield %d more of it while "
 "celebrating.\n"
 msgstr ""
-"* Jedes bearbeitete Feld mit mindestens 1 %s liefert %d zusätzliches %s, "
+"* Jedes bearbeitete Feld mit mindestens 1 %s liefert %d zusätzlich, "
 "wenn die Stadt feiert.\n"
 
 #. TRANS: %s is list of output types, with 'or'
@@ -9862,13 +9851,13 @@ msgstr " mit %s"
 #: client/text.c:202
 #, c-format
 msgid "?clistlast:, and %s"
-msgstr ""
+msgstr " und %s"
 
 #. TRANS: This appears with only one previous entry in the list
 #: client/text.c:206
-#, fuzzy, c-format
+#, c-format
 msgid "?clistlast: and %s"
-msgstr "Spezialisten"
+msgstr " und %s"
 
 #: client/text.c:209 client/text.c:1190 client/text.c:1229
 msgid "?clistend:."
@@ -10376,28 +10365,24 @@ msgid "No usable default tileset found, aborting!"
 msgstr "No usable default tileset found, aborting!"
 
 #: client/tilespec.c:907
-#, fuzzy, c-format
+#, c-format
 msgid "Loading tileset \"%s\"."
-msgstr "Lade Regelsätze"
+msgstr "Lade Feldergrafik '%s'."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
 #: client/tilespec.c:1335
-#, fuzzy
 msgid "Client does not support isometric tilesets."
-msgstr ""
-"Client does not support isometric tilesets. Using default tileset instead."
+msgstr "Client does not support isometric tilesets."
 
+# CK: TECHNICAL
 #: client/tilespec.c:1336 client/tilespec.c:1345
 msgid "Using default tileset instead."
-msgstr ""
+msgstr "Using default tileset instead."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
 #: client/tilespec.c:1344
-#, fuzzy
 msgid "Client does not support overhead view tilesets."
-msgstr ""
-"Client does not support overhead view tilesets. Using default tileset "
-"instead."
+msgstr "Client does not support overhead view tilesets."
 
 #: client/tilespec.c:4169
 #, c-format
@@ -10700,13 +10685,12 @@ msgid "clear all"
 msgstr "alles löschen"
 
 #: client/gui-gtk-2.0/editdlg.c:76
-#, fuzzy
 msgid "Known"
-msgstr "unbekannt"
+msgstr "Bekannt"
 
 #: client/gui-gtk-2.0/editdlg.c:78
 msgid "Toggle"
-msgstr ""
+msgstr "Umschalten"
 
 #: client/gui-gtk-2.0/editdlg.c:82
 msgid "Paint"
@@ -11311,9 +11295,8 @@ msgid "_Sentry idle"
 msgstr "_Einheiten stationieren"
 
 #: client/gui-gtk-2.0/dialogs.c:621
-#, fuzzy
 msgid "Select _all"
-msgstr "Wählen"
+msgstr "Alles auswählen"
 
 #: client/gui-gtk-2.0/dialogs.c:749
 msgid "Nation _Groups:"
@@ -11721,9 +11704,9 @@ msgstr "Nicht be_obachten"
 
 #. TRANS: "<Novice AI>"
 #: client/gui-gtk-2.0/gui_main.c:1625
-#, fuzzy, c-format
+#, c-format
 msgid "<%s AI>"
-msgstr "<Leichte KI>"
+msgstr "<%s KI>"
 
 #: client/gui-gtk-2.0/gui_main.c:1634 client/gui-win32/dialogs.c:596
 msgid "Random"
@@ -12044,33 +12027,28 @@ msgstr "_Revolution..."
 #: client/gui-gtk-2.0/menu.c:750 client/gui-gtk-2.0/menu.c:752
 #: client/gui-gtk-2.0/menu.c:754 client/gui-gtk-2.0/menu.c:756
 #: client/gui-gtk-2.0/menu.c:758 client/gui-gtk-2.0/menu.c:760
-#, fuzzy
 msgid "_Options"
 msgstr "Optionen"
 
 #: client/gui-gtk-2.0/menu.c:752
-#, fuzzy
 msgid "_Local Client"
-msgstr "Lokale Optionen"
+msgstr "Lokaler Client"
 
 #: client/gui-gtk-2.0/menu.c:754
-#, fuzzy
 msgid "_Message"
-msgstr "_Nachrichten"
+msgstr "_Nachricht"
 
 #: client/gui-gtk-2.0/menu.c:756
-#, fuzzy
 msgid "_Remote Server"
-msgstr "_Entfernen"
+msgstr "Entfernter Server"
 
 #: client/gui-gtk-2.0/menu.c:758
-#, fuzzy
 msgid "Save Options _Now"
-msgstr "Opt_ionen sichern"
+msgstr "Optionen jetzt sichern"
 
 #: client/gui-gtk-2.0/menu.c:760
 msgid "Save Options on _Exit"
-msgstr "Option_en beim Verlassen speichern"
+msgstr "Optionen beim Verlassen speichern"
 
 #: client/gui-gtk-2.0/menu.c:765
 msgid "_Reload Tileset"
@@ -12109,17 +12087,14 @@ msgid "_Worklists"
 msgstr "_Arbeitslisten"
 
 #: client/gui-gtk-2.0/menu.c:794
-#, fuzzy
 msgid "Editing _Mode"
 msgstr "_Editmodus"
 
 #: client/gui-gtk-2.0/menu.c:796
-#, fuzzy
 msgid "Editing _Tools"
 msgstr "Edit-Werkzeuge"
 
 #: client/gui-gtk-2.0/menu.c:798
-#, fuzzy
 msgid "Recalculate _Borders"
 msgstr "_Grenzen neuberechnen"
 
@@ -12376,9 +12351,8 @@ msgid "Select same type"
 msgstr "Einheiten gleichen Typs auswählen"
 
 #: client/gui-gtk-2.0/menu.c:936
-#, fuzzy
 msgid "Select same type in tile"
-msgstr "Einheiten gleichen Typs auswählen"
+msgstr "Felder gleichen Typs auswählen"
 
 #: client/gui-gtk-2.0/menu.c:938 client/gui-win32/menu.c:394
 msgid "_Wait"
@@ -14047,9 +14021,8 @@ msgid "Help : Improvements"
 msgstr "Hilfe : Stadterweiterungen"
 
 #: client/gui-sdl/helpdlg.c:402
-#, fuzzy
 msgid "Never"
-msgstr "(Nie)"
+msgstr "Nie"
 
 #: client/gui-sdl/helpdlg.c:600
 msgid "Help : Units"
@@ -15928,14 +15901,12 @@ msgid "Demographics"
 msgstr "Bericht zur Lage der Nation"
 
 #: client/gui-xaw/menu.c:240
-#, fuzzy
 msgid "Editing Mode"
-msgstr "_Editmodus"
+msgstr "Editmodus"
 
 #: client/gui-xaw/menu.c:241
-#, fuzzy
 msgid "Tools"
-msgstr "_Werkzeuge"
+msgstr "Werkzeuge"
 
 #: client/gui-xaw/menu.c:246 data/helpdata.txt:378
 msgid "Languages"
@@ -16398,9 +16369,8 @@ msgid "Rename worklist"
 msgstr "Arbeitsliste umbenennen"
 
 #: data/Freeciv.in:2031
-#, fuzzy
 msgid "Editor"
-msgstr "_Editor"
+msgstr "Editor"
 
 #: data/Freeciv.in:2082
 msgid "Select new production"
@@ -17407,7 +17377,6 @@ msgstr ""
 "Abkommen erreicht werden."
 
 #: data/helpdata.txt:782
-#, fuzzy
 msgid ""
 "     To have a diplomatic relationship with another player, you must "
 "establish contact with that player. Contact occurs whenever one of your "
@@ -17422,7 +17391,6 @@ msgstr ""
 "wieder verlieren."
 
 #: data/helpdata.txt:789
-#, fuzzy
 msgid ""
 "     The diplomatic state between players defaults to War. During War, you "
 "can freely move your units inside enemy territory and attack their units and "
@@ -17457,7 +17425,6 @@ msgstr ""
 "führt direkt in den Krieg."
 
 #: data/helpdata.txt:803
-#, fuzzy
 msgid ""
 "     At the moment two players enter into the diplomatic state of Peace, all "
 "units belonging to either player that happen to be within the other's "
@@ -17468,10 +17435,10 @@ msgid ""
 msgstr ""
 "    In dem Moment, in dem zwei Spieler in den Frieden eintreten, werden alle "
 "Einheiten des einen Spielers, die sich in den Grenzen des anderen befinden, "
-"entsprechend dem Vertrag automatisch aufgelöst.Danach ist es nicht mehr "
+"entsprechend dem Vertrag automatisch aufgelöst. Danach ist es nicht mehr "
 "möglich, Einheiten in das Gebiet des anderen Spielers zu bewegen, ohne "
-"entweder den Krieg zu erklären oderein Bündnis zu schmieden. Ein Bruch des "
-"Friedens führt direkt in den Krieg."
+"entweder den Krieg zu erklären oder ein Bündnis zu schmieden. Ein Bruch des "
+"Friedens führt dich direkt zurück in den Krieg."
 
 #: data/helpdata.txt:810
 #, fuzzy
@@ -18922,8 +18889,7 @@ msgid ""
 "Gives one extra food resource on all Oceanic squares.  The city needs to be "
 "coastal to build this improvement."
 msgstr ""
-"+1 Nahrung von allen Ozeanfeldern\n"
-"Kann nur von Küstenstädten gebaut werden."
+"Gibt +1 Nahrung von allen Ozeanfeldern. Kann nur von Küstenstädten gebaut werden."
 
 #: data/default/buildings.ruleset:367 data/civ2/buildings.ruleset:346
 #: data/civ1/buildings.ruleset:272
@@ -19033,13 +18999,11 @@ msgid "Offshore Platform"
 msgstr "Bohrinsel"
 
 #: data/default/buildings.ruleset:533 data/civ2/buildings.ruleset:507
-#, fuzzy
 msgid ""
 "Adds 1 extra shield resource on all Oceanic squares in a city.  The city "
 "needs to be coastal to build this improvement."
 msgstr ""
-"+1 Schild von allen Ozeanfeldern\n"
-"Kann nur von Küstenstädten gebaut werden."
+"Gibt +1 Schild von allen Ozeanfeldern. Kann nur von Küstenstädten gebaut werden."
 
 #: data/default/buildings.ruleset:539 data/civ2/buildings.ruleset:513
 #: data/civ1/buildings.ruleset:418
@@ -19567,13 +19531,11 @@ msgid "Lighthouse"
 msgstr "den Leuchtturm"
 
 #: data/default/buildings.ruleset:1305
-#, fuzzy
 msgid ""
 "Gives all your sea units 1 additional movement point. Makes all your new sea "
 "units veterans (for all your cities)."
 msgstr ""
-"Alle Marineeinheiten erhalten 1 zusätzlichen Bewegungspunkt. Triremen gehen "
-"nicht mehr auf hoher See verloren. In allen eigenen Städten erhalten neue "
+"Alle Marineeinheiten erhalten 1 zusätzlichen Bewegungspunkt. In allen eigenen Städten erhalten neue "
 "Marineeinheiten Veteran-Status."
 
 #: data/default/buildings.ruleset:1311 data/civ2/buildings.ruleset:1264
@@ -19936,14 +19898,12 @@ msgid "Works as a City Wall in all cities."
 msgstr "Gilt als Stadtmauer für jede eigene Stadt."
 
 #: data/civ2/buildings.ruleset:1258 data/civ1/buildings.ruleset:883
-#, fuzzy
 msgid ""
 "Gives all your sea units 1 additional movement point. Makes all your new sea "
 "units veterans (for all cities)."
 msgstr ""
-"Alle Marineeinheiten erhalten 1 zusätzlichen Bewegungspunkt. Triremen gehen "
-"nicht mehr auf hoher See verloren. In allen eigenen Städten erhalten neue "
-"Marineeinheiten Veteran-Status."
+"Alle Marineeinheiten erhalten 1 zusätzlichen Bewegungspunkt. In allen deinen Städten erhalten neue "
+"Marineeinheiten Veteranen-Status."
 
 #: data/civ2/buildings.ruleset:1278
 msgid "Gives all sea units 2 additional movement points."
@@ -21025,9 +20985,8 @@ msgstr ""
 
 #: data/default/terrain.ruleset:182 data/civ2/terrain.ruleset:182
 #: data/civ1/terrain.ruleset:174
-#, fuzzy
 msgid "Water"
-msgstr "Müll"
+msgstr "Wasser"
 
 #: data/default/terrain.ruleset:212 data/default/terrain.ruleset:250
 #: data/default/terrain.ruleset:288 data/default/terrain.ruleset:326
@@ -21056,15 +21015,14 @@ msgstr ""
 
 #: data/default/terrain.ruleset:220 data/civ2/terrain.ruleset:217
 #: data/civ1/terrain.ruleset:209
-#, fuzzy
 msgid "Lake"
-msgstr "lankesisch"
+msgstr "See"
 
 #: data/default/terrain.ruleset:258 data/civ2/terrain.ruleset:252
 #: data/civ1/terrain.ruleset:244 data/default/units.ruleset:96
 #: data/civ2/units.ruleset:90 data/civ1/units.ruleset:82
 msgid "Sea"
-msgstr "See"
+msgstr "Meer"
 
 #: data/default/terrain.ruleset:296 data/civ2/terrain.ruleset:287
 #: data/civ1/terrain.ruleset:279
@@ -22620,12 +22578,12 @@ msgstr "Premierminister"
 #: data/nation/ainu.ruleset:3
 #, fuzzy
 msgid "Ainu"
-msgstr "asiatisch"
+msgstr ""
 
 #: data/nation/ainu.ruleset:4
 #, fuzzy
 msgid "?plural:Ainu"
-msgstr "Finnen"
+msgstr ""
 
 #: data/nation/ainu.ruleset:7
 msgid ""
@@ -22648,9 +22606,8 @@ msgid "Akwe"
 msgstr ""
 
 #: data/nation/akwe.ruleset:4
-#, fuzzy
 msgid "?plural:Akwe"
-msgstr "?plural:Azteken"
+msgstr ""
 
 #: data/nation/akwe.ruleset:7
 msgid ""
@@ -22664,9 +22621,8 @@ msgid ""
 msgstr ""
 
 #: data/nation/akwe.ruleset:23
-#, fuzzy
 msgid "He'a"
-msgstr "Häuptling"
+msgstr ""
 
 #: data/nation/akwe.ruleset:24 data/nation/srivijaya.ruleset:22
 msgid "Senapati"
@@ -22709,9 +22665,8 @@ msgid "Speaker"
 msgstr "Sprecher"
 
 #: data/nation/american.ruleset:51 data/nation/scottish.ruleset:25
-#, fuzzy
 msgid "?female:Speaker"
-msgstr "Thronräuberin"
+msgstr ""
 
 #: data/nation/american.ruleset:52 data/nation/texan.ruleset:20
 msgid "Reverend"
