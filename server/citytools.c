@@ -730,7 +730,6 @@ static void reestablish_city_trade_routes(struct city *pcity, int cities[])
 Create a palace in a random city. Used when the capital was conquered.
 **************************************************************************/
 static void build_free_small_wonders(struct player *pplayer,
-				     const char *const old_capital_name,
 				     bv_imprs *had_small_wonders)
 {
   int size = city_list_size(pplayer->cities);
@@ -742,11 +741,10 @@ static void build_free_small_wonders(struct player *pplayer,
 
   improvement_iterate(pimprove) {
     if (BV_ISSET(*had_small_wonders, improvement_index(pimprove))) {
-      struct city *pnew_city;
+      /* FIXME: instead, find central city */
+      struct city *pnew_city = city_list_get(pplayer->cities, myrand(size));
 
       assert(find_city_from_small_wonder(pplayer, pimprove) == NULL);
-
-      pnew_city = city_list_get(pplayer->cities, myrand(size));
 
       city_add_improvement(pnew_city, pimprove);
       pplayer->small_wonders[improvement_index(pimprove)] = pnew_city->id;
@@ -757,9 +755,10 @@ static void build_free_small_wonders(struct player *pplayer,
        */
       send_player_cities(pplayer);
 
-      notify_player(pplayer, pnew_city->tile, E_CITY_LOST,
-		    _("You lost %s. A new %s was built in %s."),
-		    old_capital_name,
+      notify_player(pplayer, pnew_city->tile, E_IMP_BUILD,
+		    /* FIXME: should already be notified about city loss? */
+		    /* TRANS: <building> ... <city> */
+		    _("A replacement %s was built in %s."),
 		    improvement_name_translation(pimprove),
 		    city_name(pnew_city));
       /* 
@@ -938,7 +937,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   /* Build a new palace for free if the player lost her capital and
      savepalace is on. */
   if (game.info.savepalace) {
-    build_free_small_wonders(pgiver, city_name(pcity), &had_small_wonders);
+    build_free_small_wonders(pgiver, &had_small_wonders);
   }
 
   /* Remove the sight points from the giver...and refresh the city's
@@ -1096,7 +1095,6 @@ void remove_city(struct city *pcity)
   struct player *pplayer = city_owner(pcity);
   struct tile *ptile = pcity->tile;
   bv_imprs had_small_wonders;
-  char *cityname = mystrdup(city_name(pcity));
   struct vision *old_vision;
   int id = pcity->id; /* We need this even after memory has been freed */
 
@@ -1214,10 +1212,8 @@ void remove_city(struct city *pcity)
   /* Build a new palace for free if the player lost her capital and
      savepalace is on. */
   if (game.info.savepalace) {
-    build_free_small_wonders(pplayer, cityname, &had_small_wonders);
+    build_free_small_wonders(pplayer, &had_small_wonders);
   }
-
-  free(cityname);
 
   sync_cities();
 }

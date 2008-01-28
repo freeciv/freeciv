@@ -1666,8 +1666,9 @@ void civil_war(struct player *pplayer)
 
   if (player_count() >= MAX_NUM_PLAYERS) {
     /* No space to make additional player */
-    freelog(LOG_NORMAL, _("Could not throw %s into civil war - too many "
-            "players"), player_name(pplayer));
+    freelog(LOG_NORMAL,
+            _("Could not throw %s into civil war - too many players"),
+            nation_plural_for_player(pplayer));
     return;
   }
 
@@ -1682,13 +1683,17 @@ void civil_war(struct player *pplayer)
   /* Now split the empire */
 
   freelog(LOG_VERBOSE,
-	  "%s nation is thrust into civil war, created AI player %s",
+	  "%s civil war; created AI %s",
 	  nation_rule_name(nation_of_player(pplayer)),
-	  player_name(cplayer));
+	  nation_rule_name(nation_of_player(cplayer)));
   notify_player(pplayer, NULL, E_CIVIL_WAR,
-		   _("Your nation is thrust into civil war, "
-		     " %s is declared the leader of the rebel states."),
-		   player_name(cplayer));
+                _("Your nation is thrust into civil war."));
+
+  notify_player(pplayer, NULL, E_FIRST_CONTACT,
+                /* TRANS: <leader> ... the Poles. */
+                _("%s is the rebellious leader of the %s."),
+                player_name(cplayer),
+                nation_plural_for_player(cplayer));
 
   i = city_list_size(pplayer->cities)/2;   /* number to flip */
   j = city_list_size(pplayer->cities);	    /* number left to process */
@@ -1703,35 +1708,35 @@ void civil_war(struct player *pplayer)
 	 resolved stack conflicts for each city we would teleport the first
 	 of the units we met since the other would have another owner */
 	transfer_city(cplayer, pcity, -1, FALSE, FALSE, FALSE);
-	freelog(LOG_VERBOSE, "%s declares allegiance to %s",
+	freelog(LOG_VERBOSE, "%s declares allegiance to the %s.",
 		city_name(pcity),
-		player_name(cplayer));
+		nation_rule_name(nation_of_player(cplayer)));
 	notify_player(pplayer, pcity->tile, E_CITY_LOST,
-			 _("%s declares allegiance to %s."),
-			 city_name(pcity),
-			 player_name(cplayer));
+                      /* TRANS: <city> ... the Poles. */
+                      _("%s declares allegiance to the %s."),
+                      city_name(pcity),
+                      nation_plural_for_player(cplayer));
 	i--;
       }
     }
     j--;
-  }
-  city_list_iterate_end;
-
-  i = 0;
+  } city_list_iterate_end;
 
   resolve_unit_stacks(pplayer, cplayer, FALSE);
 
+  i = city_list_size(cplayer->cities);
+
   notify_player(NULL, NULL, E_CIVIL_WAR,
-		_("Capture of the %s capital and destruction "
-		  "of the empire's administrative\n"
-		  "      structures have sparked a civil war.  "
-		  "Opportunists have flocked to the rebel cause,\n"
-		  "      and the upstart %s now holds power in %d "
-		  "rebel provinces."),
-		nation_adjective_for_player(pplayer),
-		player_name(cplayer),
-		city_list_size(cplayer->cities));
-}  
+		/* TRANS: ... Danes ... Poles ... <7> cities. */
+		PL_("Civil war partitions the %s;"
+		    " the %s now hold %d city.",
+		    "Civil war partitions the %s;"
+		    " the %s now hold %d cities.",
+		    i),
+		nation_plural_for_player(pplayer),
+		nation_plural_for_player(cplayer),
+		i);
+}
 
 /**************************************************************************
  The client has send as a chunk of the attribute block.

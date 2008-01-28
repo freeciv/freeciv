@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: et\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-26 09:23-0500\n"
+"POT-Creation-Date: 2008-01-27 18:27-0500\n"
 "PO-Revision-Date: 2007-10-02 21:29+0200\n"
 "Last-Translator: Silver Juurik <silverjuurik@gmail.com>\n"
 "Language-Team: eesti\n"
@@ -812,7 +812,7 @@ msgstr "Tee"
 
 #: common/terrain.c:483 common/terrain.c:677 common/unit.c:527
 #: client/gui-gtk-2.0/menu.c:833 client/gui-sdl/optiondlg.c:1905
-#: client/gui-win32/menu.c:344 client/gui-xaw/menu.c:156
+#: client/gui-win32/menu.c:345 client/gui-xaw/menu.c:156
 #: manual/civmanual.c:215
 msgid "Irrigation"
 msgstr "Niisutus"
@@ -866,7 +866,7 @@ msgid "Sentry"
 msgstr "Vahiteenistus"
 
 #: common/unit.c:539 client/gui-gtk-2.0/menu.c:886 client/gui-sdl/menu.c:649
-#: client/gui-win32/menu.c:370 client/gui-xaw/menu.c:190
+#: client/gui-win32/menu.c:371 client/gui-xaw/menu.c:190
 msgid "Pillage"
 msgstr "Rüüsta"
 
@@ -931,11 +931,11 @@ msgstr "Selle %s uuendamine jätaks tema transporditud üksused maha."
 
 #. TRANS: List of possible output types has this between
 #. *        last two elements
-#: common/unittype.c:432 client/helpdata.c:1381
+#: common/unittype.c:432 client/helpdata.c:1385
 msgid " and "
 msgstr " ja "
 
-#: common/unittype.c:438 client/helpdata.c:1367
+#: common/unittype.c:438 client/helpdata.c:1371
 msgid "?and:, "
 msgstr "?and:, "
 
@@ -1029,7 +1029,7 @@ msgstr ""
 msgid "'Cause civilization should be free!"
 msgstr "Sest tsivilisatsioon peaks vaba olema!"
 
-#: utility/fciconv.c:133
+#: utility/fciconv.c:146
 #, c-format
 msgid ""
 "You are running Freeciv without using iconv.  Unless\n"
@@ -1043,7 +1043,7 @@ msgstr ""
 
 #. TRANS: "Could not convert text from <encoding a> to <encoding b>:"
 #. * TRANS: <error string>."
-#: utility/fciconv.c:206
+#: utility/fciconv.c:219
 #, c-format
 msgid "Could not convert text from %s to %s: %s"
 msgstr "Ei suuda teisendada teksti  %s %s-ks: %s"
@@ -1218,36 +1218,36 @@ msgstr "Praegune andmete asukoht on: \"%s\""
 msgid "The \"%s\" file is required ... aborting!"
 msgstr "\"%s\" fail on puudu ... katkestan!"
 
-#: utility/shared.c:1395
+#: utility/shared.c:1398
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr "%s: VIGA: Sa proovid mind käivitada administraatori õigustega!\n"
 
-#: utility/shared.c:1397
+#: utility/shared.c:1400
 msgid "Use a non-privileged account instead.\n"
 msgstr "Kasuta selle asemel mittepriviligeeritud kontot.\n"
 
-#: utility/shared.c:1413
+#: utility/shared.c:1416
 msgid "exact match"
 msgstr "täpne vaste"
 
-#: utility/shared.c:1414
+#: utility/shared.c:1417
 msgid "only match"
 msgstr "ainus vaste"
 
-#: utility/shared.c:1415
+#: utility/shared.c:1418
 msgid "ambiguous"
 msgstr "ebaselge"
 
-#: utility/shared.c:1416
+#: utility/shared.c:1419
 msgid "empty"
 msgstr "tühi"
 
-#: utility/shared.c:1417
+#: utility/shared.c:1420
 msgid "too long"
 msgstr "liiga pikk"
 
-#: utility/shared.c:1418
+#: utility/shared.c:1421
 msgid "non-match"
 msgstr "mittevastav"
 
@@ -1261,12 +1261,12 @@ msgstr "viga %ld (FormatMessage andis vea)"
 msgid "error %d (compiled without strerror)"
 msgstr "viga %d (kompileeritud ilma strerror'ita)"
 
-#: ai/aicity.c:1401 server/citytools.c:1925
+#: ai/aicity.c:1401 server/citytools.c:1921
 #, c-format
 msgid "The %s have stopped building The %s in %s."
 msgstr "%s on lõpetanud %s ehitamise linnas %s."
 
-#: ai/aicity.c:1411 server/citytools.c:1963
+#: ai/aicity.c:1411 server/citytools.c:1959
 #, c-format
 msgid "The %s have started building The %s in %s."
 msgstr "%s on alustanud %s ehitamist linnas %s."
@@ -1835,17 +1835,18 @@ msgstr "%s %s-st läks kaduma üleviimisel %s %s-i"
 msgid "%s lost along with control of %s."
 msgstr "%s kaotatud koos kontrolliga linna %s üle."
 
+#. TRANS: <building> ... <city>
 #: server/citytools.c:761
-#, c-format
-msgid "You lost %s. A new %s was built in %s."
-msgstr "Kaotasid %s. Uus %s rajati linna %s."
+#, fuzzy, c-format
+msgid "A replacement %s was built in %s."
+msgstr "Uus %s rajati linna %s."
 
-#: server/citytools.c:841
+#: server/citytools.c:840
 #, c-format
 msgid "You already had a city called %s. The city was renamed to %s."
 msgstr "Sul on juba linn nimega %s. Linn nimetati ümber %s."
 
-#: server/citytools.c:929
+#: server/citytools.c:928
 #, c-format
 msgid ""
 "The people in %s are stunned by your technological insight!\n"
@@ -1854,91 +1855,91 @@ msgstr ""
 "%s elanikud on meeletus vaimustuses su tehnotaibust!\n"
 "      Töötajad spontaanselt koguneved ja sutsti! uuendavad linna raudteedega."
 
-#: server/citytools.c:1067
+#: server/citytools.c:1066
 #, c-format
 msgid "You have founded %s."
 msgstr "Sa rajasid linna %s."
 
-#: server/citytools.c:1140
+#: server/citytools.c:1138
 #, fuzzy, c-format
 msgid "Moved %s out of disbanded city %s since it cannot stay on %s."
 msgstr "Viisin %s välja laiali saadetavast linnast %s, et ta kuivale ei jääks."
 
-#: server/citytools.c:1152
+#: server/citytools.c:1150
 #, c-format
 msgid ""
 "When %s was disbanded your %s could not get out, and it was therefore lost."
 msgstr "Kui %s saadeti laiali, su %s ei suutnud välja saada ja hukkus."
 
-#: server/citytools.c:1287
+#: server/citytools.c:1283
 #, c-format
 msgid "You destroy %s completely."
 msgstr "Sa hävitasid linna %s täielikult."
 
-#: server/citytools.c:1290
+#: server/citytools.c:1286
 #, c-format
 msgid "%s has been destroyed by %s."
 msgstr "Linna %s hävitas %s."
 
-#: server/citytools.c:1308
+#: server/citytools.c:1304
 #, c-format
 msgid "You conquer %s; your lootings accumulate to %d gold!"
 msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
 msgstr[0] "Vallutasid linna %s. Saagiks said %d raha!"
 msgstr[1] "Vallutasid linna %s. Saagiks said %d raha!"
 
-#: server/citytools.c:1315
+#: server/citytools.c:1311
 #, c-format
 msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
 msgstr[0] "%s vallutasid %s ja said %d raha linnast saagiks."
 msgstr[1] "%s vallutasid %s ja said %d raha linnast saagiks."
 
-#: server/citytools.c:1324
+#: server/citytools.c:1320
 #, c-format
 msgid "You conquer %s"
 msgstr "Vallutasid %s"
 
-#: server/citytools.c:1327
+#: server/citytools.c:1323
 #, c-format
 msgid "%s conquered %s."
 msgstr "%s vallutasid %s."
 
-#: server/citytools.c:1334
+#: server/citytools.c:1330
 #, c-format
 msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgid_plural "You have liberated %s! Lootings accumulate to %d gold."
 msgstr[0] "Vabastasid oma linna %s! Saagiks %d raha."
 msgstr[1] "Vabastasid oma linna %s! Saagiks %d raha."
 
-#: server/citytools.c:1341
+#: server/citytools.c:1337
 #, c-format
 msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
 msgstr[0] "%s vabastas %s ja röövis linnast %d raha."
 msgstr[1] "%s vabastas %s ja sai linnast %d raha."
 
-#: server/citytools.c:1350
+#: server/citytools.c:1346
 #, c-format
 msgid "You have liberated %s!"
 msgstr "Sa vabastasid linna %s!"
 
-#: server/citytools.c:1353
+#: server/citytools.c:1349
 #, c-format
 msgid "%s liberated %s."
 msgstr "%s vabastas %s."
 
-#: server/citytools.c:1942
+#: server/citytools.c:1938
 msgid " from the worklist"
 msgstr " tööde nimekirjast"
 
 #. TRANS: "<city> is building <production><source>."
-#: server/citytools.c:1954
+#: server/citytools.c:1950
 #, c-format
 msgid "%s is building %s%s."
 msgstr "%s ehitab %s%s."
 
-#: server/citytools.c:2201
+#: server/citytools.c:2197
 #, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
 msgstr "Linn %s (nüüd ilma merele pääsuta) müüb %s %d raha eest."
@@ -3933,31 +3934,39 @@ msgid ""
 "%s and %s meet and go to instant war. You cancel your alliance with both."
 msgstr "%s ja %s kohtuvad ja hakkavad kohe sõdima. Sa lõpetad liidu mõlemaga."
 
-#: server/plrhand.c:1669
+#: server/plrhand.c:1670
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr "Ei saanud %s kodusõtta ajada - liiga palju mängijaid"
 
-#: server/plrhand.c:1689
-#, c-format
-msgid ""
-"Your nation is thrust into civil war,  %s is declared the leader of the "
-"rebel states."
-msgstr "Su rahvus on kodusõjas, %s kuulutati ülestõusnute juhiks."
+#: server/plrhand.c:1690
+#, fuzzy
+msgid "Your nation is thrust into civil war."
+msgstr "Su rahvus on kodusõjas."
 
-#: server/plrhand.c:1710
-#, c-format
-msgid "%s declares allegiance to %s."
+#. TRANS: <leader> ... the Poles.
+#: server/plrhand.c:1694
+#, fuzzy, c-format
+msgid "%s is the rebellious leader of the %s."
+msgstr "%s kuulutati ülestõusnute juhiks %s."
+
+#. TRANS: <city> ... the Poles.
+#: server/plrhand.c:1716
+#, fuzzy, c-format
+msgid "%s declares allegiance to the %s."
 msgstr "%s vannub truudust %s'le."
 
-#: server/plrhand.c:1725
+#. TRANS: ... Danes ... Poles ... <7> cities.
+#: server/plrhand.c:1731
 #, fuzzy, c-format
-msgid ""
-"Capture of the %s capital and destruction of the empire's administrative\n"
-"      structures have sparked a civil war.  Opportunists have flocked to the "
-"rebel cause,\n"
-"      and the upstart %s now holds power in %d rebel provinces."
-msgstr ""
+msgid "Civil war partitions the %s; the %s now hold %d city."
+msgid_plural "Civil war partitions the %s; the %s now hold %d cities."
+msgstr[0] ""
+"%s'i pealinna vallutamine ja riigi administratiivstruktuuride hävitamine\n"
+"      on käivitanud kodusõja.  Oportunistid on liikunud ülestõusnute "
+"ridadesse,\n"
+"      ja %s omab nüüd võimu %d-s mässajate provintsis."
+msgstr[1] ""
 "%s'i pealinna vallutamine ja riigi administratiivstruktuuride hävitamine\n"
 "      on käivitanud kodusõja.  Oportunistid on liikunud ülestõusnute "
 "ridadesse,\n"
@@ -7721,7 +7730,7 @@ msgstr "Parimad kaitseüksused"
 #: client/gui-gtk-2.0/menu.c:845 client/gui-gtk-2.0/repodlgs.c:985
 #: client/gui-sdl/helpdlg.c:687 client/gui-sdl/mapctrl.c:1606
 #: client/gui-sdl/optiondlg.c:1826 client/gui-sdl/repodlgs.c:365
-#: client/gui-win32/menu.c:351 client/gui-win32/repodlgs.c:614
+#: client/gui-win32/menu.c:352 client/gui-win32/repodlgs.c:614
 #: client/gui-win32/repodlgs.c:722 client/gui-win32/repodlgs.c:731
 #: client/gui-xaw/menu.c:162 client/gui-xaw/menu.c:224
 #: client/gui-xaw/menu.c:253 client/gui-xaw/repodlgs.c:903
@@ -8443,150 +8452,150 @@ msgstr ""
 msgid "* May not be disbanded.\n"
 msgstr "* Ei saa laiali saata.\n"
 
-#: client/helpdata.c:850
-#, c-format
+#: client/helpdata.c:851
+#, no-c-format
 msgid "* May be disbanded in a city to recover 50% of the production cost.\n"
 msgstr ""
 
-#: client/helpdata.c:854
+#: client/helpdata.c:855
 msgid "* Can build new cities.\n"
 msgstr "* Saab ehitada uusi linnu.\n"
 
-#: client/helpdata.c:858
+#: client/helpdata.c:859
 #, c-format
 msgid "* Can add on %d population to cities of no more than size %d.\n"
 msgstr "* Võib lisada %d rahvaarvule linnades, mille suurus on ülimalt %d.\n"
 
-#: client/helpdata.c:867
+#: client/helpdata.c:868
 msgid "* Can build roads and railroads.\n"
 msgstr "* Saab ehitada teid ja raudteid.\n"
 
-#: client/helpdata.c:868
+#: client/helpdata.c:869
 msgid "* Can build mines on tiles.\n"
 msgstr "* Saab ehitada kaevandusi.\n"
 
-#: client/helpdata.c:869
+#: client/helpdata.c:870
 msgid "* Can build irrigation on tiles.\n"
 msgstr "* Saab ehitada niisutust.\n"
 
-#: client/helpdata.c:874
+#: client/helpdata.c:875
 msgid "* Can build farmland.\n"
 msgstr "* Saab ehitada põllumaad.\n"
 
-#: client/helpdata.c:878
+#: client/helpdata.c:879
 #, c-format
 msgid "* Can build farmland (if %s is known).\n"
 msgstr "* Saab ehitada põllumaad (kui on teada %s).\n"
 
-#: client/helpdata.c:882
+#: client/helpdata.c:883
 #, c-format
 msgid "* Can build farmland (if any of the following are known: %s).\n"
 msgstr "* Saab ehitada põllumaad (kui on teada üks järgnevaist: %s).\n"
 
-#: client/helpdata.c:888
+#: client/helpdata.c:889
 msgid "* Can build fortresses.\n"
 msgstr "* Saab ehitada kindlusi.\n"
 
-#: client/helpdata.c:891
+#: client/helpdata.c:892
 msgid "* Can clean pollution from tiles.\n"
 msgstr "* Võib ruutudelt eemaldada reostust.\n"
 
-#: client/helpdata.c:892
+#: client/helpdata.c:893
 msgid "* Can clean nuclear fallout from tiles.\n"
 msgstr "* Võib puhastada kaardiruute tuumajäätmetest.\n"
 
-#: client/helpdata.c:895
+#: client/helpdata.c:896
 msgid "* Can transform tiles.\n"
 msgstr "* Võib muuta kaardiruute.\n"
 
-#: client/helpdata.c:898
-#, c-format
+#: client/helpdata.c:901
+#, no-c-format
 msgid "* May fortify, granting a 50% defensive bonus.\n"
 msgstr ""
 
-#: client/helpdata.c:901
+#: client/helpdata.c:904
 msgid "* May pillage to destroy infrastructure from tiles.\n"
 msgstr "* Võib ruudukesi infrastruktuuri hävitamiseks rüüstada.\n"
 
-#: client/helpdata.c:905
+#: client/helpdata.c:908
 msgid "* Can perform diplomatic actions, plus special spy abilities.\n"
 msgstr "* Oskab lisaks diplomaatilistele tegevustele ka spiooni tegevusi.\n"
 
-#: client/helpdata.c:908
+#: client/helpdata.c:911
 msgid "* Can perform diplomatic actions.\n"
 msgstr "* Saab diplomaatilisi tegevusi teha.\n"
 
-#: client/helpdata.c:912
+#: client/helpdata.c:915
 msgid "* Will never lose a diplomat-versus-diplomat fight.\n"
 msgstr "* Ei kaota kunagi diplomaat-vs-diplomaat võitlust.\n"
 
-#: client/helpdata.c:915
+#: client/helpdata.c:918
 msgid "* May not be bribed.\n"
 msgstr "* Ei saa ära osta.\n"
 
-#: client/helpdata.c:918
+#: client/helpdata.c:921
 msgid "* Can attack otherwise unreachable enemy units.\n"
 msgstr ""
 
-#: client/helpdata.c:922
+#: client/helpdata.c:925
 msgid "* Is invisible except when next to an enemy unit or city.\n"
 msgstr "* Nähtamatu (välja arvatud vaenlase üksuse või linna kõrval).\n"
 
-#: client/helpdata.c:926
+#: client/helpdata.c:929
 msgid "* Can only attack units on ocean squares (no land attacks).\n"
 msgstr ""
 "* Saab rünnata ainult meres asuvaid üksusi (ei saa rünnata maismaaüksusi).\n"
 
-#: client/helpdata.c:930
+#: client/helpdata.c:933
 msgid ""
 "* Can attack from aboard sea units: against enemy cities and onto land "
 "squares.\n"
 msgstr "* Saab rünnata laevade pealt linnu ja maaüksusi.\n"
 
-#: client/helpdata.c:935
+#: client/helpdata.c:938
 #, c-format
 msgid "* Can be paradropped from a friendly city (Range: %d).\n"
 msgstr ""
 
-#: client/helpdata.c:941
+#: client/helpdata.c:944
 msgid "* Gets double defense against units specified as 'mounted'.\n"
 msgstr "* Kahekordne kaitsejõud ratsaüksuste vastu kaitstes.\n"
 
-#: client/helpdata.c:945
+#: client/helpdata.c:948
 msgid "* Counts as 'mounted' against certain defenders.\n"
 msgstr "* Arvestatakse teatud üksuste ründamisel ratsaüksuseks.\n"
 
-#: client/helpdata.c:949
+#: client/helpdata.c:952
 msgid "* Counts as 'helicopter' against certain attackers.\n"
 msgstr ""
 
-#: client/helpdata.c:953
+#: client/helpdata.c:956
 #, fuzzy
 msgid "* Very good at attacking 'helicopter' units.\n"
 msgstr "Parimad ründeüksused"
 
-#: client/helpdata.c:957
+#: client/helpdata.c:960
 #, fuzzy
 msgid "* Very bad at attacking AEGIS units.\n"
 msgstr "Parimad ründeüksused"
 
-#: client/helpdata.c:962
+#: client/helpdata.c:965
 msgid "* Making an attack ends this unit's turn.\n"
 msgstr "* Ründamine lõpetab selle üksuse käigu.\n"
 
-#: client/helpdata.c:966
+#: client/helpdata.c:969
 msgid "* This unit's attack causes a nuclear explosion!\n"
 msgstr "* Selle üksuse rünnak põhjustab tuumaplahvatuse!\n"
 
-#: client/helpdata.c:970
+#: client/helpdata.c:973
 msgid "* Gets double firepower when attacking cities.\n"
 msgstr "* Topelt tulejõud linnade ründamisel.\n"
 
-#: client/helpdata.c:973
+#: client/helpdata.c:976
 msgid "* Ignores the effects of city walls.\n"
 msgstr "* Linnamüüride mõju ei lähe arvesse.\n"
 
-#: client/helpdata.c:977
+#: client/helpdata.c:980
 #, c-format
 msgid ""
 "* Does bombard attacks (%d per turn).  These attacks will only damage (never "
@@ -8595,69 +8604,70 @@ msgstr ""
 "* Teeb pommitusrünnakuid (%d rünnakut käigu kohta). Need rünnakud "
 "kahjustavad (kuid ei tapa kunagi) kaitsjat, kuid ei ole ründajale ohtlikud.\n"
 
-#: client/helpdata.c:984
+#: client/helpdata.c:987
 msgid "* Gets quintuple defense against missiles and aircraft.\n"
 msgstr "* Neljakordselt tugev kaitse õhurünnakute vastu.\n"
 
-#: client/helpdata.c:988
+#: client/helpdata.c:991
 msgid "* Ignores terrain effects (treats all squares as roads).\n"
 msgstr "* Maastik ei mõjuta seda üksust (kõik ruudukesed käituvad teedena).\n"
 
-#: client/helpdata.c:991
+#: client/helpdata.c:994
 msgid "* Ignores zones of control.\n"
 msgstr "* Ei tee välja kontrolltsoonidest.\n"
 
-#: client/helpdata.c:995
+#: client/helpdata.c:998
 msgid "* A non-military unit (cannot attack; no martial law).\n"
 msgstr "* Tsiviilüksus (ei saa rünnata ega sõjaseisukorda kehtestada).\n"
 
-#: client/helpdata.c:999
+#: client/helpdata.c:1002
 msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
 msgstr ""
 
-#: client/helpdata.c:1002
+#: client/helpdata.c:1005
 msgid "* Will never achieve veteran status.\n"
 msgstr "* Ei saavuta kunagi veterani staatust.\n"
 
-#: client/helpdata.c:1008
+#: client/helpdata.c:1011
 msgid ""
 "* Will be built as a veteran in cities with appropriate training facilities "
 "(see Airport).\n"
 msgstr ""
 
-#: client/helpdata.c:1011 client/helpdata.c:1024 client/helpdata.c:1032
+#: client/helpdata.c:1014 client/helpdata.c:1027 client/helpdata.c:1035
 msgid "* May be promoted after defeating an enemy unit.\n"
 msgstr ""
 
-#: client/helpdata.c:1016
+#: client/helpdata.c:1019
 msgid "* Will be built as a veteran under communist governments.\n"
 msgstr ""
 
-#: client/helpdata.c:1018
+#: client/helpdata.c:1021
 msgid "* May be promoted after a successful mission.\n"
 msgstr ""
 
-#: client/helpdata.c:1021
+#: client/helpdata.c:1024
 msgid ""
 "* Will be built as a veteran in cities with appropriate training facilities "
 "(see Barracks).\n"
 msgstr ""
 
-#: client/helpdata.c:1029
+#: client/helpdata.c:1032
 msgid ""
 "* Will be built as a veteran in cities with appropriate training facilities "
 "(see Port Facility).\n"
 msgstr ""
 
-#: client/helpdata.c:1035
+#: client/helpdata.c:1038
 msgid "* May be promoted after survival on the high seas.\n"
 msgstr ""
 
-#: client/helpdata.c:1039
+#: client/helpdata.c:1042
 msgid "* May be promoted through combat or training\n"
 msgstr ""
 
-#: client/helpdata.c:1045
+#: client/helpdata.c:1049
+#, no-c-format
 msgid ""
 "* Must end turn in a city or next to land, or has a 50% risk of being lost "
 "at sea.\n"
@@ -8667,27 +8677,27 @@ msgstr ""
 #. *        last two elements
 #. TRANS: List of possible output types has this between
 #. *        last two elements
-#: client/helpdata.c:1077 client/helpdata.c:1377
+#: client/helpdata.c:1081 client/helpdata.c:1381
 msgid " or "
 msgstr "või"
 
-#: client/helpdata.c:1079 client/helpdata.c:1365
+#: client/helpdata.c:1083 client/helpdata.c:1369
 msgid "?or:, "
 msgstr "?or:,"
 
-#: client/helpdata.c:1091
+#: client/helpdata.c:1095
 #, c-format
 msgid "* Unit has to be in a city, or on a %s after %d turn.\n"
 msgid_plural "* Unit has to be in a city, or on a %s after %d turns.\n"
 msgstr[0] "* Peab olema linnas või ehitises %s %d käigu järel.\n"
 msgstr[1] "* Peab olema linnas või ehitises %s %d käigu järel.\n"
 
-#: client/helpdata.c:1132
+#: client/helpdata.c:1136
 #, c-format
 msgid "If we would now start with %s we would need %d bulbs."
 msgstr "Kui me nüüd hakkaks pihta teadusega %s, oleks meil tarvis %d pirni."
 
-#: client/helpdata.c:1137
+#: client/helpdata.c:1141
 #, c-format
 msgid ""
 "To reach %s we need to obtain %d other technologies first. The whole project "
@@ -8696,66 +8706,66 @@ msgstr ""
 "Et jõuda tehnoloogiani %s, peame me enne %d muud tehnoloogiat saama. Kogu "
 "selle projekti peale läheb %d pirni."
 
-#: client/helpdata.c:1145
+#: client/helpdata.c:1149
 msgid "You cannot research this technology."
 msgstr "Seda teadust sa ei saa uurida."
 
-#: client/helpdata.c:1150
+#: client/helpdata.c:1154
 msgid " This number may vary depending on what other players will research.\n"
 msgstr ""
 "See number võib erineda, sõltuvalt sellest, millist tehnoloogiat teised "
 "mängijad uurivad.\n"
 
-#: client/helpdata.c:1162
+#: client/helpdata.c:1166
 #, c-format
 msgid "* The first player to research %s gets an immediate advance.\n"
 msgstr "* Esimene mängija, kes avastab %s, saab kohe ühe tehnoloogia lisaks.\n"
 
-#: client/helpdata.c:1168
+#: client/helpdata.c:1172
 msgid "* Increases the pollution generated by the population.\n"
 msgstr "* Suurendab rahvastiku poolt tekitatavat reostuse hulka.\n"
 
-#: client/helpdata.c:1173
+#: client/helpdata.c:1177
 #, c-format
 msgid "* Allows %s to build roads on river squares.\n"
 msgstr "* Võimaldab üksusel %s ehitada teid jõgedele.\n"
 
-#: client/helpdata.c:1181
+#: client/helpdata.c:1185
 #, c-format
 msgid "* Allows %s to upgrade roads to railroads.\n"
 msgstr "* Võimaldab üksusel %s uuendada teed raudteedeks.\n"
 
-#: client/helpdata.c:1189
+#: client/helpdata.c:1193
 #, c-format
 msgid "* Allows %s to upgrade irrigation to farmland.\n"
 msgstr "* Võimaldab üksusel %s uuendada niisutuse põllumaaks.\n"
 
-#: client/helpdata.c:1223
+#: client/helpdata.c:1227
 msgid "* Pollution cannot be generated on this terrain."
 msgstr "* Sellel pinnasel ei saa tekitada reostust."
 
-#: client/helpdata.c:1228
+#: client/helpdata.c:1232
 msgid "* You cannot build cities on this terrain."
 msgstr "* Sa ei saa sellele maastikule linnu ehitada."
 
-#: client/helpdata.c:1234
+#: client/helpdata.c:1238
 msgid "* The coastline of this terrain is unsafe."
 msgstr "* Selle piirkonna rannikuala on ebaturvaline."
 
-#: client/helpdata.c:1239
+#: client/helpdata.c:1243
 msgid "* Land units cannot travel on oceanic terrains."
 msgstr "* Maaüksused ei saa liikuda mere aladel."
 
-#: client/helpdata.c:1282
+#: client/helpdata.c:1286
 msgid "Features:\n"
 msgstr "Omadused:\n"
 
 #. TRANS: Empty output type list, should never happen.
-#: client/helpdata.c:1388 client/helpdata.c:1389
+#: client/helpdata.c:1392 client/helpdata.c:1393
 msgid "?outputlist: Nothing "
 msgstr ""
 
-#: client/helpdata.c:1396
+#: client/helpdata.c:1400
 #, c-format
 msgid ""
 "* Military units away from home and field units will cause %d citizen to "
@@ -8766,7 +8776,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: client/helpdata.c:1406
+#: client/helpdata.c:1410
 #, c-format
 msgid ""
 "* Each of your cities will avoid %d unhappiness that would otherwise be "
@@ -8775,24 +8785,24 @@ msgstr ""
 "* Igas su linnas muutub %d kodanikku vähem süjaväeüksuste tõttu õnnetuks.\n"
 
 #. TRANS: %s is the output type, like 'shield' or 'gold'.
-#: client/helpdata.c:1414
+#: client/helpdata.c:1418
 #, c-format
 msgid "* You pay %d times normal %s upkeep for your units.\n"
 msgstr "* Maksad %d korda tavalisest kõrgemat %s ülalpidamiskulu.\n"
 
-#: client/helpdata.c:1419
+#: client/helpdata.c:1423
 #, c-format
 msgid "* You pay %d times normal upkeep for your units.\n"
 msgstr ""
 "* Maksad tavalisest %d korda kõrgemaid ülalpidamiskulusid oma üksuste eest.\n"
 
 #. TRANS: %s is the output type, like 'shield' or 'gold'.
-#: client/helpdata.c:1424
+#: client/helpdata.c:1428
 #, fuzzy, c-format
 msgid "* You pay no %s upkeep for your units.\n"
 msgstr "* Maksad %d korda tavalisest kõrgemat %s ülalpidamiskulu.\n"
 
-#: client/helpdata.c:1428
+#: client/helpdata.c:1432
 #, fuzzy
 msgid "* You pay no upkeep for your units.\n"
 msgstr ""
@@ -8801,25 +8811,25 @@ msgstr ""
 #. TRANS: %s is the output type, like 'shield' or 'gold'.
 #. * There is currently no way to control the
 #. * singular/plural version of these.
-#: client/helpdata.c:1437
+#: client/helpdata.c:1441
 #, c-format
 msgid "* Each of your cities will avoid paying %d %s upkeep for your units.\n"
 msgstr ""
 
 #. TRANS: Amount is subtracted from upkeep cost
 #. * for each upkeep type.
-#: client/helpdata.c:1445
+#: client/helpdata.c:1449
 #, c-format
 msgid "* Each of your cities will avoid paying %d upkeep for your units.\n"
 msgstr ""
 
-#: client/helpdata.c:1452
+#: client/helpdata.c:1456
 #, c-format
 msgid "* If you lose your capital, chance of civil war is %d%%.\n"
 msgstr ""
 
 #. TRANS: %d should always be greater than 2.
-#: client/helpdata.c:1459
+#: client/helpdata.c:1463
 #, c-format
 msgid ""
 "* When you have %d cities, the first unhappy citizen will appear in each "
@@ -8827,24 +8837,24 @@ msgid ""
 msgstr ""
 
 #. TRANS: %d should always be greater than 2.
-#: client/helpdata.c:1466
+#: client/helpdata.c:1470
 #, c-format
 msgid ""
 "* After the first unhappy citizen due to civilization size, for each %d "
 "additional cities another unhappy citizen will appear.\n"
 msgstr ""
 
-#: client/helpdata.c:1474
+#: client/helpdata.c:1478
 #, c-format
 msgid ""
 "* The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
 msgstr ""
 
-#: client/helpdata.c:1479
+#: client/helpdata.c:1483
 msgid "* Has unlimited science/gold/luxuries rates.\n"
 msgstr ""
 
-#: client/helpdata.c:1484
+#: client/helpdata.c:1488
 #, c-format
 msgid ""
 "* Your units may impose martial law. Each military unit inside a city will "
@@ -8855,7 +8865,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: client/helpdata.c:1496
+#: client/helpdata.c:1500
 #, c-format
 msgid "* A maximum of %d unit in each city can enforce martial law.\n"
 msgid_plural "* A maximum of %d units in each city can enforce martial law.\n"
@@ -8863,36 +8873,36 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. TRANS: %d should always be greater than 2.
-#: client/helpdata.c:1507
+#: client/helpdata.c:1511
 #, c-format
 msgid ""
 "* You may grow your cities by means of celebrations. Your cities must be at "
 "least size %d.\n"
 msgstr ""
 
-#: client/helpdata.c:1512
+#: client/helpdata.c:1516
 msgid "* Your units cannot be bribed.\n"
 msgstr "* Su üksusi ei saa ära osta.\n"
 
-#: client/helpdata.c:1515
+#: client/helpdata.c:1519
 msgid "* Your cities cannot be incited.\n"
 msgstr "* Su linnu ei saa mässule õhutada.\n"
 
-#: client/helpdata.c:1519
+#: client/helpdata.c:1523
 msgid ""
 "* If any city is in disorder for more than two turns in a row, government "
 "will fall into anarchy.\n"
 msgstr ""
 
-#: client/helpdata.c:1524
+#: client/helpdata.c:1528
 msgid "* Has a senate that may prevent declaration of war.\n"
 msgstr "* Omab senatit, mis võib ära hoida sõja kuulutamise.\n"
 
-#: client/helpdata.c:1528
+#: client/helpdata.c:1532
 msgid "* Allows partisans when cities are taken by the enemy.\n"
 msgstr "* Lubab partisanidel tegutsema hakata, kui linnad vallutatakse.\n"
 
-#: client/helpdata.c:1532
+#: client/helpdata.c:1536
 msgid ""
 "* Buildings that normally confer bonuses against unhappiness will instead "
 "give gold.\n"
@@ -8900,25 +8910,25 @@ msgstr ""
 "* Ehitised, mis muidu annaks boonuseid õnnetu meeleolu vastu, toodavad "
 "hoopis kulda.\n"
 
-#: client/helpdata.c:1536
+#: client/helpdata.c:1540
 msgid "* Pays no upkeep for fanatics.\n"
 msgstr "* Ei maksa fanaatikute ülalpidamiskulusid.\n"
 
-#: client/helpdata.c:1539
+#: client/helpdata.c:1543
 msgid "* Has no unhappy citizens.\n"
 msgstr "* Pole õnnetuid kodanikke.\n"
 
-#: client/helpdata.c:1549 client/helpdata.c:1553 client/helpdata.c:1557
+#: client/helpdata.c:1553 client/helpdata.c:1557 client/helpdata.c:1561
 #, c-format
 msgid "* Veteran %s units.\n"
 msgstr "* Veteran-%s üksused.\n"
 
-#: client/helpdata.c:1560
+#: client/helpdata.c:1564
 msgid "* Veteran units.\n"
 msgstr "* Veteranid.\n"
 
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:1566
+#: client/helpdata.c:1570
 #, c-format
 msgid ""
 "* Each worked tile that gives more than %d %s will suffer a -1 penalty "
@@ -8926,7 +8936,7 @@ msgid ""
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:1574
+#: client/helpdata.c:1578
 #, c-format
 msgid ""
 "* Each worked tile with at least 1 %s will yield %d more of it while "
@@ -8934,37 +8944,37 @@ msgid ""
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:1582
+#: client/helpdata.c:1586
 #, c-format
 msgid "* Each worked tile with at least 1 %s will yield %d more of it.\n"
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1591
+#: client/helpdata.c:1595
 #, fuzzy, c-format
 msgid "* %s production is increased %d%%.\n"
 msgstr "* %s tootmisel läheb väga suur osa toodangust raisku.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1599
+#: client/helpdata.c:1603
 #, c-format
 msgid "* %s production will suffer massive waste.\n"
 msgstr "* %s tootmisel läheb väga suur osa toodangust raisku.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1604
+#: client/helpdata.c:1608
 #, c-format
 msgid "* %s production will suffer some waste.\n"
 msgstr "* %s tootmisel läheb veidike toodangust raisku.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1609
+#: client/helpdata.c:1613
 #, c-format
 msgid "* %s production will suffer a small amount of waste.\n"
 msgstr "* %s tootmisel läheb väike kogus toodangust raisku.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1617
+#: client/helpdata.c:1621
 #, fuzzy, c-format
 msgid "* %s waste will increase quickly with distance from capital.\n"
 msgstr ""
@@ -8972,38 +8982,38 @@ msgstr ""
 "pealinnast.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1623
+#: client/helpdata.c:1627
 #, c-format
 msgid "* %s waste will increase with distance from capital.\n"
 msgstr ""
 "* %s tootmisel kasvab raisku minev hulk võrreldes kaugusega pealinnast.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1629
+#: client/helpdata.c:1633
 #, c-format
 msgid "* %s waste will increase slowly with distance from capital.\n"
 msgstr ""
 "* %s tootmisel kasvab raisku minev hulk aeglaselt võrreldes kaugusega "
 "pealinnast.\n"
 
-#: client/helpdata.c:1646
+#: client/helpdata.c:1650
 #, c-format
 msgid "* Allows you to build %s.\n"
 msgstr "* Võimaldab ehitada ehitise %s.\n"
 
 #. TRANS: "2 Food" or ", 1 shield"
-#: client/helpdata.c:1672
+#: client/helpdata.c:1676
 #, c-format
 msgid "%s%d %s"
 msgstr "%s%d %s"
 
-#: client/helpdata.c:1673 client/helpdata.c:1681 client/gui-sdl/mapview.c:618
+#: client/helpdata.c:1677 client/helpdata.c:1685 client/gui-sdl/mapview.c:618
 #: client/gui-sdl/mapview.c:624 client/gui-sdl/mapview.c:630
 msgid "?blistmore:, "
 msgstr ", "
 
 #. TRANS: "2 unhappy" or ", 1 unhappy"
-#: client/helpdata.c:1680
+#: client/helpdata.c:1684
 #, c-format
 msgid "%s%d unhappy"
 msgstr "%s%d õnnetus"
@@ -10932,7 +10942,7 @@ msgstr "_Näita"
 #: client/gui-gtk-2.0/cityrep.c:795 client/gui-gtk-2.0/menu.c:843
 #: client/gui-sdl/diplodlg.c:689 client/gui-sdl/optiondlg.c:1799
 #: client/gui-win32/diplodlg.c:611 client/gui-win32/diplodlg.c:663
-#: client/gui-win32/menu.c:350 client/gui-xaw/cityrep.c:228
+#: client/gui-win32/menu.c:351 client/gui-xaw/cityrep.c:228
 #: client/gui-xaw/cityrep.c:533 client/gui-xaw/menu.c:161
 #: client/gui-xaw/menu.c:223 data/Freeciv.in:410 data/Freeciv.in:419
 #: data/Freeciv.in:1561
@@ -10949,7 +10959,7 @@ msgstr "_Vaata"
 #: client/gui-gtk-2.0/menu.c:827 client/gui-gtk-2.0/menu.c:829
 #: client/gui-gtk-2.0/menu.c:831 client/gui-gtk-2.0/menu.c:833
 #: client/gui-gtk-2.0/menu.c:835 client/gui-gtk-2.0/menu.c:837
-#: client/gui-sdl/helpdlg.c:297 client/gui-win32/menu.c:342
+#: client/gui-sdl/helpdlg.c:297 client/gui-win32/menu.c:343
 #: client/gui-xaw/menu.c:252
 msgid "Improvements"
 msgstr "Ehitised"
@@ -11248,7 +11258,7 @@ msgid "_Advances"
 msgstr ""
 
 #: client/gui-gtk-2.0/diplodlg.c:323 client/gui-gtk-2.0/menu.c:953
-#: client/gui-win32/menu.c:399
+#: client/gui-win32/menu.c:400
 msgid "_Cities"
 msgstr "_Linnad"
 
@@ -11597,7 +11607,7 @@ msgstr "Ctrl+W"
 
 #: client/gui-gtk-2.0/happiness.c:112 client/gui-sdl/citydlg.c:2051
 #: client/gui-sdl/citydlg.c:3727 client/gui-win32/citydlg.c:735
-#: client/gui-win32/happiness.c:85 client/gui-xaw/menu.c:260
+#: client/gui-win32/happiness.c:86 client/gui-xaw/menu.c:260
 #: data/helpdata.txt:1392
 msgid "Happiness"
 msgstr "Rahulolu"
@@ -11835,7 +11845,7 @@ msgstr "Parem udu töötab ainult truecolor-režiimis.  Lülitan välja"
 msgid "Leaving a local game will end it!"
 msgstr "Kohalikust mängust lahkumine lõpetab selle!"
 
-#: client/gui-gtk-2.0/menu.c:732 client/gui-win32/menu.c:303
+#: client/gui-gtk-2.0/menu.c:732 client/gui-win32/menu.c:304
 msgid "_Game"
 msgstr "_Mäng"
 
@@ -11858,23 +11868,23 @@ msgstr "Mäng"
 msgid "_Chat"
 msgstr "_Loba"
 
-#: client/gui-gtk-2.0/menu.c:738 client/gui-win32/menu.c:314
+#: client/gui-gtk-2.0/menu.c:738 client/gui-win32/menu.c:315
 msgid "_Clear Log"
 msgstr "_Puhasta logi"
 
-#: client/gui-gtk-2.0/menu.c:740 client/gui-win32/menu.c:313
+#: client/gui-gtk-2.0/menu.c:740 client/gui-win32/menu.c:314
 #, fuzzy
 msgid "_Write Log"
 msgstr "Ekspordi _logi"
 
 #: client/gui-gtk-2.0/menu.c:742 client/gui-gtk-2.0/menu.c:744
 #: client/gui-gtk-2.0/menu.c:746 client/gui-gtk-2.0/menu.c:748
-#: client/gui-gtk-2.0/menu.c:1007 client/gui-win32/menu.c:327
-#: client/gui-win32/menu.c:431
+#: client/gui-gtk-2.0/menu.c:1007 client/gui-win32/menu.c:328
+#: client/gui-win32/menu.c:432
 msgid "_Government"
 msgstr "_Valitsus"
 
-#: client/gui-gtk-2.0/menu.c:744 client/gui-win32/menu.c:322
+#: client/gui-gtk-2.0/menu.c:744 client/gui-win32/menu.c:323
 msgid "_Tax Rates"
 msgstr "_Maksumäärad"
 
@@ -11917,11 +11927,11 @@ msgstr "Salvesta seaded _Väljumisel."
 msgid "_Reload Tileset"
 msgstr "Lae ruudustik uuesti"
 
-#: client/gui-gtk-2.0/menu.c:768 client/gui-win32/menu.c:310
+#: client/gui-gtk-2.0/menu.c:768 client/gui-win32/menu.c:311
 msgid "_Save Game"
 msgstr "_Salvesta mäng"
 
-#: client/gui-gtk-2.0/menu.c:771 client/gui-win32/menu.c:311
+#: client/gui-gtk-2.0/menu.c:771 client/gui-win32/menu.c:312
 msgid "Save Game _As..."
 msgstr "Salvesta mäng _kui..."
 
@@ -11929,7 +11939,7 @@ msgstr "Salvesta mäng _kui..."
 msgid "_Leave"
 msgstr "_Lahku"
 
-#: client/gui-gtk-2.0/menu.c:778 client/gui-win32/menu.c:317
+#: client/gui-gtk-2.0/menu.c:778 client/gui-win32/menu.c:318
 msgid "_Quit"
 msgstr "_Välju"
 
@@ -11937,15 +11947,15 @@ msgstr "_Välju"
 #: client/gui-gtk-2.0/menu.c:787 client/gui-gtk-2.0/menu.c:789
 #: client/gui-gtk-2.0/menu.c:791 client/gui-gtk-2.0/menu.c:794
 #: client/gui-gtk-2.0/menu.c:796 client/gui-gtk-2.0/menu.c:798
-#: client/gui-gtk-2.0/menu.c:800 client/gui-win32/menu.c:321
+#: client/gui-gtk-2.0/menu.c:800 client/gui-win32/menu.c:322
 msgid "_Edit"
 msgstr "R_edigeeri"
 
-#: client/gui-gtk-2.0/menu.c:787 client/gui-win32/menu.c:324
+#: client/gui-gtk-2.0/menu.c:787 client/gui-win32/menu.c:325
 msgid "_Find City"
 msgstr "_Leia linn"
 
-#: client/gui-gtk-2.0/menu.c:789 client/gui-win32/menu.c:325
+#: client/gui-gtk-2.0/menu.c:789 client/gui-win32/menu.c:326
 msgid "_Worklists"
 msgstr "_Tööde nimekirjad"
 
@@ -11967,7 +11977,7 @@ msgid "Regenerate _Water"
 msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:804 client/gui-gtk-2.0/menu.c:947
-#: client/gui-win32/menu.c:334
+#: client/gui-win32/menu.c:335
 msgid "_View"
 msgstr "_Vaade"
 
@@ -11975,67 +11985,67 @@ msgstr "_Vaade"
 msgid "City Outlines"
 msgstr "Linna piirid"
 
-#: client/gui-gtk-2.0/menu.c:810 client/gui-win32/menu.c:335
+#: client/gui-gtk-2.0/menu.c:810 client/gui-win32/menu.c:336
 msgid "Map _Grid"
 msgstr "_Kaardiruudustik"
 
-#: client/gui-gtk-2.0/menu.c:812 client/gui-win32/menu.c:336
+#: client/gui-gtk-2.0/menu.c:812 client/gui-win32/menu.c:337
 msgid "National _Borders"
 msgstr "_Riigipiirid"
 
-#: client/gui-gtk-2.0/menu.c:814 client/gui-win32/menu.c:337
+#: client/gui-gtk-2.0/menu.c:814 client/gui-win32/menu.c:338
 msgid "City _Names"
 msgstr "Linna_nimed"
 
-#: client/gui-gtk-2.0/menu.c:816 client/gui-win32/menu.c:338
+#: client/gui-gtk-2.0/menu.c:816 client/gui-win32/menu.c:339
 msgid "City G_rowth"
 msgstr "Linna kasv"
 
-#: client/gui-gtk-2.0/menu.c:819 client/gui-win32/menu.c:339
+#: client/gui-gtk-2.0/menu.c:819 client/gui-win32/menu.c:340
 msgid "City _Productions"
 msgstr "Linna toodang"
 
 #: client/gui-gtk-2.0/menu.c:823 client/gui-sdl/optiondlg.c:1634
-#: client/gui-win32/menu.c:340 client/gui-xaw/menu.c:153
+#: client/gui-win32/menu.c:341 client/gui-xaw/menu.c:153
 #: client/gui-xaw/menu.c:257 manual/civmanual.c:211 data/helpdata.txt:1221
 msgid "Terrain"
 msgstr "Maastik"
 
-#: client/gui-gtk-2.0/menu.c:825 client/gui-win32/menu.c:341
+#: client/gui-gtk-2.0/menu.c:825 client/gui-win32/menu.c:342
 #: client/gui-xaw/menu.c:154
 msgid "Coastline"
 msgstr "Rannajoon"
 
-#: client/gui-gtk-2.0/menu.c:831 client/gui-win32/menu.c:343
+#: client/gui-gtk-2.0/menu.c:831 client/gui-win32/menu.c:344
 msgid "Roads & Rails"
 msgstr "Teed & Raudteed"
 
 #: client/gui-gtk-2.0/menu.c:835 client/gui-sdl/optiondlg.c:1932
-#: client/gui-win32/menu.c:345 client/gui-xaw/menu.c:157
+#: client/gui-win32/menu.c:346 client/gui-xaw/menu.c:157
 msgid "Mines"
 msgstr "Kaevandused"
 
-#: client/gui-gtk-2.0/menu.c:837 client/gui-win32/menu.c:346
+#: client/gui-gtk-2.0/menu.c:837 client/gui-win32/menu.c:347
 msgid "Fortress & Airbase"
 msgstr "Kindlused & Lennubaasid"
 
-#: client/gui-gtk-2.0/menu.c:839 client/gui-win32/menu.c:348
+#: client/gui-gtk-2.0/menu.c:839 client/gui-win32/menu.c:349
 #: client/gui-xaw/menu.c:159
 msgid "Specials"
 msgstr "Spetsiaalid"
 
-#: client/gui-gtk-2.0/menu.c:841 client/gui-win32/menu.c:349
+#: client/gui-gtk-2.0/menu.c:841 client/gui-win32/menu.c:350
 #: client/gui-xaw/menu.c:160
 msgid "Pollution & Fallout"
 msgstr "Saast & Tuumajäätmed"
 
-#: client/gui-gtk-2.0/menu.c:847 client/gui-win32/menu.c:352
+#: client/gui-gtk-2.0/menu.c:847 client/gui-win32/menu.c:353
 #: client/gui-xaw/menu.c:163
 msgid "Focus Unit"
 msgstr "Fokusseeri üksus"
 
 #: client/gui-gtk-2.0/menu.c:849 client/gui-sdl/optiondlg.c:1853
-#: client/gui-win32/menu.c:353 client/gui-xaw/menu.c:164
+#: client/gui-win32/menu.c:354 client/gui-xaw/menu.c:164
 msgid "Fog of War"
 msgstr "Sõjaudu"
 
@@ -12047,7 +12057,7 @@ msgstr "_Täisekraan"
 msgid "_Center View"
 msgstr "_Tsentreeri vaade"
 
-#: client/gui-gtk-2.0/menu.c:860 client/gui-win32/menu.c:358
+#: client/gui-gtk-2.0/menu.c:860 client/gui-win32/menu.c:359
 msgid "_Orders"
 msgstr "_Käsud"
 
@@ -12076,22 +12086,22 @@ msgid "Orders"
 msgstr "Käsud"
 
 #: client/gui-gtk-2.0/menu.c:864 client/gui-gtk-2.0/menu.c:1488
-#: client/gui-win32/menu.c:359
+#: client/gui-win32/menu.c:360
 msgid "_Build City"
 msgstr "Raja _linn"
 
 #: client/gui-gtk-2.0/menu.c:866 client/gui-gtk-2.0/menu.c:1510
-#: client/gui-gtk-2.0/menu.c:1516 client/gui-win32/menu.c:360
+#: client/gui-gtk-2.0/menu.c:1516 client/gui-win32/menu.c:361
 msgid "Build _Road"
 msgstr "Ehita Tee"
 
 #: client/gui-gtk-2.0/menu.c:868 client/gui-gtk-2.0/menu.c:1404
-#: client/gui-win32/menu.c:361
+#: client/gui-win32/menu.c:362
 msgid "Build _Irrigation"
 msgstr "_Niisuta maa-ala"
 
 #: client/gui-gtk-2.0/menu.c:870 client/gui-gtk-2.0/menu.c:1405
-#: client/gui-win32/menu.c:362
+#: client/gui-win32/menu.c:363
 msgid "Build _Mine"
 msgstr "Ehita Kaevandus"
 
@@ -12100,32 +12110,32 @@ msgid "Transf_orm Terrain"
 msgstr "_Muuda maastikku"
 
 #: client/gui-gtk-2.0/menu.c:874 client/gui-gtk-2.0/menu.c:1552
-#: client/gui-win32/menu.c:364
+#: client/gui-win32/menu.c:365
 msgid "Build _Fortress"
 msgstr "Ehita _kindlus"
 
-#: client/gui-gtk-2.0/menu.c:876 client/gui-win32/menu.c:365
+#: client/gui-gtk-2.0/menu.c:876 client/gui-win32/menu.c:366
 msgid "Build Airbas_e"
 msgstr "Ehita _lennubaas"
 
 #: client/gui-gtk-2.0/menu.c:878 client/gui-gtk-2.0/menu.c:1558
-#: client/gui-win32/menu.c:366
+#: client/gui-win32/menu.c:367
 msgid "Clean _Pollution"
 msgstr "_Puhasta reostus"
 
-#: client/gui-gtk-2.0/menu.c:880 client/gui-win32/menu.c:367
+#: client/gui-gtk-2.0/menu.c:880 client/gui-win32/menu.c:368
 msgid "Clean _Nuclear Fallout"
 msgstr "Puhasta _tuumajäätmetest"
 
-#: client/gui-gtk-2.0/menu.c:884 client/gui-win32/menu.c:369
+#: client/gui-gtk-2.0/menu.c:884 client/gui-win32/menu.c:370
 msgid "_Sentry"
 msgstr "Pea vahti"
 
-#: client/gui-gtk-2.0/menu.c:890 client/gui-win32/menu.c:372
+#: client/gui-gtk-2.0/menu.c:890 client/gui-win32/menu.c:373
 msgid "Make _Homecity"
 msgstr "Tee kodulinnaks"
 
-#: client/gui-gtk-2.0/menu.c:892 client/gui-win32/menu.c:373
+#: client/gui-gtk-2.0/menu.c:892 client/gui-win32/menu.c:374
 msgid "_Load"
 msgstr "_Lae"
 
@@ -12133,11 +12143,11 @@ msgstr "_Lae"
 msgid "_Unload Transporter"
 msgstr "_Lae transporter tühjaks"
 
-#: client/gui-gtk-2.0/menu.c:896 client/gui-win32/menu.c:374
+#: client/gui-gtk-2.0/menu.c:896 client/gui-win32/menu.c:375
 msgid "_Unload"
 msgstr "Lae maha"
 
-#: client/gui-gtk-2.0/menu.c:898 client/gui-win32/menu.c:375
+#: client/gui-gtk-2.0/menu.c:898 client/gui-win32/menu.c:376
 msgid "Wake up o_thers"
 msgstr "Ärata teised"
 
@@ -12145,7 +12155,7 @@ msgstr "Ärata teised"
 msgid "_Auto Settler"
 msgstr "Automaatne asunik"
 
-#: client/gui-gtk-2.0/menu.c:904 client/gui-win32/menu.c:378
+#: client/gui-gtk-2.0/menu.c:904 client/gui-win32/menu.c:379
 msgid "Auto E_xplore"
 msgstr "Automaatne avastamin_e"
 
@@ -12154,15 +12164,15 @@ msgstr "Automaatne avastamin_e"
 msgid "_Connect"
 msgstr "Ü_henda"
 
-#: client/gui-gtk-2.0/menu.c:906 client/gui-win32/menu.c:380
+#: client/gui-gtk-2.0/menu.c:906 client/gui-win32/menu.c:381
 msgid "_Road"
 msgstr "_Tee"
 
-#: client/gui-gtk-2.0/menu.c:908 client/gui-win32/menu.c:381
+#: client/gui-gtk-2.0/menu.c:908 client/gui-win32/menu.c:382
 msgid "Rai_l"
 msgstr "_Raudtee"
 
-#: client/gui-gtk-2.0/menu.c:910 client/gui-win32/menu.c:382
+#: client/gui-gtk-2.0/menu.c:910 client/gui-win32/menu.c:383
 msgid "_Irrigate"
 msgstr "_Niisuta"
 
@@ -12178,7 +12188,7 @@ msgstr "Raja _linn"
 msgid "Patrol (_Q)"
 msgstr "Patrulli (_Q)"
 
-#: client/gui-gtk-2.0/menu.c:916 client/gui-win32/menu.c:385
+#: client/gui-gtk-2.0/menu.c:916 client/gui-win32/menu.c:386
 msgid "_Go to"
 msgstr "_Mine"
 
@@ -12187,11 +12197,11 @@ msgid "Go\\/Airlift to City"
 msgstr "Mine/lenda linna"
 
 #: client/gui-gtk-2.0/menu.c:920 client/gui-sdl/menu.c:451
-#: client/gui-win32/menu.c:387 client/gui-xaw/menu.c:208
+#: client/gui-win32/menu.c:388 client/gui-xaw/menu.c:208
 msgid "Return to nearest city"
 msgstr "Naase lähimasse linna"
 
-#: client/gui-gtk-2.0/menu.c:924 client/gui-win32/menu.c:389
+#: client/gui-gtk-2.0/menu.c:924 client/gui-win32/menu.c:390
 #: client/gui-xaw/menu.c:210
 msgid "Disband Unit"
 msgstr "Saada laiali"
@@ -12206,7 +12216,7 @@ msgid "Diplomat\\/Spy Actions"
 msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:930 client/gui-sdl/menu.c:400
-#: client/gui-win32/menu.c:391 client/gui-xaw/menu.c:214
+#: client/gui-win32/menu.c:392 client/gui-xaw/menu.c:214
 msgid "Explode Nuclear"
 msgstr "Lõhka tuumapea"
 
@@ -12219,16 +12229,16 @@ msgstr "Vali sama tüüp"
 msgid "Select same type in tile"
 msgstr "Vali linn"
 
-#: client/gui-gtk-2.0/menu.c:938 client/gui-win32/menu.c:393
+#: client/gui-gtk-2.0/menu.c:938 client/gui-win32/menu.c:394
 msgid "_Wait"
 msgstr "_Oota"
 
-#: client/gui-gtk-2.0/menu.c:940 client/gui-win32/menu.c:394
+#: client/gui-gtk-2.0/menu.c:940 client/gui-win32/menu.c:395
 #: client/gui-xaw/menu.c:218
 msgid "Done"
 msgstr "_Valmis"
 
-#: client/gui-gtk-2.0/menu.c:943 client/gui-win32/menu.c:398
+#: client/gui-gtk-2.0/menu.c:943 client/gui-win32/menu.c:399
 msgid "_Reports"
 msgstr "_Raportid"
 
@@ -12243,48 +12253,48 @@ msgid "Reports"
 msgstr "Raportid"
 
 #: client/gui-gtk-2.0/menu.c:949 client/gui-gtk-2.0/menu.c:995
-#: client/gui-win32/menu.c:400 client/gui-win32/menu.c:425
+#: client/gui-win32/menu.c:401 client/gui-win32/menu.c:426
 msgid "_Units"
 msgstr "Üks_used"
 
 #. TRANS: Nations report action
-#: client/gui-gtk-2.0/menu.c:951 client/gui-win32/menu.c:402
+#: client/gui-gtk-2.0/menu.c:951 client/gui-win32/menu.c:403
 #, fuzzy
 msgid "_Nations"
 msgstr "_Rahvused"
 
-#: client/gui-gtk-2.0/menu.c:955 client/gui-win32/menu.c:403
+#: client/gui-gtk-2.0/menu.c:955 client/gui-win32/menu.c:404
 msgid "_Economy"
 msgstr "M_ajandus"
 
 #. TRANS: Research report action
-#: client/gui-gtk-2.0/menu.c:957 client/gui-win32/menu.c:405
+#: client/gui-gtk-2.0/menu.c:957 client/gui-win32/menu.c:406
 #, fuzzy
 msgid "_Research"
 msgstr "_Teadus"
 
-#: client/gui-gtk-2.0/menu.c:961 client/gui-win32/menu.c:407
+#: client/gui-gtk-2.0/menu.c:961 client/gui-win32/menu.c:408
 msgid "_Wonders of the World"
 msgstr "_Ilmaimed"
 
-#: client/gui-gtk-2.0/menu.c:963 client/gui-win32/menu.c:408
+#: client/gui-gtk-2.0/menu.c:963 client/gui-win32/menu.c:409
 msgid "_Top Five Cities"
 msgstr "_Viis vingeimat linna"
 
-#: client/gui-gtk-2.0/menu.c:965 client/gui-win32/menu.c:409
+#: client/gui-gtk-2.0/menu.c:965 client/gui-win32/menu.c:410
 msgid "_Messages"
 msgstr "_Teated"
 
-#: client/gui-gtk-2.0/menu.c:967 client/gui-win32/menu.c:410
+#: client/gui-gtk-2.0/menu.c:967 client/gui-win32/menu.c:411
 msgid "_Demographics"
 msgstr "_Demograafia"
 
 #: client/gui-gtk-2.0/menu.c:969 client/gui-gtk-2.0/plrdlg.c:477
-#: client/gui-win32/menu.c:411
+#: client/gui-win32/menu.c:412
 msgid "_Spaceship"
 msgstr "Ko_smoselaev"
 
-#: client/gui-gtk-2.0/menu.c:973 client/gui-win32/menu.c:415
+#: client/gui-gtk-2.0/menu.c:973 client/gui-win32/menu.c:416
 msgid "_Help"
 msgstr "_Abi"
 
@@ -12306,71 +12316,71 @@ msgstr "_Abi"
 msgid "Help"
 msgstr "Abi"
 
-#: client/gui-gtk-2.0/menu.c:977 client/gui-win32/menu.c:416
+#: client/gui-gtk-2.0/menu.c:977 client/gui-win32/menu.c:417
 msgid "Language_s"
 msgstr "_Keeled"
 
-#: client/gui-gtk-2.0/menu.c:979 client/gui-win32/menu.c:417
+#: client/gui-gtk-2.0/menu.c:979 client/gui-win32/menu.c:418
 msgid "Co_nnecting"
 msgstr "Ü_hendumine"
 
-#: client/gui-gtk-2.0/menu.c:981 client/gui-win32/menu.c:418
+#: client/gui-gtk-2.0/menu.c:981 client/gui-win32/menu.c:419
 msgid "C_ontrols"
 msgstr ""
 
-#: client/gui-gtk-2.0/menu.c:983 client/gui-win32/menu.c:419
+#: client/gui-gtk-2.0/menu.c:983 client/gui-win32/menu.c:420
 msgid "C_hatline"
 msgstr "Vestlus"
 
-#: client/gui-gtk-2.0/menu.c:985 client/gui-win32/menu.c:420
+#: client/gui-gtk-2.0/menu.c:985 client/gui-win32/menu.c:421
 msgid "_Worklist Editor"
 msgstr "_Tööde nimekirja redaktor"
 
-#: client/gui-gtk-2.0/menu.c:987 client/gui-win32/menu.c:421
+#: client/gui-gtk-2.0/menu.c:987 client/gui-win32/menu.c:422
 msgid "Citizen _Management"
 msgstr "Kodanike _haldus"
 
-#: client/gui-gtk-2.0/menu.c:989 client/gui-win32/menu.c:422
+#: client/gui-gtk-2.0/menu.c:989 client/gui-win32/menu.c:423
 msgid "_Playing"
 msgstr "_Mängimine"
 
-#: client/gui-gtk-2.0/menu.c:993 client/gui-win32/menu.c:424
+#: client/gui-gtk-2.0/menu.c:993 client/gui-win32/menu.c:425
 msgid "City _Improvements"
 msgstr "_Ehitised"
 
-#: client/gui-gtk-2.0/menu.c:997 client/gui-win32/menu.c:426
+#: client/gui-gtk-2.0/menu.c:997 client/gui-win32/menu.c:427
 msgid "Com_bat"
 msgstr "Võitlemine"
 
-#: client/gui-gtk-2.0/menu.c:999 client/gui-win32/menu.c:427
+#: client/gui-gtk-2.0/menu.c:999 client/gui-win32/menu.c:428
 msgid "_ZOC"
 msgstr "Kontrollitavad alad"
 
-#: client/gui-gtk-2.0/menu.c:1001 client/gui-win32/menu.c:428
+#: client/gui-gtk-2.0/menu.c:1001 client/gui-win32/menu.c:429
 msgid "Techno_logy"
 msgstr "Tehno_loogia"
 
-#: client/gui-gtk-2.0/menu.c:1003 client/gui-win32/menu.c:429
+#: client/gui-gtk-2.0/menu.c:1003 client/gui-win32/menu.c:430
 msgid "_Terrain"
 msgstr "Maas_tik"
 
-#: client/gui-gtk-2.0/menu.c:1005 client/gui-win32/menu.c:430
+#: client/gui-gtk-2.0/menu.c:1005 client/gui-win32/menu.c:431
 msgid "Won_ders"
 msgstr "Ilmaime_d"
 
-#: client/gui-gtk-2.0/menu.c:1009 client/gui-win32/menu.c:432
+#: client/gui-gtk-2.0/menu.c:1009 client/gui-win32/menu.c:433
 msgid "Happin_ess"
 msgstr "Õnn"
 
-#: client/gui-gtk-2.0/menu.c:1011 client/gui-win32/menu.c:433
+#: client/gui-gtk-2.0/menu.c:1011 client/gui-win32/menu.c:434
 msgid "Space _Race"
 msgstr "Kosmose _ralli"
 
-#: client/gui-gtk-2.0/menu.c:1015 client/gui-win32/menu.c:435
+#: client/gui-gtk-2.0/menu.c:1015 client/gui-win32/menu.c:436
 msgid "_Copying"
 msgstr "Koopiate tegemine"
 
-#: client/gui-gtk-2.0/menu.c:1017 client/gui-win32/menu.c:436
+#: client/gui-gtk-2.0/menu.c:1017 client/gui-win32/menu.c:437
 msgid "_About"
 msgstr "_Info"
 
@@ -12719,7 +12729,7 @@ msgstr "Vali _stsenaarium:"
 msgid "Choose a _nation to play:"
 msgstr "Vali _rahvus, mida mängida:"
 
-#: client/gui-gtk-2.0/pages.c:2278 client/gui-win32/menu.c:581
+#: client/gui-gtk-2.0/pages.c:2278 client/gui-win32/menu.c:582
 msgid "Select Location to Save"
 msgstr "Vali koht salvestamiseks"
 
@@ -13500,7 +13510,7 @@ msgid "Port :"
 msgstr "Port :"
 
 #: client/gui-sdl/connectdlg.c:608 client/gui-win32/connectdlg.c:1102
-#: client/gui-win32/menu.c:379 data/Freeciv.in:104 data/Freeciv.in:2517
+#: client/gui-win32/menu.c:380 data/Freeciv.in:104 data/Freeciv.in:2517
 msgid "Connect"
 msgstr "Ühenda"
 
@@ -14211,7 +14221,7 @@ msgstr "Lennuta"
 msgid "Goto location"
 msgstr "Mine teise kohta"
 
-#: client/gui-sdl/menu.c:502 client/gui-win32/menu.c:384
+#: client/gui-sdl/menu.c:502 client/gui-win32/menu.c:385
 #: client/gui-xaw/menu.c:205
 msgid "Patrol"
 msgstr "Patrulli"
@@ -14264,12 +14274,12 @@ msgstr "Leia kodulinn"
 msgid "Clean Nuclear Fallout"
 msgstr "Puhasta tuumajäätmetest"
 
-#: client/gui-sdl/menu.c:686 client/gui-win32/menu.c:1255
+#: client/gui-sdl/menu.c:686 client/gui-win32/menu.c:1256
 #: client/gui-xaw/menu.c:185
 msgid "Paradrop"
 msgstr ""
 
-#: client/gui-sdl/menu.c:698 client/gui-win32/menu.c:1257
+#: client/gui-sdl/menu.c:698 client/gui-win32/menu.c:1258
 #: client/gui-xaw/menu.c:184
 msgid "Clean Pollution"
 msgstr "Puhasta reostusest"
@@ -14278,12 +14288,12 @@ msgstr "Puhasta reostusest"
 msgid "Build Airbase"
 msgstr "Ehita lennubaas"
 
-#: client/gui-sdl/menu.c:722 client/gui-win32/menu.c:1248
+#: client/gui-sdl/menu.c:722 client/gui-win32/menu.c:1249
 #: client/gui-xaw/menu.c:188
 msgid "Fortify"
 msgstr "Kindlusta"
 
-#: client/gui-sdl/menu.c:734 client/gui-win32/menu.c:1250
+#: client/gui-sdl/menu.c:734 client/gui-win32/menu.c:1251
 #: client/gui-xaw/menu.c:182
 msgid "Build Fortress"
 msgstr "Ehita kindlus"
@@ -14293,12 +14303,12 @@ msgid "Transform Tile"
 msgstr "Muuda kaardiruutu"
 
 #: client/gui-sdl/menu.c:759 client/gui-sdl/menu.c:1139
-#: client/gui-win32/menu.c:1117 client/gui-xaw/menu.c:178
+#: client/gui-win32/menu.c:1118 client/gui-xaw/menu.c:178
 msgid "Build Mine"
 msgstr "Ehita kaevandus"
 
 #: client/gui-sdl/menu.c:773 client/gui-sdl/menu.c:1104
-#: client/gui-win32/menu.c:1116 client/gui-xaw/menu.c:175
+#: client/gui-win32/menu.c:1117 client/gui-xaw/menu.c:175
 msgid "Build Irrigation"
 msgstr "Niisuta maa-ala"
 
@@ -14307,23 +14317,23 @@ msgid "Form Traderoute"
 msgstr "Loo kaubatee"
 
 #: client/gui-sdl/menu.c:802 client/gui-sdl/menu.c:1043
-#: client/gui-win32/menu.c:1206 client/gui-xaw/menu.c:174
+#: client/gui-win32/menu.c:1207 client/gui-xaw/menu.c:174
 msgid "Build Railroad"
 msgstr "Ehita raudtee"
 
 #: client/gui-sdl/menu.c:806 client/gui-sdl/menu.c:1049
-#: client/gui-win32/menu.c:1209 client/gui-win32/menu.c:1214
+#: client/gui-win32/menu.c:1210 client/gui-win32/menu.c:1215
 #: client/gui-xaw/menu.c:173
 msgid "Build Road"
 msgstr "Ehita tee"
 
-#: client/gui-sdl/menu.c:826 client/gui-win32/menu.c:1188
+#: client/gui-sdl/menu.c:826 client/gui-win32/menu.c:1189
 #: client/gui-xaw/menu.c:211
 msgid "Help Build Wonder"
 msgstr "Aita ilmaimet ehitada"
 
 #: client/gui-sdl/menu.c:838 client/gui-sdl/menu.c:1022
-#: client/gui-win32/menu.c:1192 client/gui-xaw/menu.c:172
+#: client/gui-win32/menu.c:1193 client/gui-xaw/menu.c:172
 msgid "Add to City"
 msgstr ""
 
@@ -15273,80 +15283,80 @@ msgstr ""
 "Kulda: %d\n"
 "Maks: %d Hüve: %d Tead: %d"
 
-#: client/gui-win32/menu.c:304
+#: client/gui-win32/menu.c:305
 msgid "Local _Options"
 msgstr "Lokaalsed _Seaded"
 
-#: client/gui-win32/menu.c:305
+#: client/gui-win32/menu.c:306
 msgid "_Message Options"
 msgstr "_Teadete seaded"
 
-#: client/gui-win32/menu.c:306
+#: client/gui-win32/menu.c:307
 msgid "Sa_ve Settings"
 msgstr "Sal_vesta seaded"
 
-#: client/gui-win32/menu.c:308
+#: client/gui-win32/menu.c:309
 msgid "Server O_ptions"
 msgstr "Serveri v_alikud"
 
-#: client/gui-win32/menu.c:316
+#: client/gui-win32/menu.c:317
 msgid "_Disconnect"
 msgstr "Katkesta ühendus"
 
-#: client/gui-win32/menu.c:328
+#: client/gui-win32/menu.c:329
 msgid "_Revolution"
 msgstr "_Revolutsioon"
 
-#: client/gui-win32/menu.c:355 client/gui-xaw/menu.c:166
+#: client/gui-win32/menu.c:356 client/gui-xaw/menu.c:166
 msgid "Center View"
 msgstr "Vaade Keskele"
 
-#: client/gui-win32/menu.c:363
+#: client/gui-win32/menu.c:364
 msgid "Transf_orm to Hills"
 msgstr "Muuda mägedeks"
 
-#: client/gui-win32/menu.c:377 client/gui-win32/menu.c:1265
+#: client/gui-win32/menu.c:378 client/gui-win32/menu.c:1266
 #: client/gui-xaw/menu.c:199
 msgid "Auto Settler"
 msgstr "Automaatne asunik"
 
-#: client/gui-win32/menu.c:386 client/gui-xaw/menu.c:207
+#: client/gui-win32/menu.c:387 client/gui-xaw/menu.c:207
 msgid "Go/Airlift to City"
 msgstr "Mine/Lenda Linna"
 
-#: client/gui-win32/menu.c:390 client/gui-xaw/menu.c:213
+#: client/gui-win32/menu.c:391 client/gui-xaw/menu.c:213
 msgid "Diplomat/Spy Actions"
 msgstr "Diplomaadi/Spiooni tegevused"
 
-#: client/gui-win32/menu.c:1109 client/gui-win32/menu.c:1110
+#: client/gui-win32/menu.c:1110 client/gui-win32/menu.c:1111
 #: client/gui-xaw/menu.c:177 client/gui-xaw/menu.c:179
 #, c-format
 msgid "Change to %s"
 msgstr ""
 
-#: client/gui-win32/menu.c:1111 client/gui-xaw/menu.c:181
+#: client/gui-win32/menu.c:1112 client/gui-xaw/menu.c:181
 #, c-format
 msgid "Transform to %s"
 msgstr "Muuda %s-ks"
 
-#: client/gui-win32/menu.c:1118 client/gui-xaw/menu.c:180
+#: client/gui-win32/menu.c:1119 client/gui-xaw/menu.c:180
 msgid "Transform Terrain"
 msgstr "Muunda Maapinda"
 
-#: client/gui-win32/menu.c:1195 client/gui-win32/menu.c:1199
+#: client/gui-win32/menu.c:1196 client/gui-win32/menu.c:1200
 #: client/gui-xaw/menu.c:171
 msgid "Build City"
 msgstr "Raja linn"
 
-#: client/gui-win32/menu.c:1203 client/gui-xaw/menu.c:212
+#: client/gui-win32/menu.c:1204 client/gui-xaw/menu.c:212
 msgid "Make Trade Route"
 msgstr "Ava kaubandustee"
 
-#: client/gui-win32/menu.c:1227 client/gui-xaw/menu.c:176
+#: client/gui-win32/menu.c:1228 client/gui-xaw/menu.c:176
 msgid "Build Farmland"
 msgstr "Ehita põllumaa"
 
-#: client/gui-win32/menu.c:1262 client/gui-xaw/menu.c:200
+#: client/gui-win32/menu.c:1263 client/gui-xaw/menu.c:200
 msgid "Auto Attack"
 msgstr "Auto rünnak"
 
