@@ -1,7 +1,7 @@
 # German Translation for Freeciv
-# Copyright (C) 1999-2007 Free Software Foundation, Inc.
+# Copyright (C) 1999-2008 Free Software Foundation, Inc.
 # Egbert Hinzen <egbert@hinzen-koeln.de>, 1999-2002.
-# Christian Knoke <chrisk@cknoke.de>, 2003-2007.
+# Christian Knoke <chrisk@cknoke.de>, 2003-2008.
 #
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # + '# ?'  markiert Stellen, die noch nicht übersetzt wurden.           +
@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-27 18:27-0500\n"
+"POT-Creation-Date: 2008-01-28 13:00+0100\n"
 "PO-Revision-Date: 2007-08-11 01:23+0300\n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -701,9 +701,9 @@ msgid "Size %d"
 msgstr "Größe %d"
 
 #: common/requirements.c:1237 common/requirements.c:1246
-#, fuzzy, c-format
+#, c-format
 msgid "\"%s\" units"
-msgstr "%s Einheiten"
+msgstr "'%s' Einheiten"
 
 #: common/requirements.c:1242
 #, c-format
@@ -901,9 +901,9 @@ msgid "(beta version)"
 msgstr "(Beta-Version)"
 
 #: common/version.c:41
-#, fuzzy, c-format
+#, c-format
 msgid "Freeciv version %s (%s)"
-msgstr "Freeciv Version %s %s"
+msgstr "Freeciv Version %s (%s)"
 
 #: common/version.c:44
 #, c-format
@@ -1016,33 +1016,28 @@ msgid "Flush ok"
 msgstr ""
 
 #: utility/ioz.c:512
-#, fuzzy
 msgid "Finish ok"
-msgstr "finnisch"
+msgstr ""
 
 #: utility/ioz.c:515
-#, fuzzy
 msgid "Stream end"
-msgstr "Dampfmaschine"
+msgstr ""
 
 #: utility/ioz.c:518
-#, fuzzy
 msgid "Config error"
-msgstr "Einstellen"
+msgstr ""
 
 #: utility/ioz.c:521
-#, fuzzy
 msgid "Sequence error"
-msgstr "Forschungsbericht..."
+msgstr ""
 
 #: utility/ioz.c:524
 msgid "Parameter error"
 msgstr ""
 
 #: utility/ioz.c:527
-#, fuzzy
 msgid "Mem error"
-msgstr "Kaiser"
+msgstr ""
 
 #: utility/ioz.c:530
 msgid "Data error"
@@ -1053,9 +1048,8 @@ msgid "Not bzip2 file"
 msgstr ""
 
 #: utility/ioz.c:536
-#, fuzzy
 msgid "IO error"
-msgstr "Unser Gebiet"
+msgstr ""
 
 #: utility/ioz.c:539
 msgid "Unexpected EOF"
@@ -1066,9 +1060,9 @@ msgid "Output buffer full"
 msgstr ""
 
 #: utility/ioz.c:549
-#, fuzzy, c-format
+#, c-format
 msgid "Bz2: \"%s\" (%d)"
-msgstr "Jahr: %s (Ru. %d)"
+msgstr ""
 
 #: utility/ioz.c:552
 #, c-format
@@ -1821,7 +1815,7 @@ msgstr "%s gingen mit der Kontrolle von %s verloren."
 
 #. TRANS: <building> ... <city>
 #: server/citytools.c:761
-#, fuzzy, c-format
+#, c-format
 msgid "A replacement %s was built in %s."
 msgstr "%s wurde in %s neu errichtet."
 
@@ -2169,12 +2163,12 @@ msgid "Pollution near %s."
 msgstr "Umweltverschmutzung bei %s."
 
 #: server/cityturn.c:1570
-#, fuzzy, c-format
+#, c-format
 msgid "Celebrations in your honour in %s."
 msgstr "Zu Deinen Ehren werden in %s Feiern veranstaltet."
 
 #: server/cityturn.c:1576
-#, fuzzy, c-format
+#, c-format
 msgid "Celebrations canceled in %s."
 msgstr "Die Feiern in %s wurden abgesagt."
 
@@ -3567,9 +3561,9 @@ msgstr "Die %s vernichteten %s in %s."
 
 #. TRANS: <unit> ... <diplomat>
 #: server/diplomats.c:1094
-#, fuzzy, c-format
+#, c-format
 msgid "An enemy %s has been eliminated by your %s."
-msgstr "Ein feindlicher %s wurde bei der Verteidigung von %s getötet."
+msgstr "Feindlicher %s wurde von Deinem %s getötet."
 
 #. TRANS: <unit> ... <city> ... <diplomat>
 #: server/diplomats.c:1101
@@ -3579,9 +3573,9 @@ msgstr "%s wurde während des Dienstes von einem %s in %s getötet."
 
 #. TRANS: <unit> ... <diplomat>
 #: server/diplomats.c:1109
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s has been eliminated defending against a %s."
-msgstr "%s wurde während des Dienstes von einem in %s getötet."
+msgstr "%s wurde von feindlichem %s getötet."
 
 #: server/diplomats.c:1122
 #, c-format
@@ -3599,27 +3593,27 @@ msgid "Eliminated %s %s while infiltrating our troops."
 msgstr "%ser %s wurde bei dem Versuch unsere Einheiten zu bestechen getötet."
 
 #: server/diplomats.c:1188
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Your %s has successfully completed the mission and returned unharmed to %s."
 msgstr ""
-"%s hat seine Mission erfolgreich beendet und ist unverletzt nach %s "
+"Dein %s hat seine Mission erfolgreich beendet und ist unverletzt nach %s "
 "zurückgekehrt."
 
 #: server/diplomats.c:1207
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s was captured after completing the mission in %s."
-msgstr "%s wurde nach Beendigung seiner Mission in %s gefangen genommen."
+msgstr "Dein %s wurde nach Beendigung seiner Mission in %s gefangen genommen."
 
 #: server/diplomats.c:1213
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s was captured after completing the mission."
-msgstr "%s wurde nach Beendigung seiner Mission gefangen."
+msgstr "%s wurde nach Beendigung seiner Mission gefangen genommen."
 
 #: server/diplomats.c:1245
-#, fuzzy, c-format
+#, c-format
 msgid "You have caused an incident while bribing the %s %s."
-msgstr "Die Bestechung von %ss %s hat eine diplomatische Krise verursacht."
+msgstr "Die Bestechung der %sen %s hat eine diplomatische Krise verursacht."
 
 #: server/diplomats.c:1250
 #, c-format
@@ -3978,37 +3972,28 @@ msgid "Could not throw %s into civil war - too many players"
 msgstr "Bürgerkrieg der %s ist nicht möglich - zu viele Spieler"
 
 #: server/plrhand.c:1690
-#, fuzzy
 msgid "Your nation is thrust into civil war."
 msgstr "Die Nation wird vom Bürgerkrieg gespalten."
 
 #. TRANS: <leader> ... the Poles.
 #: server/plrhand.c:1694
-#, fuzzy, c-format
+#, c-format
 msgid "%s is the rebellious leader of the %s."
-msgstr "%s ist der Anführer der revoltierenden Provinzen %s."
+msgstr "%s ist der Anführer der revoltierenden %s."
 
 #. TRANS: <city> ... the Poles.
 #: server/plrhand.c:1716
-#, fuzzy, c-format
+#, c-format
 msgid "%s declares allegiance to the %s."
-msgstr "%s erklärt ihre Loyalität zu %s."
+msgstr "%s erklärt ihre Loyalität zu den %s."
 
 #. TRANS: ... Danes ... Poles ... <7> cities.
 #: server/plrhand.c:1731
-#, fuzzy, c-format
+#, c-format
 msgid "Civil war partitions the %s; the %s now hold %d city."
 msgid_plural "Civil war partitions the %s; the %s now hold %d cities."
-msgstr[0] ""
-"Die Eroberung von %ss Hauptstadt und die damit verbundene\n"
-"       Auflösung der Verwaltung haben einen Bürgerkrieg ausgelöst.\n"
-"       Opportunisten haben sich den Rebellen angeschlossen, so daß\n"
-"       der Emporkömmling %s jetzt %d Provinzen kontrolliert."
-msgstr[1] ""
-"Die Eroberung von %ss Hauptstadt und die damit verbundene\n"
-"       Auflösung der Verwaltung haben einen Bürgerkrieg ausgelöst.\n"
-"       Opportunisten haben sich den Rebellen angeschlossen, so daß\n"
-"       der Emporkömmling %s jetzt %d Provinzen kontrolliert."
+msgstr[0] "Der Bürgerkrieg spaltet die %s; die %s kontrollieren nun %d Stadt."
+msgstr[1] "Der Bürgerkrieg spaltet die %s; die %s kontrollieren nun %d Städte."
 
 #: server/report.c:56
 #, c-format
@@ -4308,13 +4293,13 @@ msgstr "%s ist eine ungültige Nation und wird geändert auf %s."
 # CK: TECHNICAL
 #. TRANS: ... <Danish> alliance to <Poles>....
 #: server/savegame.c:4094
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Illegal alliance structure detected: %s alliance to %s reduced to peace "
 "treaty."
 msgstr ""
-"Verbotene Allianzstruktur festgestellt: Die Allianz zwischen %s und %s wird "
-"zu einem Frieden zurückgestuft."
+"Illegal alliance structure detected: %s alliance to %s reduced to peace "
+"treaty."
 
 #: server/settings.c:33
 msgid "Geological"
@@ -5647,7 +5632,7 @@ msgid "Game ended in a draw"
 msgstr "Spiel endete unentschieden"
 
 #: server/srv_main.c:457 server/srv_main.c:468
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s was disbanded in accordance with your peace treaty with the %s."
 msgstr ""
 "Die %s wurde aufgelöst, in Übereinstimmung mit dem Friedensvertrag mit den %"
@@ -6141,15 +6126,15 @@ msgstr "Der dynamische Timer wurde auf %d %d %d %d gestellt."
 
 #. TRANS: <untranslated name> - translated short help
 #: server/stdinhand.c:1521
-#, fuzzy, c-format
+#, c-format
 msgid "Option: %s  -  %s"
-msgstr "%s auf '%s' gesetzt."
+msgstr ""
 
 #. TRANS: <untranslated name>
 #: server/stdinhand.c:1527
-#, fuzzy, c-format
+#, c-format
 msgid "Option: %s"
-msgstr "Optionen: %s"
+msgstr "Option: %s"
 
 #: server/stdinhand.c:1534 server/stdinhand.c:3891
 msgid "Description:"
@@ -6419,23 +6404,22 @@ msgid "%s no longer debugged"
 msgstr "Fehlersuche für %s ausgeschaltet."
 
 #: server/stdinhand.c:2381 server/stdinhand.c:2420
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s no longer debugged."
-msgstr "Fehlersuche für %ss %s ausgeschaltet."
+msgstr "Fehlersuche für %se %s ausgeschaltet."
 
 #: server/stdinhand.c:2386 server/stdinhand.c:2425
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s debugged."
-msgstr "Fehlersuche für %ss %s eingeschaltet."
+msgstr "Fehlersuche für %se %s eingeschaltet."
 
 #: server/stdinhand.c:2396
-#, fuzzy
 msgid "Ferry system is no longer in debug mode."
-msgstr "Fehlersuche für %ss %s ausgeschaltet."
+msgstr "Fehlersuche für Schiffstransporte ausgeschaltet."
 
 #: server/stdinhand.c:2400
 msgid "Ferry system in debug mode."
-msgstr ""
+msgstr "Fehlersuche für Schiffstransporte eingeschaltet."
 
 #: server/stdinhand.c:2411
 msgid "Value 2 must be integer."
@@ -6832,13 +6816,13 @@ msgstr ""
 
 #. TRANS: <untranslated name> - translated short help
 #: server/stdinhand.c:3867
-#, fuzzy, c-format
+#, c-format
 msgid "Command: %s  -  %s"
 msgstr "Befehl: %s  -  %s"
 
 #. TRANS: <untranslated name>
 #: server/stdinhand.c:3873
-#, fuzzy, c-format
+#, c-format
 msgid "Command: %s"
 msgstr "Befehl: %s"
 
@@ -7137,15 +7121,15 @@ msgstr "Der nukleare Angriff auf %s wurde von der SDI-Verteidigung abgewehrt."
 
 #. TRANS: "Your Cannon ... the Polish Destroyer."
 #: server/unithand.c:1013
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s survived the pathetic attack from the %s %s."
-msgstr "%s überlebte den Angriff von %s %s."
+msgstr "Deine %s überlebte den Angriff der %sen %s."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
 #: server/unithand.c:1022
-#, fuzzy, c-format
+#, c-format
 msgid "Your attacking %s failed against the %s %s!"
-msgstr "Der Angriff der %s gegen %s %s ist fehlgeschlagen!"
+msgstr "Der Angriff deiner %s gegen die %sen %s ist fehlgeschlagen!"
 
 #: server/unithand.c:1096
 #, c-format
@@ -7171,9 +7155,9 @@ msgid "%s cannot move that far from the coast line."
 msgstr ""
 
 #: server/unithand.c:1126
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot invade unless you break peace with %s first."
-msgstr "Kann erst nach Kriegserklärung an %s einmaschieren."
+msgstr "Kann erst einmaschieren, wenn du den Frieden mit %s brichst."
 
 #: server/unithand.c:1170
 msgid "This unit has no moves left."
@@ -7258,7 +7242,7 @@ msgstr ""
 "Forschung."
 
 #: server/unittools.c:258
-#, fuzzy, c-format
+#, c-format
 msgid "%s was upgraded for free to %s."
 msgstr "%s wurde kostenlos zu %s modernisiert."
 
@@ -7284,9 +7268,8 @@ msgstr "%s hat keinen Treibstoff mehr."
 
 #. TRANS: And, <the unit> became ...
 #: server/unittools.c:635
-#, fuzzy
 msgid "And, became more experienced!"
-msgstr " und sie sammelten Erfahrung!"
+msgstr "Und sie sammelten Erfahrung!"
 
 #. TRANS: Your <unit> became ...
 #: server/unittools.c:639
@@ -7333,60 +7316,62 @@ msgstr "Barbarenanführer gefaßt, %d Goldstücke Belohnung erhalten."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
 #: server/unittools.c:1617
-#, fuzzy, c-format
+#, c-format
 msgid "Your attacking %s succeeded against the %s %s!"
-msgstr "Der Angriff der %s gegen %s %s ist geglückt!"
+msgstr "Der Angriff deiner %s gegen die %sen %s ist geglückt!"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
 #: server/unittools.c:1626 server/unittools.c:1684
-#, fuzzy, c-format
+#, c-format
 msgid "%s lost to an attack by the %s %s."
-msgstr "%s beim Angriff von %s %s verloren."
+msgstr "%s beim Angriff der %sen %s verloren."
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
 #: server/unittools.c:1660
-#, fuzzy, c-format
+#, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
 "Your attacking %s succeeded against the %s %s (and %d other units)!"
 msgstr[0] ""
-"Der Angriff der %s gegen %s %s (und %d weitere Einheit) ist geglückt!"
+"Der Angriff deiner %s gegen die %sen %s (und %d weitere Einheit) ist "
+"geglückt!"
 msgstr[1] ""
-"Der Angriff der %s gegen %s %s (und %d weitere Einheiten) ist geglückt!"
+"Der Angriff deiner %s gegen die %sen %s (und %d weitere Einheiten) ist "
+"geglückt!"
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #: server/unittools.c:1693
-#, fuzzy, c-format
+#, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
-msgstr "%s beim Angriff von %ss %s auf %ss %s verloren."
+msgstr "%s beim Angriff der %sen %s auf die %sen %s verloren."
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
 #: server/unittools.c:1708
-#, fuzzy, c-format
+#, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
-msgstr "%s (und %s) beim Angriff von %ss %s verloren."
+msgstr "%s (und %s) beim Angriff der %sen %s verloren."
 
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
 #. * (only happens with at least 2 other units)
 #: server/unittools.c:1718
-#, fuzzy, c-format
+#, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
-msgstr[0] "%s und %d weitere Einheit beim Angriff von %ss %s verloren."
-msgstr[1] "%s und %d weitere Einheiten beim Angriff von %ss %s verloren."
+msgstr[0] "%s und %d weitere Einheit beim Angriff der %sen %s verloren."
+msgstr[1] "%s und %d weitere Einheiten beim Angriff der %sen %s verloren."
 
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #. * (only happens with at least 2 other units)
 #: server/unittools.c:1732
-#, fuzzy, c-format
+#, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
-msgstr[0] "%d Einheit beim Angriff von %ss %s auf %ss %s verloren."
-msgstr[1] "%d Einheiten beim Angriff von %ss %s auf %ss %s verloren."
+msgstr[0] "%d Einheit beim Angriff der %sen %s auf die %sen %s verloren."
+msgstr[1] "%d Einheiten beim Angriff der %sen %s auf %sen %s verloren."
 
 #: server/unittools.c:1993
 #, c-format
@@ -7398,9 +7383,9 @@ msgid "yourself"
 msgstr "selbst"
 
 #: server/unittools.c:2000
-#, fuzzy, c-format
+#, c-format
 msgid "The %s %s was nuked."
-msgstr "%s's %s wurde atomar angegriffen."
+msgstr "Die %sen %s wurden atomar angegriffen."
 
 #: server/unittools.c:2009
 #, c-format
@@ -7583,9 +7568,8 @@ msgid "No real audio plugin present."
 msgstr "Kein RealAudio Plugin vorhanden."
 
 #: client/audio.c:198 client/audio.c:215 client/audio.c:247 client/audio.c:258
-#, fuzzy
 msgid "Proceeding with sound support disabled."
-msgstr "Sound deaktiviert"
+msgstr "Spiel wird ohne Soundunterstützung fortgesetzt."
 
 #: client/audio.c:199
 msgid "For sound support, install SDL_mixer"
@@ -8023,9 +8007,9 @@ msgid "?specialist:S"
 msgstr "F"
 
 #: client/cityrepdata.c:572
-#, fuzzy, c-format
+#, c-format
 msgid "Specialists: %s"
-msgstr "Spezialisten"
+msgstr "Spezialisten: %s"
 
 #: client/civclient.c:239
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
@@ -8762,9 +8746,10 @@ msgstr "* Ignoriert Kontrollzonen.\n"
 msgid "* A non-military unit (cannot attack; no martial law).\n"
 msgstr "* Nicht-militärische Einheit (Kein Angriff; kein Kriegsrecht).\n"
 
+# CK: 'field unit' refers to bombers and rocketry inside of cities
 #: client/helpdata.c:1002
 msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
-msgstr "* Kampfverband: min. +1 Unzufriedener in einer Demokratie.\n"
+msgstr "* Luftangriffseinheit: min. +1 Unzufriedener in einer Demokratie.\n"
 
 #: client/helpdata.c:1005
 msgid "* Will never achieve veteran status.\n"
@@ -8911,16 +8896,21 @@ msgstr "Besonderheiten:\n"
 msgid "?outputlist: Nothing "
 msgstr "Nichts"
 
+# CK: field units refer to bombers and rocketry inside of cities
 #: client/helpdata.c:1400
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* Military units away from home and field units will cause %d citizen to "
 "become unhappy.\n"
 msgid_plural ""
 "* Military units away from home and field units will cause %d citizens to "
 "become unhappy.\n"
-msgstr[0] "* Kampfeinheiten im Einsatz machen %d Bürger unzufrieden.\n"
-msgstr[1] "* Kampfeinheiten im Einsatz machen %d Bürger unzufrieden.\n"
+msgstr[0] ""
+"* Kampfeinheiten im Einsatz und Luftangriffseinheiten machen %d Bürger "
+"unzufrieden.\n"
+msgstr[1] ""
+"* Kampfeinheiten im Einsatz und Luftangriffseinheiten machen %d Bürger "
+"unzufrieden.\n"
 
 #: client/helpdata.c:1410
 #, c-format
@@ -9004,7 +8994,7 @@ msgid "* Has unlimited science/gold/luxuries rates.\n"
 msgstr "Die Raten für Forschung, Steuern und Luxus sind frei wählbar.\n"
 
 #: client/helpdata.c:1488
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* Your units may impose martial law. Each military unit inside a city will "
 "force %d unhappy citizen to become content.\n"
@@ -9013,17 +9003,16 @@ msgid_plural ""
 "force %d unhappy citizens to become content.\n"
 msgstr[0] ""
 "* Ihre Einheiten können Kriegsrecht anwenden. Jede militärische Einheit in "
-"einer Stadt macht %d unzufriedene Bürger zufrieden.\n"
+"einer Stadt macht %d unzufriedenen Bürger zufrieden.\n"
 msgstr[1] ""
 "* Ihre Einheiten können Kriegsrecht anwenden. Jede militärische Einheit in "
 "einer Stadt macht %d unzufriedene Bürger zufrieden.\n"
 
 #: client/helpdata.c:1500
-#, fuzzy, c-format
+#, c-format
 msgid "* A maximum of %d unit in each city can enforce martial law.\n"
 msgid_plural "* A maximum of %d units in each city can enforce martial law.\n"
-msgstr[0] ""
-"* Höchstens %d Einheiten in jeder Stadt können Kriegsrecht anwenden.\n"
+msgstr[0] "* Höchstens %d Einheit in jeder Stadt kann Kriegsrecht anwenden.\n"
 msgstr[1] ""
 "* Höchstens %d Einheiten in jeder Stadt können Kriegsrecht anwenden.\n"
 
@@ -9118,7 +9107,7 @@ msgstr ""
 #: client/helpdata.c:1595
 #, c-format
 msgid "* %s production is increased %d%%.\n"
-msgstr "* Der Ertrag von % steigt um %d%%.\n"
+msgstr "* Der Ertrag von %s steigt um %d%%.\n"
 
 #. TRANS: %s is list of output types, with 'and'
 #: client/helpdata.c:1603
@@ -9865,7 +9854,7 @@ msgstr "Stadt: %s (%s, %s)"
 
 #. TRANS: previous lines gave other information about the city.
 #: client/text.c:191
-#, fuzzy, c-format
+#, c-format
 msgid "?clistbegin: with %s"
 msgstr " mit %s"
 
@@ -10332,7 +10321,7 @@ msgstr "Städte: %d insgesamt, %d über dem Grenzwert von %d Städten."
 
 #. TRANS: 0-21 content [citizen(s)] ...
 #: client/text.c:1266
-#, fuzzy, c-format
+#, c-format
 msgid "%d content before penalty."
 msgid_plural "%d content before penalty."
 msgstr[0] "%d zufrieden; "
@@ -10340,10 +10329,10 @@ msgstr[1] "%d zufrieden; "
 
 #. TRANS: 0-21 unhappy citizen(s).
 #: client/text.c:1272
-#, fuzzy, c-format
+#, c-format
 msgid "%d additional unhappy citizen."
 msgid_plural "%d additional unhappy citizens."
-msgstr[0] "%d zusätzliche unzufriedene Bürger."
+msgstr[0] "%d zusätzlicher unzufriedener Bürger."
 msgstr[1] "%d zusätzliche unzufriedene Bürger."
 
 #. TRANS: Martial law opening parenthesis
@@ -10371,7 +10360,7 @@ msgstr "%d pro Einheit)."
 
 #: client/text.c:1313
 msgid "Military units in the field may cause unhappiness. "
-msgstr "Kampfeinheiten im Einsatz könnten zu Unzufriedenheit führen. "
+msgstr "Kampfeinheiten im Einsatz können zu Unzufriedenheit führen. "
 
 #: client/text.c:1316
 msgid "Military units have no happiness effect. "
@@ -12976,9 +12965,8 @@ msgid "Unit Type"
 msgstr "Einheiten"
 
 #: client/gui-gtk-2.0/repodlgs.c:959 client/gui-win32/repodlgs.c:711
-#, fuzzy
 msgid "?Upgradable unit [short]:U"
-msgstr "Unt."
+msgstr "veraltet"
 
 #: client/gui-gtk-2.0/repodlgs.c:960 client/gui-win32/repodlgs.c:712
 msgid "In-Prog"
@@ -14125,7 +14113,7 @@ msgid "Intelligence Information for the %s Empire"
 msgstr "Geheimdienstinformationen über das %se Imperium"
 
 #: client/gui-sdl/inteldlg.c:289
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Ruler: %s %s  Government: %s\n"
 "Capital: %s  Gold: %d\n"
@@ -14135,7 +14123,7 @@ msgstr ""
 "Herrscher: %s %s  Regierung: %s\n"
 "Hauptstadt: %s  Gold: %d\n"
 "Steuern: %d%% Forschung: %d%% Luxus: %d%%\n"
-"Erforsche: Unbekannt"
+"Erforsche: nicht bekannt"
 
 #: client/gui-sdl/inteldlg.c:301
 #, c-format
@@ -28116,9 +28104,6 @@ msgstr "Team 30"
 msgid "Team 31"
 msgstr "Team 31"
 
-#~ msgid "Option:"
-#~ msgstr "Option:"
-
 #~ msgid "City: Building Unavailable Item"
 #~ msgstr "Stadt: Nicht verfügbare Erweiterung im Bau"
 
@@ -28365,6 +28350,9 @@ msgstr "Team 31"
 #~ msgid "Treaty: Embassy"
 #~ msgstr "Abkommen: Botschaft"
 
+#~ msgid "You lost %s. A new %s was built in %s."
+#~ msgstr "%s verloren! %s wurde in %s neu errichtet."
+
 #~ msgid "Moved %s out of disbanded city %s to avoid being landlocked."
 #~ msgstr ""
 #~ "Die %s sind aus der aufgelösten Stadt %s geflohen, um eine Strandung zu "
@@ -28406,6 +28394,27 @@ msgstr "Team 31"
 
 #~ msgid "(%d) %s rejected: duplicate username [%s]"
 #~ msgstr "(%d) %s wurde abgewiesen: doppelter Name [%s]."
+
+#~ msgid ""
+#~ "Your nation is thrust into civil war,  %s is declared the leader of the "
+#~ "rebel states."
+#~ msgstr ""
+#~ "Die Nation wird vom Bürgerkrieg gespalten. %s ist der Anführer der "
+#~ "revoltierenden Provinzen."
+
+#~ msgid "%s declares allegiance to %s."
+#~ msgstr "%s erklärt ihre Loyalität zu %s."
+
+#~ msgid ""
+#~ "Capture of the %s capital and destruction of the empire's administrative\n"
+#~ "      structures have sparked a civil war.  Opportunists have flocked to "
+#~ "the rebel cause,\n"
+#~ "      and the upstart %s now holds power in %d rebel provinces."
+#~ msgstr ""
+#~ "Die Eroberung der %sen Hauptstadt und die damit verbundene\n"
+#~ "       Auflösung der Verwaltung haben einen Bürgerkrieg ausgelöst.\n"
+#~ "       Opportunisten haben sich den Rebellen angeschlossen, so daß\n"
+#~ "       der Emporkömmling %s jetzt %d Provinzen kontrolliert."
 
 #~ msgid "%s report on the RICHEST Civilizations in the World."
 #~ msgstr "%s Bericht über die REICHSTEN Nationen der Welt."
@@ -28457,12 +28466,18 @@ msgstr "Team 31"
 #~ "langsamere) Komprimierung. Falls der Maximalwert 0 ist, unterstützt der "
 #~ "Server keine Komprimierung."
 
+#~ msgid "Option:"
+#~ msgstr "Option:"
+
 #~ msgid ""
 #~ "Undefined arguments. Usage: debug <diplomacy <player> | city <x> <y> | "
 #~ "units <x> <y> | unit <id> | tech <player> | timing | info>."
 #~ msgstr ""
 #~ "Fehlende Parameter. Anwendung: debug diplomacy <Spieler> | city <x> <y> | "
 #~ "units <x> <y> | unit <id> | tech <Spieler> | timing | info."
+
+#~ msgid "Command:"
+#~ msgstr "Befehl:"
 
 #~ msgid "Unit must be on land to perform diplomatic action."
 #~ msgstr "Diplomatische Tätigkeiten können nur an Land erfolgen."
@@ -28689,9 +28704,8 @@ msgstr "Team 31"
 #~ "* Jedes bearbeitete Feld mit mindestens 1 %s liefert %d davon zusätzlich, "
 #~ "wenn die Stadt feiert.\n"
 
-#, fuzzy
 #~ msgid "You were rejected from the game...."
-#~ msgstr "Verbindungsaufbau abgelehnt:"
+#~ msgstr "Verbindungsaufbau abgelehnt...."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
 #~ msgid ""
