@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-23 12:09+0100\n"
+"POT-Creation-Date: 2008-01-28 11:57+0100\n"
 "PO-Revision-Date: 2007-08-11 01:23+0300\n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -909,7 +909,7 @@ msgstr ""
 msgid "'Cause civilization should be free!"
 msgstr "Because civilization(s) should be free!"
 
-#: utility/fciconv.c:133
+#: utility/fciconv.c:146
 #, c-format
 msgid ""
 "You are running Freeciv without using iconv.  Unless\n"
@@ -923,7 +923,7 @@ msgstr ""
 
 #. TRANS: "Could not convert text from <encoding a> to <encoding b>:"
 #. * TRANS: <error string>."
-#: utility/fciconv.c:206
+#: utility/fciconv.c:219
 #, c-format
 msgid "Could not convert text from %s to %s: %s"
 msgstr "Kann Text nicht von %s nach %s konvertieren: %s"
@@ -1023,38 +1023,38 @@ msgstr "Aktueller Suchpfad: '%s'"
 msgid "The \"%s\" file is required ... aborting!"
 msgstr "Die Datei '%s' wird benötigt... Abbruch!"
 
-#: utility/shared.c:1432
+#: utility/shared.c:1435
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr ""
 "%s: Dieses Programm darf nicht von privilegierten Benutzern aufgerufen "
 "werden!\n"
 
-#: utility/shared.c:1434
+#: utility/shared.c:1437
 msgid "Use a non-privileged account instead.\n"
 msgstr "Starten Sie es als 'normaler' Benutzer.\n"
 
-#: utility/shared.c:1450
+#: utility/shared.c:1453
 msgid "exact match"
 msgstr "Volltreffer"
 
-#: utility/shared.c:1451
+#: utility/shared.c:1454
 msgid "only match"
 msgstr "Treffer"
 
-#: utility/shared.c:1452
+#: utility/shared.c:1455
 msgid "ambiguous"
 msgstr "mehrdeutig"
 
-#: utility/shared.c:1453
+#: utility/shared.c:1456
 msgid "empty"
 msgstr "leer"
 
-#: utility/shared.c:1454
+#: utility/shared.c:1457
 msgid "too long"
 msgstr "zu lang"
 
-#: utility/shared.c:1455
+#: utility/shared.c:1458
 msgid "non-match"
 msgstr "Fehlschlag"
 
@@ -8495,9 +8495,10 @@ msgstr "* Ignoriert Kontrollzonen.\n"
 msgid "* A non-military unit (cannot attack; no martial law).\n"
 msgstr "* Nicht-militärische Einheit (Kein Angriff; kein Kriegsrecht).\n"
 
+# CK: 'field unit' refers to bombers and rocketry inside of cities
 #: client/helpdata.c:993
 msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
-msgstr "* Kampfverband: min. +1 Unzufriedener in einer Demokratie.\n"
+msgstr "* Luftangriffseinheit: min. +1 Unzufriedener in einer Demokratie.\n"
 
 #: client/helpdata.c:996
 msgid "* Will never achieve veteran status.\n"
@@ -8645,16 +8646,17 @@ msgstr "Besonderheiten:\n"
 msgid "?outputlist: Nothing "
 msgstr "Nichts"
 
+# CK: field units refer to bombers and rocketry inside of cities
 #: client/helpdata.c:1417
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* Military units away from home and field units will cause %d citizen to "
 "become unhappy.\n"
 msgid_plural ""
 "* Military units away from home and field units will cause %d citizens to "
 "become unhappy.\n"
-msgstr[0] "* Kampfeinheiten im Einsatz machen %d Bürger unzufrieden.\n"
-msgstr[1] "* Kampfeinheiten im Einsatz machen %d Bürger unzufrieden.\n"
+msgstr[0] "* Kampfeinheiten im Einsatz und Luftangriffseinheiten machen %d Bürger unzufrieden.\n"
+msgstr[1] "* Kampfeinheiten im Einsatz und Luftangriffseinheiten machen %d Bürger unzufrieden.\n"
 
 #: client/helpdata.c:1427
 #, c-format
@@ -10096,7 +10098,7 @@ msgstr "%d pro Einheit)."
 
 #: client/text.c:1294
 msgid "Military units in the field may cause unhappiness. "
-msgstr "Kampfeinheiten im Einsatz könnten zu Unzufriedenheit führen. "
+msgstr "Kampfeinheiten im Einsatz können zu Unzufriedenheit führen. "
 
 #: client/text.c:1297
 msgid "Military units have no happiness effect. "
@@ -11387,7 +11389,7 @@ msgstr "Strg-W"
 
 #: client/gui-gtk-2.0/happiness.c:112 client/gui-sdl/citydlg.c:2042
 #: client/gui-sdl/citydlg.c:3721 client/gui-win32/citydlg.c:726
-#: client/gui-win32/happiness.c:85 client/gui-xaw/menu.c:249
+#: client/gui-win32/happiness.c:86 client/gui-xaw/menu.c:249
 #: data/helpdata.txt:1391
 msgid "Happiness"
 msgstr "Zufriedenheit"
