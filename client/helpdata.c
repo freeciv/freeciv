@@ -847,6 +847,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct unit_type *utype,
     CATLSTR(buf, bufsz, _("* May not be disbanded.\n"));
   } else {
     CATLSTR(buf, bufsz,
+	    /* xgettext:no-c-format */
 	    _("* May be disbanded in a city to recover 50% of the"
 	      " production cost.\n"));
   }
@@ -895,7 +896,9 @@ char *helptext_unit(char *buf, size_t bufsz, struct unit_type *utype,
     CATLSTR(buf, bufsz, _("* Can transform tiles.\n"));
   }
   if (is_ground_unittype(utype) && !utype_has_flag(utype, F_SETTLERS)) {
-    CATLSTR(buf, bufsz, _("* May fortify, granting a 50% defensive bonus.\n"));
+    CATLSTR(buf, bufsz,
+            /* xgettext:no-c-format */
+            _("* May fortify, granting a 50% defensive bonus.\n"));
   }
   if (is_ground_unittype(utype)) {
     CATLSTR(buf, bufsz, _("* May pillage to destroy infrastructure from tiles.\n"));
@@ -1042,6 +1045,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct unit_type *utype,
   }
   if (utype_has_flag(utype, F_TRIREME)) {
     CATLSTR(buf, bufsz,
+	    /* xgettext:no-c-format */
 	    _("* Must end turn in a city or next to land,"
 	      " or has a 50% risk of being lost at sea.\n"));
   }
