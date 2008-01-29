@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-29 13:49-0500\n"
+"POT-Creation-Date: 2008-01-29 14:26-0500\n"
 "PO-Revision-Date: 2007-09-09 07:42+0900\n"
 "Last-Translator: Daniel Markstedt <himasaram@spray.se>\n"
 "Language-Team: \n"
@@ -3715,45 +3715,58 @@ msgstr ""
 msgid "Military Service"
 msgstr ""
 
+#. TRANS: <1>: The <ranking> Poles
 #: server/report.c:163
-msgid "Magnificent"
-msgstr ""
-
-#: server/report.c:165
-msgid "Great"
-msgstr ""
-
-#: server/report.c:167
-msgid "Glorious"
-msgstr ""
-
-#: server/report.c:169
-msgid "Excellent"
-msgstr ""
-
-#: server/report.c:171
-msgid "Average"
-msgstr ""
-
-#: server/report.c:173
-msgid "Mediocre"
-msgstr ""
-
-#: server/report.c:175
-msgid "Pathetic"
-msgstr ""
-
-#: server/report.c:177
-msgid "Useless"
-msgstr ""
-
-#: server/report.c:179
-msgid "Worthless"
-msgstr ""
-
-#: server/report.c:232
 #, c-format
-msgid "%2d: The %s %s\n"
+msgid "%2d: The Magnificent %s"
+msgstr ""
+
+#. TRANS: <2>: The <ranking> Poles
+#: server/report.c:165
+#, c-format
+msgid "%2d: The Great %s"
+msgstr ""
+
+#. TRANS: <3>: The <ranking> Poles
+#: server/report.c:167
+#, c-format
+msgid "%2d: The Glorious %s"
+msgstr ""
+
+#. TRANS: <4>: The <ranking> Poles
+#: server/report.c:169
+#, c-format
+msgid "%2d: The Excellent %s"
+msgstr ""
+
+#. TRANS: <5>: The <ranking> Poles
+#: server/report.c:171
+#, c-format
+msgid "%2d: The Average %s"
+msgstr ""
+
+#. TRANS: <6>: The <ranking> Poles
+#: server/report.c:173
+#, c-format
+msgid "%2d: The Mediocre %s"
+msgstr ""
+
+#. TRANS: <7>: The <ranking> Poles
+#: server/report.c:175
+#, c-format
+msgid "%2d: The Pathetic %s"
+msgstr ""
+
+#. TRANS: <8>: The <ranking> Poles
+#: server/report.c:177
+#, c-format
+msgid "%2d: The Useless %s"
+msgstr ""
+
+#. TRANS: <9>: The <ranking> Poles
+#: server/report.c:179
+#, c-format
+msgid "%2d: The Worthless %s"
 msgstr ""
 
 #: server/report.c:240

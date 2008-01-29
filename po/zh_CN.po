@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-29 13:49-0500\n"
+"POT-Creation-Date: 2008-01-29 14:26-0500\n"
 "PO-Revision-Date: 2006-03-26 14:53+0800\n"
 "Last-Translator: Hongjia Cao <hjcao@yahoo.com>\n"
 "Language-Team: zh_CN <i18n-translation@linux.net.cn>\n"
@@ -3960,46 +3960,58 @@ msgstr "经济学"
 msgid "Military Service"
 msgstr "兵役"
 
+#. TRANS: <1>: The <ranking> Poles
 #: server/report.c:163
-msgid "Magnificent"
+#, fuzzy, c-format
+msgid "%2d: The Magnificent %s"
 msgstr "辉煌的"
 
+#. TRANS: <2>: The <ranking> Poles
 #: server/report.c:165
-msgid "Great"
-msgstr "伟大的"
+#, fuzzy, c-format
+msgid "%2d: The Great %s"
+msgstr "%2d：%s %s\n"
 
+#. TRANS: <3>: The <ranking> Poles
 #: server/report.c:167
-msgid "Glorious"
-msgstr "显赫的"
+#, fuzzy, c-format
+msgid "%2d: The Glorious %s"
+msgstr "%2d：%s %s\n"
 
+#. TRANS: <4>: The <ranking> Poles
 #: server/report.c:169
-msgid "Excellent"
-msgstr "杰出的"
+#, fuzzy, c-format
+msgid "%2d: The Excellent %s"
+msgstr "%2d：%s %s\n"
 
+#. TRANS: <5>: The <ranking> Poles
 #: server/report.c:171
-#, fuzzy
-msgid "Average"
-msgstr "城市概况页"
+#, fuzzy, c-format
+msgid "%2d: The Average %s"
+msgstr "%2d：%s %s\n"
 
+#. TRANS: <6>: The <ranking> Poles
 #: server/report.c:173
-msgid "Mediocre"
-msgstr "普通的"
+#, fuzzy, c-format
+msgid "%2d: The Mediocre %s"
+msgstr "%2d：%s %s\n"
 
+#. TRANS: <7>: The <ranking> Poles
 #: server/report.c:175
-msgid "Pathetic"
-msgstr "可怜的"
+#, fuzzy, c-format
+msgid "%2d: The Pathetic %s"
+msgstr "%2d：%s %s\n"
 
+#. TRANS: <8>: The <ranking> Poles
 #: server/report.c:177
-msgid "Useless"
-msgstr "无用的"
+#, fuzzy, c-format
+msgid "%2d: The Useless %s"
+msgstr "%2d：%s %s\n"
 
+#. TRANS: <9>: The <ranking> Poles
 #: server/report.c:179
-msgid "Worthless"
-msgstr "无益的"
-
-#: server/report.c:232
-#, c-format
-msgid "%2d: The %s %s\n"
+#, fuzzy, c-format
+msgid "%2d: The Worthless %s"
 msgstr "%2d：%s %s\n"
 
 #: server/report.c:240
@@ -26604,6 +26616,31 @@ msgstr "团队"
 #, fuzzy
 msgid "Team 31"
 msgstr "团队"
+
+#~ msgid "Great"
+#~ msgstr "伟大的"
+
+#~ msgid "Glorious"
+#~ msgstr "显赫的"
+
+#~ msgid "Excellent"
+#~ msgstr "杰出的"
+
+#, fuzzy
+#~ msgid "Average"
+#~ msgstr "城市概况页"
+
+#~ msgid "Mediocre"
+#~ msgstr "普通的"
+
+#~ msgid "Pathetic"
+#~ msgstr "可怜的"
+
+#~ msgid "Useless"
+#~ msgstr "无用的"
+
+#~ msgid "Worthless"
+#~ msgstr "无益的"
 
 #~ msgid "Decent"
 #~ msgstr "优雅的"

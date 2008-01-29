@@ -159,24 +159,24 @@ static int secompare(const void *a, const void *b)
 }
 
 static const char *greatness[] = {
-  /* The <ranking> Poles */
-  N_("Magnificent"),
-  /* The <ranking> Poles */
-  N_("Great"),
-  /* The <ranking> Poles */
-  N_("Glorious"),
-  /* The <ranking> Poles */
-  N_("Excellent"),
-  /* The <ranking> Poles */
-  N_("Average"),
-  /* The <ranking> Poles */
-  N_("Mediocre"),
-  /* The <ranking> Poles */
-  N_("Pathetic"),
-  /* The <ranking> Poles */
-  N_("Useless"),
-  /* The <ranking> Poles */
-  N_("Worthless"),
+  /* TRANS: <1>: The <ranking> Poles */
+  N_("%2d: The Magnificent %s"),
+  /* TRANS: <2>: The <ranking> Poles */
+  N_("%2d: The Great %s"),
+  /* TRANS: <3>: The <ranking> Poles */
+  N_("%2d: The Glorious %s"),
+  /* TRANS: <4>: The <ranking> Poles */
+  N_("%2d: The Excellent %s"),
+  /* TRANS: <5>: The <ranking> Poles */
+  N_("%2d: The Average %s"),
+  /* TRANS: <6>: The <ranking> Poles */
+  N_("%2d: The Mediocre %s"),
+  /* TRANS: <7>: The <ranking> Poles */
+  N_("%2d: The Pathetic %s"),
+  /* TRANS: <8>: The <ranking> Poles */
+  N_("%2d: The Useless %s"),
+  /* TRANS: <9>: The <ranking> Poles */
+  N_("%2d: The Worthless %s"),
 };
 
 /**************************************************************************
@@ -229,10 +229,10 @@ static void historian_generic(enum historian_type which_news)
       }
     }
     cat_snprintf(buffer, sizeof(buffer),
-		 _("%2d: The %s %s\n"),
-		 rank + 1,
 		 _(greatness[rank]),
+		 rank + 1,
 		 nation_plural_for_player(size[i].player));
+    mystrlcat(buffer, "\n", sizeof(buffer));
   }
   my_snprintf(title, sizeof(title), _(historian_message[which_news]),
               textyear(game.info.year),

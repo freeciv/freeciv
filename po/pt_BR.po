@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.1.0-beta3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-29 13:49-0500\n"
+"POT-Creation-Date: 2008-01-29 14:26-0500\n"
 "PO-Revision-Date: 2007-09-01 23:06+0300\n"
 "Last-Translator: Jose Carlos Medeiros <jose@psabs.com.br>\n"
 "Language-Team: Portuguese/Brazil <gnome-l10n-br@listas.cipsga.org.br>\n"
@@ -4047,46 +4047,58 @@ msgstr "Economia"
 msgid "Military Service"
 msgstr "Serviço Militar"
 
+#. TRANS: <1>: The <ranking> Poles
 #: server/report.c:163
-msgid "Magnificent"
+#, fuzzy, c-format
+msgid "%2d: The Magnificent %s"
 msgstr "Magníficos"
 
+#. TRANS: <2>: The <ranking> Poles
 #: server/report.c:165
-msgid "Great"
-msgstr "Grandes"
+#, fuzzy, c-format
+msgid "%2d: The Great %s"
+msgstr "%2d: Os %s %s\n"
 
+#. TRANS: <3>: The <ranking> Poles
 #: server/report.c:167
-msgid "Glorious"
-msgstr "Gloriosos"
+#, fuzzy, c-format
+msgid "%2d: The Glorious %s"
+msgstr "%2d: Os %s %s\n"
 
+#. TRANS: <4>: The <ranking> Poles
 #: server/report.c:169
-msgid "Excellent"
-msgstr ""
+#, fuzzy, c-format
+msgid "%2d: The Excellent %s"
+msgstr "%2d: Os %s %s\n"
 
+#. TRANS: <5>: The <ranking> Poles
 #: server/report.c:171
-#, fuzzy
-msgid "Average"
-msgstr "Página de visão geral"
+#, fuzzy, c-format
+msgid "%2d: The Average %s"
+msgstr "%2d: Os %s %s\n"
 
+#. TRANS: <6>: The <ranking> Poles
 #: server/report.c:173
-msgid "Mediocre"
-msgstr "Medíocres"
+#, fuzzy, c-format
+msgid "%2d: The Mediocre %s"
+msgstr "%2d: Os %s %s\n"
 
+#. TRANS: <7>: The <ranking> Poles
 #: server/report.c:175
-msgid "Pathetic"
-msgstr "Patéticos"
+#, fuzzy, c-format
+msgid "%2d: The Pathetic %s"
+msgstr "%2d: Os %s %s\n"
 
+#. TRANS: <8>: The <ranking> Poles
 #: server/report.c:177
-msgid "Useless"
-msgstr "Inúteis"
+#, fuzzy, c-format
+msgid "%2d: The Useless %s"
+msgstr "%2d: Os %s %s\n"
 
+#. TRANS: <9>: The <ranking> Poles
 #: server/report.c:179
-msgid "Worthless"
-msgstr "Imprestáveis"
-
-#: server/report.c:232
-#, c-format
-msgid "%2d: The %s %s\n"
+#, fuzzy, c-format
+msgid "%2d: The Worthless %s"
 msgstr "%2d: Os %s %s\n"
 
 #: server/report.c:240
@@ -27498,6 +27510,28 @@ msgstr "Time 30"
 #: data/default/game.ruleset:157
 msgid "Team 31"
 msgstr "Time 31"
+
+#~ msgid "Great"
+#~ msgstr "Grandes"
+
+#~ msgid "Glorious"
+#~ msgstr "Gloriosos"
+
+#, fuzzy
+#~ msgid "Average"
+#~ msgstr "Página de visão geral"
+
+#~ msgid "Mediocre"
+#~ msgstr "Medíocres"
+
+#~ msgid "Pathetic"
+#~ msgstr "Patéticos"
+
+#~ msgid "Useless"
+#~ msgstr "Inúteis"
+
+#~ msgid "Worthless"
+#~ msgstr "Imprestáveis"
 
 #~ msgid "Decent"
 #~ msgstr "Decentes"

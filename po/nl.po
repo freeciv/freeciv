@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-29 13:49-0500\n"
+"POT-Creation-Date: 2008-01-29 14:26-0500\n"
 "PO-Revision-Date: 2007-09-01 22:18+0300\n"
 "Last-Translator: Jelle Pelfrene <jelle.pelfrene@student.kuleuven.ac.be>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
@@ -4132,46 +4132,58 @@ msgstr "Economie"
 msgid "Military Service"
 msgstr "Militaire Dienst"
 
+#. TRANS: <1>: The <ranking> Poles
 #: server/report.c:163
-msgid "Magnificent"
+#, fuzzy, c-format
+msgid "%2d: The Magnificent %s"
 msgstr "Schitterende"
 
+#. TRANS: <2>: The <ranking> Poles
 #: server/report.c:165
-msgid "Great"
-msgstr "Grote"
+#, fuzzy, c-format
+msgid "%2d: The Great %s"
+msgstr "%2d: De %s %s\n"
 
+#. TRANS: <3>: The <ranking> Poles
 #: server/report.c:167
-msgid "Glorious"
-msgstr "Glorieuze"
+#, fuzzy, c-format
+msgid "%2d: The Glorious %s"
+msgstr "%2d: De %s %s\n"
 
+#. TRANS: <4>: The <ranking> Poles
 #: server/report.c:169
-msgid "Excellent"
-msgstr ""
+#, fuzzy, c-format
+msgid "%2d: The Excellent %s"
+msgstr "%2d: De %s %s\n"
 
+#. TRANS: <5>: The <ranking> Poles
 #: server/report.c:171
-#, fuzzy
-msgid "Average"
-msgstr "Overzichtspagina"
+#, fuzzy, c-format
+msgid "%2d: The Average %s"
+msgstr "%2d: De %s %s\n"
 
+#. TRANS: <6>: The <ranking> Poles
 #: server/report.c:173
-msgid "Mediocre"
-msgstr "Middelmatige"
+#, fuzzy, c-format
+msgid "%2d: The Mediocre %s"
+msgstr "%2d: De %s %s\n"
 
+#. TRANS: <7>: The <ranking> Poles
 #: server/report.c:175
-msgid "Pathetic"
-msgstr "Zielige"
+#, fuzzy, c-format
+msgid "%2d: The Pathetic %s"
+msgstr "%2d: De %s %s\n"
 
+#. TRANS: <8>: The <ranking> Poles
 #: server/report.c:177
-msgid "Useless"
-msgstr "Onbruikbare"
+#, fuzzy, c-format
+msgid "%2d: The Useless %s"
+msgstr "%2d: De %s %s\n"
 
+#. TRANS: <9>: The <ranking> Poles
 #: server/report.c:179
-msgid "Worthless"
-msgstr "Waardeloze"
-
-#: server/report.c:232
-#, c-format
-msgid "%2d: The %s %s\n"
+#, fuzzy, c-format
+msgid "%2d: The Worthless %s"
 msgstr "%2d: De %s %s\n"
 
 #: server/report.c:240
@@ -27890,6 +27902,28 @@ msgstr "Team 30"
 #: data/default/game.ruleset:157
 msgid "Team 31"
 msgstr "Team 31"
+
+#~ msgid "Great"
+#~ msgstr "Grote"
+
+#~ msgid "Glorious"
+#~ msgstr "Glorieuze"
+
+#, fuzzy
+#~ msgid "Average"
+#~ msgstr "Overzichtspagina"
+
+#~ msgid "Mediocre"
+#~ msgstr "Middelmatige"
+
+#~ msgid "Pathetic"
+#~ msgstr "Zielige"
+
+#~ msgid "Useless"
+#~ msgstr "Onbruikbare"
+
+#~ msgid "Worthless"
+#~ msgstr "Waardeloze"
 
 #~ msgid "Decent"
 #~ msgstr "Beschaafde"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: po-debconf://kdebase\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-29 13:49-0500\n"
+"POT-Creation-Date: 2008-01-29 14:26-0500\n"
 "PO-Revision-Date: 2007-09-05 03:37+0300\n"
 "Last-Translator: stan ioan-eugen <stan.ieugen@gmail.com>\n"
 "Language-Team: romanian <debian-l10n-romanian@lists.debian.org>\n"
@@ -4164,46 +4164,58 @@ msgstr "Economia"
 msgid "Military Service"
 msgstr "Serviciul militar"
 
+#. TRANS: <1>: The <ranking> Poles
 #: server/report.c:163
-msgid "Magnificent"
+#, fuzzy, c-format
+msgid "%2d: The Magnificent %s"
 msgstr "Magnificii"
 
+#. TRANS: <2>: The <ranking> Poles
 #: server/report.c:165
-msgid "Great"
-msgstr "Marii"
+#, fuzzy, c-format
+msgid "%2d: The Great %s"
+msgstr "%2d: %s %s\n"
 
+#. TRANS: <3>: The <ranking> Poles
 #: server/report.c:167
-msgid "Glorious"
-msgstr "Glorioşii"
+#, fuzzy, c-format
+msgid "%2d: The Glorious %s"
+msgstr "%2d: %s %s\n"
 
+#. TRANS: <4>: The <ranking> Poles
 #: server/report.c:169
-msgid "Excellent"
-msgstr ""
+#, fuzzy, c-format
+msgid "%2d: The Excellent %s"
+msgstr "%2d: %s %s\n"
 
+#. TRANS: <5>: The <ranking> Poles
 #: server/report.c:171
-#, fuzzy
-msgid "Average"
-msgstr "Privire generală"
+#, fuzzy, c-format
+msgid "%2d: The Average %s"
+msgstr "%2d: %s %s\n"
 
+#. TRANS: <6>: The <ranking> Poles
 #: server/report.c:173
-msgid "Mediocre"
-msgstr "Mediocrii"
+#, fuzzy, c-format
+msgid "%2d: The Mediocre %s"
+msgstr "%2d: %s %s\n"
 
+#. TRANS: <7>: The <ranking> Poles
 #: server/report.c:175
-msgid "Pathetic"
-msgstr "Pateticii"
+#, fuzzy, c-format
+msgid "%2d: The Pathetic %s"
+msgstr "%2d: %s %s\n"
 
+#. TRANS: <8>: The <ranking> Poles
 #: server/report.c:177
-msgid "Useless"
-msgstr "Inutilii"
+#, fuzzy, c-format
+msgid "%2d: The Useless %s"
+msgstr "%2d: %s %s\n"
 
+#. TRANS: <9>: The <ranking> Poles
 #: server/report.c:179
-msgid "Worthless"
-msgstr "Fără valoare"
-
-#: server/report.c:232
-#, c-format
-msgid "%2d: The %s %s\n"
+#, fuzzy, c-format
+msgid "%2d: The Worthless %s"
 msgstr "%2d: %s %s\n"
 
 #: server/report.c:240
@@ -26834,6 +26846,28 @@ msgstr "Echipa 30"
 #: data/default/game.ruleset:157
 msgid "Team 31"
 msgstr "Echipa 31"
+
+#~ msgid "Great"
+#~ msgstr "Marii"
+
+#~ msgid "Glorious"
+#~ msgstr "Glorioşii"
+
+#, fuzzy
+#~ msgid "Average"
+#~ msgstr "Privire generală"
+
+#~ msgid "Mediocre"
+#~ msgstr "Mediocrii"
+
+#~ msgid "Pathetic"
+#~ msgstr "Pateticii"
+
+#~ msgid "Useless"
+#~ msgstr "Inutilii"
+
+#~ msgid "Worthless"
+#~ msgstr "Fără valoare"
 
 #~ msgid "Decent"
 #~ msgstr "Decenţii"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.1.0 \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-29 13:49-0500\n"
+"POT-Creation-Date: 2008-01-29 14:26-0500\n"
 "PO-Revision-Date: 2007-08-11 01:36+0300\n"
 "Last-Translator: Prekates Alexandros <chomwitt@yahoo.gr>,2006 \n"
 "Language-Team: Greek translation team  <gr@li.org>\n"
@@ -3971,46 +3971,58 @@ msgstr "Οικοναμικά"
 msgid "Military Service"
 msgstr "Στρατιωτική υπηρεσία"
 
+#. TRANS: <1>: The <ranking> Poles
 #: server/report.c:163
-msgid "Magnificent"
+#, fuzzy, c-format
+msgid "%2d: The Magnificent %s"
 msgstr "Μεγαλιώδης"
 
+#. TRANS: <2>: The <ranking> Poles
 #: server/report.c:165
-msgid "Great"
-msgstr "Μεγάλος"
+#, fuzzy, c-format
+msgid "%2d: The Great %s"
+msgstr "%2d: Ο %s %s\n"
 
+#. TRANS: <3>: The <ranking> Poles
 #: server/report.c:167
-msgid "Glorious"
-msgstr "Δοξασμένος"
+#, fuzzy, c-format
+msgid "%2d: The Glorious %s"
+msgstr "%2d: Ο %s %s\n"
 
+#. TRANS: <4>: The <ranking> Poles
 #: server/report.c:169
-msgid "Excellent"
-msgstr ""
+#, fuzzy, c-format
+msgid "%2d: The Excellent %s"
+msgstr "%2d: Ο %s %s\n"
 
+#. TRANS: <5>: The <ranking> Poles
 #: server/report.c:171
-#, fuzzy
-msgid "Average"
-msgstr "Σελίδα γενικής εικόνας"
+#, fuzzy, c-format
+msgid "%2d: The Average %s"
+msgstr "%2d: Ο %s %s\n"
 
+#. TRANS: <6>: The <ranking> Poles
 #: server/report.c:173
-msgid "Mediocre"
-msgstr "Μέτριος"
+#, fuzzy, c-format
+msgid "%2d: The Mediocre %s"
+msgstr "%2d: Ο %s %s\n"
 
+#. TRANS: <7>: The <ranking> Poles
 #: server/report.c:175
-msgid "Pathetic"
-msgstr "Παθητικός"
+#, fuzzy, c-format
+msgid "%2d: The Pathetic %s"
+msgstr "%2d: Ο %s %s\n"
 
+#. TRANS: <8>: The <ranking> Poles
 #: server/report.c:177
-msgid "Useless"
-msgstr "¶χρηστος"
+#, fuzzy, c-format
+msgid "%2d: The Useless %s"
+msgstr "%2d: Ο %s %s\n"
 
+#. TRANS: <9>: The <ranking> Poles
 #: server/report.c:179
-msgid "Worthless"
-msgstr "Ανάξιος"
-
-#: server/report.c:232
-#, c-format
-msgid "%2d: The %s %s\n"
+#, fuzzy, c-format
+msgid "%2d: The Worthless %s"
 msgstr "%2d: Ο %s %s\n"
 
 #: server/report.c:240
@@ -26757,6 +26769,28 @@ msgstr "Ομάδα 30"
 #: data/default/game.ruleset:157
 msgid "Team 31"
 msgstr "Ομάδα 31"
+
+#~ msgid "Great"
+#~ msgstr "Μεγάλος"
+
+#~ msgid "Glorious"
+#~ msgstr "Δοξασμένος"
+
+#, fuzzy
+#~ msgid "Average"
+#~ msgstr "Σελίδα γενικής εικόνας"
+
+#~ msgid "Mediocre"
+#~ msgstr "Μέτριος"
+
+#~ msgid "Pathetic"
+#~ msgstr "Παθητικός"
+
+#~ msgid "Useless"
+#~ msgstr "¶χρηστος"
+
+#~ msgid "Worthless"
+#~ msgstr "Ανάξιος"
 
 #~ msgid "Decent"
 #~ msgstr "Καλός"

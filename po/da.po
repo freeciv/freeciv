@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-29 13:49-0500\n"
+"POT-Creation-Date: 2008-01-29 14:26-0500\n"
 "PO-Revision-Date: 2007-10-18 18:43+0300\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
@@ -4053,46 +4053,58 @@ msgstr "Økonomi"
 msgid "Military Service"
 msgstr "Militærtjeneste"
 
+#. TRANS: <1>: The <ranking> Poles
 #: server/report.c:163
-msgid "Magnificent"
+#, fuzzy, c-format
+msgid "%2d: The Magnificent %s"
 msgstr "utrolige"
 
+#. TRANS: <2>: The <ranking> Poles
 #: server/report.c:165
-msgid "Great"
-msgstr "store"
+#, fuzzy, c-format
+msgid "%2d: The Great %s"
+msgstr "%2d: Det %s folkeslag %s\n"
 
+#. TRANS: <3>: The <ranking> Poles
 #: server/report.c:167
-msgid "Glorious"
-msgstr "heltemodige"
+#, fuzzy, c-format
+msgid "%2d: The Glorious %s"
+msgstr "%2d: Det %s folkeslag %s\n"
 
+#. TRANS: <4>: The <ranking> Poles
 #: server/report.c:169
-msgid "Excellent"
-msgstr ""
+#, fuzzy, c-format
+msgid "%2d: The Excellent %s"
+msgstr "%2d: Det %s folkeslag %s\n"
 
+#. TRANS: <5>: The <ranking> Poles
 #: server/report.c:171
-#, fuzzy
-msgid "Average"
-msgstr "Oversigtsside"
+#, fuzzy, c-format
+msgid "%2d: The Average %s"
+msgstr "%2d: Det %s folkeslag %s\n"
 
+#. TRANS: <6>: The <ranking> Poles
 #: server/report.c:173
-msgid "Mediocre"
-msgstr "middelmådige"
+#, fuzzy, c-format
+msgid "%2d: The Mediocre %s"
+msgstr "%2d: Det %s folkeslag %s\n"
 
+#. TRANS: <7>: The <ranking> Poles
 #: server/report.c:175
-msgid "Pathetic"
-msgstr "ynkelige"
+#, fuzzy, c-format
+msgid "%2d: The Pathetic %s"
+msgstr "%2d: Det %s folkeslag %s\n"
 
+#. TRANS: <8>: The <ranking> Poles
 #: server/report.c:177
-msgid "Useless"
-msgstr "ubrugelige"
+#, fuzzy, c-format
+msgid "%2d: The Useless %s"
+msgstr "%2d: Det %s folkeslag %s\n"
 
+#. TRANS: <9>: The <ranking> Poles
 #: server/report.c:179
-msgid "Worthless"
-msgstr "værdiløse"
-
-#: server/report.c:232
-#, c-format
-msgid "%2d: The %s %s\n"
+#, fuzzy, c-format
+msgid "%2d: The Worthless %s"
 msgstr "%2d: Det %s folkeslag %s\n"
 
 #: server/report.c:240
@@ -27742,6 +27754,28 @@ msgstr "Hold 30"
 #: data/default/game.ruleset:157
 msgid "Team 31"
 msgstr "Hold 31"
+
+#~ msgid "Great"
+#~ msgstr "store"
+
+#~ msgid "Glorious"
+#~ msgstr "heltemodige"
+
+#, fuzzy
+#~ msgid "Average"
+#~ msgstr "Oversigtsside"
+
+#~ msgid "Mediocre"
+#~ msgstr "middelmådige"
+
+#~ msgid "Pathetic"
+#~ msgstr "ynkelige"
+
+#~ msgid "Useless"
+#~ msgstr "ubrugelige"
+
+#~ msgid "Worthless"
+#~ msgstr "værdiløse"
 
 #~ msgid "Decent"
 #~ msgstr "gode"

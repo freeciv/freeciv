@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-29 13:49-0500\n"
+"POT-Creation-Date: 2008-01-29 14:26-0500\n"
 "PO-Revision-Date: 2007-08-12 15:47+0300\n"
 "Last-Translator: Freeciv Italian Team <slug-freeciv@siena.linux.it>\n"
 "Language-Team: Italian <slug-freeciv@siena.linux.it>\n"
@@ -4154,46 +4154,58 @@ msgstr "Economia"
 msgid "Military Service"
 msgstr "Servizio Militare"
 
+#. TRANS: <1>: The <ranking> Poles
 #: server/report.c:163
-msgid "Magnificent"
+#, fuzzy, c-format
+msgid "%2d: The Magnificent %s"
 msgstr "Magnifici"
 
+#. TRANS: <2>: The <ranking> Poles
 #: server/report.c:165
-msgid "Great"
-msgstr "Grandi"
+#, fuzzy, c-format
+msgid "%2d: The Great %s"
+msgstr "%2d: Gli %s %s\n"
 
+#. TRANS: <3>: The <ranking> Poles
 #: server/report.c:167
-msgid "Glorious"
-msgstr "Gloriosi"
+#, fuzzy, c-format
+msgid "%2d: The Glorious %s"
+msgstr "%2d: Gli %s %s\n"
 
+#. TRANS: <4>: The <ranking> Poles
 #: server/report.c:169
-msgid "Excellent"
-msgstr "Eccellente"
+#, fuzzy, c-format
+msgid "%2d: The Excellent %s"
+msgstr "%2d: Gli %s %s\n"
 
+#. TRANS: <5>: The <ranking> Poles
 #: server/report.c:171
-#, fuzzy
-msgid "Average"
-msgstr "Pagina descrizione"
+#, fuzzy, c-format
+msgid "%2d: The Average %s"
+msgstr "%2d: Gli %s %s\n"
 
+#. TRANS: <6>: The <ranking> Poles
 #: server/report.c:173
-msgid "Mediocre"
-msgstr "Mediocri"
+#, fuzzy, c-format
+msgid "%2d: The Mediocre %s"
+msgstr "%2d: Gli %s %s\n"
 
+#. TRANS: <7>: The <ranking> Poles
 #: server/report.c:175
-msgid "Pathetic"
-msgstr "Patetici"
+#, fuzzy, c-format
+msgid "%2d: The Pathetic %s"
+msgstr "%2d: Gli %s %s\n"
 
+#. TRANS: <8>: The <ranking> Poles
 #: server/report.c:177
-msgid "Useless"
-msgstr "Inutili"
+#, fuzzy, c-format
+msgid "%2d: The Useless %s"
+msgstr "%2d: Gli %s %s\n"
 
+#. TRANS: <9>: The <ranking> Poles
 #: server/report.c:179
-msgid "Worthless"
-msgstr "Indegni"
-
-#: server/report.c:232
-#, c-format
-msgid "%2d: The %s %s\n"
+#, fuzzy, c-format
+msgid "%2d: The Worthless %s"
 msgstr "%2d: Gli %s %s\n"
 
 #: server/report.c:240
@@ -28004,6 +28016,31 @@ msgstr "Squadra"
 #, fuzzy
 msgid "Team 31"
 msgstr "Squadra"
+
+#~ msgid "Great"
+#~ msgstr "Grandi"
+
+#~ msgid "Glorious"
+#~ msgstr "Gloriosi"
+
+#~ msgid "Excellent"
+#~ msgstr "Eccellente"
+
+#, fuzzy
+#~ msgid "Average"
+#~ msgstr "Pagina descrizione"
+
+#~ msgid "Mediocre"
+#~ msgstr "Mediocri"
+
+#~ msgid "Pathetic"
+#~ msgstr "Patetici"
+
+#~ msgid "Useless"
+#~ msgstr "Inutili"
+
+#~ msgid "Worthless"
+#~ msgstr "Indegni"
 
 #~ msgid "Decent"
 #~ msgstr "Decenti"

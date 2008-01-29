@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-29 13:49-0500\n"
+"POT-Creation-Date: 2008-01-29 14:26-0500\n"
 "PO-Revision-Date: 2008-01-21 20:32+0200\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <yerellestirme@kde.org.tr>\n"
@@ -4074,46 +4074,58 @@ msgstr "Ekonomi"
 msgid "Military Service"
 msgstr "Zorunlu Askerlik"
 
+#. TRANS: <1>: The <ranking> Poles
 #: server/report.c:163
-msgid "Magnificent"
+#, fuzzy, c-format
+msgid "%2d: The Magnificent %s"
 msgstr "Muhteşem"
 
+#. TRANS: <2>: The <ranking> Poles
 #: server/report.c:165
-msgid "Great"
-msgstr "Büyük"
+#, fuzzy, c-format
+msgid "%2d: The Great %s"
+msgstr "%2d: %s %s\n"
 
+#. TRANS: <3>: The <ranking> Poles
 #: server/report.c:167
-msgid "Glorious"
-msgstr "Şanlı"
+#, fuzzy, c-format
+msgid "%2d: The Glorious %s"
+msgstr "%2d: %s %s\n"
 
+#. TRANS: <4>: The <ranking> Poles
 #: server/report.c:169
-msgid "Excellent"
-msgstr ""
+#, fuzzy, c-format
+msgid "%2d: The Excellent %s"
+msgstr "%2d: %s %s\n"
 
+#. TRANS: <5>: The <ranking> Poles
 #: server/report.c:171
-#, fuzzy
-msgid "Average"
-msgstr "Özet Sayfası"
+#, fuzzy, c-format
+msgid "%2d: The Average %s"
+msgstr "%2d: %s %s\n"
 
+#. TRANS: <6>: The <ranking> Poles
 #: server/report.c:173
-msgid "Mediocre"
-msgstr "Vasat"
+#, fuzzy, c-format
+msgid "%2d: The Mediocre %s"
+msgstr "%2d: %s %s\n"
 
+#. TRANS: <7>: The <ranking> Poles
 #: server/report.c:175
-msgid "Pathetic"
-msgstr "Zavallı"
+#, fuzzy, c-format
+msgid "%2d: The Pathetic %s"
+msgstr "%2d: %s %s\n"
 
+#. TRANS: <8>: The <ranking> Poles
 #: server/report.c:177
-msgid "Useless"
-msgstr "Yaramaz"
+#, fuzzy, c-format
+msgid "%2d: The Useless %s"
+msgstr "%2d: %s %s\n"
 
+#. TRANS: <9>: The <ranking> Poles
 #: server/report.c:179
-msgid "Worthless"
-msgstr "Değersiz"
-
-#: server/report.c:232
-#, c-format
-msgid "%2d: The %s %s\n"
+#, fuzzy, c-format
+msgid "%2d: The Worthless %s"
 msgstr "%2d: %s %s\n"
 
 #: server/report.c:240
@@ -27006,6 +27018,28 @@ msgstr "Takım 30"
 #: data/default/game.ruleset:157
 msgid "Team 31"
 msgstr "Takım 31"
+
+#~ msgid "Great"
+#~ msgstr "Büyük"
+
+#~ msgid "Glorious"
+#~ msgstr "Şanlı"
+
+#, fuzzy
+#~ msgid "Average"
+#~ msgstr "Özet Sayfası"
+
+#~ msgid "Mediocre"
+#~ msgstr "Vasat"
+
+#~ msgid "Pathetic"
+#~ msgstr "Zavallı"
+
+#~ msgid "Useless"
+#~ msgstr "Yaramaz"
+
+#~ msgid "Worthless"
+#~ msgstr "Değersiz"
 
 #~ msgid "Decent"
 #~ msgstr "Nazik"

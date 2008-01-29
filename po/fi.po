@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-29 13:49-0500\n"
+"POT-Creation-Date: 2008-01-29 14:26-0500\n"
 "PO-Revision-Date: 2008-01-18 20:49+0200\n"
 "Last-Translator: Timo Jyrinki <timo.jyrinki@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
@@ -4069,46 +4069,58 @@ msgid "Military Service"
 msgstr "Asepalvelus"
 
 # Assuming use "the x Finns".
+#. TRANS: <1>: The <ranking> Poles
 #: server/report.c:163
-msgid "Magnificent"
+#, fuzzy, c-format
+msgid "%2d: The Magnificent %s"
 msgstr "loistokkaat"
 
+#. TRANS: <2>: The <ranking> Poles
 #: server/report.c:165
-msgid "Great"
-msgstr "suuret"
+#, fuzzy, c-format
+msgid "%2d: The Great %s"
+msgstr "%2d: %s %s\n"
 
+#. TRANS: <3>: The <ranking> Poles
 #: server/report.c:167
-msgid "Glorious"
-msgstr "maineikkaat"
+#, fuzzy, c-format
+msgid "%2d: The Glorious %s"
+msgstr "%2d: %s %s\n"
 
+#. TRANS: <4>: The <ranking> Poles
 #: server/report.c:169
-msgid "Excellent"
-msgstr ""
+#, fuzzy, c-format
+msgid "%2d: The Excellent %s"
+msgstr "%2d: %s %s\n"
 
+#. TRANS: <5>: The <ranking> Poles
 #: server/report.c:171
-#, fuzzy
-msgid "Average"
-msgstr "Kaupunkikatsaussivu"
+#, fuzzy, c-format
+msgid "%2d: The Average %s"
+msgstr "%2d: %s %s\n"
 
+#. TRANS: <6>: The <ranking> Poles
 #: server/report.c:173
-msgid "Mediocre"
-msgstr "keskinkertaiset"
+#, fuzzy, c-format
+msgid "%2d: The Mediocre %s"
+msgstr "%2d: %s %s\n"
 
+#. TRANS: <7>: The <ranking> Poles
 #: server/report.c:175
-msgid "Pathetic"
-msgstr "mitättömät"
+#, fuzzy, c-format
+msgid "%2d: The Pathetic %s"
+msgstr "%2d: %s %s\n"
 
+#. TRANS: <8>: The <ranking> Poles
 #: server/report.c:177
-msgid "Useless"
-msgstr "kelvottomat"
+#, fuzzy, c-format
+msgid "%2d: The Useless %s"
+msgstr "%2d: %s %s\n"
 
+#. TRANS: <9>: The <ranking> Poles
 #: server/report.c:179
-msgid "Worthless"
-msgstr "arvottomat"
-
-#: server/report.c:232
-#, c-format
-msgid "%2d: The %s %s\n"
+#, fuzzy, c-format
+msgid "%2d: The Worthless %s"
 msgstr "%2d: %s %s\n"
 
 #: server/report.c:240
@@ -27680,6 +27692,28 @@ msgstr "Joukkue 30"
 #: data/default/game.ruleset:157
 msgid "Team 31"
 msgstr "Joukkue 31"
+
+#~ msgid "Great"
+#~ msgstr "suuret"
+
+#~ msgid "Glorious"
+#~ msgstr "maineikkaat"
+
+#, fuzzy
+#~ msgid "Average"
+#~ msgstr "Kaupunkikatsaussivu"
+
+#~ msgid "Mediocre"
+#~ msgstr "keskinkertaiset"
+
+#~ msgid "Pathetic"
+#~ msgstr "mitättömät"
+
+#~ msgid "Useless"
+#~ msgstr "kelvottomat"
+
+#~ msgid "Worthless"
+#~ msgstr "arvottomat"
 
 #~ msgid "Decent"
 #~ msgstr "hyvät"

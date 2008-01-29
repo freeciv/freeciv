@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-29 13:49-0500\n"
+"POT-Creation-Date: 2008-01-29 14:26-0500\n"
 "PO-Revision-Date: 2007-09-01 22:37+0300\n"
 "Last-Translator: Mateusz Stefek <matusik_s@o2.pl>\n"
 "Language-Team: none\n"
@@ -4157,46 +4157,58 @@ msgstr "Ekonomia"
 msgid "Military Service"
 msgstr "Służba Wojskowa"
 
+#. TRANS: <1>: The <ranking> Poles
 #: server/report.c:163
-msgid "Magnificent"
+#, fuzzy, c-format
+msgid "%2d: The Magnificent %s"
 msgstr "Najwspanialsi"
 
+#. TRANS: <2>: The <ranking> Poles
 #: server/report.c:165
-msgid "Great"
-msgstr "Wielcy"
+#, fuzzy, c-format
+msgid "%2d: The Great %s"
+msgstr "%2d: %s %s\n"
 
+#. TRANS: <3>: The <ranking> Poles
 #: server/report.c:167
-msgid "Glorious"
-msgstr "Wspaniali"
+#, fuzzy, c-format
+msgid "%2d: The Glorious %s"
+msgstr "%2d: %s %s\n"
 
+#. TRANS: <4>: The <ranking> Poles
 #: server/report.c:169
-msgid "Excellent"
-msgstr ""
+#, fuzzy, c-format
+msgid "%2d: The Excellent %s"
+msgstr "%2d: %s %s\n"
 
+#. TRANS: <5>: The <ranking> Poles
 #: server/report.c:171
-#, fuzzy
-msgid "Average"
-msgstr "Zakładkę ogólne"
+#, fuzzy, c-format
+msgid "%2d: The Average %s"
+msgstr "%2d: %s %s\n"
 
+#. TRANS: <6>: The <ranking> Poles
 #: server/report.c:173
-msgid "Mediocre"
-msgstr "Przeciętni"
+#, fuzzy, c-format
+msgid "%2d: The Mediocre %s"
+msgstr "%2d: %s %s\n"
 
+#. TRANS: <7>: The <ranking> Poles
 #: server/report.c:175
-msgid "Pathetic"
-msgstr "Żałośni"
+#, fuzzy, c-format
+msgid "%2d: The Pathetic %s"
+msgstr "%2d: %s %s\n"
 
+#. TRANS: <8>: The <ranking> Poles
 #: server/report.c:177
-msgid "Useless"
-msgstr "Nędzni"
+#, fuzzy, c-format
+msgid "%2d: The Useless %s"
+msgstr "%2d: %s %s\n"
 
+#. TRANS: <9>: The <ranking> Poles
 #: server/report.c:179
-msgid "Worthless"
-msgstr "Mierni"
-
-#: server/report.c:232
-#, c-format
-msgid "%2d: The %s %s\n"
+#, fuzzy, c-format
+msgid "%2d: The Worthless %s"
 msgstr "%2d: %s %s\n"
 
 #: server/report.c:240
@@ -27813,6 +27825,28 @@ msgstr "Zespół"
 #, fuzzy
 msgid "Team 31"
 msgstr "Zespół"
+
+#~ msgid "Great"
+#~ msgstr "Wielcy"
+
+#~ msgid "Glorious"
+#~ msgstr "Wspaniali"
+
+#, fuzzy
+#~ msgid "Average"
+#~ msgstr "Zakładkę ogólne"
+
+#~ msgid "Mediocre"
+#~ msgstr "Przeciętni"
+
+#~ msgid "Pathetic"
+#~ msgstr "Żałośni"
+
+#~ msgid "Useless"
+#~ msgstr "Nędzni"
+
+#~ msgid "Worthless"
+#~ msgstr "Mierni"
 
 #~ msgid "Decent"
 #~ msgstr "Nieźli"

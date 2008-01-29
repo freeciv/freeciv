@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-29 13:49-0500\n"
+"POT-Creation-Date: 2008-01-29 14:26-0500\n"
 "PO-Revision-Date: 2008-01-23 10:29+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -4059,46 +4059,58 @@ msgstr "Ekonomika"
 msgid "Military Service"
 msgstr "Vojenská služba"
 
+#. TRANS: <1>: The <ranking> Poles
 #: server/report.c:163
-msgid "Magnificent"
+#, fuzzy, c-format
+msgid "%2d: The Magnificent %s"
 msgstr "Velkolepí"
 
+#. TRANS: <2>: The <ranking> Poles
 #: server/report.c:165
-msgid "Great"
-msgstr "Velcí"
+#, fuzzy, c-format
+msgid "%2d: The Great %s"
+msgstr "%2d: %s %s\n"
 
+#. TRANS: <3>: The <ranking> Poles
 #: server/report.c:167
-msgid "Glorious"
-msgstr "Slavní"
+#, fuzzy, c-format
+msgid "%2d: The Glorious %s"
+msgstr "%2d: %s %s\n"
 
+#. TRANS: <4>: The <ranking> Poles
 #: server/report.c:169
-msgid "Excellent"
-msgstr ""
+#, fuzzy, c-format
+msgid "%2d: The Excellent %s"
+msgstr "%2d: %s %s\n"
 
+#. TRANS: <5>: The <ranking> Poles
 #: server/report.c:171
-#, fuzzy
-msgid "Average"
-msgstr "Stránka přehledu"
+#, fuzzy, c-format
+msgid "%2d: The Average %s"
+msgstr "%2d: %s %s\n"
 
+#. TRANS: <6>: The <ranking> Poles
 #: server/report.c:173
-msgid "Mediocre"
-msgstr "Průměrní"
+#, fuzzy, c-format
+msgid "%2d: The Mediocre %s"
+msgstr "%2d: %s %s\n"
 
+#. TRANS: <7>: The <ranking> Poles
 #: server/report.c:175
-msgid "Pathetic"
-msgstr "Patetičtí"
+#, fuzzy, c-format
+msgid "%2d: The Pathetic %s"
+msgstr "%2d: %s %s\n"
 
+#. TRANS: <8>: The <ranking> Poles
 #: server/report.c:177
-msgid "Useless"
-msgstr "Bezcenní"
+#, fuzzy, c-format
+msgid "%2d: The Useless %s"
+msgstr "%2d: %s %s\n"
 
+#. TRANS: <9>: The <ranking> Poles
 #: server/report.c:179
-msgid "Worthless"
-msgstr "Neškodní"
-
-#: server/report.c:232
-#, c-format
-msgid "%2d: The %s %s\n"
+#, fuzzy, c-format
+msgid "%2d: The Worthless %s"
 msgstr "%2d: %s %s\n"
 
 #: server/report.c:240
@@ -27299,6 +27311,28 @@ msgstr "Tým 30"
 #: data/default/game.ruleset:157
 msgid "Team 31"
 msgstr "Tým 31"
+
+#~ msgid "Great"
+#~ msgstr "Velcí"
+
+#~ msgid "Glorious"
+#~ msgstr "Slavní"
+
+#, fuzzy
+#~ msgid "Average"
+#~ msgstr "Stránka přehledu"
+
+#~ msgid "Mediocre"
+#~ msgstr "Průměrní"
+
+#~ msgid "Pathetic"
+#~ msgstr "Patetičtí"
+
+#~ msgid "Useless"
+#~ msgstr "Bezcenní"
+
+#~ msgid "Worthless"
+#~ msgstr "Neškodní"
 
 #~ msgid "Decent"
 #~ msgstr "Ucházející"

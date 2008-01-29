@@ -144,7 +144,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.99-devel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-29 13:49-0500\n"
+"POT-Creation-Date: 2008-01-29 14:26-0500\n"
 "PO-Revision-Date: 2007-08-12 15:56+0300\n"
 "Last-Translator: MITA Yuusuke <clefs@mail.goo.ne.jp>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
@@ -4472,46 +4472,58 @@ msgstr "経済"
 msgid "Military Service"
 msgstr "兵役"
 
+#. TRANS: <1>: The <ranking> Poles
 #: server/report.c:163
-msgid "Magnificent"
+#, fuzzy, c-format
+msgid "%2d: The Magnificent %s"
 msgstr "雄大な"
 
+#. TRANS: <2>: The <ranking> Poles
 #: server/report.c:165
-msgid "Great"
-msgstr "素晴らしい"
+#, fuzzy, c-format
+msgid "%2d: The Great %s"
+msgstr "%2d: %s%s\n"
 
+#. TRANS: <3>: The <ranking> Poles
 #: server/report.c:167
-msgid "Glorious"
-msgstr "栄誉ある"
+#, fuzzy, c-format
+msgid "%2d: The Glorious %s"
+msgstr "%2d: %s%s\n"
 
+#. TRANS: <4>: The <ranking> Poles
 #: server/report.c:169
-msgid "Excellent"
-msgstr "優秀な"
+#, fuzzy, c-format
+msgid "%2d: The Excellent %s"
+msgstr "%2d: %s%s\n"
 
+#. TRANS: <5>: The <ranking> Poles
 #: server/report.c:171
-#, fuzzy
-msgid "Average"
-msgstr "概観ページ"
+#, fuzzy, c-format
+msgid "%2d: The Average %s"
+msgstr "%2d: %s%s\n"
 
+#. TRANS: <6>: The <ranking> Poles
 #: server/report.c:173
-msgid "Mediocre"
-msgstr "月並な"
+#, fuzzy, c-format
+msgid "%2d: The Mediocre %s"
+msgstr "%2d: %s%s\n"
 
+#. TRANS: <7>: The <ranking> Poles
 #: server/report.c:175
-msgid "Pathetic"
-msgstr "哀れな"
+#, fuzzy, c-format
+msgid "%2d: The Pathetic %s"
+msgstr "%2d: %s%s\n"
 
+#. TRANS: <8>: The <ranking> Poles
 #: server/report.c:177
-msgid "Useless"
-msgstr "無用な"
+#, fuzzy, c-format
+msgid "%2d: The Useless %s"
+msgstr "%2d: %s%s\n"
 
+#. TRANS: <9>: The <ranking> Poles
 #: server/report.c:179
-msgid "Worthless"
-msgstr "価値のない"
-
-#: server/report.c:232
-#, c-format
-msgid "%2d: The %s %s\n"
+#, fuzzy, c-format
+msgid "%2d: The Worthless %s"
 msgstr "%2d: %s%s\n"
 
 #: server/report.c:240
@@ -28984,6 +28996,31 @@ msgstr "チーム30"
 #: data/default/game.ruleset:157
 msgid "Team 31"
 msgstr "チーム31"
+
+#~ msgid "Great"
+#~ msgstr "素晴らしい"
+
+#~ msgid "Glorious"
+#~ msgstr "栄誉ある"
+
+#~ msgid "Excellent"
+#~ msgstr "優秀な"
+
+#, fuzzy
+#~ msgid "Average"
+#~ msgstr "概観ページ"
+
+#~ msgid "Mediocre"
+#~ msgstr "月並な"
+
+#~ msgid "Pathetic"
+#~ msgstr "哀れな"
+
+#~ msgid "Useless"
+#~ msgstr "無用な"
+
+#~ msgid "Worthless"
+#~ msgstr "価値のない"
 
 #~ msgid "Decent"
 #~ msgstr "悪くない"

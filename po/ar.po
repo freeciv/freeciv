@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-29 13:49-0500\n"
+"POT-Creation-Date: 2008-01-29 14:26-0500\n"
 "PO-Revision-Date: 2007-08-10 18:00+0300\n"
 "Last-Translator: Ahmad M. Zawawi <zeus_go64@yahoo.com>\n"
 "Language-Team: Arabic <freeciv-i18n@freeciv.org>\n"
@@ -4012,46 +4012,58 @@ msgstr "اقتصاد"
 msgid "Military Service"
 msgstr "خدمة العلم"
 
+#. TRANS: <1>: The <ranking> Poles
 #: server/report.c:163
-msgid "Magnificent"
+#, fuzzy, c-format
+msgid "%2d: The Magnificent %s"
 msgstr "عظيم"
 
+#. TRANS: <2>: The <ranking> Poles
 #: server/report.c:165
-msgid "Great"
-msgstr "رائع"
+#, fuzzy, c-format
+msgid "%2d: The Great %s"
+msgstr "%2d: ال %s %s\n"
 
+#. TRANS: <3>: The <ranking> Poles
 #: server/report.c:167
-msgid "Glorious"
-msgstr "متألق"
+#, fuzzy, c-format
+msgid "%2d: The Glorious %s"
+msgstr "%2d: ال %s %s\n"
 
+#. TRANS: <4>: The <ranking> Poles
 #: server/report.c:169
-msgid "Excellent"
-msgstr ""
+#, fuzzy, c-format
+msgid "%2d: The Excellent %s"
+msgstr "%2d: ال %s %s\n"
 
+#. TRANS: <5>: The <ranking> Poles
 #: server/report.c:171
-#, fuzzy
-msgid "Average"
-msgstr "صفحة الملخص"
+#, fuzzy, c-format
+msgid "%2d: The Average %s"
+msgstr "%2d: ال %s %s\n"
 
+#. TRANS: <6>: The <ranking> Poles
 #: server/report.c:173
-msgid "Mediocre"
-msgstr "عادي"
+#, fuzzy, c-format
+msgid "%2d: The Mediocre %s"
+msgstr "%2d: ال %s %s\n"
 
+#. TRANS: <7>: The <ranking> Poles
 #: server/report.c:175
-msgid "Pathetic"
-msgstr "محزن"
+#, fuzzy, c-format
+msgid "%2d: The Pathetic %s"
+msgstr "%2d: ال %s %s\n"
 
+#. TRANS: <8>: The <ranking> Poles
 #: server/report.c:177
-msgid "Useless"
-msgstr "عديم الجدوى"
+#, fuzzy, c-format
+msgid "%2d: The Useless %s"
+msgstr "%2d: ال %s %s\n"
 
+#. TRANS: <9>: The <ranking> Poles
 #: server/report.c:179
-msgid "Worthless"
-msgstr "تافه"
-
-#: server/report.c:232
-#, c-format
-msgid "%2d: The %s %s\n"
+#, fuzzy, c-format
+msgid "%2d: The Worthless %s"
 msgstr "%2d: ال %s %s\n"
 
 #: server/report.c:240
@@ -26522,6 +26534,28 @@ msgstr "الفريق 30"
 #: data/default/game.ruleset:157
 msgid "Team 31"
 msgstr "الفريق 31"
+
+#~ msgid "Great"
+#~ msgstr "رائع"
+
+#~ msgid "Glorious"
+#~ msgstr "متألق"
+
+#, fuzzy
+#~ msgid "Average"
+#~ msgstr "صفحة الملخص"
+
+#~ msgid "Mediocre"
+#~ msgstr "عادي"
+
+#~ msgid "Pathetic"
+#~ msgstr "محزن"
+
+#~ msgid "Useless"
+#~ msgstr "عديم الجدوى"
+
+#~ msgid "Worthless"
+#~ msgstr "تافه"
 
 #~ msgid "Decent"
 #~ msgstr "محترم"

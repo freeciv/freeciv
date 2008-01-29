@@ -42,7 +42,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-29 13:49-0500\n"
+"POT-Creation-Date: 2008-01-29 14:26-0500\n"
 "PO-Revision-Date: 2007-09-05 04:15+0300\n"
 "Last-Translator: Daniel Markstedt <markstedt@gmail.com>\n"
 "Language-Team: Swedish <freeciv.sv@freelists.org>\n"
@@ -4150,47 +4150,58 @@ msgstr "Ekonomi"
 msgid "Military Service"
 msgstr "Militärtjänst"
 
+#. TRANS: <1>: The <ranking> Poles
 #: server/report.c:163
-msgid "Magnificent"
+#, fuzzy, c-format
+msgid "%2d: The Magnificent %s"
 msgstr "storslagna"
 
+#. TRANS: <2>: The <ranking> Poles
 #: server/report.c:165
-msgid "Great"
-msgstr "mäktiga"
+#, fuzzy, c-format
+msgid "%2d: The Great %s"
+msgstr "%2d: De %s %s\n"
 
+#. TRANS: <3>: The <ranking> Poles
 #: server/report.c:167
-msgid "Glorious"
-msgstr "ärorika"
+#, fuzzy, c-format
+msgid "%2d: The Glorious %s"
+msgstr "%2d: De %s %s\n"
 
+#. TRANS: <4>: The <ranking> Poles
 #: server/report.c:169
-msgid "Excellent"
-msgstr ""
+#, fuzzy, c-format
+msgid "%2d: The Excellent %s"
+msgstr "%2d: De %s %s\n"
 
+#. TRANS: <5>: The <ranking> Poles
 #: server/report.c:171
-#, fuzzy
-msgid "Average"
-msgstr "Översiktssidan"
+#, fuzzy, c-format
+msgid "%2d: The Average %s"
+msgstr "%2d: De %s %s\n"
 
+#. TRANS: <6>: The <ranking> Poles
 #: server/report.c:173
-msgid "Mediocre"
-msgstr "medelmåttiga"
+#, fuzzy, c-format
+msgid "%2d: The Mediocre %s"
+msgstr "%2d: De %s %s\n"
 
-# DM> tidigare "löjliga"
+#. TRANS: <7>: The <ranking> Poles
 #: server/report.c:175
-msgid "Pathetic"
-msgstr "patetiska"
+#, fuzzy, c-format
+msgid "%2d: The Pathetic %s"
+msgstr "%2d: De %s %s\n"
 
+#. TRANS: <8>: The <ranking> Poles
 #: server/report.c:177
-msgid "Useless"
-msgstr "usla"
+#, fuzzy, c-format
+msgid "%2d: The Useless %s"
+msgstr "%2d: De %s %s\n"
 
+#. TRANS: <9>: The <ranking> Poles
 #: server/report.c:179
-msgid "Worthless"
-msgstr "värdelösa"
-
-#: server/report.c:232
-#, c-format
-msgid "%2d: The %s %s\n"
+#, fuzzy, c-format
+msgid "%2d: The Worthless %s"
 msgstr "%2d: De %s %s\n"
 
 #: server/report.c:240
@@ -28105,6 +28116,29 @@ msgstr "Lag 30"
 #: data/default/game.ruleset:157
 msgid "Team 31"
 msgstr "Lag 31"
+
+#~ msgid "Great"
+#~ msgstr "mäktiga"
+
+#~ msgid "Glorious"
+#~ msgstr "ärorika"
+
+#, fuzzy
+#~ msgid "Average"
+#~ msgstr "Översiktssidan"
+
+#~ msgid "Mediocre"
+#~ msgstr "medelmåttiga"
+
+# DM> tidigare "löjliga"
+#~ msgid "Pathetic"
+#~ msgstr "patetiska"
+
+#~ msgid "Useless"
+#~ msgstr "usla"
+
+#~ msgid "Worthless"
+#~ msgstr "värdelösa"
 
 #~ msgid "Decent"
 #~ msgstr "skapliga"
