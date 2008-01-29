@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-27 18:27-0500\n"
+"POT-Creation-Date: 2008-01-29 13:49-0500\n"
 "PO-Revision-Date: 2008-01-23 10:29+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -214,7 +214,7 @@ msgid "Low Funds"
 msgstr "Tahů"
 
 #: common/events.c:68 common/terrain.c:486 common/unit.c:521
-#: server/report.c:124 client/cityrepdata.c:513
+#: server/report.c:137 client/cityrepdata.c:513
 #: client/gui-sdl/optiondlg.c:1772
 msgid "Pollution"
 msgstr "Znečištění"
@@ -1234,12 +1234,12 @@ msgstr "příliš dlouhé"
 msgid "non-match"
 msgstr "neshoda"
 
-#: utility/support.c:205
+#: utility/support.c:211
 #, c-format
 msgid "error %ld (failed FormatMessage)"
 msgstr "chyba %ld (selhalo FormatMessage)"
 
-#: utility/support.c:215
+#: utility/support.c:224
 #, c-format
 msgid "error %d (compiled without strerror)"
 msgstr "chyba %d (přeloženo bez strerror)"
@@ -3946,153 +3946,175 @@ msgstr[2] ""
 "      zažehlo občanskou válku.  Opportunisté se shromáždili k rebeliím\n"
 "      a zbohatlík %s má v rukou %d vzbouřených provincií."
 
-#: server/report.c:56
-#, fuzzy, c-format
-msgid "%s report on the RICHEST Civilizations in the World %s."
-msgstr "%s přehled NEJBOHATŠÍCH civilizací světa."
-
+#. TRANS: year <name> reports ...
 #: server/report.c:57
 #, fuzzy, c-format
-msgid "%s report on the most ADVANCED Civilizations in the World %s."
-msgstr "%s přehled NEJVYSPĚLEJŠÍCH civilizací světa."
+msgid "%s %s reports on the RICHEST Civilizations in the World."
+msgstr "%s přehled NEJBOHATŠÍCH civilizací světa."
 
-#: server/report.c:58
-#, fuzzy, c-format
-msgid "%s report on the most MILITARIZED Civilizations in the World %s."
-msgstr "%s přehled NEJVYZBROJENĚJŠÍCH civilizací světa."
-
+#. TRANS: year <name> reports ...
 #: server/report.c:59
 #, fuzzy, c-format
-msgid "%s report on the HAPPIEST Civilizations in the World %s."
+msgid "%s %s reports on the most ADVANCED Civilizations in the World."
+msgstr "%s přehled NEJVYSPĚLEJŠÍCH civilizací světa."
+
+#. TRANS: year <name> reports ...
+#: server/report.c:61
+#, fuzzy, c-format
+msgid "%s %s reports on the most MILITARIZED Civilizations in the World."
+msgstr "%s přehled NEJVYZBROJENĚJŠÍCH civilizací světa."
+
+#. TRANS: year <name> reports ...
+#: server/report.c:63
+#, fuzzy, c-format
+msgid "%s %s reports on the HAPPIEST Civilizations in the World."
 msgstr "%s přehled NEJŠŤASTNĚJŠÍCH civilizac světa."
 
-#: server/report.c:60
+#. TRANS: year <name> reports ...
+#: server/report.c:65
 #, fuzzy, c-format
-msgid "%s report on the LARGEST Civilizations in the World %s."
+msgid "%s %s reports on the LARGEST Civilizations in the World."
 msgstr "%s přehled NEJVĚTŠÍCH civilizací světa."
 
-#: server/report.c:64
-msgid "Herodotus'"
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:70
+#, fuzzy
+msgid "Herodotus"
 msgstr "Herodotův"
 
-#: server/report.c:65
-msgid "Thucydides'"
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:72
+#, fuzzy
+msgid "Thucydides"
 msgstr "Thukydidův"
 
-#: server/report.c:66
-msgid "Pliny the Elder's"
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:74
+#, fuzzy
+msgid "Pliny the Elder"
 msgstr "Pliniův"
 
-#: server/report.c:67
-msgid "Livy's"
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:76
+#, fuzzy
+msgid "Livy"
 msgstr "Liviův"
 
-#: server/report.c:68
-msgid "Toynbee's"
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:78
+#, fuzzy
+msgid "Toynbee"
 msgstr "Toynbeeův"
 
-#: server/report.c:69
-msgid "Gibbon's"
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:80
+#, fuzzy
+msgid "Gibbon"
 msgstr "Gibonnův"
 
-#: server/report.c:70
-msgid "Ssu-ma Ch'ien's"
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:82
+#, fuzzy
+msgid "Ssu-ma Ch'ien"
 msgstr "Ssu-ma Čchienův"
 
-#: server/report.c:71
-msgid "Pan Ku's"
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:84
+#, fuzzy
+msgid "Pan Ku"
 msgstr "Pa Kunův"
 
-#: server/report.c:116
+#: server/report.c:129
 msgid "Population"
 msgstr "Populace"
 
-#: server/report.c:117
+#: server/report.c:130
 msgid "Land Area"
 msgstr "Plocha"
 
-#: server/report.c:118
+#: server/report.c:131
 msgid "Settled Area"
 msgstr "Obydlená plocha"
 
-#: server/report.c:119
+#: server/report.c:132
 msgid "Research Speed"
 msgstr "Rychlost výzkumu"
 
-#: server/report.c:120 data/default/techs.ruleset:383
+#: server/report.c:133 data/default/techs.ruleset:383
 #: data/civ2/techs.ruleset:380 data/civ1/techs.ruleset:306
 msgid "Literacy"
 msgstr "Gramotnost"
 
-#: server/report.c:121 client/cityrepdata.c:518 client/cityrepdata.c:520
+#: server/report.c:134 client/cityrepdata.c:518 client/cityrepdata.c:520
 #: client/gui-sdl/cityrep.c:174
 msgid "Production"
 msgstr "Produkce"
 
-#: server/report.c:122 data/default/techs.ruleset:222
+#: server/report.c:135 data/default/techs.ruleset:222
 #: data/civ2/techs.ruleset:211
 msgid "Economics"
 msgstr "Ekonomika"
 
-#: server/report.c:123
+#: server/report.c:136
 msgid "Military Service"
 msgstr "Vojenská služba"
 
-#: server/report.c:149
+#: server/report.c:163
 msgid "Magnificent"
 msgstr "Velkolepí"
 
-#: server/report.c:149
-msgid "Glorious"
-msgstr "Slavní"
-
-#: server/report.c:149
+#: server/report.c:165
 msgid "Great"
 msgstr "Velcí"
 
-#: server/report.c:149
-msgid "Decent"
-msgstr "Ucházející"
+#: server/report.c:167
+msgid "Glorious"
+msgstr "Slavní"
 
-#: server/report.c:150
+#: server/report.c:169
+msgid "Excellent"
+msgstr ""
+
+#: server/report.c:171
+#, fuzzy
+msgid "Average"
+msgstr "Stránka přehledu"
+
+#: server/report.c:173
 msgid "Mediocre"
 msgstr "Průměrní"
 
-#: server/report.c:150
-msgid "Hilarious"
-msgstr "Směšní"
-
-#: server/report.c:150
-msgid "Worthless"
-msgstr "Neškodní"
-
-#: server/report.c:150
+#: server/report.c:175
 msgid "Pathetic"
 msgstr "Patetičtí"
 
-#: server/report.c:151
+#: server/report.c:177
 msgid "Useless"
 msgstr "Bezcenní"
 
-#: server/report.c:201
+#: server/report.c:179
+msgid "Worthless"
+msgstr "Neškodní"
+
+#: server/report.c:232
 #, c-format
 msgid "%2d: The %s %s\n"
 msgstr "%2d: %s %s\n"
 
-#: server/report.c:209
+#: server/report.c:240
 msgid "Historian Publishes!"
 msgstr "Historici uvádějí!"
 
-#: server/report.c:271
+#: server/report.c:302
 #, c-format
 msgid "%2d: The %s City of %s of size %d, "
 msgstr "%2d: %s - město %s o velikosti %d, "
 
-#: server/report.c:278
+#: server/report.c:309
 msgid "with no wonders\n"
 msgstr "bez divů\n"
 
-#: server/report.c:281
+#: server/report.c:312
 #, c-format
 msgid "with %d wonder\n"
 msgid_plural "with %d wonders\n"
@@ -4100,93 +4122,93 @@ msgstr[0] "s %d divem\n"
 msgstr[1] "s %d divy\n"
 msgstr[2] "s %d divy\n"
 
-#: server/report.c:284 server/report.c:331
+#: server/report.c:315 server/report.c:362
 msgid "Traveler's Report:"
 msgstr "Cestovatelé tvrdí:"
 
-#: server/report.c:285
+#: server/report.c:316
 msgid "The Five Greatest Cities in the World!"
 msgstr "Pět největších měst světa!"
 
-#: server/report.c:303
+#: server/report.c:334
 #, c-format
 msgid "%s in %s (%s)\n"
 msgstr "%s ve městě %s (%s)\n"
 
-#: server/report.c:308
+#: server/report.c:339
 #, c-format
 msgid "%s has been DESTROYED\n"
 msgstr "Div %s byl ZNIČEN\n"
 
-#: server/report.c:321
+#: server/report.c:352
 #, c-format
 msgid "(building %s in %s (%s))\n"
 msgstr "(staví %s ve městě %s (%s))\n"
 
-#: server/report.c:332 client/gui-xaw/menu.c:231 data/helpdata.txt:899
+#: server/report.c:363 client/gui-xaw/menu.c:231 data/helpdata.txt:899
 msgid "Wonders of the World"
 msgstr "Divy světa"
 
-#: server/report.c:549
+#: server/report.c:580
 msgid " sq. mi."
 msgstr "km čt."
 
-#: server/report.c:559
+#: server/report.c:590
 msgid " M tons"
 msgstr " mil. tun"
 
-#: server/report.c:564
+#: server/report.c:595
 msgid " M goods"
 msgstr " mil. zboží"
 
-#: server/report.c:569
+#: server/report.c:600
 msgid " bulbs"
 msgstr " žárovek"
 
-#: server/report.c:574
+#: server/report.c:605
 msgid " month"
 msgid_plural " months"
 msgstr[0] " měsíc"
 msgstr[1] " měsíce"
 msgstr[2] " měsíců"
 
-#: server/report.c:579
+#: server/report.c:610
 msgid " ton"
 msgid_plural " tons"
 msgstr[0] " tuna"
 msgstr[1] " tuny"
 msgstr[2] " tun"
 
-#: server/report.c:593
+#: server/report.c:624
 msgid "st"
 msgstr "."
 
-#: server/report.c:595
+#: server/report.c:626
 msgid "nd"
 msgstr "."
 
-#: server/report.c:597
+#: server/report.c:628
 msgid "rd"
 msgstr "."
 
-#: server/report.c:599
+#: server/report.c:630
 msgid "th"
 msgstr "."
 
-#: server/report.c:700
+#: server/report.c:731
 msgid "Demography string contains invalid characters. Try \"help demography\"."
 msgstr ""
 "Řetězec Demografie obsahuje neplatné znaky. Zkuste \"help demography\"."
 
-#: server/report.c:743 server/report.c:766
+#: server/report.c:774 server/report.c:797
 msgid "Demographics Report:"
 msgstr "Demografický přehled"
 
-#: server/report.c:744
+#: server/report.c:775
 msgid "Sorry, the Demographics report is unavailable."
 msgstr "Lituji, ale demografický přehled není k dispozici."
 
-#: server/report.c:748
+#: server/report.c:779
 #, c-format
 msgid "The %s of the %s (%s)"
 msgstr "%s %s (%s)"
@@ -27277,6 +27299,12 @@ msgstr "Tým 30"
 #: data/default/game.ruleset:157
 msgid "Team 31"
 msgstr "Tým 31"
+
+#~ msgid "Decent"
+#~ msgstr "Ucházející"
+
+#~ msgid "Hilarious"
+#~ msgstr "Směšní"
 
 #~ msgid "Option:"
 #~ msgstr "Volba:"

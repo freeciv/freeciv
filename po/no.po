@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-27 18:27-0500\n"
+"POT-Creation-Date: 2008-01-29 13:49-0500\n"
 "PO-Revision-Date: 2007-09-01 22:28+0300\n"
 "Last-Translator: Per I. Mathisen <per@freeciv.org>\n"
 "Language-Team: Norwegian <andrearo@stud.ntnu.no>\n"
@@ -231,7 +231,7 @@ msgid "Low Funds"
 msgstr "Civ: Lite gull"
 
 #: common/events.c:68 common/terrain.c:486 common/unit.c:521
-#: server/report.c:124 client/cityrepdata.c:513
+#: server/report.c:137 client/cityrepdata.c:513
 #: client/gui-sdl/optiondlg.c:1772
 msgid "Pollution"
 msgstr "Forurensning"
@@ -1273,12 +1273,12 @@ msgstr "for lang"
 msgid "non-match"
 msgstr "ikke treff"
 
-#: utility/support.c:205
+#: utility/support.c:211
 #, c-format
 msgid "error %ld (failed FormatMessage)"
 msgstr "feil %ld (FormatMessage)"
 
-#: utility/support.c:215
+#: utility/support.c:224
 #, c-format
 msgid "error %d (compiled without strerror)"
 msgstr "feil %d (kompilert uten 'strerror')"
@@ -3982,245 +3982,267 @@ msgstr[1] ""
 "til\n"
 "       opprørene, og oppkomlingen %s har nå makten i %d fylker."
 
-#: server/report.c:56
-#, fuzzy, c-format
-msgid "%s report on the RICHEST Civilizations in the World %s."
-msgstr "%s rapport om de RIKESTE sivilisasjonene i verden."
-
+#. TRANS: year <name> reports ...
 #: server/report.c:57
 #, fuzzy, c-format
-msgid "%s report on the most ADVANCED Civilizations in the World %s."
-msgstr "%s rapport om de mest AVANSERTE sivilisasjonene i verden."
+msgid "%s %s reports on the RICHEST Civilizations in the World."
+msgstr "%s rapport om de RIKESTE sivilisasjonene i verden."
 
-#: server/report.c:58
-#, fuzzy, c-format
-msgid "%s report on the most MILITARIZED Civilizations in the World %s."
-msgstr "%s rapport om de mest MILITARISERTE sivilisasjonene i verden."
-
+#. TRANS: year <name> reports ...
 #: server/report.c:59
 #, fuzzy, c-format
-msgid "%s report on the HAPPIEST Civilizations in the World %s."
+msgid "%s %s reports on the most ADVANCED Civilizations in the World."
+msgstr "%s rapport om de mest AVANSERTE sivilisasjonene i verden."
+
+#. TRANS: year <name> reports ...
+#: server/report.c:61
+#, fuzzy, c-format
+msgid "%s %s reports on the most MILITARIZED Civilizations in the World."
+msgstr "%s rapport om de mest MILITARISERTE sivilisasjonene i verden."
+
+#. TRANS: year <name> reports ...
+#: server/report.c:63
+#, fuzzy, c-format
+msgid "%s %s reports on the HAPPIEST Civilizations in the World."
 msgstr "%s rapport om de LYKKELIGSTE sivilisasjonene i verden."
 
-#: server/report.c:60
+#. TRANS: year <name> reports ...
+#: server/report.c:65
 #, fuzzy, c-format
-msgid "%s report on the LARGEST Civilizations in the World %s."
+msgid "%s %s reports on the LARGEST Civilizations in the World."
 msgstr "%s rapport om de STØRSTE sivilisasjonene i verden."
 
-#: server/report.c:64
-msgid "Herodotus'"
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:70
+#, fuzzy
+msgid "Herodotus"
 msgstr "Herodots"
 
-#: server/report.c:65
-msgid "Thucydides'"
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:72
+#, fuzzy
+msgid "Thucydides"
 msgstr "Thucydides'"
 
-#: server/report.c:66
-msgid "Pliny the Elder's"
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:74
+#, fuzzy
+msgid "Pliny the Elder"
 msgstr "Pliny den Eldres"
 
-#: server/report.c:67
-msgid "Livy's"
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:76
+#, fuzzy
+msgid "Livy"
 msgstr "Livys"
 
-#: server/report.c:68
-msgid "Toynbee's"
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:78
+#, fuzzy
+msgid "Toynbee"
 msgstr "Toynbees"
 
-#: server/report.c:69
-msgid "Gibbon's"
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:80
+#, fuzzy
+msgid "Gibbon"
 msgstr "Gibbons"
 
-#: server/report.c:70
-msgid "Ssu-ma Ch'ien's"
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:82
+#, fuzzy
+msgid "Ssu-ma Ch'ien"
 msgstr "Ssu-ma Ch'iens"
 
-#: server/report.c:71
-msgid "Pan Ku's"
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:84
+#, fuzzy
+msgid "Pan Ku"
 msgstr "Pan Kus"
 
-#: server/report.c:116
+#: server/report.c:129
 msgid "Population"
 msgstr "Befolkning"
 
-#: server/report.c:117
+#: server/report.c:130
 msgid "Land Area"
 msgstr "Landområde"
 
-#: server/report.c:118
+#: server/report.c:131
 msgid "Settled Area"
 msgstr "Befolket område"
 
-#: server/report.c:119
+#: server/report.c:132
 msgid "Research Speed"
 msgstr "Forskingstempo"
 
-#: server/report.c:120 data/default/techs.ruleset:383
+#: server/report.c:133 data/default/techs.ruleset:383
 #: data/civ2/techs.ruleset:380 data/civ1/techs.ruleset:306
 msgid "Literacy"
 msgstr "Utdannelse"
 
-#: server/report.c:121 client/cityrepdata.c:518 client/cityrepdata.c:520
+#: server/report.c:134 client/cityrepdata.c:518 client/cityrepdata.c:520
 #: client/gui-sdl/cityrep.c:174
 msgid "Production"
 msgstr "Produksjon"
 
-#: server/report.c:122 data/default/techs.ruleset:222
+#: server/report.c:135 data/default/techs.ruleset:222
 #: data/civ2/techs.ruleset:211
 msgid "Economics"
 msgstr "Økonomi"
 
-#: server/report.c:123
+#: server/report.c:136
 msgid "Military Service"
 msgstr "Militærtjeneste"
 
-#: server/report.c:149
+#: server/report.c:163
 msgid "Magnificent"
 msgstr "utrolige"
 
-#: server/report.c:149
-msgid "Glorious"
-msgstr "heltemodige"
-
-#: server/report.c:149
+#: server/report.c:165
 msgid "Great"
 msgstr "store"
 
-#: server/report.c:149
-msgid "Decent"
-msgstr "gode"
+#: server/report.c:167
+msgid "Glorious"
+msgstr "heltemodige"
 
-#: server/report.c:150
+#: server/report.c:169
+msgid "Excellent"
+msgstr "utmerket"
+
+#: server/report.c:171
+#, fuzzy
+msgid "Average"
+msgstr "Byoversikt"
+
+#: server/report.c:173
 msgid "Mediocre"
 msgstr "middelmådige"
 
-#: server/report.c:150
-msgid "Hilarious"
-msgstr "latterlige"
-
-#: server/report.c:150
-msgid "Worthless"
-msgstr "verdiløse"
-
-#: server/report.c:150
+#: server/report.c:175
 msgid "Pathetic"
 msgstr "patetiske"
 
-#: server/report.c:151
+#: server/report.c:177
 msgid "Useless"
 msgstr "ubrukelige"
 
-#: server/report.c:201
+#: server/report.c:179
+msgid "Worthless"
+msgstr "verdiløse"
+
+#: server/report.c:232
 #, c-format
 msgid "%2d: The %s %s\n"
 msgstr "%2d: %s %s\n"
 
-#: server/report.c:209
+#: server/report.c:240
 msgid "Historian Publishes!"
 msgstr "Nytt historisk verk!"
 
-#: server/report.c:271
+#: server/report.c:302
 #, c-format
 msgid "%2d: The %s City of %s of size %d, "
 msgstr "%2d: %s by %s med størrelse %d, "
 
-#: server/report.c:278
+#: server/report.c:309
 msgid "with no wonders\n"
 msgstr "uten underverk\n"
 
-#: server/report.c:281
+#: server/report.c:312
 #, c-format
 msgid "with %d wonder\n"
 msgid_plural "with %d wonders\n"
 msgstr[0] "med %d underverk\n"
 msgstr[1] "med %d underverk\n"
 
-#: server/report.c:284 server/report.c:331
+#: server/report.c:315 server/report.c:362
 msgid "Traveler's Report:"
 msgstr "En vandrers rapport:"
 
-#: server/report.c:285
+#: server/report.c:316
 msgid "The Five Greatest Cities in the World!"
 msgstr "De fem mest fremragende byene i verden!"
 
-#: server/report.c:303
+#: server/report.c:334
 #, c-format
 msgid "%s in %s (%s)\n"
 msgstr "%s i %s (%s)\n"
 
-#: server/report.c:308
+#: server/report.c:339
 #, c-format
 msgid "%s has been DESTROYED\n"
 msgstr "%s har blitt ØDELAGT\n"
 
-#: server/report.c:321
+#: server/report.c:352
 #, c-format
 msgid "(building %s in %s (%s))\n"
 msgstr "(bygger %s i %s (%s))\n"
 
-#: server/report.c:332 client/gui-xaw/menu.c:231 data/helpdata.txt:899
+#: server/report.c:363 client/gui-xaw/menu.c:231 data/helpdata.txt:899
 msgid "Wonders of the World"
 msgstr "Verdens underverk"
 
-#: server/report.c:549
+#: server/report.c:580
 msgid " sq. mi."
 msgstr " kkm"
 
-#: server/report.c:559
+#: server/report.c:590
 msgid " M tons"
 msgstr " M t"
 
-#: server/report.c:564
+#: server/report.c:595
 msgid " M goods"
 msgstr " M varer"
 
-#: server/report.c:569
+#: server/report.c:600
 msgid " bulbs"
 msgstr ""
 
-#: server/report.c:574
+#: server/report.c:605
 msgid " month"
 msgid_plural " months"
 msgstr[0] " måned"
 msgstr[1] " måned"
 
-#: server/report.c:579
+#: server/report.c:610
 msgid " ton"
 msgid_plural " tons"
 msgstr[0] " tonn"
 msgstr[1] " tonn"
 
-#: server/report.c:593
+#: server/report.c:624
 msgid "st"
 msgstr "."
 
-#: server/report.c:595
+#: server/report.c:626
 msgid "nd"
 msgstr "."
 
-#: server/report.c:597
+#: server/report.c:628
 msgid "rd"
 msgstr "."
 
-#: server/report.c:599
+#: server/report.c:630
 msgid "th"
 msgstr "."
 
-#: server/report.c:700
+#: server/report.c:731
 msgid "Demography string contains invalid characters. Try \"help demography\"."
 msgstr ""
 "Demografi tekststrengen inneholder ugyldige bokstaver. Prøv \"help demography"
 "\"."
 
-#: server/report.c:743 server/report.c:766
+#: server/report.c:774 server/report.c:797
 msgid "Demographics Report:"
 msgstr "Demografi-rapport:"
 
-#: server/report.c:744
+#: server/report.c:775
 msgid "Sorry, the Demographics report is unavailable."
 msgstr "Beklager, demografirapport er ikke tilgjengelig."
 
-#: server/report.c:748
+#: server/report.c:779
 #, fuzzy, c-format
 msgid "The %s of the %s (%s)"
 msgstr "Styresett: %s  Nasjon: %s"
@@ -27669,6 +27691,32 @@ msgstr "Lag"
 msgid "Team 31"
 msgstr "Lag"
 
+#~ msgid "Decent"
+#~ msgstr "gode"
+
+#~ msgid "Hilarious"
+#~ msgstr "latterlige"
+
+#, fuzzy
+#~ msgid "%s report on the RICHEST Civilizations in the World %s."
+#~ msgstr "%s rapport om de RIKESTE sivilisasjonene i verden."
+
+#, fuzzy
+#~ msgid "%s report on the most ADVANCED Civilizations in the World %s."
+#~ msgstr "%s rapport om de mest AVANSERTE sivilisasjonene i verden."
+
+#, fuzzy
+#~ msgid "%s report on the most MILITARIZED Civilizations in the World %s."
+#~ msgstr "%s rapport om de mest MILITARISERTE sivilisasjonene i verden."
+
+#, fuzzy
+#~ msgid "%s report on the HAPPIEST Civilizations in the World %s."
+#~ msgstr "%s rapport om de LYKKELIGSTE sivilisasjonene i verden."
+
+#, fuzzy
+#~ msgid "%s report on the LARGEST Civilizations in the World %s."
+#~ msgstr "%s rapport om de STØRSTE sivilisasjonene i verden."
+
 #~ msgid "Option:"
 #~ msgstr "Alternativ:"
 
@@ -27966,21 +28014,6 @@ msgstr "Lag"
 #, fuzzy
 #~ msgid "(%d) %s rejected: duplicate username [%s]"
 #~ msgstr "(%d) %s ble vist bort. Manglet egenskaper [%s]"
-
-#~ msgid "%s report on the RICHEST Civilizations in the World."
-#~ msgstr "%s rapport om de RIKESTE sivilisasjonene i verden."
-
-#~ msgid "%s report on the most ADVANCED Civilizations in the World."
-#~ msgstr "%s rapport om de mest AVANSERTE sivilisasjonene i verden."
-
-#~ msgid "%s report on the most MILITARIZED Civilizations in the World."
-#~ msgstr "%s rapport om de mest MILITARISERTE sivilisasjonene i verden."
-
-#~ msgid "%s report on the HAPPIEST Civilizations in the World."
-#~ msgstr "%s rapport om de LYKKELIGSTE sivilisasjonene i verden."
-
-#~ msgid "%s report on the LARGEST Civilizations in the World."
-#~ msgstr "%s rapport om de STØRSTE sivilisasjonene i verden."
 
 #~ msgid "City size before people become unhappy"
 #~ msgstr "Bystørrelse før folk blir ulykkelige"
@@ -30781,9 +30814,6 @@ msgstr "Lag"
 
 #~ msgid "Spotless"
 #~ msgstr "uklanderlig"
-
-#~ msgid "Excellent"
-#~ msgstr "utmerket"
 
 #~ msgid "Honorable"
 #~ msgstr "ærefull"

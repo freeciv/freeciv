@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-28 18:00+0100\n"
+"POT-Creation-Date: 2008-01-29 13:49-0500\n"
 "PO-Revision-Date: 2007-08-11 01:23+0300\n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -226,7 +226,7 @@ msgid "Low Funds"
 msgstr "Schlechte Haushaltslage"
 
 #: common/events.c:68 common/terrain.c:486 common/unit.c:521
-#: server/report.c:124 client/cityrepdata.c:513
+#: server/report.c:137 client/cityrepdata.c:513
 #: client/gui-sdl/optiondlg.c:1772
 msgid "Pollution"
 msgstr "Verschmutzung"
@@ -1199,13 +1199,13 @@ msgstr "zu lang"
 msgid "non-match"
 msgstr "Fehlschlag"
 
-#: utility/support.c:205
+#: utility/support.c:211
 #, c-format
 msgid "error %ld (failed FormatMessage)"
 msgstr "error %ld (failed FormatMessage)"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: utility/support.c:215
+#: utility/support.c:224
 #, c-format
 msgid "error %d (compiled without strerror)"
 msgstr "error %d (compiled without strerror)"
@@ -3995,245 +3995,267 @@ msgid_plural "Civil war partitions the %s; the %s now hold %d cities."
 msgstr[0] "Der Bürgerkrieg spaltet die %s; die %s kontrollieren nun %d Stadt."
 msgstr[1] "Der Bürgerkrieg spaltet die %s; die %s kontrollieren nun %d Städte."
 
-#: server/report.c:56
-#, c-format
-msgid "%s report on the RICHEST Civilizations in the World %s."
-msgstr "%s Bericht über die REICHSTEN Nationen der Welt %s."
-
+#. TRANS: year <name> reports ...
 #: server/report.c:57
-#, c-format
-msgid "%s report on the most ADVANCED Civilizations in the World %s."
-msgstr "%s Bericht über die FORTGESCHRITTENSTEN Nationen der Welt %s."
+#, fuzzy, c-format
+msgid "%s %s reports on the RICHEST Civilizations in the World."
+msgstr "%s Bericht über die REICHSTEN Nationen der Welt."
 
-#: server/report.c:58
-#, c-format
-msgid "%s report on the most MILITARIZED Civilizations in the World %s."
-msgstr "%s Bericht über die MÄCHTIGSTEN Nationen der Welt %s."
-
+#. TRANS: year <name> reports ...
 #: server/report.c:59
-#, c-format
-msgid "%s report on the HAPPIEST Civilizations in the World %s."
-msgstr "%s Bericht über die GLÜCKLICHSTEN Nationen der Welt %s."
+#, fuzzy, c-format
+msgid "%s %s reports on the most ADVANCED Civilizations in the World."
+msgstr "%s Bericht über die FORTGESCHRITTENSTEN Nationen der Welt."
 
-#: server/report.c:60
-#, c-format
-msgid "%s report on the LARGEST Civilizations in the World %s."
-msgstr "%s Bericht über die GRÖSSTEN Nationen der Welt %s."
+#. TRANS: year <name> reports ...
+#: server/report.c:61
+#, fuzzy, c-format
+msgid "%s %s reports on the most MILITARIZED Civilizations in the World."
+msgstr "%s Bericht über die MÄCHTIGSTEN Nationen der Welt."
 
-#: server/report.c:64
-msgid "Herodotus'"
+#. TRANS: year <name> reports ...
+#: server/report.c:63
+#, fuzzy, c-format
+msgid "%s %s reports on the HAPPIEST Civilizations in the World."
+msgstr "%s Bericht über die GLÜCKLICHSTEN Nationen der Welt."
+
+#. TRANS: year <name> reports ...
+#: server/report.c:65
+#, fuzzy, c-format
+msgid "%s %s reports on the LARGEST Civilizations in the World."
+msgstr "%s Bericht über die GRÖSSTEN Nationen der Welt."
+
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:70
+#, fuzzy
+msgid "Herodotus"
 msgstr "Herodots"
 
-#: server/report.c:65
-msgid "Thucydides'"
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:72
+#, fuzzy
+msgid "Thucydides"
 msgstr "Thucydides"
 
-#: server/report.c:66
-msgid "Pliny the Elder's"
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:74
+#, fuzzy
+msgid "Pliny the Elder"
 msgstr "Plinius des Älteren"
 
-#: server/report.c:67
-msgid "Livy's"
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:76
+#, fuzzy
+msgid "Livy"
 msgstr "Livys"
 
-#: server/report.c:68
-msgid "Toynbee's"
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:78
+#, fuzzy
+msgid "Toynbee"
 msgstr "Toynbees"
 
-#: server/report.c:69
-msgid "Gibbon's"
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:80
+#, fuzzy
+msgid "Gibbon"
 msgstr "Gibbons"
 
-#: server/report.c:70
-msgid "Ssu-ma Ch'ien's"
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:82
+#, fuzzy
+msgid "Ssu-ma Ch'ien"
 msgstr "Ssu-ma Ch'iens"
 
-#: server/report.c:71
-msgid "Pan Ku's"
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:84
+#, fuzzy
+msgid "Pan Ku"
 msgstr "Pan Kus"
 
-#: server/report.c:116
+#: server/report.c:129
 msgid "Population"
 msgstr "Bevölkerung"
 
-#: server/report.c:117
+#: server/report.c:130
 msgid "Land Area"
 msgstr "Landfläche"
 
-#: server/report.c:118
+#: server/report.c:131
 msgid "Settled Area"
 msgstr "Besiedelte Fläche"
 
-#: server/report.c:119
+#: server/report.c:132
 msgid "Research Speed"
 msgstr "Forschungstempo"
 
-#: server/report.c:120 data/default/techs.ruleset:383
+#: server/report.c:133 data/default/techs.ruleset:383
 #: data/civ2/techs.ruleset:380 data/civ1/techs.ruleset:306
 msgid "Literacy"
 msgstr "Bildung"
 
-#: server/report.c:121 client/cityrepdata.c:518 client/cityrepdata.c:520
+#: server/report.c:134 client/cityrepdata.c:518 client/cityrepdata.c:520
 #: client/gui-sdl/cityrep.c:174
 msgid "Production"
 msgstr "Produktion"
 
-#: server/report.c:122 data/default/techs.ruleset:222
+#: server/report.c:135 data/default/techs.ruleset:222
 #: data/civ2/techs.ruleset:211
 msgid "Economics"
 msgstr "Wirtschaft"
 
-#: server/report.c:123
+#: server/report.c:136
 msgid "Military Service"
 msgstr "Wehrdienst"
 
-#: server/report.c:149
+#: server/report.c:163
 msgid "Magnificent"
 msgstr "großartigen"
 
-#: server/report.c:149
-msgid "Glorious"
-msgstr "glorreichen"
-
-#: server/report.c:149
+#: server/report.c:165
 msgid "Great"
 msgstr "großen"
 
-#: server/report.c:149
-msgid "Decent"
-msgstr "bescheidenen"
+#: server/report.c:167
+msgid "Glorious"
+msgstr "glorreichen"
 
-#: server/report.c:150
+#: server/report.c:169
+msgid "Excellent"
+msgstr ""
+
+#: server/report.c:171
+#, fuzzy
+msgid "Average"
+msgstr "Übersicht"
+
+#: server/report.c:173
 msgid "Mediocre"
 msgstr "mittelmäßigen"
 
-#: server/report.c:150
-msgid "Hilarious"
-msgstr "lächerlichen"
-
-#: server/report.c:150
-msgid "Worthless"
-msgstr "wertlosen"
-
-#: server/report.c:150
+#: server/report.c:175
 msgid "Pathetic"
 msgstr "langweiligen"
 
-#: server/report.c:151
+#: server/report.c:177
 msgid "Useless"
 msgstr "nutzlosen"
 
-#: server/report.c:201
+#: server/report.c:179
+msgid "Worthless"
+msgstr "wertlosen"
+
+#: server/report.c:232
 #, c-format
 msgid "%2d: The %s %s\n"
 msgstr "%2d: Die %s %s\n"
 
-#: server/report.c:209
+#: server/report.c:240
 msgid "Historian Publishes!"
 msgstr "Historiker veröffentlicht:"
 
-#: server/report.c:271
+#: server/report.c:302
 #, c-format
 msgid "%2d: The %s City of %s of size %d, "
 msgstr "%2d: Die %se Stadt %s der Größe %d "
 
-#: server/report.c:278
+#: server/report.c:309
 msgid "with no wonders\n"
 msgstr "ohne Weltwunder\n"
 
-#: server/report.c:281
+#: server/report.c:312
 #, c-format
 msgid "with %d wonder\n"
 msgid_plural "with %d wonders\n"
 msgstr[0] "mit 1 Weltwunder\n"
 msgstr[1] "mit %d Weltwundern\n"
 
-#: server/report.c:284 server/report.c:331
+#: server/report.c:315 server/report.c:362
 msgid "Traveler's Report:"
 msgstr "Reisende berichten:"
 
-#: server/report.c:285
+#: server/report.c:316
 msgid "The Five Greatest Cities in the World!"
 msgstr "Die fünf großartigsten Städte der Welt!"
 
-#: server/report.c:303
+#: server/report.c:334
 #, c-format
 msgid "%s in %s (%s)\n"
 msgstr "%s in %s (%s)\n"
 
-#: server/report.c:308
+#: server/report.c:339
 #, c-format
 msgid "%s has been DESTROYED\n"
 msgstr "%s wurde ZERSTÖRT\n"
 
-#: server/report.c:321
+#: server/report.c:352
 #, c-format
 msgid "(building %s in %s (%s))\n"
 msgstr "(baut %s in %s (%s))\n"
 
-#: server/report.c:332 client/gui-xaw/menu.c:231 data/helpdata.txt:899
+#: server/report.c:363 client/gui-xaw/menu.c:231 data/helpdata.txt:899
 msgid "Wonders of the World"
 msgstr "Weltwunder"
 
-#: server/report.c:549
+#: server/report.c:580
 msgid " sq. mi."
 msgstr " qkm"
 
-#: server/report.c:559
+#: server/report.c:590
 msgid " M tons"
 msgstr " M t"
 
-#: server/report.c:564
+#: server/report.c:595
 msgid " M goods"
 msgstr " M Produkte"
 
-#: server/report.c:569
+#: server/report.c:600
 msgid " bulbs"
 msgstr " Punkte"
 
-#: server/report.c:574
+#: server/report.c:605
 msgid " month"
 msgid_plural " months"
 msgstr[0] " Monat"
 msgstr[1] " Monate"
 
-#: server/report.c:579
+#: server/report.c:610
 msgid " ton"
 msgid_plural " tons"
 msgstr[0] " t"
 msgstr[1] " t"
 
-#: server/report.c:593
+#: server/report.c:624
 msgid "st"
 msgstr "."
 
-#: server/report.c:595
+#: server/report.c:626
 msgid "nd"
 msgstr "."
 
-#: server/report.c:597
+#: server/report.c:628
 msgid "rd"
 msgstr "."
 
-#: server/report.c:599
+#: server/report.c:630
 msgid "th"
 msgstr "."
 
-#: server/report.c:700
+#: server/report.c:731
 msgid "Demography string contains invalid characters. Try \"help demography\"."
 msgstr ""
 "Der Optionsstring zur 'Lage der Nation' enthält ungültige Einträge. Nähere "
 "Informationen sind mit 'help demography' erhältlich."
 
-#: server/report.c:743 server/report.c:766
+#: server/report.c:774 server/report.c:797
 msgid "Demographics Report:"
 msgstr "Bericht zur Lage der Nation:"
 
-#: server/report.c:744
+#: server/report.c:775
 msgid "Sorry, the Demographics report is unavailable."
 msgstr "Der Bericht zur Lage der Nation ist leider nicht verfügbar."
 
-#: server/report.c:748
+#: server/report.c:779
 #, c-format
 msgid "The %s of the %s (%s)"
 msgstr "Die %s der %s (%s)"
@@ -8536,8 +8558,10 @@ msgstr "* Benötigt %d Bürger zur Herstellung.\n"
 #, c-format
 msgid "* Can carry and refuel %d unit from classes:\n"
 msgid_plural "* Can carry and refuel up to %d units from classes:\n"
-msgstr[0] "* Kann bis zu %d Einheit folgender Klassen transportieren und betanken:\n"
-msgstr[1] "* Kann bis zu %d Einheiten folgender Klassen transportieren und betanken:\n"
+msgstr[0] ""
+"* Kann bis zu %d Einheit folgender Klassen transportieren und betanken:\n"
+msgstr[1] ""
+"* Kann bis zu %d Einheiten folgender Klassen transportieren und betanken:\n"
 
 #: client/helpdata.c:828
 #, c-format
@@ -9082,8 +9106,8 @@ msgid ""
 "* Each worked tile with at least 1 %s will yield %d more of it while "
 "celebrating.\n"
 msgstr ""
-"* Jedes bearbeitete Feld mit mindestens 1 %s liefert %d zusätzlich, "
-"wenn die Stadt feiert.\n"
+"* Jedes bearbeitete Feld mit mindestens 1 %s liefert %d zusätzlich, wenn die "
+"Stadt feiert.\n"
 
 #. TRANS: %s is list of output types, with 'or'
 #: client/helpdata.c:1586
@@ -18889,7 +18913,8 @@ msgid ""
 "Gives one extra food resource on all Oceanic squares.  The city needs to be "
 "coastal to build this improvement."
 msgstr ""
-"Gibt +1 Nahrung von allen Ozeanfeldern. Kann nur von Küstenstädten gebaut werden."
+"Gibt +1 Nahrung von allen Ozeanfeldern. Kann nur von Küstenstädten gebaut "
+"werden."
 
 #: data/default/buildings.ruleset:367 data/civ2/buildings.ruleset:346
 #: data/civ1/buildings.ruleset:272
@@ -19003,7 +19028,8 @@ msgid ""
 "Adds 1 extra shield resource on all Oceanic squares in a city.  The city "
 "needs to be coastal to build this improvement."
 msgstr ""
-"Gibt +1 Schild von allen Ozeanfeldern. Kann nur von Küstenstädten gebaut werden."
+"Gibt +1 Schild von allen Ozeanfeldern. Kann nur von Küstenstädten gebaut "
+"werden."
 
 #: data/default/buildings.ruleset:539 data/civ2/buildings.ruleset:513
 #: data/civ1/buildings.ruleset:418
@@ -19535,8 +19561,8 @@ msgid ""
 "Gives all your sea units 1 additional movement point. Makes all your new sea "
 "units veterans (for all your cities)."
 msgstr ""
-"Alle Marineeinheiten erhalten 1 zusätzlichen Bewegungspunkt. In allen eigenen Städten erhalten neue "
-"Marineeinheiten Veteran-Status."
+"Alle Marineeinheiten erhalten 1 zusätzlichen Bewegungspunkt. In allen "
+"eigenen Städten erhalten neue Marineeinheiten Veteran-Status."
 
 #: data/default/buildings.ruleset:1311 data/civ2/buildings.ruleset:1264
 #: data/civ1/buildings.ruleset:891
@@ -19902,8 +19928,8 @@ msgid ""
 "Gives all your sea units 1 additional movement point. Makes all your new sea "
 "units veterans (for all cities)."
 msgstr ""
-"Alle Marineeinheiten erhalten 1 zusätzlichen Bewegungspunkt. In allen deinen Städten erhalten neue "
-"Marineeinheiten Veteranen-Status."
+"Alle Marineeinheiten erhalten 1 zusätzlichen Bewegungspunkt. In allen deinen "
+"Städten erhalten neue Marineeinheiten Veteranen-Status."
 
 #: data/civ2/buildings.ruleset:1278
 msgid "Gives all sea units 2 additional movement points."
@@ -22576,12 +22602,10 @@ msgid "?female:Prime Minister"
 msgstr "Premierminister"
 
 #: data/nation/ainu.ruleset:3
-#, fuzzy
 msgid "Ainu"
 msgstr ""
 
 #: data/nation/ainu.ruleset:4
-#, fuzzy
 msgid "?plural:Ainu"
 msgstr ""
 
@@ -28059,6 +28083,27 @@ msgstr "Team 30"
 msgid "Team 31"
 msgstr "Team 31"
 
+#~ msgid "Decent"
+#~ msgstr "bescheidenen"
+
+#~ msgid "Hilarious"
+#~ msgstr "lächerlichen"
+
+#~ msgid "%s report on the RICHEST Civilizations in the World %s."
+#~ msgstr "%s Bericht über die REICHSTEN Nationen der Welt %s."
+
+#~ msgid "%s report on the most ADVANCED Civilizations in the World %s."
+#~ msgstr "%s Bericht über die FORTGESCHRITTENSTEN Nationen der Welt %s."
+
+#~ msgid "%s report on the most MILITARIZED Civilizations in the World %s."
+#~ msgstr "%s Bericht über die MÄCHTIGSTEN Nationen der Welt %s."
+
+#~ msgid "%s report on the HAPPIEST Civilizations in the World %s."
+#~ msgstr "%s Bericht über die GLÜCKLICHSTEN Nationen der Welt %s."
+
+#~ msgid "%s report on the LARGEST Civilizations in the World %s."
+#~ msgstr "%s Bericht über die GRÖSSTEN Nationen der Welt %s."
+
 #~ msgid "City: Building Unavailable Item"
 #~ msgstr "Stadt: Nicht verfügbare Erweiterung im Bau"
 
@@ -28370,21 +28415,6 @@ msgstr "Team 31"
 #~ "       Auflösung der Verwaltung haben einen Bürgerkrieg ausgelöst.\n"
 #~ "       Opportunisten haben sich den Rebellen angeschlossen, so daß\n"
 #~ "       der Emporkömmling %s jetzt %d Provinzen kontrolliert."
-
-#~ msgid "%s report on the RICHEST Civilizations in the World."
-#~ msgstr "%s Bericht über die REICHSTEN Nationen der Welt."
-
-#~ msgid "%s report on the most ADVANCED Civilizations in the World."
-#~ msgstr "%s Bericht über die FORTGESCHRITTENSTEN Nationen der Welt."
-
-#~ msgid "%s report on the most MILITARIZED Civilizations in the World."
-#~ msgstr "%s Bericht über die MÄCHTIGSTEN Nationen der Welt."
-
-#~ msgid "%s report on the HAPPIEST Civilizations in the World."
-#~ msgstr "%s Bericht über die GLÜCKLICHSTEN Nationen der Welt."
-
-#~ msgid "%s report on the LARGEST Civilizations in the World."
-#~ msgstr "%s Bericht über die GRÖSSTEN Nationen der Welt."
 
 #~ msgid "No barbarian nation in rulesets, at least one required!"
 #~ msgstr "Keine Barbarennation im Ruleset, eine wird mindestens benötigt!"

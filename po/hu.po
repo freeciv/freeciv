@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-27 18:27-0500\n"
+"POT-Creation-Date: 2008-01-29 13:49-0500\n"
 "PO-Revision-Date: 2007-08-12 15:37+0300\n"
 "Last-Translator: Gábor Takács <tg330@hszk.bme.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -200,7 +200,7 @@ msgid "Low Funds"
 msgstr "Alacsony pénztartalékok"
 
 #: common/events.c:68 common/terrain.c:486 common/unit.c:521
-#: server/report.c:124 client/cityrepdata.c:513
+#: server/report.c:137 client/cityrepdata.c:513
 #: client/gui-sdl/optiondlg.c:1772
 msgid "Pollution"
 msgstr "Szennyezés"
@@ -1204,12 +1204,12 @@ msgstr "túl hosszú"
 msgid "non-match"
 msgstr "nem illeszthetõ"
 
-#: utility/support.c:205
+#: utility/support.c:211
 #, c-format
 msgid "error %ld (failed FormatMessage)"
 msgstr "%ld hiba (FormatMessage sikertelen)"
 
-#: utility/support.c:215
+#: utility/support.c:224
 #, c-format
 msgid "error %d (compiled without strerror)"
 msgstr "hiba: %d (strerror nélkül lett lefordítva)"
@@ -3969,243 +3969,265 @@ msgstr[0] ""
 "álltak,\n"
 "       a lázadó %s %d várost tart az irányítása alatt."
 
-#: server/report.c:56
-#, c-format
-msgid "%s report on the RICHEST Civilizations in the World %s."
-msgstr "%s jelentése a világ LEGGAZDAGABB civilizációiról %s."
-
+#. TRANS: year <name> reports ...
 #: server/report.c:57
-#, c-format
-msgid "%s report on the most ADVANCED Civilizations in the World %s."
-msgstr "%s jelentése a világ LEGFEJLETTEBB civilizációiról %s."
+#, fuzzy, c-format
+msgid "%s %s reports on the RICHEST Civilizations in the World."
+msgstr "%s jelentése a világ LEGGAZDAGABB civilizációiról."
 
-#: server/report.c:58
-#, c-format
-msgid "%s report on the most MILITARIZED Civilizations in the World %s."
-msgstr "%s jelentése a világ LEGJOBBAN FELFEGYVERZETT civilizációiról %s."
-
+#. TRANS: year <name> reports ...
 #: server/report.c:59
-#, c-format
-msgid "%s report on the HAPPIEST Civilizations in the World %s."
-msgstr "%s jelentése a világ LEGBOLDOGABB civilizációiról %s."
+#, fuzzy, c-format
+msgid "%s %s reports on the most ADVANCED Civilizations in the World."
+msgstr "%s jelentése a világ LEGFEJLETTEBB civilizációiról."
 
-#: server/report.c:60
-#, c-format
-msgid "%s report on the LARGEST Civilizations in the World %s."
-msgstr "%s jelentése a világ LEGNAGYOBB civilizációiról %s."
+#. TRANS: year <name> reports ...
+#: server/report.c:61
+#, fuzzy, c-format
+msgid "%s %s reports on the most MILITARIZED Civilizations in the World."
+msgstr "%s jelentése a világ LEGJOBBAN FELFEGYVERZETT civilizációiról."
 
-#: server/report.c:64
-msgid "Herodotus'"
+#. TRANS: year <name> reports ...
+#: server/report.c:63
+#, fuzzy, c-format
+msgid "%s %s reports on the HAPPIEST Civilizations in the World."
+msgstr "%s jelentése a világ LEGBOLDOGABB civilizációiról."
+
+#. TRANS: year <name> reports ...
+#: server/report.c:65
+#, fuzzy, c-format
+msgid "%s %s reports on the LARGEST Civilizations in the World."
+msgstr "%s jelentése a világ LEGNAGYOBB civilizációiról."
+
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:70
+#, fuzzy
+msgid "Herodotus"
 msgstr "Hérodotosz"
 
-#: server/report.c:65
-msgid "Thucydides'"
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:72
+#, fuzzy
+msgid "Thucydides"
 msgstr "Thucydides"
 
-#: server/report.c:66
-msgid "Pliny the Elder's"
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:74
+#, fuzzy
+msgid "Pliny the Elder"
 msgstr "Plinius"
 
-#: server/report.c:67
-msgid "Livy's"
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:76
+#, fuzzy
+msgid "Livy"
 msgstr "Livius"
 
-#: server/report.c:68
-msgid "Toynbee's"
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:78
+#, fuzzy
+msgid "Toynbee"
 msgstr "Toynbee"
 
-#: server/report.c:69
-msgid "Gibbon's"
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:80
+#, fuzzy
+msgid "Gibbon"
 msgstr "Gibbon"
 
-#: server/report.c:70
-msgid "Ssu-ma Ch'ien's"
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:82
+#, fuzzy
+msgid "Ssu-ma Ch'ien"
 msgstr "Ssu-ma Ch'ien"
 
-#: server/report.c:71
-msgid "Pan Ku's"
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:84
+#, fuzzy
+msgid "Pan Ku"
 msgstr "Pan Ku"
 
-#: server/report.c:116
+#: server/report.c:129
 msgid "Population"
 msgstr "Népesség"
 
-#: server/report.c:117
+#: server/report.c:130
 msgid "Land Area"
 msgstr "Terület"
 
-#: server/report.c:118
+#: server/report.c:131
 msgid "Settled Area"
 msgstr "Lakott terület"
 
-#: server/report.c:119
+#: server/report.c:132
 msgid "Research Speed"
 msgstr "Kutatási sebesség"
 
-#: server/report.c:120 data/default/techs.ruleset:383
+#: server/report.c:133 data/default/techs.ruleset:383
 #: data/civ2/techs.ruleset:380 data/civ1/techs.ruleset:306
 msgid "Literacy"
 msgstr "Mûveltség"
 
-#: server/report.c:121 client/cityrepdata.c:518 client/cityrepdata.c:520
+#: server/report.c:134 client/cityrepdata.c:518 client/cityrepdata.c:520
 #: client/gui-sdl/cityrep.c:174
 msgid "Production"
 msgstr "Termelés"
 
 #
-#: server/report.c:122 data/default/techs.ruleset:222
+#: server/report.c:135 data/default/techs.ruleset:222
 #: data/civ2/techs.ruleset:211
 msgid "Economics"
 msgstr "Gazdaság"
 
-#: server/report.c:123
+#: server/report.c:136
 msgid "Military Service"
 msgstr "Katonai szolgálat"
 
-#: server/report.c:149
+#: server/report.c:163
 msgid "Magnificent"
 msgstr "A Fenséges"
 
-#: server/report.c:149
-msgid "Glorious"
-msgstr "A Dicsõséges"
-
-#: server/report.c:149
+#: server/report.c:165
 msgid "Great"
 msgstr "A Nagyszerû"
 
-#: server/report.c:149
-msgid "Decent"
-msgstr "A Tûrhetõ"
+#: server/report.c:167
+msgid "Glorious"
+msgstr "A Dicsõséges"
 
-#: server/report.c:150
+#: server/report.c:169
+msgid "Excellent"
+msgstr "Kitûnõ"
+
+#: server/report.c:171
+#, fuzzy
+msgid "Average"
+msgstr "Általános jellemzõk fül"
+
+#: server/report.c:173
 msgid "Mediocre"
 msgstr "A Középszerû"
 
-#: server/report.c:150
-msgid "Hilarious"
-msgstr "A Vidám"
-
-#: server/report.c:150
-msgid "Worthless"
-msgstr "Az Érdemtelen"
-
-#: server/report.c:150
+#: server/report.c:175
 msgid "Pathetic"
 msgstr "A Szánalmas"
 
-#: server/report.c:151
+#: server/report.c:177
 msgid "Useless"
 msgstr "A Semmirekellõ"
 
-#: server/report.c:201
+#: server/report.c:179
+msgid "Worthless"
+msgstr "Az Érdemtelen"
+
+#: server/report.c:232
 #, c-format
 msgid "%2d: The %s %s\n"
 msgstr "%2d: %s %s\n"
 
-#: server/report.c:209
+#: server/report.c:240
 msgid "Historian Publishes!"
 msgstr "A Történész Közzéteszi!"
 
-#: server/report.c:271
+#: server/report.c:302
 #, c-format
 msgid "%2d: The %s City of %s of size %d, "
 msgstr "%1$2d: %3$s (%2$s) - méret: %4$d, "
 
-#: server/report.c:278
+#: server/report.c:309
 msgid "with no wonders\n"
 msgstr "nincs világcsoda\n"
 
-#: server/report.c:281
+#: server/report.c:312
 #, c-format
 msgid "with %d wonder\n"
 msgid_plural "with %d wonders\n"
 msgstr[0] "%d világcsoda\n"
 
-#: server/report.c:284 server/report.c:331
+#: server/report.c:315 server/report.c:362
 msgid "Traveler's Report:"
 msgstr "Utazók jelentése:"
 
-#: server/report.c:285
+#: server/report.c:316
 msgid "The Five Greatest Cities in the World!"
 msgstr "A világ öt legjelentõsebb városa!"
 
-#: server/report.c:303
+#: server/report.c:334
 #, c-format
 msgid "%s in %s (%s)\n"
 msgstr "A(z) %2$si %1$s (%3$s)\n"
 
-#: server/report.c:308
+#: server/report.c:339
 #, c-format
 msgid "%s has been DESTROYED\n"
 msgstr "A(z) %s MEGSEMMISÜLT\n"
 
-#: server/report.c:321
+#: server/report.c:352
 #, c-format
 msgid "(building %s in %s (%s))\n"
 msgstr "(%2$s városában (%3$s) %1$s épül)\n"
 
-#: server/report.c:332 client/gui-xaw/menu.c:231 data/helpdata.txt:899
+#: server/report.c:363 client/gui-xaw/menu.c:231 data/helpdata.txt:899
 msgid "Wonders of the World"
 msgstr "A Világ Csodái"
 
-#: server/report.c:549
+#: server/report.c:580
 msgid " sq. mi."
 msgstr " négyzetmérföld"
 
-#: server/report.c:559
+#: server/report.c:590
 msgid " M tons"
 msgstr " millió tonna"
 
-#: server/report.c:564
+#: server/report.c:595
 msgid " M goods"
 msgstr " millió termék"
 
-#: server/report.c:569
+#: server/report.c:600
 msgid " bulbs"
 msgstr ""
 
-#: server/report.c:574
+#: server/report.c:605
 msgid " month"
 msgid_plural " months"
 msgstr[0] " hónap"
 
-#: server/report.c:579
+#: server/report.c:610
 msgid " ton"
 msgid_plural " tons"
 msgstr[0] " tonna"
 
-#: server/report.c:593
+#: server/report.c:624
 msgid "st"
 msgstr "."
 
-#: server/report.c:595
+#: server/report.c:626
 msgid "nd"
 msgstr "."
 
-#: server/report.c:597
+#: server/report.c:628
 msgid "rd"
 msgstr "."
 
-#: server/report.c:599
+#: server/report.c:630
 msgid "th"
 msgstr "."
 
-#: server/report.c:700
+#: server/report.c:731
 msgid "Demography string contains invalid characters. Try \"help demography\"."
 msgstr ""
 "A demográfiai jelentést beállító karaktersorozat érvénytelen karakter(eke)t "
 "tartalmaz. Próbálkozz \"help demography\"-val!"
 
-#: server/report.c:743 server/report.c:766
+#: server/report.c:774 server/report.c:797
 msgid "Demographics Report:"
 msgstr "Demográfiai jelentés:"
 
-#: server/report.c:744
+#: server/report.c:775
 msgid "Sorry, the Demographics report is unavailable."
 msgstr "Sajnálom, a Demográfiai jelentés nem elérhetõ."
 
-#: server/report.c:748
+#: server/report.c:779
 #, fuzzy, c-format
 msgid "The %s of the %s (%s)"
 msgstr "A(z) %2$s   (Államforma: %1$s)"
@@ -27206,6 +27228,27 @@ msgstr "Templom"
 msgid "Team 31"
 msgstr "Templom"
 
+#~ msgid "Decent"
+#~ msgstr "A Tûrhetõ"
+
+#~ msgid "Hilarious"
+#~ msgstr "A Vidám"
+
+#~ msgid "%s report on the RICHEST Civilizations in the World %s."
+#~ msgstr "%s jelentése a világ LEGGAZDAGABB civilizációiról %s."
+
+#~ msgid "%s report on the most ADVANCED Civilizations in the World %s."
+#~ msgstr "%s jelentése a világ LEGFEJLETTEBB civilizációiról %s."
+
+#~ msgid "%s report on the most MILITARIZED Civilizations in the World %s."
+#~ msgstr "%s jelentése a világ LEGJOBBAN FELFEGYVERZETT civilizációiról %s."
+
+#~ msgid "%s report on the HAPPIEST Civilizations in the World %s."
+#~ msgstr "%s jelentése a világ LEGBOLDOGABB civilizációiról %s."
+
+#~ msgid "%s report on the LARGEST Civilizations in the World %s."
+#~ msgstr "%s jelentése a világ LEGNAGYOBB civilizációiról %s."
+
 #~ msgid "Option:"
 #~ msgstr "Beállítás:"
 
@@ -27499,21 +27542,6 @@ msgstr "Templom"
 #, fuzzy
 #~ msgid "(%d) %s rejected: duplicate username [%s]"
 #~ msgstr "(%d) %s visszautasítva: A játék már fut, és a(z) %s ismeretlen név."
-
-#~ msgid "%s report on the RICHEST Civilizations in the World."
-#~ msgstr "%s jelentése a világ LEGGAZDAGABB civilizációiról."
-
-#~ msgid "%s report on the most ADVANCED Civilizations in the World."
-#~ msgstr "%s jelentése a világ LEGFEJLETTEBB civilizációiról."
-
-#~ msgid "%s report on the most MILITARIZED Civilizations in the World."
-#~ msgstr "%s jelentése a világ LEGJOBBAN FELFEGYVERZETT civilizációiról."
-
-#~ msgid "%s report on the HAPPIEST Civilizations in the World."
-#~ msgstr "%s jelentése a világ LEGBOLDOGABB civilizációiról."
-
-#~ msgid "%s report on the LARGEST Civilizations in the World."
-#~ msgstr "%s jelentése a világ LEGNAGYOBB civilizációiról."
 
 #~ msgid "City size before people become unhappy"
 #~ msgstr "Ezen városméret fölött kezdenek boldogtalanná válni a lakosok"
@@ -29042,9 +29070,6 @@ msgstr "Templom"
 
 #~ msgid "Spotless"
 #~ msgstr "Makulátlan"
-
-#~ msgid "Excellent"
-#~ msgstr "Kitûnõ"
 
 #~ msgid "Honorable"
 #~ msgstr "Tisztességes"

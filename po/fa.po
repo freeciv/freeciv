@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fa\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-27 18:27-0500\n"
+"POT-Creation-Date: 2008-01-29 13:49-0500\n"
 "PO-Revision-Date: 2007-08-11 02:17+0300\n"
 "Last-Translator: Arman Ordookhani <arman_o71@Yahoo.com>\n"
 "Language-Team: Farsi(Persian)\n"
@@ -218,7 +218,7 @@ msgid "Low Funds"
 msgstr ""
 
 #: common/events.c:68 common/terrain.c:486 common/unit.c:521
-#: server/report.c:124 client/cityrepdata.c:513
+#: server/report.c:137 client/cityrepdata.c:513
 #: client/gui-sdl/optiondlg.c:1772
 msgid "Pollution"
 msgstr "آلودگی"
@@ -1236,12 +1236,12 @@ msgstr ""
 msgid "non-match"
 msgstr ""
 
-#: utility/support.c:205
+#: utility/support.c:211
 #, c-format
 msgid "error %ld (failed FormatMessage)"
 msgstr ""
 
-#: utility/support.c:215
+#: utility/support.c:224
 #, c-format
 msgid "error %d (compiled without strerror)"
 msgstr ""
@@ -3683,243 +3683,258 @@ msgid_plural "Civil war partitions the %s; the %s now hold %d cities."
 msgstr[0] ""
 msgstr[1] ""
 
-#: server/report.c:56
-#, fuzzy, c-format
-msgid "%s report on the RICHEST Civilizations in the World %s."
-msgstr "گزارش %s درباره ثروتمندترین تمدن جهان."
-
+#. TRANS: year <name> reports ...
 #: server/report.c:57
 #, fuzzy, c-format
-msgid "%s report on the most ADVANCED Civilizations in the World %s."
-msgstr "گزارش %s درباره پیشرفته‌ترین تمدن جهان."
+msgid "%s %s reports on the RICHEST Civilizations in the World."
+msgstr "گزارش %s درباره ثروتمندترین تمدن جهان."
 
-#: server/report.c:58
-#, fuzzy, c-format
-msgid "%s report on the most MILITARIZED Civilizations in the World %s."
-msgstr "گزارش %s درباره مسلح‌ترین تمدن جهان."
-
+#. TRANS: year <name> reports ...
 #: server/report.c:59
 #, fuzzy, c-format
-msgid "%s report on the HAPPIEST Civilizations in the World %s."
+msgid "%s %s reports on the most ADVANCED Civilizations in the World."
+msgstr "گزارش %s درباره پیشرفته‌ترین تمدن جهان."
+
+#. TRANS: year <name> reports ...
+#: server/report.c:61
+#, fuzzy, c-format
+msgid "%s %s reports on the most MILITARIZED Civilizations in the World."
+msgstr "گزارش %s درباره مسلح‌ترین تمدن جهان."
+
+#. TRANS: year <name> reports ...
+#: server/report.c:63
+#, fuzzy, c-format
+msgid "%s %s reports on the HAPPIEST Civilizations in the World."
 msgstr "گزارش %s درباره خوشحال‌ترین تمدن جهان."
 
-#: server/report.c:60
+#. TRANS: year <name> reports ...
+#: server/report.c:65
 #, fuzzy, c-format
-msgid "%s report on the LARGEST Civilizations in the World %s."
+msgid "%s %s reports on the LARGEST Civilizations in the World."
 msgstr "گزارش %s درباره بزرگ‌ترین تمدن جهان."
 
-#: server/report.c:64
-msgid "Herodotus'"
-msgstr ""
-
-#: server/report.c:65
-msgid "Thucydides'"
-msgstr ""
-
-#: server/report.c:66
-msgid "Pliny the Elder's"
-msgstr ""
-
-#: server/report.c:67
-msgid "Livy's"
-msgstr ""
-
-#: server/report.c:68
-msgid "Toynbee's"
-msgstr ""
-
-#: server/report.c:69
-msgid "Gibbon's"
-msgstr ""
-
+#. TRANS: [year] <name> [reports ...]
 #: server/report.c:70
-msgid "Ssu-ma Ch'ien's"
+msgid "Herodotus"
 msgstr ""
 
-#: server/report.c:71
-msgid "Pan Ku's"
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:72
+msgid "Thucydides"
 msgstr ""
 
-#: server/report.c:116
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:74
+msgid "Pliny the Elder"
+msgstr ""
+
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:76
+#, fuzzy
+msgid "Livy"
+msgstr "لیبی"
+
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:78
+msgid "Toynbee"
+msgstr ""
+
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:80
+msgid "Gibbon"
+msgstr ""
+
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:82
+msgid "Ssu-ma Ch'ien"
+msgstr ""
+
+#. TRANS: [year] <name> [reports ...]
+#: server/report.c:84
+msgid "Pan Ku"
+msgstr ""
+
+#: server/report.c:129
 msgid "Population"
 msgstr "جمعیت"
 
-#: server/report.c:117
+#: server/report.c:130
 msgid "Land Area"
 msgstr "مساحت سرزمین"
 
-#: server/report.c:118
+#: server/report.c:131
 msgid "Settled Area"
 msgstr "مساحت آبادشده"
 
-#: server/report.c:119
+#: server/report.c:132
 msgid "Research Speed"
 msgstr "سرعت پژوهش"
 
-#: server/report.c:120 data/default/techs.ruleset:383
+#: server/report.c:133 data/default/techs.ruleset:383
 #: data/civ2/techs.ruleset:380 data/civ1/techs.ruleset:306
 msgid "Literacy"
 msgstr "سواد"
 
-#: server/report.c:121 client/cityrepdata.c:518 client/cityrepdata.c:520
+#: server/report.c:134 client/cityrepdata.c:518 client/cityrepdata.c:520
 #: client/gui-sdl/cityrep.c:174
 msgid "Production"
 msgstr "محصول"
 
-#: server/report.c:122 data/default/techs.ruleset:222
+#: server/report.c:135 data/default/techs.ruleset:222
 #: data/civ2/techs.ruleset:211
 msgid "Economics"
 msgstr "اقتصاد"
 
-#: server/report.c:123
+#: server/report.c:136
 msgid "Military Service"
 msgstr "سرویس نظامی"
 
-#: server/report.c:149
+#: server/report.c:163
 msgid "Magnificent"
 msgstr "باشکوه"
 
-#: server/report.c:149
-msgid "Glorious"
-msgstr "مجلل"
-
-#: server/report.c:149
+#: server/report.c:165
 msgid "Great"
 msgstr "کبیر"
 
-#: server/report.c:149
-msgid "Decent"
-msgstr "شایسته"
+#: server/report.c:167
+msgid "Glorious"
+msgstr "مجلل"
 
-#: server/report.c:150
+#: server/report.c:169
+msgid "Excellent"
+msgstr ""
+
+#: server/report.c:171
+#, fuzzy
+msgid "Average"
+msgstr "صفحه نماي كلي"
+
+#: server/report.c:173
 msgid "Mediocre"
 msgstr "میانه"
 
-#: server/report.c:150
-msgid "Hilarious"
-msgstr "سرخوش"
-
-#: server/report.c:150
-msgid "Worthless"
-msgstr "بی‌بها"
-
-#: server/report.c:150
+#: server/report.c:175
 msgid "Pathetic"
 msgstr "رقت انگیز"
 
-#: server/report.c:151
+#: server/report.c:177
 msgid "Useless"
 msgstr "بی‌مصرف"
 
-#: server/report.c:201
+#: server/report.c:179
+msgid "Worthless"
+msgstr "بی‌بها"
+
+#: server/report.c:232
 #, c-format
 msgid "%2d: The %s %s\n"
 msgstr "%2d: %s %sی\n"
 
-#: server/report.c:209
+#: server/report.c:240
 msgid "Historian Publishes!"
 msgstr "انتشارات مورخان!"
 
-#: server/report.c:271
+#: server/report.c:302
 #, c-format
 msgid "%2d: The %s City of %s of size %d, "
 msgstr "%2d: %s شهر %s با اندازه %d, "
 
-#: server/report.c:278
+#: server/report.c:309
 msgid "with no wonders\n"
 msgstr "بدون شگفتی\n"
 
-#: server/report.c:281
+#: server/report.c:312
 #, c-format
 msgid "with %d wonder\n"
 msgid_plural "with %d wonders\n"
 msgstr[0] "با %d شگفتی\n"
 msgstr[1] "با %d شگفتی\n"
 
-#: server/report.c:284 server/report.c:331
+#: server/report.c:315 server/report.c:362
 msgid "Traveler's Report:"
 msgstr "گزارش مسافران:"
 
-#: server/report.c:285
+#: server/report.c:316
 msgid "The Five Greatest Cities in the World!"
 msgstr "پنج شهر بزرگ جهان"
 
-#: server/report.c:303
+#: server/report.c:334
 #, c-format
 msgid "%s in %s (%s)\n"
 msgstr "%s در %s (%s)\n"
 
-#: server/report.c:308
+#: server/report.c:339
 #, c-format
 msgid "%s has been DESTROYED\n"
 msgstr "%s خراب شد\n"
 
-#: server/report.c:321
+#: server/report.c:352
 #, c-format
 msgid "(building %s in %s (%s))\n"
 msgstr ""
 
-#: server/report.c:332 client/gui-xaw/menu.c:231 data/helpdata.txt:899
+#: server/report.c:363 client/gui-xaw/menu.c:231 data/helpdata.txt:899
 msgid "Wonders of the World"
 msgstr "شگفتی‌های جهان"
 
-#: server/report.c:549
+#: server/report.c:580
 msgid " sq. mi."
 msgstr "مایل مربع"
 
-#: server/report.c:559
+#: server/report.c:590
 msgid " M tons"
 msgstr "م تن"
 
-#: server/report.c:564
+#: server/report.c:595
 msgid " M goods"
 msgstr "م کالا"
 
-#: server/report.c:569
+#: server/report.c:600
 msgid " bulbs"
 msgstr ""
 
-#: server/report.c:574
+#: server/report.c:605
 msgid " month"
 msgid_plural " months"
 msgstr[0] " ماه"
 msgstr[1] " ماه"
 
-#: server/report.c:579
+#: server/report.c:610
 msgid " ton"
 msgid_plural " tons"
 msgstr[0] " تن"
 msgstr[1] " تن"
 
-#: server/report.c:593
+#: server/report.c:624
 msgid "st"
 msgstr ""
 
-#: server/report.c:595
+#: server/report.c:626
 msgid "nd"
 msgstr ""
 
-#: server/report.c:597
+#: server/report.c:628
 msgid "rd"
 msgstr ""
 
-#: server/report.c:599
+#: server/report.c:630
 msgid "th"
 msgstr ""
 
-#: server/report.c:700
+#: server/report.c:731
 msgid "Demography string contains invalid characters. Try \"help demography\"."
 msgstr ""
 
-#: server/report.c:743 server/report.c:766
+#: server/report.c:774 server/report.c:797
 msgid "Demographics Report:"
 msgstr ""
 
-#: server/report.c:744
+#: server/report.c:775
 msgid "Sorry, the Demographics report is unavailable."
 msgstr ""
 
-#: server/report.c:748
+#: server/report.c:779
 #, c-format
 msgid "The %s of the %s (%s)"
 msgstr "%s %s (%s("
@@ -25138,6 +25153,32 @@ msgstr "تیم ۳۰"
 msgid "Team 31"
 msgstr "تیم ۳۱"
 
+#~ msgid "Decent"
+#~ msgstr "شایسته"
+
+#~ msgid "Hilarious"
+#~ msgstr "سرخوش"
+
+#, fuzzy
+#~ msgid "%s report on the RICHEST Civilizations in the World %s."
+#~ msgstr "گزارش %s درباره ثروتمندترین تمدن جهان."
+
+#, fuzzy
+#~ msgid "%s report on the most ADVANCED Civilizations in the World %s."
+#~ msgstr "گزارش %s درباره پیشرفته‌ترین تمدن جهان."
+
+#, fuzzy
+#~ msgid "%s report on the most MILITARIZED Civilizations in the World %s."
+#~ msgstr "گزارش %s درباره مسلح‌ترین تمدن جهان."
+
+#, fuzzy
+#~ msgid "%s report on the HAPPIEST Civilizations in the World %s."
+#~ msgstr "گزارش %s درباره خوشحال‌ترین تمدن جهان."
+
+#, fuzzy
+#~ msgid "%s report on the LARGEST Civilizations in the World %s."
+#~ msgstr "گزارش %s درباره بزرگ‌ترین تمدن جهان."
+
 #~ msgid "City: Building Unavailable Item"
 #~ msgstr "شهر: ساخت عنصری که در دسترس نیست"
 
@@ -25376,21 +25417,6 @@ msgstr "تیم ۳۱"
 #, fuzzy
 #~ msgid "(%d) %s: connected [%s]"
 #~ msgstr "(%d) %s وصل شده است از %s."
-
-#~ msgid "%s report on the RICHEST Civilizations in the World."
-#~ msgstr "گزارش %s درباره ثروتمندترین تمدن جهان."
-
-#~ msgid "%s report on the most ADVANCED Civilizations in the World."
-#~ msgstr "گزارش %s درباره پیشرفته‌ترین تمدن جهان."
-
-#~ msgid "%s report on the most MILITARIZED Civilizations in the World."
-#~ msgstr "گزارش %s درباره مسلح‌ترین تمدن جهان."
-
-#~ msgid "%s report on the HAPPIEST Civilizations in the World."
-#~ msgstr "گزارش %s درباره خوشحال‌ترین تمدن جهان."
-
-#~ msgid "%s report on the LARGEST Civilizations in the World."
-#~ msgstr "گزارش %s درباره بزرگ‌ترین تمدن جهان."
 
 #~ msgid "Unit must be on land to perform diplomatic action."
 #~ msgstr "مهره باید روی زمین باشد تا بتواند فعالیت دیپلماتیک انجام دهد."
