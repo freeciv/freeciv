@@ -53,22 +53,35 @@ enum historian_type {
 #define HISTORIAN_LAST 		HISTORIAN_LARGEST
 
 static const char *historian_message[]={
-    N_("%s report on the RICHEST Civilizations in the World %s."),
-    N_("%s report on the most ADVANCED Civilizations in the World %s."),
-    N_("%s report on the most MILITARIZED Civilizations in the World %s."),
-    N_("%s report on the HAPPIEST Civilizations in the World %s."),
-    N_("%s report on the LARGEST Civilizations in the World %s.")
+    /* TRANS: year <name> reports ... */
+    N_("%s %s reports on the RICHEST Civilizations in the World."),
+    /* TRANS: year <name> reports ... */
+    N_("%s %s reports on the most ADVANCED Civilizations in the World."),
+    /* TRANS: year <name> reports ... */
+    N_("%s %s reports on the most MILITARIZED Civilizations in the World."),
+    /* TRANS: year <name> reports ... */
+    N_("%s %s reports on the HAPPIEST Civilizations in the World."),
+    /* TRANS: year <name> reports ... */
+    N_("%s %s reports on the LARGEST Civilizations in the World.")
 };
 
 static const char *historian_name[]={
-    N_("Herodotus'"),
-    N_("Thucydides'"),
-    N_("Pliny the Elder's"),
-    N_("Livy's"),
-    N_("Toynbee's"),
-    N_("Gibbon's"),
-    N_("Ssu-ma Ch'ien's"),
-    N_("Pan Ku's")
+    /* TRANS: [year] <name> [reports ...] */
+    N_("Herodotus"),
+    /* TRANS: [year] <name> [reports ...] */
+    N_("Thucydides"),
+    /* TRANS: [year] <name> [reports ...] */
+    N_("Pliny the Elder"),
+    /* TRANS: [year] <name> [reports ...] */
+    N_("Livy"),
+    /* TRANS: [year] <name> [reports ...] */
+    N_("Toynbee"),
+    /* TRANS: [year] <name> [reports ...] */
+    N_("Gibbon"),
+    /* TRANS: [year] <name> [reports ...] */
+    N_("Ssu-ma Ch'ien"),
+    /* TRANS: [year] <name> [reports ...] */
+    N_("Pan Ku")
 };
 
 static const char scorelog_magic[] = "#FREECIV SCORELOG2 ";
@@ -145,13 +158,25 @@ static int secompare(const void *a, const void *b)
 	  ((const struct player_score_entry *)a)->value);
 }
 
-static const char *greatness[MAX_NUM_PLAYERS] = {
-  N_("Magnificent"),  N_("Glorious"), N_("Great"), N_("Decent"),
-  N_("Mediocre"), N_("Hilarious"), N_("Worthless"), N_("Pathetic"),
-  N_("Useless"), "Useless", "Useless", "Useless", "Useless", "Useless",
-  "Useless", "Useless", "Useless", "Useless", "Useless", "Useless",
-  "Useless", "Useless", "Useless", "Useless", "Useless", "Useless",
-  "Useless", "Useless", "Useless", "Useless"
+static const char *greatness[] = {
+  /* TRANS: <1>: The <ranking> Poles */
+  N_("%2d: The Magnificent %s"),
+  /* TRANS: <2>: The <ranking> Poles */
+  N_("%2d: The Great %s"),
+  /* TRANS: <3>: The <ranking> Poles */
+  N_("%2d: The Glorious %s"),
+  /* TRANS: <4>: The <ranking> Poles */
+  N_("%2d: The Excellent %s"),
+  /* TRANS: <5>: The <ranking> Poles */
+  N_("%2d: The Average %s"),
+  /* TRANS: <6>: The <ranking> Poles */
+  N_("%2d: The Mediocre %s"),
+  /* TRANS: <7>: The <ranking> Poles */
+  N_("%2d: The Pathetic %s"),
+  /* TRANS: <8>: The <ranking> Poles */
+  N_("%2d: The Useless %s"),
+  /* TRANS: <9>: The <ranking> Poles */
+  N_("%2d: The Worthless %s"),
 };
 
 /**************************************************************************
@@ -195,17 +220,23 @@ static void historian_generic(enum historian_type which_news)
   buffer[0] = '\0';
   for (i = 0; i < j; i++) {
     if (i == 0 || size[i].value < size[i - 1].value) {
-      rank = i;
+      if (i >= sizeof(greatness)) {
+        rank = sizeof(greatness) - 1;
+      } else if (j >= sizeof(greatness)) {
+        rank = i;
+      } else {
+        rank = (i * sizeof(greatness)) / j;
+      }
     }
     cat_snprintf(buffer, sizeof(buffer),
-		 _("%2d: The %s %s\n"),
-		 rank + 1,
 		 _(greatness[rank]),
+		 rank + 1,
 		 nation_plural_for_player(size[i].player));
+    mystrlcat(buffer, "\n", sizeof(buffer));
   }
   my_snprintf(title, sizeof(title), _(historian_message[which_news]),
-              _(historian_name[myrand(ARRAY_SIZE(historian_name))]),
-              textyear(game.info.year));
+              textyear(game.info.year),
+              _(historian_name[myrand(ARRAY_SIZE(historian_name))]));
   page_conn_etype(game.est_connections, _("Historian Publishes!"),
 		  title, buffer, E_BROADCAST_REPORT);
 }
