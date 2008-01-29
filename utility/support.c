@@ -82,6 +82,7 @@
 #  include <strings.h>
 #endif
 
+#include "fciconv.h"
 #include "fcintl.h"
 #include "mem.h"
 #include "netintf.h"
@@ -191,6 +192,11 @@ char *mystrcasestr(const char *haystack, const char *needle)
 
 /***************************************************************
   Return a string which describes a given error (errno-style.)
+  The string is converted as necessary from the local_encoding
+  to internal_encoding, for inclusion in translations.  May be
+  subsequently converted back to local_encoding for display.
+
+  Note that this is not the reentrant form.
 ***************************************************************/
 const char *mystrerror(void)
 {
@@ -207,7 +213,10 @@ const char *mystrerror(void)
   return buf;
 #else
 #ifdef HAVE_STRERROR
-  return strerror(errno);
+  static char buf[256];
+
+  return local_to_internal_string_buffer(strerror(errno),
+                                         buf, sizeof(buf));
 #else
   static char buf[64];
 
