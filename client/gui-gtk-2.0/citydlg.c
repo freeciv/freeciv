@@ -253,7 +253,7 @@ static void draw_map_canvas(struct city_dialog *pdialog);
 static void buy_callback(GtkWidget * w, gpointer data);
 static void change_production_callback(GtkWidget* w, struct city_dialog*);
 
-static void sell_callback(Impr_type_id id, gpointer data);
+static void sell_callback(struct impr_type *pimprove, gpointer data);
 static void sell_callback_response(GtkWidget *w, gint response, gpointer data);
 
 static void impr_callback(GtkTreeView *view, GtkTreePath *path,
@@ -759,7 +759,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   gtk_box_pack_start(GTK_BOX(top), vbox, TRUE, TRUE, 0);
 
   /* improvements */
-  store = gtk_list_store_new(4, G_TYPE_INT, GDK_TYPE_PIXBUF, G_TYPE_STRING,
+  store = gtk_list_store_new(4, G_TYPE_POINTER, GDK_TYPE_PIXBUF, G_TYPE_STRING,
 			     G_TYPE_INT);
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
@@ -1618,7 +1618,7 @@ static void city_dialog_update_improvement_list(struct city_dialog *pdialog)
 
     gtk_list_store_append(store, &it);
     gtk_list_store_set(store, &it,
-		       0, target.value,
+		       0, target.value.building,
 		       1, sprite_get_pixbuf(sprite),
 	2, items[item].descr,
 	3, upkeep,
@@ -2484,11 +2484,11 @@ static void change_production_callback(GtkWidget* w,
 /****************************************************************
 ...
 *****************************************************************/
-static void sell_callback(Impr_type_id id, gpointer data)
+static void sell_callback(struct impr_type *pimprove, gpointer data)
 {
-  struct impr_type *pimprove = improvement_by_number(id);
-  struct city_dialog *pdialog = (struct city_dialog *) data;
   GtkWidget *shl;
+  struct city_dialog *pdialog = (struct city_dialog *) data;
+  pdialog->sell_id = improvement_number(pimprove);
   
   if (!can_client_issue_orders()) {
     return;
@@ -2501,8 +2501,6 @@ static void sell_callback(Impr_type_id id, gpointer data)
   if (!can_city_sell_building(pdialog->pcity, pimprove)) {
     return;
   }
-
-  pdialog->sell_id = id;
 
   shl = gtk_message_dialog_new(NULL,
     GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -2547,7 +2545,7 @@ static void impr_callback(GtkTreeView *view, GtkTreePath *path,
   GtkTreeModel *model;
   GtkTreeIter it;
   GdkModifierType mask;
-  int id;
+  struct impr_type *pimprove;
 
   model = gtk_tree_view_get_model(view);
 
@@ -2555,13 +2553,12 @@ static void impr_callback(GtkTreeView *view, GtkTreePath *path,
     return;
   }
 
-  gtk_tree_model_get(model, &it, 0, &id, -1);
+  gtk_tree_model_get(model, &it, 0, &pimprove, -1);
   gdk_window_get_pointer(NULL, NULL, NULL, &mask);
 
   if (!(mask & GDK_CONTROL_MASK)) {
-    sell_callback(id, data);
+    sell_callback(pimprove, data);
   } else {
-    struct impr_type *pimprove = improvement_by_number(id);
     if (is_great_wonder(pimprove)) {
       popup_help_dialog_typed(improvement_name_translation(pimprove), HELP_WONDER);
     } else {
