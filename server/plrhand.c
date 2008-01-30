@@ -1219,9 +1219,9 @@ void maybe_make_contact(struct tile *ptile, struct player *pplayer)
     if (pcity) {
       make_contact(pplayer, city_owner(pcity), ptile);
     }
-    unit_list_iterate(tile1->units, punit) {
+    unit_list_iterate_safe(tile1->units, punit) {
       make_contact(pplayer, unit_owner(punit), ptile);
-    } unit_list_iterate_end;
+    } unit_list_iterate_safe_end;
   } square_iterate_end;
 }
 
