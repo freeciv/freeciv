@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-29 14:26-0500\n"
+"POT-Creation-Date: 2008-01-30 11:11+0100\n"
 "PO-Revision-Date: 2007-08-11 01:23+0300\n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -3997,81 +3997,73 @@ msgstr[1] "Der Bürgerkrieg spaltet die %s; die %s kontrollieren nun %d Städte.
 
 #. TRANS: year <name> reports ...
 #: server/report.c:57
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s reports on the RICHEST Civilizations in the World."
-msgstr "%s Bericht über die REICHSTEN Nationen der Welt."
+msgstr "Im Jahr %s berichtet %s über die REICHSTEN Nationen der Welt."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:59
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s reports on the most ADVANCED Civilizations in the World."
-msgstr "%s Bericht über die FORTGESCHRITTENSTEN Nationen der Welt."
+msgstr "Im Jahr %s berichtet %s über die FORTGESCHRITTENSTEN Nationen der Welt."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:61
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s reports on the most MILITARIZED Civilizations in the World."
-msgstr "%s Bericht über die MÄCHTIGSTEN Nationen der Welt."
+msgstr "Im Jahr %s berichtet %s über die MÄCHTIGSTEN Nationen der Welt."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:63
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s reports on the HAPPIEST Civilizations in the World."
-msgstr "%s Bericht über die GLÜCKLICHSTEN Nationen der Welt."
+msgstr "Im Jahr %s berichtet %s über die GLÜCKLICHSTEN Nationen der Welt."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:65
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s reports on the LARGEST Civilizations in the World."
-msgstr "%s Bericht über die GRÖSSTEN Nationen der Welt."
+msgstr "Im Jahr %s berichtet %s über die GRÖSSTEN Nationen der Welt."
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:70
-#, fuzzy
 msgid "Herodotus"
-msgstr "Herodots"
+msgstr "Herodot"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:72
-#, fuzzy
 msgid "Thucydides"
 msgstr "Thucydides"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:74
-#, fuzzy
 msgid "Pliny the Elder"
-msgstr "Plinius des Älteren"
+msgstr "Plinius der Ältere"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:76
-#, fuzzy
 msgid "Livy"
-msgstr "Livys"
+msgstr "Livy"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:78
-#, fuzzy
 msgid "Toynbee"
-msgstr "Toynbees"
+msgstr "Toynbee"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:80
-#, fuzzy
 msgid "Gibbon"
-msgstr "Gibbons"
+msgstr "Gibbon"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:82
-#, fuzzy
 msgid "Ssu-ma Ch'ien"
-msgstr "Ssu-ma Ch'iens"
+msgstr "Ssu-ma Ch'ien"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:84
-#, fuzzy
 msgid "Pan Ku"
-msgstr "Pan Kus"
+msgstr "Pan Ku"
 
 #: server/report.c:129
 msgid "Population"
@@ -4110,57 +4102,57 @@ msgstr "Wehrdienst"
 
 #. TRANS: <1>: The <ranking> Poles
 #: server/report.c:163
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Magnificent %s"
-msgstr "großartigen"
+msgstr "%2d: Die großartigen %s"
 
 #. TRANS: <2>: The <ranking> Poles
 #: server/report.c:165
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Great %s"
-msgstr "%2d: Die %s %s\n"
+msgstr "%2d: Die großen %s"
 
 #. TRANS: <3>: The <ranking> Poles
 #: server/report.c:167
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Glorious %s"
-msgstr "%2d: Die %s %s\n"
+msgstr "%2d: Die glorreichen %s"
 
 #. TRANS: <4>: The <ranking> Poles
 #: server/report.c:169
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Excellent %s"
-msgstr "%2d: Die %s %s\n"
+msgstr "%2d: Die hervorragenden %s"
 
 #. TRANS: <5>: The <ranking> Poles
 #: server/report.c:171
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Average %s"
-msgstr "%2d: Die %s %s\n"
+msgstr "%2d: Die durchschnittlichen %s"
 
 #. TRANS: <6>: The <ranking> Poles
 #: server/report.c:173
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Mediocre %s"
-msgstr "%2d: Die %s %s\n"
+msgstr "%2d: Die mittelmäßigen %s"
 
 #. TRANS: <7>: The <ranking> Poles
 #: server/report.c:175
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Pathetic %s"
-msgstr "%2d: Die %s %s\n"
+msgstr "%2d: Die langweiligen %s"
 
 #. TRANS: <8>: The <ranking> Poles
 #: server/report.c:177
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Useless %s"
-msgstr "%2d: Die %s %s\n"
+msgstr "%2d: Die nutzlosen %s"
 
 #. TRANS: <9>: The <ranking> Poles
 #: server/report.c:179
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Worthless %s"
-msgstr "%2d: Die %s %s\n"
+msgstr "%2d: Die wertlosen %s"
 
 #: server/report.c:240
 msgid "Historian Publishes!"
@@ -18920,7 +18912,6 @@ msgid "Harbour"
 msgstr "Hafen"
 
 #: data/default/buildings.ruleset:361 data/civ2/buildings.ruleset:340
-#, fuzzy
 msgid ""
 "Gives one extra food resource on all Oceanic squares.  The city needs to be "
 "coastal to build this improvement."
@@ -18934,7 +18925,7 @@ msgid "Hydro Plant"
 msgstr "Wasserkraftwerk"
 
 #: data/default/buildings.ruleset:384
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -18952,9 +18943,9 @@ msgstr ""
 "oder einer Fertigungsstätte gibt es einen Bonus von 75%, sind beide "
 "vorhanden, erhöht sich der Bonus auf 150%.\n"
 "\n"
-"Eine Stadt kann nur ein Wasserkraftwerk, Kohlekraftwerk oder Atomkraftwerk "
-"bauen. Wasserkraftwerke können nur auf oder neben Berg- oder Flußfeldern "
-"gebaut werden."
+"Eine Stadt kann nur ein Kohlekraftwerk, Wasserkraftwerk, Atomkraftwerk "
+"oder Solarkraftwerk bauen. Wasserkraftwerke können nur auf oder neben "
+"Berg- oder Flußfeldern gebaut werden."
 
 #: data/default/buildings.ruleset:401 data/civ2/buildings.ruleset:377
 #: data/civ1/buildings.ruleset:303
@@ -19011,7 +19002,7 @@ msgid "Nuclear Plant"
 msgstr "Atomkraftwerk"
 
 #: data/default/buildings.ruleset:500
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -19028,8 +19019,8 @@ msgstr ""
 "oder einer Fertigungsstätte gibt es einen Bonus von 75%, sind beide "
 "vorhanden, erhöht sich der Bonus auf 150%.\n"
 "\n"
-"Eine Stadt kann nur ein Wasserkraftwerk, Kohlekraftwerk oder Atomkraftwerk "
-"bauen."
+"Eine Stadt kann nur ein Kohlekraftwerk, Wasserkraftwerk, Atomkraftwerk "
+"oder Solarkraftwerk bauen."
 
 #: data/default/buildings.ruleset:518 data/civ2/buildings.ruleset:492
 msgid "Offshore Platform"
@@ -19108,7 +19099,7 @@ msgid "Power Plant"
 msgstr "Kohlekraftwerk"
 
 #: data/default/buildings.ruleset:634
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the shield production of a Factory or Mfg. Plant in a city: a "
 "Factory and a Power Plant together give a 75% production bonus, and a "
@@ -19124,8 +19115,8 @@ msgstr ""
 "sich durch die zusätzliche Produktion die durch die Stadt verursachte "
 "Umweltverschmutzung.\n"
 "\n"
-"Eine Stadt kann nur ein Wasserkraftwerk, Kohlekraftwerk oder Atomkraftwerk "
-"bauen."
+"Eine Stadt kann nur ein Kohlekraftwerk, Wasserkraftwerk, Atomkraftwerk "
+"oder Solarkraftwerk bauen."
 
 #: data/default/buildings.ruleset:649 data/civ2/buildings.ruleset:613
 #: data/civ1/buildings.ruleset:475
@@ -19204,7 +19195,7 @@ msgid "Solar Plant"
 msgstr "Solarkraftwerk"
 
 #: data/default/buildings.ruleset:774
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Eliminates all pollution generated by production in a city. It also "
 "increases the shield production of a Factory or Mfg. Plant in the city: a "
@@ -19217,7 +19208,7 @@ msgstr ""
 "Verhindert die gesamte durch die Produktion einer Stadt verursachte "
 "Umweltverschmutzung und steigert die Produktion von Fabriken und "
 "Fertigungsstätten der Stadt. In Verbindung mit einer Fabrik oder einer "
-"Fertigungsstätte gibt es einen Bonus von 100%, sind beide vorhanden, erhöht "
+"Fertigungsstätte gibt es einen Bonus von 75%, sind beide vorhanden, erhöht "
 "sich der Bonus auf 150%.\n"
 "\n"
 "Eine Stadt kann nur ein Solarkraftwerk, Wasserkraftwerk, Kohlekraftwerk oder "
@@ -19776,7 +19767,7 @@ msgstr ""
 "Entfernungseffekt zur Hauptstadt halbiert wird."
 
 #: data/civ2/buildings.ruleset:363
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -19794,9 +19785,9 @@ msgstr ""
 "oder einer Fertigungsstätte gibt es einen Bonus von 100%, sind beide "
 "vorhanden, erhöht sich der Bonus auf 150%.\n"
 "\n"
-"Eine Stadt kann nur ein Wasserkraftwerk, Kohlekraftwerk oder Atomkraftwerk "
-"bauen. Wasserkraftwerke können nur auf oder neben Berg- oder Flußfeldern "
-"gebaut werden."
+"Eine Stadt kann nur ein Wasserkraftwerk, Kohlekraftwerk, Atomkraftwerk "
+"oder Solarkraftwerk bauen. Wasserkraftwerke können nur auf oder neben "
+"Berg- oder Flußfeldern gebaut werden."
 
 #: data/civ2/buildings.ruleset:392 data/civ1/buildings.ruleset:318
 #, no-c-format
@@ -19804,7 +19795,7 @@ msgid "Increases the science output in a city by 50%."
 msgstr "Erhöht das Forschungstempo in der Stadt um 50%."
 
 #: data/civ2/buildings.ruleset:476
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -19821,8 +19812,8 @@ msgstr ""
 "oder einer Fertigungsstätte gibt es einen Bonus von 100%, sind beide "
 "vorhanden, erhöht sich der Bonus auf 150%.\n"
 "\n"
-"Eine Stadt kann nur ein Wasserkraftwerk, Kohlekraftwerk oder Atomkraftwerk "
-"bauen."
+"Eine Stadt kann nur ein Wasserkraftwerk, Kohlekraftwerk, Atomkraftwerk "
+"oder Solarkraftwerk bauen."
 
 #: data/civ2/buildings.ruleset:528 data/civ1/buildings.ruleset:433
 msgid ""
@@ -19843,7 +19834,7 @@ msgstr ""
 "der Verlust der Hauptstadt einen Bürgerkrieg verursachen."
 
 #: data/civ2/buildings.ruleset:601
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the shield production of a Factory or Mfg. Plant in a city: a "
 "Factory and a Power Plant together give a 100% production bonus, and a "
@@ -19859,8 +19850,8 @@ msgstr ""
 "sich durch die zusätzliche Produktion die durch die Stadt verursachte "
 "Umweltverschmutzung.\n"
 "\n"
-"Eine Stadt kann nur ein Wasserkraftwerk, Kohlekraftwerk oder Atomkraftwerk "
-"bauen."
+"Eine Stadt kann nur ein Wasserkraftwerk, Kohlekraftwerk, Atomkraftwerk "
+"oder Solarkraftwerk bauen."
 
 #: data/civ2/buildings.ruleset:650
 #, no-c-format
@@ -19875,7 +19866,7 @@ msgstr ""
 "150%."
 
 #: data/civ2/buildings.ruleset:738
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Eliminates all pollution generated by production in a city. It also "
 "increases the shield production of a Factory or Mfg. Plant in the city: a "
@@ -20571,7 +20562,7 @@ msgid "You found %s in ancient scrolls of wisdom."
 msgstr "%s aus überlieferten Texten gelernt."
 
 #: data/default/script.lua:30
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The %s have acquired %s from ancient scrolls of                      wisdom."
 msgstr ""
@@ -21153,9 +21144,8 @@ msgstr ""
 "auch reich an Bodenschätzen."
 
 #: data/default/terrain.ruleset:674
-#, fuzzy
 msgid "Alpine forest"
-msgstr "Gebirgsjäger"
+msgstr "Gebirgswald"
 
 #: data/default/terrain.ruleset:706 data/default/terrain.ruleset:744
 #: data/default/terrain.ruleset:782 data/default/terrain.ruleset:819
@@ -21196,9 +21186,8 @@ msgid "Wooded hills"
 msgstr ""
 
 #: data/default/terrain.ruleset:899 data/default/terrain.ruleset:1277
-#, fuzzy
 msgid "Forested hills"
-msgstr "Wald"
+msgstr "Bewaldete Hügel"
 
 #: data/default/terrain.ruleset:937
 msgid "Tropical rainforest hills"
@@ -21573,13 +21562,12 @@ msgstr "Krieger"
 
 #: data/default/units.ruleset:418 data/civ2/units.ruleset:272
 #: data/civ1/units.ruleset:232
-#, fuzzy
 msgid ""
 "This unit may be built from the start of the game.  It is the weakest "
 "offensive unit."
 msgstr ""
-"Diese Einheit kann gleich vom Start an hergestellt werden, ist aber auch die "
-"schwächste Einheit."
+"Diese Einheit kann gleich vom Start an gebaut werden, ist aber die "
+"Einheit mit der geringsten Angriffsstärke."
 
 #: data/default/units.ruleset:424 data/civ2/units.ruleset:278
 #: data/civ1/units.ruleset:238
@@ -21716,7 +21704,6 @@ msgid "Mech. Inf."
 msgstr "Mech. Inf."
 
 #: data/default/units.ruleset:784 data/civ2/units.ruleset:673
-#, fuzzy
 msgid ""
 "The Mechanized Infantry has the strongest defensive strength of any land "
 "unit, but is only available near the end of the technology tree."
@@ -21979,14 +21966,15 @@ msgid "Destroyer"
 msgstr "Zerstörer"
 
 #: data/default/units.ruleset:1473 data/civ2/units.ruleset:1426
-#, fuzzy
 msgid ""
 "An improved Ironclad, with better move rate and vision.\n"
 "\n"
 "TIP:  A very fast unit, which is very useful for hunting down enemy "
 "Transports."
 msgstr ""
-"HINWEIS: Eine sehr schnelle Einheit, sehr nützlich zur Jagd auf feindliche "
+"Ein weiterentwickeltes Panzerschiff, schneller und mit besserer Sicht.\n"
+"\n"
+"TIPP: Eine sehr schnelle Einheit, sehr nützlich zur Jagd auf feindliche "
 "Transportschiffe."
 
 #: data/default/units.ruleset:1481 data/civ2/units.ruleset:1434
@@ -22031,7 +22019,6 @@ msgstr "U-Boot"
 
 #: data/default/units.ruleset:1604 data/civ2/units.ruleset:1557
 #: data/civ1/units.ruleset:917
-#, fuzzy
 msgid ""
 "Traveling under the surface of the ocean, Submarines have a very high "
 "strategic value, but a weak defense if caught off guard."
@@ -22250,7 +22237,6 @@ msgid "Explorer"
 msgstr "Kundschafter"
 
 #: data/default/units.ruleset:1953 data/civ2/units.ruleset:1906
-#, fuzzy
 msgid ""
 "Explorers are brave individuals that are very useful for mapping unknown "
 "territory."
