@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-12 14:50+0100\n"
-"PO-Revision-Date: 2008-01-19 12:25+0100\n"
+"POT-Creation-Date: 2008-01-28 21:37+0100\n"
+"PO-Revision-Date: 2008-01-30 11:41+0100\n"
 "Last-Translator: Joan Creus <joan.creus at gmail dot com>\n"
 "Language-Team: Català <ca@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -41,12 +41,12 @@ msgstr "Comerç"
 msgid "Gold"
 msgstr "Or"
 
-#: common/city.c:60 server/plrhand.c:222 client/gui-gtk-2.0/gamedlgs.c:262
+#: common/city.c:60 server/plrhand.c:201 client/gui-gtk-2.0/gamedlgs.c:262
 #: client/gui-win32/ratesdlg.c:315
 msgid "Luxury"
 msgstr "Luxes"
 
-#: common/city.c:61 server/plrhand.c:224 client/gui-gtk-2.0/gamedlgs.c:282
+#: common/city.c:61 server/plrhand.c:203 client/gui-gtk-2.0/gamedlgs.c:282
 #: client/gui-win32/ratesdlg.c:321
 msgid "Science"
 msgstr "Ciència"
@@ -653,37 +653,41 @@ msgstr "Requeriments a nivell d'illa només se suporten per meravelles"
 msgid "Surviving requirements are only supported at world range."
 msgstr "Requeriments de supervivència només se suporten a nivell mundial."
 
-#. TRANS: (none) as in "Resources: (none)".
-#: common/requirements.c:1161 common/requirements.c:1211 common/team.c:174
-#: client/gui-gtk-2.0/helpdlg.c:1060 client/gui-win32/helpdlg.c:587
-#: client/gui-xaw/helpdlg.c:999
+#. TRANS: missing value
+#. TRANS: "Resources: (none)"
+#. TRANS: missing value
+#. TRANS: "Resources: (none)"
+#. TRANS: "Resources: (none)".
+#: common/requirements.c:1162 common/requirements.c:1213 common/team.c:175
+#: client/gui-gtk-2.0/helpdlg.c:1060 client/gui-gtk-2.0/inteldlg.c:391
+#: client/gui-win32/helpdlg.c:587 client/gui-xaw/helpdlg.c:997
 #, c-format
 msgid "(none)"
 msgstr "(cap)"
 
-#: common/requirements.c:1187 common/requirements.c:1255
+#: common/requirements.c:1188 common/requirements.c:1257
 #, c-format
 msgid "Size %d"
 msgstr "Mida %d"
 
-#: common/requirements.c:1235 common/requirements.c:1244
+#: common/requirements.c:1237 common/requirements.c:1246
 #, c-format
 msgid "\"%s\" units"
 msgstr "\"%s\" unitats"
 
-#: common/requirements.c:1240
+#: common/requirements.c:1242
 #, c-format
 msgid "%s units"
 msgstr "%s unitats"
 
 #. TRANS: "Hard AI"
-#: common/requirements.c:1260
+#: common/requirements.c:1262
 #, c-format
 msgid "%s AI"
 msgstr "IA %s"
 
 #. TRANS: "Land terrain"
-#: common/requirements.c:1265
+#: common/requirements.c:1267
 #, c-format
 msgid "%s terrain"
 msgstr "Terreny %s"
@@ -701,8 +705,8 @@ msgstr "Tecnologia del futur %d"
 #: client/gui-sdl/helpdlg.c:818 client/gui-sdl/mapview.c:770
 #: client/gui-win32/helpdlg.c:165 client/gui-win32/helpdlg.c:545
 #: client/gui-win32/helpdlg.c:731 client/gui-win32/helpdlg.c:752
-#: client/gui-xaw/helpdlg.c:815 client/gui-xaw/helpdlg.c:860
-#: client/gui-xaw/helpdlg.c:879 manual/civmanual.c:327 manual/civmanual.c:333
+#: client/gui-xaw/helpdlg.c:813 client/gui-xaw/helpdlg.c:858
+#: client/gui-xaw/helpdlg.c:877 manual/civmanual.c:318 manual/civmanual.c:324
 msgid "None"
 msgstr "Cap"
 
@@ -710,11 +714,8 @@ msgstr "Cap"
 msgid "Future Tech."
 msgstr "Tecnologia del futur"
 
-#. TRANS: "Unknown" tech
-#: common/tech.c:899 client/gui-gtk-2.0/inteldlg.c:367
-#: client/gui-gtk-2.0/inteldlg.c:388 client/gui-sdl/inteldlg.c:290
-#: client/gui-sdl/inteldlg.c:301 client/gui-win32/inteldlg.c:139
-#: client/gui-xaw/inteldlg.c:259
+#. TRANS: "Unknown" advance/technology
+#: common/tech.c:899 client/gui-gtk-2.0/inteldlg.c:387
 msgid "(Unknown)"
 msgstr "(Desconegut)"
 
@@ -728,14 +729,14 @@ msgid "Oceanic"
 msgstr "Oceànic"
 
 #: common/terrain.c:482 common/terrain.c:670 common/unit.c:510
-#: manual/civmanual.c:224
+#: manual/civmanual.c:215
 msgid "Road"
 msgstr "Camí"
 
 #: common/terrain.c:483 common/terrain.c:677 common/unit.c:514
 #: client/gui-gtk-2.0/menu.c:833 client/gui-sdl/optiondlg.c:1905
-#: client/gui-win32/menu.c:344 client/gui-xaw/menu.c:151
-#: manual/civmanual.c:224
+#: client/gui-win32/menu.c:345 client/gui-xaw/menu.c:151
+#: manual/civmanual.c:215
 msgid "Irrigation"
 msgstr "Irrigació"
 
@@ -783,12 +784,12 @@ msgstr "S'està fortificant"
 msgid "Fortified"
 msgstr "Fortificat"
 
-#: common/unit.c:522 client/gui-sdl/menu.c:661 client/gui-xaw/menu.c:184
+#: common/unit.c:522 client/gui-sdl/menu.c:662 client/gui-xaw/menu.c:184
 msgid "Sentry"
 msgstr "Sentinella"
 
-#: common/unit.c:526 client/gui-gtk-2.0/menu.c:886 client/gui-sdl/menu.c:648
-#: client/gui-win32/menu.c:370 client/gui-xaw/menu.c:185
+#: common/unit.c:526 client/gui-gtk-2.0/menu.c:886 client/gui-sdl/menu.c:649
+#: client/gui-win32/menu.c:371 client/gui-xaw/menu.c:185
 msgid "Pillage"
 msgstr "Saquejar"
 
@@ -800,7 +801,7 @@ msgstr "Anar a"
 msgid "Explore"
 msgstr "Explorar"
 
-#: common/unit.c:532 manual/civmanual.c:224
+#: common/unit.c:532 manual/civmanual.c:215
 msgid "Transform"
 msgstr "Transformar"
 
@@ -818,7 +819,7 @@ msgstr "Desconegut"
 msgid "Moves"
 msgstr "Moviments"
 
-#: common/unit.c:1467
+#: common/unit.c:1468
 #, c-format
 msgid ""
 "Upgrade %s to %s for %d gold?\n"
@@ -827,12 +828,12 @@ msgstr ""
 "Millorar %s a %s per %d peces d'or?\n"
 "El Tresor conté %d peces d'or."
 
-#: common/unit.c:1475
+#: common/unit.c:1476
 #, c-format
 msgid "Sorry, cannot upgrade %s (yet)."
 msgstr "Ho sento: no es pot millorar %s (encara)."
 
-#: common/unit.c:1481
+#: common/unit.c:1482
 #, c-format
 msgid ""
 "Upgrading %s to %s costs %d gold.\n"
@@ -841,20 +842,22 @@ msgstr ""
 "Actualitzant %s a %s per %d peces d'or.\n"
 "El Tresor conté %d peces d'or."
 
-#: common/unit.c:1490
+#: common/unit.c:1491
 msgid "You can only upgrade units in your cities."
 msgstr "Només es poden millorar unitats dins de les teves ciutats."
 
-#: common/unit.c:1494
+#: common/unit.c:1495
 #, c-format
 msgid "Upgrading this %s would strand units it transports."
 msgstr "Millorar aquest %s deixaria penjades unitats que està transportant."
 
-#: common/unittype.c:432
+#. TRANS: List of possible output types has this between
+#. *        last two elements
+#: common/unittype.c:432 client/helpdata.c:1385
 msgid " and "
 msgstr " i "
 
-#: common/unittype.c:438
+#: common/unittype.c:438 client/helpdata.c:1371
 msgid "?and:, "
 msgstr ", "
 
@@ -948,7 +951,7 @@ msgstr ""
 msgid "'Cause civilization should be free!"
 msgstr "Perquè cal que la civilització sigui lliure!"
 
-#: utility/fciconv.c:133
+#: utility/fciconv.c:146
 #, c-format
 msgid ""
 "You are running Freeciv without using iconv.  Unless\n"
@@ -963,13 +966,13 @@ msgstr ""
 
 #. TRANS: "Could not convert text from <encoding a> to <encoding b>:"
 #. * TRANS: <error string>."
-#: utility/fciconv.c:206
+#: utility/fciconv.c:219
 #, c-format
 msgid "Could not convert text from %s to %s: %s"
 msgstr "No s'ha pogut convertir text de %s a %s: %s"
 
-#: utility/ioz.c:503 client/gui-sdl/dialogs.c:2483
-#: client/gui-sdl/dialogs.c:2907 client/gui-sdl/mapctrl.c:2575
+#: utility/ioz.c:503 client/gui-sdl/dialogs.c:2484
+#: client/gui-sdl/dialogs.c:2908 client/gui-sdl/mapctrl.c:2576
 #: client/gui-win32/dialogs.c:595 client/gui-win32/inputdlg.c:145
 #: client/gui-win32/repodlgs.c:1003
 msgid "OK"
@@ -1133,36 +1136,36 @@ msgstr "La ruta de dades actual és: \"%s\""
 msgid "The \"%s\" file is required ... aborting!"
 msgstr "El fitxer \"%s\" és necessari ... s'està avortant!"
 
-#: utility/shared.c:1395
+#: utility/shared.c:1398
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr "%s: Error fatal: estàs intentant executar-me com a superusuari!\n"
 
-#: utility/shared.c:1397
+#: utility/shared.c:1400
 msgid "Use a non-privileged account instead.\n"
 msgstr "Utilitza un compte no privilegiat.\n"
 
-#: utility/shared.c:1413
+#: utility/shared.c:1416
 msgid "exact match"
 msgstr "coincidència exacta"
 
-#: utility/shared.c:1414
+#: utility/shared.c:1417
 msgid "only match"
 msgstr "única coincidència"
 
-#: utility/shared.c:1415
+#: utility/shared.c:1418
 msgid "ambiguous"
 msgstr "ambigu"
 
-#: utility/shared.c:1416
+#: utility/shared.c:1419
 msgid "empty"
 msgstr "buit"
 
-#: utility/shared.c:1417
+#: utility/shared.c:1420
 msgid "too long"
 msgstr "massa llarg"
 
-#: utility/shared.c:1418
+#: utility/shared.c:1421
 msgid "non-match"
 msgstr "no hi ha coincidència"
 
@@ -1176,12 +1179,12 @@ msgstr "error %ld (Missatge de format fallat)"
 msgid "error %d (compiled without strerror)"
 msgstr "error %d (compilat sense strerror)"
 
-#: ai/aicity.c:1401 server/citytools.c:1925
+#: ai/aicity.c:1401 server/citytools.c:1921
 #, c-format
 msgid "The %s have stopped building The %s in %s."
 msgstr "Els %s han deixat de construir %s a %s."
 
-#: ai/aicity.c:1411 server/citytools.c:1963
+#: ai/aicity.c:1411 server/citytools.c:1959
 #, c-format
 msgid "The %s have started building The %s in %s."
 msgstr "Els %s han començat a construir %s a %s."
@@ -1763,17 +1766,18 @@ msgstr "%1$s %2$s perdut en transferència a %4$s (%3$s)."
 msgid "%s lost along with control of %s."
 msgstr "Perdut %s en perdre el control de %s."
 
+#. TRANS: <building> ... <city>
 #: server/citytools.c:761
 #, c-format
-msgid "You lost %s. A new %s was built in %s."
-msgstr "Has perdut %s. S'ha construït un nou %s a %s."
+msgid "A replacement %s was built in %s."
+msgstr "S'ha construït un %s de recanvi a %s."
 
-#: server/citytools.c:841
+#: server/citytools.c:840
 #, c-format
 msgid "You already had a city called %s. The city was renamed to %s."
 msgstr "Ja tenies una ciutat anomenada %s. La ciutat s'ha renomenat a %s."
 
-#: server/citytools.c:929
+#: server/citytools.c:928
 #, c-format
 msgid ""
 "The people in %s are stunned by your technological insight!\n"
@@ -1782,94 +1786,94 @@ msgstr ""
 "La gent de %s estan sorpresos del teu nivell tecnològic!\n"
 "      Els treballadors s'ajunten i actualitzen la ciutat amb ferrocarrils."
 
-#: server/citytools.c:1067
+#: server/citytools.c:1066
 #, c-format
 msgid "You have founded %s."
 msgstr "Has fundat %s."
 
-#: server/citytools.c:1140
+#: server/citytools.c:1138
 #, c-format
 msgid "Moved %s out of disbanded city %s since it cannot stay on %s."
 msgstr ""
 "S'ha mogut %s fora de la ciutat %s que s'ha desmantellat perquè no es pot "
 "quedar a %s."
 
-#: server/citytools.c:1152
+#: server/citytools.c:1150
 #, c-format
 msgid "When %s was disbanded your %s could not get out, and it was therefore lost."
 msgstr ""
 "Quan %s ha estat desmantellada %s no ha pogut sortir-ne, i per tant, s'ha "
 "perdut."
 
-#: server/citytools.c:1287
+#: server/citytools.c:1283
 #, c-format
 msgid "You destroy %s completely."
 msgstr "Destrueixes %s completament."
 
-#: server/citytools.c:1290
+#: server/citytools.c:1286
 #, c-format
 msgid "%s has been destroyed by %s."
 msgstr "%s ha estat destruïda per %s."
 
-#: server/citytools.c:1308
+#: server/citytools.c:1304
 #, c-format
 msgid "You conquer %s; your lootings accumulate to %d gold!"
 msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
 msgstr[0] "Conquereixes %s, el botí puja a %d peça d'or!"
 msgstr[1] "Conquereixes %s, el botí puja a %d peces d'or!"
 
-#: server/citytools.c:1315
+#: server/citytools.c:1311
 #, c-format
 msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
 msgstr[0] "%s ha conquerit %s i ha fet un botí de %d peça d'or de la ciutat."
 msgstr[1] "%s ha conquerit %s i ha fet un botí de %d peces d'or de la ciutat."
 
-#: server/citytools.c:1324
+#: server/citytools.c:1320
 #, c-format
 msgid "You conquer %s"
 msgstr "Has conquerit %s"
 
-#: server/citytools.c:1327
+#: server/citytools.c:1323
 #, c-format
 msgid "%s conquered %s."
 msgstr "%s ha conquerit %s"
 
-#: server/citytools.c:1334
+#: server/citytools.c:1330
 #, c-format
 msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgid_plural "You have liberated %s! Lootings accumulate to %d gold."
 msgstr[0] "Has alliberat %s!! El botí suma %d peça d'or."
 msgstr[1] "Has alliberat %s!! El botí suma %d peces d'or."
 
-#: server/citytools.c:1341
+#: server/citytools.c:1337
 #, c-format
 msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
 msgstr[0] "%s ha alliberat %s i ha fet un botí de %d peça d'or de la ciutat."
 msgstr[1] "%s ha alliberat %s i ha fet un botí de %d peces d'or de la ciutat."
 
-#: server/citytools.c:1350
+#: server/citytools.c:1346
 #, c-format
 msgid "You have liberated %s!"
 msgstr "Has alliberat %s!"
 
-#: server/citytools.c:1353
+#: server/citytools.c:1349
 #, c-format
 msgid "%s liberated %s."
 msgstr "%s ha alliberat %s."
 
-#: server/citytools.c:1942
+#: server/citytools.c:1938
 msgid " from the worklist"
 msgstr " de la llista de treball"
 
 #. TRANS: "<city> is building <production><source>."
-#: server/citytools.c:1954
+#: server/citytools.c:1950
 #, c-format
 msgid "%s is building %s%s."
 msgstr "%s està construint %s%s."
 
-#: server/citytools.c:2201
+#: server/citytools.c:2197
 #, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
 msgstr "Vens %s a %s (encallat) per %d peces d'or."
@@ -2165,7 +2169,7 @@ msgstr "Aquest és el servidor de %s"
 msgid "You can learn a lot about Freeciv at %s"
 msgstr "Pots aprendre molt sobre a Freeciv a %s"
 
-#: server/civserver.c:213 client/civclient.c:237 manual/civmanual.c:380
+#: server/civserver.c:213 client/civclient.c:237 manual/civmanual.c:371
 #, c-format
 msgid ""
 "Usage: %s [option ...]\n"
@@ -2208,7 +2212,7 @@ msgstr "  -d, --debug NÚM\tFixa nivell de registre de depuració (0 a 3)\n"
 msgid "  -f, --file FILE\tLoad saved game FILE\n"
 msgstr "  -f, --file FITXER\tCarrega una partida desada del FITXER\n"
 
-#: server/civserver.c:232 client/civclient.c:248 manual/civmanual.c:382
+#: server/civserver.c:232 client/civclient.c:248 manual/civmanual.c:373
 msgid "  -h, --help\t\tPrint a summary of the options\n"
 msgstr "  -h, --help\t\tMostra un resum de les opcions\n"
 
@@ -2258,13 +2262,13 @@ msgstr "  -r, --read FITXER\tLlegeix script d'inici FITXER\n"
 msgid "  -R, --Ranklog FILE\tUse FILE as ranking logfile\n"
 msgstr "  -R, --Ranklog FITXER\tUsa FITXER com a fitxer de registre de rànquings\n"
 
-#: server/civserver.c:254 client/civclient.c:267 manual/civmanual.c:383
+#: server/civserver.c:254 client/civclient.c:267 manual/civmanual.c:374
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tMostra la versió\n"
 
 #: server/civserver.c:255 client/gui-gtk-2.0/gui_main.c:352
-#: client/gui-sdl/gui_main.c:209 client/gui-xaw/gui_main.c:247
-#: manual/civmanual.c:384
+#: client/gui-sdl/gui_main.c:210 client/gui-xaw/gui_main.c:247
+#: manual/civmanual.c:375
 #, c-format
 msgid "Report bugs at %s.\n"
 msgstr "Informa dels errors a <%s>.\n"
@@ -3258,11 +3262,11 @@ msgid_plural ""
 "You agree on an armistice with the %s. In %d turns, it will become a peace "
 "treaty. Move your units out of %s territory."
 msgstr[0] ""
-"Acordes un armistici amb els %s. En %d torn es convertirà en un tractat de pau. "
-"Mou les teves unitats fora del territori %s."
+"Acordes un armistici amb els %s. En %d torn es convertirà en un tractat de "
+"pau. Mou les teves unitats fora del territori %s."
 msgstr[1] ""
-"Acordes un armistici amb els %s. En %d torns es convertirà en un tractat de pau. "
-"Mou les teves unitats fora del territori %s."
+"Acordes un armistici amb els %s. En %d torns es convertirà en un tractat de "
+"pau. Mou les teves unitats fora del territori %s."
 
 #: server/diplhand.c:495 server/diplhand.c:498
 #, c-format
@@ -3700,33 +3704,33 @@ msgstr "No s'informa al metaservidor d'aquesta partida."
 msgid "Metaserver: bad address: [%s:%d]."
 msgstr "Metaservidor: adreça incorrecta: [%s:%d]."
 
-#: server/plrhand.c:148
+#: server/plrhand.c:127
 #, c-format
 msgid "The %s are no more!"
 msgstr "Els %s han desaparegut!"
 
-#: server/plrhand.c:204
+#: server/plrhand.c:183
 msgid "Cannot change rates before game start."
 msgstr "No pots canviar les taxes abans que comenci la partida."
 
-#: server/plrhand.c:220 client/gui-gtk-2.0/gamedlgs.c:242
+#: server/plrhand.c:199 client/gui-gtk-2.0/gamedlgs.c:242
 #: client/gui-win32/ratesdlg.c:309
 msgid "Tax"
 msgstr "Impostos"
 
-#: server/plrhand.c:228
+#: server/plrhand.c:207
 #, c-format
 msgid "%s rate exceeds the max rate for %s."
 msgstr "La taxa de %s excedeix la taxa màxima per %s."
 
-#: server/plrhand.c:273
+#: server/plrhand.c:252
 #, c-format
 msgid "%s now governs the %s as a %s."
 msgstr "%s ara governa els %s com a %s."
 
 #. TRANS: this is a message event so don't make it
 #. * too long.
-#: server/plrhand.c:353
+#: server/plrhand.c:332
 #, c-format
 msgid ""
 "The %s have incited a revolt! %d turn of anarchy will ensue! Target "
@@ -3741,35 +3745,35 @@ msgstr[1] ""
 "Els %s han començat una revolta! Seguiran %d torns d'anarquia! El govern "
 "objectiu és %s."
 
-#: server/plrhand.c:366
+#: server/plrhand.c:345
 msgid "Revolution: returning to anarchy."
 msgstr "Revolució: retorn a l'anarquia."
 
-#: server/plrhand.c:427
+#: server/plrhand.c:406
 msgid "You should choose a new government from the government menu."
 msgstr "Hauries de triar un nou govern del menú de governs."
 
-#: server/plrhand.c:454
+#: server/plrhand.c:433
 #, c-format
 msgid "Tax rate exceeded the max rate for %s; adjusted."
 msgstr "La taxa d'impostos excedeix la taxa màxima per %s; s'ha ajustat."
 
-#: server/plrhand.c:460
+#: server/plrhand.c:439
 #, c-format
 msgid "Science rate exceeded the max rate for %s; adjusted."
 msgstr "La taxa de ciència excedeix la taxa màxima per %s; s'ha ajustat."
 
-#: server/plrhand.c:466
+#: server/plrhand.c:445
 #, c-format
 msgid "Luxury rate exceeded the max rate for %s; adjusted."
 msgstr "La taxa de luxes excedeix la taxa màxima per %s; s'ha ajustat."
 
-#: server/plrhand.c:521
+#: server/plrhand.c:500
 #, c-format
 msgid "%s no longer gives us shared vision!"
 msgstr "%s ens ha retirat la visió compartida!"
 
-#: server/plrhand.c:532
+#: server/plrhand.c:511
 #, c-format
 msgid ""
 "The senate will not allow you to break treaty with the %s.  You must either "
@@ -3778,12 +3782,12 @@ msgstr ""
 "El senat no et permetrà trencar el tractat amb els %s. Has de dissoldre el "
 "senat, o bé esperar un moment més propici."
 
-#: server/plrhand.c:585
+#: server/plrhand.c:564
 #, c-format
 msgid "The senate passes your bill because of the constant provocations of the %s."
 msgstr "El senat aprova la teva moció degut a les constants provocacions dels %s."
 
-#: server/plrhand.c:590
+#: server/plrhand.c:569
 #, c-format
 msgid ""
 "The senate refuses to break treaty with the %s, but you have no trouble "
@@ -3792,12 +3796,12 @@ msgstr ""
 "El senat refusa de trencar el tractat amb els %s, però no tens cap problema "
 "per trobar un senat nou."
 
-#: server/plrhand.c:622
+#: server/plrhand.c:601
 #, c-format
 msgid "The diplomatic state between the %s and the %s is now %s."
 msgstr "L'estat diplomàtic entre %s i %s ara és %s."
 
-#: server/plrhand.c:628
+#: server/plrhand.c:607
 #, c-format
 msgid ""
 " %s canceled the diplomatic agreement! The diplomatic state between the %s "
@@ -3806,12 +3810,12 @@ msgstr ""
 " %s ha cancel·lat el tractat diplomàtic! L'estat diplomàtic entre els %s i "
 "els %s ara és %s."
 
-#: server/plrhand.c:646
+#: server/plrhand.c:625
 #, c-format
 msgid "%s has attacked your ally %s! You cancel your alliance to the aggressor."
 msgstr "%s ha atacat el teu aliat %s! Cancel·les la teva aliança amb l'agressor."
 
-#: server/plrhand.c:658
+#: server/plrhand.c:637
 #, c-format
 msgid ""
 "Your team mate %s declared war on %s. You are obligated to cancel alliance "
@@ -3820,62 +3824,60 @@ msgstr ""
 "El teu company d'equip %s ha declarat la guerra a %s. Estàs obligat a "
 "cancel·lar l'aliança amb %s."
 
-#: server/plrhand.c:1115
+#: server/plrhand.c:1094
 #, c-format
 msgid "Removing player %s."
 msgstr "S'elimina el jugador %s."
 
-#: server/plrhand.c:1117
+#: server/plrhand.c:1096
 msgid "You've been removed from the game!"
 msgstr "Has estat eliminat de la partida!"
 
-#: server/plrhand.c:1120
+#: server/plrhand.c:1099
 #, c-format
 msgid "%s has been removed from the game."
 msgstr "%s ha estat eliminat de la partida."
 
-#: server/plrhand.c:1163 server/plrhand.c:1168
+#: server/plrhand.c:1143 server/plrhand.c:1148
 #, c-format
 msgid "You have made contact with the %s, ruled by %s."
 msgstr "Has contactat amb els %s, governats per %s."
 
-#: server/plrhand.c:1188
+#: server/plrhand.c:1168
 #, c-format
 msgid "%s and %s meet and go to instant war. You cancel your alliance with both."
 msgstr ""
 "%s i %s fan una cimera i van directament a la guerra. Cancel·les la teva "
 "aliança amb tots dos."
 
-#: server/plrhand.c:1654
+#: server/plrhand.c:1635
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr "No s'ha pogut posar els %s en guerra civil - massa jugadors."
 
-#: server/plrhand.c:1674
-#, c-format
-msgid ""
-"Your nation is thrust into civil war,  %s is declared the leader of the "
-"rebel states."
-msgstr ""
-"La teva nació es veu abocada a una guerra civil, %s és declarat el líder de "
-"la part rebel."
+#: server/plrhand.c:1655
+msgid "Your nation is thrust into civil war."
+msgstr "La teva nació es veu abocada a una guerra civil."
 
-#: server/plrhand.c:1695
+#. TRANS: <leader> ... the Poles.
+#: server/plrhand.c:1659
 #, c-format
-msgid "%s declares allegiance to %s."
-msgstr "%s declara la seva lleialtat a %s."
+msgid "%s is the rebellious leader of the %s."
+msgstr "%s és el líder rebel dels %s."
 
-#: server/plrhand.c:1710
+#. TRANS: <city> ... the Poles.
+#: server/plrhand.c:1681
 #, c-format
-msgid ""
-"Capture of the %s capital and destruction of the empire's administrative\n"
-"      structures have sparked a civil war.  Opportunists have flocked to the "
-"rebel cause,\n"
-"      and the upstart %s now holds power in %d rebel provinces."
-msgstr ""
-"La captura de la capital %s i la destrucció de les estructures administratives\n"
-"      de l'imperi han encès una guerra civil. Els oportunistes s'han apuntat a la\n"
-"      causa rebel, i el nou líder %s s'apodera de %d províncies rebels."
+msgid "%s declares allegiance to the %s."
+msgstr "%s declara la seva lleialtat als %s."
+
+#. TRANS: ... Danes ... Poles ... <7> cities.
+#: server/plrhand.c:1696
+#, c-format
+msgid "Civil war partitions the %s; the %s now hold %d city."
+msgid_plural "Civil war partitions the %s; the %s now hold %d cities."
+msgstr[0] "La guerra civil divideix els %s; els %s controlen ara %d ciutat."
+msgstr[1] "La guerra civil divideix els %s; els %s controlen ara %d ciutats."
 
 #: server/report.c:56
 #, c-format
@@ -4059,7 +4061,7 @@ msgstr "Meravelles del món"
 
 #: server/report.c:549
 msgid " sq. mi."
-msgstr " milla²."
+msgstr " milles²."
 
 #: server/report.c:559
 msgid " M tons"
@@ -4071,7 +4073,7 @@ msgstr " M béns"
 
 #: server/report.c:569
 msgid " bulbs"
-msgstr "bombetes"
+msgstr " bombetes"
 
 #: server/report.c:574
 msgid " month"
@@ -5551,42 +5553,42 @@ msgstr ""
 "S'ha acabat l'alto el foc entre %s i %s. Estan en guerra. Cancel·les la teva "
 "aliança amb tots dos."
 
-#: server/srv_main.c:938
+#: server/srv_main.c:965
 #, c-format
 msgid "Failed saving game as %s"
 msgstr "No s'ha pogut desar la partida com a %s"
 
-#: server/srv_main.c:940
+#: server/srv_main.c:967
 #, c-format
 msgid "Game saved as %s"
 msgstr "Partida desada com a %s"
 
-#: server/srv_main.c:970
+#: server/srv_main.c:997
 msgid "The game is already running."
 msgstr "La partida ja s'està jugant."
 
-#: server/srv_main.c:978
+#: server/srv_main.c:1005
 #, c-format
 msgid "%s lost control cmdlevel on game start.  Use voting from now on."
 msgstr ""
 "%s ha perdut el control cmdlevel en començar la partida. A partir d'ara, feu "
 "servir votacions."
 
-#: server/srv_main.c:985
+#: server/srv_main.c:1012
 msgid "Starting game."
 msgstr "S'està iniciant la partida."
 
-#: server/srv_main.c:1042
+#: server/srv_main.c:1069
 #, c-format
 msgid "request for unknown report (type %d)"
 msgstr "sol·licitud d'informe desconegut (tipus %d)"
 
-#: server/srv_main.c:1112
+#: server/srv_main.c:1139
 #, c-format
 msgid "Warning: rejecting old client %s"
 msgstr "Avís: rebutjant client antic %s"
 
-#: server/srv_main.c:1121
+#: server/srv_main.c:1148
 msgid ""
 "Your client is too old. To use this server, please upgrade your client to a "
 "Freeciv 2.2 or later."
@@ -5594,70 +5596,70 @@ msgstr ""
 "El teu client és massa antic. Per utilitzar aquest servidor actualitza si us "
 "plau el teu client a Freeciv 2.2 o posterior."
 
-#: server/srv_main.c:1211
+#: server/srv_main.c:1238
 #, c-format
 msgid "Got a packet of type %d from a dead or observer player"
 msgstr "Rebut un paquet del tipus %d d'un jugador mort o observador"
 
-#: server/srv_main.c:1311
+#: server/srv_main.c:1338
 msgid "Please choose a non-blank name."
 msgstr "Si us plau, escull un nom no buit."
 
-#: server/srv_main.c:1327
+#: server/srv_main.c:1354
 msgid "That nation is already in use."
 msgstr "Aquesta nació ja està agafada."
 
-#: server/srv_main.c:1343
+#: server/srv_main.c:1370
 #, c-format
 msgid "Another player already has the name '%s'.  Please choose another name."
 msgstr "Un altre jugador ja té el nom '%s'.  Si us plau, escull un altre nom."
 
-#: server/srv_main.c:1364
+#: server/srv_main.c:1391
 msgid "Please choose a name containing only ASCII characters."
 msgstr "Si us plau, escull un nom que contingui només caràcters ASCII"
 
-#: server/srv_main.c:1461
+#: server/srv_main.c:1488
 #, c-format
 msgid "%s nation is not available in this scenario."
 msgstr "La nació %s no està disponible en aquest escenari."
 
-#: server/srv_main.c:1467
+#: server/srv_main.c:1494
 #, c-format
 msgid "%s nation is already in use."
 msgstr "La nació %s ja està agafada."
 
-#: server/srv_main.c:1485
+#: server/srv_main.c:1512
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s és el dirigent %s %s."
 
-#: server/srv_main.c:1541
+#: server/srv_main.c:1568
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr ""
 "Esperant per començar la partida: %d de %d jugadors estan a punt per "
 "començar."
 
-#: server/srv_main.c:1546
+#: server/srv_main.c:1573
 msgid "All players are ready; starting game."
 msgstr "Tots els jugadors estan a punt; començant la partida"
 
-#: server/srv_main.c:1587 server/srv_main.c:1591
+#: server/srv_main.c:1614 server/srv_main.c:1618
 #, c-format
 msgid "%s has been added as %s level AI-controlled player."
 msgstr "%s ha estat afegit com un jugador de nivell %s controlat per IA."
 
-#: server/srv_main.c:1718
+#: server/srv_main.c:1745
 #, c-format
 msgid "Player %d"
 msgstr "Jugador %d"
 
-#: server/srv_main.c:1729 server/srv_main.c:1735
+#: server/srv_main.c:1756 server/srv_main.c:1762
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s governa els %s."
 
-#: server/srv_main.c:1860
+#: server/srv_main.c:1887
 msgid ""
 "This civserver program has player authentication support, but it's currently "
 "not in use."
@@ -5665,243 +5667,249 @@ msgstr ""
 "Aquest programa civserver té suport d'autenticació de jugadors, però ara "
 "mateix no es fa servir."
 
-#: server/srv_main.c:1911
+#: server/srv_main.c:1938
 #, c-format
 msgid "Sending info to metaserver [%s]"
 msgstr "S'està enviant informació al metaservidor [%s]"
 
-#: server/srv_main.c:1941
+#: server/srv_main.c:1968
 msgid "The game is over..."
 msgstr "La partida ha acabat..."
 
-#: server/srv_main.c:2156
+#: server/srv_main.c:2183
 msgid "Now accepting new client connections."
 msgstr "S'estan acceptant noves connexions de clients."
 
-#: server/stdinhand.c:249
+#: server/stdinhand.c:248
 #, c-format
 msgid "Vote \"%s\" is passed %d to %d with %d abstentions."
 msgstr "Votació \"%s\" s'aprova per %d a %d amb %d abstencions."
 
-#: server/stdinhand.c:256
+#: server/stdinhand.c:255
 #, c-format
 msgid "Vote \"%s\" failed with %d against, %d for and %d abstentions."
 msgstr "Votació \"%s\" es denega amb %d en contra, %d a favor i %d abstencions."
 
-#: server/stdinhand.c:365
+#. TRANS: ambiguous command
+#: server/stdinhand.c:367
 msgid "(ambiguous)"
 msgstr "(ambigu)"
 
-#: server/stdinhand.c:366 client/citydlg_common.c:419
+#. TRANS: unrecognized command
+#. TRANS: "unknown" location
+#: server/stdinhand.c:370 client/citydlg_common.c:420
+#: client/gui-gtk-2.0/inteldlg.c:368 client/gui-sdl/inteldlg.c:295
+#: client/gui-sdl/inteldlg.c:307 client/gui-win32/inteldlg.c:147
+#: client/gui-xaw/inteldlg.c:265
 msgid "(unknown)"
 msgstr "(desconegut)"
 
-#: server/stdinhand.c:456
+#: server/stdinhand.c:460
 msgid "Name is empty, so cannot be a player."
 msgstr "El nom és buit, per tant no pot ser un jugador."
 
-#: server/stdinhand.c:460
+#: server/stdinhand.c:464
 msgid "Name is too long, so cannot be a player."
 msgstr "El nom és massa llarg, per tant no pot ser un jugador."
 
-#: server/stdinhand.c:464
+#: server/stdinhand.c:468
 #, c-format
 msgid "Player name prefix '%s' is ambiguous."
 msgstr "Prefix de nom de jugador '%s' és ambigu."
 
-#: server/stdinhand.c:468
+#: server/stdinhand.c:472
 #, c-format
 msgid "No player by the name of '%s'."
 msgstr "Cap jugador amb el nom de '%s'."
 
-#: server/stdinhand.c:472 server/stdinhand.c:507
+#: server/stdinhand.c:476 server/stdinhand.c:511
 #, c-format
 msgid "Unexpected match_result %d (%s) for '%s'."
 msgstr "match_result no esperat %d (%s) per '%s'."
 
-#: server/stdinhand.c:491
+#: server/stdinhand.c:495
 msgid "Name is empty, so cannot be a connection."
 msgstr "El nom és buit, per tant no pot ser una connexió."
 
-#: server/stdinhand.c:495
+#: server/stdinhand.c:499
 msgid "Name is too long, so cannot be a connection."
 msgstr "El nom és massa llarg, per tant no pot ser una connexió."
 
-#: server/stdinhand.c:499
+#: server/stdinhand.c:503
 #, c-format
 msgid "Connection name prefix '%s' is ambiguous."
 msgstr "Prefix de nom de connexió '%s' és ambigu."
 
-#: server/stdinhand.c:503
+#: server/stdinhand.c:507
 #, c-format
 msgid "No connection by the name of '%s'."
 msgstr "No hi ha cap connexió amb el nom '%s'."
 
-#: server/stdinhand.c:523
+#: server/stdinhand.c:527
 #, c-format
 msgid "Open metaserver connection to [%s]."
 msgstr "Obrir connexió de metaservidor amb [%s]"
 
-#: server/stdinhand.c:536
+#: server/stdinhand.c:540
 #, c-format
 msgid "Close metaserver connection to [%s]."
 msgstr "Tancar connexió de metaservidor amb [%s]."
 
-#: server/stdinhand.c:551
+#: server/stdinhand.c:555
 msgid "Metaserver connection is open."
 msgstr "La connexió amb el metaservidor està oberta."
 
-#: server/stdinhand.c:554
+#: server/stdinhand.c:558
 msgid "Metaserver connection is closed."
 msgstr "La connexió amb el metaservidor està tancada."
 
-#: server/stdinhand.c:564
+#: server/stdinhand.c:568
 msgid "Metaserver connection is already open."
 msgstr "La connexió amb el metaservidor ja està oberta."
 
-#: server/stdinhand.c:575
+#: server/stdinhand.c:579
 msgid "Metaserver connection is already closed."
 msgstr "La connexió amb el metaservidor ja està tancada."
 
-#: server/stdinhand.c:580
+#: server/stdinhand.c:584
 msgid "Argument must be 'u', 'up', 'd', 'down', or '?'."
 msgstr "L'argument ha de ser 'u', 'up', 'd', 'down', o '?'."
 
-#: server/stdinhand.c:601
+#: server/stdinhand.c:605
 #, c-format
 msgid "Metaserver patches string set to '%s'."
 msgstr "Cadena de pegats de metaserver fixada a '%s'."
 
-#: server/stdinhand.c:604
+#: server/stdinhand.c:608
 #, c-format
 msgid "Metaserver patches string set to '%s', not reporting to metaserver."
 msgstr "Cadena de pegats de metaserver fixada a '%s', sense reportar al metaserver."
 
-#: server/stdinhand.c:625
+#: server/stdinhand.c:629
 #, c-format
 msgid "Metaserver message string set to '%s'."
 msgstr "Cadena de missatge de metaservidor fixada a '%s'."
 
-#: server/stdinhand.c:628
+#: server/stdinhand.c:632
 #, c-format
 msgid "Metaserver message string set to '%s', not reporting to metaserver."
 msgstr ""
 "Cadena de missatge del metaservidor fixada a '%s', no informant al "
 "metaserver."
 
-#: server/stdinhand.c:648
+#: server/stdinhand.c:652
 #, c-format
 msgid "Metaserver is now [%s]."
 msgstr "El metaservidor ara és [%s]."
 
-#: server/stdinhand.c:658
+#: server/stdinhand.c:662
 #, c-format
 msgid "Server id: %s"
 msgstr "Identificador de servidor: %s"
 
-#: server/stdinhand.c:741
+#: server/stdinhand.c:745
 msgid "You cannot save games manually on this server."
 msgstr "No pots desar partides manualment en aquest servidor."
 
-#: server/stdinhand.c:758
+#: server/stdinhand.c:762
 msgid "Cannot toggle a barbarian player."
 msgstr "No es pot canviar un jugador bàrbar."
 
-#: server/stdinhand.c:765
+#: server/stdinhand.c:769
 #, c-format
 msgid "%s is now under AI control."
 msgstr "%s està sota el control de la IA des d'ara."
 
-#: server/stdinhand.c:785
+#: server/stdinhand.c:789
 #, c-format
 msgid "%s is now under human control."
 msgstr "%s està sota el control humà des d'ara."
 
-#: server/stdinhand.c:830
+#: server/stdinhand.c:834
 msgid "Can't add AI players once the game has begun."
 msgstr "No es pot afegir jugador d'IA un cop la partida ha començat."
 
-#: server/stdinhand.c:849
+#: server/stdinhand.c:853
 msgid "Can't add more players, server is full."
 msgstr "No es poden afegir més jugadors, el servidor està ple."
 
-#: server/stdinhand.c:856
+#: server/stdinhand.c:860
 msgid "Can't use an empty name."
 msgstr "No es pot usar un nom buit."
 
-#: server/stdinhand.c:863
+#: server/stdinhand.c:867
 #, c-format
 msgid "That name exceeds the maximum of %d chars."
 msgstr "El nom excedeix el màxim de %d caràcters."
 
-#: server/stdinhand.c:869
+#: server/stdinhand.c:873
 msgid "That name is not allowed."
 msgstr "Aquest nom no és permès."
 
-#: server/stdinhand.c:875
+#: server/stdinhand.c:879
 msgid "A player already exists by that name."
 msgstr "Ja existeix un jugador amb aquest nom."
 
-#: server/stdinhand.c:881
+#: server/stdinhand.c:885
 msgid "A user already exists by that name."
 msgstr "Ja existeix un usuari amb aquest nom."
 
-#: server/stdinhand.c:911
+#: server/stdinhand.c:915
 #, c-format
 msgid "%s has been added as an AI-controlled player."
 msgstr "%s s'ha afegit com a jugador controlat per IA."
 
-#: server/stdinhand.c:918
+#: server/stdinhand.c:922
 #, c-format
 msgid "Error creating new AI player: %s."
 msgstr "Error en crear el nou jugador d'IA: %s."
 
-#: server/stdinhand.c:947
+#: server/stdinhand.c:951
 msgid "Players cannot be removed once the game has started."
 msgstr "Els jugadors no es poden esborrar un cop la partida ha començat."
 
-#: server/stdinhand.c:958
+#: server/stdinhand.c:962
 #, c-format
 msgid "Removed player %s from the game."
 msgstr "S'ha eliminat el jugador %s de la partida."
 
-#: server/stdinhand.c:997 server/stdinhand.c:3254 server/stdinhand.c:3367
+#: server/stdinhand.c:1001 server/stdinhand.c:3259 server/stdinhand.c:3372
 #, c-format
 msgid "Name \"%s\" disallowed for security reasons."
 msgstr "Nom \"%s\" no permès per raons de seguretat."
 
-#: server/stdinhand.c:1010
+#: server/stdinhand.c:1014
 #, c-format
 msgid "No command script found by the name \"%s\"."
 msgstr "No hi ha cap fitxer de comandes amb el nom \"%s\"."
 
-#: server/stdinhand.c:1018
+#: server/stdinhand.c:1022
 #, c-format
 msgid "Loading script file: %s"
 msgstr "Carregant fitxer de script: %s"
 
-#: server/stdinhand.c:1033
+#: server/stdinhand.c:1037
 #, c-format
 msgid "Cannot read command line scriptfile '%s'."
 msgstr "No es pot llegir el fitxer d'script de línia de comandes '%s'."
 
-#: server/stdinhand.c:1035
+#: server/stdinhand.c:1039
 #, c-format
 msgid "Could not read script file '%s'."
 msgstr "No s'ha pogut llegir el fitxer d'script '%s'."
 
-#: server/stdinhand.c:1122
+#: server/stdinhand.c:1126
 #, c-format
 msgid "Could not write script file '%s'."
 msgstr "No s'ha pogut escriure el fitxer d'script '%s'."
 
-#: server/stdinhand.c:1134
+#: server/stdinhand.c:1138
 msgid "You cannot use the write command on this server for security reasons."
 msgstr ""
 "No pots fer servir la comanda write en aquest servidor per raons de "
 "seguretat."
 
-#: server/stdinhand.c:1162
+#: server/stdinhand.c:1166
 #, c-format
 msgid ""
 "Cannot decrease command access level '%s' for connection '%s'; you only have "
@@ -5910,232 +5918,240 @@ msgstr ""
 "No es pot disminuir el nivell d'accés de comanda '%s' per a la connexió '%"
 "s'; només tens '%s'."
 
-#: server/stdinhand.c:1217
+#: server/stdinhand.c:1221
 #, c-format
 msgid "Anyone can now become game organizer '%s' by issuing the 'first' command."
 msgstr ""
 "Ara qualsevol pot convertir-se en organitzador de la partida '%s' llançant "
 "la comanda 'first'."
 
-#: server/stdinhand.c:1250
+#: server/stdinhand.c:1254
 msgid "Command access levels in effect:"
 msgstr "Nivells d'accés de comanda efectius:"
 
-#: server/stdinhand.c:1258
+#: server/stdinhand.c:1262
 #, c-format
 msgid "Command access level for new connections: %s"
 msgstr "Nivell d'accés de comanda per a noves connexions: %s"
 
-#: server/stdinhand.c:1261
+#: server/stdinhand.c:1265
 #, c-format
 msgid "Command access level for first player to take it: %s"
 msgstr "Nivell d'accés de comanda per al primer jugador que el prengui: %s"
 
-#: server/stdinhand.c:1270
+#: server/stdinhand.c:1274
 msgid "Error: command access level must be one of 'none', 'info', 'ctrl', or 'hack'."
 msgstr ""
 "Error: el nivell d'accés de comanda ha de ser o bé 'none', 'info', 'ctrl' o "
 "'hack'."
 
-#: server/stdinhand.c:1275
+#: server/stdinhand.c:1279
 #, c-format
 msgid "Cannot increase command access level to '%s'; you only have '%s' yourself."
 msgstr "No es pot augmentar nivell d'accés de comanda a '%s'; només tens '%s'."
 
-#: server/stdinhand.c:1302 server/stdinhand.c:1350
+#: server/stdinhand.c:1306 server/stdinhand.c:1354
 #, c-format
 msgid "Command access level set to '%s' for connection %s."
 msgstr "Nivell d'accés de comanda fixat a '%s' per a connexió %s."
 
-#: server/stdinhand.c:1306 server/stdinhand.c:1354
+#: server/stdinhand.c:1310 server/stdinhand.c:1358
 #, c-format
 msgid "Command access level could not be set to '%s' for connection %s."
 msgstr "El nivell d'accés de comanda no s'ha pogut fixar a '%s' per a la connexió %s."
 
-#: server/stdinhand.c:1316 server/stdinhand.c:1326 server/stdinhand.c:1343
+#: server/stdinhand.c:1320 server/stdinhand.c:1330 server/stdinhand.c:1347
 #, c-format
 msgid "Command access level set to '%s' for new players."
 msgstr "Nivell d'accés de comanda fixat a '%s' per a nous jugadors."
 
-#: server/stdinhand.c:1320 server/stdinhand.c:1331 server/stdinhand.c:1338
+#: server/stdinhand.c:1324 server/stdinhand.c:1335 server/stdinhand.c:1342
 #, c-format
 msgid "Command access level set to '%s' for first player to grab it."
 msgstr "Nivell d'accés de comanda fixat a '%s' per al primer jugador que l'agafi."
 
-#: server/stdinhand.c:1376
+#: server/stdinhand.c:1380
 msgid "The 'first' command makes no sense from the server command line."
 msgstr "La comanda 'first' no té sentit des de la línia de comandes del servidor."
 
-#: server/stdinhand.c:1380
+#: server/stdinhand.c:1384
 #, c-format
 msgid "You already have command access level '%s' or better."
 msgstr "Ja tens nivell d'accés de comanda '%s' o millor."
 
-#: server/stdinhand.c:1385
+#: server/stdinhand.c:1389
 msgid "Someone else already is game organizer."
 msgstr "Algú altre ja és organitzador de la partida."
 
-#: server/stdinhand.c:1390
+#: server/stdinhand.c:1394
 #, c-format
 msgid "Connection %s has opted to become the game organizer."
 msgstr "La connexió %s ha decidit convertir-se en organitzadora de la partida."
 
-#: server/stdinhand.c:1441
+#: server/stdinhand.c:1445
 #, c-format
 msgid "Invalid argument %d."
 msgstr "Argument invàlid %d."
 
-#: server/stdinhand.c:1448
+#: server/stdinhand.c:1452
 msgid "Usage: timeoutincrease <turn> <turnadd> <value> <valuemult>."
 msgstr "Ús: timeoutincrease <torn> <tornafeg> <valor> <valormult>."
 
-#: server/stdinhand.c:1456
+#: server/stdinhand.c:1460
 #, c-format
 msgid "Dynamic timeout set to %d %d %d %d"
 msgstr "Temps màxim dinàmic fixat a %d %d %d %d"
 
-#: server/stdinhand.c:1516 server/stdinhand.c:1519
-msgid "Option:"
-msgstr "Opció:"
+#. TRANS: <untranslated name> - translated short help
+#: server/stdinhand.c:1521
+#, c-format
+msgid "Option: %s  -  %s"
+msgstr "Opció: %s  -  %s"
 
-#: server/stdinhand.c:1529 server/stdinhand.c:3889
+#. TRANS: <untranslated name>
+#: server/stdinhand.c:1527
+#, c-format
+msgid "Option: %s"
+msgstr "Opció: %s"
+
+#: server/stdinhand.c:1534 server/stdinhand.c:3891
 msgid "Description:"
 msgstr "Descripció:"
 
-#: server/stdinhand.c:1534
+#: server/stdinhand.c:1539
 #, c-format
 msgid "Status: %s"
 msgstr "Estat: %s"
 
-#: server/stdinhand.c:1535
+#: server/stdinhand.c:1540
 msgid "changeable"
 msgstr "canviable"
 
-#: server/stdinhand.c:1535
+#: server/stdinhand.c:1540
 msgid "fixed"
 msgstr "fix"
 
-#: server/stdinhand.c:1541
+#: server/stdinhand.c:1546
 #, c-format
 msgid "Value: %d, Minimum: 0, Default: %d, Maximum: 1"
 msgstr "Valor: %d, Mínim: 0, per Defecte: %d, Màxim: 1"
 
-#: server/stdinhand.c:1546
+#: server/stdinhand.c:1551
 #, c-format
 msgid "Value: %d, Minimum: %d, Default: %d, Maximum: %d"
 msgstr "Valor: %d, Mínim: %d, per Defecte: %d, Màxim: %d"
 
-#: server/stdinhand.c:1552
+#: server/stdinhand.c:1557
 #, c-format
 msgid "Value: \"%s\", Default: \"%s\""
 msgstr "Valor: \"%s\", per Defecte: \"%s\""
 
-#: server/stdinhand.c:1571
+#: server/stdinhand.c:1576
 msgid "Explanations are available for the following server options:"
 msgstr "Hi ha explicacions disponibles per les següents opcions del servidor:"
 
-#: server/stdinhand.c:1616
+#: server/stdinhand.c:1621
 msgid "No explanation for that yet."
 msgstr "No hi ha explicació per això encara."
 
-#: server/stdinhand.c:1619 server/stdinhand.c:2473
+#: server/stdinhand.c:1624 server/stdinhand.c:2478
 msgid "Ambiguous option name."
 msgstr "Nom d'opció ambigu."
 
-#: server/stdinhand.c:1639
+#: server/stdinhand.c:1644
 #, c-format
 msgid "Server Operator: %s"
 msgstr "Operador de servidor: %s"
 
-#: server/stdinhand.c:1764 server/stdinhand.c:1801 server/stdinhand.c:1819
+#: server/stdinhand.c:1769 server/stdinhand.c:1806 server/stdinhand.c:1824
 #, c-format
 msgid "Player '%s' now has AI skill level '%s'."
 msgstr "El jugador '%s' ha passat a tenir el nivell IA '%s'."
 
-#: server/stdinhand.c:1806
+#: server/stdinhand.c:1811
 #, c-format
 msgid "%s is not controlled by the AI."
 msgstr "%s no està control·lat per la IA."
 
-#: server/stdinhand.c:1826
+#: server/stdinhand.c:1831
 #, c-format
 msgid "Default AI skill level set to '%s'."
 msgstr "S'ha establert el nivell d'IA per defecte a '%s'."
 
-#: server/stdinhand.c:1841 server/stdinhand.c:2145
+#: server/stdinhand.c:1846 server/stdinhand.c:2150
 msgid "This command is client only."
 msgstr "Aquesta comanda és només per al client."
 
-#: server/stdinhand.c:1844
+#: server/stdinhand.c:1849
 msgid "Usage: away"
 msgstr "Ús: away"
 
-#: server/stdinhand.c:1849
+#: server/stdinhand.c:1854
 msgid "Only players may use the away command."
 msgstr "Només els jugadors poden utilitzar la comanda away (no hi sóc)"
 
-#: server/stdinhand.c:1853
+#: server/stdinhand.c:1858
 #, c-format
 msgid "%s set to away mode."
 msgstr "%s fixat a mode away (no hi sóc)."
 
-#: server/stdinhand.c:1861
+#: server/stdinhand.c:1866
 #, c-format
 msgid "%s returned to game."
 msgstr "%s ha tornat a la partida."
 
-#: server/stdinhand.c:1903
+#: server/stdinhand.c:1908
 #, c-format
 msgid "Sorry, you do not have access to view option '%s'."
 msgstr "Ho sento, no tens accés per veure l'opció '%s'."
 
-#: server/stdinhand.c:1909
+#: server/stdinhand.c:1914
 #, c-format
 msgid "Unknown option '%s'."
 msgstr "Opció desconeguda '%s'."
 
-#: server/stdinhand.c:1934
+#: server/stdinhand.c:1939
 msgid "All options with non-default values"
 msgstr "Totes les opcions amb valors diferents del defecte"
 
-#: server/stdinhand.c:1937
+#: server/stdinhand.c:1942
 msgid "All options"
 msgstr "Totes les opcions"
 
-#: server/stdinhand.c:1940
+#: server/stdinhand.c:1945
 msgid "Vital options"
 msgstr "Opcions vitals"
 
-#: server/stdinhand.c:1943
+#: server/stdinhand.c:1948
 msgid "Situational options"
 msgstr "Opcions de situació"
 
-#: server/stdinhand.c:1946
+#: server/stdinhand.c:1951
 msgid "Rarely used options"
 msgstr "Opcions poc utilitzades"
 
-#: server/stdinhand.c:1949
+#: server/stdinhand.c:1954
 msgid "+ means you may change the option"
 msgstr "+ significa que pots canviar l'opció"
 
-#: server/stdinhand.c:1950
+#: server/stdinhand.c:1955
 msgid "= means the option is on its default value"
 msgstr "= significa que l'opció està al seu valor per defecte"
 
-#: server/stdinhand.c:1953
+#: server/stdinhand.c:1958
 #, c-format
 msgid "%-*s value   (min,max)      "
 msgstr "%-*s valor   (mín,màx)      "
 
-#: server/stdinhand.c:1953
+#: server/stdinhand.c:1958
 msgid "Option"
 msgstr "Opció"
 
-#: server/stdinhand.c:1956
+#: server/stdinhand.c:1961
 msgid "description"
 msgstr "descripció"
 
-#: server/stdinhand.c:2025
+#: server/stdinhand.c:2030
 msgid ""
 "Try 'show situational' or 'show rare' to show more options.\n"
 "Try 'show changed' to show settings with non-default values."
@@ -6144,37 +6160,37 @@ msgstr ""
 "Intenta 'show changed' per mostrar les opcions amb valors diferents del "
 "defecte."
 
-#: server/stdinhand.c:2075
+#: server/stdinhand.c:2080
 msgid "Cannot change teams once game has begun."
 msgstr "No es poden canviar els equips un cop la partida ha començat."
 
-#: server/stdinhand.c:2085
+#: server/stdinhand.c:2090
 msgid "Undefined argument.  Usage: team <player> <team>."
 msgstr "Argument no definit. Ús: team <jugador> <equip>."
 
-#: server/stdinhand.c:2105
+#: server/stdinhand.c:2110
 #, c-format
 msgid "No such team %s.  Please give a valid team name or number."
 msgstr "No existeix l'equip %s. Si us plau dóna un nom o nombre d'equip vàlids."
 
-#: server/stdinhand.c:2112
+#: server/stdinhand.c:2117
 msgid "Cannot team a barbarian."
 msgstr "Un bàrbar no es pot ajuntar a un equip."
 
-#: server/stdinhand.c:2118
+#: server/stdinhand.c:2123
 #, c-format
 msgid "Player %s set to team %s."
 msgstr "El jugador %s s'ha unit a l'equip %s."
 
-#: server/stdinhand.c:2140
+#: server/stdinhand.c:2145
 msgid "Undefined arguments. Usage: vote yes|no [vote number]."
 msgstr "Arguments no definits. Ús: vote yes|no [número de votació]."
 
-#: server/stdinhand.c:2148
+#: server/stdinhand.c:2153
 msgid "Observers cannot vote."
 msgstr "Els observadors no poden votar."
 
-#: server/stdinhand.c:2151
+#: server/stdinhand.c:2156
 msgid ""
 "You can only vote in a running game.  Use 'first' to become the game "
 "organizer if there currently is none."
@@ -6182,39 +6198,39 @@ msgstr ""
 "Només pots votar en una partida en curs. Utilitza 'first' per convertir-te "
 "en organitzador de la partida si ara mateix no n'hi ha cap."
 
-#: server/stdinhand.c:2164
+#: server/stdinhand.c:2169
 #, c-format
 msgid "Vote %d \"%s\": %d for, %d against"
 msgstr "Votació %d \"%s\": %d a favor, %d en contra"
 
-#: server/stdinhand.c:2171
+#: server/stdinhand.c:2176
 msgid "There are no votes going on."
 msgstr "No hi ha cap votació en marxa."
 
-#: server/stdinhand.c:2191
+#: server/stdinhand.c:2196
 msgid "No legal last vote."
 msgstr "Últim vot no legal"
 
-#: server/stdinhand.c:2196
+#: server/stdinhand.c:2201
 msgid "Value must be integer."
 msgstr "El valor ha de ser un enter."
 
-#: server/stdinhand.c:2207
+#: server/stdinhand.c:2212
 #, c-format
 msgid "No such vote (%d)."
 msgstr "No existeix la votació (%d)"
 
-#: server/stdinhand.c:2211
+#: server/stdinhand.c:2216
 #, c-format
 msgid "You voted for \"%s\""
 msgstr "Has votat a favor de \"%s\""
 
-#: server/stdinhand.c:2215
+#: server/stdinhand.c:2220
 #, c-format
 msgid "You voted against \"%s\""
 msgstr "Has votat en contra de \"%s\""
 
-#: server/stdinhand.c:2242
+#: server/stdinhand.c:2247
 msgid ""
 "Undefined arguments. Usage: debug < diplomacy <player> | city <x> <y> | "
 "units <x> <y> | unit <id> | tech <player> | timing | info | ferries >."
@@ -6222,412 +6238,413 @@ msgstr ""
 "Arguments no definits. Ús: debug <diplomacy <jugador> | city <x> <y> | units "
 "<x> <y> | unit <id> | tech <jugador> | timing | info | ferries >."
 
-#: server/stdinhand.c:2249
+#: server/stdinhand.c:2254
 msgid "Can only use this command once game has begun."
 msgstr "Només es pot usar aquesta comanda un cop la partida ha començat."
 
-#: server/stdinhand.c:2278
+#: server/stdinhand.c:2283
 #, c-format
 msgid "%s diplomacy no longer debugged"
 msgstr "La diplomàcia %s ja no es depura"
 
-#: server/stdinhand.c:2282
+#: server/stdinhand.c:2287
 #, c-format
 msgid "%s diplomacy debugged"
 msgstr "La diplomàcia %s s'està depurant"
 
-#: server/stdinhand.c:2301
+#: server/stdinhand.c:2306
 #, c-format
 msgid "%s tech no longer debugged"
 msgstr "Tecnologia %s ja no es depura"
 
-#: server/stdinhand.c:2305
+#: server/stdinhand.c:2310
 #, c-format
 msgid "%s tech debugged"
 msgstr "La tecnologia %s s'està depurant"
 
-#: server/stdinhand.c:2336 server/stdinhand.c:2366
+#: server/stdinhand.c:2341 server/stdinhand.c:2371
 msgid "Value 2 & 3 must be integer."
 msgstr "Els valors 2 i 3 han de ser enters."
 
-#: server/stdinhand.c:2340 server/stdinhand.c:2370
+#: server/stdinhand.c:2345 server/stdinhand.c:2375
 msgid "Bad map coordinates."
 msgstr "Coordenades de mapa dolentes."
 
-#: server/stdinhand.c:2345
+#: server/stdinhand.c:2350
 msgid "No city at this coordinate."
 msgstr "No hi ha cap ciutat en aquestes coordenades."
 
-#: server/stdinhand.c:2350
+#: server/stdinhand.c:2355
 #, c-format
 msgid "%s no longer debugged"
 msgstr "Ja no es depura a %s"
 
-#: server/stdinhand.c:2376 server/stdinhand.c:2415
+#: server/stdinhand.c:2381 server/stdinhand.c:2420
 #, c-format
 msgid "%s %s no longer debugged."
 msgstr "Ja no es depura el %2$s %1$s."
 
-#: server/stdinhand.c:2381 server/stdinhand.c:2420
+#: server/stdinhand.c:2386 server/stdinhand.c:2425
 #, c-format
 msgid "%s %s debugged."
 msgstr "Depurant %2$s %1$s."
 
-#: server/stdinhand.c:2391
+#: server/stdinhand.c:2396
 msgid "Ferry system is no longer in debug mode."
 msgstr "Ja no es depura el sistema de ferry."
 
-#: server/stdinhand.c:2395
+#: server/stdinhand.c:2400
 msgid "Ferry system in debug mode."
 msgstr "Depurant el sistema de ferry."
 
-#: server/stdinhand.c:2406
+#: server/stdinhand.c:2411
 msgid "Value 2 must be integer."
 msgstr "El valor 2 ha de ser un enter."
 
-#: server/stdinhand.c:2410
+#: server/stdinhand.c:2415
 #, c-format
 msgid "Unit %d does not exist."
 msgstr "La unitat %d no existeix."
 
-#: server/stdinhand.c:2468
+#: server/stdinhand.c:2473
 msgid "Undefined argument.  Usage: set <option> <value>."
 msgstr "Argument no definit.  Ús: set <opció> <valor>."
 
-#: server/stdinhand.c:2478
+#: server/stdinhand.c:2483
 msgid "You are not allowed to set this option."
 msgstr "No tens permís per establir aquesta opció."
 
-#: server/stdinhand.c:2483 server/stdinhand.c:3361
+#: server/stdinhand.c:2488 server/stdinhand.c:3366
 msgid "This setting can't be modified after the game has started."
 msgstr "Aquesta opció no pot ser modificada un cop ha començat la partida."
 
-#: server/stdinhand.c:2495 server/stdinhand.c:2534
+#: server/stdinhand.c:2500 server/stdinhand.c:2539
 msgid "Value must be an integer."
 msgstr "El valor ha de ser un enter."
 
-#: server/stdinhand.c:2505
+#: server/stdinhand.c:2510
 #, c-format
 msgid "The parameter %s should only contain digits 0-1."
 msgstr "El paràmetre %s només pot contenir els dígits 0-1."
 
-#: server/stdinhand.c:2512
+#: server/stdinhand.c:2517
 msgid "Value out of range (minimum: 0, maximum: 1)."
 msgstr "Valor fora de rang (mínim: 0, màxim 1)."
 
-#: server/stdinhand.c:2525 server/stdinhand.c:2565
+#: server/stdinhand.c:2530 server/stdinhand.c:2570
 #, c-format
 msgid "Option: %s has been set to %d."
 msgstr "Opció: S'ha establert %s a %d."
 
-#: server/stdinhand.c:2545
+#: server/stdinhand.c:2550
 #, c-format
 msgid "The parameter %s should only contain +- and 0-9."
 msgstr "El paràmetre %s només pot contenir +- i 0-9."
 
-#: server/stdinhand.c:2552
+#: server/stdinhand.c:2557
 #, c-format
 msgid "Value out of range (minimum: %d, maximum: %d)."
 msgstr "Valor fora de rang (mínim: %d, màxim: %d)."
 
-#: server/stdinhand.c:2575
+#: server/stdinhand.c:2580
 msgid "String value too long.  Usage: set <option> <value>."
 msgstr "Valor de cadena massa llarg. Ús: set <opció> <valor>."
 
-#: server/stdinhand.c:2587
+#: server/stdinhand.c:2592
 #, c-format
 msgid "Option: %s has been set to \"%s\"."
 msgstr "Opció: %s s'ha establert a \"%s\"."
 
-#: server/stdinhand.c:2625
+#: server/stdinhand.c:2630
 msgid "Sorry, one can't observe globally in this game."
 msgstr "Ho sento, en aquesta partida no es pot observar globalment."
 
-#: server/stdinhand.c:2628
+#: server/stdinhand.c:2633
 msgid "Sorry, you can't take a global observer. Observe it instead."
 msgstr "Ho sento, No pots agafar un observador global. Pots observar-lo, però."
 
-#: server/stdinhand.c:2640
+#: server/stdinhand.c:2645
 msgid "Sorry, one can't observe barbarians in this game."
 msgstr "Ho sento, en aquesta partida no es poden observar els bàrbars."
 
-#: server/stdinhand.c:2643
+#: server/stdinhand.c:2648
 msgid "Sorry, one can't take barbarians in this game."
 msgstr "Ho sento, en aquesta partida no es poden prendre els bàrbars."
 
-#: server/stdinhand.c:2651
+#: server/stdinhand.c:2656
 msgid "Sorry, one can't observe dead players in this game."
 msgstr "Ho sento, en aquesta partida no es poden observar els jugadors morts."
 
-#: server/stdinhand.c:2654
+#: server/stdinhand.c:2659
 msgid "Sorry, one can't take dead players in this game."
 msgstr "Ho sento, en aquesta partida no es poden prendre els jugadors morts."
 
-#: server/stdinhand.c:2662
+#: server/stdinhand.c:2667
 msgid "Sorry, one can't observe AI players in this game."
 msgstr "Ho sento, en aquesta partida no es poden observar els jugadors d'IA."
 
-#: server/stdinhand.c:2665
+#: server/stdinhand.c:2670
 msgid "Sorry, one can't take AI players in this game."
 msgstr "Ho sento, en aquesta partida no es poden prendre els jugadors d'IA."
 
-#: server/stdinhand.c:2674
+#: server/stdinhand.c:2679
 msgid "Sorry, one can't observe human players in this game."
 msgstr "Ho sento, en aquesta partida no es poden observar els jugadors humans."
 
-#: server/stdinhand.c:2677
+#: server/stdinhand.c:2682
 msgid "Sorry, one can't take human players in this game."
 msgstr "Ho sento, en aquesta partida no es poden prendre els jugadors humans."
 
-#: server/stdinhand.c:2687
+#: server/stdinhand.c:2692
 msgid "Sorry, one can't observe in this game."
 msgstr "Ho sento, en aquesta partida no es pot observar."
 
-#: server/stdinhand.c:2692
+#: server/stdinhand.c:2697
 msgid "Sorry, one can't take players in this game."
 msgstr "Ho sento, en aquesta partida no es poden prendre jugadors."
 
-#: server/stdinhand.c:2698
+#: server/stdinhand.c:2703
 msgid "Sorry, one can't take players already connected in this game."
 msgstr "Ho sento, en aquesta partida no es poden prendre els jugadors ja connectats."
 
-#: server/stdinhand.c:2729
+#: server/stdinhand.c:2734
 msgid "Usage: observe [connection-name [player-name]]"
 msgstr "Ús: observe [nom-connexió [nom-jugador]]"
 
-#: server/stdinhand.c:2735
+#: server/stdinhand.c:2740
 msgid "Usage: observe [player-name]"
 msgstr "Ús: observe [nom-jugador]"
 
-#: server/stdinhand.c:2785
+#: server/stdinhand.c:2790
 #, c-format
 msgid "%s already controls %s. Using 'observe' would remove %s"
 msgstr "%s ja controla %s. Usar 'observe' suprimiria %s"
 
-#: server/stdinhand.c:2796
+#: server/stdinhand.c:2801
 #, c-format
 msgid "%s is already observing %s."
 msgstr "%s ja està observant %s"
 
-#: server/stdinhand.c:2801
+#: server/stdinhand.c:2806
 #, c-format
 msgid "%s is already observing."
 msgstr "%s ja està observant."
 
-#: server/stdinhand.c:2862
+#: server/stdinhand.c:2867
 #, c-format
 msgid "%s now observes %s"
 msgstr "%s ara observa a %s"
 
-#: server/stdinhand.c:2866
+#: server/stdinhand.c:2871
 #, c-format
 msgid "%s now observes"
 msgstr "%s ara observa"
 
-#: server/stdinhand.c:2905
+#: server/stdinhand.c:2910
 msgid "Usage: take <connection-name> <player-name>"
 msgstr "Ús: take [nom-connexió] <nom-jugador>"
 
-#: server/stdinhand.c:2910
+#: server/stdinhand.c:2915
 msgid "Usage: take <player-name>"
 msgstr "Ús: take <nom-jugador>"
 
-#: server/stdinhand.c:2916
+#: server/stdinhand.c:2921
 msgid "Usage: take [connection-name] <player-name>"
 msgstr "Ús: take [nom-connexió] <nom-jugador>"
 
-#: server/stdinhand.c:2946
+#: server/stdinhand.c:2951
 #, c-format
 msgid "%s already controls %s"
 msgstr "%s ja controla %s"
 
-#: server/stdinhand.c:2974
+#: server/stdinhand.c:2979
 #, c-format
 msgid "being detached from %s."
 msgstr "desconnectant-se de %s."
 
-#: server/stdinhand.c:3038
+#: server/stdinhand.c:3043
 #, c-format
 msgid "%s now controls %s (%s, %s)"
 msgstr "%s ara controla %s (%s, %s)"
 
-#: server/stdinhand.c:3042 server/stdinhand.c:4118
+#: server/stdinhand.c:3047 server/stdinhand.c:4120
 #: data/nation/barbarian.ruleset:3
 msgid "Barbarian"
 msgstr "Bàrbar"
 
-#: server/stdinhand.c:3044 server/stdinhand.c:4120 client/plrdlg_common.c:247
-#: client/gui-gtk-2.0/pages.c:2021 client/gui-sdl/plrdlg.c:639
+#: server/stdinhand.c:3049 server/stdinhand.c:4122 client/plrdlg_common.c:247
+#: client/gui-gtk-2.0/pages.c:2021 client/gui-sdl/plrdlg.c:642
 #: client/gui-win32/connectdlg.c:201 client/gui-win32/plrdlg.c:335
 msgid "AI"
 msgstr "IA"
 
-#: server/stdinhand.c:3045 server/stdinhand.c:4122
+#: server/stdinhand.c:3050 server/stdinhand.c:4124
 #: client/gui-gtk-2.0/pages.c:2021 client/gui-gtk-2.0/pages.c:2044
 #: client/gui-win32/connectdlg.c:201 client/gui-win32/connectdlg.c:213
 msgid "Human"
 msgstr "Humà"
 
-#: server/stdinhand.c:3047 client/gui-gtk-2.0/pages.c:2020
+#: server/stdinhand.c:3052 client/gui-gtk-2.0/pages.c:2020
 #: client/gui-gtk-2.0/pages.c:2043 client/gui-win32/connectdlg.c:200
 #: client/gui-win32/connectdlg.c:212
 msgid "Alive"
 msgstr "Viu"
 
-#: server/stdinhand.c:3048 client/gui-gtk-2.0/pages.c:2020
+#: server/stdinhand.c:3053 client/gui-gtk-2.0/pages.c:2020
 #: client/gui-win32/connectdlg.c:200
 msgid "Dead"
 msgstr "Mort"
 
-#: server/stdinhand.c:3081
+#: server/stdinhand.c:3086
 msgid "Usage: detach <connection-name>"
 msgstr "Ús: detach <nom-connexió>"
 
-#: server/stdinhand.c:3101
+#: server/stdinhand.c:3106
 msgid "You can not detach other users."
 msgstr "No pots desconnectar altres jugadors."
 
-#: server/stdinhand.c:3110
+#: server/stdinhand.c:3115
 #, c-format
 msgid "%s is not attached to any player."
 msgstr "%s no s'ha associat a cap jugador."
 
-#: server/stdinhand.c:3132
+#: server/stdinhand.c:3137
 #, c-format
 msgid "%s detaching from %s"
 msgstr "desassociant %s de %s"
 
-#: server/stdinhand.c:3138
+#: server/stdinhand.c:3143
 #, c-format
 msgid "%s no longer observing."
 msgstr "%s ja no està observant."
 
-#: server/stdinhand.c:3157
+#: server/stdinhand.c:3162
 #, c-format
 msgid "detaching from %s."
 msgstr "s'està desassociant de %s."
 
-#: server/stdinhand.c:3243
+#: server/stdinhand.c:3248
 msgid "Usage: load <game name>"
 msgstr "Ús: load <nom-partida>"
 
-#: server/stdinhand.c:3248
+#: server/stdinhand.c:3253
 msgid "Cannot load a game while another is running."
 msgstr "No es pot carregar una partida mentre n'hi ha una altra en joc."
 
-#: server/stdinhand.c:3270
+#: server/stdinhand.c:3275
 #, c-format
 msgid "Cannot find savegame or scenario with the name \"%s\"."
 msgstr "No puc trobar la partida desada ni l'escenari de nom \"%s\"."
 
-#: server/stdinhand.c:3287
+#: server/stdinhand.c:3292
 #, c-format
 msgid "Could not load savefile: %s"
 msgstr "No s'ha pogut carregar el fitxer desat: %s"
 
-#: server/stdinhand.c:3356
+#: server/stdinhand.c:3361
 #, c-format
 msgid "Current ruleset directory is \"%s\""
 msgstr "El directori del conjunt de regles actuals és \"%s\""
 
-#: server/stdinhand.c:3376
+#: server/stdinhand.c:3381
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
 msgstr "No s'ha trobat el directori de regles \"%s\" "
 
-#: server/stdinhand.c:3382
+#: server/stdinhand.c:3387
 #, c-format
 msgid "Ruleset directory is already \"%s\""
 msgstr "Directori de regles ja és \"%s\""
 
-#: server/stdinhand.c:3386
+#: server/stdinhand.c:3391
 #, c-format
 msgid "Ruleset directory set to \"%s\""
 msgstr "Directori de regles fixat a \"%s\""
 
-#: server/stdinhand.c:3434
+#: server/stdinhand.c:3439
 msgid "Goodbye."
 msgstr "Adéu."
 
-#: server/stdinhand.c:3465
+#: server/stdinhand.c:3470
 msgid "Sorry, you are not allowed to use server commands."
 msgstr "Ho sento, no tens permès usar comandes de servidor."
 
-#: server/stdinhand.c:3501
+#: server/stdinhand.c:3506
 #, c-format
 msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
 msgstr "Atenció: '%s' interpretat com '%s', però és ambigu. Prova '%shelp'."
 
-#: server/stdinhand.c:3506
+#: server/stdinhand.c:3511
 #, c-format
 msgid "Unknown command.  Try '%shelp'."
 msgstr "Comanda desconeguda.  Prova '%shelp'."
 
-#: server/stdinhand.c:3523
+#: server/stdinhand.c:3528
 msgid "Your new vote canceled your previous vote."
 msgstr "El teu nou vot ha cancel·lat l'anterior."
 
-#: server/stdinhand.c:3531
+#: server/stdinhand.c:3536
 #, c-format
 msgid "New vote (number %d) by %s: %s."
 msgstr "Nou vot (número %d) per %s: %s."
 
-#: server/stdinhand.c:3543
+#: server/stdinhand.c:3548
 #, c-format
 msgid "Your new vote (\"%s\") was not legal or was not recognized."
 msgstr "El teu vot nou (\"%s\") no és legal o no s'ha reconegut."
 
-#: server/stdinhand.c:3553
+#: server/stdinhand.c:3558
 msgid "You are not allowed to use this command."
 msgstr "No tens permís per usar aquesta comanda."
 
-#: server/stdinhand.c:3578
+#: server/stdinhand.c:3583
 msgid "(server prompt)"
 msgstr "(prompt del servidor)"
 
-#: server/stdinhand.c:3682
+#: server/stdinhand.c:3687
 msgid "Game ended in a draw."
 msgstr "La partida ha acabat en un empat"
 
-#: server/stdinhand.c:3686
+#: server/stdinhand.c:3691
 msgid "Ending the game. The server will restart once all clients have disconnected."
 msgstr ""
 "Finalitzant partida. El servidor rearrancarà un cop s'hagin desconnectat "
 "tots els clients."
 
-#: server/stdinhand.c:3691
+#: server/stdinhand.c:3696
 msgid "Cannot end the game: no game running."
 msgstr "No es pot acabar la partida, no n'hi ha cap en joc."
 
-#: server/stdinhand.c:3707
+#: server/stdinhand.c:3712
 #, c-format
 msgid "%s has conceded the game and can no longer win."
 msgstr "%s ha donat la partida per perduda i ja no pot guanyar."
 
-#: server/stdinhand.c:3712
+#: server/stdinhand.c:3717
 msgid "You cannot surrender now."
 msgstr "No pots rendir-te ara."
 
-#: server/stdinhand.c:3758
+#: server/stdinhand.c:3763
 msgid "Not enough players, game will not start."
 msgstr "No hi ha prou jugadors, la partida no començarà."
 
-#: server/stdinhand.c:3775
+#: server/stdinhand.c:3780
 msgid "Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr ""
 "No es pot iniciar la partida: la partida està esperant que es desconnectin "
 "tots els clients."
 
-#: server/stdinhand.c:3782
+#: server/stdinhand.c:3787
 msgid "Cannot start the game: it is already running."
 msgstr "No es pot iniciar la partida: ja s'està jugant."
 
-#: server/stdinhand.c:3811
+#: server/stdinhand.c:3816
 #, c-format
 msgid "Cutting connection %s."
 msgstr "Tallant connexió %s."
 
-#: server/stdinhand.c:3830
+#. TRANS: line break width 70
+#: server/stdinhand.c:3836
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -6665,122 +6682,131 @@ msgstr ""
 "  save   - per desar la partida actual\n"
 "  quit   - per sortir"
 
-#: server/stdinhand.c:3865 server/stdinhand.c:3868
-msgid "Command:"
-msgstr "Comanda:"
+#. TRANS: <untranslated name> - translated short help
+#: server/stdinhand.c:3867
+#, c-format
+msgid "Command: %s  -  %s"
+msgstr "Comanda: %s -  %s"
 
-#: server/stdinhand.c:3872
+#. TRANS: <untranslated name>
+#: server/stdinhand.c:3873
+#, c-format
+msgid "Command: %s"
+msgstr "Comanda: %s"
+
+#: server/stdinhand.c:3878
 msgid "Synopsis: "
 msgstr "Sinopsi: "
 
-#: server/stdinhand.c:3881
+#: server/stdinhand.c:3887
 #, c-format
 msgid "Level: %s"
 msgstr "Nivell: %s"
 
-#: server/stdinhand.c:3906
+#: server/stdinhand.c:3908
 msgid "The following server commands are available:"
 msgstr "Estan disponibles les següents comandes de servidor:"
 
-#: server/stdinhand.c:3981
+#: server/stdinhand.c:3983
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "L'argument de l'ajuda '%s' és ambigu."
 
-#: server/stdinhand.c:3986
+#: server/stdinhand.c:3988
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "Cap coincidència per l'argument d'ajuda '%s'."
 
-#: server/stdinhand.c:4052
+#: server/stdinhand.c:4054
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "Argument de llista incorrecte: '%s'. Prova '%shelp list'."
 
-#: server/stdinhand.c:4092
+#: server/stdinhand.c:4094
 msgid "List of players:"
 msgstr "Llista de jugadors:"
 
-#: server/stdinhand.c:4097
+#: server/stdinhand.c:4099
 msgid "<no players>"
 msgstr "<no hi ha cap jugador>"
 
-#: server/stdinhand.c:4114
+#: server/stdinhand.c:4116
 #, c-format
 msgid "user %s, "
 msgstr "usuari %s, "
 
-#: server/stdinhand.c:4125
+#: server/stdinhand.c:4127
 msgid ", Dead"
 msgstr ", Mort"
 
-#: server/stdinhand.c:4128
+#: server/stdinhand.c:4130
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", nivell de dificultat %s"
 
 #. TRANS: continue list, in case comma is not the separator of choice.
-#: server/stdinhand.c:4133 server/stdinhand.c:4137 client/text.c:187
-#: client/text.c:1179 client/text.c:1217
+#: server/stdinhand.c:4135 server/stdinhand.c:4139 client/helpdata.c:254
+#: client/helpdata.c:741 client/text.c:187 client/text.c:1179
+#: client/text.c:1217
 #, c-format
 msgid "?clistmore:, %s"
 msgstr "?clistmore:, %s"
 
-#: server/stdinhand.c:4141
+#: server/stdinhand.c:4143
 msgid ", ready"
 msgstr ", preparat"
 
-#: server/stdinhand.c:4143
+#: server/stdinhand.c:4145
 msgid ", not ready"
 msgstr ", no preparat"
 
-#: server/stdinhand.c:4151
+#: server/stdinhand.c:4153
 #, c-format
 msgid " %d connection:"
 msgid_plural " %d connections:"
 msgstr[0] " %d connexió:"
 msgstr[1] " %d connexions:"
 
-#: server/stdinhand.c:4157
+#: server/stdinhand.c:4159
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
 msgstr "  %s des de %s (nivell accés de comandes %s), bufsize=%dkb"
 
-#: server/stdinhand.c:4162
+#: server/stdinhand.c:4164
 msgid " (observer mode)"
 msgstr "(mode observador)"
 
-#: server/stdinhand.c:4178
+#: server/stdinhand.c:4180
 msgid "List of teams:"
 msgstr "Llista d'equips:"
 
 #. TRANS: There will always be at least 2 players here.
-#: server/stdinhand.c:4187
+#: server/stdinhand.c:4189
 #, c-format
 msgid "%2d : '%s' : %d player"
 msgid_plural "%2d : '%s' : %d players"
 msgstr[0] "%2d : '%s' : %d jugador"
 msgstr[1] "%2d : '%s' : %d jugadors"
 
-#: server/stdinhand.c:4209
+#: server/stdinhand.c:4211
 #, c-format
 msgid "%2d : '%s' : 1 player : %s"
 msgstr "%2d : '%s' : 1 jugador : %s"
 
-#: server/stdinhand.c:4218
+#: server/stdinhand.c:4220
 #, c-format
 msgid "Empty team: %s"
 msgstr "Equip buit: %s"
 
-#: server/stdinhand.c:4229
+#: server/stdinhand.c:4231
 msgid "List of connections to server:"
 msgstr "Llista de connexions al servidor:"
 
-#: server/stdinhand.c:4233
+#: server/stdinhand.c:4235
 msgid "<no connections>"
 msgstr "<no hi ha cap connexió>"
 
-#: server/stdinhand.c:4257
+#: server/stdinhand.c:4259
 msgid "List of scenarios available:"
 msgstr "Llista d'escenaris disponibles:"
 
@@ -6868,207 +6894,207 @@ msgstr "Els %s et roben %s!"
 msgid "The %s have stolen %s from the %s."
 msgstr "Els %s han robat %s dels %s."
 
-#: server/unithand.c:102
+#: server/unithand.c:119
 #, c-format
 msgid "Illegal packet, can't upgrade %s (yet)."
 msgstr "Paquet il·legal, no es pot actualitzar %s (encara)."
 
-#: server/unithand.c:130
+#: server/unithand.c:147
 #, c-format
 msgid "%d %s upgraded to %s for %d gold."
 msgstr "%d %s millorats a %s per %d d'or."
 
-#: server/unithand.c:138
+#: server/unithand.c:155
 msgid "No units could be upgraded."
 msgstr "No s'ha pogut millorar cap unitat."
 
-#: server/unithand.c:162
+#: server/unithand.c:183
 #, c-format
 msgid "%s upgraded to %s for %d gold."
 msgstr "%s millorat a %s per %d d'or."
 
-#: server/unithand.c:367
+#: server/unithand.c:420
 #, c-format
 msgid "%s refuses to disband!"
 msgstr "%s es nega a ser desmantellat!"
 
-#: server/unithand.c:420
+#: server/unithand.c:473
 msgid "Can't place city here."
 msgstr "No es pot ubicar una ciutat en aquesta posició."
 
-#: server/unithand.c:427
+#: server/unithand.c:480
 #, c-format
 msgid "Only %s can build a city."
 msgstr "Només %s pot construir una ciutat."
 
-#: server/unithand.c:432
+#: server/unithand.c:485
 msgid "Can't build a city."
 msgstr "No es pot construir una ciutat."
 
-#: server/unithand.c:441
+#: server/unithand.c:494
 #, c-format
 msgid "Only %s can add to a city."
 msgstr "Només %s es poden afegir a una ciutat."
 
-#: server/unithand.c:446
+#: server/unithand.c:499
 msgid "Can't add to a city."
 msgstr "No es pot afegir a una ciutat."
 
-#: server/unithand.c:452
+#: server/unithand.c:505
 #, c-format
 msgid "%s unit has no moves left to add to %s."
 msgstr "A la unitat %s no li queden moviments per a afegir-se a %s."
 
-#: server/unithand.c:458
+#: server/unithand.c:511
 #, c-format
 msgid "%s unit has no moves left to build city."
 msgstr "A la unitat %s no li queden moviments per construir una ciutat."
 
-#: server/unithand.c:463
+#: server/unithand.c:516
 #, c-format
 msgid "%s is too big to add %s."
 msgstr "%s és massa gran per afegir %s."
 
-#: server/unithand.c:469
+#: server/unithand.c:522
 #, c-format
 msgid "%s needs an improvement to grow, so you cannot add %s."
 msgstr "%s necessita alguna millora per créixer, no pots afegir %s."
 
-#: server/unithand.c:480
+#: server/unithand.c:533
 #, c-format
 msgid "Can't add %s to %s."
 msgstr "No pots afegir %s a %s."
 
-#: server/unithand.c:502
+#: server/unithand.c:555
 #, c-format
 msgid "%s added to aid %s in growing."
 msgstr "%s afegits per ajudar al creixement de %s."
 
-#: server/unithand.c:803
+#: server/unithand.c:895
 msgid "Your Nuclear missile was shot down by SDI defences, what a waste."
 msgstr "El teu míssil nuclear ha estat destruït per la defensa SDI, quina pèrdua."
 
-#: server/unithand.c:806
+#: server/unithand.c:898
 #, c-format
 msgid "The nuclear attack on %s was avoided by your SDI defense."
 msgstr "L'atac nuclear a %s ha estat evitat per la teva defensa SDI."
 
 #. TRANS: "Your Cannon ... the Polish Destroyer."
-#: server/unithand.c:876
+#: server/unithand.c:968
 #, c-format
 msgid "Your %s survived the pathetic attack from the %s %s."
 msgstr "El teu %1$s ha sobreviscut l'atac ridícul del %3$s %2$s."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unithand.c:885
+#: server/unithand.c:977
 #, c-format
 msgid "Your attacking %s failed against the %s %s!"
 msgstr "El teu %1$s ha fallat l'atac contra el %3$s %2$s!"
 
-#: server/unithand.c:958
+#: server/unithand.c:1051
 #, c-format
 msgid "Only %s can attack from sea."
 msgstr "Només els %s poden atacar des del mar."
 
-#: server/unithand.c:963
+#: server/unithand.c:1056
 msgid "Cannot attack from sea."
 msgstr "No pots atacar des del mar."
 
-#: server/unithand.c:968 server/unittools.c:2125
+#: server/unithand.c:1064 server/unittools.c:2168
 msgid "Cannot attack unless you declare war first."
 msgstr "No pots atacar a no ser que declaris la guerra abans."
 
-#: server/unithand.c:971
+#: server/unithand.c:1069
 #, c-format
 msgid "%s can only move into your own zone of control."
 msgstr "%s només es pot moure dins de la teva zona de control."
 
-#: server/unithand.c:975
+#: server/unithand.c:1075
 #, c-format
 msgid "%s cannot move that far from the coast line."
 msgstr "%s no pot moure's tan lluny de la costa."
 
-#: server/unithand.c:979
+#: server/unithand.c:1081
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr "No pots envair si no trenques primer la pau amb %s."
 
-#: server/unithand.c:1018
+#: server/unithand.c:1125
 msgid "This unit has no moves left."
 msgstr "A aquesta unitat no li queden moviments."
 
-#: server/unithand.c:1072
+#: server/unithand.c:1179
 msgid "No diplomat action possible."
 msgstr "No hi ha cap acció diplomàtica possible."
 
-#: server/unithand.c:1075
+#: server/unithand.c:1182
 #, c-format
 msgid "Unit cannot perform diplomatic action from %s."
 msgstr "La unitat no pot dur a terme l'acció diplomàtica des de %s."
 
-#: server/unithand.c:1093
+#: server/unithand.c:1200
 #, c-format
 msgid "You must declare war on %s first.  Try using players dialog (F3)."
 msgstr ""
 "Primer has de declarar la guerra a %s. Prova-ho amb el diàleg de jugadors "
 "(F3)."
 
-#: server/unithand.c:1111
+#: server/unithand.c:1218
 msgid "This unit is being transported, and so cannot bombard."
 msgstr "Aquesta unitat està sent transportada, i per tant no pot bombardejar."
 
-#: server/unithand.c:1126
+#: server/unithand.c:1233
 msgid "You can't attack there."
 msgstr "No pots atacar aquí."
 
-#: server/unithand.c:1148
+#: server/unithand.c:1255
 msgid "This type of troops cannot take over a city."
 msgstr "Aquest tipus de tropes no poden conquerir una ciutat."
 
-#: server/unithand.c:1166
+#: server/unithand.c:1273
 msgid "A transported unit is not allied to all units or city on target tile."
 msgstr ""
 "Una unitat transportada no està aliada a totes les unitats o ciutat de la "
 "casella destí."
 
-#: server/unithand.c:1208
+#: server/unithand.c:1323
 #, c-format
 msgid "Your %s helps build the %s in %s (%d remaining)."
 msgstr "La teva %s ajuda a construir %s a %s (en queden %d)."
 
-#: server/unithand.c:1210
+#: server/unithand.c:1325
 #, c-format
 msgid "Your %s helps build the %s in %s (%d surplus)."
 msgstr "La teva %s ajuda a construir %s a %s (excedent %d)."
 
-#: server/unithand.c:1254
+#: server/unithand.c:1377
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route because it has no home city"
 msgstr ""
 "Ho sento, el teu %s no pot establir una ruta comercial perquè no té ciutat "
 "d'origen"
 
-#: server/unithand.c:1264
+#: server/unithand.c:1387
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route between %s and %s"
 msgstr "Ho sento, el teu %s no pot establir una ruta comercial entre %s i %s"
 
-#: server/unithand.c:1293 server/unithand.c:1312
+#: server/unithand.c:1416 server/unithand.c:1435
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route here!"
 msgstr "Ho sento, el teu %s no pot establir una ruta comercial aquí!"
 
-#: server/unithand.c:1297 server/unithand.c:1316
+#: server/unithand.c:1420 server/unithand.c:1439
 #, c-format
 msgid "      The city of %s already has %d better trade routes!"
 msgstr "      La ciutat de %s ja té %d rutes comercials millors!"
 
-#: server/unithand.c:1329 server/unithand.c:1341
+#: server/unithand.c:1452 server/unithand.c:1464
 #, c-format
 msgid "Sorry, %s has canceled the trade route from %s to your city %s."
 msgstr "Ho sento, %s ha cancel·lat la ruta comercial des de %s a la teva ciutat %s."
 
-#: server/unithand.c:1374
+#: server/unithand.c:1497
 #, c-format
 msgid ""
 "Your %s from %s has arrived in %s, and revenues amount to %d in gold and "
@@ -7103,65 +7129,65 @@ msgid "Your %s has run out of fuel."
 msgstr "El teu %s s'ha quedat sense combustible."
 
 #. TRANS: And, <the unit> became ...
-#: server/unittools.c:626
+#: server/unittools.c:635
 msgid "And, became more experienced!"
 msgstr "I ha guanyat experiència!"
 
 #. TRANS: Your <unit> became ...
-#: server/unittools.c:630
+#: server/unittools.c:639
 #, c-format
 msgid "Your %s became more experienced!"
 msgstr "El teu %s ha guanyat experiència!"
 
-#: server/unittools.c:1045
+#: server/unittools.c:1059
 #, c-format
 msgid "Teleported your %s to %s."
 msgstr "S'ha teleportat el teu %s a %s."
 
-#: server/unittools.c:1076
+#: server/unittools.c:1090
 #, c-format
 msgid "Disbanded your %s."
 msgstr "S'ha desmantellat el teu %s."
 
-#: server/unittools.c:1411
+#: server/unittools.c:1425
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr "No es pot defensar %s, %s ha perdut la partida."
 
-#: server/unittools.c:1415
+#: server/unittools.c:1429
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr "La pèrdua de %s significa perdre la partida! Vigila més la propera vegada!"
 
-#: server/unittools.c:1455
+#: server/unittools.c:1469
 #, c-format
 msgid "%s lost when %s was lost."
 msgstr "%s perdut en perdre %s."
 
-#: server/unittools.c:1523
+#: server/unittools.c:1537
 #, c-format
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "%s s'ha escapat de la destrucció de %s i s'ha refugiat a %s."
 
-#: server/unittools.c:1585
+#: server/unittools.c:1599
 #, c-format
 msgid "Barbarian leader captured, %d gold ransom paid."
 msgstr "S'ha capturat el líder bàrbar, ens paguen un rescat de %d en or."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unittools.c:1603
+#: server/unittools.c:1617
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s!"
 msgstr "El teu %1$s ha reeixit en l'atac contra el %3$s %2$s!"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
-#: server/unittools.c:1612 server/unittools.c:1670
+#: server/unittools.c:1626 server/unittools.c:1684
 #, c-format
 msgid "%s lost to an attack by the %s %s."
 msgstr "%1$s perdut en un atac del %3$s %2$s."
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
-#: server/unittools.c:1646
+#: server/unittools.c:1660
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural "Your attacking %s succeeded against the %s %s (and %d other units)!"
@@ -7170,14 +7196,14 @@ msgstr[1] "El teu %1$s ha guanyat l'atac contra el %3$s %2$s (i %4$d unitats mé
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
-#: server/unittools.c:1679
+#: server/unittools.c:1693
 #, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
 msgstr "Has perdut un %1$s quan el %3$s %2$s ha atacat el %5$s %4$s."
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
-#: server/unittools.c:1694
+#: server/unittools.c:1708
 #, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
 msgstr "%1$s (i %2$s) perduts en un atac del %4$s %3$s."
@@ -7185,7 +7211,7 @@ msgstr "%1$s (i %2$s) perduts en un atac del %4$s %3$s."
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1704
+#: server/unittools.c:1718
 #, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
@@ -7195,148 +7221,148 @@ msgstr[1] "%1$s i %2$d unitats més perduts en un atac del %4$s %3$s."
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1718
+#: server/unittools.c:1732
 #, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
 msgstr[0] "%1$d unitat perduda quan el %3$s %2$s ha atacat el %5$s %4$s."
 msgstr[1] "%1$d unitats perdudes quan el %3$s %2$s ha atacat el %5$s %4$s."
 
-#: server/unittools.c:1979
+#: server/unittools.c:1993
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "Els teus %s han estat atacats per %s amb una arma nuclear."
 
-#: server/unittools.c:1982 server/unittools.c:1998
+#: server/unittools.c:1996 server/unittools.c:2012
 msgid "yourself"
 msgstr "tu mateix"
 
-#: server/unittools.c:1986
+#: server/unittools.c:2000
 #, c-format
 msgid "The %s %s was nuked."
 msgstr "%2$s %1$s atacat amb una arma nuclear."
 
-#: server/unittools.c:1995
+#: server/unittools.c:2009
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "%s atacada amb una arma nuclear per %s."
 
-#: server/unittools.c:2003
+#: server/unittools.c:2017
 #, c-format
 msgid "You nuked %s."
 msgstr "Has atacat amb una arma nuclear %s."
 
-#: server/unittools.c:2042
+#: server/unittools.c:2056
 #, c-format
 msgid "The %s detonated a nuke!"
 msgstr "Els %s han detonat una arma nuclear!"
 
-#: server/unittools.c:2066
+#: server/unittools.c:2080
 #, c-format
 msgid "%s transported successfully."
 msgstr "%s s'ha transportat satisfactòriament."
 
-#: server/unittools.c:2089
+#: server/unittools.c:2132
 msgid "This unit type can not be paradropped."
 msgstr "Aquest tipus d'unitat no pot ser llançat amb paracaigudes."
 
-#: server/unittools.c:2099
+#: server/unittools.c:2142
 msgid "You cannot paradrop a unit that is transporting other units."
 msgstr "No es pot llançar en paracaigudes una unitat que en transporta d'altres."
 
-#: server/unittools.c:2105
+#: server/unittools.c:2148
 msgid "The destination location is not known."
 msgstr "La ubicació de destí és desconeguda."
 
-#: server/unittools.c:2114
+#: server/unittools.c:2157
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "Aquesta unitat no es pot llançar en paracaigudes a %s."
 
-#: server/unittools.c:2134
+#: server/unittools.c:2177
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr "La distància a l'objectiu (%i) és més gran que el rang de la unitat (%i)."
 
-#: server/unittools.c:2145
+#: server/unittools.c:2188
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "El teu %s s'ha llançat en paracaigudes a %s i ha mort."
 
-#: server/unittools.c:2158
+#: server/unittools.c:2201
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "El teu %s ha estat mort per unitats enemigues a la destinació de llançament."
 
-#: server/unittools.c:2187 data/default/script.lua:16
+#: server/unittools.c:2230 data/default/script.lua:16
 #, c-format
 msgid "You found %d gold."
 msgstr "Has trobat %d peces d'or."
 
-#: server/unittools.c:2192 data/default/script.lua:83
+#: server/unittools.c:2235 data/default/script.lua:83
 msgid "An abandoned village is here."
 msgstr "Només hi ha un poble abandonat."
 
-#: server/unittools.c:2199 data/default/script.lua:93
+#: server/unittools.c:2242 data/default/script.lua:93
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "El teu %s ha mort a mans de bàrbars!"
 
-#: server/unittools.c:2223
+#: server/unittools.c:2266
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr "La teva sobrevolada ha espantat a la tribu, s'escampen aterrits."
 
-#: server/unittools.c:2451
+#: server/unittools.c:2494
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr "Les ordres per %s s'han avortat en veure moviment d'enemics."
 
-#: server/unittools.c:2908
+#: server/unittools.c:2970
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "Les ordres per %s s'han avortat perquè hi ha unitats a la vora."
 
-#: server/unittools.c:2960
+#: server/unittools.c:3022
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr "Les ordres per %s s'han avortat perquè no s'ha pogut construir la ciutat."
 
-#: server/unittools.c:2976
+#: server/unittools.c:3038
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr "Les ordres per %s s'han avortat perquè provoquen una activitat no vàlida."
 
-#: server/unittools.c:2995
+#: server/unittools.c:3057
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "Les ordres per %s s'han avortat perquè donen una ubicació no vàlida."
 
-#: server/unittools.c:3005
+#: server/unittools.c:3067
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "Les ordres per %s s'han avortat perquè hi ha unitats al mig del pas."
 
-#: server/unittools.c:3031
+#: server/unittools.c:3093
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "Les ordres per %s s'han avortat per moviment incorrecte."
 
-#: server/unittools.c:3072
+#: server/unittools.c:3134
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr "L'intent de canviar la ciutat d'origen per %s ha fallat."
 
-#: server/unittools.c:3083
+#: server/unittools.c:3145
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "L'intent d'establir una ruta comercial per %s ha fallat."
 
-#: server/unittools.c:3095
+#: server/unittools.c:3157
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "L'intent de construir meravella per %s ha fallat"
 
-#: server/unittools.c:3104
+#: server/unittools.c:3166
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "El teu %s té ordres incorrectes"
@@ -7492,41 +7518,41 @@ msgstr "%+4d : Ciutadans\n"
 msgid "%+4d : Taxed from trade\n"
 msgstr "%+4d : Impostos sobre el comerç\n"
 
-#: client/citydlg_common.c:421
+#: client/citydlg_common.c:422
 #, c-format
 msgid "%+4d : Trade route with %s\n"
 msgstr "%+4d : Ruta comercial amb %s\n"
 
-#: client/citydlg_common.c:430
+#: client/citydlg_common.c:431
 #, c-format
 msgid "%+4d : Building tithes\n"
 msgstr "%+4d : Almoines per edificis\n"
 
-#: client/citydlg_common.c:453
+#: client/citydlg_common.c:454
 #, c-format
 msgid "%+4d : Bonus from %s (%+d%%)\n"
 msgstr "%+4d : Bonificació per %s (%+d%%)\n"
 
-#: client/citydlg_common.c:465
+#: client/citydlg_common.c:466
 #, c-format
 msgid "%+4d : Waste\n"
 msgstr "%+4d : Malbaratament\n"
 
-#: client/citydlg_common.c:471
+#: client/citydlg_common.c:472
 #, c-format
 msgid "%+4d : Disorder\n"
 msgstr "%+4d : Desordre\n"
 
-#: client/citydlg_common.c:477
+#: client/citydlg_common.c:478
 #, c-format
 msgid "%+4d : Used\n"
 msgstr "%+4d : Usat\n"
 
-#: client/citydlg_common.c:482
+#: client/citydlg_common.c:483
 msgid "==== : Adds up to\n"
 msgstr "==== : Total de\n"
 
-#: client/citydlg_common.c:484
+#: client/citydlg_common.c:485
 #, c-format
 msgid "%4d : Total surplus"
 msgstr "%4d : Excedent Total"
@@ -7641,9 +7667,9 @@ msgstr "Unitats defensives millors"
 #: client/gui-gtk-2.0/cityrep.c:1218 client/gui-gtk-2.0/cityrep.c:1239
 #: client/gui-gtk-2.0/cityrep.c:1258 client/gui-gtk-2.0/cityrep.c:1277
 #: client/gui-gtk-2.0/menu.c:845 client/gui-gtk-2.0/repodlgs.c:985
-#: client/gui-sdl/helpdlg.c:687 client/gui-sdl/mapctrl.c:1605
+#: client/gui-sdl/helpdlg.c:687 client/gui-sdl/mapctrl.c:1606
 #: client/gui-sdl/optiondlg.c:1826 client/gui-sdl/repodlgs.c:365
-#: client/gui-win32/menu.c:351 client/gui-win32/repodlgs.c:614
+#: client/gui-win32/menu.c:352 client/gui-win32/repodlgs.c:614
 #: client/gui-win32/repodlgs.c:722 client/gui-win32/repodlgs.c:731
 #: client/gui-xaw/menu.c:157 client/gui-xaw/menu.c:219
 #: client/gui-xaw/menu.c:248 client/gui-xaw/repodlgs.c:903
@@ -7751,7 +7777,7 @@ msgid "Corruption"
 msgstr "Corrupció"
 
 #: client/cityrepdata.c:501 client/gui-gtk-2.0/repodlgs.c:665
-#: client/gui-sdl/mapctrl.c:1400 client/gui-win32/repodlgs.c:332
+#: client/gui-sdl/mapctrl.c:1401 client/gui-win32/repodlgs.c:332
 #: client/gui-xaw/menu.c:222 client/gui-xaw/repodlgs.c:666
 #: client/gui-xaw/repodlgs.c:795 data/Freeciv.in:1819
 msgid "Economy"
@@ -7811,7 +7837,7 @@ msgstr "Gestor"
 
 #: client/cityrepdata.c:515 client/gui-gtk-2.0/cityrep.c:1224
 #: client/gui-gtk-2.0/cityrep.c:1497 client/gui-sdl/citydlg.c:3815
-#: client/gui-sdl/cma_fe.c:858 client/gui-win32/citydlg.c:735
+#: client/gui-sdl/cma_fe.c:861 client/gui-win32/citydlg.c:735
 #: data/Freeciv.in:1459 data/helpdata.txt:821
 msgid "Citizen Governor"
 msgstr "Gestor de Ciutadans"
@@ -8100,17 +8126,17 @@ msgstr "No he trobat una ruta al destí."
 msgid "Oh my! You seem to have no capital!"
 msgstr "Bufa! Pel que sembla no tens capital!"
 
-#: client/helpdata.c:121
+#: client/helpdata.c:125
 msgid "Terrain     Road   Irrigation     Mining         Transform\n"
 msgstr "Terreny    Camí    Irrigació     Mineria        Transformar\n"
 
-#: client/helpdata.c:147
+#: client/helpdata.c:150
 msgid "(Railroads and fortresses require 3 turns, regardless of terrain.)"
 msgstr ""
 "(Ferrocarrils i fortificacions necessiten 3 torns, independentment del "
 "terreny)."
 
-#: client/helpdata.c:165
+#: client/helpdata.c:167
 #, c-format
 msgid ""
 "Requires the %s technology.\n"
@@ -8119,7 +8145,7 @@ msgstr ""
 "Requereix la tecnologia %s.\n"
 "\n"
 
-#: client/helpdata.c:170
+#: client/helpdata.c:172
 #, c-format
 msgid ""
 "Requires the %s government.\n"
@@ -8128,7 +8154,7 @@ msgstr ""
 "Requereix el govern %s.\n"
 "\n"
 
-#: client/helpdata.c:174
+#: client/helpdata.c:176
 #, c-format
 msgid ""
 "Requires the %s building.\n"
@@ -8137,7 +8163,7 @@ msgstr ""
 "Requereix l'edifici %s.\n"
 "\n"
 
-#: client/helpdata.c:178
+#: client/helpdata.c:180
 #, c-format
 msgid ""
 "Requires the %s terrain special.\n"
@@ -8146,7 +8172,7 @@ msgstr ""
 "Requereix que el terreny tingui %s\n"
 "\n"
 
-#: client/helpdata.c:182
+#: client/helpdata.c:184
 #, c-format
 msgid ""
 "Requires the %s terrain.\n"
@@ -8155,7 +8181,7 @@ msgstr ""
 "Requereix el terreny %s.\n"
 "\n"
 
-#: client/helpdata.c:186
+#: client/helpdata.c:188
 #, c-format
 msgid ""
 "Requires the %s nation.\n"
@@ -8164,7 +8190,7 @@ msgstr ""
 "Requereix la nació %s.\n"
 "\n"
 
-#: client/helpdata.c:190 client/helpdata.c:199
+#: client/helpdata.c:192 client/helpdata.c:201
 #, c-format
 msgid ""
 "Only applies to %s units.\n"
@@ -8173,7 +8199,7 @@ msgstr ""
 "Només s'aplica a unitats %s.\n"
 "\n"
 
-#: client/helpdata.c:194 client/helpdata.c:203
+#: client/helpdata.c:196 client/helpdata.c:205
 #, c-format
 msgid ""
 "Only applies to \"%s\" units.\n"
@@ -8182,7 +8208,7 @@ msgstr ""
 "Només s'aplica a unitats \"%s\".\n"
 "\n"
 
-#: client/helpdata.c:208 client/helpdata.c:212
+#: client/helpdata.c:210 client/helpdata.c:214
 #, c-format
 msgid ""
 "Applies only to %s.\n"
@@ -8191,7 +8217,7 @@ msgstr ""
 "S'aplica només a %s.\n"
 "\n"
 
-#: client/helpdata.c:216
+#: client/helpdata.c:218
 #, c-format
 msgid ""
 "Requires a minimum size of %d.\n"
@@ -8200,7 +8226,7 @@ msgstr ""
 "Requereix una mida mínima de %d.\n"
 "\n"
 
-#: client/helpdata.c:220
+#: client/helpdata.c:222
 #, c-format
 msgid ""
 "Requires AI player of level %s.\n"
@@ -8209,7 +8235,7 @@ msgstr ""
 "Requereix jugador IA de nivell %s.\n"
 "\n"
 
-#: client/helpdata.c:224
+#: client/helpdata.c:226
 #, c-format
 msgid ""
 "Requires %s terrain.\n"
@@ -8218,27 +8244,27 @@ msgstr ""
 "Requereix el terreny %s.\n"
 "\n"
 
-#: client/helpdata.c:271
+#: client/helpdata.c:272
 #, c-format
 msgid "Allows %s."
 msgstr "Permet %s."
 
-#: client/helpdata.c:274
+#: client/helpdata.c:275
 #, c-format
 msgid "Allows %s (with %s)."
 msgstr "Permet %s (amb %s)."
 
 #. TRANS: preserve single space at beginning
-#: client/helpdata.c:426
+#: client/helpdata.c:427
 msgid " Rivers"
 msgstr " Rius"
 
-#: client/helpdata.c:584
+#: client/helpdata.c:583
 #, c-format
 msgid "Sorry, no help topic for %s.\n"
 msgstr "Ho sento, no hi ha ajuda pel tema %s.\n"
 
-#: client/helpdata.c:588
+#: client/helpdata.c:587
 #, c-format
 msgid ""
 "Sorry, no help topic for %s.\n"
@@ -8249,97 +8275,87 @@ msgstr ""
 "Aquesta pàgina s'ha generat automàticament.\n"
 "\n"
 
-#: client/helpdata.c:677
+#: client/helpdata.c:667
 #, c-format
 msgid "* The discovery of %s will make %s obsolete.\n"
 msgstr "* El descobriment de %s farà que %s sigui obsolet.\n"
 
-#: client/helpdata.c:691
+#: client/helpdata.c:681
 #, c-format
 msgid "* Allows all players with knowledge of %s to build %s units.\n"
 msgstr "* Permet a tots els jugadors amb coneixement de %s construir unitats %s.\n"
 
-#: client/helpdata.c:704
+#: client/helpdata.c:694
 #, c-format
 msgid "* Allows %s (with %s).\n"
 msgstr "* Permet %s (amb %s).\n"
 
-#: client/helpdata.c:709
+#: client/helpdata.c:699
 #, c-format
 msgid "* Allows %s.\n"
 msgstr "* Permet %s.\n"
 
-#: client/helpdata.c:774
+#: client/helpdata.c:766
 #, c-format
 msgid "* Belongs to %s units class.\n"
 msgstr "* Pertany a la classe d'unitats %s.\n"
 
-#: client/helpdata.c:778
-#, c-format
+#: client/helpdata.c:770
 msgid "  * Can occupy empty enemy cities.\n"
 msgstr "* Pot ocupar ciutats enemigues buides.\n"
 
-#: client/helpdata.c:781
-#, c-format
+#: client/helpdata.c:773
 msgid "  * Speed is not affected by terrain.\n"
 msgstr "  * El terreny no afecta la seva velocitat.\n"
 
-#: client/helpdata.c:784
-#, c-format
+#: client/helpdata.c:776
 msgid "  * Slowed down while damaged\n"
 msgstr "  * S'alenteix quan és ferida\n"
 
-#: client/helpdata.c:788
-#, c-format
+#: client/helpdata.c:779
 msgid "  * Gets used up in making an attack.\n"
 msgstr "* Es consumeix en fer un atac.\n"
 
-#: client/helpdata.c:792
-#, c-format
+#: client/helpdata.c:783
 msgid "  * Is unreachable. Most units cannot attack this one.\n"
 msgstr "  * És inabastable. La majoria d'unitats no la poden atacar.\n"
 
-#: client/helpdata.c:797
+#: client/helpdata.c:788
 #, c-format
 msgid "* Can only be built if there is %s in the city.\n"
 msgstr "* Només es pot construir si hi ha %s a la ciutat.\n"
 
-#: client/helpdata.c:803
+#: client/helpdata.c:794
 #, c-format
 msgid "* Can only be built with %s as government.\n"
 msgstr "* Només es pot construir amb govern de %s.\n"
 
-#: client/helpdata.c:809
-#, c-format
+#: client/helpdata.c:799
 msgid "* May not be built in cities.\n"
 msgstr "* No es pot construir en ciutats.\n"
 
-#: client/helpdata.c:813
-#, c-format
+#: client/helpdata.c:802
 msgid "* Only barbarians may build this.\n"
 msgstr "* Només els bàrbars ho poden construir.\n"
 
-#: client/helpdata.c:816
-#, c-format
+#: client/helpdata.c:805
 msgid "* Never has a home city.\n"
 msgstr "* No té mai una ciutat d'origen.\n"
 
-#: client/helpdata.c:820
-#, c-format
+#: client/helpdata.c:808
 msgid "* Losing this unit will lose you the game!\n"
 msgstr "* Perdre aquesta unitat et farà perdre la partida!\n"
 
-#: client/helpdata.c:824
-#, c-format
+#: client/helpdata.c:812
 msgid "* Each player may only have one of this type of unit.\n"
 msgstr "* Cada jugador pot tenir només un d'aquests tipus d'unitat.\n"
 
-#: client/helpdata.c:827
+#: client/helpdata.c:816
 #, c-format
 msgid "* Requires %d population to build.\n"
 msgstr "* Requereix població %d per construir-se.\n"
 
-#: client/helpdata.c:832
+#: client/helpdata.c:821
 #, c-format
 msgid "* Can carry and refuel %d unit from classes:\n"
 msgid_plural "* Can carry and refuel up to %d units from classes:\n"
@@ -8350,15 +8366,12 @@ msgstr[1] ""
 "* Pot transportar i carregar combustible a %d unitats de les següents "
 "classes:\n"
 
-#: client/helpdata.c:837
+#: client/helpdata.c:828
 #, c-format
 msgid "  * %s units\n"
 msgstr "  * Unitats %s\n"
 
-#. TRANS: "Manhattan" distance is the distance along gridlines, with
-#. * no diagonals allowed.
-#: client/helpdata.c:845
-#, c-format
+#: client/helpdata.c:837
 msgid ""
 "* Can establish trade routes (must travel to target city and must be at "
 "least 9 tiles [in Manhattan distance] from this unit's home city).\n"
@@ -8367,130 +8380,111 @@ msgstr ""
 "ha d'estar almenys a 9 caselles (seguint la graella, sense diagonals) des de "
 "la ciutat original d'aquesta unitat).\n"
 
-#: client/helpdata.c:852
+#: client/helpdata.c:843
 #, c-format
 msgid "* Can help build wonders (adds %d production).\n"
 msgstr "* Pot ajudar a construir meravelles (afegeix %d de producció).\n"
 
-#: client/helpdata.c:856
-#, c-format
+#: client/helpdata.c:847
 msgid "* May not be disbanded.\n"
 msgstr "* No es pot desmantellar.\n"
 
-#: client/helpdata.c:858
-#, c-format
-msgid "* May be disbanded in a city to recover 50%% of the production cost.\n"
+#: client/helpdata.c:851
+#, no-c-format
+msgid "* May be disbanded in a city to recover 50% of the production cost.\n"
 msgstr ""
-"* Pot ser desmantellat en una ciutat per recuperar el 50%% del cost de "
+"* Pot ser desmantellat en una ciutat per recuperar el 50% del cost de "
 "producció.\n"
 
-#: client/helpdata.c:862
-#, c-format
+#: client/helpdata.c:855
 msgid "* Can build new cities.\n"
 msgstr "* Pot construir noves ciutats.\n"
 
-#: client/helpdata.c:865
+#: client/helpdata.c:859
 #, c-format
 msgid "* Can add on %d population to cities of no more than size %d.\n"
 msgstr "* Pot afegir %d població a ciutats de mida no superior a %d.\n"
 
-#: client/helpdata.c:874
-#, c-format
+#: client/helpdata.c:868
 msgid "* Can build roads and railroads.\n"
 msgstr "* Pot construir camins i ferrocarrils.\n"
 
-#: client/helpdata.c:875
-#, c-format
+#: client/helpdata.c:869
 msgid "* Can build mines on tiles.\n"
 msgstr "* Pot construir mines en caselles.\n"
 
-#: client/helpdata.c:876
-#, c-format
+#: client/helpdata.c:870
 msgid "* Can build irrigation on tiles.\n"
 msgstr "* Pot fer irrigacions en caselles.\n"
 
-#: client/helpdata.c:881
-#, c-format
+#: client/helpdata.c:875
 msgid "* Can build farmland.\n"
 msgstr "* Pot fer hortes.\n"
 
-#: client/helpdata.c:885
+#: client/helpdata.c:879
 #, c-format
 msgid "* Can build farmland (if %s is known).\n"
 msgstr "* Pot fer hortes (si es coneix %s).\n"
 
-#: client/helpdata.c:889
+#: client/helpdata.c:883
 #, c-format
 msgid "* Can build farmland (if any of the following are known: %s).\n"
 msgstr "* Pot fer hortes (si es coneix alguna de les següents: %s).\n"
 
-#: client/helpdata.c:895
-#, c-format
+#: client/helpdata.c:889
 msgid "* Can build fortresses.\n"
 msgstr "* Pot construir fortaleses.\n"
 
-#: client/helpdata.c:898
-#, c-format
+#: client/helpdata.c:892
 msgid "* Can clean pollution from tiles.\n"
 msgstr "* Pot netejar contaminació de les caselles.\n"
 
-#: client/helpdata.c:900
-#, c-format
+#: client/helpdata.c:893
 msgid "* Can clean nuclear fallout from tiles.\n"
 msgstr "* Pot netejar la radioactivitat de les caselles.\n"
 
-#: client/helpdata.c:903
-#, c-format
+#: client/helpdata.c:896
 msgid "* Can transform tiles.\n"
 msgstr "* Pot transformar caselles.\n"
 
-#: client/helpdata.c:907
-#, c-format
-msgid "* May fortify, granting a 50%% defensive bonus.\n"
-msgstr "* Pot fortificar-se, rebent una bonificació defensiva del 50%%.\n"
+#: client/helpdata.c:901
+#, no-c-format
+msgid "* May fortify, granting a 50% defensive bonus.\n"
+msgstr "* Pot fortificar-se, rebent una bonificació defensiva del 50%.\n"
 
-#: client/helpdata.c:911
-#, c-format
+#: client/helpdata.c:904
 msgid "* May pillage to destroy infrastructure from tiles.\n"
 msgstr "* Pot saquejar per destruir infraestructura de les caselles.\n"
 
-#: client/helpdata.c:915
-#, c-format
+#: client/helpdata.c:908
 msgid "* Can perform diplomatic actions, plus special spy abilities.\n"
 msgstr "* Pot dur a terme accions diplomàtiques i té habilitats d'espia.\n"
 
-#: client/helpdata.c:918
-#, c-format
+#: client/helpdata.c:911
 msgid "* Can perform diplomatic actions.\n"
 msgstr "* Pot dur a terme accions diplomàtiques.\n"
 
-#: client/helpdata.c:922
-#, c-format
+#: client/helpdata.c:915
 msgid "* Will never lose a diplomat-versus-diplomat fight.\n"
 msgstr "* Mai no perdrà una lluita de diplomàtic contra diplomàtic.\n"
 
-#: client/helpdata.c:926
-#, c-format
+#: client/helpdata.c:918
 msgid "* May not be bribed.\n"
 msgstr "* No pot ser subornat.\n"
 
-#: client/helpdata.c:929
-#, c-format
+#: client/helpdata.c:921
 msgid "* Can attack otherwise unreachable enemy units.\n"
 msgstr "* Pot atacar unitats enemigues que altrament serien inaccessibles.\n"
 
-#: client/helpdata.c:932
-#, c-format
+#: client/helpdata.c:925
 msgid "* Is invisible except when next to an enemy unit or city.\n"
 msgstr "* És invisible excepte quan és al costat d'una unitat o ciutat enemiga.\n"
 
-#: client/helpdata.c:936
-#, c-format
+#: client/helpdata.c:929
 msgid "* Can only attack units on ocean squares (no land attacks).\n"
 msgstr "* Només pot atacar unitats que siguin al mar (cap atac terrestre).\n"
 
-#: client/helpdata.c:941
-#, c-format
+#: client/helpdata.c:933
 msgid ""
 "* Can attack from aboard sea units: against enemy cities and onto land "
 "squares.\n"
@@ -8498,171 +8492,160 @@ msgstr ""
 "* Pot atacar estant embarcada en unitats marítimes: contra ciutats enemigues "
 "i contra caselles de terra.\n"
 
-#: client/helpdata.c:946
+#: client/helpdata.c:938
 #, c-format
 msgid "* Can be paradropped from a friendly city (Range: %d).\n"
 msgstr "* Pot ser llançat en paracaigudes des d'una ciutat amiga (Rang: %d).\n"
 
-#: client/helpdata.c:950
-#, c-format
+#: client/helpdata.c:944
 msgid "* Gets double defense against units specified as 'mounted'.\n"
 msgstr "* Obté doble defensa contra unitats especificades com a 'muntades'.\n"
 
-#: client/helpdata.c:955
-#, c-format
+#: client/helpdata.c:948
 msgid "* Counts as 'mounted' against certain defenders.\n"
 msgstr "* Compta com a unitat 'muntada' contra certs defensors.\n"
 
-#: client/helpdata.c:959
-#, c-format
+#: client/helpdata.c:952
 msgid "* Counts as 'helicopter' against certain attackers.\n"
 msgstr "* Compta com a 'helicòpter' contra certs atacants.\n"
 
-#: client/helpdata.c:963
-#, c-format
+#: client/helpdata.c:956
 msgid "* Very good at attacking 'helicopter' units.\n"
 msgstr "* Molt bo per atacar unitats 'helicòpter'.\n"
 
-#: client/helpdata.c:967
-#, c-format
+#: client/helpdata.c:960
 msgid "* Very bad at attacking AEGIS units.\n"
 msgstr "* Molt dolent per atacar unitats AEGIS.\n"
 
-#: client/helpdata.c:972
-#, c-format
+#: client/helpdata.c:965
 msgid "* Making an attack ends this unit's turn.\n"
 msgstr "* S'acaba el torn d'aquesta unitat en atacar.\n"
 
-#: client/helpdata.c:976
-#, c-format
+#: client/helpdata.c:969
 msgid "* This unit's attack causes a nuclear explosion!\n"
 msgstr "* L'atac d'aquesta unitat causa una explosió nuclear!\n"
 
-#: client/helpdata.c:980
-#, c-format
+#: client/helpdata.c:973
 msgid "* Gets double firepower when attacking cities.\n"
 msgstr "* Obté el doble de potència de foc quan ataca ciutats.\n"
 
-#: client/helpdata.c:983
-#, c-format
+#: client/helpdata.c:976
 msgid "* Ignores the effects of city walls.\n"
 msgstr "* Ignora els efectes de les muralles.\n"
 
-#: client/helpdata.c:987
+#: client/helpdata.c:980
 #, c-format
 msgid ""
 "* Does bombard attacks (%d per turn).  These attacks will only damage (never "
-"kill) the defender but has no risk to the attacker.\n"
+"kill) the defender, but have no risk for the attacker.\n"
 msgstr ""
 "* Fa atacs de bombardeig (%d per torn). Aquests atacs només fereixen (no "
 "maten mai) el defensor, però no suposen cap risc per l'atacant.\n"
 
-#: client/helpdata.c:993
-#, c-format
-msgid "* Gets quintuple defence against missiles and aircraft.\n"
+#: client/helpdata.c:987
+msgid "* Gets quintuple defense against missiles and aircraft.\n"
 msgstr "* Obté una defensa quintuplicada contra míssils i avions.\n"
 
-#: client/helpdata.c:997
-#, c-format
+#: client/helpdata.c:991
 msgid "* Ignores terrain effects (treats all squares as roads).\n"
 msgstr "* Ignora l'efecte del terreny (tracta totes les caselles com a camins).\n"
 
-#: client/helpdata.c:1000
-#, c-format
+#: client/helpdata.c:994
 msgid "* Ignores zones of control.\n"
 msgstr "* Ignora les zones de control.\n"
 
-#: client/helpdata.c:1003
-#, c-format
+#: client/helpdata.c:998
 msgid "* A non-military unit (cannot attack; no martial law).\n"
 msgstr "* No és una unitat militar (no pot atacar i no imposa llei marcial).\n"
 
-#: client/helpdata.c:1007
-#, c-format
+#: client/helpdata.c:1002
 msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
 msgstr ""
 "* És una unitat de camp, crea un descontent fins i tot quan no és "
 "agressiva.\n"
 
-#: client/helpdata.c:1012
-#, c-format
+#: client/helpdata.c:1005
 msgid "* Will never achieve veteran status.\n"
 msgstr "* No aconseguirà mai veterania.\n"
 
-#: client/helpdata.c:1018
+#: client/helpdata.c:1011
 msgid ""
 "* Will be built as a veteran in cities with appropriate training facilities "
-"(see Airport.)\n"
+"(see Airport).\n"
 msgstr ""
-"* Es construirà com a veterà en ciutats que tinguin instal·lacions apropiades "
-"(veure Aeroport).\n"
+"* Es construirà com a veterà en ciutats que tinguin instal·lacions "
+"apropiades (veure Aeroport).\n"
 
-#: client/helpdata.c:1021 client/helpdata.c:1034 client/helpdata.c:1042
+#: client/helpdata.c:1014 client/helpdata.c:1027 client/helpdata.c:1035
 msgid "* May be promoted after defeating an enemy unit.\n"
 msgstr "* Pot promocionar-se a veterà si guanya una unitat enemiga.\n"
 
-#: client/helpdata.c:1026
+#: client/helpdata.c:1019
 msgid "* Will be built as a veteran under communist governments.\n"
 msgstr "* Es construirà com a veterà sota governs comunistes.\n"
 
-#: client/helpdata.c:1028
+#: client/helpdata.c:1021
 msgid "* May be promoted after a successful mission.\n"
 msgstr "* Pot promocionar-se a veterà després d'una missió reeixida.\n"
 
-#: client/helpdata.c:1031
+#: client/helpdata.c:1024
 msgid ""
 "* Will be built as a veteran in cities with appropriate training facilities "
-"(see Barracks.)\n"
+"(see Barracks).\n"
 msgstr ""
-"* Es construirà com a veterà en ciutats que tinguin instal·lacions apropiades "
-"(veure Caserna).\n"
+"* Es construirà com a veterà en ciutats que tinguin instal·lacions "
+"apropiades (veure Caserna).\n"
 
-#: client/helpdata.c:1039
+#: client/helpdata.c:1032
 msgid ""
 "* Will be built as a veteran in cities with appropriate training facilities "
-"(see Port Facility)."
+"(see Port Facility).\n"
 msgstr ""
-"* Es construirà com a veterà en ciutats que tinguin instal·lacions apropiades "
-"(veure Instal·lació de Port)."
+"* Es construirà com a veterà en ciutats que tinguin instal·lacions "
+"apropiades (veure Instal·lació de Port).\n"
 
-#: client/helpdata.c:1045
+#: client/helpdata.c:1038
 msgid "* May be promoted after survival on the high seas.\n"
 msgstr "* Pot promocionar-se si sobreviu en alta mar.\n"
 
-#: client/helpdata.c:1049
+#: client/helpdata.c:1042
 msgid "* May be promoted through combat or training\n"
 msgstr "* Pot guanyar experiència mitjançant combat o entrenament.\n"
 
-#: client/helpdata.c:1055
-#, c-format
+#: client/helpdata.c:1049
+#, no-c-format
 msgid ""
-"* Must end turn in a city or next to land, or has a 50%% risk of being lost "
+"* Must end turn in a city or next to land, or has a 50% risk of being lost "
 "at sea.\n"
 msgstr ""
-"* Ha d'acabar el torn en una ciutat o prop de la costa, o té el 50%% de "
+"* Ha d'acabar el torn en una ciutat o prop de la costa, o té el 50% de "
 "possibilitats de perdre's al mar.\n"
 
-#: client/helpdata.c:1085
+#. TRANS: List of possible unit types has this between
+#. *        last two elements
+#. TRANS: List of possible output types has this between
+#. *        last two elements
+#: client/helpdata.c:1081 client/helpdata.c:1381
 msgid " or "
 msgstr " o "
 
-#: client/helpdata.c:1087
+#: client/helpdata.c:1083 client/helpdata.c:1369
 msgid "?or:, "
 msgstr ", "
 
-#: client/helpdata.c:1099
+#: client/helpdata.c:1095
 #, c-format
 msgid "* Unit has to be in a city, or on a %s after %d turn.\n"
 msgid_plural "* Unit has to be in a city, or on a %s after %d turns.\n"
 msgstr[0] "* Ha d'estar en una ciutat o en un %s després d'%d torn.\n"
 msgstr[1] "* Ha d'estar en una ciutat o en un %s després de %d torns.\n"
 
-#: client/helpdata.c:1139
+#: client/helpdata.c:1136
 #, c-format
 msgid "If we would now start with %s we would need %d bulbs."
 msgstr "Si ara comencéssim amb %s necessitaríem %d bombetes."
 
-#: client/helpdata.c:1144
+#: client/helpdata.c:1141
 #, c-format
 msgid ""
 "To reach %s we need to obtain %d other technologies first. The whole project "
@@ -8671,32 +8654,29 @@ msgstr ""
 "Per assolir %s primer hem d'obtenir %d altres tecnologies. Per acabar tot el "
 "projecte es necessitaran %d bombetes."
 
-#: client/helpdata.c:1152
-#, c-format
+#: client/helpdata.c:1149
 msgid "You cannot research this technology."
 msgstr "No pots investigar aquesta tecnologia."
 
-#: client/helpdata.c:1157
-#, c-format
+#: client/helpdata.c:1154
 msgid " This number may vary depending on what other players will research.\n"
 msgstr "Aquest nombre pot variar en funció del que investiguin els altres jugadors.\n"
 
-#: client/helpdata.c:1168
+#: client/helpdata.c:1166
 #, c-format
 msgid "* The first player to research %s gets an immediate advance.\n"
 msgstr "* El primer jugador a descobrir %s obté un avenç immediat.\n"
 
-#: client/helpdata.c:1173
-#, c-format
+#: client/helpdata.c:1172
 msgid "* Increases the pollution generated by the population.\n"
 msgstr "* Incrementa la contaminació generada per la població.\n"
 
-#: client/helpdata.c:1178
+#: client/helpdata.c:1177
 #, c-format
 msgid "* Allows %s to build roads on river squares.\n"
 msgstr "* Permet als %s construir camins en caselles de riu.\n"
 
-#: client/helpdata.c:1186
+#: client/helpdata.c:1185
 #, c-format
 msgid "* Allows %s to upgrade roads to railroads.\n"
 msgstr "* Permet als %s millorar camins a ferrocarrils.\n"
@@ -8706,67 +8686,47 @@ msgstr "* Permet als %s millorar camins a ferrocarrils.\n"
 msgid "* Allows %s to upgrade irrigation to farmland.\n"
 msgstr "* Permet als %s millorar la irrigació a horta.\n"
 
-#: client/helpdata.c:1225
-#, c-format
+#: client/helpdata.c:1227
 msgid "* Pollution cannot be generated on this terrain."
 msgstr "* Aquest terreny no pot ser contaminat."
 
-#: client/helpdata.c:1230
-#, c-format
+#: client/helpdata.c:1232
 msgid "* You cannot build cities on this terrain."
 msgstr "* No pots construir ciutats sobre aquest terreny."
 
-#: client/helpdata.c:1236
-#, c-format
+#: client/helpdata.c:1238
 msgid "* The coastline of this terrain is unsafe."
 msgstr "* La línia de costa d'aquest terreny és insegura."
 
-#: client/helpdata.c:1241
-#, c-format
+#: client/helpdata.c:1243
 msgid "* Land units cannot travel on oceanic terrains."
 msgstr "* Les unitats terrestres no poden viatjar per terrenys oceànics."
 
-#: client/helpdata.c:1284
-#, c-format
+#: client/helpdata.c:1286
 msgid "Features:\n"
 msgstr "Característiques:\n"
 
-#. TRANS: List of possible output types has this between
-#. *        last two elements
-#: client/helpdata.c:1379
-msgid "?outputlist: or "
-msgstr " o "
-
-#. TRANS: List of possible output types has this between
-#. *        last two elements
-#: client/helpdata.c:1383
-msgid "?outputlist: and "
-msgstr " i "
-
 #. TRANS: Empty output type list, should never happen.
-#: client/helpdata.c:1390 client/helpdata.c:1391
+#: client/helpdata.c:1392 client/helpdata.c:1393
 msgid "?outputlist: Nothing "
 msgstr "Res"
 
-#: client/helpdata.c:1398
+#: client/helpdata.c:1400
 #, c-format
 msgid ""
-"* Military units away from home and field units will cause one citizen to "
+"* Military units away from home and field units will cause %d citizen to "
 "become unhappy.\n"
-msgstr ""
-"* Les unitats militars fora de casa i les unitats al camp faran que un "
-"ciutadà estigui descontent.\n"
-
-#: client/helpdata.c:1401
-#, c-format
-msgid ""
+msgid_plural ""
 "* Military units away from home and field units will cause %d citizens to "
 "become unhappy.\n"
-msgstr ""
-"* Les unitats militars fora de casa i les unitats al camp faran que %d "
+msgstr[0] ""
+"* Les unitats militars fora de casa i les unitats de batalla faran que %d "
+"ciutadà estigui descontent.\n"
+msgstr[1] ""
+"* Les unitats militars fora de casa i les unitats de batalla faran que %d "
 "ciutadans estiguin descontents.\n"
 
-#: client/helpdata.c:1408
+#: client/helpdata.c:1410
 #, c-format
 msgid ""
 "* Each of your cities will avoid %d unhappiness that would otherwise be "
@@ -8775,141 +8735,133 @@ msgstr ""
 "* Cadascuna de les ciutats evitarà %d d'infelicitat que seria causada per "
 "les unitats en cas contrari.\n"
 
-#: client/helpdata.c:1416
+#. TRANS: %s is the output type, like 'shield' or 'gold'.
+#: client/helpdata.c:1418
 #, c-format
 msgid "* You pay %d times normal %s upkeep for your units.\n"
 msgstr "* Pagues %d vegades el manteniment normal en %s per les teves unitats.\n"
 
-#: client/helpdata.c:1419
+#: client/helpdata.c:1423
 #, c-format
 msgid "* You pay %d times normal upkeep for your units.\n"
 msgstr "* Pagues %d vegades el manteniment normal per les teves unitats.\n"
 
-#: client/helpdata.c:1424
+#. TRANS: %s is the output type, like 'shield' or 'gold'.
+#: client/helpdata.c:1428
 #, c-format
 msgid "* You pay no %s upkeep for your units.\n"
 msgstr "* No pagues manteniment en %s per les teves unitats.\n"
 
-#: client/helpdata.c:1429
-#, c-format
+#: client/helpdata.c:1432
 msgid "* You pay no upkeep for your units.\n"
 msgstr "* No pagues manteniment per les teves unitats.\n"
 
-#. TRANS: %s is the output type, like 'shield' or 'gold'. There
-#. * is currently no way to control the singular/plural version of
-#. * this.
-#: client/helpdata.c:1437
+#. TRANS: %s is the output type, like 'shield' or 'gold'.
+#. * There is currently no way to control the
+#. * singular/plural version of these.
+#: client/helpdata.c:1441
 #, c-format
-msgid "* Each of your cities will avoid paying %d %s towards unit upkeep.\n"
+msgid "* Each of your cities will avoid paying %d %s upkeep for your units.\n"
 msgstr ""
-"* Cadascuna de les teves unitats evitarà de pagar %d de %s per al "
+"* Cadascuna de les teves unitats evitarà de pagar %d d'%s per al "
 "manteniment de la unitat.\n"
 
-#. TRANS: Amount is subtracted from upkeep cost in each upkeep
-#. *        type.
-#: client/helpdata.c:1443
+#. TRANS: Amount is subtracted from upkeep cost
+#. * for each upkeep type.
+#: client/helpdata.c:1449
 #, c-format
-msgid "* Each of your cities will avoid paying %d towards unit upkeep.\n"
+msgid "* Each of your cities will avoid paying %d upkeep for your units.\n"
 msgstr ""
-"* Cadascuna de les teves ciutats evitarà de pagar %d per manteniment "
-"d'unitat.\n"
+"* Cadascuna de les teves ciutats evitarà de pagar %d de manteniment per les"
+"unitats.\n"
 
-#: client/helpdata.c:1448
+#: client/helpdata.c:1456
 #, c-format
-msgid "* Chance of civil war is %d%% if you lose your capital.\n"
-msgstr "* La probabilitat de guerra civil és del %d%% si perds la teva capital.\n"
+msgid "* If you lose your capital, chance of civil war is %d%%.\n"
+msgstr "* Si perds la capital, la probabilitat de guerra civil és del %d%%.\n"
 
-#: client/helpdata.c:1452
+#. TRANS: %d should always be greater than 2.
+#: client/helpdata.c:1463
 #, c-format
 msgid ""
-"* The first unhappy citizen in each city due to civilization size will "
-"appear when you have %d cities.\n"
-msgstr ""
-"* El primer ciutadà descontent de cada ciutat degut a la mida de la "
-"civilització apareixerà quan tinguis %d ciutats.\n"
+"* When you have %d cities, the first unhappy citizen will appear in each "
+"city due to civilization size.\n"
+msgstr "* Quan tinguis %d ciutats, apareixerà el primer ciutadà descontent a cada ciutat degut a la mida de la civilització.\n"
 
-#: client/helpdata.c:1457
+#. TRANS: %d should always be greater than 2.
+#: client/helpdata.c:1470
 #, c-format
 msgid ""
 "* After the first unhappy citizen due to civilization size, for each %d "
-"additional cities, another unhappy citizen will appear.\n"
+"additional cities another unhappy citizen will appear.\n"
 msgstr ""
 "* Després del primer ciutadà descontent degut a la mida de la civilització, "
 "per cada %d ciutats addicionals, n'apareixerà un altre.\n"
 
-#: client/helpdata.c:1464
+#: client/helpdata.c:1478
 #, c-format
 msgid "* The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
 msgstr "* La taxa màxima que pots fixar per ciència, or o luxes és del %d%%.\n"
 
-#: client/helpdata.c:1468
-#, c-format
+#: client/helpdata.c:1483
 msgid "* Has unlimited science/gold/luxuries rates.\n"
 msgstr "* No té cap límit per les taxes de ciència/or/luxes.\n"
 
-#: client/helpdata.c:1473
+#: client/helpdata.c:1488
 #, c-format
 msgid ""
 "* Your units may impose martial law. Each military unit inside a city will "
-"force an unhappy citizen to become content.\n"
-msgstr ""
-"* Les teves unitats poden imposar la llei marcial.Cada unitat militar dins "
-"d'una ciutat forçarà que un ciutadà descontent estigui content.\n"
-
-#: client/helpdata.c:1477
-#, c-format
-msgid ""
+"force %d unhappy citizen to become content.\n"
+msgid_plural ""
 "* Your units may impose martial law. Each military unit inside a city will "
 "force %d unhappy citizens to become content.\n"
-msgstr ""
+msgstr[0] ""
+"* Les teves unitats poden imposar la llei marcial.Cada unitat militar dins "
+"d'una ciutat forçarà que %d ciutadà descontents estiguin contents.\n"
+msgstr[1] ""
 "* Les teves unitats poden imposar la llei marcial.Cada unitat militar dins "
 "d'una ciutat forçarà que %d ciutadans descontents estiguin contents.\n"
 
-#: client/helpdata.c:1484
+#: client/helpdata.c:1500
 #, c-format
-msgid "* A maximum of %d units in each city can enforce martial law.\n"
-msgstr "* Un màxim de %d unitats a cada ciutat poden imposar la llei marcial.\n"
+msgid "* A maximum of %d unit in each city can enforce martial law.\n"
+msgid_plural "* A maximum of %d units in each city can enforce martial law.\n"
+msgstr[0] "* Un màxim de %d unitat a cada ciutat pot imposar la llei marcial.\n"
+msgstr[1] "* Un màxim de %d unitats a cada ciutat poden imposar la llei marcial.\n"
 
-#: client/helpdata.c:1489
+#. TRANS: %d should always be greater than 2.
+#: client/helpdata.c:1511
 #, c-format
 msgid ""
-"* You may grow your cities by means of celebrations.  Your cities must be at "
-"least size %d before they can grown in this manner.\n"
+"* You may grow your cities by means of celebrations. Your cities must be at "
+"least size %d.\n"
 msgstr ""
 "* Pots fer que les teves ciutats creixin a base de festes. Les teves ciutats "
-"han de ser almenys de mida %d abans que no puguin créixer d'aquesta manera.\n"
+"han de ser almenys de mida %d.\n"
 
-#: client/helpdata.c:1495
-#, c-format
+#: client/helpdata.c:1516
 msgid "* Your units cannot be bribed.\n"
 msgstr "* Les teves unitats no poden ser subornades.\n"
 
-#: client/helpdata.c:1498
-#, c-format
+#: client/helpdata.c:1519
 msgid "* Your cities cannot be incited.\n"
 msgstr "* Les teves ciutats no poden ser incitades a la revolta.\n"
 
-#: client/helpdata.c:1501
-#, c-format
+#: client/helpdata.c:1523
 msgid ""
-"* Government will fall into anarchy if any city is in disorder for more than "
-"two turns in a row.\n"
-msgstr ""
-"* El govern caurà en l'anarquia si qualsevol ciutat roman en desordre durant "
-"meś de dos torns seguits.\n"
+"* If any city is in disorder for more than two turns in a row, government "
+"will fall into anarchy.\n"
+msgstr "* Si qualsevol ciutat roman en desordre durant meś de dos torns seguits, el govern caurà en l'anarquia.\n"
 
-#: client/helpdata.c:1506
-#, c-format
+#: client/helpdata.c:1528
 msgid "* Has a senate that may prevent declaration of war.\n"
 msgstr "* Té un senat que pot impedir una declaració de guerra.\n"
 
-#: client/helpdata.c:1510
-#, c-format
+#: client/helpdata.c:1532
 msgid "* Allows partisans when cities are taken by the enemy.\n"
 msgstr "* Permet guerrillers quan les ciutats són capturades per l'enemic.\n"
 
-#: client/helpdata.c:1514
-#, c-format
+#: client/helpdata.c:1536
 msgid ""
 "* Buildings that normally confer bonuses against unhappiness will instead "
 "give gold.\n"
@@ -8917,48 +8869,45 @@ msgstr ""
 "* Els edificis que normalment serveixen per mitigar la infelicitat generaran "
 "or.\n"
 
-#: client/helpdata.c:1518
-#, c-format
+#: client/helpdata.c:1540
 msgid "* Pays no upkeep for fanatics.\n"
 msgstr "* No paga manteniment pels fanàtics.\n"
 
-#: client/helpdata.c:1521
-#, c-format
+#: client/helpdata.c:1543
 msgid "* Has no unhappy citizens.\n"
 msgstr "* No té ciutadans descontents.\n"
 
-#: client/helpdata.c:1530 client/helpdata.c:1533 client/helpdata.c:1536
+#: client/helpdata.c:1553 client/helpdata.c:1557 client/helpdata.c:1561
 #, c-format
 msgid "* Veteran %s units.\n"
 msgstr "* Unitats %s veteranes.\n"
 
-#: client/helpdata.c:1539
-#, c-format
+#: client/helpdata.c:1564
 msgid "* Veteran units.\n"
 msgstr "* Unitats veteranes.\n"
 
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:1544
+#: client/helpdata.c:1570
 #, c-format
 msgid ""
-"* Each worked tile that gives more than %d %s will suffer a -1 penalty when "
-"not celebrating.\n"
+"* Each worked tile that gives more than %d %s will suffer a -1 penalty "
+"unless celebrating.\n"
 msgstr ""
 "* Cada casella treballada que doni més de %d punts de %s tindrà una "
-"penalització de -1 quan no s'estigui en festa.\n"
+"penalització de -1 si la ciutat no està en festa.\n"
 
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:1550
+#: client/helpdata.c:1578
 #, c-format
 msgid ""
-"* Each worked tile with at least 1 %s will yield %d more of it when "
+"* Each worked tile with at least 1 %s will yield %d more of it while "
 "celebrating.\n"
 msgstr ""
 "* Cada casella treballada que tingui almenys 1 punt de %s en donarà %d de "
 "més quan s'estigui en festa.\n"
 
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:1556
+#: client/helpdata.c:1586
 #, c-format
 msgid "* Each worked tile with at least 1 %s will yield %d more of it.\n"
 msgstr ""
@@ -8966,31 +8915,31 @@ msgstr ""
 "més.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1563
+#: client/helpdata.c:1595
 #, c-format
 msgid "* %s production is increased %d%%.\n"
 msgstr "* La producció de %s augmenta en un %d%%.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1569
+#: client/helpdata.c:1603
 #, c-format
 msgid "* %s production will suffer massive waste.\n"
 msgstr "* La producció de %s patirà malbaratament massiu.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1573
+#: client/helpdata.c:1608
 #, c-format
 msgid "* %s production will suffer some waste.\n"
 msgstr "* La producció de %s patirà malbaratament.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1577
+#: client/helpdata.c:1613
 #, c-format
 msgid "* %s production will suffer a small amount of waste.\n"
 msgstr "* La producció de %s patirà una petita quantitat de malbaratament.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1584
+#: client/helpdata.c:1621
 #, c-format
 msgid "* %s waste will increase quickly with distance from capital.\n"
 msgstr ""
@@ -8998,32 +8947,37 @@ msgstr ""
 "capital.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1588
+#: client/helpdata.c:1627
 #, c-format
 msgid "* %s waste will increase with distance from capital.\n"
 msgstr "* El malbaratament de %s augmentarà amb la distància des de la capital.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1592
+#: client/helpdata.c:1633
 #, c-format
 msgid "* %s waste will increase slowly with distance from capital.\n"
 msgstr ""
 "* El malbaratament de %s augmentarà lentament amb la distància des de la "
 "capital.\n"
 
-#: client/helpdata.c:1609
+#: client/helpdata.c:1650
 #, c-format
 msgid "* Allows you to build %s.\n"
 msgstr "* Et permet de construir %s.\n"
 
 #. TRANS: "2 Food" or ", 1 shield"
-#: client/helpdata.c:1635
+#: client/helpdata.c:1676
 #, c-format
 msgid "%s%d %s"
 msgstr "%s%d %s"
 
+#: client/helpdata.c:1677 client/helpdata.c:1685 client/gui-sdl/mapview.c:618
+#: client/gui-sdl/mapview.c:624 client/gui-sdl/mapview.c:630
+msgid "?blistmore:, "
+msgstr ", "
+
 #. TRANS: "2 unhappy" or ", 1 unhappy"
-#: client/helpdata.c:1643
+#: client/helpdata.c:1684
 #, c-format
 msgid "%s%d unhappy"
 msgstr "%s%d descontents"
@@ -9142,7 +9096,7 @@ msgstr ""
 "plugin nou no es farà servir fins que no aturis i tornis a engegar el "
 "Freeciv. Modificar això és el mateix que fer servir la línia de comandes -P."
 
-#: client/options.c:144 client/gui-sdl/gui_main.c:162
+#: client/options.c:144 client/gui-sdl/gui_main.c:163
 msgid "Theme"
 msgstr "Tema"
 
@@ -9499,12 +9453,12 @@ msgstr "R.I.P"
 msgid "waiting"
 msgstr "esperant"
 
-#: client/plrdlg_common.c:195 client/gui-sdl/plrdlg.c:643
+#: client/plrdlg_common.c:195 client/gui-sdl/plrdlg.c:646
 #: client/gui-win32/plrdlg.c:155 client/gui-xaw/plrdlg.c:238
 msgid "done"
 msgstr "acabat"
 
-#: client/plrdlg_common.c:197 client/gui-sdl/plrdlg.c:645
+#: client/plrdlg_common.c:197 client/gui-sdl/plrdlg.c:648
 #: client/gui-win32/plrdlg.c:157 client/gui-xaw/plrdlg.c:240
 msgid "moving"
 msgstr "movent-se"
@@ -10189,6 +10143,63 @@ msgstr "Cap. "
 #: client/text.c:1208
 msgid "Wonders: "
 msgstr "Meravelles: "
+
+#: client/text.c:1262
+#, c-format
+msgid "Cities: %d total, %d over threshold of %d cities."
+msgstr "Ciutats: total de %d, %d per damunt del límit de %d ciutats."
+
+#. TRANS: 0-21 content [citizen(s)] ...
+#: client/text.c:1266
+#, c-format
+msgid "%d content before penalty."
+msgid_plural "%d content before penalty."
+msgstr[0] "%d de content abans de penalitzar amb "
+msgstr[1] "%d de contents abans de penalitzar amb "
+
+#. TRANS: 0-21 unhappy citizen(s).
+#: client/text.c:1272
+#, c-format
+msgid "%d additional unhappy citizen."
+msgid_plural "%d additional unhappy citizens."
+msgstr[0] "%d ciutadà descontent addicional."
+msgstr[1] "%d ciutadans descontents addicionals."
+
+#. TRANS: Martial law opening parenthesis
+#: client/text.c:1294
+msgid "Martial law in effect ("
+msgstr "Llei marcial vigent ("
+
+#. TRANS: no [unit] maximum
+#: client/text.c:1299
+msgid "no maximum, "
+msgstr "sense màxim, "
+
+#: client/text.c:1302
+#, c-format
+msgid "%d unit maximum, "
+msgid_plural "%d units maximum, "
+msgstr[0] "%d unitats màxim, "
+msgstr[1] "%d unitats màxim, "
+
+#. TRANS: Martial law closing parenthesis
+#: client/text.c:1309
+#, c-format
+msgid "%d per unit). "
+msgstr "%d per unitat). "
+
+#: client/text.c:1313
+msgid "Military units in the field may cause unhappiness. "
+msgstr "Les unitats militars al camp poden causar descontents."
+
+#: client/text.c:1316
+msgid "Military units have no happiness effect. "
+msgstr "Les unitats militars no tenen cap efecte sobre la felicitat."
+
+#: client/text.c:1331
+#, c-format
+msgid "Luxury: %d total."
+msgstr "Luxes: %d en total."
 
 #: client/tilespec.c:875
 msgid "No usable default tileset found, aborting!"
@@ -10900,7 +10911,7 @@ msgstr "_Mostrar"
 #: client/gui-gtk-2.0/cityrep.c:795 client/gui-gtk-2.0/menu.c:843
 #: client/gui-sdl/diplodlg.c:658 client/gui-sdl/optiondlg.c:1799
 #: client/gui-win32/diplodlg.c:611 client/gui-win32/diplodlg.c:663
-#: client/gui-win32/menu.c:350 client/gui-xaw/cityrep.c:228
+#: client/gui-win32/menu.c:351 client/gui-xaw/cityrep.c:228
 #: client/gui-xaw/cityrep.c:533 client/gui-xaw/menu.c:156
 #: client/gui-xaw/menu.c:218 data/Freeciv.in:410 data/Freeciv.in:419
 #: data/Freeciv.in:1561
@@ -10916,7 +10927,7 @@ msgstr "_Inspeccionar"
 #: client/gui-gtk-2.0/menu.c:827 client/gui-gtk-2.0/menu.c:829
 #: client/gui-gtk-2.0/menu.c:831 client/gui-gtk-2.0/menu.c:833
 #: client/gui-gtk-2.0/menu.c:835 client/gui-gtk-2.0/menu.c:837
-#: client/gui-sdl/helpdlg.c:297 client/gui-win32/menu.c:342
+#: client/gui-sdl/helpdlg.c:297 client/gui-win32/menu.c:343
 #: client/gui-xaw/menu.c:247
 msgid "Improvements"
 msgstr "Edificis"
@@ -11021,17 +11032,17 @@ msgstr "_Predeterminats:"
 msgid "Results"
 msgstr "Resultats"
 
-#: client/gui-gtk-2.0/cma_fe.c:316 client/gui-sdl/cma_fe.c:887
+#: client/gui-gtk-2.0/cma_fe.c:316 client/gui-sdl/cma_fe.c:890
 #: client/gui-win32/cma_fe.c:215
 msgid "Minimal Surplus"
 msgstr "Excedent mínim"
 
-#: client/gui-gtk-2.0/cma_fe.c:319 client/gui-sdl/cma_fe.c:890
+#: client/gui-gtk-2.0/cma_fe.c:319 client/gui-sdl/cma_fe.c:893
 #: client/gui-win32/cma_fe.c:216
 msgid "Factor"
 msgstr "Factor"
 
-#: client/gui-gtk-2.0/cma_fe.c:354 client/gui-sdl/cma_fe.c:937
+#: client/gui-gtk-2.0/cma_fe.c:354 client/gui-sdl/cma_fe.c:940
 #: client/gui-win32/cma_fe.c:220 client/gui-xaw/cma_fe.c:179
 #: client/gui-xaw/cma_fe.c:221
 msgid "Celebrate"
@@ -11045,18 +11056,18 @@ msgstr "Gestor En_gegat"
 msgid "Governor Disabl_ed"
 msgstr "Gestor A_turat"
 
-#: client/gui-gtk-2.0/cma_fe.c:536 client/gui-sdl/cma_fe.c:236
-#: client/gui-sdl/cma_fe.c:308 client/gui-win32/cma_fe.c:385
+#: client/gui-gtk-2.0/cma_fe.c:536 client/gui-sdl/cma_fe.c:239
+#: client/gui-sdl/cma_fe.c:311 client/gui-win32/cma_fe.c:385
 #: client/gui-xaw/cma_fe.c:432
 msgid "new preset"
 msgstr "nou prefixat"
 
-#: client/gui-gtk-2.0/cma_fe.c:540 client/gui-sdl/cma_fe.c:281
+#: client/gui-gtk-2.0/cma_fe.c:540 client/gui-sdl/cma_fe.c:284
 #: client/gui-win32/cma_fe.c:383
 msgid "Name new preset"
 msgstr "Anomenar nou prefixat"
 
-#: client/gui-gtk-2.0/cma_fe.c:541 client/gui-sdl/cma_fe.c:297
+#: client/gui-gtk-2.0/cma_fe.c:541 client/gui-sdl/cma_fe.c:300
 #: client/gui-win32/cma_fe.c:384
 msgid "What should we name the preset?"
 msgstr "Com hem d'anomenar el prefixat ?"
@@ -11073,17 +11084,17 @@ msgstr "Anar a _lloc"
 msgid "Inspect _City"
 msgstr "Inspeccionar _Ciutat"
 
-#: client/gui-gtk-2.0/dialogs.c:258 client/gui-sdl/dialogs.c:2090
+#: client/gui-gtk-2.0/dialogs.c:258 client/gui-sdl/dialogs.c:2091
 #: client/gui-win32/dialogs.c:975 client/gui-xaw/dialogs.c:513
 msgid "You say you wanna revolution?"
 msgstr "Dius que vols una revolució?"
 
-#: client/gui-gtk-2.0/dialogs.c:259 client/gui-sdl/dialogs.c:2109
+#: client/gui-gtk-2.0/dialogs.c:259 client/gui-sdl/dialogs.c:2110
 #: client/gui-win32/dialogs.c:974 data/Freeciv.in:2469
 msgid "Revolution!"
 msgstr "Revolució!"
 
-#: client/gui-gtk-2.0/dialogs.c:313 client/gui-sdl/dialogs.c:1743
+#: client/gui-gtk-2.0/dialogs.c:313 client/gui-sdl/dialogs.c:1744
 #: client/gui-win32/dialogs.c:1744 data/Freeciv.in:2507
 msgid "What To Pillage"
 msgstr "Què Saquejar"
@@ -11096,11 +11107,11 @@ msgstr "Selecciona què saquejar:"
 #: client/gui-gtk-2.0/dialogs.c:530 client/gui-gtk-2.0/pages.c:1501
 #: client/gui-gtk-2.0/pages.c:2074 client/gui-gtk-2.0/wldlg.c:1008
 #: client/gui-win32/connectdlg.c:984 client/gui-win32/plrdlg.c:335
-#: manual/civmanual.c:302 data/Freeciv.in:80
+#: manual/civmanual.c:293 data/Freeciv.in:80
 msgid "Name"
 msgstr "Nom"
 
-#: client/gui-gtk-2.0/dialogs.c:542 client/gui-sdl/dialogs.c:627
+#: client/gui-gtk-2.0/dialogs.c:542 client/gui-sdl/dialogs.c:628
 msgid "Unit selection"
 msgstr "Selecció d'unitat"
 
@@ -11173,7 +11184,7 @@ msgstr "Has d'escollir el teu sexe."
 msgid "You must select your city style."
 msgstr "Has d'escollir un estil de ciutat."
 
-#: client/gui-gtk-2.0/dialogs.c:1287 client/gui-sdl/dialogs.c:2208
+#: client/gui-gtk-2.0/dialogs.c:1287 client/gui-sdl/dialogs.c:2209
 #: client/gui-win32/dialogs.c:360 client/gui-xaw/dialogs.c:1502
 msgid "You must type a legal name."
 msgstr "Has d'escriure un nom vàlid."
@@ -11184,7 +11195,7 @@ msgid "Upgrade Unit!"
 msgstr "Millorar unitat!"
 
 #: client/gui-gtk-2.0/dialogs.c:1337 client/gui-gtk-2.0/repodlgs.c:1189
-#: client/gui-sdl/dialogs.c:423 client/gui-sdl/repodlgs.c:201
+#: client/gui-sdl/dialogs.c:424 client/gui-sdl/repodlgs.c:201
 #: client/gui-win32/citydlg.c:1407 client/gui-win32/repodlgs.c:575
 #: data/Freeciv.in:2480
 msgid "Upgrade Obsolete Units"
@@ -11209,7 +11220,7 @@ msgid "_Advances"
 msgstr "_Avenços"
 
 #: client/gui-gtk-2.0/diplodlg.c:322 client/gui-gtk-2.0/menu.c:953
-#: client/gui-win32/menu.c:399
+#: client/gui-win32/menu.c:400
 msgid "_Cities"
 msgstr "_Ciutats"
 
@@ -11256,7 +11267,7 @@ msgid "Invalid amount of gold specified."
 msgstr "La quantitat d'or especificada no és vàlida."
 
 #: client/gui-gtk-2.0/finddlg.c:64 client/gui-sdl/finddlg.c:127
-#: client/gui-sdl/mapctrl.c:1591 client/gui-win32/finddlg.c:115
+#: client/gui-sdl/mapctrl.c:1592 client/gui-win32/finddlg.c:115
 #: client/gui-xaw/menu.c:128 data/Freeciv.in:1066
 msgid "Find City"
 msgstr "Cercar ciutat"
@@ -11452,12 +11463,12 @@ msgid "Freeciv"
 msgstr "Freeciv"
 
 #: client/gui-gtk-2.0/gui_main.c:1162 client/gui-gtk-2.0/gui_main.c:1169
-#: client/gui-sdl/mapctrl.c:1566 client/gui-win32/gui_main.c:482
+#: client/gui-sdl/mapctrl.c:1567 client/gui-win32/gui_main.c:482
 #: data/Freeciv.in:2625
 msgid "Turn Done"
 msgstr "Acabar el torn"
 
-#: client/gui-gtk-2.0/gui_main.c:1169 client/gui-sdl/mapctrl.c:1566
+#: client/gui-gtk-2.0/gui_main.c:1169 client/gui-sdl/mapctrl.c:1567
 #: client/gui-sdl/mapview.c:890
 msgid "Shift+Return"
 msgstr "Maj.+Retorn"
@@ -11554,64 +11565,12 @@ msgstr ""
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: client/gui-gtk-2.0/happiness.c:122 client/gui-sdl/citydlg.c:2051
+#: client/gui-gtk-2.0/happiness.c:112 client/gui-sdl/citydlg.c:2051
 #: client/gui-sdl/citydlg.c:3727 client/gui-win32/citydlg.c:735
-#: client/gui-win32/happiness.c:95 client/gui-xaw/menu.c:255
+#: client/gui-win32/happiness.c:86 client/gui-xaw/menu.c:255
 #: data/helpdata.txt:1392
 msgid "Happiness"
 msgstr "Felicitat"
-
-#: client/gui-gtk-2.0/happiness.c:245 client/gui-win32/happiness.c:197
-#, c-format
-msgid "Cities: %d total, %d over threshold of %d cities.\n"
-msgstr "Ciutats: total %d, %d per sobre del límit de %d ciutats.\n"
-
-#: client/gui-gtk-2.0/happiness.c:249 client/gui-win32/happiness.c:201
-#, c-format
-msgid "%d content before penalty with "
-msgstr "%d contents abans de penalitzar amb "
-
-#: client/gui-gtk-2.0/happiness.c:251 client/gui-win32/happiness.c:203
-#, c-format
-msgid "%d additional unhappy citizens."
-msgstr "%d ciutadans descontents addicionals."
-
-#: client/gui-gtk-2.0/happiness.c:267 client/gui-win32/happiness.c:220
-#, c-format
-msgid "Luxury: %d total."
-msgstr "Luxes: %d en total."
-
-#: client/gui-gtk-2.0/happiness.c:294 client/gui-win32/happiness.c:247
-msgid "Units: "
-msgstr "Unitats: "
-
-#: client/gui-gtk-2.0/happiness.c:298 client/gui-win32/happiness.c:251
-msgid "Martial law in effect ("
-msgstr "Llei marcial vigent ("
-
-#: client/gui-gtk-2.0/happiness.c:302 client/gui-win32/happiness.c:255
-msgid "no maximum, "
-msgstr "sense màxim, "
-
-#: client/gui-gtk-2.0/happiness.c:304 client/gui-win32/happiness.c:257
-#, c-format
-msgid "%d unit maximum, "
-msgid_plural "%d units maximum, "
-msgstr[0] "%d unitats màxim, "
-msgstr[1] "%d unitats màxim, "
-
-#: client/gui-gtk-2.0/happiness.c:308 client/gui-win32/happiness.c:261
-#, c-format
-msgid "%d per unit). "
-msgstr "%d per unitat). "
-
-#: client/gui-gtk-2.0/happiness.c:313 client/gui-win32/happiness.c:266
-msgid "Military units in the field may cause unhappiness. "
-msgstr "Les unitats militars al camp poden causar descontents."
-
-#: client/gui-gtk-2.0/happiness.c:317 client/gui-win32/happiness.c:270
-msgid "Military units have no happiness effect. "
-msgstr "Les unitats militars no tenen cap efecte sobre la felicitat."
 
 #: client/gui-gtk-2.0/helpdlg.c:88 client/gui-gtk-2.0/helpdlg.c:91
 #: client/gui-gtk-2.0/helpdlg.c:95 client/gui-sdl/helpdlg.c:343
@@ -11709,18 +11668,18 @@ msgstr "Trans. Rstl/temps:"
 #: client/gui-gtk-2.0/helpdlg.c:111 client/gui-win32/helpdlg.c:165
 #: client/gui-win32/helpdlg.c:501 client/gui-win32/helpdlg.c:544
 #: client/gui-win32/helpdlg.c:723 client/gui-win32/helpdlg.c:750
-#: client/gui-xaw/helpdlg.c:762 client/gui-xaw/helpdlg.c:806
-#: client/gui-xaw/helpdlg.c:814 client/gui-xaw/helpdlg.c:852
-#: client/gui-xaw/helpdlg.c:877
+#: client/gui-xaw/helpdlg.c:760 client/gui-xaw/helpdlg.c:804
+#: client/gui-xaw/helpdlg.c:812 client/gui-xaw/helpdlg.c:850
+#: client/gui-xaw/helpdlg.c:875
 msgid "(Never)"
 msgstr "(mai)"
 
-#: client/gui-gtk-2.0/helpdlg.c:128 client/gui-xaw/helpdlg.c:125
+#: client/gui-gtk-2.0/helpdlg.c:128 client/gui-xaw/helpdlg.c:123
 #: client/gui-xaw/menu.c:259 data/helpdata.txt:37
 msgid "About"
 msgstr "Quant a"
 
-#: client/gui-gtk-2.0/helpdlg.c:196 client/gui-xaw/helpdlg.c:272
+#: client/gui-gtk-2.0/helpdlg.c:196 client/gui-xaw/helpdlg.c:270
 msgid "Removed"
 msgstr "Eliminat"
 
@@ -11756,13 +11715,13 @@ msgid "?techhelp:"
 msgstr "?techhelp:"
 
 #: client/gui-gtk-2.0/helpdlg.c:1065 client/gui-win32/helpdlg.c:592
-#: client/gui-xaw/helpdlg.c:1004
+#: client/gui-xaw/helpdlg.c:1002
 #, c-format
 msgid "+%d Trade / %d"
 msgstr "+%d comerç / %d"
 
 #: client/gui-gtk-2.0/helpdlg.c:1069 client/gui-win32/helpdlg.c:596
-#: client/gui-xaw/helpdlg.c:1008
+#: client/gui-xaw/helpdlg.c:1006
 #, c-format
 msgid "no extra / %d"
 msgstr "no extra / %d"
@@ -11770,20 +11729,20 @@ msgstr "no extra / %d"
 #: client/gui-gtk-2.0/helpdlg.c:1072 client/gui-gtk-2.0/helpdlg.c:1076
 #: client/gui-gtk-2.0/helpdlg.c:1090 client/gui-win32/helpdlg.c:599
 #: client/gui-win32/helpdlg.c:603 client/gui-win32/helpdlg.c:617
-#: client/gui-win32/helpdlg.c:636 client/gui-xaw/helpdlg.c:1010
-#: client/gui-xaw/helpdlg.c:1014 client/gui-xaw/helpdlg.c:1028
-#: client/gui-xaw/helpdlg.c:1047
+#: client/gui-win32/helpdlg.c:636 client/gui-xaw/helpdlg.c:1008
+#: client/gui-xaw/helpdlg.c:1012 client/gui-xaw/helpdlg.c:1026
+#: client/gui-xaw/helpdlg.c:1045
 msgid "n/a"
 msgstr "n/d"
 
 #: client/gui-gtk-2.0/helpdlg.c:1079 client/gui-win32/helpdlg.c:606
-#: client/gui-xaw/helpdlg.c:1017
+#: client/gui-xaw/helpdlg.c:1015
 #, c-format
 msgid "+%d Food / %d"
 msgstr "+%d Menjar / %d"
 
 #: client/gui-gtk-2.0/helpdlg.c:1093 client/gui-win32/helpdlg.c:620
-#: client/gui-xaw/helpdlg.c:1031
+#: client/gui-xaw/helpdlg.c:1029
 #, c-format
 msgid "+%d Res. / %d"
 msgstr "+%d Recur./ %d"
@@ -11821,13 +11780,13 @@ msgstr "_Tecnologies"
 msgid "Foreign Intelligence: %s Empire"
 msgstr "Intel·ligència exterior: Imperi %s"
 
-#: client/gui-gtk-2.0/mapctrl.c:195 client/gui-sdl/mapctrl.c:2565
-#: client/gui-sdl/menu.c:839 client/gui-sdl/menu.c:1023
+#: client/gui-gtk-2.0/mapctrl.c:195 client/gui-sdl/mapctrl.c:2566
+#: client/gui-sdl/menu.c:840 client/gui-sdl/menu.c:1024
 #: client/gui-win32/mapctrl.c:353
 msgid "Build New City"
 msgstr "Construcció de Ciutat Nova"
 
-#: client/gui-gtk-2.0/mapctrl.c:196 client/gui-sdl/mapctrl.c:2594
+#: client/gui-gtk-2.0/mapctrl.c:196 client/gui-sdl/mapctrl.c:2595
 #: client/gui-win32/mapctrl.c:354 client/gui-xaw/mapctrl.c:89
 msgid "What should we call our new city?"
 msgstr "Com hem d'anomenar la nostra nova ciutat?"
@@ -11844,7 +11803,7 @@ msgstr "La boira millorada només funciona en \"true color\". Inhabilitant-la"
 msgid "Leaving a local game will end it!"
 msgstr "Sortir d'una partida local farà que s'acabi!"
 
-#: client/gui-gtk-2.0/menu.c:732 client/gui-win32/menu.c:303
+#: client/gui-gtk-2.0/menu.c:732 client/gui-win32/menu.c:304
 msgid "_Game"
 msgstr "_Joc"
 
@@ -11867,22 +11826,22 @@ msgstr "Joc"
 msgid "_Chat"
 msgstr "_Xat"
 
-#: client/gui-gtk-2.0/menu.c:738 client/gui-win32/menu.c:314
+#: client/gui-gtk-2.0/menu.c:738 client/gui-win32/menu.c:315
 msgid "_Clear Log"
 msgstr "Es_borrar registre de missatges"
 
-#: client/gui-gtk-2.0/menu.c:740 client/gui-win32/menu.c:313
+#: client/gui-gtk-2.0/menu.c:740 client/gui-win32/menu.c:314
 msgid "_Write Log"
 msgstr "E_scriure registre de missatges"
 
 #: client/gui-gtk-2.0/menu.c:742 client/gui-gtk-2.0/menu.c:744
 #: client/gui-gtk-2.0/menu.c:746 client/gui-gtk-2.0/menu.c:748
-#: client/gui-gtk-2.0/menu.c:1007 client/gui-win32/menu.c:327
-#: client/gui-win32/menu.c:431
+#: client/gui-gtk-2.0/menu.c:1007 client/gui-win32/menu.c:328
+#: client/gui-win32/menu.c:432
 msgid "_Government"
 msgstr "_Govern"
 
-#: client/gui-gtk-2.0/menu.c:744 client/gui-win32/menu.c:322
+#: client/gui-gtk-2.0/menu.c:744 client/gui-win32/menu.c:323
 msgid "_Tax Rates"
 msgstr "_Taxes"
 
@@ -11920,11 +11879,11 @@ msgstr "Desar Opcions _en Sortir"
 msgid "_Reload Tileset"
 msgstr "_Recarregar Caselles"
 
-#: client/gui-gtk-2.0/menu.c:768 client/gui-win32/menu.c:310
+#: client/gui-gtk-2.0/menu.c:768 client/gui-win32/menu.c:311
 msgid "_Save Game"
 msgstr "De_sar Partida"
 
-#: client/gui-gtk-2.0/menu.c:771 client/gui-win32/menu.c:311
+#: client/gui-gtk-2.0/menu.c:771 client/gui-win32/menu.c:312
 msgid "Save Game _As..."
 msgstr "Desar Partida _Com..."
 
@@ -11932,7 +11891,7 @@ msgstr "Desar Partida _Com..."
 msgid "_Leave"
 msgstr "_Plegar"
 
-#: client/gui-gtk-2.0/menu.c:778 client/gui-win32/menu.c:317
+#: client/gui-gtk-2.0/menu.c:778 client/gui-win32/menu.c:318
 msgid "_Quit"
 msgstr "_Sortir"
 
@@ -11940,15 +11899,15 @@ msgstr "_Sortir"
 #: client/gui-gtk-2.0/menu.c:787 client/gui-gtk-2.0/menu.c:789
 #: client/gui-gtk-2.0/menu.c:791 client/gui-gtk-2.0/menu.c:794
 #: client/gui-gtk-2.0/menu.c:796 client/gui-gtk-2.0/menu.c:798
-#: client/gui-gtk-2.0/menu.c:800 client/gui-win32/menu.c:321
+#: client/gui-gtk-2.0/menu.c:800 client/gui-win32/menu.c:322
 msgid "_Edit"
 msgstr "_Edita"
 
-#: client/gui-gtk-2.0/menu.c:787 client/gui-win32/menu.c:324
+#: client/gui-gtk-2.0/menu.c:787 client/gui-win32/menu.c:325
 msgid "_Find City"
 msgstr "_Buscar ciutat"
 
-#: client/gui-gtk-2.0/menu.c:789 client/gui-win32/menu.c:325
+#: client/gui-gtk-2.0/menu.c:789 client/gui-win32/menu.c:326
 msgid "_Worklists"
 msgstr "_Llistes de treball"
 
@@ -11969,7 +11928,7 @@ msgid "Regenerate _Water"
 msgstr "Regenerar _Aigua"
 
 #: client/gui-gtk-2.0/menu.c:804 client/gui-gtk-2.0/menu.c:947
-#: client/gui-win32/menu.c:334
+#: client/gui-win32/menu.c:335
 msgid "_View"
 msgstr "_Veure"
 
@@ -11977,67 +11936,67 @@ msgstr "_Veure"
 msgid "City Outlines"
 msgstr "Contorns de Ciutat"
 
-#: client/gui-gtk-2.0/menu.c:810 client/gui-win32/menu.c:335
+#: client/gui-gtk-2.0/menu.c:810 client/gui-win32/menu.c:336
 msgid "Map _Grid"
 msgstr "_Graella del mapa"
 
-#: client/gui-gtk-2.0/menu.c:812 client/gui-win32/menu.c:336
+#: client/gui-gtk-2.0/menu.c:812 client/gui-win32/menu.c:337
 msgid "National _Borders"
 msgstr "_Fronteres nacionals"
 
-#: client/gui-gtk-2.0/menu.c:814 client/gui-win32/menu.c:337
+#: client/gui-gtk-2.0/menu.c:814 client/gui-win32/menu.c:338
 msgid "City _Names"
 msgstr "_Noms de les ciutats"
 
-#: client/gui-gtk-2.0/menu.c:816 client/gui-win32/menu.c:338
+#: client/gui-gtk-2.0/menu.c:816 client/gui-win32/menu.c:339
 msgid "City G_rowth"
 msgstr "C_reixement de la ciutat"
 
-#: client/gui-gtk-2.0/menu.c:819 client/gui-win32/menu.c:339
+#: client/gui-gtk-2.0/menu.c:819 client/gui-win32/menu.c:340
 msgid "City _Productions"
 msgstr "_Producció de les ciutats"
 
 #: client/gui-gtk-2.0/menu.c:823 client/gui-sdl/optiondlg.c:1634
-#: client/gui-win32/menu.c:340 client/gui-xaw/menu.c:148
-#: client/gui-xaw/menu.c:252 manual/civmanual.c:220 data/helpdata.txt:1221
+#: client/gui-win32/menu.c:341 client/gui-xaw/menu.c:148
+#: client/gui-xaw/menu.c:252 manual/civmanual.c:211 data/helpdata.txt:1221
 msgid "Terrain"
 msgstr "Terreny"
 
-#: client/gui-gtk-2.0/menu.c:825 client/gui-win32/menu.c:341
+#: client/gui-gtk-2.0/menu.c:825 client/gui-win32/menu.c:342
 #: client/gui-xaw/menu.c:149
 msgid "Coastline"
 msgstr "Línia de la costa"
 
-#: client/gui-gtk-2.0/menu.c:831 client/gui-win32/menu.c:343
+#: client/gui-gtk-2.0/menu.c:831 client/gui-win32/menu.c:344
 msgid "Roads & Rails"
 msgstr "Camins i ferrocarrils"
 
 #: client/gui-gtk-2.0/menu.c:835 client/gui-sdl/optiondlg.c:1932
-#: client/gui-win32/menu.c:345 client/gui-xaw/menu.c:152
+#: client/gui-win32/menu.c:346 client/gui-xaw/menu.c:152
 msgid "Mines"
 msgstr "Mines"
 
-#: client/gui-gtk-2.0/menu.c:837 client/gui-win32/menu.c:346
+#: client/gui-gtk-2.0/menu.c:837 client/gui-win32/menu.c:347
 msgid "Fortress & Airbase"
 msgstr "Fortificacions i Bases Aèries"
 
-#: client/gui-gtk-2.0/menu.c:839 client/gui-win32/menu.c:348
+#: client/gui-gtk-2.0/menu.c:839 client/gui-win32/menu.c:349
 #: client/gui-xaw/menu.c:154
 msgid "Specials"
 msgstr "Especials"
 
-#: client/gui-gtk-2.0/menu.c:841 client/gui-win32/menu.c:349
+#: client/gui-gtk-2.0/menu.c:841 client/gui-win32/menu.c:350
 #: client/gui-xaw/menu.c:155
 msgid "Pollution & Fallout"
 msgstr "Contaminació i Radioactivitat"
 
-#: client/gui-gtk-2.0/menu.c:847 client/gui-win32/menu.c:352
+#: client/gui-gtk-2.0/menu.c:847 client/gui-win32/menu.c:353
 #: client/gui-xaw/menu.c:158
 msgid "Focus Unit"
 msgstr "Enfocar unitat"
 
 #: client/gui-gtk-2.0/menu.c:849 client/gui-sdl/optiondlg.c:1853
-#: client/gui-win32/menu.c:353 client/gui-xaw/menu.c:159
+#: client/gui-win32/menu.c:354 client/gui-xaw/menu.c:159
 msgid "Fog of War"
 msgstr "Penombra de guerra"
 
@@ -12049,7 +12008,7 @@ msgstr "_Pantalla Completa"
 msgid "_Center View"
 msgstr "_Centrar la vista"
 
-#: client/gui-gtk-2.0/menu.c:860 client/gui-win32/menu.c:358
+#: client/gui-gtk-2.0/menu.c:860 client/gui-win32/menu.c:359
 msgid "_Orders"
 msgstr "_Ordres"
 
@@ -12078,22 +12037,22 @@ msgid "Orders"
 msgstr "Ordres"
 
 #: client/gui-gtk-2.0/menu.c:864 client/gui-gtk-2.0/menu.c:1488
-#: client/gui-win32/menu.c:359
+#: client/gui-win32/menu.c:360
 msgid "_Build City"
 msgstr "_Bastir una ciutat"
 
 #: client/gui-gtk-2.0/menu.c:866 client/gui-gtk-2.0/menu.c:1510
-#: client/gui-gtk-2.0/menu.c:1516 client/gui-win32/menu.c:360
+#: client/gui-gtk-2.0/menu.c:1516 client/gui-win32/menu.c:361
 msgid "Build _Road"
 msgstr "Const_ruir un camí"
 
 #: client/gui-gtk-2.0/menu.c:868 client/gui-gtk-2.0/menu.c:1404
-#: client/gui-win32/menu.c:361
+#: client/gui-win32/menu.c:362
 msgid "Build _Irrigation"
 msgstr "_Irrigar"
 
 #: client/gui-gtk-2.0/menu.c:870 client/gui-gtk-2.0/menu.c:1405
-#: client/gui-win32/menu.c:362
+#: client/gui-win32/menu.c:363
 msgid "Build _Mine"
 msgstr "Construir _Mina"
 
@@ -12102,32 +12061,32 @@ msgid "Transf_orm Terrain"
 msgstr "Transf_ormar el terreny"
 
 #: client/gui-gtk-2.0/menu.c:874 client/gui-gtk-2.0/menu.c:1552
-#: client/gui-win32/menu.c:364
+#: client/gui-win32/menu.c:365
 msgid "Build _Fortress"
 msgstr "Construir _Fortificació"
 
-#: client/gui-gtk-2.0/menu.c:876 client/gui-win32/menu.c:365
+#: client/gui-gtk-2.0/menu.c:876 client/gui-win32/menu.c:366
 msgid "Build Airbas_e"
 msgstr "Construir una Bas_e Aèria"
 
 #: client/gui-gtk-2.0/menu.c:878 client/gui-gtk-2.0/menu.c:1558
-#: client/gui-win32/menu.c:366
+#: client/gui-win32/menu.c:367
 msgid "Clean _Pollution"
 msgstr "De_purar la Contaminació"
 
-#: client/gui-gtk-2.0/menu.c:880 client/gui-win32/menu.c:367
+#: client/gui-gtk-2.0/menu.c:880 client/gui-win32/menu.c:368
 msgid "Clean _Nuclear Fallout"
 msgstr "Descontaminació _Nuclear"
 
-#: client/gui-gtk-2.0/menu.c:884 client/gui-win32/menu.c:369
+#: client/gui-gtk-2.0/menu.c:884 client/gui-win32/menu.c:370
 msgid "_Sentry"
 msgstr "_Sentinella"
 
-#: client/gui-gtk-2.0/menu.c:890 client/gui-win32/menu.c:372
+#: client/gui-gtk-2.0/menu.c:890 client/gui-win32/menu.c:373
 msgid "Make _Homecity"
 msgstr "Esta_blir com a llar"
 
-#: client/gui-gtk-2.0/menu.c:892 client/gui-win32/menu.c:373
+#: client/gui-gtk-2.0/menu.c:892 client/gui-win32/menu.c:374
 msgid "_Load"
 msgstr "Embarcar (_L)"
 
@@ -12135,11 +12094,11 @@ msgstr "Embarcar (_L)"
 msgid "_Unload Transporter"
 msgstr "Desembarcar Transport (_U)"
 
-#: client/gui-gtk-2.0/menu.c:896 client/gui-win32/menu.c:374
+#: client/gui-gtk-2.0/menu.c:896 client/gui-win32/menu.c:375
 msgid "_Unload"
 msgstr "Desembarcar (_U)"
 
-#: client/gui-gtk-2.0/menu.c:898 client/gui-win32/menu.c:375
+#: client/gui-gtk-2.0/menu.c:898 client/gui-win32/menu.c:376
 msgid "Wake up o_thers"
 msgstr "Despertar al_tres"
 
@@ -12147,7 +12106,7 @@ msgstr "Despertar al_tres"
 msgid "_Auto Settler"
 msgstr "Colon _Automàtic"
 
-#: client/gui-gtk-2.0/menu.c:904 client/gui-win32/menu.c:378
+#: client/gui-gtk-2.0/menu.c:904 client/gui-win32/menu.c:379
 msgid "Auto E_xplore"
 msgstr "E_xplorador Automàtic"
 
@@ -12156,15 +12115,15 @@ msgstr "E_xplorador Automàtic"
 msgid "_Connect"
 msgstr "_Connectar"
 
-#: client/gui-gtk-2.0/menu.c:906 client/gui-win32/menu.c:380
+#: client/gui-gtk-2.0/menu.c:906 client/gui-win32/menu.c:381
 msgid "_Road"
 msgstr "Fe_r Camí"
 
-#: client/gui-gtk-2.0/menu.c:908 client/gui-win32/menu.c:381
+#: client/gui-gtk-2.0/menu.c:908 client/gui-win32/menu.c:382
 msgid "Rai_l"
 msgstr "_Ferrocarril"
 
-#: client/gui-gtk-2.0/menu.c:910 client/gui-win32/menu.c:382
+#: client/gui-gtk-2.0/menu.c:910 client/gui-win32/menu.c:383
 msgid "_Irrigate"
 msgstr "_Irrigar"
 
@@ -12180,7 +12139,7 @@ msgstr "Fundar ciutat (_B)"
 msgid "Patrol (_Q)"
 msgstr "Patrullar (_Q)"
 
-#: client/gui-gtk-2.0/menu.c:916 client/gui-win32/menu.c:385
+#: client/gui-gtk-2.0/menu.c:916 client/gui-win32/menu.c:386
 msgid "_Go to"
 msgstr "Anar (_G)"
 
@@ -12188,12 +12147,12 @@ msgstr "Anar (_G)"
 msgid "Go\\/Airlift to City"
 msgstr "Aerotransportar a ciutat"
 
-#: client/gui-gtk-2.0/menu.c:920 client/gui-sdl/menu.c:450
-#: client/gui-win32/menu.c:387 client/gui-xaw/menu.c:203
+#: client/gui-gtk-2.0/menu.c:920 client/gui-sdl/menu.c:451
+#: client/gui-win32/menu.c:388 client/gui-xaw/menu.c:203
 msgid "Return to nearest city"
 msgstr "Tornar a ciutat més propera"
 
-#: client/gui-gtk-2.0/menu.c:924 client/gui-win32/menu.c:389
+#: client/gui-gtk-2.0/menu.c:924 client/gui-win32/menu.c:390
 #: client/gui-xaw/menu.c:205
 msgid "Disband Unit"
 msgstr "Desmantellar la unitat"
@@ -12207,8 +12166,8 @@ msgstr "Millorar unitat"
 msgid "Diplomat\\/Spy Actions"
 msgstr "Accions de diplomàtic\\/Espia"
 
-#: client/gui-gtk-2.0/menu.c:930 client/gui-sdl/menu.c:399
-#: client/gui-win32/menu.c:391 client/gui-xaw/menu.c:209
+#: client/gui-gtk-2.0/menu.c:930 client/gui-sdl/menu.c:400
+#: client/gui-win32/menu.c:392 client/gui-xaw/menu.c:209
 msgid "Explode Nuclear"
 msgstr "Explotar nuclear"
 
@@ -12220,16 +12179,16 @@ msgstr "Seleccionar tipus igual"
 msgid "Select same type in tile"
 msgstr "Triar el tipus igual dins la casella"
 
-#: client/gui-gtk-2.0/menu.c:938 client/gui-win32/menu.c:393
+#: client/gui-gtk-2.0/menu.c:938 client/gui-win32/menu.c:394
 msgid "_Wait"
 msgstr "Es_perar"
 
-#: client/gui-gtk-2.0/menu.c:940 client/gui-win32/menu.c:394
+#: client/gui-gtk-2.0/menu.c:940 client/gui-win32/menu.c:395
 #: client/gui-xaw/menu.c:213
 msgid "Done"
 msgstr "Passar el torn"
 
-#: client/gui-gtk-2.0/menu.c:943 client/gui-win32/menu.c:398
+#: client/gui-gtk-2.0/menu.c:943 client/gui-win32/menu.c:399
 msgid "_Reports"
 msgstr "Info_rmes"
 
@@ -12244,46 +12203,46 @@ msgid "Reports"
 msgstr "Informes"
 
 #: client/gui-gtk-2.0/menu.c:949 client/gui-gtk-2.0/menu.c:995
-#: client/gui-win32/menu.c:400 client/gui-win32/menu.c:425
+#: client/gui-win32/menu.c:401 client/gui-win32/menu.c:426
 msgid "_Units"
 msgstr "_Unitats"
 
 #. TRANS: Nations report action
-#: client/gui-gtk-2.0/menu.c:951 client/gui-win32/menu.c:402
+#: client/gui-gtk-2.0/menu.c:951 client/gui-win32/menu.c:403
 msgid "_Nations"
 msgstr "_Nacions"
 
-#: client/gui-gtk-2.0/menu.c:955 client/gui-win32/menu.c:403
+#: client/gui-gtk-2.0/menu.c:955 client/gui-win32/menu.c:404
 msgid "_Economy"
 msgstr "_Economia"
 
 #. TRANS: Research report action
-#: client/gui-gtk-2.0/menu.c:957 client/gui-win32/menu.c:405
+#: client/gui-gtk-2.0/menu.c:957 client/gui-win32/menu.c:406
 msgid "_Research"
 msgstr "_Recerca"
 
-#: client/gui-gtk-2.0/menu.c:961 client/gui-win32/menu.c:407
+#: client/gui-gtk-2.0/menu.c:961 client/gui-win32/menu.c:408
 msgid "_Wonders of the World"
 msgstr "Mera_velles del món"
 
-#: client/gui-gtk-2.0/menu.c:963 client/gui-win32/menu.c:408
+#: client/gui-gtk-2.0/menu.c:963 client/gui-win32/menu.c:409
 msgid "_Top Five Cities"
 msgstr "Mi_llors cinc ciutats"
 
-#: client/gui-gtk-2.0/menu.c:965 client/gui-win32/menu.c:409
+#: client/gui-gtk-2.0/menu.c:965 client/gui-win32/menu.c:410
 msgid "_Messages"
 msgstr "_Missatges"
 
-#: client/gui-gtk-2.0/menu.c:967 client/gui-win32/menu.c:410
+#: client/gui-gtk-2.0/menu.c:967 client/gui-win32/menu.c:411
 msgid "_Demographics"
 msgstr "_Demografia"
 
 #: client/gui-gtk-2.0/menu.c:969 client/gui-gtk-2.0/plrdlg.c:477
-#: client/gui-win32/menu.c:411
+#: client/gui-win32/menu.c:412
 msgid "_Spaceship"
 msgstr "Nau e_spacial"
 
-#: client/gui-gtk-2.0/menu.c:973 client/gui-win32/menu.c:415
+#: client/gui-gtk-2.0/menu.c:973 client/gui-win32/menu.c:416
 msgid "_Help"
 msgstr "_Ajuda"
 
@@ -12305,71 +12264,71 @@ msgstr "_Ajuda"
 msgid "Help"
 msgstr "Ajuda"
 
-#: client/gui-gtk-2.0/menu.c:977 client/gui-win32/menu.c:416
+#: client/gui-gtk-2.0/menu.c:977 client/gui-win32/menu.c:417
 msgid "Language_s"
 msgstr "_Idiomes"
 
-#: client/gui-gtk-2.0/menu.c:979 client/gui-win32/menu.c:417
+#: client/gui-gtk-2.0/menu.c:979 client/gui-win32/menu.c:418
 msgid "Co_nnecting"
 msgstr "Com co_nnectar"
 
-#: client/gui-gtk-2.0/menu.c:981 client/gui-win32/menu.c:418
+#: client/gui-gtk-2.0/menu.c:981 client/gui-win32/menu.c:419
 msgid "C_ontrols"
 msgstr "C_ontrols"
 
-#: client/gui-gtk-2.0/menu.c:983 client/gui-win32/menu.c:419
+#: client/gui-gtk-2.0/menu.c:983 client/gui-win32/menu.c:420
 msgid "C_hatline"
 msgstr "Línia de _xat"
 
-#: client/gui-gtk-2.0/menu.c:985 client/gui-win32/menu.c:420
+#: client/gui-gtk-2.0/menu.c:985 client/gui-win32/menu.c:421
 msgid "_Worklist Editor"
 msgstr "Editor llista treball (_W)"
 
-#: client/gui-gtk-2.0/menu.c:987 client/gui-win32/menu.c:421
+#: client/gui-gtk-2.0/menu.c:987 client/gui-win32/menu.c:422
 msgid "Citizen _Management"
 msgstr "_Gestió ciutadans"
 
-#: client/gui-gtk-2.0/menu.c:989 client/gui-win32/menu.c:422
+#: client/gui-gtk-2.0/menu.c:989 client/gui-win32/menu.c:423
 msgid "_Playing"
 msgstr "_Com jugar"
 
-#: client/gui-gtk-2.0/menu.c:993 client/gui-win32/menu.c:424
+#: client/gui-gtk-2.0/menu.c:993 client/gui-win32/menu.c:425
 msgid "City _Improvements"
 msgstr "E_dificis"
 
-#: client/gui-gtk-2.0/menu.c:997 client/gui-win32/menu.c:426
+#: client/gui-gtk-2.0/menu.c:997 client/gui-win32/menu.c:427
 msgid "Com_bat"
 msgstr "Com_bat"
 
-#: client/gui-gtk-2.0/menu.c:999 client/gui-win32/menu.c:427
+#: client/gui-gtk-2.0/menu.c:999 client/gui-win32/menu.c:428
 msgid "_ZOC"
 msgstr "_ZDC"
 
-#: client/gui-gtk-2.0/menu.c:1001 client/gui-win32/menu.c:428
+#: client/gui-gtk-2.0/menu.c:1001 client/gui-win32/menu.c:429
 msgid "Techno_logy"
 msgstr "Tecno_logia"
 
-#: client/gui-gtk-2.0/menu.c:1003 client/gui-win32/menu.c:429
+#: client/gui-gtk-2.0/menu.c:1003 client/gui-win32/menu.c:430
 msgid "_Terrain"
 msgstr "_Terreny"
 
-#: client/gui-gtk-2.0/menu.c:1005 client/gui-win32/menu.c:430
+#: client/gui-gtk-2.0/menu.c:1005 client/gui-win32/menu.c:431
 msgid "Won_ders"
 msgstr "_Meravelles"
 
-#: client/gui-gtk-2.0/menu.c:1009 client/gui-win32/menu.c:432
+#: client/gui-gtk-2.0/menu.c:1009 client/gui-win32/menu.c:433
 msgid "Happin_ess"
 msgstr "F_elicitat"
 
-#: client/gui-gtk-2.0/menu.c:1011 client/gui-win32/menu.c:433
+#: client/gui-gtk-2.0/menu.c:1011 client/gui-win32/menu.c:434
 msgid "Space _Race"
 msgstr "Ca_rrera espacial"
 
-#: client/gui-gtk-2.0/menu.c:1015 client/gui-win32/menu.c:435
+#: client/gui-gtk-2.0/menu.c:1015 client/gui-win32/menu.c:436
 msgid "_Copying"
 msgstr "_Llicència"
 
-#: client/gui-gtk-2.0/menu.c:1017 client/gui-win32/menu.c:436
+#: client/gui-gtk-2.0/menu.c:1017 client/gui-win32/menu.c:437
 msgid "_About"
 msgstr "_Quant a"
 
@@ -12466,8 +12425,8 @@ msgstr "Jugadors Morts"
 #. TRANS: Nations report action
 #. TRANS: Nations report title
 #. TRANS: Nations report action
-#: client/gui-gtk-2.0/plrdlg.c:356 client/gui-sdl/mapctrl.c:1580
-#: client/gui-sdl/plrdlg.c:604 client/gui-win32/plrdlg.c:344
+#: client/gui-gtk-2.0/plrdlg.c:356 client/gui-sdl/mapctrl.c:1581
+#: client/gui-sdl/plrdlg.c:607 client/gui-win32/plrdlg.c:344
 #: client/gui-xaw/menu.c:221 data/Freeciv.in:3199 data/Freeciv.in:3200
 msgid "Nations"
 msgstr "Nacions"
@@ -12548,7 +12507,7 @@ msgid "Status"
 msgstr "Estat"
 
 #: client/gui-gtk-2.0/pages.c:704 client/gui-sdl/connectdlg.c:317
-#: client/gui-sdl/plrdlg.c:329 client/gui-win32/connectdlg.c:915
+#: client/gui-sdl/plrdlg.c:332 client/gui-win32/connectdlg.c:915
 msgid "Players"
 msgstr "Jugadors"
 
@@ -12712,7 +12671,7 @@ msgstr "Tria un _Escenari:"
 msgid "Choose a _nation to play:"
 msgstr "Tria una _nació per jugar:"
 
-#: client/gui-gtk-2.0/pages.c:2278 client/gui-win32/menu.c:581
+#: client/gui-gtk-2.0/pages.c:2278 client/gui-win32/menu.c:582
 msgid "Select Location to Save"
 msgstr "Tria el Lloc on Desar"
 
@@ -12733,7 +12692,7 @@ msgstr "Nom de _Fitxer a Desar:"
 #. TRANS: Research report title
 #. TRANS: Research report action
 #. TRANS: Research report title
-#: client/gui-gtk-2.0/repodlgs.c:297 client/gui-sdl/mapctrl.c:1413
+#: client/gui-gtk-2.0/repodlgs.c:297 client/gui-sdl/mapctrl.c:1414
 #: client/gui-sdl/mapview.c:333 client/gui-sdl/mapview.c:337
 #: client/gui-sdl/mapview.c:343 client/gui-sdl/repodlgs.c:3266
 #: client/gui-win32/repodlgs.c:93 client/gui-win32/repodlgs.c:271
@@ -12762,7 +12721,7 @@ msgstr "Quantitat"
 #: client/gui-gtk-2.0/repodlgs.c:648 client/gui-gtk-2.0/wldlg.c:1008
 #: client/gui-win32/citydlg.c:1095 client/gui-win32/repodlgs.c:464
 #: client/gui-win32/wldlg.c:802 client/gui-win32/wldlg.c:808
-#: manual/civmanual.c:302
+#: manual/civmanual.c:293
 msgid "Cost"
 msgstr "Cost"
 
@@ -12900,8 +12859,8 @@ msgid ""
 "Land Area\n"
 "(sq. mi.)"
 msgstr ""
-"Àrea de terra\n"
-"(milla²)"
+"Àrea de terreny\n"
+"(milles²)"
 
 #: client/gui-gtk-2.0/repodlgs.c:1333
 msgid ""
@@ -12909,7 +12868,7 @@ msgid ""
 "(sq. mi.)"
 msgstr ""
 "Àrea colonitzada\n"
-"(milla²)"
+"(milles²)"
 
 #: client/gui-gtk-2.0/repodlgs.c:1334
 msgid ""
@@ -13054,17 +13013,17 @@ msgid "Keep moving"
 msgstr "Continuar movent-se"
 
 #: client/gui-sdl/chatline.c:201 client/gui-sdl/citydlg.c:3690
-#: client/gui-sdl/cma_fe.c:469 client/gui-sdl/cma_fe.c:876
-#: client/gui-sdl/dialogs.c:280 client/gui-sdl/dialogs.c:645
-#: client/gui-sdl/dialogs.c:879 client/gui-sdl/dialogs.c:1207
-#: client/gui-sdl/dialogs.c:1762 client/gui-sdl/diplomat_dialog.c:251
+#: client/gui-sdl/cma_fe.c:472 client/gui-sdl/cma_fe.c:879
+#: client/gui-sdl/dialogs.c:281 client/gui-sdl/dialogs.c:646
+#: client/gui-sdl/dialogs.c:880 client/gui-sdl/dialogs.c:1208
+#: client/gui-sdl/dialogs.c:1763 client/gui-sdl/diplomat_dialog.c:251
 #: client/gui-sdl/diplomat_dialog.c:827 client/gui-sdl/diplomat_dialog.c:1120
 #: client/gui-sdl/diplomat_dialog.c:1188 client/gui-sdl/diplomat_dialog.c:1394
 #: client/gui-sdl/finddlg.c:144 client/gui-sdl/gotodlg.c:251
 #: client/gui-sdl/helpdlg.c:229 client/gui-sdl/helpdlg.c:618
 #: client/gui-sdl/helpdlg.c:1921 client/gui-sdl/inteldlg.c:237
-#: client/gui-sdl/optiondlg.c:2180 client/gui-sdl/plrdlg.c:343
-#: client/gui-sdl/plrdlg.c:621 client/gui-sdl/repodlgs.c:389
+#: client/gui-sdl/optiondlg.c:2180 client/gui-sdl/plrdlg.c:346
+#: client/gui-sdl/plrdlg.c:624 client/gui-sdl/repodlgs.c:389
 #: client/gui-sdl/repodlgs.c:2001 client/gui-sdl/repodlgs.c:2874
 #: client/gui-sdl/repodlgs.c:3061 client/gui-sdl/repodlgs.c:3326
 #: client/gui-sdl/spaceshipdlg.c:162
@@ -13124,9 +13083,9 @@ msgstr "Establir com nova llar"
 #: client/gui-sdl/citydlg.c:546 client/gui-sdl/citydlg.c:1427
 #: client/gui-sdl/connectdlg.c:307 client/gui-sdl/connectdlg.c:616
 #: client/gui-sdl/connectdlg.c:802 client/gui-sdl/connectdlg.c:984
-#: client/gui-sdl/dialogs.c:452 client/gui-sdl/dialogs.c:2100
-#: client/gui-sdl/dialogs.c:2898 client/gui-sdl/diplomat_dialog.c:694
-#: client/gui-sdl/mapctrl.c:2585 client/gui-win32/citydlg.c:1080
+#: client/gui-sdl/dialogs.c:453 client/gui-sdl/dialogs.c:2101
+#: client/gui-sdl/dialogs.c:2899 client/gui-sdl/diplomat_dialog.c:694
+#: client/gui-sdl/mapctrl.c:2586 client/gui-win32/citydlg.c:1080
 #: client/gui-win32/cityrep.c:753 client/gui-win32/connectdlg.c:1045
 #: client/gui-win32/dialogs.c:1774 client/gui-win32/finddlg.c:127
 #: client/gui-win32/gotodlg.c:171 client/gui-win32/inputdlg.c:146
@@ -13170,9 +13129,9 @@ msgstr "Ho sento, no pots comprar aquí en aquest torn."
 msgid "Buy it?"
 msgstr "Comprar?"
 
-#: client/gui-sdl/citydlg.c:1213 client/gui-sdl/cma_fe.c:327
+#: client/gui-sdl/citydlg.c:1213 client/gui-sdl/cma_fe.c:330
 #: client/gui-sdl/diplodlg.c:1302 client/gui-sdl/diplomat_dialog.c:1174
-#: client/gui-sdl/diplomat_dialog.c:1380 client/gui-sdl/plrdlg.c:222
+#: client/gui-sdl/diplomat_dialog.c:1380 client/gui-sdl/plrdlg.c:225
 #: client/gui-sdl/repodlgs.c:230 client/gui-sdl/repodlgs.c:1569
 #: client/gui-win32/repodlgs.c:578 client/gui-xaw/citydlg.c:2383
 #: client/gui-xaw/cityrep.c:666 client/gui-xaw/cma_fe.c:327
@@ -13186,9 +13145,9 @@ msgstr "Comprar?"
 msgid "No"
 msgstr "No"
 
-#: client/gui-sdl/citydlg.c:1224 client/gui-sdl/cma_fe.c:318
+#: client/gui-sdl/citydlg.c:1224 client/gui-sdl/cma_fe.c:321
 #: client/gui-sdl/diplodlg.c:1312 client/gui-sdl/diplomat_dialog.c:1163
-#: client/gui-sdl/diplomat_dialog.c:1370 client/gui-sdl/plrdlg.c:222
+#: client/gui-sdl/diplomat_dialog.c:1370 client/gui-sdl/plrdlg.c:225
 #: client/gui-sdl/repodlgs.c:241 client/gui-win32/repodlgs.c:576
 #: client/gui-xaw/citydlg.c:2383 client/gui-xaw/cityrep.c:666
 #: client/gui-xaw/cma_fe.c:327 client/gui-xaw/cma_fe.c:511
@@ -13319,13 +13278,13 @@ msgstr "Pèrdua de pob.: %d %s"
 
 #: client/gui-sdl/citydlg.c:2986 client/gui-sdl/citydlg.c:2990
 #: client/gui-sdl/citydlg.c:3310 client/gui-sdl/cityrep.c:534
-#: client/gui-sdl/cityrep.c:1059 client/gui-sdl/menu.c:802
-#: client/gui-sdl/menu.c:806 client/gui-sdl/menu.c:1043
-#: client/gui-sdl/menu.c:1049 client/gui-sdl/menu.c:1092
-#: client/gui-sdl/menu.c:1098 client/gui-sdl/menu.c:1104
-#: client/gui-sdl/menu.c:1123 client/gui-sdl/menu.c:1132
-#: client/gui-sdl/menu.c:1139 client/gui-sdl/menu.c:1155
-#: client/gui-sdl/plrdlg.c:656 client/gui-sdl/repodlgs.c:562
+#: client/gui-sdl/cityrep.c:1059 client/gui-sdl/menu.c:803
+#: client/gui-sdl/menu.c:807 client/gui-sdl/menu.c:1044
+#: client/gui-sdl/menu.c:1050 client/gui-sdl/menu.c:1093
+#: client/gui-sdl/menu.c:1099 client/gui-sdl/menu.c:1105
+#: client/gui-sdl/menu.c:1124 client/gui-sdl/menu.c:1133
+#: client/gui-sdl/menu.c:1140 client/gui-sdl/menu.c:1156
+#: client/gui-sdl/plrdlg.c:659 client/gui-sdl/repodlgs.c:562
 #: client/gui-sdl/repodlgs.c:938 client/gui-sdl/wldlg.c:908
 #: client/gui-sdl/wldlg.c:1084 client/gui-sdl/wldlg.c:1375
 #: client/gui-sdl/wldlg.c:1381 client/gui-sdl/wldlg.c:1495
@@ -13373,7 +13332,7 @@ msgstr "Unitats suportades"
 msgid "Change production"
 msgstr "Canviar la producció"
 
-#: client/gui-sdl/citydlg.c:3800 client/gui-sdl/dialogs.c:1270
+#: client/gui-sdl/citydlg.c:3800 client/gui-sdl/dialogs.c:1271
 msgid "Hurry production"
 msgstr "Accelerar Producció"
 
@@ -13397,7 +13356,7 @@ msgstr ""
 "temps\n"
 "per créixer"
 
-#: client/gui-sdl/cityrep.c:185 client/gui-sdl/mapctrl.c:1590
+#: client/gui-sdl/cityrep.c:185 client/gui-sdl/mapctrl.c:1591
 msgid "Cities Report"
 msgstr "Informe Ciutats"
 
@@ -13433,37 +13392,37 @@ msgstr ""
 "\n"
 "acabat"
 
-#: client/gui-sdl/cma_fe.c:452 client/gui-win32/cma_fe.c:458
+#: client/gui-sdl/cma_fe.c:455 client/gui-win32/cma_fe.c:458
 msgid "Presets"
 msgstr "Prefixats"
 
-#: client/gui-sdl/cma_fe.c:855
+#: client/gui-sdl/cma_fe.c:858
 #, c-format
 msgid "City of %s (Population %s citizens) : %s"
 msgstr "Ciutat de %s (població %s ciutadans) : %s"
 
-#: client/gui-sdl/cma_fe.c:972
+#: client/gui-sdl/cma_fe.c:975
 msgid "Save settings as..."
 msgstr "Desar configuració com..."
 
-#: client/gui-sdl/cma_fe.c:981
+#: client/gui-sdl/cma_fe.c:984
 msgid "Load settings"
 msgstr "Carregar configuració"
 
-#: client/gui-sdl/cma_fe.c:990
+#: client/gui-sdl/cma_fe.c:993
 msgid "Delete settings"
 msgstr "Esborrar configuració"
 
-#: client/gui-sdl/cma_fe.c:999 client/gui-win32/cma_fe.c:490
+#: client/gui-sdl/cma_fe.c:1002 client/gui-win32/cma_fe.c:490
 msgid "Control city"
 msgstr "Controlar ciutat"
 
-#: client/gui-sdl/cma_fe.c:1008 client/gui-win32/cma_fe.c:488
+#: client/gui-sdl/cma_fe.c:1011 client/gui-win32/cma_fe.c:488
 #: data/Freeciv.in:1470
 msgid "Apply once"
 msgstr "Aplicar un cop"
 
-#: client/gui-sdl/cma_fe.c:1017 client/gui-win32/cma_fe.c:492
+#: client/gui-sdl/cma_fe.c:1020 client/gui-win32/cma_fe.c:492
 msgid "Release city"
 msgstr "No controlar ciutat"
 
@@ -13492,7 +13451,7 @@ msgid "Port :"
 msgstr "Port:"
 
 #: client/gui-sdl/connectdlg.c:608 client/gui-win32/connectdlg.c:1102
-#: client/gui-win32/menu.c:379 data/Freeciv.in:104 data/Freeciv.in:2517
+#: client/gui-win32/menu.c:380 data/Freeciv.in:104 data/Freeciv.in:2517
 msgid "Connect"
 msgstr "Connectar"
 
@@ -13501,114 +13460,114 @@ msgstr "Connectar"
 msgid "Next"
 msgstr "Següent"
 
-#: client/gui-sdl/dialogs.c:463 client/gui-sdl/menu.c:437
+#: client/gui-sdl/dialogs.c:464 client/gui-sdl/menu.c:438
 #: client/gui-win32/repodlgs.c:739 data/Freeciv.in:1951
 msgid "Upgrade"
 msgstr "Millorar"
 
-#: client/gui-sdl/dialogs.c:660
+#: client/gui-sdl/dialogs.c:661
 #, c-format
 msgid "Contact %s (%d / %d) %s(%d,%d,%d) %s"
 msgstr "Contactar %s (%d / %d) %s(%d,%d,%d) %s"
 
-#: client/gui-sdl/dialogs.c:661 client/gui-sdl/dialogs.c:673
-#: client/gui-sdl/dialogs.c:1396 client/gui-sdl/dialogs.c:1415
-#: client/gui-sdl/dialogs.c:1512 client/gui-sdl/dialogs.c:1540
+#: client/gui-sdl/dialogs.c:662 client/gui-sdl/dialogs.c:674
+#: client/gui-sdl/dialogs.c:1397 client/gui-sdl/dialogs.c:1416
+#: client/gui-sdl/dialogs.c:1513 client/gui-sdl/dialogs.c:1541
 msgid "Veteran"
 msgstr "Veterà"
 
-#: client/gui-sdl/dialogs.c:671
+#: client/gui-sdl/dialogs.c:672
 #, c-format
 msgid "%s %s %s(A:%d D:%d M:%d FP:%d) HP:%d%%"
 msgstr "%s %s %s(A:%d D:%d M:%d PF:%d) V:%d%%"
 
-#: client/gui-sdl/dialogs.c:683 client/gui-sdl/dialogs.c:1425
-#: client/gui-sdl/dialogs.c:1550
+#: client/gui-sdl/dialogs.c:684 client/gui-sdl/dialogs.c:1426
+#: client/gui-sdl/dialogs.c:1551
 #, c-format
 msgid " CtW: Att:%d%% Def:%d%%"
 msgstr " PrGny: Atc:%d%% Def:%d%%"
 
-#: client/gui-sdl/dialogs.c:837 client/gui-sdl/dialogs.c:1216
+#: client/gui-sdl/dialogs.c:838 client/gui-sdl/dialogs.c:1217
 msgid "Terrain Info"
 msgstr "Info terreny"
 
-#: client/gui-sdl/dialogs.c:1190
+#: client/gui-sdl/dialogs.c:1191
 msgid "Advanced Menu"
 msgstr "Menú Avançat"
 
-#: client/gui-sdl/dialogs.c:1244
+#: client/gui-sdl/dialogs.c:1245
 #, c-format
 msgid "Zoom to : %s"
 msgstr "Apropar a: %s"
 
-#: client/gui-sdl/dialogs.c:1258 client/gui-win32/citydlg.c:1063
+#: client/gui-sdl/dialogs.c:1259 client/gui-win32/citydlg.c:1063
 #: data/Freeciv.in:2080
 msgid "Change Production"
 msgstr "Canviar la producció"
 
-#: client/gui-sdl/dialogs.c:1282
+#: client/gui-sdl/dialogs.c:1283
 msgid "Change City Governor settings"
 msgstr "Canviar configuració del gestor de ciutadans"
 
-#: client/gui-sdl/dialogs.c:1303
+#: client/gui-sdl/dialogs.c:1304
 msgid "Goto here"
 msgstr "Anar aquí"
 
-#: client/gui-sdl/dialogs.c:1314
+#: client/gui-sdl/dialogs.c:1315
 msgid "Patrol here"
 msgstr "Patrullar aquí"
 
-#: client/gui-sdl/dialogs.c:1327
+#: client/gui-sdl/dialogs.c:1328
 msgid "Connect here"
 msgstr "Connectar aquí"
 
-#: client/gui-sdl/dialogs.c:1348
+#: client/gui-sdl/dialogs.c:1349
 msgid "Paradrop here"
 msgstr "Paracaigudistes aquí"
 
-#: client/gui-sdl/dialogs.c:1395 client/gui-sdl/dialogs.c:1511
+#: client/gui-sdl/dialogs.c:1396 client/gui-sdl/dialogs.c:1512
 #, c-format
 msgid "Activate %s (%d / %d) %s (%d,%d,%d) %s"
 msgstr "Activar %s (%d / %d) %s (%d,%d,%d) %s"
 
-#: client/gui-sdl/dialogs.c:1413 client/gui-sdl/dialogs.c:1538
+#: client/gui-sdl/dialogs.c:1414 client/gui-sdl/dialogs.c:1539
 #, c-format
 msgid "%s %s %s (A:%d D:%d M:%d FP:%d) HP:%d%%"
 msgstr "%s %s %s (A:%d D:%d M:%d PA:%d) PV:%d%% "
 
-#: client/gui-sdl/dialogs.c:1474 client/gui-win32/dialogs.c:763
+#: client/gui-sdl/dialogs.c:1475 client/gui-win32/dialogs.c:763
 #: data/Freeciv.in:561
 msgid "Ready all"
 msgstr "Totes llestes"
 
-#: client/gui-sdl/dialogs.c:1483
+#: client/gui-sdl/dialogs.c:1484
 msgid "Sentry idle"
 msgstr "Sentinella ociós"
 
-#: client/gui-sdl/dialogs.c:1569
+#: client/gui-sdl/dialogs.c:1570
 #, c-format
 msgid "View Civiliopedia entry for %s"
 msgstr "Veure l'entrada %s a la Civilopèdia"
 
-#: client/gui-sdl/dialogs.c:1975
+#: client/gui-sdl/dialogs.c:1976
 msgid "Choose Your New Government"
 msgstr "Escull el teu nou govern"
 
-#: client/gui-sdl/dialogs.c:2078
+#: client/gui-sdl/dialogs.c:2079
 msgid "REVOLUTION!"
 msgstr "REVOLUCIÓ!"
 
-#: client/gui-sdl/dialogs.c:2237 client/gui-sdl/dialogs.c:2625
+#: client/gui-sdl/dialogs.c:2238 client/gui-sdl/dialogs.c:2626
 #: client/gui-win32/dialogs.c:569 data/Freeciv.in:3166
 msgid "Female"
 msgstr "Dona"
 
-#: client/gui-sdl/dialogs.c:2239 client/gui-sdl/dialogs.c:2623
-#: client/gui-sdl/dialogs.c:2835 client/gui-win32/dialogs.c:567
+#: client/gui-sdl/dialogs.c:2240 client/gui-sdl/dialogs.c:2624
+#: client/gui-sdl/dialogs.c:2836 client/gui-win32/dialogs.c:567
 msgid "Male"
 msgstr "Home"
 
-#: client/gui-sdl/dialogs.c:2690 client/gui-win32/dialogs.c:507
+#: client/gui-sdl/dialogs.c:2691 client/gui-win32/dialogs.c:507
 msgid "What nation will you be?"
 msgstr "Quina nació seràs?"
 
@@ -13784,33 +13743,33 @@ msgstr "No s'ha pogut fixar aquesta resolució: %d x %d %d bpp %s"
 msgid "Setting resolution to: %d x %d %d bpp"
 msgstr "Fixant resolució a: %d x %d %d bpp"
 
-#: client/gui-sdl/gui_main.c:150
+#: client/gui-sdl/gui_main.c:151
 msgid "Full Screen"
 msgstr "Pantalla completa"
 
-#: client/gui-sdl/gui_main.c:151
+#: client/gui-sdl/gui_main.c:152
 msgid "If this option is set the client will use the whole screen area for drawing"
 msgstr ""
 "Si se selecciona aquesta opció, el client farà servir tota la pantalla per "
 "dibuixar"
 
-#: client/gui-sdl/gui_main.c:154
+#: client/gui-sdl/gui_main.c:155
 msgid "Screen width"
 msgstr "Amplada de pantalla"
 
-#: client/gui-sdl/gui_main.c:155
+#: client/gui-sdl/gui_main.c:156
 msgid "This option saves the width of the selected screen resolution"
 msgstr "Aquesta opció guarda l'amplada de la resolució de pantalla seleccionada"
 
-#: client/gui-sdl/gui_main.c:158
+#: client/gui-sdl/gui_main.c:159
 msgid "Screen height"
 msgstr "Alçada de pantalla"
 
-#: client/gui-sdl/gui_main.c:159
+#: client/gui-sdl/gui_main.c:160
 msgid "This option saves the height of the selected screen resolution"
 msgstr "Aquesta opció guarda l'alçada de la resolució de pantalla seleccionada"
 
-#: client/gui-sdl/gui_main.c:163
+#: client/gui-sdl/gui_main.c:164
 msgid ""
 "By changing this option you change the active theme. This is the same as "
 "using the -- --theme command-line parameter."
@@ -13818,11 +13777,11 @@ msgstr ""
 "Canviant aquesta opció pots canviar el tema actiu. És el mateix que fer "
 "servir el paràmetre de línia de comandes -- --theme."
 
-#: client/gui-sdl/gui_main.c:204
+#: client/gui-sdl/gui_main.c:205
 msgid "  -f,  --fullscreen\tStart Client in Fullscreen mode\n"
 msgstr "  -f,  --fullscreen\tIniciar client en mode pantalla complerta\n"
 
-#: client/gui-sdl/gui_main.c:205
+#: client/gui-sdl/gui_main.c:206
 msgid ""
 "  -e,  --eventthread\tInit Event Subsystem in other thread (only Linux and "
 "BeOS)\n"
@@ -13830,25 +13789,25 @@ msgstr ""
 "  -e,  --eventthread\tIniciar subsistema Event en un altre fil (només Linux "
 "i BeOS)\n"
 
-#: client/gui-sdl/gui_main.c:207
+#: client/gui-sdl/gui_main.c:208
 msgid "  -t,  --theme THEME\tUse GUI theme THEME\n"
 msgstr "  -t,  --theme TEMA\tFer servir tema gràfic TEMA\n"
 
-#: client/gui-sdl/gui_main.c:659
+#: client/gui-sdl/gui_main.c:660
 #, c-format
 msgid "Making screenshot fc_%05d.bmp"
 msgstr "Fent foto de pantalla fc_%05d.bmp"
 
-#: client/gui-sdl/gui_main.c:792
+#: client/gui-sdl/gui_main.c:793
 #, c-format
 msgid "Using Video Output: %s"
 msgstr "Usant sortida de vídeo: %s"
 
-#: client/gui-sdl/gui_main.c:845
+#: client/gui-sdl/gui_main.c:846
 msgid "Initializing Client"
 msgstr "Inicialitzant client"
 
-#: client/gui-sdl/gui_main.c:856
+#: client/gui-sdl/gui_main.c:857
 msgid "Waiting for the beginning of the game"
 msgstr "Esperant el començament de la partida"
 
@@ -13934,7 +13893,20 @@ msgstr "Informació d'Intel·ligència sobre la Nau espacial %s"
 msgid "Intelligence Information for the %s Empire"
 msgstr "Informació d'Intel·ligència per l'Imperi %s"
 
-#: client/gui-sdl/inteldlg.c:285
+#: client/gui-sdl/inteldlg.c:289
+#, c-format
+msgid ""
+"Ruler: %s %s  Government: %s\n"
+"Capital: %s  Gold: %d\n"
+"Tax: %d%% Science: %d%% Luxury: %d%%\n"
+"Researching: unknown"
+msgstr ""
+"Dirigent: %s %s  Govern: %s\n"
+"Capital: %s  Or: %d\n"
+"Impostos: %d%% Ciència: %d%% Luxes: %d%%\n"
+"Investigant: desconegut"
+
+#: client/gui-sdl/inteldlg.c:301
 #, c-format
 msgid ""
 "Ruler: %s %s  Government: %s\n"
@@ -13947,93 +13919,80 @@ msgstr ""
 "Impostos: %d%% Ciència: %d%% Luxes: %d%%\n"
 "Investigant: %s(%d/%d)"
 
-#: client/gui-sdl/inteldlg.c:296
-#, c-format
-msgid ""
-"Ruler: %s %s  Government: %s\n"
-"Capital: %s  Gold: %d\n"
-"Tax: %d%% Science: %d%% Luxury: %d%%\n"
-"Researching: Unknown"
-msgstr ""
-"Dirigent: %s %s  Govern: %s\n"
-"Capital: %s  Or: %d\n"
-"Impostos: %d%% Ciència: %d%% Luxes: %d%%\n"
-"Investigant: Desconegut"
-
-#: client/gui-sdl/inteldlg.c:359
+#: client/gui-sdl/inteldlg.c:369
 msgid "Their techs that we don't have :"
 msgstr "Les tecnologies d'ells que no tenim:"
 
-#: client/gui-sdl/mapctrl.c:274
+#: client/gui-sdl/mapctrl.c:275
 msgid "Show Unit Info Window"
 msgstr "Mostrar finestra informació unitats"
 
-#: client/gui-sdl/mapctrl.c:330 client/gui-sdl/mapctrl.c:1447
+#: client/gui-sdl/mapctrl.c:331 client/gui-sdl/mapctrl.c:1448
 msgid "Hide Unit Info Window"
 msgstr "Ocultar finestra informació unitats"
 
-#: client/gui-sdl/mapctrl.c:384
+#: client/gui-sdl/mapctrl.c:385
 msgid "Show MiniMap"
 msgstr "Mostrar minimapa"
 
-#: client/gui-sdl/mapctrl.c:462 client/gui-sdl/mapctrl.c:1658
+#: client/gui-sdl/mapctrl.c:463 client/gui-sdl/mapctrl.c:1659
 msgid "Hide MiniMap"
 msgstr "Ocultar minimapa"
 
-#: client/gui-sdl/mapctrl.c:514
+#: client/gui-sdl/mapctrl.c:515
 msgid "Show Messages (F10)"
 msgstr "Mostrar Missages (F10)"
 
-#: client/gui-sdl/mapctrl.c:517
+#: client/gui-sdl/mapctrl.c:518
 msgid "Hide Messages (F10)"
 msgstr "Ocultar Missatges (F10)"
 
-#: client/gui-sdl/mapctrl.c:673
+#: client/gui-sdl/mapctrl.c:674
 msgid "Scale Minimap"
 msgstr "Escalar Minimapa"
 
-#: client/gui-sdl/mapctrl.c:684
+#: client/gui-sdl/mapctrl.c:685
 msgid "Single Tile Width"
 msgstr "Amplada casella individual"
 
-#: client/gui-sdl/mapctrl.c:688
+#: client/gui-sdl/mapctrl.c:689
 msgid "Single Tile Height"
 msgstr "Alçada casella individual"
 
-#: client/gui-sdl/mapctrl.c:733 client/gui-sdl/mapctrl.c:1077
+#: client/gui-sdl/mapctrl.c:734 client/gui-sdl/mapctrl.c:1078
 msgid "Exit"
 msgstr "Sortir"
 
-#: client/gui-sdl/mapctrl.c:1031
+#: client/gui-sdl/mapctrl.c:1032
 msgid "Scale Unit Info"
 msgstr "Escalar Info Unitats"
 
-#: client/gui-sdl/mapctrl.c:1041
+#: client/gui-sdl/mapctrl.c:1042
 msgid "Width"
 msgstr "Amplada"
 
-#: client/gui-sdl/mapctrl.c:1045
+#: client/gui-sdl/mapctrl.c:1046
 msgid "Height"
 msgstr "Alçada"
 
-#: client/gui-sdl/mapctrl.c:1425 client/gui-sdl/mapview.c:312
+#: client/gui-sdl/mapctrl.c:1426 client/gui-sdl/mapview.c:312
 #: client/gui-sdl/mapview.c:315 client/gui-xaw/menu.c:131
 msgid "Revolution"
 msgstr "Revolució"
 
-#: client/gui-sdl/mapctrl.c:1591
+#: client/gui-sdl/mapctrl.c:1592
 msgid "or"
 msgstr "o"
 
-#: client/gui-sdl/mapctrl.c:1615
+#: client/gui-sdl/mapctrl.c:1616
 msgid "Hide Messages"
 msgstr "Amagar Missatges"
 
-#: client/gui-sdl/mapctrl.c:1625
+#: client/gui-sdl/mapctrl.c:1626
 msgid "Toggle Minimap Mode"
 msgstr "Activar/desactivar mode minimapa"
 
-#: client/gui-sdl/mapctrl.c:1637 client/gui-sdl/optiondlg.c:2165
+#: client/gui-sdl/mapctrl.c:1638 client/gui-sdl/optiondlg.c:2165
 #: client/gui-sdl/pages.c:241 data/Freeciv.in:1217
 msgid "Options"
 msgstr "Opcions"
@@ -14122,11 +14081,6 @@ msgstr " amb "
 msgid "Barracks"
 msgstr "Caserna"
 
-#: client/gui-sdl/mapview.c:618 client/gui-sdl/mapview.c:624
-#: client/gui-sdl/mapview.c:630
-msgid "?blistmore:, "
-msgstr ", "
-
 #: client/gui-sdl/mapview.c:628 data/default/buildings.ruleset:45
 #: data/civ2/buildings.ruleset:28
 msgid "Airport"
@@ -14169,179 +14123,179 @@ msgid "Press"
 msgstr "Prem"
 
 #. TRANS: keyboard
-#: client/gui-sdl/menu.c:373
+#: client/gui-sdl/menu.c:374
 msgid "No orders"
 msgstr "Sense ordres"
 
-#: client/gui-sdl/menu.c:373
+#: client/gui-sdl/menu.c:374
 msgid "Space"
 msgstr "Espai"
 
-#: client/gui-sdl/menu.c:387 client/gui-xaw/menu.c:212
+#: client/gui-sdl/menu.c:388 client/gui-xaw/menu.c:212
 msgid "Wait"
 msgstr "Esperar"
 
-#: client/gui-sdl/menu.c:412
+#: client/gui-sdl/menu.c:413
 msgid "Diplomat|Spy Actions"
 msgstr "Accions Diplomàtic|Espia"
 
-#: client/gui-sdl/menu.c:424
+#: client/gui-sdl/menu.c:425
 msgid "Disband"
 msgstr "Desmantellar"
 
-#: client/gui-sdl/menu.c:463
+#: client/gui-sdl/menu.c:464
 msgid "Goto City"
 msgstr "Anar a ciutat"
 
-#: client/gui-sdl/menu.c:476 client/gui-win32/gotodlg.c:167
+#: client/gui-sdl/menu.c:477 client/gui-win32/gotodlg.c:167
 #: data/Freeciv.in:1130
 msgid "Airlift"
 msgstr "Aerotransportar"
 
-#: client/gui-sdl/menu.c:489 client/gui-win32/messagewin.c:149
+#: client/gui-sdl/menu.c:490 client/gui-win32/messagewin.c:149
 #: data/Freeciv.in:3321
 msgid "Goto location"
 msgstr "Anar a lloc"
 
-#: client/gui-sdl/menu.c:501 client/gui-win32/menu.c:384
+#: client/gui-sdl/menu.c:502 client/gui-win32/menu.c:385
 #: client/gui-xaw/menu.c:200
 msgid "Patrol"
 msgstr "Patrullar"
 
-#: client/gui-sdl/menu.c:513
+#: client/gui-sdl/menu.c:514
 msgid "Connect irrigation"
 msgstr "Connectar Irrigació"
 
-#: client/gui-sdl/menu.c:526
+#: client/gui-sdl/menu.c:527
 msgid "Connect road"
 msgstr "Connectar camí"
 
-#: client/gui-sdl/menu.c:539
+#: client/gui-sdl/menu.c:540
 msgid "Connect railroad"
 msgstr "Connectar ferrocarril"
 
-#: client/gui-sdl/menu.c:552
+#: client/gui-sdl/menu.c:553
 msgid "Auto-Explore"
 msgstr "Auto Explorar"
 
-#: client/gui-sdl/menu.c:565 client/gui-sdl/menu.c:1250
+#: client/gui-sdl/menu.c:566 client/gui-sdl/menu.c:1251
 msgid "Auto-Attack"
 msgstr "Auto Atacar"
 
-#: client/gui-sdl/menu.c:567 client/gui-sdl/menu.c:1244
+#: client/gui-sdl/menu.c:568 client/gui-sdl/menu.c:1245
 msgid "Auto-Settler"
 msgstr "Auto Colonitzar"
 
-#: client/gui-sdl/menu.c:586
+#: client/gui-sdl/menu.c:587
 msgid "Wake Up Others"
 msgstr "Despertar altres"
 
-#: client/gui-sdl/menu.c:599 client/gui-xaw/menu.c:188
+#: client/gui-sdl/menu.c:600 client/gui-xaw/menu.c:188
 msgid "Unload Transporter"
 msgstr "Descarregar Transport"
 
-#: client/gui-sdl/menu.c:612 client/gui-xaw/menu.c:190
+#: client/gui-sdl/menu.c:613 client/gui-xaw/menu.c:190
 msgid "Load"
 msgstr "Carregar"
 
-#: client/gui-sdl/menu.c:624 client/gui-xaw/menu.c:191
+#: client/gui-sdl/menu.c:625 client/gui-xaw/menu.c:191
 msgid "Unload"
 msgstr "Descarregar"
 
-#: client/gui-sdl/menu.c:636
+#: client/gui-sdl/menu.c:637
 msgid "Find Homecity"
 msgstr "Cercar ciutat origen"
 
-#: client/gui-sdl/menu.c:673 client/gui-xaw/menu.c:181
+#: client/gui-sdl/menu.c:674 client/gui-xaw/menu.c:181
 msgid "Clean Nuclear Fallout"
 msgstr "Netejar Radioactivitat"
 
-#: client/gui-sdl/menu.c:685 client/gui-win32/menu.c:1255
+#: client/gui-sdl/menu.c:686 client/gui-win32/menu.c:1256
 #: client/gui-xaw/menu.c:180
 msgid "Paradrop"
 msgstr "Llançar paracaigudes"
 
-#: client/gui-sdl/menu.c:697 client/gui-win32/menu.c:1257
+#: client/gui-sdl/menu.c:698 client/gui-win32/menu.c:1258
 #: client/gui-xaw/menu.c:179
 msgid "Clean Pollution"
 msgstr "Netejar Contaminació"
 
-#: client/gui-sdl/menu.c:709 client/gui-xaw/menu.c:178
+#: client/gui-sdl/menu.c:710 client/gui-xaw/menu.c:178
 msgid "Build Airbase"
 msgstr "Construir Base aèria"
 
-#: client/gui-sdl/menu.c:721 client/gui-win32/menu.c:1248
+#: client/gui-sdl/menu.c:722 client/gui-win32/menu.c:1249
 #: client/gui-xaw/menu.c:183
 msgid "Fortify"
 msgstr "Fortificar"
 
-#: client/gui-sdl/menu.c:733 client/gui-win32/menu.c:1250
+#: client/gui-sdl/menu.c:734 client/gui-win32/menu.c:1251
 #: client/gui-xaw/menu.c:177
 msgid "Build Fortress"
 msgstr "Construir Fortificació"
 
-#: client/gui-sdl/menu.c:745
+#: client/gui-sdl/menu.c:746
 msgid "Transform Tile"
 msgstr "Transformar Casella"
 
-#: client/gui-sdl/menu.c:758 client/gui-sdl/menu.c:1138
-#: client/gui-win32/menu.c:1117 client/gui-xaw/menu.c:173
+#: client/gui-sdl/menu.c:759 client/gui-sdl/menu.c:1139
+#: client/gui-win32/menu.c:1118 client/gui-xaw/menu.c:173
 msgid "Build Mine"
 msgstr "Construir Mina"
 
-#: client/gui-sdl/menu.c:772 client/gui-sdl/menu.c:1103
-#: client/gui-win32/menu.c:1116 client/gui-xaw/menu.c:170
+#: client/gui-sdl/menu.c:773 client/gui-sdl/menu.c:1104
+#: client/gui-win32/menu.c:1117 client/gui-xaw/menu.c:170
 msgid "Build Irrigation"
 msgstr "Construir Irrigació"
 
-#: client/gui-sdl/menu.c:786
+#: client/gui-sdl/menu.c:787
 msgid "Form Traderoute"
 msgstr "Establir ruta comercial"
 
-#: client/gui-sdl/menu.c:801 client/gui-sdl/menu.c:1042
-#: client/gui-win32/menu.c:1206 client/gui-xaw/menu.c:169
+#: client/gui-sdl/menu.c:802 client/gui-sdl/menu.c:1043
+#: client/gui-win32/menu.c:1207 client/gui-xaw/menu.c:169
 msgid "Build Railroad"
 msgstr "Construir Ferrocarril"
 
-#: client/gui-sdl/menu.c:805 client/gui-sdl/menu.c:1048
-#: client/gui-win32/menu.c:1209 client/gui-win32/menu.c:1214
+#: client/gui-sdl/menu.c:806 client/gui-sdl/menu.c:1049
+#: client/gui-win32/menu.c:1210 client/gui-win32/menu.c:1215
 #: client/gui-xaw/menu.c:168
 msgid "Build Road"
 msgstr "Construir Camí"
 
-#: client/gui-sdl/menu.c:825 client/gui-win32/menu.c:1188
+#: client/gui-sdl/menu.c:826 client/gui-win32/menu.c:1189
 #: client/gui-xaw/menu.c:206
 msgid "Help Build Wonder"
 msgstr "Ajudar a Construir Meravella"
 
-#: client/gui-sdl/menu.c:837 client/gui-sdl/menu.c:1021
-#: client/gui-win32/menu.c:1192 client/gui-xaw/menu.c:167
+#: client/gui-sdl/menu.c:838 client/gui-sdl/menu.c:1022
+#: client/gui-win32/menu.c:1193 client/gui-xaw/menu.c:167
 msgid "Add to City"
 msgstr "Afegir a Ciutat"
 
-#: client/gui-sdl/menu.c:1066
+#: client/gui-sdl/menu.c:1067
 #, c-format
 msgid "Form Traderoute with %s ( %d R&G + %d trade ) (R)"
 msgstr "Establir ruta comercial amb %s (%d R&Or + %d comerç) (R)"
 
-#: client/gui-sdl/menu.c:1073
+#: client/gui-sdl/menu.c:1074
 #, c-format
 msgid "Trade with %s ( %d R&G bonus ) (R)"
 msgstr "Comerç amb %s (bonif. %d R&Or ) (R)"
 
-#: client/gui-sdl/menu.c:1090
+#: client/gui-sdl/menu.c:1091
 msgid "Cut Down to"
 msgstr "Tallar a "
 
-#: client/gui-sdl/menu.c:1096 client/gui-sdl/menu.c:1121
+#: client/gui-sdl/menu.c:1097 client/gui-sdl/menu.c:1122
 msgid "Irrigate to"
 msgstr "Irrigar a "
 
-#: client/gui-sdl/menu.c:1131
+#: client/gui-sdl/menu.c:1132
 msgid "Plant Forest"
 msgstr "Plantar Bosc"
 
-#: client/gui-sdl/menu.c:1152
+#: client/gui-sdl/menu.c:1153
 msgid "Transform to"
 msgstr "Transformar en"
 
@@ -14499,7 +14453,7 @@ msgstr "Consulta el tema \"Llicència\" en el menú d'ajuda."
 msgid "Now.. Go give'em hell!"
 msgstr "Ara.. Desperta ferro!!!"
 
-#: client/gui-sdl/plrdlg.c:648
+#: client/gui-sdl/plrdlg.c:651
 msgid "disconnected"
 msgstr "desconnectat"
 
@@ -14879,7 +14833,7 @@ msgstr "Unitats presents"
 #: client/gui-win32/cityrep.c:875 client/gui-win32/dialogs.c:190
 #: client/gui-win32/dialogs.c:258 client/gui-win32/dialogs.c:764
 #: client/gui-win32/dialogs.c:1289 client/gui-win32/dialogs.c:1488
-#: client/gui-win32/helpdlg.c:453 client/gui-win32/inteldlg.c:160
+#: client/gui-win32/helpdlg.c:453 client/gui-win32/inteldlg.c:168
 #: client/gui-win32/messagewin.c:148 client/gui-win32/optiondlg.c:168
 #: client/gui-win32/plrdlg.c:354 client/gui-win32/repodlgs.c:301
 #: client/gui-win32/repodlgs.c:450 client/gui-win32/repodlgs.c:737
@@ -14907,7 +14861,7 @@ msgstr "Activar unitats"
 msgid "Unit List"
 msgstr "Llista d'unitats"
 
-#: client/gui-win32/citydlg.c:858 manual/civmanual.c:302
+#: client/gui-win32/citydlg.c:858 manual/civmanual.c:293
 msgid "Upkeep"
 msgstr "Manteniment"
 
@@ -15225,7 +15179,7 @@ msgid "?techhelp:)."
 msgstr "?techhelp:)."
 
 #: client/gui-win32/inteldlg.c:99 client/gui-xaw/inteldlg.c:191
-#: client/gui-xaw/inteldlg.c:428
+#: client/gui-xaw/inteldlg.c:434
 #, c-format
 msgid "Ruler: %s %s"
 msgstr "Dirigent: %s %s"
@@ -15248,16 +15202,21 @@ msgstr "Ciència: %d%%"
 msgid "Luxury: %d%%"
 msgstr "Luxes: %d%%"
 
-#: client/gui-win32/inteldlg.c:128 client/gui-xaw/inteldlg.c:245
+#: client/gui-win32/inteldlg.c:129 client/gui-xaw/inteldlg.c:242
+msgid "Researching: (Unknown)"
+msgstr "Investigant: (Desconegut)"
+
+#: client/gui-win32/inteldlg.c:132 client/gui-xaw/inteldlg.c:245
+#, c-format
+msgid "Researching: Unknown(%d/-)"
+msgstr "Investigant: Desconegut (%d/-)"
+
+#: client/gui-win32/inteldlg.c:136 client/gui-xaw/inteldlg.c:249
 #, c-format
 msgid "Researching: %s(%d/%d)"
 msgstr "Investigant: %s(%d/%d)"
 
-#: client/gui-win32/inteldlg.c:133
-msgid "Researching: (Unknown)"
-msgstr "Investigant: (Desconegut)"
-
-#: client/gui-win32/inteldlg.c:138 client/gui-xaw/inteldlg.c:258
+#: client/gui-win32/inteldlg.c:145 client/gui-xaw/inteldlg.c:263
 #, c-format
 msgid "Capital: %s"
 msgstr "Capital: %s"
@@ -15275,80 +15234,80 @@ msgstr ""
 "Or %d\n"
 "Imp: %d Lux: %d Cie: %d"
 
-#: client/gui-win32/menu.c:304
+#: client/gui-win32/menu.c:305
 msgid "Local _Options"
 msgstr "_Opcions Locals"
 
-#: client/gui-win32/menu.c:305
+#: client/gui-win32/menu.c:306
 msgid "_Message Options"
 msgstr "Opcions de _Missatges"
 
-#: client/gui-win32/menu.c:306
+#: client/gui-win32/menu.c:307
 msgid "Sa_ve Settings"
 msgstr "Desar la _Configuració"
 
-#: client/gui-win32/menu.c:308
+#: client/gui-win32/menu.c:309
 msgid "Server O_ptions"
-msgstr "Opcions del Ser_vidor"
+msgstr "Opcions del _Servidor"
 
-#: client/gui-win32/menu.c:316
+#: client/gui-win32/menu.c:317
 msgid "_Disconnect"
 msgstr "_Desconnectar"
 
-#: client/gui-win32/menu.c:328
+#: client/gui-win32/menu.c:329
 msgid "_Revolution"
 msgstr "_Revolució"
 
-#: client/gui-win32/menu.c:355 client/gui-xaw/menu.c:161
+#: client/gui-win32/menu.c:356 client/gui-xaw/menu.c:161
 msgid "Center View"
 msgstr "Centra la Vista"
 
-#: client/gui-win32/menu.c:363
+#: client/gui-win32/menu.c:364
 msgid "Transf_orm to Hills"
 msgstr "Transf_ormar a Turons"
 
-#: client/gui-win32/menu.c:377 client/gui-win32/menu.c:1265
+#: client/gui-win32/menu.c:378 client/gui-win32/menu.c:1266
 #: client/gui-xaw/menu.c:194
 msgid "Auto Settler"
 msgstr "Auto Colonitzar"
 
-#: client/gui-win32/menu.c:386 client/gui-xaw/menu.c:202
+#: client/gui-win32/menu.c:387 client/gui-xaw/menu.c:202
 msgid "Go/Airlift to City"
 msgstr "Aerotransportar a ciutat"
 
-#: client/gui-win32/menu.c:390 client/gui-xaw/menu.c:208
+#: client/gui-win32/menu.c:391 client/gui-xaw/menu.c:208
 msgid "Diplomat/Spy Actions"
 msgstr "Diplomàtic/Accions d'espia"
 
-#: client/gui-win32/menu.c:1109 client/gui-win32/menu.c:1110
+#: client/gui-win32/menu.c:1110 client/gui-win32/menu.c:1111
 #: client/gui-xaw/menu.c:172 client/gui-xaw/menu.c:174
 #, c-format
 msgid "Change to %s"
 msgstr "Canviar a %s"
 
-#: client/gui-win32/menu.c:1111 client/gui-xaw/menu.c:176
+#: client/gui-win32/menu.c:1112 client/gui-xaw/menu.c:176
 #, c-format
 msgid "Transform to %s"
 msgstr "Transformar a %s"
 
-#: client/gui-win32/menu.c:1118 client/gui-xaw/menu.c:175
+#: client/gui-win32/menu.c:1119 client/gui-xaw/menu.c:175
 msgid "Transform Terrain"
 msgstr "Transformar Terreny"
 
-#: client/gui-win32/menu.c:1195 client/gui-win32/menu.c:1199
+#: client/gui-win32/menu.c:1196 client/gui-win32/menu.c:1200
 #: client/gui-xaw/menu.c:166
 msgid "Build City"
 msgstr "Construir Ciutat"
 
-#: client/gui-win32/menu.c:1203 client/gui-xaw/menu.c:207
+#: client/gui-win32/menu.c:1204 client/gui-xaw/menu.c:207
 msgid "Make Trade Route"
 msgstr "Fer Ruta Comercial"
 
-#: client/gui-win32/menu.c:1227 client/gui-xaw/menu.c:171
+#: client/gui-win32/menu.c:1228 client/gui-xaw/menu.c:171
 msgid "Build Farmland"
 msgstr "Construir Horta"
 
-#: client/gui-win32/menu.c:1262 client/gui-xaw/menu.c:195
+#: client/gui-win32/menu.c:1263 client/gui-xaw/menu.c:195
 msgid "Auto Attack"
 msgstr "Auto Atacar"
 
@@ -15642,28 +15601,23 @@ msgstr "Fer 'xset fp rehash' pot solucionar un problema de forma temporal."
 msgid "Font for charset %s is lacking"
 msgstr "Falta la font pel joc de caràcters %s"
 
-#: client/gui-xaw/helpdlg.c:913 client/gui-xaw/helpdlg.c:926
-#: client/gui-xaw/helpdlg.c:933
+#: client/gui-xaw/helpdlg.c:911 client/gui-xaw/helpdlg.c:924
+#: client/gui-xaw/helpdlg.c:931
 #, c-format
 msgid "Allows %s.\n"
 msgstr "Permet %s.\n"
 
-#: client/gui-xaw/helpdlg.c:918
+#: client/gui-xaw/helpdlg.c:916
 #, c-format
 msgid "Obsoletes %s.\n"
 msgstr "Deixa obsolet %s.\n"
 
-#: client/gui-xaw/helpdlg.c:936 client/gui-xaw/helpdlg.c:941
+#: client/gui-xaw/helpdlg.c:934 client/gui-xaw/helpdlg.c:939
 #, c-format
 msgid "Allows %s (with %s).\n"
 msgstr "Permet %s (amb %s).\n"
 
-#: client/gui-xaw/inteldlg.c:242
-#, c-format
-msgid "Researching: Unknown(%d/-)"
-msgstr "Investigant: Desconegut (%d/-)"
-
-#: client/gui-xaw/inteldlg.c:418
+#: client/gui-xaw/inteldlg.c:424
 #, c-format
 msgid "Intelligence Diplomacy Information for the %s Empire"
 msgstr "Informació d'Intel·ligència Diplomàtica per l'Imperi %s"
@@ -15821,12 +15775,12 @@ msgstr "Totals: ..."
 msgid "Totals:                     %9d%9d%9d%9d"
 msgstr "Totals:                     %9d%9d%9d%9d"
 
-#: manual/civmanual.c:120
+#: manual/civmanual.c:119
 #, c-format
 msgid "Could not write manual file %s."
 msgstr "No s'ha pogut escriure el fitxer de manual '%s'."
 
-#: manual/civmanual.c:128
+#: manual/civmanual.c:127
 #, c-format
 msgid ""
 "<h1>Freeciv %s server options</h1>\n"
@@ -15835,32 +15789,32 @@ msgstr ""
 "<h1>Freeciv %s opcions de servidor</h1>\n"
 "\n"
 
-#: manual/civmanual.c:144
+#: manual/civmanual.c:139
 #, c-format
 msgid "Level: %s.<br>"
 msgstr "Nivell: %s.<br>"
 
-#: manual/civmanual.c:145
+#: manual/civmanual.c:140
 #, c-format
 msgid "Category: %s.<br>"
 msgstr "Categoria: %s.<br>"
 
-#: manual/civmanual.c:148
+#: manual/civmanual.c:143
 #, c-format
 msgid "Can only be used in server console. "
 msgstr "Només es pot utilitzar a la consola del servidor."
 
-#: manual/civmanual.c:151
+#: manual/civmanual.c:146
 #, c-format
 msgid "Can be changed during a game. "
 msgstr "Pot canviar-se durant la partida."
 
-#: manual/civmanual.c:153
+#: manual/civmanual.c:148
 #, c-format
 msgid "Can <b>not</b> be changed during a game. "
 msgstr "<b>No</b>  pot canviar-se durant la partida."
 
-#: manual/civmanual.c:158
+#: manual/civmanual.c:153
 #, c-format
 msgid ""
 "<p class=\"bounds\">Minimum: 0, Default: %d, Maximum: 1</p>\n"
@@ -15869,7 +15823,7 @@ msgstr ""
 "<p class=\"bounds\">Mínim: 0, Defecte: %d, Màxim: 1</p>\n"
 "\n"
 
-#: manual/civmanual.c:162 manual/civmanual.c:172
+#: manual/civmanual.c:157 manual/civmanual.c:167
 #, c-format
 msgid ""
 "<p class=\"changed\">Value set to %d</p>\n"
@@ -15878,7 +15832,7 @@ msgstr ""
 "<p class=\"changed\">Valor fixat a %d</p>\n"
 "\n"
 
-#: manual/civmanual.c:167
+#: manual/civmanual.c:162
 #, c-format
 msgid ""
 "<p class=\"bounds\">Minimum: %d, Default: %d, Maximum: %d</p>\n"
@@ -15887,7 +15841,7 @@ msgstr ""
 "<p class=\"bounds\">Mínim: %d, per Defecte: %d, Màxim: %d</p>\n"
 "\n"
 
-#: manual/civmanual.c:177
+#: manual/civmanual.c:172
 #, c-format
 msgid ""
 "<p class=\"bounds\">Default: \"%s\"</p>\n"
@@ -15896,7 +15850,7 @@ msgstr ""
 "<p class=\"bounds\">Per defecte: \"%s\"</p>\n"
 "\n"
 
-#: manual/civmanual.c:180
+#: manual/civmanual.c:175
 #, c-format
 msgid ""
 "<p class=\"changed\">Value set to %s</p>\n"
@@ -15905,7 +15859,7 @@ msgstr ""
 "<p class=\"changed\">Valor fixat a %s</p>\n"
 "\n"
 
-#: manual/civmanual.c:189
+#: manual/civmanual.c:184
 #, c-format
 msgid ""
 "<h1>Freeciv %s server commands</h1>\n"
@@ -15914,7 +15868,7 @@ msgstr ""
 "<h1>Freeciv %s comandes de servidor</h1>\n"
 "\n"
 
-#: manual/civmanual.c:198
+#: manual/civmanual.c:193
 #, c-format
 msgid ""
 "<table>\n"
@@ -15927,7 +15881,7 @@ msgstr ""
 "<td valign=\"top\"><pre>Sinopsi:</pre></td>\n"
 "<td>"
 
-#: manual/civmanual.c:202
+#: manual/civmanual.c:197
 #, c-format
 msgid ""
 "<p class=\"level\">Level: %s</p>\n"
@@ -15936,7 +15890,7 @@ msgstr ""
 "<p class=\"level\">Nivell: %s</p>\n"
 "\n"
 
-#: manual/civmanual.c:211
+#: manual/civmanual.c:202
 #, c-format
 msgid ""
 "<p>Description:</p>\n"
@@ -15945,7 +15899,7 @@ msgstr ""
 "<p>Descripció:</p>\n"
 "\n"
 
-#: manual/civmanual.c:218
+#: manual/civmanual.c:209
 #, c-format
 msgid ""
 "<h1>Freeciv %s terrain help</h1>\n"
@@ -15954,44 +15908,44 @@ msgstr ""
 "<h1>Freeciv %s ajuda de terreny</h1>\n"
 "\n"
 
-#: manual/civmanual.c:221 data/default/terrain.ruleset:1810
+#: manual/civmanual.c:212 data/default/terrain.ruleset:1810
 #: data/civ2/terrain.ruleset:1693 data/civ1/terrain.ruleset:1655
 msgid "Resources"
 msgstr "Recursos"
 
-#: manual/civmanual.c:222
+#: manual/civmanual.c:213
 msgid "Move cost"
 msgstr "Cost de moviment"
 
-#: manual/civmanual.c:222
+#: manual/civmanual.c:213
 msgid "Defense bonus"
 msgstr "Bonificació defensiva"
 
-#: manual/civmanual.c:224
+#: manual/civmanual.c:215
 msgid "Mining"
 msgstr "Mineria"
 
-#: manual/civmanual.c:224
+#: manual/civmanual.c:215
 msgid "turns"
 msgstr "torns"
 
-#: manual/civmanual.c:226
+#: manual/civmanual.c:217
 msgid "Rail"
 msgstr "Ferrocarril"
 
-#: manual/civmanual.c:227
+#: manual/civmanual.c:218
 msgid "Clean pollution"
 msgstr "Netejar contaminació"
 
-#: manual/civmanual.c:227
+#: manual/civmanual.c:218
 msgid "Clean fallout"
 msgstr "Netejar radioactivitat"
 
-#: manual/civmanual.c:262 manual/civmanual.c:272
+#: manual/civmanual.c:253 manual/civmanual.c:263
 msgid "impossible"
 msgstr "impossible"
 
-#: manual/civmanual.c:295
+#: manual/civmanual.c:286
 #, c-format
 msgid ""
 "<h1>Freeciv %s buildings help</h1>\n"
@@ -16000,7 +15954,7 @@ msgstr ""
 "<h1>Freeciv %s ajuda d'edificis</h1>\n"
 "\n"
 
-#: manual/civmanual.c:297
+#: manual/civmanual.c:288
 #, c-format
 msgid ""
 "<h1>Freeciv %s wonders help</h1>\n"
@@ -16009,15 +15963,15 @@ msgstr ""
 "<h1>Freeciv %s ajuda de meravelles</h1>\n"
 "\n"
 
-#: manual/civmanual.c:303
+#: manual/civmanual.c:294
 msgid "Requirement"
 msgstr "Requisit"
 
-#: manual/civmanual.c:303
+#: manual/civmanual.c:294
 msgid "Obsolete by"
 msgstr "Ho fa obsolet "
 
-#: manual/civmanual.c:303
+#: manual/civmanual.c:294
 msgid "More info"
 msgstr "Més informació"
 
@@ -16159,7 +16113,7 @@ msgstr "Eliminar prefixat?"
 
 #: data/Freeciv.in:1502
 msgid "City Options"
-msgstr "Opcions Ciutat"
+msgstr "Opcions de Ciutat"
 
 #: data/Freeciv.in:1512
 msgid "Make new citizens into:     "
@@ -16660,7 +16614,8 @@ msgstr ""
 "\n"
 "  Maj-Ctrl-Clic esquerre:         Afinar treballadors de ciutat\n"
 "  Ctrl-Clic al mig:                     Despertar unitats en sentinella\n"
-"  Maj-Ctrl-Clic dret:                 Mostrar treballadors de ciutat (ratolí sobre o vora ciutat)\n"
+"  Maj-Ctrl-Clic dret:                 Mostrar treballadors de ciutat (ratolí "
+"sobre o vora ciutat)\n"
 "\n"
 "  Mode de Selecció d'àrea (GTK):\n"
 "  ================================\n"
@@ -17394,7 +17349,7 @@ msgstr ""
 
 #: data/helpdata.txt:871
 msgid "City Improvements"
-msgstr "Edificis ciutat"
+msgstr "Edificis de ciutat"
 
 #: data/helpdata.txt:872
 msgid ""
@@ -26043,7 +25998,7 @@ msgid ""
 "Michoacan, the heart of a former empire known to them as Irechecua "
 "Tzintzuntzani, meaning the \"lands of Tzintzuntzan,\" their capital city. "
 "Their kings were the perennial enemy of the Aztec empire, who attempted an "
-"unsuccessful invasion of the P'urhepecha lands. When the Spanish arrived "
+"unsuccessful invasion of the P'urhepecha lands. When the Spanish arrived and "
 "began their conquest of Mexico in 1519, the Aztecs sent an embassy seeking "
 "the support of the P'urhepecha, but was refused. The conquistadores' "
 "reputation preceded them and the P'urhepecha offered to become a subject "
