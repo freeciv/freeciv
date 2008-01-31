@@ -1085,7 +1085,7 @@ static void loop(void)
 	}
 	else if (sel < 0)
 	{
-	  printf("%s\n", strerror(errno));
+	  printf("%s\n", mystrerror(errno));
 	  break;
 	}
       }
