@@ -149,6 +149,40 @@ static struct dem_col {
   char key;
 } coltable[] = {{'q'}, {'r'}, {'b'}}; /* Corresponds to dem_flag enum */
 
+/* prime number of entries makes for better scaling */
+static const char *ranking[] = {
+  /* TRANS: <#>: The <ranking> Poles */
+  N_("%2d: The Supreme %s"),
+  /* TRANS: <#>: The <ranking> Poles */
+  N_("%2d: The Magnificent %s"),
+  /* TRANS: <#>: The <ranking> Poles */
+  N_("%2d: The Great %s"),
+  /* TRANS: <#>: The <ranking> Poles */
+  N_("%2d: The Glorious %s"),
+  /* TRANS: <#>: The <ranking> Poles */
+  N_("%2d: The Excellent %s"),
+  /* TRANS: <#>: The <ranking> Poles */
+  N_("%2d: The Eminent %s"),
+  /* TRANS: <#>: The <ranking> Poles */
+  N_("%2d: The Distinguished %s"),
+  /* TRANS: <#>: The <ranking> Poles */
+  N_("%2d: The Average %s"),
+  /* TRANS: <#>: The <ranking> Poles */
+  N_("%2d: The Mediocre %s"),
+  /* TRANS: <#>: The <ranking> Poles */
+  N_("%2d: The Ordinary %s"),
+  /* TRANS: <#>: The <ranking> Poles */
+  N_("%2d: The Pathetic %s"),
+  /* TRANS: <#>: The <ranking> Poles */
+  N_("%2d: The Useless %s"),
+  /* TRANS: <#>: The <ranking> Poles */
+  N_("%2d: The Valueless %s"),
+  /* TRANS: <#>: The <ranking> Poles */
+  N_("%2d: The Worthless %s"),
+  /* TRANS: <#>: The <ranking> Poles */
+  N_("%2d: The Wretched %s"),
+};
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -157,27 +191,6 @@ static int secompare(const void *a, const void *b)
   return (((const struct player_score_entry *)b)->value -
 	  ((const struct player_score_entry *)a)->value);
 }
-
-static const char *greatness[] = {
-  /* TRANS: <1>: The <ranking> Poles */
-  N_("%2d: The Magnificent %s"),
-  /* TRANS: <2>: The <ranking> Poles */
-  N_("%2d: The Great %s"),
-  /* TRANS: <3>: The <ranking> Poles */
-  N_("%2d: The Glorious %s"),
-  /* TRANS: <4>: The <ranking> Poles */
-  N_("%2d: The Excellent %s"),
-  /* TRANS: <5>: The <ranking> Poles */
-  N_("%2d: The Average %s"),
-  /* TRANS: <6>: The <ranking> Poles */
-  N_("%2d: The Mediocre %s"),
-  /* TRANS: <7>: The <ranking> Poles */
-  N_("%2d: The Pathetic %s"),
-  /* TRANS: <8>: The <ranking> Poles */
-  N_("%2d: The Useless %s"),
-  /* TRANS: <9>: The <ranking> Poles */
-  N_("%2d: The Worthless %s"),
-};
 
 /**************************************************************************
 ...
@@ -219,18 +232,17 @@ static void historian_generic(enum historian_type which_news)
   qsort(size, j, sizeof(size[0]), secompare);
   buffer[0] = '\0';
   for (i = 0; i < j; i++) {
-    if (i == 0 || size[i].value < size[i - 1].value) {
-      if (i >= sizeof(greatness)) {
-        rank = sizeof(greatness) - 1;
-      } else if (j >= sizeof(greatness)) {
-        rank = i;
-      } else {
-        rank = (i * sizeof(greatness)) / j;
-      }
+    if (i > 0 && size[i].value < size[i - 1].value) {
+      /* since i < j, only top entry reigns Supreme */
+      rank = ((i * sizeof(ranking)) / j) + 1;
+    }
+    if (rank >= sizeof(ranking)) {
+      /* clamp to final entry */
+      rank = sizeof(ranking) - 1;
     }
     cat_snprintf(buffer, sizeof(buffer),
-		 _(greatness[rank]),
-		 rank + 1,
+		 _(ranking[rank]),
+		 i + 1,
 		 nation_plural_for_player(size[i].player));
     mystrlcat(buffer, "\n", sizeof(buffer));
   }
