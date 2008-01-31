@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.0.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-08-10 16:58+0300\n"
-"PO-Revision-Date: 2008-01-24 19:12+0100\n"
+"PO-Revision-Date: 2008-01-29 18:59+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -663,7 +663,7 @@ msgstr "Diplomacie: %s"
 
 #: common/events.c:139
 msgid "Error message from bad command"
-msgstr ""
+msgstr "Chybové hlášení ze špatných příkazů"
 
 #: common/events.c:140
 #, fuzzy
@@ -677,7 +677,7 @@ msgstr "Zprávy"
 
 #: common/events.c:142
 msgid "Chat error messages"
-msgstr ""
+msgstr "Chybové hlášení chatu"
 
 #: common/events.c:143
 #, fuzzy
@@ -686,7 +686,7 @@ msgstr "Probíhá připojování."
 
 #: common/events.c:144
 msgid "AI Debug messages"
-msgstr ""
+msgstr "Ladící zprávy počítačem řízeného hráče"
 
 #: common/events.c:145
 #, fuzzy
@@ -5822,7 +5822,7 @@ msgstr "Lituji, nelze pozorovat počítačem ovládané hráče v této hře."
 
 #: server/stdinhand.c:2662
 msgid "Sorry, one can't take AI players in this game."
-msgstr "Lituji, nelze přezvít počítačem ovládané hráče v této hře."
+msgstr "Lituji, nelze převzít počítačem ovládané hráče v této hře."
 
 #: server/stdinhand.c:2671
 msgid "Sorry, one can't observe human players in this game."
@@ -9127,17 +9127,16 @@ msgstr[2] "Město: %s (%s, %d tahů příměří)"
 
 #. TRANS: "City: Warsaw (Polish,friendly)"
 #: client/text.c:168
-#, fuzzy, c-format
+#, c-format
 msgid "City: %s (%s, %s)"
-msgstr "Město: %s (%s,%s)"
+msgstr "Město: %s (%s, %s)"
 
 #: client/text.c:179
 #: client/gui-sdl/mapview.c:797
 #: client/gui-sdl/mapview.c:803
 #: client/gui-sdl/mapview.c:809
-#, fuzzy
 msgid "?blistmore:, "
-msgstr "?or:, "
+msgstr "?blistmore:, "
 
 #: client/text.c:184
 #: client/gui-sdl/mapview.c:793
@@ -11300,9 +11299,9 @@ msgstr "%s nyní pozoruje %s"
 
 #. TRANS: "<Novice AI>"
 #: client/gui-gtk-2.0/gui_main.c:1591
-#, fuzzy, c-format
+#, c-format
 msgid "<%s AI>"
-msgstr "<PO>"
+msgstr "<%s PO>"
 
 #: client/gui-gtk-2.0/gui_main.c:1600
 #: client/gui-win32/dialogs.c:599
@@ -14915,7 +14914,6 @@ msgstr "Prodat"
 
 #: client/gui-sdl/citydlg.c:1743
 #: client/gui-sdl/citydlg.c:3790
-#, fuzzy
 msgid "Options panel"
 msgstr "Možnosti"
 
@@ -14961,7 +14959,6 @@ msgstr "+%d obchod / %d"
 
 #: client/gui-sdl/citydlg.c:2053
 #: client/gui-sdl/citydlg.c:3747
-#, fuzzy
 msgid "Happiness panel"
 msgstr "Spokojenost"
 
@@ -14970,12 +14967,12 @@ msgid "Citizens"
 msgstr "Obyvatelé"
 
 #: client/gui-sdl/citydlg.c:2577
-#, fuzzy, c-format
+#, c-format
 msgid "Food: %d per turn"
-msgstr "%3d zlata na kolo"
+msgstr "Jídlo: %d na kolo"
 
 #: client/gui-sdl/citydlg.c:2614
-#, fuzzy, c-format
+#, c-format
 msgid "?food:Surplus: %d"
 msgstr "?food:Přebytek: %d"
 
@@ -15676,9 +15673,8 @@ msgstr[1] "zlata"
 msgstr[2] "zlata"
 
 #: client/gui-sdl/helpdlg.c:966
-#, fuzzy
 msgid "( with "
-msgstr " (s "
+msgstr "( s "
 
 #: client/gui-sdl/helpdlg.c:969
 msgid " )"
@@ -15793,9 +15789,8 @@ msgid "Hide Messages"
 msgstr "Schovat Zprávy"
 
 #: client/gui-sdl/mapctrl.c:1623
-#, fuzzy
 msgid "Toggle Minimap Mode"
-msgstr "_Přepnout na PO mód"
+msgstr "Přepnout mód minimapy"
 
 #: client/gui-sdl/mapctrl.c:1635
 #: client/gui-sdl/optiondlg.c:2164
