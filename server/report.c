@@ -234,11 +234,11 @@ static void historian_generic(enum historian_type which_news)
   for (i = 0; i < j; i++) {
     if (i > 0 && size[i].value < size[i - 1].value) {
       /* since i < j, only top entry reigns Supreme */
-      rank = ((i * sizeof(ranking)) / j) + 1;
+      rank = ((i * ARRAY_SIZE(ranking)) / j) + 1;
     }
-    if (rank >= sizeof(ranking)) {
+    if (rank >= ARRAY_SIZE(ranking)) {
       /* clamp to final entry */
-      rank = sizeof(ranking) - 1;
+      rank = ARRAY_SIZE(ranking) - 1;
     }
     cat_snprintf(buffer, sizeof(buffer),
 		 _(ranking[rank]),
