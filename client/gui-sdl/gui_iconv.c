@@ -208,7 +208,7 @@ char *convertcopy_to_chars(char *pToString, size_t length,
       size_t Res =
 	  iconv(cd, (ICONV_CONST char **) &pInptr, &Insize, &pOutptr, &Outsize);
       if (Res == (size_t) (-1)) {
-        freelog(LOG_ERROR, "iconv() error: %s", mystrerror(errno));        
+        freelog(LOG_ERROR, "iconv() error: %s", mystrerror());        
 	if (errno == EINVAL) {
 	  break;
 	} else {
