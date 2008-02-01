@@ -2319,7 +2319,7 @@ static void ai_set_defenders(struct player *pplayer)
         }
         emergency = TRUE;
       } else {
-        int loglevel = pcity->debug ? LOG_NORMAL : LOG_DEBUG;
+        int loglevel = pcity->debug ? LOG_TEST : LOG_DEBUG;
 
         total_defense += best_want;
         UNIT_LOG(loglevel, best, "Defending city");

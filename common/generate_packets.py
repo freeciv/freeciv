@@ -22,7 +22,7 @@ generate_stats=0
 
 # generate_freelogs will generate freelog calls to debug the delta code.
 generate_freelogs=0
-freelog_log_level="LOG_NORMAL"
+freelog_log_level="LOG_PACKET"
 generate_variant_freelogs=0
 
 ### The following parameters CHANGE the protocol. You have been warned.
@@ -590,11 +590,11 @@ static char *stats_%(name)s_names[] = {%(names)s};
         return '''
   if (stats_%(name)s_sent > 0 &&
       stats_%(name)s_discarded != stats_%(name)s_sent) {
-    freelog(LOG_NORMAL, \"%(name)s %%d out of %%d got discarded\",
+    freelog(LOG_TEST, \"%(name)s %%d out of %%d got discarded\",
       stats_%(name)s_discarded, stats_%(name)s_sent);
     for (i = 0; i < %(bits)d; i++) {
       if(stats_%(name)s_counters[i] > 0) {
-        freelog(LOG_NORMAL, \"  %%4d / %%4d: %%2d = %%s\",
+        freelog(LOG_TEST, \"  %%4d / %%4d: %%2d = %%s\",
           stats_%(name)s_counters[i],
           (stats_%(name)s_sent - stats_%(name)s_discarded),
           i, stats_%(name)s_names[i]);
@@ -1085,7 +1085,7 @@ class Packet:
             no=v.no
             result=result+'  } else if(%(cond)s) {\n    variant = %(no)s;\n'%self.get_dict(vars())
         if generate_variant_freelogs and len(self.variants)>1:
-            log='  freelog(LOG_NORMAL, "%(name)s: using variant=%%d cap=%%s", variant, pc->capability);\n'%self.get_dict(vars())
+            log='  freelog(LOG_TEST, "%(name)s: using variant=%%d cap=%%s", variant, pc->capability);\n'%self.get_dict(vars())
         else:
             log=""
         result=result+'''  } else {

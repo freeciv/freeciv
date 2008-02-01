@@ -2402,10 +2402,12 @@ static bool unit_survive_autoattack(struct unit *punit)
          || get_transporter_capacity(punit) > 0)
         && penemywin > threshold) {
 #ifdef REALLY_DEBUG_THIS
-      freelog(LOG_NORMAL, "AA %s -> %s (%d,%d) %.2f > %.2f && > %.2f",
+      freelog(LOG_TEST, "AA %s -> %s (%d,%d) %.2f > %.2f && > %.2f",
               unit_rule_name(penemy),
               unit_rule_name(punit), 
-              punit->tile->x, punit->tile->y, penemywin, 1.0 - punitwin, 
+              TILE_XY(punit->tile),
+              penemywin,
+              1.0 - punitwin, 
               threshold);
 #endif
 
@@ -2414,10 +2416,12 @@ static bool unit_survive_autoattack(struct unit *punit)
     }
 #ifdef REALLY_DEBUG_THIS
       else {
-      freelog(LOG_NORMAL, "!AA %s -> %s (%d,%d) %.2f > %.2f && > %.2f",
+      freelog(LOG_TEST, "!AA %s -> %s (%d,%d) %.2f > %.2f && > %.2f",
               unit_rule_name(penemy),
               unit_rule_name(punit), 
-              punit->tile->x, punit->tile->y, penemywin, 1.0 - punitwin, 
+              TILE_XY(punit->tile),
+              penemywin,
+              1.0 - punitwin, 
               threshold);
       continue;
     }

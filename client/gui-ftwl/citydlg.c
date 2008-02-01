@@ -26,7 +26,7 @@
 **************************************************************************/
 void popup_city_dialog(struct city *pcity)
 {
-  freelog(LOG_NORMAL, "popup_city_dialog('%s')", city_name(pcity));
+  freelog(LOG_ERROR, "popup_city_dialog('%s')", city_name(pcity));
   /* PORTME */
 }
 

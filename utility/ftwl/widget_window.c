@@ -389,14 +389,12 @@ void flush_all_to_screen(void)
   be_copy_osda_to_screen(whole_osda, NULL);
 
   if (dump_screen) {
-    static int counter = -1;
+    static int counter = 0;
     char b[100];
 
-    counter++;
+    my_snprintf(b, sizeof(b), "fc_%05d.ppm", counter++);
+    freelog(LOG_NORMAL, _("Making screenshot %s"), b);
 
-    freelog(LOG_NORMAL, "flush to screen %d",counter);
-
-    sprintf(b, "screen-%04d.ppm", counter);
     be_write_osda_to_file(whole_osda, b);
   }
 }

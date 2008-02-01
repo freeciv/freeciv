@@ -489,8 +489,8 @@ enum server_events server_sniff_all_input(void)
 	if (last_noplayers != 0) {
 	  if (time(NULL) > last_noplayers + srvarg.quitidle) {
 	    save_game_auto("Lost all connections");
-	    set_meta_message_string("restarting for lack of players");
-	    freelog(LOG_NORMAL, get_meta_message_string());
+	    set_meta_message_string(N_("restarting for lack of players"));
+	    freelog(LOG_NORMAL, Q_(get_meta_message_string()));
 	    (void) send_server_info_to_metaserver(META_INFO);
 
             set_server_state(S_S_OVER);
@@ -509,14 +509,8 @@ enum server_events server_sniff_all_input(void)
             connections = FALSE;
 	  }
 	} else {
-          char buf[256];
-	  last_noplayers = time(NULL);
-	  
-	  my_snprintf(buf, sizeof(buf),
-		      "restarting in %d seconds for lack of players",
-		      srvarg.quitidle);
-          set_meta_message_string((const char *)buf);
-	  freelog(LOG_NORMAL, get_meta_message_string());
+          set_meta_message_string(N_("restarting for lack of players"));
+	  freelog(LOG_NORMAL, Q_(get_meta_message_string()));
 	  (void) send_server_info_to_metaserver(META_INFO);
 	}
       } else {
@@ -1023,7 +1017,7 @@ void handle_conn_pong(struct connection *pconn)
   struct timer *timer;
 
   if (timer_list_size(pconn->server.ping_timers) == 0) {
-    freelog(LOG_NORMAL, "got unexpected pong from %s",
+    freelog(LOG_ERROR, "got unexpected pong from %s",
 	    conn_description(pconn));
     return;
   }
@@ -1169,16 +1163,20 @@ static void send_lanserver_response(void)
 
   switch (server_state()) {
   case S_S_INITIAL:
-    my_snprintf(status, sizeof(status), "Pregame");
+    /* TRANS: Game state for local server */
+    my_snprintf(status, sizeof(status), _("Pregame"));
     break;
   case S_S_RUNNING:
-    my_snprintf(status, sizeof(status), "Running");
+    /* TRANS: Game state for local server */
+    my_snprintf(status, sizeof(status), _("Running"));
     break;
   case S_S_OVER:
-    my_snprintf(status, sizeof(status), "Game over");
+    /* TRANS: Game state for local server */
+    my_snprintf(status, sizeof(status), _("Game over"));
     break;
   case S_S_GENERATING_WAITING:
-    my_snprintf(status, sizeof(status), "Waiting");
+    /* TRANS: Game state for local server */
+    my_snprintf(status, sizeof(status), _("Waiting"));
   }
 
    my_snprintf(players, sizeof(players), "%d",

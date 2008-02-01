@@ -318,9 +318,9 @@ static bool apply_result_on_server(struct city *pcity,
     cm_clear_cache(pcity);
 
     if (SHOW_APPLY_RESULT_ON_SERVER_ERRORS) {
-      freelog(LOG_NORMAL, "expected");
+      freelog(LOG_TEST, "expected");
       cm_print_result(pcity, result);
-      freelog(LOG_NORMAL, "got");
+      freelog(LOG_TEST, "got");
       cm_print_result(pcity, &current_state);
     }
   }
@@ -328,7 +328,7 @@ static bool apply_result_on_server(struct city *pcity,
 }
 
 /****************************************************************************
- Prints the data of the stats struct via freelog(LOG_NORMAL,...).
+ Prints the data of the stats struct via freelog(LOG_TEST,...).
 *****************************************************************************/
 static void report_stats(void)
 {
@@ -338,7 +338,7 @@ static void report_stats(void)
   total = stats.apply_result_ignored + stats.apply_result_applied;
   per_mill = (stats.apply_result_ignored * 1000) / (total ? total : 1);
 
-  freelog(LOG_NORMAL,
+  freelog(LOG_TEST,
 	  "CMA: apply_result: ignored=%2d.%d%% (%d) "
 	  "applied=%2d.%d%% (%d) total=%d",
 	  per_mill / 10, per_mill % 10, stats.apply_result_ignored,

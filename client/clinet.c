@@ -140,8 +140,8 @@ static void close_socket_callback(struct connection *pc)
   close_socket_nomessage(pc);
   /* If we lost connection to the internal server - kill him */
   client_kill_server(TRUE);
+  freelog(LOG_NORMAL, _("Lost connection to server!"));
   append_output_window(_("Lost connection to server!"));
-  freelog(LOG_NORMAL, "lost connection to server");
   if (with_ggz) {
     client_exit();
   }
@@ -345,7 +345,7 @@ static int read_from_connection(struct connection *pc, bool block)
 	continue;
       }
 
-      freelog(LOG_NORMAL, "error in select() return=%d errno=%d (%s)",
+      freelog(LOG_ERROR, "select() return=%d errno=%d (%s)",
 	      n, errno, mystrerror());
       return -1;
     }

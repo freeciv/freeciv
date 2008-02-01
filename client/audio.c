@@ -251,10 +251,9 @@ void audio_real_init(const char *const spec_name,
 #ifdef AUDIO_SDL
   if (audio_select_plugin("sdl")) return; 
 #endif
+  freelog(LOG_NORMAL, _("No real audio subsystem managed to initialize!"));
   freelog(LOG_NORMAL,
-    _("No real audio subsystem managed to initialize!"));
-  freelog(LOG_NORMAL,
-    _("Perhaps there is some misconfiguration or bad permissions"));
+          _("Perhaps there is some misconfiguration or bad permissions."));
   freelog(LOG_NORMAL, _("Proceeding with sound support disabled."));
 }
 

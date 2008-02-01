@@ -302,7 +302,7 @@ void refresh_overview_canvas(void)
 
   struct ct_rect rect;
 
-  freelog(LOG_NORMAL, "refresh_overview_canvas()");
+  freelog(LOG_DEBUG, "refresh_overview_canvas()");
   whole_map_iterate(x, y) {
     overview_update_tile0(x, y);
   } whole_map_iterate_end;
@@ -369,7 +369,7 @@ void show_city_desc(struct canvas *pcanvas, int canvas_x, int canvas_y,
 
 #if 0
   /* try to trace that hard-to-find assert that we sometimes get */
-  freelog(LOG_NORMAL, "show_city_desc(%s) pcx=%d->%d (%d) pcy=%d->%d (%d)", city_name(pcity),
+  freelog(LOG_TEST, "show_city_desc(%s) pcx=%d->%d (%d) pcy=%d->%d (%d)", city_name(pcity),
           canvas_x, canvas_x+tileset_tile_width(tileset) / 2, all_rect.width,
           canvas_y, canvas_y+tileset_tile_height(tileset), all_rect.height);
 #endif
@@ -469,7 +469,7 @@ void dirty_rect(int canvas_x, int canvas_y,
   
     *rect = (struct ct_rect){ canvas_x, canvas_y, pixel_width, pixel_height };
   
-    //freelog(LOG_NORMAL, "dirty_rect(...)");
+    //freelog(LOG_TEST, "dirty_rect(...)");
     region_list_append(region_list, rect);
   }
 }
@@ -872,7 +872,7 @@ static void action_button_callback(struct sw_widget *widget, void *data)
 {
   char *action = (char *) data;
 
-  freelog(LOG_NORMAL, "action_button_callback(): action '%s' requested", action);  
+  freelog(LOG_VERBOSE, "action_button_callback(): action '%s' requested", action);  
   
   if (strcmp(action, "unit_fortifying") == 0) {
     key_unit_fortify();
@@ -927,7 +927,7 @@ static void action_button_callback(struct sw_widget *widget, void *data)
   } else if (strcmp(action, "unit_done") == 0) {
     key_unit_done();
   } else {
-    freelog(LOG_NORMAL,
+    freelog(LOG_VERBOSE,
       "action_button_callback(): action request '%s' not handled", action);    
   }
 }
@@ -1068,7 +1068,7 @@ static void action_callback(const char *action)
       redraw_selection_rectangle();
     }
   } else {
-    freelog(LOG_NORMAL, "action '%s' requested", action);
+    freelog(LOG_VERBOSE, "action_callback() action '%s' requested", action);
   }
 }
 

@@ -876,7 +876,7 @@ void tilespec_try_read(const char *tileset_name, bool verbose)
       exit(EXIT_FAILURE);
     }
 
-    freelog(LOG_VERBOSE, "Trying \"%s\" tileset.", tileset->name);
+    freelog(LOG_VERBOSE, "Trying tileset \"%s\".", tileset->name);
   }
   sz_strlcpy(default_tileset_name, tileset_get_name(tileset));
 }
@@ -1634,7 +1634,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
     }
 
     if (!hash_insert(t->tile_hash, draw->name, draw)) {
-      freelog(LOG_NORMAL, "warning: duplicate tilespec entry [%s].",
+      freelog(LOG_ERROR, "warning: duplicate tilespec entry [%s].",
 	      sections[i]);
       section_file_free(file);
       free(fname);

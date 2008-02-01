@@ -592,7 +592,7 @@ static const char *get_token(struct inputfile *inf,
   func = tok_tab[type].func;
   
   if (!func) {
-    freelog(LOG_NORMAL, "token type %d (%s) not supported yet", type, name);
+    freelog(LOG_ERROR, "token type %d (%s) not supported yet", type, name);
     c = NULL;
   } else {
     if (!have_line(inf))

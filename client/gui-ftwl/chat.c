@@ -236,7 +236,7 @@ void chat_add(const char *astring, int conn_id)
   struct color *pcolor = color_alloc(0, 0, 0);
   struct player *pplayer=NULL;
 
-  freelog(LOG_NORMAL,"ogg_add(%d,%s)",conn_id, astring);
+  freelog(LOG_VERBOSE,"ogg_add(%d,%s)",conn_id, astring);
 
   if (output.window) {
     sw_window_resize(output.window, output.outer_bounds.width,
@@ -251,7 +251,7 @@ void chat_add(const char *astring, int conn_id)
     pcolor = get_player_color(tileset, pplayer);
   }
 
-  freelog(LOG_NORMAL, "id=%d conn=%p player=%s", conn_id, conn,
+  freelog(LOG_VERBOSE, "id=%d conn=%p player=%s", conn_id, conn,
 	  pplayer ? player_name(pplayer) : "none");
   
   string = ct_string_clone4(output.template, astring, pcolor->color);
