@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-01 06:28-0500\n"
+"POT-Creation-Date: 2008-02-01 13:47+0100\n"
 "PO-Revision-Date: 2007-08-11 01:23+0300\n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -1643,7 +1643,7 @@ msgstr ""
 "zugelassen."
 
 #: server/auth.c:433
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Only preregistered users allowed."
 msgstr "%s wurde abgewiesen: Nur registrierte Spieler erlaubt."
 
@@ -4082,9 +4082,9 @@ msgstr "Wehrdienst"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:155
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Supreme %s"
-msgstr "%2d: Die großen %s"
+msgstr "%2d: Die überragenden %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:157
@@ -4112,15 +4112,15 @@ msgstr "%2d: Die hervorragenden %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:165
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Eminent %s"
-msgstr "%2d: Die hervorragenden %s"
+msgstr "%2d: Die bestechenden %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:167
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Distinguished %s"
-msgstr "%2d: Die glorreichen %s"
+msgstr "%2d: Die würdevollen %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:169
@@ -4136,9 +4136,9 @@ msgstr "%2d: Die mittelmäßigen %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:173
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Ordinary %s"
-msgstr "%2d: Die großen %s"
+msgstr "%2d: Die gewöhnlichen %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:175
@@ -4154,21 +4154,21 @@ msgstr "%2d: Die nutzlosen %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:179
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Valueless %s"
-msgstr "%2d: Die nutzlosen %s"
+msgstr "%2d: Die wertlosen %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:181
 #, c-format
 msgid "%2d: The Worthless %s"
-msgstr "%2d: Die wertlosen %s"
+msgstr "%2d: Die nichtswürdigen %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:183
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Wretched %s"
-msgstr "%2d: Die wertlosen %s"
+msgstr "%2d: Die heruntergekommenen %s"
 
 #: server/report.c:252
 msgid "Historian Publishes!"
@@ -5576,9 +5576,8 @@ msgid "Server cannot read standard input. Ignoring input."
 msgstr "Server cannot read standard input. Ignoring input."
 
 #: server/sernet.c:492 server/sernet.c:512
-#, fuzzy
 msgid "restarting for lack of players"
-msgstr "Goldstücke bei Spielbeginn"
+msgstr "Neustart, da keine Spieler mehr"
 
 #: server/sernet.c:896
 #, c-format
@@ -5592,19 +5591,16 @@ msgstr "Spielvorbereitung"
 
 #. TRANS: Game state for local server
 #: server/sernet.c:1171
-#, fuzzy
 msgid "Running"
-msgstr "Raffination"
+msgstr "Spiel läuft"
 
 #. TRANS: Game state for local server
 #: server/sernet.c:1175
-#, fuzzy
 msgid "Game over"
 msgstr "Spiel beendet"
 
 #. TRANS: Game state for local server
 #: server/sernet.c:1179
-#, fuzzy
 msgid "Waiting"
 msgstr "wartet"
 
@@ -6193,11 +6189,13 @@ msgstr "%d ist unzulässig."
 #: server/stdinhand.c:1449 server/stdinhand.c:1845 server/stdinhand.c:2741
 #: server/stdinhand.c:2917 server/stdinhand.c:2929 server/stdinhand.c:3094
 #: server/stdinhand.c:3257
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage:\n"
 "%s"
-msgstr "Syntax: away"
+msgstr ""
+"Syntax:\n"
+"%s"
 
 #: server/stdinhand.c:1456
 #, c-format
@@ -6208,7 +6206,7 @@ msgstr "Der dynamische Timer wurde auf %d %d %d %d gestellt."
 #: server/stdinhand.c:1517
 #, c-format
 msgid "Option: %s  -  %s"
-msgstr ""
+msgstr "Option: %s  -  %s"
 
 #. TRANS: <untranslated name>
 #: server/stdinhand.c:1523
@@ -6364,11 +6362,13 @@ msgstr "Nach Spielbeginn können Teams nicht mehr geändert werden."
 #: server/stdinhand.c:2087 server/stdinhand.c:2223 server/stdinhand.c:2268
 #: server/stdinhand.c:2293 server/stdinhand.c:2336 server/stdinhand.c:2368
 #: server/stdinhand.c:2410 server/stdinhand.c:2435 server/stdinhand.c:2479
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Undefined argument.  Usage:\n"
 "%s"
-msgstr "Falsche oder fehlende Option. Anwendung: set <Option> <Wert>"
+msgstr ""
+"Falscher Parameter. Anwendung:\n"
+"%s"
 
 #: server/stdinhand.c:2108
 #, c-format
@@ -6535,11 +6535,13 @@ msgid "Value out of range (minimum: %d, maximum: %d)."
 msgstr "Unzulässiger Wert (Minimum: %d, Maximum: %d)."
 
 #: server/stdinhand.c:2587
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "String value too long.  Usage:\n"
 "%s"
-msgstr "Unzulässiger Wert. Anwendung: set <Option> <Wert>"
+msgstr ""
+"Zeichenkette zu lang. Anwendung:\n"
+"%s"
 
 #: server/stdinhand.c:2600
 #, c-format
@@ -7638,7 +7640,6 @@ msgid "No real audio subsystem managed to initialize!"
 msgstr "Es konnte kein Audiosystem gestartet werden!"
 
 #: client/audio.c:256
-#, fuzzy
 msgid "Perhaps there is some misconfiguration or bad permissions."
 msgstr ""
 "Vielleicht ist etwas falsch konfiguriert oder mit falschen Zugriffsrechten "
@@ -14032,9 +14033,9 @@ msgstr ""
 "  -t,  --theme THEMA\tVerwendet THEMA als Thema der Benutzeroberfläche.\n"
 
 #: client/gui-sdl/gui_main.c:661
-#, fuzzy, c-format
+#, c-format
 msgid "Making screenshot %s"
-msgstr "Erstelle Bildschirmfoto fc_%05d.bmp"
+msgstr "Erstelle Bildschirmfoto %s"
 
 #: client/gui-sdl/gui_main.c:793
 #, c-format
@@ -14859,9 +14860,9 @@ msgid "No usable default theme found, aborting!"
 msgstr "No usable default theme found, aborting!"
 
 #: client/gui-sdl/themespec.c:369
-#, fuzzy, c-format
+#, c-format
 msgid "Loading theme \"%s\"."
-msgstr "Lade Feldergrafik '%s'."
+msgstr "Lade Thema '%s'."
 
 #: client/gui-sdl/themespec.c:486 client/gui-sdl/themespec.c:520
 #: client/gui-sdl/themespec.c:698
