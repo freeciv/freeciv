@@ -19,14 +19,6 @@
 /**************************************************************************
   Commands - can be recognised by unique prefix
 **************************************************************************/
-struct command {
-  const char *name;       /* name - will be matched by unique prefix   */
-  enum cmdlevel_id level; /* access level required to use the command  */
-  const char *synopsis;	  /* one or few-line summary of usage */
-  const char *short_help; /* one line (about 70 chars) description */
-  const char *extra_help; /* extra help information; will be line-wrapped */
-};
-
 /* Order here is important: for ambiguous abbreviations the first
    match is used.  Arrange order to:
    - allow old commands 's', 'h', 'l', 'q', 'c' to work.
@@ -91,6 +83,14 @@ enum command_id {
   CMD_AMBIGUOUS		/* used as a possible iteration result */
 };
 
-extern const struct command commands[];
+const struct command *command_by_number(int i);
+const char *command_name_by_number(int i);
+
+const char *command_name(const struct command *pcommand);
+const char *command_synopsis(const struct command *pcommand);
+const char *command_short_help(const struct command *pcommand);
+const char *command_extra_help(const struct command *pcommand);
+
+enum cmdlevel_id command_level(const struct command *pcommand);
 
 #endif				/* FC__COMMANDS_H */
