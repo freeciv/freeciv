@@ -21,9 +21,18 @@
 
 #include "commands.h"
 
+struct command {
+  const char *name;       /* name - will be matched by unique prefix   */
+  enum cmdlevel_id level; /* access level required to use the command  */
+  const char *synopsis;	  /* one or few-line summary of usage */
+  const char *short_help; /* one line (about 70 chars) description */
+  const char *extra_help; /* extra help information; will be line-wrapped */
+};
+
 /* Commands must match the values in enum command_id. */
-const struct command commands[] = {
+static struct command commands[] = {
   {"start",	ALLOW_INFO,
+   /* no translatable parameters */
    "start",
    N_("Start the game, or restart after loading a savegame."),
    N_("This command starts the game.  When starting a new game, "
@@ -55,6 +64,7 @@ const struct command commands[] = {
   },
 
   {"list",	ALLOW_INFO,
+   /* no translatable parameters */
    "list\n"
    "list players\n"
    "list teams\n"
@@ -66,6 +76,7 @@ const struct command commands[] = {
       " and defaults to 'players' if absent.")
   },
   {"quit",	ALLOW_HACK,
+   /* no translatable parameters */
    "quit",
    N_("Quit the game and shutdown the server."), NULL
   },
@@ -99,12 +110,14 @@ const struct command commands[] = {
       "or options with that prefix.")
   },
   {"wall",	ALLOW_HACK,
+   /* TRANS: translate text between <> only */
    N_("wall <message>"),
    N_("Send message to all connections."),
    N_("For each connected client, pops up a window showing the message "
       "entered.")
   },
   {"vote",	ALLOW_INFO,
+   /* TRANS: translate text between [] only */
    N_("vote yes|no [vote number]"),
    N_("Cast a vote."),
       /* xgettext:no-c-format */
@@ -119,17 +132,21 @@ const struct command commands[] = {
       "case if nobody votes against it.")
   },
   {"debug",	ALLOW_CTRL,
-   N_("debug [ player <player> | city <x> <y> | units <x> <y> | unit <id> "
-      "| tech <player> | timing | info]"),
+   /* no translatable parameters */
+   "debug [ diplomacy | ferries | player <player> | tech <player>"
+   " | city <x> <y> | units <x> <y> | unit <id> "
+   " | timing | info ]",
    N_("Turn on or off AI debugging of given entity."),
    N_("Print AI debug information about given entity and turn continous "
       "debugging output for this entity on or off."),
   },
   {"set",	ALLOW_CTRL,
+   /* TRANS: translate text between <> only */
    N_("set <option-name> <value>"),
    N_("Set server option."), NULL
   },
   {"team",	ALLOW_CTRL,
+   /* TRANS: translate text between <> only */
    N_("team <player> [team]"),
    N_("Change, add or remove a player's team affiliation."),
    N_("Sets a player as member of a team. If no team specified, the "
@@ -139,6 +156,7 @@ const struct command commands[] = {
       "with averaged individual scores.")
   },
   {"rulesetdir", ALLOW_CTRL,
+   /* TRANS: translate text between <> only */
    N_("rulesetdir <directory>"),
    N_("Choose new ruleset directory or modpack."),
    N_("Choose new ruleset directory or modpack. Calling this\n "
@@ -160,6 +178,7 @@ const struct command commands[] = {
    N_("Set metaserver patches line."), NULL
   },
   {"metaconnection",	ALLOW_HACK,
+   /* no translatable parameters */
    "metaconnection u|up\n"
    "metaconnection d|down\n"
    "metaconnection ?",
@@ -213,8 +232,8 @@ const struct command commands[] = {
       "been started.")
   },
   {"away",	ALLOW_INFO,
-   N_("away\n"
-      "away"),
+   /* no translatable parameters */
+   "away",
    N_("Set yourself in away mode. The AI will watch your back."),
    N_("The AI will govern your nation but do minimal changes."),
   },
@@ -302,7 +321,9 @@ const struct command commands[] = {
       "Note that this command now takes connection names, not player names."
       )
   },
-  {"first", ALLOW_INFO, "first",
+  {"first", ALLOW_INFO,
+   /* no translatable parameters */
+   "first",
    N_("If there is none, become the game organizer with increased permissions."),
    NULL,
   },
@@ -315,13 +336,13 @@ const struct command commands[] = {
       "concert with the option \"timeout\". Defaults are 0 0 0 1")
   },
   {"endgame",	ALLOW_HACK,
-   /* TRANS: translate text between <> only */
-   N_("endgame"),
+   /* no translatable parameters */
+   "endgame",
    N_("End the game immediately in a draw."), NULL,
   },
   {"surrender",	ALLOW_INFO,
-   /* TRANS: translate text between <> only */
-   N_("surrender"),
+   /* no translatable parameters */
+   "surrender",
    N_("Concede the game."),
    N_("This tells everyone else that you concede the game, and if all "
       "but one player (or one team) have conceded the game in this way "
@@ -365,12 +386,71 @@ const struct command commands[] = {
    N_("Write current settings as server commands to file."), NULL
   },
   {"rfcstyle",	ALLOW_HACK,
+   /* no translatable parameters */
    "rfcstyle",
    N_("Switch server output between 'RFC-style' and normal style."), NULL
   },
   {"serverid",	ALLOW_INFO,
+   /* no translatable parameters */
    "serverid",
    N_("Simply returns the id of the server."),
   }
 };
 
+
+/**************************************************************************
+  ...
+**************************************************************************/
+const struct command *command_by_number(int i)
+{
+  assert(i >= 0 && i < CMD_NUM);
+  return &commands[i];
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+const char *command_name(const struct command *pcommand)
+{
+  return pcommand->name;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+const char *command_name_by_number(int i)
+{
+  return command_by_number(i)->name;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+const char *command_synopsis(const struct command *pcommand)
+{
+  return pcommand->synopsis;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+const char *command_short_help(const struct command *pcommand)
+{
+  return pcommand->short_help;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+const char *command_extra_help(const struct command *pcommand)
+{
+  return pcommand->extra_help;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+enum cmdlevel_id command_level(const struct command *pcommand)
+{
+  return pcommand->level;
+}

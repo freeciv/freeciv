@@ -184,20 +184,20 @@ static bool manual_command(void)
       fprintf(doc, _("<h1>Freeciv %s server commands</h1>\n\n"),
               VERSION_STRING);
       for (i = 0; i < CMD_NUM; i++) {
-        const struct command *cmd = &commands[i];
+        const struct command *cmd = command_by_number(i);
 
         fprintf(doc, SEPARATOR);
-        fprintf(doc, "%s%s  -  %s%s\n\n", SECTION_BEGIN, cmd->name,
-                _(cmd->short_help), SECTION_END);
-        if (cmd->synopsis) {
+        fprintf(doc, "%s%s  -  %s%s\n\n", SECTION_BEGIN, command_name(cmd),
+                _(command_short_help(cmd)), SECTION_END);
+        if (command_synopsis(cmd)) {
           fprintf(doc, _("<table>\n<tr>\n<td valign=\"top\">"
                          "<pre>Synopsis:</pre></td>\n<td>"));
-          fprintf(doc, "<pre>%s</pre></td></tr></table>", _(cmd->synopsis));
+          fprintf(doc, "<pre>%s</pre></td></tr></table>", _(command_synopsis(cmd)));
         }
         fprintf(doc, _("<p class=\"level\">Level: %s</p>\n\n"),
-                cmdlevel_name(cmd->level));
-        if (cmd->extra_help) {
-          const char *help = _(cmd->extra_help);
+                cmdlevel_name(command_level(cmd)));
+        if (command_extra_help(cmd)) {
+          const char *help = _(command_extra_help(cmd));
 
           fprintf(doc, _("<p>Description:</p>\n\n"));
           fprintf(doc, "<pre>%s</pre>\n\n", help);

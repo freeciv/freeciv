@@ -160,9 +160,6 @@ static PlayerNameStatus test_player_name(char* name)
   return PNameOk;
 }
 
-static const char *cmdname_accessor(int i) {
-  return commands[i].name;
-}
 /**************************************************************************
   Convert a named command into an id.
   If accept_ambiguity is true, return the first command in the
@@ -175,7 +172,7 @@ static enum command_id command_named(const char *token, bool accept_ambiguity)
   enum m_pre_result result;
   int ind;
 
-  result = match_prefix(cmdname_accessor, CMD_NUM, 0,
+  result = match_prefix(command_name_by_number, CMD_NUM, 0,
 			mystrncasecmp, token, &ind);
 
   if (result < M_PRE_AMBIGUOUS) {
@@ -292,7 +289,7 @@ static bool may_use(struct connection *caller, enum command_id cmd)
   if (!caller) {
     return TRUE;  /* on the console, everything is allowed */
   }
-  return (caller->access_level >= commands[cmd].level);
+  return (caller->access_level >= command_level(command_by_number(cmd)));
 }
 
 /**************************************************************************
@@ -361,7 +358,7 @@ static void cmd_reply_line(enum command_id cmd, struct connection *caller,
 			   const char *line)
 {
   const char *cmdname = cmd < CMD_NUM
-                        ? commands[cmd].name
+                        ? command_name_by_number(cmd)
                         : cmd == CMD_AMBIGUOUS
                           /* TRANS: ambiguous command */
                           ? _("(ambiguous)")
@@ -1449,9 +1446,8 @@ static bool timeout_command(struct connection *caller, char *str, bool check)
   }
 
   if (ntokens == 0) {
-    cmd_reply(CMD_TIMEOUT, caller, C_SYNTAX, _("Usage: timeoutincrease "
-					       "<turn> <turnadd> "
-					       "<value> <valuemult>."));
+    cmd_reply(CMD_TIMEOUT, caller, C_SYNTAX, _("Usage:\n%s"),
+              _(command_synopsis(command_by_number(CMD_TIMEOUT))));
     return FALSE;
   } else if (check) {
     return TRUE;
@@ -1846,7 +1842,8 @@ static bool set_away(struct connection *caller, char *name, bool check)
     cmd_reply(CMD_AWAY, caller, C_FAIL, _("This command is client only."));
     return FALSE;
   } else if (name && strlen(name) > 0) {
-    notify_conn(caller->self, NULL, E_SETTING, _("Usage: away"));
+    notify_conn(caller->self, NULL, E_SETTING, _("Usage:\n%s"),
+                _(command_synopsis(command_by_number(CMD_AWAY))));
     return FALSE;
   } else if (!caller->player || caller->observer) {
     /* This happens for detached or observer connections. */
@@ -2087,7 +2084,8 @@ static bool team_command(struct connection *caller, char *str, bool check)
   }
   if (ntokens != 2) {
     cmd_reply(CMD_TEAM, caller, C_SYNTAX,
-	      _("Undefined argument.  Usage: team <player> <team>."));
+              _("Undefined argument.  Usage:\n%s"),
+              _(command_synopsis(command_by_number(CMD_TEAM))));
     goto cleanup;
   }
 
@@ -2142,8 +2140,6 @@ static bool vote_command(struct connection *caller, char *str,
   char buf[MAX_LEN_CONSOLE_LINE];
   char *arg[3];
   int ntokens = 0, i;
-  const char *usage = _("Undefined arguments. Usage: vote yes|no "
-                        "[vote number].");
   bool res = FALSE;
 
   if (caller == NULL || caller->player == NULL) {
@@ -2223,7 +2219,9 @@ static bool vote_command(struct connection *caller, char *str,
     }
     check_vote(vote);
   } else {
-    cmd_reply(CMD_VOTE, caller, C_SYNTAX, usage);
+    cmd_reply(CMD_VOTE, caller, C_SYNTAX,
+              _("Undefined argument.  Usage:\n%s"),
+              _(command_synopsis(command_by_number(CMD_VOTE))));
     goto cleanup;
   }
 
@@ -2244,10 +2242,6 @@ static bool debug_command(struct connection *caller, char *str,
   char buf[MAX_LEN_CONSOLE_LINE];
   char *arg[3];
   int ntokens = 0, i;
-  const char *usage = _("Undefined arguments. Usage: debug < diplomacy "
-			"<player> | city <x> <y> | units <x> <y> | "
-			"unit <id> | tech <player> | timing | info | "
-			"ferries >.");
 
   if (game.info.is_new_game) {
     cmd_reply(CMD_DEBUG, caller, C_SYNTAX,
@@ -2270,7 +2264,9 @@ static bool debug_command(struct connection *caller, char *str,
     enum m_pre_result match_result;
 
     if (ntokens != 2) {
-      cmd_reply(CMD_DEBUG, caller, C_SYNTAX, usage);
+      cmd_reply(CMD_DEBUG, caller, C_SYNTAX,
+                _("Undefined argument.  Usage:\n%s"),
+                _(command_synopsis(command_by_number(CMD_DEBUG))));
       goto cleanup;
     }
     pplayer = find_player_by_name_prefix(arg[1], &match_result);
@@ -2293,7 +2289,9 @@ static bool debug_command(struct connection *caller, char *str,
     enum m_pre_result match_result;
 
     if (ntokens != 2) {
-      cmd_reply(CMD_DEBUG, caller, C_SYNTAX, usage);
+      cmd_reply(CMD_DEBUG, caller, C_SYNTAX,
+                _("Undefined argument.  Usage:\n%s"),
+                _(command_synopsis(command_by_number(CMD_DEBUG))));
       goto cleanup;
     }
     pplayer = find_player_by_name_prefix(arg[1], &match_result);
@@ -2334,7 +2332,9 @@ static bool debug_command(struct connection *caller, char *str,
     struct city *pcity;
 
     if (ntokens != 3) {
-      cmd_reply(CMD_DEBUG, caller, C_SYNTAX, usage);
+      cmd_reply(CMD_DEBUG, caller, C_SYNTAX,
+                _("Undefined argument.  Usage:\n%s"),
+                _(command_synopsis(command_by_number(CMD_DEBUG))));
       goto cleanup;
     }
     if (sscanf(arg[1], "%d", &x) != 1 || sscanf(arg[2], "%d", &y) != 1) {
@@ -2364,7 +2364,9 @@ static bool debug_command(struct connection *caller, char *str,
     struct tile *ptile;
 
     if (ntokens != 3) {
-      cmd_reply(CMD_DEBUG, caller, C_SYNTAX, usage);
+      cmd_reply(CMD_DEBUG, caller, C_SYNTAX,
+                _("Undefined argument.  Usage:\n%s"),
+                _(command_synopsis(command_by_number(CMD_DEBUG))));
       goto cleanup;
     }
     if (sscanf(arg[1], "%d", &x) != 1 || sscanf(arg[2], "%d", &y) != 1) {
@@ -2404,7 +2406,9 @@ static bool debug_command(struct connection *caller, char *str,
     struct unit *punit;
 
     if (ntokens != 2) {
-      cmd_reply(CMD_DEBUG, caller, C_SYNTAX, usage);
+      cmd_reply(CMD_DEBUG, caller, C_SYNTAX,
+              _("Undefined argument.  Usage:\n%s"),
+              _(command_synopsis(command_by_number(CMD_DEBUG))));
       goto cleanup;
     }
     if (sscanf(arg[1], "%d", &id) != 1) {
@@ -2427,7 +2431,9 @@ static bool debug_command(struct connection *caller, char *str,
                unit_name_translation(punit));
     }
   } else {
-    cmd_reply(CMD_DEBUG, caller, C_SYNTAX, usage);
+    cmd_reply(CMD_DEBUG, caller, C_SYNTAX,
+              _("Undefined argument.  Usage:\n%s"),
+              _(command_synopsis(command_by_number(CMD_DEBUG))));
   }
   cleanup:
   for (i = 0; i < ntokens; i++) {
@@ -2470,7 +2476,8 @@ static bool set_command(struct connection *caller, char *str, bool check)
   cmd = lookup_option(command);
   if (cmd==-1) {
     cmd_reply(CMD_SET, caller, C_SYNTAX,
-	      _("Undefined argument.  Usage: set <option> <value>."));
+              _("Undefined argument.  Usage:\n%s"),
+              _(command_synopsis(command_by_number(CMD_SET))));
     return FALSE;
   }
   else if (cmd==-2) {
@@ -2577,7 +2584,8 @@ static bool set_command(struct connection *caller, char *str, bool check)
   case SSET_STRING:
     if (strlen(arg) >= op->string_value_size) {
       cmd_reply(CMD_SET, caller, C_SYNTAX,
-		_("String value too long.  Usage: set <option> <value>."));
+                _("String value too long.  Usage:\n%s"),
+                _(command_synopsis(command_by_number(CMD_SET))));
       return FALSE;
     } else {
       const char *reject_message = NULL;
@@ -2730,14 +2738,14 @@ static bool observe_command(struct connection *caller, char *str, bool check)
   
   /* check syntax, only certain syntax if allowed depending on the caller */
   if (!caller && ntokens < 1) {
-    cmd_reply(CMD_OBSERVE, caller, C_SYNTAX,
-              _("Usage: observe [connection-name [player-name]]"));
+    cmd_reply(CMD_OBSERVE, caller, C_SYNTAX, _("Usage:\n%s"),
+              _(command_synopsis(command_by_number(CMD_OBSERVE))));
     goto end;
   } 
 
   if (ntokens == 2 && (caller && caller->access_level != ALLOW_HACK)) {
     cmd_reply(CMD_OBSERVE, caller, C_SYNTAX,
-              _("Usage: observe [player-name]"));
+              _("Only the player name form is allowed."));
     goto end;
   }
 
@@ -2906,19 +2914,20 @@ static bool take_command(struct connection *caller, char *str, bool check)
   
   /* check syntax */
   if (!caller && ntokens != 2) {
-    cmd_reply(CMD_TAKE, caller, C_SYNTAX,
-              _("Usage: take <connection-name> <player-name>"));
+    cmd_reply(CMD_TAKE, caller, C_SYNTAX, _("Usage:\n%s"),
+              _(command_synopsis(command_by_number(CMD_TAKE))));
     goto end;
   }
 
   if (caller && caller->access_level != ALLOW_HACK && ntokens != 1) {
-    cmd_reply(CMD_TAKE, caller, C_SYNTAX, _("Usage: take <player-name>"));
+    cmd_reply(CMD_TAKE, caller, C_SYNTAX,
+              _("Only the player name form is allowed."));
     goto end;
   }
 
   if (ntokens == 0) {
-    cmd_reply(CMD_TAKE, caller, C_SYNTAX,
-              _("Usage: take [connection-name] <player-name>"));
+    cmd_reply(CMD_TAKE, caller, C_SYNTAX, _("Usage:\n%s"),
+              _(command_synopsis(command_by_number(CMD_TAKE))));
     goto end;
   }
 
@@ -3082,8 +3091,8 @@ static bool detach_command(struct connection *caller, char *str, bool check)
   ntokens = get_tokens(buf, arg, 1, TOKEN_DELIMITERS);
 
   if (!caller && ntokens == 0) {
-    cmd_reply(CMD_DETACH, caller, C_SYNTAX,
-              _("Usage: detach <connection-name>"));
+    cmd_reply(CMD_DETACH, caller, C_SYNTAX, _("Usage:\n%s"),
+              _(command_synopsis(command_by_number(CMD_DETACH))));
     goto end;
   }
 
@@ -3245,7 +3254,8 @@ bool load_command(struct connection *caller, char *filename, bool check)
   char arg[MAX_LEN_PATH];
 
   if (!filename || filename[0] == '\0') {
-    cmd_reply(CMD_LOAD, caller, C_FAIL, _("Usage: load <game name>"));
+    cmd_reply(CMD_LOAD, caller, C_FAIL, _("Usage:\n%s"),
+              _(command_synopsis(command_by_number(CMD_LOAD))));
     return FALSE;
   }
   if (S_S_INITIAL != server_state()) {
@@ -3505,7 +3515,7 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
     cmd_reply(cmd, caller, C_SYNTAX,
 	_("Warning: '%s' interpreted as '%s', but it is ambiguous."
 	  "  Try '%shelp'."),
-	command, commands[cmd].name, caller?"/":"");
+	command, command_name_by_number(cmd), caller?"/":"");
   } else if (cmd == CMD_UNRECOGNIZED) {
     cmd_reply(cmd, caller, C_SYNTAX,
 	_("Unknown command.  Try '%shelp'."), caller?"/":"");
@@ -3518,7 +3528,7 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
       && !caller->observer /* don't allow observers to ask votes */
       && !check
       && caller->access_level == ALLOW_INFO
-      && commands[cmd].level == ALLOW_CTRL) {
+      && ALLOW_CTRL == command_level(command_by_number(cmd))) {
     int idx = player_index(caller->player);
 
     /* If we already have a vote going, cancel it in favour of the new
@@ -3552,8 +3562,8 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
   }
   if (caller
       && !(check && caller->access_level >= ALLOW_INFO 
-           && commands[cmd].level == ALLOW_CTRL)
-      && caller->access_level < commands[cmd].level) {
+           && ALLOW_CTRL == command_level(command_by_number(cmd)))
+      && caller->access_level < command_level(command_by_number(cmd))) {
     cmd_reply(cmd, caller, C_FAIL,
 	      _("You are not allowed to use this command."));
     return FALSE;
@@ -3572,7 +3582,7 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
   while(i>0 && my_isspace(arg[i]))
     arg[i--]='\0';
 
-  if (!check && commands[cmd].level > ALLOW_INFO) {
+  if (!check && ALLOW_INFO < command_level(command_by_number(cmd))) {
     /*
      * this command will affect the game - inform all players
      *
@@ -3622,7 +3632,7 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
   case CMD_HARD:
   case CMD_CHEATING:
   case CMD_EXPERIMENTAL:
-    return set_ai_level_named(caller, arg, commands[cmd].name, check);
+    return set_ai_level_named(caller, arg, command_name_by_number(cmd), check);
   case CMD_QUIT:
     return quit_game(caller, check);
   case CMD_CUT:
@@ -3859,21 +3869,21 @@ static void show_help_command(struct connection *caller,
 			      enum command_id help_cmd,
 			      enum command_id id)
 {
-  const struct command *cmd = &commands[id];
+  const struct command *cmd = command_by_number(id);
   
-  if (cmd->short_help) {
+  if (command_short_help(cmd)) {
     cmd_reply(help_cmd, caller, C_COMMENT,
 	      /* TRANS: <untranslated name> - translated short help */
 	      _("Command: %s  -  %s"),
-	      cmd->name,
-	      _(cmd->short_help));
+	      command_name(cmd),
+	      _(command_short_help(cmd)));
   } else {
     cmd_reply(help_cmd, caller, C_COMMENT,
 	      /* TRANS: <untranslated name> */
 	      _("Command: %s"),
-	      cmd->name);
+	      command_name(cmd));
   }
-  if (cmd->synopsis) {
+  if (command_synopsis(cmd)) {
     /* line up the synopsis lines: */
     const char *syn = _("Synopsis: ");
     size_t synlen = strlen(syn);
@@ -3881,12 +3891,12 @@ static void show_help_command(struct connection *caller,
 
     my_snprintf(prefix, sizeof(prefix), "%*s", (int) synlen, " ");
     cmd_reply_prefix(help_cmd, caller, C_COMMENT, prefix,
-		     "%s%s", syn, _(cmd->synopsis));
+		     "%s%s", syn, _(command_synopsis(cmd)));
   }
   cmd_reply(help_cmd, caller, C_COMMENT,
-	    _("Level: %s"), cmdlevel_name(cmd->level));
-  if (cmd->extra_help) {
-    const char *help = _(cmd->extra_help);
+	    _("Level: %s"), cmdlevel_name(command_level(cmd)));
+  if (command_extra_help(cmd)) {
+    const char *help = _(command_extra_help(cmd));
       
     cmd_reply(help_cmd, caller, C_COMMENT, _("Description:"));
     cmd_reply_prefix(help_cmd, caller, C_COMMENT, "  ",
@@ -3909,7 +3919,7 @@ static void show_help_command_list(struct connection *caller,
   cmd_reply(help_cmd, caller, C_COMMENT, horiz_line);
   if(!caller && con_get_style()) {
     for (i=0; i<CMD_NUM; i++) {
-      cmd_reply(help_cmd, caller, C_COMMENT, "%s", commands[i].name);
+      cmd_reply(help_cmd, caller, C_COMMENT, "%s", command_name_by_number(i));
     }
   } else {
     char buf[MAX_LEN_CONSOLE_LINE];
@@ -3918,7 +3928,7 @@ static void show_help_command_list(struct connection *caller,
     buf[0] = '\0';
     for (i=0, j=0; i<CMD_NUM; i++) {
       if (may_use(caller, i)) {
-	cat_snprintf(buf, sizeof(buf), "%-19s", commands[i].name);
+	cat_snprintf(buf, sizeof(buf), "%-19s", command_name_by_number(i));
 	if((++j % 4) == 0) {
 	  cmd_reply(help_cmd, caller, C_COMMENT, buf);
 	  buf[0] = '\0';
@@ -3953,7 +3963,7 @@ static const char * const help_general_args[] = {
 **************************************************************************/
 static const char *helparg_accessor(int i) {
   if (i<CMD_NUM)
-    return cmdname_accessor(i);
+    return command_name_by_number(i);
   i -= CMD_NUM;
   if (i<HELP_GENERAL_NUM)
     return help_general_args[i];
@@ -4346,7 +4356,7 @@ The valid commands at the root of the prompt.
 **************************************************************************/
 static char *command_generator(const char *text, int state)
 {
-  return generic_generator(text, state, CMD_NUM, cmdname_accessor);
+  return generic_generator(text, state, CMD_NUM, command_name_by_number);
 }
 
 /**************************************************************************
@@ -4473,7 +4483,7 @@ static bool is_command(int start)
 {
   char *str_itr;
 
-  if (contains_str_before_start(start, commands[CMD_HELP].name, FALSE))
+  if (contains_str_before_start(start, command_name_by_number(CMD_HELP), FALSE))
     return TRUE;
 
   /* if there is only it is also OK */
@@ -4534,7 +4544,7 @@ static bool is_player(int start)
   int i = 0;
 
   while (player_cmd[i] != -1) {
-    if (contains_str_before_start(start, commands[player_cmd[i]].name, FALSE)) {
+    if (contains_str_before_start(start, command_name_by_number(player_cmd[i]), FALSE)) {
       return TRUE;
     }
     i++;
@@ -4548,7 +4558,7 @@ static bool is_player(int start)
 **************************************************************************/
 static bool is_connection(int start)
 {
-  return contains_str_before_start(start, commands[CMD_CUT].name, FALSE);
+  return contains_str_before_start(start, command_name_by_number(CMD_CUT), FALSE);
 }
 
 /**************************************************************************
@@ -4556,7 +4566,7 @@ static bool is_connection(int start)
 **************************************************************************/
 static bool is_cmdlevel_arg2(int start)
 {
-  return (contains_str_before_start(start, commands[CMD_CMDLEVEL].name, TRUE)
+  return (contains_str_before_start(start, command_name_by_number(CMD_CMDLEVEL), TRUE)
 	  && num_tokens(start) == 2);
 }
 
@@ -4565,7 +4575,7 @@ static bool is_cmdlevel_arg2(int start)
 **************************************************************************/
 static bool is_cmdlevel_arg1(int start)
 {
-  return contains_str_before_start(start, commands[CMD_CMDLEVEL].name, FALSE);
+  return contains_str_before_start(start, command_name_by_number(CMD_CMDLEVEL), FALSE);
 }
 
 /**************************************************************************
@@ -4589,7 +4599,7 @@ static bool is_server_option(int start)
   int i = 0;
 
   while (server_option_cmd[i] != -1) {
-    if (contains_str_before_start(start, commands[server_option_cmd[i]].name,
+    if (contains_str_before_start(start, command_name_by_number(server_option_cmd[i]),
 				  FALSE)) {
       return TRUE;
     }
@@ -4616,7 +4626,7 @@ static bool is_option_level(int start)
   int i = 0;
 
   while (option_level_cmd[i] != -1) {
-    if (contains_str_before_start(start, commands[option_level_cmd[i]].name,
+    if (contains_str_before_start(start, command_name_by_number(option_level_cmd[i]),
 				  FALSE)) {
       return TRUE;
     }
@@ -4645,8 +4655,7 @@ static bool is_filename(int start)
   int i = 0;
 
   while (filename_cmd[i] != -1) {
-    if (contains_str_before_start
-	(start, commands[filename_cmd[i]].name, FALSE)) {
+    if (contains_str_before_start(start, command_name_by_number(filename_cmd[i]), FALSE)) {
       return TRUE;
     }
     i++;
@@ -4660,7 +4669,7 @@ static bool is_filename(int start)
 **************************************************************************/
 static bool is_help(int start)
 {
-  return contains_str_before_start(start, commands[CMD_HELP].name, FALSE);
+  return contains_str_before_start(start, command_name_by_number(CMD_HELP), FALSE);
 }
 
 /**************************************************************************
@@ -4668,7 +4677,7 @@ static bool is_help(int start)
 **************************************************************************/
 static bool is_list(int start)
 {
-  return contains_str_before_start(start, commands[CMD_LIST].name, FALSE);
+  return contains_str_before_start(start, command_name_by_number(CMD_LIST), FALSE);
 }
 
 /**************************************************************************
