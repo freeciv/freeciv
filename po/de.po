@@ -199,7 +199,7 @@ msgstr "Produktion geändert"
 #: common/events.c:66 common/events.c:67 common/events.c:68 common/events.c:69
 #: common/events.c:70 common/events.c:71
 msgid "Civ"
-msgstr ""
+msgstr "Zivilisation"
 
 #: common/events.c:62
 msgid "Barbarian Uprising"
@@ -251,7 +251,7 @@ msgstr "Aktionen von Diplomaten"
 
 #: common/events.c:72 common/events.c:81
 msgid "Bribe"
-msgstr ""
+msgstr "Bestechung"
 
 #: common/events.c:73
 msgid "Caused Incident"
@@ -559,11 +559,11 @@ msgstr "Spielereinstellungen"
 #: common/events.c:261
 #, c-format
 msgid "?eventdescr:%s: %s"
-msgstr ""
+msgstr "%s: %s"
 
 #: common/player.c:42
 msgid "Away"
-msgstr ""
+msgstr "Abwesend"
 
 #: common/player.c:42
 msgid "Novice"
@@ -3658,11 +3658,11 @@ msgstr "Konnte Stadtgröße nicht verändern."
 
 #: server/edithand.c:434
 msgid "Cannot remove knowledge about own city."
-msgstr ""
+msgstr "Kann Kenntnis über eine eigene Stadt nicht löschen."
 
 #: server/edithand.c:441
 msgid "Cannot remove knowledge about own unit."
-msgstr ""
+msgstr "Kann Kenntnis über eine eigene Einheit nicht löschen."
 
 #: server/gamehand.c:168
 #, c-format
@@ -4282,7 +4282,7 @@ msgstr "Die %s der %s (%s)"
 
 #: server/ruleset.c:163
 msgid "Fatal ruleset error. Server dies!"
-msgstr ""
+msgstr "Schwerer Fehler in den Regelsatzdateien. Server beendet sich."
 
 #. TRANS: message about an installation error.
 #: server/ruleset.c:211
@@ -5543,6 +5543,11 @@ msgid ""
 " 2 - bzip2\n"
 "Not all servers support all compression methods."
 msgstr ""
+"Komprimierungsart für Spielstanddateien.\n"
+" 0 - keine\n"
+" 1 - zlib (gzip-Format)\n"
+" 2 - bzip2\n"
+"Nicht alle Server unterstützen alle Komprimierungsarten."
 
 #: server/settings.c:1018
 msgid "Auto-save name prefix"
@@ -5730,7 +5735,7 @@ msgstr ""
 #: server/srv_main.c:944 server/srv_main.c:947
 #, c-format
 msgid "Unsupported compression type %d"
-msgstr ""
+msgstr "Nicht unterstützte Komprimierungsart %d."
 
 #: server/srv_main.c:969
 #, c-format
@@ -6457,7 +6462,7 @@ msgstr "Fehlersuche für Forschung der %s eingeschaltet."
 #: server/stdinhand.c:2324 server/stdinhand.c:2327
 #, c-format
 msgid "players=%d cities=%d citizens=%d units=%d"
-msgstr ""
+msgstr "Spieler=%d Städte=%d Bürger=%d Einheiten=%d"
 
 #: server/stdinhand.c:2341 server/stdinhand.c:2373
 msgid "Value 2 & 3 must be integer."
@@ -26119,7 +26124,6 @@ msgid "?plural:Romanians"
 msgstr "Rumänen"
 
 #: data/nation/romanian.ruleset:6
-#, fuzzy
 msgid ""
 "Romania as a nation was formed at the beginning of the 20th century, when "
 "the states of Transylvania, Wallachia, and Moldavia merged. It is a country "
@@ -27304,7 +27308,6 @@ msgid "?plural:Westphalians"
 msgstr "Westfalen"
 
 #: data/nation/westphalian.ruleset:6
-#, fuzzy
 msgid ""
 "Westphalia, before becoming a Prussian province, was the western region of "
 "the Duchy of Saxony. Today it makes up the northern part of the largest "
@@ -29401,20 +29404,6 @@ msgstr "Team 31"
 #~ msgstr ""
 #~ "Phönizien war eine Zivilisation im Altertum, in den Küstenregionen des "
 #~ "heutigen Libanons und Syriens."
-
-#~ msgid ""
-#~ "Romania as a nation was formed at the beginning of the 20th century, when "
-#~ "the states of Transylvania, Wallachia, and Moldavia merged. It is a "
-#~ "country inhabited by people speaking a language reminiscent from the time "
-#~ "of ancient Rome. It's history is convoluted as it was always at the "
-#~ "borders of great empires: Roman, Ottoman, Austro-Hungarian, and Russian."
-#~ msgstr ""
-#~ "Die rumänische Nation entstand am Beginn des 20. Jahrhunderts, als "
-#~ "Siebenbürgen, die Walachei und Moldavien verschmolzen. Seine Sprache "
-#~ "erinnert stark an die des alten Roms. Die rumänische Geschichte ist "
-#~ "abwechslungsreich, da es sich stets an den Grenzen großer Reiche befand: "
-#~ "des Römischen, Ottomanischen, Österreich-Ungarischen und des Russischen "
-#~ "Reiches."
 
 #~ msgid "Presedinte"
 #~ msgstr "Präsident"
