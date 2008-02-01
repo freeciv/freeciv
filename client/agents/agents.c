@@ -155,7 +155,7 @@ static void enqueue_call(struct my_agent *agent,
   call_list_prepend(agents.calls, pcall2);
 
   if (DEBUG_TODO_LISTS) {
-    freelog(LOG_NORMAL, "A: adding call");
+    freelog(LOG_TEST, "A: adding call");
   }
 
   update_turn_done_button_state();
@@ -191,7 +191,7 @@ static struct call *remove_and_return_a_call(void)
   call_list_unlink(agents.calls, result);
 
   if (DEBUG_TODO_LISTS) {
-    freelog(LOG_NORMAL, "A: removed call");
+    freelog(LOG_TEST, "A: removed call");
   }
   return result;
 }
@@ -261,7 +261,7 @@ static void freeze(void)
     initialized = TRUE;
   }
   if (DEBUG_FREEZE) {
-    freelog(LOG_NORMAL, "A: freeze() current level=%d", frozen_level);
+    freelog(LOG_TEST, "A: freeze() current level=%d", frozen_level);
   }
   frozen_level++;
 }
@@ -273,7 +273,7 @@ static void freeze(void)
 static void thaw(void)
 {
   if (DEBUG_FREEZE) {
-    freelog(LOG_NORMAL, "A: thaw() current level=%d", frozen_level);
+    freelog(LOG_TEST, "A: thaw() current level=%d", frozen_level);
   }
   frozen_level--;
   assert(frozen_level >= 0);
@@ -759,7 +759,7 @@ void wait_for_requests(const char *agent_name, int first_request_id,
   struct my_agent *agent = find_agent_by_name(agent_name);
 
   if (DEBUG_REQUEST_IDS) {
-    freelog(LOG_NORMAL, "A:%s: wait_for_request(ids=[%d..%d])",
+    freelog(LOG_TEST, "A:%s: wait_for_request(ids=[%d..%d])",
 	    agent->agent.name, first_request_id, last_request_id);
   }
 
@@ -778,7 +778,7 @@ void wait_for_requests(const char *agent_name, int first_request_id,
       (1 + (last_request_id - first_request_id));
 
   if (DEBUG_REQUEST_IDS) {
-    freelog(LOG_NORMAL, "A:%s: wait_for_request: ids=[%d..%d]; got it",
+    freelog(LOG_TEST, "A:%s: wait_for_request: ids=[%d..%d]; got it",
 	    agent->agent.name, first_request_id, last_request_id);
   }
 

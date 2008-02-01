@@ -24,6 +24,10 @@
 #define LOG_DEBUG   4		/* suppressed unless DEBUG defined;
 				   may be enabled on file/line basis */
 
+/* Used by game debug command */
+#define LOG_TEST LOG_NORMAL
+#define LOG_PACKET LOG_VERBOSE
+
 /* Some variables local to each file which includes log.h,
    to record whether LOG_DEBUG messages apply for that file
    and if so for which lines (min,max) :

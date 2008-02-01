@@ -119,7 +119,7 @@ static inline bool copy_event(struct be_event *event, SDL_Event *sdl_event)
 	Uint16 unicode = sdl_event->key.keysym.unicode;
 
 	if (unicode == 0) {
-          freelog(LOG_NORMAL, "unicode == 0");
+          freelog(LOG_TEST, "unicode == 0");
 	  return FALSE;
 	}
 	if ((unicode & 0xFF80) != 0) {
@@ -140,7 +140,7 @@ static inline bool copy_event(struct be_event *event, SDL_Event *sdl_event)
     exit(EXIT_SUCCESS);
 
   default:
-    // freelog(LOG_NORMAL, "ignored event %d\n", sdl_event->type);
+    // freelog(LOG_TEST, "ignored event %d\n", sdl_event->type);
     return FALSE;
   }
   return TRUE;

@@ -212,7 +212,7 @@ void set_myrand_state(RANDOM_STATE state)
 
 /*************************************************************************
   Test one aspect of randomness, using n numbers.
-  Reports results to LOG_NORMAL; with good randomness, behaviourchange
+  Reports results to LOG_TEST; with good randomness, behaviourchange
   and behavioursame should be about the same size.
   Tests current random state; saves and restores state, so can call
   without interrupting current sequence.
@@ -242,7 +242,7 @@ void test_random1(int n)
     }
     old_value = new_value;
   }
-  freelog(LOG_NORMAL, "test_random1(%d) same: %d, change: %d",
+  freelog(LOG_TEST, "test_random1(%d) same: %d, change: %d",
 	  n, behavioursame, behaviourchange);
 
   /* restore state: */

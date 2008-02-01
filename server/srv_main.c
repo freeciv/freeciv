@@ -941,8 +941,11 @@ void save_game(char *orig_filename, const char *save_reason)
     case FZ_PLAIN:
       break;
     default:
-      freelog(LOG_NORMAL, "Unsupported compression type %d",
+      freelog(LOG_ERROR, _("Unsupported compression type %d"),
               game.info.save_compress_type);
+      notify_conn(NULL, NULL, E_SETTING,
+                  _("Unsupported compression type %d"),
+                  game.info.save_compress_type);
       break;
     }
   }

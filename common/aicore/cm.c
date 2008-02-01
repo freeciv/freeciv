@@ -2039,28 +2039,28 @@ static void print_performance(struct one_perf *counts)
 ****************************************************************************/
 void cm_print_city(const struct city *pcity)
 {
-  freelog(LOG_NORMAL, "print_city(city='%s'(id=%d))",
+  freelog(LOG_TEST, "print_city(city='%s'(id=%d))",
           city_name(pcity), pcity->id);
-  freelog(LOG_NORMAL,
+  freelog(LOG_TEST,
 	  "  size=%d, specialists=%s",
 	  pcity->size, specialists_string(pcity->specialists));
-  freelog(LOG_NORMAL, "  workers at:");
+  freelog(LOG_TEST, "  workers at:");
   my_city_map_iterate(pcity, x, y) {
     if (pcity->city_map[x][y] == C_TILE_WORKER) {
-      freelog(LOG_NORMAL, "    (%2d,%2d)", x, y);
+      freelog(LOG_TEST, "    (%2d,%2d)", x, y);
     }
   } my_city_map_iterate_end;
 
-  freelog(LOG_NORMAL, "  food    = %3d (%+3d)",
+  freelog(LOG_TEST, "  food    = %3d (%+3d)",
           pcity->prod[O_FOOD], pcity->surplus[O_FOOD]);
-  freelog(LOG_NORMAL, "  shield  = %3d (%+3d)",
+  freelog(LOG_TEST, "  shield  = %3d (%+3d)",
           pcity->prod[O_SHIELD], pcity->surplus[O_SHIELD]);
-  freelog(LOG_NORMAL, "  trade   = %3d", pcity->surplus[O_TRADE]);
+  freelog(LOG_TEST, "  trade   = %3d", pcity->surplus[O_TRADE]);
 
-  freelog(LOG_NORMAL, "  gold    = %3d (%+3d)", pcity->prod[O_GOLD],
+  freelog(LOG_TEST, "  gold    = %3d (%+3d)", pcity->prod[O_GOLD],
 	  pcity->surplus[O_GOLD]);
-  freelog(LOG_NORMAL, "  luxury  = %3d", pcity->prod[O_LUXURY]);
-  freelog(LOG_NORMAL, "  science = %3d", pcity->prod[O_SCIENCE]);
+  freelog(LOG_TEST, "  luxury  = %3d", pcity->prod[O_LUXURY]);
+  freelog(LOG_TEST, "  science = %3d", pcity->prod[O_SCIENCE]);
 }
 
 
@@ -2072,15 +2072,15 @@ void cm_print_result(const struct city *pcity,
 {
   int y, worker = cm_count_worker(pcity, result);
 
-  freelog(LOG_NORMAL, "print_result(result=%p)", (void *)result);
-  freelog(LOG_NORMAL,
+  freelog(LOG_TEST, "print_result(result=%p)", (void *)result);
+  freelog(LOG_TEST,
       "print_result:  found_a_valid=%d disorder=%d happy=%d",
       result->found_a_valid, result->disorder, result->happy);
 
-  freelog(LOG_NORMAL, "print_result:  workers at:");
+  freelog(LOG_TEST, "print_result:  workers at:");
   my_city_map_iterate(pcity, x, y) {
     if (result->worker_positions_used[x][y]) {
-      freelog(LOG_NORMAL, "print_result:    (%2d,%2d)", x, y);
+      freelog(LOG_TEST, "print_result:    (%2d,%2d)", x, y);
     }
   } my_city_map_iterate_end;
 
@@ -2101,14 +2101,14 @@ void cm_print_result(const struct city *pcity,
         line[x] = '.';
       }
     }
-    freelog(LOG_NORMAL, "print_result: %s", line);
+    freelog(LOG_TEST, "print_result: %s", line);
   }
-  freelog(LOG_NORMAL,
+  freelog(LOG_TEST,
       "print_result:  people: (workers/specialists) %d/%s",
       worker, specialists_string(result->specialists));
 
   output_type_iterate(i) {
-    freelog(LOG_NORMAL, "print_result:  %10s surplus=%d",
+    freelog(LOG_TEST, "print_result:  %10s surplus=%d",
         get_output_name(i), result->surplus[i]);
   } output_type_iterate_end;
 }

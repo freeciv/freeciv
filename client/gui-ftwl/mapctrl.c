@@ -28,7 +28,7 @@
 void popup_newcity_dialog(struct unit *punit, char *suggestname)
 {
   /* PORTME */
-  freelog(LOG_NORMAL, "PORTME: popup_newcity_dialog()");
+  freelog(LOG_ERROR, "PORTME: popup_newcity_dialog()");
 }
 
 /**************************************************************************

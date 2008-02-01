@@ -107,13 +107,13 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
 
 #ifndef HAVE_LIBZ
     if (method == FZ_ZLIB) {
-      freelog(LOG_NORMAL, "Not compiled with zlib support, reverting to plain.");
+      freelog(LOG_ERROR, "Not compiled with zlib support, reverting to plain.");
       method = FZ_PLAIN;
     }
 #endif
 #ifndef HAVE_LIBBZ2
     if (method == FZ_BZIP2) {
-      freelog(LOG_NORMAL, "Not compiled with bzib2 support, reverting to plain.");
+      freelog(LOG_ERROR, "Not compiled with bzib2 support, reverting to plain.");
       method = FZ_PLAIN;
     }
 #endif

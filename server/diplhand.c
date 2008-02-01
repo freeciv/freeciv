@@ -427,7 +427,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	  struct city *pcity = game_find_city_by_number(pclause->value);
 
 	  if (!pcity) {
-	    freelog(LOG_NORMAL,
+	    freelog(LOG_ERROR,
 		    "Treaty city id %d not found - skipping clause.",
 		    pclause->value);
 	    break;

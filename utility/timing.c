@@ -111,7 +111,7 @@ static void report_clock_failed(struct timer *t)
   static bool first = TRUE;
 
   if (first) {
-    freelog(LOG_NORMAL, "clock() returned -1, ignoring timer");
+    freelog(LOG_TEST, "clock() returned -1, ignoring timer");
     first = FALSE;
   }
   t->use = TIMER_IGNORE;
@@ -127,7 +127,7 @@ static void report_gettimeofday_failed(struct timer *t)
   static bool first = TRUE;
 
   if (first) {
-    freelog(LOG_NORMAL, "gettimeofday() returned -1, ignoring timer");
+    freelog(LOG_TEST, "gettimeofday() returned -1, ignoring timer");
     first = FALSE;
   }
   t->use = TIMER_IGNORE;
@@ -142,7 +142,7 @@ static void report_time_failed(struct timer *t)
   static bool first = TRUE;
 
   if (first) {
-    freelog(LOG_NORMAL, "time() returned -1, ignoring timer");
+    freelog(LOG_TEST, "time() returned -1, ignoring timer");
     first = FALSE;
   }
   t->use = TIMER_IGNORE;
@@ -385,7 +385,7 @@ double read_timer_seconds(struct timer *t)
   {
       struct timer *t = new_timer_start();
       ...do stuff...
-      freelog(LOG_NORMAL, "That took %g seconds", read_timer_seconds_free(t));
+      freelog(LOG_TEST, "That took %g seconds", read_timer_seconds_free(t));
   }
   (BUT: make sure the _free call really happens!
   eg, freelog(LOG_DEBUG,...) might not actually evaluate its args.)

@@ -190,7 +190,7 @@ void tr_prepare_string(struct ct_string *string)
 			 ft_kerning_default, &delta);
 	  pen.x += delta.x >> 6;
 	  if (0 && delta.x)
-	    freelog(LOG_NORMAL, "kerning between %c and %c is %ld in '%s'\n",
+	    freelog(LOG_VERBOSE, "kerning between %c and %c is %ld in '%s'\n",
 		    text[i - 1], c, delta.x >> 6, text);
 	}
 

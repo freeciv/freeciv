@@ -876,7 +876,7 @@ void handle_event(char *message, struct tile *ptile,
   
   if (event >= E_LAST)  {
     /* Server may have added a new event; leave as MW_OUTPUT */
-    freelog(LOG_NORMAL, "Unknown event type %d!", event);
+    freelog(LOG_VERBOSE, "Unknown event type %d!", event);
   } else if (event >= 0)  {
     where = messages_where[event];
   }

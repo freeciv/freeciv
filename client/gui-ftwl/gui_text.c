@@ -323,7 +323,8 @@ const char *mapview_get_unit_action_tooltip(struct unit *punit,
 #endif
     add_line("tooltip for action %s isn't written yet",
 	     action);
-    freelog(LOG_NORMAL, "warning: get_unit_action_tooltip: unknown action %s",
+    freelog(LOG_VERBOSE,
+	    "warning: get_unit_action_tooltip: unknown action %s",
 	    action);
   }
   RETURN;
@@ -348,7 +349,7 @@ const char *mapview_get_city_action_tooltip(struct city *pcity,
 	     city_production_turns_to_build(pcity, TRUE));
   } else {
     add_line("tooltip for action %s isn't written yet", action);
-    freelog(LOG_NORMAL,
+    freelog(LOG_VERBOSE,
 	    "warning: get_city_action_tooltip: unknown action %s", action);
   }
   RETURN;

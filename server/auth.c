@@ -430,7 +430,7 @@ bool authenticate_user(struct connection *pconn, char *username)
         reject_new_connection(_("This server allows only preregistered "
                                 "users. Sorry."), pconn);
         freelog(LOG_NORMAL,
-                _("%s was rejected: Only preregister users allowed."),
+                _("%s was rejected: Only preregistered users allowed."),
                 pconn->username);
 
         return FALSE;

@@ -326,7 +326,7 @@ static int naval_bonus(struct cityresult *result, struct ai_data *ai)
 void print_cityresult(struct player *pplayer, struct cityresult *cr,
                       struct ai_data *ai)
 {
-  freelog(LOG_NORMAL, "Result=(%d, %d)\nReservations:\n"
+  freelog(LOG_TEST, "Result=(%d, %d)\nReservations:\n"
           "     %4d %4d %4d   \n"
           "%4d %4d %4d %4d %4d\n"
           "%4d %4d %4d %4d %4d\n"
@@ -344,7 +344,7 @@ void print_cityresult(struct player *pplayer, struct cityresult *cr,
           cr->citymap[1][4].reserved, cr->citymap[2][4].reserved,
           cr->citymap[3][4].reserved);
 #define M(a,b) cr->citymap[a][b].food, cr->citymap[a][b].shield, cr->citymap[a][b].trade
-  freelog(LOG_NORMAL, "Tiles (food/shield/trade):\n"
+  freelog(LOG_TEST, "Tiles (food/shield/trade):\n"
           "      %d-%d-%d %d-%d-%d %d-%d-%d\n"
           "%d-%d-%d %d-%d-%d %d-%d-%d %d-%d-%d %d-%d-%d\n"
           "%d-%d-%d %d-%d-%d %d-%d-%d %d-%d-%d %d-%d-%d\n"
@@ -354,7 +354,7 @@ void print_cityresult(struct player *pplayer, struct cityresult *cr,
           M(0,2), M(1,2), M(2,2), M(3,2), M(4,2), M(0,3), M(1,3), M(2,3),
           M(3,3), M(4,3), M(1,4), M(2,4), M(3,4));
 #undef M
-  freelog(LOG_NORMAL, "city center %d + best other(%d, %d) %d - corr %d "
+  freelog(LOG_TEST, "city center %d + best other(%d, %d) %d - corr %d "
           "- waste %d\n"
           "+ remaining %d + defense bonus %d + naval bonus %d = %d (%d)", 
           cr->city_center, cr->other_tile->x, cr->other_tile->y,
@@ -362,10 +362,10 @@ void print_cityresult(struct player *pplayer, struct cityresult *cr,
           cr->corruption, cr->waste, cr->remaining, defense_bonus(cr, ai), 
           naval_bonus(cr, ai), cr->total, cr->result);
   if (food_starvation(cr)) {
-    freelog(LOG_NORMAL, " ** FOOD STARVATION **");
+    freelog(LOG_TEST, " ** FOOD STARVATION **");
   }
   if (shield_starvation(cr)) {
-    freelog(LOG_NORMAL, " ** RESOURCE STARVATION **");
+    freelog(LOG_TEST, " ** RESOURCE STARVATION **");
   }
 }
 

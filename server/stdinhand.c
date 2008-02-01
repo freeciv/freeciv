@@ -2321,10 +2321,10 @@ static bool debug_command(struct connection *caller, char *str,
         units++;
       } unit_list_iterate_end;
     } players_iterate_end;
-    freelog(LOG_NORMAL, "players=%d cities=%d citizens=%d units=%d",
+    freelog(LOG_NORMAL, _("players=%d cities=%d citizens=%d units=%d"),
             players, cities, citizens, units);
     notify_conn(game.est_connections, NULL, E_AI_DEBUG,
-		"players=%d cities=%d citizens=%d units=%d",
+		_("players=%d cities=%d citizens=%d units=%d"),
 		players, cities, citizens, units);
   } else if (ntokens > 0 && strcmp(arg[0], "city") == 0) {
     int x, y;
@@ -2356,7 +2356,7 @@ static bool debug_command(struct connection *caller, char *str,
                 city_name(pcity));
     } else {
       pcity->debug = TRUE;
-      CITY_LOG(LOG_NORMAL, pcity, "debugged");
+      CITY_LOG(LOG_TEST, pcity, "debugged");
       pcity->ai.next_recalc = 0; /* force recalc of city next turn */
     }
   } else if (ntokens > 0 && strcmp(arg[0], "units") == 0) {
@@ -2385,7 +2385,7 @@ static bool debug_command(struct connection *caller, char *str,
                   unit_name_translation(punit));
       } else {
         punit->debug = TRUE;
-        UNIT_LOG(LOG_NORMAL, punit, _("%s %s debugged."),
+        UNIT_LOG(LOG_TEST, punit, "%s %s debugged.",
                  nation_adjective_for_player(unit_owner(punit)),
                  unit_name_translation(punit));
       }
@@ -2426,7 +2426,7 @@ static bool debug_command(struct connection *caller, char *str,
                 unit_name_translation(punit));
     } else {
       punit->debug = TRUE;
-      UNIT_LOG(LOG_NORMAL, punit, _("%s %s debugged."),
+      UNIT_LOG(LOG_TEST, punit, "%s %s debugged.",
                nation_adjective_for_player(unit_owner(punit)),
                unit_name_translation(punit));
     }

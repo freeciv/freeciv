@@ -657,8 +657,8 @@ Uint16 gui_event_loop(void *pData,
         case SDL_KEYDOWN:
           switch(Main.event.key.keysym.sym) {
             case SDLK_PRINT:
-              freelog(LOG_NORMAL, _("Making screenshot fc_%05d.bmp"), schot_nr);
               my_snprintf(schot, sizeof(schot), "fc_%05d.bmp", schot_nr++);
+              freelog(LOG_NORMAL, _("Making screenshot %s"), schot);
               SDL_SaveBMP(Main.screen, schot);
             break;
             

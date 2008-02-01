@@ -339,7 +339,7 @@ void themespec_try_read(const char *theme_name)
       exit(EXIT_FAILURE);
     }
 
-    freelog(LOG_NORMAL, _("Trying \"%s\" theme."), theme->name);
+    freelog(LOG_VERBOSE, "Trying theme \"%s\".", theme->name);
   }
 /*  sz_strlcpy(default_theme_name, theme_get_name(theme));*/
 }
@@ -366,7 +366,7 @@ void themespec_reread(const char *new_theme_name)
   sz_strlcpy(theme_name, name);
   sz_strlcpy(old_name, theme->name);
 
-  freelog(LOG_NORMAL, "Loading theme %s.", theme_name);
+  freelog(LOG_NORMAL, _("Loading theme \"%s\"."), theme_name);
 
   /* Step 0:  Record old data.
    *

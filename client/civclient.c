@@ -570,7 +570,7 @@ void set_client_state(enum client_states newstate)
     gui_server_connect();
     if (auto_connect) {
       if (connect_error) {
-	freelog(LOG_NORMAL,
+	freelog(LOG_FATAL,
 		_("There was an error while auto connecting; aborting."));
 	exit(EXIT_FAILURE);
       } else {

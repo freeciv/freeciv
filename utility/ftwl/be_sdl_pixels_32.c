@@ -67,12 +67,12 @@ void be_init(const struct ct_size *screen_size, bool fullscreen)
   }
   atexit(SDL_Quit);
 
-  freelog(LOG_NORMAL, "Using Video Output: %s",
+  freelog(LOG_NORMAL, _("Using Video Output: %s"),
 	  SDL_VideoDriverName(device, sizeof(device)));
   {
     const SDL_VideoInfo *info = SDL_GetVideoInfo();
-    freelog(LOG_NORMAL, "Video memory of driver: %dkb", info->video_mem);
-    freelog(LOG_NORMAL, "Preferred depth: %d bits per pixel",
+    freelog(LOG_VERBOSE, "Video memory of driver: %dkb", info->video_mem);
+    freelog(LOG_VERBOSE, "Preferred depth: %d bits per pixel",
 	    info->vfmt->BitsPerPixel);
   }
 
@@ -104,12 +104,12 @@ void be_init(const struct ct_size *screen_size, bool fullscreen)
     exit(1);
   }
 
-  freelog(LOG_NORMAL, "Got a screen with size (%dx%d) and %d bits per pixel",
+  freelog(LOG_VERBOSE, "Got a screen with size (%dx%d) and %d bits per pixel",
 	  screen->w, screen->h, screen->format->BitsPerPixel);
-  freelog(LOG_NORMAL, "  format: red=0x%x green=0x%x blue=0x%x mask=0x%x",
+  freelog(LOG_VERBOSE, "  format: red=0x%x green=0x%x blue=0x%x mask=0x%x",
 	  screen->format->Rmask, screen->format->Gmask,
 	  screen->format->Bmask, screen->format->Amask);
-  freelog(LOG_NORMAL, "  format: bits-per-pixel=%d bytes-per-pixel=%d",
+  freelog(LOG_VERBOSE, "  format: bits-per-pixel=%d bytes-per-pixel=%d",
 	  screen->format->BitsPerPixel, screen->format->BytesPerPixel);
   SDL_EnableUNICODE(1);
   SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);

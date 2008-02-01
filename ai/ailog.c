@@ -54,7 +54,7 @@ void TECH_LOG(int level, const struct player *pplayer,
   }
 
   if (BV_ISSET(pplayer->debug, PLAYER_DEBUG_TECH)) {
-    minlevel = LOG_NORMAL;
+    minlevel = LOG_TEST;
   } else if (minlevel > fc_log_level) {
     return;
   }
@@ -91,7 +91,7 @@ void DIPLO_LOG(int level, const struct player *pplayer,
   const struct ai_dip_intel *adip;
 
   if (BV_ISSET(pplayer->debug, PLAYER_DEBUG_DIPLOMACY)) {
-    minlevel = LOG_NORMAL;
+    minlevel = LOG_TEST;
   } else if (minlevel > fc_log_level) {
     return;
   }
@@ -131,7 +131,7 @@ void CITY_LOG(int level, const struct city *pcity, const char *msg, ...)
   int minlevel = MIN(LOGLEVEL_CITY, level);
 
   if (pcity->debug) {
-    minlevel = LOG_NORMAL;
+    minlevel = LOG_TEST;
   } else if (minlevel > fc_log_level) {
     return;
   }
@@ -170,14 +170,14 @@ void UNIT_LOG(int level, const struct unit *punit, const char *msg, ...)
   bool messwin = FALSE; /* output to message window */
 
   if (punit->debug) {
-    minlevel = LOG_NORMAL;
+    minlevel = LOG_TEST;
   } else {
     /* Are we a virtual unit evaluated in a debug city?. */
     if (punit->id == 0) {
       struct city *pcity = tile_city(punit->tile);
 
       if (pcity && pcity->debug) {
-        minlevel = LOG_NORMAL;
+        minlevel = LOG_TEST;
         messwin = TRUE;
       }
     }
@@ -232,7 +232,7 @@ void BODYGUARD_LOG(int level, const struct unit *punit, const char *msg)
   const char *s = "none";
 
   if (punit->debug) {
-    minlevel = LOG_NORMAL;
+    minlevel = LOG_TEST;
   } else if (minlevel > fc_log_level) {
     return;
   }
@@ -316,10 +316,10 @@ void TIMING_RESULTS(void)
   my_snprintf(buf, sizeof(buf), "  %s: %g sec turn, %g sec game", text,  \
            read_timer_seconds(aitimer[which][0]),                        \
            read_timer_seconds(aitimer[which][1]));                       \
-  freelog(LOG_NORMAL, buf);                                              \
+  freelog(LOG_TEST, buf);                                          \
   notify_conn(NULL, NULL, E_AI_DEBUG, "%s", buf);
 
-  freelog(LOG_NORMAL, "  --- AI timing results ---");
+  freelog(LOG_TEST, "  --- AI timing results ---");
   notify_conn(NULL, NULL, E_AI_DEBUG, "  --- AI timing results ---");
   OUT("Total AI time", AIT_ALL);
   OUT("Movemap", AIT_MOVEMAP);

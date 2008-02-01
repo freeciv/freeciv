@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-29 14:26-0500\n"
+"POT-Creation-Date: 2008-02-01 06:28-0500\n"
 "PO-Revision-Date: 2006-03-26 14:53+0800\n"
 "Last-Translator: Hongjia Cao <hjcao@yahoo.com>\n"
 "Language-Team: zh_CN <i18n-translation@linux.net.cn>\n"
@@ -1635,7 +1635,7 @@ msgstr "此服务器只允许预先注册的用户。抱歉。"
 
 #: server/auth.c:433
 #, fuzzy, c-format
-msgid "%s was rejected: Only preregister users allowed."
+msgid "%s was rejected: Only preregistered users allowed."
 msgstr "此服务器只允许预先注册的用户。抱歉。"
 
 #: server/auth.c:461 server/auth.c:519
@@ -2278,11 +2278,11 @@ msgstr "  -v, --version\t\t打印版本号\n"
 msgid "Report bugs at %s.\n"
 msgstr "将错误报告发送到 <%s>。\n"
 
-#: server/commands.c:28
+#: server/commands.c:37
 msgid "Start the game, or restart after loading a savegame."
 msgstr "启动游戏，或在载入保存的游戏之前重新启动游戏。"
 
-#: server/commands.c:29
+#: server/commands.c:38
 msgid ""
 "This command starts the game.  When starting a new game, it should be used "
 "after all human players have connected, and AI players have been created (if "
@@ -2299,7 +2299,7 @@ msgstr ""
 "行后此命令就不再可用，因为它将没有任何作用。"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:42
+#: server/commands.c:51
 msgid ""
 "help\n"
 "help commands\n"
@@ -2313,11 +2313,11 @@ msgstr ""
 "help <命令名>\n"
 "help <选项名>"
 
-#: server/commands.c:47
+#: server/commands.c:56
 msgid "Show help about server commands and server options."
 msgstr "显示关于服务器命令和服务器选项的帮助信息。"
 
-#: server/commands.c:48
+#: server/commands.c:57
 msgid ""
 "With no arguments gives some introductory help.  With argument \"commands\" "
 "or \"options\" gives respectively a list of all commands or all options.  "
@@ -2331,11 +2331,11 @@ msgstr ""
 "选项名，并且给出该命令或选项的帮助。对于选项，帮助信息包括该选项的\n"
 "当前值和默认值。在没有歧义的情况下参数可以缩写。"
 
-#: server/commands.c:63
+#: server/commands.c:73
 msgid "Show a list of players, teams, connections, or scenarios."
 msgstr "显示玩家，团队，连接或者情景的列表。"
 
-#: server/commands.c:64
+#: server/commands.c:74
 #, fuzzy
 msgid ""
 "Show a list of players in the game, teams of players, connections to the "
@@ -2345,20 +2345,20 @@ msgstr ""
 "显示玩家，团队，到服务器的连接，或者情景的列表。可以使用缩写参数，没有参数时"
 "默认为“players”。"
 
-#: server/commands.c:70
+#: server/commands.c:81
 msgid "Quit the game and shutdown the server."
 msgstr "退出游戏并关闭服务器。"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:74
+#: server/commands.c:85
 msgid "cut <connection-name>"
 msgstr "cut <连接名>"
 
-#: server/commands.c:75
+#: server/commands.c:86
 msgid "Cut a client's connection to server."
 msgstr "切断客户到服务器的连接。"
 
-#: server/commands.c:76
+#: server/commands.c:87
 msgid ""
 "Cut specified client's connection to the server, removing that client from "
 "the game.  If the game has not yet started that client's player is removed "
@@ -2370,7 +2370,7 @@ msgstr ""
 "数，而不是玩家名字。"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:83
+#: server/commands.c:94
 msgid ""
 "explain\n"
 "explain <option-name>"
@@ -2378,11 +2378,11 @@ msgstr ""
 "explain\n"
 "explain <选项名>"
 
-#: server/commands.c:85
+#: server/commands.c:96
 msgid "Explain server options."
 msgstr "解释服务器选项。"
 
-#: server/commands.c:86
+#: server/commands.c:97
 msgid ""
 "The 'explain' command gives a subset of the functionality of 'help', and is "
 "included for backward compatibility.  With no arguments it gives a list of "
@@ -2394,7 +2394,7 @@ msgstr ""
 "的帮助信息（类似“help <选项名>”）。"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:93
+#: server/commands.c:104
 msgid ""
 "show\n"
 "show <option-name>\n"
@@ -2404,11 +2404,11 @@ msgstr ""
 "show <选项名>\n"
 "show <选项前缀>"
 
-#: server/commands.c:96
+#: server/commands.c:107
 msgid "Show server options."
 msgstr "显示服务器选项。"
 
-#: server/commands.c:97
+#: server/commands.c:108
 msgid ""
 "With no arguments, shows all server options (or available options, when used "
 "by clients).  With an argument, show only the named option, or options with "
@@ -2417,28 +2417,30 @@ msgstr ""
 "没有参数时显示所有的服务器选项（或可用的选项，当被客户端使用时）。给定一个参"
 "数时，只显示具有该名字的选项，或具有该名字前缀的选项。"
 
-#: server/commands.c:102
+#. TRANS: translate text between <> only
+#: server/commands.c:114
 msgid "wall <message>"
 msgstr "wall <消息>"
 
-#: server/commands.c:103
+#: server/commands.c:115
 msgid "Send message to all connections."
 msgstr "向所有连接发送消息。"
 
-#: server/commands.c:104
+#: server/commands.c:116
 msgid ""
 "For each connected client, pops up a window showing the message entered."
 msgstr "对于每个连接了的客户端，弹出显示输入消息的窗口。"
 
-#: server/commands.c:108
+#. TRANS: translate text between [] only
+#: server/commands.c:121
 msgid "vote yes|no [vote number]"
 msgstr "vote yes|no [投票编号]"
 
-#: server/commands.c:109
+#: server/commands.c:122
 msgid "Cast a vote."
 msgstr "进行投票"
 
-#: server/commands.c:111
+#: server/commands.c:124
 #, no-c-format
 msgid ""
 "A player with info level access issuing a control level command starts a new "
@@ -2456,41 +2458,35 @@ msgstr ""
 "半数玩家支持，投票将立即通过，如果超过半数玩家反对，投票将立即被否决。如果在"
 "一个完整的回合后没有任何人投票反对那么投票将会通过。"
 
-#: server/commands.c:122
-msgid ""
-"debug [ player <player> | city <x> <y> | units <x> <y> | unit <id> | tech "
-"<player> | timing | info]"
-msgstr ""
-"debug [player <玩家> | city <x> <y> | units <x> <y> | unit <id> | tech <玩家"
-"> | timing | info]"
-
-#: server/commands.c:124
+#: server/commands.c:139
 msgid "Turn on or off AI debugging of given entity."
 msgstr "打开或关闭一个给定实体的 AI 调试。"
 
-#: server/commands.c:125
+#: server/commands.c:140
 msgid ""
 "Print AI debug information about given entity and turn continous debugging "
 "output for this entity on or off."
 msgstr "打印给定实体的AI调试信息并打开或关闭此实体的连续调试输出。"
 
-#: server/commands.c:129
+#. TRANS: translate text between <> only
+#: server/commands.c:145
 msgid "set <option-name> <value>"
 msgstr "set <选项名> <值>"
 
-#: server/commands.c:130
+#: server/commands.c:146
 msgid "Set server option."
 msgstr "设定服务器选项。"
 
-#: server/commands.c:133
+#. TRANS: translate text between <> only
+#: server/commands.c:150
 msgid "team <player> [team]"
 msgstr "team  <玩家名称> [团队名]"
 
-#: server/commands.c:134
+#: server/commands.c:151
 msgid "Change, add or remove a player's team affiliation."
 msgstr "改变，添加，或者删除一个玩家的团队隶属。"
 
-#: server/commands.c:135
+#: server/commands.c:152
 msgid ""
 "Sets a player as member of a team. If no team specified, the player is set "
 "teamless. Use \"\" if names contain whitespace. A team is a group of players "
@@ -2502,15 +2498,16 @@ msgstr ""
 "的，拥有共享视野和使馆，他们共同作战以获得团队胜利，每个玩家将具有平均个人得"
 "分。"
 
-#: server/commands.c:142
+#. TRANS: translate text between <> only
+#: server/commands.c:160
 msgid "rulesetdir <directory>"
 msgstr "rulesetdir <目录>"
 
-#: server/commands.c:143
+#: server/commands.c:161
 msgid "Choose new ruleset directory or modpack."
 msgstr "选择新的规则集目录或 modpack。"
 
-#: server/commands.c:144
+#: server/commands.c:162
 msgid ""
 "Choose new ruleset directory or modpack. Calling this\n"
 " without any arguments will show you the currently selected ruleset."
@@ -2519,15 +2516,15 @@ msgstr ""
 "没有任何参数调用此命令将显示现在所选择的规则集合。"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:150
+#: server/commands.c:168
 msgid "metainfo <meta-line>"
 msgstr "metainfo <元信息行>"
 
-#: server/commands.c:151
+#: server/commands.c:169
 msgid "Set metaserver info line."
 msgstr "设定元服务器信息行。"
 
-#: server/commands.c:152
+#: server/commands.c:170
 msgid ""
 "Set user defined metaserver info line. If parameter is omitted,\n"
 "previously set metamessage will be removed. For most of the time\n"
@@ -2536,19 +2533,19 @@ msgid ""
 msgstr ""
 
 #. TRANS: translate text between <> only
-#: server/commands.c:159
+#: server/commands.c:177
 msgid "metapatch <meta-line>"
 msgstr "metapatch <元信息行>"
 
-#: server/commands.c:160
+#: server/commands.c:178
 msgid "Set metaserver patches line."
 msgstr "设定元服务器补丁行。"
 
-#: server/commands.c:166
+#: server/commands.c:185
 msgid "Control metaserver connection."
 msgstr "控制元服务器连接。"
 
-#: server/commands.c:167
+#: server/commands.c:186
 msgid ""
 "'metaconnection ?' reports on the status of the connection to metaserver.\n"
 "'metaconnection down' or 'metac d' brings the metaserver connection down.\n"
@@ -2559,33 +2556,33 @@ msgstr ""
 "“metaconnection up” 或 “metac u” 将打开到元服务器的连接。"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:173
+#: server/commands.c:192
 msgid "metaserver <address>"
 msgstr "metaserver <地址>"
 
-#: server/commands.c:174
+#: server/commands.c:193
 msgid "Set address (URL) for metaserver to report to."
 msgstr "设置元服务器报告的地址（URL）地址。"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:178
+#: server/commands.c:197
 msgid "aitoggle <player-name>"
 msgstr "aitoggle <玩家名字>"
 
-#: server/commands.c:179
+#: server/commands.c:198
 msgid "Toggle AI status of player."
 msgstr "切换玩家的 AI 状态。"
 
 #. TRANS: translate text between [] and <> only
-#: server/commands.c:183
+#: server/commands.c:202
 msgid "take [connection-name] <player-name>"
 msgstr "take [连接名称] <玩家名称>"
 
-#: server/commands.c:184
+#: server/commands.c:203
 msgid "Take over a player's place in the game."
 msgstr "接替游戏中一个玩家。"
 
-#: server/commands.c:185
+#: server/commands.c:204
 msgid ""
 "Only the console and connections with cmdlevel 'hack' can force other "
 "connections to take over a player. If you're not one of these, only the "
@@ -2598,15 +2595,15 @@ msgstr ""
 "的连接还没有控制任何玩家，则创建一个玩家并分配给该连接。"
 
 #. TRANS: translate text between [] only
-#: server/commands.c:193
+#: server/commands.c:212
 msgid "observe [connection-name] [player-name]"
 msgstr "ovserve [连接名称] [玩家名称]"
 
-#: server/commands.c:194
+#: server/commands.c:213
 msgid "Observe a player or the whole game."
 msgstr "旁观一个玩家或整个游戏。"
 
-#: server/commands.c:195
+#: server/commands.c:214
 msgid ""
 "Only the console and connections with cmdlevel 'hack' can force other "
 "connections to observe a player. If you're not one of these, only the "
@@ -2619,15 +2616,15 @@ msgstr ""
 "接没有使用参数，则连接被附接到全局旁观者。"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:203
+#: server/commands.c:222
 msgid "detach <connection-name>"
 msgstr "detach <连接名>"
 
-#: server/commands.c:204
+#: server/commands.c:223
 msgid "detach from a player."
 msgstr "从一个玩家脱离。"
 
-#: server/commands.c:205
+#: server/commands.c:224
 msgid ""
 "Only the console and connections with cmdlevel 'hack' can force other "
 "connections to detach from a player."
@@ -2635,37 +2632,29 @@ msgstr ""
 "只有控制台和具有命令访问级别“hack”的连接可以强制别的连接从一个玩家脱离。"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:210
+#: server/commands.c:229
 msgid "create <player-name>"
 msgstr "create <玩家名称>"
 
-#: server/commands.c:211
+#: server/commands.c:230
 msgid "Create an AI player with a given name."
 msgstr "以指定的名称创建 AI 玩家。"
 
-#: server/commands.c:212
+#: server/commands.c:231
 msgid ""
 "The 'create' command is only available before the game has been started."
 msgstr "只能在游戏开始前使用“create”命令。"
 
-#: server/commands.c:216
-msgid ""
-"away\n"
-"away"
-msgstr ""
-"away\n"
-"离开"
-
-#: server/commands.c:218
+#: server/commands.c:237
 msgid "Set yourself in away mode. The AI will watch your back."
 msgstr "将自己设置为离开模式。AI将守护直到您回来。"
 
-#: server/commands.c:219
+#: server/commands.c:238
 msgid "The AI will govern your nation but do minimal changes."
 msgstr "AI将管理您的国家但是将只作很少的变动。"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:223
+#: server/commands.c:242
 msgid ""
 "novice\n"
 "novice <player-name>"
@@ -2673,11 +2662,11 @@ msgstr ""
 "novice\n"
 "novice <玩家名称>"
 
-#: server/commands.c:225
+#: server/commands.c:244
 msgid "Set one or all AI players to 'novice'."
 msgstr "将一个或多个AI玩家设置为“很容易”。"
 
-#: server/commands.c:226
+#: server/commands.c:245
 msgid ""
 "With no arguments, sets all AI players to skill level 'novice', and sets the "
 "default level for any new AI players to 'novice'.  With an argument, sets "
@@ -2687,7 +2676,7 @@ msgstr ""
 "级别设为“很容易”。有一个参数的情况下，只设置该玩家的级别。"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:232
+#: server/commands.c:251
 msgid ""
 "easy\n"
 "easy <player-name>"
@@ -2695,11 +2684,11 @@ msgstr ""
 "easy\n"
 "easy <玩家名称>"
 
-#: server/commands.c:234
+#: server/commands.c:253
 msgid "Set one or all AI players to 'easy'."
 msgstr "将一个或多个 AI 玩家设置为“容易”。"
 
-#: server/commands.c:235
+#: server/commands.c:254
 msgid ""
 "With no arguments, sets all AI players to skill level 'easy', and sets the "
 "default level for any new AI players to 'easy'.  With an argument, sets the "
@@ -2709,7 +2698,7 @@ msgstr ""
 "别设为“容易”。有一个参数的情况下，只设置该玩家的级别。"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:241
+#: server/commands.c:260
 msgid ""
 "normal\n"
 "normal <player-name>"
@@ -2717,11 +2706,11 @@ msgstr ""
 "normal\n"
 "normal <玩家名称>"
 
-#: server/commands.c:243
+#: server/commands.c:262
 msgid "Set one or all AI players to 'normal'."
 msgstr "将一个或多个 AI 玩家设置为“普通”。"
 
-#: server/commands.c:244
+#: server/commands.c:263
 msgid ""
 "With no arguments, sets all AI players to skill level 'normal', and sets the "
 "default level for any new AI players to 'normal'.  With an argument, sets "
@@ -2731,7 +2720,7 @@ msgstr ""
 "别设为“普通”。有一个参数的情况下，只设置该玩家的级别。"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:250
+#: server/commands.c:269
 msgid ""
 "hard\n"
 "hard <player-name>"
@@ -2739,11 +2728,11 @@ msgstr ""
 "hard\n"
 "hard <玩家名称>"
 
-#: server/commands.c:252
+#: server/commands.c:271
 msgid "Set one or all AI players to 'hard'."
 msgstr "将一个或多个玩家设置为“难”。"
 
-#: server/commands.c:253
+#: server/commands.c:272
 msgid ""
 "With no arguments, sets all AI players to skill level 'hard', and sets the "
 "default level for any new AI players to 'hard'.  With an argument, sets the "
@@ -2753,19 +2742,19 @@ msgstr ""
 "设为“难”。有一个参数的情况下，只设置该玩家的级别。"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:259
+#: server/commands.c:278
 #, fuzzy
 msgid ""
 "cheating\n"
 "cheating <player-name>"
 msgstr "create <玩家名称>"
 
-#: server/commands.c:261
+#: server/commands.c:280
 #, fuzzy
 msgid "Set one or all AI players to 'cheating'."
 msgstr "将一个或多个 AI 玩家设置为“容易”。"
 
-#: server/commands.c:262
+#: server/commands.c:281
 #, fuzzy
 msgid ""
 "With no arguments, sets all AI players to skill level 'cheating', and sets "
@@ -2776,7 +2765,7 @@ msgstr ""
 "别设为“容易”。有一个参数的情况下，只设置该玩家的级别。"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:268
+#: server/commands.c:287
 msgid ""
 "experimental\n"
 "experimental <player-name>"
@@ -2784,11 +2773,11 @@ msgstr ""
 "experimental\n"
 "experimental <玩家名称>"
 
-#: server/commands.c:270
+#: server/commands.c:289
 msgid "Set one or all AI players to 'experimental'."
 msgstr "将一个或多个AI玩家设置为“实验性”。"
 
-#: server/commands.c:271
+#: server/commands.c:290
 msgid ""
 "With no arguments, sets all AI players to skill 'experimental', and sets the "
 "default level for any new AI players to this.  With an argument, sets the "
@@ -2800,7 +2789,7 @@ msgstr ""
 "特性！对于普通服务器，此选项没有作用。"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:279
+#: server/commands.c:298
 msgid ""
 "cmdlevel\n"
 "cmdlevel <level>\n"
@@ -2814,11 +2803,11 @@ msgstr ""
 "cmdlevel <级别> first\n"
 "cmdlevel <级别> <连接名>"
 
-#: server/commands.c:284
+#: server/commands.c:303
 msgid "Query or set command access level access."
 msgstr "查询或设置命令访问级别。"
 
-#: server/commands.c:285
+#: server/commands.c:304
 msgid ""
 "The command access level controls which server commands are available\n"
 "to users via the client chatline.  The available levels are:\n"
@@ -2857,20 +2846,20 @@ msgstr ""
 "有不可信任的人用相同的名字重新连接进来。请注意此命令现在\n"
 "取连接名称而不是玩家名字作参数。"
 
-#: server/commands.c:306
+#: server/commands.c:327
 msgid "If there is none, become the game organizer with increased permissions."
 msgstr "如果还没有游戏组织者，则成为游戏组织者，具有更高的权限。"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:311
+#: server/commands.c:332
 msgid "timeoutincrease <turn> <turninc> <value> <valuemult>"
 msgstr "timeoutincrease <回合> <回合增量> <值> <值乘数>"
 
-#: server/commands.c:312
+#: server/commands.c:333
 msgid "See \"help timeoutincrease\"."
 msgstr "参见“help timeoutincrease”"
 
-#: server/commands.c:313
+#: server/commands.c:334
 msgid ""
 "Every <turn> turns, add <value> to timeout timer, then add <turninc> to "
 "<turn> and multiply <value> by <valuemult>.  Use this command in concert "
@@ -2880,26 +2869,15 @@ msgstr ""
 "<回合>并把<值>乘上<值乘数>。请与选项“timeout”协同使用此命令。默\n"
 "认为 0 0 0 1。"
 
-#. TRANS: translate text between <> only
-#: server/commands.c:319
-#, fuzzy
-msgid "endgame"
-msgstr "重命名"
-
-#: server/commands.c:320
+#: server/commands.c:341
 msgid "End the game immediately in a draw."
 msgstr "立即结束游戏，不分胜负。"
 
-#. TRANS: translate text between <> only
-#: server/commands.c:324
-msgid "surrender"
-msgstr ""
-
-#: server/commands.c:325
+#: server/commands.c:346
 msgid "Concede the game."
 msgstr "认输。"
 
-#: server/commands.c:326
+#: server/commands.c:347
 msgid ""
 "This tells everyone else that you concede the game, and if all but one "
 "player (or one team) have conceded the game in this way then the game ends."
@@ -2908,22 +2886,22 @@ msgstr ""
 "戏结束。"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:332
+#: server/commands.c:353
 msgid "remove <player-name>"
 msgstr "remove <玩家名称>"
 
-#: server/commands.c:333
+#: server/commands.c:354
 msgid "Fully remove player from game."
 msgstr "从游戏中彻底删除玩家。"
 
-#: server/commands.c:334
+#: server/commands.c:355
 msgid ""
 "This *completely* removes a player from the game, including all cities and "
 "units etc.  Use with care!"
 msgstr "这将从游戏中*完全*删除一个玩家，包括所有的城市和部队等。请小心使用！"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:339
+#: server/commands.c:360
 msgid ""
 "save\n"
 "save <file-name>"
@@ -2931,11 +2909,11 @@ msgstr ""
 "save\n"
 "save <文件名>"
 
-#: server/commands.c:341
+#: server/commands.c:362
 msgid "Save game to file."
 msgstr "将游戏保存到文件中。"
 
-#: server/commands.c:342
+#: server/commands.c:363
 msgid ""
 "Save the current game to file <file-name>.  If no file-name argument is "
 "given saves to \"<auto-save name prefix><year>m.sav[.gz]\".\n"
@@ -2951,7 +2929,7 @@ msgstr ""
 "启动服务器，并且当玩家都重新连入后使用“start”命令开始游戏。"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:351
+#: server/commands.c:372
 msgid ""
 "load\n"
 "load <file-name>"
@@ -2959,11 +2937,11 @@ msgstr ""
 "load\n"
 "load <文件名>"
 
-#: server/commands.c:353
+#: server/commands.c:374
 msgid "Load game from file."
 msgstr "从文件中载入游戏。"
 
-#: server/commands.c:354
+#: server/commands.c:375
 msgid ""
 "Load a game from <file-name>. Any current data including players, rulesets "
 "and server options are lost.\n"
@@ -2972,28 +2950,28 @@ msgstr ""
 "失。\n"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:359
+#: server/commands.c:380
 msgid "read <file-name>"
 msgstr "read <文件名>"
 
-#: server/commands.c:360
+#: server/commands.c:381
 msgid "Process server commands from file."
 msgstr "处理来自文件的服务器命令。"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:364
+#: server/commands.c:385
 msgid "write <file-name>"
 msgstr "write <文件名>"
 
-#: server/commands.c:365
+#: server/commands.c:386
 msgid "Write current settings as server commands to file."
 msgstr "将当前设置作为服务器命令写入文件。"
 
-#: server/commands.c:369
+#: server/commands.c:391
 msgid "Switch server output between 'RFC-style' and normal style."
 msgstr "在“RFC风格”和“普通风格”之间切换服务器输出。"
 
-#: server/commands.c:373
+#: server/commands.c:396
 msgid "Simply returns the id of the server."
 msgstr "返回服务器的 id。"
 
@@ -3960,161 +3938,197 @@ msgstr "经济学"
 msgid "Military Service"
 msgstr "兵役"
 
-#. TRANS: <1>: The <ranking> Poles
-#: server/report.c:163
+#. TRANS: <#>: The <ranking> Poles
+#: server/report.c:155
+#, fuzzy, c-format
+msgid "%2d: The Supreme %s"
+msgstr "%2d：%s %s\n"
+
+#. TRANS: <#>: The <ranking> Poles
+#: server/report.c:157
 #, fuzzy, c-format
 msgid "%2d: The Magnificent %s"
 msgstr "辉煌的"
 
-#. TRANS: <2>: The <ranking> Poles
-#: server/report.c:165
+#. TRANS: <#>: The <ranking> Poles
+#: server/report.c:159
 #, fuzzy, c-format
 msgid "%2d: The Great %s"
 msgstr "%2d：%s %s\n"
 
-#. TRANS: <3>: The <ranking> Poles
-#: server/report.c:167
+#. TRANS: <#>: The <ranking> Poles
+#: server/report.c:161
 #, fuzzy, c-format
 msgid "%2d: The Glorious %s"
 msgstr "%2d：%s %s\n"
 
-#. TRANS: <4>: The <ranking> Poles
-#: server/report.c:169
+#. TRANS: <#>: The <ranking> Poles
+#: server/report.c:163
 #, fuzzy, c-format
 msgid "%2d: The Excellent %s"
 msgstr "%2d：%s %s\n"
 
-#. TRANS: <5>: The <ranking> Poles
-#: server/report.c:171
+#. TRANS: <#>: The <ranking> Poles
+#: server/report.c:165
+#, fuzzy, c-format
+msgid "%2d: The Eminent %s"
+msgstr "%2d：%s %s\n"
+
+#. TRANS: <#>: The <ranking> Poles
+#: server/report.c:167
+#, fuzzy, c-format
+msgid "%2d: The Distinguished %s"
+msgstr "%2d：%s %s\n"
+
+#. TRANS: <#>: The <ranking> Poles
+#: server/report.c:169
 #, fuzzy, c-format
 msgid "%2d: The Average %s"
 msgstr "%2d：%s %s\n"
 
-#. TRANS: <6>: The <ranking> Poles
-#: server/report.c:173
+#. TRANS: <#>: The <ranking> Poles
+#: server/report.c:171
 #, fuzzy, c-format
 msgid "%2d: The Mediocre %s"
 msgstr "%2d：%s %s\n"
 
-#. TRANS: <7>: The <ranking> Poles
+#. TRANS: <#>: The <ranking> Poles
+#: server/report.c:173
+#, fuzzy, c-format
+msgid "%2d: The Ordinary %s"
+msgstr "%2d：%s %s\n"
+
+#. TRANS: <#>: The <ranking> Poles
 #: server/report.c:175
 #, fuzzy, c-format
 msgid "%2d: The Pathetic %s"
 msgstr "%2d：%s %s\n"
 
-#. TRANS: <8>: The <ranking> Poles
+#. TRANS: <#>: The <ranking> Poles
 #: server/report.c:177
 #, fuzzy, c-format
 msgid "%2d: The Useless %s"
 msgstr "%2d：%s %s\n"
 
-#. TRANS: <9>: The <ranking> Poles
+#. TRANS: <#>: The <ranking> Poles
 #: server/report.c:179
+#, fuzzy, c-format
+msgid "%2d: The Valueless %s"
+msgstr "%2d：%s %s\n"
+
+#. TRANS: <#>: The <ranking> Poles
+#: server/report.c:181
 #, fuzzy, c-format
 msgid "%2d: The Worthless %s"
 msgstr "%2d：%s %s\n"
 
-#: server/report.c:240
+#. TRANS: <#>: The <ranking> Poles
+#: server/report.c:183
+#, fuzzy, c-format
+msgid "%2d: The Wretched %s"
+msgstr "%2d：%s %s\n"
+
+#: server/report.c:252
 msgid "Historian Publishes!"
 msgstr "历史学家公布！"
 
-#: server/report.c:302
+#: server/report.c:314
 #, c-format
 msgid "%2d: The %s City of %s of size %d, "
 msgstr "%1$2d： %3$s的城市 %2$s 规模 %4$d ，"
 
-#: server/report.c:309
+#: server/report.c:321
 msgid "with no wonders\n"
 msgstr "没有奇迹\n"
 
-#: server/report.c:312
+#: server/report.c:324
 #, c-format
 msgid "with %d wonder\n"
 msgid_plural "with %d wonders\n"
 msgstr[0] "拥有 %d 个奇迹\n"
 
-#: server/report.c:315 server/report.c:362
+#: server/report.c:327 server/report.c:374
 msgid "Traveler's Report:"
 msgstr "旅行者的报告："
 
-#: server/report.c:316
+#: server/report.c:328
 msgid "The Five Greatest Cities in the World!"
 msgstr "世界上最伟大的五座城市！"
 
-#: server/report.c:334
+#: server/report.c:346
 #, c-format
 msgid "%s in %s (%s)\n"
 msgstr "%2$s （%3$s） 中的 %1$s\n"
 
-#: server/report.c:339
+#: server/report.c:351
 #, c-format
 msgid "%s has been DESTROYED\n"
 msgstr "%s 已经被摧毁\n"
 
-#: server/report.c:352
+#: server/report.c:364
 #, c-format
 msgid "(building %s in %s (%s))\n"
 msgstr "（%2$s（%3$s）中正在建造的 %1$s）\n"
 
-#: server/report.c:363 client/gui-xaw/menu.c:231 data/helpdata.txt:899
+#: server/report.c:375 client/gui-xaw/menu.c:231 data/helpdata.txt:899
 msgid "Wonders of the World"
 msgstr "世界奇迹"
 
-#: server/report.c:580
+#: server/report.c:592
 msgid " sq. mi."
 msgstr "平方英里"
 
-#: server/report.c:590
+#: server/report.c:602
 msgid " M tons"
 msgstr "百万吨"
 
-#: server/report.c:595
+#: server/report.c:607
 msgid " M goods"
 msgstr "百万货物"
 
-#: server/report.c:600
+#: server/report.c:612
 msgid " bulbs"
 msgstr "点"
 
-#: server/report.c:605
+#: server/report.c:617
 msgid " month"
 msgid_plural " months"
 msgstr[0] " 个月"
 
-#: server/report.c:610
+#: server/report.c:622
 msgid " ton"
 msgid_plural " tons"
 msgstr[0] " 吨"
 
-#: server/report.c:624
+#: server/report.c:636
 msgid "st"
 msgstr "号"
 
-#: server/report.c:626
+#: server/report.c:638
 msgid "nd"
 msgstr "号"
 
-#: server/report.c:628
+#: server/report.c:640
 msgid "rd"
 msgstr "号"
 
-#: server/report.c:630
+#: server/report.c:642
 msgid "th"
 msgstr "号"
 
-#: server/report.c:731
+#: server/report.c:743
 msgid "Demography string contains invalid characters. Try \"help demography\"."
 msgstr "人口统计串包含无效的字符。请尝试“help demography”。"
 
-#: server/report.c:774 server/report.c:797
+#: server/report.c:786 server/report.c:809
 msgid "Demographics Report:"
 msgstr "人口统计报告："
 
-#: server/report.c:775
+#: server/report.c:787
 msgid "Sorry, the Demographics report is unavailable."
 msgstr "抱歉，人口统计报告尚不可用。"
 
-#: server/report.c:779
+#: server/report.c:791
 #, c-format
 msgid "The %s of the %s (%s)"
 msgstr "%2$s（%3$s） 的 %1$s"
@@ -5335,10 +5349,39 @@ msgstr ""
 msgid "Server cannot read standard input. Ignoring input."
 msgstr "服务器无法读入标准输入。忽略输入。"
 
-#: server/sernet.c:902
+#: server/sernet.c:492 server/sernet.c:512
+#, fuzzy
+msgid "restarting for lack of players"
+msgstr "每个玩家开始时的黄金"
+
+#: server/sernet.c:896
 #, c-format
 msgid "Server: bad address: [%s:%d]."
 msgstr "服务器：错误的地址：[%s:%d]。"
+
+#. TRANS: Game state for local server
+#: server/sernet.c:1167 data/Freeciv.in:3340 data/Freeciv.in:3341
+#, fuzzy
+msgid "Pregame"
+msgstr "总理"
+
+#. TRANS: Game state for local server
+#: server/sernet.c:1171
+#, fuzzy
+msgid "Running"
+msgstr "炼制技术"
+
+#. TRANS: Game state for local server
+#: server/sernet.c:1175
+#, fuzzy
+msgid "Game over"
+msgstr "游戏结束"
+
+#. TRANS: Game state for local server
+#: server/sernet.c:1179
+#, fuzzy
+msgid "Waiting"
+msgstr "等待中"
 
 #: server/spacerace.c:165
 msgid "You need to have a capital in order to launch your spaceship."
@@ -5454,40 +5497,45 @@ msgid ""
 "alliance with both."
 msgstr "您的团队伙伴 %s 对 %s 宣战了。您被迫取消了与 %s 的同盟。"
 
-#: server/srv_main.c:966
+#: server/srv_main.c:944 server/srv_main.c:947
+#, fuzzy, c-format
+msgid "Unsupported compression type %d"
+msgstr "支持的选项：%s"
+
+#: server/srv_main.c:969
 #, c-format
 msgid "Failed saving game as %s"
 msgstr "将游戏保存为 %s 失败"
 
-#: server/srv_main.c:968
+#: server/srv_main.c:971
 #, c-format
 msgid "Game saved as %s"
 msgstr "游戏已存为 %s"
 
-#: server/srv_main.c:998
+#: server/srv_main.c:1001
 msgid "The game is already running."
 msgstr "游戏已经运行。"
 
-#: server/srv_main.c:1006
+#: server/srv_main.c:1009
 #, c-format
 msgid "%s lost control cmdlevel on game start.  Use voting from now on."
 msgstr "游戏开始时 %s 失去了控制命令级别。从现在开始使用投票。"
 
-#: server/srv_main.c:1013
+#: server/srv_main.c:1016
 msgid "Starting game."
 msgstr "正在启动游戏。"
 
-#: server/srv_main.c:1070
+#: server/srv_main.c:1073
 #, c-format
 msgid "request for unknown report (type %d)"
 msgstr "未知的报告请求（类型 %d）"
 
-#: server/srv_main.c:1140
+#: server/srv_main.c:1143
 #, c-format
 msgid "Warning: rejecting old client %s"
 msgstr "警告： 拒绝旧的客户端 %s "
 
-#: server/srv_main.c:1149
+#: server/srv_main.c:1152
 msgid ""
 "Your client is too old. To use this server, please upgrade your client to a "
 "Freeciv 2.2 or later."
@@ -5495,552 +5543,553 @@ msgstr ""
 "您的客户端太旧了。要使用此服务器请升级您的客户端为晚于2003-11-28的CVS版本或 "
 "Freeciv 2.2 或更高。"
 
-#: server/srv_main.c:1239
+#: server/srv_main.c:1242
 #, c-format
 msgid "Got a packet of type %d from a dead or observer player"
 msgstr "收到来自死亡或观察者玩家的类型为 %d 的报文"
 
-#: server/srv_main.c:1339
+#: server/srv_main.c:1342
 msgid "Please choose a non-blank name."
 msgstr "请选择一个非空的名字。"
 
-#: server/srv_main.c:1355
+#: server/srv_main.c:1358
 msgid "That nation is already in use."
 msgstr "该民族已经被使用了。"
 
-#: server/srv_main.c:1371
+#: server/srv_main.c:1374
 #, c-format
 msgid "Another player already has the name '%s'.  Please choose another name."
 msgstr "其它的玩家已经使用了名字“%s”。请选择另一个名字。"
 
-#: server/srv_main.c:1392
+#: server/srv_main.c:1395
 msgid "Please choose a name containing only ASCII characters."
 msgstr "请选择一个仅包含 ASCII 字符的名字。"
 
-#: server/srv_main.c:1489
+#: server/srv_main.c:1492
 #, c-format
 msgid "%s nation is not available in this scenario."
 msgstr "民族 %s 在这个情景中不能使用。"
 
-#: server/srv_main.c:1495
+#: server/srv_main.c:1498
 #, c-format
 msgid "%s nation is already in use."
 msgstr "%s 民族已经被使用了。"
 
-#: server/srv_main.c:1513
+#: server/srv_main.c:1516
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s 成为 %s 的统治者 %s 。"
 
-#: server/srv_main.c:1569
+#: server/srv_main.c:1572
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr "等待游戏开始：%2$d 个玩家中的 %1$d 个已经准备就绪。"
 
-#: server/srv_main.c:1574
+#: server/srv_main.c:1577
 msgid "All players are ready; starting game."
 msgstr "所有玩家就绪；启动游戏。"
 
-#: server/srv_main.c:1615 server/srv_main.c:1619
+#: server/srv_main.c:1618 server/srv_main.c:1622
 #, c-format
 msgid "%s has been added as %s level AI-controlled player."
 msgstr "%s 已经作为 %s 级别的 AI 玩家加入。"
 
-#: server/srv_main.c:1746
+#: server/srv_main.c:1749
 #, c-format
 msgid "Player %d"
 msgstr "玩家 %d"
 
-#: server/srv_main.c:1757 server/srv_main.c:1763
+#: server/srv_main.c:1760 server/srv_main.c:1766
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s 统治 %s。"
 
-#: server/srv_main.c:1888
+#: server/srv_main.c:1891
 msgid ""
 "This civserver program has player authentication support, but it's currently "
 "not in use."
 msgstr ""
 
-#: server/srv_main.c:1939
+#: server/srv_main.c:1942
 #, c-format
 msgid "Sending info to metaserver [%s]"
 msgstr "将信息发送到元服务器 [%s]"
 
-#: server/srv_main.c:1969
+#: server/srv_main.c:1972
 msgid "The game is over..."
 msgstr "游戏结束..."
 
-#: server/srv_main.c:2185
+#: server/srv_main.c:2188
 msgid "Now accepting new client connections."
 msgstr "现在接受新客户端的连接。"
 
-#: server/stdinhand.c:248
+#: server/stdinhand.c:245
 #, c-format
 msgid "Vote \"%s\" is passed %d to %d with %d abstentions."
 msgstr "投票“%s”通过，%d 支持，%d 反对，%d 弃权。"
 
-#: server/stdinhand.c:255
+#: server/stdinhand.c:252
 #, c-format
 msgid "Vote \"%s\" failed with %d against, %d for and %d abstentions."
 msgstr "投票“%s”否决，%d 反对，%d 支持，以及 %d 弃权。"
 
 #. TRANS: ambiguous command
-#: server/stdinhand.c:367
+#: server/stdinhand.c:364
 msgid "(ambiguous)"
 msgstr "(模糊)"
 
 #. TRANS: unrecognized command
 #. TRANS: "unknown" location
-#: server/stdinhand.c:370 client/citydlg_common.c:420
+#: server/stdinhand.c:367 client/citydlg_common.c:420
 #: client/gui-gtk-2.0/inteldlg.c:368 client/gui-sdl/inteldlg.c:295
 #: client/gui-sdl/inteldlg.c:307 client/gui-win32/inteldlg.c:147
 #: client/gui-xaw/inteldlg.c:265
 msgid "(unknown)"
 msgstr "(未知)"
 
-#: server/stdinhand.c:460
+#: server/stdinhand.c:457
 msgid "Name is empty, so cannot be a player."
 msgstr "名称为空，所以不能作为玩家。"
 
-#: server/stdinhand.c:464
+#: server/stdinhand.c:461
 msgid "Name is too long, so cannot be a player."
 msgstr "名称太长，所以不能作为玩家。"
 
-#: server/stdinhand.c:468
+#: server/stdinhand.c:465
 #, c-format
 msgid "Player name prefix '%s' is ambiguous."
 msgstr "玩家名前缀“%s”有歧义。"
 
-#: server/stdinhand.c:472
+#: server/stdinhand.c:469
 #, c-format
 msgid "No player by the name of '%s'."
 msgstr "没有名为“%s”的玩家。"
 
-#: server/stdinhand.c:476 server/stdinhand.c:511
+#: server/stdinhand.c:473 server/stdinhand.c:508
 #, c-format
 msgid "Unexpected match_result %d (%s) for '%s'."
 msgstr "未预料的“%3$s”的match_result %1$d (%2$s) 。"
 
-#: server/stdinhand.c:495
+#: server/stdinhand.c:492
 msgid "Name is empty, so cannot be a connection."
 msgstr "名称为空，所以不能成为一个连接。"
 
-#: server/stdinhand.c:499
+#: server/stdinhand.c:496
 msgid "Name is too long, so cannot be a connection."
 msgstr "名称太长，所以不能成为一个连接。"
 
-#: server/stdinhand.c:503
+#: server/stdinhand.c:500
 #, c-format
 msgid "Connection name prefix '%s' is ambiguous."
 msgstr "连接名前缀“%s”有歧义。"
 
-#: server/stdinhand.c:507
+#: server/stdinhand.c:504
 #, c-format
 msgid "No connection by the name of '%s'."
 msgstr "没有名字为“%s”的连接。"
 
-#: server/stdinhand.c:527
+#: server/stdinhand.c:524
 #, c-format
 msgid "Open metaserver connection to [%s]."
 msgstr "打开到 [%s] 元服务器连接。"
 
-#: server/stdinhand.c:540
+#: server/stdinhand.c:537
 #, c-format
 msgid "Close metaserver connection to [%s]."
 msgstr "关闭到 [%s] 的元服务器连接。"
 
-#: server/stdinhand.c:555
+#: server/stdinhand.c:552
 msgid "Metaserver connection is open."
 msgstr "元服务器连接已打开。"
 
-#: server/stdinhand.c:558
+#: server/stdinhand.c:555
 msgid "Metaserver connection is closed."
 msgstr "元服务器连接已关闭。"
 
-#: server/stdinhand.c:568
+#: server/stdinhand.c:565
 msgid "Metaserver connection is already open."
 msgstr "已经打开到元服务器的连接。"
 
-#: server/stdinhand.c:579
+#: server/stdinhand.c:576
 msgid "Metaserver connection is already closed."
 msgstr "已经关闭到元服务器的连接。"
 
-#: server/stdinhand.c:584
+#: server/stdinhand.c:581
 msgid "Argument must be 'u', 'up', 'd', 'down', or '?'."
 msgstr "参数必须是“u”、“up”、“d”、“down”或“?”。"
 
-#: server/stdinhand.c:605
+#: server/stdinhand.c:602
 #, c-format
 msgid "Metaserver patches string set to '%s'."
 msgstr "元服务器补丁字符串设置为“%s”。"
 
-#: server/stdinhand.c:608
+#: server/stdinhand.c:605
 #, c-format
 msgid "Metaserver patches string set to '%s', not reporting to metaserver."
 msgstr "元服务器补丁字符串设置为“%s”，不向元服务器报告。"
 
-#: server/stdinhand.c:629
+#: server/stdinhand.c:626
 #, c-format
 msgid "Metaserver message string set to '%s'."
 msgstr "元服务器消息字符串设置为“%s”。"
 
-#: server/stdinhand.c:632
+#: server/stdinhand.c:629
 #, c-format
 msgid "Metaserver message string set to '%s', not reporting to metaserver."
 msgstr "元服务器消息字符串设置为“%s”，不向元服务器报告。"
 
-#: server/stdinhand.c:652
+#: server/stdinhand.c:649
 #, c-format
 msgid "Metaserver is now [%s]."
 msgstr "元服务器现在是 [%s]。"
 
-#: server/stdinhand.c:662
+#: server/stdinhand.c:659
 #, c-format
 msgid "Server id: %s"
 msgstr "服务器 id：%s"
 
-#: server/stdinhand.c:745
+#: server/stdinhand.c:742
 msgid "You cannot save games manually on this server."
 msgstr "您不能在此服务器上手动保存游戏。"
 
-#: server/stdinhand.c:762
+#: server/stdinhand.c:759
 msgid "Cannot toggle a barbarian player."
 msgstr "无法切换野人玩家。"
 
-#: server/stdinhand.c:769
+#: server/stdinhand.c:766
 #, c-format
 msgid "%s is now under AI control."
 msgstr "%s 目前处于 AI 控制之下。"
 
-#: server/stdinhand.c:789
+#: server/stdinhand.c:786
 #, c-format
 msgid "%s is now under human control."
 msgstr "%s 目前处于真人玩家的控制之下。"
 
-#: server/stdinhand.c:834
+#: server/stdinhand.c:831
 msgid "Can't add AI players once the game has begun."
 msgstr "不能在游戏开始后增加 AI 玩家。"
 
-#: server/stdinhand.c:853
+#: server/stdinhand.c:850
 msgid "Can't add more players, server is full."
 msgstr "无法增加更多的玩家，服务器已满。"
 
-#: server/stdinhand.c:860
+#: server/stdinhand.c:857
 msgid "Can't use an empty name."
 msgstr "不能使用空名称。"
 
-#: server/stdinhand.c:867
+#: server/stdinhand.c:864
 #, c-format
 msgid "That name exceeds the maximum of %d chars."
 msgstr "那个名称超出了最多的 %d 个字符。"
 
-#: server/stdinhand.c:873
+#: server/stdinhand.c:870
 msgid "That name is not allowed."
 msgstr "不能使用该名字。"
 
-#: server/stdinhand.c:879
+#: server/stdinhand.c:876
 msgid "A player already exists by that name."
 msgstr "以有使用那个名字的玩家。"
 
-#: server/stdinhand.c:885
+#: server/stdinhand.c:882
 msgid "A user already exists by that name."
 msgstr "已有使用那个名字的玩家。"
 
-#: server/stdinhand.c:915
+#: server/stdinhand.c:912
 #, c-format
 msgid "%s has been added as an AI-controlled player."
 msgstr "%s 已经作为 AI 玩家加入。"
 
-#: server/stdinhand.c:922
+#: server/stdinhand.c:919
 #, c-format
 msgid "Error creating new AI player: %s."
 msgstr "创建新 AI 玩家错误：%s。"
 
-#: server/stdinhand.c:951
+#: server/stdinhand.c:948
 msgid "Players cannot be removed once the game has started."
 msgstr "无法在游戏开始后删除玩家。"
 
-#: server/stdinhand.c:962
+#: server/stdinhand.c:959
 #, c-format
 msgid "Removed player %s from the game."
 msgstr "从游戏中删除玩家 %s。"
 
-#: server/stdinhand.c:1001 server/stdinhand.c:3259 server/stdinhand.c:3372
+#: server/stdinhand.c:998 server/stdinhand.c:3269 server/stdinhand.c:3382
 #, c-format
 msgid "Name \"%s\" disallowed for security reasons."
 msgstr "出于安全的原因不允许使用名字“%s”。"
 
-#: server/stdinhand.c:1014
+#: server/stdinhand.c:1011
 #, c-format
 msgid "No command script found by the name \"%s\"."
 msgstr "没有名字为“%s”的命令脚本。"
 
-#: server/stdinhand.c:1022
+#: server/stdinhand.c:1019
 #, c-format
 msgid "Loading script file: %s"
 msgstr "正在装入脚本文件：%s"
 
-#: server/stdinhand.c:1037
+#: server/stdinhand.c:1034
 #, c-format
 msgid "Cannot read command line scriptfile '%s'."
 msgstr "无法读入命令行脚本文件“%s”。"
 
-#: server/stdinhand.c:1039
+#: server/stdinhand.c:1036
 #, c-format
 msgid "Could not read script file '%s'."
 msgstr "无法读入脚本文件“%s”。"
 
-#: server/stdinhand.c:1126
+#: server/stdinhand.c:1123
 #, c-format
 msgid "Could not write script file '%s'."
 msgstr "无法写入脚本文件“%s”。"
 
-#: server/stdinhand.c:1138
+#: server/stdinhand.c:1135
 msgid "You cannot use the write command on this server for security reasons."
 msgstr "出于安全的原因您不能在此服务器上使用 write 命令。"
 
-#: server/stdinhand.c:1166
+#: server/stdinhand.c:1163
 #, c-format
 msgid ""
 "Cannot decrease command access level '%s' for connection '%s'; you only have "
 "'%s'."
 msgstr "无法为连接“%2$s”降低命令访问级别“%1$s”；您只有“%3$s”。"
 
-#: server/stdinhand.c:1221
+#: server/stdinhand.c:1218
 #, c-format
 msgid ""
 "Anyone can now become game organizer '%s' by issuing the 'first' command."
 msgstr "现在每个人都可通过发出“first”成为游戏组织者“%s”。"
 
-#: server/stdinhand.c:1254
+#: server/stdinhand.c:1251
 msgid "Command access levels in effect:"
 msgstr "有效的命令访问级别："
 
-#: server/stdinhand.c:1262
+#: server/stdinhand.c:1259
 #, c-format
 msgid "Command access level for new connections: %s"
 msgstr "新连接的命令访问级别：%s"
 
-#: server/stdinhand.c:1265
+#: server/stdinhand.c:1262
 #, c-format
 msgid "Command access level for first player to take it: %s"
 msgstr "将赋予第一个获得它的玩家的命令访问级别：%s"
 
-#: server/stdinhand.c:1274
+#: server/stdinhand.c:1271
 msgid ""
 "Error: command access level must be one of 'none', 'info', 'ctrl', or 'hack'."
 msgstr ""
 "错误：命令访问级别必须是 “none”、“info”、“ctrl” 或 “hack” 之一。"
 
-#: server/stdinhand.c:1279
+#: server/stdinhand.c:1276
 #, c-format
 msgid ""
 "Cannot increase command access level to '%s'; you only have '%s' yourself."
 msgstr "无法将命令访问级别增加到“%s”；您自己只有“%s”。"
 
-#: server/stdinhand.c:1306 server/stdinhand.c:1354
+#: server/stdinhand.c:1303 server/stdinhand.c:1351
 #, c-format
 msgid "Command access level set to '%s' for connection %s."
 msgstr "将连接 %2$s 的命令访问级别设置为“%1$s”。"
 
-#: server/stdinhand.c:1310 server/stdinhand.c:1358
+#: server/stdinhand.c:1307 server/stdinhand.c:1355
 #, c-format
 msgid "Command access level could not be set to '%s' for connection %s."
 msgstr "无法将连接 %2$s 的命令访问级别设置为“%1$s”。"
 
-#: server/stdinhand.c:1320 server/stdinhand.c:1330 server/stdinhand.c:1347
+#: server/stdinhand.c:1317 server/stdinhand.c:1327 server/stdinhand.c:1344
 #, c-format
 msgid "Command access level set to '%s' for new players."
 msgstr "将新连入玩家的命令访问级别设置为“%s”。"
 
-#: server/stdinhand.c:1324 server/stdinhand.c:1335 server/stdinhand.c:1342
+#: server/stdinhand.c:1321 server/stdinhand.c:1332 server/stdinhand.c:1339
 #, c-format
 msgid "Command access level set to '%s' for first player to grab it."
 msgstr "将第一个抢到的玩家的命令访问级别设置为“%s”。"
 
-#: server/stdinhand.c:1380
+#: server/stdinhand.c:1377
 msgid "The 'first' command makes no sense from the server command line."
 msgstr "从服务器命令行发出“first”命令没有意义。"
 
-#: server/stdinhand.c:1384
+#: server/stdinhand.c:1381
 #, c-format
 msgid "You already have command access level '%s' or better."
 msgstr "您已经拥有命令访问级别“%s”或更高。"
 
-#: server/stdinhand.c:1389
+#: server/stdinhand.c:1386
 msgid "Someone else already is game organizer."
 msgstr "已经有人是游戏组织者了。"
 
-#: server/stdinhand.c:1394
+#: server/stdinhand.c:1391
 #, c-format
 msgid "Connection %s has opted to become the game organizer."
 msgstr "连接 %s 决定成为游戏组织者。"
 
-#: server/stdinhand.c:1445
+#: server/stdinhand.c:1442
 #, c-format
 msgid "Invalid argument %d."
 msgstr "非法参数 %d。"
 
-#: server/stdinhand.c:1452
-msgid "Usage: timeoutincrease <turn> <turnadd> <value> <valuemult>."
-msgstr "用法：timeoutincrease <回合> <回合增量> <值> <valuemult>。"
+#: server/stdinhand.c:1449 server/stdinhand.c:1845 server/stdinhand.c:2741
+#: server/stdinhand.c:2917 server/stdinhand.c:2929 server/stdinhand.c:3094
+#: server/stdinhand.c:3257
+#, fuzzy, c-format
+msgid ""
+"Usage:\n"
+"%s"
+msgstr "用法： away"
 
-#: server/stdinhand.c:1460
+#: server/stdinhand.c:1456
 #, c-format
 msgid "Dynamic timeout set to %d %d %d %d"
 msgstr "动态超时设置为 %d %d %d %d"
 
 #. TRANS: <untranslated name> - translated short help
-#: server/stdinhand.c:1521
+#: server/stdinhand.c:1517
 #, fuzzy, c-format
 msgid "Option: %s  -  %s"
 msgstr "选项：%s 已被设置为“%s”。"
 
 #. TRANS: <untranslated name>
-#: server/stdinhand.c:1527
+#: server/stdinhand.c:1523
 #, fuzzy, c-format
 msgid "Option: %s"
 msgstr "选项 %s"
 
-#: server/stdinhand.c:1534 server/stdinhand.c:3891
+#: server/stdinhand.c:1530 server/stdinhand.c:3901
 msgid "Description:"
 msgstr "描述："
 
-#: server/stdinhand.c:1539
+#: server/stdinhand.c:1535
 #, c-format
 msgid "Status: %s"
 msgstr "状态：%s"
 
-#: server/stdinhand.c:1540
+#: server/stdinhand.c:1536
 msgid "changeable"
 msgstr "可改变的"
 
-#: server/stdinhand.c:1540
+#: server/stdinhand.c:1536
 msgid "fixed"
 msgstr "固定的"
 
-#: server/stdinhand.c:1546
+#: server/stdinhand.c:1542
 #, c-format
 msgid "Value: %d, Minimum: 0, Default: %d, Maximum: 1"
 msgstr "值：%d，最小：0，默认：%d，最大：1"
 
-#: server/stdinhand.c:1551
+#: server/stdinhand.c:1547
 #, c-format
 msgid "Value: %d, Minimum: %d, Default: %d, Maximum: %d"
 msgstr "值：%d，最小：%d，默认：%d，最大：%d"
 
-#: server/stdinhand.c:1557
+#: server/stdinhand.c:1553
 #, c-format
 msgid "Value: \"%s\", Default: \"%s\""
 msgstr "值：“%s”，默认：“%s”"
 
-#: server/stdinhand.c:1576
+#: server/stdinhand.c:1572
 msgid "Explanations are available for the following server options:"
 msgstr "可以获得以下服务器选项的帮助信息："
 
-#: server/stdinhand.c:1621
+#: server/stdinhand.c:1617
 msgid "No explanation for that yet."
 msgstr "尚无关于它的解释。"
 
-#: server/stdinhand.c:1624 server/stdinhand.c:2478
+#: server/stdinhand.c:1620 server/stdinhand.c:2485
 msgid "Ambiguous option name."
 msgstr "有歧义的选项名称。"
 
-#: server/stdinhand.c:1644
+#: server/stdinhand.c:1640
 #, c-format
 msgid "Server Operator: %s"
 msgstr "服务器操作员：%s"
 
-#: server/stdinhand.c:1769 server/stdinhand.c:1806 server/stdinhand.c:1824
+#: server/stdinhand.c:1765 server/stdinhand.c:1802 server/stdinhand.c:1820
 #, c-format
 msgid "Player '%s' now has AI skill level '%s'."
 msgstr "玩家“%s”现在拥有AI技能级别“%s”。"
 
-#: server/stdinhand.c:1811
+#: server/stdinhand.c:1807
 #, c-format
 msgid "%s is not controlled by the AI."
 msgstr "%s 不是由 AI 控制的。"
 
-#: server/stdinhand.c:1831
+#: server/stdinhand.c:1827
 #, c-format
 msgid "Default AI skill level set to '%s'."
 msgstr "默认AI技能级别设置为“%s”。"
 
-#: server/stdinhand.c:1846 server/stdinhand.c:2150
+#: server/stdinhand.c:1842 server/stdinhand.c:2146
 msgid "This command is client only."
 msgstr "该命令只能在客户端使用。"
 
-#: server/stdinhand.c:1849
-msgid "Usage: away"
-msgstr "用法： away"
-
-#: server/stdinhand.c:1854
+#: server/stdinhand.c:1851
 msgid "Only players may use the away command."
 msgstr "只有玩家可以使用离开命令。"
 
-#: server/stdinhand.c:1858
+#: server/stdinhand.c:1855
 #, c-format
 msgid "%s set to away mode."
 msgstr "%s 设置为离开模式。"
 
-#: server/stdinhand.c:1866
+#: server/stdinhand.c:1863
 #, c-format
 msgid "%s returned to game."
 msgstr "%s 回到了游戏。"
 
-#: server/stdinhand.c:1908
+#: server/stdinhand.c:1905
 #, c-format
 msgid "Sorry, you do not have access to view option '%s'."
 msgstr "抱歉，您无权查看选项“%s”。"
 
-#: server/stdinhand.c:1914
+#: server/stdinhand.c:1911
 #, c-format
 msgid "Unknown option '%s'."
 msgstr "未知的选项“%s”。"
 
-#: server/stdinhand.c:1939
+#: server/stdinhand.c:1936
 msgid "All options with non-default values"
 msgstr "所有不为缺省值的选项。"
 
-#: server/stdinhand.c:1942
+#: server/stdinhand.c:1939
 msgid "All options"
 msgstr "所有选项"
 
-#: server/stdinhand.c:1945
+#: server/stdinhand.c:1942
 msgid "Vital options"
 msgstr "必需选项"
 
-#: server/stdinhand.c:1948
+#: server/stdinhand.c:1945
 msgid "Situational options"
 msgstr "情景相关的选项"
 
-#: server/stdinhand.c:1951
+#: server/stdinhand.c:1948
 msgid "Rarely used options"
 msgstr "很少使用的选项"
 
-#: server/stdinhand.c:1954
+#: server/stdinhand.c:1951
 msgid "+ means you may change the option"
 msgstr "+ 表示您可以改变选项"
 
-#: server/stdinhand.c:1955
+#: server/stdinhand.c:1952
 msgid "= means the option is on its default value"
 msgstr "= 表示选项的值是它的默认值"
 
-#: server/stdinhand.c:1958
+#: server/stdinhand.c:1955
 #, c-format
 msgid "%-*s value   (min,max)      "
 msgstr "%-*s 值   （最小值，最大值）      "
 
-#: server/stdinhand.c:1958
+#: server/stdinhand.c:1955
 msgid "Option"
 msgstr "选项"
 
-#: server/stdinhand.c:1961
+#: server/stdinhand.c:1958
 msgid "description"
 msgstr "描述"
 
-#: server/stdinhand.c:2030
+#: server/stdinhand.c:2027
 msgid ""
 "Try 'show situational' or 'show rare' to show more options.\n"
 "Try 'show changed' to show settings with non-default values."
@@ -6048,37 +6097,38 @@ msgstr ""
 "请使用“show situational”或“show rare”以显示更多选项。\n"
 "请使用“show changed”以显示具有非缺省值的设置。"
 
-#: server/stdinhand.c:2080
+#: server/stdinhand.c:2077
 msgid "Cannot change teams once game has begun."
 msgstr "不能在游戏开始后修改团队。"
 
-#: server/stdinhand.c:2090
-msgid "Undefined argument.  Usage: team <player> <team>."
-msgstr "未定义的参数。用法：team <玩家> <团队> 。"
+#: server/stdinhand.c:2087 server/stdinhand.c:2223 server/stdinhand.c:2268
+#: server/stdinhand.c:2293 server/stdinhand.c:2336 server/stdinhand.c:2368
+#: server/stdinhand.c:2410 server/stdinhand.c:2435 server/stdinhand.c:2479
+#, fuzzy, c-format
+msgid ""
+"Undefined argument.  Usage:\n"
+"%s"
+msgstr "未定义的参数。用法：set <选项> <值>。"
 
-#: server/stdinhand.c:2110
+#: server/stdinhand.c:2108
 #, c-format
 msgid "No such team %s.  Please give a valid team name or number."
 msgstr "团队 %s 不存在。请给出有效的团队名字或编号。"
 
-#: server/stdinhand.c:2117
+#: server/stdinhand.c:2115
 msgid "Cannot team a barbarian."
 msgstr "不能和野人组成团队。"
 
-#: server/stdinhand.c:2123
+#: server/stdinhand.c:2121
 #, c-format
 msgid "Player %s set to team %s."
 msgstr "%s 加入团队 %s。"
 
-#: server/stdinhand.c:2145
-msgid "Undefined arguments. Usage: vote yes|no [vote number]."
-msgstr "未定义的参数。用法：vote yes|no [vote number] 。"
-
-#: server/stdinhand.c:2153
+#: server/stdinhand.c:2149
 msgid "Observers cannot vote."
 msgstr "旁观者不能投票。"
 
-#: server/stdinhand.c:2156
+#: server/stdinhand.c:2152
 msgid ""
 "You can only vote in a running game.  Use 'first' to become the game "
 "organizer if there currently is none."
@@ -6086,76 +6136,72 @@ msgstr ""
 "您只能在运行中的游戏中投票。如果当前没有游戏组织者请使用“first”命令成为游戏"
 "组织者。"
 
-#: server/stdinhand.c:2169
+#: server/stdinhand.c:2165
 #, c-format
 msgid "Vote %d \"%s\": %d for, %d against"
 msgstr "投票 %d “%s”： %d 支持， %d 反对"
 
-#: server/stdinhand.c:2176
+#: server/stdinhand.c:2172
 msgid "There are no votes going on."
 msgstr "当前没有举行投票。"
 
-#: server/stdinhand.c:2196
+#: server/stdinhand.c:2192
 msgid "No legal last vote."
 msgstr "没有合法的上次投票。"
 
-#: server/stdinhand.c:2201
+#: server/stdinhand.c:2197
 msgid "Value must be integer."
 msgstr "值必须是一个整数。"
 
-#: server/stdinhand.c:2212
+#: server/stdinhand.c:2208
 #, c-format
 msgid "No such vote (%d)."
 msgstr "没有这样的投票（%d）。"
 
-#: server/stdinhand.c:2216
+#: server/stdinhand.c:2212
 #, c-format
 msgid "You voted for \"%s\""
 msgstr "您投票支持“%s”"
 
-#: server/stdinhand.c:2220
+#: server/stdinhand.c:2216
 #, c-format
 msgid "You voted against \"%s\""
 msgstr "您投票反对“%s”"
 
-#: server/stdinhand.c:2247
-#, fuzzy
-msgid ""
-"Undefined arguments. Usage: debug < diplomacy <player> | city <x> <y> | "
-"units <x> <y> | unit <id> | tech <player> | timing | info | ferries >."
-msgstr ""
-"未定义的参数。用法：debug <player <玩家> | city <x> <y> | units <x> <y> | "
-"unit <id>> 。"
-
-#: server/stdinhand.c:2254
+#: server/stdinhand.c:2248
 msgid "Can only use this command once game has begun."
 msgstr "只能在游戏开始后使用此命令。"
 
-#: server/stdinhand.c:2283
+#: server/stdinhand.c:2279
 #, c-format
 msgid "%s diplomacy no longer debugged"
 msgstr "不再调试 %s 外交"
 
-#: server/stdinhand.c:2287
+#: server/stdinhand.c:2283
 #, c-format
 msgid "%s diplomacy debugged"
 msgstr "调试 %s 外交"
 
-#: server/stdinhand.c:2306
+#: server/stdinhand.c:2304
 #, c-format
 msgid "%s tech no longer debugged"
 msgstr "不再调试 %s 科技"
 
-#: server/stdinhand.c:2310
+#: server/stdinhand.c:2308
 #, c-format
 msgid "%s tech debugged"
 msgstr "调试 %s 科技"
 
-#: server/stdinhand.c:2341 server/stdinhand.c:2371
+#: server/stdinhand.c:2324 server/stdinhand.c:2327
+#, c-format
+msgid "players=%d cities=%d citizens=%d units=%d"
+msgstr ""
+
+#: server/stdinhand.c:2341 server/stdinhand.c:2373
 msgid "Value 2 & 3 must be integer."
 msgstr "第二和第三个值必须是整数。"
 
-#: server/stdinhand.c:2345 server/stdinhand.c:2375
+#: server/stdinhand.c:2345 server/stdinhand.c:2377
 msgid "Bad map coordinates."
 msgstr "错误的地图坐标。"
 
@@ -6168,371 +6214,342 @@ msgstr "此坐标没有城市。"
 msgid "%s no longer debugged"
 msgstr "不再调试 %s"
 
-#: server/stdinhand.c:2381 server/stdinhand.c:2420
+#: server/stdinhand.c:2383 server/stdinhand.c:2424
 #, fuzzy, c-format
 msgid "%s %s no longer debugged."
 msgstr "不再调试 %s 的 %s 。"
 
-#: server/stdinhand.c:2386 server/stdinhand.c:2425
-#, fuzzy, c-format
-msgid "%s %s debugged."
-msgstr "调试 %s 的 %s 。"
-
-#: server/stdinhand.c:2396
+#: server/stdinhand.c:2398
 #, fuzzy
 msgid "Ferry system is no longer in debug mode."
 msgstr "不再调试 %s 的 %s 。"
 
-#: server/stdinhand.c:2400
+#: server/stdinhand.c:2402
 msgid "Ferry system in debug mode."
 msgstr ""
 
-#: server/stdinhand.c:2411
+#: server/stdinhand.c:2415
 msgid "Value 2 must be integer."
 msgstr "第二个值必须是整数。"
 
-#: server/stdinhand.c:2415
+#: server/stdinhand.c:2419
 #, c-format
 msgid "Unit %d does not exist."
 msgstr "部队 %d 不存在。"
 
-#: server/stdinhand.c:2473
-msgid "Undefined argument.  Usage: set <option> <value>."
-msgstr "未定义的参数。用法：set <选项> <值>。"
-
-#: server/stdinhand.c:2483
+#: server/stdinhand.c:2490
 msgid "You are not allowed to set this option."
 msgstr "不允许您设置此选项。"
 
-#: server/stdinhand.c:2488 server/stdinhand.c:3366
+#: server/stdinhand.c:2495 server/stdinhand.c:3376
 msgid "This setting can't be modified after the game has started."
 msgstr "在游戏开始之后不能修改该设置。"
 
-#: server/stdinhand.c:2500 server/stdinhand.c:2539
+#: server/stdinhand.c:2507 server/stdinhand.c:2546
 msgid "Value must be an integer."
 msgstr "值必须是一个整数。"
 
-#: server/stdinhand.c:2510
+#: server/stdinhand.c:2517
 #, c-format
 msgid "The parameter %s should only contain digits 0-1."
 msgstr ""
 
-#: server/stdinhand.c:2517
+#: server/stdinhand.c:2524
 msgid "Value out of range (minimum: 0, maximum: 1)."
 msgstr "值超出范围 (最小：0，最大：1)。"
 
-#: server/stdinhand.c:2530 server/stdinhand.c:2570
+#: server/stdinhand.c:2537 server/stdinhand.c:2577
 #, c-format
 msgid "Option: %s has been set to %d."
 msgstr "选项：%s 已被设置为 %d。"
 
-#: server/stdinhand.c:2550
+#: server/stdinhand.c:2557
 #, c-format
 msgid "The parameter %s should only contain +- and 0-9."
 msgstr ""
 
-#: server/stdinhand.c:2557
+#: server/stdinhand.c:2564
 #, c-format
 msgid "Value out of range (minimum: %d, maximum: %d)."
 msgstr "值超出预定范围 (最小：%d，最大：%d)。"
 
-#: server/stdinhand.c:2580
-msgid "String value too long.  Usage: set <option> <value>."
+#: server/stdinhand.c:2587
+#, fuzzy, c-format
+msgid ""
+"String value too long.  Usage:\n"
+"%s"
 msgstr "过长的字符串值。用法：set <选项> <值>。"
 
-#: server/stdinhand.c:2592
+#: server/stdinhand.c:2600
 #, c-format
 msgid "Option: %s has been set to \"%s\"."
 msgstr "选项：%s 已被设置为“%s”。"
 
-#: server/stdinhand.c:2630
+#: server/stdinhand.c:2638
 msgid "Sorry, one can't observe globally in this game."
 msgstr "抱歉，本游戏中不能旁观全局。"
 
-#: server/stdinhand.c:2633
+#: server/stdinhand.c:2641
 msgid "Sorry, you can't take a global observer. Observe it instead."
 msgstr "抱歉，您不能替代全局旁观者。请旁观他。"
 
-#: server/stdinhand.c:2645
+#: server/stdinhand.c:2653
 msgid "Sorry, one can't observe barbarians in this game."
 msgstr "抱歉，本游戏中不能旁观野人。"
 
-#: server/stdinhand.c:2648
+#: server/stdinhand.c:2656
 msgid "Sorry, one can't take barbarians in this game."
 msgstr "抱歉，本游戏中不能接替野人。"
 
-#: server/stdinhand.c:2656
+#: server/stdinhand.c:2664
 msgid "Sorry, one can't observe dead players in this game."
 msgstr "抱歉，本游戏中不能旁观已死去的玩家。"
 
-#: server/stdinhand.c:2659
+#: server/stdinhand.c:2667
 msgid "Sorry, one can't take dead players in this game."
 msgstr "抱歉，本游戏中不能接替已死去的玩家。"
 
-#: server/stdinhand.c:2667
+#: server/stdinhand.c:2675
 msgid "Sorry, one can't observe AI players in this game."
 msgstr "抱歉，本游戏中不能旁观 AI 玩家。"
 
-#: server/stdinhand.c:2670
+#: server/stdinhand.c:2678
 msgid "Sorry, one can't take AI players in this game."
 msgstr "抱歉，本游戏中不能接替 AI 玩家。"
 
-#: server/stdinhand.c:2679
+#: server/stdinhand.c:2687
 msgid "Sorry, one can't observe human players in this game."
 msgstr "抱歉，本游戏中不能旁观真人玩家。"
 
-#: server/stdinhand.c:2682
+#: server/stdinhand.c:2690
 msgid "Sorry, one can't take human players in this game."
 msgstr "抱歉，本游戏中不能接替真人玩家。"
 
-#: server/stdinhand.c:2692
+#: server/stdinhand.c:2700
 msgid "Sorry, one can't observe in this game."
 msgstr "抱歉，本游戏中不能旁观。"
 
-#: server/stdinhand.c:2697
+#: server/stdinhand.c:2705
 msgid "Sorry, one can't take players in this game."
 msgstr "抱歉，本游戏中不能接替玩家。"
 
-#: server/stdinhand.c:2703
+#: server/stdinhand.c:2711
 msgid "Sorry, one can't take players already connected in this game."
 msgstr "抱歉，本游戏中不能接替已经连入的玩家。"
 
-#: server/stdinhand.c:2734
-msgid "Usage: observe [connection-name [player-name]]"
-msgstr "用法： observe [连接名称 [玩家名称]]"
+#: server/stdinhand.c:2748 server/stdinhand.c:2924
+#, fuzzy
+msgid "Only the player name form is allowed."
+msgstr "不能使用该名字。"
 
-#: server/stdinhand.c:2740
-msgid "Usage: observe [player-name]"
-msgstr "用法： observer [玩家名称]"
-
-#: server/stdinhand.c:2790
+#: server/stdinhand.c:2798
 #, c-format
 msgid "%s already controls %s. Using 'observe' would remove %s"
 msgstr "%s 已经控制 %s 了。使用“observe”将删除 %s"
 
-#: server/stdinhand.c:2801
+#: server/stdinhand.c:2809
 #, c-format
 msgid "%s is already observing %s."
 msgstr "%s 已经旁观 %s 了。"
 
-#: server/stdinhand.c:2806
+#: server/stdinhand.c:2814
 #, c-format
 msgid "%s is already observing."
 msgstr "%s 已经在旁观了。"
 
-#: server/stdinhand.c:2867
+#: server/stdinhand.c:2875
 #, c-format
 msgid "%s now observes %s"
 msgstr "%s 现在旁观 %s"
 
-#: server/stdinhand.c:2871
+#: server/stdinhand.c:2879
 #, c-format
 msgid "%s now observes"
 msgstr "%s 现在旁观"
 
-#: server/stdinhand.c:2910
-msgid "Usage: take <connection-name> <player-name>"
-msgstr "用法： taken <连接名称> <玩家名称>"
-
-#: server/stdinhand.c:2915
-msgid "Usage: take <player-name>"
-msgstr "用法： take <玩家名称>"
-
-#: server/stdinhand.c:2921
-msgid "Usage: take [connection-name] <player-name>"
-msgstr "用法： take [连接名称] <玩家名称>"
-
-#: server/stdinhand.c:2951
+#: server/stdinhand.c:2960
 #, c-format
 msgid "%s already controls %s"
 msgstr "%s 已经控制 %s 了"
 
-#: server/stdinhand.c:2979
+#: server/stdinhand.c:2988
 #, c-format
 msgid "being detached from %s."
 msgstr "从 %s 脱离 。"
 
-#: server/stdinhand.c:3043
+#: server/stdinhand.c:3052
 #, c-format
 msgid "%s now controls %s (%s, %s)"
 msgstr "%s 现在控制 %s （%s，%s）"
 
-#: server/stdinhand.c:3047 server/stdinhand.c:4120
+#: server/stdinhand.c:3056 server/stdinhand.c:4130
 #: data/nation/barbarian.ruleset:3
 msgid "Barbarian"
 msgstr "野人"
 
-#: server/stdinhand.c:3049 server/stdinhand.c:4122 client/plrdlg_common.c:256
+#: server/stdinhand.c:3058 server/stdinhand.c:4132 client/plrdlg_common.c:256
 #: client/gui-gtk-2.0/pages.c:2021 client/gui-sdl/plrdlg.c:642
 #: client/gui-win32/connectdlg.c:201 client/gui-win32/plrdlg.c:335
 msgid "AI"
 msgstr "AI"
 
-#: server/stdinhand.c:3050 server/stdinhand.c:4124
+#: server/stdinhand.c:3059 server/stdinhand.c:4134
 #: client/gui-gtk-2.0/pages.c:2021 client/gui-gtk-2.0/pages.c:2044
 #: client/gui-win32/connectdlg.c:201 client/gui-win32/connectdlg.c:213
 msgid "Human"
 msgstr "真人"
 
-#: server/stdinhand.c:3052 client/gui-gtk-2.0/pages.c:2020
+#: server/stdinhand.c:3061 client/gui-gtk-2.0/pages.c:2020
 #: client/gui-gtk-2.0/pages.c:2043 client/gui-win32/connectdlg.c:200
 #: client/gui-win32/connectdlg.c:212
 msgid "Alive"
 msgstr "活的"
 
-#: server/stdinhand.c:3053 client/gui-gtk-2.0/pages.c:2020
+#: server/stdinhand.c:3062 client/gui-gtk-2.0/pages.c:2020
 #: client/gui-win32/connectdlg.c:200
 msgid "Dead"
 msgstr "死的"
 
-#: server/stdinhand.c:3086
-msgid "Usage: detach <connection-name>"
-msgstr "用法： detach <连接名>"
-
-#: server/stdinhand.c:3106
+#: server/stdinhand.c:3115
 msgid "You can not detach other users."
 msgstr "你不能使别的用户脱离。"
 
-#: server/stdinhand.c:3115
+#: server/stdinhand.c:3124
 #, c-format
 msgid "%s is not attached to any player."
 msgstr "%s 没有附接到任何玩家。"
 
-#: server/stdinhand.c:3137
+#: server/stdinhand.c:3146
 #, c-format
 msgid "%s detaching from %s"
 msgstr "%s 正从 %s 脱离"
 
-#: server/stdinhand.c:3143
+#: server/stdinhand.c:3152
 #, c-format
 msgid "%s no longer observing."
 msgstr "%s 不再旁观。"
 
-#: server/stdinhand.c:3162
+#: server/stdinhand.c:3171
 #, c-format
 msgid "detaching from %s."
 msgstr "正从 %s 脱离。"
 
-#: server/stdinhand.c:3248
-msgid "Usage: load <game name>"
-msgstr "用法： load <游戏名>"
-
-#: server/stdinhand.c:3253
+#: server/stdinhand.c:3263
 msgid "Cannot load a game while another is running."
 msgstr "不能在游戏运行时载入另一个游戏。"
 
-#: server/stdinhand.c:3275
+#: server/stdinhand.c:3285
 #, c-format
 msgid "Cannot find savegame or scenario with the name \"%s\"."
 msgstr "无法找到名为“%s”的存盘文件或情景。"
 
-#: server/stdinhand.c:3292
+#: server/stdinhand.c:3302
 #, c-format
 msgid "Could not load savefile: %s"
 msgstr "无法载入存盘文件：%s"
 
-#: server/stdinhand.c:3361
+#: server/stdinhand.c:3371
 #, c-format
 msgid "Current ruleset directory is \"%s\""
 msgstr "当前规则集合目录为“%s”"
 
-#: server/stdinhand.c:3381
+#: server/stdinhand.c:3391
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
 msgstr "找不到规则集目录“%s”"
 
-#: server/stdinhand.c:3387
+#: server/stdinhand.c:3397
 #, c-format
 msgid "Ruleset directory is already \"%s\""
 msgstr "规则集目录已经是“%s”了"
 
-#: server/stdinhand.c:3391
+#: server/stdinhand.c:3401
 #, c-format
 msgid "Ruleset directory set to \"%s\""
 msgstr "规则集合目录被设置为“%s”"
 
-#: server/stdinhand.c:3439
+#: server/stdinhand.c:3449
 msgid "Goodbye."
 msgstr "再见。"
 
-#: server/stdinhand.c:3470
+#: server/stdinhand.c:3480
 msgid "Sorry, you are not allowed to use server commands."
 msgstr "抱歉，不允许您使用服务器命令。"
 
-#: server/stdinhand.c:3506
+#: server/stdinhand.c:3516
 #, c-format
 msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
 msgstr "警告：“%s”被解释为“%s”，但有歧义。试用“%shelp”。"
 
-#: server/stdinhand.c:3511
+#: server/stdinhand.c:3521
 #, c-format
 msgid "Unknown command.  Try '%shelp'."
 msgstr "未知的命令。试用“%shelp”。"
 
-#: server/stdinhand.c:3528
+#: server/stdinhand.c:3538
 msgid "Your new vote canceled your previous vote."
 msgstr "您的新投票取消了您以前的投票。"
 
-#: server/stdinhand.c:3536
+#: server/stdinhand.c:3546
 #, c-format
 msgid "New vote (number %d) by %s: %s."
 msgstr "新投票（编号 %d），由 %s：%s 发起。"
 
-#: server/stdinhand.c:3548
+#: server/stdinhand.c:3558
 #, c-format
 msgid "Your new vote (\"%s\") was not legal or was not recognized."
 msgstr ""
 
-#: server/stdinhand.c:3558
+#: server/stdinhand.c:3568
 msgid "You are not allowed to use this command."
 msgstr "不允许您使用该命令。"
 
-#: server/stdinhand.c:3583
+#: server/stdinhand.c:3593
 msgid "(server prompt)"
 msgstr "（服务器提示）"
 
-#: server/stdinhand.c:3687
+#: server/stdinhand.c:3697
 msgid "Game ended in a draw."
 msgstr "游戏结束未分胜负"
 
-#: server/stdinhand.c:3691
+#: server/stdinhand.c:3701
 msgid ""
 "Ending the game. The server will restart once all clients have disconnected."
 msgstr "结束游戏。服务器将在所有客户端断开连接后立刻重启动。"
 
-#: server/stdinhand.c:3696
+#: server/stdinhand.c:3706
 msgid "Cannot end the game: no game running."
 msgstr "无法结束游戏：游戏尚未运行。"
 
-#: server/stdinhand.c:3712
+#: server/stdinhand.c:3722
 #, c-format
 msgid "%s has conceded the game and can no longer win."
 msgstr "%s 已经认输，不可能赢得游戏了。"
 
-#: server/stdinhand.c:3717
+#: server/stdinhand.c:3727
 msgid "You cannot surrender now."
 msgstr "您现在不能投降。"
 
-#: server/stdinhand.c:3763
+#: server/stdinhand.c:3773
 msgid "Not enough players, game will not start."
 msgstr "玩家人数不足，不能开始游戏。"
 
-#: server/stdinhand.c:3780
+#: server/stdinhand.c:3790
 msgid ""
 "Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr "无法开始游戏：游戏正在等待所有的客户端断开连接。"
 
-#: server/stdinhand.c:3787
+#: server/stdinhand.c:3797
 msgid "Cannot start the game: it is already running."
 msgstr "无法开始游戏：它已经在运行了。"
 
-#: server/stdinhand.c:3816
+#: server/stdinhand.c:3826
 #, c-format
 msgid "Cutting connection %s."
 msgstr "切断连接 %s。"
 
 #. TRANS: line break width 70
-#: server/stdinhand.c:3836
+#: server/stdinhand.c:3846
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -6571,128 +6588,128 @@ msgstr ""
 "  quit   -  退出"
 
 #. TRANS: <untranslated name> - translated short help
-#: server/stdinhand.c:3867
+#: server/stdinhand.c:3877
 #, fuzzy, c-format
 msgid "Command: %s  -  %s"
 msgstr "命令： %s  -  %s"
 
 #. TRANS: <untranslated name>
-#: server/stdinhand.c:3873
+#: server/stdinhand.c:3883
 #, fuzzy, c-format
 msgid "Command: %s"
 msgstr "命令： %s"
 
-#: server/stdinhand.c:3878
+#: server/stdinhand.c:3888
 msgid "Synopsis: "
 msgstr "提要： "
 
-#: server/stdinhand.c:3887
+#: server/stdinhand.c:3897
 #, c-format
 msgid "Level: %s"
 msgstr "级别： %s"
 
-#: server/stdinhand.c:3908
+#: server/stdinhand.c:3918
 msgid "The following server commands are available:"
 msgstr "可以使用下列服务器命令："
 
-#: server/stdinhand.c:3983
+#: server/stdinhand.c:3993
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "帮助参数“%s”有歧义。"
 
-#: server/stdinhand.c:3988
+#: server/stdinhand.c:3998
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "没有匹配的帮助参数“%s”。"
 
-#: server/stdinhand.c:4054
+#: server/stdinhand.c:4064
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "错误的列表参数：“%s”。试用“%shelp list”。"
 
-#: server/stdinhand.c:4094
+#: server/stdinhand.c:4104
 msgid "List of players:"
 msgstr "玩家列表："
 
-#: server/stdinhand.c:4099
+#: server/stdinhand.c:4109
 msgid "<no players>"
 msgstr "<无玩家>"
 
-#: server/stdinhand.c:4116
+#: server/stdinhand.c:4126
 #, c-format
 msgid "user %s, "
 msgstr "用户 %s，"
 
-#: server/stdinhand.c:4127
+#: server/stdinhand.c:4137
 msgid ", Dead"
 msgstr "，死亡"
 
-#: server/stdinhand.c:4130
+#: server/stdinhand.c:4140
 #, c-format
 msgid ", difficulty level %s"
 msgstr "，难度级别 %s"
 
 #. TRANS: continue list, in case comma is not the separator of choice.
-#: server/stdinhand.c:4135 server/stdinhand.c:4139 client/helpdata.c:254
+#: server/stdinhand.c:4145 server/stdinhand.c:4149 client/helpdata.c:254
 #: client/helpdata.c:741 client/text.c:187 client/text.c:1179
 #: client/text.c:1217
 #, c-format
 msgid "?clistmore:, %s"
 msgstr " %s"
 
-#: server/stdinhand.c:4143
+#: server/stdinhand.c:4153
 msgid ", ready"
 msgstr "，就绪"
 
-#: server/stdinhand.c:4145
+#: server/stdinhand.c:4155
 msgid ", not ready"
 msgstr "未就绪"
 
-#: server/stdinhand.c:4153
+#: server/stdinhand.c:4163
 #, c-format
 msgid " %d connection:"
 msgid_plural " %d connections:"
 msgstr[0] " %d 个连接："
 
-#: server/stdinhand.c:4159
+#: server/stdinhand.c:4169
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
 msgstr "  %s 来自 %s （命令访问级别 %s ），缓冲区大小 ＝ %d kb"
 
-#: server/stdinhand.c:4164
+#: server/stdinhand.c:4174
 msgid " (observer mode)"
 msgstr " （旁观者模式）"
 
-#: server/stdinhand.c:4180
+#: server/stdinhand.c:4190
 msgid "List of teams:"
 msgstr "团队列表："
 
 #. TRANS: There will always be at least 2 players here.
-#: server/stdinhand.c:4189
+#: server/stdinhand.c:4199
 #, c-format
 msgid "%2d : '%s' : %d player"
 msgid_plural "%2d : '%s' : %d players"
 msgstr[0] "%2d ：“%s” ： %d 个玩家"
 
-#: server/stdinhand.c:4211
+#: server/stdinhand.c:4221
 #, c-format
 msgid "%2d : '%s' : 1 player : %s"
 msgstr "%2d ： “%s” ： 1 个玩家 ： %s"
 
-#: server/stdinhand.c:4220
+#: server/stdinhand.c:4230
 #, c-format
 msgid "Empty team: %s"
 msgstr "空团队： %s "
 
-#: server/stdinhand.c:4231
+#: server/stdinhand.c:4241
 msgid "List of connections to server:"
 msgstr "到服务器的连接列表："
 
-#: server/stdinhand.c:4235
+#: server/stdinhand.c:4245
 msgid "<no connections>"
 msgstr "<无连接>"
 
-#: server/stdinhand.c:4259
+#: server/stdinhand.c:4269
 msgid "List of scenarios available:"
 msgstr "可用的情景列表："
 
@@ -7186,57 +7203,57 @@ msgstr "您的 %s 被野人杀死了！"
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr "您在空中的飞过惊吓了部落；他们被吓得四下逃窜。"
 
-#: server/unittools.c:2494
+#: server/unittools.c:2498
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr "因附近有部队而取消对 %s 的命令。"
 
-#: server/unittools.c:2970
+#: server/unittools.c:2974
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "因附近有部队而取消对 %s 的命令。"
 
-#: server/unittools.c:3022
+#: server/unittools.c:3026
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr "因修建城市失败而取消对 %s 的命令。"
 
-#: server/unittools.c:3038
+#: server/unittools.c:3042
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr "%s 的命令被取消因为它给出了无效的活动。"
 
-#: server/unittools.c:3057
+#: server/unittools.c:3061
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "%s 的命令被取消因为它给出了无效的位置。"
 
-#: server/unittools.c:3067
+#: server/unittools.c:3071
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "因有部队挡在路中而取消对 %s 的命令。"
 
-#: server/unittools.c:3093
+#: server/unittools.c:3097
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "因移动无效而取消对 %s 的命令。"
 
-#: server/unittools.c:3134
+#: server/unittools.c:3138
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr "试图改变 %s 的基地城市失败。"
 
-#: server/unittools.c:3145
+#: server/unittools.c:3149
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "试图为 %s 建立贸易路线失败。"
 
-#: server/unittools.c:3157
+#: server/unittools.c:3161
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "试图为 %s 修建奇迹失败。"
 
-#: server/unittools.c:3166
+#: server/unittools.c:3170
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "您的 %s 得到了无效的命令。"
@@ -7289,7 +7306,7 @@ msgstr "插件“%s”不可用。可用的是 %s 。"
 msgid "No real audio plugin present."
 msgstr ""
 
-#: client/audio.c:198 client/audio.c:215 client/audio.c:247 client/audio.c:258
+#: client/audio.c:198 client/audio.c:215 client/audio.c:247 client/audio.c:257
 #, fuzzy
 msgid "Proceeding with sound support disabled."
 msgstr "继续进行，禁止音效支持"
@@ -7312,12 +7329,13 @@ msgstr "从 <%s> 获得音效集合。"
 msgid "Could not load sound spec-file: %s"
 msgstr "未能装入音效配置文件：%s"
 
-#: client/audio.c:255
+#: client/audio.c:254
 msgid "No real audio subsystem managed to initialize!"
 msgstr "未能初始化任何实际的声音子系统！"
 
-#: client/audio.c:257
-msgid "Perhaps there is some misconfiguration or bad permissions"
+#: client/audio.c:256
+#, fuzzy
+msgid "Perhaps there is some misconfiguration or bad permissions."
 msgstr "可能有一些错误配置或错误的许可权限"
 
 #: client/citydlg_common.c:217
@@ -7919,7 +7937,7 @@ msgstr "您没有在 %2$s 中购买 %1$s ！"
 msgid "%s costs %d gold and you only have %d gold."
 msgstr "%s 要花 %d 黄金，而您只有 %d 黄金。"
 
-#: client/clinet.c:143
+#: client/clinet.c:143 client/clinet.c:144
 msgid "Lost connection to server!"
 msgstr "失去同服务器的连接！"
 
@@ -10626,22 +10644,22 @@ msgstr ""
 "%s 要花 %d 黄金。\n"
 "国库只有 %d 黄金。"
 
-#: client/gui-gtk-2.0/citydlg.c:2511 client/gui-sdl/citydlg.c:1415
+#: client/gui-gtk-2.0/citydlg.c:2509 client/gui-sdl/citydlg.c:1415
 #: client/gui-win32/citydlg.c:962 client/gui-xaw/citydlg.c:2261
 #, c-format
 msgid "Sell %s for %d gold?"
 msgstr "以 %2$d 黄金的价格出售 %1$s ？"
 
-#: client/gui-gtk-2.0/citydlg.c:2517 client/gui-win32/citydlg.c:967
+#: client/gui-gtk-2.0/citydlg.c:2515 client/gui-win32/citydlg.c:967
 #: data/Freeciv.in:2246
 msgid "Sell It!"
 msgstr "卖掉它！"
 
-#: client/gui-gtk-2.0/citydlg.c:2594 client/gui-win32/citydlg.c:1161
+#: client/gui-gtk-2.0/citydlg.c:2591 client/gui-win32/citydlg.c:1161
 msgid "Rename City"
 msgstr "更改城市名称"
 
-#: client/gui-gtk-2.0/citydlg.c:2595 client/gui-win32/citydlg.c:1162
+#: client/gui-gtk-2.0/citydlg.c:2592 client/gui-win32/citydlg.c:1162
 #: client/gui-xaw/citydlg.c:1387
 msgid "What should we rename the city to?"
 msgstr "把城市名称改为什么？"
@@ -13635,9 +13653,9 @@ msgstr ""
 msgid "  -t,  --theme THEME\tUse GUI theme THEME\n"
 msgstr ""
 
-#: client/gui-sdl/gui_main.c:660
+#: client/gui-sdl/gui_main.c:661
 #, c-format
-msgid "Making screenshot fc_%05d.bmp"
+msgid "Making screenshot %s"
 msgstr ""
 
 #: client/gui-sdl/gui_main.c:793
@@ -14486,10 +14504,10 @@ msgstr ""
 msgid "No usable default theme found, aborting!"
 msgstr "未能找到可用的默认地图风格，正在中止！"
 
-#: client/gui-sdl/themespec.c:342
+#: client/gui-sdl/themespec.c:369
 #, fuzzy, c-format
-msgid "Trying \"%s\" theme."
-msgstr "正在尝试“%s”地图风格。"
+msgid "Loading theme \"%s\"."
+msgstr "正在装入规则集合"
 
 #: client/gui-sdl/themespec.c:486 client/gui-sdl/themespec.c:520
 #: client/gui-sdl/themespec.c:698
@@ -16124,11 +16142,6 @@ msgstr ""
 #: data/Freeciv.in:3253
 msgid "Cancel pact"
 msgstr "取消协定"
-
-#: data/Freeciv.in:3340 data/Freeciv.in:3341
-#, fuzzy
-msgid "Pregame"
-msgstr "总理"
 
 #: data/Freeciv.in:3357
 #, fuzzy
@@ -26617,6 +26630,70 @@ msgstr "团队"
 msgid "Team 31"
 msgstr "团队"
 
+#~ msgid ""
+#~ "debug [ player <player> | city <x> <y> | units <x> <y> | unit <id> | tech "
+#~ "<player> | timing | info]"
+#~ msgstr ""
+#~ "debug [player <玩家> | city <x> <y> | units <x> <y> | unit <id> | tech <玩"
+#~ "家> | timing | info]"
+
+#~ msgid ""
+#~ "away\n"
+#~ "away"
+#~ msgstr ""
+#~ "away\n"
+#~ "离开"
+
+#, fuzzy
+#~ msgid "endgame"
+#~ msgstr "重命名"
+
+#~ msgid "Usage: timeoutincrease <turn> <turnadd> <value> <valuemult>."
+#~ msgstr "用法：timeoutincrease <回合> <回合增量> <值> <valuemult>。"
+
+#~ msgid "Undefined argument.  Usage: team <player> <team>."
+#~ msgstr "未定义的参数。用法：team <玩家> <团队> 。"
+
+#~ msgid "Undefined arguments. Usage: vote yes|no [vote number]."
+#~ msgstr "未定义的参数。用法：vote yes|no [vote number] 。"
+
+#, fuzzy
+#~ msgid ""
+#~ "Undefined arguments. Usage: debug < diplomacy <player> | city <x> <y> | "
+#~ "units <x> <y> | unit <id> | tech <player> | timing | info | ferries >."
+#~ msgstr ""
+#~ "未定义的参数。用法：debug <player <玩家> | city <x> <y> | units <x> <y> | "
+#~ "unit <id>> 。"
+
+#, fuzzy
+#~ msgid "%s %s debugged."
+#~ msgstr "调试 %s 的 %s 。"
+
+#~ msgid "Usage: observe [connection-name [player-name]]"
+#~ msgstr "用法： observe [连接名称 [玩家名称]]"
+
+#~ msgid "Usage: observe [player-name]"
+#~ msgstr "用法： observer [玩家名称]"
+
+#~ msgid "Usage: take <connection-name> <player-name>"
+#~ msgstr "用法： taken <连接名称> <玩家名称>"
+
+#~ msgid "Usage: take <player-name>"
+#~ msgstr "用法： take <玩家名称>"
+
+#~ msgid "Usage: take [connection-name] <player-name>"
+#~ msgstr "用法： take [连接名称] <玩家名称>"
+
+#~ msgid "Usage: detach <connection-name>"
+#~ msgstr "用法： detach <连接名>"
+
+#~ msgid "Usage: load <game name>"
+#~ msgstr "用法： load <游戏名>"
+
+#, fuzzy
+#~ msgid "Trying \"%s\" theme."
+#~ msgstr "正在尝试“%s”地图风格。"
+
 #~ msgid "Great"
 #~ msgstr "伟大的"
 
@@ -27692,9 +27769,6 @@ msgstr "团队"
 
 #~ msgid "file options: %s"
 #~ msgstr "文件选项：%s"
-
-#~ msgid "supported options: %s"
-#~ msgstr "支持的选项：%s"
 
 #~ msgid "sound spec-file claims required option(s) which we don't support:"
 #~ msgstr "音效配置文件需要我们不支持的选项："
