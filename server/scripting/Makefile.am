@@ -5,8 +5,7 @@ noinst_LIBRARIES = libscripting.a
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/utility -I$(top_srcdir)/common \
 	-I$(top_srcdir)/server \
-	-I$(top_srcdir)/dependencies/lua/include \
-	-I$(top_srcdir)/dependencies/tolua
+	$(LUA_CFLAGS) $(TOLUA_CFLAGS)
 
 # api_gen.[ch] are now distributed to aid in cross-compiling.  See PR#13571.
 dist_libscripting_a_SOURCES = \
@@ -34,5 +33,4 @@ EXTRA_DIST = \
 		api.pkg
 
 $(srcdir)/api_gen.c $(srcdir)/api_gen.h: $(srcdir)/api.pkg
-	$(top_builddir)/dependencies/tolua/tolua -n api -o $(srcdir)/api_gen.c -H $(srcdir)/api_gen.h $(srcdir)/api.pkg
-
+	$(TOLUA) -n api -o $(srcdir)/api_gen.c -H $(srcdir)/api_gen.h $(srcdir)/api.pkg
