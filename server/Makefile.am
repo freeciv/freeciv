@@ -91,9 +91,7 @@ civserver_DEPENDENCIES = ../utility/libcivutility.a ../common/libcivcommon.a \
       ../ai/libcivai.a ../utility/libcivutility.a ./libcivserver.a \
       ../utility/libcivutility.a ../common/aicore/libaicore.a \
       ./scripting/libscripting.a \
-      ../dependencies/lua/src/liblua.a \
-      ../dependencies/lua/src/lib/liblualib.a \
-      ../dependencies/tolua/libtolua.a \
+      $(LUA_AS_DEPENDENCY) $(TOLUA_AS_DEPENDENCY) \
       ./generator/libgenerator.a
 civserver_LDFLAGS = $(GGZDMOD_LDFLAGS)
 civserver_LDADD        = ../utility/libcivutility.a ../common/libcivcommon.a \
@@ -102,9 +100,7 @@ civserver_LDADD        = ../utility/libcivutility.a ../common/libcivcommon.a \
       ../utility/libcivutility.a ./libcivserver.a ../utility/libcivutility.a \
       ../common/aicore/libaicore.a ./generator/libgenerator.a \
       ./scripting/libscripting.a \
-      ../dependencies/lua/src/liblua.a \
-      ../dependencies/lua/src/lib/liblualib.a \
-      ../dependencies/tolua/libtolua.a \
+      $(LUA_LIBS) $(TOLUA_LIBS) \
       $(AUTH_LIBS) $(SERVER_LIBS) $(LIB_GGZDMOD) $(SERVERICON)
 
 desktopfiledir = $(prefix)/share/applications

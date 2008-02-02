@@ -1,4 +1,4 @@
-dnl configure.ac for freeciv, for use with autoconf 2.50+
+dnl configure.ac for freeciv
 dnl Process this file with autoconf to produce a configure script.
 
 dnl Initialize with some random file to ensure the source is here.
@@ -675,6 +675,28 @@ if test -n "$WITH_EFENCE"; then
     LIBS="$LIBS -lefence"
   fi])
 fi
+
+dnl In the future we probably get rid of our own lua tree and use
+dnl lua from system.
+dnl LUA_AS_DEPENDENCY should be empty when using lua outside own our tree.
+LUA_CFLAGS="-I\$(top_srcdir)/dependencies/lua/include"
+LUA_LIBS="\$(top_builddir)/dependencies/lua/src/liblua.a \
+ \$(top_builddir)/dependencies/lua/src/lib/liblualib.a"
+LUA_AS_DEPENCY="$LUA_LIBS"
+AC_SUBST([LUA_CFLAGS])
+AC_SUBST([LUA_LIBS])
+AC_SUBST([LUA_AS_DEPENDENCY])
+
+
+TOLUA_CFLAGS="-I\$(top_srcdir)/dependencies/tolua"
+TOLUA_LIBS="\$(top_builddir)/dependencies/tolua/libtolua.a"
+TOLUA_AS_DEPENCY="$TOLUA_LIBS"
+AC_SUBST([TOLUA_CFLAGS])
+AC_SUBST([TOLUA_LIBS])
+AC_SUBST([TOLUA_AS_DEPENDENCY])
+
+TOLUA="\$(top_builddir)/dependencies/tolua/tolua"
+AC_SUBST([TOLUA])
 
 dnl Freeciv uses a non-standard macro, Q_(), to handle cases of qualified
 dnl translatable strings and macro PL_() to handle plural forms.
