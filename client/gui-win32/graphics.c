@@ -713,7 +713,7 @@ BITMAP *bmp_load_png(const char *filename)
 
   if (!(fp = fopen(filename, "rb"))) {
     MessageBox(NULL, "failed reading", filename, MB_OK);
-    freelog(LOG_FATAL, "Failed reading PNG file: %s", filename);
+    freelog(LOG_FATAL, "Failed reading PNG file: \"%s\"", filename);
     exit(EXIT_FAILURE);
   }
     
@@ -730,7 +730,7 @@ BITMAP *bmp_load_png(const char *filename)
   }
    
   if (setjmp(pngp->jmpbuf)) {
-    freelog(LOG_FATAL, "Failed while reading PNG file: %s", filename);
+    freelog(LOG_FATAL, "Failed while reading PNG file: \"%s\"", filename);
     exit(EXIT_FAILURE);
   }
 

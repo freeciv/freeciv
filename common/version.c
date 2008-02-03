@@ -98,14 +98,12 @@ const char *beta_message(void)
     N_("December")
   };
   my_snprintf (msgbuf, sizeof (msgbuf),
+	       /* TRANS: No full stop after the URL, could cause confusion. */
 	       _("THIS IS A BETA VERSION\n"
-		 "Freeciv %s will be released in\n"
-		 "%s, at %s"), /* No full stop here since it would be
-				  immediately following a URL, which
-				  would only cause confusion. */
+		 "Freeciv %s will be released in %s, at %s"),
 	       NEXT_STABLE_VERSION,
 	       _(NEXT_RELEASE_MONTH),
-	       WEBSITE_URL);
+	       WIKI_URL);
   return msgbuf;
 #else
   return NULL;

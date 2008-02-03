@@ -893,7 +893,7 @@ int server_open_socket(void)
   }
 
   if (!net_lookup_service(srvarg.bind_addr, srvarg.port, &src)) {
-    freelog(LOG_ERROR, _("Server: bad address: [%s:%d]."),
+    freelog(LOG_FATAL, _("Server: bad address: [%s:%d]."),
 	    srvarg.bind_addr, srvarg.port);
     exit(EXIT_FAILURE);
   }

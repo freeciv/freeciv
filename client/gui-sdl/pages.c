@@ -306,12 +306,7 @@ static void show_main_page()
 	  map_rgba(pWindow->dst->surface->format, line_color));
   
   set_output_window_text(_("SDLClient welcomes you..."));
-  set_output_window_text(_("Freeciv is free software and you are welcome "
-			   "to distribute copies of "
-			   "it under certain conditions;"));
-  set_output_window_text(_("See the \"Copying\" item on the Help"
-			   " menu."));
-  set_output_window_text(_("Now.. Go give'em hell!"));
+  chat_welcome_message();
 
   popup_meswin_dialog(true);  
 

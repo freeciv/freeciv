@@ -535,9 +535,7 @@ static void create_main_window(void)
 	      WM_SETFONT,(WPARAM) font_12arial,MAKELPARAM(TRUE,0)); 
   SendMessage(unit_info_label,
 	      WM_SETFONT,(WPARAM) font_12arial,MAKELPARAM(TRUE,0)); 
-  append_output_window(_("Freeciv is free software and you are welcome to distribute copies of"
-			 " it\nunder certain conditions; See the \"Copying\" item on the Help"
-			 " menu.\nNow.. Go give'em hell!") );
+  chat_welcome_message();
   hchatline=fcwin_box_add_edit(main_win_box,"",40,
 			       IDOK, 
 			       ES_WANTRETURN | ES_AUTOVSCROLL | ES_MULTILINE,

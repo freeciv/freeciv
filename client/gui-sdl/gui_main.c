@@ -207,7 +207,8 @@ static void print_usage(const char *argv0)
 		       "other thread (only Linux and BeOS)\n"));
   fc_fprintf(stderr, _("  -t,  --theme THEME\tUse GUI theme THEME\n"));
 
-  fc_fprintf(stderr, _("Report bugs at %s.\n"), BUG_URL);
+  /* TRANS: No full stop after the URL, could cause confusion. */
+  fc_fprintf(stderr, _("Report bugs at %s\n"), BUG_URL);
 }
 
 /**************************************************************************

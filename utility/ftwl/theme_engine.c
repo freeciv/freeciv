@@ -77,7 +77,7 @@ void te_init(const char *theme, char *example_file)
   my_snprintf(filename, sizeof(filename), "themes/gui-ftwl/%s/%s/%s",
 	      current_theme, current_res, example_file);
   if (!datafilename(filename)) {
-    freelog(LOG_FATAL, "ERROR: There is no theme '%s' in resolution '%s'.",
+    freelog(LOG_FATAL, "There is no theme '%s' in resolution '%s'.",
 	    current_theme, current_res);
     exit(EXIT_FAILURE);
   }

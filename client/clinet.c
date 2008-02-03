@@ -140,7 +140,7 @@ static void close_socket_callback(struct connection *pc)
   close_socket_nomessage(pc);
   /* If we lost connection to the internal server - kill him */
   client_kill_server(TRUE);
-  freelog(LOG_NORMAL, _("Lost connection to server!"));
+  freelog(LOG_ERROR, "Lost connection to server!");
   append_output_window(_("Lost connection to server!"));
   if (with_ggz) {
     client_exit();
@@ -481,8 +481,8 @@ double try_to_autoconnect(void)
   /* See PR#4042 for more info on issues with try_to_connect() and errno. */
   case ECONNREFUSED:		/* Server not available (yet) */
     if (!warning_shown) {
-      freelog(LOG_NORMAL, _("Connection to server refused. "
-			    "Please start the server."));
+      freelog(LOG_ERROR, "Connection to server refused. "
+			 "Please start the server.");
       append_output_window(_("Connection to server refused. "
 			     "Please start the server."));
       warning_shown = 1;

@@ -205,8 +205,9 @@ int main(int argc, char *argv[])
     exit(EXIT_SUCCESS);
   }
   con_write(C_VERSION, _("This is the server for %s"), freeciv_name_version());
+  /* TRANS: No full stop after the URL, could cause confusion. */
   con_write(C_COMMENT, _("You can learn a lot about Freeciv at %s"),
-	    WEBSITE_URL);
+	    WIKI_URL);
 
   if (showhelp) {
     fc_fprintf(stderr,
@@ -252,7 +253,8 @@ int main(int argc, char *argv[])
     fc_fprintf(stderr,
 	       _("  -R, --Ranklog FILE\tUse FILE as ranking logfile\n"));
     fc_fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
-    fc_fprintf(stderr, _("Report bugs at %s.\n"), BUG_URL);
+    /* TRANS: No full stop after the URL, could cause confusion. */
+    fc_fprintf(stderr, _("Report bugs at %s\n"), BUG_URL);
     exit(EXIT_SUCCESS);
   }
 

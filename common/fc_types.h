@@ -23,8 +23,6 @@
  * Nothing in this file should require anything else from the common/
  * directory! */
 
-#define WEBSITE_URL "http://www.freeciv.org/"
-
 /* MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS <= 32 !!!! */
 #define MAX_NUM_PLAYERS  30
 #define MAX_NUM_BARBARIANS   2

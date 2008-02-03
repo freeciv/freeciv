@@ -154,6 +154,7 @@
 #include <string.h>
 
 #include "astring.h"
+#include "fcintl.h"
 #include "genlist.h"
 #include "hash.h"
 #include "inputfile.h"
@@ -842,9 +843,12 @@ bool section_file_save(struct section_file *my_section_file,
 		      "%s.%s (or the entries are out of order. This means a \n"
 		      "less efficient non-tabular format will be used. To\n"
 		      "avoid this make sure all rows of a table are filled\n"
-		      "out with an entry for every column.  This is surely\n"
-		      "a bug so if you're reading this message, report it\n"
-		      "at %s", real_filename, psection->name, expect, BUG_URL);
+		      "out with an entry for every column.",
+		      real_filename, psection->name, expect);
+	      freelog(LOG_ERROR,
+                      /* TRANS: No full stop after the URL, could cause confusion. */
+                      _("Please report this message at %s"),
+		      BUG_URL);
 	      fz_fprintf(fs, "\n");
 	    }
 	    fz_fprintf(fs, "}\n");
