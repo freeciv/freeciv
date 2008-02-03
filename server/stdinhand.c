@@ -2357,7 +2357,6 @@ static bool debug_command(struct connection *caller, char *str,
     } else {
       pcity->debug = TRUE;
       CITY_LOG(LOG_TEST, pcity, "debugged");
-      pcity->ai.next_recalc = 0; /* force recalc of city next turn */
     }
   } else if (ntokens > 0 && strcmp(arg[0], "units") == 0) {
     int x, y;

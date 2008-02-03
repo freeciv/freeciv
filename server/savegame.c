@@ -2533,21 +2533,30 @@ static void player_load(struct player *plr, int plrno,
     worklist_load(file, &pcity->worklist, "player%d.c%d", plrno, i);
 
     /* FIXME: remove this when the urgency is properly recalculated. */
-    pcity->ai.urgency = secfile_lookup_int_default(file, 0, 
-				"player%d.c%d.ai.urgency", plrno, i);
+    pcity->ai.urgency =
+      secfile_lookup_int_default(file, 0, "player%d.c%d.ai.urgency",
+                                 plrno, i);
 
     /* avoid myrand recalculations on subsequent reload. */
-    pcity->ai.next_recalc = secfile_lookup_int_default(file, 0, 
-				"player%d.c%d.ai.building_turn", plrno, i);
+    pcity->ai.building_turn =
+      secfile_lookup_int_default(file, 0, "player%d.c%d.ai.building_turn",
+                                 plrno, i);
+    pcity->ai.building_wait =
+      secfile_lookup_int_default(file, BUILDING_WAIT_MINIMUM,
+                                 "player%d.c%d.ai.building_wait",
+                                 plrno, i);
 
     /* avoid myrand and expensive recalculations on subsequent reload. */
-    pcity->ai.next_founder_want_recalc = secfile_lookup_int_default(file, 0, 
-				"player%d.c%d.ai.founder_turn", plrno, i);
-    pcity->ai.founder_want = secfile_lookup_int_default(file, 0, 
-				"player%d.c%d.ai.founder_want", plrno, i);
-    pcity->ai.founder_boat = secfile_lookup_bool_default(file,
-				(pcity->ai.founder_want < 0), 
-				"player%d.c%d.ai.founder_boat", plrno, i);
+    pcity->ai.founder_turn =
+      secfile_lookup_int_default(file, 0, "player%d.c%d.ai.founder_turn",
+                                 plrno, i);
+    pcity->ai.founder_want =
+      secfile_lookup_int_default(file, 0, "player%d.c%d.ai.founder_want",
+                                 plrno, i);
+    pcity->ai.founder_boat =
+      secfile_lookup_bool_default(file, (pcity->ai.founder_want < 0),
+                                  "player%d.c%d.ai.founder_boat",
+                                  plrno, i);
 
     /* After all the set_worker_city() are done. */
     tile_set_city(pcity->tile, pcity);
@@ -3287,11 +3296,13 @@ static void player_save(struct player *plr, int plrno,
 		       "player%d.c%d.ai.urgency", plrno, i);
 
     /* avoid myrand recalculations on subsequent reload. */
-    secfile_insert_int(file, pcity->ai.next_recalc,
+    secfile_insert_int(file, pcity->ai.building_turn,
 		       "player%d.c%d.ai.building_turn", plrno, i);
+    secfile_insert_int(file, pcity->ai.building_wait,
+		       "player%d.c%d.ai.building_wait", plrno, i);
 
     /* avoid myrand and expensive recalculations on subsequent reload. */
-    secfile_insert_int(file, pcity->ai.next_founder_want_recalc,
+    secfile_insert_int(file, pcity->ai.founder_turn,
 		       "player%d.c%d.ai.founder_turn", plrno, i);
     secfile_insert_int(file, pcity->ai.founder_want,
 		       "player%d.c%d.ai.founder_want", plrno, i);

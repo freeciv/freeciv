@@ -26,8 +26,8 @@ typedef struct {
   bool is_init;			/* initially 0 for static storage */
 } RANDOM_STATE;
 
-#define myrand(vsize)      myrand_debug((vsize), "myrand", \
-                                        __LINE__, __FILE__)
+#define myrand(_size) \
+  myrand_debug((_size), "myrand", __LINE__, __FILE__)
 
 RANDOM_TYPE myrand_debug(RANDOM_TYPE size, const char *called_as, 
                          int line, const char *file);
@@ -39,5 +39,13 @@ RANDOM_STATE get_myrand_state(void);
 void set_myrand_state(RANDOM_STATE state);
 
 void test_random1(int n);
+
+/*===*/
+
+#define myrandomly(_seed, _size) \
+  myrandomly_debug((_seed), (_size), "myrandomly", __LINE__, __FILE__)
+
+RANDOM_TYPE myrandomly_debug(RANDOM_TYPE seed, RANDOM_TYPE size,
+			     const char *called_as, int line, const char *file);
 
 #endif  /* FC__RAND_H */

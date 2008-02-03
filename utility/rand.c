@@ -78,8 +78,8 @@ static RANDOM_STATE rand_state;
   directly representable in type RANDOM_TYPE, so we do instead:
          divisor = MAX_UINT32/size
 *************************************************************************/
-RANDOM_TYPE myrand_debug(RANDOM_TYPE size, const char *called_as, int line,
-                         const char *file)
+RANDOM_TYPE myrand_debug(RANDOM_TYPE size, const char *called_as,
+			 int line, const char *file) 
 {
   RANDOM_TYPE new_rand, divisor, max;
   int bailout = 0;
@@ -110,8 +110,8 @@ RANDOM_TYPE myrand_debug(RANDOM_TYPE size, const char *called_as, int line,
     rand_state.v[rand_state.x] = new_rand;
 
     if (++bailout > 10000) {
-      freelog(LOG_ERROR, "%s(%lu) = %lu bailout at line %d of %s", 
-	    called_as, (unsigned long)size, (unsigned long)new_rand, line, file);
+      freelog(LOG_ERROR, "%s(%lu) = %lu bailout at %s:%d", 
+	    called_as, (unsigned long)size, (unsigned long)new_rand, file, line);
       new_rand = 0;
       break;
     }
@@ -124,8 +124,8 @@ RANDOM_TYPE myrand_debug(RANDOM_TYPE size, const char *called_as, int line,
     new_rand = 0;
   }
 
-  freelog(LOG_RAND, "%s(%lu) = %lu at line %d of %s",
-	    called_as, (unsigned long)size, (unsigned long)new_rand, line, file);
+  freelog(LOG_RAND, "%s(%lu) = %lu at %s:%d",
+	    called_as, (unsigned long)size, (unsigned long)new_rand, file, line);
 
   return new_rand;
 } 
@@ -247,4 +247,32 @@ void test_random1(int n)
 
   /* restore state: */
   set_myrand_state(saved_state);
+}
+
+/*************************************************************************
+  Local pseudo-random function for repeatedly reaching the same result,
+  instead of myrand().  Primarily needed for tiles.
+
+  Use an invariant equation for seed.
+  Result is 0 to (size - 1).
+*************************************************************************/
+RANDOM_TYPE myrandomly_debug(RANDOM_TYPE seed, RANDOM_TYPE size,
+			     const char *called_as, int line, const char *file)
+{
+  RANDOM_TYPE result;
+
+#define LARGE_PRIME (10007)
+#define SMALL_PRIME (1009)
+
+  /* Check for overflow and underflow */
+  assert((int)(seed * LARGE_PRIME) > 0);
+  assert(size < SMALL_PRIME);
+  assert(size > 0);
+  result = ((seed * LARGE_PRIME) % SMALL_PRIME) % size;
+
+  freelog(LOG_RAND, "%s(%lu,%lu) = %lu at %s:%d",
+	  called_as, (unsigned long)seed, (unsigned long)size,
+	  (unsigned long)result, file, line);
+
+  return result;
 }
