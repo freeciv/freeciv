@@ -186,12 +186,18 @@ struct ai_choice {
 };
 
 struct ai_city {
+  int building_turn;            /* only recalculate every Nth turn */
+  int building_wait;            /* for weighting values */
+#define BUILDING_WAIT_MINIMUM (1)
+
   /* building desirabilities - easiest to handle them here -- Syela */
   /* The units of building_want are output
    * (shields/gold/luxuries) multiplied by a priority
    * (SHIELD_WEIGHTING, etc or ai->shields_priority, etc)
    */
   int building_want[B_LAST];
+
+  struct ai_choice choice;      /* to spend gold in the right place only */
 
   unsigned int danger;          /* danger to be compared to assess_defense */
   bool diplomat_threat;         /* enemy diplomat or spy is near the city */
@@ -201,8 +207,6 @@ struct ai_city {
   unsigned int grave_danger;    /* danger, should show positive feedback */
   int wallvalue;                /* how much it helps for defenders to be 
                                    ground units */
-  int trade_want;               /* saves a zillion calculations */
-  struct ai_choice choice;      /* to spend gold in the right place only */
   int downtown;                 /* distance from neighbours, for locating 
                                    wonders wisely */
   int distance_to_wonder_city;  /* wondercity will set this for us, 
@@ -217,17 +221,17 @@ struct ai_city {
   /* These values are for builder (F_SETTLERS) and founder (F_CITIES) units.
    * Negative values indicate that the city needs a boat first;
    * -value is the degree of want in that case. */
-  int settler_want, founder_want;
-  int next_founder_want_recalc; /* do not recalc founder_want every turn */
-  bool founder_boat; /* if the city founder will need a boat */
+  bool founder_boat;            /* city founder will need a boat */
+  int founder_turn;             /* only recalculate every Nth turn */
+  int founder_want;
+  int settler_want;
+  int trade_want;               /* saves a zillion calculations */
+
   int invasion; /* who's coming to kill us, for attack co-ordination */
   int attack, bcost; /* This is also for invasion - total power and value of
                       * all units coming to kill us. */
 
   int worth; /* Cache city worth here, sum of all weighted incomes */
-  /* Only recalc every Nth turn: */
-  int recalc_interval; /* Use for weighting values calculated every Nth turn */
-  int next_recalc;
 };
 
 enum citizen_category {

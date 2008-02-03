@@ -2438,8 +2438,7 @@ struct city *create_city_virtual(struct player *pplayer,
   pcity->owner = pplayer;
   pcity->tile = ptile;
   sz_strlcpy(pcity->name, name);
-#if 0
-  /* some zero variables not compiled, but left for searching */
+#ifdef ZERO_VARIABLES_FOR_SEARCHING
   memset(pcity->feel, 0, sizeof(pcity->feel));
   memset(pcity->specialists, 0, sizeof(pcity->specialists));
   memset(pcity->tile_output, 0, sizeof(pcity->tile_output));
@@ -2509,6 +2508,7 @@ struct city *create_city_virtual(struct player *pplayer,
 
   pcity->turn_last_built = game.info.turn;
   pcity->changed_from = pcity->production;
+#ifdef ZERO_VARIABLES_FOR_SEARCHING
   pcity->before_change_shields = 0;
   pcity->disbanded_shields = 0;
   pcity->caravan_shields = 0;
@@ -2521,13 +2521,21 @@ struct city *create_city_virtual(struct player *pplayer,
   pcity->server.needs_arrange = FALSE;
   pcity->server.vision = NULL; /* No vision. */
 
-  pcity->ai.founder_boat = FALSE;
-  pcity->ai.founder_want = 0; /* calculating this is really expensive */
-  pcity->ai.next_founder_want_recalc = 0; /* turns to recalc found_want */
-  pcity->ai.trade_want = 1; /* we always want some */
-#if 0
-  /* some zero variables not compiled, but left for searching */
+  pcity->ai.building_turn = 0;
+#endif
+  pcity->ai.building_wait = BUILDING_WAIT_MINIMUM;
+#ifdef ZERO_VARIABLES_FOR_SEARCHING
   memset(pcity->ai.building_want, 0, sizeof(pcity->ai.building_want));
+
+  /* pcity->ai.choice; placeholder for searching */
+  pcity->ai.founder_boat = FALSE;
+  pcity->ai.founder_turn = 0;
+  pcity->ai.founder_want = 0; /* calculating this is really expensive */
+  pcity->ai.settler_want = 0;
+#endif
+  pcity->ai.trade_want = 1; /* we always want some */
+
+#ifdef ZERO_VARIABLES_FOR_SEARCHING
   pcity->ai.danger = 0;
   pcity->ai.urgency = 0;
   pcity->ai.grave_danger = 0;
@@ -2536,8 +2544,6 @@ struct city *create_city_virtual(struct player *pplayer,
   pcity->ai.invasion = 0;
   pcity->ai.bcost = 0;
   pcity->ai.attack = 0;
-  pcity->ai.recalc_interval = 1;
-  pcity->ai.next_recalc = 0;
 
   memset(pcity->surplus, 0, O_COUNT * sizeof(*pcity->surplus));
   memset(pcity->waste, 0, O_COUNT * sizeof(*pcity->waste));

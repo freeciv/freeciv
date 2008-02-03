@@ -276,7 +276,7 @@ static void want_tech_for_improvement_effect(struct player *pplayer,
   /* The conversion factor was determined by experiment,
    * and might need adjustment.
    */
-  const int tech_want = building_want * pcity->ai.recalc_interval * 14 / 8;
+  const int tech_want = building_want * pcity->ai.building_wait * 14 / 8;
 #if 0
   /* This logging is relatively expensive,
    * so activate it only while necessary. */
@@ -1118,15 +1118,15 @@ static void adjust_wants_by_effects(struct player *pplayer,
       improvement_iterate(pimprove) {
         pcity->ai.building_want[improvement_index(pimprove)] = 1;
       } improvement_iterate_end;
-    } else if (pcity->ai.next_recalc <= game.info.turn) {
+    } else if (pcity->ai.building_turn <= game.info.turn) {
       /* Do a scheduled recalculation this turn */
       improvement_iterate(pimprove) {
         pcity->ai.building_want[improvement_index(pimprove)] = 0;
       } improvement_iterate_end;
     } else if (should_force_recalc(pcity)) {
       /* Do an emergency recalculation this turn. */
-      pcity->ai.recalc_interval = pcity->ai.next_recalc - game.info.turn;
-      pcity->ai.next_recalc = game.info.turn;
+      pcity->ai.building_wait = pcity->ai.building_turn - game.info.turn;
+      pcity->ai.building_turn = game.info.turn;
 
       improvement_iterate(pimprove) {
         pcity->ai.building_want[improvement_index(pimprove)] = 0;
@@ -1150,7 +1150,7 @@ static void adjust_wants_by_effects(struct player *pplayer,
           /* Don't consider impossible or redundant buildings */
           pcity->ai.building_want[improvement_index(pimprove)] = 0;
         } else if (pplayer->ai.control
-                   && pcity->ai.next_recalc <= game.info.turn) {
+                   && pcity->ai.building_turn <= game.info.turn) {
           /* Building wants vary relatively slowly, so not worthwhile
            * recalculating them every turn.
            * We DO want to calculate (tech) wants because of buildings
@@ -1275,11 +1275,11 @@ void ai_manage_buildings(struct player *pplayer)
 
   /* Reset recalc counter */
   city_list_iterate(pplayer->cities, pcity) {
-    if (pcity->ai.next_recalc <= game.info.turn) {
+    if (pcity->ai.building_turn <= game.info.turn) {
       /* This will spread recalcs out so that no one turn end is 
        * much longer than others */
-      pcity->ai.recalc_interval = myrand(RECALC_SPEED) + RECALC_SPEED;
-      pcity->ai.next_recalc = game.info.turn + pcity->ai.recalc_interval;
+      pcity->ai.building_wait = myrand(RECALC_SPEED) + RECALC_SPEED;
+      pcity->ai.building_turn = game.info.turn + pcity->ai.building_wait;
     }
   } city_list_iterate_end;
 }
@@ -1701,12 +1701,15 @@ void ai_manage_cities(struct player *pplayer)
     TIMING_LOG(AIT_CITY_TERRAIN, TIMER_STOP);
 
     TIMING_LOG(AIT_CITY_SETTLERS, TIMER_START);
-    if (pcity->ai.next_founder_want_recalc <= game.info.turn) {
+    if (pcity->ai.founder_turn <= game.info.turn) {
       /* Will record its findings in pcity->founder_want */ 
       contemplate_new_city(pcity);
       /* Avoid recalculating all the time.. */
-      pcity->ai.next_founder_want_recalc = 
+      pcity->ai.founder_turn = 
         game.info.turn + myrand(RECALC_SPEED) + RECALC_SPEED;
+    } else if (pcity->debug) {
+      /* recalculate every turn */
+      contemplate_new_city(pcity);
     }
     TIMING_LOG(AIT_CITY_SETTLERS, TIMER_STOP);
     ASSERT_CHOICE(pcity->ai.choice);
