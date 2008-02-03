@@ -19,6 +19,7 @@
 #include <string.h>
 
 #include "astring.h"
+#include "fcintl.h"
 #include "log.h"
 #include "packets.h"
 #include "support.h"
@@ -133,4 +134,15 @@ void append_output_window_full(const char *astring, int conn_id)
     premain->text = mystrdup(astring);
     premain->conn_id = conn_id;
   }
+}
+
+/****************************************************************************
+  Standard welcome message.
+****************************************************************************/
+void chat_welcome_message(void)
+{
+  append_output_window(_("Freeciv is free software and you are welcome to "
+			 "distribute copies of it under certain conditions;"));
+  append_output_window(_("See the \"Copying\" item on the Help menu."));
+  append_output_window(_("Now ... Go give 'em hell!"));
 }

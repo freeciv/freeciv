@@ -51,9 +51,11 @@ void gui_clear_theme(void)
 {
   theme_free(theme);
   if (!load_theme(gui_sdl_theme_name)) {
-    freelog(LOG_FATAL, "No gui-sdl theme was found. Please visit");
-    freelog(LOG_FATAL, "http://www.freeciv.org/index.php/Themes");
-    freelog(LOG_FATAL, "for instructions on how to get one.");
+    freelog(LOG_FATAL,
+            /* TRANS: No full stop after the URL, could cause confusion. */
+            _("No gui-sdl theme was found. For instructions on how to get one,"
+              " please visit %s"),
+            WEB_URL);
     exit(EXIT_FAILURE);
   }
 }

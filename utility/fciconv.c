@@ -214,8 +214,8 @@ char *convert_string(const char *text,
   assert(text != NULL);
 
   if (cd == (iconv_t) (-1)) {
-	/* TRANS: "Could not convert text from <encoding a> to <encoding b>:" 
-	 * TRANS: <error string>."*/
+    /* TRANS: "Could not convert text from <encoding a> to <encoding b>:" 
+     *        <externally translated error string>."*/
     freelog(LOG_ERROR, _("Could not convert text from %s to %s: %s"), from,
 	    to, mystrerror());
     /* The best we can do? */

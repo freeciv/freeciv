@@ -3615,8 +3615,8 @@ void game_load(struct section_file *file)
 
   /* we require at least version 1.9.0 */
   if (10900 > game.version) {
-    /* TRANS: Fatal error message. */
     freelog(LOG_FATAL,
+	    /* TRANS: Fatal error message. */
 	    _("Saved game is too old, at least version 1.9.0 required."));
     exit(EXIT_FAILURE);
   }

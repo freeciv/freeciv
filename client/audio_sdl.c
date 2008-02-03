@@ -84,11 +84,11 @@ static bool my_play(const char *const tag, const char *const fullpath,
     /* load music file */
     mus = Mix_LoadMUS(fullpath);
     if (mus == NULL) {
-      freelog(LOG_FATAL, "Can't open file '%s'", fullpath);
+      freelog(LOG_ERROR, "Can't open file \"%s\"", fullpath);
     }
 
     Mix_PlayMusic(mus, -1);	/* -1 means loop forever */
-    freelog(LOG_VERBOSE, "Playing file %s on music channel", fullpath);
+    freelog(LOG_VERBOSE, "Playing file \"%s\" on music channel", fullpath);
     /* in case we did a my_stop() recently; add volume controls later */
     Mix_VolumeMusic(MIX_MAX_VOLUME);
 
@@ -97,7 +97,7 @@ static bool my_play(const char *const tag, const char *const fullpath,
     /* see if we can cache on this one */
     for (j = 0; j < MIX_CHANNELS; j++) {
       if (samples[j].tag && (strcmp(samples[j].tag, tag) == 0)) {
-	freelog(LOG_DEBUG, "Playing file %s from cache (slot %d)", fullpath,
+	freelog(LOG_DEBUG, "Playing file \"%s\" from cache (slot %d)", fullpath,
 		j);
 	i = Mix_PlayChannel(-1, samples[j].wave, 0);
 	return TRUE;
@@ -107,7 +107,7 @@ static bool my_play(const char *const tag, const char *const fullpath,
     /* load wave */
     wave = Mix_LoadWAV(fullpath);
     if (wave == NULL) {
-      freelog(LOG_ERROR, "Can't open file '%s'", fullpath);
+      freelog(LOG_ERROR, "Can't open file \"%s\"", fullpath);
     }
 
     /* play sound sample on first available channel, returns -1 if no
@@ -118,7 +118,7 @@ static bool my_play(const char *const tag, const char *const fullpath,
       Mix_FreeChunk(wave);
       return FALSE;
     }
-    freelog(LOG_VERBOSE, "Playing file %s on channel %d", fullpath, i);
+    freelog(LOG_VERBOSE, "Playing file \"%s\" on channel %d", fullpath, i);
     /* free previous sample on this channel. it will by definition no
        longer be playing by the time we get here */
     if (samples[i].wave) {

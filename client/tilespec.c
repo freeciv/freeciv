@@ -1053,7 +1053,7 @@ static void ensure_big_sprite(struct specfile *sf)
    * to be reloaded, but most of the time it's just loaded once, the small
    * sprites are extracted, and then it's freed. */
   if (!section_file_load(file, sf->file_name)) {
-    freelog(LOG_FATAL, "Could not open \"%s\".", sf->file_name);
+    freelog(LOG_FATAL, _("Could not open \"%s\"."), sf->file_name);
     exit(EXIT_FAILURE);
   }
 
@@ -1087,7 +1087,7 @@ static void scan_specfile(struct tileset *t, struct specfile *sf,
   int num_grids, i;
 
   if (!section_file_load(file, sf->file_name)) {
-    freelog(LOG_FATAL, "Could not open \"%s\".", sf->file_name);
+    freelog(LOG_FATAL, _("Could not open \"%s\"."), sf->file_name);
     exit(EXIT_FAILURE);
   }
   if (!check_tilespec_capabilities(file, "spec",
@@ -1644,11 +1644,10 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   }
   free(sections);
 
-
   spec_filenames = secfile_lookup_str_vec(file, &num_spec_files,
 					  "tilespec.files");
   if (num_spec_files == 0) {
-    freelog(LOG_ERROR, "No tile files specified in \"%s\"", fname);
+    freelog(LOG_ERROR, "No tile graphics files specified in \"%s\"", fname);
     section_file_free(file);
     free(fname);
     tileset_free(t);
@@ -1889,7 +1888,7 @@ static bool sprite_exists(const struct tileset *t, const char *tag_name)
       t->sprites.field = load_sprite(t, alt);				    \
     }									    \
     if (!t->sprites.field) {						    \
-      die("Sprite tag '%s' and alternate '%s' are both missing.", tag, alt);    \
+      die("Sprite tag '%s' and alternate '%s' are both missing.", tag, alt);\
     }									    \
   } while(FALSE)
 
@@ -1899,8 +1898,8 @@ static bool sprite_exists(const struct tileset *t, const char *tag_name)
 
 #define SET_SPRITE_ALT_OPT(field, tag, alt)				    \
   do {									    \
-    t->sprites.field = lookup_sprite_tag_alt(t, tag, alt, FALSE,	    \
-					     "sprite", #field);		    \
+    t->sprites.field = tiles_lookup_sprite_tag_alt(t, LOG_VERBOSE, tag, alt,\
+						   "sprite", #field);	    \
   } while (FALSE)
 
 /****************************************************************************
@@ -2568,12 +2567,10 @@ void tileset_load_tiles(struct tileset *t)
 /**********************************************************************
   Lookup sprite to match tag, or else to match alt if don't find,
   or else return NULL, and emit log message.
-  FIXME: currently called with some parameters translated, not others!
 ***********************************************************************/
-struct sprite* lookup_sprite_tag_alt(struct tileset *t,
-                                     const char *tag, const char *alt,
-                                     bool required, const char *what,
-                                     const char *name)
+struct sprite* tiles_lookup_sprite_tag_alt(struct tileset *t, int loglevel,
+					   const char *tag, const char *alt,
+					   const char *what, const char *name)
 {
   struct sprite *sp;
   
@@ -2593,10 +2590,10 @@ struct sprite* lookup_sprite_tag_alt(struct tileset *t,
     return sp;
   }
 
-  freelog(required ? LOG_FATAL : LOG_VERBOSE,
+  freelog(loglevel,
 	  "Don't have graphics tags \"%s\" or \"%s\" for %s \"%s\".",
 	  tag, alt, what, name);
-  if (required) {
+  if (LOG_FATAL >= loglevel) {
     exit(EXIT_FAILURE);
   }
   return NULL;
@@ -2608,9 +2605,10 @@ struct sprite* lookup_sprite_tag_alt(struct tileset *t,
 ***********************************************************************/
 void tileset_setup_unit_type(struct tileset *t, struct unit_type *ut)
 {
-  t->sprites.unittype[utype_index(ut)]
-    = lookup_sprite_tag_alt(t, ut->graphic_str, ut->graphic_alt,
-			    TRUE, "unit_type", utype_rule_name(ut));
+  t->sprites.unittype[utype_index(ut)] =
+    tiles_lookup_sprite_tag_alt(t, LOG_FATAL, ut->graphic_str,
+				ut->graphic_alt, "unit_type",
+				utype_rule_name(ut));
 
   /* should maybe do something if NULL, eg generic default? */
 }
@@ -2622,11 +2620,10 @@ void tileset_setup_unit_type(struct tileset *t, struct unit_type *ut)
 void tileset_setup_impr_type(struct tileset *t,
 			     struct impr_type *pimprove)
 {
-  t->sprites.building[improvement_index(pimprove)]
-    = lookup_sprite_tag_alt(t, pimprove->graphic_str,
-			    pimprove->graphic_alt,
-			    FALSE, "impr_type",
-			    improvement_rule_name(pimprove));
+  t->sprites.building[improvement_index(pimprove)] =
+    tiles_lookup_sprite_tag_alt(t, LOG_VERBOSE, pimprove->graphic_str,
+				pimprove->graphic_alt, "improvement",
+				improvement_rule_name(pimprove));
 
   /* should maybe do something if NULL, eg generic default? */
 }
@@ -2639,11 +2636,10 @@ void tileset_setup_tech_type(struct tileset *t,
 			     struct advance *padvance)
 {
   if (valid_advance(padvance)) {
-    t->sprites.tech[advance_index(padvance)]
-      = lookup_sprite_tag_alt(t, padvance->graphic_str,
-			      padvance->graphic_alt,
-			      FALSE, "technology",
-			      advance_rule_name(padvance));
+    t->sprites.tech[advance_index(padvance)] =
+      tiles_lookup_sprite_tag_alt(t, LOG_VERBOSE, padvance->graphic_str,
+				  padvance->graphic_alt, "technology",
+				  advance_rule_name(padvance));
 
     /* should maybe do something if NULL, eg generic default? */
   } else {
@@ -2659,11 +2655,10 @@ void tileset_setup_resource(struct tileset *t,
 			    const struct resource *presource)
 {
   assert(presource);
-  t->sprites.resource[resource_index(presource)]
-    = lookup_sprite_tag_alt(t, presource->graphic_str,
-			    presource->graphic_alt,
-			    FALSE, "resource",
-			    resource_rule_name(presource));
+  t->sprites.resource[resource_index(presource)] =
+    tiles_lookup_sprite_tag_alt(t, LOG_VERBOSE, presource->graphic_str,
+				presource->graphic_alt, "resource",
+				resource_rule_name(presource));
 }
 
 /****************************************************************************
@@ -2798,8 +2793,9 @@ void tileset_setup_tile_type(struct tileset *t,
 		      draw->name,
 		      cardinal_index_str(t, i));
 	  dlp->match[i] =
-	    lookup_sprite_tag_alt(t, buffer, "", TRUE, "matched terrain",
-				  terrain_rule_name(pterrain));
+	    tiles_lookup_sprite_tag_alt(t, LOG_FATAL, buffer, "",
+					"matched terrain",
+					terrain_rule_name(pterrain));
 	}
 	break;
       case MATCH_PAIR:
@@ -2844,9 +2840,10 @@ void tileset_setup_tile_type(struct tileset *t,
 			l,
 			draw->name,
 			direction4letters[dir]);
-	    dlp->cells[i]
-	      = lookup_sprite_tag_alt(t, buffer, "", TRUE, "cell terrain",
-				      terrain_rule_name(pterrain));
+	    dlp->cells[i] =
+	      tiles_lookup_sprite_tag_alt(t, LOG_FATAL, buffer, "",
+					  "cell terrain",
+					  terrain_rule_name(pterrain));
 	    break;
 	  case MATCH_SAME:
 	    my_snprintf(buffer, sizeof(buffer), "t.l%d.%s_cell_%c%d%d%d",
@@ -2856,9 +2853,10 @@ void tileset_setup_tile_type(struct tileset *t,
 			(value) & 1,
 			(value >> 1) & 1,
 			(value >> 2) & 1);
-	    dlp->cells[i]
-	      = lookup_sprite_tag_alt(t, buffer, "", TRUE, "same cell terrain",
-				      terrain_rule_name(pterrain));
+	    dlp->cells[i] =
+	      tiles_lookup_sprite_tag_alt(t, LOG_FATAL, buffer, "",
+					  "same cell terrain",
+					  terrain_rule_name(pterrain));
 	    break;
 	  case MATCH_PAIR:
 	    my_snprintf(buffer, sizeof(buffer), "t.l%d.%s_cell_%c_%c_%c_%c",
@@ -2868,9 +2866,10 @@ void tileset_setup_tile_type(struct tileset *t,
 			tslp->match_types[dlp->match_index[(value) & 1]][0],
 			tslp->match_types[dlp->match_index[(value >> 1) & 1]][0],
 			tslp->match_types[dlp->match_index[(value >> 2) & 1]][0]);
-	    dlp->cells[i]
-	      = lookup_sprite_tag_alt(t, buffer, "", TRUE, "cell pair terrain",
-				      terrain_rule_name(pterrain));
+	    dlp->cells[i] =
+	      tiles_lookup_sprite_tag_alt(t, LOG_FATAL, buffer, "",
+					  "cell pair terrain",
+					  terrain_rule_name(pterrain));
 	    break;
 	  case MATCH_FULL:
 	    {
@@ -2956,8 +2955,10 @@ void tileset_setup_tile_type(struct tileset *t,
 
   /* try an optional special name */
   my_snprintf(buffer, sizeof(buffer), "t.blend.%s", draw->name);
-  draw->blender = lookup_sprite_tag_alt(t, buffer, "", FALSE, "blend terrain",
-                                        terrain_rule_name(pterrain));
+  draw->blender =
+    tiles_lookup_sprite_tag_alt(t, LOG_VERBOSE, buffer, "",
+				"blend terrain",
+				terrain_rule_name(pterrain));
 
   if (draw->blending > 0) {
     const int l = draw->blending - 1;
@@ -2975,9 +2976,10 @@ void tileset_setup_tile_type(struct tileset *t,
     if (NULL == draw->blender) {
       /* try an unloaded base name */
       my_snprintf(buffer, sizeof(buffer), "t.l%d.%s1", l, draw->name);
-      draw->blender
-	= lookup_sprite_tag_alt(t, buffer, "", TRUE, "base (blend) terrain",
-				terrain_rule_name(pterrain));
+      draw->blender =
+	tiles_lookup_sprite_tag_alt(t, LOG_FATAL, buffer, "",
+				    "base (blend) terrain",
+				    terrain_rule_name(pterrain));
     }
   }
 
@@ -3016,10 +3018,10 @@ void tileset_setup_tile_type(struct tileset *t,
 void tileset_setup_government(struct tileset *t,
 			      struct government *gov)
 {
-  t->sprites.government[government_index(gov)]
-    = lookup_sprite_tag_alt(t, gov->graphic_str, gov->graphic_alt,
-			    TRUE, "government",
-			    government_name_translation(gov));
+  t->sprites.government[government_index(gov)] =
+    tiles_lookup_sprite_tag_alt(t, LOG_FATAL, gov->graphic_str,
+				gov->graphic_alt, "government",
+				government_rule_name(gov));
   
   /* should probably do something if NULL, eg generic default? */
 }
@@ -4166,8 +4168,11 @@ static int fill_goto_sprite_array(const struct tileset *t,
 
       if (!reported) {
 	freelog(LOG_ERROR,
-		_("Paths longer than 99 turns are not supported.\n"
-		  "Report this bug at %s"), BUG_URL);
+		_("Paths longer than 99 turns are not supported."));
+	freelog(LOG_ERROR,
+		/* TRANS: No full stop after the URL, could cause confusion. */
+		_("Please report this message at %s"),
+		BUG_URL);
 	reported = TRUE;
       }
       tens = units = 9;
@@ -4626,7 +4631,7 @@ void tileset_free_tiles(struct tileset *t)
 {
   int i;
 
-  freelog(LOG_DEBUG, "tilespec_free_tiles");
+  freelog(LOG_DEBUG, "tileset_free_tiles()");
 
   unload_all_sprites(t);
 
@@ -4644,6 +4649,7 @@ void tileset_free_tiles(struct tileset *t)
       const char *key = hash_key_by_number(t->sprite_hash, 0);
 
       hash_delete_entry(t->sprite_hash, key);
+      /* now freed by callback */
     }
 
     hash_free(t->sprite_hash);

@@ -349,7 +349,8 @@ static void print_usage(const char *argv0)
   /* add client-specific usage information here */
   fc_fprintf(stderr, _("This client has no special command line options\n\n"));
 
-  fc_fprintf(stderr, _("Report bugs at %s.\n"), BUG_URL);
+  /* TRANS: No full stop after the URL, could cause confusion. */
+  fc_fprintf(stderr, _("Report bugs at %s\n"), BUG_URL);
 }
 
 /**************************************************************************
@@ -1294,10 +1295,7 @@ static void setup_widgets(void)
 
   main_message_area = GTK_TEXT_VIEW(text);
 
-  set_output_window_text(
-      _("Freeciv is free software and you are welcome to distribute copies of"
-      " it\nunder certain conditions; See the \"Copying\" item on the Help"
-      " menu.\nNow.. Go give'em hell!") );
+  chat_welcome_message();
 
   /* the chat line */
   inputline = gtk_entry_new();

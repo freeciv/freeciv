@@ -28,4 +28,6 @@ void output_window_thaw(void);
 void output_window_force_thaw(void);
 bool is_output_window_frozen(void);
 
+void chat_welcome_message(void);
+
 #endif  /* FC__CHATLINE_COMMON_H */

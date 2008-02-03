@@ -152,9 +152,12 @@ void queue_flush(void)
        * the flush code would simply stop working.  But this means the
        * below message may be repeated many times. */
       freelog(LOG_ERROR,
-	      _("The SDL event buffer is full; you may see drawing errors\n"
-		"as a result.  If you see this message often, please\n"
-		"report it at %s. Thank you."), BUG_URL);
+              _("The SDL event buffer is full;"
+                " you may see drawing errors as a result."));
+      freelog(LOG_ERROR,
+              /* TRANS: No full stop after the URL, could cause confusion. */
+              _("Please report this message at %s"),
+              BUG_URL);
     }
   }
 }

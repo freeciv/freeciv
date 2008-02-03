@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-01 06:28-0500\n"
+"POT-Creation-Date: 2008-02-03 09:41-0500\n"
 "PO-Revision-Date: 2008-01-01 02:48+0300\n"
 "Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
@@ -716,7 +716,7 @@ msgstr "Ateities technologija. %d"
 #: client/gui-gtk-2.0/editdlg.c:319 client/gui-gtk-2.0/helpdlg.c:110
 #: client/gui-sdl/citydlg.c:738 client/gui-sdl/gui_tilespec.c:482
 #: client/gui-sdl/helpdlg.c:370 client/gui-sdl/helpdlg.c:792
-#: client/gui-sdl/helpdlg.c:818 client/gui-sdl/mapview.c:770
+#: client/gui-sdl/helpdlg.c:818 client/gui-sdl/mapview.c:773
 #: client/gui-win32/helpdlg.c:165 client/gui-win32/helpdlg.c:545
 #: client/gui-win32/helpdlg.c:731 client/gui-win32/helpdlg.c:752
 #: client/gui-xaw/helpdlg.c:813 client/gui-xaw/helpdlg.c:858
@@ -952,18 +952,18 @@ msgstr "lapkritį"
 msgid "December"
 msgstr "gruodį"
 
-#: common/version.c:101
-#, c-format
+#. TRANS: No full stop after the URL, could cause confusion.
+#: common/version.c:102
+#, fuzzy, c-format
 msgid ""
 "THIS IS A BETA VERSION\n"
-"Freeciv %s will be released in\n"
-"%s, at %s"
+"Freeciv %s will be released in %s, at %s"
 msgstr ""
 "TAI YRA BETA VERSIJA\n"
 "Freeciv %s bus išleistas\n"
 "%s %s"
 
-#: common/version.c:123
+#: common/version.c:121
 msgid "'Cause civilization should be free!"
 msgstr "Kadangi civilizacija turi būti laisva!"
 
@@ -980,7 +980,7 @@ msgstr ""
 "neteisinngai. Iconv galima rasti http://gnu.org/ adresu.\n"
 
 #. TRANS: "Could not convert text from <encoding a> to <encoding b>:"
-#. * TRANS: <error string>."
+#. *        <externally translated error string>."
 #: utility/fciconv.c:219
 #, c-format
 msgid "Could not convert text from %s to %s: %s"
@@ -1111,84 +1111,97 @@ msgstr[0] " (iš viso %d pakartojimas)"
 msgstr[1] " (iš viso %d pakartojimai)"
 msgstr[2] " (iš viso %d pakartojimų)"
 
-#: utility/shared.c:171
+#. TRANS: No full stop after the URL, could cause confusion.
+#: utility/registry.c:850 server/generator/startpos.c:390
+#: client/tilespec.c:4174 client/agents/cma_core.c:440
+#: client/gui-sdl/mapview.c:159
+#, c-format
+msgid "Please report this message at %s"
+msgstr ""
+
+#: utility/shared.c:176
 #, c-format
 msgid "Empty argument for \"%s\".\n"
 msgstr "Nenurodytas \"%s\" parametras.\n"
 
-#: utility/shared.c:175
+#: utility/shared.c:180
 #, c-format
 msgid "Missing argument for \"%s\".\n"
 msgstr "Trūksta \"%s\" parametro.\n"
 
-#: utility/shared.c:463
+#: utility/shared.c:468
 #, c-format
 msgid "%d BC"
 msgstr "%d pr. Kr."
 
-#: utility/shared.c:465
+#: utility/shared.c:470
 #, c-format
 msgid "%d AD"
 msgstr "%d po Kr."
 
-#: utility/shared.c:862
-msgid "FREECIV_PATH is set but empty; using default path instead."
+#. TRANS: <FREECIV_PATH> configuration error
+#: utility/shared.c:869
+#, fuzzy, c-format
+msgid "\"%s\" is set but empty; using default \"%s\" instead."
 msgstr ""
 "FREECIV_PATH yra nustatytas į tuščią reikšmę. Naudojamas standartinis kelio "
 "nustatymas."
 
-#: utility/shared.c:966
+#. TRANS: "...: <externally translated error string>."
+#: utility/shared.c:974
 #, c-format
 msgid "Could not read data directory %s: %s."
 msgstr "Nepavyko perskaityti duomenų katalogo %s: %s."
 
-#: utility/shared.c:1217
-msgid "The data path may be set via the environment variable FREECIV_PATH."
+#. TRANS: <FREECIV_PATH> configuration error
+#: utility/shared.c:1227
+#, fuzzy, c-format
+msgid "The data path may be set via the \"%s\" environment variable."
 msgstr ""
 "Duomenų katalogas gali būti nustatytas FREECIV_PATH aplinkos kintamuoju."
 
-#: utility/shared.c:1219
+#: utility/shared.c:1230
 #, c-format
 msgid "Current data path is: \"%s\""
 msgstr "Dabartinis duomenų kelias yra: „%s“"
 
-#: utility/shared.c:1221
+#: utility/shared.c:1233
 #, c-format
 msgid "The \"%s\" file is required ... aborting!"
 msgstr "Reikalingas failas „%s“ ... nutraukiama!"
 
-#: utility/shared.c:1398
+#: utility/shared.c:1410
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr ""
 "%s: Kritinė klaida: bandoma paleisti programą administracinio vartotojo "
 "teisėmis!\n"
 
-#: utility/shared.c:1400
+#: utility/shared.c:1412
 msgid "Use a non-privileged account instead.\n"
 msgstr "Naudokite neprivilegijuotą vartotoją.\n"
 
-#: utility/shared.c:1416
+#: utility/shared.c:1428
 msgid "exact match"
 msgstr "tiksliai atitinka"
 
-#: utility/shared.c:1417
+#: utility/shared.c:1429
 msgid "only match"
 msgstr "tikslus atitikmuo"
 
-#: utility/shared.c:1418
+#: utility/shared.c:1430
 msgid "ambiguous"
 msgstr "dviprasmiškas"
 
-#: utility/shared.c:1419
+#: utility/shared.c:1431
 msgid "empty"
 msgstr "tuščias"
 
-#: utility/shared.c:1420
+#: utility/shared.c:1432
 msgid "too long"
 msgstr "per ilgas"
 
-#: utility/shared.c:1421
+#: utility/shared.c:1433
 msgid "non-match"
 msgstr "neatitinka"
 
@@ -2229,107 +2242,109 @@ msgstr "Klaida: nežinomas parametras „%s“\n"
 msgid "This is the server for %s"
 msgstr "Tai yra %s serveris"
 
-#: server/civserver.c:208
+#. TRANS: No full stop after the URL, could cause confusion.
+#: server/civserver.c:209
 #, c-format
 msgid "You can learn a lot about Freeciv at %s"
 msgstr "Apie Freeciv daug galite sužinoti: %s"
 
-#: server/civserver.c:213 client/civclient.c:237 manual/civmanual.c:371
+#: server/civserver.c:214 client/civclient.c:237 manual/civmanual.c:371
 #, c-format
 msgid ""
 "Usage: %s [option ...]\n"
 "Valid options are:\n"
 msgstr ""
 
-#: server/civserver.c:215
+#: server/civserver.c:216
 #, fuzzy
 msgid ""
 "  -a  --auth FILE\tEnable server authentication with configuration from "
 "FILE.\n"
 msgstr "  -a  --auth\t\tĮgalinti serverio autentifikavimą.\n"
 
-#: server/civserver.c:217
+#: server/civserver.c:218
 msgid "  -G  --Guests\t\tAllow guests to login if auth is enabled.\n"
 msgstr ""
 
-#: server/civserver.c:219
+#: server/civserver.c:220
 msgid "  -N  --Newusers\tAllow new users to login if auth is enabled.\n"
 msgstr ""
 
-#: server/civserver.c:222
+#: server/civserver.c:223
 msgid "  -b  --bind ADDR\tListen for clients on ADDR\n"
 msgstr ""
 
-#: server/civserver.c:224 client/civclient.c:241
+#: server/civserver.c:225 client/civclient.c:241
 msgid ""
 "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
 msgstr ""
 
-#: server/civserver.c:228 client/civclient.c:245
+#: server/civserver.c:229 client/civclient.c:245
 msgid "  -d, --debug NUM\tSet debug log level (0 to 3)\n"
 msgstr ""
 
-#: server/civserver.c:230
+#: server/civserver.c:231
 msgid "  -f, --file FILE\tLoad saved game FILE\n"
 msgstr "  -f, --file FAILAS\tĮkelti išsaugotą žaidimą FAILAS\n"
 
-#: server/civserver.c:232 client/civclient.c:248 manual/civmanual.c:373
+#: server/civserver.c:233 client/civclient.c:248 manual/civmanual.c:373
 msgid "  -h, --help\t\tPrint a summary of the options\n"
 msgstr ""
 
-#: server/civserver.c:233
+#: server/civserver.c:234
 msgid "  -l, --log FILE\tUse FILE as logfile\n"
 msgstr ""
 
-#: server/civserver.c:234
+#: server/civserver.c:235
 msgid "  -m, --meta\t\tNotify metaserver and send server's info\n"
 msgstr ""
 
-#: server/civserver.c:236
+#: server/civserver.c:237
 msgid "  -M, --Metaserver ADDR\tSet ADDR as metaserver address\n"
 msgstr "  -M, --Metaserver ADDR\tNustatyti ADDR kaip metaserverio adresą\n"
 
-#: server/civserver.c:239
+#: server/civserver.c:240
 msgid "  -p, --port PORT\tListen for clients on port PORT\n"
 msgstr "  -p, --port PRIEVADAS\tKlausyti klientų prievade PRIEVADAS\n"
 
-#: server/civserver.c:241
+#: server/civserver.c:242
 msgid "  -q, --quitidle TIME\tQuit if no players for TIME seconds\n"
 msgstr ""
 
-#: server/civserver.c:243
+#: server/civserver.c:244
 msgid "  -e, --exit-on-end\tWhen a game ends, exit instead of restarting\n"
 msgstr "  -e, --exit-on-end\tKai žaidimas pasibaigs, išeiti, o ne perkrauti\n"
 
-#: server/civserver.c:246
+#: server/civserver.c:247
 msgid "  -s, --saves DIR\tSave games to directory DIR\n"
 msgstr ""
 
-#: server/civserver.c:248
+#: server/civserver.c:249
 msgid "  -S, --Serverid ID\tSets the server id to ID\n"
 msgstr "  -S, --Serverid ID\tNustato serverio id į ID\n"
 
-#: server/civserver.c:250
+#: server/civserver.c:251
 msgid "  -P, --Ppm\t\tSave ppms of the map when saving the game.\n"
 msgstr ""
 
-#: server/civserver.c:251
+#: server/civserver.c:252
 msgid "  -r, --read FILE\tRead startup script FILE\n"
 msgstr ""
 
-#: server/civserver.c:253
+#: server/civserver.c:254
 msgid "  -R, --Ranklog FILE\tUse FILE as ranking logfile\n"
 msgstr ""
 
-#: server/civserver.c:254 client/civclient.c:267 manual/civmanual.c:374
+#: server/civserver.c:255 client/civclient.c:267 manual/civmanual.c:374
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tAtspausdinti versijos numerį\n"
 
-#: server/civserver.c:255 client/gui-gtk-2.0/gui_main.c:352
-#: client/gui-sdl/gui_main.c:210 client/gui-xaw/gui_main.c:247
-#: manual/civmanual.c:375
+#. TRANS: No full stop after the URL, could cause confusion.
+#: server/civserver.c:257 client/gui-gtk-2.0/gui_main.c:353
+#: client/gui-sdl/gui_main.c:211 client/gui-xaw/gui_main.c:248
+#: manual/civmanual.c:376
 #, fuzzy, c-format
-msgid "Report bugs at %s.\n"
+msgid "Report bugs at %s\n"
 msgstr "Pranešti apie klaidas į <%s>.\n"
 
 #: server/commands.c:37
@@ -4053,7 +4068,7 @@ msgstr "%s buvo SUNAIKINTAS\n"
 msgid "(building %s in %s (%s))\n"
 msgstr "(statoma %s %s(%s))\n"
 
-#: server/report.c:375 client/gui-xaw/menu.c:231 data/helpdata.txt:899
+#: server/report.c:375 client/gui-xaw/menu.c:231 data/helpdata.txt:901
 msgid "Wonders of the World"
 msgstr "Pasaulio stebuklai"
 
@@ -4121,17 +4136,17 @@ msgstr "Apgailestaujame, tačiau demografinė ataskaita negalima."
 msgid "The %s of the %s (%s)"
 msgstr ""
 
-#: server/ruleset.c:163
+#: server/ruleset.c:151
 msgid "Fatal ruleset error. Server dies!"
 msgstr ""
 
 #. TRANS: message about an installation error.
-#: server/ruleset.c:211
+#: server/ruleset.c:199
 #, c-format
 msgid "Could not find a readable \"%s.%s\" ruleset file."
 msgstr ""
 
-#: server/ruleset.c:3546
+#: server/ruleset.c:3562
 msgid "Loading rulesets"
 msgstr "Įkeliamos taisyklės"
 
@@ -4143,6 +4158,7 @@ msgid ""
 "risk."
 msgstr ""
 
+#. TRANS: Fatal error message.
 #: server/savegame.c:3620
 #, fuzzy
 msgid "Saved game is too old, at least version 1.9.0 required."
@@ -7059,12 +7075,10 @@ msgid "Generator 3 left %li landmass unplaced."
 msgstr "3 generatorius paliko %li sausumos nepaskirstęs."
 
 #: server/generator/startpos.c:385
-#, c-format
 msgid ""
 "The server appears to have gotten into an infinite loop in the allocation of "
 "starting positions.\n"
-"Maybe the number of players is too high for this map.\n"
-"Please report this bug at %s."
+"Maybe the number of players is too high for this map."
 msgstr ""
 
 #: client/attribute.c:363
@@ -7345,7 +7359,7 @@ msgstr "Geriausiai besiginantys daliniai"
 #: client/gui-win32/repodlgs.c:722 client/gui-win32/repodlgs.c:731
 #: client/gui-xaw/menu.c:162 client/gui-xaw/menu.c:224
 #: client/gui-xaw/menu.c:253 client/gui-xaw/repodlgs.c:903
-#: client/gui-xaw/repodlgs.c:1096 data/Freeciv.in:1895 data/helpdata.txt:910
+#: client/gui-xaw/repodlgs.c:1096 data/Freeciv.in:1895 data/helpdata.txt:912
 msgid "Units"
 msgstr "Daliniai"
 
@@ -7517,7 +7531,7 @@ msgstr "?cma:Valdytojas"
 #: client/cityrepdata.c:515 client/gui-gtk-2.0/cityrep.c:1224
 #: client/gui-gtk-2.0/cityrep.c:1497 client/gui-sdl/citydlg.c:3815
 #: client/gui-sdl/cma_fe.c:861 client/gui-win32/citydlg.c:735
-#: data/Freeciv.in:1459 data/helpdata.txt:821
+#: data/Freeciv.in:1459 data/helpdata.txt:823
 msgid "Citizen Governor"
 msgstr "Piliečių valdytojas"
 
@@ -7726,7 +7740,7 @@ msgstr "Jūs neperkate %s mieste %s!"
 msgid "%s costs %d gold and you only have %d gold."
 msgstr "%s kainuoja %d aukso, bet  jūs turite tik %d aukso."
 
-#: client/clinet.c:143 client/clinet.c:144
+#: client/clinet.c:144
 msgid "Lost connection to server!"
 msgstr "Prarastas ryšys su serveriu!"
 
@@ -7747,7 +7761,7 @@ msgstr "Atsijungta nuo serverio."
 msgid "Failed to contact server \"%s\" at port %d as \"%s\" after %d attempts"
 msgstr ""
 
-#: client/clinet.c:484 client/clinet.c:486
+#: client/clinet.c:486
 msgid "Connection to server refused. Please start the server."
 msgstr "Neįmanoma prisijungti prie serverio. Prašome paleisti serverį."
 
@@ -8634,8 +8648,8 @@ msgstr "* Leidžia tau statyti %s.\n"
 msgid "%s%d %s"
 msgstr "%s%d %s"
 
-#: client/helpdata.c:1677 client/helpdata.c:1685 client/gui-sdl/mapview.c:618
-#: client/gui-sdl/mapview.c:624 client/gui-sdl/mapview.c:630
+#: client/helpdata.c:1677 client/helpdata.c:1685 client/gui-sdl/mapview.c:621
+#: client/gui-sdl/mapview.c:627 client/gui-sdl/mapview.c:633
 #, fuzzy
 msgid "?blistmore:, "
 msgstr "?or:, "
@@ -9174,23 +9188,23 @@ msgid "Failed looking up metaserver's host"
 msgstr ""
 
 #: client/text.c:85 client/text.c:86 client/text.c:91
-#: client/gui-sdl/mapview.c:560
+#: client/gui-sdl/mapview.c:563
 msgid "?nation:Neutral"
 msgstr "?nation:Neutrali"
 
-#: client/text.c:85 client/gui-sdl/mapview.c:560
+#: client/text.c:85 client/gui-sdl/mapview.c:563
 msgid "?nation:Hostile"
 msgstr "?nation:Priešiška"
 
-#: client/text.c:87 client/gui-sdl/mapview.c:562
+#: client/text.c:87 client/gui-sdl/mapview.c:565
 msgid "?nation:Peaceful"
 msgstr "?nation:Taiki"
 
-#: client/text.c:87 client/gui-sdl/mapview.c:562
+#: client/text.c:87 client/gui-sdl/mapview.c:565
 msgid "?nation:Friendly"
 msgstr "?nation:Draugiška"
 
-#: client/text.c:88 client/gui-sdl/mapview.c:563
+#: client/text.c:88 client/gui-sdl/mapview.c:566
 msgid "?nation:Mysterious"
 msgstr "?nation:Paslaptinga"
 
@@ -9198,23 +9212,23 @@ msgstr "?nation:Paslaptinga"
 msgid "?nation:Friendly(team)"
 msgstr "?nation:Draugiška(komanda)"
 
-#: client/text.c:90 client/gui-sdl/mapview.c:593
+#: client/text.c:90 client/gui-sdl/mapview.c:596
 msgid "?city:Neutral"
 msgstr "?city:Neutralus"
 
-#: client/text.c:90 client/gui-sdl/mapview.c:593
+#: client/text.c:90 client/gui-sdl/mapview.c:596
 msgid "?city:Hostile"
 msgstr "?city:Priešiškas"
 
-#: client/text.c:92 client/gui-sdl/mapview.c:594
+#: client/text.c:92 client/gui-sdl/mapview.c:597
 msgid "?city:Peaceful"
 msgstr "?city:Taikus"
 
-#: client/text.c:92 client/gui-sdl/mapview.c:595
+#: client/text.c:92 client/gui-sdl/mapview.c:598
 msgid "?city:Friendly"
 msgstr "?city:Draugiškas"
 
-#: client/text.c:92 client/gui-sdl/mapview.c:595
+#: client/text.c:92 client/gui-sdl/mapview.c:598
 msgid "?city:Mysterious"
 msgstr "?city:Paslaptingas"
 
@@ -9837,6 +9851,12 @@ msgstr "Nėra tinkamo laukelių rinkinio, todėl baigiamas darbas!"
 msgid "Loading tileset \"%s\"."
 msgstr "Įkeliamos taisyklės"
 
+#: client/tilespec.c:1056 client/tilespec.c:1090
+#: client/gui-sdl/themespec.c:485 client/gui-sdl/themespec.c:519
+#, c-format
+msgid "Could not open \"%s\"."
+msgstr "Negaliu atidaryti „%s“"
+
 #: client/tilespec.c:1335
 msgid "Client does not support isometric tilesets."
 msgstr ""
@@ -9849,11 +9869,8 @@ msgstr ""
 msgid "Client does not support overhead view tilesets."
 msgstr ""
 
-#: client/tilespec.c:4169
-#, c-format
-msgid ""
-"Paths longer than 99 turns are not supported.\n"
-"Report this bug at %s"
+#: client/tilespec.c:4171
+msgid "Paths longer than 99 turns are not supported."
 msgstr ""
 
 #: client/agents/cma_core.c:400
@@ -11075,22 +11092,22 @@ msgid ""
 "\n"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:796 client/gui-gtk-2.0/gui_main.c:1423
+#: client/gui-gtk-2.0/gui_main.c:797 client/gui-gtk-2.0/gui_main.c:1421
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:1162 client/gui-gtk-2.0/gui_main.c:1169
+#: client/gui-gtk-2.0/gui_main.c:1163 client/gui-gtk-2.0/gui_main.c:1170
 #: client/gui-sdl/mapctrl.c:1567 client/gui-win32/gui_main.c:482
 #: data/Freeciv.in:2625
 msgid "Turn Done"
 msgstr "Ėjimas baigtas"
 
-#: client/gui-gtk-2.0/gui_main.c:1169 client/gui-sdl/mapctrl.c:1567
-#: client/gui-sdl/mapview.c:890
+#: client/gui-gtk-2.0/gui_main.c:1170 client/gui-sdl/mapctrl.c:1567
+#: client/gui-sdl/mapview.c:893
 msgid "Shift+Return"
 msgstr "Shift+Return"
 
-#: client/gui-gtk-2.0/gui_main.c:1201 client/gui-gtk-2.0/menu.c:806
+#: client/gui-gtk-2.0/gui_main.c:1202 client/gui-gtk-2.0/menu.c:806
 #: client/gui-gtk-2.0/menu.c:808 client/gui-gtk-2.0/menu.c:810
 #: client/gui-gtk-2.0/menu.c:812 client/gui-gtk-2.0/menu.c:814
 #: client/gui-gtk-2.0/menu.c:816 client/gui-gtk-2.0/menu.c:819
@@ -11107,66 +11124,55 @@ msgstr "Shift+Return"
 msgid "View"
 msgstr "Rodymas"
 
-#: client/gui-gtk-2.0/gui_main.c:1282
+#: client/gui-gtk-2.0/gui_main.c:1283
 msgid "Chat"
 msgstr "Pokalbis"
 
-#: client/gui-gtk-2.0/gui_main.c:1298 client/gui-win32/gui_main.c:538
-#: data/Freeciv.in:2816
-msgid ""
-"Freeciv is free software and you are welcome to distribute copies of it\n"
-"under certain conditions; See the \"Copying\" item on the Help menu.\n"
-"Now.. Go give'em hell!"
-msgstr ""
-"Freeciv yra nemokama programa ir jūs galite platinti ją\n"
-"pagal tam tikras sąlygas; Žiūrėk punktą „Kopijavimas“ pagalbos menu.\n"
-"Dabar.. Eikite ir duokite jiems velnių!"
-
-#: client/gui-gtk-2.0/gui_main.c:1569
+#: client/gui-gtk-2.0/gui_main.c:1567
 msgid "Not _ready"
 msgstr "_Nepasiruošęs"
 
-#: client/gui-gtk-2.0/gui_main.c:1580 client/gui-gtk-2.0/pages.c:1596
+#: client/gui-gtk-2.0/gui_main.c:1578 client/gui-gtk-2.0/pages.c:1596
 msgid "_Ready"
 msgstr "_Pasiruošęs"
 
-#: client/gui-gtk-2.0/gui_main.c:1584 client/gui-gtk-2.0/gui_main.c:1590
+#: client/gui-gtk-2.0/gui_main.c:1582 client/gui-gtk-2.0/gui_main.c:1588
 #: client/gui-gtk-2.0/pages.c:2123
 msgid "_Start"
 msgstr "_Pradėti"
 
-#: client/gui-gtk-2.0/gui_main.c:1594 client/gui-gtk-2.0/pages.c:1586
+#: client/gui-gtk-2.0/gui_main.c:1592 client/gui-gtk-2.0/pages.c:1586
 msgid "Pick _Nation"
 msgstr "Išsirink _tautą"
 
-#: client/gui-gtk-2.0/gui_main.c:1600 client/gui-gtk-2.0/pages.c:1591
+#: client/gui-gtk-2.0/gui_main.c:1598 client/gui-gtk-2.0/pages.c:1591
 msgid "_Observe"
 msgstr "_Stebėti"
 
-#: client/gui-gtk-2.0/gui_main.c:1602
+#: client/gui-gtk-2.0/gui_main.c:1600
 #, fuzzy
 msgid "Do not _observe"
 msgstr "_Nebestebėti"
 
 #. TRANS: "<Novice AI>"
-#: client/gui-gtk-2.0/gui_main.c:1625
+#: client/gui-gtk-2.0/gui_main.c:1623
 #, c-format
 msgid "<%s AI>"
 msgstr "<%s DI>"
 
-#: client/gui-gtk-2.0/gui_main.c:1634 client/gui-win32/dialogs.c:596
+#: client/gui-gtk-2.0/gui_main.c:1632 client/gui-win32/dialogs.c:596
 msgid "Random"
 msgstr "Atsitiktinė"
 
-#: client/gui-gtk-2.0/gui_main.c:1696
+#: client/gui-gtk-2.0/gui_main.c:1694
 msgid "Observer"
 msgstr "Stebėtojas"
 
-#: client/gui-gtk-2.0/gui_main.c:1696
+#: client/gui-gtk-2.0/gui_main.c:1694
 msgid "Detached"
 msgstr "Atsijungęs"
 
-#: client/gui-gtk-2.0/gui_main.c:1953
+#: client/gui-gtk-2.0/gui_main.c:1951
 msgid "Are you sure you want to quit?"
 msgstr "Ar tikrai norite išeiti?"
 
@@ -11184,7 +11190,7 @@ msgstr "Ctrl+W"
 #: client/gui-gtk-2.0/happiness.c:112 client/gui-sdl/citydlg.c:2051
 #: client/gui-sdl/citydlg.c:3727 client/gui-win32/citydlg.c:735
 #: client/gui-win32/happiness.c:86 client/gui-xaw/menu.c:260
-#: data/helpdata.txt:1392
+#: data/helpdata.txt:1394
 msgid "Happiness"
 msgstr "Laimė"
 
@@ -11584,7 +11590,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:823 client/gui-sdl/optiondlg.c:1634
 #: client/gui-win32/menu.c:341 client/gui-xaw/menu.c:153
-#: client/gui-xaw/menu.c:257 manual/civmanual.c:211 data/helpdata.txt:1221
+#: client/gui-xaw/menu.c:257 manual/civmanual.c:211 data/helpdata.txt:1223
 msgid "Terrain"
 msgstr "Reljefas"
 
@@ -12120,7 +12126,7 @@ msgstr "Slaptažodžiai nesutampa. Įvesk slaptažodį."
 msgid "Server Name"
 msgstr "Serverio pavadinimas"
 
-#: client/gui-gtk-2.0/pages.c:701 client/gui-sdl/mapview.c:622
+#: client/gui-gtk-2.0/pages.c:701 client/gui-sdl/mapview.c:625
 #: client/gui-win32/connectdlg.c:914 data/Freeciv.in:96
 msgid "Port"
 msgstr "Prievadas"
@@ -12323,8 +12329,8 @@ msgstr ""
 #. TRANS: Research report action
 #. TRANS: Research report title
 #: client/gui-gtk-2.0/repodlgs.c:297 client/gui-sdl/mapctrl.c:1414
-#: client/gui-sdl/mapview.c:333 client/gui-sdl/mapview.c:337
-#: client/gui-sdl/mapview.c:343 client/gui-sdl/repodlgs.c:3266
+#: client/gui-sdl/mapview.c:336 client/gui-sdl/mapview.c:340
+#: client/gui-sdl/mapview.c:346 client/gui-sdl/repodlgs.c:3266
 #: client/gui-win32/repodlgs.c:93 client/gui-win32/repodlgs.c:271
 #: client/gui-xaw/menu.c:229 client/gui-xaw/repodlgs.c:276
 #: client/gui-xaw/repodlgs.c:499 data/Freeciv.in:1366
@@ -12730,7 +12736,7 @@ msgstr ""
 msgid "Cancel"
 msgstr "Atšaukti"
 
-#: client/gui-sdl/citydlg.c:735 client/gui-sdl/mapview.c:767
+#: client/gui-sdl/citydlg.c:735 client/gui-sdl/mapview.c:770
 msgid ""
 "\n"
 "veteran"
@@ -13363,8 +13369,8 @@ msgid "Unable to initialize SDL library: %s"
 msgstr "Negalima paleisti SDL bibliotekos: %s"
 
 #: client/gui-sdl/graphics.c:1021
-#, c-format
-msgid "Unable to initialize  SDL_ttf library: %s"
+#, fuzzy, c-format
+msgid "Unable to initialize SDL_ttf library: %s"
 msgstr "Negalima paleisti SDL_ttf bibliotekos: %s"
 
 #: client/gui-sdl/graphics.c:1058
@@ -13431,21 +13437,21 @@ msgstr ""
 msgid "  -t,  --theme THEME\tUse GUI theme THEME\n"
 msgstr ""
 
-#: client/gui-sdl/gui_main.c:661
+#: client/gui-sdl/gui_main.c:662
 #, c-format
 msgid "Making screenshot %s"
 msgstr ""
 
-#: client/gui-sdl/gui_main.c:793
+#: client/gui-sdl/gui_main.c:794
 #, c-format
 msgid "Using Video Output: %s"
 msgstr "Naudojama vaizdo išvestis: %s"
 
-#: client/gui-sdl/gui_main.c:846
+#: client/gui-sdl/gui_main.c:847
 msgid "Initializing Client"
 msgstr "Paleidžiamas klientas"
 
-#: client/gui-sdl/gui_main.c:857
+#: client/gui-sdl/gui_main.c:858
 msgid "Waiting for the beginning of the game"
 msgstr "Laukiama žaidimo pradžios"
 
@@ -13615,8 +13621,8 @@ msgstr "Plotis"
 msgid "Height"
 msgstr "Aukštis"
 
-#: client/gui-sdl/mapctrl.c:1426 client/gui-sdl/mapview.c:312
-#: client/gui-sdl/mapview.c:315 client/gui-xaw/menu.c:136
+#: client/gui-sdl/mapctrl.c:1426 client/gui-sdl/mapview.c:315
+#: client/gui-sdl/mapview.c:318 client/gui-xaw/menu.c:136
 msgid "Revolution"
 msgstr "Revoliucija"
 
@@ -13638,29 +13644,25 @@ msgid "Options"
 msgstr "Nustatymai"
 
 #: client/gui-sdl/mapview.c:155
-#, c-format
-msgid ""
-"The SDL event buffer is full; you may see drawing errors\n"
-"as a result.  If you see this message often, please\n"
-"report it at %s. Thank you."
+msgid "The SDL event buffer is full; you may see drawing errors as a result."
 msgstr ""
 
-#: client/gui-sdl/mapview.c:412
+#: client/gui-sdl/mapview.c:415
 #, c-format
 msgid "%s Population: %s  Year: %s  Gold %d "
 msgstr "%s Gyventojai: %s  Metai: %s  Auksas %d "
 
-#: client/gui-sdl/mapview.c:420
+#: client/gui-sdl/mapview.c:423
 #, c-format
 msgid "%s Population: %s  Year: %s  Gold %d Tax: %d Lux: %d Sci: %d "
 msgstr ""
 
-#: client/gui-sdl/mapview.c:531 data/default/units.ruleset:24
+#: client/gui-sdl/mapview.c:534 data/default/units.ruleset:24
 #: data/civ2/units.ruleset:18 data/civ1/units.ruleset:18
 msgid "veteran"
 msgstr "veteranas"
 
-#: client/gui-sdl/mapview.c:565
+#: client/gui-sdl/mapview.c:568
 msgid ""
 "\n"
 "Our Territory"
@@ -13668,7 +13670,7 @@ msgstr ""
 "\n"
 "Mūsų teritorija"
 
-#: client/gui-sdl/mapview.c:571
+#: client/gui-sdl/mapview.c:574
 #, c-format
 msgid ""
 "\n"
@@ -13686,7 +13688,7 @@ msgstr[2] ""
 "\n"
 "%s teritorija (%d ėjimų paliaubos)"
 
-#: client/gui-sdl/mapview.c:575
+#: client/gui-sdl/mapview.c:578
 #, c-format
 msgid ""
 "\n"
@@ -13695,7 +13697,7 @@ msgstr ""
 "\n"
 "Teritorija, priklausanti %s %s"
 
-#: client/gui-sdl/mapview.c:581
+#: client/gui-sdl/mapview.c:584
 msgid ""
 "\n"
 "Unclaimed territory"
@@ -13703,7 +13705,7 @@ msgstr ""
 "\n"
 "Nepriklausoma teritorija"
 
-#: client/gui-sdl/mapview.c:598
+#: client/gui-sdl/mapview.c:601
 #, c-format
 msgid ""
 "\n"
@@ -13712,31 +13714,31 @@ msgstr ""
 "\n"
 "%s miestas"
 
-#: client/gui-sdl/mapview.c:614
+#: client/gui-sdl/mapview.c:617
 msgid "?blistbegin: with "
 msgstr " su "
 
-#: client/gui-sdl/mapview.c:616 data/default/buildings.ruleset:113
+#: client/gui-sdl/mapview.c:619 data/default/buildings.ruleset:113
 #: data/civ2/buildings.ruleset:96 data/civ1/buildings.ruleset:69
 msgid "Barracks"
 msgstr "Kareivinės"
 
-#: client/gui-sdl/mapview.c:628 data/default/buildings.ruleset:45
+#: client/gui-sdl/mapview.c:631 data/default/buildings.ruleset:45
 #: data/civ2/buildings.ruleset:28
 msgid "Airport"
 msgstr "Oro uostas"
 
-#: client/gui-sdl/mapview.c:634 data/default/buildings.ruleset:212
+#: client/gui-sdl/mapview.c:637 data/default/buildings.ruleset:212
 #: data/civ2/buildings.ruleset:192 data/civ1/buildings.ruleset:161
 msgid "City Walls"
 msgstr "Miesto sienos"
 
-#: client/gui-sdl/mapview.c:637
+#: client/gui-sdl/mapview.c:640
 msgid "?blistend:"
 msgstr "?blistend:"
 
 #. TRANS: (<nation>,<diplomatic_state>)"
-#: client/gui-sdl/mapview.c:643
+#: client/gui-sdl/mapview.c:646
 #, c-format
 msgid ""
 "\n"
@@ -13745,7 +13747,7 @@ msgstr ""
 "\n"
 "(%s,%s)"
 
-#: client/gui-sdl/mapview.c:654
+#: client/gui-sdl/mapview.c:657
 #, c-format
 msgid ""
 "\n"
@@ -13754,11 +13756,11 @@ msgstr ""
 "\n"
 "Maistas/Gamyba/Prekyba: %s"
 
-#: client/gui-sdl/mapview.c:890
+#: client/gui-sdl/mapview.c:893
 msgid "End of Turn"
 msgstr "Ėjimo pabaiga"
 
-#: client/gui-sdl/mapview.c:890
+#: client/gui-sdl/mapview.c:893
 #, fuzzy
 msgid "Press"
 msgstr "Princesė"
@@ -14079,22 +14081,6 @@ msgstr "LAN serveriai"
 msgid "SDLClient welcomes you..."
 msgstr ""
 
-#: client/gui-sdl/pages.c:309
-msgid ""
-"Freeciv is free software and you are welcome to distribute copies of it "
-"under certain conditions;"
-msgstr ""
-"Freeciv yra laisva programa ir jūs kviečiami platinti jos kopijas pagal tam "
-"tikras sąlygas;"
-
-#: client/gui-sdl/pages.c:312
-msgid "See the \"Copying\" item on the Help menu."
-msgstr ""
-
-#: client/gui-sdl/pages.c:314
-msgid "Now.. Go give'em hell!"
-msgstr ""
-
 #: client/gui-sdl/plrdlg.c:651
 msgid "disconnected"
 msgstr "atsijungęs"
@@ -14225,58 +14211,14 @@ msgstr "Paleisti"
 msgid "load_gfxfile: Unable to load graphic file %s!"
 msgstr ""
 
-#: client/gui-sdl/themespec.c:252
-#, c-format
-msgid ""
-"%s file appears incompatible:\n"
-"file: \"%s\"\n"
-"file options: %s\n"
-"supported options: %s"
-msgstr ""
-
-#: client/gui-sdl/themespec.c:260
-#, c-format
-msgid ""
-"%s file claims required option(s) which we don't support:\n"
-"file: \"%s\"\n"
-"file options: %s\n"
-"supported options: %s"
-msgstr ""
-
-#: client/gui-sdl/themespec.c:338
+#: client/gui-sdl/themespec.c:337
 msgid "No usable default theme found, aborting!"
 msgstr ""
 
-#: client/gui-sdl/themespec.c:369
+#: client/gui-sdl/themespec.c:368
 #, fuzzy, c-format
 msgid "Loading theme \"%s\"."
 msgstr "Įkeliamos taisyklės"
-
-#: client/gui-sdl/themespec.c:486 client/gui-sdl/themespec.c:520
-#: client/gui-sdl/themespec.c:698
-#, c-format
-msgid "Could not open \"%s\"."
-msgstr "Negaliu atidaryti „%s“"
-
-#: client/gui-sdl/themespec.c:500
-#, c-format
-msgid "Couldn't load gfx file for the spec file %s"
-msgstr ""
-
-#: client/gui-sdl/themespec.c:667
-#, c-format
-msgid "Couldn't find a supported gfx file extension for %s"
-msgstr ""
-
-#: client/gui-sdl/themespec.c:819
-#, c-format
-msgid "Couldn't load gfx file %s for sprite %s"
-msgstr ""
-
-#: client/gui-sdl/themespec.c:970
-#, c-format
-msgid "Don't have graphics tags %s or %s for %s %s"
-msgstr ""
 
 #: client/gui-sdl/wldlg.c:898 client/gui-sdl/wldlg.c:1075
 #, c-format
@@ -15152,64 +15094,45 @@ msgstr ""
 msgid "You must select a nation."
 msgstr "Jūs privalote pasirinkti tautą."
 
-#: client/gui-xaw/graphics.c:343
-#, c-format
-msgid "Failed reading PNG file: %s"
-msgstr "Nepavyko nuskaityti PNG failo: %s"
-
-#: client/gui-xaw/graphics.c:349 client/gui-xaw/graphics.c:355
-msgid "Failed creating PNG struct"
-msgstr "Nepavyko sukurti PNG struktūros"
-
-#: client/gui-xaw/graphics.c:360
-#, c-format
-msgid "Failed while reading PNG file: %s"
-msgstr "Klaida, skaitant PNG failą: %s"
-
-#: client/gui-xaw/graphics.c:397
-#, c-format
-msgid "PNG file has no palette: %s"
-msgstr "PNG filas neturi paletės: %s"
-
-#: client/gui-xaw/gui_main.c:323
+#: client/gui-xaw/gui_main.c:324
 msgid "No version number in resources."
 msgstr "Nerastas resursų versijos numeris"
 
-#: client/gui-xaw/gui_main.c:324
+#: client/gui-xaw/gui_main.c:325
 msgid "You probably have an old (circa V1.0) Freeciv resource file somewhere."
 msgstr ""
 
-#: client/gui-xaw/gui_main.c:332
+#: client/gui-xaw/gui_main.c:333
 msgid "Game version does not match Resource version."
 msgstr ""
 
-#: client/gui-xaw/gui_main.c:333
+#: client/gui-xaw/gui_main.c:334
 #, c-format
 msgid "Game version: %s - Resource version: %s"
 msgstr ""
 
-#: client/gui-xaw/gui_main.c:335
+#: client/gui-xaw/gui_main.c:336
 msgid "You might have an old Freeciv resourcefile in /usr/lib/X11/app-defaults"
 msgstr ""
 
-#: client/gui-xaw/gui_main.c:341
+#: client/gui-xaw/gui_main.c:342
 msgid "Using fallback resources - which is OK"
 msgstr ""
 
-#: client/gui-xaw/gui_main.c:352
+#: client/gui-xaw/gui_main.c:353
 msgid "Only color displays are supported for now..."
 msgstr "Dabar palaikomi tik spalvoto vaizdo vaizduokliai"
 
-#: client/gui-xaw/gui_main.c:375 client/gui-xaw/gui_main.c:396
+#: client/gui-xaw/gui_main.c:376 client/gui-xaw/gui_main.c:397
 #, c-format
 msgid "Unable to open fontset: %s"
 msgstr ""
 
-#: client/gui-xaw/gui_main.c:378 client/gui-xaw/gui_main.c:399
+#: client/gui-xaw/gui_main.c:379 client/gui-xaw/gui_main.c:400
 msgid "Doing 'xset fp rehash' may temporarily solve a problem."
 msgstr "Atlikus „xset fp rehash“ gali laikinai išspręsti problemą."
 
-#: client/gui-xaw/gui_main.c:382 client/gui-xaw/gui_main.c:403
+#: client/gui-xaw/gui_main.c:383 client/gui-xaw/gui_main.c:404
 #, c-format
 msgid "Font for charset %s is lacking"
 msgstr ""
@@ -15323,11 +15246,11 @@ msgstr "Kalbos"
 msgid "Connecting"
 msgstr "Prisijungimas"
 
-#: client/gui-xaw/menu.c:248 data/helpdata.txt:429
+#: client/gui-xaw/menu.c:248 data/helpdata.txt:428
 msgid "Controls"
 msgstr "Kontrolė"
 
-#: client/gui-xaw/menu.c:249 data/helpdata.txt:547
+#: client/gui-xaw/menu.c:249 data/helpdata.txt:546
 msgid "Chatline"
 msgstr "Pokalbių linija"
 
@@ -15335,7 +15258,7 @@ msgstr "Pokalbių linija"
 msgid "Playing"
 msgstr "Žaidimas"
 
-#: client/gui-xaw/menu.c:254 data/helpdata.txt:987
+#: client/gui-xaw/menu.c:254 data/helpdata.txt:989
 msgid "Combat"
 msgstr "Mūšis"
 
@@ -15343,15 +15266,15 @@ msgstr "Mūšis"
 msgid "ZOC"
 msgstr "KZ"
 
-#: client/gui-xaw/menu.c:256 data/helpdata.txt:888
+#: client/gui-xaw/menu.c:256 data/helpdata.txt:890
 msgid "Technology"
 msgstr "Technologija"
 
-#: client/gui-xaw/menu.c:259 data/Freeciv.in:2027 data/helpdata.txt:1321
+#: client/gui-xaw/menu.c:259 data/Freeciv.in:2027 data/helpdata.txt:1323
 msgid "Government"
 msgstr "Vyriausybė"
 
-#: client/gui-xaw/menu.c:261 data/helpdata.txt:1465
+#: client/gui-xaw/menu.c:261 data/helpdata.txt:1467
 msgid "Space Race"
 msgstr "Kosminė rasė"
 
@@ -15823,6 +15746,16 @@ msgstr "Pasirink vyriausybės tipą:"
 msgid "Choose unit activity:"
 msgstr "Pasirinkite dalinio veiksmą:"
 
+#: data/Freeciv.in:2816
+msgid ""
+"Freeciv is free software and you are welcome to distribute copies of it\n"
+"under certain conditions; See the \"Copying\" item on the Help menu.\n"
+"Now.. Go give'em hell!"
+msgstr ""
+"Freeciv yra nemokama programa ir jūs galite platinti ją\n"
+"pagal tam tikras sąlygas; Žiūrėk punktą „Kopijavimas“ pagalbos menu.\n"
+"Dabar.. Eikite ir duokite jiems velnių!"
+
 #: data/Freeciv.in:3058
 msgid " Sell "
 msgstr " Parduoti"
@@ -15922,9 +15855,7 @@ msgstr " Dabartinai administratoriai:"
 #: data/helpdata.txt:55
 msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
-"by visiting the Freeciv Bug Tracking System, at:\n"
-"\n"
-"  http://bugs.freeciv.org/"
+"by visiting the Freeciv Bug Tracking System, at:"
 msgstr ""
 
 #: data/helpdata.txt:60
@@ -15944,19 +15875,18 @@ msgid ""
 "section of the README file for instructions on how to use one of these "
 "languages.\n"
 "\n"
+"First, check whether a localization is already in progress for your language:"
+msgstr ""
+
+#: data/helpdata.txt:388
+msgid ""
 "If you would like to add a localization (translation) for your language, "
-"please see the instructions at:\n"
-"\n"
-"  http://www.freeciv.org/wiki/Localization\n"
-"\n"
-"Check first if a localization is already in progress for your language:\n"
-"\n"
-"  http://www.freeciv.org/wiki/Translations\n"
-"\n"
-"You are also welcome to send any questions to the freeciv-i18n mailing "
-"list:\n"
-"\n"
-"  freeciv-i18n@gna.org"
+"please see the instructions at:"
+msgstr ""
+
+#: data/helpdata.txt:393
+msgid ""
+"You are also welcome to send any questions to the translation mailing list:"
 msgstr ""
 
 #: data/helpdata.txt:402
@@ -15969,16 +15899,12 @@ msgstr ""
 #: data/helpdata.txt:409
 msgid ""
 "The client can fetch this page, too: use the Metaserver button in the "
-"connection dialog.  If it never shows any results, check if your WWW browser "
-"is using a HTTP proxy; to make civclient use the same proxy, set the "
-"$http_proxy environment variable to\n"
-"\n"
-"  http://proxyhost:proxyportnumber/\n"
-"\n"
-"before starting civclient."
+"connection dialog.  If it never shows any results, check whether your WWW "
+"browser is using a HTTP proxy; to make civclient use the same proxy, before "
+"starting civclient, set the $http_proxy environment variable to:"
 msgstr ""
 
-#: data/helpdata.txt:418
+#: data/helpdata.txt:417
 msgid ""
 "When the game has started, everyone can connect as any player who isn't "
 "already connected, including AI players.  Merely connecting to an AI player "
@@ -15988,7 +15914,7 @@ msgid ""
 "the metaserver, the player names can be found there."
 msgstr ""
 
-#: data/helpdata.txt:430
+#: data/helpdata.txt:429
 msgid ""
 "Unit Orders:\n"
 "============\n"
@@ -16034,7 +15960,7 @@ msgid ""
 "Shift-Ctrl-I: Connect current and target tile with (I)rrigation\n"
 msgstr ""
 
-#: data/helpdata.txt:473
+#: data/helpdata.txt:472
 msgid ""
 "Unit Movement:\n"
 "==============\n"
@@ -16052,7 +15978,7 @@ msgid ""
 "  c: center view on unit\n"
 msgstr ""
 
-#: data/helpdata.txt:488
+#: data/helpdata.txt:487
 msgid ""
 "Main Map (Keys):\n"
 "================\n"
@@ -16065,7 +15991,7 @@ msgid ""
 "        Ctrl-P: show city production on/off\n"
 msgstr ""
 
-#: data/helpdata.txt:498
+#: data/helpdata.txt:497
 msgid ""
 "Main Map (Mouse):\n"
 "=================\n"
@@ -16093,7 +16019,7 @@ msgid ""
 "  will also be highlighted in the City Report."
 msgstr ""
 
-#: data/helpdata.txt:523
+#: data/helpdata.txt:522
 #, fuzzy
 msgid ""
 "Dialogs and Reports:\n"
@@ -16137,7 +16063,7 @@ msgstr ""
 "\n"
 "Shift-Atgal: Ėjimas baigtas"
 
-#: data/helpdata.txt:548
+#: data/helpdata.txt:547
 msgid ""
 "The client has a primitive chat interface.  The lines you type are sent to "
 "all players, except:"
@@ -16145,7 +16071,7 @@ msgstr ""
 "Klientas turi primityvią pokalbių sąsają. Surinktos eilutės nusiunčiamos "
 "visiems žaidėjams, išskyrus:"
 
-#: data/helpdata.txt:551
+#: data/helpdata.txt:550
 msgid ""
 "  - Messages starting with '/' are interpreted as server commands and "
 "executed, if you have the required access level."
@@ -16153,48 +16079,48 @@ msgstr ""
 "  - Pranešimai, prasidedantys „/“, yra interpretuojami kaip serverio "
 "komandos ir vykdomi, jei turite reikalingą prieigos lygį."
 
-#: data/helpdata.txt:554
+#: data/helpdata.txt:553
 msgid ""
 "  - Messages starting with 'John:' are private messages to 'John'. Names can "
 "be abbreviated. The server looks for players named 'John' and if that fails "
 "tries to match a username beginning with 'John' (like 'Johnathan')."
 msgstr ""
 
-#: data/helpdata.txt:559
+#: data/helpdata.txt:558
 msgid ""
 "  - Messages starting with 'John::' are private messages as above, but will "
 "match only users (not players) named 'John'.  'Johnathan' will still match."
 msgstr ""
 
-#: data/helpdata.txt:563
+#: data/helpdata.txt:562
 msgid "  - Messages starting with '.' will be sent only to all your allies."
 msgstr " - Pranešimai, prasidedantys „.“, bus nusiųsti tik jūsų draugams."
 
-#: data/helpdata.txt:568
+#: data/helpdata.txt:567
 msgid "Worklist Editor"
 msgstr "Darbų sąrašo redaktorius"
 
-#: data/helpdata.txt:569
+#: data/helpdata.txt:568
 msgid ""
 "The worklist editor is used to edit both worklists for each city (from the "
 "city dialog) and global worklists. Using this editor you can create lists "
 "specifying what to build in the turns to come."
 msgstr ""
 
-#: data/helpdata.txt:573
+#: data/helpdata.txt:572
 msgid ""
 "To add an item to the worklist, double-click the desired item in the list of "
 "available items. You can also press the Help button to get help on the "
 "selected item. Pressing Help with no item selected will display this page."
 msgstr ""
 
-#: data/helpdata.txt:577
+#: data/helpdata.txt:576
 msgid ""
 "To remove an item from the worklist simply double-click the item to remove. "
 "Use the buttons below the worklist to move items up and/or down in the list."
 msgstr ""
 
-#: data/helpdata.txt:580
+#: data/helpdata.txt:579
 msgid ""
 "Keyboard shortcuts: Home to focus the worklist, End to focus the available "
 "list, Up/Down arrows to select previous/next item in worklist or available "
@@ -16203,17 +16129,17 @@ msgid ""
 "selected item from the worklist."
 msgstr ""
 
-#: data/helpdata.txt:586
+#: data/helpdata.txt:585
 msgid ""
 "If you want to buy the unit that's first on the list, you can do that from "
 "the City Overview window."
 msgstr ""
 
-#: data/helpdata.txt:592
+#: data/helpdata.txt:591
 msgid "Strategy and tactics"
 msgstr "Strategija ir taktika"
 
-#: data/helpdata.txt:593
+#: data/helpdata.txt:592
 msgid ""
 "While every game is different, there's a basic strategy which most players "
 "follow, especially at the start of the game."
@@ -16221,7 +16147,7 @@ msgstr ""
 "Nors kiekvienas žaidimas yra skirtingas, yra pagrindinė strategija, kurios "
 "laikosi dauguma žaidėjų, ypač žaidimo pradžioje."
 
-#: data/helpdata.txt:596
+#: data/helpdata.txt:595
 msgid ""
 "These steps may vary depending upon the server options, but in general, the "
 "steps are: "
@@ -16229,7 +16155,7 @@ msgstr ""
 "Šie žingsniai gali skirtis priklausomai nuo serverio nustatymų, bet "
 "apskritai žingsniai yra:"
 
-#: data/helpdata.txt:599
+#: data/helpdata.txt:598
 msgid ""
 " 0. Choosing the first city site.\n"
 " 1. Mapping the countryside.\n"
@@ -16244,7 +16170,7 @@ msgid ""
 "10. Interacting with other players (Diplomacy).\n"
 msgstr ""
 
-#: data/helpdata.txt:611
+#: data/helpdata.txt:610
 msgid ""
 " 0. Choosing the first city site.\n"
 "\n"
@@ -16257,7 +16183,7 @@ msgid ""
 "possible."
 msgstr ""
 
-#: data/helpdata.txt:622
+#: data/helpdata.txt:621
 msgid ""
 " 1. Mapping the countryside.\n"
 "\n"
@@ -16269,7 +16195,7 @@ msgid ""
 "obviously!"
 msgstr ""
 
-#: data/helpdata.txt:631
+#: data/helpdata.txt:630
 msgid ""
 " 2. Defending the cities.\n"
 "\n"
@@ -16280,7 +16206,7 @@ msgid ""
 "Warrior, Phalanx, Pikemen, Musketeers, and Riflemen."
 msgstr ""
 
-#: data/helpdata.txt:641
+#: data/helpdata.txt:640
 #, no-c-format
 msgid ""
 "    Keep in mind that with some types of government, military units inside "
@@ -16290,7 +16216,7 @@ msgid ""
 "defensive unit from the above list."
 msgstr ""
 
-#: data/helpdata.txt:648
+#: data/helpdata.txt:647
 msgid ""
 " 3. Deciding which units to build first.\n"
 "\n"
@@ -16303,7 +16229,7 @@ msgid ""
 "civilization's research rate."
 msgstr ""
 
-#: data/helpdata.txt:659
+#: data/helpdata.txt:658
 msgid ""
 " 4. Building agriculture improvements.\n"
 "\n"
@@ -16313,7 +16239,7 @@ msgid ""
 "irrigation, mines, and others."
 msgstr ""
 
-#: data/helpdata.txt:667
+#: data/helpdata.txt:666
 msgid ""
 " 5. Deciding where to build cities.\n"
 "\n"
@@ -16325,7 +16251,7 @@ msgid ""
 "by the sea."
 msgstr ""
 
-#: data/helpdata.txt:676
+#: data/helpdata.txt:675
 msgid ""
 " 6. Taking care of the cities.\n"
 "\n"
@@ -16337,21 +16263,21 @@ msgid ""
 "employed so that they maximise growth, trade and production."
 msgstr ""
 
-#: data/helpdata.txt:686
+#: data/helpdata.txt:685
 msgid ""
 "    If too much food is being generated, a citizen can be taken off the "
 "farmland by clicking on the occupied farmland square.  This citizen can then "
 "be transferred to the other duties mentioned previously."
 msgstr ""
 
-#: data/helpdata.txt:691
+#: data/helpdata.txt:690
 msgid ""
 "    If you move all of your citizens into the city and right-click on the "
 "central tile of the farmland, the citizens will be rearranged to maximise "
 "food production."
 msgstr ""
 
-#: data/helpdata.txt:697
+#: data/helpdata.txt:696
 msgid ""
 "    The golden rule of taking care of a city is that there should be at "
 "least as many happy citizens as unhappy citizens.  A city where this is not "
@@ -16359,7 +16285,7 @@ msgid ""
 "any of your cities, as unhappy cities produce nothing, and will soon revolt."
 msgstr ""
 
-#: data/helpdata.txt:703
+#: data/helpdata.txt:702
 msgid ""
 " 7. Exploring the world.\n"
 "\n"
@@ -16371,7 +16297,7 @@ msgid ""
 "have made. Diplomatic units are very useful here, and WILL pay off later."
 msgstr ""
 
-#: data/helpdata.txt:713
+#: data/helpdata.txt:712
 msgid ""
 " 8. Things to keep in mind.\n"
 "\n"
@@ -16384,7 +16310,7 @@ msgid ""
 "  - Some wonders can be made obsolete by the development of certain advances."
 msgstr ""
 
-#: data/helpdata.txt:724
+#: data/helpdata.txt:723
 msgid ""
 " 9. Making your own strategy for the game.\n"
 "\n"
@@ -16392,12 +16318,16 @@ msgid ""
 "especially in the beginning of the game.  But to improve, you need to study "
 "the various units and advances, and PRACTICE, PRACTICE, PRACTICE!  Freeciv "
 "has many twists, so if you haven't played a similar game before, try "
-"consulting the Freeciv WWW pages at http://www.freeciv.org/\n"
+"consulting the Freeciv WWW pages at:"
+msgstr ""
+
+#: data/helpdata.txt:734
+msgid ""
 "You'll find more tips for playing, and details of how to contact other "
 "players."
 msgstr ""
 
-#: data/helpdata.txt:735
+#: data/helpdata.txt:737
 msgid ""
 " 10. Interacting with other players (Diplomacy).\n"
 "\n"
@@ -16409,7 +16339,7 @@ msgid ""
 "connected (or is a server AI) then a diplomacy menu will pop up."
 msgstr ""
 
-#: data/helpdata.txt:745
+#: data/helpdata.txt:747
 msgid ""
 "    In this menu you can choose to:\n"
 "\n"
@@ -16428,13 +16358,13 @@ msgid ""
 "   - and Give Gold."
 msgstr ""
 
-#: data/helpdata.txt:761
+#: data/helpdata.txt:763
 msgid ""
 "    There is no need to trade like for like, by trading say, an advance or "
 "city for gold - you can consider this buying and selling."
 msgstr ""
 
-#: data/helpdata.txt:765
+#: data/helpdata.txt:767
 msgid ""
 "    A couple of notes:\n"
 "\n"
@@ -16443,7 +16373,7 @@ msgid ""
 "   - If you can't see a city on your map, then you can't request it."
 msgstr ""
 
-#: data/helpdata.txt:771
+#: data/helpdata.txt:773
 msgid ""
 "     Of course, the owner of that city can still give it to you, in which "
 "case the area around the city is shown on your map.  One important thing to "
@@ -16452,14 +16382,14 @@ msgid ""
 "isn't getting a better deal than you expect."
 msgstr ""
 
-#: data/helpdata.txt:778
+#: data/helpdata.txt:780
 msgid ""
 "     There are five diplomatic states between players: War, Cease-fire, "
 "Armistice, Peace, and Alliance. The first is the default state, while the "
 "others can be achieved by signing diplomatic treaties."
 msgstr ""
 
-#: data/helpdata.txt:782
+#: data/helpdata.txt:784
 msgid ""
 "     To have a diplomatic relationship with another player, you must "
 "establish contact with that player. Contact occurs whenever one of your "
@@ -16468,14 +16398,14 @@ msgid ""
 "contact with them a set number of turns after most recent contact."
 msgstr ""
 
-#: data/helpdata.txt:789
+#: data/helpdata.txt:791
 msgid ""
 "     The diplomatic state between players defaults to War. During War, you "
 "can freely move your units inside enemy territory and attack their units and "
 "cities at will."
 msgstr ""
 
-#: data/helpdata.txt:793
+#: data/helpdata.txt:795
 msgid ""
 "     When two players decide to end hostilities between them, they can agree "
 "on a Cease-fire treaty. After a set number of turns, the Cease-fire will "
@@ -16483,7 +16413,7 @@ msgid ""
 "automatically offer you a Cease-fire treaty."
 msgstr ""
 
-#: data/helpdata.txt:798
+#: data/helpdata.txt:800
 msgid ""
 "     If you wish for a more permanent peaceful coexistence with another "
 "player, you may enter an Armistice, that after another set number of turns "
@@ -16491,7 +16421,7 @@ msgid ""
 "directly back to War."
 msgstr ""
 
-#: data/helpdata.txt:803
+#: data/helpdata.txt:805
 msgid ""
 "     At the moment two players enter into the diplomatic state of Peace, all "
 "units belonging to either player that happen to be within the other's "
@@ -16501,7 +16431,7 @@ msgid ""
 "back to War."
 msgstr ""
 
-#: data/helpdata.txt:810
+#: data/helpdata.txt:812
 msgid ""
 "     An Alliance is the ultimate diplomatic relationship between two "
 "players. In this state, you may move units into each other's cities and your "
@@ -16512,7 +16442,7 @@ msgid ""
 "Alliance will drop you to an Armistice treaty."
 msgstr ""
 
-#: data/helpdata.txt:822
+#: data/helpdata.txt:824
 msgid ""
 "The Citizen Governor (formerly called the CMA) helps you manage your cities. "
 "It deploys the available workers on the free tiles around the city to "
@@ -16557,11 +16487,11 @@ msgid ""
 "README.cma, included with Freeciv.\n"
 msgstr ""
 
-#: data/helpdata.txt:871
+#: data/helpdata.txt:873
 msgid "City Improvements"
 msgstr "Miesto patobulinimai"
 
-#: data/helpdata.txt:872
+#: data/helpdata.txt:874
 msgid ""
 "City improvements are built in each of your cities to improve trade revenue, "
 "science production, etc.  Most improvements require you to pay an upkeep "
@@ -16569,13 +16499,13 @@ msgid ""
 "automatically sold."
 msgstr ""
 
-#: data/helpdata.txt:889
+#: data/helpdata.txt:891
 msgid ""
 "Research into technology is a necessity for improving the ability of your "
 "civilization to develop new military units and city improvements."
 msgstr ""
 
-#: data/helpdata.txt:900
+#: data/helpdata.txt:902
 msgid ""
 "Each wonder has specific benefits for your civilization. Each wonder is "
 "unique and is placed in the city which constructed it."
@@ -16583,21 +16513,21 @@ msgstr ""
 "Kiekvienas stebuklas turi naudos jūsų civilizacijai. Kiekvienas stebuklas "
 "yra unikalus ir patalpinamas mieste, kuris jį sukonstravo."
 
-#: data/helpdata.txt:911
+#: data/helpdata.txt:913
 msgid ""
 "Units can be used for three purposes: attack, defense, and reconnaissance.  "
 "How useful a particular unit is for each of these roles depends on the "
 "unit's strength in attack and defense, and its ability to move."
 msgstr ""
 
-#: data/helpdata.txt:916
+#: data/helpdata.txt:918
 msgid ""
 "There are four general types of unit: Land, Sea, Air, and Helicopter.  "
 "(Helicopters are sufficiently different from other air units that it is "
 "easiest to think of them as a separate unit type.)"
 msgstr ""
 
-#: data/helpdata.txt:921
+#: data/helpdata.txt:923
 #, no-c-format
 msgid ""
 "Land units move on land, and suffer the movement effects of terrain, but "
@@ -16613,7 +16543,7 @@ msgid ""
 "enemy cities."
 msgstr ""
 
-#: data/helpdata.txt:934
+#: data/helpdata.txt:936
 msgid ""
 "Sea units move on Ocean squares and into cities next to Ocean squares.  They "
 "can only be built by such cities.  The movement rate of sea units is "
@@ -16623,7 +16553,7 @@ msgid ""
 "if the city is undefended."
 msgstr ""
 
-#: data/helpdata.txt:941
+#: data/helpdata.txt:943
 msgid ""
 "Air units can move on any square not occupied by an enemy unit or enemy "
 "city.  The movement rate of air units is not affected by loss of hitpoints.  "
@@ -16637,7 +16567,7 @@ msgid ""
 "disband."
 msgstr ""
 
-#: data/helpdata.txt:953
+#: data/helpdata.txt:955
 msgid ""
 "Like air units, Helicopters can move on any square not occupied by an enemy "
 "unit or enemy city, and their movement rate is not affected by loss of "
@@ -16647,7 +16577,7 @@ msgid ""
 "enemy cities."
 msgstr ""
 
-#: data/helpdata.txt:960
+#: data/helpdata.txt:962
 msgid ""
 "Units which have been damaged in combat will regain hit points each turn in "
 "which they are not moved.  Normally, a unit which has not moved will regain "
@@ -16665,14 +16595,14 @@ msgid ""
 "when they have regained all of their hit points."
 msgstr ""
 
-#: data/helpdata.txt:977
+#: data/helpdata.txt:979
 msgid ""
 "Depending upon server options, any set of unit types may reduce the "
 "population of a City without City Walls by one point upon a successful "
 "attack."
 msgstr ""
 
-#: data/helpdata.txt:988
+#: data/helpdata.txt:990
 msgid ""
 "Default Combat Rules\n"
 "---------------------"
@@ -16680,56 +16610,56 @@ msgstr ""
 "Numatytos mūšio taisyklės\n"
 "---------------------"
 
-#: data/helpdata.txt:989
+#: data/helpdata.txt:991
 msgid ""
 "When one unit attacks another unit, either the attacker will be destroyed, "
 "or the defender will be destroyed -- never both (unless the attacker was a "
 "missile).  The outcome depends on several factors, including chance."
 msgstr ""
 
-#: data/helpdata.txt:994
+#: data/helpdata.txt:996
 msgid "First, the attacker's strength is modified."
 msgstr "Pirmiausia, puolančiojo jėgos yra keičiamos."
 
-#: data/helpdata.txt:996
+#: data/helpdata.txt:998
 msgid " - If the attacker is a veteran, its strength is multiplied by 1.5."
 msgstr " - Jei puolantysis yra veteranas, jo jėgos dauginamos iš 1,5."
 
-#: data/helpdata.txt:998
+#: data/helpdata.txt:1000
 msgid "Next, the defender's strength is modified."
 msgstr "Po to, besiginančiojo jėgos yra keičiamos."
 
-#: data/helpdata.txt:1000
+#: data/helpdata.txt:1002
 msgid ""
 " - If the defender is a veteran, then its strength is multiplied by 1.5."
 msgstr " - Jei besiginantis yra veteranas, jo jėgos dauginamos iš 1,5."
 
-#: data/helpdata.txt:1003
+#: data/helpdata.txt:1005
 msgid ""
 " - Then the defender's strength is multiplied by the defense factor of the "
 "terrain it occupies."
 msgstr ""
 
-#: data/helpdata.txt:1006
+#: data/helpdata.txt:1008
 msgid ""
 " - Next, the defender's strength is doubled if it is a Pikeman unit "
 "defending against a mounted unit."
 msgstr ""
 
-#: data/helpdata.txt:1009
+#: data/helpdata.txt:1011
 msgid ""
 " - If the defender is an AEGIS Cruiser defending against airborne units "
 "(including missiles and Helicopters), the defense is quintupled."
 msgstr ""
 
-#: data/helpdata.txt:1013
+#: data/helpdata.txt:1015
 msgid ""
 " - The defender's strength is doubled again if it is in a city with a SAM "
 "Battery and the attacker is an air unit (other than an Helicopter) or a "
 "missile."
 msgstr ""
 
-#: data/helpdata.txt:1017
+#: data/helpdata.txt:1019
 msgid ""
 " - An SDI Defense doubles the defender's strength yet again against missile "
 "attacks."
@@ -16737,60 +16667,60 @@ msgstr ""
 " - SDI gynyba dar kartą padvigubina besiginančiojo gynybą prieš raketų "
 "atakas."
 
-#: data/helpdata.txt:1020
+#: data/helpdata.txt:1022
 msgid ""
 " - If the attacker is a ship and the defender is in a city with a Coastal "
 "Defense, the defender's strength is doubled."
 msgstr ""
 
-#: data/helpdata.txt:1023
+#: data/helpdata.txt:1025
 msgid ""
 " - Against land units (other than Howitzers) and Helicopters, defending "
 "units in a city with City Walls have their strength tripled."
 msgstr ""
 
-#: data/helpdata.txt:1027
+#: data/helpdata.txt:1029
 msgid ""
 " - If the defender is in a fortress (and not a city), its strength is "
 "doubled."
 msgstr ""
 
-#: data/helpdata.txt:1030
+#: data/helpdata.txt:1032
 msgid ""
 " - Finally, if the defender is a ground unit, and is either fortified or "
 "inside a city, its strength is multiplied by 1.5."
 msgstr ""
 
-#: data/helpdata.txt:1033
+#: data/helpdata.txt:1035
 msgid ""
 "If, after these modifications, the attacker has a strength of 0, it "
 "automatically loses.  Otherwise, if the defender has a strength of 0, the "
 "defender loses."
 msgstr ""
 
-#: data/helpdata.txt:1037
+#: data/helpdata.txt:1039
 msgid "The firepower of the attacker and defender are also modified."
 msgstr ""
 
-#: data/helpdata.txt:1039
+#: data/helpdata.txt:1041
 msgid ""
 " - If the defender is a ship and is inside a city the firepower of the "
 "attacker is doubled and the firepower of the ship is set to 1."
 msgstr ""
 
-#: data/helpdata.txt:1042
+#: data/helpdata.txt:1044
 msgid ""
 " - If a Fighter is attacking an Helicopter the firepower of the Helicopter "
 "is set to 1."
 msgstr ""
 
-#: data/helpdata.txt:1045
+#: data/helpdata.txt:1047
 msgid ""
 " - If a ship is attacking a ground unit on land the firepower of both is set "
 "to 1."
 msgstr ""
 
-#: data/helpdata.txt:1048
+#: data/helpdata.txt:1050
 msgid ""
 "After these preliminaries, combat occurs, as long as both units are still "
 "alive (i.e., hit points are greater than 0).  Each round, a random number "
@@ -16801,7 +16731,7 @@ msgid ""
 "to reach 0 hit points (or negative hit points) loses. "
 msgstr ""
 
-#: data/helpdata.txt:1063
+#: data/helpdata.txt:1065
 #, no-c-format
 msgid ""
 "Whichever unit survives the fight has a chance of becoming a veteran, if it "
@@ -16810,23 +16740,23 @@ msgid ""
 "veteran.  Otherwise, the chance of becoming a veteran is 50%."
 msgstr ""
 
-#: data/helpdata.txt:1069
+#: data/helpdata.txt:1071
 msgid ""
 "If the attacker is a ground unit and wins, and the defender is in a city "
 "without City Walls, the city is reduced in size by 1."
 msgstr ""
 
-#: data/helpdata.txt:1072
+#: data/helpdata.txt:1074
 msgid ""
 "If the defender loses, and is not inside a city or fortress, all other units "
 "at the defender's location are destroyed along with the defender."
 msgstr ""
 
-#: data/helpdata.txt:1079
+#: data/helpdata.txt:1081
 msgid " Modifying Combat Rules"
 msgstr " Mūšio taisyklių keitimas"
 
-#: data/helpdata.txt:1080
+#: data/helpdata.txt:1082
 msgid ""
 "Modifying Combat Rules\n"
 "----------------------"
@@ -16834,30 +16764,30 @@ msgstr ""
 "Mūšio taisyklių keitimas\n"
 "----------------------"
 
-#: data/helpdata.txt:1081
+#: data/helpdata.txt:1083
 msgid ""
 "The combat rules described before can be modified by changing the following "
 "modifiers in game.ruleset, section combat_rules: "
 msgstr ""
 
-#: data/helpdata.txt:1084
+#: data/helpdata.txt:1086
 msgid ""
 " - killstack. (default: 1) If set to 0, units in the same tile of a lost "
 "defender are not destroyed. "
 msgstr ""
 
-#: data/helpdata.txt:1090
+#: data/helpdata.txt:1092
 msgid " Combat example 1"
 msgstr " Mūšio pavyzdys 1"
 
-#: data/helpdata.txt:1091
+#: data/helpdata.txt:1093
 msgid ""
 "Suppose a Cannon (A:8, D:1, HP:20, F:1) attacks a Musketeer (A:3, D:3, "
 "HP:20, F:1) inside a city with City Walls built on a Forest tile.  Neither "
 "are veteran."
 msgstr ""
 
-#: data/helpdata.txt:1095
+#: data/helpdata.txt:1097
 msgid ""
 "The defender's base strength is 3.  Because it is on a Forest tile, its "
 "strength becomes 4.5.  It is behind City Walls, so its strength is tripled, "
@@ -16865,18 +16795,18 @@ msgid ""
 "20.25."
 msgstr ""
 
-#: data/helpdata.txt:1100
+#: data/helpdata.txt:1102
 msgid ""
 "Strength values inside the game are actually multiplied by 10, with "
 "fractions dropped, so the attacker's strength is 80, and the defender's "
 "strength is 202."
 msgstr ""
 
-#: data/helpdata.txt:1104
+#: data/helpdata.txt:1106
 msgid "Both units keep their firepower of 1 unchanged."
 msgstr ""
 
-#: data/helpdata.txt:1107
+#: data/helpdata.txt:1109
 #, no-c-format
 msgid ""
 "Each round of combat, a random number between 1 and 282 is generated.  If "
@@ -16884,7 +16814,7 @@ msgid ""
 "hit point.  Otherwise (about a 72% chance), the attacker loses 1 point."
 msgstr ""
 
-#: data/helpdata.txt:1118
+#: data/helpdata.txt:1120
 #, no-c-format
 msgid ""
 "Since both units have 20 hit points, the odds favor a victory for the "
@@ -16894,22 +16824,22 @@ msgid ""
 "might lose most of its hit points, or it might even lose the battle."
 msgstr ""
 
-#: data/helpdata.txt:1128
+#: data/helpdata.txt:1130
 msgid " Combat example 2"
 msgstr " Mūšio pavyzdys 2"
 
-#: data/helpdata.txt:1129
+#: data/helpdata.txt:1131
 msgid ""
 "Suppose a veteran Battleship (A:12, D:12, HP:40, F:2) with 3 movement points "
 "attacks a veteran Alpine Troops (A:5, D:5, HP:20, F:1) inside a city built "
 "on a Grassland tile, with City Walls and a Coastal Defense."
 msgstr ""
 
-#: data/helpdata.txt:1134
+#: data/helpdata.txt:1136
 msgid "The attacker's strength is 12, raised to 18 because of veteran status."
 msgstr ""
 
-#: data/helpdata.txt:1137
+#: data/helpdata.txt:1139
 msgid ""
 "The defender's strength is 5, raised to 7.5 due to veteran status. The "
 "terrain's defense factor is 1 (no effect).  The Coastal Defense doubles the "
@@ -16918,17 +16848,17 @@ msgid ""
 "strength is 22.5."
 msgstr ""
 
-#: data/helpdata.txt:1143
+#: data/helpdata.txt:1145
 msgid ""
 "Internally, the values used for attacker and defender strength are 180 and "
 "225, respectively."
 msgstr ""
 
-#: data/helpdata.txt:1146
+#: data/helpdata.txt:1148
 msgid "The firepower of the Battleship is set from 2 to 1."
 msgstr ""
 
-#: data/helpdata.txt:1149
+#: data/helpdata.txt:1151
 #, no-c-format
 msgid ""
 "Each round, a random number from 1 to 405 is generated.  If it is greater "
@@ -16936,7 +16866,7 @@ msgid ""
 "the attacker loses 1 hit point."
 msgstr ""
 
-#: data/helpdata.txt:1160
+#: data/helpdata.txt:1162
 #, no-c-format
 msgid ""
 "In this case, the odds greatly favor the attacker winning.  The Battleship "
@@ -16946,17 +16876,17 @@ msgid ""
 "points left."
 msgstr ""
 
-#: data/helpdata.txt:1169
+#: data/helpdata.txt:1171
 msgid "Zones of Control"
 msgstr "Valdymo zonos"
 
-#: data/helpdata.txt:1170
+#: data/helpdata.txt:1172
 msgid ""
 "Zones of Control, abbreviated as ZOC, is a game concept which prevents you "
 "moving freely in zones controlled (or partially controlled) by enemy forces."
 msgstr ""
 
-#: data/helpdata.txt:1174
+#: data/helpdata.txt:1176
 msgid ""
 "The general rule is that a land unit which is adjacent to an enemy occupied "
 "square cannot move directly to another square which is also adjacent to an "
@@ -16965,7 +16895,7 @@ msgid ""
 "surrounding a unit."
 msgstr ""
 
-#: data/helpdata.txt:1180
+#: data/helpdata.txt:1182
 msgid ""
 "In the following special cases ZOC does not apply:\n"
 "- A unit moving directly into or out of a city.\n"
@@ -16974,7 +16904,7 @@ msgid ""
 "- A unit type which explicitly ignores ZOC, eg Diplomats and Spies."
 msgstr ""
 
-#: data/helpdata.txt:1186
+#: data/helpdata.txt:1188
 msgid ""
 "Notes:\n"
 "\n"
@@ -16996,7 +16926,7 @@ msgid ""
 "onto a friendly unit (the boat)."
 msgstr ""
 
-#: data/helpdata.txt:1206
+#: data/helpdata.txt:1208
 msgid ""
 "TIP:  You can infiltrate enemy zones by first moving in a Diplomat (or some "
 "other unit which ignores ZOC), and then moving regular units onto the square "
@@ -17005,7 +16935,7 @@ msgid ""
 "through enemy territory."
 msgstr ""
 
-#: data/helpdata.txt:1213
+#: data/helpdata.txt:1215
 msgid ""
 "These rules differ slightly from previous versions of Freeciv (release 1.8.0 "
 "and before) in the following ways:\n"
@@ -17013,30 +16943,30 @@ msgid ""
 "- The special case for land units disembarking is new."
 msgstr ""
 
-#: data/helpdata.txt:1222
+#: data/helpdata.txt:1224
 msgid ""
 "The different types of terrain each have different strengths and drawbacks.  "
 "When choosing a place for a new city, make sure there are enough food-"
 "producing squares nearby to support your growing population."
 msgstr ""
 
-#: data/helpdata.txt:1227
+#: data/helpdata.txt:1229
 msgid ""
 "The net benefit of a square for your city depends on your government type as "
 "well as city improvements and wonders."
 msgstr ""
 
-#: data/helpdata.txt:1236
+#: data/helpdata.txt:1238
 msgid " Terrain Alterations"
 msgstr ""
 
-#: data/helpdata.txt:1237
+#: data/helpdata.txt:1239
 msgid ""
 "Settlers and Engineers have the ability to alter terrain squares in several "
 "ways."
 msgstr ""
 
-#: data/helpdata.txt:1240
+#: data/helpdata.txt:1242
 msgid ""
 "Suitable types of terrain can be irrigated.  This requires a nearby source "
 "of water: an Ocean or River square, or another square which is irrigated, "
@@ -17046,13 +16976,13 @@ msgid ""
 "time, turning it into even more productive Farmland."
 msgstr ""
 
-#: data/helpdata.txt:1248
+#: data/helpdata.txt:1250
 msgid ""
 "Some types of terrain can be mined, which increases the number of resources "
 "(shields) produced by that square."
 msgstr ""
 
-#: data/helpdata.txt:1251
+#: data/helpdata.txt:1253
 msgid ""
 "Roads and railroads can be built on any square except Ocean.  (To build a "
 "road or railroad on a River square, though, you must know Bridge Building.)  "
@@ -17060,43 +16990,43 @@ msgid ""
 "the resources produced in cities."
 msgstr ""
 
-#: data/helpdata.txt:1256
+#: data/helpdata.txt:1258
 msgid ""
 " - Units use only one third of a movement point when going from one square "
 "to an adjacent square, if both squares have a road."
 msgstr ""
 
-#: data/helpdata.txt:1259
+#: data/helpdata.txt:1261
 msgid ""
 " - Units expend no movement points when moving along a railroad. You may "
 "ride a railroad indefinitely."
 msgstr ""
 
-#: data/helpdata.txt:1262
+#: data/helpdata.txt:1264
 msgid ""
 " - A road may increase the trade resources produced by some types of terrain."
 msgstr ""
 
-#: data/helpdata.txt:1265
+#: data/helpdata.txt:1267
 msgid ""
 " - A railroad increases the shield resources produced by a square by 50%.  "
 "(Depending on server options, railroads may also increase food and trade "
 "resources, or may increase shield resources by an amount other than 50%.)"
 msgstr ""
 
-#: data/helpdata.txt:1270
+#: data/helpdata.txt:1272
 msgid ""
 "Settlers and Engineers may also build a fortress.  Units inside a fortress "
 "defend at twice their normal strength; also, units inside a fortress must be "
 "destroyed one at a time.  See the Combat help section for further details."
 msgstr ""
 
-#: data/helpdata.txt:1275
+#: data/helpdata.txt:1277
 msgid ""
 "You may also build Airbases, at which your air units may land and refuel."
 msgstr ""
 
-#: data/helpdata.txt:1278
+#: data/helpdata.txt:1280
 msgid ""
 "The following table shows the number of turns required for one unit of "
 "Settlers to complete an activity. These numbers are reduced to half (rounded "
@@ -17104,7 +17034,7 @@ msgid ""
 "Settlers/Engineers, doing teamwork."
 msgstr ""
 
-#: data/helpdata.txt:1285
+#: data/helpdata.txt:1287
 msgid ""
 "City centers (the tile a city is on) are special.  A city center is worked "
 "for free in the default rules. When a city is built a road is automatically "
@@ -17115,11 +17045,11 @@ msgid ""
 "output."
 msgstr ""
 
-#: data/helpdata.txt:1295
+#: data/helpdata.txt:1297
 msgid "  Pillaging"
 msgstr "  Plėšikavimas"
 
-#: data/helpdata.txt:1296
+#: data/helpdata.txt:1298
 msgid ""
 "All ground units have the ability to destroy terrain alterations, by "
 "pillaging.  Pillaging removes 1 terrain alteration per turn per unit.  "
@@ -17127,7 +17057,7 @@ msgid ""
 "alteration to pillage, or they will be pillaged in the following order:"
 msgstr ""
 
-#: data/helpdata.txt:1302
+#: data/helpdata.txt:1304
 msgid ""
 " - farmland\n"
 " - irrigation\n"
@@ -17145,7 +17075,7 @@ msgstr ""
 " - geležinkelis\n"
 " - kelias"
 
-#: data/helpdata.txt:1310
+#: data/helpdata.txt:1312
 msgid ""
 "Tiles that do not have terrain alterations (farmland, irrigation, mining, "
 "fortress, airbase, railroad or road) cannot be pillaged. In addition, "
@@ -17155,13 +17085,13 @@ msgid ""
 "to convert the tile again with a Settler or Engineer."
 msgstr ""
 
-#: data/helpdata.txt:1322
+#: data/helpdata.txt:1324
 msgid ""
 "Your government type influences your cities' productivity and commerce, your "
 "citizens' happiness, and many other game factors."
 msgstr ""
 
-#: data/helpdata.txt:1325
+#: data/helpdata.txt:1327
 msgid ""
 "Your civilization starts out under a Despotism.  As your technology "
 "improves, you can select other forms of government (listed below). In order "
@@ -17170,7 +17100,7 @@ msgid ""
 "at the end of this time, you will be able to choose your new government."
 msgstr ""
 
-#: data/helpdata.txt:1332
+#: data/helpdata.txt:1334
 msgid ""
 "Corruption is the loss of trade due to inefficiency and greed. Under most "
 "forms of government, the farther away from the capital a city is, the more "
@@ -17179,7 +17109,7 @@ msgid ""
 "reduce the level of corruption in a city."
 msgstr ""
 
-#: data/helpdata.txt:1339
+#: data/helpdata.txt:1341
 msgid ""
 "Waste is the loss of shields due to inefficiency and greed. Under most forms "
 "of government, the farther away from the capital a city is, the more shields "
@@ -17188,7 +17118,7 @@ msgid ""
 "of waste in a city. Waste can result in your cities not building anything."
 msgstr ""
 
-#: data/helpdata.txt:1346
+#: data/helpdata.txt:1348
 msgid ""
 "TIP 1:  Offensive military campaigns are difficult under Republican and "
 "Democratic governments unless you give your citizens lots of luxuries to "
@@ -17196,7 +17126,7 @@ msgid ""
 "switch to one of the more militant styles of government."
 msgstr ""
 
-#: data/helpdata.txt:1352
+#: data/helpdata.txt:1354
 msgid ""
 "TIP 2:  Scientific advancement requires high levels of trade, which are much "
 "easier to achieve under Republican and Democratic governments.  Consider "
@@ -17204,11 +17134,11 @@ msgid ""
 "early in the game puts you at an advantage."
 msgstr ""
 
-#: data/helpdata.txt:1361
+#: data/helpdata.txt:1363
 msgid " Civil War"
 msgstr " Pilietinis karas"
 
-#: data/helpdata.txt:1362
+#: data/helpdata.txt:1364
 msgid ""
 "Civil war is devastating to any empire, and is triggered by the loss of your "
 "capital (palace).  Up to half of your cities will rebel and declare "
@@ -17216,13 +17146,13 @@ msgid ""
 "retain all of your scientific advances."
 msgstr ""
 
-#: data/helpdata.txt:1368
+#: data/helpdata.txt:1370
 msgid ""
 "Players remain in the civil war state for just one turn, after which the "
 "empire enters a state of anarchy."
 msgstr ""
 
-#: data/helpdata.txt:1371
+#: data/helpdata.txt:1373
 msgid ""
 "The capture of your capital does not always lead to civil war.  If you have "
 "treated your people with kindness, you are more likely to retain their "
@@ -17230,14 +17160,14 @@ msgid ""
 "while each revolting city increases the likelihood."
 msgstr ""
 
-#: data/helpdata.txt:1377
+#: data/helpdata.txt:1379
 msgid ""
 "In addition, the form of government directly contributes to the chance of "
 "civil war.  Governments with universal franchise are far less likely to "
 "revolt than those more despotic in nature."
 msgstr ""
 
-#: data/helpdata.txt:1381
+#: data/helpdata.txt:1383
 msgid ""
 "The number of cities an empire needs before it can erupt into civil war is "
 "by default 10.  That is, empires with fewer than 10 cities are immune from "
@@ -17245,7 +17175,7 @@ msgid ""
 "minimum of 6."
 msgstr ""
 
-#: data/helpdata.txt:1393
+#: data/helpdata.txt:1395
 msgid ""
 "Citizens may be either happy, content or unhappy.  Keeping your citizens "
 "happy (or at least content) is one of the most important objectives in "
@@ -17254,7 +17184,7 @@ msgid ""
 "cities will celebrate, and your production will increase greatly."
 msgstr ""
 
-#: data/helpdata.txt:1400
+#: data/helpdata.txt:1402
 msgid ""
 "If the number of unhappy citizens in a city exceeds the number of happy "
 "citizens, the city falls into disorder.  When a city falls into disorder, it "
@@ -17263,7 +17193,7 @@ msgid ""
 "can lead to a spontaneous revolution, overthrowing your government."
 msgstr ""
 
-#: data/helpdata.txt:1407
+#: data/helpdata.txt:1409
 msgid ""
 "However, if the number of happy citizens in a city is at least as great as "
 "the number of content citizens, and you have no unhappy citizens in that "
@@ -17272,28 +17202,28 @@ msgid ""
 "celebration vary depending on your government type:"
 msgstr ""
 
-#: data/helpdata.txt:1414
+#: data/helpdata.txt:1416
 msgid ""
 " - Under Anarchy or Despotism, you will not suffer the normal production "
 "penalty for squares which produce more than 2 units of any resource (food, "
 "shields or trade)."
 msgstr ""
 
-#: data/helpdata.txt:1418
+#: data/helpdata.txt:1420
 msgid ""
 " - Under Monarchy or Communism, your city will gain the trade bonus of "
 "Republican/Democratic governments: 1 bonus trade in any square which already "
 "produces at least 1 trade."
 msgstr ""
 
-#: data/helpdata.txt:1422
+#: data/helpdata.txt:1424
 msgid ""
 " - Under a Republic or a Democracy, your city's population will increase by "
 "1 each turn until there is no excess food or until the number of happy "
 "citizens is no longer sufficient for celebration."
 msgstr ""
 
-#: data/helpdata.txt:1427
+#: data/helpdata.txt:1429
 msgid ""
 "The normal state of a citizen is contentment.  However, as your cities grow "
 "larger, crowding causes citizens to become unhappy. Each citizen in a city "
@@ -17303,7 +17233,7 @@ msgid ""
 "cityfactor), the limit on content citizens is reduced to 3."
 msgstr ""
 
-#: data/helpdata.txt:1437
+#: data/helpdata.txt:1439
 msgid ""
 "In order to offset unhappiness, you may build city improvements that make "
 "unhappy citizens content  (such as, a Temple, a Colosseum, or a Cathedral - "
@@ -17315,7 +17245,7 @@ msgid ""
 "effects on citizens' happiness (see the appropriate sections for details)."
 msgstr ""
 
-#: data/helpdata.txt:1447
+#: data/helpdata.txt:1449
 msgid ""
 "Under many forms of government, the presence of military units in a city can "
 "create contentment by imposing martial law.  Under a Republic or a "
@@ -17331,7 +17261,7 @@ msgid ""
 "luxuries."
 msgstr ""
 
-#: data/helpdata.txt:1466
+#: data/helpdata.txt:1468
 msgid ""
 "The Space Race is a second option to win the game, besides eliminating all "
 "other civilizations.  If your spaceship arrives first at Alpha Centauri, the "
@@ -17339,7 +17269,7 @@ msgid ""
 "off as a server option.)"
 msgstr ""
 
-#: data/helpdata.txt:1472
+#: data/helpdata.txt:1474
 msgid ""
 "Before you can build spaceship parts, the Apollo Program wonder must have "
 "been built by any player.  You also need specific technologies to build the "
@@ -17349,21 +17279,21 @@ msgid ""
 "for your game.)"
 msgstr ""
 
-#: data/helpdata.txt:1480
+#: data/helpdata.txt:1482
 msgid ""
 "When you have started building your spaceship, you can see it with the "
 "\"Spaceship\" command in the Report menu.  To see spaceships of other "
 "players, select the player in the Players dialog and click \"Spaceship\"."
 msgstr ""
 
-#: data/helpdata.txt:1485
+#: data/helpdata.txt:1487
 msgid ""
 "If the success probability is below 100%, some fraction of the people on "
 "board may not survive the journey.  This reduces the score bonus from the "
 "spaceship, but it still counts as a win."
 msgstr ""
 
-#: data/helpdata.txt:1489
+#: data/helpdata.txt:1491
 msgid ""
 "If the capital of a civilization is captured, a spaceship that has been "
 "launched will be lost, so defend your capital well!"
@@ -17371,7 +17301,7 @@ msgstr ""
 "Jei civilizacijos sostinė bus užgrobta, tai erdvėlaivis, kuris buvo "
 "paleistas, bus prarastas. Taigi ginki savo sostinę gerai!"
 
-#: data/helpdata.txt:1492
+#: data/helpdata.txt:1494
 msgid ""
 "TIP:  If an enemy civilization has launched a spaceship, try to quickly "
 "build a light spaceship with many propulsion units that will arrive "
@@ -25769,6 +25699,25 @@ msgstr "Komanda 30"
 #: data/default/game.ruleset:157
 msgid "Team 31"
 msgstr "Komanda 31"
+
+#~ msgid ""
+#~ "Freeciv is free software and you are welcome to distribute copies of it "
+#~ "under certain conditions;"
+#~ msgstr ""
+#~ "Freeciv yra laisva programa ir jūs kviečiami platinti jos kopijas pagal "
+#~ "tam tikras sąlygas;"
+
+#~ msgid "Failed reading PNG file: %s"
+#~ msgstr "Nepavyko nuskaityti PNG failo: %s"
+
+#~ msgid "Failed creating PNG struct"
+#~ msgstr "Nepavyko sukurti PNG struktūros"
+
+#~ msgid "Failed while reading PNG file: %s"
+#~ msgstr "Klaida, skaitant PNG failą: %s"
+
+#~ msgid "PNG file has no palette: %s"
+#~ msgstr "PNG filas neturi paletės: %s"
 
 #~ msgid "endgame"
 #~ msgstr "endgame"

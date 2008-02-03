@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-01 06:28-0500\n"
+"POT-Creation-Date: 2008-02-03 09:41-0500\n"
 "PO-Revision-Date: 2008-01-23 10:29+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -762,7 +762,7 @@ msgstr "Tech. budoucnosti %d"
 #: client/gui-gtk-2.0/editdlg.c:319 client/gui-gtk-2.0/helpdlg.c:110
 #: client/gui-sdl/citydlg.c:738 client/gui-sdl/gui_tilespec.c:482
 #: client/gui-sdl/helpdlg.c:370 client/gui-sdl/helpdlg.c:792
-#: client/gui-sdl/helpdlg.c:818 client/gui-sdl/mapview.c:770
+#: client/gui-sdl/helpdlg.c:818 client/gui-sdl/mapview.c:773
 #: client/gui-win32/helpdlg.c:165 client/gui-win32/helpdlg.c:545
 #: client/gui-win32/helpdlg.c:731 client/gui-win32/helpdlg.c:752
 #: client/gui-xaw/helpdlg.c:813 client/gui-xaw/helpdlg.c:858
@@ -998,18 +998,18 @@ msgstr "Listopadu"
 msgid "December"
 msgstr "Prosinci"
 
-#: common/version.c:101
-#, c-format
+#. TRANS: No full stop after the URL, could cause confusion.
+#: common/version.c:102
+#, fuzzy, c-format
 msgid ""
 "THIS IS A BETA VERSION\n"
-"Freeciv %s will be released in\n"
-"%s, at %s"
+"Freeciv %s will be released in %s, at %s"
 msgstr ""
 "TOTO JE BETA VERZE\n"
 "Freeciv %s vyjde\n"
 "v %s, na %s"
 
-#: common/version.c:123
+#: common/version.c:121
 msgid "'Cause civilization should be free!"
 msgstr "Aby civilizace byla svobodná!"
 
@@ -1023,7 +1023,7 @@ msgid ""
 msgstr ""
 
 #. TRANS: "Could not convert text from <encoding a> to <encoding b>:"
-#. * TRANS: <error string>."
+#. *        <externally translated error string>."
 #: utility/fciconv.c:219
 #, c-format
 msgid "Could not convert text from %s to %s: %s"
@@ -1157,80 +1157,93 @@ msgstr[0] " (celkem %d opakování)"
 msgstr[1] " (celkem %d opakování)"
 msgstr[2] " (celkem %d opakování)"
 
-#: utility/shared.c:171
+#. TRANS: No full stop after the URL, could cause confusion.
+#: utility/registry.c:850 server/generator/startpos.c:390
+#: client/tilespec.c:4174 client/agents/cma_core.c:440
+#: client/gui-sdl/mapview.c:159
+#, c-format
+msgid "Please report this message at %s"
+msgstr ""
+
+#: utility/shared.c:176
 #, c-format
 msgid "Empty argument for \"%s\".\n"
 msgstr "Prázdný argument pro \"%s\".\n"
 
-#: utility/shared.c:175
+#: utility/shared.c:180
 #, c-format
 msgid "Missing argument for \"%s\".\n"
 msgstr "Chybějící argument pro \"%s\".\n"
 
-#: utility/shared.c:463
+#: utility/shared.c:468
 #, c-format
 msgid "%d BC"
 msgstr "%d př.n.l."
 
-#: utility/shared.c:465
+#: utility/shared.c:470
 #, c-format
 msgid "%d AD"
 msgstr "%d n.l."
 
-#: utility/shared.c:862
-msgid "FREECIV_PATH is set but empty; using default path instead."
+#. TRANS: <FREECIV_PATH> configuration error
+#: utility/shared.c:869
+#, fuzzy, c-format
+msgid "\"%s\" is set but empty; using default \"%s\" instead."
 msgstr ""
 "Proměnná FREECIV_PATH je nastavena, ale je prázdná; použita výchozí cesta."
 
-#: utility/shared.c:966
+#. TRANS: "...: <externally translated error string>."
+#: utility/shared.c:974
 #, c-format
 msgid "Could not read data directory %s: %s."
 msgstr "Nelze přečíst datový adresář %s: %s."
 
-#: utility/shared.c:1217
-msgid "The data path may be set via the environment variable FREECIV_PATH."
+#. TRANS: <FREECIV_PATH> configuration error
+#: utility/shared.c:1227
+#, fuzzy, c-format
+msgid "The data path may be set via the \"%s\" environment variable."
 msgstr "Datovou cestu lze nastavit pomocí proměnné prostředí FREECIV_PATH."
 
-#: utility/shared.c:1219
+#: utility/shared.c:1230
 #, c-format
 msgid "Current data path is: \"%s\""
 msgstr "Současná datová cesta je: \"%s\""
 
-#: utility/shared.c:1221
+#: utility/shared.c:1233
 #, c-format
 msgid "The \"%s\" file is required ... aborting!"
 msgstr "Je potřeba soubor \"%s\" ... končím!"
 
-#: utility/shared.c:1398
+#: utility/shared.c:1410
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr "%s: Kritická chyba: snažíte se spustit program jako superuživatel!\n"
 
-#: utility/shared.c:1400
+#: utility/shared.c:1412
 msgid "Use a non-privileged account instead.\n"
 msgstr "Použijte neprivilegovaný uživatelský účet.\n"
 
-#: utility/shared.c:1416
+#: utility/shared.c:1428
 msgid "exact match"
 msgstr "přesná shoda"
 
-#: utility/shared.c:1417
+#: utility/shared.c:1429
 msgid "only match"
 msgstr "jediná shoda"
 
-#: utility/shared.c:1418
+#: utility/shared.c:1430
 msgid "ambiguous"
 msgstr "nejednoznačné"
 
-#: utility/shared.c:1419
+#: utility/shared.c:1431
 msgid "empty"
 msgstr "prázdné"
 
-#: utility/shared.c:1420
+#: utility/shared.c:1432
 msgid "too long"
 msgstr "příliš dlouhé"
 
-#: utility/shared.c:1421
+#: utility/shared.c:1433
 msgid "non-match"
 msgstr "neshoda"
 
@@ -2212,12 +2225,13 @@ msgstr "Chyba: neznámá volba '%s'\n"
 msgid "This is the server for %s"
 msgstr "Toto je server pro %s"
 
-#: server/civserver.c:208
+#. TRANS: No full stop after the URL, could cause confusion.
+#: server/civserver.c:209
 #, c-format
 msgid "You can learn a lot about Freeciv at %s"
 msgstr "O Freeciv se lze více dozvědět na %s"
 
-#: server/civserver.c:213 client/civclient.c:237 manual/civmanual.c:371
+#: server/civserver.c:214 client/civclient.c:237 manual/civmanual.c:371
 #, c-format
 msgid ""
 "Usage: %s [option ...]\n"
@@ -2226,103 +2240,104 @@ msgstr ""
 "Použití: %s [volba ...]\n"
 "Možné volby jsou:\n"
 
-#: server/civserver.c:215
+#: server/civserver.c:216
 #, fuzzy
 msgid ""
 "  -a  --auth FILE\tEnable server authentication with configuration from "
 "FILE.\n"
 msgstr "  -a  --auth\t\tZapne autentifikaci serveru.\n"
 
-#: server/civserver.c:217
+#: server/civserver.c:218
 msgid "  -G  --Guests\t\tAllow guests to login if auth is enabled.\n"
 msgstr ""
 "  -G  --Guests\t\tPovolí přihlášení hostům, když je zapnutá autentifikace.\n"
 
-#: server/civserver.c:219
+#: server/civserver.c:220
 msgid "  -N  --Newusers\tAllow new users to login if auth is enabled.\n"
 msgstr ""
 "  -N  --Newusers\tPovolí přihlášení novým hráčům, když je zapnutá "
 "autentifikace.\n"
 
-#: server/civserver.c:222
+#: server/civserver.c:223
 msgid "  -b  --bind ADDR\tListen for clients on ADDR\n"
 msgstr "  -b, --bind ADR\tOčekává spojení od klientů na adrese ADR\n"
 
-#: server/civserver.c:224 client/civclient.c:241
+#: server/civserver.c:225 client/civclient.c:241
 msgid ""
 "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
 msgstr ""
 "  -d, --debug ČÍSLO\tNastaví logovací úroveň debugování (od 0 do 4, nebo 4:"
 "soubor1,min,max:...)\n"
 
-#: server/civserver.c:228 client/civclient.c:245
+#: server/civserver.c:229 client/civclient.c:245
 msgid "  -d, --debug NUM\tSet debug log level (0 to 3)\n"
 msgstr "  -d, --debug ČÍSLO\tNastav úroveň logování (0 až 3)\n"
 
-#: server/civserver.c:230
+#: server/civserver.c:231
 msgid "  -f, --file FILE\tLoad saved game FILE\n"
 msgstr "  -f, --file SOUBOR\tNačte uloženou hru ze souboru SOUBOR\n"
 
-#: server/civserver.c:232 client/civclient.c:248 manual/civmanual.c:373
+#: server/civserver.c:233 client/civclient.c:248 manual/civmanual.c:373
 msgid "  -h, --help\t\tPrint a summary of the options\n"
 msgstr "  -h, --help\t\tVytiskne přehled voleb\n"
 
-#: server/civserver.c:233
+#: server/civserver.c:234
 msgid "  -l, --log FILE\tUse FILE as logfile\n"
 msgstr "  -l, --log SOUBOR\tPoužije SOUBOR jako logovací\n"
 
-#: server/civserver.c:234
+#: server/civserver.c:235
 msgid "  -m, --meta\t\tNotify metaserver and send server's info\n"
 msgstr "  -m, --meta\t\tOhlásí se metaserveru a pošle info o serveru\n"
 
-#: server/civserver.c:236
+#: server/civserver.c:237
 msgid "  -M, --Metaserver ADDR\tSet ADDR as metaserver address\n"
 msgstr "  -M, --Metaserver ADR\tNastaví ADR jako adresu metaserveru\n"
 
-#: server/civserver.c:239
+#: server/civserver.c:240
 msgid "  -p, --port PORT\tListen for clients on port PORT\n"
 msgstr "  -p, --port PORT\tOčekává spojení od klientů na portu PORT\n"
 
-#: server/civserver.c:241
+#: server/civserver.c:242
 msgid "  -q, --quitidle TIME\tQuit if no players for TIME seconds\n"
 msgstr ""
 "  -q, --quitidle ČAS\tUkončí se, pokud během doby ČAS sekund není žádný "
 "hráč\n"
 
-#: server/civserver.c:243
+#: server/civserver.c:244
 msgid "  -e, --exit-on-end\tWhen a game ends, exit instead of restarting\n"
 msgstr "  -e, --exit-on-end\tKdyž skončí hra, ukončení místo restartu\n"
 
-#: server/civserver.c:246
+#: server/civserver.c:247
 msgid "  -s, --saves DIR\tSave games to directory DIR\n"
 msgstr "  -s, --saves ADRESÁŘ\tUloží hry do adresáře ADRESÁŘ\n"
 
-#: server/civserver.c:248
+#: server/civserver.c:249
 msgid "  -S, --Serverid ID\tSets the server id to ID\n"
 msgstr "  -S, --Serverid ID\tNastaví server id na ID\n"
 
-#: server/civserver.c:250
+#: server/civserver.c:251
 msgid "  -P, --Ppm\t\tSave ppms of the map when saving the game.\n"
 msgstr ""
 
-#: server/civserver.c:251
+#: server/civserver.c:252
 msgid "  -r, --read FILE\tRead startup script FILE\n"
 msgstr "  -r, --read SOUBOR\tPřečte spouštěc skript ze souboru SOUBOR\n"
 
-#: server/civserver.c:253
+#: server/civserver.c:254
 #, fuzzy
 msgid "  -R, --Ranklog FILE\tUse FILE as ranking logfile\n"
 msgstr "  -l, --log SOUBOR\tPoužije SOUBOR jako logovací\n"
 
-#: server/civserver.c:254 client/civclient.c:267 manual/civmanual.c:374
+#: server/civserver.c:255 client/civclient.c:267 manual/civmanual.c:374
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tVypiš číslo verze\n"
 
-#: server/civserver.c:255 client/gui-gtk-2.0/gui_main.c:352
-#: client/gui-sdl/gui_main.c:210 client/gui-xaw/gui_main.c:247
-#: manual/civmanual.c:375
-#, c-format
-msgid "Report bugs at %s.\n"
+#. TRANS: No full stop after the URL, could cause confusion.
+#: server/civserver.c:257 client/gui-gtk-2.0/gui_main.c:353
+#: client/gui-sdl/gui_main.c:211 client/gui-xaw/gui_main.c:248
+#: manual/civmanual.c:376
+#, fuzzy, c-format
+msgid "Report bugs at %s\n"
 msgstr "Chyby hlašte na %s.\n"
 
 #: server/commands.c:37
@@ -4172,7 +4187,7 @@ msgstr "Div %s byl ZNIČEN\n"
 msgid "(building %s in %s (%s))\n"
 msgstr "(staví %s ve městě %s (%s))\n"
 
-#: server/report.c:375 client/gui-xaw/menu.c:231 data/helpdata.txt:899
+#: server/report.c:375 client/gui-xaw/menu.c:231 data/helpdata.txt:901
 msgid "Wonders of the World"
 msgstr "Divy světa"
 
@@ -4240,17 +4255,17 @@ msgstr "Lituji, ale demografický přehled není k dispozici."
 msgid "The %s of the %s (%s)"
 msgstr "%s %s (%s)"
 
-#: server/ruleset.c:163
+#: server/ruleset.c:151
 msgid "Fatal ruleset error. Server dies!"
 msgstr ""
 
 #. TRANS: message about an installation error.
-#: server/ruleset.c:211
+#: server/ruleset.c:199
 #, fuzzy, c-format
 msgid "Could not find a readable \"%s.%s\" ruleset file."
 msgstr "Nemohu najít čitelný soubor pravidel \"%s\"."
 
-#: server/ruleset.c:3546
+#: server/ruleset.c:3562
 msgid "Loading rulesets"
 msgstr "Nahrávám pravidla"
 
@@ -4265,6 +4280,7 @@ msgstr ""
 "Uložená hra obsahuje neúplná data mapy. Může se jednat o starší verzi "
 "souboru nebo o neplatný soubor. Pokračujte na vlastní nebezpečí."
 
+#. TRANS: Fatal error message.
 #: server/savegame.c:3620
 #, fuzzy
 msgid "Saved game is too old, at least version 1.9.0 required."
@@ -7489,12 +7505,11 @@ msgid "Generator 3 left %li landmass unplaced."
 msgstr "Generátor 3 nezozmístil %li pevniny."
 
 #: server/generator/startpos.c:385
-#, fuzzy, c-format
+#, fuzzy
 msgid ""
 "The server appears to have gotten into an infinite loop in the allocation of "
 "starting positions.\n"
-"Maybe the number of players is too high for this map.\n"
-"Please report this bug at %s."
+"Maybe the number of players is too high for this map."
 msgstr ""
 "Server vypadá, že se dostal do nekonečného cyklu v alokaci startovních "
 "pozic.\n"
@@ -7785,7 +7800,7 @@ msgstr "Nejlepší obranné jednotky"
 #: client/gui-win32/repodlgs.c:722 client/gui-win32/repodlgs.c:731
 #: client/gui-xaw/menu.c:162 client/gui-xaw/menu.c:224
 #: client/gui-xaw/menu.c:253 client/gui-xaw/repodlgs.c:903
-#: client/gui-xaw/repodlgs.c:1096 data/Freeciv.in:1895 data/helpdata.txt:910
+#: client/gui-xaw/repodlgs.c:1096 data/Freeciv.in:1895 data/helpdata.txt:912
 msgid "Units"
 msgstr "Jednotky"
 
@@ -7962,7 +7977,7 @@ msgstr "?cma:Guvernér"
 #: client/cityrepdata.c:515 client/gui-gtk-2.0/cityrep.c:1224
 #: client/gui-gtk-2.0/cityrep.c:1497 client/gui-sdl/citydlg.c:3815
 #: client/gui-sdl/cma_fe.c:861 client/gui-win32/citydlg.c:735
-#: data/Freeciv.in:1459 data/helpdata.txt:821
+#: data/Freeciv.in:1459 data/helpdata.txt:823
 #, fuzzy
 msgid "Citizen Governor"
 msgstr "Guvernér"
@@ -8174,7 +8189,7 @@ msgstr "Nemůžete si koupit %s v %s!"
 msgid "%s costs %d gold and you only have %d gold."
 msgstr "%s stojí %d zlatých a vy máte pouze %d zlatých."
 
-#: client/clinet.c:143 client/clinet.c:144
+#: client/clinet.c:144
 msgid "Lost connection to server!"
 msgstr "Ztraceno spojení se serverem!"
 
@@ -8196,7 +8211,7 @@ msgid "Failed to contact server \"%s\" at port %d as \"%s\" after %d attempts"
 msgstr ""
 "Selhalo kontaktování serveru \"%s\" na portu %d jako \"%s\" po %d pokusech"
 
-#: client/clinet.c:484 client/clinet.c:486
+#: client/clinet.c:486
 msgid "Connection to server refused. Please start the server."
 msgstr "Spojení k serveru odmítnuto. Prosím spusťte server."
 
@@ -9081,8 +9096,8 @@ msgstr "* Umožňuje stavbu %s.\n"
 msgid "%s%d %s"
 msgstr "%s%d %s"
 
-#: client/helpdata.c:1677 client/helpdata.c:1685 client/gui-sdl/mapview.c:618
-#: client/gui-sdl/mapview.c:624 client/gui-sdl/mapview.c:630
+#: client/helpdata.c:1677 client/helpdata.c:1685 client/gui-sdl/mapview.c:621
+#: client/gui-sdl/mapview.c:627 client/gui-sdl/mapview.c:633
 #, fuzzy
 msgid "?blistmore:, "
 msgstr "?or:, "
@@ -9634,23 +9649,23 @@ msgid "Failed looking up metaserver's host"
 msgstr "Selhal dotaz na hostitele metaserveru"
 
 #: client/text.c:85 client/text.c:86 client/text.c:91
-#: client/gui-sdl/mapview.c:560
+#: client/gui-sdl/mapview.c:563
 msgid "?nation:Neutral"
 msgstr "?nation:Neutrální"
 
-#: client/text.c:85 client/gui-sdl/mapview.c:560
+#: client/text.c:85 client/gui-sdl/mapview.c:563
 msgid "?nation:Hostile"
 msgstr "?nation:Nepřátelský"
 
-#: client/text.c:87 client/gui-sdl/mapview.c:562
+#: client/text.c:87 client/gui-sdl/mapview.c:565
 msgid "?nation:Peaceful"
 msgstr "?nation:Mírumilovný"
 
-#: client/text.c:87 client/gui-sdl/mapview.c:562
+#: client/text.c:87 client/gui-sdl/mapview.c:565
 msgid "?nation:Friendly"
 msgstr "?nation:Přátelští"
 
-#: client/text.c:88 client/gui-sdl/mapview.c:563
+#: client/text.c:88 client/gui-sdl/mapview.c:566
 msgid "?nation:Mysterious"
 msgstr "?nation:Záhadní"
 
@@ -9658,23 +9673,23 @@ msgstr "?nation:Záhadní"
 msgid "?nation:Friendly(team)"
 msgstr "?nation:Přátelští(tým)"
 
-#: client/text.c:90 client/gui-sdl/mapview.c:593
+#: client/text.c:90 client/gui-sdl/mapview.c:596
 msgid "?city:Neutral"
 msgstr "?city:Neutrální"
 
-#: client/text.c:90 client/gui-sdl/mapview.c:593
+#: client/text.c:90 client/gui-sdl/mapview.c:596
 msgid "?city:Hostile"
 msgstr "?city:Nepřátelské"
 
-#: client/text.c:92 client/gui-sdl/mapview.c:594
+#: client/text.c:92 client/gui-sdl/mapview.c:597
 msgid "?city:Peaceful"
 msgstr "?city_state:Mírové"
 
-#: client/text.c:92 client/gui-sdl/mapview.c:595
+#: client/text.c:92 client/gui-sdl/mapview.c:598
 msgid "?city:Friendly"
 msgstr "?city:Přátelské"
 
-#: client/text.c:92 client/gui-sdl/mapview.c:595
+#: client/text.c:92 client/gui-sdl/mapview.c:598
 msgid "?city:Mysterious"
 msgstr "?nation:Záhadní"
 
@@ -10315,6 +10330,12 @@ msgstr "Nenalezena použitelná výchozí sada dlaždic, končím!"
 msgid "Loading tileset \"%s\"."
 msgstr "Nahrávám pravidla"
 
+#: client/tilespec.c:1056 client/tilespec.c:1090
+#: client/gui-sdl/themespec.c:485 client/gui-sdl/themespec.c:519
+#, c-format
+msgid "Could not open \"%s\"."
+msgstr "Nemohu otevřít \"%s\"."
+
 #: client/tilespec.c:1335
 #, fuzzy
 msgid "Client does not support isometric tilesets."
@@ -10332,11 +10353,9 @@ msgid "Client does not support overhead view tilesets."
 msgstr ""
 "Klient nepodporuje dlaždice z horního pohledu. Použijí se místo toho výchozí."
 
-#: client/tilespec.c:4169
-#, fuzzy, c-format
-msgid ""
-"Paths longer than 99 turns are not supported.\n"
-"Report this bug at %s"
+#: client/tilespec.c:4171
+#, fuzzy
+msgid "Paths longer than 99 turns are not supported."
 msgstr ""
 "Trasy delší než 99 tahů nejsou podporovány.\n"
 "Nahlašte tento bug prosím na bugs@freeciv.org."
@@ -11587,22 +11606,22 @@ msgid ""
 "\n"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:796 client/gui-gtk-2.0/gui_main.c:1423
+#: client/gui-gtk-2.0/gui_main.c:797 client/gui-gtk-2.0/gui_main.c:1421
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:1162 client/gui-gtk-2.0/gui_main.c:1169
+#: client/gui-gtk-2.0/gui_main.c:1163 client/gui-gtk-2.0/gui_main.c:1170
 #: client/gui-sdl/mapctrl.c:1567 client/gui-win32/gui_main.c:482
 #: data/Freeciv.in:2625
 msgid "Turn Done"
 msgstr "Konec tahu"
 
-#: client/gui-gtk-2.0/gui_main.c:1169 client/gui-sdl/mapctrl.c:1567
-#: client/gui-sdl/mapview.c:890
+#: client/gui-gtk-2.0/gui_main.c:1170 client/gui-sdl/mapctrl.c:1567
+#: client/gui-sdl/mapview.c:893
 msgid "Shift+Return"
 msgstr "Shift+Enter"
 
-#: client/gui-gtk-2.0/gui_main.c:1201 client/gui-gtk-2.0/menu.c:806
+#: client/gui-gtk-2.0/gui_main.c:1202 client/gui-gtk-2.0/menu.c:806
 #: client/gui-gtk-2.0/menu.c:808 client/gui-gtk-2.0/menu.c:810
 #: client/gui-gtk-2.0/menu.c:812 client/gui-gtk-2.0/menu.c:814
 #: client/gui-gtk-2.0/menu.c:816 client/gui-gtk-2.0/menu.c:819
@@ -11619,70 +11638,58 @@ msgstr "Shift+Enter"
 msgid "View"
 msgstr "Zobrazit"
 
-#: client/gui-gtk-2.0/gui_main.c:1282
+#: client/gui-gtk-2.0/gui_main.c:1283
 msgid "Chat"
 msgstr "Chat"
 
-#: client/gui-gtk-2.0/gui_main.c:1298 client/gui-win32/gui_main.c:538
-#: data/Freeciv.in:2816
-msgid ""
-"Freeciv is free software and you are welcome to distribute copies of it\n"
-"under certain conditions; See the \"Copying\" item on the Help menu.\n"
-"Now.. Go give'em hell!"
-msgstr ""
-"Freeciv je svobodný software a je vítána distribuce jeho kopií\n"
-"za určitých podmínek; Přečtěte si položku \"Licenční ujednání\" v menu "
-"Nápovědy.\n"
-"Tak.. Jdeme na to!"
-
-#: client/gui-gtk-2.0/gui_main.c:1569
+#: client/gui-gtk-2.0/gui_main.c:1567
 #, fuzzy
 msgid "Not _ready"
 msgstr ", nepřipraven"
 
-#: client/gui-gtk-2.0/gui_main.c:1580 client/gui-gtk-2.0/pages.c:1596
+#: client/gui-gtk-2.0/gui_main.c:1578 client/gui-gtk-2.0/pages.c:1596
 msgid "_Ready"
 msgstr "_Připraven"
 
-#: client/gui-gtk-2.0/gui_main.c:1584 client/gui-gtk-2.0/gui_main.c:1590
+#: client/gui-gtk-2.0/gui_main.c:1582 client/gui-gtk-2.0/gui_main.c:1588
 #: client/gui-gtk-2.0/pages.c:2123
 msgid "_Start"
 msgstr "_Start"
 
-#: client/gui-gtk-2.0/gui_main.c:1594 client/gui-gtk-2.0/pages.c:1586
+#: client/gui-gtk-2.0/gui_main.c:1592 client/gui-gtk-2.0/pages.c:1586
 msgid "Pick _Nation"
 msgstr "Vyberte _národ"
 
-#: client/gui-gtk-2.0/gui_main.c:1600 client/gui-gtk-2.0/pages.c:1591
+#: client/gui-gtk-2.0/gui_main.c:1598 client/gui-gtk-2.0/pages.c:1591
 #, fuzzy
 msgid "_Observe"
 msgstr "Pozorovatel"
 
-#: client/gui-gtk-2.0/gui_main.c:1602
+#: client/gui-gtk-2.0/gui_main.c:1600
 #, fuzzy
 msgid "Do not _observe"
 msgstr "nyní _pozoruje"
 
 #. TRANS: "<Novice AI>"
-#: client/gui-gtk-2.0/gui_main.c:1625
+#: client/gui-gtk-2.0/gui_main.c:1623
 #, fuzzy, c-format
 msgid "<%s AI>"
 msgstr "<PO>"
 
-#: client/gui-gtk-2.0/gui_main.c:1634 client/gui-win32/dialogs.c:596
+#: client/gui-gtk-2.0/gui_main.c:1632 client/gui-win32/dialogs.c:596
 msgid "Random"
 msgstr "Náhodný"
 
-#: client/gui-gtk-2.0/gui_main.c:1696
+#: client/gui-gtk-2.0/gui_main.c:1694
 msgid "Observer"
 msgstr "Pozorovatel"
 
-#: client/gui-gtk-2.0/gui_main.c:1696
+#: client/gui-gtk-2.0/gui_main.c:1694
 #, fuzzy
 msgid "Detached"
 msgstr "Mrtvý"
 
-#: client/gui-gtk-2.0/gui_main.c:1953
+#: client/gui-gtk-2.0/gui_main.c:1951
 msgid "Are you sure you want to quit?"
 msgstr "Opravdu to chcete ukončit?"
 
@@ -11702,7 +11709,7 @@ msgstr "Ctrl+W"
 #: client/gui-gtk-2.0/happiness.c:112 client/gui-sdl/citydlg.c:2051
 #: client/gui-sdl/citydlg.c:3727 client/gui-win32/citydlg.c:735
 #: client/gui-win32/happiness.c:86 client/gui-xaw/menu.c:260
-#: data/helpdata.txt:1392
+#: data/helpdata.txt:1394
 msgid "Happiness"
 msgstr "Spokojenost"
 
@@ -12104,7 +12111,7 @@ msgstr "_Produkci měst"
 
 #: client/gui-gtk-2.0/menu.c:823 client/gui-sdl/optiondlg.c:1634
 #: client/gui-win32/menu.c:341 client/gui-xaw/menu.c:153
-#: client/gui-xaw/menu.c:257 manual/civmanual.c:211 data/helpdata.txt:1221
+#: client/gui-xaw/menu.c:257 manual/civmanual.c:211 data/helpdata.txt:1223
 msgid "Terrain"
 msgstr "Terén"
 
@@ -12644,7 +12651,7 @@ msgstr "Hesla nesouhlasí, zadejte heslo."
 msgid "Server Name"
 msgstr "Jméno serveru"
 
-#: client/gui-gtk-2.0/pages.c:701 client/gui-sdl/mapview.c:622
+#: client/gui-gtk-2.0/pages.c:701 client/gui-sdl/mapview.c:625
 #: client/gui-win32/connectdlg.c:914 data/Freeciv.in:96
 msgid "Port"
 msgstr "Port"
@@ -12854,8 +12861,8 @@ msgstr "Uložit _soubor:"
 #. TRANS: Research report action
 #. TRANS: Research report title
 #: client/gui-gtk-2.0/repodlgs.c:297 client/gui-sdl/mapctrl.c:1414
-#: client/gui-sdl/mapview.c:333 client/gui-sdl/mapview.c:337
-#: client/gui-sdl/mapview.c:343 client/gui-sdl/repodlgs.c:3266
+#: client/gui-sdl/mapview.c:336 client/gui-sdl/mapview.c:340
+#: client/gui-sdl/mapview.c:346 client/gui-sdl/repodlgs.c:3266
 #: client/gui-win32/repodlgs.c:93 client/gui-win32/repodlgs.c:271
 #: client/gui-xaw/menu.c:229 client/gui-xaw/repodlgs.c:276
 #: client/gui-xaw/repodlgs.c:499 data/Freeciv.in:1366
@@ -13262,7 +13269,7 @@ msgstr "Nové domovské město"
 msgid "Cancel"
 msgstr "Zrušit"
 
-#: client/gui-sdl/citydlg.c:735 client/gui-sdl/mapview.c:767
+#: client/gui-sdl/citydlg.c:735 client/gui-sdl/mapview.c:770
 msgid ""
 "\n"
 "veteran"
@@ -13903,8 +13910,8 @@ msgid "Unable to initialize SDL library: %s"
 msgstr "Nelze inicializovat SDL knihovnu: %s"
 
 #: client/gui-sdl/graphics.c:1021
-#, c-format
-msgid "Unable to initialize  SDL_ttf library: %s"
+#, fuzzy, c-format
+msgid "Unable to initialize SDL_ttf library: %s"
 msgstr "Nelze inicializovat  SDL_ttf knihovnu: %s"
 
 #: client/gui-sdl/graphics.c:1058
@@ -13973,21 +13980,21 @@ msgstr ""
 msgid "  -t,  --theme THEME\tUse GUI theme THEME\n"
 msgstr ""
 
-#: client/gui-sdl/gui_main.c:661
+#: client/gui-sdl/gui_main.c:662
 #, c-format
 msgid "Making screenshot %s"
 msgstr ""
 
-#: client/gui-sdl/gui_main.c:793
+#: client/gui-sdl/gui_main.c:794
 #, c-format
 msgid "Using Video Output: %s"
 msgstr "Používám Video Výstup: %s"
 
-#: client/gui-sdl/gui_main.c:846
+#: client/gui-sdl/gui_main.c:847
 msgid "Initializing Client"
 msgstr "Inicializace klienta"
 
-#: client/gui-sdl/gui_main.c:857
+#: client/gui-sdl/gui_main.c:858
 msgid "Waiting for the beginning of the game"
 msgstr ""
 
@@ -14155,8 +14162,8 @@ msgstr "Šířka"
 msgid "Height"
 msgstr "Výška"
 
-#: client/gui-sdl/mapctrl.c:1426 client/gui-sdl/mapview.c:312
-#: client/gui-sdl/mapview.c:315 client/gui-xaw/menu.c:136
+#: client/gui-sdl/mapctrl.c:1426 client/gui-sdl/mapview.c:315
+#: client/gui-sdl/mapview.c:318 client/gui-xaw/menu.c:136
 msgid "Revolution"
 msgstr "Revoluce"
 
@@ -14179,14 +14186,10 @@ msgid "Options"
 msgstr "Možnosti"
 
 #: client/gui-sdl/mapview.c:155
-#, c-format
-msgid ""
-"The SDL event buffer is full; you may see drawing errors\n"
-"as a result.  If you see this message often, please\n"
-"report it at %s. Thank you."
+msgid "The SDL event buffer is full; you may see drawing errors as a result."
 msgstr ""
 
-#: client/gui-sdl/mapview.c:412
+#: client/gui-sdl/mapview.c:415
 #, fuzzy, c-format
 msgid "%s Population: %s  Year: %s  Gold %d "
 msgstr ""
@@ -14195,7 +14198,7 @@ msgstr ""
 "Zlato: %d\n"
 "Daně: %d Lux: %d Věda: %d"
 
-#: client/gui-sdl/mapview.c:420
+#: client/gui-sdl/mapview.c:423
 #, fuzzy, c-format
 msgid "%s Population: %s  Year: %s  Gold %d Tax: %d Lux: %d Sci: %d "
 msgstr ""
@@ -14204,12 +14207,12 @@ msgstr ""
 "Zlato: %d\n"
 "Daně: %d Lux: %d Věda: %d"
 
-#: client/gui-sdl/mapview.c:531 data/default/units.ruleset:24
+#: client/gui-sdl/mapview.c:534 data/default/units.ruleset:24
 #: data/civ2/units.ruleset:18 data/civ1/units.ruleset:18
 msgid "veteran"
 msgstr "veterán"
 
-#: client/gui-sdl/mapview.c:565
+#: client/gui-sdl/mapview.c:568
 msgid ""
 "\n"
 "Our Territory"
@@ -14217,7 +14220,7 @@ msgstr ""
 "\n"
 "Naše území"
 
-#: client/gui-sdl/mapview.c:571
+#: client/gui-sdl/mapview.c:574
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -14229,53 +14232,53 @@ msgstr[0] "%s území (%d tah příměří)"
 msgstr[1] "%s území (%d tahy příměří)"
 msgstr[2] "%s území (%d tahů příměří)"
 
-#: client/gui-sdl/mapview.c:575
+#: client/gui-sdl/mapview.c:578
 #, fuzzy, c-format
 msgid ""
 "\n"
 "Territory of the %s %s"
 msgstr "Území %s %s"
 
-#: client/gui-sdl/mapview.c:581
+#: client/gui-sdl/mapview.c:584
 #, fuzzy
 msgid ""
 "\n"
 "Unclaimed territory"
 msgstr "Nepřivlastněné území"
 
-#: client/gui-sdl/mapview.c:598
+#: client/gui-sdl/mapview.c:601
 #, fuzzy, c-format
 msgid ""
 "\n"
 "City of %s"
 msgstr "Město %s"
 
-#: client/gui-sdl/mapview.c:614
+#: client/gui-sdl/mapview.c:617
 #, fuzzy
 msgid "?blistbegin: with "
 msgstr " s "
 
-#: client/gui-sdl/mapview.c:616 data/default/buildings.ruleset:113
+#: client/gui-sdl/mapview.c:619 data/default/buildings.ruleset:113
 #: data/civ2/buildings.ruleset:96 data/civ1/buildings.ruleset:69
 msgid "Barracks"
 msgstr "Kasárny"
 
-#: client/gui-sdl/mapview.c:628 data/default/buildings.ruleset:45
+#: client/gui-sdl/mapview.c:631 data/default/buildings.ruleset:45
 #: data/civ2/buildings.ruleset:28
 msgid "Airport"
 msgstr "Letiště"
 
-#: client/gui-sdl/mapview.c:634 data/default/buildings.ruleset:212
+#: client/gui-sdl/mapview.c:637 data/default/buildings.ruleset:212
 #: data/civ2/buildings.ruleset:192 data/civ1/buildings.ruleset:161
 msgid "City Walls"
 msgstr "Hradby"
 
-#: client/gui-sdl/mapview.c:637
+#: client/gui-sdl/mapview.c:640
 msgid "?blistend:"
 msgstr "?blistend:"
 
 #. TRANS: (<nation>,<diplomatic_state>)"
-#: client/gui-sdl/mapview.c:643
+#: client/gui-sdl/mapview.c:646
 #, c-format
 msgid ""
 "\n"
@@ -14284,18 +14287,18 @@ msgstr ""
 "\n"
 "(%s,%s)"
 
-#: client/gui-sdl/mapview.c:654
+#: client/gui-sdl/mapview.c:657
 #, fuzzy, c-format
 msgid ""
 "\n"
 "Food/Prod/Trade: %s"
 msgstr "Jídlo/Prod/Obch: %s"
 
-#: client/gui-sdl/mapview.c:890
+#: client/gui-sdl/mapview.c:893
 msgid "End of Turn"
 msgstr "Konec tahu"
 
-#: client/gui-sdl/mapview.c:890
+#: client/gui-sdl/mapview.c:893
 #, fuzzy
 msgid "Press"
 msgstr "Předvolby"
@@ -14629,22 +14632,6 @@ msgstr "Připojit na LAN server"
 msgid "SDLClient welcomes you..."
 msgstr "SDL Klient tě vítá..."
 
-#: client/gui-sdl/pages.c:309
-msgid ""
-"Freeciv is free software and you are welcome to distribute copies of it "
-"under certain conditions;"
-msgstr ""
-"Freeciv je svobodný software a je vítána distribuce jeho kopií za určitých "
-"podmínek;"
-
-#: client/gui-sdl/pages.c:312
-msgid "See the \"Copying\" item on the Help menu."
-msgstr " Přečtěte si položku \"Licenční ujednání\" v menu Nápovědy."
-
-#: client/gui-sdl/pages.c:314
-msgid "Now.. Go give'em hell!"
-msgstr "Takže... Začněme!"
-
 #: client/gui-sdl/plrdlg.c:651
 msgid "disconnected"
 msgstr "odpojen"
@@ -14779,66 +14766,14 @@ msgstr "Start"
 msgid "load_gfxfile: Unable to load graphic file %s!"
 msgstr ""
 
-#: client/gui-sdl/themespec.c:252
-#, c-format
-msgid ""
-"%s file appears incompatible:\n"
-"file: \"%s\"\n"
-"file options: %s\n"
-"supported options: %s"
-msgstr ""
-"%s soubor vypadá nekompatibilně:\n"
-"soubor: \"%s\"\n"
-"možnosti souboru: %s\n"
-"podporované možnosti: %s"
-
-#: client/gui-sdl/themespec.c:260
-#, c-format
-msgid ""
-"%s file claims required option(s) which we don't support:\n"
-"file: \"%s\"\n"
-"file options: %s\n"
-"supported options: %s"
-msgstr ""
-"%s soubor vyžaduje volbu(y), které nepodporujemet:\n"
-"soubor: \"%s\"\n"
-"možnosti souboru: %s\n"
-"podporované možnosti: %s"
-
-#: client/gui-sdl/themespec.c:338
+#: client/gui-sdl/themespec.c:337
 msgid "No usable default theme found, aborting!"
 msgstr "Nenalezeno použitelné výchozí téma, končím!"
 
-#: client/gui-sdl/themespec.c:369
+#: client/gui-sdl/themespec.c:368
 #, fuzzy, c-format
 msgid "Loading theme \"%s\"."
 msgstr "Nahrávám pravidla"
-
-#: client/gui-sdl/themespec.c:486 client/gui-sdl/themespec.c:520
-#: client/gui-sdl/themespec.c:698
-#, c-format
-msgid "Could not open \"%s\"."
-msgstr "Nemohu otevřít \"%s\"."
-
-#: client/gui-sdl/themespec.c:500
-#, c-format
-msgid "Couldn't load gfx file for the spec file %s"
-msgstr "Nelze nahrát gfx soubor pro spec soubor %s"
-
-#: client/gui-sdl/themespec.c:667
-#, c-format
-msgid "Couldn't find a supported gfx file extension for %s"
-msgstr "Nelze nalézt podporované gfx přípony souboru pro %s"
-
-#: client/gui-sdl/themespec.c:819
-#, c-format
-msgid "Couldn't load gfx file %s for sprite %s"
-msgstr "Nelze nahrát gfx soubor %s pro sprite %s"
-
-#: client/gui-sdl/themespec.c:970
-#, c-format
-msgid "Don't have graphics tags %s or %s for %s %s"
-msgstr "Nejsou grafické tagy %s nebo %s pro %s %s"
 
 #: client/gui-sdl/wldlg.c:898 client/gui-sdl/wldlg.c:1075
 #, c-format
@@ -15721,64 +15656,45 @@ msgstr "Průchod"
 msgid "You must select a nation."
 msgstr "Musíte si vybrat národ."
 
-#: client/gui-xaw/graphics.c:343
-#, c-format
-msgid "Failed reading PNG file: %s"
-msgstr "Selhalo čtení PNG souboru: %s"
-
-#: client/gui-xaw/graphics.c:349 client/gui-xaw/graphics.c:355
-msgid "Failed creating PNG struct"
-msgstr "Selhalo vytvoření PNG struktury"
-
-#: client/gui-xaw/graphics.c:360
-#, c-format
-msgid "Failed while reading PNG file: %s"
-msgstr "Selhání při čtení PNG souboru: %s"
-
-#: client/gui-xaw/graphics.c:397
-#, c-format
-msgid "PNG file has no palette: %s"
-msgstr "PNG soubor nemá paletu: %s"
-
-#: client/gui-xaw/gui_main.c:323
+#: client/gui-xaw/gui_main.c:324
 msgid "No version number in resources."
 msgstr "Číslo verze ve zdrojích chybí."
 
-#: client/gui-xaw/gui_main.c:324
+#: client/gui-xaw/gui_main.c:325
 msgid "You probably have an old (circa V1.0) Freeciv resource file somewhere."
 msgstr "Nejspíše máte někde starší (asi v1.0) soubor s Freeciv zdroji."
 
-#: client/gui-xaw/gui_main.c:332
+#: client/gui-xaw/gui_main.c:333
 msgid "Game version does not match Resource version."
 msgstr "Verze hry nesouhlasí s verzí zrojů."
 
-#: client/gui-xaw/gui_main.c:333
+#: client/gui-xaw/gui_main.c:334
 #, c-format
 msgid "Game version: %s - Resource version: %s"
 msgstr "Verze hry: %s - Verze zdroje: %s"
 
-#: client/gui-xaw/gui_main.c:335
+#: client/gui-xaw/gui_main.c:336
 msgid "You might have an old Freeciv resourcefile in /usr/lib/X11/app-defaults"
 msgstr "Možná máte starší Freeciv soubor se zdroji v /usr/lib/X11/app-defaults"
 
-#: client/gui-xaw/gui_main.c:341
+#: client/gui-xaw/gui_main.c:342
 msgid "Using fallback resources - which is OK"
 msgstr "Použity nouzové zdroje - které jsou OK"
 
-#: client/gui-xaw/gui_main.c:352
+#: client/gui-xaw/gui_main.c:353
 msgid "Only color displays are supported for now..."
 msgstr "Jsou podporovány pouze barevné obrazovky..."
 
-#: client/gui-xaw/gui_main.c:375 client/gui-xaw/gui_main.c:396
+#: client/gui-xaw/gui_main.c:376 client/gui-xaw/gui_main.c:397
 #, c-format
 msgid "Unable to open fontset: %s"
 msgstr "Nelze otevřít sadu fontů: %s"
 
-#: client/gui-xaw/gui_main.c:378 client/gui-xaw/gui_main.c:399
+#: client/gui-xaw/gui_main.c:379 client/gui-xaw/gui_main.c:400
 msgid "Doing 'xset fp rehash' may temporarily solve a problem."
 msgstr ""
 
-#: client/gui-xaw/gui_main.c:382 client/gui-xaw/gui_main.c:403
+#: client/gui-xaw/gui_main.c:383 client/gui-xaw/gui_main.c:404
 #, c-format
 msgid "Font for charset %s is lacking"
 msgstr "Font pro znakovou sadu %s je neúplný"
@@ -15892,11 +15808,11 @@ msgstr "Jazyky"
 msgid "Connecting"
 msgstr "Připojování"
 
-#: client/gui-xaw/menu.c:248 data/helpdata.txt:429
+#: client/gui-xaw/menu.c:248 data/helpdata.txt:428
 msgid "Controls"
 msgstr "Ovládání"
 
-#: client/gui-xaw/menu.c:249 data/helpdata.txt:547
+#: client/gui-xaw/menu.c:249 data/helpdata.txt:546
 msgid "Chatline"
 msgstr "Chatlinka"
 
@@ -15904,7 +15820,7 @@ msgstr "Chatlinka"
 msgid "Playing"
 msgstr "Hraní"
 
-#: client/gui-xaw/menu.c:254 data/helpdata.txt:987
+#: client/gui-xaw/menu.c:254 data/helpdata.txt:989
 msgid "Combat"
 msgstr "Boj"
 
@@ -15912,15 +15828,15 @@ msgstr "Boj"
 msgid "ZOC"
 msgstr "ZK"
 
-#: client/gui-xaw/menu.c:256 data/helpdata.txt:888
+#: client/gui-xaw/menu.c:256 data/helpdata.txt:890
 msgid "Technology"
 msgstr "Technologie"
 
-#: client/gui-xaw/menu.c:259 data/Freeciv.in:2027 data/helpdata.txt:1321
+#: client/gui-xaw/menu.c:259 data/Freeciv.in:2027 data/helpdata.txt:1323
 msgid "Government"
 msgstr "Státní zřízení"
 
-#: client/gui-xaw/menu.c:261 data/helpdata.txt:1465
+#: client/gui-xaw/menu.c:261 data/helpdata.txt:1467
 msgid "Space Race"
 msgstr "Vesmírný závod"
 
@@ -16397,6 +16313,17 @@ msgstr "Vyberte si typ zřízení:"
 msgid "Choose unit activity:"
 msgstr "Vyberte akci jednotky:"
 
+#: data/Freeciv.in:2816
+msgid ""
+"Freeciv is free software and you are welcome to distribute copies of it\n"
+"under certain conditions; See the \"Copying\" item on the Help menu.\n"
+"Now.. Go give'em hell!"
+msgstr ""
+"Freeciv je svobodný software a je vítána distribuce jeho kopií\n"
+"za určitých podmínek; Přečtěte si položku \"Licenční ujednání\" v menu "
+"Nápovědy.\n"
+"Tak.. Jdeme na to!"
+
 #: data/Freeciv.in:3058
 msgid " Sell "
 msgstr " Prodat "
@@ -16499,9 +16426,7 @@ msgstr "  Přítomní administrátoři: "
 #, fuzzy
 msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
-"by visiting the Freeciv Bug Tracking System, at:\n"
-"\n"
-"  http://bugs.freeciv.org/"
+"by visiting the Freeciv Bug Tracking System, at:"
 msgstr ""
 "Pokud naleznete nějakou chybu, prosím pošlete nám bugreport.  Nejlépe pomocí "
 "návštěvy Freeciv Bug Tracking System, na:\n"
@@ -16530,19 +16455,7 @@ msgid ""
 "section of the README file for instructions on how to use one of these "
 "languages.\n"
 "\n"
-"If you would like to add a localization (translation) for your language, "
-"please see the instructions at:\n"
-"\n"
-"  http://www.freeciv.org/wiki/Localization\n"
-"\n"
-"Check first if a localization is already in progress for your language:\n"
-"\n"
-"  http://www.freeciv.org/wiki/Translations\n"
-"\n"
-"You are also welcome to send any questions to the freeciv-i18n mailing "
-"list:\n"
-"\n"
-"  freeciv-i18n@gna.org"
+"First, check whether a localization is already in progress for your language:"
 msgstr ""
 "Freeciv podporuje několik jazyků.  Podívejte se do sekce Native Language "
 "Support v souboru README pro instrukce jak použít tyto jazyky.\n"
@@ -16558,6 +16471,17 @@ msgstr ""
 "\n"
 "  freeciv-i18n@freeciv.org"
 
+#: data/helpdata.txt:388
+msgid ""
+"If you would like to add a localization (translation) for your language, "
+"please see the instructions at:"
+msgstr ""
+
+#: data/helpdata.txt:393
+msgid ""
+"You are also welcome to send any questions to the translation mailing list:"
+msgstr ""
+
 #: data/helpdata.txt:402
 #, fuzzy
 msgid ""
@@ -16570,15 +16494,12 @@ msgstr ""
 "přepínačem -m, bude se hlásit na metaserveru,"
 
 #: data/helpdata.txt:409
+#, fuzzy
 msgid ""
 "The client can fetch this page, too: use the Metaserver button in the "
-"connection dialog.  If it never shows any results, check if your WWW browser "
-"is using a HTTP proxy; to make civclient use the same proxy, set the "
-"$http_proxy environment variable to\n"
-"\n"
-"  http://proxyhost:proxyportnumber/\n"
-"\n"
-"before starting civclient."
+"connection dialog.  If it never shows any results, check whether your WWW "
+"browser is using a HTTP proxy; to make civclient use the same proxy, before "
+"starting civclient, set the $http_proxy environment variable to:"
 msgstr ""
 "I klient se může dostat na tuto stránku: použijte tlačítko Metaserver v "
 "dialohu Připojení.  Pokud to neukáže žádné výsledky, skontrolujte, jestli "
@@ -16590,7 +16511,7 @@ msgstr ""
 "\n"
 "."
 
-#: data/helpdata.txt:418
+#: data/helpdata.txt:417
 msgid ""
 "When the game has started, everyone can connect as any player who isn't "
 "already connected, including AI players.  Merely connecting to an AI player "
@@ -16606,7 +16527,7 @@ msgstr ""
 "hry, použijte jméno svého zvoleného vůdce, ne svoji přezdívku!  Pokud se "
 "server hlásí na metaserveru, mohou tam být jména hráčů nalezena."
 
-#: data/helpdata.txt:430
+#: data/helpdata.txt:429
 #, fuzzy
 msgid ""
 "Unit Orders:\n"
@@ -16691,7 +16612,7 @@ msgstr ""
 "  x: automatický průzkum (x)\n"
 "mezerník: jednotka vynechá tah\n"
 
-#: data/helpdata.txt:473
+#: data/helpdata.txt:472
 #, fuzzy
 msgid ""
 "Unit Movement:\n"
@@ -16725,7 +16646,7 @@ msgstr ""
 "  W: aktivovat ostatní jednotky v lokaci\n"
 "  c: centrovat pohled na jednotku\n"
 
-#: data/helpdata.txt:488
+#: data/helpdata.txt:487
 #, fuzzy
 msgid ""
 "Main Map (Keys):\n"
@@ -16749,7 +16670,7 @@ msgstr ""
 "        Ctrl-P: zobrazit produkci měst zap/vyp\n"
 "             t: zobrazit pracovníky města (myš nad nebo blízko města)\n"
 
-#: data/helpdata.txt:498
+#: data/helpdata.txt:497
 #, fuzzy
 msgid ""
 "Main Map (Mouse):\n"
@@ -16802,7 +16723,7 @@ msgstr ""
 "  Města zvýrazněná na mapě,\n"
 " budou zvýrazněna i v přehledu měst."
 
-#: data/helpdata.txt:523
+#: data/helpdata.txt:522
 #, fuzzy
 msgid ""
 "Dialogs and Reports:\n"
@@ -16846,7 +16767,7 @@ msgstr ""
 "\n"
 "Shift-Return: Konec tahu"
 
-#: data/helpdata.txt:548
+#: data/helpdata.txt:547
 msgid ""
 "The client has a primitive chat interface.  The lines you type are sent to "
 "all players, except:"
@@ -16854,7 +16775,7 @@ msgstr ""
 "Klient má primitivní chatovací rozhraní.  Řádky, které napíšete jsou poslány "
 "všem hráčům, kromě:"
 
-#: data/helpdata.txt:551
+#: data/helpdata.txt:550
 msgid ""
 "  - Messages starting with '/' are interpreted as server commands and "
 "executed, if you have the required access level."
@@ -16862,7 +16783,7 @@ msgstr ""
 "  - Zprávy začínající '/' jsou interpretovány jako serverové příkazy a "
 "spouštějí se, pokud máte příslušná přístupová práva."
 
-#: data/helpdata.txt:554
+#: data/helpdata.txt:553
 msgid ""
 "  - Messages starting with 'John:' are private messages to 'John'. Names can "
 "be abbreviated. The server looks for players named 'John' and if that fails "
@@ -16872,7 +16793,7 @@ msgstr ""
 "mohou být zkrácena. Server hledá hráče se jménem 'John' a pokud niho "
 "nenajde, zkusí uživatelské jméno začínající na 'John' (např. 'Johnathan')."
 
-#: data/helpdata.txt:559
+#: data/helpdata.txt:558
 msgid ""
 "  - Messages starting with 'John::' are private messages as above, but will "
 "match only users (not players) named 'John'.  'Johnathan' will still match."
@@ -16881,15 +16802,15 @@ msgstr ""
 "pouze uživatele (ne hráče) se jmény hráči se jmény 'John'.  'Johnathan' také "
 "bude souhlasit."
 
-#: data/helpdata.txt:563
+#: data/helpdata.txt:562
 msgid "  - Messages starting with '.' will be sent only to all your allies."
 msgstr "  - Zprávy začínající '.' budou poslány pouze vašim spojencům."
 
-#: data/helpdata.txt:568
+#: data/helpdata.txt:567
 msgid "Worklist Editor"
 msgstr "Editor seznamu prací"
 
-#: data/helpdata.txt:569
+#: data/helpdata.txt:568
 msgid ""
 "The worklist editor is used to edit both worklists for each city (from the "
 "city dialog) and global worklists. Using this editor you can create lists "
@@ -16899,7 +16820,7 @@ msgstr ""
 "globálně. Tímto editorem můžete zvolit, co se má postavit v následujících "
 "tazích."
 
-#: data/helpdata.txt:573
+#: data/helpdata.txt:572
 msgid ""
 "To add an item to the worklist, double-click the desired item in the list of "
 "available items. You can also press the Help button to get help on the "
@@ -16909,7 +16830,7 @@ msgstr ""
 "Stisknutím tlačítka Nápověda získáte popis zvolené položky. Není-li zvolena "
 "žádna položka, tlačítko Nápověda zobrazí tuto stránku."
 
-#: data/helpdata.txt:577
+#: data/helpdata.txt:576
 msgid ""
 "To remove an item from the worklist simply double-click the item to remove. "
 "Use the buttons below the worklist to move items up and/or down in the list."
@@ -16917,7 +16838,7 @@ msgstr ""
 "Položku z pracovního listu odeberete jednoduše tak, že na ni dvakrát "
 "kliknete. Pořadí položek se mění tlačítky pod/vedle seznamu prací."
 
-#: data/helpdata.txt:580
+#: data/helpdata.txt:579
 msgid ""
 "Keyboard shortcuts: Home to focus the worklist, End to focus the available "
 "list, Up/Down arrows to select previous/next item in worklist or available "
@@ -16932,18 +16853,18 @@ msgstr ""
 "seznamu do seznamu prací a Delete pro smazání vybrané položky ze seznamu "
 "prací."
 
-#: data/helpdata.txt:586
+#: data/helpdata.txt:585
 msgid ""
 "If you want to buy the unit that's first on the list, you can do that from "
 "the City Overview window."
 msgstr ""
 "V záložce města Přehled můžete koupit první položku z pracovního listu."
 
-#: data/helpdata.txt:592
+#: data/helpdata.txt:591
 msgid "Strategy and tactics"
 msgstr "Strategie a taktika"
 
-#: data/helpdata.txt:593
+#: data/helpdata.txt:592
 msgid ""
 "While every game is different, there's a basic strategy which most players "
 "follow, especially at the start of the game."
@@ -16951,7 +16872,7 @@ msgstr ""
 "I když je každá hra jiná, základní strategii, zejména na začátku hry, "
 "používá většina hráčů."
 
-#: data/helpdata.txt:596
+#: data/helpdata.txt:595
 msgid ""
 "These steps may vary depending upon the server options, but in general, the "
 "steps are: "
@@ -16959,7 +16880,7 @@ msgstr ""
 "Vzhledem k nastavení serveru se nasledující kroky mohou lišit, ale většinou "
 "to jsou: "
 
-#: data/helpdata.txt:599
+#: data/helpdata.txt:598
 msgid ""
 " 0. Choosing the first city site.\n"
 " 1. Mapping the countryside.\n"
@@ -16985,7 +16906,7 @@ msgstr ""
 " 9. Volba vlastní strategie pro hru.\n"
 "10. Komunikace s ostatními hráči (Diplomacie).\n"
 
-#: data/helpdata.txt:611
+#: data/helpdata.txt:610
 msgid ""
 " 0. Choosing the first city site.\n"
 "\n"
@@ -17005,7 +16926,7 @@ msgstr ""
 "na paměti, že první co stavíš je hlavní město!  Důležité je zvolit vhodný "
 "poměr mezi hledáním ideálního místa a zakládáním města co nejdříve."
 
-#: data/helpdata.txt:622
+#: data/helpdata.txt:621
 msgid ""
 " 1. Mapping the countryside.\n"
 "\n"
@@ -17024,7 +16945,7 @@ msgstr ""
 "průzkum použijte raději až další.   Pokud začínáte hru s jednotkou "
 "Průzkumník, použijte na výzvědy samozřejmě ji!"
 
-#: data/helpdata.txt:631
+#: data/helpdata.txt:630
 msgid ""
 " 2. Defending the cities.\n"
 "\n"
@@ -17042,7 +16963,7 @@ msgstr ""
 "Nejčastěji používané obranné  jednotky jsou (postupně) Bojovník, Falanga, "
 "Pikemen, Mušketýr a  Riflemen."
 
-#: data/helpdata.txt:641
+#: data/helpdata.txt:640
 #, no-c-format
 msgid ""
 "    Keep in mind that with some types of government, military units inside "
@@ -17057,7 +16978,7 @@ msgstr ""
 "město začne stavět nejlepší dostupnou obrannou jednotku podle předchozího "
 "seznamu."
 
-#: data/helpdata.txt:648
+#: data/helpdata.txt:647
 msgid ""
 " 3. Deciding which units to build first.\n"
 "\n"
@@ -17076,7 +16997,7 @@ msgstr ""
 "druhý založí město a třetí bude stavět cesty. V každém případě zvýšení "
 "populace znamená jak vyšší produktivitu tak rychlost výzkumu."
 
-#: data/helpdata.txt:659
+#: data/helpdata.txt:658
 msgid ""
 " 4. Building agriculture improvements.\n"
 "\n"
@@ -17091,7 +17012,7 @@ msgstr ""
 "potravin zboží nebo obchodu. Produkce může být zvýšena Osadníky (později i "
 "pracovníky), když vylepší příslušné místo o cesty, zavlažování nebo doly."
 
-#: data/helpdata.txt:667
+#: data/helpdata.txt:666
 msgid ""
 " 5. Deciding where to build cities.\n"
 "\n"
@@ -17109,7 +17030,7 @@ msgstr ""
 "potřebovat asi i pobřežní obranu)  Nejlepší je postavit od každého trochu, "
 "ale protivníkovi se budou města hledat hůř, pokud nebudou u moře."
 
-#: data/helpdata.txt:676
+#: data/helpdata.txt:675
 msgid ""
 " 6. Taking care of the cities.\n"
 "\n"
@@ -17128,7 +17049,7 @@ msgstr ""
 "daní. Zejména ze začátku hry je důležité, aby byli lidé zaměstnáni a "
 "zajišťovali tak maximální růst, obchod a produkci."
 
-#: data/helpdata.txt:686
+#: data/helpdata.txt:685
 msgid ""
 "    If too much food is being generated, a citizen can be taken off the "
 "farmland by clicking on the occupied farmland square.  This citizen can then "
@@ -17138,7 +17059,7 @@ msgstr ""
 "práce kolem města kliknutím na jeho políčko a zaměstnat ho jiným způsobem "
 "zmíněným výše."
 
-#: data/helpdata.txt:691
+#: data/helpdata.txt:690
 msgid ""
 "    If you move all of your citizens into the city and right-click on the "
 "central tile of the farmland, the citizens will be rearranged to maximise "
@@ -17148,7 +17069,7 @@ msgstr ""
 "centrální políčko, budou lidé přeskupeni tak, aby zajistili maximální "
 "produkci jídla."
 
-#: data/helpdata.txt:697
+#: data/helpdata.txt:696
 msgid ""
 "    The golden rule of taking care of a city is that there should be at "
 "least as many happy citizens as unhappy citizens.  A city where this is not "
@@ -17159,7 +17080,7 @@ msgstr ""
 "obyvatel, kolik nespokojených. Město, kde je víc nespokojených lidí je "
 "označeno bleskem. Tato města neprodukují nic a brzy se vzbouří."
 
-#: data/helpdata.txt:703
+#: data/helpdata.txt:702
 msgid ""
 " 7. Exploring the world.\n"
 "\n"
@@ -17178,7 +17099,7 @@ msgstr ""
 "blízko sousedy, je velmi dobré uzavřít mír a vyměnit technologie. Diplomaté "
 "jsou tedˇ velmi užiteční a později se OPRAVDU vyplatí."
 
-#: data/helpdata.txt:713
+#: data/helpdata.txt:712
 msgid ""
 " 8. Things to keep in mind.\n"
 "\n"
@@ -17197,7 +17118,8 @@ msgstr ""
 "  - Mírové smlouvy jsou občas zrušeny. Nezapomínej na obranu.\n"
 "  - Některé divy světa zestárnou vlivem vývoje."
 
-#: data/helpdata.txt:724
+#: data/helpdata.txt:723
+#, fuzzy
 msgid ""
 " 9. Making your own strategy for the game.\n"
 "\n"
@@ -17205,9 +17127,7 @@ msgid ""
 "especially in the beginning of the game.  But to improve, you need to study "
 "the various units and advances, and PRACTICE, PRACTICE, PRACTICE!  Freeciv "
 "has many twists, so if you haven't played a similar game before, try "
-"consulting the Freeciv WWW pages at http://www.freeciv.org/\n"
-"You'll find more tips for playing, and details of how to contact other "
-"players."
+"consulting the Freeciv WWW pages at:"
 msgstr ""
 " 9. Volba vlastní strategie pro hru.\n"
 "\n"
@@ -17218,7 +17138,13 @@ msgstr ""
 "org/\n"
 "Najdete tam další tipy pro hru a informace jak kontaktovat ostatní hráče."
 
-#: data/helpdata.txt:735
+#: data/helpdata.txt:734
+msgid ""
+"You'll find more tips for playing, and details of how to contact other "
+"players."
+msgstr ""
+
+#: data/helpdata.txt:737
 #, fuzzy
 msgid ""
 " 10. Interacting with other players (Diplomacy).\n"
@@ -17237,7 +17163,7 @@ msgstr ""
 "položce Hráč zvolit Navštívit (meet). Pokud tato položka není blokována a vy "
 "jste již hráče potkal, objeví se menu pro diplomacii."
 
-#: data/helpdata.txt:745
+#: data/helpdata.txt:747
 #, fuzzy
 msgid ""
 "    In this menu you can choose to:\n"
@@ -17266,7 +17192,7 @@ msgstr ""
 "\n"
 "    - a dát nějaké to zlato."
 
-#: data/helpdata.txt:761
+#: data/helpdata.txt:763
 msgid ""
 "    There is no need to trade like for like, by trading say, an advance or "
 "city for gold - you can consider this buying and selling."
@@ -17274,7 +17200,7 @@ msgstr ""
 "     Vůbec není nutné měnit stejné věci. Výměnit můžete třeba vynález nebo "
 "města za zlato - berte to jako nákup a prodej."
 
-#: data/helpdata.txt:765
+#: data/helpdata.txt:767
 msgid ""
 "    A couple of notes:\n"
 "\n"
@@ -17288,7 +17214,7 @@ msgstr ""
 "\n"
 "   - Pokud město není na mapě vidět, nemůže být požadováno."
 
-#: data/helpdata.txt:771
+#: data/helpdata.txt:773
 msgid ""
 "     Of course, the owner of that city can still give it to you, in which "
 "case the area around the city is shown on your map.  One important thing to "
@@ -17301,14 +17227,14 @@ msgstr ""
 "podporované jsou taktéž převedeny s vyjimkou jednotek v jiných městech.  "
 "Takže se ujistěte, že s městem nedáte víc, než jste chtěli."
 
-#: data/helpdata.txt:778
+#: data/helpdata.txt:780
 msgid ""
 "     There are five diplomatic states between players: War, Cease-fire, "
 "Armistice, Peace, and Alliance. The first is the default state, while the "
 "others can be achieved by signing diplomatic treaties."
 msgstr ""
 
-#: data/helpdata.txt:782
+#: data/helpdata.txt:784
 msgid ""
 "     To have a diplomatic relationship with another player, you must "
 "establish contact with that player. Contact occurs whenever one of your "
@@ -17317,14 +17243,14 @@ msgid ""
 "contact with them a set number of turns after most recent contact."
 msgstr ""
 
-#: data/helpdata.txt:789
+#: data/helpdata.txt:791
 msgid ""
 "     The diplomatic state between players defaults to War. During War, you "
 "can freely move your units inside enemy territory and attack their units and "
 "cities at will."
 msgstr ""
 
-#: data/helpdata.txt:793
+#: data/helpdata.txt:795
 msgid ""
 "     When two players decide to end hostilities between them, they can agree "
 "on a Cease-fire treaty. After a set number of turns, the Cease-fire will "
@@ -17332,7 +17258,7 @@ msgid ""
 "automatically offer you a Cease-fire treaty."
 msgstr ""
 
-#: data/helpdata.txt:798
+#: data/helpdata.txt:800
 msgid ""
 "     If you wish for a more permanent peaceful coexistence with another "
 "player, you may enter an Armistice, that after another set number of turns "
@@ -17340,7 +17266,7 @@ msgid ""
 "directly back to War."
 msgstr ""
 
-#: data/helpdata.txt:803
+#: data/helpdata.txt:805
 msgid ""
 "     At the moment two players enter into the diplomatic state of Peace, all "
 "units belonging to either player that happen to be within the other's "
@@ -17350,7 +17276,7 @@ msgid ""
 "back to War."
 msgstr ""
 
-#: data/helpdata.txt:810
+#: data/helpdata.txt:812
 msgid ""
 "     An Alliance is the ultimate diplomatic relationship between two "
 "players. In this state, you may move units into each other's cities and your "
@@ -17361,7 +17287,7 @@ msgid ""
 "Alliance will drop you to an Armistice treaty."
 msgstr ""
 
-#: data/helpdata.txt:822
+#: data/helpdata.txt:824
 #, fuzzy
 msgid ""
 "The Citizen Governor (formerly called the CMA) helps you manage your cities. "
@@ -17444,11 +17370,11 @@ msgstr ""
 "zákulisních informací a příkladů získáte v souboru README.cma, který je "
 "přibalen s Freeciv.\n"
 
-#: data/helpdata.txt:871
+#: data/helpdata.txt:873
 msgid "City Improvements"
 msgstr "Vylepšení města"
 
-#: data/helpdata.txt:872
+#: data/helpdata.txt:874
 msgid ""
 "City improvements are built in each of your cities to improve trade revenue, "
 "science production, etc.  Most improvements require you to pay an upkeep "
@@ -17460,7 +17386,7 @@ msgstr ""
 "nemůžete zajistit dostatek financí na údržbu, vybavení bude automaticky "
 "prodáno."
 
-#: data/helpdata.txt:889
+#: data/helpdata.txt:891
 msgid ""
 "Research into technology is a necessity for improving the ability of your "
 "civilization to develop new military units and city improvements."
@@ -17468,7 +17394,7 @@ msgstr ""
 "Výzkum technologii je nezbytný pro získání nových vojenských jednotek a "
 "vybavení měst."
 
-#: data/helpdata.txt:900
+#: data/helpdata.txt:902
 msgid ""
 "Each wonder has specific benefits for your civilization. Each wonder is "
 "unique and is placed in the city which constructed it."
@@ -17476,7 +17402,7 @@ msgstr ""
 "Každý div světa má svůj vlastní přínos. Každý div je jedinečný a je umístěn "
 "ve městě, které ho postavilo."
 
-#: data/helpdata.txt:911
+#: data/helpdata.txt:913
 msgid ""
 "Units can be used for three purposes: attack, defense, and reconnaissance.  "
 "How useful a particular unit is for each of these roles depends on the "
@@ -17486,7 +17412,7 @@ msgstr ""
 "užitečná je jednotka pro které použití záleží na její síle v útoku, obraně a "
 "na její schopnosti pohybu."
 
-#: data/helpdata.txt:916
+#: data/helpdata.txt:918
 msgid ""
 "There are four general types of unit: Land, Sea, Air, and Helicopter.  "
 "(Helicopters are sufficiently different from other air units that it is "
@@ -17496,7 +17422,7 @@ msgstr ""
 "Vrtulníky. (Vrtulníky jsou dostatečně odlišné od ostatních vzdušných "
 "jednotek, že je jednodušší je považovat za zvláštní skupinu.)"
 
-#: data/helpdata.txt:921
+#: data/helpdata.txt:923
 #, no-c-format
 msgid ""
 "Land units move on land, and suffer the movement effects of terrain, but "
@@ -17522,7 +17448,7 @@ msgstr ""
 "jednotky. Nepotřebují financovat, nemaji vliv  na spokojenost, nemohou "
 "útočit na cizí jednotku ani obsadit nepřátelské město."
 
-#: data/helpdata.txt:934
+#: data/helpdata.txt:936
 msgid ""
 "Sea units move on Ocean squares and into cities next to Ocean squares.  They "
 "can only be built by such cities.  The movement rate of sea units is "
@@ -17537,7 +17463,7 @@ msgstr ""
 "energie. Většina námořních jednotek může útočit na jednotky na pobřeží a v "
 "pobřežních městech, ale nemohou obsadit město, ani když nemá obranu."
 
-#: data/helpdata.txt:941
+#: data/helpdata.txt:943
 msgid ""
 "Air units can move on any square not occupied by an enemy unit or enemy "
 "city.  The movement rate of air units is not affected by loss of hitpoints.  "
@@ -17562,7 +17488,7 @@ msgstr ""
 "vesnic; v závislosti na nastavení serveru, mohou být rozpuštěny při "
 "přeplnění města."
 
-#: data/helpdata.txt:953
+#: data/helpdata.txt:955
 msgid ""
 "Like air units, Helicopters can move on any square not occupied by an enemy "
 "unit or enemy city, and their movement rate is not affected by loss of "
@@ -17578,7 +17504,7 @@ msgstr ""
 "světa Spojené národy. Narozdíl od ostatních vzdušných jednotek, vrtulníky "
 "mohou obsadit cizí město."
 
-#: data/helpdata.txt:960
+#: data/helpdata.txt:962
 msgid ""
 "Units which have been damaged in combat will regain hit points each turn in "
 "which they are not moved.  Normally, a unit which has not moved will regain "
@@ -17607,7 +17533,7 @@ msgstr ""
 "kromě tohoto ještě se ztrátou dvou bodů zdraví, pokud neukončí tah ve městě. "
 "Poškozené jednotky v režimu střežení se aktivují, pokud se kompletně uzdraví."
 
-#: data/helpdata.txt:977
+#: data/helpdata.txt:979
 msgid ""
 "Depending upon server options, any set of unit types may reduce the "
 "population of a City without City Walls by one point upon a successful "
@@ -17616,7 +17542,7 @@ msgstr ""
 "V závislosti na nastavení serveru, každá skupina vojenských jednotek může "
 "při úspěšném útoku způsobit snížení populace města bez hradeb o jedno."
 
-#: data/helpdata.txt:988
+#: data/helpdata.txt:990
 msgid ""
 "Default Combat Rules\n"
 "---------------------"
@@ -17624,7 +17550,7 @@ msgstr ""
 "Výchozí Pravidla boje\n"
 "---------------------"
 
-#: data/helpdata.txt:989
+#: data/helpdata.txt:991
 msgid ""
 "When one unit attacks another unit, either the attacker will be destroyed, "
 "or the defender will be destroyed -- never both (unless the attacker was a "
@@ -17634,24 +17560,24 @@ msgstr ""
 "nikdy ne oba (pokud není útočníkem raketa).  Výsledek záleží na několika "
 "faktorech, včetně náhody."
 
-#: data/helpdata.txt:994
+#: data/helpdata.txt:996
 msgid "First, the attacker's strength is modified."
 msgstr "První je modifikována síla útočníka."
 
-#: data/helpdata.txt:996
+#: data/helpdata.txt:998
 msgid " - If the attacker is a veteran, its strength is multiplied by 1.5."
 msgstr " - pokud má útočník status veterán, je jeho síla násobena 1.5."
 
-#: data/helpdata.txt:998
+#: data/helpdata.txt:1000
 msgid "Next, the defender's strength is modified."
 msgstr "Následně se počítá síla obránce."
 
-#: data/helpdata.txt:1000
+#: data/helpdata.txt:1002
 msgid ""
 " - If the defender is a veteran, then its strength is multiplied by 1.5."
 msgstr " - obránci se statusem veterán je síla násobena 1,5."
 
-#: data/helpdata.txt:1003
+#: data/helpdata.txt:1005
 msgid ""
 " - Then the defender's strength is multiplied by the defense factor of the "
 "terrain it occupies."
@@ -17659,7 +17585,7 @@ msgstr ""
 " - Následně je síla obránce násobena obrannými vlastnostmi terénu, v jakém "
 "se brání."
 
-#: data/helpdata.txt:1006
+#: data/helpdata.txt:1008
 msgid ""
 " - Next, the defender's strength is doubled if it is a Pikeman unit "
 "defending against a mounted unit."
@@ -17667,7 +17593,7 @@ msgstr ""
 " - Pokud je obránce pikemen a útočníkem je jízda, je síla obránce "
 "zdvojnásobena."
 
-#: data/helpdata.txt:1009
+#: data/helpdata.txt:1011
 msgid ""
 " - If the defender is an AEGIS Cruiser defending against airborne units "
 "(including missiles and Helicopters), the defense is quintupled."
@@ -17675,7 +17601,7 @@ msgstr ""
 " - Pokud je obráncem AEGIS křižník a útočníkem libovolná vzdušná jednotka "
 "(včetně vrtulníku nebo raket), je síla obránce nasobena čtyřmi."
 
-#: data/helpdata.txt:1013
+#: data/helpdata.txt:1015
 msgid ""
 " - The defender's strength is doubled again if it is in a city with a SAM "
 "Battery and the attacker is an air unit (other than an Helicopter) or a "
@@ -17684,13 +17610,13 @@ msgstr ""
 " - Obráncova síla je zvdojnásobena, pokud je ve městě vybaveném SAM baterií "
 "a útočníkem je vzdušná jednotka (jiná než vrtulník) nebo raketa."
 
-#: data/helpdata.txt:1017
+#: data/helpdata.txt:1019
 msgid ""
 " - An SDI Defense doubles the defender's strength yet again against missile "
 "attacks."
 msgstr " - SDI obrana navíc dvojnásobí sílu obránce proti raketám."
 
-#: data/helpdata.txt:1020
+#: data/helpdata.txt:1022
 msgid ""
 " - If the attacker is a ship and the defender is in a city with a Coastal "
 "Defense, the defender's strength is doubled."
@@ -17698,7 +17624,7 @@ msgstr ""
 " - Pokud je útočník loď a obránce je ve městě s pobřežní pevností, obrancova "
 "síla je zdvojnásobena."
 
-#: data/helpdata.txt:1023
+#: data/helpdata.txt:1025
 msgid ""
 " - Against land units (other than Howitzers) and Helicopters, defending "
 "units in a city with City Walls have their strength tripled."
@@ -17706,13 +17632,13 @@ msgstr ""
 " - Všechny pozemní jednotky (kromě houfnic) a vrtulníky, bránící se ve městě "
 "s hradbami mají sílu trojnásobenu."
 
-#: data/helpdata.txt:1027
+#: data/helpdata.txt:1029
 msgid ""
 " - If the defender is in a fortress (and not a city), its strength is "
 "doubled."
 msgstr " - Jednotka v pevnosti (ne ve městě) má dvojnásobnou sílu."
 
-#: data/helpdata.txt:1030
+#: data/helpdata.txt:1032
 msgid ""
 " - Finally, if the defender is a ground unit, and is either fortified or "
 "inside a city, its strength is multiplied by 1.5."
@@ -17720,7 +17646,7 @@ msgstr ""
 " - a konečně - pokud je jednotka opevněna nebo je ve městě, je její síla "
 "násobena 1.5."
 
-#: data/helpdata.txt:1033
+#: data/helpdata.txt:1035
 msgid ""
 "If, after these modifications, the attacker has a strength of 0, it "
 "automatically loses.  Otherwise, if the defender has a strength of 0, the "
@@ -17729,11 +17655,11 @@ msgstr ""
 "Pokud po těchto úpravách má útočník sílu 0, automaticky prohraje. V "
 "ostatních případech, má-li obránce sílu 0, prohraje on."
 
-#: data/helpdata.txt:1037
+#: data/helpdata.txt:1039
 msgid "The firepower of the attacker and defender are also modified."
 msgstr "Palená síla útočníka a obránce je taky modifikována."
 
-#: data/helpdata.txt:1039
+#: data/helpdata.txt:1041
 msgid ""
 " - If the defender is a ship and is inside a city the firepower of the "
 "attacker is doubled and the firepower of the ship is set to 1."
@@ -17741,7 +17667,7 @@ msgstr ""
 " - pokud je obráncem loď ve městě, je útočníkova palebná síla zdvojnásobena "
 "a obráncova nastavena na 1."
 
-#: data/helpdata.txt:1042
+#: data/helpdata.txt:1044
 msgid ""
 " - If a Fighter is attacking an Helicopter the firepower of the Helicopter "
 "is set to 1."
@@ -17749,7 +17675,7 @@ msgstr ""
 " - Pokud stíhačka útočí na vrtulník, je palebná síla vrtulníku nastavena na "
 "1."
 
-#: data/helpdata.txt:1045
+#: data/helpdata.txt:1047
 msgid ""
 " - If a ship is attacking a ground unit on land the firepower of both is set "
 "to 1."
@@ -17757,7 +17683,7 @@ msgstr ""
 " - pokud loď útočí na pozemní jednotku na pevnině, je palebná síla obou "
 "nastavena na 1."
 
-#: data/helpdata.txt:1048
+#: data/helpdata.txt:1050
 msgid ""
 "After these preliminaries, combat occurs, as long as both units are still "
 "alive (i.e., hit points are greater than 0).  Each round, a random number "
@@ -17773,7 +17699,7 @@ msgstr ""
 "obránce ztrácí jeden bod zdraví. Jinak ztrácí bod zdraví útočník. První "
 "jednotka, která dosáhne 0 bodú zdraví (nebo méně) prohrává."
 
-#: data/helpdata.txt:1063
+#: data/helpdata.txt:1065
 #, no-c-format
 msgid ""
 "Whichever unit survives the fight has a chance of becoming a veteran, if it "
@@ -17785,7 +17711,7 @@ msgstr ""
 "národ vítěze postavil Sun Tzuovu bojovou akademii (a není-li ještě "
 "zastaralá), je tato šance 2x vyšší."
 
-#: data/helpdata.txt:1069
+#: data/helpdata.txt:1071
 msgid ""
 "If the attacker is a ground unit and wins, and the defender is in a city "
 "without City Walls, the city is reduced in size by 1."
@@ -17793,7 +17719,7 @@ msgstr ""
 "Pokud útočník vyhraje a obránce byl ve městě bez hradeb, sníží se populace "
 "města o jedno."
 
-#: data/helpdata.txt:1072
+#: data/helpdata.txt:1074
 msgid ""
 "If the defender loses, and is not inside a city or fortress, all other units "
 "at the defender's location are destroyed along with the defender."
@@ -17801,11 +17727,11 @@ msgstr ""
 "Pokud obránce není ve městě nebo pevnosti, všechny ostatní jednotky ze "
 "stejného políčka budou ztraceny s obráncem."
 
-#: data/helpdata.txt:1079
+#: data/helpdata.txt:1081
 msgid " Modifying Combat Rules"
 msgstr "Změny v pravidlech boje"
 
-#: data/helpdata.txt:1080
+#: data/helpdata.txt:1082
 msgid ""
 "Modifying Combat Rules\n"
 "----------------------"
@@ -17813,13 +17739,13 @@ msgstr ""
 "Změny v pravidlech boje\n"
 "-----------------------"
 
-#: data/helpdata.txt:1081
+#: data/helpdata.txt:1083
 msgid ""
 "The combat rules described before can be modified by changing the following "
 "modifiers in game.ruleset, section combat_rules: "
 msgstr "Výše zmíněné pravidla mohou být změněna v nastavení serveru."
 
-#: data/helpdata.txt:1084
+#: data/helpdata.txt:1086
 msgid ""
 " - killstack. (default: 1) If set to 0, units in the same tile of a lost "
 "defender are not destroyed. "
@@ -17827,11 +17753,11 @@ msgstr ""
 " - killsack. (výchozí hodnota je 1) Pokud je nastaveno na 0, je po porážce "
 "obránce políčka zničen jen on a ne včechny jednotky."
 
-#: data/helpdata.txt:1090
+#: data/helpdata.txt:1092
 msgid " Combat example 1"
 msgstr "Příklad boje 1"
 
-#: data/helpdata.txt:1091
+#: data/helpdata.txt:1093
 #, fuzzy
 msgid ""
 "Suppose a Cannon (A:8, D:1, HP:20, F:1) attacks a Musketeer (A:3, D:3, "
@@ -17842,7 +17768,7 @@ msgstr ""
 "síla 1) s 2/3 pohybových bodů útočí na ne-veteran Mušketýry (útok 3, obrana "
 "3,zdraví 20, síla 1) ve městě s hradbami postaveném v lese."
 
-#: data/helpdata.txt:1095
+#: data/helpdata.txt:1097
 msgid ""
 "The defender's base strength is 3.  Because it is on a Forest tile, its "
 "strength becomes 4.5.  It is behind City Walls, so its strength is tripled, "
@@ -17853,7 +17779,7 @@ msgstr ""
 "hradby, síla bude 3x větší - 13.5. Je to pozemní jednotka ve městě, takže "
 "síla se násobí ještě 1.5 na konečných 20.25."
 
-#: data/helpdata.txt:1100
+#: data/helpdata.txt:1102
 msgid ""
 "Strength values inside the game are actually multiplied by 10, with "
 "fractions dropped, so the attacker's strength is 80, and the defender's "
@@ -17862,11 +17788,11 @@ msgstr ""
 "Hodnoty síly jsou ve hře vynásobeny 10 a zbylá desetinná místa zahozena. "
 "Takže útočník má 80 a obránce 202."
 
-#: data/helpdata.txt:1104
+#: data/helpdata.txt:1106
 msgid "Both units keep their firepower of 1 unchanged."
 msgstr "Obě jednotky mají nezměněnu palebnou sílu. (obě mají 1)"
 
-#: data/helpdata.txt:1107
+#: data/helpdata.txt:1109
 #, no-c-format
 msgid ""
 "Each round of combat, a random number between 1 and 282 is generated.  If "
@@ -17877,7 +17803,7 @@ msgstr ""
 "je toto číslo větší než 202, (šance je přibližně 28%), zraněn bude obránce. "
 "Jinak (šance cca 72%) bude zraněn o jeden bod útočník."
 
-#: data/helpdata.txt:1118
+#: data/helpdata.txt:1120
 #, no-c-format
 msgid ""
 "Since both units have 20 hit points, the odds favor a victory for the "
@@ -17890,11 +17816,11 @@ msgstr ""
 "ztratí zhruba 40% zdraví. Výsledek však není nikdy jistý. Obránce může "
 "přežít i nezraněný nebo taky prohrát boj."
 
-#: data/helpdata.txt:1128
+#: data/helpdata.txt:1130
 msgid " Combat example 2"
 msgstr "Příklad boje 2"
 
-#: data/helpdata.txt:1129
+#: data/helpdata.txt:1131
 msgid ""
 "Suppose a veteran Battleship (A:12, D:12, HP:40, F:2) with 3 movement points "
 "attacks a veteran Alpine Troops (A:5, D:5, HP:20, F:1) inside a city built "
@@ -17904,11 +17830,11 @@ msgstr ""
 "pohyb, která útočí na veteran Alpine troops (U5,D5,Zd20,F1) ve městě "
 "postaveném na pastvinách, včetně hradeb a pobřežní pevnosti."
 
-#: data/helpdata.txt:1134
+#: data/helpdata.txt:1136
 msgid "The attacker's strength is 12, raised to 18 because of veteran status."
 msgstr "Útočníkova síla se zvedne z 12 na 18, protože je to veterán."
 
-#: data/helpdata.txt:1137
+#: data/helpdata.txt:1139
 msgid ""
 "The defender's strength is 5, raised to 7.5 due to veteran status. The "
 "terrain's defense factor is 1 (no effect).  The Coastal Defense doubles the "
@@ -17921,17 +17847,17 @@ msgstr ""
 "Hradby nemají žádný efekt proti námořním jednotkám. Obránce je pozemní "
 "jednotka ve městě -síla se zvedá na 22.5."
 
-#: data/helpdata.txt:1143
+#: data/helpdata.txt:1145
 msgid ""
 "Internally, the values used for attacker and defender strength are 180 and "
 "225, respectively."
 msgstr "Pro vnitřní výpočty je tedy síla útočníka 180 a obránce 225."
 
-#: data/helpdata.txt:1146
+#: data/helpdata.txt:1148
 msgid "The firepower of the Battleship is set from 2 to 1."
 msgstr "Palebná síla bitevní lodi je nastavena ze 2 na 1."
 
-#: data/helpdata.txt:1149
+#: data/helpdata.txt:1151
 #, no-c-format
 msgid ""
 "Each round, a random number from 1 to 405 is generated.  If it is greater "
@@ -17941,7 +17867,7 @@ msgstr ""
 "Každé kolo je vygenerováno číslo od 1 do 405. Pokud je větší než 225 (cca "
 "44%), je zraněn o jeden bod obránce, jinak útočník."
 
-#: data/helpdata.txt:1160
+#: data/helpdata.txt:1162
 #, no-c-format
 msgid ""
 "In this case, the odds greatly favor the attacker winning.  The Battleship "
@@ -17954,11 +17880,11 @@ msgstr ""
 "o 25% menší šanci na zásah, ale má 2x více bodů zdraví. Může tedy očekávat "
 "průměrně 60% ztrátu zdraví a taky žádné body na pohyb."
 
-#: data/helpdata.txt:1169
+#: data/helpdata.txt:1171
 msgid "Zones of Control"
 msgstr "Zóny kontroly"
 
-#: data/helpdata.txt:1170
+#: data/helpdata.txt:1172
 msgid ""
 "Zones of Control, abbreviated as ZOC, is a game concept which prevents you "
 "moving freely in zones controlled (or partially controlled) by enemy forces."
@@ -17966,7 +17892,7 @@ msgstr ""
 "Zóny kontroly (Zones of control - ZOC), je koncept hry, kteý Vám znemožňuje "
 "volný pohyb po oblastech, které kontroluje alespoň částečně nepřítel."
 
-#: data/helpdata.txt:1174
+#: data/helpdata.txt:1176
 msgid ""
 "The general rule is that a land unit which is adjacent to an enemy occupied "
 "square cannot move directly to another square which is also adjacent to an "
@@ -17978,7 +17904,7 @@ msgstr ""
 "jednotky, nemůže přejít přímo na jiné políčko v okolí nepřítele. Kdy za "
 "okolí nepřítele je považováno všech 8 políček kolem nepřátelské jednotky."
 
-#: data/helpdata.txt:1180
+#: data/helpdata.txt:1182
 msgid ""
 "In the following special cases ZOC does not apply:\n"
 "- A unit moving directly into or out of a city.\n"
@@ -17993,7 +17919,7 @@ msgstr ""
 " - Jedná se o jednotku která z principu ignoruje ZOC, například diplomat "
 "nebo špion."
 
-#: data/helpdata.txt:1186
+#: data/helpdata.txt:1188
 msgid ""
 "Notes:\n"
 "\n"
@@ -18032,7 +17958,7 @@ msgstr ""
 " - Přesun z moře na souš nebo obráceně je taky povoleno, neboť se jedná o "
 "speciální případ - pohyb na/z políčko se spřátelenou jednotkou (loď)."
 
-#: data/helpdata.txt:1206
+#: data/helpdata.txt:1208
 msgid ""
 "TIP:  You can infiltrate enemy zones by first moving in a Diplomat (or some "
 "other unit which ignores ZOC), and then moving regular units onto the square "
@@ -18046,7 +17972,7 @@ msgstr ""
 "jednotek po cestě (takže budou dál držet políčko obsazené), můžete vytvořit "
 "cestu nepřátelským územím."
 
-#: data/helpdata.txt:1213
+#: data/helpdata.txt:1215
 msgid ""
 "These rules differ slightly from previous versions of Freeciv (release 1.8.0 "
 "and before) in the following ways:\n"
@@ -18057,7 +17983,7 @@ msgstr ""
 "dřívější) :  - Nepřátelská města bez jednotek již neprodukují ZOC  - Nově "
 "byl přidán zvláštní případ pro vylodění."
 
-#: data/helpdata.txt:1222
+#: data/helpdata.txt:1224
 msgid ""
 "The different types of terrain each have different strengths and drawbacks.  "
 "When choosing a place for a new city, make sure there are enough food-"
@@ -18067,7 +17993,7 @@ msgstr ""
 "město, ujistěte se, že je v okolí místa, které zajistí dostatek potravin pro "
 "Vaši vzrůstající populaci."
 
-#: data/helpdata.txt:1227
+#: data/helpdata.txt:1229
 msgid ""
 "The net benefit of a square for your city depends on your government type as "
 "well as city improvements and wonders."
@@ -18075,17 +18001,17 @@ msgstr ""
 "Produkce políčka pro vaše město záleží na státním zřízení (typu vlády), na "
 "vybavení města i na divech světa."
 
-#: data/helpdata.txt:1236
+#: data/helpdata.txt:1238
 msgid " Terrain Alterations"
 msgstr "Modifikace terénu"
 
-#: data/helpdata.txt:1237
+#: data/helpdata.txt:1239
 msgid ""
 "Settlers and Engineers have the ability to alter terrain squares in several "
 "ways."
 msgstr "Osadníci, pracovníci a inženýři mohou několika způsoby měnit terén."
 
-#: data/helpdata.txt:1240
+#: data/helpdata.txt:1242
 msgid ""
 "Suitable types of terrain can be irrigated.  This requires a nearby source "
 "of water: an Ocean or River square, or another square which is irrigated, "
@@ -18102,7 +18028,7 @@ msgstr ""
 "podruhé na již zavlažovaném místě. Získate tím farmu s ještě vyšší produkci "
 "potravin."
 
-#: data/helpdata.txt:1248
+#: data/helpdata.txt:1250
 msgid ""
 "Some types of terrain can be mined, which increases the number of resources "
 "(shields) produced by that square."
@@ -18110,7 +18036,7 @@ msgstr ""
 "Na některých typech terénu mohou být vybudovány doly, což na takovém políčku "
 "zvýší produkci zdrojů (štíty)."
 
-#: data/helpdata.txt:1251
+#: data/helpdata.txt:1253
 msgid ""
 "Roads and railroads can be built on any square except Ocean.  (To build a "
 "road or railroad on a River square, though, you must know Bridge Building.)  "
@@ -18122,7 +18048,7 @@ msgstr ""
 "postavit most. Cesty a železnice umožní Vašim jednotkám rychlejší pohyb a "
 "zvednou produkci města."
 
-#: data/helpdata.txt:1256
+#: data/helpdata.txt:1258
 msgid ""
 " - Units use only one third of a movement point when going from one square "
 "to an adjacent square, if both squares have a road."
@@ -18130,7 +18056,7 @@ msgstr ""
 " -  Jednotky potřebují jen třetinu bodu na pohyb, pokud se pohybují z "
 "jednoho políčka na druhé, pokud obě mají vybudovánu cestu."
 
-#: data/helpdata.txt:1259
+#: data/helpdata.txt:1261
 msgid ""
 " - Units expend no movement points when moving along a railroad. You may "
 "ride a railroad indefinitely."
@@ -18138,13 +18064,13 @@ msgstr ""
 " - Jednotky nespotřebovávají žádné body, pokud se pohybují po železnici. "
 "Mohou tak cestovat libovolně daleko."
 
-#: data/helpdata.txt:1262
+#: data/helpdata.txt:1264
 msgid ""
 " - A road may increase the trade resources produced by some types of terrain."
 msgstr ""
 " - Cesta může zvednout zdroje obchodu, produkované některými typy terénu."
 
-#: data/helpdata.txt:1265
+#: data/helpdata.txt:1267
 msgid ""
 " - A railroad increases the shield resources produced by a square by 50%.  "
 "(Depending on server options, railroads may also increase food and trade "
@@ -18154,7 +18080,7 @@ msgstr ""
 "může železnice zvýšit i produkci potravin a obchodování nebo zvýšit produkci "
 "štítů i o jiné množství než 50%.)"
 
-#: data/helpdata.txt:1270
+#: data/helpdata.txt:1272
 msgid ""
 "Settlers and Engineers may also build a fortress.  Units inside a fortress "
 "defend at twice their normal strength; also, units inside a fortress must be "
@@ -18165,14 +18091,14 @@ msgstr ""
 "musí být ničeny po jedné. Podívejte se na nápovědu k boji, pokud chcete "
 "vědět více."
 
-#: data/helpdata.txt:1275
+#: data/helpdata.txt:1277
 msgid ""
 "You may also build Airbases, at which your air units may land and refuel."
 msgstr ""
 "Taky můžete postavit leteckou základnu, na které mohou letecké jednotky "
 "doplnit palivo. (ukončit na nich tah)"
 
-#: data/helpdata.txt:1278
+#: data/helpdata.txt:1280
 msgid ""
 "The following table shows the number of turns required for one unit of "
 "Settlers to complete an activity. These numbers are reduced to half (rounded "
@@ -18183,7 +18109,7 @@ msgstr ""
 "některé práce. Tyto časy jsou pro inženýry poloviční. Dále mohou být sníženy "
 "současnou prací více jednotek na stejném úkolu."
 
-#: data/helpdata.txt:1285
+#: data/helpdata.txt:1287
 msgid ""
 "City centers (the tile a city is on) are special.  A city center is worked "
 "for free in the default rules. When a city is built a road is automatically "
@@ -18199,11 +18125,11 @@ msgstr ""
 "všechny výhody zavlažování. Ke všemu může ještě dostat, v závislosti na "
 "pravuidlech, minimální produkci jídla, štítů a obchodu."
 
-#: data/helpdata.txt:1295
+#: data/helpdata.txt:1297
 msgid "  Pillaging"
 msgstr "  Plenění"
 
-#: data/helpdata.txt:1296
+#: data/helpdata.txt:1298
 msgid ""
 "All ground units have the ability to destroy terrain alterations, by "
 "pillaging.  Pillaging removes 1 terrain alteration per turn per unit.  "
@@ -18215,7 +18141,7 @@ msgstr ""
 "dostat na výběr, kterou modifikaci zničit, nebo budou zničeny v následujícím "
 "pořadí:"
 
-#: data/helpdata.txt:1302
+#: data/helpdata.txt:1304
 msgid ""
 " - farmland\n"
 " - irrigation\n"
@@ -18233,7 +18159,7 @@ msgstr ""
 " - železnice\n"
 " - cesta"
 
-#: data/helpdata.txt:1310
+#: data/helpdata.txt:1312
 msgid ""
 "Tiles that do not have terrain alterations (farmland, irrigation, mining, "
 "fortress, airbase, railroad or road) cannot be pillaged. In addition, "
@@ -18248,7 +18174,7 @@ msgstr ""
 "z něho udělali planinu, pleněním z něj les neuděláte. To dokážou opět jen "
 "osadníci a spol."
 
-#: data/helpdata.txt:1322
+#: data/helpdata.txt:1324
 msgid ""
 "Your government type influences your cities' productivity and commerce, your "
 "citizens' happiness, and many other game factors."
@@ -18256,7 +18182,7 @@ msgstr ""
 "Vaše státní zřízení ovlivňuje produkci a obchod ve vašich městech, "
 "spokojenost obyvatel a další vlastnosti hry."
 
-#: data/helpdata.txt:1325
+#: data/helpdata.txt:1327
 msgid ""
 "Your civilization starts out under a Despotism.  As your technology "
 "improves, you can select other forms of government (listed below). In order "
@@ -18270,7 +18196,7 @@ msgstr ""
 "(trvající 1-5 tahů), na jejímž konci si budete schopni vybrat nové státní "
 "zřízení."
 
-#: data/helpdata.txt:1332
+#: data/helpdata.txt:1334
 msgid ""
 "Corruption is the loss of trade due to inefficiency and greed. Under most "
 "forms of government, the farther away from the capital a city is, the more "
@@ -18283,7 +18209,7 @@ msgstr ""
 "města. (pokud nemáte hlavní město, budete trpět extrémně vysokou korupcí). "
 "Soudy sníží míru korupce ve městě."
 
-#: data/helpdata.txt:1339
+#: data/helpdata.txt:1341
 msgid ""
 "Waste is the loss of shields due to inefficiency and greed. Under most forms "
 "of government, the farther away from the capital a city is, the more shields "
@@ -18297,7 +18223,7 @@ msgstr ""
 "plýtvání). Soudy sníží míru míru ve městě. Plýtvání může dospět do stádia, "
 "že Vaše město nebude stavit nic."
 
-#: data/helpdata.txt:1346
+#: data/helpdata.txt:1348
 msgid ""
 "TIP 1:  Offensive military campaigns are difficult under Republican and "
 "Democratic governments unless you give your citizens lots of luxuries to "
@@ -18309,7 +18235,7 @@ msgstr ""
 "jste je udrzeli spokojené. Pokud dobýváte cizí civilizace, může být užitečné "
 "přejít pod více militantní státní správu."
 
-#: data/helpdata.txt:1352
+#: data/helpdata.txt:1354
 msgid ""
 "TIP 2:  Scientific advancement requires high levels of trade, which are much "
 "easier to achieve under Republican and Democratic governments.  Consider "
@@ -18321,11 +18247,11 @@ msgstr ""
 "použití Republiky co nejdříve ze začátku hry, aby jste se dříve dostali k "
 "dokonalejším technologiím."
 
-#: data/helpdata.txt:1361
+#: data/helpdata.txt:1363
 msgid " Civil War"
 msgstr "Občanská válka"
 
-#: data/helpdata.txt:1362
+#: data/helpdata.txt:1364
 msgid ""
 "Civil war is devastating to any empire, and is triggered by the loss of your "
 "capital (palace).  Up to half of your cities will rebel and declare "
@@ -18337,13 +18263,13 @@ msgstr ""
 "vůdci (řízenému počítačem), který ukrade polovinu vašeho bohatství a získá "
 "veškeré vaše technologie."
 
-#: data/helpdata.txt:1368
+#: data/helpdata.txt:1370
 msgid ""
 "Players remain in the civil war state for just one turn, after which the "
 "empire enters a state of anarchy."
 msgstr "Hráč zůstává v občanské válce jeden tah, ta pak přejde do anarchie."
 
-#: data/helpdata.txt:1371
+#: data/helpdata.txt:1373
 msgid ""
 "The capture of your capital does not always lead to civil war.  If you have "
 "treated your people with kindness, you are more likely to retain their "
@@ -18355,7 +18281,7 @@ msgstr ""
 "loajalitu. Každé oslavující město snižuje šanci na občanskou válku, každé "
 "vzbouřené město šanci zvyšuje."
 
-#: data/helpdata.txt:1377
+#: data/helpdata.txt:1379
 msgid ""
 "In addition, the form of government directly contributes to the chance of "
 "civil war.  Governments with universal franchise are far less likely to "
@@ -18365,7 +18291,7 @@ msgstr ""
 "válku. Státní zřízení s všeobecným volebním právem inklinují ke vzpourám "
 "méně, než despotičtěji zaměřené."
 
-#: data/helpdata.txt:1381
+#: data/helpdata.txt:1383
 msgid ""
 "The number of cities an empire needs before it can erupt into civil war is "
 "by default 10.  That is, empires with fewer than 10 cities are immune from "
@@ -18376,7 +18302,7 @@ msgstr ""
 "znamená, že stát s méně než 10ti městy je proti civilní válce imunní.  "
 "Nicméně je to nastavení serveru které se může lišit, minimální počet je 6."
 
-#: data/helpdata.txt:1393
+#: data/helpdata.txt:1395
 msgid ""
 "Citizens may be either happy, content or unhappy.  Keeping your citizens "
 "happy (or at least content) is one of the most important objectives in "
@@ -18390,7 +18316,7 @@ msgstr ""
 "přeruší produkci). Kdežto, pokud jsou Vaši lidé šťastni, budou oslavovat a "
 "Vaše produkce se značně zvýší."
 
-#: data/helpdata.txt:1400
+#: data/helpdata.txt:1402
 msgid ""
 "If the number of unhappy citizens in a city exceeds the number of happy "
 "citizens, the city falls into disorder.  When a city falls into disorder, it "
@@ -18404,7 +18330,7 @@ msgstr ""
 "Demokracii (kapitalismu) mohou vést k samovolné revoluci, jež vyvrátí Vaši "
 "vládu."
 
-#: data/helpdata.txt:1407
+#: data/helpdata.txt:1409
 msgid ""
 "However, if the number of happy citizens in a city is at least as great as "
 "the number of content citizens, and you have no unhappy citizens in that "
@@ -18417,7 +18343,7 @@ msgstr ""
 "oslavovat. Toto je označeno jako \"Rapture\" (zanícení?) v hlášeních o "
 "městě. Efekt oslav se liší v závislosti na státním zřízení."
 
-#: data/helpdata.txt:1414
+#: data/helpdata.txt:1416
 msgid ""
 " - Under Anarchy or Despotism, you will not suffer the normal production "
 "penalty for squares which produce more than 2 units of any resource (food, "
@@ -18427,7 +18353,7 @@ msgstr ""
 "postihuje políčka s produkcí vyšší jak 2 jednotky kteréhokoliv zdroje "
 "(jídlo, štíty, obchod)."
 
-#: data/helpdata.txt:1418
+#: data/helpdata.txt:1420
 msgid ""
 " - Under Monarchy or Communism, your city will gain the trade bonus of "
 "Republican/Democratic governments: 1 bonus trade in any square which already "
@@ -18437,7 +18363,7 @@ msgstr ""
 "Demokracie, tj. 1 jednotka obchodu ke každému políčku, které produkuje "
 "alespoň 1."
 
-#: data/helpdata.txt:1422
+#: data/helpdata.txt:1424
 msgid ""
 " - Under a Republic or a Democracy, your city's population will increase by "
 "1 each turn until there is no excess food or until the number of happy "
@@ -18447,7 +18373,7 @@ msgstr ""
 "každým tahem, pokud jim nepochybí jídlo nebo pokud se vlivem velikosti města "
 "neobjeví víc spokojených/nespokojených lidí, takže město přestane oslavovat."
 
-#: data/helpdata.txt:1427
+#: data/helpdata.txt:1429
 msgid ""
 "The normal state of a citizen is contentment.  However, as your cities grow "
 "larger, crowding causes citizens to become unhappy. Each citizen in a city "
@@ -18463,7 +18389,7 @@ msgstr ""
 "(závisí na státním zřízení a nastavení proměnné cityfactor na serveru), "
 "limit pro nespokojenost klesne na 3."
 
-#: data/helpdata.txt:1437
+#: data/helpdata.txt:1439
 msgid ""
 "In order to offset unhappiness, you may build city improvements that make "
 "unhappy citizens content  (such as, a Temple, a Colosseum, or a Cathedral - "
@@ -18482,7 +18408,7 @@ msgstr ""
 "spokojení, budou měněni nespokojení na spokojené/šťastné. Některé divy světa "
 "mají taky vliv na spokojenost (nahlédněte do příslušných sekcí nápovědy)."
 
-#: data/helpdata.txt:1447
+#: data/helpdata.txt:1449
 msgid ""
 "Under many forms of government, the presence of military units in a city can "
 "create contentment by imposing martial law.  Under a Republic or a "
@@ -18509,7 +18435,7 @@ msgstr ""
 "katedrál v závislosti na státním zřízení), nabo přeměnou části produkce na "
 "spokojenost."
 
-#: data/helpdata.txt:1466
+#: data/helpdata.txt:1468
 msgid ""
 "The Space Race is a second option to win the game, besides eliminating all "
 "other civilizations.  If your spaceship arrives first at Alpha Centauri, the "
@@ -18520,7 +18446,7 @@ msgstr ""
 "protivníků. Pokud Vsše loď dorazí k Alfě kentauri jako první, hra končí a vy "
 "jste vyhrál (nicméně tato volba může být vypnuta na serveru)."
 
-#: data/helpdata.txt:1472
+#: data/helpdata.txt:1474
 msgid ""
 "Before you can build spaceship parts, the Apollo Program wonder must have "
 "been built by any player.  You also need specific technologies to build the "
@@ -18536,7 +18462,7 @@ msgstr ""
 "Module, pod Vylepšeními města. (pokud tam není žádná nápověda, znamenáto "
 "zřejmě, že je volba Vesmírného závodu zakázána na serveru)"
 
-#: data/helpdata.txt:1480
+#: data/helpdata.txt:1482
 msgid ""
 "When you have started building your spaceship, you can see it with the "
 "\"Spaceship\" command in the Report menu.  To see spaceships of other "
@@ -18546,7 +18472,7 @@ msgstr ""
 "loď. Pokud chcete vidět loď ostatních hráčů, zvolte položku Vesmírná loď v "
 "dialogu hráči."
 
-#: data/helpdata.txt:1485
+#: data/helpdata.txt:1487
 msgid ""
 "If the success probability is below 100%, some fraction of the people on "
 "board may not survive the journey.  This reduces the score bonus from the "
@@ -18556,7 +18482,7 @@ msgstr ""
 "nemusí přežít. To sníží celkové skóre z vesmírné lodi, ale stále se počítá "
 "jako výhra."
 
-#: data/helpdata.txt:1489
+#: data/helpdata.txt:1491
 msgid ""
 "If the capital of a civilization is captured, a spaceship that has been "
 "launched will be lost, so defend your capital well!"
@@ -18564,7 +18490,7 @@ msgstr ""
 "Pokud je po vypuštění lodi dobyto hlavní město, loď je ztacena. Takže si své "
 "hlavní město laskavě braňte."
 
-#: data/helpdata.txt:1492
+#: data/helpdata.txt:1494
 msgid ""
 "TIP:  If an enemy civilization has launched a spaceship, try to quickly "
 "build a light spaceship with many propulsion units that will arrive "
@@ -27323,6 +27249,65 @@ msgstr "Tým 30"
 #: data/default/game.ruleset:157
 msgid "Team 31"
 msgstr "Tým 31"
+
+#~ msgid ""
+#~ "Freeciv is free software and you are welcome to distribute copies of it "
+#~ "under certain conditions;"
+#~ msgstr ""
+#~ "Freeciv je svobodný software a je vítána distribuce jeho kopií za "
+#~ "určitých podmínek;"
+
+#~ msgid "See the \"Copying\" item on the Help menu."
+#~ msgstr " Přečtěte si položku \"Licenční ujednání\" v menu Nápovědy."
+
+#~ msgid "Now.. Go give'em hell!"
+#~ msgstr "Takže... Začněme!"
+
+#~ msgid ""
+#~ "%s file appears incompatible:\n"
+#~ "file: \"%s\"\n"
+#~ "file options: %s\n"
+#~ "supported options: %s"
+#~ msgstr ""
+#~ "%s soubor vypadá nekompatibilně:\n"
+#~ "soubor: \"%s\"\n"
+#~ "možnosti souboru: %s\n"
+#~ "podporované možnosti: %s"
+
+#~ msgid ""
+#~ "%s file claims required option(s) which we don't support:\n"
+#~ "file: \"%s\"\n"
+#~ "file options: %s\n"
+#~ "supported options: %s"
+#~ msgstr ""
+#~ "%s soubor vyžaduje volbu(y), které nepodporujemet:\n"
+#~ "soubor: \"%s\"\n"
+#~ "možnosti souboru: %s\n"
+#~ "podporované možnosti: %s"
+
+#~ msgid "Couldn't load gfx file for the spec file %s"
+#~ msgstr "Nelze nahrát gfx soubor pro spec soubor %s"
+
+#~ msgid "Couldn't find a supported gfx file extension for %s"
+#~ msgstr "Nelze nalézt podporované gfx přípony souboru pro %s"
+
+#~ msgid "Couldn't load gfx file %s for sprite %s"
+#~ msgstr "Nelze nahrát gfx soubor %s pro sprite %s"
+
+#~ msgid "Don't have graphics tags %s or %s for %s %s"
+#~ msgstr "Nejsou grafické tagy %s nebo %s pro %s %s"
+
+#~ msgid "Failed reading PNG file: %s"
+#~ msgstr "Selhalo čtení PNG souboru: %s"
+
+#~ msgid "Failed creating PNG struct"
+#~ msgstr "Selhalo vytvoření PNG struktury"
+
+#~ msgid "Failed while reading PNG file: %s"
+#~ msgstr "Selhání při čtení PNG souboru: %s"
+
+#~ msgid "PNG file has no palette: %s"
+#~ msgstr "PNG soubor nemá paletu: %s"
 
 #, fuzzy
 #~ msgid ""

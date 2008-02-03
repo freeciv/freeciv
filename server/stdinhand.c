@@ -2386,7 +2386,7 @@ static bool debug_command(struct connection *caller, char *str,
       } else {
         punit->debug = TRUE;
         UNIT_LOG(LOG_TEST, punit, "%s %s debugged.",
-                 nation_adjective_for_player(unit_owner(punit)),
+                 nation_rule_name(nation_of_unit(punit)),
                  unit_name_translation(punit));
       }
     } unit_list_iterate_end;
@@ -2427,7 +2427,7 @@ static bool debug_command(struct connection *caller, char *str,
     } else {
       punit->debug = TRUE;
       UNIT_LOG(LOG_TEST, punit, "%s %s debugged.",
-               nation_adjective_for_player(unit_owner(punit)),
+               nation_rule_name(nation_of_unit(punit)),
                unit_name_translation(punit));
     }
   } else {

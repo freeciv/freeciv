@@ -256,10 +256,9 @@ struct sprite *get_unit_upkeep_sprite(const struct tileset *t,
 				      const int *upkeep_cost);
 struct sprite *get_basic_fog_sprite(const struct tileset *t);
 
-struct sprite* lookup_sprite_tag_alt(struct tileset *t,
-					    const char *tag, const char *alt,
-					    bool required, const char *what,
-					    const char *name);
+struct sprite* tiles_lookup_sprite_tag_alt(struct tileset *t, int loglevel,
+					   const char *tag, const char *alt,
+					   const char *what, const char *name);
 
 struct color_system;
 struct color_system *get_color_system(const struct tileset *t);

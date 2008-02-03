@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-01 06:28-0500\n"
+"POT-Creation-Date: 2008-02-03 09:41-0500\n"
 "PO-Revision-Date: 2006-03-26 14:53+0800\n"
 "Last-Translator: Hongjia Cao <hjcao@yahoo.com>\n"
 "Language-Team: zh_CN <i18n-translation@linux.net.cn>\n"
@@ -792,7 +792,7 @@ msgstr "未来技术 %d"
 #: client/gui-gtk-2.0/editdlg.c:319 client/gui-gtk-2.0/helpdlg.c:110
 #: client/gui-sdl/citydlg.c:738 client/gui-sdl/gui_tilespec.c:482
 #: client/gui-sdl/helpdlg.c:370 client/gui-sdl/helpdlg.c:792
-#: client/gui-sdl/helpdlg.c:818 client/gui-sdl/mapview.c:770
+#: client/gui-sdl/helpdlg.c:818 client/gui-sdl/mapview.c:773
 #: client/gui-win32/helpdlg.c:165 client/gui-win32/helpdlg.c:545
 #: client/gui-win32/helpdlg.c:731 client/gui-win32/helpdlg.c:752
 #: client/gui-xaw/helpdlg.c:813 client/gui-xaw/helpdlg.c:858
@@ -1029,17 +1029,17 @@ msgstr "十一月"
 msgid "December"
 msgstr "十二月"
 
-#: common/version.c:101
-#, c-format
+#. TRANS: No full stop after the URL, could cause confusion.
+#: common/version.c:102
+#, fuzzy, c-format
 msgid ""
 "THIS IS A BETA VERSION\n"
-"Freeciv %s will be released in\n"
-"%s, at %s"
+"Freeciv %s will be released in %s, at %s"
 msgstr ""
 "这是一个Beta版\n"
 "Freeciv %s 将于 %s 在 %s 发行。"
 
-#: common/version.c:123
+#: common/version.c:121
 msgid "'Cause civilization should be free!"
 msgstr "因为文明应当是自由的！"
 
@@ -1056,7 +1056,7 @@ msgstr ""
 "您可以从 http://gnu.org/ 下载 iconv。\n"
 
 #. TRANS: "Could not convert text from <encoding a> to <encoding b>:"
-#. * TRANS: <error string>."
+#. *        <externally translated error string>."
 #: utility/fciconv.c:219
 #, c-format
 msgid "Could not convert text from %s to %s: %s"
@@ -1184,79 +1184,92 @@ msgid " (total %d repeat)"
 msgid_plural " (total %d repeats)"
 msgstr[0] " （共重复 %d 次）"
 
-#: utility/shared.c:171
+#. TRANS: No full stop after the URL, could cause confusion.
+#: utility/registry.c:850 server/generator/startpos.c:390
+#: client/tilespec.c:4174 client/agents/cma_core.c:440
+#: client/gui-sdl/mapview.c:159
+#, c-format
+msgid "Please report this message at %s"
+msgstr ""
+
+#: utility/shared.c:176
 #, c-format
 msgid "Empty argument for \"%s\".\n"
 msgstr "“%s”参数为空。\n"
 
-#: utility/shared.c:175
+#: utility/shared.c:180
 #, c-format
 msgid "Missing argument for \"%s\".\n"
 msgstr "缺少参数“%s”。\n"
 
-#: utility/shared.c:463
+#: utility/shared.c:468
 #, c-format
 msgid "%d BC"
 msgstr "公元前 %d"
 
-#: utility/shared.c:465
+#: utility/shared.c:470
 #, c-format
 msgid "%d AD"
 msgstr "公元 %d"
 
-#: utility/shared.c:862
-msgid "FREECIV_PATH is set but empty; using default path instead."
+#. TRANS: <FREECIV_PATH> configuration error
+#: utility/shared.c:869
+#, fuzzy, c-format
+msgid "\"%s\" is set but empty; using default \"%s\" instead."
 msgstr "FREECIV_PATH 已设置但为空；以默认路径代替。"
 
-#: utility/shared.c:966
+#. TRANS: "...: <externally translated error string>."
+#: utility/shared.c:974
 #, c-format
 msgid "Could not read data directory %s: %s."
 msgstr "无法读取数据目录 %s：%s。"
 
-#: utility/shared.c:1217
-msgid "The data path may be set via the environment variable FREECIV_PATH."
+#. TRANS: <FREECIV_PATH> configuration error
+#: utility/shared.c:1227
+#, fuzzy, c-format
+msgid "The data path may be set via the \"%s\" environment variable."
 msgstr "可以通过环境变量 FREECIV_PATH 来设置数据路径。"
 
-#: utility/shared.c:1219
+#: utility/shared.c:1230
 #, c-format
 msgid "Current data path is: \"%s\""
 msgstr "当前数据路径为：“%s”"
 
-#: utility/shared.c:1221
+#: utility/shared.c:1233
 #, c-format
 msgid "The \"%s\" file is required ... aborting!"
 msgstr "文件“%s”是必需的 …… 中止！"
 
-#: utility/shared.c:1398
+#: utility/shared.c:1410
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr "%s：致命错误：您试图以超级用户权限运行游戏！\n"
 
-#: utility/shared.c:1400
+#: utility/shared.c:1412
 msgid "Use a non-privileged account instead.\n"
 msgstr "请用非特权用户。\n"
 
-#: utility/shared.c:1416
+#: utility/shared.c:1428
 msgid "exact match"
 msgstr "精确匹配"
 
-#: utility/shared.c:1417
+#: utility/shared.c:1429
 msgid "only match"
 msgstr "唯一的匹配"
 
-#: utility/shared.c:1418
+#: utility/shared.c:1430
 msgid "ambiguous"
 msgstr "模糊"
 
-#: utility/shared.c:1419
+#: utility/shared.c:1431
 msgid "empty"
 msgstr "空"
 
-#: utility/shared.c:1420
+#: utility/shared.c:1432
 msgid "too long"
 msgstr "太长"
 
-#: utility/shared.c:1421
+#: utility/shared.c:1433
 msgid "non-match"
 msgstr "无匹配"
 
@@ -2172,12 +2185,13 @@ msgstr "错误：未知的选项“%s”\n"
 msgid "This is the server for %s"
 msgstr "这是 %s 的服务器。"
 
-#: server/civserver.c:208
+#. TRANS: No full stop after the URL, could cause confusion.
+#: server/civserver.c:209
 #, c-format
 msgid "You can learn a lot about Freeciv at %s"
 msgstr "您可以从 %s 获得大量关于 Freeciv 的信息。"
 
-#: server/civserver.c:213 client/civclient.c:237 manual/civmanual.c:371
+#: server/civserver.c:214 client/civclient.c:237 manual/civmanual.c:371
 #, c-format
 msgid ""
 "Usage: %s [option ...]\n"
@@ -2186,96 +2200,97 @@ msgstr ""
 "用法：%s [选项 ...]\n"
 "合法的选项有：\n"
 
-#: server/civserver.c:215
+#: server/civserver.c:216
 #, fuzzy
 msgid ""
 "  -a  --auth FILE\tEnable server authentication with configuration from "
 "FILE.\n"
 msgstr "  -a  --auth\t\t允许服务器认证。\n"
 
-#: server/civserver.c:217
+#: server/civserver.c:218
 msgid "  -G  --Guests\t\tAllow guests to login if auth is enabled.\n"
 msgstr "  -G  --Guests\t\t在使用认证的情况下允许访客登录。\n"
 
-#: server/civserver.c:219
+#: server/civserver.c:220
 msgid "  -N  --Newusers\tAllow new users to login if auth is enabled.\n"
 msgstr "  -N  --Newusers\t在使用认证的情况下允许新建用户登录。\n"
 
-#: server/civserver.c:222
+#: server/civserver.c:223
 msgid "  -b  --bind ADDR\tListen for clients on ADDR\n"
 msgstr "  -b  --bind ADDR\t在地址 ADDR 上监听客户端连接\n"
 
-#: server/civserver.c:224 client/civclient.c:241
+#: server/civserver.c:225 client/civclient.c:241
 msgid ""
 "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
 msgstr ""
 "  -d, --debug NUM\t设置调试日志级别（0 到 4， 或 4:file1,min,max:...）\n"
 
-#: server/civserver.c:228 client/civclient.c:245
+#: server/civserver.c:229 client/civclient.c:245
 msgid "  -d, --debug NUM\tSet debug log level (0 to 3)\n"
 msgstr "  -d, --debug NUM\t将调试日志级别设置为 (0 到 3)\n"
 
-#: server/civserver.c:230
+#: server/civserver.c:231
 msgid "  -f, --file FILE\tLoad saved game FILE\n"
 msgstr "  -f, --file FILE\t从 FILE 中载入保存的游戏\n"
 
-#: server/civserver.c:232 client/civclient.c:248 manual/civmanual.c:373
+#: server/civserver.c:233 client/civclient.c:248 manual/civmanual.c:373
 msgid "  -h, --help\t\tPrint a summary of the options\n"
 msgstr "  -h, --help\t\t打印选项概述\n"
 
-#: server/civserver.c:233
+#: server/civserver.c:234
 msgid "  -l, --log FILE\tUse FILE as logfile\n"
 msgstr "  -l, --log FILE\t使用 FILE 作为日志文件\n"
 
-#: server/civserver.c:234
+#: server/civserver.c:235
 msgid "  -m, --meta\t\tNotify metaserver and send server's info\n"
 msgstr "  -m, --meta\t\t通知元服务器并发送服务器的信息\n"
 
-#: server/civserver.c:236
+#: server/civserver.c:237
 msgid "  -M, --Metaserver ADDR\tSet ADDR as metaserver address\n"
 msgstr "  -M, --Metaserver ADDR\t将 ADDR 设置为元服务器地址\n"
 
-#: server/civserver.c:239
+#: server/civserver.c:240
 msgid "  -p, --port PORT\tListen for clients on port PORT\n"
 msgstr "  -p, --port PORT\t在端口 PORT 监听客户端的连接\n"
 
-#: server/civserver.c:241
+#: server/civserver.c:242
 msgid "  -q, --quitidle TIME\tQuit if no players for TIME seconds\n"
 msgstr "  -q, --quitidle TIME\t如果在 TIME 秒内没有玩家就退出\n"
 
-#: server/civserver.c:243
+#: server/civserver.c:244
 msgid "  -e, --exit-on-end\tWhen a game ends, exit instead of restarting\n"
 msgstr "  -e, --exit-on-end\t当一局游戏结束时，退出而不是重新启动\n"
 
-#: server/civserver.c:246
+#: server/civserver.c:247
 msgid "  -s, --saves DIR\tSave games to directory DIR\n"
 msgstr "  -s, --saves DIR\t将游戏保存到目录 DIR\n"
 
-#: server/civserver.c:248
+#: server/civserver.c:249
 msgid "  -S, --Serverid ID\tSets the server id to ID\n"
 msgstr "  -S, --Serverid ID\t设置服务器 id 为 ID\n"
 
-#: server/civserver.c:250
+#: server/civserver.c:251
 msgid "  -P, --Ppm\t\tSave ppms of the map when saving the game.\n"
 msgstr "  -P, --Ppm\t\t保存游戏时保存地图的 ppm。\n"
 
-#: server/civserver.c:251
+#: server/civserver.c:252
 msgid "  -r, --read FILE\tRead startup script FILE\n"
 msgstr "  -r, --read FILE\t读取启动脚本 FILE\n"
 
-#: server/civserver.c:253
+#: server/civserver.c:254
 msgid "  -R, --Ranklog FILE\tUse FILE as ranking logfile\n"
 msgstr "  -R, --Ranklog FILE\t使用 FILE 作为级别日志文件\n"
 
-#: server/civserver.c:254 client/civclient.c:267 manual/civmanual.c:374
+#: server/civserver.c:255 client/civclient.c:267 manual/civmanual.c:374
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\t打印版本号\n"
 
-#: server/civserver.c:255 client/gui-gtk-2.0/gui_main.c:352
-#: client/gui-sdl/gui_main.c:210 client/gui-xaw/gui_main.c:247
-#: manual/civmanual.c:375
-#, c-format
-msgid "Report bugs at %s.\n"
+#. TRANS: No full stop after the URL, could cause confusion.
+#: server/civserver.c:257 client/gui-gtk-2.0/gui_main.c:353
+#: client/gui-sdl/gui_main.c:211 client/gui-xaw/gui_main.c:248
+#: manual/civmanual.c:376
+#, fuzzy, c-format
+msgid "Report bugs at %s\n"
 msgstr "将错误报告发送到 <%s>。\n"
 
 #: server/commands.c:37
@@ -4070,7 +4085,7 @@ msgstr "%s 已经被摧毁\n"
 msgid "(building %s in %s (%s))\n"
 msgstr "（%2$s（%3$s）中正在建造的 %1$s）\n"
 
-#: server/report.c:375 client/gui-xaw/menu.c:231 data/helpdata.txt:899
+#: server/report.c:375 client/gui-xaw/menu.c:231 data/helpdata.txt:901
 msgid "Wonders of the World"
 msgstr "世界奇迹"
 
@@ -4133,17 +4148,17 @@ msgstr "抱歉，人口统计报告尚不可用。"
 msgid "The %s of the %s (%s)"
 msgstr "%2$s（%3$s） 的 %1$s"
 
-#: server/ruleset.c:163
+#: server/ruleset.c:151
 msgid "Fatal ruleset error. Server dies!"
 msgstr ""
 
 #. TRANS: message about an installation error.
-#: server/ruleset.c:211
+#: server/ruleset.c:199
 #, c-format
 msgid "Could not find a readable \"%s.%s\" ruleset file."
 msgstr "无法找到可读的“%s.%s”规则集文件。"
 
-#: server/ruleset.c:3546
+#: server/ruleset.c:3562
 msgid "Loading rulesets"
 msgstr "正在载入规则集"
 
@@ -4158,6 +4173,7 @@ msgstr ""
 "存盘文件含有不完整的地图数据。这可能是旧的存盘游戏，或者表明这是一个无效的存"
 "盘文件。如果继续的话后果自负。"
 
+#. TRANS: Fatal error message.
 #: server/savegame.c:3620
 #, fuzzy
 msgid "Saved game is too old, at least version 1.9.0 required."
@@ -7277,12 +7293,11 @@ msgid "Generator 3 left %li landmass unplaced."
 msgstr "生成器3留下了 %li 陆地未能放置。"
 
 #: server/generator/startpos.c:385
-#, c-format
+#, fuzzy
 msgid ""
 "The server appears to have gotten into an infinite loop in the allocation of "
 "starting positions.\n"
-"Maybe the number of players is too high for this map.\n"
-"Please report this bug at %s."
+"Maybe the number of players is too high for this map."
 msgstr ""
 "服务器在分配起始位置时好像进入了死循环。\n"
 "或许对此地图来说玩家数目太多了。\n"
@@ -7562,7 +7577,7 @@ msgstr "最佳防御部队"
 #: client/gui-win32/repodlgs.c:722 client/gui-win32/repodlgs.c:731
 #: client/gui-xaw/menu.c:162 client/gui-xaw/menu.c:224
 #: client/gui-xaw/menu.c:253 client/gui-xaw/repodlgs.c:903
-#: client/gui-xaw/repodlgs.c:1096 data/Freeciv.in:1895 data/helpdata.txt:910
+#: client/gui-xaw/repodlgs.c:1096 data/Freeciv.in:1895 data/helpdata.txt:912
 msgid "Units"
 msgstr "部队"
 
@@ -7727,7 +7742,7 @@ msgstr "管理者"
 #: client/cityrepdata.c:515 client/gui-gtk-2.0/cityrep.c:1224
 #: client/gui-gtk-2.0/cityrep.c:1497 client/gui-sdl/citydlg.c:3815
 #: client/gui-sdl/cma_fe.c:861 client/gui-win32/citydlg.c:735
-#: data/Freeciv.in:1459 data/helpdata.txt:821
+#: data/Freeciv.in:1459 data/helpdata.txt:823
 msgid "Citizen Governor"
 msgstr "市民管理者"
 
@@ -7937,7 +7952,7 @@ msgstr "您没有在 %2$s 中购买 %1$s ！"
 msgid "%s costs %d gold and you only have %d gold."
 msgstr "%s 要花 %d 黄金，而您只有 %d 黄金。"
 
-#: client/clinet.c:143 client/clinet.c:144
+#: client/clinet.c:144
 msgid "Lost connection to server!"
 msgstr "失去同服务器的连接！"
 
@@ -7958,7 +7973,7 @@ msgstr "从服务器断开连接"
 msgid "Failed to contact server \"%s\" at port %d as \"%s\" after %d attempts"
 msgstr " %4$d 次尝试以“%3$s”联系服务器“%1$s”端口 %2$d 失败"
 
-#: client/clinet.c:484 client/clinet.c:486
+#: client/clinet.c:486
 msgid "Connection to server refused. Please start the server."
 msgstr "连接服务器被据。请启动服务器。"
 
@@ -8802,8 +8817,8 @@ msgstr "* 使您能够修建 %s 。\n"
 msgid "%s%d %s"
 msgstr "%s%d %s"
 
-#: client/helpdata.c:1677 client/helpdata.c:1685 client/gui-sdl/mapview.c:618
-#: client/gui-sdl/mapview.c:624 client/gui-sdl/mapview.c:630
+#: client/helpdata.c:1677 client/helpdata.c:1685 client/gui-sdl/mapview.c:621
+#: client/gui-sdl/mapview.c:627 client/gui-sdl/mapview.c:633
 #, fuzzy
 msgid "?blistmore:, "
 msgstr "?blistmore: "
@@ -9346,23 +9361,23 @@ msgid "Failed looking up metaserver's host"
 msgstr "查找元服务器主机失败"
 
 #: client/text.c:85 client/text.c:86 client/text.c:91
-#: client/gui-sdl/mapview.c:560
+#: client/gui-sdl/mapview.c:563
 msgid "?nation:Neutral"
 msgstr "中立"
 
-#: client/text.c:85 client/gui-sdl/mapview.c:560
+#: client/text.c:85 client/gui-sdl/mapview.c:563
 msgid "?nation:Hostile"
 msgstr "敌对"
 
-#: client/text.c:87 client/gui-sdl/mapview.c:562
+#: client/text.c:87 client/gui-sdl/mapview.c:565
 msgid "?nation:Peaceful"
 msgstr "和平"
 
-#: client/text.c:87 client/gui-sdl/mapview.c:562
+#: client/text.c:87 client/gui-sdl/mapview.c:565
 msgid "?nation:Friendly"
 msgstr "友好"
 
-#: client/text.c:88 client/gui-sdl/mapview.c:563
+#: client/text.c:88 client/gui-sdl/mapview.c:566
 msgid "?nation:Mysterious"
 msgstr "神秘"
 
@@ -9370,23 +9385,23 @@ msgstr "神秘"
 msgid "?nation:Friendly(team)"
 msgstr "友好（团队）"
 
-#: client/text.c:90 client/gui-sdl/mapview.c:593
+#: client/text.c:90 client/gui-sdl/mapview.c:596
 msgid "?city:Neutral"
 msgstr "中立"
 
-#: client/text.c:90 client/gui-sdl/mapview.c:593
+#: client/text.c:90 client/gui-sdl/mapview.c:596
 msgid "?city:Hostile"
 msgstr "敌对"
 
-#: client/text.c:92 client/gui-sdl/mapview.c:594
+#: client/text.c:92 client/gui-sdl/mapview.c:597
 msgid "?city:Peaceful"
 msgstr "和平"
 
-#: client/text.c:92 client/gui-sdl/mapview.c:595
+#: client/text.c:92 client/gui-sdl/mapview.c:598
 msgid "?city:Friendly"
 msgstr "友好"
 
-#: client/text.c:92 client/gui-sdl/mapview.c:595
+#: client/text.c:92 client/gui-sdl/mapview.c:598
 msgid "?city:Mysterious"
 msgstr "神秘"
 
@@ -9972,6 +9987,12 @@ msgstr "未能找到可用的默认地图风格，正在中止！"
 msgid "Loading tileset \"%s\"."
 msgstr "正在装入规则集合"
 
+#: client/tilespec.c:1056 client/tilespec.c:1090
+#: client/gui-sdl/themespec.c:485 client/gui-sdl/themespec.c:519
+#, c-format
+msgid "Could not open \"%s\"."
+msgstr "无法打开“%s”。"
+
 #: client/tilespec.c:1335
 #, fuzzy
 msgid "Client does not support isometric tilesets."
@@ -9986,11 +10007,8 @@ msgstr ""
 msgid "Client does not support overhead view tilesets."
 msgstr "客户端不支持上方视角的地图风格。使用默认地图风格代替。"
 
-#: client/tilespec.c:4169
-#, c-format
-msgid ""
-"Paths longer than 99 turns are not supported.\n"
-"Report this bug at %s"
+#: client/tilespec.c:4171
+msgid "Paths longer than 99 turns are not supported."
 msgstr ""
 
 #: client/agents/cma_core.c:400
@@ -11247,22 +11265,22 @@ msgid ""
 "\n"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:796 client/gui-gtk-2.0/gui_main.c:1423
+#: client/gui-gtk-2.0/gui_main.c:797 client/gui-gtk-2.0/gui_main.c:1421
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:1162 client/gui-gtk-2.0/gui_main.c:1169
+#: client/gui-gtk-2.0/gui_main.c:1163 client/gui-gtk-2.0/gui_main.c:1170
 #: client/gui-sdl/mapctrl.c:1567 client/gui-win32/gui_main.c:482
 #: data/Freeciv.in:2625
 msgid "Turn Done"
 msgstr "回合结束"
 
-#: client/gui-gtk-2.0/gui_main.c:1169 client/gui-sdl/mapctrl.c:1567
-#: client/gui-sdl/mapview.c:890
+#: client/gui-gtk-2.0/gui_main.c:1170 client/gui-sdl/mapctrl.c:1567
+#: client/gui-sdl/mapview.c:893
 msgid "Shift+Return"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1201 client/gui-gtk-2.0/menu.c:806
+#: client/gui-gtk-2.0/gui_main.c:1202 client/gui-gtk-2.0/menu.c:806
 #: client/gui-gtk-2.0/menu.c:808 client/gui-gtk-2.0/menu.c:810
 #: client/gui-gtk-2.0/menu.c:812 client/gui-gtk-2.0/menu.c:814
 #: client/gui-gtk-2.0/menu.c:816 client/gui-gtk-2.0/menu.c:819
@@ -11279,67 +11297,56 @@ msgstr ""
 msgid "View"
 msgstr "查看"
 
-#: client/gui-gtk-2.0/gui_main.c:1282
+#: client/gui-gtk-2.0/gui_main.c:1283
 msgid "Chat"
 msgstr "聊天"
 
-#: client/gui-gtk-2.0/gui_main.c:1298 client/gui-win32/gui_main.c:538
-#: data/Freeciv.in:2816
-msgid ""
-"Freeciv is free software and you are welcome to distribute copies of it\n"
-"under certain conditions; See the \"Copying\" item on the Help menu.\n"
-"Now.. Go give'em hell!"
-msgstr ""
-"Freeciv是自由软件并且欢迎您在特定条件下发布其拷贝；请参见\n"
-"“帮助”菜单的“版权”项。\n"
-"好了，现在……让他们去死吧！"
-
-#: client/gui-gtk-2.0/gui_main.c:1569
+#: client/gui-gtk-2.0/gui_main.c:1567
 msgid "Not _ready"
 msgstr "未就绪(_r)"
 
-#: client/gui-gtk-2.0/gui_main.c:1580 client/gui-gtk-2.0/pages.c:1596
+#: client/gui-gtk-2.0/gui_main.c:1578 client/gui-gtk-2.0/pages.c:1596
 msgid "_Ready"
 msgstr "就绪(_R)"
 
-#: client/gui-gtk-2.0/gui_main.c:1584 client/gui-gtk-2.0/gui_main.c:1590
+#: client/gui-gtk-2.0/gui_main.c:1582 client/gui-gtk-2.0/gui_main.c:1588
 #: client/gui-gtk-2.0/pages.c:2123
 msgid "_Start"
 msgstr "开始(_S)"
 
-#: client/gui-gtk-2.0/gui_main.c:1594 client/gui-gtk-2.0/pages.c:1586
+#: client/gui-gtk-2.0/gui_main.c:1592 client/gui-gtk-2.0/pages.c:1586
 msgid "Pick _Nation"
 msgstr "选择民族（_N）"
 
-#: client/gui-gtk-2.0/gui_main.c:1600 client/gui-gtk-2.0/pages.c:1591
+#: client/gui-gtk-2.0/gui_main.c:1598 client/gui-gtk-2.0/pages.c:1591
 msgid "_Observe"
 msgstr "旁观(_O)"
 
-#: client/gui-gtk-2.0/gui_main.c:1602
+#: client/gui-gtk-2.0/gui_main.c:1600
 #, fuzzy
 msgid "Do not _observe"
 msgstr "现在旁观(_O)"
 
 #. TRANS: "<Novice AI>"
-#: client/gui-gtk-2.0/gui_main.c:1625
+#: client/gui-gtk-2.0/gui_main.c:1623
 #, fuzzy, c-format
 msgid "<%s AI>"
 msgstr "AI"
 
-#: client/gui-gtk-2.0/gui_main.c:1634 client/gui-win32/dialogs.c:596
+#: client/gui-gtk-2.0/gui_main.c:1632 client/gui-win32/dialogs.c:596
 msgid "Random"
 msgstr "随机"
 
-#: client/gui-gtk-2.0/gui_main.c:1696
+#: client/gui-gtk-2.0/gui_main.c:1694
 msgid "Observer"
 msgstr "旁观者"
 
-#: client/gui-gtk-2.0/gui_main.c:1696
+#: client/gui-gtk-2.0/gui_main.c:1694
 #, fuzzy
 msgid "Detached"
 msgstr "死的"
 
-#: client/gui-gtk-2.0/gui_main.c:1953
+#: client/gui-gtk-2.0/gui_main.c:1951
 msgid "Are you sure you want to quit?"
 msgstr "确认想退出？"
 
@@ -11359,7 +11366,7 @@ msgstr ""
 #: client/gui-gtk-2.0/happiness.c:112 client/gui-sdl/citydlg.c:2051
 #: client/gui-sdl/citydlg.c:3727 client/gui-win32/citydlg.c:735
 #: client/gui-win32/happiness.c:86 client/gui-xaw/menu.c:260
-#: data/helpdata.txt:1392
+#: data/helpdata.txt:1394
 msgid "Happiness"
 msgstr "欢乐"
 
@@ -11757,7 +11764,7 @@ msgstr "城市生产(_P)"
 
 #: client/gui-gtk-2.0/menu.c:823 client/gui-sdl/optiondlg.c:1634
 #: client/gui-win32/menu.c:341 client/gui-xaw/menu.c:153
-#: client/gui-xaw/menu.c:257 manual/civmanual.c:211 data/helpdata.txt:1221
+#: client/gui-xaw/menu.c:257 manual/civmanual.c:211 data/helpdata.txt:1223
 msgid "Terrain"
 msgstr "地形"
 
@@ -12298,7 +12305,7 @@ msgstr "口令不正确，清输入口令。"
 msgid "Server Name"
 msgstr "服务器名称"
 
-#: client/gui-gtk-2.0/pages.c:701 client/gui-sdl/mapview.c:622
+#: client/gui-gtk-2.0/pages.c:701 client/gui-sdl/mapview.c:625
 #: client/gui-win32/connectdlg.c:914 data/Freeciv.in:96
 msgid "Port"
 msgstr "端口"
@@ -12504,8 +12511,8 @@ msgstr "存盘文件名(_F)："
 #. TRANS: Research report action
 #. TRANS: Research report title
 #: client/gui-gtk-2.0/repodlgs.c:297 client/gui-sdl/mapctrl.c:1414
-#: client/gui-sdl/mapview.c:333 client/gui-sdl/mapview.c:337
-#: client/gui-sdl/mapview.c:343 client/gui-sdl/repodlgs.c:3266
+#: client/gui-sdl/mapview.c:336 client/gui-sdl/mapview.c:340
+#: client/gui-sdl/mapview.c:346 client/gui-sdl/repodlgs.c:3266
 #: client/gui-win32/repodlgs.c:93 client/gui-win32/repodlgs.c:271
 #: client/gui-xaw/menu.c:229 client/gui-xaw/repodlgs.c:276
 #: client/gui-xaw/repodlgs.c:499 data/Freeciv.in:1366
@@ -12916,7 +12923,7 @@ msgstr "设为基地城市"
 msgid "Cancel"
 msgstr "取消"
 
-#: client/gui-sdl/citydlg.c:735 client/gui-sdl/mapview.c:767
+#: client/gui-sdl/citydlg.c:735 client/gui-sdl/mapview.c:770
 #, fuzzy
 msgid ""
 "\n"
@@ -13584,7 +13591,7 @@ msgstr ""
 
 #: client/gui-sdl/graphics.c:1021
 #, c-format
-msgid "Unable to initialize  SDL_ttf library: %s"
+msgid "Unable to initialize SDL_ttf library: %s"
 msgstr ""
 
 #: client/gui-sdl/graphics.c:1058
@@ -13653,21 +13660,21 @@ msgstr ""
 msgid "  -t,  --theme THEME\tUse GUI theme THEME\n"
 msgstr ""
 
-#: client/gui-sdl/gui_main.c:661
+#: client/gui-sdl/gui_main.c:662
 #, c-format
 msgid "Making screenshot %s"
 msgstr ""
 
-#: client/gui-sdl/gui_main.c:793
+#: client/gui-sdl/gui_main.c:794
 #, c-format
 msgid "Using Video Output: %s"
 msgstr ""
 
-#: client/gui-sdl/gui_main.c:846
+#: client/gui-sdl/gui_main.c:847
 msgid "Initializing Client"
 msgstr ""
 
-#: client/gui-sdl/gui_main.c:857
+#: client/gui-sdl/gui_main.c:858
 msgid "Waiting for the beginning of the game"
 msgstr ""
 
@@ -13832,8 +13839,8 @@ msgstr "等待"
 msgid "Height"
 msgstr "货车"
 
-#: client/gui-sdl/mapctrl.c:1426 client/gui-sdl/mapview.c:312
-#: client/gui-sdl/mapview.c:315 client/gui-xaw/menu.c:136
+#: client/gui-sdl/mapctrl.c:1426 client/gui-sdl/mapview.c:315
+#: client/gui-sdl/mapview.c:318 client/gui-xaw/menu.c:136
 msgid "Revolution"
 msgstr "革命"
 
@@ -13858,14 +13865,10 @@ msgid "Options"
 msgstr "选项"
 
 #: client/gui-sdl/mapview.c:155
-#, c-format
-msgid ""
-"The SDL event buffer is full; you may see drawing errors\n"
-"as a result.  If you see this message often, please\n"
-"report it at %s. Thank you."
+msgid "The SDL event buffer is full; you may see drawing errors as a result."
 msgstr ""
 
-#: client/gui-sdl/mapview.c:412
+#: client/gui-sdl/mapview.c:415
 #, fuzzy, c-format
 msgid "%s Population: %s  Year: %s  Gold %d "
 msgstr ""
@@ -13874,7 +13877,7 @@ msgstr ""
 "黄金： %d\n"
 "税：%d 娱：%d 研：%d"
 
-#: client/gui-sdl/mapview.c:420
+#: client/gui-sdl/mapview.c:423
 #, fuzzy, c-format
 msgid "%s Population: %s  Year: %s  Gold %d Tax: %d Lux: %d Sci: %d "
 msgstr ""
@@ -13883,19 +13886,19 @@ msgstr ""
 "黄金： %d\n"
 "税：%d 娱：%d 研：%d"
 
-#: client/gui-sdl/mapview.c:531 data/default/units.ruleset:24
+#: client/gui-sdl/mapview.c:534 data/default/units.ruleset:24
 #: data/civ2/units.ruleset:18 data/civ1/units.ruleset:18
 msgid "veteran"
 msgstr "老练"
 
-#: client/gui-sdl/mapview.c:565
+#: client/gui-sdl/mapview.c:568
 #, fuzzy
 msgid ""
 "\n"
 "Our Territory"
 msgstr "本国领土"
 
-#: client/gui-sdl/mapview.c:571
+#: client/gui-sdl/mapview.c:574
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -13905,70 +13908,70 @@ msgid_plural ""
 "%s territory (%d turn ceasefire)"
 msgstr[0] "%s 领土（停火 %d 回合）"
 
-#: client/gui-sdl/mapview.c:575
+#: client/gui-sdl/mapview.c:578
 #, fuzzy, c-format
 msgid ""
 "\n"
 "Territory of the %s %s"
 msgstr "%s 的 %s 的领土"
 
-#: client/gui-sdl/mapview.c:581
+#: client/gui-sdl/mapview.c:584
 #, fuzzy
 msgid ""
 "\n"
 "Unclaimed territory"
 msgstr "无主之地"
 
-#: client/gui-sdl/mapview.c:598
+#: client/gui-sdl/mapview.c:601
 #, fuzzy, c-format
 msgid ""
 "\n"
 "City of %s"
 msgstr "%s 之城"
 
-#: client/gui-sdl/mapview.c:614
+#: client/gui-sdl/mapview.c:617
 msgid "?blistbegin: with "
 msgstr " 若有 "
 
-#: client/gui-sdl/mapview.c:616 data/default/buildings.ruleset:113
+#: client/gui-sdl/mapview.c:619 data/default/buildings.ruleset:113
 #: data/civ2/buildings.ruleset:96 data/civ1/buildings.ruleset:69
 msgid "Barracks"
 msgstr "兵营"
 
-#: client/gui-sdl/mapview.c:628 data/default/buildings.ruleset:45
+#: client/gui-sdl/mapview.c:631 data/default/buildings.ruleset:45
 #: data/civ2/buildings.ruleset:28
 msgid "Airport"
 msgstr "机场"
 
-#: client/gui-sdl/mapview.c:634 data/default/buildings.ruleset:212
+#: client/gui-sdl/mapview.c:637 data/default/buildings.ruleset:212
 #: data/civ2/buildings.ruleset:192 data/civ1/buildings.ruleset:161
 msgid "City Walls"
 msgstr "城墙"
 
-#: client/gui-sdl/mapview.c:637
+#: client/gui-sdl/mapview.c:640
 msgid "?blistend:"
 msgstr "?blistend:"
 
 #. TRANS: (<nation>,<diplomatic_state>)"
-#: client/gui-sdl/mapview.c:643
+#: client/gui-sdl/mapview.c:646
 #, c-format
 msgid ""
 "\n"
 "(%s,%s)"
 msgstr ""
 
-#: client/gui-sdl/mapview.c:654
+#: client/gui-sdl/mapview.c:657
 #, fuzzy, c-format
 msgid ""
 "\n"
 "Food/Prod/Trade: %s"
 msgstr "食物/物资/贸易：%s"
 
-#: client/gui-sdl/mapview.c:890
+#: client/gui-sdl/mapview.c:893
 msgid "End of Turn"
 msgstr ""
 
-#: client/gui-sdl/mapview.c:890
+#: client/gui-sdl/mapview.c:893
 #, fuzzy
 msgid "Press"
 msgstr "预设值"
@@ -14315,24 +14318,6 @@ msgstr "局域网服务器"
 msgid "SDLClient welcomes you..."
 msgstr ""
 
-#: client/gui-sdl/pages.c:309
-#, fuzzy
-msgid ""
-"Freeciv is free software and you are welcome to distribute copies of it "
-"under certain conditions;"
-msgstr ""
-"Freeciv是自由软件并且欢迎您在特定条件下发布其拷贝；请参见\n"
-"“帮助”菜单的“版权”项。\n"
-"好了，现在……让他们去死吧！"
-
-#: client/gui-sdl/pages.c:312
-msgid "See the \"Copying\" item on the Help menu."
-msgstr ""
-
-#: client/gui-sdl/pages.c:314
-msgid "Now.. Go give'em hell!"
-msgstr ""
-
 #: client/gui-sdl/plrdlg.c:651
 #, fuzzy
 msgid "disconnected"
@@ -14473,67 +14458,15 @@ msgstr "发射"
 msgid "load_gfxfile: Unable to load graphic file %s!"
 msgstr ""
 
-#: client/gui-sdl/themespec.c:252
-#, c-format
-msgid ""
-"%s file appears incompatible:\n"
-"file: \"%s\"\n"
-"file options: %s\n"
-"supported options: %s"
-msgstr ""
-"%s 文件好像不兼容：\n"
-"文件： “%s”<\n"
-"文件选项： %s\n"
-"支持的选项： %s"
-
-#: client/gui-sdl/themespec.c:260
-#, c-format
-msgid ""
-"%s file claims required option(s) which we don't support:\n"
-"file: \"%s\"\n"
-"file options: %s\n"
-"supported options: %s"
-msgstr ""
-" %s 文件需要我们不支持的选项：\n"
-"文件：“%s”\n"
-"文件选项：%s\n"
-"支持的选项：%s"
-
-#: client/gui-sdl/themespec.c:338
+#: client/gui-sdl/themespec.c:337
 #, fuzzy
 msgid "No usable default theme found, aborting!"
 msgstr "未能找到可用的默认地图风格，正在中止！"
 
-#: client/gui-sdl/themespec.c:369
+#: client/gui-sdl/themespec.c:368
 #, fuzzy, c-format
 msgid "Loading theme \"%s\"."
 msgstr "正在装入规则集合"
-
-#: client/gui-sdl/themespec.c:486 client/gui-sdl/themespec.c:520
-#: client/gui-sdl/themespec.c:698
-#, c-format
-msgid "Could not open \"%s\"."
-msgstr "无法打开“%s”。"
-
-#: client/gui-sdl/themespec.c:500
-#, c-format
-msgid "Couldn't load gfx file for the spec file %s"
-msgstr "未能从规格文件 %s 中载入 gfx 文件"
-
-#: client/gui-sdl/themespec.c:667
-#, c-format
-msgid "Couldn't find a supported gfx file extension for %s"
-msgstr "未能为 %s 找到支持的 gfx 文件扩展"
-
-#: client/gui-sdl/themespec.c:819
-#, c-format
-msgid "Couldn't load gfx file %s for sprite %s"
-msgstr "未能从规格文件 %2$s 中载入 gfx 文件 %1$s"
-
-#: client/gui-sdl/themespec.c:970
-#, c-format
-msgid "Don't have graphics tags %s or %s for %s %s"
-msgstr "没有用于 %3$s %4$s 的图形标记 %1$s 或 %2$s"
 
 #: client/gui-sdl/wldlg.c:898 client/gui-sdl/wldlg.c:1075
 #, fuzzy, c-format
@@ -15396,64 +15329,45 @@ msgstr "口令："
 msgid "You must select a nation."
 msgstr "您必须选择一个民族。"
 
-#: client/gui-xaw/graphics.c:343
-#, c-format
-msgid "Failed reading PNG file: %s"
-msgstr "读取 PNG 文件失败：%s"
-
-#: client/gui-xaw/graphics.c:349 client/gui-xaw/graphics.c:355
-msgid "Failed creating PNG struct"
-msgstr "创建 PNG 结构失败"
-
-#: client/gui-xaw/graphics.c:360
-#, c-format
-msgid "Failed while reading PNG file: %s"
-msgstr "读取 PNG 文件过程中发生失败：%s"
-
-#: client/gui-xaw/graphics.c:397
-#, c-format
-msgid "PNG file has no palette: %s"
-msgstr "PNG 文件没有调色版： %s"
-
-#: client/gui-xaw/gui_main.c:323
+#: client/gui-xaw/gui_main.c:324
 msgid "No version number in resources."
 msgstr "资源文件中没有版本号。"
 
-#: client/gui-xaw/gui_main.c:324
+#: client/gui-xaw/gui_main.c:325
 msgid "You probably have an old (circa V1.0) Freeciv resource file somewhere."
 msgstr "您可能有一个陈旧的（大约 V1.0）Freeciv 资源文件。"
 
-#: client/gui-xaw/gui_main.c:332
+#: client/gui-xaw/gui_main.c:333
 msgid "Game version does not match Resource version."
 msgstr "游戏版本与资源版本不匹配。"
 
-#: client/gui-xaw/gui_main.c:333
+#: client/gui-xaw/gui_main.c:334
 #, c-format
 msgid "Game version: %s - Resource version: %s"
 msgstr "游戏版本：%s － 资源版本：%s"
 
-#: client/gui-xaw/gui_main.c:335
+#: client/gui-xaw/gui_main.c:336
 msgid "You might have an old Freeciv resourcefile in /usr/lib/X11/app-defaults"
 msgstr "您可能在 /usr/lib/X11/app-defaults 下面有一个旧的 Freeciv 资源文件"
 
-#: client/gui-xaw/gui_main.c:341
+#: client/gui-xaw/gui_main.c:342
 msgid "Using fallback resources - which is OK"
 msgstr "将使用备用资源 － 这是可以的"
 
-#: client/gui-xaw/gui_main.c:352
+#: client/gui-xaw/gui_main.c:353
 msgid "Only color displays are supported for now..."
 msgstr "目前只支持彩色显示器……"
 
-#: client/gui-xaw/gui_main.c:375 client/gui-xaw/gui_main.c:396
+#: client/gui-xaw/gui_main.c:376 client/gui-xaw/gui_main.c:397
 #, c-format
 msgid "Unable to open fontset: %s"
 msgstr "打开字体集失败：%s"
 
-#: client/gui-xaw/gui_main.c:378 client/gui-xaw/gui_main.c:399
+#: client/gui-xaw/gui_main.c:379 client/gui-xaw/gui_main.c:400
 msgid "Doing 'xset fp rehash' may temporarily solve a problem."
 msgstr ""
 
-#: client/gui-xaw/gui_main.c:382 client/gui-xaw/gui_main.c:403
+#: client/gui-xaw/gui_main.c:383 client/gui-xaw/gui_main.c:404
 #, c-format
 msgid "Font for charset %s is lacking"
 msgstr "缺少字符集 %s 的字体"
@@ -15569,11 +15483,11 @@ msgstr "语言"
 msgid "Connecting"
 msgstr "连接"
 
-#: client/gui-xaw/menu.c:248 data/helpdata.txt:429
+#: client/gui-xaw/menu.c:248 data/helpdata.txt:428
 msgid "Controls"
 msgstr "控制"
 
-#: client/gui-xaw/menu.c:249 data/helpdata.txt:547
+#: client/gui-xaw/menu.c:249 data/helpdata.txt:546
 msgid "Chatline"
 msgstr "聊天"
 
@@ -15581,7 +15495,7 @@ msgstr "聊天"
 msgid "Playing"
 msgstr "游戏技巧"
 
-#: client/gui-xaw/menu.c:254 data/helpdata.txt:987
+#: client/gui-xaw/menu.c:254 data/helpdata.txt:989
 msgid "Combat"
 msgstr "作战"
 
@@ -15589,15 +15503,15 @@ msgstr "作战"
 msgid "ZOC"
 msgstr "ZOC"
 
-#: client/gui-xaw/menu.c:256 data/helpdata.txt:888
+#: client/gui-xaw/menu.c:256 data/helpdata.txt:890
 msgid "Technology"
 msgstr "科技"
 
-#: client/gui-xaw/menu.c:259 data/Freeciv.in:2027 data/helpdata.txt:1321
+#: client/gui-xaw/menu.c:259 data/Freeciv.in:2027 data/helpdata.txt:1323
 msgid "Government"
 msgstr "政府"
 
-#: client/gui-xaw/menu.c:261 data/helpdata.txt:1465
+#: client/gui-xaw/menu.c:261 data/helpdata.txt:1467
 msgid "Space Race"
 msgstr "太空竞赛"
 
@@ -16072,6 +15986,16 @@ msgstr "请选择政府类型："
 msgid "Choose unit activity:"
 msgstr "选择部队活动："
 
+#: data/Freeciv.in:2816
+msgid ""
+"Freeciv is free software and you are welcome to distribute copies of it\n"
+"under certain conditions; See the \"Copying\" item on the Help menu.\n"
+"Now.. Go give'em hell!"
+msgstr ""
+"Freeciv是自由软件并且欢迎您在特定条件下发布其拷贝；请参见\n"
+"“帮助”菜单的“版权”项。\n"
+"好了，现在……让他们去死吧！"
+
 #: data/Freeciv.in:3058
 msgid " Sell "
 msgstr " 出售 "
@@ -16170,11 +16094,10 @@ msgid "  Present administrators: "
 msgstr "  当前管理者："
 
 #: data/helpdata.txt:55
+#, fuzzy
 msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
-"by visiting the Freeciv Bug Tracking System, at:\n"
-"\n"
-"  http://bugs.freeciv.org/"
+"by visiting the Freeciv Bug Tracking System, at:"
 msgstr ""
 "如果您发现任何错误，请向我们发送一份错误报告。这最好通过访问如下地址的"
 "Freeciv Bug跟踪系统完成：\n"
@@ -16201,19 +16124,7 @@ msgid ""
 "section of the README file for instructions on how to use one of these "
 "languages.\n"
 "\n"
-"If you would like to add a localization (translation) for your language, "
-"please see the instructions at:\n"
-"\n"
-"  http://www.freeciv.org/wiki/Localization\n"
-"\n"
-"Check first if a localization is already in progress for your language:\n"
-"\n"
-"  http://www.freeciv.org/wiki/Translations\n"
-"\n"
-"You are also welcome to send any questions to the freeciv-i18n mailing "
-"list:\n"
-"\n"
-"  freeciv-i18n@gna.org"
+"First, check whether a localization is already in progress for your language:"
 msgstr ""
 "Freeciv支持多种本地语言。请参见README文件中Native　Language　Support一节以获"
 "得关于如何使用这些语言的帮助。\n"
@@ -16230,6 +16141,17 @@ msgstr ""
 "\n"
 "  freeciv-i18n@freeciv.org"
 
+#: data/helpdata.txt:388
+msgid ""
+"If you would like to add a localization (translation) for your language, "
+"please see the instructions at:"
+msgstr ""
+
+#: data/helpdata.txt:393
+msgid ""
+"You are also welcome to send any questions to the translation mailing list:"
+msgstr ""
+
 #: data/helpdata.txt:402
 #, fuzzy
 msgid ""
@@ -16241,15 +16163,12 @@ msgstr ""
 "果服务器启动时带有-m选项，它将向下面的元服务器报告："
 
 #: data/helpdata.txt:409
+#, fuzzy
 msgid ""
 "The client can fetch this page, too: use the Metaserver button in the "
-"connection dialog.  If it never shows any results, check if your WWW browser "
-"is using a HTTP proxy; to make civclient use the same proxy, set the "
-"$http_proxy environment variable to\n"
-"\n"
-"  http://proxyhost:proxyportnumber/\n"
-"\n"
-"before starting civclient."
+"connection dialog.  If it never shows any results, check whether your WWW "
+"browser is using a HTTP proxy; to make civclient use the same proxy, before "
+"starting civclient, set the $http_proxy environment variable to:"
 msgstr ""
 "客户端也可以获取此页面：请使用“连接”对话框的“元服务器”按钮。如果未能显示"
 "任何结果，请检查您的WWW浏览器是否在使用代理；要让Freeciv客户端使用相同的代"
@@ -16257,7 +16176,7 @@ msgstr ""
 "\n"
 "  http://proxyhost:proxyportnumber/ ."
 
-#: data/helpdata.txt:418
+#: data/helpdata.txt:417
 msgid ""
 "When the game has started, everyone can connect as any player who isn't "
 "already connected, including AI players.  Merely connecting to an AI player "
@@ -16271,7 +16190,7 @@ msgstr ""
 "游戏早期失去了连接并且重新连入了，请使用您为您的统治者选择的名字，而不是您原"
 "来的昵称！如果服务器向元服务器报告了，玩家名字可以在那里找到。"
 
-#: data/helpdata.txt:430
+#: data/helpdata.txt:429
 #, fuzzy
 msgid ""
 "Unit Orders:\n"
@@ -16352,7 +16271,7 @@ msgstr ""
 "    x: 自动探索\n"
 "space: 部队等待\n"
 
-#: data/helpdata.txt:473
+#: data/helpdata.txt:472
 msgid ""
 "Unit Movement:\n"
 "==============\n"
@@ -16370,7 +16289,7 @@ msgid ""
 "  c: center view on unit\n"
 msgstr ""
 
-#: data/helpdata.txt:488
+#: data/helpdata.txt:487
 msgid ""
 "Main Map (Keys):\n"
 "================\n"
@@ -16383,7 +16302,7 @@ msgid ""
 "        Ctrl-P: show city production on/off\n"
 msgstr ""
 
-#: data/helpdata.txt:498
+#: data/helpdata.txt:497
 #, fuzzy
 msgid ""
 "Main Map (Mouse):\n"
@@ -16438,7 +16357,7 @@ msgstr ""
 "\n"
 "  在地图上高亮显示的城市，也将在城市列表窗口中被高亮显示。"
 
-#: data/helpdata.txt:523
+#: data/helpdata.txt:522
 msgid ""
 "Dialogs and Reports:\n"
 "====================\n"
@@ -16462,27 +16381,27 @@ msgid ""
 "Shift-Return: Turn done"
 msgstr ""
 
-#: data/helpdata.txt:548
+#: data/helpdata.txt:547
 msgid ""
 "The client has a primitive chat interface.  The lines you type are sent to "
 "all players, except:"
 msgstr ""
 "客户端有一个基本的聊天界面。您输入的每一行都将被送到所有晚间，除了以下例外："
 
-#: data/helpdata.txt:551
+#: data/helpdata.txt:550
 msgid ""
 "  - Messages starting with '/' are interpreted as server commands and "
 "executed, if you have the required access level."
 msgstr "  -　以“/”开头的消息被作为服务器命令执行，如果您有相应的权限的话。"
 
-#: data/helpdata.txt:554
+#: data/helpdata.txt:553
 msgid ""
 "  - Messages starting with 'John:' are private messages to 'John'. Names can "
 "be abbreviated. The server looks for players named 'John' and if that fails "
 "tries to match a username beginning with 'John' (like 'Johnathan')."
 msgstr ""
 
-#: data/helpdata.txt:559
+#: data/helpdata.txt:558
 msgid ""
 "  - Messages starting with 'John::' are private messages as above, but will "
 "match only users (not players) named 'John'.  'Johnathan' will still match."
@@ -16490,15 +16409,15 @@ msgstr ""
 "  -　以“John::”开头的消息是发给名为“John”的玩家的私人消息；玩家名字可以被"
 "缩写。"
 
-#: data/helpdata.txt:563
+#: data/helpdata.txt:562
 msgid "  - Messages starting with '.' will be sent only to all your allies."
 msgstr "  - 以“.”开头的消息将会被发送给你所有的盟友。"
 
-#: data/helpdata.txt:568
+#: data/helpdata.txt:567
 msgid "Worklist Editor"
 msgstr "工作列表编辑器"
 
-#: data/helpdata.txt:569
+#: data/helpdata.txt:568
 msgid ""
 "The worklist editor is used to edit both worklists for each city (from the "
 "city dialog) and global worklists. Using this editor you can create lists "
@@ -16507,7 +16426,7 @@ msgstr ""
 "工作列表编辑器用于为每个城市编辑工作列表（在城市对话框中）以及编辑共用工作列"
 "表。使用此编辑器您可以创建列表指定在接下来的回合中建造什么。"
 
-#: data/helpdata.txt:573
+#: data/helpdata.txt:572
 msgid ""
 "To add an item to the worklist, double-click the desired item in the list of "
 "available items. You can also press the Help button to get help on the "
@@ -16516,7 +16435,7 @@ msgstr ""
 "要向工作列表添加一项，双击可用物品列表中的一项。您也可以按下帮助按钮以获得关"
 "于所选项的帮助信息。在未选中任何物品的时候按下帮助按钮将显示此页。"
 
-#: data/helpdata.txt:577
+#: data/helpdata.txt:576
 msgid ""
 "To remove an item from the worklist simply double-click the item to remove. "
 "Use the buttons below the worklist to move items up and/or down in the list."
@@ -16524,7 +16443,7 @@ msgstr ""
 "要从工作列表中删除一项只需双击该项。请使用工作列表下面的按钮对列表中的项进行"
 "上下移动。"
 
-#: data/helpdata.txt:580
+#: data/helpdata.txt:579
 msgid ""
 "Keyboard shortcuts: Home to focus the worklist, End to focus the available "
 "list, Up/Down arrows to select previous/next item in worklist or available "
@@ -16536,17 +16455,17 @@ msgstr ""
 "可用列表中选择前/后项；PageUp/PageDown在工作列表中上下移动一项；Insert从可用"
 "列表中插入一项到工作列表；Delelte从工作列表中删除选中的项。"
 
-#: data/helpdata.txt:586
+#: data/helpdata.txt:585
 msgid ""
 "If you want to buy the unit that's first on the list, you can do that from "
 "the City Overview window."
 msgstr "如果您想购买列表中第一个部队，您可以在城市概况页中进行。"
 
-#: data/helpdata.txt:592
+#: data/helpdata.txt:591
 msgid "Strategy and tactics"
 msgstr "策略与技巧"
 
-#: data/helpdata.txt:593
+#: data/helpdata.txt:592
 msgid ""
 "While every game is different, there's a basic strategy which most players "
 "follow, especially at the start of the game."
@@ -16554,13 +16473,13 @@ msgstr ""
 "尽管每局游戏都各不相同，但还是有一些大部分玩家都遵循的基本策略，特别是在游戏"
 "初期。"
 
-#: data/helpdata.txt:596
+#: data/helpdata.txt:595
 msgid ""
 "These steps may vary depending upon the server options, but in general, the "
 "steps are: "
 msgstr "下面的步骤可能随服务器选项不同而有所变化，但是，一般地，步骤如下："
 
-#: data/helpdata.txt:599
+#: data/helpdata.txt:598
 msgid ""
 " 0. Choosing the first city site.\n"
 " 1. Mapping the countryside.\n"
@@ -16586,7 +16505,7 @@ msgstr ""
 " 9. 制定您自己的游戏策略。\n"
 "10. 同其他玩家交互（外交）。\n"
 
-#: data/helpdata.txt:611
+#: data/helpdata.txt:610
 msgid ""
 " 0. Choosing the first city site.\n"
 "\n"
@@ -16605,7 +16524,7 @@ msgstr ""
 "记住您第一个建造的城市将是您的首都！要领是在您所找到位置的质量和尽早建立您的"
 "第一个城市之间进行平衡。"
 
-#: data/helpdata.txt:622
+#: data/helpdata.txt:621
 msgid ""
 " 1. Mapping the countryside.\n"
 "\n"
@@ -16622,7 +16541,7 @@ msgstr ""
 "围。记住，留下城市没有防御是危险的，所以或许应该把第一个武士留在城市里，利用"
 "第二个去探路。如果游戏开始时您有一个冒险家，显然用他去探路！"
 
-#: data/helpdata.txt:631
+#: data/helpdata.txt:630
 msgid ""
 " 2. Defending the cities.\n"
 "\n"
@@ -16638,7 +16557,7 @@ msgstr ""
 "御力的部队，用它替换旧的部队以使您的城市具有最大防守能力。最常用来防守的部队"
 "是（按防御能力排序）：武士，希腊方阵，长枪兵，火枪手，和步枪兵。"
 
-#: data/helpdata.txt:641
+#: data/helpdata.txt:640
 #, no-c-format
 msgid ""
 "    Keep in mind that with some types of government, military units inside "
@@ -16651,7 +16570,7 @@ msgstr ""
 "个部队在城市里时，它获得50%的防守奖励，就像它已设防一样。当建成一座新城市时，"
 "它开始生产上面的列表中可用的最强的防御部队。"
 
-#: data/helpdata.txt:648
+#: data/helpdata.txt:647
 msgid ""
 " 3. Deciding which units to build first.\n"
 "\n"
@@ -16670,7 +16589,7 @@ msgstr ""
 "者修建另外一个城市，并使用第三个进行对城市周围田野的农业设施。记住越多的人口"
 "将增加您的生产力和您文明的科研比率。"
 
-#: data/helpdata.txt:659
+#: data/helpdata.txt:658
 msgid ""
 " 4. Building agriculture improvements.\n"
 "\n"
@@ -16685,7 +16604,7 @@ msgstr ""
 "些可以通过用移民者改进田野来增加产出。土地可以使用公路，水里，矿井和其它设施"
 "来改进。"
 
-#: data/helpdata.txt:667
+#: data/helpdata.txt:666
 msgid ""
 " 5. Deciding where to build cities.\n"
 "\n"
@@ -16702,7 +16621,7 @@ msgstr ""
 "出海部队的港口。（这些城市通常后面都需要一个海岸防御。）最佳的策略是两种都建"
 "一些，但是要记住如果您没有靠海建造城市，您的对手将更难发现它们。"
 
-#: data/helpdata.txt:676
+#: data/helpdata.txt:675
 msgid ""
 " 6. Taking care of the cities.\n"
 "\n"
@@ -16720,7 +16639,7 @@ msgstr ""
 "可以成为科学家，艺人，或者税务员。特别是在游戏开始的时候，需要注意让市民合适"
 "工作以使增长，贸易和物资最大化。"
 
-#: data/helpdata.txt:686
+#: data/helpdata.txt:685
 msgid ""
 "    If too much food is being generated, a citizen can be taken off the "
 "farmland by clicking on the occupied farmland square.  This citizen can then "
@@ -16729,7 +16648,7 @@ msgstr ""
 "    如果产生了太多的食物，可以通过单击所在的田野方格撤回市民。然后这个市民可"
 "以被改变成前面所述的其它职业者。"
 
-#: data/helpdata.txt:691
+#: data/helpdata.txt:690
 msgid ""
 "    If you move all of your citizens into the city and right-click on the "
 "central tile of the farmland, the citizens will be rearranged to maximise "
@@ -16738,7 +16657,7 @@ msgstr ""
 "    如果您把所有的市民都撤回城里然后右键单击中间的田野方格，市民将会按照最大"
 "化食物生产的方式被重新安排。"
 
-#: data/helpdata.txt:697
+#: data/helpdata.txt:696
 msgid ""
 "    The golden rule of taking care of a city is that there should be at "
 "least as many happy citizens as unhappy citizens.  A city where this is not "
@@ -16749,7 +16668,7 @@ msgstr ""
 "这个条件的城市将被标识上一条闪电。一定注意不要让您的城市发生这种情况，因为忧"
 "郁的城市什么也不生产，并且很快会发生起义。"
 
-#: data/helpdata.txt:703
+#: data/helpdata.txt:702
 msgid ""
 " 7. Exploring the world.\n"
 "\n"
@@ -16768,7 +16687,7 @@ msgstr ""
 "您的科技进展真的是一个好主意。这种情况下外交部队和很有用，并将在后面给出回"
 "报。"
 
-#: data/helpdata.txt:713
+#: data/helpdata.txt:712
 msgid ""
 " 8. Things to keep in mind.\n"
 "\n"
@@ -16790,7 +16709,8 @@ msgstr ""
 "\n"
 "  - 有些奇迹会被特定科技进展所淘汰。"
 
-#: data/helpdata.txt:724
+#: data/helpdata.txt:723
+#, fuzzy
 msgid ""
 " 9. Making your own strategy for the game.\n"
 "\n"
@@ -16798,9 +16718,7 @@ msgid ""
 "especially in the beginning of the game.  But to improve, you need to study "
 "the various units and advances, and PRACTICE, PRACTICE, PRACTICE!  Freeciv "
 "has many twists, so if you haven't played a similar game before, try "
-"consulting the Freeciv WWW pages at http://www.freeciv.org/\n"
-"You'll find more tips for playing, and details of how to contact other "
-"players."
+"consulting the Freeciv WWW pages at:"
 msgstr ""
 " 9. 制定您自己的游戏策略。\n"
 "\n"
@@ -16810,7 +16728,13 @@ msgstr ""
 "org/\n"
 "您将发现关于玩法的更多技巧，以及如何与其她玩家接触的详细信息。"
 
-#: data/helpdata.txt:735
+#: data/helpdata.txt:734
+msgid ""
+"You'll find more tips for playing, and details of how to contact other "
+"players."
+msgstr ""
+
+#: data/helpdata.txt:737
 #, fuzzy
 msgid ""
 " 10. Interacting with other players (Diplomacy).\n"
@@ -16829,7 +16753,7 @@ msgstr ""
 "家，并从“玩家”菜单中选择“会晤”命令。如果使馆一列中的内容不为空并且对方玩"
 "家是已经连接进来的（或者是一个服务器AI），游戏就会弹出一个外交菜单。"
 
-#: data/helpdata.txt:745
+#: data/helpdata.txt:747
 #, fuzzy
 msgid ""
 "    In this menu you can choose to:\n"
@@ -16858,7 +16782,7 @@ msgstr ""
 "\n"
 "   - 以及支付黄金。"
 
-#: data/helpdata.txt:761
+#: data/helpdata.txt:763
 msgid ""
 "    There is no need to trade like for like, by trading say, an advance or "
 "city for gold - you can consider this buying and selling."
@@ -16866,7 +16790,7 @@ msgstr ""
 "    没有必要为了交换而交换，比如，用黄金交换科技进展或城市－您可以考虑通过买"
 "卖进行。"
 
-#: data/helpdata.txt:765
+#: data/helpdata.txt:767
 msgid ""
 "    A couple of notes:\n"
 "\n"
@@ -16880,7 +16804,7 @@ msgstr ""
 "\n"
 "　　-　如果您在您的地图上看不到一个城市，那您就不能要求得到它。"
 
-#: data/helpdata.txt:771
+#: data/helpdata.txt:773
 msgid ""
 "     Of course, the owner of that city can still give it to you, in which "
 "case the area around the city is shown on your map.  One important thing to "
@@ -16893,14 +16817,14 @@ msgstr ""
 "的部队（但不包括停留在其他城市的部队）也一起被转让。所以要确认对方玩家没有得"
 "到比你期望的更多。"
 
-#: data/helpdata.txt:778
+#: data/helpdata.txt:780
 msgid ""
 "     There are five diplomatic states between players: War, Cease-fire, "
 "Armistice, Peace, and Alliance. The first is the default state, while the "
 "others can be achieved by signing diplomatic treaties."
 msgstr ""
 
-#: data/helpdata.txt:782
+#: data/helpdata.txt:784
 msgid ""
 "     To have a diplomatic relationship with another player, you must "
 "establish contact with that player. Contact occurs whenever one of your "
@@ -16909,14 +16833,14 @@ msgid ""
 "contact with them a set number of turns after most recent contact."
 msgstr ""
 
-#: data/helpdata.txt:789
+#: data/helpdata.txt:791
 msgid ""
 "     The diplomatic state between players defaults to War. During War, you "
 "can freely move your units inside enemy territory and attack their units and "
 "cities at will."
 msgstr ""
 
-#: data/helpdata.txt:793
+#: data/helpdata.txt:795
 msgid ""
 "     When two players decide to end hostilities between them, they can agree "
 "on a Cease-fire treaty. After a set number of turns, the Cease-fire will "
@@ -16924,7 +16848,7 @@ msgid ""
 "automatically offer you a Cease-fire treaty."
 msgstr ""
 
-#: data/helpdata.txt:798
+#: data/helpdata.txt:800
 msgid ""
 "     If you wish for a more permanent peaceful coexistence with another "
 "player, you may enter an Armistice, that after another set number of turns "
@@ -16932,7 +16856,7 @@ msgid ""
 "directly back to War."
 msgstr ""
 
-#: data/helpdata.txt:803
+#: data/helpdata.txt:805
 msgid ""
 "     At the moment two players enter into the diplomatic state of Peace, all "
 "units belonging to either player that happen to be within the other's "
@@ -16942,7 +16866,7 @@ msgid ""
 "back to War."
 msgstr ""
 
-#: data/helpdata.txt:810
+#: data/helpdata.txt:812
 msgid ""
 "     An Alliance is the ultimate diplomatic relationship between two "
 "players. In this state, you may move units into each other's cities and your "
@@ -16953,7 +16877,7 @@ msgid ""
 "Alliance will drop you to an Armistice treaty."
 msgstr ""
 
-#: data/helpdata.txt:822
+#: data/helpdata.txt:824
 #, fuzzy
 msgid ""
 "The Citizen Governor (formerly called the CMA) helps you manage your cities. "
@@ -17028,11 +16952,11 @@ msgstr ""
 "是一个岛上的城市要么全由CMA控制，要么全由手控制。请在随Freeciv发行的READE.cma"
 "文件中获得更多的提示，一些背景信息，和一些预设值示例。\n"
 
-#: data/helpdata.txt:871
+#: data/helpdata.txt:873
 msgid "City Improvements"
 msgstr "城市建筑"
 
-#: data/helpdata.txt:872
+#: data/helpdata.txt:874
 msgid ""
 "City improvements are built in each of your cities to improve trade revenue, "
 "science production, etc.  Most improvements require you to pay an upkeep "
@@ -17042,13 +16966,13 @@ msgstr ""
 "城市建筑在您的每座城市中修建以提高贸易收入，科研产出，等。大部分建筑需要您每"
 "回合支付一定的保养费用。如果您不能保养一个建筑，它将自动被卖掉。"
 
-#: data/helpdata.txt:889
+#: data/helpdata.txt:891
 msgid ""
 "Research into technology is a necessity for improving the ability of your "
 "civilization to develop new military units and city improvements."
 msgstr "研究科技对提高您的文明发展新的军事部队和城市建筑的能力是必需的。"
 
-#: data/helpdata.txt:900
+#: data/helpdata.txt:902
 msgid ""
 "Each wonder has specific benefits for your civilization. Each wonder is "
 "unique and is placed in the city which constructed it."
@@ -17056,7 +16980,7 @@ msgstr ""
 "每个奇迹都会对您的文明产生特殊的好处。每个奇迹都是唯一的，位于建造它的城市"
 "里。"
 
-#: data/helpdata.txt:911
+#: data/helpdata.txt:913
 msgid ""
 "Units can be used for three purposes: attack, defense, and reconnaissance.  "
 "How useful a particular unit is for each of these roles depends on the "
@@ -17065,7 +16989,7 @@ msgstr ""
 "部队可被用于三种目的：攻击，防守，和侦察。一种特定的部队在这三个方面有多大用"
 "处取决于该部队的攻击，防御，和移动能力。"
 
-#: data/helpdata.txt:916
+#: data/helpdata.txt:918
 msgid ""
 "There are four general types of unit: Land, Sea, Air, and Helicopter.  "
 "(Helicopters are sufficiently different from other air units that it is "
@@ -17074,7 +16998,7 @@ msgstr ""
 "共有四种一般类型的部队：地面，海洋，空中，和直升飞机（直升飞机与其他空中部队"
 "的区别使的把它作为一种单独类型的部队最合适。）"
 
-#: data/helpdata.txt:921
+#: data/helpdata.txt:923
 #, no-c-format
 msgid ""
 "Land units move on land, and suffer the movement effects of terrain, but "
@@ -17097,7 +17021,7 @@ msgstr ""
 "击力为0的地面部队是非军事部队：他们不需要保养，对欢乐没有影响，并且不能攻击敌"
 "方部队或占领敌方城市。"
 
-#: data/helpdata.txt:934
+#: data/helpdata.txt:936
 msgid ""
 "Sea units move on Ocean squares and into cities next to Ocean squares.  They "
 "can only be built by such cities.  The movement rate of sea units is "
@@ -17111,7 +17035,7 @@ msgstr ""
 "部队可以攻击海岸的部队和海岸城市，但是他们不能进入敌方城市并占领它，即使城市"
 "是无人防御的。"
 
-#: data/helpdata.txt:941
+#: data/helpdata.txt:943
 msgid ""
 "Air units can move on any square not occupied by an enemy unit or enemy "
 "city.  The movement rate of air units is not affected by loss of hitpoints.  "
@@ -17131,7 +17055,7 @@ msgstr ""
 "敌方城市并占领之。在城市外面，空中部队只能被战斗机（或隐形战斗机）攻击。空中"
 "部队不能用于探索村庄；取决于服务器设置，一个被掠过的村庄可能解散。"
 
-#: data/helpdata.txt:953
+#: data/helpdata.txt:955
 msgid ""
 "Like air units, Helicopters can move on any square not occupied by an enemy "
 "unit or enemy city, and their movement rate is not affected by loss of "
@@ -17145,7 +17069,7 @@ msgstr ""
 "或空军基地的回合，它们都将损失少量的生命值，除非您拥有奇迹联合国。与空中部队"
 "不同，直升飞机可以占领敌方城市。"
 
-#: data/helpdata.txt:960
+#: data/helpdata.txt:962
 msgid ""
 "Units which have been damaged in combat will regain hit points each turn in "
 "which they are not moved.  Normally, a unit which has not moved will regain "
@@ -17172,7 +17096,7 @@ msgstr ""
 "没有结束于城市中的每个回合都将损失2点生命值（或少恢复2点生命值）。放哨模式下"
 "的受伤部队在恢复全部生命值后将自动唤醒。"
 
-#: data/helpdata.txt:977
+#: data/helpdata.txt:979
 msgid ""
 "Depending upon server options, any set of unit types may reduce the "
 "population of a City without City Walls by one point upon a successful "
@@ -17181,7 +17105,7 @@ msgstr ""
 "取决于服务器选项，任何类型的部队都可能在成功攻击了没有城墙的城市后将城市的人"
 "口减1。"
 
-#: data/helpdata.txt:988
+#: data/helpdata.txt:990
 msgid ""
 "Default Combat Rules\n"
 "---------------------"
@@ -17189,7 +17113,7 @@ msgstr ""
 "默认作战规则\n"
 "--------------"
 
-#: data/helpdata.txt:989
+#: data/helpdata.txt:991
 msgid ""
 "When one unit attacks another unit, either the attacker will be destroyed, "
 "or the defender will be destroyed -- never both (unless the attacker was a "
@@ -17198,36 +17122,36 @@ msgstr ""
 "当一个部队攻击另一个部队时，要么攻击者被消灭，要么防御者被消灭－但不会两者都"
 "灭亡（除非攻击者是导弹）。结果取决于几个因素，包括机会因素。"
 
-#: data/helpdata.txt:994
+#: data/helpdata.txt:996
 msgid "First, the attacker's strength is modified."
 msgstr "首先，攻击者的力量被修正。"
 
-#: data/helpdata.txt:996
+#: data/helpdata.txt:998
 msgid " - If the attacker is a veteran, its strength is multiplied by 1.5."
 msgstr " -　如果攻击者是老练的，其力量被乘以1.5。"
 
-#: data/helpdata.txt:998
+#: data/helpdata.txt:1000
 msgid "Next, the defender's strength is modified."
 msgstr "其次，防御者的力量被修正。"
 
-#: data/helpdata.txt:1000
+#: data/helpdata.txt:1002
 msgid ""
 " - If the defender is a veteran, then its strength is multiplied by 1.5."
 msgstr " -　如果防御者是老练的，其力量被乘以1.5。"
 
-#: data/helpdata.txt:1003
+#: data/helpdata.txt:1005
 msgid ""
 " - Then the defender's strength is multiplied by the defense factor of the "
 "terrain it occupies."
 msgstr " -　然后防御者的力量乘以他所在地形的防御因子。"
 
-#: data/helpdata.txt:1006
+#: data/helpdata.txt:1008
 msgid ""
 " - Next, the defender's strength is doubled if it is a Pikeman unit "
 "defending against a mounted unit."
 msgstr " -　然后，如果防御者是长枪兵，所防御的是骑兵部队，其力量翻倍。"
 
-#: data/helpdata.txt:1009
+#: data/helpdata.txt:1011
 msgid ""
 " - If the defender is an AEGIS Cruiser defending against airborne units "
 "(including missiles and Helicopters), the defense is quintupled."
@@ -17235,7 +17159,7 @@ msgstr ""
 " -　如果防御者是神盾巡洋舰，所防御的是空降部队（包括导弹和直升飞机），防御力"
 "量乘以5。"
 
-#: data/helpdata.txt:1013
+#: data/helpdata.txt:1015
 msgid ""
 " - The defender's strength is doubled again if it is in a city with a SAM "
 "Battery and the attacker is an air unit (other than an Helicopter) or a "
@@ -17244,20 +17168,20 @@ msgstr ""
 " -　如果防御者位于拥有SAM导弹基地的城市中，攻击者是空中部队（不是直升飞机）或"
 "导弹，防御力量再次翻倍。"
 
-#: data/helpdata.txt:1017
+#: data/helpdata.txt:1019
 msgid ""
 " - An SDI Defense doubles the defender's strength yet again against missile "
 "attacks."
 msgstr " -　SDI防御系统使防御者对导弹攻击的防守能力再次翻倍。"
 
-#: data/helpdata.txt:1020
+#: data/helpdata.txt:1022
 msgid ""
 " - If the attacker is a ship and the defender is in a city with a Coastal "
 "Defense, the defender's strength is doubled."
 msgstr ""
 " -　如果攻击者是船只并且防御者位于拥有海岸防御的城市中，防御者力量被翻倍。"
 
-#: data/helpdata.txt:1023
+#: data/helpdata.txt:1025
 msgid ""
 " - Against land units (other than Howitzers) and Helicopters, defending "
 "units in a city with City Walls have their strength tripled."
@@ -17265,20 +17189,20 @@ msgstr ""
 " -　防御地面部队（不是榴弹炮）和直升飞机时，在拥有城墙的城市中的部队的力量乘"
 "以3。"
 
-#: data/helpdata.txt:1027
+#: data/helpdata.txt:1029
 msgid ""
 " - If the defender is in a fortress (and not a city), its strength is "
 "doubled."
 msgstr " -　如果防御者位于要塞中（并且不是城市），其力量被翻倍。"
 
-#: data/helpdata.txt:1030
+#: data/helpdata.txt:1032
 msgid ""
 " - Finally, if the defender is a ground unit, and is either fortified or "
 "inside a city, its strength is multiplied by 1.5."
 msgstr ""
 " -　最后，如果防御者是地面部队，并且位于城市中或者已设防，其力量乘以1.5。"
 
-#: data/helpdata.txt:1033
+#: data/helpdata.txt:1035
 msgid ""
 "If, after these modifications, the attacker has a strength of 0, it "
 "automatically loses.  Otherwise, if the defender has a strength of 0, the "
@@ -17287,30 +17211,30 @@ msgstr ""
 "如果，在进行这些修正后，攻击者的力量为0，它自动被击败。否则，如果防御者的力量"
 "为0，防御者失败。"
 
-#: data/helpdata.txt:1037
+#: data/helpdata.txt:1039
 msgid "The firepower of the attacker and defender are also modified."
 msgstr "攻击者和防御者的火力也被进行修正。"
 
-#: data/helpdata.txt:1039
+#: data/helpdata.txt:1041
 msgid ""
 " - If the defender is a ship and is inside a city the firepower of the "
 "attacker is doubled and the firepower of the ship is set to 1."
 msgstr ""
 " -　如果防御者是船只并且位于城市中，攻击者的火力翻倍并且船只的火力被置为1。"
 
-#: data/helpdata.txt:1042
+#: data/helpdata.txt:1044
 msgid ""
 " - If a Fighter is attacking an Helicopter the firepower of the Helicopter "
 "is set to 1."
 msgstr " -　如果是战斗机在攻击直升飞机，直升飞机的火力被置为1。"
 
-#: data/helpdata.txt:1045
+#: data/helpdata.txt:1047
 msgid ""
 " - If a ship is attacking a ground unit on land the firepower of both is set "
 "to 1."
 msgstr " -　如果是船只在攻击陆地上的地面部队，两者的火力都被置为1。"
 
-#: data/helpdata.txt:1048
+#: data/helpdata.txt:1050
 msgid ""
 "After these preliminaries, combat occurs, as long as both units are still "
 "alive (i.e., hit points are greater than 0).  Each round, a random number "
@@ -17325,7 +17249,7 @@ msgstr ""
 "数。如果此数大于防御者的力量，防御者将损失等于攻击者火力的生命值。否则，攻击"
 "者将损失等于防御者火力的生命值。生命值首先变成0（或负数）的部队被击败。"
 
-#: data/helpdata.txt:1063
+#: data/helpdata.txt:1065
 #, no-c-format
 msgid ""
 "Whichever unit survives the fight has a chance of becoming a veteran, if it "
@@ -17337,14 +17261,14 @@ msgstr ""
 "的。如果获胜者文明拥有孙子战争学院（并且没有被作废），该部队将总是变成老练"
 "的。否则，变成老练的的机会是50%。"
 
-#: data/helpdata.txt:1069
+#: data/helpdata.txt:1071
 msgid ""
 "If the attacker is a ground unit and wins, and the defender is in a city "
 "without City Walls, the city is reduced in size by 1."
 msgstr ""
 "如果攻击者是地面部队并且获胜，而防御者是没有城墙的城市，城市的大小将减1。"
 
-#: data/helpdata.txt:1072
+#: data/helpdata.txt:1074
 msgid ""
 "If the defender loses, and is not inside a city or fortress, all other units "
 "at the defender's location are destroyed along with the defender."
@@ -17352,11 +17276,11 @@ msgstr ""
 "如果防御者被击败，并且不是位于城市或要塞中，则防御者所在位置的所有其他部队随"
 "防御者一起被消灭。"
 
-#: data/helpdata.txt:1079
+#: data/helpdata.txt:1081
 msgid " Modifying Combat Rules"
 msgstr " 修改作战规则"
 
-#: data/helpdata.txt:1080
+#: data/helpdata.txt:1082
 msgid ""
 "Modifying Combat Rules\n"
 "----------------------"
@@ -17364,7 +17288,7 @@ msgstr ""
 "修改作战规则\n"
 "----------------------"
 
-#: data/helpdata.txt:1081
+#: data/helpdata.txt:1083
 msgid ""
 "The combat rules described before can be modified by changing the following "
 "modifiers in game.ruleset, section combat_rules: "
@@ -17372,7 +17296,7 @@ msgstr ""
 "前面所说的作战规则可以通过修改game.ruleset中combat_rules一节中如下的修饰量来"
 "修改："
 
-#: data/helpdata.txt:1084
+#: data/helpdata.txt:1086
 msgid ""
 " - killstack. (default: 1) If set to 0, units in the same tile of a lost "
 "defender are not destroyed. "
@@ -17380,11 +17304,11 @@ msgstr ""
 " -　killstack。（默认为1）如果被置为0，则被击败的防御者位置的其它部队不会被消"
 "灭。"
 
-#: data/helpdata.txt:1090
+#: data/helpdata.txt:1092
 msgid " Combat example 1"
 msgstr " 战斗示例1"
 
-#: data/helpdata.txt:1091
+#: data/helpdata.txt:1093
 #, fuzzy
 msgid ""
 "Suppose a Cannon (A:8, D:1, HP:20, F:1) attacks a Musketeer (A:3, D:3, "
@@ -17395,7 +17319,7 @@ msgstr ""
 "一座修建在森林方格上拥有城墙的城市中的非老练火枪手（攻:3，防:3，命:20，"
 "火:1）。"
 
-#: data/helpdata.txt:1095
+#: data/helpdata.txt:1097
 msgid ""
 "The defender's base strength is 3.  Because it is on a Forest tile, its "
 "strength becomes 4.5.  It is behind City Walls, so its strength is tripled, "
@@ -17405,7 +17329,7 @@ msgstr ""
 "防御者的基础力量是3。因为它在森林方格上，其力量变成4.5。因它在城墙后面，其力"
 "量被乘3，变成13.5。又因它是位于城市中的地面部队，因此其力量被增加到20.25。"
 
-#: data/helpdata.txt:1100
+#: data/helpdata.txt:1102
 msgid ""
 "Strength values inside the game are actually multiplied by 10, with "
 "fractions dropped, so the attacker's strength is 80, and the defender's "
@@ -17414,11 +17338,11 @@ msgstr ""
 "游戏中的力量值实际上将被乘以10，并丢掉小数部分，所以攻击者的力量是80，防御者"
 "的力量是202。"
 
-#: data/helpdata.txt:1104
+#: data/helpdata.txt:1106
 msgid "Both units keep their firepower of 1 unchanged."
 msgstr "两个部队都保持火力为1不变。"
 
-#: data/helpdata.txt:1107
+#: data/helpdata.txt:1109
 #, no-c-format
 msgid ""
 "Each round of combat, a random number between 1 and 282 is generated.  If "
@@ -17428,7 +17352,7 @@ msgstr ""
 "在战斗的每个回合，生成一个介于1和282之间的随机数。如果此数大于202（大约28%的"
 "机会），防御者损失1点生命值。否则（大约72%的机会），攻击者损失1点生命。"
 
-#: data/helpdata.txt:1118
+#: data/helpdata.txt:1120
 #, no-c-format
 msgid ""
 "Since both units have 20 hit points, the odds favor a victory for the "
@@ -17441,11 +17365,11 @@ msgstr ""
 "大约40%的生命值。但是只要两个部队的力量都非0，结果就是不确定的；防御者可能毫"
 "发无损，或者也可能损失大部分生命值，或者甚至可能输掉战斗。"
 
-#: data/helpdata.txt:1128
+#: data/helpdata.txt:1130
 msgid " Combat example 2"
 msgstr " 战斗示例2"
 
-#: data/helpdata.txt:1129
+#: data/helpdata.txt:1131
 msgid ""
 "Suppose a veteran Battleship (A:12, D:12, HP:40, F:2) with 3 movement points "
 "attacks a veteran Alpine Troops (A:5, D:5, HP:20, F:1) inside a city built "
@@ -17455,11 +17379,11 @@ msgstr ""
 "建在草地方格上拥有城墙和海岸防御的城市中的山地部队（攻:5，防:5，命:20，"
 "火:1）。"
 
-#: data/helpdata.txt:1134
+#: data/helpdata.txt:1136
 msgid "The attacker's strength is 12, raised to 18 because of veteran status."
 msgstr "攻击者的力量是12，因为老练而被提升到18。"
 
-#: data/helpdata.txt:1137
+#: data/helpdata.txt:1139
 msgid ""
 "The defender's strength is 5, raised to 7.5 due to veteran status. The "
 "terrain's defense factor is 1 (no effect).  The Coastal Defense doubles the "
@@ -17471,17 +17395,17 @@ msgstr ""
 "将防御者的力量翻倍到15。（城墙对防御海洋部队的攻击没有作用。）防御者是位于城"
 "市中的地面部队，故其总的力量是22.5。"
 
-#: data/helpdata.txt:1143
+#: data/helpdata.txt:1145
 msgid ""
 "Internally, the values used for attacker and defender strength are 180 and "
 "225, respectively."
 msgstr "在内部，用于表示攻击者和防御者力量的值分别是180和225。"
 
-#: data/helpdata.txt:1146
+#: data/helpdata.txt:1148
 msgid "The firepower of the Battleship is set from 2 to 1."
 msgstr "战列舰的额火力被从2置为1。"
 
-#: data/helpdata.txt:1149
+#: data/helpdata.txt:1151
 #, no-c-format
 msgid ""
 "Each round, a random number from 1 to 405 is generated.  If it is greater "
@@ -17491,7 +17415,7 @@ msgstr ""
 "每个回合中，生成一个1到405之间的随机数。如果大于225（大约44%的机会）防御者将"
 "损失1点生命。否则，攻击者损失1点生命。"
 
-#: data/helpdata.txt:1160
+#: data/helpdata.txt:1162
 #, no-c-format
 msgid ""
 "In this case, the odds greatly favor the attacker winning.  The Battleship "
@@ -17504,11 +17428,11 @@ msgstr ""
 "是它有两倍多的生命值。战列舰预计在战斗中损失约60%的的生命值，并且不会剩下移动"
 "点力。"
 
-#: data/helpdata.txt:1169
+#: data/helpdata.txt:1171
 msgid "Zones of Control"
 msgstr "控制区域"
 
-#: data/helpdata.txt:1170
+#: data/helpdata.txt:1172
 msgid ""
 "Zones of Control, abbreviated as ZOC, is a game concept which prevents you "
 "moving freely in zones controlled (or partially controlled) by enemy forces."
@@ -17516,7 +17440,7 @@ msgstr ""
 "控制区域，缩写为ZOC，是一个游戏概念，它使您不能随意地在敌军控制（或部分控制）"
 "的区域内自由移动的。"
 
-#: data/helpdata.txt:1174
+#: data/helpdata.txt:1176
 msgid ""
 "The general rule is that a land unit which is adjacent to an enemy occupied "
 "square cannot move directly to another square which is also adjacent to an "
@@ -17528,7 +17452,7 @@ msgstr ""
 "方格，如果该方格也紧挨一个被敌方部队占据的方格。这里一个被敌方部队占据的方格"
 "是指有敌方部队在上面的陆地方格。紧接是指一个部队周围8个方格中的任何一个。"
 
-#: data/helpdata.txt:1180
+#: data/helpdata.txt:1182
 msgid ""
 "In the following special cases ZOC does not apply:\n"
 "- A unit moving directly into or out of a city.\n"
@@ -17542,7 +17466,7 @@ msgstr ""
 "-　一个部队从海洋方格走出（从船上登岸）。\n"
 "-　显式忽略ZOC的部队，如外交官和间谍。"
 
-#: data/helpdata.txt:1186
+#: data/helpdata.txt:1188
 msgid ""
 "Notes:\n"
 "\n"
@@ -17579,7 +17503,7 @@ msgstr ""
 "-　从海洋方格移动是一种特殊情况；移动*到*海洋方格（回到船上）也是被允许的，因"
 "为这是移动到友好部队（船）的特殊情形。"
 
-#: data/helpdata.txt:1206
+#: data/helpdata.txt:1208
 msgid ""
 "TIP:  You can infiltrate enemy zones by first moving in a Diplomat (or some "
 "other unit which ignores ZOC), and then moving regular units onto the square "
@@ -17591,7 +17515,7 @@ msgstr ""
 "把普通部队移动到现在有外交官的方格。不断重复这种进程（并可以在后面留下一些单"
 "位以使方格保持被占据），您可以透过敌方领土开辟一条道路。"
 
-#: data/helpdata.txt:1213
+#: data/helpdata.txt:1215
 msgid ""
 "These rules differ slightly from previous versions of Freeciv (release 1.8.0 "
 "and before) in the following ways:\n"
@@ -17602,7 +17526,7 @@ msgstr ""
 "-　里面没有部队的敌方城市不再引起ZOC。\n"
 "-　地面部队登陆的特殊情况是新的。"
 
-#: data/helpdata.txt:1222
+#: data/helpdata.txt:1224
 msgid ""
 "The different types of terrain each have different strengths and drawbacks.  "
 "When choosing a place for a new city, make sure there are enough food-"
@@ -17611,23 +17535,23 @@ msgstr ""
 "不同类型的地形有不同的优点和缺点。当为城市选择建筑地点时，请确认附近有足够生"
 "产食物的方格以支持您人口的增长。"
 
-#: data/helpdata.txt:1227
+#: data/helpdata.txt:1229
 msgid ""
 "The net benefit of a square for your city depends on your government type as "
 "well as city improvements and wonders."
 msgstr "一个方格对您城市的最终好处取决于您的政府类型以及城市建筑和奇迹。"
 
-#: data/helpdata.txt:1236
+#: data/helpdata.txt:1238
 msgid " Terrain Alterations"
 msgstr " 地形变更"
 
-#: data/helpdata.txt:1237
+#: data/helpdata.txt:1239
 msgid ""
 "Settlers and Engineers have the ability to alter terrain squares in several "
 "ways."
 msgstr "移民者和工程师拥有几种变更地形的能力。"
 
-#: data/helpdata.txt:1240
+#: data/helpdata.txt:1242
 msgid ""
 "Suitable types of terrain can be irrigated.  This requires a nearby source "
 "of water: an Ocean or River square, or another square which is irrigated, "
@@ -17641,13 +17565,13 @@ msgstr ""
 "使它每回合多生产一些食物。另外，若有了足够的科技的话，您还可以第二次灌溉一个"
 "方格，把它变成生产能力更强的农场。"
 
-#: data/helpdata.txt:1248
+#: data/helpdata.txt:1250
 msgid ""
 "Some types of terrain can be mined, which increases the number of resources "
 "(shields) produced by that square."
 msgstr "某些类型的地形可以修建矿井，这可以增加该方格的物资产出。"
 
-#: data/helpdata.txt:1251
+#: data/helpdata.txt:1253
 msgid ""
 "Roads and railroads can be built on any square except Ocean.  (To build a "
 "road or railroad on a River square, though, you must know Bridge Building.)  "
@@ -17658,7 +17582,7 @@ msgstr ""
 "铁路，您需要掌握桥梁建造。）公路和铁路使您的部队移动得更快，并增加城市的贸易"
 "产出。"
 
-#: data/helpdata.txt:1256
+#: data/helpdata.txt:1258
 msgid ""
 " - Units use only one third of a movement point when going from one square "
 "to an adjacent square, if both squares have a road."
@@ -17666,18 +17590,18 @@ msgstr ""
 " -　只有1/3移动点力的部队可以动一个方格走到紧挨的方格，如果两个方格都有公路的"
 "话。"
 
-#: data/helpdata.txt:1259
+#: data/helpdata.txt:1261
 msgid ""
 " - Units expend no movement points when moving along a railroad. You may "
 "ride a railroad indefinitely."
 msgstr " -　部队沿铁路移动不需要花费移动点力。您可以在铁路上无限移动。"
 
-#: data/helpdata.txt:1262
+#: data/helpdata.txt:1264
 msgid ""
 " - A road may increase the trade resources produced by some types of terrain."
 msgstr " -　公路可以增加某些类型地形的贸易产出。"
 
-#: data/helpdata.txt:1265
+#: data/helpdata.txt:1267
 msgid ""
 " - A railroad increases the shield resources produced by a square by 50%.  "
 "(Depending on server options, railroads may also increase food and trade "
@@ -17686,7 +17610,7 @@ msgstr ""
 " -　铁路将一个方格的物资产出增加50%。（取决于服务器选项，铁路也可能增加食物和"
 "贸易产出，或者增加物资产出量不等于50%。）"
 
-#: data/helpdata.txt:1270
+#: data/helpdata.txt:1272
 msgid ""
 "Settlers and Engineers may also build a fortress.  Units inside a fortress "
 "defend at twice their normal strength; also, units inside a fortress must be "
@@ -17695,12 +17619,12 @@ msgstr ""
 "移民者和工程师也可以修建要塞。要塞中的部队的防御力量是正常的两倍；并且，要塞"
 "中的部队一次仅能被消灭一个。更详细的信息请参见关于作战的帮助。"
 
-#: data/helpdata.txt:1275
+#: data/helpdata.txt:1277
 msgid ""
 "You may also build Airbases, at which your air units may land and refuel."
 msgstr "您也可以修建空军基地，在那里您的空中部队可以着陆和加油。"
 
-#: data/helpdata.txt:1278
+#: data/helpdata.txt:1280
 msgid ""
 "The following table shows the number of turns required for one unit of "
 "Settlers to complete an activity. These numbers are reduced to half (rounded "
@@ -17711,7 +17635,7 @@ msgstr ""
 "而言将被减半（向上舍入），并且可以通过让多个移民者/工程师部队合作来进一步减"
 "少。"
 
-#: data/helpdata.txt:1285
+#: data/helpdata.txt:1287
 msgid ""
 "City centers (the tile a city is on) are special.  A city center is worked "
 "for free in the default rules. When a city is built a road is automatically "
@@ -17722,11 +17646,11 @@ msgid ""
 "output."
 msgstr ""
 
-#: data/helpdata.txt:1295
+#: data/helpdata.txt:1297
 msgid "  Pillaging"
 msgstr "  掠夺"
 
-#: data/helpdata.txt:1296
+#: data/helpdata.txt:1298
 msgid ""
 "All ground units have the ability to destroy terrain alterations, by "
 "pillaging.  Pillaging removes 1 terrain alteration per turn per unit.  "
@@ -17737,7 +17661,7 @@ msgstr ""
 "合取消1种地形变更。取决于服务器设置，您可能被提供选择掠夺哪种变更，或者以如下"
 "顺序进行掠夺："
 
-#: data/helpdata.txt:1302
+#: data/helpdata.txt:1304
 msgid ""
 " - farmland\n"
 " - irrigation\n"
@@ -17755,7 +17679,7 @@ msgstr ""
 " -　铁路\n"
 " -　公路"
 
-#: data/helpdata.txt:1310
+#: data/helpdata.txt:1312
 msgid ""
 "Tiles that do not have terrain alterations (farmland, irrigation, mining, "
 "fortress, airbase, railroad or road) cannot be pillaged. In addition, "
@@ -17769,7 +17693,7 @@ msgstr ""
 "它转变成了平原，掠夺并不能把它转变回森林－－要想这样，您必须用移民者或工程师"
 "再对方格进行一次转变。"
 
-#: data/helpdata.txt:1322
+#: data/helpdata.txt:1324
 msgid ""
 "Your government type influences your cities' productivity and commerce, your "
 "citizens' happiness, and many other game factors."
@@ -17777,7 +17701,7 @@ msgstr ""
 "您的政府类型影响您的城市的生产力和商业，您的“市民”的欢乐，以及许多其它游戏"
 "因素。"
 
-#: data/helpdata.txt:1325
+#: data/helpdata.txt:1327
 msgid ""
 "Your civilization starts out under a Despotism.  As your technology "
 "improves, you can select other forms of government (listed below). In order "
@@ -17789,7 +17713,7 @@ msgstr ""
 "（在下面列出的）。为了改变您的政府形式，您必须发动异常革命。这将引起您的文明"
 "度过一段无政府时期（持续1－5个回合）；革命结束后，您就可以选择您的新政府了。"
 
-#: data/helpdata.txt:1332
+#: data/helpdata.txt:1334
 msgid ""
 "Corruption is the loss of trade due to inefficiency and greed. Under most "
 "forms of government, the farther away from the capital a city is, the more "
@@ -17801,7 +17725,7 @@ msgstr ""
 "败而损失的贸易就越多。（如果您没有首都，您的城市将承受非常严重的腐败。）法院"
 "将降低城市的腐败水平。"
 
-#: data/helpdata.txt:1339
+#: data/helpdata.txt:1341
 msgid ""
 "Waste is the loss of shields due to inefficiency and greed. Under most forms "
 "of government, the farther away from the capital a city is, the more shields "
@@ -17813,7 +17737,7 @@ msgstr ""
 "耗而损失的物资就越多。（如果您没有首都，您的城市将承受非常严重的损耗。）法院"
 "将降低城市的损耗水平。损耗可能导致您的城市不会建造任何东西。"
 
-#: data/helpdata.txt:1346
+#: data/helpdata.txt:1348
 msgid ""
 "TIP 1:  Offensive military campaigns are difficult under Republican and "
 "Democratic governments unless you give your citizens lots of luxuries to "
@@ -17824,7 +17748,7 @@ msgstr ""
 "娱乐以使他们保持快乐。当政府别的文明时，且黄道更加军事化的政府类型可能会有所"
 "帮助。"
 
-#: data/helpdata.txt:1352
+#: data/helpdata.txt:1354
 msgid ""
 "TIP 2:  Scientific advancement requires high levels of trade, which are much "
 "easier to achieve under Republican and Democratic governments.  Consider "
@@ -17834,11 +17758,11 @@ msgstr ""
 "提示2：科技进展需要高级别的贸易，这在共和政府和民主政府下更容易做到。考虑尽快"
 "切换到共和政府，在游戏早期取得科技领先将对您非常有利。"
 
-#: data/helpdata.txt:1361
+#: data/helpdata.txt:1363
 msgid " Civil War"
 msgstr " 内战"
 
-#: data/helpdata.txt:1362
+#: data/helpdata.txt:1364
 msgid ""
 "Civil war is devastating to any empire, and is triggered by the loss of your "
 "capital (palace).  Up to half of your cities will rebel and declare "
@@ -17849,13 +17773,13 @@ msgstr ""
 "会起来造反并宣布效忠于一个新（AI）玩家，该玩家将掠得您一半的财富并得到您所有"
 "的科技进展。"
 
-#: data/helpdata.txt:1368
+#: data/helpdata.txt:1370
 msgid ""
 "Players remain in the civil war state for just one turn, after which the "
 "empire enters a state of anarchy."
 msgstr "玩家将在内战状态下持续一个回合，然后帝国进入无政府状态。"
 
-#: data/helpdata.txt:1371
+#: data/helpdata.txt:1373
 msgid ""
 "The capture of your capital does not always lead to civil war.  If you have "
 "treated your people with kindness, you are more likely to retain their "
@@ -17866,7 +17790,7 @@ msgstr ""
 "诚。每个正在庆祝的城市都将减少发生内战的机会，而每个骚乱的城市将增加内战机"
 "会。"
 
-#: data/helpdata.txt:1377
+#: data/helpdata.txt:1379
 msgid ""
 "In addition, the form of government directly contributes to the chance of "
 "civil war.  Governments with universal franchise are far less likely to "
@@ -17875,7 +17799,7 @@ msgstr ""
 "另外，政府的形式直接影响内战的机会。专制政府比具有普世公民权的政府更可能发生"
 "内战。"
 
-#: data/helpdata.txt:1381
+#: data/helpdata.txt:1383
 msgid ""
 "The number of cities an empire needs before it can erupt into civil war is "
 "by default 10.  That is, empires with fewer than 10 cities are immune from "
@@ -17885,7 +17809,7 @@ msgstr ""
 "一个帝国爆发内战所需的最少城市默认是10个。也就是说，少于10个城市的帝国不会发"
 "生内战。但是，这是一个服务器选项，可以被改变，最小值是6。"
 
-#: data/helpdata.txt:1393
+#: data/helpdata.txt:1395
 msgid ""
 "Citizens may be either happy, content or unhappy.  Keeping your citizens "
 "happy (or at least content) is one of the most important objectives in "
@@ -17897,7 +17821,7 @@ msgstr ""
 "Freeciv 中最重要的目标。当您的市民变得忧郁时，您的城市将陷入骚乱（这将中止生"
 "产）；而当您的市民快乐时，您的城市将进行庆祝，并且您的产出将极大提高。"
 
-#: data/helpdata.txt:1400
+#: data/helpdata.txt:1402
 msgid ""
 "If the number of unhappy citizens in a city exceeds the number of happy "
 "citizens, the city falls into disorder.  When a city falls into disorder, it "
@@ -17909,7 +17833,7 @@ msgstr ""
 "它将什么都不生产。处于骚乱中的城市更容易被敌方外交官或间谍煽动起义。民主制下"
 "持久的骚乱可能导致自发革命，推翻您的政府。"
 
-#: data/helpdata.txt:1407
+#: data/helpdata.txt:1409
 msgid ""
 "However, if the number of happy citizens in a city is at least as great as "
 "the number of content citizens, and you have no unhappy citizens in that "
@@ -17921,7 +17845,7 @@ msgstr ""
 "至少有三个市民，那么该城市将进行庆祝。在通过城市报告中的“狂欢”字样表示。庆"
 "祝的作用取决于您的政府类型。"
 
-#: data/helpdata.txt:1414
+#: data/helpdata.txt:1416
 msgid ""
 " - Under Anarchy or Despotism, you will not suffer the normal production "
 "penalty for squares which produce more than 2 units of any resource (food, "
@@ -17930,7 +17854,7 @@ msgstr ""
 " -　在无政府状态下或专制政府下，您将不再为出产超过2点（食物，物资或贸易）的方"
 "格承受损失。"
 
-#: data/helpdata.txt:1418
+#: data/helpdata.txt:1420
 msgid ""
 " - Under Monarchy or Communism, your city will gain the trade bonus of "
 "Republican/Democratic governments: 1 bonus trade in any square which already "
@@ -17939,7 +17863,7 @@ msgstr ""
 " -　在君主制或共产主义下，您的城市将得到共和制/民主制政府的贸易奖励：每个已经"
 "至少产出1点贸易的方格得到1点贸易的奖励。"
 
-#: data/helpdata.txt:1422
+#: data/helpdata.txt:1424
 msgid ""
 " - Under a Republic or a Democracy, your city's population will increase by "
 "1 each turn until there is no excess food or until the number of happy "
@@ -17948,7 +17872,7 @@ msgstr ""
 " -　在共和制或民主制下，您城市的人口将以每回合1个的速度增长，知道没有多余的食"
 "物或者快乐市民数目不再足够庆祝。"
 
-#: data/helpdata.txt:1427
+#: data/helpdata.txt:1429
 msgid ""
 "The normal state of a citizen is contentment.  However, as your cities grow "
 "larger, crowding causes citizens to become unhappy. Each citizen in a city "
@@ -17962,7 +17886,7 @@ msgstr ""
 "是满足的。如果您有很多的城市（具体数目取决于您的政府类型和服务器选项“城市因"
 "子”），这个满足市民的限制将降低为3。"
 
-#: data/helpdata.txt:1437
+#: data/helpdata.txt:1439
 msgid ""
 "In order to offset unhappiness, you may build city improvements that make "
 "unhappy citizens content  (such as, a Temple, a Colosseum, or a Cathedral - "
@@ -17979,7 +17903,7 @@ msgstr ""
 "变为快乐的。在把所有满足市民变成快乐市民后，忧郁市民开始被改变为快乐/满足的。"
 "某些世界奇迹也会对市民的欢乐产生影响（详细信息请参见相应的节）。"
 
-#: data/helpdata.txt:1447
+#: data/helpdata.txt:1449
 msgid ""
 "Under many forms of government, the presence of military units in a city can "
 "create contentment by imposing martial law.  Under a Republic or a "
@@ -18002,7 +17926,7 @@ msgstr ""
 "开朗基罗教堂不会产生作用，因为根据不同的规则集合，它的作用是相当于每个城市有"
 "一座大教堂或者使大教堂的作用翻倍），或者将您的部分贸易值转变为娱乐。"
 
-#: data/helpdata.txt:1466
+#: data/helpdata.txt:1468
 msgid ""
 "The Space Race is a second option to win the game, besides eliminating all "
 "other civilizations.  If your spaceship arrives first at Alpha Centauri, the "
@@ -18012,7 +17936,7 @@ msgstr ""
 "空间竞赛是出了消灭所有其他文明之外赢得游戏的另一种选项。如果您的宇宙飞船最先"
 "到达半人马星座，游戏将以您的胜利而结束。（但是这个选项可以在服务器端关闭。）"
 
-#: data/helpdata.txt:1472
+#: data/helpdata.txt:1474
 msgid ""
 "Before you can build spaceship parts, the Apollo Program wonder must have "
 "been built by any player.  You also need specific technologies to build the "
@@ -18026,7 +17950,7 @@ msgstr ""
 "空组件，和太空模块的帮助信息。（如果这些条目下没有帮助文本，那很可能是太空竞"
 "赛服务器选项被关闭了。）"
 
-#: data/helpdata.txt:1480
+#: data/helpdata.txt:1482
 msgid ""
 "When you have started building your spaceship, you can see it with the "
 "\"Spaceship\" command in the Report menu.  To see spaceships of other "
@@ -18035,7 +17959,7 @@ msgstr ""
 "当您开始建造宇宙飞船后，您可以通过报告菜单中的“宇宙飞船”命令查看它。要查看"
 "其它玩家的宇宙飞船，在玩家对话框中选择该玩家然后单击“宇宙飞船”。"
 
-#: data/helpdata.txt:1485
+#: data/helpdata.txt:1487
 msgid ""
 "If the success probability is below 100%, some fraction of the people on "
 "board may not survive the journey.  This reduces the score bonus from the "
@@ -18044,7 +17968,7 @@ msgstr ""
 "如果存活概率低于100%，飞船上的某些人将不能经历旅行后存活下来。这将减少宇宙飞"
 "船的得分奖励，但是仍然算取得了胜利。"
 
-#: data/helpdata.txt:1489
+#: data/helpdata.txt:1491
 msgid ""
 "If the capital of a civilization is captured, a spaceship that has been "
 "launched will be lost, so defend your capital well!"
@@ -18052,7 +17976,7 @@ msgstr ""
 "如果一个文明的首都沦陷了，它所发射的宇宙飞船将会失踪，所以请好好防御您的首"
 "都！"
 
-#: data/helpdata.txt:1492
+#: data/helpdata.txt:1494
 msgid ""
 "TIP:  If an enemy civilization has launched a spaceship, try to quickly "
 "build a light spaceship with many propulsion units that will arrive "
@@ -26629,6 +26553,61 @@ msgstr "团队"
 #, fuzzy
 msgid "Team 31"
 msgstr "团队"
+
+#, fuzzy
+#~ msgid ""
+#~ "Freeciv is free software and you are welcome to distribute copies of it "
+#~ "under certain conditions;"
+#~ msgstr ""
+#~ "Freeciv是自由软件并且欢迎您在特定条件下发布其拷贝；请参见\n"
+#~ "“帮助”菜单的“版权”项。\n"
+#~ "好了，现在……让他们去死吧！"
+
+#~ msgid ""
+#~ "%s file appears incompatible:\n"
+#~ "file: \"%s\"\n"
+#~ "file options: %s\n"
+#~ "supported options: %s"
+#~ msgstr ""
+#~ "%s 文件好像不兼容：\n"
+#~ "文件： “%s”<\n"
+#~ "文件选项： %s\n"
+#~ "支持的选项： %s"
+
+#~ msgid ""
+#~ "%s file claims required option(s) which we don't support:\n"
+#~ "file: \"%s\"\n"
+#~ "file options: %s\n"
+#~ "supported options: %s"
+#~ msgstr ""
+#~ " %s 文件需要我们不支持的选项：\n"
+#~ "文件：“%s”\n"
+#~ "文件选项：%s\n"
+#~ "支持的选项：%s"
+
+#~ msgid "Couldn't load gfx file for the spec file %s"
+#~ msgstr "未能从规格文件 %s 中载入 gfx 文件"
+
+#~ msgid "Couldn't find a supported gfx file extension for %s"
+#~ msgstr "未能为 %s 找到支持的 gfx 文件扩展"
+
+#~ msgid "Couldn't load gfx file %s for sprite %s"
+#~ msgstr "未能从规格文件 %2$s 中载入 gfx 文件 %1$s"
+
+#~ msgid "Don't have graphics tags %s or %s for %s %s"
+#~ msgstr "没有用于 %3$s %4$s 的图形标记 %1$s 或 %2$s"
+
+#~ msgid "Failed reading PNG file: %s"
+#~ msgstr "读取 PNG 文件失败：%s"
+
+#~ msgid "Failed creating PNG struct"
+#~ msgstr "创建 PNG 结构失败"
+
+#~ msgid "Failed while reading PNG file: %s"
+#~ msgstr "读取 PNG 文件过程中发生失败：%s"
+
+#~ msgid "PNG file has no palette: %s"
+#~ msgstr "PNG 文件没有调色版： %s"
 
 #~ msgid ""
 #~ "debug [ player <player> | city <x> <y> | units <x> <y> | unit <id> | tech "

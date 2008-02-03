@@ -55,9 +55,9 @@ the extinction of all other civilizations.\
 ", _("\
 If you find any bugs, then please send us a bug report.  This is \
 best done by visiting the Freeciv Bug Tracking System, at:\
-\n\n\
+"), "\
   http://bugs.freeciv.org/\
-"), _("\
+", _("\
 For more information about submitting bug reports see the file BUGS \
 in the Freeciv distribution.  For more information in general, \
 visit the Freeciv website, at:\
@@ -381,21 +381,21 @@ Freeciv supports several local languages.  See the Native \
 Language Support section of the README file for instructions \
 on how to use one of these languages.\
 \n\n\
+First, check whether a localization is already in progress \
+for your language:\
+"), "\
+  http://www.freeciv.org/wiki/Translations\
+", _("\
 If you would like to add a localization (translation) for your \
 language, please see the instructions at:\
-\n\n\
+"), "\
   http://www.freeciv.org/wiki/Localization\
-\n\n\
-Check first if a localization is already in progress \
-for your language:\
-\n\n\
-  http://www.freeciv.org/wiki/Translations\
-\n\n\
-You are also welcome to send any questions to the freeciv-i18n \
+", _("\
+You are also welcome to send any questions to the translation \
 mailing list:\
-\n\n\
+"), "\
   freeciv-i18n@gna.org\
-")
+"
 
 [help_connecting]
 name = _("Connecting")
@@ -409,13 +409,12 @@ the metaserver,\
 ", _("\
 The client can fetch this page, too: use the Metaserver button \
 in the connection dialog.  If it never shows any results, check \
-if your WWW browser is using a HTTP proxy; to make civclient \
-use the same proxy, set the $http_proxy environment variable to\
-\n\n\
+whether your WWW browser is using a HTTP proxy; to make civclient \
+use the same proxy, before starting civclient, \
+set the $http_proxy environment variable to:\
+"), "\
   http://proxyhost:proxyportnumber/\
-\n\n\
-before starting civclient.\
-"), _("\
+", _("\
 When the game has started, everyone can connect as any player who \
 isn't already connected, including AI players.  Merely connecting \
 to an AI player doesn't make it human controlled; this is an \
@@ -729,7 +728,10 @@ well, especially in the beginning of the game.  But to improve, \
 you need to study the various units and advances, and PRACTICE, \
 PRACTICE, PRACTICE!  Freeciv has many twists, so if you haven't \
 played a similar game before, try consulting the Freeciv WWW \
-pages at http://www.freeciv.org/\n\
+pages at:\
+"), "\
+  http://www.freeciv.org/\
+", _("\
 You'll find more tips for playing, and details of how to contact \
 other players.\
 "), _("\

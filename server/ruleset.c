@@ -91,18 +91,6 @@ static char *check_ruleset_capabilities(struct section_file *file,
 					const char *us_capstr,
 					const char *filename);
 
-static struct advance *lookup_tech(struct section_file *file,
-				   const char *prefix, const char *entry,
-				   bool required, const char *filename,
-				   const char *description);
-static void lookup_tech_list(struct section_file *file, const char *prefix,
-			     const char *entry, int *output, const char *filename);
-static struct unit_type *lookup_unit_type(struct section_file *file,
-					  const char *prefix,
-					  const char *entry, bool required,
-					  const char *filename,
-					  const char *description);
-
 static void load_tech_names(struct section_file *file);
 static void load_unit_names(struct section_file *file);
 static void load_building_names(struct section_file *file);
@@ -139,35 +127,35 @@ static bool nation_has_initial_tech(struct nation_type *pnation,
                                     struct advance *tech);
 static bool sanity_check_ruleset_data(void);
 
-static void ruleset_error(bool fatal, const char *format, ...)
-                          fc__attribute((__format__ (__printf__, 2, 3)));
 
 /**************************************************************************
   Notifications about ruleset errors to clients. Especially important in
   case of internal server crashing.
 **************************************************************************/
-static void ruleset_error(bool fatal, const char *format, ...)
+static void ruleset_error(int loglevel, const char *format, ...)
+                          fc__attribute((__format__ (__printf__, 2, 3)));
+static void ruleset_error(int loglevel, const char *format, ...)
 {
   va_list args;
 
   va_start(args, format);
 
-  if (fatal) {
+  if (LOG_FATAL >= loglevel) {
     /* Make sure that message is not left to buffers when server dies */
     conn_list_iterate(game.est_connections, pconn) {
       pconn->send_buffer->do_buffer_sends = 0;
       pconn->compression.frozen_level = 0;
     } conn_list_iterate_end;
 
-    vreal_freelog(LOG_FATAL, format, args);
+    vreal_freelog(loglevel, format, args);
     notify_conn(NULL, NULL, E_MESSAGE_WALL, _("Fatal ruleset error. Server dies!"));
   } else {
-    vreal_freelog(LOG_ERROR, format, args);
+    vreal_freelog(loglevel, format, args);
   }
 
   va_end(args);
 
-  if (fatal) {
+  if (LOG_FATAL >= loglevel) {
     exit(EXIT_FAILURE);
   }
 }
@@ -206,7 +194,7 @@ static char *valid_ruleset_filename(const char *subdir,
   if (dfilename) {
     return dfilename;
   } else {
-    ruleset_error(TRUE,
+    ruleset_error(LOG_FATAL,
                   /* TRANS: message about an installation error. */
                   _("Could not find a readable \"%s.%s\" ruleset file."),
                   name, extension);
@@ -232,7 +220,7 @@ static void openload_ruleset_file(struct section_file *file,
   sz_strlcpy(sfilename, dfilename);
 
   if (!section_file_load_nodup(file, sfilename)) {
-    ruleset_error(TRUE, "\"%s\": could not load ruleset.",
+    ruleset_error(LOG_FATAL, "\"%s\": could not load ruleset.",
                   sfilename);
   }
 }
@@ -246,7 +234,7 @@ static void openload_script_file(const char *whichset)
 					   whichset, SCRIPT_SUFFIX);
 
   if (!script_do_file(dfilename)) {
-    ruleset_error(TRUE, "\"%s\": could not load ruleset script.",
+    ruleset_error(LOG_FATAL, "\"%s\": could not load ruleset script.",
                   dfilename);
   }
 }
@@ -267,14 +255,14 @@ static char *check_ruleset_capabilities(struct section_file *file,
                         filename);
     freelog(LOG_FATAL, "  datafile options: %s", datafile_options);
     freelog(LOG_FATAL, "  supported options: %s", us_capstr);
-    ruleset_error(TRUE, "Capability problem");
+    ruleset_error(LOG_FATAL, "Capability problem");
   }
   if (!has_capabilities(datafile_options, us_capstr)) {
     freelog(LOG_FATAL, "\"%s\": ruleset datafile claims required option(s)"
                          " that we don't support:", filename);
     freelog(LOG_FATAL, "  datafile options: %s", datafile_options);
     freelog(LOG_FATAL, "  supported options: %s", us_capstr);
-    ruleset_error(TRUE, "Capability problem");
+    ruleset_error(LOG_FATAL, "Capability problem");
   }
   return datafile_options;
 }
@@ -337,20 +325,20 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
 **************************************************************************/
 static struct advance *lookup_tech(struct section_file *file,
 				   const char *prefix, const char *entry,
-				   bool required, const char *filename,
+				   int loglevel, const char *filename,
 				   const char *description)
 {
   char *sval;
   struct advance *padvance;
   
   sval = secfile_lookup_str_default(file, NULL, "%s.%s", prefix, entry);
-  if (!sval || (!required && strcmp(sval, "Never") == 0)) {
+  if (!sval || (LOG_FATAL < loglevel && strcmp(sval, "Never") == 0)) {
     padvance = A_NEVER;
   } else {
     padvance = find_advance_by_rule_name(sval);
 
     if (A_NEVER == padvance) {
-      ruleset_error((required ? TRUE : FALSE),
+      ruleset_error(loglevel,
                     "\"%s\" %s %s: couldn't match \"%s\".",
                     filename, (description ? description : prefix), entry, sval);
 
@@ -369,20 +357,20 @@ static struct advance *lookup_tech(struct section_file *file,
 **************************************************************************/
 static struct impr_type *lookup_building(struct section_file *file,
 					 const char *prefix, const char *entry,
-					 bool required, const char *filename,
+					 int loglevel, const char *filename,
 					 const char *description)
 {
   char *sval;
   struct impr_type *pimprove;
   
   sval = secfile_lookup_str_default(file, NULL, "%s.%s", prefix, entry);
-  if (!sval || (!required && strcmp(sval, "None") == 0)) {
+  if (!sval || (LOG_FATAL < loglevel && strcmp(sval, "None") == 0)) {
     pimprove = B_NEVER;
   } else {
     pimprove = find_improvement_by_rule_name(sval);
 
     if (B_NEVER == pimprove) {
-      ruleset_error((required ? TRUE : FALSE),
+      ruleset_error(loglevel,
                     "\"%s\" %s %s: couldn't match \"%s\".",
                     filename, (description ? description : prefix), entry, sval);
 
@@ -400,8 +388,9 @@ static struct impr_type *lookup_building(struct section_file *file,
  we report it as an error, otherwise we just punt.
 **************************************************************************/
 static void lookup_unit_list(struct section_file *file, const char *prefix,
-			     const char *entry, struct unit_type **output, 
-                             const char *filename, bool required)
+			     const char *entry, int loglevel,
+			     struct unit_type **output, 
+                             const char *filename)
 {
   char **slist;
   int i, nval;
@@ -412,14 +401,15 @@ static void lookup_unit_list(struct section_file *file, const char *prefix,
   }
   slist = secfile_lookup_str_vec(file, &nval, "%s.%s", prefix, entry);
   if (nval == 0) {
-    if (required) {
-      ruleset_error(TRUE, "\"%s\": missing string vector %s.%s",
+    if (LOG_FATAL >= loglevel) {
+      ruleset_error(LOG_FATAL, "\"%s\": missing string vector %s.%s",
                     filename, prefix, entry);
     }
     return;
   }
   if (nval > MAX_NUM_UNIT_LIST) {
-    ruleset_error(TRUE, "\"%s\": string vector %s.%s too long (%d, max %d)",
+    ruleset_error(LOG_FATAL,
+                  "\"%s\": string vector %s.%s too long (%d, max %d)",
                   filename, prefix, entry, nval, MAX_NUM_UNIT_LIST);
   }
   if (nval == 1 && strcmp(slist[0], "") == 0) {
@@ -431,7 +421,8 @@ static void lookup_unit_list(struct section_file *file, const char *prefix,
     struct unit_type *punittype = find_unit_type_by_rule_name(sval);
 
     if (!punittype) {
-      ruleset_error(TRUE, "\"%s\" %s.%s (%d): couldn't match \"%s\".",
+      ruleset_error(LOG_FATAL,
+                    "\"%s\" %s.%s (%d): couldn't match \"%s\".",
                     filename, prefix, entry, i, sval);
     }
     output[i] = punittype;
@@ -463,11 +454,12 @@ static void lookup_tech_list(struct section_file *file, const char *prefix,
   }
   slist = secfile_lookup_str_vec(file, &nval, "%s.%s", prefix, entry);
   if (nval==0) {
-    ruleset_error(TRUE, "\"%s\": missing string vector %s.%s",
+    ruleset_error(LOG_FATAL, "\"%s\": missing string vector %s.%s",
                   filename, prefix, entry);
   }
   if (nval>MAX_NUM_TECH_LIST) {
-    ruleset_error(TRUE, "\"%s\": string vector %s.%s too long (%d, max %d)",
+    ruleset_error(LOG_FATAL,
+                  "\"%s\": string vector %s.%s too long (%d, max %d)",
                   filename, prefix, entry, nval, MAX_NUM_TECH_LIST);
   }
   if (nval==1 && strcmp(slist[0], "")==0) {
@@ -479,11 +471,12 @@ static void lookup_tech_list(struct section_file *file, const char *prefix,
     struct advance *padvance = find_advance_by_rule_name(sval);
 
     if (NULL == padvance) {
-      ruleset_error(TRUE, "\"%s\" %s.%s (%d): couldn't match \"%s\".",
+      ruleset_error(LOG_FATAL,
+                    "\"%s\" %s.%s (%d): couldn't match \"%s\".",
                     filename, prefix, entry, i, sval);
     }
     if (!valid_advance(padvance)) {
-      ruleset_error(TRUE, "\"%s\" %s.%s (%d): \"%s\" is removed.",
+      ruleset_error(LOG_FATAL, "\"%s\" %s.%s (%d): \"%s\" is removed.",
                     filename, prefix, entry, i, sval);
     }
     output[i] = advance_number(padvance);
@@ -516,11 +509,12 @@ static void lookup_building_list(struct section_file *file, const char *prefix,
   }
   slist = secfile_lookup_str_vec(file, &nval, "%s.%s", prefix, entry);
   if (nval == 0) {
-    ruleset_error(TRUE, "\"%s\": missing string vector %s.%s",
+    ruleset_error(LOG_FATAL, "\"%s\": missing string vector %s.%s",
                   filename, prefix, entry);
   }
   if (nval > MAX_NUM_BUILDING_LIST) {
-    ruleset_error(TRUE, "\"%s\": string vector %s.%s too long (%d, max %d)",
+    ruleset_error(LOG_FATAL,
+                  "\"%s\": string vector %s.%s too long (%d, max %d)",
                   filename, prefix, entry, nval, MAX_NUM_BUILDING_LIST);
   }
   if (nval == 1 && strcmp(slist[0], "") == 0) {
@@ -532,7 +526,8 @@ static void lookup_building_list(struct section_file *file, const char *prefix,
     struct impr_type *pimprove = find_improvement_by_rule_name(sval);
 
     if (NULL == pimprove) {
-      ruleset_error(TRUE, "\"%s\" %s.%s (%d): couldn't match \"%s\".",
+      ruleset_error(LOG_FATAL,
+                    "\"%s\" %s.%s (%d): couldn't match \"%s\".",
                     filename, prefix, entry, i, sval);
     }
     output[i] = improvement_number(pimprove);
@@ -550,14 +545,15 @@ static void lookup_building_list(struct section_file *file, const char *prefix,
 **************************************************************************/
 static struct unit_type *lookup_unit_type(struct section_file *file,
 					  const char *prefix,
-					  const char *entry, bool required,
+					  const char *entry,
+					  int loglevel,
 					  const char *filename,
 					  const char *description)
 {
   char *sval;
   struct unit_type *punittype;
   
-  if (required) {
+  if (LOG_FATAL >= loglevel) {
     sval = secfile_lookup_str(file, "%s.%s", prefix, entry);
   } else {
     sval = secfile_lookup_str_default(file, "None", "%s.%s", prefix, entry);
@@ -568,7 +564,7 @@ static struct unit_type *lookup_unit_type(struct section_file *file,
   } else {
     punittype = find_unit_type_by_rule_name(sval);
     if (!punittype) {
-      ruleset_error((required ? TRUE : FALSE),
+      ruleset_error(loglevel,
                     "\"%s\" %s %s: couldn't match \"%s\".",
                     filename, (description ? description : prefix), entry, sval);
 
@@ -593,7 +589,7 @@ static struct government *lookup_government(struct section_file *file,
   sval = secfile_lookup_str(file, "%s", entry);
   gov = find_government_by_rule_name(sval);
   if (!gov) {
-    ruleset_error(TRUE,
+    ruleset_error(LOG_FATAL,
                   "\"%s\" %s: couldn't match \"%s\".",
                   filename, entry, sval);
   }
@@ -614,7 +610,7 @@ static enum unit_move_type lookup_move_type(struct section_file *file,
   sval = secfile_lookup_str(file, "%s", entry);
   mt = move_type_from_str(sval);
   if (mt == MOVETYPE_LAST) {
-    ruleset_error(TRUE,
+    ruleset_error(LOG_FATAL,
                   "\"%s\" %s: couldn't match \"%s\".",
                   filename, entry, sval);
   }
@@ -662,7 +658,7 @@ static struct resource *lookup_resource(const char *filename,
     }
   } resource_type_iterate_end;
 
-  ruleset_error(FALSE,
+  ruleset_error(LOG_ERROR,
                 "\"%s\" [%s] has unknown \"%s\".",
                 filename,
                 jsection,
@@ -699,7 +695,7 @@ static struct terrain *lookup_terrain(struct section_file *file,
     }
   } terrain_type_iterate_end;
 
-  ruleset_error(FALSE,
+  ruleset_error(LOG_ERROR,
                 "\"%s\" [%s] has unknown \"%s\".",
                 secfile_filename(file),
                 jsection,
@@ -723,11 +719,11 @@ static void load_tech_names(struct section_file *file)
   sec = secfile_get_secnames_prefix(file, ADVANCE_SECTION_PREFIX, &num_techs);
   freelog(LOG_VERBOSE, "%d advances (including possibly unused)", num_techs);
   if(num_techs == 0) {
-    ruleset_error(TRUE, "\"%s\": No Advances?!?", filename);
+    ruleset_error(LOG_FATAL, "\"%s\": No Advances?!?", filename);
   }
 
   if(num_techs + A_FIRST > A_LAST_REAL) {
-    ruleset_error(TRUE, "\"%s\": Too many advances (%d, max %d)",
+    ruleset_error(LOG_FATAL, "\"%s\": Too many advances (%d, max %d)",
                   filename, num_techs, A_LAST_REAL-A_FIRST);
   }
 
@@ -768,11 +764,11 @@ static void load_ruleset_techs(struct section_file *file)
     char *sval, **slist;
     int j,ival,nval;
 
-    a->require[AR_ONE] = lookup_tech(file, sec[i], "req1", FALSE,
+    a->require[AR_ONE] = lookup_tech(file, sec[i], "req1", LOG_ERROR,
 				     filename, a->name.vernacular);
-    a->require[AR_TWO] = lookup_tech(file, sec[i], "req2", FALSE,
+    a->require[AR_TWO] = lookup_tech(file, sec[i], "req2", LOG_ERROR,
 				     filename, a->name.vernacular);
-    a->require[AR_ROOT] = lookup_tech(file, sec[i], "root_req", FALSE,
+    a->require[AR_ROOT] = lookup_tech(file, sec[i], "root_req", LOG_ERROR,
 				      filename, a->name.vernacular);
 
     if ((A_NEVER == a->require[AR_ONE] && A_NEVER != a->require[AR_TWO])
@@ -875,14 +871,14 @@ restart:
       /* We check for recursive tech loops later,
        * in build_required_techs_helper. */
       if (!valid_advance(a->require[AR_ONE])) {
-        ruleset_error(TRUE,
+        ruleset_error(LOG_FATAL,
                       "\"%s\" tech \"%s\": req1 leads to removed tech \"%s\".",
                       filename,
                       advance_rule_name(a),
                       advance_rule_name(a->require[AR_ONE]));
       } 
       if (!valid_advance(a->require[AR_TWO])) {
-        ruleset_error(TRUE,
+        ruleset_error(LOG_FATAL,
                       "\"%s\" tech \"%s\": req2 leads to removed tech \"%s\".",
                       filename,
                       advance_rule_name(a),
@@ -911,10 +907,10 @@ static void load_unit_names(struct section_file *file)
   sec = secfile_get_secnames_prefix(file, UNIT_CLASS_SECTION_PREFIX, &nval);
   freelog(LOG_VERBOSE, "%d unit classes", nval);
   if (nval == 0) {
-    ruleset_error(TRUE, "\"%s\": No unit classes?!?", filename);
+    ruleset_error(LOG_FATAL, "\"%s\": No unit classes?!?", filename);
   }
   if(nval > UCL_LAST) {
-    ruleset_error(TRUE, "\"%s\": Too many unit classes (%d, max %d)",
+    ruleset_error(LOG_FATAL, "\"%s\": Too many unit classes (%d, max %d)",
                   filename, nval, UCL_LAST);
   }
 
@@ -932,10 +928,10 @@ static void load_unit_names(struct section_file *file)
   sec = secfile_get_secnames_prefix(file, UNIT_SECTION_PREFIX, &nval);
   freelog(LOG_VERBOSE, "%d unit types (including possibly unused)", nval);
   if(nval == 0) {
-    ruleset_error(TRUE, "\"%s\": No unit types?!?", filename);
+    ruleset_error(LOG_FATAL, "\"%s\": No unit types?!?", filename);
   }
   if(nval > U_LAST) {
-    ruleset_error(TRUE, "\"%s\": Too many unit types (%d, max %d)",
+    ruleset_error(LOG_FATAL, "\"%s\": Too many unit types (%d, max %d)",
                   filename, nval, U_LAST);
   }
 
@@ -973,7 +969,7 @@ static void load_ruleset_units(struct section_file *file)
 
 #define CHECK_VETERAN_LIMIT(_count, _string)				\
 if (_count > MAX_VET_LEVELS) {						\
-  ruleset_error(TRUE, "\"%s\": Too many " _string " entries (%d, max %d)", \
+  ruleset_error(LOG_FATAL, "\"%s\": Too many " _string " entries (%d, max %d)", \
                 filename, _count, MAX_VET_LEVELS);                      \
 }
 
@@ -1107,7 +1103,9 @@ if (_count > MAX_VET_LEVELS) {						\
     } else if (mystrcasecmp(hut_str, "Frighten") == 0) {
       ut->hut_behavior = HUT_FRIGHTEN;
     } else {
-      ruleset_error(TRUE, "\"%s\" unit_class \"%s\": Illegal hut behavior \"%s\".",
+      ruleset_error(LOG_FATAL,
+                    "\"%s\" unit_class \"%s\":"
+                    " Illegal hut behavior \"%s\".",
                     filename,
                     uclass_rule_name(ut),
                     hut_str);
@@ -1150,7 +1148,7 @@ if (_count > MAX_VET_LEVELS) {						\
   unit_type_iterate(u) {
     const int i = utype_index(u);
 
-    u->require_advance = lookup_tech(file, sec[i], "tech_req", TRUE,
+    u->require_advance = lookup_tech(file, sec[i], "tech_req", LOG_FATAL,
 				     filename, u->name.vernacular);
     if (section_file_lookup(file, "%s.gov_req", sec[i])) {
       char tmp[200] = "\0";
@@ -1165,7 +1163,7 @@ if (_count > MAX_VET_LEVELS) {						\
   unit_type_iterate(u) {
     const int i = utype_index(u);
 
-    u->obsoleted_by = lookup_unit_type(file, sec[i], "obsolete_by", FALSE,
+    u->obsoleted_by = lookup_unit_type(file, sec[i], "obsolete_by", LOG_ERROR,
 				       filename, u->name.vernacular);
   } unit_type_iterate_end;
 
@@ -1174,13 +1172,15 @@ if (_count > MAX_VET_LEVELS) {						\
     const int i = utype_index(u);
     struct unit_class *pclass;
 
-    u->need_improvement = lookup_building(file, sec[i], "impr_req", FALSE,
+    u->need_improvement = lookup_building(file, sec[i], "impr_req", LOG_ERROR,
 					  filename, u->name.vernacular);
 
     sval = secfile_lookup_str(file, "%s.class", sec[i]);
     pclass = find_unit_class_by_rule_name(sval);
     if (!pclass) {
-      ruleset_error(TRUE, "\"%s\" unit_type \"%s\": bad class \"%s\".",
+      ruleset_error(LOG_FATAL,
+                    "\"%s\" unit_type \"%s\":"
+                    " bad class \"%s\".",
                     filename,
                     utype_rule_name(u),
                     sval);
@@ -1223,7 +1223,7 @@ if (_count > MAX_VET_LEVELS) {						\
     u->hp = secfile_lookup_int(file,"%s.hitpoints", sec[i]);
     u->firepower = secfile_lookup_int(file,"%s.firepower", sec[i]);
     if (u->firepower <= 0) {
-      ruleset_error(TRUE,
+      ruleset_error(LOG_FATAL,
                     "\"%s\" unit_type \"%s\":"
                     " firepower is %d,"
                     " but must be at least 1. "
@@ -1247,7 +1247,7 @@ if (_count > MAX_VET_LEVELS) {						\
       struct unit_class *class = find_unit_class_by_rule_name(slist[j]);
 
       if (!class) {
-        ruleset_error(TRUE,
+        ruleset_error(LOG_FATAL,
                       "\"%s\" unit_type \"%s\":"
                       "has unknown unit class %s as cargo.",
                       filename,
@@ -1345,41 +1345,43 @@ if (_count > MAX_VET_LEVELS) {						\
      
   /* Check some required flags and roles etc: */
   if(num_role_units(F_CITIES)==0) {
-    ruleset_error(TRUE, "\"%s\": No flag=cities units?", filename);
+    ruleset_error(LOG_FATAL, "\"%s\": No flag=cities units?", filename);
   }
   if(num_role_units(F_SETTLERS)==0) {
-    ruleset_error(TRUE, "\"%s\": No flag=settler units?", filename);
+    ruleset_error(LOG_FATAL, "\"%s\": No flag=settler units?", filename);
   }
   if(num_role_units(L_EXPLORER)==0) {
-    ruleset_error(TRUE, "\"%s\": No role=explorer units?", filename);
+    ruleset_error(LOG_FATAL, "\"%s\": No role=explorer units?", filename);
   }
   if(num_role_units(L_FERRYBOAT)==0) {
-    ruleset_error(TRUE, "\"%s\": No role=ferryboat units?", filename);
+    ruleset_error(LOG_FATAL, "\"%s\": No role=ferryboat units?", filename);
   }
   if(num_role_units(L_FIRSTBUILD)==0) {
-    ruleset_error(TRUE, "\"%s\": No role=firstbuild units?", filename);
+    ruleset_error(LOG_FATAL, "\"%s\": No role=firstbuild units?", filename);
   }
   if (num_role_units(L_BARBARIAN) == 0 && game.info.barbarianrate > 0) {
-    ruleset_error(TRUE, "\"%s\": No role=barbarian units?", filename);
+    ruleset_error(LOG_FATAL, "\"%s\": No role=barbarian units?", filename);
   }
   if (num_role_units(L_BARBARIAN_LEADER) == 0 && game.info.barbarianrate > 0) {
-    ruleset_error(TRUE, "\"%s\": No role=barbarian leader units?", filename);
+    ruleset_error(LOG_FATAL, "\"%s\": No role=barbarian leader units?", filename);
   }
   if (num_role_units(L_BARBARIAN_BUILD) == 0 && game.info.barbarianrate > 0) {
-    ruleset_error(TRUE, "\"%s\": No role=barbarian build units?", filename);
+    ruleset_error(LOG_FATAL, "\"%s\": No role=barbarian build units?", filename);
   }
   if (num_role_units(L_BARBARIAN_BOAT) == 0 && game.info.barbarianrate > 0) {
-    ruleset_error(TRUE, "\"%s\": No role=barbarian ship units?", filename);
+    ruleset_error(LOG_FATAL, "\"%s\": No role=barbarian ship units?", filename);
   } else if (num_role_units(L_BARBARIAN_BOAT) > 0) {
     u = get_role_unit(L_BARBARIAN_BOAT,0);
     if(utype_move_type(u) != SEA_MOVING) {
-      ruleset_error(TRUE, "\"%s\": Barbarian boat (%s) needs to be a sea unit.",
+      ruleset_error(LOG_FATAL,
+                    "\"%s\": Barbarian boat (%s) needs to be a sea unit.",
                     filename,
                     utype_rule_name(u));
     }
   }
   if (num_role_units(L_BARBARIAN_SEA) == 0 && game.info.barbarianrate > 0) {
-    ruleset_error(TRUE, "\"%s\": No role=sea raider barbarian units?", filename);
+    ruleset_error(LOG_FATAL, "\"%s\": No role=sea raider barbarian units?",
+                  filename);
   }
 
   update_simple_ai_types();
@@ -1405,10 +1407,10 @@ static void load_building_names(struct section_file *file)
   sec = secfile_get_secnames_prefix(file, BUILDING_SECTION_PREFIX, &nval);
   freelog(LOG_VERBOSE, "%d improvement types (including possibly unused)", nval);
   if (nval == 0) {
-    ruleset_error(TRUE, "\"%s\": No improvements?!?", filename);
+    ruleset_error(LOG_FATAL, "\"%s\": No improvements?!?", filename);
   }
   if (nval > B_LAST) {
-    ruleset_error(TRUE, "\"%s\": Too many improvements (%d, max %d)",
+    ruleset_error(LOG_FATAL, "\"%s\": Too many improvements (%d, max %d)",
                   filename, nval, B_LAST);
   }
 
@@ -1449,7 +1451,7 @@ static void load_ruleset_buildings(struct section_file *file)
     item = secfile_lookup_str(file, "%s.genus", sec[i]);
     b->genus = find_genus_by_rule_name(item);
     if (b->genus == IG_LAST) {
-      ruleset_error(TRUE,
+      ruleset_error(LOG_FATAL,
                     "\"%s\" improvement \"%s\": couldn't match genus \"%s\".",
                     filename,
                     improvement_rule_name(b),
@@ -1479,7 +1481,7 @@ static void load_ruleset_buildings(struct section_file *file)
 
     requirement_vector_copy(&b->reqs, reqs);
 
-    b->obsolete_by = lookup_tech(file, sec[i], "obsolete_by", FALSE,
+    b->obsolete_by = lookup_tech(file, sec[i], "obsolete_by", LOG_ERROR,
 				 filename, b->name.vernacular);
     if (advance_by_number(A_NONE) == b->obsolete_by) {
       /* 
@@ -1492,7 +1494,7 @@ static void load_ruleset_buildings(struct section_file *file)
       b->obsolete_by = A_NEVER;
     }
 
-    b->replaced_by = lookup_building(file, sec[i], "replaced_by", FALSE,
+    b->replaced_by = lookup_building(file, sec[i], "replaced_by", LOG_ERROR,
 				     filename, b->name.vernacular);
 
     b->build_cost = secfile_lookup_int(file, "%s.build_cost", sec[i]);
@@ -1549,11 +1551,11 @@ static void load_terrain_names(struct section_file *file)
 
   sec = secfile_get_secnames_prefix(file, TERRAIN_SECTION_PREFIX, &nval);
   if (nval == 0) {
-    ruleset_error(TRUE, "\"%s\": ruleset doesn't have any terrains.",
+    ruleset_error(LOG_FATAL, "\"%s\": ruleset doesn't have any terrains.",
                   filename);
   }
   if (nval > MAX_NUM_TERRAINS) {
-    ruleset_error(TRUE, "\"%s\": Too many terrains (%d, max %d)",
+    ruleset_error(LOG_FATAL, "\"%s\": Too many terrains (%d, max %d)",
                   filename,
                   nval,
                   MAX_NUM_TERRAINS);
@@ -1585,7 +1587,7 @@ static void load_terrain_names(struct section_file *file)
 
   sec = secfile_get_secnames_prefix(file, RESOURCE_SECTION_PREFIX, &nval);
   if (nval > MAX_NUM_RESOURCES) {
-    ruleset_error(TRUE, "\"%s\": Too many resources (%d, max %d)",
+    ruleset_error(LOG_FATAL, "\"%s\": Too many resources (%d, max %d)",
                   filename,
                   nval,
                   MAX_NUM_RESOURCES);
@@ -1639,7 +1641,7 @@ static void load_terrain_names(struct section_file *file)
       section = "airbase";
       break;
     default:
-      ruleset_error(TRUE, "\"%s\": unhandled base type %d in %s.",
+      ruleset_error(LOG_FATAL, "\"%s\": unhandled base type %d in %s.",
                     filename,
                     base_number(pbase),
                     "load_terrain_names()");
@@ -1651,7 +1653,7 @@ static void load_terrain_names(struct section_file *file)
     }
     name = secfile_lookup_str(file, "%s.name", section);
     if (name == NULL) {
-      ruleset_error(TRUE, "\"%s\" [%s] missing.",
+      ruleset_error(LOG_FATAL, "\"%s\" [%s] missing.",
                     filename, section);
     }
 
@@ -1735,18 +1737,19 @@ static void load_ruleset_terrain(struct section_file *file)
     pterrain->identifier
       = secfile_lookup_str(file, "%s.identifier", tsection)[0];
     if ('\0' == pterrain->identifier) {
-      ruleset_error(TRUE, "\"%s\" [%s] identifier missing value.",
+      ruleset_error(LOG_FATAL, "\"%s\" [%s] identifier missing value.",
                     filename, tsection);
     }
     if (TERRAIN_UNKNOWN_IDENTIFIER == pterrain->identifier) {
-      ruleset_error(TRUE,
+      ruleset_error(LOG_FATAL,
                     "\"%s\" [%s] cannot use '%c' as an identifier;"
                     " it is reserved.",
                     filename, tsection, pterrain->identifier);
     }
     for (j = T_FIRST; j < i; j++) {
       if (pterrain->identifier == terrain_by_number(j)->identifier) {
-        ruleset_error(TRUE, "\"%s\" [%s] has the same identifier as [%s].",
+        ruleset_error(LOG_FATAL,
+                      "\"%s\" [%s] has the same identifier as [%s].",
                       filename,
                       tsection,
                       &terrain_sections[j * MAX_SECTION_LABEL]);
@@ -1816,7 +1819,7 @@ static void load_ruleset_terrain(struct section_file *file)
       enum terrain_flag_id flag = find_terrain_flag_by_rule_name(sval);
 
       if (flag == TER_LAST) {
-        ruleset_error(TRUE, "\"%s\" [%s] has unknown flag \"%s\".",
+        ruleset_error(LOG_FATAL, "\"%s\" [%s] has unknown flag \"%s\".",
                       filename, tsection, sval);
       } else {
 	BV_SET(pterrain->flags, flag);
@@ -1843,13 +1846,16 @@ static void load_ruleset_terrain(struct section_file *file)
       struct unit_class *class = find_unit_class_by_rule_name(slist[j]);
 
       if (!class) {
-        ruleset_error(TRUE, "\"%s\" [%s] is native to unknown unit class \"%s\".",
+        ruleset_error(LOG_FATAL,
+                      "\"%s\" [%s] is native to unknown unit class \"%s\".",
                       filename, tsection, slist[j]);
       } else if (is_ocean(pterrain) && class->move_type == LAND_MOVING) {
-        ruleset_error(TRUE, "\"%s\" oceanic [%s] is native to land units.",
+        ruleset_error(LOG_FATAL,
+                      "\"%s\" oceanic [%s] is native to land units.",
                       filename, tsection);
       } else if (!is_ocean(pterrain) && class->move_type == SEA_MOVING) {
-        ruleset_error(TRUE, "\"%s\" non-oceanic [%s] is native to sea units.",
+        ruleset_error(LOG_FATAL,
+                      "\"%s\" non-oceanic [%s] is native to sea units.",
                       filename, tsection);
       } else {
         BV_SET(pterrain->native_to, uclass_index(class));
@@ -1881,17 +1887,19 @@ static void load_ruleset_terrain(struct section_file *file)
 	       secfile_lookup_str(file,"%s.identifier", rsection));
     presource->identifier = identifier[0];
     if (RESOURCE_NULL_IDENTIFIER == presource->identifier) {
-      ruleset_error(TRUE, "\"%s\" [%s] identifier missing value.",
+      ruleset_error(LOG_FATAL, "\"%s\" [%s] identifier missing value.",
                     filename, rsection);
     }
     if (RESOURCE_NONE_IDENTIFIER == presource->identifier) {
-      ruleset_error(TRUE, "\"%s\" [%s] cannot use '%c' as an identifier;"
+      ruleset_error(LOG_FATAL,
+                    "\"%s\" [%s] cannot use '%c' as an identifier;"
                     " it is reserved.",
                     filename, rsection, presource->identifier);
     }
     for (j = 0; j < i; j++) {
       if (presource->identifier == resource_by_number(j)->identifier) {
-        ruleset_error(TRUE, "\"%s\" [%s] has the same identifier as [%s].",
+        ruleset_error(LOG_FATAL,
+                      "\"%s\" [%s] has the same identifier as [%s].",
                       filename,
                       rsection,
                       &resource_sections[j * MAX_SECTION_LABEL]);
@@ -1902,11 +1910,12 @@ static void load_ruleset_terrain(struct section_file *file)
       = secfile_lookup_str_default(file, identifier,
                                    "%s.update22one", rsection)[0];
     if (RESOURCE_NULL_IDENTIFIER == update22one[i]) {
-      ruleset_error(FALSE, "\"%s\" [%s] update22one missing value.",
+      ruleset_error(LOG_ERROR, "\"%s\" [%s] update22one missing value.",
                     filename, rsection);
     }
     if (RESOURCE_NONE_IDENTIFIER == update22one[i]) {
-      ruleset_error(FALSE, "\"%s\" [%s] cannot use '%c' as an identifier;"
+      ruleset_error(LOG_ERROR,
+                    "\"%s\" [%s] cannot use '%c' as an identifier;"
                     " it is reserved.",
                     filename, rsection, update22one[i]);
     }
@@ -1915,11 +1924,12 @@ static void load_ruleset_terrain(struct section_file *file)
       = secfile_lookup_str_default(file, identifier,
                                    "%s.update22two", rsection)[0];
     if (RESOURCE_NULL_IDENTIFIER == update22two[i]) {
-      ruleset_error(FALSE, "\"%s\" [%s] update22two missing value.",
+      ruleset_error(LOG_ERROR, "\"%s\" [%s] update22two missing value.",
                     filename, rsection);
     }
     if (RESOURCE_NONE_IDENTIFIER == update22two[i]) {
-      ruleset_error(FALSE, "\"%s\" [%s] cannot use '%c' as an identifier;"
+      ruleset_error(LOG_ERROR,
+                    "\"%s\" [%s] cannot use '%c' as an identifier;"
                     " it is reserved.",
                     filename, rsection, update22two[i]);
     }
@@ -1942,7 +1952,7 @@ static void load_ruleset_terrain(struct section_file *file)
       section = "airbase";
       break;
     default:
-      ruleset_error(TRUE, "\"%s\": unhandled base type %d in %s.",
+      ruleset_error(LOG_FATAL, "\"%s\": unhandled base type %d in %s.",
                     filename,
                     base_number(pbase),
                     "load_ruleset_terrain()");
@@ -1971,7 +1981,7 @@ static void load_ruleset_terrain(struct section_file *file)
       struct unit_class *class = find_unit_class_by_rule_name(slist[j]);
 
       if (!class) {
-        ruleset_error(TRUE,
+        ruleset_error(LOG_FATAL,
                       "\"%s\" base \"%s\" is native to unknown unit class \"%s\".",
                       filename,
                       base_rule_name(pbase),
@@ -1985,7 +1995,7 @@ static void load_ruleset_terrain(struct section_file *file)
     gui_str = secfile_lookup_str(file,"%s.gui_type", section);
     pbase->gui_type = base_gui_type_from_str(gui_str);
     if (pbase->gui_type == BASE_GUI_LAST) {
-      ruleset_error(TRUE, "\"%s\" base \"%s\": unknown gui_type \"%s\".",
+      ruleset_error(LOG_FATAL, "\"%s\" base \"%s\": unknown gui_type \"%s\".",
                     filename,
                     base_rule_name(pbase),
                     gui_str);
@@ -2000,7 +2010,7 @@ static void load_ruleset_terrain(struct section_file *file)
       enum base_flag_id flag = base_flag_from_str(sval);
 
       if (flag == BF_LAST) {
-        ruleset_error(TRUE, "\"%s\" base \"%s\": unknown flag \"%s\".",
+        ruleset_error(LOG_FATAL, "\"%s\" base \"%s\": unknown flag \"%s\".",
                       filename,
                       base_rule_name(pbase),
                       sval);
@@ -2029,12 +2039,12 @@ static void load_government_names(struct section_file *file)
 
   sec = secfile_get_secnames_prefix(file, GOVERNMENT_SECTION_PREFIX, &nval);
   if (nval == 0) {
-    ruleset_error(TRUE, "\"%s\": No governments?!?", filename);
+    ruleset_error(LOG_FATAL, "\"%s\": No governments?!?", filename);
   } else if(nval > G_MAGIC) {
     /* upper limit is really about 255 for 8-bit id values, but
        use G_MAGIC elsewhere as a sanity check, and should be plenty
        big enough --dwp */
-    ruleset_error(TRUE, "\"%s\": Too many governments (%d, max %d)",
+    ruleset_error(LOG_FATAL, "\"%s\": Too many governments (%d, max %d)",
                   filename, nval, G_MAGIC);
   }
   governments_alloc(nval);
@@ -2201,7 +2211,7 @@ static void load_nation_names(struct section_file *file)
 
       if (0 == strcmp(n2->adjective.vernacular, pl->adjective.vernacular)
 	|| 0 == strcmp(n2->noun_plural.vernacular, pl->noun_plural.vernacular)) {
-        ruleset_error(TRUE,
+        ruleset_error(LOG_FATAL,
                       "%s nation (the %s) defined twice; "
                       "in section nation%d and section nation%d",
                       adjective, noun_plural, j, i);
@@ -2266,7 +2276,7 @@ static struct nation_city* load_city_name_list(struct section_file *file,
        */
       char *next = strchr(name + 1, ')');
       if (!next) {
-	ruleset_error(FALSE,
+	ruleset_error(LOG_ERROR,
 		      "\"%s\" [%s] %s: city name \"%s\" unmatched parenthesis.",
 		      secfile_filename(file),
 		      secfile_str1,
@@ -2323,7 +2333,7 @@ static struct nation_city* load_city_name_list(struct section_file *file,
 	      }
 	    } terrain_type_iterate_end;
 	    if (!handled) {
-	      ruleset_error(FALSE,
+	      ruleset_error(LOG_ERROR,
 			    "\"%s\" [%s] %s: terrain \"%s\" not found;"
 			    " skipping it.",
 			    secfile_filename(file),
@@ -2341,7 +2351,7 @@ static struct nation_city* load_city_name_list(struct section_file *file,
     if (check_name(city_names[j].name)) {
       /* The ruleset contains a name that is too long.  This shouldn't
 	 happen - if it does, the author should get immediate feedback */
-      ruleset_error(FALSE, 
+      ruleset_error(LOG_ERROR, 
 		    "\"%s\" [%s] %s: city name \"%s\" is too long;"
 		    " shortening it.",
 		    secfile_filename(file),
@@ -2427,7 +2437,7 @@ static void load_ruleset_nations(struct section_file *file)
 	      dim);
       dim = MAX_NUM_LEADERS;
     } else if (dim < 1) {
-      ruleset_error(TRUE,
+      ruleset_error(LOG_FATAL,
                     "Nation %s: number of leaders is %d; at least one is required.",
                     nation_rule_name(pl),
                     dim);
@@ -2446,11 +2456,13 @@ static void load_ruleset_nations(struct section_file *file)
     /* check if leader name is not already defined */
     if ((bad_leader = check_leader_names(i, &i2))) {
         if (i == i2) {
-          ruleset_error(TRUE, "Nation %s: leader \"%s\" defined more than once.",
+          ruleset_error(LOG_FATAL,
+                        "Nation %s: leader \"%s\" defined more than once.",
                         nation_rule_name(pl),
                         bad_leader);
         } else {
-          ruleset_error(TRUE, "Nations %s and %s share the same leader \"%s\".",
+          ruleset_error(LOG_FATAL,
+                        "Nations %s and %s share the same leader \"%s\".",
                         nation_rule_name(pl),
                         nation_rule_name(nation_by_number(i2)),
                         bad_leader);
@@ -2459,7 +2471,7 @@ static void load_ruleset_nations(struct section_file *file)
     /* read leaders'sexes */
     leaders = secfile_lookup_str_vec(file, &dim, "%s.leader_sex", sec[i]);
     if (dim != pl->leader_count) {
-      ruleset_error(TRUE,
+      ruleset_error(LOG_FATAL,
                     "Nation %s: the leader sex count (%d) "
                     "is not equal to the number of leaders (%d)",
                     nation_rule_name(pl),
@@ -2498,7 +2510,8 @@ static void load_ruleset_nations(struct section_file *file)
       if (pl->is_playable) {
         /* We can't allow players to use barbarian nations, barbarians
          * may run out of nations */
-        ruleset_error(TRUE, "Nation %s marked both barbarian and playable.",
+        ruleset_error(LOG_FATAL,
+                      "Nation %s marked both barbarian and playable.",
                       nation_rule_name(pl));
       }
       pl->barb_type = LAND_BARBARIAN;
@@ -2507,13 +2520,14 @@ static void load_ruleset_nations(struct section_file *file)
       if (pl->is_playable) {
         /* We can't allow players to use barbarian nations, barbarians
          * may run out of nations */
-        ruleset_error(TRUE, "Nation %s marked both barbarian and playable.",
+        ruleset_error(LOG_FATAL,
+                      "Nation %s marked both barbarian and playable.",
                       nation_rule_name(pl));
       }
       pl->barb_type = SEA_BARBARIAN;
       barb_sea_count++;
     } else {
-      ruleset_error(TRUE,
+      ruleset_error(LOG_FATAL,
                     "Nation %s, barbarian_type is \"%s\". Must be "
                     "\"None\" or \"Land\" or \"Sea\".",
                     nation_rule_name(pl),
@@ -2583,7 +2597,7 @@ static void load_ruleset_nations(struct section_file *file)
 
     while (city_style_has_requirements(&city_styles[pl->city_style])) {
       if (pl->city_style == 0) {
-	ruleset_error(TRUE,
+	ruleset_error(LOG_FATAL,
                       "Nation %s: the default city style is not available "
                       "from the beginning!",
                       nation_rule_name(pl));
@@ -2629,8 +2643,8 @@ static void load_ruleset_nations(struct section_file *file)
     lookup_tech_list(file, sec[i], "init_techs", pl->init_techs, filename);
     lookup_building_list(file, sec[i], "init_buildings", pl->init_buildings,
 			 filename);
-    lookup_unit_list(file, sec[i], "init_units", pl->init_units, filename,
-                     FALSE);
+    lookup_unit_list(file, sec[i], "init_units", LOG_ERROR, pl->init_units,
+                     filename);
     mystrlcat(tmp, sec[i], 200);
     mystrlcat(tmp, ".init_government", 200);
     pl->init_government = lookup_government(file, tmp, filename);
@@ -2672,11 +2686,11 @@ static void load_ruleset_nations(struct section_file *file)
   section_file_free(file);
 
   if (barb_land_count == 0) {
-    ruleset_error(TRUE,
+    ruleset_error(LOG_FATAL,
                   "No land barbarian nation defined. At least one required!");
   }
   if (barb_sea_count == 0) {
-    ruleset_error(TRUE,
+    ruleset_error(LOG_FATAL,
                   "No sea barbarian nation defined. At least one required!");
   }
 }
@@ -2719,7 +2733,7 @@ static void load_ruleset_cities(struct section_file *file)
   /* Specialist options */
   sec = secfile_get_secnames_prefix(file, SPECIALIST_SECTION_PREFIX, &nval);
   if (nval >= SP_MAX) {
-    ruleset_error(TRUE, "\"%s\": Too many specialists (%d, max %d).",
+    ruleset_error(LOG_FATAL, "\"%s\": Too many specialists (%d, max %d).",
             filename, nval, SP_MAX);
   }
   game.control.num_specialist_types = nval;
@@ -2746,7 +2760,8 @@ static void load_ruleset_cities(struct section_file *file)
     }
   }
   if (DEFAULT_SPECIALIST == -1) {
-    ruleset_error(TRUE, "\"%s\": must give a min_size of 0 for at least one "
+    ruleset_error(LOG_FATAL,
+                  "\"%s\": must give a min_size of 0 for at least one "
                   "specialist type.", filename);
   }
   free(sec);
@@ -2772,7 +2787,8 @@ static void load_ruleset_cities(struct section_file *file)
     secfile_lookup_int_default(file, 0, "parameters.forced_gold");
   if (game.info.forced_science + game.info.forced_luxury
       + game.info.forced_gold != 100) {
-    ruleset_error(TRUE, "\"%s\": Forced taxes do not add up in ruleset!",
+    ruleset_error(LOG_FATAL,
+                  "\"%s\": Forced taxes do not add up in ruleset!",
                   filename);
   }
 
@@ -2948,7 +2964,7 @@ static void load_ruleset_game(void)
   food_ini = secfile_lookup_int_vec(&file, &game.info.granary_num_inis, 
 				    "civstyle.granary_food_ini");
   if (game.info.granary_num_inis > MAX_GRANARY_INIS) {
-    ruleset_error(TRUE,
+    ruleset_error(LOG_FATAL,
                   "Too many granary_food_ini entries (%d, max %d)",
                   game.info.granary_num_inis, MAX_GRANARY_INIS);
   } else if (game.info.granary_num_inis == 0) {
@@ -3040,7 +3056,7 @@ static void load_ruleset_game(void)
   svec = secfile_lookup_str_vec(&file, &game.info.num_teams, "teams.names");
   game.info.num_teams = MIN(MAX_NUM_TEAMS, game.info.num_teams);
   if (game.info.num_teams <= 0) {
-    ruleset_error(TRUE, "Missing team names in game.ruleset.");
+    ruleset_error(LOG_FATAL, "Missing team names in game.ruleset.");
   }
   for (i = 0; i < game.info.num_teams; i++) {
     sz_strlcpy(game.info.team_names_orig[i], svec[i]);
@@ -3822,7 +3838,7 @@ static bool sanity_check_ruleset_data(void)
       struct advance *a = valid_advance_by_number(tech);
 
       if (!a) {
-        ruleset_error(TRUE,
+        ruleset_error(LOG_FATAL,
                       "Tech %s does not exist, but is initial "
                       "tech for everyone.",
                       advance_rule_name(advance_by_number(tech)));
@@ -3830,7 +3846,7 @@ static bool sanity_check_ruleset_data(void)
       if (advance_by_number(A_NONE) != a->require[AR_ROOT]
           && !nation_has_initial_tech(pnation, a->require[AR_ROOT])) {
         /* Nation has no root_req for tech */
-        ruleset_error(TRUE,
+        ruleset_error(LOG_FATAL,
                       "Tech %s is initial for everyone, but %s has "
                       "no root_req for it.",
                       advance_rule_name(a),
@@ -3846,14 +3862,15 @@ static bool sanity_check_ruleset_data(void)
       struct advance *a = valid_advance_by_number(tech);
 
       if (!a) {
-        ruleset_error(TRUE, "Tech %s does not exist, but is tech for %s.",
+        ruleset_error(LOG_FATAL,
+                      "Tech %s does not exist, but is tech for %s.",
                       advance_rule_name(advance_by_number(tech)),
                       nation_rule_name(pnation));
       }
       if (advance_by_number(A_NONE) != a->require[AR_ROOT]
           && !nation_has_initial_tech(pnation, a->require[AR_ROOT])) {
         /* Nation has no root_req for tech */
-        ruleset_error(TRUE,
+        ruleset_error(LOG_FATAL,
                       "Tech %s is initial for %s, but they have "
                       "no root_req for it.",
                       advance_rule_name(a),
@@ -3872,7 +3889,7 @@ static bool sanity_check_ruleset_data(void)
       upgraded = upgraded->obsoleted_by;
       chain_length++;
       if (chain_length > num_utypes) {
-        ruleset_error(TRUE,
+        ruleset_error(LOG_FATAL,
                       "There seems to be obsoleted_by loop in update "
                       "chain that starts from %s", utype_rule_name(putype));
       }
@@ -3882,7 +3899,7 @@ static bool sanity_check_ruleset_data(void)
   /* Check requirement lists against conflicting requirements */
   /* Effects */
   if (!iterate_effect_cache(effect_sanity_cb)) {
-    ruleset_error(TRUE, "Effects have conflicting requirements!");
+    ruleset_error(LOG_FATAL, "Effects have conflicting requirements!");
   }
   /* TODO: Check other requirement lists also
    *       (Governments, Buildings, Specialists, City styles)

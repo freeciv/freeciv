@@ -1092,8 +1092,8 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   }
 
   if (!is_ground_unit(myunit) && !is_sailing_unit(myunit)) {
-    freelog(LOG_ERROR, "ERROR: Attempting to deal with non-trivial"
-            " unit_type in kill_something_with");
+    freelog(LOG_ERROR, "kill_something_with()"
+            " attempting to deal with non-trivial unit_type");
     return;
   }
 
@@ -1102,7 +1102,8 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   acity = tile_city(ptile);
 
   if (myunit->id != 0) {
-    freelog(LOG_ERROR, "ERROR: Non-virtual unit in kill_something_with!");
+    freelog(LOG_ERROR, "kill_something_with()"
+            " non-virtual unit!");
     return;
   }
   
@@ -1220,7 +1221,8 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   if (best_choice.want > choice->want) {
     /* We want attacker more than what we have selected before */
     copy_if_better_choice(&best_choice, choice);
-    CITY_LOG(LOG_DEBUG, pcity, "ksw: %s has chosen attacker, %s, want=%d",
+    CITY_LOG(LOG_DEBUG, pcity, "kill_something_with()"
+	     " %s has chosen attacker, %s, want=%d",
 	     city_name(pcity),
 	     utype_rule_name(best_choice.value.utype),
 	     best_choice.want);
@@ -1234,8 +1236,8 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
       if (SEA_MOVING == utype_move_type(choice->value.utype)) {
         struct ai_data *ai = ai_data_get(pplayer);
 
-        freelog(LOG_DEBUG,
-                "%s has chosen attacker ferry, %s, want=%d, %d of %d free",
+        freelog(LOG_DEBUG, "kill_something_with()"
+                " %s has chosen attacker ferry, %s, want=%d, %d of %d free",
                 city_name(pcity),
                 utype_rule_name(choice->value.utype),
 		choice->want,

@@ -319,7 +319,7 @@ bool client_start_server(void)
 			DETACHED_PROCESS | NORMAL_PRIORITY_CLASS,
 			NULL, NULL, &si, &pi)) {
     append_output_window(_("Couldn't start the server."));
-    append_output_window(_("You'll have to " "start one manually. Sorry..."));
+    append_output_window(_("You'll have to start one manually. Sorry..."));
     return FALSE;
   }
   

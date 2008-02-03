@@ -2741,10 +2741,11 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
   for (i = 0; i < p->ngroups; i++) {
     pl->groups[i] = nation_group_by_number(p->groups[i]);
     if (!pl->groups[i]) {
-      freelog(LOG_FATAL, "Nation %s: Unknown group %d.",
-		nation_rule_name(pl),
-		p->groups[i]);
-      exit(EXIT_FAILURE);
+      freelog(LOG_ERROR,
+              "handle_ruleset_nation() \"%s\" have unknown group %d.",
+              nation_rule_name(pl),
+              p->groups[i]);
+      pl->groups[i] = nation_group_by_number(0); /* default group */
     }
   }
 
