@@ -61,6 +61,13 @@ enum server_states {
  * TODO: Lots more variables could be added here. */
 extern struct civserver {
   int nbarbarians;
+
+  /* this counter creates all the city and unit numbers used.
+   * arbitrarily starts at 100, but at 65K wraps to 1.
+   * use identity_number()
+   */
+#define IDENTITY_NUMBER_START (100)
+  unsigned short identity_number;
 } server;
 
 
@@ -83,9 +90,9 @@ void pick_random_player_name(const struct nation_type *pnation,
 			     char *newname);
 void send_all_info(struct conn_list *dest);
 
-void dealloc_id(int id);
-void alloc_id(int id);
-int get_next_id_number(void);
+void identity_number_release(int id);
+void identity_number_reserve(int id);
+int identity_number(void);
 int player_count_no_barbarians(void);
 void server_game_init(void);
 void server_game_free(void);

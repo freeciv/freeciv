@@ -128,10 +128,11 @@ struct unit_order {
 
 struct unit {
   struct unit_type *utype;
-  int id;
-  struct player *owner; /* Cannot be NULL. */
   struct tile *tile;
+  struct player *owner; /* Cannot be NULL. */
+  int id;
   int homecity;
+
   int moves_left;
   int hp;
   int veteran;

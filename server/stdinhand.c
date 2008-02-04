@@ -3309,8 +3309,7 @@ bool load_command(struct connection *caller, char *filename, bool check)
 
   /* we found it, free all structures */
   server_game_free();
-
-  game_init();
+  server_game_init();
 
   loadtimer = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
   uloadtimer = new_timer_start(TIMER_USER, TIMER_ACTIVE);

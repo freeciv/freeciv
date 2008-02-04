@@ -1303,7 +1303,7 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
   struct city *pcity;
 
   /* Register unit */
-  punit->id = get_next_id_number();
+  punit->id = identity_number();
   idex_register_unit(punit);
 
   assert(ptile != NULL);
