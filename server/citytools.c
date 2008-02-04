@@ -964,7 +964,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
   freelog(LOG_DEBUG, "Creating city %s", name);
 
   pcity->ai.trade_want = TRADE_WEIGHTING;
-  pcity->id = get_next_id_number();
+  pcity->id = identity_number();
   idex_register_city(pcity);
 
   if (!pplayer->capital) {
@@ -1172,9 +1172,10 @@ void remove_city(struct city *pcity)
 
   /* idex_unregister_city() is called in game_remove_city() below */
 
-  /* dealloc_id(pcity->id); We do NOT dealloc cityID's as the cities may still be
-     alive in the client. As the number of removed cities is small the leak is
-     acceptable. */
+  /* identity_number_release(pcity->id) is *NOT* done!  The cities may still be
+     alive in the client, or in the player map.  The number of removed 
+     cities is small, so the loss is acceptable.
+   */
 
   old_vision = pcity->server.vision;
   pcity->server.vision = NULL;

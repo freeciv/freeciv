@@ -255,10 +255,11 @@ enum citizen_feeling {
 };
 
 struct city {
-  int id;
-  struct player *owner; /* Cannot be NULL. */
-  struct tile *tile;
   char name[MAX_LEN_NAME];
+  struct tile *tile;
+  struct player *owner; /* Cannot be NULL. */
+  struct player *original; /* Cannot be NULL. */
+  int id;
 
   /* the people */
   int size;
@@ -332,7 +333,7 @@ struct city {
   int rapture;                /* rapture rounds count */ 
   bool was_happy;
   bool airlift;
-  struct player *original;	/* original owner - cannot be NULL */
+
   bv_city_options city_options;
 
   /* server variable. indicates if the city map is synced with the client. */

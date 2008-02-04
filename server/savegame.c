@@ -1546,7 +1546,7 @@ static void load_player_units(struct player *plr, int plrno,
     punit = create_unit_virtual(plr, NULL, type,
 	secfile_lookup_int(file, "player%d.u%d.veteran", plrno, i));
     punit->id = secfile_lookup_int(file, "player%d.u%d.id", plrno, i);
-    alloc_id(punit->id);
+    identity_number_reserve(punit->id);
     idex_register_unit(punit);
 
     nat_x = secfile_lookup_int(file, "player%d.u%d.x", plrno, i);
@@ -2209,7 +2209,7 @@ static void player_load(struct player *plr, int plrno,
     tile_set_owner(ptile, plr);
 
     pcity->id=secfile_lookup_int(file, "player%d.c%d.id", plrno, i);
-    alloc_id(pcity->id);
+    identity_number_reserve(pcity->id);
     idex_register_city(pcity);
 
     id = secfile_lookup_int_default(file, -1,
@@ -2739,7 +2739,7 @@ static void player_map_load(struct player *plr, int plrno,
 	struct vision_site *pdcity = fc_calloc(1, sizeof(*pdcity));
 
 	pdcity->identity = secfile_lookup_int(file, "player%d.dc%d.id", plrno, j);
-	if (VISION_SITE_RUIN >= pdcity->identity) {
+	if (VISION_SITE_NONE >= pdcity->identity) {
 	  freelog(LOG_ERROR, "[player%d] dc%d has invalid id (%d); skipping.",
 		  plrno, j, pdcity->identity);
 	  free(pdcity);
@@ -2791,7 +2791,7 @@ static void player_map_load(struct player *plr, int plrno,
 	}
 
 	map_get_player_tile(ptile, plr)->site = pdcity;
-	alloc_id(pdcity->identity);
+	identity_number_reserve(pdcity->identity);
       }
     }
 
@@ -3804,35 +3804,42 @@ void game_load(struct section_file *file)
       }
     }
 
-    game.info.aqueductloss = secfile_lookup_int_default(file, game.info.aqueductloss,
-						   "game.aqueductloss");
-    game.info.killcitizen = secfile_lookup_int_default(file, game.info.killcitizen,
-						  "game.killcitizen");
-    game.info.savepalace = secfile_lookup_bool_default(file, game.info.savepalace,
-						"game.savepalace");
-    game.info.turnblock = secfile_lookup_bool_default(file, game.info.turnblock,
-						"game.turnblock");
-    game.info.fixedlength = secfile_lookup_bool_default(file, game.info.fixedlength,
-						  "game.fixedlength");
-    game.info.barbarianrate = secfile_lookup_int_default(file, game.info.barbarianrate,
-						    "game.barbarians");
-    game.info.onsetbarbarian = secfile_lookup_int_default(file, game.info.onsetbarbarian,
-						     "game.onsetbarbs");
-    game.info.revolution_length
-      = secfile_lookup_int_default(file, game.info.revolution_length,
-				   "game.revolen");
-    server.nbarbarians = 0; /* counted in player_load for compatibility with 
-			     1.10.0 */
-    game.info.occupychance = secfile_lookup_int_default(file, game.info.occupychance,
-						   "game.occupychance");
-    game.info.autoattack = secfile_lookup_bool_default(file,
-						  GAME_DEFAULT_AUTOATTACK,
-                                                  "game.autoattack");
-    game.seed = secfile_lookup_int_default(file, game.seed,
-					   "game.randseed");
+    game.info.aqueductloss =
+      secfile_lookup_int_default(file, game.info.aqueductloss,
+                                 "game.aqueductloss");
+    game.info.killcitizen =
+      secfile_lookup_int_default(file, game.info.killcitizen,
+                                 "game.killcitizen");
+    game.info.savepalace =
+      secfile_lookup_bool_default(file, game.info.savepalace,
+                                  "game.savepalace");
+    game.info.turnblock =
+      secfile_lookup_bool_default(file, game.info.turnblock,
+                                  "game.turnblock");
+    game.info.fixedlength =
+      secfile_lookup_bool_default(file, game.info.fixedlength,
+                                  "game.fixedlength");
+    game.info.barbarianrate =
+      secfile_lookup_int_default(file, game.info.barbarianrate,
+                                 "game.barbarians");
+    game.info.onsetbarbarian =
+      secfile_lookup_int_default(file, game.info.onsetbarbarian,
+                                 "game.onsetbarbs");
+    game.info.revolution_length =
+      secfile_lookup_int_default(file, game.info.revolution_length,
+                                 "game.revolen");
+    game.info.occupychance =
+      secfile_lookup_int_default(file, game.info.occupychance,
+                                 "game.occupychance");
+    game.info.autoattack =
+      secfile_lookup_bool_default(file, GAME_DEFAULT_AUTOATTACK,
+                                  "game.autoattack");
+    game.seed =
+      secfile_lookup_int_default(file, game.seed,
+                                 "game.randseed");
     game.info.allowed_city_names =
-	secfile_lookup_int_default(file, game.info.allowed_city_names,
-				   "game.allowed_city_names"); 
+      secfile_lookup_int_default(file, game.info.allowed_city_names,
+                                 "game.allowed_city_names"); 
 
     if(civstyle == 1) {
       string = "civ1";
@@ -4060,6 +4067,10 @@ void game_load(struct section_file *file)
         }
       }
     }
+
+    server.identity_number =
+      secfile_lookup_int_default(file, server.identity_number,
+                                 "game.identity_number_used");
 
     /* Initialize nations we loaded from rulesets. This has to be after
      * map loading and before we seek nations for players */
@@ -4388,8 +4399,8 @@ void game_save(struct section_file *file, const char *save_reason)
   secfile_insert_int(file, game.info.diplchance, "game.diplchance");
   secfile_insert_int(file, game.info.aqueductloss, "game.aqueductloss");
   secfile_insert_int(file, game.info.killcitizen, "game.killcitizen");
-  secfile_insert_bool(file, game.info.turnblock, "game.turnblock");
   secfile_insert_bool(file, game.info.savepalace, "game.savepalace");
+  secfile_insert_bool(file, game.info.turnblock, "game.turnblock");
   secfile_insert_bool(file, game.info.fixedlength, "game.fixedlength");
   secfile_insert_int(file, game.info.barbarianrate, "game.barbarians");
   secfile_insert_int(file, game.info.onsetbarbarian, "game.onsetbarbs");
@@ -4490,6 +4501,8 @@ void game_save(struct section_file *file, const char *save_reason)
     } improvement_iterate_end;
     temp[improvement_count()] = '\0';
     secfile_insert_str(file, temp, "game.destroyed_wonders_new");
+
+    secfile_insert_int(file, server.identity_number, "game.identity_number_used");
 
     calc_unit_ordering();
 

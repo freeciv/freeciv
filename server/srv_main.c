@@ -129,10 +129,8 @@ bool nocity_send = FALSE;
 */
 bool force_end_of_sniff;
 
-/* this counter creates all the id numbers used */
-/* use get_next_id_number()                     */
-static unsigned short global_id_counter=100;
-static unsigned char used_ids[8192]={0};
+#define IDENTITY_NUMBER_SIZE (1+MAX_UINT16)
+static unsigned char identity_numbers_used[IDENTITY_NUMBER_SIZE/8]={0};
 
 /* server initialized flag */
 static bool has_been_srv_init = FALSE;
@@ -196,7 +194,7 @@ void srv_init(void)
   init_character_encodings(FC_DEFAULT_DATA_ENCODING, FALSE);
 
   /* Initialize callbacks. */
-  game.callbacks.unit_deallocate = dealloc_id;
+  game.callbacks.unit_deallocate = identity_number_release;
 
   /* done */
   return;
@@ -1076,37 +1074,43 @@ void handle_report_req(struct connection *pconn, enum report_type type)
 /**************************************************************************
 ...
 **************************************************************************/
-void dealloc_id(int id)
+void identity_number_release(int id)
 {
-  used_ids[id/8]&= 0xff ^ (1<<(id%8));
+  identity_numbers_used[id/8] &= 0xff ^ (1<<(id%8));
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-static bool is_id_allocated(int id)
+void identity_number_reserve(int id)
 {
-  return TEST_BIT(used_ids[id / 8], id % 8);
+  identity_numbers_used[id/8] |= (1<<(id%8));
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-void alloc_id(int id)
+static bool identity_number_is_used(int id)
 {
-  used_ids[id/8]|= (1<<(id%8));
+  return TEST_BIT(identity_numbers_used[id/8], id%8);
 }
 
 /**************************************************************************
-...
+  Truncation of unsigned short wraps at 65K, skipping VISION_SITE_NONE (0)
+  Setup in server_game_init()
 **************************************************************************/
-
-int get_next_id_number(void)
+int identity_number(void)
 {
-  while (is_id_allocated(++global_id_counter) || global_id_counter == 0) {
-    /* nothing */
+  int retries = 0;
+
+  while (identity_number_is_used(++server.identity_number)) {
+    /* try again */
+    if (++retries >= IDENTITY_NUMBER_SIZE) {
+      die("exhausted city and unit numbers!");
+    }
   }
-  return global_id_counter;
+  identity_number_reserve(server.identity_number);
+  return server.identity_number;
 }
 
 /**************************************************************************
@@ -1934,9 +1938,12 @@ static void srv_prepare(void)
 #endif /* HAVE_AUTH */
 
   /* load a saved game */
-  if (srvarg.load_filename[0] != '\0') {
-    (void) load_command(NULL, srvarg.load_filename, FALSE);
-  } 
+  if ('\0' == srvarg.load_filename[0]
+   || !load_command(NULL, srvarg.load_filename, FALSE)) {
+    /* Rulesets are loaded on game initialization, but may be changed later
+     * if /load or /rulesetdir is done. */
+    load_rulesets();
+  }
 
   if(!(srvarg.metaserver_no_send)) {
     freelog(LOG_NORMAL, _("Sending info to metaserver [%s]"),
@@ -2131,13 +2138,14 @@ static void srv_ready(void)
 **************************************************************************/
 void server_game_init(void)
 {
-  game_init();
-
+  /* was redundantly in game_load() */
   server.nbarbarians = 0;
+  server.identity_number = IDENTITY_NUMBER_START;
 
-  /* Rulesets are loaded on game initialization, but may be changed later
-   * if /load or /rulesetdir is done. */
-  load_rulesets();
+  memset(identity_numbers_used, 0, sizeof(identity_numbers_used));
+  identity_number_reserve(VISION_SITE_NONE);
+
+  game_init();
 }
 
 /**************************************************************************
@@ -2207,6 +2215,7 @@ void srv_main(void)
     /* Reset server */
     server_game_free();
     server_game_init();
+    load_rulesets();
     game.info.is_new_game = TRUE;
     set_server_state(S_S_INITIAL);
   } while (TRUE);
