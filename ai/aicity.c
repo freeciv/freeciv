@@ -69,6 +69,10 @@
 #define SPECVEC_TYPE struct impr_type *
 #include "specvec.h"
 
+#define LOG_BUY LOG_DEBUG
+#define LOG_EMERGENCY LOG_DEBUG
+#define LOG_WANT LOG_VERBOSE
+
 /* Iterate over cities within a certain range around a given city
  * (city_here) that exist within a given city list. */
 #define city_range_iterate(city_here, list, range, city)		\
@@ -78,7 +82,7 @@
      || ((range == REQ_RANGE_CITY || range == REQ_RANGE_LOCAL)		\
       && city == city_here)						\
      || (range == REQ_RANGE_CONTINENT					\
-      && tile_continent(city->tile) ==				\
+      && tile_continent(city->tile) ==					\
 	 tile_continent(city_here->tile))) {
 
 #define city_range_iterate_end						\
@@ -86,10 +90,9 @@
   } city_list_iterate_end;						\
 }
 
-#define CITY_EMERGENCY(pcity)                        \
- (pcity->surplus[O_SHIELD] < 0 || city_unhappy(pcity)   \
+#define CITY_EMERGENCY(pcity)						\
+ (pcity->surplus[O_SHIELD] < 0 || city_unhappy(pcity)			\
   || pcity->food_stock + pcity->surplus[O_FOOD] < 0)
-#define LOG_BUY LOG_DEBUG
 
 static void ai_sell_obsolete_buildings(struct city *pcity);
 static void resolve_city_emergency(struct player *pplayer, struct city *pcity);
@@ -1328,7 +1331,7 @@ static void ai_barbarian_choose_build(struct player *pplayer,
     choice->want   = 101;
     choice->type   = CT_ATTACKER;
   } else {
-    freelog(LOG_VERBOSE, "Barbarians don't know what to build!");
+    freelog(LOG_WANT, "Barbarians don't know what to build!");
   }
 }
 
@@ -1369,7 +1372,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
   /* Fallbacks */
   if (pcity->ai.choice.want == 0) {
     /* Fallbacks do happen with techlevel 0, which is now default. -- Per */
-    CITY_LOG(LOG_ERROR, pcity, "Falling back - didn't want to build soldiers,"
+    CITY_LOG(LOG_WANT, pcity, "Falling back - didn't want to build soldiers,"
 	     " workers, caravans, settlers, or buildings!");
     pcity->ai.choice.want = 1;
     if (best_role_unit(pcity, F_TRADE_ROUTE)) {
@@ -1778,7 +1781,6 @@ static void ai_sell_obsolete_buildings(struct city *pcity)
   Also, most of the time we are unable to resolve the situation. 
 **************************************************************************/
 static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
-#define LOG_EMERGENCY LOG_DEBUG
 {
   struct city_list *minilist;
 
@@ -1855,4 +1857,3 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
 
   sync_cities();
 }
-#undef LOG_EMERGENCY
