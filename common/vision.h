@@ -108,8 +108,6 @@ bool vision_reveal_tiles(struct vision *vision, bool reveal_tiles);
 /* This is copied in maphand.c really_give_tile_info_from_player_to_player(),
  * so be careful with pointers!
  */
-#define VISION_SITE_NONE (0)
-
 struct vision_site {
   char name[MAX_LEN_NAME];
   struct tile *location;		/* Cannot be NULL */

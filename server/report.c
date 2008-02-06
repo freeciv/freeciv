@@ -38,6 +38,7 @@
 #include "citytools.h"
 #include "report.h"
 #include "score.h"
+#include "srv_main.h"
 
 static void page_conn_etype(struct conn_list *dest, const char *caption,
 			    const char *headline, const char *lines,
@@ -854,10 +855,10 @@ static bool scan_score_log(FILE * fp, int *last_turn, char *id,
 	freelog(LOG_ERROR, "Multiple ID entries!");
 	return FALSE;
       }
-      mystrlcpy(id, line + strlen("id "), MAX_ID_LEN);
-      if (strcmp(id, game.id) != 0) {
+      mystrlcpy(id, line + strlen("id "), MAX_LEN_GAME_IDENTIFIER);
+      if (strcmp(id, server.game_identifier) != 0) {
 	freelog(LOG_ERROR, "IDs don't match! game='%s' scorelog='%s'",
-		game.id, id);
+		server.game_identifier, id);
 	return FALSE;
       }
     }
@@ -970,7 +971,7 @@ static void log_civ_score(void)
 
   enum { SL_CREATE, SL_APPEND, SL_UNSPEC } oper = SL_UNSPEC;
   int i;
-  char id[MAX_ID_LEN];
+  char id[MAX_LEN_GAME_IDENTIFIER];
 
   if (!player_name_ptrs[0]) {
     int i;
@@ -1017,7 +1018,7 @@ static void log_civ_score(void)
 	      "# <http://svn.gna.org/viewcvs/freeciv/trunk/doc/README.scorelog?view=auto>.\n"
 	      "\n");
 
-      fprintf(fp, "id %s\n", game.id);
+      fprintf(fp, "id %s\n", server.game_identifier);
       for (i = 0; i<ARRAY_SIZE(score_tags); i++) {
 	fprintf(fp, "tag %d %s\n", i, score_tags[i].name);
       }

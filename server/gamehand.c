@@ -44,21 +44,6 @@
 
 
 /****************************************************************************
-  Initialize the game.id variable to a random string of characters.
-****************************************************************************/
-static void init_game_id(void)
-{
-  static const char chars[] =
-    "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  int i;
-
-  for (i = 0; i < ARRAY_SIZE(game.id) - 1; i++) {
-    game.id[i] = chars[myrand(sizeof(chars) - 1)];
-  }
-  game.id[i] = '\0';
-}
-
-/****************************************************************************
   Get unit_type for given role character
 ****************************************************************************/
 struct unit_type *crole_to_unit_type(char crole,struct player *pplayer)
@@ -211,7 +196,8 @@ void init_new_game(void)
   bool pos_used[map.num_start_positions];
   int i, num_used = 0;
 
-  init_game_id();
+  randomize_base64url_string(server.game_identifier,
+                             sizeof(server.game_identifier));
 
   /* Shuffle starting positions around so that they match up with the
    * desired players. */

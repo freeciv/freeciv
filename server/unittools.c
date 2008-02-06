@@ -1377,12 +1377,12 @@ and the city it was in.
 **************************************************************************/
 static void server_remove_unit(struct unit *punit)
 {
-  struct city *pcity = tile_city(punit->tile);
+  struct tile *ptile = punit->tile;
+  struct city *pcity = tile_city(ptile);
   struct city *phomecity = game_find_city_by_number(punit->homecity);
-  struct tile *unit_tile = punit->tile;
 
 #ifndef NDEBUG
-  unit_list_iterate(punit->tile->units, pcargo) {
+  unit_list_iterate(ptile->units, pcargo) {
     assert(pcargo->transported_by != punit->id);
   } unit_list_iterate_end;
 #endif
@@ -1399,7 +1399,7 @@ static void server_remove_unit(struct unit *punit)
   conn_list_iterate(game.est_connections, pconn) {
     if ((!pconn->player && pconn->observer)
 	|| (pconn->player 
-            && map_is_known_and_seen(punit->tile, pconn->player, V_MAIN))) {
+            && map_is_known_and_seen(ptile, pconn->player, V_MAIN))) {
       /* FIXME: this sends the remove packet to all players, even those who
        * can't see the unit.  This potentially allows some limited cheating.
        * However fixing it requires changes elsewhere since sometimes the
@@ -1421,11 +1421,11 @@ static void server_remove_unit(struct unit *punit)
 
   /* check if this unit had F_GAMELOSS flag */
   if (unit_has_type_flag(punit, F_GAMELOSS) && unit_owner(punit)->is_alive) {
-    notify_conn(game.est_connections, punit->tile, E_UNIT_LOST,
+    notify_conn(game.est_connections, ptile, E_UNIT_LOST,
                    _("Unable to defend %s, %s has lost the game."),
                    unit_name_translation(punit),
                    player_name(unit_owner(punit)));
-    notify_player(unit_owner(punit), punit->tile, E_GAME_END,
+    notify_player(unit_owner(punit), ptile, E_GAME_END,
 		  _("Losing %s meant losing the game! "
                   "Be more careful next time!"),
                   unit_name_translation(punit));
@@ -1436,10 +1436,10 @@ static void server_remove_unit(struct unit *punit)
   punit = NULL;
 
   /* This unit may have blocked tiles of adjacent cities. Update them. */
-  map_city_radius_iterate(unit_tile, ptile1) {
+  map_city_radius_iterate(ptile, ptile1) {
     struct city *pcity = tile_city(ptile1);
     if (pcity) {
-      update_city_tile_status_map(pcity, unit_tile);
+      update_city_tile_status_map(pcity, ptile);
     }
   } map_city_radius_iterate_end;
   sync_cities();
@@ -1452,7 +1452,7 @@ static void server_remove_unit(struct unit *punit)
     city_refresh(pcity);
     send_city_info(city_owner(pcity), pcity);
   }
-  if (pcity && unit_list_size(unit_tile->units) == 0) {
+  if (pcity && unit_list_size(ptile->units) == 0) {
     /* The last unit in the city was killed: update the occupied flag. */
     send_city_info(NULL, pcity);
   }

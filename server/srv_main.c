@@ -1096,7 +1096,7 @@ static bool identity_number_is_used(int id)
 }
 
 /**************************************************************************
-  Truncation of unsigned short wraps at 65K, skipping VISION_SITE_NONE (0)
+  Truncation of unsigned short wraps at 65K, skipping IDENTITY_NUMBER_ZERO
   Setup in server_game_init()
 **************************************************************************/
 int identity_number(void)
@@ -2140,10 +2140,10 @@ void server_game_init(void)
 {
   /* was redundantly in game_load() */
   server.nbarbarians = 0;
-  server.identity_number = IDENTITY_NUMBER_START;
+  server.identity_number = IDENTITY_NUMBER_SKIP;
 
   memset(identity_numbers_used, 0, sizeof(identity_numbers_used));
-  identity_number_reserve(VISION_SITE_NONE);
+  identity_number_reserve(IDENTITY_NUMBER_ZERO);
 
   game_init();
 }

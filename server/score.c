@@ -399,7 +399,7 @@ void save_ppm(void)
     return;
   }
 
-  fprintf(fp, "P3\n# version:2\n# gameid: %s\n", game.id);
+  fprintf(fp, "P3\n# version:2\n# gameid: %s\n", server.game_identifier);
   fprintf(fp, "# An intermediate map from saved Freeciv game %s%+05d\n",
           game.save_name, game.info.year);
 

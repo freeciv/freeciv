@@ -95,10 +95,10 @@ bool is_valid_city_coords(const int city_x, const int city_y)
   center. Returns whether the map position is inside of the city map.
 **************************************************************************/
 bool base_map_to_city_map(int *city_map_x, int *city_map_y,
-			  const struct tile *city_tile,
+			  const struct tile *city_center,
 			  const struct tile *map_tile)
 {
-  map_distance_vector(city_map_x, city_map_y, city_tile, map_tile);
+  map_distance_vector(city_map_x, city_map_y, city_center, map_tile);
   *city_map_x += CITY_MAP_RADIUS;
   *city_map_y += CITY_MAP_RADIUS;
   return is_valid_city_coords(*city_map_x, *city_map_y);
@@ -119,14 +119,14 @@ bool map_to_city_map(int *city_map_x, int *city_map_y,
 Finds the map position for a given city map coordinate of a certain
 city. Returns true if the map position found is real.
 **************************************************************************/
-struct tile *base_city_map_to_map(const struct tile *city_tile,
+struct tile *base_city_map_to_map(const struct tile *city_center,
 				  int city_map_x, int city_map_y)
 {
   int x, y;
 
   assert(is_valid_city_coords(city_map_x, city_map_y));
-  x = city_tile->x + city_map_x - CITY_MAP_SIZE / 2;
-  y = city_tile->y + city_map_y - CITY_MAP_SIZE / 2;
+  x = city_center->x + city_map_x - CITY_MAP_SIZE / 2;
+  y = city_center->y + city_map_y - CITY_MAP_SIZE / 2;
 
   return map_pos_to_tile(x, y);
 }
@@ -642,7 +642,7 @@ bool city_can_change_build(const struct city *pcity)
 **************************************************************************/
 const char *city_name(const struct city *pcity)
 {
-  assert(NULL != pcity && NULL != pcity->name);
+  assert(NULL != pcity);
   return pcity->name;
 }
 
@@ -651,8 +651,19 @@ const char *city_name(const struct city *pcity)
 **************************************************************************/
 struct player *city_owner(const struct city *pcity)
 {
-  assert(NULL != pcity && NULL != pcity->owner);
+  assert(NULL != pcity);
+  assert(NULL != pcity->owner);
   return pcity->owner;
+}
+
+/**************************************************************************
+  Return the tile location of the city.
+  Not (yet) always used, mostly for debugging.
+**************************************************************************/
+struct tile *city_tile(const struct city *pcity)
+{
+  assert(NULL != pcity);
+  return pcity->tile;
 }
 
 /**************************************************************************
@@ -2423,8 +2434,8 @@ void city_styles_free(void)
 }
 
 /**************************************************************************
-  Create virtual skeleton for a city.  It does not register the city so 
-  the id is set to 0.  All other values are more or less sane defaults.
+  Create virtual skeleton for a city.
+  Values are mostly sane defaults.
 **************************************************************************/
 struct city *create_city_virtual(struct player *pplayer,
 		                 struct tile *ptile, const char *name)
@@ -2432,12 +2443,16 @@ struct city *create_city_virtual(struct player *pplayer,
   int i;
   struct city *pcity = fc_calloc(1, sizeof(*pcity));
 
-  pcity->id = 0;
+  /* It does not register the city so the id is set to 0. */
+  pcity->id = IDENTITY_NUMBER_ZERO;
+
   assert(pplayer != NULL); /* No unowned cities! */
   pcity->original = pplayer;
   pcity->owner = pplayer;
+
   pcity->tile = ptile;
   sz_strlcpy(pcity->name, name);
+
 #ifdef ZERO_VARIABLES_FOR_SEARCHING
   memset(pcity->feel, 0, sizeof(pcity->feel));
   memset(pcity->specialists, 0, sizeof(pcity->specialists));

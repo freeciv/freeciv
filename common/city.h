@@ -110,9 +110,9 @@ extern int city_tiles;
  * elements of [0,CITY_MAP_SIZE). mx and my will form the map position
  * (mx,my).
  */
-#define city_map_checked_iterate(city_tile, cx, cy, _tile) {		\
+#define city_map_checked_iterate(_city_tile, cx, cy, _tile) {		\
   city_map_iterate_outwards(cx, cy) {					\
-    struct tile *_tile = base_city_map_to_map(city_tile, cx, cy);	\
+    struct tile *_tile = base_city_map_to_map(_city_tile, cx, cy);	\
     if (NULL != _tile) {
 
 #define city_map_checked_iterate_end					\
@@ -122,9 +122,9 @@ extern int city_tiles;
 
 /* Does the same thing as city_map_checked_iterate, but keeps the city
  * coordinates hidden. */
-#define map_city_radius_iterate(city_tile, _tile)			\
+#define map_city_radius_iterate(_city_tile, _tile)			\
 {									\
-  city_map_checked_iterate(city_tile, _tile##_x, _tile##_y, _tile) { 
+  city_map_checked_iterate(_city_tile, _tile##_x, _tile##_y, _tile) { 
 
 #define map_city_radius_iterate_end					\
   } city_map_checked_iterate_end;					\
@@ -408,6 +408,8 @@ void add_specialist_output(const struct city *pcity, int *output);
 
 const char *city_name(const struct city *pcity);
 struct player *city_owner(const struct city *pcity);
+struct tile *city_tile(const struct city *pcity);
+
 int city_population(const struct city *pcity);
 int city_unit_unhappiness(struct unit *punit, int *free_happy);
 void city_unit_upkeep(struct unit *punit, int *outputs, int *free_upkeep);
@@ -482,10 +484,10 @@ bool map_to_city_map(int *city_map_x, int *city_map_y,
 		     const struct city *const pcity,
 		     const struct tile *ptile);
 bool base_map_to_city_map(int *city_map_x, int *city_map_y,
-			  const struct tile *city_tile,
+			  const struct tile *city_center,
 			  const struct tile *map_tile);
 
-struct tile *base_city_map_to_map(const struct tile *city_center_tile,
+struct tile *base_city_map_to_map(const struct tile *city_center,
 				  int city_map_x, int city_map_y);
 struct tile *city_map_to_map(const struct city *const pcity,
 			     int city_map_x, int city_map_y);

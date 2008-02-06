@@ -47,6 +47,7 @@
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
+#include "rand.h"
 #include "support.h"
 
 #include "shared.h"
@@ -78,6 +79,10 @@
  * be converted to the internal encoding when it's used. */
 static char *grouping = NULL;
 static char *grouping_sep = NULL;
+
+static const char base64url[] =
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+
 
 /***************************************************************
   Take a string containing multiple lines and create a copy where
@@ -390,22 +395,15 @@ static bool is_ascii(char ch)
 ****************************************************************************/
 bool is_safe_filename(const char *name)
 {
-  int i;
+  int i = 0;
 
   /* must not be NULL or empty */
   if (!name || *name == '\0') {
     return FALSE; 
   }
 
-  /* Accept only alphanumerics and '-', '_', '.' The exception is if
-   * part of PARENT_DIR_OPERATOR is one of these, which is prohibited */  
-  for (i = 0; name[i]; i++) {
-    if (!((name[i] <= 'z' && name[i] >= 'a')
-          || (name[i] <= 'Z' && name[i] >= 'A')
-          || (name[i] <= '9' && name[i] >= '0')
-          || name[i] == '-'
-          || name[i] == '_'
-          || name[i] == '.')) {
+  for (; '\0' != name[i]; i++) {
+    if ('.' != name[i] && NULL == strchr(base64url, name[i])) {
       return FALSE;
     }
   }
@@ -455,6 +453,45 @@ bool is_ascii_name(const char *name)
 
   /* otherwise, it's okay... */
   return TRUE;
+}
+
+/*************************************************************************
+  Check for valid base64url.
+*************************************************************************/
+bool is_base64url(const char *s)
+{
+  size_t i = 0;
+
+  /* must not be NULL or empty */
+  if (NULL == s || '\0' == *s) {
+    return FALSE; 
+  }
+
+  for (; '\0' != s[i]; i++) {
+    if (NULL == strchr(base64url, s[i])) {
+      return FALSE;
+    }
+  }
+  return TRUE;
+}
+
+/*************************************************************************
+  generate a random string meeting criteria such as is_ascii_name(),
+  is_base64url(), and is_safe_filename().
+*************************************************************************/
+void randomize_base64url_string(char *s, size_t n)
+{
+  size_t i = 0;
+
+  /* must not be NULL or too short */
+  if (NULL == s || 1 > n) {
+    return; 
+  }
+
+  for (; i < (n - 1); i++) {
+    s[i] = base64url[myrand(sizeof(base64url) - 1)];
+  }
+  s[i] = '\0';
 }
 
 /***************************************************************

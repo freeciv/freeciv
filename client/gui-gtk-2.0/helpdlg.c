@@ -60,7 +60,7 @@ static GtkWidget *help_frame;
 static GtkTextBuffer *help_text;
 static GtkWidget *help_text_sw;
 static GtkWidget *help_vbox;
-static GtkWidget *unit_tile;
+static GtkWidget *help_tile;
 static GtkWidget *help_box;
 static GtkWidget *help_itable;
 static GtkWidget *help_wtable;
@@ -340,14 +340,14 @@ static void help_box_hide(void)
 {
   gtk_widget_hide(help_box);
 
-  gtk_widget_hide(unit_tile);
+  gtk_widget_hide(help_tile);
 
   gtk_widget_hide(help_itable);
   gtk_widget_hide(help_wtable);
   gtk_widget_hide(help_utable);
   gtk_widget_hide(help_ttable);
   
-  gtk_widget_hide(unit_tile);
+  gtk_widget_hide(help_tile); /* FIXME: twice? */
 
   gtk_widget_hide(help_vbox);
   gtk_widget_hide(help_text_sw);
@@ -509,8 +509,8 @@ static void create_help_dialog(void)
   help_box = gtk_vbox_new(FALSE, 5);
   gtk_container_add(GTK_CONTAINER(help_frame), help_box);
 
-  unit_tile = gtk_pixcomm_new(tileset_full_tile_width(tileset), tileset_full_tile_height(tileset));
-  gtk_box_pack_start(GTK_BOX(help_box), unit_tile, FALSE, FALSE, 0);
+  help_tile = gtk_pixcomm_new(tileset_full_tile_width(tileset), tileset_full_tile_height(tileset));
+  gtk_box_pack_start(GTK_BOX(help_box), help_tile, FALSE, FALSE, 0);
 
   help_itable = gtk_table_new(1, 6, FALSE);
   gtk_box_pack_start(GTK_BOX(help_box), help_itable, FALSE, FALSE, 0);
@@ -823,16 +823,16 @@ static void help_update_unit_type(const struct help_item *pitem,
     gtk_text_buffer_set_text(help_text, buf, -1);
     gtk_widget_show(help_text_sw);
 
-    gtk_pixcomm_freeze(GTK_PIXCOMM(unit_tile));
+    gtk_pixcomm_freeze(GTK_PIXCOMM(help_tile));
     {
       struct canvas store;
 
       store.type = CANVAS_PIXCOMM;
-      store.v.pixcomm = GTK_PIXCOMM(unit_tile);
+      store.v.pixcomm = GTK_PIXCOMM(help_tile);
       create_overlay_unit(&store, utype);
     }
-    gtk_pixcomm_thaw(GTK_PIXCOMM(unit_tile));
-    gtk_widget_show(unit_tile);
+    gtk_pixcomm_thaw(GTK_PIXCOMM(help_tile));
+    gtk_widget_show(help_tile);
   }
   else {
     gtk_label_set_text(GTK_LABEL(help_ulabel[0][1]), "0");

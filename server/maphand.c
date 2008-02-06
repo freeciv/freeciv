@@ -1204,7 +1204,7 @@ struct vision_site *map_get_player_city(const struct tile *ptile,
   struct vision_site *psite = map_get_player_site(ptile, pplayer);
 
   if (NULL != psite && ptile == psite->location
-   && VISION_SITE_NONE < psite->identity) {
+   && IDENTITY_NUMBER_ZERO < psite->identity) {
     return psite;
   }
   return NULL;
@@ -1814,13 +1814,13 @@ void map_claim_border(struct tile *ptile, struct player *powner)
     /* no borders */
     return;
   }
-  if (VISION_SITE_NONE == psite->identity) {
+  if (IDENTITY_NUMBER_ZERO == psite->identity) {
     /* should never be called! */
     freelog(LOG_ERROR, "Warning: border source (%d,%d) is unknown!",
             TILE_XY(ptile));
     return;
   }
-  if (VISION_SITE_NONE < psite->identity) {
+  if (IDENTITY_NUMBER_ZERO < psite->identity) {
     /* city expansion */
     range = MIN(psite->size + 1, game.info.borders);
     if (psite->size > game.info.borders) {
@@ -1844,7 +1844,7 @@ void map_claim_border(struct tile *ptile, struct player *powner)
       int r = sq_map_distance(dsite->location, dtile);
 
       /* border tile claimed by another */
-      if (VISION_SITE_NONE == dsite->identity) {
+      if (IDENTITY_NUMBER_ZERO == dsite->identity) {
         /* ruins don't keep their borders */
         dsite->owner = powner;
         tile_set_owner(dtile, powner);

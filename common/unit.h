@@ -137,7 +137,7 @@ struct unit_order {
 };
 
 struct unit {
-  struct unit_type *utype;
+  struct unit_type *utype; /* Cannot be NULL. */
   struct tile *tile;
   struct player *owner; /* Cannot be NULL. */
   int id;
@@ -292,6 +292,7 @@ const char *unit_activity_text(const struct unit *punit);
 int get_transporter_capacity(const struct unit *punit);
 
 struct player *unit_owner(const struct unit *punit);
+struct tile *unit_tile(const struct unit *punit);
 
 struct unit *is_allied_unit_tile(const struct tile *ptile,
 				 const struct player *pplayer);

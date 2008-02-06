@@ -1120,11 +1120,23 @@ const char *unit_activity_text(const struct unit *punit)
 }
 
 /**************************************************************************
-  Return the unit's owner.
+  Return the owner of the unit.
 **************************************************************************/
 struct player *unit_owner(const struct unit *punit)
 {
+  assert(NULL != punit);
+  assert(NULL != punit->owner);
   return punit->owner;
+}
+
+/**************************************************************************
+  Return the tile location of the unit.
+  Not (yet) always used, mostly for debugging.
+**************************************************************************/
+struct tile *unit_tile(const struct unit *punit)
+{
+  assert(NULL != punit);
+  return punit->tile;
 }
 
 /**************************************************************************
@@ -1305,16 +1317,21 @@ struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
 {
   struct unit *punit = fc_calloc(1, sizeof(*punit));
 
+  /* It does not register the unit so the id is set to 0. */
+  punit->id = IDENTITY_NUMBER_ZERO;
+
   CHECK_UNIT_TYPE(punittype); /* No untyped units! */
   punit->utype = punittype;
+
   assert(pplayer != NULL); /* No unowned units! */
   punit->owner = pplayer;
+
   if (pcity) {
     punit->tile = pcity->tile;
     punit->homecity = pcity->id;
   } else {
     punit->tile = NULL;
-    punit->homecity = 0;
+    punit->homecity = IDENTITY_NUMBER_ZERO;
   }
   punit->goto_tile = NULL;
   punit->veteran = veteran_level;

@@ -38,9 +38,12 @@
 #define MAX_LEN_NAME     32
 #define MAX_LEN_DEMOGRAPHY 16
 #define MAX_LEN_ALLOW_TAKE 16
-#define MAX_ID_LEN 33
+#define MAX_LEN_GAME_IDENTIFIER 33
 #define MAX_GRANARY_INIS 24
 #define MAX_LEN_STARTUNIT (20+1)
+
+/* symbol to flag missing numbers for better debugging */
+#define IDENTITY_NUMBER_ZERO (0)
 
 /* Server setting types.  Changing these will break network compatability. */
 enum sset_type {
