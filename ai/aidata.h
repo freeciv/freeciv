@@ -14,7 +14,7 @@
 #define FC__AIDATA_H
 
 /* max size of a short */
-#define MAX_NUM_ID 32767
+#define MAX_NUM_ID (1+MAX_UINT16)
 
 #include "shared.h"		/* bool type */
 

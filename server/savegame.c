@@ -2713,7 +2713,7 @@ static void player_map_load(struct player *plr, int plrno,
 	struct vision_site *pdcity = fc_calloc(1, sizeof(*pdcity));
 
 	pdcity->identity = secfile_lookup_int(file, "player%d.dc%d.id", plrno, j);
-	if (VISION_SITE_NONE >= pdcity->identity) {
+	if (IDENTITY_NUMBER_ZERO >= pdcity->identity) {
 	  freelog(LOG_ERROR, "[player%d] dc%d has invalid id (%d); skipping.",
 		  plrno, j, pdcity->identity);
 	  free(pdcity);
@@ -3743,8 +3743,14 @@ void game_load(struct section_file *file)
     game.scorelog = secfile_lookup_bool_default(file, FALSE, "game.scorelog");
     game.scoreturn =
       secfile_lookup_int_default(file, game.info.turn + GAME_DEFAULT_SCORETURN,
-				       "game.scoreturn");
-    sz_strlcpy(game.id, secfile_lookup_str_default(file, "", "game.id"));
+                                       "game.scoreturn");
+    sz_strlcpy(server.game_identifier,
+               secfile_lookup_str_default(file, "", "game.id"));
+    if (0 == strlen(server.game_identifier)
+     || !is_base64url(server.game_identifier)) {
+      randomize_base64url_string(server.game_identifier,
+                                 sizeof(server.game_identifier));
+    }
 
     game.info.fogofwar = secfile_lookup_bool_default(file, FALSE, "game.fogofwar");
     game.fogofwar_old = game.info.fogofwar;
@@ -4359,7 +4365,8 @@ void game_save(struct section_file *file, const char *save_reason)
   secfile_insert_int(file, game.info.aifill, "game.aifill");
   secfile_insert_bool(file, game.scorelog, "game.scorelog");
   secfile_insert_int(file, game.scoreturn, "game.scoreturn");
-  secfile_insert_str(file, game.id, "game.id");
+  secfile_insert_str(file, server.game_identifier, "game.id");
+
   secfile_insert_bool(file, game.info.fogofwar, "game.fogofwar");
   secfile_insert_bool(file, game.info.spacerace, "game.spacerace");
   secfile_insert_bool(file, game.info.auto_ai_toggle, "game.auto_ai_toggle");

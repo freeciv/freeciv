@@ -46,7 +46,6 @@ struct civ_game {
   struct packet_ruleset_control control;
   bool debug[DEBUG_LAST];
   int version;
-  char id[MAX_ID_LEN];		/* server only */
   int timeoutint;     /* increase timeout every N turns... */
   int timeoutinc;     /* ... by this amount ... */
   int timeoutincmult; /* ... and multiply timeoutinc by this amount ... */
