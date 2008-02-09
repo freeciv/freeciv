@@ -393,9 +393,6 @@ extern struct output_type output_types[];
 }
 
 
-static inline bool is_city_center(int city_x, int city_y);
-static inline bool is_free_worked_tile(int city_x, int city_y);
-
 /* output type functions */
 
 const char *get_output_identifier(Output_type_id output);
@@ -616,6 +613,13 @@ int city_pollution(const struct city *pcity, int shield_total);
 #define output_type_iterate_end						    \
   }									    \
 }
+
+/* === */
+
+static inline bool is_city_center(int city_x, int city_y);
+static inline bool is_free_worked_tile(int city_x, int city_y);
+#define FREE_WORKED_TILES (1)
+
 
 /**************************************************************************
   Return TRUE iff the given city coordinate pair is the center tile of
