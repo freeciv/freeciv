@@ -203,7 +203,7 @@ void game_remove_city(struct city *pcity)
     set_worker_city(pcity, x, y, C_TILE_EMPTY);
   } city_map_checked_iterate_end;
   city_list_unlink(city_owner(pcity)->cities, pcity);
-  tile_set_city(pcity->tile, NULL);
+  tile_set_city(pcity->tile, NULL); /* redundant to set_worker_city() above */
   idex_unregister_city(pcity);
   destroy_city_virtual(pcity);
 }
@@ -511,7 +511,6 @@ void game_remove_player(struct player *pplayer)
   }
   pplayer->attribute_block_buffer.length = 0;
 
-
 #if 0
   assert(conn_list_size(pplayer->connections) == 0);
   /* FIXME: Connections that are unlinked here are left dangling.  It's up to
@@ -525,7 +524,11 @@ void game_remove_player(struct player *pplayer)
   unit_list_iterate(pplayer->units, punit) {
     game_remove_unit(punit);
   } unit_list_iterate_end;
-  assert(unit_list_size(pplayer->units) == 0);
+  if (0 != unit_list_size(pplayer->units)) {
+    freelog(LOG_ERROR, "game_remove_player() failed to remove %d %s units",
+            unit_list_size(pplayer->units),
+            nation_rule_name(nation_of_player(pplayer)));
+  }
   unit_list_unlink_all(pplayer->units);
   unit_list_free(pplayer->units);
   pplayer->units = NULL;
@@ -533,7 +536,11 @@ void game_remove_player(struct player *pplayer)
   city_list_iterate(pplayer->cities, pcity) {
     game_remove_city(pcity);
   } city_list_iterate_end;
-  assert(city_list_size(pplayer->cities) == 0);
+  if (0 != city_list_size(pplayer->cities)) {
+    freelog(LOG_ERROR, "game_remove_player() failed to remove %d %s cities",
+            city_list_size(pplayer->cities),
+            nation_rule_name(nation_of_player(pplayer)));
+  }
   city_list_unlink_all(pplayer->cities);
   city_list_free(pplayer->cities);
   pplayer->cities = NULL;
