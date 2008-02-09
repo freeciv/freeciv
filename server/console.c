@@ -25,9 +25,11 @@
 
 #include "fciconv.h"
 #include "fcintl.h"
+#include "game.h"
 #include "log.h"
 #include "support.h"
 
+#include "plrhand.h"
 #include "srv_main.h"
 
 #include "console.h"
@@ -47,6 +49,21 @@ This must match the log_callback_fn typedef signature.
 ************************************************************************/
 static void con_handle_log(int level, const char *message, bool file_too)
 {
+  if (LOG_ERROR == level) {
+    notify_conn(NULL, NULL, E_LOG_ERROR, message);
+  } else if (LOG_FATAL >= level) {
+    /* Make sure that message is not left to buffers when server dies */
+    conn_list_iterate(game.est_connections, pconn) {
+      pconn->send_buffer->do_buffer_sends = 0;
+      pconn->compression.frozen_level = 0;
+    } conn_list_iterate_end;
+
+    notify_conn(NULL, NULL, E_LOG_FATAL, message);
+    notify_conn(NULL, NULL, E_LOG_FATAL,
+                _("Please report this message at %s"),
+                BUG_URL);
+  }
+
   /* Write debug/verbose message to console only when not written to file. */
   if (!file_too || level <= LOG_NORMAL) {
     if (console_rfcstyle) {

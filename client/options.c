@@ -372,8 +372,12 @@ void message_options_init(void)
     E_CITY_PRODUCTION_CHANGED,
     E_CITY_MAY_SOON_GROW, E_WORKLIST, E_AI_DEBUG
   };
-  int out_only[] = {E_CHAT_MSG, E_CHAT_ERROR, E_SETTING, E_CONNECTION};
-  int all[] = {E_MESSAGE_WALL, E_TUTORIAL};
+  int out_only[] = {
+    E_CHAT_MSG, E_CHAT_ERROR, E_CONNECTION, E_LOG_ERROR, E_SETTING
+  };
+  int all[] = {
+    E_LOG_FATAL, E_TUTORIAL
+  };
   int i;
 
   for (i = 0; i < E_LAST; i++) {

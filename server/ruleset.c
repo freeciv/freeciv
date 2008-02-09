@@ -140,18 +140,7 @@ static void ruleset_error(int loglevel, const char *format, ...)
 
   va_start(args, format);
 
-  if (LOG_FATAL >= loglevel) {
-    /* Make sure that message is not left to buffers when server dies */
-    conn_list_iterate(game.est_connections, pconn) {
-      pconn->send_buffer->do_buffer_sends = 0;
-      pconn->compression.frozen_level = 0;
-    } conn_list_iterate_end;
-
-    vreal_freelog(loglevel, format, args);
-    notify_conn(NULL, NULL, E_MESSAGE_WALL, _("Fatal ruleset error. Server dies!"));
-  } else {
-    vreal_freelog(loglevel, format, args);
-  }
+  vreal_freelog(loglevel, format, args);
 
   va_end(args);
 
