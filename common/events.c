@@ -26,8 +26,41 @@
 
 #include "events.h"
 
-#define GEN_EV(section, descr, event) { #event, NULL, section, descr, NULL, event }
-#define GEN_EV_TERMINATOR { NULL, NULL, NULL, NULL, NULL, 0 }
+enum event_section_n {
+  E_S_ADVANCE,
+  E_S_BUILD,
+  E_S_CITY,
+  E_S_D_ME,
+  E_S_D_THEM,
+  E_S_GLOBAL,
+  E_S_HUT,
+  E_S_NATION,
+  E_S_TREATY,
+  E_S_UNIT,
+  E_S_WONDER,
+  E_S_XYZZY
+};
+
+/*
+ * Information about all event sections, matching the enum above.
+ */
+static const char *event_sections[] = {
+  N_("Technology: %s"),
+  N_("Improvement: %s"),
+  N_("City: %s"),
+  N_("Diplomat Action: %s"),
+  N_("Enemy Diplomat: %s"),
+  N_("Global: %s"),
+  N_("Hut: %s"),
+  N_("Nation: %s"),
+  N_("Treaty: %s"),
+  N_("Unit: %s"),
+  N_("Wonder: %s"),
+  NULL
+};
+
+#define GEN_EV(event, section, descr) { #event, NULL, section, descr, NULL, event }
+#define GEN_EV_TERMINATOR { NULL, NULL, E_S_XYZZY, NULL, NULL, 0 }
 
 /*
  * Holds information about all event types. The entries don't have
@@ -36,113 +69,113 @@
 static struct {
   const char *enum_name;
   char *tag_name;
-  const char *section_orig;
+  enum event_section_n esn;
   char *descr_orig;
   char *full_descr;
   enum event_type event;
 } events[] = {
-  GEN_EV(N_("City"), N_("Building Unavailable Item"),       E_CITY_CANTBUILD),
-  GEN_EV(N_("City"), N_("Captured/Destroyed"),              E_CITY_LOST),
-  GEN_EV(N_("City"), N_("Celebrating"),                     E_CITY_LOVE),
-  GEN_EV(N_("City"), N_("Civil Disorder"),                  E_CITY_DISORDER),
-  GEN_EV(N_("City"), N_("Famine"),                          E_CITY_FAMINE),
-  GEN_EV(N_("City"), N_("Famine Feared"),                   E_CITY_FAMINE_FEARED),
-  GEN_EV(N_("City"), N_("Growth"),                          E_CITY_GROWTH),
-  GEN_EV(N_("City"), N_("May Soon Grow"),                   E_CITY_MAY_SOON_GROW),
-  GEN_EV(N_("City"), N_("Needs Aqueduct"),                  E_CITY_AQUEDUCT),
-  GEN_EV(N_("City"), N_("Needs Aqueduct Being Built"),      E_CITY_AQ_BUILDING),
-  GEN_EV(N_("City"), N_("Normal"),                          E_CITY_NORMAL),
-  GEN_EV(N_("City"), N_("Nuked"),                           E_CITY_NUKED),
-  GEN_EV(N_("City"), N_("Released from citizen governor"),  E_CITY_CMA_RELEASE),
-  GEN_EV(N_("City"), N_("Suggest Growth Throttling"),       E_CITY_GRAN_THROTTLE),
-  GEN_EV(N_("City"), N_("Transfer"),                        E_CITY_TRANSFER),
-  GEN_EV(N_("City"), N_("Was Built"),                       E_CITY_BUILD),
-  GEN_EV(N_("City"), N_("Worklist Events"),                 E_WORKLIST),
-  GEN_EV(N_("City"), N_("Production changed"),              E_CITY_PRODUCTION_CHANGED),
-  GEN_EV(N_("Civ"), N_("Barbarian Uprising"),               E_UPRISING ),
-  GEN_EV(N_("Civ"), N_("Civil War"),                        E_CIVIL_WAR),
-  GEN_EV(N_("Civ"), N_("Collapse to Anarchy"),              E_ANARCHY),
-  GEN_EV(N_("Civ"), N_("First Contact"),                    E_FIRST_CONTACT),
-  GEN_EV(N_("Civ"), N_("Learned New Government"),           E_NEW_GOVERNMENT),
-  GEN_EV(N_("Civ"), N_("Low Funds"),                        E_LOW_ON_FUNDS),
-  GEN_EV(N_("Civ"), N_("Pollution"),                        E_POLLUTION),
-  GEN_EV(N_("Civ"), N_("Revolt Ended"),                     E_REVOLT_DONE),
-  GEN_EV(N_("Civ"), N_("Revolt Started"),                   E_REVOLT_START),
-  GEN_EV(N_("Civ"), N_("Spaceship Events"),                 E_SPACESHIP),
-  GEN_EV(N_("Diplomat Action"), N_("Bribe"),                E_MY_DIPLOMAT_BRIBE),
-  GEN_EV(N_("Diplomat Action"), N_("Caused Incident"),      E_DIPLOMATIC_INCIDENT),
-  GEN_EV(N_("Diplomat Action"), N_("Escape"),               E_MY_DIPLOMAT_ESCAPE),
-  GEN_EV(N_("Diplomat Action"), N_("Embassy"),              E_UNUSED1),
-  GEN_EV(N_("Diplomat Action"), N_("Failed"),               E_MY_DIPLOMAT_FAILED),
-  GEN_EV(N_("Diplomat Action"), N_("Incite"),               E_MY_DIPLOMAT_INCITE),
-  GEN_EV(N_("Diplomat Action"), N_("Poison"),               E_MY_DIPLOMAT_POISON),
-  GEN_EV(N_("Diplomat Action"), N_("Sabotage"),             E_MY_DIPLOMAT_SABOTAGE),
-  GEN_EV(N_("Diplomat Action"), N_("Theft"),                E_MY_DIPLOMAT_THEFT),
-  GEN_EV(N_("Enemy Diplomat"), N_("Bribe"),                 E_ENEMY_DIPLOMAT_BRIBE),
-  GEN_EV(N_("Enemy Diplomat"), N_("Embassy"),               E_UNUSED2),
-  GEN_EV(N_("Enemy Diplomat"), N_("Failed"),                E_ENEMY_DIPLOMAT_FAILED),
-  GEN_EV(N_("Enemy Diplomat"), N_("Incite"),                E_ENEMY_DIPLOMAT_INCITE),
-  GEN_EV(N_("Enemy Diplomat"), N_("Poison"),                E_ENEMY_DIPLOMAT_POISON),
-  GEN_EV(N_("Enemy Diplomat"), N_("Sabotage"),              E_ENEMY_DIPLOMAT_SABOTAGE),
-  GEN_EV(N_("Enemy Diplomat"), N_("Theft"),                 E_ENEMY_DIPLOMAT_THEFT),
-  GEN_EV(NULL, N_("Caravan actions"),                       E_CARAVAN_ACTION),
-  GEN_EV(NULL, N_("Tutorial message"),                      E_TUTORIAL),
-  GEN_EV(NULL, N_("Broadcast Report"),                      E_BROADCAST_REPORT),
-  GEN_EV(NULL, N_("Game Ended"),                            E_GAME_END),
-  GEN_EV(NULL, N_("Game Started"),                          E_GAME_START),
-  GEN_EV(NULL, N_("Message from Server Operator"),          E_MESSAGE_WALL),
-  GEN_EV(NULL, N_("Nation Selected"),                       E_NATION_SELECTED),
-  GEN_EV(NULL, N_("Player Destroyed"),                      E_DESTROYED),
-  GEN_EV(NULL, N_("Report"),                                E_REPORT),
-  GEN_EV(NULL, N_("Turn Bell"),                             E_TURN_BELL),
-  GEN_EV(NULL, N_("Year Advance"),                          E_NEXT_YEAR),
-  GEN_EV(N_("Global"), N_("Eco-Disaster"),                  E_GLOBAL_ECO),
-  GEN_EV(N_("Global"), N_("Nuke Detonated"),                E_NUKE),
-  GEN_EV(N_("Hut"), N_("Barbarians in a Hut Roused"),       E_HUT_BARB),
-  GEN_EV(N_("Hut"), N_("City Founded from Hut"),            E_HUT_CITY),
-  GEN_EV(N_("Hut"), N_("Gold Found in Hut"),                E_HUT_GOLD),
-  GEN_EV(N_("Hut"), N_("Killed by Barbarians in a Hut"),    E_HUT_BARB_KILLED),
-  GEN_EV(N_("Hut"), N_("Mercenaries Found in Hut"),         E_HUT_MERC),
-  GEN_EV(N_("Hut"), N_("Settler Found in Hut"),             E_HUT_SETTLER),
-  GEN_EV(N_("Hut"), N_("Tech Found in Hut"),                E_HUT_TECH),
-  GEN_EV(N_("Hut"), N_("Unit Spared by Barbarians"),        E_HUT_BARB_CITY_NEAR),
-  GEN_EV(N_("Improvement"), N_("Bought"),                   E_IMP_BUY),
-  GEN_EV(N_("Improvement"), N_("Built"),                    E_IMP_BUILD),
-  GEN_EV(N_("Improvement"), N_("Forced to Sell"),           E_IMP_AUCTIONED),
-  GEN_EV(N_("Improvement"), N_("New Improvement Selected"), E_IMP_AUTO),
-  GEN_EV(N_("Improvement"), N_("Sold"),                     E_IMP_SOLD),
-  GEN_EV(N_("Tech"), N_("Learned From Great Library"),      E_TECH_GAIN),
-  GEN_EV(N_("Tech"), N_("Learned New Tech"),                E_TECH_LEARNED),
-  GEN_EV(N_("Tech"), N_("Selected New Goal"),               E_TECH_GOAL),
-  GEN_EV(N_("Treaty"), N_("Alliance"),                      E_TREATY_ALLIANCE),
-  GEN_EV(N_("Treaty"), N_("Broken"),                        E_TREATY_BROKEN),
-  GEN_EV(N_("Treaty"), N_("Cease-fire"),                    E_TREATY_CEASEFIRE),
-  GEN_EV(N_("Treaty"), N_("Peace"),                         E_TREATY_PEACE),
-  GEN_EV(N_("Treaty"), N_("Shared Vision"),                 E_TREATY_SHARED_VISION),
-  GEN_EV(N_("Unit"), N_("Attack Failed"),                   E_UNIT_LOST_ATT),
-  GEN_EV(N_("Unit"), N_("Attack Succeeded"),                E_UNIT_WIN_ATT),
-  GEN_EV(N_("Unit"), N_("Bought"),                          E_UNIT_BUY),
-  GEN_EV(N_("Unit"), N_("Built"),                           E_UNIT_BUILT),
-  GEN_EV(N_("Unit"), N_("Defender Destroyed"),              E_UNIT_LOST),
-  GEN_EV(N_("Unit"), N_("Defender Survived"),               E_UNIT_WIN),
-  GEN_EV(N_("Unit"), N_("Promoted to Veteran"),             E_UNIT_BECAME_VET),
-  GEN_EV(N_("Unit"), N_("Production Upgraded"),             E_UNIT_UPGRADED),
-  GEN_EV(N_("Unit"), N_("Relocated"),                       E_UNIT_RELOCATED),
-  GEN_EV(N_("Unit"), N_("Orders / goto events"),            E_UNIT_ORDERS),
-  GEN_EV(N_("Wonder"), N_("Finished"),                      E_WONDER_BUILD),
-  GEN_EV(N_("Wonder"), N_("Made Obsolete"),                 E_WONDER_OBSOLETE),
-  GEN_EV(N_("Wonder"), N_("Started"),                       E_WONDER_STARTED),
-  GEN_EV(N_("Wonder"), N_("Stopped"),                       E_WONDER_STOPPED),
-  GEN_EV(N_("Wonder"), N_("Will Finish Next Turn"),         E_WONDER_WILL_BE_BUILT),
-  GEN_EV(NULL, N_("Diplomatic Message"),                    E_DIPLOMACY),
-  GEN_EV(N_("Treaty"), N_("Embassy"),                       E_UNUSED3),
-  GEN_EV(NULL, N_("Error message from bad command"),        E_BAD_COMMAND),
-  GEN_EV(NULL, N_("Server settings changed"),               E_SETTING),
-  GEN_EV(NULL, N_("Chat messages"),                         E_CHAT_MSG),
-  GEN_EV(NULL, N_("Chat error messages"),                   E_CHAT_ERROR),
-  GEN_EV(NULL, N_("Connect/disconnect messages"),           E_CONNECTION),
-  GEN_EV(NULL, N_("AI Debug messages"),                     E_AI_DEBUG),
-  GEN_EV(NULL, N_("Player settings"),                       E_PLAYER_SETTINGS),
+  GEN_EV(E_TECH_GAIN,		E_S_ADVANCE,	N_("Learned From Great Library")),
+  GEN_EV(E_TECH_LEARNED,	E_S_ADVANCE,	N_("Learned New Tech")),
+  GEN_EV(E_TECH_GOAL,		E_S_ADVANCE,	N_("Selected New Goal")),
+  GEN_EV(E_IMP_BUY,		E_S_BUILD,	N_("Bought")),
+  GEN_EV(E_IMP_BUILD,		E_S_BUILD,	N_("Built")),
+  GEN_EV(E_IMP_AUCTIONED,	E_S_BUILD,	N_("Forced to Sell")),
+  GEN_EV(E_IMP_AUTO,		E_S_BUILD,	N_("New Improvement Selected")),
+  GEN_EV(E_IMP_SOLD,		E_S_BUILD,	N_("Sold")),
+  GEN_EV(E_CITY_CANTBUILD,	E_S_CITY,	N_("Building Unavailable Item")),
+  GEN_EV(E_CITY_LOST,		E_S_CITY,	N_("Captured/Destroyed")),
+  GEN_EV(E_CITY_LOVE,		E_S_CITY,	N_("Celebrating")),
+  GEN_EV(E_CITY_DISORDER,	E_S_CITY,	N_("Civil Disorder")),
+  GEN_EV(E_CITY_FAMINE,		E_S_CITY,	N_("Famine")),
+  GEN_EV(E_CITY_FAMINE_FEARED,	E_S_CITY,	N_("Famine Feared")),
+  GEN_EV(E_CITY_GROWTH,		E_S_CITY,	N_("Growth")),
+  GEN_EV(E_CITY_MAY_SOON_GROW,	E_S_CITY,	N_("May Soon Grow")),
+  GEN_EV(E_CITY_AQUEDUCT,	E_S_CITY,	N_("Needs Aqueduct")),
+  GEN_EV(E_CITY_AQ_BUILDING,	E_S_CITY,	N_("Needs Aqueduct Being Built")),
+  GEN_EV(E_CITY_NORMAL,		E_S_CITY,	N_("Normal")),
+  GEN_EV(E_CITY_NUKED,		E_S_CITY,	N_("Nuked")),
+  GEN_EV(E_CITY_CMA_RELEASE,	E_S_CITY,	N_("Released from citizen governor")),
+  GEN_EV(E_CITY_GRAN_THROTTLE,	E_S_CITY,	N_("Suggest Growth Throttling")),
+  GEN_EV(E_CITY_TRANSFER,	E_S_CITY,	N_("Transfer")),
+  GEN_EV(E_CITY_BUILD,		E_S_CITY,	N_("Was Built")),
+  GEN_EV(E_WORKLIST,		E_S_CITY,	N_("Worklist Events")),
+  GEN_EV(E_CITY_PRODUCTION_CHANGED, E_S_CITY,	N_("Production changed")),
+  GEN_EV(E_MY_DIPLOMAT_BRIBE,		E_S_D_ME,	N_("Bribe")),
+  GEN_EV(E_DIPLOMATIC_INCIDENT,		E_S_D_ME,	N_("Caused Incident")),
+  GEN_EV(E_MY_DIPLOMAT_ESCAPE,		E_S_D_ME,	N_("Escape")),
+  GEN_EV(E_UNUSED1,			E_S_D_ME,	N_("Embassy")),
+  GEN_EV(E_MY_DIPLOMAT_FAILED,		E_S_D_ME,	N_("Failed")),
+  GEN_EV(E_MY_DIPLOMAT_INCITE,		E_S_D_ME,	N_("Incite")),
+  GEN_EV(E_MY_DIPLOMAT_POISON,		E_S_D_ME,	N_("Poison")),
+  GEN_EV(E_MY_DIPLOMAT_SABOTAGE,	E_S_D_ME,	N_("Sabotage")),
+  GEN_EV(E_MY_DIPLOMAT_THEFT,		E_S_D_ME,	N_("Theft")),
+  GEN_EV(E_ENEMY_DIPLOMAT_BRIBE,	E_S_D_THEM,	N_("Bribe")),
+  GEN_EV(E_UNUSED2,			E_S_D_THEM,	N_("Embassy")),
+  GEN_EV(E_ENEMY_DIPLOMAT_FAILED,	E_S_D_THEM,	N_("Failed")),
+  GEN_EV(E_ENEMY_DIPLOMAT_INCITE,	E_S_D_THEM,	N_("Incite")),
+  GEN_EV(E_ENEMY_DIPLOMAT_POISON,	E_S_D_THEM,	N_("Poison")),
+  GEN_EV(E_ENEMY_DIPLOMAT_SABOTAGE,	E_S_D_THEM,	N_("Sabotage")),
+  GEN_EV(E_ENEMY_DIPLOMAT_THEFT,	E_S_D_THEM,	N_("Theft")),
+  GEN_EV(E_GLOBAL_ECO,		E_S_GLOBAL,	N_("Eco-Disaster")),
+  GEN_EV(E_NUKE,		E_S_GLOBAL,	N_("Nuke Detonated")),
+  GEN_EV(E_HUT_BARB,		E_S_HUT,	N_("Barbarians in a Hut Roused")),
+  GEN_EV(E_HUT_CITY,		E_S_HUT,	N_("City Founded from Hut")),
+  GEN_EV(E_HUT_GOLD,		E_S_HUT,	N_("Gold Found in Hut")),
+  GEN_EV(E_HUT_BARB_KILLED,	E_S_HUT,	N_("Killed by Barbarians in a Hut")),
+  GEN_EV(E_HUT_MERC,		E_S_HUT,	N_("Mercenaries Found in Hut")),
+  GEN_EV(E_HUT_SETTLER,		E_S_HUT,	N_("Settler Found in Hut")),
+  GEN_EV(E_HUT_TECH,		E_S_HUT,	N_("Tech Found in Hut")),
+  GEN_EV(E_HUT_BARB_CITY_NEAR,	E_S_HUT,	N_("Unit Spared by Barbarians")),
+  GEN_EV(E_UPRISING,		E_S_NATION,	N_("Barbarian Uprising")),
+  GEN_EV(E_CIVIL_WAR,		E_S_NATION,	N_("Civil War")),
+  GEN_EV(E_ANARCHY,		E_S_NATION,	N_("Collapse to Anarchy")),
+  GEN_EV(E_FIRST_CONTACT,	E_S_NATION,	N_("First Contact")),
+  GEN_EV(E_NEW_GOVERNMENT,	E_S_NATION,	N_("Learned New Government")),
+  GEN_EV(E_LOW_ON_FUNDS,	E_S_NATION,	N_("Low Funds")),
+  GEN_EV(E_POLLUTION,		E_S_NATION,	N_("Pollution")),
+  GEN_EV(E_REVOLT_DONE,		E_S_NATION,	N_("Revolt Ended")),
+  GEN_EV(E_REVOLT_START,	E_S_NATION,	N_("Revolt Started")),
+  GEN_EV(E_SPACESHIP,		E_S_NATION,	N_("Spaceship Events")),
+  GEN_EV(E_TREATY_ALLIANCE,	E_S_TREATY,	N_("Alliance")),
+  GEN_EV(E_TREATY_BROKEN,	E_S_TREATY,	N_("Broken")),
+  GEN_EV(E_TREATY_CEASEFIRE,	E_S_TREATY,	N_("Cease-fire")),
+  GEN_EV(E_UNUSED3,		E_S_TREATY,	N_("Embassy")),
+  GEN_EV(E_TREATY_PEACE,	E_S_TREATY,	N_("Peace")),
+  GEN_EV(E_TREATY_SHARED_VISION,E_S_TREATY,	N_("Shared Vision")),
+  GEN_EV(E_UNIT_LOST_ATT,	E_S_UNIT,	N_("Attack Failed")),
+  GEN_EV(E_UNIT_WIN_ATT,	E_S_UNIT,	N_("Attack Succeeded")),
+  GEN_EV(E_UNIT_BUY,		E_S_UNIT,	N_("Bought")),
+  GEN_EV(E_UNIT_BUILT,		E_S_UNIT,	N_("Built")),
+  GEN_EV(E_UNIT_LOST,		E_S_UNIT,	N_("Defender Destroyed")),
+  GEN_EV(E_UNIT_WIN,		E_S_UNIT,	N_("Defender Survived")),
+  GEN_EV(E_UNIT_BECAME_VET,	E_S_UNIT,	N_("Promoted to Veteran")),
+  GEN_EV(E_UNIT_UPGRADED,	E_S_UNIT,	N_("Production Upgraded")),
+  GEN_EV(E_UNIT_RELOCATED,	E_S_UNIT,	N_("Relocated")),
+  GEN_EV(E_UNIT_ORDERS,		E_S_UNIT,	N_("Orders / goto events")),
+  GEN_EV(E_WONDER_BUILD,	E_S_WONDER,	N_("Finished")),
+  GEN_EV(E_WONDER_OBSOLETE,	E_S_WONDER,	N_("Made Obsolete")),
+  GEN_EV(E_WONDER_STARTED,	E_S_WONDER,	N_("Started")),
+  GEN_EV(E_WONDER_STOPPED,	E_S_WONDER,	N_("Stopped")),
+  GEN_EV(E_WONDER_WILL_BE_BUILT,E_S_WONDER,	N_("Will Finish Next Turn")),
+  GEN_EV(E_AI_DEBUG,		E_S_XYZZY,	N_("AI Debug messages")),
+  GEN_EV(E_BROADCAST_REPORT,	E_S_XYZZY,	N_("Broadcast Report")),
+  GEN_EV(E_CARAVAN_ACTION,	E_S_XYZZY,	N_("Caravan actions")),
+  GEN_EV(E_CHAT_ERROR,		E_S_XYZZY,	N_("Chat error messages")),
+  GEN_EV(E_CHAT_MSG,		E_S_XYZZY,	N_("Chat messages")),
+  GEN_EV(E_CONNECTION,		E_S_XYZZY,	N_("Connect/disconnect messages")),
+  GEN_EV(E_DIPLOMACY,		E_S_XYZZY,	N_("Diplomatic Message")),
+  GEN_EV(E_BAD_COMMAND,		E_S_XYZZY,	N_("Error message from bad command")),
+  GEN_EV(E_GAME_END,		E_S_XYZZY,	N_("Game Ended")),
+  GEN_EV(E_GAME_START,		E_S_XYZZY,	N_("Game Started")),
+  GEN_EV(E_NATION_SELECTED,	E_S_XYZZY,	N_("Nation Selected")),
+  GEN_EV(E_DESTROYED,		E_S_XYZZY,	N_("Player Destroyed")),
+  GEN_EV(E_REPORT,		E_S_XYZZY,	N_("Report")),
+  GEN_EV(E_LOG_FATAL,		E_S_XYZZY,	N_("Server Aborting")),
+  GEN_EV(E_LOG_ERROR,		E_S_XYZZY,	N_("Server Problems")),
+  GEN_EV(E_SETTING,		E_S_XYZZY,	N_("Server settings changed")),
+  GEN_EV(E_TURN_BELL,		E_S_XYZZY,	N_("Turn Bell")),
+  GEN_EV(E_TUTORIAL,		E_S_XYZZY,	N_("Tutorial message")),
+  GEN_EV(E_NEXT_YEAR,		E_S_XYZZY,	N_("Year Advance")),
   GEN_EV_TERMINATOR
 };
 
@@ -253,17 +286,13 @@ void events_init(void)
   for (i = 0; events[i].enum_name; i++) {
     int j;
 
-    if (events[i].section_orig) {
-      /* TRANS: Most event descriptions come in two parts "Civ: Transfer"
-       *        This format is their glue. */
-      const char *event_format = Q_("?eventdescr:%s: %s");
+    if (E_S_XYZZY > events[i].esn) {
+      const char *event_format = Q_(event_sections[events[i].esn]);
+      int l = 1 + strlen(event_format) + strlen(_(events[i].descr_orig));
 
-      events[i].full_descr = fc_malloc(strlen(_(events[i].descr_orig))
-                                       + strlen(_(events[i].section_orig))
-                                       + strlen(event_format) + 1);
-      sprintf(events[i].full_descr, event_format,
-              _(events[i].section_orig),
-              _(events[i].descr_orig));
+      events[i].full_descr = fc_malloc(l);
+      my_snprintf(events[i].full_descr, l, event_format,
+                  _(events[i].descr_orig));
     } else {
       /* No section part */
       events[i].full_descr = _(events[i].descr_orig);
@@ -295,7 +324,7 @@ void events_free(void)
   int i;
 
   for (i = 0; events[i].enum_name; i++) {
-    if (events[i].section_orig) {
+    if (E_S_XYZZY > events[i].esn) {
       /* We have allocated memory for this event */
       free(events[i].full_descr);
       events[i].full_descr = NULL;

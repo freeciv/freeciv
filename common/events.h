@@ -115,15 +115,15 @@ enum event_type {
   E_WONDER_WILL_BE_BUILT,
   E_DIPLOMACY,
   E_UNUSED3,
-  E_BAD_COMMAND,  /* Illegal command sent from client. */
-  E_SETTING, /* Messages for changed server settings */
-  E_CHAT_MSG, /* Chatline messages */
-  E_MESSAGE_WALL,
-  E_CHAT_ERROR, /* Chatline errors (bad syntax, etc.) */
-  E_CONNECTION, /* Messages about acquired or lost connections */
-  E_AI_DEBUG, /* AI debugging messages */
-  E_PLAYER_SETTINGS, /* taxes etc */
-  E_TECH_GOAL,       /* Changed tech goal */
+  E_BAD_COMMAND,		/* Illegal command sent from client. */
+  E_SETTING,			/* Messages for changed server settings */
+  E_CHAT_MSG,			/* Chatline messages */
+  E_LOG_FATAL,
+  E_CHAT_ERROR,			/* Chatline errors (bad syntax, etc.) */
+  E_CONNECTION,			/* Messages about acquired or lost connections */
+  E_AI_DEBUG,			/* AI debugging messages */
+  E_LOG_ERROR,			/* Warning messages */
+  E_TECH_GOAL,			/* Changed tech goal */
   /* 
    * Note: If you add a new event, make sure you make a similar change
    * to the events array in common/events.c using GEN_EV and to
@@ -132,8 +132,8 @@ enum event_type {
   E_LAST
 };
 
-extern enum event_type sorted_events[];	   /* [E_LAST], sorted by the
-					    * translated message text */
+extern enum event_type sorted_events[]; /* [E_LAST], sorted by the
+					   translated message text */
 
 const char *get_event_message_text(enum event_type event);
 const char *get_event_sound_tag(enum event_type event);
