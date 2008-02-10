@@ -113,12 +113,12 @@ struct vision_site {
   struct tile *location;		/* Cannot be NULL */
   struct player *owner;			/* May be NULL, always check! */
 
-  int identity;				/* city/unit >= 100 */
+  int identity;				/* city > IDENTITY_NUMBER_ZERO */
+  unsigned short size;
   bool occupied;
   bool walls;
   bool happy;
   bool unhappy;
-  unsigned short size;
 
   bv_imprs improvements;
 };
@@ -128,8 +128,8 @@ void free_vision_site(struct vision_site *psite);
 struct vision_site *create_vision_site(int identity, struct tile *location,
 				       struct player *owner);
 struct vision_site *create_vision_site_from_city(const struct city *pcity);
-struct vision_site *update_vision_site_from_city(struct vision_site *psite,
-						 const struct city *pcity);
+void update_vision_site_from_city(struct vision_site *psite,
+				  const struct city *pcity);
 
 /* get 'struct site_list' and related functions: */
 #define SPECLIST_TAG site

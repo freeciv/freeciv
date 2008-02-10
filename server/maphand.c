@@ -1742,6 +1742,26 @@ static void add_unique_homecities(struct city_list *cities_to_refresh,
 #endif
 
 /*************************************************************************
+  Change ownership of a single tile.
+
+  This implementation is somewhat inefficient.  By design, it's not
+  called often.  Does not send updates to client.
+*************************************************************************/
+static void map_change_ownership(struct tile *ptile, struct player *play)
+{
+#ifdef CHANGE_CITY_SITE
+  struct vision_site *psite = map_get_player_site(ptile, play);
+
+  assert(NULL != psite);
+  update_city_tile_status_map(tile_city(psite->location), ptile);
+#else
+  city_list_iterate(play->cities, pcity) {
+    update_city_tile_status_map(pcity, ptile);
+  } city_list_iterate_end;
+#endif
+}
+
+/*************************************************************************
   Claim ownership of a single tile.
 *************************************************************************/
 void map_claim_ownership(struct tile *ptile, struct player *powner,
@@ -1761,7 +1781,7 @@ void map_claim_ownership(struct tile *ptile, struct player *powner,
     }
   }
 
-  if (NULL != powner /* assume && NULL != psource */) {
+  if (NULL != powner && NULL != psource) {
     struct city *pcity = tile_city(ptile);
     struct player_tile *playtile = map_get_player_tile(psource, powner);
 
@@ -1769,36 +1789,34 @@ void map_claim_ownership(struct tile *ptile, struct player *powner,
       if (ptile != psource) {
         map_get_player_tile(ptile, powner)->site = playtile->site;
       } else if (NULL != pcity) {
-        playtile->site = update_vision_site_from_city(playtile->site, pcity);
+        update_vision_site_from_city(playtile->site, pcity);
       } else {
         /* has new owner */
         playtile->site->owner = powner;
       }
     } else {
       assert(ptile == psource);
+      assert(NULL != pcity); /* FIXME: temporary IDENTITY_NUMBER_ZERO */
       if (NULL != pcity) {
         playtile->site = create_vision_site_from_city(pcity);
       } else {
-        playtile->site = create_vision_site(-1/*FIXME*/, psource, powner);
+        playtile->site = create_vision_site(IDENTITY_NUMBER_ZERO, psource, powner);
       }
     }
+  } else {
+    assert(NULL == powner && NULL == psource);
   }
 
   tile_set_owner(ptile, powner);
   send_tile_info(NULL, ptile, FALSE);
 
-  /* This implementation is somewhat inefficient.  By design, it's not
-   * called often.  Does not send updates to client.
-   */
-  if (NULL != ploser && ploser != powner) {
-    city_list_iterate(ploser->cities, pcity) {
-      update_city_tile_status_map(pcity, ptile);
-    } city_list_iterate_end;
-  }
-  if (NULL != powner && ploser != powner) {
-    city_list_iterate(powner->cities, pcity) {
-      update_city_tile_status_map(pcity, ptile);
-    } city_list_iterate_end;
+  if (ploser != powner) {
+    if (NULL != ploser) {
+      map_change_ownership(ptile, ploser);
+    }
+    if (NULL != powner) {
+      map_change_ownership(ptile, powner);
+    }
   }
 }
 
