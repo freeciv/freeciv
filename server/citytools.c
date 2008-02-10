@@ -186,10 +186,9 @@ static int evaluate_city_name_priority(struct tile *ptile,
 
   terrain_type_iterate(pterrain) {
     /* Now we do the same for every available terrain. */
-    goodness
-      = is_terrain_near_tile(ptile, pterrain)
-      ? nc->terrain[terrain_index(pterrain)]
-      : -nc->terrain[terrain_index(pterrain)];
+    goodness = is_terrain_near_tile(ptile, pterrain)
+               ? nc->terrain[terrain_index(pterrain)]
+               : -nc->terrain[terrain_index(pterrain)];
     if (goodness > 0) {
       priority /= mult_factor;
     } else if (goodness < 0) {
@@ -998,12 +997,11 @@ void create_city(struct player *pplayer, struct tile *ptile,
   vision_reveal_tiles(pcity->server.vision, game.info.city_reveal_tiles);
   city_refresh_vision(pcity);
 
-  tile_set_city(ptile, pcity);
+  tile_set_city(ptile, pcity); /* partly redundant to server_set_tile_city() */
   city_list_prepend(pplayer->cities, pcity);
 
   /* Claim the ground we stand on */
   map_claim_ownership(ptile, pplayer, ptile);
-  map_claim_border(ptile, pplayer);
 
   if (terrain_control.may_road) {
     tile_set_special(ptile, S_ROAD);
@@ -1031,7 +1029,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
     }
   }
 
-  /* Place a worker at the city center; this is the free-worked tile.
+  /* Place a worker at the is_city_center() is_free_worked_tile().
    * This must be done before the city refresh (below) so that the city
    * is in a sane state. */
   /* Ugly detail here is that if another city is currently working
@@ -1041,6 +1039,10 @@ void create_city(struct player *pplayer, struct tile *ptile,
    * which that other city certainly is. And once it notices that
    * ptile->worked does not point to it, it will give tile up. */
   server_set_tile_city(pcity, CITY_MAP_SIZE/2, CITY_MAP_SIZE/2, C_TILE_WORKER);
+
+  /* Update the national borders.  This affects the citymap tile status,
+   * so must be done after the above and before arranging workers. */
+  map_claim_border(ptile, pplayer);
 
   /* Refresh the city.  First a city refresh is done (this shouldn't
    * send any packets to the client because the city has no supported units)
@@ -1172,9 +1174,9 @@ void remove_city(struct city *pcity)
 
   /* idex_unregister_city() is called in game_remove_city() below */
 
-  /* identity_number_release(pcity->id) is *NOT* done!  The cities may still be
-     alive in the client, or in the player map.  The number of removed 
-     cities is small, so the loss is acceptable.
+  /* identity_number_release(pcity->id) is *NOT* done!  The cities may
+     still be alive in the client, or in the player map.  The number of
+     removed cities is small, so the loss is acceptable.
    */
 
   old_vision = pcity->server.vision;
@@ -1730,10 +1732,11 @@ broadcast regardless.
 bool update_dumb_city(struct player *pplayer, struct city *pcity)
 {
   bv_imprs improvements;
-  struct vision_site *pdcity = map_get_player_city(pcity->tile, pplayer);
+  struct tile *ptile = city_tile(pcity);
+  struct vision_site *pdcity = map_get_player_city(ptile, pplayer);
   /* pcity->occupied isn't used at the server, so we go straight to the
    * unit list to check the occupied status. */
-  bool occupied = (unit_list_size(pcity->tile->units) > 0);
+  bool occupied = (unit_list_size(ptile->units) > 0);
   bool walls = city_got_citywalls(pcity);
   bool happy = city_happy(pcity);
   bool unhappy = city_unhappy(pcity);
@@ -1747,27 +1750,32 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
   } improvement_iterate_end;
 
   if (NULL == pdcity) {
+    map_get_player_tile(ptile, pplayer)->site =
     pdcity = create_vision_site_from_city(pcity);
-    map_get_player_tile(pcity->tile, pplayer)->site = pdcity;
-  } else if (pdcity->identity == pcity->id
-	  && vision_owner(pdcity) == city_owner(pcity)
-	  && pdcity->size == pcity->size
-	  && 0 == strcmp(pdcity->name, city_name(pcity))
-	  && pdcity->occupied == occupied
-	  && pdcity->walls == walls
-	  && pdcity->happy == happy
-	  && pdcity->unhappy == unhappy
-	  && BV_ARE_EQUAL(pdcity->improvements, improvements)) {
-    return FALSE;
-  }
-
-  if (pdcity->identity != pcity->id) {
-    freelog(LOG_ERROR, "Trying to update old city (wrong ID)"
+  } else if (pdcity->location != ptile) {
+    freelog(LOG_ERROR, "Trying to update bad city (wrong location)"
+	    " at %i,%i for player %s",
+	    TILE_XY(pcity->tile),
+	    player_name(pplayer));
+    pdcity->location = ptile;   /* ?? */
+  } else if (pdcity->identity != pcity->id) {
+    freelog(LOG_ERROR, "Trying to update old city (wrong identity)"
 	    " at %i,%i for player %s",
 	    TILE_XY(pcity->tile),
 	    player_name(pplayer));
     pdcity->identity = pcity->id;   /* ?? */
+  } else if (pdcity->occupied == occupied
+	  && pdcity->walls == walls
+	  && pdcity->happy == happy
+	  && pdcity->unhappy == unhappy
+	  && BV_ARE_EQUAL(pdcity->improvements, improvements)
+	  && pdcity->size == pcity->size
+	  && vision_owner(pdcity) == city_owner(pcity)
+	  && 0 == strcmp(pdcity->name, city_name(pcity))) {
+    return FALSE;
   }
+
+  update_vision_site_from_city(pdcity, pcity);
   pdcity->occupied = occupied;
   pdcity->walls = walls;
   pdcity->happy = happy;
@@ -1782,12 +1790,14 @@ Removes outdated (nonexistant) cities from a player
 **************************************************************************/
 void reality_check_city(struct player *pplayer,struct tile *ptile)
 {
-  struct city *pcity = tile_city(ptile);
-  struct player_tile *playtile = map_get_player_tile(ptile, pplayer);
   struct vision_site *pdcity = map_get_player_city(ptile, pplayer);
 
   if (pdcity) {
+    struct city *pcity = tile_city(ptile);
+
     if (!pcity || pcity->id != pdcity->identity) {
+      struct player_tile *playtile = map_get_player_tile(ptile, pplayer);
+
       dlsend_packet_city_remove(pplayer->connections, pdcity->identity);
       playtile->site = NULL;
       free(pdcity);

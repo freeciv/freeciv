@@ -99,8 +99,8 @@ struct vision_site *create_vision_site(int identity, struct tile *location,
 ****************************************************************************/
 struct vision_site *create_vision_site_from_city(const struct city *pcity)
 {
-  struct vision_site *psite = create_vision_site(pcity->id, pcity->tile,
-						 city_owner(pcity));
+  struct vision_site *psite =
+    create_vision_site(pcity->id, city_tile(pcity), city_owner(pcity));
 
   psite->size = pcity->size;
   sz_strlcpy(psite->name, city_name(pcity));
@@ -110,12 +110,12 @@ struct vision_site *create_vision_site_from_city(const struct city *pcity)
 /****************************************************************************
   Returns the basic structure filled with current elements.
 ****************************************************************************/
-struct vision_site *update_vision_site_from_city(struct vision_site *psite,
-						 const struct city *pcity)
+void update_vision_site_from_city(struct vision_site *psite,
+				  const struct city *pcity)
 {
-  psite->identity = pcity->id;
-  psite->owner = pcity->owner;
+  /* should be same identity and location */
+  psite->owner = city_owner(pcity);
+
   psite->size = pcity->size;
   sz_strlcpy(psite->name, city_name(pcity));
-  return psite;
 }
