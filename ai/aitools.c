@@ -1168,7 +1168,13 @@ void adjust_choice(int value, struct ai_choice *choice)
 void copy_if_better_choice(struct ai_choice *cur, struct ai_choice *best)
 {
   if (best->want < cur->want) {
-    best = cur;
+    /* This simple minded copy works for now.
+     *
+     * TODO: We should get rid of this function. Choice structures should
+     *       be accessed via pointers, and those pointers should be updated
+     *       instead of copying whole structures.
+     */
+    *best = *cur;
   }
 }
 
