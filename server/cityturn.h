@@ -29,6 +29,8 @@ void apply_cmresult_to_city(struct city *pcity, struct cm_result *cmr);
 
 bool city_change_size(struct city *pcity, int new_size);
 bool city_reduce_size(struct city *pcity, int pop_loss);
+void city_repair_size(struct city *pcity, int change);
+
 void send_global_city_turn_notifications(struct conn_list *dest);
 void send_city_turn_notifications(struct conn_list *dest, struct city *pcity);
 void update_city_activities(struct player *pplayer);

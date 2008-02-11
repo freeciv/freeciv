@@ -157,25 +157,36 @@ void apply_cmresult_to_city(struct city *pcity, struct cm_result *cmr)
 {
   /* The caller had better check this! */
   if (!cmr->found_a_valid) {
-    freelog(LOG_FATAL, "apply_cmresult_to_city() called with invalid "
-            "cm_result");
+    freelog(LOG_FATAL, "apply_cmresult_to_city()"
+            " called with invalid cm_result");
     assert(0);
     return;
   }
 
   /* Now apply results */
   city_map_checked_iterate(pcity->tile, x, y, ptile) {
-    if (pcity->city_map[x][y] == C_TILE_WORKER
-        && !is_free_worked_tile(x, y)
-        && !cmr->worker_positions_used[x][y]) {
-      server_remove_worker_city(pcity, x, y);
+    if (is_free_worked_tile(x, y)) {
+      continue;
     }
-    if (pcity->city_map[x][y] != C_TILE_WORKER
-        && !is_free_worked_tile(x, y)
-        && cmr->worker_positions_used[x][y]) {
-      server_set_worker_city(pcity, x, y);
-    }
+
+    switch (pcity->city_map[x][y]) {
+    case C_TILE_WORKER:
+      if (!cmr->worker_positions_used[x][y]) {
+        server_remove_worker_city(pcity, x, y);
+      }
+      break;
+    case C_TILE_EMPTY:
+      if (cmr->worker_positions_used[x][y]) {
+        server_set_worker_city(pcity, x, y);
+      }
+      break;
+    case C_TILE_UNAVAILABLE:
+    default:
+      /* do nothing */
+      break;
+    };
   } city_map_checked_iterate_end;
+
   specialist_type_iterate(sp) {
     pcity->specialists[sp] = cmr->specialists[sp];
   } specialist_type_iterate_end;
@@ -395,6 +406,47 @@ void update_city_activities(struct player *pplayer)
 }
 
 /**************************************************************************
+  Reduce the city specialists by some (positive) value.
+  Return the amount of reduction.
+**************************************************************************/
+static int city_reduce_specialists(struct city *pcity, int change)
+{
+  int want = change;
+  assert(0 < change);
+
+  specialist_type_iterate(sp) {
+    int fix = MIN(want, pcity->specialists[sp]);
+
+    pcity->specialists[sp] -= fix;
+    want -= fix;
+  } specialist_type_iterate_end;
+
+  return change - want;
+}
+
+/**************************************************************************
+  Reduce the city workers by some (positive) value.
+  Return the amount of reduction.
+**************************************************************************/
+static int city_reduce_workers(struct city *pcity, int change)
+{
+  int want = change;
+  assert(0 < change);
+
+  city_map_checked_iterate(pcity->tile, city_x, city_y, ptile) {
+    if (0 < want
+     && pcity == ptile->worked /* check to avoid repair */
+     && C_TILE_WORKER == pcity->city_map[city_x][city_y]
+     && !is_free_worked_tile(city_x, city_y)) {
+      server_remove_worker_city(pcity, city_x, city_y);
+      want--;
+    }
+  } city_map_checked_iterate_end;
+
+  return change - want;
+}
+
+/**************************************************************************
   Reduce the city size.  Return TRUE if the city survives the population
   loss.
 **************************************************************************/
@@ -418,33 +470,26 @@ bool city_reduce_size(struct city *pcity, int pop_loss)
   }
 
   /* First try to kill off the specialists */
-  while (pop_loss > 0 && city_specialists(pcity) > 0) {
-    specialist_type_iterate(sp) {
-      if (pcity->specialists[sp] > 0) {
-	pcity->specialists[sp]--;
-	pop_loss--;
-	break;
-      }
-    } specialist_type_iterate_end;
-  }
+  i = pop_loss - city_reduce_specialists(pcity, pop_loss);
 
-  /* we consumed all the pop_loss in specialists */
-  if (pop_loss == 0) {
-    city_refresh(pcity);
-    send_city_info(city_owner(pcity), pcity);
-  } else {
+  if (0 < i) {
     /* Take it out on workers */
-    city_map_iterate(x, y) {
-      if (get_worker_city(pcity, x, y) == C_TILE_WORKER
-          && !is_free_worked_tile(x, y) && pop_loss > 0) {
-        server_remove_worker_city(pcity, x, y);
-        pop_loss--;
-      }
-    } city_map_iterate_end;
+    i -= city_reduce_workers(pcity, i);
+
     /* Then rearrange workers */
-    assert(pop_loss == 0);
     auto_arrange_workers(pcity);
     sync_cities();
+  } else {
+    city_refresh(pcity);
+    send_city_info(city_owner(pcity), pcity);
+  }
+
+  if (0 != i) {
+    freelog(LOG_FATAL, "city_reduce_size()"
+            " has remaining %d of %d for \"%s\"[%d]",
+            i, pop_loss,
+            city_name(pcity), pcity->size);
+    assert(0);
   }
 
   /* Update cities that have trade routes with us */
@@ -458,6 +503,31 @@ bool city_reduce_size(struct city *pcity, int pop_loss)
 
   sanity_check_city(pcity);
   return TRUE;
+}
+
+/**************************************************************************
+  Repair the city population without affecting city size.
+  Used by savegame.c and sanitycheck.c
+**************************************************************************/
+void city_repair_size(struct city *pcity, int change)
+{
+  if (change > 0) {
+    pcity->specialists[DEFAULT_SPECIALIST] += change;
+  } else if (change < 0) {
+    int need = change + city_reduce_specialists(pcity, -change);
+
+    if (0 > need) {
+      need += city_reduce_workers(pcity, -need);
+    }
+
+    if (0 != need) {
+      freelog(LOG_FATAL, "city_repair_size()"
+              " has remaining %d of %d for \"%s\"[%d]",
+              need, change,
+              city_name(pcity), pcity->size);
+      assert(0);
+    }
+  }
 }
 
 /**************************************************************************
