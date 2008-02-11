@@ -31,6 +31,7 @@
 #include "unitlist.h"
 
 #include "citytools.h"
+#include "cityturn.h"		/* city_repair_size() */
 #include "maphand.h"
 #include "srv_main.h"
 #include "unittools.h"
@@ -231,8 +232,8 @@ static void check_map(const char *file, int line)
 **************************************************************************/
 void real_sanity_check_city(struct city *pcity, const char *file, int line)
 {
-  int citizens, delta;
-  int workers = 0;
+  int delta;
+  int citizens = 0;
   struct player *pplayer = city_owner(pcity);
 
   SANITY_CITY(pcity, pcity->size >= 1);
@@ -334,6 +335,7 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
 		  city_name(pcity), pcity->size,
 		  is_city_center(x, y) ? "{city center}" : "");
 	}
+	citizens++;
 	break;
       case C_TILE_UNAVAILABLE:
 	if (city_can_work_tile(pcity, x, y)) {
@@ -352,43 +354,16 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
   } city_map_iterate_end;
 
   /* Sanity check city size versus worker and specialist counts. */
-  city_map_iterate(x, y) {
-    if (get_worker_city(pcity, x, y) == C_TILE_WORKER) {
-      workers++;
-    }
-  } city_map_iterate_end;
-
-  citizens = workers + city_specialists(pcity);
+  citizens += city_specialists(pcity);
   delta = pcity->size + FREE_WORKED_TILES - citizens;
   if (0 != delta) {
-    SANITY_("(%4d,%4d) city size not equal %d citizens, "
+    SANITY_("(%4d,%4d) %d citizens not equal %d + [size], "
             "repairing \"%s\"[%d]"),
             TILE_XY(pcity->tile),
-            citizens - FREE_WORKED_TILES,
+            citizens, FREE_WORKED_TILES,
             city_name(pcity), pcity->size);
-    if (delta > 0) {
-      pcity->specialists[DEFAULT_SPECIALIST] += delta;
-    } else if (delta < 0) {
-      specialist_type_iterate(sp) {
-	int num = MIN(-delta, pcity->specialists[sp]);
 
-	delta += num;
-	pcity->specialists[sp] -= num;
-      } specialist_type_iterate_end;
-
-      if (delta < 0) {
-	city_map_checked_iterate(pcity->tile, city_x, city_y, ptile) {
-	  if (delta < 0
-	   && pcity == ptile->worked
-	   && C_TILE_WORKER == pcity->city_map[city_x][city_y]
-	   && !is_free_worked_tile(city_x, city_y)) {
-	    server_remove_worker_city(pcity, city_x, city_y);
-	    delta++;
-	  }
-	} city_map_checked_iterate_end;
-      }
-    }
-
+    city_repair_size(pcity, delta);
     generic_city_refresh(pcity, TRUE);
   }
 }
