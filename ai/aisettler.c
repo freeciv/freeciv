@@ -114,9 +114,10 @@ void cityresult_fill(struct player *pplayer,
                      struct cityresult *result)
 {
   struct city *pcity = tile_city(result->tile);
+  struct government *curr_govt = government_of_player(pplayer);
+  struct player *saved_owner = NULL;
   int sum = 0;
   bool virtual_city = FALSE;
-  struct government *curr_govt = government_of_player(pplayer);
   bool handicap = ai_handicap(pplayer, H_MAP);
 
   pplayer->government = ai->goal.govt.gov;
@@ -132,6 +133,9 @@ void cityresult_fill(struct player *pplayer,
 
   if (!pcity) {
     pcity = create_city_virtual(pplayer, result->tile, "Virtuaville");
+    saved_owner = tile_owner(result->tile);
+    tile_set_owner(result->tile, pplayer); /* temporarily */
+    city_choose_build_default(pcity);  /* ?? */
     virtual_city = TRUE;
   }
 
@@ -262,6 +266,7 @@ void cityresult_fill(struct player *pplayer,
   pplayer->government = curr_govt;
   if (virtual_city) {
     destroy_city_virtual(pcity);
+    tile_set_owner(result->tile, saved_owner);
   }
 
   assert(result->city_center >= 0);

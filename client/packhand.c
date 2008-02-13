@@ -84,7 +84,8 @@ static int reports_thaw_requests_size = 0;
 **************************************************************************/
 static struct unit * unpackage_unit(struct packet_unit_info *packet)
 {
-  struct unit *punit = create_unit_virtual(player_by_number(packet->owner), NULL,
+  struct unit *punit = create_unit_virtual(valid_player_by_number(packet->owner),
+					   NULL,
 					   utype_by_number(packet->type),
 					   packet->veteran);
 
@@ -143,7 +144,8 @@ static struct unit * unpackage_unit(struct packet_unit_info *packet)
 **************************************************************************/
 static struct unit *unpackage_short_unit(struct packet_unit_short_info *packet)
 {
-  struct unit *punit = create_unit_virtual(player_by_number(packet->owner), NULL,
+  struct unit *punit = create_unit_virtual(valid_player_by_number(packet->owner),
+					   NULL,
 					   utype_by_number(packet->type),
 					   FALSE);
 
@@ -409,14 +411,32 @@ void handle_city_info(struct packet_city_info *packet)
   struct universal product;
   int caravan_city_id;
   int i;
+  bool popup;
   bool city_is_new = FALSE;
   bool city_has_changed_owner = FALSE;
   bool need_units_dialog_update = FALSE;
-  bool popup, update_descriptions = FALSE, name_changed = FALSE;
+  bool name_changed = FALSE;
+  bool update_descriptions = FALSE;
   bool shield_stock_changed = FALSE;
   bool production_changed = FALSE;
   struct unit_list *pfocus_units = get_units_in_focus();
   struct city *pcity = game_find_city_by_number(packet->id);
+  struct tile *pcenter = map_pos_to_tile(packet->x, packet->y);
+  struct player *pplayer = valid_player_by_number(packet->owner);
+
+  if (NULL == pplayer) {
+    freelog(LOG_ERROR,
+	    "handle_city_info() bad player number %d.",
+	    packet->owner);
+    return;
+  }
+
+  if (NULL == pcenter) {
+    freelog(LOG_ERROR,
+            "handle_city_info() invalid tile (%d,%d).",
+            TILE_XY(packet));
+    return;
+  }
 
   if (pcity && (player_number(city_owner(pcity)) != packet->owner)) {
     client_remove_city(pcity);
@@ -441,14 +461,25 @@ void handle_city_info(struct packet_city_info *packet)
     }
   }
 
-  if(!pcity) {
+  if (NULL == pcity) {
     city_is_new = TRUE;
-    pcity = create_city_virtual(player_by_number(packet->owner),
-				map_pos_to_tile(packet->x, packet->y),
-				packet->name);
-    pcity->id=packet->id;
+    pcity = create_city_virtual(pplayer, pcenter, packet->name);
+    tile_set_owner(pcenter, pplayer);
+    pcity->id = packet->id;
     idex_register_city(pcity);
     update_descriptions = TRUE;
+  } else if (pcity->id != packet->id) {
+    freelog(LOG_ERROR, "handle_city_info()"
+            " city id %d != id %d.",
+            pcity->id,
+            packet->id);
+    return;
+  } else if (city_tile(pcity) != pcenter) {
+    freelog(LOG_ERROR, "handle_city_info()"
+            " city tile (%d,%d) != (%d,%d).",
+            TILE_XY(city_tile(pcity)),
+            TILE_XY(packet));
+    return;
   } else {
     name_changed = (strcmp(city_name(pcity), packet->name) != 0);
 
@@ -467,11 +498,8 @@ void handle_city_info(struct packet_city_info *packet)
 	 is likely to have changed as well. */
       update_descriptions = TRUE;
     }
-    assert(pcity->id == packet->id);
   }
   
-  pcity->owner = player_by_number(packet->owner);
-  pcity->tile = map_pos_to_tile(packet->x, packet->y);
   sz_strlcpy(pcity->name, packet->name);
   
   /* check data */
@@ -660,7 +688,9 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
     pcity->info_units_supported = unit_list_new();
     pcity->info_units_present = unit_list_new();
 
-    tile_set_city(pcity->tile, pcity);
+    /* redundant to set_worker_city() in handle_city_info(),
+     * but needed for handle_city_short_info() */
+    tile_set_worked(pcity->tile, pcity); /* is_free_worked_tile() */
     city_list_prepend(city_owner(pcity)->cities, pcity);
 
     if (city_owner(pcity) == game.player_ptr) {
@@ -725,31 +755,57 @@ void handle_city_short_info(struct packet_city_short_info *packet)
   bool city_is_new = FALSE;
   bool update_descriptions = FALSE;
   struct city *pcity = game_find_city_by_number(packet->id);
+  struct tile *pcenter = map_pos_to_tile(packet->x, packet->y);
+  struct player *pplayer = valid_player_by_number(packet->owner);
 
-  if (pcity && (player_number(city_owner(pcity)) != packet->owner)) {
+  if (NULL == pplayer) {
+    freelog(LOG_ERROR,
+	    "handle_city_short_info() bad player number %d.",
+	    packet->owner);
+    return;
+  }
+
+  if (NULL == pcenter) {
+    freelog(LOG_ERROR,
+            "handle_city_short_info() invalid tile (%d,%d).",
+            TILE_XY(packet));
+    return;
+  }
+
+  if (pcity && city_owner(pcity) != pplayer) {
     client_remove_city(pcity);
     pcity = NULL;
     city_has_changed_owner = TRUE;
   }
 
-  if (!pcity) {
+  if (NULL == pcity) {
     city_is_new = TRUE;
-    pcity = create_city_virtual(player_by_number(packet->owner),
-				map_pos_to_tile(packet->x, packet->y),
-				packet->name);
-    pcity->id=packet->id;
+    pcity = create_city_virtual(pplayer, pcenter, packet->name);
+    tile_set_owner(pcenter, pplayer);
+    pcity->id = packet->id;
     idex_register_city(pcity);
+  } else if (pcity->id != packet->id) {
+    freelog(LOG_ERROR, "handle_city_short_info()"
+            " city id %d != id %d.",
+            pcity->id,
+            packet->id);
+    return;
+  } else if (city_tile(pcity) != pcenter) {
+    freelog(LOG_ERROR, "handle_city_short_info()"
+            " city tile (%d,%d) != (%d,%d).",
+            TILE_XY(city_tile(pcity)),
+            TILE_XY(packet));
+    return;
   } else {
     /* Check if city desciptions should be updated */
-    if (draw_city_names && strcmp(city_name(pcity), packet->name) != 0) {
+    if (draw_city_names
+     && 0 != strncmp(packet->name, pcity->name, strlen(pcity->name))) {
       update_descriptions = TRUE;
     }
 
-    pcity->owner = player_by_number(packet->owner);
+    tile_set_owner(pcenter, pplayer);
     sz_strlcpy(pcity->name, packet->name);
     
-    assert(pcity->id == packet->id);
-
     memset(pcity->feel, 0, sizeof(pcity->feel));
     memset(pcity->specialists, 0, sizeof(pcity->specialists));
   }
@@ -1550,13 +1606,20 @@ void start_revolution(void)
 **************************************************************************/
 void handle_player_info(struct packet_player_info *pinfo)
 {
-  int i;
-  bool poptechup, new_tech = FALSE;
   char msg[MAX_LEN_MSG];
-  struct player *pplayer = &game.players[pinfo->playerno];
-  struct player_research* research;
   bool is_new_nation;
+  bool new_tech;
+  bool poptechup;
+  int i;
+  struct player_research *research;
+  struct player *pplayer = valid_player_by_number(pinfo->playerno);
 
+  if (NULL == pplayer) {
+    freelog(LOG_ERROR,
+	    "handle_player_info() bad player number %d.",
+	    pinfo->playerno);
+    return;
+  }
   sz_strlcpy(pplayer->name, pinfo->name);
 
   is_new_nation = player_set_nation(pplayer, nation_by_number(pinfo->nation));
@@ -1765,10 +1828,7 @@ void handle_conn_info(struct packet_conn_info *pinfo)
   } else {
     /* Add or update the connection.  Note the connection may refer to
      * a player we don't know about yet. */
-    struct player *pplayer =
-      ((pinfo->player_num >= 0 
-        && pinfo->player_num < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS)
-       ? player_by_number(pinfo->player_num) : NULL);
+    struct player *pplayer = player_by_number(pinfo->player_num);
     
     if (!pconn) {
       freelog(LOG_VERBOSE, "Server reports new connection %d %s",
@@ -1986,9 +2046,16 @@ static bool spaceship_autoplace(struct player *pplayer,
 void handle_spaceship_info(struct packet_spaceship_info *p)
 {
   int i;
-  struct player *pplayer = &game.players[p->player_num];
-  struct player_spaceship *ship = &pplayer->spaceship;
-  
+  struct player_spaceship *ship;
+  struct player *pplayer = valid_player_by_number(p->player_num);
+
+  if (NULL == pplayer) {
+    freelog(LOG_ERROR,
+	    "handle_spaceship_info() bad player number %d.",
+	    p->player_num);
+    return;
+  }
+  ship = &pplayer->spaceship;
   ship->state        = p->sship_state;
   ship->structurals  = p->structurals;
   ship->components   = p->components;
@@ -2040,6 +2107,7 @@ void handle_tile_info(struct packet_tile_info *packet)
   enum known_type old_known;
   bool known_changed = FALSE;
   bool tile_changed = FALSE;
+  struct player *powner = valid_player_by_number(packet->owner);
   struct terrain *pterrain = terrain_by_number(packet->type);
   struct tile *ptile = map_pos_to_tile(packet->x, packet->y);
   
@@ -2093,18 +2161,9 @@ void handle_tile_info(struct packet_tile_info *packet)
   /* always called after setting terrain */
   tile_set_resource(ptile, resource_by_number(packet->resource));
 
-  if (packet->owner == MAP_TILE_OWNER_NULL) {
-    if (tile_owner(ptile)) {
-      tile_set_owner(ptile, NULL);
-      tile_changed = TRUE;
-    }
-  } else {
-    struct player *newowner = player_by_number(packet->owner);
-
-    if (tile_owner(ptile) != newowner) {
-      tile_set_owner(ptile, newowner);
-      tile_changed = TRUE;
-    }
+  if (tile_owner(ptile) != powner) {
+    tile_set_owner(ptile, powner);
+    tile_changed = TRUE;
   }
   if (old_known != packet->known) {
     known_changed = TRUE;

@@ -235,12 +235,29 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
   int delta;
   int citizens = 0;
   struct player *pplayer = city_owner(pcity);
+  struct tile *pcenter = city_tile(pcity);
 
   SANITY_CITY(pcity, pcity->size >= 1);
-  SANITY_CITY(pcity, !terrain_has_flag(tile_terrain(pcity->tile),
-                                       TER_NO_CITIES));
-  SANITY_CITY(pcity, tile_owner(pcity->tile) == NULL
-                     || tile_owner(pcity->tile) == pplayer);
+
+  SANITY_CITY(pcity, NULL != pcenter);
+
+  if (NULL != pcenter) {
+    SANITY_CITY(pcity, !terrain_has_flag(tile_terrain(pcenter), TER_NO_CITIES));
+
+    SANITY_CITY(pcity, NULL != tile_owner(pcenter));
+
+    if (NULL != tile_owner(pcenter)) {
+      if (tile_owner(pcenter) != pplayer) {
+	SANITY_("(%4d,%4d) tile owned by %s, "
+		"at %s \"%s\"[%d]%s"),
+		TILE_XY(pcenter),
+		nation_rule_name(nation_of_player(tile_owner(pcenter))),
+		nation_rule_name(nation_of_player(pplayer)),
+		city_name(pcity), pcity->size,
+		"{city center}");
+      }
+    }
+  }
 
   unit_list_iterate(pcity->units_supported, punit) {
     SANITY_CITY(pcity, punit->homecity == pcity->id);

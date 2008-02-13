@@ -155,23 +155,36 @@ void game_remove_unit(struct unit *punit)
   /* Opaque server-only variable: the server must free this earlier. */
   assert(punit->server.vision == NULL);
 
-  freelog(LOG_DEBUG, "game_remove_unit %d", punit->id);
-  freelog(LOG_DEBUG, "removing unit %d, %s %s (%d %d) hcity %d",
-	  punit->id, 
-	  nation_rule_name(nation_of_unit(punit)),
-	  unit_rule_name(punit),
-	  punit->tile->x,
-	  punit->tile->y,
-	  punit->homecity);
-
   pcity = player_find_city_by_id(unit_owner(punit), punit->homecity);
   if (pcity) {
     unit_list_unlink(pcity->units_supported, punit);
 
-    freelog(LOG_DEBUG, "home city %s, %s, (%d %d)",
-	  city_name(pcity),
-	  nation_rule_name(nation_of_city(pcity)),
-	  TILE_XY(pcity->tile));
+    freelog(LOG_DEBUG, "game_remove_unit()"
+	    " at (%d,%d) unit %d, %s %s home (%d,%d) city %d, %s %s",
+	    TILE_XY(punit->tile),
+	    punit->id, 
+	    nation_rule_name(nation_of_unit(punit)),
+	    unit_rule_name(punit),
+	    TILE_XY(pcity->tile),
+	    punit->homecity,
+	    nation_rule_name(nation_of_city(pcity)),
+	    city_name(pcity));
+  } else if (IDENTITY_NUMBER_ZERO == punit->homecity) {
+    freelog(LOG_DEBUG, "game_remove_unit()"
+	    " at (%d,%d) unit %d, %s %s home %d",
+	    TILE_XY(punit->tile),
+	    punit->id, 
+	    nation_rule_name(nation_of_unit(punit)),
+	    unit_rule_name(punit),
+	    punit->homecity);
+  } else {
+    freelog(LOG_ERROR, "game_remove_unit()"
+	    " at (%d,%d) unit %d, %s %s home %d invalid",
+	    TILE_XY(punit->tile),
+	    punit->id, 
+	    nation_rule_name(nation_of_unit(punit)),
+	    unit_rule_name(punit),
+	    punit->homecity);
   }
 
   unit_list_unlink(punit->tile->units, punit);
@@ -190,20 +203,27 @@ void game_remove_unit(struct unit *punit)
 **************************************************************************/
 void game_remove_city(struct city *pcity)
 {
-  freelog(LOG_DEBUG, "game_remove_city %d", pcity->id);
-  freelog(LOG_DEBUG, "removing city %s, %s, (%d %d)",
-	  city_name(pcity),
+  struct tile *pcenter = city_tile(pcity);
+
+  freelog(LOG_DEBUG, "game_remove_city()"
+          " at (%d,%d) city %d, %s %s",
+	  TILE_XY(pcenter),
+	  pcity->id,
 	  nation_rule_name(nation_of_city(pcity)),
-	  TILE_XY(pcity->tile));
+	  city_name(pcity));
 
   /* Opaque server-only variable: the server must free this earlier. */
   assert(pcity->server.vision == NULL);
 
-  city_map_checked_iterate(pcity->tile, x, y, map_tile) {
+  /* always unlink before clearing data */
+  city_list_unlink(city_owner(pcity)->cities, pcity);
+
+  city_map_checked_iterate(pcenter, x, y, map_tile) {
     set_worker_city(pcity, x, y, C_TILE_EMPTY);
   } city_map_checked_iterate_end;
-  city_list_unlink(city_owner(pcity)->cities, pcity);
-  tile_set_city(pcity->tile, NULL); /* redundant to set_worker_city() above */
+
+  /* should be redundant to set_worker_city() above */
+  tile_set_worked(pcenter, NULL); /* is_free_worked_tile() */
   idex_unregister_city(pcity);
   destroy_city_virtual(pcity);
 }

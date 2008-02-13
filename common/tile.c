@@ -32,6 +32,7 @@ int tile_index(const struct tile *ptile)
 }
 #endif
 
+#ifndef tile_owner
 /****************************************************************************
   Return the player who owns this tile (or NULL if none).
 ****************************************************************************/
@@ -39,13 +40,14 @@ struct player *tile_owner(const struct tile *ptile)
 {
   return ptile->owner;
 }
+#endif
 
 /****************************************************************************
   Set the owner of a tile (may be NULL).
 ****************************************************************************/
-void tile_set_owner(struct tile *ptile, struct player *owner)
+void tile_set_owner(struct tile *ptile, struct player *pplayer)
 {
-  ptile->owner = owner;
+  ptile->owner = pplayer;
 }
 
 /****************************************************************************
@@ -55,18 +57,18 @@ struct city *tile_city(const struct tile *ptile)
 {
   struct city *pcity = ptile->worked;
 
-  if (NULL != pcity && ptile == pcity->tile) {
+  if (NULL != pcity && city_tile(pcity) == ptile) {
     return pcity;
   }
   return NULL;
 }
 
 /****************************************************************************
-  Set the city on the tile (may be NULL).
+  Set the city/worker on the tile (may be NULL).
 ****************************************************************************/
-void tile_set_city(struct tile *ptile, struct city *pcity)
+void tile_set_worked(struct tile *ptile, struct city *pcity)
 {
-  ptile->worked = pcity;		/* probably duplicate effort */
+  ptile->worked = pcity;
 }
 
 #ifndef tile_terrain

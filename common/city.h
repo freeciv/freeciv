@@ -199,23 +199,27 @@ struct ai_city {
 
   struct ai_choice choice;      /* to spend gold in the right place only */
 
+  int worth; /* Cache city worth here, sum of all weighted incomes */
+
+  int invasion; /* who's coming to kill us, for attack co-ordination */
+  int attack, bcost; /* This is also for invasion - total power and value of
+                      * all units coming to kill us. */
+
   unsigned int danger;          /* danger to be compared to assess_defense */
-  bool diplomat_threat;         /* enemy diplomat or spy is near the city */
-  bool has_diplomat;            /* this city has diplomat or spy defender */
+  unsigned int grave_danger;    /* danger, should show positive feedback */
   unsigned int urgency;         /* how close the danger is; if zero, 
                                    bodyguards can leave */
-  unsigned int grave_danger;    /* danger, should show positive feedback */
   int wallvalue;                /* how much it helps for defenders to be 
                                    ground units */
+
   int downtown;                 /* distance from neighbours, for locating 
                                    wonders wisely */
   int distance_to_wonder_city;  /* wondercity will set this for us, 
                                    avoiding paradox */
-  bool celebrate;               /* try to celebrate in this city */
 
-  /* Used for caching change in value from a worker performing
-   * a particular activity on a particular tile. */
-  int act_value[ACTIVITY_LAST][CITY_MAP_SIZE][CITY_MAP_SIZE];
+  bool celebrate;               /* try to celebrate in this city */
+  bool diplomat_threat;         /* enemy diplomat or spy is near the city */
+  bool has_diplomat;            /* this city has diplomat or spy defender */
 
   /* so we can contemplate with warmap fresh and decide later */
   /* These values are for builder (F_SETTLERS) and founder (F_CITIES) units.
@@ -227,11 +231,9 @@ struct ai_city {
   int settler_want;
   int trade_want;               /* saves a zillion calculations */
 
-  int invasion; /* who's coming to kill us, for attack co-ordination */
-  int attack, bcost; /* This is also for invasion - total power and value of
-                      * all units coming to kill us. */
-
-  int worth; /* Cache city worth here, sum of all weighted incomes */
+  /* Used for caching change in value from a worker performing
+   * a particular activity on a particular tile. */
+  int act_value[ACTIVITY_LAST][CITY_MAP_SIZE][CITY_MAP_SIZE];
 };
 
 enum citizen_category {
@@ -256,7 +258,7 @@ enum citizen_feeling {
 
 struct city {
   char name[MAX_LEN_NAME];
-  struct tile *tile;
+  struct tile *tile; /* May be NULL in Editor! */
   struct player *owner; /* Cannot be NULL. */
   struct player *original; /* Cannot be NULL. */
   int id;
@@ -292,52 +294,52 @@ struct city {
   /* the physics */
   int food_stock;
   int shield_stock;
-  int pollution;
+  int pollution;                /* not saved */
 
-  struct universal production;
+  /* turn states */
+  bool airlift;
+  bool debug;                   /* not saved */
+  bool did_buy;
+  bool did_sell;
+  bool is_updated;              /* not saved */
+  bool was_happy;
+
+  int anarchy;                  /* anarchy rounds count */ 
+  int rapture;                  /* rapture rounds count */ 
+  int steal;                    /* diplomats steal once; for spies, gets harder */
+  int turn_founded;
+  int turn_last_built;
+
+  int before_change_shields;    /* If changed this turn, shields before penalty */
+  int caravan_shields;          /* If caravan has helped city to build wonder. */
+  int disbanded_shields;        /* If you disband unit in a city. Count them */
+  int last_turns_shield_surplus; /* The surplus we had last turn. */
 
   struct built_status built[B_LAST];
 
-  struct worklist worklist;
-
-  enum city_tile_type city_map[CITY_MAP_SIZE][CITY_MAP_SIZE];
-
-  struct unit_list *units_supported;
-
-  struct {
-    /* Only used at the client (the server is omniscient). */
-    bool occupied;
-    bool happy, unhappy;
-
-    /* The color is an index into the city_colors array in mapview_common */
-    bool colored;
-    int color_index;
-
-    bool walls;
-  } client;
-
-  int steal;		      /* diplomats steal once; for spies, gets harder */
-  /* turn states */
-  bool did_buy;
-  bool did_sell, is_updated;
-  int turn_last_built;	      /* The last year in which something was built */
+  struct universal production;
 
   /* If changed this turn, what we changed from */
   struct universal changed_from;
 
-  int disbanded_shields;      /* If you disband unit in a city. Count them */
-  int caravan_shields;        /* If caravan has helped city to build wonder. */
-  int before_change_shields;  /* If changed this turn, shields before penalty */
-  int last_turns_shield_surplus; /* The surplus we had last turn. */
-  int anarchy;		      /* anarchy rounds count */ 
-  int rapture;                /* rapture rounds count */ 
-  bool was_happy;
-  bool airlift;
+  struct worklist worklist;
 
   bv_city_options city_options;
 
-  /* server variable. indicates if the city map is synced with the client. */
-  bool synced;
+  enum city_tile_type city_map[CITY_MAP_SIZE][CITY_MAP_SIZE];
+
+  struct {
+    /* Only used at the client (the server is omniscient). */
+    bool occupied;
+    bool walls;
+    bool happy;
+    bool unhappy;
+
+    /* The color is an index into the city_colors array in mapview_common */
+    bool colored;
+    int color_index;
+  } client;
+
   struct {
     /* If > 0, workers will not be rearranged until they are unfrozen. */
     int workers_frozen;
@@ -346,17 +348,19 @@ struct city {
      * set inside auto_arrange_workers. */
     bool needs_arrange;
 
+    /* the city map is synced with the client. */
+    bool synced;
+
     struct vision *vision;
   } server;
 
-  int turn_founded;		/* In which turn was the city founded? */
+  struct ai_city ai;
 
   /* info for dipl/spy investigation -- used only in client */
   struct unit_list *info_units_supported;
   struct unit_list *info_units_present;
 
-  struct ai_city ai;
-  bool debug;
+  struct unit_list *units_supported;
 };
 
 struct citystyle {
@@ -467,6 +471,8 @@ int city_turns_to_build(const struct city *pcity,
 int city_turns_to_grow(const struct city *pcity);
 bool city_can_grow_to(const struct city *pcity, int pop_size);
 bool city_can_change_build(const struct city *pcity);
+
+void city_choose_build_default(struct city *pcity);
 
 /* textual representation of buildings */
 

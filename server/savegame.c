@@ -2268,7 +2268,6 @@ static void player_load_cities(struct player *plr, int plrno,
     name = secfile_lookup_str_default(file, named, named);
     /* copied into city->name */
     pcity = create_city_virtual(plr, pcenter, name);
-    tile_set_owner(pcenter, plr);
 
     pcity->id = secfile_lookup_int(file, "player%d.c%d.id", plrno, i);
     identity_number_reserve(pcity->id);
@@ -2280,6 +2279,9 @@ static void player_load_cities(struct player *plr, int plrno,
     if (NULL != past) {
       pcity->original = past;
     }
+    past = tile_owner(pcenter);
+    tile_set_owner(pcenter, plr); /* for city_owner(), just in case? */
+    /* no city_choose_build_default(), values loaded below! */
 
     pcity->size = secfile_lookup_int(file, "player%d.c%d.size", plrno, i);
 
@@ -2456,7 +2458,7 @@ static void player_load_cities(struct player *plr, int plrno,
 				 "player%d.c%d.last_turns_shield_surplus",
 				 plrno, i);
 
-    pcity->synced = FALSE; /* must re-sync with clients */
+    pcity->server.synced = FALSE; /* must re-sync with clients */
 
     /* Fix for old buggy savegames. */
     if (!has_capability("known32fix", savefile_options)
@@ -2559,7 +2561,7 @@ static void player_load_cities(struct player *plr, int plrno,
       /* bypass set_worker_city() checks */
       base_map_to_city_map(&city_x, &city_y, pcenter, pcenter);
       pcity->city_map[city_x][city_y] = C_TILE_WORKER;
-      tile_set_city(pcenter, pcity); /* repair */
+      tile_set_worked(pcenter, pcity); /* repair */
 
       city_repair_size(pcity, -1);
     }
@@ -2619,7 +2621,7 @@ static void player_load_cities(struct player *plr, int plrno,
       }
     }
 
-    init_worklist(&pcity->worklist);
+    /* init_worklist() done in create_city_virtual() */
     worklist_load(file, &pcity->worklist, "player%d.c%d", plrno, i);
 
     /* after 2.1.0 new options format.  Old options are lost on upgrade. */
@@ -2660,6 +2662,7 @@ static void player_load_cities(struct player *plr, int plrno,
 
     /* After all the set_worker_city() and everything is loaded. */
     city_list_append(plr->cities, pcity);
+    tile_set_owner(pcenter, past);
     map_claim_ownership(pcenter, plr, pcenter);
     map_claim_border(pcenter, plr);
   }
@@ -2860,7 +2863,10 @@ static void player_load_vision(struct player *plr, int plrno,
 
       id = secfile_lookup_int(file, "player%d.dc%d.owner", plrno, i);
       if (id == plrno) {
-        freelog(LOG_ERROR, "player%d.dc%d has same owner (%d); skipping.",
+        /* Earlier versions redundantly saved the dummy for their own cities.
+         * Since 2.2.0, map_claim_ownership() rebuilds them at city load time.
+         */
+        freelog(LOG_VERBOSE, "player%d.dc%d has same owner (%d); skipping.",
                 plrno, i, id);
         free(pdcity);
         continue;
@@ -3531,13 +3537,13 @@ static void player_save_vision(struct player *plr, int plrno,
       /* Save improvement list as bitvector. Note that improvement order
        * is saved in savefile.improvement_order.
        */
+      assert(improvement_count() < sizeof(impr_buf));
       improvement_iterate(pimprove) {
         impr_buf[improvement_index(pimprove)] =
           BV_ISSET(pdcity->improvements, improvement_index(pimprove))
           ? '1' : '0';
       } improvement_iterate_end;
       impr_buf[improvement_count()] = '\0';
-      assert(strlen(impr_buf) < sizeof(impr_buf));
       secfile_insert_str(file, impr_buf,
                          "player%d.dc%d.improvements", plrno, i);
 
