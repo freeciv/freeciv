@@ -295,24 +295,23 @@ Output_type_id find_output_type_by_identifier(const char *id)
 void set_worker_city(struct city *pcity, int city_x, int city_y,
 		     enum city_tile_type type)
 {
-  struct tile *ptile;
+  struct tile *ptile = city_map_to_map(pcity, city_x, city_y);
 
-  if ((ptile = city_map_to_map(pcity, city_x, city_y))) {
+  if (NULL != ptile) {
     if (pcity->city_map[city_x][city_y] == C_TILE_WORKER
 	&& ptile->worked == pcity) {
-      ptile->worked = NULL;
+      tile_set_worked(ptile, NULL);
     }
-    pcity->city_map[city_x][city_y] = type;
     if (type == C_TILE_WORKER) {
       /* No assert to check that nobody else is working this tile.
        * City creation relies on claiming tile to new city first,
        * and freeing it from another city only later. */
-      ptile->worked = pcity;
+      tile_set_worked(ptile, pcity);
     }
   } else {
     assert(type == C_TILE_UNAVAILABLE);
-    pcity->city_map[city_x][city_y] = type;
   }
+  pcity->city_map[city_x][city_y] = type;
 }
 
 /**************************************************************************
@@ -638,13 +637,61 @@ bool city_can_change_build(const struct city *pcity)
 }
 
 /**************************************************************************
+  Always tile_set_owner(ptile, pplayer) sometime before this!
+**************************************************************************/
+void city_choose_build_default(struct city *pcity)
+{
+  if (NULL == city_tile(pcity)) {
+    /* When a "dummy" city is created with no tile, then choosing a build 
+     * target could fail.  This currently might happen during map editing.
+     * FIXME: assumes the first unit is always "valid", so check for
+     * obsolete units elsewhere. */
+    pcity->production.kind = VUT_UTYPE;
+    pcity->production.value.utype = utype_by_number(0);
+  } else {
+    struct unit_type *u = best_role_unit(pcity, L_FIRSTBUILD);
+
+    if (u) {
+      pcity->production.kind = VUT_UTYPE;
+      pcity->production.value.utype = u;
+    } else {
+      bool found = FALSE;
+
+      /* Just pick the first available item. */
+
+      improvement_iterate(pimprove) {
+	if (can_city_build_improvement_direct(pcity, pimprove)) {
+	  found = TRUE;
+	  pcity->production.kind = VUT_IMPROVEMENT;
+	  pcity->production.value.building = pimprove;
+	  break;
+	}
+      } improvement_iterate_end;
+
+      if (!found) {
+	unit_type_iterate(punittype) {
+	  if (can_city_build_unit_direct(pcity, punittype)) {
+	    found = TRUE;
+	    pcity->production.kind = VUT_UTYPE;
+	    pcity->production.value.utype = punittype;
+	  }
+	} unit_type_iterate_end;
+      }
+
+      assert(found);
+    }
+  }
+}
+
+#ifndef city_name
+/**************************************************************************
   Return the name of the city.
 **************************************************************************/
 const char *city_name(const struct city *pcity)
 {
-  assert(NULL != pcity);
   return pcity->name;
 }
+#endif
 
 /**************************************************************************
   Return the owner of the city.
@@ -656,15 +703,16 @@ struct player *city_owner(const struct city *pcity)
   return pcity->owner;
 }
 
+#ifndef city_tile
 /**************************************************************************
   Return the tile location of the city.
   Not (yet) always used, mostly for debugging.
 **************************************************************************/
 struct tile *city_tile(const struct city *pcity)
 {
-  assert(NULL != pcity);
   return pcity->tile;
 }
+#endif
 
 /**************************************************************************
  Returns how many thousand citizen live in this city.
@@ -2436,6 +2484,8 @@ void city_styles_free(void)
 /**************************************************************************
   Create virtual skeleton for a city.
   Values are mostly sane defaults.
+
+  Always tile_set_owner(ptile, pplayer) sometime after this!
 **************************************************************************/
 struct city *create_city_virtual(struct player *pplayer,
 		                 struct tile *ptile, const char *name)
@@ -2443,97 +2493,109 @@ struct city *create_city_virtual(struct player *pplayer,
   int i;
   struct city *pcity = fc_calloc(1, sizeof(*pcity));
 
-  /* It does not register the city so the id is set to 0. */
-  pcity->id = IDENTITY_NUMBER_ZERO;
-
   assert(pplayer != NULL); /* No unowned cities! */
   pcity->original = pplayer;
   pcity->owner = pplayer;
 
   pcity->tile = ptile;
+
+  assert(name != NULL);
   sz_strlcpy(pcity->name, name);
 
 #ifdef ZERO_VARIABLES_FOR_SEARCHING
+  /* This does not register the city, so the identity defaults to 0. */
+  pcity->id = IDENTITY_NUMBER_ZERO;
+
   memset(pcity->feel, 0, sizeof(pcity->feel));
   memset(pcity->specialists, 0, sizeof(pcity->specialists));
-  memset(pcity->tile_output, 0, sizeof(pcity->tile_output));
-  pcity->was_happy = FALSE;
-  pcity->steal = 0;
+#endif
+
+  /* assume some non-working population: */
+  pcity->specialists[DEFAULT_SPECIALIST] =
+  pcity->size = 1;
+
+#ifdef ZERO_VARIABLES_FOR_SEARCHING
   for (i = 0; i < NUM_TRADEROUTES; i++) {
     pcity->trade_value[i] = pcity->trade[i] = 0;
   }
+  memset(pcity->tile_output, 0, sizeof(pcity->tile_output));
+
+  memset(pcity->surplus, 0, O_COUNT * sizeof(*pcity->surplus));
+  memset(pcity->waste, 0, O_COUNT * sizeof(*pcity->waste));
+  memset(pcity->unhappy_penalty, 0,
+	 O_COUNT * sizeof(*pcity->unhappy_penalty));
+  memset(pcity->prod, 0, O_COUNT * sizeof(*pcity->prod));
+  memset(pcity->citizen_base, 0, O_COUNT * sizeof(*pcity->citizen_base));
+  memset(pcity->usage, 0, O_COUNT * sizeof(*pcity->usage));
+#endif
+
+  output_type_iterate(o) {
+    pcity->bonus[o] = 100;
+  } output_type_iterate_end;
+
+#ifdef ZERO_VARIABLES_FOR_SEARCHING
+  pcity->martial_law = 0;
+  pcity->unit_happy_upkeep = 0;
+
   pcity->food_stock = 0;
   pcity->shield_stock = 0;
+  pcity->pollution = 0;
+
+  pcity->airlift = FALSE;
+  pcity->debug = FALSE;
 #endif
-  pcity->specialists[DEFAULT_SPECIALIST] =
-  pcity->size = 1;
+  pcity->did_buy = TRUE; /* why? */
+#ifdef ZERO_VARIABLES_FOR_SEARCHING
+  pcity->did_sell = FALSE;
+  pcity->is_updated = FALSE;
+  pcity->was_happy = FALSE;
+
+  pcity->anarchy = 0;
+  pcity->rapture = 0;
+  pcity->steal = 0;
+#endif
+
+  pcity->turn_founded = game.info.turn;
+  pcity->turn_last_built = game.info.turn;
+
+#ifdef ZERO_VARIABLES_FOR_SEARCHING
+  pcity->before_change_shields = 0;
+  pcity->caravan_shields = 0;
+  pcity->disbanded_shields = 0;
+  pcity->last_turns_shield_surplus = 0;
+#endif
 
   /* Initialise improvements list */
   for (i = 0; i < ARRAY_SIZE(pcity->built); i++) {
     pcity->built[i].turn = I_NEVER;
   }
 
+#ifdef ZERO_VARIABLES_FOR_SEARCHING
+  /* just setting the entry to zero: */
+  pcity->production.kind = VUT_NONE;
+  /* all the union pointers should be in the same place: */ 
+  pcity->production.value.building = NULL;
+  pcity->changed_from = pcity->production;
+#endif
+
   /* Set up the worklist */
   init_worklist(&pcity->worklist);
 
-  if (!ptile) {
-    /* When a "dummy" city is created with no tile, then choosing a build 
-     * target could fail.  This currently might happen during map editing.
-     * FIXME: assumes the first unit is always "valid", so check for
-     * obsolete units elsewhere. */
-    pcity->production.kind = VUT_UTYPE;
-    pcity->production.value.utype = utype_by_number(0);
-  } else {
-    struct unit_type *u = best_role_unit(pcity, L_FIRSTBUILD);
-
-    if (u) {
-      pcity->production.kind = VUT_UTYPE;
-      pcity->production.value.utype = u;
-    } else {
-      bool found = FALSE;
-
-      /* Just pick the first available item. */
-
-      improvement_iterate(pimprove) {
-	if (can_city_build_improvement_direct(pcity, pimprove)) {
-	  found = TRUE;
-	  pcity->production.kind = VUT_IMPROVEMENT;
-	  pcity->production.value.building = pimprove;
-	  break;
-	}
-      } improvement_iterate_end;
-
-      if (!found) {
-	unit_type_iterate(punittype) {
-	  if (can_city_build_unit_direct(pcity, punittype)) {
-	    found = TRUE;
-	    pcity->production.kind = VUT_UTYPE;
-	    pcity->production.value.utype = punittype;
-	  }
-	} unit_type_iterate_end;
-      }
-
-      assert(found);
-    }
-  }
-  pcity->turn_founded = game.info.turn;
-  pcity->did_buy = TRUE;
-  pcity->did_sell = FALSE;
-  pcity->airlift = FALSE;
-
-  pcity->turn_last_built = game.info.turn;
-  pcity->changed_from = pcity->production;
 #ifdef ZERO_VARIABLES_FOR_SEARCHING
-  pcity->before_change_shields = 0;
-  pcity->disbanded_shields = 0;
-  pcity->caravan_shields = 0;
-  pcity->last_turns_shield_surplus = 0;
-  pcity->anarchy = 0;
-  pcity->rapture = 0;
   BV_CLR_ALL(pcity->city_options);
+
+  /* city_map; placeholder for searching */
+
+  pcity->client.occupied = FALSE;
+  pcity->client.walls = FALSE;
+  pcity->client.happy = FALSE;
+  pcity->client.unhappy = FALSE;
+  pcity->client.colored = FALSE;
+  pcity->client.color_index = FALSE;
 
   pcity->server.workers_frozen = 0;
   pcity->server.needs_arrange = FALSE;
+  pcity->server.synced = FALSE;
   pcity->server.vision = NULL; /* No vision. */
 
   pcity->ai.building_turn = 0;
@@ -2543,41 +2605,36 @@ struct city *create_city_virtual(struct player *pplayer,
   memset(pcity->ai.building_want, 0, sizeof(pcity->ai.building_want));
 
   /* pcity->ai.choice; placeholder for searching */
+  /* pcity->ai.worth; placeholder for searching */
+
+  pcity->ai.invasion = 0;
+  pcity->ai.bcost = 0;
+  pcity->ai.attack = 0;
+
+  pcity->ai.danger = 0;
+  pcity->ai.grave_danger = 0;
+  pcity->ai.urgency = 0;
+  pcity->ai.wallvalue = 0;
+
+  pcity->ai.downtown = 0;
+  /* pcity->ai.distance_to_wonder_city; placeholder for searching */
+
+  /* pcity->ai.celebrate; placeholder for searching */
+  /* pcity->ai.diplomat_threat; placeholder for searching */
+  /* pcity->ai.has_diplomat; placeholder for searching */
+
   pcity->ai.founder_boat = FALSE;
   pcity->ai.founder_turn = 0;
   pcity->ai.founder_want = 0; /* calculating this is really expensive */
   pcity->ai.settler_want = 0;
 #endif
-  pcity->ai.trade_want = 1; /* we always want some */
+  pcity->ai.trade_want = 1; /* we always want some TRADE_WEIGHTING */
 
-#ifdef ZERO_VARIABLES_FOR_SEARCHING
-  pcity->ai.danger = 0;
-  pcity->ai.urgency = 0;
-  pcity->ai.grave_danger = 0;
-  pcity->ai.wallvalue = 0;
-  pcity->ai.downtown = 0;
-  pcity->ai.invasion = 0;
-  pcity->ai.bcost = 0;
-  pcity->ai.attack = 0;
-
-  memset(pcity->surplus, 0, O_COUNT * sizeof(*pcity->surplus));
-  memset(pcity->waste, 0, O_COUNT * sizeof(*pcity->waste));
-  memset(pcity->unhappy_penalty, 0,
-	 O_COUNT * sizeof(*pcity->unhappy_penalty));
-  memset(pcity->prod, 0, O_COUNT * sizeof(*pcity->prod));
-  memset(pcity->citizen_base, 0, O_COUNT * sizeof(*pcity->citizen_base));
-#endif
-  output_type_iterate(o) {
-    pcity->bonus[o] = 100;
-  } output_type_iterate_end;
+  /* pcity->ai.act_value; placeholder for searching */
+  /* info_units_present; placeholder for searching */
+  /* info_units_supported; placeholder for searching */
 
   pcity->units_supported = unit_list_new();
-
-  pcity->client.occupied = FALSE;
-  pcity->client.happy = pcity->client.unhappy = FALSE;
-  pcity->client.colored = FALSE;
-
-  pcity->debug = FALSE;
 
   return pcity;
 }

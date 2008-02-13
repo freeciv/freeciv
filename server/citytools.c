@@ -845,9 +845,11 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   /* Has to follow the unfog call above. */
   city_list_unlink(pgiver->cities, pcity);
   pcity->owner = ptaker;
+  city_list_prepend(ptaker->cities, pcity);
+
+  /* Update the national borders. */
   map_claim_ownership(pcity->tile, ptaker, pcity->tile);
   map_claim_border(pcity->tile, ptaker);
-  city_list_prepend(ptaker->cities, pcity);
 
   transfer_city_units(ptaker, pgiver, old_city_units,
 		      pcity, NULL,
@@ -957,11 +959,14 @@ void create_city(struct player *pplayer, struct tile *ptile,
 {
   int x_itr, y_itr;
   struct nation_type *nation = nation_of_player(pplayer);
+  struct player *saved_owner = tile_owner(ptile);
   struct base_type *pbase = tile_get_base(ptile);
   struct city *pcity = create_city_virtual(pplayer, ptile, name);
 
-  freelog(LOG_DEBUG, "Creating city %s", name);
+  freelog(LOG_DEBUG, "create_city() %s", name);
 
+  tile_set_owner(ptile, pplayer); /* temporarily */
+  city_choose_build_default(pcity);
   pcity->ai.trade_want = TRADE_WEIGHTING;
   pcity->id = identity_number();
   idex_register_city(pcity);
@@ -997,10 +1002,11 @@ void create_city(struct player *pplayer, struct tile *ptile,
   vision_reveal_tiles(pcity->server.vision, game.info.city_reveal_tiles);
   city_refresh_vision(pcity);
 
-  tile_set_city(ptile, pcity); /* partly redundant to server_set_tile_city() */
+  tile_set_worked(ptile, pcity); /* partly redundant to server_set_tile_city() */
   city_list_prepend(pplayer->cities, pcity);
 
   /* Claim the ground we stand on */
+  tile_set_owner(ptile, saved_owner);
   map_claim_ownership(ptile, pplayer, ptile);
 
   if (terrain_control.may_road) {
@@ -1060,7 +1066,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
 
   update_tile_knowledge(ptile);
 
-  pcity->synced = FALSE;
+  pcity->server.synced = FALSE;
   send_city_info(NULL, pcity);
   sync_cities(); /* Will also send pcity. */
 
@@ -1556,7 +1562,7 @@ void send_city_info(struct player *dest, struct city *pcity)
     return;
 
   if (!dest || dest == city_owner(pcity))
-    pcity->synced = TRUE;
+    pcity->server.synced = TRUE;
   if (!dest) {
     broadcast_city_info(pcity);
   } else {
@@ -1983,33 +1989,34 @@ bool can_place_worker_here(struct city *pcity, int city_x, int city_y)
 }
 
 /**************************************************************************
-Returns if a tile is available to be worked.
-Return true if the city itself is currently working the tile (and can
-continue.)
-city_x, city_y is in city map coords.
+  Returns TRUE when a tile is available to be worked, or the city itself is
+  currently working the tile (and can continue).
+  city_x, city_y is in city map coords.
 **************************************************************************/
 bool city_can_work_tile(struct city *pcity, int city_x, int city_y)
 {
-  struct tile *ptile;
+  struct player *powner = city_owner(pcity);
+  struct tile *ptile = city_map_to_map(pcity, city_x, city_y);
 
-  if (!(ptile = city_map_to_map(pcity, city_x, city_y))) {
-    return FALSE;
-  }
-  
-  if (is_enemy_unit_tile(ptile, city_owner(pcity))
-      && !is_free_worked_tile(city_x, city_y)) {
+  if (NULL == ptile) {
     return FALSE;
   }
 
-  if (!map_is_known(ptile, city_owner(pcity))) {
+  if (tile_owner(ptile) && tile_owner(ptile) != powner) {
     return FALSE;
   }
+  /* TODO: civ3-like option for borders */
 
   if (ptile->worked && ptile->worked != pcity) {
     return FALSE;
   }
 
-  if (tile_owner(ptile) && tile_owner(ptile) != city_owner(pcity)) {
+  if (!map_is_known(ptile, powner)) {
+    return FALSE;
+  }
+
+  if (is_enemy_unit_tile(ptile, powner)
+   && !is_free_worked_tile(city_x, city_y)) {
     return FALSE;
   }
 
@@ -2018,15 +2025,14 @@ bool city_can_work_tile(struct city *pcity, int city_x, int city_y)
 
 /**************************************************************************
 Sets tile worked status.
-city_x, city_y is in city map coords.
-You need to call sync_cities for the affected cities to be synced with the
-client.
+  city_x, city_y is in city map coords.
+  Call sync_cities() for the affected cities to be synced with the client.
 
 You should not use this function unless you really know what you are doing!
 Better functions are
 server_set_worker_city()
 server_remove_worker_city()
-update_city_tile_status()
+update_city_tile_status_map()
 **************************************************************************/
 static void server_set_tile_city(struct city *pcity, int city_x, int city_y,
 				 enum city_tile_type type)
@@ -2037,7 +2043,7 @@ static void server_set_tile_city(struct city *pcity, int city_x, int city_y,
   assert(current != type);
 
   set_worker_city(pcity, city_x, city_y, type);
-  pcity->synced = FALSE;
+  pcity->server.synced = FALSE;
 
   /* Update adjacent cities. */
   {
@@ -2058,9 +2064,8 @@ static void server_set_tile_city(struct city *pcity, int city_x, int city_y,
 }
 
 /**************************************************************************
-city_x, city_y is in city map coords.
-You need to call sync_cities for the affected cities to be synced with the
-client.
+  city_x, city_y is in city map coords.
+  Call sync_cities() for the affected cities to be synced with the client.
 **************************************************************************/
 void server_remove_worker_city(struct city *pcity, int city_x, int city_y)
 {
@@ -2070,9 +2075,8 @@ void server_remove_worker_city(struct city *pcity, int city_x, int city_y)
 }
 
 /**************************************************************************
-city_x, city_y is in city map coords.
-You need to call sync_cities for the affected cities to be synced with the
-client.
+  city_x, city_y is in city map coords.
+  Call sync_cities() for the affected cities to be synced with the client.
 **************************************************************************/
 void server_set_worker_city(struct city *pcity, int city_x, int city_y)
 {
@@ -2100,10 +2104,9 @@ void update_city_tile_status_map(struct city *pcity, struct tile *ptile)
 }
 
 /**************************************************************************
-Updates the worked status of a tile.
-city_x, city_y is in city map coords.
-You need to call sync_cities for the affected cities to be synced with the
-client.
+  Updates the worked status of a tile.
+  city_x, city_y is in city map coords.
+  Call sync_cities() for the affected cities to be synced with the client.
 **************************************************************************/
 static void update_city_tile_status(struct city *pcity, int city_x,
 				    int city_y)
@@ -2154,9 +2157,10 @@ void sync_cities(void)
 
   players_iterate(pplayer) {
     city_list_iterate(pplayer->cities, pcity) {
-      /* sending will set synced to 1. */
-      if (!pcity->synced)
+      if (!pcity->server.synced) {
+	/* sending will set to TRUE. */
 	send_city_info(pplayer, pcity);
+      }
     } city_list_iterate_end;
   } players_iterate_end;
 }

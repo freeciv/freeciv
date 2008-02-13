@@ -1825,6 +1825,7 @@ void map_claim_ownership(struct tile *ptile, struct player *powner,
 *************************************************************************/
 void map_claim_border(struct tile *ptile, struct player *powner)
 {
+  struct city *pcity = tile_city(ptile);
   struct vision_site *psite = map_get_player_site(ptile, powner);
   int range = game.info.borders;
 
@@ -1832,31 +1833,58 @@ void map_claim_border(struct tile *ptile, struct player *powner)
     /* no borders */
     return;
   }
-  if (IDENTITY_NUMBER_ZERO == psite->identity) {
-    /* should never be called! */
-    freelog(LOG_ERROR, "Warning: border source (%d,%d) is unknown!",
-            TILE_XY(ptile));
+
+  if (NULL == psite) {
+    /* should never happen! call map_claim_ownership() first! */
+    freelog(LOG_ERROR, "(%2d,%2d) border has NULL source for %s",
+            TILE_XY(ptile),
+            nation_rule_name(nation_of_player(powner)));
     return;
   }
+
+  if (IDENTITY_NUMBER_ZERO == psite->identity) {
+    /* TODO: maybe someday, but currently should never be called! */
+    freelog(LOG_ERROR, "(%2d,%2d) border has zero identity for %s",
+            TILE_XY(ptile),
+            nation_rule_name(nation_of_player(powner)));
+    return;
+  }
+
   if (IDENTITY_NUMBER_ZERO < psite->identity) {
     /* city expansion */
     range = MIN(psite->size + 1, game.info.borders);
+    /* TODO: expansion stages based on ruleset */
     if (psite->size > game.info.borders) {
       range += (psite->size - game.info.borders) / 2;
     }
   }
   range *= range; /* due to sq dist */
 
-  freelog(LOG_VERBOSE, "border source (%d,%d) range %d",
-          TILE_XY(ptile), range);
+  if (NULL != pcity) {
+    freelog(LOG_VERBOSE, "(%2d,%2d) border %2d \"%s\"[%d]",
+            TILE_XY(ptile),
+            range,
+            city_name(pcity), pcity->size);
+  } else {
+    freelog(LOG_VERBOSE, "(%2d,%2d) border %2d",
+            TILE_XY(ptile),
+            range);
+  }
 
   circle_dxyr_iterate(ptile, range, dtile, dx, dy, dr) {
+    struct city *dcity = tile_city(dtile);
     struct player *downer = tile_owner(dtile);
 
-    if (!map_is_known(dtile, powner)) {
-      /* border tile never seen */
+    if (NULL != dcity) {
+      /* cannot affect existing cities (including self) */
       continue;
     }
+
+    if (!map_is_known_and_seen(dtile, powner, V_MAIN)) {
+      /* TODO: border should expand vision */
+      continue;
+    }
+
     if (NULL != downer && downer != powner) {
       struct vision_site *dsite = map_get_player_site(dtile, downer);
       int r = sq_map_distance(dsite->location, dtile);
@@ -1913,15 +1941,18 @@ void map_calculate_borders(void)
     cities_to_refresh = city_list_new();
   }
 
+freelog(LOG_VERBOSE,"map_calculate_borders() sites");
   /* base sites are done first, as they may be thorn in city side. */
   sites_iterate(psite) {
     map_claim_border(psite->location, vision_owner(psite));
   } sites_iterate_end;
 
+freelog(LOG_VERBOSE,"map_calculate_borders() cities");
   cities_iterate(pcity) {
     map_claim_border(pcity->tile, city_owner(pcity));
   } cities_iterate_end;
 
+freelog(LOG_VERBOSE,"map_calculate_borders() done");
 #ifdef OWNER_SOURCE
   /* First transfer ownership for sources that have changed hands. */
   whole_map_iterate(ptile) {

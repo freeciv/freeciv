@@ -60,13 +60,14 @@ struct tile {
 int tile_index(const struct tile *ptile);
 
 struct city *tile_city(const struct tile *ptile);
-void tile_set_city(struct tile *ptile, struct city *pcity);
+void tile_set_worked(struct tile *ptile, struct city *pcity);
 
 #define tile_continent(_tile) ((_tile)->continent)
 /*Continent_id tile_continent(const struct tile *ptile);*/
 void tile_set_continent(struct tile *ptile, Continent_id val);
 
-struct player *tile_owner(const struct tile *ptile);
+#define tile_owner(_tile) ((_tile)->owner)
+/*struct player *tile_owner(const struct tile *ptile);*/
 void tile_set_owner(struct tile *ptile, struct player *pplayer);
 
 #define tile_resource(_tile) ((_tile)->resource)
