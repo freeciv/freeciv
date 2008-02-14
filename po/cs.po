@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.0.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-02-13 09:27+0100\n"
-"PO-Revision-Date: 2008-02-13 10:11+0100\n"
+"PO-Revision-Date: 2008-02-13 17:11+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -128,9 +128,9 @@ msgid "Global: %s"
 msgstr "Globální: %s"
 
 #: common/events.c:54
-#, fuzzy, c-format
+#, c-format
 msgid "Hut: %s"
-msgstr "Host: %s"
+msgstr "Chýše: %s"
 
 #: common/events.c:55
 #, c-format
@@ -192,9 +192,8 @@ msgid "New Improvement Selected"
 msgstr "Vylepšení"
 
 #: common/events.c:84
-#, fuzzy
 msgid "Sold"
-msgstr "Zlato"
+msgstr "Prodáno"
 
 #: common/events.c:85
 #, fuzzy
@@ -372,7 +371,7 @@ msgstr ""
 #: common/events.c:129
 #, fuzzy
 msgid "Barbarian Uprising"
-msgstr "Barbar"
+msgstr ""
 
 #: common/events.c:130
 msgid "Civil War"
@@ -551,9 +550,8 @@ msgid "Nation Selected"
 msgstr "Výběr jednotek"
 
 #: common/events.c:171
-#, fuzzy
 msgid "Player Destroyed"
-msgstr "Hráč %d"
+msgstr "Hráč zničen"
 
 #: common/events.c:172
 msgid "Report"
@@ -565,14 +563,12 @@ msgid "Server Aborting"
 msgstr "Port serveru"
 
 #: common/events.c:174
-#, fuzzy
 msgid "Server Problems"
-msgstr "Možnosti serveru"
+msgstr "Problémy serveru"
 
 #: common/events.c:175
-#, fuzzy
 msgid "Server settings changed"
-msgstr "Uložit nastavení"
+msgstr "Nastavení serveru změněna"
 
 #: common/events.c:176
 #, fuzzy
@@ -761,9 +757,9 @@ msgstr "%d n.l."
 
 #. TRANS: "Land terrain"
 #: common/requirements.c:1267
-#, fuzzy, c-format
+#, c-format
 msgid "%s terrain"
-msgstr "Terén"
+msgstr "%s terén"
 
 #: common/tech.c:809
 #: client/gui-gtk-2.0/repodlgs.c:510
@@ -998,9 +994,9 @@ msgid "(beta version)"
 msgstr "(beta verze)"
 
 #: common/version.c:41
-#, fuzzy, c-format
+#, c-format
 msgid "Freeciv version %s (%s)"
-msgstr "Freeciv verze %s %s"
+msgstr "Freeciv verze %s (%s)"
 
 #: common/version.c:44
 #, c-format
@@ -1065,14 +1061,13 @@ msgstr "Prosinci"
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: common/version.c:102
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "THIS IS A BETA VERSION\n"
 "Freeciv %s will be released in %s, at %s"
 msgstr ""
 "TOTO JE BETA VERZE\n"
-"Freeciv %s vyjde\n"
-"v %s, na %s"
+"Freeciv %s vyjde v %s, na %s"
 
 #: common/version.c:121
 msgid "'Cause civilization should be free!"
@@ -1163,9 +1158,9 @@ msgid "Output buffer full"
 msgstr "Výstupní buffer plný"
 
 #: utility/ioz.c:549
-#, fuzzy, c-format
+#, c-format
 msgid "Bz2: \"%s\" (%d)"
-msgstr "Rok: %s (T%d)"
+msgstr "Bz2: \"%s\" (%d)"
 
 #: utility/ioz.c:552
 #, c-format
@@ -6569,7 +6564,7 @@ msgstr "%s se může pohybovat jen v našich zónach kontroly."
 #: server/unithand.c:1075
 #, c-format
 msgid "%s cannot move that far from the coast line."
-msgstr ""
+msgstr "%s nemůže tak daleko od pobřeží."
 
 #: server/unithand.c:1081
 #, fuzzy, c-format
@@ -6916,12 +6911,12 @@ msgstr "Pokus o změnu domovského města jednotky %s selhal."
 #: server/unittools.c:3149
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
-msgstr ""
+msgstr "Pokus o vytvoření obchodní cesty pro %s selhal."
 
 #: server/unittools.c:3161
 #, c-format
 msgid "Attempt to build wonder for %s failed."
-msgstr ""
+msgstr "Pokus o postavení divu světa pro %s selhal."
 
 #: server/unittools.c:3170
 #, c-format
@@ -7764,6 +7759,8 @@ msgid ""
 "Requires the %s government.\n"
 "\n"
 msgstr ""
+"Vyžaduje státní zřízení %s.\n"
+"\n"
 
 #: client/helpdata.c:176
 #, fuzzy, c-format
@@ -8453,7 +8450,7 @@ msgstr ""
 #: client/helpdata.c:1595
 #, c-format
 msgid "* %s production is increased %d%%.\n"
-msgstr ""
+msgstr "* %s produkce je zvýšena %d%%.\n"
 
 #. TRANS: %s is list of output types, with 'and'
 #: client/helpdata.c:1603
@@ -8724,11 +8721,11 @@ msgstr ""
 
 #: client/options.c:221
 msgid "Allow goto into the unknown"
-msgstr ""
+msgstr "Povolit přesun do neznáma"
 
 #: client/options.c:222
 msgid "Setting this option will make the game consider moving into unknown tiles.  If not, then goto routes will detour around or be blocked by unknown tiles."
-msgstr ""
+msgstr "Nastavení této volby umožní přesun do neprozkoumaného území. Pokud není nastaveno, trasa cesty je zvolena okolo neprozkoumaného území nebo je blokována neprozkoumaným územím."
 
 #: client/options.c:226
 msgid "Center map when Popup city"
@@ -9156,13 +9153,13 @@ msgstr "Město: %s (%s, %s)"
 #: client/text.c:191
 #, c-format
 msgid "?clistbegin: with %s"
-msgstr ""
+msgstr "?clistbegin: s %s"
 
 #. TRANS: This appears with two or more previous entries in the list
 #: client/text.c:202
 #, c-format
 msgid "?clistlast:, and %s"
-msgstr ""
+msgstr "?clistlast: a %s"
 
 #. TRANS: This appears with only one previous entry in the list
 #: client/text.c:206
@@ -9174,7 +9171,7 @@ msgstr "Specialisté"
 #: client/text.c:1190
 #: client/text.c:1229
 msgid "?clistend:."
-msgstr ""
+msgstr "?clistend:."
 
 #. TRANS: "Trade from Warsaw: 5"
 #: client/text.c:219
@@ -9287,9 +9284,9 @@ msgstr[2] "%d tahů"
 #, c-format
 msgid ", %d bulb/turn from team"
 msgid_plural ", %d bulbs/turn from team"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] ", %d žárovka/tah od týmu"
+msgstr[1] ", %d žárovky/tah od týmu"
+msgstr[2] ", %d žárovek/tah od týmu"
 
 #: client/text.c:529
 #, fuzzy, c-format
@@ -12404,7 +12401,7 @@ msgstr "Zprávy"
 
 #: client/gui-gtk-2.0/plrdlg.c:335
 msgid "?show:Dead Players"
-msgstr ""
+msgstr "?show:Mrtví hráči"
 
 #. TRANS: Nations report title
 #. TRANS: Nations report action
@@ -13364,7 +13361,7 @@ msgstr "Zlato: %d (%+d)"
 #: client/gui-sdl/citydlg.c:2706
 #, c-format
 msgid "?production:Support: %d"
-msgstr ""
+msgstr "?production:Podpora: %d"
 
 #: client/gui-sdl/citydlg.c:2744
 #, fuzzy, c-format
@@ -13465,7 +13462,7 @@ msgstr "ukončeno"
 #: client/gui-sdl/citydlg.c:3607
 #, c-format
 msgid "City of %s (Population %s citizens)"
-msgstr ""
+msgstr "Město %s (Populace %s obyvatel)"
 
 #: client/gui-sdl/citydlg.c:3624
 #, fuzzy
@@ -13563,7 +13560,7 @@ msgstr "Předvolby"
 #: client/gui-sdl/cma_fe.c:858
 #, c-format
 msgid "City of %s (Population %s citizens) : %s"
-msgstr ""
+msgstr "Město %s (Populace %s obyvatel) : %s"
 
 #: client/gui-sdl/cma_fe.c:975
 msgid "Save settings as..."
@@ -13643,7 +13640,7 @@ msgstr "Vylepšit"
 #: client/gui-sdl/dialogs.c:661
 #, c-format
 msgid "Contact %s (%d / %d) %s(%d,%d,%d) %s"
-msgstr ""
+msgstr "Kontakt %s (%d / %d) %s(%d,%d,%d) %s"
 
 #: client/gui-sdl/dialogs.c:662
 #: client/gui-sdl/dialogs.c:674
@@ -13711,7 +13708,7 @@ msgstr "Výsadek zde"
 #: client/gui-sdl/dialogs.c:1512
 #, c-format
 msgid "Activate %s (%d / %d) %s (%d,%d,%d) %s"
-msgstr ""
+msgstr "Aktivovat %s (%d / %d) %s (%d,%d,%d) %s"
 
 #: client/gui-sdl/dialogs.c:1414
 #: client/gui-sdl/dialogs.c:1539
@@ -13732,7 +13729,7 @@ msgstr "Strážit nečinné"
 #: client/gui-sdl/dialogs.c:1570
 #, c-format
 msgid "View Civiliopedia entry for %s"
-msgstr ""
+msgstr "Prohlédnout záznam Civiliopedie pro %s"
 
 #: client/gui-sdl/dialogs.c:1976
 msgid "Choose Your New Government"
@@ -19952,7 +19949,7 @@ msgstr "Pastviny pozkytují vyjímečné zemědělské možnosti."
 #: data/default/terrain.ruleset:861
 #: data/default/terrain.ruleset:1239
 msgid "Wooded hills"
-msgstr ""
+msgstr "Zalesněné kopce"
 
 #: data/default/terrain.ruleset:899
 #: data/default/terrain.ruleset:1277
@@ -20359,7 +20356,7 @@ msgstr "Falanga"
 #: data/civ2/units.ruleset:304
 #: data/civ1/units.ruleset:264
 msgid "The Phalanx is armored infantry, suitable for defending your cities."
-msgstr ""
+msgstr "Falanga je obrněná pěchota, vhodná pro obranu tvých měst."
 
 #: data/default/units.ruleset:455
 #: data/civ2/units.ruleset:309
@@ -20730,7 +20727,7 @@ msgstr "Křižník"
 #: data/civ2/units.ruleset:1460
 #: data/civ1/units.ruleset:854
 msgid "The Cruiser is a strong offensive boat unit."
-msgstr ""
+msgstr "Křižník je silná útočná námořní jednotka."
 
 #: data/default/units.ruleset:1512
 #: data/civ2/units.ruleset:1465
@@ -20935,7 +20932,7 @@ msgstr "Průzkumníci jsou velice užiteční při mapování neznámého územ�
 
 #: data/default/units.ruleset:1991
 msgid "This is you. If you lose this unit, you lose the game. So don't."
-msgstr ""
+msgstr "Tohle jsi ty. Pokud ztratíš tuto jednotku, prohraješ hru."
 
 #: data/default/units.ruleset:1996
 #: data/civ2/units.ruleset:1916
@@ -21292,7 +21289,7 @@ msgstr "?plural:Antarktiďané"
 
 #: data/nation/antarctican.ruleset:6
 msgid "Independent South Pole, land of penguins."
-msgstr ""
+msgstr "Nezávislý Jižní pól, země tučňáků."
 
 #: data/nation/arab.ruleset:3
 msgid "Arab"
@@ -22004,7 +22001,7 @@ msgstr "?plural:Kanaďané"
 
 #: data/nation/canadian.ruleset:7
 msgid "Canada is the geographically northernmost country in world: The Magnetic North Pole currently lies on Canadian territory."
-msgstr ""
+msgstr "Kanada je geograficky nejsevernějším státem světa: Severní magnetický pól leží na kanadském území. "
 
 #: data/nation/carthaginian.ruleset:3
 msgid "Carthaginian"
@@ -24360,7 +24357,7 @@ msgstr "?plural:Sověté"
 
 #: data/nation/soviet.ruleset:6
 msgid "Soviet Union's history starts in November 1917, when under Lenin's leadership a Bolshevik revolution occurred. On December 31 1922, four Soviet republics integrated into one country. Soviet Union became one of most powerful states in the 20th century. But by the end of 1991 due to many social shocks it disintegrated into fifteen independent countries"
-msgstr ""
+msgstr "Historie Sovětského Svazu začala v listopadu 1917, kdy pod vedením V.I.Lenina proběhla revoluce. Dne 31.prosince 1922 se čtyři Sovětské republiky spojily do jednoho státu. Sovětský Svaz byl jedním z nejsilnějších států ve dvacátém století. Ale na konci roku 1991 se rozpadl na patnáct nezávislých států."
 
 #: data/nation/soviet.ruleset:28
 msgid "Great Leader"
