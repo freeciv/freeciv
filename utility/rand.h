@@ -13,12 +13,14 @@
 #ifndef FC__RAND_H
 #define FC__RAND_H
 
+#include <stdint.h>
+
 #include "shared.h"		/* bool type */
 
 /* This is duplicated in shared.h to avoid extra includes: */
 #define MAX_UINT32 0xFFFFFFFF
 
-typedef unsigned int RANDOM_TYPE;
+typedef uint32_t RANDOM_TYPE;
 
 typedef struct {
   RANDOM_TYPE v[56];
