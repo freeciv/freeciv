@@ -114,7 +114,11 @@ struct vision_site {
   struct player *owner;			/* May be NULL, always check! */
 
   int identity;				/* city > IDENTITY_NUMBER_ZERO */
-  unsigned short size;
+  int size;				/* city, or base pseudo-size */
+
+  /* The radius of the border source. */
+  int border_radius_sq;
+
   bool occupied;
   bool walls;
   bool happy;
