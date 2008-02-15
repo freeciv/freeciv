@@ -265,7 +265,7 @@ RANDOM_TYPE myrandomly_debug(RANDOM_TYPE seed, RANDOM_TYPE size,
 #define SMALL_PRIME (1009)
 
   /* Check for overflow and underflow */
-  assert((int)(seed * LARGE_PRIME) > 0);
+  assert(seed < MAX_UINT32 / LARGE_PRIME);
   assert(size < SMALL_PRIME);
   assert(size > 0);
   result = ((seed * LARGE_PRIME) % SMALL_PRIME) % size;
