@@ -1763,6 +1763,13 @@ static void map_change_ownership(struct tile *ptile, struct player *play)
 
 /*************************************************************************
   Claim ownership of a single tile.
+
+  This is called for two reasons:
+  (1) Set a base or city.  The tile_owner() MUST be any previous owner.
+      Because of update_city_tile_status_map() above, the city SHOULD NOT
+      be in the cities list yet.  Also, before city_refresh_vision() as
+      that now depends on the vision_site.
+  (2) map_claim_border(), only after (1) has setup the vision_site.
 *************************************************************************/
 void map_claim_ownership(struct tile *ptile, struct player *powner,
                          struct tile *psource)
@@ -1784,24 +1791,28 @@ void map_claim_ownership(struct tile *ptile, struct player *powner,
   if (NULL != powner && NULL != psource) {
     struct city *pcity = tile_city(ptile);
     struct player_tile *playtile = map_get_player_tile(psource, powner);
+    struct vision_site *psite = playtile->site;
 
-    if (NULL != playtile->site) {
+    if (NULL != psite) {
       if (ptile != psource) {
-        map_get_player_tile(ptile, powner)->site = playtile->site;
+        map_get_player_tile(ptile, powner)->site = psite;
       } else if (NULL != pcity) {
-        update_vision_site_from_city(playtile->site, pcity);
+        update_vision_site_from_city(psite, pcity);
       } else {
         /* has new owner */
-        playtile->site->owner = powner;
+        psite->owner = powner;
       }
     } else {
       assert(ptile == psource);
       assert(NULL != pcity); /* FIXME: temporary IDENTITY_NUMBER_ZERO */
+
       if (NULL != pcity) {
-        playtile->site = create_vision_site_from_city(pcity);
+        psite = create_vision_site_from_city(pcity);
       } else {
-        playtile->site = create_vision_site(IDENTITY_NUMBER_ZERO, psource, powner);
+        psite = create_vision_site(IDENTITY_NUMBER_ZERO, psource, powner);
       }
+
+      playtile->site = psite;
     }
   } else {
     assert(NULL == powner && NULL == psource);
@@ -1822,14 +1833,17 @@ void map_claim_ownership(struct tile *ptile, struct player *powner,
 
 /*************************************************************************
   Update borders for this source.  Call this for each new source.
+
+  This is dependent on the current vision, and affects the citymap
+  tile status, so must be done after city_refresh_vision() and before
+  (re-)arranging workers.
 *************************************************************************/
 void map_claim_border(struct tile *ptile, struct player *powner)
 {
   struct city *pcity = tile_city(ptile);
   struct vision_site *psite = map_get_player_site(ptile, powner);
-  int range = game.info.borders;
 
-  if (0 == range) {
+  if (0 == game.info.borders) {
     /* no borders */
     return;
   }
@@ -1850,28 +1864,18 @@ void map_claim_border(struct tile *ptile, struct player *powner)
     return;
   }
 
-  if (IDENTITY_NUMBER_ZERO < psite->identity) {
-    /* city expansion */
-    range = MIN(psite->size + 1, game.info.borders);
-    /* TODO: expansion stages based on ruleset */
-    if (psite->size > game.info.borders) {
-      range += (psite->size - game.info.borders) / 2;
-    }
-  }
-  range *= range; /* due to sq dist */
-
   if (NULL != pcity) {
     freelog(LOG_VERBOSE, "(%2d,%2d) border %2d \"%s\"[%d]",
             TILE_XY(ptile),
-            range,
+            psite->border_radius_sq,
             city_name(pcity), pcity->size);
   } else {
     freelog(LOG_VERBOSE, "(%2d,%2d) border %2d",
             TILE_XY(ptile),
-            range);
+            psite->border_radius_sq);
   }
 
-  circle_dxyr_iterate(ptile, range, dtile, dx, dy, dr) {
+  circle_dxyr_iterate(ptile, psite->border_radius_sq, dtile, dx, dy, dr) {
     struct city *dcity = tile_city(dtile);
     struct player *downer = tile_owner(dtile);
 
@@ -1881,7 +1885,7 @@ void map_claim_border(struct tile *ptile, struct player *powner)
     }
 
     if (!map_is_known_and_seen(dtile, powner, V_MAIN)) {
-      /* TODO: border should expand vision */
+      /* without city_reveal_tiles option */
       continue;
     }
 

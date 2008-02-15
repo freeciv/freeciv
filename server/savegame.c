@@ -2441,11 +2441,6 @@ static void player_load_cities(struct player *plr, int plrno,
 	map_set_known(tile1, plr);
       } map_city_radius_iterate_end;
     }
-    
-    /* adding the cities contribution to fog-of-war */
-    pcity->server.vision = vision_new(city_owner(pcity), pcity->tile);
-    vision_reveal_tiles(pcity->server.vision, game.info.city_reveal_tiles);
-    city_refresh_vision(pcity);
 
     pcity->units_supported = unit_list_new();
 
@@ -2635,10 +2630,15 @@ static void player_load_cities(struct player *plr, int plrno,
                                   plrno, i);
 
     /* After all the set_worker_city() and everything is loaded. */
-    city_list_append(plr->cities, pcity);
     tile_set_owner(pcenter, past);
     map_claim_ownership(pcenter, plr, pcenter);
-    map_claim_border(pcenter, plr);
+
+    /* adding the city contribution to fog-of-war */
+    pcity->server.vision = vision_new(plr, pcity->tile);
+    vision_reveal_tiles(pcity->server.vision, game.info.city_reveal_tiles);
+    city_refresh_vision(pcity);
+
+    city_list_append(plr->cities, pcity);
   }
 }
 
@@ -4317,6 +4317,9 @@ void game_load(struct section_file *file)
 
     initialize_globals();
     apply_unit_ordering();
+
+    /* all vision is ready */
+    map_calculate_borders();
 
     /* Make sure everything is consistent. */
     players_iterate(pplayer) {

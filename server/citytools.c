@@ -42,6 +42,7 @@
 #include "tech.h"
 #include "unit.h"
 #include "unitlist.h"
+#include "vision.h"
 
 #include "script.h"
 
@@ -845,10 +846,10 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   /* Has to follow the unfog call above. */
   city_list_unlink(pgiver->cities, pcity);
   pcity->owner = ptaker;
+  map_claim_ownership(pcity->tile, ptaker, pcity->tile);
   city_list_prepend(ptaker->cities, pcity);
 
   /* Update the national borders. */
-  map_claim_ownership(pcity->tile, ptaker, pcity->tile);
   map_claim_border(pcity->tile, ptaker);
 
   transfer_city_units(ptaker, pgiver, old_city_units,
@@ -997,17 +998,21 @@ void create_city(struct player *pplayer, struct tile *ptile,
     }
   }
 
+  /* Claim the ground we stand on */
+  tile_set_worked(ptile, pcity); /* partly redundant to server_set_tile_city() */
+  tile_set_owner(ptile, saved_owner);
+  map_claim_ownership(ptile, pplayer, ptile);
+
   /* Before arranging workers to show unknown land */
   pcity->server.vision = vision_new(pplayer, ptile);
   vision_reveal_tiles(pcity->server.vision, game.info.city_reveal_tiles);
   city_refresh_vision(pcity);
-
-  tile_set_worked(ptile, pcity); /* partly redundant to server_set_tile_city() */
   city_list_prepend(pplayer->cities, pcity);
 
-  /* Claim the ground we stand on */
-  tile_set_owner(ptile, saved_owner);
-  map_claim_ownership(ptile, pplayer, ptile);
+  /* This is dependent on the current vision, and affects the citymap
+   * tile status, so must be done after vision is prepared and before
+   * arranging workers. */
+  map_claim_border(ptile, pplayer);
 
   if (terrain_control.may_road) {
     tile_set_special(ptile, S_ROAD);
@@ -1045,10 +1050,6 @@ void create_city(struct player *pplayer, struct tile *ptile,
    * which that other city certainly is. And once it notices that
    * ptile->worked does not point to it, it will give tile up. */
   server_set_tile_city(pcity, CITY_MAP_SIZE/2, CITY_MAP_SIZE/2, C_TILE_WORKER);
-
-  /* Update the national borders.  This affects the citymap tile status,
-   * so must be done after the above and before arranging workers. */
-  map_claim_border(ptile, pplayer);
 
   /* Refresh the city.  First a city refresh is done (this shouldn't
    * send any packets to the client because the city has no supported units)
@@ -2002,16 +2003,16 @@ bool city_can_work_tile(struct city *pcity, int city_x, int city_y)
     return FALSE;
   }
 
-  if (tile_owner(ptile) && tile_owner(ptile) != powner) {
+  if (NULL != tile_owner(ptile) && tile_owner(ptile) != powner) {
     return FALSE;
   }
   /* TODO: civ3-like option for borders */
 
-  if (ptile->worked && ptile->worked != pcity) {
+  if (NULL != ptile->worked && ptile->worked != pcity) {
     return FALSE;
   }
 
-  if (!map_is_known(ptile, powner)) {
+  if (!map_is_known_and_seen(ptile, powner, V_MAIN)) {
     return FALSE;
   }
 
@@ -2229,7 +2230,25 @@ void city_landlocked_sell_coastal_improvements(struct tile *ptile)
 ****************************************************************************/
 void city_refresh_vision(struct city *pcity)
 {
+  struct tile *pcenter = city_tile(pcity);
+  struct player *powner = city_owner(pcity);
+  struct vision_site *psite = map_get_player_site(pcenter, powner);
   int radius_sq = get_city_bonus(pcity, EFT_CITY_VISION_RADIUS_SQ);
+
+  if (NULL != psite) {
+    int delta = psite->size - game.info.borders;
+
+    /* TODO: city size effect or ruleset steps instead */
+    if (0 >= delta) {
+      psite->border_radius_sq = 2 * psite->size;
+    } else {
+      psite->border_radius_sq = (2 + delta) * game.info.borders;
+    }
+
+    if (radius_sq < psite->border_radius_sq) {
+      radius_sq = psite->border_radius_sq;
+    }
+  }
 
   vision_change_sight(pcity->server.vision, V_MAIN, radius_sq);
   vision_change_sight(pcity->server.vision, V_INVIS, 2);
