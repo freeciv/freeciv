@@ -360,7 +360,7 @@ static bool send_to_metaserver(enum meta_flag flag)
     s = end_of_strn(s, &rest);
 
     my_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
-                my_url_encode("mirules.nplayers"), game.info.min_players);
+                my_url_encode("minplayers"), game.info.min_players);
     s = end_of_strn(s, &rest);
 
     my_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
