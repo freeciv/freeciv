@@ -1,16 +1,16 @@
 # translation of ca.po to Català
 # FREECIV CATALAN TRANSLATION
-# Copyright (C) 2003, 2007 Free Software Foundation, Inc.
+# Copyright (C) 2003, 2007, 2008 Free Software Foundation, Inc.
 #
 # Albert Astals Cid <astals11@terra.es>, 2003.
 # David <david.gaya@terra.es>, 2003.
-# Joan Creus <joan.creus at gmail dot com>, 2007.
+# Joan Creus <joan.creus at gmail dot com>, 2007, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-09-08 13:08+0200\n"
-"PO-Revision-Date: 2007-09-08 13:35+0200\n"
+"POT-Creation-Date: 2007-09-14 22:01+0200\n"
+"PO-Revision-Date: 2008-02-13 20:12+0100\n"
 "Last-Translator: Joan Creus <joan.creus at gmail dot com>\n"
 "Language-Team: Català <ca@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -641,12 +641,12 @@ msgstr "error %ld (Missatge de format fallat)"
 msgid "error %d (compiled without strerror)"
 msgstr "error %d (compilat sense strerror)"
 
-#: ai/aicity.c:712 server/citytools.c:1828
+#: ai/aicity.c:712 server/citytools.c:1834
 #, c-format
 msgid "Game: The %s have stopped building The %s in %s."
 msgstr "Joc: Els %s han deixat de construir %s a %s."
 
-#: ai/aicity.c:722 server/citytools.c:1875
+#: ai/aicity.c:722 server/citytools.c:1881
 #, c-format
 msgid "Game: The %s have started building The %s in %s."
 msgstr "Joc: Els %s han començat a construir %s a %s."
@@ -962,22 +962,22 @@ msgstr "Joc: Transferit %s a %s des de %s fins %s."
 msgid "Game: Transfered %s from %s to %s."
 msgstr "Joc: Transferit %s des de %s fins %s."
 
-#: server/citytools.c:653
+#: server/citytools.c:659
 #, c-format
 msgid "Game: %s lost along with control of %s."
 msgstr "Joc: Has perdut %s en perdre el control de %s."
 
-#: server/citytools.c:772
+#: server/citytools.c:778
 #, c-format
 msgid "Game: You lost your capital %s. A new palace was built in %s."
 msgstr "Joc: Has perdut la capital (%s). S'ha construït un nou palau a %s."
 
-#: server/citytools.c:832
+#: server/citytools.c:838
 #, c-format
 msgid "You already had a city called %s. The city was renamed to %s."
 msgstr "Ja tenies una ciutat anomenada %s. La ciutat s'ha renomenat a %s."
 
-#: server/citytools.c:922
+#: server/citytools.c:928
 #, c-format
 msgid ""
 "Game: The people in %s are stunned by your technological insight!\n"
@@ -987,24 +987,24 @@ msgstr ""
 "      Els treballadors s'ajunten espontàniament i milloren la ciutat amb "
 "ferrocarril."
 
-#: server/citytools.c:1047
+#: server/citytools.c:1053
 #, c-format
 msgid "Game: You have founded %s"
 msgstr "Joc: Has fundat %s"
 
-#: server/citytools.c:1097
+#: server/citytools.c:1103
 #, c-format
 msgid "Game: Changed homecity of %s in %s."
 msgstr "Joc: Canviada la ciutat origen de %s a %s."
 
-#: server/citytools.c:1127
+#: server/citytools.c:1133
 #, c-format
 msgid "Game: Moved %s out of disbanded city %s to avoid being landlocked."
 msgstr ""
 "Joc: S'ha mogut %s fora de la ciutat %s que s'ha desmantellat per evitar "
 "quedar atrapat."
 
-#: server/citytools.c:1138
+#: server/citytools.c:1144
 #, c-format
 msgid ""
 "Game: When %s was disbanded your %s could not get out, and it was therefore "
@@ -1013,53 +1013,53 @@ msgstr ""
 "Joc: Quan %s ha estat desmantellada %s no ha pogut sortir-ne i per tant, ha "
 "quedat encallat."
 
-#: server/citytools.c:1244
+#: server/citytools.c:1250
 #, c-format
 msgid "Game: You destroy %s completely."
 msgstr "Joc: Destrueixes %s completament."
 
-#: server/citytools.c:1246
+#: server/citytools.c:1252
 #, c-format
 msgid "Game: %s has been destroyed by %s."
 msgstr "Joc: %s ha estat destruïda per %s."
 
-#: server/citytools.c:1263
+#: server/citytools.c:1269
 #, c-format
 msgid "Game: You conquer %s, your lootings accumulate to %d gold!"
 msgstr "Joc: Conquereixes %s, el botí puja a %d peces d'or!"
 
-#: server/citytools.c:1267
+#: server/citytools.c:1273
 #, c-format
 msgid "Game: %s conquered %s and looted %d gold from the city."
 msgstr "Joc: %s ha conquerit %s i ha fet un botí de %d peces d'or de la ciutat."
 
-#: server/citytools.c:1273
+#: server/citytools.c:1279
 #, c-format
 msgid "Game: You have liberated %s! Lootings accumulate to %d gold."
 msgstr "Joc: Has alliberat %s!! El botí suma %d peces d'or."
 
-#: server/citytools.c:1278
+#: server/citytools.c:1284
 #, c-format
 msgid "Game: %s liberated %s and looted %d gold from the city."
 msgstr "Joc: %s ha alliberat %s i ha fet un botí de %d peces d'or de la ciutat."
 
-#: server/citytools.c:1849
+#: server/citytools.c:1855
 msgid " from the worklist"
 msgstr " de la llista de treball"
 
 #. TRANS: "<city> is building <production><source>."
-#: server/citytools.c:1862
+#: server/citytools.c:1868
 #, c-format
 msgid "Game: %s is building %s%s."
 msgstr "Joc: %s està construint %s%s."
 
 #. TRANS: "<city> is building <production>."
-#: server/citytools.c:1867
+#: server/citytools.c:1873
 #, c-format
 msgid "Game: %s is building %s."
 msgstr "Joc: %s està construint %s."
 
-#: server/citytools.c:2122
+#: server/citytools.c:2128
 #, c-format
 msgid "Game: You sell %s in %s (now landlocked) for %d gold."
 msgstr "Joc: Vens %s a %s (ara encallat) per %d peces d'or."
@@ -1294,7 +1294,7 @@ msgstr "Aquest és el servidor per a la %s"
 msgid "You can learn a lot about Freeciv at %s"
 msgstr "Pots aprendre molt en quant a Freeciv a %s"
 
-#: server/civserver.c:159 client/civclient.c:195
+#: server/civserver.c:159 client/civclient.c:205
 #, c-format
 msgid ""
 "Usage: %s [option ...]\n"
@@ -1319,13 +1319,13 @@ msgstr "  -N  -Newusers\tPermet als nous usuaris d'entrar si auth està permès 
 msgid "  -b  --bind ADDR\tListen for clients on ADDR\n"
 msgstr "  -b, --bind ADDR\tEscolta els clients a ADDR\n"
 
-#: server/civserver.c:169 client/civclient.c:199
+#: server/civserver.c:169 client/civclient.c:209
 msgid "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
 msgstr ""
 "  -d, --debug NÚM\tFixa nivell registre depuració (0 a 4, ó 4:fitx1,mín,"
 "màx:...)\n"
 
-#: server/civserver.c:173 client/civclient.c:203
+#: server/civserver.c:173 client/civclient.c:213
 msgid "  -d, --debug NUM\tSet debug log level (0 to 3)\n"
 msgstr "  -d, --debug NÚM\tFixa nivell registre depuració (0 a 3)\n"
 
@@ -1337,7 +1337,7 @@ msgstr "  -f, --file FITXER\tCarrega un joc desat del FITXER\n"
 msgid "  -g, --gamelog FILE\tUse FILE as game logfile\n"
 msgstr "  -g, --gamelog FITXER\tUsa FITXER com a fitxer de registre del joc\n"
 
-#: server/civserver.c:179 client/civclient.c:206
+#: server/civserver.c:179 client/civclient.c:216
 msgid "  -h, --help\t\tPrint a summary of the options\n"
 msgstr "  -h, --help\t\tImprimeix un resum de les opcions\n"
 
@@ -1381,7 +1381,7 @@ msgstr "  -P, --Ppm\t\tSalvar ppms del mapa quan es desi la partida.\n"
 msgid "  -r, --read FILE\tRead startup script FILE\n"
 msgstr "  -r, --read FITXER\tLlegeix script d'inici FITXER\n"
 
-#: server/civserver.c:199 client/civclient.c:224
+#: server/civserver.c:199 client/civclient.c:234
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tImprimeix la versió\n"
 
@@ -1411,9 +1411,9 @@ msgstr ""
 "tots els jugadors d'IA (si n'hi ha), i que s'hagin fet els canvis desitjats "
 "a les opcions de joc inicials. Després de 'start' cadascun dels jugadors "
 "humans podrà triar la nació, i llavors el joc començarà. Aquesta comanda "
-"també fa falta després de carregar un joc desat perquè el joc pugui tornar "
-"a començar. Un cop el joc ja ha començat aquesta comanda ja no està "
-"disponible perquè no tindria cap efecte."
+"també fa falta després de carregar un joc desat perquè el joc pugui tornar a "
+"començar. Un cop el joc ja ha començat aquesta comanda ja no està disponible "
+"perquè no tindria cap efecte."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:42
@@ -1670,7 +1670,8 @@ msgid ""
 "user defined metamessage will be used instead of automatically\n"
 "generated messages, if it is available."
 msgstr ""
-"Fixa la línia d'informació definida per l'usuari del metaservidor. Si s'omet\n"
+"Fixa la línia d'informació definida per l'usuari del metaservidor. Si "
+"s'omet\n"
 "el paràmetre, el metamissatge anterior es traurà. La major part del\n"
 "temps es farà servir el metamissatge definit per l'usuari, en comptes\n"
 "dels missatges generats automàticament, si hi és."
@@ -2083,10 +2084,9 @@ msgid ""
 "and use the 'start' command once players have reconnected."
 msgstr ""
 "Desar el joc actual al fitxer <nom-fitxer>. Si no s'especifica cap nom de "
-"fitxer es desa a \"<Prefix dels noms de desar automàtic><any>m.sav[.gz]"
-"\".\n"
-"Per a tornar a carregar un joc desat amb 'save', s'ha d'iniciar el "
-"servidor amb l'argument de la línia de comanda: \n"
+"fitxer es desa a \"<Prefix dels noms de desar automàtic><any>m.sav[.gz]\".\n"
+"Per a tornar a carregar un joc desat amb 'save', s'ha d'iniciar el servidor "
+"amb l'argument de la línia de comanda: \n"
 "    --file <nomfitxer>\n"
 "i usar la comanda 'start' quan els jugadors s'hagin reconnectat."
 
@@ -3495,9 +3495,9 @@ msgid ""
 "games, or it may indicate an invalid saved game file.  Proceed at your own "
 "risk."
 msgstr ""
-"El fitxer desat conté dades de mapa incompatibles. Això pot passar amb "
-"jocs desats fa molt temps o pot indicar que el fitxer desat no és "
-"correcte. Continua coneixent el risc."
+"El fitxer desat conté dades de mapa incompatibles. Això pot passar amb jocs "
+"desats fa molt temps o pot indicar que el fitxer desat no és correcte. "
+"Continua coneixent el risc."
 
 #. TRANS: Error message.
 #: server/savegame.c:154
@@ -4861,8 +4861,7 @@ msgid ""
 "The game will be automatically saved per this number of turns. Zero means "
 "never auto-save."
 msgstr ""
-"El joc es desarà automàticament cada cop que passin aquest nombre de "
-"torns.\n"
+"El joc es desarà automàticament cada cop que passin aquest nombre de torns.\n"
 "Zero vol dir que no es desa mai automàticament."
 
 #: server/settings.c:975 server/settings.c:986
@@ -6361,7 +6360,7 @@ msgstr "Joc: Només els %s poden atacar des del mar."
 msgid "Game: Cannot attack from sea."
 msgstr "Joc: No pots atacar des del mar."
 
-#: server/unithand.c:932 server/unittools.c:2233
+#: server/unithand.c:932 server/unittools.c:2241
 msgid "Game: Cannot attack unless you declare war first."
 msgstr "Joc: No pots atacar si no declares la guerra primer."
 
@@ -6400,27 +6399,27 @@ msgstr "Joc: Aquesta unitat està sent transportada, i per tant no pot bombardej
 msgid "Game: You can't attack there."
 msgstr "Joc: No pots atacar allà."
 
-#: server/unithand.c:1107
+#: server/unithand.c:1109
 msgid "Game: This type of troops cannot take over a city."
 msgstr "Joc: Aquest tipus de tropes no poden conquerir una ciutat."
 
-#: server/unithand.c:1125
+#: server/unithand.c:1127
 msgid "Game: A transported unit is not allied to all units or city on target tile."
 msgstr ""
 "Joc: Una unitat transportada no està aliada a totes les unitats o ciutat de "
 "la casella destí."
 
-#: server/unithand.c:1169
+#: server/unithand.c:1171
 #, c-format
 msgid "Game: Your %s helps build the %s in %s (%d remaining)."
 msgstr "Joc: La teva %s ajuda a construir %s a %s (en queden %d)."
 
-#: server/unithand.c:1171
+#: server/unithand.c:1173
 #, c-format
 msgid "Game: Your %s helps build the %s in %s (%d surplus)."
 msgstr "Joc: La teva %s ajuda a construir %s a %s (excedent %d)."
 
-#: server/unithand.c:1215
+#: server/unithand.c:1217
 #, c-format
 msgid ""
 "Game: Sorry, your %s cannot establish a trade route because it has no home "
@@ -6429,29 +6428,29 @@ msgstr ""
 "Joc: Ho sento, el teu %s no pot establir una ruta comercial perquè no té "
 "ciutat d'origen."
 
-#: server/unithand.c:1225
+#: server/unithand.c:1227
 #, c-format
 msgid "Game: Sorry, your %s cannot establish a trade route between %s and %s"
 msgstr "Joc: Ho sento, el teu %s no pot establir una ruta comercial entre %s i %s"
 
-#: server/unithand.c:1253 server/unithand.c:1270
+#: server/unithand.c:1255 server/unithand.c:1272
 #, c-format
 msgid "Game: Sorry, your %s cannot establish a trade route here!"
 msgstr "Joc: Ho sento, el teu %s no pot establir una ruta comercial aquí!"
 
-#: server/unithand.c:1256 server/unithand.c:1273
+#: server/unithand.c:1258 server/unithand.c:1275
 #, c-format
 msgid "      The city of %s already has %d better trade routes!"
 msgstr "      La ciutat de %s ja té %d millors rutes comercials!"
 
-#: server/unithand.c:1285 server/unithand.c:1296
+#: server/unithand.c:1287 server/unithand.c:1298
 #, c-format
 msgid "Game: Sorry, %s has canceled the trade route from %s to your city %s."
 msgstr ""
 "Joc: Ho sento, %s ha cancel·lat la ruta comercial des de %s a la teva ciutat "
 "%s."
 
-#: server/unithand.c:1328
+#: server/unithand.c:1330
 #, c-format
 msgid ""
 "Game: Your %s from %s has arrived in %s, and revenues amount to %d in gold "
@@ -6505,254 +6504,254 @@ msgstr "Joc: El teu %s s'ha quedat sense combustible."
 msgid "Game: Your %s became more experienced!"
 msgstr "Joc: Els teus %s han guanyat experiència!"
 
-#: server/unittools.c:863
+#: server/unittools.c:865
 #, c-format
 msgid "Game: Moved your %s due to changing land to sea."
 msgstr "Joc: S'ha mogut el teu %s degut a un canvi de terra per mar."
 
-#: server/unittools.c:884
+#: server/unittools.c:887
 #, c-format
 msgid "Game: Embarked your %s due to changing land to sea."
 msgstr "Joc: S'ha embarcat el teu %s degut a un canvi de terra per mar."
 
-#: server/unittools.c:899
+#: server/unittools.c:903
 #, c-format
 msgid "Game: Disbanded your %s due to changing land to sea."
 msgstr "Joc: S'ha desmantellat el teu %s degut a un canvi de terra per mar."
 
-#: server/unittools.c:921
+#: server/unittools.c:927
 #, c-format
 msgid "Game: Moved your %s due to changing sea to land."
 msgstr "Joc: S'ha mogut el teu %s degut a un canvi de mar per terra."
 
-#: server/unittools.c:941
+#: server/unittools.c:948
 #, c-format
 msgid "Game: Docked your %s due to changing sea to land."
 msgstr "Joc: S'ha entrat a port el teu %s degut a un canvi de mar per terra."
 
-#: server/unittools.c:956
+#: server/unittools.c:964
 #, c-format
 msgid "Game: Disbanded your %s due to changing sea to land."
 msgstr "Joc: S'ha desmantellat el teu %s degut a un canvi de mar per terra."
 
-#: server/unittools.c:988
+#: server/unittools.c:996
 #, c-format
 msgid " at %s"
 msgstr " a %s"
 
-#: server/unittools.c:990
+#: server/unittools.c:998
 #, c-format
 msgid " in %s"
 msgstr " a %s"
 
-#: server/unittools.c:997
+#: server/unittools.c:1005
 #, c-format
 msgid " outside %s"
 msgstr " fora de %s"
 
-#: server/unittools.c:1000
+#: server/unittools.c:1008
 #, c-format
 msgid " near %s"
 msgstr " prop de %s"
 
-#: server/unittools.c:1210
+#: server/unittools.c:1218
 #, c-format
 msgid "Game: Teleported your %s to %s."
 msgstr "Joc: S'ha teleportat el teu %s a %s."
 
-#: server/unittools.c:1239
+#: server/unittools.c:1247
 #, c-format
 msgid "Game: Disbanded your %s."
 msgstr "Joc: S'ha desmantellat el teu %s."
 
-#: server/unittools.c:1560
+#: server/unittools.c:1568
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr "No es pot defensar %s, %s ha perdut la partida."
 
-#: server/unittools.c:1562
+#: server/unittools.c:1570
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr "La pèrdua de %s significa perdre la partida! Vigila més la propera vegada!"
 
-#: server/unittools.c:1666
+#: server/unittools.c:1674
 #, c-format
 msgid "Game: %s escaped the destruction of %s, and fled to %s."
 msgstr "Joc: %s s'ha escapat de la destrucció de %s i s'ha refugiat a %s."
 
-#: server/unittools.c:1673
+#: server/unittools.c:1681
 #, c-format
 msgid "Game: %s lost when %s was lost."
 msgstr "Joc: %s perdut en perdre %s."
 
-#: server/unittools.c:1732
+#: server/unittools.c:1740
 #, c-format
 msgid "Game: Barbarian leader captured, %d gold ransom paid."
 msgstr "Joc: S'ha capturat el líder bàrbar, ens paguen un rescat de %d."
 
-#: server/unittools.c:1749
+#: server/unittools.c:1757
 #, c-format
 msgid "Game: %s lost to an attack by %s's %s%s."
 msgstr "Joc: %s perdut en un atac de %s amb %s%s."
 
-#: server/unittools.c:1775
+#: server/unittools.c:1783
 #, c-format
 msgid "Game: You lost %d unit to an attack from %s's %s%s."
 msgid_plural "Game: You lost %d units to an attack from %s's %s%s."
 msgstr[0] "Joc: Has perdut %d unitat en un atac de %s amb %s%s."
 msgstr[1] "Joc: Has perdut %d unitats en un atac de %s amb %s%s."
 
-#: server/unittools.c:1790
+#: server/unittools.c:1798
 #, c-format
 msgid "Game: %s lost to an attack from %s's %s."
 msgstr "Joc: Has perdut %s en un atac de %s amb %s."
 
-#: server/unittools.c:2078
+#: server/unittools.c:2086
 #, c-format
 msgid "Game: Your %s was nuked by %s."
 msgstr "Joc: %s han patit un atac nuclear de %s."
 
-#: server/unittools.c:2080 server/unittools.c:2096
+#: server/unittools.c:2088 server/unittools.c:2104
 msgid "yourself"
 msgstr "tu mateix"
 
-#: server/unittools.c:2084
+#: server/unittools.c:2092
 #, c-format
 msgid "Game: %s's %s was nuked."
 msgstr "Joc: %2$s de %1$s han patit un atac nuclear."
 
-#: server/unittools.c:2094
+#: server/unittools.c:2102
 #, c-format
 msgid "Game: %s was nuked by %s."
 msgstr "Joc: %s ha patit un atac nuclear de %s."
 
-#: server/unittools.c:2101
+#: server/unittools.c:2109
 #, c-format
 msgid "Game: You nuked %s."
 msgstr "Joc: Has fet un atac nuclear contra %s."
 
-#: server/unittools.c:2139
+#: server/unittools.c:2147
 #, c-format
 msgid "Game: %s detonated a nuke!"
 msgstr "Joc: %s ha detonat una arma nuclear!"
 
-#: server/unittools.c:2179
+#: server/unittools.c:2187
 #, c-format
 msgid "Game: %s transported succesfully."
 msgstr "Joc: s'ha transportat a %s satisfactòriament."
 
-#: server/unittools.c:2202
+#: server/unittools.c:2210
 msgid "Game: This unit type can not be paradropped."
 msgstr "Joc: Aquesta unitat no pot ser llançada amb paracaigudes."
 
-#: server/unittools.c:2212
+#: server/unittools.c:2220
 msgid "Game: You cannot paradrop a transporter unit."
 msgstr "Joc: No pots tirar en paracaigudes una unitat de transport."
 
-#: server/unittools.c:2217
+#: server/unittools.c:2225
 msgid "Game: The destination location is not known."
 msgstr "Joc: L'ubicació de destí és desconeguda."
 
-#: server/unittools.c:2224
+#: server/unittools.c:2232
 msgid "Game: This unit cannot paradrop into ocean."
 msgstr "Joc: Aquesta unitat no es pot llançar en paracaigudes a l'oceà."
 
-#: server/unittools.c:2242
+#: server/unittools.c:2250
 #, c-format
 msgid "Game: The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr ""
 "Joc: La distància a l'objectiu (%i) és més gran que el rang de la unitat (%"
 "i)."
 
-#: server/unittools.c:2256
+#: server/unittools.c:2264
 #, c-format
 msgid "Game: Your %s paradropped into the ocean and was lost."
 msgstr "Joc: Els teus %s s'han llançat en paracaigudes a l'oceà i han mort."
 
-#: server/unittools.c:2269
+#: server/unittools.c:2277
 #, c-format
 msgid "Game: Your %s was killed by enemy units at the paradrop destination."
 msgstr ""
 "Joc: Els teus %s han estat morts per unitats enemigues a la destinació de "
 "llançament."
 
-#: server/unittools.c:2291
+#: server/unittools.c:2299
 #, c-format
 msgid "Game: You found %d gold."
 msgstr "Joc: Has trobat %d peces d'or."
 
-#: server/unittools.c:2308
+#: server/unittools.c:2316
 #, c-format
 msgid "Game: You found %s in ancient scrolls of wisdom."
 msgstr "Joc: Has descobert %s en antics pergamins de saviesa."
 
-#: server/unittools.c:2311
+#: server/unittools.c:2319
 #, c-format
 msgid "Game: The %s have acquired %s from ancient scrolls of wisdom."
 msgstr "Joc: Els %s han adquirit %s d'antics pergamins de saviesa."
 
-#: server/unittools.c:2324
+#: server/unittools.c:2332
 msgid "Game: A band of friendly mercenaries joins your cause."
 msgstr "Joc: Una banda de mercenaris amistosos s'uneix a la teva causa."
 
-#: server/unittools.c:2342
+#: server/unittools.c:2350
 msgid "Game: An abandoned village is here."
 msgstr "Joc: Només hi ha un poble abandonat."
 
-#: server/unittools.c:2352
+#: server/unittools.c:2360
 msgid "Game: You have unleashed a horde of barbarians!"
 msgstr "Joc: Has alliberat una horda de bàrbars!"
 
-#: server/unittools.c:2355
+#: server/unittools.c:2363
 #, c-format
 msgid "Game: Your %s has been killed by barbarians!"
 msgstr "Joc: El teu %s ha mort a mans de bàrbars!"
 
-#: server/unittools.c:2371
+#: server/unittools.c:2379
 msgid "Game: You found a friendly city."
 msgstr "Joc: Has trobat una ciutat amistosa."
 
-#: server/unittools.c:2385
+#: server/unittools.c:2393
 msgid "Game: Friendly nomads are impressed by you, and join you."
 msgstr "Joc: Impressiones a uns nòmades amistosos i s'uneixen a tu."
 
-#: server/unittools.c:2410
+#: server/unittools.c:2418
 msgid "Game: Your overflight frightens the tribe; they scatter in terror."
 msgstr "Joc: La teva sobrevolada ha espantat a la tribu, s'escampen aterrits."
 
-#: server/unittools.c:2531
+#: server/unittools.c:2539
 #, c-format
 msgid "Game: Your %s cancelled patrol order because it encountered a foreign unit."
 msgstr ""
 "Joc: Els teus %s ha cancel·lat la patrulla ja que ha trobat una unitat "
 "estrangera."
 
-#: server/unittools.c:2957
+#: server/unittools.c:2967
 #, c-format
 msgid "Game: Orders for %s aborted as there are units nearby."
 msgstr "Joc: Les ordres per %s, cancel·lades perquè hi ha unitats a prop."
 
-#: server/unittools.c:3006
+#: server/unittools.c:3016
 #, c-format
 msgid "Game: Orders for %s aborted since they give an invalid activity."
 msgstr "Joc: Les ordres per %s, cancel·lades perquè donen una activitat no vàlida."
 
-#: server/unittools.c:3020
+#: server/unittools.c:3030
 #, c-format
 msgid "Game: Orders for %s aborted since they give an invalid location."
 msgstr "Joc: Les ordres per %s, cancel·lades perquè donen una posició no vàlida."
 
-#: server/unittools.c:3030
+#: server/unittools.c:3040
 #, c-format
 msgid "Game: Orders for %s aborted as there are units in the way."
 msgstr "Joc: Les ordres per %s, cancel·lades perquè hi ha unitats al mig del pas."
 
-#: server/unittools.c:3056
+#: server/unittools.c:3066
 #, c-format
 msgid "Game: Orders for %s aborted because of failed move."
 msgstr "Joc: Les ordres per %s, cancel·lades per moviment incorrecte."
 
-#: server/unittools.c:3089
+#: server/unittools.c:3099
 #, c-format
 msgid "Game: Your %s has invalid orders."
 msgstr "Joc: El teu %s té ordres no vàlides."
@@ -7293,52 +7292,52 @@ msgstr "Construcció actual"
 msgid "(Stock,Target,Turns,Buy)"
 msgstr "(Fet,Necessari,Torns,Comprar)"
 
-#: client/civclient.c:197
+#: client/civclient.c:207
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
 msgstr "  -a, --autoconnect\tSaltar el diàleg de connexió\n"
 
-#: client/civclient.c:207
+#: client/civclient.c:217
 msgid "  -l, --log FILE\tUse FILE as logfile (spawned server also uses this)\n"
 msgstr ""
 "  -l, --log FITXER\tUsa FITXER com a fitxer de registre (el servidor "
 "llançat  en paral·leltambé el fa servir)\n"
 
-#: client/civclient.c:209
+#: client/civclient.c:219
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
 msgstr "  -m, --meta HOST\tConnectar amb el metaservidor a HOST\n"
 
-#: client/civclient.c:211
+#: client/civclient.c:221
 msgid "  -n, --name NAME\tUse NAME as name\n"
 msgstr "  -n, --name NOM\tUsa NOM com a nom\n"
 
-#: client/civclient.c:213
+#: client/civclient.c:223
 msgid "  -p, --port PORT\tConnect to server port PORT\n"
 msgstr "  -p, --port PORT\tConnecta al port de servidor PORT\n"
 
-#: client/civclient.c:215
+#: client/civclient.c:225
 #, c-format
 msgid "  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"
 msgstr "  -P, --Plugin PLUGIN\tUsar PLUGIN per sortida de so %s\n"
 
-#: client/civclient.c:217
+#: client/civclient.c:227
 msgid "  -r, --read FILE\tRead startup script FILE (for spawned server only)\n"
 msgstr ""
 "  -r, --read FITXER\tLlegeix l'script d'inici FITXER (només per al servidor "
 "en spawn)\n"
 
-#: client/civclient.c:220
+#: client/civclient.c:230
 msgid "  -s, --server HOST\tConnect to the server at HOST\n"
 msgstr "  -s, --server HOST\tConnecta al servidor HOST\n"
 
-#: client/civclient.c:221
+#: client/civclient.c:231
 msgid "  -S, --Sound FILE\tRead sound tags from FILE\n"
 msgstr "  -S, --Sound FITXER\tLlegir marcadors de so des de FITXER\n"
 
-#: client/civclient.c:222
+#: client/civclient.c:232
 msgid "  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"
 msgstr "  -t, --tiles FITXER\tUsar fitxer de dades FITXER.tilespec per caselles\n"
 
-#: client/civclient.c:225
+#: client/civclient.c:235
 #, c-format
 msgid ""
 "      --\t\tPass any following options to the UI.\n"
@@ -7347,30 +7346,30 @@ msgstr ""
 "      --\t\tPassar qualsevol opció que segueixi a l'interfície d'usuari.\n"
 "\t\t\tProva \"%s -- --help\" per més ajuda.\n"
 
-#: client/civclient.c:247
+#: client/civclient.c:257
 #, c-format
 msgid "Invalid port \"%s\" specified with --port option.\n"
 msgstr "Port no vàlid \"%s\" especificat amb l'opció --port.\n"
 
-#: client/civclient.c:249 client/civclient.c:262
+#: client/civclient.c:259 client/civclient.c:272
 msgid "Try using --help.\n"
 msgstr "Prova de fer servir --help.\n"
 
-#: client/civclient.c:260
+#: client/civclient.c:270
 #, c-format
 msgid "Invalid debug level \"%s\" specified with --debug option.\n"
 msgstr "Nivell de depuració incorrecte \"%s\" especificat amb l'opció --debug.\n"
 
-#: client/civclient.c:270
+#: client/civclient.c:280
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Opció no reconeguda: \"%s\"\n"
 
-#: client/civclient.c:502
+#: client/civclient.c:515
 msgid "Game started."
 msgstr "La partida ha començat."
 
-#: client/civclient.c:535
+#: client/civclient.c:548
 msgid "There was an error while auto connecting; aborting."
 msgstr "Hi ha hagut un error mentre em connectava automàticament, s'està avortant."
 
@@ -7534,31 +7533,31 @@ msgstr "difícil"
 msgid "experimental"
 msgstr "experimental"
 
-#: client/connectdlg_common.c:225
+#: client/connectdlg_common.c:211
 msgid "Starting server..."
 msgstr "S'està engegant el servidor..."
 
-#: client/connectdlg_common.c:342
+#: client/connectdlg_common.c:328
 msgid "Couldn't start the server."
 msgstr "No s'ha pogut engegar el servidor"
 
-#: client/connectdlg_common.c:343 client/connectdlg_common.c:376
+#: client/connectdlg_common.c:329 client/connectdlg_common.c:362
 msgid "You'll have to start one manually. Sorry..."
 msgstr "N'hauràs d'engegar un manualment. Ho sento..."
 
-#: client/connectdlg_common.c:374
+#: client/connectdlg_common.c:360
 msgid "Couldn't connect to the server."
 msgstr "No ens hem pogut connectar al servidor."
 
-#: client/connectdlg_common.c:375
+#: client/connectdlg_common.c:361
 msgid "We probably couldn't start it from here."
 msgstr "Probablement no podríem engegar-lo des d'aquí."
 
-#: client/connectdlg_common.c:496
+#: client/connectdlg_common.c:482
 msgid "We have control of the server (command access level hack)"
 msgstr "Controlem el servidor (nivell d'accés a comandes hack)"
 
-#: client/connectdlg_common.c:501
+#: client/connectdlg_common.c:487
 msgid "We can't take control of server, attempting to kill it."
 msgstr "No podem controlar el servidor, intentant aturar-lo."
 
@@ -16034,8 +16033,8 @@ msgstr ""
 "ciutats, a la columna del Gestor. I pots canviar-lo des d'allà (fes 'canvi' "
 "--> 'Agent Gestor de Ciutadans'), si l'has salvat com a predeterminat.\n"
 "\n"
-"Utilitza 'Joc' --> 'Desar Configuració' per desar les teves "
-"configuracions de forma permanent.\n"
+"Utilitza 'Joc' --> 'Desar Configuració' per desar les teves configuracions "
+"de forma permanent.\n"
 "\n"
 "Però vigila! Si fas servir el Gestor per algunes de les teves ciutats, pots "
 "trobar alguna dificultat per gestionar les ciutats del costat a mà. És "
@@ -20882,7 +20881,7 @@ msgstr "Caravel·la"
 #: data/default/units.ruleset:1258 data/civ2/units.ruleset:1117
 #: data/civ1/units.ruleset:1076 data/history/units.ruleset:1184
 msgid "Galleon"
-msgstr "Galeó"
+msgstr "Galió"
 
 #: data/default/units.ruleset:1286 data/civ2/units.ruleset:1145
 #: data/civ1/units.ruleset:1104 data/history/units.ruleset:1212
