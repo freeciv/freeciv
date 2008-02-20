@@ -1820,7 +1820,8 @@ void move_unit_map_canvas(struct unit *punit,
 struct city *find_city_or_settler_near_tile(const struct tile *ptile,
 					    struct unit **punit)
 {
-  struct city *pcity = ptile->worked, *closest_city;
+  struct city *closest_city;
+  struct city *pcity = tile_worked(ptile);
   struct unit *closest_settler = NULL, *best_settler = NULL;
 
   if (punit) {
@@ -1840,15 +1841,16 @@ struct city *find_city_or_settler_near_tile(const struct tile *ptile,
   /* rule e */
   closest_city = NULL;
 
-  city_map_checked_iterate(ptile, city_x, city_y, tile1) {
+  city_tile_iterate_cxy(ptile, tile1, city_x, city_y) {
     pcity = tile_city(tile1);
     if (pcity
 	&& (!game.player_ptr || city_owner(pcity) == game.player_ptr)
-	&& get_worker_city(pcity, CITY_MAP_SIZE - 1 - city_x,
-			   CITY_MAP_SIZE - 1 - city_y) == C_TILE_EMPTY) {
+	&& C_TILE_EMPTY == city_map_status(pcity,
+					   CITY_MAP_SIZE - 1 - city_x,
+					   CITY_MAP_SIZE - 1 - city_y)) {
       /*
        * Note, we must explicitly check if the tile is workable (with
-       * get_worker_city(), above) since it is possible that another
+       * city_map_status() above), since it is possible that another
        * city (perhaps an unseen enemy city) may be working it,
        * causing it to be marked as C_TILE_UNAVAILABLE.
        */
@@ -1861,17 +1863,14 @@ struct city *find_city_or_settler_near_tile(const struct tile *ptile,
 	closest_city = pcity;
       }
     }
-  } city_map_checked_iterate_end;
+  } city_tile_iterate_cxy_end;
 
   /* rule d */
   if (closest_city || !punit) {
     return closest_city;
   }
 
-  city_map_iterate_outwards(city_x, city_y) {
-    struct tile *tile1 = base_city_map_to_map(ptile, city_x, city_y);;
-
-    if (tile1) {
+  city_tile_iterate(ptile, tile1) {
       unit_list_iterate(tile1->units, psettler) {
 	if ((!game.player_ptr || unit_owner(psettler) == game.player_ptr)
 	    && unit_has_type_flag(psettler, F_CITIES)
@@ -1884,8 +1883,7 @@ struct city *find_city_or_settler_near_tile(const struct tile *ptile,
 	  }
 	}
       } unit_list_iterate_end;
-    }
-  } city_map_iterate_outwards_end;
+  } city_tile_iterate_end;
 
   if (best_settler) {
     /* Rule e */

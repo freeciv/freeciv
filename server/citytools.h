@@ -83,14 +83,27 @@ char *city_name_suggestion(struct player *pplayer, struct tile *ptile);
 void city_freeze_workers(struct city *pcity);
 void city_thaw_workers(struct city *pcity);
 
-bool city_can_work_tile(struct city *pcity, int city_x, int city_y);
-void server_remove_worker_city(struct city *pcity, int city_x, int city_y);
-void server_set_worker_city(struct city *pcity, int city_x, int city_y);
-void update_city_tile_status_map(struct city *pcity, struct tile *ptile);
-void sync_cities(void);
-bool can_place_worker_here(struct city *pcity, int city_x, int city_y);
-void check_city_workers(struct player *pplayer);
+bool city_can_work_tile(struct city *pcity, struct tile *ptile);
+
+void city_map_update_empty(struct city *pcity, struct tile *ptile,
+			   int city_x, int city_y);
+void city_map_update_worker(struct city *pcity, struct tile *ptile,
+			    int city_x, int city_y);
+
+void city_map_update_all(struct city *pcity);
+void city_map_update_all_cities_for_player(struct player *pplayer);
+
+void city_map_update_tile(struct city *pcity, struct tile *ptile);
+void city_map_update_tile_near_city(struct city *pcity,
+                                    struct tile *ptile,
+                                    bool broadcast_city);
+void city_map_update_tile_near_city_for_player(struct city *pcity,
+                                               struct tile *ptile,
+                                               struct player *pplayer);
+
 void city_landlocked_sell_coastal_improvements(struct tile *ptile);
 void city_refresh_vision(struct city *pcity);
+
+void sync_cities(void);
 
 #endif  /* FC__CITYTOOLS_H */

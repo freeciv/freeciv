@@ -60,7 +60,6 @@ struct tile {
 int tile_index(const struct tile *ptile);
 
 struct city *tile_city(const struct tile *ptile);
-void tile_set_worked(struct tile *ptile, struct city *pcity);
 
 #define tile_continent(_tile) ((_tile)->continent)
 /*Continent_id tile_continent(const struct tile *ptile);*/
@@ -78,6 +77,10 @@ void tile_set_resource(struct tile *ptile, struct resource *presource);
 #define tile_terrain(_tile) ((_tile)->terrain)
 /*struct terrain *tile_terrain(const struct tile *ptile);*/
 void tile_set_terrain(struct tile *ptile, struct terrain *pterrain);
+
+#define tile_worked(_tile) ((_tile)->worked)
+/* struct city *tile_worked(const struct tile *ptile); */
+void tile_set_worked(struct tile *ptile, struct city *pcity);
 
 /* Specials are a bit different */
 bv_special tile_specials(const struct tile *ptile);

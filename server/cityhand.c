@@ -98,25 +98,48 @@ void handle_city_change_specialist(struct player *pplayer, int city_id,
 void handle_city_make_specialist(struct player *pplayer, int city_id,
 				 int worker_x, int worker_y)
 {
+  struct tile *ptile;
+  struct tile *pcenter;
   struct city *pcity = player_find_city_by_id(pplayer, city_id);
 
-  if (!pcity) {
+  if (NULL == pcity) {
+    freelog(LOG_ERROR,
+            "handle_city_make_specialist() bad city number %d.",
+            city_id);
     return;
   }
-  if (is_free_worked_tile(worker_x, worker_y)) {
+
+  if (!is_valid_city_coords(worker_x, worker_y)) {
+    freelog(LOG_ERROR,
+            "handle_city_make_specialist() invalid city map {%d,%d}.",
+            worker_x, worker_y);
+    return;
+  }
+  pcenter = city_tile(pcity);
+
+  if (NULL == (ptile = city_map_to_tile(pcenter, worker_x, worker_y))) {
+    freelog(LOG_ERROR,
+            "handle_city_make_specialist() unavailable city map {%d,%d}.",
+            worker_x, worker_y);
+    return;
+  }
+
+  if (is_free_worked(pcity, ptile)) {
     auto_arrange_workers(pcity);
     sync_cities();
     return;
   }
-  if (is_worker_here(pcity, worker_x, worker_y)) {
-    server_remove_worker_city(pcity, worker_x, worker_y);
+
+  if (tile_worked(ptile) == pcity) {
+    city_map_update_empty(pcity, ptile, worker_x, worker_y);
     pcity->specialists[DEFAULT_SPECIALIST]++;
     city_refresh(pcity);
     sync_cities();
   } else {
-    notify_player(pplayer, pcity->tile, E_BAD_COMMAND,
-		     _("You don't have a worker here.")); 
+    notify_player(pplayer, pcenter, E_BAD_COMMAND,
+		  _("You don't have a worker here.")); 
   }
+
   sanity_check_city(pcity);
 }
 
@@ -126,29 +149,51 @@ void handle_city_make_specialist(struct player *pplayer, int city_id,
 void handle_city_make_worker(struct player *pplayer, int city_id,
 			     int worker_x, int worker_y)
 {
+  struct tile *ptile;
+  struct tile *pcenter;
   struct city *pcity = player_find_city_by_id(pplayer, city_id);
 
-  if (!is_valid_city_coords(worker_x, worker_y)) {
-    freelog(LOG_ERROR, "invalid city coords %d,%d in package",
-	    worker_x, worker_y);
-    return;
-  }
-  
-  if (!pcity) {
+  if (NULL == pcity) {
+    freelog(LOG_ERROR,
+            "handle_city_make_worker() bad city number %d.",
+            city_id);
     return;
   }
 
-  if (is_free_worked_tile(worker_x, worker_y)) {
+  if (!is_valid_city_coords(worker_x, worker_y)) {
+    freelog(LOG_ERROR,
+            "handle_city_make_worker() invalid city map {%d,%d}.",
+            worker_x, worker_y);
+    return;
+  }
+  pcenter = city_tile(pcity);
+
+  if (NULL == (ptile = city_map_to_tile(pcenter, worker_x, worker_y))) {
+    freelog(LOG_ERROR,
+            "handle_city_make_worker() unavailable city map {%d,%d}.",
+            worker_x, worker_y);
+    return;
+  }
+
+  if (is_free_worked(pcity, ptile)) {
     auto_arrange_workers(pcity);
     sync_cities();
     return;
   }
 
-  if (city_specialists(pcity) == 0
-      || get_worker_city(pcity, worker_x, worker_y) != C_TILE_EMPTY)
+  if (tile_worked(ptile) == pcity) {
     return;
+  }
 
-  server_set_worker_city(pcity, worker_x, worker_y);
+  if (!city_can_work_tile(pcity, ptile)) {
+    return;
+  }
+
+  if (0 == city_specialists(pcity)) {
+    return;
+  }
+
+  city_map_update_worker(pcity, ptile, worker_x, worker_y);
 
   specialist_type_iterate(i) {
     if (pcity->specialists[i] > 0) {

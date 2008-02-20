@@ -30,7 +30,7 @@ enum production_class_type {
 enum city_tile_type {
   C_TILE_EMPTY,
   C_TILE_WORKER,
-  C_TILE_UNAVAILABLE
+  C_TILE_UNAVAILABLE,
 };
 
 /* Various city options.  These are stored by the server and can be
@@ -86,8 +86,9 @@ extern struct iter_index {
 } *city_map_iterate_outwards_indices;
 extern int city_tiles;
 
-/* Iterate a city map, from the center (the city) outwards.
- * (_x, _y) will be the city coordinates. */
+/* Iterate a city map, from the center (the city) outward.
+ * (_x, _y) will be elements of [0,CITY_MAP_SIZE].
+ */
 #define city_map_iterate_outwards(_x, _y)				\
 {									\
   int _x, _y;								\
@@ -105,29 +106,28 @@ extern int city_tiles;
 }
 
 /*
- * Iterate a city map in checked real map coordinates. The center of
- * the city is given as a map position (x0,y0). cx and cy will be
- * elements of [0,CITY_MAP_SIZE). mx and my will form the map position
- * (mx,my).
+ * Iterate a city map in checked real map coordinates.
+ * _city_tile is the center of the (possible) city.
+ * (_x, _y) will be elements of [0,CITY_MAP_SIZE].
  */
-#define city_map_checked_iterate(_city_tile, cx, cy, _tile) {		\
-  city_map_iterate_outwards(cx, cy) {					\
-    struct tile *_tile = base_city_map_to_map(_city_tile, cx, cy);	\
+#define city_tile_iterate_cxy(_city_tile, _tile, _x, _y) {		\
+  city_map_iterate_outwards(_x, _y) {					\
+    struct tile *_tile = city_map_to_tile(_city_tile, _x, _y);		\
     if (NULL != _tile) {
 
-#define city_map_checked_iterate_end					\
+#define city_tile_iterate_cxy_end					\
     }									\
   } city_map_iterate_outwards_end					\
 }
 
-/* Does the same thing as city_map_checked_iterate, but keeps the city
+/* Does the same thing as city_tile_iterate_cxy, but keeps the city
  * coordinates hidden. */
-#define map_city_radius_iterate(_city_tile, _tile)			\
+#define city_tile_iterate(_city_tile, _tile)				\
 {									\
-  city_map_checked_iterate(_city_tile, _tile##_x, _tile##_y, _tile) { 
+  city_tile_iterate_cxy(_city_tile, _tile, _tile##_x, _tile##_y) { 
 
-#define map_city_radius_iterate_end					\
-  } city_map_checked_iterate_end;					\
+#define city_tile_iterate_end						\
+  } city_tile_iterate_cxy_end;						\
 }
 
 /* Improvement status (for cities' lists of improvements)
@@ -481,40 +481,31 @@ const char *city_improvement_name_translation(const struct city *pcity,
 const char *city_production_name_translation(const struct city *pcity);
 
 /* city map functions */
-
 bool is_valid_city_coords(const int city_x, const int city_y);
-bool map_to_city_map(int *city_map_x, int *city_map_y,
-		     const struct city *const pcity,
-		     const struct tile *ptile);
-bool base_map_to_city_map(int *city_map_x, int *city_map_y,
-			  const struct tile *city_center,
-			  const struct tile *map_tile);
+bool city_base_to_city_map(int *city_map_x, int *city_map_y,
+			   const struct city *const pcity,
+			   const struct tile *map_tile);
+bool city_tile_to_city_map(int *city_map_x, int *city_map_y,
+			   const struct tile *city_center,
+			   const struct tile *map_tile);
 
-struct tile *base_city_map_to_map(const struct tile *city_center,
-				  int city_map_x, int city_map_y);
-struct tile *city_map_to_map(const struct city *const pcity,
-			     int city_map_x, int city_map_y);
+struct tile *city_map_to_tile(const struct tile *city_center,
+			      int city_map_x, int city_map_y);
+
+void city_map_update(struct city *pcity, struct tile *ptile, int city_x,
+		     int city_y, enum city_tile_type type);
+enum city_tile_type city_map_status(const struct city *pcity, int city_x,
+				    int city_y);
 
 /* Initialization functions */
 int compare_iter_index(const void *a, const void *b);
 void generate_city_map_indices(void);
 
 /* output on spot */
-int get_output_tile(const struct tile *ptile, Output_type_id otype);
-int city_get_output_tile(int city_x, int city_y, const struct city *pcity,
+int city_tile_output(const struct city *pcity, const struct tile *ptile,
+		     bool is_celebrating, Output_type_id otype);
+int city_tile_output_now(const struct city *pcity, const struct tile *ptile,
 			 Output_type_id otype);
-int base_city_get_output_tile(int city_x, int city_y,
-			      const struct city *pcity, bool is_celebrating,
-			      Output_type_id otype);
-
-void set_worker_city(struct city *pcity, int city_x, int city_y,
-		     enum city_tile_type type); 
-enum city_tile_type get_worker_city(const struct city *pcity, int city_x,
-				    int city_y);
-void get_worker_on_map_position(const struct tile *ptile,
-				enum city_tile_type *result_city_tile_type,
-				struct city **result_pcity);
-bool is_worker_here(const struct city *pcity, int city_x, int city_y);
 
 bool city_can_be_built_here(const struct tile *ptile,
 			    const struct unit *punit);
@@ -620,29 +611,13 @@ int city_pollution(const struct city *pcity, int shield_total);
   }									    \
 }
 
+
 /* === */
 
-static inline bool is_city_center(int city_x, int city_y);
-static inline bool is_free_worked_tile(int city_x, int city_y);
+#define is_city_center(_city, _tile) (_city->tile == _tile)
+#define is_free_worked(_city, _tile) (_city->tile == _tile)
+#define is_free_worked_here(city_x, city_y) \
+	(CITY_MAP_RADIUS == city_x && CITY_MAP_RADIUS == city_y)
 #define FREE_WORKED_TILES (1)
-
-
-/**************************************************************************
-  Return TRUE iff the given city coordinate pair is the center tile of
-  the citymap.
-**************************************************************************/
-static inline bool is_city_center(int city_x, int city_y)
-{
-  return CITY_MAP_RADIUS == city_x && CITY_MAP_RADIUS == city_y;
-}
-
-/**************************************************************************
-  Return TRUE iff the given city coordinate pair can be worked for free by
-  a city.
-**************************************************************************/
-static inline bool is_free_worked_tile(int city_x, int city_y)
-{
-  return CITY_MAP_RADIUS == city_x && CITY_MAP_RADIUS == city_y;
-}
 
 #endif  /* FC__CITY_H */

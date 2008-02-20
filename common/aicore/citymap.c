@@ -68,23 +68,30 @@ void citymap_turn_init(struct player *pplayer)
 
   players_iterate(pplayer) {
     city_list_iterate(pplayer->cities, pcity) {
-      map_city_radius_iterate(pcity->tile, ptile) {
-        if (ptile->worked) {
-          citymap[tile_index(ptile)] = -(ptile->worked->id);
+      struct tile *pcenter = city_tile(pcity);
+
+      city_tile_iterate(pcenter, ptile) {
+        struct city *pwork = tile_worked(ptile);
+
+        if (NULL != pwork) {
+          citymap[tile_index(ptile)] = -(pwork->id);
         } else {
 	  citymap[tile_index(ptile)]++;
         }
-      } map_city_radius_iterate_end;
+      } city_tile_iterate_end;
     } city_list_iterate_end;
   } players_iterate_end;
+
   unit_list_iterate(pplayer->units, punit) {
     if (unit_has_type_flag(punit, F_CITIES)
         && punit->ai.ai_role == AIUNIT_BUILD_CITY) {
-      map_city_radius_iterate(punit->goto_tile, ptile) {
+
+      city_tile_iterate(punit->goto_tile, ptile) {
         if (citymap[tile_index(ptile)] >= 0) {
           citymap[tile_index(ptile)]++;
         }
-      } map_city_radius_iterate_end;
+      } city_tile_iterate_end;
+
       citymap[tile_index(punit->goto_tile)] = -(punit->id);
     }
   } unit_list_iterate_end;
@@ -106,14 +113,15 @@ void citymap_reserve_city_spot(struct tile *ptile, int id)
   /* Tiles will now be "reserved" by actual workers, so free excess
    * reservations. Also mark tiles for city overlapping, or 
    * 'crowding'. */
-  map_city_radius_iterate(ptile, ptile1) {
+  city_tile_iterate(ptile, ptile1) {
     if (citymap[tile_index(ptile1)] == -id) {
       citymap[tile_index(ptile1)] = 0;
     }
     if (citymap[tile_index(ptile1)] >= 0) {
       citymap[tile_index(ptile1)]++;
     }
-  } map_city_radius_iterate_end;
+  } city_tile_iterate_end;
+
   citymap[tile_index(ptile)] = -(id);
 }
 
@@ -122,13 +130,13 @@ void citymap_reserve_city_spot(struct tile *ptile, int id)
 **************************************************************************/
 void citymap_free_city_spot(struct tile *ptile, int id)
 {
-  map_city_radius_iterate(ptile, ptile1) {
+  city_tile_iterate(ptile, ptile1) {
     if (citymap[tile_index(ptile1)] == -(id)) {
       citymap[tile_index(ptile1)] = 0;
     } else if (citymap[tile_index(ptile1)] > 0) {
       citymap[tile_index(ptile1)]--;
     }
-  } map_city_radius_iterate_end;
+  } city_tile_iterate_end;
 }
 
 /**************************************************************************
@@ -160,7 +168,7 @@ int citymap_read(struct tile *ptile)
 **************************************************************************/
 bool citymap_is_reserved(struct tile *ptile)
 {
-  if (ptile->worked /*|| tile_city(ptile)*/) {
+  if (NULL != tile_worked(ptile) /*|| tile_city(ptile)*/) {
     return TRUE;
   }
   return (citymap[tile_index(ptile)] < 0);

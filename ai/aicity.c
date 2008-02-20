@@ -70,7 +70,7 @@
 #include "specvec.h"
 
 #define LOG_BUY LOG_DEBUG
-#define LOG_EMERGENCY LOG_DEBUG
+#define LOG_EMERGENCY LOG_VERBOSE
 #define LOG_WANT LOG_VERBOSE
 
 /* Iterate over cities within a certain range around a given city
@@ -162,18 +162,20 @@ static inline int city_want(struct player *pplayer, struct city *acity,
   memset(prod, 0, O_COUNT * sizeof(*prod));
   if (NULL != pimprove
    && ai->impr_calc[improvement_index(pimprove)] == AI_IMPR_CALCULATE_FULL) {
+    struct tile *acenter = city_tile(acity);
     bool celebrating = base_city_celebrating(acity);
 
-    /* The below calculation mostly duplicates get_citizen_output(). 
+    /* The below calculation mostly duplicates get_worked_tile_output(). 
      * We do this only for buildings that we know may change tile
      * outputs. */
-    city_map_checked_iterate(acity->tile, x, y, ptile) {
-      if (acity->city_map[x][y] == C_TILE_WORKER) {
+    city_tile_iterate(acenter, ptile) {
+      if (tile_worked(ptile) == acity) {
         output_type_iterate(o) {
-          prod[o] += base_city_get_output_tile(x, y, acity, celebrating, o);
+          prod[o] += city_tile_output(acity, ptile, celebrating, o);
         } output_type_iterate_end;
       }
-    } city_map_checked_iterate_end;
+    } city_tile_iterate_end;
+
     add_specialist_output(acity, prod);
   } else {
     assert(sizeof(*prod) == sizeof(*acity->citizen_base));
@@ -1783,6 +1785,7 @@ static void ai_sell_obsolete_buildings(struct city *pcity)
 static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
 {
   struct city_list *minilist;
+  struct tile *pcenter = city_tile(pcity);
 
   freelog(LOG_EMERGENCY,
           "Emergency in %s (%s, angry%d, unhap%d food%d, prod%d)",
@@ -1794,29 +1797,38 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
           pcity->surplus[O_SHIELD]);
 
   minilist = city_list_new();
-  map_city_radius_iterate(pcity->tile, ptile) {
-    struct city *acity = ptile->worked;
-    int city_map_x, city_map_y;
-    bool is_valid;
+
+  city_tile_iterate(pcenter, atile) {
+    struct city *acity = tile_worked(atile);
 
     if (acity && acity != pcity && city_owner(acity) == city_owner(pcity))  {
-      freelog(LOG_DEBUG, "%s taking over %s square in (%d, %d)",
+      int ax, ay;
+      bool is_valid = city_base_to_city_map(&ax, &ay, acity, atile);
+
+      freelog(LOG_EMERGENCY, "%s taking over %s square in (%d, %d)",
               city_name(pcity),
               city_name(acity),
-              TILE_XY(ptile));
-      is_valid = map_to_city_map(&city_map_x, &city_map_y, acity, ptile);
-      assert(is_valid);
-      if (!is_valid || is_free_worked_tile(city_map_x, city_map_y)) {
+              TILE_XY(atile));
+
+      if (!is_valid) {
+        assert(is_valid);
+        continue;
+      }
+
+      if (is_free_worked(acity, atile)) {
 	/* Can't remove a worker here. */
         continue;
       }
-      server_remove_worker_city(acity, city_map_x, city_map_y);
+
+      city_map_update_empty(acity, atile, ax, ay);
       acity->specialists[DEFAULT_SPECIALIST]++;
+
       if (!city_list_find_id(minilist, acity->id)) {
 	city_list_prepend(minilist, acity);
       }
     }
-  } map_city_radius_iterate_end;
+  } city_tile_iterate_end;
+
   auto_arrange_workers(pcity);
 
   if (!CITY_EMERGENCY(pcity)) {

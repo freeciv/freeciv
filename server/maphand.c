@@ -557,10 +557,14 @@ void give_seamap_from_player_to_player(struct player *pfrom, struct player *pdes
 void give_citymap_from_player_to_player(struct city *pcity,
 					struct player *pfrom, struct player *pdest)
 {
+  struct tile *pcenter = city_tile(pcity);
+
   buffer_shared_vision(pdest);
-  map_city_radius_iterate(pcity->tile, ptile) {
+
+  city_tile_iterate(pcenter, ptile) {
     give_tile_info_from_player_to_player(pfrom, pdest, ptile);
-  } map_city_radius_iterate_end;
+  } city_tile_iterate_end;
+
   unbuffer_shared_vision(pdest);
 }
 
@@ -736,18 +740,14 @@ static void really_unfog_tile(struct player *pplayer, struct tile *ptile,
   if (vlayer == V_MAIN) {
     /* discover cities */ 
     reality_check_city(pplayer, ptile);
+
     if ((pcity=tile_city(ptile)))
       send_city_info(pplayer, pcity);
 
     /* If the tile was not known before we need to refresh the cities that
        can use the tile. */
     if (!old_known) {
-      map_city_radius_iterate(ptile, tile1) {
-	pcity = tile_city(tile1);
-	if (pcity && city_owner(pcity) == pplayer) {
-	  update_city_tile_status_map(pcity, ptile);
-	}
-      } map_city_radius_iterate_end;
+      city_map_update_tile_near_city_for_player(NULL, ptile, pplayer);
       sync_cities();
     }
   }
@@ -912,6 +912,7 @@ void map_show_tile(struct player *src_player, struct tile *ptile)
 
 	/* remove old cities that exist no more */
 	reality_check_city(pplayer, ptile);
+
 	if ((pcity = tile_city(ptile))) {
 	  /* as the tile may be fogged send_city_info won't do this for us */
 	  update_dumb_city(pplayer, pcity);
@@ -931,12 +932,7 @@ void map_show_tile(struct player *src_player, struct tile *ptile)
 	/* If the tile was not known before we need to refresh the cities that
 	   can use the tile. */
 	if (!old_known) {
-	  map_city_radius_iterate(ptile, tile1) {
-	    pcity = tile_city(tile1);
-	    if (pcity && city_owner(pcity) == pplayer) {
-	      update_city_tile_status_map(pcity, ptile);
-	    }
-	  } map_city_radius_iterate_end;
+	  city_map_update_tile_near_city_for_player(NULL, ptile, pplayer);
 	  sync_cities();
 	}
       }
@@ -1335,6 +1331,7 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
 	       it will be removed by this function */
 	    reality_check_city(pdest, ptile);
       }
+
       /* Set and send new city info */
       if (from_tile->site && from_tile->site->location == ptile) {
 	if (!dest_tile->site || dest_tile->site->location != ptile) {
@@ -1345,12 +1342,7 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
 	send_city_info_at_tile(pdest, pdest->connections, NULL, ptile);
       }
 
-      map_city_radius_iterate(ptile, tile1) {
-	struct city *pcity = tile_city(tile1);
-	if (pcity && city_owner(pcity) == pdest) {
-	  update_city_tile_status_map(pcity, ptile);
-	}
-      } map_city_radius_iterate_end;
+      city_map_update_tile_near_city_for_player(NULL, ptile, pdest);
       sync_cities();
     }
   }
@@ -1753,10 +1745,10 @@ static void map_change_ownership(struct tile *ptile, struct player *play)
   struct vision_site *psite = map_get_player_site(ptile, play);
 
   assert(NULL != psite);
-  update_city_tile_status_map(tile_city(psite->location), ptile);
+  city_map_update_tile(tile_city(psite->location), ptile);
 #else
   city_list_iterate(play->cities, pcity) {
-    update_city_tile_status_map(pcity, ptile);
+    city_map_update_tile(pcity, ptile);
   } city_list_iterate_end;
 #endif
 }
@@ -1766,14 +1758,14 @@ static void map_change_ownership(struct tile *ptile, struct player *play)
 
   This is called for two reasons:
   (1) Set a base or city.  The tile_owner() MUST be any previous owner.
-      Because of update_city_tile_status_map() above, the city SHOULD NOT
-      be in the cities list yet.  Also, before city_refresh_vision() as
-      that now depends on the vision_site.
+      Before city_refresh_vision() as that now depends on the vision_site.
+      The city SHOULD NOT be in the cities list yet.
   (2) map_claim_border(), only after (1) has setup the vision_site.
 *************************************************************************/
 void map_claim_ownership(struct tile *ptile, struct player *powner,
                          struct tile *psource)
 {
+  struct city *pcity = tile_city(ptile);
   struct player *ploser = tile_owner(ptile);
 
   if (NULL != ploser) {
@@ -1789,13 +1781,14 @@ void map_claim_ownership(struct tile *ptile, struct player *powner,
   }
 
   if (NULL != powner && NULL != psource) {
-    struct city *pcity = tile_city(ptile);
-    struct player_tile *playtile = map_get_player_tile(psource, powner);
-    struct vision_site *psite = playtile->site;
+    struct player_tile *playsite = map_get_player_tile(psource, powner);
+    struct vision_site *psite = playsite->site;
 
     if (NULL != psite) {
       if (ptile != psource) {
-        map_get_player_tile(ptile, powner)->site = psite;
+        struct player_tile *playtile = map_get_player_tile(ptile, powner);
+        assert(NULL == playtile->site);
+        playtile->site = psite;
       } else if (NULL != pcity) {
         update_vision_site_from_city(psite, pcity);
       } else {
@@ -1812,7 +1805,7 @@ void map_claim_ownership(struct tile *ptile, struct player *powner,
         psite = create_vision_site(IDENTITY_NUMBER_ZERO, psource, powner);
       }
 
-      playtile->site = psite;
+      playsite->site = psite;
     }
   } else {
     assert(NULL == powner && NULL == psource);

@@ -582,13 +582,14 @@ Return 1 if x,y is inside any of the player's city radii.
 bool player_in_city_radius(const struct player *pplayer,
 			   const struct tile *ptile)
 {
-  map_city_radius_iterate(ptile, ptile1) {
+  city_tile_iterate(ptile, ptile1) {
     struct city *pcity = tile_city(ptile1);
 
     if (pcity && city_owner(pcity) == pplayer) {
       return TRUE;
     }
-  } map_city_radius_iterate_end;
+  } city_tile_iterate_end;
+
   return FALSE;
 }
 

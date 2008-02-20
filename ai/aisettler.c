@@ -139,13 +139,13 @@ void cityresult_fill(struct player *pplayer,
     virtual_city = TRUE;
   }
 
-  city_map_checked_iterate(result->tile, i, j, ptile) {
+  city_tile_iterate_cxy(result->tile, ptile, i, j) {
     int reserved = citymap_read(ptile);
-    bool city_center = is_city_center(i, j);
+    bool city_center = (result->tile == ptile); /*is_city_center()*/
 
     if (reserved < 0
         || (handicap && !map_is_known(ptile, pplayer))
-        || ptile->worked != NULL) {
+        || NULL != tile_worked(ptile)) {
       /* Tile is reserved or we can't see it */
       result->citymap[i][j].shield = 0;
       result->citymap[i][j].trade = 0;
@@ -156,15 +156,15 @@ void cityresult_fill(struct player *pplayer,
 
       /* Food */
       result->citymap[i][j].food
-	= base_city_get_output_tile(i, j, pcity, FALSE, O_FOOD);
+	= city_tile_output(pcity, ptile, FALSE, O_FOOD);
 
       /* Shields */
       result->citymap[i][j].shield
-	= base_city_get_output_tile(i, j, pcity, FALSE, O_SHIELD);
+	= city_tile_output(pcity, ptile, FALSE, O_SHIELD);
 
       /* Trade */
       result->citymap[i][j].trade
-	= base_city_get_output_tile(i, j, pcity, FALSE, O_TRADE);
+	= city_tile_output(pcity, ptile, FALSE, O_TRADE);
 
       sum = result->citymap[i][j].food * ai->food_priority
             + result->citymap[i][j].trade * ai->science_priority
@@ -214,7 +214,7 @@ void cityresult_fill(struct player *pplayer,
        * of the area and the emphasis placed on space for growth. */
       result->remaining += sum / GROWTH_POTENTIAL_DEEMPHASIS;
     }
-  } city_map_checked_iterate_end;
+  } city_tile_iterate_cxy_end;
 
   if (virtual_city) {
     /* Baseline is a size one city (city center + best extra tile). */

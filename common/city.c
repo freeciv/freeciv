@@ -94,9 +94,9 @@ bool is_valid_city_coords(const int city_x, const int city_y)
   Finds the city map coordinate for a given map position and a city
   center. Returns whether the map position is inside of the city map.
 **************************************************************************/
-bool base_map_to_city_map(int *city_map_x, int *city_map_y,
-			  const struct tile *city_center,
-			  const struct tile *map_tile)
+bool city_tile_to_city_map(int *city_map_x, int *city_map_y,
+			   const struct tile *city_center,
+			   const struct tile *map_tile)
 {
   map_distance_vector(city_map_x, city_map_y, city_center, map_tile);
   *city_map_x += CITY_MAP_RADIUS;
@@ -108,19 +108,19 @@ bool base_map_to_city_map(int *city_map_x, int *city_map_y,
 Finds the city map coordinate for a given map position and a
 city. Returns whether the map position is inside of the city map.
 **************************************************************************/
-bool map_to_city_map(int *city_map_x, int *city_map_y,
-		     const struct city *const pcity,
-		     const struct tile *map_tile)
+bool city_base_to_city_map(int *city_map_x, int *city_map_y,
+			   const struct city *const pcity,
+			   const struct tile *map_tile)
 {
-  return base_map_to_city_map(city_map_x, city_map_y, pcity->tile, map_tile);
+  return city_tile_to_city_map(city_map_x, city_map_y, pcity->tile, map_tile);
 }
 
 /**************************************************************************
 Finds the map position for a given city map coordinate of a certain
 city. Returns true if the map position found is real.
 **************************************************************************/
-struct tile *base_city_map_to_map(const struct tile *city_center,
-				  int city_map_x, int city_map_y)
+struct tile *city_map_to_tile(const struct tile *city_center,
+			      int city_map_x, int city_map_y)
 {
   int x, y;
 
@@ -129,16 +129,6 @@ struct tile *base_city_map_to_map(const struct tile *city_center,
   y = city_center->y + city_map_y - CITY_MAP_SIZE / 2;
 
   return map_pos_to_tile(x, y);
-}
-
-/**************************************************************************
-Finds the map position for a given city map coordinate of a certain
-city. Returns true if the map position found is real.
-**************************************************************************/
-struct tile *city_map_to_map(const struct city *const pcity,
-			     int city_map_x, int city_map_y)
-{
-  return base_city_map_to_map(pcity->tile, city_map_x, city_map_y);
 }
 
 /**************************************************************************
@@ -290,16 +280,14 @@ Output_type_id find_output_type_by_identifier(const char *id)
 }
 
 /**************************************************************************
-  Set the worker on the citymap.  Also sets the worked field in the map.
+  Update the city_map.  Also updates worked in the tile map.
 **************************************************************************/
-void set_worker_city(struct city *pcity, int city_x, int city_y,
-		     enum city_tile_type type)
+void city_map_update(struct city *pcity, struct tile *ptile, int city_x,
+		     int city_y, enum city_tile_type type)
 {
-  struct tile *ptile = city_map_to_map(pcity, city_x, city_y);
-
   if (NULL != ptile) {
     if (pcity->city_map[city_x][city_y] == C_TILE_WORKER
-	&& ptile->worked == pcity) {
+	&& tile_worked(ptile) == pcity) {
       tile_set_worked(ptile, NULL);
     }
     if (type == C_TILE_WORKER) {
@@ -315,28 +303,16 @@ void set_worker_city(struct city *pcity, int city_x, int city_y,
 }
 
 /**************************************************************************
-  Return the worker status of the given tile on the citymap for the given
-  city.
+  Return the tile status of the city_map for the given coordinates.
 **************************************************************************/
-enum city_tile_type get_worker_city(const struct city *pcity, 
+enum city_tile_type city_map_status(const struct city *pcity,
                                     int city_x, int city_y)
 {
   if (!is_valid_city_coords(city_x, city_y)) {
     return C_TILE_UNAVAILABLE;
   }
+
   return pcity->city_map[city_x][city_y];
-}
-
-/**************************************************************************
-  Return TRUE if this tile on the citymap is being worked by this city.
-**************************************************************************/
-bool is_worker_here(const struct city *pcity, int city_x, int city_y) 
-{
-  if (!is_valid_city_coords(city_x, city_y)) {
-    return FALSE;
-  }
-
-  return get_worker_city(pcity, city_x, city_y) == C_TILE_WORKER;
 }
 
 /**************************************************************************
@@ -760,15 +736,15 @@ int city_improvement_upkeep(const struct city *pcity,
 }
 
 /**************************************************************************
-  Calculate the output for the tile.  If pcity is specified then
-  (city_x, city_y) must be valid city coordinates and is_celebrating tells
-  whether the city is celebrating.  otype gives the output type we're
-  looking for (generally O_FOOD, O_TRADE, or O_SHIELD).
+  Calculate the output for the tile.
+  pcity may be NULL.
+  is_celebrating may be speculative.
+  otype is the output type (generally O_FOOD, O_TRADE, or O_SHIELD).
+
+  This can be used to calculate the benefits celebration would give.
 **************************************************************************/
-static int base_get_output_tile(const struct tile *ptile,
-				const struct city *pcity,
-				int city_x, int city_y, bool is_celebrating,
-				Output_type_id otype)
+int city_tile_output(const struct city *pcity, const struct tile *ptile,
+		     bool is_celebrating, Output_type_id otype)
 {
   struct tile tile;
   int prod;
@@ -791,7 +767,8 @@ static int base_get_output_tile(const struct tile *ptile,
   tile.terrain = pterrain;
   tile.special = tile_specials(ptile);
 
-  if (pcity && is_city_center(city_x, city_y)
+  if (NULL != pcity
+      && is_city_center(pcity, ptile)
       && pterrain == pterrain->irrigation_result
       && terrain_control.may_irrigate) {
     /* The center tile is auto-irrigated. */
@@ -866,7 +843,7 @@ static int base_get_output_tile(const struct tile *ptile,
     prod -= (prod * terrain_control.fallout_tile_penalty[otype]) / 100;
   }
 
-  if (pcity && is_city_center(city_x, city_y)) {
+  if (NULL != pcity && is_city_center(pcity, ptile)) {
     prod = MAX(prod, game.info.min_city_center_output[otype]);
   }
 
@@ -874,46 +851,14 @@ static int base_get_output_tile(const struct tile *ptile,
 }
 
 /**************************************************************************
-  Calculate the production output produced by the tile.  This obviously
-  won't take into account any city or government bonuses.  The output
-  type is given by 'otype' (generally O_FOOD, O_SHIELD, or O_TRADE).
-**************************************************************************/
-int get_output_tile(const struct tile *ptile, Output_type_id otype)
-{
-  return base_get_output_tile(ptile, NULL, -1, -1, FALSE, otype);
-}
-
-/**************************************************************************
   Calculate the production output the given tile is capable of producing
   for the city.  The output type is given by 'otype' (generally O_FOOD,
   O_SHIELD, or O_TRADE).
 **************************************************************************/
-int city_get_output_tile(int city_x, int city_y, const struct city *pcity,
+int city_tile_output_now(const struct city *pcity, const struct tile *ptile,
 			 Output_type_id otype)
 {
-  return base_city_get_output_tile(city_x, city_y, pcity,
-				   city_celebrating(pcity), otype);
-}
-
-/**************************************************************************
-  Calculate the shields the given tile would be capable of producing for
-  the city if the city's celebration status were as given.
-
-  This can be used to calculate the benefits celebration would give.
-**************************************************************************/
-int base_city_get_output_tile(int city_x, int city_y,
-			      const struct city *pcity, bool is_celebrating,
-			      Output_type_id otype)
-{
-  struct tile *ptile;
-
-  if (!(ptile = city_map_to_map(pcity, city_x, city_y))) {
-    assert(0);
-    return 0;
-  }
-
-  return base_get_output_tile(ptile, pcity,
-			      city_x, city_y, is_celebrating, otype);
+  return city_tile_output(pcity, ptile, city_celebrating(pcity), otype);
 }
 
 /**************************************************************************
@@ -1567,13 +1512,13 @@ bool is_friendly_city_near(const struct player *owner,
 bool city_exists_within_city_radius(const struct tile *ptile,
 				    bool may_be_on_center)
 {
-  map_city_radius_iterate(ptile, ptile1) {
+  city_tile_iterate(ptile, ptile1) {
     if (may_be_on_center || !same_pos(ptile, ptile1)) {
       if (tile_city(ptile1)) {
 	return TRUE;
       }
     }
-  } map_city_radius_iterate_end;
+  } city_tile_iterate_end;
 
   return FALSE;
 }
@@ -1707,22 +1652,25 @@ bool city_built_last_turn(const struct city *pcity)
 static inline void get_worked_tile_output(const struct city *pcity,
 					  int *output)
 {
+#ifdef CITY_DEBUGGING
+  bool is_celebrating = base_city_celebrating(pcity);
+#endif
+
   memset(output, 0, O_COUNT * sizeof(*output));
   
-  city_map_iterate(x, y) {
+  city_tile_iterate_cxy(pcity->tile, ptile, x, y) {
     if (pcity->city_map[x][y] == C_TILE_WORKER) {
       output_type_iterate(o) {
 #ifdef CITY_DEBUGGING
 	/* This assertion never fails, but it's so slow that we disable
 	 * it by default. */
 	assert(pcity->tile_output[x][y][o]
-	       == base_city_get_output_tile(x, y, pcity,
-					    base_city_celebrating(pcity), o));
+	       == city_tile_output(pcity, ptile, is_celebrating, o));
 #endif
 	output[o] += pcity->tile_output[x][y][o];
       } output_type_iterate_end;
     }
-  } city_map_iterate_end;
+  } city_tile_iterate_cxy_end;
 }
 
 /****************************************************************************
@@ -1767,12 +1715,12 @@ static inline void set_city_tile_output(struct city *pcity)
 
   /* Any unreal tiles are skipped - these values should have been memset
    * to 0 when the city was created. */
-  city_map_checked_iterate(pcity->tile, x, y, ptile) {
+  city_tile_iterate_cxy(pcity->tile, ptile, x, y) {
     output_type_iterate(o) {
-      pcity->tile_output[x][y][o]
-	= base_city_get_output_tile(x, y, pcity, is_celebrating, o);
+      pcity->tile_output[x][y][o] =
+	city_tile_output(pcity, ptile, is_celebrating, o);
     } output_type_iterate_end;
-  } city_map_checked_iterate_end;
+  } city_tile_iterate_cxy_end;
 }
 
 /**************************************************************************
@@ -2422,24 +2370,6 @@ void city_remove_improvement(struct city *pcity,
           pcity->name);
   
   pcity->built[improvement_index(pimprove)].turn = I_DESTROYED;
-}
-
-/**************************************************************************
-Return the status (C_TILE_EMPTY, C_TILE_WORKER or C_TILE_UNAVAILABLE)
-of a given map position. If the status is C_TILE_WORKER the city which
-uses this tile is also returned. If status isn't C_TILE_WORKER the
-city pointer is set to NULL.
-**************************************************************************/
-void get_worker_on_map_position(const struct tile *ptile,
-				enum city_tile_type *result_city_tile_type,
-				struct city **result_pcity)
-{
-  *result_pcity = ptile->worked;
-  if (*result_pcity) {
-    *result_city_tile_type = C_TILE_WORKER;
-  } else {
-    *result_city_tile_type = C_TILE_EMPTY;
-  }
 }
 
 /**************************************************************************

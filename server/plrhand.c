@@ -594,8 +594,9 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
    * Refresh all cities which have a unit of the other side within
    * city range. 
    */
-  check_city_workers(pplayer);
-  check_city_workers(pplayer2);
+  city_map_update_all_cities_for_player(pplayer);
+  city_map_update_all_cities_for_player(pplayer2);
+  sync_cities();
 
   notify_player(pplayer, NULL, E_TREATY_BROKEN,
 		   _("The diplomatic state between the %s "
