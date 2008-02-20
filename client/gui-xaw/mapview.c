@@ -32,7 +32,6 @@
 #include "support.h"
 #include "timing.h"
 
-#include "game.h"
 #include "government.h"		/* government_graphic() */
 #include "map.h"
 #include "player.h"
@@ -165,7 +164,7 @@ void update_timeout_label(void)
 **************************************************************************/
 void update_info_label(void)
 {
-  int d;
+  int d = 0;
 
   xaw_set_label(info_command, get_info_label_text());
 
@@ -174,19 +173,21 @@ void update_info_label(void)
 		      client_cooling_sprite(),
 		      client_government_sprite());
 
-  if (!game.player_ptr) {
+  if (!client.playing) {
     return;
   }
 
-  d = 0;
-  for(; d < (game.player_ptr->economic.luxury) / 10; d++)
+  for (; d < (client.playing->economic.luxury) / 10; d++) {
     xaw_set_bitmap(econ_label[d], get_tax_sprite(tileset, O_LUXURY)->pixmap);
+  }
  
-  for(; d < (game.player_ptr->economic.science + game.player_ptr->economic.luxury) / 10; d++)
+  for (; d < (client.playing->economic.science + client.playing->economic.luxury) / 10; d++) {
     xaw_set_bitmap(econ_label[d], get_tax_sprite(tileset, O_SCIENCE)->pixmap);
+  }
  
-   for(; d < 10; d++)
-     xaw_set_bitmap(econ_label[d], get_tax_sprite(tileset, O_GOLD)->pixmap);
+  for(; d < 10; d++) {
+    xaw_set_bitmap(econ_label[d], get_tax_sprite(tileset, O_GOLD)->pixmap);
+  }
  
   update_timeout_label();
 }

@@ -28,7 +28,6 @@
 
 #include "diptreaty.h"
 #include "fcintl.h"
-#include "game.h"
 #include "packets.h"
 #include "player.h"
 #include "support.h"
@@ -204,6 +203,8 @@ void create_players_dialog(bool raise)
 
 /**************************************************************************
   Updates the player list dialog.
+
+  FIXME: use plrdlg_common.c
 **************************************************************************/
 void update_players_dialog(void)
 {
@@ -221,29 +222,19 @@ void update_players_dialog(void)
       if(is_barbarian(pplayer))
         continue;
 
+      /* text for state */
+      sz_strlcpy(statebuf, plrdlg_col_state(pplayer));
+
       /* text for idleness */
       if(pplayer->nturns_idle>3) {
 	my_snprintf(idlebuf, sizeof(idlebuf),
-		    PL_("(idle %d turn)", "(idle %d turns)",
+		    PL_("(idle %d turn)",
+			"(idle %d turns)",
 			pplayer->nturns_idle - 1),
 		    pplayer->nturns_idle - 1);
       } else {
 	idlebuf[0]='\0';
       }
-
-      /* text for state */
-      if(pplayer->is_alive) {
-	if(pplayer->is_connected) {
-	  if(pplayer->phase_done)
-	    sz_strlcpy(statebuf, _("done"));
-	  else
-	    sz_strlcpy(statebuf, _("moving"));
-	}
-	else
-	  statebuf[0]='\0';
-      }
-      else
-	sz_strlcpy(statebuf, _("R.I.P"));
 
       /* text for name, plus AI marker */       
       if(pplayer->ai.control)
@@ -253,10 +244,10 @@ void update_players_dialog(void)
       namebuf[16] = '\0';
 
       /* text for diplstate type and turns -- not applicable if this is me */
-      if ((player_number(pplayer) == game.info.player_idx) || !game.player_ptr) {
+      if (!client.playing || pplayer == client.playing) {
 	strcpy(dsbuf, "-");
       } else {
-	pds = pplayer_get_diplstate(game.player_ptr, pplayer);
+	pds = pplayer_get_diplstate(client.playing, pplayer);
 	if (pds->type == DS_CEASEFIRE) {
 	  my_snprintf(dsbuf, sizeof(dsbuf), "%s (%d)",
 		      diplstate_text(pds->type), pds->turns_left);
@@ -271,9 +262,9 @@ void update_players_dialog(void)
 	      "%-16s %-12s %-8s %-15s %-8s %-6s   %-15s%s", 
 	      namebuf,
 	      nation_adjective_for_player(pplayer), 
-	      get_embassy_status(game.player_ptr, pplayer),
+	      get_embassy_status(client.playing, pplayer),
 	      dsbuf,
-	      get_vision_status(game.player_ptr, pplayer),
+	      get_vision_status(client.playing, pplayer),
 	      statebuf,
 	      player_addr_hack(pplayer),  /* Fixme for multi-conn */
 	      idlebuf);
@@ -312,18 +303,16 @@ void players_list_callback(Widget w, XtPointer client_data,
     else
       XtSetSensitive(players_sship_command, FALSE);
 
-    if (pplayer->is_alive && game.player_ptr) {
+    if (client.playing && pplayer->is_alive) {
       XtSetSensitive(players_war_command,
-		     !pplayers_at_war(game.player_ptr, pplayer)
-		     && game.player_ptr != pplayer);
+		     client.playing != pplayer
+		     && !pplayers_at_war(client.playing, pplayer));
     }
 
-    if (game.player_ptr) {
+    if (client.playing) {
       XtSetSensitive(players_vision_command,
-		     gives_shared_vision(game.player_ptr, pplayer));
-    }
+		     gives_shared_vision(client.playing, pplayer));
 
-    if (game.player_ptr) {
       XtSetSensitive(players_meet_command, can_meet_with_player(pplayer));
     }
     XtSetSensitive(players_int_command, can_intel_with_player(pplayer));
@@ -358,8 +347,9 @@ void players_meet_callback(Widget w, XtPointer client_data,
 
   if (ret->list_index != XAW_LIST_NONE) {
     int player_index = list_index_to_player_index[ret->list_index];
+    struct player *pplayer = player_by_number(player_index);
 
-    if (can_meet_with_player(&game.players[player_index])) {
+    if (can_meet_with_player(pplayer)) {
       dsend_packet_diplomacy_init_meeting_req(&aconnection, player_index);
     }
     else {
@@ -379,9 +369,10 @@ void players_intel_callback(Widget w, XtPointer client_data,
 
   if (ret->list_index != XAW_LIST_NONE) {
     int player_index = list_index_to_player_index[ret->list_index];
+    struct player *pplayer = player_by_number(player_index);
 
-    if (can_intel_with_player(&game.players[player_index])) {
-      popup_intel_dialog(&game.players[player_index]);
+    if (can_intel_with_player(pplayer)) {
+      popup_intel_dialog(pplayer);
     }
   }
 }
@@ -429,7 +420,8 @@ void players_sship_callback(Widget w, XtPointer client_data,
 
   if (ret->list_index != XAW_LIST_NONE) {
     int player_index = list_index_to_player_index[ret->list_index];
+    struct player *pplayer = player_by_number(player_index);
 
-    popup_spaceship_dialog(&game.players[player_index]);
+    popup_spaceship_dialog(pplayer);
   }
 }

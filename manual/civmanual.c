@@ -301,7 +301,7 @@ static bool manual_command(void)
           continue;
         }
 
-        helptext_building(buf, sizeof(buf), pimprove, NULL);
+        helptext_building(buf, sizeof(buf), NULL, NULL, pimprove);
 
         fprintf(doc, "<tr><td>" IMAGE_BEGIN "%s" IMAGE_END "</td><td>%s</td>\n"
                      "<td align=\"center\"><b>%d</b><br/>%d</td>\n<td>",

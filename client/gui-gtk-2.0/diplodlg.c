@@ -26,7 +26,6 @@
 
 #include "diptreaty.h"
 #include "fcintl.h"
-#include "game.h"
 #include "government.h"
 #include "map.h"
 #include "packets.h"
@@ -176,19 +175,18 @@ static void popup_diplomacy_dialog(int other_player_id, int initiated_from)
     return;
   }
 
-  if (game.player_ptr->ai.control) {
+  if (client.playing->ai.control) {
     return;			/* Don't show if we are AI controlled. */
   }
 
   if (!pdialog) {
-    pdialog =
-	create_diplomacy_dialog(game.player_ptr,
-				player_by_number(other_player_id));
+    pdialog = create_diplomacy_dialog(client.playing,
+				      player_by_number(other_player_id));
   }
 
   gui_dialog_present(pdialog->dialog);
   /* We initated the meeting - Make the tab active */
-  if (initiated_from == player_number(game.player_ptr)) {
+  if (player_by_number(initiated_from) == client.playing) {
     gui_dialog_raise(pdialog->dialog);
     
     if (players_dialog_shell != NULL) {
@@ -257,8 +255,8 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
           && player_invention_is_ready(plr1, i)
 	  && (player_invention_state(plr1, i) == TECH_UNKNOWN
 	      || player_invention_state(plr1, i) == TECH_REACHABLE)) {
-	item
-	  = gtk_menu_item_new_with_label(advance_name_for_player(game.player_ptr, i));
+	item =
+	  gtk_menu_item_new_with_label(advance_name_for_player(client.playing, i));
 
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 	g_signal_connect(item, "activate",
@@ -714,7 +712,7 @@ static void diplomacy_dialog_tech_callback(GtkWidget *w, gpointer data)
   int giver = (choice >> 24) & 0xff, dest = (choice >> 16) & 0xff, other;
   int tech = choice & 0xffff;
 
-  if (giver == game.info.player_idx) {
+  if (player_by_number(giver) == client.playing) {
     other = dest;
   } else {
     other = giver;
@@ -734,7 +732,7 @@ static void diplomacy_dialog_city_callback(GtkWidget * w, gpointer data)
   int giver = (choice >> 24) & 0xff, dest = (choice >> 16) & 0xff, other;
   int city = choice & 0xffff;
 
-  if (giver == game.info.player_idx) {
+  if (player_by_number(giver) == client.playing) {
     other = dest;
   } else {
     other = giver;
@@ -873,7 +871,8 @@ void diplomacy_dialog_done()
 *****************************************************************/
 static struct Diplomacy_dialog *find_diplomacy_dialog(int other_player_id)
 {
-  struct player *plr0 = game.player_ptr, *plr1 = player_by_number(other_player_id);
+  struct player *plr0 = client.playing;
+  struct player *plr1 = player_by_number(other_player_id);
 
   dialog_list_iterate(dialog_list, pdialog) {
     if ((pdialog->treaty.plr0 == plr0 && pdialog->treaty.plr1 == plr1) ||

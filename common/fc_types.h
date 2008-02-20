@@ -14,8 +14,6 @@
 #ifndef FC__FC_TYPES_H
 #define FC__FC_TYPES_H
 
-#include "shared.h" /* For bool typedef */
-
 /* This file serves to reduce the cross-inclusion of header files which
  * occurs when a type which is defined in one file is needed for a function
  * definition in another file.

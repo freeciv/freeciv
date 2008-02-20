@@ -192,7 +192,7 @@ static int city_dlg_callback(struct widget *pWindow)
 {  
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     if (!cma_is_city_under_agent(pCityDlg->pCity, NULL)
-       && city_owner(pCityDlg->pCity) == game.player_ptr) {
+       && city_owner(pCityDlg->pCity) == client.playing) {
          
       /* check elvis area */
       if (pCityDlg->specs[0]
@@ -402,7 +402,7 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
     Uint16 i = 0, hh = 0;
     SDL_Rect area;
   
-    pUnit = player_find_unit_by_id(game.player_ptr, MAX_ID - pButton->ID);
+    pUnit = player_find_unit_by_id(client.playing, MAX_ID - pButton->ID);
     
     if(!pUnit || !can_client_issue_orders()) {
       return -1;
@@ -526,7 +526,7 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
       }
       /* ----- */
       
-      if (can_upgrade_unittype(game.player_ptr, pUType)) {
+      if (can_upgrade_unittype(client.playing, pUType)) {
         /* Upgrade unit */
         pBuf = create_icon_button_from_chars(NULL, pWindow->dst,
                                               _("Upgrade unit"), adj_font(12), 0);
@@ -766,7 +766,7 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
       set_wflag(pBuf, WF_HIDDEN);
     }
   
-    if (city_owner(pCityDlg->pCity) == game.player_ptr) {    
+    if (city_owner(pCityDlg->pCity) == client.playing) {
       set_wstate(pBuf, FC_WS_NORMAL);
     }
     
@@ -1163,16 +1163,16 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
   pHurry_Prod_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
   
   if (city_can_buy(pCity)) {
-    if (game.player_ptr->economic.gold >= value) {
+    if (value <= client.playing->economic.gold) {
       my_snprintf(cBuf, sizeof(cBuf),
 		_("Buy %s for %d gold?\n"
 		  "Treasury contains %d gold."),
-		name, value, game.player_ptr->economic.gold);
+		name, value, client.playing->economic.gold);
     } else {
       my_snprintf(cBuf, sizeof(cBuf),
 		_("%s costs %d gold.\n"
 		  "Treasury contains %d gold."),
-		name, value, game.player_ptr->economic.gold);
+		name, value, client.playing->economic.gold);
     }
   } else {
     if (pCity->did_buy) {
@@ -1219,7 +1219,7 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
 
   add_to_gui_list(ID_BUTTON, pBuf);
 
-  if (city_can_buy(pCity) && game.player_ptr->economic.gold >= value) {
+  if (value <= city_can_buy(pCity) && client.playing->economic.gold) {
     pBuf = create_themeicon_button_from_chars(pTheme->OK_Icon, pWindow->dst,
 					      _("Yes"), adj_font(12), 0);
 
@@ -1290,7 +1290,7 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
   pBuf = pWindow->prev;
   pBuf->size.y = dst.y;
   
-  if (city_can_buy(pCity) && game.player_ptr->economic.gold >= value) {
+  if (city_can_buy(pCity) && value <= client.playing->economic.gold) {
     /* yes */
     pBuf = pBuf->prev;
     pBuf->size.x = area.x + (area.w - (2 * pBuf->size.w + adj_size(20))) / 2;
@@ -1615,12 +1615,12 @@ static int city_comp_by_turn_founded(const void *a, const void *b)
 static int next_prev_city_dlg_callback(struct widget *pButton)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    int i, dir, non_open_size, size =
-        city_list_size(game.player_ptr->cities);
     struct city **array;
+    int i, dir, non_open_size;
+    int size = city_list_size(client.playing->cities);
   
     assert(size >= 1);
-    assert(city_owner(pCityDlg->pCity) == game.player_ptr);
+    assert(city_owner(pCityDlg->pCity) == client.playing);
   
     if (size == 1) {
       return -1;
@@ -1642,7 +1642,7 @@ static int next_prev_city_dlg_callback(struct widget *pButton)
   
     non_open_size = 0;
     for (i = 0; i < size; i++) {
-      array[non_open_size++] = city_list_get(game.player_ptr->cities, i);
+      array[non_open_size++] = city_list_get(client.playing->cities, i);
     }
   
     assert(non_open_size > 0);
@@ -1777,7 +1777,7 @@ static void redraw_supported_units_city_dialog(struct widget *pCityWindow,
   struct unit_list *pList;
   int size;
 
-  if (city_owner(pCityDlg->pCity) != game.player_ptr) {
+  if (city_owner(pCityDlg->pCity) != client.playing) {
     pList = (pCityDlg->pCity->info_units_supported);
   } else {
     pList = (pCityDlg->pCity->units_supported);
@@ -1835,7 +1835,7 @@ static void redraw_army_city_dialog(struct widget *pCityWindow,
 
   int size;
 
-  if (city_owner(pCityDlg->pCity) != game.player_ptr) {
+  if (city_owner(pCityDlg->pCity) != client.playing) {
     pList = pCityDlg->pCity->info_units_present;
   } else {
     pList = pCityDlg->pCity->tile->units;
@@ -3560,7 +3560,7 @@ static void rebuild_imprm_list(struct city *pCity)
     pBuf->action = sell_imprvm_dlg_callback;
 
     if (!pCityDlg->pCity->did_sell
-        && !is_wonder(pImprove) && (pOwner == game.player_ptr)) {
+        && !is_wonder(pImprove) && (pOwner == client.playing)) {
       set_wstate(pBuf, FC_WS_NORMAL);
     }
 
@@ -3758,7 +3758,7 @@ void popup_city_dialog(struct city *pCity)
   pCityDlg->pResource_Map = pBuf;
 
   pBuf->action = resource_map_city_dlg_callback;
-  if (!cma_is_city_under_agent(pCity, NULL) && (pOwner == game.player_ptr)) {
+  if (!cma_is_city_under_agent(pCity, NULL) && (pOwner == client.playing)) {
     set_wstate(pBuf, FC_WS_NORMAL);
   }
   pBuf->size.x = area.x + adj_size(193) + (adj_size(249) - pBuf->size.w) / 2;
@@ -3774,7 +3774,7 @@ void popup_city_dialog(struct city *pCity)
   pBuf->size.x =
     area.x + adj_size(4) + 5 * ((adj_size(183) - 5 * pBuf->size.w) / 6) + 4 * pBuf->size.w;
   pBuf->size.y = area.y + adj_size(2);
-  if (pOwner == game.player_ptr) {
+  if (pOwner == client.playing) {
     set_wstate(pBuf, FC_WS_NORMAL);
   }
   add_to_gui_list(ID_CITY_DLG_OPTIONS_BUTTON, pBuf);
@@ -3787,7 +3787,7 @@ void popup_city_dialog(struct city *pCity)
   pBuf->action = change_prod_dlg_callback;
   pBuf->size.x = area.x + adj_size(7);
   pBuf->size.y = area.y + area.h - pBuf->size.h - adj_size(5);
-  if (pOwner == game.player_ptr) {
+  if (pOwner == client.playing) {
     set_wstate(pBuf, FC_WS_NORMAL);
   }
   pBuf->key = SDLK_c;
@@ -3817,7 +3817,7 @@ void popup_city_dialog(struct city *pCity)
   pBuf->key = SDLK_a;
   pBuf->size.x = area.x + adj_size(7) + (pBuf->size.w + adj_size(2)) * 2;
   pBuf->size.y = area.y + area.h - pBuf->size.h - adj_size(5);
-  if (pOwner == game.player_ptr) {
+  if (pOwner == client.playing) {
     set_wstate(pBuf, FC_WS_NORMAL);
   }
   add_to_gui_list(ID_CITY_DLG_CMA_BUTTON, pBuf);
@@ -3832,7 +3832,7 @@ void popup_city_dialog(struct city *pCity)
   pBuf->action = next_prev_city_dlg_callback;
   pBuf->size.x = area.x + adj_size(220) - pBuf->size.w - adj_size(8);
   pBuf->size.y = area.y + area.h - pBuf->size.h;
-  if (pOwner == game.player_ptr) {
+  if (pOwner == client.playing) {
     set_wstate(pBuf, FC_WS_NORMAL);
   }
   pBuf->key = SDLK_LEFT;
@@ -3847,7 +3847,7 @@ void popup_city_dialog(struct city *pCity)
   pBuf->action = next_prev_city_dlg_callback;
   pBuf->size.x = area.x + adj_size(420) + adj_size(2);
   pBuf->size.y = area.y + area.h - pBuf->size.h;
-  if (pOwner == game.player_ptr) {
+  if (pOwner == client.playing) {
     set_wstate(pBuf, FC_WS_NORMAL);
   }
   pBuf->key = SDLK_RIGHT;
@@ -3860,7 +3860,7 @@ void popup_city_dialog(struct city *pCity)
   pBuf->action = new_name_city_dlg_callback;
   pBuf->size.x = area.x + (area.w - pBuf->size.w) / 2;
   pBuf->size.y = area.y + area.h - pBuf->size.h - adj_size(2);
-  if (pOwner == game.player_ptr) {
+  if (pOwner == client.playing) {
     set_wstate(pBuf, FC_WS_NORMAL);
   }
 

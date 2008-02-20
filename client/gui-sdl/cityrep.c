@@ -23,6 +23,9 @@
 /* common */
 #include "game.h"
 
+/* client */
+#include "civclient.h"
+
 /* gui-sdl */
 #include "citydlg.h"
 #include "cma_fe.h"
@@ -256,7 +259,7 @@ static void real_info_city_report_dialog_update(void)
   
   pLast = pBuf;
   count = 0; 
-  city_list_iterate(game.player_ptr->cities, pCity) {
+  city_list_iterate(client.playing->cities, pCity) {
     
     pStr = create_str16_from_char(city_name(pCity), adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
@@ -1093,7 +1096,7 @@ void city_report_dialog_update(void)
   
     /* find if the lists are identical (if not then rebuild all) */
     pWidget = pCityRep->pEndActiveWidgetList;/* name of first city */
-    city_list_iterate(game.player_ptr->cities, pCity) {
+    city_list_iterate(client.playing->cities, pCity) {
       if (pCity->id == MAX_ID - pWidget->ID) {
         count = COL;
         while(count) {
@@ -1113,7 +1116,7 @@ void city_report_dialog_update(void)
 
     /* update widget city list (widget list is the same that city list) */
     pWidget = pCityRep->pEndActiveWidgetList;
-    city_list_iterate(game.player_ptr->cities, pCity) {
+    city_list_iterate(client.playing->cities, pCity) {
       pWidget = real_city_report_dialog_update_city(pWidget, pCity);  
     } city_list_iterate_end;
 

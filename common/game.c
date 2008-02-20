@@ -374,7 +374,6 @@ void game_init(void)
   for (i=0; i<B_LAST; i++)      /* game.num_impr_types = 0 here */
     game.info.great_wonders[i]=0;
   game.info.player_idx = 0;
-  game.player_ptr=&game.players[0];
   terrain_control.river_help_text[0] = '\0';
 
   game.meta_info.user_message_set = FALSE;
@@ -600,9 +599,9 @@ void game_renumber_players(int plrno)
     assert(city_list_size(game.players[i].cities) == 0);
   }
 
+  /* has no effect in server, but adjusts in client */
   if(game.info.player_idx > plrno) {
     game.info.player_idx--;
-    game.player_ptr = &game.players[game.info.player_idx];
   }
 
   game.info.nplayers--;

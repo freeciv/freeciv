@@ -27,13 +27,13 @@
 #include <X11/Xaw/List.h>
 
 #include "fcintl.h"
-#include "game.h"
 #include "government.h"
 #include "packets.h"
 #include "player.h"
 #include "shared.h"
 #include "support.h"
 
+#include "civclient.h"
 #include "clinet.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
@@ -271,7 +271,7 @@ void create_intel_dialog(struct intel_dialog *pdialog, bool raise)
 
   advance_index_iterate(A_FIRST, i) {
     if (player_invention_state(pdialog->pplayer, i) == TECH_KNOWN) {
-      if(player_invention_state(game.player_ptr, i)==TECH_KNOWN) {
+      if (TECH_KNOWN == player_invention_state(client.playing, i)) {
 	sz_strlcpy(tech_list_names[j], advance_name_translation(advance_by_number(i)));
       } else {
 	my_snprintf(tech_list_names[j], sizeof(tech_list_names[j]),
@@ -338,7 +338,7 @@ void intel_close_callback(Widget w, XtPointer client_data,
 void intel_diplo_callback(Widget w, XtPointer client_data,
 			  XtPointer call_data)
 {
-  popup_intel_diplo_dialog(&game.players[XTPOINTER_TO_INT(client_data)],
+  popup_intel_diplo_dialog(player_by_number(XTPOINTER_TO_INT(client_data)),
 			   FALSE);
 }
 

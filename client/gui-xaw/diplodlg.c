@@ -33,7 +33,6 @@
 #include <X11/Xaw/Viewport.h>
 
 #include "fcintl.h"
-#include "game.h"
 #include "government.h"
 #include "map.h"
 #include "mem.h"
@@ -43,6 +42,7 @@
 #include "support.h"
 
 #include "chatline.h"
+#include "civclient.h"
 #include "climisc.h"
 #include "clinet.h"
 #include "diptreaty.h"
@@ -220,7 +220,7 @@ static void popup_diplomacy_dialog(int other_player_id)
 {
   struct Diplomacy_dialog *pdialog = find_diplomacy_dialog(other_player_id);
 
-  if (game.player_ptr->ai.control) {
+  if (!client.playing || client.playing->ai.control) {
     return;			/* Don't show if we are AI controlled. */
   }
 
@@ -228,7 +228,7 @@ static void popup_diplomacy_dialog(int other_player_id)
     Position x, y;
     Dimension width, height;
 
-    pdialog = create_diplomacy_dialog(game.player_ptr,
+    pdialog = create_diplomacy_dialog(client.playing,
 				      player_by_number(other_player_id));
     XtVaGetValues(toplevel, XtNwidth, &width, XtNheight, &height, NULL);
     XtTranslateCoords(toplevel, (Position) width / 10,
@@ -694,7 +694,7 @@ void diplomacy_dialog_tech_callback(Widget w, XtPointer client_data,
   int giver = (choice >> 24) & 0xff, dest = (choice >> 16) & 0xff, other;
   int tech = choice & 0xffff;
 
-  if (giver == game.info.player_idx) {
+  if (player_by_number(giver) == client.playing) {
     other = dest;
   } else {
     other = giver;
@@ -715,7 +715,7 @@ void diplomacy_dialog_city_callback(Widget w, XtPointer client_data,
   int giver = (choice >> 24) & 0xff, dest = (choice >> 16) & 0xff, other;
   int city = choice & 0xffff;
 
-  if (giver == game.info.player_idx) {
+  if (player_by_number(giver) == client.playing) {
     other = dest;
   } else {
     other = giver;
@@ -894,7 +894,8 @@ void close_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
 *****************************************************************/
 static struct Diplomacy_dialog *find_diplomacy_dialog(int other_player_id)
 {
-  struct player *plr0 = game.player_ptr, *plr1 = player_by_number(other_player_id);
+  struct player *plr0 = client.playing;
+  struct player *plr1 = player_by_number(other_player_id);
 
   if (!dialog_list_list_has_been_initialised) {
     dialog_list = dialog_list_new();

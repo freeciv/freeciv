@@ -22,7 +22,6 @@
 #include <commctrl.h>
 
 #include "fcintl.h"
-#include "game.h"
 #include "log.h"
 #include "map.h"
 #include "mem.h"
@@ -833,7 +832,7 @@ static LONG CALLBACK new_game_proc(HWND win, UINT message,
 	  popup_settable_options_dialog();
 	  break;
         case ID_NEWGAMEDLG_NATIONS:
-	  popup_races_dialog(game.player_ptr);
+	  popup_races_dialog(client.playing);
 	  break;
 	case ID_CANCEL:
 	  client_kill_server(TRUE);

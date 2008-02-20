@@ -315,7 +315,7 @@ void tile_set_continent(struct tile *ptile, Continent_id val)
 /****************************************************************************
   Return a known_type enumeration value for the tile.
 
-  Note that the client only knows known data about game.player_ptr.
+  Note that the client only has known data about its own player.
 ****************************************************************************/
 enum known_type tile_get_known(const struct tile *ptile,
 			       const struct player *pplayer)

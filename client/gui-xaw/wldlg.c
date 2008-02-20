@@ -37,7 +37,6 @@
 #include "mem.h"
 
 #include "city.h"
-#include "game.h"
 #include "packets.h"
 #include "worklist.h"
 
@@ -1297,7 +1296,6 @@ void worklist_populate_worklist(struct worklist_dialog *pdialog)
 void worklist_populate_targets(struct worklist_dialog *pdialog)
 {
   int i, n;
-  struct player *pplr = game.player_ptr;
   Boolean b;
   int advanced_tech;
   int can_build, can_eventually_build;
@@ -1320,8 +1318,8 @@ void worklist_populate_targets(struct worklist_dialog *pdialog)
   /*     + First, improvements and Wonders. */
   improvement_iterate(pimprove) {
     /* Can the player (eventually) build this improvement? */
-    can_build = can_player_build_improvement_now(pplr, pimprove);
-    can_eventually_build = can_player_build_improvement_later(pplr, pimprove);
+    can_build = can_player_build_improvement_now(client.playing, pimprove);
+    can_eventually_build = can_player_build_improvement_later(client.playing, pimprove);
 
     /* If there's a city, can the city build the improvement? */
     if (pdialog->pcity) {
@@ -1345,8 +1343,8 @@ void worklist_populate_targets(struct worklist_dialog *pdialog)
   /*     + Second, units. */
   unit_type_iterate(punittype) {
     /* Can the player (eventually) build this improvement? */
-    can_build = can_player_build_unit_now(pplr,punittype);
-    can_eventually_build = can_player_build_unit_later(pplr,punittype);
+    can_build = can_player_build_unit_now(client.playing, punittype);
+    can_eventually_build = can_player_build_unit_later(client.playing, punittype);
 
     /* If there's a city, can the city build the improvement? */
     if (pdialog->pcity) {

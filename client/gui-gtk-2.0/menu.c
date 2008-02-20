@@ -596,8 +596,8 @@ static void reports_menu_callback(gpointer callback_data,
     send_report_request(REPORT_DEMOGRAPHIC);
     break;
   case MENU_REPORT_SPACESHIP:
-    if (game.player_ptr) {
-      popup_spaceship_dialog(game.player_ptr);
+    if (client.playing) {
+      popup_spaceship_dialog(client.playing);
     }
     break;
   }
@@ -1281,7 +1281,6 @@ void update_menus(void)
     const char *path =
       menu_path_remove_uline("<main>/_Game/_Government");
     GtkWidget *parent = gtk_item_factory_get_widget(item_factory, path);
-    bool attached_to_player = (game.player_ptr != NULL);
 
     if (parent) {
       GList *list, *iter;
@@ -1313,7 +1312,7 @@ void update_menus(void)
           g_signal_connect(item, "activate",
 			   G_CALLBACK(government_callback), g);
 
-          if (!can_change_to_government(game.player_ptr, g)) {
+          if (!can_change_to_government(client.playing, g)) {
             gtk_widget_set_sensitive(item, FALSE);
 	  }
 
@@ -1350,16 +1349,20 @@ void update_menus(void)
 
     menu_updating = FALSE;
 
-    /* If the client is not attached to a player these reports are
-     * disabled. */
-    menus_set_sensitive("<main>/_Reports/_Cities", attached_to_player);
-    menus_set_sensitive("<main>/_Reports/_Units", attached_to_player);
-    menus_set_sensitive("<main>/_Reports/_Economy", attached_to_player);
-    menus_set_sensitive("<main>/_Reports/_Research", attached_to_player);
-    menus_set_sensitive("<main>/_Reports/_Demographics", attached_to_player);
+    /* If the client is not attached to a player, disable these reports. */
+    menus_set_sensitive("<main>/_Reports/_Cities",
+			(NULL != client.playing));
+    menus_set_sensitive("<main>/_Reports/_Units",
+			(NULL != client.playing));
+    menus_set_sensitive("<main>/_Reports/_Economy",
+			(NULL != client.playing));
+    menus_set_sensitive("<main>/_Reports/_Research",
+			(NULL != client.playing));
+    menus_set_sensitive("<main>/_Reports/_Demographics",
+			(NULL != client.playing));
     menus_set_sensitive("<main>/_Reports/_Spaceship",
-			(game.player_ptr
-			 && game.player_ptr->spaceship.state != SSHIP_NONE));
+			(NULL != client.playing
+			 && SSHIP_NONE != client.playing->spaceship.state));
 
     menus_set_active("<main>/_View/City Outlines", draw_city_outlines);
     menus_set_active("<main>/_View/Map _Grid", draw_map_grid);

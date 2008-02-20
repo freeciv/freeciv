@@ -144,17 +144,22 @@ void check_mapstore()
 **************************************************************************/
 static void draw_rates(HDC hdc)
 {
-  int d;
-  d=0;
-  for(;d<(game.player_ptr->economic.luxury)/10;d++)
+  int d = 0;
+
+  for (; d < (client.playing->economic.luxury)/10; d++) {
     draw_sprite(get_tax_sprite(tileset, O_LUXURY), hdc,
 		tileset_small_sprite_width(tileset)*d,taxinfoline_y);/* elvis tile */
-  for(;d<(game.player_ptr->economic.science+game.player_ptr->economic.luxury)/10;d++)
+  }
+
+  for (; d < (client.playing->economic.science + client.playing->economic.luxury)/10; d++) {
     draw_sprite(get_tax_sprite(tileset, O_SCIENCE), hdc,
-		tileset_small_sprite_width(tileset)*d,taxinfoline_y); /* scientist tile */    
-  for(;d<10;d++)
+		tileset_small_sprite_width(tileset)*d,taxinfoline_y); /* scientist tile */
+  }
+
+  for (; d < 10; d++) {
     draw_sprite(get_tax_sprite(tileset, O_GOLD), hdc,
-		tileset_small_sprite_width(tileset)*d,taxinfoline_y); /* taxman tile */  
+		tileset_small_sprite_width(tileset)*d,taxinfoline_y); /* taxman tile */
+  }
 }
 
 /**************************************************************************
@@ -168,15 +173,15 @@ update_info_label(void)
   HDC hdc;
   my_snprintf(buffer, sizeof(buffer),
 	      _("Population: %s\nYear: %s\nGold: %d\nTax: %d Lux: %d Sci: %d"),
-		population_to_text(civ_population(game.player_ptr)),
+		population_to_text(civ_population(client.playing)),
 		textyear( game.info.year ),
-		game.player_ptr->economic.gold,
-		game.player_ptr->economic.tax,
-		game.player_ptr->economic.luxury,
-		game.player_ptr->economic.science );      
+		client.playing->economic.gold,
+		client.playing->economic.tax,
+		client.playing->economic.luxury,
+		client.playing->economic.science );
   my_snprintf(buffer2,sizeof(buffer2),
 	      "%s\n%s",
-	      nation_adjective_for_player(game.player_ptr),
+	      nation_adjective_for_player(client.playing),
 	      buffer);
   SetWindowText(infolabel_win,buffer2);
   do_mainwin_layout();

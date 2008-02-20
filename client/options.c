@@ -20,7 +20,6 @@
 
 #include "events.h"
 #include "fcintl.h"
-#include "game.h"
 #include "ioz.h"
 #include "log.h"
 #include "mem.h"
@@ -766,7 +765,7 @@ void load_ruleset_specific_options(void)
   if (!section_file_load(&sf, name))
     return;
 
-  if (game.player_ptr) {
+  if (client.playing) {
     /* load global worklists */
     for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
       worklist_load(&sf, &client.worklists[i],
@@ -846,7 +845,7 @@ void save_options(void)
   save_settable_options(&sf);
 
   /* insert global worklists */
-  if (game.player_ptr) {
+  if (client.playing) {
     for(i = 0; i < MAX_NUM_WORKLISTS; i++){
       if (client.worklists[i].is_valid) {
 	worklist_save(&sf, &client.worklists[i], client.worklists[i].length,

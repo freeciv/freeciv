@@ -24,6 +24,7 @@
 #include "unitlist.h"
 
 /* client */
+#include "civclient.h"
 #include "clinet.h"
 #include "control.h"
 
@@ -221,12 +222,12 @@ static int spy_steal_popup(struct widget *pWidget)
   
   count = 0;
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_is_ready(game.player_ptr, i)
-      && player_invention_state(pVictim, i)==TECH_KNOWN
-      && (player_invention_state(game.player_ptr, i)==TECH_UNKNOWN
-      || player_invention_state(game.player_ptr, i)==TECH_REACHABLE)) {
-	count++;
-      }
+    if (player_invention_is_ready(client.playing, i)
+     && TECH_KNOWN == player_invention_state(pVictim, i)
+     && (TECH_UNKNOWN == player_invention_state(client.playing, i)
+      || TECH_REACHABLE == player_invention_state(client.playing, i))) {
+      count++;
+    }
   } advance_index_iterate_end;
   
   if(!count) {    
@@ -304,12 +305,12 @@ static int spy_steal_popup(struct widget *pWidget)
   
   count = 0;
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_is_ready(game.player_ptr, i)
-      && player_invention_state(pVictim, i)==TECH_KNOWN
-      && (player_invention_state(game.player_ptr, i)==TECH_UNKNOWN
-      || player_invention_state(game.player_ptr, i)==TECH_REACHABLE)) {
-    
-      count++;  
+    if (player_invention_is_ready(client.playing, i)
+     && TECH_KNOWN == player_invention_state(pVictim, i)
+     && (TECH_UNKNOWN == player_invention_state(client.playing, i)
+      || TECH_REACHABLE == player_invention_state(client.playing, i))) {
+      count++;
+
       copy_chars_to_string16(pStr, advance_name_translation(advance_by_number(i)));
       pSurf = create_sellect_tech_icon(pStr, i, FULL_MODE);
       pBuf = create_icon2(pSurf, pWindow->dst,
@@ -1182,10 +1183,10 @@ void popup_incite_dialog(struct city *pCity, int cost)
     area.w = MAX(area.w , pBuf->size.w);
     area.h += pBuf->size.h;
     
-  } else if (game.player_ptr->economic.gold >= cost) {
+  } else if (cost <= client.playing->economic.gold) {
     my_snprintf(cBuf, sizeof(cBuf),
 		_("Incite a revolt for %d gold?\nTreasury contains %d gold."), 
-		cost, game.player_ptr->economic.gold);
+		cost, client.playing->economic.gold);
     
     create_active_iconlabel(pBuf, pWindow->dst, pStr, cBuf, NULL);
         
@@ -1235,7 +1236,7 @@ void popup_incite_dialog(struct city *pCity, int cost)
     my_snprintf(cBuf, sizeof(cBuf),
 		_("Inciting a revolt costs %d gold.\n"
 		  "Treasury contains %d gold."), 
-		cost, game.player_ptr->economic.gold);
+		cost, client.playing->economic.gold);
     
     create_active_iconlabel(pBuf, pWindow->dst, pStr, cBuf, NULL);
         
@@ -1390,10 +1391,10 @@ void popup_bribe_dialog(struct unit *pUnit, int cost)
   area.w = MAX(area.w, adj_size(8));
   area.h = MAX(area.h, adj_size(2));
   
-  if (game.player_ptr->economic.gold >= cost) {
+  if (cost <= client.playing->economic.gold) {
     my_snprintf(cBuf, sizeof(cBuf),
 		_("Bribe unit for %d gold?\nTreasury contains %d gold."), 
-		cost, game.player_ptr->economic.gold);
+		cost, client.playing->economic.gold);
     
     create_active_iconlabel(pBuf, pWindow->dst, pStr, cBuf, NULL);
   
@@ -1441,7 +1442,7 @@ void popup_bribe_dialog(struct unit *pUnit, int cost)
     my_snprintf(cBuf, sizeof(cBuf),
 		_("Bribing the unit costs %d gold.\n"
 		  "Treasury contains %d gold."), 
-		cost, game.player_ptr->economic.gold);
+		cost, client.playing->economic.gold);
     
     create_active_iconlabel(pBuf, pWindow->dst, pStr, cBuf, NULL);
   

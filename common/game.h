@@ -60,7 +60,6 @@ struct civ_game {
    * take effect until the next turn. */
   bool simultaneous_phases_stored;
   char *startmessage;
-  struct player *player_ptr; /* Client-only; may be NULL */
   struct player players[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   struct conn_list *all_connections;        /* including not yet established */
   struct conn_list *est_connections;        /* all established client conns */

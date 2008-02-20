@@ -22,13 +22,13 @@
 #include <windowsx.h>
 
 #include "fcintl.h"
-#include "game.h"
 #include "government.h"
 #include "packets.h"
 #include "player.h"
 #include "shared.h"
 #include "support.h"
 
+#include "civclient.h"
 #include "clinet.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
@@ -154,7 +154,7 @@ static void intel_create_dialog(struct player *p)
   
   advance_index_iterate(A_FIRST, i) {
     if(player_invention_state(p, i)==TECH_KNOWN) {
-      if(player_invention_state(game.player_ptr, i)==TECH_KNOWN) {
+      if (TECH_KNOWN == player_invention_state(client.playing, i)) {
         sz_strlcpy(tech_list_names[j], advance_name_translation(advance_by_number(i)));
       } else {
         my_snprintf(tech_list_names[j], sizeof(tech_list_names[j]),

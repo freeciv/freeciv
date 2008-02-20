@@ -22,6 +22,7 @@
 #include "game.h"
 #include "support.h"
 
+#include "civclient.h"
 #include "climisc.h"
 #include "text.h"
 
@@ -114,7 +115,7 @@ static bool col_ai(const struct player *plr)
 *******************************************************************/
 static const char *col_embassy(const struct player *player)
 {
-  return get_embassy_status(game.player_ptr, player);
+  return get_embassy_status(client.playing, player);
 }
 
 /******************************************************************
@@ -126,10 +127,10 @@ static const char *col_diplstate(const struct player *player)
   static char buf[100];
   const struct player_diplstate *pds;
 
-  if (!game.player_ptr || player == game.player_ptr) {
+  if (!client.playing || player == client.playing) {
     return "-";
   } else {
-    pds = pplayer_get_diplstate(game.player_ptr, player);
+    pds = pplayer_get_diplstate(client.playing, player);
     if (pds->type == DS_CEASEFIRE || pds->type == DS_ARMISTICE) {
       my_snprintf(buf, sizeof(buf), "%s (%d)",
 		  diplstate_text(pds->type), pds->turns_left);
@@ -145,10 +146,10 @@ static const char *col_diplstate(const struct player *player)
 *******************************************************************/
 static const char *col_love(const struct player *player)
 {
-  if (!game.player_ptr || player == game.player_ptr || !player->ai.control) {
+  if (!client.playing || player == client.playing || !player->ai.control) {
     return "-";
   } else {
-    return love_text(player->ai.love[player_index(game.player_ptr)]);
+    return love_text(player->ai.love[player_index(client.playing)]);
   }
 }
 
@@ -156,24 +157,24 @@ static const char *col_love(const struct player *player)
   Compares ai's attitude toward the player
 ******************************************************************/
 static int cmp_love(const struct player *player1,
-                          const struct player *player2)
+                    const struct player *player2)
 {
   int love1, love2;
 
-  if (!game.player_ptr) {
+  if (!client.playing) {
     return player_number(player1) - player_number(player2);
   }
 
-  if (player1 == game.player_ptr || !player1->ai.control) {
+  if (player1 == client.playing || !player1->ai.control) {
     love1 = MAX_AI_LOVE + 999;
   } else {
-    love1 = player1->ai.love[player_index(game.player_ptr)];
+    love1 = player1->ai.love[player_index(client.playing)];
   }
 
-  if (player2 == game.player_ptr || !player2->ai.control) {
+  if (player2 == client.playing || !player2->ai.control) {
     love2 = MAX_AI_LOVE + 999;
   } else {
-    love2 = player2->ai.love[player_index(game.player_ptr)];
+    love2 = player2->ai.love[player_index(client.playing)];
   }
   
   return love1 - love2;
@@ -184,7 +185,7 @@ static int cmp_love(const struct player *player1,
 *******************************************************************/
 static const char *col_vision(const struct player *player)
 {
-  return get_vision_status(game.player_ptr, player);
+  return get_vision_status(client.playing, player);
 }
 
 /******************************************************************
@@ -192,10 +193,11 @@ static const char *col_vision(const struct player *player)
 
   FIXME: These terms aren't very intuitive for new players.
 *******************************************************************/
-static const char *col_state(const struct player *plr)
+const char *plrdlg_col_state(const struct player *plr)
 {
   if (!plr->is_alive) {
-    return _("R.I.P");
+    /* TRANS: Dead -- Rest In Peace -- Reqia In Pace */
+    return _("R.I.P.");
   } else if (!plr->is_connected) {
     return "";
   } else if (!is_player_phase(plr, game.info.phase)) {
@@ -258,7 +260,7 @@ struct player_dlg_column player_dlg_columns[] = {
   {TRUE, COL_TEXT, N_("Embassy"), col_embassy, NULL, NULL,  "embassy"},
   {TRUE, COL_TEXT, N_("Dipl.State"), col_diplstate, NULL, NULL,  "diplstate"},
   {TRUE, COL_TEXT, N_("Vision"), col_vision, NULL, NULL,  "vision"},
-  {TRUE, COL_TEXT, N_("State"), col_state, NULL, NULL,  "state"},
+  {TRUE, COL_TEXT, N_("State"), plrdlg_col_state, NULL, NULL,  "state"},
   {FALSE, COL_TEXT, N_("?Player_dlg:Host"), col_host, NULL, NULL,  "host"},
   {FALSE, COL_RIGHT_TEXT, N_("?Player_dlg:Idle"), col_idle, NULL, NULL,  "idle"},
   {FALSE, COL_RIGHT_TEXT, N_("Ping"), get_ping_time_text, NULL, NULL,  "ping"}

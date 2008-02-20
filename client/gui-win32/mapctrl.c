@@ -23,7 +23,6 @@
                       
 #include "capability.h"
 #include "fcintl.h"
-#include "game.h"
 #include "map.h"
 #include "mem.h"
 #include "player.h"
@@ -304,14 +303,14 @@ void overview_handle_rbut(int x, int y)
 void indicator_handle_but(int i)
 {
   int delta = 10;
-  int lux_end = game.player_ptr->economic.luxury;
-  int sci_end = lux_end + game.player_ptr->economic.science;
+  int lux_end = client.playing->economic.luxury;
+  int sci_end = lux_end + client.playing->economic.science;
 #if 0 /* Unneeded. */
   int tax_end = 100; 
 #endif
-  int luxury = game.player_ptr->economic.luxury;
-  int science = game.player_ptr->economic.science;
-  int tax = game.player_ptr->economic.tax;
+  int luxury = client.playing->economic.luxury;
+  int science = client.playing->economic.science;
+  int tax = client.playing->economic.tax;
   
   i *= 10;
   if (i < lux_end) {

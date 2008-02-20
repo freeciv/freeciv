@@ -29,7 +29,6 @@
 #include "log.h"
 
 /* common */
-#include "game.h"
 #include "unit.h"
 #include "unitlist.h"
 
@@ -2178,7 +2177,7 @@ void button_up_on_map(struct mouse_button_behavior *button_behavior)
                                                    button_behavior->event->y);
             } else {
               if(((pCity = tile_city(ptile)) != NULL) &&
-                (city_owner(pCity) == game.player_ptr)) {
+                (city_owner(pCity) == client.playing)) {
                 if(LCTRL) {
                   popup_worklist_editor(pCity, &(pCity->worklist));
                 } else {

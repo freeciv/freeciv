@@ -4408,7 +4408,6 @@ void game_load(struct section_file *file)
   }
 
   game.info.player_idx = 0;
-  game.player_ptr=&game.players[0];  
 
   /* Fix ferrying sanity */
   players_iterate(pplayer) {

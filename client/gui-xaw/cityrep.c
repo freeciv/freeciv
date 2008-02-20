@@ -33,7 +33,6 @@
 
 #include "city.h"
 #include "fcintl.h"
-#include "game.h"
 #include "log.h"
 #include "mem.h"
 #include "packets.h"
@@ -41,6 +40,7 @@
 #include "support.h"
 #include "unit.h"
 
+#include "civclient.h"
 #include "climisc.h"
 #include "clinet.h"
 
@@ -504,9 +504,10 @@ void city_config_callback(Widget w, XtPointer client_data,
 *****************************************************************/
 void city_report_dialog_update(void)
 {
-  if (is_report_dialogs_frozen() || !game.player_ptr) {
+  if (!client.playing || is_report_dialogs_frozen()) {
     return;
   }
+
   if(city_dialog_shell) {
     int i=0, n;
     Dimension width;
@@ -514,7 +515,7 @@ void city_report_dialog_update(void)
     static char **city_list_text = NULL;
     const char *report_title;
 
-    n = city_list_size(game.player_ptr->cities);
+    n = city_list_size(client.playing->cities);
     freelog(LOG_DEBUG, "%d cities in report", n);
     if(n_alloc == 0 || n > n_alloc) {
       int j, n_prev = n_alloc;
@@ -546,7 +547,7 @@ void city_report_dialog_update(void)
      * having to find city corresponding to id for each comparison.
      */
     i=0;
-    city_list_iterate(game.player_ptr->cities, pcity) {
+    city_list_iterate(client.playing->cities, pcity) {
       cities_in_list[i++] = pcity;
     } city_list_iterate_end;
     assert(i==n);

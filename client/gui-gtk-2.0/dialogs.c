@@ -214,7 +214,7 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
 
     pcity = tile_city(ptile);
     gtk_widget_set_sensitive(popcity_command,
-      (pcity && city_owner(pcity) == game.player_ptr));
+      (pcity && city_owner(pcity) == client.playing));
   }
 
   g_object_set_data(G_OBJECT(shell), "tile", ptile);
@@ -249,7 +249,7 @@ void popup_revolution_dialog(struct government *government)
 {
   static GtkWidget *shell = NULL;
 
-  if (game.player_ptr->revolution_finishes < 0) {
+  if (0 > client.playing->revolution_finishes) {
     if (!shell) {
       shell = gtk_message_dialog_new(NULL,
 	  0,
@@ -356,7 +356,7 @@ static void unit_select_row_activated(GtkTreeView *view, GtkTreePath *path)
   gtk_tree_model_get_iter(GTK_TREE_MODEL(unit_select_store), &it, path);
   gtk_tree_model_get(GTK_TREE_MODEL(unit_select_store), &it, 0, &id, -1);
  
-  if ((punit = player_find_unit_by_id(game.player_ptr, id))) {
+  if ((punit = player_find_unit_by_id(client.playing, id))) {
     set_unit_focus(punit);
   }
 
@@ -456,7 +456,7 @@ static void unit_select_cmd_callback(GtkWidget *w, gint rid, gpointer data)
       struct unit *pmyunit = NULL;
 
       unit_list_iterate(ptile->units, punit) {
-        if (game.player_ptr == unit_owner(punit)) {
+        if (unit_owner(punit) == client.playing) {
           pmyunit = punit;
 
           /* Activate this unit. */
@@ -481,7 +481,7 @@ static void unit_select_cmd_callback(GtkWidget *w, gint rid, gpointer data)
   case SELECT_UNIT_SENTRY:
     {
       unit_list_iterate(ptile->units, punit) {
-        if (game.player_ptr == unit_owner(punit)) {
+        if (unit_owner(punit) == client.playing) {
           if ((punit->activity == ACTIVITY_IDLE) &&
               !punit->ai.control &&
               can_unit_do_activity(punit, ACTIVITY_SENTRY)) {
@@ -495,7 +495,7 @@ static void unit_select_cmd_callback(GtkWidget *w, gint rid, gpointer data)
   case SELECT_UNIT_ALL:
     {
       unit_list_iterate(ptile->units, punit) {
-        if (game.player_ptr == unit_owner(punit)) {
+        if (unit_owner(punit) == client.playing) {
           if (punit->activity == ACTIVITY_IDLE &&
               !punit->ai.control) {
             /* Give focus to it */
@@ -792,7 +792,7 @@ static void create_races_dialog(struct player *pplayer)
 
   if (C_S_RUNNING == client_state()) {
     title = _("Edit Nation");
-  } else if (pplayer && pplayer == game.player_ptr) {
+  } else if (pplayer && pplayer == client.playing) {
     title = _("What Nation Will You Be?");
   } else {
     title = _("Pick Nation");

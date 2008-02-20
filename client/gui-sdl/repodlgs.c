@@ -28,7 +28,6 @@
 #include "log.h"
 
 /* common */
-#include "game.h"
 #include "government.h"
 #include "unitlist.h"
 
@@ -82,7 +81,7 @@ static void get_units_report_data(struct units_entry *entries,
   for(time_to_build = 0; time_to_build < U_LAST; time_to_build++) {
     entries[time_to_build].soonest_completions = FC_INFINITY;
   }
-  unit_list_iterate(game.player_ptr->units, pUnit) {
+  unit_list_iterate(client.playing->units, pUnit) {
     Unit_type_id uti = utype_index(unit_type(pUnit));
     (entries[uti].active_count)++;
     (total->active_count)++;
@@ -103,7 +102,7 @@ static void get_units_report_data(struct units_entry *entries,
     }
   } unit_list_iterate_end;
     
-  city_list_iterate(game.player_ptr->cities, pCity) {
+  city_list_iterate(client.playing->cities, pCity) {
     if (VUT_UTYPE == pCity->production.kind) {
       struct unit_type *pUnitType = pCity->production.value.utype;
       (total->building_count)++;
@@ -187,15 +186,15 @@ static int popup_upgrade_unit_callback(struct widget *pWidget)
     
     pUnits_Upg_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
   
-    ut2 = can_upgrade_unittype(game.player_ptr, ut1);
-    value = unit_upgrade_price(game.player_ptr, ut1, ut2);
+    ut2 = can_upgrade_unittype(client.playing, ut1);
+    value = unit_upgrade_price(client.playing, ut1, ut2);
     
     my_snprintf(cBuf, sizeof(cBuf),
           _("Upgrade as many %s to %s as possible for %d gold each?\n"
             "Treasury contains %d gold."),
           utype_name_translation(ut1),
           utype_name_translation(ut2),
-          value, game.player_ptr->economic.gold);
+          value, client.playing->economic.gold);
    
     
     pStr = create_str16_from_char(_("Upgrade Obsolete Units"), adj_font(12));
@@ -236,7 +235,7 @@ static int popup_upgrade_unit_callback(struct widget *pWidget)
     
     add_to_gui_list(ID_BUTTON, pBuf);
     
-    if (game.player_ptr->economic.gold >= value) {
+    if (value <= client.playing->economic.gold) {
       pBuf = create_themeicon_button_from_chars(pTheme->OK_Icon, pWindow->dst,
                                                 _("Yes"), adj_font(12), 0);
           
@@ -275,7 +274,7 @@ static int popup_upgrade_unit_callback(struct widget *pWidget)
     pBuf = pWindow->prev;
     pBuf->size.y = area.y + area.h - pBuf->size.h - adj_size(10);
     
-    if (game.player_ptr->economic.gold >= value) {
+    if (value <= client.playing->economic.gold) {
       /* sell button */
       pBuf = pBuf->prev;
       pBuf->size.x = area.x + (area.w - (2 * pBuf->size.w + adj_size(10))) / 2;
@@ -453,7 +452,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   unit_type_iterate(i) {
     if ((units[utype_index(i)].active_count > 0)
      || (units[utype_index(i)].building_count > 0)) {
-      upgrade = (can_upgrade_unittype(game.player_ptr, i) != NULL);
+      upgrade = (can_upgrade_unittype(client.playing, i) != NULL);
       pUnit = i;
 	
       /* unit type icon */
@@ -899,7 +898,7 @@ void activeunits_report_dialog_update(void)
         while (!search_finished) {
           if ((MAX_ID - pBuf->ID) == utype_number(i)) { /* list entry for this unit type found */
 
-            upgrade = (can_upgrade_unittype(game.player_ptr, i) != NULL);
+            upgrade = (can_upgrade_unittype(client.playing, i) != NULL);
 
             pBuf = pBuf->prev; /* unit type name */
             if(upgrade) {
@@ -1260,7 +1259,7 @@ static int horiz_taxrate_callback(struct widget *pHoriz_Src)
         pMotion.dst_rate = (int *)pMotion.pHoriz_Dst->data.ptr;
         pMotion.tax = 100 - *pMotion.src_rate - *pMotion.dst_rate;
         if ((SDL_Client_Flags & CF_CHANGE_TAXRATE_SCI_BLOCK)) {
-          if (pMotion.tax <= get_player_bonus(game.player_ptr, EFT_MAX_RATES)) {
+          if (pMotion.tax <= get_player_bonus(client.playing, EFT_MAX_RATES)) {
             pMotion.pHoriz_Dst = NULL;	/* tax */
             pMotion.dst_rate = &pMotion.tax;
           } else {
@@ -1279,7 +1278,7 @@ static int horiz_taxrate_callback(struct widget *pHoriz_Src)
         pMotion.dst_rate = (int *)pMotion.pHoriz_Dst->data.ptr;
         pMotion.tax = 100 - *pMotion.src_rate - *pMotion.dst_rate;
         if (SDL_Client_Flags & CF_CHANGE_TAXRATE_LUX_BLOCK) {
-          if (pMotion.tax <= get_player_bonus(game.player_ptr, EFT_MAX_RATES)) {
+          if (pMotion.tax <= get_player_bonus(client.playing, EFT_MAX_RATES)) {
             /* tax */
             pMotion.pHoriz_Dst = NULL;
             pMotion.dst_rate = &pMotion.tax;
@@ -1302,7 +1301,7 @@ static int horiz_taxrate_callback(struct widget *pHoriz_Src)
     }
   
     pMotion.min = pHoriz_Src->next->size.x + pHoriz_Src->next->size.w + adj_size(2);
-    pMotion.gov_max = get_player_bonus(game.player_ptr, EFT_MAX_RATES);
+    pMotion.gov_max = get_player_bonus(client.playing, EFT_MAX_RATES);
     pMotion.max = pMotion.min + pMotion.gov_max * 1.5;
     pMotion.x = pHoriz_Src->size.x;
     
@@ -1349,10 +1348,10 @@ static int apply_taxrates_callback(struct widget *pButton)
     
     /* Tax */
     tax = 100 - luxury - science;
-    
-    if(tax != game.player_ptr->economic.tax ||
-      science != game.player_ptr->economic.science ||
-      luxury != game.player_ptr->economic.luxury) {
+
+    if (tax != client.playing->economic.tax
+     || science != client.playing->economic.science
+     || luxury != client.playing->economic.luxury) {
       dsend_packet_player_rates(&aconnection, tax, luxury, science);
     }
   
@@ -1450,7 +1449,7 @@ static int ok_sell_impv_callback(struct widget *pWidget)
     enable_economy_dlg();
     
     /* send sell */
-    city_list_iterate(game.player_ptr->cities, pCity) {
+    city_list_iterate(client.playing->cities, pCity) {
       if(!pCity->did_sell && city_has_building(pCity, improvement_by_number(imp))){
           count++;
   
@@ -1516,7 +1515,7 @@ static int popup_sell_impv_callback(struct widget *pWidget)
     total_count = pWidget->data.cont->id1;
     value = impr_sell_gold(improvement_by_number(imp));
 
-    city_list_iterate(game.player_ptr->cities, pCity) {
+    city_list_iterate(client.playing->cities, pCity) {
       if(!pCity->did_sell && city_has_building(pCity, improvement_by_number(imp))) {
           count++;
           gold += value;
@@ -1658,7 +1657,7 @@ void economy_report_dialog_update(void)
   
     /* tresure */
     pBuf = pBuf->prev;
-    my_snprintf(cBuf, sizeof(cBuf), "%d", game.player_ptr->economic.gold);
+    my_snprintf(cBuf, sizeof(cBuf), "%d", client.playing->economic.gold);
     copy_chars_to_string16(pBuf->string16, cBuf);
     remake_label_size(pBuf);
   
@@ -1739,7 +1738,7 @@ void popup_economy_report_dialog(bool make_modal)
   struct improvement_entry entries[B_LAST];
   SDL_Rect dst;
   SDL_Rect area;
-  struct government *pGov = government_of_player(game.player_ptr);
+  struct government *pGov = government_of_player(client.playing);
 
   SDL_Surface *pTreasuryText;
   struct widget *pTreasuryValue;
@@ -1790,7 +1789,7 @@ void popup_economy_report_dialog(bool make_modal)
   w3 = MAX(w3, pTreasuryText->w);
   
   /* "Treasury" value label*/
-  my_snprintf(cBuf, sizeof(cBuf), "%d", game.player_ptr->economic.gold);
+  my_snprintf(cBuf, sizeof(cBuf), "%d", client.playing->economic.gold);
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 
@@ -1812,7 +1811,7 @@ void popup_economy_report_dialog(bool make_modal)
   
   /* "Tax Rate" value label */
   /* it is important to leave 1 space at ending of this string */
-  my_snprintf(cBuf, sizeof(cBuf), "%d%% " , game.player_ptr->economic.tax);
+  my_snprintf(cBuf, sizeof(cBuf), "%d%% " , client.playing->economic.tax);
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   
@@ -1891,7 +1890,7 @@ void popup_economy_report_dialog(bool make_modal)
   /* gov and taxrate */
   my_snprintf(cBuf, sizeof(cBuf), _("%s max rate : %d%%"),
     government_name_translation(pGov),
-    get_player_bonus(game.player_ptr, EFT_MAX_RATES));
+    get_player_bonus(client.playing, EFT_MAX_RATES));
   copy_chars_to_string16(pStr2, cBuf);
   pMaxRateText = create_text_surf_from_str16(pStr2);
   
@@ -1923,7 +1922,7 @@ void popup_economy_report_dialog(bool make_modal)
 
   pBuf->action = horiz_taxrate_callback;
   pBuf->data.ptr = fc_calloc(1, sizeof(int));
-  *(int *)pBuf->data.ptr = game.player_ptr->economic.luxury;
+  *(int *)pBuf->data.ptr = client.playing->economic.luxury;
   set_wstate(pBuf, FC_WS_NORMAL);
 
   add_to_gui_list(ID_CHANGE_TAXRATE_DLG_LUX_SCROLLBAR, pBuf);
@@ -1933,7 +1932,7 @@ void popup_economy_report_dialog(bool make_modal)
   /* lux rate iconlabel */
   
   /* it is important to leave 1 space at ending of this string */
-  my_snprintf(cBuf, sizeof(cBuf), "%d%% ", game.player_ptr->economic.luxury);
+  my_snprintf(cBuf, sizeof(cBuf), "%d%% ", client.playing->economic.luxury);
   pStr = create_str16_from_char(cBuf, adj_font(11));
   pStr->style |= TTF_STYLE_BOLD;
 
@@ -1969,7 +1968,7 @@ void popup_economy_report_dialog(bool make_modal)
 
   pBuf->action = horiz_taxrate_callback;
   pBuf->data.ptr = fc_calloc(1, sizeof(int));
-  *(int *)pBuf->data.ptr = game.player_ptr->economic.science;
+  *(int *)pBuf->data.ptr = client.playing->economic.science;
   
   set_wstate(pBuf, FC_WS_NORMAL);
 
@@ -1977,7 +1976,7 @@ void popup_economy_report_dialog(bool make_modal)
   
   /* science rate iconlabel */
   /* it is important to leave 1 space at ending of this string */
-  my_snprintf(cBuf, sizeof(cBuf), "%d%% ", game.player_ptr->economic.science);
+  my_snprintf(cBuf, sizeof(cBuf), "%d%% ", client.playing->economic.science);
   pStr = create_str16_from_char(cBuf, adj_font(11));
   pStr->style |= TTF_STYLE_BOLD;
 
@@ -2257,7 +2256,7 @@ void popup_economy_report_dialog(bool make_modal)
   
   /* lux scrollbar */
   pBuf = pBuf->prev;
-  pBuf->size.x = dst.x + adj_size(2) + (game.player_ptr->economic.luxury * 3) / 2;
+  pBuf->size.x = dst.x + adj_size(2) + (client.playing->economic.luxury * 3) / 2;
   pBuf->size.y = dst.y -1;
   
   /* lux rate */
@@ -2280,7 +2279,7 @@ void popup_economy_report_dialog(bool make_modal)
   
   /* science scrollbar */
   pBuf = pBuf->prev;
-  pBuf->size.x = dst.x + adj_size(2) + (game.player_ptr->economic.science * 3) / 2;
+  pBuf->size.x = dst.x + adj_size(2) + (client.playing->economic.science * 3) / 2;
   pBuf->size.y = dst.y -1;
   
   /* science rate */
@@ -2355,7 +2354,7 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
   /* create label surface */
   pSurf = create_surf_alpha(w, h, SDL_SWSURFACE);
   
-  if (get_player_research(game.player_ptr)->researching == tech_id)
+  if (tech_id == get_player_research(client.playing)->researching)
   {
     color.unused = 180;
   } else {
@@ -2542,17 +2541,17 @@ void science_dialog_update(void)
     pChangeResearchButton = pWindow->prev;
     pChangeResearchGoalButton = pWindow->prev->prev;
     
-    if (get_player_research(game.player_ptr)->researching != A_UNSET) {
-      cost = total_bulbs_required(game.player_ptr);
+    if (A_UNSET != get_player_research(client.playing)->researching) {
+      cost = total_bulbs_required(client.playing);
     } else {
       cost = 0;
     }        
     
     /* update current research icons */
     FREESURFACE(pChangeResearchButton->theme);
-    pChangeResearchButton->theme = get_tech_icon(get_player_research(game.player_ptr)->researching);
+    pChangeResearchButton->theme = get_tech_icon(get_player_research(client.playing)->researching);
     FREESURFACE(pChangeResearchGoalButton->theme);
-    pChangeResearchGoalButton->theme = get_tech_icon(get_player_research(game.player_ptr)->tech_goal);
+    pChangeResearchGoalButton->theme = get_tech_icon(get_player_research(client.playing)->tech_goal);
     
     /* redraw Window */
     widget_redraw(pWindow);
@@ -2588,7 +2587,7 @@ void science_dialog_update(void)
     
     /* current research text */
     my_snprintf(cBuf, sizeof(cBuf), "%s: %s",
-      advance_name_researching(game.player_ptr),
+      advance_name_researching(client.playing),
       get_science_target_text(NULL));
 
     copy_chars_to_string16(pStr, cBuf);
@@ -2624,12 +2623,12 @@ void science_dialog_update(void)
     if (cost > adj_size(286))
     {
       cost =
-        adj_size(286) * ((float) get_player_research(game.player_ptr)->bulbs_researched / cost);
+        adj_size(286) * ((float) get_player_research(client.playing)->bulbs_researched / cost);
     }
     else
     {
       cost =
-        (float)cost * ((float)get_player_research(game.player_ptr)->bulbs_researched/cost);
+        (float)cost * ((float)get_player_research(client.playing)->bulbs_researched/cost);
     }
   
     dest.y += adj_size(2);
@@ -2647,7 +2646,7 @@ void science_dialog_update(void)
     improvement_iterate(pImprove) {
       requirement_vector_iterate(&pImprove->reqs, preq) {
         if (VUT_ADVANCE == preq->source.kind
-         && advance_number(preq->source.value.advance) == get_player_research(game.player_ptr)->researching) {
+         && advance_number(preq->source.value.advance) == get_player_research(client.playing)->researching) {
           pSurf = adj_surf(get_building_surface(pImprove));
           alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
           dest.x += pSurf->w + 1;
@@ -2660,7 +2659,7 @@ void science_dialog_update(void)
     /* units */
     unit_type_iterate(un) {
       pUnit = un;
-      if (advance_number(pUnit->require_advance) == get_player_research(game.player_ptr)->researching) {
+      if (advance_number(pUnit->require_advance) == get_player_research(client.playing)->researching) {
 	if (get_unittype_surface(un)->w > 64) {
 	  float zoom = DEFAULT_ZOOM * (64.0 / get_unittype_surface(un)->w);
 	  pSurf = zoomSurface(get_unittype_surface(un), zoom, zoom, 1);
@@ -2693,12 +2692,12 @@ void science_dialog_update(void)
     /* -------------------------------- */
     
     /* Goals */
-    if (get_player_research(game.player_ptr)->tech_goal != A_UNSET)
+    if (A_UNSET != get_player_research(client.playing)->tech_goal)
     {
       /* current goal text */
       my_snprintf(cBuf, sizeof(cBuf), "%s",
-        advance_name_for_player(game.player_ptr,
-          get_player_research(game.player_ptr)->tech_goal));
+        advance_name_for_player(client.playing,
+          get_player_research(client.playing)->tech_goal));
       
       copy_chars_to_string16(pStr, cBuf);
       pSurf = create_text_surf_from_str16(pStr);
@@ -2710,7 +2709,7 @@ void science_dialog_update(void)
       
       FREESURFACE(pSurf);
       
-      copy_chars_to_string16(pStr, get_science_goal_text(get_player_research(game.player_ptr)->tech_goal));
+      copy_chars_to_string16(pStr, get_science_goal_text(get_player_research(client.playing)->tech_goal));
       pSurf = create_text_surf_from_str16(pStr);
       
       dest.x = pChangeResearchGoalButton->size.x + pChangeResearchGoalButton->size.w + adj_size(10);
@@ -2724,7 +2723,7 @@ void science_dialog_update(void)
       improvement_iterate(pImprove) {
 	requirement_vector_iterate(&pImprove->reqs, preq) {  
           if (VUT_ADVANCE == preq->source.kind
-           && advance_number(preq->source.value.advance) == get_player_research(game.player_ptr)->tech_goal) {
+           && advance_number(preq->source.value.advance) == get_player_research(client.playing)->tech_goal) {
             pSurf = adj_surf(get_building_surface(pImprove));
             alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
             dest.x += pSurf->w + 1;
@@ -2737,7 +2736,7 @@ void science_dialog_update(void)
       /* units */
       unit_type_iterate(un) {
         pUnit = un;
-        if (advance_number(pUnit->require_advance) == get_player_research(game.player_ptr)->tech_goal) {
+        if (advance_number(pUnit->require_advance) == get_player_research(client.playing)->tech_goal) {
 	  if (get_unittype_surface(un)->w > 64) {
 	    float zoom = DEFAULT_ZOOM * (64.0 / get_unittype_surface(un)->w);
 	    pSurf = zoomSurface(get_unittype_surface(un), zoom, zoom, 1);
@@ -2837,13 +2836,13 @@ static void popup_change_research_dialog()
   int max_col, max_row, col, i, count = 0, h;
   SDL_Rect area;
 
-  if (is_future_tech(get_player_research(game.player_ptr)->researching)) {
+  if (is_future_tech(get_player_research(client.playing)->researching)) {
     return;
   }
     
   advance_index_iterate(A_FIRST, i) {
-    if (!player_invention_is_ready(game.player_ptr, i)
-     || player_invention_state(game.player_ptr, i) != TECH_REACHABLE) {
+    if (!player_invention_is_ready(client.playing, i)
+     || TECH_REACHABLE != player_invention_state(client.playing, i)) {
       continue;
     }
     count++;
@@ -2910,8 +2909,8 @@ static void popup_change_research_dialog()
   count = 0;
   h = col * max_row;
   advance_index_iterate(A_FIRST, i) {
-    if (!player_invention_is_ready(game.player_ptr, i)
-     || player_invention_state(game.player_ptr, i) != TECH_REACHABLE) {
+    if (!player_invention_is_ready(client.playing, i)
+     || TECH_REACHABLE != player_invention_state(client.playing, i)) {
       continue;
     }
     
@@ -3028,10 +3027,10 @@ static void popup_change_research_goal_dialog()
    * hist will hold afterwards the techid of the current choice
    */
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_is_ready(game.player_ptr, i)
-        && player_invention_state(game.player_ptr, i) != TECH_KNOWN
-	&& (num_unknown_techs_for_goal(game.player_ptr, i) < 11
-	    || i == get_player_research(game.player_ptr)->tech_goal)) {
+    if (player_invention_is_ready(client.playing, i)
+        && TECH_KNOWN != player_invention_state(client.playing, i)
+	&& (11 > num_unknown_techs_for_goal(client.playing, i)
+	    || i == get_player_research(client.playing)->tech_goal)) {
       count++;
     }
   } advance_index_iterate_end;
@@ -3101,10 +3100,10 @@ static void popup_change_research_goal_dialog()
   count = 0;
   h = col * max_row;
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_is_ready(game.player_ptr, i)
-        && player_invention_state(game.player_ptr, i) != TECH_KNOWN
-	&& ((num = num_unknown_techs_for_goal(game.player_ptr, i)) < 11
-	    || i == get_player_research(game.player_ptr)->tech_goal)) {
+    if (player_invention_is_ready(client.playing, i)
+        && TECH_KNOWN != player_invention_state(client.playing, i)
+	&& (11 > (num = num_unknown_techs_for_goal(client.playing, i))
+	    || i == get_player_research(client.playing)->tech_goal)) {
 
       count++;
       my_snprintf(cBuf, sizeof(cBuf), "%s\n%d %s",
@@ -3291,14 +3290,14 @@ void popup_science_dialog(bool raise)
   /* count number of researchable techs */
   count = 0;
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_is_ready(game.player_ptr, i)
-     && player_invention_state(game.player_ptr, i) != TECH_KNOWN) {
+    if (player_invention_is_ready(client.playing, i)
+     && TECH_KNOWN != player_invention_state(client.playing, i)) {
 	count++;	  
     }
   }  advance_index_iterate_end;
 
   /* current research icon */
-  pTechIcon = get_tech_icon(get_player_research(game.player_ptr)->researching);
+  pTechIcon = get_tech_icon(get_player_research(client.playing)->researching);
   pChangeResearchButton = create_icon2(pTechIcon, pWindow->dst, WF_RESTORE_BACKGROUND | WF_FREE_THEME);
 
   pChangeResearchButton->action = popup_change_research_dialog_callback;
@@ -3309,7 +3308,7 @@ void popup_science_dialog(bool raise)
   add_to_gui_list(ID_SCIENCE_DLG_CHANGE_REASARCH_BUTTON, pChangeResearchButton);
 
   /* current research goal icon */
-  pTechIcon = get_tech_icon(get_player_research(game.player_ptr)->tech_goal);
+  pTechIcon = get_tech_icon(get_player_research(client.playing)->tech_goal);
   pChangeResearchGoalButton = create_icon2(pTechIcon, pWindow->dst, WF_RESTORE_BACKGROUND | WF_FREE_THEME);
   
   pChangeResearchGoalButton->action = popup_change_research_goal_dialog_callback;

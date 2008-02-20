@@ -27,7 +27,6 @@
 
 #include "events.h"
 #include "fcintl.h"
-#include "game.h"
 #include "government.h"
 #include "packets.h"
 #include "player.h"
@@ -75,8 +74,8 @@ static void rates_set_values(int tax, int no_tax_scroll,
   lux_lock	= GTK_TOGGLE_BUTTON(rates_lux_toggle)->active;
   sci_lock	= GTK_TOGGLE_BUTTON(rates_sci_toggle)->active;
 
-  if (game.player_ptr) {
-    maxrate = get_player_bonus(game.player_ptr, EFT_MAX_RATES);
+  if (client.playing) {
+    maxrate = get_player_bonus(client.playing, EFT_MAX_RATES);
   } else {
     maxrate = 100;
   }
@@ -324,13 +323,11 @@ static GtkWidget *create_rates_dialog(void)
     g_signal_connect_after(rates_sci_adj, "value_changed",
 			   G_CALLBACK(rates_changed_callback), NULL);
 
-  rates_set_values( game.player_ptr->economic.tax, 0,
-        	    game.player_ptr->economic.luxury, 0,
-        	    game.player_ptr->economic.science, 0 );
+  rates_set_values(client.playing->economic.tax, 0,
+		   client.playing->economic.luxury, 0,
+		   client.playing->economic.science, 0);
   return shell;
 }
-
-
 
 
 /****************************************************************
@@ -352,12 +349,13 @@ void popup_rates_dialog(void)
   }
 
   my_snprintf(buf, sizeof(buf), _("%s max rate: %d%%"),
-      government_name_for_player(game.player_ptr),
-      get_player_bonus(game.player_ptr, EFT_MAX_RATES));
+      government_name_for_player(client.playing),
+      get_player_bonus(client.playing, EFT_MAX_RATES));
   gtk_label_set_text(GTK_LABEL(rates_gov_label), buf);
   
   gtk_window_present(GTK_WINDOW(rates_dialog_shell));
 }
+
 
 /**************************************************************************
   Option dialog 

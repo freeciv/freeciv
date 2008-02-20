@@ -22,7 +22,6 @@
 #include "fcintl.h"
 
 /* common */
-#include "game.h"
 
 /* client */
 #include "civclient.h"
@@ -184,9 +183,9 @@ static int toggle_draw_neutral_status_callback(struct widget *pWidget)
 
 static bool have_diplomat_info_about(struct player *pPlayer)
 {
-  return (pPlayer == game.player_ptr ||
-  	(pPlayer != game.player_ptr
-	  && player_has_embassy(game.player_ptr, pPlayer)));
+  return (pPlayer == client.playing
+	  || (pPlayer != client.playing
+	   && player_has_embassy(client.playing, pPlayer)));
 }
 
 /**************************************************************************
@@ -575,7 +574,7 @@ static int player_nation_callback(struct widget *pWidget)
       }
     break;
     default:
-      if(player_number(pPlayer) != game.info.player_idx) {
+      if (pPlayer != client.playing) {
         popup_diplomacy_dialog(pPlayer);
       }
     break;
@@ -631,12 +630,12 @@ void popup_players_nations_dialog(void)
   /* ---------- */
   
   players_iterate(pPlayer) {
-    if(player_number(pPlayer) != game.info.player_idx) {
+    if (pPlayer != client.playing) {
       if(!pPlayer->is_alive || is_barbarian(pPlayer)) {
         continue;
       }
       
-      pDS = pplayer_get_diplstate(game.player_ptr, pPlayer);
+      pDS = pplayer_get_diplstate(client.playing, pPlayer);
             
       if(pPlayer->ai.control) {
 	state = _("AI");

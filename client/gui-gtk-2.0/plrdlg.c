@@ -25,7 +25,6 @@
 
 #include "diptreaty.h"
 #include "fcintl.h"
-#include "game.h"
 #include "packets.h"
 #include "nation.h"
 #include "player.h"
@@ -151,8 +150,8 @@ static void update_players_menu(void)
       gtk_widget_set_sensitive(players_sship_command, FALSE);
     }
 
-    if (game.player_ptr) {
-      switch (pplayer_get_diplstate(game.player_ptr,
+    if (client.playing) {
+      switch (pplayer_get_diplstate(client.playing,
 				    player_by_number(plrno))->type) {
       case DS_WAR:
       case DS_NO_CONTACT:
@@ -161,7 +160,7 @@ static void update_players_menu(void)
       default:
 	gtk_widget_set_sensitive(players_war_command,
 				 can_client_issue_orders()
-				 && game.info.player_idx != plrno);
+				 && player_by_number(plrno) != client.playing);
       }
     } else {
       gtk_widget_set_sensitive(players_war_command, FALSE);
@@ -169,7 +168,7 @@ static void update_players_menu(void)
 
     gtk_widget_set_sensitive(players_vision_command,
 			     can_client_issue_orders()
-			     && gives_shared_vision(game.player_ptr, plr));
+			     && gives_shared_vision(client.playing, plr));
 
     gtk_widget_set_sensitive(players_meet_command, can_meet_with_player(plr));
     gtk_widget_set_sensitive(players_int_command, can_intel_with_player(plr));
@@ -235,11 +234,11 @@ static gint plrdlg_sort_func(GtkTreeModel *model,
   n = GPOINTER_TO_INT(data);
 
   gtk_tree_model_get_value(model, a, num_player_dlg_columns + 2, &value);
-  player1 = &game.players[g_value_get_int(&value)];
+  player1 = player_by_number(g_value_get_int(&value));
   g_value_unset(&value);
   
   gtk_tree_model_get_value(model, b, num_player_dlg_columns + 2, &value);
-  player2 = &game.players[g_value_get_int(&value)];
+  player2 = player_by_number(g_value_get_int(&value));
   g_value_unset(&value);
   
   return player_dlg_columns[n].sort_func(player1, player2);
@@ -633,8 +632,8 @@ static void build_row(GtkTreeIter *it, int i)
     -1);
 
    /* now add some eye candy ... */
-  if (game.player_ptr) {
-    switch (pplayer_get_diplstate(game.player_ptr, plr)->type) {
+  if (client.playing) {
+    switch (pplayer_get_diplstate(client.playing, plr)->type) {
     case DS_WAR:
       weight = PANGO_WEIGHT_NORMAL;
       style = PANGO_STYLE_ITALIC;
@@ -802,8 +801,8 @@ void players_intel_callback(GtkMenuItem *item, gpointer data)
 
     gtk_tree_model_get(model, &it, ncolumns - 1, &plrno, -1);
 
-    if (can_intel_with_player(&game.players[plrno])) {
-      popup_intel_dialog(&game.players[plrno]);
+    if (can_intel_with_player(player_by_number(plrno))) {
+      popup_intel_dialog(player_by_number(plrno));
     }
   }
 }
@@ -820,7 +819,7 @@ void players_sship_callback(GtkMenuItem *item, gpointer data)
     gint plrno;
 
     gtk_tree_model_get(model, &it, ncolumns - 1, &plrno, -1);
-    popup_spaceship_dialog(&game.players[plrno]);
+    popup_spaceship_dialog(player_by_number(plrno));
   }
 }
 

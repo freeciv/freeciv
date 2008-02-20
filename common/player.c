@@ -382,7 +382,8 @@ const char *player_name(const struct player *pplayer)
   problem, and fills *result with characterisation of match/non-match
   (see shared.[ch])
 ***************************************************************/
-static const char *pname_accessor(int i) {
+static const char *player_name_by_number(int i)
+{
   return game.players[i].name;
 }
 
@@ -394,8 +395,8 @@ struct player *find_player_by_name_prefix(const char *name,
 {
   int ind;
 
-  *result = match_prefix(pname_accessor, game.info.nplayers, MAX_LEN_NAME-1,
-			 mystrncasequotecmp, name, &ind);
+  *result = match_prefix(player_name_by_number, game.info.nplayers,
+			 MAX_LEN_NAME-1, mystrncasequotecmp, name, &ind);
 
   if (*result < M_PRE_AMBIGUOUS) {
     return player_by_number(ind);
