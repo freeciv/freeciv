@@ -30,9 +30,9 @@
 #include "map.h"
 #include "unitlist.h"
 
+#include "civclient.h"
 #include "climap.h"
 #include "climisc.h"
-#include "civclient.h"
 
 #include "control.h"
 #include "goto.h"
@@ -51,8 +51,8 @@ const char *get_tile_output_text(const struct tile *ptile)
     int before_penalty = 0;
     int x = city_tile_output(NULL, ptile, FALSE, i);
 
-    if (game.player_ptr) {
-      before_penalty = get_player_output_bonus(game.player_ptr,
+    if (client.playing) {
+      before_penalty = get_player_output_bonus(client.playing,
                                                get_output_type(i),
                                                EFT_OUTPUT_PENALTY_TILE);
     }
@@ -115,14 +115,14 @@ const char *popup_info_text(struct tile *ptile)
   if (game.info.borders > 0 && !pcity) {
     struct player *owner = tile_owner(ptile);
 
-    if (game.player_ptr && owner == game.player_ptr){
+    if (client.playing && owner == client.playing) {
       astr_add_line(&str, _("Our territory"));
-    } else if (owner && !game.player_ptr) {
+    } else if (owner && !client.playing) {
       /* TRANS: "Polish territory" */
       astr_add_line(&str, _("%s territory"),
 		    nation_adjective_for_player(owner));
     } else if (owner) {
-      struct player_diplstate *ds = game.player_ptr->diplstates;
+      struct player_diplstate *ds = client.playing->diplstates;
 
       if (ds[player_index(owner)].type == DS_CEASEFIRE) {
 	int turns = ds[player_index(owner)].turns_left;
@@ -152,13 +152,13 @@ const char *popup_info_text(struct tile *ptile)
     int has_improvements = 0;
     struct impr_type *prev_impr = NULL;
 
-    if (!game.player_ptr || owner == game.player_ptr){
+    if (!client.playing || owner == client.playing) {
       /* TRANS: "City: Warsaw (Polish)" */
       astr_add_line(&str, _("City: %s (%s)"), 
 		    city_name(pcity),
 		    nation_adjective_for_player(owner));
     } else {
-      struct player_diplstate *ds = game.player_ptr->diplstates;
+      struct player_diplstate *ds = client.playing->diplstates;
 
       if (ds[player_index(owner)].type == DS_CEASEFIRE) {
 	int turns = ds[player_index(owner)].turns_left;
@@ -235,7 +235,7 @@ const char *popup_info_text(struct tile *ptile)
     struct player *owner = unit_owner(punit);
     struct unit_type *ptype = unit_type(punit);
 
-    if (!game.player_ptr || owner == game.player_ptr){
+    if (!client.playing || owner == client.playing) {
       struct city *pcity = player_find_city_by_id(owner, punit->homecity);
 
       if (pcity) {
@@ -251,9 +251,9 @@ const char *popup_info_text(struct tile *ptile)
 		      nation_adjective_for_player(owner));
       }
     } else if (owner) {
-      struct player_diplstate *ds = game.player_ptr->diplstates;
+      struct player_diplstate *ds = client.playing->diplstates;
 
-      assert(owner != NULL && game.player_ptr != NULL);
+      assert(NULL != owner && NULL != client.playing);
 
       if (ds[player_index(owner)].type == DS_CEASEFIRE) {
 	int turns = ds[player_index(owner)].turns_left;
@@ -306,7 +306,7 @@ const char *popup_info_text(struct tile *ptile)
 		  ptype->hp,
 		  _(ptype->veteran[punit->veteran].name));
 
-    if ((!game.player_ptr || owner == game.player_ptr)
+    if ((!client.playing || owner == client.playing)
 	&& unit_list_size(ptile->units) >= 2) {
       /* TRANS: "5 more" units on this tile */
       astr_add(&str, _("  (%d more)"), unit_list_size(ptile->units) - 1);
@@ -436,18 +436,17 @@ const char *unit_description(struct unit *punit)
 ****************************************************************************/
 static int get_bulbs_per_turn(int *pours, int *ptheirs)
 {
-  struct player *plr = game.player_ptr;
   int ours = 0, theirs = 0;
 
-  if (!game.player_ptr) {
+  if (!client.playing) {
     return 0;
   }
 
   /* Sum up science */
   players_iterate(pplayer) {
-    enum diplstate_type ds = pplayer_get_diplstate(plr, pplayer)->type;
+    enum diplstate_type ds = pplayer_get_diplstate(client.playing, pplayer)->type;
 
-    if (plr == pplayer) {
+    if (pplayer == client.playing) {
       city_list_iterate(pplayer->cities, pcity) {
         ours += pcity->prod[O_SCIENCE];
       } city_list_iterate_end;
@@ -470,7 +469,6 @@ static int get_bulbs_per_turn(int *pours, int *ptheirs)
 ****************************************************************************/
 const char *science_dialog_text(void)
 {
-  struct player *plr = game.player_ptr;
   int ours, theirs;
   static struct astring str = ASTRING_INIT;
   char ourbuf[1024] = "", theirbuf[1024] = "";
@@ -479,14 +477,15 @@ const char *science_dialog_text(void)
 
   get_bulbs_per_turn(&ours, &theirs);
 
-  if (!game.player_ptr || (ours == 0 && theirs == 0)) {
+  if (!client.playing || (ours == 0 && theirs == 0)) {
     return _("Progress: no research");
   }
   assert(ours >= 0 && theirs >= 0);
-  if (get_player_research(plr)->researching == A_UNSET) {
+
+  if (A_UNSET == get_player_research(client.playing)->researching) {
     astr_add(&str, _("Progress: no research target"));
   } else {
-    int turns_to_advance = ((total_bulbs_required(plr) + ours + theirs - 1)
+    int turns_to_advance = ((total_bulbs_required(client.playing) + ours + theirs - 1)
 			    / (ours + theirs));
 
     astr_add(&str, PL_("Progress: %d turn/advance",
@@ -517,10 +516,10 @@ const char *science_dialog_text(void)
 ****************************************************************************/
 const char *get_science_target_text(double *percent)
 {
-  struct player_research *research = get_player_research(game.player_ptr);
+  struct player_research *research = get_player_research(client.playing);
   static struct astring str = ASTRING_INIT;
 
-  if (!game.player_ptr) {
+  if (!research) {
     return "-";
   }
 
@@ -531,7 +530,7 @@ const char *get_science_target_text(double *percent)
       *percent = 0.0;
     }
   } else {
-    int total = total_bulbs_required(game.player_ptr);
+    int total = total_bulbs_required(client.playing);
     int done = research->bulbs_researched;
     int perturn = get_bulbs_per_turn(NULL, NULL);
 
@@ -557,21 +556,21 @@ const char *get_science_target_text(double *percent)
 ****************************************************************************/
 const char *get_science_goal_text(Tech_type_id goal)
 {
-  int steps = num_unknown_techs_for_goal(game.player_ptr, goal);
-  int bulbs = total_bulbs_required_for_goal(game.player_ptr, goal);
+  int steps = num_unknown_techs_for_goal(client.playing, goal);
+  int bulbs = total_bulbs_required_for_goal(client.playing, goal);
   int bulbs_needed = bulbs, turns;
   int perturn = get_bulbs_per_turn(NULL, NULL);
   char buf1[256], buf2[256], buf3[256];
-  struct player_research* research = get_player_research(game.player_ptr);
+  struct player_research* research = get_player_research(client.playing);
   static struct astring str = ASTRING_INIT;
 
-  if (!game.player_ptr) {
+  if (!research) {
     return "-";
   }
 
   astr_clear(&str);
 
-  if (is_tech_a_req_for_goal(game.player_ptr,
+  if (is_tech_a_req_for_goal(client.playing,
 			     research->researching, goal)
       || research->researching == goal) {
     bulbs_needed -= research->bulbs_researched;
@@ -605,19 +604,21 @@ const char *get_info_label_text(void)
 
   astr_clear(&str);
 
-  if (game.player_ptr) {
+  if (client.playing) {
     astr_add_line(&str, _("Population: %s"),
-		  population_to_text(civ_population(game.player_ptr)));
+		  population_to_text(civ_population(client.playing)));
   }
   astr_add_line(&str, _("Year: %s (T%d)"),
 		textyear(game.info.year), game.info.turn);
-  if (game.player_ptr) {
-    astr_add_line(&str, _("Gold: %d (%+d)"), game.player_ptr->economic.gold,
-		  player_get_expected_income(game.player_ptr));
+
+  if (client.playing) {
+    astr_add_line(&str, _("Gold: %d (%+d)"),
+		  client.playing->economic.gold,
+		  player_get_expected_income(client.playing));
     astr_add_line(&str, _("Tax: %d Lux: %d Sci: %d"),
-		  game.player_ptr->economic.tax,
-		  game.player_ptr->economic.luxury,
-		  game.player_ptr->economic.science);
+		  client.playing->economic.tax,
+		  client.playing->economic.luxury,
+		  client.playing->economic.science);
   }
   if (!game.info.simultaneous_phases) {
     astr_add_line(&str, _("Moving: %s"),
@@ -638,23 +639,25 @@ const char *get_info_label_text_popup(void)
 
   astr_clear(&str);
 
-  if (game.player_ptr) {
+  if (client.playing) {
     astr_add_line(&str, _("%s People"),
-		  population_to_text(civ_population(game.player_ptr)));
+		  population_to_text(civ_population(client.playing)));
   }
   astr_add_line(&str, _("Year: %s"), textyear(game.info.year));
   astr_add_line(&str, _("Turn: %d"), game.info.turn);
-  if (game.player_ptr) {
-    astr_add_line(&str, _("Gold: %d"), game.player_ptr->economic.gold);
+
+  if (client.playing) {
+    astr_add_line(&str, _("Gold: %d"),
+		  client.playing->economic.gold);
     astr_add_line(&str, _("Net Income: %d"),
-		  player_get_expected_income(game.player_ptr));
+		  player_get_expected_income(client.playing));
     /* TRANS: Gold, luxury, and science rates are in percentage values. */
     astr_add_line(&str, _("Tax rates: Gold:%d%% Luxury:%d%% Science:%d%%"),
-		  game.player_ptr->economic.tax,
-		  game.player_ptr->economic.luxury,
-		  game.player_ptr->economic.science);
+		  client.playing->economic.tax,
+		  client.playing->economic.luxury,
+		  client.playing->economic.science);
     astr_add_line(&str, _("Researching %s: %s"),
-		  advance_name_researching(game.player_ptr),
+		  advance_name_researching(client.playing),
 		  get_science_target_text(NULL));
   }
 
@@ -667,9 +670,9 @@ const char *get_info_label_text_popup(void)
 		CLIP(0, (game.info.nuclearwinter + 1) / 2, 100),
 		DIVIDE(game.info.cooling - game.info.coolinglevel + 1, 2));
 
-  if (game.player_ptr) {
+  if (client.playing) {
     astr_add_line(&str, _("Government: %s"),
-		  government_name_for_player(game.player_ptr));
+		  government_name_for_player(client.playing));
   }
 
   return str.str;
@@ -863,10 +866,10 @@ bool get_units_upgrade_info(char *buf, size_t bufsz,
     int min_upgrade_cost = FC_INFINITY;
 
     unit_list_iterate(punits, punit) {
-      if (unit_owner(punit) == game.player_ptr
+      if (unit_owner(punit) == client.playing
 	  && test_unit_upgrade(punit, FALSE) == UR_OK) {
 	struct unit_type *from_unittype = unit_type(punit);
-	struct unit_type *to_unittype = can_upgrade_unittype(game.player_ptr,
+	struct unit_type *to_unittype = can_upgrade_unittype(client.playing,
 							     unit_type(punit));
 	int cost = unit_upgrade_price(unit_owner(punit),
 					   from_unittype, to_unittype);
@@ -888,7 +891,7 @@ bool get_units_upgrade_info(char *buf, size_t bufsz,
 				  "Upgrade %d units for %d gold?\n"
 				  "Treasury contains %d gold.",
 				  num_upgraded),
-		  num_upgraded, upgrade_cost, game.player_ptr->economic.gold);
+		  num_upgraded, upgrade_cost, client.playing->economic.gold);
       return TRUE;
     }
   }
@@ -906,17 +909,18 @@ const char *get_bulb_tooltip(void)
 
   astr_add_line(&str, _("Shows your progress in "
 			"researching the current technology."));
-  if (game.player_ptr) {
-    struct player_research *research = get_player_research(game.player_ptr);
+
+  if (client.playing) {
+    struct player_research *research = get_player_research(client.playing);
 
     if (research->researching == A_UNSET) {
       astr_add_line(&str, _("no research target."));
     } else {
       /* TRANS: <tech>: <amount>/<total bulbs> */
       astr_add_line(&str, _("%s: %d/%d."),
-		    advance_name_researching(game.player_ptr),
+		    advance_name_researching(client.playing),
 		    research->bulbs_researched,
-		    total_bulbs_required(game.player_ptr));
+		    total_bulbs_required(client.playing));
     }
   }
   return str.str;
@@ -971,8 +975,9 @@ const char *get_government_tooltip(void)
   astr_clear(&str);
 
   astr_add_line(&str, _("Shows your current government:"));
-  if (game.player_ptr) {
-    astr_add_line(&str, government_name_for_player(game.player_ptr));
+
+  if (client.playing) {
+    astr_add_line(&str, government_name_for_player(client.playing));
   }
   return str.str;
 }
@@ -1115,8 +1120,8 @@ const char *get_score_text(const struct player *pplayer)
   astr_clear(&str);
 
   if (pplayer->score.game > 0
-      || !game.player_ptr
-      || pplayer == game.player_ptr) {
+      || !client.playing
+      || pplayer == client.playing) {
     astr_add(&str, "%d", pplayer->score.game);
   } else {
     astr_add(&str, "?");
@@ -1138,15 +1143,15 @@ const char *get_report_title(const char *report_name)
 
   astr_add_line(&str, "%s", report_name);
 
-  if (game.player_ptr) {
+  if (client.playing) {
     /* TRANS: "Republic of the Poles" */
     astr_add_line(&str, _("%s of the %s"),
-		  government_name_for_player(game.player_ptr),
-		  nation_plural_for_player(game.player_ptr));
+		  government_name_for_player(client.playing),
+		  nation_plural_for_player(client.playing));
 
     astr_add_line(&str, "%s %s: %s",
-		  ruler_title_translation(game.player_ptr),
-		  player_name(game.player_ptr),
+		  ruler_title_translation(client.playing),
+		  player_name(client.playing),
 		  textyear(game.info.year));
   } else {
     /* TRANS: "Observer: 1985" */

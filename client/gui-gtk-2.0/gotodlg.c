@@ -245,7 +245,7 @@ static void update_goto_dialog(GtkToggleButton *button)
   gtk_list_store_clear(store);
 
   players_iterate(pplayer) {
-    if (!all_cities && player_number(pplayer) != game.info.player_idx) {
+    if (!all_cities && pplayer != client.playing) {
       continue;
     }
 

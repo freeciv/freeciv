@@ -22,7 +22,6 @@
 #include <windowsx.h>
 
 #include "fcintl.h"
-#include "game.h"
 #include "government.h"
 #include "map.h"
 #include "mem.h"
@@ -33,6 +32,7 @@
 
 #include "canvas.h"
 #include "chatline.h"
+#include "civclient.h"
 #include "climisc.h"
 #include "clinet.h"
 #include "diptreaty.h"
@@ -581,7 +581,8 @@ static void thumb_setsize(RECT *rc, void *data)
 *****************************************************************/
 static struct Diplomacy_dialog *create_diplomacy_dialog(int other_player_id)
 {
-  struct player *plr0 = game.player_ptr, *plr1 = player_by_number(other_player_id);
+  struct player *plr0 = client.playing;
+  struct player *plr1 = player_by_number(other_player_id);
 
   char buf[512];
   struct fcwin_box *vbox;
@@ -692,7 +693,8 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(int other_player_id)
 *****************************************************************/
 static struct Diplomacy_dialog *find_diplomacy_dialog(int other_player_id)
 {
-  struct player *plr0 = game.player_ptr, *plr1 = player_by_number(other_player_id);
+  struct player *plr0 = client.playing;
+  struct player *plr1 = player_by_number(other_player_id);
 
   if(!dialog_list_list_has_been_initialised) {
     dialog_list = dialog_list_new();
@@ -717,7 +719,7 @@ static void popup_diplomacy_dialog(int other_player_id)
 {
   struct Diplomacy_dialog *pdialog;
 
-  if (game.player_ptr->ai.control) {
+  if (client.playing->ai.control) {
     return;			/* Don't show if we are AI controlled. */
   }
 

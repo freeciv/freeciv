@@ -105,7 +105,7 @@ void refresh_spaceship_dialog(struct player *pPlayer)
   /* launch button */
   pBuf = pSpaceShp->pEndWidgetList->prev->prev;
   if(game.info.spacerace
-     && player_number(pPlayer) == game.info.player_idx
+     && pPlayer == client.playing
      && pPlayer->spaceship.state == SSHIP_STARTED
      && pPlayer->spaceship.success_rate > 0.0) {
     set_wstate(pBuf, FC_WS_NORMAL);

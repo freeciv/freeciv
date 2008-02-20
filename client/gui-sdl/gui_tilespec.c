@@ -29,8 +29,8 @@
 #include "fcintl.h"
 #include "log.h"
 
-/* common */
-#include "game.h"
+/* client */
+#include "civclient.h"
 
 /* gui-sdl */
 #include "colors.h"
@@ -553,9 +553,9 @@ SDL_Surface * get_tech_icon(Tech_type_id tech)
 **************************************************************************/
 SDL_Color * get_tech_color(Tech_type_id tech_id)
 {
-  if (player_invention_is_ready(game.player_ptr, tech_id))
+  if (player_invention_is_ready(client.playing, tech_id))
   {
-    switch (player_invention_state(game.player_ptr, tech_id))
+    switch (player_invention_state(client.playing, tech_id))
     {
       case TECH_UNKNOWN:
         return get_game_colorRGB(COLOR_REQTREE_UNREACHABLE);	  

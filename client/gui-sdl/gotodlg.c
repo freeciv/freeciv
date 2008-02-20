@@ -259,9 +259,8 @@ static void popup_goto_airlift_dialog(void)
   col = 0;
   /* --------------------------------------------- */
   players_iterate(pPlayer) {
-    if(player_number(pPlayer) != game.info.player_idx
-      && pplayer_get_diplstate(
-    		game.player_ptr, pPlayer)->type == DS_NO_CONTACT) {
+    if (pPlayer != client.playing
+      && DS_NO_CONTACT == pplayer_get_diplstate(client.playing, pPlayer)->type) {
       continue;
     }
     
@@ -361,7 +360,7 @@ void popup_goto_dialog(void)
   if (!can_client_issue_orders() || 0 == get_num_units_in_focus()) {
     return;
   }
-  all_players = (1u << (player_index(game.player_ptr)));
+  all_players = (1u << (player_index(client.playing)));
   popup_goto_airlift_dialog();
 }
 
@@ -373,7 +372,7 @@ void popup_airlift_dialog(void)
   if (!can_client_issue_orders() || 0 == get_num_units_in_focus()) {
     return;
   }
-  all_players = (1u << (player_index(game.player_ptr)));
+  all_players = (1u << (player_index(client.playing)));
   GOTO = FALSE;
   popup_goto_airlift_dialog();
 }

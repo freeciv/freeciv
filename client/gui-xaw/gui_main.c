@@ -61,7 +61,6 @@
 #include "dialogs.h"
 #include "graphics.h"
 #include "gui_stuff.h"		/* I_SW() */
-#include "helpdata.h"		/* boot_help_texts() */
 #include "mapview.h"
 #include "menu.h"
 #include "optiondlg.h"
@@ -524,7 +523,7 @@ static void unit_icon_callback(Widget w, XtPointer client_data,
     return;
   punit=game_find_unit_by_number(unit_ids[i]);
   if(punit) { /* should always be true at this point */
-    if (unit_owner(punit) == game.player_ptr) {
+    if (unit_owner(punit) == client.playing) {
       /* may be non-true if alliance */
       set_unit_focus(punit);
     }
@@ -1038,7 +1037,7 @@ void select_battlegroup(int battlegroup)
 ****************************************************************************/
 void add_unit_to_battlegroup(int battlegroup)
 {
-  if (game.player_ptr && can_client_issue_orders()) {
+  if (client.playing && can_client_issue_orders()) {
     struct unit *punit;
 
     punit = head_of_units_in_focus();

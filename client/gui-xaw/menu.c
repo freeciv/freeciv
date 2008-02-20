@@ -330,7 +330,7 @@ void update_menus(void)
 				smeBSBObjectClass,
 				menus[MENU_GOVERNMENT]->shell, NULL, 0);
       XtAddCallback(w, XtNcallback, revolution_menu_callback, pgovernment);
-      XtSetSensitive(w, can_change_to_government(game.player_ptr,
+      XtSetSensitive(w, can_change_to_government(client.playing,
 						 pgovernment));
 
       government_widgets[i] = w;
@@ -361,9 +361,9 @@ void update_menus(void)
     menu_entry_sensitive(MENU_GAME, MENU_GAME_CLEAR_OUTPUT, 1);
     menu_entry_sensitive(MENU_GAME, MENU_GAME_DISCONNECT, 1);
 
-    if (game.player_ptr) {
+    if (client.playing) {
       menu_entry_sensitive(MENU_REPORT, MENU_REPORT_SPACESHIP,
-			   (game.player_ptr->spaceship.state!=SSHIP_NONE));
+			   (SSHIP_NONE != client.playing->spaceship.state));
     } else {
       menu_entry_sensitive(MENU_REPORT, MENU_REPORT_SPACESHIP, 0);
     }
@@ -469,7 +469,7 @@ void update_menus(void)
 			  terrain_name_translation(tinfo->irrigation_result));
       }
       else if (tile_has_special(ptile, S_IRRIGATION) &&
-	       player_knows_techs_with_flag(game.player_ptr, TF_FARMLAND)) {
+	       player_knows_techs_with_flag(client.playing, TF_FARMLAND)) {
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_IRRIGATE,
 			  TEXT_ORDER_IRRIGATE_FARMLAND, NULL);
       } else {
@@ -568,7 +568,7 @@ static void government_menu_callback(Widget w, XtPointer client_data,
     popup_rates_dialog();
     break;
   case MENU_GOVERNMENT_WORKLISTS:
-    popup_worklists_dialog(game.player_ptr);
+    popup_worklists_dialog(client.playing);
     break;
   case MENU_GOVERNMENT_REVOLUTION:
     popup_revolution_dialog(NULL);
@@ -587,7 +587,7 @@ static void revolution_menu_callback(Widget w, XtPointer client_data,
   if (!can_client_issue_orders()) {
     return;
   }
-  if (game.player_ptr->revolution_finishes == -1) {
+  if (-1 == client.playing->revolution_finishes) {
     popup_revolution_dialog(pgovernment);
   } else {
     /* Player already has a revolution and should just choose a government */
@@ -829,8 +829,8 @@ static void reports_menu_callback(Widget w, XtPointer client_data,
     send_report_request(REPORT_DEMOGRAPHIC);
     break;
    case MENU_REPORT_SPACESHIP:
-    if (game.player_ptr) {
-      popup_spaceship_dialog(game.player_ptr);
+    if (client.playing) {
+      popup_spaceship_dialog(client.playing);
     }
     break;
   }

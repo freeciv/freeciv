@@ -273,8 +273,8 @@ void start_page_cancel_callback(Widget w, XtPointer client_data,
 void start_page_nation_callback(Widget w, XtPointer client_data,
 				XtPointer call_data)
 {
-  if (game.player_ptr) {
-    popup_races_dialog(game.player_ptr);
+  if (client.playing) {
+    popup_races_dialog(client.playing);
   }
 }
 

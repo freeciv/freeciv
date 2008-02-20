@@ -34,6 +34,7 @@
 #include "tech.h"
 #include "unitlist.h"
 
+#include "civclient.h"
 #include "clinet.h"
 #include "control.h"
 
@@ -92,7 +93,8 @@ static void diplomat_bribe_callback(Widget w, XtPointer client_data,
 {
   destroy_message_dialog(w);
 
-  if (game_find_unit_by_number(diplomat_id) && game_find_unit_by_number(diplomat_target_id)) {
+  if (game_find_unit_by_number(diplomat_id)
+   && game_find_unit_by_number(diplomat_target_id)) {
     dsend_packet_unit_bribe_inq(&aconnection, diplomat_target_id);
   }
 }
@@ -108,11 +110,11 @@ void popup_bribe_dialog(struct unit *punit)
     popup_message_dialog(toplevel, "diplomatbribedialog",
                          _("This unit cannot be bribed!"),
                          diplomat_bribe_no_callback, 0, 0, NULL);
-  } else if(game.player_ptr->economic.gold>=punit->bribe_cost) {
+  } else if (punit->bribe_cost <= client.playing->economic.gold) {
     my_snprintf(buf, sizeof(buf),
 		_("Bribe unit for %d gold?\n"
 		  "Treasury contains %d gold."), 
-		punit->bribe_cost, game.player_ptr->economic.gold);
+		punit->bribe_cost, client.playing->economic.gold);
     popup_message_dialog(toplevel, "diplomatbribedialog", buf,
 			 diplomat_bribe_yes_callback, 0, 0,
 			 diplomat_bribe_no_callback, 0, 0,
@@ -121,7 +123,7 @@ void popup_bribe_dialog(struct unit *punit)
     my_snprintf(buf, sizeof(buf),
 		_("Bribing the unit costs %d gold.\n"
 		  "Treasury contains %d gold."), 
-		punit->bribe_cost, game.player_ptr->economic.gold);
+		punit->bribe_cost, client.playing->economic.gold);
     popup_message_dialog(toplevel, "diplomatnogolddialog", buf,
 			 diplomat_bribe_no_callback, 0, 0,
 			 NULL);
@@ -534,7 +536,7 @@ pvictim to NULL and account for !pvictim in create_advances_list. -- Syela */
     Dimension width, height;
     spy_tech_shell_is_modal=1;
 
-    create_advances_list(game.player_ptr, pvictim, spy_tech_shell_is_modal);
+    create_advances_list(client.playing, pvictim, spy_tech_shell_is_modal);
     
     XtVaGetValues(toplevel, XtNwidth, &width, XtNheight, &height, NULL);
     
@@ -556,8 +558,8 @@ static void spy_request_sabotage_list(Widget w, XtPointer client_data,
   destroy_message_dialog(w);
   diplomat_dialog = NULL;
 
-  if(game_find_unit_by_number(diplomat_id) &&
-     (game_find_city_by_number(diplomat_target_id))) {
+  if (game_find_unit_by_number(diplomat_id)
+   && game_find_city_by_number(diplomat_target_id)) {
     request_diplomat_action(SPY_GET_SABOTAGE_LIST, diplomat_id,
 			    diplomat_target_id, 0);
   }
@@ -574,7 +576,7 @@ void popup_sabotage_dialog(struct city *pcity)
     Dimension width, height;
     spy_sabotage_shell_is_modal=1;
 
-    create_improvements_list(game.player_ptr, pcity, spy_sabotage_shell_is_modal);
+    create_improvements_list(client.playing, pcity, spy_sabotage_shell_is_modal);
     
     XtVaGetValues(toplevel, XtNwidth, &width, XtNheight, &height, NULL);
     
@@ -621,7 +623,8 @@ static void diplomat_incite_callback(Widget w, XtPointer client_data,
   destroy_message_dialog(w);
   diplomat_dialog = NULL;
 
-  if (game_find_unit_by_number(diplomat_id) && game_find_city_by_number(diplomat_target_id)) {
+  if (game_find_unit_by_number(diplomat_id)
+   && game_find_city_by_number(diplomat_target_id)) {
     dsend_packet_city_incite_inq(&aconnection, diplomat_target_id);
   }
 }
@@ -633,16 +636,16 @@ void popup_incite_dialog(struct city *pcity)
 {
   char buf[128];
 
-  if (pcity->incite_revolt_cost == INCITE_IMPOSSIBLE_COST) {
+  if (INCITE_IMPOSSIBLE_COST == pcity->incite_revolt_cost) {
     my_snprintf(buf, sizeof(buf), _("You can't incite a revolt in %s."),
 		city_name(pcity));
     popup_message_dialog(toplevel, "diplomatnogolddialog", buf,
 			 diplomat_incite_no_callback, 0, 0, NULL);
-  } else if (game.player_ptr->economic.gold >= pcity->incite_revolt_cost) {
+  } else if (pcity->incite_revolt_cost <= client.playing->economic.gold) {
     my_snprintf(buf, sizeof(buf),
 		_("Incite a revolt for %d gold?\n"
 		  "Treasury contains %d gold."), 
-		pcity->incite_revolt_cost, game.player_ptr->economic.gold);
+		pcity->incite_revolt_cost, client.playing->economic.gold);
    diplomat_target_id = pcity->id;
    popup_message_dialog(toplevel, "diplomatrevoltdialog", buf,
 			diplomat_incite_yes_callback, 0, 0,
@@ -652,7 +655,7 @@ void popup_incite_dialog(struct city *pcity)
    my_snprintf(buf, sizeof(buf),
 	       _("Inciting a revolt costs %d gold.\n"
 		 "Treasury contains %d gold."), 
-	       pcity->incite_revolt_cost, game.player_ptr->economic.gold);
+	       pcity->incite_revolt_cost, client.playing->economic.gold);
    popup_message_dialog(toplevel, "diplomatnogolddialog", buf,
 			diplomat_incite_no_callback, 0, 0,
 			NULL);

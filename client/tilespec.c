@@ -30,7 +30,7 @@
 #include "base.h"
 #include "capability.h"
 #include "fcintl.h"
-#include "game.h" /* for fill_xxx */
+#include "game.h"		/* game.control.styles_count */
 #include "government.h"
 #include "hash.h"
 #include "log.h"
@@ -52,7 +52,7 @@
 #include "mapview_g.h"		/* for update_map_canvas_visible */
 #include "themes_g.h"
 
-#include "civclient.h"		/* for client_state() */
+#include "civclient.h"
 #include "climap.h"		/* for client_tile_get_known() */
 #include "control.h"		/* for fill_xxx */
 #include "goto.h"
@@ -4053,9 +4053,9 @@ static int fill_grid_sprite_array(const struct tileset *t,
       worked[i] = FALSE;
 
       city[i] = (tile
-		 && (!powner || !game.player_ptr || powner == game.player_ptr)
-		 && (!game.player_ptr
-		     || player_in_city_radius(game.player_ptr, tile)));
+		 && (!powner || !client.playing || powner == client.playing)
+		 && (!client.playing
+		     || player_in_city_radius(client.playing, tile)));
       if (city[i]) {
 	if (citymode) {
 	  /* In citymode, we only draw worked tiles for this city - other

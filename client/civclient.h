@@ -13,7 +13,7 @@
 #ifndef FC__CIVCLIENT_H
 #define FC__CIVCLIENT_H
 
-#include "shared.h"		/* MAX_LEN_NAME */
+#include "fc_types.h"
 
 #include "packets.h"		/* enum report_type */
 #include "worklist.h"
@@ -67,6 +67,7 @@ extern bool in_ggz;
  *
  * TODO: Lots more variables could be added here. */
 extern struct civclient {
+  struct player *playing;
   struct worklist worklists[MAX_NUM_WORKLISTS];
 } client;
 

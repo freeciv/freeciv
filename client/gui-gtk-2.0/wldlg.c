@@ -26,7 +26,6 @@
 #include "citydlg_common.h"
 #include "civclient.h"
 #include "fcintl.h"
-#include "game.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "helpdlg.h"
@@ -464,7 +463,7 @@ static void menu_item_callback(GtkMenuItem *item, struct worklist_data *ptr)
   gint pos;
   struct worklist *pwl;
 
-  if (!game.player_ptr) {
+  if (!client.playing) {
     return;
   }
 
@@ -875,7 +874,7 @@ static void src_selection_callback(GtkTreeSelection *selection, gpointer data)
   /* update widget sensitivity. */
   if (gtk_tree_selection_get_selected(selection, NULL, NULL)) {
     if (can_client_issue_orders()
-	&& ptr->pcity && city_owner(ptr->pcity) == game.player_ptr) {
+	&& ptr->pcity && city_owner(ptr->pcity) == client.playing) {
       gtk_widget_set_sensitive(ptr->change_cmd, TRUE);
       gtk_widget_set_sensitive(ptr->prepend_cmd, TRUE);
       gtk_widget_set_sensitive(ptr->append_cmd, TRUE);
@@ -1418,7 +1417,7 @@ void refresh_worklist(GtkWidget *editor)
   /* update widget sensitivity. */
   if (ptr->pcity) {
     if ((can_client_issue_orders() &&
-	 city_owner(ptr->pcity) == game.player_ptr)) {
+	 city_owner(ptr->pcity) == client.playing)) {
       gtk_widget_set_sensitive(ptr->add_cmd, TRUE);
       gtk_widget_set_sensitive(ptr->dst_view, TRUE);
     } else {

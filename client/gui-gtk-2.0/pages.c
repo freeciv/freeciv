@@ -984,9 +984,9 @@ static void ai_fill_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void start_start_callback(GtkWidget *w, gpointer data)
 {
-  if (game.player_ptr) {
-    dsend_packet_player_ready(&aconnection, game.info.player_idx,
-			      !game.player_ptr->is_ready);
+  if (client.playing) {
+    dsend_packet_player_ready(&aconnection, player_number(client.playing),
+			      !client.playing->is_ready);
   }
 }
 
@@ -996,10 +996,10 @@ static void start_start_callback(GtkWidget *w, gpointer data)
 static void pick_nation_callback(GtkWidget *w, gpointer data)
 {
   if (aconnection.player) {
-    popup_races_dialog(game.player_ptr);
+    popup_races_dialog(client.playing);
   } else if (game.info.is_new_game) {
     send_chat("/take -");
-    popup_races_dialog(game.player_ptr);
+    popup_races_dialog(client.playing);
   }
 }
 
@@ -1235,7 +1235,7 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
     g_signal_connect(GTK_OBJECT(entry), "activate",
 		     GTK_SIGNAL_FUNC(conn_menu_player_command), "aitoggle");
 
-    if (player_number(pplayer) != game.info.player_idx
+    if (pplayer != client.playing
         && game.info.is_new_game) {
       entry = gtk_menu_item_new_with_label(_("Remove player"));
       g_object_set_data_full(G_OBJECT(menu), "remove", entry,

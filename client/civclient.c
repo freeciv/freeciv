@@ -388,7 +388,7 @@ int main(int argc, char *argv[])
      have cosmetic effects only (eg city name suggestions).  --dwp */
   mysrand(time(NULL));
   helpdata_init();
-  boot_help_texts();
+  boot_help_texts(NULL);
 
   tilespec_try_read(tileset_name, user_tileset);
 
@@ -505,8 +505,8 @@ void set_client_state(enum client_states newstate)
     /*
      * Extra kludge for end-game handling of the CMA.
      */
-    if (game.player_ptr) {
-      city_list_iterate(game.player_ptr->cities, pcity) {
+    if (client.playing) {
+      city_list_iterate(client.playing->cities, pcity) {
 	if (cma_is_city_under_agent(pcity, NULL)) {
 	  cma_release_city(pcity);
 	}
@@ -535,11 +535,11 @@ void set_client_state(enum client_states newstate)
       load_ruleset_specific_options();
       create_event(NULL, E_GAME_START, _("Game started."));
       precalc_tech_data();
-      if (game.player_ptr) {
-	player_research_update(game.player_ptr);
+      if (client.playing) {
+	player_research_update(client.playing);
       }
       role_unit_precalcs();
-      boot_help_texts();	/* reboot */
+      boot_help_texts(client.playing);	/* reboot with player */
       can_slide = FALSE;
       update_unit_focus();
       can_slide = TRUE;
@@ -743,7 +743,7 @@ double real_timer_callback(void)
 **************************************************************************/
 bool can_client_issue_orders(void)
 {
-  return (game.player_ptr
+  return (client.playing
 	  && !client_is_observer()
 	  && C_S_RUNNING == client_state());
 }
@@ -755,8 +755,8 @@ bool can_client_issue_orders(void)
 bool can_meet_with_player(const struct player *pplayer)
 {
   return (can_client_issue_orders()
-	  && game.player_ptr
-	  && could_meet_with_player(game.player_ptr, pplayer));
+	  /* && client.playing (above) */
+	  && could_meet_with_player(client.playing, pplayer));
 }
 
 /**************************************************************************
@@ -766,8 +766,8 @@ bool can_meet_with_player(const struct player *pplayer)
 bool can_intel_with_player(const struct player *pplayer)
 {
   return (client_is_observer()
-	  || (game.player_ptr
-	      && could_intel_with_player(game.player_ptr, pplayer)));
+	  || (client.playing
+	      && could_intel_with_player(client.playing, pplayer)));
 }
 
 /**************************************************************************
@@ -777,7 +777,7 @@ bool can_intel_with_player(const struct player *pplayer)
 **************************************************************************/
 bool can_client_change_view(void)
 {
-  return ((game.player_ptr || client_is_observer())
+  return ((client.playing || client_is_observer())
 	  && (C_S_RUNNING == client_state()
 	      || C_S_OVER == client_state()));
 }

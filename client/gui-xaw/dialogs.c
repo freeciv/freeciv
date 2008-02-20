@@ -746,7 +746,7 @@ void popup_unit_select_dialog(struct tile *ptile)
 
     unit_select_ids[i]=punit->id;
 
-    pcity=player_find_city_by_id(game.player_ptr, punit->homecity);
+    pcity=player_find_city_by_id(client.playing, punit->homecity);
     
     my_snprintf(buffer, sizeof(buffer), "%s(%s)\n%s", 
 	    utype_name_translation(punittemp), 
@@ -824,7 +824,7 @@ void unit_select_all_callback(Widget w, XtPointer client_data,
   XtDestroyWidget(unit_select_dialog_shell);
   
   for(i=0; i<unit_select_no; i++) {
-    struct unit *punit = player_find_unit_by_id(game.player_ptr,
+    struct unit *punit = player_find_unit_by_id(client.playing,
 						unit_select_ids[i]);
     if(punit) {
       set_unit_focus(punit);
@@ -846,7 +846,7 @@ void unit_select_callback(Widget w, XtPointer client_data,
   for(i=0; i<unit_select_no; i++) {
 
     if(unit_select_commands[i]==w) {
-      struct unit *punit = player_find_unit_by_id(game.player_ptr,
+      struct unit *punit = player_find_unit_by_id(client.playing,
 						  unit_select_ids[i]);
       if(punit) {
 	set_unit_focus(punit);

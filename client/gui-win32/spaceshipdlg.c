@@ -105,7 +105,7 @@ void refresh_spaceship_dialog(struct player *pplayer)
   pship=&(pdialog->pplayer->spaceship);
 
   if(game.info.spacerace
-     && player_number(pplayer) == game.info.player_idx
+     && pplayer == client.playing
      && pship->state == SSHIP_STARTED
      && pship->success_rate > 0) {
     EnableWindow(GetDlgItem(pdialog->mainwin,IDOK),TRUE);

@@ -20,9 +20,7 @@
 #include <windows.h>
 #include <windowsx.h>
 
-
 #include "fcintl.h"
-#include "game.h"
 #include "government.h"
 #include "packets.h"
 #include "player.h"
@@ -30,6 +28,7 @@
 #include "support.h"
 #include "gui_main.h" 
 
+#include "civclient.h"
 #include "gui_stuff.h"
 #include "mapview.h"
 
@@ -58,7 +57,7 @@ static void rates_set_values(int tax, int no_tax_scroll,
   lux_lock=IsDlgButtonChecked(ratesdlg,ID_RATES_LUXURYLOCK);
   sci_lock=IsDlgButtonChecked(ratesdlg,ID_RATES_SCIENCELOCK);
   
-  maxrate = get_player_bonus(game.player_ptr, EFT_MAX_RATES);
+  maxrate = get_player_bonus(client.playing, EFT_MAX_RATES);
   /* This's quite a simple-minded "double check".. */     
   tax=MIN(tax, maxrate);
   lux=MIN(lux, maxrate);
@@ -327,18 +326,18 @@ popup_rates_dialog(void)
     fcwin_box_add_button(hbox,_("Ok"),IDOK,0,TRUE,TRUE,20);
     fcwin_box_add_button(hbox,_("Cancel"),IDCANCEL,0,TRUE,TRUE,20);
     fcwin_box_add_box(vbox,hbox,TRUE,TRUE,10);
-  
+
     my_snprintf(buf, sizeof(buf), _("%s max rate: %d%%"),
-		government_name_for_player(game.player_ptr),
-		get_player_bonus(game.player_ptr, EFT_MAX_RATES));
+		government_name_for_player(client.playing),
+		get_player_bonus(client.playing, EFT_MAX_RATES));
     SetWindowText(GetDlgItem(ratesdlg,ID_RATES_MAX),buf);
     ScrollBar_SetRange(GetDlgItem(ratesdlg,ID_RATES_TAX),0,10,TRUE);
     ScrollBar_SetRange(GetDlgItem(ratesdlg,ID_RATES_LUXURY),0,10,TRUE);
     ScrollBar_SetRange(GetDlgItem(ratesdlg,ID_RATES_SCIENCE),0,10,TRUE);
-    rates_set_values( game.player_ptr->economic.tax, 0,
-		      game.player_ptr->economic.luxury, 0,
-		      game.player_ptr->economic.science, 0 );          
-    
+    rates_set_values( client.playing->economic.tax, 0,
+		      client.playing->economic.luxury, 0,
+		      client.playing->economic.science, 0 );
+
     fcwin_set_box(ratesdlg,vbox);
     ShowWindow(ratesdlg,SW_SHOWNORMAL);
   }

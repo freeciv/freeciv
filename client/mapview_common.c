@@ -23,7 +23,6 @@
 #include "support.h"
 #include "timing.h"
 
-#include "game.h"
 #include "map.h"
 #include "unitlist.h"
 
@@ -1223,8 +1222,8 @@ static void show_full_citybar(struct canvas *pcanvas,
   const struct citybar_sprites *citybar = get_citybar_sprites(tileset);
   const bool line1 = draw_city_names;
   const bool line2 = ((draw_city_productions || draw_city_growth)
-		      && (!game.player_ptr
-			  || city_owner(pcity) == game.player_ptr));
+		      && (!client.playing
+			  || city_owner(pcity) == client.playing));
   static char name[512], growth[32], prod[512], size[32];
   enum color_std growth_color;
   struct color *owner_color;
@@ -1260,7 +1259,7 @@ static void show_full_citybar(struct canvas *pcanvas,
     get_text_size(&size_rect.w, &size_rect.h, FONT_CITY_SIZE, size);
     get_text_size(&name_rect.w, &name_rect.h, FONT_CITY_NAME, name);
 
-    if (can_player_see_units_in_city(game.player_ptr, pcity)) {
+    if (can_player_see_units_in_city(client.playing, pcity)) {
       int count = unit_list_size(pcity->tile->units);
 
       count = CLIP(0, count, citybar->occupancy.size - 1);
@@ -1440,7 +1439,7 @@ static void show_small_citybar(struct canvas *pcanvas,
     *height += total_height + 3;
   }
   if (draw_city_productions
-      && (city_owner(pcity) == game.player_ptr || !game.player_ptr)) {
+      && (!client.playing || city_owner(pcity) == client.playing)) {
     get_city_mapview_production(pcity, prod, sizeof(prod));
     get_text_size(&prod_rect.w, &prod_rect.h, FONT_CITY_PROD, prod);
 
@@ -1829,7 +1828,7 @@ struct city *find_city_or_settler_near_tile(const struct tile *ptile,
   }
 
   if (pcity) {
-    if (!game.player_ptr || city_owner(pcity) == game.player_ptr) {
+    if (!client.playing || city_owner(pcity) == client.playing) {
       /* rule a */
       return pcity;
     } else {
@@ -1844,7 +1843,7 @@ struct city *find_city_or_settler_near_tile(const struct tile *ptile,
   city_tile_iterate_cxy(ptile, tile1, city_x, city_y) {
     pcity = tile_city(tile1);
     if (pcity
-	&& (!game.player_ptr || city_owner(pcity) == game.player_ptr)
+	&& (!client.playing || city_owner(pcity) == client.playing)
 	&& C_TILE_EMPTY == city_map_status(pcity,
 					   CITY_MAP_SIZE - 1 - city_x,
 					   CITY_MAP_SIZE - 1 - city_y)) {
@@ -1872,7 +1871,7 @@ struct city *find_city_or_settler_near_tile(const struct tile *ptile,
 
   city_tile_iterate(ptile, tile1) {
       unit_list_iterate(tile1->units, psettler) {
-	if ((!game.player_ptr || unit_owner(psettler) == game.player_ptr)
+	if ((!client.playing || unit_owner(psettler) == client.playing)
 	    && unit_has_type_flag(psettler, F_CITIES)
 	    && city_can_be_built_here(psettler->tile, psettler)) {
 	  if (!closest_settler) {
@@ -2134,7 +2133,7 @@ void get_city_mapview_name_and_growth(struct city *pcity,
 {
   my_snprintf(name_buffer, name_buffer_len, city_name(pcity));
 
-  if (!game.player_ptr || city_owner(pcity) == game.player_ptr) {
+  if (!client.playing || city_owner(pcity) == client.playing) {
     int turns = city_turns_to_grow(pcity);
 
     if (turns == 0) {

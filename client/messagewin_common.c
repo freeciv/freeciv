@@ -19,7 +19,6 @@
 #include <string.h>
 
 #include "fcintl.h"
-#include "game.h"
 #include "map.h"
 #include "mem.h"
 
@@ -77,8 +76,8 @@ void update_meswin_dialog(void)
 
   if (!is_meswin_open() && messages_total > 0
       && !client_is_observer()
-      && game.player_ptr
-      && !game.player_ptr->ai.control) {
+      && client.playing
+      && !client.playing->ai.control) {
     popup_meswin_dialog(FALSE);
     change = FALSE;
     return;
@@ -146,9 +145,8 @@ void add_notify_window(char *message, struct tile *ptile,
     if (messages[i].location_ok) {
       struct city *pcity = tile_city(messages[i].tile);
 
-      messages[i].city_ok
-	= (pcity
-	   && can_player_see_city_internals(game.player_ptr, pcity));
+      messages[i].city_ok =
+        (pcity && can_player_see_city_internals(client.playing, pcity));
     } else {
       messages[i].city_ok = FALSE;
     }
@@ -198,7 +196,7 @@ void meswin_popup_city(int message_index)
     }
 
     if (pcity
-	&& can_player_see_units_in_city(game.player_ptr, pcity)) {
+	&& can_player_see_units_in_city(client.playing, pcity)) {
       /* If the event was the city being destroyed, pcity will be NULL
        * and we'd better not try to pop it up.  It's also possible that
        * events will happen on enemy cities; we generally don't want to pop

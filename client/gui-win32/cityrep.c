@@ -18,32 +18,33 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-                         
+
 #include <windows.h>
 #include <windowsx.h>
 
 #include "city.h"
 #include "fcintl.h"
-#include "game.h"
 #include "packets.h"
 #include "shared.h"
 #include "support.h"
 #include "unit.h"
 #include "mem.h"
- 
+
 #include "chatline.h"
 #include "citydlg.h"
 #include "cityrepdata.h"
+#include "civclient.h"
+#include "climisc.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
 #include "optiondlg.h"
 #include "options.h"
 #include "repodlgs.h"
-#include "climisc.h"
 #include "text.h"
-                           
+
 #include "cityrep.h"
+
 extern HINSTANCE freecivhinst;
 extern HFONT font_12courier;
 extern struct connection aconnection;   
@@ -1155,7 +1156,7 @@ city_report_dialog_update(void)
     }
   /* FIXME restore old selection */
   ListBox_ResetContent(GetDlgItem(hCityRep,ID_CITYREP_LIST));
-  city_list_iterate(game.player_ptr->cities, pcity) {
+  city_list_iterate(client.playing->cities, pcity) {
     get_city_text(pcity, row, sizeof(buf[0]));
     full_row[0]=0;
     for(i=0; i<NUM_CREPORT_COLS; i++)

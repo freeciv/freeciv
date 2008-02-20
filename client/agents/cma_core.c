@@ -177,7 +177,7 @@ static bool check_city(int city_id, struct cm_parameter *parameter)
     return FALSE;
   }
 
-  if (city_owner(pcity) != game.player_ptr) {
+  if (city_owner(pcity) != client.playing) {
     cma_release_city(pcity);
     return FALSE;
   }
@@ -527,7 +527,7 @@ void cma_put_city_under_agent(struct city *pcity,
   freelog(LOG_DEBUG, "cma_put_city_under_agent(city='%s'(%d))",
 	  city_name(pcity), pcity->id);
 
-  assert(city_owner(pcity) == game.player_ptr);
+  assert(city_owner(pcity) == client.playing);
 
   cma_set_parameter(ATTR_CITY_CMA_PARAMETER, pcity->id, parameter);
 

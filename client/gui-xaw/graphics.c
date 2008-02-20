@@ -27,7 +27,6 @@
 #include <png.h>
 
 #include "fcintl.h"
-#include "game.h"
 #include "log.h"
 #include "mem.h"
 #include "movement.h"
@@ -36,6 +35,7 @@
 #include "unit.h"
 #include "version.h"
 
+#include "civclient.h"
 #include "climisc.h"
 #include "colors.h"
 #include "gui_main.h"
@@ -604,7 +604,7 @@ Pixmap create_overlay_unit(const struct unit_type *punittype)
 
   /* If we're using flags, put one on the tile */
   if(!solid_color_behind_units)  {
-    struct sprite *flag=get_nation_flag_sprite(tileset,nation_of_player(game.player_ptr));
+    struct sprite *flag = get_nation_flag_sprite(tileset, nation_of_player(client.playing));
 
     XSetClipOrigin(display, civ_gc, 0,0);
     XSetClipMask(display, civ_gc, flag->mask);

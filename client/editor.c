@@ -22,10 +22,10 @@
 #include "log.h"
 #include "support.h"
 
-#include "game.h"
 #include "map.h"
 #include "packets.h"
 
+#include "civclient.h"
 #include "climap.h"
 #include "clinet.h"
 #include "control.h"
@@ -51,7 +51,7 @@ static enum editor_vision_mode selected_vision_mode;
 ****************************************************************************/
 void editor_init_tools(void)
 { 
-  struct player *pplayer = game.player_ptr ? game.player_ptr : player_by_number(0);
+  struct player *pplayer = client.playing ? client.playing : player_by_number(0);
 
   if (selected_unit) {
     destroy_unit_virtual(selected_unit);

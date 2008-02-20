@@ -42,6 +42,8 @@
 #include "support.h"
 #include "unit.h"
 
+#include "civclient.h"
+
 #include "helpdata.h"
 
 /* helper macro for easy conversion from snprintf and cat_snprintf */
@@ -156,16 +158,19 @@ static void insert_generated_table(char *outbuf, size_t outlen, const char *name
   Append text for the requirement.  Something like
 
     "Requires the Communism technology.\n\n"
+
+  pplayer may be NULL.
 *****************************************************************/
-static void insert_requirement(struct requirement *req,
-			       char *buf, size_t bufsz)
+static void insert_requirement(char *buf, size_t bufsz,
+			      struct player *pplayer,
+			      struct requirement *req)
 {
   switch (req->source.kind) {
   case VUT_NONE:
     return;
   case VUT_ADVANCE:
     cat_snprintf(buf, bufsz, _("Requires the %s technology.\n\n"),
-		 advance_name_for_player(game.player_ptr,
+		 advance_name_for_player(pplayer,
 					 advance_number(req->source.value.advance)));
     return;
   case VUT_GOVERNMENT:
@@ -321,9 +326,9 @@ static int help_item_compar(const void *a, const void *b)
 }
 
 /****************************************************************
-...
+  pplayer may be NULL.
 *****************************************************************/
-void boot_help_texts(void)
+void boot_help_texts(struct player *pplayer)
 {
   static bool booted = FALSE;
 
@@ -403,7 +408,7 @@ void boot_help_texts(void)
 	    if (valid_advance_by_number(i)) {
 	      pitem = new_help_item(current_type);
 	      my_snprintf(name, sizeof(name), " %s",
-			  advance_name_for_player(game.player_ptr, i));
+			  advance_name_for_player(pplayer, i));
 	      pitem->topic = mystrdup(name);
 	      pitem->text = mystrdup("");
 	      help_list_append(category_nodes, pitem);
@@ -640,11 +645,11 @@ const struct help_item *help_iter_next(void)
   Write dynamic text for buildings (including wonders).  This includes
   the ruleset helptext as well as any automatically generated text.
 
+  pplayer may be NULL.
   user_text, if non-NULL, will be appended to the text.
 **************************************************************************/
-char *helptext_building(char *buf, size_t bufsz,
-			struct impr_type *pimprove,
-			const char *user_text)
+char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
+			const char *user_text, struct impr_type *pimprove)
 {
   struct universal source = {
     .kind = VUT_IMPROVEMENT,
@@ -665,7 +670,7 @@ char *helptext_building(char *buf, size_t bufsz,
   if (valid_advance(pimprove->obsolete_by)) {
     cat_snprintf(buf, bufsz,
 		 _("* The discovery of %s will make %s obsolete.\n"),
-		 advance_name_for_player(game.player_ptr,
+		 advance_name_for_player(pplayer,
 					 advance_number(pimprove->obsolete_by)),
 		 improvement_name_translation(pimprove));
   }
@@ -680,7 +685,7 @@ char *helptext_building(char *buf, size_t bufsz,
     cat_snprintf(buf, bufsz,
 		 _("* Allows all players with knowledge of %s "
 		   "to build %s units.\n"),
-		 advance_name_for_player(game.player_ptr,
+		 advance_name_for_player(pplayer,
 					 advance_number(u->require_advance)),
 		 utype_name_translation(u));
     cat_snprintf(buf, bufsz, "  ");
@@ -693,7 +698,7 @@ char *helptext_building(char *buf, size_t bufsz,
       if (A_NEVER != u->require_advance) {
 	cat_snprintf(buf, bufsz, _("* Allows %s (with %s).\n"),
 		     utype_name_translation(u),
-		     advance_name_for_player(game.player_ptr,
+		     advance_name_for_player(pplayer,
 					     advance_number(u->require_advance)));
       } else {
 	cat_snprintf(buf, bufsz, _("* Allows %s.\n"),
@@ -722,9 +727,12 @@ char *helptext_building(char *buf, size_t bufsz,
 /****************************************************************************
   Return a string containing the techs that have the flag.  Returns the
   number of techs found.
+
+  pplayer may be NULL.
 ****************************************************************************/
-static int techs_with_flag_string(enum tech_flag_id flag,
-				  char *buf, size_t bufsz)
+static int techs_with_flag_string(char *buf, size_t bufsz,
+				  struct player *pplayer,
+				  enum tech_flag_id flag)
 {
   int count = 0;
 
@@ -732,7 +740,7 @@ static int techs_with_flag_string(enum tech_flag_id flag,
   buf[0] = '\0';
 
   techs_with_flag_iterate(flag, tech_id) {
-    const char *name = advance_name_for_player(game.player_ptr, tech_id);
+    const char *name = advance_name_for_player(pplayer, tech_id);
 
     if (buf[0] == '\0') {
       CATLSTR(buf, bufsz, name);
@@ -749,9 +757,11 @@ static int techs_with_flag_string(enum tech_flag_id flag,
 /****************************************************************
   Append misc dynamic text for units.
   Transport capacity, unit flags, fuel.
+
+  pplayer may be NULL.
 *****************************************************************/
-char *helptext_unit(char *buf, size_t bufsz, struct unit_type *utype,
-		    const char *user_text)
+char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
+		    const char *user_text, struct unit_type *utype)
 {
   assert(NULL != buf && 0 < bufsz && NULL != user_text);
 
@@ -870,7 +880,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct unit_type *utype,
     CATLSTR(buf, bufsz, _("* Can build irrigation on tiles.\n"));
 
     /* Farmland. */
-    switch (techs_with_flag_string(TF_FARMLAND, buf2, sizeof(buf2))) {
+    switch (techs_with_flag_string(buf2, sizeof(buf2), pplayer, TF_FARMLAND)) {
     case 0:
       CATLSTR(buf, bufsz, _("* Can build farmland.\n"));
       break;
@@ -1112,9 +1122,12 @@ char *helptext_unit(char *buf, size_t bufsz, struct unit_type *utype,
 }
 
 /****************************************************************
-  Append misc dynamic text for techs.
+  Append misc dynamic text for advance/technology.
+
+  pplayer may be NULL.
 *****************************************************************/
-void helptext_tech(char *buf, size_t bufsz, int i, const char *user_text)
+void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
+		      const char *user_text, int i)
 {
   struct advance *vap = valid_advance_by_number(i);
   struct universal source = {
@@ -1130,26 +1143,26 @@ void helptext_tech(char *buf, size_t bufsz, int i, const char *user_text)
     return;
   }
 
-  if (player_invention_state(game.player_ptr, i) != TECH_KNOWN) {
-    if (player_invention_state(game.player_ptr, i) == TECH_REACHABLE) {
+  if (player_invention_state(pplayer, i) != TECH_KNOWN) {
+    if (player_invention_state(pplayer, i) == TECH_REACHABLE) {
       cat_snprintf(buf, bufsz,
 		   _("If we would now start with %s we would need %d bulbs."),
-		   advance_name_for_player(game.player_ptr, i),
-		   base_total_bulbs_required(game.player_ptr, i));
-    } else if (player_invention_is_ready(game.player_ptr, i)) {
+		   advance_name_for_player(pplayer, i),
+		   base_total_bulbs_required(pplayer, i));
+    } else if (player_invention_is_ready(pplayer, i)) {
       cat_snprintf(buf, bufsz,
 		   _("To reach %s we need to obtain %d other"
 		     " technologies first. The whole project"
 		     " will require %d bulbs to complete."),
-		   advance_name_for_player(game.player_ptr, i),
-		   num_unknown_techs_for_goal(game.player_ptr, i) - 1,
-		   total_bulbs_required_for_goal(game.player_ptr, i));
+		   advance_name_for_player(pplayer, i),
+		   num_unknown_techs_for_goal(pplayer, i) - 1,
+		   total_bulbs_required_for_goal(pplayer, i));
     } else {
       CATLSTR(buf, bufsz,
 	      _("You cannot research this technology."));
     }
     if (!techs_have_fixed_costs()
-     && player_invention_is_ready(game.player_ptr, i)) {
+     && player_invention_is_ready(pplayer, i)) {
       CATLSTR(buf, bufsz,
 	      _(" This number may vary depending on what "
 		"other players will research.\n"));
@@ -1165,7 +1178,7 @@ void helptext_tech(char *buf, size_t bufsz, int i, const char *user_text)
     cat_snprintf(buf, bufsz,
 		 _("* The first player to research %s gets"
 		   " an immediate advance.\n"),
-		 advance_name_for_player(game.player_ptr, i));
+		 advance_name_for_player(pplayer, i));
   }
   if (advance_has_flag(i, TF_POPULATION_POLLUTION_INC))
     CATLSTR(buf, bufsz,
@@ -1205,8 +1218,8 @@ void helptext_tech(char *buf, size_t bufsz, int i, const char *user_text)
 /****************************************************************
   Append text for terrain.
 *****************************************************************/
-void helptext_terrain(char *buf, size_t bufsz, struct terrain *pterrain,
-		      const char *user_text)
+void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
+		      const char *user_text, struct terrain *pterrain)
 {
   struct universal source = {
     .kind = VUT_TERRAIN,
@@ -1259,11 +1272,13 @@ void helptext_terrain(char *buf, size_t bufsz, struct terrain *pterrain,
 /****************************************************************
   Append text for government.
 
+  pplayer may be NULL.
+
   TODO: Generalize the effects code for use elsewhere. Add
   other requirements.
 *****************************************************************/
-void helptext_government(char *buf, size_t bufsz, struct government *gov,
-			 const char *user_text)
+void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
+			 const char *user_text, struct government *gov)
 {
   struct universal source = {
     .kind = VUT_GOVERNMENT,
@@ -1279,7 +1294,7 @@ void helptext_government(char *buf, size_t bufsz, struct government *gov,
 
   /* Add requirement text for government itself */
   requirement_vector_iterate(&gov->reqs, preq) {
-    insert_requirement(preq, buf, bufsz);
+    insert_requirement(buf, bufsz, pplayer, preq);
   } requirement_vector_iterate_end;
 
   /* Effects */

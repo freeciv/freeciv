@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include "game.h"
 #include "log.h"
 
 #include "civclient.h" /* can_client_change_view() */
@@ -113,9 +112,9 @@ static struct color *overview_tile_color(struct tile *ptile)
     struct city *pcity = tile_city(ptile);
 
     if (pcity) {
-      if (!game.player_ptr || city_owner(pcity) == game.player_ptr) {
+      if (!client.playing || city_owner(pcity) == client.playing) {
 	return get_color(tileset, COLOR_OVERVIEW_MY_CITY);
-      } else if (pplayers_allied(city_owner(pcity), game.player_ptr)) {
+      } else if (pplayers_allied(city_owner(pcity), client.playing)) {
 	/* Includes teams. */
 	return get_color(tileset, COLOR_OVERVIEW_ALLIED_CITY);
       } else {
@@ -127,9 +126,9 @@ static struct color *overview_tile_color(struct tile *ptile)
     struct unit *punit = find_visible_unit(ptile);
 
     if (punit) {
-      if (!game.player_ptr || unit_owner(punit) == game.player_ptr) {
+      if (!client.playing || unit_owner(punit) == client.playing) {
 	return get_color(tileset, COLOR_OVERVIEW_MY_UNIT);
-      } else if (pplayers_allied(unit_owner(punit), game.player_ptr)) {
+      } else if (pplayers_allied(unit_owner(punit), client.playing)) {
 	/* Includes teams. */
 	return get_color(tileset, COLOR_OVERVIEW_ALLIED_UNIT);
       } else {

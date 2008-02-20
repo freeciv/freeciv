@@ -693,7 +693,7 @@ static LONG APIENTRY unitselect_proc(HWND hWnd, UINT message,
 	  break;
 	case UNITSELECT_READY_ALL:
 	  for(i=0; i<unit_select_no; i++) {
-	    struct unit *punit = player_find_unit_by_id(game.player_ptr,
+	    struct unit *punit = player_find_unit_by_id(client.playing,
 							unit_select_ids[i]);
 	    if(punit) {
 	      set_unit_focus(punit);
@@ -704,9 +704,9 @@ static LONG APIENTRY unitselect_proc(HWND hWnd, UINT message,
 	  id-=UNITSELECT_UNITS_BASE;
 	  if ((id>=0)&&(id<100))
 	    {
-	      struct unit *punit=player_find_unit_by_id(game.player_ptr,
-							unit_select_ids[id]);
-	      if (punit && unit_owner(punit) == game.player_ptr) {
+	      struct unit *punit = player_find_unit_by_id(client.playing,
+							  unit_select_ids[id]);
+	      if (punit && unit_owner(punit) == client.playing) {
 		set_unit_focus(punit);
 	      }   
 	    }
@@ -799,9 +799,10 @@ popup_unit_select_dialog(struct tile *ptile)
     {
       struct unit *punit = unit_list[i];
       struct unit_type *punittemp=unit_type(punit);
-      struct city *pcity;
+      struct city *pcity = player_find_city_by_id(client.playing, punit->homecity);
+
       unit_select_ids[i]=punit->id;
-      pcity=player_find_city_by_id(game.player_ptr, punit->homecity);
+
       my_snprintf(buffer, sizeof(buffer), "%s(%s)\n%s",
 		  utype_name_translation(punittemp),
 		  pcity ? city_name(pcity) : "",
@@ -828,7 +829,7 @@ popup_unit_select_dialog(struct tile *ptile)
       struct canvas canvas_store;
       struct unit *punit=unit_list[i];
       struct unit_type *punittemp=unit_type(punit);
-      struct city *pcity;
+      struct city *pcity = player_find_city_by_id(client.playing, punit->homecity);
 
       canvas_store.type = CANVAS_DC;
       canvas_store.hdc = unitsel_dc;
@@ -836,7 +837,6 @@ popup_unit_select_dialog(struct tile *ptile)
       canvas_store.wnd = NULL;
       canvas_store.tmp = NULL;
 
-      pcity=player_find_city_by_id(game.player_ptr, punit->homecity);
       my_snprintf(buffer, sizeof(buffer), "%s(%s)\n%s",
 		  utype_name_translation(punittemp),
 		  pcity ? city_name(pcity) : "",
@@ -970,7 +970,7 @@ static void revolution_callback_no(HWND w, void * data)
 *****************************************************************/
 void popup_revolution_dialog(struct government *gov)
 {
-  if (game.player_ptr->revolution_finishes < game.info.turn) {
+  if (client.playing->revolution_finishes < game.info.turn) {
     popup_message_dialog(NULL, _("Revolution!"),
 			 _("You say you wanna revolution?"),
 			 _("_Yes"),revolution_callback_yes, gov,
@@ -1290,7 +1290,7 @@ pvictim to NULL and account for !pvictim in create_advances_list. -- Syela */
     fcwin_box_add_button(hbox,_("Steal"),IDOK,0,TRUE,TRUE,10);
     EnableWindow(GetDlgItem(spy_tech_dialog,IDOK),FALSE);
     fcwin_box_add_box(vbox,hbox,FALSE,FALSE,5);
-    create_advances_list(game.player_ptr, pvictim, lb);
+    create_advances_list(client.playing, pvictim, lb);
     fcwin_set_box(spy_tech_dialog,vbox);
     ShowWindow(spy_tech_dialog,SW_SHOWNORMAL);
   }
@@ -1306,8 +1306,8 @@ static void spy_request_sabotage_list(HWND w, void * data)
   destroy_message_dialog(w);
   diplomat_dialog=0;
 
-  if(game_find_unit_by_number(diplomat_id) &&
-     (game_find_city_by_number(diplomat_target_id))) {
+  if (game_find_unit_by_number(diplomat_id)
+   && game_find_city_by_number(diplomat_target_id)) {
     request_diplomat_action(SPY_GET_SABOTAGE_LIST, diplomat_id,
 			    diplomat_target_id, 0);
   }
@@ -1344,7 +1344,7 @@ static void diplomat_bribe_callback(HWND w, void * data)
   destroy_message_dialog(w);
   
   if (game_find_unit_by_number(diplomat_id)
-      && game_find_unit_by_number(diplomat_target_id)) { 
+   && game_find_unit_by_number(diplomat_target_id)) { 
     dsend_packet_unit_bribe_inq(&aconnection, diplomat_target_id);
    }
 
@@ -1360,10 +1360,10 @@ void popup_bribe_dialog(struct unit *punit)
     popup_message_dialog(root_window, _("Ooops..."),
                          _("This unit cannot be bribed!"),
                          diplomat_bribe_no_callback, 0, 0);
-  } else if(game.player_ptr->economic.gold>=punit->bribe_cost) {
+  } else if (punit->bribe_cost <= client.playing->economic.gold) {
     my_snprintf(buf, sizeof(buf),
                 _("Bribe unit for %d gold?\nTreasury contains %d gold."), 
-                punit->bribe_cost, game.player_ptr->economic.gold);
+                punit->bribe_cost, client.playing->economic.gold);
     popup_message_dialog(root_window, /*"diplomatbribedialog"*/_("Bribe Enemy Unit"
 ), buf,
                         _("_Yes"), diplomat_bribe_yes_callback, 0,
@@ -1372,7 +1372,7 @@ void popup_bribe_dialog(struct unit *punit)
     my_snprintf(buf, sizeof(buf),
                 _("Bribing the unit costs %d gold.\n"
                   "Treasury contains %d gold."), 
-                punit->bribe_cost, game.player_ptr->economic.gold);
+                punit->bribe_cost, client.playing->economic.gold);
     popup_message_dialog(root_window, /*"diplomatnogolddialog"*/
 	    	_("Traitors Demand Too Much!"), buf, _("Darn"),
 		diplomat_bribe_no_callback, 0, 0);
@@ -1489,7 +1489,7 @@ void popup_sabotage_dialog(struct city *pcity)
     fcwin_box_add_button(hbox,_("Sabotage"),IDOK,0,TRUE,TRUE,10);
     EnableWindow(GetDlgItem(spy_sabotage_dialog,IDOK),FALSE);
     fcwin_box_add_box(vbox,hbox,FALSE,FALSE,5);
-    create_improvements_list(game.player_ptr, pcity, lb);
+    create_improvements_list(client.playing, pcity, lb);
     fcwin_set_box(spy_sabotage_dialog,vbox);
     ShowWindow(spy_sabotage_dialog,SW_SHOWNORMAL);
   }
@@ -1527,7 +1527,8 @@ static void diplomat_incite_callback(HWND w, void * data)
   destroy_message_dialog(w);
   diplomat_dialog = 0;
 
-  if (game_find_unit_by_number(diplomat_id) && game_find_city_by_number(diplomat_target_id)) {
+  if (game_find_unit_by_number(diplomat_id)
+   && game_find_city_by_number(diplomat_target_id)) {
     dsend_packet_city_incite_inq(&aconnection, diplomat_target_id);
   }
 }
@@ -1539,15 +1540,15 @@ void popup_incite_dialog(struct city *pcity)
 {
   char buf[128];
 
-  if (pcity->incite_revolt_cost == INCITE_IMPOSSIBLE_COST) {
+  if (INCITE_IMPOSSIBLE_COST == pcity->incite_revolt_cost) {
     my_snprintf(buf, sizeof(buf), _("You can't incite a revolt in %s."),
 		city_name(pcity));
     popup_message_dialog(root_window, _("City can't be incited!"), buf,
 			 _("Darn"), diplomat_incite_no_callback, 0, 0);
-  } else if (game.player_ptr->economic.gold >= pcity->incite_revolt_cost) {
+  } else if (pcity->incite_revolt_cost <= client.playing->economic.gold) {
     my_snprintf(buf, sizeof(buf),
 		_("Incite a revolt for %d gold?\nTreasury contains %d gold."), 
-		pcity->incite_revolt_cost, game.player_ptr->economic.gold);
+		pcity->incite_revolt_cost, client.playing->economic.gold);
    diplomat_target_id = pcity->id;
    popup_message_dialog(root_window, /*"diplomatrevoltdialog"*/_("Incite a Revolt!"), buf,
 		       _("_Yes"), diplomat_incite_yes_callback, 0,
@@ -1556,7 +1557,7 @@ void popup_incite_dialog(struct city *pcity)
     my_snprintf(buf, sizeof(buf),
 		_("Inciting a revolt costs %d gold.\n"
 		  "Treasury contains %d gold."), 
-		pcity->incite_revolt_cost, game.player_ptr->economic.gold);
+		pcity->incite_revolt_cost, client.playing->economic.gold);
    popup_message_dialog(root_window, /*"diplomatnogolddialog"*/_("Traitors Demand Too Much!"), buf,
 		       _("Darn"), diplomat_incite_no_callback, 0, 
 		       0);

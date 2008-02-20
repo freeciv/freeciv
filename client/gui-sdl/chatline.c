@@ -571,7 +571,7 @@ static int start_game_callback(struct widget *pWidget)
 static int select_nation_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    popup_races_dialog(game.player_ptr);
+    popup_races_dialog(client.playing);
   }  
   return -1;
 }

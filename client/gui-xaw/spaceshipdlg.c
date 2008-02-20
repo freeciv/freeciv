@@ -42,6 +42,8 @@
 #include "spaceship.h"
 #include "support.h"
 
+#include "civclient.h"
+#include "climisc.h"
 #include "clinet.h"
 #include "colors.h"
 #include "dialogs.h"
@@ -55,7 +57,6 @@
 #include "repodlgs.h"
 #include "text.h"
 #include "tilespec.h"
-#include "climisc.h"
 
 #include "spaceshipdlg.h"
 
@@ -124,7 +125,7 @@ void refresh_spaceship_dialog(struct player *pplayer)
   pship=&(pdialog->pplayer->spaceship);
 
   if (game.info.spacerace
-     && player_number(pplayer) == game.info.player_idx
+     && pplayer == client.playing
      && pship->state == SSHIP_STARTED
      && pship->success_rate > 0) {
     XtSetSensitive(pdialog->launch_command, TRUE);

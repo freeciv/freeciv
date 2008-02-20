@@ -27,7 +27,7 @@ struct help_item {
 void helpdata_init(void);
 void helpdata_done(void);
 
-void boot_help_texts(void);
+void boot_help_texts(struct player *pplayer);
 void free_help_texts(void);
 
 int num_help_items(void);
@@ -38,16 +38,16 @@ const struct help_item *get_help_item_spec(const char *name,
 void help_iter_start(void);
 const struct help_item *help_iter_next(void);
 
-char *helptext_building(char *buf, size_t bufsz,
-			struct impr_type *pimprove,
-			const char *user_text);
-char *helptext_unit(char *buf, size_t bufsz, struct unit_type *putype,
-		    const char *user_text);
-void helptext_tech(char *buf, size_t bufsz, int i, const char *user_text);
-void helptext_terrain(char *buf, size_t bufsz, struct terrain *pterrain,
-		      const char *user_text);
-void helptext_government(char *buf, size_t bufsz, struct government *gov,
-			 const char *user_text);
+char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
+			const char *user_text, struct impr_type *pimprove);
+char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
+		    const char *user_text, struct unit_type *utype);
+void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
+		      const char *user_text, int i);
+void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
+		      const char *user_text, struct terrain *pterrain);
+void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
+			 const char *user_text, struct government *gov);
 
 char *helptext_unit_upkeep_str(struct unit_type *punittype);
 

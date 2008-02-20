@@ -950,7 +950,7 @@ void update_menus(void)
       hide_group(pBeginOrderWidgetList, pEndOrderWidgetList);
     }
 
-  } else if (!game.player_ptr) {
+  } else if (!client.playing) {
     
     /* running state, but AI is playing */
     
@@ -1304,7 +1304,7 @@ void update_menus(void)
 	local_hide(ID_UNIT_ORDER_AIRLIFT);
       }
 
-      if (pCity && can_upgrade_unittype(game.player_ptr, unit_type(pUnit))) {
+      if (pCity && can_upgrade_unittype(client.playing, unit_type(pUnit))) {
 	local_show(ID_UNIT_ORDER_UPGRADE);
       } else {
 	local_hide(ID_UNIT_ORDER_UPGRADE);

@@ -313,7 +313,7 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
   }
   case VUT_IMPROVEMENT:
   {
-    struct player *pplayer = pcity ? city_owner(pcity) : game.player_ptr;
+    struct player *pplayer = pcity ? city_owner(pcity) : client.playing;
     struct impr_type *pimprove = target.value.building;
 
     /* Total & turns left meaningless on capitalization */
@@ -587,7 +587,7 @@ void activate_all_units(struct tile *ptile)
   struct unit *pmyunit = NULL;
 
   unit_list_iterate(punit_list, punit) {
-    if (game.player_ptr == unit_owner(punit)) {
+    if (unit_owner(punit) == client.playing) {
       /* Activate this unit. */
       pmyunit = punit;
       request_new_unit_activity(punit, ACTIVITY_IDLE);
@@ -852,7 +852,7 @@ bool city_can_buy(const struct city *pcity)
    * buying; that's handled separately (and with an error message). */
   return (can_client_issue_orders()
 	  && pcity
-	  && city_owner(pcity) == game.player_ptr
+	  && city_owner(pcity) == client.playing
 	  && pcity->turn_founded != game.info.turn
 	  && !pcity->did_buy
 	  && (VUT_UTYPE == pcity->production.kind

@@ -23,7 +23,6 @@
 
 /* common */
 #include "diptreaty.h"
-#include "game.h"
 
 /* client */
 #include "civclient.h"
@@ -95,7 +94,8 @@ void diplomacy_dialog_done()
 *****************************************************************/
 static struct diplomacy_dialog *get_diplomacy_dialog(int other_player_id)
 {
-  struct player *plr0 = game.player_ptr, *plr1 = player_by_number(other_player_id);
+  struct player *plr0 = client.playing;
+  struct player *plr1 = player_by_number(other_player_id);
 
   dialog_list_iterate(dialog_list, pdialog) {
     if ((pdialog->treaty.plr0 == plr0 && pdialog->treaty.plr1 == plr1) ||
@@ -430,7 +430,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   height = 0;
   
   /* Pacts. */
-  if (game.player_ptr == pPlayer0 && type != DS_ALLIANCE) {
+  if (pPlayer0 == client.playing && DS_ALLIANCE != type) {
     
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 			  _("Pacts"), adj_font(12), WF_RESTORE_BACKGROUND);
@@ -998,7 +998,7 @@ static void update_clauses_list(struct diplomacy_dialog *pdialog) {
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
      (WF_FREE_DATA|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_RESTORE_BACKGROUND));
         
-    if(player_number(pclause->from) != game.info.player_idx) {
+    if (pclause->from != client.playing) {
        pBuf->string16->style |= SF_CENTER_RIGHT;  
     }
   
@@ -1114,12 +1114,12 @@ void handle_diplomacy_init_meeting(int counterpart, int initiated_from)
     return;
   }
 
-  if (game.player_ptr->ai.control) {
+  if (client.playing->ai.control) {
     return;			/* Don't show if we are AI controlled. */
   }
 
   if (!(pdialog = get_diplomacy_dialog(counterpart))) {
-    pdialog = create_diplomacy_dialog(game.player_ptr,
+    pdialog = create_diplomacy_dialog(client.playing,
 				player_by_number(counterpart));
   } else {
     /* bring existing dialog to front */
@@ -1371,10 +1371,10 @@ static void popup_war_dialog(struct player *pPlayer)
 void popup_diplomacy_dialog(struct player *pPlayer)
 {
   enum diplstate_type type =
-		  pplayer_get_diplstate(game.player_ptr, pPlayer)->type;
+		  pplayer_get_diplstate(client.playing, pPlayer)->type;
 
-  if(!can_meet_with_player(pPlayer)) {
-    if(type == DS_WAR || pPlayer == game.player_ptr) {
+  if (!can_meet_with_player(pPlayer)) {
+    if (DS_WAR == type || pPlayer == client.playing) {
       flush_dirty();
       return;
     } else {
@@ -1448,9 +1448,9 @@ void popup_diplomacy_dialog(struct player *pPlayer)
       pBuf->next->size.w = pBuf->size.w;
       button_w = MAX(button_w , pBuf->size.w);
       button_h = MAX(button_h , pBuf->size.h);
-    
-      shared = gives_shared_vision(game.player_ptr, pPlayer);
-      
+
+      shared = gives_shared_vision(client.playing, pPlayer);
+
       if(shared) {
         /* shared vision */
         pBuf = create_themeicon_button_from_chars(pTheme->UNITS2_Icon, pWindow->dst,

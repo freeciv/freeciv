@@ -65,7 +65,6 @@
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "happiness.h"
-#include "helpdata.h"                   /* boot_help_texts() */
 #include "inteldlg.h"
 #include "mapctrl.h"
 #include "mapview.h"
@@ -1560,10 +1559,10 @@ void update_conn_list_dialog(void)
 {
   GtkTreeIter it[player_count()];
 
-  if (game.player_ptr) {
+  if (client.playing) {
     char *text;
 
-    if (game.player_ptr->is_ready) {
+    if (client.playing->is_ready) {
       text = _("Not _ready");
     } else {
       int num_unready = 0;
@@ -1587,7 +1586,7 @@ void update_conn_list_dialog(void)
   } else {
     gtk_stockbutton_set_label(ready_button, _("_Start"));
   }
-  gtk_widget_set_sensitive(ready_button, (game.player_ptr != NULL));
+  gtk_widget_set_sensitive(ready_button, (NULL != client.playing));
 
   gtk_stockbutton_set_label(nation_button, _("Pick _Nation"));
   if (!aconnection.player) {
@@ -1789,7 +1788,7 @@ static gboolean select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev,
     return TRUE;
 
   punit = game_find_unit_by_number(unit_ids[i]);
-  if (punit && unit_owner(punit) == game.player_ptr) {
+  if (punit && unit_owner(punit) == client.playing) {
     /* Unit shouldn't be NULL but may be owned by an ally. */
     set_unit_focus(punit);
   }

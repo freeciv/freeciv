@@ -562,7 +562,7 @@ static void append_cma_to_menu_item(GtkMenuItem *parent_item, bool change_cma)
     int found;
 
     found = 0;
-    city_list_iterate(game.player_ptr->cities, pcity) {
+    city_list_iterate(client.playing->cities, pcity) {
       if (!cma_is_city_under_agent(pcity, NULL)) {
 	found = 1;
 	break;
@@ -581,7 +581,7 @@ static void append_cma_to_menu_item(GtkMenuItem *parent_item, bool change_cma)
      * take a lonnggg time.
      */
     found = 0;
-    city_list_iterate(game.player_ptr->cities, pcity) {
+    city_list_iterate(client.playing->cities, pcity) {
       if (cma_is_city_under_agent(pcity, &parameter) &&
 	  cmafec_preset_get_index_of_parameter(&parameter) == -1) {
 	found = 1;
@@ -601,7 +601,7 @@ static void append_cma_to_menu_item(GtkMenuItem *parent_item, bool change_cma)
     /* only fill in presets that are being used. */
     for (i = 0; i < cmafec_preset_num(); i++) {
       found = 0;
-      city_list_iterate(game.player_ptr->cities, pcity) {
+      city_list_iterate(client.playing->cities, pcity) {
 	if (cma_is_city_under_agent(pcity, &parameter) &&
 	    cm_are_parameter_equal(&parameter,
 				   cmafec_preset_get_parameter(i))) {
@@ -1112,8 +1112,8 @@ static void update_row(GtkTreeIter *row, struct city *pcity)
 *****************************************************************/
 static void city_model_init(void)
 {
-  if (city_dialog_shell && !is_report_dialogs_frozen() && game.player_ptr) {
-    city_list_iterate(game.player_ptr->cities, pcity) {
+  if (client.playing && city_dialog_shell && !is_report_dialogs_frozen()) {
+    city_list_iterate(client.playing->cities, pcity) {
       GtkTreeIter it;
 
       gtk_list_store_append(city_model, &it);
@@ -1150,8 +1150,8 @@ void city_report_dialog_update(void)
     /* update. */
     gtk_list_store_clear(city_model);
 
-    if (game.player_ptr) {
-      city_list_iterate(game.player_ptr->cities, pcity) {
+    if (client.playing) {
+      city_list_iterate(client.playing->cities, pcity) {
 	gtk_list_store_append(city_model, &it);
 	update_row(&it, pcity);
 

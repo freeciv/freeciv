@@ -305,7 +305,7 @@ const char *mapview_get_unit_action_tooltip(struct unit *punit,
     my_snprintf(irrtext, sizeof(irrtext), irrfmt,
 		terrain_name_translation(tinfo->irrigation_result));
   } else if (tile_has_special(punit->tile, S_IRRIGATION)
-	     && player_knows_techs_with_flag(game.player_ptr, TF_FARMLAND)) {
+	     && player_knows_techs_with_flag(client.playing, TF_FARMLAND)) {
     sz_strlcpy(irrtext, _("Bu_ild Farmland"));
   }
   if ((tinfo->mining_result != T_LAST) && (tinfo->mining_result != ttype)) {
@@ -344,7 +344,7 @@ const char *mapview_get_city_action_tooltip(struct city *pcity,
     add_line(_("Buy production"));
     add_line(_("Cost: %d (%d in treasury)"),
 	     city_production_buy_gold_cost(pcity),
-	     game.player_ptr->economic.gold);
+	     client.playing->economic.gold);
     add_line(_("Producting: %s (%d turns)"),
 	     city_production_name_translation(pcity),
 	     city_production_turns_to_build(pcity, TRUE));
@@ -391,7 +391,7 @@ const char *mapview_get_unit_tooltip_text(struct unit *punit)
 {
   struct unit_type *ptype = unit_type(punit);
   struct city *pcity =
-      player_find_city_by_id(game.player_ptr, punit->homecity);
+      player_find_city_by_id(client.playing, punit->homecity);
   INIT;
 
   add("%s", utype_name_translation(ptype));
@@ -423,7 +423,7 @@ const char *mapview_get_unit_info_text(struct unit *punit)
     struct player *owner = unit_owner(punit);
     struct unit_type *ptype = unit_type(punit);
 
-    if (owner == game.player_ptr) {
+    if (owner == client.playing) {
       struct city *pcity = player_find_city_by_id(owner, punit->homecity);
 
       if (pcity){

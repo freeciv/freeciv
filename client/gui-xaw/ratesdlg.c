@@ -28,7 +28,6 @@
 #include <X11/Xaw/Toggle.h>     
 
 #include "fcintl.h"
-#include "game.h"
 #include "government.h"
 #include "packets.h"
 #include "player.h"
@@ -96,8 +95,8 @@ void popup_rates_dialog(void)
   XtVaSetValues(rates_dialog_shell, XtNx, x, XtNy, y, NULL);
 
   my_snprintf(buf, sizeof(buf), _("%s max rate: %d%%"),
-	      government_name_for_player(game.player_ptr),
-	      get_player_bonus(game.player_ptr, EFT_MAX_RATES));
+	      government_name_for_player(client.playing),
+	      get_player_bonus(client.playing, EFT_MAX_RATES));
   xaw_set_label(rates_gov_label, buf);
   
   XtPopup(rates_dialog_shell, XtGrabNone);
@@ -212,9 +211,9 @@ void create_rates_dialog(void)
   rates_lux_value=-1;
   rates_sci_value=-1;
   
-  rates_set_values(game.player_ptr->economic.tax, 0,
-		   game.player_ptr->economic.luxury, 0,
-		   game.player_ptr->economic.science, 0);
+  rates_set_values(client.playing->economic.tax, 0,
+		   client.playing->economic.luxury, 0,
+		   client.playing->economic.science, 0);
 }
 
 
@@ -267,7 +266,7 @@ void rates_set_values(int tax, int no_tax_scroll,
   XtVaGetValues(rates_lux_toggle, XtNstate, &lux_lock, NULL);
   XtVaGetValues(rates_sci_toggle, XtNstate, &sci_lock, NULL);
   
-  maxrate = get_player_bonus(game.player_ptr, EFT_MAX_RATES);
+  maxrate = get_player_bonus(client.playing, EFT_MAX_RATES);
   /* This's quite a simple-minded "double check".. */
   tax=MIN(tax, maxrate);
   lux=MIN(lux, maxrate);
