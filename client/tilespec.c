@@ -3616,13 +3616,14 @@ static int fill_city_overlays_sprite_array(const struct tileset *t,
     pcity = find_city_or_settler_near_tile(ptile, &psettler);
   }
 
-  if (pcity && map_to_city_map(&city_x, &city_y, pcity, ptile)) {
+  if (pcity && city_base_to_city_map(&city_x, &city_y, pcity, ptile)) {
+    enum city_tile_type ctt = city_map_status(pcity, city_x, city_y);
+
     if (!citymode && pcity->client.colored) {
       /* Add citymap overlay for a city. */
-      enum city_tile_type worker = get_worker_city(pcity, city_x, city_y);
       int index = pcity->client.color_index % NUM_CITY_COLORS;
 
-      switch (worker) {
+      switch (ctt) {
       case C_TILE_EMPTY:
 	ADD_SPRITE_SIMPLE(t->sprites.city.unworked_tile_overlay.p[index]);
 	break;
@@ -3632,14 +3633,11 @@ static int fill_city_overlays_sprite_array(const struct tileset *t,
       case C_TILE_UNAVAILABLE:
 	break;
       }
-    }
-
-    if (get_worker_city(pcity, city_x, city_y) == C_TILE_WORKER
-	&& (citymode || pcity->client.colored)) {
+    } else if (C_TILE_WORKER == ctt) {
       /* Add on the tile output sprites. */
-      int food = city_get_output_tile(city_x, city_y, pcity, O_FOOD);
-      int shields = city_get_output_tile(city_x, city_y, pcity, O_SHIELD);
-      int trade = city_get_output_tile(city_x, city_y, pcity, O_TRADE);
+      int food = city_tile_output_now(pcity, ptile, O_FOOD);
+      int shields = city_tile_output_now(pcity, ptile, O_SHIELD);
+      int trade = city_tile_output_now(pcity, ptile, O_TRADE);
       const int ox = t->is_isometric ? t->normal_tile_width / 3 : 0;
       const int oy = t->is_isometric ? -t->normal_tile_height / 3 : 0;
 
@@ -4045,7 +4043,7 @@ static int fill_grid_sprite_array(const struct tileset *t,
 	unit_list_iterate(pfocus_units, pfocus_unit) {
 	  if (unit_has_type_flag(pfocus_unit, F_CITIES)
 	      && city_can_be_built_here(pfocus_unit->tile, pfocus_unit)
-	      && base_map_to_city_map(&dummy_x, &dummy_y,
+	      && city_tile_to_city_map(&dummy_x, &dummy_y,
 				      pfocus_unit->tile, tile)) {
 	    unit[i] = TRUE;
 	    break;
@@ -4060,26 +4058,11 @@ static int fill_grid_sprite_array(const struct tileset *t,
 		     || player_in_city_radius(game.player_ptr, tile)));
       if (city[i]) {
 	if (citymode) {
-	  int cx, cy;
-
-	  if (map_to_city_map(&cx, &cy, citymode, tile)) {
-	    /* In citymode, we only draw worked tiles for this city - other
-	     * tiles may be marked as unavailable. */
-	    worked[i] = citymode->city_map[cx][cy] == C_TILE_WORKER;
-	  }
+	  /* In citymode, we only draw worked tiles for this city - other
+	   * tiles may be marked as unavailable. */
+	  worked[i] = (tile_worked(tile) == citymode);
 	} else {
-	  enum city_tile_type ttype;
-	  struct city *dummy;
-
-	  get_worker_on_map_position(tile, &ttype, &dummy);
-	  switch (ttype) {
-	  case C_TILE_EMPTY:
-	  case C_TILE_UNAVAILABLE:
-	    break;
-	  case C_TILE_WORKER:
-	    worked[i] = TRUE;
-	    break;
-	  }
+	  worked[i] = (NULL != tile_worked(tile));
 	}
       }
     }
@@ -4129,14 +4112,10 @@ static int fill_grid_sprite_array(const struct tileset *t,
     }
   } else if (ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
     int cx, cy;
-    enum city_tile_type ttype;
-    struct city *dummy;
 
-    if ((citymode
-	 && map_to_city_map(&cx, &cy, citymode, ptile)
-	 && citymode->city_map[cx][cy] == C_TILE_UNAVAILABLE)
-	|| (get_worker_on_map_position(ptile, &ttype, &dummy),
-	    ttype == C_TILE_UNAVAILABLE)) {
+    if (citymode
+	 && city_base_to_city_map(&cx, &cy, citymode, ptile)
+	 && citymode->city_map[cx][cy] == C_TILE_UNAVAILABLE) {
       ADD_SPRITE_SIMPLE(t->sprites.grid.unavailable);
     }
   }
@@ -4245,7 +4224,7 @@ int fill_sprite_array(struct tileset *t,
     }
 
     for (i = 0; i < count; i++) {
-      if (tiles[i] && map_to_city_map(&cx, &cy, citymode, tiles[i])) {
+      if (tiles[i] && city_base_to_city_map(&cx, &cy, citymode, tiles[i])) {
 	valid = TRUE;
 	break;
       }

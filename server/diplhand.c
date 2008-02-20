@@ -526,8 +526,9 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
      * way but no clauses affecting both parties or going other
      * way. */
     if (worker_refresh_required) {
-      check_city_workers(pplayer);
-      check_city_workers(pother);
+      city_map_update_all_cities_for_player(pplayer);
+      city_map_update_all_cities_for_player(pother);
+      sync_cities();
     }
 
   cleanup:

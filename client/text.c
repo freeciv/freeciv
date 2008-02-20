@@ -49,7 +49,7 @@ const char *get_tile_output_text(const struct tile *ptile)
 
   for (i = 0; i < O_MAX; i++) {
     int before_penalty = 0;
-    int x = get_output_tile(ptile, i);
+    int x = city_tile_output(NULL, ptile, FALSE, i);
 
     if (game.player_ptr) {
       before_penalty = get_player_output_bonus(game.player_ptr,

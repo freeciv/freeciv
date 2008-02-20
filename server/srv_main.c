@@ -523,8 +523,9 @@ static void update_diplomatics(void)
           state2->type = DS_WAR;
           state->turns_left = 0;
           state2->turns_left = 0;
-          check_city_workers(plr1);
-          check_city_workers(plr2);
+          city_map_update_all_cities_for_player(plr1);
+          city_map_update_all_cities_for_player(plr2);
+          sync_cities();
 
           /* Avoid love-love-hate triangles */
           players_iterate(plr3) {

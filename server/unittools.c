@@ -914,24 +914,32 @@ static bool find_a_good_partisan_spot(struct city *pcity,
 				      struct unit_type *u_type,
 				      struct tile **dst_tile)
 {
+  struct tile *pcenter = city_tile(pcity);
+  struct player *powner = city_owner(pcity);
   int bestvalue = 0;
+
   /* coords of best tile in arg pointers */
-  map_city_radius_iterate(pcity->tile, ptile) {
+  city_tile_iterate(pcenter, ptile) {
     int value;
+
     if (is_ocean_tile(ptile)) {
       continue;
     }
-    if (tile_city(ptile))
+
+    if (NULL != tile_city(ptile)) {
       continue;
-    if (unit_list_size(ptile->units) > 0)
+    }
+
+    if (0 < unit_list_size(ptile->units)) {
       continue;
+    }
 
     /* City has not changed hands yet; see place_partisans(). */
-    value = get_virtual_defense_power(NULL, u_type, city_owner(pcity),
+    value = get_virtual_defense_power(NULL, u_type, powner,
 				      ptile, FALSE, 0);
     value *= 10;
 
-    if (tile_continent(ptile) != tile_continent(pcity->tile)) {
+    if (tile_continent(ptile) != tile_continent(pcenter)) {
       value /= 2;
     }
 
@@ -941,7 +949,7 @@ static bool find_a_good_partisan_spot(struct city *pcity,
       *dst_tile = ptile;
       bestvalue = value;
     }
-  } map_city_radius_iterate_end;
+  } city_tile_iterate_end;
 
   return bestvalue > 0;
 }
@@ -1355,13 +1363,7 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
   wakeup_neighbor_sentries(punit);
 
   /* The unit may have changed the available tiles in nearby cities. */
-  map_city_radius_iterate(ptile, ptile1) {
-    struct city *acity = tile_city(ptile1);
-
-    if (acity) {
-      update_city_tile_status_map(acity, ptile);
-    }
-  } map_city_radius_iterate_end;
+  city_map_update_tile_near_city(NULL, ptile, FALSE);
 
   sync_cities();
 
@@ -1436,22 +1438,20 @@ static void server_remove_unit(struct unit *punit)
   punit = NULL;
 
   /* This unit may have blocked tiles of adjacent cities. Update them. */
-  map_city_radius_iterate(ptile, ptile1) {
-    struct city *pcity = tile_city(ptile1);
-    if (pcity) {
-      update_city_tile_status_map(pcity, ptile);
-    }
-  } map_city_radius_iterate_end;
+  city_map_update_tile_near_city(NULL, ptile, FALSE);
+
   sync_cities();
 
   if (phomecity) {
     city_refresh(phomecity);
     send_city_info(city_owner(phomecity), phomecity);
   }
+
   if (pcity && pcity != phomecity) {
     city_refresh(pcity);
     send_city_info(city_owner(pcity), pcity);
   }
+
   if (pcity && unit_list_size(ptile->units) == 0) {
     /* The last unit in the city was killed: update the occupied flag. */
     send_city_info(NULL, pcity);
@@ -2588,23 +2588,11 @@ static void unit_move_consequences(struct unit *punit,
      after. Update the relevant cities. */
 
   /* First check cities near the source. */
-  map_city_radius_iterate(src_tile, tile1) {
-    struct city *pcity = tile_city(tile1);
+  city_map_update_tile_near_city(NULL, src_tile, TRUE);
 
-    if (pcity) {
-      update_city_tile_status_map(pcity, src_tile);
-      send_city_info(NULL, pcity);
-    }
-  } map_city_radius_iterate_end;
   /* Then check cities near the destination. */
-  map_city_radius_iterate(dst_tile, tile1) {
-    struct city *pcity = tile_city(tile1);
+  city_map_update_tile_near_city(NULL, dst_tile, TRUE);
 
-    if (pcity) {
-      update_city_tile_status_map(pcity, dst_tile);
-      send_city_info(NULL, pcity);
-    }
-  } map_city_radius_iterate_end;
   sync_cities();
 }
 

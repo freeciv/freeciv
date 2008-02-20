@@ -310,16 +310,6 @@ void cm_free(void)
 
 
 /***************************************************************************
-  Iterate over all valid city tiles (that is, don't iterate over tiles
-  off the edge of the world).
- ***************************************************************************/
-#define my_city_map_iterate(pcity, cx, cy) \
-  city_map_checked_iterate(pcity->tile, cx, cy, itr_tile)
-
-#define my_city_map_iterate_end city_map_checked_iterate_end;
-
-
-/***************************************************************************
   Functions of tile-types.
  ***************************************************************************/
 
@@ -633,10 +623,12 @@ static void apply_solution(struct cm_state *state,
   /* Clear all specialists, and remove all workers from fields (except
    * the city center). */
   memset(&pcity->specialists, 0, sizeof(pcity->specialists));
+
   city_map_iterate(x, y) {
-    if (is_free_worked_tile(x, y)) {
+    if (is_free_worked_here(x, y)) {
       continue;
     }
+
     if (pcity->city_map[x][y] == C_TILE_WORKER) {
       pcity->city_map[x][y] = C_TILE_EMPTY;
     }
@@ -844,14 +836,14 @@ static int compare_tile_type_by_stat(const void *va, const void *vb)
   Compute the production of tile [x,y] and stuff it into the tile type.
   Doesn't touch the other fields.
 ****************************************************************************/
-static void compute_tile_production(const struct city *pcity, int x, int y,
+static void compute_tile_production(const struct city *pcity,
+				    const struct tile *ptile,
 				    struct cm_tile_type *out)
 {
   bool is_celebrating = base_city_celebrating(pcity);
 
   output_type_iterate(o) {
-    out->production[o] = base_city_get_output_tile(x, y, pcity,
-						   is_celebrating, o);
+    out->production[o] = city_tile_output(pcity, ptile, is_celebrating, o);
   } output_type_iterate_end;
 }
 
@@ -1116,18 +1108,23 @@ static void init_tile_lattice(const struct city *pcity,
 			      struct tile_type_vector *lattice)
 {
   struct cm_tile_type type;
+  struct tile *pcenter = city_tile(pcity);
 
   /* add all the fields into the lattice */
   tile_type_init(&type); /* init just once */
-  my_city_map_iterate(pcity, x, y) {
+
+  city_tile_iterate_cxy(pcenter, ptile, x, y) {
+    if (is_free_worked(pcity, ptile)) {
+      continue;
+    }
+
     if (pcity->city_map[x][y] == C_TILE_UNAVAILABLE) {
       continue;
     }
-    if (!is_free_worked_tile(x, y)) {
-      compute_tile_production(pcity, x, y, &type); /* clobbers type */
-      tile_type_lattice_add(lattice, &type, x, y); /* copy type if needed */
-    }
-  } my_city_map_iterate_end;
+
+    compute_tile_production(pcity, ptile, &type); /* clobbers type */
+    tile_type_lattice_add(lattice, &type, x, y); /* copy type if needed */
+  } city_tile_iterate_cxy_end;
 
   /* Add all the specialists into the lattice.  */
   init_specialist_lattice_nodes(lattice, pcity);
@@ -1520,6 +1517,7 @@ static bool choice_is_promising(struct cm_state *state, int newchoice)
 static void init_min_production(struct cm_state *state)
 {
   struct city *pcity = state->pcity;
+  struct tile *pcenter = city_tile(pcity);
   bool is_celebrating = base_city_celebrating(pcity);
 
   /* We used to call generic_city_refresh here, but that's no longer
@@ -1552,11 +1550,13 @@ static void init_min_production(struct cm_state *state)
        * is possible and we can probably short-cut everything. */
       min = min * 100 / pcity->bonus[o];
     }
-    city_map_iterate(x, y) {
-      if (is_free_worked_tile(x, y)) {
-	min -= base_city_get_output_tile(x, y, pcity, is_celebrating, o);
+
+    city_tile_iterate(pcenter, ptile) {
+      if (is_free_worked(pcity, ptile)) {
+	min -= city_tile_output(pcity, ptile, is_celebrating, o);
       }
-    } city_map_iterate_end;
+    } city_tile_iterate_end;
+
     state->min_production[o] = MAX(min, 0);
   } output_type_iterate_end;
 
@@ -1876,10 +1876,15 @@ int cm_count_worker(const struct city * pcity,
   int count = 0;
 
   city_map_iterate(x, y) {
-    if (result->worker_positions_used[x][y] && !is_free_worked_tile(x, y)) {
+    if (is_free_worked_here(x, y)) {
+      continue;
+    }
+
+    if (result->worker_positions_used[x][y]) {
       count++;
     }
   } city_map_iterate_end;
+
   return count;
 }
 
@@ -1904,11 +1909,23 @@ int cm_count_specialist(const struct city *pcity,
 void cm_copy_result_from_city(const struct city *pcity,
 			      struct cm_result *result)
 {
+#ifdef FIXME_FUTURE
+  struct tile *pcenter = city_tile(pcity);
+
+  city_tile_iterate_cxy(pcenter, ptile, x, y) {
+    struct city *pwork = tile_worked(ptile);
+
+    /* use the actual worker, formerly used the city_map[] {was} */
+    result->worker_positions_used[x][y] =
+      (NULL != pwork && pwork == pcity);
+  } city_tile_iterate_cxy_end;
+#else
   /* copy the map of where workers are */
   city_map_iterate(x, y) {
     result->worker_positions_used[x][y] =
       (pcity->city_map[x][y] == C_TILE_WORKER);
   } city_map_iterate_end;
+#endif
 
   /* copy the specialist counts */
   specialist_type_iterate(spec) {
@@ -2039,17 +2056,20 @@ static void print_performance(struct one_perf *counts)
 ****************************************************************************/
 void cm_print_city(const struct city *pcity)
 {
+  struct tile *pcenter = city_tile(pcity);
+
   freelog(LOG_TEST, "print_city(city='%s'(id=%d))",
           city_name(pcity), pcity->id);
   freelog(LOG_TEST,
 	  "  size=%d, specialists=%s",
 	  pcity->size, specialists_string(pcity->specialists));
+
   freelog(LOG_TEST, "  workers at:");
-  my_city_map_iterate(pcity, x, y) {
+  city_tile_iterate_cxy(pcenter, unused, x, y) {
     if (pcity->city_map[x][y] == C_TILE_WORKER) {
       freelog(LOG_TEST, "    (%2d,%2d)", x, y);
     }
-  } my_city_map_iterate_end;
+  } city_tile_iterate_cxy_end;
 
   freelog(LOG_TEST, "  food    = %3d (%+3d)",
           pcity->prod[O_FOOD], pcity->surplus[O_FOOD]);
@@ -2071,6 +2091,7 @@ void cm_print_result(const struct city *pcity,
 		     const struct cm_result *result)
 {
   int y, worker = cm_count_worker(pcity, result);
+  struct tile *pcenter = city_tile(pcity);
 
   freelog(LOG_TEST, "print_result(result=%p)", (void *)result);
   freelog(LOG_TEST,
@@ -2078,11 +2099,11 @@ void cm_print_result(const struct city *pcity,
       result->found_a_valid, result->disorder, result->happy);
 
   freelog(LOG_TEST, "print_result:  workers at:");
-  my_city_map_iterate(pcity, x, y) {
+  city_tile_iterate_cxy(pcenter, unused, x, y) {
     if (result->worker_positions_used[x][y]) {
       freelog(LOG_TEST, "print_result:    (%2d,%2d)", x, y);
     }
-  } my_city_map_iterate_end;
+  } city_tile_iterate_cxy_end;
 
   for (y = 0; y < CITY_MAP_SIZE; y++) {
     char line[CITY_MAP_SIZE + 1];
@@ -2093,7 +2114,7 @@ void cm_print_result(const struct city *pcity,
     for (x = 0; x < CITY_MAP_SIZE; x++) {
       if (!is_valid_city_coords(x, y)) {
         line[x] = '-';
-      } else if (is_free_worked_tile(x, y)) {
+      } else if (is_free_worked_here(x, y)) {
         line[x] = 'c';
       } else if (result->worker_positions_used[x][y]) {
         line[x] = 'w';

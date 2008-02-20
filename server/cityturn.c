@@ -155,6 +155,8 @@ void remove_obsolete_buildings(struct player *pplayer)
 **************************************************************************/
 void apply_cmresult_to_city(struct city *pcity, struct cm_result *cmr)
 {
+  struct tile *pcenter = city_tile(pcity);
+
   /* The caller had better check this! */
   if (!cmr->found_a_valid) {
     freelog(LOG_FATAL, "apply_cmresult_to_city()"
@@ -164,20 +166,20 @@ void apply_cmresult_to_city(struct city *pcity, struct cm_result *cmr)
   }
 
   /* Now apply results */
-  city_map_checked_iterate(pcity->tile, x, y, ptile) {
-    if (is_free_worked_tile(x, y)) {
+  city_tile_iterate_cxy(pcenter, ptile, x, y) {
+    if (is_free_worked(pcity, ptile)) {
       continue;
     }
 
     switch (pcity->city_map[x][y]) {
     case C_TILE_WORKER:
       if (!cmr->worker_positions_used[x][y]) {
-        server_remove_worker_city(pcity, x, y);
+        city_map_update_empty(pcity, ptile, x, y);
       }
       break;
     case C_TILE_EMPTY:
       if (cmr->worker_positions_used[x][y]) {
-        server_set_worker_city(pcity, x, y);
+        city_map_update_worker(pcity, ptile, x, y);
       }
       break;
     case C_TILE_UNAVAILABLE:
@@ -185,7 +187,7 @@ void apply_cmresult_to_city(struct city *pcity, struct cm_result *cmr)
       /* do nothing */
       break;
     };
-  } city_map_checked_iterate_end;
+  } city_tile_iterate_cxy_end;
 
   specialist_type_iterate(sp) {
     pcity->specialists[sp] = cmr->specialists[sp];
@@ -215,9 +217,7 @@ void auto_arrange_workers(struct city *pcity)
   city_freeze_workers(pcity);
   pcity->server.needs_arrange = FALSE;
 
-  map_city_radius_iterate(pcity->tile, ptile) {
-    update_city_tile_status_map(pcity, ptile);
-  } map_city_radius_iterate_end;
+  city_map_update_all(pcity);
 
   pcity->server.needs_arrange = FALSE;
   city_thaw_workers(pcity);
@@ -430,18 +430,23 @@ static int city_reduce_specialists(struct city *pcity, int change)
 **************************************************************************/
 static int city_reduce_workers(struct city *pcity, int change)
 {
+  struct tile *pcenter = city_tile(pcity);
   int want = change;
+
   assert(0 < change);
 
-  city_map_checked_iterate(pcity->tile, city_x, city_y, ptile) {
+  city_tile_iterate_cxy(pcenter, ptile, city_x, city_y) {
+    if (is_free_worked(pcity, ptile)) {
+      continue;
+    }
+
     if (0 < want
-     && pcity == ptile->worked /* check to avoid repair */
-     && C_TILE_WORKER == pcity->city_map[city_x][city_y]
-     && !is_free_worked_tile(city_x, city_y)) {
-      server_remove_worker_city(pcity, city_x, city_y);
+     && tile_worked(ptile) == pcity /* check to avoid repair */
+     && C_TILE_WORKER == pcity->city_map[city_x][city_y]) {
+      city_map_update_empty(pcity, ptile, city_x, city_y);
       want--;
     }
-  } city_map_checked_iterate_end;
+  } city_tile_iterate_cxy_end;
 
   return change - want;
 }
@@ -589,10 +594,11 @@ static void city_increase_size(struct city *pcity)
   /* Ignore food if no square can be worked */
   have_square = FALSE;
   city_map_iterate(x, y) {
-    if (can_place_worker_here(pcity, x, y)) {
+    if (C_TILE_EMPTY == city_map_status(pcity, x, y)) {
       have_square = TRUE;
     }
   } city_map_iterate_end;
+
   if ((pcity->surplus[O_FOOD] >= 2 || !have_square)
       && is_city_option_set(pcity, CITYO_NEW_EINSTEIN)) {
     pcity->specialists[best_specialist(O_SCIENCE, pcity)]++;
@@ -1477,17 +1483,19 @@ static void pay_for_buildings(struct player *pplayer, struct city *pcity)
 **************************************************************************/
 static void check_pollution(struct city *pcity)
 {
+  struct tile *ptile;
+  struct tile *pcenter = city_tile(pcity);
   int k=100;
+
   if (pcity->pollution != 0 && myrand(100) <= pcity->pollution) {
     while (k > 0) {
       /* place pollution somewhere in city radius */
       int cx = myrand(CITY_MAP_SIZE);
       int cy = myrand(CITY_MAP_SIZE);
-      struct tile *ptile;
 
       /* if is a corner tile or not a real map position */
       if (!is_valid_city_coords(cx, cy)
-	  || !(ptile = city_map_to_map(pcity, cx, cy))) {
+	  || !(ptile = city_map_to_tile(pcenter, cx, cy))) {
 	continue;
       }
 
@@ -1495,7 +1503,7 @@ static void check_pollution(struct city *pcity)
 	  && !tile_has_special(ptile, S_POLLUTION)) {
 	tile_set_special(ptile, S_POLLUTION);
 	update_tile_knowledge(ptile);
-	notify_player(city_owner(pcity), pcity->tile, E_POLLUTION,
+	notify_player(city_owner(pcity), pcenter, E_POLLUTION,
 		      _("Pollution near %s."),
 		      city_name(pcity));
 	return;

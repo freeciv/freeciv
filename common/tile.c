@@ -51,17 +51,27 @@ void tile_set_owner(struct tile *ptile, struct player *pplayer)
 }
 
 /****************************************************************************
-  Return the city on this tile (or NULL if none).
+  Return the city on this tile (or NULL), checking for city center.
 ****************************************************************************/
 struct city *tile_city(const struct tile *ptile)
 {
   struct city *pcity = ptile->worked;
 
-  if (NULL != pcity && city_tile(pcity) == ptile) {
+  if (NULL != pcity && is_city_center(pcity, ptile)) {
     return pcity;
   }
   return NULL;
 }
+
+#ifndef tile_worked
+/****************************************************************************
+  Return any city working the specified tile (or NULL).
+****************************************************************************/
+struct city *tile_worked(const struct tile *ptile)
+{
+  return ptile->worked;
+}
+#endif
 
 /****************************************************************************
   Set the city/worker on the tile (may be NULL).

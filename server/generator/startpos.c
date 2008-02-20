@@ -49,7 +49,7 @@ static int get_tile_value(struct tile *ptile)
   /* Give one point for each food / shield / trade produced. */
   value = 0;
   output_type_iterate(o) {
-    value += get_output_tile(ptile, o);
+    value += city_tile_output(NULL, ptile, FALSE, o);
   } output_type_iterate_end;
 
   old_terrain = ptile->terrain;
@@ -59,7 +59,7 @@ static int get_tile_value(struct tile *ptile)
   tile_apply_activity(ptile, ACTIVITY_IRRIGATE);
   irrig_bonus = -value;
   output_type_iterate(o) {
-    irrig_bonus += get_output_tile(ptile, o);
+    irrig_bonus += city_tile_output(NULL, ptile, FALSE, o);
   } output_type_iterate_end;
 
   ptile->terrain = old_terrain;
@@ -68,7 +68,7 @@ static int get_tile_value(struct tile *ptile)
   tile_apply_activity(ptile, ACTIVITY_MINE);
   mine_bonus = -value;
   output_type_iterate(o) {
-    mine_bonus += get_output_tile(ptile, o);
+    mine_bonus += city_tile_output(NULL, ptile, FALSE, o);
   } output_type_iterate_end;
 
   ptile->terrain = old_terrain;
@@ -238,13 +238,14 @@ bool create_start_positions(enum start_mode mode,
     int this_tile_value = tile_value_aux[tile_index(ptile)];
     int lcount = 0, bcount = 0;
 
-    map_city_radius_iterate(ptile, ptile1) {
+    city_tile_iterate(ptile, ptile1) {
       if (this_tile_value > tile_value_aux[tile_index(ptile1)]) {
 	lcount++;
       } else if (this_tile_value < tile_value_aux[tile_index(ptile1)]) {
 	bcount++;
       }
-    } map_city_radius_iterate_end;
+    } city_tile_iterate_end;
+
     if (lcount <= bcount) {
       this_tile_value = 0;
     }

@@ -599,15 +599,18 @@ void handle_city_info(struct packet_city_info *packet)
     const int x = i % CITY_MAP_SIZE, y = i / CITY_MAP_SIZE;
 
     if (city_is_new) {
-      /* Need to pre-initialize before set_worker_city()  -- dwp */
+      /* Need to pre-initialize before city_map_update()  -- dwp */
       pcity->city_map[x][y] =
 	is_valid_city_coords(x, y) ? C_TILE_EMPTY : C_TILE_UNAVAILABLE;
     }
+
     if (is_valid_city_coords(x, y)) {
-      set_worker_city(pcity, x, y, packet->city_map[i]);
+      struct tile *ptile = city_map_to_tile(pcenter, x, y);
+
+      city_map_update(pcity, ptile, x, y, packet->city_map[i]);
     }
   }
-  
+
   improvement_iterate(pimprove) {
     bool have = BV_ISSET(packet->improvements, improvement_index(pimprove));
     if (have  &&  !city_is_new
@@ -688,9 +691,9 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
     pcity->info_units_supported = unit_list_new();
     pcity->info_units_present = unit_list_new();
 
-    /* redundant to set_worker_city() in handle_city_info(),
+    /* redundant to city_map_update() in handle_city_info(),
      * but needed for handle_city_short_info() */
-    tile_set_worked(pcity->tile, pcity); /* is_free_worked_tile() */
+    tile_set_worked(pcity->tile, pcity); /* is_free_worked() */
     city_list_prepend(city_owner(pcity)->cities, pcity);
 
     if (city_owner(pcity) == game.player_ptr) {
