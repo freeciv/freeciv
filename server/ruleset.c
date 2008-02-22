@@ -3277,19 +3277,19 @@ static void send_ruleset_terrain(struct conn_list *dest)
 
     packet.irrigation_result = (pterrain->irrigation_result
 				? terrain_number(pterrain->irrigation_result)
-				: -1);
+				: terrain_count());
     packet.irrigation_food_incr = pterrain->irrigation_food_incr;
     packet.irrigation_time = pterrain->irrigation_time;
 
     packet.mining_result = (pterrain->mining_result
 			    ? terrain_number(pterrain->mining_result)
-			    : -1);
+			    : terrain_count());
     packet.mining_shield_incr = pterrain->mining_shield_incr;
     packet.mining_time = pterrain->mining_time;
 
     packet.transform_result = (pterrain->transform_result
 			       ? terrain_number(pterrain->transform_result)
-			       : -1);
+			       : terrain_count());
     packet.transform_time = pterrain->transform_time;
     packet.rail_time = pterrain->rail_time;
     packet.clean_pollution_time = pterrain->clean_pollution_time;

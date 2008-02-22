@@ -2104,7 +2104,8 @@ void handle_tile_info(struct packet_tile_info *packet)
   bool known_changed = FALSE;
   bool tile_changed = FALSE;
   struct player *powner = valid_player_by_number(packet->owner);
-  struct terrain *pterrain = terrain_by_number(packet->type);
+  struct resource *presource = resource_by_number(packet->resource);
+  struct terrain *pterrain = terrain_by_number(packet->terrain);
   struct tile *ptile = map_pos_to_tile(packet->x, packet->y);
   
   if (NULL == ptile) {
@@ -2134,6 +2135,7 @@ void handle_tile_info(struct packet_tile_info *packet)
       break;
     };
   }
+
   tile_special_type_iterate(spe) {
     if (packet->special[spe]) {
       if (!tile_has_special(ptile, spe)) {
@@ -2148,22 +2150,20 @@ void handle_tile_info(struct packet_tile_info *packet)
     }
   } tile_special_type_iterate_end;
 
-  if (NULL != tile_resource(ptile)) {
-    tile_changed = (resource_number(tile_resource(ptile)) != packet->resource);
-  } else {
-    tile_changed = (-1 != packet->resource);
-  }
+  tile_changed = tile_changed || (tile_resource(ptile) != presource);
 
   /* always called after setting terrain */
-  tile_set_resource(ptile, resource_by_number(packet->resource));
+  tile_set_resource(ptile, presource);
 
   if (tile_owner(ptile) != powner) {
     tile_set_owner(ptile, powner);
     tile_changed = TRUE;
   }
+
   if (old_known != packet->known) {
     known_changed = TRUE;
   }
+
   if (NULL != client.playing) {
     BV_CLR(ptile->tile_known, player_index(client.playing));
     vision_layer_iterate(v) {

@@ -639,7 +639,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
 
   info.x = ptile->x;
   info.y = ptile->y;
-  info.owner = tile_owner(ptile) ? player_number(tile_owner(ptile)) : MAP_TILE_OWNER_NULL;
+
   if (ptile->spec_sprite) {
     sz_strlcpy(info.spec_sprite, ptile->spec_sprite);
   } else {
@@ -652,41 +652,65 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
     if (!pplayer && !pconn->observer) {
       continue;
     }
+
     if (!pplayer || map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
       info.known = TILE_KNOWN;
-      info.type = tile_terrain(ptile) ? terrain_number(tile_terrain(ptile)) : -1;
+      info.continent = tile_continent(ptile);
+      info.owner = (NULL != tile_owner(ptile))
+                    ? player_number(tile_owner(ptile))
+                    : MAP_TILE_OWNER_NULL;
+      info.worked = (NULL != tile_worked(ptile))
+                     ? tile_worked(ptile)->id
+                     : IDENTITY_NUMBER_ZERO;
+
+      info.terrain = (NULL != tile_terrain(ptile))
+                      ? terrain_number(tile_terrain(ptile))
+                      : terrain_count();
+      info.resource = (NULL != tile_resource(ptile))
+                       ? resource_number(tile_resource(ptile))
+                       : resource_count();
 
       tile_special_type_iterate(spe) {
 	info.special[spe] = BV_ISSET(ptile->special, spe);
       } tile_special_type_iterate_end;
 
-      info.resource = tile_resource(ptile) ? resource_number(tile_resource(ptile)) : -1;
-      info.continent = tile_continent(ptile);
       send_packet_tile_info(pconn, &info);
     } else if (pplayer && map_is_known(ptile, pplayer)
 	       && map_get_seen(ptile, pplayer, V_MAIN) == 0) {
       struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
 
       info.known = TILE_KNOWN_FOGGED;
-      info.type = plrtile->terrain ? terrain_number(plrtile->terrain) : -1;
+      info.continent = tile_continent(ptile);
+      info.owner = (NULL != tile_owner(ptile))
+                   ? player_number(tile_owner(ptile))
+                   : MAP_TILE_OWNER_NULL;
+      info.worked = IDENTITY_NUMBER_ZERO;
+
+      info.terrain = (NULL != plrtile->terrain)
+                      ? terrain_number(plrtile->terrain)
+                      : terrain_count();
+      info.resource = (NULL != plrtile->resource)
+                       ? resource_number(plrtile->resource)
+                       : resource_count();
 
       tile_special_type_iterate(spe) {
 	info.special[spe] = BV_ISSET(plrtile->special, spe);
       } tile_special_type_iterate_end;
 
-      info.resource = plrtile->resource ? resource_number(plrtile->resource) : -1;
-      info.continent = tile_continent(ptile);
       send_packet_tile_info(pconn, &info);
     } else if (send_unknown) {
       info.known = TILE_UNKNOWN;
-      info.type  = -1;
+      info.continent = 0;
+      info.owner = MAP_TILE_OWNER_NULL;
+      info.worked = IDENTITY_NUMBER_ZERO;
+
+      info.terrain = terrain_count();
+      info.resource = resource_count();
 
       tile_special_type_iterate(spe) {
         info.special[spe] = FALSE;
       } tile_special_type_iterate_end;
 
-      info.resource  = -1;
-      info.continent = 0;
       send_packet_tile_info(pconn, &info);
     }
   }

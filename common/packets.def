@@ -174,10 +174,8 @@ type REQUIREMENT	= requirement(struct requirement)
 type CLAUSE		= uint8(enum clause_type)
 type ACTIVITY		= uint8(enum unit_activity)
 type EVENT		= sint16(enum event_type)
-type TERRAIN		= sint16(Terrain_type_id)
+type KNOWN		= uint8(enum known_type)
 type SPECIAL		= uint16(enum tile_special_type)
-type RESOURCE           = sint8(Resource_type_id)
-type SPECIALIST		= uint8(Specialist_type_id)
 type DIPLOMAT_ACTION	= uint8(enum diplomat_actions)
 type CMDLEVEL		= uint8(enum cmdlevel_id)
 type PLACE_TYPE		= uint8(enum spaceship_place_type)
@@ -222,6 +220,9 @@ type CONNECTION		= UINT8
 type TEAM		= UINT8
 type CONTINENT          = sint16(Continent_id)
 type IMPROVEMENT	= uint8(Impr_type_id)
+type RESOURCE           = uint8(Resource_type_id)
+type SPECIALIST         = uint8(Specialist_type_id)
+type TERRAIN            = uint8(Terrain_type_id)
 type EDIT_TECH_MODE     = uint8(enum editor_tech_mode)
 
 # other typedefs
@@ -344,12 +345,14 @@ end
 PACKET_TILE_INFO=14; sc,lsend,is-info
   COORD x, y; key
 
-  TERRAIN type;
-  UINT8 known;
-  BOOL special[S_LAST];
-  RESOURCE resource;
-  PLAYER owner;
   CONTINENT continent;
+  KNOWN known;
+  PLAYER owner;
+  CITY worked;
+
+  TERRAIN terrain;
+  RESOURCE resource;
+  BOOL special[S_LAST];
   STRING spec_sprite[MAX_LEN_NAME];
 end
 
