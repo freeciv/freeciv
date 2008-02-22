@@ -88,8 +88,9 @@ struct resource {
 #define T_FIRST 0
 
 /* A hard limit on the number of terrains; useful for static arrays. */
-#define MAX_NUM_TERRAINS  MAX_NUM_ITEMS
-#define MAX_NUM_RESOURCES 100 /* Limited to half a byte in the net code. */
+#define MAX_NUM_TERRAINS (96)
+/* Reflect reality; but theoretically could be larger than terrains! */
+#define MAX_NUM_RESOURCES (MAX_NUM_TERRAINS/2)
 
 enum terrain_class {
   TC_LAND,

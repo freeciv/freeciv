@@ -280,7 +280,9 @@ static enum cursor_type editor_paint(struct tile *ptile, bool testing)
     /* FIXME: No way to change resources. */
     dsend_packet_edit_tile(&aconnection, ptile->x, ptile->y,
 			   terrain_number(tile.terrain),
-			   tile.resource ? resource_number(tile.resource) : -1,
+			   (NULL != tile.resource)
+			    ? resource_number(tile.resource)
+			    : resource_count(),
 			   tile.special);
   }
 
