@@ -582,7 +582,7 @@ static bool is_pos_dangerous_fuel(const struct tile *ptile,
     return FALSE;
   }
 
-  if (TILE_KNOWN == known
+  if (TILE_KNOWN_SEEN == known
    && is_enemy_unit_tile(ptile, param->owner)) {
     /* don't reveal unknown units */
     return FALSE;

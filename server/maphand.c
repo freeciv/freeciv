@@ -654,7 +654,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
     }
 
     if (!pplayer || map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
-      info.known = TILE_KNOWN;
+      info.known = TILE_KNOWN_SEEN;
       info.continent = tile_continent(ptile);
       info.owner = (NULL != tile_owner(ptile))
                     ? player_number(tile_owner(ptile))
@@ -679,7 +679,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
 	       && map_get_seen(ptile, pplayer, V_MAIN) == 0) {
       struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
 
-      info.known = TILE_KNOWN_FOGGED;
+      info.known = TILE_KNOWN_UNSEEN;
       info.continent = tile_continent(ptile);
       info.owner = (NULL != tile_owner(ptile))
                    ? player_number(tile_owner(ptile))

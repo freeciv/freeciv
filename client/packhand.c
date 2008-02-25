@@ -73,11 +73,45 @@
 
 #include "packhand.h"
 
-static void handle_city_packet_common(struct city *pcity, bool is_new,
-                                      bool popup, bool investigate);
+static void city_packet_common(struct city *pcity, struct tile *pcenter,
+                               struct player *powner, bool is_new,
+                               bool popup, bool investigate);
 static bool handle_unit_packet_common(struct unit *packet_unit);
+
+
 static int *reports_thaw_requests = NULL;
 static int reports_thaw_requests_size = 0;
+
+/* The dumbest of cities, placeholders for unknown and unseen cities. */
+static struct city_list *invisible_cities = NULL;
+
+
+/****************************************************************************
+  Called below, and by client/civclient.c client_game_free()
+****************************************************************************/
+void packhand_free(void)
+{
+  if (NULL != invisible_cities) {
+    city_list_iterate(invisible_cities, pcity) {
+      idex_unregister_city(pcity);
+      destroy_city_virtual(pcity);
+    } city_list_iterate_end;
+
+    city_list_unlink_all(invisible_cities);
+    city_list_free(invisible_cities);
+    invisible_cities = NULL;
+  }
+}
+
+/****************************************************************************
+  Called only by handle_map_info() below.
+****************************************************************************/
+static void packhand_init(void)
+{
+  packhand_free();
+
+  invisible_cities = city_list_new();
+}
 
 /**************************************************************************
   Unpackage the unit information into a newly allocated unit structure.
@@ -228,14 +262,16 @@ void handle_server_join_reply(bool you_can_join, char *message,
 void handle_city_remove(int city_id)
 {
   struct city *pcity = game_find_city_by_number(city_id);
-  struct tile *ptile;
 
-  if (!pcity)
+  if (NULL == pcity) {
+    freelog(LOG_ERROR,
+	    "handle_city_remove() bad city %d.",
+	    city_id);
     return;
+  }
 
   agents_city_remove(pcity);
 
-  ptile = pcity->tile;
   client_remove_city(pcity);
 
   /* update menus if the focus unit is on the tile. */
@@ -422,9 +458,10 @@ void handle_city_info(struct packet_city_info *packet)
   struct unit_list *pfocus_units = get_units_in_focus();
   struct city *pcity = game_find_city_by_number(packet->id);
   struct tile *pcenter = map_pos_to_tile(packet->x, packet->y);
-  struct player *pplayer = valid_player_by_number(packet->owner);
+  struct tile *ptile = NULL;
+  struct player *powner = valid_player_by_number(packet->owner);
 
-  if (NULL == pplayer) {
+  if (NULL == powner) {
     freelog(LOG_ERROR,
             "handle_city_info() bad player number %d.",
             packet->owner);
@@ -436,12 +473,6 @@ void handle_city_info(struct packet_city_info *packet)
             "handle_city_info() invalid tile (%d,%d).",
             TILE_XY(packet));
     return;
-  }
-
-  if (pcity && (player_number(city_owner(pcity)) != packet->owner)) {
-    client_remove_city(pcity);
-    pcity = NULL;
-    city_has_changed_owner = TRUE;
   }
 
   if (packet->production_kind < VUT_NONE || packet->production_kind >= VUT_LAST) {
@@ -461,10 +492,32 @@ void handle_city_info(struct packet_city_info *packet)
     }
   }
 
+  if (NULL != pcity) {
+    ptile = city_tile(pcity);
+
+    if (NULL == ptile) {
+      /* invisible worked city */
+      city_list_unlink(invisible_cities, pcity);
+      city_is_new = TRUE;
+
+      pcity->tile =
+      ptile = pcenter;
+      pcity->owner =
+      pcity->original = powner;
+
+      tile_set_owner(pcenter, powner);
+    } else if (tile_owner(ptile) != powner) {
+      /* assumes the tile properly reflects city_owner() */
+      client_remove_city(pcity);
+      pcity = NULL;
+      city_has_changed_owner = TRUE;
+    }
+  }
+
   if (NULL == pcity) {
     city_is_new = TRUE;
-    pcity = create_city_virtual(pplayer, pcenter, packet->name);
-    tile_set_owner(pcenter, pplayer);
+    pcity = create_city_virtual(powner, pcenter, packet->name);
+    tile_set_owner(pcenter, powner);
     pcity->id = packet->id;
     idex_register_city(pcity);
     update_descriptions = TRUE;
@@ -474,14 +527,14 @@ void handle_city_info(struct packet_city_info *packet)
             pcity->id,
             packet->id);
     return;
-  } else if (city_tile(pcity) != pcenter) {
+  } else if (ptile != pcenter) {
     freelog(LOG_ERROR, "handle_city_info()"
             " city tile (%d,%d) != (%d,%d).",
-            TILE_XY(city_tile(pcity)),
+            TILE_XY(ptile),
             TILE_XY(packet));
     return;
   } else {
-    name_changed = (strcmp(city_name(pcity), packet->name) != 0);
+    name_changed = (0 != strncmp(packet->name, pcity->name, strlen(pcity->name)));
 
     /* Check if city desciptions should be updated */
     if (draw_city_names && name_changed) {
@@ -559,6 +612,7 @@ void handle_city_info(struct packet_city_info *packet)
   }
   pcity->production = product;
 
+#ifdef DONE_BY_create_city_virtual
   if (city_is_new) {
     init_worklist(&pcity->worklist);
 
@@ -566,6 +620,8 @@ void handle_city_info(struct packet_city_info *packet)
       pcity->built[i].turn = I_NEVER;
     }
   }
+#endif
+
   copy_worklist(&pcity->worklist, &packet->worklist);
   pcity->did_buy=packet->did_buy;
   pcity->did_sell=packet->did_sell;
@@ -605,7 +661,7 @@ void handle_city_info(struct packet_city_info *packet)
     }
 
     if (is_valid_city_coords(x, y)) {
-      struct tile *ptile = city_map_to_tile(pcenter, x, y);
+      ptile = city_map_to_tile(pcenter, x, y);
 
       city_map_update(pcity, ptile, x, y, packet->city_map[i]);
     }
@@ -633,7 +689,8 @@ void handle_city_info(struct packet_city_info *packet)
   pcity->client.unhappy = city_unhappy(pcity);
 
   popup = (city_is_new && can_client_change_view()
-           && city_owner(pcity) == client.playing && popup_new_cities)
+           && powner == client.playing
+           && popup_new_cities)
           || packet->diplomat_investigate;
 
   if (city_is_new && !city_has_changed_owner) {
@@ -644,8 +701,8 @@ void handle_city_info(struct packet_city_info *packet)
 
   pcity->client.walls = packet->walls;
 
-  handle_city_packet_common(pcity, city_is_new, popup,
-			    packet->diplomat_investigate);
+  city_packet_common(pcity, pcenter, powner, city_is_new, popup,
+                     packet->diplomat_investigate);
 
   /* Update the description if necessary. */
   if (update_descriptions) {
@@ -683,8 +740,9 @@ void handle_city_info(struct packet_city_info *packet)
   Naturally, both require many of the same operations to be done on the
   data.
 ****************************************************************************/
-static void handle_city_packet_common(struct city *pcity, bool is_new,
-                                      bool popup, bool investigate)
+static void city_packet_common(struct city *pcity, struct tile *pcenter,
+                               struct player *powner, bool is_new,
+                               bool popup, bool investigate)
 {
   if (is_new) {
     pcity->units_supported = unit_list_new();
@@ -693,10 +751,10 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
 
     /* redundant to city_map_update() in handle_city_info(),
      * but needed for handle_city_short_info() */
-    tile_set_worked(pcity->tile, pcity); /* is_free_worked() */
-    city_list_prepend(city_owner(pcity)->cities, pcity);
+    tile_set_worked(pcenter, pcity); /* is_free_worked() */
+    city_list_prepend(powner->cities, pcity);
 
-    if (city_owner(pcity) == client.playing) {
+    if (powner == client.playing) {
       city_report_dialog_update();
     }
 
@@ -707,13 +765,13 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
       unit_list_iterate_end;
     } players_iterate_end;
   } else {
-    if (city_owner(pcity) == client.playing) {
+    if (powner == client.playing) {
       city_report_dialog_update_city(pcity);
     }
   }
 
   if (can_client_change_view()) {
-    refresh_city_mapcanvas(pcity, pcity->tile, FALSE, FALSE);
+    refresh_city_mapcanvas(pcity, pcenter, FALSE, FALSE);
   }
 
   if (city_workers_display==pcity)  {
@@ -736,14 +794,16 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
   }
 
   /* update menus if the focus unit is on the tile. */
-  if (get_focus_unit_on_tile(pcity->tile)) {
+  if (get_focus_unit_on_tile(pcenter)) {
     update_menus();
   }
 
-  if(is_new) {
-    freelog(LOG_DEBUG, "New %s city %s id %d (%d %d)",
+  if (is_new) {
+    freelog(LOG_DEBUG, "(%d,%d) creating city %d, %s %s",
+	    TILE_XY(pcenter),
+	    pcity->id,
 	    nation_rule_name(nation_of_city(pcity)),
-	    city_name(pcity), pcity->id, TILE_XY(pcity->tile));
+	    city_name(pcity));
   }
 }
 
@@ -756,12 +816,14 @@ void handle_city_short_info(struct packet_city_short_info *packet)
 {
   bool city_has_changed_owner = FALSE;
   bool city_is_new = FALSE;
+  bool name_changed = FALSE;
   bool update_descriptions = FALSE;
   struct city *pcity = game_find_city_by_number(packet->id);
   struct tile *pcenter = map_pos_to_tile(packet->x, packet->y);
-  struct player *pplayer = valid_player_by_number(packet->owner);
+  struct tile *ptile = NULL;
+  struct player *powner = valid_player_by_number(packet->owner);
 
-  if (NULL == pplayer) {
+  if (NULL == powner) {
     freelog(LOG_ERROR,
             "handle_city_short_info() bad player number %d.",
             packet->owner);
@@ -775,16 +837,32 @@ void handle_city_short_info(struct packet_city_short_info *packet)
     return;
   }
 
-  if (pcity && city_owner(pcity) != pplayer) {
-    client_remove_city(pcity);
-    pcity = NULL;
-    city_has_changed_owner = TRUE;
+  if (NULL != pcity) {
+    ptile = city_tile(pcity);
+
+    if (NULL == ptile) {
+      /* invisible worked city */
+      city_list_unlink(invisible_cities, pcity);
+      city_is_new = TRUE;
+
+      pcity->tile =
+      ptile = pcenter;
+      pcity->owner =
+      pcity->original = powner;
+
+      tile_set_owner(pcenter, powner);
+    } else if (tile_owner(ptile) != powner) {
+      /* assumes the tile properly reflects city_owner() */
+      client_remove_city(pcity);
+      pcity = NULL;
+      city_has_changed_owner = TRUE;
+    }
   }
 
   if (NULL == pcity) {
     city_is_new = TRUE;
-    pcity = create_city_virtual(pplayer, pcenter, packet->name);
-    tile_set_owner(pcenter, pplayer);
+    pcity = create_city_virtual(powner, pcenter, packet->name);
+    tile_set_owner(pcenter, powner);
     pcity->id = packet->id;
     idex_register_city(pcity);
   } else if (pcity->id != packet->id) {
@@ -800,18 +878,19 @@ void handle_city_short_info(struct packet_city_short_info *packet)
             TILE_XY(packet));
     return;
   } else {
+    name_changed = (0 != strncmp(packet->name, pcity->name, strlen(pcity->name)));
+
     /* Check if city desciptions should be updated */
-    if (draw_city_names
-     && 0 != strncmp(packet->name, pcity->name, strlen(pcity->name))) {
+    if (draw_city_names && name_changed) {
       update_descriptions = TRUE;
     }
 
-    tile_set_owner(pcenter, pplayer);
     sz_strlcpy(pcity->name, packet->name);
     
     memset(pcity->feel, 0, sizeof(pcity->feel));
     memset(pcity->specialists, 0, sizeof(pcity->specialists));
   }
+
   pcity->specialists[DEFAULT_SPECIALIST] =
   pcity->size = packet->size;
 
@@ -824,6 +903,7 @@ void handle_city_short_info(struct packet_city_short_info *packet)
   pcity->client.happy = packet->happy;
   pcity->client.unhappy = packet->unhappy;
 
+#ifdef DONE_BY_create_city_virtual
   if (city_is_new) {
     int i;
 
@@ -831,6 +911,7 @@ void handle_city_short_info(struct packet_city_short_info *packet)
       pcity->built[i].turn = I_NEVER;
     }
   }
+#endif
 
   improvement_iterate(pimprove) {
     bool have = BV_ISSET(packet->improvements, improvement_index(pimprove));
@@ -877,7 +958,7 @@ void handle_city_short_info(struct packet_city_short_info *packet)
 
   pcity->client.walls = packet->walls;
 
-  handle_city_packet_common(pcity, city_is_new, FALSE, FALSE);
+  city_packet_common(pcity, pcenter, powner, city_is_new, FALSE, FALSE);
 
   /* Update the description if necessary. */
   if (update_descriptions) {
@@ -1494,6 +1575,8 @@ void handle_map_info(int xsize, int ysize, int topology_id)
   generate_citydlg_dimensions();
 
   calculate_overview_dimensions();
+
+  packhand_init();
 }
 
 /**************************************************************************
@@ -2100,6 +2183,7 @@ This was once very ugly...
 **************************************************************************/
 void handle_tile_info(struct packet_tile_info *packet)
 {
+  enum known_type new_known;
   enum known_type old_known;
   bool known_changed = FALSE;
   bool tile_changed = FALSE;
@@ -2122,8 +2206,8 @@ void handle_tile_info(struct packet_tile_info *packet)
     case TILE_UNKNOWN:
       tile_set_terrain(ptile, pterrain);
       break;
-    case TILE_KNOWN_FOGGED:
-    case TILE_KNOWN:
+    case TILE_KNOWN_UNSEEN:
+    case TILE_KNOWN_SEEN:
       if (NULL != pterrain || TILE_UNKNOWN == packet->known) {
         tile_set_terrain(ptile, pterrain);
       } else {
@@ -2160,6 +2244,51 @@ void handle_tile_info(struct packet_tile_info *packet)
     tile_changed = TRUE;
   }
 
+  if (NULL == tile_worked(ptile)
+   || tile_worked(ptile)->id != packet->worked) {
+    if (IDENTITY_NUMBER_ZERO != packet->worked) {
+      struct city *pwork = game_find_city_by_number(packet->worked);
+
+      if (NULL == pwork) {
+        char named[MAX_LEN_NAME];
+        struct player *placeholder = powner;
+
+        /* new unseen city, or before city_info */
+        if (NULL == placeholder) {
+          /* worker outside border allowed in earlier versions,
+           * use non-player as placeholder.
+           */
+          placeholder = player_by_number(MAX_NUM_PLAYERS);
+        }
+        my_snprintf(named, sizeof(named), "%06u", packet->worked);
+
+        pwork = create_city_virtual(placeholder, NULL, named);
+        pwork->id = packet->worked;
+        idex_register_city(pwork);
+
+        city_list_prepend(invisible_cities, pwork);
+
+        freelog(LOG_DEBUG, "(%d,%d) invisible city %d, %s",
+                TILE_XY(ptile),
+                pwork->id,
+                city_name(pwork));
+      } else if (NULL == city_tile(pwork)) {
+        /* old unseen city, or before city_info */
+        if (NULL != powner && city_owner(pwork) != powner) {
+          /* update placeholder with current owner */
+          pwork->owner =
+          pwork->original = powner;
+        }
+      }
+
+      tile_set_worked(ptile, pwork);
+    } else {
+      tile_set_worked(ptile, NULL);
+    }
+
+    tile_changed = TRUE;
+  }
+
   if (old_known != packet->known) {
     known_changed = TRUE;
   }
@@ -2171,13 +2300,13 @@ void handle_tile_info(struct packet_tile_info *packet)
     } vision_layer_iterate_end;
 
     switch (packet->known) {
-    case TILE_KNOWN:
+    case TILE_KNOWN_SEEN:
       BV_SET(ptile->tile_known, player_index(client.playing));
       vision_layer_iterate(v) {
 	BV_SET(ptile->tile_seen[v], player_index(client.playing));
       } vision_layer_iterate_end;
       break;
-    case TILE_KNOWN_FOGGED:
+    case TILE_KNOWN_UNSEEN:
       BV_SET(ptile->tile_known, player_index(client.playing));
       break;
     case TILE_UNKNOWN:
@@ -2189,6 +2318,7 @@ void handle_tile_info(struct packet_tile_info *packet)
       break;
     };
   }
+  new_known = client_tile_get_known(ptile);
 
   if (packet->spec_sprite[0] != '\0') {
     if (!ptile->spec_sprite
@@ -2207,8 +2337,7 @@ void handle_tile_info(struct packet_tile_info *packet)
     }
   }
 
-  if (client_tile_get_known(ptile) <= TILE_KNOWN_FOGGED
-      && old_known == TILE_KNOWN) {
+  if (TILE_KNOWN_SEEN == old_known && TILE_KNOWN_SEEN != new_known) {
     /* This is an error.  So first we log the error, then make an assertion.
      * But for NDEBUG clients we fix the error. */
     unit_list_iterate(ptile->units, punit) {
@@ -2243,9 +2372,9 @@ void handle_tile_info(struct packet_tile_info *packet)
      * A tile can only change if it was known before and is still
      * known. In the other cases the tile is new or removed.
      */
-    if (known_changed && client_tile_get_known(ptile) == TILE_KNOWN) {
+    if (known_changed && TILE_KNOWN_SEEN == new_known) {
       agents_tile_new(ptile);
-    } else if (known_changed && client_tile_get_known(ptile) == TILE_KNOWN_FOGGED) {
+    } else if (known_changed && TILE_KNOWN_UNSEEN == new_known) {
       agents_tile_remove(ptile);
     } else {
       agents_tile_changed(ptile);
@@ -2255,7 +2384,7 @@ void handle_tile_info(struct packet_tile_info *packet)
   /* refresh tiles */
   if (can_client_change_view()) {
     /* the tile itself (including the necessary parts of adjacent tiles) */
-    if (tile_changed || old_known != client_tile_get_known(ptile)) {
+    if (tile_changed || old_known != new_known) {
       refresh_tile_mapcanvas(ptile, TRUE, FALSE);
     }
   }

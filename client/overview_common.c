@@ -356,8 +356,8 @@ static void put_overview_tile_area(struct canvas *pcanvas,
   canvas_put_rectangle(pcanvas,
 		       overview_tile_color(ptile),
 		       x, y, w, h);
-  if (client_tile_get_known(ptile) == TILE_KNOWN_FOGGED
-      && overview.fog) {
+  if (overview.fog
+      && TILE_KNOWN_UNSEEN == client_tile_get_known(ptile)) {
     canvas_put_sprite(pcanvas, x, y, get_basic_fog_sprite(tileset),
 		      0, 0, w, h);
   }

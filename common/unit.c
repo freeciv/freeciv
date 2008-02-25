@@ -1194,6 +1194,34 @@ struct unit *is_non_attack_unit_tile(const struct tile *ptile,
   return NULL;
 }
 
+/****************************************************************************
+  Is there an occupying unit on this tile?
+
+  Intended for both client and server; assumes that hiding units are not
+  sent to client.  First check tile for known and seen.
+
+  called by city_can_work_tile().
+****************************************************************************/
+struct unit *unit_occupies_tile(const struct tile *ptile,
+				const struct player *pplayer)
+{
+  unit_list_iterate(ptile->units, punit) {
+    if (!is_military_unit(punit)) {
+      continue;
+    }
+
+    if (is_air_unit(punit)) {
+      continue;
+    }
+
+    if (pplayers_at_war(unit_owner(punit), pplayer)) {
+      return punit;
+    }
+  } unit_list_iterate_end;
+
+  return NULL;
+}
+
 /**************************************************************************
   Is this square controlled by the pplayer?
 
@@ -1223,7 +1251,7 @@ bool is_my_zoc(const struct player *pplayer, const struct tile *ptile0)
 
       if (pcity 
           && (pcity->client.occupied 
-              || tile_get_known(ptile, pplayer) == TILE_KNOWN_FOGGED)) {
+              || TILE_KNOWN_UNSEEN == tile_get_known(ptile, pplayer))) {
         /* If the city is fogged, we assume it's occupied */
         return FALSE;
       }

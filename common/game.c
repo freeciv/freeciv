@@ -206,24 +206,33 @@ void game_remove_city(struct city *pcity)
   struct tile *pcenter = city_tile(pcity);
   struct player *powner = city_owner(pcity);
 
-  freelog(LOG_DEBUG, "game_remove_city()"
-          " at (%d,%d) city %d, %s %s",
-	  TILE_XY(pcenter),
-	  pcity->id,
-	  nation_rule_name(nation_of_player(powner)),
-	  city_name(pcity));
+  if (NULL != powner) {
+    /* always unlink before clearing data */
+    city_list_unlink(powner->cities, pcity);
+  }
 
+  if (NULL == pcenter) {
+    freelog(LOG_DEBUG, "game_remove_city()"
+            " virtual city %d, %s",
+            pcity->id,
+            city_name(pcity));
+  } else {
+    freelog(LOG_DEBUG, "game_remove_city()"
+            " at (%d,%d) city %d, %s %s",
+            TILE_XY(pcenter),
+            pcity->id,
+            nation_rule_name(nation_of_player(powner)),
+            city_name(pcity));
+
+    city_tile_iterate(pcenter, ptile) {
+      if (tile_worked(ptile) == pcity) {
+        tile_set_worked(ptile, NULL);
+      }
+    } city_tile_iterate_end;
+  }
+  
   /* Opaque server-only variable: the server must free this earlier. */
   assert(pcity->server.vision == NULL);
-
-  /* always unlink before clearing data */
-  city_list_unlink(powner->cities, pcity);
-
-  city_tile_iterate(pcenter, ptile) {
-    if (tile_worked(ptile) == pcity) {
-      tile_set_worked(ptile, NULL);
-    }
-  } city_tile_iterate_end;
 
   idex_unregister_city(pcity);
   destroy_city_virtual(pcity);

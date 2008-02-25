@@ -185,11 +185,11 @@ void handle_city_make_worker(struct player *pplayer, int city_id,
     return;
   }
 
-  if (!city_can_work_tile(pcity, ptile)) {
+  if (0 == city_specialists(pcity)) {
     return;
   }
 
-  if (0 == city_specialists(pcity)) {
+  if (!city_can_work_tile(pcity, ptile)) {
     return;
   }
 

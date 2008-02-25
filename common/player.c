@@ -445,7 +445,7 @@ bool can_player_see_unit_at(const struct player *pplayer,
   struct city *pcity;
 
   /* If the player can't even see the tile... */
-  if (tile_get_known(ptile, pplayer) != TILE_KNOWN) {
+  if (TILE_KNOWN_SEEN != tile_get_known(ptile, pplayer)) {
     return FALSE;
   }
 

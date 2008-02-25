@@ -23,8 +23,8 @@
 /* network, order dependent */
 enum known_type {
  TILE_UNKNOWN = 0,
- TILE_KNOWN_FOGGED = 1,
- TILE_KNOWN = 2,
+ TILE_KNOWN_UNSEEN = 1,
+ TILE_KNOWN_SEEN = 2,
 };
 
 /* Convenience macro for accessing tile coordinates.  This should only be

@@ -323,9 +323,9 @@ enum known_type tile_get_known(const struct tile *ptile,
   if (!BV_ISSET(ptile->tile_known, player_index(pplayer))) {
     return TILE_UNKNOWN;
   } else if (!BV_ISSET(ptile->tile_seen[V_MAIN], player_index(pplayer))) {
-    return TILE_KNOWN_FOGGED;
+    return TILE_KNOWN_UNSEEN;
   } else {
-    return TILE_KNOWN;
+    return TILE_KNOWN_SEEN;
   }
 }
 
