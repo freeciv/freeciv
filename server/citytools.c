@@ -1979,40 +1979,6 @@ void change_build_target(struct player *pplayer, struct city *pcity,
 }
 
 /**************************************************************************
-  Returns TRUE when a tile is available to be worked, or the city itself is
-  currently working the tile (and can continue).
-  city_x, city_y is in city map coords.
-**************************************************************************/
-bool city_can_work_tile(struct city *pcity, struct tile *ptile)
-{
-  struct player *powner = city_owner(pcity);
-
-  if (NULL == ptile) {
-    return FALSE;
-  }
-
-  if (NULL != tile_owner(ptile) && tile_owner(ptile) != powner) {
-    return FALSE;
-  }
-  /* TODO: civ3-like option for borders */
-
-  if (NULL != tile_worked(ptile) && tile_worked(ptile) != pcity) {
-    return FALSE;
-  }
-
-  if (!map_is_known_and_seen(ptile, powner, V_MAIN)) {
-    return FALSE;
-  }
-
-  if (is_enemy_unit_tile(ptile, powner)
-   && !is_free_worked(pcity, ptile)) {
-    return FALSE;
-  }
-
-  return TRUE;
-}
-
-/**************************************************************************
   Updates city map and tile map status, and affects adjacent cities.
   city_x, city_y is in city map coords.
   Call sync_cities() for the affected cities to be synced with the client.

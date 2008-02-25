@@ -300,8 +300,8 @@ static enum cursor_type editor_click(struct tile *ptile, bool testing)
 {
   /* Editing tiles that we can't see (or are fogged) will only lead to
    * problems. */
-  if (selected_tool != ETOOL_VISION &&
-      client_tile_get_known(ptile) != TILE_KNOWN) {
+  if (ETOOL_VISION != selected_tool
+   && TILE_KNOWN_SEEN != client_tile_get_known(ptile)) {
     return CURSOR_INVALID;
   }
 

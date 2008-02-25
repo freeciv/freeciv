@@ -258,7 +258,7 @@ enum citizen_feeling {
 
 struct city {
   char name[MAX_LEN_NAME];
-  struct tile *tile; /* May be NULL in Editor! */
+  struct tile *tile; /* May be NULL, should check! */
   struct player *owner; /* Cannot be NULL. */
   struct player *original; /* Cannot be NULL. */
   int id;
@@ -506,6 +506,8 @@ int city_tile_output(const struct city *pcity, const struct tile *ptile,
 		     bool is_celebrating, Output_type_id otype);
 int city_tile_output_now(const struct city *pcity, const struct tile *ptile,
 			 Output_type_id otype);
+
+bool city_can_work_tile(const struct city *pcity, const struct tile *ptile);
 
 bool city_can_be_built_here(const struct tile *ptile,
 			    const struct unit *punit);

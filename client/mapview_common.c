@@ -895,7 +895,7 @@ void put_one_element(struct canvas *pcanvas, enum mapview_layer layer,
 				ptile, pedge, pcorner,
 				punit, pcity, citymode);
   bool fog = (ptile && draw_fog_of_war
-	      && client_tile_get_known(ptile) == TILE_KNOWN_FOGGED);
+	      && TILE_KNOWN_UNSEEN == client_tile_get_known(ptile));
 
   /*** Draw terrain and specials ***/
   put_drawn_sprites(pcanvas, canvas_x, canvas_y, count, tile_sprs, fog);
@@ -1840,18 +1840,15 @@ struct city *find_city_or_settler_near_tile(const struct tile *ptile,
   /* rule e */
   closest_city = NULL;
 
-  city_tile_iterate_cxy(ptile, tile1, city_x, city_y) {
+  city_tile_iterate(ptile, tile1) {
     pcity = tile_city(tile1);
     if (pcity
 	&& (!client.playing || city_owner(pcity) == client.playing)
-	&& C_TILE_EMPTY == city_map_status(pcity,
-					   CITY_MAP_SIZE - 1 - city_x,
-					   CITY_MAP_SIZE - 1 - city_y)) {
+	&& city_can_work_tile(pcity, tile1)) {
       /*
        * Note, we must explicitly check if the tile is workable (with
-       * city_map_status() above), since it is possible that another
-       * city (perhaps an unseen enemy city) may be working it,
-       * causing it to be marked as C_TILE_UNAVAILABLE.
+       * city_can_work_tile() above), since it is possible that another
+       * city (perhaps an UNSEEN city) may be working it!
        */
       
       if (map_deco[tile_index(pcity->tile)].hilite == HILITE_CITY) {
@@ -1862,7 +1859,7 @@ struct city *find_city_or_settler_near_tile(const struct tile *ptile,
 	closest_city = pcity;
       }
     }
-  } city_tile_iterate_cxy_end;
+  } city_tile_iterate_end;
 
   /* rule d */
   if (closest_city || !punit) {

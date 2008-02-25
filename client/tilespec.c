@@ -3601,14 +3601,16 @@ static int fill_city_overlays_sprite_array(const struct tileset *t,
 					   const struct city *citymode)
 {
   const struct city *pcity;
+  const struct city *pwork;
   struct unit *psettler;
   struct drawn_sprite *saved_sprs = sprs;
   int city_x, city_y;
   const int NUM_CITY_COLORS = t->sprites.city.worked_tile_overlay.size;
 
-  if (!ptile || client_tile_get_known(ptile) == TILE_UNKNOWN) {
+  if (NULL == ptile || TILE_UNKNOWN == client_tile_get_known(ptile)) {
     return 0;
   }
+  pwork = tile_worked(ptile);
 
   if (citymode) {
     pcity = citymode;
@@ -3617,23 +3619,18 @@ static int fill_city_overlays_sprite_array(const struct tileset *t,
   }
 
   if (pcity && city_base_to_city_map(&city_x, &city_y, pcity, ptile)) {
-    enum city_tile_type ctt = city_map_status(pcity, city_x, city_y);
+//    enum city_tile_type ctt = city_map_status(pcity, city_x, city_y);
 
     if (!citymode && pcity->client.colored) {
       /* Add citymap overlay for a city. */
       int index = pcity->client.color_index % NUM_CITY_COLORS;
 
-      switch (ctt) {
-      case C_TILE_EMPTY:
-	ADD_SPRITE_SIMPLE(t->sprites.city.unworked_tile_overlay.p[index]);
-	break;
-      case C_TILE_WORKER:
-	ADD_SPRITE_SIMPLE(t->sprites.city.worked_tile_overlay.p[index]);
-	break;
-      case C_TILE_UNAVAILABLE:
-	break;
+      if (NULL != pwork && pwork == pcity) {
+        ADD_SPRITE_SIMPLE(t->sprites.city.worked_tile_overlay.p[index]);
+      } else if (city_can_work_tile(pcity, ptile)) {
+        ADD_SPRITE_SIMPLE(t->sprites.city.unworked_tile_overlay.p[index]);
       }
-    } else if (C_TILE_WORKER == ctt) {
+    } else if (NULL != pwork && pwork == pcity) {
       /* Add on the tile output sprites. */
       int food = city_tile_output_now(pcity, ptile, O_FOOD);
       int shields = city_tile_output_now(pcity, ptile, O_SHIELD);
@@ -3712,7 +3709,8 @@ static int fill_fog_sprite_array(const struct tileset *t,
   struct drawn_sprite *saved_sprs = sprs;
 
   if (t->fogstyle == FOG_SPRITE && draw_fog_of_war
-      && ptile && client_tile_get_known(ptile) == TILE_KNOWN_FOGGED) {
+      && NULL != ptile
+      && TILE_KNOWN_UNSEEN == client_tile_get_known(ptile)) {
     /* With FOG_AUTO, fog is done this way. */
     ADD_SPRITE_SIMPLE(t->sprites.tx.fog);
   }
@@ -3728,10 +3726,10 @@ static int fill_fog_sprite_array(const struct tileset *t,
 	value = fogged;
       } else {
 	switch (client_tile_get_known(pcorner->tile[i])) {
-	case TILE_KNOWN:
+	case TILE_KNOWN_SEEN:
 	  value = known;
 	  break;
-	case TILE_KNOWN_FOGGED:
+	case TILE_KNOWN_UNSEEN:
 	  value = fogged;
 	  break;
 	case TILE_UNKNOWN:
@@ -4110,12 +4108,13 @@ static int fill_grid_sprite_array(const struct tileset *t,
 	}
       }
     }
-  } else if (ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
+  } else if (NULL != ptile && TILE_UNKNOWN != client_tile_get_known(ptile)) {
     int cx, cy;
 
     if (citymode
-	 && city_base_to_city_map(&cx, &cy, citymode, ptile)
-	 && citymode->city_map[cx][cy] == C_TILE_UNAVAILABLE) {
+        /* test to ensure valid coordinates? */
+     && city_base_to_city_map(&cx, &cy, citymode, ptile)
+     && !city_can_work_tile(citymode, ptile)) {
       ADD_SPRITE_SIMPLE(t->sprites.grid.unavailable);
     }
   }

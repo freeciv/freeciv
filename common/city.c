@@ -862,6 +862,39 @@ int city_tile_output_now(const struct city *pcity, const struct tile *ptile,
 }
 
 /**************************************************************************
+  Returns TRUE when a tile is available to be worked, or the city itself is
+  currently working the tile (and can continue).
+**************************************************************************/
+bool city_can_work_tile(const struct city *pcity, const struct tile *ptile)
+{
+  struct player *powner = city_owner(pcity);
+
+  if (NULL == ptile) {
+    return FALSE;
+  }
+
+  if (NULL != tile_owner(ptile) && tile_owner(ptile) != powner) {
+    return FALSE;
+  }
+  /* TODO: civ3-like option for borders */
+
+  if (NULL != tile_worked(ptile) && tile_worked(ptile) != pcity) {
+    return FALSE;
+  }
+
+  if (TILE_KNOWN_SEEN != tile_get_known(ptile, powner)) {
+    return FALSE;
+  }
+
+  if (!is_free_worked(pcity, ptile)
+   && NULL != unit_occupies_tile(ptile, powner)) {
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
   Returns TRUE if the given unit can build a city at the given map
   coordinates.
 

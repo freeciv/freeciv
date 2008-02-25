@@ -189,6 +189,7 @@ static void client_game_init(void)
 **************************************************************************/
 static void client_game_free(void)
 {
+  packhand_free();
   control_done();
   free_help_texts();
   attribute_free();

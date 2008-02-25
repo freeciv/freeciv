@@ -894,12 +894,17 @@ int city_change_specialist(struct city *pcity, Specialist_type_id from,
 **************************************************************************/
 int city_toggle_worker(struct city *pcity, int city_x, int city_y)
 {
-  assert(is_valid_city_coords(city_x, city_y));
+  struct tile *ptile = city_map_to_tile(city_tile(pcity), city_x, city_y);
 
-  if (pcity->city_map[city_x][city_y] == C_TILE_WORKER) {
+  assert(is_valid_city_coords(city_x, city_y));
+  if (NULL == ptile) {
+    return 0;
+  }
+
+  if (NULL != tile_worked(ptile) && tile_worked(ptile) == pcity) {
     return dsend_packet_city_make_specialist(&aconnection, pcity->id, city_x,
 					     city_y);
-  } else if (pcity->city_map[city_x][city_y] == C_TILE_EMPTY) {
+  } else if (city_can_work_tile(pcity, ptile)) {
     return dsend_packet_city_make_worker(&aconnection, pcity->id, city_x,
 					 city_y);
   } else {

@@ -135,13 +135,12 @@ void client_remove_unit(struct unit *punit)
 void client_remove_city(struct city *pcity)
 {
   bool effect_update;
-  struct tile *ptile = pcity->tile;
+  struct tile *ptile = city_tile(pcity);
   struct city old_city = *pcity;
 
-  freelog(LOG_DEBUG, "removing city %s, %s, (%d %d)",
-	  city_name(pcity),
-	  nation_rule_name(nation_of_city(pcity)),
-	  TILE_XY(ptile));
+  freelog(LOG_DEBUG, "client_remove_city() %d, %s",
+	  pcity->id,
+	  city_name(pcity));
 
   /* Explicitly remove all improvements, to properly remove any global effects
      and to handle the preservation of "destroyed" effects. */

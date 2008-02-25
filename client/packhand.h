@@ -20,6 +20,8 @@
 
 #include "packhand_gen.h"
 
+void packhand_free(void);
+
 void notify_about_incoming_packet(struct connection *pc,
 				   int packet_type, int size);
 void notify_about_outgoing_packet(struct connection *pc,

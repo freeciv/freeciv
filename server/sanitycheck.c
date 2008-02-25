@@ -302,7 +302,7 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
 		  city_name(pcity), pcity->size,
 		  is_city_center(pcity, ptile) ? "{city center}" : "");
 	}
-	if (is_enemy_unit_tile(ptile, pplayer)) {
+	if (unit_occupies_tile(ptile, pplayer)) {
 	  SANITY_("(%4d,%4d) marked as empty, "
 		  "but occupied by an enemy unit! "
 		  "\"%s\"[%d]%s"),
@@ -338,7 +338,7 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
 		  city_name(pcity), pcity->size,
 		  is_city_center(pcity, ptile) ? "{city center}" : "");
 	}
-	if (is_enemy_unit_tile(ptile, pplayer)) {
+	if (unit_occupies_tile(ptile, pplayer)) {
 	  SANITY_("(%4d,%4d) marked as worked, "
 		  "but occupied by an enemy unit! "
 		  "\"%s\"[%d]%s"),

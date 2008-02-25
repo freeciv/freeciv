@@ -106,7 +106,7 @@ static void popit(int xin, int yin, struct tile *ptile)
   char *content;
   static bool is_orders;
   
-  if (client_tile_get_known(ptile)>=TILE_KNOWN_FOGGED) {
+  if (TILE_UNKNOWN != client_tile_get_known(ptile)) {
     Widget p=XtCreatePopupShell("popupinfo", simpleMenuWidgetClass,
 				map_canvas, NULL, 0);
     content = (char *) popup_info_text(ptile);

@@ -121,7 +121,7 @@ static void popit(int x, int y, struct tile *ptile)
     popit_popup=NULL;
   }
   
-  if (client_tile_get_known(ptile) < TILE_KNOWN_FOGGED)
+  if (TILE_UNKNOWN == client_tile_get_known(ptile))
     return;
   
   popup=fcwin_create_layouted_window(popit_proc,NULL,WS_POPUP|WS_BORDER,

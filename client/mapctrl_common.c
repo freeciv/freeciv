@@ -561,29 +561,25 @@ void wakeup_button_pressed(int canvas_x, int canvas_y)
 **************************************************************************/
 void adjust_workers_button_pressed(int canvas_x, int canvas_y)
 {
-  int city_x, city_y;
   struct tile *ptile = canvas_pos_to_tile(canvas_x, canvas_y);
 
-  if (can_client_issue_orders() && ptile) {
+  if (NULL != ptile && can_client_issue_orders()) {
     struct city *pcity = find_city_near_tile(ptile);
 
     if (pcity && !cma_is_city_under_agent(pcity, NULL)) {
-      if (!city_base_to_city_map(&city_x, &city_y, pcity, ptile)) {
-	assert(0);
-      }
+      int city_x, city_y;
 
-      switch (city_map_status(pcity, city_x, city_y)) {
-      case C_TILE_WORKER:
+      assert(city_base_to_city_map(&city_x, &city_y, pcity, ptile));
+
+      if (NULL != tile_worked(ptile) && tile_worked(ptile) == pcity) {
 	dsend_packet_city_make_specialist(&aconnection, pcity->id,
 					  city_x, city_y);
-	break;
-      case C_TILE_EMPTY:
+      } else if (city_can_work_tile(pcity, ptile)) {
 	dsend_packet_city_make_worker(&aconnection, pcity->id,
 				      city_x, city_y);
-	break;
-      case C_TILE_UNAVAILABLE:
+      } else {
 	return;
-      };
+      }
 
       /* When the city info packet is received, update the workers on the
        * map.  This is a bad hack used to selectively update the mapview
