@@ -80,11 +80,12 @@ static struct {
   int apply_result_ignored, apply_result_applied, refresh_forced;
 } stats;
 
-#define my_city_map_iterate(pcity, cx, cy) {				\
-  city_tile_iterate_cxy(city_tile(pcity), cx##cy##_ptile, cx, cy) {	\
-    if (!is_free_worked(pcity, cx##cy##_ptile)) {
+/* simple extension to skip is_free_worked() tiles. */
+#define city_tile_iterate_skip_free(pcity, ptile, cx, cy) {		\
+  city_tile_iterate_cxy(city_tile(pcity), ptile, cx, cy) {		\
+    if (!is_free_worked(pcity, ptile)) {
 
-#define my_city_map_iterate_end						\
+#define city_tile_iterate_skip_free_end					\
     }									\
   } city_tile_iterate_cxy_end;						\
 }
@@ -113,13 +114,13 @@ static bool results_are_equal(struct city *pcity,
     T(surplus[stat]);
   } output_type_iterate_end;
 
-  my_city_map_iterate(pcity, x, y) {
+  city_tile_iterate_skip_free(pcity, ptile, x, y) {
     if (result1->worker_positions_used[x][y] !=
 	result2->worker_positions_used[x][y]) {
       freelog(RESULTS_ARE_EQUAL_LOG_LEVEL, "worker_positions_used");
       return FALSE;
     }
-  } my_city_map_iterate_end;
+  } city_tile_iterate_skip_free_end;
 
   return TRUE;
 }
@@ -130,31 +131,28 @@ static bool results_are_equal(struct city *pcity,
 /****************************************************************************
  Copy the current city state (citizen assignment, production stats and
  happy state) in the given result.
+
+ This is parallel to cm_copy_result_from_city() with extra counting!
 *****************************************************************************/
-static void get_current_as_result(struct city *pcity,
-				  struct cm_result *result)
+static void my_copy_result_from_city(struct city *pcity,
+				     struct cm_result *result)
 {
   int worker = 0, specialist = 0;
 
   memset(result->worker_positions_used, 0,
 	 sizeof(result->worker_positions_used));
 
-  my_city_map_iterate(pcity, x, y) {
-    result->worker_positions_used[x][y] =
-	(pcity->city_map[x][y] == C_TILE_WORKER);
-    if (result->worker_positions_used[x][y]) {
+  city_tile_iterate_skip_free(pcity, ptile, x, y) {
+    if (NULL != tile_worked(ptile) && tile_worked(ptile) == pcity) {
       worker++;
     }
-  } my_city_map_iterate_end;
+  } city_tile_iterate_skip_free_end;
 
   specialist_type_iterate(sp) {
-    result->specialists[sp] = pcity->specialists[sp];
     specialist += pcity->specialists[sp];
   } specialist_type_iterate_end;
 
   assert(worker + specialist == pcity->size);
-
-  result->found_a_valid = TRUE;
 
   cm_copy_result_from_city(pcity, result);
 }
@@ -197,7 +195,7 @@ static bool apply_result_on_server(struct city *pcity,
   bool success;
 
   assert(result->found_a_valid);
-  get_current_as_result(pcity, &current_state);
+  my_copy_result_from_city(pcity, &current_state);
 
   if (results_are_equal(pcity, result, &current_state)
       && !ALWAYS_APPLY_AT_SERVER) {
@@ -221,16 +219,17 @@ static bool apply_result_on_server(struct city *pcity,
   }
 
   /* Remove all surplus workers */
-  my_city_map_iterate(pcity, x, y) {
-    if ((pcity->city_map[x][y] == C_TILE_WORKER) &&
-	!result->worker_positions_used[x][y]) {
+  city_tile_iterate_skip_free(pcity, ptile, x, y) {
+    if (NULL != tile_worked(ptile) && tile_worked(ptile) == pcity
+     && !result->worker_positions_used[x][y]) {
       freelog(APPLY_RESULT_LOG_LEVEL, "Removing worker at %d,%d.", x, y);
+
       last_request_id = city_toggle_worker(pcity, x, y);
       if (first_request_id == 0) {
 	first_request_id = last_request_id;
       }
     }
-  } my_city_map_iterate_end;
+  } city_tile_iterate_skip_free_end;
 
   /* Change the excess non-default specialists to default. */
   specialist_type_iterate(sp) {
@@ -253,17 +252,18 @@ static bool apply_result_on_server(struct city *pcity,
   /* Set workers */
   /* FIXME: This code assumes that any toggled worker will turn into a
    * DEFAULT_SPECIALIST! */
-  my_city_map_iterate(pcity, x, y) {
-    if (result->worker_positions_used[x][y] &&
-	pcity->city_map[x][y] != C_TILE_WORKER) {
-      assert(pcity->city_map[x][y] == C_TILE_EMPTY);
+  city_tile_iterate_skip_free(pcity, ptile, x, y) {
+    if (NULL == tile_worked(ptile)
+     && result->worker_positions_used[x][y]) {
       freelog(APPLY_RESULT_LOG_LEVEL, "Putting worker at %d,%d.", x, y);
+      assert(city_can_work_tile(pcity, ptile));
+
       last_request_id = city_toggle_worker(pcity, x, y);
       if (first_request_id == 0) {
 	first_request_id = last_request_id;
       }
     }
-  } my_city_map_iterate_end;
+  } city_tile_iterate_skip_free_end;
 
   /* Set all specialists except DEFAULT_SPECIALIST (all the unchanged
    * ones remain as DEFAULT_SPECIALIST). */
@@ -309,7 +309,7 @@ static bool apply_result_on_server(struct city *pcity,
   }
 
   /* Return. */
-  get_current_as_result(pcity, &current_state);
+  my_copy_result_from_city(pcity, &current_state);
 
   freelog(APPLY_RESULT_LOG_LEVEL, "apply_result: return");
 
