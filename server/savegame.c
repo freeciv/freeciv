@@ -4407,8 +4407,6 @@ void game_load(struct section_file *file)
     shuffle_players();
   }
 
-  game.info.player_idx = 0;
-
   /* Fix ferrying sanity */
   players_iterate(pplayer) {
     unit_list_iterate_safe(pplayer->units, punit) {

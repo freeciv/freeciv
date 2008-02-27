@@ -367,8 +367,6 @@ void send_game_info(struct conn_list *dest)
   }
 
   conn_list_iterate(dest, pconn) {
-    /* ? fixme: check for non-players: */
-    ginfo.player_idx = (pconn->player ? player_number(pconn->player) : -1);
     send_packet_game_info(pconn, &ginfo);
   }
   conn_list_iterate_end;

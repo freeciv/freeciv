@@ -380,7 +380,6 @@ PACKET_GAME_INFO=15; sc
   PLAYER min_players;
   PLAYER max_players;
   PLAYER nplayers;
-  PLAYER player_idx;
 
   UINT32 globalwarming, heating, warminglevel;
   UINT32 nuclearwinter, cooling, coolinglevel;
