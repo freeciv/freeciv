@@ -62,10 +62,14 @@ used throughout the client.
 **************************************************************************/
 void client_remove_player(int plrno)
 {
+  struct connection *pc = find_conn_by_id(aconnection.id);
+
   game_remove_player(player_by_number(plrno));
   game_renumber_players(plrno);
-  /* ensure our pointer is valid */
-  client.playing = valid_player_by_number(game.info.player_idx);
+
+  /* ensure our duplicate pointers are valid */
+  client.playing =
+  aconnection.player = pc->player;
 
   update_conn_list_dialog();
   races_toggles_set_sensitive();

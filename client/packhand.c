@@ -218,9 +218,9 @@ void handle_server_join_reply(bool you_can_join, char *message,
     freelog(LOG_VERBOSE, "join game accept:%s", message);
     aconnection.established = TRUE;
     aconnection.id = conn_id;
+
     agents_game_joined();
     update_menus();
-
     set_server_busy(FALSE);
     
     if (get_client_page() == PAGE_MAIN
@@ -235,11 +235,13 @@ void handle_server_join_reply(bool you_can_join, char *message,
     my_snprintf(msg, sizeof(msg),
 		_("You were rejected from the game: %s"), message);
     append_output_window(msg);
-    aconnection.id = 0;
+    aconnection.id = -1; /* not in range of conn_info id */
+
     if (auto_connect) {
       freelog(LOG_NORMAL, "%s", msg);
     }
     gui_server_connect();
+
     if (!with_ggz) {
       set_client_page(in_ggz ? PAGE_MAIN : PAGE_GGZ);
     }
@@ -1541,7 +1543,7 @@ void handle_unit_short_info(struct packet_unit_short_info *packet)
     return;
   }
 
-  if (packet->owner == game.info.player_idx) {
+  if (valid_player_by_number(packet->owner) == client.playing) {
     freelog(LOG_ERROR, "handle_unit_short_info() for own unit.");
   }
 
@@ -1613,7 +1615,6 @@ void handle_game_info(struct packet_game_info *pinfo)
 
   game.government_when_anarchy =
     government_by_number(game.info.government_when_anarchy_id);
-  client.playing = valid_player_by_number(game.info.player_idx);
 
   if (C_S_PREPARING == client_state()) {
     /* FIXME: only for change in nations */
@@ -1947,6 +1948,8 @@ void handle_conn_info(struct packet_conn_info *pinfo)
       aconnection.established = pconn->established;
       aconnection.observer = pconn->observer;
       aconnection.access_level = pconn->access_level;
+      /* FIXME: duplication */
+      client.playing =
       aconnection.player = pplayer;
     }
   }
