@@ -480,7 +480,7 @@ void send_turn_done(void)
 
   attribute_flush();
 
-  dsend_packet_player_phase_done(&aconnection, game.info.turn);
+  dsend_packet_player_phase_done(&client.conn, game.info.turn);
 
   update_turn_done_button_state();
 }
@@ -490,7 +490,7 @@ void send_turn_done(void)
 **************************************************************************/
 void send_report_request(enum report_type type)
 {
-  dsend_packet_report_req(&aconnection, type);
+  dsend_packet_report_req(&client.conn, type);
 }
 
 /**************************************************************************
@@ -506,8 +506,8 @@ void set_client_state(enum client_states newstate)
     /*
      * Extra kludge for end-game handling of the CMA.
      */
-    if (client.playing) {
-      city_list_iterate(client.playing->cities, pcity) {
+    if (NULL != client.conn.playing) {
+      city_list_iterate(client.conn.playing->cities, pcity) {
 	if (cma_is_city_under_agent(pcity, NULL)) {
 	  cma_release_city(pcity);
 	}
@@ -536,11 +536,11 @@ void set_client_state(enum client_states newstate)
       load_ruleset_specific_options();
       create_event(NULL, E_GAME_START, _("Game started."));
       precalc_tech_data();
-      if (client.playing) {
-	player_research_update(client.playing);
+      if (NULL != client.conn.playing) {
+	player_research_update(client.conn.playing);
       }
       role_unit_precalcs();
-      boot_help_texts(client.playing);	/* reboot with player */
+      boot_help_texts(client.conn.playing);	/* reboot with player */
       can_slide = FALSE;
       update_unit_focus();
       can_slide = TRUE;
@@ -556,7 +556,7 @@ void set_client_state(enum client_states newstate)
       }
       client_game_init();
       set_unit_focus(NULL);
-      if (!aconnection.established && !with_ggz) {
+      if (!client.conn.established && !with_ggz) {
 	set_client_page(in_ggz ? PAGE_GGZ : PAGE_MAIN);
       } else {
 	set_client_page(PAGE_START);
@@ -567,7 +567,7 @@ void set_client_state(enum client_states newstate)
     };
     update_menus();
   }
-  if (!aconnection.established && C_S_PREPARING == civclient_state) {
+  if (!client.conn.established && C_S_PREPARING == civclient_state) {
     gui_server_connect();
     if (auto_connect) {
       if (connect_error) {
@@ -598,12 +598,12 @@ enum client_states client_state(void)
 **************************************************************************/
 void client_remove_cli_conn(struct connection *pconn)
 {
-  if (pconn->player) {
-    conn_list_unlink(pconn->player->connections, pconn);
+  if (NULL != pconn->playing) {
+    conn_list_unlink(pconn->playing->connections, pconn);
   }
   conn_list_unlink(game.all_connections, pconn);
   conn_list_unlink(game.est_connections, pconn);
-  assert(pconn != &aconnection);
+  assert(pconn != &client.conn);
   free(pconn);
 }
 
@@ -624,7 +624,7 @@ void client_remove_all_cli_conn(void)
 **************************************************************************/
 void send_attribute_block_request()
 {
-  send_packet_player_attribute_block(&aconnection);
+  send_packet_player_attribute_block(&client.conn);
 }
 
 /**************************************************************************
@@ -632,7 +632,7 @@ void send_attribute_block_request()
 **************************************************************************/
 void wait_till_request_got_processed(int request_id)
 {
-  input_from_server_till_request_got_processed(aconnection.sock,
+  input_from_server_till_request_got_processed(client.conn.sock,
 					       request_id);
 }
 
@@ -641,7 +641,7 @@ void wait_till_request_got_processed(int request_id)
 **************************************************************************/
 bool client_is_observer(void)
 {
-  return aconnection.established && aconnection.observer;
+  return client.conn.established && client.conn.observer;
 }
 
 /* Seconds_to_turndone is the number of seconds the server has told us
@@ -744,7 +744,7 @@ double real_timer_callback(void)
 **************************************************************************/
 bool can_client_issue_orders(void)
 {
-  return (client.playing
+  return (NULL != client.conn.playing
 	  && !client_is_observer()
 	  && C_S_RUNNING == client_state());
 }
@@ -756,8 +756,8 @@ bool can_client_issue_orders(void)
 bool can_meet_with_player(const struct player *pplayer)
 {
   return (can_client_issue_orders()
-	  /* && client.playing (above) */
-	  && could_meet_with_player(client.playing, pplayer));
+	  /* && NULL != client.conn.playing (above) */
+	  && could_meet_with_player(client.conn.playing, pplayer));
 }
 
 /**************************************************************************
@@ -767,8 +767,8 @@ bool can_meet_with_player(const struct player *pplayer)
 bool can_intel_with_player(const struct player *pplayer)
 {
   return (client_is_observer()
-	  || (client.playing
-	      && could_intel_with_player(client.playing, pplayer)));
+	  || (NULL != client.conn.playing
+	      && could_intel_with_player(client.conn.playing, pplayer)));
 }
 
 /**************************************************************************
@@ -778,7 +778,7 @@ bool can_intel_with_player(const struct player *pplayer)
 **************************************************************************/
 bool can_client_change_view(void)
 {
-  return ((client.playing || client_is_observer())
+  return ((NULL != client.conn.playing || client_is_observer())
 	  && (C_S_RUNNING == client_state()
 	      || C_S_OVER == client_state()));
 }

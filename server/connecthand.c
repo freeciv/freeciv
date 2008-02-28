@@ -135,7 +135,7 @@ void establish_new_connection(struct connection *pconn)
 
     if (S_S_INITIAL == server_state() && game.info.is_new_game) {
       if (attach_connection_to_player(pconn, NULL)) {
-        sz_strlcpy(pconn->player->name, pconn->username);
+        sz_strlcpy(pconn->playing->name, pconn->username);
 
         /* send new player connection to everybody */
         send_player_info_c(NULL, game.est_connections);
@@ -157,11 +157,11 @@ void establish_new_connection(struct connection *pconn)
   send_conn_info(dest, game.est_connections);
 
   /* remind the connection who he is */
-  if (!pconn->player) {
+  if (NULL == pconn->playing) {
     notify_conn(dest, NULL, E_CONNECTION,
 		_("You are logged in as '%s' connected to no player."),
                 pconn->username);
-  } else if (strcmp(player_name(pconn->player), ANON_PLAYER_NAME) == 0) {
+  } else if (strcmp(player_name(pconn->playing), ANON_PLAYER_NAME) == 0) {
     notify_conn(dest, NULL, E_CONNECTION,
 		_("You are logged in as '%s' connected to an "
 		  "anonymous player."),
@@ -170,7 +170,7 @@ void establish_new_connection(struct connection *pconn)
     notify_conn(dest, NULL, E_CONNECTION,
 		_("You are logged in as '%s' connected to %s."),
                 pconn->username,
-                player_name(pconn->player));
+                player_name(pconn->playing));
   }
 
   /* if need be, tell who we're waiting on to end the game.info.turn */
@@ -179,7 +179,7 @@ void establish_new_connection(struct connection *pconn)
       if (cplayer->is_alive
           && !cplayer->ai.control
           && !cplayer->phase_done
-          && cplayer != pconn->player) {  /* skip current player */
+          && cplayer != pconn->playing) {  /* skip current player */
         notify_conn(dest, NULL, E_CONNECTION,
 		    _("Turn-blocking game play: "
 		      "waiting on %s to finish turn..."),
@@ -309,7 +309,7 @@ bool handle_login_request(struct connection *pconn,
 **************************************************************************/
 void lost_connection_to_client(struct connection *pconn)
 {
-  struct player *pplayer = pconn->player;
+  struct player *pplayer = pconn->playing;
   const char *desc = conn_description(pconn);
 
   freelog(LOG_NORMAL, _("Lost connection: %s."), desc);
@@ -369,7 +369,9 @@ static void package_conn_info(struct connection *pconn,
   packet->id           = pconn->id;
   packet->used         = pconn->used;
   packet->established  = pconn->established;
-  packet->player_num   = pconn->player ? player_number(pconn->player) : -1;
+  packet->player_num   = (NULL != pconn->playing)
+                         ? player_number(pconn->playing)
+                         : player_count();
   packet->observer     = pconn->observer;
   packet->access_level = pconn->access_level;
 
@@ -422,7 +424,7 @@ void send_conn_info_remove(struct conn_list *src, struct conn_list *dest)
 
 /**************************************************************************
   Setup pconn as a client connected to pplayer:
-  Updates pconn->player, pplayer->connections, pplayer->is_connected.
+  Updates pconn->playing, pplayer->connections, pplayer->is_connected.
 
   If pplayer is NULL, take the next available player that is not already 
   associated.
@@ -451,7 +453,7 @@ bool attach_connection_to_player(struct connection *pconn,
     pplayer->is_connected = TRUE;
   }
 
-  pconn->player = pplayer;
+  pconn->playing = pplayer;
   conn_list_append(pplayer->connections, pconn);
 
   aifill(game.info.aifill);
@@ -467,25 +469,25 @@ bool attach_connection_to_player(struct connection *pconn,
 **************************************************************************/
 bool unattach_connection_from_player(struct connection *pconn)
 {
-  if (!pconn->player) {
+  if (NULL == pconn->playing) {
     return FALSE; /* no player is attached to this conn */
   }
 
-  conn_list_unlink(pconn->player->connections, pconn);
+  conn_list_unlink(pconn->playing->connections, pconn);
 
-  pconn->player->is_connected = FALSE;
+  pconn->playing->is_connected = FALSE;
   pconn->observer = FALSE;
 
   /* If any other (non-observing) conn is attached to 
    * this player, the player is still connected. */
-  conn_list_iterate(pconn->player->connections, aconn) {
+  conn_list_iterate(pconn->playing->connections, aconn) {
     if (!aconn->observer) {
-      pconn->player->is_connected = TRUE;
+      pconn->playing->is_connected = TRUE;
       break;
     }
   } conn_list_iterate_end;
 
-  pconn->player = NULL;
+  pconn->playing = NULL;
 
   return TRUE;
 }

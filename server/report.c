@@ -758,13 +758,13 @@ bool is_valid_demography(const char *demography, const char **error_string)
 *************************************************************************/
 void report_demographics(struct connection *pconn)
 {
-  struct player *pplayer = pconn->player;
   char civbuf[1024];
   char buffer[4096];
   unsigned int i;
   bool anyrows;
   bv_cols selcols;
   int numcols = 0;
+  struct player *pplayer = pconn->playing;
 
   BV_CLR_ALL(selcols);
   assert(ARRAY_SIZE(coltable) == DEM_COL_LAST);

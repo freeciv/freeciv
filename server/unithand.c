@@ -203,7 +203,7 @@ void handle_unit_diplomat_query(struct connection *pc,
 				int value,
 				enum diplomat_actions action_type)
 {
-  struct player *pplayer = pc->player;
+  struct player *pplayer = pc->playing;
   struct unit *pdiplomat = player_find_unit_by_id(pplayer, diplomat_id);
   struct unit *punit = game_find_unit_by_number(target_id);
   struct city *pcity = game_find_city_by_number(target_id);
@@ -838,7 +838,7 @@ static void send_combat(struct unit *pattacker, struct unit *pdefender,
   /* Send combat info to non-player observers as well.  They already know
    * about the unit so no unit_info is needed. */
   conn_list_iterate(game.est_connections, pconn) {
-    if (!pconn->player && pconn->observer) {
+    if (NULL == pconn->playing && pconn->observer) {
       send_packet_unit_combat_info(pconn, &combat);
     }
   } conn_list_iterate_end;

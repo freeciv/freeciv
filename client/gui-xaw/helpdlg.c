@@ -251,7 +251,7 @@ static void create_tech_tree(Widget tree, Widget parent, int tech, int levels)
   char *bg="";
   char label[MAX_LEN_NAME+3];
   
-  type = (tech==A_LAST) ? TECH_UNKNOWN : player_invention_state(client.playing, tech);
+  type = (tech==A_LAST) ? TECH_UNKNOWN : player_invention_state(client.conn.playing, tech);
   switch(type) {
     case TECH_UNKNOWN:
       bg=TREE_NODE_UNKNOWN_TECH_BG;
@@ -280,7 +280,7 @@ static void create_tech_tree(Widget tree, Widget parent, int tech, int levels)
   
   my_snprintf(label, sizeof(label),
 	      "%s:%d", advance_name_translation(advance_by_number(tech)),
-	      num_unknown_techs_for_goal(client.playing, tech));
+	      num_unknown_techs_for_goal(client.conn.playing, tech));
 
   if(parent) {
     l=XtVaCreateManagedWidget("treenode", 
@@ -761,7 +761,7 @@ static void help_update_improvement(const struct help_item *pitem,
     create_tech_tree(help_tech_tree, 0, A_LAST, 3);
   }
   set_title_topic(pitem);
-  helptext_building(buf, sizeof(buf), client.playing, pitem->text, imp);
+  helptext_building(buf, sizeof(buf), client.conn.playing, pitem->text, imp);
   XtVaSetValues(help_text, XtNstring, buf, NULL);
 }
   
@@ -814,7 +814,7 @@ static void help_update_wonder(const struct help_item *pitem,
     create_tech_tree(help_tech_tree, 0, advance_count(), 3); 
   }
   set_title_topic(pitem);
-  helptext_building(buf, sizeof(buf), client.playing, pitem->text, imp);
+  helptext_building(buf, sizeof(buf), client.conn.playing, pitem->text, imp);
   XtVaSetValues(help_text, XtNstring, buf, NULL);
 }
 
@@ -850,7 +850,7 @@ static void help_update_unit_type(const struct help_item *pitem,
       xaw_set_label(help_improvement_req_data, _("(Never)"));
     } else {
       xaw_set_label(help_improvement_req_data,
-		    advance_name_for_player(client.playing,
+		    advance_name_for_player(client.conn.playing,
 				  advance_number(punittype->require_advance)));
     }
     create_tech_tree(help_tech_tree, 0, advance_number(punittype->require_advance), 3);
@@ -861,7 +861,7 @@ static void help_update_unit_type(const struct help_item *pitem,
 		    utype_name_translation(punittype->obsoleted_by));
     }
     /* add text for transport_capacity, fuel, and flags: */
-    helptext_unit(buf, sizeof(buf), client.playing, pitem->text, punittype);
+    helptext_unit(buf, sizeof(buf), client.conn.playing, pitem->text, punittype);
     XtVaSetValues(help_text, XtNstring, buf, NULL);
   }
   else {
@@ -895,7 +895,7 @@ static void help_update_tech(const struct help_item *pitem, char *title)
 
   if (padvance  &&  !is_future_tech(i = advance_number(padvance))) {
     create_tech_tree(help_tech_tree, 0, i, 3);
-    helptext_advance(buf, sizeof(buf), client.playing, pitem->text, i);
+    helptext_advance(buf, sizeof(buf), client.conn.playing, pitem->text, i);
 
     improvement_iterate(pimprove) {
       /*if (i == j->tech_req) 
@@ -968,7 +968,7 @@ static void help_update_terrain(const struct help_item *pitem,
   create_help_page(HELP_TERRAIN);
   set_title_topic(pitem);
 
-  helptext_terrain(buf, sizeof(buf), client.playing, pitem->text, pterrain);
+  helptext_terrain(buf, sizeof(buf), client.conn.playing, pitem->text, pterrain);
   XtVaSetValues(help_text, XtNstring, buf, NULL);
 
   if (pterrain) {
@@ -1060,7 +1060,7 @@ static void help_update_government(const struct help_item *pitem,
   if (!pgovernment) {
     strcat(buf, pitem->text);
   } else {
-    helptext_government(buf, sizeof(buf), client.playing, pitem->text, pgovernment);
+    helptext_government(buf, sizeof(buf), client.conn.playing, pitem->text, pgovernment);
   }
   create_help_page(HELP_TEXT);
   set_title_topic(pitem);

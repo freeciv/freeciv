@@ -747,7 +747,7 @@ void handle_diplomacy_init_meeting_req(struct player *pplayer,
 **************************************************************************/
 void send_diplomatic_meetings(struct connection *dest)
 {
-  struct player *pplayer = dest->player;
+  struct player *pplayer = dest->playing;
 
   if (!pplayer) {
     return;

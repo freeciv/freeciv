@@ -1559,10 +1559,10 @@ void update_conn_list_dialog(void)
 {
   GtkTreeIter it[player_count()];
 
-  if (client.playing) {
+  if (NULL != client.conn.playing) {
     char *text;
 
-    if (client.playing->is_ready) {
+    if (client.conn.playing->is_ready) {
       text = _("Not _ready");
     } else {
       int num_unready = 0;
@@ -1586,14 +1586,14 @@ void update_conn_list_dialog(void)
   } else {
     gtk_stockbutton_set_label(ready_button, _("_Start"));
   }
-  gtk_widget_set_sensitive(ready_button, (NULL != client.playing));
+  gtk_widget_set_sensitive(ready_button, (NULL != client.conn.playing));
 
   gtk_stockbutton_set_label(nation_button, _("Pick _Nation"));
-  if (!aconnection.player) {
+  if (NULL == client.conn.playing) {
     gtk_widget_set_sensitive(nation_button, game.info.is_new_game);
   }
 
-  if (aconnection.player || !aconnection.observer) {
+  if (NULL != client.conn.playing || !client.conn.observer) {
     gtk_stockbutton_set_label(take_button, _("_Observe"));
   } else {
     gtk_stockbutton_set_label(take_button, _("Do not _observe"));
@@ -1661,7 +1661,7 @@ void update_conn_list_dialog(void)
       }
 
       conn_list_iterate(game.est_connections, pconn) {
-	if (pconn->player == pplayer && !pconn->observer) {
+	if (pconn->playing == pplayer && !pconn->observer) {
 	  assert(conn_id == -1);
 	  conn_id = pconn->id;
 	}
@@ -1683,7 +1683,7 @@ void update_conn_list_dialog(void)
     conn_list_iterate(game.est_connections, pconn) {
       GtkTreeIter conn_it, *parent;
 
-      if (pconn->player && !pconn->observer) {
+      if (NULL != pconn->playing && !pconn->observer) {
 	continue; /* Already listed above. */
       }
       sz_strlcpy(name, pconn->username);
@@ -1691,7 +1691,9 @@ void update_conn_list_dialog(void)
       nation = "";
       leader = "";
       team = pconn->observer ? _("Observer") : _("Detached");
-      parent = pconn->player ? &it[player_index(pconn->player)] : NULL;
+      parent = (NULL != pconn->playing)
+                ? &it[player_index(pconn->playing)]
+                : NULL;
 
       gtk_tree_store_append(conn_model, &conn_it, parent);
       gtk_tree_store_set(conn_model, &conn_it,
@@ -1788,7 +1790,7 @@ static gboolean select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev,
     return TRUE;
 
   punit = game_find_unit_by_number(unit_ids[i]);
-  if (punit && unit_owner(punit) == client.playing) {
+  if (NULL != punit && unit_owner(punit) == client.conn.playing) {
     /* Unit shouldn't be NULL but may be owned by an ally. */
     set_unit_focus(punit);
   }
@@ -1869,14 +1871,14 @@ static void set_wait_for_writable_socket(struct connection *pc,
 {
   static bool previous_state = FALSE;
 
-  assert(pc == &aconnection);
+  assert(pc == &client.conn);
 
   if (previous_state == socket_writable)
     return;
 
   freelog(LOG_DEBUG, "set_wait_for_writable_socket(%d)", socket_writable);
   gtk_input_remove(input_id);
-  input_id = gtk_input_add_full(aconnection.sock, GDK_INPUT_READ 
+  input_id = gtk_input_add_full(client.conn.sock, GDK_INPUT_READ
 				| (socket_writable ? GDK_INPUT_WRITE : 0)
 				| GDK_INPUT_EXCEPTION,
 				get_net_input, NULL, NULL, NULL);
@@ -1891,7 +1893,7 @@ void add_net_input(int sock)
 {
   input_id = gtk_input_add_full(sock, GDK_INPUT_READ | GDK_INPUT_EXCEPTION,
 				get_net_input, NULL, NULL, NULL);
-  aconnection.notify_of_writable_data = set_wait_for_writable_socket;
+  client.conn.notify_of_writable_data = set_wait_for_writable_socket;
 }
 
 /**************************************************************************

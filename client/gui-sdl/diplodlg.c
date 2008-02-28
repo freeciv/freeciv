@@ -27,7 +27,6 @@
 /* client */
 #include "civclient.h"
 #include "climisc.h"
-#include "clinet.h"
 #include "packhand.h"
 
 /* gui-sdl */
@@ -94,7 +93,7 @@ void diplomacy_dialog_done()
 *****************************************************************/
 static struct diplomacy_dialog *get_diplomacy_dialog(int other_player_id)
 {
-  struct player *plr0 = client.playing;
+  struct player *plr0 = client.conn.playing;
   struct player *plr1 = player_by_number(other_player_id);
 
   dialog_list_iterate(dialog_list, pdialog) {
@@ -146,7 +145,7 @@ static int remove_clause_callback(struct widget *pWidget)
       pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
     }
     
-    dsend_packet_diplomacy_remove_clause_req(&aconnection,
+    dsend_packet_diplomacy_remove_clause_req(&client.conn,
                                              player_number(pdialog->treaty.plr1),
                                              pWidget->data.cont->id0,
                                              (enum clause_type) ((pWidget->data.
@@ -211,7 +210,7 @@ void handle_diplomacy_remove_clause(int counterpart, int giver,
 static int cancel_meeting_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    dsend_packet_diplomacy_cancel_meeting_req(&aconnection,
+    dsend_packet_diplomacy_cancel_meeting_req(&client.conn,
 					    pWidget->data.cont->id1);
   }
   return -1;
@@ -220,7 +219,7 @@ static int cancel_meeting_callback(struct widget *pWidget)
 static int accept_treaty_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    dsend_packet_diplomacy_accept_treaty_req(&aconnection,
+    dsend_packet_diplomacy_accept_treaty_req(&client.conn,
 					   pWidget->data.cont->id1);
   }
   return -1;
@@ -251,7 +250,7 @@ static int pact_callback(struct widget *pWidget)
       break;
     }
     
-    dsend_packet_diplomacy_create_clause_req(&aconnection,
+    dsend_packet_diplomacy_create_clause_req(&client.conn,
                                              player_number(pdialog->treaty.plr1),
                                              pWidget->data.cont->id0,
                                              clause_type, 0);
@@ -268,7 +267,7 @@ static int vision_callback(struct widget *pWidget)
       pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
     }
   
-    dsend_packet_diplomacy_create_clause_req(&aconnection,
+    dsend_packet_diplomacy_create_clause_req(&client.conn,
                                              player_number(pdialog->treaty.plr1),
                                              pWidget->data.cont->id0,
                                              CLAUSE_VISION, 0);
@@ -285,7 +284,7 @@ static int embassy_callback(struct widget *pWidget)
       pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
     }
   
-    dsend_packet_diplomacy_create_clause_req(&aconnection,
+    dsend_packet_diplomacy_create_clause_req(&client.conn,
                                              player_number(pdialog->treaty.plr1),
                                              pWidget->data.cont->id0,
                                              CLAUSE_EMBASSY, 0);
@@ -313,7 +312,7 @@ static int maps_callback(struct widget *pWidget)
       break;
     }
   
-    dsend_packet_diplomacy_create_clause_req(&aconnection,
+    dsend_packet_diplomacy_create_clause_req(&client.conn,
                                              player_number(pdialog->treaty.plr1),
                                              pWidget->data.cont->id0,
                                              clause_type, 0);
@@ -330,7 +329,7 @@ static int techs_callback(struct widget *pWidget)
       pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
     }
     
-    dsend_packet_diplomacy_create_clause_req(&aconnection,
+    dsend_packet_diplomacy_create_clause_req(&client.conn,
                                              player_number(pdialog->treaty.plr1),
                                              pWidget->data.cont->id0,
                                              CLAUSE_ADVANCE,
@@ -366,7 +365,7 @@ static int gold_callback(struct widget *pWidget)
     }
     
     if (amount > 0) {
-      dsend_packet_diplomacy_create_clause_req(&aconnection,
+      dsend_packet_diplomacy_create_clause_req(&client.conn,
                                                player_number(pdialog->treaty.plr1),
                                                pWidget->data.cont->id0,
                                                CLAUSE_GOLD, amount);
@@ -394,7 +393,7 @@ static int cities_callback(struct widget *pWidget)
       pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
     }
     
-    dsend_packet_diplomacy_create_clause_req(&aconnection,
+    dsend_packet_diplomacy_create_clause_req(&client.conn,
                                              player_number(pdialog->treaty.plr1),  
                                              pWidget->data.cont->id0,
                                              CLAUSE_CITY,
@@ -447,7 +446,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   height = 0;
   
   /* Pacts. */
-  if (pPlayer0 == client.playing && DS_ALLIANCE != type) {
+  if (pPlayer0 == client.conn.playing && DS_ALLIANCE != type) {
     
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 			  _("Pacts"), adj_font(12), WF_RESTORE_BACKGROUND);
@@ -1029,7 +1028,7 @@ static void update_clauses_list(struct diplomacy_dialog *pdialog) {
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
      (WF_FREE_DATA|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_RESTORE_BACKGROUND));
         
-    if (pclause->from != client.playing) {
+    if (pclause->from != client.conn.playing) {
        pBuf->string16->style |= SF_CENTER_RIGHT;  
     }
   
@@ -1145,12 +1144,12 @@ void handle_diplomacy_init_meeting(int counterpart, int initiated_from)
     return;
   }
 
-  if (client.playing->ai.control) {
+  if (client.conn.playing->ai.control) {
     return;			/* Don't show if we are AI controlled. */
   }
 
   if (!(pdialog = get_diplomacy_dialog(counterpart))) {
-    pdialog = create_diplomacy_dialog(client.playing,
+    pdialog = create_diplomacy_dialog(client.conn.playing,
 				player_by_number(counterpart));
   } else {
     /* bring existing dialog to front */
@@ -1236,7 +1235,7 @@ static int withdraw_vision_dlg_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     popdown_sdip_dialog();
   
-    dsend_packet_diplomacy_cancel_pact(&aconnection,
+    dsend_packet_diplomacy_cancel_pact(&client.conn,
                                        player_number(pWidget->data.player),
                                        CLAUSE_VISION);
     
@@ -1250,7 +1249,7 @@ static int cancel_pact_dlg_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     popdown_sdip_dialog();
   
-    dsend_packet_diplomacy_cancel_pact(&aconnection,
+    dsend_packet_diplomacy_cancel_pact(&client.conn,
                                        player_number(pWidget->data.player),
                                        CLAUSE_CEASEFIRE);
     
@@ -1264,7 +1263,7 @@ static int call_meeting_dlg_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     popdown_sdip_dialog();
     
-    dsend_packet_diplomacy_init_meeting_req(&aconnection,
+    dsend_packet_diplomacy_init_meeting_req(&client.conn,
                                             player_number(pWidget->data.player));
     
     flush_dirty();
@@ -1402,10 +1401,10 @@ static void popup_war_dialog(struct player *pPlayer)
 void popup_diplomacy_dialog(struct player *pPlayer)
 {
   enum diplstate_type type =
-		  pplayer_get_diplstate(client.playing, pPlayer)->type;
+		  pplayer_get_diplstate(client.conn.playing, pPlayer)->type;
 
   if (!can_meet_with_player(pPlayer)) {
-    if (DS_WAR == type || pPlayer == client.playing) {
+    if (DS_WAR == type || pPlayer == client.conn.playing) {
       flush_dirty();
       return;
     } else {
@@ -1480,7 +1479,7 @@ void popup_diplomacy_dialog(struct player *pPlayer)
       button_w = MAX(button_w , pBuf->size.w);
       button_h = MAX(button_h , pBuf->size.h);
 
-      shared = gives_shared_vision(client.playing, pPlayer);
+      shared = gives_shared_vision(client.conn.playing, pPlayer);
 
       if(shared) {
         /* shared vision */

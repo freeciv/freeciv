@@ -206,7 +206,7 @@ static void create_tech_tree(int tech, int levels, GtkTreeIter *parent)
   }
 
   bg = COLOR_REQTREE_BACKGROUND;
-  switch (player_invention_state(client.playing, tech)) {
+  switch (player_invention_state(client.conn.playing, tech)) {
   case TECH_UNKNOWN:
     bg = COLOR_REQTREE_UNREACHABLE;
     break;
@@ -217,7 +217,7 @@ static void create_tech_tree(int tech, int levels, GtkTreeIter *parent)
     bg = COLOR_REQTREE_REACHABLE;
     break;
   }
-  turns_to_tech = num_unknown_techs_for_goal(client.playing, tech);
+  turns_to_tech = num_unknown_techs_for_goal(client.conn.playing, tech);
 
   /* l is the original in the tree. */
   original = !help_advances[tech];
@@ -226,7 +226,7 @@ static void create_tech_tree(int tech, int levels, GtkTreeIter *parent)
   help_advances[tech] = TRUE;
 
   g_value_init(&value, G_TYPE_STRING);
-  g_value_set_static_string(&value, advance_name_for_player(client.playing, tech));
+  g_value_set_static_string(&value, advance_name_for_player(client.conn.playing, tech));
   gtk_tree_store_set_value(tstore, &l, 0, &value);
   g_value_unset(&value);
 
@@ -262,7 +262,7 @@ static void help_tech_tree_activated_callback(GtkTreeView *view,
 
   gtk_tree_model_get_iter(GTK_TREE_MODEL(tstore), &it, path);
   gtk_tree_model_get(GTK_TREE_MODEL(tstore), &it, 2, &tech, -1);
-  select_help_item_string(advance_name_for_player(client.playing, tech), HELP_TECH);
+  select_help_item_string(advance_name_for_player(client.conn.playing, tech), HELP_TECH);
 }
 
 /**************************************************************************
@@ -718,7 +718,7 @@ static void help_update_improvement(const struct help_item *pitem,
   }
   gtk_widget_show(help_itable);
 
-  helptext_building(buf, sizeof(buf), client.playing, pitem->text, imp);
+  helptext_building(buf, sizeof(buf), client.conn.playing, pitem->text, imp);
   gtk_text_buffer_set_text(help_text, buf, -1);
   gtk_widget_show(help_text_sw);
 }
@@ -755,7 +755,7 @@ static void help_update_wonder(const struct help_item *pitem,
     } requirement_vector_iterate_end;
     if (valid_advance(imp->obsolete_by)) {
       gtk_label_set_text(GTK_LABEL(help_wlabel[5]),
-			 advance_name_for_player(client.playing, advance_number(imp->obsolete_by)));
+			 advance_name_for_player(client.conn.playing, advance_number(imp->obsolete_by)));
     } else {
       gtk_label_set_text(GTK_LABEL(help_wlabel[5]), REQ_LABEL_NEVER);
     }
@@ -770,7 +770,7 @@ static void help_update_wonder(const struct help_item *pitem,
   }
   gtk_widget_show(help_wtable);
 
-  helptext_building(buf, sizeof(buf), client.playing, pitem->text, imp);
+  helptext_building(buf, sizeof(buf), client.conn.playing, pitem->text, imp);
   gtk_text_buffer_set_text(help_text, buf, -1);
   gtk_widget_show(help_text_sw);
 }
@@ -807,7 +807,7 @@ static void help_update_unit_type(const struct help_item *pitem,
       gtk_label_set_text(GTK_LABEL(help_ulabel[4][1]), REQ_LABEL_NEVER);
     } else {
       gtk_label_set_text(GTK_LABEL(help_ulabel[4][1]),
-			 advance_name_for_player(client.playing,
+			 advance_name_for_player(client.conn.playing,
 				       advance_number(utype->require_advance)));
     }
 /*    create_tech_tree(help_improvement_tree, 0, advance_number(utype->require_advance), 3);*/
@@ -818,7 +818,7 @@ static void help_update_unit_type(const struct help_item *pitem,
 			 utype_name_translation(utype->obsoleted_by));
     }
 
-    helptext_unit(buf, sizeof(buf), client.playing, pitem->text, utype);
+    helptext_unit(buf, sizeof(buf), client.conn.playing, pitem->text, utype);
 
     gtk_text_buffer_set_text(help_text, buf, -1);
     gtk_widget_show(help_text_sw);
@@ -899,7 +899,7 @@ static void help_update_tech(const struct help_item *pitem, char *title)
     gtk_widget_show(help_tree_sw);
     gtk_widget_show(help_tree_buttons_hbox);
 
-    helptext_advance(buf, sizeof(buf), client.playing, pitem->text, i);
+    helptext_advance(buf, sizeof(buf), client.conn.playing, pitem->text, i);
     len = strlen(buf);
     my_chomp(buf, len);
 
@@ -1111,7 +1111,7 @@ static void help_update_terrain(const struct help_item *pitem,
     gtk_label_set_text(GTK_LABEL(help_tlabel[3][4]), buf);
   }
 
-  helptext_terrain(buf, sizeof(buf), client.playing, pitem->text, pterrain);
+  helptext_terrain(buf, sizeof(buf), client.conn.playing, pitem->text, pterrain);
 
   gtk_text_buffer_set_text(help_text, buf, -1);
   gtk_widget_show(help_text_sw);
@@ -1131,7 +1131,7 @@ static void help_update_government(const struct help_item *pitem,
   if (!gov) {
     strcat(buf, pitem->text);
   } else {
-    helptext_government(buf, sizeof(buf), client.playing, pitem->text, gov);
+    helptext_government(buf, sizeof(buf), client.conn.playing, pitem->text, gov);
   }
   create_help_page(HELP_TEXT);
   gtk_text_buffer_set_text(help_text, buf, -1);

@@ -47,7 +47,6 @@
 #include "civclient.h"
 #include "climap.h"
 #include "climisc.h"
-#include "clinet.h"		/* aconnection */
 #include "connectdlg_common.h"
 #include "connectdlg_g.h"
 #include "control.h"
@@ -209,15 +208,15 @@ void handle_server_join_reply(bool you_can_join, char *message,
                               int conn_id)
 {
   char msg[MAX_LEN_MSG];
-  char *s_capability = aconnection.capability;
+  char *s_capability = client.conn.capability;
 
-  sz_strlcpy(aconnection.capability, capability);
+  sz_strlcpy(client.conn.capability, capability);
   close_connection_dialog();
 
   if (you_can_join) {
     freelog(LOG_VERBOSE, "join game accept:%s", message);
-    aconnection.established = TRUE;
-    aconnection.id = conn_id;
+    client.conn.established = TRUE;
+    client.conn.id = conn_id;
 
     agents_game_joined();
     update_menus();
@@ -235,7 +234,7 @@ void handle_server_join_reply(bool you_can_join, char *message,
     my_snprintf(msg, sizeof(msg),
 		_("You were rejected from the game: %s"), message);
     append_output_window(msg);
-    aconnection.id = -1; /* not in range of conn_info id */
+    client.conn.id = -1; /* not in range of conn_info id */
 
     if (auto_connect) {
       freelog(LOG_NORMAL, "%s", msg);
@@ -307,7 +306,7 @@ void handle_unit_remove(int unit_id)
   agents_unit_remove(punit);
   client_remove_unit(punit);
 
-  if (powner == client.playing) {
+  if (powner == client.conn.playing) {
     activeunits_report_dialog_update();
   }
 }
@@ -339,7 +338,7 @@ void handle_unit_combat_info(int attacker_unit_id, int defender_unit_id,
 	tile_visible_mapcanvas(punit1->tile)) {
       show_combat = TRUE;
     } else if (auto_center_on_combat) {
-      if (unit_owner(punit0) == client.playing)
+      if (unit_owner(punit0) == client.conn.playing)
 	center_tile_mapcanvas(punit0->tile);
       else
 	center_tile_mapcanvas(punit1->tile);
@@ -682,7 +681,7 @@ void handle_city_info(struct packet_city_info *packet)
    * investigating an enemy city we can't.  In that case we don't update
    * the occupied flag at all: it's already been set earlier and we'll
    * get an update if it changes. */
-  if (can_player_see_units_in_city(client.playing, pcity)) {
+  if (can_player_see_units_in_city(client.conn.playing, pcity)) {
     pcity->client.occupied
       = (unit_list_size(pcity->tile->units) > 0);
   }
@@ -691,7 +690,7 @@ void handle_city_info(struct packet_city_info *packet)
   pcity->client.unhappy = city_unhappy(pcity);
 
   popup = (city_is_new && can_client_change_view()
-           && powner == client.playing
+           && powner == client.conn.playing
            && popup_new_cities)
           || packet->diplomat_investigate;
 
@@ -756,7 +755,7 @@ static void city_packet_common(struct city *pcity, struct tile *pcenter,
     tile_set_worked(pcenter, pcity); /* is_free_worked() */
     city_list_prepend(powner->cities, pcity);
 
-    if (powner == client.playing) {
+    if (powner == client.conn.playing) {
       city_report_dialog_update();
     }
 
@@ -767,7 +766,7 @@ static void city_packet_common(struct city *pcity, struct tile *pcenter,
       unit_list_iterate_end;
     } players_iterate_end;
   } else {
-    if (powner == client.playing) {
+    if (powner == client.conn.playing) {
       city_report_dialog_update_city(pcity);
     }
   }
@@ -781,8 +780,8 @@ static void city_packet_common(struct city *pcity, struct tile *pcenter,
   }
 
   if (popup
-      && client.playing
-      && !client.playing->ai.control
+      && NULL != client.conn.playing
+      && !client.conn.playing->ai.control
       && can_client_issue_orders()) {
     update_menus();
     if (!city_dialog_is_open(pcity)) {
@@ -791,7 +790,7 @@ static void city_packet_common(struct city *pcity, struct tile *pcenter,
   }
 
   if (!is_new
-      && (popup || can_player_see_city_internals(client.playing, pcity))) {
+      && (popup || can_player_see_city_internals(client.conn.playing, pcity))) {
     refresh_city_dialog(pcity);
   }
 
@@ -991,10 +990,10 @@ void handle_new_year(int year, int turn)
 #if 0
   /* This information shouldn't be needed, but if it is this is the only
    * way we can get it. */
-  if (client.playing) {
+  if (NULL != client.conn.playing) {
     turn_gold_difference =
-      client.playing->economic.gold - last_turn_gold_amount;
-    last_turn_gold_amount = client.playing->economic.gold;
+      client.conn.playing->economic.gold - last_turn_gold_amount;
+    last_turn_gold_amount = client.conn.playing->economic.gold;
   }
 #endif
 
@@ -1045,10 +1044,11 @@ void handle_start_phase(int phase)
 
   game.info.phase = phase;
 
-  if (client.playing && is_player_phase(client.playing, phase)) {
+  if (NULL != client.conn.playing
+      && is_player_phase(client.conn.playing, phase)) {
     /* HACK: this is updated by the player packet too; we update it here
      * so the turn done button state will be set properly. */
-    client.playing->phase_done = FALSE;
+    client.conn.playing->phase_done = FALSE;
 
     agents_start_turn();
     non_ai_unit_focus = FALSE;
@@ -1056,17 +1056,17 @@ void handle_start_phase(int phase)
     turn_done_sent = FALSE;
     update_turn_done_button_state();
 
-    if (client.playing->ai.control && !ai_manual_turn_done) {
+    if (client.conn.playing->ai.control && !ai_manual_turn_done) {
       user_ended_turn();
     }
 
-    player_set_unit_focus_status(client.playing);
+    player_set_unit_focus_status(client.conn.playing);
 
-    city_list_iterate(client.playing->cities, pcity) {
+    city_list_iterate(client.conn.playing->cities, pcity) {
       pcity->client.colored = FALSE;
     } city_list_iterate_end;
 
-    unit_list_iterate(client.playing->units, punit) {
+    unit_list_iterate(client.conn.playing->units, punit) {
       punit->client.colored = FALSE;
     } unit_list_iterate_end;
 
@@ -1155,8 +1155,8 @@ void handle_page_msg(char *message, enum event_type event)
     lines = "";
   }
 
-  if (!client.playing
-      || !client.playing->ai.control
+  if (NULL == client.conn.playing
+      || !client.conn.playing->ai.control
       || event != E_BROADCAST_REPORT) {
     popup_notify_dialog(caption, headline, lines);
     play_sound_for_event(event);
@@ -1255,13 +1255,13 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
       /* Wakeup Focus */
       if (wakeup_focus 
-          && client.playing
-          && !client.playing->ai.control
-          && unit_owner(punit) == client.playing
+          && NULL != client.conn.playing
+          && !client.conn.playing->ai.control
+          && unit_owner(punit) == client.conn.playing
           && punit->activity == ACTIVITY_SENTRY
           && packet_unit->activity == ACTIVITY_IDLE
           && !unit_is_in_focus(punit)
-          && is_player_phase(client.playing, game.info.phase)) {
+          && is_player_phase(client.conn.playing, game.info.phase)) {
         /* many wakeup units per tile are handled */
         urgent_unit_focus(punit);
         check_focus = FALSE; /* and keep it */
@@ -1294,7 +1294,8 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       punit->orders.list = packet_unit->orders.list;
       packet_unit->orders.list = NULL;
 
-      if (!client.playing || unit_owner(punit) == client.playing) {
+      if (NULL == client.conn.playing
+          || unit_owner(punit) == client.conn.playing) {
         refresh_unit_city_dialogs(punit);
       }
     } /*** End of Change in activity or activity's target. ***/
@@ -1359,7 +1360,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       do_move_unit(punit, packet_unit);
 
       if(pcity)  {
-	if (can_player_see_units_in_city(client.playing, pcity)) {
+	if (can_player_see_units_in_city(client.conn.playing, pcity)) {
 	  /* Unit moved out of a city - update the occupied status. */
 	  bool new_occupied =
 	    (unit_list_size(pcity->tile->units) > 0);
@@ -1378,7 +1379,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       }
       
       if((pcity=tile_city(punit->tile)))  {
-	if (can_player_see_units_in_city(client.playing, pcity)) {
+	if (can_player_see_units_in_city(client.conn.playing, pcity)) {
 	  /* Unit moved into a city - obviously it's occupied. */
 	  if (!pcity->client.occupied) {
 	    pcity->client.occupied = TRUE;
@@ -1392,9 +1393,9 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 	  refresh_city_dialog(pcity);
 	
         if((unit_has_type_flag(punit, F_TRADE_ROUTE) || unit_has_type_flag(punit, F_HELP_WONDER))
-	   && client.playing
-	   && !client.playing->ai.control
-	   && unit_owner(punit) == client.playing
+	   && NULL != client.conn.playing
+	   && !client.conn.playing->ai.control
+	   && unit_owner(punit) == client.conn.playing
 	   && !unit_has_orders(punit)
 	   && can_client_issue_orders()
 	   && (unit_can_help_build_wonder_here(punit)
@@ -1473,9 +1474,9 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
   }
 
   if ((check_focus || get_num_units_in_focus() == 0)
-      && client.playing
-      && !client.playing->ai.control
-      && is_player_phase(client.playing, game.info.phase)) {
+      && NULL != client.conn.playing
+      && !client.conn.playing->ai.control
+      && is_player_phase(client.conn.playing, game.info.phase)) {
     update_unit_focus();
   }
 
@@ -1542,7 +1543,7 @@ void handle_unit_short_info(struct packet_unit_short_info *packet)
     return;
   }
 
-  if (valid_player_by_number(packet->owner) == client.playing) {
+  if (valid_player_by_number(packet->owner) == client.conn.playing) {
     freelog(LOG_ERROR, "handle_unit_short_info() for own unit.");
   }
 
@@ -1625,7 +1626,7 @@ void handle_game_info(struct packet_game_info *pinfo)
     set_seconds_to_turndone(pinfo->seconds_to_phasedone);
   }
   if (boot_help) {
-    boot_help_texts(client.playing); /* reboot, after setting game.spacerace */
+    boot_help_texts(client.conn.playing); /* reboot, after setting game.spacerace */
   }
   update_unit_focus();
   update_menus();
@@ -1673,10 +1674,10 @@ static bool read_player_info_techs(struct player *pplayer,
 **************************************************************************/
 void set_government_choice(struct government *government)
 {
-  if (client.playing
+  if (NULL != client.conn.playing
       && can_client_issue_orders()
-      && government != government_of_player(client.playing)) {
-    dsend_packet_player_change_government(&aconnection, government_number(government));
+      && government != government_of_player(client.conn.playing)) {
+    dsend_packet_player_change_government(&client.conn, government_number(government));
   }
 }
 
@@ -1686,7 +1687,7 @@ void set_government_choice(struct government *government)
 **************************************************************************/
 void start_revolution(void)
 {
-  dsend_packet_player_change_government(&aconnection,
+  dsend_packet_player_change_government(&client.conn,
 					game.info.government_when_anarchy_id);
 }
 
@@ -1737,10 +1738,10 @@ void handle_player_info(struct packet_player_info *pinfo)
   /* Check if we detect change to armistice with us. If so,
    * ready all units for movement out of the territory in
    * question; otherwise they will be disbanded. */
-  if (client.playing
-      && DS_ARMISTICE != pplayer->diplstates[player_index(client.playing)].type
-      && DS_ARMISTICE == pinfo->diplstates[player_index(client.playing)].type) {
-    unit_list_iterate(client.playing->units, punit) {
+  if (NULL != client.conn.playing
+      && DS_ARMISTICE != pplayer->diplstates[player_index(client.conn.playing)].type
+      && DS_ARMISTICE == pinfo->diplstates[player_index(client.conn.playing)].type) {
+    unit_list_iterate(client.conn.playing->units, punit) {
       if (!tile_owner(punit->tile) || tile_owner(punit->tile) != pplayer) {
         continue;
       }
@@ -1772,9 +1773,9 @@ void handle_player_info(struct packet_player_info *pinfo)
   /* We need to set ai.control before read_player_info_techs */
   if(pplayer->ai.control!=pinfo->ai)  {
     pplayer->ai.control=pinfo->ai;
-    if (pplayer == client.playing)  {
+    if (pplayer == client.conn.playing)  {
       my_snprintf(msg, sizeof(msg), _("AI Mode is now %s."),
-                  client.playing->ai.control?_("ON"):_("OFF"));
+                  client.conn.playing->ai.control?_("ON"):_("OFF"));
       append_output_window(msg);
     }
   }
@@ -1810,12 +1811,12 @@ void handle_player_info(struct packet_player_info *pinfo)
   research->future_tech = pinfo->future_tech;
   research->tech_goal=pinfo->tech_goal;
   
-  if (pplayer == client.playing && can_client_change_view()) {
+  if (pplayer == client.conn.playing && can_client_change_view()) {
     if (poptechup || new_tech) {
       science_dialog_update();
     }
     if (poptechup) {
-      if (client.playing && !client.playing->ai.control) {
+      if (NULL != client.conn.playing && !client.conn.playing->ai.control) {
 	popup_science_dialog(FALSE);
       }
     }
@@ -1834,7 +1835,7 @@ void handle_player_info(struct packet_player_info *pinfo)
 
   pplayer->is_ready = pinfo->is_ready;
 
-  if (pplayer == client.playing
+  if (pplayer == client.conn.playing
       && pplayer->phase_done != pinfo->phase_done) {
     update_turn_done_button_state();
   }
@@ -1851,7 +1852,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   update_worklist_report_dialog();
   upgrade_canvas_clipboard();
 
-  if (pplayer == client.playing && can_client_change_view()) {
+  if (pplayer == client.conn.playing && can_client_change_view()) {
     update_info_label();
   }
 
@@ -1860,7 +1861,7 @@ void handle_player_info(struct packet_player_info *pinfo)
    * correct conn back into the player->connections list */
   if (conn_list_size(pplayer->connections) == 0) {
     conn_list_iterate(game.est_connections, pconn) {
-      if (pconn->player == pplayer) {
+      if (pplayer == pconn->playing) {
         /* insert the controller into first position */
         if (pconn->observer) {
           conn_list_append(pplayer->connections, pconn);
@@ -1933,33 +1934,34 @@ void handle_conn_info(struct packet_conn_info *pinfo)
     } else {
       freelog(LOG_DEBUG, "Server reports updated connection %d %s",
 	      pinfo->id, pinfo->username);
-      if (pplayer != pconn->player) {
-	if (pconn->player) {
-	  conn_list_unlink(pconn->player->connections, pconn);
+      if (pplayer != pconn->playing) {
+	if (NULL != pconn->playing) {
+	  conn_list_unlink(pconn->playing->connections, pconn);
 	}
 	if (pplayer) {
 	  conn_list_append(pplayer->connections, pconn);
 	}
       }
     }
+
     pconn->id = pinfo->id;
     pconn->established = pinfo->established;
     pconn->observer = pinfo->observer;
     pconn->access_level = pinfo->access_level;
-    pconn->player = pplayer;
+    pconn->playing = pplayer;
+
+    if (pinfo->id == client.conn.id) {
+      client.conn.established = pconn->established;
+      client.conn.observer = pconn->observer;
+      client.conn.access_level = pconn->access_level;
+      client.conn.playing = pconn->playing;
+    }
+
     sz_strlcpy(pconn->username, pinfo->username);
     sz_strlcpy(pconn->addr, pinfo->addr);
     sz_strlcpy(pconn->capability, pinfo->capability);
-
-    if (pinfo->id == aconnection.id) {
-      aconnection.established = pconn->established;
-      aconnection.observer = pconn->observer;
-      aconnection.access_level = pconn->access_level;
-      /* FIXME: duplication */
-      client.playing =
-      aconnection.player = pplayer;
-    }
   }
+
   update_players_dialog();
   update_conn_list_dialog();
 }
@@ -2039,7 +2041,7 @@ static bool spaceship_autoplace(struct player *pplayer,
     }
     assert(num <= NUM_SS_MODULES / 3);
 
-    dsend_packet_spaceship_place(&aconnection, type, num);
+    dsend_packet_spaceship_place(&client.conn, type, num);
     return TRUE;
   }
   if (ship->components > ship->fuel + ship->propulsion) {
@@ -2050,7 +2052,7 @@ static bool spaceship_autoplace(struct player *pplayer,
       type = SSHIP_PLACE_PROPULSION;
       num = ship->propulsion + 1;
     }
-    dsend_packet_spaceship_place(&aconnection, type, num);
+    dsend_packet_spaceship_place(&client.conn, type, num);
     return TRUE;
   }
   if (ship->structurals > num_spaceship_structurals_placed(ship)) {
@@ -2065,7 +2067,7 @@ static bool spaceship_autoplace(struct player *pplayer,
       /* if we don't have the first structural, place that! */
       type = SSHIP_PLACE_STRUCTURAL;
       num = 0;
-      dsend_packet_spaceship_place(&aconnection, type, num);
+      dsend_packet_spaceship_place(&client.conn, type, num);
       return TRUE;
     }
     
@@ -2123,7 +2125,7 @@ static bool spaceship_autoplace(struct player *pplayer,
     }
     type = SSHIP_PLACE_STRUCTURAL;
     num = req;
-    dsend_packet_spaceship_place(&aconnection, type, num);
+    dsend_packet_spaceship_place(&client.conn, type, num);
     return TRUE;
   }
   return FALSE;
@@ -2177,7 +2179,7 @@ void handle_spaceship_info(struct packet_spaceship_info *p)
     }
   }
 
-  if (pplayer != client.playing) {
+  if (pplayer != client.conn.playing) {
     refresh_spaceship_dialog(pplayer);
     return;
   }
@@ -2303,21 +2305,21 @@ void handle_tile_info(struct packet_tile_info *packet)
     known_changed = TRUE;
   }
 
-  if (NULL != client.playing) {
-    BV_CLR(ptile->tile_known, player_index(client.playing));
+  if (NULL != client.conn.playing) {
+    BV_CLR(ptile->tile_known, player_index(client.conn.playing));
     vision_layer_iterate(v) {
-      BV_CLR(ptile->tile_seen[v], player_index(client.playing));
+      BV_CLR(ptile->tile_seen[v], player_index(client.conn.playing));
     } vision_layer_iterate_end;
 
     switch (packet->known) {
     case TILE_KNOWN_SEEN:
-      BV_SET(ptile->tile_known, player_index(client.playing));
+      BV_SET(ptile->tile_known, player_index(client.conn.playing));
       vision_layer_iterate(v) {
-	BV_SET(ptile->tile_seen[v], player_index(client.playing));
+	BV_SET(ptile->tile_seen[v], player_index(client.conn.playing));
       } vision_layer_iterate_end;
       break;
     case TILE_KNOWN_UNSEEN:
-      BV_SET(ptile->tile_known, player_index(client.playing));
+      BV_SET(ptile->tile_known, player_index(client.conn.playing));
       break;
     case TILE_UNKNOWN:
       break;
@@ -3030,7 +3032,7 @@ void handle_ruleset_specialist(struct packet_ruleset_specialist *p)
 **************************************************************************/
 void handle_city_name_suggestion_info(int unit_id, char *name)
 {
-  struct unit *punit = player_find_unit_by_id(client.playing, unit_id);
+  struct unit *punit = player_find_unit_by_id(client.conn.playing, unit_id);
 
   if (!can_client_issue_orders()) {
     return;
@@ -3040,7 +3042,7 @@ void handle_city_name_suggestion_info(int unit_id, char *name)
     if (ask_city_name) {
       popup_newcity_dialog(punit, name);
     } else {
-      dsend_packet_unit_build_city(&aconnection, unit_id,name);
+      dsend_packet_unit_build_city(&client.conn, unit_id,name);
     }
   }
 }
@@ -3053,7 +3055,7 @@ void handle_unit_diplomat_answer(int diplomat_id, int target_id, int cost,
 {
   struct city *pcity = game_find_city_by_number(target_id);
   struct unit *punit = game_find_unit_by_number(target_id);
-  struct unit *pdiplomat = player_find_unit_by_id(client.playing, diplomat_id);
+  struct unit *pdiplomat = player_find_unit_by_id(client.conn.playing, diplomat_id);
 
   if (NULL == pdiplomat) {
     freelog(LOG_ERROR,
@@ -3065,14 +3067,14 @@ void handle_unit_diplomat_answer(int diplomat_id, int target_id, int cost,
   switch (action_type) {
   case DIPLOMAT_BRIBE:
     if (punit) {
-      if (client.playing && !client.playing->ai.control) {
+      if (NULL != client.conn.playing && !client.conn.playing->ai.control) {
         popup_bribe_dialog(punit, cost);
       }
     }
     break;
   case DIPLOMAT_INCITE:
     if (pcity) {
-      if (client.playing && !client.playing->ai.control) {
+      if (NULL != client.conn.playing && !client.conn.playing->ai.control) {
         popup_incite_dialog(pcity, cost);
       }
     }
@@ -3098,7 +3100,7 @@ void handle_city_sabotage_list(int diplomat_id, int city_id,
 			       bv_imprs improvements)
 {
   struct city *pcity = game_find_city_by_number(city_id);
-  struct unit *pdiplomat = player_find_unit_by_id(client.playing, diplomat_id);
+  struct unit *pdiplomat = player_find_unit_by_id(client.conn.playing, diplomat_id);
 
   if (NULL == pdiplomat) {
     freelog(LOG_ERROR,
@@ -3140,10 +3142,11 @@ void handle_endgame_report(struct packet_endgame_report *packet)
 **************************************************************************/
 void handle_player_attribute_chunk(struct packet_player_attribute_chunk *packet)
 {
-  if (!client.playing) {
+  if (NULL == client.conn.playing) {
     return;
   }
-  generic_handle_player_attribute_chunk(client.playing, packet);
+
+  generic_handle_player_attribute_chunk(client.conn.playing, packet);
 
   if (packet->offset + packet->chunk_length == packet->total_length) {
     /* We successful received the last chunk. The attribute block is
@@ -3159,13 +3162,13 @@ void handle_processing_started(void)
 {
   agents_processing_started();
 
-  assert(aconnection.client.request_id_of_currently_handled_packet == 0);
-  aconnection.client.request_id_of_currently_handled_packet =
-      get_next_request_id(aconnection.
+  assert(client.conn.client.request_id_of_currently_handled_packet == 0);
+  client.conn.client.request_id_of_currently_handled_packet =
+      get_next_request_id(client.conn.
 			  client.last_processed_request_id_seen);
 
   freelog(LOG_DEBUG, "start processing packet %d",
-	  aconnection.client.request_id_of_currently_handled_packet);
+	  client.conn.client.request_id_of_currently_handled_packet);
 }
 
 /**************************************************************************
@@ -3176,19 +3179,19 @@ void handle_processing_finished(void)
   int i;
 
   freelog(LOG_DEBUG, "finish processing packet %d",
-	  aconnection.client.request_id_of_currently_handled_packet);
+	  client.conn.client.request_id_of_currently_handled_packet);
 
-  assert(aconnection.client.request_id_of_currently_handled_packet != 0);
+  assert(client.conn.client.request_id_of_currently_handled_packet != 0);
 
-  aconnection.client.last_processed_request_id_seen =
-      aconnection.client.request_id_of_currently_handled_packet;
+  client.conn.client.last_processed_request_id_seen =
+      client.conn.client.request_id_of_currently_handled_packet;
 
-  aconnection.client.request_id_of_currently_handled_packet = 0;
+  client.conn.client.request_id_of_currently_handled_packet = 0;
 
   for (i = 0; i < reports_thaw_requests_size; i++) {
     if (reports_thaw_requests[i] != 0 &&
 	reports_thaw_requests[i] ==
-	aconnection.client.last_processed_request_id_seen) {
+	client.conn.client.last_processed_request_id_seen) {
       reports_thaw();
       reports_thaw_requests[i] = 0;
     }
@@ -3203,7 +3206,7 @@ void handle_processing_finished(void)
 void notify_about_incoming_packet(struct connection *pc,
 				   int packet_type, int size)
 {
-  assert(pc == &aconnection);
+  assert(pc == &client.conn);
   freelog(LOG_DEBUG, "incoming packet={type=%d, size=%d}", packet_type,
 	  size);
 }
@@ -3215,7 +3218,7 @@ void notify_about_outgoing_packet(struct connection *pc,
 				  int packet_type, int size,
 				  int request_id)
 {
-  assert(pc == &aconnection);
+  assert(pc == &client.conn);
   freelog(LOG_DEBUG, "outgoing packet={type=%d, size=%d, request_id=%d}",
 	  packet_type, size, request_id);
 
@@ -3289,7 +3292,7 @@ void handle_thaw_client(void)
 **************************************************************************/
 void handle_conn_ping(void)
 {
-  send_packet_conn_pong(&aconnection);
+  send_packet_conn_pong(&client.conn);
 }
 
 /**************************************************************************

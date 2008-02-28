@@ -23,7 +23,7 @@
 #include "packets.h"
 
 /* client */
-#include "clinet.h"
+#include "civclient.h"
 #include "text.h"
 
 /* gui-sdl */
@@ -86,7 +86,7 @@ static int exit_space_dialog_callback(struct widget *pWidget)
 static int launch_spaceship_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    send_packet_spaceship_launch(&aconnection);
+    send_packet_spaceship_launch(&client.conn);
   }
   return -1;
 }
@@ -105,7 +105,7 @@ void refresh_spaceship_dialog(struct player *pPlayer)
   /* launch button */
   pBuf = pSpaceShp->pEndWidgetList->prev->prev;
   if(game.info.spacerace
-     && pPlayer == client.playing
+     && pPlayer == client.conn.playing
      && pPlayer->spaceship.state == SSHIP_STARTED
      && pPlayer->spaceship.success_rate > 0.0) {
     set_wstate(pBuf, FC_WS_NORMAL);

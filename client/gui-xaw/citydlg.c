@@ -54,7 +54,6 @@
 #include "civclient.h"
 #include "climap.h"
 #include "climisc.h"
-#include "clinet.h"
 #include "control.h"	/* request_xxx and set_unit_focus */
 #include "options.h"
 #include "text.h"
@@ -377,7 +376,8 @@ void refresh_city_dialog(struct city *pcity)
     XtSetSensitive(pdialog->cityopt_command, True);
   }
 
-  if (!client.playing || city_owner(pcity) == client.playing) {
+  if (NULL == client.conn.playing
+      || city_owner(pcity) == client.conn.playing) {
     city_report_dialog_update_city(pcity);
     economy_report_dialog_update();
   } else {
@@ -404,7 +404,7 @@ void refresh_unit_city_dialogs(struct unit *punit)
   struct city *pcity_sup, *pcity_pre;
   struct city_dialog *pdialog;
 
-  pcity_sup = player_find_city_by_id(client.playing, punit->homecity);
+  pcity_sup = player_find_city_by_id(client.conn.playing, punit->homecity);
   pcity_pre=tile_city(punit->tile);
   
   if(pcity_sup && (pdialog=get_city_dialog(pcity_sup)))
@@ -1146,7 +1146,7 @@ static void present_units_activate_callback(Widget w, XtPointer client_data,
 					    XtPointer call_data)
 {
   struct unit *punit =
-    player_find_unit_by_id(client.playing, (size_t)client_data);
+    player_find_unit_by_id(client.conn.playing, (size_t)client_data);
 
   if (NULL != punit) {
     struct city *pcity = tile_city(punit->tile);
@@ -1172,7 +1172,7 @@ static void supported_units_activate_callback(Widget w, XtPointer client_data,
 					      XtPointer call_data)
 {
   struct unit *punit =
-    player_find_unit_by_id(client.playing, (size_t)client_data);
+    player_find_unit_by_id(client.conn.playing, (size_t)client_data);
 
   if (NULL != punit) {
     struct city *pcity = tile_city(punit->tile);
@@ -1199,7 +1199,7 @@ static void present_units_activate_close_callback(Widget w,
 						  XtPointer call_data)
 {
   struct unit *punit =
-    player_find_unit_by_id(client.playing, (size_t)client_data);
+    player_find_unit_by_id(client.conn.playing, (size_t)client_data);
 
   destroy_message_dialog(w);
 
@@ -1225,13 +1225,13 @@ static void supported_units_activate_close_callback(Widget w,
 						    XtPointer call_data)
 {
   struct unit *punit =
-    player_find_unit_by_id(client.playing, (size_t)client_data);
+    player_find_unit_by_id(client.conn.playing, (size_t)client_data);
 
   destroy_message_dialog(w);
 
   if (NULL != punit) {
     struct city *pcity =
-      player_find_city_by_id(client.playing, punit->homecity);
+      player_find_city_by_id(client.conn.playing, punit->homecity);
 
     set_unit_focus(punit);
     if (NULL != pcity) {
@@ -1252,7 +1252,7 @@ static void present_units_sentry_callback(Widget w, XtPointer client_data,
 					   XtPointer call_data)
 {
   struct unit *punit =
-    player_find_unit_by_id(client.playing, (size_t)client_data);
+    player_find_unit_by_id(client.conn.playing, (size_t)client_data);
 
   if (NULL != punit) {
     request_unit_sentry(punit);
@@ -1269,7 +1269,7 @@ static void present_units_fortify_callback(Widget w, XtPointer client_data,
 					   XtPointer call_data)
 {
   struct unit *punit =
-    player_find_unit_by_id(client.playing, (size_t)client_data);
+    player_find_unit_by_id(client.conn.playing, (size_t)client_data);
 
   if (NULL != punit) {
     request_unit_fortify(punit);
@@ -1286,7 +1286,7 @@ static void present_units_disband_callback(Widget w, XtPointer client_data,
 					   XtPointer call_data)
 {
   struct unit *punit =
-    player_find_unit_by_id(client.playing, (size_t)client_data);
+    player_find_unit_by_id(client.conn.playing, (size_t)client_data);
 
   if (NULL != punit) {
     request_unit_disband(punit);
@@ -1303,7 +1303,7 @@ static void present_units_homecity_callback(Widget w, XtPointer client_data,
 					    XtPointer call_data)
 {
   struct unit *punit =
-    player_find_unit_by_id(client.playing, (size_t)client_data);
+    player_find_unit_by_id(client.conn.playing, (size_t)client_data);
 
   if (NULL != punit) {
     request_unit_change_homecity(punit);
@@ -1334,11 +1334,12 @@ void present_units_callback(Widget w, XtPointer client_data,
   struct city *pcity;
   XEvent *e = (XEvent*)call_data;
   struct unit *punit =
-    player_find_unit_by_id(client.playing, (size_t)client_data);
+    player_find_unit_by_id(client.conn.playing, (size_t)client_data);
   
   if ((NULL != punit
-       || (can_conn_edit(&aconnection) && !client.playing
-	   && (punit = game_find_unit_by_number((size_t)client_data))))
+       || (can_conn_edit(&client.conn)
+           && NULL == client.conn.playing
+           && (punit = game_find_unit_by_number((size_t)client_data))))
       && (pcity = tile_city(punit->tile))
       && (pdialog = get_city_dialog(pcity))) {
     
@@ -1379,8 +1380,8 @@ void present_units_callback(Widget w, XtPointer client_data,
     if (punit->homecity == pcity->id) {
       XtSetSensitive(XtNameToWidget(wd, "*button5"), FALSE);
     }
-    if (!client.playing
-	|| (can_upgrade_unittype(client.playing, unit_type(punit)) == NULL)) {
+    if (NULL == client.conn.playing
+	|| (NULL == can_upgrade_unittype(client.conn.playing, unit_type(punit)))) {
       XtSetSensitive(XtNameToWidget(wd, "*button6"), FALSE);
     }
   }
@@ -1609,7 +1610,7 @@ static void support_units_callback(Widget w, XtPointer client_data,
   Widget wd;
   XEvent *e = (XEvent*)call_data;
   struct unit *punit =
-    player_find_unit_by_id(client.playing, (size_t)client_data);
+    player_find_unit_by_id(client.conn.playing, (size_t)client_data);
 
   if (NULL != punit) {
     struct city *pcity = game_find_city_by_number(punit->homecity);
@@ -1696,7 +1697,8 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
                                            EFT_UNIT_UPKEEP_FREE_PER_CITY);
   } output_type_iterate_end;
 
-  if (client.playing && (city_owner(pdialog->pcity) != client.playing)) {
+  if (NULL != client.conn.playing
+      && city_owner(pdialog->pcity) != client.conn.playing) {
     plist = pdialog->pcity->info_units_supported;
   } else {
     plist = pdialog->pcity->units_supported;
@@ -1761,7 +1763,8 @@ void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
   int i, j, adj_base;
   Widget pixcomm;
 
-  if (client.playing && (city_owner(pdialog->pcity) != client.playing)) {
+  if (NULL != client.conn.playing
+      && city_owner(pdialog->pcity) != client.conn.playing) {
     plist = pdialog->pcity->info_units_present;
   } else {
     plist = pdialog->pcity->tile->units;
@@ -1929,10 +1932,10 @@ void buy_callback(Widget w, XtPointer client_data, XtPointer call_data)
     return;
   }
 
-  if (value <= client.playing->economic.gold) {
+  if (value <= client.conn.playing->economic.gold) {
     my_snprintf(buf, sizeof(buf),
 		_("Buy %s for %d gold?\nTreasury contains %d gold."), 
-		name, value, client.playing->economic.gold);
+		name, value, client.conn.playing->economic.gold);
     popup_message_dialog(pdialog->shell, "buydialog", buf,
 			 buy_callback_yes, pdialog, 0,
 			 buy_callback_no, 0, 0,
@@ -1941,7 +1944,7 @@ void buy_callback(Widget w, XtPointer client_data, XtPointer call_data)
   else {
     my_snprintf(buf, sizeof(buf),
 		_("%s costs %d gold.\nTreasury contains %d gold."), 
-		name, value, client.playing->economic.gold);
+		name, value, client.conn.playing->economic.gold);
     popup_message_dialog(pdialog->shell, "buynodialog", buf,
 			 buy_callback_no, 0, 0,
 			 NULL);
@@ -1956,7 +1959,7 @@ void buy_callback(Widget w, XtPointer client_data, XtPointer call_data)
 void unitupgrade_callback_yes(Widget w, XtPointer client_data, XtPointer call_data)
 {
   struct unit *punit =
-    player_find_unit_by_id(client.playing, (size_t)client_data);
+    player_find_unit_by_id(client.conn.playing, (size_t)client_data);
 
   /* Is it right place for breaking? -ev */
   if (!can_client_issue_orders()) {
@@ -1986,7 +1989,7 @@ void unitupgrade_callback_no(Widget w, XtPointer client_data, XtPointer call_dat
 void upgrade_callback(Widget w, XtPointer client_data, XtPointer call_data)
 {
   char buf[512];
-  struct unit *punit = player_find_unit_by_id(client.playing,
+  struct unit *punit = player_find_unit_by_id(client.conn.playing,
 					      (size_t)client_data);
 
   if (!punit) {
@@ -2573,7 +2576,7 @@ void cityopt_ok_command_callback(Widget w, XtPointer client_data,
     } else if (newcitizen_index == 2) {
       BV_SET(new_options, CITYO_NEW_TAXMAN);
     }
-    dsend_packet_city_options_req(&aconnection, cityopt_city_id,new_options);
+    dsend_packet_city_options_req(&client.conn, cityopt_city_id,new_options);
   }
   XtDestroyWidget(cityopt_shell);
   cityopt_shell = 0;

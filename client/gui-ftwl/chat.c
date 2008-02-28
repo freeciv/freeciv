@@ -245,8 +245,8 @@ void chat_add(const char *astring, int conn_id)
     create_window(output.outer_bounds.height);
   }
 
-  if (conn && conn->player) {
-    pplayer = conn->player;
+  if (NULL != conn && NULL != conn->playing) {
+    pplayer = conn->playing;
     color_free(pcolor);
     pcolor = get_player_color(tileset, pplayer);
   }

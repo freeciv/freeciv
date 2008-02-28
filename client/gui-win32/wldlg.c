@@ -35,11 +35,10 @@
 #include "worklist.h"
 #include "support.h"
 #include "log.h"
-#include "climisc.h"
-#include "clinet.h"
 
 #include "civclient.h"
-    
+#include "climisc.h"
+
 #include "wldlg.h"
 #include "citydlg.h"
 

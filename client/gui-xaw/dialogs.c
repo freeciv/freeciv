@@ -50,7 +50,6 @@
 #include "cityrep.h"	/* for popdown_city_report_dialog */
 #include "civclient.h"
 #include "climisc.h"
-#include "clinet.h"
 #include "control.h" /* request_xxx and set_unit_focus */
 #include "graphics.h"
 #include "gui_main.h"
@@ -397,7 +396,7 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
 static void caravan_establish_trade_callback(Widget w, XtPointer client_data,
 					     XtPointer call_data)
 {
-  dsend_packet_unit_establish_trade(&aconnection, caravan_unit_id);
+  dsend_packet_unit_establish_trade(&client.conn, caravan_unit_id);
   destroy_message_dialog(w);
   caravan_dialog = 0;
   process_caravan_arrival(NULL);
@@ -411,7 +410,7 @@ static void caravan_help_build_wonder_callback(Widget w,
 					       XtPointer client_data,
 					       XtPointer call_data)
 {
-  dsend_packet_unit_help_build_wonder(&aconnection, caravan_unit_id);
+  dsend_packet_unit_help_build_wonder(&client.conn, caravan_unit_id);
 
   destroy_message_dialog(w);
   caravan_dialog = 0;
@@ -746,7 +745,7 @@ void popup_unit_select_dialog(struct tile *ptile)
 
     unit_select_ids[i]=punit->id;
 
-    pcity=player_find_city_by_id(client.playing, punit->homecity);
+    pcity = player_find_city_by_id(client.conn.playing, punit->homecity);
     
     my_snprintf(buffer, sizeof(buffer), "%s(%s)\n%s", 
 	    utype_name_translation(punittemp), 
@@ -824,7 +823,7 @@ void unit_select_all_callback(Widget w, XtPointer client_data,
   XtDestroyWidget(unit_select_dialog_shell);
   
   for(i=0; i<unit_select_no; i++) {
-    struct unit *punit = player_find_unit_by_id(client.playing,
+    struct unit *punit = player_find_unit_by_id(client.conn.playing,
 						unit_select_ids[i]);
     if(punit) {
       set_unit_focus(punit);
@@ -846,7 +845,7 @@ void unit_select_callback(Widget w, XtPointer client_data,
   for(i=0; i<unit_select_no; i++) {
 
     if(unit_select_commands[i]==w) {
-      struct unit *punit = player_find_unit_by_id(client.playing,
+      struct unit *punit = player_find_unit_by_id(client.conn.playing,
 						  unit_select_ids[i]);
       if(punit) {
 	set_unit_focus(punit);
@@ -1503,7 +1502,7 @@ void races_ok_command_callback(Widget w, XtPointer client_data,
     return;
   }
 
-  dsend_packet_nation_select_req(&aconnection,
+  dsend_packet_nation_select_req(&client.conn,
 				 player_number(races_player),
 				 nation_index(races_toggles_to_nations[selected_index]),
 				 selected_sex ? FALSE : TRUE,

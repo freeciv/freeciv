@@ -110,13 +110,16 @@ struct connection {
   int sock;
   bool used;
   bool established;		/* have negotiated initial packets */
-  struct player *player;	/* NULL for connections not yet associated
-				   with a specific player */
-  /* 
-   * connection is "observer", not controller; may be observing
+
+  /* connection is "observer", not controller; may be observing
    * specific player, or all (implementation incomplete).
    */
   bool observer;
+
+  /* NULL for connections not yet associated with a specific player.
+   */
+  struct player *playing;
+
   struct socket_packet_buffer *buffer;
   struct socket_packet_buffer *send_buffer;
   struct timer *last_write;

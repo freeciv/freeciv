@@ -35,7 +35,6 @@
 /* client */
 #include "civclient.h"
 #include "climisc.h"
-#include "clinet.h"
 #include "overview_common.h"
 
 /* gui-sdl */
@@ -2177,7 +2176,7 @@ void button_up_on_map(struct mouse_button_behavior *button_behavior)
                                                    button_behavior->event->y);
             } else {
               if(((pCity = tile_city(ptile)) != NULL) &&
-                (city_owner(pCity) == client.playing)) {
+                (city_owner(pCity) == client.conn.playing)) {
                 if(LCTRL) {
                   popup_worklist_editor(pCity, &(pCity->worklist));
                 } else {
@@ -2491,7 +2490,7 @@ static int newcity_ok_callback(struct widget *pOk_Button)
     char *input =
             convert_to_chars(pNewCity_Dlg->pBeginWidgetList->string16->text);
     
-    dsend_packet_unit_build_city(&aconnection, pOk_Button->data.unit->id,
+    dsend_packet_unit_build_city(&client.conn, pOk_Button->data.unit->id,
                                  input);
     FC_FREE(input);
   

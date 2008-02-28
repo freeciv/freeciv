@@ -2035,7 +2035,7 @@ static int back_callback(struct widget *pWidget)
     
     if (SDL_Client_Flags & CF_OPTION_MAIN) {
       popdown_optiondlg();
-      if(aconnection.established) {
+      if (client.conn.established) {
         enable_options_button();
         widget_redraw(pOptions_Button);
         widget_mark_dirty(pOptions_Button);
@@ -2287,7 +2287,7 @@ void popup_optiondlg(void)
   pTmp_GUI->action = disconnect_callback;
   pTmp_GUI->key = SDLK_q;
     
-  if(aconnection.established) {
+  if (client.conn.established) {
     set_wstate(pTmp_GUI, FC_WS_NORMAL);
   }
 

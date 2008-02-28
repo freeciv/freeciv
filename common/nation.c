@@ -608,6 +608,6 @@ bool can_conn_edit_players_nation(const struct connection *pconn,
 {
   return (can_conn_edit(pconn)
           || (game.info.is_new_game
-	      && ((!pconn->observer && pconn->player == pplayer)
+	      && ((!pconn->observer && pconn->playing == pplayer)
 	           || pconn->access_level >= ALLOW_CTRL)));
 }

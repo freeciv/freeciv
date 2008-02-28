@@ -34,7 +34,6 @@
 #include "chatline.h"
 #include "civclient.h"
 #include "climisc.h"
-#include "clinet.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "inteldlg.h"
@@ -65,7 +64,7 @@ static int sort_column=2;
 static void players_meet(int player_index)
 {
   if (can_meet_with_player(player_by_number(player_index))) {
-    dsend_packet_diplomacy_init_meeting_req(&aconnection, player_index);
+    dsend_packet_diplomacy_init_meeting_req(&client.conn, player_index);
 
   } else {
     append_output_window(_("You need an embassy to "
@@ -78,7 +77,7 @@ static void players_meet(int player_index)
 *******************************************************************/
 static void players_war(int player_index)
 {
-  dsend_packet_diplomacy_cancel_pact(&aconnection, player_index,
+  dsend_packet_diplomacy_cancel_pact(&client.conn, player_index,
 				     CLAUSE_CEASEFIRE);
 }
 
@@ -87,7 +86,7 @@ static void players_war(int player_index)
 *******************************************************************/
 static void players_vision(int player_index)
 {
-  dsend_packet_diplomacy_cancel_pact(&aconnection, player_index,
+  dsend_packet_diplomacy_cancel_pact(&client.conn, player_index,
 				     CLAUSE_VISION);
 }
 
@@ -142,10 +141,10 @@ static void build_row(const char **row, int player_index, int update)
   aibuf[1] = '\0';
 
   /* text for diplstate type and turns -- not applicable if this is me */
-  if (pplayer == client.playing) {
+  if (pplayer == client.conn.playing) {
     strcpy(dsbuf, "-");
   } else {
-    pds = pplayer_get_diplstate(client.playing, pplayer);
+    pds = pplayer_get_diplstate(client.conn.playing, pplayer);
     if (pds->type == DS_CEASEFIRE) {
       my_snprintf(dsbuf, sizeof(dsbuf), "%s (%d)",
 		  diplstate_text(pds->type), pds->turns_left);
@@ -170,9 +169,9 @@ static void build_row(const char **row, int player_index, int update)
 
   /* assemble the whole lot */
   row[2] = aibuf;
-  row[3] = get_embassy_status(client.playing, pplayer);
+  row[3] = get_embassy_status(client.conn.playing, pplayer);
   row[4] = dsbuf;
-  row[5] = get_vision_status(client.playing, pplayer);
+  row[5] = get_vision_status(client.conn.playing, pplayer);
   row[6] = statebuf;
   row[7] = (char *) player_addr_hack(pplayer);	/* Fixme */
   row[8] = idlebuf;
@@ -209,7 +208,7 @@ static void enable_buttons(int player_index)
   else
     EnableWindow(GetDlgItem(players_dialog,ID_PLAYERS_SSHIP),
 		 FALSE);
-  switch (pplayer_get_diplstate(client.playing,
+  switch (pplayer_get_diplstate(client.conn.playing,
                                 player_by_number(player_index))->type) {
   case DS_WAR:
   case DS_NO_CONTACT:
@@ -220,7 +219,7 @@ static void enable_buttons(int player_index)
   }
   
   EnableWindow(GetDlgItem(players_dialog, ID_PLAYERS_VISION),
-	       gives_shared_vision(client.playing, pplayer));
+	       gives_shared_vision(client.conn.playing, pplayer));
 
   EnableWindow(GetDlgItem(players_dialog, ID_PLAYERS_MEET),
                can_meet_with_player(pplayer));

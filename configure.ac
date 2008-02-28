@@ -17,6 +17,8 @@ AC_DEFINE(BUG_URL, "http://bugs.freeciv.org/", [Bug reporting URL])
 AC_DEFINE(META_URL, "http://meta.freeciv.org/metaserver.phtml", [Meta server URL])
 AC_DEFINE(WIKI_URL, "http://www.freeciv.org/", [Informational URL])
 
+AC_DEFINE(DEFAULT_SOCK_PORT, 5556, [Connection TCP Port])
+
 dnl client/server should always have the same major and minor versions
 dnl different patch versions are compatible
 m4_include(version.in)

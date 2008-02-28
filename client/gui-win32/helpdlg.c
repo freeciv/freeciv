@@ -501,7 +501,7 @@ static void help_update_improvement(const struct help_item *pitem,
     SetWindowText(help_ilabel[5], _("(Never)"));
 /*    create_tech_tree(help_improvement_tree, 0, advance_count(), 3);*/
   }
-  helptext_building(buf, sizeof(buf), client.playing, pitem->text, imp);
+  helptext_building(buf, sizeof(buf), client.conn.playing, pitem->text, imp);
   set_help_text(buf);
 
 }
@@ -546,7 +546,7 @@ static void help_update_wonder(const struct help_item *pitem,
 /*    create_tech_tree(help_improvement_tree, 0, advance_count(), 3); */
   }
  
-  helptext_building(buf, sizeof(buf), client.playing, pitem->text, imp);
+  helptext_building(buf, sizeof(buf), client.conn.playing, pitem->text, imp);
   set_help_text(buf);
 }                            
 
@@ -638,7 +638,7 @@ static void help_update_terrain(const struct help_item *pitem,
     SetWindowText(help_tlabel[3][4], buf);
   }
 
-  helptext_terrain(buf, sizeof(buf), client.playing, pitem->text, pterrain);
+  helptext_terrain(buf, sizeof(buf), client.conn.playing, pitem->text, pterrain);
   set_help_text(buf);
 }
 
@@ -723,7 +723,7 @@ static void help_update_unit_type(const struct help_item *pitem,
       SetWindowText(help_ulabel[4][1], _("(Never)"));
     } else {
       SetWindowText(help_ulabel[4][1],
-                    advance_name_for_player(client.playing,
+                    advance_name_for_player(client.conn.playing,
 				       advance_number(utype->require_advance)));
     }
     /*    create_tech_tree(help_improvement_tree, 0, advance_number(utype->require_advance), 3);*/
@@ -734,7 +734,7 @@ static void help_update_unit_type(const struct help_item *pitem,
                     utype_name_translation(utype->obsoleted_by));
     }
 
-    helptext_unit(buf, sizeof(buf), client.playing, pitem->text, utype);
+    helptext_unit(buf, sizeof(buf), client.conn.playing, pitem->text, utype);
     set_help_text(buf);
   }
   else {
@@ -771,7 +771,7 @@ static void help_update_tech(const struct help_item *pitem, char *title)
 	  create_tech_tree(GTK_CTREE(help_tree), i, TECH_TREE_DEPTH,
 	  TECH_TREE_EXPANDED_DEPTH, NULL);
     */
-    helptext_advance(buf, sizeof(buf), client.playing, pitem->text, i);
+    helptext_advance(buf, sizeof(buf), client.conn.playing, pitem->text, i);
     wordwrap_string(buf, 68);
     fcwin_box_add_static(helpdlg_page_vbox,buf,0,SS_LEFT,FALSE,FALSE,5);
 
@@ -871,7 +871,7 @@ static void help_update_government(const struct help_item *pitem,
   if (!gov) {
     strcat(buf, pitem->text);
   } else {
-    helptext_government(buf, sizeof(buf), client.playing, pitem->text, gov);
+    helptext_government(buf, sizeof(buf), client.conn.playing, pitem->text, gov);
   }
   create_help_page(HELP_TEXT);
   set_help_text(buf);

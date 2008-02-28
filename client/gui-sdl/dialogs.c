@@ -40,7 +40,6 @@
 /* client */
 #include "civclient.h"
 #include "climap.h" /* for client_tile_get_known() */
-#include "clinet.h"
 #include "goto.h"
 #include "packhand.h"
 #include "text.h"
@@ -574,7 +573,7 @@ static int unit_select_callback( struct widget *pWidget )
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     struct unit *pUnit =
-      player_find_unit_by_id(client.playing, MAX_ID - pWidget->ID);
+      player_find_unit_by_id(client.conn.playing, MAX_ID - pWidget->ID);
   
     popdown_unit_select_dialog();
     if (pUnit) {
@@ -657,7 +656,7 @@ void popup_unit_select_dialog(struct tile *ptile)
     pUnit = unit_list_get(ptile->units, i);
     pUnitType = unit_type(pUnit);
         
-    if (unit_owner(pUnit) == client.playing) {
+    if (unit_owner(pUnit) == client.conn.playing) {
       my_snprintf(cBuf , sizeof(cBuf), _("Contact %s (%d / %d) %s(%d,%d,%d) %s"),
             pUnit->veteran ? _("Veteran") : "" ,
             pUnit->hp, pUnitType->hp,
@@ -693,7 +692,7 @@ void popup_unit_select_dialog(struct tile *ptile)
     
     area.w = MAX(area.w, pBuf->size.w);
     area.h += pBuf->size.h;
-    if (unit_owner(pUnit) == client.playing) {
+    if (unit_owner(pUnit) == client.conn.playing) {
       set_wstate(pBuf, FC_WS_NORMAL);
     }
     
@@ -1057,7 +1056,7 @@ static int adv_unit_sentry_idle_callback(struct widget *pWidget)
     if (pUnit) {
       struct tile *ptile = pUnit->tile;
       unit_list_iterate(ptile->units, punit) {
-        if (unit_owner(punit) == client.playing
+        if (unit_owner(punit) == client.conn.playing
          && ACTIVITY_IDLE == punit->activity
          && !punit->ai.control
          && can_unit_do_activity(punit, ACTIVITY_SENTRY)) {
@@ -1235,7 +1234,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
   area.h += pBuf->size.h;
 
   /* ---------- */  
-  if (pCity && city_owner(pCity) == client.playing)
+  if (pCity && city_owner(pCity) == client.conn.playing)
   {
     /* separator */
     pBuf = create_iconlabel(NULL, pWindow->dst, NULL, WF_FREE_THEME);
@@ -1343,8 +1342,8 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
     if(can_unit_paradrop(pFocus_Unit) && client_tile_get_known(ptile) &&
       !(is_ocean_tile(ptile) && is_ground_unit(pFocus_Unit)) &&
       !(is_sailing_unit(pFocus_Unit) && (!is_ocean_tile(ptile) || !pCity)) &&
-      !(((pCity && pplayers_non_attack(client.playing, city_owner(pCity)))
-      || is_non_attack_unit_tile(ptile, client.playing))) &&
+      !(((pCity && pplayers_non_attack(client.conn.playing, city_owner(pCity)))
+      || is_non_attack_unit_tile(ptile, client.conn.playing))) &&
       (unit_type(pFocus_Unit)->paratroopers_range >=
 	    real_map_distance(pFocus_Unit->tile, ptile))) {
 	      
@@ -1393,7 +1392,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 	  continue;
 	}
         pUnitType = unit_type(pUnit);
-        if (unit_owner(pUnit) == client.playing) {
+        if (unit_owner(pUnit) == client.conn.playing) {
           my_snprintf(cBuf, sizeof(cBuf),
             _("Activate %s (%d / %d) %s (%d,%d,%d) %s"),
             pUnit->veteran ? _("Veteran") : "" ,
@@ -1507,8 +1506,8 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
       pUnit = unit_list_get(ptile->units, 0);
       pUnitType = unit_type(pUnit);
       if (pUnit != pFocus_Unit) {
-        if ((pCity && city_owner(pCity) == client.playing)
-	 || (unit_owner(pUnit) == client.playing))
+        if ((pCity && city_owner(pCity) == client.conn.playing)
+	 || (unit_owner(pUnit) == client.conn.playing))
         {
           my_snprintf(cBuf, sizeof(cBuf),
             _("Activate %s (%d / %d) %s (%d,%d,%d) %s"),
@@ -1994,7 +1993,7 @@ static void popup_government_dialog(void)
       continue;
     }
 
-    if (can_change_to_government(client.playing, pGov)) {
+    if (can_change_to_government(client.conn.playing, pGov)) {
 
       pStr = create_str16_from_char(government_name_translation(pGov), adj_font(12));
       pGov_Button =
@@ -2071,7 +2070,7 @@ void popup_revolution_dialog(void)
     return;
   }
   
-  if (0 <= client.playing->revolution_finishes) {
+  if (0 <= client.conn.playing->revolution_finishes) {
     popup_government_dialog();
     return;
   }
@@ -2216,7 +2215,7 @@ static int races_dialog_ok_callback(struct widget *pStart_Button)
       return (-1);
     }
   
-    dsend_packet_nation_select_req(&aconnection, player_number(races_player),
+    dsend_packet_nation_select_req(&client.conn, player_number(races_player),
                                    pSetup->nation,
                                    pSetup->leader_sex, pStr,
                                    pSetup->nation_city_style);

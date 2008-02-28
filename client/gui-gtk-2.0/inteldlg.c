@@ -28,7 +28,6 @@
 #include "support.h"
 
 #include "civclient.h"
-#include "clinet.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
@@ -342,7 +341,7 @@ void update_intel_dialog(struct player *p)
 	gtk_list_store_append(pdialog->techs, &it);
 
 	gtk_list_store_set(pdialog->techs, &it,
-			   0, (TECH_KNOWN != player_invention_state(client.playing, i)),
+			   0, (TECH_KNOWN != player_invention_state(client.conn.playing, i)),
 			   1, advance_name_for_player(p, i),
 			   -1);
       }

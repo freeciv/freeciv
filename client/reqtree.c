@@ -164,7 +164,7 @@ static void node_rectangle_minimum_size(struct tree_node *node,
     *width = *height = 1;
   } else {
     get_text_size(width, height, FONT_REQTREE_TEXT,
-		  advance_name_for_player(client.playing, node->tech));
+		  advance_name_for_player(client.conn.playing, node->tech));
     *width += 2;
     *height += 8;
     
@@ -417,14 +417,14 @@ static struct reqtree *create_dummy_reqtree(struct player *pplayer)
     if (A_NONE != advance_required(tech, AR_ONE)
      && A_LAST != advance_required(tech, AR_TWO)) {
       if (A_NONE == advance_required(tech, AR_TWO)
-       || !is_tech_a_req_for_goal(client.playing,
+       || !is_tech_a_req_for_goal(client.conn.playing,
 				  advance_required(tech, AR_ONE),
 				  advance_required(tech, AR_TWO))) {
 	add_requirement(nodes[tech], nodes[advance_required(tech, AR_ONE)]);
       }
 
       if (A_NONE != advance_required(tech, AR_TWO)
-       && !is_tech_a_req_for_goal(client.playing,
+       && !is_tech_a_req_for_goal(client.conn.playing,
 				  advance_required(tech, AR_TWO),
 				  advance_required(tech, AR_ONE))) {
 	add_requirement(nodes[tech], nodes[advance_required(tech, AR_TWO)]);
@@ -862,7 +862,7 @@ void get_reqtree_dimensions(struct reqtree *reqtree,
 static enum color_std node_color(struct tree_node *node)
 {
   if (!node->is_dummy) {
-    struct player_research* research = get_player_research(client.playing);
+    struct player_research* research = get_player_research(client.conn.playing);
 
     if (!research) {
       return COLOR_REQTREE_KNOWN;
@@ -872,21 +872,21 @@ static enum color_std node_color(struct tree_node *node)
       return COLOR_REQTREE_RESEARCHING;
     }
     
-    if (TECH_KNOWN == player_invention_state(client.playing, node->tech)) {
+    if (TECH_KNOWN == player_invention_state(client.conn.playing, node->tech)) {
       return COLOR_REQTREE_KNOWN;
     }
 
-    if (is_tech_a_req_for_goal(client.playing, node->tech,
+    if (is_tech_a_req_for_goal(client.conn.playing, node->tech,
                                research->tech_goal)
 	|| node->tech == research->tech_goal) {
-      if (TECH_REACHABLE == player_invention_state(client.playing, node->tech)) {
+      if (TECH_REACHABLE == player_invention_state(client.conn.playing, node->tech)) {
 	return COLOR_REQTREE_REACHABLE_GOAL;
       } else {
 	return COLOR_REQTREE_UNREACHABLE_GOAL;
       }
     }
 
-    if (TECH_REACHABLE == player_invention_state(client.playing, node->tech)) {
+    if (TECH_REACHABLE == player_invention_state(client.conn.playing, node->tech)) {
       return COLOR_REQTREE_REACHABLE;
     }
 
@@ -905,7 +905,7 @@ static enum color_std node_color(struct tree_node *node)
 static enum reqtree_edge_type get_edge_type(struct tree_node *node, 
                                             struct tree_node *dest_node)
 {
-  struct player_research *research = get_player_research(client.playing);
+  struct player_research *research = get_player_research(client.conn.playing);
 
   if (dest_node == NULL) {
     /* assume node is a dummy */
@@ -952,14 +952,14 @@ static enum reqtree_edge_type get_edge_type(struct tree_node *node,
     return REQTREE_ACTIVE_EDGE;
   }
 
-  if (is_tech_a_req_for_goal(client.playing, dest_node->tech,
+  if (is_tech_a_req_for_goal(client.conn.playing, dest_node->tech,
                              research->tech_goal)
       || dest_node->tech == research->tech_goal) {
     return REQTREE_GOAL_EDGE;
   }
 
-  if (TECH_KNOWN == player_invention_state(client.playing, node->tech)) {
-    if (TECH_KNOWN == player_invention_state(client.playing, dest_node->tech)) {
+  if (TECH_KNOWN == player_invention_state(client.conn.playing, node->tech)) {
+    if (TECH_KNOWN == player_invention_state(client.conn.playing, dest_node->tech)) {
       return REQTREE_KNOWN_EDGE;
     } else {
       return REQTREE_READY_EDGE;
@@ -1024,7 +1024,7 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
 		        LINE_GOTO,
 		        startx, starty, width, 0);
       } else {
-	const char *text = advance_name_for_player(client.playing, node->tech);
+	const char *text = advance_name_for_player(client.conn.playing, node->tech);
 	int text_w, text_h;
 	int icon_startx;
 	

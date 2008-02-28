@@ -27,7 +27,6 @@
 #include "choice_dialog.h"
 #include "civclient.h"
 #include "climisc.h"
-#include "clinet.h"
 #include "control.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
@@ -45,7 +44,7 @@ static GtkWidget *caravan_dialog;
 *****************************************************************/
 static void caravan_establish_trade_callback(GtkWidget *w, gpointer data)
 {
-  dsend_packet_unit_establish_trade(&aconnection, caravan_unit_id);
+  dsend_packet_unit_establish_trade(&client.conn, caravan_unit_id);
 }
 
 /****************************************************************
@@ -53,7 +52,7 @@ static void caravan_establish_trade_callback(GtkWidget *w, gpointer data)
 *****************************************************************/
 static void caravan_help_build_wonder_callback(GtkWidget *w, gpointer data)
 {
-  dsend_packet_unit_help_build_wonder(&aconnection, caravan_unit_id);
+  dsend_packet_unit_help_build_wonder(&client.conn, caravan_unit_id);
 }
 
 /****************************************************************

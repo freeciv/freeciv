@@ -850,7 +850,7 @@ void handle_menu(int code)
       send_report_request(REPORT_DEMOGRAPHIC);
       break;
     case IDM_REPORTS_SPACESHIP:
-      popup_spaceship_dialog(client.playing);
+      popup_spaceship_dialog(client.conn.playing);
       break;
 
 
@@ -1020,7 +1020,7 @@ update_menus(void)
   my_enable_menu(menu, IDM_GAME_SERVER_OPTIONS,
 		 C_S_RUNNING <= client_state());
   my_enable_menu(menu, IDM_GAME_DISCONNECT,
-		 aconnection.established);
+		 client.conn.established);
 
   if (!can_client_change_view()) {
 
@@ -1051,7 +1051,7 @@ update_menus(void)
 	AppendMenu(govts, MF_STRING, id + government_number(g),
 		   government_name_translation(g));
 	my_enable_menu(menu, id + government_number(g),
-		       can_change_to_government(client.playing, g)
+		       can_change_to_government(client.conn.playing, g)
 		       && can_client_issue_orders());
       }
     } government_iterate_end;
@@ -1076,7 +1076,7 @@ update_menus(void)
 
 
     my_enable_menu(menu, IDM_REPORTS_SPACESHIP,
-		   (SSHIP_NONE != client.playing->spaceship.state));
+		   (SSHIP_NONE != client.conn.playing->spaceship.state));
 
     my_check_menu(menu, IDM_VIEW_MAP_GRID, draw_map_grid);
     my_enable_menu(menu, IDM_VIEW_NATIONAL_BORDERS, game.info.borders > 0);
@@ -1223,7 +1223,7 @@ update_menus(void)
 					      ACTIVITY_IRRIGATE));
  	sz_strlcat(irrtext, "\tI");
       } else if (tile_has_special(punit->tile, S_IRRIGATION)
-		 && player_knows_techs_with_flag(client.playing,
+		 && player_knows_techs_with_flag(client.conn.playing,
 						 TF_FARMLAND)) {
 	sz_strlcpy(irrtext, N_("Build Farmland") "\tI");
       }

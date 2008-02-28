@@ -27,7 +27,8 @@
 #include "chatline_g.h"
 
 #include "chatline_common.h"
-#include "clinet.h"
+#include "civclient.h"
+
 
 /* Stored up buffer of lines for the chatline */
 struct remaining {
@@ -63,7 +64,7 @@ void chatline_common_done(void)
 **************************************************************************/
 void send_chat(const char *message)
 {
-  dsend_packet_chat_msg_req(&aconnection, message);
+  dsend_packet_chat_msg_req(&client.conn, message);
 }
 
 static int frozen_level = 0;

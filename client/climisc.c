@@ -49,7 +49,6 @@ used throughout the client.
 #include "civclient.h"
 #include "climap.h"
 #include "climisc.h"
-#include "clinet.h"
 #include "control.h"
 #include "messagewin_common.h"
 #include "packhand.h"
@@ -62,14 +61,13 @@ used throughout the client.
 **************************************************************************/
 void client_remove_player(int plrno)
 {
-  struct connection *pc = find_conn_by_id(aconnection.id);
+  struct connection *pc = find_conn_by_id(client.conn.id);
 
   game_remove_player(player_by_number(plrno));
   game_renumber_players(plrno);
 
   /* ensure our duplicate pointers are valid */
-  client.playing =
-  aconnection.player = pc->player;
+  client.conn.playing = pc->playing;
 
   update_conn_list_dialog();
   races_toggles_set_sensitive();
@@ -106,7 +104,7 @@ void client_remove_unit(struct unit *punit)
 
   pcity = tile_city(ptile);
   if (pcity) {
-    if (can_player_see_units_in_city(client.playing, pcity)) {
+    if (can_player_see_units_in_city(client.conn.playing, pcity)) {
       pcity->client.occupied =
 	(unit_list_size(pcity->tile->units) > 0);
     }
@@ -119,8 +117,8 @@ void client_remove_unit(struct unit *punit)
   }
 
   /* FIXME: this can cause two refreshes to be done? */
-  if (client.playing) {
-    pcity = player_find_city_by_id(client.playing, hc);
+  if (NULL != client.conn.playing) {
+    pcity = player_find_city_by_id(client.conn.playing, hc);
     if (pcity) {
       refresh_city_dialog(pcity);
       freelog(LOG_DEBUG, "home city %s, %s, (%d %d)",
@@ -187,15 +185,15 @@ void client_change_all(struct universal from,
 	       ? utype_name_translation(to.value.utype)
 	       : improvement_name_translation(to.value.building));
 
-  connection_do_buffer(&aconnection);
-  city_list_iterate (client.playing->cities, pcity) {
+  connection_do_buffer(&client.conn);
+  city_list_iterate (client.conn.playing->cities, pcity) {
     if (are_universals_equal(&pcity->production, &from)
 	&& can_city_build_now(pcity, to)) {
       last_request_id = city_change_production(pcity, to);
     }
   } city_list_iterate_end;
 
-  connection_do_unbuffer(&aconnection);
+  connection_do_unbuffer(&client.conn);
   reports_freeze_till(last_request_id);
 }
 
@@ -258,7 +256,7 @@ void client_diplomacy_clause_string(char *buf, int bufsiz,
   case CLAUSE_ADVANCE:
     my_snprintf(buf, bufsiz, _("The %s give %s"),
 		nation_plural_for_player(pclause->from),
-		advance_name_for_player(client.playing, pclause->value));
+		advance_name_for_player(client.conn.playing, pclause->value));
     break;
   case CLAUSE_CITY:
     pcity = game_find_city_by_number(pclause->value);
@@ -315,13 +313,13 @@ void client_diplomacy_clause_string(char *buf, int bufsiz,
 **************************************************************************/
 struct sprite *client_research_sprite(void)
 {
-  if (client.playing && can_client_change_view()) {
+  if (NULL != client.conn.playing && can_client_change_view()) {
     int index = 0;
 
-    if (A_UNSET != get_player_research(client.playing)->researching) {
+    if (A_UNSET != get_player_research(client.conn.playing)->researching) {
       index = (NUM_TILES_PROGRESS
-	       * get_player_research(client.playing)->bulbs_researched)
-	/ (total_bulbs_required(client.playing) + 1);
+	       * get_player_research(client.conn.playing)->bulbs_researched)
+	/ (total_bulbs_required(client.conn.playing) + 1);
     }
 
     /* This clipping can be necessary since we can end up with excess
@@ -338,7 +336,7 @@ struct sprite *client_research_sprite(void)
 **************************************************************************/
 struct sprite *client_warming_sprite(void)
 {
-  if (client.playing && can_client_change_view()) {
+  if (NULL != client.conn.playing && can_client_change_view()) {
     int index;
 
     if ((game.info.globalwarming <= 0) &&
@@ -388,9 +386,9 @@ struct sprite *client_cooling_sprite(void)
 **************************************************************************/
 struct sprite *client_government_sprite(void)
 {
-  if (client.playing && can_client_change_view()
+  if (NULL != client.conn.playing && can_client_change_view()
       && government_count() > 0) {
-    struct government *gov = government_of_player(client.playing);
+    struct government *gov = government_of_player(client.conn.playing);
 
     return get_government_sprite(tileset, gov);
   } else {
@@ -416,17 +414,20 @@ void center_on_something(void)
   can_slide = FALSE;
   if (get_num_units_in_focus() > 0) {
     center_tile_mapcanvas(head_of_units_in_focus()->tile);
-  } else if (client.playing && (pcity = find_palace(client.playing))) {
+  } else if (NULL != client.conn.playing
+             && NULL != (pcity = find_palace(client.conn.playing))) {
     /* Else focus on the capital. */
     center_tile_mapcanvas(pcity->tile);
-  } else if (client.playing && city_list_size(client.playing->cities) > 0) {
+  } else if (NULL != client.conn.playing
+             && 0 < city_list_size(client.conn.playing->cities)) {
     /* Just focus on any city. */
-    pcity = city_list_get(client.playing->cities, 0);
+    pcity = city_list_get(client.conn.playing->cities, 0);
     assert(pcity != NULL);
     center_tile_mapcanvas(pcity->tile);
-  } else if (client.playing && unit_list_size(client.playing->units) > 0) {
+  } else if (NULL != client.conn.playing
+             && 0 < unit_list_size(client.conn.playing->units)) {
     /* Just focus on any unit. */
-    punit = unit_list_get(client.playing->units, 0);
+    punit = unit_list_get(client.conn.playing->units, 0);
     assert(punit != NULL);
     center_tile_mapcanvas(punit->tile);
   } else {
@@ -662,7 +663,7 @@ int collect_production_targets(struct universal *targets,
   cid cid;
   int items_used = 0;
 
-  if (!client.playing) {
+  if (NULL == client.conn.playing) {
     return 0;
   }
 
@@ -675,7 +676,7 @@ int collect_production_targets(struct universal *targets,
     }
 
     if (!change_prod) {
-      city_list_iterate(client.playing->cities, pcity) {
+      city_list_iterate(client.conn.playing->cities, pcity) {
 	append |= test_func(pcity, cid_decode(cid));
       }
       city_list_iterate_end;
@@ -708,12 +709,12 @@ int collect_currently_building_targets(struct universal *targets)
   int cids_used = 0;
   cid cid;
 
-  if (!client.playing) {
+  if (NULL == client.conn.playing) {
     return 0;
   }
 
   memset(mapping, 0, sizeof(mapping));
-  city_list_iterate(client.playing->cities, pcity) {
+  city_list_iterate(client.conn.playing->cities, pcity) {
     mapping[cid_encode_from_city(pcity)] = TRUE;
   }
   city_list_iterate_end;
@@ -737,12 +738,12 @@ int collect_buildable_targets(struct universal *targets)
 {
   int cids_used = 0;
 
-  if (!client.playing) {
+  if (NULL == client.conn.playing) {
     return 0;
   }
 
   improvement_iterate(pimprove) {
-    if (can_player_build_improvement_now(client.playing, pimprove)) {
+    if (can_player_build_improvement_now(client.conn.playing, pimprove)) {
       targets[cids_used].kind = VUT_IMPROVEMENT;
       targets[cids_used].value.building = pimprove;
       cids_used++;
@@ -750,7 +751,7 @@ int collect_buildable_targets(struct universal *targets)
   } improvement_iterate_end;
 
   unit_type_iterate(punittype) {
-    if (can_player_build_unit_now(client.playing, punittype)) {
+    if (can_player_build_unit_now(client.conn.playing, punittype)) {
       targets[cids_used].kind = VUT_UTYPE;
       targets[cids_used].value.utype = punittype;
       cids_used++;
@@ -772,14 +773,14 @@ int collect_eventually_buildable_targets(struct universal *targets,
 {
   int cids_used = 0;
 
-  if (!client.playing) {
+  if (NULL == client.conn.playing) {
     return 0;
   }
 
   improvement_iterate(pimprove) {
-    bool can_build = can_player_build_improvement_now(client.playing, pimprove);
+    bool can_build = can_player_build_improvement_now(client.conn.playing, pimprove);
     bool can_eventually_build =
-	can_player_build_improvement_later(client.playing, pimprove);
+	can_player_build_improvement_later(client.conn.playing, pimprove);
 
     /* If there's a city, can the city build the improvement? */
     if (pcity) {
@@ -797,9 +798,9 @@ int collect_eventually_buildable_targets(struct universal *targets,
   } improvement_iterate_end;
 
   unit_type_iterate(punittype) {
-    bool can_build = can_player_build_unit_now(client.playing, punittype);
+    bool can_build = can_player_build_unit_now(client.conn.playing, punittype);
     bool can_eventually_build =
-	can_player_build_unit_later(client.playing, punittype);
+	can_player_build_unit_later(client.conn.playing, punittype);
 
     /* If there's a city, can the city build the unit? */
     if (pcity) {
@@ -845,7 +846,7 @@ int num_supported_units_in_city(struct city *pcity)
 {
   struct unit_list *plist;
 
-  if (can_player_see_city_internals(client.playing, pcity)) {
+  if (can_player_see_city_internals(client.conn.playing, pcity)) {
     /* Other players don't see inside the city (but observers do). */
     plist = pcity->info_units_supported;
   } else {
@@ -862,7 +863,7 @@ int num_present_units_in_city(struct city *pcity)
 {
   struct unit_list *plist;
 
-  if (can_player_see_units_in_city(client.playing, pcity)) {
+  if (can_player_see_units_in_city(client.conn.playing, pcity)) {
     /* Other players don't see inside the city (but observers do). */
     plist = pcity->info_units_present;
   } else {
@@ -898,7 +899,8 @@ void handle_event(char *message, struct tile *ptile,
     add_notify_window(message, ptile, event);
   }
   if (BOOL_VAL(where & MW_POPUP)
-      && (!client.playing || !client.playing->ai.control)) {
+      && (NULL == client.conn.playing
+          || !client.conn.playing->ai.control)) {
     popup_notify_goto_dialog(_("Popup Request"), message, ptile);
   }
 
@@ -919,7 +921,7 @@ void create_event(struct tile *ptile, enum event_type event,
   my_vsnprintf(message, sizeof(message), format, ap);
   va_end(ap);
 
-  handle_event(message, ptile, event, aconnection.id);
+  handle_event(message, ptile, event, client.conn.id);
 }
 
 /**************************************************************************
@@ -1061,13 +1063,13 @@ void common_taxrates_callback(int i)
     return;
   }
 
-  lux_end = client.playing->economic.luxury;
-  sci_end = lux_end + client.playing->economic.science;
+  lux_end = client.conn.playing->economic.luxury;
+  sci_end = lux_end + client.conn.playing->economic.science;
   tax_end = 100;
 
-  lux = client.playing->economic.luxury;
-  sci = client.playing->economic.science;
-  tax = client.playing->economic.tax;
+  lux = client.conn.playing->economic.luxury;
+  sci = client.conn.playing->economic.science;
+  tax = client.conn.playing->economic.tax;
 
   i *= 10;
   if (i < lux_end) {
@@ -1080,7 +1082,7 @@ void common_taxrates_callback(int i)
     tax -= delta;
     lux += delta;
   }
-  dsend_packet_player_rates(&aconnection, tax, lux, sci);
+  dsend_packet_player_rates(&client.conn, tax, lux, sci);
 }
 
 /****************************************************************************

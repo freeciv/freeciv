@@ -32,7 +32,6 @@
 #include "citydlg_common.h"
 #include "civclient.h"		/* for can_client_issue_orders() */
 #include "climap.h"
-#include "clinet.h"
 #include "control.h"
 #include "mapview_common.h"
 #include "options.h"		/* for concise_city_production */
@@ -313,7 +312,7 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
   }
   case VUT_IMPROVEMENT:
   {
-    struct player *pplayer = pcity ? city_owner(pcity) : client.playing;
+    struct player *pplayer = pcity ? city_owner(pcity) : client.conn.playing;
     struct impr_type *pimprove = target.value.building;
 
     /* Total & turns left meaningless on capitalization */
@@ -587,7 +586,7 @@ void activate_all_units(struct tile *ptile)
   struct unit *pmyunit = NULL;
 
   unit_list_iterate(punit_list, punit) {
-    if (unit_owner(punit) == client.playing) {
+    if (unit_owner(punit) == client.conn.playing) {
       /* Activate this unit. */
       pmyunit = punit;
       request_new_unit_activity(punit, ACTIVITY_IDLE);
@@ -604,7 +603,7 @@ void activate_all_units(struct tile *ptile)
 **************************************************************************/
 int city_change_production(struct city *pcity, struct universal target)
 {
-  return dsend_packet_city_change(&aconnection, pcity->id,
+  return dsend_packet_city_change(&client.conn, pcity->id,
 				  target.kind,
 				  universal_number(&target));
 }
@@ -623,7 +622,7 @@ int city_set_worklist(struct city *pcity, struct worklist *pworklist)
   /* Don't send the worklist name to the server. */
   copy.name[0] = '\0';
 
-  return dsend_packet_city_worklist(&aconnection, pcity->id, &copy);
+  return dsend_packet_city_worklist(&client.conn, pcity->id, &copy);
 }
 
 
@@ -851,8 +850,8 @@ bool city_can_buy(const struct city *pcity)
    * doesn't allow for error messages.  It doesn't check the cost of
    * buying; that's handled separately (and with an error message). */
   return (can_client_issue_orders()
-	  && pcity
-	  && city_owner(pcity) == client.playing
+	  && NULL != pcity
+	  && city_owner(pcity) == client.conn.playing
 	  && pcity->turn_founded != game.info.turn
 	  && !pcity->did_buy
 	  && (VUT_UTYPE == pcity->production.kind
@@ -867,7 +866,7 @@ bool city_can_buy(const struct city *pcity)
 **************************************************************************/
 int city_sell_improvement(struct city *pcity, Impr_type_id sell_id)
 {
-  return dsend_packet_city_sell(&aconnection, pcity->id, sell_id);
+  return dsend_packet_city_sell(&client.conn, pcity->id, sell_id);
 }
 
 /**************************************************************************
@@ -875,7 +874,7 @@ int city_sell_improvement(struct city *pcity, Impr_type_id sell_id)
 **************************************************************************/
 int city_buy_production(struct city *pcity)
 {
-  return dsend_packet_city_buy(&aconnection, pcity->id);
+  return dsend_packet_city_buy(&client.conn, pcity->id);
 }
 
 /**************************************************************************
@@ -884,7 +883,7 @@ int city_buy_production(struct city *pcity)
 int city_change_specialist(struct city *pcity, Specialist_type_id from,
 			   Specialist_type_id to)
 {
-  return dsend_packet_city_change_specialist(&aconnection, pcity->id, from,
+  return dsend_packet_city_change_specialist(&client.conn, pcity->id, from,
 					     to);
 }
 
@@ -902,10 +901,10 @@ int city_toggle_worker(struct city *pcity, int city_x, int city_y)
   }
 
   if (NULL != tile_worked(ptile) && tile_worked(ptile) == pcity) {
-    return dsend_packet_city_make_specialist(&aconnection, pcity->id, city_x,
+    return dsend_packet_city_make_specialist(&client.conn, pcity->id, city_x,
 					     city_y);
   } else if (city_can_work_tile(pcity, ptile)) {
-    return dsend_packet_city_make_worker(&aconnection, pcity->id, city_x,
+    return dsend_packet_city_make_worker(&client.conn, pcity->id, city_x,
 					 city_y);
   } else {
     return 0;
@@ -917,5 +916,5 @@ int city_toggle_worker(struct city *pcity, int city_x, int city_y)
 **************************************************************************/
 int city_rename(struct city *pcity, const char *name)
 {
-  return dsend_packet_city_rename(&aconnection, pcity->id, name);
+  return dsend_packet_city_rename(&client.conn, pcity->id, name);
 }

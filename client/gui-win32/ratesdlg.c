@@ -34,11 +34,12 @@
 
 #include "ratesdlg.h"
 
-
-extern struct connection aconnection;    
 extern HINSTANCE freecivhinst;
+
 static HWND ratesdlg;
-int rates_tax_value, rates_lux_value, rates_sci_value;     
+
+int rates_tax_value, rates_lux_value, rates_sci_value;
+
 
 /**************************************************************************
 
@@ -57,7 +58,7 @@ static void rates_set_values(int tax, int no_tax_scroll,
   lux_lock=IsDlgButtonChecked(ratesdlg,ID_RATES_LUXURYLOCK);
   sci_lock=IsDlgButtonChecked(ratesdlg,ID_RATES_SCIENCELOCK);
   
-  maxrate = get_player_bonus(client.playing, EFT_MAX_RATES);
+  maxrate = get_player_bonus(client.conn.playing, EFT_MAX_RATES);
   /* This's quite a simple-minded "double check".. */     
   tax=MIN(tax, maxrate);
   lux=MIN(lux, maxrate);
@@ -263,7 +264,7 @@ static LONG CALLBACK ratesdlg_proc(HWND hWnd,
 	  break;
 	case IDOK:
 	  DestroyWindow(hWnd);
-	  dsend_packet_player_rates(&aconnection, rates_tax_value,
+	  dsend_packet_player_rates(&client.conn, rates_tax_value,
 				    rates_lux_value, rates_sci_value);
 	  break;
 	}
@@ -328,15 +329,15 @@ popup_rates_dialog(void)
     fcwin_box_add_box(vbox,hbox,TRUE,TRUE,10);
 
     my_snprintf(buf, sizeof(buf), _("%s max rate: %d%%"),
-		government_name_for_player(client.playing),
-		get_player_bonus(client.playing, EFT_MAX_RATES));
+		government_name_for_player(client.conn.playing),
+		get_player_bonus(client.conn.playing, EFT_MAX_RATES));
     SetWindowText(GetDlgItem(ratesdlg,ID_RATES_MAX),buf);
     ScrollBar_SetRange(GetDlgItem(ratesdlg,ID_RATES_TAX),0,10,TRUE);
     ScrollBar_SetRange(GetDlgItem(ratesdlg,ID_RATES_LUXURY),0,10,TRUE);
     ScrollBar_SetRange(GetDlgItem(ratesdlg,ID_RATES_SCIENCE),0,10,TRUE);
-    rates_set_values( client.playing->economic.tax, 0,
-		      client.playing->economic.luxury, 0,
-		      client.playing->economic.science, 0 );
+    rates_set_values( client.conn.playing->economic.tax, 0,
+		      client.conn.playing->economic.luxury, 0,
+		      client.conn.playing->economic.science, 0 );
 
     fcwin_set_box(ratesdlg,vbox);
     ShowWindow(ratesdlg,SW_SHOWNORMAL);

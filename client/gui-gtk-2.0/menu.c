@@ -201,7 +201,7 @@ static void leave_local_game_response(GtkWidget* dialog, gint response)
   gtk_widget_destroy(dialog);
   if (response == GTK_RESPONSE_OK) {
     /* It might be killed already */
-    if (aconnection.used) {
+    if (client.conn.used) {
       /* It will also kill the server */
       disconnect_from_server();
     }
@@ -596,8 +596,8 @@ static void reports_menu_callback(gpointer callback_data,
     send_report_request(REPORT_DEMOGRAPHIC);
     break;
   case MENU_REPORT_SPACESHIP:
-    if (client.playing) {
-      popup_spaceship_dialog(client.playing);
+    if (NULL != client.conn.playing) {
+      popup_spaceship_dialog(client.conn.playing);
     }
     break;
   }
@@ -1261,7 +1261,7 @@ void update_menus(void)
   menus_set_active("<main>/_Game/_Options/Save Options on _Exit",
 		   save_options_on_exit);
   menus_set_sensitive("<main>/_Game/_Options/_Remote Server", 
-		      aconnection.established);
+		      client.conn.established);
 
   menus_set_sensitive("<main>/_Game/Save Game _As...",
 		      can_client_access_hack()
@@ -1270,7 +1270,7 @@ void update_menus(void)
 		      can_client_access_hack()
 		      && C_S_RUNNING <= client_state());
   menus_set_sensitive("<main>/_Game/_Leave",
-		      aconnection.established);
+		      client.conn.established);
 
   if (!can_client_change_view()) {
     menus_set_sensitive("<main>/_Edit", FALSE);
@@ -1312,7 +1312,7 @@ void update_menus(void)
           g_signal_connect(item, "activate",
 			   G_CALLBACK(government_callback), g);
 
-          if (!can_change_to_government(client.playing, g)) {
+          if (!can_change_to_government(client.conn.playing, g)) {
             gtk_widget_set_sensitive(item, FALSE);
 	  }
 
@@ -1339,30 +1339,30 @@ void update_menus(void)
     menu_updating = TRUE;
 
     menus_set_active("<main>/_Edit/Editing _Mode",
-		     can_conn_enable_editing(&aconnection));
+		     can_conn_enable_editing(&client.conn));
     menus_set_sensitive("<main>/_Edit/Editing _Tools",
-			can_conn_edit(&aconnection));
+			can_conn_edit(&client.conn));
     menus_set_sensitive("<main>/_Edit/Recalculate _Borders",
-			can_conn_edit(&aconnection));
+			can_conn_edit(&client.conn));
     menus_set_sensitive("<main>/_Edit/Regenerate _Water",
-			can_conn_edit(&aconnection));
+			can_conn_edit(&client.conn));
 
     menu_updating = FALSE;
 
     /* If the client is not attached to a player, disable these reports. */
     menus_set_sensitive("<main>/_Reports/_Cities",
-			(NULL != client.playing));
+			(NULL != client.conn.playing));
     menus_set_sensitive("<main>/_Reports/_Units",
-			(NULL != client.playing));
+			(NULL != client.conn.playing));
     menus_set_sensitive("<main>/_Reports/_Economy",
-			(NULL != client.playing));
+			(NULL != client.conn.playing));
     menus_set_sensitive("<main>/_Reports/_Research",
-			(NULL != client.playing));
+			(NULL != client.conn.playing));
     menus_set_sensitive("<main>/_Reports/_Demographics",
-			(NULL != client.playing));
+			(NULL != client.conn.playing));
     menus_set_sensitive("<main>/_Reports/_Spaceship",
-			(NULL != client.playing
-			 && SSHIP_NONE != client.playing->spaceship.state));
+			(NULL != client.conn.playing
+			 && SSHIP_NONE != client.conn.playing->spaceship.state));
 
     menus_set_active("<main>/_View/City Outlines", draw_city_outlines);
     menus_set_active("<main>/_View/Map _Grid", draw_map_grid);

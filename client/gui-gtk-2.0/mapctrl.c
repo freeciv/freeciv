@@ -32,7 +32,6 @@
 #include "citydlg.h"
 #include "civclient.h"
 #include "climap.h"
-#include "clinet.h"
 #include "climisc.h"
 #include "colors.h"
 #include "control.h"
@@ -179,7 +178,7 @@ void popupinfo_popdown_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void name_new_city_callback(GtkWidget * w, gpointer data)
 {
-  dsend_packet_unit_build_city(&aconnection, GPOINTER_TO_INT(data),
+  dsend_packet_unit_build_city(&client.conn, GPOINTER_TO_INT(data),
 			       input_dialog_get_input(w));
   input_dialog_destroy(w);
 }

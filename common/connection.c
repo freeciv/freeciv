@@ -56,8 +56,7 @@ const char blank_addr_str[] = "---.---.---.---";
    a connection list might corrupt the list. */
 int delayed_disconnect = 0;
 
-struct connection *current_connection;
-  
+
 /**************************************************************************
   Command access levels for client-side use; at present, they are only
   used to control access to server commands typed at the client chatline.
@@ -498,10 +497,10 @@ static void free_socket_packet_buffer(struct socket_packet_buffer *buf)
 /**************************************************************************
   Return pointer to static string containing a description for this
   connection, based on pconn->name, pconn->addr, and (if applicable)
-  pconn->player->name.  (Also pconn->established and pconn->observer.)
+  pconn->playing->name.  (Also pconn->established and pconn->observer.)
 
-  Note that if pconn is client's aconnection (connection to server),
-  pconn->name and pconn->addr contain empty string, and pconn->player
+  Note that when pconn is client.conn (connection to server),
+  pconn->name and pconn->addr contain empty string, and pconn->playing
   is NULL: in this case return string "server".
 **************************************************************************/
 const char *conn_description(const struct connection *pconn)
@@ -520,9 +519,9 @@ const char *conn_description(const struct connection *pconn)
     sz_strlcat(buffer, _(" (connection incomplete)"));
     return buffer;
   }
-  if (pconn->player) {
+  if (NULL != pconn->playing) {
     cat_snprintf(buffer, sizeof(buffer), _(" (player %s)"),
-		 player_name(pconn->player));
+		 player_name(pconn->playing));
   }
   if (pconn->observer) {
     sz_strlcat(buffer, _(" (observer)"));

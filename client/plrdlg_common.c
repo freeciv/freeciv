@@ -115,7 +115,7 @@ static bool col_ai(const struct player *plr)
 *******************************************************************/
 static const char *col_embassy(const struct player *player)
 {
-  return get_embassy_status(client.playing, player);
+  return get_embassy_status(client.conn.playing, player);
 }
 
 /******************************************************************
@@ -127,10 +127,10 @@ static const char *col_diplstate(const struct player *player)
   static char buf[100];
   const struct player_diplstate *pds;
 
-  if (!client.playing || player == client.playing) {
+  if (NULL == client.conn.playing || player == client.conn.playing) {
     return "-";
   } else {
-    pds = pplayer_get_diplstate(client.playing, player);
+    pds = pplayer_get_diplstate(client.conn.playing, player);
     if (pds->type == DS_CEASEFIRE || pds->type == DS_ARMISTICE) {
       my_snprintf(buf, sizeof(buf), "%s (%d)",
 		  diplstate_text(pds->type), pds->turns_left);
@@ -146,10 +146,11 @@ static const char *col_diplstate(const struct player *player)
 *******************************************************************/
 static const char *col_love(const struct player *player)
 {
-  if (!client.playing || player == client.playing || !player->ai.control) {
+  if (NULL == client.conn.playing || player == client.conn.playing
+   || !player->ai.control) {
     return "-";
   } else {
-    return love_text(player->ai.love[player_index(client.playing)]);
+    return love_text(player->ai.love[player_index(client.conn.playing)]);
   }
 }
 
@@ -161,20 +162,20 @@ static int cmp_love(const struct player *player1,
 {
   int love1, love2;
 
-  if (!client.playing) {
+  if (NULL == client.conn.playing) {
     return player_number(player1) - player_number(player2);
   }
 
-  if (player1 == client.playing || !player1->ai.control) {
+  if (player1 == client.conn.playing || !player1->ai.control) {
     love1 = MAX_AI_LOVE + 999;
   } else {
-    love1 = player1->ai.love[player_index(client.playing)];
+    love1 = player1->ai.love[player_index(client.conn.playing)];
   }
 
-  if (player2 == client.playing || !player2->ai.control) {
+  if (player2 == client.conn.playing || !player2->ai.control) {
     love2 = MAX_AI_LOVE + 999;
   } else {
-    love2 = player2->ai.love[player_index(client.playing)];
+    love2 = player2->ai.love[player_index(client.conn.playing)];
   }
   
   return love1 - love2;
@@ -185,7 +186,7 @@ static int cmp_love(const struct player *player1,
 *******************************************************************/
 static const char *col_vision(const struct player *player)
 {
-  return get_vision_status(client.playing, player);
+  return get_vision_status(client.conn.playing, player);
 }
 
 /******************************************************************

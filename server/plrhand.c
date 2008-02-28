@@ -77,8 +77,9 @@ void send_player_turn_notifications(struct conn_list *dest)
 {
   if (dest) {
     conn_list_iterate(dest, pconn) {
-      struct player *pplayer = pconn->player;
-      if (pplayer) {
+      struct player *pplayer = pconn->playing;
+
+      if (NULL != pplayer) {
 	city_list_iterate(pplayer->cities, pcity) {
 	  send_city_turn_notifications(pconn->self, pcity);
 	}
@@ -651,7 +652,7 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
   Notify specified connections of an event of specified type (from events.h)
   and specified (x,y) coords associated with the event.  Coords will only
   apply if game has started and the conn's player knows that tile (or
-  pconn->player==NULL && pconn->observer).  If coords are not required,
+  NULL == pconn->playing && pconn->observer).  If coords are not required,
   caller should specify (x,y) = (-1,-1); otherwise make sure that the
   coordinates have been normalized.
 **************************************************************************/
@@ -672,8 +673,8 @@ void vnotify_conn(struct conn_list *dest, struct tile *ptile,
   conn_list_iterate(dest, pconn) {
     if (S_S_RUNNING <= server_state()
 	&& ptile /* special case, see above */
-	&& ((!pconn->player && pconn->observer)
-	    || (pconn->player && map_is_known(ptile, pconn->player)))) {
+	&& ((NULL == pconn->playing && pconn->observer)
+	    || (NULL != pconn->playing && map_is_known(ptile, pconn->playing)))) {
       genmsg.x = ptile->x;
       genmsg.y = ptile->y;
     } else {
@@ -808,12 +809,12 @@ void send_player_info_c(struct player *src, struct conn_list *dest)
       package_player_common(pplayer, &info);
 
       conn_list_iterate(dest, pconn) {
-	if (!pconn->player && pconn->observer) {
+	if (NULL == pconn->playing && pconn->observer) {
 	  /* Global observer. */
-	  package_player_info(pplayer, &info, pconn->player, INFO_FULL);
-	} else if (pconn->player) {
+	  package_player_info(pplayer, &info, pconn->playing, INFO_FULL);
+	} else if (NULL != pconn->playing) {
 	  /* Players (including regular observers) */
-	  package_player_info(pplayer, &info, pconn->player, INFO_MINIMUM);
+	  package_player_info(pplayer, &info, pconn->playing, INFO_MINIMUM);
 	} else {
 	  package_player_info(pplayer, &info, NULL, INFO_MINIMUM);
 	}

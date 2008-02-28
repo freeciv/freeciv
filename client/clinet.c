@@ -96,7 +96,12 @@
 
 #include "clinet.h"
 
-struct connection aconnection;
+/* In autoconnect mode, try to connect to once a second */
+#define AUTOCONNECT_INTERVAL		500
+
+/* In autoconnect mode, try to connect 100 times */
+#define MAX_AUTOCONNECT_ATTEMPTS	100
+
 static union my_sockaddr server_addr;
 
 /*************************************************************************
@@ -148,23 +153,6 @@ static void close_socket_callback(struct connection *pc)
 }
 
 /**************************************************************************
-  Connect to a civserver instance -- or at least try to.  On success,
-  return 0; on failure, put an error message in ERRBUF and return -1.
-**************************************************************************/
-int connect_to_server(const char *username, const char *hostname, int port,
-		      char *errbuf, int errbufsize)
-{
-  if (get_server_address(hostname, port, errbuf, errbufsize) != 0) {
-    return -1;
-  }
-
-  if (try_to_connect(username, errbuf, errbufsize) != 0) {
-    return -1;
-  }
-  return 0;
-}
-
-/**************************************************************************
   Get ready to [try to] connect to a server:
    - translate HOSTNAME and PORT (with defaults of "localhost" and
      DEFAULT_SOCK_PORT respectively) to a raw IP address and port number, and
@@ -172,8 +160,8 @@ int connect_to_server(const char *username, const char *hostname, int port,
    - return 0 on success
      or put an error message in ERRBUF and return -1 on failure
 **************************************************************************/
-int get_server_address(const char *hostname, int port, char *errbuf,
-		       int errbufsize)
+static int get_server_address(const char *hostname, int port,
+                              char *errbuf, int errbufsize)
 {
   if (port == 0)
     port = DEFAULT_SOCK_PORT;
@@ -201,26 +189,26 @@ int get_server_address(const char *hostname, int port, char *errbuf,
      message in ERRBUF and return the Unix error code (ie., errno, which
      will be non-zero).
 **************************************************************************/
-int try_to_connect(const char *username, char *errbuf, int errbufsize)
+static int try_to_connect(const char *username, char *errbuf, int errbufsize)
 {
   close_socket_set_callback(close_socket_callback);
 
   /* connection in progress? wait. */
-  if (aconnection.used) {
+  if (client.conn.used) {
     (void) mystrlcpy(errbuf, _("Connection in progress."), errbufsize);
     return -1;
   }
   
-  if ((aconnection.sock = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
+  if ((client.conn.sock = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
     (void) mystrlcpy(errbuf, mystrerror(), errbufsize);
     return -1;
   }
 
-  if (my_connect(aconnection.sock, &server_addr.sockaddr,
+  if (my_connect(client.conn.sock, &server_addr.sockaddr,
       sizeof(server_addr)) == -1) {
     (void) mystrlcpy(errbuf, mystrerror(), errbufsize);
-    my_closesocket(aconnection.sock);
-    aconnection.sock = -1;
+    my_closesocket(client.conn.sock);
+    client.conn.sock = -1;
 #ifdef HAVE_WINSOCK
     return -1;
 #else
@@ -228,11 +216,29 @@ int try_to_connect(const char *username, char *errbuf, int errbufsize)
 #endif
   }
 
-  make_connection(aconnection.sock, username);
+  make_connection(client.conn.sock, username);
 
   return 0;
 }
- 
+
+/**************************************************************************
+  Connect to a civserver instance -- or at least try to.  On success,
+  return 0; on failure, put an error message in ERRBUF and return -1.
+**************************************************************************/
+int connect_to_server(const char *username, const char *hostname, int port,
+		      char *errbuf, int errbufsize)
+{
+  if (0 != get_server_address(hostname, port, errbuf, errbufsize)) {
+    return -1;
+  }
+
+  if (0 != try_to_connect(username, errbuf, errbufsize)) {
+    return -1;
+  }
+
+  return 0;
+}
+
 /**************************************************************************
   Called after a connection is completed (e.g., in try_to_connect).
 **************************************************************************/
@@ -240,17 +246,17 @@ void make_connection(int socket, const char *username)
 {
   struct packet_server_join_req req;
 
-  connection_common_init(&aconnection);
-  aconnection.sock = socket;
-  aconnection.is_server = FALSE;
-  aconnection.client.last_request_id_used = 0;
-  aconnection.client.last_processed_request_id_seen = 0;
-  aconnection.client.request_id_of_currently_handled_packet = 0;
-  aconnection.incoming_packet_notify = notify_about_incoming_packet;
-  aconnection.outgoing_packet_notify = notify_about_outgoing_packet;
+  connection_common_init(&client.conn);
+  client.conn.sock = socket;
+  client.conn.is_server = FALSE;
+  client.conn.client.last_request_id_used = 0;
+  client.conn.client.last_processed_request_id_seen = 0;
+  client.conn.client.request_id_of_currently_handled_packet = 0;
+  client.conn.incoming_packet_notify = notify_about_incoming_packet;
+  client.conn.outgoing_packet_notify = notify_about_outgoing_packet;
 
   /* call gui-dependent stuff in gui_main.c */
-  add_net_input(aconnection.sock);
+  add_net_input(client.conn.sock);
 
   /* now send join_request package */
 
@@ -261,7 +267,7 @@ void make_connection(int socket, const char *username)
   sz_strlcpy(req.capability, our_capability);
   sz_strlcpy(req.username, username);
   
-  send_packet_server_join_req(&aconnection, &req);
+  send_packet_server_join_req(&client.conn, &req);
 }
 
 /**************************************************************************
@@ -269,7 +275,7 @@ void make_connection(int socket, const char *username)
 **************************************************************************/
 void disconnect_from_server(void)
 {
-  const bool force = !aconnection.used;
+  const bool force = !client.conn.used;
 
   attribute_flush();
   /* If it's internal server - kill him 
@@ -277,7 +283,7 @@ void disconnect_from_server(void)
   if (!force) {
     client_kill_server(FALSE);
   }
-  close_socket_nomessage(&aconnection);
+  close_socket_nomessage(&client.conn);
   if (force) {
     client_kill_server(TRUE);
   }
@@ -370,14 +376,14 @@ static int read_from_connection(struct connection *pc, bool block)
 **************************************************************************/
 void input_from_server(int fd)
 {
-  assert(fd == aconnection.sock);
+  assert(fd == client.conn.sock);
 
-  if (read_from_connection(&aconnection, FALSE) >= 0) {
+  if (read_from_connection(&client.conn, FALSE) >= 0) {
     enum packet_type type;
 
     while (TRUE) {
       bool result;
-      void *packet = get_packet_from_connection(&aconnection,
+      void *packet = get_packet_from_connection(&client.conn,
 						&type, &result);
 
       if (result) {
@@ -390,7 +396,7 @@ void input_from_server(int fd)
       }
     }
   } else {
-    close_socket_callback(&aconnection);
+    close_socket_callback(&client.conn);
   }
 }
 
@@ -404,19 +410,19 @@ void input_from_server_till_request_got_processed(int fd,
 						  int expected_request_id)
 {
   assert(expected_request_id);
-  assert(fd == aconnection.sock);
+  assert(fd == client.conn.sock);
 
   freelog(LOG_DEBUG,
 	  "input_from_server_till_request_got_processed("
 	  "expected_request_id=%d)", expected_request_id);
 
   while (TRUE) {
-    if (read_from_connection(&aconnection, TRUE) >= 0) {
+    if (read_from_connection(&client.conn, TRUE) >= 0) {
       enum packet_type type;
 
       while (TRUE) {
 	bool result;
-	void *packet = get_packet_from_connection(&aconnection,
+	void *packet = get_packet_from_connection(&client.conn,
 						  &type, &result);
 	if (!result) {
 	  assert(packet == NULL);
@@ -430,8 +436,8 @@ void input_from_server_till_request_got_processed(int fd,
 	if (type == PACKET_PROCESSING_FINISHED) {
 	  freelog(LOG_DEBUG, "ifstrgp: expect=%d, seen=%d",
 		  expected_request_id,
-		  aconnection.client.last_processed_request_id_seen);
-	  if (aconnection.client.last_processed_request_id_seen >=
+		  client.conn.client.last_processed_request_id_seen);
+	  if (client.conn.client.last_processed_request_id_seen >=
 	      expected_request_id) {
 	    freelog(LOG_DEBUG, "ifstrgp: got it; returning");
 	    return;
@@ -439,7 +445,7 @@ void input_from_server_till_request_got_processed(int fd,
 	}
       }
     } else {
-      close_socket_callback(&aconnection);
+      close_socket_callback(&client.conn);
       break;
     }
   }

@@ -183,9 +183,9 @@ static int toggle_draw_neutral_status_callback(struct widget *pWidget)
 
 static bool have_diplomat_info_about(struct player *pPlayer)
 {
-  return (pPlayer == client.playing
-	  || (pPlayer != client.playing
-	   && player_has_embassy(client.playing, pPlayer)));
+  return (pPlayer == client.conn.playing
+	  || (pPlayer != client.conn.playing
+	   && player_has_embassy(client.conn.playing, pPlayer)));
 }
 
 /**************************************************************************
@@ -574,7 +574,7 @@ static int player_nation_callback(struct widget *pWidget)
       }
     break;
     default:
-      if (pPlayer != client.playing) {
+      if (pPlayer != client.conn.playing) {
         popup_diplomacy_dialog(pPlayer);
       }
     break;
@@ -630,12 +630,12 @@ void popup_players_nations_dialog(void)
   /* ---------- */
   
   players_iterate(pPlayer) {
-    if (pPlayer != client.playing) {
+    if (pPlayer != client.conn.playing) {
       if(!pPlayer->is_alive || is_barbarian(pPlayer)) {
         continue;
       }
       
-      pDS = pplayer_get_diplstate(client.playing, pPlayer);
+      pDS = pplayer_get_diplstate(client.conn.playing, pPlayer);
             
       if(pPlayer->ai.control) {
 	state = _("AI");

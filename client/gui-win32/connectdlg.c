@@ -33,7 +33,7 @@
 #include "chatline.h"
 #include "civclient.h"
 #include "climisc.h"
-#include "clinet.h"
+#include "clinet.h"		/* connect_to_server() */
 #include "colors.h"
 #include "connectdlg_common.h"
 #include "connectdlg.h"
@@ -130,7 +130,7 @@ void handle_authentication_req(enum authentication_type type, char *message)
       struct packet_authentication_reply reply;
 
       sz_strlcpy(reply.password, password);
-      send_packet_authentication_reply(&aconnection, &reply);
+      send_packet_authentication_reply(&client.conn, &reply);
       return;
     } else {
       dialog_config = ENTER_PASSWORD_TYPE;
@@ -291,7 +291,7 @@ static void connect_callback()
     if (strncmp(reply.password, password, MAX_LEN_NAME) == 0) {
       EnableWindow(GetDlgItem(network_dlg, ID_CONNECTDLG_CONNECT), FALSE);
       password[0] = '\0';
-      send_packet_authentication_reply(&aconnection, &reply);
+      send_packet_authentication_reply(&client.conn, &reply);
     } else { 
       SetFocus(GetDlgItem(network_tabs[0], ID_CONNECTDLG_NAME));
       SetWindowText(GetDlgItem(network_tabs[0], ID_CONNECTDLG_NAME), "");
@@ -304,7 +304,7 @@ static void connect_callback()
     EnableWindow(GetDlgItem(network_dlg, ID_CONNECTDLG_CONNECT), FALSE);
     Edit_GetText(GetDlgItem(network_tabs[0], ID_CONNECTDLG_NAME),
 		 reply.password, 512);
-    send_packet_authentication_reply(&aconnection, &reply);
+    send_packet_authentication_reply(&client.conn, &reply);
     break;
   default:
     assert(0);
@@ -832,7 +832,7 @@ static LONG CALLBACK new_game_proc(HWND win, UINT message,
 	  popup_settable_options_dialog();
 	  break;
         case ID_NEWGAMEDLG_NATIONS:
-	  popup_races_dialog(client.playing);
+	  popup_races_dialog(client.conn.playing);
 	  break;
 	case ID_CANCEL:
 	  client_kill_server(TRUE);

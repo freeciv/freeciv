@@ -387,7 +387,7 @@ void show_city_desc(struct canvas *pcanvas, int canvas_x, int canvas_y,
   line1_b = ct_string_clone4(style->growth_template, buffer2,
 			    enum_color_to_be_color(color));
 
-  if (draw_city_productions && (city_owner(pcity) == client.playing)) {
+  if (draw_city_productions && (city_owner(pcity) == client.conn.playing)) {
     get_city_mapview_production(pcity, buffer, sizeof(buffer));
     line2 =
 	ct_string_clone4(style->prod_template, buffer,
@@ -671,7 +671,7 @@ static void update_focus_tile_list2(void)
 
   ptile = get_focus_tile();
   unit_list_iterate(ptile->units, aunit) {
-    if (unit_owner(aunit) == client.playing) {
+    if (unit_owner(aunit) == client.conn.playing) {
       set_unit_focus(aunit);
       break;
     }
@@ -1196,24 +1196,24 @@ static const char *info_get_value(const char *id)
     return textyear(game.info.year);
   } else if (strcmp(id, "gold") == 0) {
     my_snprintf(buffer, sizeof(buffer),
-		"%d", client.playing->economic.gold);
+		"%d", client.conn.playing->economic.gold);
     return buffer;
   } else if (strcmp(id, "nation_name") == 0) {
-      return nation_plural_for_player(client.playing);
+      return nation_plural_for_player(client.conn.playing);
   } else if (strcmp(id, "population") == 0) {
-      return population_to_text(civ_population(client.playing));
+      return population_to_text(civ_population(client.conn.playing));
   } else if (strcmp(id, "general") == 0) {
       my_snprintf(buffer, sizeof(buffer),
 		  _("Population: %s\n"
 		"Year: %s\n"
 		"Gold %d\n"
 		"Tax: %d Lux: %d Sci: %d"),
-	      population_to_text(civ_population(client.playing)),
+	      population_to_text(civ_population(client.conn.playing)),
 	      textyear(game.info.year),
-	      client.playing->economic.gold,
-	      client.playing->economic.tax,
-	      client.playing->economic.luxury,
-	      client.playing->economic.science);
+	      client.conn.playing->economic.gold,
+	      client.conn.playing->economic.tax,
+	      client.conn.playing->economic.luxury,
+	      client.conn.playing->economic.science);
       return buffer;
   } else if (strcmp(id, "focus_item") == 0) {
       return tile_list2.item[tile_list2.selected].info_text;
@@ -1223,12 +1223,12 @@ static const char *info_get_value(const char *id)
 		"Year: %s "
 		"Gold %d "
 		"Tax: %d Lux: %d Sci: %d"),
-	      population_to_text(civ_population(client.playing)),
+	      population_to_text(civ_population(client.conn.playing)),
 	      textyear(game.info.year),
-	      client.playing->economic.gold,
-	      client.playing->economic.tax,
-	      client.playing->economic.luxury,
-	      client.playing->economic.science);
+	      client.conn.playing->economic.gold,
+	      client.conn.playing->economic.tax,
+	      client.conn.playing->economic.luxury,
+	      client.conn.playing->economic.science);
       return buffer;
 #endif
   } else {
@@ -1463,7 +1463,7 @@ static void fill_actions(void)
     struct city *pcity = item->pcity;
     int i;
 
-    if (city_production_buy_gold_cost(pcity) <= client.playing->economic.gold) {
+    if (city_production_buy_gold_cost(pcity) <= client.conn.playing->economic.gold) {
       ADD("city_buy");
     } else {
       ADD_DIS("city_buy");

@@ -262,7 +262,7 @@ static Uint16 main_key_down_handler(SDL_keysym Key, void *pData)
               struct city *pCity;
               if (NULL != (pUnit = head_of_units_in_focus()) && 
                 (pCity = tile_city(pUnit->tile)) != NULL &&
-                city_owner(pCity) == client.playing) {
+                city_owner(pCity) == client.conn.playing) {
                 popup_city_dialog(pCity);
               }
 	    }
@@ -298,7 +298,7 @@ static Uint16 main_key_down_handler(SDL_keysym Key, void *pData)
           return ID_ERROR;
 	    
 	  case SDLK_F12:
-            popup_spaceship_dialog(client.playing);
+            popup_spaceship_dialog(client.conn.playing);
           return ID_ERROR;
 	  
 	  default:

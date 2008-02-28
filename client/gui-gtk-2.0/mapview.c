@@ -99,9 +99,9 @@ void update_info_label( void )
   GtkWidget *label;
 
   label = gtk_frame_get_label_widget(GTK_FRAME(main_frame_civ_name));
-  if (client.playing) {
+  if (NULL != client.conn.playing) {
     gtk_label_set_text(GTK_LABEL(label),
-		       nation_plural_for_player(client.playing));
+		       nation_plural_for_player(client.conn.playing));
   } else {
     gtk_label_set_text(GTK_LABEL(label), "-");
   }
@@ -113,18 +113,18 @@ void update_info_label( void )
 		      client_cooling_sprite(),
 		      client_government_sprite());
 
-  if (client.playing) {
+  if (NULL != client.conn.playing) {
     int d = 0;
 
-    for (; d < client.playing->economic.luxury /10; d++) {
+    for (; d < client.conn.playing->economic.luxury /10; d++) {
       struct sprite *sprite = get_tax_sprite(tileset, O_LUXURY);
 
       gtk_image_set_from_pixbuf(GTK_IMAGE(econ_label[d]),
 				sprite_get_pixbuf(sprite));
     }
  
-    for (; d < (client.playing->economic.science
-		+ client.playing->economic.luxury) / 10; d++) {
+    for (; d < (client.conn.playing->economic.science
+		+ client.conn.playing->economic.luxury) / 10; d++) {
       struct sprite *sprite = get_tax_sprite(tileset, O_SCIENCE);
 
       gtk_image_set_from_pixbuf(GTK_IMAGE(econ_label[d]),

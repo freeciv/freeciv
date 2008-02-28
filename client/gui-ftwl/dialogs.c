@@ -24,7 +24,7 @@
 #include "support.h"
 
 #include "chatline_common.h"
-#include "clinet.h"
+#include "civclient.h"
 #include "gui_main.h"
 #include "widget.h"
 
@@ -73,7 +73,7 @@ static void connect_callback(struct sw_widget *list, void *data)
     return;
   }
 
-  dsend_packet_nation_select_req(&aconnection, selected_nation,
+  dsend_packet_nation_select_req(&client.conn, selected_nation,
 				 sw_list_get_selected_row(leaders_sex_list)==0,
 				 leaders[leader].name,1);
 }

@@ -30,7 +30,6 @@
 
 #include "civclient.h"
 #include "chatline.h"
-#include "clinet.h"
 #include "colors.h"
 #include "connectdlg_common.h"
 #include "dialogs.h"

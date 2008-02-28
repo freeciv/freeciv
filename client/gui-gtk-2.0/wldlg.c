@@ -35,7 +35,6 @@
 #include "worklist.h"
 #include "support.h"
 #include "climisc.h"
-#include "clinet.h"
 #include "options.h"
 #include "tilespec.h"
 
@@ -463,7 +462,7 @@ static void menu_item_callback(GtkMenuItem *item, struct worklist_data *ptr)
   gint pos;
   struct worklist *pwl;
 
-  if (!client.playing) {
+  if (NULL == client.conn.playing) {
     return;
   }
 
@@ -874,7 +873,7 @@ static void src_selection_callback(GtkTreeSelection *selection, gpointer data)
   /* update widget sensitivity. */
   if (gtk_tree_selection_get_selected(selection, NULL, NULL)) {
     if (can_client_issue_orders()
-	&& ptr->pcity && city_owner(ptr->pcity) == client.playing) {
+	&& ptr->pcity && city_owner(ptr->pcity) == client.conn.playing) {
       gtk_widget_set_sensitive(ptr->change_cmd, TRUE);
       gtk_widget_set_sensitive(ptr->prepend_cmd, TRUE);
       gtk_widget_set_sensitive(ptr->append_cmd, TRUE);
@@ -1417,7 +1416,7 @@ void refresh_worklist(GtkWidget *editor)
   /* update widget sensitivity. */
   if (ptr->pcity) {
     if ((can_client_issue_orders() &&
-	 city_owner(ptr->pcity) == client.playing)) {
+	 city_owner(ptr->pcity) == client.conn.playing)) {
       gtk_widget_set_sensitive(ptr->add_cmd, TRUE);
       gtk_widget_set_sensitive(ptr->dst_view, TRUE);
     } else {

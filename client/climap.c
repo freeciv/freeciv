@@ -34,14 +34,14 @@
 *************************************************************************/
 enum known_type client_tile_get_known(const struct tile *ptile)
 {
-  if (!client.playing) {
+  if (NULL == client.conn.playing) {
     if (client_is_observer()) {
       return TILE_KNOWN_SEEN;
     } else {
       return TILE_UNKNOWN;
     }
   }
-  return tile_get_known(ptile, client.playing);
+  return tile_get_known(ptile, client.conn.playing);
 }
 
 /**************************************************************************

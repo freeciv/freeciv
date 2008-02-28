@@ -1845,27 +1845,27 @@ static bool set_away(struct connection *caller, char *name, bool check)
     notify_conn(caller->self, NULL, E_SETTING, _("Usage:\n%s"),
                 _(command_synopsis(command_by_number(CMD_AWAY))));
     return FALSE;
-  } else if (!caller->player || caller->observer) {
+  } else if (NULL == caller->playing || caller->observer) {
     /* This happens for detached or observer connections. */
     notify_conn(caller->self, NULL, E_SETTING,
 		_("Only players may use the away command."));
     return FALSE;
-  } else if (!caller->player->ai.control && !check) {
+  } else if (!caller->playing->ai.control && !check) {
     notify_conn(game.est_connections, NULL, E_SETTING,
 		_("%s set to away mode."), 
-                player_name(caller->player));
-    send_player_info(caller->player, NULL);
-    set_ai_level_directer(caller->player, AI_LEVEL_AWAY);
-    caller->player->ai.control = TRUE;
-    cancel_all_meetings(caller->player);
+                player_name(caller->playing));
+    send_player_info(caller->playing, NULL);
+    set_ai_level_directer(caller->playing, AI_LEVEL_AWAY);
+    caller->playing->ai.control = TRUE;
+    cancel_all_meetings(caller->playing);
   } else if (!check) {
     notify_conn(game.est_connections, NULL, E_SETTING,
 		_("%s returned to game."), 
-                player_name(caller->player));
-    caller->player->ai.control = FALSE;
+                player_name(caller->playing));
+    caller->playing->ai.control = FALSE;
     /* We have to do it, because the client doesn't display 
      * dialogs for meetings in AI mode. */
-    cancel_all_meetings(caller->player);
+    cancel_all_meetings(caller->playing);
   }
   return TRUE;
 }
@@ -2142,7 +2142,7 @@ static bool vote_command(struct connection *caller, char *str,
   int ntokens = 0, i;
   bool res = FALSE;
 
-  if (caller == NULL || caller->player == NULL) {
+  if (NULL == caller || NULL == caller->playing) {
     cmd_reply(CMD_VOTE, caller, C_FAIL, _("This command is client only."));
     return FALSE;
   } else if (caller->observer) {
@@ -2211,11 +2211,11 @@ static bool vote_command(struct connection *caller, char *str,
     if (strcmp(arg[0], "yes") == 0) {
       cmd_reply(CMD_VOTE, caller, C_COMMENT, _("You voted for \"%s\""), 
                 vote->command);
-      vote->votes_cast[player_index(caller->player)] = VOTE_YES;
+      vote->votes_cast[player_index(caller->playing)] = VOTE_YES;
     } else if (strcmp(arg[0], "no") == 0) {
       cmd_reply(CMD_VOTE, caller, C_COMMENT, _("You voted against \"%s\""), 
                 vote->command);
-      vote->votes_cast[player_index(caller->player)] = VOTE_NO;
+      vote->votes_cast[player_index(caller->playing)] = VOTE_NO;
     }
     check_vote(vote);
   } else {
@@ -2788,8 +2788,8 @@ static bool observe_command(struct connection *caller, char *str, bool check)
   }
 
   /* observing your own player (during pregame) makes no sense. */
-  if (pplayer
-      && pconn->player == pplayer
+  if (NULL != pplayer
+      && pplayer == pconn->playing
       && !pconn->observer
       && is_newgame
       && !pplayer->was_created) {
@@ -2802,7 +2802,7 @@ static bool observe_command(struct connection *caller, char *str, bool check)
   }
 
   /* attempting to observe a player you're already observing should fail. */
-  if (pconn->player == pplayer && pconn->observer) {
+  if (pplayer == pconn->playing && pconn->observer) {
     if (pplayer) {
       cmd_reply(CMD_OBSERVE, caller, C_FAIL,
 		_("%s is already observing %s."),  
@@ -2827,7 +2827,7 @@ static bool observe_command(struct connection *caller, char *str, bool check)
     char name[MAX_LEN_NAME], username[MAX_LEN_NAME];
 
     if (pplayer) {
-      /* if a pconn->player is removed, we'll lose pplayer */
+      /* if pconn->playing is removed, we'll lose pplayer */
       sz_strlcpy(name, player_name(pplayer));
     }
 
@@ -2954,11 +2954,11 @@ static bool take_command(struct connection *caller, char *str, bool check)
   }
 
   /* taking your own player makes no sense. */
-  if ((pplayer && !pconn->observer && pconn->player == pplayer)
-      || (!pplayer && !pconn->observer && pconn->player)) {
+  if ((NULL != pplayer && !pconn->observer && pplayer == pconn->playing)
+   || (NULL == pplayer && !pconn->observer && NULL != pconn->playing)) {
     cmd_reply(CMD_TAKE, caller, C_FAIL, _("%s already controls %s"),
               pconn->username,
-              player_name(pconn->player));
+              player_name(pconn->playing));
     goto end;
   }
 
@@ -2994,11 +2994,11 @@ static bool take_command(struct connection *caller, char *str, bool check)
 
   /* if the connection is already attached to a player,
    * unattach and cleanup old player (rename, remove, etc) */
-  if (pconn->player) {
+  if (NULL != pconn->playing) {
     char name[MAX_LEN_NAME], username[MAX_LEN_NAME];
 
     if (pplayer) {
-      /* if a pconn->player is removed, we'll lose pplayer */
+      /* if pconn->playing is removed, we'll lose pplayer */
       sz_strlcpy(name, player_name(pplayer));
     }
 
@@ -3021,7 +3021,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
   /* now attach to new player */
   pconn->observer = FALSE; /* do this before attach! */
   attach_connection_to_player(pconn, pplayer);
-  pplayer = pconn->player; /* In case pplayer was NULL. */
+  pplayer = pconn->playing; /* In case pplayer was NULL. */
  
   /* if pplayer wasn't /created, and we're still in pregame, change its name */
   if (!pplayer->was_created && is_newgame && !pplayer->nation) {
@@ -3072,7 +3072,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
   Detach from a player. if that player wasn't /created and you were 
   controlling the player, remove it (and then detach any observers as well).
 
-  If called for a global observer connection (where pconn->player is NULL)
+  If called for a global observer connection (where pconn->playing is NULL)
   then it will correctly detach from observing mode.
 **************************************************************************/
 static bool detach_command(struct connection *caller, char *str, bool check)
@@ -3115,7 +3115,7 @@ static bool detach_command(struct connection *caller, char *str, bool check)
     goto end;
   }
 
-  pplayer = pconn->player;
+  pplayer = pconn->playing;
 
   /* must have someone to detach from... */
   if (!pplayer && !pconn->observer) {
@@ -3338,7 +3338,7 @@ bool load_command(struct connection *caller, char *filename, bool check)
    * to connections that have the correct username. Any attachments
    * made before the game load are unattached. */
   conn_list_iterate(game.est_connections, pconn) {
-    if (pconn->player) {
+    if (NULL != pconn->playing) {
       unattach_connection_from_player(pconn);
     }
     players_iterate(pplayer) {
@@ -3522,12 +3522,12 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
 
   if (S_S_INITIAL != server_state()
       && caller
-      && caller->player
+      && NULL != caller->playing
       && !caller->observer /* don't allow observers to ask votes */
       && !check
       && caller->access_level == ALLOW_INFO
       && ALLOW_CTRL == command_level(command_by_number(cmd))) {
-    int idx = player_index(caller->player);
+    int idx = player_index(caller->playing);
 
     /* If we already have a vote going, cancel it in favour of the new
      * vote command. You can only have one vote at a time. */
@@ -3543,7 +3543,7 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
       notify_conn(NULL, NULL, E_SETTING,
 		  _("New vote (number %d) by %s: %s."),
 		  last_vote,
-		  player_name(caller->player),
+		  player_name(caller->playing),
 		  full_command);
       sz_strlcpy(votes[idx].command, full_command);
       votes[idx].vote_no = last_vote;
@@ -3712,14 +3712,14 @@ static bool end_command(struct connection *caller, char *str, bool check)
 **************************************************************************/
 static bool surrender_command(struct connection *caller, char *str, bool check)
 {
-  if (S_S_RUNNING == server_state() && caller && caller->player) {
+  if (S_S_RUNNING == server_state() && caller && NULL != caller->playing) {
     if (check) {
       return TRUE;
     }
     notify_conn(game.est_connections, NULL, E_GAME_END,
                    _("%s has conceded the game and can no longer win."),
-                   player_name(caller->player));
-    caller->player->surrendered = TRUE;
+                   player_name(caller->playing));
+    caller->playing->surrendered = TRUE;
     return TRUE;
   } else {
     cmd_reply(CMD_SURRENDER, caller, C_FAIL, _("You cannot surrender now."));
@@ -3775,11 +3775,11 @@ static bool start_command(struct connection *caller, char *name, bool check)
     } else if (!caller) {
       start_game();
       return TRUE;
-    } else if (!caller->player || !caller->player->is_connected) {
+    } else if (NULL == caller->playing || !caller->playing->is_connected) {
       /* A detached or observer player can't do /start. */
       return TRUE;
     } else {
-      handle_player_ready(caller->player, player_number(caller->player), TRUE);
+      handle_player_ready(caller->playing, player_number(caller->playing), TRUE);
       return TRUE;
     }
   case S_S_OVER:
@@ -3818,7 +3818,7 @@ static bool cut_client_connection(struct connection *caller, char *name,
     return TRUE;
   }
 
-  pplayer = !ptarget->observer ? ptarget->player : NULL;
+  pplayer = !ptarget->observer ? ptarget->playing : NULL;
 
   cmd_reply(CMD_CUT, caller, C_DISCONNECTED,
 	    _("Cutting connection %s."), ptarget->username);

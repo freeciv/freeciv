@@ -32,7 +32,6 @@
 #include "civclient.h"
 #include "climap.h"
 #include "climisc.h"
-#include "clinet.h"
 #include "combat.h"
 #include "dialogs_g.h"
 #include "editor.h"
@@ -334,7 +333,9 @@ void set_unit_focus(struct unit *punit)
 {
   bool focus_changed = FALSE;
 
-  if (punit && client.playing && unit_owner(punit) != client.playing) {
+  if (NULL != punit
+      && NULL != client.conn.playing
+      && unit_owner(punit) != client.conn.playing) {
     /* Callers should make sure this never happens. */
     return;
   }
@@ -380,13 +381,17 @@ void set_unit_focus(struct unit *punit)
 **************************************************************************/
 void add_unit_focus(struct unit *punit)
 {
-  if (punit && client.playing && unit_owner(punit) != client.playing) {
+  if (NULL != punit
+      && NULL != client.conn.playing
+      && unit_owner(punit) != client.conn.playing) {
     /* Callers should make sure this never happens. */
     return;
   }
-  if (!punit || !can_client_change_view()) {
+
+  if (NULL == punit || !can_client_change_view()) {
     return;
   }
+
   if (unit_is_in_focus(punit)) {
     return;
   }
@@ -433,7 +438,7 @@ static struct unit *find_best_focus_candidate(bool accept_current)
   iterate_outward(ptile, FC_INFINITY, ptile2) {
     unit_list_iterate(ptile2->units, punit) {
       if ((!unit_is_in_focus(punit) || accept_current)
-	  && unit_owner(punit) == client.playing
+	  && unit_owner(punit) == client.conn.playing
 	  && punit->focus_status == FOCUS_AVAIL
 	  && punit->activity == ACTIVITY_IDLE
 	  && !unit_has_orders(punit)
@@ -460,8 +465,8 @@ void advance_unit_focus(void)
   struct unit *candidate = NULL;
   const int num_units_in_old_focus = get_num_units_in_focus();
 
-  if (!client.playing
-      || !is_player_phase(client.playing, game.info.phase)
+  if (NULL == client.conn.playing
+      || !is_player_phase(client.conn.playing, game.info.phase)
       || !can_client_change_view()) {
     set_unit_focus(NULL);
     return;
@@ -506,7 +511,7 @@ void advance_unit_focus(void)
 
     if (!candidate) {
       /* Try for "waiting" units. */
-      unit_list_iterate(client.playing->units, punit) {
+      unit_list_iterate(client.conn.playing->units, punit) {
         if(punit->focus_status == FOCUS_WAIT) {
           punit->focus_status = FOCUS_AVAIL;
         }
@@ -544,7 +549,7 @@ void advance_unit_focus(void)
 **************************************************************************/
 void update_unit_focus(void)
 {
-  if (!client.playing || !can_client_change_view()) {
+  if (NULL == client.conn.playing || !can_client_change_view()) {
     return;
   }
 
@@ -608,7 +613,7 @@ struct unit *find_visible_unit(struct tile *ptile)
        4: any unit
      (always return first in stack). */
   unit_list_iterate(ptile->units, punit)
-    if (unit_owner(punit) == client.playing) {
+    if (unit_owner(punit) == client.conn.playing) {
       if (punit->transported_by == -1) {
         if (get_transporter_capacity(punit) > 0) {
 	  return punit;
@@ -668,9 +673,9 @@ double blink_turn_done_button(void)
   static struct timer *blink_timer = NULL;
   const double blink_time = 0.5; /* half-second blink interval */
 
-  if (client.playing
-      && client.playing->is_alive
-      && !client.playing->phase_done) {
+  if (NULL != client.conn.playing
+      && client.conn.playing->is_alive
+      && !client.conn.playing->phase_done) {
     if (!blink_timer || read_timer_seconds(blink_timer) > blink_time) {
       int is_waiting = 0, is_moving = 0;
 
@@ -808,9 +813,9 @@ void process_caravan_arrival(struct unit *punit)
 
     if (punit && (unit_can_help_build_wonder_here(punit)
 		  || unit_can_est_traderoute_here(punit))
-	&& (!client.playing
-	    || (client.playing == unit_owner(punit)
-		&& !client.playing->ai.control))) {
+	&& (NULL == client.conn.playing
+	    || (unit_owner(punit) == client.conn.playing
+		&& !client.conn.playing->ai.control))) {
       struct city *pcity_dest = tile_city(punit->tile);
       struct city *pcity_homecity = game_find_city_by_number(punit->homecity);
 
@@ -858,7 +863,7 @@ void process_diplomat_arrival(struct unit *pdiplomat, int victim_id)
     victim_id = p_ids[1];
     free(p_ids);
     p_ids = NULL;
-    pdiplomat = player_find_unit_by_id(client.playing, diplomat_id);
+    pdiplomat = player_find_unit_by_id(client.conn.playing, diplomat_id);
     pcity = game_find_city_by_number(victim_id);
     punit = game_find_unit_by_number(victim_id);
 
@@ -963,11 +968,12 @@ void control_mouse_cursor(struct tile *ptile)
   case HOVER_NONE:
     if (can_do_editor_click(ptile)) {
       mouse_cursor_type = editor_test_click(ptile);
-    } else if (punit && unit_owner(punit) == client.playing) {
+    } else if (NULL != punit
+               && unit_owner(punit) == client.conn.playing) {
       /* Set mouse cursor to select a unit.  */
       mouse_cursor_type = CURSOR_SELECT;
-    } else if (pcity
-	       && can_player_see_city_internals(client.playing, pcity)) {
+    } else if (NULL != pcity
+	       && can_player_see_city_internals(client.conn.playing, pcity)) {
       /* Set mouse cursor to select a city. */
       mouse_cursor_type = CURSOR_SELECT;
     } else {
@@ -980,7 +986,7 @@ void control_mouse_cursor(struct tile *ptile)
       if (can_units_attack_at(active_units, ptile)) {
         /* Goto results in military attack. */
 	mouse_cursor_type = CURSOR_ATTACK;
-      } else if (is_enemy_city_tile(ptile, client.playing)) {
+      } else if (is_enemy_city_tile(ptile, client.conn.playing)) {
         /* Goto results in attack of enemy city. */
 	mouse_cursor_type = CURSOR_ATTACK;
       } else {
@@ -1149,7 +1155,7 @@ void request_unit_unload_all(struct unit *punit)
 **************************************************************************/
 void request_unit_airlift(struct unit *punit, struct city *pcity)
 {
-  dsend_packet_unit_airlift(&aconnection, punit->id,pcity->id);
+  dsend_packet_unit_airlift(&client.conn, punit->id,pcity->id);
 }
 
 /**************************************************************************
@@ -1190,7 +1196,7 @@ void wakeup_sentried_units(struct tile *ptile)
   }
   unit_list_iterate(ptile->units, punit) {
     if (punit->activity == ACTIVITY_SENTRY
-	&& unit_owner(punit) == client.playing) {
+	&& unit_owner(punit) == client.conn.playing) {
       request_new_unit_activity(punit, ACTIVITY_IDLE);
     }
   }
@@ -1255,7 +1261,7 @@ void request_unit_select_same_type_tile(struct unit_list *punits)
 void request_diplomat_action(enum diplomat_actions action, int dipl_id,
 			     int target_id, int value)
 {
-  dsend_packet_unit_diplomat_action(&aconnection, dipl_id,target_id,value,action);
+  dsend_packet_unit_diplomat_action(&client.conn, dipl_id,target_id,value,action);
 }
 
 /**************************************************************************
@@ -1269,7 +1275,7 @@ void request_diplomat_action(enum diplomat_actions action, int dipl_id,
 void request_diplomat_answer(enum diplomat_actions action, int dipl_id,
 			     int target_id, int value)
 {
-  dsend_packet_unit_diplomat_query(&aconnection, dipl_id,target_id,value,action);
+  dsend_packet_unit_diplomat_query(&client.conn, dipl_id,target_id,value,action);
 }
 
 /**************************************************************************
@@ -1283,11 +1289,11 @@ all the server checks and messages here.)
 void request_unit_build_city(struct unit *punit)
 {
   if (can_unit_build_city(punit)) {
-    dsend_packet_city_name_suggestion_req(&aconnection, punit->id);
+    dsend_packet_city_name_suggestion_req(&client.conn, punit->id);
     /* the reply will trigger a dialog to name the new city */
   } else {
     char name[] = "";
-    dsend_packet_unit_build_city(&aconnection, punit->id, name);
+    dsend_packet_unit_build_city(&client.conn, punit->id, name);
   }
 }
 
@@ -1311,7 +1317,7 @@ void request_move_unit_direction(struct unit *punit, int dir)
   }
 
   if (punit->moves_left > 0) {
-    dsend_packet_unit_move(&aconnection, punit->id,
+    dsend_packet_unit_move(&client.conn, punit->id,
 			   dest_tile->x, dest_tile->y);
   } else {
     /* Initiate a "goto" with direction keys for exhausted units. */
@@ -1328,7 +1334,7 @@ void request_new_unit_activity(struct unit *punit, enum unit_activity act)
     return;
   }
 
-  dsend_packet_unit_change_activity(&aconnection, punit->id, act,
+  dsend_packet_unit_change_activity(&client.conn, punit->id, act,
 				    S_LAST, BASE_LAST);
 }
 
@@ -1339,7 +1345,7 @@ void request_new_unit_activity_targeted(struct unit *punit,
 					enum unit_activity act,
 					enum tile_special_type tgt)
 {
-  dsend_packet_unit_change_activity(&aconnection, punit->id, act, tgt,
+  dsend_packet_unit_change_activity(&client.conn, punit->id, act, tgt,
                                     BASE_LAST);
 }
 
@@ -1353,7 +1359,7 @@ void request_new_unit_activity_base(struct unit *punit,
     return;
   }
 
-  dsend_packet_unit_change_activity(&aconnection, punit->id, ACTIVITY_BASE,
+  dsend_packet_unit_change_activity(&client.conn, punit->id, ACTIVITY_BASE,
 				    S_LAST, base_number(pbase));
 }
 
@@ -1362,7 +1368,7 @@ void request_new_unit_activity_base(struct unit *punit,
 **************************************************************************/
 void request_unit_disband(struct unit *punit)
 {
-  dsend_packet_unit_disband(&aconnection, punit->id);
+  dsend_packet_unit_disband(&client.conn, punit->id);
 }
 
 /**************************************************************************
@@ -1373,7 +1379,7 @@ void request_unit_change_homecity(struct unit *punit)
   struct city *pcity=tile_city(punit->tile);
   
   if (pcity) {
-    dsend_packet_unit_change_homecity(&aconnection, punit->id, pcity->id);
+    dsend_packet_unit_change_homecity(&client.conn, punit->id, pcity->id);
   }
 }
 
@@ -1385,7 +1391,7 @@ void request_unit_upgrade(struct unit *punit)
   struct city *pcity=tile_city(punit->tile);
 
   if (pcity) {
-    dsend_packet_unit_upgrade(&aconnection, punit->id);
+    dsend_packet_unit_upgrade(&client.conn, punit->id);
   }
 }
 
@@ -1396,7 +1402,7 @@ void request_unit_upgrade(struct unit *punit)
 void request_unit_autosettlers(const struct unit *punit)
 {
   if (punit && can_unit_do_autosettlers(punit)) {
-    dsend_packet_unit_autosettlers(&aconnection, punit->id);
+    dsend_packet_unit_autosettlers(&client.conn, punit->id);
   } else if (punit) {
     create_event(punit->tile, E_BAD_COMMAND,
 		 _("Only settler units can be put into auto mode."));
@@ -1416,11 +1422,11 @@ void request_unit_load(struct unit *pcargo, struct unit *ptrans)
 
   if (can_client_issue_orders()
       && can_unit_load(pcargo, ptrans)) {
-    dsend_packet_unit_load(&aconnection, pcargo->id, ptrans->id);
+    dsend_packet_unit_load(&client.conn, pcargo->id, ptrans->id);
 
     /* Sentry the unit.  Don't request_unit_sentry since this can give a
      * recursive loop. */
-    dsend_packet_unit_change_activity(&aconnection, pcargo->id,
+    dsend_packet_unit_change_activity(&client.conn, pcargo->id,
 				      ACTIVITY_SENTRY, S_LAST, BASE_LAST);
   }
 }
@@ -1437,10 +1443,10 @@ void request_unit_unload(struct unit *pcargo)
       && ptrans
       && can_unit_unload(pcargo, ptrans)
       && can_unit_survive_at_tile(pcargo, pcargo->tile)) {
-    dsend_packet_unit_unload(&aconnection, pcargo->id, ptrans->id);
+    dsend_packet_unit_unload(&client.conn, pcargo->id, ptrans->id);
 
     /* Activate the unit. */
-    dsend_packet_unit_change_activity(&aconnection, pcargo->id,
+    dsend_packet_unit_change_activity(&client.conn, pcargo->id,
 				      ACTIVITY_IDLE, S_LAST, BASE_LAST);
   }
 }
@@ -1455,9 +1461,9 @@ void request_unit_caravan_action(struct unit *punit, enum packet_type action)
   }
 
   if (action == PACKET_UNIT_ESTABLISH_TRADE) {
-    dsend_packet_unit_establish_trade(&aconnection, punit->id);
+    dsend_packet_unit_establish_trade(&client.conn, punit->id);
   } else if (action == PACKET_UNIT_HELP_BUILD_WONDER) {
-    dsend_packet_unit_help_build_wonder(&aconnection, punit->id);
+    dsend_packet_unit_help_build_wonder(&client.conn, punit->id);
   } else {
     freelog(LOG_ERROR, "request_unit_caravan_action() Bad action (%d)",
 	    action);
@@ -1889,7 +1895,7 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
 
   unit_list_unlink(src_tile->units, punit);
 
-  if (unit_owner(punit) == client.playing
+  if (unit_owner(punit) == client.conn.playing
       && auto_center_on_unit
       && !unit_has_orders(punit)
       && punit->activity != ACTIVITY_GOTO
@@ -1926,12 +1932,12 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
   /* With the "full" citybar we have to update the citybar when units move
    * into or out of a city.  For foreign cities this is handled separately,
    * via the occupied field of the short-city packet. */
-  if (tile_city(src_tile)
-      && can_player_see_units_in_city(client.playing, tile_city(src_tile))) {
+  if (NULL != tile_city(src_tile)
+      && can_player_see_units_in_city(client.conn.playing, tile_city(src_tile))) {
     update_city_description(tile_city(src_tile));
   }
-  if (tile_city(dst_tile)
-      && can_player_see_units_in_city(client.playing, tile_city(dst_tile))) {
+  if (NULL != tile_city(dst_tile)
+      && can_player_see_units_in_city(client.conn.playing, tile_city(dst_tile))) {
     update_city_description(tile_city(dst_tile));
   }
 
@@ -2005,18 +2011,20 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
     }
   }
   /* Otherwise use popups. */
-  else if (pcity && can_player_see_city_internals(client.playing, pcity)) {
+  else if (NULL != pcity
+           && can_player_see_city_internals(client.conn.playing, pcity)) {
     popup_city_dialog(pcity);
   }
-  else if (unit_list_size(ptile->units) == 0 && !pcity
+  else if (unit_list_size(ptile->units) == 0
+           && NULL == pcity
            && get_num_units_in_focus() > 0) {
     maybe_goto = keyboardless_goto;
   }
   else if (unit_list_size(ptile->units) == 1
-      && !unit_list_get(ptile->units, 0)->occupy) {
+           && !unit_list_get(ptile->units, 0)->occupy) {
     struct unit *punit=unit_list_get(ptile->units, 0);
 
-    if (unit_owner(punit) == client.playing) {
+    if (unit_owner(punit) == client.conn.playing) {
       if(can_unit_do_activity(punit, ACTIVITY_IDLE)) {
         maybe_goto = keyboardless_goto;
 	if (qtype == SELECT_APPEND) {
@@ -2066,7 +2074,7 @@ static struct unit *quickselect(struct tile *ptile,
     return NULL;
   } else if (listsize == 1) {
     struct unit *punit = unit_list_get(ptile->units, 0);
-    return (unit_owner(punit) == client.playing) ? punit : NULL;
+    return (unit_owner(punit) == client.conn.playing) ? punit : NULL;
   }
 
   /*  Quickselect priorities. Units with moves left
@@ -2083,7 +2091,7 @@ static struct unit *quickselect(struct tile *ptile,
    */
 
   unit_list_iterate(ptile->units, punit)  {
-    if (unit_owner(punit) != client.playing || unit_is_in_focus(punit)) {
+    if (unit_owner(punit) != client.conn.playing || unit_is_in_focus(punit)) {
       continue;
     }
   if (qtype == SELECT_SEA) {
@@ -2187,7 +2195,7 @@ Explode nuclear at a tile without enemy units
 **************************************************************************/
 void do_unit_nuke(struct unit *punit)
 {
-  dsend_packet_unit_nuke(&aconnection, punit->id);
+  dsend_packet_unit_nuke(&client.conn, punit->id);
 }
 
 /**************************************************************************
@@ -2195,7 +2203,7 @@ void do_unit_nuke(struct unit *punit)
 **************************************************************************/
 void do_unit_paradrop_to(struct unit *punit, struct tile *ptile)
 {
-  dsend_packet_unit_paradrop_to(&aconnection, punit->id, ptile->x, ptile->y);
+  dsend_packet_unit_paradrop_to(&client.conn, punit->id, ptile->x, ptile->y);
 }
  
 /**************************************************************************
@@ -2204,7 +2212,7 @@ void do_unit_paradrop_to(struct unit *punit, struct tile *ptile)
 void do_unit_patrol_to(struct tile *ptile)
 {
   if (is_valid_goto_draw_line(ptile)
-      && !is_non_allied_unit_tile(ptile, client.playing)) {
+      && !is_non_allied_unit_tile(ptile, client.conn.playing)) {
     send_patrol_route();
   } else {
     create_event(ptile, E_BAD_COMMAND,
@@ -2260,7 +2268,7 @@ void key_cancel_action(void)
 **************************************************************************/
 void key_center_capital(void)
 {
-  struct city *capital = find_palace(client.playing);
+  struct city *capital = find_palace(client.conn.playing);
 
   if (capital)  {
     /* Center on the tile, and pop up the crosshair overlay. */
@@ -2632,13 +2640,13 @@ void key_unit_transform(void)
 ****************************************************************************/
 void key_unit_assign_battlegroup(int battlegroup, bool append)
 {
-  if (client.playing && can_client_issue_orders()
+  if (NULL != client.conn.playing && can_client_issue_orders()
       && battlegroups >= 0 && battlegroup < MAX_NUM_BATTLEGROUPS) {
     if (!append) {
       unit_list_iterate_safe(battlegroups[battlegroup], punit) {
 	if (!unit_is_in_focus(punit)) {
 	  punit->battlegroup = BATTLEGROUP_NONE;
-	  dsend_packet_unit_battlegroup(&aconnection,
+	  dsend_packet_unit_battlegroup(&client.conn,
 					punit->id, BATTLEGROUP_NONE);
 	  refresh_unit_mapcanvas(punit, punit->tile, TRUE, FALSE);
 	  unit_list_unlink(battlegroups[battlegroup], punit);
@@ -2652,7 +2660,7 @@ void key_unit_assign_battlegroup(int battlegroup, bool append)
 	  unit_list_unlink(battlegroups[punit->battlegroup], punit);
 	}
 	punit->battlegroup = battlegroup;
-	dsend_packet_unit_battlegroup(&aconnection,
+	dsend_packet_unit_battlegroup(&client.conn,
 				      punit->id, battlegroup);
 	unit_list_append(battlegroups[battlegroup], punit);
 	refresh_unit_mapcanvas(punit, punit->tile, TRUE, FALSE);
@@ -2669,7 +2677,7 @@ void key_unit_assign_battlegroup(int battlegroup, bool append)
 ****************************************************************************/
 void key_unit_select_battlegroup(int battlegroup, bool append)
 {
-  if (client.playing && can_client_change_view()
+  if (NULL != client.conn.playing && can_client_change_view()
       && battlegroups >= 0 && battlegroup < MAX_NUM_BATTLEGROUPS) {
     int i = 0;
 
@@ -2840,7 +2848,7 @@ void key_fog_of_war_toggle(void)
 **************************************************************************/
 void key_editor_toggle(void)
 {
-  dsend_packet_edit_mode(&aconnection, !game.info.is_edit_mode);
+  dsend_packet_edit_mode(&client.conn, !game.info.is_edit_mode);
 }
 
 /**************************************************************************
@@ -2848,7 +2856,7 @@ void key_editor_toggle(void)
 **************************************************************************/
 void key_editor_recalculate_borders(void)
 {
-  send_packet_edit_recalculate_borders(&aconnection);
+  send_packet_edit_recalculate_borders(&client.conn);
 }
 
 /**************************************************************************
@@ -2856,5 +2864,5 @@ void key_editor_recalculate_borders(void)
 **************************************************************************/
 void key_editor_regenerate_water(void)
 {
-  send_packet_edit_regenerate_water(&aconnection);
+  send_packet_edit_regenerate_water(&client.conn);
 }

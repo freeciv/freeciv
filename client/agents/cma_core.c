@@ -43,7 +43,6 @@
 #include "cityrep_g.h"
 #include "civclient.h"
 #include "climisc.h"
-#include "clinet.h"
 #include "messagewin_g.h"
 #include "packhand.h"
 
@@ -175,7 +174,7 @@ static bool check_city(int city_id, struct cm_parameter *parameter)
     return FALSE;
   }
 
-  if (city_owner(pcity) != client.playing) {
+  if (city_owner(pcity) != client.conn.playing) {
     cma_release_city(pcity);
     return FALSE;
   }
@@ -208,7 +207,7 @@ static bool apply_result_on_server(struct city *pcity,
   freelog(APPLY_RESULT_LOG_LEVEL, "apply_result(city='%s'(%d))",
 	  city_name(pcity), pcity->id);
 
-  connection_do_buffer(&aconnection);
+  connection_do_buffer(&client.conn);
 
   /* Do checks */
   if (pcity->size != (cm_count_worker(pcity, result)
@@ -292,12 +291,12 @@ static bool apply_result_on_server(struct city *pcity,
        * PACKET_CITY_REFRESH to bring them in sync.
        */
     first_request_id = last_request_id =
-	dsend_packet_city_refresh(&aconnection, pcity->id);
+	dsend_packet_city_refresh(&client.conn, pcity->id);
     stats.refresh_forced++;
   }
   reports_freeze_till(last_request_id);
 
-  connection_do_unbuffer(&aconnection);
+  connection_do_unbuffer(&client.conn);
 
   if (last_request_id != 0) {
     int city_id = pcity->id;
@@ -527,7 +526,7 @@ void cma_put_city_under_agent(struct city *pcity,
   freelog(LOG_DEBUG, "cma_put_city_under_agent(city='%s'(%d))",
 	  city_name(pcity), pcity->id);
 
-  assert(city_owner(pcity) == client.playing);
+  assert(city_owner(pcity) == client.conn.playing);
 
   cma_set_parameter(ATTR_CITY_CMA_PARAMETER, pcity->id, parameter);
 
