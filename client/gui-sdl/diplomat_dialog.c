@@ -25,7 +25,6 @@
 
 /* client */
 #include "civclient.h"
-#include "clinet.h"
 #include "control.h"
 
 /* gui-sdl */
@@ -205,10 +204,10 @@ static int spy_steal_popup(struct widget *pWidget)
   
   count = 0;
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_is_ready(client.playing, i)
+    if (player_invention_is_ready(client.conn.playing, i)
      && TECH_KNOWN == player_invention_state(pVictim, i)
-     && (TECH_UNKNOWN == player_invention_state(client.playing, i)
-      || TECH_REACHABLE == player_invention_state(client.playing, i))) {
+     && (TECH_UNKNOWN == player_invention_state(client.conn.playing, i)
+      || TECH_REACHABLE == player_invention_state(client.conn.playing, i))) {
       count++;
     }
   } advance_index_iterate_end;
@@ -288,10 +287,10 @@ static int spy_steal_popup(struct widget *pWidget)
   
   count = 0;
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_is_ready(client.playing, i)
+    if (player_invention_is_ready(client.conn.playing, i)
      && TECH_KNOWN == player_invention_state(pVictim, i)
-     && (TECH_UNKNOWN == player_invention_state(client.playing, i)
-      || TECH_REACHABLE == player_invention_state(client.playing, i))) {
+     && (TECH_UNKNOWN == player_invention_state(client.conn.playing, i)
+      || TECH_REACHABLE == player_invention_state(client.conn.playing, i))) {
       count++;
 
       copy_chars_to_string16(pStr, advance_name_translation(advance_by_number(i)));
@@ -410,7 +409,7 @@ static int diplomat_incite_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     if (game_find_unit_by_number(pDiplomat_Dlg->diplomat_id)
        && game_find_city_by_number(pDiplomat_Dlg->diplomat_target_id)) {  
-      dsend_packet_city_incite_inq(&aconnection, pDiplomat_Dlg->diplomat_target_id);       
+      dsend_packet_city_incite_inq(&client.conn, pDiplomat_Dlg->diplomat_target_id);       
     }
     
     popdown_diplomat_dialog();
@@ -449,7 +448,7 @@ static int diplomat_bribe_callback(struct widget *pWidget)
   
     if (game_find_unit_by_number(pDiplomat_Dlg->diplomat_id)
        && game_find_unit_by_number(pDiplomat_Dlg->diplomat_target_id)) {  
-      dsend_packet_unit_bribe_inq(&aconnection, pDiplomat_Dlg->diplomat_target_id);
+      dsend_packet_unit_bribe_inq(&client.conn, pDiplomat_Dlg->diplomat_target_id);
     }
     
     popdown_diplomat_dialog();
@@ -1146,10 +1145,10 @@ void popup_incite_dialog(struct city *pCity)
     area.w = MAX(area.w , pBuf->size.w);
     area.h += pBuf->size.h;
     
-  } else if (pCity->incite_revolt_cost <= client.playing->economic.gold) {
+  } else if (pCity->incite_revolt_cost <= client.conn.playing->economic.gold) {
     my_snprintf(cBuf, sizeof(cBuf),
 		_("Incite a revolt for %d gold?\nTreasury contains %d gold."), 
-		pCity->incite_revolt_cost, client.playing->economic.gold);
+		pCity->incite_revolt_cost, client.conn.playing->economic.gold);
     
     create_active_iconlabel(pBuf, pWindow->dst, pStr, cBuf, NULL);
         
@@ -1199,7 +1198,7 @@ void popup_incite_dialog(struct city *pCity)
     my_snprintf(cBuf, sizeof(cBuf),
 		_("Inciting a revolt costs %d gold.\n"
 		  "Treasury contains %d gold."), 
-		pCity->incite_revolt_cost, client.playing->economic.gold);
+		pCity->incite_revolt_cost, client.conn.playing->economic.gold);
     
     create_active_iconlabel(pBuf, pWindow->dst, pStr, cBuf, NULL);
         
@@ -1354,10 +1353,10 @@ void popup_bribe_dialog(struct unit *pUnit)
   area.w = MAX(area.w, adj_size(8));
   area.h = MAX(area.h, adj_size(2));
   
-  if (pUnit->bribe_cost <= client.playing->economic.gold) {
+  if (pUnit->bribe_cost <= client.conn.playing->economic.gold) {
     my_snprintf(cBuf, sizeof(cBuf),
 		_("Bribe unit for %d gold?\nTreasury contains %d gold."), 
-		pUnit->bribe_cost, client.playing->economic.gold);
+		pUnit->bribe_cost, client.conn.playing->economic.gold);
     
     create_active_iconlabel(pBuf, pWindow->dst, pStr, cBuf, NULL);
   
@@ -1405,7 +1404,7 @@ void popup_bribe_dialog(struct unit *pUnit)
     my_snprintf(cBuf, sizeof(cBuf),
 		_("Bribing the unit costs %d gold.\n"
 		  "Treasury contains %d gold."), 
-		pUnit->bribe_cost, client.playing->economic.gold);
+		pUnit->bribe_cost, client.conn.playing->economic.gold);
     
     create_active_iconlabel(pBuf, pWindow->dst, pStr, cBuf, NULL);
   

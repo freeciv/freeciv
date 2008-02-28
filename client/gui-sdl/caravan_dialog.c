@@ -20,7 +20,6 @@
 
 /* client */
 #include "civclient.h"
-#include "clinet.h"
 #include "control.h"
 
 /* gui-sdl */
@@ -58,7 +57,7 @@ static int caravan_dlg_window_callback(struct widget *pWindow)
 static int caravan_establish_trade_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    dsend_packet_unit_establish_trade(&aconnection, pWidget->data.cont->id0);
+    dsend_packet_unit_establish_trade(&client.conn, pWidget->data.cont->id0);
     
     popdown_caravan_dialog();
   }
@@ -72,7 +71,7 @@ static int caravan_establish_trade_callback(struct widget *pWidget)
 static int caravan_help_build_wonder_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    dsend_packet_unit_help_build_wonder(&aconnection, pWidget->data.cont->id0);
+    dsend_packet_unit_help_build_wonder(&client.conn, pWidget->data.cont->id0);
     
     popdown_caravan_dialog();  
   }

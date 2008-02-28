@@ -209,7 +209,7 @@ void close_connection(struct connection *pconn)
   conn_list_unlink(game.all_connections, pconn);
   conn_list_unlink(game.est_connections, pconn);
 
-  pconn->player = NULL;
+  pconn->playing = NULL;
   pconn->access_level = ALLOW_NONE;
   connection_common_close(pconn);
 }
@@ -833,7 +833,7 @@ int server_make_connection(int new_sock, const char *client_addr, const char *cl
       connection_common_init(pconn);
       pconn->sock = new_sock;
       pconn->observer = FALSE;
-      pconn->player = NULL;
+      pconn->playing = NULL;
       pconn->capability[0] = '\0';
       pconn->access_level = access_level_for_next_connection();
       pconn->delayed_disconnect = FALSE;

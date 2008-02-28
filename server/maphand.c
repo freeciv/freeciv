@@ -647,9 +647,9 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
   }
 
   conn_list_iterate(dest, pconn) {
-    struct player *pplayer = pconn->player;
+    struct player *pplayer = pconn->playing;
 
-    if (!pplayer && !pconn->observer) {
+    if (NULL == pplayer && !pconn->observer) {
       continue;
     }
 
@@ -1295,8 +1295,9 @@ void update_tile_knowledge(struct tile *ptile)
 
   /* Global observers */
   conn_list_iterate(game.est_connections, pconn) {
-    struct player *pplayer = pconn->player;
-    if (!pplayer && pconn->observer) {
+    struct player *pplayer = pconn->playing;
+
+    if (NULL == pplayer && pconn->observer) {
       send_tile_info(pconn->self, ptile, FALSE);
     }
   } conn_list_iterate_end;

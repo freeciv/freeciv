@@ -173,15 +173,15 @@ void update_info_label(void)
 		      client_cooling_sprite(),
 		      client_government_sprite());
 
-  if (!client.playing) {
+  if (NULL == client.conn.playing) {
     return;
   }
 
-  for (; d < (client.playing->economic.luxury) / 10; d++) {
+  for (; d < (client.conn.playing->economic.luxury) / 10; d++) {
     xaw_set_bitmap(econ_label[d], get_tax_sprite(tileset, O_LUXURY)->pixmap);
   }
  
-  for (; d < (client.playing->economic.science + client.playing->economic.luxury) / 10; d++) {
+  for (; d < (client.conn.playing->economic.science + client.conn.playing->economic.luxury) / 10; d++) {
     xaw_set_bitmap(econ_label[d], get_tax_sprite(tileset, O_SCIENCE)->pixmap);
   }
  

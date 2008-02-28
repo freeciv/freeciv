@@ -881,8 +881,8 @@ only, to allowing multiple connections for each player (recall
 be either an "observer" or "controller".
 
 This discussion is mostly about connection in the server.  The client
-only has one real connection: 'aconnection' - its connection to the
-server, though it does use some other connection structs (currently
+only has one real connection (client.conn) -- its connection to the
+server -- though it does use some other connection structs (currently
 pplayer->conn) to store information about other connected clients
 (eg, capability strings).
 

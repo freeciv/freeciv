@@ -42,7 +42,6 @@
 
 #include "civclient.h"
 #include "climisc.h"
-#include "clinet.h"
 
 #include "gui_main.h"
 #include "gui_stuff.h"
@@ -1318,8 +1317,8 @@ void worklist_populate_targets(struct worklist_dialog *pdialog)
   /*     + First, improvements and Wonders. */
   improvement_iterate(pimprove) {
     /* Can the player (eventually) build this improvement? */
-    can_build = can_player_build_improvement_now(client.playing, pimprove);
-    can_eventually_build = can_player_build_improvement_later(client.playing, pimprove);
+    can_build = can_player_build_improvement_now(client.conn.playing, pimprove);
+    can_eventually_build = can_player_build_improvement_later(client.conn.playing, pimprove);
 
     /* If there's a city, can the city build the improvement? */
     if (pdialog->pcity) {
@@ -1343,8 +1342,8 @@ void worklist_populate_targets(struct worklist_dialog *pdialog)
   /*     + Second, units. */
   unit_type_iterate(punittype) {
     /* Can the player (eventually) build this improvement? */
-    can_build = can_player_build_unit_now(client.playing, punittype);
-    can_eventually_build = can_player_build_unit_later(client.playing, punittype);
+    can_build = can_player_build_unit_now(client.conn.playing, punittype);
+    can_eventually_build = can_player_build_unit_later(client.conn.playing, punittype);
 
     /* If there's a city, can the city build the improvement? */
     if (pdialog->pcity) {

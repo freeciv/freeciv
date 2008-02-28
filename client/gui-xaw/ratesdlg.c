@@ -35,7 +35,6 @@
 #include "support.h"
 
 #include "civclient.h"
-#include "clinet.h"
 
 #include "gui_main.h"
 #include "gui_stuff.h"
@@ -95,8 +94,8 @@ void popup_rates_dialog(void)
   XtVaSetValues(rates_dialog_shell, XtNx, x, XtNy, y, NULL);
 
   my_snprintf(buf, sizeof(buf), _("%s max rate: %d%%"),
-	      government_name_for_player(client.playing),
-	      get_player_bonus(client.playing, EFT_MAX_RATES));
+	      government_name_for_player(client.conn.playing),
+	      get_player_bonus(client.conn.playing, EFT_MAX_RATES));
   xaw_set_label(rates_gov_label, buf);
   
   XtPopup(rates_dialog_shell, XtGrabNone);
@@ -211,9 +210,9 @@ void create_rates_dialog(void)
   rates_lux_value=-1;
   rates_sci_value=-1;
   
-  rates_set_values(client.playing->economic.tax, 0,
-		   client.playing->economic.luxury, 0,
-		   client.playing->economic.science, 0);
+  rates_set_values(client.conn.playing->economic.tax, 0,
+		   client.conn.playing->economic.luxury, 0,
+		   client.conn.playing->economic.science, 0);
 }
 
 
@@ -229,7 +228,7 @@ void rates_ok_command_callback(Widget w, XtPointer client_data,
   XtSetSensitive(main_form, TRUE);
   XtDestroyWidget(rates_dialog_shell);
 
-  dsend_packet_player_rates(&aconnection, rates_tax_value, rates_lux_value,
+  dsend_packet_player_rates(&client.conn, rates_tax_value, rates_lux_value,
 			    rates_sci_value);
 }
 
@@ -266,7 +265,7 @@ void rates_set_values(int tax, int no_tax_scroll,
   XtVaGetValues(rates_lux_toggle, XtNstate, &lux_lock, NULL);
   XtVaGetValues(rates_sci_toggle, XtNstate, &sci_lock, NULL);
   
-  maxrate = get_player_bonus(client.playing, EFT_MAX_RATES);
+  maxrate = get_player_bonus(client.conn.playing, EFT_MAX_RATES);
   /* This's quite a simple-minded "double check".. */
   tax=MIN(tax, maxrate);
   lux=MIN(lux, maxrate);

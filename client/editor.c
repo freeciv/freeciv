@@ -27,7 +27,6 @@
 
 #include "civclient.h"
 #include "climap.h"
-#include "clinet.h"
 #include "control.h"
 #include "editor.h"
 #include "tilespec.h"
@@ -51,7 +50,9 @@ static enum editor_vision_mode selected_vision_mode;
 ****************************************************************************/
 void editor_init_tools(void)
 { 
-  struct player *pplayer = client.playing ? client.playing : player_by_number(0);
+  struct player *pplayer = (NULL != client.conn.playing)
+                            ? client.conn.playing
+                            : player_by_number(0);
 
   if (selected_unit) {
     destroy_unit_virtual(selected_unit);
@@ -178,7 +179,7 @@ static enum cursor_type editor_unit(struct tile *ptile, bool testing)
 
     packet.activity_count = selected_unit->activity_count;
 
-    send_packet_edit_unit(&aconnection, &packet);
+    send_packet_edit_unit(&client.conn, &packet);
   }
 
   return CURSOR_EDIT_ADD;
@@ -198,7 +199,7 @@ static enum cursor_type editor_city(struct tile *ptile, bool testing)
       .y = ptile->y
     };
 
-    send_packet_edit_create_city(&aconnection, &packet);
+    send_packet_edit_create_city(&client.conn, &packet);
   }
 
   return CURSOR_EDIT_ADD;
@@ -211,7 +212,7 @@ static enum cursor_type editor_vision(struct tile *ptile, bool testing)
 {
   if (!testing) {
     if (selected_player) {
-      dsend_packet_edit_vision(&aconnection, player_number(selected_player),
+      dsend_packet_edit_vision(&client.conn, player_number(selected_player),
                                ptile->x, ptile->y, selected_vision_mode);
     }
   }
@@ -227,7 +228,7 @@ void do_edit_player(void)
 {
   struct packet_edit_player packet;
 
-  send_packet_edit_city(&aconnection, &packet);
+  send_packet_edit_city(&client.conn, &packet);
 }
 #endif
 
@@ -278,7 +279,7 @@ static enum cursor_type editor_paint(struct tile *ptile, bool testing)
   if (!testing) {
     /* send the result to the server for changing */
     /* FIXME: No way to change resources. */
-    dsend_packet_edit_tile(&aconnection, ptile->x, ptile->y,
+    dsend_packet_edit_tile(&client.conn, ptile->x, ptile->y,
 			   terrain_number(tile.terrain),
 			   (NULL != tile.resource)
 			    ? resource_number(tile.resource)
@@ -339,7 +340,7 @@ bool can_do_editor_click(struct tile *ptile)
    * a click here would cause a regular click and the citydlg would open.
    * This made it impossible to add a unit or paint a terrain underneath
    * a city. */
-  return can_conn_edit(&aconnection);
+  return can_conn_edit(&client.conn);
 }
 
 /****************************************************************************

@@ -67,7 +67,8 @@ extern bool in_ggz;
  *
  * TODO: Lots more variables could be added here. */
 extern struct civclient {
-  struct player *playing;
+  /* this is the client's connection to the server */
+  struct connection conn;
   struct worklist worklists[MAX_NUM_WORKLISTS];
 } client;
 

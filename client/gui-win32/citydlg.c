@@ -111,12 +111,12 @@ struct city_dialog {
 };
 
 
-extern struct connection aconnection; 
 extern HFONT font_8courier;
 extern HFONT font_12courier;
 extern HFONT font_12arial;
 extern HINSTANCE freecivhinst;
 extern HWND root_window;
+
 static int city_map_width;
 static int city_map_height;
 static struct genlist *dialog_list;
@@ -200,7 +200,7 @@ void refresh_city_dialog(struct city *pcity)
     refresh_happiness_box(pdialog->happiness);
     resize_city_dialog(pdialog);
   }
-  if (city_owner(pcity) == client.playing) {
+  if (city_owner(pcity) == client.conn.playing) {
     city_report_dialog_update_city(pcity);
     economy_report_dialog_update();   
     if (pdialog != NULL) {
@@ -308,7 +308,7 @@ void city_dialog_update_present_units(HDC hdc,struct city_dialog *pdialog)
   store.wnd = NULL;
   store.tmp = NULL;
  
-  if (city_owner(pdialog->pcity) != client.playing) {
+  if (city_owner(pdialog->pcity) != client.conn.playing) {
     plist = pdialog->pcity->info_units_present;
   } else {
     plist = pdialog->pcity->tile->units;
@@ -364,7 +364,7 @@ void city_dialog_update_supported_units(HDC hdc, struct city_dialog *pdialog)
                                            EFT_UNIT_UPKEEP_FREE_PER_CITY);
   } output_type_iterate_end;
 
-  if  (city_owner(pdialog->pcity) != client.playing) {
+  if (city_owner(pdialog->pcity) != client.conn.playing) {
     plist = pdialog->pcity->info_units_supported;
   } else {
     plist = pdialog->pcity->units_supported;
@@ -905,10 +905,10 @@ static void buy_callback(struct city_dialog *pdialog)
   const char *name = city_production_name_translation(pcity);
   int value = city_production_buy_gold_cost(pcity);
  
-  if (value <= client.playing->economic.gold) {
+  if (value <= client.conn.playing->economic.gold) {
     my_snprintf(buf, sizeof(buf),
             _("Buy %s for %d gold?\nTreasury contains %d gold."),
-            name, value, client.playing->economic.gold);
+            name, value, client.conn.playing->economic.gold);
  
     popup_message_dialog(pdialog->mainwindow, /*"buydialog"*/ _("Buy It!"), buf,
                          _("_Yes"), buy_callback_yes, pdialog,
@@ -917,7 +917,7 @@ static void buy_callback(struct city_dialog *pdialog)
   else {
     my_snprintf(buf, sizeof(buf),
             _("%s costs %d gold.\nTreasury contains %d gold."),
-            name, value, client.playing->economic.gold);
+            name, value, client.conn.playing->economic.gold);
  
     popup_message_dialog(NULL, /*"buynodialog"*/ _("Buy It!"), buf,
                          _("Darn"), buy_callback_no, 0, 0);
@@ -1237,13 +1237,13 @@ static void city_dialog_update_tradelist(struct city_dialog *pdialog)
 static void supported_units_activate_close_callback(HWND w, void * data)
 {
   struct unit *punit =
-    player_find_unit_by_id(client.playing, (size_t)data);
+    player_find_unit_by_id(client.conn.playing, (size_t)data);
 
   destroy_message_dialog(w);
 
   if (NULL != punit) {
     struct city *pcity =
-      player_find_city_by_id(client.playing, punit->homecity);
+      player_find_city_by_id(client.conn.playing, punit->homecity);
 
     set_unit_focus(punit);
     if (NULL != pcity) {
@@ -1281,7 +1281,7 @@ static void show_units_callback(struct city_dialog *pdialog)
 static void present_units_disband_callback(HWND w, void *data)
 {
   struct unit *punit =
-    player_find_unit_by_id(client.playing, (size_t)data);
+    player_find_unit_by_id(client.conn.playing, (size_t)data);
 
   if (NULL != punit) {
     request_unit_disband(punit);
@@ -1296,7 +1296,7 @@ static void present_units_disband_callback(HWND w, void *data)
 static void present_units_homecity_callback(HWND w, void * data)
 {
   struct unit *punit =
-    player_find_unit_by_id(client.playing, (size_t)data);
+    player_find_unit_by_id(client.conn.playing, (size_t)data);
 
   if (NULL != punit) {
     request_unit_change_homecity(punit);
@@ -1319,7 +1319,7 @@ static void present_units_cancel_callback(HWND w, void *data)
 static void present_units_activate_callback(HWND w, void * data)
 {
   struct unit *punit =
-    player_find_unit_by_id(client.playing, (size_t)data);
+    player_find_unit_by_id(client.conn.playing, (size_t)data);
 
   if (NULL != punit) {
     set_unit_focus(punit);
@@ -1334,7 +1334,7 @@ static void present_units_activate_callback(HWND w, void * data)
 static void present_units_activate_close_callback(HWND w, void * data)
 {
   struct unit *punit =
-    player_find_unit_by_id(client.playing, (size_t)data);
+    player_find_unit_by_id(client.conn.playing, (size_t)data);
 
   destroy_message_dialog(w);
 
@@ -1358,7 +1358,7 @@ static void present_units_activate_close_callback(HWND w, void * data)
 static void present_units_sentry_callback(HWND w, void * data)
 {
   struct unit *punit =
-    player_find_unit_by_id(client.playing, (size_t)data);
+    player_find_unit_by_id(client.conn.playing, (size_t)data);
 
   if (NULL != punit) {
     request_unit_sentry(punit);
@@ -1373,7 +1373,7 @@ static void present_units_sentry_callback(HWND w, void * data)
 static void present_units_fortify_callback(HWND w, void * data)
 {
   struct unit *punit =
-    player_find_unit_by_id(client.playing, (size_t)data);
+    player_find_unit_by_id(client.conn.playing, (size_t)data);
 
   if (NULL != punit) {
     request_unit_fortify(punit);
@@ -1388,7 +1388,7 @@ static void present_units_fortify_callback(HWND w, void * data)
 static void unitupgrade_callback_yes(HWND w, void * data)
 {
   struct unit *punit =
-    player_find_unit_by_id(client.playing, (size_t)data);
+    player_find_unit_by_id(client.conn.playing, (size_t)data);
 
   if (NULL != punit) {
     request_unit_upgrade(punit);
@@ -1412,7 +1412,7 @@ static void upgrade_callback(HWND w, void * data)
 {
   char buf[512];
   struct unit *punit =
-    player_find_unit_by_id(client.playing, (size_t) data);
+    player_find_unit_by_id(client.conn.playing, (size_t) data);
 
   if (NULL == punit) {
     return;
@@ -1442,7 +1442,7 @@ static void city_dlg_click_supported(struct city_dialog *pdialog, int n)
 {
   struct city *pcity;
   struct unit *punit =
-    player_find_unit_by_id(client.playing, pdialog->support_unit_ids[n]);
+    player_find_unit_by_id(client.conn.playing, pdialog->support_unit_ids[n]);
 
   if (NULL != punit
       && (pcity = game_find_city_by_number(punit->homecity))) {
@@ -1471,7 +1471,7 @@ static void city_dlg_click_present(struct city_dialog *pdialog, int n)
 {
   struct city *pcity;
   struct unit *punit =
-    player_find_unit_by_id(client.playing, pdialog->present_unit_ids[n]);
+    player_find_unit_by_id(client.conn.playing, pdialog->present_unit_ids[n]);
 
   if (NULL != punit
       && (pcity=tile_city(punit->tile))
@@ -1512,7 +1512,7 @@ static void city_dlg_click_present(struct city_dialog *pdialog, int n)
        message_dialog_button_set_sensitive(wd,5, FALSE);
      }
 
-     if (NULL == can_upgrade_unittype(client.playing,unit_type(punit))) {
+     if (NULL == can_upgrade_unittype(client.conn.playing,unit_type(punit))) {
        message_dialog_button_set_sensitive(wd,6, FALSE);
      }
    }
@@ -1911,7 +1911,7 @@ void refresh_unit_city_dialogs(struct unit *punit)
   struct city_dialog *pdialog;
   struct city *pcity_pre = tile_city(punit->tile);
   struct city *pcity_sup =
-    player_find_city_by_id(client.playing, punit->homecity);
+    player_find_city_by_id(client.conn.playing, punit->homecity);
   
   if(pcity_sup && (pdialog=get_city_dialog(pcity_sup)))     
     {
@@ -2003,7 +2003,7 @@ LONG APIENTRY citydlg_config_proc(HWND hWnd,
           BV_SET(new_options, CITYO_NEW_TAXMAN);
 	}
 
-	dsend_packet_city_options_req(&aconnection, pcity->id, new_options);
+	dsend_packet_city_options_req(&client.conn, pcity->id, new_options);
       }
       break;
     default: 

@@ -24,7 +24,7 @@
 
 #include "chatline_common.h"	/* for append_output_window */
 #include "civclient.h"
-#include "clinet.h"		/* for get_server_address */
+#include "clinet.h"		/* connect_to_server() */
 #include "gui_main.h"
 
 #include "connectdlg.h"

@@ -13,30 +13,15 @@
 #ifndef FC__CLINET_H
 #define FC__CLINET_H
 
-#define DEFAULT_SOCK_PORT 5556
-
-/* In autoconnect mode, try to connect to once a second */
-#define AUTOCONNECT_INTERVAL		500
-
-/* In autoconnect mode, try to connect 100 times */
-#define MAX_AUTOCONNECT_ATTEMPTS	100
-
-struct connection;
-
 int connect_to_server(const char *username, const char *hostname, int port,
 		      char *errbuf, int errbufsize);
-int get_server_address(const char *hostname, int port, char *errbuf,
-		       int errbufsize);
-int try_to_connect(const char *username, char *errbuf, int errbufsize);
+
 void make_connection(int socket, const char *username);
 
 void input_from_server(int fd);
 void input_from_server_till_request_got_processed(int fd,
 						  int expected_request_id);
 void disconnect_from_server(void);
-
-extern struct connection aconnection;
-/* this is the client's connection to the server */
 
 double try_to_autoconnect(void);
 void start_autoconnecting_to_server(void);

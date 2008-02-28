@@ -1311,9 +1311,9 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
     
   improvement_iterate(pImprove) {
-    can_build = can_player_build_improvement_now(client.playing, pImprove);
+    can_build = can_player_build_improvement_now(client.conn.playing, pImprove);
     can_eventually_build =
-	can_player_build_improvement_later(client.playing, pImprove);
+	can_player_build_improvement_later(client.conn.playing, pImprove);
     
     /* If there's a city, can the city build the improvement? */
     if (pCity) {
@@ -1333,11 +1333,11 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
       pText_Name = create_text_surf_smaller_that_w(pStr, pIcon->w - 4);
   
       if (is_wonder(pImprove)) {
-        if (improvement_obsolete(client.playing, pImprove)) {
+        if (improvement_obsolete(client.conn.playing, pImprove)) {
           state = _("Obsolete");
         } else {
           if ((is_great_wonder(pImprove) && game.info.great_wonders[improvement_index(pImprove)] != 0) || 
-              (is_small_wonder(pImprove) && client.playing->small_wonders[improvement_index(pImprove)] != 0)) {
+              (is_small_wonder(pImprove) && client.conn.playing->small_wonders[improvement_index(pImprove)] != 0)) {
 	    state = _("Built");
           } else {
 	    state = _("Wonder");
@@ -1452,9 +1452,9 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   /* ------------------------------ */
   
   unit_type_iterate(un) {
-    can_build = can_player_build_unit_now(client.playing, un);
+    can_build = can_player_build_unit_now(client.conn.playing, un);
     can_eventually_build =
-	can_player_build_unit_later(client.playing, un);
+	can_player_build_unit_later(client.conn.playing, un);
 
     /* If there's a city, can the city build the unit? */
     if (pCity) {

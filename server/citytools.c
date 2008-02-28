@@ -1198,7 +1198,7 @@ void remove_city(struct city *pcity)
   } players_iterate_end;
 
   conn_list_iterate(game.est_connections, pconn) {
-    if (!pconn->player && pconn->observer) {
+    if (NULL == pconn->playing && pconn->observer) {
       /* For detached observers we have to send a specific packet.  This is
        * a hack necessitated by the private map that exists for players but
        * not observers. */
@@ -1499,7 +1499,7 @@ static void broadcast_city_info(struct city *pcity)
    * should these only get dumb_city type info?
    */
   conn_list_iterate(game.est_connections, pconn) {
-    if (!pconn->player && pconn->observer) {
+    if (NULL == pconn->playing && pconn->observer) {
       package_city(pcity, &packet, FALSE);
       send_packet_city_info(pconn, &packet);
     }
@@ -1515,7 +1515,7 @@ void send_all_known_cities(struct conn_list *dest)
 {
   conn_list_do_buffer(dest);
   conn_list_iterate(dest, pconn) {
-    struct player *pplayer = pconn->player;
+    struct player *pplayer = pconn->playing;
     if (!pplayer && !pconn->observer) {
       continue;
     }

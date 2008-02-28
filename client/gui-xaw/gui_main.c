@@ -523,7 +523,7 @@ static void unit_icon_callback(Widget w, XtPointer client_data,
     return;
   punit=game_find_unit_by_number(unit_ids[i]);
   if(punit) { /* should always be true at this point */
-    if (unit_owner(punit) == client.playing) {
+    if (unit_owner(punit) == client.conn.playing) {
       /* may be non-true if alliance */
       set_unit_focus(punit);
     }
@@ -792,7 +792,7 @@ static void set_wait_for_writable_socket(struct connection *pc,
     return;
   freelog(LOG_DEBUG, "set_wait_for_writable_socket(%d)", socket_writable);
   XtRemoveInput(x_input_id);
-  x_input_id = XtAppAddInput(app_context, aconnection.sock,
+  x_input_id = XtAppAddInput(app_context, client.conn.sock,
 			     (XtPointer) (XtInputReadMask |
 					  (socket_writable ?
 					   XtInputWriteMask : 0) |
@@ -811,7 +811,7 @@ void add_net_input(int sock)
 			     (XtPointer) (XtInputReadMask |
 					  XtInputExceptMask),
 			     (XtInputCallbackProc) get_net_input, NULL);
-  aconnection.notify_of_writable_data = set_wait_for_writable_socket;
+  client.conn.notify_of_writable_data = set_wait_for_writable_socket;
 }
 
 /**************************************************************************
@@ -1037,7 +1037,7 @@ void select_battlegroup(int battlegroup)
 ****************************************************************************/
 void add_unit_to_battlegroup(int battlegroup)
 {
-  if (client.playing && can_client_issue_orders()) {
+  if (NULL != client.conn.playing && can_client_issue_orders()) {
     struct unit *punit;
 
     punit = head_of_units_in_focus();

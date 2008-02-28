@@ -42,7 +42,6 @@
 
 #include "civclient.h"
 #include "climisc.h"
-#include "clinet.h"
 
 #include "chatline.h"
 #include "citydlg.h"
@@ -431,10 +430,10 @@ void city_refresh_callback(Widget w, XtPointer client_data,
     struct city *pcity = cities_in_list[ret->list_index];
 
     if (pcity) {
-      dsend_packet_city_refresh(&aconnection, pcity->id);
+      dsend_packet_city_refresh(&client.conn, pcity->id);
     }
   } else {
-    dsend_packet_city_refresh(&aconnection, 0);
+    dsend_packet_city_refresh(&client.conn, 0);
   }
 }
 
@@ -504,7 +503,7 @@ void city_config_callback(Widget w, XtPointer client_data,
 *****************************************************************/
 void city_report_dialog_update(void)
 {
-  if (!client.playing || is_report_dialogs_frozen()) {
+  if (NULL == client.conn.playing || is_report_dialogs_frozen()) {
     return;
   }
 
@@ -515,7 +514,7 @@ void city_report_dialog_update(void)
     static char **city_list_text = NULL;
     const char *report_title;
 
-    n = city_list_size(client.playing->cities);
+    n = city_list_size(client.conn.playing->cities);
     freelog(LOG_DEBUG, "%d cities in report", n);
     if(n_alloc == 0 || n > n_alloc) {
       int j, n_prev = n_alloc;
@@ -547,7 +546,7 @@ void city_report_dialog_update(void)
      * having to find city corresponding to id for each comparison.
      */
     i=0;
-    city_list_iterate(client.playing->cities, pcity) {
+    city_list_iterate(client.conn.playing->cities, pcity) {
       cities_in_list[i++] = pcity;
     } city_list_iterate_end;
     assert(i==n);

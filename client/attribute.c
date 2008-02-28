@@ -25,7 +25,6 @@
 #include "packets.h"
 
 #include "civclient.h"
-#include "clinet.h"
 
 #include "attribute.h"
 
@@ -321,7 +320,7 @@ static enum attribute_serial unserialize_hash( struct hash_table *hash,
 *****************************************************************************/
 void attribute_flush(void)
 {
-  struct player *pplayer = client.playing;
+  struct player *pplayer = client.conn.playing;
 
   if (!pplayer) {
     return;
@@ -339,7 +338,7 @@ void attribute_flush(void)
 
   serialize_hash(attribute_hash, &(pplayer->attribute_block.data),
 		 &(pplayer->attribute_block.length));
-  send_attribute_block(pplayer, &aconnection);
+  send_attribute_block(pplayer, &client.conn);
 }
 
 /****************************************************************************
@@ -348,7 +347,7 @@ void attribute_flush(void)
 *****************************************************************************/
 void attribute_restore(void)
 {
-  struct player *pplayer = client.playing;
+  struct player *pplayer = client.conn.playing;
 
   if (!pplayer) {
     return;

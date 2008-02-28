@@ -47,7 +47,7 @@
 
 extern HINSTANCE freecivhinst;
 extern HFONT font_12courier;
-extern struct connection aconnection;   
+
 int max_changemenu_id;
 int max_supportmenu_id;
 int max_presentmenu_id;
@@ -380,7 +380,7 @@ static void cityrep_refresh(HWND hWnd)
   if ((selcount==LB_ERR)||(selcount==0))
     {
       packet.value = 0;
-      send_packet_generic_integer(&aconnection, PACKET_CITY_REFRESH, &packet);
+      send_packet_generic_integer(&client.conn, PACKET_CITY_REFRESH, &packet);
       return;
     }
   selcount=MIN(256,selcount);
@@ -392,7 +392,7 @@ static void cityrep_refresh(HWND hWnd)
 							  ID_CITYREP_LIST),
 					       cityids[i]);
       packet.value = pcity->id;
-      send_packet_generic_integer(&aconnection, PACKET_CITY_REFRESH,
+      send_packet_generic_integer(&client.conn, PACKET_CITY_REFRESH,
 				  &packet);      
     }
 }
@@ -495,7 +495,7 @@ static void cityrep_change_menu(HWND hWnd, cid cid)
   selcount=ListBox_GetSelItems(GetDlgItem(hWnd,ID_CITYREP_LIST),
 			       selcount,&cityids[0]);
 
-  connection_do_buffer(&aconnection);
+  connection_do_buffer(&client.conn);
   for (i = 0; i < selcount; i++) {
     pcity = (struct city *) ListBox_GetItemData(GetDlgItem(hWnd,
 							   ID_CITYREP_LIST),
@@ -505,7 +505,7 @@ static void cityrep_change_menu(HWND hWnd, cid cid)
     ListBox_SetSel(GetDlgItem(hWnd, ID_CITYREP_LIST), FALSE, cityids[i]);
   }
 
-  connection_do_unbuffer(&aconnection);
+  connection_do_unbuffer(&client.conn);
   reports_freeze_till(last_request_id);
 }
 
@@ -1156,7 +1156,7 @@ city_report_dialog_update(void)
     }
   /* FIXME restore old selection */
   ListBox_ResetContent(GetDlgItem(hCityRep,ID_CITYREP_LIST));
-  city_list_iterate(client.playing->cities, pcity) {
+  city_list_iterate(client.conn.playing->cities, pcity) {
     get_city_text(pcity, row, sizeof(buf[0]));
     full_row[0]=0;
     for(i=0; i<NUM_CREPORT_COLS; i++)

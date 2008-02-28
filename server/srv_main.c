@@ -351,7 +351,7 @@ bool check_for_game_over(void)
 void send_all_info(struct conn_list *dest)
 {
   conn_list_iterate(dest, pconn) {
-      send_attribute_block(pconn->player,pconn);
+      send_attribute_block(pconn->playing, pconn);
   }
   conn_list_iterate_end;
 
@@ -821,7 +821,7 @@ static void end_turn(void)
   /* Hack: because observer players never get an end-phase packet we send
    * one here. */
   conn_list_iterate(game.est_connections, pconn) {
-    if (!pconn->player) {
+    if (NULL == pconn->playing) {
       send_packet_end_phase(pconn);
     }
   } conn_list_iterate_end;
@@ -1049,7 +1049,7 @@ void handle_report_req(struct connection *pconn, enum report_type type)
     return;
   }
 
-  if (pconn->player == NULL && !pconn->observer) {
+  if (NULL == pconn->playing && !pconn->observer) {
     freelog(LOG_ERROR,
             "Got a report request %d from detached connection", type);
     return;
@@ -1213,9 +1213,9 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
     return TRUE;
   }
 
-  pplayer = pconn->player;
+  pplayer = pconn->playing;
 
-  if(!pplayer) {
+  if (NULL == pplayer) {
     /* don't support these yet */
     freelog(LOG_ERROR, "Received packet from non-player connection %s",
  	    conn_description(pconn));

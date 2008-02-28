@@ -36,7 +36,6 @@
 
 #include "chatline.h"
 #include "citydlg.h"
-#include "clinet.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"

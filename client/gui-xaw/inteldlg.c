@@ -34,7 +34,6 @@
 #include "support.h"
 
 #include "civclient.h"
-#include "clinet.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
@@ -271,7 +270,7 @@ void create_intel_dialog(struct intel_dialog *pdialog, bool raise)
 
   advance_index_iterate(A_FIRST, i) {
     if (player_invention_state(pdialog->pplayer, i) == TECH_KNOWN) {
-      if (TECH_KNOWN == player_invention_state(client.playing, i)) {
+      if (TECH_KNOWN == player_invention_state(client.conn.playing, i)) {
 	sz_strlcpy(tech_list_names[j], advance_name_translation(advance_by_number(i)));
       } else {
 	my_snprintf(tech_list_names[j], sizeof(tech_list_names[j]),

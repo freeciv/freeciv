@@ -291,7 +291,7 @@ static void xaw_key_open_spaceship(Widget w, XEvent *event, String *argv, Cardin
 {
   if (can_client_change_view() &&
      is_menu_item_active(MENU_REPORT, MENU_REPORT_SPACESHIP))
-    popup_spaceship_dialog(client.playing);
+    popup_spaceship_dialog(client.conn.playing);
 }
 
 /****************************************************************************
@@ -336,7 +336,7 @@ static void xaw_key_open_worklists(Widget w, XEvent *event,
 {
   if (can_client_change_view()
       && is_menu_item_active(MENU_GOVERNMENT, MENU_GOVERNMENT_WORKLISTS)) {
-    popup_worklists_dialog(client.playing);
+    popup_worklists_dialog(client.conn.playing);
   }
 }
 

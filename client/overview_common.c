@@ -112,9 +112,10 @@ static struct color *overview_tile_color(struct tile *ptile)
     struct city *pcity = tile_city(ptile);
 
     if (pcity) {
-      if (!client.playing || city_owner(pcity) == client.playing) {
+      if (NULL == client.conn.playing
+          || city_owner(pcity) == client.conn.playing) {
 	return get_color(tileset, COLOR_OVERVIEW_MY_CITY);
-      } else if (pplayers_allied(city_owner(pcity), client.playing)) {
+      } else if (pplayers_allied(city_owner(pcity), client.conn.playing)) {
 	/* Includes teams. */
 	return get_color(tileset, COLOR_OVERVIEW_ALLIED_CITY);
       } else {
@@ -126,9 +127,10 @@ static struct color *overview_tile_color(struct tile *ptile)
     struct unit *punit = find_visible_unit(ptile);
 
     if (punit) {
-      if (!client.playing || unit_owner(punit) == client.playing) {
+      if (NULL == client.conn.playing
+          || unit_owner(punit) == client.conn.playing) {
 	return get_color(tileset, COLOR_OVERVIEW_MY_UNIT);
-      } else if (pplayers_allied(unit_owner(punit), client.playing)) {
+      } else if (pplayers_allied(unit_owner(punit), client.conn.playing)) {
 	/* Includes teams. */
 	return get_color(tileset, COLOR_OVERVIEW_ALLIED_UNIT);
       } else {

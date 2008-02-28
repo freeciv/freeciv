@@ -571,7 +571,7 @@ static int start_game_callback(struct widget *pWidget)
 static int select_nation_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    popup_races_dialog(client.playing);
+    popup_races_dialog(client.conn.playing);
   }  
   return -1;
 }
@@ -669,8 +669,8 @@ void update_conn_list_dialog(void)
 
 /* FIXME: implement the server settings dialog and then reactivate this part */
 #if 0
-      if (aconnection.access_level == ALLOW_CTRL
-         || aconnection.access_level == ALLOW_HACK) {
+      if (ALLOW_CTRL == client.conn.access_level
+         || ALLOW_HACK == client.conn.access_level) {
 	set_wstate(pConnDlg->pConfigure, FC_WS_NORMAL);
       } else {
 	set_wstate(pConnDlg->pConfigure, FC_WS_DISABLED);
@@ -714,7 +714,7 @@ static void popup_conn_list_dialog(void)
   SDL_Rect area;
   SDL_Surface *pSurf;
     
-  if (pConnDlg || !aconnection.established) {
+  if (pConnDlg || !client.conn.established) {
     return;
   }
   

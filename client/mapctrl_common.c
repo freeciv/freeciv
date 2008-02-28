@@ -31,7 +31,6 @@
 #include "cityrep_g.h"
 #include "civclient.h"
 #include "climisc.h"
-#include "clinet.h"
 #include "cma_core.h"
 #include "control.h"
 #include "editor.h"
@@ -152,13 +151,14 @@ static void define_tiles_within_rectangle(void)
 
       /*  Tile passed all tests; process it.
        */
-      if (tile_city(ptile) && tile_owner(ptile) == client.playing) {
+      if (NULL != tile_city(ptile)
+          && tile_owner(ptile) == client.conn.playing) {
 	/* FIXME: handle rectangle_append */
         map_deco[tile_index(ptile)].hilite = HILITE_CITY;
         tiles_hilited_cities = TRUE;
       }
       unit_list_iterate(ptile->units, punit) {
-	if (unit_owner(punit) == client.playing) {
+	if (unit_owner(punit) == client.conn.playing) {
 	  if (units == 0 && !rectangle_append) {
 	    set_unit_focus(punit);
 	  } else {
@@ -328,7 +328,7 @@ void toggle_tile_hilite(struct tile *ptile)
       toggle_city_hilite(pcity, FALSE); /* cityrep.c */
     }
   }
-  else if (pcity && city_owner(pcity) == client.playing) {
+  else if (NULL != pcity && city_owner(pcity) == client.conn.playing) {
     map_deco[tile_index(ptile)].hilite = HILITE_CITY;
     tiles_hilited_cities = TRUE;
     toggle_city_hilite(pcity, TRUE);
@@ -373,7 +373,7 @@ void clipboard_copy_production(struct tile *ptile)
   }
 
   if (pcity) {
-    if (city_owner(pcity) != client.playing)  {
+    if (city_owner(pcity) != client.conn.playing)  {
       return;
     }
     clipboard = pcity->production;
@@ -382,7 +382,7 @@ void clipboard_copy_production(struct tile *ptile)
     if (!punit) {
       return;
     }
-    if (!can_player_build_unit_direct(client.playing, unit_type(punit)))  {
+    if (!can_player_build_unit_direct(client.conn.playing, unit_type(punit)))  {
       create_event(ptile, E_BAD_COMMAND,
 		   _("You don't know how to build %s!"),
 		   unit_name_translation(punit));
@@ -412,19 +412,19 @@ void clipboard_paste_production(struct city *pcity)
     return;
   }
   if (!tiles_hilited_cities) {
-    if (pcity && city_owner(pcity) == client.playing) {
+    if (NULL != pcity && city_owner(pcity) == client.conn.playing) {
       clipboard_send_production_packet(pcity);
     }
     return;
   }
   else {
-    connection_do_buffer(&aconnection);
-    city_list_iterate(client.playing->cities, pcity) {
+    connection_do_buffer(&client.conn);
+    city_list_iterate(client.conn.playing->cities, pcity) {
       if (is_city_hilited(pcity)) {
         clipboard_send_production_packet(pcity);
       }
     } city_list_iterate_end;
-    connection_do_unbuffer(&aconnection);
+    connection_do_unbuffer(&client.conn);
   }
 }
 
@@ -438,7 +438,7 @@ static void clipboard_send_production_packet(struct city *pcity)
     return;
   }
 
-  dsend_packet_city_change(&aconnection, pcity->id,
+  dsend_packet_city_change(&client.conn, pcity->id,
 			   clipboard.kind,
 			   universal_number(&clipboard));
 }
@@ -454,7 +454,7 @@ void upgrade_canvas_clipboard(void)
   }
   if (VUT_UTYPE == clipboard.kind)  {
     struct unit_type *u =
-      can_upgrade_unittype(client.playing, clipboard.value.utype);
+      can_upgrade_unittype(client.conn.playing, clipboard.value.utype);
 
     if (u)  {
       clipboard.value.utype = u;
@@ -572,10 +572,10 @@ void adjust_workers_button_pressed(int canvas_x, int canvas_y)
       assert(city_base_to_city_map(&city_x, &city_y, pcity, ptile));
 
       if (NULL != tile_worked(ptile) && tile_worked(ptile) == pcity) {
-	dsend_packet_city_make_specialist(&aconnection, pcity->id,
+	dsend_packet_city_make_specialist(&client.conn, pcity->id,
 					  city_x, city_y);
       } else if (city_can_work_tile(pcity, ptile)) {
-	dsend_packet_city_make_worker(&aconnection, pcity->id,
+	dsend_packet_city_make_worker(&client.conn, pcity->id,
 				      city_x, city_y);
       } else {
 	return;
@@ -619,7 +619,8 @@ void update_turn_done_button_state()
   }
 
   new_state = (can_client_issue_orders()
-	       && !client.playing->phase_done && !agents_busy()
+	       && !client.conn.playing->phase_done
+	       && !agents_busy()
 	       && !turn_done_sent);
   if (new_state == turn_done_state) {
     return;
@@ -634,8 +635,8 @@ void update_turn_done_button_state()
 
   if (turn_done_state) {
     if (waiting_for_end_turn
-	|| (client.playing
-	    && client.playing->ai.control
+	|| (NULL != client.conn.playing
+	    && client.conn.playing->ai.control
 	    && !ai_manual_turn_done)) {
       send_turn_done();
     } else {

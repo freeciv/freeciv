@@ -120,7 +120,7 @@ static void load_saved_game_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void main_callback(GtkWidget *w, gpointer data)
 {
-  if (aconnection.used) {
+  if (client.conn.used) {
     disconnect_from_server();
   } else {
     set_client_page(in_ggz ? PAGE_GGZ : PAGE_MAIN);
@@ -557,7 +557,7 @@ void handle_authentication_req(enum authentication_type type, char *message)
       struct packet_authentication_reply reply;
 
       sz_strlcpy(reply.password, password);
-      send_packet_authentication_reply(&aconnection, &reply);
+      send_packet_authentication_reply(&client.conn, &reply);
       return;
     } else {
       set_connection_state(ENTER_PASSWORD_TYPE);
@@ -603,7 +603,7 @@ static void connect_callback(GtkWidget *w, gpointer data)
 	  gtk_entry_get_text(GTK_ENTRY(network_confirm_password)));
       if (strncmp(reply.password, password, MAX_LEN_NAME) == 0) {
 	password[0] = '\0';
-	send_packet_authentication_reply(&aconnection, &reply);
+	send_packet_authentication_reply(&client.conn, &reply);
 
 	set_connection_state(WAITING_TYPE);
       } else { 
@@ -617,7 +617,7 @@ static void connect_callback(GtkWidget *w, gpointer data)
   case ENTER_PASSWORD_TYPE:
     sz_strlcpy(reply.password,
 	gtk_entry_get_text(GTK_ENTRY(network_password)));
-    send_packet_authentication_reply(&aconnection, &reply);
+    send_packet_authentication_reply(&client.conn, &reply);
 
     set_connection_state(WAITING_TYPE);
     break;
@@ -984,9 +984,9 @@ static void ai_fill_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void start_start_callback(GtkWidget *w, gpointer data)
 {
-  if (client.playing) {
-    dsend_packet_player_ready(&aconnection, player_number(client.playing),
-			      !client.playing->is_ready);
+  if (NULL != client.conn.playing) {
+    dsend_packet_player_ready(&client.conn, player_number(client.conn.playing),
+			      !client.conn.playing->is_ready);
   }
 }
 
@@ -995,11 +995,11 @@ static void start_start_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void pick_nation_callback(GtkWidget *w, gpointer data)
 {
-  if (aconnection.player) {
-    popup_races_dialog(client.playing);
+  if (NULL != client.conn.playing) {
+    popup_races_dialog(client.conn.playing);
   } else if (game.info.is_new_game) {
     send_chat("/take -");
-    popup_races_dialog(client.playing);
+    popup_races_dialog(NULL);
   }
 }
 
@@ -1008,20 +1008,20 @@ static void pick_nation_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void take_callback(GtkWidget *w, gpointer data)
 {
-  if (aconnection.player) {
-    if (!aconnection.player->ai.control) {
+  if (NULL != client.conn.playing) {
+    if (!client.conn.playing->ai.control) {
       /* Make sure player reverts to AI control. This is much more neat,
        * and hides the ugly double username in the name list because
        * the player username equals the connection username. */
       char buf[512];
 
       my_snprintf(buf, sizeof(buf), "/aitoggle \"%s\"",
-                  player_name(aconnection.player));
+                  player_name(client.conn.playing));
       send_chat(buf);
     }
     send_chat("/detach");
     send_chat("/observe");
-  } else if (!aconnection.observer) {
+  } else if (!client.conn.observer) {
     send_chat("/observe");
   } else {
     send_chat("/detach");
@@ -1067,7 +1067,7 @@ static void conn_menu_ready_chosen(GtkMenuItem *menuitem, gpointer data)
 {
   struct player *pplayer = conn_menu_player;
 
-  dsend_packet_player_ready(&aconnection,
+  dsend_packet_player_ready(&client.conn,
 			    player_number(pplayer), !pplayer->is_ready);
 }
 
@@ -1186,7 +1186,7 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
 
     entry = gtk_menu_item_new_with_label(_("Pick nation"));
     gtk_widget_set_sensitive(entry,
-                             can_conn_edit_players_nation(&aconnection,
+                             can_conn_edit_players_nation(&client.conn,
                                                           pplayer));
     g_object_set_data_full(G_OBJECT(menu), "nation", entry,
                            (GtkDestroyNotify) gtk_widget_unref);
@@ -1209,15 +1209,15 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
                      GTK_SIGNAL_FUNC(conn_menu_player_take), "take");
   }
 
-  if (aconnection.access_level >= ALLOW_CTRL && pconn
-      && (pconn->id != aconnection.id || pplayer)) {
+  if (ALLOW_CTRL <= client.conn.access_level && NULL != pconn
+      && (pconn->id != client.conn.id || NULL != pplayer)) {
     entry = gtk_separator_menu_item_new();
     g_object_set_data_full(G_OBJECT(menu),
 			   "ctrl", entry,
 			   (GtkDestroyNotify) gtk_widget_unref);
     gtk_container_add(GTK_CONTAINER(menu), entry);
 
-    if (pconn->id != aconnection.id) {
+    if (pconn->id != client.conn.id) {
       entry = gtk_menu_item_new_with_label(_("Cut connection"));
       g_object_set_data_full(G_OBJECT(menu), "cut", entry,
 			     (GtkDestroyNotify) gtk_widget_unref);
@@ -1227,7 +1227,7 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
     }
   }
 
-  if (aconnection.access_level >= ALLOW_CTRL && pplayer) {
+  if (ALLOW_CTRL <= client.conn.access_level && NULL != pplayer) {
     entry = gtk_menu_item_new_with_label(_("Aitoggle player"));
     g_object_set_data_full(G_OBJECT(menu), "aitoggle", entry,
 			   (GtkDestroyNotify) gtk_widget_unref);
@@ -1235,7 +1235,7 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
     g_signal_connect(GTK_OBJECT(entry), "activate",
 		     GTK_SIGNAL_FUNC(conn_menu_player_command), "aitoggle");
 
-    if (pplayer != client.playing
+    if (pplayer != client.conn.playing
         && game.info.is_new_game) {
       entry = gtk_menu_item_new_with_label(_("Remove player"));
       g_object_set_data_full(G_OBJECT(menu), "remove", entry,
@@ -1246,8 +1246,8 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
     }
   }
 
-  if (aconnection.access_level == ALLOW_HACK && pconn
-      && pconn->id != aconnection.id) {
+  if (ALLOW_HACK == client.conn.access_level && NULL != pconn
+      && pconn->id != client.conn.id) {
     entry = gtk_menu_item_new_with_label(_("Give info access"));
     g_object_set_data_full(G_OBJECT(menu), "cmdlevel-info", entry,
 			   (GtkDestroyNotify) gtk_widget_unref);
@@ -1266,8 +1266,8 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
     /* No entry for hack access; that would be a serious security hole. */
   }
 
-  if (aconnection.access_level >= ALLOW_CTRL
-      && pplayer && pplayer->ai.control) {
+  if (ALLOW_CTRL <= client.conn.access_level
+      && NULL != pplayer && pplayer->ai.control) {
     enum ai_level level;
 
     entry = gtk_separator_menu_item_new();

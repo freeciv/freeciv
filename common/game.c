@@ -595,7 +595,7 @@ void game_renumber_players(int plrno)
     game.players[i] = game.players[i+1];
 
     conn_list_iterate(game.players[i].connections, pconn) {
-      pconn->player = &game.players[i];
+      pconn->playing = &game.players[i];
     } conn_list_iterate_end;
 
     if (game.players[i].nation) {

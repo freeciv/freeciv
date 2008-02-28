@@ -41,11 +41,12 @@ void update_info_label(void)
 		"Year: %s\n"
 		"Gold %d\n"
 		"Tax: %d Lux: %d Sci: %d"),
-	      population_to_text(civ_population(client.playing)),
-	      textyear(game.info.year), client.playing->economic.gold,
-	      client.playing->economic.tax,
-	      client.playing->economic.luxury,
-	      client.playing->economic.science);
+	      population_to_text(civ_population(client.conn.playing)),
+	      textyear(game.info.year),
+	      client.conn.playing->economic.gold,
+	      client.conn.playing->economic.tax,
+	      client.conn.playing->economic.luxury,
+	      client.conn.playing->economic.science);
 
   /* ... */
 }

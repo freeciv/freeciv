@@ -35,7 +35,6 @@
 #include "chatline.h"
 #include "civclient.h"
 #include "climisc.h"
-#include "clinet.h"
 #include "diplodlg.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
@@ -244,10 +243,11 @@ void update_players_dialog(void)
       namebuf[16] = '\0';
 
       /* text for diplstate type and turns -- not applicable if this is me */
-      if (!client.playing || pplayer == client.playing) {
+      if (NULL == client.conn.playing
+          || pplayer == client.conn.playing) {
 	strcpy(dsbuf, "-");
       } else {
-	pds = pplayer_get_diplstate(client.playing, pplayer);
+	pds = pplayer_get_diplstate(client.conn.playing, pplayer);
 	if (pds->type == DS_CEASEFIRE) {
 	  my_snprintf(dsbuf, sizeof(dsbuf), "%s (%d)",
 		      diplstate_text(pds->type), pds->turns_left);
@@ -262,9 +262,9 @@ void update_players_dialog(void)
 	      "%-16s %-12s %-8s %-15s %-8s %-6s   %-15s%s", 
 	      namebuf,
 	      nation_adjective_for_player(pplayer), 
-	      get_embassy_status(client.playing, pplayer),
+	      get_embassy_status(client.conn.playing, pplayer),
 	      dsbuf,
-	      get_vision_status(client.playing, pplayer),
+	      get_vision_status(client.conn.playing, pplayer),
 	      statebuf,
 	      player_addr_hack(pplayer),  /* Fixme for multi-conn */
 	      idlebuf);
@@ -303,15 +303,15 @@ void players_list_callback(Widget w, XtPointer client_data,
     else
       XtSetSensitive(players_sship_command, FALSE);
 
-    if (client.playing && pplayer->is_alive) {
+    if (NULL != client.conn.playing && pplayer->is_alive) {
       XtSetSensitive(players_war_command,
-		     client.playing != pplayer
-		     && !pplayers_at_war(client.playing, pplayer));
+		     client.conn.playing != pplayer
+		     && !pplayers_at_war(client.conn.playing, pplayer));
     }
 
-    if (client.playing) {
+    if (NULL != client.conn.playing) {
       XtSetSensitive(players_vision_command,
-		     gives_shared_vision(client.playing, pplayer));
+		     gives_shared_vision(client.conn.playing, pplayer));
 
       XtSetSensitive(players_meet_command, can_meet_with_player(pplayer));
     }
@@ -350,7 +350,7 @@ void players_meet_callback(Widget w, XtPointer client_data,
     struct player *pplayer = player_by_number(player_index);
 
     if (can_meet_with_player(pplayer)) {
-      dsend_packet_diplomacy_init_meeting_req(&aconnection, player_index);
+      dsend_packet_diplomacy_init_meeting_req(&client.conn, player_index);
     }
     else {
       append_output_window(_("You need an embassy to establish"
@@ -389,7 +389,7 @@ void players_war_callback(Widget w, XtPointer client_data,
     int player_index = list_index_to_player_index[ret->list_index];
 
     /* can be any pact clause */
-    dsend_packet_diplomacy_cancel_pact(&aconnection, player_index,
+    dsend_packet_diplomacy_cancel_pact(&client.conn, player_index,
 				       CLAUSE_CEASEFIRE);
   }
 }
@@ -405,7 +405,7 @@ void players_vision_callback(Widget w, XtPointer client_data,
   if (ret->list_index != XAW_LIST_NONE) {
     int player_index = list_index_to_player_index[ret->list_index];
 
-    dsend_packet_diplomacy_cancel_pact(&aconnection, player_index,
+    dsend_packet_diplomacy_cancel_pact(&client.conn, player_index,
 				       CLAUSE_VISION);
   }
 }

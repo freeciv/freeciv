@@ -31,7 +31,6 @@
 
 #include "civclient.h"
 #include "climisc.h"
-#include "clinet.h"
 #include "colors.h"
 #include "dialogs.h"
 #include "graphics.h"
@@ -118,7 +117,7 @@ void refresh_spaceship_dialog(struct player *pplayer)
   pship=&(pdialog->pplayer->spaceship);
 
   if (game.info.spacerace
-     && pplayer == client.playing
+     && pplayer == client.conn.playing
      && pship->state == SSHIP_STARTED
      && pship->success_rate > 0.0) {
     gui_dialog_set_response_sensitive(pdialog->shell,
@@ -193,7 +192,7 @@ static void spaceship_response(struct gui_dialog *dlg, int response,
   switch (response) {
   case GTK_RESPONSE_ACCEPT:
     {
-      send_packet_spaceship_launch(&aconnection);
+      send_packet_spaceship_launch(&client.conn);
     }
     break;
 

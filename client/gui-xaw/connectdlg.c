@@ -37,7 +37,7 @@
 #include "version.h"
 
 #include "civclient.h"
-#include "clinet.h"
+#include "clinet.h"		/* connect_to_server() */
 #include "packhand.h"
 #include "servers.h"
 
@@ -160,7 +160,7 @@ void handle_authentication_req(enum authentication_type type, char *message)
       struct packet_authentication_reply reply;
 
       sz_strlcpy(reply.password, password);
-      send_packet_authentication_reply(&aconnection, &reply);
+      send_packet_authentication_reply(&client.conn, &reply);
       return;
     } else {
       dialog_config = ENTER_PASSWORD_TYPE;
@@ -319,7 +319,7 @@ void connect_callback(Widget w, XtPointer client_data,
       XtSetSensitive(connw, FALSE);
       memset(password, 0, MAX_LEN_NAME);
       password[0] = '\0';
-      send_packet_authentication_reply(&aconnection, &reply);
+      send_packet_authentication_reply(&client.conn, &reply);
     } else {
       XtVaSetValues(iinput, XtNstring, "", NULL);
       XtVaSetValues(imsg, XtNlabel, 
@@ -332,7 +332,7 @@ void connect_callback(Widget w, XtPointer client_data,
     XtSetSensitive(connw, FALSE);
     XtVaGetValues(iinput, XtNstring, &dp, NULL);
     sz_strlcpy(reply.password, (char*)dp);
-    send_packet_authentication_reply(&aconnection, &reply);
+    send_packet_authentication_reply(&client.conn, &reply);
     break;
   default:
     assert(0);

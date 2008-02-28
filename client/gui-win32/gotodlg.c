@@ -30,7 +30,6 @@
 #include "unit.h"
 #include "unitlist.h"
 
-#include "clinet.h"
 #include "civclient.h"
 #include "control.h"
 #include "dialogs.h"
@@ -187,7 +186,7 @@ static void update_goto_dialog(HWND list)
   Button_SetState(GetDlgItem(goto_dialog,ID_ALL),show_all_cities);
 
   players_iterate(pplayer) {
-    if (!show_all_cities && pplayer != client.playing) {
+    if (!show_all_cities && pplayer != client.conn.playing) {
       continue;
     }
     city_list_iterate(pplayer->cities, pcity) {

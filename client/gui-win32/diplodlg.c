@@ -34,7 +34,6 @@
 #include "chatline.h"
 #include "civclient.h"
 #include "climisc.h"
-#include "clinet.h"
 #include "diptreaty.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
@@ -128,7 +127,7 @@ static void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
 *****************************************************************/
 static void diplomacy_dialog_close(struct Diplomacy_dialog *pdialog)
 {
-  dsend_packet_diplomacy_cancel_meeting_req(&aconnection,
+  dsend_packet_diplomacy_cancel_meeting_req(&client.conn,
 					    player_number(pdialog->treaty.plr1));
   DestroyWindow(pdialog->mainwin);
   
@@ -255,7 +254,7 @@ static void handle_gold_entry(struct Diplomacy_dialog *pdialog,int plr)
     pgiver = plr ? pdialog->treaty.plr1 : pdialog->treaty.plr0;
     if (sscanf(buf, "%d", &amount) == 1 && amount >= 0
 	&& amount <= pgiver->economic.gold) {
-       dsend_packet_diplomacy_create_clause_req(&aconnection, 
+       dsend_packet_diplomacy_create_clause_req(&client.conn,
 					player_number(pdialog->treaty.plr1),
 					player_number(pgiver),
 					CLAUSE_GOLD, amount);
@@ -273,7 +272,7 @@ static void handle_vision_button(struct Diplomacy_dialog *pdialog,int plr)
   struct player *pgiver;
   pgiver=plr?pdialog->treaty.plr1:pdialog->treaty.plr0;
 
-  dsend_packet_diplomacy_create_clause_req(&aconnection, 
+  dsend_packet_diplomacy_create_clause_req(&client.conn,
 					   player_number(pdialog->treaty.plr1),
 					   player_number(pgiver), CLAUSE_VISION,
 					   0);
@@ -287,7 +286,7 @@ static void handle_embassy_button(struct Diplomacy_dialog *pdialog, int plr)
   struct player *pgiver;
   pgiver = plr ? pdialog->treaty.plr1 : pdialog->treaty.plr0;
 
-  dsend_packet_diplomacy_create_clause_req(&aconnection, 
+  dsend_packet_diplomacy_create_clause_req(&client.conn,
 					   player_number(pdialog->treaty.plr1),
 					   player_number(pgiver), CLAUSE_EMBASSY,
 					   0);
@@ -326,7 +325,7 @@ static void give_sea_map(struct Diplomacy_dialog *pdialog, int plr)
 {
   struct player *pgiver;
   pgiver=plr?pdialog->treaty.plr1:pdialog->treaty.plr0;
-  dsend_packet_diplomacy_create_clause_req(&aconnection,
+  dsend_packet_diplomacy_create_clause_req(&client.conn,
 					   player_number(pdialog->treaty.plr1),
 					   player_number(pgiver), CLAUSE_SEAMAP,
 					   0);
@@ -339,7 +338,7 @@ static void give_map(struct Diplomacy_dialog *pdialog, int plr)
 {
   struct player *pgiver;
   pgiver=plr?pdialog->treaty.plr1:pdialog->treaty.plr0;
-  dsend_packet_diplomacy_create_clause_req(&aconnection,
+  dsend_packet_diplomacy_create_clause_req(&client.conn,
 					   player_number(pdialog->treaty.plr1),
 					   player_number(pgiver), CLAUSE_MAP,
 					   0);
@@ -356,7 +355,7 @@ static void handle_cities_menu(struct Diplomacy_dialog *pdialog,int choice)
   plrno0 = choice/32;
   choice -= plrno0 * 32;
   plrno1 = choice;
-  dsend_packet_diplomacy_create_clause_req(&aconnection, 
+  dsend_packet_diplomacy_create_clause_req(&client.conn,
 					   player_number(pdialog->treaty.plr1),
 					   plrno0, CLAUSE_CITY, value);
 }
@@ -372,7 +371,7 @@ static void handle_advances_menu(struct Diplomacy_dialog *pdialog,int choice)
 #endif
   int value = choice % MAX_NUM_ITEMS;
 
-  dsend_packet_diplomacy_create_clause_req(&aconnection, 
+  dsend_packet_diplomacy_create_clause_req(&client.conn,
 					   player_number(pdialog->treaty.plr1),
 					   plrno0, CLAUSE_ADVANCE, value);
 }
@@ -383,7 +382,7 @@ static void handle_advances_menu(struct Diplomacy_dialog *pdialog,int choice)
 static void diplomacy_dialog_add_pact_clause(struct Diplomacy_dialog *pdialog,
 					     int type)
 {
-  dsend_packet_diplomacy_create_clause_req(&aconnection, 
+  dsend_packet_diplomacy_create_clause_req(&client.conn,
 					   player_number(pdialog->treaty.plr1),
 					   player_number(pdialog->treaty.plr0),
 					   type, 0);
@@ -401,7 +400,7 @@ static void handle_erase_button(struct Diplomacy_dialog *pdialog)
     return;
   clause_list_iterate(pdialog->treaty.clauses, pclause) {
     if(i == row) {
-      dsend_packet_diplomacy_remove_clause_req(&aconnection,
+      dsend_packet_diplomacy_remove_clause_req(&client.conn,
 					       player_number(pdialog->treaty.plr1),
 					       player_number(pclause->from),
 					       pclause->type, pclause->value);
@@ -416,7 +415,7 @@ static void handle_erase_button(struct Diplomacy_dialog *pdialog)
 *****************************************************************/
 static void handle_accept_button(struct Diplomacy_dialog *pdialog)
 {
-  dsend_packet_diplomacy_accept_treaty_req(&aconnection,
+  dsend_packet_diplomacy_accept_treaty_req(&client.conn,
 					   player_number(pdialog->treaty.plr1));
 }
 
@@ -581,7 +580,7 @@ static void thumb_setsize(RECT *rc, void *data)
 *****************************************************************/
 static struct Diplomacy_dialog *create_diplomacy_dialog(int other_player_id)
 {
-  struct player *plr0 = client.playing;
+  struct player *plr0 = client.conn.playing;
   struct player *plr1 = player_by_number(other_player_id);
 
   char buf[512];
@@ -693,7 +692,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(int other_player_id)
 *****************************************************************/
 static struct Diplomacy_dialog *find_diplomacy_dialog(int other_player_id)
 {
-  struct player *plr0 = client.playing;
+  struct player *plr0 = client.conn.playing;
   struct player *plr1 = player_by_number(other_player_id);
 
   if(!dialog_list_list_has_been_initialised) {
@@ -719,7 +718,7 @@ static void popup_diplomacy_dialog(int other_player_id)
 {
   struct Diplomacy_dialog *pdialog;
 
-  if (client.playing->ai.control) {
+  if (client.conn.playing->ai.control) {
     return;			/* Don't show if we are AI controlled. */
   }
 

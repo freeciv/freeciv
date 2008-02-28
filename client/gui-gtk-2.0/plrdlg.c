@@ -33,7 +33,6 @@
 #include "chatline.h"
 #include "civclient.h"
 #include "climisc.h"
-#include "clinet.h"
 #include "connectdlg_common.h"
 #include "dialogs.h"
 #include "editor.h"
@@ -150,8 +149,8 @@ static void update_players_menu(void)
       gtk_widget_set_sensitive(players_sship_command, FALSE);
     }
 
-    if (client.playing) {
-      switch (pplayer_get_diplstate(client.playing,
+    if (NULL != client.conn.playing) {
+      switch (pplayer_get_diplstate(client.conn.playing,
 				    player_by_number(plrno))->type) {
       case DS_WAR:
       case DS_NO_CONTACT:
@@ -160,7 +159,7 @@ static void update_players_menu(void)
       default:
 	gtk_widget_set_sensitive(players_war_command,
 				 can_client_issue_orders()
-				 && player_by_number(plrno) != client.playing);
+				 && player_by_number(plrno) != client.conn.playing);
       }
     } else {
       gtk_widget_set_sensitive(players_war_command, FALSE);
@@ -168,7 +167,7 @@ static void update_players_menu(void)
 
     gtk_widget_set_sensitive(players_vision_command,
 			     can_client_issue_orders()
-			     && gives_shared_vision(client.playing, plr));
+			     && gives_shared_vision(client.conn.playing, plr));
 
     gtk_widget_set_sensitive(players_meet_command, can_meet_with_player(plr));
     gtk_widget_set_sensitive(players_int_command, can_intel_with_player(plr));
@@ -213,7 +212,7 @@ static gboolean button_press_callback(GtkTreeView *view, GdkEventButton *ev)
 	  popup_intel_dialog(plr);
 	}
       } else {
-	dsend_packet_diplomacy_init_meeting_req(&aconnection, id);
+	dsend_packet_diplomacy_init_meeting_req(&client.conn, id);
       }
     }
   }
@@ -526,7 +525,7 @@ void create_players_dialog(void)
 
   players_edit_menu = gtk_menu_item_new_with_mnemonic(_("_Editor"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), players_edit_menu);
-  gtk_widget_set_sensitive(players_edit_menu, can_conn_edit(&aconnection));
+  gtk_widget_set_sensitive(players_edit_menu, can_conn_edit(&client.conn));
 
   menu = gtk_menu_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(players_edit_menu), menu);
@@ -632,8 +631,8 @@ static void build_row(GtkTreeIter *it, int i)
     -1);
 
    /* now add some eye candy ... */
-  if (client.playing) {
-    switch (pplayer_get_diplstate(client.playing, plr)->type) {
+  if (NULL != client.conn.playing) {
+    switch (pplayer_get_diplstate(client.conn.playing, plr)->type) {
     case DS_WAR:
       weight = PANGO_WEIGHT_NORMAL;
       style = PANGO_STYLE_ITALIC;
@@ -728,7 +727,7 @@ void update_players_dialog(void)
     } players_iterate_end;
 
     /* menu needs to be updated with edit mode changes */
-    gtk_widget_set_sensitive(players_edit_menu, can_conn_edit(&aconnection));
+    gtk_widget_set_sensitive(players_edit_menu, can_conn_edit(&client.conn));
 
     update_players_menu();
     update_views();
@@ -749,7 +748,7 @@ void players_meet_callback(GtkMenuItem *item, gpointer data)
 
     gtk_tree_model_get(model, &it, ncolumns - 1, &plrno, -1);
 
-    dsend_packet_diplomacy_init_meeting_req(&aconnection, plrno);
+    dsend_packet_diplomacy_init_meeting_req(&client.conn, plrno);
   }
 }
 
@@ -767,7 +766,7 @@ void players_war_callback(GtkMenuItem *item, gpointer data)
     gtk_tree_model_get(model, &it, ncolumns - 1, &plrno, -1);
 
     /* can be any pact clause */
-    dsend_packet_diplomacy_cancel_pact(&aconnection, plrno,
+    dsend_packet_diplomacy_cancel_pact(&client.conn, plrno,
 				       CLAUSE_CEASEFIRE);
   }
 }
@@ -784,7 +783,7 @@ void players_vision_callback(GtkMenuItem *item, gpointer data)
     gint plrno;
 
     gtk_tree_model_get(model, &it, ncolumns - 1, &plrno, -1);
-    dsend_packet_diplomacy_cancel_pact(&aconnection, plrno, CLAUSE_VISION);
+    dsend_packet_diplomacy_cancel_pact(&client.conn, plrno, CLAUSE_VISION);
   }
 }
 

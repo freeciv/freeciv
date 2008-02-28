@@ -311,9 +311,9 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
   pBuf = get_revolution_widget();
   set_new_icon2_theme(pBuf, adj_surf(GET_SURF(gov)), TRUE);    
   
-  if (client.playing) {
+  if (NULL != client.conn.playing) {
     my_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s", _("Revolution"), "Shift+R",
-                                    government_name_for_player(client.playing));
+                                    government_name_for_player(client.conn.playing));
   } else {
     my_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s", _("Revolution"), "Shift+R",
                                     "None");
@@ -330,21 +330,21 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
 
   pBuf = get_research_widget();
 
-  if (!client.playing) {
+  if (NULL == client.conn.playing) {
     /* TRANS: Research report action */
     my_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s (%d/%d)", _("Research"), "F6",
                                     "None", 0, 0);
-  } else if (A_UNSET != get_player_research(client.playing)->researching) {
+  } else if (A_UNSET != get_player_research(client.conn.playing)->researching) {
     /* TRANS: Research report action */
     my_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s (%d/%d)", _("Research"), "F6",
-		advance_name_researching(client.playing),
-		get_player_research(client.playing)->bulbs_researched,
-		total_bulbs_required(client.playing));
+		advance_name_researching(client.conn.playing),
+		get_player_research(client.conn.playing)->bulbs_researched,
+		total_bulbs_required(client.conn.playing));
   } else {
     /* TRANS: Research report action */
     my_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s (%d/%d)", _("Research"), "F6",
-		advance_name_researching(client.playing),
-		get_player_research(client.playing)->bulbs_researched,
+		advance_name_researching(client.conn.playing),
+		get_player_research(client.conn.playing)->bulbs_researched,
 		0);
   }
 
@@ -408,26 +408,26 @@ void update_info_label(void)
   pText->fgcol = *get_game_colorRGB(COLOR_THEME_MAPVIEW_INFO_TEXT);
   pText->bgcol = (SDL_Color) {0, 0, 0, 0};
 
-  if (client.playing) {
+  if (NULL != client.conn.playing) {
 #ifdef SMALL_SCREEN
     my_snprintf(buffer, sizeof(buffer),
                 _("%s Population: %s  Year: %s  "
                   "Gold %d "),
-                nation_adjective_for_player(client.playing),
-                population_to_text(civ_population(client.playing)),
+                nation_adjective_for_player(client.conn.playing),
+                population_to_text(civ_population(client.conn.playing)),
                 textyear(game.info.year),
-                client.playing->economic.gold);
+                client.conn.playing->economic.gold);
 #else
     my_snprintf(buffer, sizeof(buffer),
                 _("%s Population: %s  Year: %s  "
                   "Gold %d Tax: %d Lux: %d Sci: %d "),
-                nation_adjective_for_player(client.playing),
-                population_to_text(civ_population(client.playing)),
+                nation_adjective_for_player(client.conn.playing),
+                population_to_text(civ_population(client.conn.playing)),
                 textyear(game.info.year),
-                client.playing->economic.gold,
-                client.playing->economic.tax,
-                client.playing->economic.luxury,
-                client.playing->economic.science);
+                client.conn.playing->economic.gold,
+                client.conn.playing->economic.tax,
+                client.conn.playing->economic.luxury,
+                client.conn.playing->economic.science);
 #endif
     /* convert to unistr and create text surface */
     copy_chars_to_string16(pText, buffer);
@@ -563,12 +563,12 @@ void redraw_unit_info_label(struct unit_list *punitlist)
      			"" /* unused, DS_CEASEFIRE*/,
      			Q_("?nation:Peaceful"), Q_("?nation:Friendly"), 
      			Q_("?nation:Mysterious")};
-            if (tile_owner(pTile) == client.playing) {
+            if (tile_owner(pTile) == client.conn.playing) {
               cat_snprintf(buffer, sizeof(buffer), _("\nOur Territory"));
             } else {
 	      if (tile_owner(pTile)) {
-                if (DS_CEASEFIRE == client.playing->diplstates[player_index(tile_owner(pTile))].type){
-		  int turns = client.playing->diplstates[player_index(tile_owner(pTile))].turns_left;
+                if (DS_CEASEFIRE == client.conn.playing->diplstates[player_index(tile_owner(pTile))].type){
+		  int turns = client.conn.playing->diplstates[player_index(tile_owner(pTile))].turns_left;
 		  cat_snprintf(buffer, sizeof(buffer),
 		  	PL_("\n%s territory (%d turn ceasefire)",
 				"\n%s territory (%d turn ceasefire)", turns),
@@ -576,7 +576,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
                 } else {
 	          cat_snprintf(buffer, sizeof(buffer), _("\nTerritory of the %s %s"),
 		    diplo_nation_plural_adjectives[
-			client.playing->diplstates[player_index(tile_owner(pTile))].type],
+			client.conn.playing->diplstates[player_index(tile_owner(pTile))].type],
 				nation_plural_for_player(tile_owner(pTile)));
                 }
               } else { /* !tile_owner(pTile) */
@@ -606,7 +606,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
             /* This has hardcoded assumption that EFT_LAND_REGEN is always
              * provided by *building* named *Barracks*. Similar assumptions for
              * other effects. */     
-	    if (pplayers_allied(client.playing, pOwner)) {
+	    if (pplayers_allied(client.conn.playing, pOwner)) {
 	      barrack = (get_city_bonus(pCity, EFT_LAND_REGEN) > 0);
 	      airport = (get_city_bonus(pCity, EFT_AIR_VETERAN) > 0);
 	      port = (get_city_bonus(pCity, EFT_SEA_VETERAN) > 0);
@@ -640,11 +640,11 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	    }
 #endif
 	    
-	    if (pOwner && pOwner != client.playing) {
+	    if (pOwner && pOwner != client.conn.playing) {
               /* TRANS: (<nation>,<diplomatic_state>)" */
               cat_snprintf(buffer, sizeof(buffer), _("\n(%s,%s)"),
 		  nation_adjective_for_player(pOwner),
-		  diplo_city_adjectives[client.playing->
+		  diplo_city_adjectives[client.conn.playing->
 				   diplstates[player_index(pOwner)].type]);
 	    }
 	    
@@ -813,7 +813,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
              set_wflag(pBuf, WF_HIDDEN);
           }
 
-          if (unit_owner(aunit) == client.playing) {
+          if (unit_owner(aunit) == client.conn.playing) {
             set_wstate(pBuf, FC_WS_NORMAL);
           }
     
@@ -886,7 +886,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	hide_scrollbar(pInfo_Window->private_data.adv_dlg->pScroll);
       }
 
-      if (client.playing) {
+      if (NULL != client.conn.playing) {
         char buf[256];
         my_snprintf(buf, sizeof(buf), "%s\n%s\n%s",
                     _("End of Turn"), _("Press"), _("Shift+Return"));

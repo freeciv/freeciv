@@ -29,7 +29,6 @@
 #include "player.h"
 #include "shared.h"
 
-#include "clinet.h"
 #include "dialogs.h"
 #include "gui_main.h"
 #include "gui_stuff.h"

@@ -32,7 +32,6 @@
 #include "chatline_g.h"
 #include "cityrepdata.h"
 #include "civclient.h"
-#include "clinet.h"
 #include "cma_fec.h"
 #include "dialogs_g.h"
 #include "mapview_common.h"
@@ -765,7 +764,7 @@ void load_ruleset_specific_options(void)
   if (!section_file_load(&sf, name))
     return;
 
-  if (client.playing) {
+  if (NULL != client.conn.playing) {
     /* load global worklists */
     for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
       worklist_load(&sf, &client.worklists[i],
@@ -845,7 +844,7 @@ void save_options(void)
   save_settable_options(&sf);
 
   /* insert global worklists */
-  if (client.playing) {
+  if (NULL != client.conn.playing) {
     for(i = 0; i < MAX_NUM_WORKLISTS; i++){
       if (client.worklists[i].is_valid) {
 	worklist_save(&sf, &client.worklists[i], client.worklists[i].length,

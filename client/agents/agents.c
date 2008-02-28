@@ -26,7 +26,6 @@
 #include "timing.h"
 
 #include "civclient.h"
-#include "clinet.h"
 #include "cma_core.h"
 #include "cma_fec.h"
 #include "mapctrl_g.h"
@@ -305,17 +304,17 @@ static struct my_agent *find_agent_by_name(const char *agent_name)
 static bool is_outstanding_request(struct my_agent *agent)
 {
   if (agent->first_outstanding_request_id != 0 &&
-      aconnection.client.request_id_of_currently_handled_packet != 0 &&
+      client.conn.client.request_id_of_currently_handled_packet != 0 &&
       agent->first_outstanding_request_id <=
-      aconnection.client.request_id_of_currently_handled_packet &&
+      client.conn.client.request_id_of_currently_handled_packet &&
       agent->last_outstanding_request_id >=
-      aconnection.client.request_id_of_currently_handled_packet) {
+      client.conn.client.request_id_of_currently_handled_packet) {
     freelog(LOG_DEBUG,
 	    "A:%s: ignoring packet; outstanding [%d..%d] got=%d",
 	    agent->agent.name,
 	    agent->first_outstanding_request_id,
 	    agent->last_outstanding_request_id,
-	    aconnection.client.request_id_of_currently_handled_packet);
+	    client.conn.client.request_id_of_currently_handled_packet);
     return TRUE;
   }
   return FALSE;

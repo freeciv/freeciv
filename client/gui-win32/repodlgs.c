@@ -56,7 +56,7 @@ static int *categories;
 
 extern HINSTANCE freecivhinst;
 extern HWND root_window;
-extern struct connection aconnection;
+
 struct impr_type *economy_improvement_type[B_LAST];
 struct unit_type *activeunits_type[U_LAST];
 
@@ -96,9 +96,9 @@ science_dialog_update(void)
   ListBox_ResetContent(GetDlgItem(science_dlg, ID_SCIENCE_LIST));
 
   advance_index_iterate(A_FIRST, tech_id) {
-    if (TECH_KNOWN == player_invention_state(client.playing, tech_id)) {
+    if (TECH_KNOWN == player_invention_state(client.conn.playing, tech_id)) {
       id = ListBox_AddString(GetDlgItem(science_dlg, ID_SCIENCE_LIST),
-			     advance_name_for_player(client.playing, tech_id));
+			     advance_name_for_player(client.conn.playing, tech_id));
       ListBox_SetItemData(GetDlgItem(science_dlg,ID_SCIENCE_LIST), id,
 			  tech_id);
     }
@@ -106,9 +106,9 @@ science_dialog_update(void)
 
   ComboBox_ResetContent(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH));
 
-  if (A_UNSET == get_player_research(client.playing)->researching) {
+  if (A_UNSET == get_player_research(client.conn.playing)->researching) {
     id = ComboBox_AddString(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
-			    advance_name_for_player(client.playing, A_NONE));
+			    advance_name_for_player(client.conn.playing, A_NONE));
     ComboBox_SetItemData(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
 			 id, A_NONE);
     ComboBox_SetCurSel(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
@@ -116,32 +116,32 @@ science_dialog_update(void)
     text[0] = '\0';
   } else {
     my_snprintf(text, sizeof(text), "%d/%d",
-		get_player_research(client.playing)->bulbs_researched,
-		total_bulbs_required(client.playing));
+		get_player_research(client.conn.playing)->bulbs_researched,
+		total_bulbs_required(client.conn.playing));
   }
 
   SetWindowText(GetDlgItem(science_dlg, ID_SCIENCE_PROG), text);
 
-  if (!is_future_tech(get_player_research(client.playing)->researching)) {
+  if (!is_future_tech(get_player_research(client.conn.playing)->researching)) {
     advance_index_iterate(A_FIRST, tech_id) {
-      if (TECH_REACHABLE != player_invention_state(client.playing, tech_id)) {
+      if (TECH_REACHABLE != player_invention_state(client.conn.playing, tech_id)) {
 	continue;
       }
 
       id = ComboBox_AddString(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
-			      advance_name_for_player(client.playing, tech_id));
+			      advance_name_for_player(client.conn.playing, tech_id));
       ComboBox_SetItemData(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
 			   id, tech_id);
-      if (tech_id == get_player_research(client.playing)->researching) {
+      if (tech_id == get_player_research(client.conn.playing)->researching) {
 	ComboBox_SetCurSel(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
 			   id);
       }
     } advance_index_iterate_end;
   } else {
       tech_id = advance_count() + 1
-		+ get_player_research(client.playing)->future_tech;
+		+ get_player_research(client.conn.playing)->future_tech;
       id = ComboBox_AddString(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
-			      advance_name_for_player(client.playing, tech_id));
+			      advance_name_for_player(client.conn.playing, tech_id));
       ComboBox_SetItemData(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
 			   id, tech_id);
       ComboBox_SetCurSel(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
@@ -150,32 +150,32 @@ science_dialog_update(void)
   ComboBox_ResetContent(GetDlgItem(science_dlg,ID_SCIENCE_GOAL));
     hist=0;
   advance_index_iterate(A_FIRST, tech_id) {
-    if (player_invention_is_ready(client.playing, tech_id)
-        && TECH_KNOWN != player_invention_state(client.playing, tech_id)
-        && (11 > num_unknown_techs_for_goal(client.playing, tech_id)
-	    || tech_id == get_player_research(client.playing)->tech_goal)) {
+    if (player_invention_is_ready(client.conn.playing, tech_id)
+        && TECH_KNOWN != player_invention_state(client.conn.playing, tech_id)
+        && (11 > num_unknown_techs_for_goal(client.conn.playing, tech_id)
+	    || tech_id == get_player_research(client.conn.playing)->tech_goal)) {
       id = ComboBox_AddString(GetDlgItem(science_dlg,ID_SCIENCE_GOAL),
-			      advance_name_for_player(client.playing, tech_id));
+			      advance_name_for_player(client.conn.playing, tech_id));
        ComboBox_SetItemData(GetDlgItem(science_dlg,ID_SCIENCE_GOAL),
 			 id, tech_id);
-      if (tech_id == get_player_research(client.playing)->tech_goal)
+      if (tech_id == get_player_research(client.conn.playing)->tech_goal)
  	ComboBox_SetCurSel(GetDlgItem(science_dlg,ID_SCIENCE_GOAL),
  			   id);
        
      }
   } advance_index_iterate_end;
 
-  if (A_UNSET == get_player_research(client.playing)->tech_goal) {
+  if (A_UNSET == get_player_research(client.conn.playing)->tech_goal) {
     id = ComboBox_AddString(GetDlgItem(science_dlg, ID_SCIENCE_GOAL),
-			    advance_name_for_player(client.playing, A_NONE));
+			    advance_name_for_player(client.conn.playing, A_NONE));
     ComboBox_SetItemData(GetDlgItem(science_dlg, ID_SCIENCE_GOAL),
 			 id, A_NONE);
     ComboBox_SetCurSel(GetDlgItem(science_dlg, ID_SCIENCE_GOAL),
 		       id);
    }
 
-  steps = num_unknown_techs_for_goal(client.playing,
-                            get_player_research(client.playing)->tech_goal);
+  steps = num_unknown_techs_for_goal(client.conn.playing,
+                            get_player_research(client.conn.playing)->tech_goal);
   my_snprintf(text, sizeof(text),
 	      PL_("(%d step)", "(%d steps)", steps), steps);
   SetWindowText(GetDlgItem(science_dlg,ID_SCIENCE_STEPS),text);
@@ -215,7 +215,7 @@ static LONG CALLBACK science_proc(HWND hWnd,
 					HELP_TECH);
 		science_dialog_update();
 	      } else {
-		dsend_packet_player_research(&aconnection, to);
+		dsend_packet_player_research(&client.conn, to);
 	      }
 	    }
 	  }
@@ -228,12 +228,12 @@ static LONG CALLBACK science_proc(HWND hWnd,
 
 	      to = ComboBox_GetItemData(GetDlgItem(hWnd, ID_SCIENCE_GOAL),
 					to);
-	      steps = num_unknown_techs_for_goal(client.playing, to);
+	      steps = num_unknown_techs_for_goal(client.conn.playing, to);
 	      my_snprintf(text, sizeof(text), 
 	                  PL_("(%d step)", "(%d steps)", steps),
 			  steps);
 	      SetWindowText(GetDlgItem(hWnd,ID_SCIENCE_STEPS), text);
-	      dsend_packet_player_tech_goal(&aconnection, to);
+	      dsend_packet_player_tech_goal(&client.conn, to);
 	    }
 	  }
 	  break;
@@ -482,7 +482,7 @@ popup_economy_report_dialog(bool raise)
 *****************************************************************/
 static void upgrade_callback_yes(HWND w, void * data)
 {
-  dsend_packet_unit_type_upgrade(&aconnection, (size_t)data);
+  dsend_packet_unit_type_upgrade(&client.conn, (size_t)data);
   destroy_message_dialog(w);
 }
  
@@ -532,7 +532,7 @@ static LONG CALLBACK activeunits_proc(HWND hWnd,
     case WM_NOTIFY:
       if (sel>=0) {
 	CHECK_UNIT_TYPE(activeunits_type[sel]);
-	if (can_upgrade_unittype(client.playing,
+	if (can_upgrade_unittype(client.conn.playing,
 				 activeunits_type[sel]) != NULL) {
 	  EnableWindow(GetDlgItem(activeunits_dlg,ID_MILITARY_UPGRADE),
 		       TRUE);
@@ -560,14 +560,14 @@ static LONG CALLBACK activeunits_proc(HWND hWnd,
 
 	      ut1 = activeunits_type[sel];
 	      CHECK_UNIT_TYPE(ut1);
-	      ut2 = can_upgrade_unittype(client.playing, activeunits_type[sel]);
+	      ut2 = can_upgrade_unittype(client.conn.playing, activeunits_type[sel]);
 	      my_snprintf(buf, sizeof(buf),
 			  _("Upgrade as many %s to %s as possible for %d gold each?\n"
 			    "Treasury contains %d gold."),
 			  utype_name_translation(ut1),
 			  utype_name_translation(ut2),
-			  unit_upgrade_price(client.playing, ut1, ut2),
-			  client.playing->economic.gold);
+			  unit_upgrade_price(client.conn.playing, ut1, ut2),
+			  client.conn.playing->economic.gold);
 
 	      popup_message_dialog(NULL, 
 				   /*"upgradedialog"*/
@@ -619,7 +619,7 @@ activeunits_report_dialog_update(void)
 
     memset(unitarray, '\0', sizeof(unitarray));
 
-   city_list_iterate(client.playing->cities, pcity) {
+   city_list_iterate(client.conn.playing->cities, pcity) {
       int free_upkeep[O_COUNT];
 
       output_type_iterate(o) {
@@ -627,7 +627,7 @@ activeunits_report_dialog_update(void)
                                                EFT_UNIT_UPKEEP_FREE_PER_CITY);
       } output_type_iterate_end;
 
-      unit_list_iterate(client.playing->units, punit) {
+      unit_list_iterate(client.conn.playing->units, punit) {
         int upkeep_cost[O_COUNT];
         Unit_type_id uti = utype_index(unit_type(punit));
 
@@ -641,7 +641,7 @@ activeunits_report_dialog_update(void)
       } unit_list_iterate_end;
    } city_list_iterate_end;
 
-    city_list_iterate(client.playing->cities, pcity) {
+    city_list_iterate(client.conn.playing->cities, pcity) {
       if (VUT_UTYPE == pcity->production.kind) {
         struct unit_type *punittype = pcity->production.value.utype;
         (unitarray[utype_index(punittype)].building_count)++;
@@ -655,7 +655,7 @@ activeunits_report_dialog_update(void)
       int index = utype_index(putype);
       if ((unitarray[index].active_count > 0)
 	  || (unitarray[index].building_count > 0)) {
-        can = (can_upgrade_unittype(client.playing, putype) != NULL);
+        can = (can_upgrade_unittype(client.conn.playing, putype) != NULL);
         my_snprintf(buf[0], sizeof(buf[0]), "%s",
                     utype_name_translation(putype));
         my_snprintf(buf[1], sizeof(buf[1]), "%c", can ? '*': '-');

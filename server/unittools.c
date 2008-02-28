@@ -1399,9 +1399,9 @@ static void server_remove_unit(struct unit *punit)
   }
 
   conn_list_iterate(game.est_connections, pconn) {
-    if ((!pconn->player && pconn->observer)
-	|| (pconn->player 
-            && map_is_known_and_seen(ptile, pconn->player, V_MAIN))) {
+    if ((NULL == pconn->playing && pconn->observer)
+	|| (NULL != pconn->playing
+            && map_is_known_and_seen(ptile, pconn->playing, V_MAIN))) {
       /* FIXME: this sends the remove packet to all players, even those who
        * can't see the unit.  This potentially allows some limited cheating.
        * However fixing it requires changes elsewhere since sometimes the
@@ -1907,7 +1907,7 @@ void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
   package_short_unit(punit, &sinfo, UNIT_INFO_IDENTITY, FALSE, FALSE);
             
   conn_list_iterate(dest, pconn) {
-    struct player *pplayer = pconn->player;
+    struct player *pplayer = pconn->playing;
 
     /* Be careful to consider all cases where pplayer is NULL... */
     if ((!pplayer && pconn->observer) || pplayer == unit_owner(punit)) {
@@ -1959,10 +1959,12 @@ void send_all_known_units(struct conn_list *dest)
 {
   conn_list_do_buffer(dest);
   conn_list_iterate(dest, pconn) {
-    struct player *pplayer = pconn->player;
-    if (!pconn->player && !pconn->observer) {
+    struct player *pplayer = pconn->playing;
+
+    if (NULL == pplayer && !pconn->observer) {
       continue;
     }
+
     players_iterate(unitowner) {
       unit_list_iterate(unitowner->units, punit) {
 	if (!pplayer || can_player_see_unit(pplayer, punit)) {

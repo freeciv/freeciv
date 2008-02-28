@@ -418,7 +418,7 @@ void popup_impr_info(Impr_type_id impr)
   start_x = (area.x + 1 + scrollbar_width + pHelpDlg->pEndActiveWidgetList->size.w + adj_size(20));
 
   buffer[0] = '\0';
-  helptext_building(buffer, sizeof(buffer), client.playing, NULL, pImpr_type);
+  helptext_building(buffer, sizeof(buffer), client.conn.playing, NULL, pImpr_type);
   if (buffer[0] != '\0')
   {
     SDL_String16 *pStr = create_str16_from_char(buffer, adj_font(12));
@@ -837,7 +837,7 @@ void popup_unit_info(Unit_type_id type_id)
   start_x = (area.x + 1 + scrollbar_width + pHelpDlg->pActiveWidgetList->size.w + adj_size(20));
 
   buffer[0] = '\0';
-  helptext_unit(buffer, sizeof(buffer), client.playing, "", utype_by_number(type_id));
+  helptext_unit(buffer, sizeof(buffer), client.conn.playing, "", utype_by_number(type_id));
   if (buffer[0] != '\0') {
     SDL_String16 *pStr = create_str16_from_char(buffer, adj_font(12));
     convert_string_to_const_surface_width(pStr, adj_size(640) - start_x - adj_size(20));
@@ -1196,7 +1196,7 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
   } unit_type_iterate_end;
 
   buffer[0] = '\0';
-  helptext_advance(buffer, sizeof(buffer), client.playing, "", tech);
+  helptext_advance(buffer, sizeof(buffer), client.conn.playing, "", tech);
   if (buffer[0] != '\0')
   {
     SDL_String16 *pStr = create_str16_from_char(buffer, adj_font(12));

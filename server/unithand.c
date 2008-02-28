@@ -197,7 +197,7 @@ void handle_unit_upgrade(struct player *pplayer, int unit_id)
 ***************************************************************/
 void handle_unit_bribe_inq(struct connection *pc, int unit_id)
 {
-  struct player *pplayer = pc->player;
+  struct player *pplayer = pc->playing;
   struct unit *punit = game_find_unit_by_number(unit_id);
 
   if (NULL == punit) {
@@ -793,7 +793,7 @@ static void send_combat(struct unit *pattacker, struct unit *pdefender,
   /* Send combat info to non-player observers as well.  They already know
    * about the unit so no unit_info is needed. */
   conn_list_iterate(game.est_connections, pconn) {
-    if (!pconn->player && pconn->observer) {
+    if (NULL == pconn->playing && pconn->observer) {
       send_packet_unit_combat_info(pconn, &combat);
     }
   } conn_list_iterate_end;

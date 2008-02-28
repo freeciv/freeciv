@@ -40,7 +40,6 @@
 #include "unitlist.h"
 
 #include "civclient.h"
-#include "clinet.h"
 #include "control.h" /* get_unit_in_focus */
 #include "goto.h"
 
@@ -106,7 +105,7 @@ void popup_goto_dialog(void)
     return;
   }
 
-  no_player_cities = !(city_list_size(client.playing->cities));
+  no_player_cities = !(city_list_size(client.conn.playing->cities));
 
   original_tile = get_center_tile_mapcanvas();
   
@@ -222,13 +221,13 @@ void update_goto_dialog(Widget goto_list)
       ncities_total += city_list_size(pplayer->cities);
     } players_iterate_end;
   } else {
-    ncities_total = city_list_size(client.playing->cities);
+    ncities_total = city_list_size(client.conn.playing->cities);
   }
 
   city_name_ptrs=fc_malloc(ncities_total*sizeof(char*));
   
   players_iterate(pplayer) {
-    if (!all_cities && pplayer != client.playing) {
+    if (!all_cities && pplayer != client.conn.playing) {
       continue;
     }
     city_list_iterate(pplayer->cities, pcity) {

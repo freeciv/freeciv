@@ -31,7 +31,6 @@
 #include "unit.h"
 #include "unitlist.h"
 
-#include "clinet.h"
 #include "civclient.h"
 #include "control.h"
 #include "goto.h"
@@ -245,7 +244,7 @@ static void update_goto_dialog(GtkToggleButton *button)
   gtk_list_store_clear(store);
 
   players_iterate(pplayer) {
-    if (!all_cities && pplayer != client.playing) {
+    if (!all_cities && pplayer != client.conn.playing) {
       continue;
     }
 

@@ -28,7 +28,6 @@
 #include "choice_dialog.h"
 #include "civclient.h"
 #include "climisc.h"
-#include "clinet.h"
 #include "connectdlg_common.h"
 #include "control.h"
 #include "gui_main.h"
@@ -68,7 +67,7 @@ static void diplomat_bribe_callback(GtkWidget *w, gpointer data)
 {
   if (game_find_unit_by_number(diplomat_id)
    && game_find_unit_by_number(diplomat_target_id)) {
-    dsend_packet_unit_bribe_inq(&aconnection, diplomat_target_id);
+    dsend_packet_unit_bribe_inq(&client.conn, diplomat_target_id);
   }
   gtk_widget_destroy(diplomat_dialog);
 }
@@ -86,11 +85,11 @@ void popup_bribe_dialog(struct unit *punit)
                                  GTK_STOCK_OK, NULL, NULL, NULL);
     gtk_window_present(GTK_WINDOW(shell));
     return;
-  } else if (punit->bribe_cost <= client.playing->economic.gold) {
+  } else if (punit->bribe_cost <= client.conn.playing->economic.gold) {
     shell = gtk_message_dialog_new(NULL, 0,
       GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
       _("Bribe unit for %d gold?\nTreasury contains %d gold."),
-      punit->bribe_cost, client.playing->economic.gold);
+      punit->bribe_cost, client.conn.playing->economic.gold);
     gtk_window_set_title(GTK_WINDOW(shell), _("Bribe Enemy Unit"));
     setup_dialog(shell, toplevel);
   } else {
@@ -98,7 +97,7 @@ void popup_bribe_dialog(struct unit *punit)
       0,
       GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
       _("Bribing the unit costs %d gold.\nTreasury contains %d gold."),
-      punit->bribe_cost, client.playing->economic.gold);
+      punit->bribe_cost, client.conn.playing->economic.gold);
     gtk_window_set_title(GTK_WINDOW(shell), _("Traitors Demand Too Much!"));
     setup_dialog(shell, toplevel);
   }
@@ -280,7 +279,7 @@ static void create_advances_list(struct player *pplayer,
 
 	g_value_init(&value, G_TYPE_STRING);
 	g_value_set_static_string(&value,
-				  advance_name_for_player(client.playing, i));
+				  advance_name_for_player(client.conn.playing, i));
 	gtk_list_store_set_value(store, &it, 0, &value);
 	g_value_unset(&value);
 	gtk_list_store_set(store, &it, 1, i, -1);
@@ -459,7 +458,7 @@ has happened to the city during latency.  Therefore we must initialize
 pvictim to NULL and account for !pvictim in create_advances_list. -- Syela */
   
   if(!spy_tech_shell){
-    create_advances_list(client.playing, pvictim);
+    create_advances_list(client.conn.playing, pvictim);
     gtk_window_present(GTK_WINDOW(spy_tech_shell));
   }
   gtk_widget_destroy(diplomat_dialog);
@@ -486,7 +485,7 @@ static void spy_request_sabotage_list(GtkWidget *w, gpointer data)
 void popup_sabotage_dialog(struct city *pcity)
 {
   if(!spy_sabotage_shell){
-    create_improvements_list(client.playing, pcity);
+    create_improvements_list(client.conn.playing, pcity);
     gtk_window_present(GTK_WINDOW(spy_sabotage_shell));
   }
 }
@@ -498,7 +497,7 @@ static void diplomat_incite_callback(GtkWidget *w, gpointer data)
 {
   if (game_find_unit_by_number(diplomat_id)
    && game_find_city_by_number(diplomat_target_id)) {
-    dsend_packet_city_incite_inq(&aconnection, diplomat_target_id);
+    dsend_packet_city_incite_inq(&client.conn, diplomat_target_id);
   }
   gtk_widget_destroy(diplomat_dialog);
 }
@@ -530,12 +529,12 @@ void popup_incite_dialog(struct city *pcity)
       city_name(pcity));
     gtk_window_set_title(GTK_WINDOW(shell), _("City can't be incited!"));
   setup_dialog(shell, toplevel);
-  } else if (pcity->incite_revolt_cost <= client.playing->economic.gold) {
+  } else if (pcity->incite_revolt_cost <= client.conn.playing->economic.gold) {
     shell = gtk_message_dialog_new(NULL,
       0,
       GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
       _("Incite a revolt for %d gold?\nTreasury contains %d gold."),
-      pcity->incite_revolt_cost, client.playing->economic.gold);
+      pcity->incite_revolt_cost, client.conn.playing->economic.gold);
     gtk_window_set_title(GTK_WINDOW(shell), _("Incite a Revolt!"));
     setup_dialog(shell, toplevel);
   } else {
@@ -543,7 +542,7 @@ void popup_incite_dialog(struct city *pcity)
       0,
       GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
       _("Inciting a revolt costs %d gold.\nTreasury contains %d gold."),
-      pcity->incite_revolt_cost, client.playing->economic.gold);
+      pcity->incite_revolt_cost, client.conn.playing->economic.gold);
     gtk_window_set_title(GTK_WINDOW(shell), _("Traitors Demand Too Much!"));
     setup_dialog(shell, toplevel);
   }

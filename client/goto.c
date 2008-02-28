@@ -28,7 +28,6 @@
 #include "unitlist.h"
 
 #include "civclient.h"
-#include "clinet.h"
 #include "control.h"
 #include "mapview_g.h"
 
@@ -952,7 +951,7 @@ void request_orders_cleared(struct unit *punit)
   p.length = 0;
   p.dest_x = punit->tile->x;
   p.dest_y = punit->tile->y;
-  send_packet_unit_orders(&aconnection, &p);
+  send_packet_unit_orders(&client.conn, &p);
 }
 
 /**************************************************************************
@@ -1014,7 +1013,7 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
   p.dest_x = old_tile->x;
   p.dest_y = old_tile->y;
 
-  send_packet_unit_orders(&aconnection, &p);
+  send_packet_unit_orders(&client.conn, &p);
 }
 
 /**************************************************************************
@@ -1181,7 +1180,7 @@ void send_connect_route(enum unit_activity activity)
     p.dest_x = old_tile->x;
     p.dest_y = old_tile->y;
 
-    send_packet_unit_orders(&aconnection, &p);
+    send_packet_unit_orders(&client.conn, &p);
   } goto_map_unit_iterate_end;
 }
 

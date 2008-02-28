@@ -46,9 +46,10 @@ Freeciv - Copyright (C) 2004 - The Freeciv Project
 #include "rand.h"
 #include "registry.h"
 #include "support.h"
+
 #include "civclient.h"
 #include "climisc.h"
-#include "clinet.h"
+#include "clinet.h"		/* connect_to_server() */
 #include "packhand_gen.h"
 
 #include "chatline_common.h"
@@ -130,7 +131,7 @@ bool can_client_access_hack(void)
 void client_kill_server(bool force)
 {
   if (is_server_running()) {
-    if (aconnection.used) {
+    if (client.conn.used) {
       /* This does a "soft" shutdown of the server by sending a /quit.
        *
        * This is useful when closing the client or disconnecting because it
@@ -346,7 +347,7 @@ bool client_start_server(void)
 
   /* weird, but could happen, if server doesn't support new startup stuff
    * capabilities won't help us here... */ 
-  if (!aconnection.used) {
+  if (!client.conn.used) {
     /* possible that server is still running. kill it */ 
     client_kill_server(TRUE);
 
@@ -452,7 +453,7 @@ void send_client_wants_hack(const char *filename)
     section_file_free(&file);
 
     /* tell the server what we put into the file */ 
-    send_packet_single_want_hack_req(&aconnection, &req);
+    send_packet_single_want_hack_req(&client.conn, &req);
   }
 }
 

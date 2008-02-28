@@ -233,7 +233,7 @@ void update_start_page(void)
       j++;
     } players_iterate_end;
     conn_list_iterate(game.est_connections, pconn) {
-      if (pconn->player && !pconn->observer) {
+      if (NULL != pconn->playing && !pconn->observer) {
 	continue; /* Already listed above. */
       }
       name = pconn->username;
@@ -273,8 +273,8 @@ void start_page_cancel_callback(Widget w, XtPointer client_data,
 void start_page_nation_callback(Widget w, XtPointer client_data,
 				XtPointer call_data)
 {
-  if (client.playing) {
-    popup_races_dialog(client.playing);
+  if (NULL != client.conn.playing) {
+    popup_races_dialog(client.conn.playing);
   }
 }
 

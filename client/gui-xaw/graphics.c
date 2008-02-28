@@ -604,7 +604,7 @@ Pixmap create_overlay_unit(const struct unit_type *punittype)
 
   /* If we're using flags, put one on the tile */
   if(!solid_color_behind_units)  {
-    struct sprite *flag = get_nation_flag_sprite(tileset, nation_of_player(client.playing));
+    struct sprite *flag = get_nation_flag_sprite(tileset, nation_of_player(client.conn.playing));
 
     XSetClipOrigin(display, civ_gc, 0,0);
     XSetClipMask(display, civ_gc, flag->mask);
