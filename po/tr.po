@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-02-03 09:41-0500\n"
-"PO-Revision-Date: 2008-01-30 09:32+0200\n"
+"PO-Revision-Date: 2008-03-02 19:23+0200\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <yerellestirme@kde.org.tr>\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Poedit-Language: Turkish\n"
 "X-Poedit-Country: TURKEY\n"
 "X-Poedit-Bookmarks: 3893,2189,-1,-1,-1,-1,-1,-1,-1,-1\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: LoKalize 0.2\n"
 
 #: common/city.c:56 client/gui-gtk-2.0/repodlgs.c:963
 #: client/gui-win32/repodlgs.c:715
@@ -172,7 +172,7 @@ msgstr "Üretim değişti"
 #: common/events.c:66 common/events.c:67 common/events.c:68 common/events.c:69
 #: common/events.c:70 common/events.c:71
 msgid "Civ"
-msgstr ""
+msgstr "Uyg"
 
 #: common/events.c:62
 msgid "Barbarian Uprising"
@@ -941,14 +941,13 @@ msgstr "Aralık"
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: common/version.c:102
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "THIS IS A BETA VERSION\n"
 "Freeciv %s will be released in %s, at %s"
 msgstr ""
 "BU BİR BETA SÜRÜMÜDÜR\n"
-"Freeciv %s çıkış tarihi: %s\n"
-"Adres: %s"
+"Freeciv %s çıkış tarihi: %s, adres: %s"
 
 #: common/version.c:121
 msgid "'Cause civilization should be free!"
@@ -1122,9 +1121,9 @@ msgstr "MS %d"
 
 #. TRANS: <FREECIV_PATH> configuration error
 #: utility/shared.c:869
-#, fuzzy, c-format
+#, c-format
 msgid "\"%s\" is set but empty; using default \"%s\" instead."
-msgstr "FREECIV_PATH atanmış ama boş; bunun yerine öntanımlı yol kullanılacak."
+msgstr "\"%s\" atanmış ama boş; bunun yerine öntanımlı \"%s\" kullanılacak."
 
 #. TRANS: "...: <externally translated error string>."
 #: utility/shared.c:974
@@ -1134,9 +1133,9 @@ msgstr "Veri dizini okunamadı %s: %s."
 
 #. TRANS: <FREECIV_PATH> configuration error
 #: utility/shared.c:1227
-#, fuzzy, c-format
+#, c-format
 msgid "The data path may be set via the \"%s\" environment variable."
-msgstr "Veri yolu FREECIV_PATH ortam değişkeniyle belirlenebilir."
+msgstr "Veri yolu \"%s\" ortam değişkeniyle belirlenebilir."
 
 #: utility/shared.c:1230
 #, c-format
@@ -1582,9 +1581,9 @@ msgid "This server allows only preregistered users. Sorry."
 msgstr "Üzgünüm, bu sunucuya sade önceden kayıt yaptıranlar girebilir."
 
 #: server/auth.c:433
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Only preregistered users allowed."
-msgstr "%s reddedildi: Sadece önceden kayıt yaptıranlar izinli."
+msgstr "%s reddedildi: Sadece önceden kayıt yaptıranlara izin veriliyor."
 
 #: server/auth.c:461 server/auth.c:519
 msgid "Sorry, too many wrong tries..."
@@ -1776,9 +1775,9 @@ msgid "You have founded %s."
 msgstr "%s şehrini kurdunuz."
 
 #: server/citytools.c:1138
-#, fuzzy, c-format
+#, c-format
 msgid "Moved %s out of disbanded city %s since it cannot stay on %s."
-msgstr "%s, karaya oturmasın diye, terk edilen %s şehrinden taşındı."
+msgstr "%s, %s üzerinde duramadığı için, terk edilen %s şehrinden taşındı."
 
 #: server/citytools.c:1150
 #, c-format
@@ -1995,22 +1994,22 @@ msgstr ""
 "Erteleniyor..."
 
 #: server/cityturn.c:868
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; only AI of level %s may build this.  "
 "Postponing..."
 msgstr ""
-"%s iş listesindeki %s yapısını inşa edemiyor; sadece %s bunu yapabilir.  "
+"%s, iş listesindeki %s yapısını inşa edemiyor; sadece %s YZ bunu yapabilir.  "
 "Erteleniyor..."
 
 #: server/cityturn.c:881
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; %s terrain class is required.  "
 "Postponing..."
 msgstr ""
-"%s iş listesindeki %s yapısını inşa edemiyor; %s arazi gerekli.  "
-"Erteleniyor..."
+"%s iş listesindeki %s yapısını inşa edemiyor; %s arazi gerekli.  Erteleniyor."
+".."
 
 #: server/cityturn.c:916
 #, c-format
@@ -2092,12 +2091,12 @@ msgstr "%s civarında kirlilik görüldü."
 #: server/cityturn.c:1570
 #, c-format
 msgid "Celebrations in your honour in %s."
-msgstr ""
+msgstr "%s şehrinde sizin onurunuza kutlama yapıldı."
 
 #: server/cityturn.c:1576
-#, fuzzy, c-format
+#, c-format
 msgid "Celebrations canceled in %s."
-msgstr "En Büyük %s Bizimkidir Bayramı %s şehrinde iptal edildi."
+msgstr "%s şehrindeki kutlama iptal edildi."
 
 #: server/cityturn.c:1605
 #, c-format
@@ -2132,7 +2131,7 @@ msgstr "%s şehri terkedildi ve %s oluştu."
 
 #: server/civserver.c:79
 msgid "Setting timeout to 0. Autogame will stop.\n"
-msgstr ""
+msgstr "Zaman aşımı 0'a ayarlandı. Oto-oyun duracak.\n"
 
 #: server/civserver.c:83
 msgid "You must interrupt Freeciv twice within one second to make it exit.\n"
@@ -2267,9 +2266,9 @@ msgstr "  -v, --version\t\tSürüm numarasını yazdır\n"
 #: server/civserver.c:257 client/gui-gtk-2.0/gui_main.c:353
 #: client/gui-sdl/gui_main.c:211 client/gui-xaw/gui_main.c:248
 #: manual/civmanual.c:376
-#, fuzzy, c-format
+#, c-format
 msgid "Report bugs at %s\n"
-msgstr "Hataları %s adresine bildiriniz.\n"
+msgstr "Hataları %s adresine bildiriniz\n"
 
 #: server/commands.c:37
 msgid "Start the game, or restart after loading a savegame."
@@ -2764,16 +2763,16 @@ msgstr ""
 
 #. TRANS: translate text between <> only
 #: server/commands.c:278
-#, fuzzy
 msgid ""
 "cheating\n"
 "cheating <player-name>"
-msgstr "create <oyuncu-adı>"
+msgstr ""
+"cheating\n"
+"cheating <oyuncu-adı>"
 
 #: server/commands.c:280
-#, fuzzy
 msgid "Set one or all AI players to 'cheating'."
-msgstr "Bir ya da tüm YZ oyuncularını 'kolay' seviyesine ayarla."
+msgstr "Bir ya da tüm YZ oyuncularını 'hileli' seviyesine ayarla."
 
 #: server/commands.c:281
 #, fuzzy
@@ -11720,29 +11719,24 @@ msgstr "De_vrim..."
 #: client/gui-gtk-2.0/menu.c:750 client/gui-gtk-2.0/menu.c:752
 #: client/gui-gtk-2.0/menu.c:754 client/gui-gtk-2.0/menu.c:756
 #: client/gui-gtk-2.0/menu.c:758 client/gui-gtk-2.0/menu.c:760
-#, fuzzy
 msgid "_Options"
-msgstr "Tercihler"
+msgstr "_Seçenekler"
 
 #: client/gui-gtk-2.0/menu.c:752
-#, fuzzy
 msgid "_Local Client"
-msgstr "Yerel Ayarlar"
+msgstr "_Yerel İstemci"
 
 #: client/gui-gtk-2.0/menu.c:754
-#, fuzzy
 msgid "_Message"
-msgstr "_Mesajlar"
+msgstr "İ_leti"
 
 #: client/gui-gtk-2.0/menu.c:756
-#, fuzzy
 msgid "_Remote Server"
-msgstr "Sunucu"
+msgstr "_Uzaktaki Sunucu"
 
 #: client/gui-gtk-2.0/menu.c:758
-#, fuzzy
 msgid "Save Options _Now"
-msgstr "_Ayarları Kaydet"
+msgstr "Seçenekleri Ş_imdi Kaydet"
 
 #: client/gui-gtk-2.0/menu.c:760
 msgid "Save Options on _Exit"
@@ -11773,9 +11767,8 @@ msgstr "Çı_k"
 #: client/gui-gtk-2.0/menu.c:791 client/gui-gtk-2.0/menu.c:794
 #: client/gui-gtk-2.0/menu.c:796 client/gui-gtk-2.0/menu.c:798
 #: client/gui-gtk-2.0/menu.c:800 client/gui-win32/menu.c:322
-#, fuzzy
 msgid "_Edit"
-msgstr "Düzenle"
+msgstr "_Düzenle"
 
 #: client/gui-gtk-2.0/menu.c:787 client/gui-win32/menu.c:325
 msgid "_Find City"
@@ -11787,7 +11780,7 @@ msgstr "İş _Listeleri"
 
 #: client/gui-gtk-2.0/menu.c:794
 msgid "Editing _Mode"
-msgstr ""
+msgstr "Düzenleme _Modu"
 
 #: client/gui-gtk-2.0/menu.c:796
 msgid "Editing _Tools"
@@ -12050,9 +12043,8 @@ msgid "Select same type"
 msgstr "Aynı türdekileri seç"
 
 #: client/gui-gtk-2.0/menu.c:936
-#, fuzzy
 msgid "Select same type in tile"
-msgstr "Aynı türdekileri seç"
+msgstr "Bu arazide aynı türdekileri seç"
 
 #: client/gui-gtk-2.0/menu.c:938 client/gui-win32/menu.c:394
 msgid "_Wait"
@@ -12331,14 +12323,12 @@ msgid "_Toggle AI Mode"
 msgstr "_YZ Modunu Değiştir"
 
 #: client/gui-gtk-2.0/plrdlg.c:528
-#, fuzzy
 msgid "_Editor"
-msgstr "Düzenle"
+msgstr "_Düzenleyici"
 
 #: client/gui-gtk-2.0/plrdlg.c:536
-#, fuzzy
 msgid "_Edit Nation..."
-msgstr "Şehir Ayarları..."
+msgstr "_Ulusu Düzenle..."
 
 #: client/gui-gtk-2.0/pages.c:208
 msgid "Start _New Game"
@@ -26982,3 +26972,4 @@ msgstr "Takım 31"
 
 #~ msgid "Trying \"%s\" theme."
 #~ msgstr "\"%s\" teması deneniyor."
+
