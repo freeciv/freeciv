@@ -3619,7 +3619,7 @@ static int fill_city_overlays_sprite_array(const struct tileset *t,
   }
 
   if (pcity && city_base_to_city_map(&city_x, &city_y, pcity, ptile)) {
-//    enum city_tile_type ctt = city_map_status(pcity, city_x, city_y);
+    /* FIXME: check elsewhere for valid tile (instead of above) */
 
     if (!citymode && pcity->client.colored) {
       /* Add citymap overlay for a city. */

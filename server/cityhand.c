@@ -111,16 +111,18 @@ void handle_city_make_specialist(struct player *pplayer, int city_id,
 
   if (!is_valid_city_coords(worker_x, worker_y)) {
     freelog(LOG_ERROR,
-            "handle_city_make_specialist() invalid city map {%d,%d}.",
-            worker_x, worker_y);
+            "handle_city_make_specialist() invalid city map {%d,%d} \"%s\".",
+            worker_x, worker_y,
+            city_name(pcity));
     return;
   }
   pcenter = city_tile(pcity);
 
   if (NULL == (ptile = city_map_to_tile(pcenter, worker_x, worker_y))) {
     freelog(LOG_ERROR,
-            "handle_city_make_specialist() unavailable city map {%d,%d}.",
-            worker_x, worker_y);
+            "handle_city_make_specialist() unavailable city map {%d,%d} \"%s\".",
+            worker_x, worker_y,
+            city_name(pcity));
     return;
   }
 
@@ -136,8 +138,10 @@ void handle_city_make_specialist(struct player *pplayer, int city_id,
     city_refresh(pcity);
     sync_cities();
   } else {
-    notify_player(pplayer, pcenter, E_BAD_COMMAND,
-		  _("You don't have a worker here.")); 
+    freelog(LOG_VERBOSE,
+            "handle_city_make_specialist() not working {%d,%d} \"%s\".",
+            worker_x, worker_y,
+            city_name(pcity));
   }
 
   sanity_check_city(pcity);
@@ -162,16 +166,18 @@ void handle_city_make_worker(struct player *pplayer, int city_id,
 
   if (!is_valid_city_coords(worker_x, worker_y)) {
     freelog(LOG_ERROR,
-            "handle_city_make_worker() invalid city map {%d,%d}.",
-            worker_x, worker_y);
+            "handle_city_make_worker() invalid city map {%d,%d} \"%s\".",
+            worker_x, worker_y,
+            city_name(pcity));
     return;
   }
   pcenter = city_tile(pcity);
 
   if (NULL == (ptile = city_map_to_tile(pcenter, worker_x, worker_y))) {
     freelog(LOG_ERROR,
-            "handle_city_make_worker() unavailable city map {%d,%d}.",
-            worker_x, worker_y);
+            "handle_city_make_worker() unavailable city map {%d,%d} \"%s\".",
+            worker_x, worker_y,
+            city_name(pcity));
     return;
   }
 
@@ -182,14 +188,26 @@ void handle_city_make_worker(struct player *pplayer, int city_id,
   }
 
   if (tile_worked(ptile) == pcity) {
+    freelog(LOG_VERBOSE,
+            "handle_city_make_worker() already working {%d,%d} \"%s\".",
+            worker_x, worker_y,
+            city_name(pcity));
     return;
   }
 
   if (0 == city_specialists(pcity)) {
+    freelog(LOG_VERBOSE,
+            "handle_city_make_worker() no specialists {%d,%d} \"%s\".",
+            worker_x, worker_y,
+            city_name(pcity));
     return;
   }
 
   if (!city_can_work_tile(pcity, ptile)) {
+    freelog(LOG_VERBOSE,
+            "handle_city_make_worker() cannot work here {%d,%d} \"%s\".",
+            worker_x, worker_y,
+            city_name(pcity));
     return;
   }
 
@@ -363,7 +381,7 @@ void handle_city_refresh(struct player *pplayer, int city_id)
     city_refresh(pcity);
     send_city_info(pplayer, pcity);
   } else {
-    global_city_refresh(pplayer);
+    city_refresh_for_player(pplayer);
   }
 }
 

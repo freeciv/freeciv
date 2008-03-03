@@ -958,7 +958,6 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 void create_city(struct player *pplayer, struct tile *ptile,
 		 const char *name)
 {
-  int x_itr, y_itr;
   struct nation_type *nation = nation_of_player(pplayer);
   struct player *saved_owner = tile_owner(ptile);
   struct base_type *pbase = tile_get_base(ptile);
@@ -998,6 +997,16 @@ void create_city(struct player *pplayer, struct tile *ptile,
     }
   }
 
+  /* it is possible to build a city on a tile that is already worked
+   * this will displace the worker on the newly-built city's tile -- Syela */
+  city_tile_iterate_cxy(ptile, it, x, y) {
+    if (city_can_work_tile(pcity, it)) {
+      pcity->city_map[x][y] = C_TILE_EMPTY;
+    } else {
+      pcity->city_map[x][y] = C_TILE_UNAVAILABLE;
+    }
+  } city_tile_iterate_cxy_end;
+
   /* Claim the ground we stand on */
   tile_set_worked(ptile, pcity); /* partly redundant to city_map_update_adjacent() */
   tile_set_owner(ptile, saved_owner);
@@ -1027,19 +1036,6 @@ void create_city(struct player *pplayer, struct tile *ptile,
    * those cases.  The network code may prevent a second packet from being
    * sent anyway. */
   send_tile_info(NULL, ptile, FALSE);
-
-  /* it is possible to build a city on a tile that is already worked
-   * this will displace the worker on the newly-built city's tile -- Syela */
-  for (y_itr = 0; y_itr < CITY_MAP_SIZE; y_itr++) {
-    for (x_itr = 0; x_itr < CITY_MAP_SIZE; x_itr++) {
-      if (is_valid_city_coords(x_itr, y_itr)
-	  && city_can_work_tile(pcity, city_map_to_tile(ptile, x_itr, y_itr))) {
-	pcity->city_map[x_itr][y_itr] = C_TILE_EMPTY;
-      } else {
-	pcity->city_map[x_itr][y_itr] = C_TILE_UNAVAILABLE;
-      }
-    }
-  }
 
   /* Place a worker at the is_city_center() is_free_worked().
    * This must be done before the city refresh (below) so that the city
@@ -1423,16 +1419,17 @@ static void package_dumb_city(struct player* pplayer, struct tile *ptile,
 
   packet->size = pdcity->size;
 
-  packet->occupied = pdcity->occupied;
-  packet->walls = pdcity->walls;
-  packet->happy = pdcity->happy;
-  packet->unhappy = pdcity->unhappy;
-
   if (pcity && player_has_traderoute_with_city(pplayer, pcity)) {
     packet->tile_trade = pcity->citizen_base[O_TRADE];
   } else {
     packet->tile_trade = 0;
   }
+
+  packet->occupied = pdcity->occupied;
+  packet->walls = pdcity->walls;
+
+  packet->happy = pdcity->happy;
+  packet->unhappy = pdcity->unhappy;
 
   packet->improvements = pdcity->improvements;
 }
@@ -1645,7 +1642,7 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
 void package_city(struct city *pcity, struct packet_city_info *packet,
 		  bool dipl_invest)
 {
-  int x, y, i;
+  int i;
 
   packet->id=pcity->id;
   packet->owner = player_number(city_owner(pcity));
@@ -1707,11 +1704,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   packet->did_sell = pcity->did_sell;
   packet->was_happy = pcity->was_happy;
 
-  for (y = 0; y < CITY_MAP_SIZE; y++) {
-    for (x = 0; x < CITY_MAP_SIZE; x++) {
-      packet->city_map[x + y * CITY_MAP_SIZE] = city_map_status(pcity, x, y);
-    }
-  }
+  packet->walls = city_got_citywalls(pcity);
 
   BV_CLR_ALL(packet->improvements);
   improvement_iterate(pimprove) {
@@ -1719,8 +1712,6 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
       BV_SET(packet->improvements, improvement_index(pimprove));
     }
   } improvement_iterate_end;
-
-  packet->walls = city_got_citywalls(pcity);
 }
 
 /**************************************************************************
@@ -1979,6 +1970,43 @@ void change_build_target(struct player *pplayer, struct city *pcity,
 }
 
 /**************************************************************************
+  Return the tile status of the city_map for the given coordinates.
+**************************************************************************/
+enum city_tile_type city_map_status(const struct city *pcity,
+                                    int city_x, int city_y)
+{
+  if (!is_valid_city_coords(city_x, city_y)) {
+    return C_TILE_UNUSABLE;
+  }
+
+  return pcity->city_map[city_x][city_y];
+}
+
+/**************************************************************************
+  Update the city_map.  Also updates worked in the main_map.
+**************************************************************************/
+void city_map_update(struct city *pcity, struct tile *ptile, int city_x,
+		     int city_y, enum city_tile_type type)
+{
+  if (NULL != ptile) {
+    if (pcity->city_map[city_x][city_y] == C_TILE_WORKER
+	&& tile_worked(ptile) == pcity) {
+      tile_set_worked(ptile, NULL);
+    }
+    if (type == C_TILE_WORKER) {
+      /* No assert to check that nobody else is working this tile.
+       * City creation relies on claiming tile to new city first,
+       * and freeing it from another city only later. */
+      tile_set_worked(ptile, pcity);
+    }
+    send_tile_info(NULL, ptile, FALSE);
+  } else {
+    assert(C_TILE_UNUSABLE == type);
+  }
+  pcity->city_map[city_x][city_y] = type;
+}
+
+/**************************************************************************
   Updates city map and tile map status, and affects adjacent cities.
   city_x, city_y is in city map coords.
   Call sync_cities() for the affected cities to be synced with the client.
@@ -2045,7 +2073,7 @@ static void city_map_update_tile_cxy(struct city *pcity, struct tile *ptile,
 {
   bool is_available = city_can_work_tile(pcity, ptile);
 
-  switch (city_map_status(pcity, city_x, city_y)) {
+  switch (pcity->city_map[city_x][city_y]) {
   case C_TILE_WORKER:
     if (!is_available) {
       city_map_update_adjacent(pcity, ptile, city_x, city_y, C_TILE_UNAVAILABLE);
@@ -2070,7 +2098,14 @@ static void city_map_update_tile_cxy(struct city *pcity, struct tile *ptile,
       city_map_update_adjacent(pcity, ptile, city_x, city_y, C_TILE_UNAVAILABLE);
     }
     break;
-  }
+
+  case C_TILE_UNUSABLE:
+  default:
+    freelog(LOG_FATAL, "city_map_update_tile_cxy()"
+            " called with invalid city_map");
+    assert((int)((char *)NULL)[0]);
+    break;
+  };
 }
 
 /****************************************************************************

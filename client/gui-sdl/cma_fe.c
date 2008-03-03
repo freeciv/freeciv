@@ -690,7 +690,7 @@ void update_city_cma_dialog(void)
   redraw_group(pBuf->prev, pBuf, 0);
   		  
   /* fill in result label */
-  cm_copy_result_from_city(pCma->pCity, &result);
+  cm_result_from_main_map(&result, pCma->pCity, TRUE);
   
   if(result.found_a_valid) {
     /* redraw resources */

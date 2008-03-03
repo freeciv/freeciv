@@ -331,7 +331,7 @@ const char *cmafec_get_result_descr(struct city *pcity,
     } output_type_iterate_end;
 
     my_snprintf(buf[6], BUFFER_SIZE, "%d/%s%s",
-		pcity->size - cm_count_specialist(pcity, result),
+		pcity->size - cm_result_specialists(result),
 		specialists_string(result->specialists),
 		result->happy ? _(" happy") : "");
 

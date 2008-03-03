@@ -90,7 +90,7 @@ static void nullify_caravan_and_disband_plus(struct city *pcity);
 **************************************************************************/
 void city_refresh(struct city *pcity)
 {
-   generic_city_refresh(pcity, TRUE);
+   city_refresh_from_main_map(pcity, TRUE);
    /* AI would calculate this 1000 times otherwise; better to do it
       once -- Syela */
    pcity->ai.trade_want
@@ -101,7 +101,7 @@ void city_refresh(struct city *pcity)
 ...
 called on government change or wonder completion or stuff like that -- Syela
 **************************************************************************/
-void global_city_refresh(struct player *pplayer)
+void city_refresh_for_player(struct player *pplayer)
 {
   conn_list_do_buffer(pplayer->connections);
   city_list_iterate(pplayer->cities, pcity)
@@ -177,14 +177,22 @@ void apply_cmresult_to_city(struct city *pcity, struct cm_result *cmr)
         city_map_update_empty(pcity, ptile, x, y);
       }
       break;
+
     case C_TILE_EMPTY:
       if (cmr->worker_positions_used[x][y]) {
         city_map_update_worker(pcity, ptile, x, y);
       }
       break;
+
     case C_TILE_UNAVAILABLE:
-    default:
       /* do nothing */
+      break;
+
+    case C_TILE_UNUSABLE:
+    default:
+      freelog(LOG_FATAL, "apply_cmresult_to_city()"
+              " called with invalid city_map");
+      assert((int)((char *)NULL)[0]);
       break;
     };
   } city_tile_iterate_cxy_end;

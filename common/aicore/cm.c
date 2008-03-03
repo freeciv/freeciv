@@ -69,17 +69,6 @@
 
 
 /****************************************************************************
- Probably these declarations should be in cm.h in the long term.
-*****************************************************************************/
-struct cm_state;
-
-static struct cm_state *cm_init_state(struct city *pcity);
-static void cm_free_state(struct cm_state *state);
-static void cm_find_best_solution(struct cm_state *state,
-		     const struct cm_parameter *const parameter,
-		     struct cm_result *result);
-
-/****************************************************************************
  defines, structs, globals, forward declarations
 *****************************************************************************/
 
@@ -602,10 +591,11 @@ static void copy_partial_solution(struct partial_solution *dst,
 **************************************************************************/
 
 /****************************************************************************
-  Apply the solution to the city.
+  Apply the solution to the city_map[].
 
-  Note this function writes directly into the city's citymap, unlike most
-  other code which uses accessor functions.
+  Note: this function writes directly into the city_map[], unlike most
+  other code that uses accessor functions.  The city_map[] is merely a
+  scratch pad, and not applied here to the main map tiles.
 ****************************************************************************/
 static void apply_solution(struct cm_state *state,
                            const struct partial_solution *soln)
@@ -625,7 +615,7 @@ static void apply_solution(struct cm_state *state,
   memset(&pcity->specialists, 0, sizeof(pcity->specialists));
 
   city_map_iterate(x, y) {
-    if (is_free_worked_here(x, y)) {
+    if (is_free_worked_cxy(x, y)) {
       continue;
     }
 
@@ -665,7 +655,7 @@ static void apply_solution(struct cm_state *state,
   }
 
   /* Finally we must refresh the city to reset all the precomputed fields. */
-  generic_city_refresh(pcity, FALSE);
+  city_refresh_from_main_map(pcity, FALSE); /* from city_map[] instead */
   assert(sumworkers == pcity->size);
 }
 
@@ -728,7 +718,7 @@ static void convert_solution_to_result(struct cm_state *state,
   /* make a backup, apply and evaluate the solution, and restore */
   memcpy(&backup, state->pcity, sizeof(backup));
   apply_solution(state, soln);
-  cm_copy_result_from_city(state->pcity, result);
+  cm_result_from_main_map(result, state->pcity, FALSE);
   memcpy(state->pcity, &backup, sizeof(backup));
 
   /* result->found_a_valid should be only true if it matches the
@@ -1102,9 +1092,13 @@ static void sort_lattice_by_fitness(const struct cm_state *state,
 }
 
 /****************************************************************************
-  Create the lattice.
+  Create the lattice and update related city_map[].
+
+  Note: this function writes directly into the city_map[], unlike most
+  other code that uses accessor functions.  The city_map[] is merely a
+  scratch pad, and not assumed to accurately reflect main map tiles.
 ****************************************************************************/
-static void init_tile_lattice(const struct city *pcity,
+static void init_tile_lattice(struct city *pcity,
 			      struct tile_type_vector *lattice)
 {
   struct cm_tile_type type;
@@ -1115,11 +1109,19 @@ static void init_tile_lattice(const struct city *pcity,
 
   city_tile_iterate_cxy(pcenter, ptile, x, y) {
     if (is_free_worked(pcity, ptile)) {
+      pcity->city_map[x][y] = C_TILE_WORKER;
       continue;
     }
 
-    if (pcity->city_map[x][y] == C_TILE_UNAVAILABLE) {
+    if (!city_can_work_tile(pcity, ptile)) {
+      pcity->city_map[x][y] = C_TILE_UNAVAILABLE;
       continue;
+    }
+
+    if (tile_worked(ptile) == pcity) {
+      pcity->city_map[x][y] = C_TILE_WORKER;
+    } else {
+      pcity->city_map[x][y] = C_TILE_EMPTY;
     }
 
     compute_tile_production(pcity, ptile, &type); /* clobbers type */
@@ -1520,9 +1522,6 @@ static void init_min_production(struct cm_state *state)
   struct tile *pcenter = city_tile(pcity);
   bool is_celebrating = base_city_celebrating(pcity);
 
-  /* We used to call generic_city_refresh here, but that's no longer
-   * necessary since it's called at the start of cm_query_result. */
-
   memset(state->min_production, 0, sizeof(state->min_production));
   output_type_iterate(o) {
     /* Calculate minimum output.  This assumes no waste.  Pruning
@@ -1655,7 +1654,7 @@ static bool bb_next(struct cm_state *state)
 /****************************************************************************
   Initialize the state for the branch-and-bound algorithm.
 ****************************************************************************/
-struct cm_state *cm_init_state(struct city *pcity)
+static struct cm_state *cm_init_state(struct city *pcity)
 {
   int numtypes;
   struct cm_state *state = fc_malloc(sizeof(*state));
@@ -1740,7 +1739,7 @@ static void end_search(struct cm_state *state)
 /****************************************************************************
   Release all the memory allocated by the state.
 ****************************************************************************/
-void cm_free_state(struct cm_state *state)
+static void cm_free_state(struct cm_state *state)
 {
   tile_type_vector_free_all(&state->lattice);
   output_type_iterate(stat) {
@@ -1756,9 +1755,10 @@ void cm_free_state(struct cm_state *state)
 /****************************************************************************
   Run B&B until we find the best solution.
 ****************************************************************************/
-void cm_find_best_solution(struct cm_state *state,
-		      const struct cm_parameter *const parameter,
-		     struct cm_result *result) {
+static void cm_find_best_solution(struct cm_state *state,
+                                  const struct cm_parameter *const parameter,
+                                  struct cm_result *result)
+{
 #ifdef GATHER_TIME_STATS
   performance.current = &performance.opt;
 #endif
@@ -1789,7 +1789,7 @@ void cm_query_result(struct city *pcity,
   /* Refresh the city.  Otherwise the CM can give wrong results or just be
    * slower than necessary.  Note that cities are often passed in in an
    * unrefreshed state (which should probably be fixed). */
-  generic_city_refresh(pcity, TRUE);
+  city_refresh_from_main_map(pcity, TRUE);
 
   cm_find_best_solution(state, param, result);
   cm_free_state(state);
@@ -1868,15 +1868,14 @@ void cm_init_emergency_parameter(struct cm_parameter *dest)
 }
 
 /****************************************************************************
-  cm_result routines.
+  Count the total number of workers in the result.
 ****************************************************************************/
-int cm_count_worker(const struct city * pcity,
-		    const struct cm_result *result)
+int cm_result_workers(const struct cm_result *result)
 {
   int count = 0;
 
   city_map_iterate(x, y) {
-    if (is_free_worked_here(x, y)) {
+    if (is_free_worked_cxy(x, y)) {
       continue;
     }
 
@@ -1891,8 +1890,7 @@ int cm_count_worker(const struct city * pcity,
 /****************************************************************************
   Count the total number of specialists in the result.
 ****************************************************************************/
-int cm_count_specialist(const struct city *pcity,
-			const struct cm_result *result)
+int cm_result_specialists(const struct cm_result *result)
 {
   int count = 0;
 
@@ -1904,28 +1902,35 @@ int cm_count_specialist(const struct city *pcity,
 }
 
 /****************************************************************************
+  Count the total number of citizens in the result.
+****************************************************************************/
+int cm_result_citizens(const struct cm_result *result)
+{
+  return cm_result_workers(result) + cm_result_specialists(result);
+}
+
+/****************************************************************************
   Copy the city's current setup into the cm result structure.
 ****************************************************************************/
-void cm_copy_result_from_city(const struct city *pcity,
-			      struct cm_result *result)
+void cm_result_from_main_map(struct cm_result *result,
+                             const struct city *pcity, bool main_map)
 {
-#ifdef FIXME_FUTURE
   struct tile *pcenter = city_tile(pcity);
 
-  city_tile_iterate_cxy(pcenter, ptile, x, y) {
-    struct city *pwork = tile_worked(ptile);
+  memset(result->worker_positions_used, 0,
+	 sizeof(result->worker_positions_used));
 
-    /* use the actual worker, formerly used the city_map[] {was} */
-    result->worker_positions_used[x][y] =
-      (NULL != pwork && pwork == pcity);
+  city_tile_iterate_cxy(pcenter, ptile, x, y) {
+    if (main_map) {
+      struct city *pwork = tile_worked(ptile);
+
+      result->worker_positions_used[x][y] =
+        (NULL != pwork && pwork == pcity);
+    } else {
+      result->worker_positions_used[x][y] =
+        (C_TILE_WORKER == pcity->city_map[x][y]);
+    }
   } city_tile_iterate_cxy_end;
-#else
-  /* copy the map of where workers are */
-  city_map_iterate(x, y) {
-    result->worker_positions_used[x][y] =
-      (pcity->city_map[x][y] == C_TILE_WORKER);
-  } city_map_iterate_end;
-#endif
 
   /* copy the specialist counts */
   specialist_type_iterate(spec) {
@@ -2052,22 +2057,29 @@ static void print_performance(struct one_perf *counts)
 #endif
 
 /****************************************************************************
-  Print debugging inormation about one city.
+  Print debugging information about one city.
 ****************************************************************************/
 void cm_print_city(const struct city *pcity)
 {
   struct tile *pcenter = city_tile(pcity);
 
-  freelog(LOG_TEST, "print_city(city='%s'(id=%d))",
-          city_name(pcity), pcity->id);
+  freelog(LOG_TEST, "cm_print_city(city %d=\"%s\")",
+          pcity->id,
+          city_name(pcity));
   freelog(LOG_TEST,
 	  "  size=%d, specialists=%s",
 	  pcity->size, specialists_string(pcity->specialists));
 
   freelog(LOG_TEST, "  workers at:");
-  city_tile_iterate_cxy(pcenter, unused, x, y) {
+  city_tile_iterate_cxy(pcenter, ptile, x, y) {
+    struct city *pwork = tile_worked(ptile);
+
+    if (NULL != pwork && pwork == pcity) {
+      freelog(LOG_TEST, "    {%2d,%2d} (%4d,%4d)", x, y, TILE_XY(ptile));
+    }
+
     if (pcity->city_map[x][y] == C_TILE_WORKER) {
-      freelog(LOG_TEST, "    (%2d,%2d)", x, y);
+      freelog(LOG_TEST, "    {%2d,%2d}", x, y);
     }
   } city_tile_iterate_cxy_end;
 
@@ -2085,25 +2097,23 @@ void cm_print_city(const struct city *pcity)
 
 
 /****************************************************************************
-  Print debugging inormation about a full CM result.
+  Print debugging information about a full CM result.
 ****************************************************************************/
-void cm_print_result(const struct city *pcity,
-		     const struct cm_result *result)
+void cm_print_result(const struct cm_result *result)
 {
-  int y, worker = cm_count_worker(pcity, result);
-  struct tile *pcenter = city_tile(pcity);
+  int y;
+  int workers = cm_result_workers(result);
 
-  freelog(LOG_TEST, "print_result(result=%p)", (void *)result);
-  freelog(LOG_TEST,
-      "print_result:  found_a_valid=%d disorder=%d happy=%d",
+  freelog(LOG_TEST, "cm_print_result(result=%p)", (void *)result);
+  freelog(LOG_TEST, "  found_a_valid=%d disorder=%d happy=%d",
       result->found_a_valid, result->disorder, result->happy);
 
-  freelog(LOG_TEST, "print_result:  workers at:");
-  city_tile_iterate_cxy(pcenter, unused, x, y) {
+  freelog(LOG_TEST, "  workers at:");
+  city_map_iterate(x, y) {
     if (result->worker_positions_used[x][y]) {
-      freelog(LOG_TEST, "print_result:    (%2d,%2d)", x, y);
+      freelog(LOG_TEST, "    {%2d,%2d}", x, y);
     }
-  } city_tile_iterate_cxy_end;
+  } city_map_iterate_end;
 
   for (y = 0; y < CITY_MAP_SIZE; y++) {
     char line[CITY_MAP_SIZE + 1];
@@ -2114,22 +2124,22 @@ void cm_print_result(const struct city *pcity,
     for (x = 0; x < CITY_MAP_SIZE; x++) {
       if (!is_valid_city_coords(x, y)) {
         line[x] = '-';
-      } else if (is_free_worked_here(x, y)) {
-        line[x] = 'c';
+      } else if (is_free_worked_cxy(x, y)) {
+        line[x] = '+';
       } else if (result->worker_positions_used[x][y]) {
         line[x] = 'w';
       } else {
         line[x] = '.';
       }
     }
-    freelog(LOG_TEST, "print_result: %s", line);
+    freelog(LOG_TEST, "  %s", line);
   }
-  freelog(LOG_TEST,
-      "print_result:  people: (workers/specialists) %d/%s",
-      worker, specialists_string(result->specialists));
+  freelog(LOG_TEST, "  (workers/specialists) %d/%s",
+          workers,
+          specialists_string(result->specialists));
 
   output_type_iterate(i) {
-    freelog(LOG_TEST, "print_result:  %10s surplus=%d",
+    freelog(LOG_TEST, "  %10s surplus=%d",
         get_output_name(i), result->surplus[i]);
   } output_type_iterate_end;
 }

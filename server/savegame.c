@@ -2489,13 +2489,18 @@ static void player_load_cities(struct player *plr, int plrno,
     }
 
     for(y=0; y<CITY_MAP_SIZE; y++) {
-      struct tile *ptile = NULL;
       struct city *pwork = NULL;
 
       for(x=0; x<CITY_MAP_SIZE; x++) {
+        struct tile *ptile = NULL;
         bool valid = is_valid_city_coords(x, y);
 
-	pcity->city_map[x][y] = valid ? C_TILE_EMPTY : C_TILE_UNAVAILABLE;
+	if (!valid
+	   || NULL == (ptile = city_map_to_tile(pcenter, x, y))) {
+	  pcity->city_map[x][y] = C_TILE_UNUSABLE;
+	} else {
+	  pcity->city_map[x][y] = C_TILE_EMPTY;
+	}
 
 	switch (*p) {
 	case '\0':
@@ -2503,24 +2508,30 @@ static void player_load_cities(struct player *plr, int plrno,
 	  continue;
 
 	case S_TILE_EMPTY:
-	  if (!valid) {
+	  if (NULL == ptile) {
 	    freelog(LOG_WORKER, "player%d.c%d.workers"
 		    " {%d,%d} '%c' not valid for (%d,%d) \"%s\"[%d], ignoring",
 		    plrno, i,
 		    x, y, *p,
 		    TILE_XY(pcenter), city_name(pcity), pcity->size);
+	  } else if (NULL != (pwork = tile_worked(ptile))) {
+	    freelog(LOG_WORKER, "player%d.c%d.workers"
+		    " {%d,%d} '%c' conflict for (%d,%d) \"%s\"[%d]"
+		    " with (%d,%d) \"%s\"[%d],"
+		    " converting to unavailable",
+		    plrno, i,
+		    x, y, *p,
+		    TILE_XY(pcenter), city_name(pcity), pcity->size,
+		    TILE_XY(city_tile(pwork)), city_name(pwork), pwork->size);
+	    city_map_update(pcity, ptile, x, y, C_TILE_UNAVAILABLE);
 	  } else {
-	    struct tile *ptile = city_map_to_tile(pcenter, x, y);
-
-	    city_map_update(pcity, ptile, x, y,
-			    (NULL != ptile)
-			    ? C_TILE_EMPTY : C_TILE_UNAVAILABLE);
+	    /* should already be empty, but resolve conflicts */
+	    city_map_update(pcity, ptile, x, y, C_TILE_EMPTY);
 	  }
 	  break;
 
 	case S_TILE_WORKER:
-	  if (!valid
-	   || NULL == (ptile = city_map_to_tile(pcenter, x, y))) {
+	  if (NULL == ptile) {
 	    freelog(LOG_WORKER, "player%d.c%d.workers"
 		    " {%d,%d} '%c' not valid for (%d,%d) \"%s\"[%d], ignoring",
 		    plrno, i,
@@ -2534,7 +2545,7 @@ static void player_load_cities(struct player *plr, int plrno,
 		    plrno, i,
 		    x, y, *p,
 		    TILE_XY(pcenter), city_name(pcity), pcity->size,
-		    TILE_XY(pwork->tile), city_name(pwork), pwork->size);
+		    TILE_XY(city_tile(pwork)), city_name(pwork), pwork->size);
 	    city_map_update(pcity, ptile, x, y, C_TILE_UNAVAILABLE);
 	    pcity->specialists[DEFAULT_SPECIALIST]++;
 	    citizens++;
@@ -2545,11 +2556,25 @@ static void player_load_cities(struct player *plr, int plrno,
 	  break;
 
 	case S_TILE_UNAVAILABLE:
-	  if (valid
-	   && NULL != (ptile = city_map_to_tile(pcenter, x, y))) {
+	  if (NULL == ptile) {
+	    /* before 2.2.0 same as C_TILE_UNUSABLE */
+	  } else {
 	    city_map_update(pcity, ptile, x, y, C_TILE_UNAVAILABLE);
 	  }
-	  assert(pcity->city_map[x][y] == C_TILE_UNAVAILABLE);
+	  break;
+
+	case S_TILE_UNKNOWN:
+	  if (NULL == ptile) {
+	    /* already set C_TILE_UNUSABLE */
+	  } else {
+	    freelog(LOG_WORKER, "player%d.c%d.workers"
+		    " {%d,%d} '%c' not valid for (%d,%d) \"%s\"[%d],"
+		    " converting to unavailable",
+		    plrno, i,
+		    x, y, *p,
+		    TILE_XY(pcenter), city_name(pcity), pcity->size);
+	    city_map_update(pcity, ptile, x, y, C_TILE_UNAVAILABLE);
+	  }
 	  break;
 
 	default:
@@ -3423,12 +3448,16 @@ static void player_save_cities(struct player *plr, int plrno,
 	case C_TILE_UNAVAILABLE:
 	  citymap_buf[j++] = S_TILE_UNAVAILABLE;
 	  break;
+	case C_TILE_UNUSABLE:
+	  citymap_buf[j++] = S_TILE_UNKNOWN;
+	  break;
 	default:
 	  citymap_buf[j++] = S_TILE_UNKNOWN;
 	  freelog(LOG_WORKER, "player%d.c%d.workers"
-		  " {%d,%d} '%c' not valid for (%d,%d) \"%s\"[%d], ignoring",
+		  " {%d,%d} %d not valid for (%d,%d) \"%s\"[%d],"
+		  " converting to unknown",
 		  plrno, i,
-		  x, y, S_TILE_UNKNOWN,
+		  x, y, city_map_status(pcity, x, y),
 		  TILE_XY(pcenter), city_name(pcity), pcity->size);
 	  break;
 	}
@@ -3724,6 +3753,7 @@ static void repair_city_worker(struct city *pcity)
 		TILE_XY(pcenter), city_name(pcity), pcity->size);
       }
       break;
+
     case C_TILE_WORKER:
       if (!res) {
 	city_map_update(pcity, ptile, x, y, C_TILE_UNAVAILABLE);
@@ -3750,6 +3780,7 @@ static void repair_city_worker(struct city *pcity)
 	} city_tile_iterate_end;
       }
       break;
+
     case C_TILE_UNAVAILABLE:
       if (res) {
 	city_map_update(pcity, ptile, x, y, C_TILE_EMPTY);
@@ -3761,7 +3792,16 @@ static void repair_city_worker(struct city *pcity)
 		TILE_XY(pcenter), city_name(pcity), pcity->size);
       }
       break;
-    }
+
+    default:
+      freelog(LOG_ERROR, "repair_city_worker()"
+              " {%d,%d} bad city tile value %d"
+              " for (%d,%d) \"%s\"[%d]",
+              x, y,
+              pcity->city_map[x][y],
+              TILE_XY(pcenter), city_name(pcity), pcity->size);
+      break;
+    };
   } city_tile_iterate_cxy_end;
 
   city_refresh(pcity);
@@ -4336,7 +4376,7 @@ void game_load(struct section_file *file)
      * loaded (in player_load) but before player (dumb) cities are loaded
      * in player_load_vision(). */
     cities_iterate(pcity) {
-      generic_city_refresh(pcity, TRUE);
+      city_refresh_from_main_map(pcity, TRUE);
     } cities_iterate_end;
 
     /* Since the cities must be placed on the map to put them on the

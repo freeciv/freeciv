@@ -28,9 +28,10 @@ enum production_class_type {
 };
 
 enum city_tile_type {
+  C_TILE_UNUSABLE = 0,		/* memset(), calloc(), and debugging */
+  C_TILE_UNAVAILABLE,
   C_TILE_EMPTY,
   C_TILE_WORKER,
-  C_TILE_UNAVAILABLE,
 };
 
 /* Various city options.  These are stored by the server and can be
@@ -492,11 +493,6 @@ bool city_tile_to_city_map(int *city_map_x, int *city_map_y,
 struct tile *city_map_to_tile(const struct tile *city_center,
 			      int city_map_x, int city_map_y);
 
-void city_map_update(struct city *pcity, struct tile *ptile, int city_x,
-		     int city_y, enum city_tile_type type);
-enum city_tile_type city_map_status(const struct city *pcity, int city_x,
-				    int city_y);
-
 /* Initialization functions */
 int compare_iter_index(const void *a, const void *b);
 void generate_city_map_indices(void);
@@ -563,7 +559,7 @@ void city_remove_improvement(struct city *pcity,
 			     const struct impr_type *pimprove);
 
 /* city update functions */
-void generic_city_refresh(struct city *pcity, bool full_refresh);
+void city_refresh_from_main_map(struct city *pcity, bool full_refresh);
 
 int city_waste(const struct city *pcity, Output_type_id otype, int total);
 int city_specialists(const struct city *pcity);                 /* elv+tax+scie */
@@ -618,7 +614,7 @@ int city_pollution(const struct city *pcity, int shield_total);
 
 #define is_city_center(_city, _tile) (_city->tile == _tile)
 #define is_free_worked(_city, _tile) (_city->tile == _tile)
-#define is_free_worked_here(city_x, city_y) \
+#define is_free_worked_cxy(city_x, city_y) \
 	(CITY_MAP_RADIUS == city_x && CITY_MAP_RADIUS == city_y)
 #define FREE_WORKED_TILES (1)
 
