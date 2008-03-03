@@ -50,12 +50,10 @@ struct cm_result {
   int specialists[SP_MAX];
 };
 
+
 void cm_init(void);
 void cm_init_citymap(void);
 
-/*
- * ...
- */
 void cm_free(void);
 
 /*
@@ -82,12 +80,12 @@ void cm_init_parameter(struct cm_parameter *dest);
 void cm_init_emergency_parameter(struct cm_parameter *dest);
 
 void cm_print_city(const struct city *pcity);
-void cm_print_result(const struct city *pcity,
-		     const struct cm_result *result);
-int cm_count_worker(const struct city * pcity,
-		    const struct cm_result *result);
-int cm_count_specialist(const struct city *pcity,
-			const struct cm_result *result);
-void cm_copy_result_from_city(const struct city *pcity,
-			      struct cm_result *result);
+void cm_print_result(const struct cm_result *result);
+
+int cm_result_citizens(const struct cm_result *result);
+int cm_result_specialists(const struct cm_result *result);
+int cm_result_workers(const struct cm_result *result);
+
+void cm_result_from_main_map(struct cm_result *result,
+                             const struct city *pcity, bool main_map);
 #endif

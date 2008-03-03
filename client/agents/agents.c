@@ -602,10 +602,10 @@ void agents_city_changed(struct city *pcity)
 {
   int i;
 
-  freelog(LOG_DEBUG, "A: agents_city_changed(city='%s'(%d)) owner=%s",
-	  city_name(pcity),
+  freelog(LOG_DEBUG, "A: agents_city_changed(city %d=\"%s\") owner=%s",
 	  pcity->id,
-	  player_name(city_owner(pcity)));
+	  city_name(pcity),
+	  nation_rule_name(nation_of_city(pcity)));
 
   for (i = 0; i < agents.entries_used; i++) {
     struct my_agent *agent = &agents.entries[i];
@@ -630,9 +630,11 @@ void agents_city_new(struct city *pcity)
   int i;
 
   freelog(LOG_DEBUG,
-	  "A: agents_city_new(city='%s'(%d)) pos=(%d,%d) owner=%s",
-	  city_name(pcity), pcity->id, TILE_XY(pcity->tile),
-	  player_name(city_owner(pcity)));
+	  "A: agents_city_new(city %d=\"%s\") pos=(%d,%d) owner=%s",
+	  pcity->id,
+	  city_name(pcity),
+	  TILE_XY(pcity->tile),
+	  nation_rule_name(nation_of_city(pcity)));
 
   for (i = 0; i < agents.entries_used; i++) {
     struct my_agent *agent = &agents.entries[i];
@@ -657,9 +659,11 @@ void agents_city_remove(struct city *pcity)
   int i;
 
   freelog(LOG_DEBUG,
-	  "A: agents_city_remove(city='%s'(%d)) pos=(%d,%d) owner=%s",
-	  city_name(pcity), pcity->id, TILE_XY(pcity->tile),
-	  player_name(city_owner(pcity)));
+	  "A: agents_city_remove(city %d=\"%s\") pos=(%d,%d) owner=%s",
+	  pcity->id,
+	  city_name(pcity),
+	  TILE_XY(pcity->tile),
+	  nation_rule_name(nation_of_city(pcity)));
 
   for (i = 0; i < agents.entries_used; i++) {
     struct my_agent *agent = &agents.entries[i];

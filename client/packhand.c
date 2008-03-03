@@ -624,13 +624,14 @@ void handle_city_info(struct packet_city_info *packet)
 #endif
 
   copy_worklist(&pcity->worklist, &packet->worklist);
+
+  pcity->airlift = packet->airlift;
   pcity->did_buy=packet->did_buy;
   pcity->did_sell=packet->did_sell;
   pcity->was_happy=packet->was_happy;
-  pcity->airlift=packet->airlift;
 
-  pcity->turn_last_built=packet->turn_last_built;
   pcity->turn_founded = packet->turn_founded;
+  pcity->turn_last_built = packet->turn_last_built;
   
   if (packet->changed_from_kind < VUT_NONE || packet->changed_from_kind >= VUT_LAST) {
     freelog(LOG_ERROR, "handle_city_info() bad changed_from_kind %d.",
@@ -652,22 +653,6 @@ void handle_city_info(struct packet_city_info *packet)
   pcity->caravan_shields=packet->caravan_shields;
   pcity->last_turns_shield_surplus = packet->last_turns_shield_surplus;
 
-  for (i = 0; i < CITY_MAP_SIZE * CITY_MAP_SIZE; i++) {
-    const int x = i % CITY_MAP_SIZE, y = i / CITY_MAP_SIZE;
-
-    if (city_is_new) {
-      /* Need to pre-initialize before city_map_update()  -- dwp */
-      pcity->city_map[x][y] =
-	is_valid_city_coords(x, y) ? C_TILE_EMPTY : C_TILE_UNAVAILABLE;
-    }
-
-    if (is_valid_city_coords(x, y)) {
-      ptile = city_map_to_tile(pcenter, x, y);
-
-      city_map_update(pcity, ptile, x, y, packet->city_map[i]);
-    }
-  }
-
   improvement_iterate(pimprove) {
     bool have = BV_ISSET(packet->improvements, improvement_index(pimprove));
     if (have  &&  !city_is_new
@@ -686,6 +671,8 @@ void handle_city_info(struct packet_city_info *packet)
       = (unit_list_size(pcity->tile->units) > 0);
   }
 
+  pcity->client.walls = packet->walls;
+
   pcity->client.happy = city_happy(pcity);
   pcity->client.unhappy = city_unhappy(pcity);
 
@@ -699,8 +686,6 @@ void handle_city_info(struct packet_city_info *packet)
   } else {
     agents_city_changed(pcity);
   }
-
-  pcity->client.walls = packet->walls;
 
   city_packet_common(pcity, pcenter, powner, city_is_new, popup,
                      packet->diplomat_investigate);
@@ -750,8 +735,6 @@ static void city_packet_common(struct city *pcity, struct tile *pcenter,
     pcity->info_units_supported = unit_list_new();
     pcity->info_units_present = unit_list_new();
 
-    /* redundant to city_map_update() in handle_city_info(),
-     * but needed for handle_city_short_info() */
     tile_set_worked(pcenter, pcity); /* is_free_worked() */
     city_list_prepend(powner->cities, pcity);
 
@@ -901,6 +884,8 @@ void handle_city_short_info(struct packet_city_short_info *packet)
   /* We can't actually see the internals of the city, but the server tells
    * us this much. */
   pcity->client.occupied = packet->occupied;
+  pcity->client.walls = packet->walls;
+
   pcity->client.happy = packet->happy;
   pcity->client.unhappy = packet->unhappy;
 
@@ -919,6 +904,7 @@ void handle_city_short_info(struct packet_city_short_info *packet)
     update_improvement_from_packet(pcity, pimprove, have);
   } improvement_iterate_end;
 
+#ifdef DONE_BY_create_city_virtual
   /* This sets dumb values for everything else. This is not really required,
      but just want to be at the safe side. */
   {
@@ -943,21 +929,14 @@ void handle_city_short_info(struct packet_city_short_info *packet)
     pcity->did_buy            = FALSE;
     pcity->did_sell           = FALSE;
     pcity->was_happy          = FALSE;
-
-    for (y = 0; y < CITY_MAP_SIZE; y++) {
-      for (x = 0; x < CITY_MAP_SIZE; x++) {
-	pcity->city_map[x][y] = C_TILE_EMPTY;
-      }
-    }
   } /* Dumb values */
+#endif
 
   if (city_is_new && !city_has_changed_owner) {
     agents_city_new(pcity);
   } else {
     agents_city_changed(pcity);
   }
-
-  pcity->client.walls = packet->walls;
 
   city_packet_common(pcity, pcenter, powner, city_is_new, FALSE, FALSE);
 

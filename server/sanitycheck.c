@@ -285,7 +285,7 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
     struct tile *ptile = city_map_to_tile(pcenter, x, y);
 
     if (NULL == ptile) {
-      SANITY_CITY(pcity, city_map_status(pcity, x, y) == C_TILE_UNAVAILABLE);
+      SANITY_CITY(pcity, city_map_status(pcity, x, y) == C_TILE_UNUSABLE);
     } else {
       struct player *owner = tile_owner(ptile);
       struct city *pwork = tile_worked(ptile);
@@ -376,7 +376,17 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
 		  is_city_center(pcity, ptile) ? "{city center}" : "");
 	}
 	break;
-      }
+
+      case C_TILE_UNUSABLE:
+      default:
+	SANITY_("(%4d,%4d) marked as unusable (%d)? "
+		"\"%s\"[%d]%s"),
+		pcity->city_map[x][y],
+		TILE_XY(ptile),
+		city_name(pcity), pcity->size,
+		is_city_center(pcity, ptile) ? "{city center}" : "");
+        break;
+      };
     }
   } city_map_iterate_end;
 
@@ -391,7 +401,7 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
             city_name(pcity), pcity->size);
 
     city_repair_size(pcity, delta);
-    generic_city_refresh(pcity, TRUE);
+    city_refresh_from_main_map(pcity, TRUE);
   }
 }
 

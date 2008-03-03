@@ -212,10 +212,9 @@ void handle_player_rates(struct player *pplayer,
     pplayer->economic.tax = tax;
     pplayer->economic.luxury = luxury;
     pplayer->economic.science = science;
-    conn_list_do_buffer(pplayer->connections);
-    global_city_refresh(pplayer);
+
+    city_refresh_for_player(pplayer);
     send_player_info(pplayer, pplayer);
-    conn_list_do_unbuffer(pplayer->connections);
   }
 }
 
@@ -268,7 +267,7 @@ static void finish_revolution(struct player *pplayer)
   }
 
   check_player_government_rates(pplayer);
-  global_city_refresh(pplayer);
+  city_refresh_for_player(pplayer);
   send_player_info(pplayer, pplayer);
 }
 
@@ -347,7 +346,7 @@ void handle_player_change_government(struct player *pplayer, int government)
   }
 
   check_player_government_rates(pplayer);
-  global_city_refresh(pplayer);
+  city_refresh_for_player(pplayer);
   send_player_info(pplayer, pplayer);
 
   freelog(LOG_DEBUG,

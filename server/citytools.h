@@ -83,6 +83,11 @@ char *city_name_suggestion(struct player *pplayer, struct tile *ptile);
 void city_freeze_workers(struct city *pcity);
 void city_thaw_workers(struct city *pcity);
 
+/* city map functions */
+enum city_tile_type city_map_status(const struct city *pcity, int city_x,
+				    int city_y);
+void city_map_update(struct city *pcity, struct tile *ptile, int city_x,
+		     int city_y, enum city_tile_type type);
 void city_map_update_empty(struct city *pcity, struct tile *ptile,
 			   int city_x, int city_y);
 void city_map_update_worker(struct city *pcity, struct tile *ptile,
