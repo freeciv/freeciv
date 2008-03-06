@@ -4,7 +4,7 @@ name=_("Uruguayan")
 plural=_("?plural:Uruguayans")
 groups="Modern", "American"
 legend=_("Uruguay, a small South American country sometimes referred to as\
- \"Switzerland of the Americas\" due to its once higly developed social\
+ \"Switzerland of the Americas\" due to its once highly developed social\
  welfare system.")
 leader=
  "José Artigas",
