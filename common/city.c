@@ -1320,7 +1320,7 @@ int city_change_production_penalty(const struct city *pcity,
 
   switch (target.kind) {
   case VUT_IMPROVEMENT:
-    if (is_wonder(pcity->changed_from.value.building)) {
+    if (is_wonder(target.value.building)) {
       new_class = PCT_WONDER;
     } else {
       new_class = PCT_NORMAL_IMPROVEMENT;
