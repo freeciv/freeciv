@@ -26486,7 +26486,7 @@ msgstr "Уругвайц╕"
 #: data/nation/uruguayan.ruleset:6
 msgid ""
 "Uruguay, a small South American country sometimes referred to as "
-"\"Switzerland of the Americas\" due to its once higly developed social "
+"\"Switzerland of the Americas\" due to its once highly developed social "
 "welfare system."
 msgstr ""
 "Уругвай, маленька держава у п╕вденн╕й Америц╕, ╕нод╕ назива╓ться "

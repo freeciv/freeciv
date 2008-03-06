@@ -2008,8 +2008,8 @@ msgid ""
 "%s can't build %s from the worklist; %s terrain class is required.  "
 "Postponing..."
 msgstr ""
-"%s iş listesindeki %s yapısını inşa edemiyor; %s arazi gerekli.  Erteleniyor."
-".."
+"%s iş listesindeki %s yapısını inşa edemiyor; %s arazi gerekli.  "
+"Erteleniyor..."
 
 #: server/cityturn.c:916
 #, c-format
@@ -25976,7 +25976,7 @@ msgstr "Bulgarlar"
 #: data/nation/uruguayan.ruleset:6
 msgid ""
 "Uruguay, a small South American country sometimes referred to as "
-"\"Switzerland of the Americas\" due to its once higly developed social "
+"\"Switzerland of the Americas\" due to its once highly developed social "
 "welfare system."
 msgstr ""
 
@@ -26972,4 +26972,3 @@ msgstr "Takım 31"
 
 #~ msgid "Trying \"%s\" theme."
 #~ msgstr "\"%s\" teması deneniyor."
-

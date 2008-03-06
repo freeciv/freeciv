@@ -28208,7 +28208,7 @@ msgstr "ウルグアイ人"
 #: data/nation/uruguayan.ruleset:6
 msgid ""
 "Uruguay, a small South American country sometimes referred to as "
-"\"Switzerland of the Americas\" due to its once higly developed social "
+"\"Switzerland of the Americas\" due to its once highly developed social "
 "welfare system."
 msgstr ""
 "南米の小国であるウルグアイは，かつて非常に発達した社会福祉制度を有していたの"
