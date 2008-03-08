@@ -16,14 +16,10 @@
 
 BUILDDIR=`dirname $0`
 
-# Use cd + pwd instead of manual concatentation in case of absolute paths
-BUILDDATA=$(cd $BUILDDIR/data ; pwd)
-SRCDATA=$(cd $BUILDDIR ; cd @top_srcdir@/data ; pwd)
-
 if [ "x$FREECIV_PATH" = "x" ] ; then
   FREECIV_PATH=".:data:~/.freeciv"
 fi
-export FREECIV_PATH="$FREECIV_PATH:$BUILDDATA:$SRCDATA"
+export FREECIV_PATH="$FREECIV_PATH:@abs_top_builddir@/data:@abs_top_srcdir@/data"
 
 [ -x $BUILDDIR/server/civserver ] && EXE=$BUILDDIR/server/civserver
 [ -x $BUILDDIR/civserver ] && EXE=$BUILDDIR/civserver
