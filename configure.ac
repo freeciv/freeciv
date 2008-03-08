@@ -331,15 +331,13 @@ else
   AC_SUBST([POFILES])
 fi
 
-EXTRA_GCC_DEBUG_CFLAGS=""
-EXTRA_GCC_DEBUG_CXXFLAGS=""
-
-if test -n "$GCC"; then
-   EXTRA_GCC_DEBUG_CFLAGS="$CFLAGS"
-   EXTRA_GCC_DEBUG_CXXFLAGS="$CXXFLAGS"
-   CFLAGS="-Wall -Wpointer-arith -Wcast-align -Wmissing-prototypes -Wmissing-declarations"
-   CXXFLAGS="-Wall -Wpointer-arith -Wcast-align"
-fi
+dnl Set debug flags supported by compiler
+EXTRA_DEBUG_CFLAGS=""
+EXTRA_DEBUG_CXXFLAGS=""
+FC_C_FLAGS([-Wall -Wpointer-arith -Wcast-align -Wmissing-prototypes -Wmissing-declarations],
+ [], [EXTRA_DEBUG_CFLAGS])
+FC_CXX_FLAGS([-Wall -Wpointer-arith -Wcast-align],
+ [], [EXTRA_DEBUG_CXXFLAGS])
 
 FC_DEBUG
 AC_C99_VARIADIC_MACROS
@@ -768,10 +766,8 @@ AC_CONFIG_COMMANDS([fc_default-5],[[if test x`uname -s` = xBeOS ; then
      fi
    fi]],[[]])
 
-if test -n "$GCC"; then
-  CFLAGS="$EXTRA_GCC_DEBUG_CFLAGS $CFLAGS"
-  CXXFLAGS="$EXTRA_GCC_DEBUG_CXXFLAGS $CXXFLAGS"
-fi
+CFLAGS="$EXTRA_DEBUG_CFLAGS $CFLAGS"
+CXXFLAGS="$EXTRA_DEBUG_CXXFLAGS $CXXFLAGS"
 
 dnl Rebuild 'configure' whenever version.in changes, if maintainer mode enabled.
 AC_SUBST([CONFIGURE_DEPENDENCIES], ["$CONFIGURE_DEPENDENCIES \$(top_srcdir)/version.in"])
