@@ -26,6 +26,7 @@
 #include "government.h"
 
 /* client */
+#include "civclient.h"
 #include "helpdata.h"
 
 /* gui-sdl */
