@@ -50,6 +50,7 @@
 #include <windows.h>	/* GetTempPath */
 #endif
 
+#include "fcintl.h"
 #include "log.h"
 #include "shared.h"		/* TRUE, FALSE */
 #include "support.h"
@@ -84,7 +85,7 @@ static void set_socket_errno(void)
               BUG_URL);
   }
 }
-#endif
+#endif /* HAVE_WINSOCK */
 
 /***************************************************************
   Connect a socket to an address
