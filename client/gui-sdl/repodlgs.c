@@ -28,6 +28,7 @@
 #include "log.h"
 
 /* common */
+#include "game.h"
 #include "government.h"
 #include "unitlist.h"
 

@@ -18,6 +18,7 @@
 #include <sys/stat.h>
 
 /* utility */
+#include "fcintl.h"
 #include "log.h"
 
 /* gui-sdl */
@@ -55,7 +56,7 @@ void gui_clear_theme(void)
             /* TRANS: No full stop after the URL, could cause confusion. */
             _("No gui-sdl theme was found. For instructions on how to get one,"
               " please visit %s"),
-            WEB_URL);
+            WIKI_URL);
     exit(EXIT_FAILURE);
   }
 }
