@@ -30,7 +30,7 @@
 #include "support.h"
 
 #include "canvas.h"
-//#include "clinet.h"
+#include "civclient.h"
 #include "climisc.h"
 #include "colors.h"
 #include "dialogs.h"
