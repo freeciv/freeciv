@@ -1887,9 +1887,9 @@ void handle_conn_info(struct packet_conn_info *pinfo)
     pconn = NULL;
   } else {
     /* Add or update the connection.  Note the connection may refer to
-     * a player we don't know about yet. */
-    struct player *pplayer = player_by_number(pinfo->player_num);
-    
+     * a player we don't know about yet; assume we will observe it. */
+    struct player *pplayer = valid_player_by_number(pinfo->player_num);
+
     if (!pconn) {
       freelog(LOG_VERBOSE, "Server reports new connection %d %s",
 	      pinfo->id, pinfo->username);
@@ -1904,7 +1904,7 @@ void handle_conn_info(struct packet_conn_info *pinfo)
       conn_list_append(game.all_connections, pconn);
       conn_list_append(game.est_connections, pconn);
     } else {
-      freelog(LOG_DEBUG, "Server reports updated connection %d %s",
+      freelog(LOG_PACKET, "Server reports updated connection %d %s",
 	      pinfo->id, pinfo->username);
       if (pplayer != pconn->playing) {
 	if (NULL != pconn->playing) {
@@ -1921,6 +1921,14 @@ void handle_conn_info(struct packet_conn_info *pinfo)
     pconn->observer = pinfo->observer;
     pconn->access_level = pinfo->access_level;
     pconn->playing = pplayer;
+
+    if (NULL == pconn->playing && !pconn->observer) {
+      pconn->observer = TRUE; /* illegal 4th case, assume global observer */
+
+      freelog(LOG_ERROR, "handle_conn_info()"
+              " not playing, but not observer: %d %s",
+              pinfo->id, pinfo->username);
+    }
 
     if (pinfo->id == client.conn.id) {
       client.conn.established = pconn->established;

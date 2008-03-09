@@ -2848,11 +2848,10 @@ static bool observe_command(struct connection *caller, char *str, bool check)
   } players_iterate_end;
 
   /* attach pconn to new player as an observer */
-  pconn->observer = TRUE; /* do this before attach! */
   if (pplayer) {
-    attach_connection_to_player(pconn, pplayer);
+    attach_connection_to_player(pconn, pplayer, TRUE);
   } else {
-    unattach_connection_from_player(pconn);
+    detach_connection_to_player(pconn, TRUE);
   }
 
   if (S_S_RUNNING == server_state()) {
@@ -2986,7 +2985,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
 	notify_conn(aconn->self, NULL, E_CONNECTION,
 		    _("being detached from %s."),
 		    player_name(pplayer));
-	unattach_connection_from_player(aconn);
+	detach_connection_to_player(aconn, FALSE);
 	send_conn_info(aconn->self, game.est_connections);
       }
     } conn_list_iterate_end;
@@ -3019,8 +3018,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
   } players_iterate_end;
 
   /* now attach to new player */
-  pconn->observer = FALSE; /* do this before attach! */
-  attach_connection_to_player(pconn, pplayer);
+  attach_connection_to_player(pconn, pplayer, FALSE);
   pplayer = pconn->playing; /* In case pplayer was NULL. */
  
   /* if pplayer wasn't /created, and we're still in pregame, change its name */
@@ -3140,7 +3138,7 @@ static bool detach_command(struct connection *caller, char *str, bool check)
 
   /* actually do the detaching */
   if (pplayer) {
-    unattach_connection_from_player(pconn);
+    detach_connection_to_player(pconn, FALSE);
     cmd_reply(CMD_DETACH, caller, C_COMMENT,
 	      _("%s detaching from %s"),
 	      pconn->username,
@@ -3169,7 +3167,7 @@ static bool detach_command(struct connection *caller, char *str, bool check)
         notify_conn(aconn->self, NULL, E_CONNECTION,
 		    _("detaching from %s."),
 		    player_name(pplayer));
-        unattach_connection_from_player(aconn);
+        detach_connection_to_player(aconn, FALSE);
         send_conn_info(aconn->self, game.est_connections);
       }
     } conn_list_iterate_end;
@@ -3339,11 +3337,11 @@ bool load_command(struct connection *caller, char *filename, bool check)
    * made before the game load are unattached. */
   conn_list_iterate(game.est_connections, pconn) {
     if (NULL != pconn->playing) {
-      unattach_connection_from_player(pconn);
+      detach_connection_to_player(pconn, FALSE);
     }
     players_iterate(pplayer) {
       if (strcmp(pconn->username, pplayer->username) == 0) {
-        attach_connection_to_player(pconn, pplayer);
+        attach_connection_to_player(pconn, pplayer, FALSE);
         send_player_info_c(pplayer, game.est_connections);
         break;
       }

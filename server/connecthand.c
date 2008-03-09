@@ -110,7 +110,7 @@ void establish_new_connection(struct connection *pconn)
 
   /* a player has already been created for this user, reconnect him */
   if ((pplayer = find_player_by_user(pconn->username))) {
-    attach_connection_to_player(pconn, pplayer);
+    attach_connection_to_player(pconn, pplayer, FALSE);
 
     if (game.info.auto_ai_toggle && pplayer->ai.control) {
       toggle_ai_player_direct(NULL, pplayer);
@@ -134,7 +134,7 @@ void establish_new_connection(struct connection *pconn)
     send_game_info(dest);
 
     if (S_S_INITIAL == server_state() && game.info.is_new_game) {
-      if (attach_connection_to_player(pconn, NULL)) {
+      if (attach_connection_to_player(pconn, NULL, FALSE)) {
         sz_strlcpy(pconn->playing->name, pconn->username);
 
         /* send new player connection to everybody */
@@ -328,7 +328,7 @@ void lost_connection_to_client(struct connection *pconn)
     return;
   }
 
-  unattach_connection_from_player(pconn);
+  detach_connection_to_player(pconn, FALSE);
   send_conn_info_remove(pconn->self, game.est_connections);
   notify_if_first_access_level_is_available();
 
@@ -378,6 +378,15 @@ static void package_conn_info(struct connection *pconn,
   sz_strlcpy(packet->username, pconn->username);
   sz_strlcpy(packet->addr, pconn->addr);
   sz_strlcpy(packet->capability, pconn->capability);
+
+#if 0
+  if (NULL == pconn->playing && !pconn->observer) {
+    freelog(LOG_FATAL, "package_conn_info()"
+            " not playing, but not observer: %d %s",
+            pconn->id, pconn->username);
+    assert((int)((char *)NULL)[0]);
+  }
+#endif
 }
 
 /**************************************************************************
@@ -432,10 +441,11 @@ void send_conn_info_remove(struct conn_list *src, struct conn_list *dest)
        pconn->observer to TRUE before attaching!
 **************************************************************************/
 bool attach_connection_to_player(struct connection *pconn,
-                                 struct player *pplayer)
+                                 struct player *pplayer,
+                                 bool observing)
 {
   /* if pplayer is NULL, attach to first non-connected player slot */
-  if (!pplayer) {
+  if (NULL == pplayer && !observing) {
     if (game.info.nplayers >= game.info.max_players 
         || game.info.nplayers >= MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS) {
       return FALSE; 
@@ -447,7 +457,7 @@ bool attach_connection_to_player(struct connection *pconn,
     }
   }
 
-  if (!pconn->observer) {
+  if (!(pconn->observer = observing)) {
     sz_strlcpy(pplayer->username, pconn->username);
     pplayer->user_turns = 0; /* reset for a new user */
     pplayer->is_connected = TRUE;
@@ -467,7 +477,8 @@ bool attach_connection_to_player(struct connection *pconn,
 
   pconn remains a member of game.est_connections.
 **************************************************************************/
-bool unattach_connection_from_player(struct connection *pconn)
+bool detach_connection_to_player(struct connection *pconn,
+                                 bool observing)
 {
   if (NULL == pconn->playing) {
     return FALSE; /* no player is attached to this conn */
@@ -476,7 +487,7 @@ bool unattach_connection_from_player(struct connection *pconn)
   conn_list_unlink(pconn->playing->connections, pconn);
 
   pconn->playing->is_connected = FALSE;
-  pconn->observer = FALSE;
+  pconn->observer = observing;
 
   /* If any other (non-observing) conn is attached to 
    * this player, the player is still connected. */
