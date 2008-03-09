@@ -1126,7 +1126,7 @@ void server_remove_player(struct player *pplayer)
 
   /* Note it is ok to remove the _current_ item in a list_iterate. */
   conn_list_iterate(pplayer->connections, pconn) {
-    if (!unattach_connection_from_player(pconn)) {
+    if (!detach_connection_to_player(pconn, FALSE)) {
       die("player had a connection attached that didn't belong to it!");
     }
   } conn_list_iterate_end;
