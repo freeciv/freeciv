@@ -681,14 +681,14 @@ void handle_city_info(struct packet_city_info *packet)
            && popup_new_cities)
           || packet->diplomat_investigate;
 
+  city_packet_common(pcity, pcenter, powner, city_is_new, popup,
+                     packet->diplomat_investigate);
+
   if (city_is_new && !city_has_changed_owner) {
     agents_city_new(pcity);
   } else {
     agents_city_changed(pcity);
   }
-
-  city_packet_common(pcity, pcenter, powner, city_is_new, popup,
-                     packet->diplomat_investigate);
 
   /* Update the description if necessary. */
   if (update_descriptions) {
@@ -932,13 +932,13 @@ void handle_city_short_info(struct packet_city_short_info *packet)
   } /* Dumb values */
 #endif
 
+  city_packet_common(pcity, pcenter, powner, city_is_new, FALSE, FALSE);
+
   if (city_is_new && !city_has_changed_owner) {
     agents_city_new(pcity);
   } else {
     agents_city_changed(pcity);
   }
-
-  city_packet_common(pcity, pcenter, powner, city_is_new, FALSE, FALSE);
 
   /* Update the description if necessary. */
   if (update_descriptions) {
