@@ -153,49 +153,27 @@ void remove_obsolete_buildings(struct player *pplayer)
   Rearrange workers according to a cm_result struct.  The caller must make
   sure that the result is valid.
 **************************************************************************/
-void apply_cmresult_to_city(struct city *pcity, struct cm_result *cmr)
+void apply_cmresult_to_city(struct city *pcity,
+			    const struct cm_result *const cmr)
 {
   struct tile *pcenter = city_tile(pcity);
 
-  /* The caller had better check this! */
-  if (!cmr->found_a_valid) {
-    freelog(LOG_FATAL, "apply_cmresult_to_city()"
-            " called with invalid cm_result");
-    assert(0);
-    return;
-  }
-
   /* Now apply results */
-  city_tile_iterate_cxy(pcenter, ptile, x, y) {
-    if (is_free_worked(pcity, ptile)) {
-      continue;
-    }
+  city_tile_iterate_skip_free_cxy(pcenter, ptile, x, y) {
+    struct city *pwork = tile_worked(ptile);
 
-    switch (pcity->city_map[x][y]) {
-    case C_TILE_WORKER:
-      if (!cmr->worker_positions_used[x][y]) {
+    if (cmr->worker_positions_used[x][y]) {
+      if (NULL == pwork) {
+        city_map_update_worker(pcity, ptile, x, y);
+      } else {
+        assert(pwork == pcity);
+      }
+    } else {
+      if (pwork == pcity) {
         city_map_update_empty(pcity, ptile, x, y);
       }
-      break;
-
-    case C_TILE_EMPTY:
-      if (cmr->worker_positions_used[x][y]) {
-        city_map_update_worker(pcity, ptile, x, y);
-      }
-      break;
-
-    case C_TILE_UNAVAILABLE:
-      /* do nothing */
-      break;
-
-    case C_TILE_UNUSABLE:
-    default:
-      freelog(LOG_FATAL, "apply_cmresult_to_city()"
-              " called with invalid city_map");
-      assert((int)((char *)NULL)[0]);
-      break;
-    };
-  } city_tile_iterate_cxy_end;
+    }
+  } city_tile_iterate_skip_free_cxy_end;
 
   specialist_type_iterate(sp) {
     pcity->specialists[sp] = cmr->specialists[sp];
@@ -203,8 +181,7 @@ void apply_cmresult_to_city(struct city *pcity, struct cm_result *cmr)
 }
 
 /**************************************************************************
-  You need to call sync_cities so that the affected cities are synced with 
-  the client.
+  Call sync_cities() to send the affected cities to the clients.
 **************************************************************************/
 void auto_arrange_workers(struct city *pcity)
 {
@@ -298,7 +275,7 @@ void auto_arrange_workers(struct city *pcity)
 
   apply_cmresult_to_city(pcity, &cmr);
 
-  sanity_check_city(pcity);
+  sanity_check_city_all(pcity);
 
   city_refresh(pcity);
   TIMING_LOG(AIT_CITIZEN_ARRANGE, TIMER_STOP);
@@ -443,18 +420,13 @@ static int city_reduce_workers(struct city *pcity, int change)
 
   assert(0 < change);
 
-  city_tile_iterate_cxy(pcenter, ptile, city_x, city_y) {
-    if (is_free_worked(pcity, ptile)) {
-      continue;
-    }
-
+  city_tile_iterate_skip_free_cxy(pcenter, ptile, city_x, city_y) {
     if (0 < want
-     && tile_worked(ptile) == pcity /* check to avoid repair */
-     && C_TILE_WORKER == pcity->city_map[city_x][city_y]) {
+     && tile_worked(ptile) == pcity) {
       city_map_update_empty(pcity, ptile, city_x, city_y);
       want--;
     }
-  } city_tile_iterate_cxy_end;
+  } city_tile_iterate_skip_free_cxy_end;
 
   return change - want;
 }
@@ -561,10 +533,12 @@ Note: We do not send info about the city to the clients as part of this function
 **************************************************************************/
 static void city_increase_size(struct city *pcity)
 {
-  struct player *powner = city_owner(pcity);
-  bool have_square;
-  int i, savings_pct = granary_savings(pcity), new_food;
+  int i, new_food;
+  int savings_pct = granary_savings(pcity);
+  bool have_square = FALSE;
   bool rapture_grow = city_rapture_grow(pcity); /* check before size increase! */
+  struct tile *pcenter = city_tile(pcity);
+  struct player *powner = city_owner(pcity);
   struct impr_type *pimprove = pcity->production.value.building;
 
   if (!city_can_grow_to(pcity, pcity->size + 1)) { /* need improvement */
@@ -589,6 +563,7 @@ static void city_increase_size(struct city *pcity)
   }
 
   pcity->size++;
+
   /* Do not empty food stock if city is growing by celebrating */
   if (rapture_grow) {
     new_food = city_granary_size(pcity->size);
@@ -599,13 +574,14 @@ static void city_increase_size(struct city *pcity)
 
   /* If there is enough food, and the city is big enough,
    * make new citizens into scientists or taxmen -- Massimo */
+
   /* Ignore food if no square can be worked */
-  have_square = FALSE;
-  city_map_iterate(x, y) {
-    if (C_TILE_EMPTY == city_map_status(pcity, x, y)) {
+  city_tile_iterate_skip_free_cxy(pcenter, ptile, cx, cy) {
+    if (tile_worked(ptile) != pcity /* quick test */
+     && city_can_work_tile(pcity, ptile)) {
       have_square = TRUE;
     }
-  } city_map_iterate_end;
+  } city_tile_iterate_skip_free_cxy_end;
 
   if ((pcity->surplus[O_FOOD] >= 2 || !have_square)
       && is_city_option_set(pcity, CITYO_NEW_EINSTEIN)) {

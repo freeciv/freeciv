@@ -102,8 +102,6 @@ void aifill(int amount);
 
 extern struct server_arguments srvarg;
 
-extern bool nocity_send;
-
 extern bool force_end_of_sniff;
 
 void init_available_nations(void);

@@ -121,6 +121,19 @@ extern int city_tiles;
   } city_map_iterate_outwards_end					\
 }
 
+/* simple extension to skip is_free_worked() tiles. */
+#define city_tile_iterate_skip_free_cxy(_city_tile, _tile, _x, _y) {	\
+  city_map_iterate_outwards(_x, _y) {					\
+    if (!is_free_worked_cxy(_x, _y)) {					\
+      struct tile *_tile = city_map_to_tile(_city_tile, _x, _y);	\
+      if (NULL != _tile) {
+
+#define city_tile_iterate_skip_free_cxy_end				\
+      }									\
+    }									\
+  } city_map_iterate_outwards_end;					\
+}
+
 /* Does the same thing as city_tile_iterate_cxy, but keeps the city
  * coordinates hidden. */
 #define city_tile_iterate(_city_tile, _tile)				\
@@ -130,6 +143,7 @@ extern int city_tiles;
 #define city_tile_iterate_end						\
   } city_tile_iterate_cxy_end;						\
 }
+
 
 /* Improvement status (for cities' lists of improvements)
  * (replaced Impr_Status) */
@@ -327,6 +341,12 @@ struct city {
 
   bv_city_options city_options;
 
+  /* The vestigial city_map[] is only temporary, while loading saved
+     games or evaluating worker output for possible tile arrangements.
+     Otherwise, the derived city_map[] is no longer updated and
+     propagated to the clients. Instead, tile_worked() points directly
+     to the affected city.
+   */
   enum city_tile_type city_map[CITY_MAP_SIZE][CITY_MAP_SIZE];
 
   struct {
@@ -345,8 +365,9 @@ struct city {
     /* If > 0, workers will not be rearranged until they are unfrozen. */
     int workers_frozen;
 
-    /* If set, workers need to be arranged when the city is unfrozen.  Only
-     * set inside auto_arrange_workers. */
+    /* If set, workers need to be arranged when the city is unfrozen.
+     * Set inside auto_arrange_workers() and city_freeze_workers_queue().
+     */
     bool needs_arrange;
 
     /* the city map is synced with the client. */

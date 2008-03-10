@@ -228,12 +228,10 @@ static void check_map(const char *file, int line)
 }
 
 /**************************************************************************
-  Verify that the city has sane values.
+  Verify that the city itself has sane values.
 **************************************************************************/
-void real_sanity_check_city(struct city *pcity, const char *file, int line)
+static bool check_city_good(struct city *pcity, const char *file, int line)
 {
-  int delta;
-  int citizens = 0;
   struct player *pplayer = city_owner(pcity);
   struct tile *pcenter = city_tile(pcity);
 
@@ -244,10 +242,8 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
             nation_rule_name(nation_of_player(pplayer)),
             city_name(pcity), pcity->size,
             "{city center}");
-    return;
+    return FALSE;
   }
-
-  SANITY_CITY(pcity, pcity->size >= 1);
 
   SANITY_CITY(pcity, !terrain_has_flag(tile_terrain(pcenter), TER_NO_CITIES));
 
@@ -278,10 +274,19 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
     }
   } city_built_iterate_end;
 
-  /* Note that cities may be found on land or water. */
+  return TRUE;
+}
 
+/**************************************************************************
+  Verify that the city_map has sane values.
+**************************************************************************/
+static void check_city_map(struct city *pcity, const char *file, int line)
+{
+  struct player *pplayer = city_owner(pcity);
+  struct tile *pcenter = city_tile(pcity);
+
+  /* not using city_tile_iterate_cxy() as that skips out of range values */
   city_map_iterate(x, y) {
-    /* not using city_tile_interate() as that skips out of range values */
     struct tile *ptile = city_map_to_tile(pcenter, x, y);
 
     if (NULL == ptile) {
@@ -363,7 +368,6 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
 		  city_name(pcity), pcity->size,
 		  is_city_center(pcity, ptile) ? "{city center}" : "");
 	}
-	citizens++;
 	break;
 
       case C_TILE_UNAVAILABLE:
@@ -389,19 +393,58 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
       };
     }
   } city_map_iterate_end;
+}
 
-  /* Sanity check city size versus worker and specialist counts. */
+/**************************************************************************
+  Sanity check city size versus worker and specialist counts.
+**************************************************************************/
+static void check_city_size(struct city *pcity, const char *file, int line)
+{
+  int delta;
+  int citizens = 0;
+  struct tile *pcenter = city_tile(pcity);
+
+  SANITY_CITY(pcity, pcity->size >= 1);
+
+  city_tile_iterate_skip_free_cxy(pcenter, ptile, cx, cy) {
+    if (tile_worked(ptile) == pcity) {
+      citizens++;
+    }
+  } city_tile_iterate_skip_free_cxy_end;
+
   citizens += city_specialists(pcity);
-  delta = pcity->size + FREE_WORKED_TILES - citizens;
+  delta = pcity->size - citizens;
   if (0 != delta) {
-    SANITY_("(%4d,%4d) %d citizens not equal %d + [size], "
+    SANITY_("(%4d,%4d) %d citizens not equal [size], "
             "repairing \"%s\"[%d]"),
             TILE_XY(pcity->tile),
-            citizens, FREE_WORKED_TILES,
+            citizens,
             city_name(pcity), pcity->size);
 
     city_repair_size(pcity, delta);
     city_refresh_from_main_map(pcity, TRUE);
+  }
+}
+
+/**************************************************************************
+  Verify that the city has sane values.
+**************************************************************************/
+void real_sanity_check_city_all(struct city *pcity, const char *file, int line)
+{
+  if (check_city_good(pcity, file, line)) {
+    check_city_map(pcity, file, line);
+    check_city_size(pcity, file, line);
+  }
+}
+
+
+/**************************************************************************
+  Verify that the city has sane values.
+**************************************************************************/
+void real_sanity_check_city(struct city *pcity, const char *file, int line)
+{
+  if (check_city_good(pcity, file, line)) {
+    check_city_size(pcity, file, line);
   }
 }
 
@@ -418,6 +461,7 @@ static void check_cities(const char *file, int line)
     } city_list_iterate_end;
   } players_iterate_end;
 
+#ifdef DOUBLE_CHECK_TILE_WORKER
   whole_map_iterate(ptile) {
     struct city *pwork = tile_worked(ptile);
 
@@ -439,6 +483,7 @@ static void check_cities(const char *file, int line)
       }
     }
   } whole_map_iterate_end;
+#endif
 }
 
 /**************************************************************************
