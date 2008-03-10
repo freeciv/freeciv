@@ -507,7 +507,7 @@ style "checkbutton" = "default"
       recolorable       = TRUE
       state             = INSENSITIVE
       shadow            = OUT
-      overlay_file      = "Check-Radio/check3.png"
+      overlay_file      = "Check-Radio/check1.png"
       overlay_stretch   = FALSE
     }
 
@@ -546,7 +546,7 @@ style "checkbutton" = "default"
       recolorable       = TRUE
       state             = INSENSITIVE
       shadow            = IN
-      overlay_file      = "Check-Radio/check1.png"
+      overlay_file      = "Check-Radio/check3.png"
       overlay_stretch   = FALSE
     }
 
