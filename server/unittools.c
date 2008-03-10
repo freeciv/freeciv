@@ -786,6 +786,7 @@ static void update_unit_activity(struct unit *punit)
       if (tile_has_base_flag(ptile, BF_CLAIM_TERRITORY)) {
         map_claim_ownership(ptile, unit_owner(punit), ptile);
         map_claim_border(ptile, unit_owner(punit));
+        city_thaw_workers_queue();
       }
 
       unit_activity_done = TRUE;
@@ -1363,8 +1364,7 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
   wakeup_neighbor_sentries(punit);
 
   /* The unit may have changed the available tiles in nearby cities. */
-  city_map_update_tile_near_city(NULL, ptile, FALSE);
-
+  city_map_update_tile_now(ptile);
   sync_cities();
 
   /* Initialize aiferry stuff for new unit */
@@ -1438,8 +1438,7 @@ static void server_remove_unit(struct unit *punit)
   punit = NULL;
 
   /* This unit may have blocked tiles of adjacent cities. Update them. */
-  city_map_update_tile_near_city(NULL, ptile, FALSE);
-
+  city_map_update_tile_now(ptile);
   sync_cities();
 
   if (phomecity) {
@@ -2586,15 +2585,7 @@ static void unit_move_consequences(struct unit *punit,
     }
   }
 
-  /* The unit block different tiles of adjacent enemy cities before and
-     after. Update the relevant cities. */
-
-  /* First check cities near the source. */
-  city_map_update_tile_near_city(NULL, src_tile, TRUE);
-
-  /* Then check cities near the destination. */
-  city_map_update_tile_near_city(NULL, dst_tile, TRUE);
-
+  city_map_update_tile_now(dst_tile);
   sync_cities();
 }
 
@@ -2720,6 +2711,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
       && (!tile_owner(pdesttile) || pplayers_at_war(tile_owner(pdesttile), pplayer))) {
     map_claim_ownership(pdesttile, pplayer, pdesttile);
     map_claim_border(pdesttile, pplayer);
+    city_thaw_workers_queue();
   }
 
   unit_list_unlink(psrctile->units, punit);

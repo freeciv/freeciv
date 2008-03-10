@@ -1784,7 +1784,6 @@ static void ai_sell_obsolete_buildings(struct city *pcity)
 **************************************************************************/
 static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
 {
-  struct city_list *minilist;
   struct tile *pcenter = city_tile(pcity);
 
   freelog(LOG_EMERGENCY,
@@ -1795,8 +1794,6 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
           pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL],
           pcity->surplus[O_FOOD],
           pcity->surplus[O_SHIELD]);
-
-  minilist = city_list_new();
 
   city_tile_iterate(pcenter, atile) {
     struct city *acity = tile_worked(atile);
@@ -1822,10 +1819,7 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
 
       city_map_update_empty(acity, atile, ax, ay);
       acity->specialists[DEFAULT_SPECIALIST]++;
-
-      if (!city_list_find_id(minilist, acity->id)) {
-	city_list_prepend(minilist, acity);
-      }
+      city_freeze_workers_queue(acity);
     }
   } city_tile_iterate_end;
 
@@ -1858,14 +1852,6 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
   }
 
   cleanup:
-  city_list_iterate(minilist, acity) {
-    /* otherwise food total and stuff was wrong. -- Syela */
-    city_refresh(acity);
-    auto_arrange_workers(pcity);
-  } city_list_iterate_end;
-
-  city_list_unlink_all(minilist);
-  city_list_free(minilist);
-
+  city_thaw_workers_queue();
   sync_cities();
 }

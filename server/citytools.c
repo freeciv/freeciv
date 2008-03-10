@@ -63,12 +63,17 @@
 #include "aicity.h"
 #include "aiunit.h"
 
+
+/* Queue for pending auto_arrange_workers() */
+static struct city_list *arrange_workers_queue = NULL;
+
+/* Suppress sending cities during game_load() and end_phase() */
+static bool send_city_suppressed = FALSE;
+
+
 static char *search_for_city_name(struct tile *ptile,
 				  struct nation_city *city_names,
 				  struct player *pplayer);
-static void city_map_update_adjacent(struct city *pcity, struct tile *ptile,
-				     int city_x, int city_y,
-				     enum city_tile_type ctt);
 
 /****************************************************************************
   Freeze the workers (citizens on tiles) for the city.  They will not be
@@ -114,6 +119,41 @@ void city_thaw_workers(struct city *pcity)
   if (pcity->server.workers_frozen == 0 && pcity->server.needs_arrange) {
     auto_arrange_workers(pcity);
   }
+}
+
+/****************************************************************************
+  Queue pending auto_arrange_workers() for later.
+****************************************************************************/
+void city_freeze_workers_queue(struct city *pcity)
+{
+  if (NULL == arrange_workers_queue) {
+    arrange_workers_queue = city_list_new();
+  } else if (city_list_find_id(arrange_workers_queue, pcity->id)) {
+    return;
+  }
+
+  city_list_prepend(arrange_workers_queue, pcity);
+  city_freeze_workers(pcity);
+  pcity->server.needs_arrange = TRUE;
+}
+
+/****************************************************************************
+  Process the frozen workers.
+  Call sync_cities() to send the affected cities to the clients.
+****************************************************************************/
+void city_thaw_workers_queue(void)
+{
+  if (NULL == arrange_workers_queue) {
+    return;
+  }
+
+  city_list_iterate(arrange_workers_queue, pcity) {
+    city_thaw_workers(pcity);
+  } city_list_iterate_end;
+
+  city_list_unlink_all(arrange_workers_queue);
+  city_list_free(arrange_workers_queue);
+  arrange_workers_queue = NULL;
 }
 
 /****************************************************************
@@ -846,12 +886,12 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 
   /* Has to follow the unfog call above. */
   city_list_unlink(pgiver->cities, pcity);
+  map_clear_border(pcenter, pgiver);
+  /* city_thaw_workers_queue() later */
+
   pcity->owner = ptaker;
   map_claim_ownership(pcenter, ptaker, pcenter);
   city_list_prepend(ptaker->cities, pcity);
-
-  /* Update the national borders. */
-  map_claim_border(pcenter, ptaker);
 
   transfer_city_units(ptaker, pgiver, old_city_units,
 		      pcity, NULL,
@@ -898,10 +938,6 @@ void transfer_city(struct player *ptaker, struct city *pcity,
    * since the diplomacy status can influence whether a tile is available.
    */
   maybe_make_contact(pcenter, ptaker);
-  city_map_update_all(pcity);
-
-  auto_arrange_workers(pcity);
-  city_thaw_workers(pcity);
 
   if (raze) {
     raze_city(pcity);
@@ -917,8 +953,6 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   if (!can_city_build_now(pcity, pcity->production)) {
     advisor_choose_build(ptaker, pcity);
   }
-
-  send_city_info(NULL, pcity);
 
   /* What wasn't obsolete for the old owner may be so now. */
   remove_obsolete_buildings_city(pcity, TRUE);
@@ -944,9 +978,22 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 
   /* Remove the sight points from the giver...and refresh the city's
    * vision range, since it might be different under the new owner. */
+  city_refresh_vision(pcity);
   vision_clear_sight(old_vision);
   vision_free(old_vision);
-  city_refresh_vision(pcity);
+
+  /* Update the national borders, within the current vision and culture.
+   * This could leave a border ring around the city, updated later by
+   * map_calculate_borders() at the next turn.
+   */
+  map_claim_border(pcenter, ptaker);
+  /* city_thaw_workers_queue() later */
+
+  auto_arrange_workers(pcity); /* does city_map_update_all() */
+  city_thaw_workers(pcity);
+  city_thaw_workers_queue();  /* after old city has a chance to work! */
+
+  send_city_info(NULL, pcity);
 
   sanity_check_city(pcity);
   sync_cities();
@@ -961,6 +1008,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
   struct nation_type *nation = nation_of_player(pplayer);
   struct player *saved_owner = tile_owner(ptile);
   struct base_type *pbase = tile_get_base(ptile);
+  struct city *pwork = tile_worked(ptile);
   struct city *pcity = create_city_virtual(pplayer, ptile, name);
 
   freelog(LOG_DEBUG, "create_city() %s", name);
@@ -997,18 +1045,19 @@ void create_city(struct player *pplayer, struct tile *ptile,
     }
   }
 
-  /* it is possible to build a city on a tile that is already worked
+  /* Place a worker at the is_city_center() is_free_worked().
+   * It is possible to build a city on a tile that is already worked;
    * this will displace the worker on the newly-built city's tile -- Syela */
-  city_tile_iterate_cxy(ptile, it, x, y) {
-    if (city_can_work_tile(pcity, it)) {
-      pcity->city_map[x][y] = C_TILE_EMPTY;
-    } else {
-      pcity->city_map[x][y] = C_TILE_UNAVAILABLE;
-    }
-  } city_tile_iterate_cxy_end;
+  tile_set_worked(ptile, pcity); /* instead of city_map_update_worker() */
+
+  if (NULL != pwork) {
+    /* was previously worked by another city */
+    pwork->specialists[DEFAULT_SPECIALIST]++;
+    pwork->server.synced = FALSE;
+    city_freeze_workers_queue(pwork);
+  }
 
   /* Claim the ground we stand on */
-  tile_set_worked(ptile, pcity); /* partly redundant to city_map_update_adjacent() */
   tile_set_owner(ptile, saved_owner);
   map_claim_ownership(ptile, pplayer, ptile);
 
@@ -1018,35 +1067,17 @@ void create_city(struct player *pplayer, struct tile *ptile,
   city_refresh_vision(pcity);
   city_list_prepend(pplayer->cities, pcity);
 
-  /* This is dependent on the current vision, and affects the citymap
-   * tile status, so must be done after vision is prepared and before
-   * arranging workers. */
+  /* This is dependent on the current vision, so must be done after
+   * vision is prepared and before arranging workers. */
   map_claim_border(ptile, pplayer);
+  /* city_thaw_workers_queue() later */
 
   if (terrain_control.may_road) {
     tile_set_special(ptile, S_ROAD);
     if (player_knows_techs_with_flag(pplayer, TF_RAILROAD)) {
       tile_set_special(ptile, S_RAILROAD);
-      update_tile_knowledge(ptile);
     }
   }
-
-  /* It is possible that update_tile_knowledge() already sent tile information
-   * to some players, but we don't want to make any special handling for
-   * those cases.  The network code may prevent a second packet from being
-   * sent anyway. */
-  send_tile_info(NULL, ptile, FALSE);
-
-  /* Place a worker at the is_city_center() is_free_worked().
-   * This must be done before the city refresh (below) so that the city
-   * is in a sane state. */
-  /* Ugly detail here is that if another city is currently working
-   * this tile, we first update only ptile->worked and our own
-   * city_map. At that point city_map of both cities claim that they
-   * are working that tile. But then we refresh adjacent cities - one of
-   * which that other city certainly is. And once it notices that
-   * ptile->worked does not point to it, it will give tile up. */
-  city_map_update_adjacent(pcity, ptile, CITY_MAP_SIZE/2, CITY_MAP_SIZE/2, C_TILE_WORKER);
 
   /* Refresh the city.  First a city refresh is done (this shouldn't
    * send any packets to the client because the city has no supported units)
@@ -1055,6 +1086,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
    * first. */
   city_refresh(pcity);
   auto_arrange_workers(pcity);
+  city_thaw_workers_queue(); /* after new city has a chance to work! */
 
   /* If base acted as a watchtower, put vision back to normal */
   if (pbase) {
@@ -1066,7 +1098,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
 
   pcity->server.synced = FALSE;
   send_city_info(NULL, pcity);
-  sync_cities(); /* Will also send pcity. */
+  sync_cities(); /* Will also send pwork. */
 
   notify_player(pplayer, ptile, E_CITY_BUILD,
 		_("You have founded %s."),
@@ -1087,6 +1119,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
       send_city_info(city_owner(home), home);
     }
   } unit_list_iterate_end;
+
   sanity_check_city(pcity);
 
   script_signal_emit("city_built", 1, API_TYPE_CITY, pcity);
@@ -1098,8 +1131,8 @@ void create_city(struct player *pplayer, struct tile *ptile,
 void remove_city(struct city *pcity)
 {
   int o;
-  struct player *pplayer = city_owner(pcity);
-  struct tile *ptile = pcity->tile;
+  struct player *powner = city_owner(pcity);
+  struct tile *pcenter = city_tile(pcity);
   bv_imprs had_small_wonders;
   struct vision *old_vision;
   int id = pcity->id; /* We need this even after memory has been freed */
@@ -1119,23 +1152,23 @@ void remove_city(struct city *pcity)
 
     if (new_home_city
 	&& new_home_city != pcity
-	&& city_owner(new_home_city) == pplayer) {
+	&& city_owner(new_home_city) == powner) {
       transfer_unit(punit, new_home_city, TRUE);
     }
   } unit_list_iterate_safe_end;
 
   /* make sure ships are not left on land when city is removed. */
-  unit_list_iterate_safe(ptile->units, punit) {
+  unit_list_iterate_safe(pcenter->units, punit) {
     bool moved;
     struct unit_type *punittype = unit_type(punit);
 
-    if (is_native_tile(punittype, ptile)) {
+    if (is_native_tile(punittype, pcenter)) {
       continue;
     }
 
     unit_activity_handling(punit, ACTIVITY_IDLE);
     moved = FALSE;
-    adjc_iterate(ptile, tile1) {
+    adjc_iterate(pcenter, tile1) {
       if (!moved && is_native_tile(punittype, tile1)) {
 	if (could_unit_move_to_tile(punit, tile1) == 1) {
 	  moved = unit_move_handling(punit, tile1, FALSE, TRUE);
@@ -1145,7 +1178,7 @@ void remove_city(struct city *pcity)
                             "since it cannot stay on %s."),
                           unit_name_translation(punit),
                           city_name(pcity),
-                          terrain_name_translation(tile_terrain(ptile)));
+                          terrain_name_translation(tile_terrain(pcenter)));
             break;
 	  }
 	}
@@ -1176,6 +1209,10 @@ void remove_city(struct city *pcity)
     }
   }
 
+  map_clear_border(pcenter, powner);
+  city_thaw_workers_queue();
+  map_claim_ownership(pcenter, NULL, NULL);
+
   /* idex_unregister_city() is called in game_remove_city() below */
 
   /* identity_number_release(pcity->id) is *NOT* done!  The cities may
@@ -1188,8 +1225,8 @@ void remove_city(struct city *pcity)
   game_remove_city(pcity);
 
   players_iterate(other_player) {
-    if (map_is_known_and_seen(ptile, other_player, V_MAIN)) {
-      reality_check_city(other_player, ptile);
+    if (map_is_known_and_seen(pcenter, other_player, V_MAIN)) {
+      reality_check_city(other_player, pcenter);
     }
   } players_iterate_end;
 
@@ -1205,16 +1242,10 @@ void remove_city(struct city *pcity)
   vision_clear_sight(old_vision);
   vision_free(old_vision);
 
-  /* Update available tiles in adjacent cities. */
-  city_tile_iterate(ptile, phere) {
-    /* For every tile the city could have used. */
-    city_map_update_tile_near_city(NULL, phere, FALSE);
-  } city_tile_iterate_end;
-
   /* Build a new palace for free if the player lost her capital and
      savepalace is on. */
   if (game.info.savepalace) {
-    build_free_small_wonders(pplayer, &had_small_wonders);
+    build_free_small_wonders(powner, &had_small_wonders);
   }
 
   sync_cities();
@@ -1402,6 +1433,17 @@ static bool player_has_traderoute_with_city(struct player *pplayer,
 }
 
 /**************************************************************************
+  Suppress sending cities during game_load() and end_phase()
+**************************************************************************/
+bool send_city_suppression(bool now)
+{
+  bool formerly = send_city_suppressed;
+
+  send_city_suppressed = now;
+  return formerly;
+}
+
+/**************************************************************************
   This fills out a package from a player's vision_site.
 **************************************************************************/
 static void package_dumb_city(struct player* pplayer, struct tile *ptile,
@@ -1477,7 +1519,7 @@ static void broadcast_city_info(struct city *pcity)
   /* Send to everyone who can see the city. */
   players_iterate(pplayer) {
     if (can_player_see_city_internals(pplayer, pcity)) {
-      if (!nocity_send || pplayer != powner) {
+      if (!send_city_suppressed || pplayer != powner) {
 	update_dumb_city(powner, pcity);
 	package_city(pcity, &packet, FALSE);
 	lsend_packet_city_info(powner->connections, &packet);
@@ -1547,16 +1589,19 @@ void send_player_cities(struct player *pplayer)
 **************************************************************************/
 void send_city_info(struct player *dest, struct city *pcity)
 {
-  assert(pcity != NULL);
+  struct player *powner = city_owner(pcity);
 
   if (S_S_RUNNING != server_state() && S_S_OVER != server_state())
     return;
 
-  if (dest == city_owner(pcity) && nocity_send)
+  if (dest == powner && send_city_suppressed) {
     return;
+  }
 
-  if (!dest || dest == city_owner(pcity))
+  if (!dest || dest == powner) {
     pcity->server.synced = TRUE;
+  }
+
   if (!dest) {
     broadcast_city_info(pcity);
   } else {
@@ -1600,9 +1645,7 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
   if (powner && powner == pviewer) {
     /* send info to owner */
     /* This case implies powner non-NULL which means pcity non-NULL */
-    /* nocity_send is used to inhibit sending cities to the owner between
-       turn updates */
-    if (!nocity_send) {
+    if (!send_city_suppressed) {
       /* send all info to the owner */
       update_dumb_city(powner, pcity);
       package_city(pcity, &packet, FALSE);
@@ -1971,6 +2014,14 @@ void change_build_target(struct player *pplayer, struct city *pcity,
 
 /**************************************************************************
   Return the tile status of the city_map for the given coordinates.
+
+   * This is usually for sanity_check().
+
+   * The vestigial city_map[] is only temporary, while loading saved
+     games or evaluating worker output for possible tile arrangements.
+     Otherwise, the derived city_map[] is no longer updated and
+     propagated to the clients. Instead, tile_worked() points directly
+     to the affected city.
 **************************************************************************/
 enum city_tile_type city_map_status(const struct city *pcity,
                                     int city_x, int city_y)
@@ -1983,188 +2034,79 @@ enum city_tile_type city_map_status(const struct city *pcity,
 }
 
 /**************************************************************************
-  Update the city_map.  Also updates worked in the main_map.
-**************************************************************************/
-void city_map_update(struct city *pcity, struct tile *ptile, int city_x,
-		     int city_y, enum city_tile_type type)
-{
-  if (NULL != ptile) {
-    if (pcity->city_map[city_x][city_y] == C_TILE_WORKER
-	&& tile_worked(ptile) == pcity) {
-      tile_set_worked(ptile, NULL);
-    }
-    if (type == C_TILE_WORKER) {
-      /* No assert to check that nobody else is working this tile.
-       * City creation relies on claiming tile to new city first,
-       * and freeing it from another city only later. */
-      tile_set_worked(ptile, pcity);
-    }
-    send_tile_info(NULL, ptile, FALSE);
-  } else {
-    assert(C_TILE_UNUSABLE == type);
-  }
-  pcity->city_map[city_x][city_y] = type;
-}
-
-/**************************************************************************
-  Updates city map and tile map status, and affects adjacent cities.
-  city_x, city_y is in city map coords.
-  Call sync_cities() for the affected cities to be synced with the client.
-
-  You should not use this function unless you really know what you are doing!
-  Better functions are:
-    city_map_update_all()
-    city_map_update_empty()
-    city_map_update_worker()
-**************************************************************************/
-static void city_map_update_adjacent(struct city *pcity, struct tile *ptile,
-				     int city_x, int city_y,
-				     enum city_tile_type ctt)
-{
-  assert(is_valid_city_coords(city_x, city_y));
-  assert(ctt != pcity->city_map[city_x][city_y]);
-
-  city_map_update(pcity, ptile, city_x, city_y, ctt);
-  pcity->server.synced = FALSE;
-
-  /* Update adjacent cities. */
-  city_map_update_tile_near_city(pcity, ptile, FALSE);
-}
-
-/**************************************************************************
-  city_x, city_y is in city map coords.
-  Call sync_cities() for the affected cities to be synced with the client.
+  Change from worked to empty.
+  city_x, city_y are city map coordinates.
+  Call sync_cities() to send the affected cities to the clients.
 **************************************************************************/
 void city_map_update_empty(struct city *pcity, struct tile *ptile,
 			   int city_x, int city_y)
 {
-  assert(is_valid_city_coords(city_x, city_y));
-  if (city_map_status(pcity, city_x, city_y) != C_TILE_WORKER) {
-    city_x = (int)((char *)NULL)[0];
-  }
-//  assert(city_map_status(pcity, city_x, city_y) == C_TILE_WORKER);
-  city_map_update_adjacent(pcity, ptile, city_x, city_y, C_TILE_EMPTY);
+  tile_set_worked(ptile, NULL);
+  send_tile_info(NULL, ptile, FALSE);
+  pcity->city_map[city_x][city_y] = C_TILE_EMPTY;
+  pcity->server.synced = FALSE;
 }
 
 /**************************************************************************
-  city_x, city_y is in city map coords.
-  Call sync_cities() for the affected cities to be synced with the client.
+  Change from empty to worked.
+  city_x, city_y are city map coordinates.
+  Call sync_cities() to send the affected cities to the clients.
 **************************************************************************/
 void city_map_update_worker(struct city *pcity, struct tile *ptile,
 			    int city_x, int city_y)
 {
-  assert(is_valid_city_coords(city_x, city_y));
-  if (city_map_status(pcity, city_x, city_y) != C_TILE_EMPTY) {
-    city_y = (int)((char *)NULL)[0];
-  }
-//  assert(city_map_status(pcity, city_x, city_y) == C_TILE_EMPTY);
-  city_map_update_adjacent(pcity, ptile, city_x, city_y, C_TILE_WORKER);
+  tile_set_worked(ptile, pcity);
+  send_tile_info(NULL, ptile, FALSE);
+  pcity->city_map[city_x][city_y] = C_TILE_WORKER;
+  pcity->server.synced = FALSE;
 }
 
 /**************************************************************************
   Updates the worked status of a tile.
-  city_x, city_y is in city map coords.
-  Call sync_cities() for the affected cities to be synced with the client.
 
   If the status changes, auto_arrange_workers() may be called.
 **************************************************************************/
-static void city_map_update_tile_cxy(struct city *pcity, struct tile *ptile,
-				     int city_x, int city_y)
+static bool city_map_update_tile_direct(struct tile *ptile, bool queued)
 {
-  bool is_available = city_can_work_tile(pcity, ptile);
+  struct city *pwork = tile_worked(ptile);
 
-  switch (pcity->city_map[city_x][city_y]) {
-  case C_TILE_WORKER:
-    if (!is_available) {
-      city_map_update_adjacent(pcity, ptile, city_x, city_y, C_TILE_UNAVAILABLE);
-      pcity->specialists[DEFAULT_SPECIALIST]++; /* keep city sanity */
-      auto_arrange_workers(pcity); /* will place the displaced */
-      city_refresh(pcity);
-      send_city_info(NULL, pcity);
+  if (NULL != pwork
+   && !is_free_worked(pwork, ptile)
+   && !city_can_work_tile(pwork, ptile)) {
+    tile_set_worked(ptile, NULL);
+    send_tile_info(NULL, ptile, FALSE);
+
+    pwork->specialists[DEFAULT_SPECIALIST]++; /* keep city sanity */
+    pwork->server.synced = FALSE;
+
+    if (queued) {
+      city_freeze_workers_queue(pwork); /* place the displaced later */
+    } else {
+      auto_arrange_workers(pwork);
+      send_city_info(NULL, pwork);
     }
-    break;
-
-  case C_TILE_UNAVAILABLE:
-    if (is_available) {
-      city_map_update_adjacent(pcity, ptile, city_x, city_y, C_TILE_EMPTY);
-      /* We used to do an auto_arrange_workers in this case also.  But
-       * that's a bad idea since it will spuriously move around workers that
-       * have already been carefully placed. */
-    }
-    break;
-
-  case C_TILE_EMPTY:
-    if (!is_available) {
-      city_map_update_adjacent(pcity, ptile, city_x, city_y, C_TILE_UNAVAILABLE);
-    }
-    break;
-
-  case C_TILE_UNUSABLE:
-  default:
-    freelog(LOG_FATAL, "city_map_update_tile_cxy()"
-            " called with invalid city_map");
-    assert((int)((char *)NULL)[0]);
-    break;
-  };
-}
-
-/****************************************************************************
-  Updates the worked status of the tile for the city.
-
-  It is safe to pass an out-of-range tile to this function.
-****************************************************************************/
-void city_map_update_tile(struct city *pcity, struct tile *ptile)
-{
-  int city_x, city_y;
-
-  if (city_base_to_city_map(&city_x, &city_y, pcity, ptile)) {
-    city_map_update_tile_cxy(pcity, ptile, city_x, city_y);
+    return TRUE;
   }
+
+  return FALSE;
 }
 
 /**************************************************************************
-  Update cities within reach of the tile.
-
-  Consolidation of existing practices.
-  pcity may be (usually is) NULL, meaning all cities found.
-  broadcast_city usually is FALSE, except at two places in unittools.c
-  unit_move_consequences() -- it is not certain that code is correct, as
-  they are immediately followed by sync_cities().
+  Updates the worked status of a tile.
+  Call city_thaw_workers_queue() followed by sync_cities() to send the
+  affected cities to the clients.
 **************************************************************************/
-void city_map_update_tile_near_city(struct city *pcity,
-                                    struct tile *ptile,
-                                    bool broadcast_city)
+bool city_map_update_tile_frozen(struct tile *ptile)
 {
-  city_tile_iterate(ptile, ptest) {
-    struct city *pnear = tile_city(ptest);
-
-    if (NULL != pnear && pcity != pnear) {
-      city_map_update_tile(pnear, ptile);
-
-      if (broadcast_city) {
-        send_city_info(NULL, pnear);
-      }
-    }
-  } city_tile_iterate_end;
+  return city_map_update_tile_direct(ptile, TRUE);
 }
 
 /**************************************************************************
-  Update cities within reach of the tile for only one player.
-
-  Consolidation of existing practices.
-  pcity may be (usually is) NULL, meaning all cities found.
+  Updates the worked status of a tile immediately.
 **************************************************************************/
-void city_map_update_tile_near_city_for_player(struct city *pcity,
-                                               struct tile *ptile,
-                                               struct player *pplayer)
+bool city_map_update_tile_now(struct tile *ptile)
 {
-  city_tile_iterate(ptile, ptest) {
-    struct city *pnear = tile_city(ptest);
-
-    if (NULL != pnear && pcity != pnear && city_owner(pnear) == pplayer) {
-      city_map_update_tile(pnear, ptile);
-    }
-  } city_tile_iterate_end;
+  return city_map_update_tile_direct(ptile, FALSE);
 }
 
 /**************************************************************************
@@ -2172,8 +2114,9 @@ void city_map_update_tile_near_city_for_player(struct city *pcity,
 **************************************************************************/
 void sync_cities(void)
 {
-  if (nocity_send)
+  if (send_city_suppressed) {
     return;
+  }
 
   players_iterate(pplayer) {
     city_list_iterate(pplayer->cities, pcity) {
@@ -2186,15 +2129,16 @@ void sync_cities(void)
 }
 
 /**************************************************************************
-...
+  Called by auto_arrange_workers() and below.
 **************************************************************************/
 void city_map_update_all(struct city *pcity)
 {
   struct tile *pcenter = city_tile(pcity);
 
-  city_tile_iterate_cxy(pcenter, ptile, cx, cy) {
-    city_map_update_tile_cxy(pcity, ptile, cx, cy);
-  } city_tile_iterate_cxy_end;
+  city_tile_iterate_skip_free_cxy(pcenter, ptile, cx, cy) {
+    /* bypass city_map_update_tile_now() for efficiency */
+    city_map_update_tile_direct(ptile, FALSE);
+  } city_tile_iterate_skip_free_cxy_end;
 }
 
 /**************************************************************************
@@ -2203,7 +2147,9 @@ void city_map_update_all(struct city *pcity)
 void city_map_update_all_cities_for_player(struct player *pplayer)
 {
   city_list_iterate(pplayer->cities, pcity) {
+    city_freeze_workers(pcity);
     city_map_update_all(pcity);
+    city_thaw_workers(pcity);
   } city_list_iterate_end;
 }
 

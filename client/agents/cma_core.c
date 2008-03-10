@@ -79,16 +79,6 @@ static struct {
   int apply_result_ignored, apply_result_applied, refresh_forced;
 } stats;
 
-/* simple extension to skip is_free_worked() tiles. */
-#define city_tile_iterate_skip_free(pcity, ptile, cx, cy) {		\
-  city_tile_iterate_cxy(city_tile(pcity), ptile, cx, cy) {		\
-    if (!is_free_worked(pcity, ptile)) {
-
-#define city_tile_iterate_skip_free_end					\
-    }									\
-  } city_tile_iterate_cxy_end;						\
-}
-
 
 /****************************************************************************
  Returns TRUE iff the two results are equal. Both results have to be
@@ -166,6 +156,7 @@ static bool apply_result_on_server(struct city *pcity,
   int first_request_id = 0, last_request_id = 0, i;
   struct cm_result current_state;
   bool success;
+  struct tile *pcenter = city_tile(pcity);
 
   assert(result->found_a_valid);
   cm_result_from_main_map(&current_state, pcity, TRUE);
@@ -197,8 +188,8 @@ static bool apply_result_on_server(struct city *pcity,
   }
 
   /* Remove all surplus workers */
-  city_tile_iterate_skip_free(pcity, ptile, x, y) {
-    if (NULL != tile_worked(ptile) && tile_worked(ptile) == pcity
+  city_tile_iterate_skip_free_cxy(pcenter, ptile, x, y) {
+    if (tile_worked(ptile) == pcity
      && !result->worker_positions_used[x][y]) {
       freelog(APPLY_RESULT_LOG_LEVEL, "Removing worker at {%d,%d}.", x, y);
 
@@ -208,7 +199,7 @@ static bool apply_result_on_server(struct city *pcity,
 	first_request_id = last_request_id;
       }
     }
-  } city_tile_iterate_skip_free_end;
+  } city_tile_iterate_skip_free_cxy_end;
 
   /* Change the excess non-default specialists to default. */
   specialist_type_iterate(sp) {
@@ -232,7 +223,7 @@ static bool apply_result_on_server(struct city *pcity,
   /* Set workers */
   /* FIXME: This code assumes that any toggled worker will turn into a
    * DEFAULT_SPECIALIST! */
-  city_tile_iterate_skip_free(pcity, ptile, x, y) {
+  city_tile_iterate_skip_free_cxy(pcenter, ptile, x, y) {
     if (NULL == tile_worked(ptile)
      && result->worker_positions_used[x][y]) {
       freelog(APPLY_RESULT_LOG_LEVEL, "Putting worker at {%d,%d}.", x, y);
@@ -244,7 +235,7 @@ static bool apply_result_on_server(struct city *pcity,
 	first_request_id = last_request_id;
       }
     }
-  } city_tile_iterate_skip_free_end;
+  } city_tile_iterate_skip_free_cxy_end;
 
   /* Set all specialists except DEFAULT_SPECIALIST (all the unchanged
    * ones remain as DEFAULT_SPECIALIST). */

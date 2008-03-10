@@ -783,8 +783,6 @@ static int evaluate_improvements(struct unit *punit,
 {
   struct city *mycity = tile_city(punit->tile);
   struct player *pplayer = unit_owner(punit);
-  bool in_use;			/* true if the target square is being used
-				   by one of our cities */
   Continent_id ucont     = tile_continent(punit->tile);
   int mv_rate         = unit_type(punit)->move_rate;
   int mv_turns;			/* estimated turns to move to target square */
@@ -806,14 +804,13 @@ static int evaluate_improvements(struct unit *punit,
 
     /* try to work near the city */
     city_tile_iterate_cxy(pcenter, ptile, cx, cy) {
-      enum city_tile_type ctt = city_map_status(pcity, cx, cy);
       bool consider = TRUE;
+      bool in_use = (tile_worked(ptile) == pcity);
 
-      if (C_TILE_UNAVAILABLE == ctt) {
+      if (!in_use && !city_can_work_tile(pcity, ptile)) {
 	/* Don't risk bothering with this tile. */
 	continue;
       }
-      in_use = (C_TILE_WORKER == ctt);
 
       /* do not go to tiles that already have workers there */
       unit_list_iterate(ptile->units, aunit) {
@@ -1155,19 +1152,17 @@ static int best_worker_tile_value(struct city *pcity)
   struct tile *pcenter = city_tile(pcity);
   int best = 0;
 
-  city_tile_iterate_cxy(pcenter, ptile, cx, cy) {
-    enum city_tile_type ctt = city_map_status(pcity, cx, cy);
-
-    if (is_free_worked(pcity, ptile) 
-	|| C_TILE_WORKER == ctt 
-	|| C_TILE_EMPTY == ctt) {
+  city_tile_iterate(pcenter, ptile) {
+    if (is_free_worked(pcity, ptile)
+	|| tile_worked(ptile) == pcity /* quick test */
+	|| city_can_work_tile(pcity, ptile)) {
       int tmp = city_tile_value(pcity, ptile, 0, 0);
 
-      if (tmp > best) {
+      if (best < tmp) {
 	best = tmp;
       }
     }
-  } city_tile_iterate_cxy_end;
+  } city_tile_iterate_end;
 
   return best;
 }

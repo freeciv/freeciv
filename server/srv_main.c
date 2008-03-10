@@ -121,7 +121,6 @@ struct civserver server;
 
 /* server state information */
 static enum server_states civserver_state = S_S_INITIAL;
-bool nocity_send = FALSE;
 
 /* this global is checked deep down the netcode. 
    packets handling functions can set it to none-zero, to
@@ -765,7 +764,7 @@ static void end_phase(void)
   } phase_players_iterate_end;
 
   /* Freeze sending of cities. */
-  nocity_send = TRUE;
+  send_city_suppression(TRUE);
 
   /* AI end of turn activities */
   players_iterate(pplayer) {
@@ -799,7 +798,8 @@ static void end_phase(void)
   kill_dying_players();
 
   /* Unfreeze sending of cities. */
-  nocity_send = FALSE;
+  send_city_suppression(FALSE);
+
   phase_players_iterate(pplayer) {
     send_player_cities(pplayer);
   } phase_players_iterate_end;

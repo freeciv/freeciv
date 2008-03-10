@@ -600,9 +600,9 @@ static void copy_partial_solution(struct partial_solution *dst,
 static void apply_solution(struct cm_state *state,
                            const struct partial_solution *soln)
 {
-  struct city *pcity = state->pcity;
   int i;
-  int sumworkers = 0;
+  int citizens = 0;
+  struct city *pcity = state->pcity;
 
 #ifdef GATHER_TIME_STATS
   performance.current->apply_count++;
@@ -619,7 +619,7 @@ static void apply_solution(struct cm_state *state,
       continue;
     }
 
-    if (pcity->city_map[x][y] == C_TILE_WORKER) {
+    if (C_TILE_WORKER == pcity->city_map[x][y]) {
       pcity->city_map[x][y] = C_TILE_EMPTY;
     }
   } city_map_iterate_end;
@@ -635,7 +635,7 @@ static void apply_solution(struct cm_state *state,
       /* No citizens of this type. */
       continue;
     }
-    sumworkers += nworkers;
+    citizens += nworkers;
 
     type = tile_type_get(state, i);
 
@@ -656,7 +656,7 @@ static void apply_solution(struct cm_state *state,
 
   /* Finally we must refresh the city to reset all the precomputed fields. */
   city_refresh_from_main_map(pcity, FALSE); /* from city_map[] instead */
-  assert(sumworkers == pcity->size);
+  assert(citizens == pcity->size);
 }
 
 /****************************************************************************
@@ -1111,17 +1111,14 @@ static void init_tile_lattice(struct city *pcity,
     if (is_free_worked(pcity, ptile)) {
       pcity->city_map[x][y] = C_TILE_WORKER;
       continue;
-    }
-
-    if (!city_can_work_tile(pcity, ptile)) {
+    } else if (tile_worked(ptile) == pcity) {
+      /* is currently worked, but actually may be unavailable */
+      pcity->city_map[x][y] = C_TILE_WORKER;
+    } else if (city_can_work_tile(pcity, ptile)) {
+      pcity->city_map[x][y] = C_TILE_EMPTY;
+    } else {
       pcity->city_map[x][y] = C_TILE_UNAVAILABLE;
       continue;
-    }
-
-    if (tile_worked(ptile) == pcity) {
-      pcity->city_map[x][y] = C_TILE_WORKER;
-    } else {
-      pcity->city_map[x][y] = C_TILE_EMPTY;
     }
 
     compute_tile_production(pcity, ptile, &type); /* clobbers type */
@@ -2078,7 +2075,7 @@ void cm_print_city(const struct city *pcity)
       freelog(LOG_TEST, "    {%2d,%2d} (%4d,%4d)", x, y, TILE_XY(ptile));
     }
 
-    if (pcity->city_map[x][y] == C_TILE_WORKER) {
+    if (C_TILE_WORKER == pcity->city_map[x][y]) {
       freelog(LOG_TEST, "    {%2d,%2d}", x, y);
     }
   } city_tile_iterate_cxy_end;
