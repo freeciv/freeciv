@@ -2391,7 +2391,7 @@ static bool debug_command(struct connection *caller, char *str,
     } unit_list_iterate_end;
   } else if (ntokens > 0 && strcmp(arg[0], "timing") == 0) {
     TIMING_RESULTS();
-  } else if (strcmp(arg[0], "ferries") == 0) {
+  } else if (ntokens > 0 && strcmp(arg[0], "ferries") == 0) {
     if (game.debug[DEBUG_FERRIES]) {
       game.debug[DEBUG_FERRIES] = FALSE;
       cmd_reply(CMD_DEBUG, caller, C_OK, _("Ferry system is no longer "
