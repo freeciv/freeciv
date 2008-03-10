@@ -986,7 +986,8 @@ int trade_between_cities(const struct city *pc1, const struct city *pc2)
 {
   int bonus = 0;
 
-  if (pc1 && pc2) {
+  if (NULL != pc1 && NULL != pc1->tile
+   && NULL != pc2 && NULL != pc2->tile) {
     bonus = real_map_distance(pc1->tile, pc2->tile) + pc1->size + pc2->size;
     bonus /= 8;
 
