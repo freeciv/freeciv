@@ -1218,7 +1218,7 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
 
   add_to_gui_list(ID_BUTTON, pBuf);
 
-  if (value <= city_can_buy(pCity) && client.conn.playing->economic.gold) {
+  if (city_can_buy(pCity) && (value <= client.conn.playing->economic.gold)) {
     pBuf = create_themeicon_button_from_chars(pTheme->OK_Icon, pWindow->dst,
 					      _("Yes"), adj_font(12), 0);
 
