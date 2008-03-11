@@ -11,13 +11,13 @@ esac], [enable_debug=some])
 dnl -g is added by AC_PROG_CC if the compiler understands it
 if test "x$enable_debug" = "xyes"; then
   AC_DEFINE([DEBUG], [1], [Extra debugging support])
-  FC_C_FLAGS([-Werror], [], [EXTRA_DEBUG_C_FLAGS])
-  FC_CXX_FLAGS([-Werror], [], [EXTRA_DEBUG_CXX_FLAGS])
+  FC_C_FLAGS([-Werror], [], [EXTRA_DEBUG_CFLAGS])
+  FC_CXX_FLAGS([-Werror], [], [EXTRA_DEBUG_CXXFLAGS])
 else
   if test "x$enable_debug" = "xno"; then
     AC_DEFINE([NDEBUG], [1], [No debugging support at all])
-    FC_C_FLAGS([-O3 -fomit-frame-pointer], [], [EXTRA_DEBUG_C_FLAGS])
-    FC_CXX_FLAGS([-O3 -fomit-frame-pointer], [], [EXTRA_DEBUG_CXX_FLAGS])
+    FC_C_FLAGS([-O3 -fomit-frame-pointer], [], [EXTRA_DEBUG_CFLAGS])
+    FC_CXX_FLAGS([-O3 -fomit-frame-pointer], [], [EXTRA_DEBUG_CXXFLAGS])
   fi
 fi
 ])
