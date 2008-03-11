@@ -99,6 +99,10 @@ static bool authdb_check_password(struct connection *pconn,
 static enum authdb_status auth_db_load(struct connection *pconn);
 static bool auth_db_save(struct connection *pconn);
 
+#ifdef HAVE_AUTH
+static char *alloc_escaped_string(MYSQL *mysql, const char *orig);
+static void free_escaped_string(char *str);
+#endif /* HAVE_AUTH */
 
 /**************************************************
  The auth db statuses are:
@@ -647,11 +651,12 @@ static bool is_good_password(const char *password, char *msg)
   pconn->server.password.
 ***************************************************************************/
 static bool authdb_check_password(struct connection *pconn, 
-		          const char *password, int len)
+                                  const char *password, int len)
 {
 #ifdef HAVE_AUTH
   bool ok = FALSE;
   char buffer[512] = "";
+  const int bufsize = sizeof(buffer);
   char checksum[DIGEST_HEX_BYTES];
   MYSQL *sock, mysql;
 
@@ -668,16 +673,23 @@ static bool authdb_check_password(struct connection *pconn,
   if ((sock = mysql_real_connect(&mysql, auth_config.host.value,
                                  auth_config.user.value, auth_config.password.value, 
                                  auth_config.database.value, 0, NULL, 0))) {
-    /* insert an entry into our log */
-    my_snprintf(buffer, sizeof(buffer),
-                "insert into %s (name, logintime, address, succeed) "
-                "values ('%s',unix_timestamp(),'%s','%s')",
-                auth_config.login_table.value,
-                pconn->username, pconn->server.ipaddr, ok ? "S" : "F");
+    char *name_buffer = alloc_escaped_string(&mysql, pconn->username);
+    int str_result;
 
-    if (mysql_query(sock, buffer)) {
-      freelog(LOG_ERROR, "check_pass insert loginlog failed for user: %s (%s)",
-                         pconn->username, mysql_error(sock));
+    if (name_buffer != NULL) {
+      /* insert an entry into our log */
+      str_result = my_snprintf(buffer, bufsize,
+                               "insert into %s (name, logintime, address, succeed) "
+                               "values ('%s',unix_timestamp(),'%s','%s')",
+                               auth_config.login_table.value,
+                               name_buffer, pconn->server.ipaddr, ok ? "S" : "F");
+
+      if (str_result < 0 || str_result >= bufsize || mysql_query(sock, buffer)) {
+        freelog(LOG_ERROR, "check_pass insert loginlog failed for user: %s (%s)",
+                pconn->username, mysql_error(sock));
+      }
+      free_escaped_string(name_buffer);
+      name_buffer = NULL;
     }
     mysql_close(sock);
   } else {
@@ -697,11 +709,14 @@ static enum authdb_status auth_db_load(struct connection *pconn)
 {
 #ifdef HAVE_AUTH
   char buffer[512] = "";
+  const int bufsize = sizeof(buffer);
   int num_rows = 0;
   MYSQL *sock, mysql;
   MYSQL_RES *res;
   MYSQL_ROW row;
-  
+  char *name_buffer;
+  int str_result;
+
   mysql_init(&mysql);
 
   /* attempt to connect to the server */
@@ -712,58 +727,99 @@ static enum authdb_status auth_db_load(struct connection *pconn)
                                   0, NULL, 0))) {
     freelog(LOG_ERROR, "Can't connect to server! (%s)", mysql_error(&mysql));
     return AUTH_DB_ERROR;
-  } 
-  
-  /* select the password from the entry */
-  my_snprintf(buffer, sizeof(buffer), 
-              "select password from %s where name = '%s'",
-              auth_config.table.value, pconn->username);
+  }
 
-  if (mysql_query(sock, buffer)) {
-    freelog(LOG_ERROR, "db_load query failed for user: %s (%s)",
-                       pconn->username, mysql_error(sock));
-    return AUTH_DB_ERROR;
-  } 
+  name_buffer = alloc_escaped_string(&mysql, pconn->username);
+
+  if (name_buffer != NULL) {
+    /* select the password from the entry */
+    str_result = my_snprintf(buffer, bufsize,
+                             "select password from %s where name = '%s'",
+                             auth_config.table.value, name_buffer);
+
+    if (str_result < 0 || str_result >= bufsize || mysql_query(sock, buffer)) {
+      freelog(LOG_ERROR, "db_load query failed for user: %s (%s)",
+              pconn->username, mysql_error(sock));
+      free_escaped_string(name_buffer);
+      mysql_close(sock);
+      return AUTH_DB_ERROR;
+    }
+
+    res = mysql_store_result(sock);
+    num_rows = mysql_num_rows(res);
   
-  res = mysql_store_result(sock);
-  num_rows = mysql_num_rows(res);
+    /* if num_rows = 0, then we could find no such user */
+    if (num_rows < 1) {
+      mysql_free_result(res);
+      free_escaped_string(name_buffer);
+      mysql_close(sock);
+
+      return AUTH_DB_NOT_FOUND;
+    }
   
-  /* if num_rows = 0, then we could find no such user */
-  if (num_rows < 1) {
+    /* if there are more than one row that matches this name, it's an error 
+     * continue anyway though */
+    if (num_rows > 1) {
+      freelog(LOG_ERROR, "db_load query found multiple entries (%d) for user: %s",
+              num_rows, pconn->username);
+    }
+
+    /* if there are rows, then fetch them and use the first one */
+    row = mysql_fetch_row(res);
+    mystrlcpy(pconn->server.password, row[0], sizeof(pconn->server.password));
     mysql_free_result(res);
-    mysql_close(sock);
-    
-    return AUTH_DB_NOT_FOUND;
-  }
-  
-  /* if there are more than one row that matches this name, it's an error 
-   * continue anyway though */
-  if (num_rows > 1) {
-    freelog(LOG_ERROR, "db_load query found multiple entries (%d) for user: %s",
-                       num_rows, pconn->username);
-  }
 
-  /* if there are rows, then fetch them and use the first one */
-  row = mysql_fetch_row(res);
-  mystrlcpy(pconn->server.password, row[0], sizeof(pconn->server.password));
-  mysql_free_result(res);
+    /* update the access time for this user */
+    memset(buffer, 0, bufsize);
+    str_result = my_snprintf(buffer, bufsize,
+                             "update %s set accesstime=unix_timestamp(), "
+                             "address='%s', logincount=logincount+1 "
+                             "where strcmp(name, '%s') = 0",
+                             auth_config.table.value, pconn->server.ipaddr,
+                             name_buffer);
 
-  /* update the access time for this user */
-  memset(buffer, 0, sizeof(buffer));
-  my_snprintf(buffer, sizeof(buffer),
-                 "update %s set accesstime=unix_timestamp(), address='%s', "
-                 "logincount=logincount+1 where strcmp(name, '%s') = 0",
-                 auth_config.table.value, pconn->server.ipaddr, pconn->username);
+    free_escaped_string(name_buffer);
+    name_buffer = NULL;
 
-  if (mysql_query(sock, buffer)) {
-    freelog(LOG_ERROR, "db_load update accesstime failed for user: %s (%s)",
-                       pconn->username, mysql_error(sock));
+    if (str_result < 0 || str_result >= bufsize || mysql_query(sock, buffer)) {
+      freelog(LOG_ERROR, "db_load update accesstime failed for user: %s (%s)",
+              pconn->username, mysql_error(sock));
+    }
   }
 
   mysql_close(sock);
 #endif
   return AUTH_DB_SUCCESS;
 }
+
+#ifdef HAVE_AUTH
+/**************************************************************************
+ Creates escaped version of string.
+**************************************************************************/
+static char *alloc_escaped_string(MYSQL *mysql, const char *orig)
+{
+  int orig_len = strlen(orig);
+  char *escaped = fc_malloc(orig_len*2+1);
+
+  if (escaped == NULL) {
+    freelog(LOG_ERROR, "Failed to allocate memory for escaped string %s", orig);
+  } else {
+    mysql_real_escape_string(mysql, escaped, orig, orig_len);
+  }
+
+  return escaped;
+}
+
+/**************************************************************************
+ Frees escaped string created by alloc_escaped_string()
+**************************************************************************/
+static void free_escaped_string(char *str)
+{
+  if (str != NULL) {
+    FC_FREE(str);
+  }
+}
+#endif /* HAVE_AUTH */
 
 /**************************************************************************
  Saves pconn fields to the database. If the username already exists, 
@@ -773,7 +829,11 @@ static bool auth_db_save(struct connection *pconn)
 {
 #ifdef HAVE_AUTH
   char buffer[1024] = "";
+  const int bufsize = sizeof(buffer);
+  char *name_buffer = NULL;
+  char *pw_buffer = NULL;
   MYSQL *sock, mysql;
+  int str_result;
 
   mysql_init(&mysql);
 
@@ -786,16 +846,30 @@ static bool auth_db_save(struct connection *pconn)
     return FALSE;
   }
 
+  name_buffer = alloc_escaped_string(&mysql, pconn->username);
+  pw_buffer = alloc_escaped_string(&mysql, pconn->server.password);
+  if (name_buffer == NULL || pw_buffer == NULL) {
+    free_escaped_string(name_buffer);
+    mysql_close(sock);
+    return FALSE;
+  }
+
   /* insert new user into table. we insert the following things: name
    * md5sum of the password, the creation time in seconds, the accesstime
    * also in seconds from 1970, the users address (twice) and the logincount */
-  my_snprintf(buffer, sizeof(buffer),
-          "insert into %s values "
-          "(NULL, '%s', md5('%s'), NULL, unix_timestamp(), unix_timestamp(),"
-          "'%s', '%s', 0)", auth_config.table.value, pconn->username,
-          pconn->server.password, pconn->server.ipaddr, pconn->server.ipaddr);
+  str_result = my_snprintf(buffer, bufsize,
+                           "insert into %s values "
+                           "(NULL, '%s', md5('%s'), NULL, "
+                           "unix_timestamp(), unix_timestamp(),"
+                           "'%s', '%s', 0)",
+                           auth_config.table.value, name_buffer, pw_buffer,
+                           pconn->server.ipaddr, pconn->server.ipaddr);
 
-  if (mysql_query(sock, buffer)) {
+  /* Password is not needed for further queries. */
+  free_escaped_string(pw_buffer);
+  pw_buffer = NULL;
+
+  if (str_result < 0 || str_result >= bufsize || mysql_query(sock, buffer)) {
     freelog(LOG_ERROR, "db_save insert failed for new user: %s (%s)",
                        pconn->username, mysql_error(sock));
     mysql_close(sock);
@@ -803,14 +877,17 @@ static bool auth_db_save(struct connection *pconn)
   }
 
   /* insert an entry into our log */
-  memset(buffer, 0, sizeof(buffer));
-  my_snprintf(buffer, sizeof(buffer),
-              "insert into %s (name, logintime, address, succeed) "
-              "values ('%s',unix_timestamp(),'%s', 'S')",
-              auth_config.login_table.value,
-              pconn->username, pconn->server.ipaddr);
+  memset(buffer, 0, bufsize);
+  str_result = my_snprintf(buffer, bufsize,
+                           "insert into %s (name, logintime, address, succeed) "
+                           "values ('%s',unix_timestamp(),'%s', 'S')",
+                           auth_config.login_table.value,
+                           name_buffer, pconn->server.ipaddr);
 
-  if (mysql_query(sock, buffer)) {
+  free_escaped_string(name_buffer);
+  name_buffer = 0;
+
+  if (str_result < 0 || str_result >= bufsize || mysql_query(sock, buffer)) {
     freelog(LOG_ERROR, "db_load insert loginlog failed for user: %s (%s)",
                        pconn->username, mysql_error(sock));
   }
