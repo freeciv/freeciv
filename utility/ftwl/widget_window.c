@@ -23,6 +23,7 @@
 
 #include "widget_p.h"
 
+#include "fcintl.h"
 #include "log.h"
 #include "mem.h"
 

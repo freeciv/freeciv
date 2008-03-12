@@ -428,13 +428,13 @@ const char *mapview_get_unit_info_text(struct unit *punit)
 
       if (pcity){
 	/* TRANS: "Unit: Musketeers (Polish, Warsaw)" */
-	add_line(&str, _("Unit: %s (%s, %s)"),
+	add_line(_("Unit: %s (%s, %s)"),
 		 utype_name_translation(ptype),
 		 nation_adjective_for_player(owner),
 		 city_name(pcity));
       } else {
 	/* TRANS: "Unit: Musketeers (Polish)" */
-	add_line(&str, _("Unit: %s (%s)"),
+	add_line(_("Unit: %s (%s)"),
 		 utype_name_translation(ptype),
 		 nation_adjective_for_player(owner));
       }
@@ -442,7 +442,7 @@ const char *mapview_get_unit_info_text(struct unit *punit)
       struct unit *apunit = head_of_units_in_focus();  /* FIXME, need best in stack */
 
       /* TRANS: "Unit: Musketeers (Polish)" */
-      add_line(&str, _("Unit: %s (%s)"),
+      add_line(_("Unit: %s (%s)"),
                utype_name_translation(ptype),
                nation_adjective_for_player(owner));
 
