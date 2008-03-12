@@ -904,72 +904,6 @@ static void map_load(struct section_file *file,
     }
   } whole_map_iterate_end;
 
-#ifdef OWNER_SOURCE
-  /* Owner and ownership source are stored as plain numbers */
-  if (has_capability("new_owner_map", savefile_options)) {
-    int x, y;
-
-    for (y = 0; y < map.ysize; y++) {
-      char *buffer = 
-            secfile_lookup_str_default(file, NULL, "map.owner%03d", y);
-      char *ptr = buffer;
-
-      if (buffer == NULL) {
-        die("Savegame corrupt - map line %d not found.", y);
-      }
-      for (x = 0; x < map.xsize; x++) {
-        char token[TOKEN_SIZE];
-        int number;
-        struct tile *ptile = native_pos_to_tile(x, y);
-
-        scanin(&ptr, ",", token, sizeof(token));
-        if (token[0] == '\0') {
-          die("Savegame corrupt - map size not correct.");
-        }
-        if (strcmp(token, "-") == 0) {
-          ptile->owner = NULL;
-        } else {
-          if (sscanf(token, "%d", &number)) {
-            ptile->owner = player_by_number(number);
-          } else {
-            die("Savegame corrupt - got map owner %s in (%d, %d).", 
-                token, x, y);
-          }
-        }
-      }
-    }
-    for (y = 0; y < map.ysize; y++) {
-      char *buffer2 = 
-            secfile_lookup_str_default(file, NULL, "map.source%03d", y);
-      char *ptr2 = buffer2;
-
-      if (buffer2 == NULL) {
-        die("Savegame corrupt - map line %d not found.", y);
-      }
-      for (x = 0; x < map.xsize; x++) {
-        char token2[TOKEN_SIZE];
-        int number;
-        struct tile *ptile = native_pos_to_tile(x, y);
-
-        scanin(&ptr2, ",", token2, sizeof(token2));
-        if (token2[0] == '\0') {
-          die("Savegame corrupt - map size not correct.");
-        }
-        if (strcmp(token2, "-") == 0) {
-          ptile->owner_source = NULL;
-        } else {
-          if (sscanf(token2, "%d", &number)) {
-            ptile->owner_source = index_to_tile(number);
-          } else {
-            die("Savegame corrupt - got map source %s in (%d, %d).", 
-                token2, x, y);
-          }
-        }
-      }
-    }
-  }
-#endif
-
   if (secfile_lookup_bool_default(file, TRUE, "game.save_known")) {
     int known[MAP_INDEX_SIZE];
 
@@ -1784,6 +1718,7 @@ static void player_load_units(struct player *plr, int plrno,
       map_claim_ownership(punit->tile, plr, punit->tile);
       map_claim_border(punit->tile, plr);
       /* city_thaw_workers_queue() later */
+      /* city_refresh() later */
     }
   }
 }
@@ -2486,11 +2421,13 @@ static void player_load_cities(struct player *plr, int plrno,
 		    TILE_XY(pcenter), city_name(pcity), pcity->size);
 	  } else if (NULL != (pwork = tile_worked(ptile))) {
 	    freelog(LOG_WORKER, "player%d.c%d.workers"
-		    " {%d,%d} '%c' conflict for (%d,%d) \"%s\"[%d]"
+		    " {%d,%d} '%c' conflict at (%d,%d)"
+		    " for (%d,%d) \"%s\"[%d]"
 		    " with (%d,%d) \"%s\"[%d],"
 		    " converting to unavailable",
 		    plrno, i,
 		    x, y, *p,
+		    TILE_XY(ptile),
 		    TILE_XY(pcenter), city_name(pcity), pcity->size,
 		    TILE_XY(city_tile(pwork)), city_name(pwork), pwork->size);
 	    pcity->city_map[x][y] = C_TILE_UNAVAILABLE;
@@ -2508,11 +2445,13 @@ static void player_load_cities(struct player *plr, int plrno,
 		    TILE_XY(pcenter), city_name(pcity), pcity->size);
 	  } else if (NULL != (pwork = tile_worked(ptile))) {
 	    freelog(LOG_WORKER, "player%d.c%d.workers"
-		    " {%d,%d} '%c' conflict for (%d,%d) \"%s\"[%d]"
+		    " {%d,%d} '%c' conflict at (%d,%d)"
+		    " for (%d,%d) \"%s\"[%d]"
 		    " with (%d,%d) \"%s\"[%d],"
 		    " converting to default specialist",
 		    plrno, i,
 		    x, y, *p,
+		    TILE_XY(ptile),
 		    TILE_XY(pcenter), city_name(pcity), pcity->size,
 		    TILE_XY(city_tile(pwork)), city_name(pwork), pwork->size);
 
@@ -2540,10 +2479,12 @@ static void player_load_cities(struct player *plr, int plrno,
 	    /* already set C_TILE_UNUSABLE */
 	  } else {
 	    freelog(LOG_WORKER, "player%d.c%d.workers"
-		    " {%d,%d} '%c' not valid for (%d,%d) \"%s\"[%d],"
+		    " {%d,%d} '%c' not valid at (%d,%d)"
+		    " for (%d,%d) \"%s\"[%d],"
 		    " converting to unavailable",
 		    plrno, i,
 		    x, y, *p,
+		    TILE_XY(ptile),
 		    TILE_XY(pcenter), city_name(pcity), pcity->size);
 	    pcity->city_map[x][y] = C_TILE_UNAVAILABLE;
 	  }
@@ -3722,9 +3663,11 @@ static void repair_city_worker(struct city *pcity)
 	pcity->city_map[x][y] = C_TILE_UNAVAILABLE;
 
 	freelog(LOG_WORKER, "repair_city_worker()"
-		" {%d,%d} empty tile should be unavailable"
+		" {%d,%d} empty tile (%d,%d)"
+		" should be unavailable"
 		" for (%d,%d) \"%s\"[%d]",
 		x, y,
+		TILE_XY(ptile),
 		TILE_XY(pcenter), city_name(pcity), pcity->size);
       }
       break;
@@ -3732,14 +3675,19 @@ static void repair_city_worker(struct city *pcity)
     case C_TILE_WORKER:
       if (!res) {
 	pcity->city_map[x][y] = C_TILE_UNAVAILABLE;
-	tile_set_worked(ptile, NULL);
-	pcity->specialists[DEFAULT_SPECIALIST]++;
-	auto_arrange_workers(pcity);
+	if (tile_worked(ptile) == pcity) {
+	  /* duplicates map_claim_ownership() city_map_update_tile_frozen() */
+	  tile_set_worked(ptile, NULL);
+	  pcity->specialists[DEFAULT_SPECIALIST]++;
+	  auto_arrange_workers(pcity);
+	}
 
 	freelog(LOG_WORKER, "repair_city_worker()"
-		" {%d,%d} worked tile should be unavailable"
+		" {%d,%d} worked tile (%d,%d)"
+		" should be unavailable"
 		" for (%d,%d) \"%s\"[%d]",
 		x, y,
+		TILE_XY(ptile),
 		TILE_XY(pcenter), city_name(pcity), pcity->size);
 
 	city_tile_iterate(ptile, tile2) {
@@ -3763,18 +3711,22 @@ static void repair_city_worker(struct city *pcity)
 	pcity->city_map[x][y] = C_TILE_EMPTY;
 
 	freelog(LOG_WORKER, "repair_city_worker()"
-		" {%d,%d} unavailable tile should be empty"
+		" {%d,%d} unavailable tile (%d,%d)"
+		" should be empty"
 		" for (%d,%d) \"%s\"[%d]",
 		x, y,
+		TILE_XY(ptile),
 		TILE_XY(pcenter), city_name(pcity), pcity->size);
       }
       break;
 
     default:
       freelog(LOG_ERROR, "repair_city_worker()"
-              " {%d,%d} bad city tile value %d"
+              " {%d,%d} bad city tile (%d,%d)"
+              " value %d"
               " for (%d,%d) \"%s\"[%d]",
               x, y,
+              TILE_XY(ptile),
               pcity->city_map[x][y],
               TILE_XY(pcenter), city_name(pcity), pcity->size);
       break;
@@ -4391,6 +4343,7 @@ void game_load(struct section_file *file)
 
     /* all vision is ready */
     map_calculate_borders(); /* does city_thaw_workers_queue() */
+    /* city_refresh() below */
 
     /* Make sure everything is consistent. */
     players_iterate(pplayer) {
@@ -4403,10 +4356,13 @@ void game_load(struct section_file *file)
 
       city_list_iterate(pplayer->cities, pcity) {
 	repair_city_worker(pcity);
-	city_refresh(pcity); /* initial */
-	city_thaw_workers(pcity); /* may auto_arrange_workers() */
       } city_list_iterate_end;
     } players_iterate_end;
+
+    cities_iterate(pcity) {
+      city_refresh(pcity); /* again */
+      city_thaw_workers(pcity); /* may auto_arrange_workers() */
+    } cities_iterate_end;
   }
 
   if (secfile_lookup_int_default(file, -1,

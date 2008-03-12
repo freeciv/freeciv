@@ -60,6 +60,11 @@
 #include "ailog.h"
 #include "aitools.h"
 
+
+/* Queue for pending city_refresh() */
+static struct city_list *city_refresh_queue = NULL;
+
+
 static void check_pollution(struct city *pcity);
 static void city_populate(struct city *pcity);
 
@@ -90,7 +95,9 @@ static void nullify_caravan_and_disband_plus(struct city *pcity);
 **************************************************************************/
 void city_refresh(struct city *pcity)
 {
-   city_refresh_from_main_map(pcity, TRUE);
+  pcity->server.needs_refresh = FALSE;
+  city_refresh_from_main_map(pcity, TRUE);
+
    /* AI would calculate this 1000 times otherwise; better to do it
       once -- Syela */
    pcity->ai.trade_want
@@ -109,6 +116,43 @@ void city_refresh_for_player(struct player *pplayer)
     send_city_info(pplayer, pcity);
   city_list_iterate_end;
   conn_list_do_unbuffer(pplayer->connections);
+}
+
+/****************************************************************************
+  Queue pending city_refresh() for later.
+****************************************************************************/
+void city_refresh_queue_add(struct city *pcity)
+{
+  if (NULL == city_refresh_queue) {
+    city_refresh_queue = city_list_new();
+  } else if (city_list_find_id(city_refresh_queue, pcity->id)) {
+    return;
+  }
+
+  city_list_prepend(city_refresh_queue, pcity);
+  pcity->server.needs_refresh = TRUE;
+}
+
+/*************************************************************************
+  Refresh the listed cities.
+  Called after significant changes to borders, and arranging workers.
+*************************************************************************/
+void city_refresh_queue_processing(void)
+{
+  if (NULL == city_refresh_queue) {
+    return;
+  }
+
+  city_list_iterate(city_refresh_queue, pcity) {
+    if (pcity->server.needs_refresh) {
+      city_refresh(pcity);
+      send_city_info(city_owner(pcity), pcity);
+    }
+  } city_list_iterate_end;
+
+  city_list_unlink_all(city_refresh_queue);
+  city_list_free(city_refresh_queue);
+  city_refresh_queue = NULL;
 }
 
 /**************************************************************************

@@ -787,6 +787,7 @@ static void update_unit_activity(struct unit *punit)
         map_claim_ownership(ptile, unit_owner(punit), ptile);
         map_claim_border(ptile, unit_owner(punit));
         city_thaw_workers_queue();
+        city_refresh_queue_processing();
       }
 
       unit_activity_done = TRUE;
@@ -2712,6 +2713,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
     map_claim_ownership(pdesttile, pplayer, pdesttile);
     map_claim_border(pdesttile, pplayer);
     city_thaw_workers_queue();
+    city_refresh_queue_processing();
   }
 
   unit_list_unlink(psrctile->units, punit);

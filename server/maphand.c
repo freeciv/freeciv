@@ -1723,34 +1723,21 @@ static bool is_claimable_ocean(struct tile *ptile, struct tile *source)
   }
 }
 
-#ifdef OWNER_SOURCE
 /*************************************************************************
-  Add any unique home city not found in list but found on tile to the 
-  list.
+  For each unit at the tile, queue any unique home city.
 *************************************************************************/
-static void add_unique_homecities(struct city_list *cities_to_refresh, 
-                           struct tile *tile1)
+static void map_unit_homecity_enqueue(struct tile *ptile)
 {
-  /* Update happiness */
- unit_list_iterate(tile1->units, unit) {
-   struct city* homecity = game_find_city_by_number(unit->homecity);
-   bool already_listed = FALSE;
+  unit_list_iterate(ptile->units, punit) {
+    struct city *phome = game_find_city_by_number(punit->homecity);
 
-    if (!homecity) {
+    if (NULL == phome) {
       continue;
     }
-    city_list_iterate(cities_to_refresh, city2) {
-      if (city2 == homecity) {
-        already_listed = TRUE;
-        break;
-      }
-      if (!already_listed) {
-        city_list_prepend(cities_to_refresh, homecity);
-      }
-    } city_list_iterate_end;
+
+    city_refresh_queue_add(phome);
   } unit_list_iterate_end;
 }
-#endif
 
 /*************************************************************************
   Claim ownership of a single tile.
@@ -1813,6 +1800,10 @@ void map_claim_ownership(struct tile *ptile, struct player *powner,
   tile_set_owner(ptile, powner);
 
   if (ploser != powner) {
+    if (S_S_RUNNING == server_state() && game.info.happyborders > 0) {
+      map_unit_homecity_enqueue(ptile);
+    }
+
     if (!city_map_update_tile_frozen(ptile)) {
       send_tile_info(NULL, ptile, FALSE);
     }
@@ -1935,7 +1926,7 @@ void map_claim_border(struct tile *ptile, struct player *powner)
       continue;
     }
 
-    if (NULL != downer && downer != powner) {
+    if (NULL != downer) {
       struct vision_site *dsite = map_get_player_site(dtile, downer);
       int r = sq_map_distance(dsite->location, dtile);
 
@@ -1974,164 +1965,27 @@ void map_claim_border(struct tile *ptile, struct player *powner)
 
 /*************************************************************************
   Update borders for all sources.  Call this on turn end.
-
-  We will remove claim to land whose source is gone, and claim
-  more land to sources in range, unless there are enemy units within
-  this range.
 *************************************************************************/
 void map_calculate_borders(void)
 {
-  struct city_list *cities_to_refresh = NULL;
-
   if (game.info.borders == 0) {
     return;
   }
 
-  if (game.info.happyborders > 0) {
-    cities_to_refresh = city_list_new();
-  }
-
-freelog(LOG_VERBOSE,"map_calculate_borders() sites");
+  freelog(LOG_VERBOSE,"map_calculate_borders() sites");
   /* base sites are done first, as they may be thorn in city side. */
   sites_iterate(psite) {
     map_claim_border(psite->location, vision_owner(psite));
   } sites_iterate_end;
 
-freelog(LOG_VERBOSE,"map_calculate_borders() cities");
+  freelog(LOG_VERBOSE,"map_calculate_borders() cities");
   cities_iterate(pcity) {
     map_claim_border(pcity->tile, city_owner(pcity));
   } cities_iterate_end;
 
-freelog(LOG_VERBOSE,"map_calculate_borders() done");
+  freelog(LOG_VERBOSE,"map_calculate_borders() workers");
   city_thaw_workers_queue();
-
-#ifdef OWNER_SOURCE
-  /* First transfer ownership for sources that have changed hands. */
-  whole_map_iterate(ptile) {
-    if (tile_owner(ptile) 
-        && ptile->owner_source
-        && ptile->owner_source->owner != tile_owner(ptile)
-        && (tile_city(ptile->owner_source)
-            || tile_has_base_flag(ptile->owner_source,
-                                  BF_CLAIM_TERRITORY))) {
-      /* Claim ownership of tiles previously owned by someone else */
-      map_claim_ownership(ptile, ptile->owner_source->owner, 
-                          ptile->owner_source);
-    }
-  } whole_map_iterate_end;
-
-  /* Second transfer ownership to city closer than current source 
-   * but with the same owner. */
-  whole_map_iterate(ptile) {
-    if (tile_owner(ptile)) {
-      city_list_iterate(tile_owner(ptile)->cities, pcity) {
-        int r_curr, r_city = sq_map_distance(ptile, pcity->tile);
-        int max_range = map_border_range(pcity->tile);
-
-        /* Repair tile ownership */
-        if (!ptile->owner_source) {
-          assert(FALSE);
-          ptile->owner_source = pcity->tile;
-        }
-        r_curr = sq_map_distance(ptile, ptile->owner_source);
-        max_range *= max_range; /* we are dealing with square distances */
-        /* Transfer tile to city if closer than current source */
-        if (r_curr > r_city && max_range >= r_city) {
-          freelog(LOG_DEBUG, "%s %s(%d,%d) acquired tile (%d,%d) from "
-                  "(%d,%d)",
-                  nation_rule_name(nation_of_player(tile_owner(ptile))),
-                  city_name(pcity),
-                  TILE_XY(pcity->tile),
-                  TILE_XY(ptile),
-                  TILE_XY(ptile->owner_source));
-          ptile->owner_source = pcity->tile;
-        }
-      } city_list_iterate_end;
-    }
-  } whole_map_iterate_end;
-
-  /* Third remove undue ownership. */
-  whole_map_iterate(ptile) {
-    if (tile_owner(ptile)
-        && (!ptile->owner_source
-            || !tile_owner(ptile)->is_alive
-            || tile_owner(ptile) != ptile->owner_source->owner
-            || (!tile_city(ptile->owner_source)
-                && !tile_has_base_flag(ptile->owner_source,
-                                       BF_CLAIM_TERRITORY)))) {
-      /* Ownership source gone */
-      map_claim_ownership(ptile, NULL, NULL);
-    }
-  } whole_map_iterate_end;
-
-  /* Now claim ownership of unclaimed tiles for all sources; we
-   * grab one circle each turn as long as we have range left
-   * to better visually display expansion. */
-  whole_map_iterate(ptile) {
-    if (tile_owner(ptile)
-        && (tile_city(ptile)
-            || tile_has_base_flag(ptile, BF_CLAIM_TERRITORY))) {
-      /* We have an ownership source */
-      int expand_range = 99;
-      int found_unclaimed = 99;
-      int range = map_border_range(ptile);
-
-      freelog(LOG_DEBUG, "source at %d,%d", TILE_XY(ptile));
-      range *= range; /* due to sq dist */
-      freelog(LOG_DEBUG, "borders range for source is %d", range);
-
-      circle_dxyr_iterate(ptile, range, atile, dx, dy, dist) {
-        if (expand_range > dist) {
-          unit_list_iterate(atile->units, punit) {
-            if (!pplayers_allied(unit_owner(punit), tile_owner(ptile))) {
-              /* We cannot expand borders further when enemy units are
-               * standing in the way. */
-              expand_range = dist - 1;
-            }
-          } unit_list_iterate_end;
-        }
-        if (found_unclaimed > dist
-            && tile_owner(atile) == NULL
-            && map_is_known(atile, tile_owner(ptile))
-            && (!is_ocean_tile(atile)
-                || is_claimable_ocean(atile, ptile))) {
-          found_unclaimed = dist;
-        }
-      } circle_dxyr_iterate_end;
-      freelog(LOG_DEBUG, "expand_range=%d found_unclaimed=%d", expand_range,
-              found_unclaimed);
-
-      circle_dxyr_iterate(ptile, range, atile, dx, dy, dist) {
-        if (dist > expand_range || dist > found_unclaimed) {
-          continue; /* only expand one extra circle radius each turn */
-        }
-        if (map_is_known(atile, tile_owner(ptile))
-            && tile_owner(atile) == NULL
-            && ((!is_ocean_tile(atile) 
-                 && tile_continent(atile) == tile_continent(ptile))
-                || (is_ocean_tile(atile)
-                    && is_claimable_ocean(atile, ptile)))) {
-          map_claim_ownership(atile, tile_owner(ptile), ptile);
-          atile->owner_source = ptile;
-          if (game.info.happyborders > 0) {
-            add_unique_homecities(cities_to_refresh, atile);
-          }
-        }
-      } circle_dxyr_iterate_end;
-    }
-  } whole_map_iterate_end;
-#endif
-
-  /* Update happiness in all homecities we have collected */ 
-  if (game.info.happyborders > 0) {
-    city_list_iterate(cities_to_refresh, to_refresh) {
-      city_refresh(to_refresh);
-      send_city_info(city_owner(to_refresh), to_refresh);
-    } city_list_iterate_end;
-    
-    city_list_unlink_all(cities_to_refresh);
-    city_list_free(cities_to_refresh);
-  }
+  city_refresh_queue_processing();
 }
 
 /*************************************************************************

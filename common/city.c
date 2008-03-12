@@ -2537,6 +2537,7 @@ struct city *create_city_virtual(struct player *pplayer,
 
   pcity->server.workers_frozen = 0;
   pcity->server.needs_arrange = FALSE;
+  pcity->server.needs_refresh = FALSE;
   pcity->server.synced = FALSE;
   pcity->server.vision = NULL; /* No vision. */
 
