@@ -992,6 +992,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   auto_arrange_workers(pcity); /* does city_map_update_all() */
   city_thaw_workers(pcity);
   city_thaw_workers_queue();  /* after old city has a chance to work! */
+  city_refresh_queue_processing();
 
   send_city_info(NULL, pcity);
 
@@ -1087,6 +1088,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
   city_refresh(pcity);
   auto_arrange_workers(pcity);
   city_thaw_workers_queue(); /* after new city has a chance to work! */
+  city_refresh_queue_processing();
 
   /* If base acted as a watchtower, put vision back to normal */
   if (pbase) {
@@ -1211,6 +1213,7 @@ void remove_city(struct city *pcity)
 
   map_clear_border(pcenter, powner);
   city_thaw_workers_queue();
+  city_refresh_queue_processing();
   map_claim_ownership(pcenter, NULL, NULL);
 
   /* idex_unregister_city() is called in game_remove_city() below */

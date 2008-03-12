@@ -370,6 +370,11 @@ struct city {
      */
     bool needs_arrange;
 
+    /* If set, city needs to be refreshed at a later time.
+     * Set inside city_refresh() and city_refresh_queue_add().
+     */
+    bool needs_refresh;
+
     /* the city map is synced with the client. */
     bool synced;
 
