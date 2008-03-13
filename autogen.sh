@@ -247,11 +247,8 @@ if [ "$DIE" -eq 1 ]; then
   exit 1
 fi
 
-echo "+ creating acinclude.m4"
-cat m4/*.m4 > acinclude.m4
-
 echo "+ running $ACLOCAL ..."
-$ACLOCAL $ACLOCAL_FLAGS || {
+$ACLOCAL -I m4 $ACLOCAL_FLAGS || {
   echo
   echo "$ACLOCAL failed - check that all needed development files are present on system"
   exit 1
