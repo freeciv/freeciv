@@ -8,7 +8,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/utility -I$(srcdir)/../common -I$(srcdir)/../ai \
 	-I$(top_srcdir)/common/aicore \
 	-I$(srcdir)/generator -I$(srcdir)/scripting \
-	$(LIBGGZ_INCLUDES) $(GGZDMOD_INCLUDES)
+	$(LIBGGZ_INCLUDES) $(GGZDMOD_INCLUDES) @AUTH_CFLAGS@
 
 if MINGW32
 SERVERICON=../win32/servericon.o
