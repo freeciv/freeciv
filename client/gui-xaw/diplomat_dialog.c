@@ -150,24 +150,6 @@ static void diplomat_sabotage_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-static void diplomat_embassy_callback(Widget w, XtPointer client_data, 
-				      XtPointer call_data)
-{
-  destroy_message_dialog(w);
-  diplomat_dialog = NULL;
-
-  if(game_find_unit_by_number(diplomat_id) && 
-     (game_find_city_by_number(diplomat_target_id))) { 
-    request_diplomat_action(DIPLOMAT_EMBASSY, diplomat_id,
-			    diplomat_target_id, 0);
-  }
-
-  process_diplomat_arrival(NULL, 0);
-}
-
-/****************************************************************
-...
-*****************************************************************/
 static void diplomat_investigate_callback(Widget w, XtPointer client_data, 
 					  XtPointer call_data)
 {
@@ -719,7 +701,6 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
     if (!unit_has_type_flag(punit, F_SPY)) {
       diplomat_dialog =
         popup_message_dialog(toplevel, "diplomatdialog", buf,
-			       diplomat_embassy_callback, 0, 1,
 			       diplomat_investigate_callback, 0, 1,
 			       diplomat_sabotage_callback, 0, 1,
 			       diplomat_steal_callback, 0, 1,
@@ -728,22 +709,24 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 			       diplomat_cancel_callback, 0, 0,
 			       NULL);
       
-      if(!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_tile))
+      if(!diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_tile)) {
 	XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button0"), FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_tile))
+      }
+      if(!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_tile)) {
 	XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button1"), FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_tile))
+      }
+      if(!diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_tile)) {
 	XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button2"), FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_tile))
+      }
+      if(!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_tile)) {
 	XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button3"), FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_tile))
+      }
+      if(!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_tile)) {
 	XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button4"), FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_tile))
-	XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button5"), FALSE);
+      }
     } else {
       diplomat_dialog =
         popup_message_dialog(toplevel, "spydialog", buf,
-			       diplomat_embassy_callback, 0,  1,
 			       diplomat_investigate_callback, 0, 1,
 			       spy_poison_callback,0, 1,
 			       spy_request_sabotage_list, 0, 1,
@@ -753,20 +736,24 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 			       diplomat_cancel_callback, 0, 0,
 			       NULL);
       
-      if(!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_tile))
+      if(!diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_tile)) {
 	XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button0"), FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_tile))
+      }
+      if(!diplomat_can_do_action(punit, SPY_POISON, dest_tile)) {
 	XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button1"), FALSE);
-      if(!diplomat_can_do_action(punit, SPY_POISON, dest_tile))
+      }
+      if(!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_tile)) {
 	XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button2"), FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_tile))
+      }
+      if(!diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_tile)) {
 	XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button3"), FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_tile))
+      }
+      if(!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_tile)) {
 	XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button4"), FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_tile))
+      }
+      if(!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_tile)) {
 	XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button5"), FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_tile))
-	XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button6"), FALSE);
+      }
     }
   } else { 
     if ((ptunit = unit_list_get(dest_tile->units, 0))) {

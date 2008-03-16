@@ -32,19 +32,21 @@
 #include <X11/Xaw/Toggle.h>     
 #include <X11/IntrinsicP.h>
 
-
+/* utilitity */
 #include "fcintl.h"
 #include "mem.h"
 #include "genlist.h"
 #include "shared.h"
 #include "support.h"
 
+/* common */
 #include "city.h"
 #include "connection.h"	/* can_conn_edit */
 #include "game.h"
 #include "map.h"
 #include "packets.h"
 #include "player.h"
+#include "specialist.h"
 #include "unitlist.h"
 
 #include "civclient.h"

@@ -259,10 +259,9 @@ void update_players_dialog(void)
 
       /* assemble the whole lot */
       my_snprintf(namelist_text[j], sizeof(namelist_text[j]),
-	      "%-16s %-12s %-8s %-15s %-8s %-6s   %-15s%s", 
+	      "%-16s %-12s %-15s %-8s %-6s   %-15s%s", 
 	      namebuf,
-	      nation_adjective_for_player(pplayer), 
-	      get_embassy_status(client.conn.playing, pplayer),
+	      nation_adjective_for_player(pplayer),
 	      dsbuf,
 	      get_vision_status(client.conn.playing, pplayer),
 	      statebuf,
