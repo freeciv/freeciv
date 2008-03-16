@@ -454,10 +454,12 @@ struct settings_s settings[] = {
 
   GEN_INT("aifill", game.info.aifill,
 	  SSET_PLAYERS, SSET_INTERNAL, SSET_VITAL, SSET_TO_CLIENT,
-	  N_("Total number of players (including AI players)"),
+	  N_("Limited number of AI players"),
 	  N_("If set to a positive value, then AI players will be "
 	     "automatically created or removed to keep the total "
-	     "number of players at this amount."), aifill_callback,
+	     "number of players at this amount.  As more players join, "
+	     "these AI players will be replaced.  When set to zero, "
+	     "all AI players will be removed."), aifill_callback,
 	  GAME_MIN_AIFILL, GAME_MAX_AIFILL, GAME_DEFAULT_AIFILL)
 
   /* Game initialization parameters (only affect the first start of the game,

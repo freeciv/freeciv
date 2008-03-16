@@ -87,13 +87,7 @@ static GtkWidget *ruleset_combo;
 static void start_new_game_callback(GtkWidget *w, gpointer data)
 {
   if (is_server_running() || client_start_server()) {
-    char buf[512];
-
-    /* Send new game defaults. */
-    send_chat("/set aifill 5");
-
-    my_snprintf(buf, sizeof(buf), "/%s", ai_level_cmd(AI_LEVEL_DEFAULT));
-    send_chat(buf);
+    /* saved settings are sent in client/options.c load_settable_options() */
   }
 }
 
@@ -1035,7 +1029,6 @@ void update_start_page(void)
 {
   bool old = send_new_aifill_to_server;
   send_new_aifill_to_server = FALSE;
-  /* Default to aifill 5. */
   gtk_spin_button_set_value(GTK_SPIN_BUTTON(start_aifill_spin),
                             game.info.aifill);
   send_new_aifill_to_server = old;
