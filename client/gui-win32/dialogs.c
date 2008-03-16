@@ -1125,20 +1125,7 @@ static void diplomat_sabotage_callback(HWND w, void * data)
  
   process_diplomat_arrival(NULL, 0);
 }                  
-/*****************************************************************/
-static void diplomat_embassy_callback(HWND w, void * data)
-{
-  destroy_message_dialog(w);
-  diplomat_dialog=0;
- 
-  if(game_find_unit_by_number(diplomat_id) &&
-     (game_find_city_by_number(diplomat_target_id))) {
-    request_diplomat_action(DIPLOMAT_EMBASSY, diplomat_id,
-			    diplomat_target_id, 0);
-  }
- 
-  process_diplomat_arrival(NULL, 0);
-}    
+
 /****************************************************************
 ...
 *****************************************************************/
@@ -1600,7 +1587,6 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *ptile)
     if(!unit_has_type_flag(punit, F_SPY)){
       shl=popup_message_dialog(root_window, /*"diplomatdialog"*/
 			       _("Choose Your Diplomat's Strategy"), buf,
-         		     _("Establish _Embassy"), diplomat_embassy_callback, 0,
          		     _("_Investigate City"), diplomat_investigate_callback, 0,
          		     _("_Sabotage City"), diplomat_sabotage_callback, 0,
          		     _("Steal _Technology"), diplomat_steal_callback, 0,
@@ -1608,20 +1594,21 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *ptile)
          		     _("_Cancel"), diplomat_cancel_callback, 0,
          		     0);
       
-      if (!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, ptile))
-       message_dialog_button_set_sensitive(shl,0,FALSE);
-      if (!diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, ptile))
-       message_dialog_button_set_sensitive(shl,1,FALSE);
-      if (!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, ptile))
-       message_dialog_button_set_sensitive(shl,2,FALSE);
-      if (!diplomat_can_do_action(punit, DIPLOMAT_STEAL, ptile))
-       message_dialog_button_set_sensitive(shl,3,FALSE);
-      if (!diplomat_can_do_action(punit, DIPLOMAT_INCITE, ptile))
-       message_dialog_button_set_sensitive(shl,4,FALSE);
-    }else{
+      if (!diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, ptile)) {
+        message_dialog_button_set_sensitive(shl, 0, FALSE);
+      }
+      if (!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, ptile)) {
+        message_dialog_button_set_sensitive(shl, 1, FALSE);
+      }
+      if (!diplomat_can_do_action(punit, DIPLOMAT_STEAL, ptile)) {
+        message_dialog_button_set_sensitive(shl, 2, FALSE);
+      }
+      if (!diplomat_can_do_action(punit, DIPLOMAT_INCITE, ptile)) {
+        message_dialog_button_set_sensitive(shl, 3, FALSE);
+      }
+    } else {
        shl = popup_message_dialog(root_window, /*"spydialog"*/
 		_("Choose Your Spy's Strategy"), buf,
- 		_("Establish _Embassy"), diplomat_embassy_callback, 0,
 		_("_Investigate City"), diplomat_investigate_callback, 0,
 		_("_Poison City"), spy_poison_callback,0,
  		_("Industrial _Sabotage"), spy_request_sabotage_list, 0,
@@ -1630,19 +1617,22 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *ptile)
  		_("_Cancel"), diplomat_cancel_callback, 0,
 		0);
 
-      if (!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, ptile))
-       message_dialog_button_set_sensitive(shl,0,FALSE);
-      if (!diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, ptile))
-       message_dialog_button_set_sensitive(shl,1,FALSE);
-      if (!diplomat_can_do_action(punit, SPY_POISON, ptile))
-       message_dialog_button_set_sensitive(shl,2,FALSE);
-      if (!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, ptile))
-       message_dialog_button_set_sensitive(shl,3,FALSE);
-      if (!diplomat_can_do_action(punit, DIPLOMAT_STEAL, ptile))
-       message_dialog_button_set_sensitive(shl,4,FALSE);
-      if (!diplomat_can_do_action(punit, DIPLOMAT_INCITE, ptile))
-       message_dialog_button_set_sensitive(shl,5,FALSE);
-     }
+       if (!diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, ptile)) {
+         message_dialog_button_set_sensitive(shl, 0, FALSE);
+       }
+       if (!diplomat_can_do_action(punit, SPY_POISON, ptile)) {
+         message_dialog_button_set_sensitive(shl, 1, FALSE);
+       }
+       if (!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, ptile)) {
+         message_dialog_button_set_sensitive(shl, 2, FALSE);
+       }
+       if (!diplomat_can_do_action(punit, DIPLOMAT_STEAL, ptile)) {
+         message_dialog_button_set_sensitive(shl, 3, FALSE);
+       }
+       if (!diplomat_can_do_action(punit, DIPLOMAT_INCITE, ptile)) {
+         message_dialog_button_set_sensitive(shl, 4, FALSE);
+       }
+    }
 
     diplomat_dialog=shl;
    }else{

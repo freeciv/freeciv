@@ -56,7 +56,7 @@ static int sort_column=2;
 #define ID_PLAYERS_VISION 105
 #define ID_PLAYERS_SSHIP 106
 
-#define NUM_COLUMNS 9
+#define NUM_COLUMNS 8
 
 /******************************************************************
 
@@ -169,12 +169,11 @@ static void build_row(const char **row, int player_index, int update)
 
   /* assemble the whole lot */
   row[2] = aibuf;
-  row[3] = get_embassy_status(client.conn.playing, pplayer);
-  row[4] = dsbuf;
-  row[5] = get_vision_status(client.conn.playing, pplayer);
-  row[6] = statebuf;
-  row[7] = (char *) player_addr_hack(pplayer);	/* Fixme */
-  row[8] = idlebuf;
+  row[3] = dsbuf;
+  row[4] = get_vision_status(client.conn.playing, pplayer);
+  row[5] = statebuf;
+  row[6] = (char *) player_addr_hack(pplayer);	/* Fixme */
+  row[7] = idlebuf;
 }
 
 
@@ -328,7 +327,7 @@ static void create_players_dialog(void)
   int i;
   static char *titles_[NUM_COLUMNS] =
     { N_("Name"), N_("Nation"), N_("AI"),
-      N_("Embassy"), N_("Dipl.State"), N_("Vision"),
+      N_("Dipl.State"), N_("Vision"),
       N_("State"), N_("Host"), N_("Idle")
     };
   struct fcwin_box *vbox;
