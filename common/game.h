@@ -171,7 +171,7 @@ bool setting_class_is_changeable(enum sset_class class);
 #define GAME_MIN_MAX_PLAYERS         1
 #define GAME_MAX_MAX_PLAYERS         MAX_NUM_PLAYERS
 
-#define GAME_DEFAULT_AIFILL          0
+#define GAME_DEFAULT_AIFILL          5
 #define GAME_MIN_AIFILL              0
 #define GAME_MAX_AIFILL              GAME_MAX_MAX_PLAYERS
 

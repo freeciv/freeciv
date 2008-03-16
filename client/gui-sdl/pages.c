@@ -58,13 +58,7 @@ static int start_new_game_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     popdown_start_menu();
     if (is_server_running() || client_start_server()) {
-      char buf[512];
-  
-      /* Send new game defaults. */
-      send_chat("/set aifill 5");
-  
-      my_snprintf(buf, sizeof(buf), "/%s", ai_level_cmd(AI_LEVEL_DEFAULT));
-      send_chat(buf);
+      /* saved settings are sent in client/options.c load_settable_options() */
     }
   }
   return -1;
