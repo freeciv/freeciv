@@ -220,6 +220,14 @@ cd $SRCDIR
   exit 1
 }
 
+# Check against acinclude.m4, which earlier versions used to generate.
+[ -f acinclude.m4 ] && {
+  echo "There is file acinclude.m4 in source directory."
+  echo "It's probably left from earlier Freeciv build, and can cause"
+  echo "unexpected results. Please remove it."
+  exit 1
+}
+
 # autoconf and autoheader version numbers must be kept in sync
 real_package_name "autoconf" "ftp://ftp.gnu.org/pub/gnu/autoconf/" 2 55 || DIE=1
 AUTOCONF=$REALPKGNAME
