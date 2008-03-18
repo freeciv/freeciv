@@ -108,8 +108,8 @@ void establish_new_connection(struct connection *pconn)
   send_rulesets(dest);
   send_server_settings(dest);
 
-  /* a player has already been created for this user, reconnect him */
   if ((pplayer = find_player_by_user(pconn->username))) {
+    /* a player has already been created for this user, reconnect */
     attach_connection_to_player(pconn, pplayer, FALSE);
 
     if (game.info.auto_ai_toggle && pplayer->ai.control) {
@@ -135,7 +135,9 @@ void establish_new_connection(struct connection *pconn)
 
     if (S_S_INITIAL == server_state() && game.info.is_new_game) {
       if (attach_connection_to_player(pconn, NULL, FALSE)) {
+        /* temporarily set player_name() to username */
         sz_strlcpy(pconn->playing->name, pconn->username);
+        aifill(game.info.aifill); /* first connect */
 
         /* send new player connection to everybody */
         send_player_info_c(NULL, game.est_connections);
@@ -433,40 +435,54 @@ void send_conn_info_remove(struct conn_list *src, struct conn_list *dest)
 
 /**************************************************************************
   Setup pconn as a client connected to pplayer:
-  Updates pconn->playing, pplayer->connections, pplayer->is_connected.
+  Updates pconn, pplayer->connections, pplayer->is_connected.
 
-  If pplayer is NULL, take the next available player that is not already 
-  associated.
-  Note "observer" connections do not count for is_connected. You must set
-       pconn->observer to TRUE before attaching!
+  If pplayer is NULL, take the next available player that is not connected.
+  Note "observer" connections do not count for is_connected.
 **************************************************************************/
 bool attach_connection_to_player(struct connection *pconn,
                                  struct player *pplayer,
                                  bool observing)
 {
-  /* if pplayer is NULL, attach to first non-connected player slot */
-  if (NULL == pplayer && !observing) {
-    if (game.info.nplayers >= game.info.max_players 
-        || game.info.nplayers >= MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS) {
-      return FALSE; 
-    } else {
-      pplayer = &game.players[game.info.nplayers];
-      server_player_init(pplayer, FALSE, TRUE);
+  if (observing) {
+    assert(NULL != pplayer);
+  } else {
+    if (NULL == pplayer) {
+      /* search for first uncontrolled player */
+      players_iterate(played) {
+        if (!played->is_connected && !played->was_created) {
+          pplayer = played;
+          break;
+        }
+      } players_iterate_end;
 
-      dlsend_packet_player_control(game.est_connections, ++game.info.nplayers);
+      if (NULL == pplayer) {
+        /* no uncontrolled player found */
+        if (game.info.nplayers >= game.info.max_players
+            || game.info.nplayers >= MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS) {
+          /* the latter test is probably redundant, and should never happen;
+           * no remaining player slots.
+           */
+          return FALSE;
+        }
+
+        /* add new player */
+        pplayer = &game.players[game.info.nplayers];
+        dlsend_packet_player_control(game.est_connections, ++game.info.nplayers);
+      }
     }
-  }
 
-  if (!(pconn->observer = observing)) {
+    team_remove_player(pplayer);
+    server_player_init(pplayer, FALSE, TRUE);
+
     sz_strlcpy(pplayer->username, pconn->username);
     pplayer->user_turns = 0; /* reset for a new user */
     pplayer->is_connected = TRUE;
   }
 
+  pconn->observer = observing;
   pconn->playing = pplayer;
   conn_list_append(pplayer->connections, pconn);
-
-  aifill(game.info.aifill);
 
   return TRUE;
 }

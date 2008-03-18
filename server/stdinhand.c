@@ -821,9 +821,8 @@ static bool toggle_ai_command(struct connection *caller, char *arg, bool check)
 **************************************************************************/
 static bool create_ai_player(struct connection *caller, char *arg, bool check)
 {
-  struct player *pplayer;
   PlayerNameStatus PNameStatus;
-  bool ai_player_should_be_removed = FALSE;
+  struct player *pplayer = NULL;
    
   if (S_S_INITIAL != server_state())
   {
@@ -832,20 +831,18 @@ static bool create_ai_player(struct connection *caller, char *arg, bool check)
     return FALSE;
   }
 
+  /* search for first uncontrolled player */
+  players_iterate(played) {
+    if (!played->is_connected && !played->was_created) {
+      pplayer = played;
+      break;
+    }
+  } players_iterate_end;
+
   /* game.info.max_players is a limit on the number of non-observer players.
    * MAX_NUM_PLAYERS is a limit on all players. */
   if (game.info.nplayers >= MAX_NUM_PLAYERS) {
-    /* Try emptying a slot if there is an ai player
-     * created through the /aifill command */
-    players_iterate(eplayer) {
-      if (eplayer->is_connected || eplayer->was_created) {
-        continue;
-      }     
-      ai_player_should_be_removed = TRUE;
-      break;
-    } players_iterate_end;
-    
-    if (!ai_player_should_be_removed) {
+    if (NULL == pplayer) {
       cmd_reply(CMD_CREATE, caller, C_FAIL,
 	        _("Can't add more players, server is full."));
       return FALSE;
@@ -871,54 +868,48 @@ static bool create_ai_player(struct connection *caller, char *arg, bool check)
     return FALSE;
   }       
 
-  if ((pplayer=find_player_by_name(arg))) {
+  if (NULL != find_player_by_name(arg)) {
     cmd_reply(CMD_CREATE, caller, C_BOUNCE,
 	      _("A player already exists by that name."));
     return FALSE;
   }
 
-  if ((pplayer = find_player_by_user(arg))) {
+  if (NULL != find_player_by_user(arg)) {
     cmd_reply(CMD_CREATE, caller, C_BOUNCE,
               _("A user already exists by that name."));
     return FALSE;
   }
+
   if (check) {
     return TRUE;
   }
-  
-  if (ai_player_should_be_removed) {
-    players_iterate(eplayer) {
-      if (eplayer->is_connected || eplayer->was_created) {
-        continue;
-      }
-      server_remove_player(eplayer);
-      break;
-    } players_iterate_end;
+
+  if (NULL == pplayer) {
+    /* add new player */
+    pplayer = &game.players[game.info.nplayers];
+    dlsend_packet_player_control(game.est_connections, ++game.info.nplayers);
+
+    notify_conn(NULL, NULL, E_SETTING,
+		_("%s has been added as an AI-controlled player."),
+		arg);
+  } else {
+    notify_conn(NULL, NULL, E_SETTING,
+		/* TRANS: <name> replacing <name> ... */
+		_("%s replacing %s as an AI-controlled player."),
+		arg,
+		player_name(pplayer));
   }
 
-  pplayer = &game.players[game.info.nplayers];
+  team_remove_player(pplayer);
   server_player_init(pplayer, FALSE, TRUE);
+
   sz_strlcpy(pplayer->name, arg);
   sz_strlcpy(pplayer->username, ANON_USER_NAME);
+
   pplayer->was_created = TRUE; /* must use /remove explicitly to remove */
-
-  dlsend_packet_player_control(game.est_connections, ++game.info.nplayers);
-
   pplayer->ai.control = TRUE;
   set_ai_level_directer(pplayer, game.info.skill_level);
   send_player_info_c(pplayer, game.est_connections);
-
-  notify_conn(NULL, NULL, E_SETTING,
-	      _("%s has been added as an AI-controlled player."),
-	      arg);
-
-  pplayer = find_player_by_name(arg);
-  if (!pplayer)
-  {
-    cmd_reply(CMD_CREATE, caller, C_FAIL,
-	      _("Error creating new AI player: %s."), arg);
-    return FALSE;
-  }
 
   aifill(game.info.aifill);
   reset_all_start_commands();
@@ -2973,19 +2964,24 @@ static bool take_command(struct connection *caller, char *str, bool check)
     /* others are sent below */
   }
 
-  /* if we're taking another player with a user attached, 
-   * forcibly detach the user from the player. */
+  /* if the player is controlled by another user,
+   * forcibly convert the user to an observer.
+   */
   if (pplayer) {
     conn_list_iterate(pplayer->connections, aconn) {
       if (!aconn->observer) {
-	if (S_S_RUNNING == server_state()) {
-	  send_rulesets(aconn->self);
-	  send_server_settings(aconn->self);
+	/* no need to resend rulesets for observers */
+	if (NULL == caller) {
+	  notify_conn(aconn->self, NULL, E_CONNECTION,
+		      _("Reassigned nation to %s by server console."),
+		      pconn->username);
+	} else {
+	  notify_conn(aconn->self, NULL, E_CONNECTION,
+		      _("Reassigned nation to %s by %s."),
+		      pconn->username,
+		      caller->username);
 	}
-	notify_conn(aconn->self, NULL, E_CONNECTION,
-		    _("being detached from %s."),
-		    player_name(pplayer));
-	detach_connection_to_player(aconn, FALSE);
+	aconn->observer = TRUE;
 	send_conn_info(aconn->self, game.est_connections);
       }
     } conn_list_iterate_end;
@@ -3020,7 +3016,21 @@ static bool take_command(struct connection *caller, char *str, bool check)
   /* now attach to new player */
   attach_connection_to_player(pconn, pplayer, FALSE);
   pplayer = pconn->playing; /* In case pplayer was NULL. */
- 
+  aifill(game.info.aifill);
+
+  /* inform about the status before changes */
+  cmd_reply(CMD_TAKE, caller, C_OK, _("%s now controls %s (%s, %s)"),
+            pconn->username,
+            player_name(pplayer),
+            is_barbarian(pplayer)
+            ? _("Barbarian")
+            : pplayer->ai.control
+              ? _("AI")
+              : _("Human"),
+            pplayer->is_alive
+            ? _("Alive")
+            : _("Dead"));
+
   /* if pplayer wasn't /created, and we're still in pregame, change its name */
   if (!pplayer->was_created && is_newgame && !pplayer->nation) {
     sz_strlcpy(pplayer->name, pconn->username);
@@ -3045,18 +3055,6 @@ static bool take_command(struct connection *caller, char *str, bool check)
   }
   /* redundant self to self cannot be avoided */
   send_conn_info(pconn->self, game.est_connections);
-
-  cmd_reply(CMD_TAKE, caller, C_OK, _("%s now controls %s (%s, %s)"), 
-            pconn->username,
-            player_name(pplayer), 
-            is_barbarian(pplayer)
-            ? _("Barbarian")
-            : pplayer->ai.control
-              ? _("AI")
-              : _("Human"),
-            pplayer->is_alive
-            ? _("Alive")
-            : _("Dead"));
 
   end:;
   /* free our args */
@@ -3347,6 +3345,8 @@ bool load_command(struct connection *caller, char *filename, bool check)
       }
     } players_iterate_end;
   } conn_list_iterate_end;
+
+  aifill(game.info.aifill);
   return TRUE;
 }
 
