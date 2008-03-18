@@ -1589,31 +1589,40 @@ void handle_player_ready(struct player *requestor,
 ****************************************************************************/
 void aifill(int amount)
 {
-  int remove, filled = 0;
+  int limit = MIN(amount, game.info.max_players);
 
   if (!game.info.is_new_game || S_S_INITIAL != server_state()) {
     return;
   }
 
-  if (amount == 0) {
-    /* Special case for value 0: do nothing. */
+  if (limit < game.info.nplayers) {
+    int remove = game.info.nplayers - 1;
+
+    while (limit < game.info.nplayers && 0 <= remove) {
+      struct player *pplayer = player_by_number(remove--);
+
+      if (!pplayer->is_connected && !pplayer->was_created) {
+        server_remove_player(pplayer);
+      }
+    }
     return;
   }
 
-  amount = MIN(amount, game.info.max_players);
-
-  while (game.info.nplayers < amount) {
+  while (limit > game.info.nplayers) {
+    int filled = game.info.nplayers;
     struct player *pplayer = player_by_number(game.info.nplayers);
     char leader_name[ARRAY_SIZE(pplayer->name)];
 
     server_player_init(pplayer, FALSE, TRUE);
     player_set_nation(pplayer, NULL);
+
     do {
       my_snprintf(leader_name, sizeof(leader_name),
-		  "AI%d", ++filled);
+		  "AI*%d", filled++);
     } while (find_player_by_name(leader_name));
     sz_strlcpy(pplayer->name, leader_name);
     sz_strlcpy(pplayer->username, ANON_USER_NAME);
+
     pplayer->ai.skill_level = game.info.skill_level;
     pplayer->ai.control = TRUE;
     set_ai_level_directer(pplayer, game.info.skill_level);
@@ -1629,15 +1638,6 @@ void aifill(int amount)
 
     dlsend_packet_player_control(game.est_connections, ++game.info.nplayers);
     send_player_info(pplayer, NULL);
-  }
-
-  remove = game.info.nplayers - 1;
-  while (game.info.nplayers > amount && remove >= 0) {
-    struct player *pplayer = player_by_number(remove--);
-
-    if (!pplayer->is_connected && !pplayer->was_created) {
-      server_remove_player(pplayer);
-    }
   }
 }
 
