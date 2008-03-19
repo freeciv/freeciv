@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.0.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-03-13 14:26+0100\n"
-"PO-Revision-Date: 2008-03-13 14:58+0100\n"
+"PO-Revision-Date: 2008-03-18 18:08+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -484,14 +484,12 @@ msgid "Made Obsolete"
 msgstr "Prodat zastaralé"
 
 #: common/events.c:157
-#, fuzzy
 msgid "Started"
-msgstr "Stav"
+msgstr "Odstartováno"
 
 #: common/events.c:158
-#, fuzzy
 msgid "Stopped"
-msgstr "Divy: "
+msgstr "Zastaveno"
 
 #: common/events.c:159
 #, fuzzy
@@ -508,18 +506,16 @@ msgid "Broadcast Report"
 msgstr "Obchodní bilance"
 
 #: common/events.c:162
-#, fuzzy
 msgid "Caravan actions"
-msgstr "Karavana"
+msgstr "Akce karavany"
 
 #: common/events.c:163
 msgid "Chat error messages"
 msgstr "Chybové hlášení chatu"
 
 #: common/events.c:164
-#, fuzzy
 msgid "Chat messages"
-msgstr "Zprávy"
+msgstr "Zprávy chatu"
 
 #: common/events.c:165
 #, fuzzy
@@ -527,9 +523,8 @@ msgid "Connect/disconnect messages"
 msgstr "Probíhá připojování."
 
 #: common/events.c:166
-#, fuzzy
 msgid "Diplomatic Message"
-msgstr "Diplomacie: %s"
+msgstr "Diplomatická zpráva"
 
 #: common/events.c:167
 msgid "Error message from bad command"
@@ -544,9 +539,8 @@ msgid "Game Started"
 msgstr "Hra spuštěna"
 
 #: common/events.c:170
-#, fuzzy
 msgid "Nation Selected"
-msgstr "Výběr jednotek"
+msgstr "Národ zvolen"
 
 #: common/events.c:171
 msgid "Player Destroyed"
@@ -557,9 +551,8 @@ msgid "Report"
 msgstr "Přehled"
 
 #: common/events.c:173
-#, fuzzy
 msgid "Server Aborting"
-msgstr "Port serveru"
+msgstr "Server přerušuje"
 
 #: common/events.c:174
 msgid "Server Problems"
@@ -1575,9 +1568,8 @@ msgstr "(konfigurace)"
 
 #. TRANS: auth option has been set from prompt
 #: server/auth.c:193
-#, fuzzy
 msgid " (set)"
-msgstr " (veterán)"
+msgstr " (nastaveno)"
 
 #: server/auth.c:266
 #, fuzzy, c-format
@@ -3021,15 +3013,15 @@ msgstr "Dostali jsme %d zlatých."
 
 #. TRANS: ... Polish worldmap.
 #: server/diplhand.c:393
-#, fuzzy, c-format
+#, c-format
 msgid "You receive the %s worldmap."
-msgstr "Získal(a) jste mapu kontinentů, které %s zná."
+msgstr "Získal(a) jste %s mapu kontinentů."
 
 #. TRANS: ... Polish seamap.
 #: server/diplhand.c:402
-#, fuzzy, c-format
+#, c-format
 msgid "You receive the %s seamap."
-msgstr "Získal(a) jste mapu moří, které %s zná."
+msgstr "Získal(a) jste %s mapu moří."
 
 #: server/diplhand.c:419
 #, c-format
@@ -3965,9 +3957,9 @@ msgstr "%s %s (%s)"
 
 #. TRANS: message about an installation error.
 #: server/ruleset.c:188
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find a readable \"%s.%s\" ruleset file."
-msgstr "Nemohu najít čitelný soubor pravidel \"%s\"."
+msgstr "Nemohu najít čitelný soubor pravidel \"%s.%s\"."
 
 #: server/ruleset.c:3551
 msgid "Loading rulesets"
@@ -3975,21 +3967,18 @@ msgstr "Nahrávám pravidla"
 
 #. TRANS: Minor error message.
 #: server/savegame.c:180
-#, fuzzy
 msgid "Saved game contains incomplete map data.  This can happen with old saved games, or it may indicate an invalid saved game file.  Proceed at your own risk."
 msgstr "Uložená hra obsahuje neúplná data mapy. Může se jednat o starší verzi souboru nebo o neplatný soubor. Pokračujte na vlastní nebezpečí."
 
 #. TRANS: Fatal error message.
 #: server/savegame.c:3797
-#, fuzzy
 msgid "Saved game is too old, at least version 1.9.0 required."
 msgstr "Uložená hra je příliš stará. Nutná je alespoň verze 1.9.0."
 
 #. TRANS: Fatal error message.
 #: server/savegame.c:4030
-#, fuzzy
 msgid "Saved game uses the \"classic\" terrain ruleset, and is no longer supported."
-msgstr "Uložená hra používá soubor pravidel pro terén, který již není podporován."
+msgstr "Uložená hra používá \"klasický\" soubor pravidel pro terén, který již není podporován."
 
 #: server/savegame.c:4039
 #, c-format
@@ -4004,9 +3993,9 @@ msgstr "%s měl neplatný národ; měním na %s."
 
 #. TRANS: ... <Danish> alliance to <Poles>....
 #: server/savegame.c:4293
-#, fuzzy, c-format
+#, c-format
 msgid "Illegal alliance structure detected: %s alliance to %s reduced to peace treaty."
-msgstr "Neplatná struktura aliance: Aliance %s s %s byla redukována na mír."
+msgstr "Neplatná struktura aliance: Aliance %s s %s byla redukována na mírovou smlouvu."
 
 #: server/settings.c:33
 msgid "Geological"
@@ -4093,11 +4082,12 @@ msgid "Cannot change maxplayers in GGZ mode."
 msgstr ""
 
 #: server/settings.c:181
-#, fuzzy
 msgid ""
 "Number of players is higher than requested value;\n"
 "Keeping old value."
-msgstr "Počet hráčů je vyšší než požadovaná hodnota, zůstává původní hodnota"
+msgstr ""
+"Počet hráčů je vyšší než požadovaná hodnota;\n"
+"Ponechávám původní hodnotu."
 
 #: server/settings.c:258
 msgid "Map size (in thousands of tiles)"
@@ -4331,9 +4321,8 @@ msgid "Amount of huts (minor tribe villages)"
 msgstr "Počet chýší (vesnic drobných kmenů)"
 
 #: server/settings.c:427
-#, fuzzy
 msgid "This setting gives the exact number of huts that will be placed on the entire map. Huts are small tribal villages that may be investigated by units."
-msgstr "Toto nastavení říká, kolik chýší se má na mapě nacházet. Chýše jsou palé vesnice domorodců, jež mohou být nalezeny Vašimi jednotkami."
+msgstr "Toto nastavení říká, kolik chýší se má na mapě nacházet. Chýše jsou malé vesnice domorodců, jež mohou být prozkoumány jednotkami."
 
 #: server/settings.c:440
 msgid "Minimum number of players"
@@ -4356,9 +4345,8 @@ msgid "Total number of players (including AI players)"
 msgstr "Celkový počet hráčů (včetně počítačem ovládaných)"
 
 #: server/settings.c:458
-#, fuzzy
 msgid "If set to a positive value, then AI players will be automatically created or removed to keep the total number of players at this amount."
-msgstr "Pokud je ve hře připojeno méně hráčů, budou při startu hry vygenerováni další, řízení počítačem (aby dolnili počet hráčů až na tuto hodnotu)."
+msgstr "Pokud je ve hře připojeno méně hráčů, budou při startu hry vygenerováni nebo smazáni hráči řízení počítačem."
 
 #: server/settings.c:470
 msgid "List of players' initial units"
@@ -4695,12 +4683,10 @@ msgid "Players may meet for diplomacy this number of turns after their units hav
 msgstr "Hráči se mohou scházet za účelem diplomacie tento počet tahů po té, co se naposledy setkaly jejich jednotky, když nemají ambasádu. Pokud je tato hodnota nastavena na 0, nemohou se sejít, pokud nemají ambasádu."
 
 #: server/settings.c:813
-#, fuzzy
 msgid "Rebuild palace whenever capital is conquered"
-msgstr "Vybudování paláce při dobytí hl. města"
+msgstr "Vybudování paláce při dobytí hlavního města"
 
 #: server/settings.c:814
-#, fuzzy
 msgid "If this is set to 1, when the capital is conquered the palace is automatically rebuilt for free in another randomly choosen city. This is significant because the technology requirement for building a palace will be ignored."
 msgstr "Pokud je nastaveno na 1, je po pádu hlavního města postaven automaticky palác v jiném, náhodně zvoleném, městě. To je podstatné, protože technologie potřebná k budování paláce bude ignorována."
 
@@ -4717,7 +4703,6 @@ msgid "Players that users are allowed to take"
 msgstr "Hráči, které jsou uživatelé oprávněni vzít"
 
 #: server/settings.c:838
-#, fuzzy
 msgid ""
 "This should be a string of characters, each of which specifies a type or status of a civilization (player). Clients will only be permitted to take or observe those players which match one of the specified letters. This only affects future uses of the take or observe command; it is not retroactive. The characters and their meanings are:\n"
 "    o,O = Global observer\n"
@@ -4750,7 +4735,7 @@ msgstr ""
 "\n"
 "Každé písmeno může být následováno číslem, určujícím nebo omezujícím typ připojení:\n"
 "\n"
-"(žádné) = Ovládání povoleno, Pozorování povoleno, může převzít spojení. (převzetí spojení znamená, že převezmete hráče ikdyž je již někým ovládán.)\n"
+"(žádné) = Ovládání povoleno, Pozorování povoleno, může převzít spojení. (převzetí spojení znamená, že převezmete hráče i když je již někým ovládán.)\n"
 "\n"
 "1 = Ovládání povoleno, Pozorování povoleno, nemůže převzít spojení;\n"
 "\n"
@@ -4790,7 +4775,6 @@ msgid "Timeout at least n seconds when enemy moved"
 msgstr "Prodleva nejméně n sekund když se přesouvá nepřítel"
 
 #: server/settings.c:899
-#, fuzzy
 msgid "Any time a unit moves while in sight of an enemy player, the remaining timeout is increased to this value."
 msgstr "Kdykoliv se přesouvá jednotka poblíž nepřátelského hráče, zbývající prodlevy jsou nastaveny na tuto hodnotu, když jsou nižší."
 
@@ -4840,7 +4824,6 @@ msgid "Turn-blocking game play mode"
 msgstr "Režim dokončování kol"
 
 #: server/settings.c:951
-#, fuzzy
 msgid "If this is set to 1 the game turn is not advanced until all players have finished their turn, including disconnected players."
 msgstr "Pokud je nastaveno na 1, herní kolo se nedokončí, pokud jej nedokončí všichni hráči, včetně odpojených."
 
@@ -4849,7 +4832,6 @@ msgid "Fixed-length turns play mode"
 msgstr "Režim fixní délky kola"
 
 #: server/settings.c:959
-#, fuzzy
 msgid "If this is set to 1 the game turn will not advance until the timeout has expired, even after all players have clicked on \"Turn Done\"."
 msgstr "Pokud je tato volba nastavena na 1 nepřejde hra do dalšího kola dříve než uplyne čas potřebný pro jedno kolo, bez ohledu na to zda hráči stiskli \"Konec tahu\"."
 
@@ -4906,14 +4888,12 @@ msgid "Savegame compression level"
 msgstr "Úroveň komprimace ukládaných her"
 
 #: server/settings.c:999
-#, fuzzy
 msgid "If non-zero, saved games will be compressed using zlib (gzip format) or bzip2. Larger values will give better compression but take longer."
-msgstr "V případě nenulové hodnoty budou hry ukládány komprimované pomocí knihovny zlib (formát gzip). Větší hodnoty znamenají lepší kompresi, ale ukládání trvá déle. Pokud nebyl tento server zkompilován s podporou knihovny zlib, bude maximální povolená hodnota nula."
+msgstr "V případě nenulové hodnoty budou hry ukládány komprimované pomocí knihovny zlib (formát gzip) nebo bzip2. Větší hodnoty znamenají lepší kompresi, ale ukládání trvá déle."
 
 #: server/settings.c:1007
-#, fuzzy
 msgid "Savegame compression algorithm"
-msgstr "Úroveň komprimace ukládaných her"
+msgstr "Algoritmus komprimace ukládaných her"
 
 #: server/settings.c:1008
 msgid ""
@@ -5729,11 +5709,13 @@ msgstr "Nelze měnit týmy po spuštění hry."
 #: server/stdinhand.c:2409
 #: server/stdinhand.c:2434
 #: server/stdinhand.c:2478
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Undefined argument.  Usage:\n"
 "%s"
-msgstr "Nedefinovaný argument.  Použití: set <volba> <hodnota>."
+msgstr ""
+"Nedefinovaný argument.  Použití:\n"
+"%s"
 
 #: server/stdinhand.c:2108
 #, c-format
@@ -5840,7 +5822,7 @@ msgstr "%s se již neladí"
 
 #: server/stdinhand.c:2382
 #: server/stdinhand.c:2423
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s no longer debugged."
 msgstr "%s %s se již neladí."
 
@@ -5902,11 +5884,13 @@ msgid "Value out of range (minimum: %d, maximum: %d)."
 msgstr "Hodnota mimo rozsah (minimum: %d, maximum: %d)."
 
 #: server/stdinhand.c:2586
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "String value too long.  Usage:\n"
 "%s"
-msgstr "Textová hodnota je příliš dlouhá.  Použití: set <volba> <hodnota>."
+msgstr ""
+"Textová hodnota je příliš dlouhá.  Použití:\n"
+"%s"
 
 #: server/stdinhand.c:2599
 #, c-format
@@ -13302,7 +13286,7 @@ msgid "Gold: %d (%d) per turn"
 msgstr "Zlato: %d (%+d)"
 
 #: client/gui-sdl/citydlg.c:2861
-#, fuzzy, c-format
+#, c-format
 msgid "Upkeep: %d"
 msgstr "Údržba: %d"
 
@@ -13393,9 +13377,8 @@ msgid " - under Citizen Governor control."
 msgstr "%s nyní ovládá počítač."
 
 #: client/gui-sdl/citydlg.c:3702
-#, fuzzy
 msgid "Present units"
-msgstr "Přítomných jednotek %d"
+msgstr "Přítomné jednotky"
 
 #: client/gui-sdl/citydlg.c:3713
 #: client/gui-win32/citydlg.c:818
@@ -13466,11 +13449,12 @@ msgid "worklist"
 msgstr "seznam prací"
 
 #: client/gui-sdl/cityrep.c:524
-#, fuzzy
 msgid ""
 "\n"
 "finished"
-msgstr "ukončeno"
+msgstr ""
+"\n"
+"ukončeno"
 
 #: client/gui-sdl/cma_fe.c:455
 #: client/gui-win32/cma_fe.c:458
@@ -13843,7 +13827,7 @@ msgid "Unable to initialize SDL library: %s"
 msgstr "Nelze inicializovat SDL knihovnu: %s"
 
 #: client/gui-sdl/graphics.c:1021
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to initialize SDL_ttf library: %s"
 msgstr "Nelze inicializovat  SDL_ttf knihovnu: %s"
 
@@ -13936,9 +13920,8 @@ msgid "FT"
 msgstr "TB"
 
 #: client/gui-sdl/helpdlg.c:213
-#, fuzzy
 msgid "Help : Improvements"
-msgstr "Prodej Vylepšení"
+msgstr "Nápověda: Vylepšení"
 
 #: client/gui-sdl/helpdlg.c:403
 msgid "Never"
@@ -14326,7 +14309,6 @@ msgid "Auto-Settler"
 msgstr "Auto-Osadník"
 
 #: client/gui-sdl/menu.c:587
-#, fuzzy
 msgid "Wake Up Others"
 msgstr "Probudit ostatní"
 
@@ -14705,9 +14687,8 @@ msgid "Wonder"
 msgstr "Div světa"
 
 #: client/gui-sdl/repodlgs.c:2857
-#, fuzzy
 msgid "What should we focus on now?"
-msgstr "Jak budeme nazývat naše nové město?"
+msgstr "Na co se máme nyní zaměřit?"
 
 #: client/gui-sdl/repodlgs.c:3044
 msgid "Select target :"
@@ -15403,9 +15384,8 @@ msgstr "Luxus: %d%%"
 
 #: client/gui-win32/inteldlg.c:128
 #: client/gui-xaw/inteldlg.c:241
-#, fuzzy
 msgid "Researching: (Unknown)"
-msgstr "Zkoumá se: Neznámý(%d/-)"
+msgstr "Zkoumá se: (Neznámý)"
 
 #: client/gui-win32/inteldlg.c:131
 #: client/gui-xaw/inteldlg.c:244
@@ -15569,7 +15549,6 @@ msgstr "Ukázat město"
 
 #: client/gui-win32/plrdlg.c:70
 #: client/gui-xaw/plrdlg.c:356
-#, fuzzy
 msgid "You need an embassy to establish a diplomatic meeting."
 msgstr "Potřebujeme ambasádu pro diplomatická setkání."
 
@@ -16571,14 +16550,8 @@ msgid "  Present administrators: "
 msgstr "  Přítomní administrátoři: "
 
 #: data/helpdata.txt:55
-#, fuzzy
 msgid "If you find any bugs, then please send us a bug report.  This is best done by visiting the Freeciv Bug Tracking System, at:"
-msgstr ""
-"Pokud naleznete nějakou chybu, prosím pošlete nám bugreport.  Nejlépe pomocí návštěvy Freeciv Bug Tracking System, na:\n"
-"\n"
-"  http://bugs.freeciv.org/\n"
-"\n"
-"nebo zasláním emailu na:  bugs@freeciv.org"
+msgstr "Pokud naleznete nějakou chybu, prosím pošlete nám bugreport.  Nejlépe pomocí návštěvy Freeciv Bug Tracking System, na:"
 
 #: data/helpdata.txt:60
 msgid "For more information about submitting bug reports see the file BUGS in the Freeciv distribution.  For more information in general, visit the Freeciv website, at:"
@@ -16589,7 +16562,6 @@ msgid "Freeciv is covered by the GPL, which is included here: "
 msgstr "Freeciv je pod licencí GPL, která je zde: "
 
 #: data/helpdata.txt:379
-#, fuzzy
 msgid ""
 "Freeciv supports several local languages.  See the Native Language Support section of the README file for instructions on how to use one of these languages.\n"
 "\n"
@@ -16597,15 +16569,7 @@ msgid ""
 msgstr ""
 "Freeciv podporuje několik jazyků.  Podívejte se do sekce Native Language Support v souboru README pro instrukce jak použít tyto jazyky.\n"
 "\n"
-"Pokud chcete přidat lokalizaci (překlad) pro svůj jazyk, prosím podívejte se na instrukce na:\n"
-"\n"
-"  http://www.freeciv.org/index.php/Localization\n"
-"\n"
-"Nejdříve si zkontrolujte, zda již lokalizace pro váš jazyk neprobíhá.\n"
-"\n"
-"Rádi uvítáme poslané otázky do mailing listu freeciv-i18n:\n"
-"\n"
-"  freeciv-i18n@freeciv.org"
+"Nejdříve si zkontrolujte, zda již lokalizace pro váš jazyk neprobíhá:"
 
 #: data/helpdata.txt:388
 msgid "If you would like to add a localization (translation) for your language, please see the instructions at:"
@@ -19106,7 +19070,6 @@ msgid "High Priestess"
 msgstr "Nejvyšší kněžka"
 
 #: data/civ2/governments.ruleset:146
-#, fuzzy
 msgid ""
 "Fundamentalism is a form of government organized around a central set of beliefs. The beliefs, usually religious in nature, form a rigid guideline for actions and reactions of both the rulers and the people.\n"
 "\n"
@@ -19116,7 +19079,7 @@ msgid ""
 msgstr ""
 "Ve fundamentalismu je vláda soustředěna kolem víry. Vláda, obvykle náboženského rázu, vytyčuje pevné vymezení akcí a reakcí jak pro vládce tak pro lid.\n"
 "\n"
-"Ve fundamentalisticé společnosti jsou jak lidé, tak vládci kompletně oddáni své víře, obvykle ochotní pro ni i zemřít..\n"
+"Ve fundamentalistické společnosti jsou jak lidé, tak vládci kompletně oddáni své víře, obvykle ochotní pro ni i zemřít..\n"
 "\n"
 "Stavby, které normálně konvertují obyvatele z nespokojených na spokojené produkují desátky (zlato) úměrné počtu lidí, které konvertují a nepotřebují údržbu."
 
