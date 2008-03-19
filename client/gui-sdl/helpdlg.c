@@ -341,7 +341,7 @@ void popup_impr_info(Impr_type_id impr)
   pDock = pImprNameLabel;
 
   if (!improvement_has_flag(pImpr_type, IF_GOLD)) {
-    sprintf(buffer, "%s %d", N_("Cost:"), impr_build_shield_cost(pImpr_type));
+    sprintf(buffer, "%s %d", _("Cost:"), impr_build_shield_cost(pImpr_type));
     pCostLabel = create_iconlabel_from_chars(NULL, pWindow->dst,
                                              buffer, adj_font(12), 0);
     pCostLabel->ID = ID_LABEL;
@@ -349,7 +349,7 @@ void popup_impr_info(Impr_type_id impr)
     pDock = pCostLabel;
     
     if (!is_wonder(pImpr_type)) {
-      sprintf(buffer, "%s %d", N_("Upkeep:"), pImpr_type->upkeep);
+      sprintf(buffer, "%s %d", _("Upkeep:"), pImpr_type->upkeep);
       pUpkeepLabel = create_iconlabel_from_chars(NULL, pWindow->dst,
                                                  buffer, adj_font(12), 0);
       pUpkeepLabel->ID = ID_LABEL;
@@ -360,7 +360,7 @@ void popup_impr_info(Impr_type_id impr)
   
   /* requirement */
   pRequirementLabel = create_iconlabel_from_chars(NULL, pWindow->dst,
-                                                  N_("Requirement:"),
+                                                  _("Requirement:"),
                                                   adj_font(12), 0);
   pRequirementLabel->ID = ID_LABEL;
   DownAdd(pRequirementLabel, pDock);
@@ -392,7 +392,7 @@ void popup_impr_info(Impr_type_id impr)
 
   /* obsolete by */
   pObsoleteByLabel = create_iconlabel_from_chars(NULL, pWindow->dst,
-                                                 N_("Obsolete by:"),
+                                                 _("Obsolete by:"),
                                                  adj_font(12), 0);
   pObsoleteByLabel->ID = ID_LABEL;
   DownAdd(pObsoleteByLabel, pDock);
@@ -732,7 +732,7 @@ void popup_unit_info(Unit_type_id type_id)
     char buf[2048];
 
     my_snprintf(buf, sizeof(buf), "%s %d %s",
-              N_("Cost:"), utype_build_shield_cost(pUnitType),
+              _("Cost:"), utype_build_shield_cost(pUnitType),
               PL_("shield", "shields", utype_build_shield_cost(pUnitType)));
 
     if(pUnitType->pop_cost)
@@ -741,7 +741,7 @@ void popup_unit_info(Unit_type_id type_id)
           pUnitType->pop_cost, PL_("citizen", "citizens", pUnitType->pop_cost));
     }
 
-    cat_snprintf(buf, sizeof(buf), "      %s",  N_("Upkeep:"));
+    cat_snprintf(buf, sizeof(buf), "      %s",  _("Upkeep:"));
 
     if(pUnitType->upkeep[O_SHIELD])
     {
@@ -765,12 +765,12 @@ void popup_unit_info(Unit_type_id type_id)
     }
 
     cat_snprintf(buf, sizeof(buf), "\n%s %d %s %d %s %d\n%s %d %s %d %s %d",
-              N_("Attack:"), pUnitType->attack_strength,
-              N_("Defense:"), pUnitType->defense_strength,
-              N_("Move:"), pUnitType->move_rate / SINGLE_MOVE,
-              N_("Vision:"), pUnitType->vision_radius_sq,
-              N_("FirePower:"), pUnitType->firepower,
-              N_("Hitpoints:"), pUnitType->hp);
+              _("Attack:"), pUnitType->attack_strength,
+              _("Defense:"), pUnitType->defense_strength,
+              _("Move:"), pUnitType->move_rate / SINGLE_MOVE,
+              _("Vision:"), pUnitType->vision_radius_sq,
+              _("FirePower:"), pUnitType->firepower,
+              _("Hitpoints:"), pUnitType->hp);
 
     pUnitInfoLabel = create_iconlabel_from_chars(NULL, pWindow->dst, buf,
                                                  adj_font(12), 0);
@@ -781,7 +781,7 @@ void popup_unit_info(Unit_type_id type_id)
 
   /* requirement */
   pRequirementLabel = create_iconlabel_from_chars(NULL, pWindow->dst,
-                                                  N_("Requirement:"),
+                                                  _("Requirement:"),
                                                   adj_font(12), 0);
   pRequirementLabel->ID = ID_LABEL;
   DownAdd(pRequirementLabel, pDock);
@@ -808,7 +808,7 @@ void popup_unit_info(Unit_type_id type_id)
 
   /* obsolete by */
   pObsoleteByLabel = create_iconlabel_from_chars(NULL, pWindow->dst,
-                                                 N_("Obsolete by:"),
+                                                 _("Obsolete by:"),
                                                  adj_font(12), 0);
   pObsoleteByLabel->ID = ID_LABEL;
   DownAdd(pObsoleteByLabel, pDock);
