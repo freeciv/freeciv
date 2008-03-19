@@ -11597,7 +11597,12 @@ static struct packet_player_attribute_chunk *receive_packet_player_attribute_chu
     }
   }
   if (BV_ISSET(fields, 3)) {
-    dio_get_memory(&din, real_packet->data, real_packet->chunk_length);
+    
+      if(real_packet->chunk_length > ATTRIBUTE_CHUNK_SIZE) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->chunk_length = ATTRIBUTE_CHUNK_SIZE;
+      }
+      dio_get_memory(&din, real_packet->data, real_packet->chunk_length);
   }
 
   clone = fc_malloc(sizeof(*clone));
