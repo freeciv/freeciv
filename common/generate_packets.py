@@ -419,10 +419,7 @@ class Field:
 
         if self.dataio_type=="bitvector":
             return "DIO_BV_GET(&din, real_packet->%(name)s);"%self.__dict__
-
-        if self.dataio_type=="memory":
-            return "dio_get_%(dataio_type)s(&din, real_packet->%(name)s, %(array_size_u)s);"%self.__dict__
-        if self.dataio_type in ["string","bit_string","city_map","memory"] and \
+        if self.dataio_type in ["string","bit_string","city_map"] and \
            self.is_array!=2:
             return "dio_get_%(dataio_type)s(&din, real_packet->%(name)s, sizeof(real_packet->%(name)s));"%self.__dict__
         if self.is_struct and self.is_array==0:
@@ -464,7 +461,7 @@ class Field:
             array_size_u=self.array_size_u
             array_size_d=self.array_size_d
 
-        if not self.diff:
+        if not self.diff or self.dataio_type == "memory":
             if array_size_u != array_size_d:
                 extra='''
   if(%(array_size_u)s > %(array_size_d)s) {
@@ -472,7 +469,10 @@ class Field:
     %(array_size_u)s = %(array_size_d)s;
   }'''%self.get_dict(vars())
             else:
-                extra=""                
+                extra=""
+            if self.dataio_type == "memory":
+                return '''%(extra)s
+  dio_get_%(dataio_type)s(&din, real_packet->%(name)s, %(array_size_u)s);'''%self.get_dict(vars())
             return '''
 {
   int i;
