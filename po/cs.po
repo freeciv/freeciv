@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.0.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-03-13 14:26+0100\n"
-"PO-Revision-Date: 2008-03-18 18:08+0100\n"
+"PO-Revision-Date: 2008-03-20 10:42+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -13416,9 +13416,8 @@ msgstr "Růst města"
 
 #: client/gui-sdl/cityrep.c:188
 #: client/gui-sdl/mapctrl.c:1589
-#, fuzzy
 msgid "Cities Report"
-msgstr "Přehled města"
+msgstr "Přehled měst"
 
 #: client/gui-sdl/cityrep.c:204
 msgid "Close Dialog"
@@ -13880,7 +13879,6 @@ msgid "By changing this option you change the active theme. This is the same as 
 msgstr ""
 
 #: client/gui-sdl/gui_main.c:204
-#, fuzzy
 msgid "  -f,  --fullscreen\tStart Client in Fullscreen mode\n"
 msgstr "  -f,  --fullscreen\tStart klienta v módu přes celou obrazovku\n"
 
@@ -13928,9 +13926,8 @@ msgid "Never"
 msgstr "Nikdy"
 
 #: client/gui-sdl/helpdlg.c:601
-#, fuzzy
 msgid "Help : Units"
-msgstr "Vyberte jednotku(y)"
+msgstr "Nápověda: Jednotky"
 
 #: client/gui-sdl/helpdlg.c:736
 #: client/gui-sdl/helpdlg.c:749
@@ -14217,11 +14214,13 @@ msgstr ""
 "(%s,%s)"
 
 #: client/gui-sdl/mapview.c:656
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Food/Prod/Trade: %s"
-msgstr "Jídlo/Prod/Obch: %s"
+msgstr ""
+"\n"
+"Jídlo/Prod/Obch: %s"
 
 #: client/gui-sdl/mapview.c:892
 msgid "End of Turn"
@@ -14490,14 +14489,12 @@ msgid "Smooth unit move steps"
 msgstr ""
 
 #: client/gui-sdl/optiondlg.c:1040
-#, fuzzy
 msgid "Show focus animation"
-msgstr "Ukazovat animace boje"
+msgstr "Ukazovat animace zaměření"
 
 #: client/gui-sdl/optiondlg.c:1067
-#, fuzzy
 msgid "Show cursors animation"
-msgstr "Ukazovat animace boje"
+msgstr "Ukazovat animace kurzoru"
 
 #: client/gui-sdl/optiondlg.c:1094
 msgid "Use color cursors"
@@ -16742,7 +16739,6 @@ msgstr ""
 "             t: zobrazit pracovníky města (myš nad nebo blízko města)\n"
 
 #: data/helpdata.txt:497
-#, fuzzy
 msgid ""
 "Main Map (Mouse):\n"
 "=================\n"
@@ -16775,27 +16771,26 @@ msgstr ""
 "  Levý klik na jednotku: Aktivuje jednotku\n"
 "  Levý klik a drag na jednotku: Přesun jednotky\n"
 "  Střední-klik:              Ukáže vlastnosti políčka\n"
-"  Pravý klik:                Vycentruje výhled na políčko\n"
+"  Pravý klik:                Vycentruje pohled na políčko\n"
 "\n"
 "  Shift-Levý-klik:                   Kopírovat produkci (GTK)\n"
 "  Shift-Pravý-klik na město:    Vložit produkci do města (GTK)\n"
 "\n"
 "  Shift-Ctrl-Levý-klik:     Přizpůsobí zaměstnanost pracovníků ve městě\n"
-"  Ctrl-Střední-klik:        Probudí stážící jednotky\n"
+"  Ctrl-Střední-klik:        Probudí strážící jednotky\n"
+"  Shift-Control-Pravý-klik:   Zobrazí pracovníky města (přejetí myši nebo u města)\n"
 "\n"
 "   V režimu výběru oblasti (GTK):\n"
 "  =============================\n"
-"  Levý-klik a drag:         Vstup do výběru políčka\n"
+"  Pravý-klik a drag:         Vstup do výběru políčka\n"
 "  Levý-klik:           Přepne zvýraznění políčka\n"
-"  Shift-Pravý-klik:  Vložit produkci vybraným městům\n"
-"\n"
+"  Shift-Pravý-klik:  Vložit produkci zvýrazněným městům\n"
 "  Pravý-klik:        Zruší režim výběru oblasti\n"
 "\n"
 "  Města zvýrazněná na mapě,\n"
-" budou zvýrazněna i v přehledu měst."
+" budou zvýrazněna také v přehledu měst."
 
 #: data/helpdata.txt:522
-#, fuzzy
 msgid ""
 "Dialogs and Reports:\n"
 "====================\n"
@@ -16820,23 +16815,24 @@ msgid ""
 msgstr ""
 "Dialogy a Přehledy:\n"
 "================\n"
-"     F1: otevře Přehled města\n"
+"     F1: otevře Mapu\n"
 "     F2: otevře Přehled jednotek\n"
-"     F3: otevře dialog Hráčů\n"
+"     F3: otevře Přehled národů\n"
+"     F4: otevře Přehled města\n"
 "     F5: otevře Ekonomický přehled\n"
 "     F6: otevře Vědecký přehled\n"
 "     F7: otevře Divy Světa\n"
 "     F8: otevře Pět Nej Měst\n"
 "     F9: otevře dialog Zpráv\n"
 "    F11: otevře Demografii\n"
-"    F12: optevře Kosmickou loď\n"
+"    F12: otevře Kosmickou loď\n"
 "\n"
 "      T: otevře dialog Daň/Lux/Věd hodnot\n"
 "      F: otevře dialog Hledání města\n"
 " Ctrl-L: otevře dialog Seznamu prací\n"
 "      R: otevře dialog Revoluce\n"
 "\n"
-"Shift-Return: Konec tahu"
+"Shift-Enter: Konec tahu"
 
 #: data/helpdata.txt:547
 msgid "The client has a primitive chat interface.  The lines you type are sent to all players, except:"
@@ -17037,7 +17033,6 @@ msgstr ""
 "  - Některé divy světa zestárnou vlivem vývoje."
 
 #: data/helpdata.txt:723
-#, fuzzy
 msgid ""
 " 9. Making your own strategy for the game.\n"
 "\n"
@@ -17045,8 +17040,7 @@ msgid ""
 msgstr ""
 " 9. Volba vlastní strategie pro hru.\n"
 "\n"
-"    Tyto základní postupy Vám umožní hrát celkem dobře, zejména v začátku hry. Na zlepšení však musíte studovat jednotlivé jednotky a vynálezy a TRÉNOVAT, TRÉNOVAT, TRÉNOVAT!  Freeciv má hodně možností, takže pokud jste nehráli podobnou hru dříve, navštivte stránky Freeciv na http://www.freeciv.org/\n"
-"Najdete tam další tipy pro hru a informace jak kontaktovat ostatní hráče."
+"    Tyto základní postupy Vám umožní hrát celkem dobře, zejména v začátku hry. Na zlepšení však musíte studovat jednotlivé jednotky a vynálezy a TRÉNOVAT, TRÉNOVAT, TRÉNOVAT!  Freeciv má hodně možností, takže pokud jste nehráli podobnou hru dříve, navštivte stránky Freeciv na:"
 
 #: data/helpdata.txt:734
 msgid "You'll find more tips for playing, and details of how to contact other players."
