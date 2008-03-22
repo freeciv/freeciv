@@ -1,7 +1,7 @@
 [nation_dominican]
 
 name=_("Dominican")
-plural=_("?plural:Dominican")
+plural=_("?plural:Dominicans")
 groups="Modern", "American"
 legend=_("The island of Dominica was first sighted by Europeans, including\
  Christopher Columbus, in 1493. Legend has it that the island was named so\
