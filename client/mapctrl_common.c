@@ -568,8 +568,9 @@ void adjust_workers_button_pressed(int canvas_x, int canvas_y)
 
     if (pcity && !cma_is_city_under_agent(pcity, NULL)) {
       int city_x, city_y;
+      bool success = city_base_to_city_map(&city_x, &city_y, pcity, ptile);
 
-      assert(city_base_to_city_map(&city_x, &city_y, pcity, ptile));
+      assert(success);
 
       if (NULL != tile_worked(ptile) && tile_worked(ptile) == pcity) {
 	dsend_packet_city_make_specialist(&client.conn, pcity->id,
