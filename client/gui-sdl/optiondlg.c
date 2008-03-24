@@ -2106,7 +2106,7 @@ void init_options_button(void)
 				       (WF_WIDGET_HAS_INFO_LABEL |
 					WF_RESTORE_BACKGROUND));
   pOptions_Button->action = optiondlg_callback;
-  my_snprintf(buf, sizeof(buf), "%s (%s)", ("Options"), "Esc");
+  my_snprintf(buf, sizeof(buf), "%s (%s)", _("Options"), "Esc");
   pOptions_Button->string16 = create_str16_from_char(buf, adj_font(12));
   pOptions_Button->key = SDLK_ESCAPE;
   set_wflag(pOptions_Button, WF_HIDDEN);
