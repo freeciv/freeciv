@@ -2793,7 +2793,7 @@ void handle_endgame_report(struct packet_endgame_report *packet)
 **************************************************************************/
 void handle_player_attribute_chunk(struct packet_player_attribute_chunk *packet)
 {
-  generic_handle_player_attribute_chunk(game.player_ptr, packet);
+  generic_handle_player_attribute_chunk(game.player_ptr, packet, &aconnection);
 
   if (packet->offset + packet->chunk_length == packet->total_length) {
     /* We successful received the last chunk. The attribute block is

@@ -577,12 +577,19 @@ void check_packet(struct data_in *din, struct connection *pc)
 void generic_handle_player_attribute_chunk(struct player *pplayer,
 					   const struct
 					   packet_player_attribute_chunk
-					   *chunk)
+                                           *chunk,
+                                           struct connection *pconn)
 {
-  freelog(BASIC_PACKET_LOG_LEVEL, "received attribute chunk %u/%u %u",
+  freelog(BASIC_PACKET_LOG_LEVEL, "received attribute chunk %u+%u->%u/%u",
 	  (unsigned int) chunk->offset,
 	  (unsigned int) chunk->total_length,
+     	  (unsigned int) chunk->offset + chunk->total_length,
 	  (unsigned int) chunk->chunk_length);
+
+  if (!has_capability("AttrSerialFix", pconn->capability)) {
+    /* Discard attribute chunks from incompatible connection */
+    return;
+  }
 
   if (chunk->total_length < 0
       || chunk->chunk_length < 0
@@ -637,6 +644,10 @@ void send_attribute_block(const struct player *pplayer,
   int current_chunk, chunks, bytes_left;
 
   if (!pplayer || !pplayer->attribute_block.data) {
+    return;
+  }
+
+  if (!has_capability("AttrSerialFix", pconn->capability)) {
     return;
   }
 

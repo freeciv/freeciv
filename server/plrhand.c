@@ -2310,7 +2310,7 @@ void handle_player_attribute_chunk(struct player *pplayer,
 				   struct packet_player_attribute_chunk
 				   *chunk)
 {
-  generic_handle_player_attribute_chunk(pplayer, chunk);
+  generic_handle_player_attribute_chunk(pplayer, chunk, pplayer->current_conn);
 }
 
 /**************************************************************************
