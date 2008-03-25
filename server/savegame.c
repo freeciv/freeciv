@@ -3978,11 +3978,9 @@ void game_load(struct section_file *file)
                                        "game.scoreturn");
     sz_strlcpy(server.game_identifier,
                secfile_lookup_str_default(file, "", "game.id"));
-    if (0 == strlen(server.game_identifier)
-     || !is_base64url(server.game_identifier)) {
-      randomize_base64url_string(server.game_identifier,
-                                 sizeof(server.game_identifier));
-    }
+    /* We are not checking game_identifier legality just yet.
+     * That's done when we are sure that rand seed has been initialized,
+     * so that we can generate new game_identifier, if needed. */
 
     game.info.fogofwar = secfile_lookup_bool_default(file, FALSE, "game.fogofwar");
     game.fogofwar_old = game.info.fogofwar;
@@ -4229,6 +4227,12 @@ void game_load(struct section_file *file)
     }
   }
 
+  if (0 == strlen(server.game_identifier)
+      || !is_base64url(server.game_identifier)) {
+    /* This uses myrand(), so random state has to be initialized before this. */
+    randomize_base64url_string(server.game_identifier,
+                               sizeof(server.game_identifier));
+  }
 
   game.info.is_new_game = !secfile_lookup_bool_default(file, TRUE,
 						  "game.save_players");
