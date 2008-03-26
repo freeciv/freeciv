@@ -402,7 +402,8 @@ void dio_put_worklist(struct data_out *dout, const struct worklist *pwl)
 }
 
 /**************************************************************************
-...
+ Receive uint8 value to dest. In case of failure, value stored to dest
+ will be zero. Note that zero is legal value even when there is no failure.
 **************************************************************************/
 void dio_get_uint8(struct data_in *din, int *dest)
 {
@@ -415,11 +416,14 @@ void dio_get_uint8(struct data_in *din, int *dest)
       *dest = x;
     }
     din->current++;
+  } else if (dest) {
+    *dest = 0;
   }
 }
 
 /**************************************************************************
-...
+ Receive uint16 value to dest. In case of failure, value stored to dest
+ will be zero. Note that zero is legal value even when there is no failure.
 **************************************************************************/
 void dio_get_uint16(struct data_in *din, int *dest)
 {
@@ -432,11 +436,14 @@ void dio_get_uint16(struct data_in *din, int *dest)
       *dest = ntohs(x);
     }
     din->current += 2;
+  } else if (dest) {
+    *dest = 0;
   }
 }
 
 /**************************************************************************
-...
+ Receive uint32 value to dest. In case of failure, value stored to dest
+ will be zero. Note that zero is legal value even when there is no failure.
 **************************************************************************/
 void dio_get_uint32(struct data_in *din, int *dest)
 {
@@ -449,6 +456,8 @@ void dio_get_uint32(struct data_in *din, int *dest)
       *dest = ntohl(x);
     }
     din->current += 4;
+  } else if (dest) {
+    *dest = 0;
   }
 }
 
@@ -679,7 +688,7 @@ void dio_get_uint8_vec8(struct data_in *din, int **values, int stop_value)
 }
 
 /**************************************************************************
-...
+ Receive vector of uint6 values.
 **************************************************************************/
 void dio_get_uint16_vec8(struct data_in *din, int **values, int stop_value)
 {
