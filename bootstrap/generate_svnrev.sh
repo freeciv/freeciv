@@ -10,6 +10,7 @@
 #
 
 # Absolete paths
+SRCROOT=$(cd "$1" ; pwd)
 INPUTDIR=$(cd "$1/bootstrap" ; pwd)
 OUTPUTDIR=$(cd "$2/common" ; pwd)
 
@@ -24,7 +25,7 @@ REV="dist"
    REVTMP="r$(svn info 2>/dev/null | grep "^Revision: " | sed 's/^Revision: //')"
    if test "$REVTMP" != "r" ; then
      # This is svn checkout. Check for local modifications
-     if test $(cd "$1" ; svn diff | wc -l) -eq 0 ; then
+     if test $(cd "$SRCROOT" ; svn diff | wc -l) -eq 0 ; then
        REVSTATE=ON
        REV="$REVTMP"
      else
