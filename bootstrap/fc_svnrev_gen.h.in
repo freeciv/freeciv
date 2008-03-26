@@ -12,7 +12,7 @@
 ***********************************************************************/
 
 /* common/fc_svnrev_gen.h is automatically generated from
- * bootstrap/fc_svnrev_gen.h.in. Do not edit fc_svnrev_ge.h, edit
+ * bootstrap/fc_svnrev_gen.h.in. Do not edit fc_svnrev_gen.h, edit
  * fc_svnrev_gen.h.in */
 
 #ifndef FC__FC_SVNREV_H
