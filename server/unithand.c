@@ -1092,8 +1092,9 @@ static bool can_unit_move_to_tile_with_notify(struct unit *punit,
 }
 
 /**************************************************************************
-  Will try to move to/attack the tile dest_x,dest_y.  Returns true if this
-  could be done, false if it couldn't for some reason.
+  Will try to move to/attack the tile dest_x,dest_y.  Returns TRUE if this
+  could be done, FALSE if it couldn't for some reason. Even if this
+  returns TRUE, unit may have died upon arrival to new tile.
   
   'igzoc' means ignore ZOC rules - not necessary for igzoc units etc, but
   done in some special cases (moving barbarians out of initial hut).

@@ -40,7 +40,7 @@ struct pft_amphibious
 
 struct pf_path *pft_concat(struct pf_path *dest_path,
 			   const struct pf_path *src_path);
-void pft_advance_path(struct pf_path *path,
+bool pft_advance_path(struct pf_path *path,
 		      struct tile *ptile);
 void pft_fill_unit_parameter(struct pf_parameter *parameter,
 			     struct unit *punit);
