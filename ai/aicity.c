@@ -1474,32 +1474,35 @@ static void ai_upgrade_units(struct city *pcity, int limit, bool military)
   struct player *pplayer = city_owner(pcity);
 
   unit_list_iterate(pcity->tile->units, punit) {
-    struct unit_type *punittype = can_upgrade_unittype(pplayer, unit_type(punit));
+    if (pcity->owner == punit->owner) {
+      /* Only upgrade units you own, not allied ones */
+      struct unit_type *punittype = can_upgrade_unittype(pplayer, unit_type(punit));
 
-    if (military && !IS_ATTACKER(punit)) {
-      /* Only upgrade military units this round */
-      continue;
-    } else if (!military && IS_ATTACKER(punit)) {
-      /* Only civilians or tranports this round */
-      continue;
-    }
-    if (punittype) {
-      int cost = unit_upgrade_price(pplayer, unit_type(punit), punittype);
-      int real_limit = limit;
-
-      /* Triremes are DANGEROUS!! We'll do anything to upgrade 'em. */
-      if (unit_has_type_flag(punit, F_TRIREME)) {
-        real_limit = pplayer->ai.est_upkeep;
+      if (military && !IS_ATTACKER(punit)) {
+        /* Only upgrade military units this round */
+        continue;
+      } else if (!military && IS_ATTACKER(punit)) {
+        /* Only civilians or tranports this round */
+        continue;
       }
-      if (pplayer->economic.gold - cost > real_limit) {
-        CITY_LOG(LOG_BUY, pcity, "Upgraded %s to %s for %d (%s)",
-                 unit_rule_name(punit),
-                 utype_rule_name(punittype),
-                 cost,
-                 military ? "military" : "civilian");
-        handle_unit_upgrade(city_owner(pcity), punit->id);
-      } else {
-        increase_maxbuycost(pplayer, cost);
+      if (punittype) {
+        int cost = unit_upgrade_price(pplayer, unit_type(punit), punittype);
+        int real_limit = limit;
+
+        /* Triremes are DANGEROUS!! We'll do anything to upgrade 'em. */
+        if (unit_has_type_flag(punit, F_TRIREME)) {
+          real_limit = pplayer->ai.est_upkeep;
+        }
+        if (pplayer->economic.gold - cost > real_limit) {
+          CITY_LOG(LOG_BUY, pcity, "Upgraded %s to %s for %d (%s)",
+                   unit_rule_name(punit),
+                   utype_rule_name(punittype),
+                   cost,
+                   military ? "military" : "civilian");
+          handle_unit_upgrade(city_owner(pcity), punit->id);
+        } else {
+          increase_maxbuycost(pplayer, cost);
+        }
       }
     }
   } unit_list_iterate_end;
