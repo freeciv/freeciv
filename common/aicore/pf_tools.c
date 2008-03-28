@@ -869,17 +869,19 @@ struct pf_path *pft_concat(struct pf_path *dest_path,
 
 /****************************************************************************
   Remove the part of a path leading up to a given tile.
-  The given tile must be on the path.  If it is on the path more than once
+  If given tile is on the path more than once
   then the first occurrance will be the one used.
+  If tile is not on the path at all, returns FALSE and
+  path is not changed at all.
 ****************************************************************************/
-void pft_advance_path(struct pf_path *path, struct tile *ptile)
+bool pft_advance_path(struct pf_path *path, struct tile *ptile)
 {
   int i;
   struct pf_position *new_positions;
 
-  for (i = 0; i < path->length; i++) {
-    if (path->positions[i].tile == ptile) {
-      break;
+  for (i = 0; path->positions[i].tile != ptile ; i++) {
+    if (i >= path->length) {
+      return FALSE;
     }
   }
   assert(i < path->length);
@@ -889,4 +891,6 @@ void pft_advance_path(struct pf_path *path, struct tile *ptile)
 	 path->length * sizeof(*path->positions));
   free(path->positions);
   path->positions = new_positions;
+
+  return TRUE;
 }
