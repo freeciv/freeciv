@@ -1752,7 +1752,7 @@ static void thaw_clients(void)
 }
 
 /**************************************************************************
-  Send PACKET_BEGIN_TURN to all clients capable of handling it.
+  Send PACKET_BEGIN_TURN to all clients.
 **************************************************************************/
 static void send_begin_turn(void)
 {
@@ -1762,7 +1762,7 @@ static void send_begin_turn(void)
 }
 
 /**************************************************************************
-  Send PACKET_END_TURN to all clients capable of handling it.
+  Send PACKET_END_TURN to all clients.
 **************************************************************************/
 static void send_end_turn(void)
 {
