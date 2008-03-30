@@ -256,10 +256,6 @@ bool setting_class_is_changeable(enum sset_class class);
 #define GAME_MIN_RAZECHANCE          0
 #define GAME_MAX_RAZECHANCE          100
 
-#define GAME_DEFAULT_CIVSTYLE        2
-#define GAME_MIN_CIVSTYLE            1
-#define GAME_MAX_CIVSTYLE            2
-
 #define GAME_DEFAULT_SCORELOG        FALSE
 #define GAME_DEFAULT_SCORETURN       20
 
