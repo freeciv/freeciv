@@ -99,6 +99,13 @@ min_speed     = 2
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows"
 
+[unitclass_trireme]
+name          = _("Trireme")
+move_type     = "Sea"
+min_speed     = 2
+hp_loss_pct   = 0
+flags         = "TerrainSpeed", "DamageSlows"
+
 [unitclass_heli]
 name          = _("Helicopter")
 move_type     = "Both"
@@ -1277,7 +1284,7 @@ An improved Bomber, with improved attack and a higher movement\
 
 [unit_trireme]
 name          = _("Trireme")
-class         = "Sea"
+class         = "Trireme"
 tech_req      = "Map Making"
 obsolete_by   = "Caravel"
 graphic       = "u.trireme"
@@ -1301,7 +1308,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 cargo         = "Land"
-flags         = "Trireme", "BadCityDefender", "No_Land_Attack"
+flags         = "BadCityDefender", "No_Land_Attack"
 roles         = "Ferryboat"
 helptext      = _("\
 The Trireme is your first boat unit. It can act\
