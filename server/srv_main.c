@@ -1658,8 +1658,6 @@ void aifill(int amount)
 **************************************************************************/
 static void generate_players(void)
 {
-  char leader_name[MAX_LEN_NAME];
-
   /* Select nations for AI players generated with server
    * 'create <name>' command
    */
@@ -1695,12 +1693,15 @@ static void generate_players(void)
 
     /* don't change the name of a created player */
     if (!pplayer->was_created) {
+      char leader_name[MAX_LEN_NAME];
+
       pick_random_player_name(nation_of_player(pplayer), leader_name);
       sz_strlcpy(pplayer->name, leader_name);
     }
 
-    if (check_nation_leader_name(nation_of_player(pplayer), leader_name)) {
-      pplayer->is_male = get_nation_leader_sex(nation_of_player(pplayer), leader_name);
+    if (check_nation_leader_name(nation_of_player(pplayer), pplayer->name)) {
+      pplayer->is_male = get_nation_leader_sex(nation_of_player(pplayer),
+                                               pplayer->name);
     } else {
       pplayer->is_male = (myrand(2) == 1);
     }
