@@ -1594,6 +1594,8 @@ static void load_ruleset_terrain(struct section_file *file)
       }
     }
     pterrain->resources[nval] = NULL;
+    free(res);
+    res = NULL;
 
     pterrain->road_trade_incr
       = secfile_lookup_int(file, "%s.road_trade_incr", tsec[i]);
