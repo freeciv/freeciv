@@ -2952,6 +2952,19 @@ static bool take_command(struct connection *caller, char *str, bool check)
     goto end;
   }
 
+  /* Make sure there is free player slot if new player is
+   * requested by "take -". This is necessary for previously
+   * detached connections only. Others can reuse the slot
+   * they first release. */
+  if (!pplayer && !pconn->player
+      && (game.info.nplayers >= game.info.max_players
+          || game.info.nplayers >= MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS)) {
+    cmd_reply(CMD_TAKE, caller, C_FAIL,
+              _("There is no free player slot for %s"),
+              pconn->username);
+    goto end;
+  }
+
   res = TRUE;
   if (check) {
     goto end;
@@ -3012,17 +3025,22 @@ static bool take_command(struct connection *caller, char *str, bool check)
 
   /* now attach to new player */
   pconn->observer = FALSE; /* do this before attach! */
-  attach_connection_to_player(pconn, pplayer);
-  pplayer = pconn->player; /* In case pplayer was NULL. */
- 
-  /* if pplayer wasn't /created, and we're still in pregame, change its name */
-  if (!pplayer->was_created && is_newgame && !pplayer->nation) {
-    sz_strlcpy(pplayer->name, pconn->username);
-  }
+  res = attach_connection_to_player(pconn, pplayer);
 
-  /* aitoggle the player back to human as necessary. */
-  if (pplayer->ai.control && game.info.auto_ai_toggle) {
-    toggle_ai_player_direct(NULL, pplayer);
+  if (res) {
+    /* Successfully attached */
+    pplayer = pconn->player; /* In case pplayer was NULL. */
+
+    /* if pplayer wasn't /created, and we're still in pregame,
+       change its name */
+    if (!pplayer->was_created && is_newgame && !pplayer->nation) {
+      sz_strlcpy(pplayer->name, pconn->username);
+    }
+
+    /* aitoggle the player back to human as necessary. */
+    if (pplayer->ai.control && game.info.auto_ai_toggle) {
+      toggle_ai_player_direct(NULL, pplayer);
+    }
   }
 
   if (S_S_RUNNING == server_state()) {
@@ -3041,17 +3059,22 @@ static bool take_command(struct connection *caller, char *str, bool check)
   /* redundant self to self cannot be avoided */
   send_conn_info(pconn->self, game.est_connections);
 
-  cmd_reply(CMD_TAKE, caller, C_OK, _("%s now controls %s (%s, %s)"), 
-            pconn->username,
-            player_name(pplayer), 
-            is_barbarian(pplayer)
-            ? _("Barbarian")
-            : pplayer->ai.control
+  if (res) {
+    cmd_reply(CMD_TAKE, caller, C_OK, _("%s now controls %s (%s, %s)"), 
+              pconn->username,
+              player_name(pplayer), 
+              is_barbarian(pplayer)
+              ? _("Barbarian")
+              : pplayer->ai.control
               ? _("AI")
               : _("Human"),
-            pplayer->is_alive
-            ? _("Alive")
-            : _("Dead"));
+              pplayer->is_alive
+              ? _("Alive")
+              : _("Dead"));
+  } else {
+    cmd_reply(CMD_TAKE, caller, C_FAIL, _("%s failed to attach to any player"),
+              pconn->username);
+  }
 
   end:;
   /* free our args */

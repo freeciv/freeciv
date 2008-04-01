@@ -448,6 +448,9 @@ void send_conn_info_remove(struct conn_list *src, struct conn_list *dest)
   associated.
   Note "observer" connections do not count for is_connected. You must set
        pconn->observer to TRUE before attaching!
+  Note take_command() needs to know if this function will success before
+       it's time to call this. Keep take_command() checks in sync when
+       modifying this.
 **************************************************************************/
 bool attach_connection_to_player(struct connection *pconn,
                                  struct player *pplayer)
@@ -456,7 +459,7 @@ bool attach_connection_to_player(struct connection *pconn,
   if (!pplayer) {
     if (game.info.nplayers >= game.info.max_players 
         || game.info.nplayers >= MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS) {
-      return FALSE; 
+      return FALSE;
     } else {
       pplayer = &game.players[game.info.nplayers];
       server_player_init(pplayer, FALSE, TRUE);
