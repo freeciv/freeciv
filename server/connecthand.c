@@ -434,11 +434,28 @@ void send_conn_info_remove(struct conn_list *src, struct conn_list *dest)
 }
 
 /**************************************************************************
+  Search for first uncontrolled player
+**************************************************************************/
+struct player *find_uncontrolled_player(void)
+{
+  players_iterate(played) {
+    if (!played->is_connected && !played->was_created) {
+      return played;
+    }
+  } players_iterate_end;
+
+  return NULL;
+}
+
+/**************************************************************************
   Setup pconn as a client connected to pplayer:
   Updates pconn, pplayer->connections, pplayer->is_connected.
 
   If pplayer is NULL, take the next available player that is not connected.
   Note "observer" connections do not count for is_connected.
+  Note take_command() needs to know if this function will success before
+       it's time to call this. Keep take_command() checks in sync when
+       modifying this.
 **************************************************************************/
 bool attach_connection_to_player(struct connection *pconn,
                                  struct player *pplayer,
@@ -448,23 +465,15 @@ bool attach_connection_to_player(struct connection *pconn,
     assert(NULL != pplayer);
   } else {
     if (NULL == pplayer) {
-      /* search for first uncontrolled player */
-      players_iterate(played) {
-        if (!played->is_connected && !played->was_created) {
-          pplayer = played;
-          break;
-        }
-      } players_iterate_end;
+      /* search for uncontrolled player */
+      pplayer = find_uncontrolled_player();
 
       if (NULL == pplayer) {
         /* no uncontrolled player found */
-        if (game.info.nplayers >= game.info.max_players
-            || game.info.nplayers >= MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS) {
-          /* the latter test is probably redundant, and should never happen;
-           * no remaining player slots.
-           */
+        if (game.info.nplayers >= game.info.max_players) {
           return FALSE;
         }
+        assert(game.info.nplayers < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
 
         /* add new player */
         pplayer = &game.players[game.info.nplayers];
