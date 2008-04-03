@@ -1951,6 +1951,12 @@ void handle_conn_info(struct packet_conn_info *pinfo)
 
   update_players_dialog();
   update_conn_list_dialog();
+
+  if (pinfo->used && pinfo->id == client.conn.id) {
+    /* For updating the sensitivity of the "Edit Mode" menu item,
+     * among other things. */
+    update_menus();
+  }
 }
 
 /*************************************************************************

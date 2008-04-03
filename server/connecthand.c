@@ -195,6 +195,11 @@ void establish_new_connection(struct connection *pconn)
     show_players(pconn);
   }
 
+  if (game.info.is_edit_mode) {
+    notify_conn(NULL, NULL, E_SETTING,
+                _(" *** Server is in edit mode. *** "));
+  }
+
   reset_all_start_commands();
   (void) send_server_info_to_metaserver(META_INFO);
 }

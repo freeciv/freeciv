@@ -70,6 +70,8 @@ GtkAccelGroup *toplevel_accel = NULL;
 static enum unit_activity road_activity;
 
 static void menus_rename(const char *path, const char *s);
+static void menus_set_active_no_callback(const gchar *path,
+                                         gboolean active);
 
 /****************************************************************
 ...
@@ -603,22 +605,23 @@ static void reports_menu_callback(gpointer callback_data,
   }
 }
 
-static int menu_updating = FALSE;
-
 /****************************************************************************
   Callback function for when an item is chosen from the "editor" menu.
 ****************************************************************************/
 static void editor_menu_callback(gpointer callback_data,
                                  guint callback_action, GtkWidget *widget)
 {   
-  if (menu_updating) {
-    return;
-  }
-
   switch(callback_action) {
   case MENU_EDITOR_TOGGLE:
     key_editor_toggle();
     popdown_science_dialog(); /* Unreachbale techs in reqtree on/off */
+
+    /* Because the user click on this check menu item would
+     * cause the checkmark to appear, indicating wrongly that
+     * edit mode is activated, reset the checkmark to the
+     * correct, expected setting. */
+    menus_set_active_no_callback("<main>/_Edit/Editing _Mode",
+                                 game.info.is_edit_mode);
     break;
   case MENU_EDITOR_TOOLS:
     editdlg_show_tools();
@@ -791,7 +794,7 @@ static GtkItemFactoryEntry menu_items[]	=
   { "/" N_("_Edit") "/sep1",				NULL,
 	NULL,			0,					"<Separator>"	},
   /* was Editor menu */
-  { "/" N_("_Edit") "/" N_("Editing _Mode"), NULL,
+  { "/" N_("_Edit") "/" N_("Editing _Mode"), "<control>e",
 	editor_menu_callback, MENU_EDITOR_TOGGLE, "<CheckItem>" },
   { "/" N_("_Edit") "/" N_("Editing _Tools"), NULL,
 	editor_menu_callback, MENU_EDITOR_TOOLS },
@@ -1165,6 +1168,55 @@ static void menus_set_sensitive(const char *path, int sensitive)
 }
 
 /****************************************************************
+  Sets the toggled state on the check menu item given by 'path'
+  according to 'active', without the associated callback being
+  called.
+*****************************************************************/
+static void menus_set_active_no_callback(const gchar *path,
+                                         gboolean active)
+{
+  GtkWidget *w, *item;
+  guint sid;
+  gulong hid;
+
+  path = menu_path_remove_uline(path);
+
+  if (!(item = gtk_item_factory_get_item(item_factory, path))) {
+    freelog(LOG_ERROR, "Can't set active for non-existent menu %s.",
+            path);
+    return;
+  }
+
+  if (!(w = gtk_item_factory_get_widget(item_factory, path))) {
+    freelog(LOG_ERROR, "Can't set active for non-existent menu %s.",
+            path);
+    return;
+  }
+
+  sid = g_signal_lookup("activate", G_TYPE_FROM_INSTANCE(w));
+  if (sid == 0) {
+    freelog(LOG_ERROR, "Can't block menu callback because "
+            "the \"activate\" signal id was not found for "
+            "the menu widget at path \"%s\".", path);
+    return;
+  }
+
+  hid = g_signal_handler_find(w, G_SIGNAL_MATCH_ID,
+                              sid, 0, NULL, NULL, NULL);
+
+  if (hid == 0) {
+    freelog(LOG_ERROR, "Can't block menu callback because "
+            "the \"activate\" signal handler id was not found "
+            "for the menu widget at path \"%s\".", path);
+    return;
+  }
+
+  g_signal_handler_block(w, hid);
+  gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), active);
+  g_signal_handler_unblock(w, hid);
+}
+
+/****************************************************************
 ...
 *****************************************************************/
 static void menus_set_active(const char *path, int active)
@@ -1335,19 +1387,16 @@ void update_menus(void)
 
     menus_set_sensitive("<main>/_Edit/Worklists",
 			can_client_issue_orders());
-
-    menu_updating = TRUE;
-
-    menus_set_active("<main>/_Edit/Editing _Mode",
-		     can_conn_enable_editing(&client.conn));
+    menus_set_active_no_callback("<main>/_Edit/Editing _Mode",
+                                 game.info.is_edit_mode);
+    menus_set_sensitive("<main>/_Edit/Editing _Mode",
+                        can_conn_enable_editing(&client.conn));
     menus_set_sensitive("<main>/_Edit/Editing _Tools",
 			can_conn_edit(&client.conn));
     menus_set_sensitive("<main>/_Edit/Recalculate _Borders",
 			can_conn_edit(&client.conn));
     menus_set_sensitive("<main>/_Edit/Regenerate _Water",
 			can_conn_edit(&client.conn));
-
-    menu_updating = FALSE;
 
     /* If the client is not attached to a player, disable these reports. */
     menus_set_sensitive("<main>/_Reports/_Cities",
