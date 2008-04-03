@@ -50,7 +50,8 @@ void handle_edit_mode(struct connection *pc, bool is_edit_mode)
   if (!game.info.is_edit_mode && is_edit_mode) {
     /* Someone could be cheating! Warn people. */
     notify_conn(NULL, NULL, E_SETTING,
-		_(" *** Server set to edit mode! *** "));
+                _(" *** Server set to edit mode by %s! *** "),
+                conn_description(pc));
   }
   if (game.info.is_edit_mode && !is_edit_mode) {
     notify_conn(NULL, NULL, E_SETTING,
