@@ -499,15 +499,20 @@ static void select_cma_callback(GtkWidget * w, gpointer data)
       controlled = cma_is_city_under_agent(pcity, &parameter);
       select = FALSE;
 
-      if (idx == CMA_CUSTOM && controlled
-          && cmafec_preset_get_index_of_parameter(&parameter) == -1) {
-        select = TRUE;
-      } else if (idx == CMA_NONE && !controlled) {
-        select = TRUE;
-      } else if (idx >= 0 && controlled &&
-        	 cm_are_parameter_equal(&parameter,
-        				cmafec_preset_get_parameter(idx))) {
-        select = TRUE;
+      if (idx == CMA_NONE) {
+        /* CMA_NONE selects not-controlled, all others require controlled */
+        if (!controlled) {
+          select = TRUE;
+        }
+      } else if (controlled) {
+        if (idx == CMA_CUSTOM) {
+          if (cmafec_preset_get_index_of_parameter(&parameter) == -1) {
+            select = TRUE;
+          }
+        } else if (cm_are_parameter_equal(&parameter,
+                                          cmafec_preset_get_parameter(idx))) {
+          select = TRUE;
+        }
       }
 
       if (select) {
@@ -524,8 +529,8 @@ static void select_cma_callback(GtkWidget * w, gpointer data)
 
 /****************************************************************
  Create the cma entries in the change menu and the select menu. The
- indices CMA_NONE (aka -1) and CMA_CUSTOM (aka -2) are
- special. CMA_NONE signifies a preset of "none" and CMA_CUSTOM a
+ indices CMA_NONE and CMA_CUSTOM are special.
+ CMA_NONE signifies a preset of "none" and CMA_CUSTOM a
  "custom" preset.
 *****************************************************************/
 static void append_cma_to_menu_item(GtkMenuItem *parent_item, bool change_cma)
