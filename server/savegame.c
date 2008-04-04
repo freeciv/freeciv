@@ -2808,8 +2808,7 @@ static void player_load_vision(struct player *plr, int plrno,
 		  ascii_hex2bin(ch, 3));
 
     for (i = 0; i < total_ncities; i++) {
-      /* similar to create_vision_site() */
-      struct vision_site *pdcity = fc_calloc(1, sizeof(*pdcity));
+      struct vision_site *pdcity = create_vision_site(0, NULL, NULL);
 
       nat_y = secfile_lookup_int(file, "player%d.dc%d.y", plrno, i);
       nat_x = secfile_lookup_int(file, "player%d.dc%d.x", plrno, i);
@@ -2879,7 +2878,8 @@ static void player_load_vision(struct player *plr, int plrno,
       }
       sz_strlcpy(pdcity->name, secfile_lookup_str(file, "player%d.dc%d.name", plrno, i));
 
-      map_get_player_tile(pdcity->location, plr)->site = pdcity;
+      change_playertile_site(map_get_player_tile(pdcity->location, plr),
+                             pdcity);
       identity_number_reserve(pdcity->identity);
     }
 

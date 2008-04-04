@@ -1562,6 +1562,8 @@ void send_all_known_cities(struct conn_list *dest)
       continue;
     }
     whole_map_iterate(ptile) {
+      /* FIXME: map_get_player_base()???
+       * Should be cities only: map_get_player_city() */
       if (!pplayer || NULL != map_get_player_base(ptile, pplayer)) {
 	send_city_info_at_tile(pplayer, pconn->self, NULL, ptile);
       }
@@ -1791,8 +1793,8 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
   } improvement_iterate_end;
 
   if (NULL == pdcity) {
-    map_get_player_tile(pcenter, pplayer)->site =
     pdcity = create_vision_site_from_city(pcity);
+    change_playertile_site(map_get_player_tile(pcenter, pplayer), pdcity);
   } else if (pdcity->location != pcenter) {
     freelog(LOG_ERROR, "Trying to update bad city (wrong location)"
 	    " at %i,%i for player %s",
@@ -1840,8 +1842,12 @@ void reality_check_city(struct player *pplayer,struct tile *ptile)
       struct player_tile *playtile = map_get_player_tile(ptile, pplayer);
 
       dlsend_packet_city_remove(pplayer->connections, pdcity->identity);
+      assert(playtile->site == pdcity);
       playtile->site = NULL;
-      free(pdcity);
+      pdcity->ref_count--; /* Subtract ref_count before calling
+                            * free_vision_site() */
+      assert(pdcity->ref_count >= 0);
+      free_vision_site(pdcity);
     }
   }
 }
