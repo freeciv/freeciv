@@ -110,4 +110,7 @@ void vision_change_sight(struct vision *vision, enum vision_layer vlayer,
 			 int radius_sq);
 void vision_clear_sight(struct vision *vision);
 
+void change_playertile_site(struct player_tile *ptile,
+                            struct vision_site *new_site);
+
 #endif  /* FC__MAPHAND_H */

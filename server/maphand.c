@@ -1073,6 +1073,34 @@ static void map_change_own_seen(struct tile *ptile, struct player *pplayer,
 }
 
 /***************************************************************
+ Changes site information for player tile.
+***************************************************************/
+void change_playertile_site(struct player_tile *ptile,
+                            struct vision_site *new_site)
+{
+  if (ptile->site == new_site) {
+    /* Do nothing. Especially: don't decrease ref_count and
+     * free vision site... */
+    return;
+  }
+
+  if (ptile->site != NULL) {
+    /* Releasing old site from tile */
+    ptile->site->ref_count--;
+    assert(ptile->site->ref_count >= 0);
+    if (ptile->site->ref_count == 0) {
+      /* Free vision site before losing its address completely */
+      free_vision_site(ptile->site);
+    }
+  }
+  if (new_site != NULL) {
+    /* Assigning new site to tile */
+    new_site->ref_count++;
+  }
+  ptile->site = new_site;
+}
+
+/***************************************************************
 ...
 ***************************************************************/
 void map_set_known(struct tile *ptile, struct player *pplayer)
@@ -1148,8 +1176,8 @@ void player_map_free(struct player *pplayer)
   whole_map_iterate(ptile) {
     struct player_tile *playtile = map_get_player_tile(ptile, pplayer);
 
-    /* cleverly uses return that is NULL for non-site tile */
-    playtile->site = map_get_player_base(ptile, pplayer);
+    /* map_get_player_base() will return NULL for non-site tile */
+    change_playertile_site(playtile, map_get_player_base(ptile, pplayer));
   } whole_map_iterate_end;
 
   /* only after removing borders! */
@@ -1157,6 +1185,8 @@ void player_map_free(struct player *pplayer)
     struct vision_site *psite = map_get_player_base(ptile, pplayer);
 
     if (NULL != psite) {
+      /* Player tile will be freed, so ref_count goes down */
+      psite->ref_count--;
       free_vision_site(psite);
     }
   } whole_map_iterate_end;
@@ -1197,7 +1227,9 @@ static void player_tile_init(struct tile *ptile, struct player *pplayer)
 }
 
 /****************************************************************************
-  ...
+  Returns vision site located at given tile from player map.
+  FIXME: Rename function as it's not returning only bases, but
+         any vision sites.
 ****************************************************************************/
 struct vision_site *map_get_player_base(const struct tile *ptile,
 					const struct player *pplayer)
@@ -1211,7 +1243,7 @@ struct vision_site *map_get_player_base(const struct tile *ptile,
 }
 
 /****************************************************************************
-  ...
+  Returns city located at given tile from player map.
 ****************************************************************************/
 struct vision_site *map_get_player_city(const struct tile *ptile,
 					const struct player *pplayer)
@@ -1355,10 +1387,17 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
       /* Set and send new city info */
       if (from_tile->site && from_tile->site->location == ptile) {
 	if (!dest_tile->site || dest_tile->site->location != ptile) {
-	  dest_tile->site = fc_calloc(1, sizeof(*dest_tile->site));
+	  change_playertile_site(dest_tile, NULL);
+
+          /* We cannot assign new vision site with change_playertile_site(),
+           * since location is not yet set up for new site */
+          dest_tile->site = create_vision_site(0, NULL, NULL);
+          dest_tile->site->ref_count++;
 	}
-	/* struct assignment copy */
-	*dest_tile->site = *from_tile->site;
+	/* Copy vision information.
+         * Note that we don't care if receiver knows vision source city
+         * or not. */
+        copy_vision_site(dest_tile->site, from_tile->site);
 	send_city_info_at_tile(pdest, pdest->connections, NULL, ptile);
       }
 
@@ -1758,7 +1797,7 @@ void map_claim_ownership(struct tile *ptile, struct player *powner,
     struct player_tile *playtile = map_get_player_tile(ptile, ploser);
 
     /* cleverly uses return that is NULL for non-site tile */
-    playtile->site = map_get_player_base(ptile, ploser);
+    change_playertile_site(playtile, map_get_player_base(ptile, ploser));
 
     if (NULL != playtile->site && ptile == psource) {
       /* has new owner */
@@ -1774,7 +1813,7 @@ void map_claim_ownership(struct tile *ptile, struct player *powner,
       if (ptile != psource) {
         struct player_tile *playtile = map_get_player_tile(ptile, powner);
         assert(NULL == playtile->site);
-        playtile->site = psite;
+        change_playertile_site(playtile, psite);
       } else if (NULL != pcity) {
         update_vision_site_from_city(psite, pcity);
       } else {
@@ -1790,8 +1829,7 @@ void map_claim_ownership(struct tile *ptile, struct player *powner,
       } else {
         psite = create_vision_site(IDENTITY_NUMBER_ZERO, psource, powner);
       }
-
-      playsite->site = psite;
+      change_playertile_site(playsite, psite);
     }
   } else {
     assert(NULL == powner && NULL == psource);

@@ -2884,6 +2884,8 @@ static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit)
 
   circle_iterate(punit->tile, radius_sq, ptile) {
     struct unit *penemy = is_non_allied_unit_tile(ptile, pplayer);
+
+    /* FIXME: Should be map_get_player_city()? */
     struct vision_site *pdcity = map_get_player_base(ptile, pplayer);
 
     if ((penemy && can_player_see_unit(pplayer, penemy))
