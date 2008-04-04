@@ -2433,6 +2433,9 @@ struct city *create_city_virtual(struct player *pplayer,
 		                 struct tile *ptile, const char *name)
 {
   int i;
+
+  /* Make sure that contents of city structure are correctly
+   * initialized, if you ever allocate it by some other mean than fc_calloc() */
   struct city *pcity = fc_calloc(1, sizeof(*pcity));
 
   assert(pplayer != NULL); /* No unowned cities! */
@@ -2444,6 +2447,8 @@ struct city *create_city_virtual(struct player *pplayer,
   assert(name != NULL);
   sz_strlcpy(pcity->name, name);
 
+  /* City structure was allocated with fc_calloc(), so
+   * contents are initially zero. No need to initialize second time. */
 #ifdef ZERO_VARIABLES_FOR_SEARCHING
   /* This does not register the city, so the identity defaults to 0. */
   pcity->id = IDENTITY_NUMBER_ZERO;
@@ -2486,7 +2491,8 @@ struct city *create_city_virtual(struct player *pplayer,
   pcity->airlift = FALSE;
   pcity->debug = FALSE;
 #endif
-  pcity->did_buy = TRUE; /* why? */
+  pcity->did_buy = TRUE; /* You cannot buy production same turn city is
+                          * founded. */
 #ifdef ZERO_VARIABLES_FOR_SEARCHING
   pcity->did_sell = FALSE;
   pcity->is_updated = FALSE;
