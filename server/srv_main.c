@@ -1601,12 +1601,13 @@ void aifill(int amount)
 }
 
 /**************************************************************************
-   generate_players() - Selects a nation for players created with
-   server's "create <PlayerName>" command.  If <PlayerName> matches
-   one of the leader names for some nation, we choose that nation.
-   (I.e. if we issue "create Shaka" then we will make that AI player's
-   nation the Zulus if the Zulus have not been chosen by anyone else.
-   If they have, then we pick an available nation at random.)
+   Selects a nation for players created with "create <PlayerName>", or
+   with "set aifill <X>".
+
+   If <PlayerName> matches one of the leader names for some nation,
+   choose that nation.  For example, when the Zulus have not been chosen
+   by anyone else, "create Shaka" will make that AI player's nation the
+   Zulus.  Otherwise, pick an available nation at random.
 
    If the AI player name is one of the leader names for the AI player's
    nation, the player sex is set to the sex for that leader, else it
@@ -1615,8 +1616,6 @@ void aifill(int amount)
 **************************************************************************/
 static void generate_players(void)
 {
-  char leader_name[MAX_LEN_NAME];
-
   /* Select nations for AI players generated with server
    * 'create <name>' command
    */
@@ -1649,11 +1648,17 @@ static void generate_players(void)
 
     pplayer->city_style = city_style_of_nation(nation_of_player(pplayer));
 
-    pick_random_player_name(nation_of_player(pplayer), leader_name);
-    sz_strlcpy(pplayer->name, leader_name);
+    /* don't change the name of a created player */
+    if (!pplayer->was_created) {
+      char leader_name[MAX_LEN_NAME];
 
-    if (check_nation_leader_name(nation_of_player(pplayer), leader_name)) {
-      pplayer->is_male = get_nation_leader_sex(nation_of_player(pplayer), leader_name);
+      pick_random_player_name(nation_of_player(pplayer), leader_name);
+      sz_strlcpy(pplayer->name, leader_name);
+    }
+
+    if (check_nation_leader_name(nation_of_player(pplayer), pplayer->name)) {
+      pplayer->is_male = get_nation_leader_sex(nation_of_player(pplayer),
+                                               pplayer->name);
     } else {
       pplayer->is_male = (myrand(2) == 1);
     }
