@@ -118,11 +118,12 @@ enum event_type {
   E_BAD_COMMAND,		/* Illegal command sent from client. */
   E_SETTING,			/* Messages for changed server settings */
   E_CHAT_MSG,			/* Chatline messages */
-  E_LOG_FATAL,
+  E_MESSAGE_WALL,		/* Message from server operator */
   E_CHAT_ERROR,			/* Chatline errors (bad syntax, etc.) */
   E_CONNECTION,			/* Messages about acquired or lost connections */
   E_AI_DEBUG,			/* AI debugging messages */
   E_LOG_ERROR,			/* Warning messages */
+  E_LOG_FATAL,
   E_TECH_GOAL,			/* Changed tech goal */
   /* 
    * Note: If you add a new event, make sure you make a similar change
