@@ -424,6 +424,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
       notify(aplayer, _("*%s (AI)* I do not know the city you mention."),
              player_name(pplayer));
       worth = 0;
+      DIPLO_LOG(LOG_DEBUG, pplayer, aplayer, "city destroyed during negotiations");
     } else if (give) {
       /* AI must be crazy to trade away its cities */
       worth -= city_gold_worth(offer);
@@ -439,8 +440,10 @@ static int ai_goldequiv_clause(struct player *pplayer,
     } else {
       worth = city_gold_worth(offer);
     }
-    DIPLO_LOG(LOG_DEBUG, pplayer, aplayer, "worth of %s is %d", 
-              city_name(offer), worth);
+    if (offer != NULL) {
+      DIPLO_LOG(LOG_DEBUG, pplayer, aplayer, "worth of %s is %d", 
+		city_name(offer), worth);
+    }
     break;
   }
 
