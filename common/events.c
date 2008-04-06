@@ -172,6 +172,7 @@ static struct {
   GEN_EV(E_REPORT,		E_S_XYZZY,	N_("Report")),
   GEN_EV(E_LOG_FATAL,		E_S_XYZZY,	N_("Server Aborting")),
   GEN_EV(E_LOG_ERROR,		E_S_XYZZY,	N_("Server Problems")),
+  GEN_EV(E_MESSAGE_WALL,	E_S_XYZZY,	N_("Message from server operator")),
   GEN_EV(E_SETTING,		E_S_XYZZY,	N_("Server settings changed")),
   GEN_EV(E_TURN_BELL,		E_S_XYZZY,	N_("Turn Bell")),
   GEN_EV(E_TUTORIAL,		E_S_XYZZY,	N_("Tutorial message")),
