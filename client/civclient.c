@@ -269,6 +269,9 @@ int main(int argc, char *argv[])
       fc_fprintf(stderr, _("      --\t\t"
 			   "Pass any following options to the UI.\n"
 			   "\t\t\tTry \"%s -- --help\" for more.\n"), argv[0]);
+      fc_fprintf(stderr, "\n");
+      /* TRANS: No full stop after the URL, could cause confusion. */
+      fc_fprintf(stderr, _("Report bugs at %s\n"), BUG_URL);
       exit(EXIT_SUCCESS);
     } else if (is_option("--version",argv[i])) {
       fc_fprintf(stderr, "%s %s\n", freeciv_name_version(), client_string);
