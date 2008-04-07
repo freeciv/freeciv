@@ -670,6 +670,15 @@ void vnotify_conn(struct conn_list *dest, struct tile *ptile,
   genmsg.conn_id = -1;
 
   conn_list_iterate(dest, pconn) {
+
+    /* Avoid sending messages that could potentially reveal
+     * internal information about the server machine to
+     * connections that do not already have hack access. */
+    if ((event == E_LOG_ERROR || event == E_LOG_FATAL)
+        && pconn->access_level != ALLOW_HACK) {
+      continue;
+    }
+
     if (S_S_RUNNING <= server_state()
 	&& ptile /* special case, see above */
 	&& ((NULL == pconn->playing && pconn->observer)
