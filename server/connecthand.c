@@ -196,7 +196,7 @@ void establish_new_connection(struct connection *pconn)
   }
 
   if (game.info.is_edit_mode) {
-    notify_conn(NULL, NULL, E_SETTING,
+    notify_conn(dest, NULL, E_SETTING,
                 _(" *** Server is in edit mode. *** "));
   }
 
