@@ -74,8 +74,16 @@ void terrains_init(void)
 void terrains_free(void)
 {
   terrain_type_iterate(pterrain) {
-    free(pterrain->helptext);
-    pterrain->helptext = NULL;
+    if (pterrain->helptext != NULL) {
+      free(pterrain->helptext);
+      pterrain->helptext = NULL;
+    }
+    if (pterrain->resources != NULL) {
+      /* Server allocates this on ruleset loading, client when
+       * ruleset packet is received. */
+      free(pterrain->resources);
+      pterrain->resources = NULL;
+    }
   } terrain_type_iterate_end;
 }
 

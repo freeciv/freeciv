@@ -2750,6 +2750,9 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
     pterrain->output[o] = p->output[o];
   } output_type_iterate_end;
 
+  if (pterrain->resources != NULL) {
+    free(pterrain->resources);
+  }
   pterrain->resources = fc_calloc(p->num_resources + 1,
 				  sizeof(*pterrain->resources));
   for (j = 0; j < p->num_resources; j++) {
@@ -2777,9 +2780,12 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
   pterrain->rail_time = p->rail_time;
   pterrain->clean_pollution_time = p->clean_pollution_time;
   pterrain->clean_fallout_time = p->clean_fallout_time;
-  
+
   pterrain->flags = p->flags;
 
+  if (pterrain->helptext != NULL) {
+    free(pterrain->helptext);
+  }
   pterrain->helptext = mystrdup(p->helptext);
   
   tileset_setup_tile_type(tileset, pterrain);
