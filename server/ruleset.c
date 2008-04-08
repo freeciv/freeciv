@@ -3670,6 +3670,78 @@ static bool nation_has_initial_tech(struct nation_type *pnation,
 }
 
 /**************************************************************************
+  Helper function for sanity_check_req_list() and sanity_check_req_vec()
+**************************************************************************/
+static bool sanity_check_req_set(int reqs_of_type[], struct requirement *preq,
+                                 int max_tiles, const char *list_for)
+{
+  int rc;
+
+  assert(preq->source.kind >= 0 && preq->source.kind < VUT_LAST);
+
+  /* Add to counter */
+  reqs_of_type[preq->source.kind]++;
+  rc = reqs_of_type[preq->source.kind];
+
+  if (rc > 1) {
+    /* Multiple requirements of the same type */
+    switch (preq->source.kind) {
+     case VUT_GOVERNMENT:
+     case VUT_NATION:
+     case VUT_UTYPE:
+     case VUT_UCLASS:
+     case VUT_OTYPE:
+     case VUT_SPECIALIST:
+     case VUT_MINSIZE: /* Breaks nothing, but has no sense either */
+     case VUT_AI_LEVEL:
+     case VUT_TERRAINCLASS:
+       /* There can be only one requirement of these types (with current
+        * range limitations)
+        * Requirements might be identical, but we consider multiple
+        * declarations error anyway. */
+
+       freelog(LOG_ERROR,
+               "%s: Requirement list has multiple %s requirements",
+               list_for,
+               universal_type_rule_name(&preq->source));
+       return FALSE;
+       break;
+
+     case VUT_SPECIAL:
+     case VUT_TERRAIN:
+       /* There can be only up to max_tiles requirements of these types */
+       if (max_tiles != 1 && rc > max_tiles) {
+         freelog(LOG_ERROR,
+                 "%s: Requirement list has more %s requirements than "
+                 "can ever be fullfilled.",
+                 list_for,
+                 universal_type_rule_name(&preq->source));
+         return FALSE;
+       }
+       break;
+
+     case VUT_NONE:
+     case VUT_ADVANCE:
+     case VUT_IMPROVEMENT:
+     case VUT_UTFLAG:
+     case VUT_UCFLAG:
+       /* Can have multiple requirements of these types */
+       break;
+     case VUT_LAST:
+       /* Should never be in requirement vector */
+       assert(FALSE);
+       return FALSE;
+       break;
+       /* No default handling here, as we want compiler warning
+        * if new requirement type is added to enum and it's not handled
+        * here. */
+    }
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
   Check if requirement list is free of conflicting requirements.
   max_tiles is number of tiles that can provide requirement. Value -1
   disables checking based on number of tiles.
@@ -3692,67 +3764,8 @@ static bool sanity_check_req_list(const struct requirement_list *preqs,
   memset(reqs_of_type, 0, sizeof(reqs_of_type));
 
   requirement_list_iterate(preqs, preq) {
-    int rc;
-
-    assert(preq->source.kind >= 0 && preq->source.kind < VUT_LAST);
-
-    /* Add to counter */
-    reqs_of_type[preq->source.kind]++;
-    rc = reqs_of_type[preq->source.kind];
-
-    if (rc > 1) {
-      /* Multiple requirements of same the type */
-      switch (preq->source.kind) {
-       case VUT_GOVERNMENT:
-       case VUT_NATION:
-       case VUT_UTYPE:
-       case VUT_UCLASS:
-       case VUT_OTYPE:
-       case VUT_SPECIALIST:
-       case VUT_MINSIZE: /* Breaks nothing, but has no sense either */
-       case VUT_AI_LEVEL:
-       case VUT_TERRAINCLASS:
-         /* There can be only one requirement of these types (with current
-          * range limitations)
-          * Requirements might be identical, but we consider multiple
-          * declarations error anyway. */
-
-         freelog(LOG_ERROR,
-                 "%s: Requirement list has multiple %s requirements",
-                 list_for,
-                 universal_type_rule_name(&preq->source));
-         return FALSE;
-         break;
-
-       case VUT_SPECIAL:
-       case VUT_TERRAIN:
-         /* There can be only up to max_tiles requirements of these types */
-         if (max_tiles != 1 && rc > max_tiles) {
-           freelog(LOG_ERROR,
-                   "%s: Requirement list has more %s requirements than "
-                   "can ever be fullfilled.",
-                   list_for,
-                   universal_type_rule_name(&preq->source));
-           return FALSE;
-         }
-         break;
-
-       case VUT_NONE:
-       case VUT_ADVANCE:
-       case VUT_IMPROVEMENT:
-       case VUT_UTFLAG:
-       case VUT_UCFLAG:
-         /* Can have multiple requirements of these types */
-         break;
-       case VUT_LAST:
-         /* Should never be in requirement vector */
-         assert(FALSE);
-         return FALSE;
-         break;
-       /* No default handling here, as we want compiler warning
-        * if new requirement type is added to enum and it's not handled
-        * here. */
-      }
+    if (!sanity_check_req_set(reqs_of_type, preq, max_tiles, list_for)) {
+      return FALSE;
     }
   } requirement_list_iterate_end;
 
@@ -3760,7 +3773,29 @@ static bool sanity_check_req_list(const struct requirement_list *preqs,
 }
 
 /**************************************************************************
-  Check that requirement vector and negated requirements vector do not have
+  Requirement vector version of requirement sanity checking. See
+  retuirement list version for comments.
+**************************************************************************/
+static bool sanity_check_req_vec(const struct requirement_vector *preqs,
+                                 int max_tiles,
+                                 const char *list_for)
+{
+  int reqs_of_type[VUT_LAST];
+
+  /* Initialize requirement counters */
+  memset(reqs_of_type, 0, sizeof(reqs_of_type));
+
+  requirement_vector_iterate(preqs, preq) {
+    if (!sanity_check_req_set(reqs_of_type, preq, max_tiles, list_for)) {
+      return FALSE;
+    }
+  } requirement_vector_iterate_end;
+
+  return TRUE;
+}
+
+/**************************************************************************
+  Check that requirement list and negated requirements list do not have
   confliciting requirements.
 
   Returns TRUE iff everything ok.
@@ -3797,7 +3832,7 @@ static bool sanity_check_req_nreq_list(const struct requirement_list *preqs,
 /**************************************************************************
   Sanity check callback for iterating effects cache.
 **************************************************************************/
-static bool effect_sanity_cb(const struct effect *peffect)
+static bool effect_list_sanity_cb(const struct effect *peffect)
 {
   int one_tile = -1; /* TODO: Determine correct value from effect.
                       *       -1 disables checking */
@@ -3816,6 +3851,10 @@ static bool effect_sanity_cb(const struct effect *peffect)
 static bool sanity_check_ruleset_data(void)
 {
   int num_utypes;
+  int i;
+  bool ok = TRUE; /* Store failures to variable instead of returning
+                   * immediately so all errors get printed, not just first
+                   * one. */
 
   /* Check that all players can have their initial techs */
   nations_iterate(pnation) {
@@ -3857,6 +3896,7 @@ static bool sanity_check_ruleset_data(void)
                       "Tech %s does not exist, but is tech for %s.",
                       advance_rule_name(advance_by_number(tech)),
                       nation_rule_name(pnation));
+        ok = FALSE;
       }
       if (advance_by_number(A_NONE) != a->require[AR_ROOT]
           && !nation_has_initial_tech(pnation, a->require[AR_ROOT])) {
@@ -3866,6 +3906,7 @@ static bool sanity_check_ruleset_data(void)
                       "no root_req for it.",
                       advance_rule_name(a),
                       nation_rule_name(pnation));
+        ok = FALSE;
       }
     }
   } nations_iterate_end;
@@ -3883,19 +3924,56 @@ static bool sanity_check_ruleset_data(void)
         ruleset_error(LOG_FATAL,
                       "There seems to be obsoleted_by loop in update "
                       "chain that starts from %s", utype_rule_name(putype));
+        ok = FALSE;
       }
     }
   } unit_type_iterate_end;
 
-  /* Check requirement lists against conflicting requirements */
-  /* Effects */
-  if (!iterate_effect_cache(effect_sanity_cb)) {
+  /* Check requirement sets against conflicting requirements.
+   * Effects use requirement lists */
+  if (!iterate_effect_cache(effect_list_sanity_cb)) {
     ruleset_error(LOG_FATAL, "Effects have conflicting requirements!");
+    ok = FALSE;
   }
-  /* TODO: Check other requirement lists also
-   *       (Governments, Buildings, Specialists, City styles)
-   *       These use currently requirement_vector, when effects
-   *       (and sanity checking) use requirement_list. */
 
-  return TRUE;
+  /* Others use requirement vectors
+   * Buildings */
+  improvement_iterate(pimprove) {
+    if (!sanity_check_req_vec(&pimprove->reqs, -1,
+                              improvement_rule_name(pimprove))) {
+      ruleset_error(LOG_FATAL, "Buildings have conflicting requirements!");
+      ok = FALSE;
+    }
+  } improvement_iterate_end;
+
+  /* Governments */
+  government_iterate(pgov) {
+    if (!sanity_check_req_vec(&pgov->reqs, -1,
+                              government_rule_name(pgov))) {
+      ruleset_error(LOG_FATAL, "Governments have conflicting requirements!");
+      ok = FALSE;
+    }
+  } government_iterate_end;
+
+  /* Specialists */
+  specialist_type_iterate(sp) {
+    struct specialist *psp = specialist_by_number(sp);
+
+    if (!sanity_check_req_vec(&psp->reqs, -1,
+                              specialist_rule_name(psp))) {
+      ruleset_error(LOG_FATAL, "Specialists have conflicting requirements!");
+      ok = FALSE;
+    }
+  } specialist_type_iterate_end;
+
+  /* City styles */
+  for (i = 0; i < game.control.styles_count; i++) {
+    if (!sanity_check_req_vec(&city_styles[i].reqs, -1,
+                              city_style_rule_name(i))) {
+      ruleset_error(LOG_FATAL, "City styles have conflicting requirements!");
+      ok = FALSE;
+    }
+  }
+
+  return ok;
 }
