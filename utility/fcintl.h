@@ -19,14 +19,18 @@
 #endif
 #endif
 
-#ifdef HAVE_LIBINTL_H
-#include <libintl.h>
-#endif
 #ifdef HAVE_LOCALE_H
 #include <locale.h>
 #endif
 
 #ifdef ENABLE_NLS
+
+/* Include libintl.h only if nls enabled.
+ * It defines some wrapper macros that
+ * we don't want defined when nls is disabled. */
+#ifdef HAVE_LIBINTL_H
+#include <libintl.h>
+#endif
 
 #define _(String) gettext(String)
 #define N_(String) String
