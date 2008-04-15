@@ -685,7 +685,7 @@ dnl LUA_AS_DEPENDENCY should be empty when using lua outside own our tree.
 LUA_CFLAGS="-I\$(top_srcdir)/dependencies/lua/include"
 LUA_LIBS="\$(top_builddir)/dependencies/lua/src/liblua.a \
  \$(top_builddir)/dependencies/lua/src/lib/liblualib.a"
-LUA_AS_DEPENCY="$LUA_LIBS"
+LUA_AS_DEPENDENCY="$LUA_LIBS"
 AC_SUBST([LUA_CFLAGS])
 AC_SUBST([LUA_LIBS])
 AC_SUBST([LUA_AS_DEPENDENCY])
@@ -693,7 +693,7 @@ AC_SUBST([LUA_AS_DEPENDENCY])
 
 TOLUA_CFLAGS="-I\$(top_srcdir)/dependencies/tolua"
 TOLUA_LIBS="\$(top_builddir)/dependencies/tolua/libtolua.a"
-TOLUA_AS_DEPENCY="$TOLUA_LIBS"
+TOLUA_AS_DEPENDENCY="$TOLUA_LIBS"
 AC_SUBST([TOLUA_CFLAGS])
 AC_SUBST([TOLUA_LIBS])
 AC_SUBST([TOLUA_AS_DEPENDENCY])
