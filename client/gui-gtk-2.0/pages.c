@@ -1076,7 +1076,7 @@ static void conn_menu_nation_chosen(GtkMenuItem *menuitem, gpointer data)
 
 /****************************************************************************
   Miscellaneous callback for the conn menu that allows an arbitrary command
-  (/observe, /take, /hard) to be run on the player.
+  (/observe, /remove, /hard) to be run on the player.
 ****************************************************************************/
 static void conn_menu_player_command(GtkMenuItem *menuitem, gpointer data)
 {
@@ -1106,6 +1106,23 @@ static void conn_menu_player_take(GtkMenuItem *menuitem, gpointer data)
   }
   my_snprintf(buf, sizeof(buf), "/take \"%s\"",
               player_name(conn_menu_player));
+  send_chat(buf);
+}
+
+/****************************************************************************
+  Miscellaneous callback for the conn menu that allows an arbitrary command
+  (/cmdlevel, /cut) to be run on the connection.
+****************************************************************************/
+static void conn_menu_connection_command(GtkMenuItem *menuitem, gpointer data)
+{
+  char buf[1024];
+  const char *command = data;
+
+  assert(conn_menu_conn != NULL);
+  assert(command != NULL);
+
+  my_snprintf(buf, sizeof(buf), "/%s \"%s\"",
+              command, conn_menu_conn->username);
   send_chat(buf);
 }
 
@@ -1218,7 +1235,7 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
 			     (GtkDestroyNotify) gtk_widget_unref);
       gtk_container_add(GTK_CONTAINER(menu), entry);
       g_signal_connect(GTK_OBJECT(entry), "activate",
-		       GTK_SIGNAL_FUNC(conn_menu_player_command), "cut");
+		       GTK_SIGNAL_FUNC(conn_menu_connection_command), "cut");
     }
   }
 
@@ -1248,7 +1265,7 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
 			   (GtkDestroyNotify) gtk_widget_unref);
     gtk_container_add(GTK_CONTAINER(menu), entry);
     g_signal_connect(GTK_OBJECT(entry), "activate",
-		     GTK_SIGNAL_FUNC(conn_menu_player_command),
+		     GTK_SIGNAL_FUNC(conn_menu_connection_command),
 		     "cmdlevel info");
 
     entry = gtk_menu_item_new_with_label(_("Give ctrl access"));
@@ -1256,7 +1273,8 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
 			   (GtkDestroyNotify) gtk_widget_unref);
     gtk_container_add(GTK_CONTAINER(menu), entry);
     g_signal_connect(GTK_OBJECT(entry), "activate",
-		     GTK_SIGNAL_FUNC(conn_menu_player_command), "cut");
+		     GTK_SIGNAL_FUNC(conn_menu_connection_command),
+                     "cmdlevel ctrl");
 
     /* No entry for hack access; that would be a serious security hole. */
   }
@@ -2472,4 +2490,3 @@ void gui_set_rulesets(int num_rulesets, char **rulesets)
 
   g_list_free(opts);
 }
-
