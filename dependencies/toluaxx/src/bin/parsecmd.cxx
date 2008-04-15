@@ -29,13 +29,13 @@ bool PARSECMD::end(){
 void PARSECMD::parse(int argc,char **argv){ // Parse cmd line
   exec.push_back(argv[0]);
   {
-    int bt=exec[0].rfind("/");
+    unsigned int bt=exec[0].rfind("/");
     if(bt<exec[0].length()){
       exec.push_back(exec[0].substr(0,bt));
       exec.push_back(exec[0].substr(bt+1));
     }
   }
-  for(unsigned int i=1;i<argc;i++)line.push_back(argv[i]);
+  for(int i=1;i<argc;i++)line.push_back(argv[i]);
 }
 bool PARSECMD::exist(string name){
   if(arg.find(name)!=arg.end())return true;
@@ -73,7 +73,7 @@ void PARSECMD::cast(string name,string cmd,bool value){
   }
 }
 void PARSECMD::final(){
-  for(int i=0;i<line.size();i++){
+  for(unsigned int i=0;i<line.size();i++){
     if(line[i][0]=='-'){
       unrec.push_back(line[i].substr(0,line[i].find("=")));
       line[i]="";
@@ -89,8 +89,8 @@ string PARSECMD::cnstr(){
   for(ITER i=arg.begin();i!=arg.end();i++){
     ret+="arg["; ret+=(*i).first; ret+="]={";
     {
-      int j;
-      for(j=0;j<(*i).second.size();j++){
+      unsigned int j = 0;
+      for(;j<(*i).second.size();j++){
 	char b[25]; sprintf(b,"%d",j);
 	ret+="["+string(b)+"]=\""+(*i).second[j]+"\",";
       }
