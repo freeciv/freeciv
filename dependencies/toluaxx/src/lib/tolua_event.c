@@ -629,7 +629,7 @@ static int class_tostring_event (lua_State* L){
     void* p;
     char b[50];
     p=lua_touserdata(L,1);        /* get address pointer */
-    sprintf(b,"userdata: 0x%x",p);/* print pointer */
+    sprintf(b,"userdata: 0x%p", p);/* print pointer */
     lua_pushstring(L,b);
     return 1;
   }

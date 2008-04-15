@@ -23,8 +23,8 @@ class PARSECMD{
   typedef map<string,CORT>::iterator ITER;
  protected:
   POOL arg;
-  CORT&line;
   CORT&exec;
+  CORT&line;
   CORT unrec;
   ITER iter;
  public:

@@ -50,12 +50,12 @@ int main(int argc, char* argv[]){
   
   //cout<<c.cnstr();
   
-  for(int i=0;i<(*c).size();i++)cout<<"Warning: unrecognized option `"<<(*c)[i]<<"`.."<<endl;
+  for(unsigned int i=0;i<(*c).size();i++)cout<<"Warning: unrecognized option `"<<(*c)[i]<<"`.."<<endl;
 
   if(c("version")){cout<<version();return 0;}
   if(c("help")){cout<<help();return 0;}
   
-  for(int i=0;i<c["line"].size();c["input"].push_back(c["line"][i]),i++);
+  for(unsigned int i=0;i<c["line"].size();c["input"].push_back(c["line"][i]),i++);
   
   if(!c("input")){cout<<usage();return 0;}
   
@@ -118,7 +118,7 @@ int main(int argc, char* argv[]){
 	}
       }
       lua_pop(L,1);
-      if(c("extraval"))for(int i=0;i<c["extraval"].size();i++)add_extra(L,c["extraval"][i]);
+      if(c("extraval"))for(unsigned int i=0;i<c["extraval"].size();i++)add_extra(L,c["extraval"][i]);
     }
 #  ifndef DEBUG_MODE
     tolua_toluaxx_open(L);
