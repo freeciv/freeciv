@@ -1485,12 +1485,17 @@ enum m_pre_result match_prefix(m_pre_accessor_fn_t accessor_fn,
 			       size_t n_names,
 			       size_t max_len_name,
 			       m_pre_strncmp_fn_t cmp_fn,
+                               m_strlen_fn_t len_fn,
 			       const char *prefix,
 			       int *ind_result)
 {
   int i, len, nmatches;
 
-  len = strlen(prefix);
+  if (len_fn == NULL) {
+    len = strlen(prefix);
+  } else {
+    len = len_fn(prefix);
+  }
   if (len == 0) {
     return M_PRE_EMPTY;
   }
