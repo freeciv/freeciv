@@ -698,7 +698,7 @@ AC_SUBST([TOLUA_CFLAGS])
 AC_SUBST([TOLUA_LIBS])
 AC_SUBST([TOLUA_AS_DEPENDENCY])
 
-TOLUA="\$(top_builddir)/dependencies/tolua/tolua"
+TOLUA="\$(top_builddir)/dependencies/tolua/tolua$EXEEXT"
 AC_SUBST([TOLUA])
 
 dnl Freeciv uses a non-standard macro, Q_(), to handle cases of qualified

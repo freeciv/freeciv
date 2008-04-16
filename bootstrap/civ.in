@@ -15,17 +15,18 @@
 #***********************************************************************/
 
 BUILDDIR=`dirname $0`
+EXENAME=civclient@EXEEXT@
 
 if [ "x$FREECIV_PATH" = "x" ] ; then
   FREECIV_PATH=".:data:~/.freeciv"
 fi
 export FREECIV_PATH="$FREECIV_PATH:@abs_top_builddir@/data:@abs_top_srcdir@/data"
 
-[ -x $BUILDDIR/client/civclient ] && EXE=$BUILDDIR/client/civclient
-[ -x $BUILDDIR/civclient ] && EXE=$BUILDDIR/civclient
+[ -x $BUILDDIR/client/civclient ] && EXE=$BUILDDIR/client/$EXENAME
+[ -x $BUILDDIR/civclient ] && EXE=$BUILDDIR/$EXENAME
 
 if [ "$EXE" = "" ]; then
-  echo $0: Unable to find civclient.
+  echo $0: Unable to find $EXENAME.
   exit 1
 fi
 
