@@ -15,6 +15,7 @@
 #***********************************************************************/
 
 BUILDDIR=`dirname $0`
+EXENAME=civserver@EXEEXT@
 
 # Use cd + pwd instead of manual concatentation in case of absolute paths
 BUILDDATA=$(cd $BUILDDIR/data ; pwd)
@@ -25,11 +26,11 @@ if [ "x$FREECIV_PATH" = "x" ] ; then
 fi
 export FREECIV_PATH="$FREECIV_PATH:$BUILDDATA:$SRCDATA"
 
-[ -x $BUILDDIR/server/civserver ] && EXE=$BUILDDIR/server/civserver
-[ -x $BUILDDIR/civserver ] && EXE=$BUILDDIR/civserver
+[ -x $BUILDDIR/server/civserver ] && EXE=$BUILDDIR/server/$EXENAME
+[ -x $BUILDDIR/civserver ] && EXE=$BUILDDIR/$EXENAME
 
 if [ "$EXE" = "" ]; then
-  echo $0: Unable to find civserver.
+  echo $0: Unable to find $EXENAME.
   exit 1
 fi
 
