@@ -360,7 +360,7 @@ struct player *find_player_by_name_prefix(const char *name,
   int ind;
 
   *result = match_prefix(pname_accessor, game.info.nplayers, MAX_LEN_NAME-1,
-			 mystrncasequotecmp, name, &ind);
+			 mystrncasequotecmp, effectivestrlenquote, name, &ind);
 
   if (*result < M_PRE_AMBIGUOUS) {
     return player_by_number(ind);

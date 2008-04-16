@@ -224,10 +224,14 @@ typedef const char *(*m_pre_accessor_fn_t)(int);
 /* function type to compare prefix: */
 typedef int (*m_pre_strncmp_fn_t)(const char *, const char *, size_t n);
 
+/* function type to calculate effective string length: */
+typedef size_t (m_strlen_fn_t)(const char *str);
+
 enum m_pre_result match_prefix(m_pre_accessor_fn_t accessor_fn,
 			       size_t n_names,
 			       size_t max_len_name,
 			       m_pre_strncmp_fn_t cmp_fn,
+                               m_strlen_fn_t len_fn,
 			       const char *prefix,
 			       int *ind_result);
 

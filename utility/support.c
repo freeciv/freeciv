@@ -135,24 +135,66 @@ int mystrncasecmp(const char *str0, const char *str1, size_t n)
 }
 
 /***************************************************************
-  Compare strings like strncasecmp() but ignoring quotes in
-  either string. Quotes still count towards n.
+  Count length of string without possible surrounding quotes.
+***************************************************************/
+size_t effectivestrlenquote(const char *str)
+{
+  int len = strlen(str);
+
+  if (str[0] == '"' && str[len-1] == '"') {
+    return len - 2;
+  }
+
+  return len;
+}
+
+/***************************************************************
+  Compare strings like strncasecmp() but ignoring surrounding
+  quotes in either string.
 ***************************************************************/
 int mystrncasequotecmp(const char *str0, const char *str1, size_t n)
 {
   size_t i;
-  char c;
+  size_t len0 = strlen(str0); /* TODO: We iterate string once already here, */
+  size_t len1 = strlen(str1); /*       could iterate only once */
+  size_t cmplen;
 
-  for (i = 0; i < n && *str0 != '\0'; i++) {
-    if (my_tolower(*str0) != my_tolower(*str1)
-        && *str0 != '"' && *str1 != '"') {
+  if (str0[0] == '"') {
+    if (str0[len0 - 1] == '"') {
+      /* Surrounded with quotes */
+      str0++;
+      len0 -= 2;
+    }
+  }
+
+  if (str1[0] == '"') {
+    if (str1[len1 - 1] == '"') {
+      /* Surrounded with quotes */
+      str1++;
+      len1 -= 2;
+    }
+  }
+
+  if (len0 < n || len1 < n) {
+    /* One of the strings is shorter than what should be compared... */
+    if (len0 != len1) {
+      /* ...and another is longer than it. */
+      return len0 - len1;
+    }
+
+    cmplen = len0; /* This avoids comparing ending quote */
+  } else {
+    cmplen = n;
+  }
+
+  for (i = 0; i < cmplen ; i++, str0++, str1++) {
+    if (my_tolower(*str0) != my_tolower(*str1)) {
       return ((int) (unsigned char) my_tolower(*str0))
              - ((int) (unsigned char) my_tolower(*str1));
     }
-    c = *str0;
-    str0 += (*str1 != '"');
-    str1 += (c != '"');
   }
+
+  /* All characters compared and all matched */
   return 0;
 }
 
