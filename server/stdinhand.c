@@ -173,7 +173,7 @@ static enum command_id command_named(const char *token, bool accept_ambiguity)
   int ind;
 
   result = match_prefix(command_name_by_number, CMD_NUM, 0,
-			mystrncasecmp, token, &ind);
+			mystrncasecmp, NULL, token, &ind);
 
   if (result < M_PRE_AMBIGUOUS) {
     return ind;
@@ -1486,7 +1486,7 @@ static int lookup_option(const char *name)
   }
 
   result = match_prefix(optname_accessor, SETTINGS_NUM, 0, mystrncasecmp,
-			name, &ind);
+			NULL, name, &ind);
 
   return ((result < M_PRE_AMBIGUOUS) ? ind :
 	  (result == M_PRE_AMBIGUOUS) ? -2 : -1);
@@ -4008,7 +4008,7 @@ static bool show_help(struct connection *caller, char *arg)
     /* no commands means no help, either */
 
   match_result = match_prefix(helparg_accessor, HELP_ARG_NUM, 0,
-			      mystrncasecmp, arg, &ind);
+			      mystrncasecmp, NULL, arg, &ind);
 
   if (match_result==M_PRE_EMPTY) {
     show_help_intro(caller, CMD_HELP);
@@ -4082,7 +4082,7 @@ static bool show_list(struct connection *caller, char *arg)
 
   remove_leading_trailing_spaces(arg);
   match_result = match_prefix(listarg_accessor, LIST_ARG_NUM, 0,
-			      mystrncasecmp, arg, &ind_int);
+			      mystrncasecmp, NULL, arg, &ind_int);
   ind = ind_int;
 
   if (match_result > M_PRE_EMPTY) {

@@ -440,7 +440,8 @@ struct connection *find_conn_by_user_prefix(const char *user_name,
 
   *result = match_prefix(connection_accessor,
 			 conn_list_size(game.all_connections),
-			 MAX_LEN_NAME-1, mystrncasecmp, user_name, &ind);
+			 MAX_LEN_NAME-1, mystrncasequotecmp,
+                         effectivestrlenquote, user_name, &ind);
   
   if (*result < M_PRE_AMBIGUOUS) {
     return conn_list_get(game.all_connections, ind);
