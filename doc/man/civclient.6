@@ -9,7 +9,7 @@
 .\"   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 .\"   GNU General Public License for more details.
 .\"
-.TH FREECIV 6 "January 29th 2005"
+.TH FREECIV 6 "April 16th 2008"
 .SH NAME
 civclient \- The client for the Freeciv game
 .SH SYNOPSIS
@@ -18,7 +18,7 @@ civclient \- The client for the Freeciv game
 [ \-d|\-\-debug \fIlevel_number\fP ] \
 [ \-h|\-\-help ] \
 [ \-l|\-\-log \fIfilename\fP ] \
-[ \-m|\-\-meta \fIaddress\fP ] \
+[ \-m|\-\-meta \fIURL\fP ] \
 [ \-n|\-\-name \fIstring\fP ] \
 [ \-p|\-\-port \fIport\fP ] \
 [ \-P|\-\-Plugin \fIstring\fP ] \
@@ -86,8 +86,8 @@ option to set how much is logged.  By default, fatal and normal messages are
 printed to standard output.  With a log file, such messages go to the log
 instead.
 .TP
-.BI "\-m \fIaddress\fP, \-\-meta \fIaddress\fP"
-Specifies the \fIaddress\fP of the metaserver to connect to. A metaserver is a
+.BI "\-m \fIURL\fP, \-\-meta \fIURL\fP"
+Specifies the \fIURL\fP of the metaserver to connect to. A metaserver is a
 place where Freeciv servers can publish their presence. Freeciv clients consult
 the metaserver to offer users a selection of games to join. By default the 
 standard Freeciv metaserver is used. 
@@ -105,8 +105,6 @@ Specifies the plugin to use for sound output.  Available options  for
 \fIstring\fP are:
 
 \fBnone\fP
-
-\fBesd\fP
 
 \fBsdl\fP
 
@@ -151,6 +149,12 @@ which is
 by default. Currently the following tilespecs can be used:
 
 \(bu
+.I amplio.tilespec
+
+\(bu
+.I hex2t.tilespec
+
+\(bu
 .I isophex.tilespec
 
 \(bu
@@ -158,9 +162,6 @@ by default. Currently the following tilespecs can be used:
 
 \(bu
 .I trident.tilespec
-
-\(bu
-.I trident_shields.tilespec
 .SH ENVIRONMENT
 The Freeciv client accepts these environment variables:
 .TP
@@ -171,7 +172,7 @@ with the capability facility in the source you may use it to enforce some
 constraints between clients and server.
 .TP
 .BI FREECIV_COMPRESSION_LEVEL
-Sets the compression level.
+Sets the compression level for network traffic.
 .TP
 .BI FREECIV_DATA_ENCODING
 Sets the data encoding (used for data files, savegames, and network strings).
