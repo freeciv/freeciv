@@ -1577,9 +1577,8 @@ void handle_player_ready(struct player *requestor,
 		    "are ready to start."),
 		  num_ready, num_ready + num_unready);
     } else {
-      notify_conn(NULL, NULL, E_SETTING,
-		  _("All players are ready; starting game."));
-      start_game();
+      /* Check minplayers etc. and then start */
+      start_command(NULL, FALSE, TRUE);
     }
   }
 }
