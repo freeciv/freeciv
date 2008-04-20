@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-12 13:43+0200\n"
+"POT-Creation-Date: 2008-04-20 21:57+0900\n"
 "PO-Revision-Date: 2007-08-11 01:23+0300\n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -96,21 +96,21 @@ msgstr "?built:-"
 msgid "?wonder:w"
 msgstr "?wonder:+"
 
-#: common/connection.c:514
+#: common/connection.c:515
 #, c-format
 msgid "%s from %s"
 msgstr "%s von %s"
 
-#: common/connection.c:520
+#: common/connection.c:521
 msgid " (connection incomplete)"
 msgstr " (Verbindung unvollständig)"
 
-#: common/connection.c:524
+#: common/connection.c:525
 #, c-format
 msgid " (player %s)"
 msgstr " (Spieler %s)"
 
-#: common/connection.c:528
+#: common/connection.c:529
 msgid " (observer)"
 msgstr " (Beobachter)"
 
@@ -1058,13 +1058,13 @@ msgstr "zu lang"
 msgid "non-match"
 msgstr "Fehlschlag"
 
-#: utility/support.c:177
+#: utility/support.c:219
 #, c-format
 msgid "error %ld (failed FormatMessage)"
 msgstr "error %ld (failed FormatMessage)"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: utility/support.c:190
+#: utility/support.c:232
 #, c-format
 msgid "error %d (compiled without strerror)"
 msgstr "error %d (compiled without strerror)"
@@ -2176,8 +2176,8 @@ msgstr "  -v, --version\t\tGebe die Versionsnummer aus\n"
 msgid "Report bugs at %s.\n"
 msgstr ""
 "Bitte informieren Sie uns\n"
-"- über Programmfehler nach Möglichkeit in englischer Sprache im WWW "
-"unter %s\n"
+"- über Programmfehler nach Möglichkeit in englischer Sprache im WWW unter %"
+"s\n"
 "- über Probleme mit der deutschen Übersetzung mit einer E-Mail an "
 "<chrisk@cknoke.de>\n"
 
@@ -6349,24 +6349,24 @@ msgid "Barbarian"
 msgstr "barbarisch"
 
 #: server/stdinhand.c:3069 server/stdinhand.c:4153 client/plrdlg_common.c:256
-#: client/gui-gtk-2.0/pages.c:2007 client/gui-sdl/plrdlg.c:645
+#: client/gui-gtk-2.0/pages.c:2025 client/gui-sdl/plrdlg.c:645
 #: client/gui-win32/connectdlg.c:201 client/gui-win32/plrdlg.c:335
 msgid "AI"
 msgstr "KI"
 
 #: server/stdinhand.c:3070 server/stdinhand.c:4155
-#: client/gui-gtk-2.0/pages.c:2007 client/gui-gtk-2.0/pages.c:2030
+#: client/gui-gtk-2.0/pages.c:2025 client/gui-gtk-2.0/pages.c:2048
 #: client/gui-win32/connectdlg.c:201 client/gui-win32/connectdlg.c:213
 msgid "Human"
 msgstr "menschlich"
 
-#: server/stdinhand.c:3072 client/gui-gtk-2.0/pages.c:2006
-#: client/gui-gtk-2.0/pages.c:2029 client/gui-win32/connectdlg.c:200
+#: server/stdinhand.c:3072 client/gui-gtk-2.0/pages.c:2024
+#: client/gui-gtk-2.0/pages.c:2047 client/gui-win32/connectdlg.c:200
 #: client/gui-win32/connectdlg.c:212
 msgid "Alive"
 msgstr "Lebend"
 
-#: server/stdinhand.c:3073 client/gui-gtk-2.0/pages.c:2006
+#: server/stdinhand.c:3073 client/gui-gtk-2.0/pages.c:2024
 #: client/gui-win32/connectdlg.c:200
 msgid "Dead"
 msgstr "Tot"
@@ -7887,8 +7887,8 @@ msgstr ""
 msgid "Report bugs at %s\n"
 msgstr ""
 "Bitte informieren Sie uns\n"
-"- über Programmfehler nach Möglichkeit in englischer Sprache im WWW "
-"unter %s\n"
+"- über Programmfehler nach Möglichkeit in englischer Sprache im WWW unter %"
+"s\n"
 "- über Probleme mit der deutschen Übersetzung mit einer E-Mail an "
 "<chrisk@cknoke.de>\n"
 
@@ -8074,19 +8074,19 @@ msgstr ""
 "Versuche als '%3$s' bis zu %5$dmal alle %4$f Sekunden eine Verbindung zu "
 "Server '%1$s' an Port %2$d herzustellen..."
 
-#: client/connectdlg_common.c:79 client/gui-gtk-2.0/pages.c:1266
+#: client/connectdlg_common.c:79 client/gui-gtk-2.0/pages.c:1284
 msgid "novice"
 msgstr "Anfänger"
 
-#: client/connectdlg_common.c:80 client/gui-gtk-2.0/pages.c:1266
+#: client/connectdlg_common.c:80 client/gui-gtk-2.0/pages.c:1284
 msgid "easy"
 msgstr "Leicht"
 
-#: client/connectdlg_common.c:81 client/gui-gtk-2.0/pages.c:1267
+#: client/connectdlg_common.c:81 client/gui-gtk-2.0/pages.c:1285
 msgid "normal"
 msgstr "Normal"
 
-#: client/connectdlg_common.c:82 client/gui-gtk-2.0/pages.c:1267
+#: client/connectdlg_common.c:82 client/gui-gtk-2.0/pages.c:1285
 msgid "hard"
 msgstr "Fortgeschritten"
 
@@ -9402,12 +9402,12 @@ msgid "Username"
 msgstr "Benutzername"
 
 #: client/plrdlg_common.c:251 client/gui-gtk-2.0/dialogs.c:650
-#: client/gui-gtk-2.0/pages.c:2062
+#: client/gui-gtk-2.0/pages.c:2080
 msgid "Flag"
 msgstr "Flagge"
 
 #: client/plrdlg_common.c:252 client/gui-gtk-2.0/dialogs.c:654
-#: client/gui-gtk-2.0/pages.c:1513 client/gui-gtk-2.0/pages.c:2064
+#: client/gui-gtk-2.0/pages.c:1531 client/gui-gtk-2.0/pages.c:2082
 #: client/gui-sdl/repodlgs.c:2063 client/gui-win32/connectdlg.c:988
 #: client/gui-win32/dialogs.c:542 client/gui-win32/plrdlg.c:335
 msgid "Nation"
@@ -9421,7 +9421,7 @@ msgstr "Grenze"
 msgid "Score"
 msgstr "Punkte"
 
-#: client/plrdlg_common.c:255 client/gui-gtk-2.0/pages.c:1519
+#: client/plrdlg_common.c:255 client/gui-gtk-2.0/pages.c:1537
 msgid "Team"
 msgstr "Team"
 
@@ -11001,8 +11001,8 @@ msgstr "Wähle aus, was gebrandschatzt werden soll:"
 msgid "Unit"
 msgstr "Einheit"
 
-#: client/gui-gtk-2.0/dialogs.c:506 client/gui-gtk-2.0/pages.c:1487
-#: client/gui-gtk-2.0/pages.c:2060 client/gui-gtk-2.0/wldlg.c:1033
+#: client/gui-gtk-2.0/dialogs.c:506 client/gui-gtk-2.0/pages.c:1505
+#: client/gui-gtk-2.0/pages.c:2078 client/gui-gtk-2.0/wldlg.c:1033
 #: client/gui-win32/connectdlg.c:983 client/gui-win32/plrdlg.c:335
 #: manual/civmanual.c:302 data/Freeciv.in:80
 msgid "Name"
@@ -11342,20 +11342,20 @@ msgstr ""
 msgid "Not _ready"
 msgstr "Nicht _bereit"
 
-#: client/gui-gtk-2.0/gui_main.c:1502 client/gui-gtk-2.0/pages.c:1582
+#: client/gui-gtk-2.0/gui_main.c:1502 client/gui-gtk-2.0/pages.c:1600
 msgid "_Ready"
 msgstr "_Bereit"
 
 #: client/gui-gtk-2.0/gui_main.c:1506 client/gui-gtk-2.0/gui_main.c:1512
-#: client/gui-gtk-2.0/pages.c:2109
+#: client/gui-gtk-2.0/pages.c:2127
 msgid "_Start"
 msgstr "_Start"
 
-#: client/gui-gtk-2.0/gui_main.c:1516 client/gui-gtk-2.0/pages.c:1572
+#: client/gui-gtk-2.0/gui_main.c:1516 client/gui-gtk-2.0/pages.c:1590
 msgid "Pick _Nation"
 msgstr "Wähle _Nation"
 
-#: client/gui-gtk-2.0/gui_main.c:1522 client/gui-gtk-2.0/pages.c:1577
+#: client/gui-gtk-2.0/gui_main.c:1522 client/gui-gtk-2.0/pages.c:1595
 msgid "_Observe"
 msgstr "Be_obachten"
 
@@ -12325,7 +12325,7 @@ msgstr "Port"
 msgid "Version"
 msgstr "Version"
 
-#: client/gui-gtk-2.0/pages.c:703 client/gui-gtk-2.0/pages.c:2066
+#: client/gui-gtk-2.0/pages.c:703 client/gui-gtk-2.0/pages.c:2084
 #: client/gui-win32/connectdlg.c:915 client/gui-win32/connectdlg.c:993
 msgid "Status"
 msgstr "Status"
@@ -12371,150 +12371,150 @@ msgstr "Paßwort _wiederholen:"
 msgid "C_onnect"
 msgstr "_Verbinden"
 
-#: client/gui-gtk-2.0/pages.c:1121
+#: client/gui-gtk-2.0/pages.c:1138
 #, c-format
 msgid "Connection name: %s"
 msgstr "Verbindungsname: %s"
 
-#: client/gui-gtk-2.0/pages.c:1124
+#: client/gui-gtk-2.0/pages.c:1141
 #, c-format
 msgid "Player name: %s"
 msgstr "Spielername: %s"
 
-#: client/gui-gtk-2.0/pages.c:1129
+#: client/gui-gtk-2.0/pages.c:1146
 #, c-format
 msgid "Host: %s"
 msgstr "Server: %s"
 
-#: client/gui-gtk-2.0/pages.c:1136
+#: client/gui-gtk-2.0/pages.c:1153
 msgid "Player/conn info"
 msgstr "Spieler/Verbindungsinfo"
 
-#: client/gui-gtk-2.0/pages.c:1163
+#: client/gui-gtk-2.0/pages.c:1180
 #, c-format
 msgid "%s info"
 msgstr "%s Info"
 
-#: client/gui-gtk-2.0/pages.c:1174
+#: client/gui-gtk-2.0/pages.c:1191
 msgid "Toggle player ready"
 msgstr "Spieler bereit / nicht bereit"
 
-#: client/gui-gtk-2.0/pages.c:1182
+#: client/gui-gtk-2.0/pages.c:1199
 msgid "Pick nation"
 msgstr "Wähle Nation"
 
-#: client/gui-gtk-2.0/pages.c:1192
+#: client/gui-gtk-2.0/pages.c:1209
 msgid "Observe this player"
 msgstr "Diesen Spieler beobachten"
 
-#: client/gui-gtk-2.0/pages.c:1199
+#: client/gui-gtk-2.0/pages.c:1216
 msgid "Take this player"
 msgstr "Spieler übernehmen"
 
-#: client/gui-gtk-2.0/pages.c:1216
+#: client/gui-gtk-2.0/pages.c:1233
 msgid "Cut connection"
 msgstr "Verbindung trennen"
 
-#: client/gui-gtk-2.0/pages.c:1226
+#: client/gui-gtk-2.0/pages.c:1243
 msgid "Aitoggle player"
 msgstr "KI ein/ausschalten"
 
-#: client/gui-gtk-2.0/pages.c:1235
+#: client/gui-gtk-2.0/pages.c:1252
 msgid "Remove player"
 msgstr "Spieler entfernen"
 
-#: client/gui-gtk-2.0/pages.c:1246
+#: client/gui-gtk-2.0/pages.c:1263
 msgid "Give info access"
 msgstr "Zugriffsberechtigung Info"
 
-#: client/gui-gtk-2.0/pages.c:1254
+#: client/gui-gtk-2.0/pages.c:1271
 msgid "Give ctrl access"
 msgstr "Zugriffsberechtigung Ctrl"
 
 #. TRANS: e.g., "Put on Team 5"
-#: client/gui-gtk-2.0/pages.c:1315
+#: client/gui-gtk-2.0/pages.c:1333
 #, c-format
 msgid "Put on %s"
 msgstr "Zu %s hinzugefügt"
 
-#: client/gui-gtk-2.0/pages.c:1419
+#: client/gui-gtk-2.0/pages.c:1437
 msgid "Number of _Players (including AI):"
 msgstr "An_zahl der Spieler (einschließlich KI):"
 
-#: client/gui-gtk-2.0/pages.c:1442
+#: client/gui-gtk-2.0/pages.c:1460
 msgid "AI Skill _Level:"
 msgstr "_KI Stärke:"
 
-#: client/gui-gtk-2.0/pages.c:1458
+#: client/gui-gtk-2.0/pages.c:1476
 msgid "Ruleset _Version:"
 msgstr "_Regelsatz:"
 
-#: client/gui-gtk-2.0/pages.c:1466 client/gui-gtk-2.0/pages.c:2098
+#: client/gui-gtk-2.0/pages.c:1484 client/gui-gtk-2.0/pages.c:2116
 msgid "_More Game Options..."
 msgstr "Weitere Spiel_optionen..."
 
-#: client/gui-gtk-2.0/pages.c:1491
+#: client/gui-gtk-2.0/pages.c:1509
 msgid "Record"
 msgstr "Rekord"
 
-#: client/gui-gtk-2.0/pages.c:1496
+#: client/gui-gtk-2.0/pages.c:1514
 msgid "Rating"
 msgstr "Bewertung"
 
-#: client/gui-gtk-2.0/pages.c:1502
+#: client/gui-gtk-2.0/pages.c:1520
 msgid "Ready"
 msgstr "Bereit"
 
-#: client/gui-gtk-2.0/pages.c:1509 data/default/units.ruleset:1864
+#: client/gui-gtk-2.0/pages.c:1527 data/default/units.ruleset:1864
 #: data/nation/slovakian.ruleset:26
 msgid "Leader"
 msgstr "Anführer"
 
-#: client/gui-gtk-2.0/pages.c:1637 client/gui-sdl/chatline.c:185
+#: client/gui-gtk-2.0/pages.c:1655 client/gui-sdl/chatline.c:185
 msgid "Choose Saved Game to Load"
 msgstr "Wähle zu ladendes Spiel"
 
-#: client/gui-gtk-2.0/pages.c:1729
+#: client/gui-gtk-2.0/pages.c:1747
 msgid "Choose Saved Game to _Load:"
 msgstr "Wähle zu _ladendes Spiel:"
 
-#: client/gui-gtk-2.0/pages.c:1749 client/gui-gtk-2.0/pages.c:1942
-#: client/gui-gtk-2.0/pages.c:2352
+#: client/gui-gtk-2.0/pages.c:1767 client/gui-gtk-2.0/pages.c:1960
+#: client/gui-gtk-2.0/pages.c:2370
 msgid "_Browse..."
 msgstr "_Durchsuchen..."
 
-#: client/gui-gtk-2.0/pages.c:1816
+#: client/gui-gtk-2.0/pages.c:1834
 msgid "Choose a Scenario"
 msgstr "Szenario laden"
 
-#: client/gui-gtk-2.0/pages.c:1903
+#: client/gui-gtk-2.0/pages.c:1921
 msgid "Choose a _Scenario:"
 msgstr "_Szenario laden:"
 
-#: client/gui-gtk-2.0/pages.c:2068 client/gui-gtk-2.0/repodlgs.c:634
+#: client/gui-gtk-2.0/pages.c:2086 client/gui-gtk-2.0/repodlgs.c:634
 #: client/gui-gtk-2.0/wldlg.c:1033 client/gui-win32/citydlg.c:1083
 #: client/gui-win32/connectdlg.c:998 client/gui-win32/wldlg.c:800
 #: client/gui-win32/wldlg.c:806
 msgid "Type"
 msgstr "Bild"
 
-#: client/gui-gtk-2.0/pages.c:2078
+#: client/gui-gtk-2.0/pages.c:2096
 msgid "Choose a _nation to play:"
 msgstr "Wählen Sie Ihre _Nation:"
 
-#: client/gui-gtk-2.0/pages.c:2264 client/gui-win32/menu.c:581
+#: client/gui-gtk-2.0/pages.c:2282 client/gui-win32/menu.c:581
 msgid "Select Location to Save"
 msgstr "Verzeichnis auswählen zum Speichern"
 
-#: client/gui-gtk-2.0/pages.c:2349 client/gui-sdl/optiondlg.c:2273
+#: client/gui-gtk-2.0/pages.c:2367 client/gui-sdl/optiondlg.c:2273
 msgid "Save Game"
 msgstr "Spiel speichern"
 
-#: client/gui-gtk-2.0/pages.c:2390
+#: client/gui-gtk-2.0/pages.c:2408
 msgid "Saved _Games:"
 msgstr "_Gespeicherte Spiele:"
 
-#: client/gui-gtk-2.0/pages.c:2417
+#: client/gui-gtk-2.0/pages.c:2435
 msgid "Save _Filename:"
 msgstr "_Speichere Datei:"
 

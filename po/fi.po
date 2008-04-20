@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-06 13:16+0300\n"
+"POT-Creation-Date: 2008-04-20 21:57+0900\n"
 "PO-Revision-Date: 2008-04-05 20:58+0300\n"
 "Last-Translator: Timo Jyrinki <timo.jyrinki@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
@@ -66,21 +66,21 @@ msgstr "?rakennettu:R"
 msgid "?wonder:w"
 msgstr "?ihme:i"
 
-#: common/connection.c:514
+#: common/connection.c:515
 #, c-format
 msgid "%s from %s"
 msgstr "%s osoitteesta %s"
 
-#: common/connection.c:520
+#: common/connection.c:521
 msgid " (connection incomplete)"
 msgstr " (yhteys ei ole valmis)"
 
-#: common/connection.c:524
+#: common/connection.c:525
 #, c-format
 msgid " (player %s)"
 msgstr " (pelaaja %s)"
 
-#: common/connection.c:528
+#: common/connection.c:529
 msgid " (observer)"
 msgstr " (tarkkailija)"
 
@@ -653,58 +653,58 @@ msgstr "Tulevaisuuden teknologia"
 msgid "(Unknown)"
 msgstr "(Tuntematon)"
 
-#: common/terrain.c:379 common/terrain.c:560 common/unit.c:550
+#: common/terrain.c:387 common/terrain.c:568 common/unit.c:550
 #: manual/civmanual.c:224
 msgid "Road"
 msgstr "Tie"
 
-#: common/terrain.c:380 common/terrain.c:567 common/unit.c:554
+#: common/terrain.c:388 common/terrain.c:575 common/unit.c:554
 #: client/gui-gtk-2.0/menu.c:792 client/gui-sdl/optiondlg.c:1906
 #: client/gui-win32/menu.c:344 client/gui-xaw/menu.c:151
 #: manual/civmanual.c:224
 msgid "Irrigation"
 msgstr "Kasteluverkosto"
 
-#: common/terrain.c:381 common/terrain.c:558 common/unit.c:564
+#: common/terrain.c:389 common/terrain.c:566 common/unit.c:564
 #: data/default/techs.ruleset:581 data/civ2/techs.ruleset:566
 #: data/civ1/techs.ruleset:563
 msgid "Railroad"
 msgstr "Rautatie"
 
-#: common/terrain.c:382 common/terrain.c:571 common/unit.c:552
+#: common/terrain.c:390 common/terrain.c:579 common/unit.c:552
 msgid "Mine"
 msgstr "Kaivos"
 
 # *** Depends too much on the context, phenomenom pollution & 'substance' pollution
 # aren't the same. ***
-#: common/terrain.c:383 common/unit.c:548 server/report.c:124
+#: common/terrain.c:391 common/unit.c:548 server/report.c:124
 #: client/cityrepdata.c:521 client/gui-sdl/optiondlg.c:1773
 msgid "Pollution"
 msgstr "Saastetta"
 
-#: common/terrain.c:384
+#: common/terrain.c:392
 msgid "Hut"
 msgstr "Maja"
 
-#: common/terrain.c:385 common/terrain.c:575 common/unit.c:560
+#: common/terrain.c:393 common/terrain.c:583 common/unit.c:560
 #: manual/civmanual.c:226
 msgid "Fortress"
 msgstr "Linnoitus"
 
-#: common/terrain.c:386
+#: common/terrain.c:394
 msgid "River"
 msgstr "Joki"
 
-#: common/terrain.c:387 common/terrain.c:565
+#: common/terrain.c:395 common/terrain.c:573
 msgid "Farmland"
 msgstr "Viljelysmaa"
 
-#: common/terrain.c:388 common/terrain.c:579 common/unit.c:574
+#: common/terrain.c:396 common/terrain.c:587 common/unit.c:574
 #: manual/civmanual.c:226
 msgid "Airbase"
 msgstr "Lentotukikohta"
 
-#: common/terrain.c:389 common/unit.c:576
+#: common/terrain.c:397 common/unit.c:576
 msgid "Fallout"
 msgstr "Laskeuma"
 
@@ -1060,12 +1060,12 @@ msgstr "liian pitkä"
 msgid "non-match"
 msgstr "huti"
 
-#: utility/support.c:177
+#: utility/support.c:219
 #, c-format
 msgid "error %ld (failed FormatMessage)"
 msgstr "virhe %ld (FormatMessage epäonnistui)"
 
-#: utility/support.c:190
+#: utility/support.c:232
 #, c-format
 msgid "error %d (compiled without strerror)"
 msgstr "virhe %d (käännetty (compiled) ilman 'strerror'ia)"
@@ -6342,25 +6342,25 @@ msgid "Barbarian"
 msgstr "Barbaari"
 
 #: server/stdinhand.c:3069 server/stdinhand.c:4153 client/plrdlg_common.c:256
-#: client/gui-gtk-2.0/pages.c:2007 client/gui-sdl/plrdlg.c:645
+#: client/gui-gtk-2.0/pages.c:2025 client/gui-sdl/plrdlg.c:645
 #: client/gui-win32/connectdlg.c:201 client/gui-win32/plrdlg.c:335
 msgid "AI"
 msgstr "AI"
 
 #: server/stdinhand.c:3070 server/stdinhand.c:4155
-#: client/gui-gtk-2.0/pages.c:2007 client/gui-gtk-2.0/pages.c:2030
+#: client/gui-gtk-2.0/pages.c:2025 client/gui-gtk-2.0/pages.c:2048
 #: client/gui-win32/connectdlg.c:201 client/gui-win32/connectdlg.c:213
 msgid "Human"
 msgstr "Ihminen"
 
-#: server/stdinhand.c:3072 client/gui-gtk-2.0/pages.c:2006
-#: client/gui-gtk-2.0/pages.c:2029 client/gui-win32/connectdlg.c:200
+#: server/stdinhand.c:3072 client/gui-gtk-2.0/pages.c:2024
+#: client/gui-gtk-2.0/pages.c:2047 client/gui-win32/connectdlg.c:200
 #: client/gui-win32/connectdlg.c:212
 #, fuzzy
 msgid "Alive"
 msgstr "Toiminnassa"
 
-#: server/stdinhand.c:3073 client/gui-gtk-2.0/pages.c:2006
+#: server/stdinhand.c:3073 client/gui-gtk-2.0/pages.c:2024
 #: client/gui-win32/connectdlg.c:200
 #, fuzzy
 msgid "Dead"
@@ -7885,30 +7885,36 @@ msgstr ""
 "      --\t\tVälitä tästä seuraavat parametrit käyttöliittymälle.\n"
 "\t\t\tKs. myös \"%s -- --help\".\n"
 
-#: client/civclient.c:294
+#. TRANS: No full stop after the URL, could cause confusion.
+#: client/civclient.c:273
+#, fuzzy, c-format
+msgid "Report bugs at %s\n"
+msgstr "Lähetä virheraportit osoitteeseen <%s>.\n"
+
+#: client/civclient.c:297
 #, c-format
 msgid "Invalid port \"%s\" specified with --port option.\n"
 msgstr "Epäkelpo portti \"%s\" --port-parametrille.\n"
 
-#: client/civclient.c:296 client/civclient.c:311
+#: client/civclient.c:299 client/civclient.c:314
 msgid "Try using --help.\n"
 msgstr "Kokeile parametriä --help.\n"
 
-#: client/civclient.c:309
+#: client/civclient.c:312
 #, c-format
 msgid "Invalid debug level \"%s\" specified with --debug option.\n"
 msgstr "Epäkelpo debug-taso \"%s\" --debug-parametrille.\n"
 
-#: client/civclient.c:322
+#: client/civclient.c:325
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Tunnistamaton asetus: \"%s\"\n"
 
-#: client/civclient.c:536
+#: client/civclient.c:539
 msgid "Game started."
 msgstr "Peli on käynnissä."
 
-#: client/civclient.c:574
+#: client/civclient.c:577
 msgid "There was an error while auto connecting; aborting."
 msgstr "Automaattisen liittymisen aikana tapahtui virhe, lopetan."
 
@@ -8068,19 +8074,19 @@ msgstr ""
 "Automaattinen yhdistäminen palvelimeen \"%s\", portti %d, nimellä \"%s\" %d.%"
 "d sekunnin välein %d kertaa"
 
-#: client/connectdlg_common.c:79 client/gui-gtk-2.0/pages.c:1266
+#: client/connectdlg_common.c:79 client/gui-gtk-2.0/pages.c:1284
 msgid "novice"
 msgstr "aloittelija"
 
-#: client/connectdlg_common.c:80 client/gui-gtk-2.0/pages.c:1266
+#: client/connectdlg_common.c:80 client/gui-gtk-2.0/pages.c:1284
 msgid "easy"
 msgstr "helppo"
 
-#: client/connectdlg_common.c:81 client/gui-gtk-2.0/pages.c:1267
+#: client/connectdlg_common.c:81 client/gui-gtk-2.0/pages.c:1285
 msgid "normal"
 msgstr "tavallinen"
 
-#: client/connectdlg_common.c:82 client/gui-gtk-2.0/pages.c:1267
+#: client/connectdlg_common.c:82 client/gui-gtk-2.0/pages.c:1285
 msgid "hard"
 msgstr "vaikea"
 
@@ -9418,12 +9424,12 @@ msgid "Username"
 msgstr "Käyttäjänimi"
 
 #: client/plrdlg_common.c:251 client/gui-gtk-2.0/dialogs.c:650
-#: client/gui-gtk-2.0/pages.c:2062
+#: client/gui-gtk-2.0/pages.c:2080
 msgid "Flag"
 msgstr "Lippu"
 
 #: client/plrdlg_common.c:252 client/gui-gtk-2.0/dialogs.c:654
-#: client/gui-gtk-2.0/pages.c:1513 client/gui-gtk-2.0/pages.c:2064
+#: client/gui-gtk-2.0/pages.c:1531 client/gui-gtk-2.0/pages.c:2082
 #: client/gui-sdl/repodlgs.c:2063 client/gui-win32/connectdlg.c:988
 #: client/gui-win32/dialogs.c:542 client/gui-win32/plrdlg.c:335
 msgid "Nation"
@@ -9437,7 +9443,7 @@ msgstr "Raja"
 msgid "Score"
 msgstr "Pisteet"
 
-#: client/plrdlg_common.c:255 client/gui-gtk-2.0/pages.c:1519
+#: client/plrdlg_common.c:255 client/gui-gtk-2.0/pages.c:1537
 msgid "Team"
 msgstr "Joukkue"
 
@@ -11013,8 +11019,8 @@ msgstr "Valitse mitä haluat turmella:"
 msgid "Unit"
 msgstr "Yksikkö"
 
-#: client/gui-gtk-2.0/dialogs.c:506 client/gui-gtk-2.0/pages.c:1487
-#: client/gui-gtk-2.0/pages.c:2060 client/gui-gtk-2.0/wldlg.c:1033
+#: client/gui-gtk-2.0/dialogs.c:506 client/gui-gtk-2.0/pages.c:1505
+#: client/gui-gtk-2.0/pages.c:2078 client/gui-gtk-2.0/wldlg.c:1033
 #: client/gui-win32/connectdlg.c:983 client/gui-win32/plrdlg.c:335
 #: manual/civmanual.c:302 data/Freeciv.in:80
 msgid "Name"
@@ -11359,20 +11365,20 @@ msgstr ""
 msgid "Not _ready"
 msgstr "_Ei valmis"
 
-#: client/gui-gtk-2.0/gui_main.c:1502 client/gui-gtk-2.0/pages.c:1582
+#: client/gui-gtk-2.0/gui_main.c:1502 client/gui-gtk-2.0/pages.c:1600
 msgid "_Ready"
 msgstr "_Valmis"
 
 #: client/gui-gtk-2.0/gui_main.c:1506 client/gui-gtk-2.0/gui_main.c:1512
-#: client/gui-gtk-2.0/pages.c:2109
+#: client/gui-gtk-2.0/pages.c:2127
 msgid "_Start"
 msgstr "_Aloita"
 
-#: client/gui-gtk-2.0/gui_main.c:1516 client/gui-gtk-2.0/pages.c:1572
+#: client/gui-gtk-2.0/gui_main.c:1516 client/gui-gtk-2.0/pages.c:1590
 msgid "Pick _Nation"
 msgstr "Valitse ka_nsakunta"
 
-#: client/gui-gtk-2.0/gui_main.c:1522 client/gui-gtk-2.0/pages.c:1577
+#: client/gui-gtk-2.0/gui_main.c:1522 client/gui-gtk-2.0/pages.c:1595
 msgid "_Observe"
 msgstr "_Tarkkaile"
 
@@ -12353,7 +12359,7 @@ msgstr "Portti"
 msgid "Version"
 msgstr "Versio"
 
-#: client/gui-gtk-2.0/pages.c:703 client/gui-gtk-2.0/pages.c:2066
+#: client/gui-gtk-2.0/pages.c:703 client/gui-gtk-2.0/pages.c:2084
 #: client/gui-win32/connectdlg.c:915 client/gui-win32/connectdlg.c:993
 msgid "Status"
 msgstr "Tila"
@@ -12399,153 +12405,153 @@ msgstr "Vahv_ista salasana:"
 msgid "C_onnect"
 msgstr "_Yhdistä"
 
-#: client/gui-gtk-2.0/pages.c:1121
+#: client/gui-gtk-2.0/pages.c:1138
 #, c-format
 msgid "Connection name: %s"
 msgstr "Yhteyden nimi: %s"
 
-#: client/gui-gtk-2.0/pages.c:1124
+#: client/gui-gtk-2.0/pages.c:1141
 #, c-format
 msgid "Player name: %s"
 msgstr "Pelaajan nimi: %s"
 
-#: client/gui-gtk-2.0/pages.c:1129
+#: client/gui-gtk-2.0/pages.c:1146
 #, c-format
 msgid "Host: %s"
 msgstr "Palvelin: %s"
 
-#: client/gui-gtk-2.0/pages.c:1136
+#: client/gui-gtk-2.0/pages.c:1153
 msgid "Player/conn info"
 msgstr "Pelaaja/yht-tiedot"
 
-#: client/gui-gtk-2.0/pages.c:1163
+#: client/gui-gtk-2.0/pages.c:1180
 #, c-format
 msgid "%s info"
 msgstr "%s-tiedot"
 
-#: client/gui-gtk-2.0/pages.c:1174
+#: client/gui-gtk-2.0/pages.c:1191
 msgid "Toggle player ready"
 msgstr "Vaihda pelaajan valmiustilaa"
 
-#: client/gui-gtk-2.0/pages.c:1182
+#: client/gui-gtk-2.0/pages.c:1199
 msgid "Pick nation"
 msgstr "Valitse kansakunta"
 
-#: client/gui-gtk-2.0/pages.c:1192
+#: client/gui-gtk-2.0/pages.c:1209
 msgid "Observe this player"
 msgstr "Tarkkaile tätä pelaajaa"
 
-#: client/gui-gtk-2.0/pages.c:1199
+#: client/gui-gtk-2.0/pages.c:1216
 msgid "Take this player"
 msgstr "Ota tämä pelaaja"
 
-#: client/gui-gtk-2.0/pages.c:1216
+#: client/gui-gtk-2.0/pages.c:1233
 msgid "Cut connection"
 msgstr "Katkaise yhteys"
 
-#: client/gui-gtk-2.0/pages.c:1226
+#: client/gui-gtk-2.0/pages.c:1243
 #, fuzzy
 msgid "Aitoggle player"
 msgstr "aitoggle <pelaajan nimi>"
 
-#: client/gui-gtk-2.0/pages.c:1235
+#: client/gui-gtk-2.0/pages.c:1252
 msgid "Remove player"
 msgstr "Poista pelaaja"
 
-#: client/gui-gtk-2.0/pages.c:1246
+#: client/gui-gtk-2.0/pages.c:1263
 msgid "Give info access"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1254
+#: client/gui-gtk-2.0/pages.c:1271
 msgid "Give ctrl access"
 msgstr ""
 
 #. TRANS: e.g., "Put on Team 5"
-#: client/gui-gtk-2.0/pages.c:1315
+#: client/gui-gtk-2.0/pages.c:1333
 #, fuzzy, c-format
 msgid "Put on %s"
 msgstr "Väkiluku: %s"
 
-#: client/gui-gtk-2.0/pages.c:1419
+#: client/gui-gtk-2.0/pages.c:1437
 msgid "Number of _Players (including AI):"
 msgstr "AI-pelaajat sisältävät pelaajamäärä"
 
-#: client/gui-gtk-2.0/pages.c:1442
+#: client/gui-gtk-2.0/pages.c:1460
 msgid "AI Skill _Level:"
 msgstr "AI:n vaikeus_taso:"
 
-#: client/gui-gtk-2.0/pages.c:1458
+#: client/gui-gtk-2.0/pages.c:1476
 msgid "Ruleset _Version:"
 msgstr "Säännöstön _versio:"
 
-#: client/gui-gtk-2.0/pages.c:1466 client/gui-gtk-2.0/pages.c:2098
+#: client/gui-gtk-2.0/pages.c:1484 client/gui-gtk-2.0/pages.c:2116
 msgid "_More Game Options..."
 msgstr "_Lisää peliasetuksia..."
 
-#: client/gui-gtk-2.0/pages.c:1491
+#: client/gui-gtk-2.0/pages.c:1509
 #, fuzzy
 msgid "Record"
 msgstr "Raportti"
 
-#: client/gui-gtk-2.0/pages.c:1496
+#: client/gui-gtk-2.0/pages.c:1514
 #, fuzzy
 msgid "Rating"
 msgstr "Odottaa"
 
-#: client/gui-gtk-2.0/pages.c:1502
+#: client/gui-gtk-2.0/pages.c:1520
 msgid "Ready"
 msgstr "Valmis"
 
-#: client/gui-gtk-2.0/pages.c:1509 data/default/units.ruleset:1864
+#: client/gui-gtk-2.0/pages.c:1527 data/default/units.ruleset:1864
 #: data/nation/slovakian.ruleset:26
 msgid "Leader"
 msgstr "Johtaja"
 
-#: client/gui-gtk-2.0/pages.c:1637 client/gui-sdl/chatline.c:185
+#: client/gui-gtk-2.0/pages.c:1655 client/gui-sdl/chatline.c:185
 msgid "Choose Saved Game to Load"
 msgstr "Valitse ladattava peli"
 
-#: client/gui-gtk-2.0/pages.c:1729
+#: client/gui-gtk-2.0/pages.c:1747
 msgid "Choose Saved Game to _Load:"
 msgstr "Valitse _ladattava peli:"
 
-#: client/gui-gtk-2.0/pages.c:1749 client/gui-gtk-2.0/pages.c:1942
-#: client/gui-gtk-2.0/pages.c:2352
+#: client/gui-gtk-2.0/pages.c:1767 client/gui-gtk-2.0/pages.c:1960
+#: client/gui-gtk-2.0/pages.c:2370
 msgid "_Browse..."
 msgstr "_Selaa..."
 
-#: client/gui-gtk-2.0/pages.c:1816
+#: client/gui-gtk-2.0/pages.c:1834
 msgid "Choose a Scenario"
 msgstr "Valitse skenaario"
 
-#: client/gui-gtk-2.0/pages.c:1903
+#: client/gui-gtk-2.0/pages.c:1921
 msgid "Choose a _Scenario:"
 msgstr "Valitse _skenaario"
 
-#: client/gui-gtk-2.0/pages.c:2068 client/gui-gtk-2.0/repodlgs.c:634
+#: client/gui-gtk-2.0/pages.c:2086 client/gui-gtk-2.0/repodlgs.c:634
 #: client/gui-gtk-2.0/wldlg.c:1033 client/gui-win32/citydlg.c:1083
 #: client/gui-win32/connectdlg.c:998 client/gui-win32/wldlg.c:800
 #: client/gui-win32/wldlg.c:806
 msgid "Type"
 msgstr "Yksikön tyyppi"
 
-#: client/gui-gtk-2.0/pages.c:2078
+#: client/gui-gtk-2.0/pages.c:2096
 msgid "Choose a _nation to play:"
 msgstr "Valitse pelattava _kansakunta:"
 
-#: client/gui-gtk-2.0/pages.c:2264 client/gui-win32/menu.c:581
+#: client/gui-gtk-2.0/pages.c:2282 client/gui-win32/menu.c:581
 msgid "Select Location to Save"
 msgstr "Valitse sijainti johon tallennetaan"
 
-#: client/gui-gtk-2.0/pages.c:2349 client/gui-sdl/optiondlg.c:2273
+#: client/gui-gtk-2.0/pages.c:2367 client/gui-sdl/optiondlg.c:2273
 msgid "Save Game"
 msgstr "Tallenna peli"
 
-#: client/gui-gtk-2.0/pages.c:2390
+#: client/gui-gtk-2.0/pages.c:2408
 msgid "Saved _Games:"
 msgstr "Tallennetut _pelit:"
 
-#: client/gui-gtk-2.0/pages.c:2417
+#: client/gui-gtk-2.0/pages.c:2435
 msgid "Save _Filename:"
 msgstr "Tallenna _tiedostoon:"
 
