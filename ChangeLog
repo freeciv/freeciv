@@ -1,4 +1,483 @@
 
+Thu, 17 Apr 2008 13:15:50 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/doc/man/civclient.6
+	   M /branches/S2_1/doc/man/civserver.6
+
+	Updated manpages
+
+	See #40181
+
+
+Wed, 16 Apr 2008 13:07:07 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/po/sv.po
+
+	Updated Swedish translation by Susanna Björverud.
+
+
+Wed, 16 Apr 2008 11:37:40 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/common/connection.c
+	   M /branches/S2_1/common/player.c
+	   M /branches/S2_1/server/stdinhand.c
+	   M /branches/S2_1/utility/shared.c
+	   M /branches/S2_1/utility/shared.h
+	   M /branches/S2_1/utility/support.c
+	   M /branches/S2_1/utility/support.h
+
+	Fixed several bugs in handling of quoted command parameters by
+	small redesign
+	- Only strings both starting and ending with '"' are considered
+	  quoted and these starting and ending quotes are only ones ignored
+	  during matching
+	- Correct string length comparison for quoted strings implemented and used
+	- Connection name parameters can be quoted
+
+	See #40196
+
+
+Tue, 15 Apr 2008 02:08:00 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-gtk-2.0/pages.c
+
+	Corrected commands sent to server
+	- /cmdlevel and /cut take connection name parameter, not player name
+	- "Give ctrl access" sends /cmdlevel instead of /cut
+
+	Patch by Pepeto in #39614
+
+
+Sat, 12 Apr 2008 05:03:25 -0700  chrisk:
+
+	Changed paths:
+	   M /branches/S2_1/po/de.po
+
+	update
+	4277 translated messages.
+
+
+Sat, 12 Apr 2008 03:19:33 -0700  jcreus:
+
+	Changed paths:
+	   M /branches/S2_1/po/ca.po
+
+	Last touches for 2.1.4
+
+
+Wed, 09 Apr 2008 06:07:58 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/utility/fcintl.h
+
+	Do not include libintl.h when nls disabled
+
+	See #40199
+
+
+Tue, 08 Apr 2008 06:18:23 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/client/packhand.c
+	   M /branches/S2_1/common/terrain.c
+
+	Fixed memory leak in terrain ruleset resource handling
+
+	See #40197
+
+
+Mon, 07 Apr 2008 06:19:04 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/client/civclient.c
+
+	Added bug reporting address to client main help
+
+	Requested by Christian Knoke, ticket #39777
+
+
+Sun, 06 Apr 2008 03:26:37 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/po/fi.po
+
+	Updated Finnish translation by Timo Jyrinki
+
+
+Sun, 06 Apr 2008 00:47:57 -0800  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/ai/advdiplomacy.c
+
+	Fixed AI crash when city destroyed during trade negotiation
+
+	See #40185
+
+
+Sun, 06 Apr 2008 00:02:28 -0800  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/configure.ac
+
+	Fixed problem with version.in macro calls.
+
+	Reported by Joan Creus, ticket #40187
+
+
+Fri, 04 Apr 2008 13:59:04 -0800  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/server/srv_main.c
+
+	Avoid overwriting player name given as /create parameter
+
+	Patch by Michael Kaufman, William Allen Simpson and myself.
+	See #40147
+
+
+Thu, 03 Apr 2008 07:32:50 -0800  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-gtk-2.0/cityrep.c
+
+	Fixed city report "Select -> Citizen Governor -> none" crash.
+
+	Reported by Marek Jancuska and Chris, ticket #40171
+
+
+Tue, 01 Apr 2008 13:14:00 -0800  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/server/connecthand.c
+	   M /branches/S2_1/server/stdinhand.c
+
+	Fixed "take -" crash when there is no free player slots.
+
+	See #40179
+
+
+Mon, 31 Mar 2008 23:45:10 -0800  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/server/ruleset.c
+
+	Fixed memory leak in terrain.ruleset loading.
+
+	See #40174
+
+
+Sun, 30 Mar 2008 08:37:13 -0800  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/server/stdinhand.c
+
+	Check if turn ended only when game is running.
+
+	See #40172
+
+
+Fri, 28 Mar 2008 22:25:30 -0800  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/server/srv_main.c
+
+	Updated comment. Begin turn and end turn packets no longer depend on
+	separate capability.
+
+
+Thu, 27 Mar 2008 23:25:01 -0800  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/ai/aicity.c
+
+	Do not try to upgrade allied units.
+
+	See #40148
+
+
+Thu, 27 Mar 2008 23:17:05 -0800  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/ai/aiferry.c
+	   M /branches/S2_1/common/aicore/pf_tools.c
+	   M /branches/S2_1/common/aicore/pf_tools.h
+	   M /branches/S2_1/server/unithand.c
+
+	Fixed pathfinding crash when ferry is forced to leave path.
+
+	See #40169
+
+
+Tue, 25 Mar 2008 16:01:59 -0800  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/common/dataio.c
+
+	dio_get_uint8(), dio_get_unit16() and dio_get_uint32() now set
+	destination variable to zeor when they fail. This way callers
+	will never use totally uninitialized variable as size for
+	memory allocation.
+
+	See #40164
+
+
+Sun, 23 Mar 2008 18:15:49 -0800  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-sdl/optiondlg.c
+
+	Make Options button translatable.
+
+	Patch by Susanna Björverud in #40156
+
+
+Tue, 18 Mar 2008 19:46:15 -0800  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-sdl/helpdlg.c
+
+	Fixed problem that some translated strings were not used.
+
+	Patch by Susanna Björverud in #40157
+
+
+Tue, 18 Mar 2008 19:13:09 -0800  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/common/generate_packets.py
+	   M /branches/S2_1/common/packets_gen.c
+
+	Check legality of the size received from network before passing
+	it to dio_get_memory().
+
+	See #40161
+
+
+Mon, 17 Mar 2008 15:01:03 -0800  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/autogen.sh
+
+	Check that there is no acinclude.m4 left from old builds
+	in the source tree.
+
+	Compilation problem reported by Christian Knoke.
+	Patch from #40155
+
+
+Sun, 16 Mar 2008 13:05:39 -0800  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/configure.ac
+	   M /branches/S2_1/m4/auth.m4
+	   M /branches/S2_1/server/Makefile.am
+
+	Added configure option to search mysql from custom location.
+	Several existing bugs fixed in the process.
+
+	Patch by Madeline Book and myself in #21620
+
+
+Sun, 16 Mar 2008 12:55:45 -0800  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/common/packets.c
+
+	Fixed zeroing of unused portions of attribute chunk before giving
+	it to delta code.
+
+
+Thu, 13 Mar 2008 12:24:29 -0800  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/Makefile.am
+	   M /branches/S2_1/autogen.sh
+
+	Include m4 files with aclocal instead of catenating then to acinclude.m4.
+
+	See #40145
+
+
+Wed, 12 Mar 2008 12:34:55 -0800  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-ftwl/gui_text.c
+	   M /branches/S2_1/utility/ftwl/widget_window.c
+
+	Fixed some gui-ftwl compilation problems.
+
+	See #40142
+
+
+Tue, 11 Mar 2008 01:18:47 -0800  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/server/auth.c
+	   M /branches/S2_1/utility/shared.c
+
+	- Escape user provided strings before injecting them to SQL
+	- Restored ' as allowed character
+	- Avoid calling mysql_query() if there was some problem while
+	generating query string
+	- Fixed a couple of special cases where mysql connection was not
+	properly closed
+
+	See #40018
+
+
+Mon, 10 Mar 2008 11:15:10 -0800  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/gtkrc
+
+	Theme had checkbox images reversed in some situations.
+
+	Patch by Madeline Book in #40125
+
+
+Sun, 17 Feb 2008 12:35:34 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/server/meta.c
+	   M /branches/S2_1/server/settings.c
+
+	(PR#40101) minplayers typo -- patch by Egor Vyscrebentsov
+
+
+Sun, 17 Feb 2008 06:20:35 -0800  jcreus:
+
+	Changed paths:
+	   M /branches/S2_1/po/ca.po
+
+	Correcting Galleon translation
+
+
+Thu, 31 Jan 2008 07:26:58 -0800  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-sdl/gui_iconv.c
+
+	Fixed gui-sdl compilation
+
+
+Wed, 30 Jan 2008 17:06:52 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-mui/gui_main.c
+	   M /branches/S2_1/client/gui-sdl/gui_iconv.c
+
+	Replace strerror with mystrerror.
+
+	Patch by me in PR#40057.
+
+
+Tue, 29 Jan 2008 18:28:36 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/server/plrhand.c
+
+	(PR#40020) Segfault in server aiunit.c ai_manage_units => plrhand.c maybe_make_contact()
+	  reported by Dawid Ciezarkiewicz <dawid.ciezarkiewicz@jabster.pl>
+	  patch by Jason Dorje Short <jdorje@gmail.com>
+
+	make_contact() kills the unit because of the broken treaty and bouncing
+	(strange in itself).  maybe_make_contact() needs a safe iterator.
+
+
+Tue, 29 Jan 2008 01:54:03 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/utility/support.c
+
+	(PR#40058) mystrerror() and local encoding
+	  reported by Madeline Book <madeline.book@gmail.com>
+	  proposed patch by Jason Dorje Short <jdorje@gmail.com>
+	  revised patch by me.
+
+
+Mon, 28 Jan 2008 03:39:34 -0800  chrisk:
+
+	Changed paths:
+	   M /branches/S2_1/po/de.po
+
+	complete
+	4274 translated messages.
+
+
+Sun, 27 Jan 2008 06:52:55 -0800  cproc:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-win32/happiness.c
+
+	Fix gui-win32 compilation. See PR#40053.
+
+
+Sun, 27 Jan 2008 06:45:01 -0800  cproc:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-sdl/diplomat_dialog.c
+
+	Fix crash when trying to bribe a unit. See PR#39857.
+
+
+Sun, 27 Jan 2008 04:22:12 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/doc/HACKING
+	   M /branches/S2_1/doc/README
+	   M /branches/S2_1/doc/README.nations
+	   M /branches/S2_1/doc/README.rulesets
+	   M /branches/S2_1/utility/fciconv.c
+	   M /branches/S2_1/utility/shared.c
+
+	(PR#40028) gtk/pango invalid UTF-8 warning, fix documentation
+
+
+Wed, 23 Jan 2008 04:15:14 -0800  chrisk:
+
+	Changed paths:
+	   M /branches/S2_1/po/de.po
+
+	fix
+	4273 translated messages, 1 fuzzy translation.
+
+
+Wed, 23 Jan 2008 04:02:27 -0800  chrisk:
+
+	Changed paths:
+	   M /branches/S2_1/po/de.po
+
+	4273 translated messages, 1 fuzzy translation.
+
+
+Wed, 23 Jan 2008 03:09:51 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/version.in
+
+	Bump version to 2.1.3+
+
+
+Wed, 23 Jan 2008 03:08:19 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/version.in
+
+	Bump version to 2.1.3
+
+
+Wed, 23 Jan 2008 03:06:42 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/ChangeLog
+
+	Update ChangeLog for 2.1.3
+
+
 Tue, 22 Jan 2008 21:14:51 -0800  wsimpson:
 
 	Changed paths:
