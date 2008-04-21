@@ -10,15 +10,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: et\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-20 21:57+0900\n"
-"PO-Revision-Date: 2007-10-02 21:29+0200\n"
-"Last-Translator: Silver Juurik <silverjuurik@gmail.com>\n"
+"POT-Creation-Date: 2008-04-21 20:21+0300\n"
+"PO-Revision-Date: 2008-04-21 21:11+0300\n"
+"Last-Translator: Elmo Todurov <todurov@gmail.com>\n"
 "Language-Team: eesti\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
-"X-Generator: KBabel 1.11.4\n"
 
 #: common/city.c:56 client/gui-gtk-2.0/repodlgs.c:938
 #: client/gui-win32/repodlgs.c:700
@@ -418,9 +417,8 @@ msgid "Unit: Defender Survived"
 msgstr "Üksus: Kaitsja pidas vastu"
 
 #: common/events.c:125
-#, fuzzy
 msgid "Unit: Promoted to Veteran"
-msgstr "Üksus: Sai kogenumaks"
+msgstr "Üksus: Edutatud veteraniks"
 
 #: common/events.c:126
 msgid "Unit: Production Upgraded"
@@ -1372,23 +1370,22 @@ msgstr "Kõik seaded"
 #. may have been inserted between these.
 #: server/auth.c:181
 msgid " missing from config file (using default)"
-msgstr ""
+msgstr " puuub konfifailist (kasutan vaikimisi väärtust)"
 
 #. TRANS: auth option originates from internal default
 #: server/auth.c:184
 msgid " (default)"
-msgstr ""
+msgstr " (vaikimisi)"
 
 #. TRANS: auth option originates from config file
 #: server/auth.c:189
 msgid " (config)"
-msgstr ""
+msgstr " (konfist)"
 
 #. TRANS: auth option has been set from prompt
 #: server/auth.c:193
-#, fuzzy
 msgid " (set)"
-msgstr " (veteran)"
+msgstr " (seatud)"
 
 #: server/auth.c:266
 #, fuzzy, c-format
@@ -1603,9 +1600,9 @@ msgstr "%s liigutati %s-lt %s-le."
 
 #. TRANS: Polish Destroyer ... German <city>
 #: server/citytools.c:548
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s lost in transfer to %s %s"
-msgstr "%s %s-st läks kaduma üleviimisel %s %s-i"
+msgstr "Rahva %s %s läks kaduma üleviimisel rahva %s linna %s"
 
 #: server/citytools.c:631
 #, c-format
@@ -1866,7 +1863,7 @@ msgstr ""
 
 #. TRANS: The <city> worklist ....
 #: server/cityturn.c:870
-#, fuzzy, c-format
+#, c-format
 msgid "The %s worklist is now empty."
 msgstr "Linna %s tööde nimekiri on nüüd tühi."
 
@@ -2373,6 +2370,9 @@ msgid ""
 "user defined metamessage will be used instead of automatically\n"
 "generated messages, if it is available."
 msgstr ""
+"Määra metaserveri info-rea. Kui parameetrit mitte anda, viimati\n"
+"seatud metasõnum eemaldatakse. Üldjuhul kasutatakse kasutaja seatud\n"
+"metasõnumit automaatselt genereeritu asemel, kui see on olemas."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:159
@@ -2832,7 +2832,7 @@ msgstr "Tere tulemast %s serverisse pordil %d."
 
 #. TRANS: (connection) identifier: ... [network address]
 #: server/connecthand.c:97
-#, fuzzy, c-format
+#, c-format
 msgid "(%d) %s: connected [%s]"
 msgstr "(%d) %s ühines aadressilt %s."
 
@@ -2867,46 +2867,42 @@ msgstr "Blokeerivate käikudega mäng: ootame, et %s lõpetaks käigu..."
 
 #. TRANS: (connection) identifier: ... [network address]
 #: server/connecthand.c:240
-#, fuzzy, c-format
+#, c-format
 msgid "(%d) %s: connection request [%s]"
-msgstr "(%d) Kasutaja %s proovib ühenduda aadressilt %s"
+msgstr "(%d) %s: ühendumise katse [%s]"
 
 #: server/connecthand.c:266
-#, fuzzy
 msgid "The client is missing a capability that this server needs."
-msgstr "Sellel kliendil pole kõiki võimalusi, mida server vajab."
+msgstr "Sellel kliendil pole mingit võimet, mida server vajab."
 
 #: server/connecthand.c:268 server/connecthand.c:279
-#, fuzzy, c-format
+#, c-format
 msgid "(%d) %s rejected: mismatched capabilities!"
-msgstr "(%d) %s saadeti ära: Kokkusobimatud võimed"
+msgstr "(%d) %s saadeti ära: kokkusobimatud võimed!"
 
 #: server/connecthand.c:277
-#, fuzzy
 msgid "This server is missing a capability that the client needs."
-msgstr "Serveril pole kõiki võimalusi, mida see klient vajab."
+msgstr "Serveril pole mingit võimet, mida see klient vajab."
 
 #: server/connecthand.c:290
-#, fuzzy
 msgid "The username is invalid!"
-msgstr "Vigane nimi"
+msgstr "Vigane loginanimi!"
 
 #. TRANS: (connection) identifier: ... [network address]
 #: server/connecthand.c:292
-#, fuzzy, c-format
+#, c-format
 msgid "(%d) %s rejected: invalid username [%s]"
-msgstr "(%d) %s saadeti kukele, nimi [%s] on invaliidne."
+msgstr "(%d) %s saadeti kukele, loginanimi [%s] on invaliidne"
 
 #: server/connecthand.c:303
-#, fuzzy
 msgid "Your username is already connected!"
-msgstr "on juba ühendatud"
+msgstr "Su loginanimi on juba ühendunud!"
 
 #. TRANS: (connection) identifier: ... [network address]
 #: server/connecthand.c:305
-#, fuzzy, c-format
+#, c-format
 msgid "(%d) %s rejected: duplicate username [%s]"
-msgstr "(%d) %s saadeti kukele: selline loginanimi ([%s]) on juba olemas."
+msgstr "(%d) %s saadeti kukele: selline loginanimi [%s] on juba olemas."
 
 #: server/connecthand.c:335 server/connecthand.c:344
 #, c-format
@@ -3003,25 +2999,25 @@ msgstr "Sa said %d kulda."
 
 #. TRANS: ... Polish worldmap.
 #: server/diplhand.c:410
-#, fuzzy, c-format
+#, c-format
 msgid "You receive the %s worldmap."
-msgstr "Sa saad %s maailmakaardi."
+msgstr "Sa saad rahva %s maailmakaardi."
 
 #. TRANS: ... Polish seamap.
 #: server/diplhand.c:419
-#, fuzzy, c-format
+#, c-format
 msgid "You receive the %s seamap."
-msgstr "Sa saad %s merekaardi."
+msgstr "Sa saad rahva %s merekaardi."
 
 #: server/diplhand.c:436
 #, c-format
 msgid "You receive city of %s from %s."
-msgstr "Saad linna %s %s-lt."
+msgstr "Saad linna %s rahvalt %s."
 
 #: server/diplhand.c:441
 #, c-format
 msgid "You give city of %s to %s."
-msgstr "Sa annad linna %s %s-le."
+msgstr "Sa annad linna %s rahvale %s."
 
 #: server/diplhand.c:454 server/diplhand.c:457
 #, c-format
@@ -3874,13 +3870,13 @@ msgstr "%s rahvusel %s (%s)"
 msgid "Could not find a readable \"%s.%s\" ruleset file."
 msgstr "Ei suutnud leida loetavat \"%s.%s\" reeglistiku faili."
 
-#: server/ruleset.c:2345
+#: server/ruleset.c:2346
 msgid "No barbarian nation in rulesets, at least one required!"
 msgstr ""
 "Reeglistikus pole ühtki barbari rahvust, vähemalt üks barbari rahvus on "
 "kohustuslik!"
 
-#: server/ruleset.c:3155
+#: server/ruleset.c:3156
 msgid "Loading rulesets"
 msgstr "Laen reeglistikke"
 
@@ -3926,11 +3922,11 @@ msgstr ""
 
 #. TRANS: ... <Danish> alliance to <Poles>....
 #: server/savegame.c:4061
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Illegal alliance structure detected: %s alliance to %s reduced to peace "
 "treaty."
-msgstr "Leitud vigane liitlaste struktuur: %s liit %s-ga muudeti rahuleppeks."
+msgstr "Leitud vigane liitlaste struktuur: rahva %s liit rahvaga %s muudeti rahuleppeks."
 
 #: server/settings.c:32
 msgid "Geological"
@@ -4016,11 +4012,10 @@ msgid "Cannot change maxplayers in GGZ mode."
 msgstr "Pole võimalik muuta maxplayers'i GGZ-režiimis."
 
 #: server/settings.c:180
-#, fuzzy
 msgid ""
 "Number of players is higher than requested value;\n"
 "Keeping old value."
-msgstr "Mängijate arv on suurem kui küsitud väärtus. Jätan vana väärtuse."
+msgstr "Mängijate arv on suurem kui küsitud väärtus.\n Jätan vana väärtuse."
 
 #: server/settings.c:236
 msgid "Map size (in thousands of tiles)"
@@ -4441,7 +4436,6 @@ msgid "Penalty when getting tech or gold from treaty"
 msgstr "Trahv lepingust tehnoloogia saamise eest"
 
 #: server/settings.c:511
-#, fuzzy
 msgid ""
 "For each technology you gain from a diplomatic treaty, you lose research "
 "points equal to this percentage of the cost to research a new technology. If "
@@ -4499,9 +4493,8 @@ msgstr ""
 "suurusest."
 
 #: server/settings.c:553
-#, fuzzy
 msgid "Percentage food lost when building needed"
-msgstr "Toidu kaotus protsentides, kui puudub akvedukt"
+msgstr "Toidu kaotus protsentides, kui puudub vajalik ehitis"
 
 #: server/settings.c:554
 msgid ""
@@ -5174,7 +5167,7 @@ msgstr ""
 msgid "Server cannot read standard input. Ignoring input."
 msgstr "Server ei suuda standardsisendit lugeda. Ignoreerin sisendit."
 
-#: server/sernet.c:901
+#: server/sernet.c:902
 #, c-format
 msgid "Server: bad address: [%s:%d]."
 msgstr "Server: halb aadress: [%s:%d]."
@@ -8776,7 +8769,7 @@ msgid ""
 "This is the default login username that will be used in the connection "
 "dialogs or with the -a command-line parameter."
 msgstr ""
-"Vaikimisi kasutajanimi, mida kasutatakse ühenduse loomise akendes ja "
+"Vaikimisi loginanimi, mida kasutatakse ühenduse loomise akendes ja "
 "käsureavõtmega -a."
 
 #: client/options.c:111
