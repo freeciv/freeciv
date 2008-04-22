@@ -186,6 +186,7 @@ static void handle_readline_input_callback(char *line)
   line_internal = local_to_internal_string_malloc(line);
   (void) handle_stdin_input(NULL, line_internal, FALSE);
   free(line_internal);
+  free(line);
 
   readline_handled_input = TRUE;
 }
