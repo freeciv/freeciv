@@ -156,6 +156,7 @@ static void handle_readline_input_callback(char *line)
   handle_stdin_input((struct connection*)NULL, line);
 
   readline_handled_input = TRUE;
+  free(line);
 }
 
 #endif /* HAVE_LIBREADLINE */
