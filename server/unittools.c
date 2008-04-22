@@ -1393,9 +1393,8 @@ static void server_remove_unit(struct unit *punit)
   /* Since settlers plot in new cities in the minimap before they
      are built, so that no two settlers head towards the same city
      spot, we need to ensure this reservation is cleared should
-     the settler die on the way. */
-  if ((unit_owner(punit)->ai.control || punit->ai.control)
-      && punit->ai.ai_role != AIUNIT_NONE) {
+     the settler disappear on the way. */
+  if (punit->ai.ai_role != AIUNIT_NONE) {
     ai_unit_new_role(punit, AIUNIT_NONE, NULL);
   }
 

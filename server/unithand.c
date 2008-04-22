@@ -607,7 +607,7 @@ void handle_unit_build_city(struct player *pplayer, int unit_id, char *name)
 }
 
 /**************************************************************************
-...
+  Handle change in unit activity.
 **************************************************************************/
 void handle_unit_change_activity(struct player *pplayer, int unit_id,
 				 enum unit_activity activity,
@@ -632,6 +632,12 @@ void handle_unit_change_activity(struct player *pplayer, int unit_id,
      * idle autosettlers behave correctly when selected --dwp
      */
     return;
+  }
+
+  /* Remove city spot reservations for AI settlers on city founding
+   * mission, before goto_tile reset. */
+  if (punit->ai.ai_role != AIUNIT_NONE) {
+    ai_unit_new_role(punit, AIUNIT_NONE, NULL);
   }
 
   punit->ai.control = FALSE;
@@ -1957,16 +1963,20 @@ void handle_unit_orders(struct player *pplayer,
     }
   }
 
+  /* This must be before old orders are freed. If this is is
+   * settlers on city founding mission, city spot reservation
+   * from goto_tile must be freed, and free_unit_orders() loses
+   * goto_tile information */
+  if (punit->ai.ai_role != AIUNIT_NONE) {
+    ai_unit_new_role(punit, AIUNIT_NONE, NULL);
+  }
+
   free_unit_orders(punit);
 
   if (packet->length == 0) {
     assert(!unit_has_orders(punit));
     send_unit_info(NULL, punit);
     return;
-  }
-
-  if (punit->ai.ai_role != AIUNIT_NONE) {
-    ai_unit_new_role(punit, AIUNIT_NONE, NULL);
   }
 
   punit->has_orders = TRUE;
