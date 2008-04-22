@@ -92,7 +92,6 @@ static bool set_away(struct connection *caller, char *name, bool check);
 static bool observe_command(struct connection *caller, char *name, bool check);
 static bool take_command(struct connection *caller, char *name, bool check);
 static bool detach_command(struct connection *caller, char *name, bool check);
-static bool start_command(struct connection *caller, char *name, bool check);
 static bool end_command(struct connection *caller, char *str, bool check);
 static bool surrender_command(struct connection *caller, char *str, bool check);
 
@@ -3687,7 +3686,7 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
   case CMD_TIMEOUT:
     return timeout_command(caller, allargs, check);
   case CMD_START_GAME:
-    return start_command(caller, arg, check);
+    return start_command(caller, check, FALSE);
   case CMD_END_GAME:
     return end_command(caller, arg, check);
   case CMD_SURRENDER:
@@ -3748,9 +3747,20 @@ static bool surrender_command(struct connection *caller, char *str, bool check)
 }
 
 /**************************************************************************
-...
+ Send start command related message
 **************************************************************************/
-static bool start_command(struct connection *caller, char *name, bool check)
+static void start_cmd_reply(struct connection *caller, bool notify, char *msg)
+{
+    cmd_reply(CMD_START_GAME, caller, C_FAIL, msg);
+    if (notify) {
+      notify_conn(NULL, NULL, E_SETTING, msg);
+    }
+}
+
+/**************************************************************************
+ Handle start command. Notify all players about errors if notify set.
+**************************************************************************/
+bool start_command(struct connection *caller, bool check, bool notify)
 {
   switch (server_state()) {
   case S_S_INITIAL:
@@ -3787,12 +3797,18 @@ static bool start_command(struct connection *caller, char *name, bool check)
 
     /* check min_players */
     if (game.info.nplayers < game.info.min_players) {
-      cmd_reply(CMD_START_GAME, caller, C_FAIL,
-		_("Not enough players, game will not start."));
+      start_cmd_reply(caller, notify,
+                      _("Not enough players, game will not start."));
       return FALSE;
     } else if (check) {
       return TRUE;
     } else if (!caller) {
+      if (notify) {
+        /* Called from handle_player_ready()
+         * Last player just toggled ready-status. */
+        notify_conn(NULL, NULL, E_SETTING,
+                    _("All players are ready; starting game."));
+      }
       start_game();
       return TRUE;
     } else if (!caller->player || !caller->player->is_connected) {
@@ -3804,15 +3820,15 @@ static bool start_command(struct connection *caller, char *name, bool check)
     }
   case S_S_OVER:
     /* TRANS: given when /start is invoked during gameover. */
-    cmd_reply(CMD_START_GAME, caller, C_FAIL,
-              _("Cannot start the game: the game is waiting for all clients "
-              "to disconnect."));
+    start_cmd_reply(caller, notify,
+                    _("Cannot start the game: the game is waiting for all clients "
+                      "to disconnect."));
     return FALSE;
   case S_S_RUNNING:
   case S_S_GENERATING_WAITING:
     /* TRANS: given when /start is invoked while the game is running. */
-    cmd_reply(CMD_START_GAME, caller, C_FAIL,
-              _("Cannot start the game: it is already running."));
+    start_cmd_reply(caller, notify,
+                    _("Cannot start the game: it is already running."));
     return FALSE;
   }
   assert(FALSE);
