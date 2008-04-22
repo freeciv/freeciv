@@ -826,8 +826,9 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
 {
   struct unit *bodyguard = aiguard_guard_of(punit);
 
-  /* If the unit is under (human) orders we shouldn't control it. */
-  assert(!unit_has_orders(punit));
+  /* If the unit is under (human) orders we shouldn't control it.
+   * Allow removal of old role with AIUNIT_NONE. */
+  assert(!unit_has_orders(punit) || task == AIUNIT_NONE);
 
   UNIT_LOG(LOG_DEBUG, punit, "changing role from %s to %s",
            ai_unit_task_rule_name(punit->ai.ai_role),
@@ -844,7 +845,16 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
   }
 
   if (punit->ai.ai_role == AIUNIT_BUILD_CITY) {
-    citymap_free_city_spot(punit->goto_tile, punit->id);
+    if (punit->goto_tile) {
+      citymap_free_city_spot(punit->goto_tile, punit->id);
+    } else {
+      /* Print error message instead of crashing in citymap_free_city_spot()
+       * This probably means that some city spot reservation has not been
+       * properly cleared; bad for the AI, as it will leave that area
+       * uninhabited. */
+      freelog(LOG_ERROR, "%s was on city founding mission without target tile.",
+              unit_rule_name(punit));
+    }
   }
 
   if (punit->ai.ai_role == AIUNIT_HUNTER) {
