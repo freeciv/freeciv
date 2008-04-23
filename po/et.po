@@ -4,14 +4,14 @@
 #
 # Ahti Akel <akel@stallion.ee>, 2002,2003.
 # Ekke Vasli <ekke@chamber.ee>, 2001,2003,2004.
-# Elmo Todurov <todurov@gmail.com>, 2006, 2007.
 # Silver Juurik <silverjuurik@gmail.com>, 2006, 2007.
+# Elmo Todurov <todurov@gmail.com>, 2006, 2007, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: et\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-04-21 20:21+0300\n"
-"PO-Revision-Date: 2008-04-23 19:02+0300\n"
+"PO-Revision-Date: 2008-04-23 21:59+0300\n"
 "Last-Translator: Elmo Todurov <todurov@gmail.com>\n"
 "Language-Team: eesti\n"
 "MIME-Version: 1.0\n"
@@ -1111,7 +1111,7 @@ msgstr "*%s (AI)* Jah, rahu selleks korraks!"
 #: ai/advdiplomacy.c:597
 #, c-format
 msgid "*%s (AI)* Agreed. No more hostilities, %s."
-msgstr "*%s (AI)* Nõus, lõpetame vaenutsemise %s."
+msgstr "*%s (AI)* Nõus, lõpetame vaenutsemise, %s."
 
 #: ai/advdiplomacy.c:812
 #, c-format
@@ -2300,14 +2300,14 @@ msgstr ""
 
 #: server/commands.c:124
 msgid "Turn on or off AI debugging of given entity."
-msgstr "Lülita antud isendi tehisintellekti silumine sisse või välja."
+msgstr "Lülita antud isendi tehismõistuse silumine sisse või välja."
 
 #: server/commands.c:125
 msgid ""
 "Print AI debug information about given entity and turn continous debugging "
 "output for this entity on or off."
 msgstr ""
-"Näita antud isendi tehisintellekti silumisinfot ja lülita pidev "
+"Näita antud isendi tehismõistuse silumisinfot ja lülita pidev "
 "silumisväljund selle isendi kohta sisse või välja."
 
 #: server/commands.c:129
@@ -2517,7 +2517,7 @@ msgstr ""
 
 #: server/commands.c:225
 msgid "Set one or all AI players to 'novice'."
-msgstr "Märgib ühe või kõik tehisintellekti mängijatest algajaks."
+msgstr "Märgib ühe või kõik tehismõistuse mängijatest algajaks."
 
 #: server/commands.c:226
 msgid ""
@@ -2525,8 +2525,8 @@ msgid ""
 "default level for any new AI players to 'novice'.  With an argument, sets "
 "the skill level for that player only."
 msgstr ""
-"Ilma argumentideta määrab kõigi tehisintellektide tasemeks \"algaja\" ja "
-"edaspidi kõigi uute tehisintellektide jaoks ka.  Argumendiga määrab ainult "
+"Ilma argumentideta määrab kõigi tehismõistuste tasemeks \"algaja\" ja "
+"edaspidi kõigi uute tehismõistuste jaoks ka.  Argumendiga määrab ainult "
 "selle mängija taseme."
 
 #. TRANS: translate text between <> only
@@ -2540,7 +2540,7 @@ msgstr ""
 
 #: server/commands.c:234
 msgid "Set one or all AI players to 'easy'."
-msgstr "Märgib ühe või kõik tehisintellekti mängijatest lihtsateks."
+msgstr "Märgib ühe või kõik tehismõistuse mängijatest lihtsateks."
 
 #: server/commands.c:235
 msgid ""
@@ -2548,8 +2548,8 @@ msgid ""
 "default level for any new AI players to 'easy'.  With an argument, sets the "
 "skill level for that player only."
 msgstr ""
-"Ilma argumentideta määrab kõigi tehisintellektide tasemeks \"lihtne\" ja "
-"edaspidi kõigi uute tehisintellektide jaoks ka.  Argumendiga määrab ainult "
+"Ilma argumentideta määrab kõigi tehismõistuste tasemeks \"lihtne\" ja "
+"edaspidi kõigi uute tehismõistuste jaoks ka.  Argumendiga määrab ainult "
 "selle mängija taseme."
 
 #. TRANS: translate text between <> only
@@ -2571,8 +2571,8 @@ msgid ""
 "default level for any new AI players to 'normal'.  With an argument, sets "
 "the skill level for that player only."
 msgstr ""
-"Ilma argumentideta määrab kõigi tehisintellektide tasemeks \"tavaline\" ja "
-"edaspidi kõigi uute tehisintellektide jaoks ka.  Argumendiga määrab ainult "
+"Ilma argumentideta määrab kõigi tehismõistuste tasemeks \"tavaline\" ja "
+"edaspidi kõigi uute tehismõistuste jaoks ka.  Argumendiga määrab ainult "
 "selle mängija taseme."
 
 #. TRANS: translate text between <> only
@@ -2586,7 +2586,7 @@ msgstr ""
 
 #: server/commands.c:252
 msgid "Set one or all AI players to 'hard'."
-msgstr "Märgib ühe või kõik tehisintellekti mängijatest rasketeks."
+msgstr "Märgib ühe või kõik tehismõistuse mängijatest rasketeks."
 
 #: server/commands.c:253
 msgid ""
@@ -2594,8 +2594,8 @@ msgid ""
 "default level for any new AI players to 'hard'.  With an argument, sets the "
 "skill level for that player only."
 msgstr ""
-"Ilma argumentideta määrab kõigi tehisintellektide tasemeks \"keeruline\" ja "
-"edaspidi kõigi uute tehisintellektide jaoks ka.  Argumendiga määrab ainult "
+"Ilma argumentideta määrab kõigi tehismõistuste tasemeks \"keeruline\" ja "
+"edaspidi kõigi uute tehismõistuste jaoks ka.  Argumendiga määrab ainult "
 "selle mängija taseme."
 
 #. TRANS: translate text between <> only
@@ -2618,8 +2618,8 @@ msgid ""
 "skill level for that player only. THIS IS ONLY FOR TESTING OF NEW AI "
 "FEATURES! For ordinary servers, this option has no effect."
 msgstr ""
-"Ilma argumentideta määrab kõigi tehisintellektide tasemeks \"eksperimentaalne"
-"\" ja edaspidi kõigi uute tehisintellektide jaoks ka.  Argumendiga määrab "
+"Ilma argumentideta määrab kõigi tehismõistuste tasemeks \"eksperimentaalne"
+"\" ja edaspidi kõigi uute tehismõistuste jaoks ka.  Argumendiga määrab "
 "ainult selle mängija taseme. SEE ON AINULT TEHISINTELLEKTI UUTE VÕIMALUSTE "
 "TESTIMISEKS! Tavalistel serveritel ei tähenda see seade midagi."
 
@@ -3882,7 +3882,6 @@ msgstr "Laen reeglistikke"
 
 #. TRANS: Minor error message.
 #: server/savegame.c:173
-#, fuzzy
 msgid ""
 "Saved game contains incomplete map data.  This can happen with old saved "
 "games, or it may indicate an invalid saved game file.  Proceed at your own "
@@ -3892,17 +3891,15 @@ msgstr ""
 "salvestatud mängudega või on salvestis lihtsalt vigane.  Jätka omal riisikol."
 
 #: server/savegame.c:3590
-#, fuzzy
 msgid "Saved game is too old, at least version 1.9.0 required."
 msgstr "Salvestatud mäng on liiga vana, vaja on vähemalt versiooni 1.9.0."
 
 #. TRANS: Fatal error message.
 #: server/savegame.c:3815
-#, fuzzy
 msgid ""
 "Saved game uses the \"classic\" terrain ruleset, and is no longer supported."
 msgstr ""
-"Salvestatud mäng kasutab klassikalist maastiku reeglite seadistust, mis ei "
+"Salvestatud mäng kasutab \"klassikalist\" maastiku reeglite seadistust, mis ei "
 "ole enam toetaud."
 
 #: server/savegame.c:3824
@@ -4311,7 +4308,7 @@ msgid ""
 "players) before the game can start."
 msgstr ""
 "Mängu alustamiseks peab olema vähemalt nii palju mängijaid (kas siis "
-"ühendunud inimesi või tehisintellekte)."
+"ühendunud inimesi või tehismõistusi)."
 
 #: server/settings.c:426
 msgid "Maximum number of players"
@@ -4329,7 +4326,7 @@ msgstr ""
 
 #: server/settings.c:435
 msgid "Total number of players (including AI players)"
-msgstr "Mängijate koguarv (koos tehisintellektidega)"
+msgstr "Mängijate koguarv (koos tehismõistustega)"
 
 #: server/settings.c:436
 msgid ""
@@ -4841,7 +4838,6 @@ msgstr ""
 "mängijad ei saa kohtuda, kui neil pole saatkonda."
 
 #: server/settings.c:810
-#, fuzzy
 msgid "Rebuild palace whenever capital is conquered"
 msgstr "Ehita palee uuesti, kui pealinn vallutatakse"
 
@@ -6886,15 +6882,15 @@ msgstr "Barbarite juht vangistatud, maksti lunaraha %d kulda."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
 #: server/unittools.c:1546
-#, fuzzy, c-format
+#, c-format
 msgid "Your attacking %s succeeded against the %s %s!"
-msgstr "Sinu ründav üksus %s võitis lahingu %s-te %s vastu!"
+msgstr "Sinu ründav üksus %s võitis lahingu rahva %s üksuse %s vastu!"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
 #: server/unittools.c:1555 server/unittools.c:1613
-#, fuzzy, c-format
+#, c-format
 msgid "%s lost to an attack by the %s %s."
-msgstr "%s kaotati %s rünnakus üksusega %s."
+msgstr "Üksus %s kaotati rahva %s rünnakus üksusega %s."
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
 #: server/unittools.c:1589
@@ -6908,16 +6904,16 @@ msgstr[1] ""
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #: server/unittools.c:1622
-#, fuzzy, c-format
+#, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
-msgstr "Kaotati %s, kui %s-ide %s ründas %s-ide %s."
+msgstr "Kaotati üksus %s, kui rahva %s üksus %s ründas rahva %s üksust %s."
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
 #: server/unittools.c:1637
-#, fuzzy, c-format
+#, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
-msgstr "%s (ja %s) kaotati %s-te %s rünnakus."
+msgstr "Ükss %s (ja üksus%s) kaotati rahva %s üksuse %s rünnakus."
 
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
@@ -6978,9 +6974,8 @@ msgid "This unit type can not be paradropped."
 msgstr "Seda tüüpi üksust ei saa langevarjutada."
 
 #: server/unittools.c:2076
-#, fuzzy
 msgid "You cannot paradrop a unit that is transporting other units."
-msgstr "Ei saa langevarjutada transportüksust."
+msgstr "Ei saa langevarjutada üksust, mis transpordib teisi üksusi."
 
 #: server/unittools.c:2082
 msgid "The destination location is not known."
@@ -6989,7 +6984,7 @@ msgstr "Sihtkoht on tundmatu."
 #: server/unittools.c:2089
 #, c-format
 msgid "This unit cannot paradrop into %s."
-msgstr ""
+msgstr "Seda üksus ei saa langevarjutada linna %s."
 
 #: server/unittools.c:2109
 #, c-format
@@ -6999,7 +6994,7 @@ msgstr "Kaugus sihtmärgini (%i) on suurem, kui üksuse laskeulatus (%i)."
 #: server/unittools.c:2120
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
-msgstr ""
+msgstr "Su üksus %s langevarjutati linna %s ja kaotati."
 
 #: server/unittools.c:2133
 #, c-format
@@ -7215,7 +7210,7 @@ msgstr "?filler:XXX/XXX XXX käiku"
 #: client/citydlg_common.c:229
 #, c-format
 msgid "%3d gold per turn"
-msgstr "%3d kulda/käik"
+msgstr "%3d kulda käigus"
 
 #: client/citydlg_common.c:239
 #, c-format
@@ -7571,11 +7566,11 @@ msgstr "Majandus: Kuld"
 
 #: client/cityrepdata.c:514
 msgid "?Luxury:L"
-msgstr "?Luxury:N"
+msgstr "?Hüved:L"
 
 #: client/cityrepdata.c:514
 msgid "Economy: Luxury"
-msgstr "Majandus: Naudingud"
+msgstr "Majandus: Hüved"
 
 #: client/cityrepdata.c:516
 msgid "?Science:S"
@@ -8301,7 +8296,7 @@ msgid ""
 "* Does bombard attacks (%d per turn).  These attacks will only damage (never "
 "kill) the defender, but have no risk for the attacker.\n"
 msgstr ""
-"* Teeb pommitusrünnakuid (%d rünnakut käigu kohta). Need rünnakud "
+"* Teeb pommitusrünnakuid (%d rünnakut käigus). Need rünnakud "
 "kahjustavad (kuid ei tapa kunagi) kaitsjat, kuid ei ole ründajale ohtlikud.\n"
 
 #: client/helpdata.c:978
@@ -9986,10 +9981,10 @@ msgid ""
 msgstr ""
 "Nimi: %s\n"
 "Toit:       %10s Raha:    %10s\n"
-"Toodang: %10s Luxury:  %10s\n"
+"Toodang: %10s Hüved:  %10s\n"
 "Kaubandus:      %10s Teadus: %10s\n"
 "\n"
-"    Rahvas (W/E/S/T): %s\n"
+"    Rahvas (Tö/Lõ/Te/Ma): %s\n"
 "          Linn kasvab: %s\n"
 "Toodang valmis: %s"
 
@@ -10019,7 +10014,7 @@ msgstr "Oih..."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:86 client/gui-win32/dialogs.c:1364
 msgid "This unit cannot be bribed!"
-msgstr "Seda üksust ei saa ära osta!"
+msgstr "Sellele üksusele ei saa pistist anda!"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:93
 #: client/gui-sdl/diplomat_dialog.c:1395 client/gui-win32/dialogs.c:1368
@@ -10794,7 +10789,7 @@ msgstr "Pane kõik valmis"
 
 #: client/gui-gtk-2.0/dialogs.c:589
 msgid "_Sentry idle"
-msgstr "Jõudeolekus ük_sused vahti pidama"
+msgstr ""
 
 #: client/gui-gtk-2.0/dialogs.c:717
 #, fuzzy
@@ -11135,23 +11130,23 @@ msgstr "Ära _vaatle"
 
 #: client/gui-gtk-2.0/gui_main.c:1546
 msgid "<AI>"
-msgstr "<tehisintellekt>"
+msgstr "<tehismõistus>"
 
 #: client/gui-gtk-2.0/gui_main.c:1549
 msgid "<Novice AI>"
-msgstr "<Algaja tehisintellekt>"
+msgstr "<Algaja tehismõistus>"
 
 #: client/gui-gtk-2.0/gui_main.c:1552
 msgid "<Easy AI>"
-msgstr "<Kerge tehisintellekt>"
+msgstr "<Kerge tehismõistus>"
 
 #: client/gui-gtk-2.0/gui_main.c:1555
 msgid "<Normal AI>"
-msgstr "<Normaalne tehisintellekt>"
+msgstr "<Normaalne tehismõistus>"
 
 #: client/gui-gtk-2.0/gui_main.c:1558
 msgid "<Hard AI>"
-msgstr "<Raske tehisintellekt>"
+msgstr "<Raske tehismõistus>"
 
 #: client/gui-gtk-2.0/gui_main.c:1568 client/gui-win32/dialogs.c:594
 msgid "Random"
@@ -12204,22 +12199,19 @@ msgstr "Anna käsutase ctrl"
 #: client/gui-gtk-2.0/pages.c:1333
 #, c-format
 msgid "Put on %s"
-msgstr ""
+msgstr "Lisa %s hulka"
 
 #: client/gui-gtk-2.0/pages.c:1437
-#, fuzzy
 msgid "Number of _Players (including AI):"
-msgstr "_Mängijate arv (tehisintellekt kaasa arvatud):"
+msgstr "_Mängijate arv (tehismõistus kaasa arvatud):"
 
 #: client/gui-gtk-2.0/pages.c:1460
-#, fuzzy
 msgid "AI Skill _Level:"
 msgstr "_Tehisintellekti tase:"
 
 #: client/gui-gtk-2.0/pages.c:1476
-#, fuzzy
 msgid "Ruleset _Version:"
-msgstr "_Reeglistik:"
+msgstr "_Reeglistiku versioon:"
 
 #: client/gui-gtk-2.0/pages.c:1484 client/gui-gtk-2.0/pages.c:2116
 msgid "_More Game Options..."
@@ -12713,17 +12705,14 @@ msgid ""
 msgstr ""
 
 #: client/gui-sdl/citydlg.c:1171
-#, fuzzy
 msgid "Sorry, you have already bought here in this turn."
 msgstr "Vabanda, sa oled juba ostnud siin sel käigul."
 
 #: client/gui-sdl/citydlg.c:1174
-#, fuzzy
 msgid "Sorry, you can't buy here in this turn."
 msgstr "Vabanda, sa ei saa osta siin sel käigul."
 
 #: client/gui-sdl/citydlg.c:1178
-#, fuzzy
 msgid "Buy it?"
 msgstr "Ostad?"
 
@@ -12807,12 +12796,11 @@ msgstr "Kaubandus : +%d"
 
 #: client/gui-sdl/citydlg.c:2537
 msgid "Citizens"
-msgstr "Kodanikud"
+msgstr "Elanikud"
 
 #: client/gui-sdl/citydlg.c:2551
-#, fuzzy
 msgid "City improvements"
-msgstr "Linna ehitised"
+msgstr "Ehitised"
 
 #: client/gui-sdl/citydlg.c:2566
 #, c-format
@@ -12827,17 +12815,17 @@ msgstr "?food:Ülejääk : %d"
 #: client/gui-sdl/citydlg.c:2651
 #, c-format
 msgid "Production: %d (%d) per turn"
-msgstr "Toodang : %d (%d) käigu kohta"
+msgstr "Toodang : %d (%d) käigus"
 
 #: client/gui-sdl/citydlg.c:2697
 #, c-format
 msgid "?production:Support: %d"
-msgstr ""
+msgstr "?production:Toetus: %d"
 
 #: client/gui-sdl/citydlg.c:2735
 #, c-format
 msgid "Trade: %d per turn"
-msgstr "Kaubandus : %d käigus"
+msgstr "Kaubandus: %d käigus"
 
 #: client/gui-sdl/citydlg.c:2769
 #, c-format
@@ -12847,7 +12835,7 @@ msgstr "Korruptsioon: %d"
 #: client/gui-sdl/citydlg.c:2806
 #, c-format
 msgid "Gold: %d (%d) per turn"
-msgstr "Kulda: %d (%d) käigu kohta"
+msgstr "Kulda: %d (%d) käigus"
 
 #: client/gui-sdl/citydlg.c:2853
 #, c-format
@@ -12915,23 +12903,21 @@ msgstr "lõpetatud"
 #: client/gui-sdl/citydlg.c:3601
 #, c-format
 msgid "City of %s (Population %s citizens)"
-msgstr "Linn %s (rahvaarv %s kodanikku)"
+msgstr "%s (rahvaarv %s kodanikku)"
 
 #: client/gui-sdl/citydlg.c:3618
 msgid " - under Citizen Governor control."
 msgstr " - linnapea juhtimise all."
 
 #: client/gui-sdl/citydlg.c:3697
-#, fuzzy
 msgid "Present units"
-msgstr "Kohaleolevad väed %d"
+msgstr "Kohaleolevad väed"
 
 #: client/gui-sdl/citydlg.c:3708 client/gui-win32/citydlg.c:807
 msgid "Supported units"
 msgstr "Toetatud väed"
 
 #: client/gui-sdl/citydlg.c:3780
-#, fuzzy
 msgid "Change production"
 msgstr "Muuda tootmist"
 
@@ -12940,7 +12926,6 @@ msgid "Hurry production"
 msgstr "Kiirusta tootmisega"
 
 #: client/gui-sdl/citydlg.c:3825
-#, fuzzy
 msgid "Previous city"
 msgstr "Eelmine linn"
 
@@ -12966,7 +12951,7 @@ msgstr "Linnade raport"
 
 #: client/gui-sdl/cityrep.c:201
 msgid "Close Dialog"
-msgstr ""
+msgstr "Sule dialoog"
 
 #: client/gui-sdl/cityrep.c:215
 msgid "Information Report"
@@ -12989,11 +12974,10 @@ msgid "worklist"
 msgstr "tööde nimekiri"
 
 #: client/gui-sdl/cityrep.c:518
-#, fuzzy
 msgid ""
 "\n"
 "finished"
-msgstr "lõpetatud"
+msgstr "\nlõpetatud"
 
 #: client/gui-sdl/cma_fe.c:452 client/gui-win32/cma_fe.c:458
 msgid "Presets"
@@ -13071,7 +13055,7 @@ msgstr "Uuenda"
 #: client/gui-sdl/dialogs.c:660
 #, c-format
 msgid "Contact %s (%d / %d) %s(%d,%d,%d) %s"
-msgstr ""
+msgstr "Kontakt %s (%d / %d) %s(%d,%d,%d) %s"
 
 #: client/gui-sdl/dialogs.c:661 client/gui-sdl/dialogs.c:673
 #: client/gui-sdl/dialogs.c:1396 client/gui-sdl/dialogs.c:1415
@@ -13088,7 +13072,7 @@ msgstr ""
 #: client/gui-sdl/dialogs.c:1550
 #, c-format
 msgid " CtW: Att:%d%% Def:%d%%"
-msgstr " CtWTÕLGIMIND: Rün:%d%% Kts:%d%%"
+msgstr ""
 
 #: client/gui-sdl/dialogs.c:837 client/gui-sdl/dialogs.c:1216
 msgid "Terrain Info"
@@ -13101,7 +13085,7 @@ msgstr "Detailsem menüü"
 #: client/gui-sdl/dialogs.c:1244
 #, c-format
 msgid "Zoom to : %s"
-msgstr ""
+msgstr "Näita lähemalt: %s"
 
 #: client/gui-sdl/dialogs.c:1258 client/gui-win32/citydlg.c:1058
 #: data/Freeciv.in:2073
@@ -13131,7 +13115,7 @@ msgstr "Langevarjuga siia"
 #: client/gui-sdl/dialogs.c:1395 client/gui-sdl/dialogs.c:1511
 #, c-format
 msgid "Activate %s (%d / %d) %s (%d,%d,%d) %s"
-msgstr ""
+msgstr "Ärata %s (%d / %d) %s (%d,%d,%d) %s"
 
 #: client/gui-sdl/dialogs.c:1413 client/gui-sdl/dialogs.c:1538
 #, c-format
@@ -13237,7 +13221,7 @@ msgstr "Nõustu lepinguga"
 
 #. TRANS: "Polish incident !" FIXME!!!
 #: client/gui-sdl/diplodlg.c:1304
-#, fuzzy, c-format
+#, c-format
 msgid "%s incident !"
 msgstr "%s vahejuhtum!"
 
@@ -13400,11 +13384,11 @@ msgstr "-f, --fullscreen \tKäivita klient täisekraani režiimis\n"
 msgid ""
 "  -e,  --eventthread\tInit Event Subsystem in other thread (only Linux and "
 "BeOS)\n"
-msgstr ""
+msgstr "  -e,  --eventthread\tInitsialiseeri sündmuste allsüsteemi eraldi lõimes (ainult Linuxis ja BeOSis)\n"
 
 #: client/gui-sdl/gui_main.c:207
 msgid "  -t,  --theme THEME\tUse GUI theme THEME\n"
-msgstr ""
+msgstr "  -t,  --theme TEEMA\tKasuta kasutajaliidese teemat TEEMA\n"
 
 #: client/gui-sdl/gui_main.c:659
 #, c-format
@@ -13435,7 +13419,7 @@ msgstr ""
 #. TRANS: Future Technology
 #: client/gui-sdl/gui_tilespec.c:506
 msgid "FT"
-msgstr ""
+msgstr "TT"
 
 #: client/gui-sdl/helpdlg.c:212
 msgid "Help : Improvements"
@@ -13503,7 +13487,7 @@ msgid "Intelligence Information for the %s Empire"
 msgstr "%s impeeriumi luureinfo"
 
 #: client/gui-sdl/inteldlg.c:289
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Ruler: %s %s  Government: %s\n"
 "Capital: %s  Gold: %d\n"
@@ -13513,7 +13497,7 @@ msgstr ""
 "Juht: %s %s  Valitsus: %s\n"
 "Pealinn: %s  Raha: %d\n"
 "Maksud: %d%% Teadus: %d%% Hüved: %d%%\n"
-"Uurivad: Teadmata"
+"Uurivad: teadmata"
 
 #: client/gui-sdl/inteldlg.c:301
 #, c-format
@@ -13823,7 +13807,7 @@ msgstr "Puhasta tuumajäätmetest"
 #: client/gui-sdl/menu.c:685 client/gui-win32/menu.c:1257
 #: client/gui-xaw/menu.c:180
 msgid "Paradrop"
-msgstr ""
+msgstr "Langevarjuta"
 
 #: client/gui-sdl/menu.c:697 client/gui-win32/menu.c:1259
 #: client/gui-xaw/menu.c:179
@@ -13881,12 +13865,12 @@ msgstr "Aita ilmaimet ehitada"
 #: client/gui-sdl/menu.c:837 client/gui-sdl/menu.c:1019
 #: client/gui-win32/menu.c:1194 client/gui-xaw/menu.c:167
 msgid "Add to City"
-msgstr ""
+msgstr "Ühine linnaga"
 
 #: client/gui-sdl/menu.c:1064
 #, c-format
 msgid "Form Traderoute with %s ( %d R&G + %d trade ) (R)"
-msgstr ""
+msgstr "Asuta kaubatee linna %s ( %d R&G + %d kaubandust ) (R)"
 
 #: client/gui-sdl/menu.c:1071
 #, c-format
@@ -13994,7 +13978,7 @@ msgstr "Kindlus ja lennubaas"
 
 #: client/gui-sdl/optiondlg.c:1987
 msgid "Civ3 city text style"
-msgstr ""
+msgstr "Civ3 linna teksti stiil"
 
 #: client/gui-sdl/optiondlg.c:2216
 msgid "Video options"
@@ -14018,9 +14002,8 @@ msgid "Worklists"
 msgstr "Tööde nimekirjad"
 
 #: client/gui-sdl/optiondlg.c:2287
-#, fuzzy
 msgid "Leave Game"
-msgstr "Salvesta mäng"
+msgstr "Lahku mängust"
 
 #: client/gui-sdl/optiondlg.c:2302 client/gui-sdl/pages.c:255
 #: client/gui-win32/connectdlg.c:1098 client/gui-xaw/menu.c:121
@@ -14105,7 +14088,7 @@ msgstr ""
 #: client/gui-sdl/repodlgs.c:1525
 #, c-format
 msgid "We can't sell any %s in this turn."
-msgstr ""
+msgstr "Me ei saa müüa ühtegi %s sellel käigul."
 
 #: client/gui-sdl/repodlgs.c:1530
 msgid "Sell It?"
@@ -14182,9 +14165,9 @@ msgid "The Greatest Civilizations in the world."
 msgstr "Vingeim rahvus maailmas."
 
 #: client/gui-sdl/spaceshipdlg.c:142
-#, fuzzy, c-format
+#, c-format
 msgid "The %s Spaceship"
-msgstr "%s komsoselaev"
+msgstr "Rahva %s komsoselaev"
 
 #: client/gui-sdl/spaceshipdlg.c:172 client/gui-win32/spaceshipdlg.c:241
 #: data/Freeciv.in:1709
@@ -14229,7 +14212,7 @@ msgstr ""
 #: client/gui-sdl/themespec.c:342
 #, c-format
 msgid "Trying \"%s\" theme."
-msgstr ""
+msgstr "Proovime teemat \"%s\"."
 
 #: client/gui-sdl/themespec.c:486 client/gui-sdl/themespec.c:520
 #: client/gui-sdl/themespec.c:698
@@ -14499,9 +14482,9 @@ msgid "Darn"
 msgstr "Põrgut"
 
 #: client/gui-win32/citydlg.c:1259
-#, fuzzy, c-format
+#, c-format
 msgid "Trade with %s gives %d trade.\n"
-msgstr "%s-ga kauplemine annab %d ühikut kaupa.\n"
+msgstr "Linnaga %s kauplemine annab %d ühikut kaupa.\n"
 
 #: client/gui-win32/citydlg.c:1264
 msgid "No trade routes exist."
@@ -14793,7 +14776,7 @@ msgstr "?techhelp:)."
 #: client/gui-xaw/inteldlg.c:433
 #, c-format
 msgid "Ruler: %s %s"
-msgstr "Valitseja: %s %s"
+msgstr "Juht: %s %s"
 
 #: client/gui-win32/inteldlg.c:114 client/gui-xaw/inteldlg.c:216
 #: client/gui-xaw/ratesdlg.c:311
@@ -14825,7 +14808,7 @@ msgstr "Uuritakse: Teadmata(%d/-)"
 #: client/gui-win32/inteldlg.c:136 client/gui-xaw/inteldlg.c:249
 #, c-format
 msgid "Researching: %s(%d/%d)"
-msgstr ""
+msgstr "Uuritakse: %s(%d/%d)"
 
 #: client/gui-win32/inteldlg.c:145 client/gui-xaw/inteldlg.c:263
 #, c-format
