@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: et\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-04-21 20:21+0300\n"
-"PO-Revision-Date: 2008-04-21 21:11+0300\n"
+"PO-Revision-Date: 2008-04-23 19:02+0300\n"
 "Last-Translator: Elmo Todurov <todurov@gmail.com>\n"
 "Language-Team: eesti\n"
 "MIME-Version: 1.0\n"
@@ -10214,14 +10214,12 @@ msgid "Subvert Enemy Unit"
 msgstr ""
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:694 client/gui-win32/dialogs.c:1661
-#, fuzzy
 msgid "The diplomat is waiting for your command"
-msgstr "Härra, diplomaat ootab sinu käsklusi"
+msgstr "Diplomaat ootab sinu käsklusi"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:695 client/gui-win32/dialogs.c:1662
-#, fuzzy
 msgid "The spy is waiting for your command"
-msgstr "Härra, spioon ootab sinu käsklusi"
+msgstr "Spioon ootab sinu käsklusi"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:696 client/gui-win32/dialogs.c:1663
 msgid "_Bribe Enemy Unit"
@@ -10349,7 +10347,6 @@ msgid "_Buy"
 msgstr "_Osta"
 
 #: client/gui-gtk-2.0/citydlg.c:898 client/gui-gtk-2.0/cityrep.c:691
-#, fuzzy
 msgid "_Production"
 msgstr "_Toodang"
 
@@ -10578,7 +10575,6 @@ msgid "_Select"
 msgstr "_Vali"
 
 #: client/gui-gtk-2.0/cityrep.c:718 client/gui-gtk-2.0/plrdlg.c:490
-#, fuzzy
 msgid "_Display"
 msgstr "_Näita"
 
@@ -10593,7 +10589,6 @@ msgid "Cities"
 msgstr "Linnad"
 
 #: client/gui-gtk-2.0/cityrep.c:816
-#, fuzzy
 msgid "_Inspect"
 msgstr "_Vaata"
 
@@ -10755,7 +10750,6 @@ msgid "Goto _Location"
 msgstr "_Mine sinna"
 
 #: client/gui-gtk-2.0/dialogs.c:200 client/gui-gtk-2.0/messagewin.c:190
-#, fuzzy
 msgid "Inspect _City"
 msgstr "Vaata _linna"
 
@@ -10817,9 +10811,8 @@ msgid "Pick Nation"
 msgstr "Vali rahvus"
 
 #: client/gui-gtk-2.0/dialogs.c:772
-#, fuzzy
 msgid "_Random Nation"
-msgstr "Juhuslik rahvus"
+msgstr "_Juhuslik rahvus"
 
 #: client/gui-gtk-2.0/dialogs.c:784 client/gui-win32/dialogs.c:517
 msgid "Select a nation"
@@ -10842,9 +10835,8 @@ msgid "_Male"
 msgstr "_Mees"
 
 #: client/gui-gtk-2.0/dialogs.c:861
-#, fuzzy
 msgid "City _Styles:"
-msgstr "Linnade stiil"
+msgstr "Linnade _stiil:"
 
 #: client/gui-gtk-2.0/dialogs.c:900
 #, fuzzy
@@ -10988,7 +10980,6 @@ msgid "Air_lift"
 msgstr "Lenda"
 
 #: client/gui-gtk-2.0/gotodlg.c:129
-#, fuzzy
 msgid "_Goto"
 msgstr "_Mine"
 
@@ -11139,7 +11130,6 @@ msgid "_Observe"
 msgstr "_Vaatle"
 
 #: client/gui-gtk-2.0/gui_main.c:1524
-#, fuzzy
 msgid "Do not _observe"
 msgstr "Ära _vaatle"
 
@@ -11459,9 +11449,8 @@ msgid "_Clear Log"
 msgstr "_Puhasta logi"
 
 #: client/gui-gtk-2.0/menu.c:702 client/gui-win32/menu.c:313
-#, fuzzy
 msgid "_Write Log"
-msgstr "Ekspordi _logi"
+msgstr "Kirjuta _logi"
 
 #: client/gui-gtk-2.0/menu.c:704 client/gui-win32/menu.c:304
 msgid "Local _Options"
@@ -11822,9 +11811,8 @@ msgstr "Üks_used"
 
 #. TRANS: Nations report action
 #: client/gui-gtk-2.0/menu.c:908 client/gui-win32/menu.c:402
-#, fuzzy
 msgid "_Nations"
-msgstr "_Rahvused"
+msgstr "_Rahvad"
 
 #: client/gui-gtk-2.0/menu.c:912 client/gui-win32/menu.c:403
 msgid "_Economy"
@@ -11832,7 +11820,6 @@ msgstr "M_ajandus"
 
 #. TRANS: Research report action
 #: client/gui-gtk-2.0/menu.c:914 client/gui-win32/menu.c:405
-#, fuzzy
 msgid "_Research"
 msgstr "_Teadus"
 
@@ -12051,16 +12038,15 @@ msgstr "Luure_info"
 
 #: client/gui-gtk-2.0/plrdlg.c:450
 msgid "_Meet"
-msgstr "Kohta"
+msgstr "_Kohta"
 
 #: client/gui-gtk-2.0/plrdlg.c:457
-#, fuzzy
 msgid "Cancel _Treaty"
-msgstr "Katkesta leping"
+msgstr "Katkesta _leping"
 
 #: client/gui-gtk-2.0/plrdlg.c:464
 msgid "_Withdraw vision"
-msgstr "Võta vaade tagasi"
+msgstr "_Võta vaade tagasi"
 
 #: client/gui-gtk-2.0/plrdlg.c:495
 msgid "_AI"
@@ -13032,7 +13018,7 @@ msgstr "Kustuta seaded"
 
 #: client/gui-sdl/cma_fe.c:999 client/gui-win32/cma_fe.c:490
 msgid "Control city"
-msgstr ""
+msgstr "Juhi linna"
 
 #: client/gui-sdl/cma_fe.c:1008 client/gui-win32/cma_fe.c:488
 #: data/Freeciv.in:1470
