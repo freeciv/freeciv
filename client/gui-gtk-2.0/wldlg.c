@@ -873,7 +873,8 @@ static void src_selection_callback(GtkTreeSelection *selection, gpointer data)
   /* update widget sensitivity. */
   if (gtk_tree_selection_get_selected(selection, NULL, NULL)) {
     if (can_client_issue_orders()
-	&& ptr->pcity && city_owner(ptr->pcity) == client.conn.playing) {
+      && (!ptr->pcity || city_owner(ptr->pcity) == client.conn.playing)) {
+      /* if ptr->pcity is NULL, this is a global worklist */
       gtk_widget_set_sensitive(ptr->change_cmd, TRUE);
       gtk_widget_set_sensitive(ptr->prepend_cmd, TRUE);
       gtk_widget_set_sensitive(ptr->append_cmd, TRUE);
