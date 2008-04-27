@@ -3618,6 +3618,13 @@ static int fill_city_overlays_sprite_array(const struct tileset *t,
     pcity = find_city_or_settler_near_tile(ptile, &psettler);
   }
 
+  /* Below code does not work if pcity is invisible.
+   * Make sure it is not. */
+  assert(pcity == NULL || pcity->tile != NULL);
+  if (pcity && !pcity->tile) {
+    pcity = NULL;
+  }
+
   if (pcity && city_base_to_city_map(&city_x, &city_y, pcity, ptile)) {
     /* FIXME: check elsewhere for valid tile (instead of above) */
 

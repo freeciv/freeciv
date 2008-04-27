@@ -1807,7 +1807,7 @@ void move_unit_map_canvas(struct unit *punit,
 
 /**************************************************************************
   Find the "best" city/settlers to associate with the selected tile.
-    a.  If a city is working the tile, return that city.
+    a.  If a visible city is working the tile, return that city.
     b.  If another player's city is working the tile, return NULL.
     c.  If any selected cities are within range, return the closest one.
     d.  If any cities are within range, return the closest one.
@@ -1821,14 +1821,16 @@ struct city *find_city_or_settler_near_tile(const struct tile *ptile,
 					    struct unit **punit)
 {
   struct city *closest_city;
-  struct city *pcity = tile_worked(ptile);
+  struct city *pcity;
   struct unit *closest_settler = NULL, *best_settler = NULL;
 
   if (punit) {
     *punit = NULL;
   }
 
-  if (pcity) {
+  /* Check if there is visible city working that tile */
+  pcity = tile_worked(ptile);
+  if (pcity && pcity->tile) {
     if (NULL == client.conn.playing
         || city_owner(pcity) == client.conn.playing) {
       /* rule a */
