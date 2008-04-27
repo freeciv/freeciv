@@ -2196,7 +2196,7 @@ void handle_tile_info(struct packet_tile_info *packet)
   struct resource *presource = resource_by_number(packet->resource);
   struct terrain *pterrain = terrain_by_number(packet->terrain);
   struct tile *ptile = map_pos_to_tile(packet->x, packet->y);
-  
+
   if (NULL == ptile) {
     freelog(LOG_ERROR,
             "handle_tile_info() invalid tile (%d,%d).",
@@ -2286,6 +2286,9 @@ void handle_tile_info(struct packet_tile_info *packet)
         }
       }
 
+      /* This marks tile worked by invisible city. Other
+       * parts of the code have to handle invisible cities correctly
+       * (ptile->worked->tile == NULL) */
       tile_set_worked(ptile, pwork);
     } else {
       tile_set_worked(ptile, NULL);
