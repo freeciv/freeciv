@@ -58,6 +58,7 @@ server/generator/mapgen.c
 server/generator/startpos.c
 client/attribute.c
 client/audio.c
+client/chatline_common.c
 client/citydlg_common.c
 client/cityrepdata.c
 client/civclient.c
