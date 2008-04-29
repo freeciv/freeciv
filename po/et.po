@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: et\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-04-21 20:21+0300\n"
-"PO-Revision-Date: 2008-04-23 21:59+0300\n"
+"PO-Revision-Date: 2008-04-29 21:32+0300\n"
 "Last-Translator: Elmo Todurov <todurov@gmail.com>\n"
 "Language-Team: eesti\n"
 "MIME-Version: 1.0\n"
@@ -322,7 +322,7 @@ msgstr "Onn: Onnist rajati linn"
 
 #: common/events.c:101
 msgid "Hut: Gold Found in Hut"
-msgstr "Onn: Onnist leiti kulda"
+msgstr "Onn: Onnist leiti raha"
 
 #: common/events.c:102
 msgid "Hut: Killed by Barbarians in a Hut"
@@ -733,7 +733,7 @@ msgid ""
 "Treasury contains %d gold."
 msgstr ""
 "Kas uuendada %s %s-ks %d raha eest?\n"
-"Meil on hetkel %d raha."
+"Meil on %d raha."
 
 #: common/unit.c:1579
 #, c-format
@@ -2948,7 +2948,7 @@ msgstr "Küsitakse su pealinna (%s), ei saa lepingut sõlmida."
 
 #: server/diplhand.c:224
 msgid "You don't have enough gold, you can't accept treaty."
-msgstr "Sul pole piisavalt kulda, et lepingut sõlmida."
+msgstr "Sul pole piisavalt raha, et lepingut sõlmida."
 
 #: server/diplhand.c:256 server/diplhand.c:261
 #, c-format
@@ -2970,7 +2970,7 @@ msgstr "%s ei valitse enam linnas %s! Lepe tühistatud!"
 #: server/diplhand.c:331 server/diplhand.c:335
 #, c-format
 msgid "The %s don't have the promised amount of gold! Treaty canceled!"
-msgstr "%s ei oma lubatud koguses kulda! Lepe tühistatud!"
+msgstr "%s ei oma lubatud koguses raha! Lepe tühistatud!"
 
 #: server/diplhand.c:364
 #, c-format
@@ -2995,7 +2995,7 @@ msgstr "%s said teaduse %s rahvuselt %s."
 #: server/diplhand.c:402
 #, c-format
 msgid "You get %d gold."
-msgstr "Sa said %d kulda."
+msgstr "Sa said %d raha."
 
 #. TRANS: ... Polish worldmap.
 #: server/diplhand.c:410
@@ -3172,7 +3172,7 @@ msgstr "Sa ei saa seda linna õõnestada."
 #: server/diplomats.c:687
 #, c-format
 msgid "You don't have enough gold to subvert %s."
-msgstr "Sul pole piisavalt kulda, et õõnestada %s."
+msgstr "Sul pole piisavalt raha, et õõnestada %s."
 
 #: server/diplomats.c:704
 #, c-format
@@ -3915,7 +3915,7 @@ msgstr ""
 #: server/savegame.c:4039
 #, c-format
 msgid "%s had invalid nation; changing to %s."
-msgstr ""
+msgstr "%s sattus vigase rahva juhiks. Annan talle rahva %s."
 
 #. TRANS: ... <Danish> alliance to <Poles>....
 #: server/savegame.c:4061
@@ -4381,7 +4381,7 @@ msgstr "Kuld mängu alguses"
 
 #: server/settings.c:474
 msgid "At the beginning of the game, each player is given this much gold."
-msgstr "Mängu alguses antakse igale mängijale nii palju kulda."
+msgstr "Mängu alguses antakse igale mängijale nii palju raha."
 
 #: server/settings.c:480
 msgid "Number of initial techs per player"
@@ -5382,7 +5382,7 @@ msgstr "%s on %s valitseja."
 msgid ""
 "This civserver program has player authentication support, but it's currently "
 "not in use."
-msgstr ""
+msgstr "See civserver'i programm toetab mängijate autentimist, kuid see pole hetkel kasutuses."
 
 #: server/srv_main.c:1949
 #, c-format
@@ -6161,7 +6161,7 @@ msgstr "%s juba juhib %s"
 #: server/stdinhand.c:2963
 #, c-format
 msgid "There is no free player slot for %s"
-msgstr ""
+msgstr "Mängijale %s pole vaba mängijakohta."
 
 #: server/stdinhand.c:2992
 #, c-format
@@ -6304,7 +6304,7 @@ msgstr "Uus hääletus (number %d) mängijalt %s: %s."
 #: server/stdinhand.c:3573
 #, c-format
 msgid "Your new vote (\"%s\") was not legal or was not recognized."
-msgstr ""
+msgstr "Su uus hääletus (\"%s\") oli segane."
 
 #: server/stdinhand.c:3583
 msgid "You are not allowed to use this command."
@@ -6747,7 +6747,7 @@ msgstr "Seda tüüpi väed ei saa linna üle võtta."
 
 #: server/unithand.c:1192
 msgid "A transported unit is not allied to all units or city on target tile."
-msgstr ""
+msgstr "Transporditav üksus pole liidus kõigi teiste üksustega sihtruudul."
 
 #: server/unithand.c:1234
 #, c-format
@@ -6791,10 +6791,10 @@ msgid ""
 "Your %s from %s has arrived in %s, and revenues amount to %d in gold and "
 "research."
 msgstr ""
-"Sinu %s linnast %s jõudis linna %s, maksudeks koguti %d kulda ja teadusi."
+"Sinu %s linnast %s jõudis linna %s, maksudeks koguti %d raha ja teadust."
 
 #: server/unittools.c:253
-#, fuzzy, c-format
+#, c-format
 msgid "%s was upgraded for free to %s."
 msgstr "Üksus %s uuendati tasuta üksuseks %s."
 
@@ -6868,17 +6868,17 @@ msgstr ""
 #: server/unittools.c:1470
 #, c-format
 msgid "%s escaped the destruction of %s, and fled to %s."
-msgstr ""
+msgstr "Üksus %s pääses üksuse %s hävitamisest ja põgenes linna %s."
 
 #: server/unittools.c:1479
 #, c-format
 msgid "%s lost when %s was lost."
-msgstr ""
+msgstr "Üksus %s kaotati koos üksusega %s."
 
 #: server/unittools.c:1528
 #, c-format
 msgid "Barbarian leader captured, %d gold ransom paid."
-msgstr "Barbarite juht vangistatud, maksti lunaraha %d kulda."
+msgstr "Barbarite juht vangistatud, maksti lunaraha %d raha."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
 #: server/unittools.c:1546
@@ -6999,12 +6999,12 @@ msgstr "Su üksus %s langevarjutati linna %s ja kaotati."
 #: server/unittools.c:2133
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
-msgstr ""
+msgstr "Su üksus %s tapeti vaenlase poolt langevarjutamise sihtkohas."
 
 #: server/unittools.c:2155
 #, c-format
 msgid "You found %d gold."
-msgstr "Sa leidsid %d kulda."
+msgstr "Sa leidsid %d raha."
 
 #: server/unittools.c:2172
 #, c-format
@@ -7138,7 +7138,7 @@ msgstr "Juhtus linnapea viga:  Su linnapea seaded võivad olla vigased."
 
 #: client/attribute.c:367
 msgid "Old attributes detected and removed."
-msgstr ""
+msgstr "Leitud ja eemaldatud vanad atribuudid."
 
 #: client/audio.c:119
 #, c-format
@@ -7153,11 +7153,11 @@ msgstr "Plugin %s leiti, aga ei suudetud käivitada."
 #: client/audio.c:174
 #, c-format
 msgid "Couldn't find soundset \"%s\" trying \"%s\"."
-msgstr ""
+msgstr "Ei leidnud helikomplekti \"%s\", üritan kasutada \"%s\"."
 
 #: client/audio.c:197
 msgid "No real audio plugin present."
-msgstr ""
+msgstr "Helipluginat pole."
 
 #: client/audio.c:198 client/audio.c:215 client/audio.c:247 client/audio.c:258
 msgid "Proceeding with sound support disabled"
@@ -7169,16 +7169,16 @@ msgstr "Heli toe lisamiseks paigalda SDL_mixer"
 
 #: client/audio.c:205
 msgid "No sound spec-file given!"
-msgstr ""
+msgstr "Heli speki-faili ei antud!"
 
 #: client/audio.c:211
 #, c-format
 msgid "Cannot find sound spec-file \"%s\"."
-msgstr "Ei leidnud heli spec-faili \"%s\"."
+msgstr "Ei leidnud heli speki-faili \"%s\"."
 
 #: client/audio.c:212
 msgid "To get sound you need to download a sound set!"
-msgstr ""
+msgstr "Heli jaoks on vaja alla laadida helikomplekt."
 
 #: client/audio.c:213
 #, c-format
@@ -7210,7 +7210,7 @@ msgstr "?filler:XXX/XXX XXX käiku"
 #: client/citydlg_common.c:229
 #, c-format
 msgid "%3d gold per turn"
-msgstr "%3d kulda käigus"
+msgstr "%3d raha käigus"
 
 #: client/citydlg_common.c:239
 #, c-format
@@ -7764,7 +7764,7 @@ msgstr "%s annavad tundmatu linna."
 #: client/climisc.c:273
 #, c-format
 msgid "The %s give %d gold"
-msgstr "%s annavad %d kulda"
+msgstr "%s annavad %d raha"
 
 #: client/climisc.c:278
 #, c-format
@@ -7822,7 +7822,7 @@ msgstr ""
 #: client/climisc.c:1056
 #, c-format
 msgid "%s costs %d gold and you only have %d gold."
-msgstr "%s maksab %d kulda, aga meil on ainult %d kulda."
+msgstr "%s maksab %d raha, aga meil on ainult %d raha."
 
 #: client/clinet.c:143
 msgid "Lost connection to server!"
@@ -8260,7 +8260,7 @@ msgstr "* Saab rünnata laevade pealt linnu ja maaüksusi.\n"
 #: client/helpdata.c:939
 #, c-format
 msgid "* Can be paradropped from a friendly city (Range: %d).\n"
-msgstr ""
+msgstr "* Võib langevarjutada sõbralikust linnast (Raadius: %d).\n"
 
 #: client/helpdata.c:945
 msgid "* Gets double defense against units specified as 'mounted'.\n"
@@ -8480,7 +8480,7 @@ msgid ""
 "* Each of your cities will avoid %d unhappiness that would otherwise be "
 "caused by units.\n"
 msgstr ""
-"* Igas su linnas muutub %d kodanikku vähem süjaväeüksuste tõttu õnnetuks.\n"
+"* Igas su linnas muutub %d kodanikku vähem sõjaväeüksuste tõttu õnnetuks.\n"
 
 #. TRANS: %s is the output type, like 'shield' or 'gold'.
 #: client/helpdata.c:1435
@@ -8496,15 +8496,13 @@ msgstr ""
 
 #. TRANS: %s is the output type, like 'shield' or 'gold'.
 #: client/helpdata.c:1445
-#, fuzzy, c-format
+#, c-format
 msgid "* You pay no %s upkeep for your units.\n"
-msgstr "* Maksad %d korda tavalisest kõrgemat %s ülalpidamiskulu.\n"
+msgstr "* Ei maksa %s tüüpi ülalpidamiskulu oma üksuste eest.\n"
 
 #: client/helpdata.c:1449
-#, fuzzy
 msgid "* You pay no upkeep for your units.\n"
-msgstr ""
-"* Maksad tavalisest %d korda kõrgemaid ülalpidamiskulusid oma üksuste eest.\n"
+msgstr "* Üksuste eest ei pea ülalpidamiskulu maksma.\n"
 
 #. TRANS: %s is the output type, like 'shield' or 'gold'.
 #. * There is currently no way to control the
@@ -8611,7 +8609,7 @@ msgid ""
 "give gold.\n"
 msgstr ""
 "* Ehitised, mis muidu annaks boonuseid õnnetu meeleolu vastu, toodavad "
-"hoopis kulda.\n"
+"hoopis raha.\n"
 
 #: client/helpdata.c:1559
 msgid "* Pays no upkeep for fanatics.\n"
@@ -10023,7 +10021,7 @@ msgid ""
 "Bribe unit for %d gold?\n"
 "Treasury contains %d gold."
 msgstr ""
-"Anna üksusele pistist %d kulda?\n"
+"Anna üksusele pistist %d raha?\n"
 "Meil on %d raha."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:95
@@ -10039,8 +10037,8 @@ msgid ""
 "Bribing the unit costs %d gold.\n"
 "Treasury contains %d gold."
 msgstr ""
-"Pistise pakkumine läheb maksma %d kulda.\n"
-"Meil on %d kulda."
+"Pistise pakkumine läheb maksma %d raha.\n"
+"Meil on %d raha."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:103
 #: client/gui-gtk-2.0/diplomat_dialog.c:560
@@ -10121,7 +10119,7 @@ msgid ""
 "Treasury contains %d gold."
 msgstr ""
 "Algata %d kulla eest ülestõus?\n"
-"Meil on %d kulda."
+"Meil on %d raha."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:552
 #: client/gui-sdl/diplomat_dialog.c:1136 client/gui-win32/dialogs.c:1557
@@ -10136,8 +10134,8 @@ msgid ""
 "Inciting a revolt costs %d gold.\n"
 "Treasury contains %d gold."
 msgstr ""
-"Mässu alustamine maksab %d kulda.\n"
-"Meil on %d kulda."
+"Mässu alustamine maksab %d raha.\n"
+"Meil on %d raha."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:621 client/gui-win32/dialogs.c:1601
 #, c-format
@@ -10227,11 +10225,11 @@ msgstr "_Saboteeri vaenlase üksust"
 #: client/gui-gtk-2.0/caravan_dialog.c:80
 #, c-format
 msgid "Help build _Wonder (%d remaining)"
-msgstr "Aita ilmaime ehitada (%d jäänud)"
+msgstr "Aita ilmaimet ehitada (%d jäänud)"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:85 client/gui-win32/dialogs.c:1053
 msgid "Help build _Wonder"
-msgstr "Aita _ilmaime ehitada"
+msgstr "Aita _ilmaimet ehitada"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:100 client/gui-win32/dialogs.c:1038
 #: client/gui-xaw/dialogs.c:443
@@ -10511,7 +10509,7 @@ msgid ""
 "Treasury contains %d gold."
 msgstr ""
 "Ostan %s %d kulla eest?\n"
-"Meil on %d kulda. "
+"Meil on %d raha. "
 
 #: client/gui-gtk-2.0/citydlg.c:2429 client/gui-gtk-2.0/citydlg.c:2441
 #: client/gui-win32/citydlg.c:906 client/gui-win32/citydlg.c:915
@@ -10526,8 +10524,8 @@ msgid ""
 "%s costs %d gold.\n"
 "Treasury contains %d gold."
 msgstr ""
-"%s maksab %d kulda.\n"
-"Meil on %d kulda."
+"%s maksab %d raha.\n"
+"Meil on %d raha."
 
 #: client/gui-gtk-2.0/citydlg.c:2491 client/gui-sdl/citydlg.c:1406
 #: client/gui-win32/citydlg.c:957 client/gui-xaw/citydlg.c:2301
@@ -10930,7 +10928,7 @@ msgstr "--- See leping on tühi. Palun lisa mõned punktid. ---"
 #: client/gui-gtk-2.0/diplodlg.c:905 client/gui-sdl/diplodlg.c:375
 #: client/gui-win32/diplodlg.c:263 client/gui-xaw/diplodlg.c:949
 msgid "Invalid amount of gold specified."
-msgstr "Määratud vigane hulk kulda."
+msgstr "Määratud vigane hulk raha."
 
 #: client/gui-gtk-2.0/finddlg.c:64 client/gui-sdl/finddlg.c:129
 #: client/gui-sdl/mapctrl.c:1591 client/gui-win32/finddlg.c:115
@@ -11556,7 +11554,7 @@ msgstr "Linna toodang"
 
 #: client/gui-gtk-2.0/menu.c:778 client/gui-sdl/optiondlg.c:1719
 msgid "Draw city worker map grid"
-msgstr ""
+msgstr "Joonista linna tööliste kaardiruudud"
 
 #: client/gui-gtk-2.0/menu.c:782 client/gui-sdl/optiondlg.c:1635
 #: client/gui-win32/menu.c:340 client/gui-xaw/menu.c:148
@@ -11765,7 +11763,7 @@ msgstr "Uuenda üksust"
 
 #: client/gui-gtk-2.0/menu.c:887
 msgid "Diplomat\\/Spy Actions"
-msgstr ""
+msgstr "diplomaadi\\/spiooni tegevused"
 
 #: client/gui-gtk-2.0/menu.c:889 client/gui-sdl/menu.c:399
 #: client/gui-win32/menu.c:391 client/gui-xaw/menu.c:209
@@ -12049,7 +12047,7 @@ msgstr "_Tehismõistus"
 
 #: client/gui-gtk-2.0/plrdlg.c:501
 msgid "_Toggle AI Mode"
-msgstr ""
+msgstr "_Lülita tehismõistuseks"
 
 #: client/gui-gtk-2.0/pages.c:208
 msgid "Start _New Game"
@@ -12219,7 +12217,7 @@ msgstr "Rohkem mängu_seadeid..."
 
 #: client/gui-gtk-2.0/pages.c:1509
 msgid "Record"
-msgstr ""
+msgstr "Salvesta"
 
 #: client/gui-gtk-2.0/pages.c:1514
 msgid "Rating"
@@ -12323,7 +12321,7 @@ msgstr "Hind"
 #: client/gui-gtk-2.0/repodlgs.c:638 client/gui-sdl/repodlgs.c:2031
 #: client/gui-win32/repodlgs.c:468
 msgid "U Total"
-msgstr ""
+msgstr "U Total TÕLGIMIND"
 
 #: client/gui-gtk-2.0/repodlgs.c:708
 msgid "Total Cost:"
@@ -12348,7 +12346,7 @@ msgstr "Müü ehitisi"
 
 #: client/gui-gtk-2.0/repodlgs.c:826
 msgid "Sell-Off: Results"
-msgstr ""
+msgstr "Müük: Tulemused"
 
 #: client/gui-gtk-2.0/repodlgs.c:886
 #, c-format
@@ -12361,7 +12359,7 @@ msgstr "Üksuse tüüp"
 
 #: client/gui-gtk-2.0/repodlgs.c:934 client/gui-win32/repodlgs.c:696
 msgid "?Upgradable unit [short]:U"
-msgstr ""
+msgstr "?Upgradable unit [short]:U"
 
 #: client/gui-gtk-2.0/repodlgs.c:935 client/gui-win32/repodlgs.c:697
 msgid "In-Prog"
@@ -12385,7 +12383,8 @@ msgstr "_Uuenda"
 msgid ""
 "Upgrade as many %s to %s as possible for %d gold each?\n"
 "Treasury contains %d gold."
-msgstr ""
+msgstr "Kas uuendada võimalikult palju üksusi %s üksusteks %s %d raha eest näkku?\n"
+"Meil on %d raha."
 
 #: client/gui-gtk-2.0/repodlgs.c:1260
 msgid "Totals:"
@@ -12584,16 +12583,16 @@ msgstr "Sinu karavan saabus linnas %s"
 #: client/gui-sdl/caravan_dialog.c:157
 #, c-format
 msgid "Establish Traderoute with %s ( %d R&G + %d trade )"
-msgstr ""
+msgstr "Ava kaubatee linna %s ( %d T&K + %d kaubandust )"
 
 #: client/gui-sdl/caravan_dialog.c:164
 #, c-format
 msgid "Enter Marketplace ( %d R&G bonus )"
-msgstr ""
+msgstr "Mine turule ( %d T&K boonust)"
 
 #: client/gui-sdl/caravan_dialog.c:182 data/Freeciv.in:2263
 msgid "Help build Wonder"
-msgstr "Aita maailma ime ehitamisele kaasa"
+msgstr "Aita ilmaimet ehitada"
 
 #: client/gui-sdl/caravan_dialog.c:195 client/gui-sdl/diplomat_dialog.c:679
 #: data/Freeciv.in:2266 data/Freeciv.in:2290 data/Freeciv.in:2325
@@ -14247,7 +14246,7 @@ msgid ""
 "%d gold per turn"
 msgstr ""
 "%s\n"
-"%d kulda käigus"
+"%d raha käigus"
 
 #: client/gui-sdl/wldlg.c:900 client/gui-sdl/wldlg.c:1075
 #, c-format
@@ -14333,7 +14332,7 @@ msgstr ""
 #: client/gui-sdl/wldlg.c:1377
 #, c-format
 msgid "%d gold per turn"
-msgstr "%d kulda käigus"
+msgstr "%d raha käigus"
 
 #: client/gui-sdl/wldlg.c:1384
 #, c-format
@@ -21280,7 +21279,7 @@ msgid ""
 "100 gold ransom is paid, but only to land units."
 msgstr ""
 "Kui barbarite juht tapetakse ruudul, kus pole kaitseüksusi, makstakse "
-"maaüksustele lunaraha 100 kulda."
+"maaüksustele lunaraha 100 raha."
 
 #: data/nation/aborigines.ruleset:3
 msgid "Australian Aboriginal"
@@ -24724,7 +24723,7 @@ msgid ""
 msgstr ""
 "Su üksus avastas Hüti. Hütid on väikesed külad, mida leidub hajali\n"
 "kogu kaardi ulatuses. Kui üksus siseneb hütti, võib juhtuda mitu asja.\n"
-"Kõige tõenäolisemalt leiad väikese koguse kulda. Samas on võimalik\n"
+"Kõige tõenäolisemalt leiad väikese koguse raha. Samas on võimalik\n"
 "hüttidest leida ka tehnoloogiaid või palgasõdureid. Mõnes hütis on\n"
 "kohalikke asunikke, kes liituvad sinu tsivilisatsiooniga ja toovad su \n"
 "impeeriumile juurde uue linna. Viimasena on võimalik hütist leida\n"
@@ -24732,9 +24731,8 @@ msgstr ""
 "palju hütte üles otsida ja neid külastada niipea, kui võimalik."
 
 #: data/scenario/tutorial.sav:380
-#, fuzzy
 msgid "Loading tutorial events."
-msgstr "Laen reeglistikke"
+msgstr "Laen õppestsenaariumi sündmusi."
 
 #: data/civ1/game.ruleset:101 data/civ2/game.ruleset:101
 #: data/default/game.ruleset:129
