@@ -747,9 +747,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   maybe_cause_incident(DIPLOMAT_INCITE, pplayer, NULL, pcity);
 
   /* Transfer city and units supported by this city (that
-     are within one square of the city) to the new owner.
-     Remember that pcity is destroyed as part of the transfer,
-     Which is why we do this last */
+     are within one square of the city) to the new owner. */
   transfer_city (pplayer, pcity, 1, TRUE, TRUE, FALSE);
 
   /* Check if a spy survives her mission. Diplomats never do.

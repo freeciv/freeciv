@@ -427,6 +427,28 @@ static void check_city_size(struct city *pcity, const char *file, int line)
 }
 
 /**************************************************************************
+  Verify that the number of people with feelings + specialists equal
+  city size.
+**************************************************************************/
+void real_sanity_check_feelings(const struct city *pcity,
+                                const char *file, int line)
+{
+  int ccategory;
+  int spe = city_specialists(pcity);
+
+  for (ccategory = CITIZEN_HAPPY; ccategory < CITIZEN_LAST; ccategory++) {
+    int sum = 0;
+    int feel;
+
+    for (feel = FEELING_BASE; feel < FEELING_LAST; feel++) {
+      sum += pcity->feel[ccategory][feel];
+    }
+
+    SANITY_CITY(pcity, pcity->size - spe == sum);
+  }
+}
+
+/**************************************************************************
   Verify that the city has sane values.
 **************************************************************************/
 void real_sanity_check_city_all(struct city *pcity, const char *file, int line)
@@ -434,9 +456,9 @@ void real_sanity_check_city_all(struct city *pcity, const char *file, int line)
   if (check_city_good(pcity, file, line)) {
     check_city_map(pcity, file, line);
     check_city_size(pcity, file, line);
+    /* TODO: check_feelings. Currently fails far too often to be included. */
   }
 }
-
 
 /**************************************************************************
   Verify that the city has sane values.

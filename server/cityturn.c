@@ -481,6 +481,7 @@ static int city_reduce_workers(struct city *pcity, int change)
 **************************************************************************/
 bool city_reduce_size(struct city *pcity, int pop_loss)
 {
+  int loss_remain;
   int i;
 
   if (pop_loss == 0) {
@@ -499,24 +500,28 @@ bool city_reduce_size(struct city *pcity, int pop_loss)
   }
 
   /* First try to kill off the specialists */
-  i = pop_loss - city_reduce_specialists(pcity, pop_loss);
+  loss_remain = pop_loss - city_reduce_specialists(pcity, pop_loss);
 
-  if (0 < i) {
+  /* Update number of people in each feelings category.
+   * This must be after new pcity->size and specialists counts
+   * have been set, and before any auto_arrange_workers() */
+  city_refresh(pcity);
+
+  if (loss_remain > 0) {
     /* Take it out on workers */
-    i -= city_reduce_workers(pcity, i);
+    loss_remain -= city_reduce_workers(pcity, loss_remain);
 
     /* Then rearrange workers */
     auto_arrange_workers(pcity);
     sync_cities();
   } else {
-    city_refresh(pcity);
     send_city_info(city_owner(pcity), pcity);
   }
 
-  if (0 != i) {
+  if (0 != loss_remain) {
     freelog(LOG_FATAL, "city_reduce_size()"
             " has remaining %d of %d for \"%s\"[%d]",
-            i, pop_loss,
+            loss_remain, pop_loss,
             city_name(pcity), pcity->size);
     assert(0);
   }
