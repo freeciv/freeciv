@@ -117,6 +117,7 @@ void city_thaw_workers(struct city *pcity)
   pcity->server.workers_frozen--;
   assert(pcity->server.workers_frozen >= 0);
   if (pcity->server.workers_frozen == 0 && pcity->server.needs_arrange) {
+    city_refresh(pcity); /* Citizen count sanity */
     auto_arrange_workers(pcity);
   }
 }
@@ -1053,7 +1054,10 @@ void create_city(struct player *pplayer, struct tile *ptile,
 
   if (NULL != pwork) {
     /* was previously worked by another city */
+    /* Turn citizen into specialist. */
     pwork->specialists[DEFAULT_SPECIALIST]++;
+    /* One less citizen. Citizen sanity will be handled later in
+     * city_thaw_workers_queue() */
     pwork->server.synced = FALSE;
     city_freeze_workers_queue(pwork);
   }
@@ -1691,6 +1695,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
 		  bool dipl_invest)
 {
   int i;
+  int ppl = 0;
 
   packet->id=pcity->id;
   packet->owner = player_number(city_owner(pcity));
@@ -1704,12 +1709,44 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
     packet->ppl_content[i] = pcity->feel[CITIZEN_CONTENT][i];
     packet->ppl_unhappy[i] = pcity->feel[CITIZEN_UNHAPPY][i];
     packet->ppl_angry[i] = pcity->feel[CITIZEN_ANGRY][i];
+    if (i == 0) {
+      ppl += packet->ppl_happy[i];
+      ppl += packet->ppl_content[i];
+      ppl += packet->ppl_unhappy[i];
+      ppl += packet->ppl_angry[i];
+    }
   }
   /* The number of data in specialists[] array */
   packet->specialists_size = specialist_count();
   specialist_type_iterate(sp) {
     packet->specialists[sp] = pcity->specialists[sp];
+    ppl += packet->specialists[sp];
   } specialist_type_iterate_end;
+
+  if (packet->size != ppl) {
+    static bool recursion = FALSE;
+
+    if (recursion) {
+      /* Recursion didn't help. Do not enter infinite recursive loop.
+       * Package city as it is. */
+      freelog(LOG_ERROR, "Failed to fix inconsistent city size.");
+      recursion = FALSE;
+    } else {
+      /* Note: If you get this error and try to debug the cause, you may find
+       *       using sanity_check_feelings() in some key points useful. */
+      freelog(LOG_ERROR, "City size %d, citizen count %d for %s",
+              packet->size, ppl, city_name(pcity));
+      /* Try to fix */
+      city_refresh(pcity);
+
+      /* And repackage */
+      recursion = TRUE;
+      package_city(pcity, packet, dipl_invest);
+      recursion = FALSE;
+
+      return;
+    }
+  }
 
   for (i = 0; i < NUM_TRADEROUTES; i++) {
     packet->trade[i]=pcity->trade[i];
@@ -2091,6 +2128,7 @@ static bool city_map_update_tile_direct(struct tile *ptile, bool queued)
     if (queued) {
       city_freeze_workers_queue(pwork); /* place the displaced later */
     } else {
+      city_refresh(pwork); /* Specialist added, keep citizen count sanity */
       auto_arrange_workers(pwork);
       send_city_info(NULL, pwork);
     }
