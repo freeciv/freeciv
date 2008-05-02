@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: et\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-04-29 23:15+0300\n"
-"PO-Revision-Date: 2008-04-29 21:32+0300\n"
+"PO-Revision-Date: 2008-05-02 17:04+0300\n"
 "Last-Translator: Elmo Todurov <todurov@gmail.com>\n"
 "Language-Team: eesti\n"
 "MIME-Version: 1.0\n"
@@ -38,7 +38,7 @@ msgstr "Kaubandus"
 #: data/default/terrain.ruleset:1672 data/civ2/terrain.ruleset:1555
 #: data/civ1/terrain.ruleset:1536
 msgid "Gold"
-msgstr "Kuld"
+msgstr "Raha"
 
 #: common/city.c:60 server/plrhand.c:202 client/gui-gtk-2.0/gamedlgs.c:260
 #: client/gui-win32/ratesdlg.c:315
@@ -2243,7 +2243,7 @@ msgstr "See on %s server"
 #: server/civserver.c:209
 #, c-format
 msgid "You can learn a lot about Freeciv at %s"
-msgstr "Sa võid Freecivi kohta juurde õppida siin: %s"
+msgstr "Sa võid Freecivi kohta uurida siin: %s"
 
 #: server/civserver.c:214 client/civclient.c:238 manual/civmanual.c:371
 #, c-format
@@ -3960,79 +3960,71 @@ msgstr[1] ""
 
 #. TRANS: year <name> reports ...
 #: server/report.c:58
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s reports on the RICHEST Civilizations in the World."
-msgstr "%s raporteerib RIKKAMATEST tsivilisatsioonidest maailmas"
+msgstr "%s %s raporteerib RIKKAIMATEST tsivilisatsioonidest maailmas"
 
 #. TRANS: year <name> reports ...
 #: server/report.c:60
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s reports on the most ADVANCED Civilizations in the World."
-msgstr "%s raporteerib ARENENUIMATEST tsivilisatsioonidest maailmas."
+msgstr "%s %s raporteerib ARENENUIMATEST tsivilisatsioonidest maailmas."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:62
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s reports on the most MILITARIZED Civilizations in the World."
-msgstr "%s raporteerib MILITAARSEIMATEST tsivilisatsioonidest maailmas."
+msgstr "%s %s raporteerib MILITAARSEIMATEST tsivilisatsioonidest maailmas."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:64
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s reports on the HAPPIEST Civilizations in the World."
-msgstr "%s raporteerib ÕNNELIKEIMATEST tsivilisatsioonidest maailmas."
+msgstr "%s %s raporteerib ÕNNELIKEIMATEST tsivilisatsioonidest maailmas."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:66
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s reports on the LARGEST Civilizations in the World."
-msgstr "%s raporteerib SUURIMATEST tsivilisatsioonidest maailmas."
+msgstr "%s %s raporteerib SUURIMATEST tsivilisatsioonidest maailmas."
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:71
-#, fuzzy
 msgid "Herodotus"
 msgstr "Lauda-Mati"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:73
-#, fuzzy
 msgid "Thucydides"
 msgstr "Üks naine saunast"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:75
-#, fuzzy
 msgid "Pliny the Elder"
 msgstr "Külavanema Edgar"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:77
-#, fuzzy
 msgid "Livy"
 msgstr "Suur Udmurt"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:79
-#, fuzzy
 msgid "Toynbee"
 msgstr "Hillar Palamets ja Ajalootund"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:81
-#, fuzzy
 msgid "Gibbon"
 msgstr "Lennart Meri"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:83
-#, fuzzy
 msgid "Ssu-ma Ch'ien"
 msgstr "Hiina Jumal"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:85
-#, fuzzy
 msgid "Pan Ku"
 msgstr "Naabri Muri"
 
@@ -4785,7 +4777,7 @@ msgstr "See on raadius, mille piires hajutatakse algüksused."
 
 #: server/settings.c:497
 msgid "Starting gold per player"
-msgstr "Kuld mängu alguses"
+msgstr "Raha mängu alguses"
 
 #: server/settings.c:498
 msgid "At the beginning of the game, each player is given this much gold."
@@ -5515,9 +5507,8 @@ msgstr ""
 "aega. Kui maksimum on null, ei kompileeritud serverit zlib toega."
 
 #: server/settings.c:1009
-#, fuzzy
 msgid "Savegame compression algorithm"
-msgstr "Salvestatud mängu kokkupakkimise tase"
+msgstr "Salvestatud mängu kokkupakkimise algoritm"
 
 #: server/settings.c:1010
 msgid ""
@@ -5558,9 +5549,8 @@ msgid "Server cannot read standard input. Ignoring input."
 msgstr "Server ei suuda standardsisendit lugeda. Ignoreerin sisendit."
 
 #: server/sernet.c:493 server/sernet.c:513
-#, fuzzy
 msgid "restarting for lack of players"
-msgstr "Kuld mängu alguses"
+msgstr "taaskäivitun mängijate vähesuse tõttu"
 
 #: server/sernet.c:897
 #, c-format
@@ -7592,7 +7582,6 @@ msgid "See the \"Copying\" item on the Help menu."
 msgstr "Loe lähemalt Abi menüü kopeerimise osast"
 
 #: client/chatline_common.c:148
-#, fuzzy
 msgid "Now ... Go give 'em hell!"
 msgstr "Nüüd aga... mine ja anna neile nii et tolmab!"
 
@@ -14563,7 +14552,7 @@ msgstr "Ühine LANi serveriga"
 
 #: client/gui-sdl/pages.c:302
 msgid "SDLClient welcomes you..."
-msgstr "Tervitus SDLClient poolt..."
+msgstr "Tervitus SDLClienti poolt..."
 
 #: client/gui-sdl/plrdlg.c:650
 msgid "disconnected"
@@ -23547,18 +23536,16 @@ msgid "Lady Protector"
 msgstr ""
 
 #: data/nation/esperant.ruleset:3
-#, fuzzy
 msgid "Esperant"
-msgstr "Euroopalik"
+msgstr "Esperantist"
 
 #: data/nation/esperant.ruleset:4
-#, fuzzy
 msgid "?plural:Esperants"
-msgstr "korealased"
+msgstr "?plural:Esperantistid"
 
 #: data/nation/esperant.ruleset:6
 msgid "The Esperants are a world community united by the Esperanto language."
-msgstr ""
+msgstr "Esperantistid on rahvas, keda ühendab Esperanto keele rääkimine."
 
 #: data/nation/estonian.ruleset:3
 msgid "Estonian"
@@ -24656,14 +24643,12 @@ msgid "Great Duchess"
 msgstr "Suurvürstinna"
 
 #: data/nation/lojbanistani.ruleset:3
-#, fuzzy
 msgid "Lojbanistani"
-msgstr "rumeenlane"
+msgstr "Lojbanist"
 
 #: data/nation/lojbanistani.ruleset:4
-#, fuzzy
 msgid "?plural:Lojbanistanis"
-msgstr "rumeenlased"
+msgstr "?plural:Lojbanistid"
 
 #: data/nation/lojbanistani.ruleset:6
 msgid ""
