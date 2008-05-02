@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: et\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-04-29 23:15+0300\n"
-"PO-Revision-Date: 2008-05-02 17:04+0300\n"
+"PO-Revision-Date: 2008-05-02 22:46+0300\n"
 "Last-Translator: Elmo Todurov <todurov@gmail.com>\n"
 "Language-Team: eesti\n"
 "MIME-Version: 1.0\n"
@@ -3306,7 +3306,7 @@ msgstr "Sa sõlmid %s'ga vaherahu."
 
 #. TRANS: ... the Poles ... Polish territory.
 #: server/diplhand.c:477 server/diplhand.c:489
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You agree on an armistice with the %s. In %d turn, it will become a peace "
 "treaty. Move your units out of %s territory."
@@ -3944,19 +3944,11 @@ msgstr "%s vannub truudust %s'le."
 
 #. TRANS: ... Danes ... Poles ... <7> cities.
 #: server/plrhand.c:1741
-#, fuzzy, c-format
+#, c-format
 msgid "Civil war partitions the %s; the %s now hold %d city."
 msgid_plural "Civil war partitions the %s; the %s now hold %d cities."
-msgstr[0] ""
-"%s'i pealinna vallutamine ja riigi administratiivstruktuuride hävitamine\n"
-"      on käivitanud kodusõja.  Oportunistid on liikunud ülestõusnute "
-"ridadesse,\n"
-"      ja %s omab nüüd võimu %d-s mässajate provintsis."
-msgstr[1] ""
-"%s'i pealinna vallutamine ja riigi administratiivstruktuuride hävitamine\n"
-"      on käivitanud kodusõja.  Oportunistid on liikunud ülestõusnute "
-"ridadesse,\n"
-"      ja %s omab nüüd võimu %d-s mässajate provintsis."
+msgstr[0] "Kodusõda lõhestab rahva %s. Rahva %s käes on nüüd %d linn."
+msgstr[1] "Kodusõda lõhestab rahva %s. Rahva %s käes on nüüd %d linna."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:58
@@ -6971,7 +6963,7 @@ msgstr "Teaduse %s avastamine IGANDAB %s linnas %s!"
 #, c-format
 msgid "Learned %s. Our scientists focus on %s; goal is %s."
 msgstr ""
-"%s selgeks saadud. Teadlased fokuseerivad tehnoloogiale %s, sihtmärk on %s."
+"%s selgeks saadud. Teadlased pühenduvad tehnoloogiale %s, sihtmärk on %s."
 
 #: server/techtools.c:368
 #, c-format
@@ -13947,9 +13939,8 @@ msgid "Help : Improvements"
 msgstr "Abi: Ehitised"
 
 #: client/gui-sdl/helpdlg.c:403
-#, fuzzy
 msgid "Never"
-msgstr "(iialgi)"
+msgstr "Iialgi"
 
 #: client/gui-sdl/helpdlg.c:601
 msgid "Help : Units"
@@ -25286,34 +25277,30 @@ msgid ""
 msgstr ""
 
 #: data/nation/phoenician.ruleset:28
-#, fuzzy
 msgid "Milk"
-msgstr "Siid"
+msgstr "Milk"
 
 #: data/nation/phoenician.ruleset:28
-#, fuzzy
 msgid "Milkot"
-msgstr "Siid"
+msgstr "Milkot"
 
 #: data/nation/phoenician.ruleset:29
 msgid "Suffet"
-msgstr ""
+msgstr "Suffet"
 
 #: data/nation/pirate.ruleset:3
-#, fuzzy
 msgid "Pirate"
-msgstr "Lennubaas"
+msgstr "Piraat"
 
 #: data/nation/pirate.ruleset:4
-#, fuzzy
 msgid "?plural:Pirates"
-msgstr "portugaallased"
+msgstr "?plural:Piraadid"
 
 #: data/nation/pirate.ruleset:5
 msgid ""
 "As long as honest men have sailed the seas, pirates have been a scourge of "
 "them and of all coastal dwelling peoples."
-msgstr ""
+msgstr "Nii kaua, kui ausad mehed on merd sõitnud, on ka piraadid nende ja rannarahva nuhtluseks olnud."
 
 #: data/nation/polish.ruleset:3
 msgid "Polish"
@@ -25346,9 +25333,8 @@ msgid "Prymas"
 msgstr "Prymas"
 
 #: data/nation/polish.ruleset:29
-#, fuzzy
 msgid "?female:Prymas"
-msgstr "President"
+msgstr "?female:Prymas"
 
 #. TRANS: Pierwszy Sekretarz = First Secretary
 #: data/nation/polish.ruleset:31
@@ -25356,25 +25342,22 @@ msgid "Pierwszy Sekretarz"
 msgstr "Pierwszy Sekretarz"
 
 #: data/nation/polish.ruleset:31
-#, fuzzy
 msgid "?female:Pierwszy Sekretarz"
-msgstr "President"
+msgstr "?female:Pierwszy Sekretarz"
 
 #: data/nation/polynesian.ruleset:3
-#, fuzzy
 msgid "Polynesian"
-msgstr "pärslane"
+msgstr "Polüneeslane"
 
 #: data/nation/polynesian.ruleset:4
-#, fuzzy
 msgid "?plural:Polynesian"
-msgstr "poolakad"
+msgstr "?plural:Polüneeslased"
 
 #: data/nation/polynesian.ruleset:6
 msgid ""
 "Polynesian culture stretches from Hawaii to New Zealand to Easter Island and "
 "covers all the islands in between."
-msgstr ""
+msgstr "Polüneesia kultuur ulatub Havaist Uus-Meremaa ja Lihavõttesaareni, hõlmates kõik saared nende vahel."
 
 #: data/nation/portuguese.ruleset:3
 msgid "Portuguese"
@@ -25394,14 +25377,12 @@ msgstr ""
 "arengule."
 
 #: data/nation/prussian.ruleset:3
-#, fuzzy
 msgid "Prussian"
-msgstr "pärslane"
+msgstr "Preislane"
 
 #: data/nation/prussian.ruleset:4
-#, fuzzy
 msgid "?plural:Prussians"
-msgstr "pärslased"
+msgstr "?plural:Preislased"
 
 #: data/nation/prussian.ruleset:7
 msgid ""
@@ -25429,12 +25410,11 @@ msgstr "Elekter"
 
 #: data/nation/purhepecha.ruleset:3
 msgid "P'urhepecha"
-msgstr ""
+msgstr "P'urhepecha"
 
 #: data/nation/purhepecha.ruleset:4
-#, fuzzy
 msgid "?plural:P'urhepecha"
-msgstr "?plural:Prantslased"
+msgstr "?plural:P'urhepecha"
 
 #: data/nation/purhepecha.ruleset:7
 msgid ""
@@ -25454,9 +25434,8 @@ msgstr ""
 
 #. TRANS: Caconzi = King
 #: data/nation/purhepecha.ruleset:32
-#, fuzzy
 msgid "Caconzi"
-msgstr "Suurtükk"
+msgstr "Caconzi"
 
 #: data/nation/quebecois.ruleset:3
 msgid "Quebecois"
@@ -25464,7 +25443,7 @@ msgstr "Quebeklane"
 
 #: data/nation/quebecois.ruleset:4
 msgid "?plural:Quebecois"
-msgstr "Quebeklased"
+msgstr "?plural:Quebeklased"
 
 #: data/nation/quebecois.ruleset:6
 msgid ""
@@ -25557,14 +25536,12 @@ msgid "Tsaritsa"
 msgstr "tsarinna"
 
 #: data/nation/rwandan.ruleset:3
-#, fuzzy
 msgid "Rwandan"
-msgstr "Kanadalane"
+msgstr "Rwandalane"
 
 #: data/nation/rwandan.ruleset:4
-#, fuzzy
 msgid "?plural:Rwandans"
-msgstr "?plural:Kanadalsed"
+msgstr "?plural:Rwandalased"
 
 #: data/nation/rwandan.ruleset:6
 msgid ""
