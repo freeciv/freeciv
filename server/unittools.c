@@ -1339,6 +1339,8 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
   if (ptrans) {
     /* Set transporter for unit. */
     punit->transported_by = ptrans->id;
+  } else {
+    assert(!ptile || can_unit_exist_at_tile(punit, ptile));
   }
 
   /* Assume that if moves_left < 0 then the unit is "fresh",

@@ -180,6 +180,44 @@ static bool is_free_sea(struct tile *ptile, struct player *who)
 }
 
 /**************************************************************************
+  (Re)initialize direction checked status array based on terrain class.
+**************************************************************************/
+static void init_dir_checked_status(bool *checked,
+                                    enum terrain_class *terrainc,
+                                    enum terrain_class tclass)
+{
+  int dir;
+
+  for (dir = 0; dir < 8; dir++) {
+    if (terrainc[dir] == tclass) {
+      checked[dir] = FALSE;
+    } else {
+      checked[dir] = TRUE;
+    }
+  }
+}
+
+/**************************************************************************
+  Return random directory from not yet checked ones.
+**************************************************************************/
+static int random_unchecked_direction(int possibilities, const bool *checked)
+{
+  int j = -1;
+  int i;
+
+  int num = myrand(possibilities);
+  for (i = 0; i <= num; i++) {
+    j++;
+    while (checked[j]) {
+      j++;
+      assert(j < 8);
+    }
+  }
+
+  return j;
+}
+
+/**************************************************************************
   Unleash barbarians means give barbarian player some units and move them 
   out of the hut, unless there's no place to go.
 
@@ -192,10 +230,17 @@ static bool is_free_sea(struct tile *ptile, struct player *who)
 bool unleash_barbarians(struct tile *ptile)
 {
   struct player *barbarians;
-  int unit_cnt, land_cnt = 0, sea_cnt = 0;
+  int unit_cnt;
   int i;
-  struct tile *utile = NULL;
   bool alive = TRUE;     /* explorer survived */
+  enum terrain_class terrainc[8];
+  struct tile *dir_tiles[8];
+  int land_tiles = 0;
+  int ocean_tiles = 0;
+  bool checked[8];
+  int checked_count;
+  int dir;
+  bool barbarian_stays = FALSE;
 
   /* FIXME: When there is no L_BARBARIAN unit,
    *        but L_BARBARIAN_TECH is already available,
@@ -220,72 +265,148 @@ bool unleash_barbarians(struct tile *ptile)
     struct unit_type *punittype
       = find_a_unit_type(L_BARBARIAN, L_BARBARIAN_TECH);
 
-    (void) create_unit(barbarians, ptile, punittype, 0, 0, -1);
-    freelog(LOG_DEBUG, "Created barbarian unit %s",
-            utype_rule_name(punittype));
-  }
+    /* If unit cannot live on this tile, we just don't create one.
+     * Maybe find_a_unit_type() should take tile parameter, so
+     * we could get suitable unit if one exist. */
+    if (is_native_tile(punittype, ptile)) {
+      struct unit *barb_unit;
 
-  adjc_iterate(ptile, tile1) {
-    land_cnt += is_free_land(tile1, barbarians) ? 1 : 0;
-    sea_cnt += is_free_sea(tile1, barbarians) ? 1 : 0;
-  } adjc_iterate_end;
-
-  if (land_cnt >= 3) {           /* enough land, scatter guys around */
-    unit_list_iterate((ptile)->units, punit2) {
-      if (unit_owner(punit2) == barbarians) {
-        send_unit_info(NULL, punit2);
-	do {
-	  do {
-	    utile = rand_neighbour(ptile);
-	  } while (!is_free_land(utile, barbarians));
-        } while (!unit_move_handling(punit2, utile, TRUE, FALSE));
-        freelog(LOG_DEBUG, "Moved barbarian unit from %d %d to %d, %d", 
-                ptile->x, ptile->y, utile->x, utile->y);
-      }
-    } unit_list_iterate_end;
-  } else {
-    if (sea_cnt > 0) {         /* maybe it's an island, try to get on boats */
-      struct tile *btile = NULL;
-
-      /* FIXME: If anyone knows what this code is supposed to do, rewrite
-       * this comment to explain it. */
-      unit_list_iterate((ptile)->units, punit2) {
-        if (unit_owner(punit2) == barbarians) {
-          send_unit_info(NULL, punit2);
-          while(TRUE) {
-	    utile = rand_neighbour(ptile);
-	    if (can_unit_move_to_tile(punit2, utile, TRUE)) {
-	      break;
-            }
-	    if (btile && can_unit_move_to_tile(punit2, btile, TRUE)) {
-	      utile = btile;
-              break;
-	    }
-	    if (is_free_sea(utile, barbarians)) {
-              struct unit_type *boat = find_a_unit_type(L_BARBARIAN_BOAT, -1);
-	      (void) create_unit(barbarians, utile, boat, 0, 0, -1);
-	      btile = utile;
-	      break;
-	    }
-          }
-          (void) unit_move_handling(punit2, utile, TRUE, FALSE);
-        }
-      } unit_list_iterate_end;
-    } else {             /* The village is surrounded! Kill the explorer. */
-      unit_list_iterate_safe((ptile)->units, punit2) {
-        if (unit_owner(punit2) != barbarians) {
-          wipe_unit(punit2);
-          alive = FALSE;
-        } else {
-          send_unit_info(NULL, punit2);
-        }
-      } unit_list_iterate_safe_end;
+      barb_unit = create_unit(barbarians, ptile, punittype, 0, 0, -1);
+      freelog(LOG_DEBUG, "Created barbarian unit %s",
+              utype_rule_name(punittype));
+      send_unit_info(NULL, barb_unit);
     }
   }
 
+  /* Get information about surrounding terrains in terrain class level.
+   * Only needed if we consider moving units away to random directions. */
+  for (dir = 0; dir < 8; dir++) {
+    dir_tiles[dir] = mapstep(ptile, dir);
+    if (dir_tiles[dir] == NULL) {
+      terrainc[dir] = TC_LAST;
+    } else if (is_free_land(dir_tiles[dir], barbarians)) {
+      terrainc[dir] = TC_LAND;
+      land_tiles++;
+    } else if (is_free_sea(dir_tiles[dir], barbarians)) {
+      terrainc[dir] = TC_OCEAN;
+      ocean_tiles++;
+    } else {
+      terrainc[dir] = TC_LAST;
+    }
+  }
+
+  if (land_tiles >= 3) {
+    /* Enough land, scatter guys around */
+    unit_list_iterate_safe((ptile)->units, punit2) {
+      if (unit_owner(punit2) == barbarians) {
+        bool dest_found = FALSE;
+
+        /* Initialize checked status for checking free land tiles */
+        init_dir_checked_status(checked, terrainc, TC_LAND);
+
+        /* Search tile to move to */
+        for (checked_count = 0; !dest_found && checked_count < land_tiles;
+             checked_count++) {
+          int rdir = random_unchecked_direction(land_tiles - checked_count, checked);
+
+          if (can_unit_move_to_tile(punit2, dir_tiles[rdir], TRUE)) {
+            (void) unit_move_handling(punit2, dir_tiles[rdir], TRUE, FALSE);
+            freelog(LOG_DEBUG, "Moved barbarian unit from %d %d to %d, %d", 
+                    ptile->x, ptile->y, dir_tiles[rdir]->x, dir_tiles[rdir]->y);
+            dest_found = TRUE;
+          }
+
+          checked[rdir] = TRUE;
+        }
+        if (!dest_found) {
+          /* This barbarian failed to move out of hut tile. */
+          barbarian_stays = TRUE;
+        }
+      }
+    } unit_list_iterate_safe_end;
+
+  } else {
+    if (ocean_tiles > 0) {
+      /* maybe it's an island, try to get on boats */
+      struct tile *btile = NULL; /* Boat tile */
+
+      /* Initialize checked status for checking Ocean tiles */
+      init_dir_checked_status(checked, terrainc, TC_OCEAN);
+
+      /* Search tile for boat. We always create just one boat. */
+      for (checked_count = 0; btile == NULL && checked_count < ocean_tiles;
+           checked_count++) {
+        struct unit_type *boat;
+        int rdir = random_unchecked_direction(ocean_tiles - checked_count, checked);
+
+        boat = find_a_unit_type(L_BARBARIAN_BOAT, -1);
+        if (is_native_tile(boat, dir_tiles[rdir])) {
+          (void) create_unit(barbarians, dir_tiles[rdir], boat, 0, 0, -1);
+          btile = dir_tiles[rdir];
+        }
+
+        checked[rdir] = TRUE;
+      }
+
+      if (btile) {
+        /* We do have a boat. Try to get everybody in */
+        unit_list_iterate_safe((ptile)->units, punit2) {
+          if (unit_owner(punit2) == barbarians) {
+            if (can_unit_move_to_tile(punit2, btile, TRUE)) {
+              (void) unit_move_handling(punit2, btile, TRUE, FALSE);
+            }
+          }
+        } unit_list_iterate_safe_end;
+      }
+
+      /* Move rest of the barbarians to random land tiles */
+      unit_list_iterate_safe((ptile)->units, punit2) {
+        if (unit_owner(punit2) == barbarians) {
+          bool dest_found = FALSE;
+
+          /* Initialize checked status for checking Land tiles */
+          init_dir_checked_status(checked, terrainc, TC_LAND);
+
+          /* Search tile to move to */
+          for (checked_count = 0; !dest_found && checked_count < land_tiles;
+               checked_count++) {
+            int rdir;
+            rdir = random_unchecked_direction(land_tiles - checked_count, checked);
+
+            if (can_unit_move_to_tile(punit2, dir_tiles[rdir], TRUE)) {
+              (void) unit_move_handling(punit2, dir_tiles[rdir], TRUE, FALSE);
+              dest_found = TRUE;
+            }
+
+            checked[rdir] = TRUE;
+          }
+          if (!dest_found) {
+            /* This barbarian failed to move out of hut tile. */
+            barbarian_stays = TRUE;
+          }
+        }
+      } unit_list_iterate_safe_end;
+    } else {
+      /* The village is surrounded! Barbarians cannot leave. */
+      barbarian_stays = TRUE;
+    }
+  }
+
+  if (barbarian_stays) {
+    /* There's barbarian in this village! Kill the explorer. */
+    unit_list_iterate_safe((ptile)->units, punit2) {
+      if (unit_owner(punit2) != barbarians) {
+        wipe_unit(punit2);
+        alive = FALSE;
+      } else {
+        send_unit_info(NULL, punit2);
+      }
+    } unit_list_iterate_safe_end;
+  }
+
   /* FIXME: I don't know if this is needed */
-  if (utile) {
-    map_show_circle(barbarians, utile, BARBARIAN_INITIAL_VISION_RADIUS_SQ);
+  if (ptile) {
+    map_show_circle(barbarians, ptile, BARBARIAN_INITIAL_VISION_RADIUS_SQ);
   }
 
   return alive;
@@ -340,10 +461,12 @@ static struct tile *find_empty_tile_nearby(struct tile *ptile)
 static void try_summon_barbarians(void)
 {
   struct tile *ptile, *utile;
-  int i, cap, dist;
+  int i, dist;
   int uprise = 1;
   struct city *pc;
   struct player *barbarians, *victim;
+  struct unit_type *leader_type;
+  int barb_count, really_created = 0;
 
   /* We attempt the summons on a particular, random position.  If this is
    * an invalid position then the summons simply fails this time.  This means
@@ -394,44 +517,74 @@ static void try_summon_barbarians(void)
     update_tile_knowledge(utile);
   }
 
-  if (!is_ocean_tile(utile)) {
-    int rand_factor = myrand(3);
+  barb_count = myrand(3) + uprise * game.info.barbarianrate;
+  leader_type = get_role_unit(L_BARBARIAN_LEADER, 0);
 
+  if (!is_ocean_tile(utile)) {
     /* land (disembark) barbarians */
     barbarians = create_barbarian_player(LAND_BARBARIAN);
     if (city_list_size(victim->cities) > UPRISE_CIV_MOST) {
       uprise = 3;
     }
-    for (i = 0; i < rand_factor + uprise * game.info.barbarianrate; i++) {
+    for (i = 0; i < barb_count; i++) {
       struct unit_type *punittype
 	= find_a_unit_type(L_BARBARIAN, L_BARBARIAN_TECH);
 
-      (void) create_unit(barbarians, utile, punittype, 0, 0, -1);
-      freelog(LOG_DEBUG, "Created barbarian unit %s",
-              utype_rule_name(punittype));
+      /* If unit cannot live on this tile, we just don't create one.
+       * Maybe find_a_unit_type() should take tile parameter, so
+       * we could get suitable unit if one exist. */
+      if (is_native_tile(punittype, utile)) {
+        (void) create_unit(barbarians, utile, punittype, 0, 0, -1);
+        really_created++;
+        freelog(LOG_DEBUG, "Created barbarian unit %s",
+                utype_rule_name(punittype));
+      }
     }
-    (void) create_unit(barbarians, utile,
-		       get_role_unit(L_BARBARIAN_LEADER, 0), 0, 0, -1);
+ 
+    if (is_native_tile(leader_type, utile)) { 
+      (void) create_unit(barbarians, utile,
+                         leader_type, 0, 0, -1);
+      really_created++;
+    }
   } else {                   /* sea raiders - their units will be veteran */
     struct unit *ptrans;
     struct unit_type *boat;
 
     barbarians = create_barbarian_player(SEA_BARBARIAN);
     boat = find_a_unit_type(L_BARBARIAN_BOAT,-1);
-    ptrans = create_unit(barbarians, utile, boat, 0, 0, -1);
-    cap = get_transporter_capacity(unit_list_get(utile->units, 0));
-    for (i = 0; i < cap-1; i++) {
-      struct unit_type *unit
-	= find_a_unit_type(L_BARBARIAN_SEA, L_BARBARIAN_SEA_TECH);
 
-      (void) create_unit_full(barbarians, utile, unit, 0, 0, -1, -1,
-			      ptrans);
-      freelog(LOG_DEBUG, "Created barbarian unit %s",
-              utype_rule_name(unit));
+    if (is_native_tile(boat, utile)) {
+      int cap;
+      
+      ptrans = create_unit(barbarians, utile, boat, 0, 0, -1);
+      really_created++;
+      cap = get_transporter_capacity(ptrans);
+
+      /* Fill boat with barb_count barbarians at max, leave space for leader */
+      for (i = 0; i < cap - 1 && i < barb_count; i++) {
+        struct unit_type *barb
+          = find_a_unit_type(L_BARBARIAN_SEA, L_BARBARIAN_SEA_TECH);
+
+        if (can_unit_type_transport(boat, utype_class(barb))) {
+          (void) create_unit_full(barbarians, utile, barb, 0, 0, -1, -1,
+                                  ptrans);
+          really_created++;
+          freelog(LOG_DEBUG, "Created barbarian unit %s",
+                  utype_rule_name(barb));
+        }
+      }
+
+      if (can_unit_type_transport(boat, utype_class(leader_type))) {
+        (void) create_unit_full(barbarians, utile, leader_type, 0, 0,
+                                -1, -1, ptrans);
+        really_created++;
+      }
     }
-    (void) create_unit_full(barbarians, utile,
-			    get_role_unit(L_BARBARIAN_LEADER, 0), 0, 0,
-			    -1, -1, ptrans);
+  }
+
+  if (really_created == 0) {
+    /* No barbarians found suitable spot */
+    return;
   }
 
   /* Is this necessary?  create_unit_full already sends unit info. */
