@@ -197,9 +197,13 @@ bool unleash_barbarians(struct tile *ptile)
   struct tile *utile = NULL;
   bool alive = TRUE;     /* explorer survived */
 
+  /* FIXME: When there is no L_BARBARIAN unit,
+   *        but L_BARBARIAN_TECH is already available,
+   *        we should unleash those.
+   *        Doesn't affect any ruleset I'm aware of. */
   if (game.info.barbarianrate == 0
       || game.info.year < game.info.onsetbarbarian
-      || num_role_units(L_BARBARIAN) != 0) {
+      || num_role_units(L_BARBARIAN) == 0) {
     unit_list_iterate_safe((ptile)->units, punit) {
       wipe_unit(punit);
     } unit_list_iterate_safe_end;
