@@ -696,20 +696,39 @@ enum server_events server_sniff_all_input(void)
       continue;
 #else  /* !HAVE_LIBREADLINE */
       ssize_t didget;
-      char buf[BUF_SIZE + 1];
+      char *buffer = NULL; /* Must be NULL when calling getline() */
       char *buf_internal;
-      
-      didget = read(0, buf, BUF_SIZE);
+
+#ifdef HAVE_GETLINE
+      size_t len = 0;
+
+      didget = getline(&buffer, &len, stdin);
+      if (didget >= 1) {
+        buffer[didget-1] = '\0'; /* overwrite newline character */
+        didget--;
+        freelog(LOG_DEBUG, "Got line: \"%s\" (%ld, %ld)", buffer, didget, len);
+      }
+#else  /* HAVE_GETLINE */
+      buffer = malloc(BUF_SIZE + 1);
+
+      didget = read(0, buffer, BUF_SIZE);
+      if (didget < 0) {
+        didget = 0; /* Avoid buffer underrun below. */
+      }
+      *(buffer+didget)='\0';
+#endif /* HAVE_GETLINE */
       if (didget <= 0) {
         handle_stdin_close();
-	didget = 0; /* Avoid buffer underrun below. */
       }
 
-      *(buf + didget)='\0';
       con_prompt_enter();	/* will need a new prompt, regardless */
-      buf_internal = local_to_internal_string_malloc(buf);
-      handle_stdin_input(NULL, buf_internal, FALSE);
-      free(buf_internal);
+
+      if (didget >= 0) {
+        buf_internal = local_to_internal_string_malloc(buffer);
+        handle_stdin_input(NULL, buf_internal, FALSE);
+        free(buf_internal);
+      }
+      free(buffer);
 #endif /* !HAVE_LIBREADLINE */
     } else
 #endif /* !SOCKET_ZERO_ISNT_STDIN */

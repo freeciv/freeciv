@@ -611,7 +611,8 @@ fi
 
 AC_CHECK_FUNCS([bind connect fileno flock ftime gethostbyname gethostname \
 		getpwuid inet_aton select snooze strcasecmp strcasestr \
-		strerror strlcat strlcpy strncasecmp strstr uname usleep])
+		strerror strlcat strlcpy strncasecmp strstr uname usleep \
+                getline])
 
 AC_MSG_CHECKING(for working gettimeofday)
   FC_CHECK_GETTIMEOFDAY_RUNTIME(,AC_DEFINE(HAVE_GETTIMEOFDAY, 1,
