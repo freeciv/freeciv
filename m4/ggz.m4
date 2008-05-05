@@ -52,8 +52,9 @@ dnl   AC_GGZ_FIND_FILE - macro for convenience (thanks kde)
 dnl   AC_GGZ_REMOVEDUPS - eliminate duplicate list elements
 dnl
 
-# Version number of this script
-# serial 0014
+# Version number of this script.
+# First part is upstream (ggz) version and second Freeciv modifications.
+# serial 0014.1
 
 dnl ------------------------------------------------------------------------
 dnl Find a directory containing a single file
@@ -138,62 +139,63 @@ AC_ARG_WITH(ggz-dir,
     [  ac_ggz_prefix="$withval"
     ])
 
-if test "x${prefix}" = "xNONE"; then
-   ac_ggz_prefix_incdir="${ac_default_prefix}/include"
-   ac_ggz_prefix_libdir="${ac_default_prefix}/lib"
-   ac_ggz_prefix_bindir="${ac_default_prefix}/bin"
-   ac_ggz_prefix_etcdir="${ac_default_prefix}/etc"
-else
-   unq_includedir="${includedir}"
-   unq_libdir="${libdir}"
-   unq_bindir="${bindir}"
-   unq_sysconfdir="${sysconfdir}"
+if test "x$ac_ggz_prefix" != "xno" ; then
+  if test "x${prefix}" = "xNONE"; then
+    ac_ggz_prefix_incdir="${ac_default_prefix}/include"
+    ac_ggz_prefix_libdir="${ac_default_prefix}/lib"
+    ac_ggz_prefix_bindir="${ac_default_prefix}/bin"
+    ac_ggz_prefix_etcdir="${ac_default_prefix}/etc"
+  else
+    unq_includedir="${includedir}"
+    unq_libdir="${libdir}"
+    unq_bindir="${bindir}"
+    unq_sysconfdir="${sysconfdir}"
 
-   eval unq_includedir=`echo $unq_includedir`
-   eval unq_includedir=`echo $unq_includedir`
-   eval unq_libdir=`echo $unq_libdir`
-   eval unq_libdir=`echo $unq_libdir`
-   eval unq_bindir=`echo $unq_bindir`
-   eval unq_bindir=`echo $unq_bindir`
-   eval unq_sysconfdir=`echo $unq_sysconfdir`
-   eval unq_sysconfdir=`echo $unq_sysconfdir`
+    eval unq_includedir=`echo $unq_includedir`
+    eval unq_includedir=`echo $unq_includedir`
+    eval unq_libdir=`echo $unq_libdir`
+    eval unq_libdir=`echo $unq_libdir`
+    eval unq_bindir=`echo $unq_bindir`
+    eval unq_bindir=`echo $unq_bindir`
+    eval unq_sysconfdir=`echo $unq_sysconfdir`
+    eval unq_sysconfdir=`echo $unq_sysconfdir`
 
-   ac_ggz_prefix_incdir="${unq_includedir}"
-   ac_ggz_prefix_libdir="${unq_libdir}"
-   ac_ggz_prefix_bindir="${unq_bindir}"
-   ac_ggz_prefix_etcdir="${unq_sysconfdir}"
-fi
-ac_ggz_stdinc="$ac_ggz_prefix_incdir"
-ac_ggz_stdlib="$ac_ggz_prefix_libdir"
-ac_ggz_stdbin="$ac_ggz_prefix_bindir"
-ac_ggz_stdetc="$ac_ggz_prefix_etcdir/ggzd"
-if test "x$ac_ggz_prefix" != "x"; then
-  ac_ggz_stdinc="$ac_ggz_stdinc $ac_ggz_prefix/include"
-  ac_ggz_stdlib="$ac_ggz_stdlib $ac_ggz_prefix/lib $ac_ggz_prefix/lib64"
-  ac_ggz_stdbin="$ac_ggz_stdbin $ac_ggz_prefix/bin"
-  ac_ggz_stdetc="$ac_ggz_stdetc $ac_ggz_prefix/etc/ggzd"
-fi
-if test "x$1" = "xdefaults" || test "x$2" = "xdefaults"; then
-  ac_ggz_stdinc="$ac_ggz_stdinc /usr/local/include /usr/include"
-  ac_ggz_stdlib="$ac_ggz_stdlib /usr/local/lib /usr/local/lib64 /usr/lib /usr/lib64"
-  ac_ggz_stdbin="$ac_ggz_stdbin /usr/local/bin /usr/bin"
-  ac_ggz_stdetc="$ac_ggz_stdetc /usr/local/etc/ggzd /etc/ggzd"
-fi
-if test "x$1" = "xexport" || test "x$2" = "xexport"; then
-  CPPFLAGS="$CPPFLAGS -I ${ac_ggz_prefix_incdir} -I /usr/local/include"
-  LDFLAGS="$LDFLAGS -L${ac_ggz_prefix_libdir} -L/usr/local/lib"
-fi
+    ac_ggz_prefix_incdir="${unq_includedir}"
+    ac_ggz_prefix_libdir="${unq_libdir}"
+    ac_ggz_prefix_bindir="${unq_bindir}"
+    ac_ggz_prefix_etcdir="${unq_sysconfdir}"
+  fi
+  ac_ggz_stdinc="$ac_ggz_prefix_incdir"
+  ac_ggz_stdlib="$ac_ggz_prefix_libdir"
+  ac_ggz_stdbin="$ac_ggz_prefix_bindir"
+  ac_ggz_stdetc="$ac_ggz_prefix_etcdir/ggzd"
+  if test "x$ac_ggz_prefix" != "x"; then
+    ac_ggz_stdinc="$ac_ggz_stdinc $ac_ggz_prefix/include"
+    ac_ggz_stdlib="$ac_ggz_stdlib $ac_ggz_prefix/lib $ac_ggz_prefix/lib64"
+    ac_ggz_stdbin="$ac_ggz_stdbin $ac_ggz_prefix/bin"
+    ac_ggz_stdetc="$ac_ggz_stdetc $ac_ggz_prefix/etc/ggzd"
+  fi
+  if test "x$1" = "xdefaults" || test "x$2" = "xdefaults"; then
+    ac_ggz_stdinc="$ac_ggz_stdinc /usr/local/include /usr/include"
+    ac_ggz_stdlib="$ac_ggz_stdlib /usr/local/lib /usr/local/lib64 /usr/lib /usr/lib64"
+    ac_ggz_stdbin="$ac_ggz_stdbin /usr/local/bin /usr/bin"
+    ac_ggz_stdetc="$ac_ggz_stdetc /usr/local/etc/ggzd /etc/ggzd"
+  fi
+  if test "x$1" = "xexport" || test "x$2" = "xexport"; then
+    CPPFLAGS="$CPPFLAGS -I ${ac_ggz_prefix_incdir} -I /usr/local/include"
+    LDFLAGS="$LDFLAGS -L${ac_ggz_prefix_libdir} -L/usr/local/lib"
+  fi
 
-save_cflags=$CFLAGS
-save_cxxflags=$CXXFLAGS
-if test "x$GCC" = xyes; then
+  save_cflags=$CFLAGS
+  save_cxxflags=$CXXFLAGS
+  if test "x$GCC" = xyes; then
 	CFLAGS="-Wall -Werror"
 	AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
 		[[void signedness(void){char c;if(c==-1)c=0;}]])],
 		[],
 		[save_cflags="$save_cflags -fsigned-char"
 		 save_cxxflags="$save_cxxflags -fsigned-char"])
-else
+  else
 	AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
 		[[#if defined(__SUNPRO_C) || (__SUNPRO_C >= 0x550)
 		#else
@@ -203,9 +205,10 @@ else
 		 save_cxxflags="$save_cxxflags -xchar=signed"],
 		[])
 
+  fi
+  CFLAGS=$save_cflags
+  CXXFLAGS=$save_cxxflags
 fi
-CFLAGS=$save_cflags
-CXXFLAGS=$save_cxxflags
 ])
 
 dnl ------------------------------------------------------------------------
@@ -1042,7 +1045,12 @@ dnl
 AC_DEFUN([AC_GGZ_CHECK],
 [
   AC_GGZ_INIT([defaults])
-  AC_GGZ_LIBGGZ([try_ggz="yes"], [try_ggz="no"])
+
+  if test x$ac_ggz_prefix != xno ; then
+    AC_GGZ_LIBGGZ([try_ggz="yes"], [try_ggz="no"])
+  else
+    try_ggz=no
+  fi
 
   if test "$try_ggz" = "yes"; then
     # For now, version 0.0.14 is required.  This could be an additional
