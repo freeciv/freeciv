@@ -8,6 +8,7 @@ AC_CONFIG_SRCDIR([common/game.c])
 AC_CONFIG_AUX_DIR(bootstrap) # This can't be quoted or automake will fail
 AM_CONFIG_HEADER(config.h)
 AC_CANONICAL_HOST
+AC_GNU_SOURCE
 
 PACKAGE=freeciv
 
@@ -569,7 +570,7 @@ fi
 AC_CHECK_FUNCS([fileno ftime gethostname getpwuid inet_aton \
 		select snooze strerror strcasecmp strncasecmp \
 		strlcat strlcpy strstr usleep uname flock \
-		gethostbyname connect bind])
+		gethostbyname connect bind getline])
 
 AC_MSG_CHECKING(for working gettimeofday)
   FC_CHECK_GETTIMEOFDAY_RUNTIME(,AC_DEFINE(HAVE_GETTIMEOFDAY, 1,
