@@ -85,6 +85,7 @@ struct civ_game {
   bool scorelog;
   int scoreturn;			/* next make_history_report() */
   int seed;
+  int playable_nations;
   bool fogofwar_old;	/* as the fog_of_war bit get changed by setting
 			   the server we need to remember the old setting */
   int ai_goal_government;	/* kludge */

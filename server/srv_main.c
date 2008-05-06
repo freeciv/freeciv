@@ -1556,6 +1556,9 @@ void aifill(int amount)
 
   amount = MIN(amount, game.info.max_players);
 
+  /* Limit to nations provided by ruleset */
+  amount = MIN(amount, game.playable_nations);
+
   while (game.info.nplayers < amount) {
     const int old_nplayers = game.info.nplayers;
     struct player *pplayer = player_by_number(old_nplayers);
