@@ -2490,7 +2490,9 @@ static void load_ruleset_nations(struct section_file *file)
 
     pl->is_playable = secfile_lookup_bool_default(file, TRUE,
 						  "%s.is_playable", sec[i]);
-
+    if (pl->is_playable) {
+      server.playable_nations++;
+    }
 
     /* Check barbarian type. Default is "None" meaning not a barbarian */    
     barb_type = secfile_lookup_str_default(file, "None",
@@ -3554,6 +3556,7 @@ void load_rulesets(void)
 
   ruleset_data_free();
   reset_player_nations();
+  server.playable_nations = 0;
 
   openload_ruleset_file(&techfile, "techs");
   load_tech_names(&techfile);
@@ -3611,6 +3614,10 @@ void load_rulesets(void)
 
   /* Build AI unit class cache corresponding to loaded rulesets */
   unit_class_ai_init();
+
+  /* We may need to adjust number of AI players if number of available
+   * nations changed */
+  aifill(game.info.aifill);
 }
 
 /**************************************************************************

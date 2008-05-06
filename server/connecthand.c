@@ -475,7 +475,8 @@ bool attach_connection_to_player(struct connection *pconn,
 
       if (NULL == pplayer) {
         /* no uncontrolled player found */
-        if (game.info.nplayers >= game.info.max_players) {
+        if (game.info.nplayers >= game.info.max_players
+            || game.info.nplayers - server.nbarbarians >= server.playable_nations) {
           return FALSE;
         }
         assert(game.info.nplayers < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);

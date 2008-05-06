@@ -60,6 +60,7 @@ enum server_states {
  *
  * TODO: Lots more variables could be added here. */
 extern struct civserver {
+  int playable_nations;
   int nbarbarians;
 
   /* this counter creates all the city and unit numbers used.
