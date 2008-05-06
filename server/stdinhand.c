@@ -817,13 +817,13 @@ static bool toggle_ai_command(struct connection *caller, char *arg, bool check)
 }
 
 /**************************************************************************
-...
+ Creates named AI player
 **************************************************************************/
 static bool create_ai_player(struct connection *caller, char *arg, bool check)
 {
   PlayerNameStatus PNameStatus;
   struct player *pplayer = NULL;
-   
+
   if (S_S_INITIAL != server_state())
   {
     cmd_reply(CMD_CREATE, caller, C_SYNTAX,
@@ -839,12 +839,17 @@ static bool create_ai_player(struct connection *caller, char *arg, bool check)
     }
   } players_iterate_end;
 
-  /* game.info.max_players is a limit on the number of non-observer players.
-   * MAX_NUM_PLAYERS is a limit on all players. */
-  if (game.info.nplayers >= MAX_NUM_PLAYERS) {
-    if (NULL == pplayer) {
+  if (NULL == pplayer) {
+    /* Check that we are not going over max players setting */
+    if (game.info.nplayers >= game.info.max_players) {
       cmd_reply(CMD_CREATE, caller, C_FAIL,
 	        _("Can't add more players, server is full."));
+      return FALSE;
+    }
+    /* Check that we have nations available */
+    if (game.info.nplayers - server.nbarbarians >= server.playable_nations) {
+      cmd_reply(CMD_CREATE, caller, C_FAIL,
+	        _("Can't add more players, not enough nations."));
       return FALSE;
     }
   }
@@ -2965,12 +2970,13 @@ static bool take_command(struct connection *caller, char *str, bool check)
    * they first release. */
   if (!pplayer && !pconn->playing
       && (game.info.nplayers >= game.info.max_players
-          || game.info.nplayers >= MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS)) {
+          || game.info.nplayers - server.nbarbarians >= server.playable_nations)) {
     cmd_reply(CMD_TAKE, caller, C_FAIL,
               _("There is no free player slot for %s"),
               pconn->username);
     goto end;
   }
+  assert(game.info.nplayers < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
 
   res = TRUE;
   if (check) {
@@ -3807,6 +3813,10 @@ bool start_command(struct connection *caller, bool check, bool notify)
     if (game.info.nplayers < game.info.min_players) {
       start_cmd_reply(caller, notify,
                       _("Not enough players, game will not start."));
+      return FALSE;
+    } else if (game.info.nplayers - server.nbarbarians > server.playable_nations) {
+      cmd_reply(CMD_START_GAME, caller, C_FAIL,
+		_("Not enough nations for all players, game will not start."));
       return FALSE;
     } else if (check) {
       return TRUE;

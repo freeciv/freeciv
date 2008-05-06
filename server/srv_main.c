@@ -1590,6 +1590,9 @@ void aifill(int amount)
 {
   int limit = MIN(amount, game.info.max_players);
 
+  /* Limit to nations provided by ruleset */
+  limit = MIN(limit, server.playable_nations);
+
   if (!game.info.is_new_game || S_S_INITIAL != server_state()) {
     return;
   }
@@ -2142,6 +2145,7 @@ static void srv_ready(void)
 void server_game_init(void)
 {
   /* was redundantly in game_load() */
+  server.playable_nations = 0;
   server.nbarbarians = 0;
   server.identity_number = IDENTITY_NUMBER_SKIP;
 
