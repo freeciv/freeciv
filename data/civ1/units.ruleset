@@ -1161,6 +1161,3 @@ One Barbarian Leader appears every time there is a barbarian uprising\
 When barbarian leader is killed on a tile without any defending units, \
 the 100 gold ransom is paid, but only to land units.\
 ")
-
-[u_specials]
-partisan_req = "" ; "Gunpowder","Communism"
