@@ -17,7 +17,6 @@ description="Civilization I governments data for Freeciv"
 options="1.9"
 
 [governments]
-default="Despotism"
 when_anarchy="Anarchy"
 
 ; Below: The individual government types, one per section.

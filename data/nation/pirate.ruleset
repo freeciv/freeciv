@@ -29,7 +29,6 @@ cities =
  "Tortuga"
 
 is_playable = 0
-is_observer = 0
 barbarian_type = "Sea"
 
 ; nothing more needed for barbarians
