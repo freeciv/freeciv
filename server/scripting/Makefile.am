@@ -32,5 +32,7 @@ dist_libscripting_a_SOURCES = \
 EXTRA_DIST = \
 		api.pkg
 
-$(srcdir)/api_gen.c $(srcdir)/api_gen.h: $(srcdir)/api.pkg
+BUILT_SOURCES = api_gen.c api_gen.h
+
+api_gen.c api_gen.h: api.pkg
 	$(TOLUA) -n api -o $(srcdir)/api_gen.c -H $(srcdir)/api_gen.h $(srcdir)/api.pkg

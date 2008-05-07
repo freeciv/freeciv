@@ -87,6 +87,10 @@ libcivserver_a_SOURCES = \
 		unittools.c	\
 		unittools.h
 
+# hand_gen.c & hand_gen.h are generated files, but as they are generated
+# outside this directory (when building common) there's no point in
+# setting them to BUILT_SOURCES.
+
 civserver_DEPENDENCIES = ../utility/libcivutility.a ../common/libcivcommon.a \
       ../ai/libcivai.a ../utility/libcivutility.a ./libcivserver.a \
       ../utility/libcivutility.a ../common/aicore/libaicore.a \
