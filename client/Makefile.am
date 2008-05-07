@@ -119,6 +119,10 @@ civclient_SOURCES = $(AUDIO_SDL_FILES) \
 	audio_none.c    \
 	audio_none.h
 
+# packhand_gen.c & packhand_gen.h are generated files, but as they are
+# generated outside this directory (when building common) there's no point in
+# setting them to BUILT_SOURCES.
+
 civclient_LDFLAGS = $(CLIENT_LDFLAGS) $(GGZMOD_LDFLAGS)
 fc_civclient_libs =	../utility/libcivutility.a	\
 			$(LIBFTWL)			\
