@@ -3860,6 +3860,13 @@ void game_load(struct section_file *file)
     load_rulesets();
   }
 
+  /* Free all players from teams, and teams from players
+   * This must be done while players_iterate() still iterates
+   * to the previous number of players. */
+  players_iterate(pplayer) {
+    team_remove_player(pplayer);
+  } players_iterate_end;
+
   game.info.nplayers      = secfile_lookup_int(file, "game.nplayers");
 
 
@@ -4048,7 +4055,7 @@ void game_load(struct section_file *file)
 	team_add_player(pplayer, find_empty_team());
       }
     } players_iterate_end;
-    
+
     /* Sanity check alliances, prevent allied-with-ally-of-enemy */
     players_iterate(plr) {
       players_iterate(aplayer) {
