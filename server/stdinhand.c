@@ -2900,7 +2900,8 @@ static bool take_command(struct connection *caller, char *str, bool check)
   struct connection *pconn = caller;
   struct player *pplayer = NULL;
   bool res = FALSE;
-  
+  bool was_observing_this = FALSE;
+
   /******** PART I: fill pconn and pplayer ********/
 
   sz_strlcpy(buf, str);
@@ -2961,9 +2962,6 @@ static bool take_command(struct connection *caller, char *str, bool check)
     goto end;
   }
 
-  if (!pplayer) {
-  }
-
   /* Make sure there is free player slot if there is need to
    * create new player. This is necessary for previously
    * detached connections only. Others can reuse the slot
@@ -2990,6 +2988,11 @@ static bool take_command(struct connection *caller, char *str, bool check)
     /* others are sent below */
   }
 
+  if (pconn->playing && pconn->playing == pplayer) {
+    /* Connection was observing the very player it now /take */
+    was_observing_this = TRUE;
+  }
+
   /* if the player is controlled by another user,
    * forcibly convert the user to an observer.
    */
@@ -3013,9 +3016,10 @@ static bool take_command(struct connection *caller, char *str, bool check)
     } conn_list_iterate_end;
   }
 
-  /* if the connection is already attached to a player,
-   * unattach and cleanup old player (rename, remove, etc) */
-  if (NULL != pconn->playing) {
+  /* if the connection is already attached to another player,
+   * unattach and cleanup old player (rename, remove, etc)
+   * We may have been observing the player we now want to take */
+  if (NULL != pconn->playing && !was_observing_this) {
     char name[MAX_LEN_NAME], username[MAX_LEN_NAME];
 
     if (pplayer) {
@@ -3039,11 +3043,13 @@ static bool take_command(struct connection *caller, char *str, bool check)
     }
   } players_iterate_end;
 
-  /* now attach to new player */
-  res = attach_connection_to_player(pconn, pplayer, FALSE);
+  if (!was_observing_this || !pconn->playing) {
+    /* Now attach to new player */
+    res = attach_connection_to_player(pconn, pplayer, FALSE);
 
-  /* Check aifill even if attach failed. Maybe we already detached. */
-  aifill(game.info.aifill);
+    /* Check aifill even if attach failed. Maybe we already detached. */
+    aifill(game.info.aifill);
+  }
 
   if (res) {
     /* Successfully attached */
