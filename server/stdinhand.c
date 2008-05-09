@@ -2897,7 +2897,8 @@ static bool take_command(struct connection *caller, char *str, bool check)
   struct connection *pconn = caller;
   struct player *pplayer = NULL;
   bool res = FALSE;
-  
+  bool was_observing_this = FALSE;
+
   /******** PART I: fill pconn and pplayer ********/
 
   sz_strlcpy(buf, str);
@@ -2980,6 +2981,11 @@ static bool take_command(struct connection *caller, char *str, bool check)
     /* others are sent below */
   }
 
+  if (pconn->player && pconn->player == pplayer) {
+    /* Connection was observing the very player it now /take */
+    was_observing_this = TRUE;
+  }
+
   /* if we're taking another player with a user attached, 
    * forcibly detach the user from the player. */
   if (pplayer) {
@@ -2999,9 +3005,10 @@ static bool take_command(struct connection *caller, char *str, bool check)
     } conn_list_iterate_end;
   }
 
-  /* if the connection is already attached to a player,
-   * unattach and cleanup old player (rename, remove, etc) */
-  if (pconn->player) {
+  /* if the connection is already attached to another player,
+   * unattach and cleanup old player (rename, remove, etc)
+   * We may have been observing the player we now want to take */
+  if (pconn->player && !was_observing_this) {
     char name[MAX_LEN_NAME], username[MAX_LEN_NAME];
 
     if (pplayer) {
@@ -3027,7 +3034,11 @@ static bool take_command(struct connection *caller, char *str, bool check)
 
   /* now attach to new player */
   pconn->observer = FALSE; /* do this before attach! */
-  res = attach_connection_to_player(pconn, pplayer);
+
+  if (!was_observing_this || !pplayer) {
+    /* now attach to new player */
+    res = attach_connection_to_player(pconn, pplayer);
+  }
 
   if (res) {
     /* Successfully attached */
