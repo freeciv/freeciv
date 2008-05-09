@@ -1743,15 +1743,16 @@ static void player_load_main(struct player *plr, int plrno,
   struct player_research *research;
   struct nation_type *pnation;
 
-  /* not all players have teams */
+  /* All players should now have teams. This is not the case with
+   * old savegames. */
   id = secfile_lookup_int_default(file, -1, "player%d.team_no", plrno);
   pteam = team_by_number(id);
   if (pteam == NULL) {
     pteam = find_empty_team();
   }
-  
+
   team_add_player(plr, pteam);
-  
+
   research = get_player_research(plr);
 
   server_player_init(plr, TRUE, FALSE);
@@ -4107,6 +4108,13 @@ void game_load(struct section_file *file)
     load_rulesets();
   }
 
+  /* Free all players from teams, and teams from players
+   * This must be done while players_iterate() still iterates
+   * to the previous number of players. */
+  players_iterate(pplayer) {
+    team_remove_player(pplayer);
+  } players_iterate_end;
+
   game.info.nplayers      = secfile_lookup_int(file, "game.nplayers");
 
 
@@ -4309,13 +4317,6 @@ void game_load(struct section_file *file)
 	freelog(LOG_ERROR, _("%s had invalid nation; changing to %s."),
 		player_name(pplayer),
 		nation_plural_for_player(pplayer));
-      }
-    } players_iterate_end;
-
-    /* Assign players with no team listed onto an empty team. */
-    players_iterate(pplayer) {
-      if (!pplayer->team) {
-	team_add_player(pplayer, find_empty_team());
       }
     } players_iterate_end;
     

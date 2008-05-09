@@ -663,7 +663,7 @@ static void check_teams(const char *file, int line)
 
   memset(count, 0, sizeof(count));
   players_iterate(pplayer) {
-    /* For the moment, all players (including observers) have teams. */
+    /* For the moment, all players have teams. */
     SANITY_CHECK(pplayer->team != NULL);
     if (pplayer->team) {
       count[team_index(pplayer->team)]++;
