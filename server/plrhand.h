@@ -103,4 +103,9 @@ void civil_war(struct player *pplayer);
 
 void update_players_after_alliance_breakup(struct player* pplayer,
                                           struct player* pplayer2);
+
+/* Player counts, total player_count() is in common/player.c */
+int barbarian_count(void);
+int normal_player_count(void);
+
 #endif  /* FC__PLRHAND_H */
