@@ -1681,6 +1681,13 @@ void civil_war(struct player *pplayer)
             nation_plural_for_player(pplayer));
     return;
   }
+  if (normal_player_count() >= server.playable_nations) {
+    /* No nation for additional player */
+    freelog(LOG_NORMAL,
+            _("Could not throw %s into civil war - no available nations"),
+            nation_plural_for_player(pplayer));
+    return;
+  }
 
   cplayer = split_player(pplayer);
 
@@ -1784,4 +1791,20 @@ void handle_player_phase_done(struct player *pplayer,
   check_for_full_turn_done();
 
   send_player_info(pplayer, NULL);
+}
+
+/**************************************************************************
+  Return the number of barbarian players.
+**************************************************************************/
+int barbarian_count(void)
+{
+  return server.nbarbarians;
+}
+
+/**************************************************************************
+  Return the number of non-barbarian players.
+**************************************************************************/
+int normal_player_count(void)
+{
+  return game.info.nplayers - server.nbarbarians;
 }
