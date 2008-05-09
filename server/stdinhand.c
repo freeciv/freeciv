@@ -937,6 +937,7 @@ static bool create_ai_player(struct connection *caller, char *arg, bool check)
   set_ai_level_directer(pplayer, game.info.skill_level);
   aifill(game.info.aifill);
   send_game_info(NULL);
+  pplayer = find_player_by_name(arg); /* in case aifill rearranged players */
   send_player_info(pplayer, NULL);
   reset_all_start_commands();
   (void) send_server_info_to_metaserver(META_INFO);
