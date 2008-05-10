@@ -4,7 +4,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 12-Aug-07.
+Last minor update was 08-May-08.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -59,7 +59,7 @@ out whether your system is suitable.  If in doubt, just try it.
    unless you give configure the "--disable-auto-deps" option.  See
    the section below for more information.
    Note that there have been reports that gcc with -O3 miscompiled
-   freeciv. No problems have been reported with -O2.
+   freeciv.
 
  - A "make" program.
 
@@ -89,7 +89,7 @@ contains the generated files.
 
  - GNU autoconf version 2.55 or better
 
-   Autoconf is required to create configure from configure.in. 
+   Autoconf is required to create configure from configure.ac.
 
  - GNU automake version 1.6 or better
 
@@ -101,7 +101,6 @@ contains the generated files.
 
 The Freeciv client comes in the following forms:
 * Gtk+ 2.0 widget library ("Gtk+ 2.0").
-* AmigaOS MUI ("Mui").
 * Native Microsoft Windows Common Controls ("Win32").
 * X Athena Widgets library ("Xaw").
 * SDL
@@ -110,11 +109,10 @@ These forms have different prerequisites, explained separately below.
 
 Your system will need to satisfy at least one of these sets of prerequisites.
 
-Note that some Linux systems have separate library packages for "runtime" 
+Note that most Linux systems have separate library packages for "runtime" 
 library support and for development support (for compiling programs 
 which use those libraries).  To compile Freeciv on such systems you 
 will need to have the appropriate "development" packages installed.
-(Attention Red Hat users: this means you! :-)
 
 
 1a. Prerequisites for the Gtk+ 2.0 client:
@@ -624,12 +622,6 @@ To compile freeciv on a debian system you need the following packages:
    libreadline4-dev
    zlib1g-dev
    xlib6g-dev
-
- For the gtk+ 1.2 client:
-   gdk-imlib-dev
-   libglib1.2-dev
-   libgtk1.2-dev
-   imlib-progs
 
  For the xaw client:
    xaw3dg-dev
