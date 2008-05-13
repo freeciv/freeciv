@@ -1220,10 +1220,6 @@ static void show_full_citybar(struct canvas *pcanvas,
 			      struct city *pcity, int *width, int *height)
 {
   const struct citybar_sprites *citybar = get_citybar_sprites(tileset);
-  const bool line1 = draw_city_names;
-  const bool line2 = ((draw_city_productions || draw_city_growth)
-		      && (NULL == client.conn.playing
-			  || city_owner(pcity) == client.conn.playing));
   static char name[512], growth[32], prod[512], size[32];
   enum color_std growth_color;
   struct color *owner_color;
@@ -1243,17 +1239,37 @@ static void show_full_citybar(struct canvas *pcanvas,
   const int border = 6;
   const enum client_font FONT_CITY_SIZE = FONT_CITY_NAME; /* TODO: new font */
 
-  get_sprite_dimensions(bg, &bg_w, &bg_h);
-  *width = *height = 0;
+  /* We can see the city's production or growth values if
+   * we are observing or playing as the owner of the city. */
+  const bool can_see_inside
+    = (NULL == client.conn.playing
+       || city_owner(pcity) == client.conn.playing);
+  const bool should_draw_productions
+    = can_see_inside && draw_city_productions;
+  const bool should_draw_growth = can_see_inside && draw_city_growth;
+  const bool should_draw_lower_bar
+    = should_draw_productions || should_draw_growth;
 
-  if (!line1 && !line2) {
+
+  if (width != NULL) {
+    *width = 0;
+  }
+  if (height != NULL) {
+    *height = 0;
+  }
+
+  if (!draw_city_names && !should_draw_lower_bar) {
     return;
   }
 
+
   /* First: calculate rect dimensions (but not positioning). */
+
+  get_sprite_dimensions(bg, &bg_w, &bg_h);
   get_city_mapview_name_and_growth(pcity, name, sizeof(name),
 				   growth, sizeof(growth), &growth_color);
-  if (line1) {
+
+  if (draw_city_names) {
     my_snprintf(size, sizeof(size), "%d", pcity->size);
 
     get_text_size(&size_rect.w, &size_rect.h, FONT_CITY_SIZE, size);
@@ -1282,14 +1298,20 @@ static void show_full_citybar(struct canvas *pcanvas,
 		      MAX(name_rect.h + border,
 			  size_rect.h + border)));
   }
-  if (line2) {
-    get_city_mapview_production(pcity, prod, sizeof(prod));
-    get_text_size(&prod_rect.w, &prod_rect.h, FONT_CITY_PROD, prod);
 
-    get_sprite_dimensions(citybar->shields, &shield_rect.w, &shield_rect.h);
+  if (should_draw_lower_bar) {
 
-    get_text_size(&growth_rect.w, &growth_rect.h, FONT_CITY_PROD, growth);
-    get_sprite_dimensions(citybar->food, &food_rect.w, &food_rect.h);
+    if (should_draw_productions) {
+      get_city_mapview_production(pcity, prod, sizeof(prod));
+      get_text_size(&prod_rect.w, &prod_rect.h, FONT_CITY_PROD, prod);
+
+      get_sprite_dimensions(citybar->shields, &shield_rect.w, &shield_rect.h);
+    }
+
+    if (should_draw_growth) {
+      get_text_size(&growth_rect.w, &growth_rect.h, FONT_CITY_PROD, growth);
+      get_sprite_dimensions(citybar->food, &food_rect.w, &food_rect.h);
+    }
 
     width2 = (prod_rect.w + growth_rect.w + shield_rect.w + food_rect.w
 	      + 2 * border);
@@ -1302,8 +1324,10 @@ static void show_full_citybar(struct canvas *pcanvas,
   *width = MAX(width1, width2);
   *height = height1 + height2;
 
+
   /* Next fill in X and Y locations. */
-  if (line1) {
+
+  if (draw_city_names) {
     flag_rect.x = canvas_x - *width / 2;
     flag_rect.y = canvas_y + (height1 - flag_rect.h) / 2;
 
@@ -1317,29 +1341,39 @@ static void show_full_citybar(struct canvas *pcanvas,
     size_rect.x = canvas_x + (*width + 1) / 2 - size_rect.w - border / 2;
     size_rect.y = canvas_y + (height1 - size_rect.h) / 2;
   }
-  if (line2) {
-    shield_rect.x = canvas_x - *width / 2;
-    shield_rect.y = canvas_y + height1 + (height2 - shield_rect.h) / 2;
 
-    prod_rect.x = shield_rect.x + shield_rect.w + border / 2;
-    prod_rect.y = canvas_y + height1 + (height2 - prod_rect.h) / 2;
+  if (should_draw_lower_bar) {
+    if (should_draw_productions) {
+      shield_rect.x = canvas_x - *width / 2;
+      shield_rect.y = canvas_y + height1 + (height2 - shield_rect.h) / 2;
 
-    growth_rect.x = canvas_x + (*width + 1) / 2 - growth_rect.w - border / 2;
-    growth_rect.y = canvas_y + height1 + (height2 - growth_rect.h) / 2;
+      prod_rect.x = shield_rect.x + shield_rect.w + border / 2;
+      prod_rect.y = canvas_y + height1 + (height2 - prod_rect.h) / 2;
+    }
 
-    food_rect.x = growth_rect.x - border / 2 - food_rect.w;
-    food_rect.y = canvas_y + height1 + (height2 - food_rect.h) / 2;
+    if (should_draw_growth) {
+      growth_rect.x = canvas_x + (*width + 1) / 2 - growth_rect.w - border / 2;
+      growth_rect.y = canvas_y + height1 + (height2 - growth_rect.h) / 2;
+
+      food_rect.x = growth_rect.x - border / 2 - food_rect.w;
+      food_rect.y = canvas_y + height1 + (height2 - food_rect.h) / 2;
+    }
   }
 
+
   /* Now draw. */
+
+  /* Draw the city bar's background. */
   for (x = 0; x < *width; x += bg_w) {
     for (y = 0; y < *height; y += bg_h) {
       canvas_put_sprite(pcanvas, canvas_x - *width / 2 + x, canvas_y + y,
 			bg, 0, 0, *width - x, *height - y);
     }
   }
+
   owner_color = get_player_color(tileset, city_owner(pcity));
-  if (line1) {
+
+  if (draw_city_names) {
     canvas_put_sprite_full(pcanvas, flag_rect.x, flag_rect.y, flag);
     canvas_put_line(pcanvas, owner_color, LINE_NORMAL,
 		    flag_rect.x + flag_rect.w - 1, canvas_y,
@@ -1357,17 +1391,26 @@ static void show_full_citybar(struct canvas *pcanvas,
 		    FONT_CITY_NAME,
 		    get_color(tileset, COLOR_MAPVIEW_CITYTEXT), size);
   }
-  if (line2) {
-    canvas_put_sprite_full(pcanvas, shield_rect.x, shield_rect.y,
-			   citybar->shields);
-    canvas_put_text(pcanvas, prod_rect.x, prod_rect.y,
-		    FONT_CITY_PROD,
-		    get_color(tileset, COLOR_MAPVIEW_CITYTEXT), prod);
-    canvas_put_sprite_full(pcanvas, food_rect.x, food_rect.y, citybar->food);
-    canvas_put_text(pcanvas, growth_rect.x, growth_rect.y,
-		    FONT_CITY_PROD,
-		    get_color(tileset, growth_color), growth);
+
+  if (should_draw_lower_bar) {
+
+    if (should_draw_productions) {
+      canvas_put_sprite_full(pcanvas, shield_rect.x, shield_rect.y,
+                             citybar->shields);
+      canvas_put_text(pcanvas, prod_rect.x, prod_rect.y,
+                      FONT_CITY_PROD,
+                      get_color(tileset, COLOR_MAPVIEW_CITYTEXT), prod);
+    }
+
+    if (should_draw_growth) {
+      canvas_put_sprite_full(pcanvas, food_rect.x, food_rect.y, citybar->food);
+      canvas_put_text(pcanvas, growth_rect.x, growth_rect.y,
+                      FONT_CITY_PROD,
+                      get_color(tileset, growth_color), growth);
+    }
   }
+
+  /* Draw the city bar's outline. */
   canvas_put_line(pcanvas, owner_color, LINE_NORMAL,
 		  canvas_x - *width / 2, canvas_y,
 		  *width, 0);
@@ -1380,7 +1423,10 @@ static void show_full_citybar(struct canvas *pcanvas,
   canvas_put_line(pcanvas, owner_color, LINE_NORMAL,
 		  canvas_x - *width / 2 + *width, canvas_y,
 		  0, *height);
-  if (line1 && line2) {
+  
+  /* Draw the dividing line if we drew both the
+   * upper and lower parts. */
+  if (draw_city_names && should_draw_lower_bar) {
     canvas_put_line(pcanvas, owner_color, LINE_NORMAL,
 		    canvas_x - *width / 2, canvas_y + height1 - 1,
 		    *width, 0);
@@ -1490,7 +1536,14 @@ void show_city_descriptions(int canvas_x, int canvas_y,
   const int offset_y = tileset_citybar_offset_y(tileset);
   int new_max_width = max_desc_width, new_max_height = max_desc_height;
 
-  if (!draw_city_names && !draw_city_productions) {
+  if (draw_full_citybar && !(draw_city_names
+                             || draw_city_productions
+                             || draw_city_growth)) {
+    return;
+  }
+
+  if (!draw_full_citybar && !(draw_city_names
+                              || draw_city_productions)) {
     return;
   }
 

@@ -163,14 +163,7 @@ extern bool draw_borders;
 extern bool draw_full_citybar;
 extern bool draw_unit_shields;
 
-/* It would probably be better to have function calls for these checks. */
-#define DRAW_CITY_PRODUCTIONS (draw_city_productions \
-			       || (draw_full_citybar && draw_city_growth))
-#define DRAW_CITY_GROWTH (draw_city_growth \
-			  || (draw_full_citybar && draw_city_productions))
-
 extern bool player_dlg_show_dead_players;
-
 extern bool reqtree_show_icons;
 
 typedef struct {

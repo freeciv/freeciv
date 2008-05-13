@@ -537,21 +537,19 @@ void handle_city_info(struct packet_city_info *packet)
   } else {
     name_changed = (0 != strncmp(packet->name, pcity->name, strlen(pcity->name)));
 
-    /* Check if city desciptions should be updated */
-    if (draw_city_names && name_changed) {
-      update_descriptions = TRUE;
-    } else if (DRAW_CITY_PRODUCTIONS
-	       && (!are_universals_equal(&pcity->production, &product)
-		   || pcity->surplus[O_SHIELD] != packet->surplus[O_SHIELD]
-		   || pcity->shield_stock != packet->shield_stock)) {
-      update_descriptions = TRUE;
-    } else if (draw_city_names && DRAW_CITY_GROWTH &&
-	       (pcity->food_stock != packet->food_stock ||
-		pcity->surplus[O_FOOD] != packet->surplus[O_FOOD])) {
-      /* If either the food stock or surplus have changed, the time-to-grow
-	 is likely to have changed as well. */
-      update_descriptions = TRUE;
-    }
+    /* Descriptions should probably be updated if the
+     * city name, production or time-to-grow changes.
+     * Note that if either the food stock or surplus
+     * have changed, the time-to-grow is likely to
+     * have changed as well. */
+    update_descriptions = (draw_city_names && name_changed)
+      || (draw_city_productions
+          && (!are_universals_equal(&pcity->production, &product)
+              || pcity->surplus[O_SHIELD] != packet->surplus[O_SHIELD]
+              || pcity->shield_stock != packet->shield_stock))
+      || (draw_city_growth
+          && (pcity->food_stock != packet->food_stock
+              || pcity->surplus[O_FOOD] != packet->surplus[O_FOOD]));
   }
   
   sz_strlcpy(pcity->name, packet->name);
