@@ -23,4 +23,4 @@ RELEASE_MONTH=3
 #   - Avoid adding a new mandatory capability to the development branch for
 #     as long as possible.  We want to maintain network compatibility with
 #     the stable branch for as long as possible.
-NETWORK_CAPSTRING="+Freeciv.Devel.2008.Apr.06"
+NETWORK_CAPSTRING="+Freeciv.Devel.2008.May.08"

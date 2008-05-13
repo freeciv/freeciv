@@ -1693,6 +1693,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->is_male=pinfo->is_male;
   team_add_player(pplayer, team_by_number(pinfo->team));
   pplayer->score.game = pinfo->score;
+  pplayer->was_created = pinfo->was_created;
 
   pplayer->economic.gold=pinfo->gold;
   pplayer->economic.tax=pinfo->tax;

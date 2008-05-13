@@ -654,6 +654,7 @@ PACKET_PLAYER_INFO=39; sc
 
   UINT32 score;
   BOOL is_male;
+  BOOL was_created;
   GOVERNMENT government;
   GOVERNMENT target_government;
   BOOL embassy[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];

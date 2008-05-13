@@ -1629,7 +1629,11 @@ void update_conn_list_dialog(void)
       is_ready = pplayer->ai.control ? TRUE: pplayer->is_ready;
       if (pplayer->nation == NO_NATION_SELECTED) {
 	nation = _("Random");
-	leader = "";
+        if (pplayer->was_created) {
+          leader = player_name(pplayer);
+        } else {
+          leader = "";
+        }
       } else {
 	nation = nation_adjective_for_player(pplayer);
 	leader = player_name(pplayer);
