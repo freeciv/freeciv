@@ -35,6 +35,7 @@
 #include "cma_fec.h"
 #include "dialogs_g.h"
 #include "mapview_common.h"
+#include "menu_g.h"
 #include "options.h"
 #include "overview_common.h"
 #include "plrdlg_common.h"
@@ -90,6 +91,7 @@ bool show_task_icons = TRUE;
 bool update_city_text_in_refresh_tile = TRUE;
 
 static void reqtree_show_icons_callback(struct client_option *option);
+static void draw_full_citybar_changed_callback(struct client_option *option);
 
 const char *client_option_class_names[COC_MAX] = {
   N_("Graphics"),
@@ -184,7 +186,7 @@ static client_option common_options[] = {
 			"containing useful information beneath each city. "
 			"Disabling this option will display only the city's "
 			"name and optionally, production."),
-		     COC_GRAPHICS, mapview_redraw_callback),
+		     COC_GRAPHICS, draw_full_citybar_changed_callback),
   GEN_BOOL_OPTION_CB(reqtree_show_icons,
                      N_("Show icons in the technology tree"),
                      N_("Setting this option will display icons "
@@ -882,4 +884,13 @@ static void reqtree_show_icons_callback(struct client_option *option)
   /* This will close research dialog, when it's open again the techtree will
    * be recalculated */
   popdown_all_game_dialogs();
+}
+
+/****************************************************************************
+  Callback for when the draw_full_citybar option is changed.
+****************************************************************************/
+static void draw_full_citybar_changed_callback(struct client_option *option)
+{
+  update_menus();
+  update_map_canvas_visible();
 }

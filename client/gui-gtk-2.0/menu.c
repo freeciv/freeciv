@@ -322,7 +322,13 @@ static void view_menu_callback(gpointer callback_data, guint callback_action,
   case MENU_VIEW_SHOW_CITY_NAMES:
     if (draw_city_names ^ GTK_CHECK_MENU_ITEM(widget)->active) {
       key_city_names_toggle();
-      menus_set_sensitive("<main>/_View/City G_rowth", draw_city_names);
+
+      if (!draw_full_citybar) {
+        /* The "full" city bar (i.e. the new way of drawing the
+         * city name), can draw the city growth even without drawing
+         * the city name. But the old method cannot. */
+        menus_set_sensitive("<main>/_View/City G_rowth", draw_city_names);
+      }
     }
     break;
   case MENU_VIEW_SHOW_CITY_GROWTH_TURNS:
@@ -1418,7 +1424,16 @@ void update_menus(void)
     menus_set_sensitive("<main>/_View/National _Borders", game.info.borders > 0);
     menus_set_active("<main>/_View/National _Borders", draw_borders);
     menus_set_active("<main>/_View/City _Names", draw_city_names);
-    menus_set_sensitive("<main>/_View/City G_rowth", draw_city_names);
+
+    /* The "full" city bar (i.e. the new way of drawing the
+     * city name), can draw the city growth even without drawing
+     * the city name. But the old method cannot. */
+    if (draw_full_citybar) {
+      menus_set_sensitive("<main>/_View/City G_rowth", TRUE);
+    } else {
+      menus_set_sensitive("<main>/_View/City G_rowth", draw_city_names);
+    }
+
     menus_set_active("<main>/_View/City G_rowth", draw_city_growth);
     menus_set_active("<main>/_View/City _Productions", draw_city_productions);
     menus_set_active("<main>/_View/Terrain", draw_terrain);
