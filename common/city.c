@@ -2598,3 +2598,17 @@ void destroy_city_virtual(struct city *pcity)
   memset(pcity, 0, sizeof(*pcity)); /* ensure no pointers remain */
   free(pcity);
 }
+
+/**************************************************************************
+  Check if city with given id still exist. Use this before using
+  old city pointers when city might have disappeared.
+**************************************************************************/
+bool city_exist(int id)
+{
+  /* Check if city exist in game */
+  if (game_find_city_by_number(id)) {
+    return TRUE;
+  }
+
+  return FALSE;
+}
