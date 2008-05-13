@@ -661,6 +661,7 @@ PACKET_PLAYER_INFO=39; sc
 
   UINT32 score;
   BOOL is_male;
+  BOOL was_created;
   GOVERNMENT government;
   GOVERNMENT target_government;
   UINT8 city_style;
