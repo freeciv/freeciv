@@ -2256,7 +2256,9 @@ static void unit_enter_hut(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
   enum hut_behavior behavior = unit_class(punit)->hut_behavior;
-  
+
+  /* FIXME: Should we still run "hut_enter" script when
+   *        hut_behavior is HUT_NOTHING or HUT_FRIGHTEN? */ 
   if (behavior == HUT_NOTHING) {
     return;
   }
@@ -2643,6 +2645,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
   struct unit *ptransporter = NULL;
   struct vision *old_vision = punit->server.vision;
   struct vision *new_vision;
+  int saved_id = punit->id;
     
   conn_list_do_buffer(pplayer->connections);
 
@@ -2812,10 +2815,17 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
   } square_iterate_end;
 
   unit_move_consequences(punit, psrctile, pdesttile);
+
+  /* FIXME: Should signal emit be after sentried units have been
+   *        waken up in case script causes unit death. */
   script_signal_emit("unit_moved", 3,
 		     API_TYPE_UNIT, punit,
 		     API_TYPE_TILE, psrctile,
 		     API_TYPE_TILE, pdesttile);
+  if (!unit_alive(saved_id)) {
+    /* Script caused unit to die */
+    return FALSE;
+  }
   wakeup_neighbor_sentries(punit);
   if (!unit_survive_autoattack(punit)) {
     conn_list_do_unbuffer(pplayer->connections);

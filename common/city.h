@@ -612,6 +612,8 @@ int city_pollution_types(const struct city *pcity, int shield_total,
 			 int *pollu_prod, int *pollu_pop, int *pollu_mod);
 int city_pollution(const struct city *pcity, int shield_total);
 
+bool city_exist(int id);
+
 /*
  * Iterates over all improvements, skipping those not yet built in the
  * given city.

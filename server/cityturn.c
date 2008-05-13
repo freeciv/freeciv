@@ -589,6 +589,7 @@ static void city_increase_size(struct city *pcity)
   struct tile *pcenter = city_tile(pcity);
   struct player *powner = city_owner(pcity);
   struct impr_type *pimprove = pcity->production.value.building;
+  int saved_id = pcity->id;
 
   if (!city_can_grow_to(pcity, pcity->size + 1)) { /* need improvement */
     if (get_current_construction_bonus(pcity, EFT_SIZE_ADJ, RPT_CERTAIN) > 0
@@ -660,8 +661,10 @@ static void city_increase_size(struct city *pcity)
                 pcity->size);
   script_signal_emit("city_growth", 2,
 		      API_TYPE_CITY, pcity, API_TYPE_INT, pcity->size);
-
-  sanity_check_city(pcity);
+  if (city_exist(saved_id)) {
+    /* Script didn't destroy this city */
+    sanity_check_city(pcity);
+  }
   sync_cities();
 }
 
@@ -786,14 +789,30 @@ static bool worklist_change_build_target(struct player *pplayer,
   struct universal target;
   bool success = FALSE;
   int i;
+  int saved_id = pcity->id;
+  bool city_checked = TRUE; /* This is used to avoid spurious city_exist() calls */
 
   if (worklist_is_empty(&pcity->worklist))
     /* Nothing in the worklist; bail now. */
     return FALSE;
 
   i = 0;
-  while (!success && worklist_peek_ith(&pcity->worklist, &target, i++)) {
-    success = can_city_build_now(pcity, target);
+  while (!success) {
+
+    if (!city_checked) {
+      if (!city_exist(saved_id)) {
+        /* Some script has removed useless city that cannot build
+         * what it is told to! */
+        return FALSE;
+      }
+      city_checked = TRUE;
+    }
+
+    if (worklist_peek_ith(&pcity->worklist, &target, i++)) {
+      success = can_city_build_now(pcity, target);
+    } else {
+      success = FALSE;
+    }
     if (success) {
       break; /* while */
     }
@@ -816,6 +835,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 			   API_TYPE_UNIT_TYPE, ptarget,
 			   API_TYPE_CITY, pcity,
 			   API_TYPE_STRING, "need_tech");
+        city_checked = FALSE;
 	break;
       }
       success = can_city_build_unit_later(pcity, pupdate);
@@ -834,8 +854,13 @@ static bool worklist_change_build_target(struct player *pplayer,
 			   API_TYPE_UNIT_TYPE, ptarget,
 			   API_TYPE_CITY, pcity,
 			   API_TYPE_STRING, "never");
-	/* Purge this worklist item. */
-	worklist_remove(&pcity->worklist, --i);
+        if (city_exist(saved_id)) {
+          city_checked = TRUE;
+          /* Purge this worklist item. */
+          worklist_remove(&pcity->worklist, --i);
+        } else {
+          city_checked = FALSE;
+        }
       } else {
 	/* Yep, we can go after pupdate instead.  Joy! */
 	notify_player(pplayer, pcity->tile, E_WORKLIST,
@@ -865,9 +890,13 @@ static bool worklist_change_build_target(struct player *pplayer,
 			   API_TYPE_BUILDING_TYPE, ptarget,
 			   API_TYPE_CITY, pcity,
 			   API_TYPE_STRING, "never");
-
-	/* Purge this worklist item. */
-	worklist_remove(&pcity->worklist, --i);
+        if (city_exist(saved_id)) {
+          city_checked = TRUE;
+          /* Purge this worklist item. */
+          worklist_remove(&pcity->worklist, --i);
+        } else {
+          city_checked = FALSE;
+        }
 	break;
       }
 
@@ -1017,7 +1046,16 @@ static bool worklist_change_build_target(struct player *pplayer,
 	    };
 	    break;
 	  }
+
+          /* Almost all cases emit signal in the end, so city check needed. */
+          if (!city_exist(saved_id)) {
+            /* Some script has removed city */
+            return FALSE;
+          }
+          city_checked = TRUE;
+
 	} requirement_vector_iterate_end;
+
 	if (!known) {
 	  /* This shouldn't happen...
 	     FIXME: make can_city_build_improvement_now() return a reason enum. */
@@ -1257,6 +1295,7 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
   bool space_part;
   int mod;
   struct impr_type *pimprove = pcity->production.value.building;
+  int saved_id = pcity->id;
 
   if (city_production_has_flag(pcity, IF_GOLD)) {
     assert(pcity->surplus[O_SHIELD] >= 0);
@@ -1331,6 +1370,11 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 		       API_TYPE_BUILDING_TYPE, pimprove,
 		       API_TYPE_CITY, pcity);
 
+    if (!city_exist(saved_id)) {
+      /* Script removed city */
+      return FALSE;
+    }
+
     /* Call this function since some buildings may change the
      * the vision range of a city */
     city_refresh_vision(pcity);
@@ -1395,19 +1439,22 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
         _("%s is building %s, which is no longer available."),
         city_name(pcity),
         utype_name_translation(utype));
-    script_signal_emit("unit_cant_be_built", 3,
-		       API_TYPE_UNIT_TYPE, utype,
-		       API_TYPE_CITY, pcity,
-		       API_TYPE_STRING, "unavailable");
+
+    /* Log before signal emitting, so pointers are certainly valid */
     freelog(LOG_VERBOSE, "%s %s tried to build %s, which is not available.",
             nation_rule_name(nation_of_city(pcity)),
             city_name(pcity),
             utype_rule_name(utype));
+    script_signal_emit("unit_cant_be_built", 3,
+		       API_TYPE_UNIT_TYPE, utype,
+		       API_TYPE_CITY, pcity,
+		       API_TYPE_STRING, "unavailable");
     return TRUE;
   }
   if (pcity->shield_stock >= utype_build_shield_cost(utype)) {
     int pop_cost = utype_pop_value(utype);
     struct unit *punit;
+    int saved_city_id = pcity->id;
 
     /* Should we disband the city? -- Massimo */
     if (pcity->size == pop_cost
@@ -1457,8 +1504,10 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
     script_signal_emit("unit_built",
 		       2, API_TYPE_UNIT, punit, API_TYPE_CITY, pcity);
 
-    /* Done building this unit; time to move on to the next. */
-    choose_build_target(pplayer, pcity);
+    if (city_exist(saved_city_id)) {
+      /* Done building this unit; time to move on to the next. */
+      choose_build_target(pplayer, pcity);
+    }
   }
   return TRUE;
 }
@@ -1751,6 +1800,7 @@ static bool disband_city(struct city *pcity)
   struct tile *ptile = pcity->tile;
   struct city *rcity=NULL;
   struct unit_type *utype = pcity->production.value.utype;
+  int saved_id = pcity->id;
 
   /* find closest city other than pcity */
   rcity = find_closest_owned_city(pplayer, ptile, FALSE, pcity);
@@ -1766,7 +1816,12 @@ static bool disband_city(struct city *pcity)
 		       API_TYPE_UNIT_TYPE, utype,
 		       API_TYPE_CITY, pcity,
 		       API_TYPE_STRING, "pop_cost");
-    return FALSE;
+    if (!city_exist(saved_id)) {
+      /* Script decided to remove even the last city */
+      return TRUE;
+    } else {
+      return FALSE;
+    }
   }
 
   (void) create_unit(pplayer, ptile, utype,
