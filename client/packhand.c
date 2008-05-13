@@ -1531,6 +1531,11 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->is_male=pinfo->is_male;
   team_add_player(pplayer, team_get_by_id(pinfo->team));
   pplayer->score.game = pinfo->score;
+  if (has_capability("CreatedName", aconnection.capability)) {
+    pplayer->was_created = pinfo->was_created;
+  } else {
+    pplayer->was_created = FALSE;
+  }
 
   pplayer->economic.gold=pinfo->gold;
   pplayer->economic.tax=pinfo->tax;

@@ -842,6 +842,7 @@ static void package_player_common(struct player *plr,
   packet->is_male=plr->is_male;
   packet->team = plr->team ? plr->team->index : -1;
   packet->is_ready = plr->is_ready;
+  packet->was_created = plr->was_created;
   if (city_styles != NULL) {
     packet->city_style = city_style_of_player(plr);
   } else {

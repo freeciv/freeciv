@@ -373,6 +373,7 @@ struct packet_player_info {
   char username[MAX_LEN_NAME];
   int score;
   bool is_male;
+  bool was_created;
   int government;
   int target_government;
   bool embassy[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
