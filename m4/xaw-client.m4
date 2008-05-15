@@ -22,11 +22,25 @@ AC_DEFUN([FC_XAW_CLIENT],
     fi
 
     dnl Check for libpng
-    AC_CHECK_LIB(png, png_read_image, [X_LIBS="$X_LIBS -lpng -lm"],
-	AC_MSG_ERROR([Could not find PNG library (libpng).]), [-lm -lz])
-    AC_CHECK_HEADER(png.h, ,
+    PKG_CHECK_MODULES([PNG], [libpng],
+    [
+      X_LIBS="$X_LIBS $PNG_LIBS"
+      X_CFLAGS="$X_CFLAGS $PNG_CFLAGS"
+    ],
+    [
+      AC_CHECK_LIB([png12], [png_read_image], [X_LIBS="$X_LIBS -lpng12 -lm"],
+      [
+        AC_CHECK_LIB([png], [png_read_image], [X_LIBS="$X_LIBS -lpng -lm"],
+        [
+          AC_MSG_ERROR([Could not find PNG library.])
+        ])
+      ])
+      AC_CHECK_HEADER([png.h],,
+      [
 	AC_MSG_ERROR([libpng found but not png.h.
-You may need to install a libpng \"development\" package.]))
+You may need to install a libpng \"development\" package.])
+      ])
+    ])
 
     dnl Try to get additional Xpm paths:
     FC_XPM_PATHS
