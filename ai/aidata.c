@@ -455,6 +455,9 @@ void ai_data_turn_done(struct player *pplayer)
   ai->threats.ocean = NULL;
   free(ai->stats.workers);     ai->stats.workers = NULL;
   free(ai->stats.cities);      ai->stats.cities = NULL;
+
+  ai->num_continents = 0;
+  ai->num_oceans = 0;
 }
 
 /**************************************************************************
