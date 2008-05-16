@@ -165,7 +165,7 @@ static bool player_has_really_useful_tech_parasite(struct player* pplayer)
 }
 
 /**************************************************************************
-  Analyze rulesets. Must be run after rulesets after loaded, unlike
+  Analyze rulesets. Must be run after rulesets are loaded, unlike
   _init, which must be run before savegames are loaded, which is usually
   before rulesets.
 **************************************************************************/
@@ -594,6 +594,9 @@ void ai_data_phase_done(struct player *pplayer)
 
   free(ai->channels);
   ai->channels = NULL;
+
+  ai->num_continents = 0;
+  ai->num_oceans     = 0;
 }
 
 /**************************************************************************
