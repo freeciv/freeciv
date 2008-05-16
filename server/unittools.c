@@ -1873,11 +1873,15 @@ void package_short_unit(struct unit *punit,
 **************************************************************************/
 void unit_goes_out_of_sight(struct player *pplayer, struct unit *punit)
 {
-  struct packet_unit_short_info packet;
-
   if (unit_owner(punit) == pplayer) {
-    /* The unit is about to die. No need to send an info. */
+    /* Unit is either about to die, or to change owner (civil war, bribe) */
+    struct packet_unit_remove packet;
+
+    packet.unit_id = punit->id;
+    lsend_packet_unit_remove(pplayer->connections, &packet);
   } else {
+    struct packet_unit_short_info packet;
+
     memset(&packet, 0, sizeof(packet));
     packet.id = punit->id;
     packet.goes_out_of_sight = TRUE;
