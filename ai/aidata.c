@@ -544,6 +544,9 @@ void ai_data_phase_done(struct player *pplayer)
 
   free(ai->stats.cities);
   ai->stats.cities = NULL;
+
+  ai->num_continents    = 0;
+  ai->num_oceans        = 0;
 }
 
 /**************************************************************************
