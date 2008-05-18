@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-05-18 16:57+0900\n"
 "PO-Revision-Date: 2007-12-10 21:13+0900\n"
-"Last-Translator: jeongho <fp33@naver.com>\n"
+"Last-Translator: Daniel\n"
 "Language-Team: Korean language team\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -605,7 +605,7 @@ msgstr "크기 %d"
 #: common/tech.c:707 client/gui-gtk-2.0/repodlgs.c:498
 #, c-format
 msgid "Future Tech. %d"
-msgstr "미래기술. %d"
+msgstr "미래기술 %d"
 
 #. TRANS: "None" tech
 #: common/tech.c:782 common/tech.c:786 server/settings.c:41
@@ -622,7 +622,7 @@ msgstr "없음"
 
 #: common/tech.c:790
 msgid "Future Tech."
-msgstr "미래 기술"
+msgstr "미래기술"
 
 #. TRANS: "Unknown" advance/technology
 #: common/tech.c:795 client/gui-gtk-2.0/inteldlg.c:386
@@ -956,7 +956,7 @@ msgstr "\"%s\" 비어있는 인수.\n"
 #: utility/shared.c:180
 #, c-format
 msgid "Missing argument for \"%s\".\n"
-msgstr "\"%s\" 놓친 인수 .\n"
+msgstr "\"%s\" 놓친 인수.\n"
 
 #: utility/shared.c:500
 #, c-format
@@ -1327,17 +1327,17 @@ msgstr "설정파일이 없습니다(기본값을 사용합니다)"
 #. TRANS: auth option originates from internal default
 #: server/auth.c:184
 msgid " (default)"
-msgstr "(기본값)"
+msgstr " (기본값)"
 
 #. TRANS: auth option originates from config file
 #: server/auth.c:189
 msgid " (config)"
-msgstr "(편집)"
+msgstr " (편집)"
 
 #. TRANS: auth option has been set from prompt
 #: server/auth.c:193
 msgid " (set)"
-msgstr "(배치)"
+msgstr " (배치)"
 
 #: server/auth.c:266
 #, c-format
@@ -1413,7 +1413,7 @@ msgstr "미안하지만 잘못된 시도를 너무 많이 하셨습니다"
 #, c-format
 msgid "%s was rejected: Too many wrong password verifies for new user."
 msgstr ""
-" %s 는 거부당했습니다: 새로운 사용자를 위한 암호검증횟수가 너무 많습니다"
+"%s 는 거부당했습니다: 새로운 사용자를 위한 암호검증횟수가 너무 많습니다"
 
 #: server/auth.c:485
 msgid ""
@@ -1605,7 +1605,7 @@ msgstr ""
 #: server/citytools.c:1284
 #, c-format
 msgid "You destroy %s completely."
-msgstr "당신은%s를 완전히 파괴시켰습니다"
+msgstr "당신은 %s를 완전히 파괴시켰습니다"
 
 #: server/citytools.c:1287
 #, c-format
@@ -2059,6 +2059,11 @@ msgid ""
 "help <command-name>\n"
 "help <option-name>"
 msgstr ""
+"help\n"
+"help commands\n"
+"help options\n"
+"help <명령 이름>\n"
+"help <옵션 이름>"
 
 #: server/commands.c:47
 msgid "Show help about server commands and server options."
@@ -2112,6 +2117,8 @@ msgid ""
 "explain\n"
 "explain <option-name>"
 msgstr ""
+"explain\n"
+"explain <옵션 이름>"
 
 #: server/commands.c:85
 msgid "Explain server options."
@@ -2132,6 +2139,9 @@ msgid ""
 "show <option-name>\n"
 "show <option-prefix>"
 msgstr ""
+"show\n"
+"show <옵션 이름>\n"
+"show <옵션 접두사>"
 
 #: server/commands.c:96
 msgid "Show server options."
@@ -2558,6 +2568,8 @@ msgid ""
 "save\n"
 "save <file-name>"
 msgstr ""
+"save\n"
+"save <파일명>"
 
 #: server/commands.c:332
 msgid "Save game to file."
@@ -2579,6 +2591,8 @@ msgid ""
 "load\n"
 "load <file-name>"
 msgstr ""
+"load\n"
+"load <파일명>"
 
 #: server/commands.c:344
 msgid "Load game from file."
@@ -2593,7 +2607,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:350
 msgid "read <file-name>"
-msgstr ""
+msgstr "read <파일명>"
 
 #: server/commands.c:351
 msgid "Process server commands from file."
@@ -2602,7 +2616,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:355
 msgid "write <file-name>"
-msgstr ""
+msgstr "write <파일명>"
 
 #: server/commands.c:356
 msgid "Write current settings as server commands to file."
@@ -2619,7 +2633,7 @@ msgstr ""
 #: server/connecthand.c:85
 #, c-format
 msgid "Welcome to the %s Server running at %s port %d."
-msgstr ""
+msgstr "%s 서버에 오신 것을 환영합니다 (%s 포트 %d)"
 
 #: server/connecthand.c:89
 #, c-format
@@ -3640,7 +3654,7 @@ msgstr ""
 #: server/ruleset.c:163
 #, c-format
 msgid "Could not find a readable \"%s.%s\" ruleset file."
-msgstr ""
+msgstr "읽을 수 있는 \"%s.%s\" 룰세트 파일을 못 찾았습니다"
 
 #: server/ruleset.c:2348
 msgid "No barbarian nation in rulesets, at least one required!"
@@ -3648,7 +3662,7 @@ msgstr ""
 
 #: server/ruleset.c:3158
 msgid "Loading rulesets"
-msgstr ""
+msgstr "룰세트를 읽는 중"
 
 #. TRANS: Minor error message.
 #: server/savegame.c:173
@@ -3691,27 +3705,27 @@ msgstr ""
 
 #: server/settings.c:32
 msgid "Geological"
-msgstr ""
+msgstr "지질"
 
 #: server/settings.c:33
 msgid "Sociological"
-msgstr ""
+msgstr "사회"
 
 #: server/settings.c:34
 msgid "Economic"
-msgstr ""
+msgstr "경제"
 
 #: server/settings.c:35
 msgid "Military"
-msgstr "군대"
+msgstr "군사"
 
 #: server/settings.c:36
 msgid "Scientific"
-msgstr "과학적인"
+msgstr "과학"
 
 #: server/settings.c:37
 msgid "Internal"
-msgstr ""
+msgstr "내부"
 
 #: server/settings.c:38
 msgid "Networking"
@@ -3732,7 +3746,7 @@ msgstr "상황적인"
 
 #: server/settings.c:45
 msgid "Rare"
-msgstr ""
+msgstr "드문"
 
 #: server/settings.c:46
 msgid "Changed"
@@ -8169,7 +8183,7 @@ msgstr ""
 
 #: client/options.c:138
 msgid "Sound plugin"
-msgstr ""
+msgstr "음성 플러그인"
 
 #: client/options.c:139
 msgid ""
@@ -8180,7 +8194,7 @@ msgstr ""
 
 #: client/options.c:144 client/gui-sdl/gui_main.c:162
 msgid "Theme"
-msgstr ""
+msgstr "테마"
 
 #: client/options.c:145
 msgid "By changing this option you change the active theme."
@@ -8188,7 +8202,7 @@ msgstr ""
 
 #: client/options.c:148
 msgid "Tileset"
-msgstr ""
+msgstr "타일세트"
 
 #: client/options.c:149
 msgid ""
@@ -8900,7 +8914,7 @@ msgstr "세금: %d 고급: %d 과학: %d"
 #: client/text.c:606
 #, c-format
 msgid "Moving: %s"
-msgstr ""
+msgstr "활동중: %s"
 
 #: client/text.c:609
 msgid "(Click for more info)"
@@ -8909,7 +8923,7 @@ msgstr ""
 #: client/text.c:625
 #, c-format
 msgid "%s People"
-msgstr ""
+msgstr "인구: %s"
 
 #: client/text.c:629
 #, c-format
@@ -8941,12 +8955,12 @@ msgstr "연구중 %s: %s"
 #: client/text.c:646
 #, c-format
 msgid "Global warming chance: %d%% (%+d%%/turn)"
-msgstr ""
+msgstr "지구 온난화 위험: %d%% (%+d%%/턴)"
 
 #: client/text.c:649
 #, c-format
 msgid "Nuclear winter chance: %d%% (%+d%%/turn)"
-msgstr ""
+msgstr "핵 겨울 위험: %d%% (%+d%%/턴)"
 
 #: client/text.c:654 client/gui-win32/inteldlg.c:104
 #: client/gui-xaw/inteldlg.c:200
@@ -10105,7 +10119,7 @@ msgstr "민족을 선택하세요"
 
 #: client/gui-gtk-2.0/dialogs.c:802
 msgid "_Properties"
-msgstr ""
+msgstr "속성(_P)"
 
 #: client/gui-gtk-2.0/dialogs.c:822
 msgid "_Leader:"
@@ -10726,11 +10740,11 @@ msgstr "대화(_C)"
 
 #: client/gui-gtk-2.0/menu.c:706 client/gui-win32/menu.c:314
 msgid "_Clear Log"
-msgstr ""
+msgstr "로그 지우기(_C)"
 
 #: client/gui-gtk-2.0/menu.c:708 client/gui-win32/menu.c:313
 msgid "_Write Log"
-msgstr ""
+msgstr "로그 쓰기(_W)"
 
 #: client/gui-gtk-2.0/menu.c:710 client/gui-win32/menu.c:304
 msgid "Local _Options"
@@ -10742,11 +10756,11 @@ msgstr "메세지 옵션(_M)"
 
 #: client/gui-gtk-2.0/menu.c:717
 msgid "_Reload Tileset"
-msgstr ""
+msgstr "타일세트 재장전(_R)"
 
 #: client/gui-gtk-2.0/menu.c:720
 msgid "Save Options on _Exit"
-msgstr ""
+msgstr "종료할때 옵션 저장(_E)"
 
 #: client/gui-gtk-2.0/menu.c:722
 msgid "Sa_ve Options"
@@ -10774,7 +10788,7 @@ msgstr "끝내기(_Q)"
 
 #: client/gui-gtk-2.0/menu.c:745 client/gui-win32/menu.c:321
 msgid "Gov_ernment"
-msgstr "정부"
+msgstr "정부(_E)"
 
 #: client/gui-gtk-2.0/menu.c:747 client/gui-gtk-2.0/menu.c:749
 #: client/gui-gtk-2.0/menu.c:751 client/gui-gtk-2.0/menu.c:753
@@ -10790,7 +10804,7 @@ msgstr "세율(_T)"
 
 #: client/gui-gtk-2.0/menu.c:753 client/gui-win32/menu.c:324
 msgid "_Find City"
-msgstr ""
+msgstr "도시 세우기(_F)"
 
 #: client/gui-gtk-2.0/menu.c:755 client/gui-win32/menu.c:325
 msgid "_Worklists"
@@ -10825,15 +10839,15 @@ msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:776 client/gui-win32/menu.c:336
 msgid "National _Borders"
-msgstr ""
+msgstr "국경(_B)"
 
 #: client/gui-gtk-2.0/menu.c:778 client/gui-win32/menu.c:337
 msgid "City _Names"
-msgstr "도시 이름들"
+msgstr "도시 이름(_N)"
 
 #: client/gui-gtk-2.0/menu.c:780 client/gui-win32/menu.c:338
 msgid "City G_rowth"
-msgstr "도시 성장"
+msgstr "도시 성장(_R)"
 
 #: client/gui-gtk-2.0/menu.c:782 client/gui-win32/menu.c:339
 msgid "City _Productions"
@@ -10847,7 +10861,7 @@ msgstr ""
 #: client/gui-win32/menu.c:340 client/gui-xaw/menu.c:148
 #: client/gui-xaw/menu.c:246 manual/civmanual.c:220 data/helpdata.txt:1220
 msgid "Terrain"
-msgstr ""
+msgstr "지형"
 
 #: client/gui-gtk-2.0/menu.c:790 client/gui-win32/menu.c:341
 #: client/gui-xaw/menu.c:149
@@ -11494,7 +11508,7 @@ msgstr "AI 숙련 레벨:(_L)"
 
 #: client/gui-gtk-2.0/pages.c:1476
 msgid "Ruleset _Version:"
-msgstr ""
+msgstr "룰세트 버전:(_V)"
 
 #: client/gui-gtk-2.0/pages.c:1484 client/gui-gtk-2.0/pages.c:2116
 msgid "_More Game Options..."
@@ -14058,21 +14072,21 @@ msgid ""
 "Tax: %d Lux: %d Sci: %d"
 msgstr ""
 "인구: %s\n"
-"년도r: %s\n"
+"서기: %s\n"
 "금화: %d\n"
 "세금: %d 사치: %d 과학i: %d"
 
 #: client/gui-win32/menu.c:306
 msgid "Sa_ve Settings"
-msgstr "저장 설정"
+msgstr "저장 설정(_V)"
 
 #: client/gui-win32/menu.c:316
 msgid "_Disconnect"
-msgstr "_연결끊기"
+msgstr "연결끊기(_D)"
 
 #: client/gui-win32/menu.c:328
 msgid "_Revolution"
-msgstr "_혁명"
+msgstr "혁명(_R)"
 
 #: client/gui-win32/menu.c:355 client/gui-xaw/menu.c:161
 msgid "Center View"
@@ -16958,7 +16972,7 @@ msgstr "증권 거래소"
 msgid ""
 "Together with a Marketplace and a Bank, a Stock Exchange boosts tax and "
 "luxury production in a city by 150%."
-msgstr "시장과 은행이 함께 있으면, 주식거래세금과 귀금속 생산이 150%이 됩니다."
+msgstr "시장과 은행이 함께 있으면, 주식거래세금과 고급 생산이 150%이 됩니다."
 
 #: data/default/buildings.ruleset:860 data/civ2/buildings.ruleset:852
 msgid "Super Highways"
