@@ -74,7 +74,7 @@ void tile_set_special(struct tile *ptile, enum tile_special_type spe);
 void tile_clear_special(struct tile *ptile, enum tile_special_type spe);
 void tile_clear_all_specials(struct tile *ptile);
 
-#define tile_resource_is_valid(vtile) BV_ISSET(vtile->special, S_RESOURCE_VALID)
+#define tile_resource_is_valid(vtile) BV_ISSET((vtile)->special, S_RESOURCE_VALID)
 const struct resource *tile_get_resource(const struct tile *ptile);
 void tile_set_resource(struct tile *ptile, struct resource *presource);
 

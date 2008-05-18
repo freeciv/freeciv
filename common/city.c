@@ -607,9 +607,11 @@ static int base_get_output_tile(const struct tile *ptile,
 				int city_x, int city_y, bool is_celebrating,
 				Output_type_id otype)
 {
-  struct tile tile;
+  /* temporary dummy tile for city center bonuses */
+  struct tile dummy_tile = *ptile;
+  const struct tile *p_dummy_tile = &dummy_tile;
   int prod;
-  struct terrain *pterrain = tile_get_terrain(ptile);
+  struct terrain *pterrain = tile_get_terrain(p_dummy_tile);
 
   assert(otype >= 0 && otype < O_LAST);
 
@@ -620,41 +622,40 @@ static int base_get_output_tile(const struct tile *ptile,
   }
 
   prod = pterrain->output[otype];
-  if (tile_resource_is_valid(ptile)) {
-    prod += tile_get_resource(ptile)->output[otype];
+  if (tile_resource_is_valid(p_dummy_tile)) {
+    prod += tile_get_resource(p_dummy_tile)->output[otype];
   }
 
-  /* create dummy tile which has the city center bonuses. */
-  tile.terrain = pterrain;
-  tile.special = tile_get_special(ptile);
-
+  /* add city center bonuses to temporary copy of tile. */
   if (pcity && is_city_center(city_x, city_y)
       && pterrain == pterrain->irrigation_result
       && terrain_control.may_irrigate) {
-    /* The center tile is auto-irrigated. */
-    tile_set_special(&tile, S_IRRIGATION);
+    /* The center tile is auto-irrigated, for the purposes of food
+     * production. */
+    tile_set_special(&dummy_tile, S_IRRIGATION);
 
     if (player_knows_techs_with_flag(city_owner(pcity), TF_FARMLAND)) {
-      tile_set_special(&tile, S_FARMLAND);
+      tile_set_special(&dummy_tile, S_FARMLAND);
     }
   }
 
   switch (otype) {
   case O_SHIELD:
-    if (contains_special(tile.special, S_MINE)) {
+    if (tile_has_special(p_dummy_tile, S_MINE)) {
       prod += pterrain->mining_shield_incr;
     }
     break;
   case O_FOOD:
-    if (contains_special(tile.special, S_IRRIGATION)) {
+    if (tile_has_special(p_dummy_tile,  S_IRRIGATION)) {
       prod += pterrain->irrigation_food_incr;
     }
     break;
   case O_TRADE:
-    if (contains_special(tile.special, S_RIVER) && !is_ocean(tile.terrain)) {
+    if (tile_has_special(p_dummy_tile, S_RIVER) &&
+        !is_ocean(tile_get_terrain(p_dummy_tile))) {
       prod += terrain_control.river_trade_incr;
     }
-    if (contains_special(tile.special, S_ROAD)) {
+    if (tile_has_special(p_dummy_tile, S_ROAD)) {
       prod += pterrain->road_trade_incr;
     }
     break;
@@ -665,28 +666,29 @@ static int base_get_output_tile(const struct tile *ptile,
     break;
   }
 
-  if (contains_special(tile.special, S_RAILROAD)) {
+  if (tile_has_special(p_dummy_tile, S_RAILROAD)) {
     prod += (prod * terrain_control.rail_tile_bonus[otype]) / 100;
   }
 
   if (pcity) {
     const struct output_type *output = &output_types[otype];
 
-    prod += get_city_tile_output_bonus(pcity, ptile, output,
+    prod += get_city_tile_output_bonus(pcity, p_dummy_tile, output,
 				       EFT_OUTPUT_ADD_TILE);
     if (prod > 0) {
-      int penalty_limit = get_city_tile_output_bonus(pcity, ptile, output,
-                                                   EFT_OUTPUT_PENALTY_TILE);
+      int penalty_limit = get_city_tile_output_bonus(pcity, p_dummy_tile,
+                                                     output,
+                                                     EFT_OUTPUT_PENALTY_TILE);
 
       if (is_celebrating) {
-        prod += get_city_tile_output_bonus(pcity, ptile, output,
+        prod += get_city_tile_output_bonus(pcity, p_dummy_tile, output,
                                            EFT_OUTPUT_INC_TILE_CELEBRATE);
         penalty_limit = 0; /* no penalty if celebrating */
       }
-      prod += get_city_tile_output_bonus(pcity, ptile, output,
+      prod += get_city_tile_output_bonus(pcity, p_dummy_tile, output,
                                          EFT_OUTPUT_INC_TILE);
       prod += (prod 
-               * get_city_tile_output_bonus(pcity, ptile, output,
+               * get_city_tile_output_bonus(pcity, p_dummy_tile, output,
                                             EFT_OUTPUT_PER_TILE)) 
               / 100;
       if (!is_celebrating && penalty_limit > 0 && prod > penalty_limit) {
@@ -695,11 +697,11 @@ static int base_get_output_tile(const struct tile *ptile,
     }
   }
 
-  if (contains_special(tile.special, S_POLLUTION)) {
+  if (tile_has_special(p_dummy_tile, S_POLLUTION)) {
     prod -= (prod * terrain_control.pollution_tile_penalty[otype]) / 100;
   }
 
-  if (contains_special(tile.special, S_FALLOUT)) {
+  if (tile_has_special(p_dummy_tile, S_FALLOUT)) {
     prod -= (prod * terrain_control.fallout_tile_penalty[otype]) / 100;
   }
 
