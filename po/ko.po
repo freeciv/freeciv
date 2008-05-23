@@ -1,7 +1,7 @@
 # Korean localization of Freeciv
 # Copyright (C) 1996 A Kjeldberg, L Gregersen, P Unold
 # This file is distributed under the same license as the Freeciv package.
-# Daniel Markstedt <himasaram@spray.se>, 2007
+# Daniel Markstedt <himasaram@spray.se>, 2007 - 2008
 # Jungho Lee <junghoya@gmail.com>, 2007
 #
 msgid ""
@@ -41,7 +41,7 @@ msgstr "금화"
 #: common/city.c:60 server/plrhand.c:193 client/gui-gtk-2.0/gamedlgs.c:262
 #: client/gui-win32/ratesdlg.c:315
 msgid "Luxury"
-msgstr "고급"
+msgstr "복지"
 
 #: common/city.c:61 server/plrhand.c:195 client/gui-gtk-2.0/gamedlgs.c:282
 #: client/gui-win32/ratesdlg.c:321
@@ -132,7 +132,7 @@ msgstr "도시 : 원자력 발전소"
 
 #: common/events.c:54
 msgid "City: Released from citizen governor"
-msgstr "도시 : 시민통치자로 부터 해방"
+msgstr "도시 : 도지사로 부터 해방"
 
 #: common/events.c:55
 msgid "City: Suggest Growth Throttling"
@@ -2193,6 +2193,8 @@ msgid ""
 "debug [ player <player> | city <x> <y> | units <x> <y> | unit <id> | tech "
 "<player> | timing | info]"
 msgstr ""
+"debug [ player <사용자> | city <x> <y> | units <x> <y> | unit <id> | tech "
+"<사용자> | timing | info]"
 
 #: server/commands.c:124
 msgid "Turn on or off AI debugging of given entity."
@@ -2245,7 +2247,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:150
 msgid "metainfo <meta-line>"
-msgstr ""
+msgstr "metainfo <메타라인>"
 
 #: server/commands.c:151
 msgid "Set metaserver info line."
@@ -2291,7 +2293,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:178
 msgid "aitoggle <player-name>"
-msgstr ""
+msgstr "aitoggle <사용자 이름>"
 
 #: server/commands.c:179
 msgid "Toggle AI status of player."
@@ -5198,7 +5200,7 @@ msgstr "옵션:"
 
 #: server/stdinhand.c:1553 server/stdinhand.c:3956
 msgid "Description:"
-msgstr ""
+msgstr "설명:"
 
 #: server/stdinhand.c:1558
 #, c-format
@@ -5266,7 +5268,7 @@ msgstr "이 명령은 오직 클라이언트에서만 됩니다"
 
 #: server/stdinhand.c:1857
 msgid "Usage: away"
-msgstr "사용법 : 승리"
+msgstr "사용법 : away"
 
 #: server/stdinhand.c:1862
 msgid "Only players may use the away command."
@@ -5275,12 +5277,12 @@ msgstr ""
 #: server/stdinhand.c:1866
 #, c-format
 msgid "%s set to away mode."
-msgstr ""
+msgstr "%s(은)는 외출중입니다."
 
 #: server/stdinhand.c:1874
 #, c-format
 msgid "%s returned to game."
-msgstr ""
+msgstr "%s(은)는 돌아왔습니다."
 
 #: server/stdinhand.c:1916
 #, c-format
@@ -5576,11 +5578,11 @@ msgstr ""
 
 #: server/stdinhand.c:2732
 msgid "Usage: observe [connection-name [player-name]]"
-msgstr ""
+msgstr "사용법: observe [접속 이름 [사용자 이름]]"
 
 #: server/stdinhand.c:2738
 msgid "Usage: observe [player-name]"
-msgstr ""
+msgstr "사용법: observe [사용자 이름]"
 
 #: server/stdinhand.c:2788
 #, c-format
@@ -5609,7 +5611,7 @@ msgstr ""
 
 #: server/stdinhand.c:2910
 msgid "Usage: take <connection-name> <player-name>"
-msgstr "사용법: take <접속이름> <사용자 이름>"
+msgstr "사용법: take <접속 이름> <사용자 이름>"
 
 #: server/stdinhand.c:2915
 msgid "Usage: take <player-name>"
@@ -5617,7 +5619,7 @@ msgstr "사용법 : take <사용자 이름>"
 
 #: server/stdinhand.c:2921
 msgid "Usage: take [connection-name] <player-name>"
-msgstr "사용법 : take [접속 이름] <사용자이름>"
+msgstr "사용법 : take [접속 이름] <사용자 이름>"
 
 #: server/stdinhand.c:2951
 #, c-format
@@ -5674,7 +5676,7 @@ msgstr ""
 
 #: server/stdinhand.c:3123
 msgid "Usage: detach <connection-name>"
-msgstr ""
+msgstr "사용법: detach <접속 이름>"
 
 #: server/stdinhand.c:3143
 msgid "You can not detach other users."
@@ -5702,7 +5704,7 @@ msgstr ""
 
 #: server/stdinhand.c:3286
 msgid "Usage: load <game name>"
-msgstr ""
+msgstr "사용법: load <개임 이름>"
 
 #: server/stdinhand.c:3291
 msgid "Cannot load a game while another is running."
@@ -5740,7 +5742,7 @@ msgstr ""
 
 #: server/stdinhand.c:3477
 msgid "Goodbye."
-msgstr ""
+msgstr "안녕이 가세요"
 
 #: server/stdinhand.c:3508
 msgid "Sorry, you are not allowed to use server commands."
@@ -5921,8 +5923,8 @@ msgstr ", 준비 안 됐슴"
 #, c-format
 msgid " %d connection:"
 msgid_plural " %d connections:"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] " 접속수 %d개:"
+msgstr[1] " 접속수 %d개:"
 
 #: server/stdinhand.c:4224
 #, c-format
@@ -5961,7 +5963,7 @@ msgstr ""
 
 #: server/stdinhand.c:4300
 msgid "<no connections>"
-msgstr ""
+msgstr "<접속 없음>"
 
 #: server/stdinhand.c:4324
 msgid "List of scenarios available:"
@@ -6659,8 +6661,8 @@ msgstr ""
 #, c-format
 msgid "%3d turn"
 msgid_plural "%3d turns"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%3d 턴"
+msgstr[1] "%3d 턴"
 
 #: client/citydlg_common.c:243 client/citydlg_common.c:365 client/text.c:572
 #: client/agents/cma_fec.c:249 client/agents/cma_fec.c:283
@@ -6668,7 +6670,7 @@ msgstr[1] ""
 #: client/gui-sdl/cityrep.c:1053 client/gui-sdl/wldlg.c:1352
 #: client/gui-sdl/wldlg.c:1357 client/gui-win32/citydlg.c:455
 msgid "never"
-msgstr ""
+msgstr "없음"
 
 #: client/citydlg_common.c:247
 #, c-format
@@ -6683,14 +6685,14 @@ msgstr "%3d/%3d %s"
 #: client/citydlg_common.c:270
 #, c-format
 msgid "%s (XX) %d/turn"
-msgstr ""
+msgstr "%s (XX) %d/턴"
 
 #: client/citydlg_common.c:288
 #, c-format
 msgid "%s (%d) %d turn"
 msgid_plural "%s (%d) %d turns"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s (%d) %d 턴"
+msgstr[1] "%s (%d) %d 턴"
 
 #: client/citydlg_common.c:330 client/citydlg_common.c:343
 #: client/gui-sdl/wldlg.c:1328
@@ -6713,7 +6715,7 @@ msgstr ""
 #: client/citydlg_common.c:357
 #, c-format
 msgid "%d/turn"
-msgstr ""
+msgstr "%d/턴"
 
 #: client/citydlg_common.c:388
 #, c-format
@@ -6766,19 +6768,19 @@ msgstr ""
 
 #: client/cityrepdata.c:73
 msgid "?city_state:Rapture"
-msgstr ""
+msgstr "황홀"
 
 #: client/cityrepdata.c:74
 msgid "?city_state:Disorder"
-msgstr ""
+msgstr "혼란"
 
 #: client/cityrepdata.c:75
 msgid "?city_state:Peace"
-msgstr ""
+msgstr "평화"
 
 #: client/cityrepdata.c:358
 msgid "(worklist)"
-msgstr ""
+msgstr "(작업리스트)"
 
 #: client/cityrepdata.c:447
 msgid "Special"
@@ -6799,43 +6801,43 @@ msgstr ""
 #: client/cityrepdata.c:454 client/plrdlg_common.c:261
 #: client/gui-win32/plrdlg.c:337
 msgid "State"
-msgstr ""
+msgstr "상태"
 
 #: client/cityrepdata.c:454
 msgid "Rapture/Peace/Disorder"
-msgstr ""
+msgstr "황홀/평화/혼란"
 
 #: client/cityrepdata.c:457
 msgid "?Happy workers:H"
-msgstr ""
+msgstr "행"
 
 #: client/cityrepdata.c:457
 msgid "Workers: Happy"
-msgstr ""
+msgstr "노동자: 행복"
 
 #: client/cityrepdata.c:459
 msgid "?Content workers:C"
-msgstr ""
+msgstr "만"
 
 #: client/cityrepdata.c:459
 msgid "Workers: Content"
-msgstr ""
+msgstr "노동자: 만족"
 
 #: client/cityrepdata.c:461
 msgid "?Unhappy workers:U"
-msgstr ""
+msgstr "불"
 
 #: client/cityrepdata.c:461
 msgid "Workers: Unhappy"
-msgstr ""
+msgstr "노동자: 불만"
 
 #: client/cityrepdata.c:463
 msgid "?Angry workers:A"
-msgstr ""
+msgstr "화"
 
 #: client/cityrepdata.c:463
 msgid "Workers: Angry"
-msgstr ""
+msgstr "노동자: 화가난"
 
 #: client/cityrepdata.c:465 client/gui-xaw/citydlg.c:2401
 #: data/default/units.ruleset:238
@@ -6844,15 +6846,15 @@ msgstr "노동자"
 
 #: client/cityrepdata.c:466
 msgid "?happy/content/unhappy/angry:H/C/U/A"
-msgstr ""
+msgstr "행/만/불/화"
 
 #: client/cityrepdata.c:467
 msgid "Workers: Happy, Content, Unhappy, Angry"
-msgstr ""
+msgstr "노동자: 행복, 만족, 불만, 화가난"
 
 #: client/cityrepdata.c:470 client/cityrepdata.c:472
 msgid "Best"
-msgstr ""
+msgstr "최고"
 
 #: client/cityrepdata.c:470
 msgid "attack"
@@ -6887,7 +6889,7 @@ msgstr "부대"
 #. TRANS: Header "Number of units inside city"
 #: client/cityrepdata.c:476
 msgid "?Present (units):Here"
-msgstr ""
+msgstr "여기"
 
 #: client/cityrepdata.c:477
 msgid "Number of units present"
@@ -6896,7 +6898,7 @@ msgstr "현재 부대의 수"
 #. TRANS: Header "Number of units supported by given city"
 #: client/cityrepdata.c:480
 msgid "?Supported (units):Owned"
-msgstr ""
+msgstr "지원"
 
 #: client/cityrepdata.c:481
 msgid "Number of units supported"
@@ -6937,11 +6939,11 @@ msgstr ""
 
 #: client/cityrepdata.c:495
 msgid "?food/production/trade:F/P/T"
-msgstr ""
+msgstr "식/생/무"
 
 #: client/cityrepdata.c:496
 msgid "Surplus: Food, Production, Trade"
-msgstr ""
+msgstr "음식, 생산, 무역"
 
 #: client/cityrepdata.c:498
 msgid "?Food surplus [short]:+F"
@@ -6992,11 +6994,11 @@ msgstr "경제"
 
 #: client/cityrepdata.c:509
 msgid "?gold/luxury/science:G/L/S"
-msgstr "금/고/과"
+msgstr "?금화/복지/과학:금/복/과"
 
 #: client/cityrepdata.c:510
 msgid "Economy: Gold, Luxuries, Science"
-msgstr "경제: 금화, 고급, 과학"
+msgstr "경제: 금화, 복지, 과학"
 
 #: client/cityrepdata.c:512
 msgid "?Gold:G"
@@ -7008,11 +7010,11 @@ msgstr "경제: 금화"
 
 #: client/cityrepdata.c:514
 msgid "?Luxury:L"
-msgstr "고"
+msgstr "?복지:복"
 
 #: client/cityrepdata.c:514
 msgid "Economy: Luxury"
-msgstr "경제: 고급"
+msgstr "경제: 복지"
 
 #: client/cityrepdata.c:516
 msgid "?Science:S"
@@ -7024,11 +7026,11 @@ msgstr "경제: 과학"
 
 #: client/cityrepdata.c:518
 msgid "?number_trade_routes:n"
-msgstr ""
+msgstr "수"
 
 #: client/cityrepdata.c:518
 msgid "?number_trade_routes:R"
-msgstr ""
+msgstr "무"
 
 #: client/cityrepdata.c:519
 msgid "Number of Trade Routes"
@@ -7040,14 +7042,14 @@ msgstr ""
 
 #: client/cityrepdata.c:523
 msgid "?cma:Governor"
-msgstr ""
+msgstr "도지사"
 
 #: client/cityrepdata.c:523 client/gui-gtk-2.0/cityrep.c:1226
 #: client/gui-gtk-2.0/cityrep.c:1499 client/gui-sdl/citydlg.c:3809
 #: client/gui-sdl/cma_fe.c:858 client/gui-win32/citydlg.c:726
 #: data/Freeciv.in:1459 data/helpdata.txt:820
 msgid "Citizen Governor"
-msgstr ""
+msgstr "도지사"
 
 #: client/cityrepdata.c:526
 msgid "Turns/Buy"
@@ -7059,11 +7061,11 @@ msgstr ""
 
 #: client/cityrepdata.c:575
 msgid "?specialist:S"
-msgstr ""
+msgstr "전"
 
 #: client/cityrepdata.c:578
 msgid "Specialists"
-msgstr ""
+msgstr "전문가"
 
 #: client/civclient.c:239
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
@@ -7153,11 +7155,11 @@ msgstr ""
 
 #: client/climisc.c:214
 msgid "?embassy:Both"
-msgstr ""
+msgstr "서로"
 
 #: client/climisc.c:216
 msgid "?embassy:Yes"
-msgstr ""
+msgstr "있슴"
 
 #: client/climisc.c:219
 msgid "?embassy:With Us"
@@ -7165,15 +7167,15 @@ msgstr ""
 
 #: client/climisc.c:222
 msgid "?embassy:Contact"
-msgstr ""
+msgstr "접촉"
 
 #: client/climisc.c:224
 msgid "?embassy:No Contact"
-msgstr ""
+msgstr "미접촉"
 
 #: client/climisc.c:236
 msgid "?vision:Both"
-msgstr ""
+msgstr "서로"
 
 #: client/climisc.c:238
 msgid "?vision:To Them"
@@ -8112,7 +8114,7 @@ msgstr ""
 
 #: client/options.c:98
 msgid "Graphics"
-msgstr ""
+msgstr "그래픽"
 
 #: client/options.c:99
 msgid "Overview"
@@ -8120,11 +8122,11 @@ msgstr ""
 
 #: client/options.c:100
 msgid "Sound"
-msgstr ""
+msgstr "소리"
 
 #: client/options.c:101
 msgid "Interface"
-msgstr ""
+msgstr "인터패이스"
 
 #: client/options.c:102
 msgid "Network"
@@ -8173,7 +8175,7 @@ msgstr ""
 
 #: client/options.c:132
 msgid "Soundset"
-msgstr ""
+msgstr "사운드세트"
 
 #: client/options.c:133
 msgid ""
@@ -8502,17 +8504,17 @@ msgstr ""
 
 #: client/plrdlg_common.c:202
 msgid "waiting"
-msgstr ""
+msgstr "기대"
 
 #: client/plrdlg_common.c:204 client/gui-sdl/plrdlg.c:649
 #: client/gui-win32/plrdlg.c:155 client/gui-xaw/plrdlg.c:238
 msgid "done"
-msgstr ""
+msgstr "완료"
 
 #: client/plrdlg_common.c:206 client/gui-sdl/plrdlg.c:651
 #: client/gui-win32/plrdlg.c:157 client/gui-xaw/plrdlg.c:240
 msgid "moving"
-msgstr ""
+msgstr "활동중"
 
 #: client/plrdlg_common.c:249
 msgid "?Player:Name"
@@ -8565,7 +8567,7 @@ msgstr ""
 
 #: client/plrdlg_common.c:262
 msgid "?Player_dlg:Host"
-msgstr ""
+msgstr "호스트"
 
 #: client/plrdlg_common.c:263
 msgid "?Player_dlg:Idle"
@@ -8573,7 +8575,7 @@ msgstr ""
 
 #: client/plrdlg_common.c:264
 msgid "Ping"
-msgstr ""
+msgstr "핑"
 
 #: client/repodlgs_common.c:371
 msgid "You cannot sell improvements."
@@ -8678,12 +8680,12 @@ msgstr ""
 #: client/text.c:109
 #, c-format
 msgid "Terrain: %s"
-msgstr ""
+msgstr "지형: %s"
 
 #: client/text.c:110
 #, c-format
 msgid "Food/Prod/Trade: %s"
-msgstr ""
+msgstr "음식/생산/무역: %s"
 
 #: client/text.c:113
 msgid "Minor Tribe Village"
@@ -8909,7 +8911,7 @@ msgstr "금화: %d (%+d)"
 #: client/text.c:600
 #, c-format
 msgid "Tax: %d Lux: %d Sci: %d"
-msgstr "세금: %d 고급: %d 과학: %d"
+msgstr "세금: %d 복지: %d 과학: %d"
 
 #: client/text.c:606
 #, c-format
@@ -8945,7 +8947,7 @@ msgstr "수지: %d"
 #: client/text.c:635
 #, c-format
 msgid "Tax rates: Gold:%d%% Luxury:%d%% Science:%d%%"
-msgstr "세율: 금화:%d%% 고급:%d%% 과학:%d%%"
+msgstr "세율: 금화:%d%% 복지:%d%% 과학:%d%%"
 
 #: client/text.c:639
 #, c-format
@@ -9041,7 +9043,7 @@ msgstr ""
 
 #: client/text.c:893
 msgid "no research target."
-msgstr "조사대상이 없음"
+msgstr "연구대상이 없음"
 
 #. TRANS: <tech>: <amount>/<total bulbs>
 #: client/text.c:896
@@ -9593,7 +9595,7 @@ msgstr "금화:"
 #: client/gui-gtk-2.0/citydlg.c:582 client/gui-gtk-2.0/inteldlg.c:48
 #: client/gui-win32/citydlg.c:666
 msgid "Luxury:"
-msgstr "고급:"
+msgstr "복지:"
 
 #: client/gui-gtk-2.0/citydlg.c:583 client/gui-gtk-2.0/inteldlg.c:47
 #: client/gui-win32/citydlg.c:667
@@ -9641,47 +9643,47 @@ msgstr ""
 
 #: client/gui-gtk-2.0/citydlg.c:790 client/gui-gtk-2.0/citydlg.c:910
 msgid "Production:"
-msgstr ""
+msgstr "생산:"
 
 #: client/gui-gtk-2.0/citydlg.c:827 client/gui-gtk-2.0/citydlg.c:920
 #, c-format
 msgid "%d/%d %d turns"
-msgstr ""
+msgstr "%d/%d %d 턴"
 
 #: client/gui-gtk-2.0/citydlg.c:830 client/gui-gtk-2.0/citydlg.c:927
 #: client/gui-gtk-2.0/cityrep.c:820
 msgid "_Buy"
-msgstr ""
+msgstr "구메(_B)"
 
 #: client/gui-gtk-2.0/citydlg.c:898 client/gui-gtk-2.0/cityrep.c:691
 msgid "_Production"
-msgstr ""
+msgstr "생산(_P)"
 
 #: client/gui-gtk-2.0/citydlg.c:949
 msgid "_Happiness"
-msgstr ""
+msgstr "행복(_H)"
 
 #: client/gui-gtk-2.0/citydlg.c:1002
 msgid "_Governor"
-msgstr ""
+msgstr "도지사(_G)"
 
 #: client/gui-gtk-2.0/citydlg.c:1025
 msgid "_Settings"
-msgstr ""
+msgstr "설정(_S)"
 
 #: client/gui-gtk-2.0/citydlg.c:1028
 msgid "Entertainers"
-msgstr ""
+msgstr "예능인"
 
 #: client/gui-gtk-2.0/citydlg.c:1029 client/gui-win32/citydlg.c:1989
 #: client/gui-xaw/citydlg.c:2401
 msgid "Scientists"
-msgstr "과학자들"
+msgstr "과학자"
 
 #: client/gui-gtk-2.0/citydlg.c:1030 client/gui-win32/citydlg.c:1991
 #: client/gui-xaw/citydlg.c:2401
 msgid "Taxmen"
-msgstr ""
+msgstr "징세자"
 
 #: client/gui-gtk-2.0/citydlg.c:1033 client/gui-win32/citydlg.c:1994
 msgid "Disband if build settler at size 1"
@@ -9701,7 +9703,7 @@ msgstr "행복 면"
 
 #: client/gui-gtk-2.0/citydlg.c:1039
 msgid "Governor page"
-msgstr "정부 면"
+msgstr "도지사 면"
 
 #: client/gui-gtk-2.0/citydlg.c:1040
 msgid "This Settings page"
@@ -9954,7 +9956,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/cityrep.c:1460 client/gui-win32/cityrep.c:444
 msgid "Same Island"
-msgstr ""
+msgstr "같은 섬"
 
 #: client/gui-gtk-2.0/cityrep.c:1470 client/gui-win32/cityrep.c:447
 msgid "Supported Units"
@@ -10015,7 +10017,7 @@ msgstr "요인"
 #: client/gui-win32/cma_fe.c:220 client/gui-xaw/cma_fe.c:179
 #: client/gui-xaw/cma_fe.c:221
 msgid "Celebrate"
-msgstr ""
+msgstr "축하"
 
 #: client/gui-gtk-2.0/cma_fe.c:463
 msgid "Governor Enabl_ed"
@@ -10435,19 +10437,19 @@ msgstr "<AI>"
 
 #: client/gui-gtk-2.0/gui_main.c:1549
 msgid "<Novice AI>"
-msgstr ""
+msgstr "<초심자 AI>"
 
 #: client/gui-gtk-2.0/gui_main.c:1552
 msgid "<Easy AI>"
-msgstr ""
+msgstr "<쉬운 AI>"
 
 #: client/gui-gtk-2.0/gui_main.c:1555
 msgid "<Normal AI>"
-msgstr ""
+msgstr "<보통 AI>"
 
 #: client/gui-gtk-2.0/gui_main.c:1558
 msgid "<Hard AI>"
-msgstr ""
+msgstr "<어려운 AI>"
 
 #: client/gui-gtk-2.0/gui_main.c:1568 client/gui-win32/dialogs.c:594
 msgid "Random"
@@ -10497,7 +10499,7 @@ msgstr "비용:"
 #: client/gui-sdl/helpdlg.c:744 client/gui-win32/helpdlg.c:79
 #: data/Freeciv.in:653
 msgid "Upkeep:"
-msgstr ""
+msgstr "유지비:"
 
 #: client/gui-gtk-2.0/helpdlg.c:88 client/gui-gtk-2.0/helpdlg.c:91
 #: client/gui-gtk-2.0/helpdlg.c:99 client/gui-sdl/helpdlg.c:363
@@ -10505,14 +10507,14 @@ msgstr ""
 #: client/gui-win32/helpdlg.c:82 client/gui-win32/helpdlg.c:90
 #: data/Freeciv.in:694
 msgid "Requirement:"
-msgstr "요구 : "
+msgstr "요구:"
 
 #: client/gui-gtk-2.0/helpdlg.c:91 client/gui-gtk-2.0/helpdlg.c:99
 #: client/gui-sdl/helpdlg.c:395 client/gui-sdl/helpdlg.c:809
 #: client/gui-win32/helpdlg.c:82 client/gui-win32/helpdlg.c:90
 #: data/Freeciv.in:732
 msgid "Obsolete by:"
-msgstr ""
+msgstr "구식 지점:"
 
 #: client/gui-gtk-2.0/helpdlg.c:95 client/gui-sdl/helpdlg.c:768
 #: client/gui-win32/helpdlg.c:86 data/Freeciv.in:795
@@ -10585,7 +10587,7 @@ msgstr ""
 #: client/gui-xaw/helpdlg.c:816 client/gui-xaw/helpdlg.c:853
 #: client/gui-xaw/helpdlg.c:878
 msgid "(Never)"
-msgstr ""
+msgstr "(없음)"
 
 #: client/gui-gtk-2.0/helpdlg.c:129 client/gui-xaw/helpdlg.c:123
 #: client/gui-xaw/menu.c:253 data/helpdata.txt:37
@@ -10617,7 +10619,7 @@ msgstr "허락"
 
 #: client/gui-gtk-2.0/helpdlg.c:951
 msgid "Obsoletes"
-msgstr ""
+msgstr "고식 시킴"
 
 #: client/gui-gtk-2.0/helpdlg.c:991 client/gui-gtk-2.0/helpdlg.c:1008
 msgid "with"
@@ -11017,11 +11019,11 @@ msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:871 client/gui-win32/menu.c:380
 msgid "_Road"
-msgstr ""
+msgstr "도로(_R)"
 
 #: client/gui-gtk-2.0/menu.c:873 client/gui-win32/menu.c:381
 msgid "Rai_l"
-msgstr ""
+msgstr "철도(_L)"
 
 #: client/gui-gtk-2.0/menu.c:875 client/gui-win32/menu.c:382
 msgid "_Irrigate"
@@ -11041,7 +11043,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:881 client/gui-win32/menu.c:385
 msgid "_Go to"
-msgstr ""
+msgstr "이동(_G)"
 
 #: client/gui-gtk-2.0/menu.c:883
 msgid "Go\\/Airlift to City"
@@ -11077,12 +11079,12 @@ msgstr "같은 유형 선택"
 
 #: client/gui-gtk-2.0/menu.c:901 client/gui-win32/menu.c:393
 msgid "_Wait"
-msgstr ""
+msgstr "기대(_W)"
 
 #: client/gui-gtk-2.0/menu.c:903 client/gui-win32/menu.c:394
 #: client/gui-xaw/menu.c:213
 msgid "Done"
-msgstr ""
+msgstr "끝"
 
 #: client/gui-gtk-2.0/menu.c:906 client/gui-win32/menu.c:398
 msgid "_Reports"
@@ -11178,7 +11180,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:948 client/gui-win32/menu.c:420
 msgid "_Worklist Editor"
-msgstr ""
+msgstr "작업리스트 편집(_W)"
 
 #: client/gui-gtk-2.0/menu.c:950 client/gui-win32/menu.c:421
 msgid "Citizen _Management"
@@ -11186,15 +11188,15 @@ msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:952 client/gui-win32/menu.c:422
 msgid "_Playing"
-msgstr ""
+msgstr "노는 방법(_P)"
 
 #: client/gui-gtk-2.0/menu.c:956 client/gui-win32/menu.c:424
 msgid "City _Improvements"
-msgstr ""
+msgstr "도시 상향(_I)"
 
 #: client/gui-gtk-2.0/menu.c:960 client/gui-win32/menu.c:426
 msgid "Com_bat"
-msgstr ""
+msgstr "전쟁(_B)"
 
 #: client/gui-gtk-2.0/menu.c:962 client/gui-win32/menu.c:427
 msgid "_ZOC"
@@ -11206,7 +11208,7 @@ msgstr "기술(_L)"
 
 #: client/gui-gtk-2.0/menu.c:966 client/gui-win32/menu.c:429
 msgid "_Terrain"
-msgstr ""
+msgstr "지형(_T)"
 
 #: client/gui-gtk-2.0/menu.c:968 client/gui-win32/menu.c:430
 msgid "Won_ders"
@@ -11577,7 +11579,7 @@ msgstr "저장된 게임들 :"
 
 #: client/gui-gtk-2.0/pages.c:2435
 msgid "Save _Filename:"
-msgstr "파일이름 저장 : "
+msgstr "파일이름 저장 :"
 
 #. TRANS: Research report title
 #. TRANS: Research report action
@@ -11595,7 +11597,7 @@ msgstr "연구"
 
 #: client/gui-gtk-2.0/repodlgs.c:295 client/gui-win32/repodlgs.c:283
 msgid "Researching"
-msgstr "조사"
+msgstr "연구중"
 
 #: client/gui-gtk-2.0/repodlgs.c:316 client/gui-win32/repodlgs.c:293
 #: data/Freeciv.in:1429
@@ -11608,7 +11610,7 @@ msgstr "이름"
 
 #: client/gui-gtk-2.0/repodlgs.c:636 client/gui-win32/repodlgs.c:462
 msgid "Count"
-msgstr "수(count)"
+msgstr "수"
 
 #: client/gui-gtk-2.0/repodlgs.c:637 client/gui-gtk-2.0/wldlg.c:1034
 #: client/gui-win32/citydlg.c:1090 client/gui-win32/repodlgs.c:466
@@ -12093,7 +12095,7 @@ msgstr "도시 향상"
 #: client/gui-sdl/citydlg.c:2566
 #, c-format
 msgid "Food: %d per turn"
-msgstr ""
+msgstr "음식: 매턴당 %d"
 
 #: client/gui-sdl/citydlg.c:2603
 #, c-format
@@ -12123,22 +12125,22 @@ msgstr "부패: %d"
 #: client/gui-sdl/citydlg.c:2806
 #, c-format
 msgid "Gold: %d (%d) per turn"
-msgstr ""
+msgstr "금화: 매턴당 %d (%d)"
 
 #: client/gui-sdl/citydlg.c:2853
 #, c-format
 msgid "Upkeep: %d"
-msgstr "유지 : %d"
+msgstr "유지: %d"
 
 #: client/gui-sdl/citydlg.c:2892
 #, c-format
 msgid "Science: %d per turn"
-msgstr ""
+msgstr "과학: 매턴당 %d"
 
 #: client/gui-sdl/citydlg.c:2932
 #, c-format
 msgid "Luxury: %d per turn"
-msgstr "사치: 매턴당 %d "
+msgstr "복지: 매턴당 %d "
 
 #: client/gui-sdl/citydlg.c:2970
 msgid "City growth: blocked"
@@ -12778,7 +12780,7 @@ msgid ""
 msgstr ""
 "지도자: %s %s  정부 제도: %s\n"
 "수도: %s  금화: %d\n"
-"세금: %d%% 과학: %d%% 고급: %d%%\n"
+"세금: %d%% 과학: %d%% 복지: %d%%\n"
 "연구중: 불명"
 
 #: client/gui-sdl/inteldlg.c:301
@@ -12791,7 +12793,7 @@ msgid ""
 msgstr ""
 "지도자: %s %s  정부 제도: %s\n"
 "수도: %s  금화: %d\n"
-"세금: %d%% 과학: %d%% 고급: %d%%\n"
+"세금: %d%% 과학: %d%% 복지: %d%%\n"
 "연구중: %s(%d/%d)"
 
 #: client/gui-sdl/inteldlg.c:367
@@ -12889,7 +12891,7 @@ msgstr "%s 인구: %s  서기: %s  금화 %d "
 #: client/gui-sdl/mapview.c:420
 #, c-format
 msgid "%s Population: %s  Year: %s  Gold %d Tax: %d Lux: %d Sci: %d "
-msgstr "%s 인구: %s  서기: %s  금화 %d 세금: %d 고급: %d 과학: %d "
+msgstr "%s 인구: %s  서기: %s  금화 %d 세금: %d 복지: %d 과학: %d "
 
 #: client/gui-sdl/mapview.c:727 data/default/units.ruleset:24
 #: data/civ2/units.ruleset:18 data/civ1/units.ruleset:18
@@ -14014,17 +14016,17 @@ msgstr "폐물"
 
 #: client/gui-win32/helpdlg.c:812 client/gui-win32/helpdlg.c:825
 msgid " (with "
-msgstr "(함께"
+msgstr " ("
 
 #: client/gui-win32/helpdlg.c:815 client/gui-win32/helpdlg.c:828
 msgid "?techhelp:)."
-msgstr "?기술도움말:)."
+msgstr "?기술도움말:와 함께)."
 
 #: client/gui-win32/inteldlg.c:99 client/gui-xaw/inteldlg.c:191
 #: client/gui-xaw/inteldlg.c:433
 #, c-format
 msgid "Ruler: %s %s"
-msgstr "규칙:  %s %s"
+msgstr "통치자: %s %s"
 
 #: client/gui-win32/inteldlg.c:114 client/gui-xaw/inteldlg.c:216
 #: client/gui-xaw/ratesdlg.c:311
@@ -14042,21 +14044,21 @@ msgstr "과학: %d%%"
 #: client/gui-xaw/ratesdlg.c:319
 #, c-format
 msgid "Luxury: %d%%"
-msgstr "사치 : %d%%"
+msgstr "복지 : %d%%"
 
 #: client/gui-win32/inteldlg.c:129 client/gui-xaw/inteldlg.c:242
 msgid "Researching: (Unknown)"
-msgstr "조사 :(알려지지 않음)"
+msgstr "연구 : (알려지지 않음)"
 
 #: client/gui-win32/inteldlg.c:132 client/gui-xaw/inteldlg.c:245
 #, c-format
 msgid "Researching: Unknown(%d/-)"
-msgstr "조사 : 알려지지 않음(%d/-)"
+msgstr "연구 : 알려지지 않음(%d/-)"
 
 #: client/gui-win32/inteldlg.c:136 client/gui-xaw/inteldlg.c:249
 #, c-format
 msgid "Researching: %s(%d/%d)"
-msgstr "조사 : %s(%d/%d)"
+msgstr "연구 : %s(%d/%d)"
 
 #: client/gui-win32/inteldlg.c:145 client/gui-xaw/inteldlg.c:263
 #, c-format
@@ -14074,7 +14076,7 @@ msgstr ""
 "인구: %s\n"
 "서기: %s\n"
 "금화: %d\n"
-"세금: %d 사치: %d 과학i: %d"
+"세금: %d 복지: %d 과학i: %d"
 
 #: client/gui-win32/menu.c:306
 msgid "Sa_ve Settings"
@@ -14299,6 +14301,9 @@ msgid ""
 "Prod:  %3d (%+-4d)\n"
 "Trade: %3d (%+-4d)"
 msgstr ""
+"음식:  %3d (%+-4d)\n"
+"생산:  %3d (%+-4d)\n"
+"무역:  %3d (%+-4d)"
 
 #: client/gui-xaw/citydlg.c:282
 #, c-format
@@ -14307,6 +14312,9 @@ msgid ""
 "Lux:   %3d\n"
 "Sci:   %3d"
 msgstr ""
+"금화:   %3d (%+-4d)\n"
+"복지:   %3d\n"
+"과학:   %3d"
 
 #: client/gui-xaw/citydlg.c:308
 msgid "(is empty)"
@@ -14340,7 +14348,7 @@ msgstr ""
 #: client/gui-xaw/citydlg.c:1767
 #, c-format
 msgid "%s - %s citizens  Governor: %s"
-msgstr ""
+msgstr "%s - %s명  도지사: %s"
 
 #: client/gui-xaw/cma_fe.c:431
 msgid "What should we name the new preset?"
@@ -14561,7 +14569,7 @@ msgstr "복사"
 #: client/gui-xaw/repodlgs.c:228 client/gui-xaw/repodlgs.c:491
 #, c-format
 msgid "Researching %s: %d/%s"
-msgstr "%s 조사중 : %d/%s"
+msgstr "%s 연구중 : %d/%s"
 
 #: client/gui-xaw/repodlgs.c:231 client/gui-xaw/repodlgs.c:494
 msgid "unknown"
@@ -14570,7 +14578,7 @@ msgstr "모름"
 #: client/gui-xaw/repodlgs.c:234 client/gui-xaw/repodlgs.c:497
 #, c-format
 msgid "Researching %s: %d/%d"
-msgstr "%s 조사중: %d/%d"
+msgstr "%s 연구중: %d/%d"
 
 #: client/gui-xaw/repodlgs.c:242 client/gui-xaw/repodlgs.c:247
 #: client/gui-xaw/repodlgs.c:507 client/gui-xaw/repodlgs.c:512
@@ -14860,7 +14868,7 @@ msgstr "세율"
 
 #: data/Freeciv.in:1289
 msgid "Select tax, luxury and science rates:"
-msgstr "세금선택, 사치과 과학 세율:"
+msgstr "세금선택, 복지과 과학 세율:"
 
 #: data/Freeciv.in:1397
 msgid "Help:"
@@ -14868,7 +14876,7 @@ msgstr "도움말:"
 
 #: data/Freeciv.in:1465
 msgid "Citizen governor..."
-msgstr "시민 통치자..."
+msgstr "도지사..."
 
 #: data/Freeciv.in:1468
 msgid "Add Preset"
@@ -16735,7 +16743,7 @@ msgstr "시장"
 #: data/civ1/buildings.ruleset:332
 #, no-c-format
 msgid "Increases the luxury and tax output in a city by 50%."
-msgstr "도시안의 사치와 세금이 50% 증가합니다"
+msgstr "도시안의 복지와 세금이 50% 증가합니다"
 
 #: data/default/buildings.ruleset:437 data/civ2/buildings.ruleset:413
 #: data/civ1/buildings.ruleset:337
@@ -16972,7 +16980,7 @@ msgstr "증권 거래소"
 msgid ""
 "Together with a Marketplace and a Bank, a Stock Exchange boosts tax and "
 "luxury production in a city by 150%."
-msgstr "시장과 은행이 함께 있으면, 주식거래세금과 고급 생산이 150%이 됩니다."
+msgstr "시장과 은행이 함께 있으면, 주식거래세금과 복지 생산이 150%이 됩니다."
 
 #: data/default/buildings.ruleset:860 data/civ2/buildings.ruleset:852
 msgid "Super Highways"
