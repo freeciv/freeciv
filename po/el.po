@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-28 17:49+0300\n"
-"PO-Revision-Date: 2008-04-28 23:08+0200\n"
+"POT-Creation-Date: 2008-04-30 15:55+0300\n"
+"PO-Revision-Date: 2008-05-14 02:41+0200\n"
 "Last-Translator: Prekates Alexandros <aprekates@yahoo.gr>\n"
 "Language-Team: Greek translation team <gr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +41,7 @@ msgstr "Εμπόριο"
 #: client/gui-gtk-2.0/repodlgs.c:964
 #: data/default/terrain.ruleset:1672
 #: data/civ2/terrain.ruleset:1555
-#: data/civ1/terrain.ruleset:1525
+#: data/civ1/terrain.ruleset:1536
 msgid "Gold"
 msgstr "Χρυσός"
 
@@ -885,7 +885,7 @@ msgstr "Καλύβα"
 #: common/unit.c:520
 #: data/default/terrain.ruleset:1903
 #: data/civ2/terrain.ruleset:1786
-#: data/civ1/terrain.ruleset:1738
+#: data/civ1/terrain.ruleset:1749
 msgid "Fortress"
 msgstr "Φρούριο"
 
@@ -902,7 +902,7 @@ msgstr "Αγρόκτημα"
 #: common/unit.c:534
 #: data/default/terrain.ruleset:1920
 #: data/civ2/terrain.ruleset:1803
-#: data/civ1/terrain.ruleset:1755
+#: data/civ1/terrain.ruleset:1766
 msgid "Airbase"
 msgstr "Αεροπορική βάση"
 
@@ -937,7 +937,7 @@ msgstr "Φρουρός"
 #: client/gui-win32/menu.c:371
 #: client/gui-xaw/menu.c:188
 msgid "Pillage"
-msgstr "Λεηλασία"
+msgstr "Λεηλάτησε"
 
 #: common/unit.c:528
 #: client/gui-win32/gotodlg.c:164
@@ -1261,7 +1261,7 @@ msgstr[1] "(συνολικά %d επανάληψεις)"
 #: utility/registry.c:850
 #: server/console.c:63
 #: server/generator/startpos.c:391
-#: client/tilespec.c:4149
+#: client/tilespec.c:4156
 #: client/agents/cma_core.c:436
 #: client/gui-sdl/mapview.c:159
 #, c-format
@@ -2493,11 +2493,11 @@ msgstr "metapatch <meta-line>"
 
 #: server/commands.c:178
 msgid "Set metaserver patches line."
-msgstr ""
+msgstr "Θέσε την επιδιορθωτική γραμμή του μεταεξυπηρετητή."
 
 #: server/commands.c:185
 msgid "Control metaserver connection."
-msgstr ""
+msgstr "Έλενξε τη σύνδεση του μεταεξυπηρετητή."
 
 #: server/commands.c:186
 msgid ""
@@ -2509,76 +2509,76 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:192
 msgid "metaserver <address>"
-msgstr ""
+msgstr "metaserver <διεύθυνση>"
 
 #: server/commands.c:193
 msgid "Set address (URL) for metaserver to report to."
-msgstr ""
+msgstr "Θέσε διεύθυνση (URL) στην οποία θα αναφέρει ο μεταεξυπηρετητής."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:197
 msgid "aitoggle <player-name>"
-msgstr ""
+msgstr "aitoggle <όνομα-παίχτη>"
 
 #: server/commands.c:198
 msgid "Toggle AI status of player."
-msgstr ""
+msgstr "Εναλλαγή κατάστασης Τ.Ν του παίχτη."
 
 #. TRANS: translate text between [] and <> only
 #: server/commands.c:202
 msgid "take [connection-name] <player-name>"
-msgstr ""
+msgstr "take [ονομα-σύνδεσης] <όνομα-παίχτη>"
 
 #: server/commands.c:203
 msgid "Take over a player's place in the game."
-msgstr ""
+msgstr "Πάρε τη θέση ενός παίχτη στο παιχνίδι."
 
 #: server/commands.c:204
 msgid "Only the console and connections with cmdlevel 'hack' can force other connections to take over a player. If you're not one of these, only the <player-name> argument is allowed.  If '-' is given for the player name and the connection does not already control a player, one is created and assigned to the connection."
-msgstr ""
+msgstr "Μόνο η κονσόλα και συνδέσεις από το επίπεδο εντολών 'hack'  μπορούν να εξαναγκάσουν άλλες συνδέσεις να πάρουν τη θέση ενός παίχτη. Αν δεν είσαι κάτι από αυτά ,μόνο το όρισμα <όνομα-παίχτη> επιτρέπεται. Αν δωθεί '-' για το όνομα του παίχτη και η σύνδεση δεν ελέγχει ήδη έναν παίχτη , δημιουργείται  ένας και ανατίθεται στη σύνδεση."
 
 #. TRANS: translate text between [] only
 #: server/commands.c:212
 msgid "observe [connection-name] [player-name]"
-msgstr ""
+msgstr "observe [όνομα-σύνδεσης] [όνομα-παίχτη]"
 
 #: server/commands.c:213
 msgid "Observe a player or the whole game."
-msgstr ""
+msgstr "Παρατήρησε ένα παίχτη για όλο το παιχνίδι."
 
 #: server/commands.c:214
 msgid "Only the console and connections with cmdlevel 'hack' can force other connections to observe a player. If you're not one of these, only the [player-name] argument is allowed. If the console gives no player-name or the connection uses no arguments, then the connection is attached to a global observer."
-msgstr ""
+msgstr "Μόνο η κονσόλα και συνδέσεις με επίπεδο εντολών 'hack'  μπορούν να εξαναγκάσουν άλλες συνδέσεις να παρατηρήσουν έναν παίχτη. Αν δεν είσαι κάτι από αυτά ,μόνο το όρισμα <όνομα-παίχτη> επιτρέπεται. Αν η κονσόλα δεν δώσει όνομα  παίχτη ή η σύνδεση δεν χρησιμοποιεί ορίσματα, τότε η σύνδεση προσκολλείται σε έναν καθολικό παρατηρητή."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:222
 msgid "detach <connection-name>"
-msgstr ""
+msgstr "detach <όνομα-σύνδεσης>"
 
 #: server/commands.c:223
 msgid "detach from a player."
-msgstr ""
+msgstr "αποκόλληση από ένα παίχτη"
 
 #: server/commands.c:224
 msgid "Only the console and connections with cmdlevel 'hack' can force other connections to detach from a player."
-msgstr ""
+msgstr "Μόνο η κονσόλα και σύνδέσεις με cmdlevel 'hack' μπορούν να αναγκάσουν άλλες συνδέσεις να αποκολληθούν από έναν παίχτη"
 
 #. TRANS: translate text between <> only
 #: server/commands.c:229
 msgid "create <player-name>"
-msgstr ""
+msgstr "create <όνομα-παίχτη>"
 
 #: server/commands.c:230
 msgid "Create an AI player with a given name."
-msgstr ""
+msgstr "Δημιουργεί έναν παίχτη ΤΝ με το δωθέν όνομα."
 
 #: server/commands.c:231
 msgid "The 'create' command is only available before the game has been started."
-msgstr ""
+msgstr "Η εντολή 'create' (δημιούργησε) είναι διαθέσιμη μόνο πριν αρχίσει το παιχνίδι."
 
 #: server/commands.c:237
 msgid "Set yourself in away mode. The AI will watch your back."
-msgstr ""
+msgstr "Θέσε τον ευατό σου σε απομακρυσμένο τρόπο παιχνιδιού. Η ΤΝ θα καλύψει τη θέση σου!"
 
 #: server/commands.c:238
 msgid "The AI will govern your nation but do minimal changes."
@@ -2599,7 +2599,7 @@ msgstr "Θέσε έναν ή όλους του παίχτες ΤΝ σε 'αρχάριους'."
 
 #: server/commands.c:245
 msgid "With no arguments, sets all AI players to skill level 'novice', and sets the default level for any new AI players to 'novice'.  With an argument, sets the skill level for that player only."
-msgstr ""
+msgstr "Χωρίς ορίσματα, θέτει όλους τους παίχτες ΤΝ σε επίπεδο 'αρχάριος' και θέτει το προκαθορισμένο επίπεδο για όλους τους νέους παίχτες ΤΝ σε 'αρχάριος'. Με όρισμα , θέτει  το επίπεδο ικανότητας μόνο για αυτόν τον παίχτη. "
 
 #. TRANS: translate text between <> only
 #: server/commands.c:251
@@ -2607,14 +2607,16 @@ msgid ""
 "easy\n"
 "easy <player-name>"
 msgstr ""
+"easy\n"
+"easy <όνομα-παίχτη>"
 
 #: server/commands.c:253
 msgid "Set one or all AI players to 'easy'."
-msgstr ""
+msgstr "Θέτει έναν ή όλους του παίχτες ΤΝ σε επίπεδο ικανοτήτων 'εύκολη'"
 
 #: server/commands.c:254
 msgid "With no arguments, sets all AI players to skill level 'easy', and sets the default level for any new AI players to 'easy'.  With an argument, sets the skill level for that player only."
-msgstr ""
+msgstr "Χωρίς ορίσματα, θέτει όλους τους παίχτες ΤΝ σε επίπεδο 'έυκολη' και θέτει το προκαθορισμένο επίπεδο για όλους τους νέους παίχτες ΤΝ σε 'αρχάρια'. Με όρισμα , θέτει  το επίπεδο ικανότητας μόνο για αυτόν τον παίχτη. "
 
 #. TRANS: translate text between <> only
 #: server/commands.c:260
@@ -2622,14 +2624,16 @@ msgid ""
 "normal\n"
 "normal <player-name>"
 msgstr ""
+"normal\n"
+"normal <όνομα-παίχτη>"
 
 #: server/commands.c:262
 msgid "Set one or all AI players to 'normal'."
-msgstr ""
+msgstr "Θέτει έναν ή όλους του παίχτες ΤΝ σε επίπεδο ικανοτήτων 'κανονική'"
 
 #: server/commands.c:263
 msgid "With no arguments, sets all AI players to skill level 'normal', and sets the default level for any new AI players to 'normal'.  With an argument, sets the skill level for that player only."
-msgstr ""
+msgstr "Χωρίς ορίσματα, θέτει όλους τους παίχτες ΤΝ σε επίπεδο ικανοτήτων  'κανονική' και θέτει το προκαθορισμένο επίπεδο για όλους τους νέους παίχτες ΤΝ σε 'κανονική'. Με όρισμα , θέτει  το επίπεδο ικανότητας μόνο για αυτόν τον παίχτη. "
 
 #. TRANS: translate text between <> only
 #: server/commands.c:269
@@ -2637,14 +2641,16 @@ msgid ""
 "hard\n"
 "hard <player-name>"
 msgstr ""
+"hard\n"
+"hard <όνομα-παίχτη>"
 
 #: server/commands.c:271
 msgid "Set one or all AI players to 'hard'."
-msgstr ""
+msgstr "Θέτει έναν ή όλους του παίχτες ΤΝ σε επίπεδο ικανοτήτων 'δύσκολη'"
 
 #: server/commands.c:272
 msgid "With no arguments, sets all AI players to skill level 'hard', and sets the default level for any new AI players to 'hard'.  With an argument, sets the skill level for that player only."
-msgstr ""
+msgstr "Χωρίς ορίσματα, θέτει όλους τους παίχτες ΤΝ σε επίπεδο ικανοτήτων 'δύσκολη' και θέτει το προκαθορισμένο επίπεδο για όλους τους νέους παίχτες ΤΝ σε 'δύσκολη'. Με όρισμα , θέτει  το επίπεδο ικανότητας μόνο για αυτόν τον παίχτη. "
 
 #. TRANS: translate text between <> only
 #: server/commands.c:278
@@ -2663,7 +2669,7 @@ msgstr "Θέσε έναν ή όλους του παίχτες ΤΝ σε 'αρχάριους'."
 
 #: server/commands.c:281
 msgid "With no arguments, sets all AI players to skill level 'cheating', and sets the default level for any new AI players to 'cheating'.  With an argument, sets the skill level for that player only."
-msgstr ""
+msgstr "Χωρίς ορίσματα, θέτει όλους τους παίχτες ΤΝ σε επίπεδο ικανοτήτων 'ζαβολιάρα' και θέτει το προκαθορισμένο επίπεδο για όλους τους νέους παίχτες ΤΝ σε 'ζαβολιάρα'. Με όρισμα , θέτει  το επίπεδο ικανότητας μόνο για αυτόν τον παίχτη."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:287
@@ -2671,14 +2677,16 @@ msgid ""
 "experimental\n"
 "experimental <player-name>"
 msgstr ""
+"experimental\n"
+"experimental <όνομα-παίχτη>"
 
 #: server/commands.c:289
 msgid "Set one or all AI players to 'experimental'."
-msgstr ""
+msgstr "Θέτει έναν ή όλους του παίχτες ΤΝ σε επίπεδο ικανοτήτων 'πειραματική'"
 
 #: server/commands.c:290
 msgid "With no arguments, sets all AI players to skill 'experimental', and sets the default level for any new AI players to this.  With an argument, sets the skill level for that player only. THIS IS ONLY FOR TESTING OF NEW AI FEATURES! For ordinary servers, this option has no effect."
-msgstr ""
+msgstr "Χωρίς ορίσματα, θέτει όλους τους παίχτες ΤΝ σε επίπεδο ικανοτήτων  'πειραματική' και θέτει το προκαθορισμένο επίπεδο για όλους τους νέους παίχτες ΤΝ σε 'πειραματική'. Με όρισμα , θέτει  το επίπεδο ικανότητας μόνο για αυτόν τον παίχτη. ΑΥΤΟ ΧΡΗΣΙΜΟΠΟΙΕΊΤΑΙ ΜΟΝΟ ΓΙΑ ΠΕΙΡΑΜΑΤΙΣΜΟ ΝΕΩΝ ΔΥΝΑΤΟΤΗΤΩΝ ΤΗΣ Τεχνιτής Νοημοσύνης. ! Για κανονικούς εξυπηρετητές αυτή η επιλογή δεν έχει κανένα αποτέλεσμα."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:298
@@ -2689,10 +2697,15 @@ msgid ""
 "cmdlevel <level> first\n"
 "cmdlevel <level> <connection-name>"
 msgstr ""
+"cmdlevel\n"
+"cmdlevel <επίπεδο>\n"
+"cmdlevel <επίπεδο> new\n"
+"cmdlevel <επίπεδο> first\n"
+"cmdlevel <επίπεδο> <όνομα-σύνδεσης>"
 
 #: server/commands.c:303
 msgid "Query or set command access level access."
-msgstr ""
+msgstr "Θέτει ή διαβάζει επίπεδα πρόσβασης εντολών."
 
 #: server/commands.c:304
 msgid ""
@@ -2712,27 +2725,42 @@ msgid ""
 "If a connection name is specified, the level is set for that connection only.\n"
 "Command access levels do not persist if a client disconnects, because some untrusted person could reconnect with the same name.  Note that this command now takes connection names, not player names."
 msgstr ""
+"Το επίπεδο πρόσβασης εντολής ελέγχει ποιές εντολές εξυπηρετητή είναι διαθέσιμες\n"
+"σε χρήστες μέσω της γραμμής συζητήσεων του πελάτη. Τα επίπεδα είναι τα: \n"
+"    none  - καμία εντολή \n"
+"    info   - μόνο πληροφοριακές εντολές\n"
+"    ctrl   - εντολές που επηρεάζουν μόνο το παιχνίδι και χρήστες\n"
+"    hack  -*όλες* οι εντολές - επικίνδυνο!\n"
+"Χωρίς παράμετρο, αναφέρεται το τρέχων επίπεδο πρόσβασης.\n"
+"Με μια παράμετρο, τίθεταθ το επίπεδο για όλες τις υπάρχουσες συνδέσεις\n"
+"και γίνεται το  προκαθορισμένο για μελλοντικές συνδέσεις.\n"
+"Αν δοθεί προσδιοριστικό 'new' τότε το επίπεδο  τίθεται μόνο για νέες συνδέσεις.\n"
+"Αν δοθεί προσδιοριστικό 'first come'  τότε το επίπεδο θα δοθεί στον \n"
+"πρώτο πελάτην που θα συνδεθεί ή  αν  υπάρχουν συνδέσεις στον πρώτο πελάτη\n"
+"που θα δώσει την εντολή 'first'.\n"
+"Αν προσδιοριστεί όνομα σύνδεσης , το επίπεδο τίθεται μόνο γι'αυτή τη σύνδεση.\n"
+"Τα επίπεδα πρόσβαση εντολών δεν διατηρούνται αν αποσυνδεθεί έναςπελάτης, γιατί κάποιοι αναξιόπιστοι παίχτες θα μπορούσαν να συνδεθούνμε το ίδιο όνομα. Ας σημειωθεί ότι η εντολή πέρνει πλεόν ονόματα συνδέσεωνόχι ονόματα παιχτών. "
 
 #: server/commands.c:327
 msgid "If there is none, become the game organizer with increased permissions."
-msgstr ""
+msgstr "Αν δεν υπάρχε κανένας, γίνε ο οργανωτής του παιχνιδίου με αυξημένες άδειες."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:332
 msgid "timeoutincrease <turn> <turninc> <value> <valuemult>"
-msgstr ""
+msgstr "timeoutincrease <γύρος> <αύξηση-γύρου> <τιμή> <πολλαπλασιαστής-τιμής>"
 
 #: server/commands.c:333
 msgid "See \"help timeoutincrease\"."
-msgstr ""
+msgstr "Δες \"help timeoutincrease\"."
 
 #: server/commands.c:334
 msgid "Every <turn> turns, add <value> to timeout timer, then add <turninc> to <turn> and multiply <value> by <valuemult>.  Use this command in concert with the option \"timeout\". Defaults are 0 0 0 1"
-msgstr ""
+msgstr "Κάθε <γύρος> γύρους, πρόσθεσε <τιμή> στο χρονόμετρο τέλους χρόνου,  και  μετά πρόσθεσε  <αύξηση-γύρου>  στο <γύρος>  και πολλαπλασίασε  <τιμή> με  <πολλαπλασιαστής-τιμής>.  Χρησιμοποίηση αυτή την εντολή μαζί με την επιλογή  \"timeout\".  Προκαθορισμένες τιμές: 0 0 0 1"
 
 #: server/commands.c:341
 msgid "End the game immediately in a draw."
-msgstr ""
+msgstr "Τερμάτισε το παιχνίδι άμμεσα με ισοπαλία."
 
 #: server/commands.c:346
 msgid "Concede the game."
@@ -2745,15 +2773,15 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:353
 msgid "remove <player-name>"
-msgstr ""
+msgstr "remove <όνομα-παίχτη>"
 
 #: server/commands.c:354
 msgid "Fully remove player from game."
-msgstr ""
+msgstr "Αφαίρεσε πλήρως τον παίχτη από το παιχνίδι."
 
 #: server/commands.c:355
 msgid "This *completely* removes a player from the game, including all cities and units etc.  Use with care!"
-msgstr ""
+msgstr "Αυτή η εντολή  *πλήρως* αφαιρεί έναν παίχτη από το παιχνίδι,  συμπεριλαμβανομένου, συμπεριλαμβανομένου όλες τις πόλεις και μονάδες κτλ. Χρησιμοποιήσε την εντολή με προσοχή."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:360
@@ -2761,10 +2789,12 @@ msgid ""
 "save\n"
 "save <file-name>"
 msgstr ""
+"save\n"
+"save <όνομα-αρχείου>"
 
 #: server/commands.c:362
 msgid "Save game to file."
-msgstr ""
+msgstr "Σώσιμο του παιχνιδίου σε αρχείο."
 
 #: server/commands.c:363
 msgid ""
@@ -2773,6 +2803,10 @@ msgid ""
 "    --file <filename>\n"
 "and use the 'start' command once players have reconnected."
 msgstr ""
+"Σώζει το παιχνίδι στο αρχείο <όνομα-αρχείου> , αν δεν δωθεί όρισμα όνομα-αρχείου σώζεται στο \"< πρόθεμα ονόματος αυτόματου σώσιμου><χρονιά>m.sav[.gz]\".\n"
+"Για να επαναφορτωθεί ένα σωσμένο παιχνίδι από την εντολή 'save', ξεκίνησε τον εξυπηρετητή μετο όρισμα  της γραμμής εντολών :\n"
+"    --file <όνομα-αρχείου>\n"
+"και χρησιμοποίησε την εντολή 'start' όταν συνδεθούν ξανά οι παίχτες."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:372
@@ -2780,74 +2814,76 @@ msgid ""
 "load\n"
 "load <file-name>"
 msgstr ""
+"load\n"
+"load <όνομα-αρχείου>"
 
 #: server/commands.c:374
 msgid "Load game from file."
-msgstr ""
+msgstr "Φόρτωσε παιχνίδι από αρχείο."
 
 #: server/commands.c:375
 msgid "Load a game from <file-name>. Any current data including players, rulesets and server options are lost.\n"
-msgstr ""
+msgstr "Φόρτωσε παιχνίδι από <όνομα-αρχείου>. Οποιαδήποτε δεδομένα συμπεριλαμβανομένου παίχτες, σύνολα-κανόνων και ρυθμίσεις εξυπηρετητή θα χαθούν. \n"
 
 #. TRANS: translate text between <> only
 #: server/commands.c:380
 msgid "read <file-name>"
-msgstr ""
+msgstr "read <όνομα-αρχείου>"
 
 #: server/commands.c:381
 msgid "Process server commands from file."
-msgstr ""
+msgstr "Επεξεργάσου επιλογές εξυπηρετητή από αρχείο."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:385
 msgid "write <file-name>"
-msgstr ""
+msgstr "write <όνομα-αρχείου>"
 
 #: server/commands.c:386
 msgid "Write current settings as server commands to file."
-msgstr ""
+msgstr "Γράψε τρέχουσες ρυθμίσεις σαν εντολές εξυπηρετητή σε αρχείο."
 
 #: server/commands.c:391
 msgid "Switch server output between 'RFC-style' and normal style."
-msgstr ""
+msgstr "Εναλλαγή εξόδου εξυπηρετητή ανάμεσα σε στυλ RFC και κανονικό στυλ."
 
 #: server/commands.c:396
 msgid "Simply returns the id of the server."
-msgstr ""
+msgstr "Απλά επέστρεψε το id του εξυπηρετητή."
 
 #: server/connecthand.c:65
 #, c-format
 msgid "%s Welcome"
-msgstr ""
+msgstr "%s Καλώς ήρθες"
 
 #: server/connecthand.c:86
 #, c-format
 msgid "Welcome to the %s Server running at %s port %d."
-msgstr ""
+msgstr "Καλώς ήρθες στον  %s εξυπηρετητή που τρέχει στο %s στη θύρα %d."
 
 #: server/connecthand.c:90
 #, c-format
 msgid "Welcome to the %s Server at port %d."
-msgstr ""
+msgstr "Καλώς ήρθες στον %s εξυπηρετητή στή θύρα %d."
 
 #: server/connecthand.c:98
 #, c-format
 msgid "%s has connected from %s."
-msgstr ""
+msgstr "%s συνδέθηκε από %s."
 
 #: server/connecthand.c:103
 #, c-format
 msgid "Server: %s has connected from %s."
-msgstr ""
+msgstr "Εξυπηρετητής: %s συνδέθηκε από %s."
 
 #: server/connecthand.c:146
 msgid "Couldn't attach your connection to new player."
-msgstr ""
+msgstr "Δεν μπορεί να εφαρμόσουμε τη σύνδεσή σου σε νέο παίχτη."
 
 #: server/connecthand.c:164
 #, c-format
 msgid "You are logged in as '%s' connected to no player."
-msgstr ""
+msgstr "Έχεις μπει σαν '%s' συνδεδεμένος με κανένα παίχτη."
 
 #: server/connecthand.c:168
 #, c-format
@@ -4189,8 +4225,8 @@ msgstr ""
 "0 = Επιλογή δημιουργού. Η επιλογή αυτής της ρύθμισης σημαίνει\n"
 "    ότι η προκαθορισμένη τιμή θα επιλεχτεί με βάση των Δημιουργό\n"
 "    που επιλέχτηκε. Δες τη ρύθμιση \"δημιουργός\".\n"
-"1 = Προσπάθησε να τοποθετήσεις ένα παίχτη ανα ήπειρο.\n"
-"2 = Προσπάθησε να τοποθετήσεις δύο παίχτες ανα ήπειρο.\n"
+"1 = Προσπάθησε να τοποθετήσεις ένα παίχτη ανά ήπειρο.\n"
+"2 = Προσπάθησε να τοποθετήσεις δύο παίχτες ανά ήπειρο.\n"
 "3 = Προσπάθησε να τοποθετήσεις όλους τους παίχτες σε μια ήπειρο.\n"
 "4 = Τοποθέτησε τους παίχτες ανάλογα με το μέγεθος των ηπείρων.\n"
 "Σημείωση: ο δημιουργός προσπαθεί να δημιουργήσει το σωστό αριθμό ηπείρων αναλογικά με την επιλογή του πλήθος των παιχτών και του τρόπου αρχικ.τοποθέτησης που έγιναν."
@@ -6181,6 +6217,23 @@ msgid ""
 "  save   -  to save the current game\n"
 "  quit   -  to exit"
 msgstr ""
+"Καλώς ήρθες - αυτή είναι η εισαγωγική βοήθεια για τον εξυπηρετητή Freeciv.\n"
+"\n"
+"Δυο σημαντικές έννοιες του εξυπηρετητή είναι οι Εντολές και οι Επιλογές.\n"
+"Εντολές, όπως η 'help' (βοήθεια) χρησιμοποιούνται για αλληλεπίδραση με τον εξυπηρετητή.\n"
+"Μερικές εντολές δέχονται ένα ή περισσότερα ορίσματα χωρισμένα με κενά.\n"
+"Σε πολλές περιπτώσεις εντολές και ορίσματα μπορούν να συντομευθούν.\n"
+"Οι Επιλογές είναι ρυθμίσεις του εξυπηρετητή καθώς τρέχει .\n"
+"\n"
+"Για να μάθεις περισσότερα για τις διαθέσιμες εντολές και επιλογές ,\n"
+"εκτέλεσε την εντολή  'help help'.\n"
+"\n"
+"Για τον ανυπόμονο, οι ποιό σημαντικές εντολές για να ξεκινήσει είναι οι:\n"
+"  show   - για να δει τρέχουσες επιλογές\n"
+"  set      - για να θέσει τρέχουσες επιλογές\n"
+"  start   - για να ξεκινήσει το παιχνίδι αφού συνδεθούν οι παίχτες\n"
+"  save   - για να σώσει το τρέχων παιχνίδι\n"
+"  quit    -  για έξοδο"
 
 #. TRANS: <untranslated name> - translated short help
 #: server/stdinhand.c:3921
@@ -6317,32 +6370,32 @@ msgstr ""
 #: server/techtools.c:106
 #, c-format
 msgid "The %s have researched %s."
-msgstr ""
+msgstr "Οι %s ερεύνησαν το %s."
 
 #: server/techtools.c:112
 #, c-format
 msgid "The %s have researched Future Tech. %d."
-msgstr ""
+msgstr "Οι %s ερεύνησαν μελλοντική τεχνολογία. %d."
 
 #: server/techtools.c:166
 #, c-format
 msgid "%s acquired from %s!"
-msgstr ""
+msgstr "%s αποκτήθηκε από %s!"
 
 #: server/techtools.c:220
 #, c-format
 msgid "Discovery of %s makes the government form %s available. You may want to start a revolution."
-msgstr ""
+msgstr "Ανακάλυψη του %s κάνει διαθέσιμο το πολίτευμα %s . Μπορείς αν θέλεις να ξεκινήσεις επανάσταση."
 
 #: server/techtools.c:299
 #, c-format
 msgid "Discovery of %s OBSOLETES %s in %s!"
-msgstr ""
+msgstr "Η ανακάλυψη του %s ΑΠΑΡΧΑΙΩΝΕΙ  %s στην %s!"
 
 #: server/techtools.c:350
 #, c-format
 msgid "Learned %s. Our scientists focus on %s; goal is %s."
-msgstr ""
+msgstr " %s μαθεύτηκε. Οι επιστήμονες μας εστιάζουν σε %s, στόχος  %s."
 
 #: server/techtools.c:368
 #, c-format
@@ -6935,6 +6988,18 @@ msgstr ""
 msgid "Perhaps there is some misconfiguration or bad permissions."
 msgstr ""
 
+#: client/chatline_common.c:145
+msgid "Freeciv is free software and you are welcome to distribute copies of it under certain conditions;"
+msgstr "Το Freeciv είναι ελεύθερο λογισμικό και είσαι καλοδεχούμενος να διανέμεις αντιγραφά του υπό ορισμένες συνθήκες."
+
+#: client/chatline_common.c:147
+msgid "See the \"Copying\" item on the Help menu."
+msgstr "Δες την καταχώριση  \"Αντιγραφή\" στο μενού βοήθεια."
+
+#: client/chatline_common.c:148
+msgid "Now ... Go give 'em hell!"
+msgstr "Τώρα ... Δώς  τους να καταλάβουν!"
+
 #: client/citydlg_common.c:216
 msgid "?filler:XXX/XXX XXX turns"
 msgstr ""
@@ -6942,14 +7007,14 @@ msgstr ""
 #: client/citydlg_common.c:221
 #, c-format
 msgid "%3d gold per turn"
-msgstr ""
+msgstr "%3d χρυσά ανά γύρο"
 
 #: client/citydlg_common.c:234
 #, c-format
 msgid "%3d turn"
 msgid_plural "%3d turns"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%3d γύρος"
+msgstr[1] "%3d γύροι"
 
 #: client/citydlg_common.c:238
 #: client/citydlg_common.c:372
@@ -6963,23 +7028,23 @@ msgstr[1] ""
 #: client/gui-sdl/wldlg.c:1366
 #: client/gui-win32/citydlg.c:466
 msgid "never"
-msgstr ""
+msgstr "ποτέ"
 
 #: client/citydlg_common.c:242
 #, c-format
 msgid "%3d/%3d:%s"
-msgstr ""
+msgstr "%3d/%3d:%s"
 
 #: client/citydlg_common.c:244
 #, c-format
 msgid "%3d/%3d %s"
-msgstr ""
+msgstr "%3d/%3d %s"
 
 #: client/citydlg_common.c:273
 #: client/citydlg_common.c:364
 #, c-format
 msgid "%d/turn"
-msgstr ""
+msgstr "%d/γύρο"
 
 #: client/citydlg_common.c:286
 #: client/text.c:584
@@ -6997,35 +7062,35 @@ msgstr[1] "%d γύρους"
 #: client/citydlg_common.c:339
 #: client/gui-sdl/wldlg.c:1337
 msgid "Obsolete"
-msgstr ""
+msgstr "Απαρχαιωμένο"
 
 #: client/citydlg_common.c:335
 msgid "Great Wonder"
-msgstr ""
+msgstr "Μεγάλο Θαύμα"
 
 #: client/citydlg_common.c:343
 msgid "Small Wonder"
-msgstr ""
+msgstr "Μικρό Θαύμα"
 
 #: client/citydlg_common.c:395
 #, c-format
 msgid "%+4d : Citizens\n"
-msgstr ""
+msgstr "%+4d : Πολίτες\n"
 
 #: client/citydlg_common.c:402
 #, c-format
 msgid "%+4d : Taxed from trade\n"
-msgstr ""
+msgstr "%+4d : φόροι από εμπόριο\n"
 
 #: client/citydlg_common.c:421
 #, c-format
 msgid "%+4d : Trade route with %s\n"
-msgstr ""
+msgstr "%+4d : Εμπορική διαδρομή με  %s\n"
 
 #: client/citydlg_common.c:430
 #, c-format
 msgid "%+4d : Building tithes\n"
-msgstr ""
+msgstr "%+4d : Χτίζεται  δεκάτη\n"
 
 #: client/citydlg_common.c:453
 #, c-format
@@ -7058,31 +7123,31 @@ msgstr ""
 
 #: client/cityrepdata.c:74
 msgid "?city_state:Rapture"
-msgstr ""
+msgstr "?κατάσταση_πόλης:Εορτασμός"
 
 #: client/cityrepdata.c:75
 msgid "?city_state:Disorder"
-msgstr ""
+msgstr "?κατάσταση_πόλης:Αναταραχή"
 
 #: client/cityrepdata.c:76
 msgid "?city_state:Peace"
-msgstr ""
+msgstr "?κατάσταση_πόλης:Ειρήνη"
 
 #: client/cityrepdata.c:359
 msgid "(worklist)"
-msgstr ""
+msgstr "(λίστα εργασιών)"
 
 #: client/cityrepdata.c:439
 msgid "Special"
-msgstr ""
+msgstr "Ειδικός"
 
 #: client/cityrepdata.c:440
 msgid "?entertainers/scientists/taxmen:E/S/T"
-msgstr ""
+msgstr "?ψυχαγωγείς/επιστήμονες/φοροεισπράκτορες:Ψ/Ε/Φ"
 
 #: client/cityrepdata.c:441
 msgid "Entertainers, Scientists, Taxmen"
-msgstr ""
+msgstr "Ψυχαγωγείς, Επιστήμονες, Φοροεισπράχτορας"
 
 #: client/cityrepdata.c:444
 msgid "Concise + Rapture, - Disorder"
@@ -7100,70 +7165,70 @@ msgstr ""
 
 #: client/cityrepdata.c:449
 msgid "?Happy workers:H"
-msgstr ""
+msgstr "?Ευτυχισμένοι εργάτες:Ε"
 
 #: client/cityrepdata.c:449
 msgid "Workers: Happy"
-msgstr ""
+msgstr "Εργάτες: Χαρούμενοι"
 
 #: client/cityrepdata.c:451
 msgid "?Content workers:C"
-msgstr ""
+msgstr "?Ικανοποιημένοι εργάτες:Ι"
 
 #: client/cityrepdata.c:451
 msgid "Workers: Content"
-msgstr ""
+msgstr "Εργάτες: Ικανοποιημένοι"
 
 #: client/cityrepdata.c:453
 msgid "?Unhappy workers:U"
-msgstr ""
+msgstr "?Δυστυχισμένοι εργάτες:Δ"
 
 #: client/cityrepdata.c:453
 msgid "Workers: Unhappy"
-msgstr ""
+msgstr "Εργάτες:Δυστυχισμένοι"
 
 #: client/cityrepdata.c:455
 msgid "?Angry workers:A"
-msgstr ""
+msgstr "?Θυμωμένοι εργάτες:Θ"
 
 #: client/cityrepdata.c:455
 msgid "Workers: Angry"
-msgstr ""
+msgstr "Εργάτες:Θυμωμένοι"
 
 #: client/cityrepdata.c:457
 #: client/gui-xaw/citydlg.c:2400
 #: data/default/units.ruleset:317
 msgid "Workers"
-msgstr ""
+msgstr "Εργάτες"
 
 #: client/cityrepdata.c:458
 msgid "?happy/content/unhappy/angry:H/C/U/A"
-msgstr ""
+msgstr "?ευτυχισμένοι/ικανοποιημένοι/δυστυχισμένοι/θυμωμένοι:Ε/Ι/Δ/Θ"
 
 #: client/cityrepdata.c:459
 msgid "Workers: Happy, Content, Unhappy, Angry"
-msgstr ""
+msgstr "Εργάτες: Ευτυχισμένοι, Ικανοποιημένοι, Δυστυχισμένοι, Θυμωμένοι"
 
 #: client/cityrepdata.c:462
 #: client/cityrepdata.c:464
 msgid "Best"
-msgstr ""
+msgstr "Καλύτερο"
 
 #: client/cityrepdata.c:462
 msgid "attack"
-msgstr ""
+msgstr "επίθεση"
 
 #: client/cityrepdata.c:463
 msgid "Best attacking units"
-msgstr ""
+msgstr "Καλύτερες επιθετικές μονάδες"
 
 #: client/cityrepdata.c:464
 msgid "defense"
-msgstr ""
+msgstr "άμυνα"
 
 #: client/cityrepdata.c:465
 msgid "Best defending units"
-msgstr ""
+msgstr "Καλύτερες αμυντικές μονάδες"
 
 #: client/cityrepdata.c:466
 #: client/cityrepdata.c:470
@@ -7213,9 +7278,8 @@ msgstr "Αριθμός υποστηριζόμενων μονάδων"
 
 #. TRANS: Header "It will take this many turns before city grows"
 #: client/cityrepdata.c:476
-#, fuzzy
 msgid "?food (population):Grow"
-msgstr "Αύξηση"
+msgstr "?φαγητό (πληθυσμός):Αύξηση"
 
 #: client/cityrepdata.c:477
 #: client/cityrepdata.c:523
@@ -7229,20 +7293,20 @@ msgstr "Γύροι μέχρι αύξηση/λιμό"
 
 #: client/cityrepdata.c:480
 msgid "?size [short]:Sz"
-msgstr ""
+msgstr "?μέγεθος [συντόμευση]:Μγς"
 
 #: client/cityrepdata.c:480
 msgid "Size"
-msgstr ""
+msgstr "Μέγεθος"
 
 #: client/cityrepdata.c:484
 msgid "?city:Name"
-msgstr ""
+msgstr "?πόλη:Όνομα"
 
 #: client/cityrepdata.c:484
 #: client/gui-sdl/cityrep.c:172
 msgid "City Name"
-msgstr ""
+msgstr "Όνομα πόλης"
 
 #: client/cityrepdata.c:487
 msgid "Surplus"
@@ -7257,18 +7321,16 @@ msgid "Surplus: Food, Production, Trade"
 msgstr "Πλεόνασμα: Φαγητό, Παραγωγή, Εμπόριο"
 
 #: client/cityrepdata.c:490
-#, fuzzy
 msgid "?Food surplus [short]:+F"
-msgstr "?Food surplus [short]:+Φ"
+msgstr "?Φαγητό πλεόνασμα [συντόμευση]:+Φ"
 
 #: client/cityrepdata.c:490
 msgid "Surplus: Food"
 msgstr "Πλεόνασμα: Φαγητό"
 
 #: client/cityrepdata.c:492
-#, fuzzy
 msgid "?Production surplus [short]:+P"
-msgstr "?Productio surplus [short]:+Π"
+msgstr "?Παραγωγή πλεόνασμα [συντόμευση]:+Π"
 
 #: client/cityrepdata.c:493
 msgid "Surplus: Production"
@@ -7284,9 +7346,8 @@ msgid "Waste"
 msgstr "Σπατάλη"
 
 #: client/cityrepdata.c:496
-#, fuzzy
 msgid "?Trade surplus [short]:+T"
-msgstr "?Trade surplus [short]:+Ε"
+msgstr "?Εμπόριο πλεόνασμα [σύντομευση]:+Ε"
 
 #: client/cityrepdata.c:496
 msgid "Surplus: Trade"
@@ -7370,7 +7431,7 @@ msgstr "?cma:Κυβερνήτης"
 #: client/cityrepdata.c:515
 #: client/gui-gtk-2.0/cityrep.c:1230
 #: client/gui-gtk-2.0/cityrep.c:1503
-#: client/gui-sdl/citydlg.c:3814
+#: client/gui-sdl/citydlg.c:3813
 #: client/gui-sdl/cma_fe.c:861
 #: client/gui-win32/citydlg.c:737
 #: data/Freeciv.in:1459
@@ -7379,9 +7440,8 @@ msgid "Citizen Governor"
 msgstr "Κυβερνήτης Πόλης"
 
 #: client/cityrepdata.c:518
-#, fuzzy
 msgid "Turns/Buy"
-msgstr "Γύροι"
+msgstr "Γύροι/Αγορά"
 
 #: client/cityrepdata.c:522
 #: client/cityrepdata.c:524
@@ -7391,7 +7451,7 @@ msgstr "υπό παραγωγή"
 
 #: client/cityrepdata.c:569
 msgid "?specialist:S"
-msgstr ""
+msgstr "?ειδικός:Ε"
 
 #: client/cityrepdata.c:572
 #, fuzzy, c-format
@@ -7927,15 +7987,15 @@ msgstr ""
 
 #: client/helpdata.c:878
 msgid "* Can build roads and railroads.\n"
-msgstr ""
+msgstr "* Δεν μπορούν να χτιστούν δρόμοι και σιδηρόδρομοι .\n"
 
 #: client/helpdata.c:879
 msgid "* Can build mines on tiles.\n"
-msgstr ""
+msgstr "* Μπορείς να χτίσεις ορυχεία στο τετράγωνο.\n"
 
 #: client/helpdata.c:880
 msgid "* Can build irrigation on tiles.\n"
-msgstr ""
+msgstr "* Μπορείς να χτίσεις ύδρευση σε τετράγωνα .\n"
 
 #: client/helpdata.c:885
 msgid "* Can build farmland.\n"
@@ -9422,7 +9482,7 @@ msgstr "Πληθυσμός:       %5d"
 #: client/text.c:1003
 #, c-format
 msgid "Support:         %5d %%"
-msgstr "Υποστήριξη:       %5d %%"
+msgstr "Συντήρηση: %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:1007
@@ -9606,7 +9666,7 @@ msgstr ""
 msgid "Client does not support overhead view tilesets."
 msgstr ""
 
-#: client/tilespec.c:4146
+#: client/tilespec.c:4153
 msgid "Paths longer than 99 turns are not supported."
 msgstr ""
 
@@ -9626,7 +9686,7 @@ msgstr "Ο κυβερνήτες έχει μπερδευτεί ασχολούμενος με %s. Ίσως θέλεις να το ρίξει
 #: client/gui-gtk-2.0/cityrep.c:577
 #: client/gui-sdl/citydlg.c:2017
 msgid "none"
-msgstr "κανένας"
+msgstr "καμία"
 
 #: client/agents/cma_fec.c:235
 #: client/gui-gtk-2.0/cityrep.c:598
@@ -9650,9 +9710,9 @@ msgid ""
 "Production completed: %s"
 msgstr ""
 "Όνομα: %s\n"
-"Φαγητό:       %10s Χρυσός:  %10s\n"
-"Παραγωγή:     %10s Ανέσεις: %10s\n"
-"Εμπόριο:      %10s Επιστήμη:%10s\n"
+"Φαγητό:   %10s Χρυσός:  %10s\n"
+"Παραγωγή: %10s Ανέσεις: %10s\n"
+"Εμπόριο:  %10s Επιστήμη:%10s\n"
 "\n"
 " Άνθρωποι(ΕΡ/Ψ/ΕΠ/Φ): %s\n"
 "         Άυξηση πόλης: %s\n"
@@ -10238,22 +10298,22 @@ msgid "<b>%s</b> - %s citizens"
 msgstr "<b>%s</b> - %s πολίτες"
 
 #: client/gui-gtk-2.0/citydlg.c:1328
-#: client/gui-sdl/citydlg.c:3611
+#: client/gui-sdl/citydlg.c:3610
 msgid " - DISORDER"
 msgstr " - ΑΝΑΤΑΡΑΧΗ"
 
 #: client/gui-gtk-2.0/citydlg.c:1330
-#: client/gui-sdl/citydlg.c:3614
+#: client/gui-sdl/citydlg.c:3613
 msgid " - celebrating"
 msgstr " - γιορτασμός"
 
 #: client/gui-gtk-2.0/citydlg.c:1332
-#: client/gui-sdl/citydlg.c:3617
+#: client/gui-sdl/citydlg.c:3616
 msgid " - happy"
 msgstr "- χαρούμενοι"
 
 #: client/gui-gtk-2.0/citydlg.c:1427
-#: client/gui-sdl/citydlg.c:3306
+#: client/gui-sdl/citydlg.c:3305
 #: client/gui-win32/citydlg.c:464
 msgid "blocked"
 msgstr "μπλοκαρισμένο"
@@ -11056,7 +11116,7 @@ msgstr "Τέλος γύρου"
 #: client/gui-sdl/mapctrl.c:1565
 #: client/gui-sdl/mapview.c:892
 msgid "Shift+Return"
-msgstr ""
+msgstr "Shift+Έντερ"
 
 #: client/gui-gtk-2.0/gui_main.c:1201
 #: client/gui-gtk-2.0/menu.c:809
@@ -11162,7 +11222,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/happiness.c:112
 #: client/gui-sdl/citydlg.c:2050
-#: client/gui-sdl/citydlg.c:3726
+#: client/gui-sdl/citydlg.c:3725
 #: client/gui-win32/citydlg.c:737
 #: client/gui-win32/happiness.c:86
 #: client/gui-xaw/menu.c:258
@@ -12901,7 +12961,7 @@ msgid "Keep moving"
 msgstr "Συνέχισε να μετακινήσε"
 
 #: client/gui-sdl/chatline.c:201
-#: client/gui-sdl/citydlg.c:3689
+#: client/gui-sdl/citydlg.c:3688
 #: client/gui-sdl/cma_fe.c:472
 #: client/gui-sdl/cma_fe.c:879
 #: client/gui-sdl/dialogs.c:280
@@ -13143,10 +13203,9 @@ msgid "Sell"
 msgstr "Πούλησε"
 
 #: client/gui-sdl/citydlg.c:1742
-#: client/gui-sdl/citydlg.c:3771
-#, fuzzy
+#: client/gui-sdl/citydlg.c:3770
 msgid "City options"
-msgstr "Επιλογές πόλης..."
+msgstr "Επιλογές πόλης"
 
 #: client/gui-sdl/citydlg.c:1787
 #, fuzzy, c-format
@@ -13154,15 +13213,15 @@ msgid "Supported units: %d"
 msgstr "Υποστηριγμένες %d"
 
 #: client/gui-sdl/citydlg.c:1845
-#, fuzzy, c-format
+#, c-format
 msgid "Present units: %d"
-msgstr "Παρόντες %d"
+msgstr "Παρόντες: %d"
 
 #: client/gui-sdl/citydlg.c:1894
-#: client/gui-sdl/citydlg.c:3738
+#: client/gui-sdl/citydlg.c:3737
 #: client/gui-win32/citydlg.c:789
 msgid "City info"
-msgstr "Πληροφορίες πόλης"
+msgstr "Πόλης πληροφ/ς"
 
 #: client/gui-sdl/citydlg.c:1915
 #, c-format
@@ -13175,7 +13234,7 @@ msgstr "Μόλυνση: καμία"
 
 #: client/gui-sdl/citydlg.c:1956
 msgid "Trade routes: "
-msgstr "Εμπορικές διαδρομές:"
+msgstr "Εμπορ/ςΔιαδρ/ς:"
 
 #: client/gui-sdl/citydlg.c:2005
 #, c-format
@@ -13187,34 +13246,33 @@ msgid "Citizens"
 msgstr "Πολίτες"
 
 #: client/gui-sdl/citydlg.c:2559
-#, fuzzy
 msgid "City improvements"
 msgstr "Υποδομές πόλης"
 
 #: client/gui-sdl/citydlg.c:2574
 #, c-format
 msgid "Food: %d per turn"
-msgstr "Φαγητό: %d ανα γύρο"
+msgstr "Φαγητό: %d ανά γύρο"
 
 #: client/gui-sdl/citydlg.c:2611
-#, fuzzy, c-format
+#, c-format
 msgid "?food:Surplus: %d"
-msgstr "Πλεόνασμα: %d"
+msgstr "?Φαγητό:Πλεόνασμα: %d"
 
 #: client/gui-sdl/citydlg.c:2659
 #, c-format
 msgid "Production: %d (%d) per turn"
-msgstr "Παραγωγή: %d (%d) ανα γύρο"
+msgstr "Παραγωγή: %d(%d) ανά γύρο"
 
 #: client/gui-sdl/citydlg.c:2705
 #, c-format
 msgid "?production:Support: %d"
-msgstr "?παραγωγή:Υποστήριξη: %d"
+msgstr "?παραγωγή:Συντήρηση: %d"
 
 #: client/gui-sdl/citydlg.c:2743
 #, c-format
 msgid "Trade: %d per turn"
-msgstr "Εμπόριο: %d ανα γύρο"
+msgstr "Εμπόριο: %d ανά γύρο"
 
 #: client/gui-sdl/citydlg.c:2777
 #, c-format
@@ -13224,22 +13282,22 @@ msgstr "Διαφθορά: %d"
 #: client/gui-sdl/citydlg.c:2814
 #, c-format
 msgid "Gold: %d (%d) per turn"
-msgstr "Χρυσός: %d (%d) ανα στροφή"
+msgstr "Χρυσός: %d (%d) ανά γύρο"
 
 #: client/gui-sdl/citydlg.c:2861
 #, c-format
 msgid "Upkeep: %d"
-msgstr "Συντήρηση:  %d"
+msgstr "Συντήρηση: %d"
 
 #: client/gui-sdl/citydlg.c:2900
 #, c-format
 msgid "Science: %d per turn"
-msgstr "Επιστήμη : %d ανα γύρο"
+msgstr "Επιστήμη : %d ανά γύρο"
 
 #: client/gui-sdl/citydlg.c:2940
 #, c-format
 msgid "Luxury: %d per turn"
-msgstr "Ανέσεις : %d ανα γύρο"
+msgstr "Ανέσεις : %d ανά γύρο"
 
 #: client/gui-sdl/citydlg.c:2978
 msgid "City growth: blocked"
@@ -13255,8 +13313,7 @@ msgid "City shrinks: %d %s"
 msgstr "Συρρίκνωση πόλης: %d %s"
 
 #: client/gui-sdl/citydlg.c:2985
-#: client/gui-sdl/citydlg.c:2989
-#: client/gui-sdl/citydlg.c:3309
+#: client/gui-sdl/citydlg.c:3308
 #: client/gui-sdl/cityrep.c:537
 #: client/gui-sdl/cityrep.c:1062
 #: client/gui-sdl/menu.c:803
@@ -13285,60 +13342,59 @@ msgstr[1] "γύροι"
 
 #: client/gui-sdl/citydlg.c:2988
 #, c-format
-msgid "City growth: %d %s"
-msgstr "Ανάπτυξη πόλης: %d %s"
+msgid "City growth: %d turn"
+msgid_plural "City growth: %d turns"
+msgstr[0] "Ανάπτυξη πόλης: %d γύρος"
+msgstr[1] "Άυξηση πόλης: %d γύροι"
 
-#: client/gui-sdl/citydlg.c:3027
-#: client/gui-sdl/citydlg.c:3139
+#: client/gui-sdl/citydlg.c:3026
+#: client/gui-sdl/citydlg.c:3138
 msgid "Stock"
 msgstr "Απόθεμα"
 
-#: client/gui-sdl/citydlg.c:3038
+#: client/gui-sdl/citydlg.c:3037
 #: data/default/buildings.ruleset:322
 #: data/civ2/buildings.ruleset:301
 #: data/civ1/buildings.ruleset:248
 msgid "Granary"
 msgstr "Σιταποθήκη"
 
-#: client/gui-sdl/citydlg.c:3313
+#: client/gui-sdl/citydlg.c:3312
 msgid "finished"
 msgstr "Τελειωμένο"
 
-#: client/gui-sdl/citydlg.c:3606
+#: client/gui-sdl/citydlg.c:3605
 #, c-format
 msgid "City of %s (Population %s citizens)"
-msgstr "Πόλη με %s (Πληθυσμός %s πολίτες)"
+msgstr "Πόλη %s (Πληθυσμός %s πολίτες)"
 
-#: client/gui-sdl/citydlg.c:3623
+#: client/gui-sdl/citydlg.c:3622
 msgid " - under Citizen Governor control."
 msgstr " - υπό τον έλεγχο κυβερνήτη πολιτών"
 
-#: client/gui-sdl/citydlg.c:3702
-#, fuzzy
+#: client/gui-sdl/citydlg.c:3701
 msgid "Present units"
-msgstr "Παρόντες %d"
+msgstr "Παρόντες μονάδες"
 
-#: client/gui-sdl/citydlg.c:3713
+#: client/gui-sdl/citydlg.c:3712
 #: client/gui-win32/citydlg.c:818
 msgid "Supported units"
 msgstr "Υποστηριζόμενες μονάδες"
 
-#: client/gui-sdl/citydlg.c:3785
-#, fuzzy
+#: client/gui-sdl/citydlg.c:3784
 msgid "Change production"
-msgstr "Άλλα_ξε παραγωγή"
+msgstr "Άλλαξε παραγωγή"
 
-#: client/gui-sdl/citydlg.c:3799
+#: client/gui-sdl/citydlg.c:3798
 #: client/gui-sdl/dialogs.c:1272
 msgid "Hurry production"
 msgstr "Επιτάχυνε παραγωγή"
 
-#: client/gui-sdl/citydlg.c:3830
-#, fuzzy
+#: client/gui-sdl/citydlg.c:3829
 msgid "Previous city"
-msgstr "_Προηγούμενη πόλη"
+msgstr "Προηγούμενη πόλη"
 
-#: client/gui-sdl/citydlg.c:3845
+#: client/gui-sdl/citydlg.c:3844
 msgid "Next city"
 msgstr "Επόμενη πόλη"
 
@@ -14032,14 +14088,12 @@ msgid "or"
 msgstr "Θύρα"
 
 #: client/gui-sdl/mapctrl.c:1614
-#, fuzzy
 msgid "Hide Messages"
-msgstr "Μη_νύματα"
+msgstr "Κρύψε μηνύματα"
 
 #: client/gui-sdl/mapctrl.c:1624
-#, fuzzy
 msgid "Toggle Minimap Mode"
-msgstr "_Αλλαγή τρόπου TN"
+msgstr "Τρόπος εναλλαγής μίνιΧάρτη"
 
 #: client/gui-sdl/mapctrl.c:1636
 #: client/gui-sdl/optiondlg.c:2109
@@ -14163,16 +14217,12 @@ msgid ""
 msgstr ""
 
 #: client/gui-sdl/mapview.c:892
-#, fuzzy
 msgid "End of Turn"
-msgstr ""
-"Τέλος γύρου\n"
-"(Πάτησε Enter)"
+msgstr "Τέλος γύρου"
 
 #: client/gui-sdl/mapview.c:892
-#, fuzzy
 msgid "Press"
-msgstr "Πάπισσα"
+msgstr "Πάτησε"
 
 #. TRANS: keyboard
 #: client/gui-sdl/menu.c:374
@@ -14195,7 +14245,7 @@ msgstr "Ενέργειες Διπλωμάτη|Κατασκόπου"
 
 #: client/gui-sdl/menu.c:425
 msgid "Disband"
-msgstr ""
+msgstr "Διέλυσε"
 
 #: client/gui-sdl/menu.c:464
 msgid "Goto City"
@@ -14225,9 +14275,8 @@ msgid "Connect irrigation"
 msgstr "Στρατολογία"
 
 #: client/gui-sdl/menu.c:527
-#, fuzzy
 msgid "Connect road"
-msgstr "_Σύνδεσε"
+msgstr "Σύνδεσε δρόμο"
 
 #: client/gui-sdl/menu.c:540
 #, fuzzy
@@ -14297,7 +14346,7 @@ msgstr ""
 #: client/gui-win32/menu.c:1249
 #: client/gui-xaw/menu.c:186
 msgid "Fortify"
-msgstr ""
+msgstr "Οχυρούσου"
 
 #: client/gui-sdl/menu.c:734
 #: client/gui-win32/menu.c:1251
@@ -14314,14 +14363,14 @@ msgstr "Μετασχημάτισε τετράγωνο"
 #: client/gui-win32/menu.c:1118
 #: client/gui-xaw/menu.c:176
 msgid "Build Mine"
-msgstr ""
+msgstr "Χτίσε Ορυχείο"
 
 #: client/gui-sdl/menu.c:773
 #: client/gui-sdl/menu.c:1104
 #: client/gui-win32/menu.c:1117
 #: client/gui-xaw/menu.c:173
 msgid "Build Irrigation"
-msgstr ""
+msgstr "Χτίσε ύδρευση"
 
 #: client/gui-sdl/menu.c:787
 msgid "Form Traderoute"
@@ -14340,7 +14389,7 @@ msgstr ""
 #: client/gui-win32/menu.c:1215
 #: client/gui-xaw/menu.c:171
 msgid "Build Road"
-msgstr ""
+msgstr "Χτίσε Δρόμο"
 
 #: client/gui-sdl/menu.c:826
 #: client/gui-win32/menu.c:1189
@@ -14510,30 +14559,28 @@ msgstr "Αποθήκευση παιχνίδι"
 #: data/Freeciv.in:115
 #: data/Freeciv.in:3187
 msgid "Quit"
-msgstr ""
+msgstr "Έξοδος"
 
 #: client/gui-sdl/pages.c:164
 #: client/gui-win32/connectdlg.c:963
 msgid "Start New Game"
-msgstr ""
+msgstr "Ξεκίνησε νεο παιχνίδι"
 
 #: client/gui-sdl/pages.c:193
-#, fuzzy
 msgid "Join Game"
-msgstr "Ρευστοποιήση"
+msgstr "Μπες στο παιχνίδι"
 
 #: client/gui-sdl/pages.c:207
-#, fuzzy
 msgid "Join Pubserver"
-msgstr "  (παρατηρητής)"
+msgstr "Μπες στον Pubserver"
 
 #: client/gui-sdl/pages.c:221
 msgid "Join LAN Server"
-msgstr ""
+msgstr "Μπες στον τοπικό εξυπηρετητή"
 
 #: client/gui-sdl/pages.c:302
 msgid "SDLClient welcomes you..."
-msgstr ""
+msgstr "Ο πελάτης SDL σε καλοσορίζει..."
 
 #: client/gui-sdl/plrdlg.c:650
 msgid "disconnected"
@@ -14665,9 +14712,9 @@ msgid "The Greatest Civilizations in the world."
 msgstr ""
 
 #: client/gui-sdl/spaceshipdlg.c:142
-#, fuzzy, c-format
+#, c-format
 msgid "The %s Spaceship"
-msgstr "Δια_στημόπλοιο"
+msgstr "Το %s διαστημόπλοιο"
 
 #: client/gui-sdl/spaceshipdlg.c:172
 #: client/gui-win32/spaceshipdlg.c:241
@@ -15120,7 +15167,7 @@ msgstr ""
 
 #: client/gui-win32/connectdlg.c:947
 msgid "Welcome to Freeciv"
-msgstr ""
+msgstr "Καλώς ήρθες στο Freeciv"
 
 #: client/gui-win32/connectdlg.c:965
 msgid "Load Saved Game"
@@ -15621,7 +15668,7 @@ msgstr ""
 
 #: client/gui-xaw/citydlg.c:1466
 msgid "No trade routes exist.\n"
-msgstr ""
+msgstr "Δεν υπάρχουν εμπορικές διαδρομές.\n"
 
 #: client/gui-xaw/citydlg.c:1468
 #, c-format
@@ -15629,6 +15676,8 @@ msgid ""
 "\n"
 "Total trade %d Trade/Year\n"
 msgstr ""
+"\n"
+"Συνολικό εμπόριο %d Εμπόριο/Έτος\n"
 
 #: client/gui-xaw/citydlg.c:1822
 #, c-format
@@ -15752,7 +15801,7 @@ msgstr ""
 
 #: client/gui-xaw/menu.c:147
 msgid "City Growth"
-msgstr ""
+msgstr "Άυξηση πόλης"
 
 #: client/gui-xaw/menu.c:190
 msgid "Make Homecity"
@@ -16003,7 +16052,7 @@ msgstr ""
 #: manual/civmanual.c:212
 #: data/default/terrain.ruleset:1810
 #: data/civ2/terrain.ruleset:1693
-#: data/civ1/terrain.ruleset:1655
+#: data/civ1/terrain.ruleset:1666
 msgid "Resources"
 msgstr ""
 
@@ -16021,24 +16070,24 @@ msgstr ""
 
 #: manual/civmanual.c:215
 msgid "turns"
-msgstr ""
+msgstr "γύροι"
 
 #: manual/civmanual.c:217
 msgid "Rail"
-msgstr ""
+msgstr "Σιδηρόδρομος"
 
 #: manual/civmanual.c:218
 msgid "Clean pollution"
-msgstr ""
+msgstr "Καθάρισε μόλυνση"
 
 #: manual/civmanual.c:218
 msgid "Clean fallout"
-msgstr ""
+msgstr "Καθάρισε ραδιενέργεια"
 
 #: manual/civmanual.c:253
 #: manual/civmanual.c:263
 msgid "impossible"
-msgstr ""
+msgstr "αδύνατο"
 
 #: manual/civmanual.c:286
 #, c-format
@@ -16046,6 +16095,8 @@ msgid ""
 "<h1>Freeciv %s buildings help</h1>\n"
 "\n"
 msgstr ""
+"<h1>Freeciv %s βοήθεια για κτίρια</h1>\n"
+"\n"
 
 #: manual/civmanual.c:288
 #, c-format
@@ -16053,34 +16104,36 @@ msgid ""
 "<h1>Freeciv %s wonders help</h1>\n"
 "\n"
 msgstr ""
+"<h1>Freeciv %s βοήθεια για θαύματα</h1>\n"
+"\n"
 
 #: manual/civmanual.c:294
 msgid "Requirement"
-msgstr ""
+msgstr "Απαίτηση"
 
 #: manual/civmanual.c:294
 msgid "Obsolete by"
-msgstr ""
+msgstr "Απαρχαιώθηκε από"
 
 #: manual/civmanual.c:294
 msgid "More info"
-msgstr ""
+msgstr "Περισσότερη πληροφορία"
 
 #: data/Freeciv.in:68
 msgid "Connect to Freeciv Server"
-msgstr ""
+msgstr "Συνδέσου στον εξυπηρετητή Freeciv."
 
 #: data/Freeciv.in:111
 msgid "LAN Servers"
-msgstr ""
+msgstr "Εξυπηρετητές LAN"
 
 #: data/Freeciv.in:129
 msgid "Freeciv Server List"
-msgstr ""
+msgstr "Λίστα εξυπηρετητών Freeciv"
 
 #: data/Freeciv.in:132
 msgid "Server Name                         Port  Version     Status  Players  Comment"
-msgstr ""
+msgstr "Όνομα εξυπηρετητή           Θύρα  Έκδοση Κατάσταση Παίχτες Σχόλιο"
 
 #: data/Freeciv.in:215
 msgid "Diplomacy"
@@ -16200,7 +16253,7 @@ msgstr ""
 
 #: data/Freeciv.in:1502
 msgid "City Options"
-msgstr ""
+msgstr "Επιλογές πόλης"
 
 #: data/Freeciv.in:1512
 msgid "Make new citizens into:     "
@@ -16208,7 +16261,7 @@ msgstr ""
 
 #: data/Freeciv.in:1520
 msgid "Disband if build settler at size 1:"
-msgstr ""
+msgstr "Διαλύεται αν χτίσεις άποικους σε μέγεθος 1:"
 
 #: data/Freeciv.in:1526
 msgid "Auto-attack vs land units:         "
@@ -16308,9 +16361,9 @@ msgid ""
 "under certain conditions; See the \"Copying\" item on the Help menu.\n"
 "Now.. Go give'em hell!"
 msgstr ""
-"Το Freeciv είναι ελεύθερο λογισμικό και είσαι καλοδεχούμενος να διανείμεις\n"
-"αντιγραφά του κάτω από ορισμένες προυποθέσεις; Δες και την καταχώσηση \"Αντιγραφή\" στο μενού Βοήθεια.\n"
-"Tώρα... ώρα για αγώνα!"
+"Το Freeciv είναι ελεύθερο λογισμικό και είσαι καλοδεχούμενος να διανέμεις\n"
+"αντιγραφά του κάτω από ορισμένες προυποθέσεις. Δες και την καταχώσηση\n"
+" \"Αντιγραφή\" στο μενού Βοήθεια. Tώρα... ώρα για αγώνα! "
 
 #: data/Freeciv.in:3058
 msgid " Sell "
@@ -17017,6 +17070,19 @@ msgid ""
 "\n"
 "But beware! If you use the governor for some of your cities, you will encounter some difficulties with managing cities nearby, by hand. It's best to manage all cities on an island either by hand or by governor. Read more hints, some background information, and some preset examples in the file README.cma, included with Freeciv.\n"
 msgstr ""
+"Ο κυβερνήτης της πόλης ( Κ.Π ) σε βοηθάει να διαχειρίζεσαι τις πόλεις σου. Κατανέμειτους διαθέσιμους εργάτες σε ελεύθερα τετράγωνα γύρω από την πόλη για να επιτύχει τημέγιστη παραγωγικότητα. Επίσης αλλάζει τους εργάτες σε επιστήμονες , φοροεισπράχτορες ή διασκεδαστές,αν είναι αναγκαίο. Και έχει ακόμα την δυνατότητα να κρατάει χαρούμενες τιςπόλεις.\n"
+"\n"
+"Υπάρχουν πολλοί τρόποι να πεις στον κυβερνήτη τι είδους διαχείρισης επιθυμείς. Άνοιξετο παράθυρο της πόλης και κάνε κλικ στην καρτέλα του κυβερνήτη. Υπάρχουν δύο  είδη ολισθητών:  Στα αριστερά, μπορείς να θέσεις ένα ελάχιστο πλεόνασμα για κάθε είδοςπαραγωγής , π.χ Χρυσός = +3 σημαίνει ότι η πόλη θα κερδίζει 3 χρυσά περισσότερα από τι χρειάζεται για να διατηρεί τις βελτιώσεις της. Στα δεξιά , οι ολισθητές σου επιτρέπουν να ορίσεις πόσο προτιμάς ένα είδος παραγωγής από ένα άλλο , αν θέσεις πχ την επιστήμη σε 3 σημαίνει ότι προτιμάς ένα γλόμπο από τρεις ασπίδες (ή χρυσό, εμπόριο...). Μπορείς να θέσεις διαφορετικούς συντελεστές για κάθε παραγωγή ανάλογα με  τις ανάγκες σου.\n"
+"\n"
+"Αν θέσεις μερικά ελάχιστα πλεονάσματα που δεν είναι δυνατό να πραγματοποιηθούν , ο κυβερνήτης δεν θα μπορέσει να ενεργοποιηθεί. Όποτε ο κυβερνήτης δεν μπορεί να εκπληρώσει κάποιο καθήκον που του ανέθεσες παραδίδει τον έλεγχο σε σένα. Γι'αυτό καλύτερα να μην ορίσεις πολύ υψηλό πλεόνασμα. αλλά χρησιμοποιήσε τους συντελεστές για να πετύχεις τους στόχους σου.\n"
+"\n"
+"Το κουτάκι ελέγχου Εορτασμός επιτρέπει την πόλη να εορτάσει. Αυτό θα συμβεί μόνο σε πολύ υψηλά ποσοστά ανέσεων. Δες σχετικά τη βοήθεια 'Ευτυχία'.\n"
+"\n"
+"Κάνοντας κλικ στο εικονίδιο 'έλεγξε πόλη' βάζει την πόλη υπό τον έλεγχο του κυβερνήτη. Το κουμπί 'Άφησε πόλη' σου επιστρέφει τον έλεγχό της.\n"
+"\n"
+"Για ευκολία χρήσης, μπορείς να σώσεις τις ρυθμίσεις τον ολισθητών και να της τις ξαναχρησιμοποιήσεις φορτώνοντάς τες. Επίσης μπορείς να ελέγξεις κεντρικά τις ρυθμίσεις του κυβερνήτη κάθε πόλης μέσα από το παράθυρο διαλόγου πόλεων.\n"
+"\n"
+"Πρόσεξε ,είναι καλό να διαχειρίζεσε όλες τις πόλεις με κυβερνήτη ή όλες με το χέρι αλλίως μπορεί να μπερδευτείς. Διάβασε και το αρχείο README.cma  για μερικά παραδείγματα.\n"
 
 #: data/helpdata.txt:873
 msgid "City Improvements"
@@ -19592,15 +19658,15 @@ msgstr ""
 #: data/civ2/terrain.ruleset:566
 #: data/civ2/terrain.ruleset:600
 #: data/civ1/terrain.ruleset:558
-#: data/civ1/terrain.ruleset:590
+#: data/civ1/terrain.ruleset:591
 msgid "Desert"
 msgstr "Έρημος"
 
 #: data/default/terrain.ruleset:630
 #: data/civ2/terrain.ruleset:594
 #: data/civ2/terrain.ruleset:629
-#: data/civ1/terrain.ruleset:584
-#: data/civ1/terrain.ruleset:619
+#: data/civ1/terrain.ruleset:585
+#: data/civ1/terrain.ruleset:620
 msgid "Deserts are regions of extreme dryness, making agriculture and trade very difficult."
 msgstr "Οι ερημοι είναι περιοχές με ακραία ξηρασία , κάνοντας τη γεωργία και το εμπόριο πολύ δύσκολα."
 
@@ -19627,14 +19693,14 @@ msgstr "Έρημος"
 #: data/civ2/terrain.ruleset:1184
 #: data/civ2/terrain.ruleset:1220
 #: data/civ2/terrain.ruleset:1256
-#: data/civ1/terrain.ruleset:826
-#: data/civ1/terrain.ruleset:861
-#: data/civ1/terrain.ruleset:898
-#: data/civ1/terrain.ruleset:933
-#: data/civ1/terrain.ruleset:967
-#: data/civ1/terrain.ruleset:1166
-#: data/civ1/terrain.ruleset:1202
-#: data/civ1/terrain.ruleset:1238
+#: data/civ1/terrain.ruleset:827
+#: data/civ1/terrain.ruleset:862
+#: data/civ1/terrain.ruleset:899
+#: data/civ1/terrain.ruleset:934
+#: data/civ1/terrain.ruleset:968
+#: data/civ1/terrain.ruleset:1171
+#: data/civ1/terrain.ruleset:1207
+#: data/civ1/terrain.ruleset:1243
 msgid "In addition to being amenable to agriculture, Hills are frequently rich in resources."
 msgstr "Εκτός από το ότι μπορούν να καλλιεργηθούν είναι συνήθως πλούσιοι και σε πόρους."
 
@@ -19651,16 +19717,16 @@ msgstr "Αλπινιστές"
 #: data/civ2/terrain.ruleset:699
 #: data/civ2/terrain.ruleset:734
 #: data/civ2/terrain.ruleset:768
-#: data/civ1/terrain.ruleset:654
-#: data/civ1/terrain.ruleset:689
-#: data/civ1/terrain.ruleset:724
-#: data/civ1/terrain.ruleset:758
+#: data/civ1/terrain.ruleset:655
+#: data/civ1/terrain.ruleset:690
+#: data/civ1/terrain.ruleset:725
+#: data/civ1/terrain.ruleset:759
 msgid "Forests are densely wooded, making agriculture somewhat problematic."
 msgstr "Τα δάση έχουν πυκνή ξυλεία, κάνοντας την γεωργία προβληματική"
 
 #: data/default/terrain.ruleset:712
 msgid "Evergreen forest"
-msgstr ""
+msgstr "Καταπράσινο δάσος"
 
 #: data/default/terrain.ruleset:750
 msgid "Deciduous forest"
@@ -19672,20 +19738,20 @@ msgstr ""
 
 #: data/default/terrain.ruleset:825
 #: data/civ2/terrain.ruleset:774
-#: data/civ1/terrain.ruleset:764
+#: data/civ1/terrain.ruleset:765
 msgid "Grassland"
 msgstr "Χωράφι"
 
 #: data/default/terrain.ruleset:856
 #: data/civ2/terrain.ruleset:802
-#: data/civ1/terrain.ruleset:792
+#: data/civ1/terrain.ruleset:793
 msgid "Grasslands afford exceptional agricultural opportunities."
 msgstr "Τα χωράφια είναι εξαιρετικά για γεωργική εκμετάλλευση."
 
 #: data/default/terrain.ruleset:861
 #: data/default/terrain.ruleset:1239
 msgid "Wooded hills"
-msgstr ""
+msgstr "Δασώδεις λόφοι"
 
 #: data/default/terrain.ruleset:899
 #: data/default/terrain.ruleset:1277
@@ -19713,8 +19779,8 @@ msgstr ""
 #: data/default/terrain.ruleset:1122
 #: data/civ2/terrain.ruleset:1012
 #: data/civ2/terrain.ruleset:1047
-#: data/civ1/terrain.ruleset:1000
-#: data/civ1/terrain.ruleset:1033
+#: data/civ1/terrain.ruleset:1002
+#: data/civ1/terrain.ruleset:1036
 msgid "Jungles are densely overgrown, making agriculture somewhat problematic."
 msgstr "Οι ζούνγκλες έχουν πυκνή βλάστηση κάνοντας την γεωργία σχετικά δύσκολη."
 
@@ -19725,8 +19791,8 @@ msgstr ""
 #: data/default/terrain.ruleset:1128
 #: data/civ2/terrain.ruleset:1053
 #: data/civ2/terrain.ruleset:1086
-#: data/civ1/terrain.ruleset:1039
-#: data/civ1/terrain.ruleset:1070
+#: data/civ1/terrain.ruleset:1042
+#: data/civ1/terrain.ruleset:1074
 msgid "Mountains"
 msgstr "Βουνά"
 
@@ -19738,10 +19804,10 @@ msgstr "Βουνά"
 #: data/civ2/terrain.ruleset:1114
 #: data/civ2/terrain.ruleset:1494
 #: data/civ2/terrain.ruleset:1528
-#: data/civ1/terrain.ruleset:1064
-#: data/civ1/terrain.ruleset:1096
-#: data/civ1/terrain.ruleset:1466
-#: data/civ1/terrain.ruleset:1498
+#: data/civ1/terrain.ruleset:1068
+#: data/civ1/terrain.ruleset:1101
+#: data/civ1/terrain.ruleset:1476
+#: data/civ1/terrain.ruleset:1509
 msgid "Mountains are regions of extreme altitude, making agriculture and trade very difficult."
 msgstr "Τα βουνά είναι περιοχές με μεγάλο υψόμετρο κάνοντας τη καλλιέργεια τους και το εμπόριο πολύ δύσκολα."
 
@@ -19752,13 +19818,13 @@ msgstr "Παγετώνας"
 
 #: data/default/terrain.ruleset:1201
 #: data/civ2/terrain.ruleset:1120
-#: data/civ1/terrain.ruleset:1102
+#: data/civ1/terrain.ruleset:1107
 msgid "Plains"
 msgstr "Πεδιάδα"
 
 #: data/default/terrain.ruleset:1233
 #: data/civ2/terrain.ruleset:1149
-#: data/civ1/terrain.ruleset:1131
+#: data/civ1/terrain.ruleset:1136
 msgid "Plains are very broad, sparse regions, which makes trade slightly inconvenient."
 msgstr "Οι πεδιάδες είναι πολύ πλατιές περιοχές κάνοντας το εμπόριο ελαφρός δύσκολο."
 
@@ -19771,10 +19837,10 @@ msgstr ""
 #: data/civ2/terrain.ruleset:1296
 #: data/civ2/terrain.ruleset:1330
 #: data/civ2/terrain.ruleset:1365
-#: data/civ1/terrain.ruleset:1244
-#: data/civ1/terrain.ruleset:1276
-#: data/civ1/terrain.ruleset:1308
-#: data/civ1/terrain.ruleset:1341
+#: data/civ1/terrain.ruleset:1249
+#: data/civ1/terrain.ruleset:1282
+#: data/civ1/terrain.ruleset:1315
+#: data/civ1/terrain.ruleset:1349
 msgid "Swamp"
 msgstr "Βάλτος"
 
@@ -19786,10 +19852,10 @@ msgstr "Βάλτος"
 #: data/civ2/terrain.ruleset:1324
 #: data/civ2/terrain.ruleset:1359
 #: data/civ2/terrain.ruleset:1394
-#: data/civ1/terrain.ruleset:1270
-#: data/civ1/terrain.ruleset:1302
-#: data/civ1/terrain.ruleset:1335
-#: data/civ1/terrain.ruleset:1368
+#: data/civ1/terrain.ruleset:1276
+#: data/civ1/terrain.ruleset:1309
+#: data/civ1/terrain.ruleset:1343
+#: data/civ1/terrain.ruleset:1377
 msgid "Swamps suffer from an over-abundance of water, making agriculture somewhat problematic."
 msgstr "Οι βάλτοι έχουν υπερβολικό νερό, κάνοντας την καλλιεργειά τους σχετικά προβληματική."
 
@@ -19808,16 +19874,16 @@ msgstr ""
 #: data/default/terrain.ruleset:1505
 #: data/civ2/terrain.ruleset:1400
 #: data/civ2/terrain.ruleset:1433
-#: data/civ1/terrain.ruleset:1374
-#: data/civ1/terrain.ruleset:1407
+#: data/civ1/terrain.ruleset:1383
+#: data/civ1/terrain.ruleset:1416
 msgid "Tundra"
 msgstr "Τούνδρα"
 
 #: data/default/terrain.ruleset:1535
 #: data/civ2/terrain.ruleset:1427
 #: data/civ2/terrain.ruleset:1461
-#: data/civ1/terrain.ruleset:1401
-#: data/civ1/terrain.ruleset:1435
+#: data/civ1/terrain.ruleset:1410
+#: data/civ1/terrain.ruleset:1444
 msgid "Tundra are broad, cold regions, fit for some agriculture and little else."
 msgstr "Η τούνδρα είναι πλατυά κρύα περιοχή , λίγο καλλιεργίσιμη αλλά τίποτα άλλο."
 
@@ -19828,15 +19894,15 @@ msgstr "Αλπινιστές"
 
 #: data/default/terrain.ruleset:1578
 #: data/civ2/terrain.ruleset:1467
-#: data/civ1/terrain.ruleset:1441
+#: data/civ1/terrain.ruleset:1450
 msgid "Volcano"
 msgstr ""
 
 #: data/default/terrain.ruleset:1614
 #: data/civ2/terrain.ruleset:1500
-#: data/civ1/terrain.ruleset:1472
+#: data/civ1/terrain.ruleset:1482
 msgid "Volcanic peaks"
-msgstr ""
+msgstr "Ηφαιστειακές κορυφές"
 
 #: data/default/terrain.ruleset:1683
 #: data/civ2/terrain.ruleset:1566
@@ -19845,7 +19911,7 @@ msgstr "Σίδηρος"
 
 #: data/default/terrain.ruleset:1693
 #: data/civ2/terrain.ruleset:1576
-#: data/civ1/terrain.ruleset:1545
+#: data/civ1/terrain.ruleset:1556
 msgid "?animals:Game"
 msgstr "?animals:Θηράματα"
 
@@ -19856,13 +19922,13 @@ msgstr "Γούνες"
 
 #: data/default/terrain.ruleset:1713
 #: data/civ2/terrain.ruleset:1596
-#: data/civ1/terrain.ruleset:1562
+#: data/civ1/terrain.ruleset:1573
 msgid "Coal"
 msgstr "Άνθρακας"
 
 #: data/default/terrain.ruleset:1726
 #: data/civ2/terrain.ruleset:1609
-#: data/civ1/terrain.ruleset:1575
+#: data/civ1/terrain.ruleset:1586
 msgid "Fish"
 msgstr "Ψάρι"
 
@@ -19873,7 +19939,7 @@ msgstr "Φρούτα"
 
 #: data/default/terrain.ruleset:1744
 #: data/civ2/terrain.ruleset:1627
-#: data/civ1/terrain.ruleset:1591
+#: data/civ1/terrain.ruleset:1602
 msgid "Gems"
 msgstr "Πετράδια"
 
@@ -19889,7 +19955,7 @@ msgstr "Σιτάρι"
 
 #: data/default/terrain.ruleset:1782
 #: data/civ2/terrain.ruleset:1665
-#: data/civ1/terrain.ruleset:1628
+#: data/civ1/terrain.ruleset:1639
 msgid "Oasis"
 msgstr "Όαση"
 
@@ -19932,7 +19998,7 @@ msgstr "Κρασί"
 #: data/default/terrain.ruleset:1874
 #: data/civ2/terrain.ruleset:1749
 #: data/civ2/terrain.ruleset:1757
-#: data/civ1/terrain.ruleset:1637
+#: data/civ1/terrain.ruleset:1648
 msgid "Oil"
 msgstr "Πετρέλαιο"
 
@@ -19940,10 +20006,10 @@ msgstr "Πετρέλαιο"
 #: data/civ2/terrain.ruleset:670
 #: data/civ2/terrain.ruleset:705
 #: data/civ2/terrain.ruleset:740
-#: data/civ1/terrain.ruleset:625
-#: data/civ1/terrain.ruleset:660
-#: data/civ1/terrain.ruleset:695
-#: data/civ1/terrain.ruleset:730
+#: data/civ1/terrain.ruleset:626
+#: data/civ1/terrain.ruleset:661
+#: data/civ1/terrain.ruleset:696
+#: data/civ1/terrain.ruleset:731
 msgid "Forest"
 msgstr "Δάσος"
 
@@ -19955,21 +20021,21 @@ msgstr "Δάσος"
 #: data/civ2/terrain.ruleset:1155
 #: data/civ2/terrain.ruleset:1190
 #: data/civ2/terrain.ruleset:1226
-#: data/civ1/terrain.ruleset:797
-#: data/civ1/terrain.ruleset:832
-#: data/civ1/terrain.ruleset:867
-#: data/civ1/terrain.ruleset:904
-#: data/civ1/terrain.ruleset:939
-#: data/civ1/terrain.ruleset:1137
-#: data/civ1/terrain.ruleset:1172
-#: data/civ1/terrain.ruleset:1208
+#: data/civ1/terrain.ruleset:798
+#: data/civ1/terrain.ruleset:833
+#: data/civ1/terrain.ruleset:868
+#: data/civ1/terrain.ruleset:905
+#: data/civ1/terrain.ruleset:940
+#: data/civ1/terrain.ruleset:1142
+#: data/civ1/terrain.ruleset:1177
+#: data/civ1/terrain.ruleset:1213
 msgid "Hills"
 msgstr "Λόφοι"
 
 #: data/civ2/terrain.ruleset:983
 #: data/civ2/terrain.ruleset:1018
-#: data/civ1/terrain.ruleset:973
-#: data/civ1/terrain.ruleset:1006
+#: data/civ1/terrain.ruleset:974
+#: data/civ1/terrain.ruleset:1008
 msgid "Jungle"
 msgstr "Ζούνγκλα"
 
@@ -19983,11 +20049,11 @@ msgstr "Αρκτική"
 msgid "Arctic squares are found only in the most northerly or southerly reaches of the world.  They are very cold, and hence difficult to work with."
 msgstr "Αρκτικά τετράγωνα  βρίσκονται μόνο στις βοριότερες ή νοτιότερες περιοχές του κόσμου. Είναι πολύ κρύες, και συνεπώς αντιπαραγωγικές."
 
-#: data/civ1/terrain.ruleset:1606
+#: data/civ1/terrain.ruleset:1617
 msgid "Horses"
 msgstr "Άλογα"
 
-#: data/civ1/terrain.ruleset:1664
+#: data/civ1/terrain.ruleset:1675
 msgid "Seals"
 msgstr "Ειδικές δυνάμεις"
 
@@ -22450,7 +22516,7 @@ msgstr "?plural:Έλληνες'"
 
 #: data/nation/hellenic.ruleset:6
 msgid "The Hellenic Republic - also known as Greece - was created when the Hellenic people gained independence from the Ottoman Empire in 1832."
-msgstr "Η Ελληνική δημοκρατία - επίσης γνωστή σαν Οθωμανική - δημιουργήθηκε όταν οι έλληνες απέκτησαν την ανεξαρτησία τους από την Οθωμανική αυτοκρατορία το 1832."
+msgstr "Το Ελληνικό κράτος δημιουργήθηκε όταν οι έλληνες απέκτησαν την ανεξαρτησία τους από την Οθωμανική αυτοκρατορία το 1832."
 
 #: data/nation/himyarite.ruleset:3
 #, fuzzy
@@ -24246,9 +24312,8 @@ msgid "The Thai kingdom was the only country in Southeast Asia to preserve its i
 msgstr ""
 
 #: data/nation/thracian.ruleset:3
-#, fuzzy
 msgid "Thracian"
-msgstr "Έδαφός"
+msgstr "Θρακιώτες"
 
 #: data/nation/thracian.ruleset:4
 #, fuzzy
@@ -24260,9 +24325,8 @@ msgid "The second most numerous people in the ancient western world."
 msgstr ""
 
 #: data/nation/thracian.ruleset:19
-#, fuzzy
 msgid "Rhesos"
-msgstr "Πόροι:"
+msgstr "Ρέσοι"
 
 #: data/nation/tibetan.ruleset:3
 msgid "Tibetan"
@@ -24308,9 +24372,8 @@ msgstr ""
 
 #. TRANS: Lant/Lantsa = King/Queen
 #: data/nation/tocharian.ruleset:35
-#, fuzzy
 msgid "Lant"
-msgstr "Ξηράς"
+msgstr "Λαντ"
 
 #: data/nation/tocharian.ruleset:35
 #, fuzzy
@@ -25207,17 +25270,6 @@ msgstr "Ομάδα 31"
 #~ msgstr "U"
 #~ msgid "Cleared output window.\n"
 #~ msgstr "Καθάρισε παράθυρο εξόδου. \n"
-
-#, fuzzy
-#~ msgid ""
-#~ "Freeciv is free software and you are welcome to distribute copies of it "
-#~ "under certain conditions;"
-#~ msgstr ""
-#~ "Το Freeciv είναι ελεύθερο λογισμικό και είσαι καλοδεχούμενος να "
-#~ "διανείμεις\n"
-#~ "αντιγραφά του κάτω από ορισμένες προυποθέσεις; Δες και την καταχώσηση "
-#~ "\"Αντιγραφή\" στο μενού Βοήθεια.\n"
-#~ "Tώρα... ώρα για αγώνα!"
 #~ msgid ""
 #~ "%s file appears incompatible:\n"
 #~ "file: \"%s\"\n"
