@@ -2985,8 +2985,8 @@ static void redraw_city_dialog(struct city *pCity)
 		PL_("turn", "turns", abs(count)));
   } else {
     my_snprintf(cBuf, sizeof(cBuf),
-	      PL_("City growth: %d turn", "City growth: %d turns", count));
-}
+                PL_("City growth: %d turn", "City growth: %d turns", count), count);
+  }
 
   copy_chars_to_string16(pStr, cBuf);
 
