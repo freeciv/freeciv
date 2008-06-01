@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-02-03 09:41-0500\n"
-"PO-Revision-Date: 2008-03-02 19:23+0200\n"
+"PO-Revision-Date: 2008-06-01 16:07+0300\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <yerellestirme@kde.org.tr>\n"
 "MIME-Version: 1.0\n"
@@ -986,7 +986,7 @@ msgstr "Çalışma tamam"
 
 #: utility/ioz.c:509
 msgid "Flush ok"
-msgstr ""
+msgstr "Aktarım tamam"
 
 #: utility/ioz.c:512
 msgid "Finish ok"
@@ -1006,7 +1006,7 @@ msgstr ""
 
 #: utility/ioz.c:524
 msgid "Parameter error"
-msgstr ""
+msgstr "Parametre hatası"
 
 #: utility/ioz.c:527
 msgid "Mem error"
@@ -1014,11 +1014,11 @@ msgstr "Bellek hatası"
 
 #: utility/ioz.c:530
 msgid "Data error"
-msgstr ""
+msgstr "Veri hatası"
 
 #: utility/ioz.c:533
 msgid "Not bzip2 file"
-msgstr ""
+msgstr "Bzip2 dosyası değil"
 
 #: utility/ioz.c:536
 msgid "IO error"
@@ -1026,11 +1026,11 @@ msgstr "GÇ hatası"
 
 #: utility/ioz.c:539
 msgid "Unexpected EOF"
-msgstr ""
+msgstr "Beklenmeyen dosya sonu"
 
 #: utility/ioz.c:542
 msgid "Output buffer full"
-msgstr ""
+msgstr "Çıkış tamponu dolu"
 
 #: utility/ioz.c:549
 #, c-format
@@ -1040,7 +1040,7 @@ msgstr "Bz2: \"%s\" (%d)"
 #: utility/ioz.c:552
 #, c-format
 msgid "Bz2 error %d"
-msgstr ""
+msgstr "Bz2 hatası %d"
 
 #: utility/log.c:84
 #, c-format
@@ -1097,7 +1097,7 @@ msgstr[0] " (toplam %d defa)"
 #: client/gui-sdl/mapview.c:159
 #, c-format
 msgid "Please report this message at %s"
-msgstr ""
+msgstr "Lütfen bu iletiyi %s adresine bildirin"
 
 #: utility/shared.c:176
 #, c-format
@@ -3063,7 +3063,7 @@ msgstr "(%d) %s: bağlantı isteği [%s]"
 #: server/connecthand.c:233
 #, c-format
 msgid "%s has client version %d.%d.%d%s"
-msgstr ""
+msgstr "%s, %d.%d.%d%s sürümlü istemciyi kullanıyor"
 
 #: server/connecthand.c:243
 #, fuzzy, c-format
@@ -3083,6 +3083,9 @@ msgid ""
 "The server is missing a capability that the client needs.\n"
 "Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
 msgstr ""
+"Sunucu, istemcinin ihtiyaç duyduğu bir özelliği desteklemiyor.\n"
+"Sunucu sürümü: %d.%d.%d%s İstemci sürümü: %d.%d.%d%s. Güncellemeyle "
+"düzelebilir!"
 
 #: server/connecthand.c:274
 #, fuzzy, c-format
@@ -3531,15 +3534,15 @@ msgstr "%s, %s şehrinde ayaklanma başlatırken bir skandala sebep oldular."
 
 #: server/edithand.c:53
 msgid " *** Server set to edit mode! *** "
-msgstr ""
+msgstr " *** Sunucu, düzenleme moduna ayarlandı! *** "
 
 #: server/edithand.c:57
 msgid " *** Server is leaving edit mode. *** "
-msgstr ""
+msgstr " *** Sunucu düzenleme modundan çıkıyor. *** "
 
 #: server/edithand.c:131
 msgid "Cannot create unit on enemy tile."
-msgstr ""
+msgstr "Düşman topraklarında birim üretilemez."
 
 #: server/edithand.c:140
 #, fuzzy, c-format
@@ -3563,11 +3566,11 @@ msgstr "Geçici dosya açılamadı."
 
 #: server/edithand.c:434
 msgid "Cannot remove knowledge about own city."
-msgstr ""
+msgstr "Kendi şehrimiz hakkındaki bilgi silinemez."
 
 #: server/edithand.c:441
 msgid "Cannot remove knowledge about own unit."
-msgstr ""
+msgstr "Kendi birimimiz hakkındaki bilgi silinemez."
 
 #: server/gamehand.c:168
 #, c-format
@@ -4181,7 +4184,7 @@ msgstr "%s yönetimindeki %s (%s)"
 
 #: server/ruleset.c:151
 msgid "Fatal ruleset error. Server dies!"
-msgstr ""
+msgstr "Ölümcül kural seti hatası. Sunucu kapandı!"
 
 #. TRANS: message about an installation error.
 #: server/ruleset.c:199
@@ -5137,6 +5140,9 @@ msgid ""
 "significant because the technology requirement for building a palace will be "
 "ignored."
 msgstr ""
+"Bu 1 olarak ayarlanırsa, başkent ele geçirildiği zaman, saray rastgele bir "
+"şehre ücretsiz olarak taşınır. Bu çok önemlidir çünkü saray inşası için "
+"gerekli olan teknoloji görmezden gelinecektir."
 
 #: server/settings.c:823
 msgid "Whether to use natural city names"
@@ -5217,6 +5223,11 @@ msgid ""
 "with debugging, a timeout of -1 sets the autogame test mode. Use this with "
 "the command \"timeoutincrease\" to have a dynamic timer."
 msgstr ""
+"Bu süre dolduğunda tüm oyuncular \"Sırayı Geçir\" düğmesine basmamış olsa "
+"bile sıra otomatik olarak geçer. Sıfır yapılırsa sınırsız yok demektir. Hata "
+"ayıklama açık olarak derlenmiş sunucularda -1 olarak ayarlanırsa otomatik "
+"oyun testi moduna geçilir. Bunu oyun sırasında değiştirmek istiyorsanız "
+"\"timeoutincrease\" komutunu kullanın."
 
 #: server/settings.c:898
 msgid "Timeout at least n seconds when enemy moved"
@@ -5227,6 +5238,8 @@ msgid ""
 "Any time a unit moves while in sight of an enemy player, the remaining "
 "timeout is increased to this value."
 msgstr ""
+"Düşman oyuncunun görüş alanındaki bir birim oynatıldığında, kalan süre bu "
+"değer kadar arttırılır."
 
 #: server/settings.c:908
 msgid "Whether to have simultaneous player phases."
@@ -5237,6 +5250,8 @@ msgid ""
 "If true, all players' movement phases will occur simultaneously; if false, "
 "then players will alternate movement."
 msgstr ""
+"Açıksa bütün oyuncular aynı zaman içinde hareket edecektir; kapalıysa "
+"sırayla hareket edeceklerdir."
 
 #: server/settings.c:916
 msgid "Seconds to let a client's network connection block"
@@ -26972,3 +26987,4 @@ msgstr "Takım 31"
 
 #~ msgid "Trying \"%s\" theme."
 #~ msgstr "\"%s\" teması deneniyor."
+
