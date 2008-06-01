@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-04-20 21:57+0900\n"
-"PO-Revision-Date: 2008-01-21 20:32+0200\n"
+"PO-Revision-Date: 2008-06-01 16:36+0300\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <yerellestirme@kde.org.tr>\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Poedit-Language: Turkish\n"
 "X-Poedit-Country: TURKEY\n"
 "X-Poedit-Bookmarks: 3893,2189,-1,-1,-1,-1,-1,-1,-1,-1\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: LoKalize 0.2\n"
 
 #: common/city.c:56 client/gui-gtk-2.0/repodlgs.c:938
 #: client/gui-win32/repodlgs.c:700
@@ -5407,12 +5407,12 @@ msgstr ""
 #: server/stdinhand.c:526
 #, c-format
 msgid "Open metaserver connection to [%s]."
-msgstr ""
+msgstr "[%s] metasunucusuna bağlan."
 
 #: server/stdinhand.c:539
 #, c-format
 msgid "Close metaserver connection to [%s]."
-msgstr ""
+msgstr "[%s] ile olan metasunucu bağlantısını kes."
 
 #: server/stdinhand.c:554
 msgid "Metaserver connection is open."
@@ -5432,7 +5432,7 @@ msgstr "Metasunucu bağlantısı zaten kapalı."
 
 #: server/stdinhand.c:583
 msgid "Argument must be 'u', 'up', 'd', 'down', or '?'."
-msgstr ""
+msgstr "Argüman şunlardan biri olmalıdır: 'u', 'up', 'd', 'down', '?'."
 
 #: server/stdinhand.c:604
 #, c-format
@@ -5756,7 +5756,7 @@ msgstr "Bilinmeyen ayar '%s'."
 
 #: server/stdinhand.c:1946
 msgid "All options with non-default values"
-msgstr ""
+msgstr "Bütün seçenekler öntanımlı olmayan değerlerde"
 
 #: server/stdinhand.c:1949
 msgid "All options"
@@ -5807,7 +5807,7 @@ msgstr "Oyun başladıktan sonra takımlar değiştirilemez."
 
 #: server/stdinhand.c:2097
 msgid "Undefined argument.  Usage: team <player> <team>."
-msgstr ""
+msgstr "Tanımlanmamış argüman. Kullanım: team <oyuncu> <takım>."
 
 #: server/stdinhand.c:2117
 #, c-format
@@ -5826,7 +5826,7 @@ msgstr "%s, %s ile takım oldu."
 
 #: server/stdinhand.c:2152
 msgid "Undefined arguments. Usage: vote yes|no [vote number]."
-msgstr ""
+msgstr "Tanımlanmamış argümanlar. Kullanım: vote yes|no [oylama numarası]."
 
 #: server/stdinhand.c:2160
 msgid "Observers cannot vote."
@@ -5837,6 +5837,8 @@ msgid ""
 "You can only vote in a running game.  Use 'first' to become the game "
 "organizer if there currently is none."
 msgstr ""
+"Sadece çalışan bir oyunda oy kullanabilirsiniz. Eğer yönetici yoksa 'first' "
+"komutunu kullanarak yönetici olabilirsiniz."
 
 #: server/stdinhand.c:2176
 #, c-format
@@ -5893,16 +5895,16 @@ msgstr "%s diplomasisinde hata ayıklanıyor"
 #: server/stdinhand.c:2312
 #, c-format
 msgid "%s tech no longer debugged"
-msgstr ""
+msgstr "%s teknolojisinde hata ayıklanmıyor"
 
 #: server/stdinhand.c:2316
 #, c-format
 msgid "%s tech debugged"
-msgstr ""
+msgstr "%s teknolojisinde hata ayıklanıyor"
 
 #: server/stdinhand.c:2347 server/stdinhand.c:2377
 msgid "Value 2 & 3 must be integer."
-msgstr ""
+msgstr "2. ve 3. değerler tamsayı olmalıdır."
 
 #: server/stdinhand.c:2351 server/stdinhand.c:2381
 msgid "Bad map coordinates."
@@ -5915,17 +5917,17 @@ msgstr "Bu koordinatlarda şehir yok."
 #: server/stdinhand.c:2361
 #, c-format
 msgid "%s no longer debugged"
-msgstr ""
+msgstr "%s hata ayıklamada kullanılmıyor"
 
 #: server/stdinhand.c:2387 server/stdinhand.c:2417
 #, c-format
 msgid "%s %s no longer debugged."
-msgstr ""
+msgstr "%s %s hata ayıklamada kullanılmıyor."
 
 #: server/stdinhand.c:2392 server/stdinhand.c:2422
 #, c-format
 msgid "%s %s debugged."
-msgstr ""
+msgstr "%s %s hata ayıklamada kullanılıyor."
 
 #: server/stdinhand.c:2408
 msgid "Value 2 must be integer."
@@ -5938,7 +5940,7 @@ msgstr "%d birimi yok."
 
 #: server/stdinhand.c:2470
 msgid "Undefined argument.  Usage: set <option> <value>."
-msgstr ""
+msgstr "Tanımlanmamış argüman. Kullanım: set <seçenek> <değer>."
 
 #: server/stdinhand.c:2480
 msgid "You are not allowed to set this option."
@@ -5955,7 +5957,7 @@ msgstr "Değer bir tamsayı olmalı."
 #: server/stdinhand.c:2507
 #, c-format
 msgid "The parameter %s should only contain digits 0-1."
-msgstr ""
+msgstr "%s parametresi sadece 0 ve 1 rakamlarından oluşmalıdır."
 
 #: server/stdinhand.c:2514
 msgid "Value out of range (minimum: 0, maximum: 1)."
@@ -5969,7 +5971,7 @@ msgstr "Ayar: %s, %d olarak ayarlandı."
 #: server/stdinhand.c:2547
 #, c-format
 msgid "The parameter %s should only contain +- and 0-9."
-msgstr ""
+msgstr "%s parametresi sadece +- karakterlerinden ve rakamlardan oluşmalıdır."
 
 #: server/stdinhand.c:2554
 #, c-format
@@ -5978,16 +5980,16 @@ msgstr "Değer sınırların dışında (asgari: %d, azami: %d)."
 
 #: server/stdinhand.c:2577
 msgid "String value too long.  Usage: set <option> <value>."
-msgstr ""
+msgstr "Dizi değeri çok uzun. Kullanım: set <seçenek> <değer>."
 
 #: server/stdinhand.c:2589
 #, c-format
 msgid "Option: %s has been set to \"%s\"."
-msgstr ""
+msgstr "Ayar: %s ayarı \"%s\" olarak değiştirildi."
 
 #: server/stdinhand.c:2627
 msgid "Sorry, one can't observe globally in this game."
-msgstr ""
+msgstr "Üzgünüm, bu oyunu tamamen gözlemleyemezsiniz."
 
 #: server/stdinhand.c:2630
 msgid "Sorry, you can't take a global observer. Observe it instead."
@@ -6131,9 +6133,9 @@ msgid "Dead"
 msgstr "Ölü"
 
 #: server/stdinhand.c:3075
-#, fuzzy, c-format
+#, c-format
 msgid "%s failed to attach to any player"
-msgstr "Bir oyuncuya bağlı değilsiniz."
+msgstr "%s herhangi bir oyuncuya bağlanamadı."
 
 #: server/stdinhand.c:3110
 msgid "Usage: detach <connection-name>"
@@ -7133,7 +7135,7 @@ msgstr ""
 
 #: client/audio.c:257
 msgid "Perhaps there is some misconfiguration or bad permissions"
-msgstr ""
+msgstr "Yanlış yapılandırmadan veya izin sorunlarından kaynaklanıyor olabilir"
 
 #: client/audio.c:280
 #, c-format
@@ -7564,14 +7566,16 @@ msgstr "  -a, --autoconnect\tBağlantı penceresini atla\n"
 #: client/civclient.c:249
 msgid "  -l, --log FILE\tUse FILE as logfile (spawned server also uses this)\n"
 msgstr ""
+"  -l, --log DOSYA\tKütük dosyası olarak DOSYA'yı kullan (yeni başlayan "
+"sunucu da bunu kullanır)\n"
 
 #: client/civclient.c:251
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
-msgstr ""
+msgstr "  -m, --meta ADRES\tADRES ile belirtilen metasunucuya bağlan\n"
 
 #: client/civclient.c:253
 msgid "  -n, --name NAME\tUse NAME as name\n"
-msgstr ""
+msgstr "  -n, --name İSİM\tİsim olarak İSİM'i kullan\n"
 
 #: client/civclient.c:255
 msgid "  -p, --port PORT\tConnect to server port PORT (usually with -a)\n"
@@ -7607,9 +7611,9 @@ msgstr ""
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: client/civclient.c:273
-#, fuzzy, c-format
+#, c-format
 msgid "Report bugs at %s\n"
-msgstr "Hataları %s adresine bildiriniz.\n"
+msgstr "Hataları %s adresine bildiriniz\n"
 
 #: client/civclient.c:297
 #, c-format
@@ -7754,7 +7758,7 @@ msgstr "Sunucuya olan bağlantı kaybedildi!"
 
 #: client/clinet.c:186
 msgid "Failed looking up host."
-msgstr ""
+msgstr "Adrese erişim başarısız oldu."
 
 #: client/clinet.c:210
 msgid "Connection in progress."
@@ -8723,7 +8727,7 @@ msgstr "Tema"
 
 #: client/options.c:143
 msgid "By changing this option you change the active theme."
-msgstr ""
+msgstr "Bu ayarla geçerli temayı değiştirebilirsiniz."
 
 #: client/options.c:146
 msgid "Tileset"
@@ -13333,7 +13337,7 @@ msgid "Intelligence Information for the %s Empire"
 msgstr "%s İmparatorluğu hakkında İstihbarat"
 
 #: client/gui-sdl/inteldlg.c:289
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Ruler: %s %s  Government: %s\n"
 "Capital: %s  Gold: %d\n"
@@ -13342,7 +13346,7 @@ msgid ""
 msgstr ""
 "Lider: %s %s  Hükümet: %s\n"
 "Başkent: %s  Altın: %d\n"
-"Vergi: %d%% Bilim: %d%% Lüks: %d%%\n"
+"Vergi: %%%d Bilim: %%%d Lüks: %%%d\n"
 "Araştırma: bilinmiyor"
 
 #: client/gui-sdl/inteldlg.c:301
@@ -17206,7 +17210,7 @@ msgstr ""
 
 #: data/helpdata.txt:1145
 msgid "The firepower of the Battleship is set from 2 to 1."
-msgstr ""
+msgstr "Savaş Gemisi'nin ateş gücü 2'den 1'e düşürülür."
 
 #: data/helpdata.txt:1148
 #, no-c-format
@@ -17215,6 +17219,9 @@ msgid ""
 "than 225 (about a 44% chance) the defender loses 1 hit point.  Otherwise, "
 "the attacker loses 1 hit point."
 msgstr ""
+"Her sırada 1'den 405'e kadar rastgele bir sayı oluşturulur. Sayı 255'ten "
+"büyükse (%%44 şans) savunan taraf 1 can kaybeder. Değilse saldıran taraf 1 "
+"can kaybeder."
 
 #: data/helpdata.txt:1159
 #, no-c-format
@@ -24260,3 +24267,4 @@ msgstr "Takım 30"
 #: data/default/game.ruleset:160
 msgid "Team 31"
 msgstr "Takım 31"
+
