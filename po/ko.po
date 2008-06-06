@@ -6470,7 +6470,7 @@ msgstr ""
 #: server/unittools.c:2158
 #, c-format
 msgid "You found %d gold."
-msgstr ""
+msgstr "%d금을 찾았습니다."
 
 #: server/unittools.c:2175
 #, c-format
@@ -6960,7 +6960,7 @@ msgstr "식/생/무"
 
 #: client/cityrepdata.c:496
 msgid "Surplus: Food, Production, Trade"
-msgstr "과잉 : 식량, 생산, 무역"
+msgstr "과잉: 식량, 생산, 무역"
 
 #: client/cityrepdata.c:498
 msgid "?Food surplus [short]:+F"
@@ -6968,7 +6968,7 @@ msgstr "+식"
 
 #: client/cityrepdata.c:498
 msgid "Surplus: Food"
-msgstr "과잉 : 식량"
+msgstr "과잉: 식량"
 
 #: client/cityrepdata.c:500
 msgid "?Production surplus [short]:+P"
@@ -6976,7 +6976,7 @@ msgstr "+생"
 
 #: client/cityrepdata.c:501
 msgid "Surplus: Production"
-msgstr "과잉 : 생산"
+msgstr "과잉: 생산"
 
 #: client/cityrepdata.c:502
 msgid "?Production loss (waste) [short]:-P"
@@ -6992,7 +6992,7 @@ msgstr "+무"
 
 #: client/cityrepdata.c:504
 msgid "Surplus: Trade"
-msgstr "과잉 : 무역"
+msgstr "과잉: 무역"
 
 #: client/cityrepdata.c:506
 msgid "?Trade loss (corruption) [short]:-T"
@@ -7055,7 +7055,7 @@ msgstr "무역 경로 수"
 
 #: client/cityrepdata.c:521
 msgid "?pollution [short]:Pol"
-msgstr ""
+msgstr "?오염:오"
 
 #: client/cityrepdata.c:523
 msgid "?cma:Governor"
@@ -7078,7 +7078,7 @@ msgstr ""
 
 #: client/cityrepdata.c:575
 msgid "?specialist:S"
-msgstr "전"
+msgstr "?전문가:전"
 
 #: client/cityrepdata.c:578
 msgid "Specialists"
@@ -7176,11 +7176,11 @@ msgstr "서로"
 
 #: client/climisc.c:216
 msgid "?embassy:Yes"
-msgstr "있슴"
+msgstr "우리 있슴"
 
 #: client/climisc.c:219
 msgid "?embassy:With Us"
-msgstr ""
+msgstr "상대 있슴"
 
 #: client/climisc.c:222
 msgid "?embassy:Contact"
@@ -7196,11 +7196,11 @@ msgstr "서로"
 
 #: client/climisc.c:238
 msgid "?vision:To Them"
-msgstr ""
+msgstr "상대한테"
 
 #: client/climisc.c:241
 msgid "?vision:To Us"
-msgstr ""
+msgstr "우리한테"
 
 #: client/climisc.c:257 client/climisc.c:264
 #, c-format
@@ -7606,7 +7606,7 @@ msgstr ""
 
 #: client/helpdata.c:877
 msgid "* Can build fortresses.\n"
-msgstr ""
+msgstr "* 요새를 세울 수 있슴.\n"
 
 #: client/helpdata.c:881
 #, c-format
@@ -7632,7 +7632,7 @@ msgstr ""
 
 #: client/helpdata.c:898
 msgid "* Can build airbases.\n"
-msgstr ""
+msgstr "* 공군 기지를 세울 수 있슴.\n"
 
 #: client/helpdata.c:902
 #, c-format
@@ -8861,20 +8861,20 @@ msgstr[1] "진보: 매진보당 %d턴"
 #, c-format
 msgid "%d bulb/turn"
 msgid_plural "%d bulbs/turn"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "매턴당 %d전구"
+msgstr[1] "매턴당 %d전구"
 
 #: client/text.c:485
 #, c-format
 msgid ", %d bulb/turn from team"
 msgid_plural ", %d bulbs/turn from team"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] ", 팀에서 매턴당 %d전구"
+msgstr[1] ", 팀에서 매턴당 %d전구"
 
 #: client/text.c:512
 #, c-format
 msgid "%d/- (never)"
-msgstr ""
+msgstr "%d/- (진보 없음)"
 
 #: client/text.c:524
 #, c-format
@@ -8886,21 +8886,21 @@ msgstr[1] "%d/%d (%d 턴)"
 #: client/text.c:527
 #, c-format
 msgid "%d/%d (never)"
-msgstr ""
+msgstr "%d/%d (진보 없음)"
 
 #: client/text.c:564
 #, c-format
 msgid "%d step"
 msgid_plural "%d steps"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d 단계"
+msgstr[1] "%d 단계"
 
 #: client/text.c:566
 #, c-format
 msgid "%d bulb"
 msgid_plural "%d bulbs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d 전구"
+msgstr[1] "%d 전구"
 
 #: client/text.c:570 client/agents/cma_fec.c:269 client/agents/cma_fec.c:313
 #: client/gui-gtk-2.0/citydlg.c:1421 client/gui-win32/citydlg.c:460
@@ -9156,22 +9156,22 @@ msgstr ""
 #: client/text.c:1050
 #, c-format
 msgid "?seconds:%02ds"
-msgstr ""
+msgstr "%02d초"
 
 #: client/text.c:1052
 #, c-format
 msgid "?mins/secs:%02dm %02ds"
-msgstr ""
+msgstr "%02d분 %02d초"
 
 #: client/text.c:1054
 #, c-format
 msgid "?hrs/mns:%02dh %02dm"
-msgstr ""
+msgstr "%02d시간 %02d분"
 
 #: client/text.c:1056
 #, c-format
 msgid "?dys/hrs:%02dd %02dh"
-msgstr ""
+msgstr "%02d일 %02d시간"
 
 #: client/text.c:1059
 msgid "?duration:overflow"
@@ -9180,13 +9180,13 @@ msgstr ""
 #: client/text.c:1080
 #, c-format
 msgid "%6d.%02d ms"
-msgstr ""
+msgstr "%6d.%02d ms"
 
 #. TRANS: "Republic of the Poles"
 #: client/text.c:1123
 #, c-format
 msgid "%s of the %s"
-msgstr ""
+msgstr "%2$s의 %1$s국가"
 
 #. TRANS: "Observer: 1985"
 #: client/text.c:1133
@@ -9196,7 +9196,7 @@ msgstr "관찰자: %s"
 
 #: client/text.c:1151
 msgid "Buildings: "
-msgstr "건물들:"
+msgstr "건물: "
 
 #: client/text.c:1168 client/text.c:1207
 msgid "None. "
@@ -9239,20 +9239,20 @@ msgstr ""
 #. TRANS: no [unit] maximum
 #: client/text.c:1280
 msgid "no maximum, "
-msgstr "최대 제한 없음,"
+msgstr "최대 제한 없음, "
 
 #: client/text.c:1283
 #, c-format
 msgid "%d unit maximum, "
 msgid_plural "%d units maximum, "
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "최대 부대수 %d, "
+msgstr[1] "최대 부대수 %d, "
 
 #. TRANS: Martial law closing parenthesis
 #: client/text.c:1290
 #, c-format
 msgid "%d per unit). "
-msgstr "한 부대당 %d),"
+msgstr "한 부대당 %d)."
 
 #: client/text.c:1294
 msgid "Military units in the field may cause unhappiness. "
@@ -9265,7 +9265,7 @@ msgstr ""
 #: client/text.c:1312
 #, c-format
 msgid "Luxury: %d total."
-msgstr ""
+msgstr "복지: 총액 %d."
 
 #: client/tilespec.c:865
 msgid "No usable default tileset found, aborting!"
@@ -9391,17 +9391,17 @@ msgstr ""
 #: client/gui-sdl/diplomat_dialog.c:650 client/gui-win32/dialogs.c:1278
 #: data/Freeciv.in:2285 data/Freeciv.in:2318 data/Freeciv.in:2335
 msgid "Steal Technology"
-msgstr "훔친 기술"
+msgstr "기술 훔치기"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:239
 msgid "_Steal"
-msgstr ""
+msgstr "훔치기(_S)"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:248
 #: client/gui-sdl/diplomat_dialog.c:250 client/gui-win32/dialogs.c:1288
 #: data/Freeciv.in:2350
 msgid "Select Advance to Steal"
-msgstr ""
+msgstr "훔친 기술을 선택하세요"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:268
 msgid "_Advances:"
@@ -9625,7 +9625,7 @@ msgstr "곡창:"
 
 #: client/gui-gtk-2.0/citydlg.c:585 client/gui-win32/citydlg.c:669
 msgid "Change in:"
-msgstr ""
+msgstr "전환 기간:"
 
 #: client/gui-gtk-2.0/citydlg.c:586 client/gui-win32/citydlg.c:670
 msgid "Corruption:"
@@ -9641,7 +9641,7 @@ msgstr "환경오염:"
 
 #: client/gui-gtk-2.0/citydlg.c:642 client/gui-gtk-2.0/inteldlg.c:191
 msgid "_Overview"
-msgstr "개관"
+msgstr "개관(_O)"
 
 #: client/gui-gtk-2.0/citydlg.c:670 client/gui-gtk-2.0/wldlg.c:1034
 #: client/gui-win32/citydlg.c:1086 client/gui-win32/wldlg.c:801
@@ -9898,7 +9898,7 @@ msgstr "선택(_S)"
 
 #: client/gui-gtk-2.0/cityrep.c:718 client/gui-gtk-2.0/plrdlg.c:490
 msgid "_Display"
-msgstr ""
+msgstr "표시(_D)"
 
 #: client/gui-gtk-2.0/cityrep.c:799 client/gui-gtk-2.0/menu.c:808
 #: client/gui-sdl/diplodlg.c:691 client/gui-sdl/optiondlg.c:1800
@@ -10013,7 +10013,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/cma_fe.c:269
 msgid "_Presets:"
-msgstr "프리세트:(_P)"
+msgstr "미리설정:(_P)"
 
 #: client/gui-gtk-2.0/cma_fe.c:302 client/gui-win32/cma_fe.c:482
 #: client/gui-win32/repodlgs.c:380 client/gui-xaw/repodlgs.c:755
@@ -10038,22 +10038,22 @@ msgstr "축제"
 
 #: client/gui-gtk-2.0/cma_fe.c:463
 msgid "Governor Enabl_ed"
-msgstr "도지사 켬"
+msgstr "도지사 켜짐"
 
 #: client/gui-gtk-2.0/cma_fe.c:468
 msgid "Governor Disabl_ed"
-msgstr "도지사 끔"
+msgstr "도지사 꺼짐"
 
 #: client/gui-gtk-2.0/cma_fe.c:536 client/gui-sdl/cma_fe.c:236
 #: client/gui-sdl/cma_fe.c:308 client/gui-win32/cma_fe.c:385
 #: client/gui-xaw/cma_fe.c:432
 msgid "new preset"
-msgstr "새로운 프리셋"
+msgstr "새로운 미리설정"
 
 #: client/gui-gtk-2.0/cma_fe.c:540 client/gui-sdl/cma_fe.c:281
 #: client/gui-win32/cma_fe.c:383
 msgid "Name new preset"
-msgstr "새로운 프리셋 이름짓기"
+msgstr "새로운 미리설정 이름짓기"
 
 #: client/gui-gtk-2.0/cma_fe.c:541 client/gui-sdl/cma_fe.c:297
 #: client/gui-win32/cma_fe.c:384
@@ -10062,7 +10062,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/cma_fe.c:648
 msgid "Remove this preset?"
-msgstr "이 프리셋을 지우시겠습니까?"
+msgstr "이 미리설정을 지우시겠습니까?"
 
 #: client/gui-gtk-2.0/dialogs.c:195 client/gui-gtk-2.0/messagewin.c:186
 msgid "Goto _Location"
@@ -10085,7 +10085,7 @@ msgstr "혁명!"
 #: client/gui-gtk-2.0/dialogs.c:310 client/gui-sdl/dialogs.c:1742
 #: client/gui-win32/dialogs.c:1748 data/Freeciv.in:2500
 msgid "What To Pillage"
-msgstr ""
+msgstr "약탈하기"
 
 #: client/gui-gtk-2.0/dialogs.c:311 client/gui-win32/dialogs.c:1755
 #: data/Freeciv.in:2502
@@ -10721,7 +10721,7 @@ msgstr "새로운 도시 건설"
 #: client/gui-gtk-2.0/mapctrl.c:196 client/gui-sdl/mapctrl.c:2594
 #: client/gui-win32/mapctrl.c:354 client/gui-xaw/mapctrl.c:89
 msgid "What should we call our new city?"
-msgstr "이 도시를 뭐라고 할까요?"
+msgstr "이 도시는 뭐라고 하겠습니까?"
 
 #: client/gui-gtk-2.0/mapview.c:147
 msgid "Shows your current luxury/science/tax rates;click to toggle them."
@@ -10870,7 +10870,7 @@ msgstr "도시 성장(_R)"
 
 #: client/gui-gtk-2.0/menu.c:782 client/gui-win32/menu.c:339
 msgid "City _Productions"
-msgstr ""
+msgstr "도시 생산(_P)"
 
 #: client/gui-gtk-2.0/menu.c:784 client/gui-sdl/optiondlg.c:1719
 msgid "Draw city worker map grid"
@@ -10898,7 +10898,7 @@ msgstr "광산"
 
 #: client/gui-gtk-2.0/menu.c:802 client/gui-win32/menu.c:346
 msgid "Fortress & Airbase"
-msgstr ""
+msgstr "요새와 "
 
 #: client/gui-gtk-2.0/menu.c:804 client/gui-win32/menu.c:348
 #: client/gui-xaw/menu.c:154
@@ -10982,11 +10982,11 @@ msgstr ""
 #: client/gui-gtk-2.0/menu.c:839 client/gui-gtk-2.0/menu.c:1508
 #: client/gui-win32/menu.c:364
 msgid "Build _Fortress"
-msgstr ""
+msgstr "요새 세우기(_F)"
 
 #: client/gui-gtk-2.0/menu.c:841 client/gui-win32/menu.c:365
 msgid "Build Airbas_e"
-msgstr ""
+msgstr "공군 기지 세우기(_E)"
 
 #: client/gui-gtk-2.0/menu.c:843 client/gui-gtk-2.0/menu.c:1514
 #: client/gui-win32/menu.c:366
@@ -11064,7 +11064,7 @@ msgstr "이동(_G)"
 
 #: client/gui-gtk-2.0/menu.c:883
 msgid "Go\\/Airlift to City"
-msgstr ""
+msgstr "도시에 이동\\/공수하기"
 
 #: client/gui-gtk-2.0/menu.c:885 client/gui-sdl/menu.c:450
 #: client/gui-win32/menu.c:387 client/gui-xaw/menu.c:203
@@ -11083,7 +11083,7 @@ msgstr "부대업그레이드"
 
 #: client/gui-gtk-2.0/menu.c:893
 msgid "Diplomat\\/Spy Actions"
-msgstr ""
+msgstr "외교관\\/스파이행위"
 
 #: client/gui-gtk-2.0/menu.c:895 client/gui-sdl/menu.c:399
 #: client/gui-win32/menu.c:391 client/gui-xaw/menu.c:209
@@ -11732,6 +11732,8 @@ msgid ""
 "Production\n"
 "(M tons)"
 msgstr ""
+"생산\n"
+"(백만 톤)"
 
 #: client/gui-gtk-2.0/repodlgs.c:1288
 msgid "Cities\n"
@@ -11859,7 +11861,7 @@ msgstr "_작업리스트"
 
 #: client/gui-gtk-2.0/wldlg.c:543
 msgid "Edit Global _Worklists"
-msgstr ""
+msgstr "광역 작업리스트 편집(_W)"
 
 #: client/gui-gtk-2.0/wldlg.c:1034 client/gui-win32/citydlg.c:1092
 #: client/gui-win32/wldlg.c:809
@@ -11868,28 +11870,28 @@ msgstr "턴"
 
 #: client/gui-gtk-2.0/wldlg.c:1150
 msgid "Source _Tasks:"
-msgstr ""
+msgstr "작업 자료:"
 
 #: client/gui-gtk-2.0/wldlg.c:1155
 msgid "Show _Future Targets"
-msgstr ""
+msgstr "미래 목표 표시(_F)"
 
 #: client/gui-gtk-2.0/wldlg.c:1242
 msgid "Target _Worklist:"
-msgstr ""
+msgstr "목표 작업리스트:(_W)"
 
 #: client/gui-gtk-2.0/wldlg.c:1260
 msgid "_Add Global Worklist"
-msgstr ""
+msgstr "광역 작업리스트 추가(_A)"
 
 #: client/gui-gtk-2.0/wldlg.c:1276
 msgid "Chan_ge Production"
-msgstr ""
+msgstr "생산 바뀜(_G)"
 
 #: client/gui-sdl/caravan_dialog.c:132
 #, c-format
 msgid "Your caravan has arrived at %s"
-msgstr ""
+msgstr "당신의 캐러번이 %s에 도착하였음"
 
 #: client/gui-sdl/caravan_dialog.c:157
 #, c-format
@@ -12226,7 +12228,7 @@ msgstr ""
 
 #: client/gui-sdl/citydlg.c:3780
 msgid "Change production"
-msgstr ""
+msgstr "생산 바뀜"
 
 #: client/gui-sdl/citydlg.c:3794 client/gui-sdl/dialogs.c:1270
 msgid "Hurry production"
@@ -12288,7 +12290,7 @@ msgstr ""
 
 #: client/gui-sdl/cma_fe.c:452 client/gui-win32/cma_fe.c:458
 msgid "Presets"
-msgstr ""
+msgstr "미리설정"
 
 #: client/gui-sdl/cma_fe.c:855
 #, c-format
@@ -12397,11 +12399,11 @@ msgstr ""
 #: client/gui-sdl/dialogs.c:1258 client/gui-win32/citydlg.c:1058
 #: data/Freeciv.in:2073
 msgid "Change Production"
-msgstr ""
+msgstr "생산 바뀜"
 
 #: client/gui-sdl/dialogs.c:1282
 msgid "Change City Governor settings"
-msgstr ""
+msgstr "도지사 바뀜"
 
 #: client/gui-sdl/dialogs.c:1303
 msgid "Goto here"
@@ -13034,12 +13036,12 @@ msgstr "도시로 이동"
 #: client/gui-sdl/menu.c:476 client/gui-win32/gotodlg.c:167
 #: data/Freeciv.in:1130
 msgid "Airlift"
-msgstr ""
+msgstr "공수하기"
 
 #: client/gui-sdl/menu.c:489 client/gui-win32/messagewin.c:149
 #: data/Freeciv.in:3314
 msgid "Goto location"
-msgstr ""
+msgstr "여기로 이동"
 
 #: client/gui-sdl/menu.c:501 client/gui-win32/menu.c:384
 #: client/gui-xaw/menu.c:200
@@ -13106,7 +13108,7 @@ msgstr ""
 
 #: client/gui-sdl/menu.c:709 client/gui-xaw/menu.c:178
 msgid "Build Airbase"
-msgstr ""
+msgstr "공군 기지 세우기"
 
 #: client/gui-sdl/menu.c:721 client/gui-win32/menu.c:1250
 #: client/gui-xaw/menu.c:183
@@ -13116,7 +13118,7 @@ msgstr ""
 #: client/gui-sdl/menu.c:733 client/gui-win32/menu.c:1252
 #: client/gui-xaw/menu.c:177
 msgid "Build Fortress"
-msgstr ""
+msgstr "요새 세우기"
 
 #: client/gui-sdl/menu.c:745
 msgid "Transform Tile"
@@ -13198,6 +13200,8 @@ msgid ""
 "Current Setup\n"
 "Fullscreen %dx%d"
 msgstr ""
+"현재 설정\n"
+"전화면 %dx%d"
 
 #: client/gui-sdl/optiondlg.c:443 client/gui-sdl/optiondlg.c:628
 #, c-format
@@ -13205,6 +13209,8 @@ msgid ""
 "Current Setup\n"
 "%dx%d"
 msgstr ""
+"현재 설정\n"
+"%dx%d"
 
 #: client/gui-sdl/optiondlg.c:604
 msgid "No modes available!"
@@ -13216,7 +13222,7 @@ msgstr ""
 
 #: client/gui-sdl/optiondlg.c:646
 msgid "Fullscreen Mode"
-msgstr ""
+msgstr "전화면 모드"
 
 #: client/gui-sdl/optiondlg.c:987
 msgid "Smooth unit move steps"
@@ -13423,7 +13429,7 @@ msgstr ""
 
 #: client/gui-sdl/repodlgs.c:3040
 msgid "Select target :"
-msgstr "목표 설정:"
+msgstr "목표 설정 :"
 
 #: client/gui-sdl/repodlgs.c:3107
 msgid "step"
@@ -13877,7 +13883,7 @@ msgstr ""
 
 #: client/gui-win32/cma_fe.c:309
 msgid "CMA and presets"
-msgstr ""
+msgstr "도지사와 미리설정"
 
 #: client/gui-win32/cma_fe.c:310
 msgid "including sample presets,"
@@ -14229,8 +14235,8 @@ msgstr "우주선"
 #, c-format
 msgid "(%d step)"
 msgid_plural "(%d steps)"
-msgstr[0] "(%d번째 단계)"
-msgstr[1] ""
+msgstr[0] "(%d 단계)"
+msgstr[1] "(%d 단계)"
 
 #: client/gui-win32/repodlgs.c:356 client/gui-xaw/repodlgs.c:799
 #, c-format
@@ -14267,7 +14273,7 @@ msgstr "작업목록 이름바꾸기"
 
 #: client/gui-win32/wldlg.c:363 client/gui-xaw/wldlg.c:623
 msgid "What should the new name be?"
-msgstr ""
+msgstr "이름은 뭐라고 하겠습니까"
 
 #: client/gui-win32/wldlg.c:425 data/Freeciv.in:1973
 msgid "Available worklists"
@@ -14377,7 +14383,7 @@ msgstr "%s - %s명  도지사: %s"
 
 #: client/gui-xaw/cma_fe.c:431
 msgid "What should we name the new preset?"
-msgstr ""
+msgstr "새로운 미리설정을 뭐라고 하겠습니까"
 
 #: client/gui-xaw/cma_fe.c:448
 #, c-format
@@ -14609,7 +14615,7 @@ msgstr "%s 연구중: %d/%d"
 #: client/gui-xaw/repodlgs.c:507 client/gui-xaw/repodlgs.c:512
 #, c-format
 msgid "Goal: %s (%d steps)"
-msgstr "목표: %s (%d번째 단계)"
+msgstr "목표: %s (%d 단계)"
 
 #: client/gui-xaw/repodlgs.c:904
 msgid "Totals: ..."
@@ -14905,11 +14911,11 @@ msgstr "도지사..."
 
 #: data/Freeciv.in:1468
 msgid "Add Preset"
-msgstr "미리 설정된 것 더하기"
+msgstr "미리설정 추가하기"
 
 #: data/Freeciv.in:1469
 msgid "Remove Preset"
-msgstr "미리설정된것 지우기"
+msgstr "미리설정 지우기"
 
 #: data/Freeciv.in:1471
 msgid "Control City"
@@ -15033,7 +15039,7 @@ msgstr "부대활동을 선택하세요:"
 
 #: data/Freeciv.in:3051
 msgid " Sell "
-msgstr "팔다"
+msgstr " 팔다 "
 
 #: data/Freeciv.in:3058
 msgid "Rename..."
@@ -15128,7 +15134,7 @@ msgstr ""
 
 #: data/helpdata.txt:49
 msgid "  Present administrators: "
-msgstr "현재 관리자 : "
+msgstr " 현재 관리자 : "
 
 #: data/helpdata.txt:55
 msgid ""
