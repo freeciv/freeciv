@@ -7836,9 +7836,9 @@ msgstr ""
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: client/civclient.c:273
-#, fuzzy, c-format
+#, c-format
 msgid "Report bugs at %s\n"
-msgstr "Anmäl buggar vid %s.\n"
+msgstr "Anmäl buggar vid %s\n"
 
 #: client/civclient.c:297
 #, c-format
