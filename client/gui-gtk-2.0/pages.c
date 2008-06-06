@@ -379,6 +379,10 @@ static void server_scan_error(struct server_scan *scan,
 **************************************************************************/
 static void update_network_lists(void)
 {
+  if (scan_timer != 0) {
+    g_source_remove(scan_timer);
+  }
+
   if (!meta) {
     meta = server_scan_begin(SERVER_SCAN_GLOBAL, server_scan_error);
   }
@@ -387,11 +391,9 @@ static void update_network_lists(void)
     lan = server_scan_begin(SERVER_SCAN_LOCAL, server_scan_error);
   }
 
-  if (scan_timer == 0) { 
-    scan_timer = g_timeout_add_full(G_PRIORITY_DEFAULT, 100,
-				    get_server_scan_list,
-				    NULL, get_server_scan_destroy);
-  }
+  scan_timer = g_timeout_add_full(G_PRIORITY_DEFAULT, 100,
+                                  get_server_scan_list,
+                                  NULL, get_server_scan_destroy);
 }
 
 /**************************************************************************
