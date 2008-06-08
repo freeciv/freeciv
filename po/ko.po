@@ -692,11 +692,11 @@ msgstr "요새화"
 
 #: common/unit.c:558
 msgid "Fortified"
-msgstr "강화됨"
+msgstr "요새화됨"
 
 #: common/unit.c:562 client/gui-sdl/menu.c:661 client/gui-xaw/menu.c:184
 msgid "Sentry"
-msgstr "감시"
+msgstr "보초"
 
 #: common/unit.c:566 client/gui-gtk-2.0/menu.c:851 client/gui-sdl/menu.c:648
 #: client/gui-win32/menu.c:370 client/gui-xaw/menu.c:185
@@ -709,7 +709,7 @@ msgstr "이동"
 
 #: common/unit.c:570
 msgid "Explore"
-msgstr "조사하기"
+msgstr "탐험"
 
 #: common/unit.c:572 manual/civmanual.c:224
 msgid "Transform"
@@ -1554,7 +1554,7 @@ msgstr "%s을 %s안에 있는, %s에서 %s로 옮겼습니다"
 #: server/citytools.c:535
 #, c-format
 msgid "Transfered %s from %s to %s."
-msgstr " %2$s에서  %3$s로  %1$s를 운반하였습니다"
+msgstr "%2$s에서  %3$s로  %1$s를 운반하였습니다"
 
 #. TRANS: Polish Destroyer ... German <city>
 #: server/citytools.c:548
@@ -7628,7 +7628,7 @@ msgstr ""
 
 #: client/helpdata.c:895
 msgid "* Can transform tiles.\n"
-msgstr ""
+msgstr "* 지형을 개조할 수 있슴.\n"
 
 #: client/helpdata.c:898
 msgid "* Can build airbases.\n"
@@ -9808,7 +9808,7 @@ msgstr ""
 #: client/gui-gtk-2.0/citydlg.c:1999 client/gui-gtk-2.0/citydlg.c:2095
 #: client/gui-win32/citydlg.c:1483 client/gui-win32/citydlg.c:1518
 msgid "_Disband unit"
-msgstr ""
+msgstr "부대를 해산하기(_D)"
 
 #: client/gui-gtk-2.0/citydlg.c:2052
 msgid "_Load unit"
@@ -9820,11 +9820,11 @@ msgstr ""
 
 #: client/gui-gtk-2.0/citydlg.c:2073 client/gui-win32/citydlg.c:1514
 msgid "_Sentry unit"
-msgstr ""
+msgstr "부대를 보초시킴(_S)"
 
 #: client/gui-gtk-2.0/citydlg.c:2084 client/gui-win32/citydlg.c:1516
 msgid "_Fortify unit"
-msgstr ""
+msgstr "부대를 요새화시킴(_F)"
 
 #: client/gui-gtk-2.0/citydlg.c:2101 client/gui-win32/citydlg.c:1520
 msgid "Make new _homecity"
@@ -10113,7 +10113,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/dialogs.c:589
 msgid "_Sentry idle"
-msgstr ""
+msgstr "대기하는 부대 보초시킴(_S)"
 
 #: client/gui-gtk-2.0/dialogs.c:717
 msgid "Nation _Groups:"
@@ -10898,7 +10898,7 @@ msgstr "광산"
 
 #: client/gui-gtk-2.0/menu.c:802 client/gui-win32/menu.c:346
 msgid "Fortress & Airbase"
-msgstr "요새와 "
+msgstr "요새와 공군 기지"
 
 #: client/gui-gtk-2.0/menu.c:804 client/gui-win32/menu.c:348
 #: client/gui-xaw/menu.c:154
@@ -10922,7 +10922,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:818
 msgid "_Full Screen"
-msgstr ""
+msgstr "전화면(_F)"
 
 #: client/gui-gtk-2.0/menu.c:822
 msgid "_Center View"
@@ -10963,7 +10963,7 @@ msgstr "도시 건설(_B)"
 #: client/gui-gtk-2.0/menu.c:831 client/gui-gtk-2.0/menu.c:1466
 #: client/gui-gtk-2.0/menu.c:1472 client/gui-win32/menu.c:360
 msgid "Build _Road"
-msgstr "다리 건설"
+msgstr "다리 건설(_R)"
 
 #: client/gui-gtk-2.0/menu.c:833 client/gui-gtk-2.0/menu.c:1360
 #: client/gui-win32/menu.c:361
@@ -10973,11 +10973,11 @@ msgstr "관개 작업(_I)"
 #: client/gui-gtk-2.0/menu.c:835 client/gui-gtk-2.0/menu.c:1361
 #: client/gui-win32/menu.c:362
 msgid "Build _Mine"
-msgstr ""
+msgstr "광산 짓기(_M)"
 
 #: client/gui-gtk-2.0/menu.c:837 client/gui-gtk-2.0/menu.c:1362
 msgid "Transf_orm Terrain"
-msgstr ""
+msgstr "지형 개조(_O)"
 
 #: client/gui-gtk-2.0/menu.c:839 client/gui-gtk-2.0/menu.c:1508
 #: client/gui-win32/menu.c:364
@@ -10991,15 +10991,15 @@ msgstr "공군 기지 세우기(_E)"
 #: client/gui-gtk-2.0/menu.c:843 client/gui-gtk-2.0/menu.c:1514
 #: client/gui-win32/menu.c:366
 msgid "Clean _Pollution"
-msgstr ""
+msgstr "오염 없앰(_P)"
 
 #: client/gui-gtk-2.0/menu.c:845 client/gui-win32/menu.c:367
 msgid "Clean _Nuclear Fallout"
-msgstr ""
+msgstr "핵낙진 없앰(_N)"
 
 #: client/gui-gtk-2.0/menu.c:849 client/gui-win32/menu.c:369
 msgid "_Sentry"
-msgstr ""
+msgstr "보초(_S)"
 
 #: client/gui-gtk-2.0/menu.c:855 client/gui-win32/menu.c:372
 msgid "Make _Homecity"
@@ -11023,11 +11023,11 @@ msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:867
 msgid "_Auto Settler"
-msgstr ""
+msgstr "자동 이주민(_A)"
 
 #: client/gui-gtk-2.0/menu.c:869 client/gui-win32/menu.c:378
 msgid "Auto E_xplore"
-msgstr "자동 탐험"
+msgstr "자동 탐험(_X)"
 
 #: client/gui-gtk-2.0/menu.c:871 client/gui-gtk-2.0/menu.c:873
 #: client/gui-gtk-2.0/menu.c:875
@@ -11289,7 +11289,7 @@ msgstr "농지 건설(_I)"
 
 #: client/gui-gtk-2.0/menu.c:1506
 msgid "_Fortify"
-msgstr ""
+msgstr "요새화(_F)"
 
 #: client/gui-gtk-2.0/menu.c:1512
 msgid "_Paradrop"
@@ -11966,15 +11966,15 @@ msgstr ""
 
 #: client/gui-sdl/citydlg.c:473 data/Freeciv.in:1170
 msgid "Sentry unit"
-msgstr "보초 부대"
+msgstr "부대를 보초시킴"
 
 #: client/gui-sdl/citydlg.c:488 data/Freeciv.in:1174
 msgid "Fortify unit"
-msgstr "요새화 부대"
+msgstr "부대를 요새화시킴"
 
 #: client/gui-sdl/citydlg.c:504 data/Freeciv.in:1178 data/Freeciv.in:1206
 msgid "Disband unit"
-msgstr "해산 부대"
+msgstr "부대를 해산하기"
 
 #: client/gui-sdl/citydlg.c:518 data/Freeciv.in:1182
 msgid "Make new homecity"
@@ -12438,7 +12438,7 @@ msgstr "모두 준비됨"
 
 #: client/gui-sdl/dialogs.c:1483
 msgid "Sentry idle"
-msgstr ""
+msgstr "대기하는 부대 보초시킴"
 
 #: client/gui-sdl/dialogs.c:1569
 #, c-format
@@ -13062,7 +13062,7 @@ msgstr "철도 연결"
 
 #: client/gui-sdl/menu.c:552
 msgid "Auto-Explore"
-msgstr "자동 조사"
+msgstr "자동 탐험"
 
 #: client/gui-sdl/menu.c:565 client/gui-sdl/menu.c:1247
 msgid "Auto-Attack"
@@ -13094,7 +13094,7 @@ msgstr ""
 
 #: client/gui-sdl/menu.c:673 client/gui-xaw/menu.c:181
 msgid "Clean Nuclear Fallout"
-msgstr ""
+msgstr "핵낙진 없앰"
 
 #: client/gui-sdl/menu.c:685 client/gui-win32/menu.c:1257
 #: client/gui-xaw/menu.c:180
@@ -13104,7 +13104,7 @@ msgstr "공중 낙하"
 #: client/gui-sdl/menu.c:697 client/gui-win32/menu.c:1259
 #: client/gui-xaw/menu.c:179
 msgid "Clean Pollution"
-msgstr ""
+msgstr "오염 없앰"
 
 #: client/gui-sdl/menu.c:709 client/gui-xaw/menu.c:178
 msgid "Build Airbase"
@@ -13113,7 +13113,7 @@ msgstr "공군 기지 세우기"
 #: client/gui-sdl/menu.c:721 client/gui-win32/menu.c:1250
 #: client/gui-xaw/menu.c:183
 msgid "Fortify"
-msgstr ""
+msgstr "요새화"
 
 #: client/gui-sdl/menu.c:733 client/gui-win32/menu.c:1252
 #: client/gui-xaw/menu.c:177
@@ -14768,7 +14768,7 @@ msgstr "오염 없앰"
 
 #: manual/civmanual.c:227
 msgid "Clean fallout"
-msgstr "방사전 낙진 없앰"
+msgstr "핵낙진 없앰"
 
 #: manual/civmanual.c:262 manual/civmanual.c:272
 msgid "impossible"
@@ -19234,7 +19234,7 @@ msgstr "화물유닛은 사막여행대(caravan)로 교체했고, 2배의 속도
 
 #: data/default/units.ruleset:1833 data/civ2/units.ruleset:1784
 msgid "Explorer"
-msgstr "탐험자"
+msgstr "탐험가"
 
 #: data/default/units.ruleset:1859 data/civ2/units.ruleset:1810
 msgid "Explorers are very useful for mapping unknown territory."
@@ -19572,11 +19572,11 @@ msgstr ""
 
 #: data/nation/assyrian.ruleset:21
 msgid "Malka"
-msgstr ""
+msgstr "말가"
 
 #: data/nation/assyrian.ruleset:21
 msgid "Malikta"
-msgstr ""
+msgstr "말리크타"
 
 #: data/nation/argentine.ruleset:3
 msgid "Argentine"
@@ -19644,11 +19644,11 @@ msgstr ""
 
 #: data/nation/aztec.ruleset:21
 msgid "Tlatoani"
-msgstr ""
+msgstr "틀라토와니"
 
 #: data/nation/aztec.ruleset:22
 msgid "Huey Tlatoani"
-msgstr ""
+msgstr "후에이 틀라토와니"
 
 #: data/nation/babylonian.ruleset:3
 msgid "Babylonian"
@@ -19667,7 +19667,7 @@ msgstr ""
 
 #: data/nation/babylonian.ruleset:22 data/nation/sumerian.ruleset:21
 msgid "Lugal"
-msgstr ""
+msgstr "루갈"
 
 #: data/nation/barbarian.ruleset:4
 msgid "?plural:Barbarians"
@@ -19732,7 +19732,7 @@ msgstr "태수"
 
 #: data/nation/bengali.ruleset:26
 msgid "Major"
-msgstr ""
+msgstr "소령"
 
 #: data/nation/boer.ruleset:3
 msgid "Boer"
@@ -19765,7 +19765,7 @@ msgstr ""
 
 #: data/nation/bosnia.ruleset:26
 msgid "Ban"
-msgstr ""
+msgstr "반"
 
 #: data/nation/brazilian.ruleset:3
 msgid "Brazilian"
@@ -19784,11 +19784,11 @@ msgstr ""
 #: data/nation/brazilian.ruleset:22 data/nation/iraqi.ruleset:21
 #: data/nation/roman.ruleset:39
 msgid "Dictator"
-msgstr ""
+msgstr "집정관"
 
 #: data/nation/brazilian.ruleset:22 data/nation/roman.ruleset:39
 msgid "Dictatrix"
-msgstr ""
+msgstr "집정관"
 
 #: data/nation/brazilian.ruleset:23 data/nation/byzantium.ruleset:25
 #: data/nation/roman.ruleset:40
@@ -19798,7 +19798,7 @@ msgstr "대장군"
 #: data/nation/brazilian.ruleset:23 data/nation/byzantium.ruleset:25
 #: data/nation/roman.ruleset:40
 msgid "Imperatrix"
-msgstr ""
+msgstr "대장군"
 
 #: data/nation/brazilian.ruleset:25 data/nation/chinese.ruleset:32
 msgid "Chairman"
@@ -19848,15 +19848,15 @@ msgstr "황제"
 
 #: data/nation/bulgarian.ruleset:31
 msgid "Tzaritza"
-msgstr ""
+msgstr "황제"
 
 #: data/nation/bulgarian.ruleset:34
 msgid "Drugariat"
-msgstr ""
+msgstr "동무"
 
 #: data/nation/bulgarian.ruleset:34
 msgid "Drugarkata"
-msgstr ""
+msgstr "동무"
 
 #: data/nation/bulgarian.ruleset:35 data/nation/byzantium.ruleset:26
 #: data/nation/russian.ruleset:49
@@ -19865,7 +19865,7 @@ msgstr "족장"
 
 #: data/nation/bulgarian.ruleset:35
 msgid "Sveta Maika"
-msgstr ""
+msgstr "족장"
 
 #: data/nation/burmese.ruleset:3
 msgid "Burmese"
@@ -19883,7 +19883,7 @@ msgstr ""
 
 #: data/nation/burmese.ruleset:21
 msgid "Bohmugyi"
-msgstr ""
+msgstr "장군"
 
 #: data/nation/burmese.ruleset:22
 msgid "Saya"
@@ -19913,7 +19913,7 @@ msgstr ""
 
 #: data/nation/byzantium.ruleset:27
 msgid "Basileus"
-msgstr ""
+msgstr "바시레우스"
 
 #: data/nation/canadian.ruleset:3
 msgid "Canadian"
@@ -19960,37 +19960,37 @@ msgstr ""
 
 #: data/nation/catalan.ruleset:24
 msgid "Primer Ministre"
-msgstr ""
+msgstr "총리"
 
 #: data/nation/catalan.ruleset:24
 msgid "Primera Ministre"
-msgstr ""
+msgstr "총리"
 
 #: data/nation/catalan.ruleset:25 data/nation/galician.ruleset:23
 #: data/nation/venezuelan.ruleset:29
 msgid "Dictador"
-msgstr ""
+msgstr "전제자"
 
 #: data/nation/catalan.ruleset:25 data/nation/galician.ruleset:23
 #: data/nation/venezuelan.ruleset:29
 msgid "Dictadora"
-msgstr ""
+msgstr "전제자"
 
 #: data/nation/catalan.ruleset:26 data/nation/galician.ruleset:24
 msgid "Rei"
-msgstr "레이(화폐단위)"
+msgstr "국왕"
 
 #: data/nation/catalan.ruleset:26
 msgid "Reina"
-msgstr ""
+msgstr "여왕"
 
 #: data/nation/catalan.ruleset:28
 msgid "Arquebisbe"
-msgstr ""
+msgstr "대주교"
 
 #: data/nation/catalan.ruleset:28
 msgid "Gran Bruixa"
-msgstr ""
+msgstr "대주교"
 
 #: data/nation/chilean.ruleset:3
 msgid "Chilean"
@@ -20006,7 +20006,7 @@ msgstr ""
 
 #: data/nation/chilean.ruleset:24
 msgid "Captain General"
-msgstr ""
+msgstr "총사령관"
 
 #: data/nation/chilean.ruleset:25 data/nation/french.ruleset:27
 #: data/nation/german.ruleset:35 data/nation/irish.ruleset:46
@@ -20071,7 +20071,7 @@ msgstr "통치자"
 
 #: data/nation/colombian.ruleset:22 data/nation/venezuelan.ruleset:27
 msgid "Governadora"
-msgstr ""
+msgstr "통치자"
 
 #: data/nation/confederate.ruleset:3
 msgid "Confederate"
@@ -20216,7 +20216,7 @@ msgstr "파라오"
 
 #: data/nation/egyptian.ruleset:27
 msgid "Great Pharaoh"
-msgstr "대(大) 파라오"
+msgstr "大파라오"
 
 #: data/nation/english.ruleset:3
 msgid "English"
@@ -20271,7 +20271,7 @@ msgstr ""
 
 #: data/nation/ethiopian.ruleset:24
 msgid "Emporer"
-msgstr ""
+msgstr "황제"
 
 #: data/nation/filipino.ruleset:3
 msgid "Filipino"
@@ -20318,7 +20318,7 @@ msgstr ""
 
 #: data/nation/french.ruleset:26
 msgid "Premier"
-msgstr ""
+msgstr "수상"
 
 #: data/nation/galician.ruleset:3
 msgid "Galician"
@@ -20334,15 +20334,15 @@ msgstr ""
 
 #: data/nation/galician.ruleset:22
 msgid "Primeiro Ministro"
-msgstr ""
+msgstr "총리"
 
 #: data/nation/galician.ruleset:22
 msgid "Primeira Ministra"
-msgstr ""
+msgstr "총리"
 
 #: data/nation/galician.ruleset:24
 msgid "Raina"
-msgstr ""
+msgstr "여왕"
 
 #: data/nation/galician.ruleset:25 data/nation/venezuelan.ruleset:30
 #: data/nation/venezuelan.ruleset:31 data/nation/venezuelan.ruleset:32
@@ -20356,19 +20356,19 @@ msgstr "대통령"
 
 #: data/nation/galician.ruleset:26
 msgid "Gran Bardo"
-msgstr ""
+msgstr "大시인"
 
 #: data/nation/galician.ruleset:26
 msgid "Grande Bardesa"
-msgstr ""
+msgstr "大시인"
 
 #: data/nation/gallic.ruleset:3
 msgid "Gallic"
-msgstr "골(Gallic)"
+msgstr "골"
 
 #: data/nation/gallic.ruleset:4
 msgid "?plural:Gauls"
-msgstr "골(Gallic) 사람"
+msgstr "골 사람"
 
 #: data/nation/gallic.ruleset:6
 msgid ""
@@ -20550,15 +20550,15 @@ msgstr ""
 
 #: data/nation/indian.ruleset:19
 msgid "Raja"
-msgstr ""
+msgstr "왕"
 
 #: data/nation/indian.ruleset:20
 msgid "Maharaja"
-msgstr ""
+msgstr "大왕"
 
 #: data/nation/indian.ruleset:21
 msgid "Mahatma"
-msgstr ""
+msgstr "大성"
 
 #: data/nation/indonesian.ruleset:3
 msgid "Indonesian"
@@ -20773,7 +20773,7 @@ msgstr ""
 
 #: data/nation/kenyan.ruleset:18
 msgid "Nabongo"
-msgstr ""
+msgstr "나봉고"
 
 #: data/nation/korean.ruleset:3
 msgid "Korean"
@@ -20824,11 +20824,11 @@ msgstr "왕비"
 #: data/nation/lankese.ruleset:21 data/nation/quebecois.ruleset:20
 #: data/nation/texan.ruleset:19
 msgid "Governor"
-msgstr ""
+msgstr "통치자"
 
 #: data/nation/lankese.ruleset:22
 msgid "Supreme Commander"
-msgstr ""
+msgstr "최고 사령관"
 
 #: data/nation/latvian.ruleset:3
 msgid "Latvian"
@@ -20861,9 +20861,10 @@ msgid ""
 "condition of the Allied peace treaty with Italy."
 msgstr ""
 
+# 태수(太守)
 #: data/nation/libyan.ruleset:23
 msgid "Dey"
-msgstr " 태수(太守)"
+msgstr "태수"
 
 #: data/nation/libyan.ruleset:24
 msgid "Colonel"
@@ -20886,11 +20887,11 @@ msgstr ""
 
 #: data/nation/lithuanian.ruleset:28
 msgid "Great Duke"
-msgstr ""
+msgstr "거대한 군주"
 
 #: data/nation/lithuanian.ruleset:28
 msgid "Great Duchess"
-msgstr "거대한 네덜란드"
+msgstr "거대한 군주"
 
 #: data/nation/malagasy.ruleset:3
 msgid "Malagasy"
@@ -20908,7 +20909,7 @@ msgstr ""
 
 #: data/nation/malagasy.ruleset:22
 msgid "High Commissioner"
-msgstr ""
+msgstr "고등 판무관"
 
 #: data/nation/malaysian.ruleset:3
 msgid "Malaysian"
@@ -20957,7 +20958,7 @@ msgstr ""
 
 #: data/nation/malian.ruleset:27
 msgid "Mansa"
-msgstr ""
+msgstr "만사"
 
 #: data/nation/manchu.ruleset:3
 msgid "Manchu"
@@ -21017,7 +21018,7 @@ msgstr ""
 
 #: data/nation/mayan.ruleset:19
 msgid "Ajaw"
-msgstr ""
+msgstr "아하우"
 
 #: data/nation/mexican.ruleset:3
 msgid "Mexican"
@@ -21119,19 +21120,19 @@ msgstr ""
 
 #: data/nation/ottoman.ruleset:27 data/nation/tunisian.ruleset:28
 msgid "Bey"
-msgstr ""
+msgstr "고관"
 
 #: data/nation/ottoman.ruleset:28
 msgid "Hakan"
-msgstr ""
+msgstr "하칸"
 
 #: data/nation/ottoman.ruleset:29
 msgid "Padisah"
-msgstr ""
+msgstr "파디사"
 
 #: data/nation/ottoman.ruleset:30
 msgid "Imparator"
-msgstr ""
+msgstr "대장군"
 
 #: data/nation/papuan.ruleset:3
 msgid "Papuan"
@@ -21165,7 +21166,7 @@ msgstr ""
 
 #: data/nation/persian.ruleset:21
 msgid "Shah"
-msgstr "샤(Shah)"
+msgstr "샤"
 
 #: data/nation/persian.ruleset:21
 msgid "Shahbanu"
@@ -21205,19 +21206,19 @@ msgstr ""
 
 #: data/nation/polish.ruleset:26
 msgid "Dyktator"
-msgstr ""
+msgstr "통치자"
 
 #: data/nation/polish.ruleset:26
 msgid "Dyktatorka"
-msgstr ""
+msgstr "통치자"
 
 #: data/nation/polish.ruleset:27
 msgid "Prymas"
-msgstr ""
+msgstr "승정"
 
 #: data/nation/polish.ruleset:29
 msgid "Pierwszy Sekretarz"
-msgstr ""
+msgstr "첫번째 장관"
 
 #: data/nation/portuguese.ruleset:3
 msgid "Portuguese"
@@ -21266,31 +21267,31 @@ msgstr ""
 
 #: data/nation/romanian.ruleset:33
 msgid "Voievod"
-msgstr ""
+msgstr "군주"
 
 #: data/nation/romanian.ruleset:33
 msgid "Doamna"
-msgstr ""
+msgstr "군주"
 
 #: data/nation/romanian.ruleset:34
 msgid "Rege"
-msgstr ""
+msgstr "국왕"
 
 #: data/nation/romanian.ruleset:34
 msgid "Regina"
-msgstr ""
+msgstr "여왕"
 
 #: data/nation/romanian.ruleset:35
 msgid "Presedinte"
-msgstr ""
+msgstr "대통령"
 
 #: data/nation/romanian.ruleset:36
 msgid "Tovaras"
-msgstr ""
+msgstr "동무"
 
 #: data/nation/romanian.ruleset:36
 msgid "Tovarasa"
-msgstr ""
+msgstr "동무"
 
 #: data/nation/roman.ruleset:3
 msgid "Roman"
@@ -21330,23 +21331,23 @@ msgstr ""
 
 #: data/nation/russian.ruleset:47 data/nation/serbian.ruleset:36
 msgid "Duke"
-msgstr ""
+msgstr "대공"
 
 #: data/nation/russian.ruleset:47 data/nation/serbian.ruleset:36
 msgid "Duchess"
-msgstr ""
+msgstr "대공"
 
 #: data/nation/russian.ruleset:48
 msgid "Tsar"
-msgstr ""
+msgstr "황제"
 
 #: data/nation/russian.ruleset:48
 msgid "Tsaritsa"
-msgstr ""
+msgstr "황제"
 
 #: data/nation/russian.ruleset:49
 msgid "Matriarch"
-msgstr ""
+msgstr "여족장"
 
 #: data/nation/ryukyuan.ruleset:3
 msgid "Ryukyuan"
@@ -21372,11 +21373,11 @@ msgstr "여왕"
 
 #: data/nation/sami.ruleset:3
 msgid "Sami"
-msgstr "사미(Sami)"
+msgstr "사미"
 
 #: data/nation/sami.ruleset:4
 msgid "?plural:Sami"
-msgstr "사미(Sami) 사람"
+msgstr "사미 사람"
 
 #: data/nation/sami.ruleset:6
 msgid ""
@@ -21387,7 +21388,7 @@ msgstr ""
 
 #: data/nation/sami.ruleset:21
 msgid "Noaydde"
-msgstr ""
+msgstr "노아디"
 
 #: data/nation/scottish.ruleset:3
 msgid "Scottish"
@@ -21406,7 +21407,7 @@ msgstr ""
 
 #: data/nation/scottish.ruleset:26
 msgid "First Minister"
-msgstr ""
+msgstr "총리"
 
 #: data/nation/serbian.ruleset:3
 msgid "Serbian"
@@ -21453,7 +21454,7 @@ msgstr ""
 
 #: data/nation/singaporean.ruleset:32
 msgid "Encik"
-msgstr ""
+msgstr "남작"
 
 #: data/nation/sioux.ruleset:3
 msgid "Sioux"
@@ -21500,11 +21501,11 @@ msgstr ""
 
 #: data/nation/slovakian.ruleset:29
 msgid "Pope"
-msgstr ""
+msgstr "교황"
 
 #: data/nation/slovakian.ruleset:29
 msgid "Priestess"
-msgstr ""
+msgstr "성직자"
 
 #: data/nation/southafrican.ruleset:3
 msgid "South African"
@@ -21561,15 +21562,15 @@ msgstr ""
 
 #: data/nation/spanish.ruleset:28
 msgid "Caudillo"
-msgstr ""
+msgstr "독재자"
 
 #: data/nation/spanish.ruleset:28
 msgid "Caudilla"
-msgstr ""
+msgstr "독재자"
 
 #: data/nation/spanish.ruleset:29
 msgid "Cardinal"
-msgstr ""
+msgstr "추기경"
 
 #: data/nation/sudanese.ruleset:3
 msgid "Sudanese"
@@ -21602,7 +21603,7 @@ msgstr ""
 
 #: data/nation/sumerian.ruleset:22
 msgid "Ensi"
-msgstr ""
+msgstr "엔시"
 
 #: data/nation/swazi.ruleset:3
 msgid "Swazi"
@@ -21621,11 +21622,11 @@ msgstr ""
 
 #: data/nation/swazi.ruleset:23
 msgid "Ngwenyama"
-msgstr ""
+msgstr "은괜야마"
 
 #: data/nation/swazi.ruleset:23
 msgid "Indovuzaki"
-msgstr ""
+msgstr "인도부자키"
 
 #: data/nation/swedish.ruleset:3
 msgid "Swedish"
@@ -21662,7 +21663,7 @@ msgstr ""
 
 #: data/nation/swiss.ruleset:20
 msgid "Bailiff"
-msgstr ""
+msgstr "행정관"
 
 #: data/nation/swiss.ruleset:21
 msgid "Elected King"
@@ -21682,11 +21683,11 @@ msgstr "선출된 성직자"
 
 #: data/nation/swiss.ruleset:23 data/nation/swiss.ruleset:24
 msgid "President of the Confederation"
-msgstr ""
+msgstr "연방대통령"
 
 #: data/nation/swiss.ruleset:25
 msgid "Federal Chancellor"
-msgstr ""
+msgstr "연방총리"
 
 #: data/nation/taiwanese.ruleset:3
 msgid "Taiwanese"
@@ -21811,7 +21812,7 @@ msgstr ""
 
 #: data/nation/ukrainian.ruleset:18
 msgid "Hetman"
-msgstr ""
+msgstr "추장"
 
 #: data/nation/uyghur.ruleset:3
 msgid "Uyghur"
@@ -21852,7 +21853,7 @@ msgstr ""
 
 #: data/nation/venezuelan.ruleset:28
 msgid "Terrateniente"
-msgstr ""
+msgstr "관리"
 
 #: data/nation/vietnamese.ruleset:3
 msgid "Vietnamese"
