@@ -628,6 +628,7 @@ static void init_datum_string(struct datum *dat, const char *left,
   int len = right - left;
 
   dat->is_numeric = FALSE;
+  dat->numeric_value = 0;
   dat->string_value = fc_malloc(len + 1);
   memcpy(dat->string_value, left, len);
   dat->string_value[len] = 0;
