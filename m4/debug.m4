@@ -1,4 +1,4 @@
-AC_DEFUN(FC_DEBUG, [
+AC_DEFUN([FC_DEBUG], [
 AC_ARG_ENABLE(debug,
 [  --enable-debug[[=no/some/yes]]  turn on debugging [[default=some]]],
 [case "${enableval}" in   

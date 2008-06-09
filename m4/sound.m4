@@ -1,4 +1,4 @@
-AC_DEFUN(FC_CHECK_SOUND,[
+AC_DEFUN([FC_CHECK_SOUND],[
  AC_ARG_ENABLE(esd,
    [  --disable-esd           Do not try to use Esound],
    USE_SOUND=no, USE_SOUND_ESD=yes)
