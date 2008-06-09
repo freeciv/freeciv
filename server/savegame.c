@@ -2141,7 +2141,7 @@ static void player_load_cities(struct player *plr, int plrno,
   const char *kind;
   const char *name;
   const char *p;
-  int id, i, j, k, x, y;
+  int id, i, j, k;
   int ncities = secfile_lookup_int(file, "player%d.ncities", plrno);
 
   plr->cities = city_list_new();
@@ -2158,6 +2158,7 @@ static void player_load_cities(struct player *plr, int plrno,
     int nat_y = secfile_lookup_int(file, "player%d.c%d.y", plrno, i);
     int nat_x = secfile_lookup_int(file, "player%d.c%d.x", plrno, i);
     struct tile *pcenter = native_pos_to_tile(nat_x, nat_y);
+    int y;
 
     if (NULL == pcenter) {
       freelog(LOG_FATAL, "player%d.c%d invalid tile (%d,%d)",
@@ -2400,10 +2401,11 @@ static void player_load_cities(struct player *plr, int plrno,
               (unsigned long)(CITY_MAP_SIZE * CITY_MAP_SIZE));
     }
 
-    for(y=0; y<CITY_MAP_SIZE; y++) {
+    for(y = 0; y < CITY_MAP_SIZE; y++) {
       struct city *pwork = NULL;
+      int x;
 
-      for(x=0; x<CITY_MAP_SIZE; x++) {
+      for(x = 0; x < CITY_MAP_SIZE; x++) {
         struct tile *ptile = is_valid_city_coords(x, y)
                              ? city_map_to_tile(pcenter, x, y)
                              : NULL;
@@ -2507,6 +2509,8 @@ static void player_load_cities(struct player *plr, int plrno,
       struct city *pwork = tile_worked(pcenter);
 
       if (NULL != pwork) {
+        int city_x, city_y;
+
         freelog(LOG_ERROR, "player%d.c%d.workers"
                 " city center is worked by (%d,%d) \"%s\"[%d],"
                 " repairing (%d,%d) \"%s\"[%d]",
@@ -2514,7 +2518,8 @@ static void player_load_cities(struct player *plr, int plrno,
                 TILE_XY(city_tile(pwork)), city_name(pwork), pwork->size,
                 TILE_XY(pcenter), city_name(pcity), pcity->size);
 
-        pwork->city_map[x][y] = C_TILE_UNAVAILABLE;
+        city_tile_to_city_map(&city_x, &city_y, city_tile(pwork), pcenter);
+        pwork->city_map[city_x][city_y] = C_TILE_UNAVAILABLE;
         pwork->specialists[DEFAULT_SPECIALIST]++;
         auto_arrange_workers(pwork);
       } else {
