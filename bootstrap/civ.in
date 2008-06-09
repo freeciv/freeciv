@@ -22,12 +22,12 @@ BUILDDATA=$(cd $BUILDDIR/data ; pwd)
 SRCDATA=$(cd $BUILDDIR ; cd @top_srcdir@/data ; pwd)
 
 if [ "x$FREECIV_PATH" = "x" ] ; then
-  FREECIV_PATH=".:data:~/.freeciv"
+  FREECIV_PATH=".@HOST_PATH_SEPARATOR@data@HOST_PATH_SEPARATOR@~/.freeciv"
 fi
-export FREECIV_PATH="$FREECIV_PATH:$BUILDDATA:$SRCDATA"
+export FREECIV_PATH="${FREECIV_PATH}@HOST_PATH_SEPARATOR@${BUILDDATA}@HOST_PATH_SEPARATOR@${SRCDATA}"
 
-[ -x $BUILDDIR/client/civclient ] && EXE=$BUILDDIR/client/$EXENAME
-[ -x $BUILDDIR/civclient ] && EXE=$BUILDDIR/$EXENAME
+[ -x $BUILDDIR/client/$EXENAME ] && EXE=$BUILDDIR/client/$EXENAME
+[ -x $BUILDDIR/$EXENAME ] && EXE=$BUILDDIR/$EXENAME
 
 if [ "$EXE" = "" ]; then
   echo $0: Unable to find $EXENAME.
