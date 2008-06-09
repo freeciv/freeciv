@@ -18,12 +18,12 @@ BUILDDIR=`dirname $0`
 EXENAME=civserver@EXEEXT@
 
 if [ "x$FREECIV_PATH" = "x" ] ; then
-  FREECIV_PATH=".:data:~/.freeciv"
+  FREECIV_PATH=".@HOST_PATH_SEPARATOR@data@HOST_PATH_SEPARATOR@~/.freeciv"
 fi
-export FREECIV_PATH="$FREECIV_PATH:@abs_top_builddir@/data:@abs_top_srcdir@/data"
+export FREECIV_PATH="$FREECIV_PATH@HOST_PATH_SEPARATOR@@abs_top_builddir@/data@HOST_PATH_SEPARATOR@@abs_top_srcdir@/data"
 
-[ -x $BUILDDIR/server/civserver ] && EXE=$BUILDDIR/server/$EXENAME
-[ -x $BUILDDIR/civserver ] && EXE=$BUILDDIR/$EXENAME
+[ -x $BUILDDIR/server/$EXENAME ] && EXE=$BUILDDIR/server/$EXENAME
+[ -x $BUILDDIR/$EXENAME ] && EXE=$BUILDDIR/$EXENAME
 
 if [ "$EXE" = "" ]; then
   echo $0: Unable to find $EXENAME.

@@ -373,6 +373,7 @@ fi
 dnl Defaults
 MINGW32=no
 AMIGA=no
+HOST_PATH_SEPARATOR=":"
 
 dnl Settings specific to host OS
 case "$host_os" in
@@ -384,6 +385,8 @@ case "$host_os" in
     if test -z $WINDRES; then
 	  AC_MSG_ERROR([*** 'windres' missing.  Install binutils, fix your \$PATH, or set \$WINDRES manually. ***])
     fi
+
+    HOST_PATH_SEPARATOR=";"
 
     AC_DEFINE([SOCKET_ZERO_ISNT_STDIN], [1], [Mingw32-specific setting - stdin])
     AC_DEFINE([ALWAYS_ROOT], [1], [Can execute program as root - Mingw32])
@@ -404,6 +407,12 @@ case "$host_os" in
     ;;
 
 esac
+
+dnl Autoconf provides path separator for build system.
+dnl Use that instead of our own guess in case of native build.
+if test x$build = x$host ; then
+  HOST_PATH_SEPARATOR=$PATH_SEPARATOR
+fi
 
 dnl note this has to match the path installed by po/Makefile
 if test x"$MINGW32" != "xyes"; then
@@ -534,6 +543,7 @@ AC_SUBST(SOUND_LIBS)
 AC_SUBST(FTWL_CFLAGS)
 AC_SUBST([VERSION_WITHOUT_LABEL])
 AC_SUBST([VERSION_LABEL])
+AC_SUBST([HOST_PATH_SEPARATOR])
 AM_CONDITIONAL(AUDIO_SDL, test "x$SDL_mixer" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_SDL, test "$gui_sources" = "gui-sdl")
 AM_CONDITIONAL(CLIENT_GUI_GTK_2_0, test "$gui_sources" = "gui-gtk-2.0")
