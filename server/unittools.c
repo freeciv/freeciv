@@ -2558,7 +2558,8 @@ FIXME: Sometimes it is not neccesary to send cities because the goverment
 **************************************************************************/
 static void handle_unit_move_consequences(struct unit *punit,
 					  struct tile *src_tile,
-					  struct tile *dst_tile)
+					  struct tile *dst_tile,
+                                          bool passenger)
 {
   struct city *fromcity = tile_get_city(src_tile);
   struct city *tocity = tile_get_city(dst_tile);
@@ -2566,12 +2567,14 @@ static void handle_unit_move_consequences(struct unit *punit,
   struct player *pplayer = unit_owner(punit);
   /*  struct government *g = government_of_player(pplayer);*/
   bool refresh_homecity = FALSE;
-  
-  if (punit->homecity != 0)
-    homecity = game_find_city_by_number(punit->homecity);
 
-  if (tocity)
-    handle_unit_enter_city(punit, tocity);
+  if (punit->homecity != 0) {
+    homecity = game_find_city_by_number(punit->homecity);
+  }
+
+  if (tocity) {
+    handle_unit_enter_city(punit, tocity, passenger);
+  }
 
   /* We only do this for non-AI players to now make sure the AI turns
      doesn't take too long. Perhaps we should make a special refresh_city
@@ -2720,7 +2723,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
       vision_clear_sight(old_vision);
       vision_free(old_vision);
 
-      handle_unit_move_consequences(pcargo, psrctile, pdesttile);
+      handle_unit_move_consequences(pcargo, psrctile, pdesttile, TRUE);
     } unit_list_iterate_end;
     unit_list_unlink_all(cargo_units);
     unit_list_free(cargo_units);
@@ -2843,7 +2846,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
     } players_iterate_end;
   } square_iterate_end;
 
-  handle_unit_move_consequences(punit, psrctile, pdesttile);
+  handle_unit_move_consequences(punit, psrctile, pdesttile, FALSE);
   script_signal_emit("unit_moved", 3,
 		     API_TYPE_UNIT, punit,
 		     API_TYPE_TILE, psrctile,

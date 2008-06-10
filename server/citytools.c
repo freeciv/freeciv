@@ -1220,9 +1220,14 @@ void remove_city(struct city *pcity)
 }
 
 /**************************************************************************
-...
+  Handle unit entering city. During peace may enter peacefully, during
+  war conquers city.
+  Transported unit cannot conquer city. If transported unit is seen here,
+  transport is conquering city. Movement of the transported units is just
+  handled before transport itself.
 **************************************************************************/
-void handle_unit_enter_city(struct unit *punit, struct city *pcity)
+void handle_unit_enter_city(struct unit *punit, struct city *pcity,
+                            bool passenger)
 {
   bool do_civil_war = FALSE;
   int coins;
@@ -1233,7 +1238,7 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
   /* If not at war, may peacefully enter city. Or, if we cannot occupy
    * the city, this unit entering will not trigger the effects below. */
   if (!pplayers_at_war(pplayer, cplayer)
-      || !COULD_OCCUPY(punit)) {
+      || !COULD_OCCUPY(punit) || passenger) {
     return;
   }
 
