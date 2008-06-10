@@ -45,7 +45,7 @@ struct city *find_closest_owned_city(struct player *pplayer,
 				     struct tile *ptile,
 				     bool sea_required,
 				     struct city *pexclcity);
-void unit_enter_city(struct unit *punit, struct city *pcity);
+void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger);
 
 bool send_city_suppression(bool now);
 void send_city_info(struct player *dest, struct city *pcity);

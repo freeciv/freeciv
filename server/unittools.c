@@ -2524,21 +2524,22 @@ FIXME: Sometimes it is not necessary to send cities because the goverment
        doesn't care whether a unit is away or not.
 **************************************************************************/
 static void unit_move_consequences(struct unit *punit,
-				   struct tile *src_tile,
-				   struct tile *dst_tile)
+                                   struct tile *src_tile,
+                                   struct tile *dst_tile,
+                                   bool passenger)
 {
   struct city *fromcity = tile_city(src_tile);
   struct city *tocity = tile_city(dst_tile);
   struct city *homecity = NULL;
   struct player *pplayer = unit_owner(punit);
   bool refresh_homecity = FALSE;
-  
+
   if (0 != punit->homecity) {
     homecity = game_find_city_by_number(punit->homecity);
   }
 
   if (tocity) {
-    unit_enter_city(punit, tocity);
+    unit_enter_city(punit, tocity, passenger);
   }
 
   /* We only do this for non-AI players to now make sure the AI turns
@@ -2692,7 +2693,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
       vision_clear_sight(old_vision);
       vision_free(old_vision);
 
-      unit_move_consequences(pcargo, psrctile, pdesttile);
+      unit_move_consequences(pcargo, psrctile, pdesttile, TRUE);
     } unit_list_iterate_end;
     unit_list_unlink_all(cargo_units);
     unit_list_free(cargo_units);
@@ -2818,10 +2819,10 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
     } players_iterate_end;
   } square_iterate_end;
 
-  unit_move_consequences(punit, psrctile, pdesttile);
+  unit_move_consequences(punit, psrctile, pdesttile, FALSE);
 
   /* FIXME: Should signal emit be after sentried units have been
-   *        waken up in case script causes unit death. */
+   *        waken up in case script causes unit death? */
   script_signal_emit("unit_moved", 3,
 		     API_TYPE_UNIT, punit,
 		     API_TYPE_TILE, psrctile,
