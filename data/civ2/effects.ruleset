@@ -166,7 +166,7 @@ name  = "Output_Waste"
 value = 2
 reqs  =
     { "type", "name", "range"
-      "Gov", "Republic", "Player"
+      "Gov", "Fundamentalism", "Player"
       "OutputType", "Trade", "Local"
     }
 
@@ -175,7 +175,7 @@ name  = "Output_Waste_By_Distance"
 value = 2
 reqs  =
     { "type", "name", "range"
-      "Gov", "Republic", "Player"
+      "Gov", "Fundamentalism", "Player"
       "OutputType", "Trade", "Local"
     }
 
@@ -606,6 +606,14 @@ value   = 100
 reqs    =
     { "type",       "name",      "range"
       "Gov", "Democracy", "Player"
+    }
+
+[effect_max_rates_6]
+name    = "Max_Rates"
+value   = 80
+reqs    =
+    { "type",       "name",      "range"
+      "Gov", "Fundamentalism", "Player"
     }
 
 [effect_martial_law_each_0]
@@ -1956,4 +1964,12 @@ value   = -585
 reqs    =
     { "type", "name", "range"
       "Tech", "Railroad", "Player"
-    }    
+    }
+
+[effect_tithes_fundamentalism]
+name    = "Happiness_To_Gold" 
+value   = 1 
+reqs    = 
+    { "type", "name", "range" 
+      "Gov", "Fundamentalism", "Player" 
+    }
