@@ -73,7 +73,7 @@ void dio_set_put_conv_callback(DIO_PUT_CONV_FUN fun)
  Returns FALSE if the destination isn't large enough or the source was
  bad.
 **************************************************************************/
-static bool get_conv(char *dst, size_t ndst, const unsigned char *src,
+static bool get_conv(char *dst, size_t ndst, const char *src,
 		     size_t nsrc)
 {
   size_t len = nsrc;		/* length to copy, not including null */
@@ -538,7 +538,7 @@ void dio_get_memory(struct data_in *din, void *dest, size_t dest_size)
 **************************************************************************/
 void dio_get_string(struct data_in *din, char *dest, size_t max_dest_size)
 {
-  unsigned char *c;
+  char *c;
   size_t ps_len;		/* length in packet, not including null */
   size_t offset, remaining;
 

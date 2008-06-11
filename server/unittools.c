@@ -1311,7 +1311,7 @@ static bool find_a_good_partisan_spot(struct city *pcity, int u_type,
 **************************************************************************/
 static void place_partisans(struct city *pcity, int count)
 {
-  int x, y;
+  int x = 0, y = 0;
   int u_type = get_role_unit(L_PARTISAN, 0);
 
   while ((count--) > 0 && find_a_good_partisan_spot(pcity, u_type, &x, &y)) {

@@ -196,7 +196,7 @@ static unsigned char *put_conv(const char *src, size_t *length)
  Returns FALSE if the destination isn't large enough or the source was
  bad.
 **************************************************************************/
-static bool get_conv(char *dst, size_t ndst, const unsigned char *src,
+static bool get_conv(char *dst, size_t ndst, const char *src,
 		     size_t nsrc)
 {
   gsize len;			/* length to copy, not including null */
@@ -1012,9 +1012,9 @@ void ui_main(int argc, char **argv)
   gdk_gc_set_fill(fill_tile_gc, GDK_STIPPLED);
 
   {
-    unsigned char d1[] = {0x03, 0x0c, 0x03, 0x0c};
-    unsigned char d2[] = {0x08, 0x02, 0x08, 0x02};
-    unsigned char d3[] = {0xAA, 0x55, 0xAA, 0x55};
+    char d1[] = {0x03, 0x0c, 0x03, 0x0c};
+    char d2[] = {0x08, 0x02, 0x08, 0x02};
+    char d3[] = {0xAA, 0x55, 0xAA, 0x55};
 
     gray50 = gdk_bitmap_create_from_data(root_window, d1, 4, 4);
     gray25 = gdk_bitmap_create_from_data(root_window, d2, 4, 4);

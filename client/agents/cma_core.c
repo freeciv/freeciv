@@ -1674,7 +1674,7 @@ static void optimize_final(struct city *pcity,
     for (i = 0; i < MAX_COMBINATIONS; i++) {
       struct combination *current =
 	  &cache3.results[fields_used].combinations[i];
-      int stat, major_fitness, minor_fitness;
+      int stat, major_fitness = 0, minor_fitness = 0;
       struct cma_result result;
 
       if (!current->is_valid) {
