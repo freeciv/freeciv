@@ -58,6 +58,7 @@ EXTRA_DIST=	acconfig.old			\
 		bootstrap/freeciv.spec.in	\
 		bootstrap/undep.sh.in		\
 		m4/ac_path_lib.m4		\
+		m4/alsa.m4			\
 		m4/auth.m4			\
 		m4/c99.m4			\
 		m4/debug.m4			\
