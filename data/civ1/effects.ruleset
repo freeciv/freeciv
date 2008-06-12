@@ -181,6 +181,15 @@ reqs    =
       "OutputType", "gold", "Local"
     }
 
+; Barbarian effects
+
+[effect_barb1]
+name    = "No_Diplomacy"
+value   = 1
+reqs    =
+    { "type",   "name", "range"
+      "Nation", "Barbarian", "Player"
+    }
 
 ; Fortress HP regen
 [effect_fortress_hp_regen]
@@ -348,6 +357,12 @@ reqs    =
     { "type",       "name",      "range"
       "Gov", "Democracy",  "Player"
     }
+
+; FIXME: How this should work in Civ1?
+;        This just makes it playable.
+[effect_empire_size_step]
+name    = "Empire_Size_Step"
+value   = 10
 
 [effect_max_rates_0]
 name    = "Max_Rates"
