@@ -184,11 +184,16 @@ function classPackage:register (pre)
    output(pre.."}")
    
    output("\n\n")
-   output("#if defined(LUA_VERSION_NUM) && LUA_VERSION_NUM >= 501\n");
+   output("/* This is never used in Freeciv.\n")
+   output(" * Fix toluaxx to provide prototype before restoring this.\n")
+   output(" * Note that this comes all the way from lua bindings of toluaxx\n")
+   output(" * itself. */\n")
+   output("/*\n");
+   output("#if defined(LUA_VERSION_NUM) && LUA_VERSION_NUM >= 501\n")
    output(pre.."TOLUA_API int luaopen_"..self.name.." (lua_State* tolua_S) {")
    output(pre.." return tolua_"..self.name.."_open(tolua_S);")
    output(pre.."};")
-   output("#endif\n\n")
+   output("#endif\n*/\n\n\n")
    
    pop()
 end
