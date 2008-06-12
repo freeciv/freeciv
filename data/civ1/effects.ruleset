@@ -16,6 +16,15 @@ options="1.0"
 ; /* <-- avoid gettext warnings
 ; */ <-- avoid gettext warnings
 
+; Barbarian effects
+
+[effect_barb1]
+name    = "No_Diplomacy"
+value   = 1
+reqs    =
+    { "type",   "name", "range"
+      "Nation", "Barbarian", "Player"
+    }
 
 ; Specialist output bonuses
 
@@ -339,6 +348,12 @@ reqs    =
     { "type",       "name",      "range"
       "Gov", "Republic",  "Player"
     }
+
+; FIXME: How this should work in Civ1?
+;        This just makes it playable.
+[effect_empire_size_step]
+name    = "Empire_Size_Step"
+value   = 10
 
 [effect_max_rates_0]
 name    = "Max_Rates"
