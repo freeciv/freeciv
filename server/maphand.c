@@ -188,12 +188,15 @@ void assign_continent_numbers(void)
   Assumes assign_continent_numbers() and recalculate_lake_surrounders()
   have already been done!
   FIXME: insufficiently generalized, use terrain property.
+  FIXME: Results differ from initially generated waters, but this is not
+         used at all in normal map generation.
 **************************************************************************/
 void map_regenerate_water(void)
 {
+#define MAX_ALT_TER_TYPES 5
 #define DEFAULT_LAKE_SEA_SIZE (4)  /* should be configurable */
 #define DEFAULT_NEAR_COAST (6)
-  struct terrain *lake = find_terrain_by_identifier(TERRAIN_LAKE_IDENTIFIER);
+  struct terrain *lakes[MAX_ALT_TER_TYPES];
   struct terrain *sea = find_terrain_by_identifier(TERRAIN_SEA_IDENTIFIER);
   struct terrain *coast = find_terrain_by_identifier(TERRAIN_COAST_IDENTIFIER);
   struct terrain *shelf = find_terrain_by_identifier(TERRAIN_SHELF_IDENTIFIER);
@@ -202,6 +205,16 @@ void map_regenerate_water(void)
   int coast_count = 0;
   int shelf_count = 0;
   int floor_count = 0;
+  int num_laketypes;
+
+  num_laketypes = terrains_by_flag(TER_FRESHWATER, lakes, sizeof(lakes));
+  if (num_laketypes > MAX_ALT_TER_TYPES) {
+    freelog(LOG_NORMAL, "Number of lake types in ruleset %d, considering only %d ones.",
+            num_laketypes, MAX_ALT_TER_TYPES);
+    num_laketypes = MAX_ALT_TER_TYPES;
+  }
+
+#undef MAX_ALT_TER_TYPES
 
   /* coasts, lakes, and seas */
   whole_map_iterate(ptile) {
@@ -215,8 +228,9 @@ void map_regenerate_water(void)
       continue;
     }
     if (0 < lake_surrounders[-here]) {
-      if (DEFAULT_LAKE_SEA_SIZE < ocean_sizes[-here]) {
-        tile_change_terrain(ptile, lake);
+      if (DEFAULT_LAKE_SEA_SIZE < ocean_sizes[-here]
+          && num_laketypes > 0) {
+        tile_change_terrain(ptile, lakes[myrand(num_laketypes)]);
       } else {
         tile_change_terrain(ptile, sea);
       }

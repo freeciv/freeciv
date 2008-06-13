@@ -207,6 +207,47 @@ struct terrain *find_terrain_by_translated_name(const char *name)
 }
 
 /****************************************************************************
+  Return terrain having the flag. If several terrains have the flag,
+  random one is returned.
+****************************************************************************/
+struct terrain *rand_terrain_by_flag(enum terrain_flag_id flag)
+{
+  int num = 0;
+  struct terrain *terr = NULL;
+
+  terrain_type_iterate(pterr) {
+    if (terrain_has_flag(pterr, flag)) {
+      num++;
+      if (myrand(num) == 1) {
+        terr = pterr;
+      }
+    }
+  } terrain_type_iterate_end;
+
+  return terr;
+}
+
+/****************************************************************************
+  Fill terrain with flag to buffer. Returns number of terrains found.
+  Return value can be greater than size of buffer.
+****************************************************************************/
+int terrains_by_flag(enum terrain_flag_id flag, struct terrain **buffer, int bufsize)
+{
+  int num = 0;
+
+  terrain_type_iterate(pterr) {
+    if (terrain_has_flag(pterr, flag)) {
+      if (num < bufsize) {
+        buffer[num] = pterr;
+      }
+      num++;
+    }
+  } terrain_type_iterate_end;
+
+  return num;
+}
+
+/****************************************************************************
   Return the (translated) name of the terrain.
   You don't have to free the return pointer.
 ****************************************************************************/
@@ -245,7 +286,8 @@ enum terrain_flag_id find_terrain_flag_by_rule_name(const char *s)
     "Starter",
     "CanHaveRiver",
     "UnsafeCoast",
-    "Oceanic"
+    "Oceanic",
+    "Freshwater"
   };
 
   assert(ARRAY_SIZE(flag_names) == TER_COUNT);
