@@ -882,6 +882,9 @@ void handle_event(char *message, struct tile *ptile,
 		  enum event_type event, int conn_id)
 {
   int where = MW_OUTPUT;	/* where to display the message */
+  bool fallback_needed = FALSE; /* we want fallback if actual 'where' is not
+                                 * usable */
+  bool shown = FALSE;           /* Message displayed somewhere at least */
   
   if (event >= E_LAST)  {
     /* Server may have added a new event; leave as MW_OUTPUT */
@@ -890,20 +893,38 @@ void handle_event(char *message, struct tile *ptile,
     where = messages_where[event];
   }
 
-  if (BOOL_VAL(where & MW_OUTPUT)
-      || C_S_RUNNING != client_state()) {
-    /* When the game isn't running, the messages dialog isn't present and
-     * we want to send all messages to the chatline.  There shouldn't be
-     * any problem with server spam in pregame anyway. */
-    append_output_window_full(message, conn_id);
+  /* Popup */
+  if (BOOL_VAL(where & MW_POPUP)) {
+    /* Popups are usually not shown if player is under AI control.
+     * Server operator messages are shown always. */
+    if (NULL == client.conn.playing
+        || !client.conn.playing->ai.control
+        || event == E_MESSAGE_WALL) {
+      popup_notify_goto_dialog(_("Popup Request"), message, ptile);
+      shown = TRUE;
+    } else {
+      /* Force to chatline so it will be visible somewhere at least.
+       * Messages window may still handle this so chatline is not needed
+       * after all. */
+      fallback_needed = TRUE;
+    }
   }
+
+  /* Message window */
   if (BOOL_VAL(where & MW_MESSAGES)) {
-    add_notify_window(message, ptile, event);
+    /* When the game isn't running, the messages dialog isn't present. */
+    if (C_S_RUNNING == client_state()) {
+      add_notify_window(message, ptile, event);
+      shown = TRUE;
+    } else {
+      /* Force to chatline instead. */
+      fallback_needed = TRUE;
+    }
   }
-  if (BOOL_VAL(where & MW_POPUP)
-      && (NULL == client.conn.playing
-          || !client.conn.playing->ai.control)) {
-    popup_notify_goto_dialog(_("Popup Request"), message, ptile);
+
+  /* Chatline */
+  if (BOOL_VAL(where & MW_OUTPUT) || (fallback_needed && !shown)) {
+    append_output_window_full(message, conn_id);
   }
 
   play_sound_for_event(event);
