@@ -808,3 +808,38 @@ bool is_server_busy(void)
 {
   return server_busy;
 }
+
+/****************************************************************************
+  ...
+****************************************************************************/
+bool client_is_global_observer(void)
+{
+  return client.conn.playing == NULL && client.conn.observer == TRUE;
+}
+
+/****************************************************************************
+  ...
+****************************************************************************/
+int client_player_number(void)
+{
+  if (client.conn.playing == NULL) {
+    return -1;
+  }
+  return player_number(client.conn.playing);
+}
+
+/****************************************************************************
+  Either controlling or observing.
+****************************************************************************/
+bool client_has_player(void)
+{
+  return client.conn.playing != NULL;
+}
+
+/****************************************************************************
+  Either controlling or observing.
+****************************************************************************/
+struct player *client_player(void)
+{
+  return client.conn.playing;
+}
