@@ -239,7 +239,7 @@ warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 native_to            = "Sea", "Air", "Missile", "Helicopter"
-flags                = "Oceanic", "NoCities", "NoPollution"
+flags                = "Oceanic", "NoCities", "NoPollution", "FreshWater"
 property_ocean_depth = 0
 helptext             = _("\
 Oceans cover much of the world, and only sea units (Triremes and\

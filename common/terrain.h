@@ -106,7 +106,8 @@ enum terrain_flag_id {
   TER_STARTER, /* Players will start on this terrain type. */
   TER_CAN_HAVE_RIVER, /* Terrains with this type can have S_RIVER on them. */
   TER_UNSAFE_COAST,/*this tile is not safe as coast, (all ocean / ice) */ 
-  TER_OCEANIC, /* This is an ocean terrain. */
+  TER_OCEANIC,     /* This is an water terrain. */
+  TER_FRESHWATER,  /* Fresh water terrain */
   TER_LAST
 };
 #define TER_FIRST (TER_NO_BARBS)
@@ -144,8 +145,8 @@ struct terrain {
   char graphic_alt[MAX_LEN_NAME];
 
   char identifier; /* Single-character identifier used in savegames. */
+
 #define TERRAIN_WATER_IDENTIFIER ' '
-#define TERRAIN_LAKE_IDENTIFIER '+'
 #define TERRAIN_SEA_IDENTIFIER '-'
 #define TERRAIN_COAST_IDENTIFIER '.'
 #define TERRAIN_SHELF_IDENTIFIER ','
@@ -213,6 +214,7 @@ struct terrain *terrain_by_number(const Terrain_type_id type);
 struct terrain *find_terrain_by_identifier(const char identifier);
 struct terrain *find_terrain_by_rule_name(const char *name);
 struct terrain *find_terrain_by_translated_name(const char *name);
+struct terrain *rand_terrain_by_flag(enum terrain_flag_id flag);
 
 char terrain_identifier(const struct terrain *pterrain);
 const char *terrain_rule_name(const struct terrain *pterrain);
@@ -221,6 +223,8 @@ const char *terrain_name_translation(struct terrain *pterrain);
 /* Functions to operate on a terrain flag. */
 enum terrain_flag_id find_terrain_flag_by_rule_name(const char *s);
 #define terrain_has_flag(terr, flag) BV_ISSET((terr)->flags, flag)
+
+int terrains_by_flag(enum terrain_flag_id flag, struct terrain **buffer, int bufsize);
 
 bool is_terrain_flag_near_tile(const struct tile *ptile,
 			       enum terrain_flag_id flag);
