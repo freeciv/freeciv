@@ -11594,7 +11594,7 @@ msgstr "¿Qué nación quieres ser?"
 #: client/gui-gtk-2.0/dialogs.c:798 client/gui-sdl/chatline.c:842
 #: client/gui-win32/connectdlg.c:1042 data/Freeciv.in:3378
 msgid "Pick Nation"
-msgstr "Eleigr Nación"
+msgstr "Elegir Nación"
 
 #: client/gui-gtk-2.0/dialogs.c:806
 #, fuzzy
