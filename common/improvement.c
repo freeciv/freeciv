@@ -422,9 +422,8 @@ bool can_player_build_improvement_direct(const struct player *p,
 }
 
 /**************************************************************************
-  Whether player can _eventually_ build given building somewhere -- i.e.,
-  returns TRUE if building is available with current tech OR will be
-  available with future tech.  Returns FALSE if building is obsolete.
+  Whether player can build given building somewhere immediately.
+  Returns FALSE if building is obsolete.
 **************************************************************************/
 bool can_player_build_improvement_now(const struct player *p,
 				      struct impr_type *pimprove)
