@@ -175,7 +175,6 @@ function classVariable:declfunc_begin(name)
    end
    return pref.."#ifndef TOLUA_DISABLE_"..name.."\n"..
       "static int "..name.." (lua_State* tolua_S) {\n"..
-      "  tolua_Error tolua_err;\n"..
       " "..self:declself()
 end
 
@@ -230,6 +229,7 @@ function classVariable:supcode ()
       
       -- check variable type
       output('#ifndef TOLUA_RELEASE\n')
+      output('  tolua_Error tolua_err;\n')
       output('  if (!'..self:outchecktype(2)..') tolua_error(tolua_S,"#vinvalid type in variable assignment.",&tolua_err);')
       output('#endif\n')
       
