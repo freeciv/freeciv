@@ -37,6 +37,7 @@
 #include "chatline.h"
 #include "cityrep.h"
 #include "civclient.h"
+#include "climisc.h"
 #include "clinet.h"
 #include "connectdlg_common.h"
 #include "control.h"
@@ -725,7 +726,9 @@ void handle_menu(int code)
       unit_list_iterate(get_units_in_focus(), punit) {
         /* FIXME: this can provide different actions for different units...
          * not good! */
-        if (can_unit_do_activity(punit, ACTIVITY_FORTRESS)) {
+        struct base_type *pbase = get_base_by_gui_type(BASE_GUI_FORTRESS,
+                                                       punit, punit->tile);
+        if (pbase) {
           key_unit_fortress();
         } else {
           key_unit_fortify();
@@ -1031,7 +1034,6 @@ update_menus(void)
     }
 
   } else {
-    struct unit *punit;
     HMENU govts;
 
     /* remove previous government entries. */
@@ -1106,13 +1108,14 @@ update_menus(void)
       return;
     }
 
-    if (NULL != (punit = head_of_units_in_focus())) {
+    if (get_num_units_in_focus() > 0) {
       const char *irrfmt = _("Change to %s");
       const char *minfmt = _("Change to %s");
       const char *transfmt = _("Transform to %s");
       char irrtext[128], mintext[128], transtext[128];
       char *roadtext;
       struct terrain *pterrain;
+      struct unit_list *punits = get_units_in_focus();
 
       sz_strlcpy(irrtext, N_("Build Irrigation") "\tI");
       sz_strlcpy(mintext, N_("Build Mine") "\tM");
@@ -1129,137 +1132,160 @@ update_menus(void)
       /* Enable the button for adding to a city in all cases, so we
 	 get an eventual error message from the server if we try. */
       my_enable_menu(menu, IDM_ORDERS_BUILD_CITY,
-		     can_unit_add_or_build_city(punit)
-		     || unit_can_help_build_wonder_here(punit));
+		     (can_units_do(punits, can_unit_add_or_build_city)
+                      || can_units_do(punits, unit_can_help_build_wonder_here)));
       my_enable_menu(menu, IDM_ORDERS_ROAD,
-                     can_unit_do_activity(punit, ACTIVITY_ROAD)
-		     || can_unit_do_activity(punit, ACTIVITY_RAILROAD)
-		     || unit_can_est_traderoute_here(punit));
+                     (can_units_do_activity(punits, ACTIVITY_ROAD)
+                      || can_units_do_activity(punits, ACTIVITY_RAILROAD)
+                      || can_units_do(punits,
+                                      unit_can_est_traderoute_here)));
       my_enable_menu(menu, IDM_ORDERS_IRRIGATE,
-		     can_unit_do_activity(punit, ACTIVITY_IRRIGATE));
+		     can_units_do_activity(punits, ACTIVITY_IRRIGATE));
       my_enable_menu(menu, IDM_ORDERS_MINE,
-		     can_unit_do_activity(punit, ACTIVITY_MINE));
+		     can_units_do_activity(punits, ACTIVITY_MINE));
       my_enable_menu(menu, IDM_ORDERS_TRANSFORM,
-		     can_unit_do_activity(punit, ACTIVITY_TRANSFORM));
+		     can_units_do_activity(punits, ACTIVITY_TRANSFORM));
       my_enable_menu(menu, IDM_ORDERS_FORTRESS,
-		     can_unit_do_activity(punit, ACTIVITY_FORTRESS)
-		     || can_unit_do_activity(punit, ACTIVITY_FORTIFYING));
+                     can_units_do_base_gui(punits, BASE_GUI_FORTRESS)
+		     || can_units_do_activity(punits, ACTIVITY_FORTIFYING));
       my_enable_menu(menu, IDM_ORDERS_AIRBASE,
-		     can_unit_do_activity(punit, ACTIVITY_AIRBASE));
+                     can_units_do_base_gui(punits, BASE_GUI_AIRBASE));
       my_enable_menu(menu, IDM_ORDERS_POLLUTION,
-		     can_unit_do_activity(punit, ACTIVITY_POLLUTION)
-		     || can_unit_paradrop(punit));
+		     (can_units_do_activity(punits, ACTIVITY_POLLUTION)
+                      || can_units_do(punits, can_unit_paradrop)));
       my_enable_menu(menu, IDM_ORDERS_FALLOUT,
-		     can_unit_do_activity(punit, ACTIVITY_FALLOUT));
+		     can_units_do_activity(punits, ACTIVITY_FALLOUT));
       my_enable_menu(menu, IDM_ORDERS_SENTRY,
-		     can_unit_do_activity(punit, ACTIVITY_SENTRY));
+		     can_units_do_activity(punits, ACTIVITY_SENTRY));
       my_enable_menu(menu, IDM_ORDERS_PILLAGE,
-		     can_unit_do_activity(punit, ACTIVITY_PILLAGE));
+		     can_units_do_activity(punits, ACTIVITY_PILLAGE));
       my_enable_menu(menu, IDM_ORDERS_DISBAND,
-		     !unit_has_type_flag(punit, F_UNDISBANDABLE));
+		     units_have_flag(punits, F_UNDISBANDABLE, FALSE));
+      /* FIXME: Upgrade item missing */
       my_enable_menu(menu, IDM_ORDERS_HOMECITY,
-		     can_unit_change_homecity(punit));
+		     can_units_do(punits, can_unit_change_homecity));
       my_enable_menu(menu, IDM_ORDERS_LOAD,
-                     find_transporter_for_unit(punit)->id);
+                     units_can_load(punits));
       my_enable_menu(menu, IDM_ORDERS_UNLOAD,
-	(can_unit_unload(punit, game_find_unit_by_number(punit->transported_by))
-	 && can_unit_exist_at_tile(punit, punit->tile)) 
-	|| get_transporter_occupancy(punit) > 0);
+                     units_are_occupied(punits));
       my_enable_menu(menu, IDM_ORDERS_WAKEUP_OTHERS,
-		     is_unit_activity_on_tile(ACTIVITY_SENTRY,
-					      punit->tile));
+                     units_have_activity_on_tile(punits,
+                                                 ACTIVITY_SENTRY));
       my_enable_menu(menu, IDM_ORDERS_AUTO_SETTLER,
-		     can_unit_do_autosettlers(punit));
+                     can_units_do(punits, can_unit_do_autosettlers));
       my_enable_menu(menu, IDM_ORDERS_AUTO_EXPLORE,
-		     can_unit_do_activity(punit, ACTIVITY_EXPLORE));
+                     can_units_do_activity(punits, ACTIVITY_EXPLORE));
       my_enable_menu(menu, IDM_ORDERS_CONNECT_ROAD,
-		     can_unit_do_connect(punit, ACTIVITY_ROAD));
+                     can_units_do_connect(punits, ACTIVITY_ROAD));
       my_enable_menu(menu, IDM_ORDERS_CONNECT_RAIL,
-		     can_unit_do_connect(punit, ACTIVITY_RAILROAD));
+                     can_units_do_connect(punits, ACTIVITY_RAILROAD));
       my_enable_menu(menu, IDM_ORDERS_CONNECT_IRRIGATE,
-		     can_unit_do_connect(punit, ACTIVITY_IRRIGATE));
+                     can_units_do_connect(punits, ACTIVITY_IRRIGATE));
       my_enable_menu(menu, IDM_ORDERS_RETURN, TRUE);
       my_enable_menu(menu, IDM_ORDERS_DIPLOMAT_DLG,
-		     is_diplomat_unit(punit)
-		     && diplomat_can_do_action(punit, DIPLOMAT_ANY_ACTION,
-					       punit->tile));
+                     can_units_do_diplomat_action(punits, DIPLOMAT_ANY_ACTION));
       my_enable_menu(menu, IDM_ORDERS_NUKE,
-		     unit_has_type_flag(punit, F_NUCLEAR));
-      if (unit_has_type_flag(punit, F_HELP_WONDER)) {
+                     units_have_flag(punits, F_NUCLEAR, TRUE));
+      if (units_have_flag(punits, F_HELP_WONDER, TRUE)) {
 	my_rename_menu(menu, IDM_ORDERS_BUILD_CITY, N_("Help Build Wonder")
 		       "\tB");
-      } else if (unit_has_type_flag(punit, F_CITIES)) {
-	if (tile_city(punit->tile)) {
-	  my_rename_menu(menu, IDM_ORDERS_BUILD_CITY, N_("Add to City")
-			 "\tB");
-	} else {
+      } else {
+        bool city_on_tile = FALSE;
+
+        /* FIXME: this overloading doesn't work well with multiple focus
+         * units. */
+        unit_list_iterate(punits, punit) {
+          if (tile_city(punit->tile)) {
+            city_on_tile = TRUE;
+            break;
+          }
+        } unit_list_iterate_end;
+
+        if (city_on_tile && units_have_flag(punits, F_ADD_TO_CITY, TRUE)) {
+          my_rename_menu(menu, IDM_ORDERS_BUILD_CITY, N_("Add to City")
+                         "\tB");
+        } else {
 	  my_rename_menu(menu, IDM_ORDERS_BUILD_CITY, N_("Build City")
 			 "\tB");
-	}
-      } else {
-	my_rename_menu(menu, IDM_ORDERS_BUILD_CITY, N_("Build City") "\tB");
+        }
       }
  
-      if (unit_has_type_flag(punit, F_TRADE_ROUTE)) {
-	my_rename_menu(menu, IDM_ORDERS_ROAD, N_("Make Trade Route") "\tR");
-      } else if (unit_has_type_flag(punit, F_SETTLERS)) {
-	if (tile_has_special(punit->tile, S_ROAD)) {
-	  roadtext = N_("Build Railroad") "\tR";
-	  road_activity = ACTIVITY_RAILROAD;  
+      if (units_have_flag(punits, F_TRADE_ROUTE, TRUE)) {
+        my_rename_menu(menu, IDM_ORDERS_ROAD, N_("Make Trade Route") "\tR");
+      } else if (units_have_flag(punits, F_SETTLERS, TRUE)) {
+	bool has_road = FALSE;
+
+	/* FIXME: this overloading doesn't work well with multiple focus
+	 * units. */
+	unit_list_iterate(punits, punit) {
+	  if (tile_has_special(punit->tile, S_ROAD)) {
+	    has_road = TRUE;
+	    break;
+	  }
+	} unit_list_iterate_end;
+
+	if (has_road) {
+          roadtext = N_("Build Railroad") "\tR";
+	  road_activity=ACTIVITY_RAILROAD;
 	} else {
-	  roadtext = N_("Build Road") "\tR";
-	  road_activity = ACTIVITY_ROAD;  
+          roadtext = N_("Build Road") "\tR";
+	  road_activity=ACTIVITY_ROAD;
 	}
+
 	my_rename_menu(menu, IDM_ORDERS_ROAD, roadtext);
       } else {
 	my_rename_menu(menu, IDM_ORDERS_ROAD, N_("Build Road") "\tR");
       }
 
-      pterrain = tile_terrain(punit->tile);
-      if (pterrain->irrigation_result != T_NONE
-	  && pterrain->irrigation_result != pterrain) {
-	my_snprintf(irrtext, sizeof(irrtext), irrfmt,
-		    get_tile_change_menu_text(punit->tile,
-					      ACTIVITY_IRRIGATE));
- 	sz_strlcat(irrtext, "\tI");
-      } else if (tile_has_special(punit->tile, S_IRRIGATION)
-		 && player_knows_techs_with_flag(client.conn.playing,
-						 TF_FARMLAND)) {
-	sz_strlcpy(irrtext, N_("Build Farmland") "\tI");
-      }
-      if (pterrain->mining_result != T_NONE
-	  && pterrain->mining_result != pterrain) {
-	my_snprintf(mintext, sizeof(mintext), minfmt,
-		    get_tile_change_menu_text(punit->tile, ACTIVITY_MINE));
- 	sz_strlcat(mintext, "\tM");
-      }
-      if (pterrain->transform_result != T_NONE
-	  && pterrain->transform_result != pterrain) {
-	my_snprintf(transtext, sizeof(transtext), transfmt,
-		    get_tile_change_menu_text(punit->tile,
-					      ACTIVITY_TRANSFORM));
- 	sz_strlcat(transtext, "\tO");
+      if (unit_list_size(punits) == 1) {
+	struct unit *punit = unit_list_get(punits, 0);
+
+        pterrain = tile_terrain(punit->tile);
+        if (pterrain->irrigation_result != T_NONE
+            && pterrain->irrigation_result != pterrain) {
+          my_snprintf(irrtext, sizeof(irrtext), irrfmt,
+                      get_tile_change_menu_text(punit->tile,
+                                                ACTIVITY_IRRIGATE));
+          sz_strlcat(irrtext, "\tI");
+        } else if (tile_has_special(punit->tile, S_IRRIGATION)
+                   && player_knows_techs_with_flag(client.conn.playing,
+                                                   TF_FARMLAND)) {
+          sz_strlcpy(irrtext, N_("Build Farmland") "\tI");
+        }
+        if (pterrain->mining_result != T_NONE
+            && pterrain->mining_result != pterrain) {
+          my_snprintf(mintext, sizeof(mintext), minfmt,
+                      get_tile_change_menu_text(punit->tile, ACTIVITY_MINE));
+          sz_strlcat(mintext, "\tM");
+        }
+        if (pterrain->transform_result != T_NONE
+            && pterrain->transform_result != pterrain) {
+          my_snprintf(transtext, sizeof(transtext), transfmt,
+                      get_tile_change_menu_text(punit->tile,
+                                                ACTIVITY_TRANSFORM));
+          sz_strlcat(transtext, "\tO");
+        }
       }
 
       my_rename_menu(menu, IDM_ORDERS_IRRIGATE, irrtext);
       my_rename_menu(menu, IDM_ORDERS_MINE, mintext);
       my_rename_menu(menu, IDM_ORDERS_TRANSFORM, transtext);
 
-      if (can_unit_do_activity(punit, ACTIVITY_FORTIFYING)) {
+      if (can_units_do_activity(punits, ACTIVITY_FORTIFYING)) {
 	my_rename_menu(menu, IDM_ORDERS_FORTRESS, N_("Fortify") "\tF");
       } else {
 	my_rename_menu(menu, IDM_ORDERS_FORTRESS, N_("Build Fortress")
 		       "\tF");
       }
 
-      if (unit_has_type_flag(punit, F_PARATROOPERS)) {
+      if (units_have_flag(punits, F_PARATROOPERS, TRUE)) {
 	my_rename_menu(menu, IDM_ORDERS_POLLUTION, N_("Paradrop") "\tP");
       } else {
 	my_rename_menu(menu, IDM_ORDERS_POLLUTION, N_("Clean Pollution")
 		       "\tP");
       }
 
-      if (!unit_has_type_flag(punit, F_SETTLERS)) {
+      if (units_have_flag(punits, F_SETTLERS, FALSE)) {
 	my_rename_menu(menu, IDM_ORDERS_AUTO_SETTLER, N_("Auto Attack")
 		       "\tA");
       } else {
