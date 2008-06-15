@@ -127,7 +127,8 @@ static int ai_goldequiv_tech(struct player *pplayer, Tech_type_id tech)
   int bulbs, tech_want, worth;
   enum tech_state state = player_invention_state(pplayer, tech);
 
-  if (TECH_KNOWN == state) {
+  if (TECH_KNOWN == state
+      || ! player_invention_is_ready(pplayer, tech)) {
     return 0;
   }
   bulbs = total_bulbs_required_for_goal(pplayer, tech) * 3;
@@ -185,7 +186,7 @@ static bool ai_players_can_agree_on_ceasefire(struct player* player1,
   (the taker should evaluate it normally, but giver should never give that)
 **********************************************************************/
 static int compute_tech_sell_price(struct player* giver, struct player* taker,
-				int tech_id, bool* is_dangerous)
+                                   int tech_id, bool* is_dangerous)
 {
     int worth;
     
@@ -982,7 +983,8 @@ static void suggest_tech_exchange(struct player* player1,
 
   advance_index_iterate(A_FIRST, tech) {
     if (player_invention_state(player1, tech) == TECH_KNOWN) {
-      if (player_invention_state(player2, tech) != TECH_KNOWN) {
+      if (player_invention_state(player2, tech) != TECH_KNOWN
+          && player_invention_is_ready(player2, tech)) {
         worth[tech] = -compute_tech_sell_price(player1, player2, tech,
 	                                       &is_dangerous);
 	if (is_dangerous) {
@@ -993,7 +995,8 @@ static void suggest_tech_exchange(struct player* player1,
         worth[tech] = 0;
       }
     } else {
-      if (player_invention_state(player2, tech) == TECH_KNOWN) {
+      if (player_invention_state(player2, tech) == TECH_KNOWN
+          && player_invention_is_ready(player1, tech)) {
         worth[tech] = compute_tech_sell_price(player2, player1, tech,
 	                                      &is_dangerous);
 	if (is_dangerous) {
@@ -1045,10 +1048,12 @@ static void ai_share(struct player *pplayer, struct player *aplayer)
   if (players_on_same_team(pplayer, aplayer)) {
     advance_index_iterate(A_FIRST, index) {
       if ((player_invention_state(pplayer, index) != TECH_KNOWN)
-          && (player_invention_state(aplayer, index) == TECH_KNOWN)) {
+          && (player_invention_state(aplayer, index) == TECH_KNOWN)
+          && player_invention_is_ready(pplayer, index)) {
        ai_diplomacy_suggest(aplayer, pplayer, CLAUSE_ADVANCE, index);
       } else if ((player_invention_state(pplayer, index) == TECH_KNOWN)
-          && (player_invention_state(aplayer, index) != TECH_KNOWN)) {
+                 && (player_invention_state(aplayer, index) != TECH_KNOWN)
+                 && player_invention_is_ready(aplayer, index)) {
         ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_ADVANCE, index);
       }
     } advance_index_iterate_end;
