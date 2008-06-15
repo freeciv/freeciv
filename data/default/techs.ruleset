@@ -46,7 +46,7 @@ options="1.9"
 ; "Railroad" = "Settler" unit types can build rail roads
 ; "Farmland" = "Settler" unit types can build farmland
 ; "Population_Pollution_Inc" = Increase the pollution factor created by
-;                              popultaion by one
+;                              population by one
 ; "Build_Airborne" = from now on can build air units (for use by AI)
 
 [advance_advanced_flight]
