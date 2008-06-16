@@ -219,7 +219,7 @@ Try --with-included-gettext or --disable-nls. Read ABOUT-NLS.)
 
   if test "$IS_BETA_VERSION" = "1" || test "$IS_DEVEL_VERSION" = "1"; then
     AC_MSG_CHECKING(for GNU xgettext version >= 0.10.36)
-    xgettext_version=`$XGETTEXT --version 2>&1 | grep GNU | sed 's/"/ /g'`
+    xgettext_version=`$XGETTEXT --version 2>&1 | grep GNU | head -n 1 | sed 's/"/ /g'`
     AC_TRY_RUN([
 #include <stdio.h>
 
@@ -254,7 +254,7 @@ Please update your gettext package.)
     )
 
     AC_MSG_CHECKING(for GNU msgfmt version >= 0.10.35)
-    msgfmt_version=`$MSGFMT --version 2>&1 | grep GNU | sed 's/"/ /g'`
+    msgfmt_version=`$MSGFMT --version 2>&1 | grep GNU | head -n 1 | sed 's/"/ /g'`
     AC_TRY_RUN([
 #include <stdio.h>
 
@@ -293,15 +293,13 @@ gettext package. We recommend you versions >= 0.10.38. Or use
   fi
 fi
 
-EXTRA_GCC_DEBUG_CFLAGS=""
-EXTRA_GCC_DEBUG_CXXFLAGS=""
-
-if test -n "$GCC"; then
-   EXTRA_GCC_DEBUG_CFLAGS="$CFLAGS"
-   EXTRA_GCC_DEBUG_CXXFLAGS="$CXXFLAGS"
-   CFLAGS="-Wall -Wpointer-arith -Wcast-align -Wmissing-prototypes -Wmissing-declarations"
-   CXXFLAGS="-Wall -Wpointer-arith -Wcast-align"
-fi
+dnl Set debug flags supported by compiler
+EXTRA_DEBUG_CFLAGS=""
+EXTRA_DEBUG_CXXFLAGS=""
+FC_C_FLAGS([-Wall -Wpointer-arith -Wcast-align -Wmissing-prototypes -Wmissing-declarations],
+ [], [EXTRA_DEBUG_CFLAGS])
+FC_CXX_FLAGS([-Wall -Wpointer-arith -Wcast-align],
+ [], [EXTRA_DEBUG_CXXFLAGS])
 
 FC_DEBUG
 AC_C99_VARIADIC_MACROS
@@ -458,6 +456,7 @@ if test x$client != xno; then
 
     if test "x$found_client" = "xyes"; then
       client=stub
+      CLIENT_LIBS="-lm"
     elif test "$client" = "stub"; then
       AC_MSG_ERROR(specified client 'stub' not configurable)
     fi
@@ -648,7 +647,7 @@ dnl and builds 'po/Makefile.in' then 'po/Makefile'.  In order for the
 dnl commonly used _() and N_() macros to work, there should be somewhere
 dnl in that 'po/Makefile' a call to xgettext with "--keyword=_" and
 dnl "--keyword=N_" as arguments.  To support Q_() and PL_(),
-dnl the following simply dnl replaces instances of 
+dnl the following simply replaces instances of 
 dnl "--keyword=N_" with "--keyword=N_ --keyword=Q_ --keyword=PL_:1,2"
 dnl in the 'po/Makefile' file.
 AC_CONFIG_COMMANDS([fc_default-1],[[if test -f po/Makefile ; then
@@ -704,10 +703,8 @@ AC_CONFIG_COMMANDS([fc_default-5],[[if test x`uname -s` = xBeOS ; then
      fi
    fi]],[[]])
 
-if test -n "$GCC"; then
-  CFLAGS="$EXTRA_GCC_DEBUG_CFLAGS $CFLAGS"
-  CXXFLAGS="$EXTRA_GCC_DEBUG_CXXFLAGS $CXXFLAGS"
-fi
+CFLAGS="$EXTRA_DEBUG_CFLAGS $CFLAGS"
+CXXFLAGS="$EXTRA_DEBUG_CXXFLAGS $CXXFLAGS"
 
 dnl Rebuild 'configure' whenever version.in changes, if maintainer mode enabled.
 AC_SUBST([CONFIGURE_DEPENDENCIES], ["$CONFIGURE_DEPENDENCIES \$(top_srcdir)/version.in"])
