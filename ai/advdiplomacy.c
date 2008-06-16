@@ -126,7 +126,8 @@ static int ai_goldequiv_tech(struct player *pplayer, Tech_type_id tech)
 {
   int bulbs, tech_want, worth;
 
-  if (get_invention(pplayer, tech) == TECH_KNOWN) {
+  if (get_invention(pplayer, tech) == TECH_KNOWN
+      || !tech_is_available(pplayer, tech)) {
     return 0;
   }
   bulbs = total_bulbs_required_for_goal(pplayer, tech) * 3;
@@ -971,7 +972,9 @@ static void suggest_tech_exchange(struct player* player1,
   bool is_dangerous;
     
   tech_type_iterate(tech) {
-    if (tech == A_NONE) {
+    if (tech == A_NONE 
+        || !tech_is_available(player2, tech)
+        || !tech_is_available(player1, tech)) {
       worth[tech] = 0;
       continue;
     }
@@ -1040,10 +1043,12 @@ static void ai_share(struct player *pplayer, struct player *aplayer)
   if (players_on_same_team(pplayer, aplayer)) {
     for (index = A_FIRST; index < game.control.num_tech_types; index++) {
       if ((get_invention(pplayer, index) != TECH_KNOWN)
-          && (get_invention(aplayer, index) == TECH_KNOWN)) {
+          && (get_invention(aplayer, index) == TECH_KNOWN)
+          && tech_is_available(pplayer, index)) {
        ai_diplomacy_suggest(aplayer, pplayer, CLAUSE_ADVANCE, index);
       } else if ((get_invention(pplayer, index) == TECH_KNOWN)
-          && (get_invention(aplayer, index) != TECH_KNOWN)) {
+          && (get_invention(aplayer, index) != TECH_KNOWN)
+          && tech_is_available(aplayer, index)) {
         ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_ADVANCE, index);
       }
     }
