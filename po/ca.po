@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-06-03 00:38+0200\n"
+"POT-Creation-Date: 2008-06-16 15:56+0900\n"
 "PO-Revision-Date: 2008-06-03 00:38+0200\n"
 "Last-Translator: Joan Creus <joan.creus at gmail dot com>\n"
 "Language-Team: Català <ca@li.org>\n"
@@ -1040,12 +1040,12 @@ msgstr "error %ld (Missatge de format fallat)"
 msgid "error %d (compiled without strerror)"
 msgstr "error %d (compilat sense strerror)"
 
-#: ai/aicity.c:1043 server/citytools.c:1927
+#: ai/aicity.c:1043 server/citytools.c:1932
 #, c-format
 msgid "The %s have stopped building The %s in %s."
 msgstr "Els %s han deixat de construir %s a %s."
 
-#: ai/aicity.c:1054 server/citytools.c:1968
+#: ai/aicity.c:1054 server/citytools.c:1973
 #, c-format
 msgid "The %s have started building The %s in %s."
 msgstr "Els %s han començat a construir %s a %s."
@@ -1674,75 +1674,75 @@ msgstr ""
 "Quan %s ha estat desmantellada %s no ha pogut sortir-ne, i per tant, s'ha "
 "perdut."
 
-#: server/citytools.c:1284
+#: server/citytools.c:1289
 #, c-format
 msgid "You destroy %s completely."
 msgstr "Destrueixes %s completament."
 
-#: server/citytools.c:1287
+#: server/citytools.c:1292
 #, c-format
 msgid "%s has been destroyed by %s."
 msgstr "%s ha estat destruïda per %s."
 
-#: server/citytools.c:1305
+#: server/citytools.c:1310
 #, c-format
 msgid "You conquer %s; your lootings accumulate to %d gold!"
 msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
 msgstr[0] "Conquereixes %s, el botí puja a %d peça d'or!"
 msgstr[1] "Conquereixes %s, el botí puja a %d peces d'or!"
 
-#: server/citytools.c:1312
+#: server/citytools.c:1317
 #, c-format
 msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
 msgstr[0] "%s ha conquerit %s i ha fet un botí de %d peça d'or de la ciutat."
 msgstr[1] "%s ha conquerit %s i ha fet un botí de %d peces d'or de la ciutat."
 
-#: server/citytools.c:1321
+#: server/citytools.c:1326
 #, c-format
 msgid "You conquer %s"
 msgstr "Has conquerit %s"
 
-#: server/citytools.c:1324
+#: server/citytools.c:1329
 #, c-format
 msgid "%s conquered %s."
 msgstr "%s ha conquerit %s"
 
-#: server/citytools.c:1331
+#: server/citytools.c:1336
 #, c-format
 msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgid_plural "You have liberated %s! Lootings accumulate to %d gold."
 msgstr[0] "Has alliberat %s!! El botí suma %d peça d'or."
 msgstr[1] "Has alliberat %s!! El botí suma %d peces d'or."
 
-#: server/citytools.c:1338
+#: server/citytools.c:1343
 #, c-format
 msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
 msgstr[0] "%s ha alliberat %s i ha fet un botí de %d peça d'or de la ciutat."
 msgstr[1] "%s ha alliberat %s i ha fet un botí de %d peces d'or de la ciutat."
 
-#: server/citytools.c:1347
+#: server/citytools.c:1352
 #, c-format
 msgid "You have liberated %s!"
 msgstr "Has alliberat %s!"
 
-#: server/citytools.c:1350
+#: server/citytools.c:1355
 #, c-format
 msgid "%s liberated %s."
 msgstr "%s ha alliberat %s."
 
-#: server/citytools.c:1948
+#: server/citytools.c:1953
 msgid " from the worklist"
 msgstr " de la llista de treball"
 
 #. TRANS: "<city> is building <production><source>."
-#: server/citytools.c:1960
+#: server/citytools.c:1965
 #, c-format
 msgid "%s is building %s%s."
 msgstr "%s està construint %s%s."
 
-#: server/citytools.c:2206
+#: server/citytools.c:2211
 #, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
 msgstr "Vens %s a %s (encallat) per %d peces d'or."
@@ -6302,24 +6302,24 @@ msgid "Barbarian"
 msgstr "Bàrbar"
 
 #: server/stdinhand.c:3082 server/stdinhand.c:4187 client/plrdlg_common.c:256
-#: client/gui-gtk-2.0/pages.c:2025 client/gui-sdl/plrdlg.c:645
+#: client/gui-gtk-2.0/pages.c:2027 client/gui-sdl/plrdlg.c:645
 #: client/gui-win32/connectdlg.c:201 client/gui-win32/plrdlg.c:335
 msgid "AI"
 msgstr "IA"
 
 #: server/stdinhand.c:3083 server/stdinhand.c:4189
-#: client/gui-gtk-2.0/pages.c:2025 client/gui-gtk-2.0/pages.c:2048
+#: client/gui-gtk-2.0/pages.c:2027 client/gui-gtk-2.0/pages.c:2050
 #: client/gui-win32/connectdlg.c:201 client/gui-win32/connectdlg.c:213
 msgid "Human"
 msgstr "Humà"
 
-#: server/stdinhand.c:3085 client/gui-gtk-2.0/pages.c:2024
-#: client/gui-gtk-2.0/pages.c:2047 client/gui-win32/connectdlg.c:200
+#: server/stdinhand.c:3085 client/gui-gtk-2.0/pages.c:2026
+#: client/gui-gtk-2.0/pages.c:2049 client/gui-win32/connectdlg.c:200
 #: client/gui-win32/connectdlg.c:212
 msgid "Alive"
 msgstr "Viu"
 
-#: server/stdinhand.c:3086 client/gui-gtk-2.0/pages.c:2024
+#: server/stdinhand.c:3086 client/gui-gtk-2.0/pages.c:2026
 #: client/gui-win32/connectdlg.c:200
 msgid "Dead"
 msgstr "Mort"
@@ -7199,54 +7199,54 @@ msgstr "La teva sobrevolada ha espantat a la tribu, s'escampen aterrits."
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr "Les ordres per %s s'han avortat en veure moviment d'enemics."
 
-#: server/unittools.c:2986
+#: server/unittools.c:2989
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "Les ordres per %s s'han avortat perquè hi ha unitats a la vora."
 
-#: server/unittools.c:3038
+#: server/unittools.c:3041
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr ""
 "Les ordres per %s s'han avortat perquè no s'ha pogut construir la ciutat."
 
-#: server/unittools.c:3051
+#: server/unittools.c:3054
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr ""
 "Les ordres per %s s'han avortat perquè provoquen una activitat no vàlida."
 
-#: server/unittools.c:3065
+#: server/unittools.c:3068
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "Les ordres per %s s'han avortat perquè donen una ubicació no vàlida."
 
-#: server/unittools.c:3075
+#: server/unittools.c:3078
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "Les ordres per %s s'han avortat perquè hi ha unitats al mig del pas."
 
-#: server/unittools.c:3101
+#: server/unittools.c:3104
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "Les ordres per %s s'han avortat per moviment incorrecte."
 
-#: server/unittools.c:3142
+#: server/unittools.c:3145
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr "L'intent de canviar la ciutat d'origen per %s ha fallat."
 
-#: server/unittools.c:3153
+#: server/unittools.c:3156
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "L'intent d'establir una ruta comercial per %s ha fallat."
 
-#: server/unittools.c:3165
+#: server/unittools.c:3168
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "L'intent de construir meravella per %s ha fallat"
 
-#: server/unittools.c:3174
+#: server/unittools.c:3177
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "El teu %s té ordres incorrectes"
@@ -8021,19 +8021,19 @@ msgstr ""
 "Connexió automàtica al servidor \"%s\" port %d com a \"%s\" cada %f segon(s) "
 "durant %d intents"
 
-#: client/connectdlg_common.c:79 client/gui-gtk-2.0/pages.c:1284
+#: client/connectdlg_common.c:79 client/gui-gtk-2.0/pages.c:1286
 msgid "novice"
 msgstr "principiant"
 
-#: client/connectdlg_common.c:80 client/gui-gtk-2.0/pages.c:1284
+#: client/connectdlg_common.c:80 client/gui-gtk-2.0/pages.c:1286
 msgid "easy"
 msgstr "fàcil"
 
-#: client/connectdlg_common.c:81 client/gui-gtk-2.0/pages.c:1285
+#: client/connectdlg_common.c:81 client/gui-gtk-2.0/pages.c:1287
 msgid "normal"
 msgstr "normal"
 
-#: client/connectdlg_common.c:82 client/gui-gtk-2.0/pages.c:1285
+#: client/connectdlg_common.c:82 client/gui-gtk-2.0/pages.c:1287
 msgid "hard"
 msgstr "difícil"
 
@@ -9374,12 +9374,12 @@ msgid "Username"
 msgstr "Usuari"
 
 #: client/plrdlg_common.c:251 client/gui-gtk-2.0/dialogs.c:650
-#: client/gui-gtk-2.0/pages.c:2080
+#: client/gui-gtk-2.0/pages.c:2082
 msgid "Flag"
 msgstr "Bandera"
 
 #: client/plrdlg_common.c:252 client/gui-gtk-2.0/dialogs.c:654
-#: client/gui-gtk-2.0/pages.c:1531 client/gui-gtk-2.0/pages.c:2082
+#: client/gui-gtk-2.0/pages.c:1533 client/gui-gtk-2.0/pages.c:2084
 #: client/gui-sdl/repodlgs.c:2063 client/gui-win32/connectdlg.c:988
 #: client/gui-win32/dialogs.c:542 client/gui-win32/plrdlg.c:335
 msgid "Nation"
@@ -9393,7 +9393,7 @@ msgstr "Frontera"
 msgid "Score"
 msgstr "Puntuació"
 
-#: client/plrdlg_common.c:255 client/gui-gtk-2.0/pages.c:1537
+#: client/plrdlg_common.c:255 client/gui-gtk-2.0/pages.c:1539
 msgid "Team"
 msgstr "Equip"
 
@@ -10968,8 +10968,8 @@ msgstr "Selecciona què saquejar:"
 msgid "Unit"
 msgstr "Unitat"
 
-#: client/gui-gtk-2.0/dialogs.c:506 client/gui-gtk-2.0/pages.c:1505
-#: client/gui-gtk-2.0/pages.c:2078 client/gui-gtk-2.0/wldlg.c:1034
+#: client/gui-gtk-2.0/dialogs.c:506 client/gui-gtk-2.0/pages.c:1507
+#: client/gui-gtk-2.0/pages.c:2080 client/gui-gtk-2.0/wldlg.c:1034
 #: client/gui-win32/connectdlg.c:983 client/gui-win32/plrdlg.c:335
 #: manual/civmanual.c:302 data/Freeciv.in:80
 msgid "Name"
@@ -11312,20 +11312,20 @@ msgstr ""
 msgid "Not _ready"
 msgstr "No _preparat"
 
-#: client/gui-gtk-2.0/gui_main.c:1502 client/gui-gtk-2.0/pages.c:1600
+#: client/gui-gtk-2.0/gui_main.c:1502 client/gui-gtk-2.0/pages.c:1602
 msgid "_Ready"
 msgstr "_Totes Preparades"
 
 #: client/gui-gtk-2.0/gui_main.c:1506 client/gui-gtk-2.0/gui_main.c:1512
-#: client/gui-gtk-2.0/pages.c:2127
+#: client/gui-gtk-2.0/pages.c:2129
 msgid "_Start"
 msgstr "_Iniciar"
 
-#: client/gui-gtk-2.0/gui_main.c:1516 client/gui-gtk-2.0/pages.c:1590
+#: client/gui-gtk-2.0/gui_main.c:1516 client/gui-gtk-2.0/pages.c:1592
 msgid "Pick _Nation"
 msgstr "Tria _Nació"
 
-#: client/gui-gtk-2.0/gui_main.c:1522 client/gui-gtk-2.0/pages.c:1595
+#: client/gui-gtk-2.0/gui_main.c:1522 client/gui-gtk-2.0/pages.c:1597
 msgid "_Observe"
 msgstr "_Observar"
 
@@ -12276,214 +12276,214 @@ msgstr "C_onnectar a Partida en Xarxa"
 msgid "Connect to Gaming _Zone"
 msgstr "Connectar a _Zona de Jocs"
 
-#: client/gui-gtk-2.0/pages.c:610 client/gui-win32/connectdlg.c:300
+#: client/gui-gtk-2.0/pages.c:612 client/gui-win32/connectdlg.c:300
 #: client/gui-xaw/connectdlg.c:326
 msgid "Passwords don't match, enter password."
 msgstr "Les contrasenyes no coincideixen, entra la contrasenya."
 
-#: client/gui-gtk-2.0/pages.c:700 client/gui-win32/connectdlg.c:914
+#: client/gui-gtk-2.0/pages.c:702 client/gui-win32/connectdlg.c:914
 msgid "Server Name"
 msgstr "Nom del servidor"
 
-#: client/gui-gtk-2.0/pages.c:701 client/gui-sdl/mapview.c:814
+#: client/gui-gtk-2.0/pages.c:703 client/gui-sdl/mapview.c:814
 #: client/gui-win32/connectdlg.c:914 data/Freeciv.in:96
 msgid "Port"
 msgstr "Port"
 
-#: client/gui-gtk-2.0/pages.c:702 client/gui-win32/connectdlg.c:915
+#: client/gui-gtk-2.0/pages.c:704 client/gui-win32/connectdlg.c:915
 msgid "Version"
 msgstr "Versió"
 
-#: client/gui-gtk-2.0/pages.c:703 client/gui-gtk-2.0/pages.c:2084
+#: client/gui-gtk-2.0/pages.c:705 client/gui-gtk-2.0/pages.c:2086
 #: client/gui-win32/connectdlg.c:915 client/gui-win32/connectdlg.c:993
 msgid "Status"
 msgstr "Estat"
 
-#: client/gui-gtk-2.0/pages.c:704 client/gui-sdl/connectdlg.c:317
+#: client/gui-gtk-2.0/pages.c:706 client/gui-sdl/connectdlg.c:317
 #: client/gui-sdl/plrdlg.c:330 client/gui-win32/connectdlg.c:915
 msgid "Players"
 msgstr "Jugadors"
 
-#: client/gui-gtk-2.0/pages.c:705 client/gui-win32/connectdlg.c:916
+#: client/gui-gtk-2.0/pages.c:707 client/gui-win32/connectdlg.c:916
 msgid "Comment"
 msgstr "Comentari"
 
-#: client/gui-gtk-2.0/pages.c:743
+#: client/gui-gtk-2.0/pages.c:745
 msgid "Local _Area Network"
 msgstr "Xarxa d'_Area Local"
 
-#: client/gui-gtk-2.0/pages.c:779
+#: client/gui-gtk-2.0/pages.c:781
 msgid "Internet _Metaserver"
 msgstr "_Metaservidor d'Internet"
 
-#: client/gui-gtk-2.0/pages.c:813
+#: client/gui-gtk-2.0/pages.c:815
 msgid "_Host:"
 msgstr "_Host:"
 
-#: client/gui-gtk-2.0/pages.c:830
+#: client/gui-gtk-2.0/pages.c:832
 msgid "_Port:"
 msgstr "_Port:"
 
-#: client/gui-gtk-2.0/pages.c:847
+#: client/gui-gtk-2.0/pages.c:849
 msgid "_Login:"
 msgstr "_Login:"
 
-#: client/gui-gtk-2.0/pages.c:865
+#: client/gui-gtk-2.0/pages.c:867
 msgid "Pass_word:"
 msgstr "Contra_senya:"
 
-#: client/gui-gtk-2.0/pages.c:883
+#: client/gui-gtk-2.0/pages.c:885
 msgid "Conf_irm Password:"
 msgstr "Conf_irmar la Contrasenya:"
 
-#: client/gui-gtk-2.0/pages.c:908
+#: client/gui-gtk-2.0/pages.c:910
 msgid "C_onnect"
 msgstr "C_onnectar"
 
-#: client/gui-gtk-2.0/pages.c:1138
+#: client/gui-gtk-2.0/pages.c:1140
 #, c-format
 msgid "Connection name: %s"
 msgstr "Nom de connexió: %s"
 
-#: client/gui-gtk-2.0/pages.c:1141
+#: client/gui-gtk-2.0/pages.c:1143
 #, c-format
 msgid "Player name: %s"
 msgstr "Nom del jugador: %s"
 
-#: client/gui-gtk-2.0/pages.c:1146
+#: client/gui-gtk-2.0/pages.c:1148
 #, c-format
 msgid "Host: %s"
 msgstr "Host: %s"
 
-#: client/gui-gtk-2.0/pages.c:1153
+#: client/gui-gtk-2.0/pages.c:1155
 msgid "Player/conn info"
 msgstr "Info Jugador/conn"
 
-#: client/gui-gtk-2.0/pages.c:1180
+#: client/gui-gtk-2.0/pages.c:1182
 #, c-format
 msgid "%s info"
 msgstr "Info %s"
 
-#: client/gui-gtk-2.0/pages.c:1191
+#: client/gui-gtk-2.0/pages.c:1193
 msgid "Toggle player ready"
 msgstr "Commutar disponibilitat jugador"
 
-#: client/gui-gtk-2.0/pages.c:1199
+#: client/gui-gtk-2.0/pages.c:1201
 msgid "Pick nation"
 msgstr "Tria nació"
 
-#: client/gui-gtk-2.0/pages.c:1209
+#: client/gui-gtk-2.0/pages.c:1211
 msgid "Observe this player"
 msgstr "Observar aquest jugador"
 
-#: client/gui-gtk-2.0/pages.c:1216
+#: client/gui-gtk-2.0/pages.c:1218
 msgid "Take this player"
 msgstr "Agafar aquest jugador"
 
-#: client/gui-gtk-2.0/pages.c:1233
+#: client/gui-gtk-2.0/pages.c:1235
 msgid "Cut connection"
 msgstr "Tallar connexió"
 
-#: client/gui-gtk-2.0/pages.c:1243
+#: client/gui-gtk-2.0/pages.c:1245
 msgid "Aitoggle player"
 msgstr "Commutar IA per jugador"
 
-#: client/gui-gtk-2.0/pages.c:1252
+#: client/gui-gtk-2.0/pages.c:1254
 msgid "Remove player"
 msgstr "Eliminar jugador"
 
-#: client/gui-gtk-2.0/pages.c:1263
+#: client/gui-gtk-2.0/pages.c:1265
 msgid "Give info access"
 msgstr "Donar accés d'info"
 
-#: client/gui-gtk-2.0/pages.c:1271
+#: client/gui-gtk-2.0/pages.c:1273
 msgid "Give ctrl access"
 msgstr "Donar accés de control"
 
 #. TRANS: e.g., "Put on Team 5"
-#: client/gui-gtk-2.0/pages.c:1333
+#: client/gui-gtk-2.0/pages.c:1335
 #, c-format
 msgid "Put on %s"
 msgstr "Posar a %s"
 
-#: client/gui-gtk-2.0/pages.c:1437
+#: client/gui-gtk-2.0/pages.c:1439
 msgid "Number of _Players (including AI):"
 msgstr "_Nombre de Jugadors (comptant IA):"
 
-#: client/gui-gtk-2.0/pages.c:1460
+#: client/gui-gtk-2.0/pages.c:1462
 msgid "AI Skill _Level:"
 msgstr "Nivell de _Dificultat dels IA:"
 
-#: client/gui-gtk-2.0/pages.c:1476
+#: client/gui-gtk-2.0/pages.c:1478
 msgid "Ruleset _Version:"
 msgstr "_Versió de Joc de Regles:"
 
-#: client/gui-gtk-2.0/pages.c:1484 client/gui-gtk-2.0/pages.c:2116
+#: client/gui-gtk-2.0/pages.c:1486 client/gui-gtk-2.0/pages.c:2118
 msgid "_More Game Options..."
 msgstr "Més _Opcions de Joc..."
 
-#: client/gui-gtk-2.0/pages.c:1509
+#: client/gui-gtk-2.0/pages.c:1511
 msgid "Record"
 msgstr "Registrar"
 
-#: client/gui-gtk-2.0/pages.c:1514
+#: client/gui-gtk-2.0/pages.c:1516
 msgid "Rating"
 msgstr "Valoració"
 
-#: client/gui-gtk-2.0/pages.c:1520
+#: client/gui-gtk-2.0/pages.c:1522
 msgid "Ready"
 msgstr "Preparat"
 
-#: client/gui-gtk-2.0/pages.c:1527 data/default/units.ruleset:1864
+#: client/gui-gtk-2.0/pages.c:1529 data/default/units.ruleset:1864
 #: data/nation/slovakian.ruleset:26
 msgid "Leader"
 msgstr "Líder"
 
-#: client/gui-gtk-2.0/pages.c:1655 client/gui-sdl/chatline.c:185
+#: client/gui-gtk-2.0/pages.c:1657 client/gui-sdl/chatline.c:185
 msgid "Choose Saved Game to Load"
 msgstr "Tria Partida Desada per Carregar"
 
-#: client/gui-gtk-2.0/pages.c:1747
+#: client/gui-gtk-2.0/pages.c:1749
 msgid "Choose Saved Game to _Load:"
 msgstr "Tria Partida Desada per _Carregar:"
 
-#: client/gui-gtk-2.0/pages.c:1767 client/gui-gtk-2.0/pages.c:1960
-#: client/gui-gtk-2.0/pages.c:2370
+#: client/gui-gtk-2.0/pages.c:1769 client/gui-gtk-2.0/pages.c:1962
+#: client/gui-gtk-2.0/pages.c:2372
 msgid "_Browse..."
 msgstr "_Fullejar..."
 
-#: client/gui-gtk-2.0/pages.c:1834
+#: client/gui-gtk-2.0/pages.c:1836
 msgid "Choose a Scenario"
 msgstr "Tria un Escenari"
 
-#: client/gui-gtk-2.0/pages.c:1921
+#: client/gui-gtk-2.0/pages.c:1923
 msgid "Choose a _Scenario:"
 msgstr "Tria un _Escenari:"
 
-#: client/gui-gtk-2.0/pages.c:2086 client/gui-gtk-2.0/repodlgs.c:634
+#: client/gui-gtk-2.0/pages.c:2088 client/gui-gtk-2.0/repodlgs.c:634
 #: client/gui-gtk-2.0/wldlg.c:1034 client/gui-win32/citydlg.c:1083
 #: client/gui-win32/connectdlg.c:998 client/gui-win32/wldlg.c:800
 #: client/gui-win32/wldlg.c:806
 msgid "Type"
 msgstr "Tipus"
 
-#: client/gui-gtk-2.0/pages.c:2096
+#: client/gui-gtk-2.0/pages.c:2098
 msgid "Choose a _nation to play:"
 msgstr "Tria una _nació per jugar:"
 
-#: client/gui-gtk-2.0/pages.c:2282 client/gui-win32/menu.c:581
+#: client/gui-gtk-2.0/pages.c:2284 client/gui-win32/menu.c:581
 msgid "Select Location to Save"
 msgstr "Tria el Lloc on Desar"
 
-#: client/gui-gtk-2.0/pages.c:2367 client/gui-sdl/optiondlg.c:2273
+#: client/gui-gtk-2.0/pages.c:2369 client/gui-sdl/optiondlg.c:2273
 msgid "Save Game"
 msgstr "Desar la Partida"
 
-#: client/gui-gtk-2.0/pages.c:2408
+#: client/gui-gtk-2.0/pages.c:2410
 msgid "Saved _Games:"
 msgstr "Partides _Desades:"
 
-#: client/gui-gtk-2.0/pages.c:2435
+#: client/gui-gtk-2.0/pages.c:2437
 msgid "Save _Filename:"
 msgstr "Nom de _Fitxer a Desar:"
 

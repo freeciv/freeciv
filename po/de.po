@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-06-06 12:45+0200\n"
+"POT-Creation-Date: 2008-06-16 15:56+0900\n"
 "PO-Revision-Date: 2007-08-11 01:23+0300\n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -1069,12 +1069,12 @@ msgstr "error %ld (failed FormatMessage)"
 msgid "error %d (compiled without strerror)"
 msgstr "error %d (compiled without strerror)"
 
-#: ai/aicity.c:1043 server/citytools.c:1927
+#: ai/aicity.c:1043 server/citytools.c:1932
 #, c-format
 msgid "The %s have stopped building The %s in %s."
 msgstr "Die %s haben aufgehört, %s in %s zu bauen."
 
-#: ai/aicity.c:1054 server/citytools.c:1968
+#: ai/aicity.c:1054 server/citytools.c:1973
 #, c-format
 msgid "The %s have started building The %s in %s."
 msgstr "Die %s haben begonnen, %s in %s zu bauen."
@@ -1712,75 +1712,75 @@ msgstr ""
 "Als %s aufgelöst wurde sind, konnten die %s nicht fliehen und gingen "
 "verloren."
 
-#: server/citytools.c:1284
+#: server/citytools.c:1289
 #, c-format
 msgid "You destroy %s completely."
 msgstr "%s wurde völlig zerstört."
 
-#: server/citytools.c:1287
+#: server/citytools.c:1292
 #, c-format
 msgid "%s has been destroyed by %s."
 msgstr "%s wurde von %s zerstört."
 
-#: server/citytools.c:1305
+#: server/citytools.c:1310
 #, c-format
 msgid "You conquer %s; your lootings accumulate to %d gold!"
 msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
 msgstr[0] "Du hast %s erobert. Beute im Wert von %d Goldstück gemacht!"
 msgstr[1] "Du hast %s erobert. Beute im Wert von %d Goldstücken gemacht!"
 
-#: server/citytools.c:1312
+#: server/citytools.c:1317
 #, c-format
 msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
 msgstr[0] "%s hat %s erobert und Beute im Wert von %d Goldstück gemacht."
 msgstr[1] "%s hat %s erobert und Beute im Wert von %d Goldstücken gemacht."
 
-#: server/citytools.c:1321
+#: server/citytools.c:1326
 #, c-format
 msgid "You conquer %s"
 msgstr "Du eroberst %s."
 
-#: server/citytools.c:1324
+#: server/citytools.c:1329
 #, c-format
 msgid "%s conquered %s."
 msgstr "%s hat %s erobert."
 
-#: server/citytools.c:1331
+#: server/citytools.c:1336
 #, c-format
 msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgid_plural "You have liberated %s! Lootings accumulate to %d gold."
 msgstr[0] "%s wurde befreit! Beute im Wert von %d Goldstück gemacht."
 msgstr[1] "%s wurde befreit! Beute im Wert von %d Goldstücken gemacht."
 
-#: server/citytools.c:1338
+#: server/citytools.c:1343
 #, c-format
 msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
 msgstr[0] "%s befreite %s und machte Beute im Wert von %d Goldstück."
 msgstr[1] "%s befreite %s und machte Beute im Wert von %d Goldstücken."
 
-#: server/citytools.c:1347
+#: server/citytools.c:1352
 #, c-format
 msgid "You have liberated %s!"
 msgstr "Du hast %s befreit!"
 
-#: server/citytools.c:1350
+#: server/citytools.c:1355
 #, c-format
 msgid "%s liberated %s."
 msgstr "%s hat %s befreit."
 
-#: server/citytools.c:1948
+#: server/citytools.c:1953
 msgid " from the worklist"
 msgstr " aus der Arbeitsliste"
 
 #. TRANS: "<city> is building <production><source>."
-#: server/citytools.c:1960
+#: server/citytools.c:1965
 #, c-format
 msgid "%s is building %s%s."
 msgstr "%s baut %s%s."
 
-#: server/citytools.c:2206
+#: server/citytools.c:2211
 #, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
 msgstr "%s in %s (ab jetzt landgebunden) für %d Goldstücke verkauft."
@@ -7256,52 +7256,52 @@ msgstr ""
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr "Befehle für %s verworfen, weil eine Feindbewegung entdeckt wurde."
 
-#: server/unittools.c:2986
+#: server/unittools.c:2989
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "Befehle für %s verworfen, da Einheiten in der Nähe sind."
 
-#: server/unittools.c:3038
+#: server/unittools.c:3041
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr "Befehle für %s verworfen, da die Stadt nicht gegründet werden konnte."
 
-#: server/unittools.c:3051
+#: server/unittools.c:3054
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr "Befehle für %s verworfen, Auftrag unmöglich."
 
-#: server/unittools.c:3065
+#: server/unittools.c:3068
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "Befehle für %s verworfen, das Ziel ist ungültig."
 
-#: server/unittools.c:3075
+#: server/unittools.c:3078
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "%s konnte Befehl nicht ausführen, da Einheiten im Weg sind."
 
-#: server/unittools.c:3101
+#: server/unittools.c:3104
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "Befehle für %s verworfen, da der Zug nicht ausgeführt werden konnte."
 
-#: server/unittools.c:3142
+#: server/unittools.c:3145
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr "Der Versuch, die Heimatstadt der %s zu ändern, schlug fehl."
 
-#: server/unittools.c:3153
+#: server/unittools.c:3156
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "Der Versuch, eine Handelsroute nach %s einzurichten, mißlang."
 
-#: server/unittools.c:3165
+#: server/unittools.c:3168
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "Der Versuch, ein Weltwunder in %s zu errichten, mißlang."
 
-#: server/unittools.c:3174
+#: server/unittools.c:3177
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "Befehle für %s sind ungültig."

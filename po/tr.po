@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-20 21:57+0900\n"
+"POT-Creation-Date: 2008-06-16 15:56+0900\n"
 "PO-Revision-Date: 2008-06-01 16:36+0300\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <yerellestirme@kde.org.tr>\n"
@@ -640,7 +640,7 @@ msgid "Road"
 msgstr "Yol"
 
 #: common/terrain.c:388 common/terrain.c:575 common/unit.c:554
-#: client/gui-gtk-2.0/menu.c:792 client/gui-sdl/optiondlg.c:1906
+#: client/gui-gtk-2.0/menu.c:798 client/gui-sdl/optiondlg.c:1906
 #: client/gui-win32/menu.c:344 client/gui-xaw/menu.c:151
 #: manual/civmanual.c:224
 msgid "Irrigation"
@@ -703,7 +703,7 @@ msgstr "Savunmada"
 msgid "Sentry"
 msgstr "Nöbet Tut"
 
-#: common/unit.c:566 client/gui-gtk-2.0/menu.c:845 client/gui-sdl/menu.c:648
+#: common/unit.c:566 client/gui-gtk-2.0/menu.c:851 client/gui-sdl/menu.c:648
 #: client/gui-win32/menu.c:370 client/gui-xaw/menu.c:185
 msgid "Pillage"
 msgstr "Yağmala"
@@ -1038,12 +1038,12 @@ msgstr "hata %ld (başarısız BiçimMesajı)"
 msgid "error %d (compiled without strerror)"
 msgstr "hata %d (strerror olmadan derlenmiş)"
 
-#: ai/aicity.c:1043 server/citytools.c:1927
+#: ai/aicity.c:1043 server/citytools.c:1932
 #, c-format
 msgid "The %s have stopped building The %s in %s."
 msgstr "%s %s yapımını %s şehrinde durdurdular."
 
-#: ai/aicity.c:1054 server/citytools.c:1968
+#: ai/aicity.c:1054 server/citytools.c:1973
 #, c-format
 msgid "The %s have started building The %s in %s."
 msgstr "%s %s yapımına %s şehrinde başladılar."
@@ -1490,12 +1490,12 @@ msgstr ""
 "%s, %s adında bir liderin önderliğinde ayaklandı. Onlara karşı hazırlıklı "
 "olmalıyız."
 
-#: server/barbarian.c:475
+#: server/barbarian.c:479
 #, c-format
 msgid "Native unrest near %s led by %s."
 msgstr "%2$s önderliğindeki yerliler, %1$s yakınlarında ayaklandı."
 
-#: server/barbarian.c:480
+#: server/barbarian.c:484
 #, c-format
 msgid "Sea raiders seen near %s!"
 msgstr "%s yakınlarında korsanlar görüldü!"
@@ -1632,71 +1632,71 @@ msgid ""
 "When %s was disbanded your %s could not get out, and it was therefore lost."
 msgstr "%s şehri terk edildiğinde %s gidecek yer bulamadı ve kaybedildi."
 
-#: server/citytools.c:1284
+#: server/citytools.c:1289
 #, c-format
 msgid "You destroy %s completely."
 msgstr "%s şehrini yerle bir ettiniz."
 
-#: server/citytools.c:1287
+#: server/citytools.c:1292
 #, c-format
 msgid "%s has been destroyed by %s."
 msgstr "%2$s, %1$s şehrini yerle bir etti."
 
-#: server/citytools.c:1305
+#: server/citytools.c:1310
 #, c-format
 msgid "You conquer %s; your lootings accumulate to %d gold!"
 msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
 msgstr[0] "%s şehrini fethettiniz; ganimet olarak %d altın topladınız!"
 
-#: server/citytools.c:1312
+#: server/citytools.c:1317
 #, c-format
 msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
 msgstr[0] "%s, %s şehrini fethetti ve ganimet olarak %d altın topladı."
 
-#: server/citytools.c:1321
+#: server/citytools.c:1326
 #, c-format
 msgid "You conquer %s"
 msgstr "%s şehrini fethettiniz."
 
-#: server/citytools.c:1324
+#: server/citytools.c:1329
 #, c-format
 msgid "%s conquered %s."
 msgstr "%s, %s şehrini fethetti."
 
-#: server/citytools.c:1331
+#: server/citytools.c:1336
 #, c-format
 msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgid_plural "You have liberated %s! Lootings accumulate to %d gold."
 msgstr[0] "%s şehrini serbest bıraktınız! Ganimet olarak %d altın topladınız."
 
-#: server/citytools.c:1338
+#: server/citytools.c:1343
 #, c-format
 msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
 msgstr[0] "%s, %s şehrini serbest bıraktı ve ganimet olarak %d altın topladı."
 
-#: server/citytools.c:1347
+#: server/citytools.c:1352
 #, c-format
 msgid "You have liberated %s!"
 msgstr "%s şehrini serbest bıraktınız!"
 
-#: server/citytools.c:1350
+#: server/citytools.c:1355
 #, c-format
 msgid "%s liberated %s."
 msgstr "%s, %s şehrini serbest bıraktı."
 
-#: server/citytools.c:1948
+#: server/citytools.c:1953
 msgid " from the worklist"
 msgstr "iş listesinden "
 
 #. TRANS: "<city> is building <production><source>."
-#: server/citytools.c:1960
+#: server/citytools.c:1965
 #, c-format
 msgid "%s is building %s%s."
 msgstr "%1$s şehri %3$s%2$s inşa ediyor."
 
-#: server/citytools.c:2206
+#: server/citytools.c:2211
 #, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
 msgstr "%2$s şehrindeki (karaya oturan) %1$s, %3$d altına satıldı."
@@ -3566,26 +3566,26 @@ msgstr ""
 "Takım arkadaşınız olan %s, %s tarafına savaş açtı. %s ile olan ittifakınız "
 "bozuldu."
 
-#: server/plrhand.c:1100
+#: server/plrhand.c:1101
 #, c-format
 msgid "Removing player %s."
 msgstr "Oyuncu %s siliniyor."
 
-#: server/plrhand.c:1102
+#: server/plrhand.c:1103
 msgid "You've been removed from the game!"
 msgstr "Oyundan silindiniz!"
 
-#: server/plrhand.c:1105
+#: server/plrhand.c:1106
 #, c-format
 msgid "%s has been removed from the game."
 msgstr "%s oyundan silindi."
 
-#: server/plrhand.c:1148 server/plrhand.c:1153
+#: server/plrhand.c:1149 server/plrhand.c:1154
 #, c-format
 msgid "You have made contact with the %s, ruled by %s."
 msgstr "%s ile karşılaştınız, önderlerinin adı %s."
 
-#: server/plrhand.c:1173
+#: server/plrhand.c:1174
 #, c-format
 msgid ""
 "%s and %s meet and go to instant war. You cancel your alliance with both."
@@ -3593,12 +3593,17 @@ msgstr ""
 "%s ve %s karşılaştıkları anda savaşa başladılar. İkisiyle olan ittifakınız "
 "bozuldu."
 
-#: server/plrhand.c:1651
+#: server/plrhand.c:1652
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr "%s iç savaş yaşayamıyor - çok fazla oyuncu var"
 
-#: server/plrhand.c:1674
+#: server/plrhand.c:1659
+#, fuzzy, c-format
+msgid "Could not throw %s into civil war - no available nations"
+msgstr "%s iç savaş yaşayamıyor - çok fazla oyuncu var"
+
+#: server/plrhand.c:1682
 #, c-format
 msgid ""
 "Your nation is thrust into civil war,  %s is declared the leader of the "
@@ -3607,12 +3612,12 @@ msgstr ""
 "Ulusunuzda bir iç savaş yaşandı, %s şehri bölünen tarafın başkenti ilan "
 "edildi."
 
-#: server/plrhand.c:1695
+#: server/plrhand.c:1703
 #, c-format
 msgid "%s declares allegiance to %s."
 msgstr "%s, %s ile müttefik oldu."
 
-#: server/plrhand.c:1710
+#: server/plrhand.c:1718
 #, c-format
 msgid ""
 "Capture of the %s capital and destruction of the empire's administrative\n"
@@ -3870,11 +3875,11 @@ msgstr "%s yönetimindeki %s (%s)"
 msgid "Could not find a readable \"%s.%s\" ruleset file."
 msgstr "Okunabilir bir \"%s.%s\" kural seti dosyası bulunamadı."
 
-#: server/ruleset.c:2345
+#: server/ruleset.c:2348
 msgid "No barbarian nation in rulesets, at least one required!"
 msgstr "Kural setlerinde barbar kavimleri yok, en azından bir tane gerekli!"
 
-#: server/ruleset.c:3155
+#: server/ruleset.c:3158
 msgid "Loading rulesets"
 msgstr "Kural seti yükleniyor"
 
@@ -3911,13 +3916,13 @@ msgstr ""
 "desteklenmemektedir. '%s' kullanılmaktadır."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame.c:4039
+#: server/savegame.c:4046
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s geçersiz bir millete sahip; %s olarak değiştiriliyor."
 
 #. TRANS: ... <Danish> alliance to <Poles>....
-#: server/savegame.c:4061
+#: server/savegame.c:4068
 #, c-format
 msgid ""
 "Illegal alliance structure detected: %s alliance to %s reduced to peace "
@@ -5101,7 +5106,7 @@ msgstr ""
 msgid "Server cannot read standard input. Ignoring input."
 msgstr "Sunucu standart girdileri okuyamaz. Girdileri değerlendirmiyor."
 
-#: server/sernet.c:901
+#: server/sernet.c:921
 #, c-format
 msgid "Server: bad address: [%s:%d]."
 msgstr "Sunucu: geçersiz adres: [%s:%d]."
@@ -5301,188 +5306,184 @@ msgstr "%s, %s ulusunun önderi %s."
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr "Oyunu başlatmayı bekliyor: %d/%d oyuncu başlamaya hazır."
 
-#: server/srv_main.c:1536
-msgid "All players are ready; starting game."
-msgstr "Bütün oyuncular hazır; oyunu başlatılıyor."
-
-#: server/srv_main.c:1578 server/srv_main.c:1582
+#: server/srv_main.c:1580 server/srv_main.c:1584
 #, c-format
 msgid "%s has been added as %s level AI-controlled player."
 msgstr "%s, %s seviyesinde YZ kontrolündeki oyuncu olarak eklendi."
 
-#: server/srv_main.c:1716
+#: server/srv_main.c:1718
 #, c-format
 msgid "Player %d"
 msgstr "Oyuncu %d"
 
-#: server/srv_main.c:1727 server/srv_main.c:1733
+#: server/srv_main.c:1729 server/srv_main.c:1735
 #, c-format
 msgid "%s rules the %s."
 msgstr "%2$s tarafına %1$s hükmediyor."
 
-#: server/srv_main.c:1898
+#: server/srv_main.c:1900
 msgid ""
 "This civserver program has player authentication support, but it's currently "
 "not in use."
 msgstr ""
 
-#: server/srv_main.c:1949
+#: server/srv_main.c:1951
 #, c-format
 msgid "Sending info to metaserver [%s]"
 msgstr "Bilgiler metasunucuya gönderiliyor [%s]"
 
-#: server/srv_main.c:1980
+#: server/srv_main.c:1982
 msgid "The game is over..."
 msgstr "Oyun bitti..."
 
-#: server/srv_main.c:2193
+#: server/srv_main.c:2195
 msgid "Now accepting new client connections."
 msgstr "Yeni istemcilerin bağlantıları kabul ediliyor."
 
-#: server/stdinhand.c:247
+#: server/stdinhand.c:246
 #, c-format
 msgid "Vote \"%s\" is passed %d to %d with %d abstentions."
 msgstr ""
 
-#: server/stdinhand.c:254
+#: server/stdinhand.c:253
 #, c-format
 msgid "Vote \"%s\" failed with %d against, %d for and %d abstentions."
 msgstr ""
 
 #. TRANS: ambiguous command
-#: server/stdinhand.c:366
+#: server/stdinhand.c:365
 msgid "(ambiguous)"
 msgstr "(ikianlamlı)"
 
 #. TRANS: unrecognized command
 #. TRANS: "unknown" location
-#: server/stdinhand.c:369 client/citydlg_common.c:412
+#: server/stdinhand.c:368 client/citydlg_common.c:412
 #: client/gui-gtk-2.0/inteldlg.c:367 client/gui-sdl/inteldlg.c:295
 #: client/gui-sdl/inteldlg.c:307 client/gui-win32/inteldlg.c:147
 #: client/gui-xaw/inteldlg.c:265
 msgid "(unknown)"
 msgstr "(bilinmeyen)"
 
-#: server/stdinhand.c:459
+#: server/stdinhand.c:458
 msgid "Name is empty, so cannot be a player."
 msgstr "İsim boş, o zaman oyuncu olamaz."
 
-#: server/stdinhand.c:463
+#: server/stdinhand.c:462
 msgid "Name is too long, so cannot be a player."
 msgstr "İsim çok uzun, o zaman oyuncu olamaz."
 
-#: server/stdinhand.c:467
+#: server/stdinhand.c:466
 #, c-format
 msgid "Player name prefix '%s' is ambiguous."
 msgstr ""
 
-#: server/stdinhand.c:471
+#: server/stdinhand.c:470
 #, c-format
 msgid "No player by the name of '%s'."
 msgstr "'%s' isimli bir oyuncu yok."
 
-#: server/stdinhand.c:475 server/stdinhand.c:510
+#: server/stdinhand.c:474 server/stdinhand.c:509
 #, c-format
 msgid "Unexpected match_result %d (%s) for '%s'."
 msgstr ""
 
-#: server/stdinhand.c:494
+#: server/stdinhand.c:493
 msgid "Name is empty, so cannot be a connection."
 msgstr "İsim boş olduğu için bağlantı kurulamaz."
 
-#: server/stdinhand.c:498
+#: server/stdinhand.c:497
 msgid "Name is too long, so cannot be a connection."
 msgstr "İsim çok uzun olduğu için bağlantı kurulamaz."
 
-#: server/stdinhand.c:502
+#: server/stdinhand.c:501
 #, c-format
 msgid "Connection name prefix '%s' is ambiguous."
 msgstr ""
 
-#: server/stdinhand.c:506
+#: server/stdinhand.c:505
 #, c-format
 msgid "No connection by the name of '%s'."
 msgstr ""
 
-#: server/stdinhand.c:526
+#: server/stdinhand.c:525
 #, c-format
 msgid "Open metaserver connection to [%s]."
 msgstr "[%s] metasunucusuna bağlan."
 
-#: server/stdinhand.c:539
+#: server/stdinhand.c:538
 #, c-format
 msgid "Close metaserver connection to [%s]."
 msgstr "[%s] ile olan metasunucu bağlantısını kes."
 
-#: server/stdinhand.c:554
+#: server/stdinhand.c:553
 msgid "Metaserver connection is open."
 msgstr "Metasunucu bağlantısı açık."
 
-#: server/stdinhand.c:557
+#: server/stdinhand.c:556
 msgid "Metaserver connection is closed."
 msgstr "Metasunucu bağlantısı kapalı."
 
-#: server/stdinhand.c:567
+#: server/stdinhand.c:566
 msgid "Metaserver connection is already open."
 msgstr "Metasunucu bağlantısı zaten açık."
 
-#: server/stdinhand.c:578
+#: server/stdinhand.c:577
 msgid "Metaserver connection is already closed."
 msgstr "Metasunucu bağlantısı zaten kapalı."
 
-#: server/stdinhand.c:583
+#: server/stdinhand.c:582
 msgid "Argument must be 'u', 'up', 'd', 'down', or '?'."
 msgstr "Argüman şunlardan biri olmalıdır: 'u', 'up', 'd', 'down', '?'."
 
-#: server/stdinhand.c:604
+#: server/stdinhand.c:603
 #, c-format
 msgid "Metaserver patches string set to '%s'."
 msgstr ""
 
-#: server/stdinhand.c:607
+#: server/stdinhand.c:606
 #, c-format
 msgid "Metaserver patches string set to '%s', not reporting to metaserver."
 msgstr ""
 
-#: server/stdinhand.c:628
+#: server/stdinhand.c:627
 #, c-format
 msgid "Metaserver message string set to '%s'."
 msgstr ""
 
-#: server/stdinhand.c:631
+#: server/stdinhand.c:630
 #, c-format
 msgid "Metaserver message string set to '%s', not reporting to metaserver."
 msgstr ""
 
-#: server/stdinhand.c:651
+#: server/stdinhand.c:650
 #, c-format
 msgid "Metaserver is now [%s]."
 msgstr "Metasunucu artık [%s]."
 
-#: server/stdinhand.c:661
+#: server/stdinhand.c:660
 #, c-format
 msgid "Server id: %s"
 msgstr "Server id: %s"
 
-#: server/stdinhand.c:758
+#: server/stdinhand.c:757
 msgid "You cannot save games manually on this server."
 msgstr "Bu sunucuda elle oyun kaydedemezsiniz."
 
-#: server/stdinhand.c:775
+#: server/stdinhand.c:774
 msgid "Cannot toggle a barbarian player."
 msgstr "Barbara dönüştürülemez."
 
-#: server/stdinhand.c:782
+#: server/stdinhand.c:781
 #, c-format
 msgid "%s is now under AI control."
 msgstr "%s artık YZ kontrolünde."
 
-#: server/stdinhand.c:803
+#: server/stdinhand.c:802
 #, c-format
 msgid "%s is now under human control."
 msgstr "%s artık insan kontrolünde."
 
-#: server/stdinhand.c:848
+#: server/stdinhand.c:847
 msgid "Can't add AI players once the game has begun."
 msgstr "Oyun başladıktan sonra YZ oyuncu eklenemez."
 
@@ -5521,318 +5522,318 @@ msgstr "%s YZ kontrolündeki bir oyuncu olarak eklendi."
 msgid "Error creating new AI player: %s."
 msgstr "Yeni YZ oyuncusu oluşturulurken hata: %s"
 
-#: server/stdinhand.c:965
+#: server/stdinhand.c:966
 msgid "Players cannot be removed once the game has started."
 msgstr "Oyun başladıktan sonra oyuncuları çıkartamazsınız."
 
-#: server/stdinhand.c:976
+#: server/stdinhand.c:977
 #, c-format
 msgid "Removed player %s from the game."
 msgstr "Oyuncu %s oyundan çıkartıldı."
 
-#: server/stdinhand.c:1015 server/stdinhand.c:3284 server/stdinhand.c:3397
+#: server/stdinhand.c:1016 server/stdinhand.c:3297 server/stdinhand.c:3410
 #, c-format
 msgid "Name \"%s\" disallowed for security reasons."
 msgstr "\"%s\" ismi güvenlik nedeniyle yasaklanmıştır."
 
-#: server/stdinhand.c:1028
+#: server/stdinhand.c:1029
 #, c-format
 msgid "No command script found by the name \"%s\"."
 msgstr ""
 
-#: server/stdinhand.c:1036
+#: server/stdinhand.c:1037
 #, c-format
 msgid "Loading script file: %s"
 msgstr "Betik dosyası yükleniyor: %s"
 
-#: server/stdinhand.c:1051
+#: server/stdinhand.c:1052
 #, c-format
 msgid "Cannot read command line scriptfile '%s'."
 msgstr ""
 
-#: server/stdinhand.c:1053
+#: server/stdinhand.c:1054
 #, c-format
 msgid "Could not read script file '%s'."
 msgstr "Betik dosyası '%s' okunamadı."
 
-#: server/stdinhand.c:1145
+#: server/stdinhand.c:1146
 #, c-format
 msgid "Could not write script file '%s'."
 msgstr ""
 
-#: server/stdinhand.c:1157
+#: server/stdinhand.c:1158
 msgid "You cannot use the write command on this server for security reasons."
 msgstr ""
 
-#: server/stdinhand.c:1185
+#: server/stdinhand.c:1186
 #, c-format
 msgid ""
 "Cannot decrease command access level '%s' for connection '%s'; you only have "
 "'%s'."
 msgstr ""
 
-#: server/stdinhand.c:1240
+#: server/stdinhand.c:1241
 #, c-format
 msgid ""
 "Anyone can now become game organizer '%s' by issuing the 'first' command."
 msgstr ""
 
-#: server/stdinhand.c:1273
+#: server/stdinhand.c:1274
 msgid "Command access levels in effect:"
 msgstr ""
 
-#: server/stdinhand.c:1281
+#: server/stdinhand.c:1282
 #, c-format
 msgid "Command access level for new connections: %s"
 msgstr ""
 
-#: server/stdinhand.c:1284
+#: server/stdinhand.c:1285
 #, c-format
 msgid "Command access level for first player to take it: %s"
 msgstr ""
 
-#: server/stdinhand.c:1293
+#: server/stdinhand.c:1294
 msgid ""
 "Error: command access level must be one of 'none', 'info', 'ctrl', or 'hack'."
 msgstr ""
 
-#: server/stdinhand.c:1298
+#: server/stdinhand.c:1299
 #, c-format
 msgid ""
 "Cannot increase command access level to '%s'; you only have '%s' yourself."
 msgstr ""
 
-#: server/stdinhand.c:1325 server/stdinhand.c:1373
+#: server/stdinhand.c:1326 server/stdinhand.c:1374
 #, c-format
 msgid "Command access level set to '%s' for connection %s."
 msgstr ""
 
-#: server/stdinhand.c:1329 server/stdinhand.c:1377
+#: server/stdinhand.c:1330 server/stdinhand.c:1378
 #, c-format
 msgid "Command access level could not be set to '%s' for connection %s."
 msgstr ""
 
-#: server/stdinhand.c:1339 server/stdinhand.c:1349 server/stdinhand.c:1366
+#: server/stdinhand.c:1340 server/stdinhand.c:1350 server/stdinhand.c:1367
 #, c-format
 msgid "Command access level set to '%s' for new players."
 msgstr ""
 
-#: server/stdinhand.c:1343 server/stdinhand.c:1354 server/stdinhand.c:1361
+#: server/stdinhand.c:1344 server/stdinhand.c:1355 server/stdinhand.c:1362
 #, c-format
 msgid "Command access level set to '%s' for first player to grab it."
 msgstr ""
 
-#: server/stdinhand.c:1399
+#: server/stdinhand.c:1400
 msgid "The 'first' command makes no sense from the server command line."
 msgstr ""
 
-#: server/stdinhand.c:1403
+#: server/stdinhand.c:1404
 #, c-format
 msgid "You already have command access level '%s' or better."
 msgstr ""
 
-#: server/stdinhand.c:1408
+#: server/stdinhand.c:1409
 msgid "Someone else already is game organizer."
 msgstr ""
 
-#: server/stdinhand.c:1413
+#: server/stdinhand.c:1414
 #, c-format
 msgid "Connection %s has opted to become the game organizer."
 msgstr ""
 
-#: server/stdinhand.c:1464
+#: server/stdinhand.c:1465
 #, c-format
 msgid "Invalid argument %d."
 msgstr ""
 
-#: server/stdinhand.c:1471
+#: server/stdinhand.c:1472
 msgid "Usage: timeoutincrease <turn> <turnadd> <value> <valuemult>."
 msgstr ""
 
-#: server/stdinhand.c:1479
+#: server/stdinhand.c:1480
 #, c-format
 msgid "Dynamic timeout set to %d %d %d %d"
 msgstr ""
 
-#: server/stdinhand.c:1539 server/stdinhand.c:1542
+#: server/stdinhand.c:1540 server/stdinhand.c:1543
 msgid "Option:"
 msgstr "Seçenek:"
 
-#: server/stdinhand.c:1552 server/stdinhand.c:3922
+#: server/stdinhand.c:1553 server/stdinhand.c:3956
 msgid "Description:"
 msgstr "Tanım:"
 
-#: server/stdinhand.c:1557
+#: server/stdinhand.c:1558
 #, c-format
 msgid "Status: %s"
 msgstr "Durum: %s"
 
-#: server/stdinhand.c:1558
+#: server/stdinhand.c:1559
 msgid "changeable"
 msgstr "değişken"
 
-#: server/stdinhand.c:1558
+#: server/stdinhand.c:1559
 msgid "fixed"
 msgstr "sabit"
 
-#: server/stdinhand.c:1564
+#: server/stdinhand.c:1565
 #, c-format
 msgid "Value: %d, Minimum: 0, Default: %d, Maximum: 1"
 msgstr "Değer: %d, Asgari: 0, Standart: %d, Azami: 1"
 
-#: server/stdinhand.c:1569
+#: server/stdinhand.c:1570
 #, c-format
 msgid "Value: %d, Minimum: %d, Default: %d, Maximum: %d"
 msgstr "Değer: %d, Asgari: %d, Standart: %d, Azami: %d"
 
-#: server/stdinhand.c:1575
+#: server/stdinhand.c:1576
 #, c-format
 msgid "Value: \"%s\", Default: \"%s\""
 msgstr "Değer: \"%s\", Standart: \"%s\""
 
-#: server/stdinhand.c:1594
+#: server/stdinhand.c:1595
 msgid "Explanations are available for the following server options:"
 msgstr ""
 
-#: server/stdinhand.c:1639
+#: server/stdinhand.c:1640
 msgid "No explanation for that yet."
 msgstr "Henüz bunun bir açıklaması yok."
 
-#: server/stdinhand.c:1642 server/stdinhand.c:2475
+#: server/stdinhand.c:1643 server/stdinhand.c:2476
 msgid "Ambiguous option name."
 msgstr "Birden fazla olabilecek ayar adı."
 
-#: server/stdinhand.c:1662
+#: server/stdinhand.c:1663
 #, c-format
 msgid "Server Operator: %s"
 msgstr "Sunucu Yöneticisi: %s"
 
-#: server/stdinhand.c:1786 server/stdinhand.c:1813 server/stdinhand.c:1831
+#: server/stdinhand.c:1787 server/stdinhand.c:1814 server/stdinhand.c:1832
 #, c-format
 msgid "Player '%s' now has AI skill level '%s'."
 msgstr "Oyuncu '%s' YZ derecesi artık '%s'."
 
-#: server/stdinhand.c:1818
+#: server/stdinhand.c:1819
 #, c-format
 msgid "%s is not controlled by the AI."
 msgstr "%s YZ tarafından kontrol edilmiyor."
 
-#: server/stdinhand.c:1838
+#: server/stdinhand.c:1839
 #, c-format
 msgid "Default AI skill level set to '%s'."
 msgstr "Öntanımlı YZ derecesi '%s' olarak ayarlandı."
 
-#: server/stdinhand.c:1853 server/stdinhand.c:2157
+#: server/stdinhand.c:1854 server/stdinhand.c:2158
 msgid "This command is client only."
 msgstr "Bu komut sadece istemci tarafında verilebilir."
 
-#: server/stdinhand.c:1856
+#: server/stdinhand.c:1857
 msgid "Usage: away"
 msgstr "Kullanımı: away"
 
-#: server/stdinhand.c:1861
+#: server/stdinhand.c:1862
 msgid "Only players may use the away command."
 msgstr "Sadece oyuncular away komutunu kullanabilir."
 
-#: server/stdinhand.c:1865
+#: server/stdinhand.c:1866
 #, c-format
 msgid "%s set to away mode."
 msgstr "%s uzakta moduna geçti."
 
-#: server/stdinhand.c:1873
+#: server/stdinhand.c:1874
 #, c-format
 msgid "%s returned to game."
 msgstr "%s oyuna geri döndü."
 
-#: server/stdinhand.c:1915
+#: server/stdinhand.c:1916
 #, c-format
 msgid "Sorry, you do not have access to view option '%s'."
 msgstr "Üzgünüm, '%s' ayarına bakmaya yetkiniz yok."
 
-#: server/stdinhand.c:1921
+#: server/stdinhand.c:1922
 #, c-format
 msgid "Unknown option '%s'."
 msgstr "Bilinmeyen ayar '%s'."
 
-#: server/stdinhand.c:1946
+#: server/stdinhand.c:1947
 msgid "All options with non-default values"
 msgstr "Bütün seçenekler öntanımlı olmayan değerlerde"
 
-#: server/stdinhand.c:1949
+#: server/stdinhand.c:1950
 msgid "All options"
 msgstr "Bütün seçenekler"
 
-#: server/stdinhand.c:1952
+#: server/stdinhand.c:1953
 msgid "Vital options"
 msgstr "Hayati seçenekler"
 
-#: server/stdinhand.c:1955
+#: server/stdinhand.c:1956
 msgid "Situational options"
 msgstr "Durumuna göre seçenekler"
 
-#: server/stdinhand.c:1958
+#: server/stdinhand.c:1959
 msgid "Rarely used options"
 msgstr "Nadiren kullanacak seçenekler"
 
-#: server/stdinhand.c:1961
+#: server/stdinhand.c:1962
 msgid "+ means you may change the option"
 msgstr "+ ayarı değiştirmişsiniz demektir"
 
-#: server/stdinhand.c:1962
+#: server/stdinhand.c:1963
 msgid "= means the option is on its default value"
 msgstr "= ayar öntanımlı değerinde demektir"
 
-#: server/stdinhand.c:1965
+#: server/stdinhand.c:1966
 #, c-format
 msgid "%-*s value   (min,max)      "
 msgstr "%-*s değer   (asg,aza)      "
 
-#: server/stdinhand.c:1965
+#: server/stdinhand.c:1966
 msgid "Option"
 msgstr "Seçenek"
 
-#: server/stdinhand.c:1968
+#: server/stdinhand.c:1969
 msgid "description"
 msgstr "tanım"
 
-#: server/stdinhand.c:2037
+#: server/stdinhand.c:2038
 msgid ""
 "Try 'show situational' or 'show rare' to show more options.\n"
 "Try 'show changed' to show settings with non-default values."
 msgstr ""
 
-#: server/stdinhand.c:2087
+#: server/stdinhand.c:2088
 msgid "Cannot change teams once game has begun."
 msgstr "Oyun başladıktan sonra takımlar değiştirilemez."
 
-#: server/stdinhand.c:2097
+#: server/stdinhand.c:2098
 msgid "Undefined argument.  Usage: team <player> <team>."
 msgstr "Tanımlanmamış argüman. Kullanım: team <oyuncu> <takım>."
 
-#: server/stdinhand.c:2117
+#: server/stdinhand.c:2118
 #, c-format
 msgid "No such team %s.  Please give a valid team name or number."
 msgstr ""
 "%s diye bir takım yok.  Lütfen geçerli bir takım adı veya numarası girin."
 
-#: server/stdinhand.c:2124
+#: server/stdinhand.c:2125
 msgid "Cannot team a barbarian."
 msgstr "Bir barbarla takım olunamaz."
 
-#: server/stdinhand.c:2130
+#: server/stdinhand.c:2131
 #, c-format
 msgid "Player %s set to team %s."
 msgstr "%s, %s ile takım oldu."
 
-#: server/stdinhand.c:2152
+#: server/stdinhand.c:2153
 msgid "Undefined arguments. Usage: vote yes|no [vote number]."
 msgstr "Tanımlanmamış argümanlar. Kullanım: vote yes|no [oylama numarası]."
 
-#: server/stdinhand.c:2160
+#: server/stdinhand.c:2161
 msgid "Observers cannot vote."
 msgstr "Seyirciler oy veremez."
 
-#: server/stdinhand.c:2163
+#: server/stdinhand.c:2164
 msgid ""
 "You can only vote in a running game.  Use 'first' to become the game "
 "organizer if there currently is none."
@@ -5840,452 +5841,461 @@ msgstr ""
 "Sadece çalışan bir oyunda oy kullanabilirsiniz. Eğer yönetici yoksa 'first' "
 "komutunu kullanarak yönetici olabilirsiniz."
 
-#: server/stdinhand.c:2176
+#: server/stdinhand.c:2177
 #, c-format
 msgid "Vote %d \"%s\": %d for, %d against"
 msgstr ""
 
-#: server/stdinhand.c:2183
+#: server/stdinhand.c:2184
 msgid "There are no votes going on."
 msgstr "Şu an oylama yapılmıyor."
 
-#: server/stdinhand.c:2203
+#: server/stdinhand.c:2204
 msgid "No legal last vote."
 msgstr ""
 
-#: server/stdinhand.c:2208
+#: server/stdinhand.c:2209
 msgid "Value must be integer."
 msgstr "Değer bir tamsayı olmalı"
 
-#: server/stdinhand.c:2219
+#: server/stdinhand.c:2220
 #, c-format
 msgid "No such vote (%d)."
 msgstr "Böyle bir oy yok (%d)."
 
-#: server/stdinhand.c:2223
+#: server/stdinhand.c:2224
 #, c-format
 msgid "You voted for \"%s\""
 msgstr "\"%s\" lehinde oy kullandınız"
 
-#: server/stdinhand.c:2227
+#: server/stdinhand.c:2228
 #, c-format
 msgid "You voted against \"%s\""
 msgstr "\"%s\" aleyhinde oy kullandınız"
 
-#: server/stdinhand.c:2254
+#: server/stdinhand.c:2255
 msgid ""
 "Undefined arguments. Usage: debug <diplomacy <player> | city <x> <y> | units "
 "<x> <y> | unit <id> | tech <player> | timing | info>."
 msgstr ""
 
-#: server/stdinhand.c:2260
+#: server/stdinhand.c:2261
 msgid "Can only use this command once game has begun."
 msgstr "Bu komut oyun başladıktan sonra kullanılabilir."
 
-#: server/stdinhand.c:2289
+#: server/stdinhand.c:2290
 #, c-format
 msgid "%s diplomacy no longer debugged"
 msgstr "%s diplomasisinde hata ayıklanmıyor"
 
-#: server/stdinhand.c:2293
+#: server/stdinhand.c:2294
 #, c-format
 msgid "%s diplomacy debugged"
 msgstr "%s diplomasisinde hata ayıklanıyor"
 
-#: server/stdinhand.c:2312
+#: server/stdinhand.c:2313
 #, c-format
 msgid "%s tech no longer debugged"
 msgstr "%s teknolojisinde hata ayıklanmıyor"
 
-#: server/stdinhand.c:2316
+#: server/stdinhand.c:2317
 #, c-format
 msgid "%s tech debugged"
 msgstr "%s teknolojisinde hata ayıklanıyor"
 
-#: server/stdinhand.c:2347 server/stdinhand.c:2377
+#: server/stdinhand.c:2348 server/stdinhand.c:2378
 msgid "Value 2 & 3 must be integer."
 msgstr "2. ve 3. değerler tamsayı olmalıdır."
 
-#: server/stdinhand.c:2351 server/stdinhand.c:2381
+#: server/stdinhand.c:2352 server/stdinhand.c:2382
 msgid "Bad map coordinates."
 msgstr "Yanlış koordinat."
 
-#: server/stdinhand.c:2356
+#: server/stdinhand.c:2357
 msgid "No city at this coordinate."
 msgstr "Bu koordinatlarda şehir yok."
 
-#: server/stdinhand.c:2361
+#: server/stdinhand.c:2362
 #, c-format
 msgid "%s no longer debugged"
 msgstr "%s hata ayıklamada kullanılmıyor"
 
-#: server/stdinhand.c:2387 server/stdinhand.c:2417
+#: server/stdinhand.c:2388 server/stdinhand.c:2418
 #, c-format
 msgid "%s %s no longer debugged."
 msgstr "%s %s hata ayıklamada kullanılmıyor."
 
-#: server/stdinhand.c:2392 server/stdinhand.c:2422
+#: server/stdinhand.c:2393 server/stdinhand.c:2423
 #, c-format
 msgid "%s %s debugged."
 msgstr "%s %s hata ayıklamada kullanılıyor."
 
-#: server/stdinhand.c:2408
+#: server/stdinhand.c:2409
 msgid "Value 2 must be integer."
 msgstr "Değer 2 bir tamsayı olmalıdır."
 
-#: server/stdinhand.c:2412
+#: server/stdinhand.c:2413
 #, c-format
 msgid "Unit %d does not exist."
 msgstr "%d birimi yok."
 
-#: server/stdinhand.c:2470
+#: server/stdinhand.c:2471
 msgid "Undefined argument.  Usage: set <option> <value>."
 msgstr "Tanımlanmamış argüman. Kullanım: set <seçenek> <değer>."
 
-#: server/stdinhand.c:2480
+#: server/stdinhand.c:2481
 msgid "You are not allowed to set this option."
 msgstr "Bu ayarı değiştirmenize izin verilmiyor."
 
-#: server/stdinhand.c:2485 server/stdinhand.c:3391
+#: server/stdinhand.c:2486 server/stdinhand.c:3404
 msgid "This setting can't be modified after the game has started."
 msgstr "Bu ayar oyun başladıktan sonra değiştirilemez."
 
-#: server/stdinhand.c:2497 server/stdinhand.c:2536
+#: server/stdinhand.c:2498 server/stdinhand.c:2537
 msgid "Value must be an integer."
 msgstr "Değer bir tamsayı olmalı."
 
-#: server/stdinhand.c:2507
+#: server/stdinhand.c:2508
 #, c-format
 msgid "The parameter %s should only contain digits 0-1."
 msgstr "%s parametresi sadece 0 ve 1 rakamlarından oluşmalıdır."
 
-#: server/stdinhand.c:2514
+#: server/stdinhand.c:2515
 msgid "Value out of range (minimum: 0, maximum: 1)."
 msgstr "Değer sınırların dışında (asgari: 0, azami: 1)."
 
-#: server/stdinhand.c:2527 server/stdinhand.c:2567
+#: server/stdinhand.c:2528 server/stdinhand.c:2568
 #, c-format
 msgid "Option: %s has been set to %d."
 msgstr "Ayar: %s, %d olarak ayarlandı."
 
-#: server/stdinhand.c:2547
+#: server/stdinhand.c:2548
 #, c-format
 msgid "The parameter %s should only contain +- and 0-9."
 msgstr "%s parametresi sadece +- karakterlerinden ve rakamlardan oluşmalıdır."
 
-#: server/stdinhand.c:2554
+#: server/stdinhand.c:2555
 #, c-format
 msgid "Value out of range (minimum: %d, maximum: %d)."
 msgstr "Değer sınırların dışında (asgari: %d, azami: %d)."
 
-#: server/stdinhand.c:2577
+#: server/stdinhand.c:2578
 msgid "String value too long.  Usage: set <option> <value>."
 msgstr "Dizi değeri çok uzun. Kullanım: set <seçenek> <değer>."
 
-#: server/stdinhand.c:2589
+#: server/stdinhand.c:2590
 #, c-format
 msgid "Option: %s has been set to \"%s\"."
 msgstr "Ayar: %s ayarı \"%s\" olarak değiştirildi."
 
-#: server/stdinhand.c:2627
+#: server/stdinhand.c:2628
 msgid "Sorry, one can't observe globally in this game."
 msgstr "Üzgünüm, bu oyunu tamamen gözlemleyemezsiniz."
 
-#: server/stdinhand.c:2630
+#: server/stdinhand.c:2631
 msgid "Sorry, you can't take a global observer. Observe it instead."
 msgstr ""
 
-#: server/stdinhand.c:2642
+#: server/stdinhand.c:2643
 msgid "Sorry, one can't observe barbarians in this game."
 msgstr ""
 
-#: server/stdinhand.c:2645
+#: server/stdinhand.c:2646
 msgid "Sorry, one can't take barbarians in this game."
 msgstr ""
 
-#: server/stdinhand.c:2653
+#: server/stdinhand.c:2654
 msgid "Sorry, one can't observe dead players in this game."
 msgstr ""
 
-#: server/stdinhand.c:2656
+#: server/stdinhand.c:2657
 msgid "Sorry, one can't take dead players in this game."
 msgstr ""
 
-#: server/stdinhand.c:2664
+#: server/stdinhand.c:2665
 msgid "Sorry, one can't observe AI players in this game."
 msgstr ""
 
-#: server/stdinhand.c:2667
+#: server/stdinhand.c:2668
 msgid "Sorry, one can't take AI players in this game."
 msgstr ""
 
-#: server/stdinhand.c:2676
+#: server/stdinhand.c:2677
 msgid "Sorry, one can't observe human players in this game."
 msgstr ""
 
-#: server/stdinhand.c:2679
+#: server/stdinhand.c:2680
 msgid "Sorry, one can't take human players in this game."
 msgstr ""
 
-#: server/stdinhand.c:2689
+#: server/stdinhand.c:2690
 msgid "Sorry, one can't observe in this game."
 msgstr ""
 
-#: server/stdinhand.c:2694
+#: server/stdinhand.c:2695
 msgid "Sorry, one can't take players in this game."
 msgstr ""
 
-#: server/stdinhand.c:2700
+#: server/stdinhand.c:2701
 msgid "Sorry, one can't take players already connected in this game."
 msgstr ""
 
-#: server/stdinhand.c:2731
+#: server/stdinhand.c:2732
 msgid "Usage: observe [connection-name [player-name]]"
 msgstr "Kullanım: observe [bağlantı-adı [oyuncu-adı]]"
 
-#: server/stdinhand.c:2737
+#: server/stdinhand.c:2738
 msgid "Usage: observe [player-name]"
 msgstr "Kullanım: observe [oyuncu-adı]"
 
-#: server/stdinhand.c:2787
+#: server/stdinhand.c:2788
 #, c-format
 msgid "%s already controls %s. Using 'observe' would remove %s"
 msgstr ""
 
-#: server/stdinhand.c:2798
+#: server/stdinhand.c:2799
 #, c-format
 msgid "%s is already observing %s."
 msgstr ""
 
-#: server/stdinhand.c:2803
+#: server/stdinhand.c:2804
 #, c-format
 msgid "%s is already observing."
 msgstr ""
 
-#: server/stdinhand.c:2865
+#: server/stdinhand.c:2866
 #, c-format
 msgid "%s now observes %s"
 msgstr ""
 
-#: server/stdinhand.c:2869
+#: server/stdinhand.c:2870
 #, c-format
 msgid "%s now observes"
 msgstr ""
 
-#: server/stdinhand.c:2908
+#: server/stdinhand.c:2910
 msgid "Usage: take <connection-name> <player-name>"
 msgstr "Kullanım: take <bağlantı-adı> <oyuncu-adı>"
 
-#: server/stdinhand.c:2913
+#: server/stdinhand.c:2915
 msgid "Usage: take <player-name>"
 msgstr "Kullanım: take <oyuncu-adı>"
 
-#: server/stdinhand.c:2919
+#: server/stdinhand.c:2921
 msgid "Usage: take [connection-name] <player-name>"
 msgstr ";Kullanım: take [bağlantı-adı] <oyuncu-adı>"
 
-#: server/stdinhand.c:2949
+#: server/stdinhand.c:2951
 #, c-format
 msgid "%s already controls %s"
 msgstr "%s zaten %s tarafını kontrol ediyor"
 
-#: server/stdinhand.c:2963
+#: server/stdinhand.c:2965
 #, c-format
 msgid "There is no free player slot for %s"
 msgstr ""
 
-#: server/stdinhand.c:2992
+#: server/stdinhand.c:3000
 #, c-format
 msgid "being detached from %s."
 msgstr ""
 
-#: server/stdinhand.c:3063
+#: server/stdinhand.c:3076
 #, c-format
 msgid "%s now controls %s (%s, %s)"
 msgstr "%2$s, %1$s tarafından kontrol ediliyor (%3$s, %4$s)"
 
-#: server/stdinhand.c:3067 server/stdinhand.c:4151
+#: server/stdinhand.c:3080 server/stdinhand.c:4185
 #: data/nation/barbarian.ruleset:3
 msgid "Barbarian"
 msgstr "Barbar"
 
-#: server/stdinhand.c:3069 server/stdinhand.c:4153 client/plrdlg_common.c:256
-#: client/gui-gtk-2.0/pages.c:2025 client/gui-sdl/plrdlg.c:645
+#: server/stdinhand.c:3082 server/stdinhand.c:4187 client/plrdlg_common.c:256
+#: client/gui-gtk-2.0/pages.c:2027 client/gui-sdl/plrdlg.c:645
 #: client/gui-win32/connectdlg.c:201 client/gui-win32/plrdlg.c:335
 msgid "AI"
 msgstr "YZ"
 
-#: server/stdinhand.c:3070 server/stdinhand.c:4155
-#: client/gui-gtk-2.0/pages.c:2025 client/gui-gtk-2.0/pages.c:2048
+#: server/stdinhand.c:3083 server/stdinhand.c:4189
+#: client/gui-gtk-2.0/pages.c:2027 client/gui-gtk-2.0/pages.c:2050
 #: client/gui-win32/connectdlg.c:201 client/gui-win32/connectdlg.c:213
 msgid "Human"
 msgstr "İnsan"
 
-#: server/stdinhand.c:3072 client/gui-gtk-2.0/pages.c:2024
-#: client/gui-gtk-2.0/pages.c:2047 client/gui-win32/connectdlg.c:200
+#: server/stdinhand.c:3085 client/gui-gtk-2.0/pages.c:2026
+#: client/gui-gtk-2.0/pages.c:2049 client/gui-win32/connectdlg.c:200
 #: client/gui-win32/connectdlg.c:212
 msgid "Alive"
 msgstr "Canlı"
 
-#: server/stdinhand.c:3073 client/gui-gtk-2.0/pages.c:2024
+#: server/stdinhand.c:3086 client/gui-gtk-2.0/pages.c:2026
 #: client/gui-win32/connectdlg.c:200
 msgid "Dead"
 msgstr "Ölü"
 
-#: server/stdinhand.c:3075
+#: server/stdinhand.c:3088
 #, c-format
 msgid "%s failed to attach to any player"
 msgstr "%s herhangi bir oyuncuya bağlanamadı."
 
-#: server/stdinhand.c:3110
+#: server/stdinhand.c:3123
 msgid "Usage: detach <connection-name>"
 msgstr "Kullanım: detach <bağlantı-adı>"
 
-#: server/stdinhand.c:3130
+#: server/stdinhand.c:3143
 msgid "You can not detach other users."
 msgstr ""
 
-#: server/stdinhand.c:3139
+#: server/stdinhand.c:3152
 #, c-format
 msgid "%s is not attached to any player."
 msgstr ""
 
-#: server/stdinhand.c:3162
+#: server/stdinhand.c:3175
 #, c-format
 msgid "%s detaching from %s"
 msgstr ""
 
-#: server/stdinhand.c:3168
+#: server/stdinhand.c:3181
 #, c-format
 msgid "%s no longer observing."
 msgstr ""
 
-#: server/stdinhand.c:3187
+#: server/stdinhand.c:3200
 #, c-format
 msgid "detaching from %s."
 msgstr ""
 
-#: server/stdinhand.c:3273
+#: server/stdinhand.c:3286
 msgid "Usage: load <game name>"
 msgstr "Kullanım: load <oyun-adı>"
 
-#: server/stdinhand.c:3278
+#: server/stdinhand.c:3291
 msgid "Cannot load a game while another is running."
 msgstr "Başka bir oyun çalışırken oyun yüklenemez."
 
-#: server/stdinhand.c:3300
+#: server/stdinhand.c:3313
 #, c-format
 msgid "Cannot find savegame or scenario with the name \"%s\"."
 msgstr "\"%s\" adlı bir senaryo veya kayıtlı oyun bulunamadı."
 
-#: server/stdinhand.c:3317
+#: server/stdinhand.c:3330
 #, c-format
 msgid "Could not load savefile: %s"
 msgstr "Kayıt dosyası yüklenemedi: %s"
 
-#: server/stdinhand.c:3386
+#: server/stdinhand.c:3399
 #, c-format
 msgid "Current ruleset directory is \"%s\""
 msgstr "Geçerli kural seti dizini: \"%s\""
 
-#: server/stdinhand.c:3406
+#: server/stdinhand.c:3419
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
 msgstr "Kural seti dizini \"%s\" bulunmadı."
 
-#: server/stdinhand.c:3412
+#: server/stdinhand.c:3425
 #, c-format
 msgid "Ruleset directory is already \"%s\""
 msgstr "Kural seti dizini zaten \"%s\""
 
-#: server/stdinhand.c:3416
+#: server/stdinhand.c:3429
 #, c-format
 msgid "Ruleset directory set to \"%s\""
 msgstr "Kural seti dizini \"%s\" olarak ayarlandı"
 
-#: server/stdinhand.c:3464
+#: server/stdinhand.c:3477
 msgid "Goodbye."
 msgstr "Hoşçakal."
 
-#: server/stdinhand.c:3495
+#: server/stdinhand.c:3508
 msgid "Sorry, you are not allowed to use server commands."
 msgstr "Üzgünüm, sunucu komutları kullanma izniniz yok."
 
-#: server/stdinhand.c:3531
+#: server/stdinhand.c:3544
 #, c-format
 msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
 msgstr ""
 "Uyarı: '%s' komutu '%s' olarak çalıştırıldı, komutlar hakkında yardım almak "
 "için '%shelp' yazın."
 
-#: server/stdinhand.c:3536
+#: server/stdinhand.c:3549
 #, c-format
 msgid "Unknown command.  Try '%shelp'."
 msgstr "Bilinmeyen komut.  '%shelp' yazmayı deneyin."
 
-#: server/stdinhand.c:3553
+#: server/stdinhand.c:3566
 msgid "Your new vote canceled your previous vote."
 msgstr "Yeni oyunuz önceki oyunuzu iptal etti."
 
-#: server/stdinhand.c:3561
+#: server/stdinhand.c:3574
 #, c-format
 msgid "New vote (number %d) by %s: %s."
 msgstr ""
 
-#: server/stdinhand.c:3573
+#: server/stdinhand.c:3586
 #, c-format
 msgid "Your new vote (\"%s\") was not legal or was not recognized."
 msgstr ""
 
-#: server/stdinhand.c:3583
+#: server/stdinhand.c:3596
 msgid "You are not allowed to use this command."
 msgstr "Bu komutu kullanma izniniz yok."
 
-#: server/stdinhand.c:3608
+#: server/stdinhand.c:3621
 msgid "(server prompt)"
 msgstr "(sunucu istemi)"
 
-#: server/stdinhand.c:3715
+#: server/stdinhand.c:3728
 msgid "Game ended in a draw."
 msgstr "Oyun berabere bitti."
 
-#: server/stdinhand.c:3719
+#: server/stdinhand.c:3732
 msgid ""
 "Ending the game. The server will restart once all clients have disconnected."
 msgstr "Oyun bitiriliyor. Bütün istemciler çıkınca sunucu baştan başlatılacak."
 
-#: server/stdinhand.c:3724
+#: server/stdinhand.c:3737
 msgid "Cannot end the game: no game running."
 msgstr "Oyun bitirilemez: çalışan bir oyun yok."
 
-#: server/stdinhand.c:3740
+#: server/stdinhand.c:3753
 #, c-format
 msgid "%s has conceded the game and can no longer win."
 msgstr "%s teslim olduğu için artık kazanamaz."
 
-#: server/stdinhand.c:3745
+#: server/stdinhand.c:3758
 msgid "You cannot surrender now."
 msgstr "Şu anda teslim olamazsın."
 
-#: server/stdinhand.c:3791
+#: server/stdinhand.c:3815
 msgid "Not enough players, game will not start."
 msgstr "Yeterli oyuncu sayısı olmadan oyun başlamayacak."
 
-#: server/stdinhand.c:3808
+#: server/stdinhand.c:3819
+#, fuzzy
+msgid "Not enough nations for all players, game will not start."
+msgstr "Yeterli oyuncu sayısı olmadan oyun başlamayacak."
+
+#: server/stdinhand.c:3828
+msgid "All players are ready; starting game."
+msgstr "Bütün oyuncular hazır; oyunu başlatılıyor."
+
+#: server/stdinhand.c:3842
 msgid ""
 "Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr "Oyun başlatılamıyor: bütün istemcilerin çıkması bekleniyor."
 
-#: server/stdinhand.c:3815
+#: server/stdinhand.c:3849
 msgid "Cannot start the game: it is already running."
 msgstr "Oyun başlatılamıyor: zaten başlatılmış"
 
-#: server/stdinhand.c:3844
+#: server/stdinhand.c:3878
 #, c-format
 msgid "Cutting connection %s."
 msgstr "Bağlantı kesiliyor %s."
 
-#: server/stdinhand.c:3863
+#: server/stdinhand.c:3897
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -6324,121 +6334,121 @@ msgstr ""
 "  save   -  o anki oyunu kaydeder\n"
 "  quit   -  çıkar"
 
-#: server/stdinhand.c:3898 server/stdinhand.c:3901
+#: server/stdinhand.c:3932 server/stdinhand.c:3935
 msgid "Command:"
 msgstr "Komut:"
 
-#: server/stdinhand.c:3905
+#: server/stdinhand.c:3939
 msgid "Synopsis: "
 msgstr "Özet:"
 
-#: server/stdinhand.c:3914
+#: server/stdinhand.c:3948
 #, c-format
 msgid "Level: %s"
 msgstr "Seviye: %s"
 
-#: server/stdinhand.c:3939
+#: server/stdinhand.c:3973
 msgid "The following server commands are available:"
 msgstr "Şu sunucu komutları kullanılabilir durumdadır:"
 
-#: server/stdinhand.c:4014
+#: server/stdinhand.c:4048
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr ""
 
-#: server/stdinhand.c:4019
+#: server/stdinhand.c:4053
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr ""
 
-#: server/stdinhand.c:4085
+#: server/stdinhand.c:4119
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr ""
 
-#: server/stdinhand.c:4125
+#: server/stdinhand.c:4159
 msgid "List of players:"
 msgstr "Oyuncu listesi:"
 
-#: server/stdinhand.c:4130
+#: server/stdinhand.c:4164
 msgid "<no players>"
 msgstr "<oyuncu yok>"
 
-#: server/stdinhand.c:4147
+#: server/stdinhand.c:4181
 #, c-format
 msgid "user %s, "
 msgstr "kullanıcı %s, "
 
-#: server/stdinhand.c:4158
+#: server/stdinhand.c:4192
 msgid ", Dead"
 msgstr ", Ölü"
 
-#: server/stdinhand.c:4161
+#: server/stdinhand.c:4195
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", zorluluk derecesi %s"
 
 #. TRANS: continue list, in case comma is not the separator of choice.
-#: server/stdinhand.c:4166 server/stdinhand.c:4170 client/helpdata.c:238
+#: server/stdinhand.c:4200 server/stdinhand.c:4204 client/helpdata.c:238
 #: client/helpdata.c:750 client/text.c:185 client/text.c:1159
 #: client/text.c:1197
 #, c-format
 msgid "?clistmore:, %s"
 msgstr ", %s"
 
-#: server/stdinhand.c:4174
+#: server/stdinhand.c:4208
 msgid ", ready"
 msgstr ", hazır"
 
-#: server/stdinhand.c:4176
+#: server/stdinhand.c:4210
 msgid ", not ready"
 msgstr ", hazır değil"
 
-#: server/stdinhand.c:4184
+#: server/stdinhand.c:4218
 #, c-format
 msgid " %d connection:"
 msgid_plural " %d connections:"
 msgstr[0] " %d bağlantı:"
 
-#: server/stdinhand.c:4190
+#: server/stdinhand.c:4224
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
 msgstr "  %s, %s adresinden (komut erişim seviyesi %s), tampon=%dkb"
 
-#: server/stdinhand.c:4195
+#: server/stdinhand.c:4229
 msgid " (observer mode)"
 msgstr " (izleyici modu)"
 
-#: server/stdinhand.c:4213
+#: server/stdinhand.c:4247
 msgid "List of teams:"
 msgstr "Takım listesi:"
 
 #. TRANS: There will always be at least 2 players here.
-#: server/stdinhand.c:4223
+#: server/stdinhand.c:4257
 #, c-format
 msgid "%2d : '%s' : %d player"
 msgid_plural "%2d : '%s' : %d players"
 msgstr[0] "%2d : '%s' : %d oyuncu"
 
-#: server/stdinhand.c:4243
+#: server/stdinhand.c:4277
 #, c-format
 msgid "%2d : '%s' : 1 player : %s"
 msgstr "%2d : '%s' : 1 oyuncu : %s"
 
-#: server/stdinhand.c:4251
+#: server/stdinhand.c:4285
 #, c-format
 msgid "Empty team: %s"
 msgstr "Boş takım: %s"
 
-#: server/stdinhand.c:4262
+#: server/stdinhand.c:4296
 msgid "List of connections to server:"
 msgstr "Sunucuya olan bağlantıların listesi:"
 
-#: server/stdinhand.c:4266
+#: server/stdinhand.c:4300
 msgid "<no connections>"
 msgstr "<hiç bağlantı yok>"
 
-#: server/stdinhand.c:4290
+#: server/stdinhand.c:4324
 msgid "List of scenarios available:"
 msgstr "Mümkün olan senaryolar:"
 
@@ -6604,13 +6614,13 @@ msgstr "%s, %s şehrine eklenemedi."
 msgid "%s added to aid %s in growing."
 msgstr "%s, %s şehrinin büyümesi için eklendi."
 
-#: server/unithand.c:822
+#: server/unithand.c:828
 msgid "Your Nuclear missile was shot down by SDI defences, what a waste."
 msgstr ""
 "Nükleer bombanız SDI savunması tarafından etkisiz hale getirildi, ne büyük "
 "kayıp."
 
-#: server/unithand.c:825
+#: server/unithand.c:831
 #, c-format
 msgid "The nuclear attack on %s was avoided by your SDI defense."
 msgstr ""
@@ -6618,114 +6628,114 @@ msgstr ""
 "edildi."
 
 #. TRANS: "Your Cannon ... the Polish Destroyer."
-#: server/unithand.c:895
+#: server/unithand.c:901
 #, c-format
 msgid "Your %s survived the pathetic attack from the %s %s."
 msgstr "%s biriminiz %s %s birimi tarafından yapılan saldırıdan kurtuldu."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unithand.c:904
+#: server/unithand.c:910
 #, c-format
 msgid "Your attacking %s failed against the %s %s!"
 msgstr "%s biriminizin, %s %s birimine saldırısı başarısız oldu!"
 
-#: server/unithand.c:977
+#: server/unithand.c:983
 #, c-format
 msgid "Only %s can attack from sea."
 msgstr "Sadece %s birimi denizden saldırabilir."
 
-#: server/unithand.c:982
+#: server/unithand.c:988
 msgid "Cannot attack from sea."
 msgstr "Denizden saldırılamaz."
 
-#: server/unithand.c:990 server/unittools.c:2100
+#: server/unithand.c:996 server/unittools.c:2103
 msgid "Cannot attack unless you declare war first."
 msgstr "Savaş ilan etmeden saldırılamaz."
 
-#: server/unithand.c:995
+#: server/unithand.c:1001
 #, c-format
 msgid "%s can only move into your own zone of control."
 msgstr "%s sadece sizin kontrolünüzdeki bölgelere gidebilir."
 
-#: server/unithand.c:1001
+#: server/unithand.c:1007
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr "%s ile olan barışı bozmadan sınır ihlal edilemez."
 
-#: server/unithand.c:1046
+#: server/unithand.c:1052
 msgid "This unit has no moves left."
 msgstr "Bu birimin hiç hareketi kalmadı."
 
-#: server/unithand.c:1101
+#: server/unithand.c:1107
 msgid "Unit must be on land to perform diplomatic action."
 msgstr "Birimin diplomatik iş yapabilmesi için karada olması gerekli."
 
-#: server/unithand.c:1103
+#: server/unithand.c:1109
 msgid "No diplomat action possible."
 msgstr "Diplomatik işler yapılamaz."
 
-#: server/unithand.c:1119
+#: server/unithand.c:1125
 #, c-format
 msgid "You must declare war on %s first.  Try using players dialog (F3)."
 msgstr ""
 "Önce %s ile savaş içinde olmanız gerekiyor.  Oyuncular penceresini "
 "kullanmayı deneyin (F3)."
 
-#: server/unithand.c:1137
+#: server/unithand.c:1143
 msgid "This unit is being transported, and so cannot bombard."
 msgstr "Birim taşınıyor, bu yüzden bombardıman yapamaz."
 
-#: server/unithand.c:1152
+#: server/unithand.c:1158
 msgid "You can't attack there."
 msgstr "Burada saldıramazsın."
 
-#: server/unithand.c:1174
+#: server/unithand.c:1180
 msgid "This type of troops cannot take over a city."
 msgstr "Bu türdeki birimler şehir fethedemezler."
 
-#: server/unithand.c:1192
+#: server/unithand.c:1198
 msgid "A transported unit is not allied to all units or city on target tile."
 msgstr ""
 "Taşınan bir birim hedef karedeki tüm birimlerle veya şehirlerle ittifak "
 "içinde değil."
 
-#: server/unithand.c:1234
+#: server/unithand.c:1240
 #, c-format
 msgid "Your %s helps build the %s in %s (%d remaining)."
 msgstr "%s birimi %s yapımına %s şehrinde yardım eder (%d kalıyor)."
 
-#: server/unithand.c:1236
+#: server/unithand.c:1242
 #, c-format
 msgid "Your %s helps build the %s in %s (%d surplus)."
 msgstr "%s birimi %s yapımına %s şehrinde yardım eder (%d artıyor)."
 
-#: server/unithand.c:1280
+#: server/unithand.c:1286
 #, c-format
 msgid ""
 "Sorry, your %s cannot establish a trade route because it has no home city"
 msgstr "Üzgünüm, %s biriminiz ticaret yolu yapamaz çünkü memleketi yok"
 
-#: server/unithand.c:1290
+#: server/unithand.c:1296
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route between %s and %s"
 msgstr "Üzgünüm, %s biriminiz %s ve %s şehirleri arasında ticaret yolu yapamaz"
 
-#: server/unithand.c:1319 server/unithand.c:1338
+#: server/unithand.c:1325 server/unithand.c:1344
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route here!"
 msgstr "Üzgünüm, %s biriminiz buraya ticaret yolu yapamaz!"
 
-#: server/unithand.c:1323 server/unithand.c:1342
+#: server/unithand.c:1329 server/unithand.c:1348
 #, c-format
 msgid "      The city of %s already has %d better trade routes!"
 msgstr "      %s şehrinin zaten %d daha kârlı ticaret yolları var!"
 
-#: server/unithand.c:1355 server/unithand.c:1367
+#: server/unithand.c:1361 server/unithand.c:1373
 #, c-format
 msgid "Sorry, %s has canceled the trade route from %s to your city %s."
 msgstr "Üzgünüm, %s, %s şehrinden %s şehrinize olan ticaret yolunu iptal etti."
 
-#: server/unithand.c:1400
+#: server/unithand.c:1406
 #, c-format
 msgid ""
 "Your %s from %s has arrived in %s, and revenues amount to %d in gold and "
@@ -6794,47 +6804,47 @@ msgstr "%s biriminiz %s şehrine taşındı."
 msgid "Disbanded your %s."
 msgstr "%s biriminiz terhis edildi."
 
-#: server/unittools.c:1364
+#: server/unittools.c:1363
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr "%s savunması başarısız, %s oyunu kaybetti."
 
-#: server/unittools.c:1368
+#: server/unittools.c:1367
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr ""
 "%s biriminin kaybedilmesi oyunu kaybetmek demektir! Bir dahaki sefere daha "
 "dikkatli olun!"
 
-#: server/unittools.c:1470
+#: server/unittools.c:1469
 #, c-format
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "%s, %s şehrinin yıkımından kurtuldu ve %s şehrine kaçtı."
 
-#: server/unittools.c:1479
+#: server/unittools.c:1478
 #, c-format
 msgid "%s lost when %s was lost."
 msgstr "%s, %s ile birlikte kaybedildi."
 
-#: server/unittools.c:1528
+#: server/unittools.c:1527
 #, c-format
 msgid "Barbarian leader captured, %d gold ransom paid."
 msgstr "Barbar lideri ele geçirildi, %d altın fidye alındı."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unittools.c:1546
+#: server/unittools.c:1545
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s!"
 msgstr "Saldıran %s biriminiz %s %s birimini yendi!"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
-#: server/unittools.c:1555 server/unittools.c:1613
+#: server/unittools.c:1554 server/unittools.c:1612
 #, c-format
 msgid "%s lost to an attack by the %s %s."
 msgstr "%s, %s %s birimine yenildi."
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
-#: server/unittools.c:1589
+#: server/unittools.c:1588
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
@@ -6843,7 +6853,7 @@ msgstr[0] "Saldıran %s biriminiz %s %s (ve %d diğer birimi) birimini yendi!"
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
-#: server/unittools.c:1622
+#: server/unittools.c:1621
 #, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
 msgstr ""
@@ -6851,7 +6861,7 @@ msgstr ""
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
-#: server/unittools.c:1637
+#: server/unittools.c:1636
 #, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
 msgstr "%s (ve %s), %s %s birimine yenildi."
@@ -6859,7 +6869,7 @@ msgstr "%s (ve %s), %s %s birimine yenildi."
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1647
+#: server/unittools.c:1646
 #, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
@@ -6868,7 +6878,7 @@ msgstr[0] "%s ve diğer %d birim, %s %s birimine yenildi."
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1661
+#: server/unittools.c:1660
 #, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
@@ -6876,169 +6886,169 @@ msgstr[0] ""
 "%2$s %3$s biriminin %4$s %5$s birimine saldırması sonucu %1$d birim "
 "kaybedildi."
 
-#: server/unittools.c:1925
+#: server/unittools.c:1928
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "%s biriminiz %s tarafından bombalandı."
 
-#: server/unittools.c:1928 server/unittools.c:1944
+#: server/unittools.c:1931 server/unittools.c:1947
 msgid "yourself"
 msgstr "kendiniz"
 
-#: server/unittools.c:1932
+#: server/unittools.c:1935
 #, c-format
 msgid "The %s %s was nuked."
 msgstr "%s tarafındaki %s nükleer bomba ile vuruldu."
 
-#: server/unittools.c:1941
+#: server/unittools.c:1944
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "%s, %s tarafından bombalandı."
 
-#: server/unittools.c:1949
+#: server/unittools.c:1952
 #, c-format
 msgid "You nuked %s."
 msgstr "%s şehrini bombaladınız."
 
-#: server/unittools.c:1990
+#: server/unittools.c:1993
 #, c-format
 msgid "The %s detonated a nuke!"
 msgstr "%s nükleer bomba patlattı!"
 
-#: server/unittools.c:2014
+#: server/unittools.c:2017
 #, c-format
 msgid "%s transported successfully."
 msgstr "%s başarıyla taşındı."
 
-#: server/unittools.c:2066
+#: server/unittools.c:2069
 msgid "This unit type can not be paradropped."
 msgstr "Bu tür birimler paraşütle inemez."
 
-#: server/unittools.c:2076
+#: server/unittools.c:2079
 msgid "You cannot paradrop a unit that is transporting other units."
 msgstr "Diğer birimleri taşıyan bir birime paraşütle iniş yapılamaz."
 
-#: server/unittools.c:2082
+#: server/unittools.c:2085
 msgid "The destination location is not known."
 msgstr "Hedef bölge bilinmiyor."
 
-#: server/unittools.c:2089
+#: server/unittools.c:2092
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "Bu birin %s içine atlayış yapamaz."
 
-#: server/unittools.c:2109
+#: server/unittools.c:2112
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr "Hedefe olan mesafe (%i) birimin menzili (%i) dışında kalıyor."
 
-#: server/unittools.c:2120
+#: server/unittools.c:2123
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "%s biriminiz %s içine düştü ve kayboldu."
 
-#: server/unittools.c:2133
+#: server/unittools.c:2136
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "%s biriminiz paraşütle atlarken düşman tarafından vuruldu."
 
-#: server/unittools.c:2155
+#: server/unittools.c:2158
 #, c-format
 msgid "You found %d gold."
 msgstr "Hazine buldunuz (%d altın)."
 
-#: server/unittools.c:2172
+#: server/unittools.c:2175
 #, c-format
 msgid "You found %s in ancient scrolls of wisdom."
 msgstr "Antik yazıtlardan %s teknolojisini öğrendiniz."
 
-#: server/unittools.c:2179
+#: server/unittools.c:2182
 #, c-format
 msgid "The %s have acquired %s from ancient scrolls of wisdom."
 msgstr "%s antik yazıtlardan %s öğrenmişler."
 
-#: server/unittools.c:2193
+#: server/unittools.c:2196
 msgid "A band of friendly mercenaries joins your cause."
 msgstr "Paralı askerler size katıldı."
 
-#: server/unittools.c:2211
+#: server/unittools.c:2214
 msgid "An abandoned village is here."
 msgstr "Terk edinmiş bir şehir buldunuz."
 
-#: server/unittools.c:2221
+#: server/unittools.c:2224
 msgid "You have unleashed a horde of barbarians!"
 msgstr "Barbarların yuvasını buldunuz!"
 
-#: server/unittools.c:2224
+#: server/unittools.c:2227
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "%s biriminiz barbarlar tarafından öldürüldü!"
 
-#: server/unittools.c:2240
+#: server/unittools.c:2243
 msgid "You found a friendly city."
 msgstr "Kardeş şehir buldunuz."
 
-#: server/unittools.c:2254
+#: server/unittools.c:2257
 msgid "Friendly nomads are impressed by you, and join you."
 msgstr "Dost canlısı göçebeler size katıldılar."
 
-#: server/unittools.c:2279
+#: server/unittools.c:2282
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr "Uçaktan korkan kabile korku içinde saklanacak yer aradı."
 
-#: server/unittools.c:2537
+#: server/unittools.c:2540
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr ""
 "%s biriminin emirleri, yakınlarında düşman hareketi gördüğü için iptal "
 "edildi."
 
-#: server/unittools.c:2983
+#: server/unittools.c:2989
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "%s biriminin emirleri yakınlarında birimler olduğu için iptal edildi."
 
-#: server/unittools.c:3035
+#: server/unittools.c:3041
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr "%s biriminin emirleri şehir yapımı başarısız olduğu için iptal edildi."
 
-#: server/unittools.c:3048
+#: server/unittools.c:3054
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr "%s biriminin emirleri geçersiz olduğu için iptal edildi."
 
-#: server/unittools.c:3062
+#: server/unittools.c:3068
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "%s biriminin emirleri yer geçersiz olduğu için iptal edildi."
 
-#: server/unittools.c:3072
+#: server/unittools.c:3078
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "%s biriminin emirleri yolunda birimler olduğu için iptal edildi."
 
-#: server/unittools.c:3098
+#: server/unittools.c:3104
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "%s biriminin emirleri başarısız hareket nedeniyle iptal edildi."
 
-#: server/unittools.c:3139
+#: server/unittools.c:3145
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr "%s biriminin memleketi değiştirilemedi."
 
-#: server/unittools.c:3150
+#: server/unittools.c:3156
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "%s şehriyle ticaret yolu yapılamadı."
 
-#: server/unittools.c:3162
+#: server/unittools.c:3168
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "%s şehrinde harika yapımı başarısız oldu."
 
-#: server/unittools.c:3171
+#: server/unittools.c:3177
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "%s biriminiz geçersiz emirler almış."
@@ -7367,7 +7377,7 @@ msgstr "En İyi Savunabilen Birimler"
 #: client/cityrepdata.c:474 client/cityrepdata.c:478
 #: client/gui-gtk-2.0/cityrep.c:1220 client/gui-gtk-2.0/cityrep.c:1241
 #: client/gui-gtk-2.0/cityrep.c:1260 client/gui-gtk-2.0/cityrep.c:1279
-#: client/gui-gtk-2.0/menu.c:804 client/gui-gtk-2.0/repodlgs.c:960
+#: client/gui-gtk-2.0/menu.c:810 client/gui-gtk-2.0/repodlgs.c:960
 #: client/gui-sdl/helpdlg.c:688 client/gui-sdl/mapctrl.c:1605
 #: client/gui-sdl/optiondlg.c:1827 client/gui-sdl/repodlgs.c:356
 #: client/gui-win32/menu.c:351 client/gui-win32/repodlgs.c:616
@@ -7791,19 +7801,19 @@ msgid ""
 "%d times"
 msgstr ""
 
-#: client/connectdlg_common.c:79 client/gui-gtk-2.0/pages.c:1284
+#: client/connectdlg_common.c:79 client/gui-gtk-2.0/pages.c:1286
 msgid "novice"
 msgstr "acemi"
 
-#: client/connectdlg_common.c:80 client/gui-gtk-2.0/pages.c:1284
+#: client/connectdlg_common.c:80 client/gui-gtk-2.0/pages.c:1286
 msgid "easy"
 msgstr "kolay"
 
-#: client/connectdlg_common.c:81 client/gui-gtk-2.0/pages.c:1285
+#: client/connectdlg_common.c:81 client/gui-gtk-2.0/pages.c:1287
 msgid "normal"
 msgstr "normal"
 
-#: client/connectdlg_common.c:82 client/gui-gtk-2.0/pages.c:1285
+#: client/connectdlg_common.c:82 client/gui-gtk-2.0/pages.c:1287
 msgid "hard"
 msgstr "zor"
 
@@ -8639,355 +8649,355 @@ msgstr "%s panoya kopyala."
 msgid "Clipboard is empty."
 msgstr "Pano boş."
 
-#: client/options.c:96
+#: client/options.c:98
 msgid "Graphics"
 msgstr "Görüntü"
 
-#: client/options.c:97
+#: client/options.c:99
 msgid "Overview"
 msgstr "Genel"
 
-#: client/options.c:98
+#: client/options.c:100
 msgid "Sound"
 msgstr "Ses"
 
-#: client/options.c:99
+#: client/options.c:101
 msgid "Interface"
 msgstr "Arayüz"
 
-#: client/options.c:100
+#: client/options.c:102
 msgid "Network"
 msgstr "Ağ"
 
-#: client/options.c:105
+#: client/options.c:107
 msgid "Login name"
 msgstr "Giriş adı"
 
-#: client/options.c:106
+#: client/options.c:108
 msgid ""
 "This is the default login username that will be used in the connection "
 "dialogs or with the -a command-line parameter."
 msgstr ""
 
-#: client/options.c:111
+#: client/options.c:113
 msgid "Server"
 msgstr "Sunucu"
 
-#: client/options.c:112
+#: client/options.c:114
 msgid ""
 "This is the default server hostname that will be used in the connection "
 "dialogs or with the -a command-line parameter."
 msgstr ""
 
-#: client/options.c:117
+#: client/options.c:119
 msgid "Server port"
 msgstr "Sunucu portu"
 
-#: client/options.c:118
+#: client/options.c:120
 msgid ""
 "This is the default server port that will be used in the connection dialogs "
 "or with the -a command-line parameter."
 msgstr ""
 
-#: client/options.c:123 client/gui-win32/connectdlg.c:912 data/Freeciv.in:107
+#: client/options.c:125 client/gui-win32/connectdlg.c:912 data/Freeciv.in:107
 msgid "Metaserver"
 msgstr "Metasunucu"
 
-#: client/options.c:124
+#: client/options.c:126
 msgid ""
 "The metaserver is a host that the client contacts to find out about games on "
 "the internet.  Don't change this from its default value unless you know what "
 "you're doing."
 msgstr ""
 
-#: client/options.c:130
+#: client/options.c:132
 msgid "Soundset"
 msgstr "Ses seti"
 
-#: client/options.c:131
+#: client/options.c:133
 msgid ""
 "This is the soundset that will be used.  Changing this is the same as using "
 "the -S command-line parameter."
 msgstr ""
 
-#: client/options.c:136
+#: client/options.c:138
 msgid "Sound plugin"
 msgstr "Ses eklentisi"
 
-#: client/options.c:137
+#: client/options.c:139
 msgid ""
 "If you have a problem with sound, try changing the sound plugin.  The new "
 "plugin won't take effect until you restart Freeciv.  Changing this is the "
 "same as using the -P command-line option."
 msgstr ""
 
-#: client/options.c:142 client/gui-sdl/gui_main.c:162
+#: client/options.c:144 client/gui-sdl/gui_main.c:162
 msgid "Theme"
 msgstr "Tema"
 
-#: client/options.c:143
+#: client/options.c:145
 msgid "By changing this option you change the active theme."
 msgstr "Bu ayarla geçerli temayı değiştirebilirsiniz."
 
-#: client/options.c:146
+#: client/options.c:148
 msgid "Tileset"
 msgstr "Arazi seti"
 
-#: client/options.c:147
+#: client/options.c:149
 msgid ""
 "By changing this option you change the active tileset. This is the same as "
 "using the -t command-line parameter."
 msgstr ""
 
-#: client/options.c:154
+#: client/options.c:156
 msgid "Solid unit background color"
 msgstr "Mat birim arkaplanı"
 
-#: client/options.c:155
+#: client/options.c:157
 msgid ""
 "Setting this option will cause units on the map view to be drawn with a "
 "solid background color instead of the flag backdrop."
 msgstr ""
 
-#: client/options.c:159 client/gui-sdl/optiondlg.c:960
+#: client/options.c:161 client/gui-sdl/optiondlg.c:960
 msgid "Sound bell at new turn"
 msgstr "Sıra gelince zil çal"
 
-#: client/options.c:160
+#: client/options.c:162
 msgid ""
 "Set this option to have a \"bell\" event be generated at the start of a new "
 "turn.  You can control the behavior of the \"bell\" event by editing the "
 "message options."
 msgstr ""
 
-#: client/options.c:166
+#: client/options.c:168
 msgid "Unit movement animation time (milliseconds)"
 msgstr "Birim hareketinin süresi (milisaniye)"
 
-#: client/options.c:167
+#: client/options.c:169
 msgid ""
 "This option controls how long unit \"animation\" takes when a unit moves on "
 "the map view.  Set it to 0 to disable animation entirely."
 msgstr ""
 
-#: client/options.c:172
+#: client/options.c:174
 msgid "Mapview recentering time (milliseconds)"
 msgstr "Harita ortalama süresi (milisaniye)"
 
-#: client/options.c:173
+#: client/options.c:175
 msgid ""
 "When the map view is recentered, it will slide smoothly over the map to its "
 "new position.  This option controls how long this slide lasts.  Set it to 0 "
 "to disable mapview sliding entirely."
 msgstr ""
 
-#: client/options.c:178 client/gui-sdl/optiondlg.c:1014
+#: client/options.c:180 client/gui-sdl/optiondlg.c:1014
 msgid "Show combat animation"
 msgstr "Savaş hareketlerini göster"
 
-#: client/options.c:179
+#: client/options.c:181
 msgid ""
 "Disabling this option will turn off combat animation between units on the "
 "mapview."
 msgstr ""
 
-#: client/options.c:182
+#: client/options.c:184
 msgid "Draw the citybar"
 msgstr "Şehir çubuğunu çiz"
 
-#: client/options.c:183
+#: client/options.c:185
 msgid ""
 "Setting this option will display a 'citybar' containing useful information "
 "beneath each city. Disabling this option will display only the city's name "
 "and optionally, production."
 msgstr ""
 
-#: client/options.c:189
+#: client/options.c:191
 msgid "Show icons in the technology tree"
 msgstr "Teknoloji ağacında simgeler göster"
 
-#: client/options.c:190
+#: client/options.c:192
 msgid ""
 "Setting this option will display icons on the technology tree diagram. "
 "Turning this option off makes the technology tree more compact."
 msgstr ""
 
-#: client/options.c:195
+#: client/options.c:197
 msgid "Draw shield graphics for units"
 msgstr "Birimler için kalkan resmini çiz"
 
-#: client/options.c:196
+#: client/options.c:198
 msgid ""
 "Setting this option will draw a shield icon as the flags on units.  If "
 "unset, the full flag will be drawn."
 msgstr ""
 
-#: client/options.c:200
+#: client/options.c:202
 msgid "Manual Turn Done in AI Mode"
 msgstr "YZ Modundayken Sırayı Elle Geçir"
 
-#: client/options.c:201
+#: client/options.c:203
 msgid ""
 "Disable this option if you do not want to press the Turn Done button "
 "manually when watching an AI player."
 msgstr ""
 
-#: client/options.c:205 client/gui-sdl/optiondlg.c:1121
+#: client/options.c:207 client/gui-sdl/optiondlg.c:1121
 msgid "Auto Center on Units"
 msgstr "Birimleri Otomatik Ortala"
 
-#: client/options.c:206
+#: client/options.c:208
 msgid ""
 "Set this option to have the active unit centered automatically when the unit "
 "focus changes."
 msgstr ""
 
-#: client/options.c:209 client/gui-sdl/optiondlg.c:1147
+#: client/options.c:211 client/gui-sdl/optiondlg.c:1147
 msgid "Auto Center on Combat"
 msgstr "Savaşı Otomatik Ortala"
 
-#: client/options.c:210
+#: client/options.c:212
 msgid ""
 "Set this option to have any combat be centered automatically.  Disabled this "
 "will speed up the time between turns but may cause you to miss combat "
 "entirely."
 msgstr ""
 
-#: client/options.c:215 client/gui-sdl/optiondlg.c:1174
+#: client/options.c:217 client/gui-sdl/optiondlg.c:1174
 msgid "Focus on Awakened Units"
 msgstr "Uyanmış Birimlere Odaklan"
 
-#: client/options.c:216
+#: client/options.c:218
 msgid "Set this option to have newly awoken units be focused automatically."
 msgstr ""
 
-#: client/options.c:219
+#: client/options.c:221
 msgid "Allow goto into the unknown"
 msgstr "Bilinmeyen bölgelere git komutu verilebilsin"
 
-#: client/options.c:220
+#: client/options.c:222
 msgid ""
 "Setting this option will make the game consider moving into unknown tiles.  "
 "If not, then goto routes will detour around or be blocked by unknown tiles."
 msgstr ""
 
-#: client/options.c:224
+#: client/options.c:226
 msgid "Center map when Popup city"
 msgstr "Şehir penceresi açılınca haritayı ortala"
 
-#: client/options.c:225
+#: client/options.c:227
 msgid ""
 "Setting this option makes the mapview center on a city when its city dialog "
 "is popped up."
 msgstr ""
 
-#: client/options.c:228
+#: client/options.c:230
 msgid "Concise City Production"
 msgstr "Şehir Üretimini Özetle Göster"
 
-#: client/options.c:229
+#: client/options.c:231
 msgid ""
 "Set this option to make the city production (as shown in the city dialog) to "
 "be more compact."
 msgstr ""
 
-#: client/options.c:232 client/gui-sdl/optiondlg.c:1252
+#: client/options.c:234 client/gui-sdl/optiondlg.c:1252
 msgid "End Turn when done moving"
 msgstr "Yapılacak hareket kalmayınca sırayı geçir"
 
-#: client/options.c:233
+#: client/options.c:235
 msgid ""
 "Setting this option makes your turn end automatically when all your units "
 "are done moving."
 msgstr ""
 
-#: client/options.c:236 client/gui-sdl/optiondlg.c:1226
+#: client/options.c:238 client/gui-sdl/optiondlg.c:1226
 msgid "Prompt for city names"
 msgstr "Şehir kurarken isim sor"
 
-#: client/options.c:237
+#: client/options.c:239
 msgid ""
 "Disabling this option will make the names of newly founded cities chosen "
 "automatically by the server."
 msgstr ""
 
-#: client/options.c:240 client/gui-sdl/optiondlg.c:1200
+#: client/options.c:242 client/gui-sdl/optiondlg.c:1200
 msgid "Pop up city dialog for new cities"
 msgstr "Yeni şehir kurulunca şehir penceresini göster"
 
-#: client/options.c:241
+#: client/options.c:243
 msgid ""
 "Setting this option will pop up a newly-founded city's city dialog "
 "automatically."
 msgstr ""
 
-#: client/options.c:246
+#: client/options.c:248
 msgid "Background layer"
 msgstr "Arka plan katmanı"
 
-#: client/options.c:247
+#: client/options.c:249
 msgid "The background layer of the overview shows just ocean and land."
 msgstr ""
 
-#: client/options.c:250
+#: client/options.c:252
 msgid "Terrain relief map layer"
 msgstr "Arazi türü katmanı"
 
-#: client/options.c:251
+#: client/options.c:253
 msgid "The relief layer shows all terrains on the map."
 msgstr ""
 
-#: client/options.c:254
+#: client/options.c:256
 msgid "Borders layer"
 msgstr "Sınırlar katmanı"
 
-#: client/options.c:255
+#: client/options.c:257
 msgid ""
 "The borders layer of the overview shows which tiles are owned by each player."
 msgstr ""
 
-#: client/options.c:259
+#: client/options.c:261
 msgid "Units layer"
 msgstr "Birimler katmanı"
 
-#: client/options.c:260
+#: client/options.c:262
 msgid "Enabling this will draw units on the overview."
 msgstr ""
 
-#: client/options.c:263
+#: client/options.c:265
 msgid "Cities layer"
 msgstr "Şehirler katmanı"
 
-#: client/options.c:264
+#: client/options.c:266
 msgid "Enabling this will draw cities on the overview."
 msgstr ""
 
-#: client/options.c:267
+#: client/options.c:269
 msgid "Overview fog of war"
 msgstr "Savaş sisi genel görünümde olsun"
 
-#: client/options.c:268
+#: client/options.c:270
 msgid "Enabling this will show fog of war on the overview."
 msgstr ""
 
-#: client/options.c:486
+#: client/options.c:488
 msgid "If you add a preset by hand, also update \"number_of_presets\""
 msgstr ""
 
-#: client/options.c:514
+#: client/options.c:516
 msgid "Cannot find your home directory"
 msgstr "Ev dizininiz bulunamadı"
 
-#: client/options.c:663 client/options.c:794
+#: client/options.c:665 client/options.c:796
 msgid "Save failed, cannot find a filename."
 msgstr "Kayıt başarısız, dosya adı bulunamadı."
 
-#: client/options.c:676 client/options.c:857
+#: client/options.c:678 client/options.c:859
 #, c-format
 msgid "Save failed, cannot write to file %s"
 msgstr ""
 
-#: client/options.c:678 client/options.c:860
+#: client/options.c:680 client/options.c:862
 #, c-format
 msgid "Saved settings to file %s"
 msgstr "Ayarlar %s dosyasına yazıldı"
@@ -9006,21 +9016,21 @@ msgstr ""
 msgid "Server capability string: %s"
 msgstr ""
 
-#: client/packhand.c:851
+#: client/packhand.c:850
 #, c-format
 msgid "Start of turn %d"
 msgstr "%d. sıranın başlangıcı"
 
-#: client/packhand.c:1594
+#: client/packhand.c:1598
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "YZ Modu şimdi %s."
 
-#: client/packhand.c:1595
+#: client/packhand.c:1599
 msgid "ON"
 msgstr "AÇIK"
 
-#: client/packhand.c:1595
+#: client/packhand.c:1599
 msgid "OFF"
 msgstr "KAPALI"
 
@@ -9052,12 +9062,12 @@ msgid "Username"
 msgstr "Kullanıcı adı"
 
 #: client/plrdlg_common.c:251 client/gui-gtk-2.0/dialogs.c:650
-#: client/gui-gtk-2.0/pages.c:2080
+#: client/gui-gtk-2.0/pages.c:2082
 msgid "Flag"
 msgstr "Bayrak"
 
 #: client/plrdlg_common.c:252 client/gui-gtk-2.0/dialogs.c:654
-#: client/gui-gtk-2.0/pages.c:1531 client/gui-gtk-2.0/pages.c:2082
+#: client/gui-gtk-2.0/pages.c:1533 client/gui-gtk-2.0/pages.c:2084
 #: client/gui-sdl/repodlgs.c:2063 client/gui-win32/connectdlg.c:988
 #: client/gui-win32/dialogs.c:542 client/gui-win32/plrdlg.c:335
 msgid "Nation"
@@ -9071,7 +9081,7 @@ msgstr "Sınır"
 msgid "Score"
 msgstr "Puan"
 
-#: client/plrdlg_common.c:255 client/gui-gtk-2.0/pages.c:1537
+#: client/plrdlg_common.c:255 client/gui-gtk-2.0/pages.c:1539
 msgid "Team"
 msgstr "Takım"
 
@@ -10162,7 +10172,7 @@ msgstr "Kirlilik:"
 msgid "_Overview"
 msgstr "Ö_zet"
 
-#: client/gui-gtk-2.0/citydlg.c:670 client/gui-gtk-2.0/wldlg.c:1033
+#: client/gui-gtk-2.0/citydlg.c:670 client/gui-gtk-2.0/wldlg.c:1034
 #: client/gui-win32/citydlg.c:1086 client/gui-win32/wldlg.c:801
 #: client/gui-win32/wldlg.c:807
 msgid "Info"
@@ -10423,7 +10433,7 @@ msgstr "_Seç"
 msgid "_Display"
 msgstr "Gös_ter"
 
-#: client/gui-gtk-2.0/cityrep.c:799 client/gui-gtk-2.0/menu.c:802
+#: client/gui-gtk-2.0/cityrep.c:799 client/gui-gtk-2.0/menu.c:808
 #: client/gui-sdl/diplodlg.c:691 client/gui-sdl/optiondlg.c:1800
 #: client/gui-win32/diplodlg.c:611 client/gui-win32/diplodlg.c:663
 #: client/gui-win32/menu.c:350 client/gui-xaw/cityrep.c:228
@@ -10439,9 +10449,9 @@ msgstr "_Odaklan"
 
 #: client/gui-gtk-2.0/cityrep.c:1222 client/gui-gtk-2.0/cityrep.c:1243
 #: client/gui-gtk-2.0/cityrep.c:1262 client/gui-gtk-2.0/cityrep.c:1281
-#: client/gui-gtk-2.0/menu.c:786 client/gui-gtk-2.0/menu.c:788
-#: client/gui-gtk-2.0/menu.c:790 client/gui-gtk-2.0/menu.c:792
-#: client/gui-gtk-2.0/menu.c:794 client/gui-gtk-2.0/menu.c:796
+#: client/gui-gtk-2.0/menu.c:792 client/gui-gtk-2.0/menu.c:794
+#: client/gui-gtk-2.0/menu.c:796 client/gui-gtk-2.0/menu.c:798
+#: client/gui-gtk-2.0/menu.c:800 client/gui-gtk-2.0/menu.c:802
 #: client/gui-sdl/helpdlg.c:297 client/gui-win32/menu.c:342
 #: client/gui-xaw/menu.c:241
 msgid "Improvements"
@@ -10623,8 +10633,8 @@ msgstr "Neyin yağmalanacağını seçin:"
 msgid "Unit"
 msgstr "Birim"
 
-#: client/gui-gtk-2.0/dialogs.c:506 client/gui-gtk-2.0/pages.c:1505
-#: client/gui-gtk-2.0/pages.c:2078 client/gui-gtk-2.0/wldlg.c:1033
+#: client/gui-gtk-2.0/dialogs.c:506 client/gui-gtk-2.0/pages.c:1507
+#: client/gui-gtk-2.0/pages.c:2080 client/gui-gtk-2.0/wldlg.c:1034
 #: client/gui-win32/connectdlg.c:983 client/gui-win32/plrdlg.c:335
 #: manual/civmanual.c:302 data/Freeciv.in:80
 msgid "Name"
@@ -10730,7 +10740,7 @@ msgstr "_Haritalar"
 msgid "_Advances"
 msgstr "_Teknolojiler"
 
-#: client/gui-gtk-2.0/diplodlg.c:324 client/gui-gtk-2.0/menu.c:904
+#: client/gui-gtk-2.0/diplodlg.c:324 client/gui-gtk-2.0/menu.c:910
 #: client/gui-win32/menu.c:399
 msgid "_Cities"
 msgstr "Şe_hirler"
@@ -10916,20 +10926,20 @@ msgstr "Sırayı Geçir"
 msgid "Shift+Return"
 msgstr "Shift+Return"
 
-#: client/gui-gtk-2.0/gui_main.c:1127 client/gui-gtk-2.0/menu.c:764
-#: client/gui-gtk-2.0/menu.c:766 client/gui-gtk-2.0/menu.c:768
-#: client/gui-gtk-2.0/menu.c:770 client/gui-gtk-2.0/menu.c:772
-#: client/gui-gtk-2.0/menu.c:774 client/gui-gtk-2.0/menu.c:776
-#: client/gui-gtk-2.0/menu.c:778 client/gui-gtk-2.0/menu.c:780
-#: client/gui-gtk-2.0/menu.c:782 client/gui-gtk-2.0/menu.c:784
-#: client/gui-gtk-2.0/menu.c:786 client/gui-gtk-2.0/menu.c:788
-#: client/gui-gtk-2.0/menu.c:790 client/gui-gtk-2.0/menu.c:792
-#: client/gui-gtk-2.0/menu.c:794 client/gui-gtk-2.0/menu.c:796
-#: client/gui-gtk-2.0/menu.c:798 client/gui-gtk-2.0/menu.c:800
-#: client/gui-gtk-2.0/menu.c:802 client/gui-gtk-2.0/menu.c:804
-#: client/gui-gtk-2.0/menu.c:806 client/gui-gtk-2.0/menu.c:808
-#: client/gui-gtk-2.0/menu.c:810 client/gui-gtk-2.0/menu.c:812
-#: client/gui-gtk-2.0/menu.c:814 client/gui-gtk-2.0/menu.c:816
+#: client/gui-gtk-2.0/gui_main.c:1127 client/gui-gtk-2.0/menu.c:770
+#: client/gui-gtk-2.0/menu.c:772 client/gui-gtk-2.0/menu.c:774
+#: client/gui-gtk-2.0/menu.c:776 client/gui-gtk-2.0/menu.c:778
+#: client/gui-gtk-2.0/menu.c:780 client/gui-gtk-2.0/menu.c:782
+#: client/gui-gtk-2.0/menu.c:784 client/gui-gtk-2.0/menu.c:786
+#: client/gui-gtk-2.0/menu.c:788 client/gui-gtk-2.0/menu.c:790
+#: client/gui-gtk-2.0/menu.c:792 client/gui-gtk-2.0/menu.c:794
+#: client/gui-gtk-2.0/menu.c:796 client/gui-gtk-2.0/menu.c:798
+#: client/gui-gtk-2.0/menu.c:800 client/gui-gtk-2.0/menu.c:802
+#: client/gui-gtk-2.0/menu.c:804 client/gui-gtk-2.0/menu.c:806
+#: client/gui-gtk-2.0/menu.c:808 client/gui-gtk-2.0/menu.c:810
+#: client/gui-gtk-2.0/menu.c:812 client/gui-gtk-2.0/menu.c:814
+#: client/gui-gtk-2.0/menu.c:816 client/gui-gtk-2.0/menu.c:818
+#: client/gui-gtk-2.0/menu.c:820 client/gui-gtk-2.0/menu.c:822
 #: data/Freeciv.in:2028
 msgid "View"
 msgstr "Görünüm"
@@ -10954,20 +10964,20 @@ msgstr ""
 msgid "Not _ready"
 msgstr "Hazır _Değil"
 
-#: client/gui-gtk-2.0/gui_main.c:1502 client/gui-gtk-2.0/pages.c:1600
+#: client/gui-gtk-2.0/gui_main.c:1502 client/gui-gtk-2.0/pages.c:1602
 msgid "_Ready"
 msgstr "_Hazır"
 
 #: client/gui-gtk-2.0/gui_main.c:1506 client/gui-gtk-2.0/gui_main.c:1512
-#: client/gui-gtk-2.0/pages.c:2127
+#: client/gui-gtk-2.0/pages.c:2129
 msgid "_Start"
 msgstr "_Başlat"
 
-#: client/gui-gtk-2.0/gui_main.c:1516 client/gui-gtk-2.0/pages.c:1590
+#: client/gui-gtk-2.0/gui_main.c:1516 client/gui-gtk-2.0/pages.c:1592
 msgid "Pick _Nation"
 msgstr "Ulus _Seç"
 
-#: client/gui-gtk-2.0/gui_main.c:1522 client/gui-gtk-2.0/pages.c:1595
+#: client/gui-gtk-2.0/gui_main.c:1522 client/gui-gtk-2.0/pages.c:1597
 msgid "_Observe"
 msgstr "İ_zle"
 
@@ -10999,15 +11009,15 @@ msgstr "<Zor YZ>"
 msgid "Random"
 msgstr "Rastgele"
 
-#: client/gui-gtk-2.0/gui_main.c:1630
+#: client/gui-gtk-2.0/gui_main.c:1634
 msgid "Observer"
 msgstr "Gözleyici"
 
-#: client/gui-gtk-2.0/gui_main.c:1630
+#: client/gui-gtk-2.0/gui_main.c:1634
 msgid "Detached"
 msgstr "Serbest"
 
-#: client/gui-gtk-2.0/gui_main.c:1887
+#: client/gui-gtk-2.0/gui_main.c:1891
 msgid "Are you sure you want to quit?"
 msgstr "Çıkmak istediğinizden emin misiniz?"
 
@@ -11263,443 +11273,443 @@ msgstr "Daha iyi sis sadece gerçek renkte çalışır.  Kapatılıyor"
 msgid "Leaving a local game will end it!"
 msgstr "Yerel bir oyundan çıkarsanız oyun bitecektir!"
 
-#: client/gui-gtk-2.0/menu.c:694 client/gui-win32/menu.c:303
+#: client/gui-gtk-2.0/menu.c:700 client/gui-win32/menu.c:303
 msgid "_Game"
 msgstr "_Oyun"
 
-#: client/gui-gtk-2.0/menu.c:696 client/gui-gtk-2.0/menu.c:698
-#: client/gui-gtk-2.0/menu.c:700 client/gui-gtk-2.0/menu.c:702
-#: client/gui-gtk-2.0/menu.c:704 client/gui-gtk-2.0/menu.c:706
-#: client/gui-gtk-2.0/menu.c:708 client/gui-gtk-2.0/menu.c:711
-#: client/gui-gtk-2.0/menu.c:714 client/gui-gtk-2.0/menu.c:716
-#: client/gui-gtk-2.0/menu.c:718 client/gui-gtk-2.0/menu.c:720
-#: client/gui-gtk-2.0/menu.c:722 client/gui-gtk-2.0/menu.c:724
-#: client/gui-gtk-2.0/menu.c:727 client/gui-gtk-2.0/menu.c:730
-#: client/gui-gtk-2.0/menu.c:732 client/gui-gtk-2.0/menu.c:734
+#: client/gui-gtk-2.0/menu.c:702 client/gui-gtk-2.0/menu.c:704
+#: client/gui-gtk-2.0/menu.c:706 client/gui-gtk-2.0/menu.c:708
+#: client/gui-gtk-2.0/menu.c:710 client/gui-gtk-2.0/menu.c:712
+#: client/gui-gtk-2.0/menu.c:714 client/gui-gtk-2.0/menu.c:717
+#: client/gui-gtk-2.0/menu.c:720 client/gui-gtk-2.0/menu.c:722
+#: client/gui-gtk-2.0/menu.c:724 client/gui-gtk-2.0/menu.c:726
+#: client/gui-gtk-2.0/menu.c:728 client/gui-gtk-2.0/menu.c:730
+#: client/gui-gtk-2.0/menu.c:733 client/gui-gtk-2.0/menu.c:736
+#: client/gui-gtk-2.0/menu.c:738 client/gui-gtk-2.0/menu.c:740
 #: data/Freeciv.in:2026
 msgid "Game"
 msgstr "Oyun"
 
-#: client/gui-gtk-2.0/menu.c:698 client/gui-gtk-2.0/menu.c:700
-#: client/gui-gtk-2.0/menu.c:702
+#: client/gui-gtk-2.0/menu.c:704 client/gui-gtk-2.0/menu.c:706
+#: client/gui-gtk-2.0/menu.c:708
 msgid "_Chat"
 msgstr "_Sohbet"
 
-#: client/gui-gtk-2.0/menu.c:700 client/gui-win32/menu.c:314
+#: client/gui-gtk-2.0/menu.c:706 client/gui-win32/menu.c:314
 msgid "_Clear Log"
 msgstr "Kütüğü Si_l"
 
-#: client/gui-gtk-2.0/menu.c:702 client/gui-win32/menu.c:313
+#: client/gui-gtk-2.0/menu.c:708 client/gui-win32/menu.c:313
 msgid "_Write Log"
 msgstr "Kütüğü _Yaz"
 
-#: client/gui-gtk-2.0/menu.c:704 client/gui-win32/menu.c:304
+#: client/gui-gtk-2.0/menu.c:710 client/gui-win32/menu.c:304
 msgid "Local _Options"
 msgstr "_Yerel Ayarlar"
 
-#: client/gui-gtk-2.0/menu.c:706 client/gui-win32/menu.c:305
+#: client/gui-gtk-2.0/menu.c:712 client/gui-win32/menu.c:305
 msgid "_Message Options"
 msgstr "_Mesaj Ayarları"
 
-#: client/gui-gtk-2.0/menu.c:711
+#: client/gui-gtk-2.0/menu.c:717
 msgid "_Reload Tileset"
 msgstr "Arazi Setini _Yeniden Yükle"
 
-#: client/gui-gtk-2.0/menu.c:714
+#: client/gui-gtk-2.0/menu.c:720
 msgid "Save Options on _Exit"
 msgstr "Çıkışta Aya_rları Kaydet"
 
-#: client/gui-gtk-2.0/menu.c:716
+#: client/gui-gtk-2.0/menu.c:722
 msgid "Sa_ve Options"
 msgstr "_Ayarları Kaydet"
 
-#: client/gui-gtk-2.0/menu.c:720 client/gui-win32/menu.c:308
+#: client/gui-gtk-2.0/menu.c:726 client/gui-win32/menu.c:308
 msgid "Server O_ptions"
 msgstr "S_unucu Ayarları"
 
-#: client/gui-gtk-2.0/menu.c:724 client/gui-win32/menu.c:310
+#: client/gui-gtk-2.0/menu.c:730 client/gui-win32/menu.c:310
 msgid "_Save Game"
 msgstr "_Oyunu Kaydet"
 
-#: client/gui-gtk-2.0/menu.c:727 client/gui-win32/menu.c:311
+#: client/gui-gtk-2.0/menu.c:733 client/gui-win32/menu.c:311
 msgid "Save Game _As..."
 msgstr "Oyunu _Farklı Kaydet"
 
-#: client/gui-gtk-2.0/menu.c:732
+#: client/gui-gtk-2.0/menu.c:738
 msgid "_Leave"
 msgstr "Ka_pat"
 
-#: client/gui-gtk-2.0/menu.c:734 client/gui-win32/menu.c:317
+#: client/gui-gtk-2.0/menu.c:740 client/gui-win32/menu.c:317
 msgid "_Quit"
 msgstr "Çı_k"
 
-#: client/gui-gtk-2.0/menu.c:739 client/gui-win32/menu.c:321
+#: client/gui-gtk-2.0/menu.c:745 client/gui-win32/menu.c:321
 msgid "Gov_ernment"
 msgstr "_Hükümet"
 
-#: client/gui-gtk-2.0/menu.c:741 client/gui-gtk-2.0/menu.c:743
-#: client/gui-gtk-2.0/menu.c:745 client/gui-gtk-2.0/menu.c:747
-#: client/gui-gtk-2.0/menu.c:749 client/gui-gtk-2.0/menu.c:751
-#: client/gui-gtk-2.0/menu.c:753 client/gui-gtk-2.0/menu.c:755
+#: client/gui-gtk-2.0/menu.c:747 client/gui-gtk-2.0/menu.c:749
+#: client/gui-gtk-2.0/menu.c:751 client/gui-gtk-2.0/menu.c:753
+#: client/gui-gtk-2.0/menu.c:755 client/gui-gtk-2.0/menu.c:757
+#: client/gui-gtk-2.0/menu.c:759 client/gui-gtk-2.0/menu.c:761
 #: client/gui-xaw/menu.c:248 data/Freeciv.in:2027 data/helpdata.txt:1320
 msgid "Government"
 msgstr "Hükümet"
 
-#: client/gui-gtk-2.0/menu.c:743 client/gui-win32/menu.c:322
+#: client/gui-gtk-2.0/menu.c:749 client/gui-win32/menu.c:322
 msgid "_Tax Rates"
 msgstr "_Vergi Oranları"
 
-#: client/gui-gtk-2.0/menu.c:747 client/gui-win32/menu.c:324
+#: client/gui-gtk-2.0/menu.c:753 client/gui-win32/menu.c:324
 msgid "_Find City"
 msgstr "Ş_ehir Bul"
 
-#: client/gui-gtk-2.0/menu.c:749 client/gui-win32/menu.c:325
+#: client/gui-gtk-2.0/menu.c:755 client/gui-win32/menu.c:325
 msgid "_Worklists"
 msgstr "İş _Listeleri"
 
-#: client/gui-gtk-2.0/menu.c:753 client/gui-gtk-2.0/menu.c:755
-#: client/gui-gtk-2.0/menu.c:758 client/gui-win32/menu.c:327
+#: client/gui-gtk-2.0/menu.c:759 client/gui-gtk-2.0/menu.c:761
+#: client/gui-gtk-2.0/menu.c:764 client/gui-win32/menu.c:327
 msgid "_Change Government"
 msgstr "Yönetimi _Değiştir"
 
-#: client/gui-gtk-2.0/menu.c:755
+#: client/gui-gtk-2.0/menu.c:761
 msgid "_Revolution..."
 msgstr "De_vrim..."
 
-#: client/gui-gtk-2.0/menu.c:758 client/gui-gtk-2.0/menu.c:964
+#: client/gui-gtk-2.0/menu.c:764 client/gui-gtk-2.0/menu.c:970
 #: client/gui-win32/menu.c:431
 msgid "_Government"
 msgstr "_Hükümet"
 
-#: client/gui-gtk-2.0/menu.c:762 client/gui-gtk-2.0/menu.c:910
+#: client/gui-gtk-2.0/menu.c:768 client/gui-gtk-2.0/menu.c:916
 #: client/gui-win32/menu.c:334
 msgid "_View"
 msgstr "_Görünüm"
 
-#: client/gui-gtk-2.0/menu.c:766
+#: client/gui-gtk-2.0/menu.c:772
 msgid "City Outlines"
 msgstr "Şehir Sınır_ları"
 
-#: client/gui-gtk-2.0/menu.c:768 client/gui-win32/menu.c:335
+#: client/gui-gtk-2.0/menu.c:774 client/gui-win32/menu.c:335
 msgid "Map _Grid"
 msgstr "_Harita Izgarası"
 
-#: client/gui-gtk-2.0/menu.c:770 client/gui-win32/menu.c:336
+#: client/gui-gtk-2.0/menu.c:776 client/gui-win32/menu.c:336
 msgid "National _Borders"
 msgstr "_Milli Sınırlar"
 
-#: client/gui-gtk-2.0/menu.c:772 client/gui-win32/menu.c:337
+#: client/gui-gtk-2.0/menu.c:778 client/gui-win32/menu.c:337
 msgid "City _Names"
 msgstr "Şehir _Adları"
 
-#: client/gui-gtk-2.0/menu.c:774 client/gui-win32/menu.c:338
+#: client/gui-gtk-2.0/menu.c:780 client/gui-win32/menu.c:338
 msgid "City G_rowth"
 msgstr "Şehir _Büyüme"
 
-#: client/gui-gtk-2.0/menu.c:776 client/gui-win32/menu.c:339
+#: client/gui-gtk-2.0/menu.c:782 client/gui-win32/menu.c:339
 msgid "City _Productions"
 msgstr "Şe_hir Üretimi"
 
-#: client/gui-gtk-2.0/menu.c:778 client/gui-sdl/optiondlg.c:1719
+#: client/gui-gtk-2.0/menu.c:784 client/gui-sdl/optiondlg.c:1719
 msgid "Draw city worker map grid"
 msgstr "Şehir çalışanlarını harita ızgarasında göster"
 
-#: client/gui-gtk-2.0/menu.c:782 client/gui-sdl/optiondlg.c:1635
+#: client/gui-gtk-2.0/menu.c:788 client/gui-sdl/optiondlg.c:1635
 #: client/gui-win32/menu.c:340 client/gui-xaw/menu.c:148
 #: client/gui-xaw/menu.c:246 manual/civmanual.c:220 data/helpdata.txt:1220
 msgid "Terrain"
 msgstr "Arazi"
 
-#: client/gui-gtk-2.0/menu.c:784 client/gui-win32/menu.c:341
+#: client/gui-gtk-2.0/menu.c:790 client/gui-win32/menu.c:341
 #: client/gui-xaw/menu.c:149
 msgid "Coastline"
 msgstr "Sahil"
 
-#: client/gui-gtk-2.0/menu.c:790 client/gui-win32/menu.c:343
+#: client/gui-gtk-2.0/menu.c:796 client/gui-win32/menu.c:343
 msgid "Roads & Rails"
 msgstr "Yol & Ray"
 
-#: client/gui-gtk-2.0/menu.c:794 client/gui-sdl/optiondlg.c:1933
+#: client/gui-gtk-2.0/menu.c:800 client/gui-sdl/optiondlg.c:1933
 #: client/gui-win32/menu.c:345 client/gui-xaw/menu.c:152
 msgid "Mines"
 msgstr "Mayınlar"
 
-#: client/gui-gtk-2.0/menu.c:796 client/gui-win32/menu.c:346
+#: client/gui-gtk-2.0/menu.c:802 client/gui-win32/menu.c:346
 msgid "Fortress & Airbase"
 msgstr "Kale & Hava Üssü"
 
-#: client/gui-gtk-2.0/menu.c:798 client/gui-win32/menu.c:348
+#: client/gui-gtk-2.0/menu.c:804 client/gui-win32/menu.c:348
 #: client/gui-xaw/menu.c:154
 msgid "Specials"
 msgstr "Özellikler"
 
-#: client/gui-gtk-2.0/menu.c:800 client/gui-win32/menu.c:349
+#: client/gui-gtk-2.0/menu.c:806 client/gui-win32/menu.c:349
 #: client/gui-xaw/menu.c:155
 msgid "Pollution & Fallout"
 msgstr "Kirlilik & Nükleer Serpinti"
 
-#: client/gui-gtk-2.0/menu.c:806 client/gui-win32/menu.c:352
+#: client/gui-gtk-2.0/menu.c:812 client/gui-win32/menu.c:352
 #: client/gui-xaw/menu.c:158
 msgid "Focus Unit"
 msgstr "_Birime Odaklan"
 
-#: client/gui-gtk-2.0/menu.c:808 client/gui-sdl/optiondlg.c:1854
+#: client/gui-gtk-2.0/menu.c:814 client/gui-sdl/optiondlg.c:1854
 #: client/gui-win32/menu.c:353 client/gui-xaw/menu.c:159
 msgid "Fog of War"
 msgstr "Savaşın Dumanı"
 
-#: client/gui-gtk-2.0/menu.c:812
+#: client/gui-gtk-2.0/menu.c:818
 msgid "_Full Screen"
 msgstr "_Tam Ekran"
 
-#: client/gui-gtk-2.0/menu.c:816
+#: client/gui-gtk-2.0/menu.c:822
 msgid "_Center View"
 msgstr "Görüntüyü _Ortala"
 
-#: client/gui-gtk-2.0/menu.c:819 client/gui-win32/menu.c:358
+#: client/gui-gtk-2.0/menu.c:825 client/gui-win32/menu.c:358
 msgid "_Orders"
 msgstr "_Komutlar"
 
-#: client/gui-gtk-2.0/menu.c:821 client/gui-gtk-2.0/menu.c:823
-#: client/gui-gtk-2.0/menu.c:825 client/gui-gtk-2.0/menu.c:827
-#: client/gui-gtk-2.0/menu.c:829 client/gui-gtk-2.0/menu.c:831
-#: client/gui-gtk-2.0/menu.c:833 client/gui-gtk-2.0/menu.c:835
-#: client/gui-gtk-2.0/menu.c:837 client/gui-gtk-2.0/menu.c:839
-#: client/gui-gtk-2.0/menu.c:841 client/gui-gtk-2.0/menu.c:843
-#: client/gui-gtk-2.0/menu.c:845 client/gui-gtk-2.0/menu.c:847
-#: client/gui-gtk-2.0/menu.c:849 client/gui-gtk-2.0/menu.c:851
-#: client/gui-gtk-2.0/menu.c:853 client/gui-gtk-2.0/menu.c:855
-#: client/gui-gtk-2.0/menu.c:857 client/gui-gtk-2.0/menu.c:859
-#: client/gui-gtk-2.0/menu.c:861 client/gui-gtk-2.0/menu.c:863
-#: client/gui-gtk-2.0/menu.c:865 client/gui-gtk-2.0/menu.c:867
-#: client/gui-gtk-2.0/menu.c:869 client/gui-gtk-2.0/menu.c:871
-#: client/gui-gtk-2.0/menu.c:873 client/gui-gtk-2.0/menu.c:875
-#: client/gui-gtk-2.0/menu.c:877 client/gui-gtk-2.0/menu.c:879
-#: client/gui-gtk-2.0/menu.c:881 client/gui-gtk-2.0/menu.c:883
-#: client/gui-gtk-2.0/menu.c:885 client/gui-gtk-2.0/menu.c:887
-#: client/gui-gtk-2.0/menu.c:889 client/gui-gtk-2.0/menu.c:891
-#: client/gui-gtk-2.0/menu.c:893 client/gui-gtk-2.0/menu.c:895
-#: client/gui-gtk-2.0/menu.c:897 data/Freeciv.in:2029
+#: client/gui-gtk-2.0/menu.c:827 client/gui-gtk-2.0/menu.c:829
+#: client/gui-gtk-2.0/menu.c:831 client/gui-gtk-2.0/menu.c:833
+#: client/gui-gtk-2.0/menu.c:835 client/gui-gtk-2.0/menu.c:837
+#: client/gui-gtk-2.0/menu.c:839 client/gui-gtk-2.0/menu.c:841
+#: client/gui-gtk-2.0/menu.c:843 client/gui-gtk-2.0/menu.c:845
+#: client/gui-gtk-2.0/menu.c:847 client/gui-gtk-2.0/menu.c:849
+#: client/gui-gtk-2.0/menu.c:851 client/gui-gtk-2.0/menu.c:853
+#: client/gui-gtk-2.0/menu.c:855 client/gui-gtk-2.0/menu.c:857
+#: client/gui-gtk-2.0/menu.c:859 client/gui-gtk-2.0/menu.c:861
+#: client/gui-gtk-2.0/menu.c:863 client/gui-gtk-2.0/menu.c:865
+#: client/gui-gtk-2.0/menu.c:867 client/gui-gtk-2.0/menu.c:869
+#: client/gui-gtk-2.0/menu.c:871 client/gui-gtk-2.0/menu.c:873
+#: client/gui-gtk-2.0/menu.c:875 client/gui-gtk-2.0/menu.c:877
+#: client/gui-gtk-2.0/menu.c:879 client/gui-gtk-2.0/menu.c:881
+#: client/gui-gtk-2.0/menu.c:883 client/gui-gtk-2.0/menu.c:885
+#: client/gui-gtk-2.0/menu.c:887 client/gui-gtk-2.0/menu.c:889
+#: client/gui-gtk-2.0/menu.c:891 client/gui-gtk-2.0/menu.c:893
+#: client/gui-gtk-2.0/menu.c:895 client/gui-gtk-2.0/menu.c:897
+#: client/gui-gtk-2.0/menu.c:899 client/gui-gtk-2.0/menu.c:901
+#: client/gui-gtk-2.0/menu.c:903 data/Freeciv.in:2029
 msgid "Orders"
 msgstr "Komutlar"
 
-#: client/gui-gtk-2.0/menu.c:823 client/gui-gtk-2.0/menu.c:1429
+#: client/gui-gtk-2.0/menu.c:829 client/gui-gtk-2.0/menu.c:1444
 #: client/gui-win32/menu.c:359
 msgid "_Build City"
 msgstr "Şehir İnşa _Et"
 
-#: client/gui-gtk-2.0/menu.c:825 client/gui-gtk-2.0/menu.c:1451
-#: client/gui-gtk-2.0/menu.c:1457 client/gui-win32/menu.c:360
+#: client/gui-gtk-2.0/menu.c:831 client/gui-gtk-2.0/menu.c:1466
+#: client/gui-gtk-2.0/menu.c:1472 client/gui-win32/menu.c:360
 msgid "Build _Road"
 msgstr "_Yol Yap"
 
-#: client/gui-gtk-2.0/menu.c:827 client/gui-gtk-2.0/menu.c:1345
+#: client/gui-gtk-2.0/menu.c:833 client/gui-gtk-2.0/menu.c:1360
 #: client/gui-win32/menu.c:361
 msgid "Build _Irrigation"
 msgstr "_Sulama Yap"
 
-#: client/gui-gtk-2.0/menu.c:829 client/gui-gtk-2.0/menu.c:1346
+#: client/gui-gtk-2.0/menu.c:835 client/gui-gtk-2.0/menu.c:1361
 #: client/gui-win32/menu.c:362
 msgid "Build _Mine"
 msgstr "_Maden Yap"
 
-#: client/gui-gtk-2.0/menu.c:831 client/gui-gtk-2.0/menu.c:1347
+#: client/gui-gtk-2.0/menu.c:837 client/gui-gtk-2.0/menu.c:1362
 msgid "Transf_orm Terrain"
 msgstr "Araziyi _Dönüştür"
 
-#: client/gui-gtk-2.0/menu.c:833 client/gui-gtk-2.0/menu.c:1493
+#: client/gui-gtk-2.0/menu.c:839 client/gui-gtk-2.0/menu.c:1508
 #: client/gui-win32/menu.c:364
 msgid "Build _Fortress"
 msgstr "_Kale Yap"
 
-#: client/gui-gtk-2.0/menu.c:835 client/gui-win32/menu.c:365
+#: client/gui-gtk-2.0/menu.c:841 client/gui-win32/menu.c:365
 msgid "Build Airbas_e"
 msgstr "_Hava Üssü Yap"
 
-#: client/gui-gtk-2.0/menu.c:837 client/gui-gtk-2.0/menu.c:1499
+#: client/gui-gtk-2.0/menu.c:843 client/gui-gtk-2.0/menu.c:1514
 #: client/gui-win32/menu.c:366
 msgid "Clean _Pollution"
 msgstr "Kirliliği _Temizle"
 
-#: client/gui-gtk-2.0/menu.c:839 client/gui-win32/menu.c:367
+#: client/gui-gtk-2.0/menu.c:845 client/gui-win32/menu.c:367
 msgid "Clean _Nuclear Fallout"
 msgstr "_Nükleer Serpintiyi Temizle"
 
-#: client/gui-gtk-2.0/menu.c:843 client/gui-win32/menu.c:369
+#: client/gui-gtk-2.0/menu.c:849 client/gui-win32/menu.c:369
 msgid "_Sentry"
 msgstr "_Nöbet Tut"
 
-#: client/gui-gtk-2.0/menu.c:849 client/gui-win32/menu.c:372
+#: client/gui-gtk-2.0/menu.c:855 client/gui-win32/menu.c:372
 msgid "Make _Homecity"
 msgstr "Memleketi Ya_p"
 
-#: client/gui-gtk-2.0/menu.c:851 client/gui-win32/menu.c:373
+#: client/gui-gtk-2.0/menu.c:857 client/gui-win32/menu.c:373
 msgid "_Load"
 msgstr "Araca _Bindir"
 
-#: client/gui-gtk-2.0/menu.c:853
+#: client/gui-gtk-2.0/menu.c:859
 msgid "_Unload Transporter"
 msgstr "_Araçtan İndir"
 
-#: client/gui-gtk-2.0/menu.c:855 client/gui-win32/menu.c:374
+#: client/gui-gtk-2.0/menu.c:861 client/gui-win32/menu.c:374
 msgid "_Unload"
 msgstr "B_oşalt"
 
-#: client/gui-gtk-2.0/menu.c:857 client/gui-win32/menu.c:375
+#: client/gui-gtk-2.0/menu.c:863 client/gui-win32/menu.c:375
 msgid "Wake up o_thers"
 msgstr "_Diğerlerini Uyandır"
 
-#: client/gui-gtk-2.0/menu.c:861
+#: client/gui-gtk-2.0/menu.c:867
 msgid "_Auto Settler"
 msgstr "Oto-Göç_men"
 
-#: client/gui-gtk-2.0/menu.c:863 client/gui-win32/menu.c:378
+#: client/gui-gtk-2.0/menu.c:869 client/gui-win32/menu.c:378
 msgid "Auto E_xplore"
 msgstr "Otomatik _Keşif"
 
-#: client/gui-gtk-2.0/menu.c:865 client/gui-gtk-2.0/menu.c:867
-#: client/gui-gtk-2.0/menu.c:869
+#: client/gui-gtk-2.0/menu.c:871 client/gui-gtk-2.0/menu.c:873
+#: client/gui-gtk-2.0/menu.c:875
 msgid "_Connect"
 msgstr "_Bağla"
 
-#: client/gui-gtk-2.0/menu.c:865 client/gui-win32/menu.c:380
+#: client/gui-gtk-2.0/menu.c:871 client/gui-win32/menu.c:380
 msgid "_Road"
 msgstr "_Yol İle"
 
-#: client/gui-gtk-2.0/menu.c:867 client/gui-win32/menu.c:381
+#: client/gui-gtk-2.0/menu.c:873 client/gui-win32/menu.c:381
 msgid "Rai_l"
 msgstr "_Ray İle"
 
-#: client/gui-gtk-2.0/menu.c:869 client/gui-win32/menu.c:382
+#: client/gui-gtk-2.0/menu.c:875 client/gui-win32/menu.c:382
 msgid "_Irrigate"
 msgstr "_Sulama İle"
 
-#: client/gui-gtk-2.0/menu.c:871
+#: client/gui-gtk-2.0/menu.c:877
 msgid "Go _to"
 msgstr "_Git"
 
-#: client/gui-gtk-2.0/menu.c:871
+#: client/gui-gtk-2.0/menu.c:877
 msgid "_Build city"
 msgstr "Şehir inşa _et"
 
-#: client/gui-gtk-2.0/menu.c:873
+#: client/gui-gtk-2.0/menu.c:879
 msgid "Patrol (_Q)"
 msgstr "Devriye gez (_Q)"
 
-#: client/gui-gtk-2.0/menu.c:875 client/gui-win32/menu.c:385
+#: client/gui-gtk-2.0/menu.c:881 client/gui-win32/menu.c:385
 msgid "_Go to"
 msgstr "Gi_t"
 
-#: client/gui-gtk-2.0/menu.c:877
+#: client/gui-gtk-2.0/menu.c:883
 msgid "Go\\/Airlift to City"
 msgstr "Git\\/Havayolu taşıması"
 
-#: client/gui-gtk-2.0/menu.c:879 client/gui-sdl/menu.c:450
+#: client/gui-gtk-2.0/menu.c:885 client/gui-sdl/menu.c:450
 #: client/gui-win32/menu.c:387 client/gui-xaw/menu.c:203
 msgid "Return to nearest city"
 msgstr "En yakın şehre dön"
 
-#: client/gui-gtk-2.0/menu.c:883 client/gui-win32/menu.c:389
+#: client/gui-gtk-2.0/menu.c:889 client/gui-win32/menu.c:389
 #: client/gui-xaw/menu.c:205
 msgid "Disband Unit"
 msgstr "Birimi Terhis Et"
 
-#: client/gui-gtk-2.0/menu.c:885 client/gui-sdl/citydlg.c:532
+#: client/gui-gtk-2.0/menu.c:891 client/gui-sdl/citydlg.c:532
 #: data/Freeciv.in:1186
 msgid "Upgrade unit"
 msgstr "Birimi yükselt"
 
-#: client/gui-gtk-2.0/menu.c:887
+#: client/gui-gtk-2.0/menu.c:893
 msgid "Diplomat\\/Spy Actions"
 msgstr "Diplomat\\/Casus Hareketleri"
 
-#: client/gui-gtk-2.0/menu.c:889 client/gui-sdl/menu.c:399
+#: client/gui-gtk-2.0/menu.c:895 client/gui-sdl/menu.c:399
 #: client/gui-win32/menu.c:391 client/gui-xaw/menu.c:209
 msgid "Explode Nuclear"
 msgstr "Atom Bombasını patlat"
 
-#: client/gui-gtk-2.0/menu.c:893
+#: client/gui-gtk-2.0/menu.c:899
 msgid "Select same type"
 msgstr "Aynı türdekileri seç"
 
-#: client/gui-gtk-2.0/menu.c:895 client/gui-win32/menu.c:393
+#: client/gui-gtk-2.0/menu.c:901 client/gui-win32/menu.c:393
 msgid "_Wait"
 msgstr "_Bekle"
 
-#: client/gui-gtk-2.0/menu.c:897 client/gui-win32/menu.c:394
+#: client/gui-gtk-2.0/menu.c:903 client/gui-win32/menu.c:394
 #: client/gui-xaw/menu.c:213
 msgid "Done"
 msgstr "Bitti"
 
-#: client/gui-gtk-2.0/menu.c:900 client/gui-win32/menu.c:398
+#: client/gui-gtk-2.0/menu.c:906 client/gui-win32/menu.c:398
 msgid "_Reports"
 msgstr "_Raporlar"
 
-#: client/gui-gtk-2.0/menu.c:902 client/gui-gtk-2.0/menu.c:904
-#: client/gui-gtk-2.0/menu.c:906 client/gui-gtk-2.0/menu.c:908
-#: client/gui-gtk-2.0/menu.c:910 client/gui-gtk-2.0/menu.c:912
-#: client/gui-gtk-2.0/menu.c:914 client/gui-gtk-2.0/menu.c:916
-#: client/gui-gtk-2.0/menu.c:918 client/gui-gtk-2.0/menu.c:920
-#: client/gui-gtk-2.0/menu.c:922 client/gui-gtk-2.0/menu.c:924
-#: client/gui-gtk-2.0/menu.c:926 data/Freeciv.in:2030
+#: client/gui-gtk-2.0/menu.c:908 client/gui-gtk-2.0/menu.c:910
+#: client/gui-gtk-2.0/menu.c:912 client/gui-gtk-2.0/menu.c:914
+#: client/gui-gtk-2.0/menu.c:916 client/gui-gtk-2.0/menu.c:918
+#: client/gui-gtk-2.0/menu.c:920 client/gui-gtk-2.0/menu.c:922
+#: client/gui-gtk-2.0/menu.c:924 client/gui-gtk-2.0/menu.c:926
+#: client/gui-gtk-2.0/menu.c:928 client/gui-gtk-2.0/menu.c:930
+#: client/gui-gtk-2.0/menu.c:932 data/Freeciv.in:2030
 msgid "Reports"
 msgstr "Raporlar"
 
-#: client/gui-gtk-2.0/menu.c:906 client/gui-gtk-2.0/menu.c:952
+#: client/gui-gtk-2.0/menu.c:912 client/gui-gtk-2.0/menu.c:958
 #: client/gui-win32/menu.c:400 client/gui-win32/menu.c:425
 msgid "_Units"
 msgstr "_Birimler"
 
 #. TRANS: Nations report action
-#: client/gui-gtk-2.0/menu.c:908 client/gui-win32/menu.c:402
+#: client/gui-gtk-2.0/menu.c:914 client/gui-win32/menu.c:402
 msgid "_Nations"
 msgstr "_Uluslar"
 
-#: client/gui-gtk-2.0/menu.c:912 client/gui-win32/menu.c:403
+#: client/gui-gtk-2.0/menu.c:918 client/gui-win32/menu.c:403
 msgid "_Economy"
 msgstr "_Ekonomi"
 
 #. TRANS: Research report action
-#: client/gui-gtk-2.0/menu.c:914 client/gui-win32/menu.c:405
+#: client/gui-gtk-2.0/menu.c:920 client/gui-win32/menu.c:405
 msgid "_Research"
 msgstr "_Araştırma"
 
-#: client/gui-gtk-2.0/menu.c:918 client/gui-win32/menu.c:407
+#: client/gui-gtk-2.0/menu.c:924 client/gui-win32/menu.c:407
 msgid "_Wonders of the World"
 msgstr "_Dünyanın Harikaları"
 
-#: client/gui-gtk-2.0/menu.c:920 client/gui-win32/menu.c:408
+#: client/gui-gtk-2.0/menu.c:926 client/gui-win32/menu.c:408
 msgid "_Top Five Cities"
 msgstr "E_n İyi 5 Şehir"
 
-#: client/gui-gtk-2.0/menu.c:922 client/gui-win32/menu.c:409
+#: client/gui-gtk-2.0/menu.c:928 client/gui-win32/menu.c:409
 msgid "_Messages"
 msgstr "_Mesajlar"
 
-#: client/gui-gtk-2.0/menu.c:924 client/gui-win32/menu.c:410
+#: client/gui-gtk-2.0/menu.c:930 client/gui-win32/menu.c:410
 msgid "_Demographics"
 msgstr "İ_statistikler"
 
-#: client/gui-gtk-2.0/menu.c:926 client/gui-gtk-2.0/plrdlg.c:471
+#: client/gui-gtk-2.0/menu.c:932 client/gui-gtk-2.0/plrdlg.c:471
 #: client/gui-win32/menu.c:411
 msgid "_Spaceship"
 msgstr "_Uzay Gemisi"
 
-#: client/gui-gtk-2.0/menu.c:930 client/gui-win32/menu.c:415
+#: client/gui-gtk-2.0/menu.c:936 client/gui-win32/menu.c:415
 msgid "_Help"
 msgstr "_Yardım"
 
-#: client/gui-gtk-2.0/menu.c:932 client/gui-gtk-2.0/menu.c:934
-#: client/gui-gtk-2.0/menu.c:936 client/gui-gtk-2.0/menu.c:938
-#: client/gui-gtk-2.0/menu.c:940 client/gui-gtk-2.0/menu.c:942
-#: client/gui-gtk-2.0/menu.c:944 client/gui-gtk-2.0/menu.c:946
-#: client/gui-gtk-2.0/menu.c:948 client/gui-gtk-2.0/menu.c:950
-#: client/gui-gtk-2.0/menu.c:952 client/gui-gtk-2.0/menu.c:954
-#: client/gui-gtk-2.0/menu.c:956 client/gui-gtk-2.0/menu.c:958
-#: client/gui-gtk-2.0/menu.c:960 client/gui-gtk-2.0/menu.c:962
-#: client/gui-gtk-2.0/menu.c:964 client/gui-gtk-2.0/menu.c:966
-#: client/gui-gtk-2.0/menu.c:968 client/gui-gtk-2.0/menu.c:970
-#: client/gui-gtk-2.0/menu.c:972 client/gui-gtk-2.0/menu.c:974
+#: client/gui-gtk-2.0/menu.c:938 client/gui-gtk-2.0/menu.c:940
+#: client/gui-gtk-2.0/menu.c:942 client/gui-gtk-2.0/menu.c:944
+#: client/gui-gtk-2.0/menu.c:946 client/gui-gtk-2.0/menu.c:948
+#: client/gui-gtk-2.0/menu.c:950 client/gui-gtk-2.0/menu.c:952
+#: client/gui-gtk-2.0/menu.c:954 client/gui-gtk-2.0/menu.c:956
+#: client/gui-gtk-2.0/menu.c:958 client/gui-gtk-2.0/menu.c:960
+#: client/gui-gtk-2.0/menu.c:962 client/gui-gtk-2.0/menu.c:964
+#: client/gui-gtk-2.0/menu.c:966 client/gui-gtk-2.0/menu.c:968
+#: client/gui-gtk-2.0/menu.c:970 client/gui-gtk-2.0/menu.c:972
+#: client/gui-gtk-2.0/menu.c:974 client/gui-gtk-2.0/menu.c:976
+#: client/gui-gtk-2.0/menu.c:978 client/gui-gtk-2.0/menu.c:980
 #: client/gui-gtk-2.0/repodlgs.c:313 client/gui-win32/citydlg.c:1077
 #: client/gui-win32/repodlgs.c:289 client/gui-win32/wldlg.c:846
 #: data/Freeciv.in:1466 data/Freeciv.in:2031 data/Freeciv.in:2101
@@ -11707,119 +11717,119 @@ msgstr "_Yardım"
 msgid "Help"
 msgstr "Yardım"
 
-#: client/gui-gtk-2.0/menu.c:934 client/gui-win32/menu.c:416
+#: client/gui-gtk-2.0/menu.c:940 client/gui-win32/menu.c:416
 msgid "Language_s"
 msgstr "_Diller"
 
-#: client/gui-gtk-2.0/menu.c:936 client/gui-win32/menu.c:417
+#: client/gui-gtk-2.0/menu.c:942 client/gui-win32/menu.c:417
 msgid "Co_nnecting"
 msgstr "_Bağlantı"
 
-#: client/gui-gtk-2.0/menu.c:938 client/gui-win32/menu.c:418
+#: client/gui-gtk-2.0/menu.c:944 client/gui-win32/menu.c:418
 msgid "C_ontrols"
 msgstr "Tuşla_r"
 
-#: client/gui-gtk-2.0/menu.c:940 client/gui-win32/menu.c:419
+#: client/gui-gtk-2.0/menu.c:946 client/gui-win32/menu.c:419
 msgid "C_hatline"
 msgstr "So_hbet Satırı"
 
-#: client/gui-gtk-2.0/menu.c:942 client/gui-win32/menu.c:420
+#: client/gui-gtk-2.0/menu.c:948 client/gui-win32/menu.c:420
 msgid "_Worklist Editor"
 msgstr "İş Listesi _Düzenleyicisi"
 
-#: client/gui-gtk-2.0/menu.c:944 client/gui-win32/menu.c:421
+#: client/gui-gtk-2.0/menu.c:950 client/gui-win32/menu.c:421
 msgid "Citizen _Management"
 msgstr "_Vatandaş Yönetimi"
 
-#: client/gui-gtk-2.0/menu.c:946 client/gui-win32/menu.c:422
+#: client/gui-gtk-2.0/menu.c:952 client/gui-win32/menu.c:422
 msgid "_Playing"
 msgstr "_Oynanış"
 
-#: client/gui-gtk-2.0/menu.c:950 client/gui-win32/menu.c:424
+#: client/gui-gtk-2.0/menu.c:956 client/gui-win32/menu.c:424
 msgid "City _Improvements"
 msgstr "Şehir _Yapıları"
 
-#: client/gui-gtk-2.0/menu.c:954 client/gui-win32/menu.c:426
+#: client/gui-gtk-2.0/menu.c:960 client/gui-win32/menu.c:426
 msgid "Com_bat"
 msgstr "_Savaş"
 
-#: client/gui-gtk-2.0/menu.c:956 client/gui-win32/menu.c:427
+#: client/gui-gtk-2.0/menu.c:962 client/gui-win32/menu.c:427
 msgid "_ZOC"
 msgstr "_KOB"
 
-#: client/gui-gtk-2.0/menu.c:958 client/gui-win32/menu.c:428
+#: client/gui-gtk-2.0/menu.c:964 client/gui-win32/menu.c:428
 msgid "Techno_logy"
 msgstr "_Teknoloji"
 
-#: client/gui-gtk-2.0/menu.c:960 client/gui-win32/menu.c:429
+#: client/gui-gtk-2.0/menu.c:966 client/gui-win32/menu.c:429
 msgid "_Terrain"
 msgstr "_Arazi"
 
-#: client/gui-gtk-2.0/menu.c:962 client/gui-win32/menu.c:430
+#: client/gui-gtk-2.0/menu.c:968 client/gui-win32/menu.c:430
 msgid "Won_ders"
 msgstr "_Harikalar"
 
-#: client/gui-gtk-2.0/menu.c:966 client/gui-win32/menu.c:432
+#: client/gui-gtk-2.0/menu.c:972 client/gui-win32/menu.c:432
 msgid "Happin_ess"
 msgstr "_Mutluluk"
 
-#: client/gui-gtk-2.0/menu.c:968 client/gui-win32/menu.c:433
+#: client/gui-gtk-2.0/menu.c:974 client/gui-win32/menu.c:433
 msgid "Space _Race"
 msgstr "_Uzay Yarışı"
 
-#: client/gui-gtk-2.0/menu.c:972 client/gui-win32/menu.c:435
+#: client/gui-gtk-2.0/menu.c:978 client/gui-win32/menu.c:435
 msgid "_Copying"
 msgstr "_Lisans"
 
-#: client/gui-gtk-2.0/menu.c:974 client/gui-win32/menu.c:436
+#: client/gui-gtk-2.0/menu.c:980 client/gui-win32/menu.c:436
 msgid "_About"
 msgstr "_Hakkında"
 
-#: client/gui-gtk-2.0/menu.c:1258
+#: client/gui-gtk-2.0/menu.c:1264
 #, c-format
 msgid "%s..."
 msgstr "%s..."
 
-#: client/gui-gtk-2.0/menu.c:1337
+#: client/gui-gtk-2.0/menu.c:1352
 #, c-format
 msgid "Change to %s (_I)"
 msgstr "%s ile Değiştir (_I)"
 
-#: client/gui-gtk-2.0/menu.c:1338
+#: client/gui-gtk-2.0/menu.c:1353
 #, c-format
 msgid "Change to %s (_M)"
 msgstr "%s ile Değiştir (_M)"
 
-#: client/gui-gtk-2.0/menu.c:1339
+#: client/gui-gtk-2.0/menu.c:1354
 #, c-format
 msgid "Transf_orm to %s"
 msgstr "%s ile _Değiştir"
 
-#: client/gui-gtk-2.0/menu.c:1412
+#: client/gui-gtk-2.0/menu.c:1427
 msgid "Help _Build Wonder"
 msgstr "Harika _Yapımına Yardım Et"
 
-#: client/gui-gtk-2.0/menu.c:1426
+#: client/gui-gtk-2.0/menu.c:1441
 msgid "Add to City (_B)"
 msgstr "Şehire Ekle (_B)"
 
-#: client/gui-gtk-2.0/menu.c:1434
+#: client/gui-gtk-2.0/menu.c:1449
 msgid "Make Trade _Route"
 msgstr "_Ticaret Yolu Yap"
 
-#: client/gui-gtk-2.0/menu.c:1448
+#: client/gui-gtk-2.0/menu.c:1463
 msgid "Build _Railroad"
 msgstr "Demiry_olu yap"
 
-#: client/gui-gtk-2.0/menu.c:1471
+#: client/gui-gtk-2.0/menu.c:1486
 msgid "Bu_ild Farmland"
 msgstr "Otlak Alan Yap"
 
-#: client/gui-gtk-2.0/menu.c:1491
+#: client/gui-gtk-2.0/menu.c:1506
 msgid "_Fortify"
 msgstr "_Güçlendir"
 
-#: client/gui-gtk-2.0/menu.c:1497
+#: client/gui-gtk-2.0/menu.c:1512
 msgid "_Paradrop"
 msgstr "_Paraşütle İn"
 
@@ -11918,214 +11928,214 @@ msgstr "Ağ Oyununa Katıl"
 msgid "Connect to Gaming _Zone"
 msgstr "Bir Oyun Sitesine Katıl"
 
-#: client/gui-gtk-2.0/pages.c:610 client/gui-win32/connectdlg.c:300
+#: client/gui-gtk-2.0/pages.c:612 client/gui-win32/connectdlg.c:300
 #: client/gui-xaw/connectdlg.c:326
 msgid "Passwords don't match, enter password."
 msgstr "Parolalar uyuşmuyor, parolanızı girin."
 
-#: client/gui-gtk-2.0/pages.c:700 client/gui-win32/connectdlg.c:914
+#: client/gui-gtk-2.0/pages.c:702 client/gui-win32/connectdlg.c:914
 msgid "Server Name"
 msgstr "Sunucu Adı"
 
-#: client/gui-gtk-2.0/pages.c:701 client/gui-sdl/mapview.c:814
+#: client/gui-gtk-2.0/pages.c:703 client/gui-sdl/mapview.c:814
 #: client/gui-win32/connectdlg.c:914 data/Freeciv.in:96
 msgid "Port"
 msgstr "Port"
 
-#: client/gui-gtk-2.0/pages.c:702 client/gui-win32/connectdlg.c:915
+#: client/gui-gtk-2.0/pages.c:704 client/gui-win32/connectdlg.c:915
 msgid "Version"
 msgstr "Sürüm"
 
-#: client/gui-gtk-2.0/pages.c:703 client/gui-gtk-2.0/pages.c:2084
+#: client/gui-gtk-2.0/pages.c:705 client/gui-gtk-2.0/pages.c:2086
 #: client/gui-win32/connectdlg.c:915 client/gui-win32/connectdlg.c:993
 msgid "Status"
 msgstr "Durum"
 
-#: client/gui-gtk-2.0/pages.c:704 client/gui-sdl/connectdlg.c:317
+#: client/gui-gtk-2.0/pages.c:706 client/gui-sdl/connectdlg.c:317
 #: client/gui-sdl/plrdlg.c:330 client/gui-win32/connectdlg.c:915
 msgid "Players"
 msgstr "Oyuncular"
 
-#: client/gui-gtk-2.0/pages.c:705 client/gui-win32/connectdlg.c:916
+#: client/gui-gtk-2.0/pages.c:707 client/gui-win32/connectdlg.c:916
 msgid "Comment"
 msgstr "Yorum"
 
-#: client/gui-gtk-2.0/pages.c:743
+#: client/gui-gtk-2.0/pages.c:745
 msgid "Local _Area Network"
 msgstr "_Yerel Ağ (LAN)"
 
-#: client/gui-gtk-2.0/pages.c:779
+#: client/gui-gtk-2.0/pages.c:781
 msgid "Internet _Metaserver"
 msgstr "Internet _Metaserver"
 
-#: client/gui-gtk-2.0/pages.c:813
+#: client/gui-gtk-2.0/pages.c:815
 msgid "_Host:"
 msgstr "_Host:"
 
-#: client/gui-gtk-2.0/pages.c:830
+#: client/gui-gtk-2.0/pages.c:832
 msgid "_Port:"
 msgstr "_Port:"
 
-#: client/gui-gtk-2.0/pages.c:847
+#: client/gui-gtk-2.0/pages.c:849
 msgid "_Login:"
 msgstr "_Giriş"
 
-#: client/gui-gtk-2.0/pages.c:865
+#: client/gui-gtk-2.0/pages.c:867
 msgid "Pass_word:"
 msgstr "_Parola:"
 
-#: client/gui-gtk-2.0/pages.c:883
+#: client/gui-gtk-2.0/pages.c:885
 msgid "Conf_irm Password:"
 msgstr "Parolayı _Doğrula:"
 
-#: client/gui-gtk-2.0/pages.c:908
+#: client/gui-gtk-2.0/pages.c:910
 msgid "C_onnect"
 msgstr "_Bağlan"
 
-#: client/gui-gtk-2.0/pages.c:1138
+#: client/gui-gtk-2.0/pages.c:1140
 #, c-format
 msgid "Connection name: %s"
 msgstr "Bağlantı Adı: %s"
 
-#: client/gui-gtk-2.0/pages.c:1141
+#: client/gui-gtk-2.0/pages.c:1143
 #, c-format
 msgid "Player name: %s"
 msgstr "Oyuncu Adı: %s"
 
-#: client/gui-gtk-2.0/pages.c:1146
+#: client/gui-gtk-2.0/pages.c:1148
 #, c-format
 msgid "Host: %s"
 msgstr "Host: %s"
 
-#: client/gui-gtk-2.0/pages.c:1153
+#: client/gui-gtk-2.0/pages.c:1155
 msgid "Player/conn info"
 msgstr "Ounucu/bağ. info"
 
-#: client/gui-gtk-2.0/pages.c:1180
+#: client/gui-gtk-2.0/pages.c:1182
 #, c-format
 msgid "%s info"
 msgstr "%s info"
 
-#: client/gui-gtk-2.0/pages.c:1191
+#: client/gui-gtk-2.0/pages.c:1193
 msgid "Toggle player ready"
 msgstr "Oyuncu hazır/hayır değil değiştirir"
 
-#: client/gui-gtk-2.0/pages.c:1199
+#: client/gui-gtk-2.0/pages.c:1201
 msgid "Pick nation"
 msgstr "Ulus seçimi"
 
-#: client/gui-gtk-2.0/pages.c:1209
+#: client/gui-gtk-2.0/pages.c:1211
 msgid "Observe this player"
 msgstr "Bu oyuncu izle"
 
-#: client/gui-gtk-2.0/pages.c:1216
+#: client/gui-gtk-2.0/pages.c:1218
 msgid "Take this player"
 msgstr "Bu oyuncu al"
 
-#: client/gui-gtk-2.0/pages.c:1233
+#: client/gui-gtk-2.0/pages.c:1235
 msgid "Cut connection"
 msgstr "Bağlantıyı kes"
 
-#: client/gui-gtk-2.0/pages.c:1243
+#: client/gui-gtk-2.0/pages.c:1245
 msgid "Aitoggle player"
 msgstr "Oyuncuyu YZ yap/yapma"
 
-#: client/gui-gtk-2.0/pages.c:1252
+#: client/gui-gtk-2.0/pages.c:1254
 msgid "Remove player"
 msgstr "Oyuncuyu sil"
 
-#: client/gui-gtk-2.0/pages.c:1263
+#: client/gui-gtk-2.0/pages.c:1265
 msgid "Give info access"
 msgstr "Bilgi erişimi ver"
 
-#: client/gui-gtk-2.0/pages.c:1271
+#: client/gui-gtk-2.0/pages.c:1273
 msgid "Give ctrl access"
 msgstr "Kontrol erişimi ver"
 
 #. TRANS: e.g., "Put on Team 5"
-#: client/gui-gtk-2.0/pages.c:1333
+#: client/gui-gtk-2.0/pages.c:1335
 #, c-format
 msgid "Put on %s"
 msgstr "%s takımına ekle"
 
-#: client/gui-gtk-2.0/pages.c:1437
+#: client/gui-gtk-2.0/pages.c:1439
 msgid "Number of _Players (including AI):"
 msgstr "_Oyuncu Sayısı (YZ dahil):"
 
-#: client/gui-gtk-2.0/pages.c:1460
+#: client/gui-gtk-2.0/pages.c:1462
 msgid "AI Skill _Level:"
 msgstr "YZ Beceri _Derecesi:"
 
-#: client/gui-gtk-2.0/pages.c:1476
+#: client/gui-gtk-2.0/pages.c:1478
 msgid "Ruleset _Version:"
 msgstr "_Kural Seti Sürümü:"
 
-#: client/gui-gtk-2.0/pages.c:1484 client/gui-gtk-2.0/pages.c:2116
+#: client/gui-gtk-2.0/pages.c:1486 client/gui-gtk-2.0/pages.c:2118
 msgid "_More Game Options..."
 msgstr "Diğ_er Oyun Ayarları..."
 
-#: client/gui-gtk-2.0/pages.c:1509
+#: client/gui-gtk-2.0/pages.c:1511
 msgid "Record"
 msgstr "Rekor"
 
-#: client/gui-gtk-2.0/pages.c:1514
+#: client/gui-gtk-2.0/pages.c:1516
 msgid "Rating"
 msgstr "Sıralama"
 
-#: client/gui-gtk-2.0/pages.c:1520
+#: client/gui-gtk-2.0/pages.c:1522
 msgid "Ready"
 msgstr "Hazır"
 
-#: client/gui-gtk-2.0/pages.c:1527 data/default/units.ruleset:1864
+#: client/gui-gtk-2.0/pages.c:1529 data/default/units.ruleset:1864
 #: data/nation/slovakian.ruleset:26
 msgid "Leader"
 msgstr "Önder"
 
-#: client/gui-gtk-2.0/pages.c:1655 client/gui-sdl/chatline.c:185
+#: client/gui-gtk-2.0/pages.c:1657 client/gui-sdl/chatline.c:185
 msgid "Choose Saved Game to Load"
 msgstr "Kayıtlı Oyunu Seç"
 
-#: client/gui-gtk-2.0/pages.c:1747
+#: client/gui-gtk-2.0/pages.c:1749
 msgid "Choose Saved Game to _Load:"
 msgstr "Kayıtlı Oyunu _Seç:"
 
-#: client/gui-gtk-2.0/pages.c:1767 client/gui-gtk-2.0/pages.c:1960
-#: client/gui-gtk-2.0/pages.c:2370
+#: client/gui-gtk-2.0/pages.c:1769 client/gui-gtk-2.0/pages.c:1962
+#: client/gui-gtk-2.0/pages.c:2372
 msgid "_Browse..."
 msgstr "_Gözat..."
 
-#: client/gui-gtk-2.0/pages.c:1834
+#: client/gui-gtk-2.0/pages.c:1836
 msgid "Choose a Scenario"
 msgstr "Senaryo Seç"
 
-#: client/gui-gtk-2.0/pages.c:1921
+#: client/gui-gtk-2.0/pages.c:1923
 msgid "Choose a _Scenario:"
 msgstr "Senaryo _Seç:"
 
-#: client/gui-gtk-2.0/pages.c:2086 client/gui-gtk-2.0/repodlgs.c:634
-#: client/gui-gtk-2.0/wldlg.c:1033 client/gui-win32/citydlg.c:1083
+#: client/gui-gtk-2.0/pages.c:2088 client/gui-gtk-2.0/repodlgs.c:634
+#: client/gui-gtk-2.0/wldlg.c:1034 client/gui-win32/citydlg.c:1083
 #: client/gui-win32/connectdlg.c:998 client/gui-win32/wldlg.c:800
 #: client/gui-win32/wldlg.c:806
 msgid "Type"
 msgstr "Tür"
 
-#: client/gui-gtk-2.0/pages.c:2096
+#: client/gui-gtk-2.0/pages.c:2098
 msgid "Choose a _nation to play:"
 msgstr "Bir _ulus seç:"
 
-#: client/gui-gtk-2.0/pages.c:2282 client/gui-win32/menu.c:581
+#: client/gui-gtk-2.0/pages.c:2284 client/gui-win32/menu.c:581
 msgid "Select Location to Save"
 msgstr "Kaydedilecek Yeri Seç"
 
-#: client/gui-gtk-2.0/pages.c:2367 client/gui-sdl/optiondlg.c:2273
+#: client/gui-gtk-2.0/pages.c:2369 client/gui-sdl/optiondlg.c:2273
 msgid "Save Game"
 msgstr "Oyunu Kaydet"
 
-#: client/gui-gtk-2.0/pages.c:2408
+#: client/gui-gtk-2.0/pages.c:2410
 msgid "Saved _Games:"
 msgstr "Kayıtlı _Oyunları:"
 
-#: client/gui-gtk-2.0/pages.c:2435
+#: client/gui-gtk-2.0/pages.c:2437
 msgid "Save _Filename:"
 msgstr "_Dosya Adı:"
 
@@ -12160,7 +12170,7 @@ msgstr "?Yapı:Adı"
 msgid "Count"
 msgstr "Tane"
 
-#: client/gui-gtk-2.0/repodlgs.c:637 client/gui-gtk-2.0/wldlg.c:1033
+#: client/gui-gtk-2.0/repodlgs.c:637 client/gui-gtk-2.0/wldlg.c:1034
 #: client/gui-win32/citydlg.c:1090 client/gui-win32/repodlgs.c:466
 #: client/gui-win32/wldlg.c:802 client/gui-win32/wldlg.c:808
 #: manual/civmanual.c:302
@@ -12405,28 +12415,28 @@ msgstr "İş _Listeleri:"
 msgid "Edit Global _Worklists"
 msgstr "Küresel İş Listelerini _Düzenle"
 
-#: client/gui-gtk-2.0/wldlg.c:1033 client/gui-win32/citydlg.c:1092
+#: client/gui-gtk-2.0/wldlg.c:1034 client/gui-win32/citydlg.c:1092
 #: client/gui-win32/wldlg.c:809
 msgid "Turns"
 msgstr "Sıra"
 
-#: client/gui-gtk-2.0/wldlg.c:1149
+#: client/gui-gtk-2.0/wldlg.c:1150
 msgid "Source _Tasks:"
 msgstr "Kaynak _Görevler:"
 
-#: client/gui-gtk-2.0/wldlg.c:1154
+#: client/gui-gtk-2.0/wldlg.c:1155
 msgid "Show _Future Targets"
 msgstr "Gelecek _Hedefleri Göster"
 
-#: client/gui-gtk-2.0/wldlg.c:1241
+#: client/gui-gtk-2.0/wldlg.c:1242
 msgid "Target _Worklist:"
 msgstr "H_edeflenen İş Listesi:"
 
-#: client/gui-gtk-2.0/wldlg.c:1259
+#: client/gui-gtk-2.0/wldlg.c:1260
 msgid "_Add Global Worklist"
 msgstr "Küresel İş Listesi _Ekle"
 
-#: client/gui-gtk-2.0/wldlg.c:1275
+#: client/gui-gtk-2.0/wldlg.c:1276
 msgid "Chan_ge Production"
 msgstr "Üretimi Değiş_tir"
 
@@ -19044,22 +19054,22 @@ msgstr "Post Modern"
 msgid "?citystyle:Renaissance"
 msgstr "Rönesans"
 
-#: data/default/governments.ruleset:51 data/civ2/governments.ruleset:49
-#: data/civ1/governments.ruleset:51
+#: data/default/governments.ruleset:51 data/civ2/governments.ruleset:48
+#: data/civ1/governments.ruleset:50
 msgid "Anarchy"
 msgstr "Anarşi"
 
-#: data/default/governments.ruleset:56 data/civ2/governments.ruleset:54
-#: data/civ1/governments.ruleset:56 data/nation/roman.ruleset:41
+#: data/default/governments.ruleset:56 data/civ2/governments.ruleset:53
+#: data/civ1/governments.ruleset:55 data/nation/roman.ruleset:41
 msgid "Usurper"
 msgstr "Darbeci"
 
-#: data/default/governments.ruleset:57 data/civ2/governments.ruleset:55
-#: data/civ1/governments.ruleset:57
+#: data/default/governments.ruleset:57 data/civ2/governments.ruleset:54
+#: data/civ1/governments.ruleset:56
 msgid "?female:Usurper"
 msgstr "Darbeci"
 
-#: data/default/governments.ruleset:59 data/civ1/governments.ruleset:59
+#: data/default/governments.ruleset:59 data/civ1/governments.ruleset:58
 msgid ""
 "Anarchy is simply the absence of any recognizable government. Citizens are "
 "disorganized and unproductive, and will spend all income as quickly as "
@@ -19075,25 +19085,25 @@ msgstr ""
 "Anarşide Despotluğa göre daha az yolsuzluk olur fakat buna oranla oldukça "
 "fazla mutsuzluk yaşanır."
 
-#: data/default/governments.ruleset:72 data/civ2/governments.ruleset:70
-#: data/civ1/governments.ruleset:72
+#: data/default/governments.ruleset:72 data/civ2/governments.ruleset:69
+#: data/civ1/governments.ruleset:71
 msgid "Despotism"
 msgstr "Despotluk"
 
-#: data/default/governments.ruleset:78 data/civ2/governments.ruleset:76
-#: data/civ1/governments.ruleset:78 data/nation/iroquois.ruleset:26
+#: data/default/governments.ruleset:78 data/civ2/governments.ruleset:75
+#: data/civ1/governments.ruleset:77 data/nation/iroquois.ruleset:26
 #: data/nation/malian.ruleset:26 data/nation/maori.ruleset:24
 #: data/nation/sioux.ruleset:28 data/nation/swazi.ruleset:22
 #: data/nation/zulu.ruleset:38
 msgid "Chief"
 msgstr "Reis"
 
-#: data/default/governments.ruleset:79 data/civ2/governments.ruleset:77
-#: data/civ1/governments.ruleset:79
+#: data/default/governments.ruleset:79 data/civ2/governments.ruleset:76
+#: data/civ1/governments.ruleset:78
 msgid "?female:Chief"
 msgstr "Şef"
 
-#: data/default/governments.ruleset:81 data/civ1/governments.ruleset:81
+#: data/default/governments.ruleset:81 data/civ1/governments.ruleset:80
 msgid ""
 "Under Despotism, you are the absolute ruler of your people.  Your control "
 "over your citizens is maintained largely by martial law.\n"
@@ -19105,29 +19115,29 @@ msgstr ""
 "\n"
 "Despotluk, yolsuzluğun en yüksek olduğu yönetim biçimidir."
 
-#: data/default/governments.ruleset:92 data/civ2/governments.ruleset:90
-#: data/civ1/governments.ruleset:92 data/default/techs.ruleset:481
+#: data/default/governments.ruleset:92 data/civ2/governments.ruleset:89
+#: data/civ1/governments.ruleset:91 data/default/techs.ruleset:481
 #: data/civ2/techs.ruleset:468 data/civ1/techs.ruleset:466
 msgid "Monarchy"
 msgstr "Monarşi"
 
-#: data/default/governments.ruleset:100 data/civ2/governments.ruleset:98
-#: data/civ1/governments.ruleset:100 data/nation/bosnia.ruleset:27
+#: data/default/governments.ruleset:100 data/civ2/governments.ruleset:97
+#: data/civ1/governments.ruleset:99 data/nation/bosnia.ruleset:27
 #: data/nation/burmese.ruleset:23 data/nation/croatian.ruleset:34
 #: data/nation/polish.ruleset:28 data/nation/serbian.ruleset:37
 #: data/nation/spanish.ruleset:30
 msgid "King"
 msgstr "Kral"
 
-#: data/default/governments.ruleset:101 data/civ2/governments.ruleset:99
-#: data/civ1/governments.ruleset:101 data/nation/bosnia.ruleset:27
+#: data/default/governments.ruleset:101 data/civ2/governments.ruleset:98
+#: data/civ1/governments.ruleset:100 data/nation/bosnia.ruleset:27
 #: data/nation/burmese.ruleset:23 data/nation/croatian.ruleset:34
 #: data/nation/polish.ruleset:28 data/nation/serbian.ruleset:37
 #: data/nation/spanish.ruleset:30
 msgid "Queen"
 msgstr "Kraliçe"
 
-#: data/default/governments.ruleset:103 data/civ1/governments.ruleset:103
+#: data/default/governments.ruleset:103 data/civ1/governments.ruleset:102
 msgid ""
 "Under Monarchy, a king or queen serves as a hereditary figurehead for your "
 "government.\n"
@@ -19138,23 +19148,23 @@ msgstr ""
 "\n"
 "Cumhuriyette olduğu gibi biraz yolsuzluk yaşanır."
 
-#: data/default/governments.ruleset:114 data/civ2/governments.ruleset:112
-#: data/civ1/governments.ruleset:114 data/default/techs.ruleset:175
+#: data/default/governments.ruleset:114 data/civ2/governments.ruleset:111
+#: data/civ1/governments.ruleset:113 data/default/techs.ruleset:175
 #: data/civ2/techs.ruleset:162 data/civ1/techs.ruleset:162
 msgid "Communism"
 msgstr "Komünizm"
 
-#: data/default/governments.ruleset:121 data/civ2/governments.ruleset:119
-#: data/civ1/governments.ruleset:121 data/nation/soviet.ruleset:26
+#: data/default/governments.ruleset:121 data/civ2/governments.ruleset:118
+#: data/civ1/governments.ruleset:120 data/nation/soviet.ruleset:26
 msgid "Comrade"
 msgstr "Yoldaş"
 
-#: data/default/governments.ruleset:122 data/civ2/governments.ruleset:120
-#: data/civ1/governments.ruleset:122
+#: data/default/governments.ruleset:122 data/civ2/governments.ruleset:119
+#: data/civ1/governments.ruleset:121
 msgid "?female:Comrade"
 msgstr "Yoldaş"
 
-#: data/default/governments.ruleset:124 data/civ1/governments.ruleset:124
+#: data/default/governments.ruleset:124 data/civ1/governments.ruleset:123
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -19170,23 +19180,23 @@ msgstr ""
 "Komünizmde yolsuzluk, başkentten uzaklığa göre dağılmaz, bunun yerine "
 "(başkent dahil) bütün şehirlerde eşit miktarda yolsuzluk yaşanır."
 
-#: data/default/governments.ruleset:138 data/civ2/governments.ruleset:164
-#: data/civ1/governments.ruleset:138
+#: data/default/governments.ruleset:138 data/civ2/governments.ruleset:163
+#: data/civ1/governments.ruleset:137
 msgid "Republic"
 msgstr "Cumhuriyet"
 
-#: data/default/governments.ruleset:145 data/civ2/governments.ruleset:171
-#: data/civ1/governments.ruleset:145
+#: data/default/governments.ruleset:145 data/civ2/governments.ruleset:170
+#: data/civ1/governments.ruleset:144
 msgid "Consul"
 msgstr "Konsolos"
 
-#: data/default/governments.ruleset:146 data/civ2/governments.ruleset:172
-#: data/civ1/governments.ruleset:146
+#: data/default/governments.ruleset:146 data/civ2/governments.ruleset:171
+#: data/civ1/governments.ruleset:145
 msgid "?female:Consul"
 msgstr "Konsolos"
 
-#: data/default/governments.ruleset:148 data/civ2/governments.ruleset:174
-#: data/civ1/governments.ruleset:148
+#: data/default/governments.ruleset:148 data/civ2/governments.ruleset:173
+#: data/civ1/governments.ruleset:147
 msgid ""
 "Under a Republican government, citizens hold an election to select a "
 "representative who will govern them; since elected leaders must remain "
@@ -19199,14 +19209,14 @@ msgstr ""
 "kolayca mutsuz olabilir; buna karşın sağlanan özgürlük ortamı ticaret "
 "gelirlerini arttırır."
 
-#: data/default/governments.ruleset:160 data/civ2/governments.ruleset:186
-#: data/civ1/governments.ruleset:160 data/default/techs.ruleset:216
+#: data/default/governments.ruleset:160 data/civ2/governments.ruleset:185
+#: data/civ1/governments.ruleset:159 data/default/techs.ruleset:216
 #: data/civ2/techs.ruleset:203 data/civ1/techs.ruleset:202
 msgid "Democracy"
 msgstr "Demokrasi"
 
-#: data/default/governments.ruleset:167 data/civ2/governments.ruleset:193
-#: data/civ1/governments.ruleset:167 data/nation/assyrian.ruleset:22
+#: data/default/governments.ruleset:167 data/civ2/governments.ruleset:192
+#: data/civ1/governments.ruleset:166 data/nation/assyrian.ruleset:22
 #: data/nation/bosnia.ruleset:28 data/nation/bosnia.ruleset:29
 #: data/nation/brazilian.ruleset:24 data/nation/bulgarian.ruleset:32
 #: data/nation/bulgarian.ruleset:33 data/nation/catalan.ruleset:27
@@ -19221,8 +19231,8 @@ msgstr "Demokrasi"
 msgid "President"
 msgstr "Cumhurbaşkanı"
 
-#: data/default/governments.ruleset:168 data/civ2/governments.ruleset:194
-#: data/civ1/governments.ruleset:168
+#: data/default/governments.ruleset:168 data/civ2/governments.ruleset:193
+#: data/civ1/governments.ruleset:167
 msgid "?female:President"
 msgstr "Cumhurbaşkanı"
 
@@ -19238,7 +19248,7 @@ msgstr ""
 "oluşması oldukça kolaydır.  Demokraside yolsuzluk hiç olmaz.  Buna karşın "
 "savaş sırasında halk aşırı derecede mutsuz olur."
 
-#: data/civ2/governments.ruleset:57
+#: data/civ2/governments.ruleset:56
 msgid ""
 "Anarchy is simply the absence of any recognizable government. Citizens are "
 "disorganized and unproductive, and will spend all income as quickly as "
@@ -19254,7 +19264,7 @@ msgstr ""
 "Anarşide Despotluğa göre daha az yolsuzluk olur fakat buna oranla oldukça "
 "fazla mutsuzluk yaşanır."
 
-#: data/civ2/governments.ruleset:79
+#: data/civ2/governments.ruleset:78
 msgid ""
 "Under Despotism, you are the absolute ruler of your people.  Your control "
 "over your citizens is maintained largely by martial law.\n"
@@ -19267,7 +19277,7 @@ msgstr ""
 "\n"
 "Despotluk, yolsuzluğun en yüksek olduğu yönetim biçimidir."
 
-#: data/civ2/governments.ruleset:101
+#: data/civ2/governments.ruleset:100
 msgid ""
 "Under Monarchy, a king or queen serves as a hereditary figurehead for your "
 "government.\n"
@@ -19279,7 +19289,7 @@ msgstr ""
 "\n"
 "Cumhuriyette olduğu gibi biraz yolsuzluk yaşanır."
 
-#: data/civ2/governments.ruleset:122
+#: data/civ2/governments.ruleset:121
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -19296,20 +19306,20 @@ msgstr ""
 "Komünizmde yolsuzluk, başkentten uzaklığa göre dağılmaz, bunun yerine "
 "(başkent dahil) bütün şehirlerde eşit miktarda yolsuzluk yaşanır."
 
-#: data/civ2/governments.ruleset:136 data/default/techs.ruleset:297
+#: data/civ2/governments.ruleset:135 data/default/techs.ruleset:297
 #: data/civ2/techs.ruleset:284 data/civ1/techs.ruleset:282
 msgid "Fundamentalism"
 msgstr "Şeriat"
 
-#: data/civ2/governments.ruleset:143
+#: data/civ2/governments.ruleset:142
 msgid "High Priest"
 msgstr "Halife"
 
-#: data/civ2/governments.ruleset:144
+#: data/civ2/governments.ruleset:143
 msgid "High Priestess"
 msgstr "Halife"
 
-#: data/civ2/governments.ruleset:146
+#: data/civ2/governments.ruleset:145
 msgid ""
 "Fundamentalism is a form of government organized around a central set of "
 "beliefs. The beliefs, usually religious in nature, form a rigid guideline "
@@ -19331,7 +19341,7 @@ msgstr ""
 "Normalde mutsuz insanları memnun eden yapılar bu yönetim biçiminde altın "
 "üretirler ve bakım gerektirmezler."
 
-#: data/civ2/governments.ruleset:196
+#: data/civ2/governments.ruleset:195
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy "
 "offers the highest possible level of trade, but also offers the most "
@@ -19352,7 +19362,7 @@ msgstr ""
 "sadıktırlar.  Demokratik birimler rüşvetle alınamaz; düşman Diplomatlar ve "
 "Casuslar şehirlerde ayaklanma çıkartamazlar."
 
-#: data/civ1/governments.ruleset:170
+#: data/civ1/governments.ruleset:169
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy "
 "offers the highest possible level of trade, but also offers the most "
@@ -24267,4 +24277,3 @@ msgstr "Takım 30"
 #: data/default/game.ruleset:160
 msgid "Team 31"
 msgstr "Takım 31"
-
