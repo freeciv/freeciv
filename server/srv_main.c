@@ -1952,14 +1952,18 @@ static void srv_prepare(void)
     load_rulesets();
   }
 
+  maybe_automatic_meta_message(default_meta_message_string());
+
   if(!(srvarg.metaserver_no_send)) {
     freelog(LOG_NORMAL, _("Sending info to metaserver [%s]"),
 	    meta_addr_port());
-    server_open_meta(); /* open socket for meta server */ 
+    /* Open socket for meta server */
+    if (!server_open_meta()
+        || !send_server_info_to_metaserver(META_INFO)) {
+      con_write(C_FAIL, _("Not starting without explicitly requested metaserver connection."));
+      exit(EXIT_FAILURE);
+    }
   }
-
-  maybe_automatic_meta_message(default_meta_message_string());
-  (void) send_server_info_to_metaserver(META_INFO);
 
   /* accept new players, wait for serverop to start..*/
   set_server_state(S_S_INITIAL);

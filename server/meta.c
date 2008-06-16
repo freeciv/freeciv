@@ -412,7 +412,7 @@ void server_close_meta(void)
 /*************************************************************************
  lookup the correct address for the metaserver.
 *************************************************************************/
-void server_open_meta(void)
+bool server_open_meta(void)
 {
   const char *path;
  
@@ -422,7 +422,7 @@ void server_open_meta(void)
   }
   
   if (!(path = my_lookup_httpd(metaname, &metaport, srvarg.metaserver_addr))) {
-    return;
+    return FALSE;
   }
   
   metaserver_path = mystrdup(path);
@@ -431,7 +431,7 @@ void server_open_meta(void)
     freelog(LOG_ERROR, _("Metaserver: bad address: [%s:%d]."),
             metaname, metaport);
     metaserver_failed();
-    return;
+    return FALSE;
   }
 
   if (meta_patches[0] == '\0') {
@@ -442,6 +442,8 @@ void server_open_meta(void)
   }
 
   server_is_open = TRUE;
+
+  return TRUE;
 }
 
 /**************************************************************************
