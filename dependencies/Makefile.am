@@ -1,3 +1,3 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS=        lua tolua
+SUBDIRS = lua-5.1 toluaxx

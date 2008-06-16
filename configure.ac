@@ -693,23 +693,22 @@ fi
 dnl In the future we probably get rid of our own lua tree and use
 dnl lua from system.
 dnl LUA_AS_DEPENDENCY should be empty when using lua outside own our tree.
-LUA_CFLAGS="-I\$(top_srcdir)/dependencies/lua/include"
-LUA_LIBS="\$(top_builddir)/dependencies/lua/src/liblua.a \
- \$(top_builddir)/dependencies/lua/src/lib/liblualib.a"
+LUA_CFLAGS="-I\$(top_srcdir)/dependencies/lua-5.1/src"
+LUA_LIBS="\$(top_builddir)/dependencies/lua-5.1/src/liblua.a"
 LUA_AS_DEPENDENCY="$LUA_LIBS"
 AC_SUBST([LUA_CFLAGS])
 AC_SUBST([LUA_LIBS])
 AC_SUBST([LUA_AS_DEPENDENCY])
 
 
-TOLUA_CFLAGS="-I\$(top_srcdir)/dependencies/tolua"
-TOLUA_LIBS="\$(top_builddir)/dependencies/tolua/libtolua.a"
+TOLUA_CFLAGS="-I\$(top_srcdir)/dependencies/toluaxx/include"
+TOLUA_LIBS="\$(top_builddir)/dependencies/toluaxx/src/lib/libtolua.a"
 TOLUA_AS_DEPENDENCY="$TOLUA_LIBS"
 AC_SUBST([TOLUA_CFLAGS])
 AC_SUBST([TOLUA_LIBS])
 AC_SUBST([TOLUA_AS_DEPENDENCY])
 
-TOLUA="\$(top_builddir)/dependencies/tolua/tolua$EXEEXT"
+TOLUA="\$(top_builddir)/dependencies/toluaxx/src/bin/tolua$EXEEXT"
 AC_SUBST([TOLUA])
 
 dnl Freeciv uses a non-standard macro, Q_(), to handle cases of qualified
@@ -845,10 +844,12 @@ AC_CONFIG_FILES([Makefile
 	  utility/Makefile
 	  utility/ftwl/Makefile
 	  dependencies/Makefile
-	  dependencies/lua/Makefile
-	  dependencies/tolua/Makefile
-	  dependencies/lua/src/Makefile
-	  dependencies/lua/src/lib/Makefile
+	  dependencies/lua-5.1/Makefile
+          dependencies/lua-5.1/src/Makefile
+	  dependencies/toluaxx/Makefile
+	  dependencies/toluaxx/src/Makefile
+	  dependencies/toluaxx/src/lib/Makefile
+          dependencies/toluaxx/src/bin/Makefile
 	  common/Makefile
 	  common/aicore/Makefile
 	  ai/Makefile
