@@ -47,7 +47,9 @@ struct City {
 struct Unit {
   Unit_Type *utype;
   Player *owner;
-  int homecity @ homecity_id;
+
+  /* This used to be @ homecity_id, but it doesn't work with toluaxx. */
+  int homecity;
   Tile *tile;
 
   const int id;
@@ -173,7 +175,7 @@ end
 
 -- Unit methods.
 function Unit:homecity()
-  return find.city(self.owner, self.homecity_id)
+  return find.city(self.owner, self.homecity)
 end
 
 function Unit:is_on_possible_city_tile()
