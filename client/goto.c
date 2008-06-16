@@ -1213,6 +1213,9 @@ void send_goto_route(void)
       struct unit_order order;
 
       order.order = goto_last_order;
+      order.dir = -1;
+      order.activity = ACTIVITY_LAST;
+
       send_goto_path(punit, path, &order);
     }
     pf_destroy_path(path);
