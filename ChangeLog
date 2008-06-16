@@ -1,4 +1,566 @@
 
+Mon, 16 Jun 2008 00:02:24 -0700  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/po/ar.po
+	   M /branches/S2_1/po/ca.po
+	   M /branches/S2_1/po/cs.po
+	   M /branches/S2_1/po/da.po
+	   M /branches/S2_1/po/de.po
+	   M /branches/S2_1/po/el.po
+	   M /branches/S2_1/po/en_GB.po
+	   M /branches/S2_1/po/es.po
+	   M /branches/S2_1/po/et.po
+	   M /branches/S2_1/po/fa.po
+	   M /branches/S2_1/po/fi.po
+	   M /branches/S2_1/po/fr.po
+	   M /branches/S2_1/po/he.po
+	   M /branches/S2_1/po/hu.po
+	   M /branches/S2_1/po/it.po
+	   M /branches/S2_1/po/ja.po
+	   M /branches/S2_1/po/ko.po
+	   M /branches/S2_1/po/lt.po
+	   M /branches/S2_1/po/nl.po
+	   M /branches/S2_1/po/no.po
+	   M /branches/S2_1/po/pl.po
+	   M /branches/S2_1/po/pt.po
+	   M /branches/S2_1/po/pt_BR.po
+	   M /branches/S2_1/po/ro.po
+	   M /branches/S2_1/po/ru.po
+	   M /branches/S2_1/po/sv.po
+	   M /branches/S2_1/po/tr.po
+	   M /branches/S2_1/po/uk.po
+	   M /branches/S2_1/po/zh_CN.po
+
+	Updates after running update-po
+
+
+Fri, 13 Jun 2008 14:50:38 -0700  mbook:
+
+	Changed paths:
+	   M /branches/S2_1/po/es.po
+
+	Fix minor typo in Spanish translation.
+
+	Reported-by: Condex (http://forum.freeciv.org/viewtopic.php?p=20400)
+
+	Signed-off-by: Madeline Book <madeline.book@gmail.com>
+
+
+Thu, 12 Jun 2008 11:18:03 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/data/civ1/effects.ruleset
+
+	Civ1 ruleset: Added No_Diplomacy effect to barbarians and
+	base Empire_Size_Step effect to make ruleset playable.
+
+
+Wed, 11 Jun 2008 21:54:54 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/Makefile.am
+	   M /branches/S2_1/Makefile.am
+	   M /branches/S2_2/Makefile.am
+
+	Add missing m4 files to EXTRA_DIST.
+
+
+Wed, 11 Jun 2008 18:14:18 -0700  cazfi:
+
+	Changed paths:
+	   A /branches/S2_1/m4/pkg.m4
+
+	Added pkg.m4
+
+	This fixes compilation problem reported by
+	Daniel Markstedt in #40250
+
+
+Wed, 11 Jun 2008 08:21:58 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/data/civ2/effects.ruleset
+
+	Fixed fundamentalism bugs.
+
+	Patch by Madeline Book, see #40257
+
+
+Tue, 10 Jun 2008 12:59:43 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/server/citytools.c
+	   M /branches/S2_1/server/citytools.h
+	   M /branches/S2_1/server/unittools.c
+
+	Passengers never conquer cities.
+
+	This fixes assert failure during civil war.
+
+	See #40261
+
+
+Sat, 07 Jun 2008 22:49:42 -0700  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/po/ko.po
+
+	2442 translated messages, 1837 untranslated messages.
+
+
+Sat, 07 Jun 2008 21:10:47 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_1/client/cityrepdata.c
+
+	Fix a harmless warning triggered in gcc 4.3.
+
+	See PR#40258.
+
+
+Fri, 06 Jun 2008 04:19:28 -0700  chrisk:
+
+	Changed paths:
+	   M /branches/S2_1/po/de.po
+
+	4279 translated messages.
+
+
+Fri, 06 Jun 2008 02:44:18 -0700  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/po/ko.po
+
+	2347 translated messages, 1932 untranslated messages.
+
+
+Thu, 05 Jun 2008 21:26:05 -0700  mbook:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-gtk-2.0/pages.c
+
+	Fix network refresh button for gtk2 client.
+
+	- Function update_network_lists now cancels a running
+	  server scan if one is active when it is called.
+
+	Reported-by: James Hemming <jkhemming@yahoo.co.uk> (PR#40256)
+
+	Signed-off-by: Madeline Book <madeline.book@gmail.com>
+
+
+Thu, 05 Jun 2008 21:05:45 -0700  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/po/sv.po
+
+	4277 translated messages.
+
+
+Mon, 02 Jun 2008 15:38:41 -0700  jcreus:
+
+	Changed paths:
+	   M /branches/S2_1/po/ca.po
+
+	4279 messages
+
+
+Sun, 01 Jun 2008 06:40:26 -0700  jnmbk:
+
+	Changed paths:
+	   M /branches/S2_1/po/tr.po
+
+	3929 translated, 348 untranslated
+
+
+Mon, 26 May 2008 14:18:03 -0700  chomwitt:
+
+	Changed paths:
+	   M /branches/S2_1/po/el.po
+
+	greek translation update
+
+
+Sun, 25 May 2008 04:24:19 -0700  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/po/ko.po
+
+	2293 translated. 1986 untranslated.
+
+
+Fri, 23 May 2008 06:48:09 -0700  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/po/ko.po
+
+	Updates to Korean translation; many style fixes. 2128 translated messages.
+
+
+Sun, 18 May 2008 15:34:21 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/common/city.c
+	   M /branches/S2_1/common/tile.h
+
+	Fixed bug that city center was not automatically considered farmland.
+
+	Patch by Jacob Nevins in #40207
+
+
+Sun, 18 May 2008 07:17:58 -0700  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/po/ko.po
+
+	Update to Korean translation including many typo fixes. 2032 translated messages.
+
+
+Sun, 18 May 2008 02:19:22 -0700  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/po/ko.po
+
+	Updates to Korean translation, now 2001 translated strings! Special thanks to Song Young Hwan <purluno@gmail.com> for several improvement suggestions.
+
+
+Fri, 16 May 2008 15:24:35 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/ai/aidata.c
+
+	Set ai.num_continents and ai.num_oceans zero in ai_data_phase_done()
+	to make them consistent with memory allocations.
+
+	This fixes crash reported by Marek Jancuska in #40243
+
+
+Fri, 16 May 2008 14:52:32 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/server/unittools.c
+
+	Send remove_unit packet to client when unit owner changes before
+	removing unit vision. This fixes client side assert if unit was
+	not seen by no other unit.
+
+	Similar crashes reported by many in #15712
+
+
+Thu, 15 May 2008 16:25:54 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/m4/win32-client.m4
+	   M /branches/S2_1/m4/xaw-client.m4
+
+	Fixed libpng checks to work correctly with modern libpng installations.
+
+	See #40242
+
+
+Wed, 14 May 2008 04:56:01 -0700  cproc:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-gtk-2.0/menu.c
+	   M /branches/S2_1/client/mapview_common.c
+	   M /branches/S2_1/client/options.c
+	   M /branches/S2_1/client/options.h
+	   M /branches/S2_1/client/packhand.c
+
+	Fix citybar view options. Reported by Susanna Björverud <susanna.bjorverud@telia.com> in PR#40128, patch by Madeline Book.
+
+
+Tue, 13 May 2008 02:50:05 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-gtk-2.0/gui_main.c
+	   M /branches/S2_1/client/packhand.c
+	   M /branches/S2_1/common/packets.def
+	   M /branches/S2_1/common/packets_gen.c
+	   M /branches/S2_1/common/packets_gen.h
+	   M /branches/S2_1/server/plrhand.c
+	   M /branches/S2_1/version.in
+
+	Show leader name of created players in connect dialog
+
+	See #40239
+
+
+Sat, 10 May 2008 05:24:45 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/INSTALL
+
+	Minor corrections to INSTALL
+
+	See #40240
+
+
+Fri, 09 May 2008 15:30:57 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/server/stdinhand.c
+
+	Fixed /take of currently observed player.
+
+	See #40235
+
+
+Fri, 09 May 2008 15:25:06 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/server/sanitycheck.c
+	   M /branches/S2_1/server/savegame.c
+
+	Make sure all previous player <-> team associations are cleared
+	before loading saved game.
+
+	See #40224
+
+
+Fri, 09 May 2008 15:11:53 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/server/plrhand.c
+	   M /branches/S2_1/server/plrhand.h
+
+	Make sure we don't run out of playable nations when new civil war player
+	is created.
+
+	See #40233
+
+
+Fri, 09 May 2008 01:44:29 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/server/stdinhand.c
+
+	Corrected player information sent to clients after new player is /created
+
+	See #40238
+
+
+Wed, 07 May 2008 01:28:19 -0700  chrisk:
+
+	Changed paths:
+	   M /branches/S2_1/po/de.po
+
+	4278 translated messages.
+
+
+Tue, 06 May 2008 18:32:43 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/data/civ1/governments.ruleset
+	   M /branches/S2_1/data/civ1/terrain.ruleset
+	   M /branches/S2_1/data/civ1/units.ruleset
+	   M /branches/S2_1/data/civ2/governments.ruleset
+	   M /branches/S2_1/data/civ2/units.ruleset
+	   M /branches/S2_1/data/nation/barbarian.ruleset
+
+	Removed obsoleted entries from rulesets. Fixed a couple of misnamed
+	entries in civ1 ruleset.
+
+	See #40230
+
+
+Mon, 05 May 2008 17:06:07 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/common/game.c
+	   M /branches/S2_1/common/game.h
+	   M /branches/S2_1/server/connecthand.c
+	   M /branches/S2_1/server/ruleset.c
+	   M /branches/S2_1/server/srv_main.c
+	   M /branches/S2_1/server/stdinhand.c
+
+	Limit number of players so that there's playable nations for everyone.
+	This fixes several crashes when ruleset provides less than MAX_PLAYERS
+	nations.
+
+	See #40195
+
+
+Sun, 04 May 2008 17:33:40 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/configure.ac
+	   M /branches/S2_1/m4/ggz.m4
+	   M /branches/S2_1/server/sernet.c
+
+	Do not add any host specific include or library paths when configured with
+	--without-ggz-dir. This fixes Freeciv cross-compilation.
+
+	See #40134
+
+
+Sat, 03 May 2008 01:02:29 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/server/barbarian.c
+
+	Fixed bug preventing barbarian creation from hut.
+
+	See #40222
+
+
+Wed, 30 Apr 2008 00:36:27 -0700  elmo:
+
+	Changed paths:
+	   M /branches/S2_1/po/statistics.rb
+
+	statistics.rb has been updated: it can output a nice HTML page now.
+
+
+Tue, 29 Apr 2008 12:56:03 -0700  elmo:
+
+	Changed paths:
+	   M /branches/S2_1/po/et.po
+
+	That's it. I'm switching to 2.2 branch. I doubt 2.1 will see any additional translations.
+
+
+Thu, 24 Apr 2008 12:41:34 -0700  englabenny:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-gtk-2.0/wldlg.c
+
+	(PR#39821) Global Lists Bug... Can't Add to top of list?
+
+	The global worklist editor would not allow the < buttons (prepend and
+	append) to become sensitive, since ptr->pcity is NULL for global
+	worklits. This fixes that case.
+
+
+Wed, 23 Apr 2008 11:59:40 -0700  elmo:
+
+	Changed paths:
+	   M /branches/S2_1/po/et.po
+
+	Hooray, 4000 translations!
+
+
+Wed, 23 Apr 2008 09:03:51 -0700  elmo:
+
+	Changed paths:
+	   M /branches/S2_1/po/et.po
+
+	Passed the Spanish with 3960 translations
+
+
+Tue, 22 Apr 2008 14:54:20 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/ai/aitools.c
+	   M /branches/S2_1/server/unithand.c
+	   M /branches/S2_1/server/unittools.c
+
+	Fixed crashes when former AI settler on city founding mission
+	gets new orders.
+
+	See #40208
+
+
+Tue, 22 Apr 2008 14:46:44 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/m4/ggz.m4
+
+	Updated ggz.m4 from ggz project.
+
+
+Tue, 22 Apr 2008 14:38:21 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/server/srv_main.c
+	   M /branches/S2_1/server/stdinhand.c
+	   M /branches/S2_1/server/stdinhand.h
+
+	Do not skip minplayers check (& others) present in start_command(), when
+	game is started by player ready packet.
+
+	See #40194
+
+
+Mon, 21 Apr 2008 20:36:59 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_1/server/sernet.c
+
+	Fix a memory leak in the readline code.
+
+	Report and fix by "Elmo Todurov" <todurov@gmail.com> in PR#40209.
+
+
+Mon, 21 Apr 2008 11:13:08 -0700  elmo:
+
+	Changed paths:
+	   M /branches/S2_1/po/et.po
+
+	Passed the Japanese
+
+
+Sun, 20 Apr 2008 06:08:50 -0700  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/version.in
+
+	Bump version to 2.1.4+
+
+
+Sun, 20 Apr 2008 06:05:07 -0700  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/version.in
+
+	Bump version to 2.1.4
+
+
+Sun, 20 Apr 2008 06:02:41 -0700  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/po/ar.po
+	   M /branches/S2_1/po/ca.po
+	   M /branches/S2_1/po/cs.po
+	   M /branches/S2_1/po/da.po
+	   M /branches/S2_1/po/de.po
+	   M /branches/S2_1/po/el.po
+	   M /branches/S2_1/po/en_GB.po
+	   M /branches/S2_1/po/es.po
+	   M /branches/S2_1/po/et.po
+	   M /branches/S2_1/po/fa.po
+	   M /branches/S2_1/po/fi.po
+	   M /branches/S2_1/po/fr.po
+	   M /branches/S2_1/po/he.po
+	   M /branches/S2_1/po/hu.po
+	   M /branches/S2_1/po/it.po
+	   M /branches/S2_1/po/ja.po
+	   M /branches/S2_1/po/ko.po
+	   M /branches/S2_1/po/lt.po
+	   M /branches/S2_1/po/nl.po
+	   M /branches/S2_1/po/no.po
+	   M /branches/S2_1/po/pl.po
+	   M /branches/S2_1/po/pt.po
+	   M /branches/S2_1/po/pt_BR.po
+	   M /branches/S2_1/po/ro.po
+	   M /branches/S2_1/po/ru.po
+	   M /branches/S2_1/po/sv.po
+	   M /branches/S2_1/po/tr.po
+	   M /branches/S2_1/po/uk.po
+	   M /branches/S2_1/po/zh_CN.po
+
+	Commit changes after running 'make update-po'
+
+
+Sun, 20 Apr 2008 05:56:21 -0700  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/ChangeLog
+
+	Update changelog for 2.1.4
+
+
 Thu, 17 Apr 2008 13:15:50 -0700  cazfi:
 
 	Changed paths:
