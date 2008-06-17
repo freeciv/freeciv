@@ -4510,12 +4510,23 @@ void game_save(struct section_file *file, const char *save_reason)
   }
   {
     const char **modname;
+    int spe;
 
     /* Save specials order */
     modname = fc_calloc(S_LAST, sizeof(*modname));
+
     tile_special_type_iterate(j) {
       modname[j] = special_rule_name(j);
     } tile_special_type_iterate_end;
+
+    base_type_iterate(pbase) {
+      spe = base_get_tile_special_type(pbase);
+      if (!(0 <= spe && spe < S_LAST)) {
+        continue;
+      }
+      modname[spe] = special_rule_name(spe);
+    } base_type_iterate_end;
+
     secfile_insert_str_vec(file, modname, S_LAST,
 			   "savefile.specials");
     free(modname);

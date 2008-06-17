@@ -265,3 +265,29 @@ struct base_type *get_base_by_gui_type(enum base_gui_type type,
 
   return NULL;
 }
+
+/**************************************************************************
+  Returns the value from enum tile_special_type that corresponds to this
+  base type or S_LAST if no such value exists.
+
+  NB: This function should only be used temporarily while the old "special"
+  base code is transitioned to the new generalized bases. Once S_FORTRESS
+  and S_AIRBASE are removed from specials, this function should also be
+  removed.
+**************************************************************************/
+int base_get_tile_special_type(const struct base_type *pbase)
+{
+  if (!pbase) {
+    return S_LAST;
+  }
+
+  if (base_number(pbase) == BASE_FORTRESS) {
+    return S_FORTRESS;
+  }
+  
+  if (base_number(pbase) == BASE_AIRBASE) {
+    return S_AIRBASE;
+  }
+
+  return S_LAST;
+}

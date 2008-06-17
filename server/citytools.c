@@ -1096,7 +1096,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
 
   /* If base acted as a watchtower, put vision back to normal */
   if (pbase) {
-    tile_remove_base(ptile);
+    tile_remove_base(ptile, pbase);
     unit_list_refresh_vision(ptile->units);
   }
 

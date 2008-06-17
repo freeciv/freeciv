@@ -66,7 +66,11 @@ Base_type_id base_index(const struct base_type *pbase);
 Base_type_id base_number(const struct base_type *pbase);
 
 struct base_type *base_by_number(const Base_type_id id);
+
+/* Compatibility functions for the old "special"
+ * type bases which are being phased out. */
 struct base_type *base_of_bv_special(bv_special spe);
+int base_get_tile_special_type(const struct base_type *pbase);
 
 const char *base_rule_name(const struct base_type *pbase);
 const char *base_name_translation(struct base_type *pbase);

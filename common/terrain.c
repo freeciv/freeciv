@@ -547,6 +547,7 @@ static const char *tile_special_type_names[] =
 ****************************************************************************/
 enum tile_special_type find_special_by_rule_name(const char *name)
 {
+  int spe;
   assert(ARRAY_SIZE(tile_special_type_names) == S_LAST);
 
   tile_special_type_iterate(i) {
@@ -554,6 +555,16 @@ enum tile_special_type find_special_by_rule_name(const char *name)
       return i;
     }
   } tile_special_type_iterate_end;
+
+  base_type_iterate(pbase) {
+    spe = base_get_tile_special_type(pbase);
+    if (!(0 <= spe && spe < S_LAST)) {
+      continue;
+    }
+    if (0 == strcmp(tile_special_type_names[spe], name)) {
+      return spe;
+    }
+  } base_type_iterate_end;
 
   return S_LAST;
 }

@@ -171,10 +171,16 @@ void tile_add_base(struct tile *ptile, const struct base_type *pbase)
 /****************************************************************************
   Removes base from tile if such exist
 ****************************************************************************/
-void tile_remove_base(struct tile *ptile)
+void tile_remove_base(struct tile *ptile, const struct base_type *pbase)
 {
-  tile_clear_special(ptile, S_FORTRESS);
-  tile_clear_special(ptile, S_AIRBASE);
+  int spe;
+  
+  spe = base_get_tile_special_type(pbase);
+  if (!(0 <= spe && spe < S_LAST)) {
+    return;
+  }
+
+  tile_clear_special(ptile, spe);
 }
 
 /****************************************************************************
@@ -696,4 +702,20 @@ const char *tile_get_info_text(const struct tile *ptile, int linebreaks)
   }
 
   return s;
+}
+
+/****************************************************************************
+  Returns TRUE if the given tile has a base of given type on it.
+****************************************************************************/
+bool tile_has_base(const struct tile *ptile, const struct base_type *pbase)
+{
+  struct base_type *bt;
+  
+  if (!ptile) {
+    return FALSE;
+  }
+
+  bt = tile_get_base(ptile);
+
+  return bt == pbase;
 }

@@ -359,6 +359,8 @@ void map_regenerate_water(void)
 }
 
 static void player_tile_init(struct tile *ptile, struct player *pplayer);
+static bool player_tile_has_base(struct player_tile *plrtile,
+                                 struct base_type *pbase);
 static void give_tile_info_from_player_to_player(struct player *pfrom,
 						 struct player *pdest,
 						 struct tile *ptile);
@@ -698,6 +700,14 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
 	info.special[spe] = BV_ISSET(ptile->special, spe);
       } tile_special_type_iterate_end;
 
+      base_type_iterate(pbase) {
+        int spe = base_get_tile_special_type(pbase);
+        if (!(0 <= spe && spe < S_LAST)) {
+          continue;
+        }
+        info.special[spe] = tile_has_base(ptile, pbase);
+      } base_type_iterate_end;
+
       send_packet_tile_info(pconn, &info);
     } else if (pplayer && map_is_known(ptile, pplayer)
 	       && map_get_seen(ptile, pplayer, V_MAIN) == 0) {
@@ -721,6 +731,14 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
 	info.special[spe] = BV_ISSET(plrtile->special, spe);
       } tile_special_type_iterate_end;
 
+      base_type_iterate(pbase) {
+        int spe = base_get_tile_special_type(pbase);
+        if (!(0 <= spe && spe < S_LAST)) {
+          continue;
+        }
+        info.special[spe] = player_tile_has_base(plrtile, pbase);
+      } base_type_iterate_end;
+
       send_packet_tile_info(pconn, &info);
     } else if (send_unknown) {
       info.known = TILE_UNKNOWN;
@@ -734,6 +752,14 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
       tile_special_type_iterate(spe) {
         info.special[spe] = FALSE;
       } tile_special_type_iterate_end;
+
+      base_type_iterate(pbase) {
+        int spe = base_get_tile_special_type(pbase);
+        if (!(0 <= spe && spe < S_LAST)) {
+          continue;
+        }
+        info.special[spe] = FALSE;
+      } base_type_iterate_end;
 
       send_packet_tile_info(pconn, &info);
     }
@@ -2086,4 +2112,25 @@ void vision_clear_sight(struct vision *vision)
    * order. */
   vision_change_sight(vision, V_INVIS, -1);
   vision_change_sight(vision, V_MAIN, -1);
+}
+
+/****************************************************************************
+  Returns TRUE if the given player tile has a base of the given type.
+****************************************************************************/
+static bool player_tile_has_base(struct player_tile *plrtile,
+                                 struct base_type *pbase)
+{
+  int spe;
+
+  if (!plrtile) {
+    return FALSE;
+  }
+
+  spe = base_get_tile_special_type(pbase);
+
+  if (!(0 <= spe && spe < S_LAST)) {
+    return FALSE;
+  }
+
+  return contains_special(plrtile->special, spe);
 }
