@@ -33,6 +33,10 @@ endif
 
 SUBDIRS=	$(DSUBDIRS) intl utility common tests win32 $(SSUBDIRS) $(CSUBDIRS) po doc $(MSUBDIRS)
 
+## Automake should distribute config.rpath automatically - and new
+## versions probably do. We still support versions that do not, so
+## it's in the list below.
+## It should also install it automatically when running autogen.sh.
 EXTRA_DIST=	autogen.sh 			\
 		config.mac.h			\
 		configure.ac			\
@@ -58,6 +62,7 @@ EXTRA_DIST=	autogen.sh 			\
 		bootstrap/freeciv-server.desktop.in	\
 		bootstrap/freeciv.spec.in	\
 		bootstrap/undep.sh.in		\
+		bootstrap/config.rpath		\
 		m4/ac_path_lib.m4		\
 		m4/auth.m4			\
 		m4/c99.m4			\
