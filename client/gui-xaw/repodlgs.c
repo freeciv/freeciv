@@ -341,7 +341,8 @@ void create_science_dialog(bool make_modal)
 			   NULL);
 
     advance_index_iterate(A_FIRST, i) {
-      if (TECH_REACHABLE == player_invention_state(client.conn.playing, i)) {
+      if (TECH_PREREQS_KNOWN ==
+            player_invention_state(client.conn.playing, i)) {
 	Widget entry =
 	  XtVaCreateManagedWidget(advance_name_translation(advance_by_number(i)),
 				  smeBSBObjectClass,
@@ -359,7 +360,7 @@ void create_science_dialog(bool make_modal)
 
     flag = 0;
     advance_index_iterate(A_FIRST, i) {
-      if (player_invention_is_ready(client.conn.playing, i)
+      if (player_invention_reachable(client.conn.playing, i)
 	  && TECH_KNOWN != player_invention_state(client.conn.playing, i)
 	  && (11 > num_unknown_techs_for_goal(client.conn.playing, i)
 	      || i == research->tech_goal)) {
@@ -552,7 +553,8 @@ void science_dialog_update(void)
     
     flag=0;
     advance_index_iterate(A_FIRST, i) {
-      if (TECH_REACHABLE == player_invention_state(client.conn.playing, i)) {
+      if (TECH_PREREQS_KNOWN ==
+            player_invention_state(client.conn.playing, i)) {
 	Widget entry=
 	  XtVaCreateManagedWidget(advance_name_translation(advance_by_number(i)),
 				  smeBSBObjectClass,
@@ -575,7 +577,7 @@ void science_dialog_update(void)
     
     flag=0;
     advance_index_iterate(A_FIRST, i) {
-      if (player_invention_is_ready(client.conn.playing, i)
+      if (player_invention_reachable(client.conn.playing, i)
 	  && TECH_KNOWN != player_invention_state(client.conn.playing, i)
 	  && (11 > num_unknown_techs_for_goal(client.conn.playing, i)
 	      || i == research->tech_goal)) {

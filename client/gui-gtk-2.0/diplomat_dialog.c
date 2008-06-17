@@ -274,7 +274,7 @@ static void create_advances_list(struct player *pplayer,
     advance_index_iterate(A_FIRST, i) {
       if(player_invention_state(pvictim, i)==TECH_KNOWN && 
 	 (player_invention_state(pplayer, i)==TECH_UNKNOWN || 
-	  player_invention_state(pplayer, i)==TECH_REACHABLE)) {
+	  player_invention_state(pplayer, i)==TECH_PREREQS_KNOWN)) {
 	gtk_list_store_append(store, &it);
 
 	g_value_init(&value, G_TYPE_STRING);

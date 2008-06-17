@@ -76,9 +76,10 @@ char *color_names[] = {
   /* Reqtree */
   "reqtree_researching",
   "reqtree_known",
-  "reqtree_reachablegoal",
-  "reqtree_unreachablegoal",
-  "reqtree_reachable",
+  "reqtree_goal_prereqs_known",
+  "reqtree_goal_unknown",
+  "reqtree_prereqs_known",
+  "reqtree_unknown",
   "reqtree_unreachable",
   "reqtree_background",
   "reqtree_text",

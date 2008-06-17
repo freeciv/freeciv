@@ -189,7 +189,7 @@ static void button_release_event_callback(GtkWidget *widget,
     if (event->button == 1 && can_client_issue_orders()) {
       /* LMB: set research or research goal */
       switch (player_invention_state(client.conn.playing, tech)) {
-       case TECH_REACHABLE:
+       case TECH_PREREQS_KNOWN:
          dsend_packet_player_research(&client.conn, tech);
          break;
        case TECH_UNKNOWN:
@@ -484,7 +484,8 @@ void science_dialog_update(void)
   hist=0;
   if (!is_future_tech(research->researching)) {
     advance_index_iterate(A_FIRST, i) {
-      if (TECH_REACHABLE != player_invention_state(client.conn.playing, i)) {
+      if (TECH_PREREQS_KNOWN !=
+            player_invention_state(client.conn.playing, i)) {
 	continue;
       }
 
@@ -549,7 +550,7 @@ void science_dialog_update(void)
    */
   hist=0;
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_is_ready(client.conn.playing, i)
+    if (player_invention_reachable(client.conn.playing, i)
         && TECH_KNOWN != player_invention_state(client.conn.playing, i)
         && (11 > num_unknown_techs_for_goal(client.conn.playing, i)
 	    || i == research->tech_goal)) {

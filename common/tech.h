@@ -70,12 +70,12 @@ enum tech_flag_id {
   TF_LAST
 };
 
-/* TECH_KNOWN is self-explanatory, TECH_REACHABLE are those for which all 
+/* TECH_KNOWN is self-explanatory, TECH_PREREQS_KNOWN are those for which all 
  * requirements are fulfilled; all others (including those which can never 
  * be reached) are TECH_UNKNOWN */
 enum tech_state {
   TECH_UNKNOWN = 0,
-  TECH_REACHABLE = 1,
+  TECH_PREREQS_KNOWN = 1,
   TECH_KNOWN = 2,
 };
 
@@ -147,7 +147,7 @@ struct player_research {
   bool got_tech;
 
   struct {
-    /* One of TECH_UNKNOWN, TECH_KNOWN or TECH_REACHABLE. */
+    /* One of TECH_UNKNOWN, TECH_KNOWN or TECH_PREREQS_KNOWN. */
     enum tech_state state;
 
     /* 
@@ -204,8 +204,8 @@ enum tech_state player_invention_state(const struct player *pplayer,
 enum tech_state player_invention_set(struct player *pplayer,
 				     Tech_type_id tech,
 				     enum tech_state value);
-bool player_invention_is_ready(const struct player *pplayer,
-			       const Tech_type_id tech);
+bool player_invention_reachable(const struct player *pplayer,
+                                const Tech_type_id tech);
 
 Tech_type_id player_research_step(const struct player *pplayer,
 				  Tech_type_id goal);

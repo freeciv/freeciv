@@ -392,7 +392,7 @@ static struct reqtree *create_dummy_reqtree(struct player *pplayer)
       nodes[tech] = NULL;
       continue;
     }
-    if (pplayer && !player_invention_is_ready(pplayer, tech)) {
+    if (pplayer && !player_invention_reachable(pplayer, tech)) {
       /* Reqtree requested for particular player and this tech is
        * unreachable to him/her. */
       nodes[tech] = NULL;
@@ -868,6 +868,10 @@ static enum color_std node_color(struct tree_node *node)
       return COLOR_REQTREE_KNOWN;
     }
 
+    if (!player_invention_reachable(client.conn.playing, node->tech)) {
+      return COLOR_REQTREE_UNREACHABLE;
+    }
+
     if (research->researching == node->tech) {
       return COLOR_REQTREE_RESEARCHING;
     }
@@ -879,18 +883,20 @@ static enum color_std node_color(struct tree_node *node)
     if (is_tech_a_req_for_goal(client.conn.playing, node->tech,
                                research->tech_goal)
 	|| node->tech == research->tech_goal) {
-      if (TECH_REACHABLE == player_invention_state(client.conn.playing, node->tech)) {
-	return COLOR_REQTREE_REACHABLE_GOAL;
+      if (TECH_PREREQS_KNOWN ==
+            player_invention_state(client.conn.playing, node->tech)) {
+	return COLOR_REQTREE_GOAL_PREREQS_KNOWN;
       } else {
-	return COLOR_REQTREE_UNREACHABLE_GOAL;
+	return COLOR_REQTREE_GOAL_UNKNOWN;
       }
     }
 
-    if (TECH_REACHABLE == player_invention_state(client.conn.playing, node->tech)) {
-      return COLOR_REQTREE_REACHABLE;
+    if (TECH_PREREQS_KNOWN ==
+          player_invention_state(client.conn.playing, node->tech)) {
+      return COLOR_REQTREE_PREREQS_KNOWN;
     }
 
-    return COLOR_REQTREE_UNREACHABLE;
+    return COLOR_REQTREE_UNKNOWN;
   } else {
     return COLOR_REQTREE_BACKGROUND;
   }
@@ -981,12 +987,12 @@ static enum color_std edge_color(struct tree_node *node,
   case REQTREE_ACTIVE_EDGE:
     return COLOR_REQTREE_RESEARCHING;
   case REQTREE_GOAL_EDGE:
-    return COLOR_REQTREE_UNREACHABLE_GOAL;
+    return COLOR_REQTREE_GOAL_UNKNOWN;
   case REQTREE_KNOWN_EDGE:
     /* using "text" black instead of "known" white/ground/green */
     return COLOR_REQTREE_TEXT;
   case REQTREE_READY_EDGE:
-    return COLOR_REQTREE_REACHABLE;
+    return COLOR_REQTREE_PREREQS_KNOWN;
   default:
     return COLOR_REQTREE_EDGE;
   };

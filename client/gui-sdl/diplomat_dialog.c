@@ -204,10 +204,11 @@ static int spy_steal_popup(struct widget *pWidget)
   
   count = 0;
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_is_ready(client.conn.playing, i)
+    if (player_invention_reachable(client.conn.playing, i)
      && TECH_KNOWN == player_invention_state(pVictim, i)
      && (TECH_UNKNOWN == player_invention_state(client.conn.playing, i)
-      || TECH_REACHABLE == player_invention_state(client.conn.playing, i))) {
+         || TECH_PREREQS_KNOWN ==
+              player_invention_state(client.conn.playing, i))) {
       count++;
     }
   } advance_index_iterate_end;
@@ -287,10 +288,11 @@ static int spy_steal_popup(struct widget *pWidget)
   
   count = 0;
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_is_ready(client.conn.playing, i)
+    if (player_invention_reachable(client.conn.playing, i)
      && TECH_KNOWN == player_invention_state(pVictim, i)
      && (TECH_UNKNOWN == player_invention_state(client.conn.playing, i)
-      || TECH_REACHABLE == player_invention_state(client.conn.playing, i))) {
+         || TECH_PREREQS_KNOWN ==
+              player_invention_state(client.conn.playing, i))) {
       count++;
 
       copy_chars_to_string16(pStr, advance_name_translation(advance_by_number(i)));

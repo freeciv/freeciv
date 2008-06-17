@@ -250,9 +250,9 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
 
     advance_index_iterate(A_FIRST, i) {
       if (player_invention_state(plr0, i) == TECH_KNOWN
-          && player_invention_is_ready(plr1, i)
+          && player_invention_reachable(plr1, i)
 	  && (player_invention_state(plr1, i) == TECH_UNKNOWN
-	      || player_invention_state(plr1, i) == TECH_REACHABLE)) {
+	      || player_invention_state(plr1, i) == TECH_PREREQS_KNOWN)) {
 	item =
 	  gtk_menu_item_new_with_label(advance_name_for_player(client.conn.playing, i));
 
