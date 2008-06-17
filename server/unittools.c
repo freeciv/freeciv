@@ -715,13 +715,16 @@ static void update_unit_activity(struct unit *punit)
   case ACTIVITY_PILLAGE:
     if (punit->activity_target == S_LAST) { /* case for old save files */
       if (punit->activity_count >= 1) {
-	enum tile_special_type what
-	  = get_preferred_pillage(get_tile_infrastructure_set(ptile, NULL),
-                                  tile_get_base(ptile));
+        struct base_type *pbase;
+        enum tile_special_type what;
+
+        pbase = tile_get_base(ptile);
+        what = get_preferred_pillage(get_tile_infrastructure_set(ptile, NULL),
+                                     pbase);
 
 	if (what != S_LAST) {
           if (what == S_PILLAGE_BASE) {
-            tile_remove_base(ptile);
+            tile_remove_base(ptile, pbase);
           } else {
             tile_clear_special(ptile, what);
           }
@@ -739,7 +742,7 @@ static void update_unit_activity(struct unit *punit)
       enum tile_special_type what_pillaged = punit->activity_target;
 
       if (what_pillaged == S_PILLAGE_BASE) {
-        tile_remove_base(ptile);
+        tile_remove_base(ptile, tile_get_base(ptile));
       } else {
         tile_clear_special(ptile, what_pillaged);
       }

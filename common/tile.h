@@ -93,8 +93,9 @@ void tile_clear_all_specials(struct tile *ptile);
 
 /* Bases map onto specials */
 struct base_type *tile_get_base(const struct tile *ptile);
+bool tile_has_base(const struct tile *ptile, const struct base_type *pbase);
 void tile_add_base(struct tile *ptile, const struct base_type *pbase);
-void tile_remove_base(struct tile *ptile);
+void tile_remove_base(struct tile *ptile, const struct base_type *pbase);
 bool tile_has_base_flag(const struct tile *ptile, enum base_flag_id flag);
 bool tile_has_base_flag_for_unit(const struct tile *ptile,
                                  const struct unit_type *punittype,
