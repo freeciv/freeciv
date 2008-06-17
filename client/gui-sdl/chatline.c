@@ -129,10 +129,7 @@ static int load_selected_game_callback(struct widget *pWidget)
     char *filename = (char*)pWidget->data.ptr;
 
     if (is_server_running()) {
-      char message[MAX_LEN_MSG];
-
-      my_snprintf(message, sizeof(message), "/load %s", filename);
-      send_chat(message);
+      send_chat_printf("/load %s", filename);
       
       if (get_client_page() == PAGE_LOAD) {
         set_client_page(PAGE_START);

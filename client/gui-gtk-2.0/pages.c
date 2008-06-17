@@ -929,7 +929,6 @@ static void game_options_callback(GtkWidget *w, gpointer data)
 static void ai_skill_callback(GtkWidget *w, gpointer data)
 {
   const char *name;
-  char buf[512];
   enum ai_level level = GPOINTER_TO_UINT(data);
 
   if (level == AI_LEVEL_LAST) {
@@ -938,8 +937,7 @@ static void ai_skill_callback(GtkWidget *w, gpointer data)
 
   name = ai_level_cmd(level);
 
-  my_snprintf(buf, sizeof(buf), "/%s", name);
-  send_chat(buf);
+  send_chat_printf("/%s", name);
 }
 
 /* HACK: sometimes when creating the ruleset combo the value is set without
@@ -966,12 +964,9 @@ static void ruleset_callback(GtkWidget *w, gpointer data)
 static bool send_new_aifill_to_server = TRUE;
 static void ai_fill_callback(GtkWidget *w, gpointer data)
 {
-  char buf[512];
-
   if (send_new_aifill_to_server) {
-    my_snprintf(buf, sizeof(buf), "/set aifill %d",
-      gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(w)));
-    send_chat(buf);
+    send_chat_printf("/set aifill %d",
+                     gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(w)));
   }
 }
 
@@ -1009,11 +1004,7 @@ static void take_callback(GtkWidget *w, gpointer data)
       /* Make sure player reverts to AI control. This is much more neat,
        * and hides the ugly double username in the name list because
        * the player username equals the connection username. */
-      char buf[512];
-
-      my_snprintf(buf, sizeof(buf), "/aitoggle \"%s\"",
-                  player_name(client.conn.playing));
-      send_chat(buf);
+      send_chat_printf("/aitoggle \"%s\"", player_name(client.conn.playing));
     }
     send_chat("/detach");
     send_chat("/observe");
@@ -1045,13 +1036,11 @@ static struct connection *conn_menu_conn;
 static void conn_menu_team_chosen(GtkMenuItem *menuitem, gpointer data)
 {
   struct team *pteam = data;
-  char buf[1024];
 
   if (pteam != conn_menu_player->team) {
-    my_snprintf(buf, sizeof(buf), "/team \"%s\" \"%s\"",
-		player_name(conn_menu_player),
-		team_rule_name(pteam));
-    send_chat(buf);
+    send_chat_printf("/team \"%s\" \"%s\"",
+                     player_name(conn_menu_player),
+                     team_rule_name(pteam));
   }
 }
 
@@ -1080,15 +1069,12 @@ static void conn_menu_nation_chosen(GtkMenuItem *menuitem, gpointer data)
 ****************************************************************************/
 static void conn_menu_player_command(GtkMenuItem *menuitem, gpointer data)
 {
-  char buf[1024];
   char *command = data;
 
   assert(command != NULL);
   assert(conn_menu_player != NULL);
 
-  my_snprintf(buf, sizeof(buf), "/%s \"%s\"", command, 
-              player_name(conn_menu_player));
-  send_chat(buf);
+  send_chat_printf("/%s \"%s\"", command, player_name(conn_menu_player));
 }
 
 /****************************************************************************
@@ -1096,17 +1082,11 @@ static void conn_menu_player_command(GtkMenuItem *menuitem, gpointer data)
 ****************************************************************************/
 static void conn_menu_player_take(GtkMenuItem *menuitem, gpointer data)
 {
-  char buf[1024];
-
   if (conn_menu_player->ai.control) {
     /* See comment on detach command for why */
-    my_snprintf(buf, sizeof(buf), "/aitoggle \"%s\"",
-                player_name(conn_menu_player));
-    send_chat(buf);
+    send_chat_printf("/aitoggle \"%s\"", player_name(conn_menu_player));
   }
-  my_snprintf(buf, sizeof(buf), "/take \"%s\"",
-              player_name(conn_menu_player));
-  send_chat(buf);
+  send_chat_printf("/take \"%s\"", player_name(conn_menu_player));
 }
 
 /****************************************************************************
@@ -1115,15 +1095,12 @@ static void conn_menu_player_take(GtkMenuItem *menuitem, gpointer data)
 ****************************************************************************/
 static void conn_menu_connection_command(GtkMenuItem *menuitem, gpointer data)
 {
-  char buf[1024];
   const char *command = data;
 
   assert(conn_menu_conn != NULL);
   assert(command != NULL);
 
-  my_snprintf(buf, sizeof(buf), "/%s \"%s\"",
-              command, conn_menu_conn->username);
-  send_chat(buf);
+  send_chat_printf("/%s \"%s\"", command, conn_menu_conn->username);
 }
 
 /**************************************************************************
@@ -1649,10 +1626,7 @@ static void load_callback(void)
   gtk_tree_model_get(GTK_TREE_MODEL(load_store), &it, 1, &filename, -1);
 
   if (is_server_running()) {
-    char message[MAX_LEN_MSG];
-
-    my_snprintf(message, sizeof(message), "/load %s", filename);
-    send_chat(message);
+    send_chat_printf("/load %s", filename);
   }
 }
 
@@ -1828,10 +1802,7 @@ static void scenario_callback(void)
   gtk_tree_model_get(GTK_TREE_MODEL(scenario_store), &it, 1, &filename, -1);
 
   if (is_server_running()) {
-    char message[MAX_LEN_MSG];
-
-    my_snprintf(message, sizeof(message), "/load %s", filename);
-    send_chat(message);
+    send_chat_printf("/load %s", filename);
   }
 }
 

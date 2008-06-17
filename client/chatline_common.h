@@ -16,6 +16,8 @@
 #include "shared.h"		/* bool type */
 
 void send_chat(const char *message);
+void send_chat_printf(const char *format, ...)
+  fc__attribute((__format__ (__printf__, 1, 2)));
 
 void chatline_common_init(void);
 void chatline_common_done(void);

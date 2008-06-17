@@ -76,10 +76,7 @@ static void filesel_response_callback(GtkWidget *w, gint id, gpointer data)
     if (is_save) {
       send_save_game(filename);
     } else {
-      char message[MAX_LEN_MSG];
-
-      my_snprintf(message, sizeof(message), "/load %s", filename);
-      send_chat(message);
+      send_chat_printf("/load %s", filename);
     }
 
     g_free(filename);
