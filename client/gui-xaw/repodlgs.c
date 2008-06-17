@@ -1485,33 +1485,29 @@ void settable_options_ok_callback(Widget w, XtPointer client_data,
 
       if (setting_class_is_changeable(o->sclass)
 	  && o->is_visible) {
-	char buffer[MAX_LEN_MSG];
 
 	switch (o->stype) {
 	case SSET_BOOL:
 	  old_b = o->val ? True: False;
 	  XtVaGetValues(settable_options_widgets[i], XtNstate, &b, NULL);
 	  if (b != old_b) {
-	    my_snprintf(buffer, MAX_LEN_MSG, "/set %s %s",
-			o->name, b ? "1" : "0");
-	    send_chat(buffer);
+	    send_chat_printf("/set %s %s",
+                             o->name, b ? "1" : "0");
 	  }
 	  break;
 	case SSET_INT:
 	  XtVaGetValues(settable_options_widgets[i], XtNstring, &dp, NULL);
 	  sscanf(dp, "%d", &val);
 	  if (val != o->val) {
-	    my_snprintf(buffer, MAX_LEN_MSG, "/set %s %d",
-			o->name, val);
-	    send_chat(buffer);
+	    send_chat_printf("/set %s %d",
+                             o->name, val);
 	  }
 	  break;
 	case SSET_STRING:
 	  XtVaGetValues(settable_options_widgets[i], XtNstring, &dp, NULL);
 	  if (strcmp(o->strval, dp)) {
-	    my_snprintf(buffer, MAX_LEN_MSG, "/set %s %s",
-			o->name, (char *)dp);
-	    send_chat(buffer);
+	    send_chat_printf("/set %s %s",
+                             o->name, (char *)dp);
 	  }
 	  break;
 	}

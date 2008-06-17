@@ -829,10 +829,7 @@ static LONG CALLBACK OptionsWndProc(HWND hWnd,
 	    int val = Button_GetState(GetDlgItem(tab_wnds[tab],
 				      ID_OPTIONS_BASE + i)) == BST_CHECKED;
 	    if (val != o->val) {
-	      char buffer[MAX_LEN_MSG];
-	      my_snprintf(buffer, MAX_LEN_MSG, "/set %s %d",
-			  o->name, val);
-	      send_chat(buffer);
+	      send_chat_printf("/set %s %d", o->name, val);
 	    }
 	  } else if (SSET_INT == o->stype) {
 	    char buf[512];
@@ -841,20 +838,14 @@ static LONG CALLBACK OptionsWndProc(HWND hWnd,
 				    512);
 	    val = atoi(buf);
 	    if (val != o->val) {
-	      char buffer[MAX_LEN_MSG];
-	      my_snprintf(buffer, MAX_LEN_MSG, "/set %s %d",
-			  o->name, val);
-	      send_chat(buffer);
-	    }	    
+              send_chat_printf("/set %s %d", o->name, val);
+	    }
 	  } else {
 	    char strval[512];
 	    Edit_GetText(GetDlgItem(tab_wnds[tab], ID_OPTIONS_BASE + i),
 			 strval, 512);
 	    if (strcmp(strval, o->strval) != 0) {
-	      char buffer[MAX_LEN_MSG];
-	      my_snprintf(buffer, MAX_LEN_MSG, "/set %s %s",
-			  o->name, strval);
-	      send_chat(buffer);
+              send_chat_printf("/set %s %s", o->name, strval);
 	    }
 	  }
 	}

@@ -183,7 +183,7 @@ bool client_start_server(void)
 #if !defined(HAVE_WORKING_FORK) && !defined(WIN32_NATIVE)
   /* Can't do much without fork */
   return FALSE;
-#else
+#else /* HAVE_WORKING_FORK || WIN32_NATIVE */
   char buf[512];
   int connect_tries = 0;
 # ifdef WIN32_NATIVE
@@ -196,7 +196,7 @@ bool client_start_server(void)
   char cmdline3[512];
   char logcmdline[512];
   char scriptcmdline[512];
-# endif
+# endif /* WIN32_NATIVE */
 
   /* only one server (forked from this client) shall be running at a time */
   /* This also resets client_has_hack. */
@@ -275,7 +275,7 @@ bool client_start_server(void)
      * Calling exit here is dangerous due to X11 problems (async replies) */ 
     _exit(1);
   } 
-# else
+# else /* HAVE_WORKING_FORK */
 #  ifdef WIN32_NATIVE
   if (logfile) {
     loghandle = CreateFile(logfile, GENERIC_WRITE,
@@ -326,8 +326,8 @@ bool client_start_server(void)
   
   server_process = pi.hProcess;
 
-#  endif
-# endif
+#  endif /* WIN32_NATIVE */
+# endif /* HAVE_WORKING_FORK */
  
   /* a reasonable number of tries */ 
   while (connect_to_server(user_name, "localhost", internal_server_port, 
@@ -338,8 +338,8 @@ bool client_start_server(void)
     if (waitpid(server_pid, NULL, WNOHANG) != 0) {
       break;
     }
-#endif
-#endif
+#endif /* WIN32_NATIVE */
+#endif /* HAVE_WORKING_FORK */
     if (connect_tries++ > NUMBER_OF_TRIES) {
       break;
     }
@@ -373,16 +373,15 @@ bool client_start_server(void)
    * has sufficient permissions to do so (it doesn't have HACK access yet) it
    * is safe enough.  Note that if you load a savegame the topology will be
    * set but then overwritten during the load. */
-  my_snprintf(buf, sizeof(buf), "/set topology %d",
-	      (TF_WRAPX
-	       | ((tileset_is_isometric(tileset)
-		   && tileset_hex_height(tileset) == 0) ? TF_ISO : 0)
-	       | ((tileset_hex_width(tileset) != 0
-		   || tileset_hex_height(tileset) != 0) ? TF_HEX : 0)));
-  send_chat(buf);
+  send_chat_printf("/set topology %d",
+                   (TF_WRAPX
+                    | ((tileset_is_isometric(tileset)
+                        && tileset_hex_height(tileset) == 0) ? TF_ISO : 0)
+                    | ((tileset_hex_width(tileset) != 0
+                        || tileset_hex_height(tileset) != 0) ? TF_HEX : 0)));
 
   return TRUE;
-#endif
+#endif /* HAVE_WORKING_FORK || WIN32_NATIVE */
 }
 
 /*************************************************************************
@@ -488,13 +487,9 @@ send server commands to start a saved game.
 *****************************************************************/ 
 void send_start_saved_game(void)
 {   
-  char buf[MAX_LEN_MSG];
-
   send_chat("/set timeout 0");
   send_chat("/set autotoggle 1");
-  my_snprintf(buf, sizeof(buf), "/take \"%s\" \"%s\"",
-      	      user_name, leader_name);
-  send_chat(buf);
+  send_chat_printf("/take \"%s\" \"%s\"", user_name, leader_name);
   send_chat("/start");
 }
 
@@ -503,15 +498,11 @@ send server command to save game.
 *****************************************************************/ 
 void send_save_game(char *filename)
 {   
-  char message[MAX_LEN_MSG];
-
   if (filename) {
-    my_snprintf(message, MAX_LEN_MSG, "/save %s", filename);
+    send_chat_printf("/save %s", filename);
   } else {
-    my_snprintf(message, MAX_LEN_MSG, "/save");
+    send_chat("/save");
   }
-
-  send_chat(message);
 }
 
 /**************************************************************************

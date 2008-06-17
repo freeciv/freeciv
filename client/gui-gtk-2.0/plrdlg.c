@@ -832,13 +832,10 @@ static void players_ai_toggle_callback(GtkMenuItem *item, gpointer data)
 
   if (gtk_tree_selection_get_selected(players_selection, &model, &it)) {
     gint plrno;
-    char buf[512];
 
     gtk_tree_model_get(model, &it, ncolumns - 1, &plrno, -1);
 
-    my_snprintf(buf, sizeof(buf), "/aitoggle \"%s\"",
-                player_name(player_by_number(plrno)));
-    send_chat(buf);
+    send_chat_printf("/aitoggle \"%s\"", player_name(player_by_number(plrno)));
   }
 }
 
@@ -852,14 +849,12 @@ static void players_ai_skill_callback(GtkMenuItem *item, gpointer data)
 
   if (gtk_tree_selection_get_selected(players_selection, &model, &it)) {
     gint plrno;
-    char buf[512];
 
     gtk_tree_model_get(model, &it, ncolumns - 1, &plrno, -1);
 
-    my_snprintf(buf, sizeof(buf), "/%s %s",
-                ai_level_cmd(GPOINTER_TO_UINT(data)),
-                player_name(player_by_number(plrno)));
-    send_chat(buf);
+    send_chat_printf("/%s %s",
+                     ai_level_cmd(GPOINTER_TO_UINT(data)),
+                     player_name(player_by_number(plrno)));
   }
 }
 

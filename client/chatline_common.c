@@ -67,6 +67,24 @@ void send_chat(const char *message)
   dsend_packet_chat_msg_req(&client.conn, message);
 }
 
+/**************************************************************************
+  Send the message as a chat to the server. Message is constructed
+  in printf style.
+**************************************************************************/
+void send_chat_printf(const char *format, ...)
+{
+  char msg[50];
+  int maxlen = sizeof(msg);
+
+  va_list ap;
+  va_start(ap, format);
+  my_vsnprintf(msg, maxlen, format, ap);
+  msg[maxlen] = '\0'; /* Make sure there is always ending zero */
+  send_chat(msg);
+  va_end(ap);
+}
+
+
 static int frozen_level = 0;
 
 /**************************************************************************

@@ -746,8 +746,6 @@ void handle_save_load(const char *title, bool is_save)
     }
   } else {
     if (GetOpenFileName(&ofn)) {
-      char cmd[MAX_LEN_MSG];
-
       if (current_filename) {
 	free(current_filename);
       }
@@ -757,8 +755,7 @@ void handle_save_load(const char *title, bool is_save)
 
       current_filename = mystrdup(ofn.lpstrFile);
 
-      my_snprintf(cmd, sizeof(cmd), "/load %s", ofn.lpstrFile);
-      send_chat(cmd);
+      send_chat_printf("/load %s", ofn.lpstrFile);
     } else {
       SetCurrentDirectory(dirname);
     }
@@ -776,15 +773,12 @@ static void load_game_callback()
 }
 
 /**************************************************************************
-
+  Send parameters for new game to server.
 **************************************************************************/
 static void set_new_game_params(HWND win)
 {
-  int aifill;
-  int aiskill;
-
   char buf[512];
-  char aifill_str[MAX_LEN_MSG - MAX_LEN_USERNAME + 1];
+  int aiskill;
 
   if (!is_server_running()) {
     client_start_server();
@@ -792,18 +786,15 @@ static void set_new_game_params(HWND win)
 
   aiskill = ComboBox_GetCurSel(GetDlgItem(newgame_dlg,
 					  ID_NEWGAMEDLG_AISKILL));
-
-  my_snprintf(buf, sizeof(buf), "/%s", ai_level_cmd(aiskill));
-  send_chat(buf);
+  send_chat_printf("/%s", ai_level_cmd(aiskill));
 
 #if 0 
   send_chat("/set autotoggle 1");
 #endif
-  Edit_GetText(GetDlgItem(newgame_dlg, ID_NEWGAMEDLG_AIFILL), buf, 512);
-  aifill = atoi(buf);
 
-  my_snprintf(aifill_str, sizeof(aifill_str), "/set aifill %d", aifill);
-  send_chat(aifill_str);
+  Edit_GetText(GetDlgItem(newgame_dlg, ID_NEWGAMEDLG_AIFILL), buf, 512);
+
+  send_chat_printf("/set aifill %d", atoi(buf));
 
   really_close_connection_dialog();
 
