@@ -223,6 +223,8 @@ static const char hex_chars[] = "0123456789abcdef";
 static void set_savegame_special(bv_special *specials,
 		    char ch, const enum tile_special_type *index);
 
+static void game_load_internal(struct section_file *file);
+
 /***************************************************************
 This returns an ascii hex value of the given half-byte of the binary
 integer. See ascii_hex2bin().
@@ -3780,6 +3782,20 @@ static void repair_city_worker(struct city *pcity)
 ***************************************************************/
 void game_load(struct section_file *file)
 {
+  bool was_send_city_suppressed = send_city_suppression(TRUE);
+  bool was_send_tile_suppressed = send_tile_suppression(TRUE);
+
+  game_load_internal(file);
+
+  send_tile_suppression(was_send_tile_suppressed);
+  send_city_suppression(was_send_city_suppressed);
+}
+
+/***************************************************************
+  Real game_load function.
+***************************************************************/
+static void game_load_internal(struct section_file *file)
+{
   int i, k;
   enum server_states tmp_server_state;
   RANDOM_STATE rstate;
@@ -3787,8 +3803,6 @@ void game_load(struct section_file *file)
   int improvement_order_size = 0;
   int technology_order_size = 0;
   int civstyle = 0;
-  bool was_send_city_suppressed = send_city_suppression(TRUE);
-  bool was_send_tile_suppressed = send_tile_suppression(TRUE);
   char **improvement_order = NULL;
   char **technology_order = NULL;
   enum tile_special_type *special_order = NULL;
@@ -4471,9 +4485,6 @@ void game_load(struct section_file *file)
   if (!game.info.is_new_game) {
     set_myrand_state(rstate);
   }
-
-  send_tile_suppression(was_send_tile_suppressed);
-  send_city_suppression(was_send_city_suppressed);
 }
 
 /***************************************************************
