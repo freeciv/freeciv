@@ -431,7 +431,7 @@ void assess_danger_player(struct player *pplayer)
   that can whack us, so let's build something that can defend against
   him. If danger is urgent and overwhelming, danger is 200+, if it is
   only overwhelming, set it depending on danger. If it is underwhelming,
-  set it to 100 pluss urgency.
+  set it to 100 plus urgency.
 
   This algorithm is very strange. But I created it by nesting up
   Syela's convoluted if ... else logic, and it seems to work. -- Per
@@ -473,11 +473,23 @@ static void ai_reevaluate_building(struct city *pcity, int *value,
   FIXME: Due to the nature of assess_distance, a city will only be 
   afraid of a boat laden with enemies if it stands on the coast (i.e.
   is directly reachable by this boat).
+
+  FIXME: CPU cycles are spent to determine all danger types, but
+  only DANGER_WALL and DANGER_LAND are ever used.
 ***********************************************************************/
+enum danger_type {
+  DANGER_ALL,  /* All but nuclear danger */
+  DANGER_LAND, /* Land danger that can be countered with Walls */
+  DANGER_SEA,
+  DANGER_AIR,
+  DANGER_NUKE,
+  DANGER_LAST };
+
 static unsigned int assess_danger(struct city *pcity)
 {
   int i;
-  int danger[5], defender;
+  unsigned int danger[DANGER_LAST];
+  int defender;
   struct player *pplayer = city_owner(pcity);
   bool pikemen = FALSE;
   unsigned int urgency = 0;
@@ -570,20 +582,23 @@ static unsigned int assess_danger(struct city *pcity)
       vulnerability *= vulnerability; /* positive feedback */
 
       if (!igwall) {
-        danger[1] += vulnerability * move_rate / MAX(dist, 1); /* walls */
+        /* walls */
+        danger[DANGER_LAND] += vulnerability * move_rate / MAX(dist, 1);
       } else if (is_sailing_unit(punit)) {
-        danger[2] += vulnerability * move_rate / MAX(dist, 1); /* coastal */
+        /* coastal */
+        danger[DANGER_SEA] += vulnerability * move_rate / MAX(dist, 1);
       } else if (is_air_unit(punit) && !unit_has_type_flag(punit, F_NUCLEAR)) {
-        danger[3] += vulnerability * move_rate / MAX(dist, 1); /* SAM */
+        /* SAM */
+        danger[DANGER_AIR] += vulnerability * move_rate / MAX(dist, 1);
       }
       if (uclass_has_flag(unit_class(punit), UCF_MISSILE)) {
         /* SDI */
-        danger[4] += vulnerability * move_rate / MAX(move_rate, dist);
+        danger[DANGER_NUKE] += vulnerability * move_rate / MAX(move_rate, dist);
       }
       if (!unit_has_type_flag(punit, F_NUCLEAR)) {
         /* only SDI helps against NUCLEAR */
         vulnerability = dangerfunct(vulnerability, move_rate, dist);
-        danger[0] += vulnerability;
+        danger[DANGER_ALL] += vulnerability;
         if (igwall) {
           igwall_threat += vulnerability;
         }
@@ -591,23 +606,27 @@ static unsigned int assess_danger(struct city *pcity)
     } unit_list_iterate_end;
   } players_iterate_end;
 
-  if (igwall_threat == 0) {
-    pcity->ai.wallvalue = 90;
-  } else {
-    pcity->ai.wallvalue = (danger[0] * 9 - igwall_threat * 8) 
-                           * 10 / (danger[0]);
-  }
-
   /* Watch out for integer overflows */
-  for (i = 0; i < 5; i++) {
-    if (danger[i] < 0 || danger[i] > 1<<24) {
+  for (i = 0; i < DANGER_LAST; i++) {
+    if (danger[i] < 0 || danger[i] > 1 << 25) {
       /* I hope never to see this! */
       freelog(LOG_ERROR, "Dangerous danger[%d] (%d) in %s.  Beware of "
               "overflow.", i, danger[i], city_name(pcity));
-      danger[i] = danger[i]>>2; /* reduce danger of overflow */
+      danger[i] = danger[i] >> 2; /* reduce probability of overflow */
     }
   }
 
+  if (igwall_threat == 0) {
+    pcity->ai.wallvalue = 90;
+  } else if (danger[DANGER_ALL]) {
+    pcity->ai.wallvalue = (danger[DANGER_ALL] * 9 - igwall_threat * 8) 
+                           * 10 / (danger[DANGER_ALL]);
+  } else {
+    /* No danger.
+     * This is half of the wallvalue of what danger 1 would produce. */
+    pcity->ai.wallvalue = 5;
+  }
+ 
   if (pcity->ai.grave_danger != 0) {
     /* really, REALLY urgent to defend */
     urgency += 10;
@@ -615,20 +634,22 @@ static unsigned int assess_danger(struct city *pcity)
 
   /* HACK: This needs changing if multiple improvements provide
    * this effect. */
+  /* FIXME: Check attacker type and protect against that. Now
+   * always assess land danger and builds any defend bonus as result. */
   defender = ai_find_source_building(pplayer, EFT_DEFEND_BONUS);
 
   if (defender != B_LAST) {
     ai_reevaluate_building(pcity, &pcity->ai.building_want[defender],
-	urgency, danger[1], assess_defense_igwall(pcity));
+	urgency, danger[DANGER_LAND], assess_defense_igwall(pcity));
   }
 
   if (ai_handicap(pplayer, H_DANGER)
-      && danger[0] == 0) {
+      && danger[DANGER_ALL] == 0) {
     /* Has to have some danger
      * Otherwise grave_danger will be ignored. */
     pcity->ai.danger = 1;
   } else {
-    pcity->ai.danger = danger[0];
+    pcity->ai.danger = danger[DANGER_ALL];
   }
   pcity->ai.urgency = urgency;
 
