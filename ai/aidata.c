@@ -140,7 +140,7 @@ static bool player_has_really_useful_tech_parasite(struct player* pplayer)
   advance_index_iterate(A_FIRST, tech) {
     int players_having;
 
-    if (!player_invention_is_ready(pplayer, tech)
+    if (!player_invention_reachable(pplayer, tech)
         || TECH_KNOWN == player_invention_state(pplayer, tech)) {
       continue;
     }

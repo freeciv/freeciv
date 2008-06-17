@@ -106,7 +106,7 @@ struct advance *advance_by_number(const Tech_type_id atype)
 
 /**************************************************************************
   Returns state of the tech for current pplayer.
-  This can be: TECH_KNOWN, TECH_UNKNOWN, or TECH_REACHABLE
+  This can be: TECH_KNOWN, TECH_UNKNOWN, or TECH_PREREQS_KNOWN
   Should be called with existing techs or A_FUTURE
 
   If pplayer is NULL this checks whether any player knows the tech (used
@@ -208,7 +208,7 @@ static void build_required_techs_helper(struct player *pplayer,
 {
   /* The is_tech_a_req_for_goal condition is true if the tech is
    * already marked */
-  if (!player_invention_is_ready(pplayer, tech)
+  if (!player_invention_reachable(pplayer, tech)
       || player_invention_state(pplayer, tech) == TECH_KNOWN
       || is_tech_a_req_for_goal(pplayer, tech, goal)) {
     return;
@@ -281,8 +281,8 @@ static void build_required_techs(struct player *pplayer, Tech_type_id goal)
   pplayer may be NULL in which case a simplified result is returned
   (used by the client).
 **************************************************************************/
-bool player_invention_is_ready(const struct player *pplayer,
-			       const Tech_type_id tech)
+bool player_invention_reachable(const struct player *pplayer,
+                                const Tech_type_id tech)
 {
   Tech_type_id root;
 
@@ -301,7 +301,7 @@ bool player_invention_is_ready(const struct player *pplayer,
 }
 
 /**************************************************************************
-  Mark as TECH_REACHABLE each tech which is available, not known and
+  Mark as TECH_PREREQS_KNOWN each tech which is available, not known and
   which has all requirements fullfiled.
   If there is no such a tech mark A_FUTURE as researchable.
   
@@ -318,17 +318,17 @@ void player_research_update(struct player *pplayer)
   player_invention_set(pplayer, A_NONE, TECH_KNOWN);
 
   advance_index_iterate(A_FIRST, i) {
-    if (!player_invention_is_ready(pplayer, i)) {
+    if (!player_invention_reachable(pplayer, i)) {
       player_invention_set(pplayer, i, TECH_UNKNOWN);
     } else {
-      if (player_invention_state(pplayer, i) == TECH_REACHABLE) {
+      if (player_invention_state(pplayer, i) == TECH_PREREQS_KNOWN) {
 	player_invention_set(pplayer, i, TECH_UNKNOWN);
       }
 
       if (player_invention_state(pplayer, i) == TECH_UNKNOWN
 	  && player_invention_state(pplayer, advance_required(i, AR_ONE)) == TECH_KNOWN
 	  && player_invention_state(pplayer, advance_required(i, AR_TWO)) == TECH_KNOWN) {
-	player_invention_set(pplayer, i, TECH_REACHABLE);
+	player_invention_set(pplayer, i, TECH_PREREQS_KNOWN);
 	researchable++;
       }
     }
@@ -337,7 +337,7 @@ void player_research_update(struct player *pplayer)
   
   /* No techs we can research? Mark A_FUTURE as researchable */
   if (researchable == 0) {
-    player_invention_set(pplayer, A_FUTURE, TECH_REACHABLE);
+    player_invention_set(pplayer, A_FUTURE, TECH_PREREQS_KNOWN);
   }
 
   for (flag = 0; flag < TF_LAST; flag++) {
@@ -361,13 +361,13 @@ Tech_type_id player_research_step(const struct player *pplayer,
 {
   Tech_type_id sub_goal;
 
-  if (!player_invention_is_ready(pplayer, goal)) {
+  if (!player_invention_reachable(pplayer, goal)) {
     return A_UNSET;
   }
   switch (player_invention_state(pplayer, goal)) {
   case TECH_KNOWN:
     return A_UNSET;
-  case TECH_REACHABLE:
+  case TECH_PREREQS_KNOWN:
     return goal;
   case TECH_UNKNOWN:
   default:

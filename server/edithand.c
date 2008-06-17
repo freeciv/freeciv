@@ -497,7 +497,8 @@ void handle_edit_player_tech(struct connection *pc,
   player_research_update(pplayer);
 
   if (research->researching != A_UNSET
-      && player_invention_state(pplayer, research->researching) != TECH_REACHABLE) {
+      && player_invention_state(pplayer, research->researching) !=
+           TECH_PREREQS_KNOWN) {
     research->researching = A_UNSET;
   }
   if (research->tech_goal != A_UNSET

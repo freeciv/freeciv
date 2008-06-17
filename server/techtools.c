@@ -152,7 +152,7 @@ void do_tech_parasite_effect(struct player *pplayer)
     } effect_list_iterate_end;
 
     advance_index_iterate(A_FIRST, i) {
-      if (player_invention_is_ready(pplayer, i)
+      if (player_invention_reachable(pplayer, i)
 	  && player_invention_state(pplayer, i) != TECH_KNOWN) {
 	int num_players = 0;
 
@@ -477,7 +477,7 @@ static Tech_type_id pick_random_tech(struct player* plr)
   int chosen, researchable = 0;
 
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_state(plr, i) == TECH_REACHABLE) {
+    if (player_invention_state(plr, i) == TECH_PREREQS_KNOWN) {
       researchable++;
     }
   } advance_index_iterate_end;
@@ -487,7 +487,7 @@ static Tech_type_id pick_random_tech(struct player* plr)
   chosen = myrand(researchable) + 1;
   
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_state(plr, i) == TECH_REACHABLE) {
+    if (player_invention_state(plr, i) == TECH_PREREQS_KNOWN) {
       chosen--;
       if (chosen == 0) {
         return i;
@@ -530,7 +530,7 @@ void choose_tech(struct player *plr, Tech_type_id tech)
   if (research->researching == tech) {
     return;
   }
-  if (player_invention_state(plr, tech) != TECH_REACHABLE) {
+  if (player_invention_state(plr, tech) != TECH_PREREQS_KNOWN) {
     /* can't research this */
     return;
   }
@@ -649,7 +649,7 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
   if (preferred == A_UNSET) {
     int j = 0;
     advance_index_iterate(A_FIRST, i) {
-      if (player_invention_is_ready(pplayer, i)
+      if (player_invention_reachable(pplayer, i)
 	  && player_invention_state(pplayer, i) != TECH_KNOWN
 	  && player_invention_state(victim, i) == TECH_KNOWN) {
         j++;
@@ -670,7 +670,7 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
       j = myrand(j) + 1;
       stolen_tech = A_NONE; /* avoid compiler warning */
       advance_index_iterate(A_FIRST, i) {
-        if (player_invention_is_ready(pplayer, i)
+        if (player_invention_reachable(pplayer, i)
 	    && player_invention_state(pplayer, i) != TECH_KNOWN
 	    && player_invention_state(victim, i) == TECH_KNOWN) {
 	  j--;
@@ -684,7 +684,7 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
     }
   } else { /* preferred != A_UNSET */
     assert((preferred == A_FUTURE
-            && player_invention_state(victim, A_FUTURE) == TECH_REACHABLE)
+            && player_invention_state(victim, A_FUTURE) == TECH_PREREQS_KNOWN)
 	   || (valid_advance_by_number(preferred)
 	       && player_invention_state(victim, preferred) == TECH_KNOWN));
     stolen_tech = preferred;
@@ -729,10 +729,11 @@ void handle_player_research(struct player *pplayer, int tech)
     return;
   }
   
-  if (tech != A_FUTURE && player_invention_state(pplayer, tech) != TECH_REACHABLE) {
+  if (tech != A_FUTURE
+      && player_invention_state(pplayer, tech) != TECH_PREREQS_KNOWN) {
     return;
   }
-  
+
   choose_tech(pplayer, tech);
   send_player_info(pplayer, pplayer);
 
@@ -759,7 +760,7 @@ void handle_player_tech_goal(struct player *pplayer, int tech_goal)
   }
   
   if (tech_goal != A_FUTURE
-   && !player_invention_is_ready(pplayer, tech_goal)) {
+   && !player_invention_reachable(pplayer, tech_goal)) {
     return;
   }
   

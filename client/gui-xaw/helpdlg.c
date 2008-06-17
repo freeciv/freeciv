@@ -259,7 +259,7 @@ static void create_tech_tree(Widget tree, Widget parent, int tech, int levels)
     case TECH_KNOWN:
       bg=TREE_NODE_KNOWN_TECH_BG;
       break;
-    case TECH_REACHABLE:
+    case TECH_PREREQS_KNOWN:
       bg=TREE_NODE_REACHABLE_TECH_BG;
       break;
   }

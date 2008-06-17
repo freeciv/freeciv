@@ -124,7 +124,8 @@ science_dialog_update(void)
 
   if (!is_future_tech(get_player_research(client.conn.playing)->researching)) {
     advance_index_iterate(A_FIRST, tech_id) {
-      if (TECH_REACHABLE != player_invention_state(client.conn.playing, tech_id)) {
+      if (TECH_PREREQS_KNOWN !=
+            player_invention_state(client.conn.playing, tech_id)) {
 	continue;
       }
 
@@ -150,7 +151,7 @@ science_dialog_update(void)
   ComboBox_ResetContent(GetDlgItem(science_dlg,ID_SCIENCE_GOAL));
     hist=0;
   advance_index_iterate(A_FIRST, tech_id) {
-    if (player_invention_is_ready(client.conn.playing, tech_id)
+    if (player_invention_reachable(client.conn.playing, tech_id)
         && TECH_KNOWN != player_invention_state(client.conn.playing, tech_id)
         && (11 > num_unknown_techs_for_goal(client.conn.playing, tech_id)
 	    || tech_id == get_player_research(client.conn.playing)->tech_goal)) {

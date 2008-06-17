@@ -537,7 +537,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   }
   
   if (technology == A_FUTURE) {
-    if (player_invention_state(pplayer, A_FUTURE) != TECH_REACHABLE
+    if (player_invention_state(pplayer, A_FUTURE) != TECH_PREREQS_KNOWN
         || get_player_research(pplayer)->future_tech >= 
 	   get_player_research(pplayer)->future_tech) {
       return;
