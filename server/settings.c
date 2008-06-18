@@ -439,7 +439,7 @@ struct settings_s settings[] = {
           SSET_TO_CLIENT,
 	  N_("Minimum number of players"),
 	  N_("There must be at least this many players (connected "
-	     "human players or AI players) before the game can start."),
+	     "human players) before the game can start."),
 	  NULL,
 	  GAME_MIN_MIN_PLAYERS, GAME_MAX_MIN_PLAYERS, GAME_DEFAULT_MIN_PLAYERS)
 

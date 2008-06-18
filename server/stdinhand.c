@@ -3782,6 +3782,8 @@ static void start_cmd_reply(struct connection *caller, bool notify, char *msg)
 **************************************************************************/
 bool start_command(struct connection *caller, bool check, bool notify)
 {
+  int human_players;
+
   switch (server_state()) {
   case S_S_INITIAL:
     /* Sanity check scenario */
@@ -3815,10 +3817,17 @@ bool start_command(struct connection *caller, bool check, bool notify)
       }
     }
 
+    human_players = 0;
+    players_iterate(plr) {
+      if (!plr->ai.control) {
+        human_players++;
+      }
+    } players_iterate_end;
+
     /* check min_players */
-    if (game.info.nplayers < game.info.min_players) {
+    if (human_players < game.info.min_players) {
       start_cmd_reply(caller, notify,
-                      _("Not enough players, game will not start."));
+                      _("Not enough human players, game will not start."));
       return FALSE;
     } else if (game.info.nplayers - server.nbarbarians > server.playable_nations) {
       cmd_reply(CMD_START_GAME, caller, C_FAIL,
