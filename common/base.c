@@ -108,6 +108,11 @@ bool can_build_base(const struct unit *punit, const struct base_type *pbase,
     return FALSE;
   }
 
+  if (!pbase->buildable) {
+    /* Base type not buildable. */
+    return FALSE;
+  }
+
   return are_reqs_active(unit_owner(punit), NULL, NULL, ptile,
                          unit_type(punit), NULL, NULL, &pbase->reqs,
                          RPT_CERTAIN);

@@ -1766,6 +1766,7 @@ shield      = 3
 ; [fortress] and [airbase].
 ;
 ; name                    = Name of the base type.
+; buildable               = Can base be built? Defaults to true
 ; graphic                 = tag specifing preferred graphic
 ; graphic_alt             = tag for alternate garphic if preferred graphic is not 
 ;                           present. Can use eg "-" for no alternate graphic.

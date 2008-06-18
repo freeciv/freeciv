@@ -47,6 +47,7 @@ BV_DEFINE(bv_base_flags, BF_LAST);
 
 struct base_type {
   Base_type_id item_number;
+  bool buildable;
   struct name_translation name;
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
