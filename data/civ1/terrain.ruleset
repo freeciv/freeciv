@@ -1729,6 +1729,7 @@ update22two = "P"
 ; [fortress] and [airbase].
 ;
 ; name                    = Name of the base type.
+; buildable               = Can base be built? Defaults to true
 ; graphic                 = tag specifing preferred graphic
 ; graphic_alt             = tag for alternate garphic if preferred graphic is not 
 ;                           present. Can use eg "-" for no alternate graphic.
@@ -1764,12 +1765,15 @@ flags        = "NoAggressive", "DefenseBonus", "ClaimTerritory",
 
 [airbase]
 name         = _("Airbase")
+buildable    = 0
 graphic      = "base.airbase"
 graphic_alt  = "-"
 activity_gfx = "unit.airbase"
 reqs         =
     { "type", "name", "range"
-      "Tech", "Never", "Player"
+      "Tech", "Radio", "Player"
+      "TerrainClass", "Land", "Local"
+      "UnitFlag", "Airbase", "Local"
     }
 gui_type     = "Airbase"
 build_time   = 3

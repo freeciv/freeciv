@@ -1954,6 +1954,9 @@ static void load_ruleset_terrain(struct section_file *file)
       section = "unknown";
     }
 
+    pbase->buildable = secfile_lookup_bool_default(file, TRUE,
+                                                  "%s.buildable", section);
+
     sz_strlcpy(pbase->graphic_str,
                secfile_lookup_str_default(file, "-", "%s.graphic", section));
     sz_strlcpy(pbase->graphic_alt,
