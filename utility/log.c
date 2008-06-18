@@ -203,9 +203,13 @@ void log_set_level(int level)
 /**************************************************************************
 Adjust the callback function after initial log_init().
 **************************************************************************/
-void log_set_callback(log_callback_fn callback)
+log_callback_fn log_set_callback(log_callback_fn callback)
 {
-  log_callback=callback;
+  log_callback_fn old = log_callback;
+
+  log_callback = callback;
+
+  return old;
 }
 
 /**************************************************************************
