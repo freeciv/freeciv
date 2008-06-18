@@ -3823,6 +3823,11 @@ bool start_command(struct connection *caller, bool check, bool notify)
       start_cmd_reply(caller, notify,
                       _("Not enough human players, game will not start."));
       return FALSE;
+    } else if (game.info.nplayers < 1) {
+      /* At least one player required */
+      start_cmd_reply(caller, notify,
+                      _("No players, game will not start."));
+      return FALSE;
     } else if (game.info.nplayers - game.info.nbarbarians > game.playable_nations) {
       cmd_reply(CMD_START_GAME, caller, C_FAIL,
 		_("Not enough nations for all players, game will not start."));
