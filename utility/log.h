@@ -59,7 +59,7 @@ int log_parse_level_str(const char *level_str);
 void log_init(const char *filename, int initial_level,
 	      log_callback_fn callback);
 void log_set_level(int level);
-void log_set_callback(log_callback_fn callback);
+log_callback_fn log_set_callback(log_callback_fn callback);
 
 void real_freelog(int level, const char *message, ...)
                   fc__attribute((__format__ (__printf__, 2, 3)));
