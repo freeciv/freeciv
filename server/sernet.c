@@ -1127,7 +1127,11 @@ static void get_lanserver_announcement(void)
 ********************************************************************/
 static void send_lanserver_response(void)
 {
+#ifndef HAVE_WINSOCK
   unsigned char buffer[MAX_LEN_PACKET];
+#else  /* HAVE_WINSOCK */
+  char buffer[MAX_LEN_PACKET];
+#endif /* HAVE_WINSOCK */
   char hostname[512];
   char port[256];
   char version[256];

@@ -533,7 +533,11 @@ static bool begin_lanserver_scan(struct server_scan *scan)
   union my_sockaddr addr;
   struct data_out dout;
   int sock, opt = 1;
+#ifndef HAVE_WINSOCK
   unsigned char buffer[MAX_LEN_PACKET];
+#else  /* HAVE_WINSOCK */
+  char buffer[MAX_LEN_PACKET];
+#endif /* HAVE_WINSOCK */
   struct ip_mreq mreq;
   const char *group;
   size_t size;
