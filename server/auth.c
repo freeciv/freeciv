@@ -41,6 +41,7 @@
 
 /* where our mysql database is located and how to get to it */
 #define DEFAULT_AUTH_HOST     "localhost"
+#define DEFAULT_AUTH_PORT     "3306"
 #define DEFAULT_AUTH_USER     "anonymous"
 #define DEFAULT_AUTH_PASSWORD ""
 
@@ -134,6 +135,7 @@ struct auth_option {
 
 static struct authentication_conf {
   struct auth_option host;
+  struct auth_option port;
   struct auth_option user;
   struct auth_option password;
   struct auth_option database;
@@ -208,6 +210,7 @@ static void print_auth_config(int loglevel, enum show_source_type show_source,
                               bool show_value)
 {
   print_auth_option(loglevel, show_source, show_value, &auth_config.host);
+  print_auth_option(loglevel, show_source, show_value, &auth_config.port);
   print_auth_option(loglevel, show_source, show_value, &auth_config.user);
   print_auth_option(loglevel, show_source, FALSE, &auth_config.password);
   print_auth_option(loglevel, show_source, show_value, &auth_config.database);
@@ -218,9 +221,22 @@ static void print_auth_config(int loglevel, enum show_source_type show_source,
 /**************************************************************************
   Set one auth option.
 **************************************************************************/
-static void set_auth_option(struct auth_option *target, const char *value,
+static bool set_auth_option(struct auth_option *target, const char *value,
                             enum auth_option_source source)
 {
+  if (value != NULL
+      && !strcmp(target->name, "port")) {
+    /* Port value must be all numeric. */
+    int i;
+
+    for (i = 0; value[i] != '\0'; i++) {
+      if (value[i] < '0' || value[i] > '9') {
+        freelog(LOG_ERROR, _("Illegal value for auth port: \"value\""));
+        return FALSE;
+      }
+    }
+  }
+
   if (value == NULL) {
     if (target->value != NULL) {
       free(target->value);
@@ -231,6 +247,8 @@ static void set_auth_option(struct auth_option *target, const char *value,
     memcpy(target->value, value, strlen(value) + 1);
   }
   target->source = source;
+
+  return TRUE;
 }
 
 /**************************************************************************
@@ -273,6 +291,7 @@ static bool load_auth_config(const char *filename)
   }
 
   load_auth_option(&file, &auth_config.host);
+  load_auth_option(&file, &auth_config.port);
   load_auth_option(&file, &auth_config.user);
   load_auth_option(&file, &auth_config.password);
   load_auth_option(&file, &auth_config.database);
@@ -297,6 +316,7 @@ bool auth_init(const char *conf_file)
   if (first_init) {
     /* Run just once when program starts */
     auth_config.host.value        = NULL;
+    auth_config.port.value        = NULL;
     auth_config.user.value        = NULL;
     auth_config.password.value    = NULL;
     auth_config.database.value    = NULL;
@@ -304,6 +324,7 @@ bool auth_init(const char *conf_file)
     auth_config.login_table.value = NULL;
 
     auth_config.host.name         = "host";
+    auth_config.port.name         = "port";
     auth_config.user.name         = "user";
     auth_config.password.name     = "password";
     auth_config.database.name     = "database";
@@ -314,6 +335,7 @@ bool auth_init(const char *conf_file)
   }
 
   set_auth_option(&auth_config.host, DEFAULT_AUTH_HOST, AOS_DEFAULT);
+  set_auth_option(&auth_config.port, DEFAULT_AUTH_PORT, AOS_DEFAULT);
   set_auth_option(&auth_config.user, DEFAULT_AUTH_USER, AOS_DEFAULT);
   set_auth_option(&auth_config.password, DEFAULT_AUTH_PASSWORD, AOS_DEFAULT);
   set_auth_option(&auth_config.database, DEFAULT_AUTH_DATABASE, AOS_DEFAULT);
@@ -347,6 +369,7 @@ void auth_free(void)
 {
 #ifdef HAVE_AUTH
   set_auth_option(&auth_config.host, NULL, AOS_DEFAULT);
+  set_auth_option(&auth_config.port, NULL, AOS_DEFAULT);
   set_auth_option(&auth_config.user, NULL, AOS_DEFAULT);
   set_auth_option(&auth_config.password, NULL, AOS_DEFAULT);
   set_auth_option(&auth_config.database, NULL, AOS_DEFAULT);
@@ -672,7 +695,8 @@ static bool authdb_check_password(struct connection *pconn,
   /* attempt to connect to the server */
   if ((sock = mysql_real_connect(&mysql, auth_config.host.value,
                                  auth_config.user.value, auth_config.password.value, 
-                                 auth_config.database.value, 0, NULL, 0))) {
+                                 auth_config.database.value,
+                                 atoi(auth_config.port.value), NULL, 0))) {
     char *name_buffer = alloc_escaped_string(&mysql, pconn->username);
     int str_result;
 
@@ -724,7 +748,8 @@ static enum authdb_status auth_db_load(struct connection *pconn)
                                   auth_config.user.value,
                                   auth_config.password.value,
                                   auth_config.database.value,
-                                  0, NULL, 0))) {
+                                  atoi(auth_config.port.value),
+                                  NULL, 0))) {
     freelog(LOG_ERROR, "Can't connect to server! (%s)", mysql_error(&mysql));
     return AUTH_DB_ERROR;
   }
@@ -841,7 +866,8 @@ static bool auth_db_save(struct connection *pconn)
   if (!(sock = mysql_real_connect(&mysql, auth_config.host.value,
                                   auth_config.user.value, auth_config.password.value,
                                   auth_config.database.value,
-                                  0, NULL, 0))) {
+                                  atoi(auth_config.port.value),
+                                  NULL, 0))) {
     freelog(LOG_ERROR, "Can't connect to server! (%s)", mysql_error(&mysql));
     return FALSE;
   }
