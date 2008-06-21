@@ -17,10 +17,15 @@
 
 #include <math.h>
 
+/* utilities */
+#include "log.h"
 #include "rand.h"
 
 #include "api_utilities.h"
 
+/************************************************************************
+  Generate random number.
+************************************************************************/
 int api_utilities_random(int min, int max)
 {
   double roll = (double)(myrand(MAX_UINT32) % MAX_UINT32) / (double)MAX_UINT32;
@@ -28,3 +33,18 @@ int api_utilities_random(int min, int max)
   return (min + floor(roll * (max - min + 1)));
 }
 
+/************************************************************************
+  Error message from script to log
+************************************************************************/
+void api_utilities_error_log(const char *msg)
+{
+  freelog(LOG_ERROR, "%s", msg);
+}
+
+/************************************************************************
+  Debug message from script to log
+************************************************************************/
+void api_utilities_debug_log(const char *msg)
+{
+  freelog(LOG_DEBUG, "%s", msg);
+}
