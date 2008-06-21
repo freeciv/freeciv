@@ -1250,6 +1250,9 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
 	  } vision_layer_iterate_end;
 	} whole_map_iterate_end;
 
+        /* Refresh cities in case new tiles were revealed from their area. */
+        check_city_workers(pplayer2);
+
 	/* squares that are not seen, but which pfrom may have more recent
 	   knowledge of */
 	give_map_from_player_to_player(pplayer, pplayer2);

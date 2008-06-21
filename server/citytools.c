@@ -2165,7 +2165,7 @@ void sync_cities(void)
 }
 
 /**************************************************************************
-...
+  Check worker maps of all the cities of the player.
 **************************************************************************/
 void check_city_workers(struct player *pplayer)
 {
