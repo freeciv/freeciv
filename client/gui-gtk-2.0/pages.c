@@ -999,15 +999,26 @@ static void pick_nation_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void take_callback(GtkWidget *w, gpointer data)
 {
-  if (NULL != client.conn.playing) {
-    if (!client.conn.playing->ai.control) {
-      /* Make sure player reverts to AI control. This is much more neat,
-       * and hides the ugly double username in the name list because
-       * the player username equals the connection username. */
-      send_chat_printf("/aitoggle \"%s\"", player_name(client.conn.playing));
+  struct player *plr = client_player();
+
+  if (NULL != plr) {
+    const char *name = player_name(plr);
+  
+    if (client_is_observer()) {
+      if (plr->ai.control) {
+        send_chat_printf("/aitoggle \"%s\"", name);
+      }
+      send_chat_printf("/take \"%s\"", name);
+    } else {
+      if (!plr->ai.control) {
+        /* Make sure player reverts to AI control. This is much more neat,
+         * and hides the ugly double username in the name list because
+         * the player username equals the connection username. */
+        send_chat_printf("/aitoggle \"%s\"", name);
+      }
+      send_chat("/detach");
+      send_chat("/observe");
     }
-    send_chat("/detach");
-    send_chat("/observe");
   } else if (!client.conn.observer) {
     send_chat("/observe");
   } else {
