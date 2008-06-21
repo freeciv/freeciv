@@ -415,7 +415,7 @@ fi
 
 echo "Now we create the Freeciv tables."
 
-# We have embedded table creatino SQL to this script.
+# We have embedded table creation SQL to this script.
 # Maybe we should read it from separate file in the future.
 (echo \
  "CREATE TABLE $TABLE_AUTH ( \
@@ -432,7 +432,7 @@ echo "Now we create the Freeciv tables."
    UNIQUE KEY name (name) \
  ) TYPE=MyISAM;"
  echo \
- "CREATE TABLE loginlog ( \
+ "CREATE TABLE $TABLE_LOGINLOG ( \
    id int(11) NOT NULL auto_increment, \
    name varchar(32) default NULL, \
    logintime int(11) default NULL, \
