@@ -257,7 +257,7 @@ if [ "$DIE" -eq 1 ]; then
 fi
 
 echo "+ running $ACLOCAL ..."
-$ACLOCAL -I m4 $ACLOCAL_FLAGS || {
+$ACLOCAL -I m4 -I dependencies/m4 $ACLOCAL_FLAGS || {
   echo
   echo "$ACLOCAL failed - check that all needed development files are present on system"
   exit 1

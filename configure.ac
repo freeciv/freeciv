@@ -690,6 +690,13 @@ if test -n "$WITH_EFENCE"; then
   fi])
 fi
 
+dnl Checks needed for Lua. Get rid of these if system lua is ever used.
+gl_FUNC_MKSTEMP
+if test x$gl_cv_func_working_mkstemp = xyes ; then
+  AC_DEFINE([HAVE_MKSTEMP], [1], [Have working mkstemp])
+fi
+AC_CHECK_FUNCS([isatty popen _longjmp])
+
 dnl In the future we probably get rid of our own lua tree and use
 dnl lua from system.
 dnl LUA_AS_DEPENDENCY should be empty when using lua outside own our tree.
