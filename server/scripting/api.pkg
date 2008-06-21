@@ -502,6 +502,8 @@ $]
 
 /* Utilities module. */
 int api_utilities_random @ random (int min, int max);
+void api_utilities_error_log @ error_log (const char *msg);
+void api_utilities_debug_log @ debug_log (const char *msg);
 
 /* Actions module. */
 Unit *api_actions_create_unit @ create_unit (Player *pplayer, Tile *ptile,
