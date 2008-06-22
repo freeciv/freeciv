@@ -2132,7 +2132,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
       || is_non_allied_unit_tile(ptile, pplayer)) {
     map_show_circle(pplayer, ptile, unit_type(punit)->vision_radius_sq);
     maybe_make_contact(ptile, pplayer);
-    notify_player(pplayer, ptile, E_UNIT_LOST_ATT,
+    notify_player(pplayer, ptile, E_UNIT_LOST,
                      _("Your %s was killed by enemy units at the "
                        "paradrop destination."),
                      unit_name_translation(punit));
