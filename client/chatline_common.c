@@ -78,8 +78,9 @@ void send_chat_printf(const char *format, ...)
 
   va_list ap;
   va_start(ap, format);
+  /* FIXME: terminating like this can lead to invalid utf-8, a major no-no. */
   my_vsnprintf(msg, maxlen, format, ap);
-  msg[maxlen] = '\0'; /* Make sure there is always ending zero */
+  msg[maxlen - 1] = '\0'; /* Make sure there is always ending zero */
   send_chat(msg);
   va_end(ap);
 }
