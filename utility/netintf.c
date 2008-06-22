@@ -343,12 +343,13 @@ const char *my_lookup_httpd(char *server, int *port, const char *url)
 {
   const char *purl, *str, *ppath, *pport;
 
-  if ((purl = getenv("http_proxy"))) {
+  if ((purl = getenv("http_proxy")) && purl[0] != '\0') {
     if (strncmp(purl, "http://", strlen("http://")) != 0) {
       return NULL;
     }
     str = purl;
   } else {
+    purl = NULL;
     if (strncmp(url, "http://", strlen("http://")) != 0) {
       return NULL;
     }
@@ -356,7 +357,7 @@ const char *my_lookup_httpd(char *server, int *port, const char *url)
   }
 
   str += strlen("http://");
-  
+
   pport = strchr(str, ':');
   ppath = strchr(str, '/');
 
