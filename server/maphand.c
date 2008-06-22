@@ -708,7 +708,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
         info.special[spe] = tile_has_base(ptile, pbase);
       } base_type_iterate_end;
 
-      send_packet_tile_info(pconn, &info);
+      send_packet_tile_info(pconn, FALSE, &info);
     } else if (pplayer && map_is_known(ptile, pplayer)
 	       && map_get_seen(ptile, pplayer, V_MAIN) == 0) {
       struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
@@ -739,7 +739,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
         info.special[spe] = player_tile_has_base(plrtile, pbase);
       } base_type_iterate_end;
 
-      send_packet_tile_info(pconn, &info);
+      send_packet_tile_info(pconn, FALSE, &info);
     } else if (send_unknown) {
       info.known = TILE_UNKNOWN;
       info.continent = 0;
@@ -761,7 +761,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
         info.special[spe] = FALSE;
       } base_type_iterate_end;
 
-      send_packet_tile_info(pconn, &info);
+      send_packet_tile_info(pconn, FALSE, &info);
     }
   }
   conn_list_iterate_end;
