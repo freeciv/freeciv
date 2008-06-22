@@ -350,7 +350,7 @@ static void meta_read_response(struct server_scan *scan)
     result = my_readsocket(scan->sock, buf, sizeof(buf));
 
     if (result < 0) {
-      if (errno == EAGAIN || errno == EINTR) {
+      if (errno == EAGAIN || errno == EINTR || errno == EWOULDBLOCK) {
 	/* Keep waiting. */
 	return;
       }
