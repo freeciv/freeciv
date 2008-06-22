@@ -1513,11 +1513,19 @@ void update_conn_list_dialog(void)
   } else {
     gtk_stockbutton_set_label(ready_button, _("_Start"));
   }
-  gtk_widget_set_sensitive(ready_button, (game.player_ptr != NULL));
 
-  gtk_stockbutton_set_label(nation_button, _("Pick _Nation"));
-  if (!aconnection.player) {
-    gtk_widget_set_sensitive(nation_button, game.info.is_new_game);
+  /* Observers and detached connections cannot start game. */
+  gtk_widget_set_sensitive(ready_button,
+                           (!aconnection.observer && game.player_ptr));
+
+  if (!game.player_ptr) {
+    gtk_stockbutton_set_label(nation_button, _("_Take Player"));
+    gtk_widget_set_sensitive(nation_button, TRUE);
+  } else {
+    gtk_stockbutton_set_label(nation_button, _("Pick _Nation"));
+    /* Sensitive iff client can select nation. */
+    gtk_widget_set_sensitive(nation_button,
+                             game.info.is_new_game && !aconnection.observer);
   }
 
   if (aconnection.player || !aconnection.observer) {
