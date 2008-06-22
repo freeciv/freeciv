@@ -741,14 +741,22 @@ double real_timer_callback(void)
 }
 
 /**************************************************************************
-  Returns TRUE if the client can issue orders (such as giving unit
+  Returns TRUE iff the client can control player.
+**************************************************************************/
+bool can_client_control(void)
+{
+  return (NULL != client.conn.playing
+	  && !client_is_observer());
+}
+
+/**************************************************************************
+  Returns TRUE iff the client can issue orders (such as giving unit
   commands).  This function should be called each time before allowing the
   user to give an order.
 **************************************************************************/
 bool can_client_issue_orders(void)
 {
-  return (NULL != client.conn.playing
-	  && !client_is_observer()
+  return (can_client_control()
 	  && C_S_RUNNING == client_state());
 }
 

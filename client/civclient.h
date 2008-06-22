@@ -81,6 +81,7 @@ struct player *client_player(void);
 void set_seconds_to_turndone(double seconds);
 int get_seconds_to_turndone(void);
 double real_timer_callback(void);
+bool can_client_control(void);
 bool can_client_issue_orders(void);
 bool can_client_change_view(void);
 bool can_meet_with_player(const struct player *pplayer);

@@ -1588,14 +1588,25 @@ void update_conn_list_dialog(void)
   } else {
     gtk_stockbutton_set_label(ready_button, _("_Start"));
   }
-  gtk_widget_set_sensitive(ready_button, (NULL != client.conn.playing));
 
-  gtk_stockbutton_set_label(nation_button, _("Pick _Nation"));
-  if (NULL == client.conn.playing) {
+  /* Sensitive only if client can control player */
+  gtk_widget_set_sensitive(ready_button, can_client_control());
+
+  if (!client_has_player()) {
+    /* Nation button will attach to player */
+    gtk_stockbutton_set_label(nation_button, _("_Take Player"));
+    gtk_widget_set_sensitive(nation_button, TRUE);
+  } else {
+    /* Nation button will go to Nation selection */
+    gtk_stockbutton_set_label(nation_button, _("Pick _Nation"));
+
+    /* Sensitive iff client can select nation.
+     * FIXME: Observer can always select nations? */
     gtk_widget_set_sensitive(nation_button, game.info.is_new_game);
+                             /* && can_client_control()); */
   }
 
-  if (NULL != client.conn.playing || !client.conn.observer) {
+  if (!client_is_observer()) {
     gtk_stockbutton_set_label(take_button, _("_Observe"));
   } else {
     gtk_stockbutton_set_label(take_button, _("Do not _observe"));
