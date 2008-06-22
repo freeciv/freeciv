@@ -493,6 +493,14 @@ bool attach_connection_to_player(struct connection *pconn,
     sz_strlcpy(pplayer->username, pconn->username);
     pplayer->user_turns = 0; /* reset for a new user */
     pplayer->is_connected = TRUE;
+
+    /* If we are attached to a player in pregame from
+     * find_uncontrolled_player above, then that player
+     * will be an AI created by aifill. So turn off AI
+     * mode if it is still on. */
+    if (server_state() == S_S_INITIAL && pplayer->ai.control) {
+      pplayer->ai.control = FALSE;
+    }
   }
 
   pconn->observer = observing;
