@@ -146,7 +146,7 @@ static struct command commands[] = {
    N_("Set server option."), NULL
   },
   {"team",	ALLOW_CTRL,
-   /* TRANS: translate text between <> only */
+   /* TRANS: translate text between <> and [] only */
    N_("team <player> [team]"),
    N_("Change, add or remove a player's team affiliation."),
    N_("Sets a player as member of a team. If no team specified, the "

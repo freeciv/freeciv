@@ -643,10 +643,12 @@ void popdown_economy_report_dialog(void)
 void create_economy_report_dialog(bool make_modal)
 {
   const char *titles[5] = {
+    /* TRANS: Image header */
     _("Type"),
     Q_("?Building:Name"),
     _("Count"),
     _("Cost"),
+    /* TRANS: Upkeep total, count*cost */
     _("U Total")
   };
   int i;
