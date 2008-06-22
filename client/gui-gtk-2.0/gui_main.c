@@ -1562,7 +1562,9 @@ void update_conn_list_dialog(void)
   if (NULL != client.conn.playing) {
     char *text;
 
-    if (client.conn.playing->is_ready) {
+    if (!client_has_player()) {
+      text = _("_Ready");
+    } else if (client.conn.playing->is_ready) {
       text = _("Not _ready");
     } else {
       int num_unready = 0;
