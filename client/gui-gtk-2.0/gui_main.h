@@ -61,6 +61,7 @@ extern GtkWidget *      map_canvas;             /* GtkDrawingArea */
 extern GtkWidget *      overview_canvas;        /* GtkDrawingArea */
 extern GtkWidget *      timeout_label;
 extern GtkWidget *      turn_done_button;
+extern GtkWidget *      unit_info_box;
 extern GtkWidget *      unit_info_label;
 extern GtkWidget *      unit_info_frame;
 extern GtkWidget *      map_horizontal_scrollbar;

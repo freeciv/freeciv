@@ -512,7 +512,7 @@ void upgrade_city_rails(struct player *pplayer, bool discovery)
 /**************************************************************************
 Return TRUE iff the player me really gives shared vision to player them.
 **************************************************************************/
-static bool really_gives_vision(struct player *me, struct player *them)
+bool really_gives_vision(struct player *me, struct player *them)
 {
   return TEST_BIT(me->really_gives_vision, player_index(them));
 }
@@ -671,6 +671,8 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
   } else {
     info.spec_sprite[0] = '\0';
   }
+
+  info.editor_startpos_nation_id = ptile->editor.startpos_nation_id;
 
   conn_list_iterate(dest, pconn) {
     struct player *pplayer = pconn->playing;
@@ -1616,7 +1618,7 @@ void remove_shared_vision(struct player *pfrom, struct player *pto)
 /*************************************************************************
 ...
 *************************************************************************/
-static void enable_fog_of_war_player(struct player *pplayer)
+void enable_fog_of_war_player(struct player *pplayer)
 {
   buffer_shared_vision(pplayer);
   whole_map_iterate(ptile) {
@@ -1638,7 +1640,7 @@ void enable_fog_of_war(void)
 /*************************************************************************
 ...
 *************************************************************************/
-static void disable_fog_of_war_player(struct player *pplayer)
+void disable_fog_of_war_player(struct player *pplayer)
 {
   buffer_shared_vision(pplayer);
   whole_map_iterate(ptile) {
@@ -1735,31 +1737,57 @@ static void bounce_units_on_terrain_change(struct tile *ptile)
 }
 
 /****************************************************************************
+  Returns TRUE if the terrain change from 'oldter' to 'newter' requires
+  extra (potentially expensive) fixing (e.g. of the surroundings).
+****************************************************************************/
+bool need_to_fix_terrain_change(const struct terrain *oldter,
+                                const struct terrain *newter)
+{
+  bool old_is_ocean, new_is_ocean;
+  
+  if (!oldter || !newter) {
+    return FALSE;
+  }
+
+  old_is_ocean = is_ocean(oldter);
+  new_is_ocean = is_ocean(newter);
+
+  return (old_is_ocean && !new_is_ocean)
+    || (!old_is_ocean && new_is_ocean);
+}
+
+/****************************************************************************
+  Assumes that need_to_fix_terrain_change == TRUE.
+  For in-game terrain changes 'extend_rivers' should
+  be TRUE, for edits it should be FALSE.
+****************************************************************************/
+void fix_tile_on_terrain_change(struct tile *ptile,
+                                bool extend_rivers)
+{
+  if (!is_ocean_tile(ptile)) {
+    if (extend_rivers) {
+      ocean_to_land_fix_rivers(ptile);
+    }
+    city_landlocked_sell_coastal_improvements(ptile);
+  }
+  bounce_units_on_terrain_change(ptile);
+}
+
+/****************************************************************************
   Handles global side effects for a terrain change.  Call this in the
   server immediately after calling tile_change_terrain.
 ****************************************************************************/
 void check_terrain_change(struct tile *ptile, struct terrain *oldter)
 {
   struct terrain *newter = tile_terrain(ptile);
-  bool ocean_toggled = FALSE;
 
-  if (is_ocean(oldter) && !is_ocean(newter)) {
-    /* ocean to land ... */
-    ocean_to_land_fix_rivers(ptile);
-    city_landlocked_sell_coastal_improvements(ptile);
-    ocean_toggled = TRUE;
-  } else if (!is_ocean(oldter) && is_ocean(newter)) {
-    /* land to ocean ... */
-    ocean_toggled = TRUE;
+  if (!need_to_fix_terrain_change(oldter, newter)) {
+    return;
   }
 
-  if (ocean_toggled) {
-    bounce_units_on_terrain_change(ptile);
-    assign_continent_numbers();
-
-    /* New continent numbers for all tiles to all players */
-    send_all_known_tiles(NULL);
-  }
+  fix_tile_on_terrain_change(ptile, TRUE);
+  assign_continent_numbers();
+  send_all_known_tiles(NULL);
 }
 
 /*************************************************************************

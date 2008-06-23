@@ -200,6 +200,9 @@ struct player {
   struct attribute_block_s attribute_block;
   struct attribute_block_s attribute_block_buffer;
   bv_debug debug;
+  struct {
+    bool fog_of_war_disabled;
+  } editor;
 };
 
 /* General player accessor functions. */

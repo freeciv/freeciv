@@ -77,6 +77,7 @@ files =
   "misc/techs.spec",
   "misc/treaty.spec",
   "misc/icons.spec",
+  "misc/editor.spec",
   "isotrident/fog.spec",
   "isotrident/nuke.spec",
   "trident/explosions.spec",

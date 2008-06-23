@@ -195,6 +195,7 @@ void key_unit_select_battlegroup(int battlegroup, bool append);
 void key_editor_toggle(void);
 void key_editor_recalculate_borders(void);
 void key_editor_regenerate_water(void);
+void key_editor_toggle_fogofwar(void);
 
 /* don't change this unless you also put more entries in data/Freeciv */
 #define MAX_NUM_UNITS_BELOW 4

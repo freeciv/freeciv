@@ -1108,6 +1108,7 @@ void server_player_init(struct player *pplayer,
     team_add_player(pplayer, find_empty_team());
   }
   ai_data_init(pplayer);
+  pplayer->editor.fog_of_war_disabled = FALSE;
 }
 
 /********************************************************************** 

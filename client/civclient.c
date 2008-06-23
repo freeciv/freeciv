@@ -60,6 +60,7 @@
 #include "control.h" 
 #include "dialogs_g.h"
 #include "diplodlg_g.h"
+#include "editor.h"
 #include "ggzclient.h"
 #include "gui_main_g.h"
 #include "helpdata.h"		/* boot_help_texts() */
@@ -400,6 +401,8 @@ int main(int argc, char *argv[])
   audio_play_music("music_start", NULL);
 
   ggz_initialize();
+
+  editor_init();
 
   /* run gui-specific client */
   ui_main(argc, argv);

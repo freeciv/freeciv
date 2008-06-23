@@ -55,6 +55,7 @@
 #include "civclient.h"
 #include "climap.h"		/* for client_tile_get_known() */
 #include "control.h"		/* for fill_xxx */
+#include "editor.h"
 #include "goto.h"
 #include "options.h"		/* for fill_xxx */
 #include "themes_common.h"
@@ -258,6 +259,7 @@ struct named_sprites {
     struct sprite_vector unworked_tile_overlay;
   } city;
   struct citybar_sprites citybar;
+  struct editor_sprites editor;
   struct {
     struct sprite
       *turns[NUM_TILES_DIGITS],
@@ -2299,6 +2301,20 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     freelog(LOG_FATAL, "Missing necessary citybar.occupancy_N sprites.");
     exit(EXIT_FAILURE);
   }
+
+#define SET_EDITOR_SPRITE(x) SET_SPRITE(editor.x, "editor." #x)
+  SET_EDITOR_SPRITE(erase);
+  SET_EDITOR_SPRITE(brush);
+  SET_EDITOR_SPRITE(startpos);
+  SET_EDITOR_SPRITE(terrain);
+  SET_EDITOR_SPRITE(terrain_resource);
+  SET_EDITOR_SPRITE(terrain_special);
+  SET_EDITOR_SPRITE(unit);
+  SET_EDITOR_SPRITE(city);
+  SET_EDITOR_SPRITE(vision);
+  SET_EDITOR_SPRITE(territory);
+  SET_EDITOR_SPRITE(properties);
+#undef SET_EDITOR_SPRITE
 
   SET_SPRITE(city.disorder, "city.disorder");
 
@@ -4475,6 +4491,18 @@ int fill_sprite_array(struct tileset *t,
     }
     break;
 
+  case LAYER_EDITOR:
+    if (ptile && editor_is_active()) {
+      if (editor_tile_is_selected(ptile)) {
+        int color = 2 % tileset_num_city_colors(tileset);
+        ADD_SPRITE_SIMPLE(t->sprites.city.unworked_tile_overlay.p[color]);
+      }
+      if (ptile->editor.startpos_nation_id != -1) {
+        ADD_SPRITE_SIMPLE(t->sprites.user.attention);
+      }
+    }
+    break;
+
   case LAYER_COUNT:
     assert(0);
     break;
@@ -4874,6 +4902,14 @@ const struct citybar_sprites *get_citybar_sprites(const struct tileset *t)
 }
 
 /**************************************************************************
+  Return all the sprites used for editor icons, images, etc.
+**************************************************************************/
+const struct editor_sprites *get_editor_sprites(const struct tileset *t)
+{
+  return &t->sprites.editor;
+}
+
+/**************************************************************************
   Returns a sprite for the given cursor.  The "hot" coordinates (the
   active coordinates of the mouse relative to the sprite) are placed int
   (*hot_x, *hot_y). 
@@ -5015,4 +5051,186 @@ void tileset_init(struct tileset *t)
   t->sprites.city.tile     = NULL;
   t->sprites.city.wall     = NULL;
   t->sprites.city.occupied = NULL;
+}
+
+/****************************************************************************
+  Fill the sprite array with sprites that together make a representative
+  image of the given terrain type. Suitable for use as an icon and in list
+  views.
+****************************************************************************/
+int fill_basic_terrain_layer_sprite_array(struct tileset *t,
+                                          struct drawn_sprite *sprs,
+                                          int layer,
+                                          struct terrain *pterrain)
+{
+  struct drawn_sprite *save_sprs = sprs;
+  struct drawing_data *draw = t->sprites.drawing[terrain_index(pterrain)];
+
+  struct terrain *tterrain_near[8];
+  bv_special tspecial_near[8];
+
+  struct tile dummy_tile; /* :( */
+
+  int i;
+
+
+  memset(&dummy_tile, 0, sizeof(struct tile));
+  
+  for (i = 0; i < 8; i++) {
+    tterrain_near[i] = pterrain;
+    BV_CLR_ALL(tspecial_near[i]);
+  }
+
+  i = draw->is_reversed ? draw->num_layers - layer - 1 : layer;
+  sprs += fill_terrain_sprite_array(t, sprs, i, &dummy_tile,
+                                    pterrain, tterrain_near, draw);
+
+  return sprs - save_sprs;
+}
+
+/****************************************************************************
+  Return the sprite for the given resource type.
+****************************************************************************/
+struct sprite *get_resource_sprite(const struct tileset *t,
+                                   const struct resource *presource)
+{
+  if (presource == NULL) {
+    return NULL;
+  }
+
+  return t->sprites.resource[resource_index(presource)];
+}
+
+/****************************************************************************
+  Return a representative sprite for the mine special type (S_MINE).
+****************************************************************************/
+struct sprite *get_basic_mine_sprite(const struct tileset *t)
+{
+  struct drawing_data *draw;
+  struct terrain *tm;
+
+  tm = find_terrain_by_rule_name("mountains");
+  if (tm != NULL) {
+    draw = t->sprites.drawing[terrain_index(tm)];
+    if (draw->mine != NULL) {
+      return draw->mine;
+    }
+  }
+
+  terrain_type_iterate(pterrain) {
+    draw = t->sprites.drawing[terrain_index(pterrain)];
+    if (draw->mine != NULL) {
+      return draw->mine;
+    }
+  } terrain_type_iterate_end;
+
+  return NULL;
+}
+
+/****************************************************************************
+  Return a representative sprite for the given special type.
+
+  NB: This does not include generic base specials (S_FORTRESS and
+  S_AIRBASE). Use fill_basic_base_sprite_array and the base type for that.
+****************************************************************************/
+struct sprite *get_basic_special_sprite(const struct tileset *t,
+                                        enum tile_special_type special)
+{
+  int i;
+
+  switch (special) {
+  case S_ROAD:
+    for (i = 0; i < t->num_valid_tileset_dirs; i++) {
+      if (!t->valid_tileset_dirs[i]) {
+        continue;
+      }
+      if (t->roadstyle == 0) {
+        return t->sprites.road.dir[i];
+      } else if (t->roadstyle == 1) {
+        return t->sprites.road.even[1 << i];
+      } else if (t->roadstyle == 2) {
+        return t->sprites.road.total[1 << i];
+      }
+    }
+    return NULL;
+    break;
+  case S_IRRIGATION:
+    return t->sprites.tx.irrigation[0];
+    break;
+  case S_RAILROAD:
+    for (i = 0; i < t->num_valid_tileset_dirs; i++) {
+      if (!t->valid_tileset_dirs[i]) {
+        continue;
+      }
+      if (t->roadstyle == 0) {
+        return t->sprites.rail.dir[i];
+      } else if (t->roadstyle == 1) {
+        return t->sprites.rail.even[1 << i];
+      } else if (t->roadstyle == 2) {
+        return t->sprites.rail.total[1 << i];
+      }
+    }
+    return NULL;
+    break;
+  case S_MINE:
+    return get_basic_mine_sprite(t);
+    break;
+  case S_POLLUTION:
+    return t->sprites.tx.pollution;
+    break;
+  case S_HUT:
+    return t->sprites.tx.village;
+    break;
+  case S_RIVER:
+    return t->sprites.tx.spec_river[0];
+    break;
+  case S_FARMLAND:
+    return t->sprites.tx.farmland[0];
+    break;
+  case S_FALLOUT:
+    return t->sprites.tx.fallout;
+    break;
+  default:
+    break;
+  }
+
+  return NULL;
+}
+
+/****************************************************************************
+  Fills the sprite array with sprites that together make a representative
+  image of the given base type. The image is suitable for use as an icon
+  for the base type, for example.
+****************************************************************************/
+int fill_basic_base_sprite_array(const struct tileset *t,
+                                 struct drawn_sprite *sprs,
+                                 const struct base_type *pbase)
+{
+  struct drawn_sprite *saved_sprs = sprs;
+  int index;
+
+  if (!t || !sprs || !pbase) {
+    return 0;
+  }
+
+  index = base_index(pbase);
+
+  if (!(0 <= index && index < BASE_LAST)) {
+    return 0;
+  }
+
+#define ADD_SPRITE_IF_NOT_NULL(x) do {\
+  if ((x) != NULL) {\
+    ADD_SPRITE_FULL(x);\
+  }\
+} while (0)
+
+  /* Corresponds to LAYER_SPECIAL{1,2,3} order. */
+  ADD_SPRITE_IF_NOT_NULL(t->sprites.bases[index].background);
+  ADD_SPRITE_IF_NOT_NULL(t->sprites.bases[index].middleground);
+  ADD_SPRITE_IF_NOT_NULL(t->sprites.bases[index].foreground);
+
+#undef ADD_SPRITE_IF_NOT_NULL
+
+  return sprs - saved_sprs;
 }

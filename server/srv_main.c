@@ -1202,11 +1202,8 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
       || type == PACKET_SINGLE_WANT_HACK_REQ
       || type == PACKET_NATION_SELECT_REQ
       || type == PACKET_REPORT_REQ
-      || type == PACKET_EDIT_MODE
-      || type == PACKET_EDIT_TILE
-      || type == PACKET_EDIT_UNIT
-      || type == PACKET_EDIT_CREATE_CITY
-      || type == PACKET_EDIT_PLAYER) {
+      || (PACKET_EDIT_MODE <= type
+          && type <= PACKET_EDIT_PLAYER_TECH)) {
     if (!server_handle_packet(type, packet, NULL, pconn)) {
       freelog(LOG_ERROR, "Received unknown packet %d from %s",
 	      type, conn_description(pconn));

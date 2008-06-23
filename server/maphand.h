@@ -92,9 +92,12 @@ void update_player_tile_last_seen(struct player *pplayer, struct tile *ptile);
 
 void give_shared_vision(struct player *pfrom, struct player *pto);
 void remove_shared_vision(struct player *pfrom, struct player *pto);
+bool really_gives_vision(struct player *me, struct player *them);
 
 void enable_fog_of_war(void);
 void disable_fog_of_war(void);
+void enable_fog_of_war_player(struct player *pplayer);
+void disable_fog_of_war_player(struct player *pplayer);
 
 void map_calculate_borders(void);
 void map_claim_border(struct tile *ptile, struct player *powner);
@@ -103,6 +106,10 @@ void map_claim_ownership(struct tile *ptile, struct player *powner,
 void map_clear_border(struct tile *ptile, struct player *powner);
 
 void check_terrain_change(struct tile *ptile, struct terrain *oldter);
+bool need_to_fix_terrain_change(const struct terrain *oldter,
+                                const struct terrain *newter);
+void fix_tile_on_terrain_change(struct tile *ptile,
+                                bool extend_rivers);
 int get_continent_size(Continent_id id);
 int get_ocean_size(Continent_id id);
 

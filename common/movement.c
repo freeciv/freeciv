@@ -153,6 +153,27 @@ bool is_ground_unittype(const struct unit_type *punittype)
   return (utype_move_type(punittype) == LAND_MOVING);
 }
 
+/****************************************************************************
+  Return TRUE iff a unit of the given unit type can "exist" at this location.
+  This means it can physically be present on the tile (without the use of a
+  transporter). See also can_unit_survive_at_tile.
+****************************************************************************/
+bool can_exist_at_tile(const struct unit_type *utype,
+                       const struct tile *ptile)
+{
+  /* Cities are safe havens except for sea units without ocean access. */
+  if (tile_city(ptile) && !(is_sailing_unittype(utype)
+                            && !is_ocean_near_tile(ptile))) {
+    return TRUE;
+  }
+
+  /* A trireme unit cannot exist in an ocean tile without access to land. */
+  if (utype_has_flag(utype, F_TRIREME) && !is_safe_ocean(ptile)) {
+    return FALSE;
+  }
+
+  return is_native_tile(utype, ptile);
+}
 
 /****************************************************************************
   Return TRUE iff the unit can "exist" at this location.  This means it can
@@ -162,18 +183,7 @@ bool is_ground_unittype(const struct unit_type *punittype)
 bool can_unit_exist_at_tile(const struct unit *punit,
                             const struct tile *ptile)
 {
-  /* Cities are safe havens except for sea units without ocean access. */
-  if (tile_city(ptile)
-      && !(is_sailing_unit(punit) && !is_ocean_near_tile(ptile))) {
-    return TRUE;
-  }
-
-  /* A trireme unit cannot exist in an ocean tile without access to land. */
-  if (unit_has_type_flag(punit, F_TRIREME) && !is_safe_ocean(ptile)) {
-    return FALSE;
-  }
-
-  return is_native_tile(unit_type(punit), ptile);
+  return can_exist_at_tile(unit_type(punit), ptile);
 }
 
 /****************************************************************************

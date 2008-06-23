@@ -59,6 +59,8 @@
 #include "cma_fe.h"
 #include "dialogs.h"
 #include "diplodlg.h"
+#include "editgui.h"
+#include "editor.h"
 #include "gotodlg.h"
 #include "ggzclient.h"
 #include "graphics.h"
@@ -132,6 +134,7 @@ GtkWidget *timeout_label;
 GtkWidget *turn_done_button;
 
 GtkWidget *unit_info_label;
+GtkWidget *unit_info_box;
 GtkWidget *unit_info_frame;
 
 GtkTooltips *main_tips;
@@ -285,7 +288,8 @@ static void set_wait_for_writable_socket(struct connection *pc,
 
 static void print_usage(const char *argv0);
 static void parse_options(int argc, char **argv);
-static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data);
+static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEventKey *ev, gpointer data);
+static gboolean toplevel_key_release_handler(GtkWidget *w, GdkEventKey *ev, gpointer data);
 static gboolean mouse_scroll_mapcanvas(GtkWidget *w, GdkEventScroll *ev);
 
 static void tearoff_callback(GtkWidget *b, gpointer data);
@@ -473,7 +477,8 @@ static gboolean toplevel_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
 /**************************************************************************
 ...
 **************************************************************************/
-static gboolean keyboard_map_canvas(GtkWidget *w, GdkEventKey *ev, gpointer data)
+static gboolean key_press_map_canvas(GtkWidget *w, GdkEventKey *ev,
+                                     gpointer data)
 {
   if ((ev->state & GDK_SHIFT_MASK)) {
     switch (ev->keyval) {
@@ -644,11 +649,34 @@ static gboolean keyboard_map_canvas(GtkWidget *w, GdkEventKey *ev, gpointer data
 /**************************************************************************
 ...
 **************************************************************************/
-static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
+static gboolean toplevel_key_release_handler(GtkWidget *w, GdkEventKey *ev,
+                                             gpointer data)
 {
   /* inputline history code */
   if (!GTK_WIDGET_MAPPED(top_vbox) || GTK_WIDGET_HAS_FOCUS(inputline)) {
     return FALSE;
+  }
+
+  if (editor_is_active()) {
+    return handle_edit_key_release(ev);
+  }
+
+  return FALSE;
+}
+
+/**************************************************************************
+  Handle a keyboard key press made in the client's toplevel window.
+**************************************************************************/
+static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEventKey *ev,
+                                           gpointer data)
+{
+  /* inputline history code */
+  if (!GTK_WIDGET_MAPPED(top_vbox) || GTK_WIDGET_HAS_FOCUS(inputline)) {
+    return FALSE;
+  }
+
+  if (editor_is_active()) {
+    return handle_edit_key_press(ev);
   }
 
   if ((ev->state & GDK_SHIFT_MASK)) {
@@ -682,7 +710,7 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
   };
 
   if (GTK_WIDGET_HAS_FOCUS(map_canvas)) {
-    return keyboard_map_canvas(w, ev, data);
+    return key_press_map_canvas(w, ev, data);
   }
 
 #if 0
@@ -998,6 +1026,8 @@ static void setup_widgets(void)
 
   main_tips = gtk_tooltips_new();
 
+  editgui_create_widgets();
+
   /* the window is divided into two panes. "top" and "message window" */ 
   paned = gtk_vpaned_new();
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook),
@@ -1023,11 +1053,11 @@ static void setup_widgets(void)
 
   /* overview canvas */
   ahbox = detached_widget_new();
-  gtk_container_add(GTK_CONTAINER(vbox), ahbox);
+  gtk_box_pack_start(GTK_BOX(vbox), ahbox, FALSE, FALSE, 0);
   avbox = detached_widget_fill(ahbox);
 
   align = gtk_alignment_new(0.5, 0.5, 0.0, 0.0);
-  gtk_box_pack_start(GTK_BOX(avbox), align, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(avbox), align, FALSE, FALSE, 0);
 
   overview_canvas = gtk_drawing_area_new();
 
@@ -1171,14 +1201,17 @@ static void setup_widgets(void)
 
   /* Selected unit status */
 
+  unit_info_box = gtk_vbox_new(FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(avbox), unit_info_box, FALSE, FALSE, 0);
+
   unit_info_frame = gtk_frame_new("");
-  gtk_box_pack_start(GTK_BOX(avbox), unit_info_frame, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(unit_info_box), unit_info_frame, FALSE, FALSE, 0);
     
   unit_info_label = gtk_label_new("\n\n\n");
   gtk_container_add(GTK_CONTAINER(unit_info_frame), unit_info_label);
 
   box = gtk_hbox_new(FALSE,0);
-  gtk_box_pack_start(GTK_BOX(avbox), box, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(unit_info_box), box, FALSE, FALSE, 0);
 
   table = gtk_table_new(0, 0, FALSE);
   gtk_box_pack_start(GTK_BOX(box), table, FALSE, FALSE, 5);
@@ -1189,17 +1222,29 @@ static void setup_widgets(void)
   unit_pixmap_table = table;
   populate_unit_pixmap_table();
 
+  /* Editor info box */
+  gtk_box_pack_start(GTK_BOX(avbox),
+                     editgui_get_editinfobox()->widget,
+                     FALSE, FALSE, 0);
+
+  /* Map canvas, editor toolbar, and scrollbars */
+
   top_notebook = gtk_notebook_new();  
   gtk_notebook_set_tab_pos(GTK_NOTEBOOK(top_notebook), GTK_POS_BOTTOM);
   gtk_notebook_set_scrollable(GTK_NOTEBOOK(top_notebook), TRUE);
   gtk_box_pack_start(GTK_BOX(hbox), top_notebook, TRUE, TRUE, 0);
 
-  /* Map canvas and scrollbars */
-
   map_widget = gtk_table_new(2, 2, FALSE);
 
+  vbox = gtk_vbox_new(FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(vbox), map_widget, TRUE, TRUE, 0);
+
+  gtk_box_pack_start(GTK_BOX(vbox),
+                     editgui_get_editbar()->widget,
+                     FALSE, FALSE, 4);
+
   label = gtk_label_new(_("View"));
-  gtk_notebook_append_page(GTK_NOTEBOOK(top_notebook), map_widget, label);
+  gtk_notebook_append_page(GTK_NOTEBOOK(top_notebook), vbox, label);
 
   frame = gtk_frame_new(NULL);
   gtk_table_attach(GTK_TABLE(map_widget), frame, 0, 1, 0, 1,
@@ -1256,7 +1301,10 @@ static void setup_widgets(void)
                    G_CALLBACK(mouse_scroll_mapcanvas), NULL);
 
   g_signal_connect(toplevel, "key_press_event",
-                   G_CALLBACK(keyboard_handler), NULL);
+                   G_CALLBACK(toplevel_key_press_handler), NULL);
+
+  g_signal_connect(toplevel, "key_release_event",
+                   G_CALLBACK(toplevel_key_release_handler), NULL);
 
   /* *** The message window -- this is a detachable widget *** */
 

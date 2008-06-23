@@ -45,6 +45,10 @@ struct tile {
   struct player *owner;			/* NULL for not owned */
   struct city *worked;			/* NULL for not worked */
   char *spec_sprite;
+  struct {
+    bool need_terrain_fix; /* Server only. */
+    int startpos_nation_id;
+  } editor;
 };
 
 /* get 'struct tile_list' and related functions: */

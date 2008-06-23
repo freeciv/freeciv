@@ -281,6 +281,8 @@ static void tile_init(struct tile *ptile)
   ptile->owner    = NULL; /* Not claimed by any player. */
   ptile->worked   = NULL; /* No city working here. */
   ptile->spec_sprite = NULL;
+  ptile->editor.need_terrain_fix = FALSE;
+  ptile->editor.startpos_nation_id = -1;
 }
 
 /****************************************************************************

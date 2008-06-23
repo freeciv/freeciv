@@ -40,6 +40,8 @@
 #include "climisc.h"
 #include "colors.h"
 #include "control.h" /* get_unit_in_focus() */
+#include "editgui.h"
+#include "editor.h"
 #include "graphics.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
@@ -378,6 +380,7 @@ static gint unqueue_flush(gpointer data)
 {
   flush_dirty();
   redraw_selection_rectangle();
+  editor_redraw();
   is_flush_queued = FALSE;
   return 0;
 }
@@ -794,6 +797,7 @@ void tileset_changed(void)
   reset_city_dialogs();
   reset_unit_table();
   blank_max_unit_size();
+  editgui_tileset_changed();
 
   /* keep the icon of the executable on Windows (see PR#36491) */
 #ifndef WIN32_NATIVE
