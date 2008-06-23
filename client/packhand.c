@@ -2370,20 +2370,11 @@ void handle_tile_info(struct packet_tile_info *packet)
     unit_list_unlink_all(ptile->units);
   }
 
-  /* update continents */
-  if (ptile->continent != packet->continent && ptile->continent != 0
-      && packet->continent > 0) {
-    /* We're renumbering continents, somebody did a transform.
-     * But we don't care about renumbering oceans since 
-     * num_oceans is not kept at the client. */
-    map.num_continents = 0;
-  }
-
+  /* Continent renumbering may lead to a larger value for num_continents
+   * at the client than what the server has.  This is assumed to be
+   * harmless.  See PR#39472 discussion. */
   ptile->continent = packet->continent;
-
-  if (ptile->continent > map.num_continents) {
-    map.num_continents = ptile->continent;
-  }
+  map.num_continents = MAX(ptile->continent, map.num_continents);
 
   if (known_changed || tile_changed) {
     /* 
