@@ -524,7 +524,10 @@ void init_tech(struct player *plr, int tech)
   }
   set_invention(plr, A_NONE, TECH_KNOWN);
 
+  plr->research.bulbs_researched = 0;
   plr->research.techs_researched = 1;
+  plr->research.changed_from = -1;
+  plr->research.bulbs_researched_before = 0;
 
   /*
    * Give game wide initial techs
