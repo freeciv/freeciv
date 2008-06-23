@@ -3876,6 +3876,7 @@ static bool cut_client_connection(struct connection *caller, char *name,
   enum m_pre_result match_result;
   struct connection *ptarget;
   struct player *pplayer;
+  bool was_connected;
 
   ptarget = find_conn_by_user_prefix(name, &match_result);
 
@@ -3886,7 +3887,8 @@ static bool cut_client_connection(struct connection *caller, char *name,
     return TRUE;
   }
 
-  pplayer = !ptarget->observer ? ptarget->player : NULL;
+  pplayer = ptarget->player;
+  was_connected = pplayer ? pplayer->is_connected : FALSE;
 
   cmd_reply(CMD_CUT, caller, C_DISCONNECTED,
 	    _("Cutting connection %s."), ptarget->username);
@@ -3894,7 +3896,7 @@ static bool cut_client_connection(struct connection *caller, char *name,
   close_connection(ptarget);
 
   /* if we cut the connection, unassign the login name */
-  if (pplayer) {
+  if (pplayer && was_connected && !pplayer->is_connected) {
     sz_strlcpy(pplayer->username, ANON_USER_NAME);
   }
   return TRUE;
