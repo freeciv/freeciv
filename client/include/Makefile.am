@@ -9,6 +9,7 @@ noinst_HEADERS = \
 	connectdlg_g.h	\
 	dialogs_g.h	\
 	diplodlg_g.h	\
+	editgui_g.h	\
 	finddlg_g.h	\
 	gotodlg_g.h	\
 	graphics_g.h	\

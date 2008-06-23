@@ -42,8 +42,10 @@ libguiclient_a_SOURCES = \
 	dialogs.h	\
 	diplodlg.c	\
 	diplodlg.h	\
-	editdlg.c	\
-	editdlg.h	\
+	editgui.c	\
+	editgui.h	\
+	editprop.c	\
+	editprop.h	\
 	diplomat_dialog.c \
 	finddlg.c	\
 	finddlg.h	\

@@ -535,9 +535,7 @@ void action_button_pressed(int canvas_x, int canvas_y,
 {
   struct tile *ptile = canvas_pos_to_tile(canvas_x, canvas_y);
 
-  if (can_do_editor_click(ptile)) {
-    editor_do_click(ptile);
-  } else if (can_client_change_view() && ptile) {
+  if (can_client_change_view() && ptile) {
     /* FIXME: Some actions here will need to check can_client_issue_orders.
      * But all we can check is the lowest common requirement. */
     do_map_click(ptile, qtype);

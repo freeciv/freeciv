@@ -10,14 +10,16 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__TOOLSDLG_H
-#define FC__TOOLSDLG_H
+#ifndef FC__EDITPROP_H
+#define FC__EDITPROP_H
 
-#include <gtk/gtk.h>
+struct property_editor;
+struct tile_list;
 
-#include "shared.h"
+struct property_editor *editprop_get_property_editor(void);
+void property_editor_refresh(struct property_editor *pe,
+                             const struct tile_list *tiles);
+void property_editor_run(struct property_editor *pe);
 
-void editdlg_show_tools(void);
-void editdlg_hide_tools(void);
+#endif /* FC__EDITPROP_H */
 
-#endif  /* FC__TOOLSDLG_H */

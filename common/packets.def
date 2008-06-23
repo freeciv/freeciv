@@ -354,6 +354,7 @@ PACKET_TILE_INFO=14; sc,lsend,is-info
   RESOURCE resource;
   BOOL special[S_LAST];
   STRING spec_sprite[MAX_LEN_NAME];
+  NATION editor_startpos_nation_id;
 end
 
 # This packet used to have is_info set but that doesn't work with the
@@ -1422,47 +1423,92 @@ end
 
 /************** Editing hash packets **********************/
 
-PACKET_EDIT_MODE=129;cs,handle-per-conn,dsend
+/* Always keep this as the first edit type packet,
+ * so that the test in server/srv_main.c +1203
+ * is easy to write. */
+PACKET_EDIT_MODE=150;cs,handle-per-conn,dsend
   BOOL state;
 end
 
-PACKET_EDIT_TILE=125;cs,handle-per-conn,dsend
+PACKET_EDIT_REGENERATE_WATER=151;cs,handle-per-conn
+end
+
+PACKET_EDIT_RECALCULATE_BORDERS=152;cs,handle-per-conn
+end
+
+PACKET_EDIT_CHECK_TILES=153;cs,handle-per-conn
+end
+
+PACKET_EDIT_TOGGLE_FOGOFWAR=154;cs,handle-per-conn,dsend
+  PLAYER player;
+end
+
+PACKET_EDIT_TILE_TERRAIN=155;cs,handle-per-conn,dsend
   COORD x, y; key
   TERRAIN terrain;
-  RESOURCE resource;
-  BV_SPECIAL special;
+  UINT8 size;
 end
 
-PACKET_EDIT_UNIT=126;cs,handle-per-conn,lsend
-  UNIT id; key
-  BOOL create_new, delete;
+PACKET_EDIT_TILE_RESOURCE=156;cs,handle-per-conn,dsend
+  COORD x, y; key
+  RESOURCE resource;
+  UINT8 size;
+end
+
+PACKET_EDIT_TILE_SPECIAL=157;cs,handle-per-conn,dsend
+  COORD x, y; key
+  SPECIAL special;
+  BOOL remove;
+  UINT8 size;
+end
+
+PACKET_EDIT_TILE_BASE=158;cs,handle-per-conn,dsend
+  COORD x, y; key
+  BASE base_type_id;
+  BOOL remove;
+  UINT8 size;
+end
+
+PACKET_EDIT_TERRITORY=159;cs,handle-per-conn,dsend
+  COORD x, y; key
+  PLAYER owner; # -1 (or other out of range) for erasing
+  UINT8 size;
+end
+
+PACKET_EDIT_STARTPOS=160;cs,handle-per-conn,dsend
+  COORD x, y; key
+  NATION nation; # -1 for erase
+end
+
+PACKET_EDIT_UNIT_CREATE=161;cs,handle-per-conn,dsend
   PLAYER owner;
   COORD x,y;
-  CITY homecity;
-
-  UINT8 veteran;
-  BOOL paradropped;
-
   UNIT_TYPE type;
-  UNIT transported_by; /* Only valid if transported is set. */
-  UINT8 movesleft, hp, fuel, activity_count;
-
-  # Other values of the unit (done_moving, orders, etc.) can be set directly
-  # through regular packets.  Some values are simply caches and cannot
-  # be controlled even by a privilidged client.
+  UINT8 count;
 end
 
-PACKET_EDIT_CREATE_CITY=127;cs,handle-per-conn
+PACKET_EDIT_UNIT_REMOVE=162;cs,handle-per-conn,dsend
+  UNIT id;
+end
+
+
+PACKET_EDIT_CITY_CREATE=163;cs,handle-per-conn,dsend
   PLAYER owner;
   COORD x, y;
+  UINT8 size;
 end
 
-PACKET_EDIT_CITY_SIZE=130;cs,handle-per-conn,dsend
+PACKET_EDIT_CITY_SIZE=164;cs,handle-per-conn,dsend
   CITY id;
   UINT8 size;
 end
 
-PACKET_EDIT_PLAYER=128;cs,handle-per-conn,lsend
+PACKET_EDIT_CITY_REMOVE=165;cs,handle-per-conn,dsend
+  COORD x, y;
+end
+
+
+PACKET_EDIT_PLAYER=166;cs,handle-per-conn,lsend
   PLAYER playerno; key 
   STRING name[MAX_LEN_NAME];
   STRING username[MAX_LEN_NAME];
@@ -1496,20 +1542,18 @@ PACKET_EDIT_PLAYER=128;cs,handle-per-conn,lsend
   UINT16 small_wonders[B_LAST]; diff
 end
 
-PACKET_EDIT_RECALCULATE_BORDERS=131;cs,handle-per-conn
-end
-
-PACKET_EDIT_VISION=132;cs,handle-per-conn,dsend
+PACKET_EDIT_PLAYER_VISION=167;cs,handle-per-conn,dsend
   PLAYER player;
   COORD x, y;
-  UINT8 mode;
+  BOOL known;
+  UINT8 size;
 end
 
-PACKET_EDIT_PLAYER_TECH=133;cs,handle-per-conn,dsend
+/* Always keep this as the last edit type packet,
+ * so that the test in server/srv_main.c +1203
+ * is easy to write. */
+PACKET_EDIT_PLAYER_TECH=168;cs,handle-per-conn,dsend
   PLAYER          playerno;
   TECH            tech;
   EDIT_TECH_MODE  mode;
-end
-
-PACKET_EDIT_REGENERATE_WATER=134;cs,handle-per-conn
 end

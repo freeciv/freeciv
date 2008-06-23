@@ -174,13 +174,6 @@ enum ai_level {
 
 #define AI_LEVEL_DEFAULT AI_LEVEL_NOVICE
 
-enum editor_vision_mode {
-  EVISION_ADD,
-  EVISION_REMOVE,
-  EVISION_TOGGLE,
-  EVISION_LAST
-};
-
 enum editor_tech_mode {
   ETECH_ADD,
   ETECH_REMOVE,

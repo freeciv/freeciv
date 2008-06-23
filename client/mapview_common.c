@@ -34,6 +34,7 @@
 #include "civclient.h"
 #include "climap.h"
 #include "control.h"
+#include "editor.h"
 #include "goto.h"
 #include "citydlg_common.h"
 #include "mapview_common.h"
@@ -588,6 +589,7 @@ void set_mapview_origin(int gui_x0, int gui_y0)
 			      start_y + diff_y * (mytime / timing_sec));
       flush_dirty();
       redraw_selection_rectangle();
+      editor_redraw();
       gui_flush();
       frames++;
     } while (currtime < timing_sec);
@@ -1064,7 +1066,8 @@ static void put_one_tile(struct canvas *pcanvas, enum mapview_layer layer,
 			 struct tile *ptile, int canvas_x, int canvas_y,
 			 const struct city *citymode)
 {
-  if (client_tile_get_known(ptile) != TILE_UNKNOWN) {
+  if (client_tile_get_known(ptile) != TILE_UNKNOWN
+      || (editor_is_active() && editor_tile_is_selected(ptile))) {
     put_one_element(pcanvas, layer, ptile, NULL, NULL,
 		    get_drawable_unit(tileset, ptile, citymode),
 		    tile_city(ptile), canvas_x, canvas_y, citymode);
@@ -2172,6 +2175,7 @@ void unqueue_mapview_updates(bool write_to_screen)
   if (write_to_screen) {
     flush_dirty();
     redraw_selection_rectangle();
+    editor_redraw();
     flush_dirty_overview();
   }
 }

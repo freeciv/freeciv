@@ -51,6 +51,7 @@
 #include "connectdlg_g.h"
 #include "control.h"
 #include "dialogs_g.h"
+#include "editgui_g.h"
 #include "ggzclient.h"
 #include "goto.h"               /* client_goto_init() */
 #include "graphics_g.h"
@@ -419,6 +420,7 @@ static void update_client_state(enum client_states value)
     
     free_intro_radar_sprites();
     agents_game_start();
+    editgui_tileset_changed();
   }
 
   if (C_S_OVER == client_state()) {
@@ -1858,6 +1860,8 @@ void handle_player_info(struct packet_player_info *pinfo)
     update_intel_dialog(pplayer);
   }
   update_conn_list_dialog();
+
+  editgui_refresh();
 }
 
 /**************************************************************************
@@ -2353,6 +2357,12 @@ void handle_tile_info(struct packet_tile_info *packet)
       ptile->spec_sprite = NULL;
       tile_changed = TRUE;
     }
+  }
+
+  if (ptile->editor.startpos_nation_id
+      != packet->editor_startpos_nation_id) {
+    ptile->editor.startpos_nation_id = packet->editor_startpos_nation_id;
+    tile_changed = TRUE;
   }
 
   if (TILE_KNOWN_SEEN == old_known && TILE_KNOWN_SEEN != new_known) {

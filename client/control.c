@@ -966,10 +966,8 @@ void control_mouse_cursor(struct tile *ptile)
 
   switch (hover_state) {
   case HOVER_NONE:
-    if (can_do_editor_click(ptile)) {
-      mouse_cursor_type = editor_test_click(ptile);
-    } else if (NULL != punit
-               && unit_owner(punit) == client.conn.playing) {
+    if (NULL != punit
+        && unit_owner(punit) == client_player()) {
       /* Set mouse cursor to select a unit.  */
       mouse_cursor_type = CURSOR_SELECT;
     } else if (NULL != pcity
@@ -2851,4 +2849,15 @@ void key_editor_recalculate_borders(void)
 void key_editor_regenerate_water(void)
 {
   send_packet_edit_regenerate_water(&client.conn);
+}
+
+/**************************************************************************
+  Send a request to the server to toggle fog-of-war for the current
+  player (only applies in edit mode).
+**************************************************************************/
+void key_editor_toggle_fogofwar(void)
+{
+  if (client_has_player()) {
+    dsend_packet_edit_toggle_fogofwar(&client.conn, client_player_number());
+  }
 }

@@ -36,6 +36,8 @@
 #include "colors.h"
 #include "control.h"
 #include "dialogs.h"
+#include "editgui.h"
+#include "editor.h"
 #include "graphics.h"
 #include "gui_main.h"
 #include "inputdlg.h"
@@ -214,6 +216,10 @@ void set_turn_done_button_state(bool state)
 **************************************************************************/
 gboolean butt_release_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
 {
+  if (editor_is_active()) {
+    return handle_edit_mouse_button_release(ev);
+  }
+
   if (ev->button == 1 || ev->button == 3) {
     release_goto_button(ev->x, ev->y);
   }
@@ -232,6 +238,10 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
 {
   struct city *pcity = NULL;
   struct tile *ptile = NULL;
+
+  if (editor_is_active()) {
+    return handle_edit_mouse_button_press(ev);
+  }
 
   if (!can_client_change_view()) {
     return TRUE;
@@ -379,6 +389,10 @@ gboolean move_mapcanvas(GtkWidget *w, GdkEventMotion *ev, gpointer data)
 {
   if (!GTK_WIDGET_HAS_FOCUS(map_canvas)) {
     gtk_widget_grab_focus(map_canvas);
+  }
+
+  if (editor_is_active()) {
+    return handle_edit_mouse_move(ev);
   }
 
   cur_x = ev->x;

@@ -42,7 +42,7 @@
 #include "connectdlg.h"
 #include "control.h"
 #include "dialogs.h"
-#include "editdlg.h"
+#include "editgui.h"
 #include "finddlg.h"
 #include "gotodlg.h"
 #include "graphics.h"
@@ -168,9 +168,9 @@ enum MenuID {
   MENU_REPORT_SPACESHIP,
  
   MENU_EDITOR_TOGGLE,
-  MENU_EDITOR_TOOLS,
   MENU_EDITOR_RECALCULATE_BORDERS,
   MENU_EDITOR_REGENERATE_WATER,
+  MENU_EDITOR_TOGGLE_FOGOFWAR,
 
   MENU_HELP_LANGUAGES,
   MENU_HELP_CONNECTING,
@@ -629,14 +629,16 @@ static void editor_menu_callback(gpointer callback_data,
     menus_set_active_no_callback("<main>/_Edit/Editing _Mode",
                                  game.info.is_edit_mode);
     break;
-  case MENU_EDITOR_TOOLS:
-    editdlg_show_tools();
-    break;
   case MENU_EDITOR_RECALCULATE_BORDERS:
     key_editor_recalculate_borders();
     break;
   case MENU_EDITOR_REGENERATE_WATER:
     key_editor_regenerate_water();
+    break;
+  case MENU_EDITOR_TOGGLE_FOGOFWAR:
+    key_editor_toggle_fogofwar();
+    break;
+  default:
     break;
   }
 }
@@ -802,12 +804,12 @@ static GtkItemFactoryEntry menu_items[]	=
   /* was Editor menu */
   { "/" N_("_Edit") "/" N_("Editing _Mode"), "<control>e",
 	editor_menu_callback, MENU_EDITOR_TOGGLE, "<CheckItem>" },
-  { "/" N_("_Edit") "/" N_("Editing _Tools"), NULL,
-	editor_menu_callback, MENU_EDITOR_TOOLS },
   { "/" N_("_Edit") "/" N_("Recalculate _Borders"), NULL,
 	editor_menu_callback, MENU_EDITOR_RECALCULATE_BORDERS },
   { "/" N_("_Edit") "/" N_("Regenerate _Water"), NULL,
 	editor_menu_callback, MENU_EDITOR_REGENERATE_WATER },
+  { "/" N_("_Edit") "/" N_("Toggle Fog-of-war"), "<control>f",
+	editor_menu_callback, MENU_EDITOR_TOGGLE_FOGOFWAR },
 
   /* View menu ... */
   { "/" N_("_View"),					NULL,
@@ -1397,12 +1399,14 @@ void update_menus(void)
                                  game.info.is_edit_mode);
     menus_set_sensitive("<main>/_Edit/Editing _Mode",
                         can_conn_enable_editing(&client.conn));
-    menus_set_sensitive("<main>/_Edit/Editing _Tools",
-			can_conn_edit(&client.conn));
     menus_set_sensitive("<main>/_Edit/Recalculate _Borders",
 			can_conn_edit(&client.conn));
     menus_set_sensitive("<main>/_Edit/Regenerate _Water",
 			can_conn_edit(&client.conn));
+    menus_set_sensitive("<main>/_Edit/Toggle Fog-of-war",
+			can_conn_edit(&client.conn));
+
+    editgui_refresh();
 
     /* If the client is not attached to a player, disable these reports. */
     menus_set_sensitive("<main>/_Reports/_Cities",

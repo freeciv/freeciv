@@ -50,11 +50,11 @@
 #include "mapview.h"
 #include "options.h"
 #include "packhand.h"
+#include "plrdlg.h"
 #include "text.h"
 #include "tilespec.h"
 
 #include "dialogs.h"
-#include "editdlg.h"
 #include "wldlg.h"
 
 /******************************************************************/
@@ -1353,6 +1353,4 @@ void popup_upgrade_dialog(struct unit_list *punits)
 void popdown_all_game_dialogs(void)
 {
   gui_dialog_destroy_all();
-  editdlg_hide_tools();
 }
-

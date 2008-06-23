@@ -87,6 +87,7 @@ files =
   "misc/overlays.spec",
   "misc/citybar.spec",
   "misc/shields.spec",
+  "misc/editor.spec",
   "amplio/icons.spec"
 
 

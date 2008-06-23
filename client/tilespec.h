@@ -88,6 +88,7 @@ enum mapview_layer {
   LAYER_CITYBAR,
   LAYER_FOCUS_UNIT,
   LAYER_GOTO,
+  LAYER_EDITOR,
   LAYER_COUNT
 };
 
@@ -153,6 +154,13 @@ int fill_sprite_array(struct tileset *t,
 		      const struct tile_corner *pcorner,
 		      const struct unit *punit, const struct city *pcity,
 		      const struct city *citymode);
+int fill_basic_terrain_layer_sprite_array(struct tileset *t,
+                                          struct drawn_sprite *sprs,
+                                          int layer,
+                                          struct terrain *pterrain);
+int fill_basic_base_sprite_array(const struct tileset *t,
+                                 struct drawn_sprite *sprs,
+                                 const struct base_type *pbase);
 
 double get_focus_unit_toggle_timeout(const struct tileset *t);
 void reset_focus_unit_state(struct tileset *t);
@@ -212,6 +220,21 @@ struct citybar_sprites {
   struct sprite_vector occupancy;
 };
 
+struct editor_sprites {
+  struct sprite
+    *erase,
+    *brush,
+    *startpos,
+    *terrain,
+    *terrain_resource,
+    *terrain_special,
+    *unit,
+    *city,
+    *vision,
+    *territory,
+    *properties;
+};
+
 struct sprite *get_spaceship_sprite(const struct tileset *t,
 				    enum spaceship_part part);
 struct sprite *get_citizen_sprite(const struct tileset *t,
@@ -242,6 +265,7 @@ struct sprite *get_cursor_sprite(const struct tileset *t,
 				 enum cursor_type cursor,
 				 int *hot_x, int *hot_y, int frame);
 const struct citybar_sprites *get_citybar_sprites(const struct tileset *t);
+const struct editor_sprites *get_editor_sprites(const struct tileset *t);
 struct sprite *get_icon_sprite(const struct tileset *t, enum icon_type icon);
 struct sprite *get_attention_crosshair_sprite(const struct tileset *t);
 struct sprite *get_indicator_sprite(const struct tileset *t,
@@ -255,6 +279,11 @@ struct sprite *get_unit_upkeep_sprite(const struct tileset *t,
 				      const struct unit *punit,
 				      const int *upkeep_cost);
 struct sprite *get_basic_fog_sprite(const struct tileset *t);
+struct sprite *get_resource_sprite(const struct tileset *t,
+                                   const struct resource *presouce);
+struct sprite *get_basic_special_sprite(const struct tileset *t,
+                                        enum tile_special_type special);
+struct sprite *get_basic_mine_sprite(const struct tileset *t);
 
 struct sprite* tiles_lookup_sprite_tag_alt(struct tileset *t, int loglevel,
 					   const char *tag, const char *alt,

@@ -85,6 +85,7 @@ files =
   "misc/techs.spec",
   "misc/treaty.spec",
   "misc/icons.spec",
+  "misc/editor.spec",
   "amplio/nuke.spec"
 
 
