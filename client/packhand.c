@@ -1967,6 +1967,7 @@ void handle_tile_info(struct packet_tile_info *packet)
   enum known_type old_known = ptile->known;
   bool tile_changed = FALSE;
   bool known_changed = FALSE;
+  bool renumbered = FALSE;
 
   if (ptile->terrain != packet->type) { /*terrain*/
     tile_changed = TRUE;
@@ -2030,13 +2031,17 @@ void handle_tile_info(struct packet_tile_info *packet)
     /* We're renumbering continents, somebody did a transform.
      * But we don't care about renumbering oceans since 
      * num_oceans is not kept at the client. */
-    map.num_continents = 0;
+    renumbered = TRUE;
   }
 
   ptile->continent = packet->continent;
 
   if (ptile->continent > map.num_continents) {
     map.num_continents = ptile->continent;
+    renumbered = TRUE;
+  }
+
+  if (renumbered) {
     allot_island_improvs();
   }
 
