@@ -82,7 +82,6 @@ client/agents/cma_core.c
 client/agents/cma_fec.c
 client/gui-gtk-2.0/connectdlg.c
 client/gui-gtk-2.0/diplomat_dialog.c
-client/gui-gtk-2.0/editdlg.c
 client/gui-gtk-2.0/caravan_dialog.c
 client/gui-gtk-2.0/chatline.c
 client/gui-gtk-2.0/citydlg.c
@@ -91,6 +90,8 @@ client/gui-gtk-2.0/cma_fe.c
 client/gui-gtk-2.0/connectdlg.c
 client/gui-gtk-2.0/dialogs.c
 client/gui-gtk-2.0/diplodlg.c
+client/gui-gtk-2.0/editgui.c
+client/gui-gtk-2.0/editprop.c
 client/gui-gtk-2.0/finddlg.c
 client/gui-gtk-2.0/gamedlgs.c
 client/gui-gtk-2.0/gotodlg.c
