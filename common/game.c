@@ -496,8 +496,7 @@ void game_renumber_players(int plrno)
 
   game.nplayers--;
 
-  /* a bit of cleanup to keep connections sane */
-  conn_list_init(&game.players[game.nplayers].connections);
+  /* Reset player structure. */
   player_init(&game.players[game.nplayers]);
 }
 
