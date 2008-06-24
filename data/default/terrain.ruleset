@@ -152,8 +152,6 @@ fallout_trade_penalty=50
 ;                        separately).
 ;   - UnsafeCoast      = This terrain does not provide a safe voyage for
 ;                        F_TRIRIEME units.
-;   - UnsafeOcean      = This terrain does not provide a safe voyage for
-;                        F_COASTAL or F_SEAWORTHY units.
 ;   - Oceanic          = This is an "ocean" terrain.  This has a big effect
 ;                        on gameplay.  Naval units can move on oceanic terrain,
 ;                        while land units cannot.  Oceanic tiles can be used
@@ -397,7 +395,7 @@ warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 native_to            = "Sea", "Air", "Missile", "Helicopter"
-flags                = "Oceanic", "NoCities", "NoPollution", "UnsafeCoast"; "UnsafeOcean"
+flags                = "Oceanic", "NoCities", "NoPollution", "UnsafeCoast"
 property_ocean_depth = 87
 helptext             = _("\
 Oceans cover much of the world, and only seaworthy units\
@@ -435,7 +433,7 @@ warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 native_to            = "Sea", "Air", "Missile", "Helicopter"
-flags                = "Oceanic", "NoCities", "NoPollution", "UnsafeCoast"; "UnsafeOcean"
+flags                = "Oceanic", "NoCities", "NoPollution", "UnsafeCoast"
 property_ocean_depth = 99
 helptext             = _("\
 Oceans cover much of the world, and only seaworthy units\
@@ -473,7 +471,7 @@ warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 native_to            = "Sea", "Air", "Missile", "Helicopter", "Trireme"
-flags                = "Oceanic", "NoCities", "NoPollution", "UnsafeCoast"; "UnsafeOcean"
+flags                = "Oceanic", "NoCities", "NoPollution", "UnsafeCoast"
 property_ocean_depth = 36 ; same as coast, for now
 helptext             = _("\
 Oceans cover much of the world, and only sea units (Triremes and\
@@ -511,7 +509,7 @@ warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 native_to            = "Sea", "Air", "Missile", "Helicopter"
-flags                = "Oceanic", "NoCities", "NoPollution", "UnsafeCoast"; "UnsafeOcean"
+flags                = "Oceanic", "NoCities", "NoPollution", "UnsafeCoast"
 property_ocean_depth = 36 ; same as ridge, not generated
 helptext             = _("\
 Oceans cover much of the world, and only seaworthy units\
