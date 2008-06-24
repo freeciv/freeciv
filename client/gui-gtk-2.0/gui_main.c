@@ -1607,12 +1607,10 @@ void update_conn_list_dialog(void)
 {
   GtkTreeIter it[player_count()];
 
-  if (NULL != client.conn.playing) {
+  if (client_has_player()) {
     char *text;
 
-    if (!client_has_player()) {
-      text = _("_Ready");
-    } else if (client.conn.playing->is_ready) {
+    if (client_player()->is_ready) {
       text = _("Not _ready");
     } else {
       int num_unready = 0;
