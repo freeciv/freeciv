@@ -1953,7 +1953,7 @@ static void srv_prepare(void)
   maybe_automatic_meta_message(default_meta_message_string());
 
   if(!(srvarg.metaserver_no_send)) {
-    freelog(LOG_NORMAL, _("Sending info to metaserver [%s]"),
+    freelog(LOG_NORMAL, _("Sending info to metaserver <%s>"),
 	    meta_addr_port());
     /* Open socket for meta server */
     if (!server_open_meta()
