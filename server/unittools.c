@@ -294,8 +294,8 @@ void pay_for_units(struct player *pplayer, struct city *pcity)
       /* We cannot upkeep this unit any longer and selling off city
        * improvements will not help so we will have to disband */
       assert(pplayer->economic.gold + potential_gold >= 0);
-      
-      notify_player(pplayer, NULL, E_UNIT_LOST,
+
+      notify_player(pplayer, NULL, E_UNIT_LOST_MISC,
 		       _("Not enough gold. %s disbanded"),
 		       unit_name_translation(punit));
       wipe_unit(punit);
@@ -338,7 +338,7 @@ void player_restore_units(struct player *pplayer)
       /* This should usually only happen for heli units,
 	 but if any other units get 0 hp somehow, catch
 	 them too.  --dwp  */
-      notify_player(pplayer, punit->tile, E_UNIT_LOST, 
+      notify_player(pplayer, punit->tile, E_UNIT_LOST_MISC, 
           _("Your %s has run out of hit points."), 
           unit_name_translation(punit));
       wipe_unit(punit);
@@ -442,7 +442,7 @@ void player_restore_units(struct player *pplayer)
   /* 7) Check if there are air units without fuel */
   unit_list_iterate_safe(pplayer->units, punit) {
     if (punit->fuel <= 0 && unit_type(punit)->fuel) {
-      notify_player(pplayer, punit->tile, E_UNIT_LOST, 
+      notify_player(pplayer, punit->tile, E_UNIT_LOST_MISC, 
 		       _("Your %s has run out of fuel."),
 		       unit_name_translation(punit));
       wipe_unit(punit);
@@ -1099,7 +1099,7 @@ void bounce_unit(struct unit *punit, bool verbose)
   } else {
     /* remove it */
     if (verbose) {
-      notify_player(unit_owner(punit), punit->tile, E_UNIT_LOST,
+      notify_player(unit_owner(punit), punit->tile, E_UNIT_LOST_MISC,
 		       _("Disbanded your %s."),
 		       unit_name_translation(punit));
     }
@@ -1428,7 +1428,7 @@ static void server_remove_unit(struct unit *punit)
 
   /* check if this unit had F_GAMELOSS flag */
   if (unit_has_type_flag(punit, F_GAMELOSS) && unit_owner(punit)->is_alive) {
-    notify_conn(game.est_connections, ptile, E_UNIT_LOST,
+    notify_conn(game.est_connections, ptile, E_UNIT_LOST_MISC,
                    _("Unable to defend %s, %s has lost the game."),
                    unit_name_translation(punit),
                    player_name(unit_owner(punit)));
@@ -1469,7 +1469,7 @@ static void unit_lost_with_transport(const struct player *pplayer,
                                      struct unit *pcargo,
                                      struct unit_type *ptransport)
 {
-  notify_player(pplayer, pcargo->tile, E_UNIT_LOST,
+  notify_player(pplayer, pcargo->tile, E_UNIT_LOST_MISC,
                 _("%s lost when %s was lost."),
                 unit_name_translation(pcargo),
                 utype_name_translation(ptransport));
@@ -1625,7 +1625,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
     if (vet) {
       notify_unit_experience(pkiller, TRUE);
     }
-    notify_player(pvictim, punit->tile, E_UNIT_LOST,
+    notify_player(pvictim, punit->tile, E_UNIT_LOST_DEF,
 		  /* TRANS: "Cannon ... the Polish Destroyer." */
 		  _("%s lost to an attack by the %s %s."),
 		  unit_name_translation(punit),
@@ -1683,7 +1683,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
       if (num_killed[i] == 1) {
 	if (i == player_index(pvictim)) {
 	  assert(other_killed[i] == NULL);
-	  notify_player(player_by_number(i), punit->tile, E_UNIT_LOST,
+	  notify_player(player_by_number(i), punit->tile, E_UNIT_LOST_DEF,
 			/* TRANS: "Cannon ... the Polish Destroyer." */
 			_("%s lost to an attack by the %s %s."),
 			unit_name_translation(punit),
@@ -1691,7 +1691,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 			unit_name_translation(pkiller));
 	} else {
 	  assert(other_killed[i] != punit);
-	  notify_player(player_by_number(i), punit->tile, E_UNIT_LOST,
+	  notify_player(player_by_number(i), punit->tile, E_UNIT_LOST_DEF,
 			/* TRANS: "Cannon lost when the Polish Destroyer
 			 * attacked the German Musketeers." */
 			_("%s lost when the %s %s attacked the %s %s."),
@@ -1706,7 +1706,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 	  int others = num_killed[i] - 1;
 
 	  if (others == 1) {
-	    notify_player(player_by_number(i), punit->tile, E_UNIT_LOST,
+	    notify_player(player_by_number(i), punit->tile, E_UNIT_LOST_DEF,
 			  /* TRANS: "Musketeers (and Cannon) lost to an
 			   * attack from the Polish Destroyer." */
 			  _("%s (and %s) lost to an attack from the %s %s."),
@@ -1715,7 +1715,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 			  nation_adjective_for_player(pvictor),
 			  unit_name_translation(pkiller));
 	  } else {
-	    notify_player(player_by_number(i), punit->tile, E_UNIT_LOST,
+	    notify_player(player_by_number(i), punit->tile, E_UNIT_LOST_DEF,
 			  /* TRANS: "Musketeers and 3 other units lost to
 			   * an attack from the Polish Destroyer."
 			   * (only happens with at least 2 other units) */
@@ -1729,7 +1729,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 			  unit_name_translation(pkiller));
 	  }
 	} else {
-	  notify_player(player_by_number(i), punit->tile, E_UNIT_LOST,
+	  notify_player(player_by_number(i), punit->tile, E_UNIT_LOST_DEF,
 			/* TRANS: "2 units lost when the Polish Destroyer
 			 * attacked the German Musketeers."
 			 * (only happens with at least 2 other units) */
@@ -1999,7 +1999,7 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
   struct city *pcity = tile_city(ptile);
 
   unit_list_iterate_safe(ptile->units, punit) {
-    notify_player(unit_owner(punit), ptile, E_UNIT_LOST,
+    notify_player(unit_owner(punit), ptile, E_UNIT_LOST_MISC,
 		  _("Your %s was nuked by %s."),
 		  unit_name_translation(punit),
 		  pplayer == unit_owner(punit)
@@ -2194,7 +2194,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
   /* Safe terrain, really? Not transformed since player last saw it. */
   if (!can_unit_exist_at_tile(punit, ptile)) {
     map_show_circle(pplayer, ptile, unit_type(punit)->vision_radius_sq);
-    notify_player(pplayer, ptile, E_UNIT_LOST,
+    notify_player(pplayer, ptile, E_UNIT_LOST_MISC,
                      _("Your %s paradropped into the %s "
                        "and was lost."),
                      unit_name_translation(punit),
@@ -2207,7 +2207,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
       || is_non_allied_unit_tile(ptile, pplayer)) {
     map_show_circle(pplayer, ptile, unit_type(punit)->vision_radius_sq);
     maybe_make_contact(ptile, pplayer);
-    notify_player(pplayer, ptile, E_UNIT_LOST_ATT,
+    notify_player(pplayer, ptile, E_UNIT_LOST_MISC,
                      _("Your %s was killed by enemy units at the "
                        "paradrop destination."),
                      unit_name_translation(punit));

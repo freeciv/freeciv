@@ -1727,7 +1727,7 @@ static void bounce_units_on_terrain_change(struct tile *ptile)
 		unit_rule_name(punit),
 		TILE_XY(punit->tile));
 	notify_player(unit_owner(punit),
-			 punit->tile, E_UNIT_LOST,
+			 punit->tile, E_UNIT_LOST_MISC,
 			 _("Disbanded your %s due to changing terrain."),
 			 unit_name_translation(punit));
 	wipe_unit(punit);

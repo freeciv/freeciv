@@ -102,7 +102,7 @@ enum event_type {
   E_UNIT_WIN_ATT,
   E_UNIT_BUY,
   E_UNIT_BUILT,
-  E_UNIT_LOST,
+  E_UNIT_LOST_DEF,
   E_UNIT_WIN,
   E_UNIT_BECAME_VET,
   E_UNIT_UPGRADED,
@@ -125,10 +125,11 @@ enum event_type {
   E_LOG_ERROR,			/* Warning messages */
   E_LOG_FATAL,
   E_TECH_GOAL,			/* Changed tech goal */
+  E_UNIT_LOST_MISC,             /* Non-battle unit deaths */
   /* 
    * Note: If you add a new event, make sure you make a similar change
-   * to the events array in common/events.c using GEN_EV and to
-   * data/stdsounds.soundspec.
+   * to the events array in common/events.c using GEN_EV,
+   * data/stdsoundes and to server/scripting/api.pkg
    */
   E_LAST
 };

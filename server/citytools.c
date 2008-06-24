@@ -586,7 +586,7 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
 	      nation_rule_name(nation_of_player(from_player)),
 	      nation_rule_name(nation_of_player(to_player)));
       if (verbose) {
-	notify_player(from_player, punit->tile, E_UNIT_LOST,
+	notify_player(from_player, punit->tile, E_UNIT_LOST_MISC,
 		      /* TRANS: Polish Destroyer ... German <city> */
 		      _("%s %s lost in transfer to %s %s"),
 		      nation_adjective_for_player(from_player),
@@ -670,7 +670,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 	      city_name(pcity));
       if (verbose) {
 	notify_player(unit_owner(vunit), vunit->tile,
-			 E_UNIT_LOST,
+			 E_UNIT_LOST_MISC,
 			 _("%s lost along with control of %s."),
 			 unit_name_translation(vunit),
 			 city_name(pcity));
@@ -1191,7 +1191,7 @@ void remove_city(struct city *pcity)
       }
     } adjc_iterate_end;
     if (!moved) {
-      notify_player(unit_owner(punit), NULL, E_UNIT_LOST,
+      notify_player(unit_owner(punit), NULL, E_UNIT_LOST_MISC,
 		       _("When %s was disbanded your %s could not "
 			 "get out, and it was therefore lost."),
 		       city_name(pcity),
