@@ -3281,7 +3281,25 @@ static void send_load_game_info(bool load_successful)
 }
 
 /**************************************************************************
-  ...
+  Loads a file, complete with access checks and error messages sent back
+  to the caller on failure.
+
+  * caller is the connection requesting the load, or NULL for a
+    command-line load.  Error messages are sent back to the caller and
+    an access check is done to make sure they are allowed to load.
+
+  * filename is simply the name of the file to be loaded.  This may be
+    approximate; the function will look for appropriate suffixes and will
+    check in the various directories to see if the file is found.
+
+  * if check is set then only a test run is done and no actual loading
+    is attempted.
+
+  * The return value is true if the load succeeds, or would succeed;
+    false if there's an error in the file or file name.  Some errors
+    in loading however could be unrecoverable (if the save game is
+    legitimate but has inconsistencies) and would lead to a broken server
+    afterwards.
 **************************************************************************/
 bool load_command(struct connection *caller, char *filename, bool check)
 {
