@@ -691,7 +691,6 @@ static GtkWidget* create_list_of_nations_in_group(struct nation_group* group,
 
   /* Populate nation list store. */
   nations_iterate(pnation) {
-    struct sprite *s;
     bool used;
     GdkPixbuf *img;
     GtkTreeIter it;
@@ -707,12 +706,13 @@ static GtkWidget* create_list_of_nations_in_group(struct nation_group* group,
 
     gtk_list_store_append(store, &it);
 
-    s = crop_blankspace(get_nation_flag_sprite(tileset, pnation));
-    img = sprite_get_pixbuf(s);
     used = (pnation->player != NULL && pnation->player != races_player);
-    gtk_list_store_set(store, &it, 0, nation_number(pnation), 1, used, 2, img, -1);
-    free_sprite(s);
-
+    gtk_list_store_set(store, &it, 0, nation_number(pnation), 1, used, -1);
+    img = get_flag(pnation);
+    if (img != NULL) {
+      gtk_list_store_set(store, &it, 2, img, -1);
+      g_object_unref(img);
+    }
     if (pnation->player == races_player) {
       /* FIXME: should select this one by default. */
     }

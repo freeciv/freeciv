@@ -555,12 +555,14 @@ void create_players_dialog(void)
 #define MIN_DIMENSION 5
 
 /**************************************************************************
- Builds the flag pixmap.
+ Builds the flag pixmap. May return NULL if there is not enough memory.
+ You must call g_object_unref on the returned pixbuf when it is no
+ longer needed.
 **************************************************************************/
 GdkPixbuf *get_flag(const struct nation_type *nation)
 {
   int x0, y0, x1, y1, w, h;
-  GdkPixbuf *im, *im2;
+  GdkPixbuf *im;
   struct sprite *flag;
 
   flag = get_nation_flag_sprite(tileset, nation);
@@ -580,12 +582,14 @@ GdkPixbuf *get_flag(const struct nation_type *nation)
   assert(w >= MIN_DIMENSION && h >= MIN_DIMENSION);
 
   /* croping */
-  im = gdk_pixbuf_new_subpixbuf(sprite_get_pixbuf(flag), x0, y0, w, h);
-  im2 = gdk_pixbuf_copy(im);
-  g_object_unref(im);
+  im = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, w, h);
+  if (im != NULL) {
+    gdk_pixbuf_copy_area(sprite_get_pixbuf(flag), x0, y0, w, h,
+                         im, 0, 0);
+  }
 
   /* and finaly store the scaled flag pixbuf in the static flags array */
-  return im2;
+  return im;
 }
 
 
