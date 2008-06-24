@@ -534,7 +534,7 @@ void game_renumber_players(int plrno)
     assert(city_list_size(game.players[i].cities) == 0);
   }
 
-  if(game.info.player_idx > plrno) {
+  if(game.player_ptr && game.info.player_idx > plrno) {
     game.info.player_idx--;
     game.player_ptr = &game.players[game.info.player_idx];
   }

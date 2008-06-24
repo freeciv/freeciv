@@ -1487,9 +1487,7 @@ void update_conn_list_dialog(void)
   if (game.player_ptr) {
     char *text;
 
-    if (game.player_ptr == NULL) {
-      text = _("_Ready");
-    } else if (game.player_ptr->is_ready) {
+    if (game.player_ptr->is_ready) {
       text = _("Not _ready");
     } else {
       int num_unready = 0;

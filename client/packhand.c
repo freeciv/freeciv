@@ -2166,6 +2166,12 @@ void handle_tile_info(struct packet_tile_info *packet)
 **************************************************************************/
 void handle_player_remove(int player_id)
 {
+  if (player_id < 0 || player_id >= MAX_NUM_PLAYERS) {
+    freelog(LOG_ERROR, "Illegal player_remove packet from server (%d)",
+            player_id);
+    return;
+  }
+
   client_remove_player(player_id);
   update_conn_list_dialog();
 }
