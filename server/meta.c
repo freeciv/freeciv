@@ -428,7 +428,7 @@ bool server_open_meta(void)
   metaserver_path = mystrdup(path);
 
   if (!net_lookup_service(metaname, metaport, &meta_addr)) {
-    freelog(LOG_ERROR, _("Metaserver: bad address: [%s:%d]."),
+    freelog(LOG_ERROR, _("Metaserver: bad address: <%s %d>."),
             metaname, metaport);
     metaserver_failed();
     return FALSE;

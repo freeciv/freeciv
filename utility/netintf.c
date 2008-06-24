@@ -342,6 +342,8 @@ fz_FILE *my_querysocket(int sock, void *buf, size_t size)
 const char *my_lookup_httpd(char *server, int *port, const char *url)
 {
   const char *purl, *str, *ppath, *pport;
+  const char *str2;
+  int chars_between = 0;
 
   if ((purl = getenv("http_proxy")) && purl[0] != '\0') {
     if (strncmp(purl, "http://", strlen("http://")) != 0) {
@@ -358,17 +360,29 @@ const char *my_lookup_httpd(char *server, int *port, const char *url)
 
   str += strlen("http://");
 
-  pport = strchr(str, ':');
-  ppath = strchr(str, '/');
+  if (*str == '[') {
+    /* Literal IPv6 address (RFC 2732) */
+    str++;
+    str2 = strchr(str, ']') + 1;
+    if (!str2) {
+      str2 = str + strlen(str);
+    }
+    chars_between = 1;
+  } else {
+    str2 = str;
+  }
+
+  pport = strchr(str2, ':');
+  ppath = strchr(str2, '/');
 
   /* snarf server. */
   server[0] = '\0';
 
   if (pport) {
-    strncat(server, str, MIN(MAX_LEN_ADDR, pport-str));
+    strncat(server, str, MIN(MAX_LEN_ADDR, pport-str-chars_between));
   } else {
     if (ppath) {
-      strncat(server, str, MIN(MAX_LEN_ADDR, ppath-str));
+      strncat(server, str, MIN(MAX_LEN_ADDR, ppath-str-chars_between));
     } else {
       strncat(server, str, MAX_LEN_ADDR);
     }
