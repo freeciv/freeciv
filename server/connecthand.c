@@ -385,15 +385,6 @@ static void package_conn_info(struct connection *pconn,
   sz_strlcpy(packet->username, pconn->username);
   sz_strlcpy(packet->addr, pconn->addr);
   sz_strlcpy(packet->capability, pconn->capability);
-
-#if 0
-  if (NULL == pconn->playing && !pconn->observer) {
-    freelog(LOG_FATAL, "package_conn_info()"
-            " not playing, but not observer: %d %s",
-            pconn->id, pconn->username);
-    assert((int)((char *)NULL)[0]);
-  }
-#endif
 }
 
 /**************************************************************************
@@ -454,7 +445,8 @@ struct player *find_uncontrolled_player(void)
 
 /**************************************************************************
   Setup pconn as a client connected to pplayer:
-  Updates pconn, pplayer->connections, pplayer->is_connected.
+  Updates pconn->playing, pplayer->connections, pplayer->is_connected
+  and pconn->observer.
 
   If pplayer is NULL, take the next available player that is not connected.
   Note "observer" connections do not count for is_connected.
@@ -512,13 +504,19 @@ bool attach_connection_to_player(struct connection *pconn,
   
 /**************************************************************************
   Remove pconn as a client connected to pplayer:
-  Update pplayer->connections, pplayer->is_connected.
+  Updates pconn->playing, pconn->playing->connections,
+  pconn->playing->is_connected and pconn->observer.
 
   pconn remains a member of game.est_connections.
+
+  The 'observing' parameter should be TRUE if 'pconn' is to become
+  a global observer, FALSE otherwise.
 **************************************************************************/
 bool detach_connection_to_player(struct connection *pconn,
                                  bool observing)
 {
+  pconn->observer = observing;
+
   if (NULL == pconn->playing) {
     return FALSE; /* no player is attached to this conn */
   }
@@ -526,7 +524,6 @@ bool detach_connection_to_player(struct connection *pconn,
   conn_list_unlink(pconn->playing->connections, pconn);
 
   pconn->playing->is_connected = FALSE;
-  pconn->observer = observing;
 
   /* If any other (non-observing) conn is attached to 
    * this player, the player is still connected. */
