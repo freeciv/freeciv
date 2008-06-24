@@ -5,7 +5,6 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/dependencies/lua-5.1/src
 
 libtolua_a_SOURCES = \
-	$(top_srcdir)/dependencies/tolua/include/toluaxx.h \
 	tolua_event.c \
 	tolua_event.h \
 	tolua_is.c \
