@@ -5,6 +5,7 @@ noinst_LIBRARIES = liblua.a
 AM_CPPFLAGS =
 
 liblua_a_SOURCES = 	\
+	localluaconf.h	\
 	lapi.c		\
 	lapi.h		\
 	lauxlib.c	\
