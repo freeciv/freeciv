@@ -60,7 +60,7 @@ static int script_report(lua_State *L, int status, const char *code)
     astr_clear(&str);
 
     /* Add error message. */
-    astr_add_line(&str, "\nlua error:");
+    astr_add_line(&str, "lua error:");
     astr_add_line(&str, "\t%s", msg);
 
     if (code) {
@@ -110,6 +110,7 @@ static int script_report(lua_State *L, int status, const char *code)
 
     lua_pop(L, 1);
   }
+
   return status;
 }
 
@@ -125,10 +126,10 @@ static int script_call(lua_State *L, int narg, int nret)
   lua_rawget(L, LUA_GLOBALSINDEX);  /* Get traceback function */
   lua_insert(L, base);  /* Put it under chunk and args */
   status = lua_pcall(L, narg, nret, base);
-  lua_remove(L, base);  /* Remove traceback function */
   if (status) {
     script_report(state, status, NULL);
   }
+  lua_remove(L, base);  /* Remove traceback function */
   return status;
 }
 
@@ -142,8 +143,12 @@ static int script_dostring(lua_State *L, const char *str, const char *name)
   status = luaL_loadbuffer(L, str, strlen(str), name);
   if (status) {
     script_report(state, status, str);
+  } else {
+    status = script_call(L, 0, LUA_MULTRET);
+    if (status) {
+      script_report(state, status, str);
+    }
   }
-  status = script_call(L, 0, LUA_MULTRET);
   return status;
 }
 

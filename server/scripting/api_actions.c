@@ -51,7 +51,7 @@ Unit *api_actions_create_unit(Player *pplayer, Tile *ptile, Unit_Type *ptype,
 **************************************************************************/
 void api_actions_create_city(Player *pplayer, Tile *ptile, const char *name)
 {
-  if (!name) {
+  if (!name || name[0] == '\0') {
     name = city_name_suggestion(pplayer, ptile);
   }
   create_city(pplayer, ptile, name);

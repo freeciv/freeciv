@@ -12,7 +12,7 @@
 -- Get gold from entering a hut.
 function hut_get_gold(unit, gold)
   local owner = unit.owner
- 
+
   notify.event(owner, unit.tile, E.HUT_GOLD, _("You found %d gold."), gold)
   change_gold(owner, gold)
 end
@@ -25,12 +25,12 @@ function hut_get_tech(unit)
   if tech then
     notify.event(owner, unit.tile, E.HUT_TECH,
                  _("You found %s in ancient scrolls of wisdom."),
-                 tech:name_translation())
+                 methods_tech_type_name_translation(tech))
     notify.embassies(owner, unit.tile, E.HUT_TECH,
                      _("The %s have acquired %s from ancient scrolls of\
                       wisdom."),
-                     owner.nation:plural_translation(),
-                     tech:name_translation())
+                     methods_nation_type_plural_translation(owner.nation),
+                     methods_tech_type_name_translation(tech))
     return true
   else
     return false
@@ -47,7 +47,7 @@ function hut_get_mercenaries(unit)
      
     notify.event(owner, unit.tile, E.HUT_MERC,
                  _("A band of friendly mercenaries joins your cause."))
-    create_unit(owner, unit.tile, type, 0, unit:homecity(), -1)
+    create_unit(owner, unit.tile, type, 0, unit:get_homecity(), -1)
     return true
   else
     return false
@@ -60,11 +60,11 @@ function hut_get_city(unit)
   local settlers = find.unit_type('Settlers')
 
   if unit:is_on_possible_city_tile() then
-    create_city(owner, unit.tile, nil)
+    create_city(owner, unit.tile, "")
     notify.event(owner, unit.tile, E.HUT_CITY,
                  _("You found a friendly city."))
   else
-    create_unit(owner, unit.tile, settlers, 0, unit:homecity(), -1)
+    create_unit(owner, unit.tile, settlers, 0, unit:get_homecity(), -1)
     notify.event(owner, unit.tile, E.HUT_SETTLER,
                  _("Friendly nomads are impressed by you, and join you."))
   end
@@ -76,7 +76,7 @@ function hut_get_barbarians(unit)
   local tile = unit.tile
   local type = unit.utype
   local owner = unit.owner
-  
+
   if unit.tile:city_exists_within_city_radius(true) 
     or type:has_flag('Gameloss') then
     notify.event(owner, unit.tile, E.HUT_BARB_CITY_NEAR,
