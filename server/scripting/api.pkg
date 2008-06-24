@@ -174,7 +174,7 @@ function Player:num_units()
 end
 
 -- Unit methods.
-function Unit:homecity()
+function Unit:get_homecity()
   return find.city(self.owner, self.homecity)
 end
 
