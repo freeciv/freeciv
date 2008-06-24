@@ -452,8 +452,9 @@ module E {
     E_UNIT_WIN_ATT @ UNIT_WIN_ATT,
     E_UNIT_BUY @ UNIT_BUY,
     E_UNIT_BUILT @ UNIT_BUILT,
-    E_UNIT_LOST @ UNIT_LOST,
+    E_UNIT_LOST_DEF @ UNIT_LOST_DEF,
     E_UNIT_WIN @ UNIT_WIN,
+    E_UNIT_LOST_MISC @ UNIT_LOST_MISC,
     E_UNIT_BECAME_VET @ UNIT_BECAME_VET,
     E_UNIT_UPGRADED @ UNIT_UPGRADED,
     E_UNIT_RELOCATED @ UNIT_RELOCATED,
@@ -468,11 +469,7 @@ module E {
     E_SETTING @ SETTING,
     E_CHAT_MSG @ CHAT_MSG,
     E_CHAT_ERROR @ CHAT_ERROR,
-    /* 
-     * Note: If you add a new event, make sure you make a similar change
-     * to the events array in common/events.c using GEN_EV and to
-     * data/stdsounds.soundspec.
-     */
+
     E_LAST @ LAST
   };
 }

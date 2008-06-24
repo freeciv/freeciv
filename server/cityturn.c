@@ -716,7 +716,7 @@ static void city_populate(struct city *pcity)
       if (unit_type(punit)->upkeep[O_FOOD] > 0 
           && !unit_has_type_flag(punit, F_UNDISBANDABLE)) {
 
-	notify_player(city_owner(pcity), pcity->tile, E_UNIT_LOST,
+	notify_player(city_owner(pcity), pcity->tile, E_UNIT_LOST_MISC,
 			 _("Famine feared in %s, %s lost!"), 
 			 city_name(pcity),
 			 unit_name_translation(punit));
@@ -1244,7 +1244,7 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
       if (utype_upkeep_cost(unit_type(punit), pplayer, O_SHIELD) > 0
 	  && pcity->surplus[O_SHIELD] < 0
           && !unit_has_type_flag(punit, F_UNDISBANDABLE)) {
-	notify_player(pplayer, pcity->tile, E_UNIT_LOST,
+	notify_player(pplayer, pcity->tile, E_UNIT_LOST_MISC,
 			 _("%s can't upkeep %s, unit disbanded."),
 			 city_name(pcity),
 			 unit_name_translation(punit));
@@ -1264,7 +1264,7 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
 
       if (upkeep > 0 && pcity->surplus[O_SHIELD] < 0) {
 	assert(unit_has_type_flag(punit, F_UNDISBANDABLE));
-	notify_player(pplayer, pcity->tile, E_UNIT_LOST,
+	notify_player(pplayer, pcity->tile, E_UNIT_LOST_MISC,
 			 _("Citizens in %s perish for their failure to "
 			 "upkeep %s!"),
 			 city_name(pcity),
