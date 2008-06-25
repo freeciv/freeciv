@@ -489,7 +489,7 @@ void game_renumber_players(int plrno)
     conn_list_iterate_end;
   }
 
-  if(game.player_idx>plrno) {
+  if (game.player_ptr && game.player_idx > plrno) {
     game.player_idx--;
     game.player_ptr=&game.players[game.player_idx];
   }
