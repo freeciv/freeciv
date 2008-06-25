@@ -18,17 +18,22 @@
 #include <stdio.h>
 #include <assert.h>
 
+/* utility */
 #include "fcintl.h"
 #include "fciconv.h"
 #include "log.h"
 #include "registry.h"
+
+/* client */
+#include "clinet.h"
+#include "editgui_g.h"
+#include "graphics_g.h"
 
 #include "chatline.h"
 #include "colors_common.h"
 #include "colors.h"
 #include "back_end.h"
 #include "widget.h"
-#include "graphics_g.h"
 #include "civclient.h"
 #include "shared.h"
 #include "support.h"
@@ -37,7 +42,6 @@
 #include "chat.h"
 #include "mapview.h"
 #include "control.h"
-#include "clinet.h"
 
 #include "gui_main.h"
 
@@ -345,3 +349,21 @@ void add_idle_callback(void (callback) (void *), void *data)
 {
   sw_add_timeout(-1, callback, data);
 }
+
+/****************************************************************************
+  Stub for editor function
+****************************************************************************/
+void editgui_tileset_changed(void)
+{}
+
+/****************************************************************************
+  Stub for editor function
+****************************************************************************/
+void editgui_refresh(void)
+{}
+
+/****************************************************************************
+  Stub for editor function
+****************************************************************************/
+void editgui_popup_properties(const struct tile_list *tiles)
+{}

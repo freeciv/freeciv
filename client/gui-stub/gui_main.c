@@ -17,10 +17,13 @@
 
 #include <stdio.h>
 
+/* utility */
 #include "fciconv.h"
 #include "log.h"
 
+/* client */
 #include "civclient.h"
+#include "editgui_g.h"
 #include "options.h"
 
 #include "gui_main.h"
@@ -170,3 +173,21 @@ void add_idle_callback(void (callback)(void *), void *data)
   freelog(LOG_ERROR, "Unimplemented add_idle_callback.");
   (callback)(data);
 }
+
+/****************************************************************************
+  Stub for editor function
+****************************************************************************/
+void editgui_tileset_changed(void)
+{}
+
+/****************************************************************************
+  Stub for editor function
+****************************************************************************/
+void editgui_refresh(void)
+{}
+
+/****************************************************************************
+  Stub for editor function
+****************************************************************************/
+void editgui_popup_properties(const struct tile_list *tiles)
+{}

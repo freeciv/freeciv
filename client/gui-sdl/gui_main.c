@@ -51,6 +51,7 @@
 /* client */
 #include "civclient.h"
 #include "clinet.h"
+#include "editgui_g.h"
 #include "ggzclient.h"
 #include "tilespec.h"
 
@@ -1120,3 +1121,21 @@ void add_idle_callback(void (callback)(void *), void *data)
 
   callback_list_prepend(callbacks, cb);
 }
+
+/****************************************************************************
+  Stub for editor function
+****************************************************************************/
+void editgui_tileset_changed(void)
+{}
+
+/****************************************************************************
+  Stub for editor function
+****************************************************************************/
+void editgui_refresh(void)
+{}
+
+/****************************************************************************
+  Stub for editor function
+****************************************************************************/
+void editgui_popup_properties(const struct tile_list *tiles)
+{}

@@ -48,14 +48,17 @@
 #include "unitlist.h"
 #include "version.h"
 
+/* client */
 #include "civclient.h"
 #include "climisc.h"
 #include "clinet.h"
 #include "control.h"
+#include "editgui_g.h"
 #include "options.h"
 #include "text.h"
 #include "tilespec.h"
 
+/* gui-xaw */
 #include "actions.h"
 #include "colors.h"
 #include "dialogs.h"
@@ -1050,3 +1053,21 @@ void add_unit_to_battlegroup(int battlegroup)
     }
   }
 }
+
+/****************************************************************************
+  Stub for editor function
+****************************************************************************/
+void editgui_tileset_changed(void)
+{}
+
+/****************************************************************************
+  Stub for editor function
+****************************************************************************/
+void editgui_refresh(void)
+{}
+
+/****************************************************************************
+  Stub for editor function
+****************************************************************************/
+void editgui_popup_properties(const struct tile_list *tiles)
+{}

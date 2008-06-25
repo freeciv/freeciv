@@ -41,6 +41,7 @@
 #include "connectdlg.h"
 #include "control.h"
 #include "dialogs.h"
+#include "editgui_g.h"
 #include "gotodlg.h"
 #include "gui_stuff.h"
 #include "graphics.h"
@@ -906,3 +907,21 @@ void add_idle_callback(void (callback)(void *), void *data)
 
   callback_list_prepend(callbacks, cb);
 }
+
+/****************************************************************************
+  Stub for editor function
+****************************************************************************/
+void editgui_tileset_changed(void)
+{}
+
+/****************************************************************************
+  Stub for editor function
+****************************************************************************/
+void editgui_refresh(void)
+{}
+
+/****************************************************************************
+  Stub for editor function
+****************************************************************************/
+void editgui_popup_properties(const struct tile_list *tiles)
+{}
