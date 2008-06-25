@@ -1412,7 +1412,7 @@ void ui_init(void)
    * civserver.dsc.in. */
   ggz_gtk_initialize(FALSE,
 		     ggz_connected, ggz_game_launched, ggz_closed,
-		     "Freeciv", NETWORK_CAPSTRING, "Pubserver");
+		     "Freeciv", NETWORK_CAPSTRING_MANDATORY, "Pubserver");
 #endif
 
   log_set_callback(log_callback_utf8);
