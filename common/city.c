@@ -288,6 +288,13 @@ const char *city_improvement_name_translation(const struct city *pcity,
   static char buffer[256];
   const char *state = NULL;
 
+  if (is_great_wonder(pimprove)) {
+    if (great_wonder_was_built(pimprove)) {
+      state = Q_("?built:B");
+    } else {
+      state = Q_("?wonder:w");
+    }
+  }
   if (pcity) {
     struct player *pplayer = city_owner(pcity);
 
@@ -296,13 +303,6 @@ const char *city_improvement_name_translation(const struct city *pcity,
     } else if (is_building_replaced(pcity, pimprove, RPT_CERTAIN)) {
       /* Mark building redundant only if we are CERTAIN that it has no use. */
       state = Q_("?redundant:*");
-    }
-  }
-  if (is_great_wonder(pimprove)) {
-    if (great_wonder_was_built(pimprove)) {
-      state = Q_("?built:B");
-    } else {
-      state = Q_("?wonder:w");
     }
   }
 
