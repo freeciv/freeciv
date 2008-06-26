@@ -1586,6 +1586,9 @@ gboolean handle_edit_key_press(GdkEventKey *ev)
   case GDK_b:
     ett = ETT_TERRITORY;
     break;
+  case GDK_p:
+    ett = ETT_STARTPOS;
+    break;
   case GDK_plus:
   case GDK_equal:
   case GDK_KP_Add:
@@ -1630,6 +1633,20 @@ gboolean handle_edit_key_press(GdkEventKey *ev)
     break;
   case GDK_Tab:
     editgui_run_tool_selection(editor_get_tool());
+    break;
+  case GDK_F1:
+  case GDK_F2:
+  case GDK_F3:
+  case GDK_F4:
+  case GDK_F5:
+  case GDK_F6:
+  case GDK_F7:
+  case GDK_F8:
+  case GDK_F9:
+  case GDK_F10:
+  case GDK_F11:
+  case GDK_F12:
+    return FALSE; /* Allow default handler. */
     break;
   default:
     return TRUE; /* Gobbled... */
