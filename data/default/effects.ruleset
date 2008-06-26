@@ -905,6 +905,15 @@ reqs	=
       "UnitClass", "Sea", "Local"
     }
 
+[effect_coastal_defense_trireme]
+name	= "Defend_Bonus"
+value	= 100
+reqs	=
+    { "type", "name", "range"
+      "Building", "Coastal Defense", "City"
+      "UnitClass", "Trireme", "Local"
+    }
+
 [effect_colosseum]
 name	= "Make_Content"
 value	= 3
@@ -1265,6 +1274,24 @@ reqs	=
     { "type", "name", "range"
       "Building", "Port Facility", "City"
       "UnitClass", "Sea", "Local"
+    }
+
+[effect_port_facility_trireme]
+name	= "Veteran_Build"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Port Facility", "City"
+      "UnitClass", "Trireme", "Local"
+    }
+
+[effect_port_facility_trireme_1]
+name	= "HP_Regen"
+value	= 100
+reqs	=
+    { "type", "name", "range"
+      "Building", "Port Facility", "City"
+      "UnitClass", "Trireme", "Local"
     }
 
 [effect_power_plant]
@@ -1766,6 +1793,24 @@ reqs	=
       "UnitClass", "Sea", "Local"
     }
 
+[effect_lighthouse_trireme_move]
+name	= "Move_Bonus"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Lighthouse", "Player"
+      "UnitClass", "Trireme", "Local"
+    }
+
+[effect_lighthouse_trireme_veteran]
+name	= "Veteran_Build"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Lighthouse", "Player"
+      "UnitClass", "Trireme", "Local"
+    }
+
 [effect_magellans_expedition]
 name	= "Move_Bonus"
 value	= 2
@@ -1773,6 +1818,15 @@ reqs	=
     { "type", "name", "range"
       "Building", "Magellan's Expedition", "Player"
       "UnitClass", "Sea", "Local"
+    }
+
+[effect_magellan_trireme]
+name	= "Move_Bonus"
+value	= 2
+reqs	=
+    { "type", "name", "range"
+      "Building", "Magellan's Expedition", "Player"
+      "UnitClass", "Trireme", "Local"
     }
 
 [effect_manhattan_project]

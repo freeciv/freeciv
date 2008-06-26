@@ -204,7 +204,7 @@ warmer_wetter_result = "no"
 warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
-native_to            = "Sea", "Air", "Missile", "Helicopter"
+native_to            = "Sea", "Air", "Missile", "Helicopter", "Trireme"
 flags                = "Oceanic", "NoCities", "NoPollution", "UnsafeCoast"
 property_ocean_depth = 0
 helptext             = _("\
@@ -242,7 +242,7 @@ warmer_wetter_result = "no"
 warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
-native_to            = "Sea", "Air", "Missile", "Helicopter"
+native_to            = "Sea", "Air", "Missile", "Helicopter", "Trireme"
 flags                = "Oceanic", "NoCities", "NoPollution", "FreshWater"
 property_ocean_depth = 0
 helptext             = _("\
@@ -280,7 +280,7 @@ warmer_wetter_result = "no"
 warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
-native_to            = "Sea", "Air", "Missile", "Helicopter"
+native_to            = "Sea", "Air", "Missile", "Helicopter", "Trireme"
 flags                = "Oceanic", "NoCities", "NoPollution"
 property_ocean_depth = 0
 helptext             = _("\
@@ -318,7 +318,7 @@ warmer_wetter_result = "no"
 warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
-native_to            = "Sea", "Air", "Missile", "Helicopter"
+native_to            = "Sea", "Air", "Missile", "Helicopter", "Trireme"
 flags                = "Oceanic", "NoCities", "NoPollution"
 property_ocean_depth = 36
 helptext             = _("\
@@ -356,7 +356,7 @@ warmer_wetter_result = "no"
 warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
-native_to            = "Sea", "Air", "Missile", "Helicopter"
+native_to            = "Sea", "Air", "Missile", "Helicopter", "Trireme"
 flags                = "Oceanic", "NoCities", "NoPollution", "UnsafeCoast"
 property_ocean_depth = 48
 helptext             = _("\
@@ -398,8 +398,8 @@ native_to            = "Sea", "Air", "Missile", "Helicopter"
 flags                = "Oceanic", "NoCities", "NoPollution", "UnsafeCoast"
 property_ocean_depth = 87
 helptext             = _("\
-Oceans cover much of the world, and only sea units (Triremes and\
- other boats) can travel on them.\
+Oceans cover much of the world, and only seaworthy units\
+ can travel on them.\
 \n\n\
 Ocean squares can never be polluted or subjected to fallout.\
 ")
@@ -436,8 +436,8 @@ native_to            = "Sea", "Air", "Missile", "Helicopter"
 flags                = "Oceanic", "NoCities", "NoPollution", "UnsafeCoast"
 property_ocean_depth = 99
 helptext             = _("\
-Oceans cover much of the world, and only sea units (Triremes and\
- other boats) can travel on them.\
+Oceans cover much of the world, and only seaworthy units\
+ can travel on them.\
 \n\n\
 Ocean squares can never be polluted or subjected to fallout.\
 ")
@@ -470,7 +470,7 @@ warmer_wetter_result = "no"
 warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
-native_to            = "Sea", "Air", "Missile", "Helicopter"
+native_to            = "Sea", "Air", "Missile", "Helicopter", "Trireme"
 flags                = "Oceanic", "NoCities", "NoPollution", "UnsafeCoast"
 property_ocean_depth = 36 ; same as coast, for now
 helptext             = _("\
@@ -512,8 +512,8 @@ native_to            = "Sea", "Air", "Missile", "Helicopter"
 flags                = "Oceanic", "NoCities", "NoPollution", "UnsafeCoast"
 property_ocean_depth = 36 ; same as ridge, not generated
 helptext             = _("\
-Oceans cover much of the world, and only sea units (Triremes and\
- other boats) can travel on them.\
+Oceans cover much of the world, and only seaworthy units\
+ can travel on them.\
 \n\n\
 Ocean squares can never be polluted or subjected to fallout.\
 ")
