@@ -53,7 +53,8 @@ void PARSECMD::cast(string name,string cmd,bool value){
     unsigned int cmdi,wrdi;
     for(cmdi=0;cmdi<cmdv.size();cmdi++){
       for(wrdi=0;wrdi<line.size();wrdi++){
-	if(line[wrdi].substr(0,cmdv[cmdi].length())==cmdv[cmdi]&&value||line[wrdi]==cmdv[cmdi]){
+	if((line[wrdi].substr(0,cmdv[cmdi].length()) == cmdv[cmdi] && value)
+           || line[wrdi] == cmdv[cmdi]) {
 	  CORT&c=arg[name];
 	  if(value){
 	    if(line[wrdi].length()>cmdv[cmdi].length()){
