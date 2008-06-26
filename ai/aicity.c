@@ -230,7 +230,9 @@ static int base_want(struct player *pplayer, struct city *pcity,
     return 0; /* Nothing to calculate here. */
   }
 
-  if (!can_city_build_improvement_now(pcity, pimprove)) {
+  if (!can_city_build_improvement_now(pcity, pimprove)
+      || (is_small_wonder(pimprove)
+          && find_city_from_small_wonder(pplayer, pimprove))) {
     return 0;
   }
 
