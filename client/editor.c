@@ -448,7 +448,8 @@ void editor_mouse_button_press(int canvas_x, int canvas_y,
       editor_grab_applied_player(ptile);
     } else if (modifiers == EKM_NONE) {
       editor->tool_active = TRUE;
-      editor_apply_tool_single(ptile);
+      editor_apply_tool(ptile, FALSE);
+      editor_notify_edit_finished();
       editor_set_current_tile(ptile);
     }
     break;
@@ -629,7 +630,8 @@ void editor_mouse_move(int canvas_x, int canvas_y, int modifiers)
   }
 
   if (editor->tool_active && old != NULL && old != ptile) {
-    editor_apply_tool_single(ptile);
+    editor_apply_tool(ptile, FALSE);
+    editor_notify_edit_finished();
     editor_set_current_tile(ptile);
   }
 
@@ -643,27 +645,20 @@ void editor_mouse_move(int canvas_x, int canvas_y, int modifiers)
   a hint for the server to now do any checks it has saved while the batch
   was being processed.
 ****************************************************************************/
-void editor_apply_tool_batch_finished(void)
+void editor_notify_edit_finished(void)
 {
   send_packet_edit_check_tiles(&client.conn);
 }
 
 /****************************************************************************
-  Apply the current tool at the given tile as a single operation rather
-  than in a batch.
-****************************************************************************/
-void editor_apply_tool_single(const struct tile *ptile)
-{
-  editor_apply_tool_batch(ptile);
-  editor_apply_tool_batch_finished();
-}
-
-/****************************************************************************
   Apply the current editor tool to the given tile. This function is
-  suitable to called over multiple tiles at once. One the batch of
-  operations is finished you should call editor_apply_tool_batch_finished.
+  suitable to called over multiple tiles at once. Once the batch of
+  operations is finished you should call editor_notify_edit_finished.
+  The 'part_of_selection' parameter should be TRUE if the tool is
+  being applied to a tile from a selection.
 ****************************************************************************/
-void editor_apply_tool_batch(const struct tile *ptile)
+void editor_apply_tool(const struct tile *ptile,
+                       bool part_of_selection)
 {
   enum editor_tool_type ett;
   int value, size, count, apno;
@@ -693,6 +688,10 @@ void editor_apply_tool_batch(const struct tile *ptile)
   if (editor_tool_has_applied_player(ett)
       && !valid_player_by_number(apno)) {
     return;
+  }
+
+  if (part_of_selection && ett != ETT_CITY) {
+    size = 1;
   }
 
   switch (ett) {
@@ -885,10 +884,10 @@ void editor_apply_tool_to_selection(void)
   connection_do_buffer(&client.conn);
   whole_map_iterate(ptile) {
     if (editor_tile_is_selected(ptile)) {
-      editor_apply_tool_batch(ptile);
+      editor_apply_tool(ptile, TRUE);
     }
   } whole_map_iterate_end;
-  editor_apply_tool_batch_finished();
+  editor_notify_edit_finished();
   connection_do_unbuffer(&client.conn);
 }
 

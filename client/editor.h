@@ -80,9 +80,9 @@ void editor_mouse_button_release(int canvas_x, int canvas_y,
 void editor_mouse_move(int canvas_x, int canvas_y, int modifiers);
 void editor_redraw(void);
 
-void editor_apply_tool_single(const struct tile *ptile);
-void editor_apply_tool_batch(const struct tile *ptile);
-void editor_apply_tool_batch_finished(void);
+void editor_apply_tool(const struct tile *ptile,
+                       bool part_of_selection);
+void editor_notify_edit_finished(void);
 void editor_toggle_erase_mode(void);
 
 void editor_selection_clear(void);
