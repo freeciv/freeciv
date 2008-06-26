@@ -345,6 +345,13 @@ const char *get_impr_name_ex(const struct city *pcity, Impr_type_id id)
   static char buffer[256];
   const char *state = NULL;
 
+  if (is_great_wonder(id)) {
+    if (great_wonder_was_built(id)) {
+      state = Q_("?built:B");
+    } else {
+      state = Q_("?wonder:w");
+    }
+  }
   if (pcity) {
     struct player *pplayer = city_owner(pcity);
 
@@ -353,13 +360,6 @@ const char *get_impr_name_ex(const struct city *pcity, Impr_type_id id)
     } else if (is_building_replaced(pcity, id, RPT_CERTAIN)) {
       /* Mark building redundant only if we are CERTAIN that it has no use. */
       state = Q_("?redundant:*");
-    }
-  }
-  if (is_great_wonder(id)) {
-    if (great_wonder_was_built(id)) {
-      state = Q_("?built:B");
-    } else {
-      state = Q_("?wonder:w");
     }
   }
 
