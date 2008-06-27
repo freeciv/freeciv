@@ -510,8 +510,13 @@ enum server_events server_sniff_all_input(void)
             connections = FALSE;
 	  }
 	} else {
-          set_meta_message_string(N_("restarting for lack of players"));
-	  freelog(LOG_NORMAL, Q_(get_meta_message_string()));
+	  last_noplayers = time(NULL);
+
+	  freelog(LOG_NORMAL,
+		  _("restarting in %d seconds for lack of players"),
+		  srvarg.quitidle);
+
+          set_meta_message_string(N_("restarting soon for lack of players"));
 	  (void) send_server_info_to_metaserver(META_INFO);
 	}
       } else {
