@@ -152,9 +152,8 @@ struct terrain {
 
   char identifier; /* Single-character identifier used in savegames. */
 
-#define TERRAIN_WATER_IDENTIFIER ' '
 #define TERRAIN_SEA_IDENTIFIER '-'
-#define TERRAIN_COAST_IDENTIFIER '.'
+#define TERRAIN_OCEAN_IDENTIFIER ' '
 #define TERRAIN_SHELF_IDENTIFIER ','
 #define TERRAIN_FLOOR_IDENTIFIER ':'
 #define TERRAIN_RIDGE_IDENTIFIER '^'

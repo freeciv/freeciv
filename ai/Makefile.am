@@ -2,7 +2,7 @@
 
 noinst_LIBRARIES = libcivai.a
 
-AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(srcdir)/../common -I$(srcdir)/../server -I$(top_srcdir)/common/aicore
+AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(srcdir)/../common -I$(srcdir)/../server -I$(top_srcdir)/common/aicore -I$(top_srcdir)/server/generator
 
 libcivai_a_SOURCES = \
 		advdomestic.c	\

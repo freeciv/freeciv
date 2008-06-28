@@ -1732,7 +1732,7 @@ static void load_ruleset_terrain(struct section_file *file)
     if (TERRAIN_UNKNOWN_IDENTIFIER == pterrain->identifier) {
       ruleset_error(LOG_FATAL,
                     "\"%s\" [%s] cannot use '%c' as an identifier;"
-                    " it is reserved.",
+                    " it is reserved for unknown terrain.",
                     filename, tsection, pterrain->identifier);
     }
     for (j = T_FIRST; j < i; j++) {

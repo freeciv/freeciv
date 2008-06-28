@@ -64,6 +64,9 @@
 #include "techtools.h"
 #include "unittools.h"
 
+/* generator */
+#include "utilities.h"
+
 #define LOG_WORKER		LOG_VERBOSE
 
 /* enum city_tile_type string constants for savegame */

@@ -34,6 +34,8 @@
 #include "aiunit.h"
 #include "aitools.h"
 
+#include "utilities.h"
+
 #define LOGLEVEL_PARATROOPER LOG_DEBUG
 
 /*****************************************************************************

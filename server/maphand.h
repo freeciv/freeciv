@@ -41,9 +41,6 @@ struct player_tile {
   short last_updated;
 };
 
-void assign_continent_numbers(void);
-void map_regenerate_water(void);
-
 void global_warming(int effect);
 void nuclear_winter(int effect);
 void upgrade_city_rails(struct player *pplayer, bool discovery);
@@ -110,8 +107,6 @@ bool need_to_fix_terrain_change(const struct terrain *oldter,
                                 const struct terrain *newter);
 void fix_tile_on_terrain_change(struct tile *ptile,
                                 bool extend_rivers);
-int get_continent_size(Continent_id id);
-int get_ocean_size(Continent_id id);
 
 void vision_change_sight(struct vision *vision, enum vision_layer vlayer,
 			 int radius_sq);
