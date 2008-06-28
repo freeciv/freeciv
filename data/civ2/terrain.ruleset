@@ -175,42 +175,6 @@ fallout_trade_penalty=50
 ; helptext             = optional help text string; should escape all raw 
 ;                        newlines so that xgettext parsing works
 
-[terrain_legacy_water]
-; undifferentiated open water from old savefiles
-name                 = _("Water")
-graphic              = "coast"
-graphic_alt          = "-"
-identifier           = " "
-movement_cost        = 1
-defense_bonus        = 0
-food                 = 1
-shield               = 0
-trade                = 2
-resources            = "resource_fish", "resource_whales"
-road_trade_incr      = 0
-road_time            = 0
-irrigation_result    = "no"
-irrigation_food_incr = 0
-irrigation_time      = 0
-mining_result        = "no"
-mining_shield_incr   = 0
-mining_time          = 0
-transform_result     = "no"
-transform_time       = 0
-warmer_wetter_result = "no"
-warmer_drier_result  = "no"
-cooler_wetter_result = "no"
-cooler_drier_result  = "no"
-native_to            = "Sea", "Air", "Missile", "Helicopter"
-flags                = "Oceanic", "NoCities", "NoPollution", "UnsafeCoast"
-property_ocean_depth = 0
-helptext             = _("\
-Oceans cover much of the world, and only sea units (Triremes and\
- other boats) can travel on them.\
-\n\n\
-Ocean squares can never be polluted or subjected to fallout.\
-")
-
 [terrain_fresh_water_coast]
 name                 = _("Lake")
 graphic              = "coast"
@@ -281,17 +245,17 @@ Oceans cover much of the world, and only sea units (Triremes and\
 Ocean squares can never be polluted or subjected to fallout.\
 ")
 
-[terrain_ocean_coast]
+[terrain_ocean]
 name                 = _("Ocean")
 graphic              = "coast"
 graphic_alt          = "-"
-identifier           = "."
+identifier           = " "
 movement_cost        = 1
 defense_bonus        = 0
 food                 = 1
 shield               = 0
 trade                = 2
-resources            = "resource_fish"
+resources            = "resource_fish", "resource_whales"
 road_trade_incr      = 0
 road_time            = 0
 irrigation_result    = "no"
@@ -491,10 +455,10 @@ Oceans cover much of the world, and only sea units (Triremes and\
 Ocean squares can never be polluted or subjected to fallout.\
 ")
 
-[terrain_icy_plain]
+[terrain_glacier]
 name                 = _("Glacier")
-graphic              = "icy_plain"
-graphic_alt          = "arctic"
+graphic              = "arctic"
+graphic_alt          = "-"
 identifier           = "a"
 movement_cost        = 2
 defense_bonus        = 0
@@ -510,10 +474,10 @@ irrigation_time      = 0
 mining_result        = "yes"
 mining_shield_incr   = 1
 mining_time          = 10
-transform_result     = "terrain_tundra_plain"
+transform_result     = "terrain_tundra"
 transform_time       = 24
-warmer_wetter_result = "terrain_tundra_plain"
-warmer_drier_result  = "terrain_tundra_plain"
+warmer_wetter_result = "no"
+warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 native_to            = "Land", "Air", "Missile", "Helicopter"
@@ -525,45 +489,10 @@ Glaciers are found only in the most northerly or southerly\
  work with.\
 ")
 
-[terrain_icy_hills]
-name                 = _("Glacier")
-graphic              = "icy_hills"
-graphic_alt          = "arctic"
-identifier           = "A"
-movement_cost        = 2
-defense_bonus        = 100
-food                 = 0
-shield               = 0
-trade                = 0
-;resources            = "none"
-road_trade_incr      = 0
-road_time            = 4
-irrigation_result    = "no"
-irrigation_food_incr = 0
-irrigation_time      = 0
-mining_result        = "yes"
-mining_shield_incr   = 1
-mining_time          = 10
-transform_result     = "terrain_tundra_hills"
-transform_time       = 24
-warmer_wetter_result = "terrain_tundra_hills"
-warmer_drier_result  = "terrain_tundra_hills"
-cooler_wetter_result = "no"
-cooler_drier_result  = "no"
-native_to            = "Land", "Air", "Missile", "Helicopter"
-flags                = "NoBarbs", "CanHaveRiver"
-property_frozen      = 100
-property_mountainous = 30
-helptext             = _("\
-Glaciers are found only in the most northerly or southerly\
- reaches of the world.  They are very cold, and hence difficult to\
- work with.\
-")
-
-[terrain_desert_plain]
+[terrain_desert]
 name                 = _("Desert")
-graphic              = "desert_plain"
-graphic_alt          = "desert"
+graphic              = "desert"
+graphic_alt          = "-"
 identifier           = "d"
 movement_cost        = 1
 defense_bonus        = 0
@@ -579,11 +508,11 @@ irrigation_time      = 5
 mining_result        = "yes"
 mining_shield_incr   = 1
 mining_time          = 5
-transform_result     = "terrain_brown_plain"
+transform_result     = "terrain_plains"
 transform_time       = 24
 warmer_wetter_result = "terrain_swamp"
 warmer_drier_result  = "no"
-cooler_wetter_result = "terrain_brown_plain"
+cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 native_to            = "Land", "Air", "Missile", "Helicopter"
 flags                = "CanHaveRiver"
@@ -594,115 +523,10 @@ Deserts are regions of extreme dryness, making agriculture and\
  trade very difficult.\
 ")
 
-[terrain_desert_hills]
-name                 = _("Desert")
-graphic              = "desert_hills"
-graphic_alt          = "desert"
-identifier           = "D"
-movement_cost        = 2
-defense_bonus        = 100
-food                 = 0
-shield               = 1
-trade                = 0
-;resources            = "none"
-road_trade_incr      = 1
-road_time            = 2
-irrigation_result    = "yes"
-irrigation_food_incr = 1
-irrigation_time      = 5
-mining_result        = "yes"
-mining_shield_incr   = 1
-mining_time          = 5
-transform_result     = "terrain_brown_hills"
-transform_time       = 24
-warmer_wetter_result = "no"
-warmer_drier_result  = "no"
-cooler_wetter_result = "no"
-cooler_drier_result  = "no"
-native_to            = "Land", "Air", "Missile", "Helicopter"
-flags                = "Starter", "CanHaveRiver"
-property_dry         = 100
-property_mountainous = 30
-property_tropical    = 50
-helptext             = _("\
-Deserts are regions of extreme dryness, making agriculture and\
- trade very difficult.\
-")
-
-[terrain_brown_coniferous_forest]
+[terrain_forest]
 name                 = _("Forest")
-graphic              = "brown_coniferous"
-graphic_alt          = "forest"
-identifier           = "e"
-movement_cost        = 2
-defense_bonus        = 50
-food                 = 1
-shield               = 2
-trade                = 0
-resources            = "resource_pheasant", "resource_silk"
-road_trade_incr      = 0
-road_time            = 4
-irrigation_result    = "terrain_brown_plain"
-irrigation_food_incr = 0
-irrigation_time      = 5
-mining_result        = "no"
-mining_shield_incr   = 0
-mining_time          = 0
-transform_result     = "terrain_green_grassland_plain"
-transform_time       = 24
-warmer_wetter_result = "terrain_green_jungle"
-warmer_drier_result  = "terrain_desert_plain"
-cooler_wetter_result = "no"
-cooler_drier_result  = "no"
-native_to            = "Land", "Air", "Missile", "Helicopter"
-flags                = "Starter", "CanHaveRiver"
-property_dry         = 50
-property_foliage     = 30
-property_temperate   = 50
-helptext             = _("\
-Forests are densely wooded, making agriculture somewhat\
- problematic.\
-")
-
-[terrain_green_coniferous_forest]
-name                 = _("Forest")
-graphic              = "green_coniferous"
-graphic_alt          = "forest"
-identifier           = "E"
-movement_cost        = 2
-defense_bonus        = 50
-food                 = 1
-shield               = 2
-trade                = 0
-resources            = "resource_pheasant", "resource_silk"
-road_trade_incr      = 0
-road_time            = 4
-irrigation_result    = "terrain_brown_plain"
-irrigation_food_incr = 0
-irrigation_time      = 5
-mining_result        = "no"
-mining_shield_incr   = 0
-mining_time          = 0
-transform_result     = "terrain_green_grassland_plain"
-transform_time       = 24
-warmer_wetter_result = "terrain_green_jungle"
-warmer_drier_result  = "terrain_desert_plain"
-cooler_wetter_result = "no"
-cooler_drier_result  = "no"
-native_to            = "Land", "Air", "Missile", "Helicopter"
-flags                = "Starter", "CanHaveRiver"
-property_foliage     = 30
-property_green       = 50
-property_temperate   = 50
-helptext             = _("\
-Forests are densely wooded, making agriculture somewhat\
- problematic.\
-")
-
-[terrain_brown_deciduous_forest]
-name                 = _("Forest")
-graphic              = "brown_deciduous"
-graphic_alt          = "forest"
+graphic              = "forest"
+graphic_alt          = "-"
 identifier           = "f"
 movement_cost        = 2
 defense_bonus        = 50
@@ -712,51 +536,16 @@ trade                = 0
 resources            = "resource_pheasant", "resource_silk"
 road_trade_incr      = 0
 road_time            = 4
-irrigation_result    = "terrain_brown_plain"
+irrigation_result    = "terrain_plains"
 irrigation_food_incr = 0
 irrigation_time      = 5
 mining_result        = "no"
 mining_shield_incr   = 0
 mining_time          = 0
-transform_result     = "terrain_green_grassland_plain"
+transform_result     = "terrain_grassland"
 transform_time       = 24
-warmer_wetter_result = "terrain_green_jungle"
-warmer_drier_result  = "terrain_desert_plain"
-cooler_wetter_result = "no"
-cooler_drier_result  = "no"
-native_to            = "Land", "Air", "Missile", "Helicopter"
-flags                = "Starter", "CanHaveRiver"
-property_dry         = 30
-property_foliage     = 50
-property_temperate   = 50
-helptext             = _("\
-Forests are densely wooded, making agriculture somewhat\
- problematic.\
-")
-
-[terrain_green_deciduous_forest]
-name                 = _("Forest")
-graphic              = "green_deciduous"
-graphic_alt          = "forest"
-identifier           = "F"
-movement_cost        = 2
-defense_bonus        = 50
-food                 = 1
-shield               = 2
-trade                = 0
-resources            = "resource_pheasant", "resource_silk"
-road_trade_incr      = 0
-road_time            = 4
-irrigation_result    = "terrain_brown_plain"
-irrigation_food_incr = 0
-irrigation_time      = 5
-mining_result        = "no"
-mining_shield_incr   = 0
-mining_time          = 0
-transform_result     = "terrain_green_grassland_plain"
-transform_time       = 24
-warmer_wetter_result = "terrain_green_jungle"
-warmer_drier_result  = "terrain_desert_plain"
+warmer_wetter_result = "terrain_jungle"
+warmer_drier_result  = "terrain_desert"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 native_to            = "Land", "Air", "Missile", "Helicopter"
@@ -768,7 +557,7 @@ Forests are densely wooded, making agriculture somewhat\
  problematic.\
 ")
 
-[terrain_green_grassland_plain]
+[terrain_grassland]
 name                 = _("Grassland")
 graphic              = "grassland"
 graphic_alt          = "-"
@@ -784,15 +573,15 @@ road_time            = 2
 irrigation_result    = "yes"
 irrigation_food_incr = 1
 irrigation_time      = 5
-mining_result        = "terrain_green_deciduous_forest"
+mining_result        = "terrain_forest"
 mining_shield_incr   = 0
 mining_time          = 10
-transform_result     = "terrain_green_hills"
+transform_result     = "terrain_hills"
 transform_time       = 24
 warmer_wetter_result = "terrain_swamp"
-warmer_drier_result  = "terrain_desert_plain"
-cooler_wetter_result = "terrain_desert_plain"
-cooler_drier_result  = "terrain_tundra_plain"
+warmer_drier_result  = "terrain_desert"
+cooler_wetter_result = "terrain_desert"
+cooler_drier_result  = "terrain_tundra"
 native_to            = "Land", "Air", "Missile", "Helicopter"
 flags                = "Starter", "CanHaveRiver"
 property_green       = 50
@@ -801,117 +590,10 @@ helptext             = _("\
 Grasslands afford exceptional agricultural opportunities.\
 ")
 
-[terrain_green_hills_coniferous_forest]
+[terrain_hills]
 name                 = _("Hills")
-graphic              = "green_hills"
-graphic_alt          = "hills"
-identifier           = "G"
-movement_cost        = 2
-defense_bonus        = 100
-food                 = 1
-shield               = 0
-trade                = 0
-resources            = "resource_coal"
-road_trade_incr      = 0
-road_time            = 4
-irrigation_result    = "yes"
-irrigation_food_incr = 1
-irrigation_time      = 10
-mining_result        = "yes"
-mining_shield_incr   = 3
-mining_time          = 10
-transform_result     = "terrain_brown_plain"
-transform_time       = 24
-warmer_wetter_result = "no"
-warmer_drier_result  = "no"
-cooler_wetter_result = "no"
-cooler_drier_result  = "no"
-native_to            = "Land", "Air", "Missile", "Helicopter"
-flags                = "Starter", "CanHaveRiver"
-property_foliage     = 30
-property_green       = 50
-property_mountainous = 30
-helptext             = _("\
-In addition to being amenable to agriculture, Hills are frequently\
- rich in resources.\
-")
-
-[terrain_green_hills_deciduous_forest]
-name                 = _("Hills")
-graphic              = "green_hills"
-graphic_alt          = "hills"
-identifier           = "k"
-movement_cost        = 2
-defense_bonus        = 100
-food                 = 1
-shield               = 0
-trade                = 0
-resources            = "resource_coal"
-road_trade_incr      = 0
-road_time            = 4
-irrigation_result    = "yes"
-irrigation_food_incr = 1
-irrigation_time      = 10
-mining_result        = "yes"
-mining_shield_incr   = 3
-mining_time          = 10
-transform_result     = "terrain_brown_plain"
-transform_time       = 24
-warmer_wetter_result = "no"
-warmer_drier_result  = "no"
-cooler_wetter_result = "no"
-cooler_drier_result  = "no"
-native_to            = "Land", "Air", "Missile", "Helicopter"
-flags                = "Starter", "CanHaveRiver"
-property_foliage     = 50
-property_green       = 50
-property_mountainous = 30
-helptext             = _("\
-In addition to being amenable to agriculture, Hills are frequently\
- rich in resources.\
-")
-
-[terrain_green_hills_jungle]
-name                 = _("Hills")
-graphic              = "green_hills"
-graphic_alt          = "hills"
-identifier           = "K"
-movement_cost        = 2
-defense_bonus        = 100
-food                 = 1
-shield               = 0
-trade                = 0
-resources            = "resource_coal"
-road_trade_incr      = 0
-road_time            = 4
-irrigation_result    = "yes"
-irrigation_food_incr = 1
-irrigation_time      = 10
-mining_result        = "yes"
-mining_shield_incr   = 3
-mining_time          = 10
-transform_result     = "terrain_brown_plain"
-transform_time       = 24
-warmer_wetter_result = "no"
-warmer_drier_result  = "no"
-cooler_wetter_result = "no"
-cooler_drier_result  = "no"
-native_to            = "Land", "Air", "Missile", "Helicopter"
-flags                = "Starter", "CanHaveRiver"
-property_foliage     = 50
-property_green       = 50
-property_mountainous = 30
-property_tropical    = 50
-property_wet         = 50
-helptext             = _("\
-In addition to being amenable to agriculture, Hills are frequently\
- rich in resources.\
-")
-
-[terrain_brown_hills]
-name                 = _("Hills")
-graphic              = "brown_hills"
-graphic_alt          = "hills"
+graphic              = "hills"
+graphic_alt          = "-"
 identifier           = "h"
 movement_cost        = 2
 defense_bonus        = 100
@@ -927,45 +609,10 @@ irrigation_time      = 10
 mining_result        = "yes"
 mining_shield_incr   = 3
 mining_time          = 10
-transform_result     = "terrain_brown_plain"
+transform_result     = "terrain_plains"
 transform_time       = 24
 warmer_wetter_result = "no"
 warmer_drier_result  = "no"
-cooler_wetter_result = "no"
-cooler_drier_result  = "no"
-native_to            = "Land", "Air", "Missile", "Helicopter"
-flags                = "Starter", "CanHaveRiver"
-property_dry         = 50
-property_green       = 10
-property_mountainous = 30
-helptext             = _("\
-In addition to being amenable to agriculture, Hills are frequently\
- rich in resources.\
-")
-
-[terrain_green_hills]
-name                 = _("Hills")
-graphic              = "green_hills"
-graphic_alt          = "hills"
-identifier           = "H"
-movement_cost        = 2
-defense_bonus        = 100
-food                 = 1
-shield               = 0
-trade                = 0
-resources            = "resource_coal", "resource_wine"
-road_trade_incr      = 0
-road_time            = 4
-irrigation_result    = "yes"
-irrigation_food_incr = 1
-irrigation_time      = 10
-mining_result        = "yes"
-mining_shield_incr   = 3
-mining_time          = 10
-transform_result     = "terrain_brown_plain"
-transform_time       = 24
-warmer_wetter_result = "no"
-warmer_drier_result  = "terrain_brown_hills"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 native_to            = "Land", "Air", "Missile", "Helicopter"
@@ -977,10 +624,10 @@ In addition to being amenable to agriculture, Hills are frequently\
  rich in resources.\
 ")
 
-[terrain_green_jungle]
+[terrain_jungle]
 name                 = _("Jungle")
-graphic              = "green_jungle"
-graphic_alt          = "jungle"
+graphic              = "jungle"
+graphic_alt          = "-"
 identifier           = "j"
 movement_cost        = 2
 defense_bonus        = 50
@@ -990,57 +637,22 @@ trade                = 0
 resources            = "resource_gems", "resource_fruit"
 road_trade_incr      = 0
 road_time            = 4
-irrigation_result    = "terrain_green_grassland_plain"
+irrigation_result    = "terrain_grassland"
 irrigation_food_incr = 0
 irrigation_time      = 15
-mining_result        = "terrain_green_deciduous_forest"
+mining_result        = "terrain_forest"
 mining_shield_incr   = 0
 mining_time          = 15
-transform_result     = "terrain_brown_plain"
+transform_result     = "terrain_plains"
 transform_time       = 24
 warmer_wetter_result = "no"
 warmer_drier_result  = "no"
-cooler_wetter_result = "terrain_desert_plain"
-cooler_drier_result  = "terrain_tundra_plain"
+cooler_wetter_result = "terrain_desert"
+cooler_drier_result  = "terrain_tundra"
 native_to            = "Land", "Air", "Missile", "Helicopter"
 flags                = "CanHaveRiver"
 property_foliage     = 50
 property_tropical    = 50
-property_wet         = 50
-helptext             = _("\
-Jungles are densely overgrown, making agriculture somewhat\
- problematic.\
-")
-
-[terrain_brown_jungle]
-name                 = _("Jungle")
-graphic              = "brown_jungle"
-graphic_alt          = "jungle"
-identifier           = "J"
-movement_cost        = 2
-defense_bonus        = 50
-food                 = 1
-shield               = 0
-trade                = 0
-resources            = "resource_gems", "resource_fruit"
-road_trade_incr      = 0
-road_time            = 4
-irrigation_result    = "terrain_green_grassland_plain"
-irrigation_food_incr = 0
-irrigation_time      = 15
-mining_result        = "terrain_brown_deciduous_forest"
-mining_shield_incr   = 0
-mining_time          = 15
-transform_result     = "terrain_brown_plain"
-transform_time       = 24
-warmer_wetter_result = "no"
-warmer_drier_result  = "no"
-cooler_wetter_result = "terrain_desert_plain"
-cooler_drier_result  = "terrain_tundra_plain"
-native_to            = "Land", "Air", "Missile", "Helicopter"
-flags                = "CanHaveRiver"
-property_foliage     = 50
-property_temperate   = 50
 property_wet         = 50
 helptext             = _("\
 Jungles are densely overgrown, making agriculture somewhat\
@@ -1066,7 +678,7 @@ irrigation_time      = 0
 mining_result        = "yes"
 mining_shield_incr   = 1
 mining_time          = 10
-transform_result     = "terrain_brown_hills"
+transform_result     = "terrain_hills"
 transform_time       = 24
 warmer_wetter_result = "no"
 warmer_drier_result  = "no"
@@ -1080,41 +692,7 @@ Mountains are regions of extreme altitude, making agriculture and\
  trade very difficult.\
 ")
 
-[terrain_icy_peaks]
-name                 = _("Mountains")
-graphic              = "icy_peaks"
-graphic_alt          = "mountains"
-identifier           = "M"
-movement_cost        = 3
-defense_bonus        = 200
-food                 = 0
-shield               = 1
-trade                = 0
-resources            = "resource_gold", "resource_iron"
-road_trade_incr      = 0
-road_time            = 6
-irrigation_result    = "no"
-irrigation_food_incr = 0
-irrigation_time      = 0
-mining_result        = "yes"
-mining_shield_incr   = 1
-mining_time          = 10
-transform_result     = "terrain_icy_hills"
-transform_time       = 24
-warmer_wetter_result = "no"
-warmer_drier_result  = "no"
-cooler_wetter_result = "no"
-cooler_drier_result  = "no"
-native_to            = "Land", "Air", "Missile", "Helicopter"
-flags                = "CanHaveRiver"
-property_frozen      = 100
-property_mountainous = 90
-helptext             = _("\
-Mountains are regions of extreme altitude, making agriculture and\
- trade very difficult.\
-")
-
-[terrain_brown_plain]
+[terrain_plains]
 name                 = _("Plains")
 graphic              = "plains"
 graphic_alt          = "-"
@@ -1130,15 +708,15 @@ road_time            = 2
 irrigation_result    = "yes"
 irrigation_food_incr = 1
 irrigation_time      = 5
-mining_result        = "terrain_brown_deciduous_forest"
+mining_result        = "terrain_forest"
 mining_shield_incr   = 0
 mining_time          = 15
-transform_result     = "terrain_green_grassland_plain"
+transform_result     = "terrain_grassland"
 transform_time       = 24
 warmer_wetter_result = "terrain_swamp"
-warmer_drier_result  = "terrain_desert_plain"
-cooler_wetter_result = "terrain_desert_plain"
-cooler_drier_result  = "terrain_tundra_plain"
+warmer_drier_result  = "terrain_desert"
+cooler_wetter_result = "terrain_desert"
+cooler_drier_result  = "terrain_tundra"
 native_to            = "Land", "Air", "Missile", "Helicopter"
 flags                = "Starter", "CanHaveRiver"
 property_dry         = 50
@@ -1147,113 +725,6 @@ property_temperate   = 50
 helptext             = _("\
 Plains are very broad, sparse regions, which makes trade slightly\
  inconvenient.\
-")
-
-[terrain_brown_hills_coniferous_forest]
-name                 = _("Hills")
-graphic              = "brown_hills"
-graphic_alt          = "hills"
-identifier           = "P"
-movement_cost        = 2
-defense_bonus        = 100
-food                 = 1
-shield               = 0
-trade                = 0
-resources            = "resource_coal", "resource_wine"
-road_trade_incr      = 0
-road_time            = 4
-irrigation_result    = "yes"
-irrigation_food_incr = 1
-irrigation_time      = 10
-mining_result        = "yes"
-mining_shield_incr   = 3
-mining_time          = 10
-transform_result     = "terrain_brown_plain"
-transform_time       = 24
-warmer_wetter_result = "no"
-warmer_drier_result  = "no"
-cooler_wetter_result = "no"
-cooler_drier_result  = "no"
-native_to            = "Land", "Air", "Missile", "Helicopter"
-flags                = "Starter", "CanHaveRiver"
-property_dry         = 50
-property_foliage     = 30
-property_mountainous = 30
-helptext             = _("\
-In addition to being amenable to agriculture, Hills are frequently\
- rich in resources.\
-")
-
-[terrain_brown_hills_deciduous_forest]
-name                 = _("Hills")
-graphic              = "brown_hills"
-graphic_alt          = "hills"
-identifier           = "q"
-movement_cost        = 2
-defense_bonus        = 100
-food                 = 1
-shield               = 0
-trade                = 0
-resources            = "resource_coal", "resource_wine"
-road_trade_incr      = 0
-road_time            = 4
-irrigation_result    = "yes"
-irrigation_food_incr = 1
-irrigation_time      = 10
-mining_result        = "yes"
-mining_shield_incr   = 3
-mining_time          = 10
-transform_result     = "terrain_brown_plain"
-transform_time       = 24
-warmer_wetter_result = "no"
-warmer_drier_result  = "no"
-cooler_wetter_result = "no"
-cooler_drier_result  = "no"
-native_to            = "Land", "Air", "Missile", "Helicopter"
-flags                = "Starter", "CanHaveRiver"
-property_dry         = 30
-property_foliage     = 50
-property_mountainous = 30
-property_temperate   = 50
-helptext             = _("\
-In addition to being amenable to agriculture, Hills are frequently\
- rich in resources.\
-")
-
-[terrain_brown_hills_jungle]
-name                 = _("Hills")
-graphic              = "brown_hills"
-graphic_alt          = "hills"
-identifier           = "Q"
-movement_cost        = 2
-defense_bonus        = 100
-food                 = 1
-shield               = 0
-trade                = 0
-resources            = "resource_coal", "resource_wine"
-road_trade_incr      = 0
-road_time            = 4
-irrigation_result    = "yes"
-irrigation_food_incr = 1
-irrigation_time      = 10
-mining_result        = "yes"
-mining_shield_incr   = 3
-mining_time          = 10
-transform_result     = "terrain_brown_plain"
-transform_time       = 24
-warmer_wetter_result = "no"
-warmer_drier_result  = "no"
-cooler_wetter_result = "no"
-cooler_drier_result  = "no"
-native_to            = "Land", "Air", "Missile", "Helicopter"
-flags                = "Starter", "CanHaveRiver"
-property_foliage     = 50
-property_mountainous = 30
-property_temperate   = 50
-property_wet         = 50
-helptext             = _("\
-In addition to being amenable to agriculture, Hills are frequently\
- rich in resources.\
 ")
 
 [terrain_swamp]
@@ -1269,18 +740,18 @@ trade                = 0
 resources            = "resource_peat", "resource_spice"
 road_trade_incr      = 0
 road_time            = 4
-irrigation_result    = "terrain_green_grassland_plain"
+irrigation_result    = "terrain_grassland"
 irrigation_food_incr = 0
 irrigation_time      = 15
-mining_result        = "terrain_green_deciduous_forest"
+mining_result        = "terrain_forest"
 mining_shield_incr   = 0
 mining_time          = 15
-transform_result     = "terrain_brown_plain"
+transform_result     = "terrain_plains"
 transform_time       = 24
-warmer_wetter_result = "terrain_green_jungle"
-warmer_drier_result  = "terrain_brown_plain"
-cooler_wetter_result = "terrain_green_grassland_plain"
-cooler_drier_result  = "terrain_tundra_plain"
+warmer_wetter_result = "no"
+warmer_drier_result  = "terrain_desert"
+cooler_wetter_result = "no"
+cooler_drier_result  = "terrain_tundra"
 native_to            = "Land", "Air", "Missile", "Helicopter"
 flags                = "CanHaveRiver"
 property_foliage     = 10
@@ -1290,111 +761,7 @@ Swamps suffer from an over-abundance of water, making agriculture\
  somewhat problematic.\
 ")
 
-[terrain_swamp_coniferous_forest]
-name                 = _("Swamp")
-graphic              = "swamp_coniferous"
-graphic_alt          = "swamp"
-identifier           = "S"
-movement_cost        = 2
-defense_bonus        = 50
-food                 = 1
-shield               = 0
-trade                = 0
-resources            = "resource_peat", "resource_spice"
-road_trade_incr      = 0
-road_time            = 4
-irrigation_result    = "terrain_green_grassland_plain"
-irrigation_food_incr = 0
-irrigation_time      = 15
-mining_result        = "terrain_green_coniferous_forest"
-mining_shield_incr   = 0
-mining_time          = 15
-transform_result     = "terrain_brown_plain"
-transform_time       = 24
-warmer_wetter_result = "terrain_green_jungle"
-warmer_drier_result  = "terrain_brown_plain"
-cooler_wetter_result = "terrain_green_grassland_plain"
-cooler_drier_result  = "terrain_tundra_plain"
-native_to            = "Land", "Air", "Missile", "Helicopter"
-flags                = "CanHaveRiver"
-property_foliage     = 30
-property_wet         = 100
-helptext             = _("\
-Swamps suffer from an over-abundance of water, making agriculture\
- somewhat problematic.\
-")
-
-[terrain_swamp_deciduous_forest]
-name                 = _("Swamp")
-graphic              = "swamp_deciduous"
-graphic_alt          = "swamp"
-identifier           = "z"
-movement_cost        = 2
-defense_bonus        = 50
-food                 = 1
-shield               = 0
-trade                = 0
-resources            = "resource_peat", "resource_spice"
-road_trade_incr      = 0
-road_time            = 4
-irrigation_result    = "terrain_green_grassland_plain"
-irrigation_food_incr = 0
-irrigation_time      = 15
-mining_result        = "terrain_green_deciduous_forest"
-mining_shield_incr   = 0
-mining_time          = 15
-transform_result     = "terrain_brown_plain"
-transform_time       = 24
-warmer_wetter_result = "terrain_green_jungle"
-warmer_drier_result  = "terrain_brown_plain"
-cooler_wetter_result = "terrain_green_grassland_plain"
-cooler_drier_result  = "terrain_tundra_plain"
-native_to            = "Land", "Air", "Missile", "Helicopter"
-flags                = "CanHaveRiver"
-property_foliage     = 50
-property_temperate   = 50
-property_wet         = 100
-helptext             = _("\
-Swamps suffer from an over-abundance of water, making agriculture\
- somewhat problematic.\
-")
-
-[terrain_swamp_jungle]
-name                 = _("Swamp")
-graphic              = "swamp_jungle"
-graphic_alt          = "swamp"
-identifier           = "Z"
-movement_cost        = 2
-defense_bonus        = 50
-food                 = 1
-shield               = 0
-trade                = 0
-resources            = "resource_peat", "resource_spice"
-road_trade_incr      = 0
-road_time            = 4
-irrigation_result    = "terrain_green_grassland_plain"
-irrigation_food_incr = 0
-irrigation_time      = 15
-mining_result        = "terrain_green_deciduous_forest"
-mining_shield_incr   = 0
-mining_time          = 15
-transform_result     = "terrain_brown_plain"
-transform_time       = 24
-warmer_wetter_result = "terrain_green_jungle"
-warmer_drier_result  = "terrain_brown_plain"
-cooler_wetter_result = "terrain_green_grassland_plain"
-cooler_drier_result  = "terrain_tundra_plain"
-native_to            = "Land", "Air", "Missile", "Helicopter"
-flags                = "CanHaveRiver"
-property_foliage     = 50
-property_tropical    = 50
-property_wet         = 100
-helptext             = _("\
-Swamps suffer from an over-abundance of water, making agriculture\
- somewhat problematic.\
-")
-
-[terrain_tundra_plain]
+[terrain_tundra]
 name                 = _("Tundra")
 graphic              = "tundra"
 graphic_alt          = "-"
@@ -1413,119 +780,18 @@ irrigation_time      = 5
 mining_result        = "no"
 mining_shield_incr   = 0
 mining_time          = 0
-transform_result     = "terrain_desert_plain"
+transform_result     = "terrain_desert"
 transform_time       = 24
-warmer_wetter_result = "terrain_green_grassland_plain"
-warmer_drier_result  = "terrain_brown_plain"
-cooler_wetter_result = "terrain_icy_plain"
-cooler_drier_result  = "terrain_icy_plain"
+warmer_wetter_result = "no"
+warmer_drier_result  = "no"
+cooler_wetter_result = "terrain_glacier"
+cooler_drier_result  = "terrain_glacier"
 native_to            = "Land", "Air", "Missile", "Helicopter"
 flags                = "Starter", "NoBarbs", "CanHaveRiver"
 property_cold        = 50
 helptext             = _("\
 Tundra are broad, cold regions, fit for some agriculture and little\
  else.\
-")
-
-[terrain_tundra_hills]
-name                 = _("Tundra")
-graphic              = "tundra_hills"
-graphic_alt          = "tundra"
-identifier           = "T"
-movement_cost        = 1
-defense_bonus        = 0
-food                 = 1
-shield               = 0
-trade                = 0
-;resources            = "none"
-road_trade_incr      = 0
-road_time            = 2
-irrigation_result    = "yes"
-irrigation_food_incr = 1
-irrigation_time      = 5
-mining_result        = "no"
-mining_shield_incr   = 0
-mining_time          = 0
-transform_result     = "terrain_desert_hills"
-transform_time       = 24
-warmer_wetter_result = "terrain_brown_hills"
-warmer_drier_result  = "terrain_desert_hills"
-cooler_wetter_result = "terrain_icy_hills"
-cooler_drier_result  = "terrain_icy_hills"
-native_to            = "Land", "Air", "Missile", "Helicopter"
-flags                = "Starter", "NoBarbs", "CanHaveRiver"
-property_cold        = 50
-property_mountainous = 30
-helptext             = _("\
-Tundra are broad, cold regions, fit for some agriculture and little\
- else.\
-")
-
-[terrain_volcano]
-name                 = _("Volcano")
-graphic              = "volcano"
-graphic_alt          = "mountains"
-identifier           = "v"
-movement_cost        = 3
-defense_bonus        = 200
-food                 = 0
-shield               = 1
-trade                = 0
-;resources            = "none"
-road_trade_incr      = 0
-road_time            = 6
-irrigation_result    = "no"
-irrigation_food_incr = 0
-irrigation_time      = 0
-mining_result        = "no"
-mining_shield_incr   = 0
-mining_time          = 0
-transform_result     = "no"
-transform_time       = 0
-warmer_wetter_result = "no"
-warmer_drier_result  = "no"
-cooler_wetter_result = "no"
-cooler_drier_result  = "no"
-native_to            = "Land", "Air", "Missile", "Helicopter"
-flags                = "CanHaveRiver"
-property_mountainous = 70
-helptext             = _("\
-Mountains are regions of extreme altitude, making agriculture and\
- trade very difficult.\
-")
-
-[terrain_volcanic_peaks]
-name                 = _("Volcanic peaks")
-graphic              = "icy_volcano"
-graphic_alt          = "mountains"
-identifier           = "V"
-movement_cost        = 3
-defense_bonus        = 200
-food                 = 0
-shield               = 1
-trade                = 0
-;resources            = "none"
-road_trade_incr      = 0
-road_time            = 6
-irrigation_result    = "no"
-irrigation_food_incr = 0
-irrigation_time      = 0
-mining_result        = "no"
-mining_shield_incr   = 0
-mining_time          = 0
-transform_result     = "no"
-transform_time       = 0
-warmer_wetter_result = "no"
-warmer_drier_result  = "no"
-cooler_wetter_result = "no"
-cooler_drier_result  = "no"
-native_to            = "Land", "Air", "Missile", "Helicopter"
-flags                = "CanHaveRiver"
-property_frozen      = 100
-property_mountainous = 90
-helptext             = _("\
-Mountains are regions of extreme altitude, making agriculture and\
- trade very difficult.\
 ")
 
 ; The individual resource types, one per section.
@@ -1558,8 +824,6 @@ update22one = "H"
 trade       = 6
 # mountains.
 
-; "*" reserved for saltpeter
-
 [resource_iron]
 name        = _("Iron")
 graphic     = "ts.iron"
@@ -1567,8 +831,6 @@ graphic_alt = "-"
 identifier  = "/"
 shield      = 3
 # mountains.
-
-; "a" reserved for aluminum
 
 [resource_game]
 name        = _("?animals:Game")
@@ -1630,12 +892,6 @@ update22two = "g"
 trade       = 4
 # jungle.
 
-; "h" reserved for strategic horses
-
-; "H" formerly for update22one gold
-
-; "i" reserved for incense
-
 [resource_buffalo]
 name        = _("Buffalo")
 graphic     = "ts.buffalo"
@@ -1652,12 +908,6 @@ graphic_alt = "-"
 identifier  = "j"
 food        = 2
 # plains.
-
-; "k" reserved for (cane) sugar
-
-; "l" reserved for tobacco
-
-; "m" reserved for marble
 
 [resource_oasis]
 name        = _("Oasis")
@@ -1684,8 +934,6 @@ graphic_alt = "-"
 identifier  = "p"
 food        = 2
 # forest.
-
-; "r" reserved for rubber
 
 [resource_bonus]
 name        = _("Resources")
@@ -1723,8 +971,6 @@ identifier  = "t"
 food        = 2
 trade       = 4
 # swampy.
-
-; "u" reserved for uranium
 
 [resource_whales]
 name        = _("Whales")
