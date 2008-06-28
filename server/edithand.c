@@ -38,6 +38,7 @@
 #include "unittools.h"
 #include "hand_gen.h"
 #include "maphand.h"
+#include "utilities.h"
 
 /* The number of tiles that we need deferred checking
  * after their terrains have been edited. */
@@ -897,7 +898,7 @@ void handle_edit_regenerate_water(struct connection *pc)
     return;
   }
 
-  map_regenerate_water();
+  regenerate_water(update_tile_knowledge);
 }
 
 /****************************************************************************

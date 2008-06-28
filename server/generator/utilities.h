@@ -13,8 +13,13 @@
 #ifndef FC__UTILITIES_H
 #define FC__UTILITIES_H
 
-#include "fcintl.h"
-#include "shared.h"		/* bool type */
+typedef void (*tile_knowledge_cb)(struct tile *ptile);
+
+void regenerate_water(tile_knowledge_cb knowledge_cb);
+void assign_continent_numbers(void);
+int get_lake_surrounders(Continent_id cont);
+int get_continent_size(Continent_id id);
+int get_ocean_size(Continent_id id);
 
 /* Provide a block to convert from native to map coordinates.  For instance
  *   do_in_map_pos(mx, my, xn, yn) {

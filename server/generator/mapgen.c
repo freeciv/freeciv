@@ -1044,7 +1044,7 @@ static void make_rivers(void)
 **************************************************************************/
 static void make_land(void)
 {
-  
+
   if (HAS_POLES) {
     normalize_hmap_poles();
   }
@@ -1218,13 +1218,16 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
     if (!map.tinyisles) {
       remove_tiny_islands();
     }
+
+    /* Make second pass on water. */
+    regenerate_water(NULL);
   }
   assign_continent_numbers();
 
   if (!temperature_is_initialized()) {
     create_tmap(FALSE);
   }
-  
+
   /* some scenarios already provide specials */
   if (!map.have_resources) {
     add_resources(map.riches);
@@ -1915,7 +1918,7 @@ static void mapgenerator2(void)
     }
 
     initworld(pstate);
-    
+
     /* Create one big island for each player. */
     for (i = player_count(); i > 0; i--) {
       if (!make_island(bigfrac * pstate->totalmass / totalweight,
