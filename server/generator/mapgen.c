@@ -1219,10 +1219,14 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
       remove_tiny_islands();
     }
 
+    /* Continent numbers must be assigned before regenerate_water() */
+    assign_continent_numbers();
+
     /* Make second pass on water. */
     regenerate_water(NULL);
+  } else {
+    assign_continent_numbers();
   }
-  assign_continent_numbers();
 
   if (!temperature_is_initialized()) {
     create_tmap(FALSE);
