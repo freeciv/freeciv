@@ -1,3 +1,1197 @@
+﻿Mon, 30 Jun 2008 06:22:34 -0700  dmarks:
+
+	Changed paths:
+	   M /branches/S2_0/NEWS
+	   M /branches/S2_0/common/version.h
+	   M /branches/S2_0/doc/BUGS
+	   M /branches/S2_0/version.in
+
+	Bump version to 2.0.10+
+
+
+Sun, 29 Jun 2008 17:13:40 -0700  dmarks:
+
+	Changed paths:
+	   M /branches/S2_0/po/ar.po
+	   M /branches/S2_0/po/ca.po
+	   M /branches/S2_0/po/cs.po
+	   M /branches/S2_0/po/da.po
+	   M /branches/S2_0/po/de.po
+	   M /branches/S2_0/po/en_GB.po
+	   M /branches/S2_0/po/es.po
+	   M /branches/S2_0/po/et.po
+	   M /branches/S2_0/po/fa.po
+	   M /branches/S2_0/po/fi.po
+	   M /branches/S2_0/po/fr.po
+	   M /branches/S2_0/po/he_IL.po
+	   M /branches/S2_0/po/hu.po
+	   M /branches/S2_0/po/it.po
+	   M /branches/S2_0/po/ja.po
+	   M /branches/S2_0/po/ko.po
+	   M /branches/S2_0/po/nl.po
+	   M /branches/S2_0/po/no.po
+	   M /branches/S2_0/po/pl.po
+	   M /branches/S2_0/po/pt.po
+	   M /branches/S2_0/po/pt_BR.po
+	   M /branches/S2_0/po/ro.po
+	   M /branches/S2_0/po/ru.po
+	   M /branches/S2_0/po/sv.po
+	   M /branches/S2_0/po/uk.po
+
+	Updates after running 'make update-po'
+
+
+Sun, 29 Jun 2008 00:40:36 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/client/gui-gtk-2.0/citydlg.c
+
+	Fix bug where buying something in a city would prevent you from
+	selling that turn.
+
+	See PR#39568.
+
+
+Sat, 28 Jun 2008 23:24:08 -0700  dmarks:
+
+	Changed paths:
+	   M /branches/S2_0/data/helpdata.txt
+
+	Update present admins data
+
+
+Sat, 28 Jun 2008 17:02:54 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/common/game.c
+
+	The number of players is not being sent in pregame.  This quick fix
+	prevents that from causing a problem in game_renumber_players.
+
+	See PR#40319.
+
+
+Wed, 25 Jun 2008 01:51:41 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_0/common/game.c
+
+	Fixed potential Global Observer crash.
+
+	See #40303
+
+
+Wed, 25 Jun 2008 01:47:03 -0700  evyscr:
+
+	Changed paths:
+	   M /branches/S2_0/po/ru.po
+
+	3725 translated messages.
+
+
+Mon, 23 Jun 2008 19:31:03 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/common/game.c
+
+	Oops, remove one more line as part of PR#39745.
+
+
+Mon, 23 Jun 2008 19:28:32 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/common/game.c
+
+	Re-init the last (unused) player structure when a player disconnects.
+
+	See PR#39745.
+
+
+Mon, 23 Jun 2008 16:49:58 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/server/stdinhand.c
+	   M /branches/S2_1/server/stdinhand.c
+	   M /branches/S2_2/server/stdinhand.c
+
+	Don't reset the wrong player name when a player is /cut in pregame.
+
+	See PR#39503.
+
+
+Mon, 23 Jun 2008 15:54:50 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/server/plrhand.c
+
+	Fix situations where team research could get out of sync between players.
+
+	Reported by Karl-Ingo Friese <kif@gdv.uni-hannover.de> in PR#12472.
+
+
+Mon, 23 Jun 2008 15:23:12 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/client/gui-gtk-2.0/pages.c
+
+	Go straight to the network page when autoconnecting to a server that needs a password.
+
+	Patch from PR#38354.
+
+
+Sun, 22 Jun 2008 17:43:15 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S1_14/server/plrhand.c
+	   M /branches/S2_0/server/plrhand.c
+
+	Reset all tech values in init_tech.
+
+	Patch by <pepeto69@hotmail.fr> in PR#39757.
+
+
+Sun, 22 Jun 2008 17:19:27 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/client/packhand.c
+	   M /branches/S2_1/client/packhand.c
+	   M /branches/S2_2/client/packhand.c
+
+	Fix incorrect setting of map.num_continents when continents are renumbered.
+
+	Reported by Stephen Jolley <s_jolley@yahoo.com> in PR#39472.  Patch by me.
+
+
+Sun, 22 Jun 2008 16:56:16 -0700  dmarks:
+
+	Changed paths:
+	   M /branches/S2_0/po/ar.po
+	   M /branches/S2_0/po/ca.po
+	   M /branches/S2_0/po/cs.po
+	   M /branches/S2_0/po/da.po
+	   M /branches/S2_0/po/de.po
+	   M /branches/S2_0/po/en_GB.po
+	   M /branches/S2_0/po/es.po
+	   M /branches/S2_0/po/et.po
+	   M /branches/S2_0/po/fa.po
+	   M /branches/S2_0/po/fi.po
+	   M /branches/S2_0/po/fr.po
+	   M /branches/S2_0/po/he_IL.po
+	   M /branches/S2_0/po/hu.po
+	   M /branches/S2_0/po/it.po
+	   M /branches/S2_0/po/ja.po
+	   M /branches/S2_0/po/nl.po
+	   M /branches/S2_0/po/no.po
+	   M /branches/S2_0/po/pl.po
+	   M /branches/S2_0/po/pt.po
+	   M /branches/S2_0/po/pt_BR.po
+	   M /branches/S2_0/po/ro.po
+	   M /branches/S2_0/po/ru.po
+	   M /branches/S2_0/po/sv.po
+	   M /branches/S2_0/po/uk.po
+
+	Commit changes after running 'update-po'
+
+
+Sun, 22 Jun 2008 06:03:42 -0700  dmarks:
+
+	Changed paths:
+	   M /branches/S2_0/configure.ac
+	   A /branches/S2_0/po/ko.po
+
+	Backport Korean localization to 2.0
+
+
+Sat, 21 Jun 2008 21:06:08 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_0/utility/netintf.c
+
+	Handle empty http_proxy environment variable correctly.
+
+	Reported by Christian Knoke as part of #16526.
+
+
+Wed, 11 Jun 2008 21:54:54 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/Makefile.am
+	   M /branches/S2_1/Makefile.am
+	   M /branches/S2_2/Makefile.am
+
+	Add missing m4 files to EXTRA_DIST.
+
+
+Fri, 16 May 2008 15:24:55 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_0/ai/aidata.c
+
+	Set ai.num_continents and ai.num_oceans zero in ai_data_phase_done()
+	to make them consistent with memory allocations.
+
+	This fixes crash reported by Marek Jancuska in #40243
+
+
+Fri, 16 May 2008 14:52:49 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_0/server/unittools.c
+
+	Send remove_unit packet to client when unit owner changes before
+	removing unit vision. This fixes client side assert if unit was
+	not seen by no other unit.
+
+	Similar crashes reported by many in #15712
+
+
+Mon, 21 Apr 2008 20:36:51 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/server/sernet.c
+
+	Fix a memory leak in the readline code.
+
+	Report and fix by "Elmo Todurov" <todurov@gmail.com> in PR#40209.
+
+
+Thu, 03 Apr 2008 07:33:04 -0800  cazfi:
+
+	Changed paths:
+	   M /branches/S2_0/client/gui-gtk-2.0/cityrep.c
+
+	Fixed city report "Select -> Citizen Governor -> none" crash.
+
+	Reported by Marek Jancuska and Chris, ticket #40171
+
+
+Tue, 25 Mar 2008 16:02:35 -0800  cazfi:
+
+	Changed paths:
+	   M /branches/S2_0/common/dataio.c
+
+	dio_get_uint8(), dio_get_unit16() and dio_get_uint32() now set
+	destination variable to zeor when they fail. This way callers
+	will never use totally uninitialized variable as size for
+	memory allocation.
+
+	See #40164
+
+
+Tue, 25 Mar 2008 01:15:47 -0800  cazfi:
+
+	Changed paths:
+	   M /branches/S2_0/client/packhand.c
+	   M /branches/S2_0/common/capstr.c
+	   M /branches/S2_0/common/packets.c
+	   M /branches/S2_0/common/packets.h
+	   M /branches/S2_0/server/plrhand.c
+
+	Restored network compatibility with earlier 2.0 releases.
+
+	See #39626
+
+
+Tue, 18 Mar 2008 19:14:49 -0800  cazfi:
+
+	Changed paths:
+	   M /branches/S2_0/common/generate_packets.py
+	   M /branches/S2_0/common/packets_gen.c
+
+	Check legality of the size received from network before passing
+	it to dio_get_memory().
+
+	See #40161
+
+
+Sun, 16 Mar 2008 12:56:04 -0800  cazfi:
+
+	Changed paths:
+	   M /branches/S2_0/common/packets.c
+
+	Fixed zeroing of unused portions of attribute chunk before giving
+	it to delta code.
+
+
+Sun, 17 Feb 2008 06:21:10 -0800  jcreus:
+
+	Changed paths:
+	   M /branches/S2_0/po/ca.po
+
+	Correcting Galleon translation
+
+
+Tue, 22 Jan 2008 09:56:35 -0800  evyscr:
+
+	Changed paths:
+	   M /branches/S2_0/client/gui-xaw/dialogs.c
+
+	Fix i18n'd racesdlg elements width
+
+
+Wed, 28 Nov 2007 13:39:46 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/doc/README
+
+	Simple typo fix.
+
+
+Mon, 26 Nov 2007 14:53:03 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/client/gui-gtk-2.0/cityrep.c
+
+	Avoid triggering a gcc 4.1/4.2 bug that breaks city report CMA control.
+
+	Report and patch by Castanier Carl <woodswolf@gmail.com> in PR#39722 with
+	changes by me.
+
+
+Mon, 15 Oct 2007 05:17:06 -0700  dmarks:
+
+	Changed paths:
+	   M /branches/S2_0/doc/README
+
+	Fix typos in README. Patch by Joan Creus <joan.creus@gmail.com> in PR#39776.
+
+
+Tue, 09 Oct 2007 05:16:38 -0700  dmarks:
+
+	Changed paths:
+	   D /branches/S2_0/doc/de/INHALT
+	   D /branches/S2_0/doc/de/INSTALL.debian.de
+	   M /branches/S2_0/doc/de/Makefile.am
+	   D /branches/S2_0/doc/de/NEWS.de
+	   D /branches/S2_0/doc/de/README.cma.de
+	   D /branches/S2_0/doc/de/README.rulesets.de
+	   D /branches/S2_0/doc/de/README.sound.de
+	   M /branches/S2_0/doc/fr/Makefile.am
+	   D /branches/S2_0/doc/fr/README.cma.fr
+	   M /branches/S2_0/doc/it/Makefile.am
+	   D /branches/S2_0/doc/it/README.cma.it
+	   M /branches/S2_0/doc/ja/Makefile.am
+	   D /branches/S2_0/doc/ja/NEWS.ja
+	   D /branches/S2_0/doc/ja/README.cma.ja
+	   D /branches/S2_0/doc/ja/README_Japanese.ja
+	   D /branches/S2_0/doc/nl/LEESMIJ
+	   M /branches/S2_0/doc/nl/Makefile.am
+	   D /branches/S2_0/doc/nl/NEWS.nl
+	   D /branches/S2_0/doc/nl/README.cma.nl
+	   D /branches/S2_0/doc/nl/README.rulesets.nl
+	   D /branches/S2_0/doc/nl/TODO.nl
+	   D /branches/S2_0/doc/sv/CodingStyle.sv
+	   M /branches/S2_0/doc/sv/Makefile.am
+	   D /branches/S2_0/doc/sv/README.agents.sv
+	   D /branches/S2_0/doc/sv/README.attributes.sv
+	   D /branches/S2_0/doc/sv/README.cma.sv
+	   D /branches/S2_0/doc/sv/README.graphics.sv
+	   D /branches/S2_0/doc/sv/README.sound.sv
+
+	Reduce the number of translated docs in the distribution. Only README, INSTALL, BUGS, and HOWTOPLAY are kept, while all the others have been transferred to wiki and will be maintained there. PR#39739
+
+
+Wed, 03 Oct 2007 04:16:13 -0700  dmarks:
+
+	Changed paths:
+	   M /branches/S2_0/client/gui-sdl/Makefile.am
+	   D /branches/S2_0/client/gui-sdl/README.SDLClient
+	   M /branches/S2_0/doc/Makefile.am
+	   A /branches/S2_0/doc/README.SDLClient (from /branches/S2_0/client/gui-sdl/README.SDLClient:13674)
+
+	Move README.SDLClient to doc/. PR#39738
+
+
+Sun, 30 Sep 2007 03:22:06 -0700  dmarks:
+
+	Changed paths:
+	   M /branches/S2_0/doc/HOWTOPLAY
+
+	Update HOWTOPLAY. Patch by Marcel Edward Verhagen <marcel@meverhagen.com> with changes by me. PR#12920
+
+
+Sun, 30 Sep 2007 02:40:30 -0700  dmarks:
+
+	Changed paths:
+	   M /branches/S2_0/doc/README
+
+	Update the README. PR#39732
+
+
+Sun, 23 Sep 2007 15:07:23 -0700  cproc:
+
+	Changed paths:
+	   A /branches/S2_0/data/fonts/COPYING.Vera
+
+	Add font license texts. Requested by Daniel Markstedt in PR#39675.
+
+
+Sat, 22 Sep 2007 05:30:49 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_0/client/gui-gtk-2.0/wldlg.c
+
+	Rearranged code not to trigger gcc 4.2 miscompilation bug.
+
+	Miscompilation caused any dialog with worklist to crash game.
+	(city dialog, global worklist dialog)
+
+	Crashes reported by many in #39495
+
+
+Fri, 14 Sep 2007 07:23:52 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_0/server/citytools.c
+	   M /branches/S2_0/server/unithand.c
+	   M /branches/S2_0/server/unittools.c
+
+	Fixed number of potential crashes if moving unit dies.
+
+	See #39686
+
+
+Fri, 14 Sep 2007 07:10:04 -0700  chrisk:
+
+	Changed paths:
+	   M /branches/S2_0/po/de.po
+
+	3725 translated messages.
+
+
+Tue, 11 Sep 2007 05:07:59 -0700  cproc:
+
+	Changed paths:
+	   M /branches/S2_0/client/civclient.c
+	   M /branches/S2_0/client/connectdlg_common.c
+
+	Fix the problem that my_shutdown_network() was called too early. See PR#39692.
+
+
+Sat, 08 Sep 2007 04:37:17 -0700  jcreus:
+
+	Changed paths:
+	   M /branches/S2_0/po/ca.po
+
+	ca.po: complete translation for S2_0. 3725 messages
+
+
+Mon, 03 Sep 2007 15:02:50 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_0/server/meta.c
+	   M /branches/S2_0/server/srv_main.c
+
+	Display default metamessage from server start and not only
+	after someone has connected. Default metamessage for released
+	versions is now "-".
+
+	See #39641
+
+
+Sun, 02 Sep 2007 14:55:15 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_0/client/gui-xaw/cma_fe.c
+	   M /branches/S2_0/client/gui-xaw/menu.c
+	   M /branches/S2_0/server/stdinhand.c
+
+	Fixed compiler warnings.
+
+	See #39655
+
+
+Sun, 02 Sep 2007 14:47:36 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_0/server/auth.c
+
+	Fix compiler warnings from auth code.
+
+	Patch by Pepeto in #39644
+
+
+Sun, 02 Sep 2007 06:24:14 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_0/version.in
+
+	Added version label '+' to mark that current svn version
+	is not officially released 2.0.9.
+
+
+Sat, 01 Sep 2007 20:57:05 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_0/common/game.c
+
+	Set initial value for game.init.diplomacy
+
+	Patch by Pepeto, #39616
+
+
+Sat, 01 Sep 2007 03:12:57 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_0/common/packets.c
+
+	Make sure that delta code is not using uninitialized data
+	when attribute chunk is not full.
+
+	See #39639
+
+
+Fri, 31 Aug 2007 01:51:49 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_0/debian/INSTALL.debian
+	   M /branches/S2_0/debian/build.debian
+	   M /branches/S2_0/doc/BUGS
+	   M /branches/S2_0/doc/CodingStyle
+	   M /branches/S2_0/doc/HACKING
+	   M /branches/S2_0/doc/README.sound
+
+	Corrected documentation not to refer Freeciv version control as CVS.
+
+	See #39632
+
+
+Thu, 30 Aug 2007 02:23:23 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_0/server/diplhand.c
+	   M /branches/S2_0/server/diplhand.h
+	   M /branches/S2_0/server/srv_main.c
+
+	Free treaty structures between games.
+
+	See #39625
+
+
+Sun, 26 Aug 2007 12:29:28 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_0/server/settlers.c
+
+	Use unit_list_iterate_safe instead of unit_list_iterate for
+	iterating all autosettlers.
+
+	See #39605
+
+
+Sat, 25 Aug 2007 14:56:20 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_0/bootstrap/freeciv.desktop.in
+
+	Added localizations for desktop tooltip
+
+	Translations provided by
+	ca - Joan Creus
+	da - Joe Dalton
+	de - Christian Knoke
+	fi - I myself
+	sv - Daniel Markstedt
+	pt - Duarte Loreto
+
+
+Wed, 22 Aug 2007 02:12:07 -0700  cproc:
+
+	Changed paths:
+	   M /branches/S2_0/client/civclient.c
+
+	Include SDL.h in civclient.c when SDL is used (for sound support). See PR#39600.
+
+
+Fri, 17 Aug 2007 09:24:42 -0700  per:
+
+	Changed paths:
+	   M /branches/S2_0/server/connecthand.c
+
+	S2_0: Fix wrong comparison between current number of players and maximum number of players allowed.
+	Patch by pepeto in PR#39392.
+
+
+Fri, 17 Aug 2007 09:15:34 -0700  per:
+
+	Changed paths:
+	   M /branches/S2_0/server/citytools.c
+
+	Fix missing wipe_unit() call. Patch by pepeto in PR#39577.
+
+
+Fri, 17 Aug 2007 09:08:38 -0700  per:
+
+	Changed paths:
+	   M /branches/S2_0/common/capstr.c
+
+	Change the mandatory capability for 2.0 as an interim solution to prevent further crashes.
+
+
+Thu, 16 Aug 2007 02:24:21 -0700  cproc:
+
+	Changed paths:
+	   M /branches/S2_0/server/sernet.c
+
+	Fix sernet.c compiler warning. See PR#39548.
+
+
+Wed, 15 Aug 2007 14:07:38 -0700  cproc:
+
+	Changed paths:
+	   M /branches/S2_0/client/gui-win32/inteldlg.c
+
+	Don't try to find out details about unknown tech in the intelligence dialog. Reported by Mark W. Hatherly <mhatherly@chess-safety.com>, Michael Ruberry <michael.ruberry@gmail.com>, Matti Meklari <medice@luukku.com> and "Wim" <supaypeluso@hotmail.com> in PR#16824, patch by me.
+
+
+Wed, 15 Aug 2007 10:55:27 -0700  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_0/utility/registry.c
+
+	(PR#39570) assertion fails when .civclientrc is missing
+
+
+Sun, 12 Aug 2007 16:26:20 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_0/INSTALL
+	   M /branches/S2_0/bootstrap/undep.sh.in
+	   M /branches/S2_0/configure.ac
+
+	Fixed --disable-cvs-deps configure option and renamed it as
+	--disable-auto-deps
+
+	See #39520
+
+
+Sun, 12 Aug 2007 13:51:10 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_0/doc/CodingStyle
+
+	Removed reference to cvs from CodingStyle
+
+	See #39537
+
+
+Sun, 12 Aug 2007 11:23:51 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_0/common/game.c
+	   M /branches/S2_0/common/game.h
+	   M /branches/S2_0/server/commands.c
+	   M /branches/S2_0/server/connecthand.c
+	   M /branches/S2_0/server/meta.c
+	   M /branches/S2_0/server/meta.h
+	   M /branches/S2_0/server/savegame.c
+	   M /branches/S2_0/server/stdinhand.c
+
+	Do not lose user set metamessage completely when some automatic
+	message replaces it.
+	When first player connects to server, refresh metamessage. So
+	we are not saying that "restarting in lack of players" when new
+	game is actually running.
+
+	See #11517
+
+
+Sun, 12 Aug 2007 07:14:52 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_0/server/diplhand.c
+
+	Refresh city workers after we have got some new map
+	knowledge from treaty. It may have revealed us some tiles
+	city can work.
+
+	See #39528
+
+
+Sun, 12 Aug 2007 00:47:04 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_0/utility/registry.c
+
+	section_file_read_dup() never releases inf. Who ever
+	allocates inf with inf_from_file() or inf_from_stream(),
+	always releases it with inf_close().
+
+	See #39507
+
+
+Sun, 12 Aug 2007 00:31:09 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_0/server/stdinhand.c
+
+	Fixed /aitoggle to end turn, if toggled player was last one
+	we were waiting for.
+
+	See #12500
+
+
+Sat, 11 Aug 2007 13:12:08 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_0/INSTALL
+
+	Some places were still referring development version as CVS version.
+	Now it is referred as svn version.
+
+	See #39519
+
+
+Sat, 11 Aug 2007 02:23:25 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_0/client/packhand.c
+	   M /branches/S2_0/client/packhand_gen.c
+	   M /branches/S2_0/client/packhand_gen.h
+	   M /branches/S2_0/common/capstr.c
+	   M /branches/S2_0/common/packets.c
+	   M /branches/S2_0/common/packets.def
+	   M /branches/S2_0/common/packets_gen.c
+	   M /branches/S2_0/common/packets_gen.h
+	   M /branches/S2_0/server/srv_main.c
+
+	 This patch adds new packets PACKET_FREEZE_CLIENT and
+	PACKET_THAW_CLIENT. These are used instead of PACKET_FREEZE_HINT and
+	PACKET_THAW_HINT when we want client reports and agents to freeze
+	instead of buffering network traffic.
+
+	 This fixes problem that server stopped sending packets to client near
+	end of the turn. Instead it buffered them, and sent a bit after new turn
+	was started.
+
+	See #39492
+
+
+Fri, 10 Aug 2007 15:07:49 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_0/AUTHORS
+	   M /branches/S2_0/doc/Makefile.am
+	   D /branches/S2_0/doc/PEOPLE
+
+	Backport:
+	AUTHORS points to wiki page. doc/PEOPLE removed.
+
+	See #39518
+
+
+Thu, 09 Aug 2007 15:58:29 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_0/doc/man/civclient.6
+	   M /branches/S2_0/doc/man/civserver.6
+
+	Removed old bug reporting email address from
+	man pages.
+
+	See #39506
+
+
+Thu, 09 Aug 2007 11:06:53 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_0/ai/aiferry.c
+
+	Fixed memory leak in AI ferry code.
+
+	See #39500
+
+
+Mon, 06 Aug 2007 06:24:14 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_0/ai/aidiplomat.c
+	   M /branches/S2_0/common/unit.c
+	   M /branches/S2_0/common/unit.h
+	   M /branches/S2_0/server/diplomats.c
+	   M /branches/S2_0/server/savegame.c
+	   M /branches/S2_0/server/unittools.c
+
+	Removed concept of foul spies. Broken code was causing problems.
+
+	Reported by Joona Kurki <joona.kurki@tkk.fi> in #38165
+
+
+Sun, 05 Aug 2007 09:30:00 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_0/configure.ac
+
+	Do not overwrite CPPFLAGS with CFLAGS.
+
+	Fixes ticket #35758 reported by
+	"Andrew Pantyukhin" <infofarmer@FreeBSD.org>
+
+
+Sun, 05 Aug 2007 08:13:42 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_0/client/audio.c
+
+	Updated URL for sound sets.
+
+	Patch from openbsd.org
+
+	See #39463
+
+
+Sat, 04 Aug 2007 12:45:03 -0700  cproc:
+
+	Changed paths:
+	   M /branches/S2_0/client/gui-gtk-2.0/gui_main.c
+
+	Call "gtk_disable_setlocale()" before "gtk_init()" to avoid formatting problems with zh_CN locale on Windows. Reported by Vincent Petry <PVince81@yahoo.fr> in PR#39475, patch by me.
+
+
+Sat, 21 Jul 2007 04:22:39 -0700  cproc:
+
+	Changed paths:
+	   M /branches/S2_0/client/gui-win32/gui_stuff.c
+	   M /branches/S2_0/win32/clienticon.rc
+
+	show the icon of the executable in the titlebar of the win32 client. Reported by Daniel Markstedt in PR#36346, patch by me.
+
+
+Sat, 21 Jul 2007 03:41:17 -0700  cproc:
+
+	Changed paths:
+	   M /branches/S2_0/configure.ac
+
+	set LOCALEDIR manually on Windows. Original patch by James Canete in PR#10478.
+
+
+Sun, 08 Jul 2007 10:44:41 -0700  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_0/client/gui-gtk/cityrep.c
+	   M /branches/S2_0/client/gui-gtk-2.0/cityrep.c
+	   M /branches/S2_0/client/gui-mui/cityrep.c
+	   M /branches/S2_0/client/gui-win32/cityrep.c
+	   M /branches/S2_0/client/tilespec.c
+	   M /branches/S2_0/common/aicore/cm.c
+	   M /branches/S2_0/configure.ac
+	   M /branches/S2_0/manual/civmanual.c
+	   M /branches/S2_0/utility/ftwl/common_types.c
+	   M /branches/S2_0/utility/support.h
+
+	(PR#36441) Bug appear when simply press key "F1"
+	(PR#36496) libutf8 troubles
+
+	pullup of trunk revision 13076, S2_1 revision 13077.
+
+	===
+
+	Increase the size of the city report column buffer from 64 bytes to 128 bytes.
+	This patch goes beyond the original GTK2, expanding gtk, mui, and win32.
+
+	Replace remaining calls to snprintf() by my_snprintf() or cat_snprintf()
+	and to skip the vsnprintf() tests in the configure script on Windows.
+	No need to use libutf8 anymore.  Found a few more snprintf() than original.
+
+	Original patch(es) by "Christian Prochaska"
+
+
+Sun, 08 Jul 2007 00:59:19 -0700  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_0/common/dataio.c
+
+	(PR#13464) use stdint.h in dataio
+	(PR#14387) sizeof cleanup for common/
+	(PR#15840) common/dataio.c:700 is dubious
+
+	trunk fixes prior to the S2_1 branch that were not backported to S2_0 at:
+	r11174 | jdorje | 2005-10-22 14:55:21 -0400 (Sat, 22 Oct 2005) | 4 lines
+	r10726 | jdorje | 2005-07-15 12:09:05 -0400 (Fri, 15 Jul 2005) | 4 lines
+
+	Also, use fc_calloc to ensure that missing fields are zeroed, similar to
+	the patches above.
+
+
+Sat, 07 Jul 2007 16:12:43 -0700  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_0/client/attribute.c
+	   M /branches/S2_0/common/game.c
+	   M /branches/S2_0/common/packets.c
+	   M /branches/S2_0/common/packets.h
+	   M /branches/S2_0/common/player.h
+	   M /branches/S2_0/server/savegame.c
+
+	(PR#39437) attribute.c serialization error
+
+	Extensive error checking on saved and restored attribute "blocks" and "chunks".
+	Still relies too much on asserts instead of actual remediation and recovery,
+	but doesn't crash....
+
+	Fixed a number of initialization errors.  Yes, you have to clear the length,
+	even when the data is already NULL.  They are separate (and this kind of error
+	is likely the underlying cause of the crashes).
+
+	Kept the older translated messages.
+
+	trunk revision 13068.
+	S2_1 revision 13069.
+
+
+Fri, 06 Jul 2007 10:27:28 -0700  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_0/client/gui-sdl/gui_main.c
+	   M /branches/S2_0/client/gui-sdl/mapview.c
+	   M /branches/S2_0/client/mapview_common.c
+	   M /branches/S2_0/po/ar.po
+	   M /branches/S2_0/po/ca.po
+	   M /branches/S2_0/po/cs.po
+	   M /branches/S2_0/po/da.po
+	   M /branches/S2_0/po/de.po
+	   M /branches/S2_0/po/en_GB.po
+	   M /branches/S2_0/po/es.po
+	   M /branches/S2_0/po/et.po
+	   M /branches/S2_0/po/fa.po
+	   M /branches/S2_0/po/fi.po
+	   M /branches/S2_0/po/fr.po
+	   M /branches/S2_0/po/he_IL.po
+	   M /branches/S2_0/po/hu.po
+	   M /branches/S2_0/po/it.po
+	   M /branches/S2_0/po/ja.po
+	   M /branches/S2_0/po/nl.po
+	   M /branches/S2_0/po/no.po
+	   M /branches/S2_0/po/pl.po
+	   M /branches/S2_0/po/pt.po
+	   M /branches/S2_0/po/pt_BR.po
+	   M /branches/S2_0/po/ro.po
+	   M /branches/S2_0/po/ru.po
+	   M /branches/S2_0/po/sv.po
+	   M /branches/S2_0/po/uk.po
+	   M /branches/S2_0/server/plrhand.c
+	   M /branches/S2_0/server/srv_main.c
+	   M /branches/S2_0/utility/shared.h
+
+	(PR#39329) replace email for submitting bugs
+	(PR#39435) Incorrect Strings
+
+	This does a gross conversion to eliminate all bugs@freeciv.org references,
+	and update version references to Freeciv 2.0.
+
+	partly based on patch(es) by "Daniel Markstedt" <markstedt@gmail.com>
+
+	trunk revision 13055.
+	S2_1 revisions 13056, 13066.
+
+
+Thu, 05 Jul 2007 18:22:05 -0700  dmarks:
+
+	Changed paths:
+	   M /branches/S2_0/po/sv.po
+
+	3725 translated messages.
+
+
+Thu, 05 Jul 2007 12:27:51 -0700  chrisk:
+
+	Changed paths:
+	   M /branches/S2_0/po/de.po
+
+	3725 translated messages.
+
+
+Thu, 05 Jul 2007 11:04:24 -0700  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_0/server/citytools.c
+	   M /branches/S2_0/server/unithand.c
+
+	(PR#39431) Cannot add settlers to city
+
+	patch by "Timothy Brownawell" <tbrownaw@prjek.net>
+
+	Previous S2_1 revision 13052, trunk revision 13053.
+
+	Also, another wipe_unit(vunit) removed from server/citytools.c,
+	already removed from S2_1, but I cannot find the bug report.
+
+
+Sun, 17 Jun 2007 06:15:18 -0700  per:
+
+	Changed paths:
+	   M /branches/S2_0/server/diplhand.c
+	   M /branches/S2_0/server/plrhand.c
+	   M /branches/S2_0/server/plrhand.h
+
+	Fix problem with diplcost when current tech is NONE by calculating diplcost
+	loss based on gained tech rather than researched tech, as it is done in 2.1
+	already. Patch by Erik Johansson in PR#39393.
+
+
+Sun, 17 Jun 2007 06:14:06 -0700  per:
+
+	Changed paths:
+	   M /branches/S2_0/server/report.c
+
+	Fix cast warnings
+
+
+Sun, 10 Jun 2007 06:15:04 -0700  per:
+
+	Changed paths:
+	   M /branches/S2_0/doc/README
+
+	S2_0: Update information about gna.org lists and freenode irc channels.
+
+
+Sun, 10 Jun 2007 05:04:23 -0700  per:
+
+	Changed paths:
+	   M /branches/S2_0/client/gui-gtk/gui_main.c
+	   M /branches/S2_0/client/gui-sdl/gui_main.c
+
+	Fix S2_0 compile of gui-sdl and gui-gtk, originally reported by Daniel Markstedt in PR#39390
+
+
+Sun, 20 May 2007 04:20:32 -0700  per:
+
+	Changed paths:
+	   M /branches/S2_0/po/da.po
+
+	Fix bug in danish translation. Reported by pepeto in PR#39376.
+
+
+Thu, 17 May 2007 09:55:07 -0700  per:
+
+	Changed paths:
+	   M /branches/S2_0/client/agents/cma_core.c
+	   M /branches/S2_0/client/gui-gtk-2.0/gui_main.c
+	   M /branches/S2_0/client/gui-mui/gui_main.c
+	   M /branches/S2_0/client/gui-xaw/gui_main.c
+	   M /branches/S2_0/configure.ac
+	   M /branches/S2_0/data/helpdata.txt
+	   M /branches/S2_0/doc/BUGS
+	   M /branches/S2_0/doc/sv/BUGS.sv
+	   M /branches/S2_0/server/civserver.c
+	   M /branches/S2_0/utility/registry.c
+
+	Replace bug email with bug URL. See PR#39329. S2_0.
+
+
+Sat, 12 May 2007 10:19:48 -0700  per:
+
+	Changed paths:
+	   M /branches/S2_0/data/civ2/buildings.ruleset
+
+	Fix icon for Aqueduct in civ2 ruleset. See PR#39348.
+
+
+Sat, 12 May 2007 04:15:03 -0700  per:
+
+	Changed paths:
+	   M /branches/S2_0/client/control.c
+
+	Fix bug in nuclear "goto and explore" command. Patch by Pepeto
+	in PR#39126.
+
+
+Tue, 17 Apr 2007 09:19:59 -0700  dmarks:
+
+	Changed paths:
+	   M /branches/S2_0/po/he_IL.po
+
+	Improved Hebrew localization by Chen Levy <chenlevy@gmail.com> 2894 translated messages, 1638 untranslated messages.
+
+
+Mon, 16 Apr 2007 11:21:57 -0700  joedalton:
+
+	Changed paths:
+	   M /branches/S2_0/po/da.po
+
+	New translated strings
+
+
+Thu, 05 Apr 2007 14:24:40 -0700  joedalton:
+
+	Changed paths:
+	   M /branches/S2_0/po/da.po
+
+	New translated strings
+
+
+Thu, 05 Apr 2007 02:06:03 -0700  joedalton:
+
+	Changed paths:
+	   M /branches/S2_0/po/da.po
+
+	New translated strings
+
+
+Wed, 04 Apr 2007 12:49:44 -0700  joedalton:
+
+	Changed paths:
+	   M /branches/S2_0/po/da.po
+
+	40 fuzzy corrected
+
+
+Sat, 31 Mar 2007 15:41:14 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_0/po/he_IL.po
+
+	Improved Hebrew localization, sent to me by Chen Levy <chenlevy@gmail.com> 2402 translated messages, 2130 untranslated messages.
+
+
+Fri, 16 Mar 2007 11:13:48 -0800  joedalton:
+
+	Changed paths:
+	   M /branches/S2_0/po/da.po
+
+	New translated strings
+
+
+Wed, 07 Mar 2007 12:06:29 -0800  joedalton:
+
+	Changed paths:
+	   M /branches/S2_0/po/da.po
+
+	A few extra translated strings
+
+
+Sun, 04 Mar 2007 13:26:17 -0800  elmo:
+
+	Changed paths:
+	   M /branches/S2_0/po/da.po
+
+	Joe Dalton again
+
+
+Thu, 22 Feb 2007 12:39:49 -0800  beregond:
+
+	Changed paths:
+	   M /branches/S2_0/po/nl.po
+
+	small fix
+
+
+Fri, 16 Feb 2007 20:46:00 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/po/fa.po
+
+	Remove svn:executable property.
+
+
+Sun, 11 Feb 2007 16:37:24 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/ChangeLog
+
+	ChangeLog for 2.0.9.
+
+
 Sun, 11 Feb 2007 15:48:31 -0800  jdorje:
 
 	Changed paths:
@@ -163,7 +1357,7 @@ Fri, 19 Jan 2007 06:16:53 -0800  cazfi:
 	Avoid messing worklist when city cannot change production
 	and user tries to change order of worklist items.
 
-	Reported by Tommi Björkbacka <tommibj@gmail.com> in #18773
+	Reported by Tommi BjÃ¶rkbacka <tommibj@gmail.com> in #18773
 
 
 Sun, 14 Jan 2007 11:36:53 -0800  cazfi:
@@ -2121,7 +3315,7 @@ Mon Jun 27 14:27:13 2005  Per I. Mathisen <per@leftist.net>:
 	* server/stdinhand.c:
 
 	Do not allow observers to vote. Fixes bug reported by Thomas
-	Müller <lists@elfstone.de> in PR#13008. Fix from patch in
+	MÃ¼ller <lists@elfstone.de> in PR#13008. Fix from patch in
 	PR#12604 (backported).
 
 Sun Jun 26 11:15:08 2005  Mateusz Stefek <mstefek@poczta.fm>:
@@ -3255,7 +4449,7 @@ Sun Feb 13 15:26:36 2005  Mateusz Stefek <mstefek@poczta.fm>:
 	* server/unittools.c:
 
 	(Backport) Stop irrigating when somebody mined last irigated
-	adjacent tile. Reported by Steffen Jobbagy-Fels� in #11497
+	adjacent tile. Reported by Steffen Jobbagy-Felsö in #11497
 
 Sat Feb 12 17:41:36 2005  Jason Short <jdorje@users.sourceforge.net>:
 
@@ -3561,7 +4755,7 @@ Wed Feb 02 03:11:48 2005  Jason Short <jdorje@users.sourceforge.net>:
 
 	Remove an incorrect assertion that prevented ocean cities.
 
-	Reported by Andreas R�sdal <andrearo@stud.ntnu.no> in PR#12056.
+	Reported by Andreas Røsdal <andrearo@stud.ntnu.no> in PR#12056.
 
 Wed Feb 02 03:04:34 2005  Jason Short <jdorje@users.sourceforge.net>:
 
@@ -4314,7 +5508,7 @@ Thu Dec 30 17:36:53 2004  Vasco Alexandre Da Silva Costa <vasc@rnl.ist.utl.pt>:
 
 	Backport: Add missing newlines, so gettext doesn't choke on it.
 
-	Patch by Geneviève Gracian,
+	Patch by GeneviÃ¨ve Gracian,
 
 Wed Dec 29 17:33:23 2004  Vasco Alexandre Da Silva Costa <vasc@rnl.ist.utl.pt>:
 
@@ -4407,7 +5601,7 @@ Sat Dec 25 19:50:24 2004  Jason Short <jdorje@users.sourceforge.net>:
 	each sprite that is drawn fogged, a separate fogged pixmap is
 	created using alpha-blending to achieve good quality fog.
 
-	Patch by Andreas R�sdal <andrearo@stud.ntnu.no> and myself in
+	Patch by Andreas Røsdal <andrearo@stud.ntnu.no> and myself in
 	PR#11433.
 
 Fri Dec 24 23:40:13 2004  Vasco Alexandre Da Silva Costa <vasc@rnl.ist.utl.pt>:
@@ -10543,7 +11737,7 @@ Fri Sep 24 15:33:31 2004  Mateusz Stefek <mstefek@poczta.fm>:
 
 	Add gnome menu item. The .desktop file is installed in
 	prefix/share/applications iff client is enabled. Patch by me in
-	PR#9977 freeciv.desktop by Jérôme Warnier
+	PR#9977 freeciv.desktop by JÃ©rÃ´me Warnier
 
 Fri Sep 24 15:33:31 2004  Mateusz Stefek <mstefek@poczta.fm>:
 
@@ -10551,7 +11745,7 @@ Fri Sep 24 15:33:31 2004  Mateusz Stefek <mstefek@poczta.fm>:
 
 	branches: 1.2.2; Add gnome menu item. The .desktop file is
 	installed in prefix/share/applications iff client is enabled.
-	Patch by me in PR#9977 freeciv.desktop by Jérôme Warnier
+	Patch by me in PR#9977 freeciv.desktop by JÃ©rÃ´me Warnier
 
 Fri Sep 24 15:33:31 2004  Mateusz Stefek <mstefek@poczta.fm>:
 
@@ -10559,7 +11753,7 @@ Fri Sep 24 15:33:31 2004  Mateusz Stefek <mstefek@poczta.fm>:
 
 	Add gnome menu item. The .desktop file is installed in
 	prefix/share/applications iff client is enabled. Patch by me in
-	PR#9977 freeciv.desktop by Jérôme Warnier
+	PR#9977 freeciv.desktop by JÃ©rÃ´me Warnier
 
 Fri Sep 24 13:51:02 2004  Vasco Alexandre Da Silva Costa <vasc@rnl.ist.utl.pt>:
 
@@ -10821,7 +12015,7 @@ Wed Sep 22 07:17:57 2004  Mateusz Stefek <mstefek@poczta.fm>:
 
 	Don't resend all ex-allied city in remove_allied_visibility(),
 	send only those known and seen. Reported by Marek Baczek
-	Baczyński in PR#10236; patch by me
+	BaczyÅski in PR#10236; patch by me
 
 Wed Sep 22 02:30:32 2004  Jason Short <jdorje@users.sourceforge.net>:
 
@@ -12700,7 +13894,7 @@ Thu Sep 09 19:15:32 2004  Mateusz Stefek <mstefek@poczta.fm>:
 	* po/pl.po:
 
 	Change the encoding of pl.po to UTF-8 and use U00E5 in Harald
-	Blåtland
+	BlÃ¥tland
 
 Thu Sep 09 18:07:28 2004  Jason Short <jdorje@users.sourceforge.net>:
 
@@ -13729,7 +14923,7 @@ Mon Aug 30 08:17:02 2004  Mateusz Stefek <mstefek@poczta.fm>:
 
 	* data/nation/danish.ruleset:
 
-	Change the spelling of "Århus" and "Ålborg" to "Aarhus" and
+	Change the spelling of "Ãrhus" and "Ãlborg" to "Aarhus" and
 	"Aalborg". These forms are also correct and don't cause charsets
 	problems. See PR#9838
 
@@ -19506,7 +20700,7 @@ Sun May 02 12:40:47 2004  Per I. Mathisen <per@leftist.net>:
 	* m4/alsa.m4:
 
 	Make alsa autoconf check look for alsa version 1.0 or higher.
-	Re��ported by Mike.
+	ReÃÃported by Mike.
 
 Sun May 02 12:33:29 2004  Per I. Mathisen <per@leftist.net>:
 
@@ -20562,7 +21756,7 @@ Wed Apr 07 17:32:01 2004  Raimar Falke <i-freeciv-forward@rf.risimo.net>:
 
 	Give the PACKET_AUTHENTICATION_REQ packet the dsend flag.
 
-	Reported by Andreas R�sdal <andrearo@stud.ntnu.no> in PR#8409.
+	Reported by Andreas Røsdal <andrearo@stud.ntnu.no> in PR#8409.
 	Patch from me.
 
 Wed Apr 07 17:29:16 2004  Raimar Falke <i-freeciv-forward@rf.risimo.net>:
@@ -20571,7 +21765,7 @@ Wed Apr 07 17:29:16 2004  Raimar Falke <i-freeciv-forward@rf.risimo.net>:
 
 	Change auth code to use the correct field of struct connection.
 
-	Reported by Andreas R�sdal <andrearo@stud.ntnu.no> in PR#8409.
+	Reported by Andreas Røsdal <andrearo@stud.ntnu.no> in PR#8409.
 	Patch from me.
 
 Tue Apr 06 21:39:05 2004  Andreas Kemnade <akemnade@informatik.uni-bremen.de>:
@@ -20733,7 +21927,7 @@ Fri Apr 02 10:40:00 2004  Per I. Mathisen <per@leftist.net>:
 	* server/stdinhand.c:
 
 	Fix crash in stdinhand.c, where a user with no player could try
-	to start a vote. Found by Andreas Røsda l<andrearo@stud.ntnu.no.
+	to start a vote. Found by Andreas RÃ¸sda l<andrearo@stud.ntnu.no.
 
 Thu Apr 01 23:46:26 2004  Jason Short <jdorje@users.sourceforge.net>:
 
@@ -24478,7 +25672,7 @@ Sat Nov 15 12:16:22 2003  Per I. Mathisen <per@leftist.net>:
 	Make sure that we do not attempt to attack players we are not at
 	war with but that we want to go to war against in fstk. We now
 	call pplayers_at_war when passing real units to fstk instead of
-	calling HOSTILE_PL�AYER. Bug reported by Greg.
+	calling HOSTILE_PLÃAYER. Bug reported by Greg.
 
 Sat Nov 15 11:32:45 2003  Per I. Mathisen <per@leftist.net>:
 
@@ -25158,7 +26352,7 @@ Wed Oct 22 11:42:48 2003  Christian Knoke <chrisk@cknoke.de>:
 
 	* po/de.po:
 
-	3002 �bersetzte Meldungen. Complete.
+	3002 übersetzte Meldungen. Complete.
 
 Wed Oct 22 07:12:14 2003  Raimar Falke <i-freeciv-forward@rf.risimo.net>:
 
@@ -25726,7 +26920,7 @@ Thu Oct 02 22:53:46 2003  Christian Knoke <chrisk@cknoke.de>:
 
 	* po/de.po:
 
-	3001 �bersetzte Meldungen.
+	3001 übersetzte Meldungen.
 
 Thu Oct 02 21:37:45 2003  Rafal Bursig <bursig@poczta.fm>:
 
@@ -27247,7 +28441,7 @@ Mon Sep 08 16:33:28 2003  Per I. Mathisen <per@leftist.net>:
 
 	* autogen.sh:
 
-	Fix bug where autogen.sh's sed magic would fall over with �packag
+	Fix bug where autogen.sh's sed magic would fall over with Ãpackag
 	names containing a '-' character. Patch by Crossbow/Miyo
 	<pajuma@iki.fi>
 
@@ -28629,7 +29823,7 @@ Mon Jul 28 01:16:06 2003  Mike Kaufman <kaufman@orion.physics.wisc.edu>:
 
 	add a CMA dialog to the XAW client.
 
-	Patch by Andreas R�sdal <andrearo@stud.ntnu.no>
+	Patch by Andreas Røsdal <andrearo@stud.ntnu.no>
 
 Sat Jul 26 15:07:58 2003  Mike Kaufman <kaufman@orion.physics.wisc.edu>:
 
@@ -28750,7 +29944,7 @@ Thu Jul 24 12:23:55 2003  Erik Sigra <sigra@home.se>:
 
 	* po/sv.po:
 
-	r�ttelser
+	rättelser
 
 Wed Jul 23 20:24:36 2003  Jason Short <jdorje@users.sourceforge.net>:
 
@@ -31253,7 +32447,7 @@ Sat May 03 20:20:16 2003  Vasco Alexandre Da Silva Costa <vasc@rnl.ist.utl.pt>:
 
 	For now GTK+ 2.0 only. The rest of the clients get stubs.
 
-	Patch by Andreas Røsdal <andrearo@stud.ntnu.no> with changes by
+	Patch by Andreas RÃ¸sdal <andrearo@stud.ntnu.no> with changes by
 	me.
 
 Sat May 03 13:28:48 2003  Gregory Berkolaiko <Gregory.Berkolaiko@math.tamu.edu>:
@@ -32682,7 +33876,7 @@ Thu Mar 27 19:15:26 2003  Genevieve Gracian <ggracian@free.fr>:
 
 	* po/fr.po:
 
-	mise � jour du 28 mars
+	mise à jour du 28 mars
 
 Thu Mar 27 17:50:35 2003  Raimar Falke <i-freeciv-forward@rf.risimo.net>:
 
@@ -32711,7 +33905,7 @@ Thu Mar 27 13:13:57 2003  Christian Knoke <chrisk@cknoke.de>:
 
 	* po/de.po:
 
-	3 un�bersetzte Meldungen
+	3 unübersetzte Meldungen
 
 Wed Mar 26 23:08:35 2003  Jason Short <jdorje@users.sourceforge.net>:
 
@@ -33353,7 +34547,7 @@ Sun Mar 02 17:43:16 2003  Vasco Alexandre Da Silva Costa <vasc@rnl.ist.utl.pt>:
 
 	Patch to scroll main_message_area on PgUp/PgDown keypress.
 
-	Bug reported by Janus N. Tønderin <janus@bananus.dk>.
+	Bug reported by Janus N. TÃ¸nderin <janus@bananus.dk>.
 
 	Changed kludge to stop emission of the default widget focus
 	movement events on Up/Down/Left/Right keypress. The old kludge
@@ -34287,7 +35481,7 @@ Fri Feb 14 17:43:56 2003  Raimar Falke <i-freeciv-forward@rf.risimo.net>:
 	Remove space in text to ease translation and to make it
 	conforming to the other texts.
 
-	Reported by Andreas R�sdal <andrearo@stud.ntnu.no> as PR#3416.
+	Reported by Andreas Røsdal <andrearo@stud.ntnu.no> as PR#3416.
 
 Fri Feb 14 17:16:23 2003  Raimar Falke <i-freeciv-forward@rf.risimo.net>:
 
@@ -34498,7 +35692,7 @@ Tue Feb 11 01:16:55 2003  Davide Pagnin <nightmare@freeciv.it>:
 
 	* po/da.po:
 
-	branches: 1.11.2; Updated da.po, file supplied by Keld J�rn
+	branches: 1.11.2; Updated da.po, file supplied by Keld Jørn
 	Simonsen <keld@dkuug.dk> with update made by me.
 
 Tue Feb 11 01:15:00 2003  Mike Kaufman <kaufman@orion.physics.wisc.edu>:
@@ -35009,7 +36203,7 @@ Sat Feb 01 15:59:51 2003  Anthony Ferrand <Anthony.Ferrand@wanadoo.fr>:
 
 	* doc/fr/HOWTOPLAY.fr:
 
-	mise � jour des liens
+	mise à jour des liens
 
 Sat Feb 01 12:10:33 2003  Rafal Bursig <bursig@poczta.fm>:
 
@@ -35302,7 +36496,7 @@ Thu Jan 30 17:09:27 2003  Davide Pagnin <nightmare@freeciv.it>:
 	* po/nl.po:
 
 	Fixes PR#2886, just a typo in the nl translation. Reported by
-	Jordi Mallach P�rez jordi@debian.org
+	Jordi Mallach Pérez jordi@debian.org
 
 Thu Jan 30 12:19:15 2003  Rafal Bursig <bursig@poczta.fm>:
 
@@ -35626,7 +36820,7 @@ Sun Jan 26 18:31:06 2003  Vasco Alexandre Da Silva Costa <vasc@rnl.ist.utl.pt>:
 	Add chance for unit to win information to map tile info popup
 	(PR#2911).
 
-	Patch by Andreas Røsdal <andrearo@stud.ntnu.no> with some
+	Patch by Andreas RÃ¸sdal <andrearo@stud.ntnu.no> with some
 	changes by me.
 
 Sun Jan 26 11:39:52 2003  Christian Knoke <chrisk@cknoke.de>:
@@ -36071,7 +37265,7 @@ Tue Jan 14 03:55:12 2003  Vasco Alexandre Da Silva Costa <vasc@rnl.ist.utl.pt>:
 	Add city style names to GTK+ 1.2 and pictures to GTK+ 2.0
 	(PR#2810).
 
-	Patch by Frédéric Rodrigo <f.rodrigo@tuxfamily.or with changes
+	Patch by FrÃ©dÃ©ric Rodrigo <f.rodrigo@tuxfamily.or with changes
 	by me.
 
 Mon Jan 13 23:27:12 2003  Jason Short <jdorje@users.sourceforge.net>:
@@ -37460,7 +38654,7 @@ Tue Dec 17 15:56:57 2002  Erik Sigra <sigra@home.se>:
 
 	* po/sv.po, po/sv.po:
 
-	r�ttelse
+	rättelse
 
 Tue Dec 17 15:14:48 2002  Raimar Falke <i-freeciv-forward@rf.risimo.net>:
 
@@ -37543,7 +38737,7 @@ Mon Dec 16 03:28:01 2002  Erik Sigra <sigra@home.se>:
 
 	* po/sv.po, po/sv.po, po/sv.po, po/sv.po, po/sv.po, po/sv.po:
 
-	r�ttelse
+	rättelse
 
 Mon Dec 16 02:50:38 2002  Erik Sigra <sigra@home.se>:
 
@@ -37555,7 +38749,7 @@ Mon Dec 16 02:48:08 2002  Erik Sigra <sigra@home.se>:
 
 	* po/sv.po, po/sv.po:
 
-	r�ttelse
+	rättelse
 
 Mon Dec 16 01:09:48 2002  Vasco Alexandre Da Silva Costa <vasc@rnl.ist.utl.pt>:
 
@@ -38318,7 +39512,7 @@ Sat Nov 30 20:42:01 2002  Per I. Mathisen <per@leftist.net>:
 	Add compile support for a new client: gui-sdl
 
 	Patch by Jason Dorje Short <jdorje@users.sourceforge.net> and
-	Rafa� Bursig <bursig@poczta.fm>
+	Rafa³ Bursig <bursig@poczta.fm>
 
 Sat Nov 30 20:06:49 2002  Jason Short <jdorje@users.sourceforge.net>:
 
@@ -38489,13 +39683,13 @@ Tue Nov 26 14:27:48 2002  Davide Pagnin <nightmare@freeciv.it>:
 
 	* po/da.po:
 
-	da.po update supply by Keld J�rn Simonsen <keld@dkuug.dk>
+	da.po update supply by Keld Jørn Simonsen <keld@dkuug.dk>
 
 Tue Nov 26 13:43:10 2002  Davide Pagnin <nightmare@freeciv.it>:
 
 	* po/da.po:
 
-	Update for 1.14.0 Release, supplied by Keld J�rn Simonsen
+	Update for 1.14.0 Release, supplied by Keld Jørn Simonsen
 	<keld@dkuug.dk>
 
 Tue Nov 26 12:24:56 2002  Per I. Mathisen <per@leftist.net>:
@@ -38533,7 +39727,7 @@ Tue Nov 26 03:12:43 2002  Egbert Hinzen <egbert@hinzen-koeln.de>:
 
 	* po/de.po:
 
-	updated (21 un�bersetzt)
+	updated (21 unübersetzt)
 
 Tue Nov 26 01:19:03 2002  Per I. Mathisen <per@leftist.net>:
 
@@ -38574,14 +39768,14 @@ Mon Nov 25 17:52:00 2002  Davide Pagnin <nightmare@freeciv.it>:
 
 	* po/da.po:
 
-	Updated da.po file. Updated .po file from: Keld J�rn Simonsen
+	Updated da.po file. Updated .po file from: Keld Jørn Simonsen
 	<keld@dkuug.dk>
 
 Mon Nov 25 17:41:07 2002  Davide Pagnin <nightmare@freeciv.it>:
 
 	* po/da.po:
 
-	Updated da.po for 1.14.0 release. File from: Keld J�rn Simonsen
+	Updated da.po for 1.14.0 release. File from: Keld Jørn Simonsen
 	<keld@dkuug.dk>
 
 Mon Nov 25 02:54:01 2002  Vasco Alexandre Da Silva Costa <vasc@rnl.ist.utl.pt>:
@@ -40399,7 +41593,7 @@ Wed Oct 23 09:16:43 2002  Erik Sigra <sigra@home.se>:
 
 	* po/sv.po:
 
-	r�ttelse
+	rättelse
 
 Mon Oct 21 15:35:55 2002  Erik Sigra <sigra@home.se>:
 
@@ -42701,7 +43895,7 @@ Sat Aug 31 16:04:59 2002  Per I. Mathisen <per@leftist.net>:
 	- I removed some crutch logic that would remove errors created
 	elsewhere in the code (yeah, start switching production in the
 	function where you try to buy stuff, that's consistent!). This
-	could mean reduced performance by the AI, but what the #"=�)(,
+	could mean reduced performance by the AI, but what the #"=¤)(,
 	this cleanup is necessary! The code should now be readable and
 	can be improved further by anyone. - The AI will no longer raise
 	taxes to buy wonders and buildings. - The AI will raise taxes for
@@ -42814,7 +44008,7 @@ Wed Aug 28 04:56:15 2002  Egbert Hinzen <egbert@hinzen-koeln.de>:
 	* po/de.po:
 
 	de.po updated (de.po is now 'msgfmt -c' conform). 'citizen' jetzt
-	einheitlich mit 'B�rger' �bersetzt.
+	einheitlich mit 'Bürger' übersetzt.
 
 Tue Aug 27 22:03:29 2002  Per I. Mathisen <per@leftist.net>:
 
@@ -47098,7 +48292,7 @@ Sat May 25 15:05:53 2002  Raimar Falke <rf13@inf.tu-dresden.de>:
 	"may_pillage" may suggest. Change the call and the signature of
 	the function to reflect this.
 
-	Reported by Markus B�chele <Markus.Buechele@web.de>. Patch from
+	Reported by Markus Büchele <Markus.Buechele@web.de>. Patch from
 	Mike Kaufman <kaufman@orion.physics.wisc.edu> and me.
 
 Sat May 25 14:55:08 2002  Raimar Falke <rf13@inf.tu-dresden.de>:
@@ -49723,7 +50917,7 @@ Mon Mar  4 08:33:48 2002  Raimar Falke <rf13@inf.tu-dresden.de>:
 	message. Print a warning if more than 90% of the combinations are
 	used.
 
-	Reported from Martin Schr�der <martin@oneiros.de>.
+	Reported from Martin Schröder <martin@oneiros.de>.
 
 Sun Mar  3 22:23:29 2002  Pieter J. Kersten <kersten@dia.eur.nl>:
 
@@ -50591,7 +51785,7 @@ Wed Feb 13 08:55:55 2002  Anthony Ferrand <Anthony.Ferrand@wanadoo.fr>:
 
 	* po/fr.po:
 
-	d�but de mise � jour
+	début de mise à jour
 
 Wed Feb 13 05:55:24 2002  Mike Kaufman <kaufman@orion.physics.wisc.edu>:
 
@@ -51231,7 +52425,7 @@ Mon Feb  4 11:59:37 2002  Anthony Ferrand <Anthony.Ferrand@wanadoo.fr>:
 
 	* po/fr.po:
 
-	mise � jour
+	mise à jour
 
 Mon Feb  4 10:18:33 2002  Pieter J. Kersten <kersten@dia.eur.nl>:
 
@@ -52159,7 +53353,7 @@ Thu Jan 10 11:07:59 2002  Raimar Falke <rf13@inf.tu-dresden.de>:
 	correct estimation of the "turns-till-city-grow" at the client
 	side.
 
-	Reported from Daniel Sj�lie <deepone@acc.umu.se> as (PR#1134).
+	Reported from Daniel Sjölie <deepone@acc.umu.se> as (PR#1134).
 	Patch from me.
 
 Thu Jan 10 10:21:21 2002  Pieter J. Kersten <kersten@dia.eur.nl>:
@@ -52926,7 +54120,7 @@ Tue Nov 20 22:03:36 2001  Anthony Ferrand <Anthony.Ferrand@wanadoo.fr>:
 	* po/fr.po:
 
 	remplacement de / par | dans le menu ordres, ligne
-	Aller/A�roporter vers une ville Anthony
+	Aller/Aéroporter vers une ville Anthony
 
 Tue Nov 20 22:02:41 2001  Erik Sigra <sigra@home.se>:
 
@@ -53136,7 +54330,7 @@ Tue Oct 30 11:29:34 2001  Raimar Falke <rf13@inf.tu-dresden.de>:
 
 	Translate strings in the new city dialog.
 
-	Patch from Daniel Sj�lie <deepone@acc.umu.se> and Michael
+	Patch from Daniel Sjölie <deepone@acc.umu.se> and Michael
 	Stefaniuc <mstefani@redhat.de> with changes from me.
 
 Tue Oct 30 11:19:35 2001  Raimar Falke <rf13@inf.tu-dresden.de>:
@@ -53155,7 +54349,7 @@ Tue Oct 30 11:12:04 2001  Raimar Falke <rf13@inf.tu-dresden.de>:
 	keyboard shortcut. Defaults to the old behavior which requires the
 	meta key. Currently GTK-only.
 
-	Patch from Daniel Sj�lie <deepone@acc.umu.se>.
+	Patch from Daniel Sjölie <deepone@acc.umu.se>.
 
 Tue Oct 30 10:59:20 2001  Raimar Falke <rf13@inf.tu-dresden.de>:
 
@@ -53241,7 +54435,7 @@ Fri Oct 26 08:07:10 2001  Raimar Falke <rf13@inf.tu-dresden.de>:
 	was also completely overhauled. Add a new entry in the help system
 	for the worklist editor.
 
-	Patch from Tuomas Airaksinen, Mike Kaufman and Daniel Sj�lie. With
+	Patch from Tuomas Airaksinen, Mike Kaufman and Daniel Sjölie. With
 	contributions from Raimar Falke,Christian Knoke and Thue Janus
 	Kristensen.
 
@@ -54052,7 +55246,7 @@ Tue Sep 18 20:42:05 2001  Gaute B Strokkenes <gs234@cam.ac.uk>:
 
 	* po/da.po:
 
-	Add Danish translation.  Patch by Keld J�rn Simonsen
+	Add Danish translation.  Patch by Keld Jørn Simonsen
 	<keld@dkuug.dk>.
 
 Tue Sep 18 17:27:13 2001  Raimar Falke <rf13@inf.tu-dresden.de>:
@@ -54415,7 +55609,7 @@ Sun Sep  9 06:48:13 2001  Egbert Hinzen <egbert@hinzen-koeln.de>:
 	* po/de.po:
 
 	de.po updated.  HINWEIS: Die Originaltexte enthalten Fehler. 
-	Diese sind in der "�bersetzung" mit dem Wort FEHLER markiert.
+	Diese sind in der "Übersetzung" mit dem Wort FEHLER markiert.
 
 Sat Sep  8 22:53:25 2001  Raimar Falke <rf13@inf.tu-dresden.de>:
 
@@ -54713,7 +55907,7 @@ Thu Aug 30 19:35:21 2001  Raimar Falke <rf13@inf.tu-dresden.de>:
 	mentioned in the trade array exists. This error was introduced in
 	the recent id-to-pointer patch.
 
-	Bug found by Daniel Sj�lie <deepone@acc.umu.se>. Patch by me.
+	Bug found by Daniel Sjölie <deepone@acc.umu.se>. Patch by me.
 
 Thu Aug 30 14:47:01 2001  Pieter J. Kersten <kersten@dia.eur.nl>:
 
@@ -55294,7 +56488,7 @@ Tue Aug 14 13:16:17 2001  Thue Janus Kristensen <thue@diku.dk>:
 
 	Add history to the gtk chatline.
 
-	Patch by Janus N. T�ndering <j@nus.person.dk>
+	Patch by Janus N. Tøndering <j@nus.person.dk>
 
 Tue Aug 14 11:04:22 2001  Thue Janus Kristensen <thue@diku.dk>:
 
@@ -56105,7 +57299,7 @@ Sat Jul 21 17:45:37 2001  Thue Janus Kristensen <thue@diku.dk>:
 	When transferring a city, move non-allied units on the city square
 	away.
 
-	Fixes (PR#841) reported by Hjalmar B�hm <hjr.boehm@gmx.net>
+	Fixes (PR#841) reported by Hjalmar Böhm <hjr.boehm@gmx.net>
 
 Fri Jul 20 14:09:37 2001  Thue Janus Kristensen <thue@diku.dk>:
 
@@ -57293,7 +58487,7 @@ Thu Jun 14 19:26:03 2001  Thue Janus Kristensen <thue@diku.dk>:
 
 	* data/nation/turk.ruleset:
 
-	Mehmed -> MehMet Murad -> Murat suleyman -> s�leyman remove
+	Mehmed -> MehMet Murad -> Murat suleyman -> süleyman remove
 	"Galatarasay", "Smyrna", "Bandirma" add "Kocaeli","Samsun" and
 	"Kirklareli"
 
@@ -58097,7 +59291,7 @@ Mon Apr 16 17:43:28 2001  Thue Janus Kristensen <thue@diku.dk>:
 	a worklist, which should make it safe most of the time.  Note: it
 	is positively known to still bug in some cases.
 
-	Bug reported by Heikki Kniivil� <heikkikk@bestlinuxmail.com>
+	Bug reported by Heikki Kniivilä <heikkikk@bestlinuxmail.com>
 
 Sun Apr 15 18:46:30 2001  Thue Janus Kristensen <thue@diku.dk>:
 
@@ -58207,7 +59401,7 @@ Tue Apr 10 22:41:00 2001  Anthony Stuckey <stuckey@jaka.ece.uiuc.edu>:
 
 	* po/hu.po:
 
-	Updating Hungarian translation.  Patch submitted by G�bor Dukai
+	Updating Hungarian translation.  Patch submitted by Gábor Dukai
 	<dukai@EUnet.yu>.
 
 Tue Apr 10 20:59:35 2001  Thue Janus Kristensen <thue@diku.dk>:
@@ -58986,7 +60180,7 @@ Sun Feb 11 00:16:06 2001  Thue Janus Kristensen <thue@diku.dk>:
 
 	Oil towers were not shown in overhead view.
 
-	Bug reported by Jan Felix Heidefu� <Jan_Heidefuss@yahoo.de>
+	Bug reported by Jan Felix Heidefuß <Jan_Heidefuss@yahoo.de>
 
 Sat Feb 10 20:49:42 2001  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
 
@@ -59145,7 +60339,7 @@ Sat Feb  3 19:09:33 2001  Thue Janus Kristensen <thue@diku.dk>:
 	Don't report "wonder soon build" if the wonder is already build
 	elsewhere.
 
-	Bug reported by Jan Felix Heidefu� <Jan_Heidefuss@yahoo.de>
+	Bug reported by Jan Felix Heidefuß <Jan_Heidefuss@yahoo.de>
 
 Sat Feb  3 18:33:01 2001  Thue Janus Kristensen <thue@diku.dk>:
 
@@ -60022,7 +61216,7 @@ Tue Jan  9 00:17:26 2001  Thue Janus Kristensen <thue@diku.dk>:
 	under the focus unit is destroyed.
 
 	The two last cases suggested by Marko Lindqvist <caz@cc.tut.fi>
-	Bug reported by Jan Felix Heidefu� <Jan_Heidefuss@yahoo.de>
+	Bug reported by Jan Felix Heidefuß <Jan_Heidefuss@yahoo.de>
 
 Mon Jan  8 23:44:30 2001  Thue Janus Kristensen <thue@diku.dk>:
 
@@ -61393,8 +62587,8 @@ Sun Sep  3 12:14:34 2000  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
 
 	* data/nation/misc_cities.ruleset, data/nation/swedish.ruleset:
 
-	Change 'Trollhaetten' to 'Troll�ttan', correct the spelling of
-	'Viborg' and 'Holmg�rd' and add 'Orsa'.
+	Change 'Trollhaetten' to 'Trollättan', correct the spelling of
+	'Viborg' and 'Holmgård' and add 'Orsa'.
 
 	Patch by Erik Sigra <freeciv@home.se> after a mail by "Gaute (B)
 	Strokkenes" <gs234@cam.ac.uk>
@@ -62229,7 +63423,7 @@ Wed Aug 16 16:31:47 2000  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
 
 	* data/nation/misc_cities.ruleset:
 
-	'Trollhaetten' should be 'Troll�tten'.
+	'Trollhaetten' should be 'Trollätten'.
 
 	Patch submitted by "Gaute (B) Strokkenes" <gs234@cam.ac.uk>
 
@@ -64805,7 +65999,7 @@ Sat Jul  1 18:41:58 2000  Thue Janus Kristensen <thue@diku.dk>:
 	Fix bug that you could paradrop into cities you were at war with
 	even if they contained enemy units.
 
-	Bug reported by Jan Felix Heidefu� <Jan_Heidefuss@yahoo.de>
+	Bug reported by Jan Felix Heidefuß <Jan_Heidefuss@yahoo.de>
 
 Sat Jul  1 15:10:06 2000  David Pfitzner <dwp@mso.anu.edu.au>:
 
@@ -67438,7 +68632,7 @@ Sun Apr 23 22:53:13 2000  Thue Janus Kristensen <thue@diku.dk>:
 	send_city_info, to make sure the effects are send to the clients.
 	Fixes bugs where palace and shield stock were percieved to not be
 	erazed.  Bug reported by Cameron Morland <cjmorlan@uwaterloo.ca>
-	and Jan Felix Heidefu�
+	and Jan Felix Heidefuß
 
 Sun Apr 23 11:31:49 2000  David Pfitzner <dwp@mso.anu.edu.au>:
 
