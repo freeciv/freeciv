@@ -1323,6 +1323,8 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
    * the city will be destroyed.
    */
   if (pcity->size <= 1) {
+    int saved_id = pcity->id;
+
     notify_player(pplayer, pcity->tile, E_UNIT_WIN_ATT,
 		  _("You destroy %s completely."),
 		  city_name(pcity));
@@ -1330,7 +1332,16 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
 		     _("%s has been destroyed by %s."), 
 		     city_name(pcity),
 		     player_name(pplayer));
-    remove_city(pcity);
+    script_signal_emit("city_destroyed", 3,
+                       API_TYPE_CITY, pcity,
+                       API_TYPE_PLAYER, cplayer,
+                       API_TYPE_PLAYER, pplayer);
+
+    /* We cant't be sure of city existence after running some script */
+    if (city_exist(saved_id)) {
+      remove_city(pcity);
+    }
+
     if (do_civil_war) {
       civil_war(cplayer);
     }
@@ -1417,12 +1428,18 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
     }
   } players_iterate_end;
 
-  city_reduce_size(pcity, 1);
+  assert(pcity->size > 1); /* reduce size should not destroy this city */
+  city_reduce_size(pcity, 1, pplayer);
   send_player_info(pplayer, pplayer); /* Update techs */
 
   if (do_civil_war) {
     civil_war(cplayer);
   }
+
+  script_signal_emit("city_lost", 3,
+                     API_TYPE_CITY, pcity,
+                     API_TYPE_PLAYER, cplayer,
+                     API_TYPE_PLAYER, pplayer);
 }
 
 /**************************************************************************

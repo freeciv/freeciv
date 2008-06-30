@@ -896,7 +896,7 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile)
       && pcity->size > 1
       && get_city_bonus(pcity, EFT_UNIT_NO_LOSE_POP) == 0
       && kills_citizen_after_attack(punit)) {
-    city_reduce_size(pcity,1);
+    city_reduce_size(pcity, 1, pplayer);
     city_refresh(pcity);
     send_city_info(NULL, pcity);
   }
@@ -991,7 +991,7 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
       && pcity->size > 1
       && get_city_bonus(pcity, EFT_UNIT_NO_LOSE_POP) == 0
       && kills_citizen_after_attack(punit)) {
-    city_reduce_size(pcity,1);
+    city_reduce_size(pcity, 1, pplayer);
     city_refresh(pcity);
     send_city_info(NULL, pcity);
   }
