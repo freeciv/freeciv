@@ -32,7 +32,8 @@ void apply_cmresult_to_city(struct city *pcity,
 			    const struct cm_result *const cmr);
 
 bool city_change_size(struct city *pcity, int new_size);
-bool city_reduce_size(struct city *pcity, int pop_loss);
+bool city_reduce_size(struct city *pcity, int pop_loss,
+                      struct player *destroyer);
 void city_repair_size(struct city *pcity, int change);
 
 void send_global_city_turn_notifications(struct conn_list *dest);

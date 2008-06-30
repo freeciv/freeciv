@@ -2028,7 +2028,7 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
 		    city_name(pcity));
     }
 
-    city_reduce_size(pcity, pcity->size / 2);
+    city_reduce_size(pcity, pcity->size / 2, pplayer);
   }
 
   if (!is_ocean_tile(ptile) && myrand(2) == 1) {
@@ -2533,68 +2533,101 @@ static void unit_move_consequences(struct unit *punit,
 {
   struct city *fromcity = tile_city(src_tile);
   struct city *tocity = tile_city(dst_tile);
-  struct city *homecity = NULL;
-  struct player *pplayer = unit_owner(punit);
-  bool refresh_homecity = FALSE;
-
-  if (0 != punit->homecity) {
-    homecity = game_find_city_by_number(punit->homecity);
-  }
+  struct city *homecity_start_pos = NULL;
+  struct city *homecity_end_pos = NULL;
+  int homecity_id_start_pos = punit->homecity;
+  int homecity_id_end_pos = punit->homecity;
+  struct player *pplayer_start_pos = unit_owner(punit);
+  struct player *pplayer_end_pos = pplayer_start_pos;
+  struct unit_type *type_start_pos = unit_type(punit);
+  struct unit_type *type_end_pos = type_start_pos;
+  bool refresh_homecity_start_pos = FALSE;
+  bool refresh_homecity_end_pos = FALSE;
+  int saved_id = punit->id;
+  bool unit_died = FALSE;
 
   if (tocity) {
     unit_enter_city(punit, tocity, passenger);
+
+    if(!unit_alive(saved_id)) {
+      /* Unit died inside unit_enter_city().
+       * This means that some cleanup has already taken place when it was
+       * removed from game. */
+      unit_died = TRUE;
+    } else {
+      /* In case script has changed something about unit */
+      pplayer_end_pos = unit_owner(punit);
+      type_end_pos = unit_type(punit);
+      homecity_id_end_pos = punit->homecity;
+    }
   }
 
-  /* We only do this for non-AI players to now make sure the AI turns
+  if (homecity_id_start_pos != 0) {
+    homecity_start_pos = game_find_city_by_number(homecity_id_start_pos);
+  }
+  if (homecity_id_start_pos != homecity_id_end_pos) {
+    homecity_end_pos = game_find_city_by_number(homecity_id_end_pos);
+  } else {
+    homecity_end_pos = homecity_start_pos;
+  }
+
+  /* We only do refreshes for non-AI players to now make sure the AI turns
      doesn't take too long. Perhaps we should make a special refresh_city
-     functions that only refreshed happiness. */
-  if (!pplayer->ai.control) {
-    /* might have changed owners or may be destroyed */
-    tocity = tile_city(dst_tile);
+     functions that only refreshed happines. */
 
-    if (tocity) { /* entering a city */
-      if (city_owner(tocity) == unit_owner(punit)) {
-	if (tocity != homecity) {
-	  city_refresh(tocity);
-	  send_city_info(pplayer, tocity);
-	}
-      }
-      if (homecity) {
-        refresh_homecity = TRUE;
-      }
-    }
+  /* might have changed owners or may be destroyed */
+  tocity = tile_city(dst_tile);
 
-    if (fromcity) { /* leaving a city */
-      if (homecity) {
-	refresh_homecity = TRUE;
-      }
-      if (fromcity != homecity && city_owner(fromcity) == unit_owner(punit)) {
-	city_refresh(fromcity);
-	send_city_info(pplayer, fromcity);
+  if (tocity) { /* entering a city */
+    if (tocity->owner == pplayer_end_pos) {
+      if (tocity != homecity_end_pos && !pplayer_end_pos->ai.control) {
+        city_refresh(tocity);
+        send_city_info(pplayer_end_pos, tocity);
       }
     }
+    if (homecity_start_pos) {
+      refresh_homecity_start_pos = TRUE;
+    }
+  }
 
-    /* entering/leaving a fortress or friendly territory */
-    if (homecity) {
-      if ((game.info.happyborders > 0 && tile_owner(src_tile) != tile_owner(dst_tile))
-          ||
-	  (tile_has_base_flag_for_unit(dst_tile,
-                                       unit_type(punit),
-                                       BF_NOT_AGGRESSIVE)
-	   && is_friendly_city_near(unit_owner(punit), dst_tile))
-	  ||
-          (tile_has_base_flag_for_unit(src_tile,
-                                       unit_type(punit),
-                                       BF_NOT_AGGRESSIVE)
-	   && is_friendly_city_near(unit_owner(punit), src_tile))) {
-        refresh_homecity = TRUE;
-      }
+  if (fromcity) { /* leaving a city */
+    if (homecity_start_pos) {
+      refresh_homecity_start_pos = TRUE;
     }
-    
-    if (refresh_homecity) {
-      city_refresh(homecity);
-      send_city_info(pplayer, homecity);
+    if (fromcity != homecity_start_pos
+        && fromcity->owner == pplayer_start_pos
+        && !pplayer_start_pos->ai.control) {
+      city_refresh(fromcity);
+      send_city_info(pplayer_start_pos, fromcity);
     }
+  }
+
+  /* entering/leaving a fortress or friendly territory */
+  if (homecity_start_pos || homecity_end_pos) {
+    if ((game.info.happyborders > 0 && tile_owner(src_tile) != tile_owner(dst_tile))
+        || (tile_has_base_flag_for_unit(dst_tile,
+                                        type_end_pos,
+                                        BF_NOT_AGGRESSIVE)
+            && is_friendly_city_near(pplayer_end_pos, dst_tile))
+        || (tile_has_base_flag_for_unit(src_tile,
+                                        type_start_pos,
+                                        BF_NOT_AGGRESSIVE)
+            && is_friendly_city_near(pplayer_start_pos, src_tile))) {
+      refresh_homecity_start_pos = TRUE;
+      refresh_homecity_end_pos = TRUE;
+    }
+  }
+
+  if (refresh_homecity_start_pos && !pplayer_start_pos->ai.control) {
+    city_refresh(homecity_start_pos);
+    send_city_info(pplayer_start_pos, homecity_start_pos);
+  }
+  if (refresh_homecity_end_pos
+      && (!refresh_homecity_start_pos
+          || homecity_start_pos != homecity_end_pos)
+      && !pplayer_end_pos->ai.control) {
+    city_refresh(homecity_end_pos);
+    send_city_info(pplayer_end_pos, homecity_end_pos);
   }
 
   city_map_update_tile_now(dst_tile);
@@ -2654,6 +2687,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
   struct vision *old_vision = punit->server.vision;
   struct vision *new_vision;
   int saved_id = punit->id;
+  bool unit_lives;
     
   conn_list_do_buffer(pplayer->connections);
 
@@ -2673,6 +2707,9 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
 
     /* Insert them again. */
     unit_list_iterate(cargo_units, pcargo) {
+      /* FIXME: Some script may have killed unit while it has been
+       *        in cargo_units list, but it has not been unlinked
+       *        from this list. pcargo may be invalid pointer. */
       struct vision *old_vision = pcargo->server.vision;
       struct vision *new_vision = vision_new(unit_owner(pcargo), pdesttile);
 
@@ -2702,6 +2739,8 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
     unit_list_free(cargo_units);
   }
 
+  unit_lives = unit_alive(saved_id);
+
   /* We first unfog the destination, then move the unit and send the
      move, and then fog the old territory. This means that the player
      gets a chance to see the newly explored territory while the
@@ -2709,38 +2748,40 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
      move */
 
   /* Enhance vision if unit steps into a fortress */
-  new_vision = vision_new(unit_owner(punit), pdesttile);
-  punit->server.vision = new_vision;
-  vision_layer_iterate(v) {
-    vision_change_sight(new_vision, v,
-			get_unit_vision_at(punit, pdesttile, v));
-  } vision_layer_iterate_end;
+  if (unit_lives) {
+    new_vision = vision_new(unit_owner(punit), pdesttile);
+    punit->server.vision = new_vision;
+    vision_layer_iterate(v) {
+      vision_change_sight(new_vision, v,
+                          get_unit_vision_at(punit, pdesttile, v));
+    } vision_layer_iterate_end;
 
-  ASSERT_VISION(new_vision);
+    ASSERT_VISION(new_vision);
 
-  /* Claim ownership of fortress? */
-  if (tile_has_base_flag_for_unit(pdesttile, unit_type(punit),
-                                  BF_CLAIM_TERRITORY)
-      && (!tile_owner(pdesttile) || pplayers_at_war(tile_owner(pdesttile), pplayer))) {
-    map_claim_ownership(pdesttile, pplayer, pdesttile);
-    map_claim_border(pdesttile, pplayer);
-    city_thaw_workers_queue();
-    city_refresh_queue_processing();
-  }
+    /* Claim ownership of fortress? */
+    if (tile_has_base_flag_for_unit(pdesttile, unit_type(punit),
+                                    BF_CLAIM_TERRITORY)
+        && (!tile_owner(pdesttile) || pplayers_at_war(tile_owner(pdesttile), pplayer))) {
+      map_claim_ownership(pdesttile, pplayer, pdesttile);
+      map_claim_border(pdesttile, pplayer);
+      city_thaw_workers_queue();
+      city_refresh_queue_processing();
+    }
 
-  unit_list_unlink(psrctile->units, punit);
-  punit->tile = pdesttile;
-  punit->moved = TRUE;
-  if (punit->transported_by != -1) {
-    ptransporter = game_find_unit_by_number(punit->transported_by);
-    pull_unit_from_transporter(punit, ptransporter);
+    unit_list_unlink(psrctile->units, punit);
+    punit->tile = pdesttile;
+    punit->moved = TRUE;
+    if (punit->transported_by != -1) {
+      ptransporter = game_find_unit_by_number(punit->transported_by);
+      pull_unit_from_transporter(punit, ptransporter);
+    }
+    punit->moves_left = MAX(0, punit->moves_left - move_cost);
+    if (punit->moves_left == 0) {
+      punit->done_moving = TRUE;
+    }
+    unit_list_prepend(pdesttile->units, punit);
+    check_unit_activity(punit);
   }
-  punit->moves_left = MAX(0, punit->moves_left - move_cost);
-  if (punit->moves_left == 0) {
-    punit->done_moving = TRUE;
-  }
-  unit_list_prepend(pdesttile->units, punit);
-  check_unit_activity(punit);
 
   /*
    * Transporter info should be send first becouse this allow us get right
@@ -2754,48 +2795,50 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
   if (ptransporter) {
     send_unit_info(NULL, ptransporter);
   }
-  
+
   /* Send updated information to anyone watching.  If the unit moves
    * in or out of a city we update the 'occupied' field.  Note there may
    * be cities at both src and dest under some rulesets.
    *   If unit is about to take over enemy city, unit is seen by
    * those players seeing inside cities of old city owner. After city
    * has been transferred, updated info is sent by unit_enter_city() */
-  send_unit_info_to_onlookers(NULL, punit, psrctile, FALSE);
+  if (unit_lives) {
+    send_unit_info_to_onlookers(NULL, punit, psrctile, FALSE);
     
-  /* Special checks for ground units in the ocean. */
-  if (!can_unit_survive_at_tile(punit, pdesttile)) {
-    ptransporter = find_transporter_for_unit(punit);
-    if (ptransporter) {
-      put_unit_onto_transporter(punit, ptransporter);
-    }
+    /* Special checks for ground units in the ocean. */
+    if (!can_unit_survive_at_tile(punit, pdesttile)) {
+      ptransporter = find_transporter_for_unit(punit);
+      if (ptransporter) {
+        put_unit_onto_transporter(punit, ptransporter);
+      }
 
-    /* Set activity to sentry if boarding a ship. */
-    if (ptransporter && !pplayer->ai.control && !unit_has_orders(punit)
-	&& !can_unit_exist_at_tile(punit, pdesttile)) {
-      set_unit_activity(punit, ACTIVITY_SENTRY);
-    }
+      /* Set activity to sentry if boarding a ship. */
+      if (ptransporter && !pplayer->ai.control && !unit_has_orders(punit)
+          && !can_unit_exist_at_tile(punit, pdesttile)) {
+        set_unit_activity(punit, ACTIVITY_SENTRY);
+      }
 
-    /*
-     * Transporter info should be send first becouse this allow us get right
-     * update_menu effect in client side.
-     */
+      /*
+       * Transporter info should be send first because this allow us get right
+       * update_menu effect in client side.
+       */
     
-    /*
-     * Send updated information to anyone watching that transporter has cargo.
-     */
-    if (ptransporter) {
-      send_unit_info(NULL, ptransporter);
-    }
+      /*
+       * Send updated information to anyone watching that transporter has cargo.
+       */
+      if (ptransporter) {
+        send_unit_info(NULL, ptransporter);
+      }
 
-    /*
-     * Send updated information to anyone watching that unit is on transport.
-     * All players without shared vison with owner player get
-     * REMOVE_UNIT package.
-     */
-    send_unit_info_to_onlookers(NULL, punit, punit->tile, TRUE);
+      /*
+       * Send updated information to anyone watching that unit is on transport.
+       * All players without shared vison with owner player get
+       * REMOVE_UNIT package.
+       */
+      send_unit_info_to_onlookers(NULL, punit, punit->tile, TRUE);
+    }
   }
-  
+
   if ((pcity = tile_city(psrctile))) {
     refresh_dumb_city(pcity);
   }
@@ -2822,26 +2865,37 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
     } players_iterate_end;
   } square_iterate_end;
 
-  unit_move_consequences(punit, psrctile, pdesttile, FALSE);
+  if (unit_lives) {
+    unit_move_consequences(punit, psrctile, pdesttile, FALSE);
 
-  /* FIXME: Should signal emit be after sentried units have been
-   *        waken up in case script causes unit death? */
-  script_signal_emit("unit_moved", 3,
-		     API_TYPE_UNIT, punit,
-		     API_TYPE_TILE, psrctile,
-		     API_TYPE_TILE, pdesttile);
-  if (!unit_alive(saved_id)) {
-    /* Script caused unit to die */
-    return FALSE;
+    /* FIXME: Should signal emit be after sentried units have been
+     *        waken up in case script causes unit death? */
+    script_signal_emit("unit_moved", 3,
+                       API_TYPE_UNIT, punit,
+                       API_TYPE_TILE, psrctile,
+                       API_TYPE_TILE, pdesttile);
+    unit_lives = unit_alive(saved_id);
+
+    if (!unit_lives) {
+      /* Script caused unit to die */
+      return FALSE;
+    }
   }
-  wakeup_neighbor_sentries(punit);
-  if (!unit_survive_autoattack(punit)) {
-    conn_list_do_unbuffer(pplayer->connections);
-    return FALSE;
+
+  if (unit_lives) {
+    wakeup_neighbor_sentries(punit);
+    unit_lives = unit_survive_autoattack(punit);
   }
-  maybe_make_contact(pdesttile, unit_owner(punit));
+
+  if (unit_lives) {
+    maybe_make_contact(pdesttile, unit_owner(punit));
+  }
 
   conn_list_do_unbuffer(pplayer->connections);
+
+  if (!unit_lives) {
+    return FALSE;
+  }
 
   if (game.info.timeout != 0 && game.timeoutaddenemymove > 0) {
     bool new_information_for_enemy = FALSE;

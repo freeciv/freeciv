@@ -1641,6 +1641,12 @@ void civil_war(struct player *pplayer)
   int i, j;
   struct player *cplayer;
 
+  /* It is possible that this function gets called after pplayer
+   * died. Player pointers are safe even after death. */
+  if (!pplayer->is_alive) {
+    return;
+  }
+
   if (player_count() >= MAX_NUM_PLAYERS) {
     /* No space to make additional player */
     freelog(LOG_NORMAL,

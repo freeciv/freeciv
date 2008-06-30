@@ -479,7 +479,8 @@ static int city_reduce_workers(struct city *pcity, int change)
   Reduce the city size.  Return TRUE if the city survives the population
   loss.
 **************************************************************************/
-bool city_reduce_size(struct city *pcity, int pop_loss)
+bool city_reduce_size(struct city *pcity, int pop_loss,
+                      struct player *destroyer)
 {
   int loss_remain;
   int i;
@@ -489,6 +490,12 @@ bool city_reduce_size(struct city *pcity, int pop_loss)
   }
 
   if (pcity->size <= pop_loss) {
+
+    script_signal_emit("city_destroyed", 3,
+                       API_TYPE_CITY, pcity,
+                       API_TYPE_PLAYER, pcity->owner,
+                       API_TYPE_PLAYER, destroyer);
+
     remove_city(pcity);
     return FALSE;
   }
@@ -688,7 +695,10 @@ bool city_change_size(struct city *pcity, int size)
     }
     return TRUE;
   } else if (size < pcity->size) {
-    return city_reduce_size(pcity, pcity->size - size);
+    /* We assume that city_change_size() is never called because
+     * of enemy actions. If that changes, enemy must be passed
+     * to city_reduce_size() */
+    return city_reduce_size(pcity, pcity->size - size, NULL);
   } else {
     return TRUE;
   }
@@ -739,7 +749,7 @@ static void city_populate(struct city *pcity)
     }
     pcity->food_stock = (city_granary_size(pcity->size - 1)
 			 * granary_savings(pcity)) / 100;
-    city_reduce_size(pcity, 1);
+    city_reduce_size(pcity, 1, NULL);
   }
 }
 
@@ -1269,7 +1279,7 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
 			 "upkeep %s!"),
 			 city_name(pcity),
 			 unit_name_translation(punit));
-	if (!city_reduce_size(pcity, 1)) {
+	if (!city_reduce_size(pcity, 1, NULL)) {
 	  return FALSE;
 	}
 
@@ -1487,7 +1497,7 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
        rearrange the worker to take into account the extra resources
        (food) needed. */
     if (pop_cost > 0) {
-      city_reduce_size(pcity, pop_cost);
+      city_reduce_size(pcity, pop_cost, NULL);
     }
 
     /* to eliminate micromanagement, we only subtract the unit's
