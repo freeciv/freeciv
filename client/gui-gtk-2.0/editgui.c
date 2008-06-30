@@ -1464,22 +1464,18 @@ static void editinfobox_refresh(struct editinfobox *ei)
     pixbuf = get_brush_pixbuf();
   }
 
+  gtk_image_set_from_pixbuf(GTK_IMAGE(ei->mode_image), pixbuf);
   if (pixbuf) {
-    gtk_image_set_from_pixbuf(GTK_IMAGE(ei->mode_image), pixbuf);
     g_object_unref(pixbuf);
     pixbuf = NULL;
-  } else {
-    gtk_image_clear(GTK_IMAGE(ei->mode_image));
   }
 
   pixbuf = get_tool_value_pixbuf(ett, value);
 
+  gtk_image_set_from_pixbuf(GTK_IMAGE(ei->tool_image), pixbuf);
   if (pixbuf) {
-    gtk_image_set_from_pixbuf(GTK_IMAGE(ei->tool_image), pixbuf);
     g_object_unref(pixbuf);
     pixbuf = NULL;
-  } else {
-    gtk_image_clear(GTK_IMAGE(ei->tool_image));
   }
 
   my_snprintf(buf, sizeof(buf), "<span weight=\"bold\">%s</span>",
