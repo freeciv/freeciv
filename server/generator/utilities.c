@@ -22,6 +22,7 @@
 
 /* common */
 #include "map.h"
+#include "packets.h"
 
 #include "utilities.h"
 
@@ -316,7 +317,6 @@ static void assign_continent_flood(struct tile *ptile, bool is_land, int nr)
 void regenerate_water(tile_knowledge_cb knowledge_cb)
 {
 #define MAX_ALT_TER_TYPES 5
-#define DEFAULT_LAKE_SEA_SIZE (4)  /* should be configurable */
 #define DEFAULT_NEAR_COAST (6)
   struct terrain *lakes[MAX_ALT_TER_TYPES];
   struct terrain *sea = find_terrain_by_identifier(TERRAIN_SEA_IDENTIFIER);
@@ -350,7 +350,7 @@ void regenerate_water(tile_knowledge_cb knowledge_cb)
       continue;
     }
     if (0 < lake_surrounders[-here]) {
-      if (DEFAULT_LAKE_SEA_SIZE < ocean_sizes[-here]
+      if (terrain_control.lake_max_size >= ocean_sizes[-here]
           && num_laketypes > 0) {
         tile_change_terrain(ptile, lakes[myrand(num_laketypes)]);
       } else {

@@ -30,6 +30,10 @@ ocean_reclaim_requirement = 30
 ; it may be "channeled" into a water tile (0-101; 0=anywhere, default 101=nowhere)
 land_channel_requirement = 10
 
+; Bodies of water up to this size are considered freshwater lakes, if there is
+; also terrain type(s) with flag "FreshWater" in the ruleset.
+lake_max_size = 14
+
 ; special movement costs for rivers:
 ;   0 - normal movement cost for rivers (matches Civ1)
 ;   1 - 1/3 movement cost, but only when moving exactly along rivers,
@@ -160,6 +164,7 @@ fallout_trade_penalty=50
 ;                        units.  Most terrain improvements can only be built
 ;                        on land.  Oceanic terrain has no zones of control.
 ;                        The list goes on.
+;   - FreshWater       = This terrain is used for small bodies of water.
 ; property_*           = specific property % values used by mapgen.  Most
 ;                        terrains will have 0 for most values.
 ;  - mountainous       = degree to which this terrain is mountainous
@@ -175,10 +180,10 @@ fallout_trade_penalty=50
 ; helptext             = optional help text string; should escape all raw 
 ;                        newlines so that xgettext parsing works
 
-[terrain_fresh_water_coast]
+[terrain_fresh_water_lake]
 name                 = _("Lake")
-graphic              = "coast"
-graphic_alt          = "-"
+graphic              = "lake"
+graphic_alt          = "coast"
 identifier           = "+"
 movement_cost        = 1
 defense_bonus        = 0
@@ -207,10 +212,7 @@ native_to            = "Sea", "Air", "Missile", "Helicopter", "Trireme"
 flags                = "Oceanic", "NoCities", "NoPollution", "FreshWater"
 property_ocean_depth = 0
 helptext             = _("\
-Oceans cover much of the world, and only sea units (Triremes and\
- other boats) can travel on them.\
-\n\n\
-Ocean squares can never be polluted or subjected to fallout.\
+Lake squares can never be polluted or subjected to fallout.\
 ")
 
 [terrain_salt_water_coast]
