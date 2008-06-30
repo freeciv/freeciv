@@ -54,6 +54,7 @@ EXTRA_DIST=	autogen.sh 			\
 		m4/alsa.m4			\
 		m4/auth.m4			\
 		m4/c99.m4			\
+		m4/codeset.m4			\
 		m4/compiler.m4			\
 		m4/debug.m4			\
 		m4/freetype2.m4			\
