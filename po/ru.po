@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv-2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-06-22 19:01+0900\n"
+"POT-Creation-Date: 2008-06-30 09:10+0900\n"
 "PO-Revision-Date: 2008-06-25 12:28+0300\n"
 "Last-Translator: Egor Vyscrebentsov <evyscr@murom.net>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -482,13 +482,13 @@ msgstr "Торговля"
 msgid "Gold"
 msgstr "Золото"
 
-#: common/aicore/cm.c:1862 server/plrhand.c:870
+#: common/aicore/cm.c:1862 server/plrhand.c:889
 #: client/gui-gtk-2.0/gamedlgs.c:262 client/gui-gtk/gamedlgs.c:261
 #: client/gui-mui/citydlg.c:1613 client/gui-win32/ratesdlg.c:315
 msgid "Luxury"
 msgstr "Роскошь"
 
-#: common/aicore/cm.c:1864 server/plrhand.c:872
+#: common/aicore/cm.c:1864 server/plrhand.c:891
 #: client/gui-gtk-2.0/gamedlgs.c:282 client/gui-gtk-2.0/repodlgs.c:183
 #: client/gui-gtk/gamedlgs.c:281 client/gui-gtk/repodlgs.c:174
 #: client/gui-mui/citydlg.c:1617 client/gui-mui/repodlgs.c:264
@@ -925,7 +925,7 @@ msgstr "Игра: %s куплено в %s за %d золотых."
 msgid "Game: You have bought this turn, can't change."
 msgstr "Игра: Вы покупали на этом ходу, невозможно изменить."
 
-#: server/cityhand.c:382 server/plrhand.c:431 server/stdinhand.c:388
+#: server/cityhand.c:382 server/plrhand.c:444 server/stdinhand.c:388
 #: server/unithand.c:176 server/unithand.c:465
 #, c-format
 msgid "Game: %s"
@@ -1218,7 +1218,7 @@ msgstr[1] ""
 msgstr[2] ""
 "Игра: %s ускоряет исследования, Вы получаете %d немедленных открытий."
 
-#: server/cityturn.c:1000 server/plrhand.c:161
+#: server/cityturn.c:1000 server/plrhand.c:174
 #, c-format
 msgid "Game: The %s have acquired %s from %s."
 msgstr "Игра: %s приобрели %s от %s."
@@ -2567,7 +2567,7 @@ msgstr "Игра: Ваш %s похитил %s из %s."
 msgid "Game: %s's %s stole %s from %s."
 msgstr "Игра: %s %s украл %s из %s."
 
-#: server/diplomats.c:680 server/plrhand.c:830
+#: server/diplomats.c:680 server/plrhand.c:849
 #, c-format
 msgid "Game: The %s have stolen %s from the %s."
 msgstr "Игра: %s похитил %s из %s."
@@ -2877,22 +2877,22 @@ msgstr "Не связываемся с метасервером в этой иг
 msgid "Metaserver: bad address: [%s:%d]."
 msgstr "Метасервер: неправильный адрес: [%s:%d]."
 
-#: server/plrhand.c:157
+#: server/plrhand.c:170
 #, c-format
 msgid "Game: %s acquired from %s!"
 msgstr "Игра: %s приобретено от %s!"
 
-#: server/plrhand.c:224
+#: server/plrhand.c:237
 #, c-format
 msgid "Game: The %s are no more!"
 msgstr "Игра: %s более не существуют."
 
-#: server/plrhand.c:329
+#: server/plrhand.c:342
 #, c-format
 msgid "Game: Discovery of %s OBSOLETES %s in %s!"
 msgstr "Игра: Открытие науки \"%s\" отменяет %s в %s!"
 
-#: server/plrhand.c:340
+#: server/plrhand.c:353
 #, c-format
 msgid ""
 "Game: Discovery of %s makes the government form %s available. You may want "
@@ -2901,32 +2901,32 @@ msgstr ""
 "Игра: Открытие науки \"%s\" делает доступной новую форму управления: %s. "
 "Возможно Вам следует подумать о революции."
 
-#: server/plrhand.c:380
+#: server/plrhand.c:393
 #, c-format
 msgid "Game: Learned %s.  Our scientists focus on %s, goal is %s."
 msgstr "Игра: %s изучено. Наши ученые сосредоточили усилия на %s, цель - %s."
 
-#: server/plrhand.c:398
+#: server/plrhand.c:411
 #, c-format
 msgid "Game: Learned %s.  Scientists choose to research %s."
 msgstr "Игра: %s изучено. Ученые выбрали для исследования %s."
 
-#: server/plrhand.c:406
+#: server/plrhand.c:419
 #, c-format
 msgid "Game: Learned %s. "
 msgstr "Игра: Открыли %s."
 
-#: server/plrhand.c:409
+#: server/plrhand.c:422
 #, c-format
 msgid "Researching %s."
 msgstr "Исследуется %s."
 
-#: server/plrhand.c:415
+#: server/plrhand.c:428
 #, c-format
 msgid "Game: Learned %s.  Scientists do not know what to research next."
 msgstr "Игра: %s изучено. Учёные не знают, что исследовать дальше."
 
-#: server/plrhand.c:434
+#: server/plrhand.c:447
 msgid ""
 "Game: Great scientists from all the world join your civilization: you get an "
 "immediate advance."
@@ -2934,14 +2934,14 @@ msgstr ""
 "Игра: Величайшие ученые всего мира присоединились к Вашей цивилизации; Вы "
 "получили немедленное открытие."
 
-#: server/plrhand.c:494
+#: server/plrhand.c:507
 #, c-format
 msgid ""
 "Game: Learned %s in cooperation with %s. Scientists choose to research %s."
 msgstr ""
 "Игра: %s изучено в сотрудничестве с %s. Учёные выбрали для исследования %s."
 
-#: server/plrhand.c:500
+#: server/plrhand.c:513
 #, c-format
 msgid ""
 "Game: Learned %s in cooperation with %s. Scientists do not know what to "
@@ -2950,107 +2950,107 @@ msgstr ""
 "Игра: %s изучено в сотрудничестве с %s. Учёные не знают, что исследовать "
 "дальше."
 
-#: server/plrhand.c:529
+#: server/plrhand.c:542
 #, c-format
 msgid "Game: The %s have researched %s."
 msgstr "Игра: %s изучили %s."
 
-#: server/plrhand.c:535
+#: server/plrhand.c:548
 #, c-format
 msgid "Game: The %s have researched Future Tech. %d."
 msgstr "Игра: %s изучили Технологию Будущего %d."
 
-#: server/plrhand.c:708
+#: server/plrhand.c:723
 #, c-format
 msgid "Game: Technology goal is %s."
 msgstr "Игра: Технологическая цель - %s."
 
-#: server/plrhand.c:820
+#: server/plrhand.c:839
 #, c-format
 msgid "Game: You steal %s from the %s."
 msgstr "Игра: Вы украли науку \"%s\" у народа, именуемого %s."
 
-#: server/plrhand.c:825
+#: server/plrhand.c:844
 #, c-format
 msgid "Game: The %s stole %s from you!"
 msgstr "Игра: %s украли у Вас %s!"
 
-#: server/plrhand.c:852
+#: server/plrhand.c:871
 msgid "Game: Cannot change rates before game start."
 msgstr "Игра: Невозможно изменить скорость до начала игры."
 
-#: server/plrhand.c:868 client/gui-gtk-2.0/gamedlgs.c:242
+#: server/plrhand.c:887 client/gui-gtk-2.0/gamedlgs.c:242
 #: client/gui-gtk/gamedlgs.c:241 client/gui-win32/ratesdlg.c:309
 msgid "Tax"
 msgstr "Налог"
 
-#: server/plrhand.c:875
+#: server/plrhand.c:894
 #, c-format
 msgid "Game: %s rate exceeds the max rate for %s."
 msgstr "Игра: уровень %s превосходит максимальный уровень при %s."
 
-#: server/plrhand.c:977
+#: server/plrhand.c:996
 #, c-format
 msgid "Game: %s now governs the %s as a %s."
 msgstr "Игра: %s сейчас правит народом %s при форме правления %s."
 
-#: server/plrhand.c:1028
+#: server/plrhand.c:1047
 #, c-format
 msgid "Game: The %s have incited a revolt!"
 msgstr "Игра: %s начали революцию!"
 
-#: server/plrhand.c:1129
+#: server/plrhand.c:1148
 msgid "You should choose a new government from the government menu."
 msgstr "Вы должны выбрать новую форму правления из меню формы правления."
 
-#: server/plrhand.c:1156
+#: server/plrhand.c:1175
 #, c-format
 msgid "Game: Tax rate exceeded the max rate for %s; adjusted."
 msgstr ""
 "Игра: Налоговая ставка превысила максимально допустимый уровень для %s, "
 "исправлено."
 
-#: server/plrhand.c:1162
+#: server/plrhand.c:1181
 #, c-format
 msgid "Game: Science rate exceeded the max rate for %s; adjusted."
 msgstr ""
 "Игра: Уровень науки превысил максимально допустимый для %s, исправлено."
 
-#: server/plrhand.c:1168
+#: server/plrhand.c:1187
 #, c-format
 msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
 msgstr ""
 "Игра: Уровень роскоши превысил максимально допустимый для %s, исправлено."
 
-#: server/plrhand.c:1239
+#: server/plrhand.c:1258
 #, c-format
 msgid "%s no longer gives us shared vision!"
 msgstr "%s больше не делятся своим зрением!"
 
-#: server/plrhand.c:1300
+#: server/plrhand.c:1319
 #, c-format
 msgid ""
 "The senate passes your bill because of the constant provocations of the %s."
 msgstr "Сенат принимает Ваше предложение из-за постоянных провокаций %s."
 
-#: server/plrhand.c:1312
+#: server/plrhand.c:1331
 #, c-format
 msgid "Game: Your reputation is now %s."
 msgstr "Игра: Ваша репутация сейчас %s."
 
-#: server/plrhand.c:1317
+#: server/plrhand.c:1336
 msgid ""
 "Game: The senate decides to dissolve rather than support your actions any "
 "longer."
 msgstr ""
 "Игра: Сенат решает распуститься, лишь бы не поддерживать Ваши действия."
 
-#: server/plrhand.c:1348
+#: server/plrhand.c:1367
 #, c-format
 msgid "Game: The diplomatic state between the %s and the %s is now %s."
 msgstr "Игра: Дипломатическое состояние между %s и %s сейчас %s."
 
-#: server/plrhand.c:1354
+#: server/plrhand.c:1373
 #, c-format
 msgid ""
 "Game:  %s cancelled the diplomatic agreement! The diplomatic state between "
@@ -3058,7 +3058,7 @@ msgid ""
 msgstr ""
 "Игра: %s разорвали догвор. Дипломатическое состояние между %s и %s сейчас %s."
 
-#: server/plrhand.c:1371
+#: server/plrhand.c:1390
 #, c-format
 msgid ""
 "Game: %s has attacked your ally %s! You cancel your alliance to the "
@@ -3066,7 +3066,7 @@ msgid ""
 msgstr ""
 "Игра: %s атаковал Вашего союзника %s! Вы отменили Ваш союз с агрессором."
 
-#: server/plrhand.c:1382
+#: server/plrhand.c:1401
 #, c-format
 msgid ""
 "Game: Your team mate %s declared war on %s. You are obligated to cancel "
@@ -3074,31 +3074,31 @@ msgid ""
 msgstr ""
 "Игра: Ваш союзник %s объявил войну %s. Вы обязаны отменить альянс с %s."
 
-#: server/plrhand.c:1796
+#: server/plrhand.c:1815
 #, c-format
 msgid "Removing player %s."
 msgstr "Убираем игрока %s."
 
-#: server/plrhand.c:1797
+#: server/plrhand.c:1816
 msgid "Game: You've been removed from the game!"
 msgstr "Игра: Вы были удалены из игры!"
 
-#: server/plrhand.c:1800
+#: server/plrhand.c:1819
 #, c-format
 msgid "Game: %s has been removed from the game."
 msgstr "Игра: %s был удален из игры."
 
-#: server/plrhand.c:1843 server/plrhand.c:1847
+#: server/plrhand.c:1862 server/plrhand.c:1866
 #, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Игра: Вы вступили в контакт с народом, именуемым %s, их лидер - %s."
 
-#: server/plrhand.c:2240
+#: server/plrhand.c:2259
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr "%s не могут начать гражданской войны - слишком много игроков"
 
-#: server/plrhand.c:2262
+#: server/plrhand.c:2281
 #, c-format
 msgid ""
 "Game: Your nation is thrust into civil war,  %s is declared the leader of "
@@ -3107,12 +3107,12 @@ msgstr ""
 "Игра: В Вашей стране началась гражданская война, %s объявлен лидером "
 "повстанцев."
 
-#: server/plrhand.c:2282
+#: server/plrhand.c:2301
 #, c-format
 msgid "Game: %s declares allegiance to %s."
 msgstr "Игра: %s перешел на сторону %s."
 
-#: server/plrhand.c:2296
+#: server/plrhand.c:2315
 #, c-format
 msgid ""
 "Game: The capture of %s's capital and the destruction of the empire's "
@@ -3304,7 +3304,7 @@ msgid "(building %s in %s (%s))\n"
 msgstr "(здание %s в %s (%s))\n"
 
 #: server/report.c:326 client/gui-mui/gui_main.c:283 client/gui-xaw/menu.c:221
-#: data/helpdata.txt:846
+#: data/helpdata.txt:845
 msgid "Wonders of the World"
 msgstr "Чудеса Света"
 
@@ -5538,7 +5538,7 @@ msgstr "Динамический тайм-аут установлен в %d %d %
 msgid "Option:"
 msgstr "Настройка:"
 
-#: server/stdinhand.c:1509 server/stdinhand.c:3817
+#: server/stdinhand.c:1509 server/stdinhand.c:3819
 msgid "Description:"
 msgstr "Описание:"
 
@@ -5981,30 +5981,30 @@ msgstr "отключается от %s."
 msgid "%s now controls %s (%s, %s)"
 msgstr "%s сейчас контролируeт %s (%s, %s)"
 
-#: server/stdinhand.c:2984 server/stdinhand.c:4031
+#: server/stdinhand.c:2984 server/stdinhand.c:4033
 #: data/nation/barbarian.ruleset:3
 msgid "Barbarian"
 msgstr "Варвары"
 
-#: server/stdinhand.c:2985 server/stdinhand.c:4033 client/plrdlg_common.c:228
-#: client/gui-gtk-2.0/pages.c:1453 client/gui-gtk/plrdlg.c:141
+#: server/stdinhand.c:2985 server/stdinhand.c:4035 client/plrdlg_common.c:228
+#: client/gui-gtk-2.0/pages.c:1454 client/gui-gtk/plrdlg.c:141
 #: client/gui-win32/connectdlg.c:189 client/gui-win32/plrdlg.c:340
 msgid "AI"
 msgstr "Компьютер"
 
-#: server/stdinhand.c:2985 server/stdinhand.c:4035
-#: client/gui-gtk-2.0/pages.c:1453 client/gui-gtk-2.0/pages.c:1480
+#: server/stdinhand.c:2985 server/stdinhand.c:4037
+#: client/gui-gtk-2.0/pages.c:1454 client/gui-gtk-2.0/pages.c:1481
 #: client/gui-win32/connectdlg.c:189 client/gui-win32/connectdlg.c:208
 msgid "Human"
 msgstr "Человек"
 
-#: server/stdinhand.c:2985 client/gui-gtk-2.0/pages.c:1452
-#: client/gui-gtk-2.0/pages.c:1479 client/gui-win32/connectdlg.c:188
+#: server/stdinhand.c:2985 client/gui-gtk-2.0/pages.c:1453
+#: client/gui-gtk-2.0/pages.c:1480 client/gui-win32/connectdlg.c:188
 #: client/gui-win32/connectdlg.c:207
 msgid "Alive"
 msgstr "Живой"
 
-#: server/stdinhand.c:2985 client/gui-gtk-2.0/pages.c:1452
+#: server/stdinhand.c:2985 client/gui-gtk-2.0/pages.c:1453
 #: client/gui-win32/connectdlg.c:188
 msgid "Dead"
 msgstr "Умер"
@@ -6142,12 +6142,12 @@ msgstr "Невозможно начать игру: она уже началас
 msgid "Cannot start the game: it is already running."
 msgstr "Невозможно начать игру: она уже идет."
 
-#: server/stdinhand.c:3735
+#: server/stdinhand.c:3737
 #, c-format
 msgid "Cutting connection %s."
 msgstr "Прерываем подключение %s."
 
-#: server/stdinhand.c:3754
+#: server/stdinhand.c:3756
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -6186,84 +6186,84 @@ msgstr ""
 "  save   -  чтобы сохранить игру\n"
 "  quit   -  чтобы выйти"
 
-#: server/stdinhand.c:3789 server/stdinhand.c:3792
+#: server/stdinhand.c:3791 server/stdinhand.c:3794
 msgid "Command:"
 msgstr "Команда:"
 
-#: server/stdinhand.c:3796
+#: server/stdinhand.c:3798
 msgid "Synopsis: "
 msgstr "Краткая справка:"
 
-#: server/stdinhand.c:3805
+#: server/stdinhand.c:3807
 #, c-format
 msgid "Level: %s"
 msgstr "Уровень: %s"
 
-#: server/stdinhand.c:3808
+#: server/stdinhand.c:3810
 #, c-format
 msgid "Pregame level: %s"
 msgstr "Уровень перед игрой: %s"
 
-#: server/stdinhand.c:3834
+#: server/stdinhand.c:3836
 msgid "The following server commands are available:"
 msgstr "Следующие команды сервера доступны:"
 
-#: server/stdinhand.c:3909
+#: server/stdinhand.c:3911
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "Аргумент команды help '%s' неоднозначен."
 
-#: server/stdinhand.c:3914
+#: server/stdinhand.c:3916
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "Справка по '%s' не найдена."
 
-#: server/stdinhand.c:3973
+#: server/stdinhand.c:3975
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "Плохой аргумент команды list: '%s'. Попробуйте '%shelp list'."
 
-#: server/stdinhand.c:4005
+#: server/stdinhand.c:4007
 msgid "List of players:"
 msgstr "Список игроков:"
 
-#: server/stdinhand.c:4010
+#: server/stdinhand.c:4012
 msgid "<no players>"
 msgstr "<нет игроков>"
 
-#: server/stdinhand.c:4027
+#: server/stdinhand.c:4029
 #, c-format
 msgid "user %s, "
 msgstr "пользователь %s, "
 
-#: server/stdinhand.c:4038
+#: server/stdinhand.c:4040
 msgid ", Dead"
 msgstr ", Умер"
 
-#: server/stdinhand.c:4041
+#: server/stdinhand.c:4043
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", уровень сложности %s"
 
-#: server/stdinhand.c:4045
+#: server/stdinhand.c:4047
 #, c-format
 msgid ", nation %s"
 msgstr ", народ - %s"
 
-#: server/stdinhand.c:4049
+#: server/stdinhand.c:4051
 #, c-format
 msgid ", team %s"
 msgstr ", команда %s"
 
-#: server/stdinhand.c:4054
+#: server/stdinhand.c:4056
 msgid ", ready"
 msgstr ", готов"
 
-#: server/stdinhand.c:4056
+#: server/stdinhand.c:4058
 msgid ", not ready"
 msgstr ", не готов"
 
-#: server/stdinhand.c:4064
+#: server/stdinhand.c:4066
 #, c-format
 msgid " %d connection:"
 msgid_plural " %d connections:"
@@ -6271,20 +6271,20 @@ msgstr[0] " %d соединение:"
 msgstr[1] " %d соединения:"
 msgstr[2] " %d соединений:"
 
-#: server/stdinhand.c:4075
+#: server/stdinhand.c:4077
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
 msgstr "  %s из %s (уровень команд %s), размер буфера=%dкб"
 
-#: server/stdinhand.c:4080
+#: server/stdinhand.c:4082
 msgid " (observer mode)"
 msgstr " (наблюдатель)"
 
-#: server/stdinhand.c:4096
+#: server/stdinhand.c:4098
 msgid "List of connections to server:"
 msgstr "Список соединений с сервером:"
 
-#: server/stdinhand.c:4100
+#: server/stdinhand.c:4102
 msgid "<no connections>"
 msgstr "<нет соединений>"
 
@@ -7203,7 +7203,7 @@ msgstr "Лучшие защитные соединения"
 #: client/gui-win32/repodlgs.c:700 client/gui-xaw/menu.c:155
 #: client/gui-xaw/menu.c:216 client/gui-xaw/menu.c:237
 #: client/gui-xaw/repodlgs.c:860 client/gui-xaw/repodlgs.c:1047
-#: data/Freeciv.in:1922 data/helpdata.txt:857
+#: data/Freeciv.in:1922 data/helpdata.txt:856
 msgid "Units"
 msgstr "Соединения"
 
@@ -8757,7 +8757,7 @@ msgstr "ВКЛ"
 msgid "OFF"
 msgstr "ВЫКЛ"
 
-#: client/packhand.c:2618
+#: client/packhand.c:2623
 msgid "Other"
 msgstr "Другое"
 
@@ -8788,12 +8788,12 @@ msgid "Username"
 msgstr "Имя пользователя"
 
 #: client/plrdlg_common.c:224 client/gui-gtk-2.0/dialogs.c:1609
-#: client/gui-gtk-2.0/pages.c:1512 client/gui-gtk/plrdlg.c:140
+#: client/gui-gtk-2.0/pages.c:1513 client/gui-gtk/plrdlg.c:140
 msgid "Flag"
 msgstr "Флаг"
 
 #: client/plrdlg_common.c:225 client/gui-gtk-2.0/dialogs.c:1613
-#: client/gui-gtk-2.0/pages.c:1514 client/gui-gtk/plrdlg.c:140
+#: client/gui-gtk-2.0/pages.c:1515 client/gui-gtk/plrdlg.c:140
 #: client/gui-mui/plrdlg.c:167 client/gui-win32/connectdlg.c:1011
 #: client/gui-win32/plrdlg.c:340
 msgid "Nation"
@@ -9836,25 +9836,25 @@ msgstr ""
 "%s стоит %d золота.\n"
 "В казне %d золота."
 
-#: client/gui-gtk-2.0/citydlg.c:2407 client/gui-gtk/citydlg.c:3006
+#: client/gui-gtk-2.0/citydlg.c:2406 client/gui-gtk/citydlg.c:3006
 #: client/gui-mui/citydlg.c:998 client/gui-win32/citydlg.c:972
 #: client/gui-xaw/citydlg.c:2296
 #, c-format
 msgid "Sell %s for %d gold?"
 msgstr "Продать %s за %d золотых?"
 
-#: client/gui-gtk-2.0/citydlg.c:2412 client/gui-gtk/citydlg.c:3010
+#: client/gui-gtk-2.0/citydlg.c:2411 client/gui-gtk/citydlg.c:3010
 #: client/gui-mui/citydlg.c:1003 client/gui-win32/citydlg.c:977
 #: data/Freeciv.in:2266
 msgid "Sell It!"
 msgstr "Продать!"
 
-#: client/gui-gtk-2.0/citydlg.c:2484 client/gui-gtk/citydlg.c:3155
+#: client/gui-gtk-2.0/citydlg.c:2483 client/gui-gtk/citydlg.c:3155
 #: client/gui-win32/citydlg.c:1219
 msgid "Rename City"
 msgstr "Переименовать город"
 
-#: client/gui-gtk-2.0/citydlg.c:2486 client/gui-gtk/citydlg.c:3157
+#: client/gui-gtk-2.0/citydlg.c:2485 client/gui-gtk/citydlg.c:3157
 #: client/gui-win32/citydlg.c:1220 client/gui-xaw/citydlg.c:1386
 msgid "What should we rename the city to?"
 msgstr "Как переименовать город?"
@@ -10406,7 +10406,7 @@ msgstr "Выберите, что разрушать:"
 msgid "Unit"
 msgstr "Соединение"
 
-#: client/gui-gtk-2.0/dialogs.c:1422 client/gui-gtk-2.0/pages.c:1510
+#: client/gui-gtk-2.0/dialogs.c:1422 client/gui-gtk-2.0/pages.c:1511
 #: client/gui-gtk-2.0/wldlg.c:990 client/gui-gtk/plrdlg.c:140
 #: client/gui-mui/plrdlg.c:166 client/gui-win32/connectdlg.c:1006
 #: client/gui-win32/plrdlg.c:340 data/Freeciv.in:80
@@ -10738,7 +10738,7 @@ msgstr "Ctrl+W"
 #: client/gui-gtk-2.0/happiness.c:112 client/gui-gtk/happiness.c:113
 #: client/gui-mui/citydlg.c:1374 client/gui-mui/citydlg.c:1511
 #: client/gui-win32/citydlg.c:740 client/gui-win32/happiness.c:94
-#: client/gui-xaw/menu.c:244 data/helpdata.txt:1348
+#: client/gui-xaw/menu.c:244 data/helpdata.txt:1347
 msgid "Happiness"
 msgstr "Счастье"
 
@@ -11162,7 +11162,7 @@ msgstr "_Форма правления"
 #: client/gui-gtk-2.0/menu.c:672 client/gui-gtk-2.0/menu.c:674
 #: client/gui-gtk-2.0/menu.c:676 client/gui-gtk-2.0/menu.c:678
 #: client/gui-gtk-2.0/menu.c:680 client/gui-gtk-2.0/menu.c:682
-#: client/gui-xaw/menu.c:243 data/Freeciv.in:2054 data/helpdata.txt:1277
+#: client/gui-xaw/menu.c:243 data/Freeciv.in:2054 data/helpdata.txt:1276
 msgid "Government"
 msgstr "Форма правления"
 
@@ -11254,7 +11254,7 @@ msgstr "Городское производство"
 
 #: client/gui-gtk-2.0/menu.c:705 client/gui-gtk/menu.c:654
 #: client/gui-mui/gui_main.c:224 client/gui-win32/menu.c:340
-#: client/gui-xaw/menu.c:146 client/gui-xaw/menu.c:241 data/helpdata.txt:1177
+#: client/gui-xaw/menu.c:146 client/gui-xaw/menu.c:241 data/helpdata.txt:1176
 msgid "Terrain"
 msgstr "Рельеф"
 
@@ -11813,34 +11813,34 @@ msgstr "_Загрузить сохранённую игру"
 msgid "C_onnect to Network Game"
 msgstr "_Подключиться к сетевой игре"
 
-#: client/gui-gtk-2.0/pages.c:555 client/gui-gtk/connectdlg.c:189
+#: client/gui-gtk-2.0/pages.c:556 client/gui-gtk/connectdlg.c:189
 #: client/gui-win32/connectdlg.c:295 client/gui-xaw/connectdlg.c:311
 msgid "Passwords don't match, enter password."
 msgstr "Пароли не совпадают, введите пароль."
 
-#: client/gui-gtk-2.0/pages.c:645 client/gui-gtk/connectdlg.c:382
+#: client/gui-gtk-2.0/pages.c:646 client/gui-gtk/connectdlg.c:382
 #: client/gui-mui/connectdlg.c:160 client/gui-win32/connectdlg.c:937
 msgid "Server Name"
 msgstr "Имя сервера"
 
-#: client/gui-gtk-2.0/pages.c:646 client/gui-gtk/connectdlg.c:382
+#: client/gui-gtk-2.0/pages.c:647 client/gui-gtk/connectdlg.c:382
 #: client/gui-mui/connectdlg.c:161 client/gui-win32/connectdlg.c:937
 #: data/Freeciv.in:96
 msgid "Port"
 msgstr "Порт"
 
-#: client/gui-gtk-2.0/pages.c:647 client/gui-gtk/connectdlg.c:382
+#: client/gui-gtk-2.0/pages.c:648 client/gui-gtk/connectdlg.c:382
 #: client/gui-mui/connectdlg.c:162 client/gui-win32/connectdlg.c:938
 msgid "Version"
 msgstr "Версия"
 
-#: client/gui-gtk-2.0/pages.c:648 client/gui-gtk-2.0/pages.c:1516
+#: client/gui-gtk-2.0/pages.c:649 client/gui-gtk-2.0/pages.c:1517
 #: client/gui-gtk/connectdlg.c:383 client/gui-mui/connectdlg.c:163
 #: client/gui-win32/connectdlg.c:938 client/gui-win32/connectdlg.c:1016
 msgid "Status"
 msgstr "Состояние"
 
-#: client/gui-gtk-2.0/pages.c:649 client/gui-gtk-2.0/plrdlg.c:295
+#: client/gui-gtk-2.0/pages.c:650 client/gui-gtk-2.0/plrdlg.c:295
 #: client/gui-gtk/connectdlg.c:383 client/gui-gtk/plrdlg.c:168
 #: client/gui-mui/connectdlg.c:164 client/gui-mui/plrdlg.c:321
 #: client/gui-win32/connectdlg.c:938 client/gui-win32/plrdlg.c:346
@@ -11848,77 +11848,77 @@ msgstr "Состояние"
 msgid "Players"
 msgstr "Игроки"
 
-#: client/gui-gtk-2.0/pages.c:650 client/gui-gtk/connectdlg.c:383
+#: client/gui-gtk-2.0/pages.c:651 client/gui-gtk/connectdlg.c:383
 #: client/gui-mui/connectdlg.c:165 client/gui-win32/connectdlg.c:939
 msgid "Comment"
 msgstr "Комментарий"
 
-#: client/gui-gtk-2.0/pages.c:688
+#: client/gui-gtk-2.0/pages.c:689
 msgid "Local _Area Network"
 msgstr "_Локальная сеть"
 
-#: client/gui-gtk-2.0/pages.c:724
+#: client/gui-gtk-2.0/pages.c:725
 msgid "Internet _Metaserver"
 msgstr "_Интернет Метасервер"
 
-#: client/gui-gtk-2.0/pages.c:758
+#: client/gui-gtk-2.0/pages.c:759
 msgid "_Host:"
 msgstr "_Сервер:"
 
-#: client/gui-gtk-2.0/pages.c:775
+#: client/gui-gtk-2.0/pages.c:776
 msgid "_Port:"
 msgstr "П_орт:"
 
-#: client/gui-gtk-2.0/pages.c:792
+#: client/gui-gtk-2.0/pages.c:793
 msgid "_Login:"
 msgstr "Ло_гин:"
 
-#: client/gui-gtk-2.0/pages.c:810
+#: client/gui-gtk-2.0/pages.c:811
 msgid "Pass_word:"
 msgstr "_Пароль:"
 
-#: client/gui-gtk-2.0/pages.c:828
+#: client/gui-gtk-2.0/pages.c:829
 msgid "Conf_irm Password:"
 msgstr "По_вторите Пароль:"
 
-#: client/gui-gtk-2.0/pages.c:964
+#: client/gui-gtk-2.0/pages.c:965
 msgid "_Number of Players (including AI):"
 msgstr "_Число игроков (Включая компьютерных игроков):"
 
-#: client/gui-gtk-2.0/pages.c:987
+#: client/gui-gtk-2.0/pages.c:988
 msgid "_AI Skill Level:"
 msgstr "_Уровень компьютерного противника (AI):"
 
-#: client/gui-gtk-2.0/pages.c:995
+#: client/gui-gtk-2.0/pages.c:996
 msgid "More Game _Options..."
 msgstr "Н_астройки игры..."
 
-#: client/gui-gtk-2.0/pages.c:1060 client/gui-gtk-2.0/pages.c:1559
+#: client/gui-gtk-2.0/pages.c:1061 client/gui-gtk-2.0/pages.c:1560
 msgid "_Start"
 msgstr "_Начать"
 
-#: client/gui-gtk-2.0/pages.c:1109
+#: client/gui-gtk-2.0/pages.c:1110
 msgid "Choose Saved Game to Load"
 msgstr "Выберите сохранённую игру, которую Вы хотите загрузить"
 
-#: client/gui-gtk-2.0/pages.c:1199
+#: client/gui-gtk-2.0/pages.c:1200
 msgid "Choose Saved Game to _Load:"
 msgstr "_Выберите сохранённую игру, которую Вы хотите загрузить"
 
-#: client/gui-gtk-2.0/pages.c:1219 client/gui-gtk-2.0/pages.c:1353
-#: client/gui-gtk-2.0/pages.c:1795
+#: client/gui-gtk-2.0/pages.c:1220 client/gui-gtk-2.0/pages.c:1354
+#: client/gui-gtk-2.0/pages.c:1796
 msgid "_Browse..."
 msgstr "_Обзор..."
 
-#: client/gui-gtk-2.0/pages.c:1266
+#: client/gui-gtk-2.0/pages.c:1267
 msgid "Choose a Scenario"
 msgstr "Выберите сценарий"
 
-#: client/gui-gtk-2.0/pages.c:1333
+#: client/gui-gtk-2.0/pages.c:1334
 msgid "Choose a _Scenario:"
 msgstr "Выберите _сценарий"
 
-#: client/gui-gtk-2.0/pages.c:1518 client/gui-gtk-2.0/wldlg.c:990
+#: client/gui-gtk-2.0/pages.c:1519 client/gui-gtk-2.0/wldlg.c:990
 #: client/gui-gtk/citydlg.c:2798 client/gui-gtk/wldlg.c:314
 #: client/gui-gtk/wldlg.c:320 client/gui-mui/citydlg.c:633
 #: client/gui-mui/citydlg.c:662 client/gui-mui/worklistclass.c:237
@@ -11927,27 +11927,27 @@ msgstr "Выберите _сценарий"
 msgid "Type"
 msgstr "Тип"
 
-#: client/gui-gtk-2.0/pages.c:1528
+#: client/gui-gtk-2.0/pages.c:1529
 msgid "Choose a _nation to play:"
 msgstr "Выберите _народ, которым Вы будете играть:"
 
-#: client/gui-gtk-2.0/pages.c:1548
+#: client/gui-gtk-2.0/pages.c:1549
 msgid "Game _Options..."
 msgstr "Настройки _игры..."
 
-#: client/gui-gtk-2.0/pages.c:1707 client/gui-win32/menu.c:582
+#: client/gui-gtk-2.0/pages.c:1708 client/gui-win32/menu.c:582
 msgid "Select Location to Save"
 msgstr "Выберите место для сохранения"
 
-#: client/gui-gtk-2.0/pages.c:1792
+#: client/gui-gtk-2.0/pages.c:1793
 msgid "Save Game"
 msgstr "Сохранить игру"
 
-#: client/gui-gtk-2.0/pages.c:1833
+#: client/gui-gtk-2.0/pages.c:1834
 msgid "Saved _Games:"
 msgstr "_Сохраненные игры:"
 
-#: client/gui-gtk-2.0/pages.c:1860
+#: client/gui-gtk-2.0/pages.c:1861
 msgid "Save _Filename:"
 msgstr "Имя _файла сохранения:"
 
@@ -12581,7 +12581,7 @@ msgstr "Закрыть"
 msgid "Presets"
 msgstr "Пре-установки"
 
-#: client/gui-gtk/cma_fe.c:153 data/Freeciv.in:1486 data/helpdata.txt:768
+#: client/gui-gtk/cma_fe.c:153 data/Freeciv.in:1486 data/helpdata.txt:767
 msgid "Citizen Management Agent"
 msgstr "Агент Управления Гражданами"
 
@@ -13303,7 +13303,7 @@ msgstr "Городское производство"
 msgid "Citymap"
 msgstr "Карта города"
 
-#: client/gui-mui/citydlg.c:1470 data/helpdata.txt:818
+#: client/gui-mui/citydlg.c:1470 data/helpdata.txt:817
 msgid "City Improvements"
 msgstr "Городские здания"
 
@@ -13414,7 +13414,7 @@ msgid "_Goto and Close"
 msgstr "Идти к и Закрыть"
 
 #: client/gui-mui/dialogs.c:302 client/gui-xaw/menu.c:240
-#: data/helpdata.txt:835
+#: data/helpdata.txt:834
 msgid "Technology"
 msgstr "Технология"
 
@@ -14589,19 +14589,19 @@ msgstr "Соединить/Железную дорогу"
 msgid "Connect/Irrigation"
 msgstr "Соединить/Орошение"
 
-#: client/gui-xaw/menu.c:230 data/helpdata.txt:379
+#: client/gui-xaw/menu.c:230 data/helpdata.txt:378
 msgid "Languages"
 msgstr "Языки"
 
-#: client/gui-xaw/menu.c:231 data/helpdata.txt:402
+#: client/gui-xaw/menu.c:231 data/helpdata.txt:401
 msgid "Connecting"
 msgstr "Подключение"
 
-#: client/gui-xaw/menu.c:232 data/helpdata.txt:430
+#: client/gui-xaw/menu.c:232 data/helpdata.txt:429
 msgid "Controls"
 msgstr "Управление"
 
-#: client/gui-xaw/menu.c:233 data/helpdata.txt:540
+#: client/gui-xaw/menu.c:233 data/helpdata.txt:539
 msgid "Chatline"
 msgstr "Общение"
 
@@ -14609,7 +14609,7 @@ msgstr "Общение"
 msgid "Playing"
 msgstr "Игра"
 
-#: client/gui-xaw/menu.c:238 data/helpdata.txt:934
+#: client/gui-xaw/menu.c:238 data/helpdata.txt:933
 msgid "Combat"
 msgstr "Сражения"
 
@@ -14617,11 +14617,11 @@ msgstr "Сражения"
 msgid "ZOC"
 msgstr "Зоны контроля"
 
-#: client/gui-xaw/menu.c:245 data/helpdata.txt:1421
+#: client/gui-xaw/menu.c:245 data/helpdata.txt:1420
 msgid "Space Race"
 msgstr "Космическая гонка"
 
-#: client/gui-xaw/menu.c:247 data/helpdata.txt:77
+#: client/gui-xaw/menu.c:247 data/helpdata.txt:76
 msgid "Copying"
 msgstr "Копирование"
 
@@ -15270,7 +15270,7 @@ msgstr ""
 msgid "  Present administrators: "
 msgstr "  Нынешние администраторы: "
 
-#: data/helpdata.txt:56
+#: data/helpdata.txt:55
 msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
 "by visiting the Freeciv Bug Tracking System, at:\n"
@@ -15282,7 +15282,7 @@ msgstr ""
 "\n"
 "  http://bugs.freeciv.org/"
 
-#: data/helpdata.txt:61
+#: data/helpdata.txt:60
 msgid ""
 "For more information about submitting bug reports see the file BUGS in the "
 "Freeciv distribution.  For more information in general, visit the Freeciv "
@@ -15291,11 +15291,11 @@ msgstr ""
 "Чтобы получить больше информации о посылке сообщений об ошибках, смотрите "
 "файл BUGS в дистрибуции Freeciv. Для другой информации, посетите наш вебсайт:"
 
-#: data/helpdata.txt:78
+#: data/helpdata.txt:77
 msgid "Freeciv is covered by the GPL, which is included here: "
 msgstr "Freeciv находится под лицензией GPL, которая включена здесь: "
 
-#: data/helpdata.txt:380
+#: data/helpdata.txt:379
 msgid ""
 "Freeciv supports several local languages.  See the Native Language Support "
 "section of the README file for instructions on how to use one of these "
@@ -15333,7 +15333,7 @@ msgstr ""
 "\n"
 "  freeciv-i18n@freeciv.org"
 
-#: data/helpdata.txt:403
+#: data/helpdata.txt:402
 msgid ""
 "Before a game is started, anyone can connect to the server by supplying its "
 "hostname and port number (5555 by default). If the server is started with "
@@ -15343,7 +15343,7 @@ msgstr ""
 "имя и номер порта (5555 по умолчанию). Если сервер был запущен с флагом -m, "
 "он сообщит об игре метасерверу,"
 
-#: data/helpdata.txt:410
+#: data/helpdata.txt:409
 msgid ""
 "The client can fetch this page, too: use the Metaserver button in the "
 "connection dialog.  If it never shows any results, check if your WWW browser "
@@ -15364,7 +15364,7 @@ msgstr ""
 "\n"
 "перед тем, как запускать клиент."
 
-#: data/helpdata.txt:419
+#: data/helpdata.txt:418
 msgid ""
 "When the game has started, everyone can connect as any player who isn't "
 "already connected, including AI players.  Merely connecting to an AI player "
@@ -15382,7 +15382,7 @@ msgstr ""
 "правителя страны, но не Ваше начальное имя. Если сервер подключен к "
 "метасерверу, имена игроков могут быть найдены на метасервере."
 
-#: data/helpdata.txt:431
+#: data/helpdata.txt:430
 msgid ""
 "Unit Orders:\n"
 "============\n"
@@ -15455,7 +15455,7 @@ msgstr ""
 "    x: авто-исследовать\n"
 "пробел: соединение стоит на месте\n"
 
-#: data/helpdata.txt:466
+#: data/helpdata.txt:465
 msgid ""
 "Unit Movement:\n"
 "==============\n"
@@ -15489,7 +15489,7 @@ msgstr ""
 "  W: разбудить другие соединения в квадрате\n"
 "  c: центрировать вид на соединении\n"
 
-#: data/helpdata.txt:482
+#: data/helpdata.txt:481
 msgid ""
 "Main Map (Keys):\n"
 "================\n"
@@ -15514,7 +15514,7 @@ msgstr ""
 "              t: показать квадраты, используемые городом (мышь над или рядом "
 "с городом)\n"
 
-#: data/helpdata.txt:493
+#: data/helpdata.txt:492
 msgid ""
 "Main Map (Mouse):\n"
 "=================\n"
@@ -15566,7 +15566,7 @@ msgstr ""
 "  Города, которые становятся подсвеченными на карте,\n"
 "  будут также подсвечены в окне Списка Городов."
 
-#: data/helpdata.txt:517
+#: data/helpdata.txt:516
 msgid ""
 "Dialogs and Reports:\n"
 "====================\n"
@@ -15606,7 +15606,7 @@ msgstr ""
 "\n"
 "Shift-Return: Завершить ход"
 
-#: data/helpdata.txt:541
+#: data/helpdata.txt:540
 msgid ""
 "The client has a primitive chat interface.  The lines you type are sent to "
 "all players, except:"
@@ -15614,7 +15614,7 @@ msgstr ""
 "Клиент имеет примитивный разговорный интерфейс (внизу окна). Строки, которые "
 "Вы пишете, посылаются всем игрокам, за исключением следующих случаев:"
 
-#: data/helpdata.txt:544
+#: data/helpdata.txt:543
 msgid ""
 "  - Messages starting with '/' are interpreted as server commands and "
 "executed, if you have the required access level."
@@ -15622,7 +15622,7 @@ msgstr ""
 "  - Сообщения, начинающиеся с '/' интерпретируются как команды сервера  и "
 "выполняются, если у Вас есть необходимые права доступа."
 
-#: data/helpdata.txt:547
+#: data/helpdata.txt:546
 msgid ""
 "  - Messages starting with 'John:' are private messages to 'John'. Names can "
 "be abbreviated. The server looks for players named 'John' and if that fails "
@@ -15633,7 +15633,7 @@ msgstr ""
 "неудачен, пытается найти игрока с именем, начинающимся с 'Джон' (например, "
 "'Джонатан')."
 
-#: data/helpdata.txt:552
+#: data/helpdata.txt:551
 msgid ""
 "  - Messages starting with 'John::' are private messages as above, but will "
 "match only users (not players) named 'John'.  'Johnathan' will still match."
@@ -15642,16 +15642,16 @@ msgstr ""
 "ищутся пользователи (не игроки!) с именем 'Джон'.  'Джонатан' также "
 "подпадает под определение."
 
-#: data/helpdata.txt:556
+#: data/helpdata.txt:555
 msgid "  - Messages starting with '.' will be sent only to all your allies."
 msgstr ""
 " - Сообщения, начинающиеся с '.', будут посланы только всем Вашим союзникам."
 
-#: data/helpdata.txt:561
+#: data/helpdata.txt:560
 msgid "Worklist Editor"
 msgstr "Редактор рабочих списков"
 
-#: data/helpdata.txt:562
+#: data/helpdata.txt:561
 msgid ""
 "The worklist editor is used to edit both worklists for each city (from the "
 "city dialog) and global worklists. Using this editor you can create lists "
@@ -15662,7 +15662,7 @@ msgstr ""
 "этот редактор, Вы можете создавать списки, указывая, что строить в течение "
 "следующих ходов."
 
-#: data/helpdata.txt:566
+#: data/helpdata.txt:565
 msgid ""
 "To add an item to the worklist, double-click the desired item in the list of "
 "available items. You can also press the Help button to get help on the "
@@ -15673,7 +15673,7 @@ msgstr ""
 "\"Справка\", чтобы получить информацию о выбранном элементе. Нажатие на эту "
 "кнопку, когда ни один элемент не выбран, откроет эту страницу."
 
-#: data/helpdata.txt:570
+#: data/helpdata.txt:569
 msgid ""
 "To remove an item from the worklist simply double-click the item to remove. "
 "Use the buttons below the worklist to move items up and/or down in the list."
@@ -15682,7 +15682,7 @@ msgstr ""
 "Используйте кнопки под списком, чтобы двигать элементы вверх и вниз внутри "
 "списка."
 
-#: data/helpdata.txt:573
+#: data/helpdata.txt:572
 msgid ""
 "Keyboard shortcuts: Home to focus the worklist, End to focus the available "
 "list, Up/Down arrows to select previous/next item in worklist or available "
@@ -15696,7 +15696,7 @@ msgstr ""
 "списка доступных элементов в рабочий список, Delete удаляет выбранный "
 "элемент из рабочего списка."
 
-#: data/helpdata.txt:579
+#: data/helpdata.txt:578
 msgid ""
 "If you want to buy the unit that's first on the list, you can do that from "
 "the City Overview window."
@@ -15704,11 +15704,11 @@ msgstr ""
 "Если Вы хотите купить соединение, которое является первым в списке, Вы "
 "можете сделать это в окне \"Обзор Города\"."
 
-#: data/helpdata.txt:585
+#: data/helpdata.txt:584
 msgid "Strategy and tactics"
 msgstr "Стратегия и тактика"
 
-#: data/helpdata.txt:586
+#: data/helpdata.txt:585
 msgid ""
 "While every game is different, there's a basic strategy which most players "
 "follow, especially at the start of the game."
@@ -15716,7 +15716,7 @@ msgstr ""
 "Хотя каждая игра уникальна, существуют основные шаги, которым следует "
 "большинство игроков, особенно в начале игры."
 
-#: data/helpdata.txt:589
+#: data/helpdata.txt:588
 msgid ""
 "These steps may vary depending upon the server options, but in general, the "
 "steps are: "
@@ -15724,7 +15724,7 @@ msgstr ""
 "Эти шаги могут измениться в зависимости от настроек сервера, но, вообще, "
 "шаги следующие:"
 
-#: data/helpdata.txt:592
+#: data/helpdata.txt:591
 msgid ""
 " 0. Choosing the first city site.\n"
 " 1. Mapping the countryside.\n"
@@ -15750,7 +15750,7 @@ msgstr ""
 " 9. Создание стратегии для игры.\n"
 "10. Связь с другими игроками - дипломатия.\n"
 
-#: data/helpdata.txt:604
+#: data/helpdata.txt:603
 msgid ""
 " 0. Choosing the first city site.\n"
 "\n"
@@ -15772,7 +15772,7 @@ msgstr ""
 "уравновевивать время, потраченное на поиск хорошего места, против постройки "
 "Вашего первого города как можно раньше."
 
-#: data/helpdata.txt:615
+#: data/helpdata.txt:614
 msgid ""
 " 1. Mapping the countryside.\n"
 "\n"
@@ -15792,7 +15792,7 @@ msgstr ""
 "для исследования. Если Вы начали игру с соединением Исследователь, "
 "используйте его для этой цели!"
 
-#: data/helpdata.txt:624
+#: data/helpdata.txt:623
 msgid ""
 " 2. Defending the cities.\n"
 "\n"
@@ -15811,7 +15811,7 @@ msgstr ""
 "часто используемые для защиты - (в порядке усиления): Воин, Фаланга, "
 "Копейщики, Мушкетеры и Стрелки."
 
-#: data/helpdata.txt:634
+#: data/helpdata.txt:633
 #, no-c-format
 msgid ""
 "    Keep in mind that with some types of government, military units inside "
@@ -15826,7 +15826,7 @@ msgstr ""
 "укреплённое. Когда строится новый город, он начинает строить лучшее "
 "доступное защитное соединение из вышеупомянутого списка."
 
-#: data/helpdata.txt:641
+#: data/helpdata.txt:640
 msgid ""
 " 3. Deciding which units to build first.\n"
 "\n"
@@ -15848,7 +15848,7 @@ msgstr ""
 "виду, что большое население увеличивает производительность и скорость "
 "исследований Вашей цивилизации."
 
-#: data/helpdata.txt:652
+#: data/helpdata.txt:651
 msgid ""
 " 4. Building agriculture improvements.\n"
 "\n"
@@ -15865,7 +15865,7 @@ msgstr ""
 "Земля может быть улучшена дорогами, орошением, шахтами, и другими "
 "постройками."
 
-#: data/helpdata.txt:660
+#: data/helpdata.txt:659
 msgid ""
 " 5. Deciding where to build cities.\n"
 "\n"
@@ -15885,7 +15885,7 @@ msgstr ""
 "такие, но имейте в виду, что Вашим противникам будет сложнее найти город, "
 "если он находится не у побережья."
 
-#: data/helpdata.txt:669
+#: data/helpdata.txt:668
 msgid ""
 " 6. Taking care of the cities.\n"
 "\n"
@@ -15905,7 +15905,7 @@ msgstr ""
 "налогов. Нужно быть внимательным, особенно в начале игры, чтобы граждане "
 "максимизировали рост насления, торговли и производства."
 
-#: data/helpdata.txt:679
+#: data/helpdata.txt:678
 msgid ""
 "    If too much food is being generated, a citizen can be taken off the "
 "farmland by clicking on the occupied farmland square.  This citizen can then "
@@ -15916,7 +15916,7 @@ msgstr ""
 "гражданин может быть передан для выполнения других обязанностей, упомянутых "
 "выше."
 
-#: data/helpdata.txt:684
+#: data/helpdata.txt:683
 msgid ""
 "    If you move all of your citizens into the city and right-click on the "
 "central tile of the farmland, the citizens will be rearranged to maximise "
@@ -15926,7 +15926,7 @@ msgstr ""
 "мыши на центральный квадрат, граждане будут реорганизованы, чтобы "
 "максимизировать производство еды."
 
-#: data/helpdata.txt:690
+#: data/helpdata.txt:689
 msgid ""
 "    The golden rule of taking care of a city is that there should be at "
 "least as many happy citizens as unhappy citizens.  A city where this is not "
@@ -15938,7 +15938,7 @@ msgstr ""
 "отмечен знаком молнии. Заботьтесь о том, чтобы этого не происходило, "
 "поскольку несчастные города не производят ничего, и скоро восстанут."
 
-#: data/helpdata.txt:696
+#: data/helpdata.txt:695
 msgid ""
 " 7. Exploring the world.\n"
 "\n"
@@ -15959,7 +15959,7 @@ msgstr ""
 "договор и поделиться Вашими научными достижениями. В этом случае Вам будут "
 "очень полезны Дипломатические соединения, и они безусловно оплатятся позже."
 
-#: data/helpdata.txt:706
+#: data/helpdata.txt:705
 msgid ""
 " 8. Things to keep in mind.\n"
 "\n"
@@ -15981,7 +15981,7 @@ msgstr ""
 "\n"
 "  - Некоторые чудеса света устаревают с некоторыми новыми открытиями."
 
-#: data/helpdata.txt:717
+#: data/helpdata.txt:716
 msgid ""
 " 9. Making your own strategy for the game.\n"
 "\n"
@@ -16004,7 +16004,7 @@ msgstr ""
 "Там Вы найдете дополнительную информацию об игре и детали того, как "
 "связаться с другими игроками."
 
-#: data/helpdata.txt:728
+#: data/helpdata.txt:727
 msgid ""
 " 10. Interacting with other players (Diplomacy).\n"
 "\n"
@@ -16024,7 +16024,7 @@ msgstr ""
 "столбцом посольства не пустое, и другой игрок подключен (или управляется "
 "компьютером), тогда Вы увидите меню дипломатии."
 
-#: data/helpdata.txt:738
+#: data/helpdata.txt:737
 msgid ""
 "    In this menu you can choose to:\n"
 "\n"
@@ -16046,7 +16046,7 @@ msgstr ""
 "\n"
 "   - и Дать золото."
 
-#: data/helpdata.txt:748
+#: data/helpdata.txt:747
 msgid ""
 "    There is no need to trade like for like, by trading say, an advance or "
 "city for gold - you can consider this buying and selling."
@@ -16054,7 +16054,7 @@ msgstr ""
 "    Нет необходимости менять вещи одного типа, например, можно поменять "
 "город или науку на деньги, т.е. по сути купить или продать."
 
-#: data/helpdata.txt:752
+#: data/helpdata.txt:751
 msgid ""
 "    A couple of notes:\n"
 "\n"
@@ -16068,7 +16068,7 @@ msgstr ""
 "\n"
 "   - Если Вы не видите город на Вашей карте, Вы не можете его запросить."
 
-#: data/helpdata.txt:758
+#: data/helpdata.txt:757
 msgid ""
 "     Of course, the owner of that city can still give it to you, in which "
 "case the area around the city is shown on your map.  One important thing to "
@@ -16082,7 +16082,7 @@ msgstr ""
 "городом, также передаются вместе с ним (но не находящиеся в других городах). "
 "Так что удостоверьтесь, что другой игрок не получает больше, чем Вы ожидаете."
 
-#: data/helpdata.txt:769
+#: data/helpdata.txt:768
 msgid ""
 "The Citizen Management Agent (CMA) helps you manage your cities. It deploys "
 "the available workers on the free tiles around the city to achieve maximal "
@@ -16169,7 +16169,7 @@ msgstr ""
 "Дополнительная информация и несколько примеров пре-установок доступны в "
 "файле README.cma, распространяемым вместе с Freeciv.\n"
 
-#: data/helpdata.txt:819
+#: data/helpdata.txt:818
 msgid ""
 "City improvements are built in each of your cities to improve trade revenue, "
 "science production, etc.  Most improvements require you to pay an upkeep "
@@ -16181,7 +16181,7 @@ msgstr ""
 "каждый ход. Если у Вас не хватает на это денег, здание будет продано "
 "автоматически."
 
-#: data/helpdata.txt:836
+#: data/helpdata.txt:835
 msgid ""
 "Research into technology is a necessity for improving the ability of your "
 "civilization to develop new military units and city improvements."
@@ -16189,7 +16189,7 @@ msgstr ""
 "Научные исследования необходимы для улучшения возможностей Вашей цивилизации "
 "в производстве новых военных соединений и зданий"
 
-#: data/helpdata.txt:847
+#: data/helpdata.txt:846
 msgid ""
 "Each wonder has specific benefits for your civilization. Each wonder is "
 "unique and is placed in the city which constructed it."
@@ -16197,7 +16197,7 @@ msgstr ""
 "Каждое чудо даёт определённые преимущества Вашей цивилизации. Каждое чудо "
 "уникально и устанавливается в городе, который его построил."
 
-#: data/helpdata.txt:858
+#: data/helpdata.txt:857
 msgid ""
 "Units can be used for three purposes: attack, defense, and reconnaissance.  "
 "How useful a particular unit is for each of these roles depends on the "
@@ -16207,7 +16207,7 @@ msgstr ""
 "разведка. Насколько полезно каждое соедиение для этих целей зависит от силы "
 "соединения в атаке и обороне, а также его возможности двигаться."
 
-#: data/helpdata.txt:863
+#: data/helpdata.txt:862
 msgid ""
 "There are four general types of unit: Land, Sea, Air, and Helicopter.  "
 "(Helicopters are sufficiently different from other air units that it is "
@@ -16217,7 +16217,7 @@ msgstr ""
 "(вертолёты отличаются от других воздушных соединений, так что, правильнее "
 "думать о них, как об особом типе соединений.)"
 
-#: data/helpdata.txt:868
+#: data/helpdata.txt:867
 #, no-c-format
 msgid ""
 "Land units move on land, and suffer the movement effects of terrain, but "
@@ -16245,7 +16245,7 @@ msgstr ""
 "невоенные соединения: они не требуют поддержки, не имеют эффекта на счастье "
 "и не могут атаковать вражеские войска и захватывать вражеские города."
 
-#: data/helpdata.txt:881
+#: data/helpdata.txt:880
 msgid ""
 "Sea units move on Ocean squares and into cities next to Ocean squares.  They "
 "can only be built by such cities.  The movement rate of sea units is "
@@ -16262,7 +16262,7 @@ msgstr ""
 "но они не могут входить во вражеский город, чтобы захватить его, даже если "
 "город незащищён."
 
-#: data/helpdata.txt:888
+#: data/helpdata.txt:887
 msgid ""
 "Air units can move on any square not occupied by an enemy unit or enemy "
 "city.  The movement rate of air units is not affected by loss of hitpoints.  "
@@ -16288,7 +16288,7 @@ msgstr ""
 "могут использоваться для исследования деревень; в зависимости от настроек "
 "сервера, деревня может исчезнуть, если над ней пролететь."
 
-#: data/helpdata.txt:900
+#: data/helpdata.txt:899
 msgid ""
 "Like air units, Helicopters can move on any square not occupied by an enemy "
 "unit or enemy city, and their movement rate is not affected by loss of "
@@ -16304,7 +16304,7 @@ msgstr ""
 "городе или аэродроме, если Вы не имеете чуда ООН. В отличие от других "
 "воздушных соединений, Вертолёты могут захватывать вражеские города."
 
-#: data/helpdata.txt:907
+#: data/helpdata.txt:906
 msgid ""
 "Units which have been damaged in combat will regain hit points each turn in "
 "which they are not moved.  Normally, a unit which has not moved will regain "
@@ -16338,7 +16338,7 @@ msgstr ""
 "городе. Повреждённые соединения в режиме Сторож пробудятся, когда они "
 "восстановят все единицы здоровья."
 
-#: data/helpdata.txt:924
+#: data/helpdata.txt:923
 msgid ""
 "Depending upon server options, any set of unit types may reduce the "
 "population of a City without City Walls by one point upon a successful "
@@ -16347,7 +16347,7 @@ msgstr ""
 "В зависимости от настроек сервера, любой город может уменьшить население "
 "города без стен на один элемент при удачной атаке."
 
-#: data/helpdata.txt:935
+#: data/helpdata.txt:934
 msgid ""
 "Default Combat Rules\n"
 "---------------------"
@@ -16355,7 +16355,7 @@ msgstr ""
 "Правила сражений по умолчанию\n"
 "---------------------"
 
-#: data/helpdata.txt:936
+#: data/helpdata.txt:935
 msgid ""
 "When one unit attacks another unit, either the attacker will be destroyed, "
 "or the defender will be destroyed -- never both (unless the attacker was a "
@@ -16365,15 +16365,15 @@ msgstr ""
 "защитник, но никогда оба (если атакующий не ракета). Результат битвы зависит "
 "от нескольких факторов, включая случайный элемент."
 
-#: data/helpdata.txt:941
+#: data/helpdata.txt:940
 msgid "First, the attacker's strength is modified."
 msgstr "Сначала, модифицируется сила атакующего."
 
-#: data/helpdata.txt:943
+#: data/helpdata.txt:942
 msgid " - If the attacker is a veteran, its strength is multiplied by 1.5."
 msgstr " - Если атакующий - ветеран, его сила умножается на 1,5."
 
-#: data/helpdata.txt:945
+#: data/helpdata.txt:944
 msgid ""
 " - \"Exhausted\" attackers are weaker: if the attacker has only 1/3 movement "
 "point left, its strength is divided by 3; if it has 2/3 movement point, its "
@@ -16384,16 +16384,16 @@ msgstr ""
 "хода, то его сила делится на 3, если 2/3 то умножается на 2/3, если 1 ход "
 "или больше - без изменений."
 
-#: data/helpdata.txt:951
+#: data/helpdata.txt:950
 msgid "Next, the defender's strength is modified."
 msgstr "Далее, модифицируется сила защитника."
 
-#: data/helpdata.txt:953
+#: data/helpdata.txt:952
 msgid ""
 " - If the defender is a veteran, then its strength is multiplied by 1.5."
 msgstr " - Если защитник - ветеран, его сила умножается на 1,5."
 
-#: data/helpdata.txt:956
+#: data/helpdata.txt:955
 msgid ""
 " - Then the defender's strength is multiplied by the defense factor of the "
 "terrain it occupies."
@@ -16401,7 +16401,7 @@ msgstr ""
 " - Затем сила защитника умножается на коэффициент защиты для типа рельефа в "
 "квадрате, который он занимает."
 
-#: data/helpdata.txt:959
+#: data/helpdata.txt:958
 msgid ""
 " - Next, the defender's strength is doubled if it is a Pikeman unit "
 "defending against a mounted unit."
@@ -16409,7 +16409,7 @@ msgstr ""
 " - Затем, сила защитника удваивается если это Копейщик, защищающийся против "
 "конного соединения."
 
-#: data/helpdata.txt:962
+#: data/helpdata.txt:961
 msgid ""
 " - If the defender is an AEGIS Cruiser defending against airborne units "
 "(including missiles and Helicopters), the defense is quintupled."
@@ -16418,7 +16418,7 @@ msgstr ""
 "соединений (включая ракеты и вертолёты), сила защитника увеличивается в 5 "
 "раз."
 
-#: data/helpdata.txt:966
+#: data/helpdata.txt:965
 msgid ""
 " - The defender's strength is doubled again if it is in a city with a SAM "
 "Battery and the attacker is an air unit (other than an Helicopter) or a "
@@ -16427,13 +16427,13 @@ msgstr ""
 " - Сила защитника удваивается если он в городе с Батареей Ракет Земля-Воздух "
 "и атакующий - воздушное соединение (кроме вертолёта) или ракета."
 
-#: data/helpdata.txt:970
+#: data/helpdata.txt:969
 msgid ""
 " - An SDI Defense doubles the defender's strength yet again against missile "
 "attacks."
 msgstr " - Система ПРО удваивает силу защитника против ракетных атак."
 
-#: data/helpdata.txt:973
+#: data/helpdata.txt:972
 msgid ""
 " - If the attacker is a ship and the defender is in a city with a Coastal "
 "Defense, the defender's strength is doubled."
@@ -16441,7 +16441,7 @@ msgstr ""
 " - Если атакующий - корабль, а защитник в городе с Береговой защитой, сила "
 "защитника удваивается."
 
-#: data/helpdata.txt:976
+#: data/helpdata.txt:975
 msgid ""
 " - Against land units (other than Howitzers) and Helicopters, defending "
 "units in a city with City Walls have their strength tripled."
@@ -16449,14 +16449,14 @@ msgstr ""
 " - Против наземных соединений (кроме Гаубиц) и вертолётов, сила защитника в "
 "городе с Городскими Стенами утраивается."
 
-#: data/helpdata.txt:980
+#: data/helpdata.txt:979
 msgid ""
 " - If the defender is in a fortress (and not a city), its strength is "
 "doubled."
 msgstr ""
 " - Если защитник находится в крепости (не в городе), его защита удваивается."
 
-#: data/helpdata.txt:983
+#: data/helpdata.txt:982
 msgid ""
 " - Finally, if the defender is a ground unit, and is either fortified or "
 "inside a city, its strength is multiplied by 1.5."
@@ -16464,7 +16464,7 @@ msgstr ""
 " - Наконец, если защитник - наземное соединение, либо укреплённое, либо "
 "находящееся в городе, его сила умножается на 1,5."
 
-#: data/helpdata.txt:986
+#: data/helpdata.txt:985
 msgid ""
 "If, after these modifications, the attacker has a strength of 0, it "
 "automatically loses.  Otherwise, if the defender has a strength of 0, the "
@@ -16473,11 +16473,11 @@ msgstr ""
 "Если, после этих модификаций, атакующий имеет силу 0, он проигрывает. В "
 "противном случае, если у защитника сила 0, он проигрывает."
 
-#: data/helpdata.txt:990
+#: data/helpdata.txt:989
 msgid "The firepower of the attacker and defender are also modified."
 msgstr "Огневая мощь атакующего и защитника также изменяются."
 
-#: data/helpdata.txt:992
+#: data/helpdata.txt:991
 msgid ""
 " - If the defender is a ship and is inside a city the firepower of the "
 "attacker is doubled and the firepower of the ship is set to 1."
@@ -16485,7 +16485,7 @@ msgstr ""
 " - Если защитник - корабль и находится внутри города, то огневая мощь "
 "атакующего удваивается и огневая мощь защитника устанавливается равной 1."
 
-#: data/helpdata.txt:995
+#: data/helpdata.txt:994
 msgid ""
 " - If a Fighter is attacking an Helicopter the firepower of the Helicopter "
 "is set to 1."
@@ -16493,7 +16493,7 @@ msgstr ""
 " - Если истребитель атакует вертолёт, огневая мощь вертолёта устанавливается "
 "равной 1."
 
-#: data/helpdata.txt:998
+#: data/helpdata.txt:997
 msgid ""
 " - If a ship is attacking a ground unit on land the firepower of both is set "
 "to 1."
@@ -16501,7 +16501,7 @@ msgstr ""
 " - Если корабль атакует наземное соединение на берегу, огневая мощь обоих "
 "устанавливается равной 1."
 
-#: data/helpdata.txt:1001
+#: data/helpdata.txt:1000
 msgid ""
 "After these preliminaries, combat occurs, as long as both units are still "
 "alive (i.e., hit points are greater than 0).  Each round, a random number "
@@ -16519,7 +16519,7 @@ msgstr ""
 "мощи защитника. В этом случае нападающий теряет только 1 единицу здоровья). "
 "Первое соединение, достигнувшее 0(или менее) здоровья - проигрывает."
 
-#: data/helpdata.txt:1016
+#: data/helpdata.txt:1015
 #, no-c-format
 msgid ""
 "Whichever unit survives the fight has a chance of becoming a veteran, if it "
@@ -16532,7 +16532,7 @@ msgstr ""
 "не устарела), соединение всегда становится ветераном. В противном случае оно "
 "имеет 50% шанс."
 
-#: data/helpdata.txt:1022
+#: data/helpdata.txt:1021
 msgid ""
 "If the attacker is a ground unit and wins, and the defender is in a city "
 "without City Walls, the city is reduced in size by 1."
@@ -16540,7 +16540,7 @@ msgstr ""
 "Если атакующий - наземное соединение и побеждает, а защитник находился в "
 "городе без Городских Стен, размер города уменьшается на 1."
 
-#: data/helpdata.txt:1025
+#: data/helpdata.txt:1024
 msgid ""
 "If the defender loses, and is not inside a city or fortress, all other units "
 "at the defender's location are destroyed along with the defender."
@@ -16548,11 +16548,11 @@ msgstr ""
 "Если защитник проигрывает, и не находится внутри города или крепости, все "
 "другие соединения в этом месте гибнут вместе с ним."
 
-#: data/helpdata.txt:1032
+#: data/helpdata.txt:1031
 msgid " Modifying Combat Rules"
 msgstr "Изменение правил сражений"
 
-#: data/helpdata.txt:1033
+#: data/helpdata.txt:1032
 msgid ""
 "Modifying Combat Rules\n"
 "----------------------"
@@ -16560,7 +16560,7 @@ msgstr ""
 "Изменение правил сражений\n"
 "----------------------"
 
-#: data/helpdata.txt:1034
+#: data/helpdata.txt:1033
 msgid ""
 "The combat rules described before can be modified by changing the following "
 "modifiers in game.ruleset, section combat_rules: "
@@ -16568,7 +16568,7 @@ msgstr ""
 "Правила сражений, описанные выше, могуть быть изменены в файле game.ruleset, "
 "секция combat_rules: "
 
-#: data/helpdata.txt:1037
+#: data/helpdata.txt:1036
 msgid ""
 " - killstack. (default: 1) If set to 0, units in the same tile of a lost "
 "defender are not destroyed. "
@@ -16577,11 +16577,11 @@ msgstr ""
 "находящиеся в том же квадрате, что и уничтоженное соединение, остаются в "
 "живых."
 
-#: data/helpdata.txt:1043
+#: data/helpdata.txt:1042
 msgid " Combat example 1"
 msgstr " Сражение, пример 1"
 
-#: data/helpdata.txt:1044
+#: data/helpdata.txt:1043
 msgid ""
 "Suppose a veteran Cannon (A:8, D:1, HP:20, F:1) with 2/3 movement points "
 "left attacks a non-veteran Musketeer (A:3, D:3, HP:20, F:1) inside a city "
@@ -16591,7 +16591,7 @@ msgstr ""
 "ветерана Мушкетера (А:3, З:3, Зд:20, Ог:1) внутри города со стенами "
 "построенном на лесном квадрате."
 
-#: data/helpdata.txt:1048
+#: data/helpdata.txt:1047
 msgid ""
 "The attacker's base strength is 8.  Veteran status makes this 12, but "
 "because it only has 2/3 movement points its final strength is 8."
@@ -16599,7 +16599,7 @@ msgstr ""
 "Базовая сила атакующего 8. Статус ветерана превращает её в 12, но 2/3 хода "
 "меняют её снова на 8."
 
-#: data/helpdata.txt:1051
+#: data/helpdata.txt:1050
 msgid ""
 "The defender's base strength is 3.  Because it is on a Forest tile, its "
 "strength becomes 4.5.  It is behind City Walls, so its strength is tripled, "
@@ -16610,7 +16610,7 @@ msgstr ""
 "Стены утраивают силу, 13,5. Это наземное соединение в городе, следовательно "
 "сила - 20,25."
 
-#: data/helpdata.txt:1056
+#: data/helpdata.txt:1055
 msgid ""
 "Strength values inside the game are actually multiplied by 10, with "
 "fractions dropped, so the attacker's strength is 80, and the defender's "
@@ -16619,11 +16619,11 @@ msgstr ""
 "Значения силы в игре на самом деле умножаются на десять и дробная часть "
 "отбрасывается, т.е. сила атакующего - 80, а сила защитника - 202."
 
-#: data/helpdata.txt:1060
+#: data/helpdata.txt:1059
 msgid "Both units keep their firepower of 1 unchanged."
 msgstr "Оба соединения сохраняют свою огневую мощь равной 1."
 
-#: data/helpdata.txt:1063
+#: data/helpdata.txt:1062
 #, no-c-format
 msgid ""
 "Each round of combat, a random number between 1 and 282 is generated.  If "
@@ -16634,7 +16634,7 @@ msgstr ""
 "больше чем 202 (примерно 28% вероятность), защитник теряет единицу здоровья. "
 "В противном случае (около 72% вероятность) атакующий теряет единицу здоровья."
 
-#: data/helpdata.txt:1074
+#: data/helpdata.txt:1073
 #, no-c-format
 msgid ""
 "Since both units have 20 hit points, the odds favor a victory for the "
@@ -16649,11 +16649,11 @@ msgstr ""
 "не потерять ни одной единицы, может потерять больше половины, а может даже и "
 "проиграть."
 
-#: data/helpdata.txt:1084
+#: data/helpdata.txt:1083
 msgid " Combat example 2"
 msgstr " Сражение, пример 2"
 
-#: data/helpdata.txt:1085
+#: data/helpdata.txt:1084
 msgid ""
 "Suppose a veteran Battleship (A:12, D:12, HP:40, F:2) with 3 movement points "
 "attacks a veteran Alpine Troops (A:5, D:5, HP:20, F:1) inside a city built "
@@ -16663,11 +16663,11 @@ msgstr ""
 "ветеранa-Альпийских стрелков (А:5, З:5, Зд: 20, Ог:1) внутри города в Степи "
 "с Городскими Стенами и Береговой Защитой."
 
-#: data/helpdata.txt:1090
+#: data/helpdata.txt:1089
 msgid "The attacker's strength is 12, raised to 18 because of veteran status."
 msgstr "Сила атакующего - 12, из-за ветеранского статуса - 18."
 
-#: data/helpdata.txt:1093
+#: data/helpdata.txt:1092
 msgid ""
 "The defender's strength is 5, raised to 7.5 due to veteran status. The "
 "terrain's defense factor is 1 (no effect).  The Coastal Defense doubles the "
@@ -16680,7 +16680,7 @@ msgstr ""
 "не действуют против атакующего морского соединения). Защитник - наземное "
 "соединение внутри города, т.е. окончательная сила - 22,5."
 
-#: data/helpdata.txt:1099
+#: data/helpdata.txt:1098
 msgid ""
 "Internally, the values used for attacker and defender strength are 180 and "
 "225, respectively."
@@ -16688,11 +16688,11 @@ msgstr ""
 "Внутренние значения для силы атакующего и защитника - 180 и 225 "
 "соответственно."
 
-#: data/helpdata.txt:1102
+#: data/helpdata.txt:1101
 msgid "The firepower of the Battleship is set from 2 to 1."
 msgstr "Огневая мощь линкора уменьшается с 2 до 1."
 
-#: data/helpdata.txt:1105
+#: data/helpdata.txt:1104
 #, no-c-format
 msgid ""
 "Each round, a random number from 1 to 405 is generated.  If it is greater "
@@ -16703,7 +16703,7 @@ msgstr ""
 "225 (примерно 44% вероятность) защитник теряет 1 единицу здоровья. В "
 "противном случае, атакующий теряет 1 единицу здоровья."
 
-#: data/helpdata.txt:1116
+#: data/helpdata.txt:1115
 #, no-c-format
 msgid ""
 "In this case, the odds greatly favor the attacker winning.  The Battleship "
@@ -16717,11 +16717,11 @@ msgstr ""
 "больше здоровья. Линкор потеряет порядка 60% своего здоровья в результате "
 "битвы, после чего он не сможет двигаться."
 
-#: data/helpdata.txt:1125
+#: data/helpdata.txt:1124
 msgid "Zones of Control"
 msgstr "Зоны контроля"
 
-#: data/helpdata.txt:1126
+#: data/helpdata.txt:1125
 msgid ""
 "Zones of Control, abbreviated as ZOC, is a game concept which prevents you "
 "moving freely in zones controlled (or partially controlled) by enemy forces."
@@ -16729,7 +16729,7 @@ msgstr ""
 "Зоны контроля (ЗК) это одно из правил игры, которое предотвращает движение "
 "игрока в зонах, конктролируемых (или частично контролируемых) другим игроком."
 
-#: data/helpdata.txt:1130
+#: data/helpdata.txt:1129
 msgid ""
 "The general rule is that a land unit which is adjacent to an enemy occupied "
 "square cannot move directly to another square which is also adjacent to an "
@@ -16743,7 +16743,7 @@ msgstr ""
 "квадрат на котором находится соединение противника. Рядом означает любой из "
 "8 примыкающих квадратов."
 
-#: data/helpdata.txt:1136
+#: data/helpdata.txt:1135
 msgid ""
 "In the following special cases ZOC does not apply:\n"
 "- A unit moving directly into or out of a city.\n"
@@ -16757,7 +16757,7 @@ msgstr ""
 "- Соединение, перемещающееся с морского квадрата (с корабля).\n"
 "- Соединения, игнорурующие ЗК: дипломаты и др."
 
-#: data/helpdata.txt:1142
+#: data/helpdata.txt:1141
 msgid ""
 "Notes:\n"
 "\n"
@@ -16796,7 +16796,7 @@ msgstr ""
 "(т.е. погрузка на корабль) также разрешается, т.к. покрывается особым "
 "случаем: движение в квадрат, уже занятый игроком (кораблем)."
 
-#: data/helpdata.txt:1162
+#: data/helpdata.txt:1161
 msgid ""
 "TIP:  You can infiltrate enemy zones by first moving in a Diplomat (or some "
 "other unit which ignores ZOC), and then moving regular units onto the square "
@@ -16810,7 +16810,7 @@ msgstr ""
 "чтобы квадраты оставались занятыми) Вы можете проложить дорогу через "
 "территорию противника."
 
-#: data/helpdata.txt:1169
+#: data/helpdata.txt:1168
 msgid ""
 "These rules differ slightly from previous versions of Freeciv (release 1.8.0 "
 "and before) in the following ways:\n"
@@ -16822,7 +16822,7 @@ msgstr ""
 "- Пустые города более не создают ЗК.\n"
 "- Особый случай для высаживающихся соединений явлется новым."
 
-#: data/helpdata.txt:1178
+#: data/helpdata.txt:1177
 msgid ""
 "The different types of terrain each have different strengths and drawbacks.  "
 "When choosing a place for a new city, make sure there are enough food-"
@@ -16832,7 +16832,7 @@ msgstr ""
 "постройки города, убедитесь, что рядом достаточно квадратов, производящих "
 "еду, для поддержки Вашего растущего населения."
 
-#: data/helpdata.txt:1183
+#: data/helpdata.txt:1182
 msgid ""
 "The net benefit of a square for your city depends on your government type as "
 "well as city improvements and wonders."
@@ -16840,18 +16840,18 @@ msgstr ""
 "Окончательное количество ресурсов, производимое квадратом, зависит от формы "
 "Вашего правления, а также от зданий в городах и чудес света."
 
-#: data/helpdata.txt:1192
+#: data/helpdata.txt:1191
 msgid " Terrain Alterations"
 msgstr " Изменения рельефа"
 
-#: data/helpdata.txt:1193
+#: data/helpdata.txt:1192
 msgid ""
 "Settlers and Engineers have the ability to alter terrain squares in several "
 "ways."
 msgstr ""
 "Колонисты и Инженеры могут изменять рельеф квадратов несколькими способами."
 
-#: data/helpdata.txt:1196
+#: data/helpdata.txt:1195
 msgid ""
 "Suitable types of terrain can be irrigated.  This requires a nearby source "
 "of water: an Ocean or River square, or another square which is irrigated, "
@@ -16868,7 +16868,7 @@ msgstr ""
 "наличии соответствующей технологии, квадрат можно оросить еще раз, превращая "
 "его в еще более продуктивную Ферму."
 
-#: data/helpdata.txt:1204
+#: data/helpdata.txt:1203
 msgid ""
 "Some types of terrain can be mined, which increases the number of resources "
 "(shields) produced by that square."
@@ -16876,7 +16876,7 @@ msgstr ""
 "Некоторые типы рельефа могут быть разработаны с помощью шахт. Это "
 "увеличивает количество ресурсов (щитов), производимое данным квадратом."
 
-#: data/helpdata.txt:1207
+#: data/helpdata.txt:1206
 msgid ""
 "Roads and railroads can be built on any square except Ocean.  (To build a "
 "road or railroad on a River square, though, you must know Bridge Building.)  "
@@ -16889,7 +16889,7 @@ msgstr ""
 "позволяют Вашим соединениям перемещаться быстрее и увеличивают ресурсы, "
 "производимые в городах."
 
-#: data/helpdata.txt:1212
+#: data/helpdata.txt:1211
 msgid ""
 " - Units use only one third of a movement point when going from one square "
 "to an adjacent square, if both squares have a road."
@@ -16897,7 +16897,7 @@ msgstr ""
 " - Соединения используют только треть единицы движения, двигаясь с квадрата "
 "на соседний, если на обоих построена дорога."
 
-#: data/helpdata.txt:1215
+#: data/helpdata.txt:1214
 msgid ""
 " - Units expend no movement points when moving along a railroad. You may "
 "ride a railroad indefinitely."
@@ -16905,14 +16905,14 @@ msgstr ""
 " - Соединения не теряют единиц движения вообще, когда двигаются по железной "
 "дороге. Вы можете двигаться по железной дороге сколько угодно."
 
-#: data/helpdata.txt:1218
+#: data/helpdata.txt:1217
 msgid ""
 " - A road may increase the trade resources produced by some types of terrain."
 msgstr ""
 " - Дорога может увеличить производство ресурсов торговли на некоторых видах "
 "рельефа."
 
-#: data/helpdata.txt:1221
+#: data/helpdata.txt:1220
 msgid ""
 " - A railroad increases the shield resources produced by a square by 50%.  "
 "(Depending on server options, railroads may also increase food and trade "
@@ -16923,7 +16923,7 @@ msgstr ""
 "производство еды и торговых ресурсов, или увеличивать производство щитов на "
 "другой процент.)"
 
-#: data/helpdata.txt:1226
+#: data/helpdata.txt:1225
 msgid ""
 "Settlers and Engineers may also build a fortress.  Units inside a fortress "
 "defend at twice their normal strength; also, units inside a fortress must be "
@@ -16933,14 +16933,14 @@ msgstr ""
 "имеют удвоенную защиту; также они должны быть уничтожены по одному за раз. "
 "Смотрите секцию справки \"Сражения\"."
 
-#: data/helpdata.txt:1231
+#: data/helpdata.txt:1230
 msgid ""
 "You may also build Airbases, at which your air units may land and refuel."
 msgstr ""
 "Вы также можете строить аэродромы, на которые Ваши воздушные соединения "
 "могут приземлиться для дозаправки."
 
-#: data/helpdata.txt:1234
+#: data/helpdata.txt:1233
 msgid ""
 "The following table shows the number of turns required for one unit of "
 "Settlers to complete an activity. These numbers are reduced to half (rounded "
@@ -16952,7 +16952,7 @@ msgstr ""
 "(округляя вверх) для Инженеров. Вы можете еще более ускорить процесс, "
 "назначив несколько соединений Колонистов/Инженеров на эту работу."
 
-#: data/helpdata.txt:1241
+#: data/helpdata.txt:1240
 msgid ""
 "City centers (the tile a city is on) are special.  A city center is worked "
 "for free in the default rules. When a city is built a road is automatically "
@@ -16970,11 +16970,11 @@ msgstr ""
 "на нем и нет. Наконец, у центра города может быть определяемый набором "
 "правил минимум ресурсов еды, щитов и торговли."
 
-#: data/helpdata.txt:1251
+#: data/helpdata.txt:1250
 msgid "  Pillaging"
 msgstr "  Разрушение"
 
-#: data/helpdata.txt:1252
+#: data/helpdata.txt:1251
 msgid ""
 "All ground units have the ability to destroy terrain alterations, by "
 "pillaging.  Pillaging removes 1 terrain alteration per turn per unit.  "
@@ -16987,7 +16987,7 @@ msgstr ""
 "выбор: какое изменение рельефа уничтожить, или они будут уничтожаться в "
 "следующем порядке:"
 
-#: data/helpdata.txt:1258
+#: data/helpdata.txt:1257
 msgid ""
 " - farmland\n"
 " - irrigation\n"
@@ -17005,7 +17005,7 @@ msgstr ""
 " - железная дорога\n"
 " - дорога"
 
-#: data/helpdata.txt:1266
+#: data/helpdata.txt:1265
 msgid ""
 "Tiles that do not have terrain alterations (farmland, irrigation, mining, "
 "fortress, airbase, railroad or road) cannot be pillaged. In addition, "
@@ -17022,7 +17022,7 @@ msgstr ""
 "превратит его назад в лес. Чтобы добиться этого результата, Вам придется "
 "использовать колонистов или инженеров."
 
-#: data/helpdata.txt:1278
+#: data/helpdata.txt:1277
 msgid ""
 "Your government type influences your cities' productivity and commerce, your "
 "citizens' happiness, and many other game factors."
@@ -17030,7 +17030,7 @@ msgstr ""
 "Форма Вашего правления влияет на производительность Ваших городов, на "
 "уровень счастья Ваших граждан и на много других элементов игры."
 
-#: data/helpdata.txt:1281
+#: data/helpdata.txt:1280
 msgid ""
 "Your civilization starts out under a Despotism.  As your technology "
 "improves, you can select other forms of government (listed below). In order "
@@ -17044,7 +17044,7 @@ msgstr ""
 "результате Вы окажетесь в периоде анархии (1-5 ходов), после чего Вы сможете "
 "избрать новую форму правления."
 
-#: data/helpdata.txt:1288
+#: data/helpdata.txt:1287
 msgid ""
 "Corruption is the loss of trade due to inefficiency and greed. Under most "
 "forms of government, the farther away from the capital a city is, the more "
@@ -17058,7 +17058,7 @@ msgstr ""
 "столицы, Вы будете страдать от очень высокого уровня коррупции). Суд "
 "уменьшит уровень коррупции в городе."
 
-#: data/helpdata.txt:1295
+#: data/helpdata.txt:1294
 msgid ""
 "Waste is the loss of shields due to inefficiency and greed. Under most forms "
 "of government, the farther away from the capital a city is, the more shields "
@@ -17072,7 +17072,7 @@ msgstr ""
 "(Если у Вас нет столицы, вы будете страдать от очень высокого уровня "
 "растраты). Суд уменьшит уровень растраты в городе."
 
-#: data/helpdata.txt:1302
+#: data/helpdata.txt:1301
 msgid ""
 "TIP 1:  Offensive military campaigns are difficult under Republican and "
 "Democratic governments unless you give your citizens lots of luxuries to "
@@ -17084,7 +17084,7 @@ msgstr ""
 "высокий уровень роскоши в государстве. Во время захватнических войн, "
 "возможно, стоит переключиться на одну из более агрессивных форм правления."
 
-#: data/helpdata.txt:1308
+#: data/helpdata.txt:1307
 msgid ""
 "TIP 2:  Scientific advancement requires high levels of trade, which are much "
 "easier to achieve under Republican and Democratic governments.  Consider "
@@ -17096,11 +17096,11 @@ msgstr ""
 "том, чтобы переключиться на республиканскую форму правления как можно "
 "раньше: получение развитых технологий в начале игры даёт преимущество."
 
-#: data/helpdata.txt:1317
+#: data/helpdata.txt:1316
 msgid " Civil War"
 msgstr " Гражданская война"
 
-#: data/helpdata.txt:1318
+#: data/helpdata.txt:1317
 msgid ""
 "Civil war is devastating to any empire, and is triggered by the loss of your "
 "capital (palace).  Up to half of your cities will rebel and declare "
@@ -17113,7 +17113,7 @@ msgstr ""
 "(компьютерного). Новый игрок заберет половину Ваших денег и сохранит все "
 "Ваши научные достижения."
 
-#: data/helpdata.txt:1324
+#: data/helpdata.txt:1323
 msgid ""
 "Players remain in the civil war state for just one turn, after which the "
 "empire enters a state of anarchy."
@@ -17121,7 +17121,7 @@ msgstr ""
 "Игроки находятся в состоянии гражданской войны один ход, после чего империя "
 "входит в состояние анархии."
 
-#: data/helpdata.txt:1327
+#: data/helpdata.txt:1326
 msgid ""
 "The capture of your capital does not always lead to civil war.  If you have "
 "treated your people with kindness, you are more likely to retain their "
@@ -17133,7 +17133,7 @@ msgstr ""
 "Каждый город в состоянии праздника уменьшает вероятность гражданской войны, "
 "каждый город в состоянии беспорядков увеличивает эти шансы."
 
-#: data/helpdata.txt:1333
+#: data/helpdata.txt:1332
 msgid ""
 "In addition, the form of government directly contributes to the chance of "
 "civil war.  Governments with universal franchise are far less likely to "
@@ -17143,7 +17143,7 @@ msgstr ""
 "гражданской войны. Эта вероятность ниже при более демократических формах "
 "правления."
 
-#: data/helpdata.txt:1337
+#: data/helpdata.txt:1336
 msgid ""
 "The number of cities an empire needs before it can erupt into civil war is "
 "by default 10.  That is, empires with fewer than 10 cities are immune from "
@@ -17155,7 +17155,7 @@ msgstr ""
 "менее 10 городов, не может быть гражданаской войны. Однако, это одна из "
 "установок сервера, которая может быть любым числом, но не меньше 6."
 
-#: data/helpdata.txt:1349
+#: data/helpdata.txt:1348
 msgid ""
 "Citizens may be either happy, content or unhappy.  Keeping your citizens "
 "happy (or at least content) is one of the most important objectives in "
@@ -17169,7 +17169,7 @@ msgstr ""
 "начинаются беспорядки (что мешает производству), а если жители счастливы, в "
 "городе начинается праздник и производство сильно растёт."
 
-#: data/helpdata.txt:1356
+#: data/helpdata.txt:1355
 msgid ""
 "If the number of unhappy citizens in a city exceeds the number of happy "
 "citizens, the city falls into disorder.  When a city falls into disorder, it "
@@ -17184,7 +17184,7 @@ msgstr ""
 "продолжающиеся беспорядки могут вызвать революцию, сбрасывающую Ваше "
 "правительство."
 
-#: data/helpdata.txt:1363
+#: data/helpdata.txt:1362
 msgid ""
 "However, if the number of happy citizens in a city is at least as great as "
 "the number of content citizens, and you have no unhappy citizens in that "
@@ -17197,7 +17197,7 @@ msgstr ""
 "начинается праздник. Это состояние обозначается как \"Бум\" в Городском "
 "отчете. Эффекты празднования зависят от формы правления:"
 
-#: data/helpdata.txt:1370
+#: data/helpdata.txt:1369
 msgid ""
 " - Under Anarchy or Despotism, you will not suffer the normal production "
 "penalty for squares which produce more than 2 units of any resource (food, "
@@ -17207,7 +17207,7 @@ msgstr ""
 "производства для квадратов, производяших 2 или более единицы любого ресурса "
 "(еды, щитов или торговли)."
 
-#: data/helpdata.txt:1374
+#: data/helpdata.txt:1373
 msgid ""
 " - Under Monarchy or Communism, your city will gain the trade bonus of "
 "Republican/Democratic governments: 1 bonus trade in any square which already "
@@ -17217,7 +17217,7 @@ msgstr ""
 "Республиканской/Демократической формы правления: +1 торговый ресурс в каждом "
 "квадрате, уже производящем торговые ресурсы."
 
-#: data/helpdata.txt:1378
+#: data/helpdata.txt:1377
 msgid ""
 " - Under a Republic or a Democracy, your city's population will increase by "
 "1 each turn until there is no excess food or until the number of happy "
@@ -17227,7 +17227,7 @@ msgstr ""
 "единицу каждый ход, пока в городе не будет лишней еды, либо пока число "
 "счастливых граждан не будет недостаточным для празднования."
 
-#: data/helpdata.txt:1383
+#: data/helpdata.txt:1382
 msgid ""
 "The normal state of a citizen is contentment.  However, as your cities grow "
 "larger, crowding causes citizens to become unhappy. Each citizen in a city "
@@ -17243,7 +17243,7 @@ msgstr ""
 "формы правления и настройки сервера \"cityfactor\"), ограничение на "
 "нейтральных жителей будет уменьшено до 3."
 
-#: data/helpdata.txt:1393
+#: data/helpdata.txt:1392
 msgid ""
 "In order to offset unhappiness, you may build city improvements that make "
 "unhappy citizens content  (such as, a Temple, a Colosseum, or a Cathedral - "
@@ -17263,7 +17263,7 @@ msgstr ""
 "превращаются в нейтральных и счастливых. Некоторые чудеса света влияют на "
 "счастливость жителей (смотрите соответсвующие секции)."
 
-#: data/helpdata.txt:1403
+#: data/helpdata.txt:1402
 msgid ""
 "Under many forms of government, the presence of military units in a city can "
 "create contentment by imposing martial law.  Under a Republic or a "
@@ -17289,7 +17289,7 @@ msgstr ""
 "городе, либо удваивает эффект Соборов, в зависимости от набора правил), а "
 "также перевод части тороговли в роскошь."
 
-#: data/helpdata.txt:1422
+#: data/helpdata.txt:1421
 msgid ""
 "The Space Race is a second option to win the game, besides eliminating all "
 "other civilizations.  If your spaceship arrives first at Alpha Centauri, the "
@@ -17300,7 +17300,7 @@ msgstr ""
 "противников. Если Ваш корабль первым доберется до Альфа Центавра, игра "
 "закончится и Вы выиграете. (Эту настройку можно отключить на сервере)"
 
-#: data/helpdata.txt:1428
+#: data/helpdata.txt:1427
 msgid ""
 "Before you can build spaceship parts, the Apollo Program wonder must have "
 "been built by any player.  You also need specific technologies to build the "
@@ -17316,7 +17316,7 @@ msgstr ""
 "этим пунктам, настройка сервера \"spacerace\" - Космическая Гонка скорее "
 "всего выключена.)"
 
-#: data/helpdata.txt:1436
+#: data/helpdata.txt:1435
 msgid ""
 "When you have started building your spaceship, you can see it with the "
 "\"Spaceship\" command in the Report menu.  To see spaceships of other "
@@ -17327,7 +17327,7 @@ msgstr ""
 "своих противников, выберите игрока из списка в диалоге Игроки и нажмите на "
 "\"Космический Корабль\"."
 
-#: data/helpdata.txt:1441
+#: data/helpdata.txt:1440
 msgid ""
 "If the success probability is below 100%, some fraction of the people on "
 "board may not survive the journey.  This reduces the score bonus from the "
@@ -17336,7 +17336,7 @@ msgstr ""
 "Если вероятность успеха меньше 100%, часть людей на корабле может погибнуть, "
 "что уменьшит Ваш счет, но все равно зачтется как победа."
 
-#: data/helpdata.txt:1445
+#: data/helpdata.txt:1444
 msgid ""
 "If the capital of a civilization is captured, a spaceship that has been "
 "launched will be lost, so defend your capital well!"
@@ -17344,7 +17344,7 @@ msgstr ""
 "Если столица цивилизации захватывается врагом, космический корабль будет "
 "потерян, так что защищайте Вашу столицу!"
 
-#: data/helpdata.txt:1448
+#: data/helpdata.txt:1447
 msgid ""
 "TIP:  If an enemy civilization has launched a spaceship, try to quickly "
 "build a light spaceship with many propulsion units that will arrive "
