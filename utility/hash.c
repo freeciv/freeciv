@@ -130,6 +130,7 @@ struct hash_table {
   unsigned int num_entries;	/* does not included deleted entries */
   unsigned int num_deleted;
   bool frozen;			/* do not auto-resize when set */
+  bool no_shrink;		/* do not auto-shrink when set */
 };
 
 /* Calculate hash value given hash_table ptr and key: */
@@ -158,6 +159,7 @@ static void zero_htable(struct hash_table *h)
   h->free_data_func = NULL;
   h->num_buckets = h->num_entries = h->num_deleted = 0;
   h->frozen = FALSE;
+  h->no_shrink = FALSE;
 }
 
 
@@ -438,6 +440,9 @@ static void hash_maybe_resize(struct hash_table *h, bool expandingp)
   if (h->frozen) {
     return;
   }
+  if (!expandingp && h->no_shrink) {
+    return;
+  }
   num_used = h->num_entries + h->num_deleted;
   if (expandingp) {
     limit = FULL_RATIO * h->num_buckets;
@@ -663,9 +668,16 @@ void hash_delete_all_entries(struct hash_table *h)
 {
   unsigned int bucket_nr;
 
-  /* Modeled after hash_key_by_number and hash_delete_entry. */
-  for (bucket_nr = 0; bucket_nr < h->num_buckets; bucket_nr++) {
-    hash_delete_bucket(h, &h->buckets[bucket_nr], NULL, NULL);
+  if (h->free_key_func == NULL && h->free_data_func == NULL) {
+    memset(h->buckets, 0, sizeof(struct hash_bucket) * h->num_buckets);
+    h->num_entries = 0;
+    h->num_deleted = 0;
+    h->frozen = FALSE;
+  } else {
+    /* Modeled after hash_key_by_number and hash_delete_entry. */
+    for (bucket_nr = 0; bucket_nr < h->num_buckets; bucket_nr++) {
+      hash_delete_bucket(h, &h->buckets[bucket_nr], NULL, NULL);
+    }
   }
   hash_maybe_shrink(h);
 }
@@ -770,4 +782,85 @@ const void *hash_value_by_number(const struct hash_table *h,
 				 unsigned int entry_number)
 {
   return hash_lookup_data(h, hash_key_by_number(h, entry_number));
+}
+
+/**************************************************************************
+  If the hash table is not empty, sets 'iter' to point to the start of the
+  hash table and returns TRUE. Otherwise returns FALSE.
+**************************************************************************/
+bool hash_get_start_iter(const struct hash_table *h,
+                         struct hash_iter *iter)
+{
+  if (!h || !iter || hash_num_entries(h) < 1) {
+    return FALSE;
+  }
+
+  iter->table = h;
+  iter->index = -1;
+  return hash_iter_next(iter);
+}
+
+/**************************************************************************
+  Set the iterator 'iter' to the next item in the hash table. Returns
+  FALSE if there are no more items.
+**************************************************************************/
+bool hash_iter_next(struct hash_iter *iter)
+{
+  const struct hash_table *h;
+  struct hash_bucket *bucket;
+
+  if (!iter || !iter->table) {
+    return FALSE;
+  }
+
+  h = iter->table;
+  iter->index++;
+
+  while (iter->index < hash_num_buckets(h)) {
+    bucket = h->buckets + iter->index;
+    if (bucket && bucket->used == BUCKET_USED) {
+      iter->key = bucket->key;
+      iter->value = bucket->data;
+      return TRUE;
+    }
+    iter->index++;
+  }
+
+  return FALSE;
+}
+
+/**************************************************************************
+  Returns the key of the hash table item pointed to by this iterator.
+**************************************************************************/
+void *hash_iter_get_key(struct hash_iter *iter)
+{
+  if (!iter) {
+    return NULL;
+  }
+  return (void *) iter->key;
+}
+
+/**************************************************************************
+  Returns the value (or "data) of the hash table item pointed to by this
+  iterator.
+**************************************************************************/
+void *hash_iter_get_value(struct hash_iter *iter)
+{
+  if (!iter) {
+    return NULL;
+  }
+  return (void *) iter->value;
+}
+
+/**************************************************************************
+  Prevent or allow the hash table automatically shrinking. Returns
+  the old value of the setting.
+**************************************************************************/
+bool hash_set_no_shrink(struct hash_table *h, bool no_shrink)
+{
+  bool old = h->no_shrink;
+
+  h->no_shrink = no_shrink;
+
+  return old;
 }

@@ -79,4 +79,32 @@ unsigned int hash_num_entries(const struct hash_table *h);
 unsigned int hash_num_buckets(const struct hash_table *h);
 unsigned int hash_num_deleted(const struct hash_table *h);
 
+bool hash_set_no_shrink(struct hash_table *h,
+                        bool no_shrink);
+
+struct hash_iter {
+  const struct hash_table *table;
+  int index;
+  const void *key;
+  const void *value;
+};
+
+bool hash_get_start_iter(const struct hash_table *h,
+                         struct hash_iter *iter);
+bool hash_iter_next(struct hash_iter *iter);
+void *hash_iter_get_key(struct hash_iter *iter);
+void *hash_iter_get_value(struct hash_iter *iter);
+
+#define hash_iterate(ARG_hash_table, NAME_key, NAME_value) {\
+  struct hash_iter MY_iter;\
+  if (hash_get_start_iter((ARG_hash_table), &MY_iter)) {\
+    void *NAME_key, *NAME_value;\
+    bool MY_more_items = TRUE;\
+    while (MY_more_items) {\
+      NAME_key = hash_iter_get_key(&MY_iter);\
+      NAME_value = hash_iter_get_value(&MY_iter);\
+      MY_more_items = hash_iter_next(&MY_iter);
+
+#define hash_iterate_end } } }
+
 #endif  /* FC__HASH_H */
