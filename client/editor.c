@@ -417,13 +417,55 @@ static void editor_grab_tool(const struct tile *ptile)
 }
 
 /****************************************************************************
+  Returns TRUE if the given tile has some objects with editable properties.
+****************************************************************************/
+static inline bool can_edit_tile_properties(struct tile *ptile)
+{
+  return ptile != NULL && (client_is_global_observer()
+                           || (client_has_player()
+                               && (tile_get_known(ptile, client_player())
+                                   == TILE_KNOWN_SEEN)));
+}
+
+/****************************************************************************
+  Handle a request to edit the properties for the given tile. If the tile
+  is part of a selection, then all selected tiles are passed to the
+  property editor.
+****************************************************************************/
+static void popup_properties(struct tile *ptile)
+{
+  struct tile_list *tiles;
+
+  if (!ptile) {
+    return;
+  }
+
+  tiles = tile_list_new();
+
+  if (editor_tile_is_selected(ptile)) {
+    hash_iterate(editor->selected_tile_table, sel_tile, dummy) {
+      if (can_edit_tile_properties(sel_tile)) {
+        tile_list_append(tiles, sel_tile);
+      }
+    } hash_iterate_end;
+  } else {
+    if (can_edit_tile_properties(ptile)) {
+      tile_list_append(tiles, ptile);
+    }
+  }
+
+  editgui_popup_properties(tiles);
+
+  tile_list_free(tiles);
+}
+
+/****************************************************************************
   Handle a user's mouse button press at the given point on the map canvas.
 ****************************************************************************/
 void editor_mouse_button_press(int canvas_x, int canvas_y,
                                int button, int modifiers)
 {
   struct tile *ptile;
-  struct tile_list *tiles;
 
   if (editor == NULL) {
     return;
@@ -432,15 +474,6 @@ void editor_mouse_button_press(int canvas_x, int canvas_y,
   ptile = canvas_pos_to_tile(canvas_x, canvas_y);
   if (ptile == NULL) {
     return;
-  }
-
-  tiles = tile_list_new();
-
-  if ((client_is_global_observer()
-       || (client_has_player()
-           && tile_get_known(ptile, client_player()) == TILE_KNOWN_SEEN))
-      && ptile != NULL) {
-    tile_list_append(tiles, ptile);
   }
 
   switch (button) {
@@ -460,7 +493,7 @@ void editor_mouse_button_press(int canvas_x, int canvas_y,
 
   case MOUSE_BUTTON_RIGHT:
     if (modifiers == (EKM_ALT | EKM_CTRL)) {
-      editgui_popup_properties(tiles);
+      popup_properties(ptile);
       break;
     }
     
@@ -478,15 +511,13 @@ void editor_mouse_button_press(int canvas_x, int canvas_y,
 
   case MOUSE_BUTTON_MIDDLE:
     if (modifiers == EKM_NONE) {
-      editgui_popup_properties(tiles);
+      popup_properties(ptile);
     }
     break;
 
   default:
     break;
   }
-
-  tile_list_free(tiles);
 }
 
 /****************************************************************************
