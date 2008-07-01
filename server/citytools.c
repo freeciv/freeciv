@@ -1267,7 +1267,7 @@ void remove_city(struct city *pcity)
 **************************************************************************/
 void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
 {
-  bool do_civil_war = FALSE;
+  bool try_civil_war = FALSE;
   int coins;
   struct player *pplayer = unit_owner(punit);
   struct player *cplayer = city_owner(pcity);
@@ -1307,15 +1307,7 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
       && game.info.civilwarsize < GAME_MAX_CIVILWARSIZE
       && player_count_no_barbarians() < MAX_NUM_PLAYERS
       && civil_war_triggered(cplayer)) {
-    /* Do a civil war only if there's an available unused nation. */
-    nations_iterate(pnation) {
-      if (is_nation_playable(pnation)
-	  && pnation->is_available
-	  && !pnation->player) {
-	do_civil_war = TRUE;
-	break;
-      }
-    } nations_iterate_end;
+    try_civil_war = TRUE;
   }
 
   /* 
@@ -1342,7 +1334,7 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
       remove_city(pcity);
     }
 
-    if (do_civil_war) {
+    if (try_civil_war) {
       civil_war(cplayer);
     }
     return;
@@ -1432,7 +1424,7 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
   city_reduce_size(pcity, 1, pplayer);
   send_player_info(pplayer, pplayer); /* Update techs */
 
-  if (do_civil_war) {
+  if (try_civil_war) {
     civil_war(cplayer);
   }
 
