@@ -886,20 +886,6 @@ void handle_edit_recalculate_borders(struct connection *pc)
 }
 
 /****************************************************************************
-  Client editor requests us to regenerate water.
-****************************************************************************/
-void handle_edit_regenerate_water(struct connection *pc)
-{
-  if (!can_conn_edit(pc)) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND,
-                _("You are not allowed to edit."));
-    return;
-  }
-
-  regenerate_water(update_tile_knowledge);
-}
-
-/****************************************************************************
   Remove any city at the given location.
 ****************************************************************************/
 void handle_edit_city_remove(struct connection *pc, int x, int y)

@@ -169,7 +169,6 @@ enum MenuID {
  
   MENU_EDITOR_TOGGLE,
   MENU_EDITOR_RECALCULATE_BORDERS,
-  MENU_EDITOR_REGENERATE_WATER,
   MENU_EDITOR_TOGGLE_FOGOFWAR,
 
   MENU_HELP_LANGUAGES,
@@ -632,9 +631,6 @@ static void editor_menu_callback(gpointer callback_data,
   case MENU_EDITOR_RECALCULATE_BORDERS:
     key_editor_recalculate_borders();
     break;
-  case MENU_EDITOR_REGENERATE_WATER:
-    key_editor_regenerate_water();
-    break;
   case MENU_EDITOR_TOGGLE_FOGOFWAR:
     key_editor_toggle_fogofwar();
     break;
@@ -806,8 +802,6 @@ static GtkItemFactoryEntry menu_items[]	=
 	editor_menu_callback, MENU_EDITOR_TOGGLE, "<CheckItem>" },
   { "/" N_("_Edit") "/" N_("Recalculate _Borders"), NULL,
 	editor_menu_callback, MENU_EDITOR_RECALCULATE_BORDERS },
-  { "/" N_("_Edit") "/" N_("Regenerate _Water"), NULL,
-	editor_menu_callback, MENU_EDITOR_REGENERATE_WATER },
   { "/" N_("_Edit") "/" N_("Toggle Fog-of-war"), "<control>f",
 	editor_menu_callback, MENU_EDITOR_TOGGLE_FOGOFWAR },
 

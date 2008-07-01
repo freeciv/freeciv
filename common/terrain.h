@@ -152,13 +152,7 @@ struct terrain {
 
   char identifier; /* Single-character identifier used in savegames. */
 
-#define TERRAIN_SEA_IDENTIFIER '-'
-#define TERRAIN_OCEAN_IDENTIFIER ' '
-#define TERRAIN_SHELF_IDENTIFIER ','
-#define TERRAIN_FLOOR_IDENTIFIER ':'
-#define TERRAIN_RIDGE_IDENTIFIER '^'
-#define TERRAIN_GLACIER_IDENTIFIER 'a'
-#define TERRAIN_UNKNOWN_IDENTIFIER 'u'
+#define TERRAIN_UNKNOWN_IDENTIFIER '?'
 
   int movement_cost;
   int defense_bonus; /* % defense bonus - defaults to zero */

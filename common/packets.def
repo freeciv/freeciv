@@ -1431,9 +1431,6 @@ PACKET_EDIT_MODE=150;cs,handle-per-conn,dsend
   BOOL state;
 end
 
-PACKET_EDIT_REGENERATE_WATER=151;cs,handle-per-conn
-end
-
 PACKET_EDIT_RECALCULATE_BORDERS=152;cs,handle-per-conn
 end
 

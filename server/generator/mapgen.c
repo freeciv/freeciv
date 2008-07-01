@@ -1104,12 +1104,12 @@ static bool is_tiny_island(struct tile *ptile)
 **************************************************************************/
 static void remove_tiny_islands(void)
 {
-  struct terrain *ridge = find_terrain_by_identifier(TERRAIN_RIDGE_IDENTIFIER);
+  struct terrain *shallow = most_shallow_ocean();
 
-  assert(NULL != ridge);
+  assert(NULL != shallow);
   whole_map_iterate(ptile) {
     if (is_tiny_island(ptile)) {
-      tile_set_terrain(ptile, ridge);
+      tile_set_terrain(ptile, shallow);
       tile_clear_special(ptile, S_RIVER);
       tile_set_continent(ptile, 0);
     }
@@ -1219,11 +1219,11 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
       remove_tiny_islands();
     }
 
-    /* Continent numbers must be assigned before regenerate_water() */
+    /* Continent numbers must be assigned before regenerate_lakes() */
     assign_continent_numbers();
 
     /* Make second pass on water. */
-    regenerate_water(NULL);
+    regenerate_lakes(NULL);
   } else {
     assign_continent_numbers();
   }

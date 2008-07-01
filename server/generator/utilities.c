@@ -314,19 +314,11 @@ static void assign_continent_flood(struct tile *ptile, bool is_land, int nr)
   FIXME: Results differ from initially generated waters, but this is not
          used at all in normal map generation.
 **************************************************************************/
-void regenerate_water(tile_knowledge_cb knowledge_cb)
+void regenerate_lakes(tile_knowledge_cb knowledge_cb)
 {
 #define MAX_ALT_TER_TYPES 5
 #define DEFAULT_NEAR_COAST (6)
   struct terrain *lakes[MAX_ALT_TER_TYPES];
-  struct terrain *sea = find_terrain_by_identifier(TERRAIN_SEA_IDENTIFIER);
-  struct terrain *coast = find_terrain_by_identifier(TERRAIN_OCEAN_IDENTIFIER);
-  struct terrain *shelf = find_terrain_by_identifier(TERRAIN_SHELF_IDENTIFIER);
-  struct terrain *floor = find_terrain_by_identifier(TERRAIN_FLOOR_IDENTIFIER);
-  int coast_depth = coast->property[MG_OCEAN_DEPTH];
-  int coast_count = 0;
-  int shelf_count = 0;
-  int floor_count = 0;
   int num_laketypes;
 
   num_laketypes = terrains_by_flag(TER_FRESHWATER, lakes, sizeof(lakes));
@@ -338,158 +330,29 @@ void regenerate_water(tile_knowledge_cb knowledge_cb)
 
 #undef MAX_ALT_TER_TYPES
 
-  /* coasts, lakes, and seas */
-  whole_map_iterate(ptile) {
-    struct terrain *pterrain = tile_terrain(ptile);
-    Continent_id here = tile_continent(ptile);
+  if (num_laketypes > 0) {
+    /* Lakes */
+    whole_map_iterate(ptile) {
+      struct terrain *pterrain = tile_terrain(ptile);
+      Continent_id here = tile_continent(ptile);
 
-    if (T_UNKNOWN == pterrain) {
-      continue;
-    }
-    if (!terrain_has_flag(pterrain, TER_OCEANIC)) {
-      continue;
-    }
-    if (0 < lake_surrounders[-here]) {
-      if (terrain_control.lake_max_size >= ocean_sizes[-here]
-          && num_laketypes > 0) {
-        tile_change_terrain(ptile, lakes[myrand(num_laketypes)]);
-      } else {
-        tile_change_terrain(ptile, sea);
-      }
-      if (knowledge_cb) {
-        knowledge_cb(ptile);
-      }
-      continue;
-    }
-    /* leave any existing deep features in place */
-    if (pterrain->property[MG_OCEAN_DEPTH] > coast_depth) {
-      continue;
-    }
-
-    /* default to shelf */
-    tile_change_terrain(ptile, shelf);
-    if (knowledge_cb) {
-      knowledge_cb(ptile);
-    }
-    shelf_count++;
-
-    adjc_iterate(ptile, tile2) {
-      struct terrain *pterrain2 = tile_terrain(tile2);
-      if (T_UNKNOWN == pterrain2) {
+      if (T_UNKNOWN == pterrain) {
         continue;
       }
-      /* glacier not otherwise near land floats */
-      if (TERRAIN_GLACIER_IDENTIFIER == terrain_identifier(pterrain2)) {
+      if (!terrain_has_flag(pterrain, TER_OCEANIC)) {
         continue;
       }
-      /* any land makes coast */
-      if (!terrain_has_flag(pterrain2, TER_OCEANIC)) {
-        tile_change_terrain(ptile, coast);
+      if (0 < lake_surrounders[-here]) {
+        if (terrain_control.lake_max_size >= ocean_sizes[-here]) {
+          tile_change_terrain(ptile, lakes[myrand(num_laketypes)]);
+        }
         if (knowledge_cb) {
           knowledge_cb(ptile);
         }
-        coast_count++;
-        shelf_count--;
-        break;
-      }
-    } adjc_iterate_end;
-  } whole_map_iterate_end;
-
-  /* continental shelf */
-  whole_map_iterate(ptile) {
-    struct terrain *pterrain = tile_terrain(ptile);
-    int shallow = 0;
-
-    if (T_UNKNOWN == pterrain) {
-      continue;
-    }
-    if (!terrain_has_flag(pterrain, TER_OCEANIC)) {
-      continue;
-    }
-    /* leave any other existing features in place */
-    if (pterrain != shelf) {
-      continue;
-    }
-
-    adjc_iterate(ptile, tile2) {
-      struct terrain *pterrain2 = tile_terrain(tile2);
-      if (T_UNKNOWN == pterrain2)
         continue;
-
-      switch (terrain_identifier(pterrain2)) {
-      case TERRAIN_OCEAN_IDENTIFIER:
-        shallow++;
-        break;
-      default:
-        break;
-      };
-    } adjc_iterate_end;
-
-    if (DEFAULT_NEAR_COAST < shallow) {
-      /* smooth with neighbors */
-      tile_change_terrain(ptile, coast);
-      if (knowledge_cb) {
-        knowledge_cb(ptile);
       }
-      coast_count++;
-      shelf_count--;
-    } else if (0 == shallow) {
-      tile_change_terrain(ptile, floor);
-      if (knowledge_cb) {
-        knowledge_cb(ptile);
-      }
-      floor_count++;
-      shelf_count--;
-    }
-  } whole_map_iterate_end;
-
-  /* deep ocean floor */
-  whole_map_iterate(ptile) {
-    struct terrain *pterrain = tile_terrain(ptile);
-    int shallow = 0;
-
-    if (T_UNKNOWN == pterrain) {
-      continue;
-    }
-    if (!terrain_has_flag(pterrain, TER_OCEANIC)) {
-      continue;
-    }
-    /* leave any other existing features in place */
-    if (pterrain != floor) {
-      continue;
-    }
-
-    adjc_iterate(ptile, tile2) {
-      struct terrain *pterrain2 = tile_terrain(tile2);
-      if (T_UNKNOWN == pterrain2)
-        continue;
-
-      switch (terrain_identifier(pterrain2)) {
-      case TERRAIN_GLACIER_IDENTIFIER:
-      case TERRAIN_OCEAN_IDENTIFIER:
-      case TERRAIN_SHELF_IDENTIFIER:
-        shallow++;
-        break;
-      default:
-        break;
-      };
-    } adjc_iterate_end;
-
-    if (DEFAULT_NEAR_COAST < shallow) {
-      /* smooth with neighbors */
-      tile_change_terrain(ptile, shelf);
-      if (knowledge_cb) {
-        knowledge_cb(ptile);
-      }
-      floor_count--;
-      shelf_count++;
-    }
-  } whole_map_iterate_end;
-
-  freelog(LOG_VERBOSE, "Map has %d coast, %d shelf, and %d floor tiles", 
-          coast_count,
-          shelf_count,
-          floor_count);
+    } whole_map_iterate_end;
+  }
 }
 
 /**************************************************************************
@@ -569,4 +432,30 @@ void assign_continent_numbers(void)
 
   freelog(LOG_VERBOSE, "Map has %d continents and %d oceans", 
 	  map.num_continents, map.num_oceans);
+}
+
+/**************************************************************************
+  Return most shallow ocean terrain type. Freshwater lakes are not
+  considered, if there is any salt water terrain types.
+**************************************************************************/
+struct terrain *most_shallow_ocean(void)
+{
+  bool oceans = FALSE;
+  struct terrain *shallow = NULL;
+
+  terrain_type_iterate(pterr) {
+    if (is_ocean(pterr)) {
+      if (!oceans && !terrain_has_flag(pterr, TER_FRESHWATER)) {
+        /* First ocean type */
+        oceans = TRUE;
+        shallow = pterr;
+      } else if (!shallow
+                 || pterr->property[MG_OCEAN_DEPTH] <
+                    shallow->property[MG_OCEAN_DEPTH]) {
+        shallow = pterr;
+      }
+    }
+  } terrain_type_iterate_end;
+
+  return shallow;
 }

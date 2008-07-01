@@ -2844,14 +2844,6 @@ void key_editor_recalculate_borders(void)
 }
 
 /**************************************************************************
-  Regenerate water.
-**************************************************************************/
-void key_editor_regenerate_water(void)
-{
-  send_packet_edit_regenerate_water(&client.conn);
-}
-
-/**************************************************************************
   Send a request to the server to toggle fog-of-war for the current
   player (only applies in edit mode).
 **************************************************************************/
