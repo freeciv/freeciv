@@ -20,6 +20,7 @@
 #include <string.h>
 
 #include "fcintl.h"
+#include "hash.h"
 #include "log.h"
 #include "support.h"
 
@@ -38,7 +39,6 @@
 #include "editgui_g.h"
 #include "mapview_g.h"
 
-BV_DEFINE(bv_map_selection, MAP_MAX_WIDTH * MAP_MAX_HEIGHT);
 
 enum selection_modes {
   SELECTION_MODE_NEW = 0,
@@ -83,8 +83,7 @@ struct editor_state {
 
   enum selection_modes selection_mode;
 
-  bv_map_selection mapsel;
-  int selection_count;
+  struct hash_table *selected_tile_table;
 };
 
 static struct editor_state *editor;
@@ -123,14 +122,19 @@ void editor_init(void)
            _("Create city."));
   SET_TOOL(ETT_VISION, _("Vision"), ETF_HAS_SIZE,
            _("Modify player's tile knowledge."));
-  SET_TOOL(ETT_TERRITORY, _("Territory"), ETF_HAS_SIZE | ETF_HAS_APPLIED_PLAYER,
+  SET_TOOL(ETT_TERRITORY, _("Territory"),
+           ETF_HAS_SIZE | ETF_HAS_APPLIED_PLAYER,
            _("Change tile ownership."));
-  SET_TOOL(ETT_STARTPOS, _("Start Position"), ETF_NO_FLAGS | ETF_HAS_APPLIED_PLAYER,
+  SET_TOOL(ETT_STARTPOS, _("Start Position"), ETF_HAS_APPLIED_PLAYER,
            _("Place a player start position."));
 #undef SET_TOOL
 
   editor_set_size(1);
   editor_set_count(1);
+  
+  editor->selected_tile_table = hash_new(hash_fval_keyval,
+                                         hash_fcmp_keyval);
+  hash_set_no_shrink(editor->selected_tile_table, TRUE);
 }
 
 /****************************************************************************
@@ -239,7 +243,7 @@ static void editor_start_selection_rectangle(int canvas_x, int canvas_y)
   }
 
   if (editor->selection_mode == SELECTION_MODE_NEW
-      && editor->selection_count > 0) {
+      && editor_selection_count() > 0) {
     editor_selection_clear();
     update_map_canvas_visible();
   }
@@ -830,8 +834,7 @@ void editor_selection_clear(void)
   if (!editor) {
     return;
   }
-  memset(editor->mapsel.vec, 0, _BV_BYTES(MAP_INDEX_SIZE));
-  editor->selection_count = 0;
+  hash_delete_all_entries(editor->selected_tile_table);
 }
 
 /****************************************************************************
@@ -842,8 +845,7 @@ void editor_selection_add(const struct tile *ptile)
   if (!editor || !ptile) {
     return;
   }
-  BV_SET(editor->mapsel, tile_index(ptile));
-  editor->selection_count++;
+  hash_insert(editor->selected_tile_table, ptile, NULL);
 }
 
 /****************************************************************************
@@ -854,8 +856,7 @@ void editor_selection_remove(const struct tile *ptile)
   if (!editor || !ptile) {
     return;
   }
-  BV_CLR(editor->mapsel, tile_index(ptile));
-  editor->selection_count--;
+  hash_delete_entry(editor->selected_tile_table, ptile);
 }
 
 /****************************************************************************
@@ -866,7 +867,7 @@ bool editor_tile_is_selected(const struct tile *ptile)
   if (!editor || !ptile) {
     return FALSE;
   }
-  return BV_ISSET(editor->mapsel, tile_index(ptile));
+  return hash_key_exists(editor->selected_tile_table, ptile);
 }
 
 /****************************************************************************
@@ -877,16 +878,14 @@ void editor_apply_tool_to_selection(void)
   if (!editor) {
     return;
   }
-  if (editor->selection_count <= 0) {
+  if (editor_selection_count() <= 0) {
     return;
   }
 
   connection_do_buffer(&client.conn);
-  whole_map_iterate(ptile) {
-    if (editor_tile_is_selected(ptile)) {
-      editor_apply_tool(ptile, TRUE);
-    }
-  } whole_map_iterate_end;
+  hash_iterate(editor->selected_tile_table, ptile, dummy) {
+    editor_apply_tool(ptile, TRUE);
+  } hash_iterate_end;
   editor_notify_edit_finished();
   connection_do_unbuffer(&client.conn);
 }
@@ -1147,4 +1146,15 @@ int editor_decode_base_value(int value)
 bool editor_value_is_encoded_base_number(int value)
 {
   return value >= S_LAST;
+}
+
+/****************************************************************************
+  Returns the number of currently selected tiles.
+****************************************************************************/
+int editor_selection_count(void)
+{
+  if (!editor) {
+    return 0;
+  }
+  return hash_num_entries(editor->selected_tile_table);
 }

@@ -90,6 +90,7 @@ void editor_selection_add(const struct tile *ptile);
 void editor_selection_remove(const struct tile *ptile);
 bool editor_tile_is_selected(const struct tile *ptile);
 void editor_apply_tool_to_selection(void);
+int editor_selection_count(void);
 
 int editor_encode_base_number(int base_type_id);
 int editor_decode_base_value(int value);
