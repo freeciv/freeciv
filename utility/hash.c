@@ -841,7 +841,7 @@ void *hash_iter_get_key(struct hash_iter *iter)
 }
 
 /**************************************************************************
-  Returns the value (or "data) of the hash table item pointed to by this
+  Returns the value (or "data") of the hash table item pointed to by this
   iterator.
 **************************************************************************/
 void *hash_iter_get_value(struct hash_iter *iter)
