@@ -726,7 +726,7 @@ static bool is_special_in_range(const struct tile *target_tile,
   case REQ_RANGE_LOCAL:
     return target_tile && tile_has_special(target_tile, special);
   case REQ_RANGE_ADJACENT:
-    return target_tile && is_special_near_tile(target_tile, special);
+    return target_tile && is_special_near_tile(target_tile, special, TRUE);
   case REQ_RANGE_CITY:
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
@@ -755,7 +755,7 @@ static bool is_terrain_in_range(const struct tile *target_tile,
     /* The requirement is filled if the tile has the terrain. */
     return pterrain && tile_terrain(target_tile) == pterrain;
   case REQ_RANGE_ADJACENT:
-    return pterrain && is_terrain_near_tile(target_tile, pterrain);
+    return pterrain && is_terrain_near_tile(target_tile, pterrain, TRUE);
   case REQ_RANGE_CITY:
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:

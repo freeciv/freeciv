@@ -468,15 +468,20 @@ const char *resource_rule_name(const struct resource *presource)
   Returns TRUE iff any adjacent tile contains the given terrain.
 ****************************************************************************/
 bool is_terrain_near_tile(const struct tile *ptile,
-			  const struct terrain *pterrain)
+			  const struct terrain *pterrain,
+                          bool check_self)
 {
+  if (!pterrain) {
+    return FALSE;
+  }
+
   adjc_iterate(ptile, adjc_tile) {
-    if (pterrain && tile_terrain(adjc_tile) == pterrain) {
+    if (tile_terrain(adjc_tile) == pterrain) {
       return TRUE;
     }
   } adjc_iterate_end;
 
-  return FALSE;
+  return check_self && ptile->terrain == pterrain;
 }
 
 /****************************************************************************
@@ -636,7 +641,8 @@ bool contains_any_specials(bv_special set)
 /****************************************************************************
   Returns TRUE iff any tile adjacent to (map_x,map_y) has the given special.
 ****************************************************************************/
-bool is_special_near_tile(const struct tile *ptile, enum tile_special_type spe)
+bool is_special_near_tile(const struct tile *ptile, enum tile_special_type spe,
+                          bool check_self)
 {
   adjc_iterate(ptile, adjc_tile) {
     if (tile_has_special(adjc_tile, spe)) {
@@ -644,7 +650,7 @@ bool is_special_near_tile(const struct tile *ptile, enum tile_special_type spe)
     }
   } adjc_iterate_end;
 
-  return FALSE;
+  return check_self && tile_has_special(ptile, spe);
 }
 
 /****************************************************************************

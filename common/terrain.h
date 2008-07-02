@@ -246,7 +246,8 @@ bool terrain_has_resource(const struct terrain *pterrain,
 
 /* Functions to operate on a general terrain type. */
 bool is_terrain_near_tile(const struct tile *ptile,
-			  const struct terrain *pterrain);
+			  const struct terrain *pterrain,
+                          bool check_self);
 int count_terrain_near_tile(const struct tile *ptile,
 			    bool cardinal_only, bool percentage,
 			    const struct terrain *pterrain);
@@ -286,7 +287,8 @@ enum tile_special_type get_preferred_pillage(bv_special pset,
 
 /* Functions to operate on a terrain special. */
 bool is_special_near_tile(const struct tile *ptile,
-			  enum tile_special_type spe);
+			  enum tile_special_type spe,
+                          bool check_self);
 int count_special_near_tile(const struct tile *ptile,
 			    bool cardinal_only, bool percentage,
 			    enum tile_special_type spe);
