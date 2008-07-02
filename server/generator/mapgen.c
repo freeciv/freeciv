@@ -1481,11 +1481,11 @@ static void fill_island(int coast, long int *bucket,
       /* the first condition helps make terrain more contiguous,
 	 the second lets it avoid the coast: */
       if ( ( i*3>k*2 
-	     || is_terrain_near_tile(ptile, warm0) 
-	     || is_terrain_near_tile(ptile, warm1) 
+	     || is_terrain_near_tile(ptile, warm0, FALSE) 
+	     || is_terrain_near_tile(ptile, warm1, FALSE)
 	     || myrand(100)<50 
-	     || is_terrain_near_tile(ptile, cold0) 
-	     || is_terrain_near_tile(ptile, cold1) 
+	     || is_terrain_near_tile(ptile, cold0, FALSE)
+	     || is_terrain_near_tile(ptile, cold1, FALSE)
 	     )
 	   &&( !is_cardinally_adj_to_ocean(ptile) || myrand(100) < coast )) {
 	if (map_colatitude(ptile) < COLD_LEVEL) {
