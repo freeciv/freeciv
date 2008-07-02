@@ -46,8 +46,6 @@ struct ai_risk_cost
 {
   double base_value;
   double fearfulness;
-  double ocean_cost;
-  double unsafe_terrain_cost;
   double enemy_zoc_cost;
 };
 

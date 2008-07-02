@@ -573,10 +573,6 @@ static int stack_risk(const struct tile *ptile,
   const double p_killed = chance_killed_at(ptile, risk_cost, param);
   double danger = value * p_killed;
 
-  if (is_ocean_tile(ptile) && !is_safe_ocean(ptile)) {
-    danger += risk_cost->ocean_cost;
-  }
-
   /* Adjust for the fact that we might not stop at this tile,
    * and for our fearfulness */
   risk += danger * risk_cost->fearfulness;
