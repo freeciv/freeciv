@@ -1724,7 +1724,7 @@ void map_claim_border(struct tile *ptile, struct player *powner)
       continue;
     }
 
-    if (NULL != downer) {
+    if (NULL != downer && downer != powner) {
       struct vision_site *dsite = map_get_player_site(dtile, downer);
       int r = sq_map_distance(dsite->location, dtile);
 
