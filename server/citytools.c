@@ -185,7 +185,7 @@ static int evaluate_city_name_priority(struct tile *ptile,
   terrain_type_iterate(pterrain) {
     /* Now we do the same for every available terrain. */
     goodness
-      = is_terrain_near_tile(ptile, pterrain)
+      = is_terrain_near_tile(ptile, pterrain, TRUE)
       ? nc->terrain[pterrain->index]
       : -nc->terrain[pterrain->index];
     if (goodness > 0) {
