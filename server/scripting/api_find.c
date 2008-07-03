@@ -52,6 +52,24 @@ Unit *api_find_unit(Player *pplayer, int unit_id)
   }
 }
 
+/************************************************************************** 
+  Return a unit type for given role.
+**************************************************************************/
+Unit_Type *api_find_role_unit_type(const char *role_name, Player *pplayer)
+{
+  enum unit_role_id role = find_unit_role_by_rule_name(role_name);
+
+  if (role == L_LAST) {
+    return NULL;
+  }
+
+  if (pplayer) {
+    return best_role_unit_for_player(pplayer, role);
+  } else {
+    return get_role_unit(role, 0);
+  }
+}
+
 /**************************************************************************
   Return the tile at the given native coordinates.
 **************************************************************************/

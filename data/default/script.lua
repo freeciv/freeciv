@@ -39,12 +39,14 @@ end
 
 -- Get a mercenary unit from entering a hut.
 function hut_get_mercenaries(unit)
-  -- FIXME: Should be able to find other types of mercenaries
-  local type = find.unit_type('Legion')
+  local owner = unit.owner
+  local type = find.role_unit_type('HutTech', owner)
+
+  if not type then
+    type = find.role_unit_type('Hut', nil)
+  end
 
   if type then
-    local owner = unit.owner
-     
     notify.event(owner, unit.tile, E.HUT_MERC,
                  _("A band of friendly mercenaries joins your cause."))
     create_unit(owner, unit.tile, type, 0, unit:get_homecity(), -1)
@@ -57,7 +59,7 @@ end
 -- Get new city from hut, or settlers (nomads) if terrain is poor.
 function hut_get_city(unit)
   local owner = unit.owner
-  local settlers = find.unit_type('Settlers')
+  local settlers = find.role_unit_type('Settlers', owner)
 
   if unit:is_on_possible_city_tile() then
     create_city(owner, unit.tile, "")

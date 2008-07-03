@@ -30,6 +30,7 @@ Building_Type *api_find_building_type(int building_type_id);
 Building_Type *api_find_building_type_by_name(const char *name_orig);
 Unit_Type *api_find_unit_type(int unit_type_id);
 Unit_Type *api_find_unit_type_by_name(const char *name_orig);
+Unit_Type *api_find_role_unit_type(const char *role_name, Player *pplayer);
 Tech_Type *api_find_tech_type(int tech_type_id);
 Tech_Type *api_find_tech_type_by_name(const char *name_orig);
 Terrain *api_find_terrain(int terrain_id);
