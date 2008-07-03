@@ -146,9 +146,9 @@ static void check_fow(const char *file, int line)
     } players_iterate_end;
   } whole_map_iterate_end;
 
-  SANITY_CHECK(game.government_when_anarchy != NULL);
-  SANITY_CHECK(game.government_when_anarchy
-	       == government_by_number(game.info.government_when_anarchy_id));
+  SANITY_CHECK(game.government_during_revolution != NULL);
+  SANITY_CHECK(game.government_during_revolution
+	       == government_by_number(game.info.government_during_revolution_id));
 }
 
 /**************************************************************************
@@ -622,13 +622,13 @@ static void check_players(const char *file, int line)
     } players_iterate_end;
 
     if (pplayer->revolution_finishes == -1) {
-      if (government_of_player(pplayer) == game.government_when_anarchy) {
+      if (government_of_player(pplayer) == game.government_during_revolution) {
         SANITY_("%s government is anarchy, but does not finish!"),
                 nation_rule_name(nation_of_player(pplayer)));
       }
-      SANITY_CHECK(government_of_player(pplayer) != game.government_when_anarchy);
+      SANITY_CHECK(government_of_player(pplayer) != game.government_during_revolution);
     } else if (pplayer->revolution_finishes > game.info.turn) {
-      SANITY_CHECK(government_of_player(pplayer) == game.government_when_anarchy);
+      SANITY_CHECK(government_of_player(pplayer) == game.government_during_revolution);
     } else {
       /* Things may vary in this case depending on when the sanity_check
        * call is made.  No better check is possible. */

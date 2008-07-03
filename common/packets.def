@@ -447,7 +447,7 @@ PACKET_GAME_INFO=15; sc
   UINT16 incite_improvement_factor;
   UINT16 incite_unit_factor;
   UINT16 incite_total_factor;
-  GOVERNMENT government_when_anarchy_id;
+  GOVERNMENT government_during_revolution_id;
   UINT8 revolution_length;
   SINT16 base_pollution;
   UINT8 happy_cost;

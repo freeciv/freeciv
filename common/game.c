@@ -310,7 +310,7 @@ void game_init(void)
 #else
   game.info.save_compress_type = FZ_PLAIN;
 #endif
-  game.info.government_when_anarchy_id = G_MAGIC;   /* flag */
+  game.info.government_during_revolution_id = G_MAGIC;   /* flag */
 
   game.info.is_new_game   = TRUE;
   game.info.is_edit_mode = FALSE;

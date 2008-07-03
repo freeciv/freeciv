@@ -1989,7 +1989,7 @@ static void popup_government_dialog(void)
   j = 0;
   government_iterate(pGov) {
 
-    if (pGov == game.government_when_anarchy) {
+    if (pGov == game.government_during_revolution) {
       continue;
     }
 

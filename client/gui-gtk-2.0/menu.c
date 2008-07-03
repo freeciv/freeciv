@@ -1348,7 +1348,7 @@ void update_menus(void)
 
       /* add new government entries. */
       government_iterate(g) {
-        if (g != game.government_when_anarchy) {
+        if (g != game.government_during_revolution) {
           GtkWidget *item, *image;
           struct sprite *gsprite;
 	  char buf[256];
