@@ -113,7 +113,7 @@ static void ai_manage_taxes(struct player *pplayer)
     return; /* This ruleset does not support changing tax rates. */
   }
 
-  if (government_of_player(pplayer) == game.government_when_anarchy) {
+  if (government_of_player(pplayer) == game.government_during_revolution) {
     return; /* This government does not support changing tax rates. */
   }
 
@@ -303,7 +303,7 @@ void ai_best_government(struct player *pplayer)
       int val = 0;
       int dist;
 
-      if (gov == game.government_when_anarchy) {
+      if (gov == game.government_during_revolution) {
         continue; /* pointless */
       }
       if (gov->ai.better

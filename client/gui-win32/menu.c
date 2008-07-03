@@ -1049,7 +1049,7 @@ update_menus(void)
     id = IDM_GOVERNMENT_CHANGE_FIRST;
 
     government_iterate(g) {
-      if (g != game.government_when_anarchy) {
+      if (g != game.government_during_revolution) {
 	AppendMenu(govts, MF_STRING, id + government_number(g),
 		   government_name_translation(g));
 	my_enable_menu(menu, id + government_number(g),

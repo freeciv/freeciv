@@ -15,7 +15,7 @@ description="Civ2 style governments data for Freeciv (Fundamentalism incomplete)
 options="1.9"
 
 [governments]
-when_anarchy="Anarchy"
+during_revolution="Anarchy"
 
 ; Below: The individual government types, one per section.
 ;

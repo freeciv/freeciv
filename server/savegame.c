@@ -2046,7 +2046,7 @@ static void player_load_main(struct player *plr, int plrno,
 						plrno);
 
     if (revolution == 0) {
-      if (government_of_player(plr) != game.government_when_anarchy) {
+      if (government_of_player(plr) != game.government_during_revolution) {
         revolution = -1;
       } else {
         /* some old savegames may be buggy */

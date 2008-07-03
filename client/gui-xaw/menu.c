@@ -325,7 +325,7 @@ void update_menus(void)
     government_iterate(pgovernment) {
       Widget w;
 
-      if (pgovernment == game.government_when_anarchy) {
+      if (pgovernment == game.government_during_revolution) {
 	continue;
       }
 

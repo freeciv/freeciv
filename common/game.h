@@ -41,7 +41,7 @@ enum debug_globals {
 
 struct civ_game {
   struct packet_game_info info;
-  struct government *government_when_anarchy;
+  struct government *government_during_revolution;
 
   struct packet_ruleset_control control;
   bool debug[DEBUG_LAST];

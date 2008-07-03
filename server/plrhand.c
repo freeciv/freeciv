@@ -227,10 +227,10 @@ static void finish_revolution(struct player *pplayer)
 {
   struct government *government = pplayer->target_government;
 
-  if (pplayer->target_government == game.government_when_anarchy
+  if (pplayer->target_government == game.government_during_revolution
       || pplayer->target_government == NULL) {
     /* More descriptive assert than just assert(FALSE) */
-    assert(pplayer->target_government != game.government_when_anarchy
+    assert(pplayer->target_government != game.government_during_revolution
            && pplayer->target_government != NULL);
     return;
   }
@@ -309,7 +309,7 @@ void handle_player_change_government(struct player *pplayer, int government)
     turns = game.info.revolution_length;
   }
 
-  pplayer->government = game.government_when_anarchy;
+  pplayer->government = game.government_during_revolution;
   pplayer->target_government = gov;
   pplayer->revolution_finishes = game.info.turn + turns;
 
@@ -322,7 +322,7 @@ void handle_player_change_government(struct player *pplayer, int government)
 
   /* Now see if the revolution is instantaneous. */
   if (turns <= 0
-      && pplayer->target_government != game.government_when_anarchy) {
+      && pplayer->target_government != game.government_during_revolution) {
     finish_revolution(pplayer);
     return;
   } else if (turns > 0) {
@@ -340,7 +340,7 @@ void handle_player_change_government(struct player *pplayer, int government)
 		     turns,
 		     government_name_translation(pplayer->target_government));
   } else {
-    assert(pplayer->target_government == game.government_when_anarchy);
+    assert(pplayer->target_government == game.government_during_revolution);
     notify_player(pplayer, NULL, E_REVOLT_START,
 		     _("Revolution: returning to anarchy."));
   }
@@ -391,9 +391,9 @@ void update_revolution(struct player *pplayer)
 	  ? government_rule_name(pplayer->target_government)
 	  : "(none)",
 	  pplayer->revolution_finishes, game.info.turn);
-  if (government_of_player(pplayer) == game.government_when_anarchy
+  if (government_of_player(pplayer) == game.government_during_revolution
       && pplayer->revolution_finishes <= game.info.turn) {
-    if (pplayer->target_government != game.government_when_anarchy) {
+    if (pplayer->target_government != game.government_during_revolution) {
       /* If the revolution is over and a target government is set, go into
        * the new government. */
       freelog(LOG_DEBUG, "Update: finishing revolution for %s.",
@@ -406,7 +406,7 @@ void update_revolution(struct player *pplayer)
 		       _("You should choose a new government from the "
 			 "government menu."));
     }
-  } else if (government_of_player(pplayer) != game.government_when_anarchy
+  } else if (government_of_player(pplayer) != game.government_during_revolution
 	     && pplayer->revolution_finishes < game.info.turn) {
     /* Reset the revolution counter.  If the player has another revolution
      * they'll have to re-enter anarchy. */
@@ -1535,9 +1535,9 @@ static struct player *split_player(struct player *pplayer)
   } advance_index_iterate_end;
   
   /* change the original player */
-  if (government_of_player(pplayer) != game.government_when_anarchy) {
+  if (government_of_player(pplayer) != game.government_during_revolution) {
     pplayer->target_government = pplayer->government;
-    pplayer->government = game.government_when_anarchy;
+    pplayer->government = game.government_during_revolution;
     pplayer->revolution_finishes = game.info.turn + 1;
   }
   get_player_research(pplayer)->bulbs_researched = 0;

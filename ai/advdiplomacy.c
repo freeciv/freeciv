@@ -1128,7 +1128,7 @@ static void ai_go_to_war(struct player *pplayer, struct ai_data *ai,
   /* Check for Senate obstruction.  If so, dissolve it. */
   if (pplayer_can_cancel_treaty(pplayer, target) == DIPL_SENATE_BLOCKING) {
     handle_player_change_government(pplayer, 
-                                    game.info.government_when_anarchy_id);
+                                    game.info.government_during_revolution_id);
   }
 
   /* This will take us straight to war. */

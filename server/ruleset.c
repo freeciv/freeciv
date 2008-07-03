@@ -2059,7 +2059,7 @@ static void load_government_names(struct section_file *file)
 }
 
 /**************************************************************************
-...  
+  This loads information from given governments.ruleset
 **************************************************************************/
 static void load_ruleset_governments(struct section_file *file)
 {
@@ -2071,9 +2071,10 @@ static void load_ruleset_governments(struct section_file *file)
 
   sec = secfile_get_secnames_prefix(file, GOVERNMENT_SECTION_PREFIX, &nval);
 
-  game.government_when_anarchy
-    = lookup_government(file, "governments.when_anarchy", filename);
-  game.info.government_when_anarchy_id = government_number(game.government_when_anarchy);
+  game.government_during_revolution
+    = lookup_government(file, "governments.during_revolution", filename);
+  game.info.government_during_revolution_id =
+    government_number(game.government_during_revolution);
 
   /* easy ones: */
   government_iterate(g) {

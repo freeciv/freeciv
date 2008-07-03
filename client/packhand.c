@@ -1593,8 +1593,8 @@ void handle_game_info(struct packet_game_info *pinfo)
   VALIDATE(num_teams,		MAX_NUM_TEAMS,		"teams");
 #undef VALIDATE
 
-  game.government_when_anarchy =
-    government_by_number(game.info.government_when_anarchy_id);
+  game.government_during_revolution =
+    government_by_number(game.info.government_during_revolution_id);
 
   if (C_S_PREPARING == client_state()) {
     /* FIXME: only for change in nations */
@@ -1668,7 +1668,7 @@ void set_government_choice(struct government *government)
 void start_revolution(void)
 {
   dsend_packet_player_change_government(&client.conn,
-					game.info.government_when_anarchy_id);
+				    game.info.government_during_revolution_id);
 }
 
 /**************************************************************************
