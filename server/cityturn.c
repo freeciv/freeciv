@@ -501,6 +501,8 @@ bool city_reduce_size(struct city *pcity, int pop_loss,
   }
   pcity->size -= pop_loss;
 
+  city_refresh_vision(pcity);
+
   /* Cap the food stock at the new granary size. */
   if (pcity->food_stock > city_granary_size(pcity->size)) {
     pcity->food_stock = city_granary_size(pcity->size);
@@ -585,9 +587,11 @@ static int granary_savings(const struct city *pcity)
 }
 
 /**************************************************************************
-Note: We do not send info about the city to the clients as part of this function
+  Increase city size by one. We do not refresh borders or send info about
+  the city to the clients as part of this function. There might be several
+  calls to this function at once, and those actions are needed only once.
 **************************************************************************/
-static void city_increase_size(struct city *pcity)
+static bool city_increase_size(struct city *pcity)
 {
   int i, new_food;
   int savings_pct = granary_savings(pcity);
@@ -616,7 +620,7 @@ static void city_increase_size(struct city *pcity)
 		* (100 * 100 - game.info.aqueductloss * (100 - savings_pct))
 		/ (100 * 100));
     pcity->food_stock = MIN(pcity->food_stock, new_food);
-    return;
+    return FALSE;
   }
 
   pcity->size++;
@@ -673,35 +677,30 @@ static void city_increase_size(struct city *pcity)
     sanity_check_city(pcity);
   }
   sync_cities();
+
+  return TRUE;
 }
 
 /****************************************************************************
-  Change the city size.  Return TRUE if the city is still alive afterwards.
+  Change the city size.  Return TRUE iff the city is still alive afterwards.
 ****************************************************************************/
 bool city_change_size(struct city *pcity, int size)
 {
   assert(size >= 0 && size <= MAX_CITY_SIZE);
 
   if (size > pcity->size) {
-    while (size > pcity->size) {
-      const int old_size = pcity->size;
-
-      /* city_increase_size can silently fail. Don't get in an infinite
-       * loop. */
-      city_increase_size(pcity);
-      if (pcity->size <= old_size) {
-	return TRUE;
-      }
-    }
-    return TRUE;
+    /* Increase city size until size reached, or increase fails */
+    while (size > pcity->size && city_increase_size(pcity)) ;
   } else if (size < pcity->size) {
     /* We assume that city_change_size() is never called because
      * of enemy actions. If that changes, enemy must be passed
      * to city_reduce_size() */
     return city_reduce_size(pcity, pcity->size - size, NULL);
-  } else {
-    return TRUE;
   }
+
+  city_refresh_vision(pcity);
+
+  return TRUE;
 }
 
 /**************************************************************************
@@ -714,6 +713,7 @@ static void city_populate(struct city *pcity)
   if (pcity->food_stock >= city_granary_size(pcity->size) 
      || city_rapture_grow(pcity)) {
     city_increase_size(pcity);
+    city_refresh_vision(pcity);
   } else if (pcity->food_stock < 0) {
     /* FIXME: should this depend on units with ability to build
      * cities or on units that require food in uppkeep?
