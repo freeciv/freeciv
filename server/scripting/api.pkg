@@ -301,6 +301,8 @@ module find {
 		@ unit_type (const char *name_orig);
   Unit_Type *api_find_unit_type
 		@ unit_type (int unit_type_id);
+  Unit_Type *api_find_role_unit_type
+                @ role_unit_type (const char *role_name, Player *pplayer);
   Tech_Type *api_find_tech_type_by_name
 		@ tech_type (const char *name_orig);
   Tech_Type *api_find_tech_type
