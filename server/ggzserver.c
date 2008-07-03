@@ -31,6 +31,7 @@
 #include "ggzserver.h"
 #include "score.h"
 #include "sernet.h"
+#include "srv_main.h"
 
 bool with_ggz = FALSE;
 
@@ -173,6 +174,19 @@ static void handle_ggz_spectator_seat_event(GGZdMod *ggz, GGZdModEvent event,
 }
 
 /****************************************************************************
+  Handles a ggzdmod error.  This simply exits the server with an error
+  message.
+****************************************************************************/
+static void handle_ggz_error(GGZdMod * ggz, GGZdModEvent event,
+			     const void *data)
+{
+  const char *err = data;
+
+  freelog(LOG_ERROR, "Error in ggz: %s", err);
+  server_quit();
+}
+
+/****************************************************************************
   Connect to the GGZ server, if GGZ is being used.
 ****************************************************************************/
 void ggz_initialize(void)
@@ -199,6 +213,12 @@ void ggz_initialize(void)
 			&handle_ggz_seat_event);
     ggzdmod_set_handler(ggzdmod, GGZDMOD_EVENT_SPECTATOR_JOIN,
 			&handle_ggz_spectator_seat_event);
+    ggzdmod_set_handler(ggzdmod, GGZDMOD_EVENT_SPECTATOR_LEAVE,
+			&handle_ggz_spectator_seat_event);
+    ggzdmod_set_handler(ggzdmod, GGZDMOD_EVENT_SPECTATOR_SEAT,
+			&handle_ggz_spectator_seat_event);
+    ggzdmod_set_handler(ggzdmod, GGZDMOD_EVENT_ERROR,
+    			&handle_ggz_error);
     if (ggzdmod_connect(ggzdmod) < 0) {
       exit(EXIT_FAILURE);
     }
