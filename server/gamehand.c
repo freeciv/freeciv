@@ -33,6 +33,7 @@
 #include "support.h"
 
 #include "connecthand.h"
+#include "ggzserver.h"
 #include "maphand.h"
 #include "plrhand.h"
 #include "unittools.h"
@@ -525,14 +526,16 @@ void handle_single_want_hack_req(struct connection *pc,
   char *token = NULL;
   bool you_have_hack = FALSE;
 
-  if (section_file_load_nodup(&file, get_challenge_fullname(pc))) {
-    token = secfile_lookup_str_default(&file, NULL, "challenge.token");
-    you_have_hack = (token && strcmp(token, packet->token) == 0);
-    section_file_free(&file);
-  }
+  if (!with_ggz) {
+    if (section_file_load_nodup(&file, get_challenge_fullname(pc))) {
+      token = secfile_lookup_str_default(&file, NULL, "challenge.token");
+      you_have_hack = (token && strcmp(token, packet->token) == 0);
+      section_file_free(&file);
+    }
 
-  if (!token) {
-    freelog(LOG_DEBUG, "Failed to read authentication token");
+    if (!token) {
+      freelog(LOG_DEBUG, "Failed to read authentication token");
+    }
   }
 
   if (you_have_hack) {
