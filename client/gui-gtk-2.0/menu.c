@@ -1395,8 +1395,6 @@ void update_menus(void)
                         can_conn_enable_editing(&client.conn));
     menus_set_sensitive("<main>/_Edit/Recalculate _Borders",
 			can_conn_edit(&client.conn));
-    menus_set_sensitive("<main>/_Edit/Regenerate _Water",
-			can_conn_edit(&client.conn));
     menus_set_sensitive("<main>/_Edit/Toggle Fog-of-war",
 			can_conn_edit(&client.conn));
 
