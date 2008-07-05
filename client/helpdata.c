@@ -49,9 +49,10 @@
 /* helper macro for easy conversion from snprintf and cat_snprintf */
 #define CATLSTR(_b, _s, _t) mystrlcat(_b, _t, _s)
 
+/* This must be in same order as enum in helpdlg_g.h */
 static const char * const help_type_names[] = {
   "(Any)", "(Text)", "Units", "Improvements", "Wonders",
-  "Techs", "Terrain", "Governments", NULL
+  "Techs", "Terrain", "Governments", "Ruleset", NULL
 };
 
 /*define MAX_LAST (MAX(MAX(MAX(A_LAST,B_LAST),U_LAST),terrain_count()))*/
@@ -393,81 +394,100 @@ void boot_help_texts(struct player *pplayer)
 	*/
 	char name[2048];
 	struct help_list *category_nodes = help_list_new();
-	
-	if (current_type == HELP_UNIT) {
-	  unit_type_iterate(punittype) {
-	    pitem = new_help_item(current_type);
-	    my_snprintf(name, sizeof(name), " %s",
-			utype_name_translation(punittype));
-	    pitem->topic = mystrdup(name);
-	    pitem->text = mystrdup("");
-	    help_list_append(category_nodes, pitem);
-	  } unit_type_iterate_end;
-	} else if (current_type == HELP_TECH) {
-	  advance_index_iterate(A_FIRST, i) {
-	    if (valid_advance_by_number(i)) {
-	      pitem = new_help_item(current_type);
-	      my_snprintf(name, sizeof(name), " %s",
-			  advance_name_for_player(pplayer, i));
-	      pitem->topic = mystrdup(name);
-	      pitem->text = mystrdup("");
-	      help_list_append(category_nodes, pitem);
-	    }
-	  } advance_index_iterate_end;
-	} else if (current_type == HELP_TERRAIN) {
-	  terrain_type_iterate(pterrain) {
-	    if (0 != strlen(terrain_rule_name(pterrain))) {
-	      pitem = new_help_item(current_type);
-	      my_snprintf(name, sizeof(name), " %s",
-			  terrain_name_translation(pterrain));
-	      pitem->topic = mystrdup(name);
-	      pitem->text = mystrdup("");
-	      help_list_append(category_nodes, pitem);
-	    }
-	  } terrain_type_iterate_end;
-	  /* Add special Civ2-style river help text if it's supplied. */
-	  if (terrain_control.river_help_text) {
-	    pitem = new_help_item(HELP_TEXT);
-	    /* TRANS: preserve single space at beginning */
-	    pitem->topic = mystrdup(_(" Rivers"));
-	    sz_strlcpy(long_buffer, _(terrain_control.river_help_text));
-	    pitem->text = mystrdup(long_buffer);
-	    help_list_append(category_nodes, pitem);
-	  }
-	} else if (current_type == HELP_GOVERNMENT) {
-	  government_iterate(gov) {
-	    pitem = new_help_item(current_type);
-	    my_snprintf(name, sizeof(name), " %s",
-	                government_name_translation(gov));
-	    pitem->topic = mystrdup(name);
-	    pitem->text = mystrdup("");
-	    help_list_append(category_nodes, pitem);
-	  } government_iterate_end;
-	} else if (current_type == HELP_IMPROVEMENT) {
-	  improvement_iterate(pimprove) {
-	    if (valid_improvement(pimprove) && !is_great_wonder(pimprove)) {
-	      pitem = new_help_item(current_type);
-	      my_snprintf(name, sizeof(name), " %s",
-			  improvement_name_translation(pimprove));
-	      pitem->topic = mystrdup(name);
-	      pitem->text = mystrdup("");
-	      help_list_append(category_nodes, pitem);
-	    }
-	  } improvement_iterate_end;
-	} else if (current_type == HELP_WONDER) {
-	  improvement_iterate(pimprove) {
-	    if (valid_improvement(pimprove) && is_great_wonder(pimprove)) {
-	      pitem = new_help_item(current_type);
-	      my_snprintf(name, sizeof(name), " %s",
-			  improvement_name_translation(pimprove));
-	      pitem->topic = mystrdup(name);
-	      pitem->text = mystrdup("");
-	      help_list_append(category_nodes, pitem);
-	    }
-	  } improvement_iterate_end;
-	} else {
-	  die("Bad current_type %d", current_type);
-	}
+
+        switch (current_type) {
+	 case HELP_UNIT:
+           unit_type_iterate(punittype) {
+             pitem = new_help_item(current_type);
+             my_snprintf(name, sizeof(name), " %s",
+                         utype_name_translation(punittype));
+             pitem->topic = mystrdup(name);
+             pitem->text = mystrdup("");
+             help_list_append(category_nodes, pitem);
+           } unit_type_iterate_end;
+           break;
+         case HELP_TECH:
+           advance_index_iterate(A_FIRST, i) {
+             if (valid_advance_by_number(i)) {
+               pitem = new_help_item(current_type);
+               my_snprintf(name, sizeof(name), " %s",
+                           advance_name_for_player(pplayer, i));
+               pitem->topic = mystrdup(name);
+               pitem->text = mystrdup("");
+               help_list_append(category_nodes, pitem);
+             }
+           } advance_index_iterate_end;
+           break;
+         case HELP_TERRAIN:
+           terrain_type_iterate(pterrain) {
+             if (0 != strlen(terrain_rule_name(pterrain))) {
+               pitem = new_help_item(current_type);
+               my_snprintf(name, sizeof(name), " %s",
+                           terrain_name_translation(pterrain));
+               pitem->topic = mystrdup(name);
+               pitem->text = mystrdup("");
+               help_list_append(category_nodes, pitem);
+             }
+           } terrain_type_iterate_end;
+           /* Add special Civ2-style river help text if it's supplied. */
+           if (terrain_control.river_help_text) {
+             pitem = new_help_item(HELP_TEXT);
+             /* TRANS: preserve single space at beginning */
+             pitem->topic = mystrdup(_(" Rivers"));
+             sz_strlcpy(long_buffer, _(terrain_control.river_help_text));
+             pitem->text = mystrdup(long_buffer);
+             help_list_append(category_nodes, pitem);
+           }
+           break;
+         case HELP_GOVERNMENT:
+           government_iterate(gov) {
+             pitem = new_help_item(current_type);
+             my_snprintf(name, sizeof(name), " %s",
+                         government_name_translation(gov));
+             pitem->topic = mystrdup(name);
+             pitem->text = mystrdup("");
+             help_list_append(category_nodes, pitem);
+           } government_iterate_end;
+           break;
+         case HELP_IMPROVEMENT:
+           improvement_iterate(pimprove) {
+             if (valid_improvement(pimprove) && !is_great_wonder(pimprove)) {
+               pitem = new_help_item(current_type);
+               my_snprintf(name, sizeof(name), " %s",
+                           improvement_name_translation(pimprove));
+               pitem->topic = mystrdup(name);
+               pitem->text = mystrdup("");
+               help_list_append(category_nodes, pitem);
+             }
+           } improvement_iterate_end;
+           break;
+         case HELP_WONDER:
+           improvement_iterate(pimprove) {
+             if (valid_improvement(pimprove) && is_great_wonder(pimprove)) {
+               pitem = new_help_item(current_type);
+               my_snprintf(name, sizeof(name), " %s",
+                           improvement_name_translation(pimprove));
+               pitem->topic = mystrdup(name);
+               pitem->text = mystrdup("");
+               help_list_append(category_nodes, pitem);
+             }
+           } improvement_iterate_end;
+           break;
+         case HELP_RULESET:
+           pitem = new_help_item(HELP_RULESET);
+           /*           pitem->topic = mystrdup(game.control.name); */
+           pitem->topic = mystrdup(HELP_RULESET_ITEM);
+           if (game.control.description[0] != '\0') {
+             pitem->text = mystrdup(game.control.description);
+           } else {
+             pitem->text = mystrdup(_("Current ruleset contains no description."));
+           }
+           help_list_append(help_nodes, pitem);
+           break;
+         default:
+           die("Bad current_type %d", current_type);
+           break;
+        }
 	help_list_sort(category_nodes, help_item_compar);
 	help_list_iterate(category_nodes, ptmp) {
 	  help_list_append(help_nodes, ptmp);
@@ -482,9 +502,9 @@ void boot_help_texts(struct player *pplayer)
     
     pitem = new_help_item(HELP_TEXT);
     pitem->topic = mystrdup(_(secfile_lookup_str(sf, "%s.name", sec[isec])));
-    
+
     paras = secfile_lookup_str_vec(sf, &npara, "%s.text", sec[isec]);
-    
+
     long_buffer[0] = '\0';
     for (i=0; i<npara; i++) {
       char *para = paras[i];

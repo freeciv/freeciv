@@ -14,6 +14,12 @@
 description="Default game rules for Freeciv"
 options="1.11.1"
 
+[about]
+; Ruleset name
+name = _("Default ruleset")
+; Description of the ruleset
+description = _("You are playing Freeciv with default rules.")
+
 [options]
 global_init_techs=""
 global_init_buildings="Palace"

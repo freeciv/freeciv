@@ -2899,20 +2899,33 @@ static void load_ruleset_game(void)
   const char *filename;
   int *food_ini;
   int i;
-  char *tileset;
+  char *text;
 
   openload_ruleset_file(&file, "game");
   filename = secfile_filename(&file);
   (void) check_ruleset_capabilities(&file, "+1.11.1", filename);
   (void) section_file_lookup(&file, "datafile.description");	/* unused */
 
-  tileset = secfile_lookup_str_default(&file, "", "tileset.prefered");
-  if (tileset[0] != '\0') {
+  text = secfile_lookup_str_default(&file, "", "tileset.prefered");
+  if (text[0] != '\0') {
     /* There was tileset suggestion */
-    sz_strlcpy(game.control.prefered_tileset, tileset);
+    sz_strlcpy(game.control.prefered_tileset, text);
   } else {
     /* No tileset suggestions */
     game.control.prefered_tileset[0] = '\0';
+  }
+
+  text = secfile_lookup_str(&file, "about.name");
+  /* Ruleset/modpack name found */
+  sz_strlcpy(game.control.name, text);
+
+  text = secfile_lookup_str_default(&file, "", "about.description");
+  if (text[0] != '\0') {
+    /* Ruleset/modpack description found */
+    sz_strlcpy(game.control.description, text);
+  } else {
+    /* No description */
+    game.control.description[0] = '\0';
   }
 
   game.info.base_pollution = 

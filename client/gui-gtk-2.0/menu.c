@@ -178,6 +178,7 @@ enum MenuID {
   MENU_HELP_WORKLIST_EDITOR,
   MENU_HELP_CMA,
   MENU_HELP_PLAYING,
+  MENU_HELP_RULESET,
   MENU_HELP_IMPROVEMENTS,
   MENU_HELP_UNITS,
   MENU_HELP_COMBAT,
@@ -667,6 +668,9 @@ static void help_menu_callback(gpointer callback_data,
   case MENU_HELP_PLAYING:
     popup_help_dialog_string(HELP_PLAYING_ITEM);
     break;
+  case MENU_HELP_RULESET:
+    popup_help_dialog_string(HELP_RULESET_ITEM);
+    break;
   case MENU_HELP_IMPROVEMENTS:
     popup_help_dialog_string(HELP_IMPROVEMENTS_ITEM);
     break;
@@ -995,6 +999,9 @@ static GtkItemFactoryEntry menu_items[]	=
 	help_menu_callback,	MENU_HELP_PLAYING					},
   { "/" N_("Help") "/sep1",				NULL,
 	NULL,			0,					"<Separator>"	},
+  { "/" N_("Help") "/" N_("About Ruleset"),             NULL,
+	help_menu_callback,	MENU_HELP_RULESET
+   },
   { "/" N_("Help") "/" N_("City _Improvements"),        NULL,
 	help_menu_callback,	MENU_HELP_IMPROVEMENTS					},
   { "/" N_("Help") "/" N_("_Units"),			NULL,
