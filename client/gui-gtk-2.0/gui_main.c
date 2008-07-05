@@ -1204,6 +1204,12 @@ static void setup_widgets(void)
   unit_info_box = gtk_vbox_new(FALSE, 0);
   gtk_box_pack_start(GTK_BOX(avbox), unit_info_box, FALSE, FALSE, 0);
 
+  /* In edit mode the unit_info_box widget is replaced by the
+   * editinfobox, so we need to add a ref here so that it is
+   * not destroyed when removed from its container.
+   * See editinfobox_refresh(). */
+  g_object_ref(unit_info_box);
+
   unit_info_frame = gtk_frame_new("");
   gtk_box_pack_start(GTK_BOX(unit_info_box), unit_info_frame, FALSE, FALSE, 0);
     
@@ -1221,11 +1227,6 @@ static void setup_widgets(void)
 
   unit_pixmap_table = table;
   populate_unit_pixmap_table();
-
-  /* Editor info box */
-  gtk_box_pack_start(GTK_BOX(avbox),
-                     editgui_get_editinfobox()->widget,
-                     FALSE, FALSE, 0);
 
   /* Map canvas, editor toolbar, and scrollbars */
 

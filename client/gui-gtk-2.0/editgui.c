@@ -1225,6 +1225,15 @@ static struct editinfobox *editinfobox_create(void)
   gtk_box_pack_start(GTK_BOX(vbox), combo, FALSE, FALSE, 0);
   ei->tool_applied_player_combobox = combo;
 
+  /* We add a ref to the editinfobox widget so that it is
+   * not destroyed when replaced by the unit info box when
+   * we leave edit mode. See editinfobox_refresh(). */
+  g_object_ref(ei->widget);
+
+  /* The edit info box starts with no parent, so we have to
+   * show its internal widgets manually. */
+  gtk_widget_show_all(ei->widget);
+
   return ei;
 }
 
@@ -1424,6 +1433,24 @@ static GdkPixbuf *get_brush_pixbuf(void)
 }
 
 /****************************************************************************
+  NB: Assumes that widget 'old' has enough references to not be destroyed
+  when removed from its parent container, and that the parent container
+  is a GtkBox (or is descended from it).
+****************************************************************************/
+static void replace_widget(GtkWidget *old, GtkWidget *new)
+{
+  GtkWidget *parent;
+
+  parent = gtk_widget_get_parent(old);
+  if (!parent) {
+    return;
+  }
+
+  gtk_container_remove(GTK_CONTAINER(parent), old);
+  gtk_box_pack_start(GTK_BOX(parent), new, FALSE, FALSE, 0);
+}
+
+/****************************************************************************
   Refresh the given editinfobox according to the current editor state.
 ****************************************************************************/
 static void editinfobox_refresh(struct editinfobox *ei)
@@ -1439,8 +1466,7 @@ static void editinfobox_refresh(struct editinfobox *ei)
   }
 
   if (!editor_is_active()) {
-    gtk_widget_hide(ei->widget);
-    gtk_widget_show(unit_info_box);
+    replace_widget(ei->widget, unit_info_box);
     return;
   }
 
@@ -1502,8 +1528,7 @@ static void editinfobox_refresh(struct editinfobox *ei)
 
   refresh_tool_applied_player_combo(ei);
 
-  gtk_widget_hide(unit_info_box);
-  gtk_widget_show(ei->widget);
+  replace_widget(unit_info_box, ei->widget);
 }
 
 /****************************************************************************
