@@ -29,6 +29,8 @@ enum goto_result {
   GR_FAILED              /* failed for some other reason, has moves */
 };
 
+void free_mapqueue(void);
+
 bool is_dist_finite(int dist);
 void generate_warmap(struct city *pcity, struct unit *punit);
 int air_can_move_between(int moves, struct tile *src_tile,
