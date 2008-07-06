@@ -3369,6 +3369,7 @@ static void send_ruleset_bases(struct conn_list *dest)
     sz_strlcpy(packet.graphic_str, b->graphic_str);
     sz_strlcpy(packet.graphic_alt, b->graphic_alt);
     sz_strlcpy(packet.activity_gfx, b->activity_gfx);
+    packet.buildable = b->buildable;
 
     j = 0;
     requirement_vector_iterate(&b->reqs, preq) {
