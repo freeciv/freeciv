@@ -1582,12 +1582,11 @@ void map_claim_ownership(struct tile *ptile, struct player *powner,
       }
     } else {
       assert(ptile == psource);
-      assert(NULL != pcity); /* FIXME: temporary IDENTITY_NUMBER_ZERO */
 
       if (NULL != pcity) {
         psite = create_vision_site_from_city(pcity);
       } else {
-        psite = create_vision_site(IDENTITY_NUMBER_ZERO, psource, powner);
+        psite = create_vision_site_from_base(ptile);
       }
       change_playertile_site(playsite, psite);
     }
@@ -1650,10 +1649,16 @@ void map_clear_border(struct tile *ptile, struct player *powner)
 
   circle_dxyr_iterate(ptile, psite->border_radius_sq, dtile, dx, dy, dr) {
     struct city *dcity = tile_city(dtile);
+    struct base_type *dbase = tile_get_base(dtile);
     struct player *downer = tile_owner(dtile);
 
     if (NULL != dcity) {
       /* cannot affect existing cities (including self) */
+      continue;
+    }
+
+    if (dbase && base_has_flag(dbase, BF_CLAIM_TERRITORY)) {
+      /* Cannot affect territory claiming bases */
       continue;
     }
 
@@ -1712,10 +1717,16 @@ void map_claim_border(struct tile *ptile, struct player *powner)
 
   circle_dxyr_iterate(ptile, psite->border_radius_sq, dtile, dx, dy, dr) {
     struct city *dcity = tile_city(dtile);
+    struct base_type *dbase = tile_get_base(dtile);
     struct player *downer = tile_owner(dtile);
 
     if (NULL != dcity) {
       /* cannot affect existing cities (including self) */
+      continue;
+    }
+
+    if (dbase && base_has_flag(dbase, BF_CLAIM_TERRITORY)) {
+      /* Cannot affect territory claiming bases */
       continue;
     }
 
