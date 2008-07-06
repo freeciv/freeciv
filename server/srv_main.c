@@ -1026,12 +1026,17 @@ void server_quit(void)
   set_server_state(S_S_OVER);
   server_game_free();
   diplhand_free();
+
+  /* Free all the warmap arrays */
+  free_mapqueue();
+
 #ifdef HAVE_AUTH
   if (srvarg.auth_enabled) {
     /* If auth has been initialized */
     auth_free();
   }
 #endif /* HAVE_AUTH */
+
   stdinhand_free();
   close_connections_and_socket();
   exit(EXIT_SUCCESS);

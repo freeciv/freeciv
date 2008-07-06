@@ -119,6 +119,21 @@ static void init_queue(void)
 }
 
 /**************************************************************************
+  Free mapqueue arrays
+**************************************************************************/
+void free_mapqueue(void)
+{
+  int i;
+
+  for (i = 0; i < MAXARRAYS; i++) {
+    if (mappos_arrays[i] != NULL) {
+      free(mappos_arrays[i]);
+      mappos_arrays[i] = NULL;
+    }
+  }
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 static struct mappos_array *get_empty_array(void)
