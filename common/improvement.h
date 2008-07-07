@@ -68,6 +68,8 @@ struct impr_type {
   char *helptext;
   char soundtag[MAX_LEN_NAME];
   char soundtag_alt[MAX_LEN_NAME];
+
+  bool allows_units;   /* Cache */
 };
 
 
@@ -117,6 +119,8 @@ struct city *find_city_from_small_wonder(const struct player *pplayer,
 /* player related improvement functions */
 bool improvement_obsolete(const struct player *pplayer,
 			  const struct impr_type *pimprove);
+bool impr_provides_buildable_units(const struct player *pplayer,
+                                   const struct impr_type *pimprove);
 
 bool can_player_build_improvement_direct(const struct player *p,
 					 struct impr_type *pimprove);
@@ -146,4 +150,3 @@ const struct impr_type *improvement_array_last(void);
   }									\
 }
 #endif  /* FC__IMPROVEMENT_H */
-

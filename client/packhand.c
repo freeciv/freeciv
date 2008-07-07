@@ -2666,7 +2666,15 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
     } improvement_iterate_end;
   }
 #endif
-  
+
+  b->allows_units = FALSE;
+  unit_type_iterate(ut) {
+    if (ut->need_improvement == b) {
+      b->allows_units = TRUE;
+      break;
+    }
+  } unit_type_iterate_end;
+
   tileset_setup_impr_type(tileset, b);
 }
 
