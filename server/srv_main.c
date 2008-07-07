@@ -2077,7 +2077,7 @@ static void srv_ready(void)
 
     players_iterate(pplayer) {
       player_map_allocate(pplayer);
-      init_tech(pplayer);
+      init_tech(pplayer, TRUE);
       player_limit_to_government_rates(pplayer);
       pplayer->economic.gold = game.info.gold;
     } players_iterate_end;

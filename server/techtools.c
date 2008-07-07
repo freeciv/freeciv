@@ -574,7 +574,7 @@ void choose_tech_goal(struct player *plr, Tech_type_id tech)
 /****************************************************************************
   Initializes tech data for the player.
 ****************************************************************************/
-void init_tech(struct player *plr)
+void init_tech(struct player *plr, bool update)
 {
   player_invention_set(plr, A_NONE, TECH_KNOWN);
 
@@ -584,10 +584,12 @@ void init_tech(struct player *plr)
 
   get_player_research(plr)->techs_researched = 1;
 
-  /* Mark the reachable techs */
-  player_research_update(plr);
-  if (choose_goal_tech(plr) == A_UNSET) {
-    choose_random_tech(plr);
+  if (update) {
+    /* Mark the reachable techs */
+    player_research_update(plr);
+    if (choose_goal_tech(plr) == A_UNSET) {
+      choose_random_tech(plr);
+    }
   }
 }
 
