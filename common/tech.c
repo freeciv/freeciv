@@ -81,7 +81,15 @@ enum tech_state get_invention(const struct player *pplayer,
       return TECH_UNKNOWN;
     }
   } else {
-    return get_player_research(pplayer)->inventions[tech].state;
+    struct player_research *research = get_player_research(pplayer);
+
+    /* Research can be null in client when looking for tech_leakage
+     * from player not yet received. */
+    if (research) {
+      return research->inventions[tech].state;
+    } else {
+      return TECH_UNKNOWN;
+    }
   }
 }
 

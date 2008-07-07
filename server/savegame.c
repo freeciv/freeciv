@@ -1921,7 +1921,7 @@ static void player_load(struct player *plr, int plrno,
    * reassign nations to players who don't have them. */
 
   /* Add techs from game and nation, but ignore game.info.tech. */
-  init_tech(plr);
+  init_tech(plr, FALSE);
   /* We used to call give_initial_techs here, but that shouldn't be
    * necessary.  The savegame should already mark those techs as known.
    * give_initial_techs will crash if the nation is unset. */
@@ -2152,8 +2152,6 @@ static void player_load(struct player *plr, int plrno,
       = secfile_lookup_int_default(file, revolution,
 				   "player%d.revolution_finishes", plrno);
   }
-
-  update_research(plr);
 
   for (i = 0; i < game.info.nplayers; i++) {
     plr->diplstates[i].type = 
@@ -4034,6 +4032,13 @@ void game_load(struct section_file *file)
       player_load(pplayer, pplayer->player_no, file, improvement_order,
 		  improvement_order_size, technology_order,
 		  technology_order_size);
+    } players_iterate_end;
+
+    /* In case of tech_leakage, we can update research only after all
+     * the players have been loaded */
+    players_iterate(pplayer) {
+      /* Mark the reachable techs */
+      update_research(pplayer);
     } players_iterate_end;
 
     /* Some players may have invalid nations in the ruleset.  Once all 
