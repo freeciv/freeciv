@@ -136,7 +136,7 @@ static struct player *create_barbarian_player(enum barbarian_type type)
   barbarians->ai.control = TRUE;
   barbarians->ai.barbarian_type = type;
   set_ai_level_directer(barbarians, game.info.skill_level);
-  init_tech(barbarians);
+  init_tech(barbarians, TRUE);
   give_initial_techs(barbarians);
 
   /* Ensure that we are at war with everyone else */
