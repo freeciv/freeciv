@@ -306,6 +306,30 @@ bool improvement_obsolete(const struct player *pplayer, Impr_type_id id)
 }
 
 /**************************************************************************
+  Returns TRUE iff improvement provides units buildable by player
+**************************************************************************/
+bool impr_provides_buildable_units(const struct player *pplayer,
+                                   Impr_type_id id)
+{
+  struct impr_type *impr = improvement_by_number(id);
+
+  /* Fast check */
+  if (! impr->allows_units) {
+    return FALSE;
+  }
+
+  unit_type_iterate(ut) {
+    if (ut->impr_requirement == id) {
+      if (can_player_build_unit(pplayer, ut)) {
+        return TRUE;
+      }
+    }
+  } unit_type_iterate_end;
+
+  return FALSE;
+}
+
+/**************************************************************************
    Whether player can build given building somewhere, ignoring whether it
    is obsolete.
 **************************************************************************/

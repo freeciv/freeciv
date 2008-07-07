@@ -70,6 +70,8 @@ struct impr_type {
   char *helptext;
   char soundtag[MAX_LEN_NAME];
   char soundtag_alt[MAX_LEN_NAME];
+
+  bool allows_units;   /* Cache */
 };
 
 
@@ -96,6 +98,7 @@ bool is_improvement_visible(Impr_type_id id);
 
 /* player related improvement functions */
 bool improvement_obsolete(const struct player *pplayer, Impr_type_id id);
+bool impr_provides_buildable_units(const struct player *pplayer, Impr_type_id id);
 
 bool can_player_build_improvement_direct(const struct player *p,
 					 Impr_type_id id);
@@ -136,4 +139,3 @@ bool can_sell_building(Impr_type_id id);
 bool can_city_sell_building(struct city *pcity, Impr_type_id id);
 
 #endif  /* FC__IMPROVEMENT_H */
-
