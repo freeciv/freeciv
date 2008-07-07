@@ -1503,6 +1503,14 @@ static void load_ruleset_buildings(struct section_file *file)
 	       secfile_lookup_str_default(file, "-", "%s.sound_alt",
 					  sec[i]));
     b->helptext = lookup_helptext(file, sec[i]);
+
+    b->allows_units = FALSE;
+    unit_type_iterate(ut) {
+      if (ut->need_improvement == b) {
+        b->allows_units = TRUE;
+        break;
+      }
+    } unit_type_iterate_end;
   }
 
   /* Some more consistency checking: */
