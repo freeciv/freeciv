@@ -93,18 +93,6 @@
  * many seconds to reply to the client */
 static const int auth_fail_wait[] = { 1, 1, 2, 3 };
 
-static bool is_good_password(const char *password, char *msg);
-
-static bool authdb_check_password(struct connection *pconn,
-                           const char *password, int len);
-static enum authdb_status auth_db_load(struct connection *pconn);
-static bool auth_db_save(struct connection *pconn);
-
-#ifdef HAVE_AUTH
-static char *alloc_escaped_string(MYSQL *mysql, const char *orig);
-static void free_escaped_string(char *str);
-#endif /* HAVE_AUTH */
-
 /**************************************************
  The auth db statuses are:
 
@@ -118,6 +106,18 @@ enum authdb_status {
   AUTH_DB_SUCCESS,
   AUTH_DB_NOT_FOUND
 };
+
+static bool is_good_password(const char *password, char *msg);
+
+static bool authdb_check_password(struct connection *pconn,
+                           const char *password, int len);
+static enum authdb_status auth_db_load(struct connection *pconn);
+static bool auth_db_save(struct connection *pconn);
+
+#ifdef HAVE_AUTH
+static char *alloc_escaped_string(MYSQL *mysql, const char *orig);
+static void free_escaped_string(char *str);
+#endif /* HAVE_AUTH */
 
 #ifdef HAVE_AUTH
 
