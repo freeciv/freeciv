@@ -359,7 +359,7 @@ static GtkWidget *create_editbar_radiobutton(struct editbar *eb,
   pixbuf = sprite_get_pixbuf(sprite);
   image = gtk_image_new_from_pixbuf(pixbuf);
 
-  gtk_button_set_image(GTK_BUTTON(button), image);
+  gtk_container_add(GTK_CONTAINER(button), image);
   gtk_toggle_button_set_mode(GTK_TOGGLE_BUTTON(button), FALSE);
   gtk_tooltips_set_tip(eb->tooltips, button,
                        editor_tool_get_tooltip(ett), "");
@@ -419,7 +419,7 @@ static struct editbar *editbar_create(void)
   button = gtk_toggle_button_new();
   pixbuf = sprite_get_pixbuf(sprites->erase);
   image = gtk_image_new_from_pixbuf(pixbuf);
-  gtk_button_set_image(GTK_BUTTON(button), image);
+  gtk_container_add(GTK_CONTAINER(button), image);
   gtk_tooltips_set_tip(eb->tooltips, button,
                        _("Set Erase Mode"), "");
   gtk_widget_set_size_request(button, BWIDTH, BHEIGHT);
@@ -487,7 +487,7 @@ static struct editbar *editbar_create(void)
   button = gtk_button_new();
   pixbuf = sprite_get_pixbuf(sprites->properties);
   image = gtk_image_new_from_pixbuf(pixbuf);
-  gtk_button_set_image(GTK_BUTTON(button), image);
+  gtk_container_add(GTK_CONTAINER(button), image);
   gtk_tooltips_set_tip(eb->tooltips, button,
                        _("Modify Player"), "");
   gtk_widget_set_size_request(button, BWIDTH, BHEIGHT);
