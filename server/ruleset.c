@@ -861,17 +861,15 @@ restart:
        * in build_required_techs_helper. */
       if (!valid_advance(a->require[AR_ONE])) {
         ruleset_error(LOG_FATAL,
-                      "\"%s\" tech \"%s\": req1 leads to removed tech \"%s\".",
+                      "\"%s\" tech \"%s\": req1 leads to removed tech.",
                       filename,
-                      advance_rule_name(a),
-                      advance_rule_name(a->require[AR_ONE]));
+                      advance_rule_name(a));
       } 
       if (!valid_advance(a->require[AR_TWO])) {
         ruleset_error(LOG_FATAL,
-                      "\"%s\" tech \"%s\": req2 leads to removed tech \"%s\".",
+                      "\"%s\" tech \"%s\": req2 leads to removed tech.",
                       filename,
-                      advance_rule_name(a),
-                      advance_rule_name(a->require[AR_TWO]));
+                      advance_rule_name(a));
       }
     }
   } advance_iterate_end;
