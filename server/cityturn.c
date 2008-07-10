@@ -418,9 +418,9 @@ void update_city_activities(struct player *pplayer)
   int gold;
   gold=pplayer->economic.gold;
   pplayer->bulbs_last_turn = 0;
-  city_list_iterate(pplayer->cities, pcity)
+  city_list_iterate_safe(pplayer->cities, pcity)
      update_city_activity(pplayer, pcity);
-  city_list_iterate_end;
+  city_list_iterate_safe_end;
   pplayer->ai.prev_gold = gold;
   /* This test include the cost of the units because pay_for_units is called
    * in update_city_activity */
