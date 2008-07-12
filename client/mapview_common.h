@@ -265,6 +265,11 @@ void put_one_element(struct canvas *pcanvas, enum mapview_layer layer,
 		     int canvas_x, int canvas_y,
 		     const struct city *citymode);
 
+void put_drawn_sprites(struct canvas *pcanvas,
+                       int canvas_x, int canvas_y,
+                       int count, struct drawn_sprite *pdrawn,
+                       bool fog);
+
 void update_map_canvas(int canvas_x, int canvas_y, int width, int height);
 void update_map_canvas_visible(void);
 void update_city_description(struct city *pcity);

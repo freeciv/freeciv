@@ -5057,6 +5057,9 @@ void tileset_init(struct tileset *t)
   Fill the sprite array with sprites that together make a representative
   image of the given terrain type. Suitable for use as an icon and in list
   views.
+
+  NB: The 'layer' argument is NOT a LAYER_* value, but rather one of 0, 1, 2.
+  Using other values for 'layer' here will result in undefined behaviour. ;)
 ****************************************************************************/
 int fill_basic_terrain_layer_sprite_array(struct tileset *t,
                                           struct drawn_sprite *sprs,
