@@ -37,6 +37,7 @@
 #include "chatline_common.h"
 #include "civclient.h"
 #include "editor.h"
+#include "mapview_common.h"
 #include "tilespec.h"
 
 #include "canvas.h"
@@ -592,44 +593,28 @@ static void editbar_refresh(struct editbar *eb)
 static GdkPixbuf *create_military_base_pixbuf(const struct base_type *pbase)
 {
   struct drawn_sprite sprs[80];
-  struct sprite *sprite;
-  int count, w, h, i, ox, oy, sw, sh;
-  GdkPixbuf *src_pixbuf, *dest_pixbuf;
+  int count, w, h, canvas_x, canvas_y;
+  GdkPixbuf *pixbuf;
+  struct canvas canvas;
 
   w = tileset_tile_width(tileset);
   h = tileset_tile_height(tileset);
 
-  dest_pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, w, h);
-  if (dest_pixbuf == NULL) {
+  pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, w, h);
+  if (pixbuf == NULL) {
     return NULL;
   }
+  gdk_pixbuf_fill(pixbuf, 0x00000000);
 
-  gdk_pixbuf_fill(dest_pixbuf, 0x00000000);
+  canvas.type = CANVAS_PIXBUF;
+  canvas.v.pixbuf = pixbuf;
+  canvas_x = 0;
+  canvas_y = 0;
 
   count = fill_basic_base_sprite_array(tileset, sprs, pbase);
+  put_drawn_sprites(&canvas, canvas_x, canvas_y, count, sprs, FALSE);
 
-  for (i = 0; i < count; i++) {
-    sprite = sprs[i].sprite;
-    if (sprite == NULL) {
-      continue;
-    }
-  
-    src_pixbuf = sprite_get_pixbuf(sprite);
-    if (src_pixbuf == NULL) {
-      continue;
-    }
-
-    ox = sprs[i].offset_x;
-    oy = sprs[i].offset_y;
-
-    sw = MIN(w, MAX(0, sprite->width - ox));
-    sh = MIN(h, MAX(0, sprite->height - oy));
-
-    gdk_pixbuf_composite(src_pixbuf, dest_pixbuf, 0.0, 0.0, sw, sh,
-                         ox, oy, 1.0, 1.0, GDK_INTERP_NEAREST, 255);
-  }
-
-  return dest_pixbuf;
+  return pixbuf;
 }
 
 /****************************************************************************
@@ -644,60 +629,31 @@ static GdkPixbuf *create_military_base_pixbuf(const struct base_type *pbase)
 static GdkPixbuf *create_terrain_pixbuf(struct terrain *pterrain)
 {
   struct drawn_sprite sprs[80];
-  struct sprite *sprite;
-  int count, w, h, i, ox, oy, layer, sw, sh;
-  GdkPixbuf *src_pixbuf, *dest_pixbuf;
-
-  freelog(LOG_DEBUG, "create_terrain_pixbuf %s",
-          terrain_name_translation(pterrain));
+  int count, w, h, canvas_x, canvas_y, i;
+  GdkPixbuf *pixbuf;
+  struct canvas canvas;
 
   w = tileset_tile_width(tileset);
   h = tileset_tile_height(tileset);
 
-  freelog(LOG_DEBUG, "  w=%d h=%d", w, h);
-
-  dest_pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, w, h);
-  if (dest_pixbuf == NULL) {
+  pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, w, h);
+  if (pixbuf == NULL) {
     return NULL;
   }
+  gdk_pixbuf_fill(pixbuf, 0x00000000);
 
-  gdk_pixbuf_fill(dest_pixbuf, 0x00000000);
+  canvas.type = CANVAS_PIXBUF;
+  canvas.v.pixbuf = pixbuf;
+  canvas_x = 0;
+  canvas_y = 0;
 
-  for (layer = 0; layer < 3; layer++) {
+  for (i = 0; i < 3; i++) {
     count = fill_basic_terrain_layer_sprite_array(tileset, sprs,
-                                                  layer, pterrain);
-    freelog(LOG_DEBUG, "  layer %d count=%d", layer, count);
-
-    for (i = 0; i < count; i++) {
-      freelog(LOG_DEBUG, "    sprs[%d]: sprite=%p", i, sprs[i].sprite);
-
-      sprite = sprs[i].sprite;
-      if (sprite == NULL) {
-        continue;
-      }
-    
-      src_pixbuf = sprite_get_pixbuf(sprite);
-      if (src_pixbuf == NULL) {
-        continue;
-      }
-
-      freelog(LOG_DEBUG, "      foggable=%d ox=%d oy=%d sw=%d sh=%d mask=%p",
-             sprs[i].foggable, sprs[i].offset_x, sprs[i].offset_y,
-             sprite->width, sprite->height, sprite->mask);
-
-      ox = sprs[i].offset_x;
-      oy = sprs[i].offset_y;
-
-      sw = sprite->width;
-      sh = sprite->height;
-
-      gdk_pixbuf_composite(src_pixbuf, dest_pixbuf, ox, oy, sw, sh,
-                           ox, oy, 1.0, 1.0, GDK_INTERP_NEAREST, 255);
-    }
+                                                  i, pterrain);
+    put_drawn_sprites(&canvas, canvas_x, canvas_y, count, sprs, FALSE);
   }
 
-    
-  return dest_pixbuf;
+  return pixbuf;
 }
 
 /****************************************************************************

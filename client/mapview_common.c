@@ -849,10 +849,10 @@ bool tile_visible_and_not_on_border_mapcanvas(struct tile *ptile)
 /**************************************************************************
   Draw an array of drawn sprites onto the canvas.
 **************************************************************************/
-static void put_drawn_sprites(struct canvas *pcanvas,
-			      int canvas_x, int canvas_y,
-			      int count, struct drawn_sprite *pdrawn,
-			      bool fog)
+void put_drawn_sprites(struct canvas *pcanvas,
+                       int canvas_x, int canvas_y,
+                       int count, struct drawn_sprite *pdrawn,
+                       bool fog)
 {
   int i;
 
