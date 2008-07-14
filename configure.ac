@@ -69,6 +69,33 @@ AC_ARG_ENABLE(server,
 esac], [server=true])
 AM_CONDITIONAL(SERVER, test x$server = xtrue)
 
+dnl yes     - Forced use of IPv6
+dnl no      - Legacy IPv4 support
+dnl support - IPv4 with IPv6 compatibility
+dnl test    - Try to enable IPv6 support, fallback IPv4
+AC_ARG_ENABLE(ipv6,
+[  --enable-ipv6=yes/no/test/support
+                          use IPv6 (WIP) [[no]]],
+[case "${enableval}" in
+  yes|no|test|support) ipv6=${enableval} ;;
+  *)   AC_MSG_ERROR(bad value ${enableval} for --enable-ipv6) ;;
+esac], [ipv6=no])
+if test x$ipv6 != xno ; then
+  AC_CHECK_FUNCS([gethostbyname2 inet_pton inet_ntop], [ipv6_possible=true], [
+if test x$ipv6 = xyes || x$ipv6 = xsupport ; then
+  AC_MSG_ERROR([Cannot enable IPv6 functionality])
+fi ])
+  if test x$ipv6_possible = xtrue ; then
+    AC_DEFINE([IPV6_SUPPORT], [1], [IPv6 Support built in])
+    if test x$ipv6 != xsupport ; then
+      dnl Do not actively use IPv6 when only support requested
+      AC_DEFINE([IPV6_USED], [1], [IPv6 Used])
+    fi
+  fi
+  dnl Non-critical functions
+  AC_CHECK_FUNCS([getnameinfo])
+fi
+
 AC_ARG_WITH(readline,
 [  --with-readline         support fancy command line editing],
 WITH_READLINE=$withval,	dnl yes/no - required to use / never use
