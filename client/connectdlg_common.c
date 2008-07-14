@@ -195,7 +195,8 @@ bool client_start_server(void)
 # ifdef WIN32_NATIVE
   STARTUPINFO si;
   PROCESS_INFORMATION pi;
-  
+
+  char savesdir[MAX_LEN_PATH];
   char options[512];
   char cmdline1[512];
   char cmdline2[512];
@@ -310,8 +311,10 @@ bool client_start_server(void)
 		scriptfile);
   }
 
-  my_snprintf(options, sizeof(options), "-p %d -q 1 -e%s%s",
-	      internal_server_port, logcmdline, scriptcmdline);
+  interpret_tilde(savesdir, sizeof(savesdir), "~/.freeciv/saves");
+
+  my_snprintf(options, sizeof(options), "-p %d -q 1 -e%s%s --saves \"%s\"",
+	      internal_server_port, logcmdline, scriptcmdline, savesdir);
   my_snprintf(cmdline1, sizeof(cmdline1), "./ser %s", options);
   my_snprintf(cmdline2, sizeof(cmdline2), "./server/civserver %s", options);
   my_snprintf(cmdline3, sizeof(cmdline3), "civserver %s", options);
