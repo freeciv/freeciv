@@ -319,7 +319,7 @@ bool setting_class_is_changeable(enum sset_class class);
 #define GAME_DEFAULT_RULESETDIR      "default"
 
 #define GAME_DEFAULT_SAVE_NAME       "civgame"
-#define GAME_DEFAULT_SAVETURNS       10
+#define GAME_DEFAULT_SAVETURNS       1
 
 #define GAME_DEFAULT_SKILL_LEVEL 3      /* easy */
 #define GAME_OLD_DEFAULT_SKILL_LEVEL 5  /* normal; for old save games */

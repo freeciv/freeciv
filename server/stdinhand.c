@@ -3301,7 +3301,7 @@ static void send_load_game_info(bool load_successful)
     legitimate but has inconsistencies) and would lead to a broken server
     afterwards.
 **************************************************************************/
-bool load_command(struct connection *caller, char *filename, bool check)
+bool load_command(struct connection *caller, const char *filename, bool check)
 {
   struct timer *loadtimer, *uloadtimer;  
   struct section_file file;

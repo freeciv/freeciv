@@ -17,6 +17,8 @@
 
 #ifdef GGZ_SERVER
 
+#include <unistd.h>
+
 #include <ggzdmod.h>
 
 #include "fciconv.h"
@@ -32,6 +34,7 @@
 #include "score.h"
 #include "sernet.h"
 #include "srv_main.h"
+#include "stdinhand.h"
 
 bool with_ggz = FALSE;
 
@@ -74,7 +77,7 @@ static struct player *get_player_for_seat(int seat_num)
     return NULL;
   case GGZ_SEAT_PLAYER:
   case GGZ_SEAT_BOT:
-  default: /* Works for GGZ_SEAT_ABANDONED. */
+  case GGZ_SEAT_ABANDONED:
     break;
   }
 
@@ -94,16 +97,52 @@ static struct player *get_player_for_seat(int seat_num)
 static void handle_ggz_state_event(GGZdMod * ggz, GGZdModEvent event,
 				   const void *data)
 {
-#if 0
   const GGZdModState *old_state = data;
   GGZdModState new_state = ggzdmod_get_state(ggz);
 
-  /* Currently no handling is done. */
-#endif
+  freelog(LOG_DEBUG, "ggz changed state to %d.", new_state);
+
+  if (*old_state == GGZDMOD_STATE_CREATED) {
+    const char *savegame = ggzdmod_get_savedgame(ggz);
+
+    /* If a savegame is given, load it. */
+    freelog(LOG_DEBUG, "Instructed to load \"%s\".", savegame);
+    if (savegame) {
+      if (!load_command(NULL, savegame, FALSE)) {
+	/* no error handling? */
+	server_quit();
+      }
+    }
+
+    /* If we loaded a game that'll include the serverid.  If not we
+     * generate one here. */
+    if (strlen(srvarg.serverid) == 0) {
+      strcpy(srvarg.serverid, "ggz-civ-XXXXXX");
+      if (!mkdtemp(srvarg.serverid)) {
+	freelog(LOG_ERROR,
+		_("Unable to make temporary directory for GGZ game.\n"));
+	server_quit();
+      }
+    }
+
+    /* Change into the server directory */
+    if (chdir(srvarg.serverid) < 0) {
+      freelog(LOG_ERROR,
+	      _("Unable to change into temporary server "
+		"directory %s.\n"), srvarg.serverid);
+      server_quit();
+    }
+    freelog(LOG_DEBUG, "Changed into directory %s.", srvarg.serverid);
+  }
 }
 
 /****************************************************************************
   Handles a seat-change event as reported by the GGZ server.
+
+  This typically happens when a human player joins or leaves the game.
+  This function links the GGZ seat player (which is just a seat number) to
+  the correct player.  In the case of a join event we also get the socket
+  for the player's connection, which is treated just like a new connection.
 ****************************************************************************/
 static void handle_ggz_seat_event(GGZdMod *ggz, GGZdModEvent event,
 				  const void *data)
@@ -143,12 +182,12 @@ static void handle_ggz_seat_event(GGZdMod *ggz, GGZdModEvent event,
     } players_iterate_end;
 
     if (leaving) {
-      printf("%s is leaving.\n", old_seat->name);
+      freelog(LOG_DEBUG, "%s is leaving.", old_seat->name);
       leaving->sock = -1;
       lost_connection_to_client(leaving);
       close_connection(leaving);
     } else {
-      printf("Couldn't match player %s.\n", old_seat->name);
+      freelog(LOG_ERROR, "Couldn't match player %s.", old_seat->name);
     }
   }
 }
@@ -350,6 +389,29 @@ void ggz_report_victory(void)
   ggzdmod_report_game(ggzdmod, teams, results, scores);
 
   num_victors = 0; /* In case there's another game. */
+}
+
+/****************************************************************************
+  Reports a savegame file to the GGZ server.  GGZ will allow
+  reloading from a file later by providing the savegame at launch time
+  (in the STATE event when leaving the CREATED state).
+****************************************************************************/
+void ggz_game_saved(const char *filename)
+{
+  char full_filename[strlen(filename) + strlen(srvarg.serverid) + 2];
+
+  if (!path_is_absolute(filename)) {
+    snprintf(full_filename, sizeof(full_filename), "%s/%s",
+	     srvarg.serverid, filename);
+  } else {
+    sz_strlcpy(full_filename, filename);
+  }
+  freelog(LOG_DEBUG, "Reporting filename %s => %s to ggz.",
+	  filename, full_filename);
+
+  if (with_ggz) {
+    ggzdmod_report_savegame(ggzdmod, full_filename);
+  }
 }
 
 #endif
