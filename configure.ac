@@ -535,6 +535,9 @@ if test "$client" = "gtk-2.0" ; then
 else
   AC_GGZ_CHECK
 fi
+if test "$ggz_server" = "yes" ; then
+  AC_CHECK_FUNCS([chdir mkdtemp])
+fi
 
 AC_SUBST(gui_sources)
 AC_SUBST(CLIENT_CFLAGS)

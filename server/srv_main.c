@@ -974,6 +974,8 @@ void save_game(char *orig_filename, const char *save_reason)
   freelog(LOG_VERBOSE, "Save time: %g seconds (%g apparent)",
 	  read_timer_seconds_free(timer_cpu),
 	  read_timer_seconds_free(timer_user));
+
+  ggz_game_saved(filename);
 }
 
 /**************************************************************************

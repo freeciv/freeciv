@@ -3875,6 +3875,8 @@ static void game_load_internal(struct section_file *file)
     sz_strlcpy(srvarg.metaserver_addr,
 	       secfile_lookup_str_default(file, DEFAULT_META_SERVER_ADDR,
 					  "game.metaserver"));
+    sz_strlcpy(srvarg.serverid,
+	       secfile_lookup_str_default(file, "", "game.serverid"));
 
     game.info.gold          = secfile_lookup_int(file, "game.gold");
     game.info.tech          = secfile_lookup_int(file, "game.tech");
@@ -4593,7 +4595,7 @@ void game_save(struct section_file *file, const char *save_reason)
     secfile_insert_str(file, user_message, "game.metamessage");
   }
   secfile_insert_str(file, meta_addr_port(), "game.metaserver");
-  
+  secfile_insert_str(file, srvarg.serverid, "game.serverid");
   
   secfile_insert_int(file, game.info.gold, "game.gold");
   secfile_insert_int(file, game.info.tech, "game.tech");

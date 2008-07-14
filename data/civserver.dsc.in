@@ -22,6 +22,7 @@ PlayersAllowed = 1..30
 # Because of -q 180 -e options, above
 KillWhenEmpty = 0
 AllowSpectators = 0
+AllowRestore = 1
 
 [Statistics]
 Records = 1
