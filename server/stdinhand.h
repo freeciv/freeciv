@@ -32,7 +32,8 @@ bool read_init_script(struct connection *caller, char *script_filename,
                       bool from_cmdline);
 void show_players(struct connection *caller);
 
-bool load_command(struct connection *caller, char *arg, bool check);
+bool load_command(struct connection *caller,
+		  const char *filename, bool check);
 bool start_command(struct connection *caller, bool check, bool notify);
 
 void toggle_ai_player_direct(struct connection *caller,

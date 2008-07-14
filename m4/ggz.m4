@@ -1004,7 +1004,7 @@ AC_DEFUN([AC_GGZ_CHECK_SERVER],
   if test "$try_ggz" = "yes"; then
     # For now, version 0.0.14 is required.  This could be an additional
     # parameter.
-    AC_GGZ_VERSION([0], [0], [14], [], [try_ggz=no])
+    AC_GGZ_VERSION([0], [99], [4], [], [try_ggz=no])
   fi
 
   ggz_server="no"

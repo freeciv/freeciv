@@ -3276,7 +3276,7 @@ static void send_load_game_info(bool load_successful)
 /**************************************************************************
   ...
 **************************************************************************/
-bool load_command(struct connection *caller, char *filename, bool check)
+bool load_command(struct connection *caller, const char *filename, bool check)
 {
   struct timer *loadtimer, *uloadtimer;  
   struct section_file file;
