@@ -52,7 +52,9 @@
 #include "timing.h"
 #include "version.h"
 
+/* server */
 #include "console.h"
+#include "plrhand.h"
 #include "srv_main.h"
 
 #include "meta.h"
@@ -272,7 +274,7 @@ static bool send_to_metaserver(enum meta_flag flag)
     s = end_of_strn(s, &rest);
 
     /* NOTE: send info for ALL players or none at all. */
-    if (player_count_no_barbarians() == 0) {
+    if (normal_player_count() == 0) {
       mystrlcpy(s, "dropplrs=1&", rest);
       s = end_of_strn(s, &rest);
     } else {
