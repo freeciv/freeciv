@@ -1121,14 +1121,6 @@ int identity_number(void)
 }
 
 /**************************************************************************
-...
-**************************************************************************/
-int player_count_no_barbarians(void)
-{
-  return player_count() - server.nbarbarians;
-}
-
-/**************************************************************************
 Returns 0 if connection should be closed (because the clients was
 rejected). Returns 1 else.
 **************************************************************************/

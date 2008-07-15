@@ -1209,7 +1209,7 @@ static void send_lanserver_response(void)
   }
 
    my_snprintf(players, sizeof(players), "%d",
-               player_count_no_barbarians());
+               normal_player_count());
    my_snprintf(port, sizeof(port), "%d",
               srvarg.port );
 

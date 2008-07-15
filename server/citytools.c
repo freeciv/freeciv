@@ -1305,7 +1305,7 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
   if (is_capital(pcity)
       && city_list_size(cplayer->cities) >= game.info.civilwarsize
       && game.info.civilwarsize < GAME_MAX_CIVILWARSIZE
-      && player_count_no_barbarians() < MAX_NUM_PLAYERS
+      && normal_player_count() < MAX_NUM_PLAYERS
       && civil_war_triggered(cplayer)) {
     try_civil_war = TRUE;
   }

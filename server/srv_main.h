@@ -96,7 +96,6 @@ void send_all_info(struct conn_list *dest);
 void identity_number_release(int id);
 void identity_number_reserve(int id);
 int identity_number(void);
-int player_count_no_barbarians(void);
 void server_game_init(void);
 void server_game_free(void);
 void aifill(int amount);
