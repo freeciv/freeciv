@@ -761,12 +761,12 @@ static void set_global_worklist(struct widget *pWidget)
 	  pBuf = create_iconlabel(NULL, pWidget->dst,
 		create_str16_from_char(utype_name_translation(utype_by_number(target.value)), adj_font(10)),
 				(WF_RESTORE_BACKGROUND|WF_FREE_DATA));
-	  pBuf->ID = MAX_ID - B_LAST - target.value;
+	  pBuf->ID = MAX_ID - cid_encode(target);
         } else {
 	  pBuf = create_iconlabel(NULL, pWidget->dst,
 	  create_str16_from_char(get_impr_name_ex(pEditor->pCity, target.value), adj_font(10)),
 				(WF_RESTORE_BACKGROUND|WF_FREE_DATA));
-	  pBuf->ID = MAX_ID - target.value;
+	  pBuf->ID = MAX_ID - cid_encode(target);
         }
         pBuf->string16->style |= SF_CENTER;
         set_wstate(pBuf, FC_WS_NORMAL);
@@ -1468,7 +1468,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
       pText_Name = create_text_surf_smaller_that_w(pStr, pIcon->w - 4);
   
       if (pCity) {
-        turns = city_turns_to_build(pCity, cid_production(un->index), TRUE);
+        turns = city_turns_to_build(pCity, cid_production(cid_encode_unit(un)), TRUE);
         if (turns == FC_INFINITY) {
           my_snprintf(cBuf, sizeof(cBuf),
 		    _("(%d/%d/%d)\n%d/%d %s\nnever"),
