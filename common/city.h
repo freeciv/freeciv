@@ -449,8 +449,6 @@ extern struct output_type output_types[];
   }                                                                    \
 }
 
-
-
 /* output type functions */
 
 const char *get_output_identifier(Output_type_id output);

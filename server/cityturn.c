@@ -709,6 +709,8 @@ bool city_change_size(struct city *pcity, int size)
 **************************************************************************/
 static void city_populate(struct city *pcity)
 {
+  int saved_id = pcity->id;
+
   pcity->food_stock += pcity->surplus[O_FOOD];
   if (pcity->food_stock >= city_granary_size(pcity->size) 
      || city_rapture_grow(pcity)) {
@@ -733,8 +735,10 @@ static void city_populate(struct city *pcity)
  
         wipe_unit(punit);
 
-	pcity->food_stock = (city_granary_size(pcity->size)
-			     * granary_savings(pcity)) / 100;
+        if (city_exist(saved_id)) {
+          pcity->food_stock = (city_granary_size(pcity->size)
+                               * granary_savings(pcity)) / 100;
+        }
 	return;
       }
     } unit_list_iterate_safe_end;
@@ -1727,6 +1731,7 @@ void nullify_prechange_production(struct city *pcity)
 static void update_city_activity(struct player *pplayer, struct city *pcity)
 {
   struct government *g = government_of_city(pcity);
+  int saved_id = pcity->id;
 
   city_refresh(pcity);
 
@@ -1766,38 +1771,41 @@ static void update_city_activity(struct player *pplayer, struct city *pcity)
     update_tech(pplayer, pcity->prod[O_SCIENCE]);
     pplayer->economic.gold+=pcity->prod[O_GOLD];
     pay_for_units(pplayer, pcity);
-    pay_for_buildings(pplayer, pcity);
+    if (city_exist(saved_id)) {
+      pay_for_buildings(pplayer, pcity);
 
-    if(city_unhappy(pcity)) { 
-      pcity->anarchy++;
-      if (pcity->anarchy == 1) 
-        notify_player(pplayer, pcity->tile, E_CITY_DISORDER,
-	  	      _("Civil disorder in %s."),
-	  	      city_name(pcity));
-      else
-        notify_player(pplayer, pcity->tile, E_CITY_DISORDER,
-		         _("CIVIL DISORDER CONTINUES in %s."),
-			 city_name(pcity));
-    }
-    else {
-      if (pcity->anarchy != 0)
-        notify_player(pplayer, pcity->tile, E_CITY_NORMAL,
-	  	      _("Order restored in %s."),
-	  	      city_name(pcity));
-      pcity->anarchy=0;
-    }
-    check_pollution(pcity);
+      if(city_unhappy(pcity)) { 
+        pcity->anarchy++;
+        if (pcity->anarchy == 1) {
+          notify_player(pplayer, pcity->tile, E_CITY_DISORDER,
+                        _("Civil disorder in %s."),
+                        city_name(pcity));
+        } else {
+          notify_player(pplayer, pcity->tile, E_CITY_DISORDER,
+                        _("CIVIL DISORDER CONTINUES in %s."),
+                        city_name(pcity));
+        }
+      } else {
+        if (pcity->anarchy != 0) {
+          notify_player(pplayer, pcity->tile, E_CITY_NORMAL,
+                        _("Order restored in %s."),
+                        city_name(pcity));
+        }
+        pcity->anarchy = 0;
+      }
+      check_pollution(pcity);
 
-    send_city_info(NULL, pcity);
-    if (pcity->anarchy>2 
-        && get_player_bonus(pplayer, EFT_REVOLUTION_WHEN_UNHAPPY) > 0) {
-      notify_player(pplayer, pcity->tile, E_ANARCHY,
-		       _("The people have overthrown your %s, "
-			 "your country is in turmoil."),
-		       government_name_translation(g));
-      handle_player_change_government(pplayer, government_number(g));
+      send_city_info(NULL, pcity);
+      if (pcity->anarchy>2 
+          && get_player_bonus(pplayer, EFT_REVOLUTION_WHEN_UNHAPPY) > 0) {
+        notify_player(pplayer, pcity->tile, E_ANARCHY,
+                      _("The people have overthrown your %s, "
+                        "your country is in turmoil."),
+                      government_name_translation(g));
+        handle_player_change_government(pplayer, government_number(g));
+      }
+      sanity_check_city(pcity);
     }
-    sanity_check_city(pcity);
   }
 }
 

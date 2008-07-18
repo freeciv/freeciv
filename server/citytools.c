@@ -625,6 +625,8 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 			 int kill_outside, bool verbose)
 {
   struct tile *ptile = pcity->tile;
+  int saved_id = pcity->id;
+  const char *name = city_name(pcity);
 
   /* Transfer enemy units in the city to the new owner.
    * Only relevant if we are transferring to another player. */
@@ -647,6 +649,10 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
     } unit_list_iterate_safe_end;
   }
 
+  if (!city_exist(saved_id)) {
+    saved_id = 0;
+  }
+
   /* Any remaining units supported by the city are either given new home
      cities or maybe destroyed */
   unit_list_iterate_safe(units, vunit) {
@@ -656,8 +662,9 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
       /* unit is in another city: make that the new homecity,
 	 unless that city is actually the same city (happens if disbanding) */
       transfer_unit(vunit, new_home_city, verbose);
-    } else if (kill_outside == -1
-	       || real_map_distance(vunit->tile, ptile) <= kill_outside) {
+    } else if ((kill_outside == -1
+                || real_map_distance(vunit->tile, ptile) <= kill_outside)
+               && saved_id) {
       /* else transfer to specified city. */
       transfer_unit(vunit, pcity, verbose);
     } else {
@@ -667,22 +674,23 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 	      nation_rule_name(nation_of_unit(vunit)),
 	      unit_rule_name(vunit),
 	      TILE_XY(vunit->tile),
-	      city_name(pcity));
+	      name);
       if (verbose) {
 	notify_player(unit_owner(vunit), vunit->tile,
-			 E_UNIT_LOST_MISC,
-			 _("%s lost along with control of %s."),
-			 unit_name_translation(vunit),
-			 city_name(pcity));
+                      E_UNIT_LOST_MISC,
+                      _("%s lost along with control of %s."),
+                      unit_name_translation(vunit), name);
       }
       wipe_unit(vunit);
     }
   } unit_list_iterate_safe_end;
 
+#ifndef NDEBUG
   unit_list_iterate(pcity->units_supported, punit) {
     assert(punit->homecity == pcity->id);
     assert(unit_owner(punit) == pplayer);
   } unit_list_iterate_end;
+#endif /* NDEBUG */
 }
 
 /**********************************************************************
@@ -829,6 +837,8 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   struct unit_list *old_city_units = unit_list_new();
   struct player *pgiver = city_owner(pcity);
   struct tile *pcenter = city_tile(pcity);
+  int saved_id = pcity->id;
+  bool city_remains = TRUE;
 
   assert(pgiver != ptaker);
 
@@ -905,34 +915,40 @@ void transfer_city(struct player *ptaker, struct city *pcity,
     resolve_unit_stacks(pgiver, ptaker, transfer_unit_verbose);
   }
 
-  /* Update the city's trade routes. */
-  for (i = 0; i < NUM_TRADEROUTES; i++)
-    old_trade_routes[i] = pcity->trade[i];
-  for (i = 0; i < NUM_TRADEROUTES; i++) {
-    struct city *pother_city = game_find_city_by_number(pcity->trade[i]);
-
-    assert(pcity->trade[i] == 0 || pother_city != NULL);
-
-    if (pother_city) {
-      remove_trade_route(pother_city, pcity);
-    }
-  }
-  reestablish_city_trade_routes(pcity, old_trade_routes);
-
-  /*
-   * Give the new owner infos about all cities which have a traderoute
-   * with the transferred city.
-   */
-  for (i = 0; i < NUM_TRADEROUTES; i++) {
-    struct city *pother_city = game_find_city_by_number(pcity->trade[i]);
-    if (pother_city) {
-      reality_check_city(ptaker, pother_city->tile);
-      update_dumb_city(ptaker, pother_city);
-      send_city_info(ptaker, pother_city);
-    }
+  if (! city_exist(saved_id)) {
+    city_remains = FALSE;
   }
 
-  city_refresh(pcity);
+  if (city_remains) {
+    /* Update the city's trade routes. */
+    for (i = 0; i < NUM_TRADEROUTES; i++)
+      old_trade_routes[i] = pcity->trade[i];
+    for (i = 0; i < NUM_TRADEROUTES; i++) {
+      struct city *pother_city = game_find_city_by_number(pcity->trade[i]);
+
+      assert(pcity->trade[i] == 0 || pother_city != NULL);
+
+      if (pother_city) {
+        remove_trade_route(pother_city, pcity);
+      }
+    }
+    reestablish_city_trade_routes(pcity, old_trade_routes);
+
+    /*
+     * Give the new owner infos about all cities which have a traderoute
+     * with the transferred city.
+     */
+    for (i = 0; i < NUM_TRADEROUTES; i++) {
+      struct city *pother_city = game_find_city_by_number(pcity->trade[i]);
+      if (pother_city) {
+        reality_check_city(ptaker, pother_city->tile);
+        update_dumb_city(ptaker, pother_city);
+        send_city_info(ptaker, pother_city);
+      }
+    }
+
+    city_refresh(pcity);
+  }
 
   /* 
    * maybe_make_contact() MUST be called before city_map_update_all(),
@@ -940,64 +956,67 @@ void transfer_city(struct player *ptaker, struct city *pcity,
    */
   maybe_make_contact(pcenter, ptaker);
 
-  if (raze) {
-    raze_city(pcity);
+  if (city_remains) {
+    if (raze) {
+      raze_city(pcity);
+    }
+
+    /* Restore any global improvement effects that this city confers */
+    city_built_iterate(pcity, pimprove) {
+      city_add_improvement(pcity, pimprove);
+    } city_built_iterate_end;
+
+    /* Set production to something valid for pplayer, if not.
+     * (previously allowed building obsolete units.) */
+    if (!can_city_build_now(pcity, pcity->production)) {
+      advisor_choose_build(ptaker, pcity);
+    }
+
+    /* What wasn't obsolete for the old owner may be so now. */
+    remove_obsolete_buildings_city(pcity, TRUE);
+
+    if (terrain_control.may_road
+        && player_knows_techs_with_flag(ptaker, TF_RAILROAD)
+        && !tile_has_special(pcenter, S_RAILROAD)) {
+      notify_player(ptaker, pcenter, E_CITY_TRANSFER,
+                    _("The people in %s are stunned by your"
+                      " technological insight!\n"
+                      "      Workers spontaneously gather and upgrade"
+                      " the city with railroads."),
+                    city_name(pcity));
+      tile_set_special(pcenter, S_RAILROAD);
+      update_tile_knowledge(pcenter);
+    }
+
+    /* Build a new palace for free if the player lost her capital and
+       savepalace is on. */
+    if (game.info.savepalace) {
+      build_free_small_wonders(pgiver, &had_small_wonders);
+    }
+
+    /* Remove the sight points from the giver...and refresh the city's
+     * vision range, since it might be different under the new owner. */
+    city_refresh_vision(pcity);
+    vision_clear_sight(old_vision);
+    vision_free(old_vision);
+
+    /* Update the national borders, within the current vision and culture.
+     * This could leave a border ring around the city, updated later by
+     * map_calculate_borders() at the next turn.
+     */
+    map_claim_border(pcenter, ptaker);
+    /* city_thaw_workers_queue() later */
+
+    auto_arrange_workers(pcity); /* does city_map_update_all() */
+    city_thaw_workers(pcity);
+    city_thaw_workers_queue();  /* after old city has a chance to work! */
+    city_refresh_queue_processing();
+
+    send_city_info(NULL, pcity);
+
+    sanity_check_city(pcity);
   }
 
-  /* Restore any global improvement effects that this city confers */
-  city_built_iterate(pcity, pimprove) {
-    city_add_improvement(pcity, pimprove);
-  } city_built_iterate_end;
-
-  /* Set production to something valid for pplayer, if not.
-   * (previously allowed building obsolete units.) */
-  if (!can_city_build_now(pcity, pcity->production)) {
-    advisor_choose_build(ptaker, pcity);
-  }
-
-  /* What wasn't obsolete for the old owner may be so now. */
-  remove_obsolete_buildings_city(pcity, TRUE);
-
-  if (terrain_control.may_road
-      && player_knows_techs_with_flag(ptaker, TF_RAILROAD)
-      && !tile_has_special(pcenter, S_RAILROAD)) {
-    notify_player(ptaker, pcenter, E_CITY_TRANSFER,
-		  _("The people in %s are stunned by your"
-		    " technological insight!\n"
-		    "      Workers spontaneously gather and upgrade"
-		    " the city with railroads."),
-		  city_name(pcity));
-    tile_set_special(pcenter, S_RAILROAD);
-    update_tile_knowledge(pcenter);
-  }
-
-  /* Build a new palace for free if the player lost her capital and
-     savepalace is on. */
-  if (game.info.savepalace) {
-    build_free_small_wonders(pgiver, &had_small_wonders);
-  }
-
-  /* Remove the sight points from the giver...and refresh the city's
-   * vision range, since it might be different under the new owner. */
-  city_refresh_vision(pcity);
-  vision_clear_sight(old_vision);
-  vision_free(old_vision);
-
-  /* Update the national borders, within the current vision and culture.
-   * This could leave a border ring around the city, updated later by
-   * map_calculate_borders() at the next turn.
-   */
-  map_claim_border(pcenter, ptaker);
-  /* city_thaw_workers_queue() later */
-
-  auto_arrange_workers(pcity); /* does city_map_update_all() */
-  city_thaw_workers(pcity);
-  city_thaw_workers_queue();  /* after old city has a chance to work! */
-  city_refresh_queue_processing();
-
-  send_city_info(NULL, pcity);
-
-  sanity_check_city(pcity);
   sync_cities();
 }
 
@@ -1200,10 +1219,19 @@ void remove_city(struct city *pcity)
     }
   } unit_list_iterate_safe_end;
 
+  if (!city_exist(id)) {
+    return;
+  }
+
   /* Any remaining supported units are destroyed */
   unit_list_iterate_safe(pcity->units_supported, punit) {
     wipe_unit(punit);
   } unit_list_iterate_safe_end;
+
+  if (!city_exist(id)) {
+    /* Wiping supported units caused city to disappear. */
+    return;
+  }
 
   for (o = 0; o < NUM_TRADEROUTES; o++) {
     struct city *pother_city = game_find_city_by_number(pcity->trade[o]);

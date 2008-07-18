@@ -1032,6 +1032,8 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
     wipe_unit(plooser);
   } else {
     /* The defender lost, the attacker punit lives! */
+    int winner_id = pwinner->id;
+
     freelog(LOG_DEBUG, "Defender lost: %s %s against %s %s.",
 	    nation_rule_name(nation_of_player(pplayer)),
 	    unit_rule_name(punit),
@@ -1041,8 +1043,12 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
     punit->moved = TRUE;	/* We moved */
     kill_unit(pwinner, plooser,
               vet && !uclass_has_flag(unit_class(punit), UCF_MISSILE));
-    if (uclass_has_flag(unit_class(pwinner), UCF_MISSILE)) {
-      wipe_unit(pwinner);
+    if (unit_alive(winner_id)) {
+      if (uclass_has_flag(unit_class(pwinner), UCF_MISSILE)) {
+        wipe_unit(pwinner);
+        return;
+      }
+    } else {
       return;
     }
   }
