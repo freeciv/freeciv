@@ -326,10 +326,10 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 		    struct unit *pvictim)
 {
   struct player *uplayer;
-  int diplomat_id;
+  int diplomat_id = diplomat_id;
   struct tile *victim_tile;
   struct unit *gained_unit = NULL;
-  
+
   /* Fetch target unit's player.  Sanity checks. */
   if (!pvictim)
     return;
@@ -415,8 +415,11 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   victim_tile = pvictim->tile;
   wipe_unit(pvictim);
 
+  if (!unit_alive(diplomat_id)) {
+    return;
+  }
+
   /* Now, try to move the briber onto the victim's square. */
-  diplomat_id = pdiplomat->id;
   if (!unit_move_handling(pdiplomat, victim_tile, FALSE, FALSE)) {
     pdiplomat->moves_left = 0;
   }
@@ -1049,9 +1052,9 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
 			unit_name_translation(pdiplomat));
 	}
 
-	wipe_unit(punit);
         pdiplomat->moves_left = MAX(0, pdiplomat->moves_left - SINGLE_MOVE);
         send_unit_info(pplayer, pdiplomat);
+	wipe_unit(punit);
         return FALSE;
       } else {
 	/* Attacking Spy/Diplomat dies. */

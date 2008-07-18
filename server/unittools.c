@@ -1486,6 +1486,7 @@ void wipe_unit(struct unit *punit)
   struct player *pplayer = unit_owner(punit);
   struct unit_type *putype_save = unit_type(punit); /* for notify messages */
   int drowning = 0;
+  int saved_id = punit->id;
 
   /* First pull all units off of the transporter. */
   if (get_transporter_capacity(punit) > 0) {
@@ -1514,8 +1515,14 @@ void wipe_unit(struct unit *punit)
     } unit_list_iterate_end;
   }
 
-  /* Now remove the unit. */
-  server_remove_unit(punit);
+  script_signal_emit("unit_lost", 2,
+                     API_TYPE_UNIT, punit,
+                     API_TYPE_PLAYER, pplayer);
+
+  if (unit_alive(saved_id)) {
+    /* Now remove the unit. */
+    server_remove_unit(punit);
+  }
 
   /* Finally reassign, bounce, or destroy all units that cannot exist at this
    * location without transport. */
@@ -1591,7 +1598,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
   struct player *pvictim = unit_owner(punit);
   struct player *pvictor = unit_owner(pkiller);
   int ransom, unitcount = 0;
-  
+
   /* barbarian leader ransom hack */
   if( is_barbarian(pvictim) && unit_has_type_role(punit, L_BARBARIAN_LEADER)
       && (unit_list_size(punit->tile->units) == 1)
@@ -1996,7 +2003,7 @@ void send_all_known_units(struct conn_list *dest)
 **************************************************************************/
 static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
 {
-  struct city *pcity = tile_city(ptile);
+  struct city *pcity = NULL;
 
   unit_list_iterate_safe(ptile->units, punit) {
     notify_player(unit_owner(punit), ptile, E_UNIT_LOST_MISC,
@@ -2013,6 +2020,8 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
     }
     wipe_unit(punit);
   } unit_list_iterate_safe_end;
+
+  pcity = tile_city(ptile);
 
   if (pcity) {
     notify_player(city_owner(pcity), ptile, E_CITY_NUKED,
@@ -2246,6 +2255,7 @@ static bool hut_get_limited(struct unit *punit)
   } else {
     struct unit_type *type = unit_type(punit);
     struct tile *tile = punit->tile;
+
     wipe_unit(punit);
     ok = FALSE;
     notify_player(pplayer, tile, E_HUT_BARB_KILLED,
