@@ -20,6 +20,7 @@ enum editor_tool_type {
   ETT_TERRAIN = 0,
   ETT_TERRAIN_RESOURCE,
   ETT_TERRAIN_SPECIAL,
+  ETT_MILITARY_BASE,
   ETT_UNIT,
   ETT_CITY,
   ETT_VISION,
@@ -91,9 +92,5 @@ void editor_selection_remove(const struct tile *ptile);
 bool editor_tile_is_selected(const struct tile *ptile);
 void editor_apply_tool_to_selection(void);
 int editor_selection_count(void);
-
-int editor_encode_base_number(int base_type_id);
-int editor_decode_base_value(int value);
-bool editor_value_is_encoded_base_number(int value);
 
 #endif /* FC__TOOLS_H */

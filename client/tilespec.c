@@ -2314,6 +2314,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   SET_EDITOR_SPRITE(vision);
   SET_EDITOR_SPRITE(territory);
   SET_EDITOR_SPRITE(properties);
+  SET_EDITOR_SPRITE(military_base);
 #undef SET_EDITOR_SPRITE
 
   SET_SPRITE(city.disorder, "city.disorder");

@@ -46,4 +46,5 @@ tiles = { "row", "column", "tag"
   0,  8, "editor.vision"
   0,  9, "editor.territory"
   0, 10, "editor.properties"
+  0,  5, "editor.military_base"
 }
