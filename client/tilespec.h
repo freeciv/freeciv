@@ -232,7 +232,8 @@ struct editor_sprites {
     *city,
     *vision,
     *territory,
-    *properties;
+    *properties,
+    *military_base;
 };
 
 struct sprite *get_spaceship_sprite(const struct tileset *t,

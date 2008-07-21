@@ -115,6 +115,9 @@ void editor_init(void)
   SET_TOOL(ETT_TERRAIN_SPECIAL, _("Terrain Special"),
            ETF_HAS_VALUE | ETF_HAS_SIZE | ETF_HAS_VALUE_ERASE,
            _("Modify tile specials."));
+  SET_TOOL(ETT_MILITARY_BASE, _("Military Base"),
+           ETF_HAS_VALUE | ETF_HAS_SIZE | ETF_HAS_VALUE_ERASE,
+           _("Create a military base."));
   SET_TOOL(ETT_UNIT, _("Unit"),
            ETF_HAS_VALUE | ETF_HAS_COUNT | ETF_HAS_APPLIED_PLAYER,
            _("Create unit."));
@@ -372,8 +375,8 @@ static void editor_grab_tool(const struct tile *ptile)
       value = utype_number(unit_type(grabbed_punit));
     }
   } else if (pbase != NULL) {
-    ett = ETT_TERRAIN_SPECIAL;
-    value = editor_encode_base_number(base_number(pbase));
+    ett = ETT_MILITARY_BASE;
+    value = base_number(pbase);
 
   } else if (tile_really_has_any_specials(ptile)) {
     int specials_array[S_LAST];
@@ -742,14 +745,13 @@ void editor_apply_tool(const struct tile *ptile,
     break;
 
   case ETT_TERRAIN_SPECIAL:
-    if (editor_value_is_encoded_base_number(value)) {
-      value = editor_decode_base_value(value);
-      dsend_packet_edit_tile_base(&client.conn, ptile->x, ptile->y,
-                                  value, erase, size);
-    } else {
-      dsend_packet_edit_tile_special(&client.conn, ptile->x, ptile->y,
-                                     value, erase, size);
-    }
+    dsend_packet_edit_tile_special(&client.conn, ptile->x, ptile->y,
+                                   value, erase, size);
+    break;
+
+  case ETT_MILITARY_BASE:
+    dsend_packet_edit_tile_base(&client.conn, ptile->x, ptile->y,
+                                value, erase, size);
     break;
 
   case ETT_UNIT:
@@ -942,6 +944,7 @@ const char *editor_tool_get_value_name(enum editor_tool_type emt, int value)
   struct terrain *pterrain;
   struct resource *presource;
   struct unit_type *putype;
+  struct base_type *pbase;
 
   if (!editor) {
     return "";
@@ -957,14 +960,14 @@ const char *editor_tool_get_value_name(enum editor_tool_type emt, int value)
     return presource ? resource_name_translation(presource) : "";
     break;
   case ETT_TERRAIN_SPECIAL:
-    if (editor_value_is_encoded_base_number(value)) {
-      struct base_type *pbase;
-      
-      pbase = base_by_number(editor_decode_base_value(value));
-      return pbase != NULL ? base_name_translation(pbase) : "";
+    if (!(0 <= value && value < S_LAST)) {
+      return "";
     }
-    return 0 <= value && value < S_LAST
-      ? special_name_translation(value) : "";
+    return special_name_translation(value);
+    break;
+  case ETT_MILITARY_BASE:
+    pbase = base_by_number(value);
+    return pbase != NULL ? base_name_translation(pbase) : "";
     break;
   case ETT_UNIT:
     putype = utype_by_number(value);
@@ -1070,6 +1073,9 @@ struct sprite *editor_tool_get_sprite(enum editor_tool_type ett)
   case ETT_TERRAIN_SPECIAL:
     return sprites->terrain_special;
     break;
+  case ETT_MILITARY_BASE:
+    return sprites->military_base;
+    break;
   case ETT_UNIT:
     return sprites->unit;
     break;
@@ -1150,33 +1156,6 @@ bool editor_tool_has_value_erase(enum editor_tool_type ett)
     return FALSE;
   }
   return editor->tools[ett].flags & ETF_HAS_VALUE_ERASE;
-}
-
-/****************************************************************************
-  Encode the given base type id so that it can be stored as a value for
-  the editor tool ETT_TERRAIN_SPECIAL without conflicting with enum
-  tile_special_type.
-****************************************************************************/
-int editor_encode_base_number(int base_type_id)
-{
-  return S_LAST + base_type_id;
-}
-
-/****************************************************************************
-  Decode the given ETT_TERRAIN_SPECIAL tool value to a base type id.
-****************************************************************************/
-int editor_decode_base_value(int value)
-{
-  return value - S_LAST;
-}
-
-/****************************************************************************
-  Return TRUE if the give tool value for ETT_TERRAIN_SPECIAL is an
-  encoded base type id.
-****************************************************************************/
-bool editor_value_is_encoded_base_number(int value)
-{
-  return value >= S_LAST;
 }
 
 /****************************************************************************

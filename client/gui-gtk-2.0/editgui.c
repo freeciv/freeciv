@@ -442,6 +442,8 @@ static struct editbar *editbar_create(void)
                              radio_parent, hbox);
   create_editbar_radiobutton(eb, ETT_TERRAIN_SPECIAL,
                              radio_parent, hbox);
+  create_editbar_radiobutton(eb, ETT_MILITARY_BASE,
+                             radio_parent, hbox);
   create_editbar_radiobutton(eb, ETT_UNIT,
                              radio_parent, hbox);
   create_editbar_radiobutton(eb, ETT_CITY,
@@ -741,10 +743,17 @@ static void editbar_reload_tileset(struct editbar *eb)
     gtk_list_store_set(store, &iter, TVS_COL_IMAGE, pixbuf, -1);
   } tile_special_type_iterate_end;
 
+
+  /* Reload military bases. */
+
+  tvs = eb->tool_selectors[ETT_MILITARY_BASE];
+  store = tvs->store;
+  gtk_list_store_clear(store);
+
   base_type_iterate(pbase) {
     int id;
 
-    id = editor_encode_base_number(base_number(pbase));
+    id = base_number(pbase);
 
     gtk_list_store_append(store, &iter);
     gtk_list_store_set(store, &iter,
@@ -1267,6 +1276,7 @@ static GdkPixbuf *get_tool_value_pixbuf(enum editor_tool_type ett,
   struct terrain *pterrain;
   struct resource *presource;
   struct unit_type *putype;
+  struct base_type *pbase;
   const struct editor_sprites *sprites;
 
   sprites = get_editor_sprites(tileset);
@@ -1288,13 +1298,11 @@ static GdkPixbuf *get_tool_value_pixbuf(enum editor_tool_type ett,
     }
     break;
   case ETT_TERRAIN_SPECIAL:
-    if (editor_value_is_encoded_base_number(value)) {
-      int id = editor_decode_base_value(value);
-      struct base_type *pbase = base_by_number(id);
-      pixbuf = create_military_base_pixbuf(pbase);
-    } else {
-      sprite = get_basic_special_sprite(tileset, value);
-    }
+    sprite = get_basic_special_sprite(tileset, value);
+    break;
+  case ETT_MILITARY_BASE:
+    pbase = base_by_number(value);
+    pixbuf = create_military_base_pixbuf(pbase);
     break;
   case ETT_UNIT:
     putype = utype_by_number(value);
@@ -1513,6 +1521,9 @@ static gboolean handle_edit_key_press_with_shift(GdkEventKey *ev)
   case GDK_S:
     editgui_run_tool_selection(ETT_TERRAIN_SPECIAL);
     break;
+  case GDK_M:
+    editgui_run_tool_selection(ETT_MILITARY_BASE);
+    break;
   case GDK_U:
     editgui_run_tool_selection(ETT_UNIT);
     break;
@@ -1550,6 +1561,9 @@ gboolean handle_edit_key_press(GdkEventKey *ev)
     break;
   case GDK_s:
     ett = ETT_TERRAIN_SPECIAL;
+    break;
+  case GDK_m:
+    ett = ETT_MILITARY_BASE;
     break;
   case GDK_u:
     ett = ETT_UNIT;
