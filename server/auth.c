@@ -231,7 +231,7 @@ static bool set_auth_option(struct auth_option *target, const char *value,
 
     for (i = 0; value[i] != '\0'; i++) {
       if (value[i] < '0' || value[i] > '9') {
-        freelog(LOG_ERROR, _("Illegal value for auth port: \"value\""));
+        freelog(LOG_ERROR, _("Illegal value for auth port: \"%s\""), value);
         return FALSE;
       }
     }
