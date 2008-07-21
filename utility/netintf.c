@@ -246,7 +246,7 @@ void my_nonblock(int sockfd)
 bool net_lookup_service(const char *name, int port, union my_sockaddr *addr)
 {
   struct hostent *hp;
-  struct sockaddr_in *sock = &addr->sockaddr_in;
+  struct sockaddr_in *sock = &addr->saddr_in4;
 
   sock->sin_family = AF_INET;
   sock->sin_port = htons(port);
@@ -456,7 +456,7 @@ int find_next_free_port(int starting_port)
 
   for (port = starting_port;; port++) {
     union my_sockaddr tmp;
-    struct sockaddr_in *sock = &tmp.sockaddr_in;
+    struct sockaddr_in *sock = &tmp.saddr_in4;
 
     memset(&tmp, 0, sizeof(tmp));
 
@@ -464,7 +464,7 @@ int find_next_free_port(int starting_port)
     sock->sin_port = htons(port);
     sock->sin_addr.s_addr = htonl(INADDR_ANY);
 
-    if (bind(s, &tmp.sockaddr, sizeof(tmp.sockaddr)) == 0) {
+    if (bind(s, &tmp.saddr, sizeof(tmp.saddr)) == 0) {
       break;
     }
   }
