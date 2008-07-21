@@ -2974,7 +2974,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
               pconn->username);
     goto end;
   }
-  assert(game.info.nplayers < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
+  assert(game.info.nplayers <= MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
 
   res = TRUE;
   if (check) {
