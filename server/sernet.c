@@ -825,19 +825,19 @@ static int server_accept_connection(int sockfd)
 
   fromlen = sizeof(fromend);
 
-  if ((new_sock = accept(sockfd, &fromend.sockaddr, &fromlen)) == -1) {
+  if ((new_sock = accept(sockfd, &fromend.saddr, &fromlen)) == -1) {
     freelog(LOG_ERROR, "accept failed: %s", mystrerror());
     return -1;
   }
 
   from =
-      gethostbyaddr((char *) &fromend.sockaddr_in.sin_addr,
-		    sizeof(fromend.sockaddr_in.sin_addr), AF_INET);
+      gethostbyaddr((char *) &fromend.saddr_in4.sin_addr,
+		    sizeof(fromend.saddr_in4.sin_addr), AF_INET);
 
   return server_make_connection(new_sock,
 				(from ? from->h_name
-				 : inet_ntoa(fromend.sockaddr_in.sin_addr)),
-				inet_ntoa(fromend.sockaddr_in.sin_addr));
+                                 : inet_ntoa(fromend.saddr_in4.sin_addr)),
+			        inet_ntoa(fromend.saddr_in4.sin_addr));
 }
 
 /********************************************************************
@@ -923,7 +923,7 @@ int server_open_socket(void)
     exit(EXIT_FAILURE);
   }
 
-  if(bind(sock, &src.sockaddr, sizeof (src)) == -1) {
+  if(bind(sock, &src.saddr, sizeof (src)) == -1) {
     freelog(LOG_FATAL, "bind failed: %s", mystrerror());
     exit(EXIT_FAILURE);
   }
@@ -948,11 +948,11 @@ int server_open_socket(void)
   group = get_multicast_group();
 
   memset(&addr, 0, sizeof(addr));
-  addr.sockaddr_in.sin_family = AF_INET;
-  addr.sockaddr_in.sin_addr.s_addr = htonl(INADDR_ANY);
-  addr.sockaddr_in.sin_port = htons(SERVER_LAN_PORT);
+  addr.saddr_in4.sin_family = AF_INET;
+  addr.saddr_in4.sin_addr.s_addr = htonl(INADDR_ANY);
+  addr.saddr_in4.sin_port = htons(SERVER_LAN_PORT);
 
-  if (bind(socklan, &addr.sockaddr, sizeof(addr)) < 0) {
+  if (bind(socklan, &addr.saddr, sizeof(addr)) < 0) {
     freelog(LOG_ERROR, "bind failed: %s", mystrerror());
   }
 
@@ -1160,9 +1160,9 @@ static void send_lanserver_response(void)
   /* Set the UDP Multicast group IP address of the packet. */
   group = get_multicast_group();
   memset(&addr, 0, sizeof(addr));
-  addr.sockaddr_in.sin_family = AF_INET;
-  addr.sockaddr_in.sin_addr.s_addr = inet_addr(group);
-  addr.sockaddr_in.sin_port = htons(SERVER_LAN_PORT + 1);
+  addr.saddr_in4.sin_family = AF_INET;
+  addr.saddr_in4.sin_addr.s_addr = inet_addr(group);
+  addr.saddr_in4.sin_port = htons(SERVER_LAN_PORT + 1);
 
 /* this setsockopt call fails on Windows 98, so we stick with the default
  * value of 1 on Windows, which should be fine in most cases */
@@ -1224,7 +1224,7 @@ static void send_lanserver_response(void)
   size = dio_output_used(&dout);
 
   /* Sending packet to client with the information gathered above. */
-  if (sendto(socksend, buffer,  size, 0, &addr.sockaddr,
+  if (sendto(socksend, buffer,  size, 0, &addr.saddr,
       sizeof(addr)) < 0) {
     freelog(LOG_ERROR, "sendto failed: %s", mystrerror());
     return;

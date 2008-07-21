@@ -421,7 +421,7 @@ static bool begin_metaserver_scan(struct server_scan *scan)
 
   my_nonblock(s);
   
-  if (my_connect(s, (struct sockaddr *) &addr.sockaddr, sizeof(addr)) == -1) {
+  if (my_connect(s, (struct sockaddr *) &addr.saddr, sizeof(addr)) == -1) {
     if (errno == EINPROGRESS) {
       /* With non-blocking sockets this is the expected result. */
       scan->meta.state = META_CONNECTING;
@@ -559,9 +559,9 @@ static bool begin_lanserver_scan(struct server_scan *scan)
   /* Set the UDP Multicast group IP address. */
   group = get_multicast_group();
   memset(&addr, 0, sizeof(addr));
-  addr.sockaddr_in.sin_family = AF_INET;
-  addr.sockaddr_in.sin_addr.s_addr = inet_addr(get_multicast_group());
-  addr.sockaddr_in.sin_port = htons(SERVER_LAN_PORT);
+  addr.saddr_in4.sin_family = AF_INET;
+  addr.saddr_in4.sin_addr.s_addr = inet_addr(get_multicast_group());
+  addr.saddr_in4.sin_port = htons(SERVER_LAN_PORT);
 
 /* this setsockopt call fails on Windows 98, so we stick with the default
  * value of 1 on Windows, which should be fine in most cases */
@@ -586,7 +586,7 @@ static bool begin_lanserver_scan(struct server_scan *scan)
   size = dio_output_used(&dout);
  
 
-  if (sendto(sock, buffer, size, 0, &addr.sockaddr,
+  if (sendto(sock, buffer, size, 0, &addr.saddr,
       sizeof(addr)) < 0) {
     /* This can happen when there's no network connection - it should
      * give an in-game message. */
@@ -612,11 +612,11 @@ static bool begin_lanserver_scan(struct server_scan *scan)
   }
                                                                                
   memset(&addr, 0, sizeof(addr));
-  addr.sockaddr_in.sin_family = AF_INET;
-  addr.sockaddr_in.sin_addr.s_addr = htonl(INADDR_ANY); 
-  addr.sockaddr_in.sin_port = htons(SERVER_LAN_PORT + 1);
+  addr.saddr_in4.sin_family = AF_INET;
+  addr.saddr_in4.sin_addr.s_addr = htonl(INADDR_ANY); 
+  addr.saddr_in4.sin_port = htons(SERVER_LAN_PORT + 1);
 
-  if (bind(scan->sock, &addr.sockaddr, sizeof(addr)) < 0) {
+  if (bind(scan->sock, &addr.saddr, sizeof(addr)) < 0) {
     (scan->error_func)(scan, mystrerror());
     return FALSE;
   }
@@ -664,7 +664,7 @@ static struct server_list *get_lan_server_list(struct server_scan *scan)
     /* Try to receive a packet from a server.  No select loop is needed;
      * we just keep on reading until recvfrom returns -1. */
     if (recvfrom(scan->sock, msgbuf, sizeof(msgbuf), 0,
-		 &fromend.sockaddr, &fromlen) < 0) {
+		 &fromend.saddr, &fromlen) < 0) {
       break;
     }
 
@@ -680,9 +680,9 @@ static struct server_list *get_lan_server_list(struct server_scan *scan)
     dio_get_string(&din, message, sizeof(message));
 
     if (!mystrcasecmp("none", servername)) {
-      from = gethostbyaddr((char *) &fromend.sockaddr_in.sin_addr,
-			   sizeof(fromend.sockaddr_in.sin_addr), AF_INET);
-      sz_strlcpy(servername, inet_ntoa(fromend.sockaddr_in.sin_addr));
+      from = gethostbyaddr((char *) &fromend.saddr_in4.sin_addr,
+			   sizeof(fromend.saddr_in4.sin_addr), AF_INET);
+      sz_strlcpy(servername, inet_ntoa(fromend.saddr_in4.sin_addr));
     }
 
     /* UDP can send duplicate or delayed packets. */

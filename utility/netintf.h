@@ -68,8 +68,11 @@ typedef int socklen_t;
 #endif
 
 union my_sockaddr {
-  struct sockaddr sockaddr;
-  struct sockaddr_in sockaddr_in;
+  struct sockaddr saddr;
+  struct sockaddr_in saddr_in4;
+#ifdef IPV6_SUPPORT
+  struct sockaddr_in6 saddr_in6;
+#endif
 };
 
 int my_connect(int sockfd, const struct sockaddr *serv_addr, socklen_t addrlen);

@@ -204,7 +204,7 @@ static int try_to_connect(const char *username, char *errbuf, int errbufsize)
     return -1;
   }
 
-  if (my_connect(client.conn.sock, &server_addr.sockaddr,
+  if (my_connect(client.conn.sock, &server_addr.saddr,
       sizeof(server_addr)) == -1) {
     (void) mystrlcpy(errbuf, mystrerror(), errbufsize);
     my_closesocket(client.conn.sock);
