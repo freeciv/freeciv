@@ -619,8 +619,12 @@ const char *get_info_label_text(void)
 		  client.conn.playing->economic.science);
   }
   if (!game.info.simultaneous_phases) {
-    astr_add_line(&str, _("Moving: %s"),
-		  player_name(player_by_number(game.info.phase)));
+    if (game.info.phase < 0 || game.info.phase >= game.info.nplayers) {
+      astr_add_line(&str, _("Moving: Nobody"));
+    } else {
+      astr_add_line(&str, _("Moving: %s"),
+                    player_name(player_by_number(game.info.phase)));
+    }
   }
   astr_add_line(&str, _("(Click for more info)"));
   return str.str;
