@@ -504,24 +504,52 @@ void send_ruleset_cache(struct conn_list *dest)
   Note: this function is an inefficient hack to be used by the old AI.  It
   will never find wonders, since that's not what the AI wants.
 **************************************************************************/
-Impr_type_id ai_find_source_building(struct player *pplayer,
-				     enum effect_type effect_type)
+Impr_type_id ai_find_source_building(struct city *pcity,
+				     enum effect_type effect_type,
+                                     struct unit_class *uclass,
+                                     enum unit_move_type move)
 {
-  /* FIXME: this just returns the first building. it should return the best
-   * building instead. */
-  effect_list_iterate(get_effects(effect_type), peffect) {
-    requirement_list_iterate(peffect->reqs, preq) {
-      if (VUT_IMPROVEMENT == preq->source.kind) {
-	struct impr_type *building = preq->source.value.building;
+  int greatest_value = 0;
+  struct impr_type *best_building = NULL;
 
-	if (can_player_build_improvement_now(pplayer, building)
-	    && !improvement_obsolete(pplayer, building)
-	    && is_improvement(building)) {
-	  return improvement_number(building);
-	}
+  /* There's no point in defining both of these as uclass is more restrictive
+   * than move_type */
+  assert(uclass == NULL || move == MOVETYPE_LAST);
+
+  effect_list_iterate(get_effects(effect_type), peffect) {
+    if (peffect->value > greatest_value) {
+      struct impr_type *building = NULL;
+      bool wrong_unit = FALSE;
+
+      requirement_list_iterate(peffect->reqs, preq) {
+        if (VUT_IMPROVEMENT == preq->source.kind) {
+          building = preq->source.value.building;
+
+          if (!can_city_build_improvement_now(pcity, building)
+              || !is_improvement(building)) {          
+            building = NULL;
+            break;
+          }
+        }
+        if (VUT_UCLASS == preq->source.kind) {
+          if ((uclass != NULL && preq->source.value.uclass != uclass)
+              || (move != MOVETYPE_LAST
+                  && uclass_move_type(preq->source.value.uclass) != move)) {
+            /* Effect requires other kind of unit than what we are interested about */
+            wrong_unit = TRUE;
+            break;
+          }
+        }
+      } requirement_list_iterate_end;
+      if (!wrong_unit && building != NULL) {
+        best_building = building;
       }
-    } requirement_list_iterate_end;
+    }
   } effect_list_iterate_end;
+
+  if (best_building) {
+    return improvement_number(best_building);
+  }
   return B_LAST;
 }
 
