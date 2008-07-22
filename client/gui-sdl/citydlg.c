@@ -3417,8 +3417,8 @@ static void redraw_city_dialog(struct city *pCity)
   if (pCity->specialists[SP_ELVIS]) {
     pBuf = get_tax_surface(O_LUXURY);
     
-    pCityDlg->specs_area[0].x = dest.x;
-    pCityDlg->specs_area[0].y = dest.y;
+    pCityDlg->specs_area[0].x = pWindow->dst->dest_rect.x + dest.x;
+    pCityDlg->specs_area[0].y = pWindow->dst->dest_rect.y + dest.y;
     pCityDlg->specs_area[0].w = pBuf->w;
     pCityDlg->specs_area[0].h = pBuf->h;
     for (i = 0; i < pCity->specialists[SP_ELVIS]; i++) {
@@ -3434,8 +3434,8 @@ static void redraw_city_dialog(struct city *pCity)
   if (pCity->specialists[SP_TAXMAN]) {
     pBuf = get_tax_surface(O_GOLD);
     
-    pCityDlg->specs_area[1].x = dest.x;
-    pCityDlg->specs_area[1].y = dest.y;
+    pCityDlg->specs_area[1].x = pWindow->dst->dest_rect.x + dest.x;
+    pCityDlg->specs_area[1].y = pWindow->dst->dest_rect.y + dest.y;
     pCityDlg->specs_area[1].w = pBuf->w;
     pCityDlg->specs_area[1].h = pBuf->h;
     for (i = 0; i < pCity->specialists[SP_TAXMAN]; i++) {
@@ -3451,8 +3451,8 @@ static void redraw_city_dialog(struct city *pCity)
   if (pCity->specialists[SP_SCIENTIST]) {
     pBuf = get_tax_surface(O_SCIENCE);
     
-    pCityDlg->specs_area[2].x = dest.x;
-    pCityDlg->specs_area[2].y = dest.y;
+    pCityDlg->specs_area[2].x = pWindow->dst->dest_rect.x + dest.x;
+    pCityDlg->specs_area[2].y = pWindow->dst->dest_rect.y + dest.y;
     pCityDlg->specs_area[2].w = pBuf->w;
     pCityDlg->specs_area[2].h = pBuf->h;
     for (i = 0; i < pCity->specialists[SP_SCIENTIST]; i++) {
