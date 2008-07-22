@@ -635,8 +635,10 @@ static unsigned int assess_danger(struct city *pcity)
   /* HACK: This needs changing if multiple improvements provide
    * this effect. */
   /* FIXME: Check attacker type and protect against that. Now
-   * always assess land danger and builds any defend bonus as result. */
-  defender = ai_find_source_building(pplayer, EFT_DEFEND_BONUS);
+   * always assess land danger. */
+  /* FIXME: Accept only buildings helping unit classes we actually use.
+   *        Now we consider any land mover helper suitable. */
+  defender = ai_find_source_building(pcity, EFT_DEFEND_BONUS, NULL, LAND_MOVING);
 
   if (defender != B_LAST) {
     ai_reevaluate_building(pcity, &pcity->ai.building_want[defender],
@@ -922,9 +924,9 @@ static void process_attacker_want(struct city *pcity,
       int move_time;
       int vuln;
 
-      /* TODO: check for the right _type_ of building. */
       int will_be_veteran
-	= (ai_find_source_building(pplayer, EFT_VETERAN_BUILD) != B_LAST);
+	= (ai_find_source_building(pcity, EFT_VETERAN_BUILD,
+                                   utype_class(punittype), MOVETYPE_LAST) != B_LAST);
       /* Cost (shield equivalent) of gaining these techs. */
       /* FIXME? Katvrr advises that this should be weighted more heavily in big
        * danger. */
@@ -1309,7 +1311,6 @@ static void adjust_ai_unit_choice(struct city *pcity,
                                   struct ai_choice *choice)
 {
   enum unit_move_type move_type;
-  struct player *pplayer = city_owner(pcity);
   Impr_type_id id;
 
   /* Sanity */
@@ -1321,9 +1322,10 @@ static void adjust_ai_unit_choice(struct city *pcity,
 
   move_type = utype_move_type(choice->value.utype);
 
-  /* TODO: separate checks based on other requirements (e.g., unit class) 
-   *  N.B.: have to check that we haven't already built the building --mck */
-  if ((id = ai_find_source_building(pplayer, EFT_VETERAN_BUILD)) != B_LAST
+  /*  N.B.: have to check that we haven't already built the building --mck */
+  if ((id = ai_find_source_building(pcity, EFT_VETERAN_BUILD,
+                                    utype_class(choice->value.utype),
+                                    MOVETYPE_LAST)) != B_LAST
        && !city_has_building(pcity, improvement_by_number(id))) {
     choice->value.building = improvement_by_number(id);
     choice->type = CT_BUILDING;
@@ -1387,14 +1389,14 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
     CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d urgency=%d danger=%d num_def=%d "
              "our_def=%d", urgency, danger, num_defenders, our_def);
 
-    /* FIXME: 1. Will tend to build walls beofre coastal irrespectfully what
+    /* FIXME: 1. Will tend to build walls before coastal irrespectfully what
      * type of danger we are facing */
     /* We will build walls if we can and want and (have "enough" defenders or
      * can just buy the walls straight away) */
 
     /* HACK: This needs changing if multiple improvements provide
      * this effect. */
-    wall_id = ai_find_source_building(pplayer, EFT_DEFEND_BONUS);
+    wall_id = ai_find_source_building(pcity, EFT_DEFEND_BONUS, NULL, LAND_MOVING);
     pimprove = improvement_by_number(wall_id);
 
     if (wall_id != B_LAST
