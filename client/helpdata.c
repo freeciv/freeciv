@@ -1063,21 +1063,12 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                   " training facilities (see Port Facility).\n"));
         CATLSTR(buf, bufsz,
                 _("* May be promoted after defeating an enemy unit.\n"));
-        if (utype_has_flag(utype, F_TRIREME))
-          CATLSTR(buf, bufsz,
-                  _("* May be promoted after survival on the high seas.\n"));
         break;
       default:          /* should never happen in default rulesets */
         CATLSTR(buf, bufsz,
                 _("* May be promoted through combat or training\n"));
         break;
     };
-  }
-  if (utype_has_flag(utype, F_TRIREME)) {
-    CATLSTR(buf, bufsz,
-	    /* xgettext:no-c-format */
-	    _("* Must end turn in a city or next to land,"
-	      " or has a 50% risk of being lost at sea.\n"));
   }
   if (utype->fuel > 0) {
     char allowed_units[10][64];
