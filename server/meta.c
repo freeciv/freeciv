@@ -221,7 +221,8 @@ static bool send_to_metaserver(enum meta_flag flag)
     return FALSE;
   }
 
-  if (my_connect(sock, (struct sockaddr *) &meta_addr, sizeof(meta_addr)) == -1) {
+  if (my_connect(sock, (struct sockaddr *) &meta_addr,
+                 sockaddr_size(&meta_addr)) == -1) {
     freelog(LOG_ERROR, "Metaserver: connect failed: %s", mystrerror());
     metaserver_failed();
     my_closesocket(sock);

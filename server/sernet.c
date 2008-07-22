@@ -923,7 +923,7 @@ int server_open_socket(void)
     exit(EXIT_FAILURE);
   }
 
-  if(bind(sock, &src.saddr, sizeof (src)) == -1) {
+  if(bind(sock, &src.saddr, sockaddr_size(&src)) == -1) {
     freelog(LOG_FATAL, "bind failed: %s", mystrerror());
     exit(EXIT_FAILURE);
   }
@@ -952,8 +952,8 @@ int server_open_socket(void)
   addr.saddr_in4.sin_addr.s_addr = htonl(INADDR_ANY);
   addr.saddr_in4.sin_port = htons(SERVER_LAN_PORT);
 
-  if (bind(socklan, &addr.saddr, sizeof(addr)) < 0) {
-    freelog(LOG_ERROR, "bind failed: %s", mystrerror());
+  if (bind(socklan, &addr.saddr, sockaddr_size(&addr)) < 0) {
+    freelog(LOG_ERROR, "Lan bind failed: %s", mystrerror());
   }
 
   mreq.imr_multiaddr.s_addr = inet_addr(group);
@@ -1225,8 +1225,8 @@ static void send_lanserver_response(void)
 
   /* Sending packet to client with the information gathered above. */
   if (sendto(socksend, buffer,  size, 0, &addr.saddr,
-      sizeof(addr)) < 0) {
-    freelog(LOG_ERROR, "sendto failed: %s", mystrerror());
+      sockaddr_size(&addr)) < 0) {
+    freelog(LOG_ERROR, "landserver response sendto failed: %s", mystrerror());
     return;
   }
 
