@@ -421,7 +421,7 @@ static bool begin_metaserver_scan(struct server_scan *scan)
 
   my_nonblock(s);
   
-  if (my_connect(s, (struct sockaddr *) &addr.saddr, sizeof(addr)) == -1) {
+  if (my_connect(s, (struct sockaddr *) &addr.saddr, sockaddr_size(&addr)) == -1) {
     if (errno == EINPROGRESS) {
       /* With non-blocking sockets this is the expected result. */
       scan->meta.state = META_CONNECTING;
@@ -587,10 +587,10 @@ static bool begin_lanserver_scan(struct server_scan *scan)
  
 
   if (sendto(sock, buffer, size, 0, &addr.saddr,
-      sizeof(addr)) < 0) {
+      sockaddr_size(&addr)) < 0) {
     /* This can happen when there's no network connection - it should
      * give an in-game message. */
-    freelog(LOG_ERROR, "sendto failed: %s", mystrerror());
+    freelog(LOG_ERROR, "lanserver scan sendto failed: %s", mystrerror());
     return FALSE;
   } else {
     freelog(LOG_DEBUG, ("Sending request for server announcement on LAN."));
@@ -616,7 +616,7 @@ static bool begin_lanserver_scan(struct server_scan *scan)
   addr.saddr_in4.sin_addr.s_addr = htonl(INADDR_ANY); 
   addr.saddr_in4.sin_port = htons(SERVER_LAN_PORT + 1);
 
-  if (bind(scan->sock, &addr.saddr, sizeof(addr)) < 0) {
+  if (bind(scan->sock, &addr.saddr, sockaddr_size(&addr)) < 0) {
     (scan->error_func)(scan, mystrerror());
     return FALSE;
   }

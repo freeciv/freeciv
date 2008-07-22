@@ -241,6 +241,64 @@ void my_nonblock(int sockfd)
 }
 
 /***************************************************************************
+  Write information about socaddr to debug log.
+***************************************************************************/
+void sockaddr_debug(union my_sockaddr *addr)
+{
+#ifdef IPV6_SUPPORT
+  char buf[INET6_ADDRSTRLEN] = "Unknown";
+
+  if (addr->saddr.sa_family == AF_INET6) { 
+    inet_ntop(AF_INET6, &addr->saddr_in6.sin6_addr, buf, INET6_ADDRSTRLEN);
+    freelog(LOG_DEBUG, "Host: %s, Port: %d (IPv6)",
+            buf, ntohs(addr->saddr_in6.sin6_port));
+  } else {
+    inet_ntop(AF_INET, &addr->saddr_in4.sin_addr, buf, INET_ADDRSTRLEN);
+    freelog(LOG_DEBUG, "Host: %s, Port: %d (IPv4)",
+            buf, ntohs(addr->saddr_in4.sin_port));
+  }
+#else  /* IPv6 support */
+  char *buf;
+
+  buf = inet_ntoa(addr->saddr_in4.sin_addr);
+
+  freelog(LOG_DEBUG, "Host: %s, Port: %d",
+          buf, ntohs(addr->saddr_in4.sin_port));
+#endif /* IPv6 support */
+}
+
+/***************************************************************************
+  Gets size of address to my_sockaddr. IPv6/IPv4 must be selected before
+  calling this.
+***************************************************************************/
+int sockaddr_size(union my_sockaddr *addr)
+{
+#ifdef IPV6_SUPPORT
+  if (addr->saddr.sa_family == AF_INET6) {
+    return sizeof(addr->saddr_in6);
+  } else
+#endif /* IPV6_SUPPORT */
+  {
+    return sizeof(addr->saddr_in4);
+  }
+}
+
+/***************************************************************************
+  Returns wether address is IPv6 address.
+***************************************************************************/
+bool sockaddr_ipv6(union my_sockaddr *addr)
+{
+#ifdef IPV6_SUPPORT
+  if (addr->saddr.sa_family == AF_INET6) {
+    return TRUE;
+  } else
+#endif /* IPv6 support */
+  {
+    return FALSE;
+ }
+}
+
+/***************************************************************************
   Look up the service at hostname:port and fill in *sa.
 ***************************************************************************/
 bool net_lookup_service(const char *name, int port, union my_sockaddr *addr)
@@ -464,7 +522,7 @@ int find_next_free_port(int starting_port)
     sock->sin_port = htons(port);
     sock->sin_addr.s_addr = htonl(INADDR_ANY);
 
-    if (bind(s, &tmp.saddr, sizeof(tmp.saddr)) == 0) {
+    if (bind(s, &tmp.saddr, sockaddr_size(&tmp)) == 0) {
       break;
     }
   }

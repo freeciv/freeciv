@@ -93,4 +93,8 @@ int find_next_free_port(int starting_port);
 const char *my_lookup_httpd(char *server, int *port, const char *url);
 const char *my_url_encode(const char *txt);
 
+void sockaddr_debug(union my_sockaddr *addr);
+int sockaddr_size(union my_sockaddr *addr);
+bool sockaddr_ipv6(union my_sockaddr *addr);
+
 #endif  /* FC__NETINTF_H */
