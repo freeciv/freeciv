@@ -20,6 +20,7 @@ utility/inputfile.c
 utility/ioz.c
 utility/log.c
 utility/mem.c
+utility/netintf.c
 utility/registry.c
 utility/shared.c
 utility/support.c
@@ -66,6 +67,7 @@ client/climisc.c
 client/clinet.c
 client/connectdlg_common.c
 client/control.c
+client/editor.c
 client/ggzclient.c
 client/helpdata.c
 client/mapctrl_common.c
@@ -140,6 +142,7 @@ client/gui-sdl/plrdlg.c
 client/gui-sdl/repodlgs.c
 client/gui-sdl/spaceshipdlg.c
 client/gui-sdl/sprite.c
+client/gui-sdl/themes.c
 client/gui-sdl/themespec.c
 client/gui-sdl/wldlg.c
 client/gui-win32/canvas.c
@@ -176,6 +179,7 @@ client/gui-xaw/colors.c
 client/gui-xaw/connectdlg.c
 client/gui-xaw/dialogs.c
 client/gui-xaw/diplodlg.c
+client/gui-xaw/diplomat_dialog.c
 client/gui-xaw/graphics.c
 client/gui-xaw/gui_main.c
 client/gui-xaw/helpdlg.c
@@ -187,6 +191,7 @@ client/gui-xaw/menu.c
 client/gui-xaw/messagedlg.c
 client/gui-xaw/messagewin.c
 client/gui-xaw/optiondlg.c
+client/gui-xaw/pages.c
 client/gui-xaw/plrdlg.c
 client/gui-xaw/ratesdlg.c
 client/gui-xaw/repodlgs.c
