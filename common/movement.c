@@ -239,6 +239,10 @@ bool is_native_to_class(const struct unit_class *punitclass,
       && contains_special(special, S_ROAD)) {
     return TRUE;
   }
+  if (uclass_has_flag(punitclass, UCF_RIVER_NATIVE)
+      && contains_special(special, S_RIVER)) {
+    return TRUE;
+  }
 
   return BV_ISSET(pterrain->native_to, uclass_index(punitclass));
 }
