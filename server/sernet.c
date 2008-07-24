@@ -906,25 +906,26 @@ int server_open_socket(void)
   const char *group;
   int opt;
 
-  /* Create socket for client connections. */
-  if((sock = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
-    die("socket failed: %s", mystrerror());
-  }
-
-  opt=1; 
-  if(setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, 
-		(char *)&opt, sizeof(opt)) == -1) {
-    freelog(LOG_ERROR, "SO_REUSEADDR failed: %s", mystrerror());
-  }
-
   if (!net_lookup_service(srvarg.bind_addr, srvarg.port, &src)) {
     freelog(LOG_FATAL, _("Server: bad address: [%s:%d]."),
 	    srvarg.bind_addr, srvarg.port);
     exit(EXIT_FAILURE);
   }
 
+  /* Create socket for client connections. */
+  if((sock = socket(src.saddr.sa_family, SOCK_STREAM, 0)) == -1) {
+    die("socket failed: %s", mystrerror());
+  }
+
+  opt = 1;
+  if(setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, 
+		(char *)&opt, sizeof(opt)) == -1) {
+    freelog(LOG_ERROR, "SO_REUSEADDR failed: %s", mystrerror());
+  }
+
   if(bind(sock, &src.saddr, sockaddr_size(&src)) == -1) {
-    freelog(LOG_FATAL, "bind failed: %s", mystrerror());
+    freelog(LOG_FATAL, "Server bind failed: %s", mystrerror());
+    sockaddr_debug(&src);
     exit(EXIT_FAILURE);
   }
 
