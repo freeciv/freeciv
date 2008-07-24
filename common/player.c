@@ -218,7 +218,7 @@ void player_init(struct player *plr)
   plr->economic.science=PLAYER_DEFAULT_SCIENCE_RATE;
   plr->economic.luxury=PLAYER_DEFAULT_LUXURY_RATE;
 
-  player_limit_to_government_rates(plr);
+  plr->economic = player_limit_to_max_rates(plr);
   spaceship_init(&plr->spaceship);
 
   plr->gives_shared_vision = 0;
@@ -648,49 +648,54 @@ present form of government.  If a rate exceeds maxrate for this government,
 it adjusts rates automatically adding the extra to the 2nd highest rate,
 preferring science to taxes and taxes to luxuries.
 (It assumes that for any government maxrate>=50)
+Returns actual max rate used.
 **************************************************************************/
-void player_limit_to_government_rates(struct player *pplayer)
+struct player_economic player_limit_to_max_rates(struct player *pplayer)
 {
   int maxrate, surplus;
+  struct player_economic economic;
 
   /* ai players allowed to cheat */
   if (pplayer->ai.control) {
-    return;
+    return pplayer->economic;
   }
+
+  economic = pplayer->economic;
 
   maxrate = get_player_bonus(pplayer, EFT_MAX_RATES);
   if (maxrate == 0) {
     maxrate = 100; /* effects not initialized yet */
   }
+
   surplus = 0;
-  if (pplayer->economic.luxury > maxrate) {
-    surplus += pplayer->economic.luxury - maxrate;
-    pplayer->economic.luxury = maxrate;
+  if (economic.luxury > maxrate) {
+    surplus += economic.luxury - maxrate;
+    economic.luxury = maxrate;
   }
-  if (pplayer->economic.tax > maxrate) {
-    surplus += pplayer->economic.tax - maxrate;
-    pplayer->economic.tax = maxrate;
+  if (economic.tax > maxrate) {
+    surplus += economic.tax - maxrate;
+    economic.tax = maxrate;
   }
-  if (pplayer->economic.science > maxrate) {
-    surplus += pplayer->economic.science - maxrate;
-    pplayer->economic.science = maxrate;
+  if (economic.science > maxrate) {
+    surplus += economic.science - maxrate;
+    economic.science = maxrate;
   }
 
   assert(surplus % 10 == 0);
   while (surplus > 0) {
-    if (pplayer->economic.science < maxrate) {
-      pplayer->economic.science += 10;
-    } else if (pplayer->economic.tax < maxrate) {
-      pplayer->economic.tax += 10;
-    } else if (pplayer->economic.luxury < maxrate) {
-      pplayer->economic.luxury += 10;
+    if (economic.science < maxrate) {
+      economic.science += 10;
+    } else if (economic.tax < maxrate) {
+      economic.tax += 10;
+    } else if (economic.luxury < maxrate) {
+      economic.luxury += 10;
     } else {
       die("byebye");
     }
     surplus -= 10;
   }
 
-  return;
+  return economic;
 }
 
 /**************************************************************************

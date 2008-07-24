@@ -266,7 +266,7 @@ static void finish_revolution(struct player *pplayer)
       = 100 - pplayer->economic.science - pplayer->economic.tax;
   }
 
-  check_player_government_rates(pplayer);
+  check_player_max_rates(pplayer);
   city_refresh_for_player(pplayer);
   send_player_info(pplayer, pplayer);
 }
@@ -345,7 +345,7 @@ void handle_player_change_government(struct player *pplayer, int government)
 		     _("Revolution: returning to anarchy."));
   }
 
-  check_player_government_rates(pplayer);
+  check_player_max_rates(pplayer);
   city_refresh_for_player(pplayer);
   send_player_info(pplayer, pplayer);
 
@@ -422,28 +422,22 @@ The following checks that government rates are acceptable for the present
 form of government. Has to be called when switching governments or when
 toggling from AI to human.
 **************************************************************************/
-void check_player_government_rates(struct player *pplayer)
+void check_player_max_rates(struct player *pplayer)
 {
   struct player_economic old_econ = pplayer->economic;
-  bool changed = FALSE;
-  player_limit_to_government_rates(pplayer);
-  if (pplayer->economic.tax != old_econ.tax) {
-    changed = TRUE;
+
+  pplayer->economic = player_limit_to_max_rates(pplayer);
+  if (old_econ.tax > pplayer->economic.tax) {
     notify_player(pplayer, NULL, E_NEW_GOVERNMENT,
-		  _("Tax rate exceeded the max rate for %s; adjusted."), 
-		  government_name_for_player(pplayer));
+		  _("Tax rate exceeded the max rate; adjusted."));
   }
-  if (pplayer->economic.science != old_econ.science) {
-    changed = TRUE;
+  if (old_econ.science > pplayer->economic.science) {
     notify_player(pplayer, NULL, E_NEW_GOVERNMENT,
-		  _("Science rate exceeded the max rate for %s; adjusted."), 
-		  government_name_for_player(pplayer));
+		  _("Science rate exceeded the max rate; adjusted."));
   }
-  if (pplayer->economic.luxury != old_econ.luxury) {
-    changed = TRUE;
+  if (old_econ.luxury > pplayer->economic.luxury) {
     notify_player(pplayer, NULL, E_NEW_GOVERNMENT,
-		  _("Luxury rate exceeded the max rate for %s; adjusted."), 
-		  government_name_for_player(pplayer));
+		  _("Luxury rate exceeded the max rate; adjusted."));
   }
 }
 
@@ -1577,7 +1571,7 @@ static struct player *split_player(struct player *pplayer)
     } players_iterate_end;
   }
 
-  player_limit_to_government_rates(pplayer);
+  pplayer->economic = player_limit_to_max_rates(pplayer);
 
   /* copy the maps */
 

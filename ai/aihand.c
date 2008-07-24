@@ -313,7 +313,7 @@ void ai_best_government(struct player *pplayer)
       pplayer->government = gov;
       /* Ideally we should change tax rates here, but since
        * this is a rather big CPU operation, we'd rather not. */
-      check_player_government_rates(pplayer);
+      check_player_max_rates(pplayer);
       city_list_iterate(pplayer->cities, acity) {
         auto_arrange_workers(acity);
       } city_list_iterate_end;
