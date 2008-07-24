@@ -32,25 +32,27 @@
 #define ANON_USER_NAME "Unassigned"
 
 enum handicap_type {
-  H_NONE = 0,         /* No handicaps */
-  H_DIPLOMAT = 1,     /* Can't build offensive diplomats */
-  H_AWAY = 2,         /* Away mode */
-  H_LIMITEDHUTS = 4,  /* Can get only 25 gold and barbs from huts */
-  H_DEFENSIVE = 8,    /* Build defensive buildings without calculating need */
-  H_EXPERIMENTAL = 16,/* Enable experimental AI features (for testing) */
-  H_RATES = 32,       /* Can't set its rates beyond government limits */
-  H_TARGETS = 64,     /* Can't target anything it doesn't know exists */
-  H_HUTS = 128,       /* Doesn't know which unseen tiles have huts on them */
-  H_FOG = 256,        /* Can't see through fog of war */
-  H_NOPLANES = 512,   /* Doesn't build air units */
-  H_MAP = 1024,       /* Only knows map_is_known tiles */
-  H_DIPLOMACY = 2048, /* Not very good at diplomacy */
-  H_REVOLUTION = 4096, /* Cannot skip anarchy */
-  H_EXPANSION = 8192, /* Don't like being much larger than human */
-  H_DANGER = 16384    /* Always thinks its city is in danger */
+  H_DIPLOMAT = 0,     /* Can't build offensive diplomats */
+  H_AWAY,             /* Away mode */
+  H_LIMITEDHUTS,      /* Can get only 25 gold and barbs from huts */
+  H_DEFENSIVE,        /* Build defensive buildings without calculating need */
+  H_EXPERIMENTAL,     /* Enable experimental AI features (for testing) */
+  H_RATES,            /* Can't set its rates beyond government limits */
+  H_TARGETS,          /* Can't target anything it doesn't know exists */
+  H_HUTS,             /* Doesn't know which unseen tiles have huts on them */
+  H_FOG,              /* Can't see through fog of war */
+  H_NOPLANES,         /* Doesn't build air units */
+  H_MAP,              /* Only knows map_is_known tiles */
+  H_DIPLOMACY,        /* Not very good at diplomacy */
+  H_REVOLUTION,       /* Cannot skip anarchy */
+  H_EXPANSION,        /* Don't like being much larger than human */
+  H_DANGER,           /* Always thinks its city is in danger */
+  H_LAST
 };
 
 BV_DEFINE(bv_player, MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
+
+BV_DEFINE(bv_handicap, H_LAST);
 
 struct player_economic {
   int gold;
@@ -94,7 +96,7 @@ struct player_ai {
   int est_upkeep; /* estimated upkeep of buildings in cities */
   /* The units of tech_want seem to be shields */
   int tech_want[A_LAST+1];
-  int handicap;			/* sum of enum handicap_type */
+  bv_handicap handicaps;        /* sum of enum handicap_type */
   enum ai_level skill_level;   	/* 0-10 value for save/load/display */
   int fuzzy;			/* chance in 1000 to mis-decide */
   int expand;			/* percentage factor to value new cities */

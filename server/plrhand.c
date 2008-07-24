@@ -1519,7 +1519,7 @@ static struct player *split_player(struct player *pplayer)
   cplayer->ai.control = TRUE;
   cplayer->ai.prev_gold = pplayer->ai.prev_gold;
   cplayer->ai.maxbuycost = pplayer->ai.maxbuycost;
-  cplayer->ai.handicap = pplayer->ai.handicap;
+  cplayer->ai.handicaps = pplayer->ai.handicaps;
   cplayer->ai.warmth = pplayer->ai.warmth;
   cplayer->ai.frost = pplayer->ai.frost;
   set_ai_level_direct(cplayer, game.info.skill_level);
