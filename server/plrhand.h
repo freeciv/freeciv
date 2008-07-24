@@ -39,7 +39,7 @@ struct nation_type *pick_a_nation(struct nation_type **choices,
                                   bool ignore_conflicts,
 				  bool only_available);
 
-void check_player_government_rates(struct player *pplayer);
+void check_player_max_rates(struct player *pplayer);
 void make_contact(struct player *pplayer1, struct player *pplayer2,
 		  struct tile *ptile);
 void maybe_make_contact(struct tile *ptile, struct player *pplayer);
