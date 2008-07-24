@@ -3654,7 +3654,8 @@ static int fill_city_overlays_sprite_array(const struct tileset *t,
       } else if (city_can_work_tile(pcity, ptile)) {
         ADD_SPRITE_SIMPLE(t->sprites.city.unworked_tile_overlay.p[index]);
       }
-    } else if (NULL != pwork && pwork == pcity) {
+    } else if (NULL != pwork && pwork == pcity
+               && (citymode || draw_city_output)) {
       /* Add on the tile output sprites. */
       int food = city_tile_output_now(pcity, ptile, O_FOOD);
       int shields = city_tile_output_now(pcity, ptile, O_SHIELD);
