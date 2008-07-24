@@ -414,14 +414,14 @@ static bool begin_metaserver_scan(struct server_scan *scan)
     return FALSE;
   }
   
-  if ((s = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
+  if ((s = socket(addr.saddr.sa_family, SOCK_STREAM, 0)) == -1) {
     (scan->error_func)(scan, mystrerror());
     return FALSE;
   }
 
   my_nonblock(s);
   
-  if (my_connect(s, (struct sockaddr *) &addr.saddr, sockaddr_size(&addr)) == -1) {
+  if (my_connect(s, &addr.saddr, sockaddr_size(&addr)) == -1) {
     if (errno == EINPROGRESS) {
       /* With non-blocking sockets this is the expected result. */
       scan->meta.state = META_CONNECTING;

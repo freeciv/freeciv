@@ -199,7 +199,8 @@ static int try_to_connect(const char *username, char *errbuf, int errbufsize)
     return -1;
   }
   
-  if ((client.conn.sock = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
+  if ((client.conn.sock = socket(server_addr.saddr.sa_family,
+                                 SOCK_STREAM, 0)) == -1) {
     (void) mystrlcpy(errbuf, mystrerror(), errbufsize);
     return -1;
   }
