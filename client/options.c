@@ -257,6 +257,13 @@ static client_option common_options[] = {
 		     N_("The borders layer of the overview shows which tiles "
 			"are owned by each player."),
 		     COC_OVERVIEW, overview_redraw_callback),
+  GEN_BOOL_OPTION_CB(overview.layers[OLAYER_BORDERS_ON_OCEAN],
+                     N_("Borders layer on ocean tiles"),
+                     N_("The borders layer of the overview are drawn on "
+                        "ocean tiles as well (this may look ugly with many "
+                        "islands). This option is only of interest if you "
+                        "have set the option \"Borders layer\" already."),
+                     COC_OVERVIEW, overview_redraw_callback),
   GEN_BOOL_OPTION_CB(overview.layers[OLAYER_UNITS],
 		     N_("Units layer"),
 		     N_("Enabling this will draw units on the overview."),

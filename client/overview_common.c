@@ -31,7 +31,8 @@ struct overview overview = {
   .fog = TRUE,
   .layers = {[OLAYER_BACKGROUND] = TRUE,
 	     [OLAYER_UNITS] = TRUE,
-	     [OLAYER_CITIES] = TRUE}
+	     [OLAYER_CITIES] = TRUE,
+	     [OLAYER_BORDERS_ON_OCEAN] = TRUE}
 };
 
 /*
@@ -142,7 +143,11 @@ static struct color *overview_tile_color(struct tile *ptile)
     struct player *owner = tile_owner(ptile);
 
     if (owner) {
-      return get_player_color(tileset, owner);
+      if (overview.layers[OLAYER_BORDERS_ON_OCEAN]) {
+        return get_player_color(tileset, owner);
+      } else if (!is_ocean_tile(ptile)) {
+        return get_player_color(tileset, owner);
+      }
     }
   }
   if (overview.layers[OLAYER_RELIEF] && tile_terrain(ptile) != T_UNKNOWN) {
