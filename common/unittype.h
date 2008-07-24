@@ -30,7 +30,8 @@ enum unit_class_flag_id {
   UCF_DAMAGE_SLOWS,
   UCF_CAN_OCCUPY,         /* Can occupy enemy cities */
   UCF_MISSILE,
-  UCF_ROAD_NATIVE,
+  UCF_ROAD_NATIVE,        /* Considers any road tile native terrain */
+  UCF_RIVER_NATIVE,       /* Considers any river tile native terrain */
   UCF_BUILD_ANYWHERE,
   UCF_UNREACHABLE,
   UCF_COLLECT_RANSOM,     /* Can collect ransom from barbarian leader */

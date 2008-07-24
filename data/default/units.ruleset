@@ -68,6 +68,7 @@ veteran_move_bonus = 0, 0, 0, 0
 ; "CanOccupy"     = Military units of this class can occupy enemy cities
 ; "Missile"       = Unit is destroyed when it attacks
 ; "RoadNative"    = Road tiles are always considered native terrain
+; "RiverNative"   = River tiles are always considered native terrain
 ; "BuildAnywhere" = Unit can be built even in the middle of non-native terrain
 ; "Unreachable"   = Unit can be attacked only by units with "AttackAny" flag or on
 ;                   city or airbase

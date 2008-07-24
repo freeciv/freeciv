@@ -1117,7 +1117,8 @@ if (_count > MAX_VET_LEVELS) {						\
                   filename,
                   uclass_rule_name(ut));
         }
-      } else if (ival == UCF_ROAD_NATIVE && ut->move_type == SEA_MOVING) {
+      } else if (ut->move_type == SEA_MOVING
+                 && ( ival == UCF_ROAD_NATIVE || ival == UCF_RIVER_NATIVE)) {
         freelog(LOG_ERROR, "\"%s\" unit_class \"%s\": cannot give \"%s\" flag"
                 " to sea moving unit",
                 filename,
