@@ -92,6 +92,7 @@ void request_unit_select_same_type_tile(struct unit_list *punits);
 void request_diplomat_action(enum diplomat_actions action, int dipl_id,
 			     int target_id, int value);
 void request_toggle_city_outlines(void);
+void request_toggle_city_output(void);
 void request_toggle_map_grid(void);
 void request_toggle_map_borders(void);
 void request_toggle_city_names(void);
@@ -155,6 +156,7 @@ void key_focus_unit_toggle(void);
 void key_fog_of_war_toggle(void);
 void key_end_turn(void);
 void key_city_outlines_toggle(void);
+void key_city_output_toggle(void);
 void key_map_grid_toggle(void);
 void key_map_borders_toggle(void);
 void key_recall_previous_focus_unit(void);

@@ -288,6 +288,7 @@ static int num_options = 0;
 /** View Options: **/
 
 bool draw_city_outlines = TRUE;
+bool draw_city_output = FALSE;
 bool draw_map_grid = FALSE;
 bool draw_city_names = TRUE;
 bool draw_city_growth = TRUE;
@@ -315,6 +316,7 @@ bool reqtree_show_icons = TRUE;
 
 view_option view_options[] = {
   VIEW_OPTION(draw_city_outlines),
+  VIEW_OPTION(draw_city_output),
   VIEW_OPTION(draw_map_grid),
   VIEW_OPTION(draw_city_names),
   VIEW_OPTION(draw_city_growth),

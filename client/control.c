@@ -1598,6 +1598,19 @@ void request_toggle_city_outlines(void)
 }
 
 /**************************************************************************
+ Toggle display of worker output of cities on the map
+**************************************************************************/
+void request_toggle_city_output(void)
+{
+  if (!can_client_change_view()) {
+    return;
+  }
+  
+  draw_city_output = !draw_city_output;
+  update_map_canvas_visible();
+}
+
+/**************************************************************************
  Toggle display of grid lines on the map
 **************************************************************************/
 void request_toggle_map_grid(void) 
@@ -2688,6 +2701,14 @@ void key_unit_select_battlegroup(int battlegroup, bool append)
 void key_city_outlines_toggle(void)
 {
   request_toggle_city_outlines();
+}
+
+/**************************************************************************
+ Toggle drawing of city output produced by workers of the city.
+**************************************************************************/
+void key_city_output_toggle(void)
+{
+  request_toggle_city_output();
 }
 
 /**************************************************************************
