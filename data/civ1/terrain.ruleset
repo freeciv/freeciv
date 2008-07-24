@@ -570,13 +570,6 @@ update22one = "H"
 trade       = 6
 # mountains.
 
-[resource_iron]
-name        = "unused"
-graphic     = "ts.iron"
-graphic_alt = "-"
-identifier  = "/"
-# unused
-
 [resource_game]
 name        = _("?animals:Game")
 graphic     = "ts.tundra_game"
@@ -585,14 +578,6 @@ identifier  = "A"
 update22two = "e"
 food        = 2
 # forest, tundra.
-
-[resource_furs]
-name        = "unused"
-graphic     = "ts.furs"
-graphic_alt = "-"
-identifier  = "b"
-update22two = "u"
-# unused
 
 [resource_coal]
 name        = _("Coal")
@@ -612,13 +597,6 @@ update22two = "y"
 food        = 2
 # ocean.
 
-[resource_fruit]
-name        = "unused"
-graphic     = "ts.fruit"
-graphic_alt = "-"
-identifier  = "f"
-# unused
-
 [resource_gems]
 name        = _("Gems")
 graphic     = "ts.gems"
@@ -636,13 +614,6 @@ identifier  = "I"
 update22two = "b"
 shield      = 2
 # plains (horses => buffalo => cattle).
-
-[resource_wheat]
-name        = "unused"
-graphic     = "ts.wheat"
-graphic_alt = "-"
-identifier  = "j"
-# unused
 
 [resource_oasis]
 name        = _("Oasis")
@@ -662,13 +633,6 @@ update22two = "a"
 shield      = 4
 # swamp (petroleum => peat => petroleum).
 
-[resource_pheasant]
-name        = "unused"
-graphic     = "ts.pheasant"
-graphic_alt = "-"
-identifier  = "p"
-# unused
-
 [resource_bonus]
 name        = _("Resources")
 graphic     = "ts.grassland_resources"
@@ -686,49 +650,6 @@ identifier  = "S"
 update22two = "i"
 food        = 2
 # arctic (seals => walrus).
-
-[resource_silk]
-name        = "unused"
-graphic     = "ts.silk"
-graphic_alt = "-"
-identifier  = "s"
-# unused
-
-[resource_spice]
-name        = "unused"
-graphic     = "ts.spice"
-graphic_alt = "-"
-identifier  = "t"
-# unused
-
-[resource_whales]
-name        = "unused"
-graphic     = "ts.whales"
-graphic_alt = "-"
-identifier  = "v"
-# unused
-
-[resource_wine]
-name        = "unused"
-graphic     = "ts.wine"
-graphic_alt = "-"
-identifier  = "w"
-# unused
-
-[resource_icy_oil]
-name        = "unused"
-graphic     = "ts.oil"
-graphic_alt = "-"
-identifier  = "x"
-# unused
-
-[resource_desert_oil]
-name        = "unused"
-graphic     = "ts.oil"
-graphic_alt = "-"
-identifier  = "X"
-update22two = "P"
-# unused
 
 ; Exactly two base types:
 ; [fortress] and [airbase].
