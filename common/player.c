@@ -209,7 +209,7 @@ void player_init(struct player *plr)
     plr->diplstates[i].contact_turns_left = 0;
   }
   plr->ai.control=FALSE;
-  plr->ai.handicap = 0;
+  BV_CLR_ALL(plr->ai.handicaps);
   plr->ai.skill_level = 0;
   plr->ai.fuzzy = 0;
   plr->ai.expand = 100;
@@ -726,7 +726,7 @@ bool ai_handicap(const struct player *pplayer, enum handicap_type htype)
   if (!pplayer->ai.control) {
     return TRUE;
   }
-  return BOOL_VAL(pplayer->ai.handicap & htype);
+  return BV_ISSET(pplayer->ai.handicaps, htype);
 }
 
 /**************************************************************************

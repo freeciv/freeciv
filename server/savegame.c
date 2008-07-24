@@ -1963,10 +1963,10 @@ static void player_load_main(struct player *plr, int plrno,
     research->tech_goal = A_UNSET;
   }
   /* Some sane defaults */
-  plr->ai.handicap = 0;		/* set later */
-  plr->ai.fuzzy = 0;		/* set later */
-  plr->ai.expand = 100;		/* set later */
-  plr->ai.science_cost = 100;	/* set later */
+  BV_CLR_ALL(plr->ai.handicaps); /* set later */
+  plr->ai.fuzzy = 0;		 /* set later */
+  plr->ai.expand = 100;		 /* set later */
+  plr->ai.science_cost = 100;	 /* set later */
   plr->ai.skill_level =
     secfile_lookup_int_default(file, game.info.skill_level,
 			       "player%d.ai.skill_level", plrno);

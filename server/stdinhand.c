@@ -661,31 +661,62 @@ static bool show_serverid(struct connection *caller, char *arg)
 }
 
 /***************************************************************
-...
+ Returns handicap bitvector for given AI skill level
 ***************************************************************/
-static int handicap_of_skill_level(int level)
+static bv_handicap handicap_of_skill_level(int level)
 {
-  int h[11] = { -1,
- /* away   */	H_AWAY  | H_RATES | H_TARGETS | H_HUTS | H_FOG | H_MAP
-                        | H_REVOLUTION,
- /* novice */   H_RATES | H_TARGETS | H_HUTS | H_NOPLANES 
-                        | H_DIPLOMAT | H_LIMITEDHUTS | H_DEFENSIVE
-			| H_DIPLOMACY | H_REVOLUTION | H_EXPANSION
-                        | H_DANGER,
- /* easy */	H_RATES | H_TARGETS | H_HUTS | H_NOPLANES 
-                        | H_DIPLOMAT | H_LIMITEDHUTS | H_DEFENSIVE
-                        | H_REVOLUTION | H_EXPANSION,
-		H_NONE,
- /* medium */	H_RATES | H_TARGETS | H_HUTS | H_DIPLOMAT,
-		H_NONE,
- /* hard */	H_NONE,
- /* cheating */ H_NONE,
-		H_NONE,
- /* testing */	H_EXPERIMENTAL,
-		};
-  
+  bv_handicap handicap;
+
   assert(level>0 && level<=10);
-  return h[level];
+
+  BV_CLR_ALL(handicap);
+
+  switch (level) {
+   case AI_LEVEL_AWAY:
+     BV_SET(handicap, H_AWAY);
+     BV_SET(handicap, H_FOG);
+     BV_SET(handicap, H_MAP);
+     BV_SET(handicap, H_RATES);
+     BV_SET(handicap, H_TARGETS);
+     BV_SET(handicap, H_HUTS);
+     BV_SET(handicap, H_REVOLUTION);
+     break;
+   case AI_LEVEL_NOVICE:
+     BV_SET(handicap, H_RATES);
+     BV_SET(handicap, H_TARGETS);
+     BV_SET(handicap, H_HUTS);
+     BV_SET(handicap, H_NOPLANES);
+     BV_SET(handicap, H_DIPLOMAT);
+     BV_SET(handicap, H_LIMITEDHUTS);
+     BV_SET(handicap, H_DEFENSIVE);
+     BV_SET(handicap, H_REVOLUTION);
+     BV_SET(handicap, H_EXPANSION);
+     BV_SET(handicap, H_DANGER);
+     break;
+   case AI_LEVEL_EASY:
+     BV_SET(handicap, H_RATES);
+     BV_SET(handicap, H_TARGETS);
+     BV_SET(handicap, H_HUTS);
+     BV_SET(handicap, H_NOPLANES);
+     BV_SET(handicap, H_DIPLOMAT);
+     BV_SET(handicap, H_LIMITEDHUTS);
+     BV_SET(handicap, H_DEFENSIVE);
+     BV_SET(handicap, H_DIPLOMACY);
+     BV_SET(handicap, H_REVOLUTION);
+     BV_SET(handicap, H_EXPANSION);
+     break;
+   case AI_LEVEL_NORMAL:
+     BV_SET(handicap, H_RATES);
+     BV_SET(handicap, H_TARGETS);
+     BV_SET(handicap, H_HUTS);
+     BV_SET(handicap, H_DIPLOMAT);
+     break;
+   case AI_LEVEL_EXPERIMENTAL:
+     BV_SET(handicap, H_EXPERIMENTAL);
+     break;
+  }
+
+  return handicap;
 }
 
 /**************************************************************************
@@ -1724,7 +1755,7 @@ void send_server_settings(struct conn_list *dest)
 ******************************************************************/
 void set_ai_level_directer(struct player *pplayer, enum ai_level level)
 {
-  pplayer->ai.handicap = handicap_of_skill_level(level);
+  pplayer->ai.handicaps = handicap_of_skill_level(level);
   pplayer->ai.fuzzy = fuzzy_of_skill_level(level);
   pplayer->ai.expand = expansionism_of_skill_level(level);
   pplayer->ai.science_cost = science_cost_of_skill_level(level);
