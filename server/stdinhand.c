@@ -786,9 +786,9 @@ void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
 	      _("%s is now under human control."),
 	      player_name(pplayer));
 
-    /* because the hard AI `cheats' with government rates but humans shouldn't */
+    /* because the AI `cheats' with government rates but humans shouldn't */
     if (!game.info.is_new_game) {
-      check_player_government_rates(pplayer);
+      check_player_max_rates(pplayer);
     }
     /* Remove hidden dialogs from clients. This way the player can initiate
      * new meeting */
