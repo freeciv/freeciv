@@ -107,7 +107,10 @@ static bool manual_command(void)
   char filename[40];
   enum manuals manuals;
 
+  /* Initialize game with default values */
   game_init();
+  /* Reset aifill to zero */
+  game.info.aifill = 0;
   load_rulesets();
   for (manuals = 0; manuals < MANUAL_COUNT; manuals++) {
     int i;
@@ -268,9 +271,14 @@ static bool manual_command(void)
         }
         fprintf(doc, "<tr><td>+%d T</td><td align=\"right\">(%d)</td></tr>\n",
                 pterrain->road_trade_incr, pterrain->road_time);
-        fprintf(doc, "<tr><td>%s</td><td align=\"right\">(%d)</td></tr>\n</table></td>\n",
-                terrain_name_translation(pterrain->transform_result),
-                pterrain->transform_time);
+
+        if (pterrain->transform_result) {
+          fprintf(doc, "<tr><td>%s</td><td align=\"right\">(%d)</td></tr>\n</table></td>\n",
+                  terrain_name_translation(pterrain->transform_result),
+                  pterrain->transform_time);
+        } else {
+          fprintf(doc, "<tr><td>-</td><td align=\"right\">(-)</td></tr>\n</table></td>\n");
+        }
 
         fprintf(doc, "<td align=\"center\">%d / %d / %d</td></tr>\n\n",
                 pterrain->rail_time,
