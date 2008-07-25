@@ -495,6 +495,7 @@ static unsigned int assess_danger(struct city *pcity)
   unsigned int urgency = 0;
   int igwall_threat = 0;
   struct tile *ptile = pcity->tile;
+  int defense;
 
   TIMING_LOG(AIT_DANGER, TIMER_START);
 
@@ -634,15 +635,26 @@ static unsigned int assess_danger(struct city *pcity)
 
   /* HACK: This needs changing if multiple improvements provide
    * this effect. */
-  /* FIXME: Check attacker type and protect against that. Now
-   * always assess land danger. */
   /* FIXME: Accept only buildings helping unit classes we actually use.
    *        Now we consider any land mover helper suitable. */
-  defender = ai_find_source_building(pcity, EFT_DEFEND_BONUS, NULL, LAND_MOVING);
+  defense = assess_defense_igwall(pcity);
 
+  defender = ai_find_source_building(pcity, EFT_DEFEND_BONUS, NULL, LAND_MOVING);
   if (defender != B_LAST) {
     ai_reevaluate_building(pcity, &pcity->ai.building_want[defender],
-	urgency, danger[DANGER_LAND], assess_defense_igwall(pcity));
+	urgency, danger[DANGER_LAND], defense);
+  }
+
+  defender = ai_find_source_building(pcity, EFT_DEFEND_BONUS, NULL, SEA_MOVING);
+  if (defender != B_LAST) {
+    ai_reevaluate_building(pcity, &pcity->ai.building_want[defender],
+                           urgency, danger[DANGER_SEA], defense);
+  }
+
+  defender = ai_find_source_building(pcity, EFT_DEFEND_BONUS, NULL, AIR_MOVING);
+  if (defender != B_LAST) {
+    ai_reevaluate_building(pcity, &pcity->ai.building_want[defender],
+                           urgency, danger[DANGER_AIR], defense);
   }
 
   if (ai_handicap(pplayer, H_DANGER)
