@@ -1766,16 +1766,17 @@ void set_ai_level_directer(struct player *pplayer, enum ai_level level)
   Translate an AI level back to its CMD_* value.
   If we just used /set ailevel <num> we wouldn't have to do this - rp
 ******************************************************************/
-static enum command_id cmd_of_level(int level)
+static enum command_id cmd_of_level(enum ai_level level)
 {
   switch(level) {
-    case 1 : return CMD_AWAY;
-    case 2 : return CMD_NOVICE;
-    case 3 : return CMD_EASY;
-    case 5 : return CMD_NORMAL;
-    case 7 : return CMD_HARD;
-    case 8 : return CMD_CHEATING;
-    case 10 : return CMD_EXPERIMENTAL;
+    case AI_LEVEL_AWAY         : return CMD_AWAY;
+    case AI_LEVEL_NOVICE       : return CMD_NOVICE;
+    case AI_LEVEL_EASY         : return CMD_EASY;
+    case AI_LEVEL_NORMAL       : return CMD_NORMAL;
+    case AI_LEVEL_HARD         : return CMD_HARD;
+    case AI_LEVEL_CHEATING     : return CMD_CHEATING;
+    case AI_LEVEL_EXPERIMENTAL : return CMD_EXPERIMENTAL;
+    case AI_LEVEL_LAST         : return CMD_NORMAL;
   }
   assert(FALSE);
   return CMD_NORMAL; /* to satisfy compiler */
@@ -1786,7 +1787,7 @@ static enum command_id cmd_of_level(int level)
 ******************************************************************/
 void set_ai_level_direct(struct player *pplayer, enum ai_level level)
 {
-  set_ai_level_directer(pplayer,level);
+  set_ai_level_directer(pplayer, level);
   send_player_info(pplayer, NULL);
   cmd_reply(cmd_of_level(level), NULL, C_OK,
 	_("Player '%s' now has AI skill level '%s'."),
