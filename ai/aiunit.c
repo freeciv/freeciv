@@ -1141,7 +1141,7 @@ int turns_to_enemy_unit(const struct unit_type *our_type,
   center of the area is either the unit itself (dest == FALSE) or the
   destination of the current goto (dest == TRUE). The invasion threat
   is marked in pcity->ai.invasion by setting the "which" bit (to
-  tell attack from sea apart from ground unit attacks).
+  tell attack which can only kill units from occupy possibility).
 
   If dest == TRUE then a valid goto is presumed.
 **************************************************************************/
@@ -1165,9 +1165,11 @@ static void invasion_funct(struct unit *punit, bool dest, int radius,
 
     if (pcity
         && HOSTILE_PLAYER(pplayer, ai, city_owner(pcity))
-	&& !TEST_BIT(pcity->ai.invasion, which)
 	&& (dest || !has_defense(pcity))) {
-      pcity->ai.invasion |= COND_SET_BIT(TRUE, which);
+      pcity->ai.invasion.attack++;
+      if (which == INVASION_OCCUPY) {
+        pcity->ai.invasion.occupy++;
+      }
     }
   } square_iterate_end;
 }
@@ -1259,7 +1261,8 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
     city_list_iterate(aplayer->cities, acity) {
       reinforcements_cost_and_value(punit, acity->tile,
                                     &acity->ai.attack, &acity->ai.bcost);
-      acity->ai.invasion = 0;
+      acity->ai.invasion.attack = 0;
+      acity->ai.invasion.occupy = 0;
     } city_list_iterate_end;
   } players_iterate_end;
 
@@ -1360,6 +1363,8 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
   }
 
   players_iterate(aplayer) {
+    int reserves;
+
     /* For the virtual unit case, which is when we are called to evaluate
      * which units to build, we want to calculate in danger and which
      * players we want to make war with in the future. We do _not_ want
@@ -1425,9 +1430,16 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
         }
       }
 
-      if (COULD_OCCUPY(punit) || TEST_BIT(acity->ai.invasion, INVASION_OCCUPY)) {
-        /* There are units able to occupy the city! */
-        benefit += 40;
+      reserves = acity->ai.invasion.attack - unit_list_size(acity->tile->units);
+
+      if (reserves >= 0) {
+        /* We have enough units to kill all the units in the city */
+        if (reserves > 0
+            && (COULD_OCCUPY(punit) || acity->ai.invasion.occupy > 0)) {
+          /* There are units able to occupy the city after all defenders
+           * are killed! */
+          benefit += 60;
+        }
       }
 
       attack = (attack_value + acity->ai.attack) 
@@ -1448,8 +1460,8 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
         /* Too far! */
         want = 0;
       } else if (COULD_OCCUPY(punit)
-                 && TEST_BIT(acity->ai.invasion, INVASION_ATTACK)
-                 && !TEST_BIT(acity->ai.invasion, INVASION_OCCUPY)) {
+                 && acity->ai.invasion.attack > 0
+                 && acity->ai.invasion.occupy == 0) {
         /* Units able to occupy really needed there! */
         want = bcost * SHIELD_WEIGHTING;
       } else {

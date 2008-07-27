@@ -200,6 +200,12 @@ struct ai_choice {
   bool need_boat;        /* unit being built wants a boat */
 };
 
+/* Who's coming to kill us, for attack co-ordination */
+struct ai_invasion {
+  int attack;         /* Units capable of attacking city */
+  int occupy;         /* Units capable of occupying city */
+};
+
 struct ai_city {
   int building_turn;            /* only recalculate every Nth turn */
   int building_wait;            /* for weighting values */
@@ -216,7 +222,7 @@ struct ai_city {
 
   int worth; /* Cache city worth here, sum of all weighted incomes */
 
-  int invasion; /* who's coming to kill us, for attack co-ordination */
+  struct ai_invasion invasion;
   int attack, bcost; /* This is also for invasion - total power and value of
                       * all units coming to kill us. */
 
