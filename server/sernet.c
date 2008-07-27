@@ -821,7 +821,15 @@ static int server_accept_connection(int sockfd)
 
   int new_sock;
   union my_sockaddr fromend;
+  bool nameinfo = FALSE;
+#ifdef IPV6_SUPPORT
+  char host[NI_MAXHOST], service[NI_MAXSERV];
+  char dst[INET6_ADDRSTRLEN];
+#else  /* IPv6 support */
   struct hostent *from;
+  char *host = NULL;
+  const char *dst;
+#endif /* IPv6 support */
 
   fromlen = sizeof(fromend);
 
@@ -830,14 +838,30 @@ static int server_accept_connection(int sockfd)
     return -1;
   }
 
+#ifdef IPV6_SUPPORT
+  if (!getnameinfo(&fromend.saddr, fromlen, host, NI_MAXHOST,
+                   service, NI_MAXSERV, NI_NUMERICSERV)) {
+    nameinfo = TRUE;
+  }
+  if (fromend.saddr.sa_family == AF_INET6) {
+    inet_ntop(AF_INET6, &fromend.saddr_in6.sin6_addr,
+              dst, sizeof(dst));
+  } else {
+    inet_ntop(AF_INET, &fromend.saddr_in4.sin_addr, dst, sizeof(dst));
+  }
+#else  /* IPv6 support */
   from =
-      gethostbyaddr((char *) &fromend.saddr_in4.sin_addr,
-		    sizeof(fromend.saddr_in4.sin_addr), AF_INET);
+    gethostbyaddr((char *) &fromend.saddr_in4.sin_addr,
+                  sizeof(fromend.saddr_in4.sin_addr), AF_INET);
+  if (from) {
+    host = from->h_name;
+    nameinfo = TRUE;
+  }
+  dst = inet_ntoa(fromend.saddr_in4.sin_addr);
+#endif /* IPv6 support */
 
   return server_make_connection(new_sock,
-				(from ? from->h_name
-                                 : inet_ntoa(fromend.saddr_in4.sin_addr)),
-			        inet_ntoa(fromend.saddr_in4.sin_addr));
+				(nameinfo ? host : dst), dst);
 }
 
 /********************************************************************

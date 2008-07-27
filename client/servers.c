@@ -642,7 +642,6 @@ static struct server_list *get_lan_server_list(struct server_scan *scan)
 {
   socklen_t fromlen;
   union my_sockaddr fromend;
-  struct hostent *from;
   char msgbuf[128];
   int type;
   struct data_in din;
@@ -680,9 +679,40 @@ static struct server_list *get_lan_server_list(struct server_scan *scan)
     dio_get_string(&din, message, sizeof(message));
 
     if (!mystrcasecmp("none", servername)) {
+      bool nameinfo = FALSE;
+#ifdef IPV6_SUPPORT
+      char dst[INET6_ADDRSTRLEN];
+      char host[NI_MAXHOST], service[NI_MAXSERV];
+
+      if (!getnameinfo(&fromend.saddr, fromlen, host, NI_MAXHOST,
+                       service, NI_MAXSERV, NI_NUMERICSERV)) {
+        nameinfo = TRUE;
+      }
+      if (!nameinfo) {
+        if (fromend.saddr.sa_family == AF_INET6) {
+          inet_ntop(AF_INET6, &fromend.saddr_in6.sin6_addr,
+                    dst, sizeof(dst));
+        } else {
+          inet_ntop(AF_INET, &fromend.saddr_in4.sin_addr, dst, sizeof(dst));;
+        }
+      }
+#else  /* IPv6 support */
+      const char *dst;
+      struct hostent *from;
+      char *host = NULL;
+
       from = gethostbyaddr((char *) &fromend.saddr_in4.sin_addr,
 			   sizeof(fromend.saddr_in4.sin_addr), AF_INET);
-      sz_strlcpy(servername, inet_ntoa(fromend.saddr_in4.sin_addr));
+      if (from) {
+        host = from->h_name;
+        nameinfo = TRUE;
+      }
+      if (!nameinfo) {
+        dst = inet_ntoa(fromend.saddr_in4.sin_addr);
+      }
+#endif /* IPv6 support */
+
+      sz_strlcpy(servername, nameinfo ? host : dst);
     }
 
     /* UDP can send duplicate or delayed packets. */
