@@ -49,7 +49,7 @@
   (ut->pop_cost * 3 + ut->happy_cost					\
    + ut->upkeep[O_SHIELD] + ut->upkeep[O_FOOD] + ut->upkeep[O_GOLD])
 
-/* INVASION bits */
+/* Invasion types */
 #define INVASION_OCCUPY  0
 #define INVASION_ATTACK  1
 

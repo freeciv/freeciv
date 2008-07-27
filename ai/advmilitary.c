@@ -996,8 +996,8 @@ static void process_attacker_want(struct city *pcity,
         desire = 0;
         
       } else if (uclass_has_flag(utype_class(punittype), UCF_CAN_OCCUPY) && acity
-                 && TEST_BIT(acity->ai.invasion, INVASION_ATTACK)
-                 && !TEST_BIT(acity->ai.invasion, INVASION_OCCUPY)) {
+                 && acity->ai.invasion.attack > 0
+                 && acity->ai.invasion.occupy == 0) {
         desire = bcost * SHIELD_WEIGHTING;
 
       } else {
@@ -1217,7 +1217,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
 	def_owner = unit_owner(pdef);
       }
     }
-    if (COULD_OCCUPY(myunit) || TEST_BIT(acity->ai.invasion, INVASION_OCCUPY)) {
+    if (COULD_OCCUPY(myunit) || acity->ai.invasion.occupy > 0) {
       /* bonus for getting the city */
       benefit += 40;
     }
