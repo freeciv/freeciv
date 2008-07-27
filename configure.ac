@@ -81,7 +81,8 @@ AC_ARG_ENABLE(ipv6,
   *)   AC_MSG_ERROR(bad value ${enableval} for --enable-ipv6) ;;
 esac], [ipv6=no])
 if test x$ipv6 != xno ; then
-  AC_CHECK_FUNCS([gethostbyname2 inet_pton inet_ntop], [ipv6_possible=true], [
+  AC_CHECK_FUNCS([gethostbyname2 inet_pton inet_ntop getnameinfo],
+[ipv6_possible=true], [
 if test x$ipv6 = xyes || x$ipv6 = xsupport ; then
   AC_MSG_ERROR([Cannot enable IPv6 functionality])
 fi ])
@@ -92,8 +93,6 @@ fi ])
       AC_DEFINE([IPV6_USED], [1], [IPv6 Used])
     fi
   fi
-  dnl Non-critical functions
-  AC_CHECK_FUNCS([getnameinfo])
 fi
 
 AC_ARG_WITH(readline,
