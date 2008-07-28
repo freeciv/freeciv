@@ -194,6 +194,13 @@ static client_option common_options[] = {
 		        "this option off makes the technology tree "
 		        "more compact."),
 		     COC_GRAPHICS, reqtree_show_icons_callback),
+  GEN_BOOL_OPTION_CB(reqtree_curved_lines,
+                     N_("Use curved lines in the technology tree"),
+                     N_("Setting this option make the technology tree "
+                        "diagram use curved lines to show technology "
+                        "relations. Turning this option off causes "
+                        "the lines to be drawn straight."),
+		     COC_GRAPHICS, reqtree_show_icons_callback),
   GEN_BOOL_OPTION_CB(draw_unit_shields, N_("Draw shield graphics for units"),
 		     N_("Setting this option will draw a shield icon "
 			"as the flags on units.  If unset, the full flag will "
@@ -310,6 +317,7 @@ bool draw_full_citybar = TRUE;
 bool draw_unit_shields = TRUE;
 bool player_dlg_show_dead_players = TRUE;
 bool reqtree_show_icons = TRUE;
+bool reqtree_curved_lines = FALSE;
 
 #define VIEW_OPTION(name) { #name, &name }
 #define VIEW_OPTION_TERMINATOR { NULL, NULL }

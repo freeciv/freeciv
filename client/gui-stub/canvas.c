@@ -118,6 +118,16 @@ void canvas_put_line(struct canvas *pcanvas, struct color *pcolor,
 }
 
 /****************************************************************************
+  Draw a 1-pixel-width colored curved line onto the canvas.
+****************************************************************************/
+void canvas_put_curved_line(struct canvas *pcanvas, struct color *pcolor,
+                            enum line_type ltype, int start_x, int start_y,
+                            int dx, int dy)
+{
+  /* PORTME */
+}
+
+/****************************************************************************
   Return the size of the given text in the given font.  This size should
   include the ascent and descent of the text.  Either of width or height
   may be NULL in which case those values simply shouldn't be filled out.
