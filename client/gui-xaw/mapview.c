@@ -522,6 +522,18 @@ void canvas_put_line(struct canvas *pcanvas, struct color *pcolor,
 }
 
 /**************************************************************************
+  Draw a 1-pixel-width curved colored line onto the mapview or 
+  citydialog canvas.
+**************************************************************************/
+void canvas_put_curved_line(struct canvas *pcanvas, struct color *pcolor,
+                            enum line_type ltype, int start_x, int start_y,
+                            int dx, int dy)
+{
+  /* FIXME: Implement curved line drawing. */
+  canvas_put_line(pcanvas, pcolor, ltype, start_x, start_y, dx, dy);
+}
+
+/**************************************************************************
   Flush the given part of the canvas buffer (if there is one) to the
   screen.
 **************************************************************************/

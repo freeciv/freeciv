@@ -344,3 +344,14 @@ void canvas_put_line(struct canvas *pcanvas, struct color *pcolor,
 
   canvas_release_hdc(pcanvas);
 }
+
+/**************************************************************************
+  Draw a 1-pixel-width colored curved line onto the canvas.
+**************************************************************************/
+void canvas_put_curved_line(struct canvas *pcanvas, struct color *pcolor,
+                            enum line_type ltype, int start_x, int start_y,
+                            int dx, int dy)
+{
+  /* FIXME: Implement curved line drawing. */
+  canvas_put_line(pcanvas, pcolor, ltype, start_x, start_y, dx, dy);
+}

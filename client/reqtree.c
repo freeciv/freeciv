@@ -1011,6 +1011,7 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
   int i, j, k;
   int swidth, sheight;
   struct sprite* sprite;
+  struct color *color;
 
   /* draw the diagram */
   for (i = 0; i < tree->num_layers; i++) {
@@ -1114,14 +1115,20 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
       starty = node->node_y + node->node_height / 2;
       for (k = 0; k < node->nprovide; k++) {
 	struct tree_node *dest_node = node->provide[k];
+	color = get_color(tileset, edge_color(node, dest_node));
 
 	endx = dest_node->node_x;
 	endy = dest_node->node_y + dest_node->node_height / 2;
 	
-	canvas_put_line(pcanvas,
-		        get_color(tileset, edge_color(node, dest_node)),
-		        LINE_GOTO,
-		        startx, starty, endx - startx, endy - starty);
+        if (reqtree_curved_lines) {
+          canvas_put_curved_line(pcanvas, color, LINE_GOTO,
+                                 startx, starty, endx - startx,
+                                 endy - starty);
+        } else {
+          canvas_put_line(pcanvas, color, LINE_GOTO,
+                          startx, starty, endx - startx,
+                          endy - starty);
+        }
       }
     }
   }
