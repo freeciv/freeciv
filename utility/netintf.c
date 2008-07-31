@@ -295,7 +295,7 @@ bool sockaddr_ipv6(union my_sockaddr *addr)
 #endif /* IPv6 support */
   {
     return FALSE;
- }
+  }
 }
 
 /***************************************************************************
@@ -304,31 +304,74 @@ bool sockaddr_ipv6(union my_sockaddr *addr)
 bool net_lookup_service(const char *name, int port, union my_sockaddr *addr)
 {
   struct hostent *hp;
-  struct sockaddr_in *sock = &addr->saddr_in4;
+  struct sockaddr_in *sock4;
+#ifdef IPV6_SUPPORT
+  struct sockaddr_in6 *sock6;
+#endif /* IPv6 support */
 
-  sock->sin_family = AF_INET;
-  sock->sin_port = htons(port);
+  sock4 = &addr->saddr_in4;
+
+#ifdef IPV6_SUPPORT
+  sock6 = &addr->saddr_in6;
+
+  addr->saddr.sa_family = AF_INET6;
+  sock6->sin6_port = htons(port);
 
   if (!name) {
-    sock->sin_addr.s_addr = htonl(INADDR_ANY);
+    sock6->sin6_addr = in6addr_any;
     return TRUE;
   }
+#else /* IPv6 support */
+  addr->saddr.sa_family = AF_INET;
+  sock4->sin_port = htons(port);
 
-#ifdef HAVE_INET_ATON
-  if (inet_aton(name, &sock->sin_addr) != 0) {
+  if (!name) {
+    sock4->sin_addr.s_addr = htonl(INADDR_ANY);
     return TRUE;
   }
-#else
-  if ((sock->sin_addr.s_addr = inet_addr(name)) != INADDR_NONE) {
+#endif /* IPv6 support */
+
+#ifdef IPV6_SUPPORT
+  if (inet_pton(AF_INET6, name, &sock6->sin6_addr)) {
     return TRUE;
   }
-#endif
+  /* TODO: Replace gethostbyname2() with getaddrinfo() */
+  hp = gethostbyname2(name, AF_INET6);
+  if (!hp || hp->h_addrtype != AF_INET6) {
+    /* Try to fallback to IPv4 resolution */
+    freelog(LOG_DEBUG, "Falling back to IPv4");
+    hp = gethostbyname2(name, AF_INET);
+    if (!hp || hp->h_addrtype != AF_INET) {
+      return FALSE;
+    }
+    addr->saddr.sa_family = AF_INET;
+    sock4->sin_port = htons(port);
+  }
+#else  /* IPV6 support */
+#if defined(HAVE_INET_ATON)
+  if (inet_aton(name, &sock4->sin_addr) != 0) {
+    return TRUE;
+  }
+#else  /* HAVE_INET_ATON */
+  if ((sock4->sin_addr.s_addr = inet_addr(name)) != INADDR_NONE) {
+    return TRUE;
+  }
+#endif /* HAVE_INET_ATON */
   hp = gethostbyname(name);
   if (!hp || hp->h_addrtype != AF_INET) {
     return FALSE;
   }
+#endif /* IPv6 support */
 
-  memcpy(&sock->sin_addr, hp->h_addr, hp->h_length);
+#ifdef IPV6_SUPPORT
+  if (addr->saddr.sa_family == AF_INET6) {
+    memcpy(&sock6->sin6_addr, hp->h_addr, hp->h_length);
+  } else
+#endif /* IPv6 support */
+  {
+    memcpy(&sock4->sin_addr, hp->h_addr, hp->h_length);
+  }
+
   return TRUE;
 }
 
