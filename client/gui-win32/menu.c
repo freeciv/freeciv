@@ -1081,7 +1081,7 @@ update_menus(void)
 		   (SSHIP_NONE != client.conn.playing->spaceship.state));
 
     my_check_menu(menu, IDM_VIEW_MAP_GRID, draw_map_grid);
-    my_enable_menu(menu, IDM_VIEW_NATIONAL_BORDERS, game.info.borders > 0);
+    my_enable_menu(menu, IDM_VIEW_NATIONAL_BORDERS, game.info.borders_sq > 0);
     my_check_menu(menu, IDM_VIEW_NATIONAL_BORDERS, draw_borders);
     my_check_menu(menu, IDM_VIEW_CITY_NAMES, draw_city_names);
     my_enable_menu(menu, IDM_VIEW_CITY_GROWTH, draw_city_names);

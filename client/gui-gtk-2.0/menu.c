@@ -1433,7 +1433,8 @@ void update_menus(void)
     menus_set_active("<main>/_View/City Outlines", draw_city_outlines);
     menus_set_active("<main>/_View/City Output", draw_city_output);
     menus_set_active("<main>/_View/Map _Grid", draw_map_grid);
-    menus_set_sensitive("<main>/_View/National _Borders", game.info.borders > 0);
+    menus_set_sensitive("<main>/_View/National _Borders",
+                        game.info.borders_sq > 0);
     menus_set_active("<main>/_View/National _Borders", draw_borders);
     menus_set_active("<main>/_View/City _Names", draw_city_names);
 

@@ -132,12 +132,7 @@ struct vision_site *create_vision_site_from_base(struct tile *ptile)
 
   psite = create_vision_site(-base_number(pbase) - 1, ptile, ptile->owner);
   psite->size = 0;
-  if (game.info.borders) {
-    psite->border_radius_sq = 2; /* FIXME: Should depend on game.info.borders value.
-                                  * Currently bigger radius doesn't claim territory north */
-  } else {
-    psite->border_radius_sq = 0;
-  }
+  psite->border_radius_sq = game.info.borders_sq;
   sz_strlcpy(psite->name, base_name_translation(pbase));
 
   return psite;

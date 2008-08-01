@@ -287,7 +287,7 @@ void game_init(void)
   game.info.spacerace     = GAME_DEFAULT_SPACERACE;
   game.info.turnblock     = GAME_DEFAULT_TURNBLOCK;
   game.info.fogofwar      = GAME_DEFAULT_FOGOFWAR;
-  game.info.borders       = GAME_DEFAULT_BORDERS;
+  game.info.borders_sq    = GAME_DEFAULT_BORDERS;
   game.info.happyborders  = GAME_DEFAULT_HAPPYBORDERS;
   game.info.slow_invasions= GAME_DEFAULT_SLOW_INVASIONS;
   game.info.auto_ai_toggle= GAME_DEFAULT_AUTO_AI_TOGGLE;

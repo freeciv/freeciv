@@ -2298,13 +2298,16 @@ void city_refresh_vision(struct city *pcity)
   int radius_sq = get_city_bonus(pcity, EFT_CITY_VISION_RADIUS_SQ);
 
   if (NULL != psite) {
-    int delta = psite->size - game.info.borders;
-
-    /* TODO: city size effect or ruleset steps instead */
-    if (0 >= delta) {
-      psite->border_radius_sq = 2 * psite->size;
+    /* Exact behavior could be ruleset defined. */
+    if (game.info.borders_sq) {
+      psite->border_radius_sq = game.info.borders_sq;
+      if (psite->identity > 0) {
+        /* City */
+        psite->border_radius_sq = MAX(psite->border_radius_sq, 2*2+1*1);
+      }
+      psite->border_radius_sq += psite->size;
     } else {
-      psite->border_radius_sq = (2 + delta) * game.info.borders;
+      psite->border_radius_sq = 0;
     }
 
     if (radius_sq < psite->border_radius_sq) {
