@@ -42,6 +42,11 @@ Unit *api_actions_create_unit(Player *pplayer, Tile *ptile, Unit_Type *ptype,
 		  	      int veteran_level, City *homecity,
 			      int moves_left)
 {
+  if (ptype == NULL
+      || ptype < unit_type_array_first() || ptype > unit_type_array_last()) {
+    return NULL;
+  }
+
   return create_unit(pplayer, ptile, ptype, veteran_level,
 		     homecity ? homecity->id : 0, moves_left);
 }
