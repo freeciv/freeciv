@@ -1615,7 +1615,7 @@ void map_clear_border(struct tile *ptile, struct player *powner)
   struct city *pcity = tile_city(ptile);
   struct vision_site *psite = map_get_player_site(ptile, powner);
 
-  if (0 == game.info.borders) {
+  if (0 == game.info.borders_sq) {
     /* no borders */
     return;
   }
@@ -1683,7 +1683,7 @@ void map_claim_border(struct tile *ptile, struct player *powner)
   struct city *pcity = tile_city(ptile);
   struct vision_site *psite = map_get_player_site(ptile, powner);
 
-  if (0 == game.info.borders) {
+  if (0 == game.info.borders_sq) {
     /* no borders */
     return;
   }
@@ -1777,7 +1777,7 @@ void map_claim_border(struct tile *ptile, struct player *powner)
 *************************************************************************/
 void map_calculate_borders(void)
 {
-  if (game.info.borders == 0) {
+  if (game.info.borders_sq == 0) {
     return;
   }
 

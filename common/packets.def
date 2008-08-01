@@ -417,7 +417,7 @@ PACKET_GAME_INFO=15; sc
   BOOL fixedlength;
   BOOL auto_ai_toggle;
   BOOL fogofwar;  
-  UINT8 borders;
+  UINT8 borders_sq;
   BOOL happyborders;
   BOOL slow_invasions;
   UINT8 add_to_size_limit;
