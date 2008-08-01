@@ -59,16 +59,18 @@ end
 -- Get new city from hut, or settlers (nomads) if terrain is poor.
 function hut_get_city(unit)
   local owner = unit.owner
-  local settlers = find.role_unit_type('Settlers', owner)
+  local settlers = find.role_unit_type('Cities', owner)
 
   if unit:is_on_possible_city_tile() then
     create_city(owner, unit.tile, "")
     notify.event(owner, unit.tile, E.HUT_CITY,
                  _("You found a friendly city."))
   else
-    create_unit(owner, unit.tile, settlers, 0, unit:get_homecity(), -1)
-    notify.event(owner, unit.tile, E.HUT_SETTLER,
-                 _("Friendly nomads are impressed by you, and join you."))
+    if settlers then
+      notify.event(owner, unit.tile, E.HUT_SETTLER,
+                   _("Friendly nomads are impressed by you, and join you."))
+      create_unit(owner, unit.tile, settlers, 0, unit:get_homecity(), -1)
+    end
   end
 end
 
