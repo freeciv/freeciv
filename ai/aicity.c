@@ -339,8 +339,49 @@ static int content_effect_value(const struct player *pplayer,
   return v;
 }
 
+/**************************************************************************
+  Unit class affected by this effect.
+**************************************************************************/
+static struct unit_class *affected_unit_class(const struct effect *peffect)
+{
+  requirement_list_iterate(peffect->reqs, preq) {
+    if (preq->source.kind == VUT_UCLASS) {
+      return preq->source.value.uclass;
+    }
+  } requirement_list_iterate_end;
 
-/************************************************************************** 
+  return NULL;
+}
+
+/**************************************************************************
+  Number of AI stats units affected by effect
+**************************************************************************/
+static int num_affected_units(const struct effect *peffect,
+                              const struct ai_data *ai)
+{
+  struct unit_class *uclass;
+  enum unit_move_type move;
+
+  uclass = affected_unit_class(peffect);
+  if (uclass) {
+    move = uclass_move_type(uclass);
+    switch (move) {
+     case LAND_MOVING:
+         return ai->stats.units.land;
+     case SEA_MOVING:
+       return ai->stats.units.sea;
+     case HELI_MOVING:
+     case AIR_MOVING:
+       return ai->stats.units.amphibious;
+     case MOVETYPE_LAST:
+       break;
+    }
+  }
+  return ai->stats.units.land + ai->stats.units.sea
+         + ai->stats.units.amphibious;
+}
+
+/**************************************************************************
   How desirable is a particular effect for a particular city?
   Expressed as an adjustment of the base value (v)
   given the number of cities in range (c).
@@ -357,6 +398,9 @@ static int improvement_effect_value(struct player *pplayer,
 				    int v)
 {
   int amount = peffect->value;
+  struct unit_class *uclass;
+  enum unit_move_type move;
+  int num;
 
   switch (peffect->type) {
   /* These (Wonder) effects have already been evaluated in base_want() */
@@ -556,27 +600,24 @@ static int improvement_effect_value(struct player *pplayer,
     /* Uhm, problem: City Wall has -50% here!! */
     break;
   case EFT_MOVE_BONUS:
-    /* FIXME: check other reqs (e.g., unitclass) */
-    v += (8 * v * amount + ai->stats.units.land
-	  + ai->stats.units.sea + ai->stats.units.amphibious);
+    num = num_affected_units(peffect, ai);
+    v += (8 * v * amount + num);
     break;
   case EFT_UNIT_NO_LOSE_POP:
     v += unit_list_size(pcity->tile->units) * 2;
     break;
   case EFT_HP_REGEN:
-    /* FIXME: check other reqs (e.g., unitclass) */
-    v += (5 * c + ai->stats.units.land
-	  + ai->stats.units.sea + ai->stats.units.amphibious);
+    num = num_affected_units(peffect, ai);
+    v += (5 * c + num);
     break;
   case EFT_VETERAN_COMBAT:
-    /* FIXME: check other reqs (e.g., unitclass) */
-    v += (2 * c + ai->stats.units.land + ai->stats.units.sea
-	  + ai->stats.units.amphibious);
+    num = num_affected_units(peffect, ai);
+    v += (2 * c + num);
     break;
   case EFT_VETERAN_BUILD:
-    /* FIXME: check other reqs (e.g., unitclass, unitflag) */
-    v += (3 * c + ai->stats.units.land + ai->stats.units.sea
-	  + ai->stats.units.amphibious);
+    /* FIXME: check other reqs (e.g., unitflag) */
+    num = num_affected_units(peffect, ai);
+    v += (3 * c + num);
     break;
   case EFT_UPGRADE_UNIT:
     if (amount == 1) {
@@ -591,28 +632,38 @@ static int improvement_effect_value(struct player *pplayer,
     if (ai_handicap(pplayer, H_DEFENSIVE)) {
       v += amount / 10; /* make AI slow */
     }
-    if (is_ocean_tile(pcity->tile)) {
-      v += ai->threats.ocean[-tile_continent(pcity->tile)]
-	? amount/5 : amount/20;
-    } else {
-      adjc_iterate(pcity->tile, tile2) {
-	if (is_ocean_tile(tile2)) {
-	  if (ai->threats.ocean[-tile_continent(tile2)]) {
-	    v += amount/5;
-	    break;
-	  }
-	}
-      } adjc_iterate_end;
+    uclass = affected_unit_class(peffect);
+    if (uclass) {
+      move = uclass_move_type(uclass);
+    }
+
+    if (uclass == NULL || move == SEA_MOVING) {
+      /* Helps against sea units */
+      if (is_ocean_tile(pcity->tile)) {
+        v += ai->threats.ocean[-tile_continent(pcity->tile)]
+          ? amount/5 : amount/20;
+      } else {
+        adjc_iterate(pcity->tile, tile2) {
+          if (is_ocean_tile(tile2)) {
+            if (ai->threats.ocean[-tile_continent(tile2)]) {
+              v += amount/5;
+              break;
+            }
+          }
+        } adjc_iterate_end;
+      }
     }
     v += (amount/20 + ai->threats.invasions - 1) * c; /* for wonder */
-    if (ai->threats.continent[tile_continent(pcity->tile)]
-	|| capital
-	|| (ai->threats.invasions
-	    && is_water_adjacent_to_tile(pcity->tile))) {
-      if (ai->threats.continent[tile_continent(pcity->tile)]) {
-	v += amount;
-      } else {
-	v += amount / (!ai->threats.igwall ? (15 - capital * 5) : 15);
+    if (capital || uclass == NULL || move != SEA_MOVING) {
+      if (ai->threats.continent[tile_continent(pcity->tile)]
+          || capital
+          || (ai->threats.invasions
+              && is_water_adjacent_to_tile(pcity->tile))) {
+        if (ai->threats.continent[tile_continent(pcity->tile)]) {
+          v += amount;
+        } else {
+          v += amount / (!ai->threats.igwall ? (15 - capital * 5) : 15);
+        }
       }
     }
     break;
