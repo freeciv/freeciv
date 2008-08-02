@@ -1296,6 +1296,11 @@ int city_turns_to_build(const struct city *pcity,
 	      ? unit_build_shield_cost(utype_by_number(target.value))
 	      : impr_build_shield_cost(target.value));
 
+  if (!target.is_unit && is_great_wonder(target.value)
+      && great_wonder_was_built(target.value)) {
+    return FC_INFINITY;
+  }
+
   if (include_shield_stock && (city_shield_stock >= cost)) {
     return 1;
   } else if (city_shield_surplus > 0) {
