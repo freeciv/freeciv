@@ -1383,6 +1383,12 @@ int city_turns_to_build(const struct city *pcity,
       city_change_production_penalty(pcity, target) : 0;
   int cost = universal_build_shield_cost(&target);
 
+  if (target.kind == VUT_IMPROVEMENT
+      && is_great_wonder(target.value.building)
+      && great_wonder_was_built(target.value.building)) {
+    return FC_INFINITY;
+  }
+
   if (include_shield_stock && (city_shield_stock >= cost)) {
     return 1;
   } else if (city_shield_surplus > 0) {
