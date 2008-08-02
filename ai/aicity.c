@@ -399,7 +399,7 @@ static int improvement_effect_value(struct player *pplayer,
 {
   int amount = peffect->value;
   struct unit_class *uclass;
-  enum unit_move_type move;
+  enum unit_move_type move = MOVETYPE_LAST;
   int num;
 
   switch (peffect->type) {
