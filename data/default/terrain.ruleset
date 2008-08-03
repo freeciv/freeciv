@@ -245,7 +245,7 @@ cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 native_to            = "Sea", "Air", "Missile", "Helicopter", "Trireme"
 flags                = "Oceanic", "NoCities", "NoPollution", "UnsafeCoast"
-property_ocean_depth = 36
+property_ocean_depth = 32
 helptext             = _("\
 Oceans cover much of the world, and only sea units (Triremes and\
  other boats) can travel on them.\

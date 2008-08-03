@@ -1039,7 +1039,7 @@ static void make_rivers(void)
 
 /**************************************************************************
   make land simply does it all based on a generated heightmap
-  1) with map.landpercent it generates a ocean/grassland map 
+  1) with map.landpercent it generates a ocean/unknown map
   2) it then calls the above functions to generate the different terrains
 **************************************************************************/
 static void make_land(void)
@@ -1054,10 +1054,27 @@ static void make_land(void)
     tile_set_terrain(ptile, T_UNKNOWN); /* set as oceans count is used */
     if (hmap(ptile) < hmap_shore_level) {
       int depth = (hmap_shore_level - hmap(ptile)) * 100 / hmap_shore_level;
+      int ocean = 0;
+      int land = 0;
+
+      /* This is to make shallow connection between continents less likely */
+      adjc_iterate(ptile, other) {
+        if (hmap(other) < hmap_shore_level) {
+          ocean++;
+        } else {
+          land++;
+          break;
+        }
+      } adjc_iterate_end;
+
+      depth += 30 * (ocean - land) / (ocean + land);
+
+      depth = MIN(depth, TERRAIN_OCEAN_DEPTH_MAXIMUM);
 
       tile_set_terrain(ptile, pick_ocean(depth));
     }
   } whole_map_iterate_end;
+
   if (HAS_POLES) {
     renormalize_hmap_poles();
   } 
