@@ -65,8 +65,10 @@ Unit_Type *api_find_role_unit_type(const char *role_name, Player *pplayer)
 
   if (pplayer) {
     return best_role_unit_for_player(pplayer, role);
-  } else {
+  } else if (num_role_units(role) > 0) {
     return get_role_unit(role, 0);
+  } else {
+    return NULL;
   }
 }
 
