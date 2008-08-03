@@ -406,13 +406,16 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
     } else if (pplayer && map_is_known(ptile, pplayer)
 	       && map_get_seen(ptile, pplayer, V_MAIN) == 0) {
       struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
+      struct vision_site *psite = map_get_player_base(ptile, pplayer);
 
       info.known = TILE_KNOWN_UNSEEN;
       info.continent = tile_continent(ptile);
       info.owner = (NULL != tile_owner(ptile))
                    ? player_number(tile_owner(ptile))
                    : MAP_TILE_OWNER_NULL;
-      info.worked = IDENTITY_NUMBER_ZERO;
+      info.worked = (NULL != psite)
+                    ? psite->identity
+                    : IDENTITY_NUMBER_ZERO;
 
       info.terrain = (NULL != plrtile->terrain)
                       ? terrain_number(plrtile->terrain)
