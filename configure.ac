@@ -192,8 +192,8 @@ if test -z "$localedir"; then
 fi
 
 dnl I18n support
-ALL_LINGUAS="ar cs ca da de el en_GB es et fa fi fr he hu it ja ko lt nl nb no pl pt pt_BR ro ru sv tr uk zh_CN"
-AM_GNU_GETTEXT(,need-ngettext)
+ALL_LINGUAS="ar cs ca da de el en_GB eo es et fa fi fr he hu it ja ko lt nl 
+nb no pl pt pt_BR ro ru sv tr uk zh_CN" AM_GNU_GETTEXT(,need-ngettext)
 
 dnl AM_GNU_GETTEXT doesn't have all features we want
 dnl or they don't behave correctly.
