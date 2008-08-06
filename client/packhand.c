@@ -537,7 +537,8 @@ void handle_city_info(struct packet_city_info *packet)
             TILE_XY(packet));
     return;
   } else {
-    name_changed = (0 != strncmp(packet->name, pcity->name, strlen(pcity->name)));
+    name_changed = (0 != strncmp(packet->name, pcity->name,
+                                 sizeof(pcity->name)));
 
     /* Descriptions should probably be updated if the
      * city name, production or time-to-grow changes.
@@ -862,7 +863,8 @@ void handle_city_short_info(struct packet_city_short_info *packet)
             TILE_XY(packet));
     return;
   } else {
-    name_changed = (0 != strncmp(packet->name, pcity->name, strlen(pcity->name)));
+    name_changed = (0 != strncmp(packet->name, pcity->name,
+                                 sizeof(pcity->name)));
 
     /* Check if city desciptions should be updated */
     if (draw_city_names && name_changed) {
