@@ -503,14 +503,12 @@ void handle_city_info(struct packet_city_info *packet)
       city_list_unlink(invisible_cities, pcity);
       city_is_new = TRUE;
 
-      pcity->tile =
+      pcity->tile = pcenter;
       ptile = pcenter;
-      pcity->owner =
+      pcity->owner = powner;
       pcity->original = powner;
 
-      tile_set_owner(pcenter, powner);
-    } else if (tile_owner(ptile) != powner) {
-      /* assumes the tile properly reflects city_owner() */
+    } else if (city_owner(pcity) != powner) {
       client_remove_city(pcity);
       pcity = NULL;
       city_has_changed_owner = TRUE;
@@ -520,7 +518,6 @@ void handle_city_info(struct packet_city_info *packet)
   if (NULL == pcity) {
     city_is_new = TRUE;
     pcity = create_city_virtual(powner, pcenter, packet->name);
-    tile_set_owner(pcenter, powner);
     pcity->id = packet->id;
     idex_register_city(pcity);
     update_descriptions = TRUE;
@@ -830,14 +827,11 @@ void handle_city_short_info(struct packet_city_short_info *packet)
       city_list_unlink(invisible_cities, pcity);
       city_is_new = TRUE;
 
-      pcity->tile =
+      pcity->tile = pcenter;
       ptile = pcenter;
-      pcity->owner =
+      pcity->owner = powner;
       pcity->original = powner;
-
-      tile_set_owner(pcenter, powner);
-    } else if (tile_owner(ptile) != powner) {
-      /* assumes the tile properly reflects city_owner() */
+    } else if (city_owner(pcity) != powner) {
       client_remove_city(pcity);
       pcity = NULL;
       city_has_changed_owner = TRUE;
@@ -847,7 +841,6 @@ void handle_city_short_info(struct packet_city_short_info *packet)
   if (NULL == pcity) {
     city_is_new = TRUE;
     pcity = create_city_virtual(powner, pcenter, packet->name);
-    tile_set_owner(pcenter, powner);
     pcity->id = packet->id;
     idex_register_city(pcity);
   } else if (pcity->id != packet->id) {
