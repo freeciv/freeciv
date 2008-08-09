@@ -2163,9 +2163,6 @@ void city_unit_upkeep(struct unit *punit, int *outputs, int *free_upkeep)
   assert(punit != NULL && pcity != NULL && ut != NULL 
          && free_upkeep != NULL && outputs != NULL);
   memset(outputs, 0, O_COUNT * sizeof(*outputs));
-  output_type_iterate(o) {
-    outputs[o] = utype_upkeep_cost(ut, plr, o);
-  } output_type_iterate_end;
 
   /* set current upkeep on unit to zero */
 
@@ -2174,7 +2171,10 @@ void city_unit_upkeep(struct unit *punit, int *outputs, int *free_upkeep)
     if (cost > 0) {
       if (free_upkeep[o] > cost) {
         free_upkeep[o] -= cost;
-        continue;
+        cost = 0;
+      } else {
+        cost -= free_upkeep[o];
+        free_upkeep[o] = 0;
       }
       outputs[o] = cost;
     }
