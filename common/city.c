@@ -2156,11 +2156,10 @@ int city_unit_unhappiness(struct unit *punit, int *free_unhappy)
 **************************************************************************/
 void city_unit_upkeep(struct unit *punit, int *outputs, int *free_upkeep)
 {
-  struct city *pcity = game_find_city_by_number(punit->homecity);
   struct unit_type *ut = unit_type(punit);
   struct player *plr = unit_owner(punit);
 
-  assert(punit != NULL && pcity != NULL && ut != NULL 
+  assert(punit != NULL && ut != NULL 
          && free_upkeep != NULL && outputs != NULL);
   memset(outputs, 0, O_COUNT * sizeof(*outputs));
 
