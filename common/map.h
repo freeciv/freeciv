@@ -55,6 +55,7 @@ struct civ_map {
   int steepness;
   int num_start_positions;
   bool have_resources;
+  bool ocean_resources;         /* Resources in the middle of the ocean */
   bool have_huts;
   bool have_rivers_overlay;	/* only applies if !have_resources */
   int num_continents;

@@ -1412,7 +1412,8 @@ static void add_resources(int prob)
     if (is_resource_close (ptile) || myrand (1000) > prob) {
       continue;
     }
-    if (!is_ocean(pterrain) || near_safe_tiles (ptile)) {
+    if (!is_ocean(pterrain) || near_safe_tiles (ptile)
+        || map.ocean_resources) {
       int i = 0;
       struct resource **r;
 
