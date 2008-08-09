@@ -1691,6 +1691,9 @@ static void load_ruleset_terrain(struct section_file *file)
   terrain_control.lake_max_size
     = secfile_lookup_int_default(file, 0,
 				 "parameters.lake_max_size");
+  map.ocean_resources
+    = secfile_lookup_bool_default(file, FALSE,
+                                  "parameters.ocean_resources");
   terrain_control.river_move_mode =
     secfile_lookup_int_default(file, RMV_FAST_STRICT, "parameters.river_move_mode");
   terrain_control.river_defense_bonus =
