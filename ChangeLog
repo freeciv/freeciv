@@ -1,4 +1,643 @@
 
+Sun, 10 Aug 2008 03:14:37 -0700  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/po/ar.po
+	   M /branches/S2_1/po/ca.po
+	   M /branches/S2_1/po/cs.po
+	   M /branches/S2_1/po/da.po
+	   M /branches/S2_1/po/de.po
+	   M /branches/S2_1/po/el.po
+	   M /branches/S2_1/po/en_GB.po
+	   M /branches/S2_1/po/es.po
+	   M /branches/S2_1/po/et.po
+	   M /branches/S2_1/po/fa.po
+	   M /branches/S2_1/po/fi.po
+	   M /branches/S2_1/po/fr.po
+	   M /branches/S2_1/po/he.po
+	   M /branches/S2_1/po/hu.po
+	   M /branches/S2_1/po/it.po
+	   M /branches/S2_1/po/ja.po
+	   M /branches/S2_1/po/ko.po
+	   M /branches/S2_1/po/lt.po
+	   M /branches/S2_1/po/nl.po
+	   M /branches/S2_1/po/no.po
+	   M /branches/S2_1/po/pl.po
+	   M /branches/S2_1/po/pt.po
+	   M /branches/S2_1/po/pt_BR.po
+	   M /branches/S2_1/po/ro.po
+	   M /branches/S2_1/po/ru.po
+	   M /branches/S2_1/po/sv.po
+	   M /branches/S2_1/po/tr.po
+	   M /branches/S2_1/po/uk.po
+	   M /branches/S2_1/po/zh_CN.po
+
+	Changes after running 'update-po'
+
+
+Sat, 09 Aug 2008 09:34:11 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/m4/freetype2.m4
+
+	Replaced AS_HELP_STRING with AC_HELP_STRING for supporting older autoconf
+	versions.
+
+	Problem reported by Christian Prochaska.
+	Patch by Daniel Markstedt
+	Ticket #40416
+
+
+Thu, 07 Aug 2008 00:09:08 -0700  chrisk:
+
+	Changed paths:
+	   M /branches/S2_1/po/de.po
+
+	4286 translated messages.
+
+
+Tue, 05 Aug 2008 16:47:39 -0700  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/configure.ac
+	   A /branches/S2_1/po/eo.po
+
+	Add Esperanto translation; sent to me by Antonio C. Codazzi <f_sophia@libero.it>
+
+
+Fri, 01 Aug 2008 21:52:51 -0700  mbook:
+
+	Changed paths:
+	   M /branches/S2_1/common/city.c
+
+	Built great wonders show "never" for turns-to-build.
+
+	See #40382, patch by me.
+
+
+Mon, 28 Jul 2008 11:03:38 -0700  jcreus:
+
+	Changed paths:
+	   M /branches/S2_1/po/ca.po
+
+	updated ca.po
+
+
+Sun, 27 Jul 2008 10:40:27 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/m4/freetype2.m4
+
+	Updated freetype2.m4 from freetype 2.3.7
+
+
+Thu, 24 Jul 2008 10:09:20 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/ai/aihand.c
+	   M /branches/S2_1/common/player.c
+	   M /branches/S2_1/common/player.h
+	   M /branches/S2_1/server/plrhand.c
+	   M /branches/S2_1/server/plrhand.h
+	   M /branches/S2_1/server/srv_main.c
+	   M /branches/S2_1/server/stdinhand.c
+
+	Avoid false "max rates exceeded" -message.
+
+	See #40389
+
+
+Tue, 22 Jul 2008 13:06:55 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/po/POTFILES.in
+
+	Added missing files to POTFILES.in
+
+	See #40391
+
+
+Mon, 21 Jul 2008 17:25:00 -0700  cproc:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-sdl/citydlg.c
+
+	Fix changing of specialists at resolutions higher than 640x480. See PR#40387.
+
+
+Mon, 21 Jul 2008 02:18:48 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/client/text.c
+
+	Fixed client crash in the end of turn in altering movement mode.
+
+	See #40384
+
+
+Mon, 21 Jul 2008 02:14:23 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/server/auth.c
+
+	Fixed error message about illegal auth port parameter.
+
+	See #40385
+
+
+Mon, 21 Jul 2008 02:12:45 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/server/stdinhand.c
+
+	Fixed /take assert when all player slots are in use.
+
+	See #40354
+
+
+Thu, 17 Jul 2008 12:03:57 -0700  cproc:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-sdl/wldlg.c
+
+	Fix crash in the worklist dialog. Reported by Eric Francis <airdrik@go.com> in PR#40378, patch by me.
+
+
+Mon, 14 Jul 2008 13:56:17 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_1/configure.ac
+	   M /branches/S2_1/data/civserver.dsc.in
+	   M /branches/S2_1/m4/ggz.m4
+	   M /branches/S2_1/server/ggzserver.c
+	   M /branches/S2_1/server/ggzserver.h
+	   M /branches/S2_1/server/savegame.c
+	   M /branches/S2_1/server/srv_main.c
+	   M /branches/S2_1/server/stdinhand.c
+	   M /branches/S2_1/server/stdinhand.h
+	   M /branches/S2_2/common/game.h
+	   M /branches/S2_2/configure.ac
+	   M /branches/S2_2/data/civserver.dsc.in
+	   M /branches/S2_2/m4/ggz.m4
+	   M /branches/S2_2/server/ggzserver.c
+	   M /branches/S2_2/server/ggzserver.h
+	   M /branches/S2_2/server/savegame.c
+	   M /branches/S2_2/server/srv_main.c
+	   M /branches/S2_2/server/stdinhand.c
+	   M /branches/S2_2/server/stdinhand.h
+
+	Add ggz-style savegame support.  This also bumps the required version to
+	0.99.4 for server support.
+
+	Patch by me in PR#40317.
+
+
+Mon, 14 Jul 2008 08:47:57 -0700  cproc:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-sdl/cityrep.c
+
+	Fix city report size calculations. Reported by Eric Francis <airdrik@go.com> in PR#40328, patch by me.
+
+
+Mon, 14 Jul 2008 08:34:32 -0700  cproc:
+
+	Changed paths:
+	   M /branches/S2_1/client/connectdlg_common.c
+	   M /branches/S2_1/utility/shared.c
+
+	Make the internal server store savegames in the user's home directory on Windows. See PR#40341.
+
+
+Thu, 10 Jul 2008 02:48:15 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/common/city.h
+	   M /branches/S2_1/server/cityturn.c
+
+	Introduced city_list_iterate_safe. Used it to fix potential problems when
+	city starves.
+
+	See #40367
+
+
+Mon, 07 Jul 2008 23:28:19 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_1/server/auth.c
+	   M /branches/S2_2/server/auth.c
+
+	Fix forward enumeration references in auth.c.
+
+	Patch by me in PR#40366.
+
+
+Mon, 07 Jul 2008 02:16:49 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/common/tech.c
+	   M /branches/S2_1/server/barbarian.c
+	   M /branches/S2_1/server/savegame.c
+	   M /branches/S2_1/server/srv_main.c
+	   M /branches/S2_1/server/techtools.c
+	   M /branches/S2_1/server/techtools.h
+
+	Fixed crash when loading saved game when tech leakage is enabled.
+
+	Reported by Chris Williams, ticket #40027
+
+
+Mon, 07 Jul 2008 02:03:49 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-gtk-2.0/wldlg.c
+	   M /branches/S2_1/client/packhand.c
+	   M /branches/S2_1/common/improvement.c
+	   M /branches/S2_1/common/improvement.h
+	   M /branches/S2_1/server/ruleset.c
+
+	Do not mark buildings redundant, when they allow building of unit.
+
+	See #40359
+
+
+Sun, 06 Jul 2008 07:33:36 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/server/gotohand.c
+	   M /branches/S2_1/server/gotohand.h
+	   M /branches/S2_1/server/srv_main.c
+
+	Free mappos arrays.
+
+	See #40352
+
+
+Thu, 03 Jul 2008 08:08:31 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_1/server/gamehand.c
+	   M /branches/S2_2/server/gamehand.c
+
+	Disable hack challenge when in GGZ mode.
+
+	Patch by me in PR#40311.
+
+
+Wed, 02 Jul 2008 23:24:18 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_1/server/ggzserver.c
+	   M /branches/S2_2/server/ggzserver.c
+
+	Fix GGZ handlers for error and spectator events.
+
+	Patch by me in PR#40357.
+
+
+Wed, 02 Jul 2008 10:13:20 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/common/requirements.c
+	   M /branches/S2_1/common/terrain.c
+	   M /branches/S2_1/common/terrain.h
+	   M /branches/S2_1/server/citytools.c
+	   M /branches/S2_1/server/generator/mapgen.c
+	   M /branches/S2_1/server/maphand.c
+
+	For terrain and special requirements in range "Adjacent" check
+	also tile itself. This allows building Hydro Plant in city placed
+	on one tile river.
+
+	Reported by HanduMan, ticket #40347
+
+
+Mon, 30 Jun 2008 02:55:07 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/Makefile.am
+
+	Distribute new m4-files.
+
+	See #40345
+
+
+Thu, 26 Jun 2008 15:33:31 -0700  mbook:
+
+	Changed paths:
+	   M /branches/S2_1/common/city.c
+
+	Fix printing of obsolete wonders.
+
+	See #39982.
+
+	Patch by Jacob Nevins <jacobn+freecivrt@chiark.greenend.org.uk>.
+	Signed-off-by: Madeline Book <madeline.book@gmail.com>
+
+
+Thu, 26 Jun 2008 12:34:24 -0700  cazfi:
+
+	Changed paths:
+	   A /branches/S2_1/m4/codeset.m4
+	   M /branches/S2_1/m4/locale.m4
+
+	locale.m4 cleanup
+	- Added standard codeset.m4, which provides AM_LANGINFO_CODESET
+	- Serial number syntax fixed
+
+	See #40301
+
+
+Tue, 24 Jun 2008 20:44:42 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-gtk-2.0/gui_main.c
+	   M /branches/S2_1/common/capstr.h
+	   M /branches/S2_1/configure.ac
+	   M /branches/S2_1/data/civclient.dsc.in
+	   M /branches/S2_1/data/civserver.dsc.in
+	   M /branches/S2_1/m4/version.m4
+	   M /branches/S2_1/version.in
+	   M /branches/S2_2/client/gui-gtk-2.0/gui_main.c
+	   M /branches/S2_2/common/capstr.h
+	   M /branches/S2_2/configure.ac
+	   M /branches/S2_2/data/civclient.dsc.in
+	   M /branches/S2_2/data/civserver.dsc.in
+	   M /branches/S2_2/version.in
+
+	Separate mandatory and optional capabilities in the capstring.  This is
+	needed so that GGZ can distinguish by the mandatory capabilities only.
+
+	Patch by me in PR#40308.
+
+
+Tue, 24 Jun 2008 12:29:50 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-gtk-2.0/gui_main.c
+	   M /branches/S2_1/client/packhand.c
+	   M /branches/S2_1/common/game.c
+
+	Fix to global observer crash in connectdialog.
+	Reverting previous attempt to fix this.
+
+	See #40303
+
+
+Mon, 23 Jun 2008 18:14:33 -0700  mbook:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-gtk-2.0/dialogs.c
+	   M /branches/S2_1/client/gui-gtk-2.0/plrdlg.c
+
+	Fix visual corruption in flag images.
+
+	See #40246, patch by me.
+
+
+Mon, 23 Jun 2008 18:14:22 -0700  mbook:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-gtk-2.0/cityrep.c
+
+	Show total buy cost for selected cities in the city report.
+
+	See #40291, patch by me.
+
+
+Mon, 23 Jun 2008 16:49:58 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/server/stdinhand.c
+	   M /branches/S2_1/server/stdinhand.c
+	   M /branches/S2_2/server/stdinhand.c
+
+	Don't reset the wrong player name when a player is /cut in pregame.
+
+	See PR#39503.
+
+
+Mon, 23 Jun 2008 15:47:25 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-gtk-2.0/pages.c
+	   M /branches/S2_2/client/gui-gtk-2.0/pages.c
+
+	Go straight to the network page when autoconnecting to a server that needs a password.
+
+	Patch from PR#38354.
+
+
+Sun, 22 Jun 2008 17:19:27 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/client/packhand.c
+	   M /branches/S2_1/client/packhand.c
+	   M /branches/S2_2/client/packhand.c
+
+	Fix incorrect setting of map.num_continents when continents are renumbered.
+
+	Reported by Stephen Jolley <s_jolley@yahoo.com> in PR#39472.  Patch by me.
+
+
+Sun, 22 Jun 2008 04:39:30 -0700  cproc:
+
+	Changed paths:
+	   M /branches/S2_1/client/servers.c
+
+	add missing check for EWOULDBLOCK. Reported by Madeline Book in PR#40297, patch by me.
+
+
+Sun, 22 Jun 2008 02:10:53 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-gtk-2.0/gui_main.c
+
+	- Fixed sensitivity of Start and Pick Nation buttons
+	- Pick Nation button text now turn in to Take Player when appropriate
+
+	See #40234
+
+
+Sun, 22 Jun 2008 00:00:27 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-gtk-2.0/gui_main.c
+
+	Fixed global oserver crash on connectdlg.
+
+	See #40303
+
+
+Sat, 21 Jun 2008 21:05:26 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/utility/netintf.c
+
+	Handle empty http_proxy environment variable correctly.
+
+	Reported by Christian Knoke as part of #16526.
+
+
+Sat, 21 Jun 2008 19:55:48 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/server/unittools.c
+
+	Make message about paratrooper dying on paradrop
+	more likely to appear to user.
+
+	Reported by Karl Goetz and Nick Schulten
+	Patch by Ulrik Sverdrup, ticket #40295
+
+
+Sat, 21 Jun 2008 06:00:12 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/server/citytools.c
+	   M /branches/S2_1/server/maphand.c
+
+	Refresh cities after shared vision gained from another player, possibly
+	revealing new tiles.
+
+	See #40262
+
+
+Sat, 21 Jun 2008 04:18:47 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/scripts/setup_auth_server.sh
+	   M /branches/S2_1/server/auth.c
+
+	Use Mysql port information from authentication config file.
+
+	See #40293
+
+
+Thu, 19 Jun 2008 13:18:38 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/client/servers.c
+	   M /branches/S2_1/server/sernet.c
+
+	Fixed winsock related compiler warnings.
+
+	See #40281
+
+
+Thu, 19 Jun 2008 13:14:11 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/Makefile.am
+	   A /branches/S2_1/m4/lib-ld.m4
+	   A /branches/S2_1/m4/lib-link.m4
+	   A /branches/S2_1/m4/lib-prefix.m4
+
+	Added lib-link.m4, lib-prefix.m4 and lib-ld.m4. Already present macros
+	depend on these.
+
+
+Thu, 19 Jun 2008 04:21:07 -0700  chrisk:
+
+	Changed paths:
+	   M /branches/S2_1/po/de.po
+
+	4280 translated messages.
+
+
+Wed, 18 Jun 2008 10:25:15 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/common/game.h
+	   M /branches/S2_1/server/stdinhand.c
+
+	Made all-AI games possible again.
+
+	See #40288
+
+
+Wed, 18 Jun 2008 08:17:23 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/server/settings.c
+	   M /branches/S2_1/server/stdinhand.c
+
+	Only human players count toward minplayers.
+
+	See #40206
+
+
+Tue, 17 Jun 2008 11:30:07 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/m4/debug.m4
+
+	Fixed setting of debug compiler flags.
+
+	See #40287
+
+
+Tue, 17 Jun 2008 06:07:46 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/Makefile.am
+	   A /branches/S2_1/bootstrap/config.rpath
+	   M /branches/S2_1/m4/iconv.m4
+
+	Updated iconv.m4
+
+	See #40275
+
+
+Mon, 16 Jun 2008 06:14:06 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/Makefile.am
+	   M /branches/S2_1/configure.ac
+	   A /branches/S2_1/m4/compiler.m4
+	   D /branches/S2_1/m4/esd.m4
+
+	Backported configure related bugfixes from S2_2
+
+	See #40268
+
+
+Mon, 16 Jun 2008 06:05:14 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/ai/advdiplomacy.c
+
+	Fixed bug that AI tried to get unreachable techs from treaty.
+
+	Patch by Per. See #38372
+
+
+Mon, 16 Jun 2008 05:57:54 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/client/goto.c
+
+	Fixed compiler warning in goto code.
+
+	See #40265
+
+
+Mon, 16 Jun 2008 00:55:43 -0700  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/version.in
+
+	Bump version to 2.1.5+
+
+
+Mon, 16 Jun 2008 00:20:15 -0700  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/ChangeLog
+
+	Update changelog for 2.1.5
+
+
 Mon, 16 Jun 2008 00:02:24 -0700  dmarks:
 
 	Changed paths:
