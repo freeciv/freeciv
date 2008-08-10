@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-06-16 15:56+0900\n"
+"POT-Creation-Date: 2008-08-03 19:47+0900\n"
 "PO-Revision-Date: 2006-03-26 14:53+0800\n"
 "Last-Translator: Hongjia Cao <hjcao@yahoo.com>\n"
 "Language-Team: zh_CN <i18n-translation@linux.net.cn>\n"
@@ -50,21 +50,21 @@ msgstr "娱乐"
 msgid "Science"
 msgstr "科研"
 
-#: common/city.c:352
-msgid "?obsolete:O"
-msgstr "淘"
-
-#: common/city.c:355
-msgid "?redundant:*"
-msgstr "冗"
-
-#: common/city.c:360
+#: common/city.c:350
 msgid "?built:B"
 msgstr "成"
 
-#: common/city.c:362
+#: common/city.c:352
 msgid "?wonder:w"
 msgstr "奇"
+
+#: common/city.c:359
+msgid "?obsolete:O"
+msgstr "淘"
+
+#: common/city.c:362
+msgid "?redundant:*"
+msgstr "冗"
 
 #: common/connection.c:515
 #, c-format
@@ -500,81 +500,81 @@ msgstr "正在连接中"
 msgid "AI Debug messages"
 msgstr ""
 
-#: common/player.c:727
+#: common/player.c:732
 msgid "?attitude:Genocidal"
 msgstr "种族灭绝"
 
-#: common/player.c:729
+#: common/player.c:734
 msgid "?attitude:Belligerent"
 msgstr "交战中"
 
-#: common/player.c:731
+#: common/player.c:736
 msgid "?attitude:Hostile"
 msgstr "敌对"
 
-#: common/player.c:733
+#: common/player.c:738
 msgid "?attitude:Uncooperative"
 msgstr "不合作"
 
-#: common/player.c:735
+#: common/player.c:740
 msgid "?attitude:Uneasy"
 msgstr "不安"
 
-#: common/player.c:737
+#: common/player.c:742
 msgid "?attitude:Neutral"
 msgstr "中立"
 
-#: common/player.c:739
+#: common/player.c:744
 msgid "?attitude:Respectful"
 msgstr "谦恭的"
 
-#: common/player.c:741
+#: common/player.c:746
 msgid "?attitude:Helpful"
 msgstr "有益的"
 
-#: common/player.c:743
+#: common/player.c:748
 msgid "?attitude:Enthusiastic"
 msgstr "狂热的"
 
-#: common/player.c:745
+#: common/player.c:750
 msgid "?attitude:Admiring"
 msgstr "钦佩的"
 
-#: common/player.c:748
+#: common/player.c:753
 msgid "?attitude:Worshipful"
 msgstr "崇拜的"
 
-#: common/player.c:759
+#: common/player.c:764
 msgid "?diplomatic_state:Armistice"
 msgstr "停火"
 
-#: common/player.c:760
+#: common/player.c:765
 msgid "?diplomatic_state:War"
 msgstr "战争"
 
-#: common/player.c:761 client/gui-gtk-2.0/diplodlg.c:361
+#: common/player.c:766 client/gui-gtk-2.0/diplodlg.c:361
 #: client/gui-sdl/diplodlg.c:462 client/gui-win32/diplodlg.c:307
 #: client/gui-xaw/diplodlg.c:524
 msgid "?diplomatic_state:Cease-fire"
 msgstr "停火"
 
-#: common/player.c:762 client/gui-gtk-2.0/diplodlg.c:366
+#: common/player.c:767 client/gui-gtk-2.0/diplodlg.c:366
 #: client/gui-sdl/diplodlg.c:476 client/gui-win32/diplodlg.c:308
 #: client/gui-xaw/diplodlg.c:528
 msgid "?diplomatic_state:Peace"
 msgstr "和平"
 
-#: common/player.c:763 client/gui-gtk-2.0/diplodlg.c:371
+#: common/player.c:768 client/gui-gtk-2.0/diplodlg.c:371
 #: client/gui-sdl/diplodlg.c:491 client/gui-win32/diplodlg.c:309
 #: client/gui-xaw/diplodlg.c:532
 msgid "?diplomatic_state:Alliance"
 msgstr "同盟"
 
-#: common/player.c:764
+#: common/player.c:769
 msgid "?diplomatic_state:Never met"
 msgstr "未遇"
 
-#: common/player.c:765
+#: common/player.c:770
 msgid "?diplomatic_state:Team"
 msgstr "团队"
 
@@ -620,13 +620,13 @@ msgstr "%s 部队"
 msgid "Size %d"
 msgstr "规模 %d"
 
-#: common/tech.c:707 client/gui-gtk-2.0/repodlgs.c:498
+#: common/tech.c:715 client/gui-gtk-2.0/repodlgs.c:498
 #, c-format
 msgid "Future Tech. %d"
 msgstr "未来技术 %d"
 
 #. TRANS: "None" tech
-#: common/tech.c:782 common/tech.c:786 server/settings.c:41
+#: common/tech.c:790 common/tech.c:794 server/settings.c:41
 #: client/gui-gtk-2.0/helpdlg.c:110 client/gui-sdl/citydlg.c:722
 #: client/gui-sdl/gui_tilespec.c:482 client/gui-sdl/helpdlg.c:371
 #: client/gui-sdl/helpdlg.c:403 client/gui-sdl/helpdlg.c:792
@@ -638,65 +638,65 @@ msgstr "未来技术 %d"
 msgid "None"
 msgstr "无"
 
-#: common/tech.c:790
+#: common/tech.c:798
 msgid "Future Tech."
 msgstr "未来技术"
 
 #. TRANS: "Unknown" advance/technology
-#: common/tech.c:795 client/gui-gtk-2.0/inteldlg.c:386
+#: common/tech.c:803 client/gui-gtk-2.0/inteldlg.c:386
 msgid "(Unknown)"
 msgstr "（未知）"
 
-#: common/terrain.c:387 common/terrain.c:568 common/unit.c:550
+#: common/terrain.c:392 common/terrain.c:574 common/unit.c:550
 #: manual/civmanual.c:224
 msgid "Road"
 msgstr "公路"
 
-#: common/terrain.c:388 common/terrain.c:575 common/unit.c:554
+#: common/terrain.c:393 common/terrain.c:581 common/unit.c:554
 #: client/gui-gtk-2.0/menu.c:798 client/gui-sdl/optiondlg.c:1906
 #: client/gui-win32/menu.c:344 client/gui-xaw/menu.c:151
 #: manual/civmanual.c:224
 msgid "Irrigation"
 msgstr "水利"
 
-#: common/terrain.c:389 common/terrain.c:566 common/unit.c:564
+#: common/terrain.c:394 common/terrain.c:572 common/unit.c:564
 #: data/default/techs.ruleset:581 data/civ2/techs.ruleset:566
 #: data/civ1/techs.ruleset:563
 msgid "Railroad"
 msgstr "铁路"
 
-#: common/terrain.c:390 common/terrain.c:579 common/unit.c:552
+#: common/terrain.c:395 common/terrain.c:585 common/unit.c:552
 msgid "Mine"
 msgstr "矿井"
 
-#: common/terrain.c:391 common/unit.c:548 server/report.c:124
+#: common/terrain.c:396 common/unit.c:548 server/report.c:124
 #: client/cityrepdata.c:521 client/gui-sdl/optiondlg.c:1773
 msgid "Pollution"
 msgstr "污染"
 
-#: common/terrain.c:392
+#: common/terrain.c:397
 msgid "Hut"
 msgstr "茅屋"
 
-#: common/terrain.c:393 common/terrain.c:583 common/unit.c:560
+#: common/terrain.c:398 common/terrain.c:589 common/unit.c:560
 #: manual/civmanual.c:226
 msgid "Fortress"
 msgstr "要塞"
 
-#: common/terrain.c:394
+#: common/terrain.c:399
 msgid "River"
 msgstr "河流"
 
-#: common/terrain.c:395 common/terrain.c:573
+#: common/terrain.c:400 common/terrain.c:579
 msgid "Farmland"
 msgstr "农场"
 
-#: common/terrain.c:396 common/terrain.c:587 common/unit.c:574
+#: common/terrain.c:401 common/terrain.c:593 common/unit.c:574
 #: manual/civmanual.c:226
 msgid "Airbase"
 msgstr "空军基地"
 
-#: common/terrain.c:397 common/unit.c:576
+#: common/terrain.c:402 common/unit.c:576
 msgid "Fallout"
 msgstr "辐射"
 
@@ -964,79 +964,79 @@ msgid " (total %d repeat)"
 msgid_plural " (total %d repeats)"
 msgstr[0] " （共重复 %d 次）"
 
-#: utility/shared.c:176
+#: utility/shared.c:177
 #, c-format
 msgid "Empty argument for \"%s\".\n"
 msgstr "“%s”参数为空。\n"
 
-#: utility/shared.c:180
+#: utility/shared.c:181
 #, c-format
 msgid "Missing argument for \"%s\".\n"
 msgstr "缺少参数“%s”。\n"
 
-#: utility/shared.c:500
+#: utility/shared.c:501
 #, c-format
 msgid "%d BC"
 msgstr "公元前 %d"
 
-#: utility/shared.c:502
+#: utility/shared.c:503
 #, c-format
 msgid "%d AD"
 msgstr "公元 %d"
 
-#: utility/shared.c:899
+#: utility/shared.c:924
 msgid "FREECIV_PATH is set but empty; using default path instead."
 msgstr "FREECIV_PATH 已设置但为空；以默认路径代替。"
 
-#: utility/shared.c:1003
+#: utility/shared.c:1028
 #, c-format
 msgid "Could not read data directory %s: %s."
 msgstr "无法读取数据目录 %s：%s。"
 
-#: utility/shared.c:1254
+#: utility/shared.c:1279
 msgid "The data path may be set via the environment variable FREECIV_PATH."
 msgstr "可以通过环境变量 FREECIV_PATH 来设置数据路径。"
 
-#: utility/shared.c:1256
+#: utility/shared.c:1281
 #, c-format
 msgid "Current data path is: \"%s\""
 msgstr "当前数据路径为：“%s”"
 
-#: utility/shared.c:1258
+#: utility/shared.c:1283
 #, c-format
 msgid "The \"%s\" file is required ... aborting!"
 msgstr "文件“%s”是必需的 …… 中止！"
 
-#: utility/shared.c:1435
+#: utility/shared.c:1460
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr "%s：致命错误：您试图以超级用户权限运行游戏！\n"
 
-#: utility/shared.c:1437
+#: utility/shared.c:1462
 msgid "Use a non-privileged account instead.\n"
 msgstr "请用非特权用户。\n"
 
-#: utility/shared.c:1453
+#: utility/shared.c:1478
 msgid "exact match"
 msgstr "精确匹配"
 
-#: utility/shared.c:1454
+#: utility/shared.c:1479
 msgid "only match"
 msgstr "唯一的匹配"
 
-#: utility/shared.c:1455
+#: utility/shared.c:1480
 msgid "ambiguous"
 msgstr "模糊"
 
-#: utility/shared.c:1456
+#: utility/shared.c:1481
 msgid "empty"
 msgstr "空"
 
-#: utility/shared.c:1457
+#: utility/shared.c:1482
 msgid "too long"
 msgstr "太长"
 
-#: utility/shared.c:1458
+#: utility/shared.c:1483
 msgid "non-match"
 msgstr "无匹配"
 
@@ -1065,108 +1065,108 @@ msgstr " %1$s 开始在 %3$s 中建造 %2$s。"
 msgid "%s is selling %s (not needed) for %d."
 msgstr " %1$s正在以 %3$d 出售 %2$s （不需要的）。"
 
-#: ai/advdiplomacy.c:279
+#: ai/advdiplomacy.c:280
 #, c-format
 msgid "*%s (AI)* In away mode AI can't sign such a treaty."
 msgstr "*%s (AI)* 在离开模式下 AI 不能签订这样的条约。"
 
-#: ai/advdiplomacy.c:289
+#: ai/advdiplomacy.c:290
 #, c-format
 msgid "*%s (AI)* First break alliance with %s, %s."
 msgstr "*%s (AI)* 请首先与 %s 解除同盟，%s。"
 
-#: ai/advdiplomacy.c:302
+#: ai/advdiplomacy.c:303
 #, c-format
 msgid "*%s (AI)* Let us first cease hostilies, %s."
 msgstr "*%s (AI)* 首先让我们停止敌对状态吧，%s。"
 
-#: ai/advdiplomacy.c:307
+#: ai/advdiplomacy.c:308
 #, c-format
 msgid ""
 "*%s (AI)* I wish to see you keep the current ceasefire for a bit longer "
 "first, %s."
 msgstr "*%s (AI)* 我想先看到你能保持当前的停火状态更久的时间，%s。"
 
-#: ai/advdiplomacy.c:330
+#: ai/advdiplomacy.c:331
 #, c-format
 msgid "*%s (AI)* I simply do not trust you with an alliance yet, %s."
 msgstr "*%s (AI)* 我还不能信任与你结盟，%s。"
 
-#: ai/advdiplomacy.c:423
+#: ai/advdiplomacy.c:424
 #, c-format
 msgid "*%s (AI)* I do not know the city you mention."
 msgstr "*%s (AI)* 我不知道你说的那个城市。"
 
-#: ai/advdiplomacy.c:453
+#: ai/advdiplomacy.c:454
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is not safe."
 msgstr "* %s (AI)* 对不起，和你共享视野不安全。"
 
-#: ai/advdiplomacy.c:559
+#: ai/advdiplomacy.c:560
 #, c-format
 msgid "*%s (AI)* This deal was not very good for us, %s!"
 msgstr "*%s (AI)* 这宗交易对我们没有好处，%s！"
 
-#: ai/advdiplomacy.c:581
+#: ai/advdiplomacy.c:582
 #, c-format
 msgid "*%s (AI)* Welcome into our alliance %s!"
 msgstr "*%s (AI)* 欢迎加入我们的同盟，%s！"
 
-#: ai/advdiplomacy.c:585
+#: ai/advdiplomacy.c:586
 #, c-format
 msgid "*%s (AI)* Yes, may we forever stand united, %s."
 msgstr "*%s (AI)* 是的，让我们永远团结在一起，%s"
 
-#: ai/advdiplomacy.c:592
+#: ai/advdiplomacy.c:593
 #, c-format
 msgid "*%s (AI)* Yes, peace in our time!"
 msgstr "*%s (AI)* 是的，我们和平相处！"
 
-#: ai/advdiplomacy.c:597
+#: ai/advdiplomacy.c:598
 #, c-format
 msgid "*%s (AI)* Agreed. No more hostilities, %s."
 msgstr "*%s (AI)* 同意。不再敌对，%s"
 
-#: ai/advdiplomacy.c:812
+#: ai/advdiplomacy.c:813
 #, c-format
 msgid ""
 "*%s (AI)* Greetings %s! May we suggest a ceasefire while we get to know each "
 "other better?"
 msgstr "*%s (AI)* 您好 %s！让我们停火，以增加互相了解好吗？"
 
-#: ai/advdiplomacy.c:1092
+#: ai/advdiplomacy.c:1097
 #, c-format
 msgid "*%s (AI)* Space will never be yours. "
 msgstr "*%s (AI)* 你永远都得不到太空。 "
 
-#: ai/advdiplomacy.c:1097
+#: ai/advdiplomacy.c:1102
 #, c-format
 msgid "*%s (AI)* I have tolerated your vicious antics long enough! To war!"
 msgstr "*%s (AI)* 我已经忍受你邪恶的行为很久了！战争！"
 
-#: ai/advdiplomacy.c:1103
+#: ai/advdiplomacy.c:1108
 #, c-format
 msgid "*%s (AI)* Peace in ... some other time."
 msgstr "*%s (AI)* 和平……再说吧"
 
-#: ai/advdiplomacy.c:1108
+#: ai/advdiplomacy.c:1113
 #, c-format
 msgid ""
 "*%s (AI)* Finally I get around to you! Did you really think you could get "
 "away with your crimes?"
 msgstr "*%s (AI)* 终于落到我手上了！你真以为你能逃脱你的罪行吗？"
 
-#: ai/advdiplomacy.c:1114
+#: ai/advdiplomacy.c:1119
 #, c-format
 msgid "*%s (AI)* Your covert hostilities brought this war upon you!"
 msgstr "*%s (AI)* 你偷偷摸摸的的敌对行为引来了这场战争！"
 
-#: ai/advdiplomacy.c:1121
+#: ai/advdiplomacy.c:1126
 #, c-format
 msgid "*%s (AI)* Your aggression against %s was your last mistake!"
 msgstr "*%s (AI)*  对 %s 的攻击是你最后一次错误！"
 
-#: ai/advdiplomacy.c:1204
+#: ai/advdiplomacy.c:1209
 #, c-format
 msgid ""
 "*%s (AI)* We will be launching an all-out war against %s in %d turn to stop "
@@ -1176,14 +1176,14 @@ msgid_plural ""
 "the spaceship launch."
 msgstr[0] ""
 
-#: ai/advdiplomacy.c:1214
+#: ai/advdiplomacy.c:1219
 #, c-format
 msgid ""
 "*%s (AI)* Your aid in this matter will be expected. Long live our glorious "
 "alliance!"
 msgstr "*%s (AI)* 在这件事情上我们期望得到你的帮助。我们光荣的同盟万岁！"
 
-#: ai/advdiplomacy.c:1220
+#: ai/advdiplomacy.c:1225
 #, c-format
 msgid ""
 "*%s (AI)* %s has grossly violated his treaties with us for own gain.  We "
@@ -1195,7 +1195,7 @@ msgid_plural ""
 "us and do likewise!"
 msgstr[0] ""
 
-#: ai/advdiplomacy.c:1233
+#: ai/advdiplomacy.c:1238
 #, c-format
 msgid ""
 "*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We "
@@ -1205,13 +1205,13 @@ msgid_plural ""
 "declare war in %d turns."
 msgstr[0] "*%s (AI)* 我们想掠夺富有的 %s 文明。我们将在 %d 回合内宣战。"
 
-#: ai/advdiplomacy.c:1241
+#: ai/advdiplomacy.c:1246
 #, c-format
 msgid ""
 "*%s (AI)* If you want a piece of the loot, feel free to join in the action!"
 msgstr "*%s (AI)* 如果你想分点战利品，那就参加行动吧！"
 
-#: ai/advdiplomacy.c:1246
+#: ai/advdiplomacy.c:1251
 #, c-format
 msgid ""
 "*%s (AI)* We have had it with %s. Let us tear this pathetic civilization "
@@ -1221,12 +1221,12 @@ msgid_plural ""
 "apart. We declare war in %d turns."
 msgstr[0] ""
 
-#: ai/advdiplomacy.c:1256
+#: ai/advdiplomacy.c:1261
 #, c-format
 msgid "*%s (AI)* As our glorious allies, we expect your help in this war."
 msgstr "*%s (AI)* 作为为我们光荣的盟友，我们希望您能在这次战争中帮忙。"
 
-#: ai/advdiplomacy.c:1262
+#: ai/advdiplomacy.c:1267
 #, c-format
 msgid ""
 "*%s (AI)* We will honour our alliance and declare war on %s in %d turn.  "
@@ -1238,7 +1238,7 @@ msgstr[0] ""
 "*%1$s (AI)* 我们将兑现同盟的承诺，在 %3$d 回合内向 %2$s 宣战。坚持住－－我们"
 "来了！"
 
-#: ai/advdiplomacy.c:1271
+#: ai/advdiplomacy.c:1276
 #, c-format
 msgid ""
 "*%s (AI)* We will honour our alliance with %s and declare war on %s in %d "
@@ -1250,40 +1250,40 @@ msgstr[0] ""
 "*%1$s (AI)* 我们将兑现与 %2$s 同盟的承诺并在 %4$d 回合内向 %3$s 宣战。我们希"
 "望您也这样做。"
 
-#: ai/advdiplomacy.c:1339
+#: ai/advdiplomacy.c:1344
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to conquer space for yourself alone betray your true "
 "intentions, and I will have no more of our alliance!"
 msgstr "*%s (AI)* 你想一个人征服太空的尝试暴露了你的真实意图，我不再和你结盟！"
 
-#: ai/advdiplomacy.c:1354
+#: ai/advdiplomacy.c:1359
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to unilaterally dominate outer space is highly "
 "offensive."
 msgstr "*%s (AI)* 你想单边地统治我们外部太空的行为具有很大的冒犯性。"
 
-#: ai/advdiplomacy.c:1357
+#: ai/advdiplomacy.c:1362
 #, c-format
 msgid ""
 "*%s (AI)* If you do not stop constructing your spaceship, I may be forced to "
 "take action!"
 msgstr "*%s (AI)* 如果你不停止建造太空飞船，我将被迫采取行动！"
 
-#: ai/advdiplomacy.c:1469
+#: ai/advdiplomacy.c:1474
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is no longer safe."
 msgstr "* %s (AI)* 对不起，和你共享视野不再安全。"
 
-#: ai/advdiplomacy.c:1544
+#: ai/advdiplomacy.c:1549
 #, c-format
 msgid ""
 "*%s (AI)* Greetings our most trustworthy ally. We call upon you to destroy "
 "our enemy, %s."
 msgstr "*%s (AI)* 您好，我们最值得信任的盟友，我们邀请您去消灭我们的敌人，%s。"
 
-#: ai/advdiplomacy.c:1550
+#: ai/advdiplomacy.c:1555
 #, c-format
 msgid ""
 "*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %"
@@ -1292,7 +1292,7 @@ msgstr ""
 "*%s (AI)* 您好，盟友，我发现您还没有同我们的敌人 %s 宣战。为什么非要我提醒您"
 "所许下的承诺呢？"
 
-#: ai/advdiplomacy.c:1557
+#: ai/advdiplomacy.c:1562
 #, c-format
 msgid ""
 "*%s (AI)* Dishonoured one, we made a pact of alliance, and yet you remain at "
@@ -1302,26 +1302,26 @@ msgstr ""
 "*%s (AI)* 无耻的家伙，我们订立了同盟协定，但是你还同我们的死敌 %s 保持和平！"
 "这是不能容忍的，我们的同盟结束了！"
 
-#: ai/advdiplomacy.c:1587
+#: ai/advdiplomacy.c:1592
 #, c-format
 msgid ""
 "*%s (AI)* Greetings friend, may we suggest making a common cause and join in "
 "an alliance?"
 msgstr "*%s (AI)* 您好，朋友，我们订立协定并结盟好吗？"
 
-#: ai/advdiplomacy.c:1602
+#: ai/advdiplomacy.c:1607
 #, c-format
 msgid "*%s (AI)* Greetings neighbour, may we suggest more peaceful relations?"
 msgstr "*%s (AI)* 您好，邻居，我们可以建立更加和平的关系吗？"
 
-#: ai/advdiplomacy.c:1617
+#: ai/advdiplomacy.c:1622
 #, fuzzy, c-format
 msgid ""
 "*%s (AI)* We grow weary of this constant bloodshed. May we suggest a "
 "cessation of hostilities?"
 msgstr "*%s (AI)* 我们厌倦了这种时常的流血。我们可以终止敌对行为吗？"
 
-#: ai/advdiplomacy.c:1737
+#: ai/advdiplomacy.c:1742
 #, c-format
 msgid ""
 "*%s (AI)* We have been savagely attacked by %s, and we need your help! "
@@ -1331,133 +1331,138 @@ msgstr ""
 "吧，您的名字将会被永世不忘！"
 
 #. TRANS: Further information about option will follow.
-#: server/auth.c:168
+#: server/auth.c:170
 #, fuzzy, c-format
 msgid "Auth option \"%s\":"
 msgstr "所有选项"
 
 #. TRANS: After 'Auth option "user":'. Option value
 #. may have been inserted between these.
-#: server/auth.c:181
+#: server/auth.c:183
 msgid " missing from config file (using default)"
 msgstr ""
 
 #. TRANS: auth option originates from internal default
-#: server/auth.c:184
+#: server/auth.c:186
 msgid " (default)"
 msgstr ""
 
 #. TRANS: auth option originates from config file
-#: server/auth.c:189
+#: server/auth.c:191
 msgid " (config)"
 msgstr ""
 
 #. TRANS: auth option has been set from prompt
-#: server/auth.c:193
+#: server/auth.c:195
 #, fuzzy
 msgid " (set)"
 msgstr " (老兵)"
 
-#: server/auth.c:266
+#: server/auth.c:234
+#, c-format
+msgid "Illegal value for auth port: \"%s\""
+msgstr ""
+
+#: server/auth.c:284
 #, fuzzy, c-format
 msgid "Auth config filename \"%s\" not allowed!"
 msgstr "不能使用该名字。"
 
-#: server/auth.c:271
+#: server/auth.c:289
 #, fuzzy, c-format
 msgid "Cannot load auth config file \"%s\"!"
 msgstr "无法找到音效文件 %s"
 
-#: server/auth.c:377
+#: server/auth.c:400
 #, c-format
 msgid "Warning: the guest name '%s' has been taken, renaming to user '%s'."
 msgstr "警告： 客人名字“%s”已被使用，更名为“%s”。"
 
-#: server/auth.c:384
+#: server/auth.c:407
 msgid "Guests are not allowed on this server. Sorry."
 msgstr "抱歉，此服务器不允许访客。"
 
-#: server/auth.c:386
+#: server/auth.c:409
 #, fuzzy, c-format
 msgid "%s was rejected: Guests not allowed."
 msgstr "%s 被拒绝：重复的登录名 [%s]。"
 
-#: server/auth.c:405
+#: server/auth.c:428
 #, c-format
 msgid ""
 "There was an error reading the user database, logging in as guest connection "
 "'%s'."
 msgstr "读取用户数据库发生错误，将作为客人连接“%s”登录。"
 
-#: server/auth.c:411
+#: server/auth.c:434
 msgid ""
 "There was an error reading the user database and guest logins are not "
 "allowed. Sorry"
 msgstr "读取用户数据库发生错误并且不允许客人登录。抱歉"
 
-#: server/auth.c:414
+#: server/auth.c:437
 #, c-format
 msgid "%s was rejected: Database error and guests not allowed."
 msgstr ""
 
-#: server/auth.c:421
+#: server/auth.c:444
 #, c-format
 msgid "Enter password for %s:"
 msgstr "请输入 %s 的口令："
 
-#: server/auth.c:430
+#: server/auth.c:453
 msgid "Enter a new password (and remember it)."
 msgstr "请输入新口令（并记住它）。"
 
-#: server/auth.c:436
+#: server/auth.c:459
 msgid "This server allows only preregistered users. Sorry."
 msgstr "此服务器只允许预先注册的用户。抱歉。"
 
-#: server/auth.c:439
+#: server/auth.c:462
 #, fuzzy, c-format
 msgid "%s was rejected: Only preregister users allowed."
 msgstr "此服务器只允许预先注册的用户。抱歉。"
 
-#: server/auth.c:468 server/auth.c:527
+#: server/auth.c:491 server/auth.c:550
 msgid "Sorry, too many wrong tries..."
 msgstr "抱歉，太多错误尝试了……"
 
-#: server/auth.c:469
+#: server/auth.c:492
 #, c-format
 msgid "%s was rejected: Too many wrong password verifies for new user."
 msgstr ""
 
-#: server/auth.c:485
+#: server/auth.c:508
 msgid ""
 "Warning: There was an error in saving to the database. Continuing, but your "
 "stats will not be saved."
 msgstr ""
 "警告： 保存到数据库过程中发生错误。继续中，但是您的统计信息将不会被保存。"
 
-#: server/auth.c:529
+#: server/auth.c:552
 #, fuzzy, c-format
 msgid "%s was rejected: Too many wrong password tries."
 msgstr "%s 被拒绝：不匹配的功能。"
 
-#: server/auth.c:538
+#: server/auth.c:561
 msgid "Your password is incorrect. Try again."
 msgstr "您的口令不正确。请再试一次。"
 
-#: server/auth.c:549
+#: server/auth.c:572
 msgid "Sorry, your connection timed out..."
 msgstr ""
 
-#: server/auth.c:551
+#: server/auth.c:574
 #, c-format
 msgid "%s was rejected: Connection timeout waiting for password."
 msgstr ""
 
-#: server/auth.c:616
+#: server/auth.c:639
 #, c-format
 msgid "Your password is too short, the minimum length is %d. Try again."
 msgstr "您的口令太短，最小长度是 %d 。请再试一次。"
 
-#: server/auth.c:622
+#: server/auth.c:645
 #, c-format
 msgid ""
 "The password must have at least %d capital letters, %d numbers, and be at "
@@ -3239,25 +3244,34 @@ msgstr "您在 %s 中煽动起义时引发了意外。"
 msgid "%s have caused an incident while inciting a revolt in %s."
 msgstr "%s 在 %s 中煽动起义时引发了意外。"
 
-#: server/gamehand.c:136
+#: server/gamehand.c:137
 #, c-format
 msgid "Sea moving start units are not yet supported. Nobody gets %s."
 msgstr "还不支持海洋移动的初始部队。没人得到 %s 。"
 
-#: server/gamehand.c:309 client/text.c:628
+#: server/gamehand.c:310 client/text.c:632
 #, c-format
 msgid "Year: %s"
 msgstr "年代：%s"
 
-#: server/gamehand.c:388
+#: server/gamehand.c:389
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum"
 msgstr "回合超时超出了最大值，改正为其最大值"
 
-#: server/gamehand.c:396
+#: server/gamehand.c:397
 msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr "回合超时小于0，改正为0 。"
 
-#: server/ggzserver.c:207 client/ggzclient.c:109
+#: server/ggzserver.c:123
+msgid "Unable to make temporary directory for GGZ game.\n"
+msgstr ""
+
+#: server/ggzserver.c:131
+#, c-format
+msgid "Unable to change into temporary server directory %s.\n"
+msgstr ""
+
+#: server/ggzserver.c:266 client/ggzclient.c:109
 msgid "Only the GGZ client must call civclient in ggz mode!\n"
 msgstr ""
 
@@ -3300,25 +3314,25 @@ msgstr "没有名为 %s 的连接。"
 msgid "There is no player nor connection by the name %s."
 msgstr "没有名为 %s 的玩家或连接。"
 
-#: server/maphand.c:253
+#: server/maphand.c:252
 msgid "Global warming has occurred!"
 msgstr "发生全球变暖！"
 
-#: server/maphand.c:255
+#: server/maphand.c:254
 msgid ""
 "Coastlines have been flooded and vast ranges of grassland have become "
 "deserts."
 msgstr "海岸被淹没，大范围的草地变成了沙漠。"
 
-#: server/maphand.c:297
+#: server/maphand.c:296
 msgid "Nuclear winter has occurred!"
 msgstr "核冬天来临！"
 
-#: server/maphand.c:299
+#: server/maphand.c:298
 msgid "Wetlands have dried up and vast ranges of grassland have become tundra."
 msgstr "湿地变干，大范围的草地变成了苔原。"
 
-#: server/maphand.c:320
+#: server/maphand.c:319
 msgid ""
 "New hope sweeps like fire through the country as the discovery of railroad "
 "is announced.\n"
@@ -3327,7 +3341,7 @@ msgstr ""
 "铁路研究成功的消息像火一样在全国燃起了新的希望。\n"
 "        工人们自发地集结起来并用铁路升级了所有的城市。"
 
-#: server/maphand.c:326
+#: server/maphand.c:325
 msgid ""
 "The people are pleased to hear that your scientists finally know about "
 "railroads.\n"
@@ -3336,12 +3350,12 @@ msgstr ""
 "人民为您的科学家最终掌握了铁路而激励。\n"
 "        工人们自发地集结起来并用铁路升级了所有的城市。"
 
-#: server/maphand.c:1416
+#: server/maphand.c:1418
 #, c-format
 msgid "Moved your %s due to changing terrain."
 msgstr "因为改变地形而移动了您的 %s 。"
 
-#: server/maphand.c:1434
+#: server/maphand.c:1436
 #, c-format
 msgid "Disbanded your %s due to changing terrain."
 msgstr "因为改变地形而解散了您的 %s 。"
@@ -3399,119 +3413,119 @@ msgstr "革命：回到无政府状态。"
 msgid "You should choose a new government from the government menu."
 msgstr "您应该从政府菜单中选择一个新的政府。"
 
-#: server/plrhand.c:425
+#: server/plrhand.c:424
 #, c-format
 msgid "Tax rate exceeded the max rate for %s; adjusted."
 msgstr "税率超出了 %s 的最高比率；已调整。"
 
-#: server/plrhand.c:431
+#: server/plrhand.c:429
 #, c-format
 msgid "Science rate exceeded the max rate for %s; adjusted."
 msgstr "科研比率超出了 %s 的最高比率；已调整。"
 
-#: server/plrhand.c:437
+#: server/plrhand.c:434
 #, c-format
 msgid "Luxury rate exceeded the max rate for %s; adjusted."
 msgstr "娱乐比率超出了 %s 的最高比率；已调整。"
 
-#: server/plrhand.c:492
+#: server/plrhand.c:489
 #, c-format
 msgid "%s no longer gives us shared vision!"
 msgstr "%s 不再向您提供共享视野！"
 
-#: server/plrhand.c:503
+#: server/plrhand.c:500
 #, c-format
 msgid ""
 "The senate will not allow you to break treaty with the %s.  You must either "
 "dissolve the senate or wait until a more timely moment."
 msgstr "议会不允许您撕毁与 %s 的协定。您必须解散议会或者等待更合适的时机。"
 
-#: server/plrhand.c:556
+#: server/plrhand.c:553
 #, c-format
 msgid ""
 "The senate passes your bill because of the constant provocations of the %s."
 msgstr "由于 %s 不断的挑衅，议会通过了您的提案。"
 
-#: server/plrhand.c:561
+#: server/plrhand.c:558
 #, c-format
 msgid ""
 "The senate refuses to break treaty with the %s, but you have no trouble "
 "finding a new senate."
 msgstr "议会拒绝撕毁与 %s 的协定，但是您可以很容易建立新的议会。"
 
-#: server/plrhand.c:593
+#: server/plrhand.c:590
 #, c-format
 msgid "The diplomatic state between the %s and the %s is now %s."
 msgstr "%s 和 %s 之间的外交状态现在为 %s。"
 
-#: server/plrhand.c:599
+#: server/plrhand.c:596
 #, c-format
 msgid ""
 " %s canceled the diplomatic agreement! The diplomatic state between the %s "
 "and the %s is now %s."
 msgstr "%s 取消了外交协定！ %s 和 %s 间的外交状态现在为 %s。"
 
-#: server/plrhand.c:617
+#: server/plrhand.c:614
 #, c-format
 msgid ""
 "%s has attacked your ally %s! You cancel your alliance to the aggressor."
 msgstr "%s 攻击了您的同盟 %s ！您取消了和侵略者的同盟。"
 
-#: server/plrhand.c:629
+#: server/plrhand.c:626
 #, c-format
 msgid ""
 "Your team mate %s declared war on %s. You are obligated to cancel alliance "
 "with %s."
 msgstr "您的团队伙伴 %s 对 %s 宣战了。您被迫取消了与 %s 的同盟。"
 
-#: server/plrhand.c:1101
+#: server/plrhand.c:1098
 #, c-format
 msgid "Removing player %s."
 msgstr "正在删除玩家 %s。"
 
-#: server/plrhand.c:1103
+#: server/plrhand.c:1100
 msgid "You've been removed from the game!"
 msgstr "您已经被从游戏中删除了！"
 
-#: server/plrhand.c:1106
+#: server/plrhand.c:1103
 #, c-format
 msgid "%s has been removed from the game."
 msgstr "%s 已经被从游戏中删除了。"
 
-#: server/plrhand.c:1149 server/plrhand.c:1154
+#: server/plrhand.c:1146 server/plrhand.c:1151
 #, c-format
 msgid "You have made contact with the %s, ruled by %s."
 msgstr "您联系到了 %s ，它由 %s 所统治。"
 
-#: server/plrhand.c:1174
+#: server/plrhand.c:1171
 #, fuzzy, c-format
 msgid ""
 "%s and %s meet and go to instant war. You cancel your alliance with both."
 msgstr "%s 攻击了您的同盟 %s ！您取消了和侵略者的同盟。"
 
-#: server/plrhand.c:1652
+#: server/plrhand.c:1649
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr "不能把 %s 牵入内战 － 玩家太多"
 
-#: server/plrhand.c:1659
+#: server/plrhand.c:1656
 #, fuzzy, c-format
 msgid "Could not throw %s into civil war - no available nations"
 msgstr "不能把 %s 牵入内战 － 玩家太多"
 
-#: server/plrhand.c:1682
+#: server/plrhand.c:1679
 #, c-format
 msgid ""
 "Your nation is thrust into civil war,  %s is declared the leader of the "
 "rebel states."
 msgstr "您的国家被推入内战，%s 被宣布为起义政府的首领。"
 
-#: server/plrhand.c:1703
+#: server/plrhand.c:1700
 #, c-format
 msgid "%s declares allegiance to %s."
 msgstr "%s 向 %s 表示效忠。"
 
-#: server/plrhand.c:1718
+#: server/plrhand.c:1715
 #, fuzzy, c-format
 msgid ""
 "Capture of the %s capital and destruction of the empire's administrative\n"
@@ -3766,11 +3780,11 @@ msgstr "%2$s（%3$s） 的 %1$s"
 msgid "Could not find a readable \"%s.%s\" ruleset file."
 msgstr "无法找到可读的“%s.%s”规则集文件。"
 
-#: server/ruleset.c:2348
+#: server/ruleset.c:2356
 msgid "No barbarian nation in rulesets, at least one required!"
 msgstr ""
 
-#: server/ruleset.c:3158
+#: server/ruleset.c:3166
 msgid "Loading rulesets"
 msgstr "正在载入规则集"
 
@@ -3785,7 +3799,7 @@ msgstr ""
 "存盘文件含有不完整的地图数据。这可能是旧的存盘游戏，或者表明这是一个无效的存"
 "盘文件。如果继续的话后果自负。"
 
-#: server/savegame.c:3590
+#: server/savegame.c:3588
 #, fuzzy
 msgid "Saved game is too old, at least version 1.9.0 required."
 msgstr "Savegame 太陈旧，至少需要 1.9.0 版本。"
@@ -3805,13 +3819,13 @@ msgid ""
 msgstr "警告： 不同的规则集合目录（“%s”和“%s”）不再支持。将使用“%s”。"
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame.c:4046
+#: server/savegame.c:4053
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr ""
 
 #. TRANS: ... <Danish> alliance to <Poles>....
-#: server/savegame.c:4068
+#: server/savegame.c:4075
 #, fuzzy, c-format
 msgid ""
 "Illegal alliance structure detected: %s alliance to %s reduced to peace "
@@ -3846,7 +3860,7 @@ msgstr "内部"
 msgid "Networking"
 msgstr "网络"
 
-#: server/settings.c:42 client/gui-gtk-2.0/dialogs.c:730
+#: server/settings.c:42 client/gui-gtk-2.0/dialogs.c:732
 #: client/gui-win32/dialogs.c:532
 msgid "All"
 msgstr "全部"
@@ -4180,9 +4194,10 @@ msgid "Minimum number of players"
 msgstr "最少的玩家数"
 
 #: server/settings.c:419
+#, fuzzy
 msgid ""
-"There must be at least this many players (connected human players or AI "
-"players) before the game can start."
+"There must be at least this many players (connected human players) before "
+"the game can start."
 msgstr "至少有这么多的玩家(接入的玩家或电脑玩家)才能开始游戏。"
 
 #: server/settings.c:426
@@ -5118,102 +5133,102 @@ msgstr "将游戏保存为 %s 失败"
 msgid "Game saved as %s"
 msgstr "游戏已存为 %s"
 
-#: server/srv_main.c:960
+#: server/srv_main.c:962
 msgid "The game is already running."
 msgstr "游戏已经运行。"
 
-#: server/srv_main.c:968
+#: server/srv_main.c:970
 #, c-format
 msgid "%s lost control cmdlevel on game start.  Use voting from now on."
 msgstr "游戏开始时 %s 失去了控制命令级别。从现在开始使用投票。"
 
-#: server/srv_main.c:975
+#: server/srv_main.c:977
 msgid "Starting game."
 msgstr "正在启动游戏。"
 
-#: server/srv_main.c:1032
+#: server/srv_main.c:1039
 #, c-format
 msgid "request for unknown report (type %d)"
 msgstr "未知的报告请求（类型 %d）"
 
-#: server/srv_main.c:1097
+#: server/srv_main.c:1104
 #, c-format
 msgid "Warning: rejecting old client %s"
 msgstr "警告： 拒绝旧的客户端 %s "
 
-#: server/srv_main.c:1199
+#: server/srv_main.c:1206
 #, c-format
 msgid "Got a packet of type %d from a dead or observer player"
 msgstr "收到来自死亡或观察者玩家的类型为 %d 的报文"
 
-#: server/srv_main.c:1299
+#: server/srv_main.c:1306
 msgid "Please choose a non-blank name."
 msgstr "请选择一个非空的名字。"
 
-#: server/srv_main.c:1315
+#: server/srv_main.c:1322
 msgid "That nation is already in use."
 msgstr "该民族已经被使用了。"
 
-#: server/srv_main.c:1331
+#: server/srv_main.c:1338
 #, c-format
 msgid "Another player already has the name '%s'.  Please choose another name."
 msgstr "其它的玩家已经使用了名字“%s”。请选择另一个名字。"
 
-#: server/srv_main.c:1352
+#: server/srv_main.c:1359
 msgid "Please choose a name containing only ASCII characters."
 msgstr "请选择一个仅包含 ASCII 字符的名字。"
 
-#: server/srv_main.c:1451
+#: server/srv_main.c:1458
 #, c-format
 msgid "%s nation is not available in this scenario."
 msgstr "民族 %s 在这个情景中不能使用。"
 
-#: server/srv_main.c:1457
+#: server/srv_main.c:1464
 #, c-format
 msgid "%s nation is already in use."
 msgstr "%s 民族已经被使用了。"
 
-#: server/srv_main.c:1475
+#: server/srv_main.c:1482
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s 成为 %s 的统治者 %s 。"
 
-#: server/srv_main.c:1531
+#: server/srv_main.c:1538
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr "等待游戏开始：%2$d 个玩家中的 %1$d 个已经准备就绪。"
 
-#: server/srv_main.c:1580 server/srv_main.c:1584
+#: server/srv_main.c:1587 server/srv_main.c:1591
 #, c-format
 msgid "%s has been added as %s level AI-controlled player."
 msgstr "%s 已经作为 %s 级别的 AI 玩家加入。"
 
-#: server/srv_main.c:1718
+#: server/srv_main.c:1725
 #, c-format
 msgid "Player %d"
 msgstr "玩家 %d"
 
-#: server/srv_main.c:1729 server/srv_main.c:1735
+#: server/srv_main.c:1736 server/srv_main.c:1742
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s 统治 %s。"
 
-#: server/srv_main.c:1900
+#: server/srv_main.c:1907
 msgid ""
 "This civserver program has player authentication support, but it's currently "
 "not in use."
 msgstr ""
 
-#: server/srv_main.c:1951
+#: server/srv_main.c:1958
 #, c-format
 msgid "Sending info to metaserver [%s]"
 msgstr "将信息发送到元服务器 [%s]"
 
-#: server/srv_main.c:1982
+#: server/srv_main.c:1989
 msgid "The game is over..."
 msgstr "游戏结束..."
 
-#: server/srv_main.c:2195
+#: server/srv_main.c:2202
 msgid "Now accepting new client connections."
 msgstr "现在接受新客户端的连接。"
 
@@ -5537,7 +5552,7 @@ msgstr "动态超时设置为 %d %d %d %d"
 msgid "Option:"
 msgstr "选项："
 
-#: server/stdinhand.c:1553 server/stdinhand.c:3956
+#: server/stdinhand.c:1553 server/stdinhand.c:3972
 msgid "Description:"
 msgstr "描述："
 
@@ -5986,30 +6001,30 @@ msgstr "从 %s 脱离 。"
 msgid "%s now controls %s (%s, %s)"
 msgstr "%s 现在控制 %s （%s，%s）"
 
-#: server/stdinhand.c:3080 server/stdinhand.c:4185
+#: server/stdinhand.c:3080 server/stdinhand.c:4201
 #: data/nation/barbarian.ruleset:3
 msgid "Barbarian"
 msgstr "野人"
 
-#: server/stdinhand.c:3082 server/stdinhand.c:4187 client/plrdlg_common.c:256
-#: client/gui-gtk-2.0/pages.c:2027 client/gui-sdl/plrdlg.c:645
+#: server/stdinhand.c:3082 server/stdinhand.c:4203 client/plrdlg_common.c:256
+#: client/gui-gtk-2.0/pages.c:2029 client/gui-sdl/plrdlg.c:645
 #: client/gui-win32/connectdlg.c:201 client/gui-win32/plrdlg.c:335
 msgid "AI"
 msgstr "AI"
 
-#: server/stdinhand.c:3083 server/stdinhand.c:4189
-#: client/gui-gtk-2.0/pages.c:2027 client/gui-gtk-2.0/pages.c:2050
+#: server/stdinhand.c:3083 server/stdinhand.c:4205
+#: client/gui-gtk-2.0/pages.c:2029 client/gui-gtk-2.0/pages.c:2052
 #: client/gui-win32/connectdlg.c:201 client/gui-win32/connectdlg.c:213
 msgid "Human"
 msgstr "真人"
 
-#: server/stdinhand.c:3085 client/gui-gtk-2.0/pages.c:2026
-#: client/gui-gtk-2.0/pages.c:2049 client/gui-win32/connectdlg.c:200
+#: server/stdinhand.c:3085 client/gui-gtk-2.0/pages.c:2028
+#: client/gui-gtk-2.0/pages.c:2051 client/gui-win32/connectdlg.c:200
 #: client/gui-win32/connectdlg.c:212
 msgid "Alive"
 msgstr "活的"
 
-#: server/stdinhand.c:3086 client/gui-gtk-2.0/pages.c:2026
+#: server/stdinhand.c:3086 client/gui-gtk-2.0/pages.c:2028
 #: client/gui-win32/connectdlg.c:200
 msgid "Dead"
 msgstr "死的"
@@ -6147,34 +6162,40 @@ msgstr "%s 已经认输，不可能赢得游戏了。"
 msgid "You cannot surrender now."
 msgstr "您现在不能投降。"
 
-#: server/stdinhand.c:3815
-msgid "Not enough players, game will not start."
+#: server/stdinhand.c:3824
+#, fuzzy
+msgid "Not enough human players, game will not start."
 msgstr "玩家人数不足，不能开始游戏。"
 
-#: server/stdinhand.c:3819
+#: server/stdinhand.c:3829
+#, fuzzy
+msgid "No players, game will not start."
+msgstr "玩家人数不足，不能开始游戏。"
+
+#: server/stdinhand.c:3833
 #, fuzzy
 msgid "Not enough nations for all players, game will not start."
 msgstr "玩家人数不足，不能开始游戏。"
 
-#: server/stdinhand.c:3828
+#: server/stdinhand.c:3842
 msgid "All players are ready; starting game."
 msgstr "所有玩家就绪；启动游戏。"
 
-#: server/stdinhand.c:3842
+#: server/stdinhand.c:3856
 msgid ""
 "Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr "无法开始游戏：游戏正在等待所有的客户端断开连接。"
 
-#: server/stdinhand.c:3849
+#: server/stdinhand.c:3863
 msgid "Cannot start the game: it is already running."
 msgstr "无法开始游戏：它已经在运行了。"
 
-#: server/stdinhand.c:3878
+#: server/stdinhand.c:3894
 #, c-format
 msgid "Cutting connection %s."
 msgstr "切断连接 %s。"
 
-#: server/stdinhand.c:3897
+#: server/stdinhand.c:3913
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -6212,121 +6233,121 @@ msgstr ""
 "  save   -  保存当前游戏\n"
 "  quit   -  退出"
 
-#: server/stdinhand.c:3932 server/stdinhand.c:3935
+#: server/stdinhand.c:3948 server/stdinhand.c:3951
 msgid "Command:"
 msgstr "命令："
 
-#: server/stdinhand.c:3939
+#: server/stdinhand.c:3955
 msgid "Synopsis: "
 msgstr "提要： "
 
-#: server/stdinhand.c:3948
+#: server/stdinhand.c:3964
 #, c-format
 msgid "Level: %s"
 msgstr "级别： %s"
 
-#: server/stdinhand.c:3973
+#: server/stdinhand.c:3989
 msgid "The following server commands are available:"
 msgstr "可以使用下列服务器命令："
 
-#: server/stdinhand.c:4048
+#: server/stdinhand.c:4064
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "帮助参数“%s”有歧义。"
 
-#: server/stdinhand.c:4053
+#: server/stdinhand.c:4069
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "没有匹配的帮助参数“%s”。"
 
-#: server/stdinhand.c:4119
+#: server/stdinhand.c:4135
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "错误的列表参数：“%s”。试用“%shelp list”。"
 
-#: server/stdinhand.c:4159
+#: server/stdinhand.c:4175
 msgid "List of players:"
 msgstr "玩家列表："
 
-#: server/stdinhand.c:4164
+#: server/stdinhand.c:4180
 msgid "<no players>"
 msgstr "<无玩家>"
 
-#: server/stdinhand.c:4181
+#: server/stdinhand.c:4197
 #, c-format
 msgid "user %s, "
 msgstr "用户 %s，"
 
-#: server/stdinhand.c:4192
+#: server/stdinhand.c:4208
 msgid ", Dead"
 msgstr "，死亡"
 
-#: server/stdinhand.c:4195
+#: server/stdinhand.c:4211
 #, c-format
 msgid ", difficulty level %s"
 msgstr "，难度级别 %s"
 
 #. TRANS: continue list, in case comma is not the separator of choice.
-#: server/stdinhand.c:4200 server/stdinhand.c:4204 client/helpdata.c:238
-#: client/helpdata.c:750 client/text.c:185 client/text.c:1159
-#: client/text.c:1197
+#: server/stdinhand.c:4216 server/stdinhand.c:4220 client/helpdata.c:238
+#: client/helpdata.c:750 client/text.c:185 client/text.c:1163
+#: client/text.c:1201
 #, c-format
 msgid "?clistmore:, %s"
 msgstr " %s"
 
-#: server/stdinhand.c:4208
+#: server/stdinhand.c:4224
 msgid ", ready"
 msgstr "，就绪"
 
-#: server/stdinhand.c:4210
+#: server/stdinhand.c:4226
 msgid ", not ready"
 msgstr "未就绪"
 
-#: server/stdinhand.c:4218
+#: server/stdinhand.c:4234
 #, c-format
 msgid " %d connection:"
 msgid_plural " %d connections:"
 msgstr[0] " %d 个连接："
 
-#: server/stdinhand.c:4224
+#: server/stdinhand.c:4240
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
 msgstr "  %s 来自 %s （命令访问级别 %s ），缓冲区大小 ＝ %d kb"
 
-#: server/stdinhand.c:4229
+#: server/stdinhand.c:4245
 msgid " (observer mode)"
 msgstr " （旁观者模式）"
 
-#: server/stdinhand.c:4247
+#: server/stdinhand.c:4263
 msgid "List of teams:"
 msgstr "团队列表："
 
 #. TRANS: There will always be at least 2 players here.
-#: server/stdinhand.c:4257
+#: server/stdinhand.c:4273
 #, c-format
 msgid "%2d : '%s' : %d player"
 msgid_plural "%2d : '%s' : %d players"
 msgstr[0] "%2d ：“%s” ： %d 个玩家"
 
-#: server/stdinhand.c:4277
+#: server/stdinhand.c:4293
 #, c-format
 msgid "%2d : '%s' : 1 player : %s"
 msgstr "%2d ： “%s” ： 1 个玩家 ： %s"
 
-#: server/stdinhand.c:4285
+#: server/stdinhand.c:4301
 #, c-format
 msgid "Empty team: %s"
 msgstr "空团队： %s "
 
-#: server/stdinhand.c:4296
+#: server/stdinhand.c:4312
 msgid "List of connections to server:"
 msgstr "到服务器的连接列表："
 
-#: server/stdinhand.c:4300
+#: server/stdinhand.c:4316
 msgid "<no connections>"
 msgstr "<无连接>"
 
-#: server/stdinhand.c:4324
+#: server/stdinhand.c:4340
 msgid "List of scenarios available:"
 msgstr "可用的情景列表："
 
@@ -6394,17 +6415,17 @@ msgstr "全世界的知名科学家加入您的文明：您立刻得到一项进展。"
 msgid "Technology goal is %s."
 msgstr "科技目标为 %s。"
 
-#: server/techtools.c:698
+#: server/techtools.c:700
 #, fuzzy, c-format
 msgid "You steal %s from the %s."
 msgstr "您从 %2$s 中窃取了 %1$s。"
 
-#: server/techtools.c:703
+#: server/techtools.c:705
 #, fuzzy, c-format
 msgid "The %s stole %s from you!"
 msgstr "%s 从您这里偷去了 %s！"
 
-#: server/techtools.c:708
+#: server/techtools.c:710
 #, fuzzy, c-format
 msgid "The %s have stolen %s from the %s."
 msgstr "%1$s 从 %3$s 窃取了 %2$s 。"
@@ -7029,8 +7050,8 @@ msgstr[0] "%3d 回合"
 
 #: client/citydlg_common.c:243 client/citydlg_common.c:365 client/text.c:572
 #: client/agents/cma_fec.c:249 client/agents/cma_fec.c:283
-#: client/gui-gtk-2.0/citydlg.c:1416 client/gui-sdl/cityrep.c:529
-#: client/gui-sdl/cityrep.c:1053 client/gui-sdl/wldlg.c:1352
+#: client/gui-gtk-2.0/citydlg.c:1416 client/gui-sdl/cityrep.c:533
+#: client/gui-sdl/cityrep.c:1058 client/gui-sdl/wldlg.c:1352
 #: client/gui-sdl/wldlg.c:1357 client/gui-win32/citydlg.c:455
 msgid "never"
 msgstr "从不"
@@ -7235,8 +7256,8 @@ msgid "Best defending units"
 msgstr "最佳防御部队"
 
 #: client/cityrepdata.c:474 client/cityrepdata.c:478
-#: client/gui-gtk-2.0/cityrep.c:1220 client/gui-gtk-2.0/cityrep.c:1241
-#: client/gui-gtk-2.0/cityrep.c:1260 client/gui-gtk-2.0/cityrep.c:1279
+#: client/gui-gtk-2.0/cityrep.c:1225 client/gui-gtk-2.0/cityrep.c:1246
+#: client/gui-gtk-2.0/cityrep.c:1265 client/gui-gtk-2.0/cityrep.c:1284
 #: client/gui-gtk-2.0/menu.c:810 client/gui-gtk-2.0/repodlgs.c:960
 #: client/gui-sdl/helpdlg.c:688 client/gui-sdl/mapctrl.c:1605
 #: client/gui-sdl/optiondlg.c:1827 client/gui-sdl/repodlgs.c:356
@@ -7406,8 +7427,8 @@ msgstr "污"
 msgid "?cma:Governor"
 msgstr "管理者"
 
-#: client/cityrepdata.c:523 client/gui-gtk-2.0/cityrep.c:1226
-#: client/gui-gtk-2.0/cityrep.c:1499 client/gui-sdl/citydlg.c:3809
+#: client/cityrepdata.c:523 client/gui-gtk-2.0/cityrep.c:1231
+#: client/gui-gtk-2.0/cityrep.c:1504 client/gui-sdl/citydlg.c:3809
 #: client/gui-sdl/cma_fe.c:858 client/gui-win32/citydlg.c:726
 #: data/Freeciv.in:1459 data/helpdata.txt:820
 msgid "Citizen Governor"
@@ -7665,19 +7686,19 @@ msgid ""
 "%d times"
 msgstr "自动每隔 %4$f 秒以“%3$s”连接服务器“%1$s”端口 %2$d  %5$d 次"
 
-#: client/connectdlg_common.c:79 client/gui-gtk-2.0/pages.c:1286
+#: client/connectdlg_common.c:79 client/gui-gtk-2.0/pages.c:1288
 msgid "novice"
 msgstr "极易"
 
-#: client/connectdlg_common.c:80 client/gui-gtk-2.0/pages.c:1286
+#: client/connectdlg_common.c:80 client/gui-gtk-2.0/pages.c:1288
 msgid "easy"
 msgstr "容易"
 
-#: client/connectdlg_common.c:81 client/gui-gtk-2.0/pages.c:1287
+#: client/connectdlg_common.c:81 client/gui-gtk-2.0/pages.c:1289
 msgid "normal"
 msgstr "普通"
 
-#: client/connectdlg_common.c:82 client/gui-gtk-2.0/pages.c:1287
+#: client/connectdlg_common.c:82 client/gui-gtk-2.0/pages.c:1289
 msgid "hard"
 msgstr "困难"
 
@@ -7685,31 +7706,31 @@ msgstr "困难"
 msgid "experimental"
 msgstr "实验性"
 
-#: client/connectdlg_common.c:212
+#: client/connectdlg_common.c:213
 msgid "Starting server..."
 msgstr "正在启动服务器……"
 
-#: client/connectdlg_common.c:329
+#: client/connectdlg_common.c:332
 msgid "Couldn't start the server."
 msgstr "无法启动服务器。"
 
-#: client/connectdlg_common.c:330 client/connectdlg_common.c:363
+#: client/connectdlg_common.c:333 client/connectdlg_common.c:366
 msgid "You'll have to start one manually. Sorry..."
 msgstr "您必须手工启动一个游戏。抱歉..."
 
-#: client/connectdlg_common.c:361
+#: client/connectdlg_common.c:364
 msgid "Couldn't connect to the server."
 msgstr "不能连接到服务器。"
 
-#: client/connectdlg_common.c:362
+#: client/connectdlg_common.c:365
 msgid "We probably couldn't start it from here."
 msgstr "或许我们不能从这里启动之。"
 
-#: client/connectdlg_common.c:467
+#: client/connectdlg_common.c:470
 msgid "We have control of the server (command access level hack)"
 msgstr "获得对服务器的控制（命令访问级别 hack）。"
 
-#: client/connectdlg_common.c:472
+#: client/connectdlg_common.c:475
 msgid "We can't take control of server, attempting to kill it."
 msgstr "不能获得对服务器的控制，正在尝试关闭服务器。"
 
@@ -8913,13 +8934,13 @@ msgstr "名字"
 msgid "Username"
 msgstr "用户名"
 
-#: client/plrdlg_common.c:251 client/gui-gtk-2.0/dialogs.c:650
-#: client/gui-gtk-2.0/pages.c:2082
+#: client/plrdlg_common.c:251 client/gui-gtk-2.0/dialogs.c:651
+#: client/gui-gtk-2.0/pages.c:2084
 msgid "Flag"
 msgstr "国旗"
 
-#: client/plrdlg_common.c:252 client/gui-gtk-2.0/dialogs.c:654
-#: client/gui-gtk-2.0/pages.c:1533 client/gui-gtk-2.0/pages.c:2084
+#: client/plrdlg_common.c:252 client/gui-gtk-2.0/dialogs.c:655
+#: client/gui-gtk-2.0/pages.c:1535 client/gui-gtk-2.0/pages.c:2086
 #: client/gui-sdl/repodlgs.c:2063 client/gui-win32/connectdlg.c:988
 #: client/gui-win32/dialogs.c:542 client/gui-win32/plrdlg.c:335
 msgid "Nation"
@@ -8933,7 +8954,7 @@ msgstr "国界"
 msgid "Score"
 msgstr "分数"
 
-#: client/plrdlg_common.c:255 client/gui-gtk-2.0/pages.c:1539
+#: client/plrdlg_common.c:255 client/gui-gtk-2.0/pages.c:1541
 msgid "Team"
 msgstr "团队"
 
@@ -9293,118 +9314,123 @@ msgstr "黄金：%d （%+d）"
 msgid "Tax: %d Lux: %d Sci: %d"
 msgstr "税：%d 娱：%d 研：%d"
 
-#: client/text.c:606
+#: client/text.c:607
+#, fuzzy
+msgid "Moving: Nobody"
+msgstr "移动中：%s"
+
+#: client/text.c:609
 #, c-format
 msgid "Moving: %s"
 msgstr "移动中：%s"
 
-#: client/text.c:609
+#: client/text.c:613
 msgid "(Click for more info)"
 msgstr "（点击以查看更多信息）"
 
-#: client/text.c:625
+#: client/text.c:629
 #, c-format
 msgid "%s People"
 msgstr "%s 人口"
 
-#: client/text.c:629
+#: client/text.c:633
 #, c-format
 msgid "Turn: %d"
 msgstr "回合：%d"
 
-#: client/text.c:631 client/gui-win32/inteldlg.c:111
+#: client/text.c:635 client/gui-win32/inteldlg.c:111
 #: client/gui-xaw/inteldlg.c:208
 #, c-format
 msgid "Gold: %d"
 msgstr "黄金：%d"
 
-#: client/text.c:632
+#: client/text.c:636
 #, c-format
 msgid "Net Income: %d"
 msgstr "净收入：%d"
 
 #. TRANS: Gold, luxury, and science rates are in percentage values.
-#: client/text.c:635
+#: client/text.c:639
 #, c-format
 msgid "Tax rates: Gold:%d%% Luxury:%d%% Science:%d%%"
 msgstr "税率：黄金：%d%% 娱乐：%d%% 科研：%d%%"
 
-#: client/text.c:639
+#: client/text.c:643
 #, c-format
 msgid "Researching %s: %s"
 msgstr "正在研究 %s：%s"
 
-#: client/text.c:646
+#: client/text.c:650
 #, c-format
 msgid "Global warming chance: %d%% (%+d%%/turn)"
 msgstr "全球变暖几率：%d%% （%+d%%/回合）"
 
-#: client/text.c:649
+#: client/text.c:653
 #, c-format
 msgid "Nuclear winter chance: %d%% (%+d%%/turn)"
 msgstr "核冬天几率：%d%% （%+d%%/回合）"
 
-#: client/text.c:654 client/gui-win32/inteldlg.c:104
+#: client/text.c:658 client/gui-win32/inteldlg.c:104
 #: client/gui-xaw/inteldlg.c:200
 #, c-format
 msgid "Government: %s"
 msgstr "政府：%s"
 
-#: client/text.c:678
+#: client/text.c:682
 #, c-format
 msgid "%d unit"
 msgid_plural "%d units"
 msgstr[0] "%d 部队"
 
 #. TRANS: Impossible to reach goto target tile
-#: client/text.c:711 client/gui-sdl/mapview.c:566
+#: client/text.c:715 client/gui-sdl/mapview.c:566
 msgid "?goto:Unreachable"
 msgstr ""
 
-#: client/text.c:713 client/gui-sdl/mapview.c:568
+#: client/text.c:717 client/gui-sdl/mapview.c:568
 #, c-format
 msgid "Turns to target: %d"
 msgstr "距离目标回合数：%d"
 
-#: client/text.c:715 client/gui-sdl/mapview.c:570
+#: client/text.c:719 client/gui-sdl/mapview.c:570
 #, c-format
 msgid "Turns to target: %d to %d"
 msgstr "距离目标回合数：%d 到 %d"
 
-#: client/text.c:721 client/gui-sdl/mapview.c:576
+#: client/text.c:725 client/gui-sdl/mapview.c:576
 #, c-format
 msgid "%d unit selected"
 msgid_plural "%d units selected"
 msgstr[0] "选中 %d 部队"
 
-#: client/text.c:726 client/gui-sdl/mapview.c:581
+#: client/text.c:730 client/gui-sdl/mapview.c:581
 msgid "No units selected."
 msgstr "未选中部队。"
 
-#: client/text.c:800 client/gui-sdl/mapview.c:654
+#: client/text.c:804 client/gui-sdl/mapview.c:654
 #, c-format
 msgid "Others: %d civil; %d military"
 msgstr "其他：%d 百姓；%d 军事"
 
-#: client/text.c:802 client/gui-sdl/mapview.c:656
+#: client/text.c:806 client/gui-sdl/mapview.c:656
 #, c-format
 msgid "Others: %d civilian"
 msgstr "其他：%d 百姓"
 
-#: client/text.c:804 client/gui-sdl/mapview.c:658
+#: client/text.c:808 client/gui-sdl/mapview.c:658
 #, c-format
 msgid "Others: %d military"
 msgstr ""
 
-#: client/text.c:835
+#: client/text.c:839
 msgid "No units to upgrade!"
 msgstr "没有可以升级的部队。"
 
-#: client/text.c:860
+#: client/text.c:864
 msgid "None of these units may be upgraded."
 msgstr "这些部队都不能升级。"
 
-#: client/text.c:866
+#: client/text.c:870
 #, c-format
 msgid ""
 "Upgrade %d unit for %d gold?\n"
@@ -9416,211 +9442,211 @@ msgstr[0] ""
 "花费 %2$d 黄金升级 %1$d 部队？\n"
 "国库现有 %3$d 黄金。"
 
-#: client/text.c:887
+#: client/text.c:891
 msgid "Shows your progress in researching the current technology."
 msgstr "显示您当前科技的研究进度。"
 
-#: client/text.c:893
+#: client/text.c:897
 msgid "no research target."
 msgstr "没有研究目标。"
 
 #. TRANS: <tech>: <amount>/<total bulbs>
-#: client/text.c:896
+#: client/text.c:900
 #, c-format
 msgid "%s: %d/%d."
 msgstr ""
 
-#: client/text.c:916
+#: client/text.c:920
 msgid "Shows the progress of global warming:"
 msgstr "显示全球变暖的发展程度："
 
-#: client/text.c:917
+#: client/text.c:921
 #, c-format
 msgid "Pollution rate: %d%%"
 msgstr "污染率：%d%%"
 
-#: client/text.c:919
+#: client/text.c:923
 #, c-format
 msgid "Chance of catastrophic warming each turn: %d%%"
 msgstr "每回合灾难性变暖的几率：%d%%"
 
-#: client/text.c:935
+#: client/text.c:939
 msgid "Shows the progress of nuclear winter:"
 msgstr "显示核冬天的发展程度："
 
-#: client/text.c:936
+#: client/text.c:940
 #, c-format
 msgid "Fallout rate: %d%%"
 msgstr "辐射率：%d%%"
 
-#: client/text.c:938
+#: client/text.c:942
 #, c-format
 msgid "Chance of catastrophic winter each turn: %d%%"
 msgstr "每回合灾难性冬天的几率：%d%%"
 
-#: client/text.c:953
+#: client/text.c:957
 msgid "Shows your current government:"
 msgstr "显示您当前的政府："
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:977
+#: client/text.c:981
 #, c-format
 msgid "Population:      %5d"
 msgstr "人口：         %5d"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:980
+#: client/text.c:984
 #, c-format
 msgid "Support:         %5d %%"
 msgstr "支持：         %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:984
+#: client/text.c:988
 #, c-format
 msgid "Energy:          %5d %%"
 msgstr "能源：         %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:988
+#: client/text.c:992
 #, c-format
 msgid "Mass:            %5d ton"
 msgid_plural "Mass:            %5d tons"
 msgstr[0] "物资：         %5d 吨"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:994
+#: client/text.c:998
 #, c-format
 msgid "Travel time:     %5.1f years"
 msgstr "旅行时间：    %5.1f 年"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:998
+#: client/text.c:1002
 msgid "Travel time:        N/A     "
 msgstr "旅行时间：       无    "
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1002
+#: client/text.c:1006
 #, c-format
 msgid "Success prob.:   %5d %%"
 msgstr "存活概率：     %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1006
+#: client/text.c:1010
 #, c-format
 msgid "Year of arrival: %8s"
 msgstr "到达年代：     %8s"
 
-#: client/text.c:1026
+#: client/text.c:1030
 msgid "?timeout:off"
 msgstr "超时关闭"
 
-#: client/text.c:1050
+#: client/text.c:1054
 #, c-format
 msgid "?seconds:%02ds"
 msgstr "?seconds:%02d 秒"
 
-#: client/text.c:1052
+#: client/text.c:1056
 #, c-format
 msgid "?mins/secs:%02dm %02ds"
 msgstr "?mins/secs:%02d 分 %02d 秒"
 
-#: client/text.c:1054
+#: client/text.c:1058
 #, c-format
 msgid "?hrs/mns:%02dh %02dm"
 msgstr "?hrs/mns:%02d 小时 %02d 分"
 
-#: client/text.c:1056
+#: client/text.c:1060
 #, c-format
 msgid "?dys/hrs:%02dd %02dh"
 msgstr "?dys/hrs:%02d 天 %02d 小时"
 
-#: client/text.c:1059
+#: client/text.c:1063
 msgid "?duration:overflow"
 msgstr "?duration:溢出"
 
-#: client/text.c:1080
+#: client/text.c:1084
 #, c-format
 msgid "%6d.%02d ms"
 msgstr "%6d.%02d ms"
 
 #. TRANS: "Republic of the Poles"
-#: client/text.c:1123
+#: client/text.c:1127
 #, c-format
 msgid "%s of the %s"
 msgstr "%2$s 的 %1$s"
 
 #. TRANS: "Observer: 1985"
-#: client/text.c:1133
+#: client/text.c:1137
 #, c-format
 msgid "Observer: %s"
 msgstr "旁观者：%s"
 
-#: client/text.c:1151
+#: client/text.c:1155
 msgid "Buildings: "
 msgstr "建筑："
 
-#: client/text.c:1168 client/text.c:1207
+#: client/text.c:1172 client/text.c:1211
 msgid "None. "
 msgstr "无。 "
 
-#: client/text.c:1170 client/text.c:1209
+#: client/text.c:1174 client/text.c:1213
 msgid "?clistend:."
 msgstr "?blistend:"
 
-#: client/text.c:1188
+#: client/text.c:1192
 msgid "Wonders: "
 msgstr "奇迹："
 
-#: client/text.c:1243
+#: client/text.c:1247
 #, c-format
 msgid "Cities: %d total, %d over threshold of %d cities."
 msgstr "城市：总共 %1$d 个，城市个数阈值 %3$d ，超出%2$d 个。"
 
 #. TRANS: 0-21 content [citizen(s)] ...
-#: client/text.c:1247
+#: client/text.c:1251
 #, fuzzy, c-format
 msgid "%d content before penalty."
 msgid_plural "%d content before penalty."
 msgstr[0] "在拥有 %d 个满足市民之后"
 
 #. TRANS: 0-21 unhappy citizen(s).
-#: client/text.c:1253
+#: client/text.c:1257
 #, fuzzy, c-format
 msgid "%d additional unhappy citizen."
 msgid_plural "%d additional unhappy citizens."
 msgstr[0] "将出现额外 %d 个忧郁市民。"
 
 #. TRANS: Martial law opening parenthesis
-#: client/text.c:1275
+#: client/text.c:1279
 msgid "Martial law in effect ("
 msgstr "军事管制中（"
 
 #. TRANS: no [unit] maximum
-#: client/text.c:1280
+#: client/text.c:1284
 msgid "no maximum, "
 msgstr "无部队数上限，"
 
-#: client/text.c:1283
+#: client/text.c:1287
 #, c-format
 msgid "%d unit maximum, "
 msgid_plural "%d units maximum, "
 msgstr[0] "最多 %d 个部队，"
 
 #. TRANS: Martial law closing parenthesis
-#: client/text.c:1290
+#: client/text.c:1294
 #, c-format
 msgid "%d per unit). "
 msgstr "每个部队 %d ）。"
 
-#: client/text.c:1294
+#: client/text.c:1298
 msgid "Military units in the field may cause unhappiness. "
 msgstr "军事部队在这里可能引起忧郁。"
 
-#: client/text.c:1297
+#: client/text.c:1301
 msgid "Military units have no happiness effect. "
 msgstr "军事部队对欢乐没有影响。"
 
-#: client/text.c:1312
+#: client/text.c:1316
 #, c-format
 msgid "Luxury: %d total."
 msgstr "娱乐：总共 %d 。"
@@ -9661,12 +9687,12 @@ msgid ""
 "have a look."
 msgstr ""
 
-#: client/agents/cma_fec.c:218 client/gui-gtk-2.0/cityrep.c:552
-#: client/gui-gtk-2.0/cityrep.c:577 client/gui-sdl/citydlg.c:2009
+#: client/agents/cma_fec.c:218 client/gui-gtk-2.0/cityrep.c:553
+#: client/gui-gtk-2.0/cityrep.c:578 client/gui-sdl/citydlg.c:2009
 msgid "none"
 msgstr "无"
 
-#: client/agents/cma_fec.c:234 client/gui-gtk-2.0/cityrep.c:598
+#: client/agents/cma_fec.c:234 client/gui-gtk-2.0/cityrep.c:599
 msgid "custom"
 msgstr "定制"
 
@@ -9720,11 +9746,13 @@ msgid "Ooops..."
 msgstr "哎哟…"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:86 client/gui-win32/dialogs.c:1364
+#: client/gui-xaw/diplomat_dialog.c:110
 msgid "This unit cannot be bribed!"
 msgstr "此部队不能被贿赂！"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:93
 #: client/gui-sdl/diplomat_dialog.c:1395 client/gui-win32/dialogs.c:1368
+#: client/gui-xaw/diplomat_dialog.c:114
 #, c-format
 msgid ""
 "Bribe unit for %d gold?\n"
@@ -9741,6 +9769,7 @@ msgstr "贿赂敌方部队"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:101
 #: client/gui-sdl/diplomat_dialog.c:1442 client/gui-win32/dialogs.c:1376
+#: client/gui-xaw/diplomat_dialog.c:123
 #, c-format
 msgid ""
 "Bribing the unit costs %d gold.\n"
@@ -9781,6 +9810,7 @@ msgstr "进展(_A)："
 #: client/gui-gtk-2.0/diplomat_dialog.c:441
 #: client/gui-sdl/diplomat_dialog.c:332 client/gui-sdl/diplomat_dialog.c:930
 #: client/gui-win32/dialogs.c:1193 client/gui-win32/dialogs.c:1404
+#: client/gui-xaw/diplomat_dialog.c:408 client/gui-xaw/diplomat_dialog.c:494
 msgid "At Spy's Discretion"
 msgstr "由间谍处理"
 
@@ -9805,12 +9835,13 @@ msgstr "建筑(_I)："
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:431
 #: client/gui-sdl/diplomat_dialog.c:874 client/gui-sdl/optiondlg.c:1583
-#: client/gui-win32/dialogs.c:1393
+#: client/gui-win32/dialogs.c:1393 client/gui-xaw/diplomat_dialog.c:483
 msgid "City Production"
 msgstr "城市生产"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:542
 #: client/gui-sdl/diplomat_dialog.c:1167 client/gui-win32/dialogs.c:1548
+#: client/gui-xaw/diplomat_dialog.c:639
 #, c-format
 msgid "You can't incite a revolt in %s."
 msgstr "您不能在 %s 煽动起义。"
@@ -9822,6 +9853,7 @@ msgstr "该城市不能被煽动！"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:550
 #: client/gui-sdl/diplomat_dialog.c:1187 client/gui-win32/dialogs.c:1554
+#: client/gui-xaw/diplomat_dialog.c:645
 #, c-format
 msgid ""
 "Incite a revolt for %d gold?\n"
@@ -9838,6 +9870,7 @@ msgstr "煽动起义！"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:558
 #: client/gui-sdl/diplomat_dialog.c:1236 client/gui-win32/dialogs.c:1562
+#: client/gui-xaw/diplomat_dialog.c:655
 #, c-format
 msgid ""
 "Inciting a revolt costs %d gold.\n"
@@ -9847,6 +9880,7 @@ msgstr ""
 "国库仅有 %d 黄金。"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:621 client/gui-win32/dialogs.c:1601
+#: client/gui-xaw/diplomat_dialog.c:715
 #, c-format
 msgid ""
 "Your %s has arrived at %s.\n"
@@ -9916,11 +9950,13 @@ msgid "Subvert Enemy Unit"
 msgstr "颠覆敌方部队"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:694 client/gui-win32/dialogs.c:1661
+#: client/gui-xaw/diplomat_dialog.c:777
 #, fuzzy
 msgid "The diplomat is waiting for your command"
 msgstr "陛下，外交官正在等候命令"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:695 client/gui-win32/dialogs.c:1662
+#: client/gui-xaw/diplomat_dialog.c:778
 #, fuzzy
 msgid "The spy is waiting for your command"
 msgstr "陛下，间谍正在等候命令"
@@ -10021,7 +10057,7 @@ msgstr "污染："
 msgid "_Overview"
 msgstr "城市概况(_O)"
 
-#: client/gui-gtk-2.0/citydlg.c:670 client/gui-gtk-2.0/wldlg.c:1034
+#: client/gui-gtk-2.0/citydlg.c:670 client/gui-gtk-2.0/wldlg.c:1035
 #: client/gui-win32/citydlg.c:1086 client/gui-win32/wldlg.c:801
 #: client/gui-win32/wldlg.c:807
 msgid "Info"
@@ -10046,11 +10082,11 @@ msgid "%d/%d %d turns"
 msgstr "%d/%d %d 回合"
 
 #: client/gui-gtk-2.0/citydlg.c:830 client/gui-gtk-2.0/citydlg.c:927
-#: client/gui-gtk-2.0/cityrep.c:820
+#: client/gui-gtk-2.0/cityrep.c:821
 msgid "_Buy"
 msgstr "购买(_B)"
 
-#: client/gui-gtk-2.0/citydlg.c:898 client/gui-gtk-2.0/cityrep.c:691
+#: client/gui-gtk-2.0/citydlg.c:898 client/gui-gtk-2.0/cityrep.c:692
 #, fuzzy
 msgid "_Production"
 msgstr "生产(_P)"
@@ -10170,7 +10206,7 @@ msgstr "已支持的部队：%d"
 msgid "Present units %d"
 msgstr "现有的部队：%d"
 
-#: client/gui-gtk-2.0/citydlg.c:1981 client/gui-gtk-2.0/cityrep.c:812
+#: client/gui-gtk-2.0/citydlg.c:1981 client/gui-gtk-2.0/cityrep.c:813
 msgid "Cen_ter"
 msgstr "中心(_T)"
 
@@ -10261,32 +10297,32 @@ msgstr "更改城市名称"
 msgid "What should we rename the city to?"
 msgstr "把城市名称改为什么？"
 
-#: client/gui-gtk-2.0/cityrep.c:698
+#: client/gui-gtk-2.0/cityrep.c:699
 msgid "Chan_ge"
 msgstr "改变(_G)"
 
-#: client/gui-gtk-2.0/cityrep.c:702
+#: client/gui-gtk-2.0/cityrep.c:703
 msgid "Add _First"
 msgstr "加入工作列表首个(_F)"
 
-#: client/gui-gtk-2.0/cityrep.c:706
+#: client/gui-gtk-2.0/cityrep.c:707
 msgid "Add _Next"
 msgstr "加入工作列表下个(_N)"
 
-#: client/gui-gtk-2.0/cityrep.c:710
+#: client/gui-gtk-2.0/cityrep.c:711
 msgid "Add _Last"
 msgstr "加入工作列表末个(_L)"
 
-#: client/gui-gtk-2.0/cityrep.c:714
+#: client/gui-gtk-2.0/cityrep.c:715
 msgid "_Select"
 msgstr "选择(_S)"
 
-#: client/gui-gtk-2.0/cityrep.c:718 client/gui-gtk-2.0/plrdlg.c:490
+#: client/gui-gtk-2.0/cityrep.c:719 client/gui-gtk-2.0/plrdlg.c:490
 #, fuzzy
 msgid "_Display"
 msgstr "显示(_D)"
 
-#: client/gui-gtk-2.0/cityrep.c:799 client/gui-gtk-2.0/menu.c:808
+#: client/gui-gtk-2.0/cityrep.c:800 client/gui-gtk-2.0/menu.c:808
 #: client/gui-sdl/diplodlg.c:691 client/gui-sdl/optiondlg.c:1800
 #: client/gui-win32/diplodlg.c:611 client/gui-win32/diplodlg.c:663
 #: client/gui-win32/menu.c:350 client/gui-xaw/cityrep.c:228
@@ -10296,13 +10332,13 @@ msgstr "显示(_D)"
 msgid "Cities"
 msgstr "城市"
 
-#: client/gui-gtk-2.0/cityrep.c:816
+#: client/gui-gtk-2.0/cityrep.c:817
 #, fuzzy
 msgid "_Inspect"
 msgstr "弹出(_I)"
 
-#: client/gui-gtk-2.0/cityrep.c:1222 client/gui-gtk-2.0/cityrep.c:1243
-#: client/gui-gtk-2.0/cityrep.c:1262 client/gui-gtk-2.0/cityrep.c:1281
+#: client/gui-gtk-2.0/cityrep.c:1227 client/gui-gtk-2.0/cityrep.c:1248
+#: client/gui-gtk-2.0/cityrep.c:1267 client/gui-gtk-2.0/cityrep.c:1286
 #: client/gui-gtk-2.0/menu.c:792 client/gui-gtk-2.0/menu.c:794
 #: client/gui-gtk-2.0/menu.c:796 client/gui-gtk-2.0/menu.c:798
 #: client/gui-gtk-2.0/menu.c:800 client/gui-gtk-2.0/menu.c:802
@@ -10311,84 +10347,89 @@ msgstr "弹出(_I)"
 msgid "Improvements"
 msgstr "建筑"
 
-#: client/gui-gtk-2.0/cityrep.c:1224 client/gui-gtk-2.0/cityrep.c:1245
-#: client/gui-gtk-2.0/cityrep.c:1264 client/gui-gtk-2.0/cityrep.c:1283
+#: client/gui-gtk-2.0/cityrep.c:1229 client/gui-gtk-2.0/cityrep.c:1250
+#: client/gui-gtk-2.0/cityrep.c:1269 client/gui-gtk-2.0/cityrep.c:1288
 #: client/gui-xaw/menu.c:247
 msgid "Wonders"
 msgstr "奇迹"
 
-#: client/gui-gtk-2.0/cityrep.c:1395 client/gui-win32/cityrep.c:439
+#: client/gui-gtk-2.0/cityrep.c:1400 client/gui-win32/cityrep.c:439
 #: client/gui-win32/gotodlg.c:169 data/Freeciv.in:1138
 msgid "All Cities"
 msgstr "所有城市"
 
-#: client/gui-gtk-2.0/cityrep.c:1400 client/gui-win32/cityrep.c:440
+#: client/gui-gtk-2.0/cityrep.c:1405 client/gui-win32/cityrep.c:440
 msgid "No Cities"
 msgstr "清除选择"
 
-#: client/gui-gtk-2.0/cityrep.c:1405 client/gui-win32/cityrep.c:441
+#: client/gui-gtk-2.0/cityrep.c:1410 client/gui-win32/cityrep.c:441
 msgid "Invert Selection"
 msgstr "反转选择"
 
-#: client/gui-gtk-2.0/cityrep.c:1415
+#: client/gui-gtk-2.0/cityrep.c:1420
 msgid "Building Units"
 msgstr "正在建造部队"
 
-#: client/gui-gtk-2.0/cityrep.c:1421
+#: client/gui-gtk-2.0/cityrep.c:1426
 msgid "Building Improvements"
 msgstr "正在建造建筑"
 
-#: client/gui-gtk-2.0/cityrep.c:1427
+#: client/gui-gtk-2.0/cityrep.c:1432
 msgid "Building Wonders"
 msgstr "正在建造奇迹"
 
-#: client/gui-gtk-2.0/cityrep.c:1439
+#: client/gui-gtk-2.0/cityrep.c:1444
 msgid "Building Unit"
 msgstr "正在建造部队"
 
-#: client/gui-gtk-2.0/cityrep.c:1443
+#: client/gui-gtk-2.0/cityrep.c:1448
 msgid "Building Improvement"
 msgstr "正在建造建筑"
 
-#: client/gui-gtk-2.0/cityrep.c:1447
+#: client/gui-gtk-2.0/cityrep.c:1452
 msgid "Building Wonder"
 msgstr "正在建造奇迹"
 
-#: client/gui-gtk-2.0/cityrep.c:1455 client/gui-win32/cityrep.c:443
+#: client/gui-gtk-2.0/cityrep.c:1460 client/gui-win32/cityrep.c:443
 msgid "Coastal Cities"
 msgstr "沿海城市"
 
-#: client/gui-gtk-2.0/cityrep.c:1460 client/gui-win32/cityrep.c:444
+#: client/gui-gtk-2.0/cityrep.c:1465 client/gui-win32/cityrep.c:444
 msgid "Same Island"
 msgstr "在同一岛屿"
 
-#: client/gui-gtk-2.0/cityrep.c:1470 client/gui-win32/cityrep.c:447
+#: client/gui-gtk-2.0/cityrep.c:1475 client/gui-win32/cityrep.c:447
 msgid "Supported Units"
 msgstr "支持部队"
 
-#: client/gui-gtk-2.0/cityrep.c:1473 client/gui-win32/cityrep.c:454
+#: client/gui-gtk-2.0/cityrep.c:1478 client/gui-win32/cityrep.c:454
 msgid "Units Present"
 msgstr "现有部队"
 
-#: client/gui-gtk-2.0/cityrep.c:1477 client/gui-win32/cityrep.c:469
+#: client/gui-gtk-2.0/cityrep.c:1482 client/gui-win32/cityrep.c:469
 msgid "Improvements in City"
 msgstr "城市拥有建筑"
 
-#: client/gui-gtk-2.0/cityrep.c:1481
+#: client/gui-gtk-2.0/cityrep.c:1486
 msgid "Wonders in City"
 msgstr "城市拥有奇迹"
 
-#: client/gui-gtk-2.0/cityrep.c:1490
+#: client/gui-gtk-2.0/cityrep.c:1495
 msgid "Available Units"
 msgstr "可用部队"
 
-#: client/gui-gtk-2.0/cityrep.c:1493
+#: client/gui-gtk-2.0/cityrep.c:1498
 msgid "Available Improvements"
 msgstr "可用建筑"
 
-#: client/gui-gtk-2.0/cityrep.c:1496
+#: client/gui-gtk-2.0/cityrep.c:1501
 msgid "Available Wonders"
 msgstr "可用奇迹"
+
+#: client/gui-gtk-2.0/cityrep.c:1625
+#, fuzzy, c-format
+msgid "Total Buy Cost: %d"
+msgstr "成本总计："
 
 #: client/gui-gtk-2.0/cma_fe.c:253 client/gui-xaw/cma_fe.c:78
 #, fuzzy
@@ -10458,128 +10499,128 @@ msgstr "新预设值叫什么名字？"
 msgid "Remove this preset?"
 msgstr "删除此预设？"
 
-#: client/gui-gtk-2.0/dialogs.c:195 client/gui-gtk-2.0/messagewin.c:186
+#: client/gui-gtk-2.0/dialogs.c:196 client/gui-gtk-2.0/messagewin.c:186
 #, fuzzy
 msgid "Goto _Location"
 msgstr "前往地点(_L)"
 
-#: client/gui-gtk-2.0/dialogs.c:200 client/gui-gtk-2.0/messagewin.c:190
+#: client/gui-gtk-2.0/dialogs.c:201 client/gui-gtk-2.0/messagewin.c:190
 #, fuzzy
 msgid "Inspect _City"
 msgstr "弹出城市对话框(_C)"
 
-#: client/gui-gtk-2.0/dialogs.c:256 client/gui-sdl/dialogs.c:2085
+#: client/gui-gtk-2.0/dialogs.c:257 client/gui-sdl/dialogs.c:2085
 #: client/gui-win32/dialogs.c:976 client/gui-xaw/dialogs.c:513
 msgid "You say you wanna revolution?"
 msgstr "您想进行革命？"
 
-#: client/gui-gtk-2.0/dialogs.c:257 client/gui-sdl/dialogs.c:2104
+#: client/gui-gtk-2.0/dialogs.c:258 client/gui-sdl/dialogs.c:2104
 #: client/gui-win32/dialogs.c:975 data/Freeciv.in:2462
 msgid "Revolution!"
 msgstr "革命！"
 
-#: client/gui-gtk-2.0/dialogs.c:310 client/gui-sdl/dialogs.c:1742
+#: client/gui-gtk-2.0/dialogs.c:311 client/gui-sdl/dialogs.c:1742
 #: client/gui-win32/dialogs.c:1748 data/Freeciv.in:2500
 msgid "What To Pillage"
 msgstr "掠夺什么"
 
-#: client/gui-gtk-2.0/dialogs.c:311 client/gui-win32/dialogs.c:1755
+#: client/gui-gtk-2.0/dialogs.c:312 client/gui-win32/dialogs.c:1755
 #: data/Freeciv.in:2502
 msgid "Select what to pillage:"
 msgstr "请选择掠夺什么："
 
-#: client/gui-gtk-2.0/dialogs.c:505
+#: client/gui-gtk-2.0/dialogs.c:506
 msgid "Unit"
 msgstr "部队"
 
-#: client/gui-gtk-2.0/dialogs.c:506 client/gui-gtk-2.0/pages.c:1507
-#: client/gui-gtk-2.0/pages.c:2080 client/gui-gtk-2.0/wldlg.c:1034
+#: client/gui-gtk-2.0/dialogs.c:507 client/gui-gtk-2.0/pages.c:1509
+#: client/gui-gtk-2.0/pages.c:2082 client/gui-gtk-2.0/wldlg.c:1035
 #: client/gui-win32/connectdlg.c:983 client/gui-win32/plrdlg.c:335
 #: manual/civmanual.c:302 data/Freeciv.in:80
 msgid "Name"
 msgstr "名称"
 
-#: client/gui-gtk-2.0/dialogs.c:518 client/gui-sdl/dialogs.c:627
+#: client/gui-gtk-2.0/dialogs.c:519 client/gui-sdl/dialogs.c:627
 msgid "Unit selection"
 msgstr "部队选择"
 
-#: client/gui-gtk-2.0/dialogs.c:581
+#: client/gui-gtk-2.0/dialogs.c:582
 msgid "_Ready all"
 msgstr "全部就绪(_R)"
 
-#: client/gui-gtk-2.0/dialogs.c:589
+#: client/gui-gtk-2.0/dialogs.c:590
 msgid "_Sentry idle"
 msgstr "空闲部队放哨(_S)"
 
-#: client/gui-gtk-2.0/dialogs.c:717
+#: client/gui-gtk-2.0/dialogs.c:719
 #, fuzzy
 msgid "Nation _Groups:"
 msgstr "民族(_G)："
 
-#: client/gui-gtk-2.0/dialogs.c:762 data/Freeciv.in:3128
+#: client/gui-gtk-2.0/dialogs.c:764 data/Freeciv.in:3128
 msgid "What Nation Will You Be?"
 msgstr "您想成为那个民族？"
 
-#: client/gui-gtk-2.0/dialogs.c:764 client/gui-sdl/chatline.c:842
+#: client/gui-gtk-2.0/dialogs.c:766 client/gui-sdl/chatline.c:842
 #: client/gui-win32/connectdlg.c:1036 data/Freeciv.in:3371
 #, fuzzy
 msgid "Pick Nation"
 msgstr "警察局"
 
-#: client/gui-gtk-2.0/dialogs.c:772
+#: client/gui-gtk-2.0/dialogs.c:774
 #, fuzzy
 msgid "_Random Nation"
 msgstr "随机民族 (_R)"
 
-#: client/gui-gtk-2.0/dialogs.c:784 client/gui-win32/dialogs.c:517
+#: client/gui-gtk-2.0/dialogs.c:786 client/gui-win32/dialogs.c:517
 msgid "Select a nation"
 msgstr "请选择民族"
 
-#: client/gui-gtk-2.0/dialogs.c:802
+#: client/gui-gtk-2.0/dialogs.c:804
 msgid "_Properties"
 msgstr "属性(_P)"
 
-#: client/gui-gtk-2.0/dialogs.c:822
+#: client/gui-gtk-2.0/dialogs.c:824
 msgid "_Leader:"
 msgstr "领导者(_L)："
 
-#: client/gui-gtk-2.0/dialogs.c:829
+#: client/gui-gtk-2.0/dialogs.c:831
 msgid "_Female"
 msgstr "女(_F)"
 
-#: client/gui-gtk-2.0/dialogs.c:834
+#: client/gui-gtk-2.0/dialogs.c:836
 msgid "_Male"
 msgstr "男(_M)"
 
-#: client/gui-gtk-2.0/dialogs.c:861
+#: client/gui-gtk-2.0/dialogs.c:863
 #, fuzzy
 msgid "City _Styles:"
 msgstr "城市风格(_S)："
 
-#: client/gui-gtk-2.0/dialogs.c:900
+#: client/gui-gtk-2.0/dialogs.c:902
 #, fuzzy
 msgid "_Description"
 msgstr "历史(_D)"
 
-#: client/gui-gtk-2.0/dialogs.c:1242 client/gui-xaw/dialogs.c:1480
+#: client/gui-gtk-2.0/dialogs.c:1244 client/gui-xaw/dialogs.c:1480
 msgid "You must select your sex."
 msgstr "您必须选择您的性别。"
 
-#: client/gui-gtk-2.0/dialogs.c:1247 client/gui-xaw/dialogs.c:1485
+#: client/gui-gtk-2.0/dialogs.c:1249 client/gui-xaw/dialogs.c:1485
 msgid "You must select your city style."
 msgstr "您必须选择您的城市风格。"
 
-#: client/gui-gtk-2.0/dialogs.c:1256 client/gui-sdl/dialogs.c:2203
+#: client/gui-gtk-2.0/dialogs.c:1258 client/gui-sdl/dialogs.c:2203
 #: client/gui-win32/dialogs.c:358 client/gui-xaw/dialogs.c:1493
 msgid "You must type a legal name."
 msgstr "您必须输入一个合法的名字。"
 
-#: client/gui-gtk-2.0/dialogs.c:1299 client/gui-win32/citydlg.c:1454
+#: client/gui-gtk-2.0/dialogs.c:1301 client/gui-win32/citydlg.c:1454
 #: data/Freeciv.in:2484
 msgid "Upgrade Unit!"
 msgstr "升级部队！"
 
-#: client/gui-gtk-2.0/dialogs.c:1308 client/gui-gtk-2.0/repodlgs.c:1164
+#: client/gui-gtk-2.0/dialogs.c:1310 client/gui-gtk-2.0/repodlgs.c:1164
 #: client/gui-sdl/dialogs.c:423 client/gui-sdl/repodlgs.c:192
 #: client/gui-win32/citydlg.c:1447 client/gui-win32/repodlgs.c:577
 #: data/Freeciv.in:2473
@@ -10826,62 +10867,68 @@ msgstr ""
 msgid "Not _ready"
 msgstr "未就绪(_r)"
 
-#: client/gui-gtk-2.0/gui_main.c:1502 client/gui-gtk-2.0/pages.c:1602
+#: client/gui-gtk-2.0/gui_main.c:1502 client/gui-gtk-2.0/pages.c:1604
 msgid "_Ready"
 msgstr "就绪(_R)"
 
 #: client/gui-gtk-2.0/gui_main.c:1506 client/gui-gtk-2.0/gui_main.c:1512
-#: client/gui-gtk-2.0/pages.c:2129
+#: client/gui-gtk-2.0/pages.c:2131
 msgid "_Start"
 msgstr "开始(_S)"
 
-#: client/gui-gtk-2.0/gui_main.c:1516 client/gui-gtk-2.0/pages.c:1592
+#: client/gui-gtk-2.0/gui_main.c:1520
+#, fuzzy
+msgid "_Take Player"
+msgstr "取代此玩家"
+
+#: client/gui-gtk-2.0/gui_main.c:1523 client/gui-gtk-2.0/pages.c:1594
 msgid "Pick _Nation"
 msgstr "选择民族（_N）"
 
-#: client/gui-gtk-2.0/gui_main.c:1522 client/gui-gtk-2.0/pages.c:1597
+#: client/gui-gtk-2.0/gui_main.c:1530 client/gui-gtk-2.0/pages.c:1599
 msgid "_Observe"
 msgstr "旁观(_O)"
 
-#: client/gui-gtk-2.0/gui_main.c:1524
+#: client/gui-gtk-2.0/gui_main.c:1532
 #, fuzzy
 msgid "Do not _observe"
 msgstr "现在旁观(_O)"
 
-#: client/gui-gtk-2.0/gui_main.c:1546
+#: client/gui-gtk-2.0/gui_main.c:1554 client/gui-xaw/pages.c:211
 msgid "<AI>"
 msgstr "<AI>"
 
-#: client/gui-gtk-2.0/gui_main.c:1549
+#: client/gui-gtk-2.0/gui_main.c:1557
 msgid "<Novice AI>"
 msgstr "<极易 AI>"
 
-#: client/gui-gtk-2.0/gui_main.c:1552
+#: client/gui-gtk-2.0/gui_main.c:1560
 msgid "<Easy AI>"
 msgstr "<容易 AI>"
 
-#: client/gui-gtk-2.0/gui_main.c:1555
+#: client/gui-gtk-2.0/gui_main.c:1563
 msgid "<Normal AI>"
 msgstr "<普通 AI>"
 
-#: client/gui-gtk-2.0/gui_main.c:1558
+#: client/gui-gtk-2.0/gui_main.c:1566
 msgid "<Hard AI>"
 msgstr "<困难 AI>"
 
-#: client/gui-gtk-2.0/gui_main.c:1568 client/gui-win32/dialogs.c:594
+#: client/gui-gtk-2.0/gui_main.c:1576 client/gui-win32/dialogs.c:594
+#: client/gui-xaw/pages.c:217
 msgid "Random"
 msgstr "随机"
 
-#: client/gui-gtk-2.0/gui_main.c:1634
+#: client/gui-gtk-2.0/gui_main.c:1642
 msgid "Observer"
 msgstr "旁观者"
 
-#: client/gui-gtk-2.0/gui_main.c:1634
+#: client/gui-gtk-2.0/gui_main.c:1642
 #, fuzzy
 msgid "Detached"
 msgstr "死的"
 
-#: client/gui-gtk-2.0/gui_main.c:1891
+#: client/gui-gtk-2.0/gui_main.c:1899
 msgid "Are you sure you want to quit?"
 msgstr "确认想退出？"
 
@@ -11796,219 +11843,219 @@ msgstr "连接到网络游戏(_O)"
 msgid "Connect to Gaming _Zone"
 msgstr "连接到网络游戏"
 
-#: client/gui-gtk-2.0/pages.c:612 client/gui-win32/connectdlg.c:300
+#: client/gui-gtk-2.0/pages.c:614 client/gui-win32/connectdlg.c:300
 #: client/gui-xaw/connectdlg.c:326
 msgid "Passwords don't match, enter password."
 msgstr "口令不正确，清输入口令。"
 
-#: client/gui-gtk-2.0/pages.c:702 client/gui-win32/connectdlg.c:914
+#: client/gui-gtk-2.0/pages.c:704 client/gui-win32/connectdlg.c:914
 msgid "Server Name"
 msgstr "服务器名称"
 
-#: client/gui-gtk-2.0/pages.c:703 client/gui-sdl/mapview.c:814
+#: client/gui-gtk-2.0/pages.c:705 client/gui-sdl/mapview.c:814
 #: client/gui-win32/connectdlg.c:914 data/Freeciv.in:96
 msgid "Port"
 msgstr "端口"
 
-#: client/gui-gtk-2.0/pages.c:704 client/gui-win32/connectdlg.c:915
+#: client/gui-gtk-2.0/pages.c:706 client/gui-win32/connectdlg.c:915
 msgid "Version"
 msgstr "版本"
 
-#: client/gui-gtk-2.0/pages.c:705 client/gui-gtk-2.0/pages.c:2086
+#: client/gui-gtk-2.0/pages.c:707 client/gui-gtk-2.0/pages.c:2088
 #: client/gui-win32/connectdlg.c:915 client/gui-win32/connectdlg.c:993
 msgid "Status"
 msgstr "状态"
 
-#: client/gui-gtk-2.0/pages.c:706 client/gui-sdl/connectdlg.c:317
+#: client/gui-gtk-2.0/pages.c:708 client/gui-sdl/connectdlg.c:317
 #: client/gui-sdl/plrdlg.c:330 client/gui-win32/connectdlg.c:915
 msgid "Players"
 msgstr "玩家"
 
-#: client/gui-gtk-2.0/pages.c:707 client/gui-win32/connectdlg.c:916
+#: client/gui-gtk-2.0/pages.c:709 client/gui-win32/connectdlg.c:916
 msgid "Comment"
 msgstr "说明"
 
-#: client/gui-gtk-2.0/pages.c:745
+#: client/gui-gtk-2.0/pages.c:747
 msgid "Local _Area Network"
 msgstr "局域网(_A)"
 
-#: client/gui-gtk-2.0/pages.c:781
+#: client/gui-gtk-2.0/pages.c:783
 msgid "Internet _Metaserver"
 msgstr "互联网元服务器(_M)"
 
-#: client/gui-gtk-2.0/pages.c:815
+#: client/gui-gtk-2.0/pages.c:817
 msgid "_Host:"
 msgstr "主机(_H)："
 
-#: client/gui-gtk-2.0/pages.c:832
+#: client/gui-gtk-2.0/pages.c:834
 msgid "_Port:"
 msgstr "端口(_P)："
 
-#: client/gui-gtk-2.0/pages.c:849
+#: client/gui-gtk-2.0/pages.c:851
 msgid "_Login:"
 msgstr "登录(_L)："
 
-#: client/gui-gtk-2.0/pages.c:867
+#: client/gui-gtk-2.0/pages.c:869
 msgid "Pass_word:"
 msgstr "口令(_W)："
 
-#: client/gui-gtk-2.0/pages.c:885
+#: client/gui-gtk-2.0/pages.c:887
 msgid "Conf_irm Password:"
 msgstr "确认口令(_I)："
 
-#: client/gui-gtk-2.0/pages.c:910
+#: client/gui-gtk-2.0/pages.c:912
 msgid "C_onnect"
 msgstr "连接(_O)"
 
-#: client/gui-gtk-2.0/pages.c:1140
+#: client/gui-gtk-2.0/pages.c:1142
 #, fuzzy, c-format
 msgid "Connection name: %s"
 msgstr "正在连接中"
 
-#: client/gui-gtk-2.0/pages.c:1143
+#: client/gui-gtk-2.0/pages.c:1145
 #, c-format
 msgid "Player name: %s"
 msgstr "玩家名字：%s"
 
-#: client/gui-gtk-2.0/pages.c:1148
+#: client/gui-gtk-2.0/pages.c:1150
 #, c-format
 msgid "Host: %s"
 msgstr "主机：%s"
 
-#: client/gui-gtk-2.0/pages.c:1155
+#: client/gui-gtk-2.0/pages.c:1157
 msgid "Player/conn info"
 msgstr "玩家/连接信息"
 
-#: client/gui-gtk-2.0/pages.c:1182
+#: client/gui-gtk-2.0/pages.c:1184
 #, c-format
 msgid "%s info"
 msgstr "%s 信息"
 
-#: client/gui-gtk-2.0/pages.c:1193
+#: client/gui-gtk-2.0/pages.c:1195
 msgid "Toggle player ready"
 msgstr "切换就绪状态"
 
-#: client/gui-gtk-2.0/pages.c:1201
+#: client/gui-gtk-2.0/pages.c:1203
 msgid "Pick nation"
 msgstr "选择民族"
 
-#: client/gui-gtk-2.0/pages.c:1211
+#: client/gui-gtk-2.0/pages.c:1213
 msgid "Observe this player"
 msgstr "旁观此玩家"
 
-#: client/gui-gtk-2.0/pages.c:1218
+#: client/gui-gtk-2.0/pages.c:1220
 msgid "Take this player"
 msgstr "取代此玩家"
 
-#: client/gui-gtk-2.0/pages.c:1235
+#: client/gui-gtk-2.0/pages.c:1237
 msgid "Cut connection"
 msgstr "切断连接"
 
-#: client/gui-gtk-2.0/pages.c:1245
+#: client/gui-gtk-2.0/pages.c:1247
 msgid "Aitoggle player"
 msgstr "切换玩家是否为 AI"
 
-#: client/gui-gtk-2.0/pages.c:1254
+#: client/gui-gtk-2.0/pages.c:1256
 msgid "Remove player"
 msgstr "删除玩家"
 
-#: client/gui-gtk-2.0/pages.c:1265
+#: client/gui-gtk-2.0/pages.c:1267
 msgid "Give info access"
 msgstr "给予 info 访问级别"
 
-#: client/gui-gtk-2.0/pages.c:1273
+#: client/gui-gtk-2.0/pages.c:1275
 msgid "Give ctrl access"
 msgstr "给予 ctrl 访问级别"
 
 #. TRANS: e.g., "Put on Team 5"
-#: client/gui-gtk-2.0/pages.c:1335
+#: client/gui-gtk-2.0/pages.c:1337
 #, fuzzy, c-format
 msgid "Put on %s"
 msgstr "人口：%s"
 
-#: client/gui-gtk-2.0/pages.c:1439
+#: client/gui-gtk-2.0/pages.c:1441
 #, fuzzy
 msgid "Number of _Players (including AI):"
 msgstr "玩家数目（包括AI）(_P)："
 
-#: client/gui-gtk-2.0/pages.c:1462
+#: client/gui-gtk-2.0/pages.c:1464
 #, fuzzy
 msgid "AI Skill _Level:"
 msgstr "AI技能级别(_L)："
 
-#: client/gui-gtk-2.0/pages.c:1478
+#: client/gui-gtk-2.0/pages.c:1480
 #, fuzzy
 msgid "Ruleset _Version:"
 msgstr "规则集（(_V)："
 
-#: client/gui-gtk-2.0/pages.c:1486 client/gui-gtk-2.0/pages.c:2118
+#: client/gui-gtk-2.0/pages.c:1488 client/gui-gtk-2.0/pages.c:2120
 msgid "_More Game Options..."
 msgstr "更多游戏选项(_M)..."
 
-#: client/gui-gtk-2.0/pages.c:1511
+#: client/gui-gtk-2.0/pages.c:1513
 #, fuzzy
 msgid "Record"
 msgstr "报告"
 
-#: client/gui-gtk-2.0/pages.c:1516
+#: client/gui-gtk-2.0/pages.c:1518
 #, fuzzy
 msgid "Rating"
 msgstr "沙皇皇后"
 
-#: client/gui-gtk-2.0/pages.c:1522
+#: client/gui-gtk-2.0/pages.c:1524
 msgid "Ready"
 msgstr "就绪"
 
-#: client/gui-gtk-2.0/pages.c:1529 data/default/units.ruleset:1864
+#: client/gui-gtk-2.0/pages.c:1531 data/default/units.ruleset:1864
 #: data/nation/slovakian.ruleset:26
 msgid "Leader"
 msgstr "领导者"
 
-#: client/gui-gtk-2.0/pages.c:1657 client/gui-sdl/chatline.c:185
+#: client/gui-gtk-2.0/pages.c:1659 client/gui-sdl/chatline.c:185
 msgid "Choose Saved Game to Load"
 msgstr "请选择要载入的存盘游戏文件"
 
-#: client/gui-gtk-2.0/pages.c:1749
+#: client/gui-gtk-2.0/pages.c:1751
 msgid "Choose Saved Game to _Load:"
 msgstr "请选择要载入的存盘游戏文件(_L)："
 
-#: client/gui-gtk-2.0/pages.c:1769 client/gui-gtk-2.0/pages.c:1962
-#: client/gui-gtk-2.0/pages.c:2372
+#: client/gui-gtk-2.0/pages.c:1771 client/gui-gtk-2.0/pages.c:1964
+#: client/gui-gtk-2.0/pages.c:2374
 msgid "_Browse..."
 msgstr "浏览(_B)..."
 
-#: client/gui-gtk-2.0/pages.c:1836
+#: client/gui-gtk-2.0/pages.c:1838
 msgid "Choose a Scenario"
 msgstr "请选择剧情"
 
-#: client/gui-gtk-2.0/pages.c:1923
+#: client/gui-gtk-2.0/pages.c:1925
 msgid "Choose a _Scenario:"
 msgstr "请选择剧情(_S)："
 
-#: client/gui-gtk-2.0/pages.c:2088 client/gui-gtk-2.0/repodlgs.c:634
-#: client/gui-gtk-2.0/wldlg.c:1034 client/gui-win32/citydlg.c:1083
+#: client/gui-gtk-2.0/pages.c:2090 client/gui-gtk-2.0/repodlgs.c:634
+#: client/gui-gtk-2.0/wldlg.c:1035 client/gui-win32/citydlg.c:1083
 #: client/gui-win32/connectdlg.c:998 client/gui-win32/wldlg.c:800
 #: client/gui-win32/wldlg.c:806
 msgid "Type"
 msgstr "类型"
 
-#: client/gui-gtk-2.0/pages.c:2098
+#: client/gui-gtk-2.0/pages.c:2100
 msgid "Choose a _nation to play:"
 msgstr "请选择您要玩的民族："
 
-#: client/gui-gtk-2.0/pages.c:2284 client/gui-win32/menu.c:581
+#: client/gui-gtk-2.0/pages.c:2286 client/gui-win32/menu.c:581
 msgid "Select Location to Save"
 msgstr "选择要保存到的位置"
 
-#: client/gui-gtk-2.0/pages.c:2369 client/gui-sdl/optiondlg.c:2273
+#: client/gui-gtk-2.0/pages.c:2371 client/gui-sdl/optiondlg.c:2273
 msgid "Save Game"
 msgstr "保存游戏"
 
-#: client/gui-gtk-2.0/pages.c:2410
+#: client/gui-gtk-2.0/pages.c:2412
 msgid "Saved _Games:"
 msgstr "存盘游戏(_G)："
 
-#: client/gui-gtk-2.0/pages.c:2437
+#: client/gui-gtk-2.0/pages.c:2439
 msgid "Save _Filename:"
 msgstr "存盘文件名(_F)："
 
@@ -12044,7 +12091,7 @@ msgstr "名称"
 msgid "Count"
 msgstr "计数"
 
-#: client/gui-gtk-2.0/repodlgs.c:637 client/gui-gtk-2.0/wldlg.c:1034
+#: client/gui-gtk-2.0/repodlgs.c:637 client/gui-gtk-2.0/wldlg.c:1035
 #: client/gui-win32/citydlg.c:1090 client/gui-win32/repodlgs.c:466
 #: client/gui-win32/wldlg.c:802 client/gui-win32/wldlg.c:808
 #: manual/civmanual.c:302
@@ -12288,28 +12335,28 @@ msgstr "工作列表(_W)："
 msgid "Edit Global _Worklists"
 msgstr "添加共用工作列表(_W)"
 
-#: client/gui-gtk-2.0/wldlg.c:1034 client/gui-win32/citydlg.c:1092
+#: client/gui-gtk-2.0/wldlg.c:1035 client/gui-win32/citydlg.c:1092
 #: client/gui-win32/wldlg.c:809
 msgid "Turns"
 msgstr "回合"
 
-#: client/gui-gtk-2.0/wldlg.c:1150
+#: client/gui-gtk-2.0/wldlg.c:1151
 msgid "Source _Tasks:"
 msgstr "任务来源(_T)："
 
-#: client/gui-gtk-2.0/wldlg.c:1155
+#: client/gui-gtk-2.0/wldlg.c:1156
 msgid "Show _Future Targets"
 msgstr "显示未来目标(_F)"
 
-#: client/gui-gtk-2.0/wldlg.c:1242
+#: client/gui-gtk-2.0/wldlg.c:1243
 msgid "Target _Worklist:"
 msgstr "目标工作列表(_W)"
 
-#: client/gui-gtk-2.0/wldlg.c:1260
+#: client/gui-gtk-2.0/wldlg.c:1261
 msgid "_Add Global Worklist"
 msgstr "添加共用工作列表(_A)"
 
-#: client/gui-gtk-2.0/wldlg.c:1276
+#: client/gui-gtk-2.0/wldlg.c:1277
 msgid "Chan_ge Production"
 msgstr "改变产品(_G)"
 
@@ -12613,8 +12660,8 @@ msgid "City shrinks: %d %s"
 msgstr "城市：%s(%s)"
 
 #: client/gui-sdl/citydlg.c:2977 client/gui-sdl/citydlg.c:2981
-#: client/gui-sdl/citydlg.c:3301 client/gui-sdl/cityrep.c:532
-#: client/gui-sdl/cityrep.c:1056 client/gui-sdl/menu.c:802
+#: client/gui-sdl/citydlg.c:3301 client/gui-sdl/cityrep.c:536
+#: client/gui-sdl/cityrep.c:1061 client/gui-sdl/menu.c:802
 #: client/gui-sdl/menu.c:806 client/gui-sdl/menu.c:1041
 #: client/gui-sdl/menu.c:1047 client/gui-sdl/menu.c:1090
 #: client/gui-sdl/menu.c:1096 client/gui-sdl/menu.c:1102
@@ -12729,12 +12776,12 @@ msgstr "报告"
 msgid "Maintenance Report"
 msgstr "科学报告"
 
-#: client/gui-sdl/cityrep.c:514 client/gui-sdl/cityrep.c:1035
+#: client/gui-sdl/cityrep.c:518 client/gui-sdl/cityrep.c:1040
 #, fuzzy
 msgid "worklist"
 msgstr "（工作列表）"
 
-#: client/gui-sdl/cityrep.c:518
+#: client/gui-sdl/cityrep.c:522
 #, fuzzy
 msgid ""
 "\n"
@@ -14491,7 +14538,7 @@ msgstr "城市风格(_C)："
 msgid "Unit Selection"
 msgstr "部队选择"
 
-#: client/gui-win32/dialogs.c:1198
+#: client/gui-win32/dialogs.c:1198 client/gui-xaw/diplomat_dialog.c:395
 msgid "NONE"
 msgstr "无"
 
