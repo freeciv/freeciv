@@ -71,9 +71,9 @@ bool is_unit_reachable_by_unit(const struct unit *defender,
                                const struct unit *attacker)
 {
   struct unit_class *dclass = unit_class(defender);
+  struct unit_type *atype = unit_type(attacker);
 
-  return unit_has_type_flag(attacker, F_ATTACK_ANY)
-    || !uclass_has_flag(dclass, UCF_UNREACHABLE);
+  return BV_ISSET(atype->targets, uclass_index(dclass));
 }
 
 /***********************************************************************

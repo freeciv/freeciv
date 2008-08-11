@@ -70,8 +70,8 @@ veteran_move_bonus = 0, 0, 0, 0
 ; "RoadNative"    = Road tiles are always considered native terrain
 ; "RiverNative"   = River tiles are always considered native terrain
 ; "BuildAnywhere" = Unit can be built even in the middle of non-native terrain
-; "Unreachable"   = Unit can be attacked only by units with "AttackAny" flag or on
-;                   city or airbase
+; "Unreachable"   = Unit can be attacked only by units explicitly listing this class as target
+;                   or on city or airbase
 ; "CollectRansom" = Unit can collect ransom when killing lone barbarian leader
 ; "ZOC"           = Unit is subject to ZOC rules. Unit type flag "IgZOC" can
 ;                   override this
@@ -179,7 +179,6 @@ flags         = "Unreachable"
 ; "IgWall"	= ignore effect of city walls
 ; "FieldUnit"	= cause unhappiness even when not being aggressive
 ; "AEGIS"	= fivefold increased defence against "AirUnit" attacks
-; "AttackAny"   = can attack unreachable units
 ; "Marines"	= (land only) can attack from transports
 ; "Partial_Invis" = visible only to adjancent units; does not hide transported
 ;		  units other than missiles
@@ -1145,7 +1144,8 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "AttackAny", "AirUnit", "Fighter"
+targets       = "Air", "Missile" 
+flags         = "AirUnit", "Fighter"
 roles         = ""
 helptext      = _("\
 Fighters are your first airborne units. They can\
@@ -1244,7 +1244,8 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "Partial_Invis", "AttackAny", "AirUnit", "Fighter"
+targets       = "Air", "Missile"
+flags         = "Partial_Invis", "AirUnit", "Fighter"
 roles         = ""
 helptext      = _("\
 An improved Fighter, with improved attack and a higher movement\

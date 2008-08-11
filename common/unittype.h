@@ -80,8 +80,7 @@ enum unit_flag_id {
   F_HORSE,       
   F_IGWALL,      
   F_FIELDUNIT,   
-  F_AEGIS,       
-  F_ATTACK_ANY,       /* Can attack even unreachable units */
+  F_AEGIS,
   F_MARINES,     
   F_PARTIAL_INVIS,    /* Invisibile except when adjacent (Submarine) */   
   F_SETTLERS,         /* Does not include ability to found cities */
@@ -217,10 +216,11 @@ struct unit_type {
   struct unit_class *uclass;
 
   bv_unit_classes cargo;
-  
+
+  bv_unit_classes targets; /* Can attack these classes even if they are otherwise "Unreachable" */
+
   char *helptext;
 };
-
 
 #define CHECK_UNIT_TYPE(ut) (assert((ut) != NULL			    \
 			     && (utype_by_number((ut)->item_number) == (ut))))
