@@ -186,13 +186,6 @@ enum ai_level {
 
 #define AI_LEVEL_DEFAULT AI_LEVEL_NOVICE
 
-enum editor_tech_mode {
-  ETECH_ADD,
-  ETECH_REMOVE,
-  ETECH_TOGGLE,
-  ETECH_LAST
-};
-
 /*
  * pplayer->ai.barbarian_type and nations use this enum. Note that the values
  * have to stay since they are used in savegames.

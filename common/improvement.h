@@ -105,6 +105,7 @@ bool is_great_wonder(const struct impr_type *pimprove);
 bool is_small_wonder(const struct impr_type *pimprove);
 bool is_wonder(const struct impr_type *pimprove);
 bool is_improvement(const struct impr_type *pimprove);
+bool is_special_improvement(const struct impr_type *pimprove);
 
 bool great_wonder_was_built(const struct impr_type *pimprove);
 

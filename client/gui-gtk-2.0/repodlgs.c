@@ -185,7 +185,7 @@ static void button_release_event_callback(GtkWidget *widget,
     /* RMB: get help */
     /* FIXME: this should work for ctrl+LMB or shift+LMB (?) too */
     popup_help_dialog_typed(advance_name_for_player(client.conn.playing, tech), HELP_TECH);
-  } else if (!can_conn_edit(&client.conn)) {
+  } else {
     if (event->button == 1 && can_client_issue_orders()) {
       /* LMB: set research or research goal */
       switch (player_invention_state(client.conn.playing, tech)) {
@@ -199,14 +199,7 @@ static void button_release_event_callback(GtkWidget *widget,
          break;
       }
     }
-  } else {
-    /* Editor mode */
-    if (NULL != client.conn.playing) {
-      /* Not a global observer */
-      dsend_packet_edit_player_tech(&client.conn, player_number(client.conn.playing),
-                                    tech, ETECH_TOGGLE);
-    }
-  }
+  } 
 }
 
 /****************************************************************************

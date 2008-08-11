@@ -13,13 +13,23 @@
 #ifndef FC__EDITPROP_H
 #define FC__EDITPROP_H
 
-struct property_editor;
+#include "editgui_g.h"
+
 struct tile_list;
+struct property_editor;
+
+void property_editor_clear(struct property_editor *pe);
+void property_editor_load_tiles(struct property_editor *pe,
+                                const struct tile_list *tiles);
+void property_editor_load_players(struct property_editor *pe);
+void property_editor_popup(struct property_editor *pe);
+void property_editor_popdown(struct property_editor *pe);
+void property_editor_handle_object_changed(struct property_editor *pe,
+                                           int objtype,
+                                           int object_id,
+                                           bool remove);
 
 struct property_editor *editprop_get_property_editor(void);
-void property_editor_refresh(struct property_editor *pe,
-                             const struct tile_list *tiles);
-void property_editor_run(struct property_editor *pe);
 
 #endif /* FC__EDITPROP_H */
 

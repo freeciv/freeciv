@@ -389,10 +389,16 @@ static GtkWidget *create_editbar_radiobutton(struct editbar *eb,
 static void editbar_player_properties_button_clicked(GtkButton *b,
                                                      gpointer userdata)
 {
+  struct property_editor *pe;
+
   if (!client_has_player()) {
     return;
   }
-  popup_races_dialog(client_player());
+
+  pe = editprop_get_property_editor();
+  property_editor_clear(pe);
+  property_editor_load_players(pe);
+  property_editor_popup(pe);
 }
 
 /****************************************************************************
@@ -1725,10 +1731,27 @@ void editgui_popup_properties(const struct tile_list *tiles)
   }
 
   pe = editprop_get_property_editor();
+  property_editor_clear(pe);
+  property_editor_load_tiles(pe, tiles);
+  property_editor_popup(pe);
+}
+
+/****************************************************************************
+  This is called to notify the editor GUI that some object (e.g. tile, unit,
+  etc.) has changed (usually because the corresponding packet was received)
+  and that widgets displaying the object should be updated.
   
+  Currently this is used to notify the property editor that some object
+  has been removed or some property value has changed at the server.
+****************************************************************************/
+void editgui_notify_object_changed(int objtype, int object_id, bool remove)
+{
+  struct property_editor *pe;
+
+  pe = editprop_get_property_editor();
   if (!pe) {
     return;
   }
-  property_editor_refresh(pe, tiles);
-  property_editor_run(pe);
+
+  property_editor_handle_object_changed(pe, objtype, object_id, remove);
 }

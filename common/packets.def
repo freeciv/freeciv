@@ -1478,81 +1478,120 @@ PACKET_EDIT_STARTPOS=160;cs,handle-per-conn,dsend
   NATION nation; # -1 for erase
 end
 
-PACKET_EDIT_UNIT_CREATE=161;cs,handle-per-conn,dsend
+PACKET_EDIT_TILE=161;cs,handle-per-conn,handle-via-packet
+  UNIT id; key
+  BV_SPECIAL specials;
+  RESOURCE resource;
+  TERRAIN terrain;
+  NATION startpos_nation;
+end
+
+PACKET_EDIT_UNIT_CREATE=162;cs,handle-per-conn,dsend
   PLAYER owner;
   COORD x,y;
   UNIT_TYPE type;
   UINT8 count;
 end
 
-PACKET_EDIT_UNIT_REMOVE=162;cs,handle-per-conn,dsend
+PACKET_EDIT_UNIT_REMOVE=163;cs,handle-per-conn,dsend
   UNIT id;
 end
 
+PACKET_EDIT_UNIT=164;cs,handle-per-conn,handle-via-packet
+  UNIT id; key
+  UNIT_TYPE utype;
+  PLAYER owner;
+  CITY homecity;
+  UINT8 moves_left;
+  UINT8 hp;
+  UINT8 veteran;
+  UINT8 fuel;
+  ACTIVITY activity;
+  UINT8 activity_count;
+  BASE activity_base;
+  BOOL debug;
+  BOOL moved;
+  BOOL paradropped;
+  UNIT transported_by;
+end
 
-PACKET_EDIT_CITY_CREATE=163;cs,handle-per-conn,dsend
+PACKET_EDIT_CITY_CREATE=165;cs,handle-per-conn,dsend
   PLAYER owner;
   COORD x, y;
   UINT8 size;
 end
 
-PACKET_EDIT_CITY_SIZE=164;cs,handle-per-conn,dsend
+PACKET_EDIT_CITY_REMOVE=166;cs,handle-per-conn,dsend
   CITY id;
+end
+
+PACKET_EDIT_CITY=167;cs,handle-per-conn,handle-via-packet
+  CITY id; key
+  STRING name[MAX_LEN_NAME];
+  PLAYER owner;
+  PLAYER original;
   UINT8 size;
+  UINT8 ppl_happy[5], ppl_content[5], ppl_unhappy[5], ppl_angry[5];
+  UINT8 specialists_size;
+  UINT8 specialists[SP_MAX:specialists_size];
+  UINT16 trade[NUM_TRADEROUTES];
+  BOOL airlift;
+  BOOL debug;
+  BOOL did_buy;
+  BOOL did_sell;
+  BOOL was_happy;
+  UINT8 anarchy;
+  UINT8 rapture;
+  UINT8 steal;
+  TURN turn_founded;
+  TURN turn_last_built;
+  SINT32 built[B_LAST]; diff
+  UINT8 production_kind;
+  UINT8 production_value;
+  UINT16 last_turns_shield_surplus;
+  BV_CITY_OPTIONS city_options;
 end
 
-PACKET_EDIT_CITY_REMOVE=165;cs,handle-per-conn,dsend
-  COORD x, y;
-end
-
-
-PACKET_EDIT_PLAYER=166;cs,handle-per-conn,lsend
-  PLAYER playerno; key 
+PACKET_EDIT_PLAYER=168;cs,handle-per-conn,lsend
+  PLAYER id; key 
   STRING name[MAX_LEN_NAME];
   STRING username[MAX_LEN_NAME];
-  BOOL is_observer;
+  STRING ranked_username[MAX_LEN_NAME];
+  TURN user_turns;
+
   BOOL is_male;
   GOVERNMENT government;
   GOVERNMENT target_government;
-  BV_PLAYER embassy;
-  UINT8 city_style;
   NATION nation;
   TEAM team;
+
   BOOL phase_done;
   TURN nturns_idle;
   BOOL is_alive;
-  DIPLSTATE diplstates[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
-  GOLD gold;
-  PERCENT tax, science,luxury;
-  UINT16 bulbs_last_turn;
-  UINT32 bulbs_researched;
-  UINT32 techs_researched;
-  UINT8 researching;
-  UINT16 science_cost;
-  UINT16 future_tech;
-  UINT8 tech_goal;
-  BOOL is_connected;
+  BOOL surrendered;
   TURN revolution_finishes;
-  BOOL ai;
-  UINT8 barbarian_type;
-  VISION gives_shared_vision;
-  STRING inventions[A_LAST+1];
-  SINT16 love[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
-  UINT16 small_wonders[B_LAST]; diff
-end
 
-PACKET_EDIT_PLAYER_VISION=167;cs,handle-per-conn,dsend
-  PLAYER player;
-  COORD x, y;
-  BOOL known;
-  UINT8 size;
+  BOOL capital;
+  BV_PLAYER embassy;
+  DIPLSTATE diplstates[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+  UINT8 city_style;
+  GOLD gold;
+  PERCENT tax, science, luxury;
+
+  UINT16 future_tech;
+  TECH researching;
+  UINT32 bulbs_researched;
+  BOOL inventions[A_LAST+1]; diff
+
+  BOOL ai;
 end
 
 /* Always keep this as the last edit type packet,
  * so that the test in server/srv_main.c +1203
  * is easy to write. */
-PACKET_EDIT_PLAYER_TECH=168;cs,handle-per-conn,dsend
-  PLAYER          playerno;
-  TECH            tech;
-  EDIT_TECH_MODE  mode;
+PACKET_EDIT_PLAYER_VISION=169;cs,handle-per-conn,dsend
+  PLAYER player;
+  COORD x, y;
+  BOOL known;
+  UINT8 size;
 end

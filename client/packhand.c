@@ -52,6 +52,7 @@
 #include "control.h"
 #include "dialogs_g.h"
 #include "editgui_g.h"
+#include "editor.h"
 #include "ggzclient.h"
 #include "goto.h"               /* client_goto_init() */
 #include "graphics_g.h"
@@ -273,7 +274,7 @@ void handle_city_remove(int city_id)
   }
 
   agents_city_remove(pcity);
-
+  editgui_notify_object_changed(OBJTYPE_CITY, pcity->id, TRUE);
   client_remove_city(pcity);
 
   /* update menus if the focus unit is on the tile. */
@@ -305,6 +306,7 @@ void handle_unit_remove(int unit_id)
   powner = unit_owner(punit);
 
   agents_unit_remove(punit);
+  editgui_notify_object_changed(OBJTYPE_UNIT, punit->id, TRUE);
   client_remove_unit(punit);
 
   if (powner == client.conn.playing) {
@@ -787,6 +789,8 @@ static void city_packet_common(struct city *pcity, struct tile *pcenter,
 	    nation_rule_name(nation_of_city(pcity)),
 	    city_name(pcity));
   }
+
+  editgui_notify_object_changed(OBJTYPE_CITY, pcity->id, FALSE);
 }
 
 /****************************************************************************
@@ -1404,6 +1408,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
     /* This won't change punit; it enqueues the call for later handling. */
     agents_unit_changed(punit);
+    editgui_notify_object_changed(OBJTYPE_UNIT, punit->id, FALSE);
   } else {
     /*** Create new unit ***/
     punit = packet_unit;
@@ -1864,6 +1869,8 @@ void handle_player_info(struct packet_player_info *pinfo)
   update_conn_list_dialog();
 
   editgui_refresh();
+  editgui_notify_object_changed(OBJTYPE_PLAYER, player_number(pplayer),
+                                FALSE);
 }
 
 /**************************************************************************
@@ -2387,6 +2394,7 @@ void handle_tile_info(struct packet_tile_info *packet)
     } else {
       agents_tile_changed(ptile);
     }
+    editgui_notify_object_changed(OBJTYPE_TILE, tile_index(ptile), FALSE);
   }
 
   /* refresh tiles */

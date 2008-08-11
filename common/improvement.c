@@ -515,6 +515,15 @@ bool is_improvement(const struct impr_type *pimprove)
 }
 
 /**************************************************************************
+  Returns TRUE if this is a "special" improvement. For example, spaceship
+  parts and coinage in the default ruleset are considered special.
+**************************************************************************/
+bool is_special_improvement(const struct impr_type *pimprove)
+{
+  return pimprove->genus == IG_SPECIAL;
+}
+
+/**************************************************************************
   Get the world city with this great wonder.
 **************************************************************************/
 struct city *find_city_from_great_wonder(const struct impr_type *pimprove)

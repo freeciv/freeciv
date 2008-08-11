@@ -424,10 +424,7 @@ static void editor_grab_tool(const struct tile *ptile)
 ****************************************************************************/
 static inline bool can_edit_tile_properties(struct tile *ptile)
 {
-  return ptile != NULL && (client_is_global_observer()
-                           || (client_has_player()
-                               && (tile_get_known(ptile, client_player())
-                                   == TILE_KNOWN_SEEN)));
+  return ptile != NULL;
 }
 
 /****************************************************************************
@@ -771,8 +768,10 @@ void editor_apply_tool(const struct tile *ptile,
 
   case ETT_CITY:
     if (erase) {
-      dsend_packet_edit_city_remove(&client.conn,
-                                    ptile->x, ptile->y);
+      struct city *pcity = tile_city(ptile);
+      if (pcity != NULL) {
+        dsend_packet_edit_city_remove(&client.conn, pcity->id);
+      }
     } else {
       dsend_packet_edit_city_create(&client.conn, apno,
                                     ptile->x, ptile->y, size);
