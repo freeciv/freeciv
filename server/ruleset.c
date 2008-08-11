@@ -1245,6 +1245,32 @@ if (_count > MAX_VET_LEVELS) {						\
 
       BV_SET(u->cargo, uclass_index(class));
     }
+    free(slist);
+
+    slist = secfile_lookup_str_vec(file, &nval, "%s.targets", sec[i]);
+    BV_CLR_ALL(u->targets);
+    for (j = 0; j < nval; j++) {
+      struct unit_class *class = find_unit_class_by_rule_name(slist[j]);
+
+      if (!class) {
+        ruleset_error(LOG_FATAL,
+                      "\"%s\" unit_type \"%s\":"
+                      "has unknown unit class %s as target.",
+                      filename,
+                      utype_rule_name(u),
+                      slist[j]);
+      }
+
+      BV_SET(u->targets, uclass_index(class));
+    }
+    free(slist);
+
+    /* Set also all classes that are never unreachable as targets. */
+    unit_class_iterate(pclass) {
+      if (!uclass_has_flag(pclass, UCF_UNREACHABLE)) {
+        BV_SET(u->targets, uclass_index(pclass));
+      }
+    } unit_class_iterate_end;
 
     u->helptext = lookup_helptext(file, sec[i]);
 

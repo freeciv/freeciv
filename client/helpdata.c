@@ -947,9 +947,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   if (utype_has_flag(utype, F_UNBRIBABLE)) {
     CATLSTR(buf, bufsz, _("* May not be bribed.\n"));
   }
-  if (utype_has_flag(utype, F_ATTACK_ANY)) {
-    CATLSTR(buf, bufsz, _("* Can attack otherwise unreachable enemy units.\n"));
-  }
   if (utype_has_flag(utype, F_PARTIAL_INVIS)) {
     CATLSTR(buf, bufsz,
             _("* Is invisible except when next to an enemy unit or city.\n"));
@@ -1070,6 +1067,13 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
         break;
     };
   }
+  unit_class_iterate(pclass) {
+    if (uclass_has_flag(pclass, UCF_UNREACHABLE)
+        && BV_ISSET(utype->targets, uclass_index(pclass))) {
+      cat_snprintf(buf, bufsz, "* Can attack against %s units, which are usually not reachable.\n",
+                   uclass_name_translation(pclass));
+    }
+  } unit_class_iterate_end;
   if (utype->fuel > 0) {
     char allowed_units[10][64];
     int num_allowed_units = 0;
