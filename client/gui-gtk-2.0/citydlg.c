@@ -2389,23 +2389,10 @@ static gboolean citizens_callback(GtkWidget * w, GdkEventButton * ev,
 
   tlen = tileset_small_sprite_width(tileset);
   len = (pcity->size - 1) * pdialog->cwidth + tlen;
-  if (can_conn_edit(&client.conn)) {
-    if (ev->x > 0 && ev->x <= tlen) {
-      dsend_packet_edit_city_size(&client.conn, pcity->id, pcity->size + 1);
-      return TRUE;
-    } else if (ev->x > tlen && ev->x <= tlen * 2) {
-      dsend_packet_edit_city_size(&client.conn, pcity->id, pcity->size - 1);
-      return TRUE;
-    } else if (ev->x > len + tlen * 2) {
-      return FALSE;
-    }
-    citnum = MIN(pcity->size - 1, (ev->x - tlen * 2) / pdialog->cwidth);
-  } else {
-    if (ev->x > len) {
-      return FALSE;		/* no citizen that far to the right */
-    }
-    citnum = MIN(pcity->size - 1, ev->x / pdialog->cwidth);
+  if (ev->x > len) {
+    return FALSE;		/* no citizen that far to the right */
   }
+  citnum = MIN(pcity->size - 1, ev->x / pdialog->cwidth);
 
   city_rotate_specialist(pcity, citnum);
 

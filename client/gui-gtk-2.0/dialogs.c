@@ -55,6 +55,7 @@
 #include "tilespec.h"
 
 #include "dialogs.h"
+#include "editprop.h"
 #include "wldlg.h"
 
 /******************************************************************/
@@ -1353,4 +1354,5 @@ void popup_upgrade_dialog(struct unit_list *punits)
 void popdown_all_game_dialogs(void)
 {
   gui_dialog_destroy_all();
+  property_editor_popdown(editprop_get_property_editor());
 }

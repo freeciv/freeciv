@@ -16,6 +16,17 @@
 
 #include "fc_types.h"
 
+/* See client/gui-gtk-2.0/editprop.c for instructions
+ * on how to add more object types. */
+enum editor_object_type {
+  OBJTYPE_TILE,
+  OBJTYPE_UNIT,
+  OBJTYPE_CITY,
+  OBJTYPE_PLAYER,
+  
+  NUM_OBJTYPES
+};
+
 enum editor_tool_type {
   ETT_TERRAIN = 0,
   ETT_TERRAIN_RESOURCE,
