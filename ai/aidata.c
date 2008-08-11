@@ -256,7 +256,9 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
      * coastal fortresses and hunting down enemy transports. */
     city_list_iterate(aplayer->cities, acity) {
       Continent_id continent = tile_continent(acity->tile);
-      ai->threats.continent[continent] = TRUE;
+      if (continent >= 0) {
+        ai->threats.continent[continent] = TRUE;
+      }
     } city_list_iterate_end;
 
     unit_list_iterate(aplayer->units, punit) {
@@ -411,7 +413,10 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
   ai->stats.cities = fc_calloc(ai->num_continents + 1, sizeof(int));
   ai->stats.average_production = 0;
   city_list_iterate(pplayer->cities, pcity) {
-    ai->stats.cities[(int)tile_continent(pcity->tile)]++;
+    Continent_id continent = tile_continent(pcity->tile);
+    if (continent >= 0) {
+      ai->stats.cities[continent]++;
+    }
     ai->stats.average_production += pcity->surplus[O_SHIELD];
   } city_list_iterate_end;
   ai->stats.average_production /= MAX(1, city_list_size(pplayer->cities));
