@@ -376,9 +376,7 @@ static bool ok_for_separate_poles(struct tile *ptile)
     return TRUE;
   }
   adjc_iterate(ptile, tile1) {
-    if (tile1->terrain != T_UNKNOWN
-	&& !is_ocean(tile_get_terrain(tile1))
-        && tile_get_continent(tile1) != 0) {
+    if (tile_get_continent(tile1) > 0) {
       return FALSE;
     }
   } adjc_iterate_end;
@@ -1019,6 +1017,9 @@ static void make_land(void)
   if (HAS_POLES) {
     normalize_hmap_poles();
   }
+  /* Pick terrain just once and fill all land tiles with that terrain */
+  struct terrain *land_fill = pick_terrain(MG_LAST, MG_LAST, MG_LAST);
+
   hmap_shore_level = (hmap_max_level * (100 - map.landpercent)) / 100;
   ini_hmap_low_level();
   whole_map_iterate(ptile) {
@@ -1027,6 +1028,10 @@ static void make_land(void)
       int depth = (hmap_shore_level - hmap(ptile)) * 100 / hmap_shore_level;
 
       tile_set_terrain(ptile, pick_ocean(depth));
+    } else {
+      /* Must set some terrain (and not T_UNKNOWN) so continent number
+         assignment works */
+      tile_set_terrain(ptile, land_fill);
     }
   } whole_map_iterate_end;
   if (HAS_POLES) {
