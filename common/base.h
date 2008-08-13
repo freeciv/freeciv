@@ -76,6 +76,10 @@ int base_get_tile_special_type(const struct base_type *pbase);
 const char *base_rule_name(const struct base_type *pbase);
 const char *base_name_translation(struct base_type *pbase);
 
+struct base_type *find_base_type_by_rule_name(const char *name);
+
+bool is_base_near_tile(const struct tile *ptile, const struct base_type *pbase);
+
 /* Functions to operate on a base flag. */
 bool base_has_flag(const struct base_type *pbase, enum base_flag_id flag);
 bool base_has_flag_for_utype(const struct base_type *pbase,

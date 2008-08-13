@@ -98,6 +98,37 @@ const char *base_rule_name(const struct base_type *pbase)
 }
 
 /**************************************************************************
+  Returns base type matching rule name or NULL if there is no base type
+  with such name.
+**************************************************************************/
+struct base_type *find_base_type_by_rule_name(const char *name)
+{
+  const char *qs = Qn_(name);
+
+  base_type_iterate(pbase) {
+    if (0 == mystrcasecmp(base_rule_name(pbase), qs)) {
+      return pbase;
+    }
+  } base_type_iterate_end;
+
+  return NULL;
+}
+
+/****************************************************************************
+  Is there base of the given type near tile?
+****************************************************************************/
+bool is_base_near_tile(const struct tile *ptile, const struct base_type *pbase)
+{
+  adjc_iterate(ptile, adjc_tile) {
+    if (tile_has_base(adjc_tile, pbase)) {
+      return TRUE;
+    }
+  } adjc_iterate_end;
+
+  return FALSE;
+}
+
+/**************************************************************************
   Can unit build base to given tile?
 **************************************************************************/
 bool can_build_base(const struct unit *punit, const struct base_type *pbase,

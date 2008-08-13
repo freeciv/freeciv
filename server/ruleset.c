@@ -3773,6 +3773,7 @@ static bool sanity_check_req_set(int reqs_of_type[], struct requirement *preq,
 
      case VUT_SPECIAL:
      case VUT_TERRAIN:
+     case VUT_BASE:
        /* There can be only up to max_tiles requirements of these types */
        if (max_tiles != 1 && rc > max_tiles) {
          freelog(LOG_ERROR,
