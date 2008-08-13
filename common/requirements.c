@@ -46,7 +46,8 @@ static const char *universal_names[] = {
   "Specialist",
   "MinSize",
   "AI",
-  "TerrainClass"
+  "TerrainClass",
+  "Base"
 };
 
 /* Names of requirement ranges. These must correspond to enum req_range in
@@ -200,6 +201,12 @@ struct universal universal_by_rule_name(const char *kind,
       return source;
     }
     break;
+  case VUT_BASE:
+    source.value.base = find_base_type_by_rule_name(value);
+    if (source.value.base != NULL) {
+      return source;
+    }
+    break;
   case VUT_LAST:
   default:
     break;
@@ -291,6 +298,9 @@ struct universal universal_by_number(const enum universals_n kind,
   case VUT_TERRAINCLASS:
     source.value.terrainclass = value;
     return source;
+   case VUT_BASE:
+    source.value.base = base_by_number(value);
+    return source;
   case VUT_LAST:
     return source;
   default:
@@ -352,6 +362,8 @@ int universal_number(const struct universal *source)
     return source->value.ai_level;
   case VUT_TERRAINCLASS:
     return source->value.terrainclass;
+  case VUT_BASE:
+    return base_number(source->value.base);
   case VUT_LAST:
   default:
     break;
@@ -396,6 +408,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_OTYPE:
     case VUT_SPECIALIST:
     case VUT_TERRAINCLASS:
+    case VUT_BASE:
       req.range = REQ_RANGE_LOCAL;
       break;
     case VUT_MINSIZE:
@@ -419,6 +432,7 @@ struct requirement req_from_str(const char *type, const char *range,
   case VUT_SPECIAL:
   case VUT_TERRAIN:
   case VUT_TERRAINCLASS:
+  case VUT_BASE:
     invalid = (req.range != REQ_RANGE_LOCAL
 	       && req.range != REQ_RANGE_ADJACENT);
     break;
@@ -798,6 +812,35 @@ static bool is_terrain_class_in_range(const struct tile *target_tile,
 }
 
 /****************************************************************************
+  Is there a source base type within range of the target?
+****************************************************************************/
+static bool is_base_type_in_range(const struct tile *target_tile,
+                                  enum req_range range, bool survives,
+                                  struct base_type *pbase)
+{
+  if (!target_tile) {
+    return FALSE;
+  }
+
+  switch (range) {
+  case REQ_RANGE_LOCAL:
+    /* The requirement is filled if the tile has base of requested type. */
+    return tile_has_base(target_tile, pbase);
+  case REQ_RANGE_ADJACENT:
+    return is_base_near_tile(target_tile, pbase);
+  case REQ_RANGE_CITY:
+  case REQ_RANGE_CONTINENT:
+  case REQ_RANGE_PLAYER:
+  case REQ_RANGE_WORLD:
+  case REQ_RANGE_LAST:
+    break;
+  }
+
+  assert(0);
+  return FALSE;
+}
+
+/****************************************************************************
   Is there a nation within range of the target?
 ****************************************************************************/
 static bool is_nation_in_range(const struct player *target_player,
@@ -1001,6 +1044,11 @@ bool is_req_active(const struct player *target_player,
                                      req->range, req->survives,
                                      req->source.value.terrainclass);
     break;
+  case VUT_BASE:
+    eval = is_base_type_in_range(target_tile,
+                                 req->range, req->survives,
+                                 req->source.value.base);
+    break;
   case VUT_LAST:
     assert(0);
     return FALSE;
@@ -1078,7 +1126,8 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_SPECIAL:
   case VUT_TERRAIN:
   case VUT_TERRAINCLASS:
-    /* Terrains and specials aren't really unchanging; in fact they're
+  case VUT_BASE:
+    /* Terrains, specials and bases aren't really unchanging; in fact they're
      * practically guaranteed to change.  We return TRUE here for historical
      * reasons and so that the AI doesn't get confused (since the AI
      * doesn't know how to meet special and terrain requirements). */
@@ -1133,6 +1182,8 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.ai_level == psource2->value.ai_level;
   case VUT_TERRAINCLASS:
     return psource1->value.terrainclass == psource2->value.terrainclass;
+  case VUT_BASE:
+    return psource1->value.base == psource2->value.base;
   case VUT_LAST:
     break;
   }
@@ -1190,6 +1241,8 @@ const char *universal_rule_name(const struct universal *psource)
     return ai_level_name(psource->value.ai_level);
   case VUT_TERRAINCLASS:
     return terrain_class_rule_name(psource->value.terrainclass);
+  case VUT_BASE:
+    return base_rule_name(psource->value.base);
   case VUT_LAST:
   default:
     assert(0);
@@ -1266,6 +1319,11 @@ const char *universal_name_translation(const struct universal *psource,
     /* TRANS: "Land terrain" */
     cat_snprintf(buf, bufsz, _("%s terrain"),
                  terrain_class_name_translation(psource->value.terrainclass));
+    break;
+  case VUT_BASE:
+    /* TRANS: "Fortress base" */
+    cat_snprintf(buf, bufsz, _("%s base"),
+                 base_name_translation(psource->value.base));
     break;
   case VUT_LAST:
     assert(0);

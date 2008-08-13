@@ -229,6 +229,7 @@ typedef union {
   struct terrain *terrain;
   struct unit_class *uclass;
   struct unit_type *utype;
+  struct base_type *base;
 
   enum ai_level ai_level;
   int minsize;
@@ -259,6 +260,7 @@ enum universals_n {
   VUT_MINSIZE,		/* Minimum size: at city range means city size */
   VUT_AI_LEVEL,		/* AI level of the player */
   VUT_TERRAINCLASS,	/* More generic terrain type, currently "Land" or "Ocean" */
+  VUT_BASE,
   VUT_LAST
 };
 
