@@ -2309,10 +2309,6 @@ void city_refresh_vision(struct city *pcity)
     } else {
       psite->border_radius_sq = 0;
     }
-
-    if (radius_sq < psite->border_radius_sq) {
-      radius_sq = psite->border_radius_sq;
-    }
   }
 
   vision_change_sight(pcity->server.vision, V_MAIN, radius_sq);
