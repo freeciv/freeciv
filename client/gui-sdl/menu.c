@@ -1005,6 +1005,7 @@ void update_menus(void)
       struct tile *pTile = pUnit->tile;
       struct city *pCity = tile_city(pTile);
       struct terrain *pTerrain = tile_terrain(pTile);
+      struct base_type *pbase;
       
       if (!counter) {
 	local_show(ID_UNIT_ORDER_GOTO);
@@ -1160,7 +1161,8 @@ void update_menus(void)
 	set_wflag(pOrder_Transform_Button, WF_HIDDEN);
       }
 
-      if (!pCity && can_unit_do_activity_base(pUnit, BASE_FORTRESS)) {
+      pbase = get_base_by_gui_type(BASE_GUI_FORTRESS, pUnit, pUnit->tile);
+      if (!pCity && pbase) {
 	local_show(ID_UNIT_ORDER_FORTRESS);
       } else {
 	local_hide(ID_UNIT_ORDER_FORTRESS);
@@ -1172,7 +1174,8 @@ void update_menus(void)
 	local_hide(ID_UNIT_ORDER_FORTIFY);
       }
 
-      if (!pCity && can_unit_do_activity_base(pUnit, BASE_AIRBASE)) {
+      pbase = get_base_by_gui_type(BASE_GUI_AIRBASE, pUnit, pUnit->tile);
+      if (!pCity && pbase) {
 	local_show(ID_UNIT_ORDER_AIRBASE);
       } else {
 	local_hide(ID_UNIT_ORDER_AIRBASE);
