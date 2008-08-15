@@ -141,7 +141,7 @@ bool unit_can_airlift_to(const struct unit *punit, const struct city *pcity)
   if (city_owner(acity) != city_owner(pcity)) {
     return FALSE;
   }
-  if (!acity->airlift || !pcity->airlift) {
+  if (acity->airlift <= 0 || pcity->airlift <= 0) {
     return FALSE;
   }
   if (!is_ground_unit(punit))

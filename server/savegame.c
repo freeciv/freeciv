@@ -2218,7 +2218,7 @@ static void player_load_cities(struct player *plr, int plrno,
       secfile_lookup_int(file, "player%d.c%d.shield_stock", plrno, i);
 
     pcity->airlift =
-      secfile_lookup_bool_default(file, FALSE, "player%d.c%d.airlift",
+      secfile_lookup_int_default(file, 0, "player%d.c%d.airlift",
                                   plrno,i);
     pcity->was_happy =
       secfile_lookup_bool_default(file, FALSE, "player%d.c%d.was_happy",
@@ -3318,7 +3318,7 @@ static void player_save_cities(struct player *plr, int plrno,
     secfile_insert_int(file, pcity->shield_stock, "player%d.c%d.shield_stock", 
 		       plrno, i);
 
-    secfile_insert_bool(file, pcity->airlift, "player%d.c%d.airlift",
+    secfile_insert_int(file, pcity->airlift, "player%d.c%d.airlift",
                         plrno, i);
     secfile_insert_bool(file, pcity->was_happy, "player%d.c%d.was_happy",
                         plrno, i);

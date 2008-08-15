@@ -2493,7 +2493,7 @@ struct city *create_city_virtual(struct player *pplayer,
   pcity->shield_stock = 0;
   pcity->pollution = 0;
 
-  pcity->airlift = FALSE;
+  pcity->airlift = 0;
   pcity->debug = FALSE;
 #endif
   pcity->did_buy = TRUE; /* You cannot buy production same turn city is

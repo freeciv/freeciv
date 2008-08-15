@@ -2092,8 +2092,8 @@ bool do_airline(struct unit *punit, struct city *city2)
   if (get_transporter_occupancy(punit) > 0) {
     return FALSE;
   }
-  city1->airlift = FALSE;
-  city2->airlift = FALSE;
+  city1->airlift--;
+  city2->airlift--;
 
   notify_player(unit_owner(punit), city2->tile, E_UNIT_RELOCATED,
 		   _("%s transported successfully."),

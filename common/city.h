@@ -320,7 +320,7 @@ struct city {
   int incite_revolt_cost;      
 
   /* turn states */
-  bool airlift;
+  int airlift;
   bool debug;                   /* not saved */
   bool did_buy;
   bool did_sell;
