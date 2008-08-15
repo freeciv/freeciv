@@ -1767,7 +1767,7 @@ static void update_city_activity(struct player *pplayer, struct city *pcity)
 
     pcity->did_sell=FALSE;
     pcity->did_buy = FALSE;
-    pcity->airlift = (get_city_bonus(pcity, EFT_AIRLIFT) > 0);
+    pcity->airlift = get_city_bonus(pcity, EFT_AIRLIFT);
     update_tech(pplayer, pcity->prod[O_SCIENCE]);
     pplayer->economic.gold+=pcity->prod[O_GOLD];
     pay_for_units(pplayer, pcity);

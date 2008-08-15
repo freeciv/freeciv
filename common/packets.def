@@ -538,7 +538,8 @@ PACKET_CITY_INFO=21; sc,lsend
   UINT16 caravan_shields;
   UINT16 last_turns_shield_surplus;
 
-  BOOL airlift, did_buy, did_sell, was_happy;
+  UINT8 airlift;
+  BOOL did_buy, did_sell, was_happy;
 
   BOOL diplomat_investigate;
   BOOL walls;

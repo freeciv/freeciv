@@ -318,7 +318,7 @@ struct city {
   int pollution;                /* not saved */
 
   /* turn states */
-  bool airlift;
+  int airlift;
   bool debug;                   /* not saved */
   bool did_buy;
   bool did_sell;
