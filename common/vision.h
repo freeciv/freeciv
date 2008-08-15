@@ -134,7 +134,8 @@ void free_vision_site(struct vision_site *psite);
 struct vision_site *create_vision_site(int identity, struct tile *location,
 				       struct player *owner);
 struct vision_site *create_vision_site_from_city(const struct city *pcity);
-struct vision_site *create_vision_site_from_base(struct tile *ptile);
+struct vision_site *create_vision_site_from_base(struct tile *ptile,
+                                                 struct player *owner);
 void update_vision_site_from_city(struct vision_site *psite,
 				  const struct city *pcity);
 void copy_vision_site(struct vision_site *dest, struct vision_site *src);

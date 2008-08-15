@@ -1589,7 +1589,7 @@ void map_claim_ownership(struct tile *ptile, struct player *powner,
       if (NULL != pcity) {
         psite = create_vision_site_from_city(pcity);
       } else {
-        psite = create_vision_site_from_base(ptile);
+        psite = create_vision_site_from_base(ptile, powner);
       }
       change_playertile_site(playsite, psite);
     }
@@ -1733,7 +1733,7 @@ void map_claim_border(struct tile *ptile, struct player *powner)
       continue;
     }
 
-    if (!map_is_known_and_seen(dtile, powner, V_MAIN)) {
+    if (!map_is_known(dtile, powner)) {
       /* without city_reveal_tiles option */
       continue;
     }
