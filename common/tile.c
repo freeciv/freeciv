@@ -374,13 +374,7 @@ int tile_activity_time(enum unit_activity activity, const struct tile *ptile)
 int tile_activity_base_time(const struct tile *ptile,
                             enum base_type_id base)
 {
-  if (base == BASE_AIRBASE) {
-    return base_by_number(BASE_AIRBASE)->build_time * ACTIVITY_FACTOR;
-  } else {
-    return base_by_number(BASE_FORTRESS)->build_time * ACTIVITY_FACTOR;
-  }
-
-  return 0;
+  return base_by_number(base)->build_time * ACTIVITY_FACTOR;
 }
 
 /****************************************************************************
