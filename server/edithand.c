@@ -429,6 +429,11 @@ void handle_edit_unit_create(struct connection *pc, int owner,
     return;
   }
 
+  if (count > 0 && !pplayer->is_alive) {
+    pplayer->is_alive = TRUE;
+    send_player_info(pplayer, NULL);
+  }
+
   /* FIXME: Make this more general? */
   coastal = is_sailing_unittype(punittype);
 
@@ -557,6 +562,11 @@ void handle_edit_city_create(struct connection *pc,
     notify_conn(pc->self, ptile, E_BAD_COMMAND,
                 _("A city may not be built at (%d, %d)."), x, y);
     return;
+  }
+
+  if (!pplayer->is_alive) {
+    pplayer->is_alive = TRUE;
+    send_player_info(pplayer, NULL);
   }
 
   conn_list_do_buffer(game.est_connections);
