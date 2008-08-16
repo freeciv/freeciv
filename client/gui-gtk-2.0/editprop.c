@@ -429,8 +429,6 @@ static gboolean property_page_selection_func(GtkTreeSelection *sel,
                                              gpointer data);
 static void property_page_quick_find_entry_changed(GtkWidget *entry,
                                                    gpointer userdata);
-static void property_page_hide(struct property_page *pp);
-static void property_page_show(struct property_page *pp);
 static void property_page_change_value(struct property_page *pp,
                                        struct objprop *op,
                                        struct propval *pv);
@@ -478,8 +476,9 @@ static void property_page_show_extviewer(struct property_page *pp,
   Property editor declarations.
 ****************************************************************************/
 struct property_editor {
-  GtkWidget *window;
+  GtkWidget *widget;
   GtkWidget *notebook;
+  GtkWidget *combo;
 
   struct property_page *property_pages[NUM_OBJTYPES];
 };
@@ -491,9 +490,8 @@ static void property_editor_apply_button_clicked(GtkButton *button,
                                                  gpointer userdata);
 static void property_editor_refresh_button_clicked(GtkButton *button,
                                                    gpointer userdata);
-static gboolean property_editor_key_press_event(GtkWidget *w,
-                                                GdkEventKey *ev,
-                                                gpointer userdata);
+static void property_editor_combo_changed(GtkComboBox *combo,
+                                          gpointer userdata);
 
 static struct property_editor *the_property_editor;
 
@@ -655,6 +653,10 @@ static void disable_widget_callback(GtkWidget *w, GCallback cb)
 {
   gulong hid;
 
+  if (!w || !cb) {
+    return;
+  }
+
   hid = g_signal_handler_find(w, G_SIGNAL_MATCH_FUNC,
                               0, 0, NULL, cb, NULL);
   g_signal_handler_block(w, hid);
@@ -666,6 +668,10 @@ static void disable_widget_callback(GtkWidget *w, GCallback cb)
 static void enable_widget_callback(GtkWidget *w, GCallback cb)
 {
   gulong hid;
+
+  if (!w || !cb) {
+    return;
+  }
 
   hid = g_signal_handler_find(w, G_SIGNAL_MATCH_FUNC,
                               0, 0, NULL, cb, NULL);
@@ -3676,28 +3682,6 @@ static int property_page_get_num_objbinds(const struct property_page *pp)
 }
 
 /****************************************************************************
-  Hide this property page. I.e. make its gtk widget hidden.
-****************************************************************************/
-static void property_page_hide(struct property_page *pp)
-{
-  if (!pp || !pp->widget) {
-    return;
-  }
-  gtk_widget_hide(pp->widget);
-}
-
-/****************************************************************************
-  Show this property page. I.e. make its gtk widget shown.
-****************************************************************************/
-static void property_page_show(struct property_page *pp)
-{
-  if (!pp || !pp->widget) {
-    return;
-  }
-  gtk_widget_show(pp->widget);
-}
-
-/****************************************************************************
   Called when a user sets a new value for the given property via the GUI.
   Refreshes the properties widget if anything changes.
 ****************************************************************************/
@@ -4093,25 +4077,26 @@ static void property_editor_refresh_button_clicked(GtkButton *button,
 }
 
 /****************************************************************************
-  Handle a key press in the property editor's toplevel window.
+  Handle a change in the active item of the combobox, set by the user.
+  NB: This function will also be called if the active item is changed
+  via the API, so use enable/disable_widget_callback if needed.
 ****************************************************************************/
-static gboolean property_editor_key_press_event(GtkWidget *w,
-                                                GdkEventKey *ev,
-                                                gpointer userdata)
+static void property_editor_combo_changed(GtkComboBox *combo,
+                                          gpointer userdata)
 {
   struct property_editor *pe;
+  int objtype;
 
   pe = userdata;
-  if (!pe || !pe->window) {
-    return FALSE;
+  if (!pe || !pe->notebook) {
+    return;
   }
 
-  if (ev->keyval == GDK_Escape) {
-    gtk_widget_hide(pe->window);
-    return TRUE;
+  objtype = gtk_combo_box_get_active(combo);
+  if (!(0 <= objtype && objtype < NUM_OBJTYPES)) {
+    return;
   }
-
-  return FALSE;
+  gtk_notebook_set_current_page(GTK_NOTEBOOK(pe->notebook), objtype);
 }
 
 /****************************************************************************
@@ -4120,43 +4105,33 @@ static gboolean property_editor_key_press_event(GtkWidget *w,
 static struct property_editor *property_editor_new(void)
 {
   struct property_editor *pe;
-  GtkWidget *window, *notebook, *vbox, *button, *hbox, *sep;
+  GtkWidget *notebook, *button, *label, *combo;
+  GtkWidget *hbox, *vbox;
   GtkSizeGroup *sizegroup;
   int objtype;
+  const char *name;
 
   pe = fc_calloc(1, sizeof(*pe));
 
-  window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title(GTK_WINDOW(window), _("Property Editor"));
-  gtk_window_set_transient_for(GTK_WINDOW(window),
-                               GTK_WINDOW(toplevel));
-  gtk_window_set_destroy_with_parent(GTK_WINDOW(window), TRUE);
-  gtk_window_set_resizable(GTK_WINDOW(window), TRUE);
-  gtk_window_set_modal(GTK_WINDOW(window), FALSE);
-  gtk_window_set_default_size(GTK_WINDOW(window), 800, 500);
-  gtk_container_set_border_width(GTK_CONTAINER(window), 4);
-  g_signal_connect(window, "delete-event",
-                   G_CALLBACK(gtk_widget_hide_on_delete), NULL);
-  g_signal_connect(window, "key-press-event",
-                   G_CALLBACK(property_editor_key_press_event), pe);
-  pe->window = window;
+  hbox = gtk_hbox_new(FALSE, 4);
+  pe->widget = hbox;
 
-  vbox = gtk_vbox_new(FALSE, 4);
-  gtk_container_add(GTK_CONTAINER(window), vbox);
+  label = gtk_label_new(_("Property Editor"));
+  gtk_notebook_append_page(GTK_NOTEBOOK(bottom_notebook),
+                           hbox, label);
 
   notebook = gtk_notebook_new();
-  gtk_box_pack_start(GTK_BOX(vbox), notebook, TRUE, TRUE, 0);
+  gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebook), FALSE);
+  gtk_box_pack_start(GTK_BOX(hbox), notebook, TRUE, TRUE, 0);
   pe->notebook = notebook;
 
   for (objtype = 0; objtype < NUM_OBJTYPES; objtype++) {
     property_editor_add_page(pe, objtype);
   }
 
-  sep = gtk_vseparator_new();
-  gtk_box_pack_start(GTK_BOX(vbox), sep, FALSE, FALSE, 0);
-
-  hbox = gtk_hbox_new(FALSE, 8);
-  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+  vbox = gtk_vbox_new(FALSE, 8);
+  gtk_container_set_border_width(GTK_CONTAINER(vbox), 4);
+  gtk_box_pack_start(GTK_BOX(hbox), vbox, FALSE, FALSE, 0);
 
   sizegroup = gtk_size_group_new(GTK_SIZE_GROUP_BOTH);
 
@@ -4164,21 +4139,36 @@ static struct property_editor *property_editor_new(void)
   gtk_size_group_add_widget(sizegroup, button);
   g_signal_connect(button, "clicked",
                    G_CALLBACK(property_editor_apply_button_clicked), pe);
-  gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 0);
 
   button = gtk_button_new_from_stock(GTK_STOCK_REFRESH);
   gtk_size_group_add_widget(sizegroup, button);
   g_signal_connect(button, "clicked",
                    G_CALLBACK(property_editor_refresh_button_clicked), pe);
-  gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 0);
+
+  combo = gtk_combo_box_new_text();
+  for (objtype = 0; objtype < NUM_OBJTYPES; objtype++) {
+    name = property_page_get_name(pe->property_pages[objtype]);
+    if (!name) {
+      continue;
+    }
+    gtk_combo_box_append_text(GTK_COMBO_BOX(combo), name);
+  }
+
+  g_signal_connect(combo, "changed",
+                   G_CALLBACK(property_editor_combo_changed), pe);
+  gtk_size_group_add_widget(sizegroup, combo);
+  gtk_box_pack_start(GTK_BOX(vbox), combo, FALSE, FALSE, 24);
+  pe->combo = combo;
 
   button = gtk_button_new_from_stock(GTK_STOCK_CLOSE);
   gtk_size_group_add_widget(sizegroup, button);
   g_signal_connect_swapped(button, "clicked",
-                           G_CALLBACK(gtk_widget_hide_on_delete), window);
-  gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
+                           G_CALLBACK(gtk_widget_hide_on_delete), pe->widget);
+  gtk_box_pack_end(GTK_BOX(vbox), button, FALSE, FALSE, 0);
 
-  gtk_widget_show_all(vbox);
+  gtk_widget_show_all(pe->widget);
 
   return pe;
 }
@@ -4207,16 +4197,20 @@ void property_editor_load_tiles(struct property_editor *pe,
     return;
   }
 
+  disable_widget_callback(pe->combo,
+                          G_CALLBACK(property_editor_combo_changed));
+
   for (objtype = 0; objtype < NUM_OBJTYPES; objtype++) {
     pp = pe->property_pages[objtype];
     property_page_load_tiles(pp, tiles);
     if (property_page_get_num_objbinds(pp) > 0) {
-      property_page_show(pp);
       gtk_notebook_set_current_page(GTK_NOTEBOOK(pe->notebook), objtype);
-    } else {
-      property_page_hide(pp);
+      gtk_combo_box_set_active(GTK_COMBO_BOX(pe->combo), objtype);
     }
   }
+  
+  enable_widget_callback(pe->combo,
+                         G_CALLBACK(property_editor_combo_changed));
 }
 
 /****************************************************************************
@@ -4224,11 +4218,16 @@ void property_editor_load_tiles(struct property_editor *pe,
 ****************************************************************************/
 void property_editor_popup(struct property_editor *pe)
 {
-  if (!pe || !pe->window) {
+  int page;
+
+  if (!pe || !pe->widget || !bottom_notebook) {
     return;
   }
 
-  gtk_window_present(GTK_WINDOW(pe->window));
+  gtk_widget_show(pe->widget);
+  page = gtk_notebook_page_num(GTK_NOTEBOOK(bottom_notebook),
+                               pe->widget);
+  gtk_notebook_set_current_page(GTK_NOTEBOOK(bottom_notebook), page);
 }
 
 /****************************************************************************
@@ -4236,10 +4235,10 @@ void property_editor_popup(struct property_editor *pe)
 ****************************************************************************/
 void property_editor_popdown(struct property_editor *pe)
 {
-  if (!pe || !pe->window) {
+  if (!pe || !pe->widget) {
     return;
   }
-  gtk_widget_hide(pe->window);
+  gtk_widget_hide(pe->widget);
 }
 
 /****************************************************************************
@@ -4280,14 +4279,14 @@ void property_editor_clear(struct property_editor *pe)
   for (objtype = 0; objtype < NUM_OBJTYPES; objtype++) {
     pp = pe->property_pages[objtype];
     property_page_clear_objbinds(pp);
-    property_page_hide(pp);
   }
 }
 
 /****************************************************************************
-  Load the current game players into the property editor.
+  Clear the player property page, load the current game players into it, and
+  make it the current shown notebook page.
 ****************************************************************************/
-void property_editor_load_players(struct property_editor *pe)
+void property_editor_reload_players(struct property_editor *pe)
 {
   int objtype;
   struct property_page *pp;
@@ -4302,11 +4301,18 @@ void property_editor_load_players(struct property_editor *pe)
     return;
   }
 
+  property_page_clear_objbinds(pp);
+
   players_iterate(pplayer) {
     property_page_add_objbind(pp, pplayer);
   } players_iterate_end;
 
   property_page_fill_widgets(pp);
-  property_page_show(pp);
   gtk_notebook_set_current_page(GTK_NOTEBOOK(pe->notebook), objtype);
+
+  disable_widget_callback(pe->combo,
+                          G_CALLBACK(property_editor_combo_changed));
+  gtk_combo_box_set_active(GTK_COMBO_BOX(pe->combo), objtype);
+  enable_widget_callback(pe->combo,
+                         G_CALLBACK(property_editor_combo_changed));
 }
