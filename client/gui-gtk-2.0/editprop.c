@@ -221,6 +221,11 @@ static struct propval *propstate_get_value(struct propstate *ps);
 ****************************************************************************/
 enum object_property_ids {
   OPID_TILE_IMAGE,
+  OPID_TILE_X,
+  OPID_TILE_Y,
+  OPID_TILE_NAT_X,
+  OPID_TILE_NAT_Y,
+  OPID_TILE_CONTINENT,
   OPID_TILE_ADDRESS,
   OPID_TILE_TERRAIN,
   OPID_TILE_INDEX,
@@ -1106,6 +1111,21 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
       break;
     case OPID_TILE_INDEX:
       pv->data.v_int = tile_index(ptile);
+      break;
+    case OPID_TILE_X:
+      pv->data.v_int = ptile->x;
+      break;
+    case OPID_TILE_Y:
+      pv->data.v_int = ptile->y;
+      break;
+    case OPID_TILE_NAT_X:
+      pv->data.v_int = ptile->nat_x;
+      break;
+    case OPID_TILE_NAT_Y:
+      pv->data.v_int = ptile->nat_y;
+      break;
+    case OPID_TILE_CONTINENT:
+      pv->data.v_int = ptile->continent;
       break;
     case OPID_TILE_SPECIALS:
       pv->data.v_bv_special = tile_specials(ptile);
@@ -2000,6 +2020,11 @@ static void objprop_setup_widget(struct objprop *op)
 
   case OPID_TILE_ADDRESS:
   case OPID_TILE_INDEX:
+  case OPID_TILE_X:
+  case OPID_TILE_Y:
+  case OPID_TILE_NAT_X:
+  case OPID_TILE_NAT_Y:
+  case OPID_TILE_CONTINENT:
   case OPID_TILE_TERRAIN:
   case OPID_TILE_RESOURCE:
   case OPID_TILE_XY:
@@ -2170,6 +2195,11 @@ static void objprop_refresh_widget(struct objprop *op,
     break;
 
   case OPID_TILE_INDEX:
+  case OPID_TILE_X:
+  case OPID_TILE_Y:
+  case OPID_TILE_NAT_X:
+  case OPID_TILE_NAT_Y:
+  case OPID_TILE_CONTINENT:
   case OPID_UNIT_ID:
   case OPID_CITY_ID:
     label = objprop_get_child_widget(op, "value-label");
@@ -2937,7 +2967,21 @@ static void property_page_setup_objprops(struct property_page *pp)
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_STRING);
     ADDPROP(OPID_TILE_INDEX, _("Index"),
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_INT);
-    ADDPROP(OPID_TILE_XY, _("X,Y"),
+    ADDPROP(OPID_TILE_X, Q_("?coordinate:X"),
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_INT);
+    ADDPROP(OPID_TILE_Y, Q_("?coordinate:Y"),
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_INT);
+    /* TRANS: The coordinate X in native coordinates.
+     * The freeciv coordinate system is described in doc/HACKING. */
+    ADDPROP(OPID_TILE_NAT_X, _("NAT_X"),
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_INT);
+    /* TRANS: The coordinate Y in native coordinates.
+     * The freeciv coordinate system is described in doc/HACKING. */
+    ADDPROP(OPID_TILE_NAT_Y, _("NAT_Y"),
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_INT);
+    ADDPROP(OPID_TILE_CONTINENT, _("Continent"),
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_INT);
+    ADDPROP(OPID_TILE_XY, Q_("?coordinates:X,Y"),
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_STRING);
     ADDPROP(OPID_TILE_SPECIALS, _("Specials"), OPF_IN_LISTVIEW
             | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BV_SPECIAL);
@@ -2952,7 +2996,7 @@ static void property_page_setup_objprops(struct property_page *pp)
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_STRING);
     ADDPROP(OPID_UNIT_ID, _("ID"),
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_INT);
-    ADDPROP(OPID_UNIT_XY, _("X,Y"),
+    ADDPROP(OPID_UNIT_XY, Q_("?coordinates:X,Y"),
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_STRING);
     ADDPROP(OPID_UNIT_MOVES_LEFT, _("Moves Left"),
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
@@ -2967,7 +3011,7 @@ static void property_page_setup_objprops(struct property_page *pp)
             OPF_HAS_WIDGET, VALTYPE_STRING);
     ADDPROP(OPID_CITY_ID, _("ID"),
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_INT);
-    ADDPROP(OPID_CITY_XY, _("X,Y"),
+    ADDPROP(OPID_CITY_XY, Q_("?coordinates:X,Y"),
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_STRING);
     ADDPROP(OPID_CITY_SIZE, _("Size"),
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
