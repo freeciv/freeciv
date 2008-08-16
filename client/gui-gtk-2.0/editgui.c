@@ -396,8 +396,7 @@ static void editbar_player_properties_button_clicked(GtkButton *b,
   }
 
   pe = editprop_get_property_editor();
-  property_editor_clear(pe);
-  property_editor_load_players(pe);
+  property_editor_reload_players(pe);
   property_editor_popup(pe);
 }
 
