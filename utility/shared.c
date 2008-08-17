@@ -1700,9 +1700,15 @@ bool path_is_absolute(const char *filename)
     return FALSE;
   }
 
+#ifdef WIN32_NATIVE
+  if (strchr(filename, ':')) {
+    return TRUE;
+  }
+#else
   if (filename[0] == '/') {
     return TRUE;
   }
+#endif  
 
   return FALSE;
 }
