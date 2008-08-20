@@ -75,6 +75,15 @@ union my_sockaddr {
 #endif
 };
 
+/* Which protocol will be used for LAN announcements */
+enum announce_type {
+  ANNOUNCE_NONE,
+  ANNOUNCE_IPV4,
+  ANNOUNCE_IPV6
+};
+
+#define ANNOUNCE_DEFAULT ANNOUNCE_IPV4
+
 int my_connect(int sockfd, const struct sockaddr *serv_addr, socklen_t addrlen);
 int my_select(int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
               struct timeval *timeout);

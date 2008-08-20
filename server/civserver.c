@@ -123,6 +123,8 @@ int main(int argc, char *argv[])
 #ifdef GENERATING_MAC
   Mac_options(argc);
 #endif
+  srvarg.announce = ANNOUNCE_DEFAULT;
+
   /* no  we don't use GNU's getopt or even the "standard" getopt */
   /* yes we do have reasons ;)                                   */
   inx = 1;
@@ -190,9 +192,22 @@ int main(int argc, char *argv[])
       free(option);
     } else if ((option = get_option_malloc("--saves", argv, &inx, argc))) {
       srvarg.saves_pathname = option; /* Never freed. */
-    } else if (is_option("--version", argv[inx]))
+    } else if (is_option("--version", argv[inx])) {
       showvers = TRUE;
-    else {
+    } else if ((option = get_option_malloc("--Announce", argv, &inx, argc))) {
+      if (!strcasecmp(option, "ipv4")) {
+        srvarg.announce = ANNOUNCE_IPV4;
+      } else if(!strcasecmp(option, "none")) {
+        srvarg.announce= ANNOUNCE_NONE;
+#ifdef IPV6_SUPPORT
+      } else if (!strcasecmp(option, "ipv6")) {
+        srvarg.announce = ANNOUNCE_IPV6;
+#endif /* IPv6 support */
+      } else {
+        freelog(LOG_ERROR, _("Illegal value \"%s\" for --Announce"), option);
+      }
+      free(option);
+    } else {
       fc_fprintf(stderr, _("Error: unknown option '%s'\n"), argv[inx]);
       showhelp = TRUE;
       break;
@@ -212,6 +227,7 @@ int main(int argc, char *argv[])
   if (showhelp) {
     fc_fprintf(stderr,
 	       _("Usage: %s [option ...]\nValid options are:\n"), argv[0]);
+    fc_fprintf(stderr, _("  -A  --announce PROTO\tAnnounce game in LAN using protocol PROTO (IPv4/IPv6/none)\n"));
 #ifdef HAVE_AUTH
     fc_fprintf(stderr, _("  -a  --auth FILE\tEnable server authentication "
                          "with configuration from FILE.\n"));

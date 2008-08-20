@@ -13,6 +13,10 @@
 #ifndef FC__SRV_MAIN_H
 #define FC__SRV_MAIN_H
 
+/* utility */
+#include "netintf.h"
+
+/* common */
 #include "fc_types.h"
 
 struct conn_list;
@@ -46,6 +50,7 @@ struct server_arguments {
   char *auth_conf;              /* auth configuration file */
   bool auth_allow_guests;       /* defaults to TRUE */
   bool auth_allow_newusers;     /* defaults to TRUE */
+  enum announce_type announce;
 };
 
 /* used in savegame values */

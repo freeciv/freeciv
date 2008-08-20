@@ -926,12 +926,17 @@ int server_open_socket(void)
   /* setup socket address */
   union my_sockaddr src;
   union my_sockaddr addr;
-  struct ip_mreq mreq;
+  struct ip_mreq mreq4;
   const char *group;
   int opt;
+  int lan_family;
+
+#ifdef IPV6_SUPPORT
+  struct ipv6_mreq mreq6;
+#endif
 
   if (!net_lookup_service(srvarg.bind_addr, srvarg.port, &src)) {
-    freelog(LOG_FATAL, _("Server: bad address: [%s:%d]."),
+    freelog(LOG_FATAL, _("Server: bad address: <%s:%d>."),
 	    srvarg.bind_addr, srvarg.port);
     exit(EXIT_FAILURE);
   }
@@ -958,8 +963,21 @@ int server_open_socket(void)
     exit(EXIT_FAILURE);
   }
 
+  if (srvarg.announce == ANNOUNCE_NONE) {
+    return 0;
+  }
+
+#ifdef IPV6_SUPPORT
+  if (srvarg.announce == ANNOUNCE_IPV6) {
+    lan_family = AF_INET6;
+  } else
+#endif /* IPV6 used */
+  {
+    lan_family = AF_INET;
+  }
+
   /* Create socket for server LAN announcements */
-  if ((socklan = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
+  if ((socklan = socket(lan_family, SOCK_DGRAM, 0)) < 0) {
      freelog(LOG_ERROR, "socket failed: %s", mystrerror());
   }
 
@@ -970,26 +988,55 @@ int server_open_socket(void)
 
   my_nonblock(socklan);
 
-  group = get_multicast_group();
+  group = get_multicast_group(srvarg.announce == ANNOUNCE_IPV6);
 
   memset(&addr, 0, sizeof(addr));
-  addr.saddr_in4.sin_family = AF_INET;
-  addr.saddr_in4.sin_addr.s_addr = htonl(INADDR_ANY);
-  addr.saddr_in4.sin_port = htons(SERVER_LAN_PORT);
+
+  addr.saddr.sa_family = lan_family;
+
+#ifdef IPV6_SUPPORT
+  if (addr.saddr.sa_family == AF_INET6) {
+    addr.saddr_in6.sin6_family = AF_INET6;
+    addr.saddr_in6.sin6_port = htons(SERVER_LAN_PORT);
+    addr.saddr_in6.sin6_addr = in6addr_any;
+  } else
+#endif /* IPv6 support */
+  {
+    addr.saddr_in4.sin_family = AF_INET;
+    addr.saddr_in4.sin_port = htons(SERVER_LAN_PORT);
+    addr.saddr_in4.sin_addr.s_addr = htonl(INADDR_ANY);
+  }
 
   if (bind(socklan, &addr.saddr, sockaddr_size(&addr)) < 0) {
     freelog(LOG_ERROR, "Lan bind failed: %s", mystrerror());
   }
 
-  mreq.imr_multiaddr.s_addr = inet_addr(group);
-  mreq.imr_interface.s_addr = htonl(INADDR_ANY);
+#ifndef IPV6_SUPPORT
+  {
+    inet_aton(group, &mreq4.imr_multiaddr);
+#else
+  if (addr.saddr.sa_family == AF_INET6) {
+    inet_pton(AF_INET6, group, &mreq6.ipv6mr_multiaddr.s6_addr);
+    mreq6.ipv6mr_interface = 0; /* TODO: Interface selection */
+    if (setsockopt(socklan, IPPROTO_IPV6, IPV6_ADD_MEMBERSHIP,
+                   (const char*)&mreq6, sizeof(mreq6)) < 0) {
+      freelog(LOG_ERROR, "IPV6_ADD_MEMBERSHIP (%s) failed: %s",
+              group, mystrerror());
+    }
+  } else {
+    inet_pton(AF_INET, group, &mreq4.imr_multiaddr.s_addr);
+#endif /* IPv6 support */
+    mreq4.imr_interface.s_addr = htonl(INADDR_ANY);
 
-  if (setsockopt(socklan, IPPROTO_IP, IP_ADD_MEMBERSHIP,
-                 (const char*)&mreq, sizeof(mreq)) < 0) {
-    freelog(LOG_ERROR, "setsockopt failed: %s", mystrerror());
+    if (setsockopt(socklan, IPPROTO_IP, IP_ADD_MEMBERSHIP,
+                   (const char*)&mreq4, sizeof(mreq4)) < 0) {
+      freelog(LOG_ERROR, "IP_ADD_MEMBERSHIP (%s) failed: %s",
+              group, mystrerror());
+    }
   }
 
   close_socket_set_callback(close_socket_callback);
+
   return 0;
 }
 
@@ -1183,7 +1230,7 @@ static void send_lanserver_response(void)
   }
 
   /* Set the UDP Multicast group IP address of the packet. */
-  group = get_multicast_group();
+  group = get_multicast_group(srvarg.announce == ANNOUNCE_IPV6);
   memset(&addr, 0, sizeof(addr));
   addr.saddr_in4.sin_family = AF_INET;
   addr.saddr_in4.sin_addr.s_addr = inet_addr(group);

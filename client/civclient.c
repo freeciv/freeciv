@@ -90,6 +90,7 @@ char metaserver[512] = "\0";
 int  server_port = -1;
 bool auto_connect = FALSE; /* TRUE = skip "Connect to Freeciv Server" dialog */
 bool in_ggz = FALSE;
+enum announce_type announce;
 
 struct civclient client;
 
@@ -231,6 +232,8 @@ int main(int argc, char *argv[])
 
   i = 1;
 
+  announce = ANNOUNCE_DEFAULT;
+
   while (i < argc) {
     if (ui_separator) {
       argv[1 + ui_options] = argv[i];
@@ -238,6 +241,7 @@ int main(int argc, char *argv[])
     } else if (is_option("--help", argv[i])) {
       fc_fprintf(stderr, _("Usage: %s [option ...]\n"
 			   "Valid options are:\n"), argv[0]);
+      fc_fprintf(stderr, _("  -A, --Announce PROTO\tAnnounce game in LAN using protocol PROTO (IPv4/IPv6/none)\n"));
       fc_fprintf(stderr, _("  -a, --autoconnect\tSkip connect dialog\n"));
 #ifdef DEBUG
       fc_fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (0 to 4,"
@@ -321,6 +325,20 @@ int main(int argc, char *argv[])
       sz_strlcpy(tileset_name, option);
       free(option);
       user_tileset = TRUE;
+    } else if ((option = get_option_malloc("--Announce", argv, &i, argc))) {
+      if (!strcasecmp(option, "ipv4")) {
+        announce = ANNOUNCE_IPV4;
+      } else if (!strcasecmp(option, "none")) {
+        announce = ANNOUNCE_NONE;
+#ifdef IPV6_SUPPORT
+      } else if(!strcasecmp(option, "ipv6")) {
+        announce = ANNOUNCE_IPV6;
+#endif /* IPv6 support */
+      } else {
+        fc_fprintf(stderr, _("Invalid announce protocol \"%s\".\n"), option);
+        exit(EXIT_FAILURE);
+      }
+      free(option);
     } else if (is_option("--", argv[i])) {
       ui_separator = TRUE;
     } else {

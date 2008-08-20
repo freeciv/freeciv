@@ -1596,18 +1596,29 @@ bool bv_are_equal(const unsigned char *vec1, const unsigned char *vec2,
   servers on the LAN, as specified by $FREECIV_MULTICAST_GROUP.
   Gets value once, and then caches result.
 ***************************************************************************/
-char *get_multicast_group(void)
+char *get_multicast_group(bool ipv6_prefered)
 {
   static bool init = FALSE;
   static char *group = NULL;
-  static char *default_multicast_group = "225.1.1.1";
-  
+  static char *default_multicast_group_ipv4 = "225.1.1.1";
+#ifdef IPV6_SUPPORT
+  /* TODO: Get useful group (this is node local) */
+  static char *default_multicast_group_ipv6 = "FF31::8000:15B4";
+#endif
+
   if (!init) {
     char *env = getenv("FREECIV_MULTICAST_GROUP");
     if (env) {
       group = mystrdup(env);	        
     } else {
-      group = mystrdup(default_multicast_group);
+#ifdef IPV6_SUPPORT
+      if (ipv6_prefered) {
+        group = mystrdup(default_multicast_group_ipv6);
+      } else
+#endif /* IPv6 support */
+      {
+        group = mystrdup(default_multicast_group_ipv4);
+      }
     }
     init = TRUE;
   }
