@@ -96,6 +96,8 @@ struct server_scan {
   } meta;
 };
 
+extern enum announce_type announce;
+
 /**************************************************************************
  The server sends a stream in a registry 'ini' type format.
  Read it using secfile functions and fill the server_list structs.
@@ -538,15 +540,35 @@ static bool begin_lanserver_scan(struct server_scan *scan)
 #else  /* HAVE_WINSOCK */
   char buffer[MAX_LEN_PACKET];
 #endif /* HAVE_WINSOCK */
-  struct ip_mreq mreq;
+  struct ip_mreq mreq4;
   const char *group;
   size_t size;
+  int family;
+
+#ifdef IPV6_SUPPORT
+  struct ipv6_mreq mreq6;
+#endif
+
 #ifndef HAVE_WINSOCK
   unsigned char ttl;
 #endif
 
+  if (announce == ANNOUNCE_NONE) {
+    /* Succeeded in doing nothing */
+    return TRUE;
+  }
+
+#ifdef IPV6_SUPPORT
+  if (announce == ANNOUNCE_IPV6) {
+    family = AF_INET6;
+  } else
+#endif
+  {
+    family = AF_INET;
+  }
+
   /* Create a socket for broadcasting to servers. */
-  if ((sock = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
+  if ((sock = socket(family, SOCK_DGRAM, 0)) < 0) {
     freelog(LOG_ERROR, "socket failed: %s", mystrerror());
     return FALSE;
   }
@@ -557,11 +579,23 @@ static bool begin_lanserver_scan(struct server_scan *scan)
   }
 
   /* Set the UDP Multicast group IP address. */
-  group = get_multicast_group();
+  group = get_multicast_group(announce == ANNOUNCE_IPV6);
   memset(&addr, 0, sizeof(addr));
-  addr.saddr_in4.sin_family = AF_INET;
-  addr.saddr_in4.sin_addr.s_addr = inet_addr(get_multicast_group());
-  addr.saddr_in4.sin_port = htons(SERVER_LAN_PORT);
+
+#ifndef IPV6_SUPPORT
+  {
+    inet_aton(group, &addr.saddr_in4.sin_addr);
+#else  /* IPv6 support */
+  if (family == AF_INET6) {
+    addr.saddr.sa_family = AF_INET6;
+    inet_pton(AF_INET6, group, &addr.saddr_in6.sin6_addr);
+    addr.saddr_in6.sin6_port = htons(SERVER_LAN_PORT);
+  } else {
+    inet_pton(AF_INET, group, &addr.saddr_in4.sin_addr);
+#endif /* IPv6 support */
+    addr.saddr.sa_family = AF_INET;
+    addr.saddr_in4.sin_port = htons(SERVER_LAN_PORT);
+  }
 
 /* this setsockopt call fails on Windows 98, so we stick with the default
  * value of 1 on Windows, which should be fine in most cases */
@@ -573,7 +607,7 @@ static bool begin_lanserver_scan(struct server_scan *scan)
     freelog(LOG_ERROR, "setsockopt failed: %s", mystrerror());
     return FALSE;
   }
-#endif
+#endif /* HAVE_WINSOCK */
 
   if (setsockopt(sock, SOL_SOCKET, SO_BROADCAST, (const char*)&opt, 
                  sizeof(opt))) {
@@ -587,7 +621,7 @@ static bool begin_lanserver_scan(struct server_scan *scan)
  
 
   if (sendto(sock, buffer, size, 0, &addr.saddr,
-      sockaddr_size(&addr)) < 0) {
+             sockaddr_size(&addr)) < 0) {
     /* This can happen when there's no network connection - it should
      * give an in-game message. */
     freelog(LOG_ERROR, "lanserver scan sendto failed: %s", mystrerror());
@@ -599,7 +633,7 @@ static bool begin_lanserver_scan(struct server_scan *scan)
   my_closesocket(sock);
 
   /* Create a socket for listening for server packets. */
-  if ((scan->sock = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
+  if ((scan->sock = socket(family, SOCK_DGRAM, 0)) < 0) {
     (scan->error_func)(scan, mystrerror());
     return FALSE;
   }
@@ -612,21 +646,47 @@ static bool begin_lanserver_scan(struct server_scan *scan)
   }
                                                                                
   memset(&addr, 0, sizeof(addr));
-  addr.saddr_in4.sin_family = AF_INET;
-  addr.saddr_in4.sin_addr.s_addr = htonl(INADDR_ANY); 
-  addr.saddr_in4.sin_port = htons(SERVER_LAN_PORT + 1);
+
+#ifdef IPV6_SUPPORT
+  if (family == AF_INET6) {
+    addr.saddr.sa_family = AF_INET6;
+    addr.saddr_in6.sin6_port = htons(SERVER_LAN_PORT + 1);
+    addr.saddr_in6.sin6_addr = in6addr_any;
+  } else
+#endif /* IPv6 support */
+  {
+    addr.saddr.sa_family = AF_INET;
+    addr.saddr_in4.sin_port = htons(SERVER_LAN_PORT + 1);
+    addr.saddr_in4.sin_addr.s_addr = htonl(INADDR_ANY);
+  }
 
   if (bind(scan->sock, &addr.saddr, sockaddr_size(&addr)) < 0) {
     (scan->error_func)(scan, mystrerror());
     return FALSE;
   }
 
-  mreq.imr_multiaddr.s_addr = inet_addr(group);
-  mreq.imr_interface.s_addr = htonl(INADDR_ANY);
-  if (setsockopt(scan->sock, IPPROTO_IP, IP_ADD_MEMBERSHIP, 
-                 (const char*)&mreq, sizeof(mreq)) < 0) {
-    (scan->error_func)(scan, mystrerror());
-    return FALSE;
+#ifndef IPV6_SUPPORT
+  {
+    inet_aton(group, &mreq4.imr_multiaddr);
+#else
+  if (family == AF_INET6) {
+    inet_pton(AF_INET6, group, &mreq6.ipv6mr_multiaddr.s6_addr);
+    mreq6.ipv6mr_interface = 0; /* TODO: Interface selection */
+
+    if (setsockopt(scan->sock, IPPROTO_IPV6, IPV6_ADD_MEMBERSHIP,
+                   (const char*)&mreq6, sizeof(mreq6)) < 0) {
+      (scan->error_func)(scan, mystrerror());
+    }
+  } else {
+    inet_pton(AF_INET, group, &mreq4.imr_multiaddr.s_addr);
+#endif /* IPv6 support */
+    mreq4.imr_interface.s_addr = htonl(INADDR_ANY);
+
+    if (setsockopt(scan->sock, IPPROTO_IP, IP_ADD_MEMBERSHIP,
+                   (const char*)&mreq4, sizeof(mreq4)) < 0) {
+      (scan->error_func)(scan, mystrerror());
+      return FALSE;
+    }
   }
 
   scan->servers = server_list_new();
