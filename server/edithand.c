@@ -388,7 +388,7 @@ void handle_edit_unit_create(struct connection *pc, int owner,
   ptile = map_pos_to_tile(x, y);
   if (!ptile) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND,
-                _("Cannot edit the tile (%d, %d) because "
+                _("Cannot create units at tile (%d, %d) because "
                   "it is not on the map!"), x, y);
     return;
   }
@@ -450,11 +450,16 @@ void handle_edit_unit_create(struct connection *pc, int owner,
 }
 
 /****************************************************************************
-  Remove a unit with the given id.
+  Remove 'count' units of type 'utid' owned by player number 'owner' at
+  tile (x, y).
 ****************************************************************************/
-void handle_edit_unit_remove(struct connection *pc, int id)
+void handle_edit_unit_remove(struct connection *pc, int owner,
+                             int x, int y, Unit_type_id utid, int count)
 {
-  struct unit *punit;
+  struct tile *ptile;
+  struct unit_type *punittype;
+  struct player *pplayer;
+  int i;
 
   if (!can_conn_edit(pc)) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND,
@@ -462,14 +467,44 @@ void handle_edit_unit_remove(struct connection *pc, int id)
     return;
   }
 
-  punit = game_find_unit_by_number(id);
-  if (!punit) {
+  ptile = map_pos_to_tile(x, y);
+  if (!ptile) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND,
-                _("Cannot remove unit with unknown id %d."), id);
+                _("Cannot remove units at tile (%d, %d) because "
+                  "it is not on the map!"), x, y);
     return;
   }
 
-  wipe_unit(punit);
+  punittype = utype_by_number(utid);
+  if (!punittype) {
+    notify_conn(pc->self, ptile, E_BAD_COMMAND,
+                _("Cannot remove a unit at (%d, %d) because the "
+                  "given unit type id %d is invalid."), x, y, utid);
+    return;
+  }
+
+  pplayer = valid_player_by_number(owner);
+  if (!pplayer) {
+    notify_conn(pc->self, ptile, E_BAD_COMMAND,
+                _("Cannot remove a unit of type %s at (%d, %d) "
+                  "because the given owner's player id %d is "
+                  "invalid."), utype_name_translation(punittype),
+                x, y, owner);
+    return;
+  }
+
+  i = 0;
+  unit_list_iterate_safe(ptile->units, punit) {
+    if (i >= count) {
+      break;
+    }
+    if (unit_type(punit) != punittype
+        || unit_owner(punit) != pplayer) {
+      continue;
+    }
+    wipe_unit(punit);
+    i++;
+  } unit_list_iterate_safe_end;
 }
 
 

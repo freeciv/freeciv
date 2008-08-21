@@ -1496,7 +1496,10 @@ PACKET_EDIT_UNIT_CREATE=162;cs,handle-per-conn,dsend
 end
 
 PACKET_EDIT_UNIT_REMOVE=163;cs,handle-per-conn,dsend
-  UNIT id;
+  PLAYER owner;
+  COORD x,y;
+  UNIT_TYPE type;
+  UINT8 count;
 end
 
 PACKET_EDIT_UNIT=164;cs,handle-per-conn,handle-via-packet
