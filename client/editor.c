@@ -118,8 +118,8 @@ void editor_init(void)
   SET_TOOL(ETT_MILITARY_BASE, _("Military Base"),
            ETF_HAS_VALUE | ETF_HAS_SIZE | ETF_HAS_VALUE_ERASE,
            _("Create a military base."));
-  SET_TOOL(ETT_UNIT, _("Unit"),
-           ETF_HAS_VALUE | ETF_HAS_COUNT | ETF_HAS_APPLIED_PLAYER,
+  SET_TOOL(ETT_UNIT, _("Unit"), ETF_HAS_VALUE | ETF_HAS_COUNT
+           | ETF_HAS_APPLIED_PLAYER | ETF_HAS_VALUE_ERASE,
            _("Create unit."));
   SET_TOOL(ETT_CITY, _("City"), ETF_HAS_SIZE | ETF_HAS_APPLIED_PLAYER,
            _("Create city."));
@@ -753,13 +753,8 @@ void editor_apply_tool(const struct tile *ptile,
 
   case ETT_UNIT:
     if (erase) {
-      unit_list_iterate(ptile->units, punit) {
-        if (apno != player_number(punit->owner)) {
-          continue;
-        }
-        dsend_packet_edit_unit_remove(&client.conn, punit->id);
-        break;
-      } unit_list_iterate_end;
+      dsend_packet_edit_unit_remove(&client.conn, apno,
+                                    ptile->x, ptile->y, value, count);
     } else {
       dsend_packet_edit_unit_create(&client.conn, apno,
                                     ptile->x, ptile->y, value, count);
