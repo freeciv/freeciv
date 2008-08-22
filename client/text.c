@@ -181,27 +181,25 @@ const char *popup_info_text(struct tile *ptile)
     improvement_iterate(pimprove) {
       if (is_improvement_visible(pimprove)
        && city_has_building(pcity, pimprove)) {
-        if (NULL != prev_impr) {
-          if (has_improvements++ > 0) {
-            /* TRANS: continue list, in case comma is not the separator of choice. */
-            astr_add(&str, Q_("?clistmore:, %s"),
-        	     improvement_name_translation(prev_impr));
-          } else {
-	    /* TRANS: previous lines gave other information about the city. */
-            astr_add(&str, Q_("?clistbegin: with %s"),
-        	     improvement_name_translation(prev_impr));
-          }
+        if (has_improvements++ > 1) {
+          /* TRANS: continue list, in case comma is not the separator of choice. */
+          astr_add(&str, Q_("?clistmore:, %s"),
+                   improvement_name_translation(prev_impr));
+        } else if (has_improvements == 1) {
+          /* TRANS: previous lines gave other information about the city. */
+          astr_add(&str, Q_("?clistbegin: with %s"),
+                   improvement_name_translation(pimprove));
         }
         prev_impr = pimprove;
       }
     } improvement_iterate_end;
 
     if (NULL != prev_impr) {
-      if (has_improvements > 1) {
+      if (has_improvements > 2) {
         /* TRANS: This appears with two or more previous entries in the list */
         astr_add(&str, Q_("?clistlast:, and %s"),
 		 improvement_name_translation(prev_impr));
-      } else if (has_improvements > 0) {
+      } else if (has_improvements > 1) {
         /* TRANS: This appears with only one previous entry in the list */
         astr_add(&str, Q_("?clistlast: and %s"),
 		 improvement_name_translation(prev_impr));
