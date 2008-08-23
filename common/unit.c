@@ -762,7 +762,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
   struct player *pplayer = unit_owner(punit);
   struct terrain *pterrain = tile_terrain(ptile);
   struct unit_class *pclass = unit_class(punit);
-  struct base_type *old_base;
+  struct base_type *first_base = NULL;
   struct base_type *pbase = base_by_number(base);
 
   switch(activity) {
@@ -853,9 +853,8 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     return FALSE;
 
   case ACTIVITY_BASE:
-    old_base = tile_get_base(ptile);
     return (can_build_base(punit, pbase, ptile)
-            && (old_base == NULL || old_base != pbase));
+            && !tile_has_base(ptile, pbase));
 
   case ACTIVITY_SENTRY:
     if (!can_unit_survive_at_tile(punit, punit->tile)
@@ -877,7 +876,6 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     {
       int numpresent;
       bv_special pspresent = get_tile_infrastructure_set(ptile, &numpresent);
-      old_base = tile_get_base(ptile);
 
       if (numpresent > 0 && is_ground_unit(punit)) {
 	bv_special psworking;
@@ -887,6 +885,14 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 	  return FALSE;
 	}
 	psworking = get_unit_tile_pillage_set(ptile);
+
+        base_type_iterate(pbase) {
+          if (tile_has_base(ptile, pbase)) {
+            first_base = pbase;
+            break;
+          }
+        } base_type_iterate_end;
+
 	if (target == S_LAST) {
 	  for (i = 0; infrastructure_specials[i] != S_LAST; i++) {
 	    enum tile_special_type spe = infrastructure_specials[i];
@@ -901,12 +907,11 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 	    }
 	  }
 	} else if (!game.info.pillage_select
-		   && target != get_preferred_pillage(pspresent,
-                                                      tile_get_base(ptile))) {
+		   && target != get_preferred_pillage(pspresent, first_base)) {
 	  return FALSE;
 	} else {
           if (target == S_PILLAGE_BASE) {
-            return old_base != NULL;
+            return first_base != NULL;
           } else {
             return BV_ISSET(pspresent, target) && !BV_ISSET(psworking, target);
           }
@@ -1087,12 +1092,17 @@ const char *unit_activity_text(const struct unit *punit)
        return get_activity_text (punit->activity);
      } else {
        bv_special pset;
+       bv_bases bases;
 
        BV_CLR_ALL(pset);
        BV_SET(pset, punit->activity_target);
+       BV_CLR_ALL(bases);
+       if (punit->activity_base != BASE_LAST) {
+         BV_SET(bases, punit->activity_base);
+       }
        my_snprintf(text, sizeof(text), "%s: %s",
 		   get_activity_text (punit->activity),
-		   get_infrastructure_text(pset));
+		   get_infrastructure_text(pset, bases));
        return (text);
      }
    case ACTIVITY_BASE:

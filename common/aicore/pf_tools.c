@@ -548,11 +548,19 @@ static enum tile_behavior amphibious_behaviour(const struct tile *ptile,
 static bool is_possible_base_fuel(const struct tile *ptile,
                                   struct pf_parameter *param)
 {
-  struct base_type *pbase = tile_get_base(ptile);
+  if (is_allied_city_tile(ptile, param->owner)) {
+    return TRUE;
+  }
 
-  /* All airbases are considered possible, simply attack enemies. */
-  return (is_allied_city_tile(ptile, param->owner)
-       || (pbase && is_native_base_to_uclass(pbase, param->uclass)));
+  base_type_iterate(pbase) {
+    /* All airbases are considered possible, simply attack enemies. */
+    if (tile_has_base(ptile, pbase)
+        && is_native_base_to_uclass(pbase, param->uclass)) {
+      return TRUE;
+    }
+  } base_type_iterate_end;
+
+  return FALSE;
 }
 
 /****************************************************************************

@@ -36,8 +36,8 @@ enum tile_special_type infrastructure_specials[] = {
   S_IRRIGATION,
   S_FARMLAND,
   S_MINE,
-  S_FORTRESS,
-  S_AIRBASE,
+  S_OLD_FORTRESS,
+  S_OLD_AIRBASE,
   S_LAST
 };
 
@@ -540,10 +540,10 @@ static const char *tile_special_type_names[] =
   N_("Mine"),
   N_("Pollution"),
   N_("Hut"),
-  N_("Fortress"),
+  N_("Fortress"), /* Obsolete, placeholder for backward compatibility */
   N_("River"),
   N_("Farmland"),
-  N_("Airbase"),
+  N_("Airbase"),  /* Obsolete, placeholder for backward compatibility */
   N_("Fallout")
 };
 
@@ -552,7 +552,6 @@ static const char *tile_special_type_names[] =
 ****************************************************************************/
 enum tile_special_type find_special_by_rule_name(const char *name)
 {
-  int spe;
   assert(ARRAY_SIZE(tile_special_type_names) == S_LAST);
 
   tile_special_type_iterate(i) {
@@ -560,16 +559,6 @@ enum tile_special_type find_special_by_rule_name(const char *name)
       return i;
     }
   } tile_special_type_iterate_end;
-
-  base_type_iterate(pbase) {
-    spe = base_get_tile_special_type(pbase);
-    if (!(0 <= spe && spe < S_LAST)) {
-      continue;
-    }
-    if (0 == strcmp(tile_special_type_names[spe], name)) {
-      return spe;
-    }
-  } base_type_iterate_end;
 
   return S_LAST;
 }
@@ -722,12 +711,11 @@ int count_terrain_flag_near_tile(const struct tile *ptile,
     eg: "Road/Farmland"
   This only includes "infrastructure", i.e., man-made specials.
 ****************************************************************************/
-const char *get_infrastructure_text(bv_special spe)
+const char *get_infrastructure_text(bv_special spe, bv_bases bases)
 {
   static char s[256];
   char *p;
-  struct base_type *pbase;
-  
+
   s[0] = '\0';
 
   /* Since railroad requires road, Road/Railroad is redundant */
@@ -748,11 +736,11 @@ const char *get_infrastructure_text(bv_special spe)
     cat_snprintf(s, sizeof(s), "%s/", _("Mine"));
   }
 
-  pbase = base_of_bv_special(spe);
-
-  if (pbase != NULL) {
-    cat_snprintf(s, sizeof(s), "%s/", base_name_translation(pbase));
-  }
+  base_type_iterate(pbase) {
+    if (BV_ISSET(bases, base_index(pbase))) {
+      cat_snprintf(s, sizeof(s), "%s/", base_name_translation(pbase));
+    }
+  } base_type_iterate_end;
 
   p = s + strlen(s) - 1;
   if (*p == '/') {

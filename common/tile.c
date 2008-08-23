@@ -136,36 +136,12 @@ bool tile_has_any_specials(const struct tile *ptile)
 }
 
 /****************************************************************************
-  Returns base at tile or NULL if no base
-****************************************************************************/
-struct base_type *tile_get_base(const struct tile *ptile)
-{
-  return base_of_bv_special(ptile->special);
-}
-
-/****************************************************************************
   Adds base to tile.
-  FIXME: Currently this asserts that tile contains no old base.
-         Instead should remove old base and return bool indicating that.
+  FIXME: Should remove conflicting old base and return bool indicating that.
 ****************************************************************************/
 void tile_add_base(struct tile *ptile, const struct base_type *pbase)
 {
-  assert(pbase != NULL);
-
-  switch (base_number(pbase)) {
-  case BASE_FORTRESS:
-    assert(!tile_has_special(ptile, S_AIRBASE));
-    tile_set_special(ptile, S_FORTRESS);
-    break;
-  case BASE_AIRBASE:
-    assert(!tile_has_special(ptile, S_FORTRESS));
-    tile_set_special(ptile, S_AIRBASE);
-    break;
-  default:
-    freelog(LOG_ERROR, "tile_set_base(): impossible base type %d.",
-            base_number(pbase));
-    break;
-  };
+  BV_SET(ptile->bases, base_index(pbase));
 }
 
 /****************************************************************************
@@ -173,14 +149,7 @@ void tile_add_base(struct tile *ptile, const struct base_type *pbase)
 ****************************************************************************/
 void tile_remove_base(struct tile *ptile, const struct base_type *pbase)
 {
-  int spe;
-  
-  spe = base_get_tile_special_type(pbase);
-  if (!(0 <= spe && spe < S_LAST)) {
-    return;
-  }
-
-  tile_clear_special(ptile, spe);
+  BV_CLR(ptile->bases, base_index(pbase));
 }
 
 /****************************************************************************
@@ -188,16 +157,12 @@ void tile_remove_base(struct tile *ptile, const struct base_type *pbase)
 ****************************************************************************/
 bool tile_has_base_flag(const struct tile *ptile, enum base_flag_id flag)
 {
-  struct base_type *pbase;
+  base_type_iterate(pbase) {
+    if (tile_has_base(ptile, pbase) && base_has_flag(pbase, flag)) {
+      return TRUE;
+    }
+  } base_type_iterate_end;
 
-  pbase = tile_get_base(ptile);
-
-  if (pbase != NULL) {
-    /* Some base at tile, check its flags */
-    return base_has_flag(pbase, flag);
-  }
-
-  /* No base at tile */
   return FALSE;
 }
 
@@ -208,16 +173,13 @@ bool tile_has_base_flag_for_unit(const struct tile *ptile,
                                  const struct unit_type *punittype,
                                  enum base_flag_id flag)
 {
-  struct base_type *pbase;
+  base_type_iterate(pbase) {
+    if (tile_has_base(ptile, pbase)
+        && base_has_flag_for_utype(pbase, flag, punittype)) {
+      return TRUE;
+    }
+  } base_type_iterate_end;
 
-  pbase = tile_get_base(ptile);
-
-  if (pbase != NULL) {
-    /* Some base at tile, check its flags */
-    return base_has_flag_for_utype(pbase, flag, punittype);
-  }
-
-  /* No base at tile */
   return FALSE;
 }
 
@@ -227,16 +189,13 @@ bool tile_has_base_flag_for_unit(const struct tile *ptile,
 bool tile_has_native_base(const struct tile *ptile,
                           const struct unit_type *punittype)
 {
-  struct base_type *pbase;
+  base_type_iterate(pbase) {
+    if (tile_has_base(ptile, pbase)
+        && is_native_base_to_utype(pbase, punittype)) {
+      return TRUE;
+    }
+  } base_type_iterate_end;
 
-  pbase = tile_get_base(ptile);
-
-  if (pbase != NULL) {
-    /* Some base at tile, check if it's native */
-    return is_native_base_to_utype(pbase, punittype);
-  }
-
-  /* No base at tile */
   return FALSE;
 }
 
@@ -434,6 +393,8 @@ void tile_change_terrain(struct tile *ptile, struct terrain *pterrain)
 ****************************************************************************/
 void tile_add_special(struct tile *ptile, enum tile_special_type special)
 {
+  assert(special != S_OLD_FORTRESS && special != S_OLD_AIRBASE);
+
   tile_set_special(ptile, special);
 
   switch (special) {
@@ -454,9 +415,7 @@ void tile_add_special(struct tile *ptile, enum tile_special_type special)
   case S_ROAD:
   case S_POLLUTION:
   case S_HUT:
-  case S_FORTRESS:
   case S_RIVER:
-  case S_AIRBASE:
   case S_FALLOUT:
   default:
     break;
@@ -469,6 +428,8 @@ void tile_add_special(struct tile *ptile, enum tile_special_type special)
 ****************************************************************************/
 void tile_remove_special(struct tile *ptile, enum tile_special_type special)
 {
+  assert(special != S_OLD_FORTRESS && special != S_OLD_AIRBASE);
+
   tile_clear_special(ptile, special);
 
   switch (special) {
@@ -483,10 +444,8 @@ void tile_remove_special(struct tile *ptile, enum tile_special_type special)
   case S_MINE:
   case S_POLLUTION:
   case S_HUT:
-  case S_FORTRESS:
   case S_RIVER:
   case S_FARMLAND:
-  case S_AIRBASE:
   case S_FALLOUT:
   default:
     break;
@@ -703,13 +662,5 @@ const char *tile_get_info_text(const struct tile *ptile, int linebreaks)
 ****************************************************************************/
 bool tile_has_base(const struct tile *ptile, const struct base_type *pbase)
 {
-  struct base_type *bt;
-  
-  if (!ptile) {
-    return FALSE;
-  }
-
-  bt = tile_get_base(ptile);
-
-  return bt == pbase;
+  return BV_ISSET(ptile->bases, base_index(pbase));
 }

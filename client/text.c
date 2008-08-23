@@ -223,7 +223,7 @@ const char *popup_info_text(struct tile *ptile)
   infra = get_tile_infrastructure_set(ptile, &infracount);
   if (infracount > 0) {
     astr_add_line(&str, _("Infrastructure: %s"),
-		  get_infrastructure_text(ptile->special));
+		  get_infrastructure_text(ptile->special, ptile->bases));
   }
   activity_text = concat_tile_activity_text(ptile);
   if (strlen(activity_text) > 0) {
@@ -760,7 +760,7 @@ const char *get_unit_info_label_text2(struct unit_list *punits, int linebreaks)
 
     astr_add_line(&str, "%s", tile_get_info_text(punit->tile, linebreaks));
     if (infracount > 0) {
-      astr_add_line(&str, "%s", get_infrastructure_text(infrastructure));
+      astr_add_line(&str, "%s", get_infrastructure_text(infrastructure, punit->tile->bases));
     } else {
       astr_add_line(&str, " ");
     }

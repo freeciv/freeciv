@@ -128,16 +128,10 @@ struct vision_site *create_vision_site_from_city(const struct city *pcity)
   Build basic vision_site structure based on military base on tile.
 ****************************************************************************/
 struct vision_site *create_vision_site_from_base(struct tile *ptile,
+                                                 struct base_type *pbase,
                                                  struct player *owner)
 {
   struct vision_site *psite;
-  struct base_type *pbase;
-
-  pbase = tile_get_base(ptile);
-
-  if (!pbase) {
-    return NULL;
-  }
 
   psite = create_vision_site(-base_number(pbase) - 1, ptile, owner);
   psite->size = 0;

@@ -205,6 +205,7 @@ type BV_CITY_OPTIONS    = bitvector(bv_city_options)
 type BV_SPECIAL         = bitvector(bv_special)
 type BV_PLAYER          = bitvector(bv_player)
 type BV_UNIT_CLASSES    = bitvector(bv_unit_classes)
+type BV_BASES           = bitvector(bv_bases)
 type DIPLSTATE		= diplstate(struct player_diplstate)
 type VISION		= uint32(unsigned int)
 
@@ -353,6 +354,7 @@ PACKET_TILE_INFO=14; sc,lsend,is-info
   TERRAIN terrain;
   RESOURCE resource;
   BOOL special[S_LAST];
+  BV_BASES bases;
   STRING spec_sprite[MAX_LEN_NAME];
   NATION editor_startpos_nation_id;
 end

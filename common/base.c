@@ -17,7 +17,11 @@
 
 #include <assert.h>
 
+/* utility */
 #include "fcintl.h"
+#include "log.h"
+
+/* common */
 #include "game.h"
 #include "tile.h"
 #include "unit.h"
@@ -106,7 +110,7 @@ struct base_type *find_base_type_by_rule_name(const char *name)
   const char *qs = Qn_(name);
 
   base_type_iterate(pbase) {
-    if (0 == mystrcasecmp(base_rule_name(pbase), qs)) {
+    if (!mystrcasecmp(base_rule_name(pbase), qs)) {
       return pbase;
     }
   } base_type_iterate_end;
@@ -147,21 +151,6 @@ bool can_build_base(const struct unit *punit, const struct base_type *pbase,
   return are_reqs_active(unit_owner(punit), NULL, NULL, ptile,
                          unit_type(punit), NULL, NULL, &pbase->reqs,
                          RPT_CERTAIN);
-}
-
-/****************************************************************************
-  Determine base type from specials. Returns NULL if there is no base
-****************************************************************************/
-struct base_type *base_of_bv_special(bv_special spe)
-{
-  if (contains_special(spe, S_FORTRESS)) {
-    return base_by_number(BASE_FORTRESS);
-  }
-  if (contains_special(spe, S_AIRBASE)) {
-    return base_by_number(BASE_AIRBASE);
-  }
-
-  return NULL;
 }
 
 /**************************************************************************
@@ -300,30 +289,4 @@ struct base_type *get_base_by_gui_type(enum base_gui_type type,
   } base_type_iterate_end;
 
   return NULL;
-}
-
-/**************************************************************************
-  Returns the value from enum tile_special_type that corresponds to this
-  base type or S_LAST if no such value exists.
-
-  NB: This function should only be used temporarily while the old "special"
-  base code is transitioned to the new generalized bases. Once S_FORTRESS
-  and S_AIRBASE are removed from specials, this function should also be
-  removed.
-**************************************************************************/
-int base_get_tile_special_type(const struct base_type *pbase)
-{
-  if (!pbase) {
-    return S_LAST;
-  }
-
-  if (base_number(pbase) == BASE_FORTRESS) {
-    return S_FORTRESS;
-  }
-  
-  if (base_number(pbase) == BASE_AIRBASE) {
-    return S_AIRBASE;
-  }
-
-  return S_LAST;
 }

@@ -14,6 +14,8 @@
 #ifndef FC__FC_TYPES_H
 #define FC__FC_TYPES_H
 
+#include "shared.h"
+
 /* This file serves to reduce the cross-inclusion of header files which
  * occurs when a type which is defined in one file is needed for a function
  * definition in another file.
@@ -258,5 +260,13 @@ struct universal {
 };
 
 struct ai_choice;			/* incorporates universals_u */
+
+enum base_type_id {
+  BASE_FORTRESS = 0,
+  BASE_AIRBASE,
+  BASE_LAST
+};
+
+BV_DEFINE(bv_bases, BASE_LAST);
 
 #endif /* FC__FC_TYPES_H */

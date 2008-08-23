@@ -35,10 +35,10 @@ enum tile_special_type {
   S_MINE,
   S_POLLUTION,
   S_HUT,
-  S_FORTRESS,
+  S_OLD_FORTRESS,
   S_RIVER,
   S_FARMLAND,
-  S_AIRBASE,
+  S_OLD_AIRBASE,
   S_FALLOUT,
 
   /* internal values not saved */
@@ -62,7 +62,7 @@ BV_DEFINE(bv_special, S_LAST_PLUS);
 {                                                                          \
   enum tile_special_type special = 0;                                      \
   for (; special < S_LAST; special++) {                                    \
-    if (special == S_FORTRESS || special == S_AIRBASE) {                   \
+    if (special == S_OLD_FORTRESS || special == S_OLD_AIRBASE) {           \
       continue;                                                            \
     }
     
@@ -280,7 +280,7 @@ bool contains_special(bv_special all,
 bool contains_any_specials(bv_special all);
 
 /* Special helper functions */
-const char *get_infrastructure_text(bv_special pset);
+const char *get_infrastructure_text(bv_special pset, bv_bases bases);
 enum tile_special_type get_infrastructure_prereq(enum tile_special_type spe);
 enum tile_special_type get_preferred_pillage(bv_special pset,
                                              struct base_type *pbase);

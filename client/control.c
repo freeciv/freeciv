@@ -1562,7 +1562,7 @@ void request_unit_pillage(struct unit *punit)
 {
   bv_special pspossible;
   struct tile *ptile = punit->tile;
-  struct base_type *pbase = tile_get_base(ptile);
+  struct base_type *first_base = NULL;
   bv_special pspresent = get_tile_infrastructure_set(ptile, NULL);
   bv_special psworking = get_unit_tile_pillage_set(ptile);
   int count = 0;
@@ -1575,8 +1575,15 @@ void request_unit_pillage(struct unit *punit)
     }
   } tile_special_type_iterate_end;
 
-  if (count > 1 || pbase) {
-    popup_pillage_dialog(punit, pspossible, pbase);
+  base_type_iterate(pbase) {
+    if (tile_has_base(ptile, pbase)) {
+      first_base = pbase;
+      break;
+    }
+  } base_type_iterate_end;
+
+  if (count > 1 || first_base) {
+    popup_pillage_dialog(punit, pspossible, first_base);
   } else {
     enum tile_special_type what = get_preferred_pillage(pspossible, NULL);
 
