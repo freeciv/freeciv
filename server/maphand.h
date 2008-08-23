@@ -31,6 +31,7 @@ struct player_tile {
   struct resource *resource;		/* NULL for no resource */
   struct terrain *terrain;		/* NULL for unknown tiles */
   bv_special special;
+  bv_bases bases;
 
   /* If you build a city with an unknown square within city radius
      the square stays unknown. However, we still have to keep count

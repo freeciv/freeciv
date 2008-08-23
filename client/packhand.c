@@ -2233,24 +2233,10 @@ void handle_tile_info(struct packet_tile_info *packet)
       }
     }
   } tile_special_type_iterate_end;
-
-  base_type_iterate(pbase) {
-    int spe = base_get_tile_special_type(pbase);
-    if (!(0 <= spe && spe < S_LAST)) {
-      continue;
-    }
-    if (packet->special[spe]) {
-      if (!tile_has_base(ptile, pbase)) {
-        tile_add_base(ptile, pbase);
-        tile_changed = TRUE;
-      }
-    } else {
-      if (tile_has_base(ptile, pbase)) {
-        tile_remove_base(ptile, pbase);
-        tile_changed = TRUE;
-      }
-    }
-  } base_type_iterate_end;
+  if (!BV_ARE_EQUAL(ptile->bases, packet->bases)) {
+    ptile->bases = packet->bases;
+    tile_changed = TRUE;
+  }
 
   tile_changed = tile_changed || (tile_resource(ptile) != presource);
 

@@ -4221,7 +4221,6 @@ int fill_sprite_array(struct tileset *t,
   struct terrain *pterrain = NULL;
   struct drawn_sprite *save_sprs = sprs;
   struct player *owner = NULL;
-  struct base_type *pbase = (ptile ? tile_get_base(ptile) : NULL);
   /* Unit drawing is disabled when the view options are turned off,
    * but only where we're drawing on the mapview. */
   bool do_draw_unit = (punit && (draw_units || !ptile
@@ -4354,9 +4353,13 @@ int fill_sprite_array(struct tileset *t,
 	}
       }
 
-      if (draw_fortress_airbase && pbase != NULL
-          && t->sprites.bases[base_index(pbase)].background) {
-        ADD_SPRITE_FULL(t->sprites.bases[base_index(pbase)].background);
+      if (ptile && draw_fortress_airbase) {
+        base_type_iterate(pbase) {
+          if (tile_has_base(ptile, pbase)
+              && t->sprites.bases[base_index(pbase)].background) {
+            ADD_SPRITE_FULL(t->sprites.bases[base_index(pbase)].background);
+          }
+        } base_type_iterate_end;
       }
 
       if (draw_mines && contains_special(tspecial, S_MINE)) {
@@ -4411,9 +4414,13 @@ int fill_sprite_array(struct tileset *t,
 
   case LAYER_SPECIAL2:
     if (NULL != pterrain) {
-      if (draw_fortress_airbase && pbase != NULL
-          && t->sprites.bases[base_index(pbase)].middleground) {
-        ADD_SPRITE_FULL(t->sprites.bases[base_index(pbase)].middleground);
+      if (ptile && draw_fortress_airbase) {
+        base_type_iterate(pbase) {
+          if (tile_has_base(ptile, pbase)
+              && t->sprites.bases[base_index(pbase)].middleground) {
+            ADD_SPRITE_FULL(t->sprites.bases[base_index(pbase)].middleground);
+          }
+        } base_type_iterate_end;
       }
 
       if (draw_pollution && contains_special(tspecial, S_POLLUTION)) {
@@ -4460,11 +4467,15 @@ int fill_sprite_array(struct tileset *t,
 
   case LAYER_SPECIAL3:
     if (NULL != pterrain) {
-      if (draw_fortress_airbase && pbase != NULL
-          && t->sprites.bases[base_index(pbase)].foreground) {
-	/* Draw fortress front in iso-view (non-iso view only has a fortress
-	 * back). */
-	ADD_SPRITE_FULL(t->sprites.bases[base_index(pbase)].foreground);
+      if (ptile && draw_fortress_airbase) {
+        base_type_iterate(pbase) {
+          if (tile_has_base(ptile, pbase)
+              && t->sprites.bases[base_index(pbase)].foreground) {
+            /* Draw fortress front in iso-view (non-iso view only has a fortress
+             * back). */
+            ADD_SPRITE_FULL(t->sprites.bases[base_index(pbase)].foreground);
+          }
+        } base_type_iterate_end;
       }
     }
     break;

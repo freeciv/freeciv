@@ -1021,14 +1021,13 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 }
 
 /**************************************************************************
-...
+  Creates real city.
 **************************************************************************/
 void create_city(struct player *pplayer, struct tile *ptile,
 		 const char *name)
 {
   struct nation_type *nation = nation_of_player(pplayer);
   struct player *saved_owner = tile_owner(ptile);
-  struct base_type *pbase = tile_get_base(ptile);
   struct city *pwork = tile_worked(ptile);
   struct city *pcity = create_city_virtual(pplayer, ptile, name);
 
@@ -1113,11 +1112,13 @@ void create_city(struct player *pplayer, struct tile *ptile,
   city_thaw_workers_queue(); /* after new city has a chance to work! */
   city_refresh_queue_processing();
 
-  /* If base acted as a watchtower, put vision back to normal */
-  if (pbase) {
+  /* Remove bases */
+  base_type_iterate(pbase) {
     tile_remove_base(ptile, pbase);
-    unit_list_refresh_vision(ptile->units);
-  }
+  } base_type_iterate_end;
+
+  /* If base acted as a watchtower, put vision back to normal */
+  unit_list_refresh_vision(ptile->units);
 
   update_tile_knowledge(ptile);
 

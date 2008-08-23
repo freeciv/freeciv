@@ -52,8 +52,6 @@
 static bool send_tile_suppressed = FALSE;
 
 static void player_tile_init(struct tile *ptile, struct player *pplayer);
-static bool player_tile_has_base(struct player_tile *plrtile,
-                                 struct base_type *pbase);
 static void give_tile_info_from_player_to_player(struct player *pfrom,
 						 struct player *pdest,
 						 struct tile *ptile);
@@ -366,6 +364,9 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
 
   info.editor_startpos_nation_id = ptile->editor.startpos_nation_id;
 
+  info.special[S_OLD_FORTRESS] = FALSE;
+  info.special[S_OLD_AIRBASE] = FALSE;
+
   conn_list_iterate(dest, pconn) {
     struct player *pplayer = pconn->playing;
 
@@ -393,14 +394,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
       tile_special_type_iterate(spe) {
 	info.special[spe] = BV_ISSET(ptile->special, spe);
       } tile_special_type_iterate_end;
-
-      base_type_iterate(pbase) {
-        int spe = base_get_tile_special_type(pbase);
-        if (!(0 <= spe && spe < S_LAST)) {
-          continue;
-        }
-        info.special[spe] = tile_has_base(ptile, pbase);
-      } base_type_iterate_end;
+      info.bases = ptile->bases;
 
       send_packet_tile_info(pconn, FALSE, &info);
     } else if (pplayer && map_is_known(ptile, pplayer)
@@ -427,14 +421,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
       tile_special_type_iterate(spe) {
 	info.special[spe] = BV_ISSET(plrtile->special, spe);
       } tile_special_type_iterate_end;
-
-      base_type_iterate(pbase) {
-        int spe = base_get_tile_special_type(pbase);
-        if (!(0 <= spe && spe < S_LAST)) {
-          continue;
-        }
-        info.special[spe] = player_tile_has_base(plrtile, pbase);
-      } base_type_iterate_end;
+      info.bases = plrtile->bases;
 
       send_packet_tile_info(pconn, FALSE, &info);
     } else if (send_unknown) {
@@ -449,14 +436,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
       tile_special_type_iterate(spe) {
         info.special[spe] = FALSE;
       } tile_special_type_iterate_end;
-
-      base_type_iterate(pbase) {
-        int spe = base_get_tile_special_type(pbase);
-        if (!(0 <= spe && spe < S_LAST)) {
-          continue;
-        }
-        info.special[spe] = FALSE;
-      } base_type_iterate_end;
+      BV_CLR_ALL(info.bases);
 
       send_packet_tile_info(pconn, FALSE, &info);
     }
@@ -944,6 +924,7 @@ static void player_tile_init(struct tile *ptile, struct player *pplayer)
   clear_all_specials(&plrtile->special);
   plrtile->resource = NULL;
   plrtile->site = NULL;
+  BV_CLR_ALL(plrtile->bases);
 
   vision_layer_iterate(v) {
     plrtile->seen_count[v] = 0;
@@ -1028,10 +1009,12 @@ bool update_player_tile_knowledge(struct player *pplayer, struct tile *ptile)
 
   if (plrtile->terrain != ptile->terrain
       || !BV_ARE_EQUAL(plrtile->special, ptile->special)
-      || plrtile->resource != ptile->resource) {
+      || plrtile->resource != ptile->resource
+      || !BV_ARE_EQUAL(plrtile->bases, ptile->bases)) {
     plrtile->terrain = ptile->terrain;
     plrtile->special = ptile->special;
     plrtile->resource = ptile->resource;
+    plrtile->bases    = ptile->bases;
     return TRUE;
   }
   return FALSE;
@@ -1103,6 +1086,7 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
       dest_tile->terrain = from_tile->terrain;
       dest_tile->special = from_tile->special;
       dest_tile->resource = from_tile->resource;
+      dest_tile->bases    = from_tile->bases;
       dest_tile->last_updated = from_tile->last_updated;
       send_tile_info(pdest->connections, ptile, FALSE);
 	
@@ -1589,7 +1573,12 @@ void map_claim_ownership(struct tile *ptile, struct player *powner,
       if (NULL != pcity) {
         psite = create_vision_site_from_city(pcity);
       } else {
-        psite = create_vision_site_from_base(ptile, powner);
+        base_type_iterate(pbase) {
+          if (tile_has_base(ptile, pbase)
+              && base_has_flag(pbase, BF_CLAIM_TERRITORY)) {
+            psite = create_vision_site_from_base(ptile, pbase, powner);
+          }
+        } base_type_iterate_end;
       }
       change_playertile_site(playsite, psite);
     }
@@ -1652,16 +1641,23 @@ void map_clear_border(struct tile *ptile, struct player *powner)
 
   circle_dxyr_iterate(ptile, psite->border_radius_sq, dtile, dx, dy, dr) {
     struct city *dcity = tile_city(dtile);
-    struct base_type *dbase = tile_get_base(dtile);
     struct player *downer = tile_owner(dtile);
+    bool source_tile = FALSE;
 
     if (NULL != dcity) {
       /* cannot affect existing cities (including self) */
       continue;
     }
 
-    if (dbase && base_has_flag(dbase, BF_CLAIM_TERRITORY)) {
-      /* Cannot affect territory claiming bases */
+    base_type_iterate(dbase) {
+      if (tile_has_base(dtile, dbase) && base_has_flag(dbase, BF_CLAIM_TERRITORY)) {
+        /* Cannot affect territory claiming bases */
+        source_tile = TRUE;
+        break;
+      }
+    } base_type_iterate_end;
+
+    if (source_tile) {
       continue;
     }
 
@@ -1720,16 +1716,23 @@ void map_claim_border(struct tile *ptile, struct player *powner)
 
   circle_dxyr_iterate(ptile, psite->border_radius_sq, dtile, dx, dy, dr) {
     struct city *dcity = tile_city(dtile);
-    struct base_type *dbase = tile_get_base(dtile);
     struct player *downer = tile_owner(dtile);
+    bool source_tile = FALSE;
 
     if (NULL != dcity) {
       /* cannot affect existing cities (including self) */
       continue;
     }
 
-    if (dbase && base_has_flag(dbase, BF_CLAIM_TERRITORY)) {
-      /* Cannot affect territory claiming bases */
+    base_type_iterate(dbase) {
+      if (tile_has_base(dtile, dbase) && base_has_flag(dbase, BF_CLAIM_TERRITORY)) {
+        /* Cannot affect territory claiming bases */
+        source_tile = TRUE;
+        break;
+      }
+    } base_type_iterate_end;
+
+    if (source_tile) {
       continue;
     }
 
@@ -1826,25 +1829,4 @@ void vision_clear_sight(struct vision *vision)
    * order. */
   vision_change_sight(vision, V_INVIS, -1);
   vision_change_sight(vision, V_MAIN, -1);
-}
-
-/****************************************************************************
-  Returns TRUE if the given player tile has a base of the given type.
-****************************************************************************/
-static bool player_tile_has_base(struct player_tile *plrtile,
-                                 struct base_type *pbase)
-{
-  int spe;
-
-  if (!plrtile) {
-    return FALSE;
-  }
-
-  spe = base_get_tile_special_type(pbase);
-
-  if (!(0 <= spe && spe < S_LAST)) {
-    return FALSE;
-  }
-
-  return contains_special(plrtile->special, spe);
 }

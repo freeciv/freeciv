@@ -266,7 +266,6 @@ static void editor_start_selection_rectangle(int canvas_x, int canvas_y)
 ****************************************************************************/
 static inline bool tile_really_has_any_specials(const struct tile *ptile)
 {
-  int spe;
   bv_special specials;
 
   if (!ptile) {
@@ -277,14 +276,6 @@ static inline bool tile_really_has_any_specials(const struct tile *ptile)
 
   BV_CLR(specials, S_RESOURCE_VALID);
   BV_CLR(specials, S_PILLAGE_BASE);
-
-  base_type_iterate(pbase) {
-    spe = base_get_tile_special_type(pbase);
-    if (!(0 <= spe && spe < S_LAST)) {
-      continue;
-    }
-    BV_CLR(specials, spe);
-  } base_type_iterate_end;
 
   return BV_ISSET_ANY(specials);
 }
@@ -327,7 +318,7 @@ static void editor_grab_applied_player(const struct tile *ptile)
 static void editor_grab_tool(const struct tile *ptile)
 {
   int ett = -1, value = 0;
-  struct base_type *pbase;
+  struct base_type *first_base;
 
   if (!editor) {
     return;
@@ -337,7 +328,12 @@ static void editor_grab_tool(const struct tile *ptile)
     return;
   }
 
-  pbase = tile_get_base(ptile);
+  base_type_iterate(pbase) {
+    if (tile_has_base(ptile, pbase)) {
+      first_base = pbase;
+      break;
+    }
+  } base_type_iterate_end;
 
   if (client_has_player()
       && tile_get_known(ptile, client_player()) == TILE_UNKNOWN) {
@@ -374,9 +370,9 @@ static void editor_grab_tool(const struct tile *ptile)
       ett = ETT_UNIT;
       value = utype_number(unit_type(grabbed_punit));
     }
-  } else if (pbase != NULL) {
+  } else if (first_base != NULL) {
     ett = ETT_MILITARY_BASE;
-    value = base_number(pbase);
+    value = base_number(first_base);
 
   } else if (tile_really_has_any_specials(ptile)) {
     int specials_array[S_LAST];

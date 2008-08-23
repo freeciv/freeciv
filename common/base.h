@@ -16,12 +16,6 @@
 #include "fc_types.h"
 #include "requirements.h"
 
-enum base_type_id {
-  BASE_FORTRESS = 0,
-  BASE_AIRBASE,
-  BASE_LAST
-};
-
 typedef enum base_type_id Base_type_id;
 
 /* This must correspond to base_gui_type_names[] in base.c */
@@ -67,11 +61,6 @@ Base_type_id base_index(const struct base_type *pbase);
 Base_type_id base_number(const struct base_type *pbase);
 
 struct base_type *base_by_number(const Base_type_id id);
-
-/* Compatibility functions for the old "special"
- * type bases which are being phased out. */
-struct base_type *base_of_bv_special(bv_special spe);
-int base_get_tile_special_type(const struct base_type *pbase);
 
 const char *base_rule_name(const struct base_type *pbase);
 const char *base_name_translation(struct base_type *pbase);

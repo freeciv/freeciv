@@ -715,16 +715,22 @@ static void update_unit_activity(struct unit *punit)
   case ACTIVITY_PILLAGE:
     if (punit->activity_target == S_LAST) { /* case for old save files */
       if (punit->activity_count >= 1) {
-        struct base_type *pbase;
+        struct base_type *first_base = NULL;
         enum tile_special_type what;
 
-        pbase = tile_get_base(ptile);
+        base_type_iterate(pbase) {
+          if (tile_has_base(ptile, pbase)) {
+            first_base = pbase;
+            break;
+          }
+        } base_type_iterate_end;
+
         what = get_preferred_pillage(get_tile_infrastructure_set(ptile, NULL),
-                                     pbase);
+                                     first_base);
 
 	if (what != S_LAST) {
           if (what == S_PILLAGE_BASE) {
-            tile_remove_base(ptile, pbase);
+            tile_remove_base(ptile, first_base);
           } else {
             tile_clear_special(ptile, what);
           }
@@ -742,7 +748,13 @@ static void update_unit_activity(struct unit *punit)
       enum tile_special_type what_pillaged = punit->activity_target;
 
       if (what_pillaged == S_PILLAGE_BASE) {
-        tile_remove_base(ptile, tile_get_base(ptile));
+        base_type_iterate(pbase) {
+          if (tile_has_base(ptile, pbase)) {
+            /* Remove first base */
+            tile_remove_base(ptile, pbase);
+            break; /* but only first */
+          }
+        } base_type_iterate_end;
       } else {
         tile_clear_special(ptile, what_pillaged);
       }
@@ -1224,13 +1236,19 @@ bool is_airunit_refuel_point(struct tile *ptile, struct player *pplayer,
 {
   int cap;
   struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
-  struct base_type *pbase = base_of_bv_special(plrtile->special);
 
-  if ((is_allied_city_tile(ptile, pplayer)
-       && !is_non_allied_unit_tile(ptile, pplayer))
-      || ((pbase != NULL && is_native_base_to_utype(pbase, type))
-	  && !is_non_allied_unit_tile(ptile, pplayer)))
-    return TRUE;
+  if (!is_non_allied_unit_tile(ptile, pplayer)) {
+    if (is_allied_city_tile(ptile, pplayer)) {
+      return TRUE;
+    }
+
+    base_type_iterate(pbase) {
+      if (BV_ISSET(plrtile->bases, base_index(pbase))
+          && is_native_base_to_utype(pbase, type)) {
+        return TRUE;
+      }
+    } base_type_iterate_end;
+  }
 
   cap = unit_class_transporter_capacity(ptile, pplayer, utype_class(type));
 

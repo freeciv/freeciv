@@ -315,11 +315,16 @@ void popup_pillage_dialog(struct unit *punit,
 
     while ((what = get_preferred_pillage(may_pillage, pbase)) != S_LAST) {
       bv_special what_bv;
+      bv_bases bases;
 
       if (what != S_PILLAGE_BASE) {
         BV_CLR_ALL(what_bv);
         BV_SET(what_bv, what);
-        choice_dialog_add(shl, get_infrastructure_text(what_bv),
+        BV_CLR_ALL(bases);
+        if (pbase) {
+          BV_SET(bases, base_index(pbase));
+        }
+        choice_dialog_add(shl, get_infrastructure_text(what_bv, bases),
                           G_CALLBACK(pillage_callback), GINT_TO_POINTER(what));
 
         clear_special(&may_pillage, what);

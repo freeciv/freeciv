@@ -292,18 +292,6 @@ void handle_edit_tile_base(struct connection *pc, int x, int y,
         tile_remove_base(ptile, pbase);
       }
     } else {
-      struct base_type *old_base;
-
-      /* Unfortunately, at the moment only one base
-       * type is allowed per tile, so we have to remove
-       * any existing other base types before we add
-       * a different one. :( */
-      if ((old_base = tile_get_base(ptile))
-          && old_base != pbase) {
-        tile_remove_base(ptile, old_base);
-        update_tile_knowledge(ptile);
-      }
-
       if ((changed = !tile_has_base(ptile, pbase))) {
         tile_add_base(ptile, pbase);
       }

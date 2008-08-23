@@ -39,6 +39,7 @@ struct tile {
   Continent_id continent;
   bv_player tile_known, tile_seen[V_COUNT];
   bv_special special;
+  bv_bases bases;
   struct resource *resource;		/* NULL for no resource */
   struct terrain *terrain;		/* NULL for unknown tiles */
   struct unit_list *units;
@@ -95,8 +96,6 @@ void tile_set_special(struct tile *ptile, enum tile_special_type spe);
 void tile_clear_special(struct tile *ptile, enum tile_special_type spe);
 void tile_clear_all_specials(struct tile *ptile);
 
-/* Bases map onto specials */
-struct base_type *tile_get_base(const struct tile *ptile);
 bool tile_has_base(const struct tile *ptile, const struct base_type *pbase);
 void tile_add_base(struct tile *ptile, const struct base_type *pbase);
 void tile_remove_base(struct tile *ptile, const struct base_type *pbase);

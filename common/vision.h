@@ -135,6 +135,7 @@ struct vision_site *create_vision_site(int identity, struct tile *location,
 				       struct player *owner);
 struct vision_site *create_vision_site_from_city(const struct city *pcity);
 struct vision_site *create_vision_site_from_base(struct tile *ptile,
+                                                 struct base_type *pbase,
                                                  struct player *owner);
 void update_vision_site_from_city(struct vision_site *psite,
 				  const struct city *pcity);
