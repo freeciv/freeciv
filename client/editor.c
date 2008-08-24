@@ -318,7 +318,7 @@ static void editor_grab_applied_player(const struct tile *ptile)
 static void editor_grab_tool(const struct tile *ptile)
 {
   int ett = -1, value = 0;
-  struct base_type *first_base;
+  struct base_type *first_base = NULL;
 
   if (!editor) {
     return;
