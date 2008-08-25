@@ -29,6 +29,7 @@
 #include "repodlgs_g.h"
 
 #include "civclient.h"
+#include "connectdlg_common.h"	/* is_server_running */
 #include "control.h"
 #include "options.h"
 #include "repodlgs_common.h"
@@ -358,7 +359,10 @@ void handle_options_settable(struct packet_options_settable *packet)
 
   /* have no proper final packet, test for the last instead */
   if (i == (num_settable_options - 1) && !settable_options_loaded) {
-    load_settable_options(TRUE);
+    /* Only send our private settings if we are running
+     * on a forked local server, i.e. started by the
+     * client with the "Start New Game" button. */
+    load_settable_options(is_server_running());
     settable_options_loaded = TRUE;
   }
 }
