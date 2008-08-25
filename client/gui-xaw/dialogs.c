@@ -567,13 +567,17 @@ void popup_pillage_dialog(struct unit *punit,
     bv_special what_bv;
 
     if (what != S_PILLAGE_BASE) {
+      bv_bases bases;
+
       BV_CLR_ALL(what_bv);
       BV_SET(what_bv, what);
+      BV_CLR_ALL(bases);
       button =
         XtVaCreateManagedWidget ("button", commandWidgetClass, form,
                                  XtNfromVert, prev,
                                  XtNlabel,
-                                 (XtArgVal)(get_infrastructure_text(what_bv)),
+                                 (XtArgVal)(get_infrastructure_text(what_bv,
+                                                                    bases)),
                                  NULL);
       XtAddCallback(button, XtNcallback, pillage_callback,
                     INT_TO_XTPOINTER(what));
