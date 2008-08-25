@@ -115,8 +115,7 @@ const struct command commands[] = {
       "to the latest command.  You can only suggest one vote at a time.  "
       "The vote will pass immediately if more than half of the players "
       "vote for it, or fail immediately if at least half of the players "
-      "vote against it.  If one full turn elapses the vote may pass in any "
-      "case if nobody votes against it.")
+      "vote against it.")
   },
   {"debug",	ALLOW_CTRL,
    N_("debug [ player <player> | city <x> <y> | units <x> <y> | unit <id> "
