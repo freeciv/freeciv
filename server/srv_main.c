@@ -1905,7 +1905,7 @@ static void srv_prepare(void)
     srv_init();
   }
 
-  my_init_network();
+  fc_init_network();
 
   con_log_init(srvarg.log_filename, srvarg.loglevel);
   

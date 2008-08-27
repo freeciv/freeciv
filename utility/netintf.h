@@ -67,7 +67,7 @@
 typedef int socklen_t;
 #endif
 
-union my_sockaddr {
+union fc_sockaddr {
   struct sockaddr saddr;
   struct sockaddr_in saddr_in4;
 #ifdef IPV6_SUPPORT
@@ -84,26 +84,26 @@ enum announce_type {
 
 #define ANNOUNCE_DEFAULT ANNOUNCE_IPV4
 
-int my_connect(int sockfd, const struct sockaddr *serv_addr, socklen_t addrlen);
-int my_select(int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
+int fc_connect(int sockfd, const struct sockaddr *serv_addr, socklen_t addrlen);
+int fc_select(int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
               struct timeval *timeout);
-int my_readsocket(int sock, void *buf, size_t size);
-int my_writesocket(int sock, const void *buf, size_t size);
-void my_closesocket(int sock);
-void my_init_network(void);
-void my_shutdown_network(void);
+int fc_readsocket(int sock, void *buf, size_t size);
+int fc_writesocket(int sock, const void *buf, size_t size);
+void fc_closesocket(int sock);
+void fc_init_network(void);
+void fc_shutdown_network(void);
 
-void my_nonblock(int sockfd);
+void fc_nonblock(int sockfd);
 bool net_lookup_service(const char *name, int port,
-                        union my_sockaddr *addr);
-fz_FILE *my_querysocket(int sock, void *buf, size_t size);
+                        union fc_sockaddr *addr);
+fz_FILE *fc_querysocket(int sock, void *buf, size_t size);
 int find_next_free_port(int starting_port);
 
-const char *my_lookup_httpd(char *server, int *port, const char *url);
-const char *my_url_encode(const char *txt);
+const char *fc_lookup_httpd(char *server, int *port, const char *url);
+const char *fc_url_encode(const char *txt);
 
-void sockaddr_debug(union my_sockaddr *addr);
-int sockaddr_size(union my_sockaddr *addr);
-bool sockaddr_ipv6(union my_sockaddr *addr);
+void sockaddr_debug(union fc_sockaddr *addr);
+int sockaddr_size(union fc_sockaddr *addr);
+bool sockaddr_ipv6(union fc_sockaddr *addr);
 
 #endif  /* FC__NETINTF_H */
