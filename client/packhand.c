@@ -1443,10 +1443,6 @@ void handle_game_info(struct packet_game_info *pinfo)
     = government_by_number(game.info.government_when_anarchy_id);
   game.player_ptr = player_by_number(game.info.player_idx);
 
-  if (C_S_PREPARING == client_state()) {
-    /* FIXME: only for change in nations */
-    popdown_races_dialog();
-  }
   boot_help = (can_client_change_view()
 	       && game.info.spacerace != pinfo->spacerace);
   if (game.info.timeout != 0 && pinfo->seconds_to_phasedone >= 0) {
@@ -2184,6 +2180,10 @@ void handle_player_remove(int player_id)
 void handle_ruleset_control(struct packet_ruleset_control *packet)
 {
   int i;
+
+  /* The ruleset is going to load new nations. So close
+   * the nation selection dialog if it is open. */
+  popdown_races_dialog();
 
   ruleset_data_free();
 
