@@ -1302,6 +1302,20 @@ static int draw_city_productions_callback(struct widget *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
+static int draw_city_output_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    widget_redraw(pWidget);
+    widget_flush(pWidget);
+    draw_city_output ^= 1;
+    update_map_canvas_visible();
+  }
+  return -1;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
 static int borders_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -1586,11 +1600,38 @@ static int map_setting_callback(struct widget *pWidget)
     
     pTmpGui->size.x = pWindow->size.x + adj_size(55);
   
-    add_to_gui_list(ID_OPTIONS_MAP_CITY_NAMES_LABEL, pTmpGui);
+    add_to_gui_list(ID_OPTIONS_MAP_CITY_PROD_LABEL, pTmpGui);
   
     pTmpGui->size.y = pTmpGui->next->size.y +
         ((pTmpGui->next->size.h - pTmpGui->size.h) / 2);
   
+    /* 'draw city worker output on map' */
+    /* check box */
+    pTmpGui = create_checkbox(pWindow->dst, draw_city_output,
+                              WF_RESTORE_BACKGROUND);
+  
+    pTmpGui->action = draw_city_output_callback;
+    set_wstate(pTmpGui, FC_WS_NORMAL);
+  
+    pTmpGui->size.x = pWindow->size.x + adj_size(15);
+  
+    add_to_gui_list(ID_OPTIONS_MAP_CITY_OUTPUT_CHECKBOX, pTmpGui);
+    pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + adj_size(4);
+  
+    /* label */
+    pStr = create_str16_from_char(_("City Output"), adj_font(10));
+    pStr->style |= TTF_STYLE_BOLD;
+    pStr->fgcol = text_color;
+    pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
+    
+    pTmpGui->size.x = pWindow->size.x + adj_size(55);
+  
+    add_to_gui_list(ID_OPTIONS_MAP_CITY_OUTPUT_LABEL, pTmpGui);
+  
+    pTmpGui->size.y = pTmpGui->next->size.y +
+        ((pTmpGui->next->size.h - pTmpGui->size.h) / 2);
+
+    
     /* 'draw borders' */
     /* check box */
     pTmpGui = create_checkbox(pWindow->dst, draw_borders,
