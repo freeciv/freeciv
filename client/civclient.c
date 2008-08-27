@@ -172,7 +172,7 @@ static void charsets_init(void)
 static void at_exit(void)
 {
   client_kill_server(TRUE);
-  my_shutdown_network();
+  fc_shutdown_network();
 }
 
 /**************************************************************************
@@ -379,7 +379,7 @@ int main(int argc, char *argv[])
 
   ui_init();
   charsets_init();
-  my_init_network();
+  fc_init_network();
 
   /* register exit handler */ 
   atexit(at_exit);

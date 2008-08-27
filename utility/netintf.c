@@ -90,7 +90,7 @@ static void set_socket_errno(void)
 /***************************************************************
   Connect a socket to an address
 ***************************************************************/
-int my_connect(int sockfd, const struct sockaddr *serv_addr, socklen_t addrlen)
+int fc_connect(int sockfd, const struct sockaddr *serv_addr, socklen_t addrlen)
 {
   int result;
   
@@ -108,7 +108,7 @@ int my_connect(int sockfd, const struct sockaddr *serv_addr, socklen_t addrlen)
 /***************************************************************
   Wait for a number of sockets to change status
 **************************************************************/
-int my_select(int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
+int fc_select(int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
               struct timeval *timeout)
 {
   int result;
@@ -127,7 +127,7 @@ int my_select(int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
 /***************************************************************
   Read from a socket.
 ***************************************************************/
-int my_readsocket(int sock, void *buf, size_t size)
+int fc_readsocket(int sock, void *buf, size_t size)
 {
   int result;
   
@@ -146,7 +146,7 @@ int my_readsocket(int sock, void *buf, size_t size)
 /***************************************************************
   Write to a socket.
 ***************************************************************/
-int my_writesocket(int sock, const void *buf, size_t size)
+int fc_writesocket(int sock, const void *buf, size_t size)
 {
   int result;
         
@@ -165,7 +165,7 @@ int my_writesocket(int sock, const void *buf, size_t size)
 /***************************************************************
   Close a socket.
 ***************************************************************/
-void my_closesocket(int sock)
+void fc_closesocket(int sock)
 {
 #ifdef HAVE_WINSOCK
   closesocket(sock);
@@ -177,7 +177,7 @@ void my_closesocket(int sock)
 /***************************************************************
   Initialize network stuff.
 ***************************************************************/
-void my_init_network(void)
+void fc_init_network(void)
 {
 #ifdef HAVE_WINSOCK
   WSADATA wsa;
@@ -196,7 +196,7 @@ void my_init_network(void)
 /***************************************************************
   Shutdown network stuff.
 ***************************************************************/
-void my_shutdown_network(void)
+void fc_shutdown_network(void)
 {
 #ifdef HAVE_WINSOCK
   WSACleanup();
@@ -206,7 +206,7 @@ void my_shutdown_network(void)
 /***************************************************************
   Set socket to non-blocking.
 ***************************************************************/
-void my_nonblock(int sockfd)
+void fc_nonblock(int sockfd)
 {
 #ifdef NONBLOCKING_SOCKETS
 #ifdef HAVE_WINSOCK
@@ -243,7 +243,7 @@ void my_nonblock(int sockfd)
 /***************************************************************************
   Write information about socaddr to debug log.
 ***************************************************************************/
-void sockaddr_debug(union my_sockaddr *addr)
+void sockaddr_debug(union fc_sockaddr *addr)
 {
 #ifdef IPV6_SUPPORT
   char buf[INET6_ADDRSTRLEN] = "Unknown";
@@ -268,10 +268,10 @@ void sockaddr_debug(union my_sockaddr *addr)
 }
 
 /***************************************************************************
-  Gets size of address to my_sockaddr. IPv6/IPv4 must be selected before
+  Gets size of address to fc_sockaddr. IPv6/IPv4 must be selected before
   calling this.
 ***************************************************************************/
-int sockaddr_size(union my_sockaddr *addr)
+int sockaddr_size(union fc_sockaddr *addr)
 {
 #ifdef IPV6_SUPPORT
   if (addr->saddr.sa_family == AF_INET6) {
@@ -286,7 +286,7 @@ int sockaddr_size(union my_sockaddr *addr)
 /***************************************************************************
   Returns wether address is IPv6 address.
 ***************************************************************************/
-bool sockaddr_ipv6(union my_sockaddr *addr)
+bool sockaddr_ipv6(union fc_sockaddr *addr)
 {
 #ifdef IPV6_SUPPORT
   if (addr->saddr.sa_family == AF_INET6) {
@@ -301,7 +301,7 @@ bool sockaddr_ipv6(union my_sockaddr *addr)
 /***************************************************************************
   Look up the service at hostname:port and fill in *sa.
 ***************************************************************************/
-bool net_lookup_service(const char *name, int port, union my_sockaddr *addr)
+bool net_lookup_service(const char *name, int port, union fc_sockaddr *addr)
 {
   struct hostent *hp;
   struct sockaddr_in *sock4;
@@ -379,7 +379,7 @@ bool net_lookup_service(const char *name, int port, union my_sockaddr *addr)
   Writes buf to socket and returns the response in an fz_FILE.
   Use only on blocking sockets.
 *************************************************************************/
-fz_FILE *my_querysocket(int sock, void *buf, size_t size)
+fz_FILE *fc_querysocket(int sock, void *buf, size_t size)
 {
   FILE *fp;
 
@@ -390,7 +390,7 @@ fz_FILE *my_querysocket(int sock, void *buf, size_t size)
   }
   fflush(fp);
 
-  /* we don't use my_closesocket on sock here since when fp is closed
+  /* we don't use fc_closesocket on sock here since when fp is closed
    * sock will also be closed. fdopen doesn't dup the socket descriptor. */
 #else
   {
@@ -418,16 +418,16 @@ fz_FILE *my_querysocket(int sock, void *buf, size_t size)
       return NULL;
     }
 
-    my_writesocket(sock, buf, size);
+    fc_writesocket(sock, buf, size);
 
-    while ((n = my_readsocket(sock, tmp, sizeof(tmp))) > 0) {
+    while ((n = fc_readsocket(sock, tmp, sizeof(tmp))) > 0) {
       if (fwrite(tmp, 1, n, fp) != n) {
 	die("socket %d: write error", sock);
       }
     }
     fflush(fp);
 
-    my_closesocket(sock);
+    fc_closesocket(sock);
 
     rewind(fp);
   }
@@ -440,7 +440,7 @@ fz_FILE *my_querysocket(int sock, void *buf, size_t size)
   Returns a valid httpd server and port, plus the path to the resource
   at the url location.
 *************************************************************************/
-const char *my_lookup_httpd(char *server, int *port, const char *url)
+const char *fc_lookup_httpd(char *server, int *port, const char *url)
 {
   const char *purl, *str, *ppath, *pport;
   const char *str2;
@@ -520,7 +520,7 @@ static bool is_url_safe(unsigned ch)
   URL-encode a string as per RFC 2396.
   Should work for all ASCII based charsets: including UTF-8.
 ***************************************************************/
-const char *my_url_encode(const char *txt)
+const char *fc_url_encode(const char *txt)
 {
   static char buf[2048];
   unsigned ch;
@@ -556,7 +556,7 @@ int find_next_free_port(int starting_port)
   int port, s = socket(AF_INET, SOCK_STREAM, 0);
 
   for (port = starting_port;; port++) {
-    union my_sockaddr tmp;
+    union fc_sockaddr tmp;
     struct sockaddr_in *sock = &tmp.saddr_in4;
 
     memset(&tmp, 0, sizeof(tmp));
@@ -570,7 +570,7 @@ int find_next_free_port(int starting_port)
     }
   }
 
-  my_closesocket(s);
+  fc_closesocket(s);
   
   return port;
 }

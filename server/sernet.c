@@ -235,8 +235,8 @@ void close_connections_and_socket(void)
   conn_list_free(game.all_connections);
   conn_list_free(game.est_connections);
 
-  my_closesocket(sock);
-  my_closesocket(socklan);
+  fc_closesocket(sock);
+  fc_closesocket(socklan);
 
 #ifdef HAVE_LIBREADLINE
   if (history_file) {
@@ -248,7 +248,7 @@ void close_connections_and_socket(void)
   send_server_info_to_metaserver(META_GOODBYE);
   server_close_meta();
 
-  my_shutdown_network();
+  fc_shutdown_network();
 }
 
 /*****************************************************************************
@@ -325,7 +325,7 @@ void flush_packets(void)
       return;
     }
 
-    if(my_select(max_desc+1, NULL, &writefs, &exceptfs, &tv)<=0) {
+    if(fc_select(max_desc+1, NULL, &writefs, &exceptfs, &tv)<=0) {
       return;
     }
 
@@ -606,7 +606,7 @@ enum server_events server_sniff_all_input(void)
     }
     con_prompt_off();		/* output doesn't generate a new prompt */
 
-    if (my_select(max_desc + 1, &readfs, &writefs, &exceptfs, &tv) == 0) {
+    if (fc_select(max_desc + 1, &readfs, &writefs, &exceptfs, &tv) == 0) {
       /* timeout */
       (void) send_server_info_to_metaserver(META_REFRESH);
       if (game.info.timeout > 0
@@ -820,7 +820,7 @@ static int server_accept_connection(int sockfd)
   socklen_t fromlen;
 
   int new_sock;
-  union my_sockaddr fromend;
+  union fc_sockaddr fromend;
   bool nameinfo = FALSE;
 #ifdef IPV6_SUPPORT
   char host[NI_MAXHOST], service[NI_MAXSERV];
@@ -874,7 +874,7 @@ int server_make_connection(int new_sock, const char *client_addr, const char *cl
 {
   int i;
 
-  my_nonblock(new_sock);
+  fc_nonblock(new_sock);
 
   for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
     struct connection *pconn = &connections[i];
@@ -924,8 +924,8 @@ int server_make_connection(int new_sock, const char *client_addr, const char *cl
 int server_open_socket(void)
 {
   /* setup socket address */
-  union my_sockaddr src;
-  union my_sockaddr addr;
+  union fc_sockaddr src;
+  union fc_sockaddr addr;
   struct ip_mreq mreq4;
   const char *group;
   int opt;
@@ -986,7 +986,7 @@ int server_open_socket(void)
     freelog(LOG_ERROR, "SO_REUSEADDR failed: %s", mystrerror());
   }
 
-  my_nonblock(socklan);
+  fc_nonblock(socklan);
 
   group = get_multicast_group(srvarg.announce == ANNOUNCE_IPV6);
 
@@ -1174,7 +1174,7 @@ static void get_lanserver_announcement(void)
   tv.tv_sec = 0;
   tv.tv_usec = 0;
 
-  while (my_select(socklan + 1, &readfs, NULL, &exceptfs, &tv) == -1) {
+  while (fc_select(socklan + 1, &readfs, NULL, &exceptfs, &tv) == -1) {
     if (errno != EINTR) {
       freelog(LOG_ERROR, "select failed: %s", mystrerror());
       return;
@@ -1215,7 +1215,7 @@ static void send_lanserver_response(void)
   char players[256];
   char status[256];
   struct data_out dout;
-  union my_sockaddr addr;
+  union fc_sockaddr addr;
   int socksend, setting = 1;
   const char *group;
   size_t size;
@@ -1302,5 +1302,5 @@ static void send_lanserver_response(void)
     return;
   }
 
-  my_closesocket(socksend);
+  fc_closesocket(socksend);
 }

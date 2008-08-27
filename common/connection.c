@@ -160,7 +160,7 @@ int read_socket_data(int sock, struct socket_packet_buffer *buffer)
   }
 
   freelog(LOG_DEBUG, "try reading %d bytes", buffer->nsize - buffer->ndata);
-  didget = my_readsocket(sock, (char *) (buffer->data + buffer->ndata),
+  didget = fc_readsocket(sock, (char *) (buffer->data + buffer->ndata),
 			 buffer->nsize - buffer->ndata);
 
   if (didget > 0) {
@@ -211,7 +211,7 @@ static int write_socket_data(struct connection *pc,
 
     tv.tv_sec = 0; tv.tv_usec = 0;
 
-    if (my_select(pc->sock+1, NULL, &writefs, &exceptfs, &tv) <= 0) {
+    if (fc_select(pc->sock+1, NULL, &writefs, &exceptfs, &tv) <= 0) {
       if (errno != EINTR) {
 	break;
       } else {
@@ -236,7 +236,7 @@ static int write_socket_data(struct connection *pc,
     if (FD_ISSET(pc->sock, &writefs)) {
       nblock=MIN(buf->ndata-start, MAX_LEN_PACKET);
       freelog(LOG_DEBUG,"trying to write %d limit=%d",nblock,limit);
-      if((nput=my_writesocket(pc->sock, 
+      if((nput=fc_writesocket(pc->sock, 
 			      (const char *)buf->data+start, nblock)) == -1) {
 #ifdef NONBLOCKING_SOCKETS
 	if (errno == EWOULDBLOCK || errno == EAGAIN) {
@@ -656,7 +656,7 @@ void connection_common_close(struct connection *pconn)
   if (!pconn->used) {
     freelog(LOG_ERROR, "WARNING: Trying to close already closed connection");
   } else {
-    my_closesocket(pconn->sock);
+    fc_closesocket(pconn->sock);
     pconn->used = FALSE;
     pconn->established = FALSE;
 

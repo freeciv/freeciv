@@ -297,7 +297,7 @@ static void meta_send_request(struct server_scan *scan)
 
   my_uname(machine_string, sizeof(machine_string));
 
-  capstr = my_url_encode(our_capability);
+  capstr = fc_url_encode(our_capability);
 
   my_snprintf(str, sizeof(str),
     "POST %s HTTP/1.1\r\n"
@@ -314,7 +314,7 @@ static void meta_send_request(struct server_scan *scan)
     (unsigned long) (strlen("client_cap=") + strlen(capstr)),
     capstr);
 
-  if (my_writesocket(scan->sock, str, strlen(str)) != strlen(str)) {
+  if (fc_writesocket(scan->sock, str, strlen(str)) != strlen(str)) {
     /* Even with non-blocking this shouldn't fail. */
     (scan->error_func)(scan, mystrerror());
     return;
@@ -349,7 +349,7 @@ static void meta_read_response(struct server_scan *scan)
   }
 
   while (1) {
-    result = my_readsocket(scan->sock, buf, sizeof(buf));
+    result = fc_readsocket(scan->sock, buf, sizeof(buf));
 
     if (result < 0) {
       if (errno == EAGAIN || errno == EINTR || errno == EWOULDBLOCK) {
@@ -399,10 +399,10 @@ static void meta_read_response(struct server_scan *scan)
 ****************************************************************************/
 static bool begin_metaserver_scan(struct server_scan *scan)
 {
-  union my_sockaddr addr;
+  union fc_sockaddr addr;
   int s;
 
-  scan->meta.urlpath = my_lookup_httpd(scan->meta.name, &scan->meta.port,
+  scan->meta.urlpath = fc_lookup_httpd(scan->meta.name, &scan->meta.port,
 				       metaserver);
   if (!scan->meta.urlpath) {
     (scan->error_func)(scan,
@@ -421,15 +421,15 @@ static bool begin_metaserver_scan(struct server_scan *scan)
     return FALSE;
   }
 
-  my_nonblock(s);
+  fc_nonblock(s);
   
-  if (my_connect(s, &addr.saddr, sockaddr_size(&addr)) == -1) {
+  if (fc_connect(s, &addr.saddr, sockaddr_size(&addr)) == -1) {
     if (errno == EINPROGRESS) {
       /* With non-blocking sockets this is the expected result. */
       scan->meta.state = META_CONNECTING;
       scan->sock = s;
     } else {
-      my_closesocket(s);
+      fc_closesocket(s);
       (scan->error_func)(scan, mystrerror());
       return FALSE;
     }
@@ -462,7 +462,7 @@ static struct server_list *get_metaserver_list(struct server_scan *scan)
 
   switch (scan->meta.state) {
   case META_CONNECTING:
-    if (my_select(scan->sock + 1, NULL, &sockset, NULL, &tv) < 0) {
+    if (fc_select(scan->sock + 1, NULL, &sockset, NULL, &tv) < 0) {
       (scan->error_func)(scan, mystrerror());
     } else if (FD_ISSET(scan->sock, &sockset)) {
       meta_send_request(scan);
@@ -471,7 +471,7 @@ static struct server_list *get_metaserver_list(struct server_scan *scan)
     }
     return NULL;
   case META_WAITING:
-    if (my_select(scan->sock + 1, &sockset, NULL, NULL, &tv) < 0) {
+    if (fc_select(scan->sock + 1, &sockset, NULL, NULL, &tv) < 0) {
       (scan->error_func)(scan, mystrerror());
     } else if (FD_ISSET(scan->sock, &sockset)) {
       meta_read_response(scan);
@@ -532,7 +532,7 @@ static void delete_server_list(struct server_list *server_list)
 **************************************************************************/
 static bool begin_lanserver_scan(struct server_scan *scan)
 {
-  union my_sockaddr addr;
+  union fc_sockaddr addr;
   struct data_out dout;
   int sock, opt = 1;
 #ifndef HAVE_WINSOCK
@@ -630,7 +630,7 @@ static bool begin_lanserver_scan(struct server_scan *scan)
     freelog(LOG_DEBUG, ("Sending request for server announcement on LAN."));
   }
 
-  my_closesocket(sock);
+  fc_closesocket(sock);
 
   /* Create a socket for listening for server packets. */
   if ((scan->sock = socket(family, SOCK_DGRAM, 0)) < 0) {
@@ -638,7 +638,7 @@ static bool begin_lanserver_scan(struct server_scan *scan)
     return FALSE;
   }
 
-  my_nonblock(scan->sock);
+  fc_nonblock(scan->sock);
 
   if (setsockopt(scan->sock, SOL_SOCKET, SO_REUSEADDR,
                  (char *)&opt, sizeof(opt)) == -1) {
@@ -701,7 +701,7 @@ static bool begin_lanserver_scan(struct server_scan *scan)
 static struct server_list *get_lan_server_list(struct server_scan *scan)
 {
   socklen_t fromlen;
-  union my_sockaddr fromend;
+  union fc_sockaddr fromend;
   char msgbuf[128];
   int type;
   struct data_in din;
@@ -890,7 +890,7 @@ void server_scan_finish(struct server_scan *scan)
     return;
   }
   if (scan->sock >= 0) {
-    my_closesocket(scan->sock);
+    fc_closesocket(scan->sock);
     scan->sock = -1;
   }
 

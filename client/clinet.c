@@ -102,7 +102,7 @@
 /* In autoconnect mode, try to connect 100 times */
 #define MAX_AUTOCONNECT_ATTEMPTS	100
 
-static union my_sockaddr server_addr;
+static union fc_sockaddr server_addr;
 
 /*************************************************************************
   Close socket and cleanup.  This one doesn't print a message, so should
@@ -205,10 +205,10 @@ static int try_to_connect(const char *username, char *errbuf, int errbufsize)
     return -1;
   }
 
-  if (my_connect(client.conn.sock, &server_addr.saddr,
+  if (fc_connect(client.conn.sock, &server_addr.saddr,
                  sockaddr_size(&server_addr)) == -1) {
     (void) mystrlcpy(errbuf, mystrerror(), errbufsize);
-    my_closesocket(client.conn.sock);
+    fc_closesocket(client.conn.sock);
     client.conn.sock = -1;
 #ifdef HAVE_WINSOCK
     return -1;
@@ -330,11 +330,11 @@ static int read_from_connection(struct connection *pc, bool block)
       MY_FD_ZERO(&writefs);
       FD_SET(socket_fd, &writefs);
       n =
-	  my_select(socket_fd + 1, &readfs, &writefs, &exceptfs,
+	  fc_select(socket_fd + 1, &readfs, &writefs, &exceptfs,
 		    block ? NULL : &tv);
     } else {
       n =
-	  my_select(socket_fd + 1, &readfs, NULL, &exceptfs,
+	  fc_select(socket_fd + 1, &readfs, NULL, &exceptfs,
 		    block ? NULL : &tv);
     }
 
