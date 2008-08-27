@@ -2439,10 +2439,15 @@ bool map_event_handler(SDL_keysym Key)
   
       /* (show focus unit) */
       
-      /* show fog of war - Ctrl+w */
+      /* show city output - Ctrl+w
+       * show fog of war - Ctrl+Shift+w */
       case SDLK_w:
         if (LCTRL || RCTRL) {
-          key_fog_of_war_toggle();
+          if (LSHIFT || RSHIFT) {
+            key_fog_of_war_toggle();
+          } else {
+            key_city_output_toggle();
+          }
         }
         return FALSE;
   
