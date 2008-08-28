@@ -1013,8 +1013,12 @@ int server_open_socket(void)
 
 #ifndef IPV6_SUPPORT
   {
+#ifdef HAVE_INET_ATON
     inet_aton(group, &mreq4.imr_multiaddr);
-#else
+#else  /* HEVE_INET_ATON */
+    mreq4.imr_multiaddr.s_addr = inet_addr(group);
+#endif /* HAVE_INET_ATON */
+#else  /* IPv6 support */
   if (addr.saddr.sa_family == AF_INET6) {
     inet_pton(AF_INET6, group, &mreq6.ipv6mr_multiaddr.s6_addr);
     mreq6.ipv6mr_interface = 0; /* TODO: Interface selection */

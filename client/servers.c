@@ -584,7 +584,11 @@ static bool begin_lanserver_scan(struct server_scan *scan)
 
 #ifndef IPV6_SUPPORT
   {
+#ifdef HAVE_INET_ATON
     inet_aton(group, &addr.saddr_in4.sin_addr);
+#else  /* HAVE_INET_ATON */
+    addr.saddr_in4.sin_addr.s_addr = inet_addr(group);
+#endif /* HAVE_INET_ATON */
 #else  /* IPv6 support */
   if (family == AF_INET6) {
     addr.saddr.sa_family = AF_INET6;
@@ -667,8 +671,12 @@ static bool begin_lanserver_scan(struct server_scan *scan)
 
 #ifndef IPV6_SUPPORT
   {
+#ifdef HAVE_INET_ATON
     inet_aton(group, &mreq4.imr_multiaddr);
-#else
+#else  /* HAVE_INET_ATON */
+    mreq4.imr_multiaddr.s_addr = inet_addr(group);
+#endif /* HAVE_INET_ATON */
+#else  /* IPv6 support */
   if (family == AF_INET6) {
     inet_pton(AF_INET6, group, &mreq6.ipv6mr_multiaddr.s6_addr);
     mreq6.ipv6mr_interface = 0; /* TODO: Interface selection */
