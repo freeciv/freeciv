@@ -560,7 +560,7 @@ Uint16 gui_event_loop(void *pData,
       tv.tv_sec = 0;
       tv.tv_usec = 10000;/* 10ms*/
     
-      result = my_select(MAX(net_socket, ggz_socket) + 1, &civfdset, NULL, NULL, &tv);
+      result = fc_select(MAX(net_socket, ggz_socket) + 1, &civfdset, NULL, NULL, &tv);
       if (result < 0) {
         if (errno != EINTR) {
 	  break;
