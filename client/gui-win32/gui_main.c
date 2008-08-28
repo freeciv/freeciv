@@ -565,7 +565,7 @@ bool process_net_input()
     FD_SET(net_input, &civfdset);
     tv.tv_sec = 0;
     tv.tv_usec = 0;
-    if (my_select(1, &civfdset, NULL, NULL, &tv)) {
+    if (fc_select(1, &civfdset, NULL, NULL, &tv)) {
       if (FD_ISSET(net_input, &civfdset)) {
 	input_from_server(net_input);
 	processed = TRUE;
@@ -929,5 +929,5 @@ void editgui_popup_properties(const struct tile_list *tiles)
 /****************************************************************************
   Stub for editor function
 ****************************************************************************/
-void edtgui_notify_object_changed(int objtype, int object_id, bool remove)
+void editgui_notify_object_changed(int objtype, int object_id, bool remove)
 {}
