@@ -234,6 +234,8 @@ static const char savefile_options_default[] =
 	;/* savefile_options_default */
 
 static const char hex_chars[] = "0123456789abcdef";
+static const char num_chars[] =
+  "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-+";
 
 static void set_savegame_special(bv_special *specials, bv_bases *bases,
 		    char ch, const enum tile_special_type *index);
@@ -274,6 +276,34 @@ static int ascii_hex2bin(char ch, int halfbyte)
     die("Unknown hex value: '%c' %d", ch, ch);
   }
   return (pch - hex_chars) << (halfbyte * 4);
+}
+
+/****************************************************************************
+  Converts number in to single character. This works to values up to ~70.
+****************************************************************************/
+static char num2char(unsigned int num)
+{
+  if (num >= strlen(num_chars)) {
+    return '?';
+  }
+
+  return num_chars[num];
+}
+
+/****************************************************************************
+  Converts single character into numerical value. This is not hex conversion.
+****************************************************************************/
+static int char2num(char ch)
+{
+  char *pch;
+
+  pch = strchr(num_chars, ch);
+
+  if (!pch) {
+    die("Unknown ascii value for num: '%c' %d", ch, ch);
+  }
+
+  return pch - num_chars;
 }
 
 /****************************************************************************
@@ -1581,7 +1611,8 @@ static const char* old_government_name(int id)
 ****************************************************************************/
 static void player_load_units(struct player *plr, int plrno,
 			      struct section_file *file,
-			      char *savefile_options)
+			      char *savefile_options,
+                              struct base_type **base_order)
 {
   int nunits, i, j;
   enum unit_activity activity;
@@ -1599,7 +1630,8 @@ static void player_load_units(struct player *plr, int plrno,
     const char* type_name;
     struct unit_type *type;
     struct base_type *pbase = NULL;
-    
+    int base;
+
     type_name = secfile_lookup_str_default(file, NULL,
                                            "player%d.u%d.type_by_name",
                                            plrno, i);
@@ -1660,6 +1692,9 @@ static void player_load_units(struct player *plr, int plrno,
     punit->birth_turn = secfile_lookup_int_default(file, game.info.turn,
                                                    "player%d.u%d.born", plrno, i);
     activity = secfile_lookup_int(file, "player%d.u%d.activity", plrno, i);
+    base = secfile_lookup_int_default(file, -1,
+                                      "player%d.u%d.activity_base", plrno, i);
+
     if (activity == ACTIVITY_PATROL_UNUSED) {
       /* Previously ACTIVITY_PATROL and ACTIVITY_GOTO were used for
        * client-side goto.  Now client-side goto is handled by setting
@@ -1676,10 +1711,14 @@ static void player_load_units(struct player *plr, int plrno,
     } else if (activity == ACTIVITY_AIRBASE) {
       pbase = get_base_by_gui_type(BASE_GUI_AIRBASE, punit, punit->tile);
     } else if (activity == ACTIVITY_BASE) {
-      /* This should currently not happen as ACTIVITY_BASE is saved as
-       * ACTIVITY_FORTRESS or ACTIVITY_AIRBASE. We don't know base type,
-       * let's use sensible fallback */
-      set_unit_activity_base(punit, BASE_FORTRESS);
+      if (base >= 0
+          && base < sizeof(base_order) / sizeof (struct base_type *)) {
+        pbase = base_order[base];
+      } else {
+        freelog(LOG_ERROR, "Cannot find base %d for %s to build",
+                base, unit_rule_name(punit));
+        set_unit_activity(punit, ACTIVITY_IDLE);
+      }
     } else {
       set_unit_activity(punit, activity);
     }
@@ -1764,7 +1803,7 @@ static void player_load_units(struct player *plr, int plrno,
       int len = secfile_lookup_int_default(file, 0,
 			"player%d.u%d.orders_length", plrno, i);
       if (len > 0) {
-	char *orders_buf, *dir_buf, *act_buf;
+	char *orders_buf, *dir_buf, *act_buf, *base_buf;
 
 	punit->orders.list = fc_malloc(len * sizeof(*(punit->orders.list)));
 	punit->orders.length = len;
@@ -1781,6 +1820,8 @@ static void player_load_units(struct player *plr, int plrno,
 			"player%d.u%d.dir_list", plrno, i);
 	act_buf = secfile_lookup_str_default(file, "",
 			"player%d.u%d.activity_list", plrno, i);
+        base_buf = secfile_lookup_str_default(file, NULL,
+                                             "player%d.u%d.base_list", plrno, i);
 	punit->has_orders = TRUE;
 	for (j = 0; j < len; j++) {
 	  struct unit_order *order = &punit->orders.list[j];
@@ -1806,6 +1847,7 @@ static void player_load_units(struct player *plr, int plrno,
 	    break;
 	  }
 
+          /* Pre 2.2 savegames had activities ACTIVITY_FORTRESS and ACTIVITY_AIRBASE */
           if (order->activity == ACTIVITY_FORTRESS) {
             pbase = get_base_by_gui_type(BASE_GUI_FORTRESS, NULL, NULL);
             order->activity = ACTIVITY_IDLE; /* In case no matching gui_type found */
@@ -1813,11 +1855,23 @@ static void player_load_units(struct player *plr, int plrno,
             pbase = get_base_by_gui_type(BASE_GUI_AIRBASE, NULL, NULL);
             order->activity = ACTIVITY_IDLE; /* In case no matching gui_type found */
           }
-
           if (pbase) {
             /* Either ACTIVITY_FORTRESS or ACTIVITY_AIRBASE */
             order->activity = ACTIVITY_BASE;
             order->base = base_number(pbase);
+          } else if (base_buf) {
+            base = char2num(base_buf[j]);
+
+            if (base >= 0
+                && base < sizeof(base_order) / sizeof (struct base_type *)) {
+              pbase = base_order[base];
+            } else {
+              freelog(LOG_ERROR, "Cannot find base %d for %s to build",
+                      base, unit_rule_name(punit));
+              base = base_number(get_base_by_gui_type(BASE_GUI_FORTRESS, NULL, NULL));
+            }
+
+            order->base = base;
           }
 	}
       } else {
@@ -3279,6 +3333,7 @@ static void player_save_units(struct player *plr, int plrno,
 
   unit_list_iterate(plr->units, punit) {
     int activity = punit->activity;
+    char basenum = -1;
 
     i++;
 
@@ -3295,17 +3350,7 @@ static void player_save_units(struct player *plr, int plrno,
 		       plrno, i);
 
     if (activity == ACTIVITY_BASE) {
-      struct base_type *pbase;
-      pbase = base_by_number(punit->activity_base);
-
-      if (pbase->gui_type == BASE_GUI_FORTRESS) {
-        activity = ACTIVITY_FORTRESS;
-      } else if (pbase->gui_type == BASE_GUI_AIRBASE) {
-        activity = ACTIVITY_AIRBASE;
-      } else {
-        /* Gui type other. Make sensible fallback */
-        activity = ACTIVITY_FORTRESS;
-      }
+      basenum = punit->activity_base;
     }
     secfile_insert_int(file, activity, "player%d.u%d.activity",
                        plrno, i);
@@ -3315,6 +3360,7 @@ static void player_save_units(struct player *plr, int plrno,
     secfile_insert_int(file, punit->activity_target, 
 				"player%d.u%d.activity_target",
 				plrno, i);
+    secfile_insert_int(file, basenum, "player%d.u%d.activity_base", plrno, i);
     secfile_insert_bool(file, punit->done_moving,
 			"player%d.u%d.done_moving", plrno, i);
     secfile_insert_int(file, punit->moves_left, "player%d.u%d.moves",
@@ -3355,7 +3401,7 @@ static void player_save_units(struct player *plr, int plrno,
 		       "player%d.u%d.transported_by", plrno, i);
     if (punit->has_orders) {
       int len = punit->orders.length, j;
-      char orders_buf[len + 1], dir_buf[len + 1], act_buf[len + 1];
+      char orders_buf[len + 1], dir_buf[len + 1], act_buf[len + 1], base_buf[len + 1];
 
       secfile_insert_int(file, len, "player%d.u%d.orders_length", plrno, i);
       secfile_insert_int(file, punit->orders.index,
@@ -3369,26 +3415,16 @@ static void player_save_units(struct player *plr, int plrno,
 	orders_buf[j] = order2char(punit->orders.list[j].order);
 	dir_buf[j] = '?';
 	act_buf[j] = '?';
+        base_buf[j] = '?';
 	switch (punit->orders.list[j].order) {
 	case ORDER_MOVE:
 	  dir_buf[j] = dir2char(punit->orders.list[j].dir);
 	  break;
 	case ORDER_ACTIVITY:
           if (punit->orders.list[j].activity == ACTIVITY_BASE) {
-            struct base_type *pbase;
-            pbase = base_by_number(punit->orders.list[j].base);
-
-            if (pbase->gui_type == BASE_GUI_FORTRESS) {
-              act_buf[j] = activity2char(ACTIVITY_FORTRESS);
-            } else if (pbase->gui_type == BASE_GUI_AIRBASE) {
-              act_buf[j] = activity2char(ACTIVITY_AIRBASE);
-            } else {
-              /* Saving others as fortress */
-              act_buf[j] = activity2char(ACTIVITY_FORTRESS);
-            }
-          } else {
-            act_buf[j] = activity2char(punit->orders.list[j].activity);
+            base_buf[j] = num2char(punit->orders.list[j].base);
           }
+          act_buf[j] = activity2char(punit->orders.list[j].activity);
 	  break;
 	case ORDER_FULL_MP:
 	case ORDER_BUILD_CITY:
@@ -3408,6 +3444,8 @@ static void player_save_units(struct player *plr, int plrno,
 			 "player%d.u%d.dir_list", plrno, i);
       secfile_insert_str(file, act_buf,
 			 "player%d.u%d.activity_list", plrno, i);
+      secfile_insert_str(file, base_buf,
+                         "player%d.u%d.base_list", plrno, i);
     } else {
       /* Put all the same fields into the savegame - otherwise the
        * registry code can't correctly use a tabular format and the
@@ -3424,6 +3462,8 @@ static void player_save_units(struct player *plr, int plrno,
 			 "player%d.u%d.dir_list", plrno, i);
       secfile_insert_str(file, "-",
 			 "player%d.u%d.activity_list", plrno, i);
+      secfile_insert_str(file, "-",
+                         "player%d.u%d.base_list", plrno, i);
     }
   } unit_list_iterate_end;
 }
@@ -4483,7 +4523,7 @@ static void game_load_internal(struct section_file *file)
 
       player_load_cities(pplayer, n, file, savefile_options,
 			 improvement_order, improvement_order_size);
-      player_load_units(pplayer, n, file, savefile_options);
+      player_load_units(pplayer, n, file, savefile_options, base_order);
       player_load_attributes(pplayer, n, file);
     } players_iterate_end;
 
