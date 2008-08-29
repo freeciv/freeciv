@@ -145,11 +145,11 @@ const char *mapview_get_terrain_tooltip_text(struct tile *ptile)
   add_line(_("Location: (%d, %d) [%d]"),
 	   TILE_XY(ptile),
 	   tile_continent(ptile));
-#endif
+#endif /* DEBUG */
   add_line("%s", tile_get_info_text(ptile, 0));
   if (count > 0) {
     add_line("%s",
-	     get_infrastructure_text(infrastructure));
+	     get_infrastructure_text(infrastructure, ptile->bases));
   }
   RETURN;
 }
