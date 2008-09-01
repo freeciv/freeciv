@@ -132,7 +132,7 @@ struct unit_ai {
 struct unit_order {
   enum unit_orders order;
   enum unit_activity activity;  /* Only valid for ORDER_ACTIVITY. */
-  enum base_type_id base;       /* Only valid for activity ACTIVITY_BASE */
+  Base_type_id base;            /* Only valid for activity ACTIVITY_BASE */
   enum direction8 dir;          /* Only valid for ORDER_MOVE. */
 };
 
@@ -158,7 +158,7 @@ struct unit {
   int activity_count;
 
   enum tile_special_type activity_target;
-  enum base_type_id activity_base;
+  Base_type_id           activity_base;
   enum unit_focus_status focus_status;
   int ord_map, ord_city;
   /* ord_map and ord_city are the order index of this unit in tile.units
@@ -249,20 +249,20 @@ bool can_unit_do_activity(const struct unit *punit,
 bool can_unit_do_activity_targeted(const struct unit *punit,
 				   enum unit_activity activity,
 				   enum tile_special_type target,
-                                   enum base_type_id base);
+                                   Base_type_id base);
 bool can_unit_do_activity_targeted_at(const struct unit *punit,
 				      enum unit_activity activity,
 				      enum tile_special_type target,
 				      const struct tile *ptile,
-                                      enum base_type_id base);
+                                      Base_type_id base);
 bool can_unit_do_activity_base(const struct unit *punit,
-                               enum base_type_id base);
+                               Base_type_id base);
 void set_unit_activity(struct unit *punit, enum unit_activity new_activity);
 void set_unit_activity_targeted(struct unit *punit,
 				enum unit_activity new_activity,
 				enum tile_special_type new_target);
 void set_unit_activity_base(struct unit *punit,
-                            enum base_type_id base);
+                            Base_type_id base);
 int get_activity_rate(const struct unit *punit);
 int get_activity_rate_this_turn(const struct unit *punit);
 int get_turns_for_activity_at(const struct unit *punit,

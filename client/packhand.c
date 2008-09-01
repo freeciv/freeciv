@@ -2456,7 +2456,7 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
   VALIDATE(num_unit_types,	U_LAST,			"unit types");
   VALIDATE(num_impr_types,	B_LAST,			"improvements");
   VALIDATE(num_tech_types,	A_LAST_REAL,		"advances");
-  VALIDATE(num_base_types,	BASE_LAST,		"bases");
+  VALIDATE(num_base_types,	MAX_BASE_TYPES,		"bases");
 
   VALIDATE(government_count,	MAX_NUM_ITEMS,		"governments");
   VALIDATE(nation_count,	MAX_NUM_ITEMS,		"nations");

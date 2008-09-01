@@ -202,7 +202,7 @@
 {									    \
   int b;                                                                    \
 									    \
-  for(b = 0; 4 * b < BASE_LAST; b++) {
+  for(b = 0; 4 * b < game.control.num_base_types; b++) {
 
 #define bases_halfbyte_iterate_end					    \
   }									    \
@@ -873,7 +873,7 @@ static char get_savegame_bases(bv_bases bases,
   for (i = 0; i < 4; i++) {
     int base = index[i];
 
-    if (base >= BASE_LAST) {
+    if (base < 0) {
       break;
     }
     if (BV_ISSET(bases, base)) {
@@ -1036,7 +1036,7 @@ static void map_load(struct section_file *file,
     int i;
 
     /* This is needed when new bases has been added to ruleset, and                              
-     * thus BASE_LAST is greater than, when game was saved. */
+     * thus game.control.num_base_types is greater than, when game was saved. */
     for (i = 0; i < map.xsize; i++) {
       zeroline[i] = '0';
     }
@@ -1181,7 +1181,7 @@ static void map_save(struct section_file *file)
     int l;
 
     for (l = 0; l < 4; l++) {
-      mod[l] = MIN(4 * j + l, BASE_LAST);
+      mod[l] = MIN(4 * j + l, -1);
     }
     sprintf (buf, "map.b%02d_%%03d", j);
     SAVE_NORMAL_MAP_DATA(ptile, file, buf,
@@ -3011,7 +3011,7 @@ static void player_load_vision(struct player *plr, int plrno,
       int i;
 
       /* This is needed when new bases has been added to ruleset, and
-       * thus BASE_LAST is greater than, when game was saved. */
+       * thus game.control.num_base_types is greater than, when game was saved. */
       for(i = 0; i < map.xsize; i++) {
         zeroline[i] = '0';
       }
@@ -3704,7 +3704,7 @@ static void player_save_vision(struct player *plr, int plrno,
     int l;
 
     for (l = 0; l < 4; l++) {
-      mod[l] = MIN(4 * j + l, BASE_LAST);
+      mod[l] = MAX(4 * j + l, -1);
     }
     sprintf (buf, "player%%d.map_b%02d_%%03d", j);
     SAVE_PLAYER_MAP_DATA(ptile, file, buf, plrno,
@@ -4358,7 +4358,7 @@ static void game_load_internal(struct section_file *file)
       base_order[j] = find_base_type_by_rule_name(modname[j]);
     }
     free(modname);
-    for (; j < BASE_LAST + (4 - (BASE_LAST % 4)); j++) {
+    for (; j < game.control.num_base_types + (4 - (game.control.num_base_types % 4)); j++) {
       base_order[j] = NULL;
     }
   }
@@ -4808,13 +4808,13 @@ void game_save(struct section_file *file, const char *save_reason)
     int i = 0;
 
     /* Save specials order */
-    modname = fc_calloc(BASE_LAST, sizeof(*modname));
+    modname = fc_calloc(game.control.num_base_types, sizeof(*modname));
 
     base_type_iterate(pbase) {
       modname[i++] = base_rule_name(pbase);
     } base_type_iterate_end;
 
-    secfile_insert_str_vec(file, modname, BASE_LAST,
+    secfile_insert_str_vec(file, modname, game.control.num_base_types,
 			   "savefile.bases");
     free(modname);
   }

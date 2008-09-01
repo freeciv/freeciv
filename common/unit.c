@@ -704,14 +704,14 @@ bool can_unit_continue_current_activity(struct unit *punit)
 {
   enum unit_activity current = punit->activity;
   enum tile_special_type target = punit->activity_target;
-  enum base_type_id base = punit->activity_base;
+  Base_type_id base = punit->activity_base;
   enum unit_activity current2 = 
               (current == ACTIVITY_FORTIFIED) ? ACTIVITY_FORTIFYING : current;
   bool result;
 
   punit->activity = ACTIVITY_IDLE;
   punit->activity_target = S_LAST;
-  punit->activity_base = BASE_LAST;
+  punit->activity_base = -1;
 
   result = can_unit_do_activity_targeted(punit, current2, target, base);
 
@@ -732,7 +732,7 @@ bool can_unit_continue_current_activity(struct unit *punit)
 bool can_unit_do_activity(const struct unit *punit,
 			  enum unit_activity activity)
 {
-  return can_unit_do_activity_targeted(punit, activity, S_LAST, BASE_LAST);
+  return can_unit_do_activity_targeted(punit, activity, S_LAST, -1);
 }
 
 /**************************************************************************
@@ -740,7 +740,7 @@ bool can_unit_do_activity(const struct unit *punit,
   current location.
 **************************************************************************/
 bool can_unit_do_activity_base(const struct unit *punit,
-                               enum base_type_id base)
+                               Base_type_id base)
 {
   return can_unit_do_activity_targeted(punit, ACTIVITY_BASE, S_LAST, base);
 }
@@ -752,7 +752,7 @@ bool can_unit_do_activity_base(const struct unit *punit,
 bool can_unit_do_activity_targeted(const struct unit *punit,
 				   enum unit_activity activity,
 				   enum tile_special_type target,
-                                   enum base_type_id base)
+                                   Base_type_id base)
 {
   return can_unit_do_activity_targeted_at(punit, activity, target,
 					  punit->tile, base);
@@ -770,7 +770,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 				      enum unit_activity activity,
 				      enum tile_special_type target,
 				      const struct tile *ptile,
-                                      enum base_type_id base)
+                                      Base_type_id base)
 {
   struct player *pplayer = unit_owner(punit);
   struct terrain *pterrain = tile_terrain(ptile);
@@ -972,7 +972,7 @@ void set_unit_activity(struct unit *punit, enum unit_activity new_activity)
   punit->activity=new_activity;
   punit->activity_count=0;
   punit->activity_target = S_LAST;
-  punit->activity_base = BASE_LAST;
+  punit->activity_base = -1;
   if (new_activity == ACTIVITY_IDLE && punit->moves_left > 0) {
     /* No longer done. */
     punit->done_moving = FALSE;
@@ -997,7 +997,7 @@ void set_unit_activity_targeted(struct unit *punit,
   Assign a new base building task to unit
 **************************************************************************/
 void set_unit_activity_base(struct unit *punit,
-                            enum base_type_id base)
+                            Base_type_id base)
 {
   set_unit_activity(punit, ACTIVITY_BASE);
   punit->activity_base = base;
@@ -1110,7 +1110,7 @@ const char *unit_activity_text(const struct unit *punit)
        BV_CLR_ALL(pset);
        BV_SET(pset, punit->activity_target);
        BV_CLR_ALL(bases);
-       if (punit->activity_base != BASE_LAST) {
+       if (punit->activity_base >= 0) {
          BV_SET(bases, punit->activity_base);
        }
        my_snprintf(text, sizeof(text), "%s: %s",

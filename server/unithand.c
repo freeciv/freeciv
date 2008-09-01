@@ -65,7 +65,7 @@ static void unit_activity_handling_targeted(struct unit *punit,
 					    enum unit_activity new_activity,
 					    enum tile_special_type new_target);
 static void unit_activity_handling_base(struct unit *punit,
-                                        enum base_type_id base);
+                                        Base_type_id base);
 static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id, struct city *pcity_dest);
 static bool unit_bombard(struct unit *punit, struct tile *ptile);
 
@@ -657,7 +657,7 @@ void handle_unit_build_city(struct player *pplayer, int unit_id, char *name)
 void handle_unit_change_activity(struct player *pplayer, int unit_id,
 				 enum unit_activity activity,
 				 enum tile_special_type activity_target,
-                                 enum base_type_id activity_base)
+                                 Base_type_id activity_base)
 {
   struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
 
@@ -1751,14 +1751,14 @@ void unit_activity_handling(struct unit *punit,
 }
 
 /**************************************************************************
-...
+  Handle request for targeted activity.
 **************************************************************************/
 static void unit_activity_handling_targeted(struct unit *punit,
 					    enum unit_activity new_activity,
 					    enum tile_special_type new_target)
 {
   if (can_unit_do_activity_targeted(punit, new_activity, new_target,
-                                    BASE_LAST)) {
+                                    -1)) {
     enum unit_activity old_activity = punit->activity;
     enum tile_special_type old_target = punit->activity_target;
 
@@ -1770,10 +1770,10 @@ static void unit_activity_handling_targeted(struct unit *punit,
 }
 
 /**************************************************************************
-...
+  Handle request for military base building.
 **************************************************************************/
 static void unit_activity_handling_base(struct unit *punit,
-                                        enum base_type_id base)
+                                        Base_type_id base)
 {
   if (can_unit_do_activity_base(punit, base)) {
     enum unit_activity old_activity = punit->activity;

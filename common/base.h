@@ -16,8 +16,6 @@
 #include "fc_types.h"
 #include "requirements.h"
 
-typedef enum base_type_id Base_type_id;
-
 /* This must correspond to base_gui_type_names[] in base.c */
 enum base_gui_type {
   BASE_GUI_FORTRESS = 0,

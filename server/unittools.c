@@ -583,7 +583,7 @@ static int total_activity_targeted(struct tile *ptile, enum unit_activity act,
   Calculate the total amount of base building activity performed by all
   units on a tile for a given base.
 **************************************************************************/
-static int total_activity_base(struct tile *ptile, enum base_type_id base)
+static int total_activity_base(struct tile *ptile, Base_type_id base)
 {
   int total = 0;
 
@@ -1875,7 +1875,7 @@ void package_short_unit(struct unit *punit,
   if (punit->activity == ACTIVITY_EXPLORE
       || punit->activity == ACTIVITY_GOTO) {
     packet->activity = ACTIVITY_IDLE;
-    packet->activity_base = BASE_LAST;
+    packet->activity_base = -1;
   } else {
     packet->activity = punit->activity;
     packet->activity_base = punit->activity_base;
@@ -3024,7 +3024,7 @@ bool execute_orders(struct unit *punit)
   struct player *pplayer = unit_owner(punit);
   int moves_made = 0;
   enum unit_activity activity;
-  enum base_type_id base;
+  Base_type_id base;
 
   assert(unit_has_orders(punit));
 

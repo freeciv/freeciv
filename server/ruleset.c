@@ -62,6 +62,7 @@
 #define NATION_GROUP_SECTION_PREFIX "ngroup" /* without underscore? */
 #define NATION_SECTION_PREFIX "nation" /* without underscore? */
 #define RESOURCE_SECTION_PREFIX "resource_"
+#define BASE_SECTION_PREFIX "base_"
 #define SPECIALIST_SECTION_PREFIX "specialist_"
 #define TERRAIN_CAPABILITY "+1.9+2007.Oct.26"
 #define TERRAIN_SECTION_PREFIX "terrain_"
@@ -83,6 +84,7 @@ static const char name_too_long[] = "Name \"%s\" too long; truncating.";
 	(void) loud_strlcpy(dst, src, MAX_SECTION_LABEL, name_too_long)
 static char *resource_sections = NULL;
 static char *terrain_sections = NULL;
+static char *base_sections = NULL;
 
 
 static void openload_ruleset_file(struct section_file *file,
@@ -1649,39 +1651,31 @@ static void load_terrain_names(struct section_file *file)
 
   /* base names */
 
-  game.control.num_base_types = BASE_LAST;
+  sec = secfile_get_secnames_prefix(file, BASE_SECTION_PREFIX, &nval);
+  if (nval > MAX_BASE_TYPES) {
+    ruleset_error(LOG_FATAL, "\"%s\": Too many base types (%d, max %d)",
+                  filename,
+                  nval,
+                  MAX_BASE_TYPES);
+  }
+  game.control.num_base_types = nval;
+
+  if (base_sections) {
+    free(base_sections);
+  }
+  base_sections = fc_calloc(nval, MAX_SECTION_LABEL);
 
   base_type_iterate(pbase) {
-    char *name;
-    char *section;
-
-    switch (base_number(pbase)) {
-    case BASE_FORTRESS:
-      section = "fortress";
-      break;
-    case BASE_AIRBASE:
-      section = "airbase";
-      break;
-    default:
-      ruleset_error(LOG_FATAL, "\"%s\": unhandled base type %d in %s.",
-                    filename,
-                    base_number(pbase),
-                    "load_terrain_names()");
-
-      /* ruleset_error() never returns, since error was marked fatal.
-       * This just makes compiler happy. It is afraid that 'section' is
-       * used uninitialized */
-      section = "unknown";
-    }
-    name = secfile_lookup_str(file, "%s.name", section);
-    if (name == NULL) {
-      ruleset_error(LOG_FATAL, "\"%s\" [%s] missing.",
-                    filename, section);
-    }
+    const int i = base_index(pbase);
+    char *name = secfile_lookup_str(file, "%s.name", sec[i]);
 
     name_strlcpy(pbase->name.vernacular, name);
     pbase->name.translated = NULL;
+
+    section_strlcpy(&base_sections[i * MAX_SECTION_LABEL], sec[i]);
   } base_type_iterate_end;
+
+  free(sec);
 }
 
 /**************************************************************************
@@ -1968,30 +1962,11 @@ static void load_ruleset_terrain(struct section_file *file)
   /* base details */
 
   base_type_iterate(pbase) {
+    const char *section = &base_sections[base_index(pbase) * MAX_SECTION_LABEL];
     int j;
     char **slist;
-    char *section;
     struct requirement_vector *reqs;
     char *gui_str;
-
-    switch (base_number(pbase)) {
-    case BASE_FORTRESS:
-      section = "fortress";
-      break;
-    case BASE_AIRBASE:
-      section = "airbase";
-      break;
-    default:
-      ruleset_error(LOG_FATAL, "\"%s\": unhandled base type %d in %s.",
-                    filename,
-                    base_number(pbase),
-                    "load_ruleset_terrain()");
-
-      /* ruleset_error() never returns, since error was marked fatal.
-       * This just makes compiler happy. It is afraid that 'section' is
-       * used uninitialized */
-      section = "unknown";
-    }
 
     pbase->buildable = secfile_lookup_bool_default(file, TRUE,
                                                   "%s.buildable", section);
@@ -3655,6 +3630,10 @@ void load_rulesets(void)
 
   precalc_tech_data();
 
+  if (base_sections) {
+    free(base_sections);
+    base_sections = NULL;
+  }
   if (resource_sections) {
     free(resource_sections);
     resource_sections = NULL;

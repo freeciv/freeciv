@@ -651,8 +651,7 @@ update22two = "i"
 food        = 2
 # arctic (seals => walrus).
 
-; Exactly two base types:
-; [fortress] and [airbase].
+; Base types:
 ;
 ; name                    = Name of the base type.
 ; buildable               = Can base be built? Defaults to true
@@ -672,7 +671,7 @@ food        = 2
 ;   - "DiplomatDefense"   = Diplomats inside get bonus to diplomatic defense
 ;   - "ParadropFrom"      = Paradrop can be initiated from base
 
-[fortress]
+[base_fortress]
 name         = _("Fortress")
 graphic      = "base.fortress"
 graphic_alt  = "-"
@@ -688,20 +687,3 @@ build_time   = 3
 native_to    = "Land"
 flags        = "NoAggressive", "DefenseBonus", "ClaimTerritory",
                "NoStackDeath", "DiplomatDefense"
-
-[airbase]
-name         = _("Airbase")
-buildable    = 0
-graphic      = "base.airbase"
-graphic_alt  = "-"
-activity_gfx = "unit.airbase"
-reqs         =
-    { "type", "name", "range"
-      "Tech", "Advanced Flight", "Player"
-      "TerrainClass", "Land", "Local"
-      "UnitFlag", "Airbase", "Local"
-    }
-gui_type     = "Airbase"
-build_time   = 3
-native_to    = "Air", "Missile"
-flags        = "NoStackDeath", "DiplomatDefense", "ParadropFrom"

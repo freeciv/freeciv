@@ -287,7 +287,7 @@ struct named_sprites {
       *middleground,
       *foreground,
       *activity;
-  } bases[BASE_LAST];
+  } bases[MAX_BASE_TYPES];
   struct {
     struct sprite
       *main[EDGE_COUNT],
@@ -5231,7 +5231,7 @@ int fill_basic_base_sprite_array(const struct tileset *t,
 
   index = base_index(pbase);
 
-  if (!(0 <= index && index < BASE_LAST)) {
+  if (!(0 <= index && index < game.control.num_base_types)) {
     return 0;
   }
 
