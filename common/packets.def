@@ -192,7 +192,7 @@ type SSET_CLASS         = uint8(enum sset_class)
 type REQ_TYPE	        = uint8(enum universals_n)
 type REQ_RANGE		= uint8(enum req_range)
 type EFFECT_TYPE	= uint8(enum effect_type)
-type BASE               = uint8(enum base_type_id)
+type BASE               = uint8(Base_type_id)
 type BASE_GUI           = uint8(enum base_gui_type)
 
 type BV_IMPRS		= bitvector(bv_imprs)

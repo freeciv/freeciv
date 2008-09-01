@@ -331,7 +331,7 @@ int tile_activity_time(enum unit_activity activity, const struct tile *ptile)
   Time to complete the given activity on the given tile.
 ****************************************************************************/
 int tile_activity_base_time(const struct tile *ptile,
-                            enum base_type_id base)
+                            Base_type_id base)
 {
   return base_by_number(base)->build_time * ACTIVITY_FACTOR;
 }

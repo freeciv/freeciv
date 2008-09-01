@@ -1319,7 +1319,7 @@ void request_new_unit_activity(struct unit *punit, enum unit_activity act)
   }
 
   dsend_packet_unit_change_activity(&client.conn, punit->id, act,
-				    S_LAST, BASE_LAST);
+				    S_LAST, -1);
 }
 
 /**************************************************************************
@@ -1330,7 +1330,7 @@ void request_new_unit_activity_targeted(struct unit *punit,
 					enum tile_special_type tgt)
 {
   dsend_packet_unit_change_activity(&client.conn, punit->id, act, tgt,
-                                    BASE_LAST);
+                                    -1);
 }
 
 /**************************************************************************
@@ -1411,7 +1411,7 @@ void request_unit_load(struct unit *pcargo, struct unit *ptrans)
     /* Sentry the unit.  Don't request_unit_sentry since this can give a
      * recursive loop. */
     dsend_packet_unit_change_activity(&client.conn, pcargo->id,
-				      ACTIVITY_SENTRY, S_LAST, BASE_LAST);
+				      ACTIVITY_SENTRY, S_LAST, -1);
   }
 }
 
@@ -1431,7 +1431,7 @@ void request_unit_unload(struct unit *pcargo)
 
     /* Activate the unit. */
     dsend_packet_unit_change_activity(&client.conn, pcargo->id,
-				      ACTIVITY_IDLE, S_LAST, BASE_LAST);
+				      ACTIVITY_IDLE, S_LAST, -1);
   }
 }
 

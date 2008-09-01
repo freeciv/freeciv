@@ -117,7 +117,7 @@ enum known_type tile_get_known(const struct tile *ptile,
 int tile_activity_time(enum unit_activity activity,
 		       const struct tile *ptile);
 int tile_activity_base_time(const struct tile *ptile,
-                            enum base_type_id base);
+                            Base_type_id base);
 
 /* These are higher-level functions that handle side effects on the tile. */
 void tile_change_terrain(struct tile *ptile, struct terrain *pterrain);

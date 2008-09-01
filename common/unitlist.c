@@ -113,7 +113,7 @@ bool can_units_do_activity(const struct unit_list *punits,
   Returns TRUE if any of the units can do the base building activity
 ****************************************************************************/
 bool can_units_do_base(const struct unit_list *punits,
-                       enum base_type_id base)
+                       Base_type_id base)
 {
   unit_list_iterate(punits, punit) {
     if (can_unit_do_activity_base(punit, base)) {

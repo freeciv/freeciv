@@ -256,7 +256,7 @@ void handle_edit_tile_special(struct connection *pc, int x, int y,
   Handle a request to change the military base at one or more than one tile.
 ****************************************************************************/
 void handle_edit_tile_base(struct connection *pc, int x, int y,
-                           enum base_type_id id, bool remove, int size)
+                           Base_type_id id, bool remove, int size)
 {
   struct tile *ptile_center;
   struct base_type *pbase;

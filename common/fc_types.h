@@ -33,6 +33,7 @@
 #define MAX_NUM_BUILDING_LIST 10
 #define MAX_LEN_VET_SHORT_NAME 8
 #define MAX_VET_LEVELS 10
+#define MAX_BASE_TYPES 32
 
 /* Changing these will probably break network compatability. */
 #define MAX_LEN_NAME     32
@@ -100,6 +101,7 @@ typedef enum unit_activity Activity_type_id;
 typedef int Nation_type_id;
 typedef int Team_type_id;
 typedef int Unit_type_id;
+typedef int Base_type_id;
 
 struct advance;
 struct city;
@@ -261,12 +263,6 @@ struct universal {
 
 struct ai_choice;			/* incorporates universals_u */
 
-enum base_type_id {
-  BASE_FORTRESS = 0,
-  BASE_AIRBASE,
-  BASE_LAST
-};
-
-BV_DEFINE(bv_bases, BASE_LAST);
+BV_DEFINE(bv_bases, MAX_BASE_TYPES);
 
 #endif /* FC__FC_TYPES_H */

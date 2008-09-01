@@ -886,8 +886,7 @@ update22two = "P"
 shield      = 3
 # desert-only, special processing, see savegame map_load().
 
-; Exactly two base types:
-; [fortress] and [airbase].
+; Base types:
 ;
 ; name                    = Name of the base type.
 ; buildable               = Can base be built? Defaults to true
@@ -907,7 +906,7 @@ shield      = 3
 ;   - "DiplomatDefense"   = Diplomats inside get bonus to diplomatic defense
 ;   - "ParadropFrom"      = Paradrop can be initiated from base
 
-[fortress]
+[base_fortress]
 name         = _("Fortress")
 graphic      = "base.fortress"
 graphic_alt  = "-"
@@ -924,7 +923,7 @@ native_to    = "Land"
 flags        = "NoAggressive", "DefenseBonus", "ClaimTerritory",
                "NoStackDeath", "DiplomatDefense"
 
-[airbase]
+[base_airbase]
 name         = _("Airbase")
 graphic      = "base.airbase"
 graphic_alt  = "-"
