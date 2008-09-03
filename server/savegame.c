@@ -4140,12 +4140,35 @@ static void game_load_internal(struct section_file *file)
     } else {
       game.info.turn = -2;
     }
-    game.info.simultaneous_phases
-      = secfile_lookup_bool_default(file, TRUE,
-				    "game.simultaneous_phases_now");
-    game.simultaneous_phases_stored
-      = secfile_lookup_bool_default(file, TRUE,
-				    "game.simultaneous_phases_stored");
+
+    if (section_file_lookup(file, "game.simultaneous_phases_now")) {
+      bool sp_now;
+
+      sp_now = secfile_lookup_bool(file, "game.simultaneous_phases_now");
+      game.info.phase_mode = (sp_now ? PMT_CONCURRENT
+                              : PMT_PLAYERS_ALTERNATE);
+
+    } else {
+      game.info.phase_mode = GAME_DEFAULT_PHASE_MODE;
+    }
+
+    if (section_file_lookup(file, "game.simultaneous_phases_stored")) {
+      bool sp_stored;
+
+      sp_stored
+        = secfile_lookup_bool(file, "game.simultaneous_phases_stored");
+      game.phase_mode_stored = (sp_stored ? PMT_CONCURRENT
+                                : PMT_PLAYERS_ALTERNATE);
+    } else {
+      game.phase_mode_stored = game.info.phase_mode;
+    }
+
+    game.info.phase_mode
+      = secfile_lookup_int_default(file, game.info.phase_mode,
+                                   "game.phase_mode");
+    game.phase_mode_stored
+      = secfile_lookup_int_default(file, game.phase_mode_stored,
+                                   "game.phase_mode_stored");
 
     game.info.min_players   = secfile_lookup_int(file, "game.min_players");
     game.info.max_players   = secfile_lookup_int(file, "game.max_players");
@@ -4853,10 +4876,10 @@ void game_save(struct section_file *file, const char *save_reason)
   secfile_insert_int(file, game.info.end_year, "game.end_year");
   secfile_insert_int(file, game.info.year, "game.year");
   secfile_insert_int(file, game.info.turn, "game.turn");
-  secfile_insert_bool(file, game.info.simultaneous_phases,
-		      "game.simultaneous_phases_now");
-  secfile_insert_bool(file, game.simultaneous_phases_stored,
-		      "game.simultaneous_phases_stored");
+  secfile_insert_int(file, game.info.phase_mode,
+                     "game.phase_mode");
+  secfile_insert_int(file, game.phase_mode_stored,
+                     "game.phase_mode_stored");
   secfile_insert_int(file, game.info.min_players, "game.min_players");
   secfile_insert_int(file, game.info.max_players, "game.max_players");
   secfile_insert_int(file, game.info.nplayers, "game.nplayers");

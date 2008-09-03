@@ -616,12 +616,19 @@ const char *get_info_label_text(void)
 		  client.conn.playing->economic.luxury,
 		  client.conn.playing->economic.science);
   }
-  if (!game.info.simultaneous_phases) {
+  if (game.info.phase_mode == PMT_PLAYERS_ALTERNATE) {
     if (game.info.phase < 0 || game.info.phase >= game.info.nplayers) {
       astr_add_line(&str, _("Moving: Nobody"));
     } else {
       astr_add_line(&str, _("Moving: %s"),
                     player_name(player_by_number(game.info.phase)));
+    }
+  } else if (game.info.phase_mode == PMT_TEAMS_ALTERNATE) {
+    if (game.info.phase < 0 || game.info.phase >= team_count()) {
+      astr_add_line(&str, _("Moving: Nobody"));
+    } else {
+      astr_add_line(&str, _("Moving: %s"),
+                    team_name_translation(team_by_number(game.info.phase)));
     }
   }
   astr_add_line(&str, _("(Click for more info)"));

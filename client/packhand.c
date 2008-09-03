@@ -1011,7 +1011,11 @@ void handle_end_phase(void)
 void handle_start_phase(int phase)
 {
 
-  if (phase < 0 || phase >= player_count()) {
+  if (phase < 0
+      || (game.info.phase_mode == PMT_PLAYERS_ALTERNATE
+          && phase >= player_count())
+      || (game.info.phase_mode == PMT_TEAMS_ALTERNATE
+          && phase >= team_count())) {
     freelog(LOG_ERROR,
             "handle_start_phase() illegal phase %d.",
             phase);

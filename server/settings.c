@@ -197,6 +197,25 @@ static bool aifill_callback(int value, const char **error_string)
   return TRUE;
 }
 
+/*************************************************************************
+  Check that everyone is on a team for team-alternating simultaneous
+  phases. NB: Assumes that it is not possible to first set team
+  alternating phase mode then make teamless players.
+*************************************************************************/
+static bool phasemode_callback(int value, const char **error_string)
+{
+  if (value == PMT_TEAMS_ALTERNATE) {
+    players_iterate(pplayer) {
+      if (!pplayer->team) {
+        *error_string = _("All players must have a team if this option "
+                          "value is used.");
+        return FALSE;
+      }
+    } players_iterate_end;
+  }
+  *error_string = NULL;
+  return TRUE;
+}
 
 /************************************************************************/
 #if defined(HAVE_LIBBZ2)
@@ -908,13 +927,18 @@ struct settings_s settings[] = {
   /* This setting points to the "stored" value; changing it won't have
    * an effect until the next synchronization point (i.e., the start of
    * the next turn). */
-  GEN_BOOL("simultaneousphases", game.simultaneous_phases_stored,
-	   SSET_META, SSET_INTERNAL, SSET_SITUATIONAL, SSET_TO_CLIENT,
-	   N_("Whether to have simultaneous player phases."),
-	   N_("If true, all players' movement phases will occur "
-	      "simultaneously; if false, then players will "
-	      "alternate movement."), NULL,
-	   GAME_DEFAULT_SIMULTANEOUS_PHASES)
+  GEN_INT("phasemode", game.phase_mode_stored,
+	  SSET_META, SSET_INTERNAL, SSET_SITUATIONAL, SSET_TO_CLIENT,
+	  N_("Whether to have simultaneous player/team phases."),
+          /* NB: The values must match enum phase_mode_types
+           * defined in common/game.h */
+	  N_("This setting controls whether players may make "
+             "moves at the same time during a turn.\n"
+             "  0 = All players move concurrently.\n"
+             "  1 = All players alternate movement.\n"
+             "  2 = Only players on the same team move concurrently."),
+          phasemode_callback, GAME_MIN_PHASE_MODE,
+          GAME_MAX_PHASE_MODE, GAME_DEFAULT_PHASE_MODE)
 
   GEN_INT("nettimeout", game.info.tcptimeout,
 	  SSET_META, SSET_NETWORK, SSET_RARE, SSET_TO_CLIENT,
