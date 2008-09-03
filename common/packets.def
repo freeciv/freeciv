@@ -377,7 +377,7 @@ PACKET_GAME_INFO=15; sc
   PHASE phase;
   YEAR year, end_year;
 
-  BOOL simultaneous_phases;
+  UINT8 phase_mode;
   UINT32 num_phases;
 
   PLAYER min_players;

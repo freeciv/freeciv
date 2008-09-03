@@ -319,7 +319,7 @@ void game_init(void)
   sz_strlcpy(game.info.start_units, GAME_DEFAULT_START_UNITS);
 
   game.fogofwar_old = game.info.fogofwar;
-  game.simultaneous_phases_stored = GAME_DEFAULT_SIMULTANEOUS_PHASES;
+  game.phase_mode_stored = GAME_DEFAULT_PHASE_MODE;
   game.timeoutint    = GAME_DEFAULT_TIMEOUTINT;
   game.timeoutintinc = GAME_DEFAULT_TIMEOUTINTINC;
   game.timeoutinc    = GAME_DEFAULT_TIMEOUTINC;
@@ -615,10 +615,32 @@ void game_renumber_players(int plrno)
 
 /**************************************************************************
   Return TRUE if it is this player's phase.
+  NB: The meaning of the 'phase' argument must match its use in the
+  function begin_turn() in server/srv_main.c.
+  NB: The phase mode PMT_TEAMS_ALTERNATE assumes that every player is
+  on a team, i.e. that pplayer->team is never NULL.
 **************************************************************************/
 bool is_player_phase(const struct player *pplayer, int phase)
 {
-  return game.info.simultaneous_phases || player_number(pplayer) == phase;
+  switch (game.info.phase_mode) {
+  case PMT_CONCURRENT:
+    return TRUE;
+    break;
+  case PMT_PLAYERS_ALTERNATE:
+    return player_number(pplayer) == phase;
+    break;
+  case PMT_TEAMS_ALTERNATE:
+    assert(pplayer->team != NULL);
+    return team_number(pplayer->team) == phase;
+    break;
+  default:
+    break;
+  }
+
+  freelog(LOG_FATAL, "Unrecognized phase mode %d in is_player_phase().",
+          phase);
+  assert(FALSE);
+  return TRUE;
 }
 
 /****************************************************************************

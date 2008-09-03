@@ -602,12 +602,25 @@ static void begin_turn(bool is_new_turn)
 
   /* Reset this each turn. */
   if (is_new_turn) {
-    game.info.simultaneous_phases = game.simultaneous_phases_stored;
+    game.info.phase_mode = game.phase_mode_stored;
   }
-  if (game.info.simultaneous_phases) {
+
+  /* NB: Phase logic must match is_player_phase(). */
+  switch (game.info.phase_mode) {
+  case PMT_CONCURRENT:
     game.info.num_phases = 1;
-  } else {
+    break;
+  case PMT_PLAYERS_ALTERNATE:
     game.info.num_phases = game.info.nplayers;
+    break;
+  case PMT_TEAMS_ALTERNATE:
+    game.info.num_phases = team_count();
+    break;
+  default:
+    freelog(LOG_FATAL, "Unrecognized phase mode %d in begin_turn().",
+            game.info.phase_mode);
+    assert(FALSE);
+    break;
   }
   send_game_info(NULL);
 
@@ -647,7 +660,7 @@ static void begin_turn(bool is_new_turn)
     }
   }
 
-  if (is_new_turn && game.info.simultaneous_phases) {
+  if (is_new_turn && game.info.phase_mode == PMT_CONCURRENT) {
     freelog(LOG_DEBUG, "Shuffleplayers");
     shuffle_players();
   }

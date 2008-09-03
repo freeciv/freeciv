@@ -32,6 +32,14 @@ enum debug_globals {
   DEBUG_LAST
 };
 
+/* NB: Must match phasemode setting
+ * help text in server/settings.c */
+enum phase_mode_types {
+  PMT_CONCURRENT = 0,
+  PMT_PLAYERS_ALTERNATE = 1,
+  PMT_TEAMS_ALTERNATE = 2
+};
+
 #define CONTAMINATION_POLLUTION 1
 #define CONTAMINATION_FALLOUT   2
 
@@ -55,10 +63,10 @@ struct civ_game {
   time_t last_ping;
   struct timer *phase_timer; /* Time since seconds_to_phase_done was set. */
 
-  /* The .info.simultaneous_phases value indicates the phase mode currently in
+  /* The .info.phase_mode value indicates the phase mode currently in
    * use.  The "stored" value is a value the player can change; it won't
    * take effect until the next turn. */
-  bool simultaneous_phases_stored;
+  int phase_mode_stored;
   char *startmessage;
   struct player players[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   struct conn_list *all_connections;        /* including not yet established */
@@ -275,7 +283,9 @@ bool setting_class_is_changeable(enum sset_class class);
 #define GAME_MIN_TIMEOUT             -1
 #define GAME_MAX_TIMEOUT             8639999
 
-#define GAME_DEFAULT_SIMULTANEOUS_PHASES TRUE
+#define GAME_DEFAULT_PHASE_MODE 0
+#define GAME_MIN_PHASE_MODE 0
+#define GAME_MAX_PHASE_MODE 2
 
 #define GAME_DEFAULT_TCPTIMEOUT      10
 #define GAME_MIN_TCPTIMEOUT          0
