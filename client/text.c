@@ -221,6 +221,14 @@ const char *popup_info_text(struct tile *ptile)
     } unit_list_iterate_end;
   }
   infra = get_tile_infrastructure_set(ptile, &infracount);
+  if (infracount == 0) {
+    base_type_iterate(pbase) {
+      if (BV_ISSET(ptile->bases, base_index(pbase))) {
+        infracount = 1;
+        break;
+      }
+    } base_type_iterate_end;
+  }
   if (infracount > 0) {
     astr_add_line(&str, _("Infrastructure: %s"),
 		  get_infrastructure_text(ptile->special, ptile->bases));
@@ -766,6 +774,14 @@ const char *get_unit_info_label_text2(struct unit_list *punits, int linebreaks)
       get_tile_infrastructure_set(punit->tile, &infracount);
 
     astr_add_line(&str, "%s", tile_get_info_text(punit->tile, linebreaks));
+    if (infracount == 0) {
+      base_type_iterate(pbase) {
+        if (BV_ISSET(punit->tile->bases, base_index(pbase))) {
+          infracount = 1;
+          break;
+        }
+      } base_type_iterate_end;
+    }
     if (infracount > 0) {
       astr_add_line(&str, "%s", get_infrastructure_text(infrastructure, punit->tile->bases));
     } else {
