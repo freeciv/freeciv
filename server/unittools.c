@@ -791,14 +791,25 @@ static void update_unit_activity(struct unit *punit)
   case ACTIVITY_BASE:
     if (total_activity_base(ptile, punit->activity_base)
         >= tile_activity_base_time(ptile, punit->activity_base)) {
-      tile_add_base(ptile, base_by_number(punit->activity_base));
+      struct base_type *new_base = base_by_number(punit->activity_base);
+
+      base_type_iterate(old_base) {
+        if (!can_bases_coexist(old_base, new_base)) {
+          if (base_has_flag(old_base, BF_CLAIM_TERRITORY)) {
+            map_clear_border(ptile, ptile->owner);
+          }
+          tile_remove_base(ptile, old_base);
+        }
+      } base_type_iterate_end;
+
+      tile_add_base(ptile, new_base);
 
       /* Watchtower might become effective
        * FIXME: Reqs on other specials will not be updated immediately. */
       unit_list_refresh_vision(ptile->units);
 
       /* Claim base if it has "ClaimTerritory" flag */
-      if (tile_has_base_flag(ptile, BF_CLAIM_TERRITORY)) {
+      if (base_has_flag(new_base, BF_CLAIM_TERRITORY)) {
         map_claim_ownership(ptile, unit_owner(punit), ptile);
         map_claim_border(ptile, unit_owner(punit));
         city_thaw_workers_queue();
