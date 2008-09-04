@@ -88,6 +88,8 @@ struct base_type *get_base_by_gui_type(enum base_gui_type type,
                                        const struct unit *punit,
                                        const struct tile *ptile);
 
+bool can_bases_coexist(const struct base_type *base1, const struct base_type *base2);
+
 /* Initialization and iteration */
 void base_types_init(void);
 void base_types_free(void);

@@ -290,3 +290,20 @@ struct base_type *get_base_by_gui_type(enum base_gui_type type,
 
   return NULL;
 }
+
+/**************************************************************************
+  Can two bases coexist in same tile?
+**************************************************************************/
+bool can_bases_coexist(const struct base_type *base1, const struct base_type *base2)
+{
+  if (base1 == base2) {
+    return TRUE;
+  }
+
+  if (base_has_flag(base1, BF_CLAIM_TERRITORY)
+      && base_has_flag(base2, BF_CLAIM_TERRITORY)) {
+    return FALSE;
+  }
+
+  return TRUE;
+}
