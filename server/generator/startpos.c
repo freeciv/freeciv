@@ -120,7 +120,7 @@ static bool is_valid_start_pos(const struct tile *ptile, const void *dataptr)
     return FALSE;
   }
 
-  /* Has to be native for tile for initial unit */
+  /* Has to be native tile for initial unit */
   if (!is_native_tile(pdata->initial_unit, ptile)) {
     return FALSE;
   }
@@ -207,7 +207,7 @@ bool create_start_positions(enum start_mode mode,
   int k, sum;
   struct start_filter_data data;
   int tile_value_aux[MAP_INDEX_SIZE], tile_value[MAP_INDEX_SIZE];
-  int min_goodies_per_player = 2000;
+  int min_goodies_per_player = 1500;
   int total_goodies = 0;
   /* this is factor is used to maximize land used in extreme little maps */
   float efactor =  player_count() / map.size / 4; 
@@ -380,7 +380,7 @@ bool create_start_positions(enum start_mode mode,
       data.count++;
 
     } else {
-      data.min_value *= 0.9;
+      data.min_value *= 0.95;
       if (data.min_value <= 10) {
 	freelog(LOG_ERROR,
 	        _("The server appears to have gotten into an infinite loop "
