@@ -536,8 +536,17 @@ void handle_city_info(struct packet_city_info *packet)
             TILE_XY(packet));
     return;
   } else {
+    bool traderoutes_changed = FALSE;
     name_changed = (0 != strncmp(packet->name, pcity->name,
                                  sizeof(pcity->name)));
+
+    if (draw_city_traderoutes
+        && (0 != memcmp(pcity->trade, packet->trade,
+                        sizeof(pcity->trade))
+            || 0 != memcmp(pcity->trade_value, packet->trade_value,
+                           sizeof(pcity->trade_value)))) {
+      traderoutes_changed = TRUE;
+    }
 
     /* Descriptions should probably be updated if the
      * city name, production or time-to-grow changes.
@@ -551,7 +560,8 @@ void handle_city_info(struct packet_city_info *packet)
               || pcity->shield_stock != packet->shield_stock))
       || (draw_city_growth
           && (pcity->food_stock != packet->food_stock
-              || pcity->surplus[O_FOOD] != packet->surplus[O_FOOD]));
+              || pcity->surplus[O_FOOD] != packet->surplus[O_FOOD]))
+      || (draw_city_traderoutes && traderoutes_changed);
   }
   
   sz_strlcpy(pcity->name, packet->name);

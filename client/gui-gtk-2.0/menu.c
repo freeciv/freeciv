@@ -106,6 +106,7 @@ enum MenuID {
   MENU_VIEW_SHOW_CITY_NAMES,
   MENU_VIEW_SHOW_CITY_GROWTH_TURNS,
   MENU_VIEW_SHOW_CITY_PRODUCTIONS,
+  MENU_VIEW_SHOW_CITY_TRADEROUTES,
   MENU_VIEW_SHOW_TERRAIN,
   MENU_VIEW_SHOW_COASTLINE,
   MENU_VIEW_SHOW_ROADS_RAILS,
@@ -334,6 +335,7 @@ static void view_menu_callback(gpointer callback_data, guint callback_action,
          * city name), can draw the city growth even without drawing
          * the city name. But the old method cannot. */
         menus_set_sensitive("<main>/_View/City G_rowth", draw_city_names);
+        menus_set_sensitive("<main>/_View/City _Traderoutes", draw_city_names);
       }
     }
     break;
@@ -344,6 +346,11 @@ static void view_menu_callback(gpointer callback_data, guint callback_action,
   case MENU_VIEW_SHOW_CITY_PRODUCTIONS:
     if (draw_city_productions ^ GTK_CHECK_MENU_ITEM(widget)->active)
       key_city_productions_toggle();
+    break;
+  case MENU_VIEW_SHOW_CITY_TRADEROUTES:
+    if (draw_city_traderoutes ^ GTK_CHECK_MENU_ITEM(widget)->active) {
+      key_city_traderoutes_toggle();
+    }
     break;
   case MENU_VIEW_SHOW_TERRAIN:
     if (draw_terrain ^ GTK_CHECK_MENU_ITEM(widget)->active) {
@@ -822,7 +829,7 @@ static GtkItemFactoryEntry menu_items[]	=
 	NULL,			0,					"<Tearoff>"	},
   { "/" N_("View") "/" N_("City Outlines"), "<control>y",
     view_menu_callback, MENU_VIEW_SHOW_CITY_OUTLINES, "<CheckItem>"},
-  { "/" N_("View") "/" N_("City Output"), "<control>t",
+  { "/" N_("View") "/" N_("City Output"), "<control>w",
     view_menu_callback, MENU_VIEW_SHOW_CITY_OUTPUT, "<CheckItem>"},
   { "/" N_("View") "/" N_("Map _Grid"),			"<control>g",
 	view_menu_callback,	MENU_VIEW_SHOW_MAP_GRID,		"<CheckItem>"	},
@@ -835,6 +842,8 @@ static GtkItemFactoryEntry menu_items[]	=
 	"<CheckItem>"	},
   { "/" N_("View") "/" N_("City _Productions"),		"<control>p",
 	view_menu_callback,	MENU_VIEW_SHOW_CITY_PRODUCTIONS,	"<CheckItem>"	},
+  { "/" N_("View") "/" N_("City _Traderoutes"),		"<control>t",
+	view_menu_callback,	MENU_VIEW_SHOW_CITY_TRADEROUTES,	"<CheckItem>"	},
   { "/" N_("View") "/sep1",				NULL,
 	NULL,			0,					"<Separator>"	},
   { "/" N_("View") "/" N_("Terrain"),                   NULL,
@@ -1443,12 +1452,15 @@ void update_menus(void)
      * the city name. But the old method cannot. */
     if (draw_full_citybar) {
       menus_set_sensitive("<main>/_View/City G_rowth", TRUE);
+      menus_set_sensitive("<main>/_View/City _Traderoutes", TRUE);
     } else {
       menus_set_sensitive("<main>/_View/City G_rowth", draw_city_names);
+      menus_set_sensitive("<main>/_View/City _Traderoutes", draw_city_names);
     }
 
     menus_set_active("<main>/_View/City G_rowth", draw_city_growth);
     menus_set_active("<main>/_View/City _Productions", draw_city_productions);
+    menus_set_active("<main>/_View/City _Traderoutes", draw_city_traderoutes);
     menus_set_active("<main>/_View/Terrain", draw_terrain);
     menus_set_active("<main>/_View/Coastline", draw_coastline);
     menus_set_sensitive("<main>/_View/Coastline", !draw_terrain);
