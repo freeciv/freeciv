@@ -391,10 +391,6 @@ static void editbar_player_properties_button_clicked(GtkButton *b,
 {
   struct property_editor *pe;
 
-  if (!client_has_player()) {
-    return;
-  }
-
   pe = editprop_get_property_editor();
   property_editor_reload_players(pe);
   property_editor_popup(pe);
