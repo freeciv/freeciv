@@ -1683,6 +1683,19 @@ void request_toggle_city_productions(void)
 }
 
 /**************************************************************************
+ Toggle display of city traderoutes
+**************************************************************************/
+void request_toggle_city_traderoutes(void)
+{
+  if (!can_client_change_view()) {
+    return;
+  }
+
+  draw_city_traderoutes ^= 1;
+  update_map_canvas_visible();
+}
+
+/**************************************************************************
  Toggle display of terrain
 **************************************************************************/
 void request_toggle_terrain(void)
@@ -2757,6 +2770,15 @@ void key_city_growth_toggle(void)
 void key_city_productions_toggle(void)
 {
   request_toggle_city_productions();
+}
+
+/**************************************************************************
+  Handle client request to toggle drawing of traderoute information
+  by the city name for cities visible on the main map view.
+**************************************************************************/
+void key_city_traderoutes_toggle(void)
+{
+  request_toggle_city_traderoutes();
 }
 
 /**************************************************************************

@@ -215,6 +215,7 @@ struct citybar_sprites {
   struct sprite
     *shields,
     *food,
+    *trade,
     *occupied,
     *background;
   struct sprite_vector occupancy;

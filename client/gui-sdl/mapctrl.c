@@ -2375,10 +2375,15 @@ bool map_event_handler(SDL_keysym Key)
 
       /* *** some additional shortcuts that work in the SDL client only *** */
         
-      /* show terrain - Ctrl+t */ 
+      /* show city traderoutes	- Ctrl+t 
+       * show terrain 		- Ctrl+Shift+t  */ 
       case SDLK_t:
         if (LCTRL || RCTRL) {
-          key_terrain_toggle();
+          if (LSHIFT || RSHIFT) {
+            key_terrain_toggle();
+          } else {
+            key_city_traderoutes_toggle();
+          }
         }
         return FALSE;
   

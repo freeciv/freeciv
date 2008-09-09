@@ -2284,6 +2284,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
 
   SET_SPRITE(citybar.shields, "citybar.shields");
   SET_SPRITE(citybar.food, "citybar.food");
+  SET_SPRITE(citybar.trade, "citybar.trade");
   SET_SPRITE(citybar.occupied, "citybar.occupied");
   SET_SPRITE(citybar.background, "citybar.background");
   sprite_vector_init(&t->sprites.citybar.occupancy);

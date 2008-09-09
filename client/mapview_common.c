@@ -1223,15 +1223,16 @@ static void show_full_citybar(struct canvas *pcanvas,
 			      struct city *pcity, int *width, int *height)
 {
   const struct citybar_sprites *citybar = get_citybar_sprites(tileset);
-  static char name[512], growth[32], prod[512], size[32];
-  enum color_std growth_color;
+  static char name[512], growth[32], prod[512], size[32], traderoutes[32];
+  enum color_std growth_color, traderoutes_color;
   struct color *owner_color;
   struct {
     int x, y, w, h;
   } name_rect = {0, 0, 0, 0}, growth_rect = {0, 0, 0, 0},
     prod_rect = {0, 0, 0, 0}, size_rect = {0, 0, 0, 0},
     flag_rect = {0, 0, 0, 0}, occupy_rect = {0, 0, 0, 0},
-    food_rect = {0, 0, 0, 0}, shield_rect = {0, 0, 0, 0};
+    food_rect = {0, 0, 0, 0}, shield_rect = {0, 0, 0, 0},
+    traderoutes_rect = {0,}, trade_rect = {0,};
   int width1 = 0, width2 = 0, height1 = 0, height2 = 0;
   struct sprite *bg = citybar->background;
   struct sprite *flag = get_city_flag_sprite(tileset, pcity);
@@ -1250,8 +1251,11 @@ static void show_full_citybar(struct canvas *pcanvas,
   const bool should_draw_productions
     = can_see_inside && draw_city_productions;
   const bool should_draw_growth = can_see_inside && draw_city_growth;
+  const bool should_draw_traderoutes = can_see_inside
+    && draw_city_traderoutes;
   const bool should_draw_lower_bar
-    = should_draw_productions || should_draw_growth;
+    = should_draw_productions || should_draw_growth
+    || should_draw_traderoutes;
 
 
   if (width != NULL) {
@@ -1303,25 +1307,38 @@ static void show_full_citybar(struct canvas *pcanvas,
   }
 
   if (should_draw_lower_bar) {
+    width2 = 0;
+    height2 = 0;
 
     if (should_draw_productions) {
       get_city_mapview_production(pcity, prod, sizeof(prod));
       get_text_size(&prod_rect.w, &prod_rect.h, FONT_CITY_PROD, prod);
 
       get_sprite_dimensions(citybar->shields, &shield_rect.w, &shield_rect.h);
+      width2 += shield_rect.w + prod_rect.w + border;
+      height2 = MAX(height2, shield_rect.h);
+      height2 = MAX(height2, prod_rect.h + border);
     }
 
     if (should_draw_growth) {
       get_text_size(&growth_rect.w, &growth_rect.h, FONT_CITY_PROD, growth);
       get_sprite_dimensions(citybar->food, &food_rect.w, &food_rect.h);
+      width2 += food_rect.w + growth_rect.w + border;
+      height2 = MAX(height2, food_rect.h);
+      height2 = MAX(height2, growth_rect.h + border);
     }
 
-    width2 = (prod_rect.w + growth_rect.w + shield_rect.w + food_rect.w
-	      + 2 * border);
-    height2 = MAX(shield_rect.h,
-		  MAX(prod_rect.h + border,
-		      MAX(growth_rect.h + border,
-			  food_rect.h)));
+    if (should_draw_traderoutes) {
+      get_city_mapview_traderoutes(pcity, traderoutes,
+                                   sizeof(traderoutes),
+                                   &traderoutes_color);
+      get_text_size(&traderoutes_rect.w, &traderoutes_rect.h,
+                    FONT_CITY_PROD, traderoutes);
+      get_sprite_dimensions(citybar->trade, &trade_rect.w, &trade_rect.h);
+      width2 += trade_rect.w + traderoutes_rect.w + border;
+      height2 = MAX(height2, trade_rect.h);
+      height2 = MAX(height2, traderoutes_rect.h + border);
+    }
   }
 
   *width = MAX(width1, width2);
@@ -1354,8 +1371,23 @@ static void show_full_citybar(struct canvas *pcanvas,
       prod_rect.y = canvas_y + height1 + (height2 - prod_rect.h) / 2;
     }
 
+    if (should_draw_traderoutes) {
+      traderoutes_rect.x = canvas_x + (*width + 1) / 2
+        - traderoutes_rect.w - border / 2;
+      traderoutes_rect.y = canvas_y + height1
+        + (height2 - traderoutes_rect.h) / 2;
+
+      trade_rect.x = traderoutes_rect.x - border / 2 - trade_rect.w;
+      trade_rect.y = canvas_y + height1 + (height2 - trade_rect.h) / 2;
+    }
+
     if (should_draw_growth) {
-      growth_rect.x = canvas_x + (*width + 1) / 2 - growth_rect.w - border / 2;
+      growth_rect.x = canvas_x + (*width + 1) / 2
+        - growth_rect.w - border / 2;
+      if (traderoutes_rect.w > 0) {
+        growth_rect.x = growth_rect.x
+          - traderoutes_rect.w - border / 2 - trade_rect.w - border / 2;
+      }
       growth_rect.y = canvas_y + height1 + (height2 - growth_rect.h) / 2;
 
       food_rect.x = growth_rect.x - border / 2 - food_rect.w;
@@ -1405,6 +1437,14 @@ static void show_full_citybar(struct canvas *pcanvas,
                       get_color(tileset, COLOR_MAPVIEW_CITYTEXT), prod);
     }
 
+    if (should_draw_traderoutes) {
+      canvas_put_sprite_full(pcanvas, trade_rect.x, trade_rect.y,
+                             citybar->trade);
+      canvas_put_text(pcanvas, traderoutes_rect.x, traderoutes_rect.y,
+                      FONT_CITY_PROD,
+                      get_color(tileset, traderoutes_color), traderoutes);
+    }
+
     if (should_draw_growth) {
       canvas_put_sprite_full(pcanvas, food_rect.x, food_rect.y, citybar->food);
       canvas_put_text(pcanvas, growth_rect.x, growth_rect.y,
@@ -1445,13 +1485,14 @@ static void show_small_citybar(struct canvas *pcanvas,
 			   int canvas_x, int canvas_y,
 			   struct city *pcity, int *width, int *height)
 {
-  static char name[512], growth[32], prod[512];
-  enum color_std growth_color;
+  static char name[512], growth[32], prod[512], traderoutes[32];
+  enum color_std growth_color, traderoutes_color;
   struct {
     int x, y, w, h;
   } name_rect = {0, 0, 0, 0}, growth_rect = {0, 0, 0, 0},
-    prod_rect = {0, 0, 0, 0};
-  int extra_width = 0, total_width, total_height;
+    prod_rect = {0, 0, 0, 0}, traderoutes_rect = {0,};
+  int total_width, total_height;
+  int spacer_width = 0;
 
   *width = *height = 0;
 
@@ -1459,29 +1500,63 @@ static void show_small_citybar(struct canvas *pcanvas,
   canvas_y += tileset_citybar_offset_y(tileset);
 
   if (draw_city_names) {
+    int drawposx;
+
+    /* HACK: put a character's worth of space between the two
+     * strings if needed. */
+    get_text_size(&spacer_width, NULL, FONT_CITY_NAME, "M");
+
+    total_width = 0;
+    total_height = 0;
+
     get_city_mapview_name_and_growth(pcity, name, sizeof(name),
                                     growth, sizeof(growth), &growth_color);
 
     get_text_size(&name_rect.w, &name_rect.h, FONT_CITY_NAME, name);
+    total_width += name_rect.w;
+    total_height = MAX(total_height, name_rect.h);
 
     if (draw_city_growth) {
       get_text_size(&growth_rect.w, &growth_rect.h, FONT_CITY_PROD, growth);
-      /* HACK: put a character's worth of space between the two strings. */
-      get_text_size(&extra_width, NULL, FONT_CITY_NAME, "M");
+      total_width += spacer_width + growth_rect.w;
+      total_height = MAX(total_height, growth_rect.h);
     }
-    total_width = name_rect.w + extra_width + growth_rect.w;
-    total_height = MAX(name_rect.h, growth_rect.h);
-    canvas_put_text(pcanvas,
-		    canvas_x - total_width / 2, canvas_y,
+
+    if (draw_city_traderoutes) {
+      get_city_mapview_traderoutes(pcity, traderoutes,
+                                   sizeof(traderoutes),
+                                   &traderoutes_color);
+      get_text_size(&traderoutes_rect.w, &traderoutes_rect.h,
+                    FONT_CITY_PROD, traderoutes);
+      total_width += spacer_width + traderoutes_rect.w;
+      total_height = MAX(total_height, traderoutes_rect.h);
+    }
+
+    drawposx = canvas_x;
+    drawposx -= total_width / 2;
+    canvas_put_text(pcanvas, drawposx, canvas_y,
 		    FONT_CITY_NAME,
 		    get_color(tileset, COLOR_MAPVIEW_CITYTEXT), name);
+    drawposx += name_rect.w;
+
     if (draw_city_growth) {
-      canvas_put_text(pcanvas,
-		      canvas_x - total_width / 2 + name_rect.w + extra_width,
+      drawposx += spacer_width;
+      canvas_put_text(pcanvas, drawposx,
 		      canvas_y + total_height - growth_rect.h,
 		      FONT_CITY_PROD,
 		      get_color(tileset, growth_color), growth);
+      drawposx += growth_rect.w;
     }
+
+    if (draw_city_traderoutes) {
+      drawposx += spacer_width;
+      canvas_put_text(pcanvas, drawposx,
+		      canvas_y + total_height - traderoutes_rect.h,
+		      FONT_CITY_PROD,
+		      get_color(tileset, traderoutes_color), traderoutes);
+      drawposx += traderoutes_rect.w;
+    }
+
     canvas_y += total_height + 3;
 
     *width = MAX(*width, total_width);
@@ -1983,6 +2058,51 @@ void get_city_mapview_production(struct city *pcity,
     cat_snprintf(buffer, buffer_len, " -");
   } else {
     cat_snprintf(buffer, buffer_len, " %d", turns);
+  }
+}
+
+/**************************************************************************
+  Find the mapview city traderoutes text for the given city, and place it
+  into the buffer. Sets 'pcolor' to the preferred color the text should
+  be drawn in if it is non-NULL.
+**************************************************************************/
+void get_city_mapview_traderoutes(struct city *pcity,
+                                  char *traderoutes_buffer,
+                                  size_t traderoutes_buffer_len,
+                                  enum color_std *pcolor)
+{
+  int num_traderoutes = 0, i;
+
+  if (!traderoutes_buffer || traderoutes_buffer_len <= 0) {
+    return;
+  }
+
+  if (!pcity) {
+    traderoutes_buffer[0] = '\0';
+    if (pcolor) {
+      *pcolor = COLOR_MAPVIEW_CITYTEXT;
+    }
+    return;
+  }
+
+  for (i = 0; i < NUM_TRADEROUTES; i++) {
+    if (pcity->trade[i] <= 0 && pcity->trade_value[i] <= 0) {
+      continue;
+    }
+    num_traderoutes++;
+  }
+
+  my_snprintf(traderoutes_buffer, traderoutes_buffer_len,
+              "%d/%d", num_traderoutes, NUM_TRADEROUTES);
+
+  if (pcolor) {
+    if (num_traderoutes == NUM_TRADEROUTES) {
+      *pcolor = COLOR_OVERVIEW_LAND; /* green */
+    } else if (num_traderoutes == 0) {
+      *pcolor = COLOR_MAPVIEW_CITYGROWTH_BLOCKED; /* red */
+    } else {
+      *pcolor = COLOR_MAPVIEW_SELECTION; /* yellow */
+    }
   }
 }
 
