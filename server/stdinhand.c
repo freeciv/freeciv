@@ -2637,6 +2637,23 @@ static bool set_command(struct connection *caller, char *str, bool check)
   }
 
   if (!check && do_update) {
+
+    /* Handle immediate side-effects of special setting changes. */
+    /* FIXME: Redesign setting data structures so that this can
+     * be done in a less brittle way. */
+    if (op->int_value == &game.info.aifill) {
+      aifill(*op->int_value);
+    } else if (op->bool_value == &game.info.auto_ai_toggle) {
+      if (*op->bool_value) {
+        players_iterate(pplayer) {
+          if (!pplayer->ai.control && !pplayer->is_connected) {
+            toggle_ai_player_direct(NULL, pplayer);
+            send_player_info_c(pplayer, game.est_connections);
+          }
+        } players_iterate_end;
+      }
+    }
+
     send_server_setting(NULL, cmd);
     /* 
      * send any modified game parameters to the clients -- if sent

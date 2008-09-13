@@ -47,27 +47,6 @@ const char *sset_level_names[] = {N_("None"),
 				  N_("Changed")};
 const int OLEVELS_NUM = ARRAY_SIZE(sset_level_names);
 
-
-/**************************************************************************
-  A callback invoked when autotoggle is set.
-**************************************************************************/
-static bool autotoggle_callback(bool value, const char **reject_message)
-{
-  reject_message = NULL;
-  if (!value) {
-    return TRUE;
-  }
-
-  players_iterate(pplayer) {
-    if (!pplayer->ai.control && !pplayer->is_connected) {
-      toggle_ai_player_direct(NULL, pplayer);
-      send_player_info_c(pplayer, game.est_connections);
-    }
-  } players_iterate_end;
-
-  return TRUE;
-}
-
 /*************************************************************************
   Verify that a given allowtake string is valid.  See
   game.allow_take.
@@ -183,16 +162,6 @@ static bool maxplayers_callback(int value, const char **error_string)
     return FALSE;
   }
 
-  error_string = NULL;
-  return TRUE;
-}
-
-/*************************************************************************
-  Create/remove players when aifill is set.
-*************************************************************************/
-static bool aifill_callback(int value, const char **error_string)
-{
-  aifill(value);
   error_string = NULL;
   return TRUE;
 }
@@ -478,7 +447,7 @@ struct settings_s settings[] = {
 	     "automatically created or removed to keep the total "
 	     "number of players at this amount.  As more players join, "
 	     "these AI players will be replaced.  When set to zero, "
-	     "all AI players will be removed."), aifill_callback,
+	     "all AI players will be removed."), NULL,
 	  GAME_MIN_AIFILL, GAME_MAX_AIFILL, GAME_DEFAULT_AIFILL)
 
   /* Game initialization parameters (only affect the first start of the game,
@@ -897,7 +866,7 @@ struct settings_s settings[] = {
 	   N_("Whether AI-status toggles with connection"),
 	   N_("If this is set to 1, AI status is turned off when a player "
 	      "connects, and on when a player disconnects."),
-	   autotoggle_callback, GAME_DEFAULT_AUTO_AI_TOGGLE)
+	   NULL, GAME_DEFAULT_AUTO_AI_TOGGLE)
 
   GEN_INT("endyear", game.info.end_year,
 	  SSET_META, SSET_SOCIOLOGY, SSET_VITAL, SSET_TO_CLIENT,
