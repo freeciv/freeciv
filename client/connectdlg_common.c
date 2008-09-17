@@ -486,7 +486,6 @@ void send_start_saved_game(void)
   char buf[MAX_LEN_MSG];
 
   send_chat("/set timeout 0");
-  send_chat("/set autotoggle 1");
   my_snprintf(buf, sizeof(buf), "/take \"%s\" \"%s\"",
       	      user_name, leader_name);
   send_chat(buf);
