@@ -1111,3 +1111,38 @@ void handle_edit_startpos(struct connection *pc, int x, int y,
     send_tile_info(NULL, ptile, FALSE);
   }
 }
+
+/****************************************************************************
+  Handle edit requests to the main game data structure.
+****************************************************************************/
+void handle_edit_game(struct connection *pc,
+                      struct packet_edit_game *packet)
+{
+  bool changed = FALSE;
+
+  if (!can_conn_edit(pc)) {
+    notify_conn(pc->self, NULL, E_BAD_COMMAND,
+                _("You are not allowed to edit."));
+    return;
+  }
+
+  if (packet->year != game.info.year) {
+
+    /* 'year' is stored in a signed short. */
+    const short min_year = -30000, max_year = 30000;
+
+    if (!(min_year <= packet->year && packet->year <= max_year)) {
+      notify_conn(pc->self, NULL, E_BAD_COMMAND,
+                  _("Cannot set invalid game year %d. Valid year range "
+                    "is from %d to %d."),
+                  packet->year, min_year, max_year);
+    } else {
+      game.info.year = packet->year;
+      changed = TRUE;
+    }
+  }
+
+  if (changed) {
+    send_game_info(NULL);
+  }
+}
