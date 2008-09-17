@@ -491,7 +491,6 @@ send server commands to start a saved game.
 void send_start_saved_game(void)
 {   
   send_chat("/set timeout 0");
-  send_chat("/set autotoggle 1");
   send_chat_printf("/take \"%s\" \"%s\"", user_name, leader_name);
   send_chat("/start");
 }
