@@ -1623,6 +1623,12 @@ void handle_game_info(struct packet_game_info *pinfo)
   if (update_aifill_button) {
     update_start_page();
   }
+  
+  if (can_client_change_view()) {
+    update_info_label();
+  }
+
+  editgui_notify_object_changed(OBJTYPE_GAME, 1, FALSE);
 }
 
 /**************************************************************************

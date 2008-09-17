@@ -78,6 +78,7 @@ union packetdata {
   struct packet_edit_city *city;
   struct packet_edit_unit *unit;
   struct packet_edit_player *player;
+  struct packet_edit_game *game;
 };
 
 
@@ -251,7 +252,9 @@ enum object_property_ids {
   OPID_PLAYER_NAME,
   OPID_PLAYER_NATION,
   OPID_PLAYER_ADDRESS,
-  OPID_PLAYER_INVENTIONS
+  OPID_PLAYER_INVENTIONS,
+
+  OPID_GAME_YEAR
 };
 
 enum object_property_flags {
@@ -524,6 +527,10 @@ static const char *objtype_get_name(int objtype)
     return _("Player");
     break;
 
+  case OBJTYPE_GAME:
+    return Q_("?play:Game");
+    break;
+
   default:
     break;
   }
@@ -563,6 +570,10 @@ static int objtype_get_id_from_object(int objtype, gpointer object)
   case OBJTYPE_PLAYER:
     pplayer = object;
     id = player_number(pplayer);
+    break;
+
+  case OBJTYPE_GAME:
+    id = 1;
     break;
 
   default:
@@ -1040,6 +1051,9 @@ static gpointer objbind_get_object(struct objbind *ob)
   case OBJTYPE_PLAYER:
     return valid_player_by_number(id);
     break;
+  case OBJTYPE_GAME:
+    return &game;
+    break;
   default:
     break;
   }
@@ -1255,6 +1269,26 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
       goto FAILED;
       break;
     }
+
+  } else if (objtype == OBJTYPE_GAME) {
+    struct civ_game *pgame = objbind_get_object(ob);
+
+    if (pgame == NULL) {
+      goto FAILED;
+    }
+
+    switch (propid) {
+    case OPID_GAME_YEAR:
+      pv->data.v_int = pgame->info.year;
+      break;
+    default:
+      freelog(LOG_ERROR, "Unhandled request for value of property %d "
+              "(%s) from object of type \"%s\" in "
+              "objbind_get_value_from_object().",
+              propid, objprop_get_name(op), objtype_get_name(objtype));
+      goto FAILED;
+      break;
+    }
   } else {
     goto FAILED;
   }
@@ -1346,6 +1380,25 @@ static bool objbind_get_allowed_value_span(struct objbind *ob,
       ok = FALSE;
       break;
     }
+
+  } else if (objtype == OBJTYPE_GAME) {
+
+    switch (propid) {
+    case OPID_GAME_YEAR:
+      min = -30000;
+      max = 30000;
+      step = 1;
+      big_step = 25;
+      break;
+    default:
+      freelog(LOG_ERROR, "Unhandled request for value range of "
+              "property %d (%s) from object of type \"%s\" in "
+              "objbind_get_allowed_value_span().",
+              propid, objprop_get_name(op), objtype_get_name(objtype));
+      ok = FALSE;
+      break;
+    }
+
   } else {
     ok = FALSE;
   }
@@ -1620,6 +1673,16 @@ static void objbind_pack_current_values(struct objbind *ob,
     } advance_index_iterate_end;
     /* TODO: Set more packet fields. */
 
+  } else if (objtype == OBJTYPE_GAME) {
+    struct packet_edit_game *packet = pd.game;
+    struct civ_game *pgame = objbind_get_object(ob);
+
+    if (!pgame) {
+      return;
+    }
+
+    packet->year = pgame->info.year;
+    /* TODO: Set more packet fields. */
   }
 }
 
@@ -1736,6 +1799,21 @@ static void objbind_pack_modified_value(struct objbind *ob,
       advance_index_iterate(A_FIRST, tech) {
         packet->inventions[tech] = pv->data.v_inventions[tech];
       } advance_index_iterate_end;
+      break;
+    default:
+      freelog(LOG_ERROR, "Unhandled request to pack value of "
+              "property %d (%s) from object of type \"%s\" in "
+              "objbind_pack_modified_value().",
+              propid, objprop_get_name(op), objtype_get_name(objtype));
+      break;
+    }
+
+  } else if (objtype == OBJTYPE_GAME) {
+    struct packet_edit_game *packet = pd.game;
+
+    switch (propid) {
+    case OPID_GAME_YEAR:
+      packet->year = pv->data.v_int;
       break;
     default:
       freelog(LOG_ERROR, "Unhandled request to pack value of "
@@ -2062,6 +2140,7 @@ static void objprop_setup_widget(struct objprop *op)
     break;
 
   case OPID_CITY_SIZE:
+  case OPID_GAME_YEAR:
     spin = gtk_spin_button_new_with_range(0.0, 100.0, 1.0);
     g_signal_connect(spin, "value-changed",
                      G_CALLBACK(objprop_widget_spin_button_changed), op);
@@ -2224,6 +2303,7 @@ static void objprop_refresh_widget(struct objprop *op,
     break;
 
   case OPID_CITY_SIZE:
+  case OPID_GAME_YEAR:
     spin = objprop_get_child_widget(op, "spin");
     if (pv) {
       disable_widget_callback(spin,
@@ -3028,6 +3108,11 @@ static void property_page_setup_objprops(struct property_page *pp)
             | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_NATION);
     ADDPROP(OPID_PLAYER_INVENTIONS, _("Inventions"), OPF_IN_LISTVIEW
             | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INVENTIONS_ARRAY);
+    break;
+
+  case OBJTYPE_GAME:
+    ADDPROP(OPID_GAME_YEAR, _("Year"), OPF_IN_LISTVIEW
+            | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
     break;
 
   default:
@@ -3842,6 +3927,9 @@ static union packetdata property_page_new_packet(struct property_page *pp)
   case OBJTYPE_PLAYER:
     packet.player = fc_calloc(1, sizeof(*packet.player));
     break;
+  case OBJTYPE_GAME:
+    packet.game = fc_calloc(1, sizeof(*packet.game));
+    break;
   default:
     break;
   }
@@ -3871,6 +3959,9 @@ static void property_page_send_packet(struct property_page *pp,
     break;
   case OBJTYPE_PLAYER:
     send_packet_edit_player(&client.conn, packet.player);
+    break;
+  case OBJTYPE_GAME:
+    send_packet_edit_game(&client.conn, packet.game);
     break;
   default:
     break;
@@ -4327,19 +4418,17 @@ void property_editor_clear(struct property_editor *pe)
 }
 
 /****************************************************************************
-  Clear the player property page, load the current game players into it, and
-  make it the current shown notebook page.
+  Clear and load objects into the property page corresponding to the given
+  object type. Also, make it the current shown notebook page.
 ****************************************************************************/
-void property_editor_reload_players(struct property_editor *pe)
+void property_editor_reload(struct property_editor *pe, int objtype)
 {
-  int objtype;
   struct property_page *pp;
 
   if (!pe) {
     return;
   }
 
-  objtype = OBJTYPE_PLAYER;
   pp = pe->property_pages[objtype];
   if (!pp) {
     return;
@@ -4347,9 +4436,18 @@ void property_editor_reload_players(struct property_editor *pe)
 
   property_page_clear_objbinds(pp);
 
-  players_iterate(pplayer) {
-    property_page_add_objbind(pp, pplayer);
-  } players_iterate_end;
+  switch (objtype) {
+  case OBJTYPE_PLAYER:
+    players_iterate(pplayer) {
+      property_page_add_objbind(pp, pplayer);
+    } players_iterate_end;
+    break;
+  case OBJTYPE_GAME:
+    property_page_add_objbind(pp, &game);
+    break;
+  default:
+    break;
+  }
 
   property_page_fill_widgets(pp);
   gtk_notebook_set_current_page(GTK_NOTEBOOK(pe->notebook), objtype);

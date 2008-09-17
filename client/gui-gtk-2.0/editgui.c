@@ -392,7 +392,8 @@ static void editbar_player_properties_button_clicked(GtkButton *b,
   struct property_editor *pe;
 
   pe = editprop_get_property_editor();
-  property_editor_reload_players(pe);
+  property_editor_reload(pe, OBJTYPE_GAME);
+  property_editor_reload(pe, OBJTYPE_PLAYER);
   property_editor_popup(pe);
 }
 
