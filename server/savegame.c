@@ -3018,9 +3018,9 @@ static void player_load_vision(struct player *plr, int plrno,
       zeroline[i]= '\0';
 
       bases_halfbyte_iterate(j) {
-        char buf[16]; /* enough for sprintf() below */
+        char buf[32]; /* should be enough for snprintf() below */
 
-        sprintf(buf, "player%d.map_b%02d_%%03d", plrno, j);
+        my_snprintf(buf, sizeof(buf), "player%d.map_b%02d_%%03d", plrno, j);
 
         LOAD_MAP_DATA(ch, nat_y, ptile,
                       secfile_lookup_str_default(file, zeroline, buf, nat_y),
