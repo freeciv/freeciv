@@ -711,7 +711,8 @@ enum server_events server_sniff_all_input(void)
       if (didget >= 1) {
         buffer[didget-1] = '\0'; /* overwrite newline character */
         didget--;
-        freelog(LOG_DEBUG, "Got line: \"%s\" (%ld, %ld)", buffer, didget, len);
+        freelog(LOG_DEBUG, "Got line: \"%s\" (%ld, %ld)", buffer,
+                (long int) didget, (long int) len);
       }
 #else  /* HAVE_GETLINE */
       buffer = malloc(BUF_SIZE + 1);
