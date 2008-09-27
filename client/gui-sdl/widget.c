@@ -214,70 +214,62 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, Uint8 state,
 }
 
 /* =================================================== */
-/* ===================== GUI LIST ==================== */
+/* ===================== WIDGET LIST ==================== */
 /* =================================================== */
 
 /**************************************************************************
-  Simple "Search and De..." no search in 'pGUI_List' == "Widget's list" and
-  return ( not Disabled and not Hiden ) widget under cursor 'pPosition'.
+  Find the next visible widget in the widget list starting with
+  pStartWidget that is drawn at position (x, y). If pStartWidget is NULL,
+  the search starts with the first entry of the main widget list. 
 **************************************************************************/
-struct widget * WidgetListScaner(const struct widget *pGUI_List, int x, int y)
+struct widget *find_next_widget_at_pos(struct widget *pStartWidget, int x, int y)
 {
   SDL_Rect area = {0, 0, 0, 0};
-
-  while (pGUI_List) {
-    area.x = pGUI_List->dst->dest_rect.x + pGUI_List->size.x;
-    area.y = pGUI_List->dst->dest_rect.y + pGUI_List->size.y;
-    area.w = pGUI_List->size.w;
-    area.h = pGUI_List->size.h;
+  struct widget *pWidget;
+  
+  pWidget = pStartWidget ? pStartWidget : pBeginMainWidgetList;
+  
+  while (pWidget) {
+    area.x = pWidget->dst->dest_rect.x + pWidget->size.x;
+    area.y = pWidget->dst->dest_rect.y + pWidget->size.y;
+    area.w = pWidget->size.w;
+    area.h = pWidget->size.h;
     if (is_in_rect_area(x, y, area)
-       && !((get_wflags(pGUI_List) & WF_HIDDEN) == WF_HIDDEN)) {
-      return (struct widget *) pGUI_List;
+       && !((get_wflags(pWidget) & WF_HIDDEN) == WF_HIDDEN)) {
+      return (struct widget *) pWidget;
     }
-    pGUI_List = pGUI_List->next;
+    pWidget = pWidget->next;
   }
   return NULL;
 }
 
 /**************************************************************************
-  Search in 'pGUI_List' == "Widget's list" and
-  return ( not Disabled and not Hiden ) widget with 'Key' allias.
+  Find the next enabled and visible widget in the widget list starting
+  with pStartWidget that handles the given key. If pStartWidget is NULL,
+  the search starts with the first entry of the main widget list.
   NOTE: This function ignores CapsLock and NumLock Keys.
 **************************************************************************/
-struct widget *WidgetListKeyScaner(const struct widget *pGUI_List, SDL_keysym Key)
+struct widget *find_next_widget_for_key(struct widget *pStartWidget,
+                                        SDL_keysym key)
 {
-  Key.mod &= ~(KMOD_NUM | KMOD_CAPS);
-  while (pGUI_List) {
-    if ((pGUI_List->key == Key.sym ||
-      (pGUI_List->key == SDLK_RETURN && Key.sym == SDLK_KP_ENTER) ||
-      (pGUI_List->key == SDLK_KP_ENTER && Key.sym == SDLK_RETURN)) &&
-	((pGUI_List->mod & Key.mod) || (pGUI_List->mod == Key.mod))) {
-      if (!((get_wstate(pGUI_List) == FC_WS_DISABLED) ||
-	    ((get_wflags(pGUI_List) & WF_HIDDEN) == WF_HIDDEN))) {
-	return (struct widget *) pGUI_List;
+  struct widget *pWidget;
+  
+  pWidget = pStartWidget ? pStartWidget : pBeginMainWidgetList;
+  
+  key.mod &= ~(KMOD_NUM | KMOD_CAPS);
+  while (pWidget) {
+    if ((pWidget->key == key.sym ||
+      (pWidget->key == SDLK_RETURN && key.sym == SDLK_KP_ENTER) ||
+      (pWidget->key == SDLK_KP_ENTER && key.sym == SDLK_RETURN)) &&
+	((pWidget->mod & key.mod) || (pWidget->mod == key.mod))) {
+      if (!((get_wstate(pWidget) == FC_WS_DISABLED) ||
+	    ((get_wflags(pWidget) & WF_HIDDEN) == WF_HIDDEN))) {
+	return (struct widget *) pWidget;
       }
     }
-    pGUI_List = pGUI_List->next;
+    pWidget = pWidget->next;
   }
   return NULL;
-}
-
-/**************************************************************************
-  Pointer to Main Widget list is declared staric in 'gui_stuff.c'
-  This function only calls 'WidgetListScaner' in Main list
-  'pBeginMainWidgetList'
-**************************************************************************/
-struct widget *MainWidgetListScaner(int x, int y)
-{
-  return WidgetListScaner(pBeginMainWidgetList, x, y);
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-struct widget *MainWidgetListKeyScaner(SDL_keysym Key)
-{
-  return WidgetListKeyScaner(pBeginMainWidgetList, Key);
 }
 
 /**************************************************************************
@@ -398,7 +390,7 @@ Uint16 widget_pressed_action(struct widget * pWidget)
     default:
       ID = pWidget->ID;
       if (pWidget->action) {
-        if (pWidget->action(pWidget)) {
+        if (pWidget->action(pWidget) != 0) {
           ID = 0;
         }
       }

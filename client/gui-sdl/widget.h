@@ -193,11 +193,8 @@ void move_widget_to_front_of_gui_list(struct widget *pGUI);
 void del_gui_list(struct widget *pGUI_List);
 void del_main_list(void);
 
-struct widget *WidgetListScaner(const struct widget *pGUI_List, int x, int y);
-struct widget *MainWidgetListScaner(int x, int y);
-struct widget *WidgetListKeyScaner(const struct widget *pGUI_List,
-				SDL_keysym Key);
-struct widget *MainWidgetListKeyScaner(SDL_keysym Key);
+struct widget *find_next_widget_at_pos(struct widget *pStartWidget, int x, int y);
+struct widget *find_next_widget_for_key(struct widget *pStartWidget, SDL_keysym key);
 
 struct widget *get_widget_pointer_form_ID(const struct widget *pGUI_List, Uint16 ID,
                                        enum scan_direction direction);

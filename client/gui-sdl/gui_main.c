@@ -243,7 +243,7 @@ static void parse_options(int argc, char **argv)
 static Uint16 main_key_down_handler(SDL_keysym Key, void *pData)
 {
   static struct widget *pWidget;
-  if ((pWidget = MainWidgetListKeyScaner(Key)) != NULL) {
+  if ((pWidget = find_next_widget_for_key(NULL, Key)) != NULL) {
     return widget_pressed_action(pWidget);
   } else {
     if (Key.sym == SDLK_TAB) {
@@ -328,12 +328,16 @@ static Uint16 main_key_up_handler(SDL_keysym Key, void *pData)
 **************************************************************************/
 static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *pButtonEvent, void *pData)
 {
-  static struct widget *pWidget;
-  if ((pWidget = MainWidgetListScaner(pButtonEvent->x, pButtonEvent->y)) != NULL) {
+  struct widget *pWidget;
+  
+  if ((pWidget = find_next_widget_at_pos(NULL,
+                                         pButtonEvent->x,
+                                         pButtonEvent->y)) != NULL) {
     if (!(get_wstate(pWidget) == FC_WS_DISABLED)) {
       return widget_pressed_action(pWidget);
     }
   } else {
+    /* no visible widget at this position -> map click */ 
 #ifdef UNDER_CE
     if (!check_scroll_area(pButtonEvent->x, pButtonEvent->y)) {
 #endif        
@@ -355,7 +359,7 @@ static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *pButtonEvent,
 static Uint16 main_mouse_button_up_handler(SDL_MouseButtonEvent *pButtonEvent, void *pData)
 {
   if (button_behavior.button_down_ticks /* button wasn't pressed over a widget */
-     && !MainWidgetListScaner(pButtonEvent->x, pButtonEvent->y)) {
+     && !find_next_widget_at_pos(NULL, pButtonEvent->x, pButtonEvent->y)) {
     *button_behavior.event = *pButtonEvent;
     button_up_on_map(&button_behavior);
   }
@@ -402,7 +406,9 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void
   }
 #endif          
 
-  if ((pWidget = MainWidgetListScaner(pMotionEvent->x, pMotionEvent->y)) != NULL) {
+  if ((pWidget = find_next_widget_at_pos(NULL,
+                                         pMotionEvent->x,
+                                         pMotionEvent->y)) != NULL) {
     update_mouse_cursor(CURSOR_DEFAULT);
     if (!(get_wstate(pWidget) == FC_WS_DISABLED)) {
       widget_sellected_action(pWidget);
