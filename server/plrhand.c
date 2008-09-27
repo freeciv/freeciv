@@ -1169,8 +1169,7 @@ static void package_player_info(struct player *plr,
     if (server_state == RUN_GAME_STATE)
       packet->inventions[city_styles[get_player_city_style(plr)].techreq] = '1';
 
-    /* FIXME: temporary kludge */
-    packet->government      = plr->government; /*G_MAGIC;*/
+    packet->government = game.government_when_anarchy;
   }
 
   if (info_level >= INFO_EMBASSY) {
