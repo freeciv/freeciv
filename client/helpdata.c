@@ -218,7 +218,7 @@ static void insert_requirement(struct requirement *req,
 }
 
 /****************************************************************************
-  Append text for what this requirement source allows.  Something like
+  Generate text for what this requirement source allows.  Something like
 
     "Allows Communism government (with University technology).\n\n"
     "Allows Mfg. Plant building (with Factory building).\n\n"
@@ -226,6 +226,10 @@ static void insert_requirement(struct requirement *req,
   This should be called to generate helptext for every possible source
   type.  Note this doesn't handle effects but rather production
   requirements (currently only building reqs).
+
+  NB: This function overwrites any existing buffer contents by writing the
+  generated text to the start of the given 'buf' pointer (i.e. it does
+  NOT append like cat_snprintf).
 ****************************************************************************/
 static void insert_allows(struct req_source *psource,
 			  char *buf, size_t bufsz)
@@ -1301,7 +1305,7 @@ void helptext_government(char *buf, size_t bufsz, struct government *gov,
 
   /* Effects */
   CATLSTR(buf, bufsz, _("Features:\n"));
-  insert_allows(&source, buf, bufsz);
+  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
   effect_list_iterate(get_req_source_effects(&source), peffect) {
     Output_type_id output_type = O_LAST;
     struct unit_class *unitclass = NULL;
