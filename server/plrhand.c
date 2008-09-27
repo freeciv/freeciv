@@ -878,11 +878,6 @@ static void package_player_common(struct player *plr,
     packet->small_wonders[i] = plr->small_wonders[i];
   }
   packet->science_cost = plr->ai.science_cost;
-
-  packet->gold = plr->economic.gold;
-  packet->government = government_of_player(plr)
-                       ? government_number(government_of_player(plr))
-                       : -1;
 }
 
 /**************************************************************************
@@ -902,6 +897,7 @@ static void package_player_info(struct player *plr,
   enum plr_info_level info_level;
   enum plr_info_level highest_team_level;
   struct player_research* research = get_player_research(plr);
+  struct government *pgov = NULL;
 
   if (receiver) {
     info_level = player_info_level(plr, receiver);
@@ -928,6 +924,15 @@ static void package_player_info(struct player *plr,
     packet->score = 0;
   }
 
+  if (info_level >= INFO_MEETING) {
+    packet->gold = plr->economic.gold;
+    pgov = government_of_player(plr);
+  } else {
+    packet->gold = 0;
+    pgov = game.government_during_revolution;
+  }
+  packet->government = pgov ? government_number(pgov) : -1;
+   
   /* Send diplomatic status of the player to everyone they are in
    * contact with. */
   if (info_level >= INFO_EMBASSY) {
