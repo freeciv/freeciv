@@ -1643,8 +1643,13 @@ static void package_player_info(struct player *plr,
     info_level = min_info_level;
   }
 
-  packet->gold            = plr->economic.gold;
-  packet->government      = plr->government;
+  if (info_level >= INFO_MEETING) {
+    packet->gold = plr->economic.gold;
+    packet->government = plr->government;
+  } else {
+    packet->gold = 0;
+    packet->government = game.government_when_anarchy;
+  }
 
   /* Send diplomatic status of the player to everyone they are in
    * contact with. */
