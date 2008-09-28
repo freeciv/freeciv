@@ -4433,22 +4433,6 @@ int fill_sprite_array(struct tileset *t,
     }
     break;
 
-  case LAYER_FOG:
-    sprs += fill_fog_sprite_array(t, sprs, ptile, pedge, pcorner);
-    break;
-
-  case LAYER_CITY2:
-    /* City size.  Drawing this under fog makes it hard to read. */
-    if (pcity && draw_cities && !draw_full_citybar) {
-      if (pcity->size >= 10) {
-	ADD_SPRITE(t->sprites.city.size_tens[pcity->size / 10],
-		   FALSE, FULL_TILE_X_OFFSET, FULL_TILE_Y_OFFSET);
-      }
-      ADD_SPRITE(t->sprites.city.size[pcity->size % 10],
-		 FALSE, FULL_TILE_X_OFFSET, FULL_TILE_Y_OFFSET);
-    }
-    break;
-
   case LAYER_UNIT:
   case LAYER_FOCUS_UNIT:
     if (do_draw_unit && XOR(layer == LAYER_UNIT, unit_is_in_focus(punit))) {
@@ -4478,6 +4462,22 @@ int fill_sprite_array(struct tileset *t,
           }
         } base_type_iterate_end;
       }
+    }
+    break;
+
+  case LAYER_FOG:
+    sprs += fill_fog_sprite_array(t, sprs, ptile, pedge, pcorner);
+    break;
+
+  case LAYER_CITY2:
+    /* City size.  Drawing this under fog makes it hard to read. */
+    if (pcity && draw_cities && !draw_full_citybar) {
+      if (pcity->size >= 10) {
+	ADD_SPRITE(t->sprites.city.size_tens[pcity->size / 10],
+		   FALSE, FULL_TILE_X_OFFSET, FULL_TILE_Y_OFFSET);
+      }
+      ADD_SPRITE(t->sprites.city.size[pcity->size % 10],
+		 FALSE, FULL_TILE_X_OFFSET, FULL_TILE_Y_OFFSET);
     }
     break;
 
