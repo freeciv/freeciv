@@ -1676,11 +1676,18 @@ struct editbar *editgui_get_editbar(void)
 ****************************************************************************/
 void editgui_refresh(void)
 {
+  struct property_editor *pe;
+
   if (editor_toolbar != NULL) {
     editbar_refresh(editor_toolbar);
   }
   if (editor_infobox != NULL) {
     editinfobox_refresh(editor_infobox);
+  }
+
+  pe = editprop_get_property_editor();
+  if (!editor_is_active()) {
+    property_editor_popdown(pe);
   }
 }
 
