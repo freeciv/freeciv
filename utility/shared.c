@@ -249,7 +249,7 @@ static size_t my_strcspn(const char *s, const char *reject)
  num_tokens are extracted.
 
  The user has the responsiblity to free the memory allocated by
- **tokens.
+ **tokens using free_tokens().
 ***************************************************************/
 int get_tokens(const char *str, char **tokens, size_t num_tokens,
 	       const char *delimiterset)
@@ -293,6 +293,19 @@ int get_tokens(const char *str, char **tokens, size_t num_tokens,
   }
 
   return token;
+}
+
+/***************************************************************
+  Frees a set of tokens created by get_tokens().
+***************************************************************/
+void free_tokens(char **tokens, size_t ntokens)
+{
+  size_t i;
+  for (i = 0; i < ntokens; i++) {
+    if (tokens[i]) {
+      free(tokens[i]);
+    }
+  }
 }
 
 /***************************************************************
