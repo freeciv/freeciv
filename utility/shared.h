@@ -140,6 +140,7 @@ char *get_option_malloc(const char *option_name,
 bool is_option(const char *option_name,char *option);
 int get_tokens(const char *str, char **tokens, size_t num_tokens,
 	       const char *delimiterset);
+void free_tokens(char **tokens, size_t ntokens);
 
 const char *big_int_to_text(unsigned int mantissa, unsigned int exponent);
 const char *int_to_text(unsigned int number);
