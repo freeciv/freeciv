@@ -52,4 +52,7 @@ char **freeciv_completion(char *text, int start, int end);
 #endif
 #endif
 
+void clear_all_votes(void);
+void cancel_connection_votes(struct connection *pconn);
+
 #endif /* FC__STDINHAND_H */
