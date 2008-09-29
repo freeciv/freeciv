@@ -1029,6 +1029,8 @@ void start_game(void)
 
   con_puts(C_OK, _("Starting game."));
 
+  clear_all_votes();
+
   set_server_state(S_S_GENERATING_WAITING); /* loaded ??? */
   force_end_of_sniff = TRUE;
   /* There's no stateful packet set to client until srv_ready(). */

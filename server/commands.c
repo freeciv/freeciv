@@ -118,17 +118,17 @@ static struct command commands[] = {
   },
   {"vote",	ALLOW_INFO,
    /* TRANS: translate text between [] only */
-   N_("vote yes|no [vote number]"),
+   N_("vote yes|no|abstain [vote number]"),
    N_("Cast a vote."),
       /* xgettext:no-c-format */
    N_("A player with info level access issuing a control level command "
       "starts a new vote for the command.  The /vote command followed by "
-      "\"yes\" or \"no\", and optionally a vote number, "
+      "\"yes\", \"no\", or \"abstain\", and optionally a vote number, "
       "gives your vote.  If you do not add a vote number, your vote applies "
-      "to the latest command.  You can only suggest one vote at a time.  "
-      "The vote will pass immediately if more than half of the players "
-      "vote for it, or fail immediately if at least half of the players "
-      "vote against it.")
+      "to the latest vote.  You can only suggest one vote at a time.  "
+      "The vote will pass immediately if more than half of the voters "
+      "who have not abstained vote for it, or fail immediately if at "
+      "least half of the voters who have not abstained vote against it.")
   },
   {"debug",	ALLOW_CTRL,
    /* no translatable parameters */

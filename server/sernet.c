@@ -197,6 +197,8 @@ static void handle_readline_input_callback(char *line)
 *****************************************************************************/
 void close_connection(struct connection *pconn)
 {
+  cancel_connection_votes(pconn);
+
   while (timer_list_size(pconn->server.ping_timers) > 0) {
     struct timer *timer = timer_list_get(pconn->server.ping_timers, 0);
 
