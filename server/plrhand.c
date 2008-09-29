@@ -924,7 +924,7 @@ static void package_player_info(struct player *plr,
     packet->score = 0;
   }
 
-  if (info_level >= INFO_MEETING) {
+  if (info_level >= INFO_EMBASSY) {
     packet->gold = plr->economic.gold;
     pgov = government_of_player(plr);
   } else {
