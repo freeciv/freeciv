@@ -175,12 +175,12 @@ static void create_goto_dialog(void)
     "xalign", 0.0,
     "yalign", 0.5,
     NULL);
-  gtk_box_pack_start(GTK_BOX(vbox), label, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
 
   gtk_box_pack_start(GTK_BOX(vbox), sw, TRUE, TRUE, 0);
 
   all_toggle = gtk_check_button_new_with_mnemonic(_("Show _All Cities"));
-  gtk_box_pack_start(GTK_BOX(vbox), all_toggle, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(vbox), all_toggle, FALSE, FALSE, 0);
 
   g_signal_connect(all_toggle, "toggled", G_CALLBACK(update_goto_dialog), NULL);
 
