@@ -300,10 +300,5 @@ bool can_bases_coexist(const struct base_type *base1, const struct base_type *ba
     return TRUE;
   }
 
-  if (base_has_flag(base1, BF_CLAIM_TERRITORY)
-      && base_has_flag(base2, BF_CLAIM_TERRITORY)) {
-    return FALSE;
-  }
-
-  return TRUE;
+  return !BV_ISSET(base1->conflicts, base_index(base2));
 }
