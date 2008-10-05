@@ -50,6 +50,7 @@ struct base_type {
 
   bv_unit_classes native_to;
   bv_base_flags flags;
+  bv_bases conflicts;
 };
 
 

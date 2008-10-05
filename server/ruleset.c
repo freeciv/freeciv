@@ -1960,6 +1960,9 @@ static void load_ruleset_terrain(struct section_file *file)
   } resource_type_iterate_end;
 
   /* base details */
+  base_type_iterate(pbase) {
+    BV_CLR_ALL(pbase->conflicts);
+  } base_type_iterate_end;
 
   base_type_iterate(pbase) {
     const char *section = &base_sections[base_index(pbase) * MAX_SECTION_LABEL];
@@ -2028,6 +2031,34 @@ static void load_ruleset_terrain(struct section_file *file)
     }
     
     free(slist);
+
+    slist = secfile_lookup_str_vec(file, &nval, "%s.conflicts", section);
+    for (j = 0; j < nval; j++) {
+      const char *sval = slist[j];
+      struct base_type *pbase2 = find_base_type_by_rule_name(sval);
+
+      if (pbase2 == NULL) {
+        ruleset_error(LOG_FATAL, "\"%s\" base \"%s\": unknown conflict base \"%s\".",
+                      filename,
+                      base_rule_name(pbase),
+                      sval);
+      } else {
+        BV_SET(pbase->conflicts, base_index(pbase2));
+        BV_SET(pbase2->conflicts, base_index(pbase));
+      }
+    }
+    
+    free(slist);
+
+    if (base_has_flag(pbase, BF_CLAIM_TERRITORY)) {
+      base_type_iterate(pbase2) {
+        if (pbase2 > pbase && base_has_flag(pbase2, BF_CLAIM_TERRITORY)) {
+          BV_SET(pbase->conflicts, base_index(pbase2));
+          BV_SET(pbase2->conflicts, base_index(pbase));
+        }
+      } base_type_iterate_end;
+    }
+
   } base_type_iterate_end;
 
   section_file_check_unused(file, filename);
