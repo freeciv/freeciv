@@ -26,6 +26,7 @@
 #include "shared.h"
 #include "support.h"
 
+#include "console.h"
 #include "stdinhand.h"
 
 #include "handchat.h"
@@ -312,6 +313,7 @@ void handle_chat_msg_req(struct connection *pconn, char *message)
   form_chat_name(pconn, sender_name, sizeof(sender_name));
   my_snprintf(chat, sizeof(chat),
 	      "<%s> %s", sender_name, message);
+  con_puts(C_COMMENT, chat);
   dlsend_packet_chat_msg(game.est_connections, chat,
 			 -1, -1, E_CHAT_MSG, pconn->id);
 }
