@@ -1542,6 +1542,7 @@ PACKET_EDIT_CITY=167;cs,handle-per-conn,handle-via-packet
   UINT8 specialists_size;
   UINT8 specialists[SP_MAX:specialists_size];
   UINT16 trade[NUM_TRADEROUTES];
+  UINT16 food_stock, shield_stock;
   BOOL airlift;
   BOOL debug;
   BOOL did_buy;
