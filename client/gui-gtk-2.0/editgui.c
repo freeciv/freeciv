@@ -403,7 +403,7 @@ static void editbar_player_properties_button_clicked(GtkButton *b,
 static struct editbar *editbar_create(void)
 {
   struct editbar *eb;
-  GtkWidget *hbox, *button, *combo, *image, *separator, *vbox;
+  GtkWidget *hbox, *button, *combo, *image, *separator, *vbox, *evbox;
   GtkRadioButton *radio_parent;
   GtkListStore *store;
   GtkCellRenderer *cell;
@@ -418,13 +418,13 @@ static struct editbar *editbar_create(void)
 
   sprites = get_editor_sprites(tileset);
 
-  /* Erase tool. */
+  /* Erase mode toggle. */
   button = gtk_toggle_button_new();
   pixbuf = sprite_get_pixbuf(sprites->erase);
   image = gtk_image_new_from_pixbuf(pixbuf);
   gtk_container_add(GTK_CONTAINER(button), image);
   gtk_tooltips_set_tip(eb->tooltips, button,
-                       _("Set Erase Mode"), "");
+      _("Toggle erase mode.\nShortcut: shift-d."), "");
   gtk_widget_set_size_request(button, BWIDTH, BHEIGHT);
   gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
   gtk_button_set_focus_on_click(GTK_BUTTON(button), FALSE);
@@ -461,6 +461,9 @@ static struct editbar *editbar_create(void)
   gtk_box_pack_start(GTK_BOX(hbox), separator, FALSE, FALSE, 0);
 
   /* Player POV indicator. */
+  vbox = gtk_vbox_new(FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(hbox), vbox, FALSE, FALSE, 0);
+
   store = gtk_list_store_new(PPV_NUM_COLS,
                              GDK_TYPE_PIXBUF,
                              G_TYPE_STRING);
@@ -478,23 +481,26 @@ static struct editbar *editbar_create(void)
   gtk_cell_layout_add_attribute(GTK_CELL_LAYOUT(combo),
                                 cell, "text", PPV_COL_NAME);
 
-  gtk_tooltips_set_tip(eb->tooltips, combo,
-                       _("Switch Point of View"), "");
   gtk_widget_set_size_request(combo, 140, -1);
   g_signal_connect(combo, "changed",
                    G_CALLBACK(editbar_player_pov_combobox_changed), eb);
-  vbox = gtk_vbox_new(FALSE, 0);
-  gtk_box_pack_start(GTK_BOX(hbox), vbox, FALSE, FALSE, 0);
-  gtk_box_pack_start(GTK_BOX(vbox), combo, TRUE, FALSE, 0);
+
+  evbox = gtk_event_box_new();
+  gtk_tooltips_set_tip(eb->tooltips, evbox,
+      _("Switch player point-of-view. Use this to edit "
+        "from the perspective of different players, or "
+        "even as a global observer."), "");
+  gtk_container_add(GTK_CONTAINER(evbox), combo);
+  gtk_box_pack_start(GTK_BOX(vbox), evbox, TRUE, FALSE, 0);
   eb->player_pov_combobox = combo;
 
-  /* Player properties button. */
+  /* Property editor button. */
   button = gtk_button_new();
   pixbuf = sprite_get_pixbuf(sprites->properties);
   image = gtk_image_new_from_pixbuf(pixbuf);
   gtk_container_add(GTK_CONTAINER(button), image);
   gtk_tooltips_set_tip(eb->tooltips, button,
-                       _("Modify Player"), "");
+      _("Bring up the property editor."), "");
   gtk_widget_set_size_request(button, BWIDTH, BHEIGHT);
   gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
   gtk_button_set_focus_on_click(GTK_BUTTON(button), FALSE);
@@ -1088,13 +1094,13 @@ static struct editinfobox *editinfobox_create(void)
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
 
   evbox = gtk_event_box_new();
+  gtk_tooltips_set_tip(ei->tooltips, evbox,
+                       _("Click to change value if applicable."), "");
   g_signal_connect(evbox, "button_press_event",
       G_CALLBACK(editinfobox_handle_tool_image_button_press), NULL);
   gtk_box_pack_start(GTK_BOX(hbox), evbox, FALSE, FALSE, 0);
 
   image = gtk_image_new();
-  gtk_tooltips_set_tip(ei->tooltips, image,
-                       _("Click to change value if applicable."), "");
   gtk_container_add(GTK_CONTAINER(evbox), image);
   ei->tool_image = image;
 
@@ -1116,13 +1122,13 @@ static struct editinfobox *editinfobox_create(void)
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
 
   evbox = gtk_event_box_new();
+  gtk_tooltips_set_tip(ei->tooltips, evbox,
+                       _("Click to change tool mode."), "");
   g_signal_connect(evbox, "button_press_event",
       G_CALLBACK(editinfobox_handle_mode_image_button_press), NULL);
   gtk_box_pack_start(GTK_BOX(hbox), evbox, FALSE, FALSE, 0);
 
   image = gtk_image_new();
-  gtk_tooltips_set_tip(ei->tooltips, image,
-                       _("Toggle erase/paint mode."), "");
   gtk_container_add(GTK_CONTAINER(evbox), image);
   ei->mode_image = image;
 
@@ -1146,6 +1152,11 @@ static struct editinfobox *editinfobox_create(void)
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
   ei->size_hbox = hbox;
   spin = gtk_spin_button_new_with_range(1, 255, 1);
+  gtk_tooltips_set_tip(ei->tooltips, spin,
+      _("Use this to change the \"size\" parameter for the tool. "
+        "This parameter controls for example the half-width "
+        "of the square of tiles that will be affected by the "
+        "tool, or the size of a created city."), "");
   g_signal_connect(spin, "value-changed",
                    G_CALLBACK(editinfobox_spin_button_value_changed),
                    GINT_TO_POINTER(SPIN_BUTTON_SIZE));
@@ -1158,6 +1169,10 @@ static struct editinfobox *editinfobox_create(void)
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
   ei->count_hbox = hbox;
   spin = gtk_spin_button_new_with_range(1, 255, 1);
+  gtk_tooltips_set_tip(ei->tooltips, spin,
+      _("Use this to change the tool's \"count\" parameter. "
+        "This controls for example how many units are placed "
+        "at once with the unit tool."), "");
   g_signal_connect(spin, "value-changed",
                    G_CALLBACK(editinfobox_spin_button_value_changed),
                    GINT_TO_POINTER(SPIN_BUTTON_COUNT));
@@ -1184,12 +1199,17 @@ static struct editinfobox *editinfobox_create(void)
   gtk_cell_layout_add_attribute(GTK_CELL_LAYOUT(combo),
                                 cell, "text", TAP_COL_NAME);
 
-  gtk_tooltips_set_tip(ei->tooltips, combo,
-                       _("Apply tool as this player."), "");
   gtk_widget_set_size_request(combo, 132, -1);
   g_signal_connect(combo, "changed",
                    G_CALLBACK(editinfobox_tool_applied_player_changed), ei);
-  gtk_box_pack_start(GTK_BOX(vbox), combo, FALSE, FALSE, 0);
+
+  evbox = gtk_event_box_new();
+  gtk_tooltips_set_tip(ei->tooltips, evbox,
+      _("Use this to change the \"applied player\" tool parameter. "
+        "This controls for example under which player units and cities "
+        "are created."), "");
+  gtk_container_add(GTK_CONTAINER(evbox), combo);
+  gtk_box_pack_start(GTK_BOX(vbox), evbox, FALSE, FALSE, 0);
   ei->tool_applied_player_combobox = combo;
 
   /* We add a ref to the editinfobox widget so that it is
