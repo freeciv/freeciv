@@ -48,7 +48,9 @@ struct property_page;
 struct property_editor;
 struct extviewer;
 
-/* Helper function declarations. */
+/****************************************************************************
+  Miscellaneous helpers.
+****************************************************************************/
 static GdkPixbuf *create_pixbuf_from_layers(struct tile *ptile,
                                             struct unit *punit,
                                             struct city *pcity,
@@ -82,6 +84,31 @@ union packetdata {
   struct packet_edit_player *player;
   struct packet_edit_game *game;
 };
+
+
+#define PF_MAX_CLAUSES 16
+#define PF_DISJUNCTION_SEPARATOR "|"
+#define PF_CONJUNCTION_SEPARATOR "&"
+
+struct pf_pattern {
+  bool negate;
+  char *text;
+};
+
+struct pf_conjunction {
+  struct pf_pattern conjunction[PF_MAX_CLAUSES];
+  int count;
+};
+
+struct property_filter {
+  struct pf_conjunction disjunction[PF_MAX_CLAUSES];
+  int count;
+};
+
+static struct property_filter *property_filter_new(const char *filter);
+static bool property_filter_match(struct property_filter *pf,
+                                  const struct objprop *op);
+static void property_filter_free(struct property_filter *pf);
 
 
 /****************************************************************************
@@ -274,6 +301,7 @@ struct objprop {
   int flags;
   int valtype;
   int column_id;
+  GtkTreeViewColumn *view_column;
   GtkWidget *widget;
   struct extviewer *extviewer;
   struct property_page *parent_page;
@@ -298,6 +326,9 @@ static GType objprop_get_gtype(const struct objprop *op);
 static const char *objprop_get_attribute_type_string(const struct objprop *op);
 static void objprop_set_column_id(struct objprop *op, int col_id);
 static int objprop_get_column_id(const struct objprop *op);
+static void objprop_set_treeview_column(struct objprop *op,
+                                        GtkTreeViewColumn *col);
+static GtkTreeViewColumn *objprop_get_treeview_column(const struct objprop *op);
 static GtkCellRenderer *objprop_create_cell_renderer(const struct objprop *op);
 
 static void objprop_setup_widget(struct objprop *op);
@@ -408,6 +439,7 @@ struct property_page {
   GtkListStore *object_store;
   GtkWidget *object_view;
   GtkWidget *extviewer_notebook;
+  GtkTooltips *tooltips;
 
   struct hash_table *objprop_table;
   struct hash_table *objbind_table;
@@ -1987,6 +2019,7 @@ static const char *objprop_get_attribute_type_string(const struct objprop *op)
   Store the column id of the list store that this object property can be
   viewed in. This should generally only be changed set once, when the
   object property's associated list view is created.
+  NB: This is the column id in the model, not the view.
 ****************************************************************************/
 static void objprop_set_column_id(struct objprop *op, int col_id)
 {
@@ -1999,6 +2032,7 @@ static void objprop_set_column_id(struct objprop *op, int col_id)
 /****************************************************************************
   Returns the column id in the list store for this object property.
   May return -1 if not applicable or if not yet set.
+  NB: This is the column id in the model, not the view.
 ****************************************************************************/
 static int objprop_get_column_id(const struct objprop *op)
 {
@@ -2006,6 +2040,30 @@ static int objprop_get_column_id(const struct objprop *op)
     return -1;
   }
   return op->column_id;
+}
+
+/****************************************************************************
+  Sets the view column reference for later convenience.
+****************************************************************************/
+static void objprop_set_treeview_column(struct objprop *op,
+                                        GtkTreeViewColumn *col)
+{
+  if (!op) {
+    return;
+  }
+  op->view_column = col;
+}
+
+/****************************************************************************
+  Returns the previously stored tree view column reference, or NULL if none
+  exists.
+****************************************************************************/
+static GtkTreeViewColumn *objprop_get_treeview_column(const struct objprop *op)
+{
+  if (!op) {
+    return NULL;
+  }
+  return op->view_column;
 }
 
 /****************************************************************************
@@ -3092,11 +3150,11 @@ static void property_page_setup_objprops(struct property_page *pp)
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_INT);
     /* TRANS: The coordinate X in native coordinates.
      * The freeciv coordinate system is described in doc/HACKING. */
-    ADDPROP(OPID_TILE_NAT_X, _("NAT_X"),
+    ADDPROP(OPID_TILE_NAT_X, _("NAT X"),
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_INT);
     /* TRANS: The coordinate Y in native coordinates.
      * The freeciv coordinate system is described in doc/HACKING. */
-    ADDPROP(OPID_TILE_NAT_Y, _("NAT_Y"),
+    ADDPROP(OPID_TILE_NAT_Y, _("NAT Y"),
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_INT);
     ADDPROP(OPID_TILE_CONTINENT, _("Continent"),
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_INT);
@@ -3253,27 +3311,37 @@ static void property_page_quick_find_entry_changed(GtkWidget *entry,
                                                    gpointer userdata)
 {
   struct property_page *pp;
-  const gchar *text, *name;
+  const gchar *text;
   GtkWidget *w;
+  GtkTreeViewColumn *col;
+  struct property_filter *pf;
+  bool matched;
 
   pp = userdata;
   text = gtk_entry_get_text(GTK_ENTRY(entry));
+  pf = property_filter_new(text);
 
   property_page_objprop_iterate(pp, op) {
-    if (!objprop_has_widget(op)) {
+    if (!objprop_has_widget(op)
+        && !objprop_show_in_listview(op)) {
       continue;
     }
+    matched = property_filter_match(pf, op);
     w = objprop_get_widget(op);
-    if (!w) {
-      continue;
+    if (objprop_has_widget(op) && w != NULL) {
+      if (matched) {
+        gtk_widget_show(w);
+      } else {
+        gtk_widget_hide(w);
+      }
     }
-    name = objprop_get_name(op);
-    if (text[0] == '\0' || mystrcasestr(name, text)) {
-      gtk_widget_show(w);
-    } else {
-      gtk_widget_hide(w);
+    col = objprop_get_treeview_column(op);
+    if (objprop_show_in_listview(op) && col != NULL) {
+      gtk_tree_view_column_set_visible(col, matched);
     }
   } property_page_objprop_iterate_end;
+
+  property_filter_free(pf);
 }
 
 /****************************************************************************
@@ -3300,6 +3368,7 @@ static struct property_page *property_page_new(int objtype)
 
   pp = fc_calloc(1, sizeof(struct property_page));
   pp->objtype = objtype;
+  pp->tooltips = gtk_tooltips_new();
 
   pp->objprop_table = hash_new(hash_fval_int,
                                hash_fcmp_int);
@@ -3385,6 +3454,7 @@ static struct property_page *property_page_new(int objtype)
       gtk_tree_view_column_set_clickable(col, FALSE);
     }
     gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
+    objprop_set_treeview_column(op, col);
 
   } property_page_objprop_iterate_end;
 
@@ -3454,10 +3524,16 @@ static struct property_page *property_page_new(int objtype)
   gtk_container_set_border_width(GTK_CONTAINER(hbox2), 4);
   gtk_box_pack_start(GTK_BOX(vbox), hbox2, FALSE, FALSE, 4);
 
-  label = gtk_label_new(_("Quick Find:"));
+  label = gtk_label_new(_("Filter:"));
   gtk_box_pack_start(GTK_BOX(hbox2), label, FALSE, FALSE, 0);
 
   entry = gtk_entry_new();
+  gtk_tooltips_set_tip(pp->tooltips, entry, 
+      _("Enter a filter string to limit which properties are shown. "
+        "The filter is one or more text patterns separated by | "
+        "(\"or\") or & (\"and\"). The symbol & has higher precedence "
+        "than |. A pattern may also be negated by prefixing it with !."),
+      "");
   g_signal_connect(entry, "changed",
       G_CALLBACK(property_page_quick_find_entry_changed), pp);
   gtk_box_pack_start(GTK_BOX(hbox2), entry, TRUE, TRUE, 0);
@@ -4500,4 +4576,168 @@ void property_editor_reload(struct property_editor *pe, int objtype)
   gtk_combo_box_set_active(GTK_COMBO_BOX(pe->combo), objtype);
   enable_widget_callback(pe->combo,
                          G_CALLBACK(property_editor_combo_changed));
+}
+
+/****************************************************************************
+  Create a new property filter from the given filter string. Result
+  should be freed by property_filter_free when no longed needed.
+
+  The filter string is '|' ("or") separated list of '&' ("and") separated
+  lists of patterns. A pattern may be preceeded by '!' to have its result
+  negated.
+
+  NB: If you change the behaviour of this function, be sure to update
+  the filter tooltip in property_page_new.
+****************************************************************************/
+static struct property_filter *property_filter_new(const char *filter)
+{
+  struct property_filter *pf;
+  struct pf_conjunction *pfc;
+  struct pf_pattern *pfp;
+  int or_clause_count, and_clause_count;
+  char *or_clauses[PF_MAX_CLAUSES], *and_clauses[PF_MAX_CLAUSES];
+  const char *pattern;
+  int i, j;
+
+  pf = fc_calloc(1, sizeof(*pf));
+
+  if (!filter || filter[0] == '\0') {
+    return pf;
+  }
+
+  or_clause_count = get_tokens(filter, or_clauses,
+                               PF_MAX_CLAUSES,
+                               PF_DISJUNCTION_SEPARATOR);
+
+  for (i = 0; i < or_clause_count; i++) {
+    if (or_clauses[i][0] == '\0') {
+      continue;
+    }
+    pfc = &pf->disjunction[pf->count];
+
+    and_clause_count = get_tokens(or_clauses[i], and_clauses,
+                                  PF_MAX_CLAUSES,
+                                  PF_CONJUNCTION_SEPARATOR);
+
+    for (j = 0; j < and_clause_count; j++) {
+      if (and_clauses[j][0] == '\0') {
+        continue;
+      }
+      pfp = &pfc->conjunction[pfc->count];
+      pattern = and_clauses[j];
+
+      switch (pattern[0]) {
+      case '!':
+        pfp->negate = TRUE;
+        pfp->text = mystrdup(pattern + 1);
+        break;
+      default:
+        pfp->text = mystrdup(pattern);
+        break;
+      }
+      pfc->count++;
+    }
+    free_tokens(and_clauses, and_clause_count);
+    pf->count++;
+  }
+
+  free_tokens(or_clauses, or_clause_count);
+
+  return pf;
+}
+
+/****************************************************************************
+  Returns TRUE if the filter matches the given object property.
+
+  The filter matches if its truth value is TRUE. That is, it has at least
+  one OR clause in which all AND clauses are TRUE. An AND clause is TRUE
+  if its pattern matches the name of the given object property (case is
+  ignored), or it is negated and does not match. For example:
+
+  a     - Matches all properties whose names contain "a" (or "A").
+  !a    - Matches all properties whose names do not contain "a".
+  a|b   - Matches all properties whose names contain "a" or "b".
+  a|b&c - Matches all properties whose names contain either an "a",
+          or contain both "b" and "c".
+
+  NB: If you change the behaviour of this function, be sure to update
+  the filter tooltip in property_page_new.
+****************************************************************************/
+static bool property_filter_match(struct property_filter *pf,
+                                  const struct objprop *op)
+{
+  struct pf_pattern *pfp;
+  struct pf_conjunction *pfc;
+  const char *name;
+  bool match, or_result, and_result;
+  int i, j;
+
+  if (!pf) {
+    return TRUE;
+  }
+  if (!op) {
+    return FALSE;
+  }
+
+  name = objprop_get_name(op);
+  if (!name) {
+    return FALSE;
+  }
+
+  if (pf->count < 1) {
+    return TRUE;
+  }
+
+  or_result = FALSE;
+
+  for (i = 0; i < pf->count; i++) {
+    pfc = &pf->disjunction[i];
+    and_result = TRUE;
+    for (j = 0; j < pfc->count; j++) {
+      pfp = &pfc->conjunction[j];
+      match = (pfp->text[0] == '\0'
+               || mystrcasestr(name, pfp->text));
+      if (pfp->negate) {
+        match = !match;
+      }
+      and_result = and_result && match;
+      if (!and_result) {
+        break;
+      }
+    }
+    or_result = or_result || and_result;
+    if (or_result) {
+      break;
+    }
+  }
+
+  return or_result;
+}
+
+/****************************************************************************
+  Frees all memory used by the property filter.
+****************************************************************************/
+static void property_filter_free(struct property_filter *pf)
+{
+  struct pf_pattern *pfp;
+  struct pf_conjunction *pfc;
+  int i, j;
+
+  if (!pf) {
+    return;
+  }
+
+  for (i = 0; i < pf->count; i++) {
+    pfc = &pf->disjunction[i];
+    for (j = 0; j < pfc->count; j++) {
+      pfp = &pfc->conjunction[j];
+      if (pfp->text != NULL) {
+        free(pfp->text);
+        pfp->text = NULL;
+      }
+    }
+    pfc->count = 0;
+  }
+  pf->count = 0;
+  free(pf);
 }
