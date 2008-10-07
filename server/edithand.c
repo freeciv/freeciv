@@ -823,6 +823,15 @@ void handle_edit_player(struct connection *pc,
                     "because the given nation ID %d is invalid."),
                   player_number(pplayer), player_name(pplayer),
                   packet->nation);
+    } else if (pnation->player != NULL) {
+      notify_conn(pc->self, NULL, E_BAD_COMMAND,
+                  _("Cannot change nation for player %d (%s) "
+                    "to nation %d (%s) because that nation is "
+                    "already assigned to player %d (%s)."),
+                  player_number(pplayer), player_name(pplayer),
+                  packet->nation, nation_plural_translation(pnation),
+                  player_number(pnation->player),
+                  player_name(pnation->player));
     } else {
       changed = player_set_nation(pplayer, pnation);
     }
