@@ -15,6 +15,8 @@
 #include <config.h>
 #endif
 
+#include <limits.h> /* USHRT_MAX */
+
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
@@ -248,6 +250,8 @@ enum object_property_ids {
   OPID_CITY_XY,
   OPID_CITY_SIZE,
   OPID_CITY_BUILDINGS,
+  OPID_CITY_FOOD_STOCK,
+  OPID_CITY_SHIELD_STOCK,
 
   OPID_PLAYER_NAME,
   OPID_PLAYER_NATION,
@@ -1227,6 +1231,12 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
     case OPID_CITY_BUILDINGS:
       pv->data.v_built = pcity->built;
       break;
+    case OPID_CITY_FOOD_STOCK:
+      pv->data.v_int = pcity->food_stock;
+      break;
+    case OPID_CITY_SHIELD_STOCK:
+      pv->data.v_int = pcity->shield_stock;
+      break;
     default:
       freelog(LOG_ERROR, "Unhandled request for value of property %d "
               "(%s) from object of type \"%s\" in "
@@ -1352,6 +1362,11 @@ static bool objbind_get_allowed_value_span(struct objbind *ob,
     }
 
   } else if (objtype == OBJTYPE_CITY) {
+    struct city *pcity = objbind_get_object(ob);
+
+    if (!pcity) {
+      return FALSE;
+    }
 
     switch (propid) {
     case OPID_CITY_SIZE:
@@ -1359,6 +1374,18 @@ static bool objbind_get_allowed_value_span(struct objbind *ob,
       max = MAX_CITY_SIZE;
       step = 1;
       big_step = 5;
+      break;
+    case OPID_CITY_FOOD_STOCK:
+      min = 0;
+      max = city_granary_size(pcity->size);
+      step = 1;
+      big_step = 5;
+      break;
+    case OPID_CITY_SHIELD_STOCK:
+      min = 0;
+      max = USHRT_MAX; /* Limited to uint16 by city info packet. */
+      step = 1;
+      big_step = 10;
       break;
     default:
       freelog(LOG_ERROR, "Unhandled request for value range of "
@@ -1652,6 +1679,8 @@ static void objbind_pack_current_values(struct objbind *ob,
     for (i = 0; i < B_LAST; i++) {
       packet->built[i] = pcity->built[i].turn;
     }
+    packet->food_stock = pcity->food_stock;
+    packet->shield_stock = pcity->shield_stock;
     /* TODO: Set more packet fields. */
 
   } else if (objtype == OBJTYPE_PLAYER) {
@@ -1767,6 +1796,12 @@ static void objbind_pack_modified_value(struct objbind *ob,
       break;
     case OPID_CITY_SIZE:
       packet->size = pv->data.v_int;
+      break;
+    case OPID_CITY_FOOD_STOCK:
+      packet->food_stock = pv->data.v_int;
+      break;
+    case OPID_CITY_SHIELD_STOCK:
+      packet->shield_stock = pv->data.v_int;
       break;
     case OPID_CITY_BUILDINGS:
       for (i = 0; i < B_LAST; i++) {
@@ -2140,6 +2175,7 @@ static void objprop_setup_widget(struct objprop *op)
     break;
 
   case OPID_CITY_SIZE:
+  case OPID_CITY_SHIELD_STOCK:
   case OPID_GAME_YEAR:
     spin = gtk_spin_button_new_with_range(0.0, 100.0, 1.0);
     g_signal_connect(spin, "value-changed",
@@ -2149,6 +2185,7 @@ static void objprop_setup_widget(struct objprop *op)
     break;
 
   case OPID_UNIT_MOVES_LEFT:
+  case OPID_CITY_FOOD_STOCK:
     hbox2 = gtk_hbox_new(FALSE, 4);
     gtk_box_pack_start(GTK_BOX(hbox), hbox2, TRUE, TRUE, 0);
     spin = gtk_spin_button_new_with_range(0.0, 100.0, 1.0);
@@ -2303,6 +2340,7 @@ static void objprop_refresh_widget(struct objprop *op,
     break;
 
   case OPID_CITY_SIZE:
+  case OPID_CITY_SHIELD_STOCK:
   case OPID_GAME_YEAR:
     spin = objprop_get_child_widget(op, "spin");
     if (pv) {
@@ -2322,6 +2360,7 @@ static void objprop_refresh_widget(struct objprop *op,
     break;
 
   case OPID_UNIT_MOVES_LEFT:
+  case OPID_CITY_FOOD_STOCK:
     spin = objprop_get_child_widget(op, "spin");
     label = objprop_get_child_widget(op, "max-value-label");
     if (pv) {
@@ -3097,6 +3136,10 @@ static void property_page_setup_objprops(struct property_page *pp)
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
     ADDPROP(OPID_CITY_BUILDINGS, _("Buildings"), OPF_IN_LISTVIEW
             | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BUILT_ARRAY);
+    ADDPROP(OPID_CITY_FOOD_STOCK, _("Food Stock"),
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
+    ADDPROP(OPID_CITY_SHIELD_STOCK, _("Shield Stock"),
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
     break;
 
   case OBJTYPE_PLAYER:

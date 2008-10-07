@@ -16,6 +16,7 @@
 #endif
 
 #include <assert.h>
+#include <limits.h> /* USHRT_MAX */
 
 #include "events.h"
 #include "fcintl.h"
@@ -709,6 +710,33 @@ void handle_edit_city(struct connection *pc,
     }
   } improvement_iterate_end;
  
+  /* Handle food stock change. */
+  if (packet->food_stock != pcity->food_stock) {
+    int max = city_granary_size(pcity->size);
+    if (!(0 <= packet->food_stock && packet->food_stock <= max)) {
+      notify_conn(pc->self, ptile, E_BAD_COMMAND,
+                  _("Invalid city food stock amount %d for city %s "
+                    "(allowed range is %d to %d)."),
+                  packet->food_stock, pcity->name, 0, max);
+    } else {
+      pcity->food_stock = packet->food_stock;
+      changed = TRUE;
+    }
+  }
+
+  /* Handle shield stock change. */
+  if (packet->shield_stock != pcity->shield_stock) {
+    int max = USHRT_MAX; /* Limited to uint16 by city info packet. */
+    if (!(0 <= packet->shield_stock && packet->shield_stock <= max)) {
+      notify_conn(pc->self, ptile, E_BAD_COMMAND,
+                  _("Invalid city shield stock amount %d for city %s "
+                    "(allowed range is %d to %d)."),
+                  packet->shield_stock, pcity->name, 0, max);
+    } else {
+      pcity->shield_stock = packet->shield_stock;
+      changed = TRUE;
+    }
+  }
 
   /* TODO: Handle more property edits. */
 
