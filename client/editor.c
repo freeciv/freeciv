@@ -108,28 +108,33 @@ void editor_init(void)
 
   SET_TOOL(ETT_TERRAIN, _("Terrain"),
            ETF_HAS_VALUE | ETF_HAS_SIZE,
-           _("Change tile terrain."));
+           _("Change tile terrain.\nShortcut: t.\n"
+             "Select terrain type: shift+t or right-click here."));
   SET_TOOL(ETT_TERRAIN_RESOURCE, _("Terrain Resource"),
            ETF_HAS_VALUE | ETF_HAS_SIZE,
-           _("Change tile terrain resources."));
+           _("Change tile terrain resources.\nShortcut: r.\n"
+             "Select resource type: shift+r or right-click here."));
   SET_TOOL(ETT_TERRAIN_SPECIAL, _("Terrain Special"),
            ETF_HAS_VALUE | ETF_HAS_SIZE | ETF_HAS_VALUE_ERASE,
-           _("Modify tile specials."));
+           _("Modify tile specials.\nShortcut: s.\n"
+             "Select special type: shift+s or right-click here."));
   SET_TOOL(ETT_MILITARY_BASE, _("Military Base"),
            ETF_HAS_VALUE | ETF_HAS_SIZE | ETF_HAS_VALUE_ERASE,
-           _("Create a military base."));
+           _("Create a military base.\nShortcut: m.\n"
+             "Select base type: shift+m or right-click here."));
   SET_TOOL(ETT_UNIT, _("Unit"), ETF_HAS_VALUE | ETF_HAS_COUNT
            | ETF_HAS_APPLIED_PLAYER | ETF_HAS_VALUE_ERASE,
-           _("Create unit."));
+           _("Create unit.\nShortcut: u.\n"
+             "Select unit type: shift+u or right-click here."));
   SET_TOOL(ETT_CITY, _("City"), ETF_HAS_SIZE | ETF_HAS_APPLIED_PLAYER,
-           _("Create city."));
+           _("Create city.\nShortcut: c."));
   SET_TOOL(ETT_VISION, _("Vision"), ETF_HAS_SIZE,
-           _("Modify player's tile knowledge."));
+           _("Modify player's tile knowledge.\nShortcut: v."));
   SET_TOOL(ETT_TERRITORY, _("Territory"),
            ETF_HAS_SIZE | ETF_HAS_APPLIED_PLAYER,
-           _("Change tile ownership."));
+           _("Change tile ownership.\nShortcut: b."));
   SET_TOOL(ETT_STARTPOS, _("Start Position"), ETF_HAS_APPLIED_PLAYER,
-           _("Place a player start position."));
+           _("Place a player start position.\nShortcut: p."));
 #undef SET_TOOL
 
   editor_set_size(1);
