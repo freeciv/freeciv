@@ -19,6 +19,10 @@ options="1.0"
 ; Cheating AI effects are in separate file
 *include "default/ai_effects.ruleset"
 
+[effect_unhappysize]
+name    = "City_Unhappy_Size"
+value   = 4
+
 ; Specialist output bonuses
 
 [effect_gov_tile_bonus_0]

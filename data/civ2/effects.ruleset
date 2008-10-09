@@ -19,6 +19,10 @@ options="1.0"
 ; Cheating AI effects are in separate file
 *include "default/ai_effects.ruleset"
 
+[effect_unhappysize]
+name    = "City_Unhappy_Size"
+value   = 4
+
 [effect_gov_tile_bonus_0]
 name    = "Output_Penalty_Tile"
 value   = 2
@@ -507,12 +511,20 @@ reqs    =
 [effect_empire_size_base_3]
 name    = "Empire_Size_Base"
 value   = 14
+reqs	=
+    { "type",       "name",      "range"
+      "Gov", "Communism", "Player"
+    }
+
+[effect_empire_size_base_4]
+name    = "Empire_Size_Base"
+value   = 14
 reqs    =
     { "type",       "name",      "range"
       "Gov", "Republic",  "Player"
     }
 
-[effect_empire_size_base_4]
+[effect_empire_size_base_5]
 name    = "Empire_Size_Base"
 value   = 17
 reqs    =
@@ -549,10 +561,18 @@ name    = "Empire_Size_Step"
 value   = 12
 reqs    =
     { "type",       "name",      "range"
-      "Gov", "Republic",  "Player"
+      "Gov", "Communism",  "Player"
     }
 
 [effect_empire_size_step_4]
+name    = "Empire_Size_Step"
+value   = 12
+reqs    =
+    { "type",       "name",      "range"
+      "Gov", "Republic",  "Player"
+    }
+
+[effect_empire_size_step_5]
 name    = "Empire_Size_Step"
 value   = 12
 reqs    =
