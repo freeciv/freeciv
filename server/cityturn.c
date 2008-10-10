@@ -805,13 +805,15 @@ static bool worklist_change_build_target(struct player *pplayer,
   int i;
   int saved_id = pcity->id;
   bool city_checked = TRUE; /* This is used to avoid spurious city_exist() calls */
+  struct worklist *pwl = &pcity->worklist;
 
-  if (worklist_is_empty(&pcity->worklist))
+  if (worklist_is_empty(pwl)) {
     /* Nothing in the worklist; bail now. */
     return FALSE;
+  }
 
   i = 0;
-  while (!success) {
+  while (!success && i < worklist_length(pwl)) {
 
     if (!city_checked) {
       if (!city_exist(saved_id)) {
@@ -822,11 +824,13 @@ static bool worklist_change_build_target(struct player *pplayer,
       city_checked = TRUE;
     }
 
-    if (worklist_peek_ith(&pcity->worklist, &target, i++)) {
+    if (worklist_peek_ith(pwl, &target, i)) {
       success = can_city_build_now(pcity, target);
     } else {
       success = FALSE;
     }
+    i++;
+
     if (success) {
       break; /* while */
     }
@@ -871,7 +875,8 @@ static bool worklist_change_build_target(struct player *pplayer,
         if (city_exist(saved_id)) {
           city_checked = TRUE;
           /* Purge this worklist item. */
-          worklist_remove(&pcity->worklist, --i);
+          i--;
+          worklist_remove(pwl, i);
         } else {
           city_checked = FALSE;
         }
@@ -907,7 +912,8 @@ static bool worklist_change_build_target(struct player *pplayer,
         if (city_exist(saved_id)) {
           city_checked = TRUE;
           /* Purge this worklist item. */
-          worklist_remove(&pcity->worklist, --i);
+          i--;
+          worklist_remove(pwl, i);
         } else {
           city_checked = FALSE;
         }
@@ -1106,10 +1112,10 @@ static bool worklist_change_build_target(struct player *pplayer,
 
     /* i is the index immediately _after_ the item we're changing to.
        Remove the (i-1)th item from the worklist. */
-    worklist_remove(&pcity->worklist, i-1);
+    worklist_remove(pwl, i - 1);
   }
 
-  if (worklist_is_empty(&pcity->worklist)) {
+  if (worklist_is_empty(pwl)) {
     /* There *was* something in the worklist, but it's empty now.  Bug the
        player about it. */
     notify_player(pplayer, pcity->tile, E_WORKLIST,
