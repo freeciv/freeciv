@@ -988,11 +988,10 @@ static void start_start_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void pick_nation_callback(GtkWidget *w, gpointer data)
 {
-  if (NULL != client.conn.playing) {
-    popup_races_dialog(client.conn.playing);
+  if (can_client_control()) {
+    popup_races_dialog(client_player());
   } else if (game.info.is_new_game) {
     send_chat("/take -");
-    popup_races_dialog(NULL);
   }
 }
 
