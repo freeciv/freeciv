@@ -1556,11 +1556,6 @@ void aifill(int amount)
     return;
   }
 
-  if (amount == 0) {
-    /* Special case for value 0: do nothing. */
-    return;
-  }
-
   amount = MIN(amount, game.info.max_players);
 
   /* Limit to nations provided by ruleset */
