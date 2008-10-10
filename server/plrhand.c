@@ -1144,6 +1144,8 @@ void server_remove_player(struct player *pplayer)
   team_remove_player(pplayer);
   game_remove_player(pplayer);
   game_renumber_players(player_number(pplayer));
+
+  aifill(game.info.aifill);
 }
 
 /**************************************************************************
