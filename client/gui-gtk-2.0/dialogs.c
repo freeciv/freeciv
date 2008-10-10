@@ -989,6 +989,10 @@ static void create_races_dialog(struct player *pplayer)
  *****************************************************************/
 void popup_races_dialog(struct player *pplayer)
 {
+  if (!pplayer) {
+    return;
+  }
+
   if (!races_shell) {
     create_races_dialog(pplayer);
     gtk_window_present(GTK_WINDOW(races_shell));

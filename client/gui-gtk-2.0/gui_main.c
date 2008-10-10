@@ -1647,10 +1647,9 @@ void update_conn_list_dialog(void)
     /* Nation button will go to Nation selection */
     gtk_stockbutton_set_label(nation_button, _("Pick _Nation"));
 
-    /* Sensitive iff client can select nation.
-     * FIXME: Observer can always select nations? */
-    gtk_widget_set_sensitive(nation_button, game.info.is_new_game);
-                             /* && can_client_control()); */
+    /* Sensitive iff client is controlling a player. */
+    gtk_widget_set_sensitive(nation_button, game.info.is_new_game
+                             && can_client_control());
   }
 
   if (!client_is_observer()) {
