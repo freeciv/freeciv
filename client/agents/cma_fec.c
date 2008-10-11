@@ -286,8 +286,9 @@ static const char *get_prod_complete_string(struct city *pcity, int surplus)
   }
 
   if (city_production_has_flag(pcity, IF_GOLD)) {
-    my_snprintf(buffer, sizeof(buffer),
-                improvement_name_translation(pcity->production.value.building));
+    mystrlcpy(buffer,
+	      improvement_name_translation(pcity->production.value.building),
+	      sizeof(buffer));
     return buffer;
   }
   stock = pcity->shield_stock + surplus;

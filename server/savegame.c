@@ -2386,7 +2386,7 @@ static void player_load_cities(struct player *plr, int plrno,
     /* lookup name out of order */
     my_snprintf(named, sizeof(named), "player%d.c%d.name", plrno, i);
     /* instead of dying, use name string for damaged name */
-    name = secfile_lookup_str_default(file, named, named);
+    name = secfile_lookup_str_default(file, named, "%s", named);
     /* copied into city->name */
     pcity = create_city_virtual(plr, pcenter, name);
 
@@ -4491,10 +4491,8 @@ static void game_load_internal(struct section_file *file)
     rstate.j = secfile_lookup_int(file,"random.index_J");
     rstate.k = secfile_lookup_int(file,"random.index_K");
     rstate.x = secfile_lookup_int(file,"random.index_X");
-    for(i=0;i<8;i++) {
-      char name[20];
-      my_snprintf(name, sizeof(name), "random.table%d",i);
-      string=secfile_lookup_str(file,name);
+    for(i = 0; i < 8; i++) {
+      string = secfile_lookup_str(file, "random.table%d",i);
       sscanf(string,"%8x %8x %8x %8x %8x %8x %8x", &rstate.v[7*i],
 	     &rstate.v[7*i+1], &rstate.v[7*i+2], &rstate.v[7*i+3],
 	     &rstate.v[7*i+4], &rstate.v[7*i+5], &rstate.v[7*i+6]);
@@ -4974,15 +4972,14 @@ void game_save(struct section_file *file, const char *save_reason)
     secfile_insert_int(file, rstate.x, "random.index_X");
 
     for (i = 0; i < 8; i++) {
-      char name[20], vec[100];
+      char vec[100];
 
-      my_snprintf(name, sizeof(name), "random.table%d", i);
       my_snprintf(vec, sizeof(vec),
 		  "%8x %8x %8x %8x %8x %8x %8x", rstate.v[7 * i],
 		  rstate.v[7 * i + 1], rstate.v[7 * i + 2],
 		  rstate.v[7 * i + 3], rstate.v[7 * i + 4],
 		  rstate.v[7 * i + 5], rstate.v[7 * i + 6]);
-      secfile_insert_str(file, vec, name);
+      secfile_insert_str(file, vec, "random.table%d", i);
     }
   } else {
     secfile_insert_int(file, 0, "game.save_random");

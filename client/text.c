@@ -204,7 +204,7 @@ const char *popup_info_text(struct tile *ptile)
         astr_add(&str, Q_("?clistlast: and %s"),
 		 improvement_name_translation(prev_impr));
       }
-      astr_add(&str, Q_("?clistend:."));
+      astr_add(&str, "%s", Q_("?clistend:."));
     }
 
     unit_list_iterate(get_units_in_focus(), pfocus_unit) {
@@ -746,7 +746,7 @@ const char *get_unit_info_label_text2(struct unit_list *punits, int linebreaks)
 
     if (!goto_get_turns(&min, &max)) {
       /* TRANS: Impossible to reach goto target tile */
-      astr_add_line(&str, Q_("?goto:Unreachable"));
+      astr_add_line(&str, "%s", Q_("?goto:Unreachable"));
     } else if (min == max) {
       astr_add_line(&str, _("Turns to target: %d"), max);
     } else {
@@ -1000,7 +1000,8 @@ const char *get_government_tooltip(void)
   astr_add_line(&str, _("Shows your current government:"));
 
   if (NULL != client.conn.playing) {
-    astr_add_line(&str, government_name_for_player(client.conn.playing));
+    astr_add_line(&str, "%s",
+		  government_name_for_player(client.conn.playing));
   }
   return str.str;
 }
@@ -1215,7 +1216,7 @@ const char *text_happiness_buildings(const struct city *pcity)
   if (faces == 0) {
     astr_add(&str, _("None. "));
   } else {
-    astr_add(&str, Q_("?clistend:."));
+    astr_add(&str, "%s", Q_("?clistend:."));
   }
 
   return str.str;
@@ -1254,7 +1255,7 @@ const char *text_happiness_wonders(const struct city *pcity)
   if (faces == 0) {
     astr_add(&str, _("None. "));
   } else {
-    astr_add(&str, Q_("?clistend:."));
+    astr_add(&str, "%s",  Q_("?clistend:."));
   }
 
   return str.str;

@@ -450,7 +450,7 @@ void handle_city_rename(struct player *pplayer, int city_id, char *name)
   }
 
   if (!is_allowed_city_name(pplayer, name, message, sizeof(message))) {
-    notify_player(pplayer, pcity->tile, E_BAD_COMMAND,
+    notify_player(pplayer, pcity->tile, E_BAD_COMMAND, "%s",
 		  message);
     return;
   }

@@ -213,7 +213,9 @@ void get_city_dialog_production(struct city *pcity,
      * be extended to return the longer of the two; in the meantime
      * translators can fudge it by changing this "filler" string. 
      */
-    my_snprintf(buffer, buffer_len, Q_("?filler:XXX/XXX XXX turns"));
+    /* TRANS: Use longer of "XXX turns" and "never" */
+    mystrlcpy(buffer, Q_("?filler:XXX/XXX XXX turns"), buffer_len);
+
     return;
   }
 
@@ -265,8 +267,9 @@ void get_city_dialog_production_full(char *buffer, size_t buffer_len,
 
   switch (target.kind) {
   case VUT_IMPROVEMENT:
-    my_snprintf(buffer, buffer_len,
-                city_improvement_name_translation(pcity, target.value.building));
+    mystrlcpy(buffer,
+	      city_improvement_name_translation(pcity, target.value.building),
+	      buffer_len);
 
     if (improvement_has_flag(target.value.building, IF_GOLD)) {
       cat_snprintf(buffer, buffer_len, " (--) ");
@@ -306,7 +309,7 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
   {
     struct unit_type *ptype = target.value.utype;
 
-    my_snprintf(buf[1], column_size, utype_values_string(ptype));
+    mystrlcpy(buf[1], utype_values_string(ptype), column_size);
     my_snprintf(buf[2], column_size, "(%d)", utype_build_shield_cost(ptype));
     break;
   }
@@ -343,7 +346,7 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
             state = _("Small Wonder");
           }
 	}
-	my_snprintf(buf[1], column_size, state);
+	mystrlcpy(buf[1], state, column_size);
       }
 
       my_snprintf(buf[2], column_size, "%d",

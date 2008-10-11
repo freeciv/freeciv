@@ -1138,7 +1138,8 @@ static void show_conn_popup(struct player *pplayer, struct connection *pconn)
 
   /* Show popup. */
   popup = gtk_message_dialog_new(NULL, 0,
-				 GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, buf);
+				 GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
+				 "%s", buf);
   gtk_window_set_title(GTK_WINDOW(popup), _("Player/conn info"));
   setup_dialog(popup, toplevel);
   g_signal_connect(popup, "response", G_CALLBACK(gtk_widget_destroy), NULL);
