@@ -73,7 +73,7 @@ void send_chat(const char *message)
 **************************************************************************/
 void send_chat_printf(const char *format, ...)
 {
-  char msg[50];
+  char msg[250];
   int maxlen = sizeof(msg);
 
   va_list ap;
