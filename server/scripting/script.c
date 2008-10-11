@@ -104,7 +104,7 @@ static int script_report(lua_State *L, int status, const char *code)
       }
     }
 
-    freelog(LOG_ERROR, str.str);
+    freelog(LOG_ERROR, "%s", str.str);
 
     astr_free(&str);
 
@@ -293,7 +293,7 @@ static void script_vars_load(struct section_file *file)
     const char *vars;
     const char *section = "script.vars";
 
-    vars = secfile_lookup_str_default(file, "", section);
+    vars = secfile_lookup_str_default(file, "", "%s", section);
     script_dostring(state, vars, section);
   }
 }
@@ -349,7 +349,7 @@ static void script_code_load(struct section_file *file)
     const char *code;
     const char *section = "script.code";
 
-    code = secfile_lookup_str_default(file, "", section);
+    code = secfile_lookup_str_default(file, "", "%s", section);
     script_code = mystrdup(code);
     script_dostring(state, script_code, section);
   }

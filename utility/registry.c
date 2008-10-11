@@ -1557,7 +1557,7 @@ int *secfile_lookup_int_vec(struct section_file *my_section_file,
   my_vsnprintf(buf, sizeof(buf), path, ap);
   va_end(ap);
 
-  *dimen = secfile_lookup_vec_dimen(my_section_file, buf);
+  *dimen = secfile_lookup_vec_dimen(my_section_file, "%s", buf);
   if (*dimen == 0) {
     return NULL;
   }
@@ -1589,7 +1589,7 @@ char **secfile_lookup_str_vec(struct section_file *my_section_file,
   my_vsnprintf(buf, sizeof(buf), path, ap);
   va_end(ap);
 
-  *dimen = secfile_lookup_vec_dimen(my_section_file, buf);
+  *dimen = secfile_lookup_vec_dimen(my_section_file, "%s", buf);
   if (*dimen == 0) {
     return NULL;
   }

@@ -840,7 +840,7 @@ static void economy_command_callback(struct gui_dialog *dlg, int response,
       NULL,
       GTK_DIALOG_DESTROY_WITH_PARENT,
       GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
-      buf);
+      "%s", buf);
   setup_dialog(shell, gui_dialog_get_toplevel(dlg));
 
   g_signal_connect(shell, "response", G_CALLBACK(gtk_widget_destroy), NULL);

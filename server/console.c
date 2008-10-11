@@ -50,7 +50,7 @@ This must match the log_callback_fn typedef signature.
 static void con_handle_log(int level, const char *message, bool file_too)
 {
   if (LOG_ERROR == level) {
-    notify_conn(NULL, NULL, E_LOG_ERROR, message);
+    notify_conn(NULL, NULL, E_LOG_ERROR, "%s", message);
   } else if (LOG_FATAL >= level) {
     /* Make sure that message is not left to buffers when server dies */
     conn_list_iterate(game.est_connections, pconn) {
@@ -58,7 +58,7 @@ static void con_handle_log(int level, const char *message, bool file_too)
       pconn->compression.frozen_level = 0;
     } conn_list_iterate_end;
 
-    notify_conn(NULL, NULL, E_LOG_FATAL, message);
+    notify_conn(NULL, NULL, E_LOG_FATAL, "%s", message);
     notify_conn(NULL, NULL, E_LOG_FATAL,
                 _("Please report this message at %s"),
                 BUG_URL);

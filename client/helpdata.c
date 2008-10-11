@@ -1344,8 +1344,8 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
 
            output_type = preq->source.value.outputtype;
            oname = get_output_name(output_type);
-           astr_add(&outputs_or, oname);
-           astr_add(&outputs_and, oname);
+           astr_add(&outputs_or, "%s", oname);
+           astr_add(&outputs_and, "%s", oname);
          }
          break;
        case VUT_UCLASS:
@@ -1399,32 +1399,32 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
 
           if (!harvested_only || pot->harvested) {
             if (prev2 != NULL) {
-              astr_add(&outputs_or,  prev2);
-              astr_add(&outputs_or,  Q_("?or:, "));
-              astr_add(&outputs_and, prev2);
-              astr_add(&outputs_and, Q_("?and:, "));
+              astr_add(&outputs_or,  "%s", prev2);
+              astr_add(&outputs_or,  "%s", Q_("?or:, "));
+              astr_add(&outputs_and, "%s", prev2);
+              astr_add(&outputs_and, "%s", Q_("?and:, "));
             }
             prev2 = prev;
             prev = _(pot->name);
           }
         } output_type_iterate_end;
         if (prev2 != NULL) {
-          astr_add(&outputs_or, prev2);
+          astr_add(&outputs_or, "%s", prev2);
           /* TRANS: List of possible output types has this between
            *        last two elements */
-          astr_add(&outputs_or,  Q_(" or "));
-          astr_add(&outputs_and, prev2);
+          astr_add(&outputs_or,  "%s", Q_(" or "));
+          astr_add(&outputs_and, "%s", prev2);
           /* TRANS: List of possible output types has this between
            *        last two elements */
-          astr_add(&outputs_and, Q_(" and "));
+          astr_add(&outputs_and, "%s", Q_(" and "));
         }
         if (prev != NULL) {
-          astr_add(&outputs_or, prev);
-          astr_add(&outputs_and, prev);
+          astr_add(&outputs_or,  "%s", prev);
+          astr_add(&outputs_and, "%s", prev);
         } else {
           /* TRANS: Empty output type list, should never happen. */
-          astr_add(&outputs_or,  Q_("?outputlist: Nothing "));
-          astr_add(&outputs_and, Q_("?outputlist: Nothing "));
+          astr_add(&outputs_or,  "%s", Q_("?outputlist: Nothing "));
+          astr_add(&outputs_and, "%s", Q_("?outputlist: Nothing "));
         }
       }
 

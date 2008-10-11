@@ -379,8 +379,8 @@ static void update_cma_preset_list(void)
   if (cmafec_preset_num()) {
     /* Add all CMA presets to the list. */
     for (i = 0; i < cmafec_preset_num(); i++) {
-      my_snprintf(preset_text[i], sizeof(preset_text[i]),
-                  cmafec_preset_get_descr(i));
+      mystrlcpy(preset_text[i], cmafec_preset_get_descr(i),
+		sizeof(preset_text[i]));
       preset_lines[i] = preset_text[i];
     }
     XawListChange(preset_list, preset_lines, cmafec_preset_num(), 0, True);

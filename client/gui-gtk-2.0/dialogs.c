@@ -1333,7 +1333,8 @@ void popup_upgrade_dialog(struct unit_list *punits)
 
   if (!get_units_upgrade_info(buf, sizeof(buf), punits)) {
     shell = gtk_message_dialog_new(NULL, 0,
-				   GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, buf);
+				   GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
+				   "%s", buf);
     gtk_window_set_title(GTK_WINDOW(shell), _("Upgrade Unit!"));
     setup_dialog(shell, toplevel);
     g_signal_connect(shell, "response", G_CALLBACK(gtk_widget_destroy),
@@ -1342,7 +1343,7 @@ void popup_upgrade_dialog(struct unit_list *punits)
   } else {
     shell = gtk_message_dialog_new(NULL, 0,
 				   GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
-				   buf);
+				   "%s", buf);
     gtk_window_set_title(GTK_WINDOW(shell), _("Upgrade Obsolete Units"));
     setup_dialog(shell, toplevel);
     gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_YES);
