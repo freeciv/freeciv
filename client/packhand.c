@@ -215,7 +215,7 @@ void handle_server_join_reply(bool you_can_join, char *message,
     aconnection.id = 0;
     if (auto_connect) {
       freelog(LOG_NORMAL, _("You were rejected from the game...."));
-      freelog(LOG_NORMAL, msg);
+      freelog(LOG_NORMAL, "%s", msg);
     }
     gui_server_connect();
     if (!with_ggz) {

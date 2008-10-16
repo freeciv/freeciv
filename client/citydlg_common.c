@@ -211,7 +211,9 @@ void get_city_dialog_production(struct city *pcity,
      * be extended to return the longer of the two; in the meantime
      * translators can fudge it by changing this "filler" string. 
      */
-    my_snprintf(buffer, buffer_len, Q_("?filler:XXX/XXX XXX turns"));
+    /* TRANS: Use longer of "XXX turns" and "never" */
+    mystrlcpy(buffer, Q_("?filler:XXX/XXX XXX turns"), buffer_len);
+
     return;
   }
 
@@ -305,19 +307,21 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
   if (target.is_unit) {
     struct unit_type *ptype = utype_by_number(target.value);
 
-    my_snprintf(buf[0], column_size, utype_name_translation(ptype));
-    my_snprintf(buf[1], column_size, utype_values_string(ptype));
+    mystrlcpy(buf[0], utype_name_translation(ptype), column_size);
+    mystrlcpy(buf[1], utype_values_string(ptype), column_size);
     my_snprintf(buf[2], column_size, "(%d)", unit_build_shield_cost(ptype));
   } else {
     struct player *pplayer = pcity ? city_owner(pcity) : game.player_ptr;
 
     /* Total & turns left meaningless on capitalization */
     if (improvement_has_flag(target.value, IF_GOLD)) {
-      my_snprintf(buf[0], column_size, improvement_name_translation(target.value));
+      mystrlcpy(buf[0], improvement_name_translation(target.value),
+		column_size);
       buf[1][0] = '\0';
       my_snprintf(buf[2], column_size, "---");
     } else {
-      my_snprintf(buf[0], column_size, improvement_name_translation(target.value));
+      mystrlcpy(buf[0], improvement_name_translation(target.value),
+		column_size);
 
       /* from city.c get_impr_name_ex() */
       if (pcity && is_building_replaced(pcity, target.value, RPT_CERTAIN)) {

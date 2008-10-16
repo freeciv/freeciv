@@ -490,7 +490,7 @@ enum server_events server_sniff_all_input(void)
 	  if (time(NULL) > last_noplayers + srvarg.quitidle) {
 	    save_game_auto("Lost all connections");
 	    set_meta_message_string("restarting for lack of players");
-	    freelog(LOG_NORMAL, get_meta_message_string());
+	    freelog(LOG_NORMAL, "%s", get_meta_message_string());
 	    (void) send_server_info_to_metaserver(META_INFO);
 
             set_server_state(S_S_OVER);
@@ -516,7 +516,7 @@ enum server_events server_sniff_all_input(void)
 		      "restarting in %d seconds for lack of players",
 		      srvarg.quitidle);
           set_meta_message_string((const char *)buf);
-	  freelog(LOG_NORMAL, get_meta_message_string());
+	  freelog(LOG_NORMAL, "%s", get_meta_message_string());
 	  (void) send_server_info_to_metaserver(META_INFO);
 	}
       } else {

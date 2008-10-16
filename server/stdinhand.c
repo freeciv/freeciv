@@ -1605,13 +1605,14 @@ static void show_help_option_list(struct connection *caller,
       if (may_view_option(caller, i)) {
 	cat_snprintf(buf, sizeof(buf), "%-19s", settings[i].name);
 	if ((++j % 4) == 0) {
-	  cmd_reply(help_cmd, caller, C_COMMENT, buf);
+	  cmd_reply(help_cmd, caller, C_COMMENT, "%s", buf);
 	  buf[0] = '\0';
 	}
       }
     }
-    if (buf[0] != '\0')
-      cmd_reply(help_cmd, caller, C_COMMENT, buf);
+    if (buf[0] != '\0') {
+      cmd_reply(help_cmd, caller, C_COMMENT, "%s", buf);
+    }
   }
   cmd_reply(help_cmd, caller, C_COMMENT, horiz_line);
 }
@@ -1934,7 +1935,7 @@ static bool show_command(struct connection *caller, char *str, bool check)
    cmd = -1;  /* to indicate that no comannd was specified */
   }
 
-#define cmd_reply_show(string)  cmd_reply(CMD_SHOW, caller, C_COMMENT, string)
+#define cmd_reply_show(string)  cmd_reply(CMD_SHOW, caller, C_COMMENT, "%s", string)
 
 #define OPTION_NAME_SPACE 13
   /* under 16, so it fits into 80 cols more easily - rp */
@@ -1964,8 +1965,9 @@ static bool show_command(struct connection *caller, char *str, bool check)
   cmd_reply_show(horiz_line);
   len1 = my_snprintf(buf, sizeof(buf),
 	_("%-*s value   (min,max)      "), OPTION_NAME_SPACE, _("Option"));
-  if (len1 == -1)
+  if (len1 == -1) {
     len1 = sizeof(buf) -1;
+  }
   sz_strlcat(buf, _("description"));
   cmd_reply_show(buf);
   cmd_reply_show(horiz_line);
@@ -2231,7 +2233,7 @@ static bool vote_command(struct connection *caller, char *str,
     }
     check_vote(vote);
   } else {
-    cmd_reply(CMD_VOTE, caller, C_SYNTAX, usage);
+    cmd_reply(CMD_VOTE, caller, C_SYNTAX, "%s", usage);
     goto cleanup;
   }
 
@@ -2277,7 +2279,7 @@ static bool debug_command(struct connection *caller, char *str,
     enum m_pre_result match_result;
 
     if (ntokens != 2) {
-      cmd_reply(CMD_DEBUG, caller, C_SYNTAX, usage);
+      cmd_reply(CMD_DEBUG, caller, C_SYNTAX, "%s", usage);
       goto cleanup;
     }
     pplayer = find_player_by_name_prefix(arg[1], &match_result);
@@ -2300,7 +2302,7 @@ static bool debug_command(struct connection *caller, char *str,
     enum m_pre_result match_result;
 
     if (ntokens != 2) {
-      cmd_reply(CMD_DEBUG, caller, C_SYNTAX, usage);
+      cmd_reply(CMD_DEBUG, caller, C_SYNTAX, "%s", usage);
       goto cleanup;
     }
     pplayer = find_player_by_name_prefix(arg[1], &match_result);
@@ -2341,7 +2343,7 @@ static bool debug_command(struct connection *caller, char *str,
     struct city *pcity;
 
     if (ntokens != 3) {
-      cmd_reply(CMD_DEBUG, caller, C_SYNTAX, usage);
+      cmd_reply(CMD_DEBUG, caller, C_SYNTAX, "%s", usage);
       goto cleanup;
     }
     if (sscanf(arg[1], "%d", &x) != 1 || sscanf(arg[2], "%d", &y) != 1) {
@@ -2371,7 +2373,7 @@ static bool debug_command(struct connection *caller, char *str,
     struct tile *ptile;
 
     if (ntokens != 3) {
-      cmd_reply(CMD_DEBUG, caller, C_SYNTAX, usage);
+      cmd_reply(CMD_DEBUG, caller, C_SYNTAX, "%s", usage);
       goto cleanup;
     }
     if (sscanf(arg[1], "%d", &x) != 1 || sscanf(arg[2], "%d", &y) != 1) {
@@ -2402,7 +2404,7 @@ static bool debug_command(struct connection *caller, char *str,
     struct unit *punit;
 
     if (ntokens != 2) {
-      cmd_reply(CMD_DEBUG, caller, C_SYNTAX, usage);
+      cmd_reply(CMD_DEBUG, caller, C_SYNTAX, "%s", usage);
       goto cleanup;
     }
     if (sscanf(arg[1], "%d", &id) != 1) {
@@ -2425,7 +2427,7 @@ static bool debug_command(struct connection *caller, char *str,
                unit_name_translation(punit));
     }
   } else {
-    cmd_reply(CMD_DEBUG, caller, C_SYNTAX, usage);
+    cmd_reply(CMD_DEBUG, caller, C_SYNTAX, "%s", usage);
   }
   cleanup:
   for (i = 0; i < ntokens; i++) {
@@ -2520,7 +2522,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
 
       if (settings[cmd].bool_validate
 	  && !settings[cmd].bool_validate(b_val, &reject_message)) {
-	cmd_reply(CMD_SET, caller, C_SYNTAX, reject_message);
+	cmd_reply(CMD_SET, caller, C_SYNTAX, "%s", reject_message);
         return FALSE;
       } else if (!check) {
 	*(op->bool_value) = b_val;
@@ -2560,7 +2562,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
 
       if (settings[cmd].int_validate
 	  && !settings[cmd].int_validate(val, &reject_message)) {
-	cmd_reply(CMD_SET, caller, C_SYNTAX, reject_message);
+	cmd_reply(CMD_SET, caller, C_SYNTAX, "%s", reject_message);
         return FALSE;
       } else if (!check) {
 	*(op->int_value) = val;
@@ -2582,7 +2584,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
 
       if (settings[cmd].string_validate
 	  && !settings[cmd].string_validate(arg, &reject_message)) {
-	cmd_reply(CMD_SET, caller, C_SYNTAX, reject_message);
+	cmd_reply(CMD_SET, caller, C_SYNTAX, "%s", reject_message);
         return FALSE;
       } else if (!check) {
 	strcpy(op->string_value, arg);
@@ -2791,7 +2793,7 @@ static bool observe_command(struct connection *caller, char *str, bool check)
 
   /* check allowtake for permission */
   if (!is_allowed_to_take(pplayer, TRUE, msg)) {
-    cmd_reply(CMD_OBSERVE, caller, C_FAIL, msg);
+    cmd_reply(CMD_OBSERVE, caller, C_FAIL, "%s", msg);
     goto end;
   }
 
@@ -2958,7 +2960,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
 
   /* check allowtake for permission */
   if (!is_allowed_to_take(pplayer, FALSE, msg)) {
-    cmd_reply(CMD_TAKE, caller, C_FAIL, msg);
+    cmd_reply(CMD_TAKE, caller, C_FAIL, "%s", msg);
     goto end;
   }
 
@@ -3782,10 +3784,10 @@ static bool surrender_command(struct connection *caller, char *str, bool check)
 **************************************************************************/
 static void start_cmd_reply(struct connection *caller, bool notify, char *msg)
 {
-    cmd_reply(CMD_START_GAME, caller, C_FAIL, msg);
-    if (notify) {
-      notify_conn(NULL, NULL, E_SETTING, msg);
-    }
+  cmd_reply(CMD_START_GAME, caller, C_FAIL, "%s", msg);
+  if (notify) {
+    notify_conn(NULL, NULL, E_SETTING, "%s", msg);
+  }
 }
 
 /**************************************************************************
@@ -3947,7 +3949,7 @@ static void show_help_intro(struct connection *caller, enum command_id help_cmd)
   astr_minsize(&abuf, strlen(help)+1);
   strcpy(abuf.str, help);
   wordwrap_string(abuf.str, 78);
-  cmd_reply(help_cmd, caller, C_COMMENT, abuf.str);
+  cmd_reply(help_cmd, caller, C_COMMENT, "%s", abuf.str);
 }
 
 /**************************************************************************
@@ -4018,13 +4020,13 @@ static void show_help_command_list(struct connection *caller,
       if (may_use(caller, i)) {
 	cat_snprintf(buf, sizeof(buf), "%-19s", commands[i].name);
 	if((++j % 4) == 0) {
-	  cmd_reply(help_cmd, caller, C_COMMENT, buf);
+	  cmd_reply(help_cmd, caller, C_COMMENT, "%s", buf);
 	  buf[0] = '\0';
 	}
       }
     }
     if (buf[0] != '\0')
-      cmd_reply(help_cmd, caller, C_COMMENT, buf);
+      cmd_reply(help_cmd, caller, C_COMMENT, "%s", buf);
   }
   cmd_reply(help_cmd, caller, C_COMMENT, horiz_line);
 }

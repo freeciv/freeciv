@@ -290,7 +290,7 @@ static const char *get_prod_complete_string(struct city *pcity, int surplus)
   } else {
     if (!pcity->production.is_unit
 	&& improvement_has_flag(pcity->production.value, IF_GOLD)) {
-      my_snprintf(buffer, sizeof(buffer),
+      my_snprintf(buffer, sizeof(buffer), "%s",
 		  improvement_name_translation(pcity->production.value));
       return buffer;
     }

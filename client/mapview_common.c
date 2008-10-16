@@ -2196,7 +2196,7 @@ void get_city_mapview_name_and_growth(struct city *pcity,
 				      size_t growth_buffer_len,
 				      enum color_std *growth_color)
 {
-  my_snprintf(name_buffer, name_buffer_len, city_name(pcity));
+  mystrlcpy(name_buffer, city_name(pcity), name_buffer_len);
 
   if (!game.player_ptr || city_owner(pcity) == game.player_ptr) {
     int turns = city_turns_to_grow(pcity);

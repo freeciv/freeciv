@@ -68,11 +68,11 @@ void TECH_LOG(int level, const struct player *pplayer, Tech_type_id id,
   my_vsnprintf(buffer2, sizeof(buffer2), msg, ap);
   va_end(ap);
 
-  cat_snprintf(buffer, sizeof(buffer), buffer2);
+  cat_snprintf(buffer, sizeof(buffer), "%s", buffer2);
   if (BV_ISSET(pplayer->debug, PLAYER_DEBUG_TECH)) {
     notify_conn(NULL, NULL, E_AI_DEBUG, "%s", buffer);
   }
-  freelog(minlevel, buffer);
+  freelog(minlevel, "%s", buffer);
 }
 
 /**************************************************************************
@@ -111,11 +111,11 @@ void DIPLO_LOG(int level, const struct player *pplayer,
   my_vsnprintf(buffer2, sizeof(buffer2), msg, ap);
   va_end(ap);
 
-  cat_snprintf(buffer, sizeof(buffer), buffer2);
+  cat_snprintf(buffer, sizeof(buffer), "%s", buffer2);
   if (BV_ISSET(pplayer->debug, PLAYER_DEBUG_DIPLOMACY)) {
     notify_conn(NULL, NULL, E_AI_DEBUG, "%s", buffer);
   }
-  freelog(minlevel, buffer);
+  freelog(minlevel, "%s", buffer);
 }
 
 /**************************************************************************
@@ -146,11 +146,11 @@ void CITY_LOG(int level, const struct city *pcity, const char *msg, ...)
   my_vsnprintf(buffer2, sizeof(buffer2), msg, ap);
   va_end(ap);
 
-  cat_snprintf(buffer, sizeof(buffer), buffer2);
+  cat_snprintf(buffer, sizeof(buffer), "%s", buffer2);
   if (pcity->debug) {
     notify_conn(NULL, NULL, E_AI_DEBUG, "%s", buffer);
   }
-  freelog(minlevel, buffer);
+  freelog(minlevel, "%s", buffer);
 }
 
 /**************************************************************************
@@ -206,11 +206,11 @@ void UNIT_LOG(int level, const struct unit *punit, const char *msg, ...)
   my_vsnprintf(buffer2, sizeof(buffer2), msg, ap);
   va_end(ap);
 
-  cat_snprintf(buffer, sizeof(buffer), buffer2);
+  cat_snprintf(buffer, sizeof(buffer), "%s", buffer2);
   if (punit->debug || messwin) {
     notify_conn(NULL, NULL, E_AI_DEBUG, "%s", buffer);
   }
-  freelog(minlevel, buffer);
+  freelog(minlevel, "%s", buffer);
 }
 
 /**************************************************************************
@@ -261,11 +261,11 @@ void BODYGUARD_LOG(int level, const struct unit *punit, const char *msg)
               type,
               TILE_XY(punit->tile),
 	      s, id, charge_x, charge_y);
-  cat_snprintf(buffer, sizeof(buffer), msg);
+  cat_snprintf(buffer, sizeof(buffer), "%s", msg);
   if (punit->debug) {
     notify_conn(NULL, NULL, E_AI_DEBUG, "%s", buffer);
   }
-  freelog(minlevel, buffer);
+  freelog(minlevel, "%s", buffer);
 }
 
 /**************************************************************************
@@ -315,7 +315,7 @@ void TIMING_RESULTS(void)
   my_snprintf(buf, sizeof(buf), "  %s: %g sec turn, %g sec game", text,  \
            read_timer_seconds(aitimer[which][0]),                        \
            read_timer_seconds(aitimer[which][1]));                       \
-  freelog(LOG_NORMAL, buf);                                              \
+  freelog(LOG_NORMAL, "%s", buf);                                        \
   notify_conn(NULL, NULL, E_AI_DEBUG, "%s", buf);
 
   freelog(LOG_NORMAL, "  --- AI timing results ---");
