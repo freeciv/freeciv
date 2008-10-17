@@ -730,6 +730,10 @@ static void update_unit_activity(struct unit *punit)
 
 	if (what != S_LAST) {
           if (what == S_PILLAGE_BASE) {
+            if (base_has_flag(first_base, BF_CLAIM_TERRITORY)) {
+              map_clear_border(ptile, ptile->owner);
+              map_claim_ownership(ptile, NULL, NULL);
+            }
             tile_remove_base(ptile, first_base);
           } else {
             tile_clear_special(ptile, what);
@@ -797,6 +801,7 @@ static void update_unit_activity(struct unit *punit)
         if (!can_bases_coexist(old_base, new_base)) {
           if (base_has_flag(old_base, BF_CLAIM_TERRITORY)) {
             map_clear_border(ptile, ptile->owner);
+            map_claim_ownership(ptile, NULL, NULL);
           }
           tile_remove_base(ptile, old_base);
         }
