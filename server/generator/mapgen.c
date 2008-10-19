@@ -1041,12 +1041,31 @@ static void make_rivers(void)
 **************************************************************************/
 static void make_land(void)
 {
+  struct terrain *land_fill = NULL;
 
   if (HAS_POLES) {
     normalize_hmap_poles();
   }
-  /* Pick terrain just once and fill all land tiles with that terrain */
-  struct terrain *land_fill = pick_terrain(MG_LAST, MG_LAST, MG_LAST);
+
+  /* Pick a non-ocean terrain just once and fill all land tiles with "
+   * that terrain. We must set some terrain (and not T_UNKNOWN) so that "
+   * continent number assignment works. */
+  terrain_type_iterate(pterrain) {
+    if (!is_ocean(pterrain)) {
+      land_fill = pterrain;
+      break;
+    }
+  } terrain_type_iterate_end;
+  if (land_fill == NULL) {
+    freelog(LOG_FATAL, "No land terrain type could be found for the "
+            "purpose of temporarily filling in land tiles during map "
+            "generation. This could be an error in freeciv, or a "
+            "mistake in the terrain.ruleset file. Please make sure "
+            "there is at least one land terrain type in the ruleset, "
+            "or use a different map generator. If this error persists, "
+            "please report it at: %s", BUG_URL);
+    assert(land_fill != NULL);
+  }
 
   hmap_shore_level = (hmap_max_level * (100 - map.landpercent)) / 100;
   ini_hmap_low_level();
@@ -1073,8 +1092,7 @@ static void make_land(void)
 
       tile_set_terrain(ptile, pick_ocean(depth));
     } else {
-      /* Must set some terrain (and not T_UNKNOWN) so continent number
-         assignment works */
+      /* See note above for 'land_fill'. */
       tile_set_terrain(ptile, land_fill);
     }
   } whole_map_iterate_end;
