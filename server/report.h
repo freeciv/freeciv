@@ -24,7 +24,9 @@ void page_conn(struct conn_list *dest, const char *caption, const char *headline
 void make_history_report(void);
 void report_wonders_of_the_world(struct conn_list *dest);
 void report_top_five_cities(struct conn_list *dest);
-bool is_valid_demography(const char *demography, const char **error_message);
+bool is_valid_demography(const char *demography,
+                         struct connection *caller,
+                         const char **error_message);
 void report_demographics(struct connection *pconn);
 void report_final_scores(void);
 
