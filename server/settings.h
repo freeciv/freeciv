@@ -53,6 +53,14 @@ enum sset_level {
 extern const char *sset_level_names[];
 extern const int OLEVELS_NUM;
 
+typedef bool (*bool_validate_func_t)(bool value, struct connection *pconn,
+                                     const char **reject_message);
+typedef bool (*int_validate_func_t)(int value, struct connection *pconn,
+                                    const char **reject_message);
+typedef bool (*string_validate_func_t)(const char * value,
+                                       struct connection *pconn,
+                                       const char **reject_message);
+
 struct settings_s {
   const char *name;
   enum sset_class sclass;
@@ -84,18 +92,18 @@ struct settings_s {
   /*** bool part ***/
   bool *bool_value;
   bool bool_default_value;
-  bool (*bool_validate)(bool value, const char **reject_message);
+  bool_validate_func_t bool_validate;
 
   /*** int part ***/
   int *int_value;
   int int_default_value;
-  bool (*int_validate)(int value, const char **reject_message);
+  int_validate_func_t int_validate;
   int int_min_value, int_max_value;
 
   /*** string part ***/
   char *string_value;
   const char *string_default_value;
-  bool (*string_validate)(const char * value, const char **reject_message);
+  string_validate_func_t string_validate;
   size_t string_value_size;	/* max size we can write into string_value */
 };
 

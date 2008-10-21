@@ -2918,11 +2918,13 @@ static bool set_command(struct connection *caller, char *str, bool check)
       const char *reject_message = NULL;
       bool b_val = (val != 0);
 
-      if (settings[cmd].bool_validate
-	  && !settings[cmd].bool_validate(b_val, &reject_message)) {
-	cmd_reply(CMD_SET, caller, C_SYNTAX, "%s", reject_message);
+      if (op->bool_validate != NULL
+          && !op->bool_validate(b_val, caller, &reject_message)) {
+        cmd_reply(CMD_SET, caller, C_SYNTAX, "%s", reject_message);
         return FALSE;
-      } else if (!check) {
+      }
+
+      if (!check) {
 	*(op->bool_value) = b_val;
 	my_snprintf(buffer, sizeof(buffer),
 		    _("Option: %s has been set to %d."), op->name,
@@ -2958,11 +2960,13 @@ static bool set_command(struct connection *caller, char *str, bool check)
     } else {
       const char *reject_message = NULL;
 
-      if (settings[cmd].int_validate
-	  && !settings[cmd].int_validate(val, &reject_message)) {
-	cmd_reply(CMD_SET, caller, C_SYNTAX, "%s", reject_message);
+      if (op->int_validate != NULL
+          && !op->int_validate(val, caller, &reject_message)) {
+        cmd_reply(CMD_SET, caller, C_SYNTAX, "%s", reject_message);
         return FALSE;
-      } else if (!check) {
+      }
+
+      if (!check) {
 	*(op->int_value) = val;
 	my_snprintf(buffer, sizeof(buffer),
 		    _("Option: %s has been set to %d."), op->name,
@@ -2981,11 +2985,13 @@ static bool set_command(struct connection *caller, char *str, bool check)
     } else {
       const char *reject_message = NULL;
 
-      if (settings[cmd].string_validate
-	  && !settings[cmd].string_validate(arg, &reject_message)) {
-	cmd_reply(CMD_SET, caller, C_SYNTAX, "%s", reject_message);
+      if (op->string_validate
+          && !op->string_validate(arg, caller, &reject_message)) {
+        cmd_reply(CMD_SET, caller, C_SYNTAX, "%s", reject_message);
         return FALSE;
-      } else if (!check) {
+      }
+
+      if (!check) {
 	strcpy(op->string_value, arg);
 	my_snprintf(buffer, sizeof(buffer),
 		    _("Option: %s has been set to \"%s\"."), op->name,

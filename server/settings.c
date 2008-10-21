@@ -51,7 +51,9 @@ const int OLEVELS_NUM = ARRAY_SIZE(sset_level_names);
   Verify that a given allowtake string is valid.  See
   game.allow_take.
 *************************************************************************/
-static bool allowtake_callback(const char *value, const char **error_string)
+static bool allowtake_callback(const char *value,
+                               struct connection *caller,
+                               const char **error_string)
 {
   int len = strlen(value), i;
   bool havecharacter_state = FALSE;
@@ -93,7 +95,9 @@ static bool allowtake_callback(const char *value, const char **error_string)
   Verify that a given startunits string is valid.  See
   game.info.start_units.
 *************************************************************************/
-static bool startunits_callback(const char *value, const char **error_string)
+static bool startunits_callback(const char *value,
+                                struct connection *caller,
+                                const char **error_string)
 {
   int len = strlen(value), i;
   bool have_founder = FALSE;
@@ -132,7 +136,8 @@ static bool startunits_callback(const char *value, const char **error_string)
 /*************************************************************************
   Verify that a given endyear is valid.
 *************************************************************************/
-static bool endyear_callback(int value, const char **error_string)
+static bool endyear_callback(int value, struct connection *caller,
+                             const char **error_string)
 {
   if (value < game.info.year) {
     /* Tried to set endyear earlier than current year */
@@ -145,7 +150,8 @@ static bool endyear_callback(int value, const char **error_string)
 /*************************************************************************
   Verify that a given maxplayers string is valid.
 *************************************************************************/
-static bool maxplayers_callback(int value, const char **error_string)
+static bool maxplayers_callback(int value, struct connection *caller,
+                                const char **error_string)
 {
 #ifdef GGZ_SERVER
   if (with_ggz) {
@@ -162,7 +168,23 @@ static bool maxplayers_callback(int value, const char **error_string)
     return FALSE;
   }
 
-  error_string = NULL;
+  *error_string = NULL;
+  return TRUE;
+}
+
+/*************************************************************************
+  Disallow low timeout values for non-hack connections.
+*************************************************************************/
+static bool timeout_callback(int value, struct connection *caller,
+                             const char **error_string)
+{
+  if (caller && caller->access_level < ALLOW_HACK && value < 30) {
+    *error_string = _("You are not allowed to set timeout values less "
+                      "than 30 seconds.");
+    return FALSE;
+  }
+
+  *error_string = NULL;
   return TRUE;
 }
 
@@ -171,7 +193,8 @@ static bool maxplayers_callback(int value, const char **error_string)
   phases. NB: Assumes that it is not possible to first set team
   alternating phase mode then make teamless players.
 *************************************************************************/
-static bool phasemode_callback(int value, const char **error_string)
+static bool phasemode_callback(int value, struct connection *caller,
+                               const char **error_string)
 {
   if (value == PMT_TEAMS_ALTERNATE) {
     players_iterate(pplayer) {
@@ -881,10 +904,12 @@ struct settings_s settings[] = {
 	  N_("If all players have not hit \"Turn Done\" before this "
 	     "time is up, then the turn ends automatically. Zero "
 	     "means there is no timeout. In servers compiled with "
-	     "debugging, a timeout "
-	     "of -1 sets the autogame test mode. Use this with the command "
-	     "\"timeoutincrease\" to have a dynamic timer."), NULL, 
-	   GAME_MIN_TIMEOUT, GAME_MAX_TIMEOUT, GAME_DEFAULT_TIMEOUT)
+             "debugging, a timeout of -1 sets the autogame test mode. "
+             "Only connections with hack level access may set the "
+             "timeout to lower than 30 seconds. Use this with the "
+             "command \"timeoutincrease\" to have a dynamic timer."),
+          timeout_callback,
+          GAME_MIN_TIMEOUT, GAME_MAX_TIMEOUT, GAME_DEFAULT_TIMEOUT)
 
   GEN_INT("timeaddenemymove", game.timeoutaddenemymove,
 	  SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_TO_CLIENT,
