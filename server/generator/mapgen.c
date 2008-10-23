@@ -325,30 +325,6 @@ static struct terrain *pick_terrain(enum mapgen_terrain_property target,
 }
 
 /**************************************************************************
-  Picks an ocean terrain to match the given depth.
-  Return NULL when there is no available ocean.
-**************************************************************************/
-static struct terrain *pick_ocean(int depth)
-{
-  struct terrain *best_terrain = NULL;
-  int best_match = TERRAIN_OCEAN_DEPTH_MAXIMUM;
-
-  terrain_type_iterate(pterrain) {
-    if (terrain_has_flag(pterrain, TER_OCEANIC)
-      &&  TERRAIN_OCEAN_DEPTH_MINIMUM <= pterrain->property[MG_OCEAN_DEPTH]) {
-      int match = abs(depth - pterrain->property[MG_OCEAN_DEPTH]);
-
-      if (best_match > match) {
-	best_match = match;
-	best_terrain = pterrain;
-      }
-    }
-  } terrain_type_iterate_end;
-
-  return best_terrain;
-}
-
-/**************************************************************************
   make_relief() will convert all squares that are higher than thill to
   mountains and hills. Note that thill will be adjusted according to
   the map.steepness value, so increasing map.mountains will result in
@@ -1234,6 +1210,10 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
       if (map.startpos == 4) {
 	/* "variable" single player */
 	mapgenerator2();
+      }
+
+      if (map.generator == 3) {
+        smooth_water_depth();
       }
     }
 

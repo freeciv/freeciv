@@ -459,3 +459,104 @@ struct terrain *most_shallow_ocean(void)
 
   return shallow;
 }
+
+/**************************************************************************
+  Picks an ocean terrain to match the given depth.
+  Return NULL when there is no available ocean.
+**************************************************************************/
+struct terrain *pick_ocean(int depth)
+{
+  struct terrain *best_terrain = NULL;
+  int best_match = TERRAIN_OCEAN_DEPTH_MAXIMUM;
+
+  terrain_type_iterate(pterrain) {
+    if (terrain_has_flag(pterrain, TER_OCEANIC)
+      &&  TERRAIN_OCEAN_DEPTH_MINIMUM <= pterrain->property[MG_OCEAN_DEPTH]) {
+      int match = abs(depth - pterrain->property[MG_OCEAN_DEPTH]);
+
+      if (best_match > match) {
+	best_match = match;
+	best_terrain = pterrain;
+      }
+    }
+  } terrain_type_iterate_end;
+
+  return best_terrain;
+}
+
+/**************************************************************************
+  Makes a simple depth map for all ocean tiles based on their proximity
+  to any land tiles and reassignes ocean terrain types based on their
+  MG_OCEAN_DEPTH property values.
+
+  This is used by the island generator to regenerate shallow ocean areas
+  near the coast.
+
+  FIXME: Make the generated shallow areas more interesting, and take into
+  account map parameters. Remove the need for this function by making
+  the generator automatically create shallow ocean areas when islands
+  are created.
+**************************************************************************/
+void smooth_water_depth(void)
+{
+  struct terrain *ocean_type;
+  int num_ocean_types = 0, depth, i;
+  int *dmap;
+  const int dmap_max = 100;
+  const int ocean_max = TERRAIN_OCEAN_DEPTH_MAXIMUM;
+  const int ocean_min = TERRAIN_OCEAN_DEPTH_MINIMUM;
+  const int ocean_span = ocean_max - ocean_min;
+
+  /* Approximately controls how far out the shallow areas will go. */
+  const int spread = 2;
+
+  terrain_type_iterate(pterrain) {
+    if (pterrain->property[MG_OCEAN_DEPTH] > 0) {
+      num_ocean_types++;
+    }
+  } terrain_type_iterate_end;
+
+  if (num_ocean_types < 2) {
+    return;
+  }
+
+  dmap = fc_malloc(MAP_INDEX_SIZE * sizeof(int));
+
+  whole_map_iterate(ptile) {
+    /* The depth values are reversed so that the diffusion
+     * filter causes land to "flow" out into the ocean. */
+    dmap[tile_index(ptile)] = is_ocean_tile(ptile) ? 0 : dmap_max;
+  } whole_map_iterate_end;
+
+  for (i = 0; i < spread; i++) {
+    /* Use the gaussian diffusion filter to "spread"
+     * the height of the land into the ocean. */
+    smooth_int_map(dmap, TRUE);
+  }
+
+  whole_map_iterate(ptile) {
+    if (!is_ocean_tile(ptile)) {
+      continue;
+    }
+
+    depth = dmap[tile_index(ptile)];
+
+    /* Reverse the diffusion filter hack. */
+    depth = dmap_max - depth;
+
+    /* Scale the depth value from the interval [0, dmap_max]
+     * to [ocean_min, ocean_max]. */
+    depth = ocean_min + ocean_span * depth / dmap_max;
+
+    /* Make sure that depth value is something that the
+     * function pick_ocean can understand. */
+    depth = CLIP(ocean_min, depth, ocean_max);
+
+    ocean_type = pick_ocean(depth);
+    if (ocean_type) {
+      tile_set_terrain(ptile, ocean_type);
+    }
+  } whole_map_iterate_end;
+
+  free(dmap);
+}
