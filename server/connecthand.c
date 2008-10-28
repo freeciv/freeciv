@@ -127,32 +127,31 @@ void establish_new_connection(struct connection *pconn)
     } else {
       send_game_info(dest);
       /* send new player connection to everybody */
-      send_player_info_c(NULL, game.est_connections);
+      send_player_info(pplayer, NULL);
       send_conn_info(game.est_connections, dest);
     }
   } else {
     send_game_info(dest);
 
     if (S_S_INITIAL == server_state() && game.info.is_new_game) {
-      if (attach_connection_to_player(pconn, NULL, FALSE)) {
+      bool succeeded;
+      succeeded = attach_connection_to_player(pconn, NULL, FALSE);
+      if (succeeded) {
+        struct player *pplayer = pconn->playing;
         /* temporarily set player_name() to username */
-        sz_strlcpy(pconn->playing->name, pconn->username);
+        sz_strlcpy(pplayer->name, pconn->username);
         aifill(game.info.aifill); /* first connect */
 
         /* send new player connection to everybody */
-        send_player_info_c(NULL, game.est_connections);
+        send_player_info(pplayer, NULL);
       } else {
         notify_conn(dest, NULL, E_CONNECTION,
                     _("Couldn't attach your connection to new player."));
         freelog(LOG_VERBOSE, "%s is not attached to a player", pconn->username);
 
-        /* send old player connections to self */
-        send_player_info_c(NULL, dest);
       }
-    } else {
-      /* send old player connections to self */
-      send_player_info_c(NULL, dest);
     }
+    send_player_info_c(NULL, dest);
     send_conn_info(game.est_connections, dest);
   }
   /* redundant self to self cannot be avoided */
@@ -359,8 +358,8 @@ void lost_connection_to_client(struct connection *pconn)
    * At other times, data from send_conn_info() is used by the client to
    * display player information.  See establish_new_connection().
    */
-  freelog(LOG_VERBOSE, "lost_connection_to_client() calls send_player_info_c()");
-  send_player_info_c(pplayer, game.est_connections);
+  freelog(LOG_VERBOSE, "lost_connection_to_client() calls send_player_slot_info_c()");
+  send_player_slot_info_c(pplayer, game.est_connections);
 
   reset_all_start_commands();
 
@@ -378,7 +377,7 @@ static void package_conn_info(struct connection *pconn,
   packet->established  = pconn->established;
   packet->player_num   = (NULL != pconn->playing)
                          ? player_number(pconn->playing)
-                         : player_count();
+                         : player_slot_count();
   packet->observer     = pconn->observer;
   packet->access_level = pconn->access_level;
 
@@ -467,15 +466,15 @@ bool attach_connection_to_player(struct connection *pconn,
 
       if (NULL == pplayer) {
         /* no uncontrolled player found */
-        if (game.info.nplayers >= game.info.max_players
-            || game.info.nplayers - server.nbarbarians >= server.playable_nations) {
+        if (player_count() >= game.info.max_players
+            || player_count() - server.nbarbarians >= server.playable_nations) {
           return FALSE;
         }
-        assert(game.info.nplayers < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
-
-        /* add new player */
-        pplayer = &game.players[game.info.nplayers];
-        dlsend_packet_player_control(game.est_connections, ++game.info.nplayers);
+        /* add new player, or not */
+        pplayer = server_create_player();
+        if (!pplayer) {
+          return FALSE;
+        }
       }
     }
 

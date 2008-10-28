@@ -592,6 +592,8 @@ void set_client_state(enum client_states newstate)
     update_menus();
   }
   if (!client.conn.established && C_S_PREPARING == civclient_state) {
+    client_game_free();
+    client_game_init();
     gui_server_connect();
     if (auto_connect) {
       if (connect_error) {

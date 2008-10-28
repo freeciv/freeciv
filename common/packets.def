@@ -382,7 +382,6 @@ PACKET_GAME_INFO=15; sc
 
   PLAYER min_players;
   PLAYER max_players;
-  PLAYER nplayers;
 
   UINT32 globalwarming, heating, warminglevel;
   UINT32 nuclearwinter, cooling, coolinglevel;
@@ -647,11 +646,11 @@ end
 
 /************** Player packets **********************/
 
-PACKET_PLAYER_CONTROL=38; sc,dsend,lsend
+PACKET_PLAYER_REMOVE=38;sc,dsend
   PLAYER playerno;
 end
 
-PACKET_PLAYER_INFO=39; sc
+PACKET_PLAYER_INFO=39;sc
   PLAYER playerno; key 
   STRING name[MAX_LEN_NAME];
   STRING username[MAX_LEN_NAME];

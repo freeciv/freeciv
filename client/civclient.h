@@ -27,10 +27,10 @@
 
 /* independent parallel of server_states */
 enum client_states { 
-  C_S_INITIAL,
-  C_S_PREPARING,
-  C_S_RUNNING,
-  C_S_OVER,
+  C_S_INITIAL,    /* Client boot, only used once on program start. */
+  C_S_PREPARING,  /* Main menu (disconnected) and connected in pregame. */
+  C_S_RUNNING,    /* Connected with game in progress. */
+  C_S_OVER,       /* Connected with game over. */
 };
 
 void client_packet_input(void *packet, int type);

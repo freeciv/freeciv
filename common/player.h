@@ -156,6 +156,7 @@ struct attribute_block_s {
 };
 
 struct player {
+  bool used;
   char name[MAX_LEN_NAME];
   char username[MAX_LEN_NAME];
   char ranked_username[MAX_LEN_NAME]; /* the user who will be ranked */
@@ -206,6 +207,12 @@ struct player {
     bool fog_of_war_disabled;
   } editor;
 };
+
+/* A slot is a possibly uninitialized player. */
+int player_slot_count(void);
+bool player_slot_is_used(const struct player *pslot);
+void player_slot_set_used(struct player *pslot, bool used);
+struct player *player_slot_by_number(int player_id);
 
 /* General player accessor functions. */
 int player_count(void);
@@ -300,19 +307,28 @@ struct player_research *get_player_research(const struct player *p1);
 /* Initialization and iteration */
 void player_init(struct player *plr);
 
-struct player *player_array_first(void);
-const struct player *player_array_last(void);
+#define player_slots_iterate(NAME_pslot)\
+do {\
+  struct player *NAME_pslot;\
+  int MY_i;\
+  for (MY_i = 0; MY_i < player_slot_count(); MY_i++) {\
+    NAME_pslot = player_slot_by_number(MY_i);\
+    if (NAME_pslot != NULL) {\
 
-#define players_iterate(_p)						\
-{									\
-  struct player *_p = player_array_first();				\
-  if (NULL != _p) {							\
-    for (; _p <= player_array_last(); _p++) {
+#define player_slots_iterate_end\
+    }\
+  }\
+} while (0)
 
-#define players_iterate_end						\
-    }									\
-  }									\
-}
+#define players_iterate(NAME_pplayer)\
+do {\
+  player_slots_iterate(NAME_pplayer) {\
+    if (player_slot_is_used(NAME_pplayer)) {
+
+#define players_iterate_end\
+    }\
+  } player_slots_iterate_end;\
+} while (0)
 
 /* ai love values should be in range [-MAX_AI_LOVE..MAX_AI_LOVE] */
 #define MAX_AI_LOVE 1000

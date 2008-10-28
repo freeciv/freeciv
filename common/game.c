@@ -260,7 +260,6 @@ void game_init(void)
   game.info.turn          = 0;
   game.info.min_players   = GAME_DEFAULT_MIN_PLAYERS;
   game.info.max_players   = GAME_DEFAULT_MAX_PLAYERS;
-  game.info.nplayers	   = 0;
   game.info.pingtimeout   = GAME_DEFAULT_PINGTIMEOUT;
   game.info.pingtime      = GAME_DEFAULT_PINGTIME;
   game.info.diplomacy     = GAME_DEFAULT_DIPLOMACY;
@@ -376,8 +375,14 @@ void game_init(void)
   for (i = 0; i < DEBUG_LAST; i++) {
     game.debug[i] = FALSE;
   }
-  for(i=0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++)
-    player_init(&game.players[i]);
+
+  /* players init */
+  player_slots_iterate(pslot) {
+    player_slot_set_used(pslot, FALSE);
+    player_init(pslot);
+  } player_slots_iterate_end;
+  set_player_count(0);
+
   for (i=0; i<A_LAST; i++)      /* game.num_tech_types = 0 here */
     game.info.global_advances[i]=FALSE;
   for (i=0; i<B_LAST; i++)      /* game.num_impr_types = 0 here */
@@ -409,11 +414,10 @@ void game_map_init(void)
 ***************************************************************/
 static void game_remove_all_players(void)
 {
-  int i;
-
-  for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
-    game_remove_player(&game.players[i]);
-  }
+  player_slots_iterate(pslot) {
+    game_remove_player(pslot);
+    player_slot_set_used(pslot, FALSE);
+  } player_slots_iterate_end;
 
   set_player_count(0);
 }
@@ -578,39 +582,6 @@ void game_remove_player(struct player *pplayer)
   if (pplayer->nation != NULL) {
     player_set_nation(pplayer, NULL);
   }
-}
-
-/****************************************************************************
-  Called after game_remove_player() to fill the empty player gap.
-
-  FIXME: this cannot be called once the game is started.  You can't remove
-  players of a running game.
-****************************************************************************/
-void game_renumber_players(int plrno)
-{
-  int i;
-
-  for (i = plrno; i < game.info.nplayers - 1; i++) {
-    /* structure copy including pointers */
-    game.players[i] = game.players[i+1];
-
-    conn_list_iterate(game.players[i].connections, pconn) {
-      pconn->playing = &game.players[i];
-    } conn_list_iterate_end;
-
-    if (game.players[i].nation) {
-      game.players[i].nation->player = &game.players[i];
-    }
-
-    /* FiXME: This could renumber players in-game by updating the unit and
-     * city owners.  But for now, just make sure these lists are empty. */
-    assert(unit_list_size(game.players[i].units) == 0);
-    assert(city_list_size(game.players[i].cities) == 0);
-  }
-
-  game.info.nplayers--;
-
-  player_init(&game.players[game.info.nplayers]);
 }
 
 /**************************************************************************

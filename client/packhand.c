@@ -1687,38 +1687,96 @@ void start_revolution(void)
 }
 
 /**************************************************************************
-...
+  Handle a notification that the player slot identified by 'playerno' has
+  become unused. If the slot is already unused, then just ignore. Otherwise
+  update the total player count and the GUI.
+**************************************************************************/
+void handle_player_remove(int playerno)
+{
+  struct player *pplayer;
+  pplayer = player_slot_by_number(playerno);
+
+  if (NULL == pplayer) {
+    freelog(LOG_ERROR, "Invalid player slot number %d in "
+            "handle_player_remove().", playerno);
+    return;
+  }
+
+  if (!player_slot_is_used(pplayer)) {
+    /* Ok, just ignore. */
+    return;
+  }
+
+  player_slot_set_used(pplayer, FALSE);
+  set_player_count(player_count() - 1);
+
+  update_players_dialog();
+  update_conn_list_dialog();
+
+  if (can_client_change_view()) {
+    update_intel_dialog(pplayer);
+  }
+
+  editgui_refresh();
+  editgui_notify_object_changed(OBJTYPE_PLAYER, player_number(pplayer),
+                                TRUE);
+}
+
+/**************************************************************************
+  Handle information about a player. If the packet refers to a player slot
+  that is not currently used, then this function will set that slot to
+  used and update the total player count.
 **************************************************************************/
 void handle_player_info(struct packet_player_info *pinfo)
 {
-  char msg[MAX_LEN_MSG];
-  bool is_new_nation;
-  bool new_tech;
-  bool poptechup;
-  int i;
+  bool is_new_nation = FALSE;
+  bool new_tech = FALSE;
+  bool poptechup = FALSE;
+  bool turn_done_changed = FALSE;
+  int i, my_id;
   struct player_research *research;
-  struct player *pplayer = valid_player_by_number(pinfo->playerno);
+  struct player *pplayer, *my_player;
+  struct nation_type *pnation;
+  struct government *pgov, *ptarget_gov;
+
+
+  /* First verify packet fields. */
+
+  pplayer = player_slot_by_number(pinfo->playerno);
 
   if (NULL == pplayer) {
-    freelog(LOG_ERROR,
-	    "handle_player_info() bad player number %d.",
-	    pinfo->playerno);
+    freelog(LOG_ERROR, "Invalid player slot number %d in "
+            "handle_player_info().", pinfo->playerno);
     return;
   }
-  sz_strlcpy(pplayer->name, pinfo->name);
 
-  is_new_nation = player_set_nation(pplayer, nation_by_number(pinfo->nation));
-  pplayer->is_male=pinfo->is_male;
+  pnation = nation_by_number(pinfo->nation);
+  pgov = government_by_number(pinfo->government);
+  ptarget_gov = government_by_number(pinfo->target_government);
+
+
+  /* Now update the player information. */
+
+  if (!player_slot_is_used(pplayer)) {
+    player_slot_set_used(pplayer, TRUE);
+    set_player_count(player_count() + 1);
+  }
+
+  sz_strlcpy(pplayer->name, pinfo->name);
+  sz_strlcpy(pplayer->username, pinfo->username);
+
+  is_new_nation = player_set_nation(pplayer, pnation);
+  pplayer->is_male = pinfo->is_male;
   team_add_player(pplayer, team_by_number(pinfo->team));
   pplayer->score.game = pinfo->score;
   pplayer->was_created = pinfo->was_created;
 
-  pplayer->economic.gold=pinfo->gold;
-  pplayer->economic.tax=pinfo->tax;
-  pplayer->economic.science=pinfo->science;
-  pplayer->economic.luxury=pinfo->luxury;
-  pplayer->government = government_by_number(pinfo->government);
-  pplayer->target_government = government_by_number(pinfo->target_government);
+  pplayer->economic.gold = pinfo->gold;
+  pplayer->economic.tax = pinfo->tax;
+  pplayer->economic.science = pinfo->science;
+  pplayer->economic.luxury = pinfo->luxury;
+  pplayer->government = pgov;
+  pplayer->target_government = ptarget_gov;
   BV_CLR_ALL(pplayer->embassy);
   players_iterate(pother) {
     if (pinfo->embassy[player_index(pother)]) {
@@ -1726,19 +1784,23 @@ void handle_player_info(struct packet_player_info *pinfo)
     }
   } players_iterate_end;
   pplayer->gives_shared_vision = pinfo->gives_shared_vision;
-  pplayer->city_style=pinfo->city_style;
-  for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+  pplayer->city_style = pinfo->city_style;
+  for (i = 0; i < player_slot_count(); i++) {
     pplayer->ai.love[i] = pinfo->love[i];
   }
+
+  my_id = client_player_number();
+  my_player = client_player();
 
   /* Check if we detect change to armistice with us. If so,
    * ready all units for movement out of the territory in
    * question; otherwise they will be disbanded. */
-  if (NULL != client.conn.playing
-      && DS_ARMISTICE != pplayer->diplstates[player_index(client.conn.playing)].type
-      && DS_ARMISTICE == pinfo->diplstates[player_index(client.conn.playing)].type) {
-    unit_list_iterate(client.conn.playing->units, punit) {
-      if (!tile_owner(punit->tile) || tile_owner(punit->tile) != pplayer) {
+  if (client_has_player()
+      && DS_ARMISTICE != pplayer->diplstates[my_id].type
+      && DS_ARMISTICE == pinfo->diplstates[my_id].type) {
+    unit_list_iterate(my_player->units, punit) {
+      if (!tile_owner(unit_tile(punit))
+          || tile_owner(unit_tile(punit)) != pplayer) {
         continue;
       }
       if (punit->focus_status == FOCUS_WAIT) {
@@ -1750,29 +1812,29 @@ void handle_player_info(struct packet_player_info *pinfo)
     } unit_list_iterate_end;
   }
 
-  for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
-    pplayer->diplstates[i].type =
-      pinfo->diplstates[i].type;
-    pplayer->diplstates[i].turns_left =
-      pinfo->diplstates[i].turns_left;
-    pplayer->diplstates[i].contact_turns_left =
-      pinfo->diplstates[i].contact_turns_left;
-    pplayer->diplstates[i].has_reason_to_cancel =
-      pinfo->diplstates[i].has_reason_to_cancel;
+  for (i = 0; i < player_slot_count(); i++) {
+    pplayer->diplstates[i].type = pinfo->diplstates[i].type;
+    pplayer->diplstates[i].turns_left = pinfo->diplstates[i].turns_left;
+    pplayer->diplstates[i].contact_turns_left
+      = pinfo->diplstates[i].contact_turns_left;
+    pplayer->diplstates[i].has_reason_to_cancel
+      = pinfo->diplstates[i].has_reason_to_cancel;
   }
   pplayer->is_connected = pinfo->is_connected;
 
-  for (i = 0; i < B_LAST/*improvement_count()*/; i++) {
-     pplayer->small_wonders[i] = pinfo->small_wonders[i];
+  for (i = 0; i < B_LAST; i++) {
+    pplayer->small_wonders[i] = pinfo->small_wonders[i];
   }
 
   /* We need to set ai.control before read_player_info_techs */
-  if(pplayer->ai.control!=pinfo->ai)  {
-    pplayer->ai.control=pinfo->ai;
-    if (pplayer == client.conn.playing)  {
-      my_snprintf(msg, sizeof(msg), _("AI Mode is now %s."),
-                  client.conn.playing->ai.control?_("ON"):_("OFF"));
-      append_output_window(msg);
+  if (pplayer->ai.control != pinfo->ai)  {
+    pplayer->ai.control = pinfo->ai;
+    if (pplayer == my_player)  {
+      if (my_player->ai.control) {
+        append_output_window(_("AI mode is now ON."));
+      } else {
+        append_output_window(_("AI mode is now OFF."));
+      }
     }
   }
 
@@ -1797,60 +1859,25 @@ void handle_player_info(struct packet_player_info *pinfo)
 
   /* check for bad values, complicated by discontinuous range */
   if (NULL == advance_by_number(pinfo->researching)
-   && A_UNKNOWN != pinfo->researching
-   && A_FUTURE != pinfo->researching
-   && A_UNSET != pinfo->researching) {
+      && A_UNKNOWN != pinfo->researching
+      && A_FUTURE != pinfo->researching
+      && A_UNSET != pinfo->researching) {
     research->researching = A_NONE; /* should never happen */
   } else {
     research->researching = pinfo->researching;
   }
   research->future_tech = pinfo->future_tech;
-  research->tech_goal=pinfo->tech_goal;
+  research->tech_goal = pinfo->tech_goal;
   
-  if (pplayer == client.conn.playing && can_client_change_view()) {
-    if (poptechup || new_tech) {
-      science_dialog_update();
-    }
-    if (poptechup) {
-      if (NULL != client.conn.playing && !client.conn.playing->ai.control) {
-	popup_science_dialog(FALSE);
-      }
-    }
-    if (new_tech) {
-      /* If we just learned bridge building and focus is on a settler
-	 on a river the road menu item will remain disabled unless we
-	 do this. (applys in other cases as well.) */
-      if (get_num_units_in_focus() > 0) {
-	update_menus();
-      }
-    }
-    economy_report_dialog_update();
-    activeunits_report_dialog_update();
-    city_report_dialog_update();
-  }
-
-  pplayer->is_ready = pinfo->is_ready;
-
-  if (pplayer == client.conn.playing
-      && pplayer->phase_done != pinfo->phase_done) {
-    update_turn_done_button_state();
-  }
+  turn_done_changed = pplayer->phase_done != pinfo->phase_done;
   pplayer->phase_done = pinfo->phase_done;
 
-  pplayer->nturns_idle=pinfo->nturns_idle;
-  pplayer->is_alive=pinfo->is_alive;
-
+  pplayer->is_ready = pinfo->is_ready;
+  pplayer->nturns_idle = pinfo->nturns_idle;
+  pplayer->is_alive = pinfo->is_alive;
   pplayer->ai.barbarian_type = pinfo->barbarian_type;
   pplayer->revolution_finishes = pinfo->revolution_finishes;
   pplayer->ai.skill_level = pinfo->ai_skill_level;
-
-  update_players_dialog();
-  update_worklist_report_dialog();
-  upgrade_canvas_clipboard();
-
-  if (pplayer == client.conn.playing && can_client_change_view()) {
-    update_info_label();
-  }
 
   /* if the server requests that the client reset, then information about
    * connections to this player are lost. If this is the case, insert the
@@ -1868,7 +1895,39 @@ void handle_player_info(struct packet_player_info *pinfo)
     } conn_list_iterate_end;
   }
 
-  sz_strlcpy(pplayer->username, pinfo->username);
+
+  /* The player information is now fully set. Update the GUI. */
+
+  if (pplayer == my_player && can_client_change_view()) {
+    if (poptechup || new_tech) {
+      science_dialog_update();
+    }
+    if (poptechup) {
+      if (client_has_player() && !my_player->ai.control) {
+        popup_science_dialog(FALSE);
+      }
+    }
+    if (new_tech) {
+      /* If we just learned bridge building and focus is on a settler
+         on a river the road menu item will remain disabled unless we
+         do this. (applys in other cases as well.) */
+      if (get_num_units_in_focus() > 0) {
+        update_menus();
+      }
+    }
+    if (turn_done_changed) {
+      update_turn_done_button_state();
+    }
+    economy_report_dialog_update();
+    activeunits_report_dialog_update();
+    city_report_dialog_update();
+    update_info_label();
+  }
+
+  upgrade_canvas_clipboard();
+
+  update_players_dialog();
+  update_conn_list_dialog();
 
   if (is_new_nation) {
     races_toggles_set_sensitive();
@@ -1877,12 +1936,12 @@ void handle_player_info(struct packet_player_info *pinfo)
      * This may not be the only one! */
     update_map_canvas_visible();
   }
+
   if (can_client_change_view()) {
     /* Just about any changes above require an update to the intelligence
      * dialog. */
     update_intel_dialog(pplayer);
   }
-  update_conn_list_dialog();
 
   editgui_refresh();
   editgui_notify_object_changed(OBJTYPE_PLAYER, player_number(pplayer),
@@ -2416,41 +2475,12 @@ void handle_tile_info(struct packet_tile_info *packet)
 }
 
 /**************************************************************************
-  Decrease or increase the player_count(), removing by player_index(),
-  or setting the new value.
-**************************************************************************/
-void handle_player_control(int playerno)
-{
-  if (0 > playerno) {
-    freelog(LOG_ERROR,
-            "handle_player_control() invalid player index %d.",
-            playerno);
-    return;
-  } else if (player_count() > playerno) {
-    client_remove_player(playerno);
-  } else if (MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS >= playerno) {
-    if (game.info.max_players < playerno) {
-      game.info.max_players = playerno;
-    }
-    set_player_count(playerno);
-  } else {
-    freelog(LOG_ERROR,
-            "handle_player_control() invalid player index %d.",
-            playerno);
-    return;
-  }
-  update_conn_list_dialog();
-}
-
-/**************************************************************************
   Take arrival of ruleset control packet to indicate that
   current allocated governments should be free'd, and new
   memory allocated for new size. The same for nations.
 **************************************************************************/
 void handle_ruleset_control(struct packet_ruleset_control *packet)
 {
-  int i;
-
   update_client_state(C_S_PREPARING);
 
   /* The ruleset is going to load new nations. So close
@@ -2496,9 +2526,9 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
    * In case of /taking player, number of players has been reseted, so
    * we can't use players_iterate() here, but have to go through all
    * possible player slots instead. */ 
-  for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
-    game.players[i].nation = NULL;
-  }
+  player_slots_iterate(pslot) {
+    pslot->nation = NULL;
+  } player_slots_iterate_end;
 
   if (packet->prefered_tileset[0] != '\0') {
     /* There is tileset suggestion */

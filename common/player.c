@@ -236,41 +236,19 @@ void player_init(struct player *plr)
 }
 
 /**************************************************************************
-  Return the first item of players.
-**************************************************************************/
-struct player *player_array_first(void)
-{
-  if (game.info.nplayers > 0) {
-    return game.players;
-  }
-  return NULL;
-}
-
-/**************************************************************************
-  Return the last item of players.
-**************************************************************************/
-const struct player *player_array_last(void)
-{
-  if (game.info.nplayers > 0) {
-    return &game.players[game.info.nplayers - 1];
-  }
-  return NULL;
-}
-
-/**************************************************************************
   Return the number of players.
 **************************************************************************/
 int player_count(void)
 {
-  return game.info.nplayers;
+  return game.nplayers;
 }
 
-/***************************************************************
+/**************************************************************************
   Set the number of players.
-***************************************************************/
+**************************************************************************/
 void set_player_count(int count)
 {
-  game.info.nplayers = count;
+  game.nplayers = count;
 }
 
 /**************************************************************************
@@ -281,12 +259,11 @@ void set_player_count(int count)
 **************************************************************************/
 int player_index(const struct player *pplayer)
 {
-  assert(pplayer);
-  return pplayer - game.players;
+  return player_number(pplayer);
 }
 
 /**************************************************************************
-  Return the player index.
+  Return the player index/number/id.
 **************************************************************************/
 int player_number(const struct player *pplayer)
 {
@@ -302,24 +279,22 @@ int player_number(const struct player *pplayer)
 **************************************************************************/
 struct player *player_by_number(const int player_id)
 {
-  if (player_id < 0 || player_id >= ARRAY_SIZE(game.players)) {
-    /* This isn't an error; some callers rely on this behavior. */
-    return NULL;
-  }
-  return &game.players[player_id];
+  return player_slot_by_number(player_id);
 }
 
 /**************************************************************************
-  Return pointer iff the player ID refers to an in-game player.  Unlike
-  player_by_number, any index larger than player_count is not "valid".
+  Return pointer iff the player ID refers to an in-game player.
 **************************************************************************/
 struct player *valid_player_by_number(const int player_id)
 {
-  if (player_id < 0 || player_id >= game.info.nplayers
-   || player_id >= ARRAY_SIZE(game.players)) {
+  struct player *pslot;
+
+  pslot = player_slot_by_number(player_id);
+
+  if (!player_slot_is_used(pslot)) {
     return NULL;
   }
-  return &game.players[player_id];
+  return pslot;
 }
 
 /****************************************************************************
@@ -372,7 +347,9 @@ struct player *find_player_by_name(const char *name)
 **************************************************************************/
 const char *player_name(const struct player *pplayer)
 {
-  assert(NULL != pplayer && NULL != pplayer->name);
+  if (!pplayer) {
+    return NULL;
+  }
   return pplayer->name;
 }
 
@@ -382,9 +359,12 @@ const char *player_name(const struct player *pplayer)
   problem, and fills *result with characterisation of match/non-match
   (see shared.[ch])
 ***************************************************************/
-static const char *player_name_by_number(int i)
+static const char *player_slot_name_by_number(int i)
 {
-  return game.players[i].name;
+  struct player *pplayer;
+  
+  pplayer = valid_player_by_number(i);
+  return player_name(pplayer);
 }
 
 /***************************************************************
@@ -395,12 +375,13 @@ struct player *find_player_by_name_prefix(const char *name,
 {
   int ind;
 
-  *result = match_prefix(player_name_by_number, game.info.nplayers,
-			 MAX_LEN_NAME-1, mystrncasequotecmp,
-                         effectivestrlenquote, name, &ind);
+  *result = match_prefix(player_slot_name_by_number,
+                         player_slot_count(), MAX_LEN_NAME-1,
+                         mystrncasequotecmp, effectivestrlenquote,
+                         name, &ind);
 
   if (*result < M_PRE_AMBIGUOUS) {
-    return player_by_number(ind);
+    return valid_player_by_number(ind);
   } else {
     return NULL;
   }
@@ -1079,4 +1060,48 @@ int number_of_ai_levels(void)
   }
 
   return count;
+}
+
+/***************************************************************
+  Returns the total number of player slots, i.e. the maximum
+  number of players (including barbarians, etc.) that could ever
+  exist at once.
+***************************************************************/
+int player_slot_count(void)
+{
+  return ARRAY_SIZE(game.players);
+}
+
+/***************************************************************
+  Returns TRUE is this slot is "used" i.e. corresponds to a
+  valid, initialized player that exists in the game.
+***************************************************************/
+bool player_slot_is_used(const struct player *pslot)
+{
+  if (!pslot) {
+    return FALSE;
+  }
+  return pslot->used;
+}
+
+/***************************************************************
+  Set the 'used' status of the player slot.  
+***************************************************************/
+void player_slot_set_used(struct player *pslot, bool used)
+{
+  if (!pslot) {
+    return;
+  }
+  pslot->used = used;
+}
+
+/***************************************************************
+  Return the possibly unused and uninitialized player slot.
+***************************************************************/
+struct player *player_slot_by_number(int player_id)
+{
+  if (!(0 <= player_id && player_id < player_slot_count())) {
+    return NULL;
+  }
+  return &game.players[player_id];
 }

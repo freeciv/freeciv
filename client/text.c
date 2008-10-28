@@ -625,7 +625,7 @@ const char *get_info_label_text(void)
 		  client.conn.playing->economic.science);
   }
   if (game.info.phase_mode == PMT_PLAYERS_ALTERNATE) {
-    if (game.info.phase < 0 || game.info.phase >= game.info.nplayers) {
+    if (game.info.phase < 0 || game.info.phase >= player_count()) {
       astr_add_line(&str, _("Moving: Nobody"));
     } else {
       astr_add_line(&str, _("Moving: %s"),

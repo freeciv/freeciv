@@ -56,24 +56,6 @@ used throughout the client.
 #include "repodlgs_common.h"
 #include "tilespec.h"
 
-/**************************************************************************
-...
-**************************************************************************/
-void client_remove_player(int plrno)
-{
-  struct connection *pconn = find_conn_by_id(client.conn.id);
-
-  game_remove_player(player_by_number(plrno));
-  game_renumber_players(plrno);
-
-  /* ensure our duplicate pointers are valid */
-  if (NULL != pconn) {
-    client.conn.playing = pconn->playing;
-  }
-
-  update_conn_list_dialog();
-  races_toggles_set_sensitive();
-}
 
 /**************************************************************************
 ...

@@ -69,6 +69,7 @@ struct civ_game {
   int phase_mode_stored;
   char *startmessage;
   struct player players[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+  int nplayers;
   struct conn_list *all_connections;        /* including not yet established */
   struct conn_list *est_connections;        /* all established client conns */
   char save_name[MAX_LEN_NAME];
@@ -133,7 +134,6 @@ struct city *game_find_city_by_number(int id);
 struct unit *game_find_unit_by_number(int id);
 
 void game_remove_player(struct player *pplayer);
-void game_renumber_players(int plrno);
 
 void game_remove_unit(struct unit *punit);
 void game_remove_city(struct city *pcity);

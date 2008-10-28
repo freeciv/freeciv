@@ -1202,13 +1202,13 @@ static bool create_ai_player(struct connection *caller, char *arg, bool check)
 
   if (NULL == pplayer) {
     /* Check that we are not going over max players setting */
-    if (game.info.nplayers >= game.info.max_players) {
+    if (player_count() >= game.info.max_players) {
       cmd_reply(CMD_CREATE, caller, C_FAIL,
 	        _("Can't add more players, server is full."));
       return FALSE;
     }
     /* Check that we have nations available */
-    if (game.info.nplayers - server.nbarbarians >= server.playable_nations) {
+    if (player_count() - server.nbarbarians >= server.playable_nations) {
       cmd_reply(CMD_CREATE, caller, C_FAIL,
 	        _("Can't add more players, not enough nations."));
       return FALSE;
@@ -1252,8 +1252,12 @@ static bool create_ai_player(struct connection *caller, char *arg, bool check)
 
   if (NULL == pplayer) {
     /* add new player */
-    pplayer = &game.players[game.info.nplayers];
-    dlsend_packet_player_control(game.est_connections, ++game.info.nplayers);
+    pplayer = server_create_player();
+    if (!pplayer) {
+      cmd_reply(CMD_CREATE, caller, C_GENFAIL,
+                _("Failed to create new player %s."), arg);
+      return FALSE;
+    }
 
     notify_conn(NULL, NULL, E_SETTING,
 		_("%s has been added as an AI-controlled player."),
@@ -1311,6 +1315,7 @@ static bool remove_player(struct connection *caller, char *arg, bool check)
 
   sz_strlcpy(name, player_name(pplayer));
   server_remove_player(pplayer);
+  send_player_slot_info_c(pplayer, NULL);
   if (!caller || caller->used) {     /* may have removed self */
     cmd_reply(CMD_REMOVE, caller, C_OK,
 	      _("Removed player %s from the game."), name);
@@ -3143,7 +3148,7 @@ static bool observe_command(struct connection *caller, char *str, bool check)
   enum m_pre_result result;
   struct connection *pconn = NULL;
   struct player *pplayer = NULL;
-  bool res = FALSE;
+  bool res = FALSE, player_changed = FALSE;
   
   /******** PART I: fill pconn and pplayer ********/
 
@@ -3264,9 +3269,9 @@ static bool observe_command(struct connection *caller, char *str, bool check)
 
   /* attach pconn to new player as an observer */
   if (pplayer) {
-    attach_connection_to_player(pconn, pplayer, TRUE);
+    player_changed = attach_connection_to_player(pconn, pplayer, TRUE);
   } else {
-    detach_connection_to_player(pconn, TRUE);
+    player_changed = detach_connection_to_player(pconn, TRUE);
   }
 
   if (S_S_RUNNING == server_state()) {
@@ -3277,11 +3282,12 @@ static bool observe_command(struct connection *caller, char *str, bool check)
     dsend_packet_start_phase(pconn, game.info.phase);
   } else {
     send_game_info(pconn->self);
-    /* send changed player connection to everybody */
-    send_player_info_c(pplayer, game.est_connections);
     /* we already know existing connections */
   }
   /* redundant self to self cannot be avoided */
+  if (player_changed) {
+    send_player_info(pplayer, NULL);
+  }
   send_conn_info(pconn->self, game.est_connections);
 
   if (pplayer) {
@@ -3386,14 +3392,14 @@ static bool take_command(struct connection *caller, char *str, bool check)
    * detached connections only. Others can reuse the slot
    * they first release. */
   if (!pplayer && !pconn->playing
-      && (game.info.nplayers >= game.info.max_players
-          || game.info.nplayers - server.nbarbarians >= server.playable_nations)) {
+      && (player_count() >= game.info.max_players
+          || player_count() - server.nbarbarians >= server.playable_nations)) {
     cmd_reply(CMD_TAKE, caller, C_FAIL,
               _("There is no free player slot for %s"),
               pconn->username);
     goto end;
   }
-  assert(game.info.nplayers <= MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
+  assert(player_count() <= player_slot_count());
 
   res = TRUE;
   if (check) {
@@ -3632,6 +3638,7 @@ static bool detach_command(struct connection *caller, char *str, bool check)
 
     /* actually do the removal */
     server_remove_player(pplayer);
+    send_player_slot_info_c(pplayer, NULL);
     aifill(game.info.aifill);
     reset_all_start_commands();
   }
@@ -4239,13 +4246,18 @@ bool start_command(struct connection *caller, bool check, bool notify)
 	game.info.max_players = map.num_start_positions;
       }
 
-      if (game.info.nplayers > game.info.max_players) {
-	/* Because of the way player ids are renumbered during
-	   server_remove_player() this is correct */
-        while (game.info.nplayers > game.info.max_players) {
-	  /* This may erronously remove observer players sometimes.  This
-	   * is a bug but non-fatal. */
-	  server_remove_player(player_by_number(game.info.max_players));
+      if (player_count() > game.info.max_players) {
+        int i;
+        struct player *pplayer;
+        for (i = player_slot_count() - 1; i >= 0; i--) {
+          pplayer = valid_player_by_number(i);
+          if (pplayer) {
+            server_remove_player(pplayer);
+            send_player_slot_info_c(pplayer, NULL);
+          }
+          if (player_count() <= game.info.max_players) {
+            break;
+          }
         }
 
 	freelog(LOG_VERBOSE,
@@ -4268,12 +4280,12 @@ bool start_command(struct connection *caller, bool check, bool notify)
       start_cmd_reply(caller, notify,
                       _("Not enough human players, game will not start."));
       return FALSE;
-    } else if (game.info.nplayers < 1) {
+    } else if (player_count() < 1) {
       /* At least one player required */
       start_cmd_reply(caller, notify,
                       _("No players, game will not start."));
       return FALSE;
-    } else if (game.info.nplayers - server.nbarbarians > server.playable_nations) {
+    } else if (player_count() - server.nbarbarians > server.playable_nations) {
       cmd_reply(CMD_START_GAME, caller, C_FAIL,
 		_("Not enough nations for all players, game will not start."));
       return FALSE;
@@ -4620,7 +4632,7 @@ void show_players(struct connection *caller)
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
 
 
-  if (game.info.nplayers == 0)
+  if (player_count() == 0)
     cmd_reply(CMD_LIST, caller, C_WARNING, _("<no players>"));
   else
   {
@@ -4855,7 +4867,7 @@ static char *generic_generator(const char *text, int state, int num,
     name = index2str(list_index);
     list_index++;
 
-    if (mystrncasecmp(name, mytext, len) == 0) {
+    if (name != NULL && mystrncasecmp(name, mytext, len) == 0) {
       free(mytext);
       return internal_to_local_string_malloc(name);
     }
@@ -4896,11 +4908,11 @@ The player names.
 **************************************************************************/
 static const char *playername_accessor(int idx)
 {
-  return player_name(player_by_number(idx));
+  return player_name(player_slot_by_number(idx));
 }
 static char *player_generator(const char *text, int state)
 {
-  return generic_generator(text, state, game.info.nplayers, playername_accessor);
+  return generic_generator(text, state, player_slot_count(), playername_accessor);
 }
 
 /**************************************************************************

@@ -84,7 +84,6 @@ static struct player *create_barbarian_player(enum barbarian_type type)
 {
   struct player *barbarians;
   struct nation_type *nation;
-  int newplayer = player_count();
 
   players_iterate(barbarians) {
     if ((type == LAND_BARBARIAN && is_land_barbarian(barbarians))
@@ -105,13 +104,11 @@ static struct player *create_barbarian_player(enum barbarian_type type)
     }
   } players_iterate_end;
 
-  if (newplayer >= MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS) {
-    die("Too many players in server/barbarian.c");
+  /* make a new player, or not */
+  barbarians = server_create_player();
+  if (!barbarians) {
+    return NULL;
   }
-
-  barbarians = &game.players[newplayer];
-
-  /* make a new player */
 
   server_player_init(barbarians, TRUE, TRUE);
 
@@ -120,8 +117,7 @@ static struct player *create_barbarian_player(enum barbarian_type type)
   pick_random_player_name(nation, barbarians->name);
 
   server.nbarbarians++;
-  dlsend_packet_player_control(game.est_connections,
-                               (game.info.max_players = ++game.info.nplayers));
+  game.info.max_players = MAX(player_count(), game.info.max_players);
 
   sz_strlcpy(barbarians->username, ANON_USER_NAME);
   barbarians->is_connected = FALSE;
@@ -523,6 +519,9 @@ static void try_summon_barbarians(void)
   if (!is_ocean_tile(utile)) {
     /* land (disembark) barbarians */
     barbarians = create_barbarian_player(LAND_BARBARIAN);
+    if (!barbarians) {
+      return;
+    }
     if (city_list_size(victim->cities) > UPRISE_CIV_MOST) {
       uprise = 3;
     }
@@ -551,6 +550,9 @@ static void try_summon_barbarians(void)
     struct unit_type *boat;
 
     barbarians = create_barbarian_player(SEA_BARBARIAN);
+    if (!barbarians) {
+      return;
+    }
     boat = find_a_unit_type(L_BARBARIAN_BOAT,-1);
 
     if (is_native_tile(boat, utile)) {

@@ -4393,7 +4393,7 @@ static void game_load_internal(struct section_file *file)
     team_remove_player(pplayer);
   } players_iterate_end;
 
-  game.info.nplayers      = secfile_lookup_int(file, "game.nplayers");
+  set_player_count(secfile_lookup_int(file, "game.nplayers"));
 
 
   script_state_load(file);
@@ -4526,7 +4526,7 @@ static void game_load_internal(struct section_file *file)
 
   if (game.info.is_new_game) {
     /* override previous load */
-    game.info.nplayers = 0;
+    set_player_count(0);
   } else {
     /* destroyed wonders: */
     string = secfile_lookup_str_default(file, NULL,
@@ -4689,12 +4689,12 @@ static void game_load_internal(struct section_file *file)
 
   if (secfile_lookup_int_default(file, -1,
 				 "game.shuffled_player_%d", 0) >= 0) {
-    int shuffled_players[player_count()];
+    int shuffled_players[player_slot_count()];
 
     /* players_iterate() not used here */
-    for (i = 0; i < player_count(); i++) {
-      shuffled_players[i]
-	= secfile_lookup_int(file, "game.shuffled_player_%d", i);
+    for (i = 0; i < player_slot_count(); i++) {
+      shuffled_players[i] = secfile_lookup_int_default(file,
+          i, "game.shuffled_player_%d", i);
     }
     set_shuffled_players(shuffled_players);
   } else {
@@ -4880,7 +4880,6 @@ void game_save(struct section_file *file, const char *save_reason)
                      "game.phase_mode_stored");
   secfile_insert_int(file, game.info.min_players, "game.min_players");
   secfile_insert_int(file, game.info.max_players, "game.max_players");
-  secfile_insert_int(file, game.info.nplayers, "game.nplayers");
   secfile_insert_int(file, game.info.heating, "game.heating");
   secfile_insert_int(file, game.info.globalwarming, "game.globalwarming");
   secfile_insert_int(file, game.info.warminglevel, "game.warminglevel");
@@ -5025,6 +5024,7 @@ void game_save(struct section_file *file, const char *save_reason)
 
     calc_unit_ordering();
 
+    secfile_insert_int(file, player_count(), "game.nplayers");
     players_iterate(pplayer) {
       int n = player_index(pplayer);
       player_save_main(pplayer, n, file);
@@ -5034,10 +5034,11 @@ void game_save(struct section_file *file, const char *save_reason)
       player_save_vision(pplayer, n, file);
     } players_iterate_end;
 
-    /* shuffled_players_iterate() not used here */
-    for (i = 0; i < player_count(); i++) {
-      secfile_insert_int(file, player_number(shuffled_player(i)),
+    i = 0;
+    shuffled_players_iterate(pplayer) {
+      secfile_insert_int(file, player_number(pplayer),
 			 "game.shuffled_player_%d", i);
-    }
+      i++;
+    } shuffled_players_iterate_end;
   }
 }

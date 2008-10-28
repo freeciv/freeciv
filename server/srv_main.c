@@ -253,8 +253,7 @@ bool check_for_game_over(void)
   } players_iterate_end;
 
   /* the game does not quit if we are playing solo */
-  if (game.info.nplayers == (barbs + 1)
-      && alive >= 1) {
+  if (player_count() == (barbs + 1) && alive >= 1) {
     return FALSE;
   }
 
@@ -356,8 +355,7 @@ void send_all_info(struct conn_list *dest)
 
   send_game_info(dest);
   send_map_info(dest);
-  /* avoid redundancy, send to everybody */
-  send_player_info_c(NULL, game.est_connections);
+  send_player_info_c(NULL, dest);
   send_conn_info(game.est_connections, dest);
   send_spaceship_info(NULL, dest);
   send_all_known_tiles(dest);
@@ -612,7 +610,7 @@ static void begin_turn(bool is_new_turn)
     game.info.num_phases = 1;
     break;
   case PMT_PLAYERS_ALTERNATE:
-    game.info.num_phases = game.info.nplayers;
+    game.info.num_phases = player_count();
     break;
   case PMT_TEAMS_ALTERNATE:
     game.info.num_phases = team_count();
@@ -1609,23 +1607,33 @@ void aifill(int amount)
     return;
   }
 
-  if (limit < game.info.nplayers) {
-    int remove = game.info.nplayers - 1;
+  if (limit < player_count()) {
+    int remove = player_slot_count() - 1;
 
-    while (limit < game.info.nplayers && 0 <= remove) {
-      struct player *pplayer = player_by_number(remove--);
+    while (limit < player_count() && 0 <= remove) {
+      struct player *pplayer = valid_player_by_number(remove);
+      remove--;
+      if (!pplayer) {
+        continue;
+      }
 
       if (!pplayer->is_connected && !pplayer->was_created) {
         server_remove_player(pplayer);
+        send_player_slot_info_c(pplayer, NULL);
       }
     }
     return;
   }
 
-  while (limit > game.info.nplayers) {
-    int filled = game.info.nplayers;
-    struct player *pplayer = player_by_number(game.info.nplayers);
-    char leader_name[ARRAY_SIZE(pplayer->name)];
+  while (limit > player_count()) {
+    char leader_name[MAX_LEN_NAME];
+    int filled = 1;
+    struct player *pplayer;
+    
+    pplayer = server_create_player();
+    if (!pplayer) {
+      break;
+    }
 
     server_player_init(pplayer, FALSE, TRUE);
     player_set_nation(pplayer, NULL);
@@ -1650,7 +1658,6 @@ void aifill(int amount)
 		player_name(pplayer),
 		ai_level_name(pplayer->ai.skill_level));
 
-    dlsend_packet_player_control(game.est_connections, ++game.info.nplayers);
     send_player_info(pplayer, NULL);
   }
 }
@@ -2077,10 +2084,9 @@ static void srv_ready(void)
   send_server_settings(NULL);
 
   if (game.info.is_new_game) {
-    /* If we're starting a new game, reset the max_players to be the
-     * number of players currently in the game.
-     */
-    game.info.max_players = game.info.nplayers;
+    /* If we're starting a new game, reset the max_players to be at
+     * least the number of players currently in the game. */
+    game.info.max_players = MAX(player_count(), game.info.max_players);
 
     /* Before the player map is allocated (and initialized)! */
     game.fogofwar_old = game.info.fogofwar;
