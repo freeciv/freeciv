@@ -60,7 +60,9 @@
 #include "control.h" 
 #include "dialogs_g.h"
 #include "diplodlg_g.h"
+#include "editgui_g.h"
 #include "editor.h"
+#include "graphics_g.h"
 #include "ggzclient.h"
 #include "gui_main_g.h"
 #include "helpdata.h"		/* boot_help_texts() */
@@ -569,6 +571,11 @@ void set_client_state(enum client_states newstate)
       update_unit_focus();
       can_slide = TRUE;
       set_client_page(PAGE_GAME);
+      /* Find something sensible to display instead of the intro gfx. */
+      center_on_something();
+      free_intro_radar_sprites();
+      agents_game_start();
+      editgui_tileset_changed();
       break;
     case C_S_PREPARING:
       popdown_all_city_dialogs();

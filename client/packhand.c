@@ -55,7 +55,6 @@
 #include "editor.h"
 #include "ggzclient.h"
 #include "goto.h"               /* client_goto_init() */
-#include "graphics_g.h"
 #include "gui_main_g.h"
 #include "helpdata.h"		/* boot_help_texts() */
 #include "inteldlg_g.h"
@@ -398,6 +397,8 @@ static void update_improvement_from_packet(struct city *pcity,
 
 /****************************************************************************
   Updates the client_state due to packets from the server.
+
+  NB: This is called at the beginning of each turn and phase.
 ****************************************************************************/
 static void update_client_state(enum client_states value)
 {
@@ -417,12 +418,9 @@ static void update_client_state(enum client_states value)
     update_unit_focus();
     update_unit_info_label(get_units_in_focus());
 
-    /* Find something sensible to display instead of the intro gfx. */
-    center_on_something();
-    
-    free_intro_radar_sprites();
-    agents_game_start();
-    editgui_tileset_changed();
+    if (auto_center_each_turn) {
+      center_on_something();
+    }
   }
 
   if (C_S_OVER == client_state()) {

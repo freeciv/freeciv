@@ -38,6 +38,7 @@ extern bool do_combat_animation;
 extern bool ai_manual_turn_done;
 extern bool auto_center_on_unit;
 extern bool auto_center_on_combat;
+extern bool auto_center_each_turn;
 extern bool wakeup_focus;
 extern bool goto_into_unknown;
 extern bool center_when_popup_city;

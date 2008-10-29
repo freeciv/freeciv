@@ -74,6 +74,7 @@ bool do_combat_animation = TRUE;
 bool ai_manual_turn_done = TRUE;
 bool auto_center_on_unit = TRUE;
 bool auto_center_on_combat = FALSE;
+bool auto_center_each_turn = TRUE;
 bool wakeup_focus = TRUE;
 bool goto_into_unknown = TRUE;
 bool center_when_popup_city = TRUE;
@@ -221,6 +222,11 @@ static client_option common_options[] = {
 		     "between turns but may cause you to miss combat "
 		     "entirely."),
 		  COC_INTERFACE),
+  GEN_BOOL_OPTION(auto_center_each_turn, N_("Auto Center on New Turn"),
+                  N_("Set this option to have the client automatically "
+                     "recenter the map on a suitable location at the "
+                     "start of each turn."),
+                  COC_INTERFACE),
   GEN_BOOL_OPTION(wakeup_focus, N_("Focus on Awakened Units"),
 		  N_("Set this option to have newly awoken units be "
 		     "focused automatically."),
