@@ -199,7 +199,7 @@ static void print_auth_option(int loglevel, enum show_source_type show_source,
 
   if (buffer[0] != '\0') {
     /* There is line to print */
-    freelog(loglevel, buffer);
+    freelog(loglevel, "%s", buffer);
   }
 }
 
@@ -258,11 +258,8 @@ static void load_auth_option(struct section_file *file,
                              struct auth_option *target)
 {
   const char *value;
-  char option[512];
 
-  my_snprintf(option, sizeof(option), "auth.%s", target->name);
-
-  value = secfile_lookup_str_default(file, "", option);
+  value = secfile_lookup_str_default(file, "", "auth.%s", target->name);
   if (value[0] != '\0') {
     /* We really loaded something from file */
     set_auth_option(target, value, AOS_FILE);
