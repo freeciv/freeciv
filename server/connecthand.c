@@ -128,6 +128,7 @@ void establish_new_connection(struct connection *pconn)
       send_game_info(dest);
       /* send new player connection to everybody */
       send_player_info(pplayer, NULL);
+      send_player_info_c(NULL, dest);
       send_conn_info(game.est_connections, dest);
     }
   } else {
