@@ -356,7 +356,7 @@ PACKET_TILE_INFO=14; sc,lsend,is-info
   BOOL special[S_LAST];
   BV_BASES bases;
   STRING spec_sprite[MAX_LEN_NAME];
-  NATION editor_startpos_nation_id;
+  NATION nation_start;
 end
 
 # This packet used to have is_info set but that doesn't work with the

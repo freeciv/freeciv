@@ -20,6 +20,7 @@
 #include "city.h"
 #include "fcintl.h"
 #include "game.h"
+#include "hash.h"
 #include "log.h"
 #include "mem.h"
 #include "movement.h"
@@ -34,6 +35,12 @@
 
 /* the very map */
 struct civ_map map;
+
+/* An entry in the start position table. */
+struct startpos_entry {
+  int key;
+  const struct nation_type *nation;
+};
 
 /* these are initialized from the terrain ruleset */
 struct terrain_misc terrain_control;
@@ -282,7 +289,6 @@ static void tile_init(struct tile *ptile)
   ptile->worked   = NULL; /* No city working here. */
   ptile->spec_sprite = NULL;
   ptile->editor.need_terrain_fix = FALSE;
-  ptile->editor.startpos_nation_id = -1;
 }
 
 /****************************************************************************
@@ -417,6 +423,12 @@ void map_allocate(void)
 
   generate_city_map_indices();
   generate_map_indices();
+
+  if (map.startpos_table != NULL) {
+    hash_free(map.startpos_table);
+  }
+  map.startpos_table = hash_new_full(hash_fval_int, hash_fcmp_int,
+                                     NULL, free);
 }
 
 /***************************************************************
@@ -433,6 +445,11 @@ void map_free(void)
 
     free(map.tiles);
     map.tiles = NULL;
+
+    if (map.startpos_table) {
+      hash_free(map.startpos_table);
+      map.startpos_table = NULL;
+    }
   }
 }
 
@@ -1205,4 +1222,67 @@ bool is_singular_tile(const struct tile *ptile, int dist)
 	    || (!topo_has_flag(TF_WRAPY)
 		&& (ntl_y < dist || ntl_y >= NATURAL_HEIGHT - dist)));
   } do_in_natural_pos_end;
+}
+
+/****************************************************************************
+  Set a start position at the given tile for the given nation. Clears any
+  existing start position at the tile. The 'pnation' argument may be NULL,
+  in which case this function has the same effect as map_clear_startpos().
+****************************************************************************/
+void map_set_startpos(const struct tile *ptile,
+                      const struct nation_type *pnation)
+{
+  struct startpos_entry *spe;
+
+  if (!map.startpos_table || !ptile) {
+    return;
+  }
+  map_clear_startpos(ptile);
+
+  if (!pnation) {
+    return;
+  }
+
+  spe = fc_calloc(1, sizeof(*spe));
+  spe->key = tile_index(ptile);
+  spe->nation = pnation;
+
+  hash_insert(map.startpos_table, &spe->key, spe);
+}
+
+/****************************************************************************
+  Returns the nation of the start position at the given tile, or NULL if
+  none exists there.
+****************************************************************************/
+const struct nation_type *map_get_startpos(const struct tile *ptile)
+{
+  struct startpos_entry *spe;
+  int key;
+
+  if (!map.startpos_table || !ptile) {
+    return NULL;
+  }
+
+  key = tile_index(ptile);
+  spe = hash_lookup_data(map.startpos_table, &key);
+  if (!spe) {
+    return NULL;
+  }
+
+  return spe->nation;
+}
+
+/****************************************************************************
+  Remove a start position at the given tile.
+****************************************************************************/
+void map_clear_startpos(const struct tile *ptile)
+{
+  int key;
+
+  if (!map.startpos_table || !ptile) {
+    return;
+  }
+
+  key = tile_index(ptile);
+  hash_delete_entry(map.startpos_table, &key);
 }

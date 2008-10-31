@@ -2264,6 +2264,7 @@ void handle_tile_info(struct packet_tile_info *packet)
   struct resource *presource = resource_by_number(packet->resource);
   struct terrain *pterrain = terrain_by_number(packet->terrain);
   struct tile *ptile = map_pos_to_tile(packet->x, packet->y);
+  const struct nation_type *pnation;
 
   if (NULL == ptile) {
     freelog(LOG_ERROR,
@@ -2417,9 +2418,9 @@ void handle_tile_info(struct packet_tile_info *packet)
     }
   }
 
-  if (ptile->editor.startpos_nation_id
-      != packet->editor_startpos_nation_id) {
-    ptile->editor.startpos_nation_id = packet->editor_startpos_nation_id;
+  pnation = nation_by_number(packet->nation_start);
+  if (map_get_startpos(ptile) != pnation) {
+    map_set_startpos(ptile, pnation);
     tile_changed = TRUE;
   }
 

@@ -344,6 +344,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
                     bool send_unknown)
 {
   struct packet_tile_info info;
+  const struct nation_type *pnation;
 
   if (send_tile_suppressed) {
     return;
@@ -362,7 +363,8 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
     info.spec_sprite[0] = '\0';
   }
 
-  info.editor_startpos_nation_id = ptile->editor.startpos_nation_id;
+  pnation = map_get_startpos(ptile);
+  info.nation_start = pnation ? nation_number(pnation) : -1;
 
   info.special[S_OLD_FORTRESS] = FALSE;
   info.special[S_OLD_AIRBASE] = FALSE;

@@ -48,7 +48,6 @@ struct tile {
   char *spec_sprite;
   struct {
     bool need_terrain_fix; /* Server only. */
-    int startpos_nation_id;
   } editor;
 };
 

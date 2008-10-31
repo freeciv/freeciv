@@ -33,6 +33,8 @@ miscellaneous terrain information
 *****************************************************************/
 #define terrain_misc packet_ruleset_terrain_control
 
+struct hash_table;
+
 struct civ_map {
   int topology_id;
   enum direction8 valid_dirs[8], cardinal_dirs[8];
@@ -61,6 +63,8 @@ struct civ_map {
   int num_continents;
   int num_oceans;               /* not updated at the client */
   struct tile *tiles;
+
+  struct hash_table *startpos_table;
 
   /* Only used by server. */
   struct start_position {
@@ -102,6 +106,12 @@ bool base_get_direction_for_step(const struct tile *src_tile,
 				 enum direction8 *dir);
 int get_direction_for_step(const struct tile *src_tile,
 			   const struct tile *dst_tile);
+
+void map_set_startpos(const struct tile *ptile,
+                      const struct nation_type *pnation);
+const struct nation_type *map_get_startpos(const struct tile *ptile);
+void map_clear_startpos(const struct tile *ptile);
+
 
 /* Number of index coordinates (for sanity checks and allocations) */
 #define MAP_INDEX_SIZE (map.xsize * map.ysize)

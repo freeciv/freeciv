@@ -4507,11 +4507,15 @@ int fill_sprite_array(struct tileset *t,
 
   case LAYER_EDITOR:
     if (ptile && editor_is_active()) {
+      const struct nation_type *pnation;
+
       if (editor_tile_is_selected(ptile)) {
         int color = 2 % tileset_num_city_colors(tileset);
         ADD_SPRITE_SIMPLE(t->sprites.city.unworked_tile_overlay.p[color]);
       }
-      if (ptile->editor.startpos_nation_id != -1) {
+
+      pnation = map_get_startpos(ptile);
+      if (pnation != NULL) {
         ADD_SPRITE_SIMPLE(t->sprites.user.attention);
       }
     }

@@ -20,6 +20,7 @@
 
 #include "events.h"
 #include "fcintl.h"
+#include "hash.h"
 #include "log.h"
 #include "shared.h"
 #include "support.h"
@@ -44,6 +45,7 @@
 /* The number of tiles for which expensive checks have
  * been deferred after their terrains have been edited. */
 static int unfixed_terrain_count;
+
 
 /****************************************************************************
   Do the potentially slow checks required after some tile's terrain changes.
@@ -1115,7 +1117,7 @@ void handle_edit_startpos(struct connection *pc, int x, int y,
                           Nation_type_id nation)
 {
   struct tile *ptile;
-  bool changed = FALSE;
+  const struct nation_type *pnation, *old;
 
   if (!can_conn_edit(pc)) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND,
@@ -1131,20 +1133,12 @@ void handle_edit_startpos(struct connection *pc, int x, int y,
     return;
   }
 
-  if (nation == -1) {
-    changed = ptile->editor.startpos_nation_id != -1;
-    ptile->editor.startpos_nation_id = -1;
-  } else {
-    struct nation_type *pnation;
+  old = map_get_startpos(ptile);
 
-    pnation = nation_by_number(nation);
-    if (pnation) {
-      changed = ptile->editor.startpos_nation_id != nation;
-      ptile->editor.startpos_nation_id = nation;
-    }
-  }
+  pnation = nation_by_number(nation);
+  map_set_startpos(ptile, pnation);
 
-  if (changed) {
+  if (old != pnation) {
     send_tile_info(NULL, ptile, FALSE);
   }
 }
