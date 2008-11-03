@@ -312,7 +312,7 @@ void TIMING_RESULTS(void)
 {
   char buf[200];
 
-#define OUT(text, which)                                                 \
+#define AILOG_OUT(text, which)                                                 \
   my_snprintf(buf, sizeof(buf), "  %s: %g sec turn, %g sec game", text,  \
            read_timer_seconds(aitimer[which][0]),                        \
            read_timer_seconds(aitimer[which][1]));                       \
@@ -321,33 +321,33 @@ void TIMING_RESULTS(void)
 
   freelog(LOG_TEST, "  --- AI timing results ---");
   notify_conn(NULL, NULL, E_AI_DEBUG, "  --- AI timing results ---");
-  OUT("Total AI time", AIT_ALL);
-  OUT("Movemap", AIT_MOVEMAP);
-  OUT("Units", AIT_UNITS);
-  OUT(" - Military", AIT_MILITARY);
-  OUT(" - Attack", AIT_ATTACK);
-  OUT(" - Defense", AIT_DEFENDERS);
-  OUT(" - Ferry", AIT_FERRY);
-  OUT(" - Rampage", AIT_RAMPAGE);
-  OUT(" - Bodyguard", AIT_BODYGUARD);
-  OUT(" - Recover", AIT_RECOVER);
-  OUT(" - Caravan", AIT_CARAVAN);
-  OUT(" - Hunter", AIT_HUNTER);
-  OUT(" - Airlift", AIT_AIRLIFT);
-  OUT(" - Diplomat", AIT_DIPLOMAT);
-  OUT(" - Air", AIT_AIRUNIT);
-  OUT(" - Explore", AIT_EXPLORER);
-  OUT("fstk", AIT_FSTK);
-  OUT("Settlers", AIT_SETTLERS);
-  OUT("Workers", AIT_WORKERS);
-  OUT("Government", AIT_GOVERNMENT);
-  OUT("Taxes", AIT_TAXES);
-  OUT("Cities", AIT_CITIES);
-  OUT(" - Buildings", AIT_BUILDINGS);
-  OUT(" - Danger", AIT_DANGER);
-  OUT(" - Worker want", AIT_CITY_TERRAIN);
-  OUT(" - Military want", AIT_CITY_MILITARY);
-  OUT(" - Settler want", AIT_CITY_SETTLERS);
-  OUT("Citizen arrange", AIT_CITIZEN_ARRANGE);
-  OUT("Tech", AIT_TECH);
+  AILOG_OUT("Total AI time", AIT_ALL);
+  AILOG_OUT("Movemap", AIT_MOVEMAP);
+  AILOG_OUT("Units", AIT_UNITS);
+  AILOG_OUT(" - Military", AIT_MILITARY);
+  AILOG_OUT(" - Attack", AIT_ATTACK);
+  AILOG_OUT(" - Defense", AIT_DEFENDERS);
+  AILOG_OUT(" - Ferry", AIT_FERRY);
+  AILOG_OUT(" - Rampage", AIT_RAMPAGE);
+  AILOG_OUT(" - Bodyguard", AIT_BODYGUARD);
+  AILOG_OUT(" - Recover", AIT_RECOVER);
+  AILOG_OUT(" - Caravan", AIT_CARAVAN);
+  AILOG_OUT(" - Hunter", AIT_HUNTER);
+  AILOG_OUT(" - Airlift", AIT_AIRLIFT);
+  AILOG_OUT(" - Diplomat", AIT_DIPLOMAT);
+  AILOG_OUT(" - Air", AIT_AIRUNIT);
+  AILOG_OUT(" - Explore", AIT_EXPLORER);
+  AILOG_OUT("fstk", AIT_FSTK);
+  AILOG_OUT("Settlers", AIT_SETTLERS);
+  AILOG_OUT("Workers", AIT_WORKERS);
+  AILOG_OUT("Government", AIT_GOVERNMENT);
+  AILOG_OUT("Taxes", AIT_TAXES);
+  AILOG_OUT("Cities", AIT_CITIES);
+  AILOG_OUT(" - Buildings", AIT_BUILDINGS);
+  AILOG_OUT(" - Danger", AIT_DANGER);
+  AILOG_OUT(" - Worker want", AIT_CITY_TERRAIN);
+  AILOG_OUT(" - Military want", AIT_CITY_MILITARY);
+  AILOG_OUT(" - Settler want", AIT_CITY_SETTLERS);
+  AILOG_OUT("Citizen arrange", AIT_CITIZEN_ARRANGE);
+  AILOG_OUT("Tech", AIT_TECH);
 }
