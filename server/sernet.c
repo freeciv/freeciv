@@ -229,7 +229,6 @@ void close_connections_and_socket(void)
     if(connections[i].used) {
       close_connection(&connections[i]);
     }
-    conn_list_unlink_all(connections[i].self);
     conn_list_free(connections[i].self);
   }
 

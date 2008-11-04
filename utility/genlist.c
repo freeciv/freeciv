@@ -57,10 +57,14 @@ struct genlist *genlist_copy(struct genlist *pgenlist)
 }
 
 /************************************************************************
-  Remove a genlist.  The list must be empty first!
+  Free all memory allocated by the genlist.
 ************************************************************************/
 void genlist_free(struct genlist *pgenlist)
 {
+  if (!pgenlist) {
+    return;
+  }
+  genlist_clear(pgenlist);
   free(pgenlist);
 }
 
@@ -96,7 +100,7 @@ void *genlist_get(const struct genlist *pgenlist, int idx)
   the user-data).  At the end the state of the genlist will be the
   same as when genlist_init() is called on a new genlist.
 ************************************************************************/
-void genlist_unlink_all(struct genlist *pgenlist)
+void genlist_clear(struct genlist *pgenlist)
 {
   if(pgenlist->nelements > 0) {
     struct genlist_link *plink=pgenlist->head_link, *plink2;

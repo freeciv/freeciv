@@ -2209,7 +2209,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
           FREESURFACE(pTmp);            
         } effect_list_iterate_end;
         
-        effect_list_unlink_all(sources);
+        effect_list_clear(sources);
 
 	dest.y = i;        
         
@@ -2307,7 +2307,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
              
         } effect_list_iterate_end;
 
-        effect_list_unlink_all(sources);
+        effect_list_clear(sources);
 
         get_city_bonus_effects(sources, pCity, NULL, EFT_FORCE_CONTENT);
         
@@ -2325,7 +2325,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
              
         } effect_list_iterate_end;
 
-        effect_list_unlink_all(sources);
+        effect_list_clear(sources);
 
         get_city_bonus_effects(sources, pCity, NULL, EFT_NO_UNHAPPY);
 
@@ -2340,7 +2340,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
 
         } effect_list_iterate_end;
 
-        effect_list_unlink_all(sources);
+        effect_list_clear(sources);
 
         
 	dest.x = pCityWindow->size.x + adj_size(187) - pSurf->w - adj_size(2);
@@ -2362,7 +2362,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
           FREESURFACE(pTmp);            
           
         } effect_list_iterate_end;
-        effect_list_unlink_all(sources);        
+        effect_list_clear(sources);        
 
         get_city_bonus_effects(sources, pCity, NULL, EFT_FORCE_CONTENT);        
 
@@ -2377,7 +2377,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
           FREESURFACE(pTmp);            
           
         } effect_list_iterate_end;
-        effect_list_unlink_all(sources);        
+        effect_list_clear(sources);        
 
         get_city_bonus_effects(sources, pCity, NULL, EFT_NO_UNHAPPY);        
 
@@ -2392,7 +2392,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
           FREESURFACE(pTmp);            
           
         } effect_list_iterate_end;
-        effect_list_unlink_all(sources);
+        effect_list_clear(sources);
         
 	dest.y = i;        
 

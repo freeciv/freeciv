@@ -227,7 +227,6 @@ static void internal_signal_free(const char *signal_name)
       internal_signal_callback_remove(signal->callbacks, pcallback);
     } signal_callback_list_iterate_end;
 
-    signal_callback_list_unlink_all(signal->callbacks);
     signal_callback_list_free(signal->callbacks);
     free(signal);
   } else {

@@ -1210,7 +1210,6 @@ const char *text_happiness_buildings(const struct city *pcity)
       astr_add(&str, "%s", buf);
     }
   } effect_list_iterate_end;
-  effect_list_unlink_all(plist);
   effect_list_free(plist);
 
   if (faces == 0) {
@@ -1249,7 +1248,6 @@ const char *text_happiness_wonders(const struct city *pcity)
     }
   } effect_list_iterate_end;
 
-  effect_list_unlink_all(plist);
   effect_list_free(plist);
 
   if (faces == 0) {

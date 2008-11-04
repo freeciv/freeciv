@@ -150,7 +150,6 @@ void city_refresh_queue_processing(void)
     }
   } city_list_iterate_end;
 
-  city_list_unlink_all(city_refresh_queue);
   city_list_free(city_refresh_queue);
   city_refresh_queue = NULL;
 }

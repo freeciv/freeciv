@@ -184,7 +184,6 @@ void do_tech_parasite_effect(struct player *pplayer)
       }
     } advance_index_iterate_end;
   }
-  effect_list_unlink_all(plist);
   effect_list_free(plist);
 }
 

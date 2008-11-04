@@ -390,7 +390,6 @@ static void free_vote(struct vote *pvote)
     vote_cast_list_iterate(pvote->votes_cast, pvc) {
       free(pvc);
     } vote_cast_list_iterate_end;
-    vote_cast_list_unlink_all(pvote->votes_cast);
     vote_cast_list_free(pvote->votes_cast);
     pvote->votes_cast = NULL;
   }
@@ -429,7 +428,7 @@ void clear_all_votes(void)
   vote_list_iterate(vote_list, pvote) {
     free_vote(pvote);
   } vote_list_iterate_end;
-  vote_list_unlink_all(vote_list);
+  vote_list_clear(vote_list);
 }
 
 /**************************************************************************
@@ -4807,7 +4806,6 @@ static void show_scenarios(struct connection *caller)
     free(pfile);
   } datafile_list_iterate_end;
 
-  datafile_list_unlink_all(files);
   datafile_list_free(files);
 
   files = datafilelist_infix(NULL, ".sav", TRUE);
@@ -4821,7 +4819,6 @@ static void show_scenarios(struct connection *caller)
     free(pfile); 
   } datafile_list_iterate_end;
 
-  datafile_list_unlink_all(files);
   datafile_list_free(files);
 
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);

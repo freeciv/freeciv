@@ -97,7 +97,6 @@ void packhand_free(void)
       destroy_city_virtual(pcity);
     } city_list_iterate_end;
 
-    city_list_unlink_all(invisible_cities);
     city_list_free(invisible_cities);
     invisible_cities = NULL;
   }
@@ -1514,11 +1513,11 @@ void handle_unit_short_info(struct packet_unit_short_info *packet)
       unit_list_iterate(pcity->info_units_supported, psunit) {
 	destroy_unit_virtual(psunit);
       } unit_list_iterate_end;
-      unit_list_unlink_all(pcity->info_units_supported);
+      unit_list_clear(pcity->info_units_supported);
       unit_list_iterate(pcity->info_units_present, ppunit) {
 	destroy_unit_virtual(ppunit);
       } unit_list_iterate_end;
-      unit_list_unlink_all(pcity->info_units_present);
+      unit_list_clear(pcity->info_units_present);
     }
 
     /* Okay, append a unit struct to the proper list. */
@@ -2436,7 +2435,7 @@ void handle_tile_info(struct packet_tile_info *packet)
               player_name(unit_owner(punit)));
     } unit_list_iterate_end;
     assert(unit_list_size(ptile->units) == 0);
-    unit_list_unlink_all(ptile->units);
+    unit_list_clear(ptile->units);
   }
 
   ptile->continent = packet->continent;

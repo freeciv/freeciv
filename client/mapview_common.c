@@ -2286,7 +2286,6 @@ void unqueue_mapview_updates(bool write_to_screen)
   }
   for (i = 0; i < TILE_UPDATE_COUNT; i++) {
     if (my_tile_updates[i]) {
-      tile_list_unlink_all(my_tile_updates[i]);
       tile_list_free(my_tile_updates[i]);
     }
   }

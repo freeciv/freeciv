@@ -809,8 +809,7 @@ ui_main(int argc, char *argv[])
 
   free_timer(anim_timer);
   free_timer(callback_timer);
-  callback_list_unlink_all(callbacks);
-  free(callbacks);
+  callback_list_free(callbacks);
 
   FreeLibrary(hmsimg32);
 }

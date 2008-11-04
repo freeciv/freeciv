@@ -91,7 +91,6 @@ void clear_treaty(struct Treaty *ptreaty)
   clause_list_iterate(ptreaty->clauses, pclause) {
     free(pclause);
   } clause_list_iterate_end;
-  clause_list_unlink_all(ptreaty->clauses);
   clause_list_free(ptreaty->clauses);
 }
 

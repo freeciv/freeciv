@@ -116,7 +116,7 @@ void output_window_thaw()
       free(pline->text);
       free(pline);
     } remaining_list_iterate_end;
-    remaining_list_unlink_all(remains);
+    remaining_list_clear(remains);
   }
 }
 

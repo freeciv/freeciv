@@ -152,7 +152,6 @@ void city_thaw_workers_queue(void)
     city_thaw_workers(pcity);
   } city_list_iterate_end;
 
-  city_list_unlink_all(arrange_workers_queue);
   city_list_free(arrange_workers_queue);
   arrange_workers_queue = NULL;
 }
@@ -854,7 +853,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
     punit->homecity = 0;
     send_unit_info(NULL, punit);
   } unit_list_iterate_end;
-  unit_list_unlink_all(pcity->units_supported);
+  unit_list_clear(pcity->units_supported);
 
   /* Remove all global improvement effects that this city confers (but
      then restore the local improvement list - we need this to restore the
@@ -908,7 +907,6 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 		      pcity, NULL,
 		      kill_outside, transfer_unit_verbose);
   /* The units themselves are allready freed by transfer_city_units. */
-  unit_list_unlink_all(old_city_units);
   unit_list_free(old_city_units);
 
   if (resolve_stack) {

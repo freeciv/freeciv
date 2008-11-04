@@ -458,7 +458,6 @@ void get_city_dialog_output_text(const struct city *pcity,
 		     peffect->value);
 	total = new_total;
       } effect_list_iterate_end;
-      effect_list_unlink_all(plist);
       effect_list_free(plist);
     }
   }

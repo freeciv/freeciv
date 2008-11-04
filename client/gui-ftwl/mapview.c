@@ -494,7 +494,7 @@ void flush_dirty(void)
     region_list_iterate(region_list, region) {
       free(region);
     } region_list_iterate_end;
-    region_list_unlink_all(region_list);
+    region_list_clear(region_list);
     
     flush_mapcanvas(0, 0, mapview.width, mapview.height);
     all_dirty = FALSE;
@@ -503,7 +503,7 @@ void flush_dirty(void)
       flush_mapcanvas(region->x, region->y, region->width, region->height);
       free(region);
     } region_list_iterate_end;
-    region_list_unlink_all(region_list);
+    region_list_clear(region_list);
   }
   sw_paint_all();
 }
@@ -1293,7 +1293,6 @@ void popdown_mapcanvas(void)
   region_list_iterate(region_list, region) {
     free(region);
   } region_list_iterate_end;
-  region_list_unlink_all(region_list);
   region_list_free(region_list);
   
   te_destroy_screen(screen);

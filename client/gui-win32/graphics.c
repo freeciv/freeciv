@@ -309,10 +309,7 @@ static void flush_hbmp_cache()
     crect_list_iterate(free_rects, pcrect) {
       free(pcrect);
     } crect_list_iterate_end;
-
-    crect_list_unlink_all(free_rects);
-
-    free(free_rects);
+    crect_list_free(free_rects);
   }
 
   free_rects = crect_list_new();
@@ -322,10 +319,7 @@ static void flush_hbmp_cache()
     crect_list_iterate(used_rects, pcrect) {
       free(pcrect);
     } crect_list_iterate_end;
-
-    crect_list_unlink_all(used_rects);
-
-    free(used_rects);
+    crect_list_free(used_rects);
   }
 
   used_rects = crect_list_new();

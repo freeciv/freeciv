@@ -86,7 +86,7 @@ void free_treaties(void)
     free(pt);
   } treaty_list_iterate_end;
 
-  treaty_list_unlink_all(treaties);
+  treaty_list_clear(treaties);
 }
 
 /**************************************************************************

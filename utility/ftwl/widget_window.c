@@ -660,7 +660,7 @@ static void merge_regions(struct region_list *list)
 
   orig = tmp;
   copy = list;
-  region_list_unlink_all(copy);
+  region_list_clear(copy);
 
   region_list_iterate(orig, region) {
     if (ct_rect_in_rect_list(region, copy)) {
@@ -670,7 +670,6 @@ static void merge_regions(struct region_list *list)
     }
   } region_list_iterate_end;
 
-  region_list_unlink_all(tmp);
   region_list_free(tmp);
 }
 

@@ -151,7 +151,7 @@ int get_num_units_in_focus(void)
 static void store_previous_focus(void)
 {
   if (get_num_units_in_focus() > 0) {
-    unit_list_unlink_all(previous_focus);
+    unit_list_clear(previous_focus);
     unit_list_iterate(get_units_in_focus(), punit) {
       unit_list_append(previous_focus, punit);
     } unit_list_iterate_end;
@@ -354,7 +354,7 @@ void set_unit_focus(struct unit *punit)
   unit_list_iterate(current_focus, punit_old) {
     refresh_unit_mapcanvas(punit_old, punit_old->tile, TRUE, FALSE);
   } unit_list_iterate_end;
-  unit_list_unlink_all(current_focus);
+  unit_list_clear(current_focus);
 
   if (!can_client_change_view()) {
     /* This function can be called to set the focus to NULL when

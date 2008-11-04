@@ -38,7 +38,7 @@
     
   - The data structures used internally by the genlist to store
     data for the links etc.  These are allocated by genlist_insert(),
-    and freed by genlist_unlink() and genlist_unlink_all().  That is,
+    and freed by genlist_unlink() and genlist_clear().  That is,
     it is the responsibility of the user to call the unlink functions
     as necessary to avoid memory leaks.
 
@@ -74,7 +74,7 @@ int genlist_size(const struct genlist *pgenlist);
 void *genlist_get(const struct genlist *pgenlist, int idx);
 struct genlist *genlist_new(void);
 struct genlist *genlist_copy(struct genlist *pgenlist);
-void genlist_unlink_all(struct genlist *pgenlist);
+void genlist_clear(struct genlist *pgenlist);
 void genlist_free(struct genlist *pgenlist);
 void genlist_append(struct genlist *pgenlist, void *data);
 void genlist_prepend(struct genlist *pgenlist, void *data);

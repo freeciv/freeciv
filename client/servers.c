@@ -521,7 +521,6 @@ static void delete_server_list(struct server_list *server_list)
     free(ptmp);
   } server_list_iterate_end;
 
-  server_list_unlink_all(server_list);
   server_list_free(server_list);
 }
 

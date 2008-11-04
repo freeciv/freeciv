@@ -113,7 +113,7 @@ void free_help_texts(void)
     free(ptmp->text);
     free(ptmp);
   } help_list_iterate_end;
-  help_list_unlink_all(help_nodes);
+  help_list_clear(help_nodes);
 }
 
 /****************************************************************************
@@ -496,7 +496,6 @@ void boot_help_texts(struct player *pplayer)
 	help_list_iterate(category_nodes, ptmp) {
 	  help_list_append(help_nodes, ptmp);
 	} help_list_iterate_end;
-	help_list_unlink_all(category_nodes);
         help_list_free(category_nodes);
 	continue;
       }

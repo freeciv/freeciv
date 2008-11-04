@@ -158,7 +158,6 @@ void free_client_goto(void)
     goto_map_list_iterate(goto_maps, goto_map) {
       goto_map_free(goto_map);
     } goto_map_list_iterate_end;
-    goto_map_list_unlink_all(goto_maps);
     goto_map_list_free(goto_maps);
     goto_maps = NULL;
   }
@@ -833,7 +832,7 @@ void exit_goto_state(void)
   goto_map_list_iterate(goto_maps, goto_map) {
     goto_map_free(goto_map);
   } goto_map_list_iterate_end;
-  goto_map_list_unlink_all(goto_maps);
+  goto_map_list_clear(goto_maps);
 
   goto_destination = NULL;
 }

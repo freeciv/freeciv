@@ -284,10 +284,8 @@ void section_file_free(struct section_file *file)
      just free the list meta-data:
   */
   section_list_iterate(file->sections, psection) {
-    entry_list_unlink_all(psection->entries);
     entry_list_free(psection->entries);
   } section_list_iterate_end;
-  section_list_unlink_all(file->sections);
   section_list_free(file->sections);
   file->sections = NULL;
 

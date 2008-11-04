@@ -1674,7 +1674,6 @@ static void update_saves_store(GtkListStore *store)
     free(pfile);
   } datafile_list_iterate_end;
 
-  datafile_list_unlink_all(files);
   datafile_list_free(files);
 
   files = datafilelist_infix(NULL, ".sav", FALSE);
@@ -1690,7 +1689,6 @@ static void update_saves_store(GtkListStore *store)
     free(pfile);
   } datafile_list_iterate_end;
 
-  datafile_list_unlink_all(files);
   datafile_list_free(files);
 }
 
@@ -1868,7 +1866,6 @@ static void update_scenario_page(void)
     free(pfile);
   } datafile_list_iterate_end;
 
-  datafile_list_unlink_all(files);
   datafile_list_free(files);
 }
 

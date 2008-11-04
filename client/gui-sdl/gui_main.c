@@ -1027,7 +1027,6 @@ void ui_exit()
   diplomacy_dialog_done();
   intel_dialog_done();  
 
-  callback_list_unlink_all(callbacks);
   callback_list_free(callbacks);
   
   unload_cursors();

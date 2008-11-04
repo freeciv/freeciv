@@ -550,7 +550,6 @@ void game_remove_player(struct player *pplayer)
    * the caller to fix them.  This happens when /loading a game while a
    * client is connected. */
 #endif
-  conn_list_unlink_all(pplayer->connections);
   conn_list_free(pplayer->connections);
   pplayer->connections = NULL;
 
@@ -562,7 +561,6 @@ void game_remove_player(struct player *pplayer)
             unit_list_size(pplayer->units),
             nation_rule_name(nation_of_player(pplayer)));
   }
-  unit_list_unlink_all(pplayer->units);
   unit_list_free(pplayer->units);
   pplayer->units = NULL;
 
@@ -574,7 +572,6 @@ void game_remove_player(struct player *pplayer)
             city_list_size(pplayer->cities),
             nation_rule_name(nation_of_player(pplayer)));
   }
-  city_list_unlink_all(pplayer->cities);
   city_list_free(pplayer->cities);
   pplayer->cities = NULL;
 

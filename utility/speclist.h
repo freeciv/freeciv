@@ -31,12 +31,13 @@
       struct foo_list;
    and prototypes for the following functions:
       struct foolist *foo_list_new();
+      void foo_list_free(struct foo_list *This);
       int  foo_list_size(struct foo_list *This);
       foo_t *foo_list_get(struct foo_list *This, int index);
       void foo_list_prepend(struct foo_list *This, foo_t *pfoo);
       void foo_list_append(struct foo_list *This, foo_t *pfoo);
       void foo_list_unlink(struct foo_list *This, foo_t *pfoo);
-      void foo_list_unlink_all(struct foo_list *This);
+      void foo_list_clear(struct foo_list *This);
       bool foo_list_search(struct foo_list *this, foo_t *pfoo);
       void foo_list_sort(struct foo_list *This, 
          int (*compar)(const void *, const void *));
@@ -120,9 +121,9 @@ static inline void SPECLIST_FOO(_list_append) (SPECLIST_LIST *tthis, SPECLIST_TY
   genlist_append(tthis->list, pfoo);
 }
 
-static inline void SPECLIST_FOO(_list_unlink_all) (SPECLIST_LIST *tthis)
+static inline void SPECLIST_FOO(_list_clear) (SPECLIST_LIST *tthis)
 {
-  genlist_unlink_all(tthis->list);
+  genlist_clear(tthis->list);
 }
 
 static inline void SPECLIST_FOO(_list_free) (SPECLIST_LIST *tthis)

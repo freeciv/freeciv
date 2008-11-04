@@ -263,7 +263,6 @@ static void do_upgrade_effects(struct player *pplayer)
     upgrades--;
   }
 
-  unit_list_unlink_all(candidates);
   unit_list_free(candidates);
 }
 
@@ -2489,13 +2488,11 @@ static bool unit_survive_autoattack(struct unit *punit)
     if (game_find_unit_by_number(sanity1)) {
       send_unit_info(NULL, punit);
     } else {
-      unit_list_unlink_all(autoattack);
       unit_list_free(autoattack);
       return FALSE; /* moving unit dead */
     }
   } unit_list_iterate_safe_end;
 
-  unit_list_unlink_all(autoattack);
   unit_list_free(autoattack);
   if (game_find_unit_by_number(sanity1)) {
     /* We could have lost movement in combat */
@@ -2779,7 +2776,6 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
 
       unit_move_consequences(pcargo, psrctile, pdesttile, TRUE);
     } unit_list_iterate_end;
-    unit_list_unlink_all(cargo_units);
     unit_list_free(cargo_units);
   }
 

@@ -2367,7 +2367,6 @@ static void unit_upgrade_callback(GtkWidget *w, gpointer data)
   punits = unit_list_new();
   unit_list_append(punits, punit);
   popup_upgrade_dialog(punits);
-  unit_list_unlink_all(punits);
   unit_list_free(punits);
 }
 
@@ -2793,14 +2792,14 @@ static void city_destroy_callback(GtkWidget *w, gpointer data)
   }
   unit_list_iterate_end;
 
-  unit_list_unlink_all(pdialog->pcity->info_units_supported);
+  unit_list_clear(pdialog->pcity->info_units_supported);
 
   unit_list_iterate(pdialog->pcity->info_units_present, psunit) {
     free(psunit);
   }
   unit_list_iterate_end;
 
-  unit_list_unlink_all(pdialog->pcity->info_units_present);
+  unit_list_clear(pdialog->pcity->info_units_present);
 
   free(pdialog);
 

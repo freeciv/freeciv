@@ -246,7 +246,6 @@ static void popup_load_game_dialog(void)
     free(pfile);
   } datafile_list_iterate_end;
 
-  datafile_list_unlink_all(files);
   datafile_list_free(files);
 
   files = datafilelist_infix(NULL, ".sav", FALSE);
@@ -284,7 +283,6 @@ static void popup_load_game_dialog(void)
     free(pfile);
   } datafile_list_iterate_end;
 
-  datafile_list_unlink_all(files);
   datafile_list_free(files);
 
   pLastLabel = pFilenameLabel;
