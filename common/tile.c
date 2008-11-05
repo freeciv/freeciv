@@ -664,3 +664,54 @@ bool tile_has_base(const struct tile *ptile, const struct base_type *pbase)
 {
   return BV_ISSET(ptile->bases, base_index(pbase));
 }
+
+/****************************************************************************
+  Returns a completely blank virtual tile (except for the unit list
+  vtile->units, which is created for you). Be sure to call virtual_tile_free
+  on it when it is no longer needed.
+****************************************************************************/
+struct tile *create_tile_virtual(void)
+{
+  struct tile *vtile;
+
+  vtile = fc_calloc(1, sizeof(*vtile));
+  vtile->units = unit_list_new();
+
+  return vtile;
+}
+
+/****************************************************************************
+  Frees all memory used by the virtual tile, including freeing virtual
+  units in the tile's unit list and the virtual city on this tile if one
+  exists.
+
+  NB: Do not call this on real tiles!
+****************************************************************************/
+void destroy_tile_virtual(struct tile *vtile)
+{
+  struct city *vcity;
+
+  if (!vtile) {
+    return;
+  }
+
+  if (vtile->units) {
+    unit_list_iterate(vtile->units, vunit) {
+      if (unit_is_virtual(vunit)) {
+        destroy_unit_virtual(vunit);
+      }
+    } unit_list_iterate_end;
+    unit_list_free(vtile->units);
+    vtile->units = NULL;
+  }
+
+  vcity = tile_city(vtile);
+  if (vcity) {
+    if (city_is_virtual(vcity)) {
+      destroy_city_virtual(vcity);
+    }
+    tile_set_worked(vtile, NULL);
+  }
+
+  free(vtile);
+}

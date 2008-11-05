@@ -2617,3 +2617,19 @@ bool city_exist(int id)
 
   return FALSE;
 }
+
+/**************************************************************************
+  Return TRUE if the city is a virtual city. That is, it is a valid city
+  pointer but does not correspond to a city that exists in the game.
+
+  NB: A return value of FALSE implies that either the pointer is NULL or
+  that the city exists in the game.
+**************************************************************************/
+bool city_is_virtual(const struct city *pcity)
+{
+  if (!pcity) {
+    return FALSE;
+  }
+
+  return pcity != game_find_city_by_number(pcity->id);
+}

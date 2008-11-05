@@ -315,6 +315,7 @@ struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
                                  struct unit_type *punittype,
 				 int veteran_level);
 void destroy_unit_virtual(struct unit *punit);
+bool unit_is_virtual(const struct unit *punit);
 void free_unit_orders(struct unit *punit);
 
 int get_transporter_occupancy(const struct unit *ptrans);

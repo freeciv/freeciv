@@ -629,6 +629,7 @@ bool city_built_last_turn(const struct city *pcity);
 struct city *create_city_virtual(struct player *pplayer,
 				 struct tile *ptile, const char *name);
 void destroy_city_virtual(struct city *pcity);
+bool city_is_virtual(const struct city *pcity);
 
 /* misc */
 bool is_city_option_set(const struct city *pcity, enum city_options option);

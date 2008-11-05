@@ -1599,3 +1599,19 @@ bool unit_alive(int id)
 
   return FALSE;
 }
+
+/**************************************************************************
+  Return TRUE if this is a valid unit pointer but does not correspond to
+  any unit that exists in the game.
+
+  NB: A return value of FALSE implies that either the pointer is NULL or
+  that the unit exists in the game.
+**************************************************************************/
+bool unit_is_virtual(const struct unit *punit)
+{
+  if (!punit) {
+    return FALSE;
+  }
+
+  return punit != game_find_unit_by_number(punit->id);
+}
