@@ -54,8 +54,6 @@
 
 GtkWidget *start_message_area;
 
-GtkTreeViewColumn *rating_col, *record_col;
-
 static GtkWidget *start_options_table;
 GtkWidget *take_button, *ready_button, *nation_button;
 
@@ -1355,6 +1353,7 @@ static gboolean playerlist_event(GtkWidget *widget, GdkEventButton *event,
   GtkTreeIter iter;
   GtkTreePath *path = NULL;
   GtkTreeViewColumn *column = NULL;
+  GtkWidget *menu;
   int player_no, conn_id;
   struct player *pplayer;
   struct connection *pconn;
@@ -1368,19 +1367,52 @@ static gboolean playerlist_event(GtkWidget *widget, GdkEventButton *event,
   }
 
   gtk_tree_model_get_iter(model, &iter, path);
-  gtk_tree_path_free(path);
-  gtk_tree_model_get(model, &iter, 0, &player_no, -1);
-  pplayer = player_by_number(player_no);
-  gtk_tree_model_get(model, &iter, 8, &conn_id, -1);
+
+  gtk_tree_model_get(model, &iter, CL_COL_PLAYER_NUMBER, &player_no, -1);
+  pplayer = valid_player_by_number(player_no);
+
+  gtk_tree_model_get(model, &iter, CL_COL_CONN_ID, &conn_id, -1);
   pconn = find_conn_by_id(conn_id);
 
-  gtk_menu_popup(GTK_MENU(create_conn_menu(pplayer, pconn)),
-		 NULL, NULL, NULL, NULL,
-		 event->button, 0);
+  menu = create_conn_menu(pplayer, pconn);
+  gtk_menu_popup(GTK_MENU(menu), NULL, NULL,
+                 NULL, NULL, event->button, 0);
+
+  gtk_tree_path_free(path);
   return TRUE;
-#if 0
-  return show_conn_popup(widget, event, data);
-#endif
+}
+
+/**************************************************************************
+  Helper function for adding columns to a tree view. If 'key' is not NULL
+  then the added column is added to the object data of the treeview using
+  g_object_set_data under 'key'.
+**************************************************************************/
+static void add_tree_col(GtkWidget *treeview, GType gtype,
+                         const char *title, int colnum, const char *key)
+{
+  GtkTreeViewColumn *col;
+  GtkCellRenderer *rend;
+  const char *attr;
+
+  if (gtype == G_TYPE_BOOLEAN) {
+    rend = gtk_cell_renderer_toggle_new();
+    attr = "active";
+  } else if (gtype == GDK_TYPE_PIXBUF) {
+    rend = gtk_cell_renderer_pixbuf_new();
+    attr = "pixbuf";
+  } else {
+    rend = gtk_cell_renderer_text_new();
+    attr = "text";
+  }
+
+  col = gtk_tree_view_column_new_with_attributes(title, rend, attr,
+                                                 colnum, NULL);
+  gtk_tree_view_column_set_sizing(col, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
+  gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), col);
+
+  if (key != NULL) {
+    g_object_set_data(G_OBJECT(treeview), key, col);
+  }
 }
 
 /**************************************************************************
@@ -1389,11 +1421,9 @@ static gboolean playerlist_event(GtkWidget *widget, GdkEventButton *event,
 GtkWidget *create_start_page(void)
 {
   GtkWidget *box, *sbox, *bbox, *table, *align, *vbox;
-
   GtkWidget *view, *sw, *text, *entry, *button, *spin, *option;
   GtkWidget *label, *menu, *item;
-  GtkCellRenderer *rend;
-  GtkTreeViewColumn *col;
+  GtkTreeStore *store;
   enum ai_level level;
 
   box = gtk_vbox_new(FALSE, 8);
@@ -1486,57 +1516,33 @@ GtkWidget *create_start_page(void)
   gtk_container_add(GTK_CONTAINER(align), button);
   gtk_box_pack_start(GTK_BOX(vbox), align, FALSE, FALSE, 8);
 
+  /* NB: Must match order and type of enum
+   * connection_list_columns in gui_main.h. */
+  store = gtk_tree_store_new(CL_NUM_COLUMNS, G_TYPE_INT,
+                             G_TYPE_STRING, G_TYPE_BOOLEAN,
+                             G_TYPE_STRING, G_TYPE_STRING,
+                             G_TYPE_STRING, G_TYPE_STRING,
+                             G_TYPE_STRING, G_TYPE_INT);
+  connection_list_store = store;
 
-  conn_model = gtk_tree_store_new(9, G_TYPE_INT,
-				  G_TYPE_STRING, G_TYPE_BOOLEAN,
-				  G_TYPE_STRING, G_TYPE_STRING,
-				  G_TYPE_STRING, G_TYPE_STRING,
-				  G_TYPE_STRING,
-				  G_TYPE_INT);
-
-  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(conn_model));
-  g_object_unref(conn_model);
+  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), TRUE);
-  gtk_tree_view_expand_all(GTK_TREE_VIEW(view));
+  connection_list_view = GTK_TREE_VIEW(view);
 
-  rend = gtk_cell_renderer_text_new();
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
-					      -1, _("Name"), rend,
-					      "text", 1, NULL);
-
-  rend = gtk_cell_renderer_text_new();
-  record_col = gtk_tree_view_column_new_with_attributes(_("Record"), rend,
-							"text", 6, NULL);
-  gtk_tree_view_insert_column(GTK_TREE_VIEW(view), record_col, -1);
-
-  rend = gtk_cell_renderer_text_new();
-  rating_col = gtk_tree_view_column_new_with_attributes(_("Rating"), rend,
-							"text", 7, NULL);
-  gtk_tree_view_insert_column(GTK_TREE_VIEW(view), rating_col, -1);
-
-  /* FIXME: should change to always be minimum-width. */
-  rend = gtk_cell_renderer_toggle_new();
-  col = gtk_tree_view_column_new_with_attributes(_("Ready"),
-						       rend,
-						       "active", 2, NULL);
-  gtk_tree_view_insert_column(GTK_TREE_VIEW(view), col, -1);
-
-  rend = gtk_cell_renderer_text_new();
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
-					      -1, _("Leader"), rend,
-					      "text", 3, NULL);
-
-  rend = gtk_cell_renderer_text_new();
-  col = gtk_tree_view_column_new_with_attributes(_("Nation"),
-							rend,
-							"text", 4, NULL);
-  gtk_tree_view_insert_column(GTK_TREE_VIEW(view), col, -1);
-
-  rend = gtk_cell_renderer_text_new();
-  col = gtk_tree_view_column_new_with_attributes(_("Team"),
-						      rend,
-						      "text", 5, NULL);
-  gtk_tree_view_insert_column(GTK_TREE_VIEW(view), col, -1);
+  add_tree_col(view, G_TYPE_STRING, _("Name"),
+               CL_COL_USER_NAME, NULL);
+  add_tree_col(view, G_TYPE_STRING, _("Record"),
+               CL_COL_GGZ_RECORD, "record_col");
+  add_tree_col(view, G_TYPE_STRING, _("Rating"),
+               CL_COL_GGZ_RATING, "rating_col");
+  add_tree_col(view, G_TYPE_BOOLEAN, _("Ready"),
+               CL_COL_READY_STATE, NULL);
+  add_tree_col(view, G_TYPE_STRING, _("Leader"),
+               CL_COL_PLAYER_NAME, NULL);
+  add_tree_col(view, G_TYPE_STRING, _("Nation"),
+               CL_COL_NATION, NULL);
+  add_tree_col(view, G_TYPE_STRING, _("Team"),
+               CL_COL_TEAM, NULL);
 
   g_signal_connect(view, "button-press-event",
 		   G_CALLBACK(playerlist_event), NULL);

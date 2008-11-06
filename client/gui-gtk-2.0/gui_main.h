@@ -73,7 +73,24 @@ extern GtkWidget *	top_notebook;
 extern GtkWidget *      map_widget;
 extern GtkWidget *	bottom_notebook;
 extern GtkTextBuffer *	message_buffer;
-extern GtkTreeStore *conn_model;
+
+/* NB: Must match creation arugments in
+ * create_start_page() in pages.c */
+enum connection_list_columns {
+  CL_COL_PLAYER_NUMBER = 0,
+  CL_COL_USER_NAME,
+  CL_COL_READY_STATE,
+  CL_COL_PLAYER_NAME,
+  CL_COL_NATION,
+  CL_COL_TEAM,
+  CL_COL_GGZ_RECORD,
+  CL_COL_GGZ_RATING,
+  CL_COL_CONN_ID,
+  
+  CL_NUM_COLUMNS
+};
+extern GtkTreeStore *connection_list_store;
+extern GtkTreeView *connection_list_view;
 
 void enable_menus(bool enable);
 

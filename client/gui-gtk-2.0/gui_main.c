@@ -122,8 +122,10 @@ GtkWidget *main_frame_civ_name;
 GtkWidget *main_label_info;
 
 GtkWidget *avbox, *ahbox, *vbox, *conn_box;
-GtkTreeStore *conn_model;
 GtkWidget* scroll_panel;
+
+GtkTreeStore *connection_list_store;
+GtkTreeView *connection_list_view;
 
 GtkWidget *econ_label[10];
 GtkWidget *bulb_label;
@@ -1606,8 +1608,6 @@ void ui_exit()
 **************************************************************************/
 void update_conn_list_dialog(void)
 {
-  GtkTreeIter it[player_count()];
-
   if (client_has_player()) {
     char *text;
 
@@ -1658,45 +1658,79 @@ void update_conn_list_dialog(void)
     gtk_stockbutton_set_label(take_button, _("Do not _observe"));
   }
 
-  gtk_tree_view_column_set_visible(record_col, (with_ggz || in_ggz));
-  gtk_tree_view_column_set_visible(rating_col, (with_ggz || in_ggz));
+  if (connection_list_view != NULL) {
+    GObject *view;
+    GtkTreeViewColumn *col;
+    bool visible;
 
-  if (C_S_RUNNING != client_state()) {
+    view = G_OBJECT(connection_list_view);
+    visible = (with_ggz || in_ggz);
+
+    col = g_object_get_data(view, "record_col");
+    if (col != NULL) {
+      gtk_tree_view_column_set_visible(col, visible);
+    }
+    col = g_object_get_data(view, "rating_col");
+    if (col != NULL) {
+      gtk_tree_view_column_set_visible(col, visible);
+    }
+  }
+
+  if (client_state() == C_S_PREPARING
+      && get_client_page() == PAGE_START
+      && connection_list_store != NULL) {
+    GtkTreeStore *store;
+    GtkTreeIter iter, parent;
     bool is_ready;
-    const char *nation, *leader, *team;
-    char name[MAX_LEN_NAME + 4], rating_text[128], record_text[128];
+    const char *nation, *plr_name, *team;
+    char user_name[MAX_LEN_NAME + 8], rating_text[128], record_text[128];
     int rating, wins, losses, ties, forfeits;
+    enum cmdlevel_id access_level;
+    int conn_id;
 
-    gtk_tree_store_clear(conn_model);
+    /* Clear the old list. */
+    store = connection_list_store;
+    gtk_tree_store_clear(store);
+
+    /* Insert players into the connection list. */
     players_iterate(pplayer) {
-      enum cmdlevel_id access_level = ALLOW_NONE;
-      int conn_id = -1;
+      conn_id = -1;
+      access_level = ALLOW_NONE;
 
       conn_list_iterate(pplayer->connections, pconn) {
-        access_level = MAX(pconn->access_level, access_level);
+        if (pconn->playing == pplayer && !pconn->observer) {
+          conn_id = pconn->id;
+          access_level = pconn->access_level;
+          break;
+        }
       } conn_list_iterate_end;
 
-      if (pplayer->ai.control) {
+      if (pplayer->ai.control && !pplayer->was_created
+          && !pplayer->is_connected) {
         /* TRANS: "<Novice AI>" */
-        my_snprintf(name, sizeof(name), _("<%s AI>"),
+        my_snprintf(user_name, sizeof(user_name), _("<%s AI>"),
                     ai_level_name(pplayer->ai.skill_level));
-      } else if (access_level <= ALLOW_INFO) {
-	sz_strlcpy(name, pplayer->username);
       } else {
-        my_snprintf(name, sizeof(name), "%s*", pplayer->username);
+        sz_strlcpy(user_name, pplayer->username);
+        if (access_level > ALLOW_INFO) {
+          sz_strlcat(user_name, "*");
+        }
       }
-      is_ready = pplayer->ai.control ? TRUE: pplayer->is_ready;
+
+      is_ready = pplayer->ai.control ? TRUE : pplayer->is_ready;
+
       if (pplayer->nation == NO_NATION_SELECTED) {
 	nation = _("Random");
         if (pplayer->was_created) {
-          leader = player_name(pplayer);
+          plr_name = player_name(pplayer);
         } else {
-          leader = "";
+          plr_name = "";
         }
       } else {
 	nation = nation_adjective_for_player(pplayer);
-	leader = player_name(pplayer);
+	plr_name = player_name(pplayer);
       }
+
       team = pplayer->team ? team_name_translation(pplayer->team) : "";
 
       rating_text[0] = '\0';
@@ -1723,52 +1757,52 @@ void update_conn_list_dialog(void)
 	}
       }
 
-      conn_list_iterate(game.est_connections, pconn) {
-	if (pconn->playing == pplayer && !pconn->observer) {
-	  assert(conn_id == -1);
-	  conn_id = pconn->id;
-	}
+      gtk_tree_store_append(store, &iter, NULL);
+      gtk_tree_store_set(store, &iter, 
+                         CL_COL_PLAYER_NUMBER, player_number(pplayer),
+                         CL_COL_USER_NAME, user_name,
+                         CL_COL_READY_STATE, is_ready,
+                         CL_COL_PLAYER_NAME, plr_name,
+                         CL_COL_NATION, nation,
+                         CL_COL_TEAM, team,
+                         CL_COL_GGZ_RECORD, record_text,
+                         CL_COL_GGZ_RATING, rating_text,
+                         CL_COL_CONN_ID, conn_id, -1);
+      parent = iter;
+
+      /* Insert observers of this player as child nodes. */
+      conn_list_iterate(pplayer->connections, pconn) {
+        if (pconn->id == conn_id) {
+          continue;
+        }
+        gtk_tree_store_append(store, &iter, &parent);
+        gtk_tree_store_set(store, &iter,
+                           CL_COL_PLAYER_NUMBER, -1,
+                           CL_COL_USER_NAME, pconn->username,
+                           CL_COL_TEAM, _("Observer"),
+                           CL_COL_CONN_ID, pconn->id, -1);
       } conn_list_iterate_end;
-
-      gtk_tree_store_append(conn_model, &it[player_index(pplayer)], NULL);
-      gtk_tree_store_set(conn_model, &it[player_index(pplayer)],
-			 0, player_number(pplayer),
-			 1, name,
-			 2, is_ready,
-			 3, leader,
-			 4, nation,
-			 5, team,
-			 6, record_text,
-			 7, rating_text,
-			 8, conn_id,
-			 -1);
+      
     } players_iterate_end;
-    conn_list_iterate(game.est_connections, pconn) {
-      GtkTreeIter conn_it, *parent;
 
-      if (NULL != pconn->playing && !pconn->observer) {
+    /* Finally, insert global observers and detached connections. */
+    conn_list_iterate(game.est_connections, pconn) {
+      if (pconn->playing != NULL) {
 	continue; /* Already listed above. */
       }
-      sz_strlcpy(name, pconn->username);
-      is_ready = TRUE;
-      nation = "";
-      leader = "";
       team = pconn->observer ? _("Observer") : _("Detached");
-      parent = (NULL != pconn->playing)
-                ? &it[player_index(pconn->playing)]
-                : NULL;
-
-      gtk_tree_store_append(conn_model, &conn_it, parent);
-      gtk_tree_store_set(conn_model, &conn_it,
-			 0, -1,
-			 1, name,
-			 2, is_ready,
-			 3, leader,
-			 4, nation,
-			 5, team,
-			 8, pconn->id,
-			 -1);
+      gtk_tree_store_append(store, &iter, NULL);
+      gtk_tree_store_set(store, &iter,
+			 CL_COL_PLAYER_NUMBER, -1,
+			 CL_COL_USER_NAME, pconn->username,
+			 CL_COL_TEAM, team,
+			 CL_COL_CONN_ID, pconn->id, -1);
     } conn_list_iterate_end;
+
+    if (connection_list_view != NULL) {
+      GtkTreeView *view = connection_list_view;
+      gtk_tree_view_expand_all(view);
+    }
   }
 }
 
