@@ -92,7 +92,6 @@ static bool set_away(struct connection *caller, char *name, bool check);
 
 static bool observe_command(struct connection *caller, char *name, bool check);
 static bool take_command(struct connection *caller, char *name, bool check);
-static bool detach_command(struct connection *caller, char *name, bool check);
 static bool end_command(struct connection *caller, char *str, bool check);
 static bool surrender_command(struct connection *caller, char *str, bool check);
 
@@ -3147,7 +3146,7 @@ static bool observe_command(struct connection *caller, char *str, bool check)
   enum m_pre_result result;
   struct connection *pconn = NULL;
   struct player *pplayer = NULL;
-  bool res = FALSE, player_changed = FALSE;
+  bool res = FALSE;
   
   /******** PART I: fill pconn and pplayer ********/
 
@@ -3268,9 +3267,9 @@ static bool observe_command(struct connection *caller, char *str, bool check)
 
   /* attach pconn to new player as an observer */
   if (pplayer) {
-    player_changed = attach_connection_to_player(pconn, pplayer, TRUE);
+    attach_connection_to_player(pconn, pplayer, TRUE);
   } else {
-    player_changed = detach_connection_to_player(pconn, TRUE);
+    detach_connection_to_player(pconn, TRUE);
   }
 
   if (S_S_RUNNING == server_state()) {
@@ -3284,9 +3283,7 @@ static bool observe_command(struct connection *caller, char *str, bool check)
     /* we already know existing connections */
   }
   /* redundant self to self cannot be avoided */
-  if (player_changed) {
-    send_player_info(pplayer, NULL);
-  }
+  send_player_info(pplayer, NULL);
   send_conn_info(pconn->self, game.est_connections);
 
   if (pplayer) {
@@ -3464,6 +3461,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
   players_iterate(aplayer) {
     if (strncmp(aplayer->username, pconn->username, MAX_LEN_NAME) == 0) {
       sz_strlcpy(aplayer->username, ANON_USER_NAME);
+      send_player_info_c(aplayer, NULL);
     }
   } players_iterate_end;
 
@@ -3478,6 +3476,10 @@ static bool take_command(struct connection *caller, char *str, bool check)
   if (res) {
     /* Successfully attached */
     pplayer = pconn->playing; /* In case pplayer was NULL. */
+    if (was_observing_this) {
+      pconn->observer = FALSE;
+      sz_strlcpy(pplayer->username, pconn->username);
+    }
 
     /* inform about the status before changes */
     cmd_reply(CMD_TAKE, caller, C_OK, _("%s now controls %s (%s, %s)"),
@@ -3536,7 +3538,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
   If called for a global observer connection (where pconn->playing is NULL)
   then it will correctly detach from observing mode.
 **************************************************************************/
-static bool detach_command(struct connection *caller, char *str, bool check)
+bool detach_command(struct connection *caller, char *str, bool check)
 {
   int i = 0, ntokens = 0;
   char buf[MAX_LEN_CONSOLE_LINE], *arg[1];
@@ -3645,14 +3647,21 @@ static bool detach_command(struct connection *caller, char *str, bool check)
   cancel_connection_votes(pconn);
 
   if (pplayer && !pplayer->is_connected) {
+    bool player_changed = FALSE;
+
     /* aitoggle the player if no longer connected. */
     if (game.info.auto_ai_toggle && !pplayer->ai.control) {
       toggle_ai_player_direct(NULL, pplayer);
-      send_player_info_c(pplayer, game.est_connections);
+      player_changed = TRUE;
     }
     /* reset username if in pregame. */
     if (is_newgame) {
       sz_strlcpy(pplayer->username, ANON_USER_NAME);
+      player_changed = TRUE;
+    }
+
+    if (player_changed) {
+      send_player_info_c(pplayer, NULL);
     }
   }
 
