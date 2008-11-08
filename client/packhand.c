@@ -889,10 +889,6 @@ void handle_start_phase(int phase)
   game.info.phase = phase;
 
   if (game.player_ptr && is_player_phase(game.player_ptr, phase)) {
-    /* HACK: this is updated by the player packet too; we update it here
-     * so the turn done button state will be set properly. */
-    game.player_ptr->phase_done = FALSE;
-
     agents_start_turn();
     non_ai_unit_focus = FALSE;
 
@@ -1514,7 +1510,7 @@ void start_revolution(void)
 void handle_player_info(struct packet_player_info *pinfo)
 {
   int i;
-  bool poptechup, new_tech = FALSE;
+  bool poptechup, new_tech = FALSE, phase_done_changed;
   char msg[MAX_LEN_MSG];
   struct player *pplayer = &game.players[pinfo->playerno];
   struct player_research* research;
@@ -1652,10 +1648,7 @@ void handle_player_info(struct packet_player_info *pinfo)
 
   pplayer->is_ready = pinfo->is_ready;
 
-  if (pplayer == game.player_ptr
-      && pplayer->phase_done != pinfo->phase_done) {
-    update_turn_done_button_state();
-  }
+  phase_done_changed = (pplayer->phase_done != pinfo->phase_done);
   pplayer->phase_done = pinfo->phase_done;
 
   pplayer->nturns_idle=pinfo->nturns_idle;
@@ -1665,6 +1658,9 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->revolution_finishes = pinfo->revolution_finishes;
   pplayer->ai.skill_level = pinfo->ai_skill_level;
 
+  if (pplayer == game.player_ptr && phase_done_changed) {
+    update_turn_done_button_state();
+  }
   update_players_dialog();
   update_worklist_report_dialog();
   upgrade_canvas_clipboard();
