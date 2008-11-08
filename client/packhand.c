@@ -1035,10 +1035,6 @@ void handle_start_phase(int phase)
 
   if (NULL != client.conn.playing
       && is_player_phase(client.conn.playing, phase)) {
-    /* HACK: this is updated by the player packet too; we update it here
-     * so the turn done button state will be set properly. */
-    client.conn.playing->phase_done = FALSE;
-
     agents_start_turn();
     non_ai_unit_focus = FALSE;
 
