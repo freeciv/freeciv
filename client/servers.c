@@ -766,7 +766,7 @@ static struct server_list *get_lan_server_list(struct server_scan *scan)
 #else  /* IPv6 support */
       const char *dst = NULL;
       struct hostent *from;
-      char *host = NULL;
+      const char *host = NULL;
 
       from = gethostbyaddr((char *) &fromend.saddr_in4.sin_addr,
 			   sizeof(fromend.saddr_in4.sin_addr), AF_INET);

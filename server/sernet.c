@@ -829,7 +829,7 @@ static int server_accept_connection(int sockfd)
   char dst[INET6_ADDRSTRLEN];
 #else  /* IPv6 support */
   struct hostent *from;
-  char *host = NULL;
+  const char *host = NULL;
   const char *dst;
 #endif /* IPv6 support */
 
