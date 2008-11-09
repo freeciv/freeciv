@@ -398,7 +398,8 @@ update_players_dialog(void)
     lv=GetDlgItem(players_dialog,ID_PLAYERS_LIST);
     ListView_DeleteAllItems(lv);
 
-    for (i = 0; i < player_count(); i++) {
+    players_iterate(pplayer) {
+      i = player_number(pplayer);
       build_row(row_texts, i, 0);
       row=fcwin_listview_add_row(lv,i,NUM_COLUMNS, (char **)row_texts);
       lvi.iItem=row;
@@ -406,7 +407,7 @@ update_players_dialog(void)
       lvi.lParam=i;
       lvi.mask=LVIF_PARAM;
       ListView_SetItem(lv,&lvi);
-    }
+    } players_iterate_end;
     ListView_SetColumnWidth(lv,0,LVSCW_AUTOSIZE);
     for (i=1;i<NUM_COLUMNS;i++) {
       ListView_SetColumnWidth(lv,i,LVSCW_AUTOSIZE_USEHEADER); 

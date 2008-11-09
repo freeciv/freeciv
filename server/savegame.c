@@ -2261,7 +2261,7 @@ static void player_load_main(struct player *plr, int plrno,
 				   "player%d.revolution_finishes", plrno);
   }
 
-  for (i = 0; i < player_count(); i++) {
+  for (i = 0; i < player_slot_count(); i++) {
     plr->diplstates[i].type = 
       secfile_lookup_int_default(file, DS_WAR,
 				 "player%d.diplstate%d.type", plrno, i);
@@ -2280,19 +2280,6 @@ static void player_load_main(struct player *plr, int plrno,
 				 plrno, i);
     plr->diplstates[i].contact_turns_left = 
       secfile_lookup_int_default(file, 0,
-			   "player%d.diplstate%d.contact_turns_left", plrno, i);
-  }
-  /* We don't need this info, but savegames carry it anyway.
-     To avoid getting "unused" warnings we touch the values like this. */
-  for (i = player_count(); i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
-    secfile_lookup_int_default(file, DS_WAR,
-			       "player%d.diplstate%d.type", plrno, i);
-    secfile_lookup_int_default(file, 0,
-			       "player%d.diplstate%d.turns_left", plrno, i);
-    secfile_lookup_int_default(file, 0,
-			       "player%d.diplstate%d.has_reason_to_cancel",
-			       plrno, i);
-    secfile_lookup_int_default(file, 0,
 			   "player%d.diplstate%d.contact_turns_left", plrno, i);
   }
 

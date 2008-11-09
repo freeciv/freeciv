@@ -104,7 +104,7 @@ void popup_find_dialog(void)
   SDL_Surface *pLogo = NULL;
   SDL_String16 *pStr;
   char cBuf[128]; 
-  int i = 0, h = 0, n = 0, w = 0, units_h = 0;
+  int h = 0, n = 0, w = 0, units_h = 0;
   struct player *owner = NULL;
   struct tile *original;
   int window_x = 0, window_y = 0;
@@ -112,9 +112,12 @@ void popup_find_dialog(void)
   SDL_Rect area;
   
   /* check that there are any cities to find */
-  while(!h && i < player_count()) {
-    h = city_list_size(player_by_number(i++)->cities);
-  }
+  players_iterate(pplayer) {
+    h = city_list_size(pplayer->cities);
+    if (h > 0) {
+      break;
+    }
+  } players_iterate_end;
   
   if (pFind_City_Dlg && !h) {
     return;

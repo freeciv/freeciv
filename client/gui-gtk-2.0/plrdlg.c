@@ -664,11 +664,11 @@ static bool player_should_be_shown(int plrno) {
 void update_players_dialog(void)
 {
   if (players_dialog_shell && !is_plrdlg_frozen()) {
-    gboolean exists[player_count()];
+    gboolean exists[player_slot_count()];
     gint i;
     GtkTreeIter it, it_next;
 
-    for (i = 0; i < player_count(); i++) {
+    for (i = 0; i < player_slot_count(); i++) {
       exists[i] = FALSE;
     }
 
