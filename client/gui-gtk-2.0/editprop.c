@@ -4169,7 +4169,7 @@ static void property_page_object_changed(struct property_page *pp,
     GtkTreeIter iter;
     GtkTreeModel *model;
 
-    model = gtk_tree_row_reference_get_model(rr);
+    model = GTK_TREE_MODEL(pp->object_store);
     path = gtk_tree_row_reference_get_path(rr);
 
     if (gtk_tree_model_get_iter(model, &iter, path)) {
