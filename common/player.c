@@ -543,7 +543,7 @@ struct city *player_find_city_by_id(const struct player *pplayer,
 struct unit *player_find_unit_by_id(const struct player *pplayer,
 				    int unit_id)
 {
-  /* We call idex directly. Should use game_find_unit_by_id()
+  /* We call idex directly. Should use game_find_unit_by_number()
    * instead? */
   struct unit *punit = idex_lookup_unit(unit_id);
 

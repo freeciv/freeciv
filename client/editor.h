@@ -19,7 +19,7 @@
 /* See client/gui-gtk-2.0/editprop.c for instructions
  * on how to add more object types. */
 enum editor_object_type {
-  OBJTYPE_TILE,
+  OBJTYPE_TILE = 0,
   OBJTYPE_UNIT,
   OBJTYPE_CITY,
   OBJTYPE_PLAYER,
@@ -104,5 +104,7 @@ void editor_selection_remove(const struct tile *ptile);
 bool editor_tile_is_selected(const struct tile *ptile);
 void editor_apply_tool_to_selection(void);
 int editor_selection_count(void);
+
+struct unit *editor_create_unit_virtual(void);
 
 #endif /* FC__TOOLS_H */

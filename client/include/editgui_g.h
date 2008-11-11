@@ -21,5 +21,6 @@ void editgui_popup_properties(const struct tile_list *tiles);
 
 /* OBJTYPE_* enum values defined in client/editor.h */
 void editgui_notify_object_changed(int objtype, int id, bool remove);
+void editgui_notify_object_created(int tag, int id);
 
 #endif  /* FC__EDITGUI_G_H */

@@ -35,11 +35,15 @@
 
 #include "citytools.h"
 #include "cityturn.h"
+#include "connecthand.h"
 #include "gamehand.h"
-#include "plrhand.h"
-#include "unittools.h"
 #include "hand_gen.h"
 #include "maphand.h"
+#include "plrhand.h"
+#include "srv_main.h"
+#include "stdinhand.h"
+#include "techtools.h"
+#include "unittools.h"
 #include "utilities.h"
 
 /* The number of tiles for which expensive checks have
@@ -359,9 +363,10 @@ void handle_edit_tile(struct connection *pc,
   Handle a request to create 'count' units of type 'utid' at the tile given
   by the x, y coordinates and owned by player with number 'owner'.
 ****************************************************************************/
-void handle_edit_unit_create(struct connection *pc, int owner,
-                             int x, int y, Unit_type_id utid, int count)
+void handle_edit_unit_create(struct connection *pc,
+                             struct packet_edit_unit_create *packet)
 {
+  int owner, x, y, utid, count, tag;
   struct tile *ptile;
   struct unit_type *punittype;
   struct player *pplayer;
@@ -375,6 +380,13 @@ void handle_edit_unit_create(struct connection *pc, int owner,
                 _("You are not allowed to edit."));
     return;
   }
+
+  owner = packet->owner;
+  x = packet->x;
+  y = packet->y;
+  utid = packet->type;
+  count = packet->count;
+  tag = packet->tag;
 
   ptile = map_pos_to_tile(x, y);
   if (!ptile) {
@@ -432,10 +444,14 @@ void handle_edit_unit_create(struct connection *pc, int owner,
   id = homecity ? homecity->id : 0;
 
   conn_list_do_buffer(game.est_connections);
+  map_show_circle(pplayer, ptile, punittype->vision_radius_sq);
   for (i = 0; i < count; i++) {
     /* As far as I can see create_unit is guaranteed to
      * never return NULL. */
     punit = create_unit(pplayer, ptile, punittype, 0, id, -1);
+    if (tag > 0) {
+      dsend_packet_edit_object_created(pc, tag, punit->id);
+    }
   }
   conn_list_do_unbuffer(game.est_connections);
 }
@@ -498,6 +514,28 @@ void handle_edit_unit_remove(struct connection *pc, int owner,
   } unit_list_iterate_safe_end;
 }
 
+/****************************************************************************
+  Handle a request to remove a unit given by its id.
+****************************************************************************/
+void handle_edit_unit_remove_by_id(struct connection *pc, Unit_type_id id)
+{
+  struct unit *punit;
+
+  if (!can_conn_edit(pc)) {
+    notify_conn(pc->self, NULL, E_BAD_COMMAND,
+                _("You are not allowed to edit."));
+    return;
+  }
+
+  punit = game_find_unit_by_number(id);
+  if (!punit) {
+    notify_conn(pc->self, NULL, E_BAD_COMMAND,
+                _("No such unit (ID %d)."), id);
+    return;
+  }
+
+  wipe_unit(punit);
+}
 
 /****************************************************************************
   Handles unit information from the client, to make edits to units.
@@ -552,8 +590,8 @@ void handle_edit_unit(struct connection *pc,
   Allows the editing client to create a city at the given position and
   of size 'size'.
 ****************************************************************************/
-void handle_edit_city_create(struct connection *pc,
-			     int owner, int x, int y, int size)
+void handle_edit_city_create(struct connection *pc, int owner, int x, int y,
+                             int size, int tag)
 {
   struct tile *ptile;
   struct city *pcity;
@@ -584,7 +622,8 @@ void handle_edit_city_create(struct connection *pc,
   }
 
 
-  if (!city_can_be_built_here(ptile, NULL)) {
+  if (is_enemy_unit_tile(ptile, pplayer) != NULL
+      || !city_can_be_built_here(ptile, NULL)) {
     notify_conn(pc->self, ptile, E_BAD_COMMAND,
                 _("A city may not be built at (%d, %d)."), x, y);
     return;
@@ -596,6 +635,7 @@ void handle_edit_city_create(struct connection *pc,
   }
 
   conn_list_do_buffer(game.est_connections);
+
   map_show_tile(pplayer, ptile);
   create_city(pplayer, ptile, city_name_suggestion(pplayer, ptile));
   pcity = tile_city(ptile);
@@ -605,6 +645,11 @@ void handle_edit_city_create(struct connection *pc,
     city_change_size(pcity, CLIP(1, size, MAX_CITY_SIZE));
     send_city_info(NULL, pcity);
   }
+
+  if (tag > 0) {
+    dsend_packet_edit_object_created(pc, tag, pcity->id);
+  }
+
   conn_list_do_unbuffer(game.est_connections);
 }
 
@@ -753,6 +798,113 @@ void handle_edit_city(struct connection *pc,
 
     conn_list_do_unbuffer(game.est_connections);
   }
+}
+
+/****************************************************************************
+  Handle a request to create a new player.
+****************************************************************************/
+void handle_edit_player_create(struct connection *pc, int tag)
+{
+  struct player *pplayer;
+  struct nation_type *pnation;
+
+  if (!can_conn_edit(pc)) {
+    notify_conn(pc->self, NULL, E_BAD_COMMAND,
+                _("You are not allowed to edit."));
+    return;
+  }
+
+  if (player_count() >= player_slot_count()) {
+    notify_conn(pc->self, NULL, E_BAD_COMMAND,
+                _("No more players can be added because the maximum "
+                  "number of players (%d) has been reached."),
+                player_slot_count());
+    return;
+  }
+
+  if (player_count() >= nation_count() ) {
+    notify_conn(pc->self, NULL, E_BAD_COMMAND,
+                _("No more players can be added because there are "
+                  "no available nations (%d used)."),
+                nation_count());
+    return;
+  }
+
+  pnation = pick_a_nation(NULL, TRUE, TRUE, NOT_A_BARBARIAN);
+  if (!pnation) {
+    notify_conn(pc->self, NULL, E_BAD_COMMAND,
+                _("Player cannot be created because random nation "
+                  "selection failed."));
+    return;
+  }
+
+
+  pplayer = server_create_player();
+  if (!pplayer) {
+    notify_conn(pc->self, NULL, E_BAD_COMMAND,
+                _("Player creation failed."));
+    return;
+  }
+
+  player_map_free(pplayer);
+  server_player_init(pplayer, TRUE, TRUE);
+  player_set_nation(pplayer, pnation);
+  pick_random_player_name(pnation, pplayer->name);
+  sz_strlcpy(pplayer->username, ANON_USER_NAME);
+  pplayer->is_connected = FALSE;
+  pplayer->government = pnation->init_government;
+  pplayer->capital = FALSE;
+
+  pplayer->economic.gold = 0;
+  pplayer->economic = player_limit_to_max_rates(pplayer);
+
+  init_tech(pplayer, TRUE);
+  give_initial_techs(pplayer);
+
+  send_player_info(pplayer, NULL);
+  if (tag > 0) {
+    dsend_packet_edit_object_created(pc, tag, player_number(pplayer));
+  }
+}
+
+/****************************************************************************
+  Handle a request to remove a player.
+****************************************************************************/
+void handle_edit_player_remove(struct connection *pc, int id)
+{
+  struct player *pplayer;
+  struct conn_list *conns;
+
+  if (!can_conn_edit(pc)) {
+    notify_conn(pc->self, NULL, E_BAD_COMMAND,
+                _("You are not allowed to edit."));
+    return;
+  }
+
+  pplayer = valid_player_by_number(id);
+  if (pplayer == NULL) {
+    notify_conn(pc->self, NULL, E_BAD_COMMAND,
+                _("No such player (ID %d)."), id);
+    return;
+  }
+
+  conns = conn_list_new();
+
+  conn_list_iterate(pplayer->connections, pconn) {
+    conn_list_append(conns, pconn);
+  } conn_list_iterate_end;
+  conn_list_iterate(conns, pconn) {
+    detach_command(NULL, pconn->username, FALSE);
+  } conn_list_iterate_end;
+
+  conn_list_free(conns);
+
+  kill_player(pplayer);
+  whole_map_iterate(ptile) {
+    map_clear_known(ptile, pplayer);
+  } whole_map_iterate_end;
+  server_remove_player(pplayer);
+  send_player_slot_info_c(pplayer, NULL);
 }
 
 /**************************************************************************

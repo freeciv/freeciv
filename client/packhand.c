@@ -1700,6 +1700,9 @@ void handle_player_remove(int playerno)
     return;
   }
 
+  game_remove_player(pplayer);
+  player_init(pplayer);
+
   player_slot_set_used(pplayer, FALSE);
   set_player_count(player_count() - 1);
 
@@ -3369,3 +3372,13 @@ void handle_ruleset_effect_req(struct packet_ruleset_effect_req *packet)
   recv_ruleset_effect_req(packet);
 }
 
+/**************************************************************************
+  Handle a notification from the server that an object was successfully
+  created. The 'tag' was previously sent to the server when the client
+  requested the creation. The 'id' is the identifier of the newly created
+  object.
+**************************************************************************/
+void handle_edit_object_created(int tag, int id)
+{
+  editgui_notify_object_created(tag, id);
+}

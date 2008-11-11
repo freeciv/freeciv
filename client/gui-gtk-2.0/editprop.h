@@ -28,6 +28,8 @@ void property_editor_handle_object_changed(struct property_editor *pe,
                                            int objtype,
                                            int object_id,
                                            bool remove);
+void property_editor_handle_object_created(struct property_editor *pe,
+                                           int tag, int object_id);
 
 struct property_editor *editprop_get_property_editor(void);
 

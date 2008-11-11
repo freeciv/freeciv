@@ -1434,54 +1434,54 @@ PACKET_EDIT_MODE=150;cs,handle-per-conn,dsend
   BOOL state;
 end
 
-PACKET_EDIT_RECALCULATE_BORDERS=152;cs,handle-per-conn
+PACKET_EDIT_RECALCULATE_BORDERS=151;cs,handle-per-conn
 end
 
-PACKET_EDIT_CHECK_TILES=153;cs,handle-per-conn
+PACKET_EDIT_CHECK_TILES=152;cs,handle-per-conn
 end
 
-PACKET_EDIT_TOGGLE_FOGOFWAR=154;cs,handle-per-conn,dsend
+PACKET_EDIT_TOGGLE_FOGOFWAR=153;cs,handle-per-conn,dsend
   PLAYER player;
 end
 
-PACKET_EDIT_TILE_TERRAIN=155;cs,handle-per-conn,dsend
+PACKET_EDIT_TILE_TERRAIN=154;cs,handle-per-conn,dsend
   COORD x, y; key
   TERRAIN terrain;
   UINT8 size;
 end
 
-PACKET_EDIT_TILE_RESOURCE=156;cs,handle-per-conn,dsend
+PACKET_EDIT_TILE_RESOURCE=155;cs,handle-per-conn,dsend
   COORD x, y; key
   RESOURCE resource;
   UINT8 size;
 end
 
-PACKET_EDIT_TILE_SPECIAL=157;cs,handle-per-conn,dsend
+PACKET_EDIT_TILE_SPECIAL=156;cs,handle-per-conn,dsend
   COORD x, y; key
   SPECIAL special;
   BOOL remove;
   UINT8 size;
 end
 
-PACKET_EDIT_TILE_BASE=158;cs,handle-per-conn,dsend
+PACKET_EDIT_TILE_BASE=157;cs,handle-per-conn,dsend
   COORD x, y; key
   BASE base_type_id;
   BOOL remove;
   UINT8 size;
 end
 
-PACKET_EDIT_TERRITORY=159;cs,handle-per-conn,dsend
+PACKET_EDIT_TERRITORY=158;cs,handle-per-conn,dsend
   COORD x, y; key
   PLAYER owner; # -1 (or other out of range) for erasing
   UINT8 size;
 end
 
-PACKET_EDIT_STARTPOS=160;cs,handle-per-conn,dsend
+PACKET_EDIT_STARTPOS=159;cs,handle-per-conn,dsend
   COORD x, y; key
   NATION nation; # -1 for erase
 end
 
-PACKET_EDIT_TILE=161;cs,handle-per-conn,handle-via-packet
+PACKET_EDIT_TILE=160;cs,handle-per-conn,handle-via-packet
   UNIT id; key
   BV_SPECIAL specials;
   RESOURCE resource;
@@ -1489,18 +1489,23 @@ PACKET_EDIT_TILE=161;cs,handle-per-conn,handle-via-packet
   NATION startpos_nation;
 end
 
-PACKET_EDIT_UNIT_CREATE=162;cs,handle-per-conn,dsend
+PACKET_EDIT_UNIT_CREATE=161;cs,handle-per-conn,dsend
+  PLAYER owner;
+  COORD x,y;
+  UNIT_TYPE type;
+  UINT8 count;
+  SINT32 tag;
+end
+
+PACKET_EDIT_UNIT_REMOVE=162;cs,handle-per-conn,dsend
   PLAYER owner;
   COORD x,y;
   UNIT_TYPE type;
   UINT8 count;
 end
 
-PACKET_EDIT_UNIT_REMOVE=163;cs,handle-per-conn,dsend
-  PLAYER owner;
-  COORD x,y;
-  UNIT_TYPE type;
-  UINT8 count;
+PACKET_EDIT_UNIT_REMOVE_BY_ID=163;cs,handle-per-conn,dsend
+  UNIT id;
 end
 
 PACKET_EDIT_UNIT=164;cs,handle-per-conn,handle-via-packet
@@ -1525,6 +1530,7 @@ PACKET_EDIT_CITY_CREATE=165;cs,handle-per-conn,dsend
   PLAYER owner;
   COORD x, y;
   UINT8 size;
+  SINT32 tag;
 end
 
 PACKET_EDIT_CITY_REMOVE=166;cs,handle-per-conn,dsend
@@ -1559,7 +1565,15 @@ PACKET_EDIT_CITY=167;cs,handle-per-conn,handle-via-packet
   BV_CITY_OPTIONS city_options;
 end
 
-PACKET_EDIT_PLAYER=168;cs,handle-per-conn,lsend
+PACKET_EDIT_PLAYER_CREATE=168;cs,handle-per-conn,dsend
+  SINT32 tag;
+end
+
+PACKET_EDIT_PLAYER_REMOVE=169;cs,handle-per-conn,dsend
+  PLAYER id;
+end
+
+PACKET_EDIT_PLAYER=170;cs,handle-per-conn,lsend
   PLAYER id; key 
   STRING name[MAX_LEN_NAME];
   STRING username[MAX_LEN_NAME];
@@ -1593,16 +1607,21 @@ PACKET_EDIT_PLAYER=168;cs,handle-per-conn,lsend
   BOOL ai;
 end
 
-PACKET_EDIT_GAME=169;cs,handle-per-conn,handle-via-packet
-  YEAR year;
-end
-
-/* Always keep this as the last edit type packet,
- * so that the test in server/srv_main.c +1203
- * is easy to write. */
-PACKET_EDIT_PLAYER_VISION=170;cs,handle-per-conn,dsend
+PACKET_EDIT_PLAYER_VISION=171;cs,handle-per-conn,dsend
   PLAYER player;
   COORD x, y;
   BOOL known;
   UINT8 size;
+end
+
+PACKET_EDIT_GAME=172;cs,handle-per-conn,handle-via-packet
+  YEAR year;
+end
+
+/* Always keep this as the last edit type packet,
+ * so that the test in server/srv_main.c +1213
+ * is easy to write. */
+PACKET_EDIT_OBJECT_CREATED=173;sc,dsend
+  SINT32 tag;
+  SINT32 id;
 end

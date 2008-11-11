@@ -63,6 +63,7 @@ enum tool_value_selector_columns {
 enum player_pov_combo_columns {
   PPV_COL_FLAG = 0,
   PPV_COL_NAME,
+  PPV_COL_PLAYER_NO,
 
   PPV_NUM_COLS
 };
@@ -93,6 +94,8 @@ static struct tool_value_selector *
 create_tool_value_selector(struct editbar *eb_parent,
                            enum editor_tool_type ett);
 static void editinfobox_refresh(struct editinfobox *ei);
+static void editbar_player_pov_combobox_changed(GtkComboBox *combo,
+                                                gpointer user_data);
 
 static struct editbar *editor_toolbar;
 static struct editinfobox *editor_infobox;
@@ -158,34 +161,34 @@ static void editbar_tool_button_toggled(GtkToggleButton *tb,
 /****************************************************************************
   Refresh the player point-of-view indicator based on the client and
   editor state.
+
+  NB: The convention is that the first entry (index 0) in the combo box
+  corresponds to the "global observer".
 ****************************************************************************/
 static void refresh_player_pov_indicator(struct editbar *eb)
 {
   GtkListStore *store;
   GdkPixbuf *flag;
   GtkTreeIter iter;
-  GtkComboBox *combo;
-  gint index = -1;
+  GtkWidget *combo;
+  int index = -1, i;
 
-  const struct player *me = client_player();
-  const bool am_global_observer = client_is_global_observer();
-
-  if (eb == NULL) {
-    return;
-  }
-
-  if (eb->player_pov_store == NULL) {
+  if (eb == NULL || eb->player_pov_store == NULL) {
     return;
   }
 
   store = eb->player_pov_store;
-
   gtk_list_store_clear(store);
 
+  gtk_list_store_append(store, &iter);
+  gtk_list_store_set(store, &iter, PPV_COL_NAME, _("Global Observer"),
+                     PPV_COL_PLAYER_NO, -1, -1);
+
+  i = 1;
   players_iterate(pplayer) {
     gtk_list_store_append(store, &iter);
-    gtk_list_store_set(store, &iter,
-                       PPV_COL_NAME, player_name(pplayer), -1);
+    gtk_list_store_set(store, &iter, PPV_COL_NAME, player_name(pplayer),
+                       PPV_COL_PLAYER_NO, player_number(pplayer), -1);
 
     if (pplayer->nation != NO_NATION_SELECTED) {
       flag = get_flag(pplayer->nation);
@@ -195,55 +198,62 @@ static void refresh_player_pov_indicator(struct editbar *eb)
         g_object_unref(flag);
       }
     }
+    if (pplayer == client_player()) {
+      index = i;
+    }
+    i++;
   } players_iterate_end;
 
-  gtk_list_store_append(store, &iter);
-  gtk_list_store_set(store, &iter,
-                     PPV_COL_NAME, _("Global Observer"), -1);
-
-  if (am_global_observer) {
-    index = player_count();
-  } else if (me != NULL) {
-    index = player_number(me);
+  if (client_is_global_observer()) {
+    index = 0;
   }
 
-  combo = GTK_COMBO_BOX(eb->player_pov_combobox);
-  gtk_combo_box_set_active(combo, index);
+  combo = eb->player_pov_combobox;
+  gtk_combo_box_set_active(GTK_COMBO_BOX(combo), index);
 }
 
 /****************************************************************************
   Callback to handle selection of a player/global observer in the
   player pov indicator.
+
+  NB: The convention is that the first entry (index 0) in the combo box
+  corresponds to the "global observer".
 ****************************************************************************/
 static void editbar_player_pov_combobox_changed(GtkComboBox *combo,
                                                 gpointer user_data)
 {
   struct editbar *eb = user_data;
-  gint index;
+  int id;
   struct player *pplayer;
-
-  const struct player *me = client_player();
-  const bool am_global_observer = client_is_global_observer();
+  GtkTreeIter iter;
+  GtkTreeModel *model;
 
   if (eb == NULL || eb->widget == NULL
       || !GTK_WIDGET_VISIBLE(eb->widget)) {
     return;
   }
 
-  index = gtk_combo_box_get_active(combo);
+  if (!gtk_combo_box_get_active_iter(combo, &iter)) {
+    return;
+  }
 
-  if ((am_global_observer && index == player_count())
-      || (me != NULL && player_number(me) == index)) {
+  model = gtk_combo_box_get_model(combo);
+  gtk_tree_model_get(model, &iter, PPV_COL_PLAYER_NO, &id, -1);
+
+  if ((client_is_global_observer() && id == -1)
+      || client_player_number() == id) {
     return;
   }
 
   /* Ugh... hard-coded server command strings. :( */
-  if (index == player_count()) {
+  if (id == -1) {
     send_chat("/observe");
-  } else if (NULL != (pplayer = valid_player_by_number(index))) {
-    char buf[64];
-    my_snprintf(buf, sizeof(buf), "/take '%s'", pplayer->name);
-    send_chat(buf);
+    return;
+  }
+
+  pplayer = valid_player_by_number(id);
+  if (pplayer != NULL) {
+    send_chat_printf("/take '%s'", pplayer->name);
   }
 }
 
@@ -466,7 +476,8 @@ static struct editbar *editbar_create(void)
 
   store = gtk_list_store_new(PPV_NUM_COLS,
                              GDK_TYPE_PIXBUF,
-                             G_TYPE_STRING);
+                             G_TYPE_STRING,
+                             G_TYPE_INT);
   eb->player_pov_store = store;
 
   combo = gtk_combo_box_new_with_model(GTK_TREE_MODEL(store));
@@ -1280,6 +1291,12 @@ static void refresh_tool_applied_player_combo(struct editinfobox *ei)
     i++;
   } players_iterate_end;
 
+  if (index == -1) {
+    if (player_count() > 0) {
+      index = 0;
+    }
+    editor_set_applied_player(index);
+  }
   gtk_combo_box_set_active(GTK_COMBO_BOX(combo), index);
   gtk_widget_show(combo);
 }
@@ -1755,6 +1772,8 @@ void editgui_popup_properties(const struct tile_list *tiles)
 
   pe = editprop_get_property_editor();
   property_editor_clear(pe);
+  property_editor_reload(pe, OBJTYPE_PLAYER);
+  property_editor_reload(pe, OBJTYPE_GAME);
   property_editor_load_tiles(pe, tiles);
   property_editor_popup(pe);
 }
@@ -1772,9 +1791,16 @@ void editgui_notify_object_changed(int objtype, int object_id, bool remove)
   struct property_editor *pe;
 
   pe = editprop_get_property_editor();
-  if (!pe) {
-    return;
-  }
-
   property_editor_handle_object_changed(pe, objtype, object_id, remove);
+}
+
+/****************************************************************************
+  Pass on the object creation notification to the property editor.
+****************************************************************************/
+void editgui_notify_object_created(int tag, int id)
+{
+  struct property_editor *pe;
+
+  pe = editprop_get_property_editor();
+  property_editor_handle_object_created(pe, tag, id);
 }

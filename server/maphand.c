@@ -940,7 +940,7 @@ static void player_tile_init(struct tile *ptile, struct player *pplayer)
     }
   }
 
-  plrtile->last_updated = GAME_START_YEAR;
+  plrtile->last_updated = game.info.year;
   vision_layer_iterate(v) {
     plrtile->own_seen[v] = plrtile->seen_count[v];
   } vision_layer_iterate_end;

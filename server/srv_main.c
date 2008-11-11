@@ -1215,7 +1215,7 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
       || type == PACKET_NATION_SELECT_REQ
       || type == PACKET_REPORT_REQ
       || (PACKET_EDIT_MODE <= type
-          && type <= PACKET_EDIT_PLAYER_VISION)) {
+          && type < PACKET_EDIT_OBJECT_CREATED)) {
     if (!server_handle_packet(type, packet, NULL, pconn)) {
       freelog(LOG_ERROR, "Received unknown packet %d from %s",
 	      type, conn_description(pconn));

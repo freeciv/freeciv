@@ -996,3 +996,36 @@ void gui_update_font_from_option(struct client_option *o) {
   }
 }
 
+/****************************************************************************
+  Temporarily disable signal invocation of the given callback for the given
+  widget. Re-enable the signal with enable_widget_callback.
+****************************************************************************/
+void disable_widget_callback(GtkWidget *w, GCallback cb)
+{
+  gulong hid;
+
+  if (!w || !cb) {
+    return;
+  }
+
+  hid = g_signal_handler_find(w, G_SIGNAL_MATCH_FUNC,
+                              0, 0, NULL, cb, NULL);
+  g_signal_handler_block(w, hid);
+}
+
+/****************************************************************************
+  Re-enable a signal callback blocked by disable_widget_callback.
+****************************************************************************/
+void enable_widget_callback(GtkWidget *w, GCallback cb)
+{
+  gulong hid;
+
+  if (!w || !cb) {
+    return;
+  }
+
+  hid = g_signal_handler_find(w, G_SIGNAL_MATCH_FUNC,
+                              0, 0, NULL, cb, NULL);
+  g_signal_handler_unblock(w, hid);
+}
+

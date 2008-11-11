@@ -27,6 +27,7 @@
 
 #include "game.h"
 #include "map.h"
+#include "movement.h"
 #include "tile.h"
 
 #include "civclient.h"
@@ -36,6 +37,7 @@
 
 #include "canvas.h"
 #include "gui_main.h"
+#include "gui_stuff.h"
 #include "plrdlg.h"
 
 #include "editprop.h"
@@ -68,11 +70,17 @@ static void add_column(GtkWidget *view,
                        bool is_radio,
                        GCallback edit_callback,
                        gpointer callback_userdata);
-static void disable_widget_callback(GtkWidget *w, GCallback cb);
-static void enable_widget_callback(GtkWidget *w, GCallback cb);
 
 static int built_status_to_string(char *buf, int buflen,
                                   struct built_status *bs);
+
+static bool can_create_unit_at_tile(struct tile *ptile);
+
+static int get_next_unique_tag(void);
+struct stored_tag {
+  int tag;
+  int count;
+};
 
 /* NB: If packet definitions change, be sure to
  * update objbind_pack_current_values!!! */
@@ -117,24 +125,26 @@ static void property_filter_free(struct property_filter *pf);
   To add a new object type:
   1. Add a value in enum editor_object_type in client/editor.h.
   2. Add a string name to objtype_get_name.
-  3. Add a code in objtype_get_id_from_object.
-  4. Add code to get an object from an id in
-     objbind_get_object.
-  5. Add an if-block in objbind_get_value_from_object.
-  6. Add an if-block in objbind_get_allowed_value_span.
-  7. Add a case handler in property_page_setup_objprops.
-  8. Add a case handler in property_page_add_objbinds_from_tile
-     if applicable.
+  3. Add code in objtype_get_id_from_object.
+  4. Add code in objtype_get_object_from_id.
+  5. Add a case handler in objtype_is_conserved, and if
+     the object type is not conserved, then also in
+     objbind_request_destroy_object and property_page_create_objects.
+  6. Add an if-block in objbind_get_value_from_object.
+  7. Add an if-block in objbind_get_allowed_value_span.
+  9. Add a case handler in property_page_setup_objprops.
+  10. Add a case handler in property_page_add_objbinds_from_tile
+      if applicable.
 
   Furthermore, if the object type is to be editable:
-  9. Define its edit packet in common/packets.def.
-  10. Add the packet handler in server/edithand.c.
-  11. Add its edit packet type to union packetdata.
-  12. Add an if-block in objbind_pack_current_values.
-  13. Add an if-block in objbind_pack_modified_value.
-  14. Add code in property_page_new_packet.
-  15. Add code in property_page_send_packet.
-  16. Add calls to editgui_notify_object_changed in
+  11. Define its edit packet in common/packets.def.
+  12. Add the packet handler in server/edithand.c.
+  13. Add its edit packet type to union packetdata.
+  14. Add an if-block in objbind_pack_current_values.
+  15. Add an if-block in objbind_pack_modified_value.
+  16. Add code in property_page_new_packet.
+  17. Add code in property_page_send_packet.
+  18. Add calls to editgui_notify_object_changed in
       client/packhand.c or where applicable.
 
 ****************************************************************************/
@@ -143,6 +153,8 @@ static void property_filter_free(struct property_filter *pf);
 
 static const char *objtype_get_name(int objtype);
 static int objtype_get_id_from_object(int objtype, gpointer object);
+static gpointer objtype_get_object_from_id(int objtype, int id);
+static bool objtype_is_conserved(int objtype);
 
 
 /****************************************************************************
@@ -367,6 +379,8 @@ static int objbind_get_objtype(const struct objbind *ob);
 static void objbind_bind_properties(struct objbind *ob,
                                     struct property_page *pp);
 static gpointer objbind_get_object(struct objbind *ob);
+static int objbind_get_object_id(struct objbind *ob);
+static void objbind_request_destroy_object(struct objbind *ob);
 static struct propval *objbind_get_value_from_object(struct objbind *ob,
                                                      struct objprop *op);
 static bool objbind_get_allowed_value_span(struct objbind *ob,
@@ -443,6 +457,7 @@ struct property_page {
 
   struct hash_table *objprop_table;
   struct hash_table *objbind_table;
+  struct hash_table *tag_table;
 
   struct objbind *focused_objbind;
 };
@@ -450,6 +465,7 @@ struct property_page {
 static struct property_page *property_page_new(int objtype);
 static void property_page_setup_objprops(struct property_page *pp);
 static const char *property_page_get_name(const struct property_page *pp);
+static int property_page_get_objtype(const struct property_page *pp);
 static void property_page_load_tiles(struct property_page *pp,
                                      const struct tile_list *tiles);
 static void property_page_add_objbinds_from_tile(struct property_page *pp,
@@ -459,7 +475,8 @@ static void property_page_clear_objbinds(struct property_page *pp);
 static void property_page_add_objbind(struct property_page *pp,
                                       gpointer object_data);
 static void property_page_fill_widgets(struct property_page *pp);
-static struct objbind *property_page_get_focused_objbind(struct property_page *pp);
+static struct objbind *
+property_page_get_focused_objbind(struct property_page *pp);
 static void property_page_set_focused_objbind(struct property_page *pp,
                                               struct objbind *ob);
 static struct objbind *property_page_get_objbind(struct property_page *pp,
@@ -478,6 +495,9 @@ static void property_page_change_value(struct property_page *pp,
                                        struct propval *pv);
 static void property_page_send_values(struct property_page *pp);
 static void property_page_reset_objbinds(struct property_page *pp);
+static void property_page_destroy_objects(struct property_page *pp);
+static void property_page_create_objects(struct property_page *pp,
+                                         struct tile_list *hint_tiles);
 static union packetdata property_page_new_packet(struct property_page *pp);
 static void property_page_send_packet(struct property_page *pp,
                                       union packetdata packet);
@@ -486,10 +506,18 @@ static void property_page_free_packet(struct property_page *pp,
 static void property_page_object_changed(struct property_page *pp,
                                          int object_id,
                                          bool remove);
+static void property_page_object_created(struct property_page *pp,
+                                         int tag, int object_id);
 static void property_page_add_extviewer(struct property_page *pp,
                                         struct extviewer *ev);
 static void property_page_show_extviewer(struct property_page *pp,
                                          struct extviewer *ev);
+static void property_page_store_creation_tag(struct property_page *pp,
+                                             int tag, int count);
+static void property_page_remove_creation_tag(struct property_page *pp,
+                                              int tag);
+static bool property_page_tag_is_known(struct property_page *pp, int tag);
+static void property_page_clear_tags(struct property_page *pp);
 
 #define property_page_objprop_iterate(ARG_pp, NAME_op) do {\
   struct objprop *NAME_op;\
@@ -523,6 +551,7 @@ struct property_editor {
   GtkWidget *widget;
   GtkWidget *notebook;
   GtkWidget *combo;
+  GtkWidget *create_button, *destroy_button;
   GtkTooltips *tooltips;
 
   struct property_page *property_pages[NUM_OBJTYPES];
@@ -531,12 +560,25 @@ struct property_editor {
 static struct property_editor *property_editor_new(void);
 static bool property_editor_add_page(struct property_editor *pe,
                                      int objtype);
+static struct property_page *
+property_editor_get_page(struct property_editor *pe, int objtype);
+static struct property_page *
+property_editor_get_current_page(struct property_editor *pe);
 static void property_editor_apply_button_clicked(GtkButton *button,
                                                  gpointer userdata);
 static void property_editor_refresh_button_clicked(GtkButton *button,
                                                    gpointer userdata);
+static void property_editor_create_button_clicked(GtkButton *button,
+                                                  gpointer userdata);
+static void property_editor_destroy_button_clicked(GtkButton *button,
+                                                   gpointer userdata);
 static void property_editor_combo_changed(GtkComboBox *combo,
                                           gpointer userdata);
+static void property_editor_page_changed(GtkNotebook *notebook,
+                                         GtkNotebookPage *page,
+                                         guint page_num,
+                                         gpointer userdata);
+
 
 static struct property_editor *the_property_editor;
 
@@ -569,10 +611,12 @@ static const char *objtype_get_name(int objtype)
     break;
 
   default:
+    freelog(LOG_ERROR, "Unhandled request to get name of object type %d "
+            "in objtype_get_name().", objtype);
     break;
   }
 
-  return "";
+  return "Unknown";
 }
 
 /****************************************************************************
@@ -614,10 +658,71 @@ static int objtype_get_id_from_object(int objtype, gpointer object)
     break;
 
   default:
+    freelog(LOG_ERROR, "Unhandled request to get object ID from "
+            "object %p of type %d (%s) in objtype_get_id_from_object().",
+            object, objtype, objtype_get_name(objtype));
     break;
   }
 
   return id;
+}
+
+/****************************************************************************
+  Get the object of type 'objtype' uniquely identified by 'id'.
+****************************************************************************/
+static gpointer objtype_get_object_from_id(int objtype, int id)
+{
+  switch (objtype) {
+  case OBJTYPE_TILE:
+    return index_to_tile(id);
+    break;
+  case OBJTYPE_UNIT:
+    return game_find_unit_by_number(id);
+    break;
+  case OBJTYPE_CITY:
+    return game_find_city_by_number(id);
+    break;
+  case OBJTYPE_PLAYER:
+    return valid_player_by_number(id);
+    break;
+  case OBJTYPE_GAME:
+    return &game;
+    break;
+  default:
+    freelog(LOG_ERROR, "Unhandled request to get object of type %d (%s) "
+            "with ID %d in objtype_get_object_from_id().",
+            objtype, objtype_get_name(objtype), id);
+    break;
+  }
+
+  return NULL;
+}
+
+/****************************************************************************
+  Returns TRUE if it does not make sense for the object of the given type to
+  be created and destroyed (e.g. tiles, game), as opposed to those that can
+  be (e.g. units, cities, players, etc.).
+****************************************************************************/
+static bool objtype_is_conserved(int objtype)
+{
+  switch (objtype) {
+  case OBJTYPE_TILE:
+  case OBJTYPE_GAME:
+    return TRUE;
+    break;
+  case OBJTYPE_UNIT:
+  case OBJTYPE_CITY:
+  case OBJTYPE_PLAYER:
+    return FALSE;
+    break;
+  default:
+    freelog(LOG_ERROR, "Unhandled request for object type "
+            "%d (%s) in objtype_is_conserved().",
+            objtype, objtype_get_name(objtype));
+    break;
+  }
+
+  return TRUE;
 }
 
 /****************************************************************************
@@ -696,39 +801,6 @@ static void add_column(GtkWidget *view,
   col = gtk_tree_view_column_new_with_attributes(name, cell,
                                                  attr, col_id, NULL);
   gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
-}
-
-/****************************************************************************
-  Temporarily disable signal invocation of the given callback for the given
-  widget. Re-enable the signal with enable_widget_callback.
-****************************************************************************/
-static void disable_widget_callback(GtkWidget *w, GCallback cb)
-{
-  gulong hid;
-
-  if (!w || !cb) {
-    return;
-  }
-
-  hid = g_signal_handler_find(w, G_SIGNAL_MATCH_FUNC,
-                              0, 0, NULL, cb, NULL);
-  g_signal_handler_block(w, hid);
-}
-
-/****************************************************************************
-  Re-enable a signal callback blocked by disable_widget_callback.
-****************************************************************************/
-static void enable_widget_callback(GtkWidget *w, GCallback cb)
-{
-  gulong hid;
-
-  if (!w || !cb) {
-    return;
-  }
-
-  hid = g_signal_handler_find(w, G_SIGNAL_MATCH_FUNC,
-                              0, 0, NULL, cb, NULL);
-  g_signal_handler_unblock(w, hid);
 }
 
 /****************************************************************************
@@ -821,6 +893,50 @@ static int built_status_to_string(char *buf, int buflen,
   }
 
   return ret;
+}
+
+/****************************************************************************
+  Returns TRUE if a unit can be created at the given tile based on the
+  state of the editor (see editor_create_unit_virtual).
+****************************************************************************/
+static bool can_create_unit_at_tile(struct tile *ptile)
+{
+  struct unit *vunit;
+  struct city *pcity;
+  struct player *pplayer;
+  bool ret;
+
+  if (!ptile) {
+    return FALSE;
+  }
+
+  vunit = editor_create_unit_virtual();
+  if (!vunit) {
+    return FALSE;
+  }
+
+  pcity = tile_city(ptile);
+  pplayer = unit_owner(vunit);
+
+  ret = (can_unit_exist_at_tile(vunit, ptile)
+         && !is_non_allied_unit_tile(ptile, pplayer)
+         && (pcity == NULL
+             || pplayers_allied(city_owner(pcity),
+                                unit_owner(vunit))));
+  free(vunit);
+
+  return ret;
+}
+
+/****************************************************************************
+  Return the next tag number in the sequence.
+****************************************************************************/
+static int get_next_unique_tag(void)
+{
+  static int tag_series = 0;
+
+  tag_series++;
+  return tag_series;
 }
 
 /****************************************************************************
@@ -918,7 +1034,8 @@ static bool propval_equal(struct propval *pva,
   switch (pva->valtype) {
   case VALTYPE_STRING:
     if (pva->data.v_const_string && pvb->data.v_const_string) {
-      return 0 == strcmp(pva->data.v_const_string, pvb->data.v_const_string);
+      return 0 == strcmp(pva->data.v_const_string,
+                         pvb->data.v_const_string);
     }
     break;
   case VALTYPE_BUILT_ARRAY:
@@ -1073,29 +1190,60 @@ static gpointer objbind_get_object(struct objbind *ob)
     return NULL;
   }
 
-  id = ob->object_id;
+  id = objbind_get_object_id(ob);
 
-  switch (ob->objtype) {
-  case OBJTYPE_TILE:
-    return index_to_tile(id);
-    break;
+  return objtype_get_object_from_id(ob->objtype, id);
+}
+
+/****************************************************************************
+  Returns the ID of the bound object, or zero if invalid.
+****************************************************************************/
+static int objbind_get_object_id(struct objbind *ob)
+{
+  if (!ob) {
+    return 0;
+  }
+  return ob->object_id;
+}
+
+/****************************************************************************
+  Sends a request to the server to have the bound object erased from
+  existence. Only makes sense for object types for which the function
+  objtype_is_conserved() returns FALSE.
+****************************************************************************/
+static void objbind_request_destroy_object(struct objbind *ob)
+{
+  int objtype, id;
+  struct connection *my_conn = &client.conn;
+
+  if (!ob) {
+    return;
+  }
+
+  objtype = objbind_get_objtype(ob);
+  if (objtype_is_conserved(objtype)) {
+    return;
+  }
+
+  id = objbind_get_object_id(ob);
+
+  switch (objtype) {
   case OBJTYPE_UNIT:
-    return game_find_unit_by_number(id);
+    dsend_packet_edit_unit_remove_by_id(my_conn, id);
     break;
   case OBJTYPE_CITY:
-    return game_find_city_by_number(id);
+    dsend_packet_edit_city_remove(my_conn, id);
     break;
   case OBJTYPE_PLAYER:
-    return valid_player_by_number(id);
-    break;
-  case OBJTYPE_GAME:
-    return &game;
+    dsend_packet_edit_player_remove(my_conn, id);
     break;
   default:
+    freelog(LOG_ERROR, "Unhandled request to destroy object %p (ID %d) "
+            "of type %d (%s) in objbind_request_destroy_object().",
+            objbind_get_object(ob), id, objtype,
+            objtype_get_name(objtype));
     break;
   }
-   
-  return NULL;
 }
 
 /****************************************************************************
@@ -3132,7 +3280,7 @@ static void property_page_setup_objprops(struct property_page *pp)
   hash_insert(pp->objprop_table, &MY_op->id, MY_op);\
 } while (0)
 
-  switch (pp->objtype) {
+  switch (property_page_get_objtype(pp)) {
 
   case OBJTYPE_TILE:
     ADDPROP(OPID_TILE_IMAGE, _("Image"),
@@ -3371,13 +3519,14 @@ static struct property_page *property_page_new(int objtype)
   pp->objtype = objtype;
   pp->tooltips = gtk_tooltips_new();
 
-  pp->objprop_table = hash_new(hash_fval_int,
-                               hash_fcmp_int);
+  pp->objprop_table = hash_new(hash_fval_int, hash_fcmp_int);
   property_page_setup_objprops(pp);
 
-  pp->objbind_table = hash_new_full(hash_fval_keyval,
-                                    hash_fcmp_keyval, NULL,
-                                    (hash_free_fn_t) objbind_free);
+  pp->objbind_table = hash_new_full(hash_fval_keyval, hash_fcmp_keyval,
+                                    NULL, (hash_free_fn_t) objbind_free);
+
+  pp->tag_table = hash_new_full(hash_fval_keyval, hash_fcmp_keyval, NULL,
+                                free);
 
   property_page_objprop_iterate(pp, op) {
     if (objprop_show_in_listview(op)) {
@@ -3555,7 +3704,18 @@ static const char *property_page_get_name(const struct property_page *pp)
   if (!pp) {
     return "";
   }
-  return objtype_get_name(pp->objtype);
+  return objtype_get_name(property_page_get_objtype(pp));
+}
+
+/****************************************************************************
+  Returns the object type for this property page, or -1 if none.
+****************************************************************************/
+static int property_page_get_objtype(const struct property_page *pp)
+{
+  if (!pp) {
+    return -1;
+  }
+  return pp->objtype;
 }
 
 /****************************************************************************
@@ -3695,20 +3855,21 @@ static void property_page_add_objbind(struct property_page *pp,
                                       gpointer object_data)
 {
   struct objbind *ob;
-  int id;
+  int id, objtype;
   gpointer key;
 
   if (!pp) {
     return;
   }
 
-  id = objtype_get_id_from_object(pp->objtype, object_data);
+  objtype = property_page_get_objtype(pp);
+  id = objtype_get_id_from_object(objtype, object_data);
   key = GINT_TO_POINTER(id);
   if (hash_key_exists(pp->objbind_table, key)) {
     return;
   }
 
-  ob = objbind_new(pp->objtype, object_data);
+  ob = objbind_new(objtype, object_data);
   objbind_bind_properties(ob, pp);
 
   hash_insert(pp->objbind_table, key, ob);
@@ -3726,7 +3887,7 @@ static void property_page_add_objbinds_from_tile(struct property_page *pp,
     return;
   }
 
-  switch (pp->objtype) {
+  switch (property_page_get_objtype(pp)) {
 
   case OBJTYPE_TILE:
     property_page_add_objbind(pp, (gpointer) ptile);
@@ -3984,6 +4145,7 @@ static void property_page_send_values(struct property_page *pp)
   GtkTreeIter iter;
   struct objbind *ob;
   union packetdata packet;
+  struct connection *my_conn = &client.conn;
 
   if (!pp || !pp->object_view) {
     return;
@@ -4000,7 +4162,7 @@ static void property_page_send_values(struct property_page *pp)
   }
 
   rows = gtk_tree_selection_get_selected_rows(sel, &model);
-  connection_do_buffer(&client.conn);
+  connection_do_buffer(my_conn);
   for (p = rows; p != NULL; p = p->next) {
     path = p->data;
     if (gtk_tree_model_get_iter(model, &iter, path)) {
@@ -4018,7 +4180,7 @@ static void property_page_send_values(struct property_page *pp)
     }
     gtk_tree_path_free(path);
   }
-  connection_do_unbuffer(&client.conn);
+  connection_do_unbuffer(my_conn);
   g_list_free(rows);
 
   property_page_free_packet(pp, packet);
@@ -4036,7 +4198,7 @@ static union packetdata property_page_new_packet(struct property_page *pp)
     return packet;
   }
 
-  switch (pp->objtype) {
+  switch (property_page_get_objtype(pp)) {
   case OBJTYPE_TILE:
     packet.tile = fc_calloc(1, sizeof(*packet.tile));
     break;
@@ -4065,25 +4227,27 @@ static union packetdata property_page_new_packet(struct property_page *pp)
 static void property_page_send_packet(struct property_page *pp,
                                       union packetdata packet)
 {
+  struct connection *my_conn = &client.conn;
+
   if (!pp || !packet.v_pointer) {
     return;
   }
 
-  switch (pp->objtype) {
+  switch (property_page_get_objtype(pp)) {
   case OBJTYPE_TILE:
-    send_packet_edit_tile(&client.conn, packet.tile);
+    send_packet_edit_tile(my_conn, packet.tile);
     break;
   case OBJTYPE_UNIT:
-    send_packet_edit_unit(&client.conn, packet.unit);
+    send_packet_edit_unit(my_conn, packet.unit);
     break;
   case OBJTYPE_CITY:
-    send_packet_edit_city(&client.conn, packet.city);
+    send_packet_edit_city(my_conn, packet.city);
     break;
   case OBJTYPE_PLAYER:
-    send_packet_edit_player(&client.conn, packet.player);
+    send_packet_edit_player(my_conn, packet.player);
     break;
   case OBJTYPE_GAME:
-    send_packet_edit_game(&client.conn, packet.game);
+    send_packet_edit_game(my_conn, packet.game);
     break;
   default:
     break;
@@ -4147,6 +4311,148 @@ static void property_page_reset_objbinds(struct property_page *pp)
 }
 
 /****************************************************************************
+  Destroy all selected objects in the current property page.
+****************************************************************************/
+static void property_page_destroy_objects(struct property_page *pp)
+{
+  GtkTreeSelection *sel;
+  GtkTreeModel *model;
+  GtkTreeIter iter;
+  GtkTreePath *path;
+  GList *rows, *p;
+  struct objbind *ob;
+  struct connection *my_conn = &client.conn;
+
+  if (!pp || !pp->object_view) {
+    return;
+  }
+
+  sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(pp->object_view));
+  if (gtk_tree_selection_count_selected_rows(sel) < 1) {
+    return;
+  }
+
+  rows = gtk_tree_selection_get_selected_rows(sel, &model);
+  connection_do_buffer(my_conn);
+  for (p = rows; p != NULL; p = p->next) {
+    path = p->data;
+    if (gtk_tree_model_get_iter(model, &iter, path)) {
+      gtk_tree_model_get(model, &iter, 0, &ob, -1);
+      objbind_request_destroy_object(ob);
+    }
+    gtk_tree_path_free(path);
+  }
+  connection_do_unbuffer(my_conn);
+  g_list_free(rows);
+}
+
+/****************************************************************************
+  Create objects corresponding to the type of this property page. Parameters
+  such as the type, count, size and player owner are taken from the current
+  editor state. The 'hint_tiles' argument is a list of tiles where the
+  objects could be created.
+****************************************************************************/
+static void property_page_create_objects(struct property_page *pp,
+                                         struct tile_list *hint_tiles)
+{
+  int objtype;
+  int apno, value, count, size;
+  int tag;
+  struct connection *my_conn = &client.conn;
+  struct tile *ptile = NULL;
+  struct player *pplayer;
+
+  if (!pp) {
+    return;
+  }
+
+  objtype = property_page_get_objtype(pp);
+  if (objtype_is_conserved(objtype)) {
+    return;
+  }
+
+  apno = editor_get_applied_player();
+  tag = get_next_unique_tag();
+  count = 1;
+
+  switch (objtype) {
+
+  case OBJTYPE_UNIT:
+    if (hint_tiles) {
+      tile_list_iterate(hint_tiles, atile) {
+        if (can_create_unit_at_tile(atile)) {
+          ptile = atile;
+          break;
+        }
+      } tile_list_iterate_end;
+    }
+
+    if (!ptile) {
+      struct unit *punit;
+      property_page_objbind_iterate(pp, ob) {
+        punit = objbind_get_object(ob);
+        if (punit && can_create_unit_at_tile(unit_tile(punit))) {
+          ptile = unit_tile(punit);
+          break;
+        }
+      } property_page_objbind_iterate_end;
+    }
+
+    if (!ptile) {
+      ptile = get_center_tile_mapcanvas();
+    }
+
+    if (!ptile) {
+      break;
+    }
+
+    count = editor_get_count();
+    value = editor_tool_get_value(ETT_UNIT);
+    dsend_packet_edit_unit_create(my_conn, apno, ptile->x, ptile->y,
+                                  value, count, tag);
+    break;
+
+  case OBJTYPE_CITY:
+    pplayer = valid_player_by_number(apno);
+    if (pplayer && hint_tiles) {
+      tile_list_iterate(hint_tiles, atile) {
+        if (!is_enemy_unit_tile(atile, pplayer)
+            && city_can_be_built_here(atile, NULL)) {
+          ptile = atile;
+          break;
+        }
+      } tile_list_iterate_end;
+    }
+
+    if (!ptile) {
+      ptile = get_center_tile_mapcanvas();
+    }
+
+    if (!ptile) {
+      break;
+    }
+
+    size = editor_get_size();
+    dsend_packet_edit_city_create(my_conn, apno, ptile->x, ptile->y,
+                                  size, tag);
+    break;
+
+  case OBJTYPE_PLAYER:
+    dsend_packet_edit_player_create(my_conn, tag);
+    break;
+
+  default:
+    freelog(LOG_ERROR, "Unhandled request to create objects of type "
+            "%d (%s) in property_page_create_objects().",
+            objtype, objtype_get_name(objtype));
+    return;
+    break;
+  }
+
+  property_page_store_creation_tag(pp, tag, count);
+}
+
+/****************************************************************************
   Update objbinds and widgets according to how the object given by
   'object_id' has changed. If the object no longer exists then the
   objbind is removed from the property page.
@@ -4198,6 +4504,34 @@ static void property_page_object_changed(struct property_page *pp,
 }
 
 /****************************************************************************
+  Handle a notification of object creation sent back from the server. If
+  this is something we previously requested, then 'tag' should be found in
+  the tag table. In this case we create a new objbind for the object given
+  by 'object_id' and add it to this page.
+****************************************************************************/
+static void property_page_object_created(struct property_page *pp,
+                                         int tag, int object_id)
+{
+  gpointer object;
+  int objtype;
+
+  if (!property_page_tag_is_known(pp, tag)) {
+    return;
+  }
+  property_page_remove_creation_tag(pp, tag);
+
+  objtype = property_page_get_objtype(pp);
+  object = objtype_get_object_from_id(objtype, object_id);
+
+  if (!object) {
+    return;
+  }
+
+  property_page_add_objbind(pp, object);
+  property_page_fill_widgets(pp);
+}
+
+/****************************************************************************
   Add the extviewer's view widget to the property page so that it can
   be shown in the extended property view panel.
 ****************************************************************************/
@@ -4243,6 +4577,90 @@ static void property_page_show_extviewer(struct property_page *pp,
 }
 
 /****************************************************************************
+  Store the given object creation tag so that when the server notifies
+  us about it we know what to do, up to 'count' times.
+****************************************************************************/
+static void property_page_store_creation_tag(struct property_page *pp,
+                                             int tag, int count)
+{
+  gpointer key;
+  struct stored_tag *st;
+
+  if (!pp || !pp->tag_table) {
+    return;
+  }
+
+  key = GINT_TO_POINTER(tag);
+
+  if (hash_key_exists(pp->tag_table, key)) {
+    freelog(LOG_ERROR, "Attempted to insert object creation tag %d "
+            "twice into tag table for property page %p (%d %s).",
+            tag, pp, property_page_get_objtype(pp),
+            property_page_get_name(pp));
+    return;
+  }
+
+  st = fc_calloc(1, sizeof(*st));
+  st->tag = tag;
+  st->count = count;
+
+  hash_insert(pp->tag_table, key, st);
+}
+
+/****************************************************************************
+  Decrease the tag count and remove the object creation tag if it is no
+  longer needed.
+****************************************************************************/
+static void property_page_remove_creation_tag(struct property_page *pp,
+                                              int tag)
+{
+  gpointer key;
+  struct stored_tag *st;
+
+  if (!pp || !pp->tag_table) {
+    return;
+  }
+
+  key = GINT_TO_POINTER(tag);
+  st = hash_lookup_data(pp->tag_table, key);
+  if (!st) {
+    return;
+  }
+
+  st->count--;
+  if (st->count <= 0) {
+    hash_delete_entry(pp->tag_table, key);
+    /* The hash table frees 'st'. */
+  }
+}
+
+/****************************************************************************
+  Check if the given tag is one that we previously stored.
+****************************************************************************/
+static bool property_page_tag_is_known(struct property_page *pp, int tag)
+{
+  gpointer key;
+
+  if (!pp || !pp->tag_table) {
+    return FALSE;
+  }
+  key = GINT_TO_POINTER(tag);
+  return hash_key_exists(pp->tag_table, key);
+}
+
+/****************************************************************************
+  Remove all tags in the tag table.
+****************************************************************************/
+static void property_page_clear_tags(struct property_page *pp)
+{
+  if (!pp || !pp->tag_table) {
+    return;
+  }
+  hash_delete_all_entries(pp->tag_table);
+  /* Stored tags are freed by the hash table. */
+}
+
+/****************************************************************************
   Create and add a property page for the given object type
   to the property editor. Returns TRUE if successful.
 ****************************************************************************/
@@ -4277,31 +4695,42 @@ static bool property_editor_add_page(struct property_editor *pe,
 }
 
 /****************************************************************************
+  Returns the property page for the given object type.
+****************************************************************************/
+static struct property_page *
+property_editor_get_page(struct property_editor *pe, int objtype)
+{
+  if (!pe || !(0 <= objtype && objtype < NUM_OBJTYPES)) {
+    return NULL;
+  }
+
+  return pe->property_pages[objtype];
+}
+
+/****************************************************************************
+  Returns the property page that is currently shown in the notebook, or NULL.
+****************************************************************************/
+static struct property_page *
+property_editor_get_current_page(struct property_editor *pe)
+{
+  int objtype;
+
+  if (!pe || !pe->notebook) {
+    return NULL;
+  }
+
+  objtype = gtk_notebook_get_current_page(GTK_NOTEBOOK(pe->notebook));
+  return property_editor_get_page(pe, objtype);
+}
+
+/****************************************************************************
   Handles the 'clicked' signal for the "Apply" button in the property editor.
 ****************************************************************************/
 static void property_editor_apply_button_clicked(GtkButton *button,
                                                  gpointer userdata)
 {
-  struct property_editor *pe;
-  struct property_page *pp;
-  int objtype;
-
-  pe = userdata;
-  if (!pe) {
-    return;
-  }
-
-  objtype = gtk_notebook_get_current_page(GTK_NOTEBOOK(pe->notebook));
-  if (!(0 <= objtype && objtype < NUM_OBJTYPES)) {
-    return;
-  }
-
-  pp = pe->property_pages[objtype];
-  if (!pp) {
-    return;
-  }
-
-  property_page_send_values(pp);
+  struct property_editor *pe = userdata;
+  property_page_send_values(property_editor_get_current_page(pe));
 }
 
 /****************************************************************************
@@ -4311,26 +4740,45 @@ static void property_editor_apply_button_clicked(GtkButton *button,
 static void property_editor_refresh_button_clicked(GtkButton *button,
                                                    gpointer userdata)
 {
-  struct property_editor *pe;
+  struct property_editor *pe = userdata;
+  property_page_reset_objbinds(property_editor_get_current_page(pe));
+}
+
+/****************************************************************************
+  Handle a request to create a new object in the current property page.
+****************************************************************************/
+static void property_editor_create_button_clicked(GtkButton *button,
+                                                  gpointer userdata)
+{
+  struct property_editor *pe = userdata;
   struct property_page *pp;
-  int objtype;
+  struct tile_list *tiles;
+  struct tile *ptile;
 
-  pe = userdata;
-  if (!pe) {
-    return;
-  }
+  tiles = tile_list_new();
 
-  objtype = gtk_notebook_get_current_page(GTK_NOTEBOOK(pe->notebook));
-  if (!(0 <= objtype && objtype < NUM_OBJTYPES)) {
-    return;
-  }
+  pp = property_editor_get_page(pe, OBJTYPE_TILE);
+  property_page_objbind_iterate(pp, ob) {
+    ptile = objbind_get_object(ob);
+    if (ptile) {
+      tile_list_append(tiles, ptile);
+    }
+  } property_page_objbind_iterate_end;
 
-  pp = pe->property_pages[objtype];
-  if (!pp) {
-    return;
-  }
+  pp = property_editor_get_current_page(pe);
+  property_page_create_objects(pp, tiles);
 
-  property_page_reset_objbinds(pp);
+  tile_list_free(tiles);
+}
+
+/****************************************************************************
+  Handle a click on the "destroy" button.
+****************************************************************************/
+static void property_editor_destroy_button_clicked(GtkButton *button,
+                                                   gpointer userdata)
+{
+  struct property_editor *pe = userdata;
+  property_page_destroy_objects(property_editor_get_current_page(pe));
 }
 
 /****************************************************************************
@@ -4357,13 +4805,38 @@ static void property_editor_combo_changed(GtkComboBox *combo,
 }
 
 /****************************************************************************
+  Handle any special widget updates right before the property editor
+  changes to a page in the notebook.
+****************************************************************************/
+static void property_editor_page_changed(GtkNotebook *notebook,
+                                         GtkNotebookPage *page,
+                                         guint page_num,
+                                         gpointer userdata)
+{
+  struct property_editor *pe;
+  int objtype;
+  bool sensitive;
+
+  pe = userdata;
+  if (!pe || !pe->notebook || !pe->create_button || !pe->destroy_button) {
+    return;
+  }
+
+  objtype = page_num;
+
+  sensitive = !objtype_is_conserved(objtype);
+  gtk_widget_set_sensitive(pe->create_button, sensitive);
+  gtk_widget_set_sensitive(pe->destroy_button, sensitive);
+}
+
+/****************************************************************************
   Create and return the property editor widget bundle.
 ****************************************************************************/
 static struct property_editor *property_editor_new(void)
 {
   struct property_editor *pe;
   GtkWidget *notebook, *button, *label, *combo, *image;
-  GtkWidget *hbox, *vbox, *hbox2, *evbox;
+  GtkWidget *hbox, *vbox, *hbox2, *evbox, *spacer;
   GtkSizeGroup *sizegroup;
   int objtype, w, h;
   const char *name;
@@ -4406,6 +4879,8 @@ static struct property_editor *property_editor_new(void)
   notebook = gtk_notebook_new();
   gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebook), FALSE);
   gtk_box_pack_start(GTK_BOX(hbox), notebook, TRUE, TRUE, 0);
+  g_signal_connect(notebook, "switch-page",
+                   G_CALLBACK(property_editor_page_changed), pe);
   pe->notebook = notebook;
 
   for (objtype = 0; objtype < NUM_OBJTYPES; objtype++) {
@@ -4424,7 +4899,7 @@ static struct property_editor *property_editor_new(void)
   combo = gtk_combo_box_new_text();
   gtk_size_group_add_widget(sizegroup, combo);
   for (objtype = 0; objtype < NUM_OBJTYPES; objtype++) {
-    name = property_page_get_name(pe->property_pages[objtype]);
+    name = property_page_get_name(property_editor_get_page(pe, objtype));
     if (!name) {
       continue;
     }
@@ -4462,6 +4937,46 @@ static struct property_editor *property_editor_new(void)
                    G_CALLBACK(property_editor_refresh_button_clicked), pe);
   gtk_box_pack_end(GTK_BOX(vbox), button, FALSE, FALSE, 0);
 
+  spacer = gtk_alignment_new(0.5, 0.5, 0.0, 0.0);
+  gtk_widget_set_size_request(spacer, -1, 8);
+  gtk_box_pack_end(GTK_BOX(vbox), spacer, FALSE, FALSE, 0);
+
+  button = gtk_button_new();
+  hbox2 = gtk_hbox_new(FALSE, 0);
+  image = gtk_image_new_from_stock(GTK_STOCK_REMOVE, GTK_ICON_SIZE_BUTTON);
+  gtk_box_pack_start(GTK_BOX(hbox2), image, FALSE, FALSE, 0);
+  label = gtk_label_new(_("Destroy"));
+  gtk_box_pack_start(GTK_BOX(hbox2), label, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(button), hbox2);
+  gtk_size_group_add_widget(sizegroup, button);
+  gtk_tooltips_set_tip(pe->tooltips, button,
+      _("Pressing this button will send a request to the server "
+        "to destroy (i.e. erase) the objects selected in the object "
+        "list."), "");
+  g_signal_connect(button, "clicked",
+                   G_CALLBACK(property_editor_destroy_button_clicked), pe);
+  gtk_box_pack_end(GTK_BOX(vbox), button, FALSE, FALSE, 0);
+  pe->destroy_button = button;
+
+  button = gtk_button_new();
+  hbox2 = gtk_hbox_new(FALSE, 0);
+  image = gtk_image_new_from_stock(GTK_STOCK_ADD, GTK_ICON_SIZE_BUTTON);
+  gtk_box_pack_start(GTK_BOX(hbox2), image, FALSE, FALSE, 0);
+  label = gtk_label_new(_("Create"));
+  gtk_box_pack_start(GTK_BOX(hbox2), label, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(button), hbox2);
+  gtk_size_group_add_widget(sizegroup, button);
+  gtk_tooltips_set_tip(pe->tooltips, button,
+      _("Pressing this button will create a new object of the "
+        "same type as the current property page and add it to "
+        "the page. The specific type and count of the objects "
+        "is taken from the editor tool state. So for example, "
+        "the \"tool value\" of the unit tool and its \"count\" "
+        "parameter affect unit creation."), "");
+  g_signal_connect(button, "clicked",
+                   G_CALLBACK(property_editor_create_button_clicked), pe);
+  gtk_box_pack_end(GTK_BOX(vbox), button, FALSE, FALSE, 0);
+  pe->create_button = button;
 
   gtk_widget_show_all(pe->widget);
 
@@ -4486,7 +5001,8 @@ void property_editor_load_tiles(struct property_editor *pe,
                                 const struct tile_list *tiles)
 {
   struct property_page *pp;
-  int objtype;
+  int objtype, i;
+  const int preferred[] = { OBJTYPE_CITY, OBJTYPE_UNIT, OBJTYPE_TILE };
 
   if (!pe || !tiles) {
     return;
@@ -4496,13 +5012,19 @@ void property_editor_load_tiles(struct property_editor *pe,
                           G_CALLBACK(property_editor_combo_changed));
 
   for (objtype = 0; objtype < NUM_OBJTYPES; objtype++) {
-    pp = pe->property_pages[objtype];
+    pp = property_editor_get_page(pe, objtype);
     property_page_load_tiles(pp, tiles);
+  }
+
+  for (i = 0; i < ARRAY_SIZE(preferred) - 1; i++) {
+    pp = property_editor_get_page(pe, preferred[i]);
     if (property_page_get_num_objbinds(pp) > 0) {
-      gtk_notebook_set_current_page(GTK_NOTEBOOK(pe->notebook), objtype);
-      gtk_combo_box_set_active(GTK_COMBO_BOX(pe->combo), objtype);
+      break;
     }
   }
+  objtype = preferred[i];
+  gtk_notebook_set_current_page(GTK_NOTEBOOK(pe->notebook), objtype);
+  gtk_combo_box_set_active(GTK_COMBO_BOX(pe->combo), objtype);
   
   enable_widget_callback(pe->combo,
                          G_CALLBACK(property_editor_combo_changed));
@@ -4555,8 +5077,26 @@ void property_editor_handle_object_changed(struct property_editor *pe,
     return;
   }
 
-  pp = pe->property_pages[objtype];
+  pp = property_editor_get_page(pe, objtype);
   property_page_object_changed(pp, object_id, remove);
+}
+
+/****************************************************************************
+  Handle a notification that an object was created under the given tag.
+****************************************************************************/
+void property_editor_handle_object_created(struct property_editor *pe,
+                                           int tag, int object_id)
+{
+  int objtype;
+  struct property_page *pp;
+
+  for (objtype = 0; objtype < NUM_OBJTYPES; objtype++) {
+    if (objtype_is_conserved(objtype)) {
+      continue;
+    }
+    pp = property_editor_get_page(pe, objtype);
+    property_page_object_created(pp, tag, object_id);
+  }
 }
 
 /****************************************************************************
@@ -4572,8 +5112,9 @@ void property_editor_clear(struct property_editor *pe)
   }
 
   for (objtype = 0; objtype < NUM_OBJTYPES; objtype++) {
-    pp = pe->property_pages[objtype];
+    pp = property_editor_get_page(pe, objtype);
     property_page_clear_objbinds(pp);
+    property_page_clear_tags(pp);
   }
 }
 
@@ -4589,7 +5130,7 @@ void property_editor_reload(struct property_editor *pe, int objtype)
     return;
   }
 
-  pp = pe->property_pages[objtype];
+  pp = property_editor_get_page(pe, objtype);
   if (!pp) {
     return;
   }
@@ -4628,7 +5169,7 @@ void property_editor_reload(struct property_editor *pe, int objtype)
   negated.
 
   NB: If you change the behaviour of this function, be sure to update
-  the filter tooltip in property_page_new.
+  the filter tooltip in property_page_new().
 ****************************************************************************/
 static struct property_filter *property_filter_new(const char *filter)
 {
@@ -4702,7 +5243,7 @@ static struct property_filter *property_filter_new(const char *filter)
           or contain both "b" and "c".
 
   NB: If you change the behaviour of this function, be sure to update
-  the filter tooltip in property_page_new.
+  the filter tooltip in property_page_new().
 ****************************************************************************/
 static bool property_filter_match(struct property_filter *pf,
                                   const struct objprop *op)

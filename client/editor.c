@@ -754,11 +754,11 @@ void editor_apply_tool(const struct tile *ptile,
 
   case ETT_UNIT:
     if (erase) {
-      dsend_packet_edit_unit_remove(&client.conn, apno,
-                                    ptile->x, ptile->y, value, count);
+      dsend_packet_edit_unit_remove(&client.conn, apno, ptile->x,
+                                    ptile->y, value, count);
     } else {
-      dsend_packet_edit_unit_create(&client.conn, apno,
-                                    ptile->x, ptile->y, value, count);
+      dsend_packet_edit_unit_create(&client.conn, apno, ptile->x,
+                                    ptile->y, value, count, 0);
     }
     break;
 
@@ -769,8 +769,8 @@ void editor_apply_tool(const struct tile *ptile,
         dsend_packet_edit_city_remove(&client.conn, pcity->id);
       }
     } else {
-      dsend_packet_edit_city_create(&client.conn, apno,
-                                    ptile->x, ptile->y, size);
+      dsend_packet_edit_city_create(&client.conn, apno, ptile->x,
+                                    ptile->y, size, 0);
     }
     break;
 
@@ -1162,4 +1162,38 @@ int editor_selection_count(void)
     return 0;
   }
   return hash_num_entries(editor->selected_tile_table);
+}
+
+/****************************************************************************
+  Creates a virtual unit (like create_unit_virtual) based on the current
+  editor state. You should free() the unit when it is no longer needed.
+  If creation is not possible, then NULL is returned.
+
+  The virtual unit has no homecity or tile. It is owned by the player
+  corresponding to the current 'applied player' parameter and has unit type
+  given by the sub-value of the unit tool (ETT_UNIT).
+****************************************************************************/
+struct unit *editor_create_unit_virtual(void)
+{
+  struct unit *vunit;
+  struct player *pplayer;
+  struct unit_type *putype;
+  int apno, value;
+
+  value = editor_tool_get_value(ETT_UNIT);
+  putype = utype_by_number(value);
+
+  if (!putype) {
+    return NULL;
+  }
+
+  apno = editor_get_applied_player();
+  pplayer = valid_player_by_number(apno);
+  if (!pplayer) {
+    return NULL;
+  }
+
+  vunit = create_unit_virtual(pplayer, NULL, putype, 0);
+
+  return vunit;
 }

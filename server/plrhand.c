@@ -105,7 +105,8 @@ void send_player_turn_notifications(struct conn_list *dest)
 /**************************************************************************
   Murder a player in cold blood.
 
-  Called only from srv_main kill_dying_players()
+  Called from srv_main kill_dying_players() and edit packet handler
+  handle_edit_player_remove().
 **************************************************************************/
 void kill_player(struct player *pplayer)
 {
@@ -1209,6 +1210,7 @@ void server_remove_player(struct player *pplayer)
   team_remove_player(pplayer);
   game_remove_player(pplayer);
   player_init(pplayer);
+  player_map_free(pplayer);
   player_slot_set_used(pplayer, FALSE);
   set_player_count(player_count() - 1);
 
