@@ -2297,16 +2297,29 @@ void city_refresh_vision(struct city *pcity)
   int radius_sq = get_city_bonus(pcity, EFT_CITY_VISION_RADIUS_SQ);
 
   if (NULL != psite) {
+    int old_radius = psite->border_radius_sq;
+    int new_radius;
+
     /* Exact behavior could be ruleset defined. */
     if (game.info.borders_sq) {
-      psite->border_radius_sq = game.info.borders_sq;
+      new_radius = game.info.borders_sq;
       if (psite->identity > 0) {
         /* City */
-        psite->border_radius_sq = MAX(psite->border_radius_sq, 2*2+1*1);
+        new_radius = MAX(new_radius, 2*2+1*1);
       }
-      psite->border_radius_sq += psite->size;
+      new_radius += psite->size;
     } else {
-      psite->border_radius_sq = 0;
+      new_radius = 0;
+    }
+
+    if (old_radius > new_radius) {
+      map_clear_border(pcity->tile, pcity->owner);
+    }
+
+    psite->border_radius_sq = new_radius;
+
+    if (old_radius != new_radius) {
+      map_claim_border(pcity->tile, pcity->owner);
     }
   }
 
