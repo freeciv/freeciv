@@ -99,6 +99,7 @@
 #include "techtools.h"
 #include "unithand.h"
 #include "unittools.h"
+#include "voting.h"
 
 #include "advdiplomacy.h"
 #include "advmilitary.h"
@@ -876,6 +877,7 @@ static void end_turn(void)
   update_diplomatics();
   make_history_report();
   stdinhand_turn();
+  voting_turn();
   send_player_turn_notifications(NULL);
 
   freelog(LOG_DEBUG, "Gamenextyear");
@@ -1054,6 +1056,7 @@ void server_quit(void)
 #endif /* HAVE_AUTH */
 
   stdinhand_free();
+  voting_free();
   close_connections_and_socket();
   exit(EXIT_SUCCESS);
 }
@@ -1940,6 +1943,7 @@ static void srv_prepare(void)
   con_flush();
 
   stdinhand_init();
+  voting_init();
   diplhand_init();
 
   /* init network */  

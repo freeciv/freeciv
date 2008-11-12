@@ -85,7 +85,9 @@ libcivserver_a_SOURCES = \
 		unithand.c	\
 		unithand.h	\
 		unittools.c	\
-		unittools.h
+		unittools.h	\
+		voting.c	\
+		voting.h
 
 # hand_gen.c & hand_gen.h are generated files, but as they are generated
 # outside this directory (when building common) there's no point in

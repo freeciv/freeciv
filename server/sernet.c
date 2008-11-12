@@ -83,6 +83,7 @@
 #include "plrhand.h"
 #include "srv_main.h"
 #include "stdinhand.h"
+#include "voting.h"
 
 #include "sernet.h"
 
