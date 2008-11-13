@@ -253,7 +253,7 @@ static void editbar_player_pov_combobox_changed(GtkComboBox *combo,
 
   pplayer = valid_player_by_number(id);
   if (pplayer != NULL) {
-    send_chat_printf("/take '%s'", pplayer->name);
+    send_chat_printf("/take \"%s\"", pplayer->name);
   }
 }
 
