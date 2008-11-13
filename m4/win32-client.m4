@@ -7,6 +7,10 @@ AC_DEFUN([FC_WIN32_CLIENT],
 [
   if test "$client" = "win32" || test "$client" = "yes" ; then
     if test "$MINGW32" = "yes"; then
+    
+      PKG_PROG_PKG_CONFIG
+      
+      dnl Check for libpng
       PKG_CHECK_MODULES([PNG], [libpng],
       [
         CLIENT_LIBS="-lwsock32 -lcomctl32 -mwindows $PNG_LIBS"

@@ -137,6 +137,7 @@ if test "$ftwl" = no && test "$client" = ftwl ; then
   AC_MSG_ERROR(You must use --enable-ftwl to use the ftwl client)
 fi
 if test "$ftwl" != no ; then
+  PKG_PROG_PKG_CONFIG
   PKG_CHECK_MODULES([CAIRO], [cairo],,
     [AC_MSG_ERROR([--enable-ftwl requires cairo])])
   FTWL_CFLAGS="$FTWL_CFLAGS $CAIRO_CFLAGS"

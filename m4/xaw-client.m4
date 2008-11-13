@@ -21,6 +21,8 @@ AC_DEFUN([FC_XAW_CLIENT],
       AC_DEFINE_UNQUOTED(NARROWPROTO, $fc_x_proto_value, [Narrowproto])
     fi
 
+    PKG_PROG_PKG_CONFIG
+
     dnl Check for libpng
     PKG_CHECK_MODULES([PNG], [libpng],
     [
