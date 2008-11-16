@@ -93,6 +93,11 @@ union packetdata {
   struct packet_edit_game *game;
 };
 
+/* Helpers for the OPID_TILE_VISION property. */
+struct tile_vision_data {
+  bv_player tile_known, tile_seen[V_COUNT];
+};
+const char *vision_layer_get_name(enum vision_layer);
 
 #define PF_MAX_CLAUSES 16
 #define PF_DISJUNCTION_SEPARATOR "|"
@@ -179,7 +184,8 @@ enum value_types {
   VALTYPE_BUILT_ARRAY,        /* struct built_status[B_LAST] */
   VALTYPE_INVENTIONS_ARRAY,   /* bool[A_LAST] */
   VALTYPE_BV_SPECIAL,
-  VALTYPE_NATION
+  VALTYPE_NATION,
+  VALTYPE_TILE_VISION_DATA    /* struct tile_vision_data */
 };
 
 static const char *valtype_get_name(int valtype);
@@ -203,6 +209,7 @@ union propval_data {
   bv_special v_bv_special;
   struct nation_type *v_nation;
   bool *v_inventions;
+  struct tile_vision_data *v_tile_vision;
 };
 
 struct propval {
@@ -274,6 +281,7 @@ enum object_property_ids {
   OPID_TILE_XY,
   OPID_TILE_RESOURCE,
   OPID_TILE_SPECIALS,
+  OPID_TILE_VISION, /* tile_known and tile_seen */
 
   OPID_UNIT_IMAGE,
   OPID_UNIT_ADDRESS,
@@ -755,6 +763,9 @@ static const char *valtype_get_name(int valtype)
   case VALTYPE_NATION:
     return "nation";
     break;
+  case VALTYPE_TILE_VISION_DATA:
+    return "struct tile_vision_data";
+    break;
   default:
     break;
   }
@@ -945,7 +956,7 @@ static int get_next_unique_tag(void)
 static struct propval *propval_copy(struct propval *pv)
 {
   struct propval *pv_copy;
-  int size;
+  size_t size;
 
   if (!pv) {
     return NULL;
@@ -976,6 +987,17 @@ static struct propval *propval_copy(struct propval *pv)
     memcpy(pv_copy->data.v_pointer, pv->data.v_pointer, size);
     pv_copy->must_free = TRUE;
     break;
+  case VALTYPE_TILE_VISION_DATA:
+    size = sizeof(struct tile_vision_data);
+    pv_copy->data.v_tile_vision = fc_malloc(size);
+    pv_copy->data.v_tile_vision->tile_known
+      = pv->data.v_tile_vision->tile_known;
+    vision_layer_iterate(v) {
+      pv_copy->data.v_tile_vision->tile_seen[v]
+        = pv->data.v_tile_vision->tile_seen[v];
+    } vision_layer_iterate_end;
+    pv_copy->must_free = TRUE;
+    break;
   default:
     pv_copy->data = pv->data;
     break;
@@ -1002,6 +1024,7 @@ static void propval_free(struct propval *pv)
     case VALTYPE_STRING:
     case VALTYPE_BUILT_ARRAY:
     case VALTYPE_INVENTIONS_ARRAY:
+    case VALTYPE_TILE_VISION_DATA:
       free(pv->data.v_pointer);
       break;
     default:
@@ -1071,6 +1094,19 @@ static bool propval_equal(struct propval *pva,
     break;
   case VALTYPE_BV_SPECIAL:
     return BV_ARE_EQUAL(pva->data.v_bv_special, pvb->data.v_bv_special);
+    break;
+  case VALTYPE_TILE_VISION_DATA:
+    if (!BV_ARE_EQUAL(pva->data.v_tile_vision->tile_known,
+                      pvb->data.v_tile_vision->tile_known)) {
+      return FALSE;
+    }
+    vision_layer_iterate(v) {
+      if (!BV_ARE_EQUAL(pva->data.v_tile_vision->tile_seen[v],
+                        pvb->data.v_tile_vision->tile_seen[v])) {
+        return FALSE;
+      }
+    } vision_layer_iterate_end;
+    return TRUE;
     break;
   default:
     break;
@@ -1259,6 +1295,7 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
   int objtype, propid;
   struct tile *ptile;
   struct propval *pv;
+  size_t size;
 
   if (!op || !ob) {
     return NULL;
@@ -1328,6 +1365,15 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
       break;
     case OPID_TILE_SPECIALS:
       pv->data.v_bv_special = tile_specials(ptile);
+      break;
+    case OPID_TILE_VISION:
+      size = sizeof(struct tile_vision_data);
+      pv->data.v_tile_vision = fc_malloc(size);
+      pv->data.v_tile_vision->tile_known = ptile->tile_known;
+      vision_layer_iterate(v) {
+        pv->data.v_tile_vision->tile_seen[v] = ptile->tile_seen[v];
+      } vision_layer_iterate_end;
+      pv->must_free = TRUE;
       break;
     default:
       freelog(LOG_ERROR, "Unhandled request for value of property %d "
@@ -2407,6 +2453,7 @@ static void objprop_setup_widget(struct objprop *op)
     break;
 
   case OPID_TILE_SPECIALS:
+  case OPID_TILE_VISION:
   case OPID_CITY_BUILDINGS:
   case OPID_PLAYER_NATION:
   case OPID_PLAYER_INVENTIONS:
@@ -2593,6 +2640,7 @@ static void objprop_refresh_widget(struct objprop *op,
     break;
 
   case OPID_TILE_SPECIALS:
+  case OPID_TILE_VISION:
   case OPID_CITY_BUILDINGS:
   case OPID_PLAYER_NATION:
   case OPID_PLAYER_INVENTIONS:
@@ -2770,10 +2818,11 @@ static struct extviewer *extviewer_new(struct objprop *op)
 {
   struct extviewer *ev;
   GtkWidget *hbox, *vbox, *label, *button, *scrollwin, *image;
-  GtkWidget *view = NULL;
+  GtkWidget *view = NULL, *spacer;
   GtkTreeSelection *sel;
   GtkListStore *store = NULL;
-  int propid;
+  GType *gtypes;
+  int propid, num_cols;
 
   if (!op) {
     return NULL;
@@ -2818,13 +2867,27 @@ static struct extviewer *extviewer_new(struct objprop *op)
     ev->panel_image = image;
     break;
 
+  case OPID_TILE_VISION:
+    hbox = gtk_hbox_new(FALSE, 4);
+    ev->panel_widget = hbox;
+    spacer = gtk_alignment_new(0.5, 0.5, 0.0, 0.0);
+    gtk_box_pack_start(GTK_BOX(hbox), spacer, TRUE, TRUE, 0);
+    break;
+
   default:
+    freelog(LOG_ERROR, "Unhandled request to create panel widget "
+            "for property %d (%s) in extviewer_new().",
+            propid, objprop_get_name(op));
     hbox = gtk_hbox_new(FALSE, 4);
     ev->panel_widget = hbox;
     break;
   }
 
-  button = gtk_button_new_with_label(_("Edit"));
+  if (objprop_is_readonly(op)) {
+    button = gtk_button_new_with_label(_("View"));
+  } else {
+    button = gtk_button_new_with_label(_("Edit"));
+  }
   g_signal_connect(button, "clicked",
                    G_CALLBACK(extviewer_panel_button_clicked), ev);
   gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
@@ -2834,28 +2897,32 @@ static struct extviewer *extviewer_new(struct objprop *op)
   /* Create the data store. */
 
   switch (propid) {
-
   case OPID_TILE_SPECIALS:
   case OPID_PLAYER_INVENTIONS:
-    store = gtk_list_store_new(3, G_TYPE_BOOLEAN,
-                               G_TYPE_INT,
+    store = gtk_list_store_new(3, G_TYPE_BOOLEAN, G_TYPE_INT,
                                G_TYPE_STRING);
     break;
-
+  case OPID_TILE_VISION:
+    num_cols = 3 + 1 + V_COUNT;
+    gtypes = fc_malloc(num_cols * sizeof(GType));
+    gtypes[0] = G_TYPE_INT;       /* player number */
+    gtypes[1] = GDK_TYPE_PIXBUF;  /* player flag */
+    gtypes[2] = G_TYPE_STRING;    /* player name */
+    gtypes[3] = G_TYPE_BOOLEAN;   /* tile_known */
+    vision_layer_iterate(v) {
+      gtypes[4 + v] = G_TYPE_BOOLEAN; /* tile_seen[v] */
+    } vision_layer_iterate_end;
+    store = gtk_list_store_newv(num_cols, gtypes);
+    free(gtypes);
+    break;
   case OPID_CITY_BUILDINGS:
-    store = gtk_list_store_new(4, G_TYPE_BOOLEAN,
-                               G_TYPE_INT,
-                               G_TYPE_STRING,
-                               G_TYPE_STRING);
+    store = gtk_list_store_new(4, G_TYPE_BOOLEAN, G_TYPE_INT,
+                               G_TYPE_STRING, G_TYPE_STRING);
     break;
-
   case OPID_PLAYER_NATION:
-    store = gtk_list_store_new(4, G_TYPE_BOOLEAN,
-                               G_TYPE_INT,
-                               GDK_TYPE_PIXBUF,
-                               G_TYPE_STRING);
+    store = gtk_list_store_new(4, G_TYPE_BOOLEAN, G_TYPE_INT,
+                               GDK_TYPE_PIXBUF, G_TYPE_STRING);
     break;
-
   default:
     freelog(LOG_ERROR, "Unhandled request to create data store "
             "for property %d (%s) in extviewer_new().",
@@ -2904,6 +2971,21 @@ static struct extviewer *extviewer_new(struct objprop *op)
                FALSE, FALSE, NULL, NULL);
     add_column(view, 2, _("Name"), G_TYPE_STRING,
                FALSE, FALSE, NULL, NULL);
+    break;
+
+  case OPID_TILE_VISION:
+    add_column(view, 0, _("ID"), G_TYPE_INT,
+               FALSE, FALSE, NULL, NULL);
+    add_column(view, 1, _("Nation"), GDK_TYPE_PIXBUF,
+               FALSE, FALSE, NULL, NULL);
+    add_column(view, 2, _("Name"), G_TYPE_STRING,
+               FALSE, FALSE, NULL, NULL);
+    add_column(view, 3, _("Known"), G_TYPE_BOOLEAN,
+               FALSE, FALSE, NULL, NULL);
+    vision_layer_iterate(v) {
+      add_column(view, 4 + v, vision_layer_get_name(v),
+                 G_TYPE_BOOLEAN, FALSE, FALSE, NULL, NULL);
+    } vision_layer_iterate_end;
     break;
 
   case OPID_CITY_BUILDINGS:
@@ -3020,6 +3102,9 @@ static void extviewer_refresh_widgets(struct extviewer *ev,
   store = ev->store;
 
 
+  /* NB: Remember to have -1 as the last argument to
+   * gtk_list_store_set() and to use the correct column
+   * number when inserting data. :) */
   switch (propid) {
 
   case OPID_TILE_SPECIALS:
@@ -3033,6 +3118,33 @@ static void extviewer_refresh_widgets(struct extviewer *ev,
     } tile_special_type_iterate_end;
     propval_as_string(pv, buf, sizeof(buf));
     gtk_label_set_text(GTK_LABEL(ev->panel_label), buf);
+    break;
+
+  case OPID_TILE_VISION:
+    gtk_list_store_clear(store);
+    player_slots_iterate(pslot) {
+      id = player_number(pslot);
+      if (player_slot_is_used(pslot)) {
+        name = player_name(pslot);
+        pixbuf = get_flag(pslot->nation);
+      } else {
+        name = "";
+        pixbuf = NULL;
+      }
+      gtk_list_store_append(store, &iter);
+      gtk_list_store_set(store, &iter, 0, id, 2, name, -1);
+      if (pixbuf) {
+        gtk_list_store_set(store, &iter, 1, pixbuf, -1);
+        g_object_unref(pixbuf);
+        pixbuf = NULL;
+      }
+      present = BV_ISSET(pv->data.v_tile_vision->tile_known, id);
+      gtk_list_store_set(store, &iter, 3, present, -1);
+      vision_layer_iterate(v) {
+        present = BV_ISSET(pv->data.v_tile_vision->tile_seen[v], id);
+        gtk_list_store_set(store, &iter, 4 + v, present, -1);
+      } vision_layer_iterate_end;
+    } player_slots_iterate_end;
     break;
 
   case OPID_CITY_BUILDINGS:
@@ -3120,10 +3232,13 @@ static void extviewer_clear_widgets(struct extviewer *ev)
 
   switch (propid) {
   case OPID_TILE_SPECIALS:
+  case OPID_TILE_VISION:
   case OPID_CITY_BUILDINGS:
   case OPID_PLAYER_INVENTIONS:
     gtk_list_store_clear(ev->store);
-    gtk_label_set_text(GTK_LABEL(ev->panel_label), NULL);
+    if (ev->panel_label != NULL) {
+      gtk_label_set_text(GTK_LABEL(ev->panel_label), NULL);
+    }
     break;
   case OPID_PLAYER_NATION:
     gtk_list_store_clear(ev->store);
@@ -3285,8 +3400,6 @@ static void property_page_setup_objprops(struct property_page *pp)
   case OBJTYPE_TILE:
     ADDPROP(OPID_TILE_IMAGE, _("Image"),
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_PIXBUF);
-    ADDPROP(OPID_TILE_ADDRESS, _("Address"),
-            OPF_HAS_WIDGET, VALTYPE_STRING);
     ADDPROP(OPID_TILE_TERRAIN, _("Terrain"),
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_STRING);
     ADDPROP(OPID_TILE_RESOURCE, _("Resource"),
@@ -3311,6 +3424,10 @@ static void property_page_setup_objprops(struct property_page *pp)
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_STRING);
     ADDPROP(OPID_TILE_SPECIALS, _("Specials"), OPF_IN_LISTVIEW
             | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BV_SPECIAL);
+    ADDPROP(OPID_TILE_ADDRESS, _("Address"),
+            OPF_HAS_WIDGET, VALTYPE_STRING);
+    ADDPROP(OPID_TILE_VISION, _("Vision"),
+            OPF_HAS_WIDGET, VALTYPE_TILE_VISION_DATA);
     break;
 
   case OBJTYPE_UNIT:
@@ -5322,4 +5439,27 @@ static void property_filter_free(struct property_filter *pf)
   }
   pf->count = 0;
   free(pf);
+}
+
+/****************************************************************************
+  Returns a translated string name for the given "vision layer".
+****************************************************************************/
+const char *vision_layer_get_name(enum vision_layer vl)
+{
+  switch (vl) {
+  case V_MAIN:
+    /* TRANS: Vision layer name. Feel free to leave untranslated. */
+    return _("Seen (Main)");
+    break;
+  case V_INVIS:
+    /* TRANS: Vision layer name. Feel free to leave untranslated. */
+    return _("Seen (Invis)");
+    break;
+  default:
+    freelog(LOG_ERROR, "Unrecognized vision layer %d in "
+            "vision_layer_get_name().", vl);
+    break;
+  }
+
+  return _("Unknown");
 }
