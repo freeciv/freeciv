@@ -4356,12 +4356,17 @@ static void game_load_internal(struct section_file *file)
   }
 
   if (has_capability("bases", savefile_options)) {
-    char **modname;
+    char **modname = NULL;
     int nmod;
     int j;
 
-    modname = secfile_lookup_str_vec(file, &nmod,
-				     "savefile.bases");
+    nmod = secfile_lookup_int_default(file, 0, "savefile.num_bases");
+
+    if (nmod > 0) {
+      modname = secfile_lookup_str_vec(file, &nmod,
+                                       "savefile.bases");
+    }
+
     /* make sure that the size of the array is divisible by 4 */
     base_order = fc_calloc(nmod + (4 - (nmod % 4)), sizeof(*base_order));
     for (j = 0; j < nmod; j++) {
@@ -4812,19 +4817,22 @@ void game_save(struct section_file *file, const char *save_reason)
     free(modname);
   }
   {
-    const char **modname;
-    int i = 0;
+    secfile_insert_int(file, game.control.num_base_types, "savefile.num_bases");
+    if (game.control.num_base_types > 0) {
+      const char **modname;
+      int i = 0;
 
-    /* Save specials order */
-    modname = fc_calloc(game.control.num_base_types, sizeof(*modname));
+      /* Save bases order */
+      modname = fc_calloc(game.control.num_base_types, sizeof(*modname));
 
-    base_type_iterate(pbase) {
-      modname[i++] = base_rule_name(pbase);
-    } base_type_iterate_end;
+      base_type_iterate(pbase) {
+        modname[i++] = base_rule_name(pbase);
+      } base_type_iterate_end;
 
-    secfile_insert_str_vec(file, modname, game.control.num_base_types,
-			   "savefile.bases");
-    free(modname);
+      secfile_insert_str_vec(file, modname, game.control.num_base_types,
+                             "savefile.bases");
+      free(modname);
+    }
   }
 
   /* [game] */
