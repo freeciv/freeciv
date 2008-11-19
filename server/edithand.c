@@ -36,6 +36,7 @@
 #include "citytools.h"
 #include "cityturn.h"
 #include "connecthand.h"
+#include "edithand.h"
 #include "gamehand.h"
 #include "hand_gen.h"
 #include "maphand.h"
@@ -46,28 +47,64 @@
 #include "unittools.h"
 #include "utilities.h"
 
-/* The number of tiles for which expensive checks have
- * been deferred after their terrains have been edited. */
-static int unfixed_terrain_count;
+/* This table holds pointers to tiles for which expensive
+ * checks (e.g. assign_continent_numbers) have been left
+ * until after a sequence of edits is complete. */
+static struct hash_table *unfixed_tile_table;
 
+/* Array of size player_slot_count() indexed by player
+ * number to tell whether a given player has fog of war
+ * disabled in edit mode. */
+static bool *unfogged_players;
+
+/****************************************************************************
+  Initialize data structures required for edit mode.
+****************************************************************************/
+void edithand_init(void)
+{
+  if (unfixed_tile_table != NULL) {
+    hash_free(unfixed_tile_table);
+  }
+  unfixed_tile_table = hash_new(hash_fval_keyval, hash_fcmp_keyval);
+
+  if (unfogged_players != NULL) {
+    free(unfogged_players);
+  }
+  unfogged_players = fc_calloc(player_slot_count(), sizeof(bool));
+}
+
+/****************************************************************************
+  Free all memory used by data structures required for edit mode.
+****************************************************************************/
+void edithand_free(void)
+{
+  if (unfixed_tile_table != NULL) {
+    hash_free(unfixed_tile_table);
+    unfixed_tile_table = NULL;
+  }
+
+  if (unfogged_players != NULL) {
+    free(unfogged_players);
+    unfogged_players = NULL;
+  }
+}
 
 /****************************************************************************
   Do the potentially slow checks required after some tile's terrain changes.
 ****************************************************************************/
 static void check_edited_tile_terrains(void)
 {
-  if (unfixed_terrain_count > 0) {
-    whole_map_iterate(ptile) {
-      if (!ptile->editor.need_terrain_fix) {
-        continue;
-      }
-      fix_tile_on_terrain_change(ptile, FALSE);
-      ptile->editor.need_terrain_fix = FALSE;
-    } whole_map_iterate_end;
-    assign_continent_numbers();
-    send_all_known_tiles(NULL);
+  if (hash_num_entries(unfixed_tile_table) < 1) {
+    return;
   }
-  unfixed_terrain_count = 0;
+
+  hash_iterate(unfixed_tile_table, ptile, dummy) {
+    fix_tile_on_terrain_change(ptile, FALSE);
+  } hash_iterate_end;
+  hash_delete_all_entries(unfixed_tile_table);
+
+  assign_continent_numbers();
+  send_all_known_tiles(NULL);
 }
 
 /****************************************************************************
@@ -76,17 +113,20 @@ static void check_edited_tile_terrains(void)
 ****************************************************************************/
 static void check_leaving_edit_mode(void)
 {
+  bool unfogged;
+
   conn_list_do_buffer(game.est_connections);
   players_iterate(pplayer) {
-    if (pplayer->editor.fog_of_war_disabled
-        && game.info.fogofwar) {
+    unfogged = unfogged_players[player_number(pplayer)];
+    if (unfogged && game.info.fogofwar) {
       enable_fog_of_war_player(pplayer);
-    } else if (!pplayer->editor.fog_of_war_disabled
-               && !game.info.fogofwar) {
+    } else if (!unfogged && !game.info.fogofwar) {
       disable_fog_of_war_player(pplayer);
     }
-    pplayer->editor.fog_of_war_disabled = FALSE;
   } players_iterate_end;
+
+  /* Clear the whole array. */
+  memset(unfogged_players, 0, player_slot_count() * sizeof(bool));
 
   check_edited_tile_terrains();
   conn_list_do_unbuffer(game.est_connections);
@@ -163,8 +203,7 @@ void handle_edit_tile_terrain(struct connection *pc, int x, int y,
     tile_change_terrain(ptile, pterrain);
 
     if (need_to_fix_terrain_change(old_terrain, pterrain)) {
-      ptile->editor.need_terrain_fix = TRUE;
-      unfixed_terrain_count++;
+      hash_insert(unfixed_tile_table, ptile, ptile);
     }
     update_tile_knowledge(ptile);
   } square_iterate_end;
@@ -1212,12 +1251,12 @@ void handle_edit_toggle_fogofwar(struct connection *pc, int plr_no)
   }
 
   conn_list_do_buffer(game.est_connections);
-  if (pplayer->editor.fog_of_war_disabled) {
+  if (unfogged_players[player_number(pplayer)]) {
     enable_fog_of_war_player(pplayer);
-    pplayer->editor.fog_of_war_disabled = FALSE;
+    unfogged_players[player_number(pplayer)] = FALSE;
   } else {
     disable_fog_of_war_player(pplayer);
-    pplayer->editor.fog_of_war_disabled = TRUE;
+    unfogged_players[player_number(pplayer)] = TRUE;
   }
   conn_list_do_unbuffer(game.est_connections);
 }

@@ -79,6 +79,7 @@
 #include "connecthand.h"
 #include "console.h"
 #include "diplhand.h"
+#include "edithand.h"
 #include "gamehand.h"
 #include "ggzserver.h"
 #include "handchat.h"
@@ -1056,6 +1057,7 @@ void server_quit(void)
 #endif /* HAVE_AUTH */
 
   stdinhand_free();
+  edithand_free();
   voting_free();
   close_connections_and_socket();
   exit(EXIT_SUCCESS);
@@ -1943,6 +1945,7 @@ static void srv_prepare(void)
   con_flush();
 
   stdinhand_init();
+  edithand_init();
   voting_init();
   diplhand_init();
 
