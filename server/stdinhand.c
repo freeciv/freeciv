@@ -3390,9 +3390,22 @@ bool load_command(struct connection *caller, const char *filename, bool check)
     return TRUE;
   }
 
-  /* we found it, free all structures */
+  /* Detach current players, before we blow them away. */
+  conn_list_iterate(game.est_connections, pconn) {
+    if (pconn->playing != NULL) {
+      detach_connection_to_player(pconn, FALSE);
+      send_conn_info(pconn->self, NULL);
+    }
+  } conn_list_iterate_end;
+
+  /* Now free all game data. */
   server_game_free();
   server_game_init();
+
+  /* Tell clients that all players have been removed. */
+  player_slots_iterate(pslot) {
+    send_player_slot_info_c(pslot, NULL);
+  } player_slots_iterate_end;
 
   loadtimer = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
   uloadtimer = new_timer_start(TIMER_USER, TIMER_ACTIVE);
@@ -3414,20 +3427,20 @@ bool load_command(struct connection *caller, const char *filename, bool check)
   send_server_settings(game.est_connections);
   send_game_info(game.est_connections);
 
+  /* Send information about the new players. */
+  send_player_info_c(NULL, NULL);
+
   /* Everything seemed to load ok; spread the good news. */
   send_load_game_info(TRUE);
-
-  /* attach connections to players. currently, this applies only 
-   * to connections that have the correct username. Any attachments
-   * made before the game load are unattached. */
+  
+  /* Attach connections to players. Currently, this applies only 
+   * to connections that have the same username as a player. */
   conn_list_iterate(game.est_connections, pconn) {
-    if (NULL != pconn->playing) {
-      detach_connection_to_player(pconn, FALSE);
-    }
     players_iterate(pplayer) {
       if (strcmp(pconn->username, pplayer->username) == 0) {
         attach_connection_to_player(pconn, pplayer, FALSE);
-        send_player_info_c(pplayer, game.est_connections);
+        send_player_info_c(pplayer, NULL);
+        send_conn_info(pconn->self, NULL);
         break;
       }
     } players_iterate_end;
