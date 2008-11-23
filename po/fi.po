@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-28 19:03+0200\n"
+"POT-Creation-Date: 2008-11-23 10:02+0900\n"
 "PO-Revision-Date: 2008-10-29 15:58+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
@@ -1424,31 +1424,31 @@ msgstr " (asetettu)"
 msgid "Illegal value for auth port: \"%s\""
 msgstr ""
 
-#: server/auth.c:284
+#: server/auth.c:281
 #, c-format
 msgid "Auth config filename \"%s\" not allowed!"
 msgstr "Antamasi asetustiedoston nimi \"%s\" ei ole sallittu."
 
-#: server/auth.c:289
+#: server/auth.c:286
 #, c-format
 msgid "Cannot load auth config file \"%s\"!"
 msgstr "Asetustiedoston \"%s\" lataaminen ei onnistu!"
 
-#: server/auth.c:400
+#: server/auth.c:397
 #, c-format
 msgid "Warning: the guest name '%s' has been taken, renaming to user '%s'."
 msgstr "Varoitus: vierailijanimi '%s' on varattu, vaihdan käyttäjänimeen '%s'."
 
-#: server/auth.c:407
+#: server/auth.c:404
 msgid "Guests are not allowed on this server. Sorry."
 msgstr "Vierailijoita ei sallita tällä palvelimella, pahoittelen."
 
-#: server/auth.c:409
+#: server/auth.c:406
 #, c-format
 msgid "%s was rejected: Guests not allowed."
 msgstr "%s jätetty ulkopuolelle: vierailijoita ei sallita."
 
-#: server/auth.c:428
+#: server/auth.c:425
 #, c-format
 msgid ""
 "There was an error reading the user database, logging in as guest connection "
@@ -1456,7 +1456,7 @@ msgid ""
 msgstr ""
 "Käyttäjätietokannan luku epäonnistui, kirjaudun sisään vierailijana '%s'."
 
-#: server/auth.c:434
+#: server/auth.c:431
 msgid ""
 "There was an error reading the user database and guest logins are not "
 "allowed. Sorry"
@@ -1464,42 +1464,42 @@ msgstr ""
 "Käyttäjätietokannan lukeminen epäonnistui, ja vierailijakirjautumisia ei "
 "sallita. Pahoittelen"
 
-#: server/auth.c:437
+#: server/auth.c:434
 #, c-format
 msgid "%s was rejected: Database error and guests not allowed."
 msgstr ""
 "%s jätettiin ulkopuolelle: Tietokantavirhe, ja vierailijoita ei sallita."
 
-#: server/auth.c:444
+#: server/auth.c:441
 #, c-format
 msgid "Enter password for %s:"
 msgstr "Anna käyttäjän %s salasana:"
 
-#: server/auth.c:453
+#: server/auth.c:450
 msgid "Enter a new password (and remember it)."
 msgstr "Anna uusi salasana (ja muista se)."
 
-#: server/auth.c:459
+#: server/auth.c:456
 msgid "This server allows only preregistered users. Sorry."
 msgstr "Pahoittelen, palvelin sallii vain ennalta rekisteröityjä käyttäjiä."
 
-#: server/auth.c:462
+#: server/auth.c:459
 #, c-format
 msgid "%s was rejected: Only preregister users allowed."
 msgstr ""
 "%s jätettiin ulkopuolelle: Vain ennalta rekisteröidyt käyttäjät sallittu."
 
-#: server/auth.c:491 server/auth.c:550
+#: server/auth.c:488 server/auth.c:547
 msgid "Sorry, too many wrong tries..."
 msgstr "Pahoittelen, liian monta yritystä meni vikaan..."
 
-#: server/auth.c:492
+#: server/auth.c:489
 #, c-format
 msgid "%s was rejected: Too many wrong password verifies for new user."
 msgstr ""
 "%s jätetty ulkopuolelle: Liian monta salasanavahvistusta uudelle käyttäjälle."
 
-#: server/auth.c:508
+#: server/auth.c:505
 msgid ""
 "Warning: There was an error in saving to the database. Continuing, but your "
 "stats will not be saved."
@@ -1507,30 +1507,30 @@ msgstr ""
 "Varoitus: Virhe tallentaessa tietokantaan. Jatkan, mutta tietosi eivät "
 "tallennu."
 
-#: server/auth.c:552
+#: server/auth.c:549
 #, c-format
 msgid "%s was rejected: Too many wrong password tries."
 msgstr "%s jätetty ulkopuolelle: Liian monta epäonnistunutta salasanayritystä."
 
-#: server/auth.c:561
+#: server/auth.c:558
 msgid "Your password is incorrect. Try again."
 msgstr "Annoit väärän salasanan, yritä uudelleen."
 
-#: server/auth.c:572
+#: server/auth.c:569
 msgid "Sorry, your connection timed out..."
 msgstr "Pahoittelen, yhteytesi aikakatkaistiin..."
 
-#: server/auth.c:574
+#: server/auth.c:571
 #, c-format
 msgid "%s was rejected: Connection timeout waiting for password."
 msgstr "%s jätettiin ulkopuolelle: Yhteyden aikakatkaisu salasanaa odottaessa."
 
-#: server/auth.c:639
+#: server/auth.c:636
 #, c-format
 msgid "Your password is too short, the minimum length is %d. Try again."
 msgstr "Salasanasi on liian lyhyt, alaraja on %d merkkiä. Anna uusi salasana."
 
-#: server/auth.c:645
+#: server/auth.c:642
 #, c-format
 msgid ""
 "The password must have at least %d capital letters, %d numbers, and be at "
@@ -1542,7 +1542,8 @@ msgstr ""
 #: server/barbarian.c:183
 #, c-format
 msgid "%s gain a leader by the name %s. Dangerous times may lie ahead."
-msgstr "%s ovat saaneet uuden johtajan, nimeltään %s. Vaaralliset ajat uhkaavat."
+msgstr ""
+"%s ovat saaneet uuden johtajan, nimeltään %s. Vaaralliset ajat uhkaavat."
 
 #: server/barbarian.c:479
 #, c-format
@@ -2216,7 +2217,10 @@ msgid ""
 "Show a list of players in the game, teams of players, connections to the "
 "server, or available scenarios.  The argument may be abbreviated, and "
 "defaults to 'players' if absent."
-msgstr "Näytä lista pelaajista, pelaajajoukkueista, yhteyksistä palvelimeen tai saatavilla olevista skenaarioista. Parametri voidaan lyhentää, ja mikäli sitä ei ole, käytetään 'players'iä oletusarvona."
+msgstr ""
+"Näytä lista pelaajista, pelaajajoukkueista, yhteyksistä palvelimeen tai "
+"saatavilla olevista skenaarioista. Parametri voidaan lyhentää, ja mikäli "
+"sitä ei ole, käytetään 'players'iä oletusarvona."
 
 #: server/commands.c:70
 msgid "Quit the game and shutdown the server."
@@ -2341,7 +2345,9 @@ msgstr ""
 msgid ""
 "debug [ player <player> | city <x> <y> | units <x> <y> | unit <id> | tech "
 "<player> | timing | info]"
-msgstr "debug [ player <pelaaja> | city <x> <y> | units <x> <y> | unit <id> | tech <pelaaja> | timing | info]"
+msgstr ""
+"debug [ player <pelaaja> | city <x> <y> | units <x> <y> | unit <id> | tech "
+"<pelaaja> | timing | info]"
 
 #: server/commands.c:123
 msgid "Turn on or off AI debugging of given entity."
@@ -4389,7 +4395,9 @@ msgstr "\"Erityisten\" luonnonvarojen suht. määrä"
 msgid ""
 "Special resources improve the basic terrain type they are on. The server "
 "variable's scale is parts per thousand."
-msgstr "Erityisluonnonvarat parantavat maa-aluetta jolla ne ovat. Palvelinmuuttujan yksikkö on promille (tuhannesosa)."
+msgstr ""
+"Erityisluonnonvarat parantavat maa-aluetta jolla ne ovat. Palvelinmuuttujan "
+"yksikkö on promille (tuhannesosa)."
 
 #: server/settings.c:395
 msgid "Amount of huts (minor tribe villages)"
@@ -4411,7 +4419,9 @@ msgstr "Pienin sallittu pelaajamäärä"
 msgid ""
 "There must be at least this many players (connected human players) before "
 "the game can start."
-msgstr "Peli ei voi alkaa ennen kuin vähintään näin moni (yhteydessä oleva ihmis-) pelaaja on liittynyt."
+msgstr ""
+"Peli ei voi alkaa ennen kuin vähintään näin moni (yhteydessä oleva ihmis-) "
+"pelaaja on liittynyt."
 
 #: server/settings.c:417
 msgid "Maximum number of players"
@@ -4575,7 +4585,12 @@ msgid ""
 "lose research points equal to this percentage of the cost to research a new "
 "technology. If this is non-zero, you can end up with negative research "
 "points."
-msgstr "Jokaista \"ilmaiseksi\" (ei diplomatiasuhteilla eikä valloittamalla, vaan majojen tai Aleksandrian kirjaston kautta) saamaasi teknologista edistysaskelta kohden menetät näin monta prosenttia uuden edistysaskeleen vaatimista tutkimuspisteistä - voit siis päätyä pakkasen puolelle tutkimuspisteissäsi."
+msgstr ""
+"Jokaista \"ilmaiseksi\" (ei diplomatiasuhteilla eikä valloittamalla, vaan "
+"majojen tai Aleksandrian kirjaston kautta) saamaasi teknologista "
+"edistysaskelta kohden menetät näin monta prosenttia uuden edistysaskeleen "
+"vaatimista tutkimuspisteistä - voit siis päätyä pakkasen puolelle "
+"tutkimuspisteissäsi."
 
 #: server/settings.c:535
 msgid "Food required for a city to grow"
@@ -8524,7 +8539,9 @@ msgstr "* Ei koskaan muutu konkariksi.\n"
 
 #: client/helpdata.c:1002
 msgid "* May become veteran through training or combat.\n"
-msgstr "* Voi oppia konkariksi kerättyään kokemusta koulutuksen tai taistelun kautta.\n"
+msgstr ""
+"* Voi oppia konkariksi kerättyään kokemusta koulutuksen tai taistelun "
+"kautta.\n"
 
 #: client/helpdata.c:1008
 #, c-format
@@ -9378,16 +9395,16 @@ msgstr "Palvelimen toimintomuuttuja: %s"
 msgid "Start of turn %d"
 msgstr "Vuoron %d alku"
 
-#: client/packhand.c:1594
+#: client/packhand.c:1590
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "AI-moodi on nyt %s."
 
-#: client/packhand.c:1595
+#: client/packhand.c:1591
 msgid "ON"
 msgstr "päällä"
 
-#: client/packhand.c:1595
+#: client/packhand.c:1591
 msgid "OFF"
 msgstr "pois päältä"
 
@@ -15672,7 +15689,9 @@ msgstr "Opastiedoston %s kirjoittaminen epäonnistui."
 msgid ""
 "<h1>Freeciv %s server options</h1>\n"
 "\n"
-msgstr "<h1>Freeciv %s -palvelimen asetukset</h1>\n\n"
+msgstr ""
+"<h1>Freeciv %s -palvelimen asetukset</h1>\n"
+"\n"
 
 #: manual/civmanual.c:144
 #, c-format
@@ -15704,7 +15723,9 @@ msgstr "<b>Ei</b> voida muuttaa pelin aikana. "
 msgid ""
 "<p class=\"bounds\">Minimum: 0, Default: %d, Maximum: 1</p>\n"
 "\n"
-msgstr "<p class=\"bounds\">Alaraja: 0, oletus: %d, yläraja: 1</p>\n\n"
+msgstr ""
+"<p class=\"bounds\">Alaraja: 0, oletus: %d, yläraja: 1</p>\n"
+"\n"
 
 #: manual/civmanual.c:162 manual/civmanual.c:172
 #, c-format
@@ -15718,7 +15739,9 @@ msgstr "<p class=\"changed\">Arvo asetettu %d:ksi</p>\n"
 msgid ""
 "<p class=\"bounds\">Minimum: %d, Default: %d, Maximum: %d</p>\n"
 "\n"
-msgstr "<p class=\"bounds\">Alaraja: %d, oletus: %d, yläraja: %d</p>\n\n"
+msgstr ""
+"<p class=\"bounds\">Alaraja: %d, oletus: %d, yläraja: %d</p>\n"
+"\n"
 
 #: manual/civmanual.c:177
 #, c-format
@@ -15774,7 +15797,9 @@ msgstr ""
 msgid ""
 "<p>Description:</p>\n"
 "\n"
-msgstr "<p>Kuvaus:</p>\n\n"
+msgstr ""
+"<p>Kuvaus:</p>\n"
+"\n"
 
 #: manual/civmanual.c:218
 #, c-format
@@ -16197,7 +16222,8 @@ msgid ""
 "\n"
 "  http://bugs.freeciv.org/"
 msgstr ""
-"Jos löydät ohjelmasta vian, raportoi se mieluusti meille. Parhaiten tämä onnistuu Freecivin buginseurantasivustolla: \n"
+"Jos löydät ohjelmasta vian, raportoi se mieluusti meille. Parhaiten tämä "
+"onnistuu Freecivin buginseurantasivustolla: \n"
 "\n"
 "  http://bugs.freeciv.org/"
 

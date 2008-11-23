@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-02 11:29+0100\n"
+"POT-Creation-Date: 2008-11-23 10:02+0900\n"
 "PO-Revision-Date: 2007-08-11 01:23+0300\n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -4164,8 +4164,8 @@ msgstr ""
 #: server/settings.c:181
 msgid "You are not allowed to set timeout values less than 30 seconds."
 msgstr ""
-"Du bist nicht berechtigt, einen Timeout von weniger als 30 "
-"Sekunden einzustellen."
+"Du bist nicht berechtigt, einen Timeout von weniger als 30 Sekunden "
+"einzustellen."
 
 #: server/settings.c:227
 msgid "Map size (in thousands of tiles)"
@@ -5124,9 +5124,9 @@ msgstr ""
 "Nach Ablauf dieser Zeit endet die Runde unabhängig davon, ob alle Spieler "
 "fertig sind. 0 deaktiviert diese Option. Bei Servern im DEBUG Modus wird mit "
 "-1 ein 'vollautomatisches' Testspiel gestartet. Timeouts von weniger als 30 "
-"Sekunden können nur mit der Zugriffsberechtigung 'hack' eingestellt werden."
-" In Verbindung mit dem Befehl "
-"'timeoutincrease' kann der Timer dynamisch benutzt werden."
+"Sekunden können nur mit der Zugriffsberechtigung 'hack' eingestellt werden. "
+"In Verbindung mit dem Befehl 'timeoutincrease' kann der Timer dynamisch "
+"benutzt werden."
 
 #: server/settings.c:888
 msgid "Timeout at least n seconds when enemy moved"
@@ -9398,16 +9398,16 @@ msgstr "Server capability string: %s"
 msgid "Start of turn %d"
 msgstr "Beginn des %d. Zugs"
 
-#: client/packhand.c:1594
+#: client/packhand.c:1590
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "KI Modus: %s."
 
-#: client/packhand.c:1595
+#: client/packhand.c:1591
 msgid "ON"
 msgstr "AN"
 
-#: client/packhand.c:1595
+#: client/packhand.c:1591
 msgid "OFF"
 msgstr "AUS"
 

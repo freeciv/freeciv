@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-28 19:03+0200\n"
+"POT-Creation-Date: 2008-11-23 10:02+0900\n"
 "PO-Revision-Date: 2008-11-05 18:43+0300\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
@@ -1230,8 +1230,7 @@ msgstr[1] ""
 #, c-format
 msgid ""
 "*%s (AI)* If you want a piece of the loot, feel free to join in the action!"
-msgstr ""
-"*%s (Computer)* Hvis du vil have en del af kagen, så er du velkommen!"
+msgstr "*%s (Computer)* Hvis du vil have en del af kagen, så er du velkommen!"
 
 #: ai/advdiplomacy.c:1251
 #, c-format
@@ -1409,31 +1408,31 @@ msgstr " (sæt)"
 msgid "Illegal value for auth port: \"%s\""
 msgstr "Ugyldig værdi for auth-port: \"%s\""
 
-#: server/auth.c:284
+#: server/auth.c:281
 #, c-format
 msgid "Auth config filename \"%s\" not allowed!"
 msgstr "Auth indstillingsfilnavn \"%s\" er ikke tilladt!"
 
-#: server/auth.c:289
+#: server/auth.c:286
 #, c-format
 msgid "Cannot load auth config file \"%s\"!"
 msgstr "Kan ikke hente auth indstillingsfil \"%s\"!"
 
-#: server/auth.c:400
+#: server/auth.c:397
 #, c-format
 msgid "Warning: the guest name '%s' has been taken, renaming to user '%s'."
 msgstr "Advarsel: Gæstenavnet '%s' er blevet taget, omdøber til bruger '%s'."
 
-#: server/auth.c:407
+#: server/auth.c:404
 msgid "Guests are not allowed on this server. Sorry."
 msgstr "Gæster er ikke tilladt på denne server. Beklager."
 
-#: server/auth.c:409
+#: server/auth.c:406
 #, c-format
 msgid "%s was rejected: Guests not allowed."
 msgstr "%s blev afvist: Gæster er ikke tilladt."
 
-#: server/auth.c:428
+#: server/auth.c:425
 #, c-format
 msgid ""
 "There was an error reading the user database, logging in as guest connection "
@@ -1442,7 +1441,7 @@ msgstr ""
 "Der opstod en fejl ved læsning af brugerdatabasen, logger ind som "
 "gæsteforbindelsen '%s'."
 
-#: server/auth.c:434
+#: server/auth.c:431
 msgid ""
 "There was an error reading the user database and guest logins are not "
 "allowed. Sorry"
@@ -1450,39 +1449,39 @@ msgstr ""
 "Der opstod en fejl ved læsning af brugerdatabasen og gæstetilslutninger er "
 "ikke tilladt. Beklager"
 
-#: server/auth.c:437
+#: server/auth.c:434
 #, c-format
 msgid "%s was rejected: Database error and guests not allowed."
 msgstr "%s blev afvist: Database fejl og gæster er ikke tilladt."
 
-#: server/auth.c:444
+#: server/auth.c:441
 #, c-format
 msgid "Enter password for %s:"
 msgstr "Indtast adgangskode for %s:"
 
-#: server/auth.c:453
+#: server/auth.c:450
 msgid "Enter a new password (and remember it)."
 msgstr "Indtast en ny adgangskode (og husk den)."
 
-#: server/auth.c:459
+#: server/auth.c:456
 msgid "This server allows only preregistered users. Sorry."
 msgstr "Denne server tillader kun præregistrerede brugere. Beklager."
 
-#: server/auth.c:462
+#: server/auth.c:459
 #, c-format
 msgid "%s was rejected: Only preregister users allowed."
 msgstr "%s blev afvist: Denne server tillader kun præregistrerede brugere."
 
-#: server/auth.c:491 server/auth.c:550
+#: server/auth.c:488 server/auth.c:547
 msgid "Sorry, too many wrong tries..."
 msgstr "Beklager, for mange forkerte forsøg..."
 
-#: server/auth.c:492
+#: server/auth.c:489
 #, c-format
 msgid "%s was rejected: Too many wrong password verifies for new user."
 msgstr "%s blev afvist: For mange forkerte kodeordstjek for ny bruger."
 
-#: server/auth.c:508
+#: server/auth.c:505
 msgid ""
 "Warning: There was an error in saving to the database. Continuing, but your "
 "stats will not be saved."
@@ -1490,30 +1489,30 @@ msgstr ""
 "Advarsel: Der opstod en fejl ved gemning i databasen. Fortsætter, men dine "
 "statistiskker bliver ikke gemt."
 
-#: server/auth.c:552
+#: server/auth.c:549
 #, c-format
 msgid "%s was rejected: Too many wrong password tries."
 msgstr "%s blev afvist: For mange forkerte kodeords indtastninger."
 
-#: server/auth.c:561
+#: server/auth.c:558
 msgid "Your password is incorrect. Try again."
 msgstr "Din adgangskode er forkert. Prøv igen."
 
-#: server/auth.c:572
+#: server/auth.c:569
 msgid "Sorry, your connection timed out..."
 msgstr "Beklager, din forbindelse løb ud af tid..."
 
-#: server/auth.c:574
+#: server/auth.c:571
 #, c-format
 msgid "%s was rejected: Connection timeout waiting for password."
 msgstr "%s blev afvist: Forbindelse løb ud mens den ventede for adgangskode."
 
-#: server/auth.c:639
+#: server/auth.c:636
 #, c-format
 msgid "Your password is too short, the minimum length is %d. Try again."
 msgstr "Din adgangskode er for kort, den mindste længde er %d. Prøv igen."
 
-#: server/auth.c:645
+#: server/auth.c:642
 #, c-format
 msgid ""
 "The password must have at least %d capital letters, %d numbers, and be at "
@@ -2519,8 +2518,7 @@ msgstr "Opret en AI spiller med givet navn."
 #: server/commands.c:211
 msgid ""
 "The 'create' command is only available before the game has been started."
-msgstr ""
-"'Create'-kommandoen er kun tilgængelig før spillet er startet."
+msgstr "'Create'-kommandoen er kun tilgængelig før spillet er startet."
 
 #: server/commands.c:215
 msgid ""
@@ -3337,8 +3335,7 @@ msgstr "Udslettede %s %s under infiltration af vore tropper."
 #, c-format
 msgid ""
 "Your %s has successfully completed the mission and returned unharmed to %s."
-msgstr ""
-"Din %s har klaret sin mission og er returneret uskadt til %s."
+msgstr "Din %s har klaret sin mission og er returneret uskadt til %s."
 
 #: server/diplomats.c:1204
 #, c-format
@@ -4092,7 +4089,9 @@ msgstr ""
 
 #: server/settings.c:181
 msgid "You are not allowed to set timeout values less than 30 seconds."
-msgstr "Du har ikke tilladelse til at indstille tidsbegrænsninger mindre end 30 sekunder."
+msgstr ""
+"Du har ikke tilladelse til at indstille tidsbegrænsninger mindre end 30 "
+"sekunder."
 
 #: server/settings.c:227
 msgid "Map size (in thousands of tiles)"
@@ -5052,10 +5051,10 @@ msgid ""
 msgstr ""
 "Hvis ikke alle spillerne har trykket på \"Runde over\" før tidsbegrænsningen "
 "er udløbet, vil runden slutte automatisk. Nul betyder ingen tidsbegrænsning. "
-"I fejlsøgning indstiller en tidsbegrænsning på -1 den automatiske testtilstand. "
-"Kun forbindelser med hack-niveau kan indstille tidsbegrænsningen til mindre end "
-"30 sekunder. Benyt dette med \"timeoutincrease\" for at få en dynamisk "
-"tidsbegrænsning."
+"I fejlsøgning indstiller en tidsbegrænsning på -1 den automatiske "
+"testtilstand. Kun forbindelser med hack-niveau kan indstille "
+"tidsbegrænsningen til mindre end 30 sekunder. Benyt dette med "
+"\"timeoutincrease\" for at få en dynamisk tidsbegrænsning."
 
 #: server/settings.c:888
 msgid "Timeout at least n seconds when enemy moved"
@@ -8570,8 +8569,10 @@ msgid ""
 msgid_plural ""
 "* Military units away from home and field units will cause %d citizens to "
 "become unhappy.\n"
-msgstr[0] "Militære enheder i felten og feltenheder gør %d indbygger ulykkelige.\n"
-msgstr[1] "Militære enheder i felten og feltenheder gør %d indbyggere ulykkelige.\n"
+msgstr[0] ""
+"Militære enheder i felten og feltenheder gør %d indbygger ulykkelige.\n"
+msgstr[1] ""
+"Militære enheder i felten og feltenheder gør %d indbyggere ulykkelige.\n"
 
 #: client/helpdata.c:1431
 #, c-format
@@ -9269,16 +9270,16 @@ msgstr "Egenskabsstreng for server: %s"
 msgid "Start of turn %d"
 msgstr "Runde %d begynder"
 
-#: client/packhand.c:1594
+#: client/packhand.c:1590
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "AI-tilstand er nu %s."
 
-#: client/packhand.c:1595
+#: client/packhand.c:1591
 msgid "ON"
 msgstr "TIL"
 
-#: client/packhand.c:1595
+#: client/packhand.c:1591
 msgid "OFF"
 msgstr "FRA"
 
@@ -24531,8 +24532,8 @@ msgid ""
 "Khoisan peoples and clashing with European settlers."
 msgstr ""
 "Zuluerne er et bantufolk som flyttede fra den vestlige central del af Afrika "
-"til det sydlige Afrika i begyndelsen af 1700-tallet. Her knuste de de"
-"indfødte khoisaner og kæmpede mod europæiske bosættere."
+"til det sydlige Afrika i begyndelsen af 1700-tallet. Her knuste de "
+"deindfødte khoisaner og kæmpede mod europæiske bosættere."
 
 #: data/scenario/british-isles-85x80-v2.80.sav:3
 msgid "British Isles (medium/classic)"
