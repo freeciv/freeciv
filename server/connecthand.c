@@ -486,12 +486,21 @@ bool attach_connection_to_player(struct connection *pconn,
     pplayer->user_turns = 0; /* reset for a new user */
     pplayer->is_connected = TRUE;
 
-    /* If we are attached to a player in pregame from
-     * find_uncontrolled_player above, then that player
-     * will be an AI created by aifill. So turn off AI
-     * mode if it is still on. */
-    if (server_state() == S_S_INITIAL && pplayer->ai.control) {
-      pplayer->ai.control = FALSE;
+    if (server_state() == S_S_INITIAL) {
+      /* If we are attached to a player in pregame from
+       * find_uncontrolled_player above, then that player
+       * will be an AI created by aifill. So turn off AI
+       * mode if it is still on. */
+      if (pplayer->ai.control) {
+        pplayer->ai.control = FALSE;
+      }
+      /* If we are attached to a completely new player in
+       * pregame, set its name to the connection's user
+       * name so that the take command message will not
+       * display "noname". */
+      if (0 == strcmp(player_name(pplayer), ANON_PLAYER_NAME)) {
+        sz_strlcpy(pplayer->name, pconn->username);
+      }
     }
   }
 

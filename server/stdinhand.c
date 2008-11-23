@@ -2633,7 +2633,10 @@ static bool set_command(struct connection *caller, char *str, bool check)
 }
 
 /**************************************************************************
- check game.allow_take for permission to take or observe a player
+  Check game.allow_take for permission to take or observe a player.
+
+  NB: If this function returns FALSE, then callers expect that 'msg' will
+  be filled in with a NULL-terminated string containing the reason.
 **************************************************************************/
 static bool is_allowed_to_take(struct player *pplayer, bool will_obs, 
                                char *msg)
@@ -2655,7 +2658,36 @@ static bool is_allowed_to_take(struct player *pplayer, bool will_obs,
     }
   } else if (!pplayer && !will_obs) {
     /* Auto-taking a new player */
-    return game.info.is_new_game && (S_S_INITIAL == server_state());
+
+    if (!game.info.is_new_game || server_state() != S_S_INITIAL) {
+      mystrlcpy(msg, _("You cannot take a new player at this time."),
+                MAX_LEN_MSG);
+      return FALSE;
+    }
+
+    if (player_count() >= game.info.max_players) {
+      my_snprintf(msg, MAX_LEN_MSG,
+                  /* TRANS: Do not translate "maxplayers". */
+                  PL_("You cannot take a new player because "
+                      "the maximum of %d player has already "
+                      "been reached (maxplayers setting).",
+                      "You cannot take a new player because "
+                      "the maximum of %d players has already "
+                      "been reached (maxplayers setting).",
+                      game.info.max_players),
+                  game.info.max_players);
+      return FALSE;
+    }
+
+    if (player_count() >= player_slot_count()) {
+      mystrlcpy(msg, _("You cannot take a new player because there "
+                       "are no free player slots."),
+                MAX_LEN_MSG);
+      return FALSE;
+    }
+
+    return TRUE;
+
   } else if (is_barbarian(pplayer)) {
     if (!(allow = strchr(game.allow_take, 'b'))) {
       if (will_obs) {
@@ -2969,7 +3001,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
   /* taking your own player makes no sense. */
   if ((NULL != pplayer && !pconn->observer && pplayer == pconn->playing)
    || (NULL == pplayer && !pconn->observer && NULL != pconn->playing)) {
-    cmd_reply(CMD_TAKE, caller, C_FAIL, _("%s already controls %s"),
+    cmd_reply(CMD_TAKE, caller, C_FAIL, _("%s already controls %s."),
               pconn->username,
               player_name(pconn->playing));
     goto end;
@@ -2983,7 +3015,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
       && (player_count() >= game.info.max_players
           || player_count() - server.nbarbarians >= server.playable_nations)) {
     cmd_reply(CMD_TAKE, caller, C_FAIL,
-              _("There is no free player slot for %s"),
+              _("There is no free player slot for %s."),
               pconn->username);
     goto end;
   }
@@ -3074,7 +3106,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
     }
 
     /* inform about the status before changes */
-    cmd_reply(CMD_TAKE, caller, C_OK, _("%s now controls %s (%s, %s)"),
+    cmd_reply(CMD_TAKE, caller, C_OK, _("%s now controls %s (%s, %s)."),
               pconn->username,
               player_name(pplayer),
               is_barbarian(pplayer)
@@ -3096,7 +3128,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
       toggle_ai_player_direct(NULL, pplayer);
     }
   } else {
-    cmd_reply(CMD_TAKE, caller, C_FAIL, _("%s failed to attach to any player"),
+    cmd_reply(CMD_TAKE, caller, C_FAIL, _("%s failed to attach to any player."),
               pconn->username);
   }
 
