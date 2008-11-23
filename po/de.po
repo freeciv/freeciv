@@ -6269,13 +6269,17 @@ msgid_plural ""
 "You cannot take a new player because the maximum of %d players has already "
 "been reached (maxplayers setting)."
 msgstr[0] ""
+"Du kannst keinen neuen Spieler übernehmen, weil die Höchtszahl von %d "
+"Spieler bereits erreicht ist (Option mayplayers)."
 msgstr[1] ""
+"Du kannst keinen neuen Spieler übernehmen, weil die Höchtszahl von %d "
+"Spielern bereits erreicht ist (Option mayplayers)."
 
 #: server/stdinhand.c:2689
 msgid "You cannot take a new player because there are no free player slots."
 msgstr ""
-"Du kannst keinen neuen Spieler übernehmen, weil es keine "
-"freien Plätze mehr gibt."
+"Du kannst keinen neuen Spieler übernehmen, weil es keine freien Plätze mehr "
+"gibt."
 
 #: server/stdinhand.c:2700
 msgid "Sorry, one can't observe barbarians in this game."
