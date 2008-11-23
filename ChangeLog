@@ -1,4 +1,412 @@
 
+Sat, 22 Nov 2008 23:02:22 -0800  mbook:
+
+	Changed paths:
+	   M /branches/S2_1/server/stdinhand.c
+
+	Minor fixes relating to the take command.
+
+	See #40529
+
+
+Sat, 22 Nov 2008 17:39:58 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/po/ar.po
+	   M /branches/S2_1/po/ca.po
+	   M /branches/S2_1/po/cs.po
+	   M /branches/S2_1/po/da.po
+	   M /branches/S2_1/po/de.po
+	   M /branches/S2_1/po/el.po
+	   M /branches/S2_1/po/en_GB.po
+	   M /branches/S2_1/po/eo.po
+	   M /branches/S2_1/po/es.po
+	   M /branches/S2_1/po/et.po
+	   M /branches/S2_1/po/fa.po
+	   M /branches/S2_1/po/fi.po
+	   M /branches/S2_1/po/fr.po
+	   M /branches/S2_1/po/he.po
+	   M /branches/S2_1/po/hu.po
+	   M /branches/S2_1/po/it.po
+	   M /branches/S2_1/po/ja.po
+	   M /branches/S2_1/po/ko.po
+	   M /branches/S2_1/po/lt.po
+	   M /branches/S2_1/po/nl.po
+	   M /branches/S2_1/po/no.po
+	   M /branches/S2_1/po/pl.po
+	   M /branches/S2_1/po/pt.po
+	   M /branches/S2_1/po/pt_BR.po
+	   M /branches/S2_1/po/ro.po
+	   M /branches/S2_1/po/ru.po
+	   M /branches/S2_1/po/sv.po
+	   M /branches/S2_1/po/tr.po
+	   M /branches/S2_1/po/uk.po
+	   M /branches/S2_1/po/zh_CN.po
+
+	Commit updates after running 'make update-po'
+
+
+Wed, 12 Nov 2008 20:06:29 -0800  cproc:
+
+	Changed paths:
+	   M /branches/S2_1/m4/win32-client.m4
+	   M /branches/S2_1/m4/xaw-client.m4
+
+	Explicitly call PKG_PROG_PKG_CONFIG for the case that the first call to PKG_CHECK_MODULES does not happen. See PR#40555.
+
+
+Fri, 07 Nov 2008 21:47:59 -0800  mbook:
+
+	Changed paths:
+	   M /branches/S2_1/client/packhand.c
+
+	Remove a hack causing an inconsistent turn done button state.
+
+	See #40550
+
+	Reported by: HanduMan <HanduMan@Savageclub.org>
+
+
+Fri, 07 Nov 2008 10:14:58 -0800  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/po/da.po
+
+	Updated translation by Joe Dalton
+
+
+Mon, 03 Nov 2008 07:35:18 -0800  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/ai/ailog.c
+
+	Renamed OUT as AILOG_OUT to avoid namespace conflicts.
+
+	See #40541
+
+
+Sun, 02 Nov 2008 07:09:02 -0800  chrisk:
+
+	Changed paths:
+	   M /branches/S2_1/po/de.po
+
+	4287 translated messages.
+
+
+Thu, 30 Oct 2008 11:05:29 -0800  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/server/auth.c
+
+	Fixed compiler warnings from auth build
+
+	See #40544
+
+
+Wed, 29 Oct 2008 09:14:38 -0800  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/po/fi.po
+
+	Updated translation by Sini Ruohomaa.
+
+
+Tue, 21 Oct 2008 16:31:10 -0700  mbook:
+
+	Changed paths:
+	   M /branches/S2_1/server/report.c
+	   M /branches/S2_1/server/report.h
+	   M /branches/S2_1/server/settings.c
+	   M /branches/S2_1/server/settings.h
+	   M /branches/S2_1/server/stdinhand.c
+
+	Disallow setting timeout less than 30 for non-hack connections.
+
+	- Added 'struct connection' parameter to all setting validate
+	  callback functions.
+	- Improved some style and formatting in set_command.
+
+	See #40466
+
+
+Sun, 19 Oct 2008 14:00:20 -0700  mbook:
+
+	Changed paths:
+	   M /branches/S2_1/server/generator/mapgen.c
+
+	Fix bug that filled land tiles with water terrain.
+
+	- Thus fix random "infinite loop" assertion failure in map_fractal_generate.
+
+	See #40453
+
+	Reported by:
+	  Christian Knoke <chrisk@cknoke.de>
+	  Madeline Book <madeline.book@gmail.com>
+
+
+Fri, 17 Oct 2008 19:11:29 -0700  mbook:
+
+	Changed paths:
+	   M /branches/S2_1/data/stdsounds.soundspec
+
+	Fix typo in soundspec file.
+
+	See #39369
+
+	Reported by:
+	  Castanier Carl <woodswolf@gmail.com>
+	  Jacob Nevins <jacobn+freecivrt@chiark.greenend.org.uk>
+
+
+Thu, 16 Oct 2008 09:42:27 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/ai/ailog.c
+	   M /branches/S2_1/client/agents/cma_fec.c
+	   M /branches/S2_1/client/citydlg_common.c
+	   M /branches/S2_1/client/gui-gtk-2.0/dialogs.c
+	   M /branches/S2_1/client/gui-gtk-2.0/pages.c
+	   M /branches/S2_1/client/gui-gtk-2.0/repodlgs.c
+	   M /branches/S2_1/client/gui-xaw/cma_fe.c
+	   M /branches/S2_1/client/helpdata.c
+	   M /branches/S2_1/client/mapview_common.c
+	   M /branches/S2_1/client/packhand.c
+	   M /branches/S2_1/client/text.c
+	   M /branches/S2_1/server/cityhand.c
+	   M /branches/S2_1/server/savegame.c
+	   M /branches/S2_1/server/scripting/script.c
+	   M /branches/S2_1/server/sernet.c
+	   M /branches/S2_1/server/stdinhand.c
+	   M /branches/S2_1/utility/registry.c
+
+	Fixed "format not a string literal and no format arguments" -warnings
+
+	See #40504
+
+
+Fri, 10 Oct 2008 14:13:58 -0700  mbook:
+
+	Changed paths:
+	   M /branches/S2_1/server/plrhand.c
+	   M /branches/S2_1/server/srv_main.c
+
+	Minor aifill fixes.
+
+	- Setting aifill=0 actually removes all aifill AIs.
+	- Refill AIs when a player is removed.
+
+	See #40481
+
+
+Fri, 10 Oct 2008 13:46:53 -0700  mbook:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-gtk-2.0/dialogs.c
+
+	Fix assertion failure when picking nation.
+
+	See #40516
+
+
+Tue, 07 Oct 2008 02:56:06 -0700  chrisk:
+
+	Changed paths:
+	   M /branches/S2_1/po/de.po
+
+	4286 translated messages.
+
+
+Tue, 30 Sep 2008 13:10:28 -0700  mbook:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-gtk-2.0/gotodlg.c
+
+	Fix bad packing parameters in gtk goto dialog.
+
+	See #40119
+
+	Report and patch by: Jacob Nevins <jacobn+freecivrt@chiark.greenend.org.uk>
+
+
+Sat, 27 Sep 2008 20:08:30 -0700  mbook:
+
+	Changed paths:
+	   M /branches/S2_1/client/tilespec.c
+	   M /branches/S2_1/client/tilespec.h
+
+	Fix fortress foreground drawing over fog.
+
+	See #40500
+
+	Reported by: Marko Lindqvist <cazfi74@gmail.com>
+
+
+Sat, 27 Sep 2008 16:17:23 -0700  mbook:
+
+	Changed paths:
+	   M /branches/S2_1/client/helpdata.c
+
+	Fix government help text buffer truncation.
+
+	See #40505
+
+	Reported by: Martijn Plass <korenn@live.nl>
+
+
+Sat, 27 Sep 2008 15:54:41 -0700  mbook:
+
+	Changed paths:
+	   M /branches/S2_1/server/plrhand.c
+
+	Do not reveal gold and government information when sending player info.
+
+	- This information was being sent even when players had
+	  no contact. This is changed so that players of less
+	  than INFO_MEETING info level only receive placeholder
+	  values.
+	- Zero is sent as a placeholder for gold.
+	- The "government during revolution" (i.e. anarchy) is
+	  sent as a placeholder for government.
+
+	See #40495
+
+	Reported by: pepeto <pepeto69@free.fr>
+
+
+Sat, 27 Sep 2008 07:24:45 -0700  cproc:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-sdl/gui_main.c
+	   M /branches/S2_1/client/gui-sdl/widget.c
+	   M /branches/S2_1/client/gui-sdl/widget.h
+
+	Made the meaning of some functions more clear.
+
+
+Thu, 25 Sep 2008 14:29:37 -0700  mbook:
+
+	Changed paths:
+	   M /branches/S2_1/server/sernet.c
+
+	Fix compile warning due to debug message format string.
+
+	See #40445
+
+	Reported by: Tristan Hoffmann <info@tristanhoffmann.de>
+
+
+Wed, 17 Sep 2008 13:06:07 -0700  mbook:
+
+	Changed paths:
+	   M /branches/S2_1/client/connectdlg_common.c
+
+	Remove hardcoded sending of autotoggle=1 on savegame load.
+
+	See #40465
+
+
+Fri, 12 Sep 2008 19:15:34 -0700  mbook:
+
+	Changed paths:
+	   M /branches/S2_1/server/settings.c
+	   M /branches/S2_1/server/stdinhand.c
+
+	Move side-effects in setting validate callbacks to set command body.
+
+	See #40480
+
+
+Mon, 08 Sep 2008 11:59:03 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/server/generator/startpos.c
+
+	Do not require so many specials for continent to be acceptable
+	starting place. Also try harder to get acceptable starting positions.
+	Finding acceptable starting positions started fail when separatepoles
+	was fixed, and polar oil is no longer contributing to goodness of
+	continents.
+
+	Problem reported by Madeline, ticket #40453
+
+
+Wed, 27 Aug 2008 12:48:14 -0700  mbook:
+
+	Changed paths:
+	   M /branches/S2_1/client/packhand.c
+
+	Do not close races dialog on user join or quit.
+
+	See #40455
+
+	Reported by: Michael Mielke <michael@theta.private.mielke.cc>
+
+
+Sun, 24 Aug 2008 20:31:16 -0700  mbook:
+
+	Changed paths:
+	   M /branches/S2_1/client/repodlgs_common.c
+
+	Only send private saved settings on forked servers.
+
+	See #40449
+
+
+Sun, 24 Aug 2008 20:08:30 -0700  mbook:
+
+	Changed paths:
+	   M /branches/S2_1/server/commands.c
+
+	Remove out-of-date information in vote command help text.
+
+	See #40448
+
+
+Sun, 17 Aug 2008 07:29:33 -0700  cproc:
+
+	Changed paths:
+	   M /branches/S2_1/utility/shared.c
+
+	Fix absolute path detection on Windows. See PR#40439.
+
+
+Tue, 12 Aug 2008 16:31:21 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/server/generator/mapgen.c
+
+	Fixed separatepoles option
+
+	See #40417
+
+
+Sun, 10 Aug 2008 17:52:23 -0700  cazfi:
+
+	Changed paths:
+	   M /branches/S2_1/ai/aidata.c
+
+	Fixed a couple of AI crashes related to ocean cities.
+
+	See #40422
+
+
+Sun, 10 Aug 2008 05:36:06 -0700  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/version.in
+
+	Bump version to 2.1.6+
+
+
+Sun, 10 Aug 2008 05:23:10 -0700  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/ChangeLog
+
+	Update changelog for 2.1.6
+
+
 Sun, 10 Aug 2008 03:14:37 -0700  dmarks:
 
 	Changed paths:
