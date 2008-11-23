@@ -6,13 +6,13 @@ FREECIV_VERSION_COMMENT("  are defined differently depending on          ")
 FREECIV_VERSION_COMMENT("  language used. Don't add comments             ")
 FREECIV_VERSION_COMMENT("  specific to some language into this file.     ")
 
-FREECIV_VERSION_INFO(2,1,6,["+"])
+FREECIV_VERSION_INFO(2,1,7,["+"])
 
 FREECIV_DEVEL_VERSION(0)
 FREECIV_BETA_VERSION(0)
 
-FREECIV_NEXT_VERSION(["2.1.7"])
-FREECIV_RELEASE_MONTH(9)
+FREECIV_NEXT_VERSION(["2.1.8"])
+FREECIV_RELEASE_MONTH(12)
 
 # Freeciv network capstring: see documentation in common/capstr.c
 #
