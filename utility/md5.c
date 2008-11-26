@@ -62,9 +62,10 @@
 static const unsigned char fillbuf[64] = { 0x80, 0 /* , 0, 0, ...  */ };
 
 /**************************************************************************
- from a string, create an md5sum and store it in output in hex form
+  From a string, create an md5sum and store it in output in hex form.
 **************************************************************************/
-void create_md5sum(const char *input, int len, char output[DIGEST_HEX_BYTES])
+void create_md5sum(const char *input, int len,
+                   char output[DIGEST_HEX_BYTES + 1])
 {
   unsigned char bin_buffer[MAX_DIGEST_BIN_BYTES];
   size_t cnt;
