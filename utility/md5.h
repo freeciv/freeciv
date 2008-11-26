@@ -129,6 +129,7 @@ extern void *md5_buffer (const char *buffer, size_t len, void *resblock);
 
 #define MAX_DIGEST_BIN_BYTES DIGEST_BIN_BYTES
 
-void create_md5sum(const char *input, int len, char output[DIGEST_HEX_BYTES]);
+void create_md5sum(const char *input, int len,
+                   char output[DIGEST_HEX_BYTES + 1]);
 
 #endif
