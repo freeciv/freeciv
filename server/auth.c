@@ -677,7 +677,7 @@ static bool authdb_check_password(struct connection *pconn,
   bool ok = FALSE;
   char buffer[512] = "";
   const int bufsize = sizeof(buffer);
-  char checksum[DIGEST_HEX_BYTES];
+  char checksum[DIGEST_HEX_BYTES + 1];
   MYSQL *sock, mysql;
 
   /* do the password checking right here */
