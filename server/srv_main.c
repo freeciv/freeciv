@@ -1593,14 +1593,22 @@ void aifill(int amount)
     send_player_info(pplayer, NULL);
   }
 
-  remove = game.info.nplayers - 1;
-  while (game.info.nplayers > amount && remove >= 0) {
-    struct player *pplayer = player_by_number(remove);
-
-    if (!pplayer->is_connected && !pplayer->was_created) {
-      server_remove_player(pplayer);
+  while (game.info.nplayers > amount) {
+    struct player *pplayer_rem = NULL;
+    remove = game.info.nplayers - 1;
+    while (remove >= 0) {
+      struct player *pplayer = player_by_number(remove);
+      if (!pplayer->is_connected && !pplayer->was_created) {
+        pplayer_rem = pplayer;
+        break;
+      }
+      remove--;
     }
-    remove--;
+    if (pplayer_rem) {
+      server_remove_player(pplayer_rem);
+    } else {
+      break;
+    }
   }
 }
 
