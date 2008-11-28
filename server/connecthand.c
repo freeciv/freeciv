@@ -343,14 +343,14 @@ void lost_connection_to_client(struct connection *pconn)
   notify_conn(game.est_connections, NULL, E_CONNECTION,
 	      _("Lost connection: %s."), desc);
 
+  unattach_connection_from_player(pconn);
+  send_conn_info_remove(pconn->self, game.est_connections);
+  notify_if_first_access_level_is_available();
+
   if (!pplayer) {
     delayed_disconnect--;
     return;
   }
-
-  unattach_connection_from_player(pconn);
-  send_conn_info_remove(pconn->self, game.est_connections);
-  notify_if_first_access_level_is_available();
 
   if (game.info.is_new_game
       && !pplayer->is_connected /* eg multiple controllers */
