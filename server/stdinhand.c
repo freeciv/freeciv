@@ -1325,6 +1325,7 @@ static bool cmdlevel_command(struct connection *caller, char *str, bool check)
 	cmd_reply(CMD_CMDLEVEL, caller, C_OK,
 		  _("Command access level set to '%s' for connection %s."),
 		  cmdlevel_name(level), pconn->username);
+        send_conn_info(pconn->self, NULL);
       } else {
 	cmd_reply(CMD_CMDLEVEL, caller, C_FAIL,
 		  _("Command access level could not be set to '%s' for "
@@ -1373,6 +1374,7 @@ static bool cmdlevel_command(struct connection *caller, char *str, bool check)
       cmd_reply(CMD_CMDLEVEL, caller, C_OK,
 		_("Command access level set to '%s' for connection %s."),
 		cmdlevel_name(level), ptarget->username);
+      send_conn_info(ptarget->self, NULL);
     } else {
       cmd_reply(CMD_CMDLEVEL, caller, C_FAIL,
 		_("Command access level could not be set to '%s'"
