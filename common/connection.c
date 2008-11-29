@@ -645,6 +645,7 @@ void connection_common_init(struct connection *pconn)
 
 #ifdef USE_COMPRESSION
   byte_vector_init(&pconn->compression.queue);
+  pconn->compression.frozen_level = 0;
 #endif
 }
 
