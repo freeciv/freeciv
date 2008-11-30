@@ -1,4 +1,152 @@
 
+Sun, 30 Nov 2008 03:48:06 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/po/ar.po
+	   M /branches/S2_1/po/ca.po
+	   M /branches/S2_1/po/cs.po
+	   M /branches/S2_1/po/da.po
+	   M /branches/S2_1/po/de.po
+	   M /branches/S2_1/po/el.po
+	   M /branches/S2_1/po/en_GB.po
+	   M /branches/S2_1/po/eo.po
+	   M /branches/S2_1/po/es.po
+	   M /branches/S2_1/po/et.po
+	   M /branches/S2_1/po/fa.po
+	   M /branches/S2_1/po/fi.po
+	   M /branches/S2_1/po/fr.po
+	   M /branches/S2_1/po/he.po
+	   M /branches/S2_1/po/hu.po
+	   M /branches/S2_1/po/it.po
+	   M /branches/S2_1/po/ja.po
+	   M /branches/S2_1/po/lt.po
+	   M /branches/S2_1/po/nl.po
+	   M /branches/S2_1/po/no.po
+	   M /branches/S2_1/po/pl.po
+	   M /branches/S2_1/po/pt.po
+	   M /branches/S2_1/po/pt_BR.po
+	   M /branches/S2_1/po/ro.po
+	   M /branches/S2_1/po/ru.po
+	   M /branches/S2_1/po/sv.po
+	   M /branches/S2_1/po/tr.po
+	   M /branches/S2_1/po/uk.po
+	   M /branches/S2_1/po/zh_CN.po
+
+	Commit updates after running 'make update-po'
+
+
+Sun, 30 Nov 2008 03:46:45 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/po/ko.po
+
+	2463 translated messages, 1827 untranslated messages.
+
+
+Fri, 28 Nov 2008 16:59:19 -0800  mbook:
+
+	Changed paths:
+	   M /branches/S2_1/common/connection.c
+	   M /branches/S2_1/server/sernet.c
+
+	Fix longstanding connection freezing bug.
+
+	- Add missing initialization of compression.frozen_level
+	  in connection_common_init().
+	- Also, make finish_processing_request() check for
+	  valid connection to avoid benign warning.
+
+	See #39131
+
+	Reported by: pepeto <pepeto69@free.fr>
+
+
+Fri, 28 Nov 2008 09:00:54 -0800  jcreus:
+
+	Changed paths:
+	   M /branches/S2_1/po/ca.po
+
+	Ready for takeoff, thanks for the warning
+
+
+Thu, 27 Nov 2008 21:42:33 -0800  mbook:
+
+	Changed paths:
+	   M /branches/S2_1/server/connecthand.c
+
+	Send information about lost connections not attached to players.
+
+	See #39613
+
+	Reported by: pepeto <pepeto69@free.fr>
+
+
+Thu, 27 Nov 2008 16:53:06 -0800  mbook:
+
+	Changed paths:
+	   M /branches/S2_1/server/stdinhand.c
+
+	Send connection info when cmdlevel is changed.
+
+	See #40479
+
+
+Thu, 27 Nov 2008 15:23:31 -0800  mbook:
+
+	Changed paths:
+	   M /branches/S2_1/server/srv_main.c
+
+	Make aifill player removal recursion safe.
+
+	See #40579
+
+	Reported by: Marko Lindqvist <cazfi74@gmail.com>
+
+
+Tue, 25 Nov 2008 19:03:25 -0800  mbook:
+
+	Changed paths:
+	   M /branches/S2_1/server/auth.c
+	   M /branches/S2_1/utility/md5.c
+	   M /branches/S2_1/utility/md5.h
+
+	Fix buffer overrun by create_md5sum().
+
+	See #40578
+
+
+Sun, 23 Nov 2008 12:12:11 -0800  chrisk:
+
+	Changed paths:
+	   M /branches/S2_1/po/de.po
+
+	4290 translated messages.
+
+
+Sun, 23 Nov 2008 07:08:52 -0800  chrisk:
+
+	Changed paths:
+	   M /branches/S2_1/po/de.po
+
+	4289 translated messages, 1 untranslated message.
+
+
+Sat, 22 Nov 2008 23:46:15 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/version.in
+
+	Bump version to 2.1.7+
+
+
+Sat, 22 Nov 2008 23:22:25 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/ChangeLog
+
+	Update changelog for 2.1.7
+
+
 Sat, 22 Nov 2008 23:02:22 -0800  mbook:
 
 	Changed paths:
