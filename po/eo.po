@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-23 10:02+0900\n"
+"POT-Creation-Date: 2008-11-30 16:07+0900\n"
 "PO-Revision-Date: 2008-07-10 17:52+0200\n"
 "Last-Translator: Antonio Codazzi <f_sophia@libero.it>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -5232,32 +5232,32 @@ msgstr ""
 msgid "%s has been added as %s level AI-controlled player."
 msgstr "%s estis aldonita kiel AI-ludanto je %s nivelo "
 
-#: server/srv_main.c:1720
+#: server/srv_main.c:1728
 #, c-format
 msgid "Player %d"
 msgstr "Ludanto %d"
 
-#: server/srv_main.c:1731 server/srv_main.c:1737
+#: server/srv_main.c:1739 server/srv_main.c:1745
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s estas la %s."
 
-#: server/srv_main.c:1902
+#: server/srv_main.c:1910
 msgid ""
 "This civserver program has player authentication support, but it's currently "
 "not in use."
 msgstr ""
 
-#: server/srv_main.c:1953
+#: server/srv_main.c:1961
 #, c-format
 msgid "Sending info to metaserver [%s]"
 msgstr "Sendante informojn al la metaservilo [%s]"
 
-#: server/srv_main.c:1984
+#: server/srv_main.c:1992
 msgid "The game is over..."
 msgstr "La ludo estas finita..."
 
-#: server/srv_main.c:2197
+#: server/srv_main.c:2205
 msgid "Now accepting new client connections."
 msgstr "Nun novaj konektoj de klientoj estas akcepteblaj."
 
@@ -5452,7 +5452,7 @@ msgstr "Estas neeble formovi ludantoj post la komenco de la ludo."
 msgid "Removed player %s from the game."
 msgstr "La ludanto %s estis formovita de la ludo."
 
-#: server/stdinhand.c:1016 server/stdinhand.c:3322 server/stdinhand.c:3435
+#: server/stdinhand.c:1016 server/stdinhand.c:3356 server/stdinhand.c:3469
 #, c-format
 msgid "Name \"%s\" disallowed for security reasons."
 msgstr "La nomo \"%s\" ne estas permesita pro sekureco."
@@ -5524,244 +5524,244 @@ msgid ""
 "Cannot increase command access level to '%s'; you only have '%s' yourself."
 msgstr ""
 
-#: server/stdinhand.c:1326 server/stdinhand.c:1374
+#: server/stdinhand.c:1326 server/stdinhand.c:1375
 #, c-format
 msgid "Command access level set to '%s' for connection %s."
 msgstr ""
 
-#: server/stdinhand.c:1330 server/stdinhand.c:1378
+#: server/stdinhand.c:1331 server/stdinhand.c:1380
 #, c-format
 msgid "Command access level could not be set to '%s' for connection %s."
 msgstr ""
 
-#: server/stdinhand.c:1340 server/stdinhand.c:1350 server/stdinhand.c:1367
+#: server/stdinhand.c:1341 server/stdinhand.c:1351 server/stdinhand.c:1368
 #, c-format
 msgid "Command access level set to '%s' for new players."
 msgstr ""
 
-#: server/stdinhand.c:1344 server/stdinhand.c:1355 server/stdinhand.c:1362
+#: server/stdinhand.c:1345 server/stdinhand.c:1356 server/stdinhand.c:1363
 #, c-format
 msgid "Command access level set to '%s' for first player to grab it."
 msgstr ""
 
-#: server/stdinhand.c:1400
+#: server/stdinhand.c:1402
 msgid "The 'first' command makes no sense from the server command line."
 msgstr ""
 
-#: server/stdinhand.c:1404
+#: server/stdinhand.c:1406
 #, c-format
 msgid "You already have command access level '%s' or better."
 msgstr ""
 
-#: server/stdinhand.c:1409
+#: server/stdinhand.c:1411
 msgid "Someone else already is game organizer."
 msgstr ""
 
-#: server/stdinhand.c:1414
+#: server/stdinhand.c:1416
 #, c-format
 msgid "Connection %s has opted to become the game organizer."
 msgstr ""
 
-#: server/stdinhand.c:1465
+#: server/stdinhand.c:1467
 #, c-format
 msgid "Invalid argument %d."
 msgstr "Nevalida argumento %d."
 
-#: server/stdinhand.c:1472
+#: server/stdinhand.c:1474
 #, fuzzy
 msgid "Usage: timeoutincrease <turn> <turnadd> <value> <valuemult>."
 msgstr "timeoutincrease <vico> <vicprogresado> <valoro> <valormultipliko>."
 
-#: server/stdinhand.c:1480
+#: server/stdinhand.c:1482
 #, c-format
 msgid "Dynamic timeout set to %d %d %d %d"
 msgstr "Dinamika tempolimo agordita je %d %d %d %d"
 
-#: server/stdinhand.c:1540 server/stdinhand.c:1543
+#: server/stdinhand.c:1542 server/stdinhand.c:1545
 #, fuzzy
 msgid "Option:"
 msgstr "Opcio"
 
-#: server/stdinhand.c:1553 server/stdinhand.c:3997
+#: server/stdinhand.c:1555 server/stdinhand.c:4031
 msgid "Description:"
 msgstr "Priskribo:"
 
-#: server/stdinhand.c:1558
+#: server/stdinhand.c:1560
 #, c-format
 msgid "Status: %s"
 msgstr "Stato: %s"
 
-#: server/stdinhand.c:1559
+#: server/stdinhand.c:1561
 msgid "changeable"
 msgstr "ŝanĝebla"
 
-#: server/stdinhand.c:1559
+#: server/stdinhand.c:1561
 msgid "fixed"
 msgstr "fiksa"
 
-#: server/stdinhand.c:1565
+#: server/stdinhand.c:1567
 #, c-format
 msgid "Value: %d, Minimum: 0, Default: %d, Maximum: 1"
 msgstr "Valoro: %d, Minimumo: 0, Defaŭlto: %d, Maksimumo: 1"
 
-#: server/stdinhand.c:1570
+#: server/stdinhand.c:1572
 #, c-format
 msgid "Value: %d, Minimum: %d, Default: %d, Maximum: %d"
 msgstr "Valoro: %d, Minimumo: %d, Defaŭlto: %d, Maksimumo: %d"
 
-#: server/stdinhand.c:1576
+#: server/stdinhand.c:1578
 #, c-format
 msgid "Value: \"%s\", Default: \"%s\""
 msgstr "Valoro: \"%s\",  Defaŭlto: \"%s\""
 
-#: server/stdinhand.c:1595
+#: server/stdinhand.c:1597
 msgid "Explanations are available for the following server options:"
 msgstr "Esplikojn estas disponeblaj pri la jenaj servil-opcioj:"
 
-#: server/stdinhand.c:1641
+#: server/stdinhand.c:1643
 msgid "No explanation for that yet."
 msgstr "Neniu espliko estas disponebla pri tio."
 
-#: server/stdinhand.c:1644 server/stdinhand.c:2478
+#: server/stdinhand.c:1646 server/stdinhand.c:2480
 msgid "Ambiguous option name."
 msgstr "Dubsenca nomo de opcio."
 
-#: server/stdinhand.c:1664
+#: server/stdinhand.c:1666
 #, c-format
 msgid "Server Operator: %s"
 msgstr "Servil-operatoro: %s"
 
-#: server/stdinhand.c:1788 server/stdinhand.c:1815 server/stdinhand.c:1833
+#: server/stdinhand.c:1790 server/stdinhand.c:1817 server/stdinhand.c:1835
 #, c-format
 msgid "Player '%s' now has AI skill level '%s'."
 msgstr "la ludanto '%s' nun havas nivelon de AI '%s'."
 
-#: server/stdinhand.c:1820
+#: server/stdinhand.c:1822
 #, c-format
 msgid "%s is not controlled by the AI."
 msgstr "%s ne estas mastrumita de AI."
 
-#: server/stdinhand.c:1840
+#: server/stdinhand.c:1842
 #, c-format
 msgid "Default AI skill level set to '%s'."
 msgstr "La apriora nivelo de lerteco por IA estas agordita je '%s'."
 
-#: server/stdinhand.c:1855 server/stdinhand.c:2160
+#: server/stdinhand.c:1857 server/stdinhand.c:2162
 msgid "This command is client only."
 msgstr "Tiu ĉi komando estas nur por klientoj."
 
-#: server/stdinhand.c:1858
+#: server/stdinhand.c:1860
 msgid "Usage: away"
 msgstr ""
 
-#: server/stdinhand.c:1863
+#: server/stdinhand.c:1865
 msgid "Only players may use the away command."
 msgstr "Nur la ludantoj rajtas uzi tiun komandon."
 
-#: server/stdinhand.c:1867
+#: server/stdinhand.c:1869
 #, c-format
 msgid "%s set to away mode."
 msgstr "%s estas agordita je 'for' moduso."
 
-#: server/stdinhand.c:1875
+#: server/stdinhand.c:1877
 #, c-format
 msgid "%s returned to game."
 msgstr "%s estas denove en la ludo."
 
-#: server/stdinhand.c:1917
+#: server/stdinhand.c:1919
 #, c-format
 msgid "Sorry, you do not have access to view option '%s'."
 msgstr "Bedaŭre, vi ne rajtas uzi la opcion '%s'."
 
-#: server/stdinhand.c:1923
+#: server/stdinhand.c:1925
 #, c-format
 msgid "Unknown option '%s'."
 msgstr "La opcio '%s' estas nekonata."
 
-#: server/stdinhand.c:1948
+#: server/stdinhand.c:1950
 msgid "All options with non-default values"
 msgstr "Ĉiuj opcioj kun ne-defaŭltaj valoroj"
 
-#: server/stdinhand.c:1951
+#: server/stdinhand.c:1953
 msgid "All options"
 msgstr "Ĉiuj opcioj"
 
-#: server/stdinhand.c:1954
+#: server/stdinhand.c:1956
 msgid "Vital options"
 msgstr "Vitalaj opcioj"
 
-#: server/stdinhand.c:1957
+#: server/stdinhand.c:1959
 msgid "Situational options"
 msgstr "Situaciaj opcioj"
 
-#: server/stdinhand.c:1960
+#: server/stdinhand.c:1962
 msgid "Rarely used options"
 msgstr "Maloftaj opcioj"
 
-#: server/stdinhand.c:1963
+#: server/stdinhand.c:1965
 msgid "+ means you may change the option"
 msgstr "+ signifas ke vi povas ŝanĝi opcion"
 
-#: server/stdinhand.c:1964
+#: server/stdinhand.c:1966
 msgid "= means the option is on its default value"
 msgstr "= signifas ke la opcio havas sian defaŭltan valoron"
 
-#: server/stdinhand.c:1967
+#: server/stdinhand.c:1969
 #, c-format
 msgid "%-*s value   (min,max)      "
 msgstr "%-*s valoro  (min,maks)      "
 
-#: server/stdinhand.c:1967
+#: server/stdinhand.c:1969
 msgid "Option"
 msgstr "Opcio"
 
-#: server/stdinhand.c:1971
+#: server/stdinhand.c:1973
 msgid "description"
 msgstr "priskribo"
 
-#: server/stdinhand.c:2040
+#: server/stdinhand.c:2042
 msgid ""
 "Try 'show situational' or 'show rare' to show more options.\n"
 "Try 'show changed' to show settings with non-default values."
 msgstr ""
 
-#: server/stdinhand.c:2090
+#: server/stdinhand.c:2092
 msgid "Cannot change teams once game has begun."
 msgstr "Estas neeble ŝanĝi la grupojn post la komenco de la ludo."
 
-#: server/stdinhand.c:2100
+#: server/stdinhand.c:2102
 #, fuzzy
 msgid "Undefined argument.  Usage: team <player> <team>."
 msgstr ""
 "Nedifinita argumento.  Uzo:\n"
 "%s"
 
-#: server/stdinhand.c:2120
+#: server/stdinhand.c:2122
 #, c-format
 msgid "No such team %s.  Please give a valid team name or number."
 msgstr "Neniu grupo %s.  Bonvolu havigi validan nomon aŭ numero por la grupo."
 
-#: server/stdinhand.c:2127
+#: server/stdinhand.c:2129
 msgid "Cannot team a barbarian."
 msgstr "Estas neeble aligi barbaron."
 
-#: server/stdinhand.c:2133
+#: server/stdinhand.c:2135
 #, c-format
 msgid "Player %s set to team %s."
 msgstr "La ludanto %s estas aligita al %s grupo."
 
-#: server/stdinhand.c:2155
+#: server/stdinhand.c:2157
 #, fuzzy
 msgid "Undefined arguments. Usage: vote yes|no [vote number]."
 msgstr ""
 "Nedifinita argumento.  Uzo:\n"
 "%s"
 
-#: server/stdinhand.c:2163
+#: server/stdinhand.c:2165
 msgid "Observers cannot vote."
 msgstr "La observantoj ne rajtas voĉdoni."
 
-#: server/stdinhand.c:2166
+#: server/stdinhand.c:2168
 msgid ""
 "You can only vote in a running game.  Use 'first' to become the game "
 "organizer if there currently is none."
@@ -5769,481 +5769,502 @@ msgstr ""
 "Vi povas nur voĉdoni en plenumanta ludo.  Uzu 'first' por igi organizanto de "
 "la ludo, se la seĝo estas vaka."
 
-#: server/stdinhand.c:2179
+#: server/stdinhand.c:2181
 #, c-format
 msgid "Vote %d \"%s\": %d for, %d against"
 msgstr "Voĉdonado %d \"%s\": %d favore, %d malfavore"
 
-#: server/stdinhand.c:2186
+#: server/stdinhand.c:2188
 msgid "There are no votes going on."
 msgstr "Neniu voĉdonado."
 
-#: server/stdinhand.c:2206
+#: server/stdinhand.c:2208
 msgid "No legal last vote."
 msgstr "Lasta voĉdono estas nevalida."
 
-#: server/stdinhand.c:2211
+#: server/stdinhand.c:2213
 msgid "Value must be integer."
 msgstr "La valoro devas esti entjero."
 
-#: server/stdinhand.c:2222
+#: server/stdinhand.c:2224
 #, c-format
 msgid "No such vote (%d)."
 msgstr "Neniu voĉdono (%d)."
 
-#: server/stdinhand.c:2226
+#: server/stdinhand.c:2228
 #, c-format
 msgid "You voted for \"%s\""
 msgstr "Vi voĉdonis favore al \"%s\""
 
-#: server/stdinhand.c:2230
+#: server/stdinhand.c:2232
 #, c-format
 msgid "You voted against \"%s\""
 msgstr "Vi voĉdonis malfavore al \"%s\""
 
-#: server/stdinhand.c:2257
+#: server/stdinhand.c:2259
 msgid ""
 "Undefined arguments. Usage: debug <diplomacy <player> | city <x> <y> | units "
 "<x> <y> | unit <id> | tech <player> | timing | info>."
 msgstr ""
 
-#: server/stdinhand.c:2263
+#: server/stdinhand.c:2265
 msgid "Can only use this command once game has begun."
 msgstr "Vi povas uzi tiun komandon nur post la komenco de la ludo."
 
-#: server/stdinhand.c:2292
+#: server/stdinhand.c:2294
 #, c-format
 msgid "%s diplomacy no longer debugged"
 msgstr ""
 
-#: server/stdinhand.c:2296
+#: server/stdinhand.c:2298
 #, c-format
 msgid "%s diplomacy debugged"
 msgstr ""
 
-#: server/stdinhand.c:2315
+#: server/stdinhand.c:2317
 #, c-format
 msgid "%s tech no longer debugged"
 msgstr ""
 
-#: server/stdinhand.c:2319
+#: server/stdinhand.c:2321
 #, c-format
 msgid "%s tech debugged"
 msgstr ""
 
-#: server/stdinhand.c:2350 server/stdinhand.c:2380
+#: server/stdinhand.c:2352 server/stdinhand.c:2382
 msgid "Value 2 & 3 must be integer."
 msgstr "La 2a kaj 3a valoro devas esti entjero."
 
-#: server/stdinhand.c:2354 server/stdinhand.c:2384
+#: server/stdinhand.c:2356 server/stdinhand.c:2386
 msgid "Bad map coordinates."
 msgstr "Eraraj mapaj koordinatoj."
 
-#: server/stdinhand.c:2359
+#: server/stdinhand.c:2361
 msgid "No city at this coordinate."
 msgstr "Neniu urbo estas ĉe tiuj koordinatoj."
 
-#: server/stdinhand.c:2364
+#: server/stdinhand.c:2366
 #, c-format
 msgid "%s no longer debugged"
 msgstr ""
 
-#: server/stdinhand.c:2390 server/stdinhand.c:2420
+#: server/stdinhand.c:2392 server/stdinhand.c:2422
 #, c-format
 msgid "%s %s no longer debugged."
 msgstr ""
 
-#: server/stdinhand.c:2395 server/stdinhand.c:2425
+#: server/stdinhand.c:2397 server/stdinhand.c:2427
 #, c-format
 msgid "%s %s debugged."
 msgstr ""
 
-#: server/stdinhand.c:2411
+#: server/stdinhand.c:2413
 msgid "Value 2 must be integer."
 msgstr "La dua valoro devas esti entjero."
 
-#: server/stdinhand.c:2415
+#: server/stdinhand.c:2417
 #, c-format
 msgid "Unit %d does not exist."
 msgstr "La unuo %d ne ekzistas."
 
-#: server/stdinhand.c:2473
+#: server/stdinhand.c:2475
 #, fuzzy
 msgid "Undefined argument.  Usage: set <option> <value>."
 msgstr ""
 "Nedifinita argumento.  Uzo:\n"
 "%s"
 
-#: server/stdinhand.c:2483
+#: server/stdinhand.c:2485
 msgid "You are not allowed to set this option."
 msgstr "Vi ne rajtas agordi tiun ĉi opcion."
 
-#: server/stdinhand.c:2488 server/stdinhand.c:3429
+#: server/stdinhand.c:2490 server/stdinhand.c:3463
 msgid "This setting can't be modified after the game has started."
 msgstr "Tiu ĉi agordaĵo ne estas redaktebla post la komenco de la ludo."
 
-#: server/stdinhand.c:2500 server/stdinhand.c:2541
+#: server/stdinhand.c:2502 server/stdinhand.c:2543
 msgid "Value must be an integer."
 msgstr "La valoro devas esti entjero."
 
-#: server/stdinhand.c:2510
+#: server/stdinhand.c:2512
 #, c-format
 msgid "The parameter %s should only contain digits 0-1."
 msgstr "La parametro %s devus enteni nur diĝitajn valorojn 0-1."
 
-#: server/stdinhand.c:2517
+#: server/stdinhand.c:2519
 msgid "Value out of range (minimum: 0, maximum: 1)."
 msgstr "Ekstera valoro (minimumo: 0, maksimumo: 1)."
 
-#: server/stdinhand.c:2532 server/stdinhand.c:2574
+#: server/stdinhand.c:2534 server/stdinhand.c:2576
 #, c-format
 msgid "Option: %s has been set to %d."
 msgstr "Opcio: %s estis agordita je %d."
 
-#: server/stdinhand.c:2552
+#: server/stdinhand.c:2554
 #, c-format
 msgid "The parameter %s should only contain +- and 0-9."
 msgstr "La parametro %s devus enteni nur +- kaj 0-9."
 
-#: server/stdinhand.c:2559
+#: server/stdinhand.c:2561
 #, c-format
 msgid "Value out of range (minimum: %d, maximum: %d)."
 msgstr "Ekstera valoro (minimumo: %d, maksimumo: %d)."
 
-#: server/stdinhand.c:2584
+#: server/stdinhand.c:2586
 #, fuzzy
 msgid "String value too long.  Usage: set <option> <value>."
 msgstr ""
 "La ĉeno estas tro longa.  Uzo:\n"
 "%s"
 
-#: server/stdinhand.c:2598
+#: server/stdinhand.c:2600
 #, c-format
 msgid "Option: %s has been set to \"%s\"."
 msgstr "Opcio: %s estis agordita je \"%s\"."
 
-#: server/stdinhand.c:2653
+#: server/stdinhand.c:2658
 msgid "Sorry, one can't observe globally in this game."
 msgstr "Bedaŭre, oni ne povas observi ĝenerale en tiu ĉi ludo."
 
-#: server/stdinhand.c:2656
+#: server/stdinhand.c:2661
 msgid "Sorry, you can't take a global observer. Observe it instead."
 msgstr ""
 "Bedaŭre, vi ne povas mastrumi ĝeneralan observanton. Observu ĝin anstataŭe."
 
-#: server/stdinhand.c:2668
+#: server/stdinhand.c:2671
+#, fuzzy
+msgid "You cannot take a new player at this time."
+msgstr "Bedaŭre, oni ne povas mastrumi la homajn ludantojn en tiu ĉi ludo."
+
+#. TRANS: Do not translate "maxplayers".
+#: server/stdinhand.c:2679
+#, c-format
+msgid ""
+"You cannot take a new player because the maximum of %d player has already "
+"been reached (maxplayers setting)."
+msgid_plural ""
+"You cannot take a new player because the maximum of %d players has already "
+"been reached (maxplayers setting)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: server/stdinhand.c:2691
+msgid "You cannot take a new player because there are no free player slots."
+msgstr ""
+
+#: server/stdinhand.c:2702
 msgid "Sorry, one can't observe barbarians in this game."
 msgstr "Bedaŭre, oni ne povas observi la Barbarojn en tiu ĉi ludo."
 
-#: server/stdinhand.c:2671
+#: server/stdinhand.c:2705
 msgid "Sorry, one can't take barbarians in this game."
 msgstr "Bedaŭre, oni ne povas mastrumi la Barbarojn en tiu ĉi ludo."
 
-#: server/stdinhand.c:2679
+#: server/stdinhand.c:2713
 msgid "Sorry, one can't observe dead players in this game."
 msgstr "Bedaŭre, oni ne povas observi la mortintajn ludantojn en tiu ĉi ludo."
 
-#: server/stdinhand.c:2682
+#: server/stdinhand.c:2716
 msgid "Sorry, one can't take dead players in this game."
 msgstr "Bedaŭre, oni ne povas mastrumi la mortintajn ludantojn en tiu ĉi ludo."
 
-#: server/stdinhand.c:2690
+#: server/stdinhand.c:2724
 msgid "Sorry, one can't observe AI players in this game."
 msgstr "Bedaŭre, oni ne povas observi la AI-jn ludantojn en tiu ĉi ludo."
 
-#: server/stdinhand.c:2693
+#: server/stdinhand.c:2727
 msgid "Sorry, one can't take AI players in this game."
 msgstr "Bedaŭre, oni ne povas mastrumi la AI-jn ludantojn en tiu ĉi ludo."
 
-#: server/stdinhand.c:2702
+#: server/stdinhand.c:2736
 msgid "Sorry, one can't observe human players in this game."
 msgstr "Bedaŭre, oni ne povas observi la homajn ludantojn en tiu ĉi ludo."
 
-#: server/stdinhand.c:2705
+#: server/stdinhand.c:2739
 msgid "Sorry, one can't take human players in this game."
 msgstr "Bedaŭre, oni ne povas mastrumi la homajn ludantojn en tiu ĉi ludo."
 
-#: server/stdinhand.c:2715
+#: server/stdinhand.c:2749
 msgid "Sorry, one can't observe in this game."
 msgstr "Bedaŭre, oni ne povas observi en tiu ĉi ludo."
 
-#: server/stdinhand.c:2720
+#: server/stdinhand.c:2754
 msgid "Sorry, one can't take players in this game."
 msgstr "Bedaŭre, oni ne povas mastrumi la ludantojn en tiu ĉi ludo."
 
-#: server/stdinhand.c:2726
+#: server/stdinhand.c:2760
 msgid "Sorry, one can't take players already connected in this game."
 msgstr ""
 "Bedaŭre, oni ne povas mastrumi la jam konektitajn ludantojn en tiu ĉi ludo."
 
-#: server/stdinhand.c:2757
+#: server/stdinhand.c:2791
 #, fuzzy
 msgid "Usage: observe [connection-name [player-name]]"
 msgstr "observe [konektonomo] [ludantonomo]"
 
-#: server/stdinhand.c:2763
+#: server/stdinhand.c:2797
 #, fuzzy
 msgid "Usage: observe [player-name]"
 msgstr "remove <ludantonomo>"
 
-#: server/stdinhand.c:2813
+#: server/stdinhand.c:2847
 #, c-format
 msgid "%s already controls %s. Using 'observe' would remove %s"
 msgstr "%s jam mastrumas %sn. Uzante 'observe', tio formovus %sn"
 
-#: server/stdinhand.c:2824
+#: server/stdinhand.c:2858
 #, c-format
 msgid "%s is already observing %s."
 msgstr "%s estas jam observanta %sn."
 
-#: server/stdinhand.c:2829
+#: server/stdinhand.c:2863
 #, c-format
 msgid "%s is already observing."
 msgstr "%s estas jam observanta."
 
-#: server/stdinhand.c:2891
+#: server/stdinhand.c:2925
 #, c-format
 msgid "%s now observes %s"
 msgstr "%s de nun observas %sn"
 
-#: server/stdinhand.c:2895
+#: server/stdinhand.c:2929
 #, c-format
 msgid "%s now observes"
 msgstr "%s nun observas"
 
-#: server/stdinhand.c:2935
+#: server/stdinhand.c:2969
 #, fuzzy
 msgid "Usage: take <connection-name> <player-name>"
 msgstr "take [konektonomo] <ludantonomo>"
 
-#: server/stdinhand.c:2940
+#: server/stdinhand.c:2974
 #, fuzzy
 msgid "Usage: take <player-name>"
 msgstr "create <ludantonomo>"
 
-#: server/stdinhand.c:2946
+#: server/stdinhand.c:2980
 #, fuzzy
 msgid "Usage: take [connection-name] <player-name>"
 msgstr "take [konektonomo] <ludantonomo>"
 
-#: server/stdinhand.c:2976
-#, c-format
-msgid "%s already controls %s"
+#: server/stdinhand.c:3010
+#, fuzzy, c-format
+msgid "%s already controls %s."
 msgstr "%s jam mastrumas %sn"
 
-#: server/stdinhand.c:2990
-#, c-format
-msgid "There is no free player slot for %s"
+#: server/stdinhand.c:3024
+#, fuzzy, c-format
+msgid "There is no free player slot for %s."
 msgstr "Ne estas libera ludanta ingo por %s"
 
-#: server/stdinhand.c:3025
+#: server/stdinhand.c:3059
 #, fuzzy, c-format
 msgid "being detached from %s."
 msgstr "malkonektado el %s."
 
-#: server/stdinhand.c:3101
-#, c-format
-msgid "%s now controls %s (%s, %s)"
+#: server/stdinhand.c:3135
+#, fuzzy, c-format
+msgid "%s now controls %s (%s, %s)."
 msgstr "%s nun mastrumas %sn (%s, %s)"
 
-#: server/stdinhand.c:3105 server/stdinhand.c:4226
+#: server/stdinhand.c:3139 server/stdinhand.c:4260
 #: data/nation/barbarian.ruleset:3
 msgid "Barbarian"
 msgstr "Barbara"
 
-#: server/stdinhand.c:3107 server/stdinhand.c:4228 client/plrdlg_common.c:256
+#: server/stdinhand.c:3141 server/stdinhand.c:4262 client/plrdlg_common.c:256
 #: client/gui-gtk-2.0/pages.c:2030 client/gui-sdl/plrdlg.c:645
 #: client/gui-win32/connectdlg.c:201 client/gui-win32/plrdlg.c:335
 msgid "AI"
 msgstr "AI"
 
-#: server/stdinhand.c:3108 server/stdinhand.c:4230
+#: server/stdinhand.c:3142 server/stdinhand.c:4264
 #: client/gui-gtk-2.0/pages.c:2030 client/gui-gtk-2.0/pages.c:2053
 #: client/gui-win32/connectdlg.c:201 client/gui-win32/connectdlg.c:213
 msgid "Human"
 msgstr "Homo"
 
-#: server/stdinhand.c:3110 client/gui-gtk-2.0/pages.c:2029
+#: server/stdinhand.c:3144 client/gui-gtk-2.0/pages.c:2029
 #: client/gui-gtk-2.0/pages.c:2052 client/gui-win32/connectdlg.c:200
 #: client/gui-win32/connectdlg.c:212
 msgid "Alive"
 msgstr "Aktiva"
 
-#: server/stdinhand.c:3111 client/gui-gtk-2.0/pages.c:2029
+#: server/stdinhand.c:3145 client/gui-gtk-2.0/pages.c:2029
 #: client/gui-win32/connectdlg.c:200
 msgid "Dead"
 msgstr "Malaktiva"
 
-#: server/stdinhand.c:3113
-#, c-format
-msgid "%s failed to attach to any player"
+#: server/stdinhand.c:3147
+#, fuzzy, c-format
+msgid "%s failed to attach to any player."
 msgstr "%s malsukcesis konekti kun iu ajn ludanto."
 
-#: server/stdinhand.c:3148
+#: server/stdinhand.c:3182
 #, fuzzy
 msgid "Usage: detach <connection-name>"
 msgstr "detach <konektonomo>"
 
-#: server/stdinhand.c:3168
+#: server/stdinhand.c:3202
 msgid "You can not detach other users."
 msgstr "Vi ne povas malkonetkigi aliajn uzantojn."
 
-#: server/stdinhand.c:3177
+#: server/stdinhand.c:3211
 #, c-format
 msgid "%s is not attached to any player."
 msgstr "%s ne estas konektita kun iu ajn ludanto."
 
-#: server/stdinhand.c:3200
+#: server/stdinhand.c:3234
 #, c-format
 msgid "%s detaching from %s"
 msgstr "%s malkonetktanta el %s"
 
-#: server/stdinhand.c:3206
+#: server/stdinhand.c:3240
 #, c-format
 msgid "%s no longer observing."
 msgstr "%s ne estas plu kontrolita."
 
-#: server/stdinhand.c:3225
+#: server/stdinhand.c:3259
 #, c-format
 msgid "detaching from %s."
 msgstr "malkonektado el %s."
 
-#: server/stdinhand.c:3311
+#: server/stdinhand.c:3345
 msgid "Usage: load <game name>"
 msgstr ""
 
-#: server/stdinhand.c:3316
+#: server/stdinhand.c:3350
 msgid "Cannot load a game while another is running."
 msgstr "Vi ne povas ŝargi ludon dum alia ludo estas plenumanta."
 
-#: server/stdinhand.c:3338
+#: server/stdinhand.c:3372
 #, c-format
 msgid "Cannot find savegame or scenario with the name \"%s\"."
 msgstr "Estas neeble trovi konservitan ludon aŭ scenejon nomitan \"%s\"."
 
-#: server/stdinhand.c:3355
+#: server/stdinhand.c:3389
 #, c-format
 msgid "Could not load savefile: %s"
 msgstr "Estas neeble ŝargi la konservitan dosieron: %s"
 
-#: server/stdinhand.c:3424
+#: server/stdinhand.c:3458
 #, c-format
 msgid "Current ruleset directory is \"%s\""
 msgstr "La nuna dosierujo de la reguloj estas \"%s\""
 
-#: server/stdinhand.c:3444
+#: server/stdinhand.c:3478
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
 msgstr "La dosierujo de la reguloj \"%s\" ne estis trovita"
 
-#: server/stdinhand.c:3450
+#: server/stdinhand.c:3484
 #, c-format
 msgid "Ruleset directory is already \"%s\""
 msgstr "La dosierujo de la reguloj jam estas \"%s\""
 
-#: server/stdinhand.c:3454
+#: server/stdinhand.c:3488
 #, c-format
 msgid "Ruleset directory set to \"%s\""
 msgstr "La dosierujo de la reguloj estas agordita je \"%s\""
 
-#: server/stdinhand.c:3502
+#: server/stdinhand.c:3536
 msgid "Goodbye."
 msgstr "Ĝis."
 
-#: server/stdinhand.c:3533
+#: server/stdinhand.c:3567
 msgid "Sorry, you are not allowed to use server commands."
 msgstr "Domaĝe, vi ne rajtas uzi komandojn de la servilo."
 
-#: server/stdinhand.c:3569
+#: server/stdinhand.c:3603
 #, c-format
 msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
 msgstr ""
 
-#: server/stdinhand.c:3574
+#: server/stdinhand.c:3608
 #, c-format
 msgid "Unknown command.  Try '%shelp'."
 msgstr "Nekonata komando.  Provu '%shelp'."
 
-#: server/stdinhand.c:3591
+#: server/stdinhand.c:3625
 msgid "Your new vote canceled your previous vote."
 msgstr "Via nova voĉdono forigis vian antaŭan voĉdonon."
 
-#: server/stdinhand.c:3599
+#: server/stdinhand.c:3633
 #, c-format
 msgid "New vote (number %d) by %s: %s."
 msgstr "Nova voĉdono (numero %d) de %s: %s."
 
-#: server/stdinhand.c:3611
+#: server/stdinhand.c:3645
 #, c-format
 msgid "Your new vote (\"%s\") was not legal or was not recognized."
 msgstr "Via nova voĉdono (\"%s\") estas ĉu ne leĝa ĉu ne konata."
 
-#: server/stdinhand.c:3621
+#: server/stdinhand.c:3655
 msgid "You are not allowed to use this command."
 msgstr "Vi ne rajtas uzi tiun komandon."
 
-#: server/stdinhand.c:3646
+#: server/stdinhand.c:3680
 msgid "(server prompt)"
 msgstr " (konzolo por servilo)"
 
-#: server/stdinhand.c:3753
+#: server/stdinhand.c:3787
 msgid "Game ended in a draw."
 msgstr "La ludon finis egalstate."
 
-#: server/stdinhand.c:3757
+#: server/stdinhand.c:3791
 msgid ""
 "Ending the game. The server will restart once all clients have disconnected."
 msgstr ""
 "La ludo finas. La servilo denove startos kiam ĉiuj klientoj estos "
 "malkonektitaj."
 
-#: server/stdinhand.c:3762
+#: server/stdinhand.c:3796
 msgid "Cannot end the game: no game running."
 msgstr "Estas neeble finigi la ludon: neniu ludo estas plenumanta."
 
-#: server/stdinhand.c:3778
+#: server/stdinhand.c:3812
 #, c-format
 msgid "%s has conceded the game and can no longer win."
 msgstr ""
 
-#: server/stdinhand.c:3783
+#: server/stdinhand.c:3817
 msgid "You cannot surrender now."
 msgstr "Vi ne povas kapitulaci nun!"
 
-#: server/stdinhand.c:3849
+#: server/stdinhand.c:3883
 #, fuzzy
 msgid "Not enough human players, game will not start."
 msgstr "La nombro de ludantoj ne estas sufiĉa, la ludo ne povas komenci."
 
-#: server/stdinhand.c:3854
+#: server/stdinhand.c:3888
 #, fuzzy
 msgid "No players, game will not start."
 msgstr "La nombro de ludantoj ne estas sufiĉa, la ludo ne povas komenci."
 
-#: server/stdinhand.c:3858
+#: server/stdinhand.c:3892
 #, fuzzy
 msgid "Not enough nations for all players, game will not start."
 msgstr "La nombro de ludantoj ne estas sufiĉa, la ludo ne povas komenci."
 
-#: server/stdinhand.c:3867
+#: server/stdinhand.c:3901
 msgid "All players are ready; starting game."
 msgstr "Ĉiuj ludantoj estas pretaj; la ludo komencas."
 
-#: server/stdinhand.c:3881
+#: server/stdinhand.c:3915
 msgid ""
 "Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr ""
 
-#: server/stdinhand.c:3888
+#: server/stdinhand.c:3922
 msgid "Cannot start the game: it is already running."
 msgstr ""
 
-#: server/stdinhand.c:3919
+#: server/stdinhand.c:3953
 #, c-format
 msgid "Cutting connection %s."
 msgstr ""
 
-#: server/stdinhand.c:3938
+#: server/stdinhand.c:3972
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -6264,124 +6285,124 @@ msgid ""
 "  quit   -  to exit"
 msgstr ""
 
-#: server/stdinhand.c:3973 server/stdinhand.c:3976
+#: server/stdinhand.c:4007 server/stdinhand.c:4010
 #, fuzzy
 msgid "Command:"
 msgstr "Komando: %s"
 
-#: server/stdinhand.c:3980
+#: server/stdinhand.c:4014
 msgid "Synopsis: "
 msgstr "Skemo: "
 
-#: server/stdinhand.c:3989
+#: server/stdinhand.c:4023
 #, c-format
 msgid "Level: %s"
 msgstr "Nivelo: %s"
 
-#: server/stdinhand.c:4014
+#: server/stdinhand.c:4048
 msgid "The following server commands are available:"
 msgstr "Estas disponeblaj la jenaj komandoj de la servilo:"
 
-#: server/stdinhand.c:4089
+#: server/stdinhand.c:4123
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "La argumento '%s' aldonita al 'help' estas dubsenca."
 
-#: server/stdinhand.c:4094
+#: server/stdinhand.c:4128
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "Neniu kongruo pri la argumento '%s' aldonita al 'help'."
 
-#: server/stdinhand.c:4160
+#: server/stdinhand.c:4194
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "Erara argumento aldonita al 'list': '%s'.  Provu '%shelp list'."
 
-#: server/stdinhand.c:4200
+#: server/stdinhand.c:4234
 msgid "List of players:"
 msgstr "Listo de ludantoj:"
 
-#: server/stdinhand.c:4205
+#: server/stdinhand.c:4239
 msgid "<no players>"
 msgstr "<neniu ludanto>"
 
-#: server/stdinhand.c:4222
+#: server/stdinhand.c:4256
 #, c-format
 msgid "user %s, "
 msgstr "uzanto %s, "
 
-#: server/stdinhand.c:4233
+#: server/stdinhand.c:4267
 msgid ", Dead"
 msgstr ", Mortinta"
 
-#: server/stdinhand.c:4236
+#: server/stdinhand.c:4270
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", ludonivelo %s"
 
 #. TRANS: continue list, in case comma is not the separator of choice.
-#: server/stdinhand.c:4241 server/stdinhand.c:4245 client/helpdata.c:242
+#: server/stdinhand.c:4275 server/stdinhand.c:4279 client/helpdata.c:242
 #: client/helpdata.c:754 client/text.c:185 client/text.c:1163
 #: client/text.c:1201
 #, c-format
 msgid "?clistmore:, %s"
 msgstr "?clistmore:, %s"
 
-#: server/stdinhand.c:4249
+#: server/stdinhand.c:4283
 msgid ", ready"
 msgstr ", preta"
 
-#: server/stdinhand.c:4251
+#: server/stdinhand.c:4285
 msgid ", not ready"
 msgstr ", ne preta"
 
-#: server/stdinhand.c:4259
+#: server/stdinhand.c:4293
 #, c-format
 msgid " %d connection:"
 msgid_plural " %d connections:"
 msgstr[0] " %d konekto:"
 msgstr[1] " %d konektoj:"
 
-#: server/stdinhand.c:4265
+#: server/stdinhand.c:4299
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
 msgstr ""
 
-#: server/stdinhand.c:4270
+#: server/stdinhand.c:4304
 msgid " (observer mode)"
 msgstr " (observanto)"
 
-#: server/stdinhand.c:4288
+#: server/stdinhand.c:4322
 msgid "List of teams:"
 msgstr "Gruplisto:"
 
 #. TRANS: There will always be at least 2 players here.
-#: server/stdinhand.c:4298
+#: server/stdinhand.c:4332
 #, c-format
 msgid "%2d : '%s' : %d player"
 msgid_plural "%2d : '%s' : %d players"
 msgstr[0] "%2d : '%s' : %d ludanto"
 msgstr[1] "%2d : '%s' : %d ludantoj"
 
-#: server/stdinhand.c:4318
+#: server/stdinhand.c:4352
 #, c-format
 msgid "%2d : '%s' : 1 player : %s"
 msgstr "%2d : '%s' : 1 ludanto : %s"
 
-#: server/stdinhand.c:4326
+#: server/stdinhand.c:4360
 #, c-format
 msgid "Empty team: %s"
 msgstr "Malplena grupo: %s"
 
-#: server/stdinhand.c:4337
+#: server/stdinhand.c:4371
 msgid "List of connections to server:"
 msgstr "Listo de konektoj al la servilo:"
 
-#: server/stdinhand.c:4341
+#: server/stdinhand.c:4375
 msgid "<no connections>"
 msgstr "<neniu konekto>"
 
-#: server/stdinhand.c:4365
+#: server/stdinhand.c:4399
 msgid "List of scenarios available:"
 msgstr "Listo pri scenejoj disponeblaj:"
 
