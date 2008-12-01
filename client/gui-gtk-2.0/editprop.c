@@ -179,6 +179,7 @@ static bool objtype_is_conserved(int objtype);
 enum value_types {
   VALTYPE_NONE = 0,
   VALTYPE_INT,
+  VALTYPE_BOOL,
   VALTYPE_STRING,
   VALTYPE_PIXBUF,
   VALTYPE_BUILT_ARRAY,        /* struct built_status[B_LAST] */
@@ -202,6 +203,7 @@ static const char *valtype_get_name(int valtype);
 union propval_data {
   gpointer v_pointer;
   int v_int;
+  bool v_bool;
   char *v_string;
   const char *v_const_string;
   GdkPixbuf *v_pixbuf;
@@ -289,6 +291,11 @@ enum object_property_ids {
   OPID_UNIT_ID,
   OPID_UNIT_XY,
   OPID_UNIT_MOVES_LEFT,
+  OPID_UNIT_FUEL,
+  OPID_UNIT_MOVED,
+  OPID_UNIT_DONE_MOVING,
+  OPID_UNIT_HP,
+  OPID_UNIT_VETERAN,
 
   OPID_CITY_IMAGE,
   OPID_CITY_NAME,
@@ -367,6 +374,8 @@ static void objprop_widget_entry_activated(GtkEntry *entry,
                                            gpointer userdata);
 static void objprop_widget_spin_button_changed(GtkSpinButton *spin,
                                                gpointer userdata);
+static void objprop_widget_toggle_button_changed(GtkToggleButton *button,
+                                                 gpointer userdata);
 
 
 /****************************************************************************
@@ -747,6 +756,9 @@ static const char *valtype_get_name(int valtype)
     break;
   case VALTYPE_INT:
     return "int";
+    break;
+  case VALTYPE_BOOL:
+    return "bool";
     break;
   case VALTYPE_PIXBUF:
     return "pixbuf";
@@ -1416,6 +1428,21 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
     case OPID_UNIT_MOVES_LEFT:
       pv->data.v_int = punit->moves_left;
       break;
+    case OPID_UNIT_FUEL:
+      pv->data.v_int = punit->fuel;
+      break;
+    case OPID_UNIT_MOVED:
+      pv->data.v_bool = punit->moved;
+      break;
+    case OPID_UNIT_DONE_MOVING:
+      pv->data.v_bool = punit->done_moving;
+      break;
+    case OPID_UNIT_HP:
+      pv->data.v_int = punit->hp;
+      break;
+    case OPID_UNIT_VETERAN:
+      pv->data.v_int = punit->veteran;
+      break;
     default:
       freelog(LOG_ERROR, "Unhandled request for value of property %d "
               "(%s) from object of type \"%s\" in "
@@ -1578,6 +1605,36 @@ static bool objbind_get_allowed_value_span(struct objbind *ob,
       max = putype->move_rate;
       step = 1;
       big_step = 5;
+      break;
+    case OPID_UNIT_FUEL:
+      min = 0;
+      max = putype->fuel;
+      step = 1;
+      big_step = 5;
+      break;
+    case OPID_UNIT_HP:
+      min = 1;
+      max = putype->hp;
+      step = 1;
+      big_step = 10;
+      break;
+    case OPID_UNIT_VETERAN:
+      min = 0;
+      if (unit_has_type_flag(punit, F_NO_VETERAN)) {
+        max = 0;
+      } else {
+        int i;
+        /* FIXME: The maximum veteran level is
+         * really not stored anywhere?? */
+        for (i = 1; i < MAX_VET_LEVELS; i++) {
+          if (putype->veteran[i].name[0] == '\0') {
+            break;
+          }
+        }
+        max = i - 1;
+      }
+      step = 1;
+      big_step = 3;
       break;
     default:
       freelog(LOG_ERROR, "Unhandled request for value range of "
@@ -1889,6 +1946,11 @@ static void objbind_pack_current_values(struct objbind *ob,
 
     packet->id = punit->id;
     packet->moves_left = punit->moves_left;
+    packet->fuel = punit->fuel;
+    packet->moved = punit->moved;
+    packet->done_moving = punit->done_moving;
+    packet->hp = punit->hp;
+    packet->veteran = punit->veteran;
     /* TODO: Set more packet fields. */
 
   } else if (objtype == OBJTYPE_CITY) {
@@ -2000,6 +2062,21 @@ static void objbind_pack_modified_value(struct objbind *ob,
     switch (propid) {
     case OPID_UNIT_MOVES_LEFT:
       packet->moves_left = pv->data.v_int;
+      break;
+    case OPID_UNIT_FUEL:
+      packet->fuel = pv->data.v_int;
+      break;
+    case OPID_UNIT_MOVED:
+      packet->moved = pv->data.v_bool;
+      break;
+    case OPID_UNIT_DONE_MOVING:
+      packet->done_moving = pv->data.v_bool;
+      break;
+    case OPID_UNIT_HP:
+      packet->hp = pv->data.v_int;
+      break;
+    case OPID_UNIT_VETERAN:
+      packet->veteran = pv->data.v_int;
       break;
     default:
       freelog(LOG_ERROR, "Unhandled request to pack value of "
@@ -2136,6 +2213,9 @@ static GType objprop_get_gtype(const struct objprop *op)
   switch (op->valtype) {
   case VALTYPE_INT:
     return G_TYPE_INT;
+    break;
+  case VALTYPE_BOOL:
+    return G_TYPE_BOOLEAN;
     break;
   case VALTYPE_STRING:
   case VALTYPE_BUILT_ARRAY:
@@ -2354,12 +2434,29 @@ static void objprop_widget_spin_button_changed(GtkSpinButton *spin,
 }
 
 /****************************************************************************
+  Callback for toggle type button widget 'toggled' signal.
+****************************************************************************/
+static void objprop_widget_toggle_button_changed(GtkToggleButton *button,
+                                                 gpointer userdata)
+{
+  struct objprop *op;
+  struct property_page *pp;
+  struct propval value = {{0,}, VALTYPE_BOOL, FALSE};
+
+  op = userdata;
+  pp = objprop_get_property_page(op);
+  value.data.v_bool = gtk_toggle_button_get_active(button);
+
+  property_page_change_value(pp, op, &value);
+}
+
+/****************************************************************************
   Create the gtk widget used to edit or display this object property.
 ****************************************************************************/
 static void objprop_setup_widget(struct objprop *op)
 {
   GtkWidget *w = NULL;
-  GtkWidget *hbox, *hbox2, *label, *image, *entry, *spin;
+  GtkWidget *hbox, *hbox2, *label, *image, *entry, *spin, *button;
   struct extviewer *ev = NULL;
   int propid;
 
@@ -2422,7 +2519,7 @@ static void objprop_setup_widget(struct objprop *op)
     entry = gtk_entry_new();
     gtk_entry_set_width_chars(GTK_ENTRY(entry), 8);
     g_signal_connect(entry, "activate",
-                     G_CALLBACK(objprop_widget_entry_activated), op);                     
+        G_CALLBACK(objprop_widget_entry_activated), op);
     gtk_box_pack_start(GTK_BOX(hbox), entry, TRUE, TRUE, 0);
     objprop_set_child_widget(op, "entry", entry);
     break;
@@ -2432,18 +2529,21 @@ static void objprop_setup_widget(struct objprop *op)
   case OPID_GAME_YEAR:
     spin = gtk_spin_button_new_with_range(0.0, 100.0, 1.0);
     g_signal_connect(spin, "value-changed",
-                     G_CALLBACK(objprop_widget_spin_button_changed), op);
+        G_CALLBACK(objprop_widget_spin_button_changed), op);
     gtk_box_pack_start(GTK_BOX(hbox), spin, TRUE, TRUE, 0);
     objprop_set_child_widget(op, "spin", spin);
     break;
 
   case OPID_UNIT_MOVES_LEFT:
+  case OPID_UNIT_FUEL:
+  case OPID_UNIT_HP:
+  case OPID_UNIT_VETERAN:
   case OPID_CITY_FOOD_STOCK:
     hbox2 = gtk_hbox_new(FALSE, 4);
     gtk_box_pack_start(GTK_BOX(hbox), hbox2, TRUE, TRUE, 0);
     spin = gtk_spin_button_new_with_range(0.0, 100.0, 1.0);
     g_signal_connect(spin, "value-changed",
-                     G_CALLBACK(objprop_widget_spin_button_changed), op);
+        G_CALLBACK(objprop_widget_spin_button_changed), op);
     gtk_box_pack_start(GTK_BOX(hbox2), spin, TRUE, TRUE, 0);
     objprop_set_child_widget(op, "spin", spin);
     label = gtk_label_new(NULL);
@@ -2462,6 +2562,15 @@ static void objprop_setup_widget(struct objprop *op)
     gtk_box_pack_start(GTK_BOX(hbox), extviewer_get_panel_widget(ev),
                        TRUE, TRUE, 0);
     property_page_add_extviewer(objprop_get_property_page(op), ev);
+    break;
+
+  case OPID_UNIT_MOVED:
+  case OPID_UNIT_DONE_MOVING:
+    button = gtk_check_button_new();
+    g_signal_connect(button, "toggled",
+        G_CALLBACK(objprop_widget_toggle_button_changed), op);
+    gtk_box_pack_start(GTK_BOX(hbox), button, TRUE, TRUE, 0);
+    objprop_set_child_widget(op, "checkbutton", button);
     break;
 
   default:
@@ -2485,7 +2594,7 @@ static void objprop_setup_widget(struct objprop *op)
 static void objprop_refresh_widget(struct objprop *op,
                                    struct objbind *ob)
 {
-  GtkWidget *w, *label, *image, *entry, *spin;
+  GtkWidget *w, *label, *image, *entry, *spin, *button;
   struct extviewer *ev;
   struct propval *pv;
   bool modified;
@@ -2493,11 +2602,7 @@ static void objprop_refresh_widget(struct objprop *op,
   double min, max, step, big_step;
   char buf[256];
 
-  if (!op) {
-    return;
-  }
-
-  if (!objprop_has_widget(op)) {
+  if (!op || !objprop_has_widget(op)) {
     return;
   }
 
@@ -2614,6 +2719,9 @@ static void objprop_refresh_widget(struct objprop *op,
     break;
 
   case OPID_UNIT_MOVES_LEFT:
+  case OPID_UNIT_FUEL:
+  case OPID_UNIT_HP:
+  case OPID_UNIT_VETERAN:
   case OPID_CITY_FOOD_STOCK:
     spin = objprop_get_child_widget(op, "spin");
     label = objprop_get_child_widget(op, "max-value-label");
@@ -2650,6 +2758,22 @@ static void objprop_refresh_widget(struct objprop *op,
     } else {
       extviewer_clear_widgets(ev);
     }
+    break;
+
+  case OPID_UNIT_MOVED:
+  case OPID_UNIT_DONE_MOVING:
+    button = objprop_get_child_widget(op, "checkbutton");
+    disable_widget_callback(button,
+        G_CALLBACK(objprop_widget_toggle_button_changed));
+    if (pv) {
+      gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button),
+                                   pv->data.v_bool);
+    } else {
+      gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), FALSE);
+    }
+    enable_widget_callback(button,
+        G_CALLBACK(objprop_widget_toggle_button_changed));
+    gtk_widget_set_sensitive(button, pv != NULL);
     break;
 
   default:
@@ -3443,6 +3567,17 @@ static void property_page_setup_objprops(struct property_page *pp)
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_STRING);
     ADDPROP(OPID_UNIT_MOVES_LEFT, _("Moves Left"),
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
+    ADDPROP(OPID_UNIT_FUEL, _("Fuel"),
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
+    ADDPROP(OPID_UNIT_MOVED, _("Moved"),
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BOOL);
+    ADDPROP(OPID_UNIT_DONE_MOVING, _("Done Moving"),
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BOOL);
+    /* TRANS: HP = Hit Points of a unit. */
+    ADDPROP(OPID_UNIT_HP, _("HP"),
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
+    ADDPROP(OPID_UNIT_VETERAN, _("Veteran"),
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
     break;
 
   case OBJTYPE_CITY:
@@ -4043,6 +4178,7 @@ static bool property_page_set_store_value(struct property_page *pp,
   int valtype;
   char buf[128];
   GdkPixbuf *pixbuf = NULL;
+  GtkListStore *store;
 
   if (!pp || !pp->object_store || !op || !ob) {
     return FALSE;
@@ -4063,26 +4199,30 @@ static bool property_page_set_store_value(struct property_page *pp,
   }
 
   valtype = objprop_get_valtype(op);
+  store = pp->object_store;
 
   switch (valtype) {
   case VALTYPE_INT:
-    gtk_list_store_set(pp->object_store, iter, col_id, pv->data.v_int, -1);
+    gtk_list_store_set(store, iter, col_id, pv->data.v_int, -1);
+    break;
+  case VALTYPE_BOOL:
+    gtk_list_store_set(store, iter, col_id, pv->data.v_bool, -1);
     break;
   case VALTYPE_STRING:
-    gtk_list_store_set(pp->object_store, iter, col_id, pv->data.v_string, -1);
+    gtk_list_store_set(store, iter, col_id, pv->data.v_string, -1);
     break;
   case VALTYPE_PIXBUF:
-    gtk_list_store_set(pp->object_store, iter, col_id, pv->data.v_pixbuf, -1);
+    gtk_list_store_set(store, iter, col_id, pv->data.v_pixbuf, -1);
     break;
   case VALTYPE_BUILT_ARRAY:
   case VALTYPE_INVENTIONS_ARRAY:
   case VALTYPE_BV_SPECIAL:
     propval_as_string(pv, buf, sizeof(buf));
-    gtk_list_store_set(pp->object_store, iter, col_id, buf, -1);
+    gtk_list_store_set(store, iter, col_id, buf, -1);
     break;
   case VALTYPE_NATION:
     pixbuf = get_flag(pv->data.v_nation);
-    gtk_list_store_set(pp->object_store, iter, col_id, pixbuf, -1);
+    gtk_list_store_set(store, iter, col_id, pixbuf, -1);
     if (pixbuf) {
       g_object_unref(pixbuf);
     }

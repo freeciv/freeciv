@@ -583,12 +583,12 @@ void handle_edit_unit(struct connection *pc,
                       struct packet_edit_unit *packet)
 {
   struct tile *ptile;
-  struct unit_type *punittype;
+  struct unit_type *putype;
   struct player *pplayer;
   struct unit *punit;
   int id;
   bool changed = FALSE;
-  int moves_left;
+  int moves_left, fuel, hp;
 
   if (!can_conn_edit(pc)) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND,
@@ -605,16 +605,49 @@ void handle_edit_unit(struct connection *pc,
   }
 
   ptile = unit_tile(punit);
-  punittype = unit_type(punit);
+  putype = unit_type(punit);
   pplayer = unit_owner(punit);
 
-  /* Handle a change in the number of moves left. */
-  moves_left = CLIP(0, packet->moves_left, punittype->move_rate);
+  moves_left = CLIP(0, packet->moves_left, putype->move_rate);
   if (moves_left != punit->moves_left) {
     punit->moves_left = moves_left;
     changed = TRUE;
   }
 
+  fuel = CLIP(0, packet->fuel, putype->fuel);
+  if (fuel != punit->fuel) {
+    punit->fuel = fuel;
+    changed = TRUE;
+  }
+
+  if (packet->moved != punit->moved) {
+    punit->moved = packet->moved;
+    changed = TRUE;
+  }
+
+  if (packet->done_moving != punit->done_moving) {
+    punit->done_moving = packet->done_moving;
+    changed = TRUE;
+  }
+
+  hp = CLIP(1, packet->hp, putype->hp);
+  if (hp != punit->hp) {
+    punit->hp = hp;
+    changed = TRUE;
+  }
+
+  if (packet->veteran != punit->veteran
+      && !unit_has_type_flag(punit, F_NO_VETERAN)) {
+    int v = packet->veteran;
+    if (putype->veteran[v].name[0] == '\0') {
+      notify_conn(pc->self, NULL, E_BAD_COMMAND,
+                  _("Invalid veteran level %d for unit %d (%s)."),
+                  v, id, unit_name_translation(punit));
+    } else {
+      punit->veteran = v;
+      changed = TRUE;
+    }
+  }
 
   /* TODO: Handle more property edits. */
 

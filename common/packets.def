@@ -1523,6 +1523,7 @@ PACKET_EDIT_UNIT=164;cs,handle-per-conn,handle-via-packet
   BOOL debug;
   BOOL moved;
   BOOL paradropped;
+  BOOL done_moving;
   UNIT transported_by;
 end
 
