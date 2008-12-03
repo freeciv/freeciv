@@ -119,6 +119,17 @@ bv_special tile_specials(const struct tile *ptile)
 }
 
 /****************************************************************************
+  Sets the tile's specials to those present in the given bit vector.
+****************************************************************************/
+void tile_set_specials(struct tile *ptile, bv_special specials)
+{
+  if (!ptile) {
+    return;
+  }
+  ptile->special = specials;
+}
+
+/****************************************************************************
   Returns TRUE iff the given tile has the given special.
 ****************************************************************************/
 bool tile_has_special(const struct tile *ptile,
@@ -133,6 +144,30 @@ bool tile_has_special(const struct tile *ptile,
 bool tile_has_any_specials(const struct tile *ptile)
 {
   return contains_any_specials(ptile->special);
+}
+
+/****************************************************************************
+  Returns a bit vector of the bases present at the tile.
+****************************************************************************/
+bv_bases tile_bases(const struct tile *ptile)
+{
+  if (!ptile) {
+    bv_bases empty;
+    BV_CLR_ALL(empty);
+    return empty;
+  }
+  return ptile->bases;
+}
+
+/****************************************************************************
+  Set the bases on the tile to those present in the given bit vector.
+****************************************************************************/
+void tile_set_bases(struct tile *ptile, bv_bases bases)
+{
+  if (!ptile) {
+    return;
+  }
+  ptile->bases = bases;
 }
 
 /****************************************************************************
@@ -663,6 +698,17 @@ const char *tile_get_info_text(const struct tile *ptile, int linebreaks)
 bool tile_has_base(const struct tile *ptile, const struct base_type *pbase)
 {
   return BV_ISSET(ptile->bases, base_index(pbase));
+}
+
+/****************************************************************************
+  Returns TRUE if the given tile has any bases on it.
+****************************************************************************/
+bool tile_has_any_bases(const struct tile *ptile)
+{
+  if (!ptile) {
+    return FALSE;
+  }
+  return BV_ISSET_ANY(ptile->bases);
 }
 
 /****************************************************************************

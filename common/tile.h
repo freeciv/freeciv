@@ -85,6 +85,7 @@ void tile_set_worked(struct tile *ptile, struct city *pcity);
 
 /* Specials are a bit different */
 bv_special tile_specials(const struct tile *ptile);
+void tile_set_specials(struct tile *ptile, bv_special specials);
 bool tile_has_special(const struct tile *ptile,
 		      enum tile_special_type to_test_for);
 bool tile_has_any_specials(const struct tile *ptile);
@@ -92,7 +93,10 @@ void tile_set_special(struct tile *ptile, enum tile_special_type spe);
 void tile_clear_special(struct tile *ptile, enum tile_special_type spe);
 void tile_clear_all_specials(struct tile *ptile);
 
+bv_bases tile_bases(const struct tile *ptile);
+void tile_set_bases(struct tile *ptile, bv_bases bases);
 bool tile_has_base(const struct tile *ptile, const struct base_type *pbase);
+bool tile_has_any_bases(const struct tile *ptile);
 void tile_add_base(struct tile *ptile, const struct base_type *pbase);
 void tile_remove_base(struct tile *ptile, const struct base_type *pbase);
 bool tile_has_base_flag(const struct tile *ptile, enum base_flag_id flag);
