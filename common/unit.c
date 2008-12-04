@@ -890,7 +890,8 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
       int numpresent;
       bv_special pspresent = get_tile_infrastructure_set(ptile, &numpresent);
 
-      if (numpresent > 0 && is_ground_unit(punit)) {
+      if ((numpresent > 0 || tile_has_any_bases(ptile))
+          && is_ground_unit(punit)) {
 	bv_special psworking;
 	int i;
 
@@ -1110,7 +1111,8 @@ const char *unit_activity_text(const struct unit *punit)
        BV_CLR_ALL(pset);
        BV_SET(pset, punit->activity_target);
        BV_CLR_ALL(bases);
-       if (punit->activity_base >= 0) {
+       if (0 <= punit->activity_base
+           && punit->activity_base < base_count()) {
          BV_SET(bases, punit->activity_base);
        }
        my_snprintf(text, sizeof(text), "%s: %s",
