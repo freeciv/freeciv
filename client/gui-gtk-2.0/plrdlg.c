@@ -99,7 +99,7 @@ void popdown_players_dialog(void)
 /**************************************************************************
 ...
 **************************************************************************/
-static GdkPixbuf *create_player_icon(struct player *plr)
+static GdkPixbuf *create_player_icon(const struct player *plr)
 {
   int width, height;
   GdkPixbuf *tmp;
@@ -576,49 +576,54 @@ GdkPixbuf *get_flag(const struct nation_type *nation)
 
 
 /**************************************************************************
- Builds the text for the cells of a row in the player report. If
- update is TRUE, only the changable entries are build.
+  Fills the player list with the information for 'pplayer' at the row
+  given by 'it'.
 **************************************************************************/
-static void build_row(GtkTreeIter *it, int i)
+static void fill_row(GtkTreeIter *it, const struct player *pplayer)
 {
-  struct player *plr = player_by_number(i);
+  struct player_dlg_column* pcol;
   GdkPixbuf *pixbuf;
-  gint style = PANGO_STYLE_NORMAL, weight = PANGO_WEIGHT_NORMAL;
+  int style = PANGO_STYLE_NORMAL, weight = PANGO_WEIGHT_NORMAL;
   int k;
-  gchar *p;
+
+  if (!it || !pplayer) {
+    return;
+  }
 
   for (k = 0; k < num_player_dlg_columns; k++) {
-    struct player_dlg_column* pcol = &player_dlg_columns[k];
-    switch(pcol->type) {
-      case COL_TEXT:
-      case COL_RIGHT_TEXT:
-        p = (gchar*)(pcol->func(plr));
-	gtk_list_store_set(store, it, k, p, -1);
-	break;
-      case COL_FLAG:
-        pixbuf = get_flag(nation_of_player(plr));
+    pcol = &player_dlg_columns[k];
+    switch (pcol->type) {
+    case COL_TEXT:
+    case COL_RIGHT_TEXT:
+      gtk_list_store_set(store, it, k, pcol->func(pplayer), -1);
+      break;
+    case COL_FLAG:
+      pixbuf = get_flag(nation_of_player(pplayer));
+      if (pixbuf != NULL) {
         gtk_list_store_set(store, it, k, pixbuf, -1);
         g_object_unref(pixbuf);
-	break;
-      case COL_COLOR:
-	pixbuf = create_player_icon(plr);
+      }
+      break;
+    case COL_COLOR:
+      pixbuf = create_player_icon(pplayer);
+      if (pixbuf != NULL) {
         gtk_list_store_set(store, it, k, pixbuf, -1);
-	g_object_unref(pixbuf);
-	break;
-      case COL_BOOLEAN:
-        gtk_list_store_set(store, it, k, (gboolean)pcol->bool_func(plr), -1);
-	break;
+        g_object_unref(pixbuf);
+      }
+      break;
+    case COL_BOOLEAN:
+      gtk_list_store_set(store, it, k, pcol->bool_func(pplayer), -1);
+      break;
     }
   }
 
   /* The playerid */
-  gtk_list_store_set(store, it,
-    ncolumns - 1, (gint)i,
-    -1);
+  gtk_list_store_set(store, it, ncolumns - 1,
+                     player_number(pplayer), -1);
 
    /* now add some eye candy ... */
-  if (NULL != client.conn.playing) {
-    switch (pplayer_get_diplstate(client.conn.playing, plr)->type) {
+  if (client_has_player()) {
+    switch (pplayer_get_diplstate(client_player(), pplayer)->type) {
     case DS_WAR:
       weight = PANGO_WEIGHT_NORMAL;
       style = PANGO_STYLE_ITALIC;
@@ -636,85 +641,49 @@ static void build_row(GtkTreeIter *it, int i)
       style = PANGO_STYLE_NORMAL;
       break;
     case DS_LAST:
+    default:
       assert(0);
       break;
     }
   }
-   gtk_list_store_set(store, it,
-       num_player_dlg_columns, style,
-       num_player_dlg_columns + 1, weight,
-       -1);
+
+  gtk_list_store_set(store, it, num_player_dlg_columns, style,
+                     num_player_dlg_columns + 1, weight, -1);
 }
 
 /**************************************************************************
-...
+  Return TRUE if the player should be shown in the player list.
 **************************************************************************/
-static bool player_should_be_shown(int plrno) {
-  struct player *vpp = valid_player_by_number(plrno);
-
-  return NULL != vpp
+static bool player_should_be_shown(const struct player *pplayer)
+{
+  return NULL != pplayer && player_slot_is_used(pplayer)
 	 && (player_dlg_show_dead_players
-	     || vpp->is_alive)
-	 && (!is_barbarian(vpp));
+	     || pplayer->is_alive)
+	 && (!is_barbarian(pplayer));
 }
 
 /**************************************************************************
-...
+  Clear and refill the entire player list.
 **************************************************************************/
 void update_players_dialog(void)
 {
-  if (players_dialog_shell && !is_plrdlg_frozen()) {
-    gboolean exists[player_slot_count()];
-    gint i;
-    GtkTreeIter it, it_next;
+  GtkTreeIter iter;
 
-    for (i = 0; i < player_slot_count(); i++) {
-      exists[i] = FALSE;
-    }
-
-    if (gtk_tree_model_get_iter_first(model, &it)) {
-      gint plrno;
-      bool more;
-
-      do {
-	it_next = it;
-	more = gtk_tree_model_iter_next(model, &it_next);
-
-	gtk_tree_model_get(model, &it, ncolumns - 1, &plrno, -1);
-
-	/*
-	 * The nation already had a row in the player report. In that
-	 * case we just update the row. If player is dead we remove him
-	 * if necessary.
-	 */
-	if (player_should_be_shown(plrno)) {
-	  exists[plrno] = TRUE;
-	  build_row(&it, plrno);
-	} else {
-	  gtk_list_store_remove(store, &it);
-	}
-	it = it_next;
-      } while (more);
-    }
-
-    players_iterate(pplayer) {
-      /* skip barbarians */
-      if (player_should_be_shown(player_number(pplayer))) {
-	if (!exists[player_index(pplayer)]) {
-	  /* 
-	   * A nation is not in the player report yet. This happens when
-	   * the report is just opened and after a split.
-	   */
-	  gtk_list_store_append(store, &it);
-
-	  build_row(&it, player_number(pplayer));
-	}
-      }
-    } players_iterate_end;
-
-    update_players_menu();
-    update_views();
+  if (!players_dialog_shell || is_plrdlg_frozen()) {
+    return;
   }
+
+  gtk_list_store_clear(store);
+  players_iterate(pplayer) {
+    if (!player_should_be_shown(pplayer)) {
+      continue;
+    }
+    gtk_list_store_append(store, &iter);
+    fill_row(&iter, pplayer);
+  } players_iterate_end;
+
+  update_players_menu();
+  update_views();
 }
 
 /**************************************************************************
