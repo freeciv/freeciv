@@ -387,6 +387,17 @@ void handle_edit_tile(struct connection *pc,
     changed = TRUE;
   }
 
+  /* Handle changes in bases. */
+  if (!(BV_ARE_EQUAL(packet->bases, ptile->bases))) {
+    base_type_iterate(pbase) {
+      if (BV_ISSET(packet->bases, base_number(pbase))) {
+        tile_add_base(ptile, pbase);
+      } else {
+        tile_remove_base(ptile, pbase);
+      }
+    } base_type_iterate_end;
+    changed = TRUE;
+  }
 
   /* TODO: Handle more property edits. */
 

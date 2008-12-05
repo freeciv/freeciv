@@ -1486,6 +1486,33 @@ void edit_buffer_copy(struct edit_buffer *ebuf, const struct tile *ptile)
 }
 
 /****************************************************************************
+  Helper function to fill in an edit packet with the tile's current values.
+****************************************************************************/
+static void fill_tile_edit_packet(struct packet_edit_tile *packet,
+                                  const struct tile *ptile)
+{
+  const struct resource *presource;
+  const struct terrain *pterrain;
+  const struct nation_type *pnation;
+
+  if (!packet || !ptile) {
+    return;
+  }
+  packet->id = tile_index(ptile);
+  packet->specials = tile_specials(ptile);
+  packet->bases = tile_bases(ptile);
+
+  presource = tile_resource(ptile);
+  packet->resource = presource ? resource_number(presource) : -1;
+
+  pterrain = tile_terrain(ptile);
+  packet->terrain = pterrain ? terrain_number(pterrain) : -1;
+
+  pnation = map_get_startpos(ptile);
+  packet->startpos_nation = pnation ? nation_number(pnation) : -1;
+}
+
+/****************************************************************************
   Helper function for edit_buffer_paste(). Do a single paste of the stuff set
   in the buffer on the virtual tile to the destination tile 'ptile_dest'.
 ****************************************************************************/
@@ -1522,12 +1549,14 @@ static void paste_tile(struct edit_buffer *ebuf,
       dsend_packet_edit_tile_resource(my_conn, x, y, value, 1);
       break;
     case EBT_SPECIAL:
-      tile_packet.id = tile_index(ptile_dest);
+      fill_tile_edit_packet(&tile_packet, ptile_dest);
       tile_packet.specials = tile_specials(vtile);
       send_packet_edit_tile(my_conn, &tile_packet);
       break;
     case EBT_BASE:
-      /* FIXME: Implement as property and send like specials. */
+      fill_tile_edit_packet(&tile_packet, ptile_dest);
+      tile_packet.bases = tile_bases(vtile);
+      send_packet_edit_tile(my_conn, &tile_packet);
       break;
     case EBT_UNIT:
       unit_list_iterate(vtile->units, vunit) {

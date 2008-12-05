@@ -1484,6 +1484,7 @@ end
 PACKET_EDIT_TILE=160;cs,handle-per-conn,handle-via-packet
   UNIT id; key
   BV_SPECIAL specials;
+  BV_BASES bases;
   RESOURCE resource;
   TERRAIN terrain;
   NATION startpos_nation;
