@@ -49,9 +49,6 @@
 #include "plrdlg.h"
 
 
-#define BWIDTH 40
-#define BHEIGHT 40
-
 enum tool_value_selector_columns {
   TVS_COL_IMAGE = 0,
   TVS_COL_ID,
@@ -96,6 +93,10 @@ create_tool_value_selector(struct editbar *eb_parent,
 static void editinfobox_refresh(struct editinfobox *ei);
 static void editbar_player_pov_combobox_changed(GtkComboBox *combo,
                                                 gpointer user_data);
+static void editbar_mode_button_toggled(GtkToggleButton *tb,
+                                        gpointer userdata);
+static void editbar_tool_button_toggled(GtkToggleButton *tb,
+                                        gpointer userdata);
 
 static struct editbar *editor_toolbar;
 static struct editinfobox *editor_infobox;
@@ -104,40 +105,60 @@ static struct editinfobox *editor_infobox;
   Refresh the buttons in the given editbar according to the current
   editor state.
 ****************************************************************************/
-static void refresh_tool_buttons(struct editbar *eb)
+static void refresh_all_buttons(struct editbar *eb)
 {
   enum editor_tool_type ett;
-  bool erase;
+  enum editor_tool_mode etm;
   GtkWidget *tb = NULL;
+  int i;
 
   if (eb == NULL) {
     return;
   }
 
-  erase = editor_get_erase_mode();
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(eb->erase_button), erase);
-
   ett = editor_get_tool();
-  if (!(0 <= ett && ett < NUM_EDITOR_TOOL_TYPES)) {
-    return;
+  etm = editor_tool_get_mode(ett);
+
+  for (i = 0; i < NUM_EDITOR_TOOL_MODES; i++) {
+    tb = eb->mode_buttons[i];
+    if (tb == NULL) {
+      continue;
+    }
+    disable_widget_callback(tb, G_CALLBACK(editbar_mode_button_toggled));
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tb), i == etm);
+    enable_widget_callback(tb, G_CALLBACK(editbar_mode_button_toggled));
+    gtk_widget_set_sensitive(tb, editor_tool_has_mode(ett, i));
   }
 
-  tb = eb->tool_buttons[ett];
-  if (tb != NULL) {
+  if (0 <= ett && ett < NUM_EDITOR_TOOL_TYPES
+      && eb->tool_buttons[ett] != NULL) {
+    tb = eb->tool_buttons[ett];
+    disable_widget_callback(tb, G_CALLBACK(editbar_tool_button_toggled));
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tb), TRUE);
+    enable_widget_callback(tb, G_CALLBACK(editbar_tool_button_toggled));
   }
 }
 
 /****************************************************************************
-  Callback for erase-mode button toggle.
+  Callback for all tool mode toggle buttons.
 ****************************************************************************/
-static void editbar_erase_button_toggled(GtkToggleButton *tb,
-                                         gpointer userdata)
+static void editbar_mode_button_toggled(GtkToggleButton *tb,
+                                        gpointer userdata)
 {
-  gboolean active = gtk_toggle_button_get_active(tb);
+  gboolean active;
+  enum editor_tool_mode etm;
+  enum editor_tool_type ett;
 
-  editor_set_erase_mode(active);
-  editinfobox_refresh(editgui_get_editinfobox());
+  etm = GPOINTER_TO_INT(userdata);
+  if (!(0 <= etm && etm < NUM_EDITOR_TOOL_MODES)) {
+    return;
+  }
+
+  active = gtk_toggle_button_get_active(tb);
+  ett = editor_get_tool();
+
+  editor_tool_set_mode(ett, active ? etm : ETM_PAINT);
+  editgui_refresh();
 }
 
 /****************************************************************************
@@ -154,7 +175,7 @@ static void editbar_tool_button_toggled(GtkToggleButton *tb,
 
   if (active) {
     editor_set_tool(ett);
-    editinfobox_refresh(editgui_get_editinfobox());
+    editgui_refresh();
   }
 }
 
@@ -346,23 +367,33 @@ static gboolean editbar_tool_button_mouse_click(GtkWidget *w,
 }
 
 /****************************************************************************
-  Create a tool button for the given editor toolbar. The 'radio_parent'
-  argument is another radio button in the same radio button group, or
-  NULL if this is to be the first button in a group.
+  A helper function to create a toolbar button for the given editor tool.
+  Packs the newly created button into the hbox 'eb->widget'.
 ****************************************************************************/
-static GtkWidget *create_editbar_radiobutton(struct editbar *eb,
-                                             enum editor_tool_type ett,
-                                             GtkRadioButton *radio_parent,
-                                             GtkWidget *box)
+static void editbar_add_tool_button(struct editbar *eb,
+                                    enum editor_tool_type ett)
 {
   GdkPixbuf *pixbuf;
-  GtkWidget *image, *button;
+  GtkWidget *image, *button, *hbox;
+  GtkRadioButton *parent = NULL;
   struct sprite *sprite;
+  int i;
 
-  if (radio_parent == NULL) {
+  if (!eb || !(0 <= ett && ett < NUM_EDITOR_TOOL_TYPES)) {
+    return;
+  }
+
+  for (i = 0; i < NUM_EDITOR_TOOL_TYPES; i++) {
+    if (eb->tool_buttons[i] != NULL) {
+      parent = GTK_RADIO_BUTTON(eb->tool_buttons[i]);
+      break;
+    }
+  }
+
+  if (parent == NULL) {
     button = gtk_radio_button_new(NULL);
   } else {
-    button = gtk_radio_button_new_from_widget(radio_parent);
+    button = gtk_radio_button_new_from_widget(parent);
   }
 
   sprite = editor_tool_get_sprite(ett);
@@ -374,7 +405,7 @@ static GtkWidget *create_editbar_radiobutton(struct editbar *eb,
   gtk_toggle_button_set_mode(GTK_TOGGLE_BUTTON(button), FALSE);
   gtk_tooltips_set_tip(eb->tooltips, button,
                        editor_tool_get_tooltip(ett), "");
-  gtk_widget_set_size_request(button, BWIDTH, BHEIGHT);
+  gtk_size_group_add_widget(eb->size_group, button);
   gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
   gtk_button_set_focus_on_click(GTK_BUTTON(button), FALSE);
 
@@ -383,14 +414,13 @@ static GtkWidget *create_editbar_radiobutton(struct editbar *eb,
   g_signal_connect(button, "button_press_event",
       G_CALLBACK(editbar_tool_button_mouse_click), GINT_TO_POINTER(ett));
 
-  gtk_box_pack_start(GTK_BOX(box), button, FALSE, FALSE, 0);
+  hbox = eb->widget;
+  gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
   eb->tool_buttons[ett] = button;
 
   if (editor_tool_has_value(ett)) {
     eb->tool_selectors[ett] = create_tool_value_selector(eb, ett);
   }
-
-  return button;
 }
 
 /****************************************************************************
@@ -408,13 +438,53 @@ static void editbar_player_properties_button_clicked(GtkButton *b,
 }
 
 /****************************************************************************
+  Helper function to add a tool mode button to the editor toolbar. The
+  button will be packed into the start of the hbox 'eb->widget'.
+****************************************************************************/
+static void editbar_add_mode_button(struct editbar *eb,
+                                    enum editor_tool_mode etm)
+{
+  GdkPixbuf *pixbuf;
+  GtkWidget *image, *button, *hbox;
+  struct sprite *sprite;
+  const char *tooltip;
+
+  if (!eb || !(0 <= etm && etm < NUM_EDITOR_TOOL_MODES)) {
+    return;
+  }
+
+  button = gtk_toggle_button_new();
+
+  sprite = editor_get_mode_sprite(etm);
+  assert(sprite != NULL);
+  pixbuf = sprite_get_pixbuf(sprite);
+  image = gtk_image_new_from_pixbuf(pixbuf);
+
+  gtk_container_add(GTK_CONTAINER(button), image);
+  gtk_toggle_button_set_mode(GTK_TOGGLE_BUTTON(button), FALSE);
+  tooltip = editor_get_mode_tooltip(etm);
+  if (tooltip != NULL) {
+    gtk_tooltips_set_tip(eb->tooltips, button, tooltip, "");
+  }
+  gtk_size_group_add_widget(eb->size_group, button);
+  gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
+  gtk_button_set_focus_on_click(GTK_BUTTON(button), FALSE);
+
+  g_signal_connect(button, "toggled",
+      G_CALLBACK(editbar_mode_button_toggled), GINT_TO_POINTER(etm));
+
+  hbox = eb->widget;
+  gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
+  eb->mode_buttons[etm] = button;
+}
+
+/****************************************************************************
   Create and return an editor toolbar.
 ****************************************************************************/
 static struct editbar *editbar_create(void)
 {
   struct editbar *eb;
   GtkWidget *hbox, *button, *combo, *image, *separator, *vbox, *evbox;
-  GtkRadioButton *radio_parent;
   GtkListStore *store;
   GtkCellRenderer *cell;
   GdkPixbuf *pixbuf;
@@ -425,47 +495,26 @@ static struct editbar *editbar_create(void)
   hbox = gtk_hbox_new(FALSE, 4);
   eb->widget = hbox;
   eb->tooltips = gtk_tooltips_new();
+  eb->size_group = gtk_size_group_new(GTK_SIZE_GROUP_BOTH);
 
   sprites = get_editor_sprites(tileset);
 
-  /* Erase mode toggle. */
-  button = gtk_toggle_button_new();
-  pixbuf = sprite_get_pixbuf(sprites->erase);
-  image = gtk_image_new_from_pixbuf(pixbuf);
-  gtk_container_add(GTK_CONTAINER(button), image);
-  gtk_tooltips_set_tip(eb->tooltips, button,
-      _("Toggle erase mode.\nShortcut: shift-d."), "");
-  gtk_widget_set_size_request(button, BWIDTH, BHEIGHT);
-  gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
-  gtk_button_set_focus_on_click(GTK_BUTTON(button), FALSE);
-  g_signal_connect(button, "toggled",
-      G_CALLBACK(editbar_erase_button_toggled), NULL);
-  gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
-  eb->erase_button = button;
+  editbar_add_mode_button(eb, ETM_ERASE);
+  editbar_add_mode_button(eb, ETM_COPY);
+  editbar_add_mode_button(eb, ETM_PASTE);
 
   separator = gtk_vseparator_new();
   gtk_box_pack_start(GTK_BOX(hbox), separator, FALSE, FALSE, 0);
 
-  button = create_editbar_radiobutton(eb, ETT_TERRAIN,
-                                      NULL, hbox);
-  radio_parent = GTK_RADIO_BUTTON(button);
-
-  create_editbar_radiobutton(eb, ETT_TERRAIN_RESOURCE,
-                             radio_parent, hbox);
-  create_editbar_radiobutton(eb, ETT_TERRAIN_SPECIAL,
-                             radio_parent, hbox);
-  create_editbar_radiobutton(eb, ETT_MILITARY_BASE,
-                             radio_parent, hbox);
-  create_editbar_radiobutton(eb, ETT_UNIT,
-                             radio_parent, hbox);
-  create_editbar_radiobutton(eb, ETT_CITY,
-                             radio_parent, hbox);
-  create_editbar_radiobutton(eb, ETT_VISION,
-                             radio_parent, hbox);
-  create_editbar_radiobutton(eb, ETT_TERRITORY,
-                             radio_parent, hbox);
-  create_editbar_radiobutton(eb, ETT_STARTPOS,
-                             radio_parent, hbox);
+  editbar_add_tool_button(eb, ETT_TERRAIN);
+  editbar_add_tool_button(eb, ETT_TERRAIN_RESOURCE);
+  editbar_add_tool_button(eb, ETT_TERRAIN_SPECIAL);
+  editbar_add_tool_button(eb, ETT_MILITARY_BASE);
+  editbar_add_tool_button(eb, ETT_UNIT);
+  editbar_add_tool_button(eb, ETT_CITY);
+  editbar_add_tool_button(eb, ETT_VISION);
+  editbar_add_tool_button(eb, ETT_TERRITORY);
+  editbar_add_tool_button(eb, ETT_STARTPOS);
 
   separator = gtk_vseparator_new();
   gtk_box_pack_start(GTK_BOX(hbox), separator, FALSE, FALSE, 0);
@@ -511,8 +560,8 @@ static struct editbar *editbar_create(void)
   image = gtk_image_new_from_pixbuf(pixbuf);
   gtk_container_add(GTK_CONTAINER(button), image);
   gtk_tooltips_set_tip(eb->tooltips, button,
-      _("Bring up the property editor."), "");
-  gtk_widget_set_size_request(button, BWIDTH, BHEIGHT);
+      _("Show the property editor."), "");
+  gtk_size_group_add_widget(eb->size_group, button);
   gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
   gtk_button_set_focus_on_click(GTK_BUTTON(button), FALSE);
   g_signal_connect(button, "clicked",
@@ -595,7 +644,7 @@ static void editbar_refresh(struct editbar *eb)
     return;
   }
 
-  refresh_tool_buttons(eb);
+  refresh_all_buttons(eb);
   refresh_all_tool_value_selectors(eb);
   refresh_player_pov_indicator(eb);
 
@@ -1013,8 +1062,9 @@ static gboolean editinfobox_handle_mode_image_button_press(GtkWidget *evbox,
                                                            GdkEventButton *ev,
                                                            gpointer data)
 {
-  editor_set_erase_mode(!editor_get_erase_mode());
+  editor_tool_cycle_mode(editor_get_tool());
   editgui_refresh();
+
   return TRUE;
 }
 
@@ -1026,6 +1076,7 @@ static void editinfobox_spin_button_value_changed(GtkSpinButton *spinbutton,
 {
   struct editinfobox *ei;
   int which, value;
+  enum editor_tool_type ett;
   
   ei = editgui_get_editinfobox();
 
@@ -1035,13 +1086,14 @@ static void editinfobox_spin_button_value_changed(GtkSpinButton *spinbutton,
 
   value = gtk_spin_button_get_value_as_int(spinbutton);
   which = GPOINTER_TO_INT(userdata);
+  ett = editor_get_tool();
 
   switch (which) {
   case SPIN_BUTTON_SIZE:
-    editor_set_size(value);
+    editor_tool_set_size(ett, value);
     break;
   case SPIN_BUTTON_COUNT:
-    editor_set_count(value);
+    editor_tool_set_count(ett, value);
     break;
   default:
     return;
@@ -1074,7 +1126,7 @@ static void editinfobox_tool_applied_player_changed(GtkComboBox *combo,
   model = gtk_combo_box_get_model(combo);
   gtk_tree_model_get(model, &iter, TAP_COL_PLAYER_NO, &player_no, -1);
 
-  editor_set_applied_player(player_no);
+  editor_tool_set_applied_player(editor_get_tool(), player_no);
 }
 
 /****************************************************************************
@@ -1267,7 +1319,7 @@ static void refresh_tool_applied_player_combo(struct editinfobox *ei)
 
   gtk_list_store_clear(store);
 
-  apno = editor_get_applied_player();
+  apno = editor_tool_get_applied_player(ett);
   index = -1;
   i = 0;
 
@@ -1295,7 +1347,7 @@ static void refresh_tool_applied_player_combo(struct editinfobox *ei)
     if (player_count() > 0) {
       index = 0;
     }
-    editor_set_applied_player(index);
+    editor_tool_set_applied_player(ett, index);
   }
   gtk_combo_box_set_active(GTK_COMBO_BOX(combo), index);
   gtk_widget_show(combo);
@@ -1378,58 +1430,22 @@ static GdkPixbuf *get_tool_value_pixbuf(enum editor_tool_type ett,
 
 /****************************************************************************
   Return a pixbuf containing an image suitable for use as an icon
-  respresenting 'erase mode'.
+  respresenting the given editor tool mode.
 
-  NB: Can return NULL. Must call g_object_unref on non-NULL when done.
+  NB: May return NULL. Must call g_object_unref on non-NULL when done.
 ****************************************************************************/
-static GdkPixbuf *get_erase_pixbuf(void)
+static GdkPixbuf *get_tool_mode_pixbuf(enum editor_tool_mode etm)
 {
   struct sprite *sprite = NULL;
   GdkPixbuf *pixbuf = NULL;
-  const struct editor_sprites *sprites;
 
-  sprites = get_editor_sprites(tileset);
-  if (!sprites) {
-    return NULL;
-  }
-
-  sprite = sprites->erase;
+  sprite = editor_get_mode_sprite(etm);
 
   if (sprite) {
     pixbuf = sprite_get_pixbuf(sprite);
     if (pixbuf) {
       g_object_ref(pixbuf);
     }
-    sprite = NULL;
-  }
-
-  return pixbuf;
-}
-
-/****************************************************************************
-  Return a pixbuf representing a brush icon.
-
-  NB: Can return NULL. Must call g_object_unref on non-NULL when done.
-****************************************************************************/
-static GdkPixbuf *get_brush_pixbuf(void)
-{
-  struct sprite *sprite = NULL;
-  GdkPixbuf *pixbuf = NULL;
-  const struct editor_sprites *sprites;
-
-  sprites = get_editor_sprites(tileset);
-  if (!sprites) {
-    return NULL;
-  }
-
-  sprite = sprites->brush;
-
-  if (sprite) {
-    pixbuf = sprite_get_pixbuf(sprite);
-    if (pixbuf) {
-      g_object_ref(pixbuf);
-    }
-    sprite = NULL;
   }
 
   return pixbuf;
@@ -1459,9 +1475,10 @@ static void replace_widget(GtkWidget *old, GtkWidget *new)
 static void editinfobox_refresh(struct editinfobox *ei)
 {
   GdkPixbuf *pixbuf = NULL;
+  GtkLabel *label;
   enum editor_tool_type ett;
+  enum editor_tool_mode etm;
   int value;
-  bool erase, value_erase;
   char buf[256];
 
   if (ei == NULL) {
@@ -1473,35 +1490,15 @@ static void editinfobox_refresh(struct editinfobox *ei)
     return;
   }
 
-  erase = editor_get_erase_mode();
   ett = editor_get_tool();
+  etm = editor_tool_get_mode(ett);
   value = editor_tool_get_value(ett);
-  value_erase = editor_tool_has_value_erase(ett);
 
-  if (erase) {
-    if (value_erase) {
-      gtk_label_set_text(GTK_LABEL(ei->mode_label),
-                         _("Erase Value"));
-    } else {
-      gtk_label_set_text(GTK_LABEL(ei->mode_label),
-                         _("Erase"));
-    }
-    pixbuf = get_erase_pixbuf();
-  } else {
-    gtk_label_set_text(GTK_LABEL(ei->mode_label),
-                       _("Paint"));
-    pixbuf = get_brush_pixbuf();
-  }
+  label = GTK_LABEL(ei->mode_label);
+  gtk_label_set_text(label, editor_tool_get_mode_name(ett, etm));
 
+  pixbuf = get_tool_mode_pixbuf(etm);
   gtk_image_set_from_pixbuf(GTK_IMAGE(ei->mode_image), pixbuf);
-  if (pixbuf) {
-    g_object_unref(pixbuf);
-    pixbuf = NULL;
-  }
-
-  pixbuf = get_tool_value_pixbuf(ett, value);
-
-  gtk_image_set_from_pixbuf(GTK_IMAGE(ei->tool_image), pixbuf);
   if (pixbuf) {
     g_object_unref(pixbuf);
     pixbuf = NULL;
@@ -1510,12 +1507,34 @@ static void editinfobox_refresh(struct editinfobox *ei)
   my_snprintf(buf, sizeof(buf), "<span weight=\"bold\">%s</span>",
               editor_tool_get_name(ett));
   gtk_label_set_markup(GTK_LABEL(ei->tool_label), buf);
-  gtk_label_set_text(GTK_LABEL(ei->tool_value_label),
-                     editor_tool_get_value_name(ett, value));
+
+  if (etm == ETM_COPY || etm == ETM_PASTE) {
+    struct edit_buffer *ebuf;
+    struct sprite *spr;
+    char status[256];
+
+    ebuf = editor_tool_get_copy_buffer(ett);
+    edit_buffer_get_status_string(ebuf, status, sizeof(status));
+    gtk_label_set_text(GTK_LABEL(ei->tool_value_label), status);
+
+    spr = editor_tool_get_sprite(ett);
+    pixbuf = spr ? sprite_get_pixbuf(spr) : NULL;
+    gtk_image_set_from_pixbuf(GTK_IMAGE(ei->tool_image), pixbuf);
+    pixbuf = NULL;
+  } else {
+    pixbuf = get_tool_value_pixbuf(ett, value);
+    gtk_image_set_from_pixbuf(GTK_IMAGE(ei->tool_image), pixbuf);
+    if (pixbuf) {
+      g_object_unref(pixbuf);
+      pixbuf = NULL;
+    }
+    gtk_label_set_text(GTK_LABEL(ei->tool_value_label),
+                       editor_tool_get_value_name(ett, value));
+  }
 
   if (editor_tool_has_size(ett)) {
     gtk_spin_button_set_value(GTK_SPIN_BUTTON(ei->size_spin_button),
-                              editor_get_size());
+                              editor_tool_get_size(ett));
     gtk_widget_show(ei->size_hbox);
   } else {
     gtk_widget_hide(ei->size_hbox);
@@ -1523,7 +1542,7 @@ static void editinfobox_refresh(struct editinfobox *ei)
 
   if (editor_tool_has_count(ett)) {
     gtk_spin_button_set_value(GTK_SPIN_BUTTON(ei->count_spin_button),
-                              editor_get_count());
+                              editor_tool_get_count(ett));
     gtk_widget_show(ei->count_hbox);
   } else {
     gtk_widget_hide(ei->count_hbox);
@@ -1547,9 +1566,18 @@ static gboolean handle_edit_key_press_with_ctrl(GdkEventKey *ev)
 ****************************************************************************/
 static gboolean handle_edit_key_press_with_shift(GdkEventKey *ev)
 {
+  enum editor_tool_type ett;
+
+  ett = editor_get_tool();
   switch (ev->keyval) {
   case GDK_D:
-    editor_toggle_erase_mode();
+    editor_tool_toggle_mode(ett, ETM_ERASE);
+    break;
+  case GDK_C:
+    editor_tool_toggle_mode(ett, ETM_COPY);
+    break;
+  case GDK_V:
+    editor_tool_toggle_mode(ett, ETM_PASTE);
     break;
   case GDK_T:
     editgui_run_tool_selection(ETT_TERRAIN);
@@ -1571,7 +1599,7 @@ static gboolean handle_edit_key_press_with_shift(GdkEventKey *ev)
     break;
   }
 
-  editbar_refresh(editor_toolbar);
+  editgui_refresh();
 
   return TRUE;
 }
@@ -1581,7 +1609,7 @@ static gboolean handle_edit_key_press_with_shift(GdkEventKey *ev)
 ****************************************************************************/
 gboolean handle_edit_key_press(GdkEventKey *ev)
 {
-  int ett = -1;
+  enum editor_tool_type ett, new_ett = NUM_EDITOR_TOOL_TYPES;
 
   if (ev->state & GDK_SHIFT_MASK) {
     return handle_edit_key_press_with_shift(ev);
@@ -1591,54 +1619,56 @@ gboolean handle_edit_key_press(GdkEventKey *ev)
     return handle_edit_key_press_with_ctrl(ev);
   }
 
+  ett = editor_get_tool();
+
   switch (ev->keyval) {
   case GDK_t:
-    ett = ETT_TERRAIN;
+    new_ett = ETT_TERRAIN;
     break;
   case GDK_r:
-    ett = ETT_TERRAIN_RESOURCE;
+    new_ett = ETT_TERRAIN_RESOURCE;
     break;
   case GDK_s:
-    ett = ETT_TERRAIN_SPECIAL;
+    new_ett = ETT_TERRAIN_SPECIAL;
     break;
   case GDK_m:
-    ett = ETT_MILITARY_BASE;
+    new_ett = ETT_MILITARY_BASE;
     break;
   case GDK_u:
-    ett = ETT_UNIT;
+    new_ett = ETT_UNIT;
     break;
   case GDK_c:
-    ett = ETT_CITY;
+    new_ett = ETT_CITY;
     break;
   case GDK_v:
-    ett = ETT_VISION;
+    new_ett = ETT_VISION;
     break;
   case GDK_b:
-    ett = ETT_TERRITORY;
+    new_ett = ETT_TERRITORY;
     break;
   case GDK_p:
-    ett = ETT_STARTPOS;
+    new_ett = ETT_STARTPOS;
     break;
   case GDK_plus:
   case GDK_equal:
   case GDK_KP_Add:
-    if (editor_tool_has_size(editor_get_tool())) {
-      editor_set_size(editor_get_size() + 1);
-      editinfobox_refresh(editgui_get_editinfobox());
-    } else if (editor_tool_has_count(editor_get_tool())) {
-      editor_set_count(editor_get_count() + 1);
-      editinfobox_refresh(editgui_get_editinfobox());
+    if (editor_tool_has_size(ett)) {
+      int size = editor_tool_get_size(ett);
+      editor_tool_set_size(ett, size + 1);
+    } else if (editor_tool_has_count(ett)) {
+      int count = editor_tool_get_count(ett);
+      editor_tool_set_count(ett, count + 1);
     }
     break;
   case GDK_minus:
   case GDK_underscore:
   case GDK_KP_Subtract:
-    if (editor_tool_has_size(editor_get_tool())) {
-      editor_set_size(editor_get_size() - 1);
-      editinfobox_refresh(editgui_get_editinfobox());
-    } else if (editor_tool_has_count(editor_get_tool())) {
-      editor_set_count(editor_get_count() - 1);
-      editinfobox_refresh(editgui_get_editinfobox());
+    if (editor_tool_has_size(ett)) {
+      int size = editor_tool_get_size(ett);
+      editor_tool_set_size(ett, size - 1);
+    } else if (editor_tool_has_count(ett)) {
+      int count = editor_tool_get_count(ett);
+      editor_tool_set_count(ett, count - 1);
     }
     break;
   case GDK_1:
@@ -1650,19 +1680,17 @@ gboolean handle_edit_key_press(GdkEventKey *ev)
   case GDK_7:
   case GDK_8:
   case GDK_9:
-    if (editor_tool_has_size(editor_get_tool())) {
-      editor_set_size(ev->keyval - GDK_1 + 1);
-      editinfobox_refresh(editgui_get_editinfobox());
-    } else if (editor_tool_has_count(editor_get_tool())) {
-      editor_set_count(ev->keyval - GDK_1 + 1);
-      editinfobox_refresh(editgui_get_editinfobox());
+    if (editor_tool_has_size(ett)) {
+      editor_tool_set_size(ett, ev->keyval - GDK_1 + 1);
+    } else if (editor_tool_has_count(ett)) {
+      editor_tool_set_count(ett, ev->keyval - GDK_1 + 1);
     }
     break;
   case GDK_space:
     editor_apply_tool_to_selection();
     break;
   case GDK_Tab:
-    editgui_run_tool_selection(editor_get_tool());
+    editgui_run_tool_selection(ett);
     break;
   case GDK_F1:
   case GDK_F2:
@@ -1683,11 +1711,12 @@ gboolean handle_edit_key_press(GdkEventKey *ev)
     break;
   }
 
-  if (ett != -1) {
-    editor_set_tool(ett);
+  if (new_ett != NUM_EDITOR_TOOL_TYPES) {
+    editor_set_tool(new_ett);
     editor_apply_tool_to_selection();
-    editbar_refresh(editgui_get_editbar());
   }
+
+  editgui_refresh();
 
   return TRUE;
 }
@@ -1714,12 +1743,17 @@ struct editbar *editgui_get_editbar(void)
 void editgui_refresh(void)
 {
   struct property_editor *pe;
+  struct editbar *eb;
+  struct editinfobox *ei;
 
-  if (editor_toolbar != NULL) {
-    editbar_refresh(editor_toolbar);
+  eb = editgui_get_editbar();
+  if (eb != NULL) {
+    editbar_refresh(eb);
   }
-  if (editor_infobox != NULL) {
-    editinfobox_refresh(editor_infobox);
+
+  ei = editgui_get_editinfobox();
+  if (ei != NULL) {
+    editinfobox_refresh(ei);
   }
 
   pe = editprop_get_property_editor();

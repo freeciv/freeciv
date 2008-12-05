@@ -4628,7 +4628,6 @@ static void property_page_create_objects(struct property_page *pp,
     return;
   }
 
-  apno = editor_get_applied_player();
   tag = get_next_unique_tag();
   count = 1;
 
@@ -4663,13 +4662,15 @@ static void property_page_create_objects(struct property_page *pp,
       break;
     }
 
-    count = editor_get_count();
+    apno = editor_tool_get_applied_player(ETT_UNIT);
+    count = editor_tool_get_count(ETT_UNIT);
     value = editor_tool_get_value(ETT_UNIT);
     dsend_packet_edit_unit_create(my_conn, apno, ptile->x, ptile->y,
                                   value, count, tag);
     break;
 
   case OBJTYPE_CITY:
+    apno = editor_tool_get_applied_player(ETT_CITY);
     pplayer = valid_player_by_number(apno);
     if (pplayer && hint_tiles) {
       tile_list_iterate(hint_tiles, atile) {
@@ -4689,7 +4690,7 @@ static void property_page_create_objects(struct property_page *pp,
       break;
     }
 
-    size = editor_get_size();
+    size = editor_tool_get_size(ETT_CITY);
     dsend_packet_edit_city_create(my_conn, apno, ptile->x, ptile->y,
                                   size, tag);
     break;

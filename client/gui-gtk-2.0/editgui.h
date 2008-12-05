@@ -25,10 +25,11 @@ struct editbar {
   GtkWidget *widget;
 
   GtkTooltips *tooltips;
+  GtkSizeGroup *size_group;
 
-  GtkWidget *erase_button;
-  GtkWidget *player_properties_button;
+  GtkWidget *mode_buttons[NUM_EDITOR_TOOL_MODES];
   GtkWidget *tool_buttons[NUM_EDITOR_TOOL_TYPES];
+  GtkWidget *player_properties_button;
   struct tool_value_selector *tool_selectors[NUM_EDITOR_TOOL_TYPES];
 
   GtkListStore *player_pov_store;
