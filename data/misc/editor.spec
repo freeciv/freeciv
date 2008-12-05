@@ -78,7 +78,7 @@ tiles = { "row", "column", "tag"
 [grid_extra]
 
 x_top_left = 1
-y_top_left = 143
+y_top_left = 142
 dx = 30
 dy = 30
 pixel_border = 1
@@ -89,4 +89,6 @@ tiles = { "row", "column", "tag"
   0,  2, "editor.tiny_brush"
   0,  3, "editor.type_paint"
   0,  4, "editor.bitmap_to_map"
+  0,  5, "editor.copy"
+  0,  6, "editor.paste"
 }
