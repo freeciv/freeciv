@@ -277,11 +277,6 @@ static bool load_auth_config(const char *filename)
 
   assert(filename != NULL);
 
-  if (!is_safe_filename(filename)) {
-    freelog(LOG_ERROR, _("Auth config filename \"%s\" not allowed!"), filename);
-    return FALSE;
-  }
-
   if (!section_file_load_nodup(&file, filename)) {
     freelog(LOG_ERROR, _("Cannot load auth config file \"%s\"!"), filename);
     return FALSE;
