@@ -1713,7 +1713,6 @@ gboolean handle_edit_key_press(GdkEventKey *ev)
 
   if (new_ett != NUM_EDITOR_TOOL_TYPES) {
     editor_set_tool(new_ett);
-    editor_apply_tool_to_selection();
   }
 
   editgui_refresh();
