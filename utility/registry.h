@@ -119,6 +119,9 @@ char **secfile_lookup_str_vec(struct section_file *my_section_file,
 char **secfile_get_secnames_prefix(struct section_file *my_section_file,
 				   const char *prefix, int *num);
 
+bool secfile_has_section(const struct section_file *sf,
+                         const char *section_name, ...)
+                         fc__attribute((__format__ (__printf__, 2, 3)));
 char **secfile_get_section_entries(struct section_file *my_section_file,
 				   const char *section, int *num);
 

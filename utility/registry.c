@@ -1775,3 +1775,19 @@ char **secfile_get_section_entries(struct section_file *my_section_file,
 
   return ret;
 }
+
+/****************************************************************************
+  Returns TRUE if the given section exists in the secfile.
+****************************************************************************/
+bool secfile_has_section(const struct section_file *sf,
+                         const char *section_name_fmt, ...)
+{
+  char name[MAX_LEN_BUFFER];
+  va_list ap;
+
+  va_start(ap, section_name_fmt);
+  my_vsnprintf(name, sizeof(name), section_name_fmt, ap);
+  va_end(ap);
+
+  return hash_key_exists(sf->hash_sections, name);
+}

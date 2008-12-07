@@ -317,6 +317,8 @@ do {\
   }\
 } while (0)
 
+/* NB!!! This will only iterate over players for
+ * which player_slot_is_used() returns TRUE. */
 #define players_iterate(NAME_pplayer)\
 do {\
   player_slots_iterate(NAME_pplayer) {\

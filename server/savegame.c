@@ -1089,11 +1089,11 @@ static void map_load(struct section_file *file,
      * now we convert it to bv_player. */
     whole_map_iterate(ptile) {
       BV_CLR_ALL(ptile->tile_known);
-      players_iterate(pplayer) {
-	if (known[tile_index(ptile)] & (1u << player_index(pplayer))) {
-	  BV_SET(ptile->tile_known, player_index(pplayer));
-	}
-      } players_iterate_end;
+      player_slots_iterate(pslot) {
+        if (known[tile_index(ptile)] & (1u << player_index(pslot))) {
+          BV_SET(ptile->tile_known, player_index(pslot));
+        }
+      } player_slots_iterate_end;
     } whole_map_iterate_end;
   }
   map.have_resources = TRUE;
@@ -4520,6 +4520,8 @@ static void game_load_internal(struct section_file *file)
     /* override previous load */
     set_player_count(0);
   } else {
+    int loaded_players = 0;
+
     /* destroyed wonders: */
     string = secfile_lookup_str_default(file, NULL,
                                         "game.destroyed_wonders_new");
@@ -4563,16 +4565,31 @@ static void game_load_internal(struct section_file *file)
     init_available_nations();
 
     /* Now, load the players. */
-    players_iterate(pplayer) {
-      int n = player_index(pplayer);
-      player_load_main(pplayer, n, file, savefile_options,
-		       technology_order, technology_order_size);
+    player_slots_iterate(pplayer) {
+      int plrno = player_number(pplayer);
+      if (!secfile_has_section(file, "player%d", plrno)) {
+        player_slot_set_used(pplayer, FALSE);
+        continue;
+      }
+      player_slot_set_used(pplayer, TRUE);
+      player_load_main(pplayer, plrno, file, savefile_options,
+                       technology_order, technology_order_size);
+      player_load_cities(pplayer, plrno, file, savefile_options,
+                         improvement_order, improvement_order_size);
+      player_load_units(pplayer, plrno, file, savefile_options, base_order);
+      player_load_attributes(pplayer, plrno, file);
+      loaded_players++;
+    } player_slots_iterate_end;
 
-      player_load_cities(pplayer, n, file, savefile_options,
-			 improvement_order, improvement_order_size);
-      player_load_units(pplayer, n, file, savefile_options, base_order);
-      player_load_attributes(pplayer, n, file);
-    } players_iterate_end;
+    /* Check that the number of players loaded matches the
+     * number of players set in the save file. */
+    if (loaded_players != player_count()) {
+      freelog(LOG_ERROR, "The value of game.nplayers (%d) from the loaded "
+              "game does not match the number of players present (%d). "
+              "Setting game.nplayers to %d.",
+              player_count(), loaded_players, loaded_players);
+      set_player_count(loaded_players);
+    }
 
     /* In case of tech_leakage, we can update research only after all
      * the players have been loaded */
