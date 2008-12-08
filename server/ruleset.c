@@ -3682,9 +3682,14 @@ void load_rulesets(void)
   /* Build AI unit class cache corresponding to loaded rulesets */
   unit_class_ai_init();
 
-  /* We may need to adjust number of AI players if number of available
-   * nations changed */
-  aifill(game.info.aifill);
+  /* We may need to adjust the number of AI players
+   * if the number of available nations changed. */
+  if (game.info.aifill > server.playable_nations) {
+    freelog(LOG_NORMAL, _("Reducing aifill because there "
+                          "are not enough playable nations."));
+    game.info.aifill = server.playable_nations;
+    aifill(game.info.aifill);
+  }
 }
 
 /**************************************************************************
