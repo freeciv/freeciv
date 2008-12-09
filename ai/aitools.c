@@ -396,7 +396,7 @@ struct tile *immediate_destination(struct unit *punit,
   Return FALSE iff we died.
 **************************************************************************/
 bool ai_follow_path(struct unit *punit, struct pf_path *path,
-		    struct tile *ptile)
+                    struct tile *ptile)
 {
   struct tile *old_tile = punit->goto_tile;
   enum unit_activity activity = punit->activity;
@@ -424,7 +424,7 @@ bool ai_follow_path(struct unit *punit, struct pf_path *path,
 void ai_log_path(struct unit *punit,
 		 struct pf_path *path, struct pf_parameter *parameter)
 {
-  struct pf_position *last = pf_last_position(path);
+  const struct pf_position *last = pf_last_position(path);
   const int cc = PF_TURN_FACTOR * last->total_MC
                  + parameter->move_rate * last->total_EC;
   const int tc = cc / (PF_TURN_FACTOR *parameter->move_rate); 
@@ -523,8 +523,8 @@ static int stack_value(const struct tile *ptile,
   if we have a bodyguard travelling with us.
 *********************************************************************/
 static double chance_killed_at(const struct tile *ptile,
-			       struct ai_risk_cost *risk_cost,
-			       struct pf_parameter *param)
+                               struct ai_risk_cost *risk_cost,
+                               const struct pf_parameter *param)
 {
   double db;
   /* Compute the basic probability */
@@ -563,8 +563,8 @@ static double chance_killed_at(const struct tile *ptile,
     the cost of destruction.
 *********************************************************************/
 static int stack_risk(const struct tile *ptile,
-		      struct ai_risk_cost *risk_cost,
-		      struct pf_parameter *param)
+                      struct ai_risk_cost *risk_cost,
+                      const struct pf_parameter *param)
 {
   double risk = 0;
   /* Compute the risk of destruction, assuming we will stop at this tile */
@@ -598,8 +598,8 @@ static int stack_risk(const struct tile *ptile,
   path might have to stop early because of ZoCs.
 *********************************************************************/
 static int prefer_short_stacks(const struct tile *ptile,
-			       enum known_type known,
-			       struct pf_parameter *param)
+                               enum known_type known,
+                               const struct pf_parameter *param)
 {
   return stack_risk(ptile, (struct ai_risk_cost *)param->data, param);
 }
@@ -710,7 +710,7 @@ void ai_fill_unit_param(struct pf_parameter *parameter,
    * but probably ought to be more cautious for non military units
    */
   if (is_ai && !is_ferry && !is_air) {
-    parameter->is_pos_dangerous = NULL;
+    parameter->get_moves_left_req = NULL;
   }
 
   if (is_ai && long_path) {

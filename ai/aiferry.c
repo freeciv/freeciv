@@ -289,9 +289,9 @@ static int aiferry_avail_boats(struct player *pplayer)
   excluded using a TB call-back.
 **************************************************************************/
 static int combined_land_sea_move(const struct tile *src_tile,
-				  enum direction8 dir,
-				  const struct tile *tgt_tile,
-                                  struct pf_parameter *param)
+                                  enum direction8 dir,
+                                  const struct tile *tgt_tile,
+                                  const struct pf_parameter *param)
 {
   int move_cost;
 
@@ -314,7 +314,7 @@ static int combined_land_sea_move(const struct tile *src_tile,
   pick our unit up.
 ****************************************************************************/
 static int sea_move(const struct tile *ptile, enum known_type known,
-                    struct pf_parameter *param)
+                    const struct pf_parameter *param)
 {
   if (is_ocean_tile(ptile)) {
     /* Approximately TURN_FACTOR / average ferry move rate 

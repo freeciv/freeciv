@@ -309,7 +309,8 @@ struct pf_path {
  * All callbacks get the parameter passed to pf_create_map as the last
  * argument. 
  *
- * Examples of callbacks can be found in pf_tools.c*/
+ * Examples of callbacks can be found in pf_tools.c
+ * NB: It should be safe to struct copy pf_parameter. */
 struct pf_parameter {
   struct tile *start_tile;	/* Initial position */
 
@@ -333,21 +334,22 @@ struct pf_parameter {
    * dir. Excessive information (to_x, to_y) is provided to ease the 
    * implementation of the callback. */
   int (*get_MC) (const struct tile *from_tile, enum direction8 dir,
-		 const struct tile *to_tile, struct pf_parameter * param);
+                 const struct tile *to_tile,
+                 const struct pf_parameter *param);
   int unknown_MC; /* Move cost into unknown - very large by default */
 
   /* Callback which determines the behavior of a tile. If NULL
    * TB_NORMAL is assumed. It can be assumed that the implementation
    * of path_finding.h will cache this value. */
   enum tile_behavior (*get_TB) (const struct tile *ptile,
-				enum known_type known,
-				struct pf_parameter * param);
+                                enum known_type known,
+                                const struct pf_parameter *param);
 
   /* Callback which can be used to provide extra costs depending on
    * the tile. Can be NULL. It can be assumed that the implementation
    * of path_finding.h will cache this value. */
   int (*get_EC) (const struct tile *ptile, enum known_type known,
-		 struct pf_parameter * param);
+                 const struct pf_parameter *param);
 
   /* Although the rules governing ZoC are universal, the amount of
    * information available at server and client is different. To 
@@ -362,7 +364,12 @@ struct pf_parameter {
    * dangerous. The unit will never end a turn at a dangerous
    * position. Can be NULL. */
   bool (*is_pos_dangerous) (const struct tile *ptile, enum known_type,
-                            struct pf_parameter * param);
+                            const struct pf_parameter *param);
+
+  /* If this callback is non-NULL and returns the required moves left to
+   * move to this tile and to leave the position safely. Can be NULL. */
+  int (*get_moves_left_req) (const struct tile *ptile, enum known_type,
+                             const struct pf_parameter *param);
 
   /* This is a jumbo callback which overrides all previous ones.  It takes 
    * care of everything (ZOC, known, costs etc).  
@@ -384,11 +391,11 @@ struct pf_parameter {
    *   the cost-of-the-path which is the overall measure of goodness of the 
    *   path (less is better) and used to order newly discovered locations. */
   int (*get_costs) (const struct tile *from_tile,
-		    enum direction8 dir,
-		    const struct tile *to_tile,
-		    int from_cost, int from_extra,
-		    int *to_cost, int *to_extra,
-		    struct pf_parameter *param);
+                    enum direction8 dir,
+                    const struct tile *to_tile,
+                    int from_cost, int from_extra,
+                    int *to_cost, int *to_extra,
+                    const struct pf_parameter *param);
 
   /* User provided data. Can be used to attach arbitrary information
    * to the map. */
@@ -398,60 +405,58 @@ struct pf_parameter {
 /* The map itself.  Opaque type. */
 struct pf_map;
 
-/* ==================== Map/Path Functions ========================== */
+/* ======================== Public Interface =========================== */
 
 /* Returns a map which can be used to query for paths or to iterate
  * over all paths. Does not perform any computations itself, just sets
  * everything up. */
 struct pf_map *pf_create_map(const struct pf_parameter *const parameter);
 
-/* Tries to find the best path in the given map to the position (x, y). 
+/* After usage the map should be destroyed. */
+void pf_destroy_map(struct pf_map *pfm);
+
+/* Tries to find the best path in the given map to the position ptile.
  * If NULL is returned no path could be found.  The pf_last_position of such 
  * path would be the same (almost) as the result of the call to 
- * pf_get_position(pf_map, x, y, &pos) */
-struct pf_path *pf_get_path(struct pf_map *pf_map, struct tile *ptile);
+ * pf_get_position(pf_map, ptile, &pos) */
+struct pf_path *pf_get_path(struct pf_map *pfm, struct tile *ptile);
 
-/* Iterates the map until it reaches (x, y).  Then fills the info
+/* Iterates the map until it reaches ptile.  Then fills the info
  * about it into pos.  Returns FALSE if position is unreachable.
  * Contents of pos in this case is not defined. */
-bool pf_get_position(struct pf_map *pf_map, struct tile *ptile,
-		     struct pf_position *pos);
+bool pf_get_position(struct pf_map *pfm, struct tile *ptile,
+                     struct pf_position *pos);
 
 /* Iterates the path-finding algorithm one step further, to the next 
  * nearest position.  This full info on this position and the best path to 
  * it can be obtained using pf_next_get_position and pf_next_get_path, 
  * correspondingly.  Returns FALSE if no further positions are available in 
- * this map.  If pf_get_path/position(pf_map, x, y, .) has been called 
- * before the call to pf_next, the iteration  will resume from (x, y) */
-bool pf_next(struct pf_map *pf_map);
+ * this map.  If pf_get_path/position(pf_map, ptile, .) has been called
+ * before the call to pf_next, the iteration  will resume from ptile */
+bool pf_next(struct pf_map *pfm);
 
 /* Return the full info on the position reached in the last call to 
  * pf_next. */
-void pf_next_get_position(const struct pf_map *pf_map,
-			  struct pf_position *pos);
+void pf_next_get_position(struct pf_map *pfm, struct pf_position *pos);
 
 /* Return the path to the position reached in the last call to pf_next. */
-struct pf_path * pf_next_get_path(const struct pf_map *pf_map);
+struct pf_path *pf_next_get_path(struct pf_map *pfm);
 
-/* Print the path via freelog and the given log-level. For debugging
- * purposes.  Make sure the path is valid (if you got it from pf_get_path). */
+/* Return the current parameters for the given map. */
+const struct pf_parameter *pf_get_parameter(const struct pf_map *pfm);
+
+
+
+/* Print the path via freelog and the given log-level. For
+ * debugging purposes. Make sure the path is valid (if you
+ * got it from pf_get_path). */
 void pf_print_path(int log_level, const struct pf_path *path);
 
 /* After use, a path must be destroyed. pf_destroy_path will also
  * accept NULL (which is returned by pf_get_path in error case). */
 void pf_destroy_path(struct pf_path *path);
 
-/* After usage the map should be destroyed. */
-void pf_destroy_map(struct pf_map *pf_map);
-
 /* Returns the last position of the given path. */
-struct pf_position *pf_last_position(struct pf_path *path);
-
-/* Return the current parameters for the given map. */
-struct pf_parameter *pf_get_parameter(struct pf_map *map);
-
-/* ==================== Parameter Functions ========================= */
-
-int get_moves_left_initially(const struct pf_parameter *param);
+const struct pf_position *pf_last_position(const struct pf_path *path);
 
 #endif

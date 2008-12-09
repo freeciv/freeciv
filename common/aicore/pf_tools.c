@@ -24,6 +24,7 @@
 #include "base.h"
 #include "game.h"
 #include "movement.h"
+#include "tile.h"
 
 #include "pf_tools.h"
 
@@ -57,7 +58,7 @@ static inline int single_move_cost(const struct pf_parameter *param,
   prohibits going through an enemy city/tile.
 *************************************************************/
 static int seamove(const struct tile *ptile, enum direction8 dir,
-                   const struct tile *ptile1, struct pf_parameter *param)
+                   const struct tile *ptile1, const struct pf_parameter *param)
 {
   if (is_native_tile_to_class(param->uclass, ptile1)) {
     return single_move_cost(param, ptile, ptile1);
@@ -75,7 +76,7 @@ static int seamove(const struct tile *ptile, enum direction8 dir,
 *************************************************************/
 static int airmove(const struct tile *ptile, enum direction8 dir,
                    const struct tile *ptile1,
-                   struct pf_parameter *param)
+                   const struct pf_parameter *param)
 {
   if (!is_native_tile_to_class(param->uclass, ptile1)) {
     if (tile_city(ptile1)) {
@@ -88,13 +89,12 @@ static int airmove(const struct tile *ptile, enum direction8 dir,
   return single_move_cost(param, ptile, ptile1);
 }
 
-/*************************************************************
-  A cost function for SEA_MOVING.  Does not allow shore 
-  bombardment.
-*************************************************************/
+/**************************************************************************
+  A cost function for SEA_MOVING.  Does not allow shore bombardment.
+***************************************************************************/
 static int seamove_no_bombard(const struct tile *ptile, enum direction8 dir,
-			      const struct tile *ptile1,
-			      struct pf_parameter *param)
+                              const struct tile *ptile1,
+                              const struct pf_parameter *param)
 {
   if (is_native_tile_to_class(param->uclass, ptile1)) {
     return single_move_cost(param, ptile, ptile1);
@@ -106,16 +106,15 @@ static int seamove_no_bombard(const struct tile *ptile, enum direction8 dir,
   }
 }
 
-/************************************************************
-  A cost function for a sea unit which allows going one step 
-  into the land (for shore bombardment and ferries).
-  Things to remember: we should prevent going from land to
-  anywhere, unless we are leaving a friendly city, in which
-  case we can move into the ocean but not into the land.
-************************************************************/
+/***************************************************************************
+  A cost function for a sea unit which allows going one step into the land
+  (for shore bombardment and ferries). Things to remember: we should prevent
+  going from land to anywhere, unless we are leaving a friendly city, in
+  which case we can move into the ocean but not into the land.
+***************************************************************************/
 static int sea_overlap_move(const struct tile *ptile, enum direction8 dir,
-			    const struct tile *ptile1,
-			    struct pf_parameter *param)
+                            const struct tile *ptile1,
+                            const struct pf_parameter *param)
 {
   if (is_allied_city_tile(ptile, param->owner)
       && is_native_tile_to_class(param->uclass, ptile1)) {
@@ -130,13 +129,13 @@ static int sea_overlap_move(const struct tile *ptile, enum direction8 dir,
   }
 }
 
-/**********************************************************************
-  Sea attack is the same as overlap (consider bombardment) but we don't
-  want to pass through enemy tiles.
-**********************************************************************/
+/***************************************************************************
+  Sea attack is the same as overlap (consider bombardment) but we don't want
+  to pass through enemy tiles.
+***************************************************************************/
 static int sea_attack_move(const struct tile *src_tile, enum direction8 dir,
-			   const struct tile *dest_tile,
-			   struct pf_parameter *param)
+                           const struct tile *dest_tile,
+                           const struct pf_parameter *param)
 {
   if (is_native_tile_to_class(param->uclass, src_tile)) {
     if (is_non_allied_unit_tile(src_tile, param->owner)) {
@@ -154,12 +153,12 @@ static int sea_attack_move(const struct tile *src_tile, enum direction8 dir,
   return PF_IMPOSSIBLE_MC;
 }
 
-/************************************************************ 
+/***************************************************************************
   LAND_MOVE cost function for a unit 
-************************************************************/
+***************************************************************************/
 static int normal_move_unit(const struct tile *ptile, enum direction8 dir,
-			    const struct tile *ptile1,
-			    struct pf_parameter *param)
+                            const struct tile *ptile1,
+                            const struct pf_parameter *param)
 {
   int move_cost;
 
@@ -184,20 +183,22 @@ static int normal_move_unit(const struct tile *ptile, enum direction8 dir,
   return move_cost;
 }
 
-/******************************************************************* 
-  LAND_MOVE cost function for a unit, but taking into account
-  possibilities of attacking.
-*******************************************************************/
-static int land_attack_move(const struct tile *src_tile, enum direction8 dir,
-			    const struct tile *tgt_tile,
-			    struct pf_parameter *param)
+/***************************************************************************
+  LAND_MOVE cost function for a unit, but taking into account possibilities
+  of attacking.
+***************************************************************************/
+static int land_attack_move(const struct tile *src_tile,
+                            enum direction8 dir,
+                            const struct tile *tgt_tile,
+                            const struct pf_parameter *param)
 {
   int move_cost;
 
   if (!is_native_tile_to_class(param->uclass, tgt_tile)) {
 
     /* Any-to-Sea */
-    if (unit_class_transporter_capacity(tgt_tile, param->owner, param->uclass) > 0) {
+    if (unit_class_transporter_capacity(tgt_tile, param->owner,
+                                        param->uclass) > 0) {
       move_cost = SINGLE_MOVE;
     } else {
       move_cost = PF_IMPOSSIBLE_MC;
@@ -249,9 +250,10 @@ static int land_attack_move(const struct tile *src_tile, enum direction8 dir,
   }
   which will achieve the same without call-back.
 ************************************************************/
-static int land_overlap_move(const struct tile *ptile, enum direction8 dir,
-			     const struct tile *ptile1,
-			     struct pf_parameter *param)
+static int land_overlap_move(const struct tile *ptile,
+                             enum direction8 dir,
+                             const struct tile *ptile1,
+                             const struct pf_parameter *param)
 {
   int move_cost;
 
@@ -269,14 +271,16 @@ static int land_overlap_move(const struct tile *ptile, enum direction8 dir,
   Will be used. DO NOT REMOVE.
 ************************************************************/
 #ifdef UNUSED
-static int reverse_move_unit(const struct tile *tile0, enum direction8 dir,
-			     const struct tile *ptile,
-			     struct pf_parameter *param)
+static int reverse_move_unit(const struct tile *tile0,
+                             enum direction8 dir,
+                             const struct tile *ptile,
+                             const struct pf_parameter *param)
 {
   int move_cost = PF_IMPOSSIBLE_MC;
 
   if (!is_native_to_class(param->uclass, ptile)) {
-    if (unit_class_transporter_capacity(ptile, param->owner, param->uclass) > 0) {
+    if (unit_class_transporter_capacity(ptile, param->owner,
+                                        param->uclass) > 0) {
       /* Landing */
       move_cost = terrain0->movement_cost * SINGLE_MOVE;
     } else {
@@ -297,14 +301,16 @@ static int reverse_move_unit(const struct tile *tile0, enum direction8 dir,
 /************************************************************ 
   IGTER_MOVE cost function for a unit 
 ************************************************************/
-static int igter_move_unit(const struct tile *ptile, enum direction8 dir,
-			   const struct tile *ptile1,
-			   struct pf_parameter *param)
+static int igter_move_unit(const struct tile *ptile,
+                           enum direction8 dir,
+                           const struct tile *ptile1,
+                           const struct pf_parameter *param)
 {
   int move_cost;
 
   if (!is_native_tile_to_class(param->uclass, ptile1)) {
-    if (unit_class_transporter_capacity(ptile1, param->owner, param->uclass) > 0) {
+    if (unit_class_transporter_capacity(ptile1, param->owner,
+                                        param->uclass) > 0) {
       move_cost = MOVE_COST_ROAD;
     } else {
       move_cost = PF_IMPOSSIBLE_MC;
@@ -332,14 +338,15 @@ static int igter_move_unit(const struct tile *ptile, enum direction8 dir,
 ************************************************************/
 #ifdef UNUSED
 static int reverse_igter_move_unit(const struct tile *tile0,
-				   enum direction8 dir,
-				   const struct tile *ptile,
-				   struct pf_parameter *param)
+                                   enum direction8 dir,
+                                   const struct tile *ptile,
+                                   const struct pf_parameter *param)
 {
   int move_cost;
 
   if (!is_native_to_class(param->uclass, ptile)) {
-    if (unit_class_transporter_capacity(ptile, param->owner, param->uclass) > 0) {
+    if (unit_class_transporter_capacity(ptile, param->owner,
+                                        param->uclass) > 0) {
       /* Landing */
       move_cost = MOVE_COST_ROAD;
     } else {
@@ -361,8 +368,8 @@ static int reverse_igter_move_unit(const struct tile *tile0,
   A cost function for amphibious movement.
 ****************************************************************************/
 static int amphibious_move(const struct tile *ptile, enum direction8 dir,
-			   const struct tile *ptile1,
-			   struct pf_parameter *param)
+                           const struct tile *ptile1,
+                           const struct pf_parameter *param)
 {
   struct pft_amphibious *amphibious = param->data;
   const bool src_ferry = is_native_tile_to_class(amphibious->sea.uclass, ptile);
@@ -413,8 +420,8 @@ static int amphibious_move(const struct tile *ptile, enum direction8 dir,
 *********************************************************************/
 #ifdef UNUSED
 static int afraid_of_dark_forest(const struct tile *ptile,
-				 enum known_type known,
-				 struct pf_parameter *param)
+                                 enum known_type known,
+                                 const struct pf_parameter *param)
 {
   if (terrain_number(tile_terrain(ptile)) == T_FOREST) {
     /* Willing to spend extra 2 turns to go around a forest tile */
@@ -429,8 +436,8 @@ static int afraid_of_dark_forest(const struct tile *ptile,
   Extra cost call back for amphibious movement
 ****************************************************************************/
 static int amphibious_extra_cost(const struct tile *ptile,
-				 enum known_type known,
-				 struct pf_parameter *param)
+                                 enum known_type known,
+                                 const struct pf_parameter *param)
 {
   struct pft_amphibious *amphibious = param->data;
   const bool ferry_move = is_native_tile_to_class(amphibious->sea.uclass, ptile);
@@ -467,8 +474,8 @@ static int amphibious_extra_cost(const struct tile *ptile,
   terrain.  Insures that we don't continue walking over ocean.
 *********************************************************************/
 static enum tile_behavior dont_cross_ocean(const struct tile *ptile,
-					   enum known_type known,
-					   struct pf_parameter *param)
+                                           enum known_type known,
+                                           const struct pf_parameter *param)
 {
   if (!is_native_tile_to_class(param->uclass, ptile)) {
     return TB_DONT_LEAVE;
@@ -482,7 +489,7 @@ static enum tile_behavior dont_cross_ocean(const struct tile *ptile,
 ***********************************************************************/
 enum tile_behavior no_fights_or_unknown(const struct tile *ptile,
                                         enum known_type known,
-                                        struct pf_parameter *param)
+                                        const struct pf_parameter *param)
 {
   if (known == TILE_UNKNOWN
       || is_non_allied_unit_tile(ptile, param->owner)
@@ -496,8 +503,9 @@ enum tile_behavior no_fights_or_unknown(const struct tile *ptile,
 /********************************************************************** 
   PF callback to prohibit attacking anyone.
 ***********************************************************************/
-enum tile_behavior no_fights(const struct tile *ptile, enum known_type known,
-			     struct pf_parameter *param)
+enum tile_behavior no_fights(const struct tile *ptile,
+                             enum known_type known,
+                             const struct pf_parameter *param)
 {
   if (is_non_allied_unit_tile(ptile, param->owner)
       || is_non_allied_city_tile(ptile, param->owner)) {
@@ -511,8 +519,8 @@ enum tile_behavior no_fights(const struct tile *ptile, enum known_type known,
   PF callback to prohibit attacking anyone, except at the destination.
 ****************************************************************************/
 enum tile_behavior no_intermediate_fights(const struct tile *ptile,
-					  enum known_type known,
-					  struct pf_parameter *param)
+                                          enum known_type known,
+                                          const struct pf_parameter *param)
 {
   if (is_non_allied_unit_tile(ptile, param->owner)
       || is_non_allied_city_tile(ptile, param->owner)) {
@@ -524,9 +532,9 @@ enum tile_behavior no_intermediate_fights(const struct tile *ptile,
 /*********************************************************************
   A callback for amphibious movement
 *********************************************************************/
-static enum tile_behavior amphibious_behaviour(const struct tile *ptile,
-					       enum known_type known,
-					       struct pf_parameter *param)
+static enum tile_behavior
+amphibious_behaviour(const struct tile *ptile, enum known_type known,
+                     const struct pf_parameter *param)
 {
   struct pft_amphibious *amphibious = param->data;
   const bool ferry_move = is_native_tile_to_class(amphibious->sea.uclass, ptile);
@@ -540,14 +548,23 @@ static enum tile_behavior amphibious_behaviour(const struct tile *ptile,
   return TB_NORMAL;
 }
 
-/* =====================  Postion Dangerous Callbacks ================ */
+/* ===================== Required Moves Lefts Callbacks ================= */
 
 /****************************************************************************
   Refueling base for air units.
 ****************************************************************************/
 static bool is_possible_base_fuel(const struct tile *ptile,
-                                  struct pf_parameter *param)
+                                  const struct pf_parameter *param)
 {
+  enum known_type tile_known;
+  tile_known = (param->omniscience ? TILE_KNOWN_SEEN
+                : tile_get_known(ptile, param->owner));
+
+  if (tile_known == TILE_UNKNOWN) {
+    /* Cannot guess if it is */
+    return FALSE;
+  }
+
   if (is_allied_city_tile(ptile, param->owner)) {
     return TRUE;
   }
@@ -560,63 +577,77 @@ static bool is_possible_base_fuel(const struct tile *ptile,
     }
   } base_type_iterate_end;
 
+  if (tile_known == TILE_KNOWN_UNSEEN) {
+    /* Cannot see units */
+    return FALSE;
+  }
+
+  /* Check for carriers */
+  unit_list_iterate(ptile->units, ptrans) {
+    if (can_unit_type_transport(unit_type(ptrans), param->uclass)
+        && (get_transporter_occupancy(ptrans)
+            < get_transporter_capacity(ptrans))) {
+      return TRUE;
+    }
+  } unit_list_iterate_end;
+
   return FALSE;
+}
+
+/****************************************************************************
+  Check if there is a safe position to move.
+****************************************************************************/
+static int get_closest_safe_tile_distance(const struct tile *src_tile,
+                                          const struct pf_parameter *param,
+                                          int max_distance)
+{
+  /* This iteration should, according to the documentation in map.h iterate
+   * tiles from the center tile, so we stop the iteration to the first found
+   * refuel point (as it should be the closest). */
+  iterate_outward_dxy(src_tile, max_distance, ptile, x, y) {
+    if (tile_get_known(ptile, param->owner) == TILE_UNKNOWN) {
+      /* Cannot guess if the tile is safe */
+      continue;
+    }
+    if (is_possible_base_fuel(ptile, param)) {
+      return map_vector_to_real_distance(x, y);
+    }
+  } iterate_outward_dxy_end;
+
+  return -1;
 }
 
 /****************************************************************************
   Position-dangerous callback for air units.
 ****************************************************************************/
-static bool is_pos_dangerous_fuel(const struct tile *ptile,
-                                  enum known_type known,
-                                  struct pf_parameter *param)
+static int get_fuel_moves_left_req(const struct tile *ptile,
+                                   enum known_type known,
+                                   const struct pf_parameter *param)
 {
-  int moves = SINGLE_MOVE * real_map_distance(param->start_tile, ptile);
-  int have = get_moves_left_initially(param);
-  int left = have - moves;
+  int dist, max, mli;
 
-  if (left < 0) {
-    /* not enough fuel. */
-    return TRUE;
+  if (is_possible_base_fuel(ptile, param)) {
+    return 0;
   }
 
-  if (have >= moves * 2
-   && (is_possible_base_fuel(param->start_tile, param)
-    || !param->owner->ai.control)) {
-    /* has enough fuel for round trip. */
-    return FALSE;
-  }
+  mli = param->moves_left_initially;
+  max = MAX(mli + ((mli - 1) * param->move_rate),
+            param->move_rate * param->fuel);
+  /* Sometimes, unit can have bigger moves left than its own move rate,
+   * due to wonder transfer. See comment for get_turn() in path_finding.c. */
+  dist = get_closest_safe_tile_distance(ptile, param, max / SINGLE_MOVE);
 
-  if (TILE_UNKNOWN != known
-   && (is_possible_base_fuel(ptile, param)
-    || is_enemy_city_tile(ptile, param->owner))) {
-    /* allow attacks, even suicidal ones */
-    return FALSE;
-  }
-
-  if (TILE_KNOWN_SEEN == known
-   && is_enemy_unit_tile(ptile, param->owner)) {
-    /* don't reveal unknown units */
-    return FALSE;
-  }
-
-  /* similar to find_nearest_airbase() */
-  iterate_outward(ptile, left / SINGLE_MOVE, atile) {
-    if (TILE_UNKNOWN != tile_get_known(atile, param->owner)
-     && is_possible_base_fuel(atile, param)) {
-      return FALSE;
-    }
-  } iterate_outward_end;
-  
-  /* Carriers are ignored since they are likely to move. */
-  return TRUE;
+  return dist != -1 ? dist * SINGLE_MOVE : PF_IMPOSSIBLE_MC;
 }
+
+/* ====================  Postion Dangerous Callbacks =================== */
 
 /****************************************************************************
   Position-dangerous callback for amphibious movement.
 ****************************************************************************/
 static bool amphibious_is_pos_dangerous(const struct tile *ptile,
-					enum known_type known,
-					struct pf_parameter *param)
+                                        enum known_type known,
+                                        const struct pf_parameter *param)
 {
   struct pft_amphibious *amphibious = param->data;
   const bool ferry_move = is_native_tile_to_class(amphibious->sea.uclass, ptile);
@@ -667,11 +698,9 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
     break;
   }
 
-  if (!parameter->is_pos_dangerous
-      && (unit_type(punit)->fuel > 0 || is_losing_hp(punit))) {
-    /* Unit loses hitpoints each turn when not in city/safe base/carrier
-     * or needs fuel */
-    parameter->is_pos_dangerous = is_pos_dangerous_fuel;
+  if (!parameter->get_moves_left_req && unit_type(punit)->fuel > 0) {
+    /* Unit needs fuel */
+    parameter->get_moves_left_req = get_fuel_moves_left_req;
     parameter->turn_mode = TM_WORST_TIME;
   }
 
@@ -747,6 +776,7 @@ void pft_fill_unit_attack_param(struct pf_parameter *parameter,
 
   /* It is too complicated to work with danger here */
   parameter->is_pos_dangerous = NULL;
+  parameter->get_moves_left_req = NULL;
 }
 
 /****************************************************************************
@@ -776,6 +806,7 @@ void pft_fill_amphibious_parameter(struct pft_amphibious *parameter)
   parameter->combined.get_TB = amphibious_behaviour;
   parameter->combined.get_EC = amphibious_extra_cost;
   parameter->combined.is_pos_dangerous = amphibious_is_pos_dangerous;
+  parameter->combined.get_moves_left_req = NULL;
   BV_CLR_ALL(parameter->combined.unit_flags);
 
   parameter->combined.data = parameter;
@@ -822,6 +853,7 @@ static void pft_fill_unit_default_parameter(struct pf_parameter *parameter,
   parameter->get_TB = NULL;
   parameter->get_EC = NULL;
   parameter->is_pos_dangerous = NULL;
+  parameter->get_moves_left_req = NULL;
   parameter->get_costs = NULL;
   parameter->get_zoc = NULL;
   BV_CLR_ALL(parameter->unit_flags);
