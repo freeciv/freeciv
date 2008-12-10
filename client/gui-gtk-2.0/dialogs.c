@@ -272,18 +272,17 @@ void popup_revolution_dialog(struct government *government)
 }
 
 
-/****************************************************************
-...
-*****************************************************************/
+/***********************************************************************
+  NB: 'data' is a value of enum tile_special_type casted to a pointer.
+***********************************************************************/
 static void pillage_callback(GtkWidget *w, gpointer data)
 {
-  if (data) {
-    struct unit *punit = game_find_unit_by_number(unit_to_use_to_pillage);
-    if (punit) {
-      request_new_unit_activity_targeted(punit,
-					 ACTIVITY_PILLAGE,
-					 GPOINTER_TO_INT(data));
-    }
+  struct unit *punit;
+
+  punit = game_find_unit_by_number(unit_to_use_to_pillage);
+  if (punit) {
+    request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE,
+                                       GPOINTER_TO_INT(data));
   }
 }
 
