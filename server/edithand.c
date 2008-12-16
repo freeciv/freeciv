@@ -140,12 +140,14 @@ void handle_edit_mode(struct connection *pc, bool is_edit_mode)
   if (!can_conn_enable_editing(pc)) {
     return;
   }
+
   if (!game.info.is_edit_mode && is_edit_mode) {
     /* Someone could be cheating! Warn people. */
     notify_conn(NULL, NULL, E_SETTING,
                 _(" *** Server set to edit mode by %s! *** "),
                 conn_description(pc));
   }
+
   if (game.info.is_edit_mode && !is_edit_mode) {
     notify_conn(NULL, NULL, E_SETTING,
                 _(" *** Edit mode cancelled by %s. *** "),
@@ -153,6 +155,7 @@ void handle_edit_mode(struct connection *pc, bool is_edit_mode)
 
     check_leaving_edit_mode();
   }
+
   if (game.info.is_edit_mode != is_edit_mode) {
     game.info.is_edit_mode = is_edit_mode;
     send_game_info(NULL);
@@ -171,12 +174,6 @@ void handle_edit_tile_terrain(struct connection *pc, int x, int y,
   struct terrain *old_terrain;
   struct terrain *pterrain;
   struct tile *ptile_center;
-
-  if (!can_conn_edit(pc)) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND,
-                _("You are not allowed to edit."));
-    return;
-  }
 
   ptile_center = map_pos_to_tile(x, y);
   if (!ptile_center) {
@@ -219,13 +216,6 @@ void handle_edit_tile_resource(struct connection *pc, int x, int y,
   struct resource *presource;
   struct tile *ptile_center;
   
-
-  if (!can_conn_edit(pc)) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND,
-                _("You are not allowed to edit."));
-    return;
-  }
-
   ptile_center = map_pos_to_tile(x, y);
   if (!ptile_center) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND,
@@ -258,12 +248,6 @@ void handle_edit_tile_special(struct connection *pc, int x, int y,
   struct tile *ptile_center;
   bool changed = FALSE;
   
-  if (!can_conn_edit(pc)) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND,
-                _("You are not allowed to edit."));
-    return;
-  }
-
   ptile_center = map_pos_to_tile(x, y);
   if (!ptile_center) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND,
@@ -308,12 +292,6 @@ void handle_edit_tile_base(struct connection *pc, int x, int y,
   struct base_type *pbase;
   bool changed = FALSE;
   
-  if (!can_conn_edit(pc)) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND,
-                _("You are not allowed to edit."));
-    return;
-  }
-
   ptile_center = map_pos_to_tile(x, y);
   if (!ptile_center) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND,
@@ -359,12 +337,6 @@ void handle_edit_tile(struct connection *pc,
   struct tile *ptile;
   int id;
   bool changed = FALSE;
-
-  if (!can_conn_edit(pc)) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND,
-                _("You are not allowed to edit."));
-    return;
-  }
 
   id = packet->id;
   ptile = index_to_tile(id);
@@ -424,12 +396,6 @@ void handle_edit_unit_create(struct connection *pc,
   struct unit *punit;
   bool coastal;
   int id, i;
-
-  if (!can_conn_edit(pc)) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND,
-                _("You are not allowed to edit."));
-    return;
-  }
 
   owner = packet->owner;
   x = packet->x;
@@ -518,12 +484,6 @@ void handle_edit_unit_remove(struct connection *pc, int owner,
   struct player *pplayer;
   int i;
 
-  if (!can_conn_edit(pc)) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND,
-                _("You are not allowed to edit."));
-    return;
-  }
-
   ptile = map_pos_to_tile(x, y);
   if (!ptile) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND,
@@ -571,12 +531,6 @@ void handle_edit_unit_remove_by_id(struct connection *pc, Unit_type_id id)
 {
   struct unit *punit;
 
-  if (!can_conn_edit(pc)) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND,
-                _("You are not allowed to edit."));
-    return;
-  }
-
   punit = game_find_unit_by_number(id);
   if (!punit) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND,
@@ -600,12 +554,6 @@ void handle_edit_unit(struct connection *pc,
   int id;
   bool changed = FALSE;
   int moves_left, fuel, hp;
-
-  if (!can_conn_edit(pc)) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND,
-                _("You are not allowed to edit."));
-    return;
-  }
 
   id = packet->id;
   punit = game_find_unit_by_number(id);
@@ -680,12 +628,6 @@ void handle_edit_city_create(struct connection *pc, int owner, int x, int y,
   struct city *pcity;
   struct player *pplayer;
   
-  if (!can_conn_edit(pc)) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND,
-                _("You are not allowed to edit."));
-    return;
-  }
-
   ptile = map_pos_to_tile(x, y);
   if (!ptile) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND,
@@ -749,12 +691,6 @@ void handle_edit_city(struct connection *pc,
   char buf[1024];
   int id;
   bool changed = FALSE;
-
-  if (!can_conn_edit(pc)) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND,
-                _("You are not allowed to edit."));
-    return;
-  }
 
   pcity = game_find_city_by_number(packet->id);
   if (!pcity) {
@@ -891,12 +827,6 @@ void handle_edit_player_create(struct connection *pc, int tag)
   struct player *pplayer;
   struct nation_type *pnation;
 
-  if (!can_conn_edit(pc)) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND,
-                _("You are not allowed to edit."));
-    return;
-  }
-
   if (player_count() >= player_slot_count()) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND,
                 _("No more players can be added because the maximum "
@@ -958,12 +888,6 @@ void handle_edit_player_remove(struct connection *pc, int id)
   struct player *pplayer;
   struct conn_list *conns;
 
-  if (!can_conn_edit(pc)) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND,
-                _("You are not allowed to edit."));
-    return;
-  }
-
   pplayer = valid_player_by_number(id);
   if (pplayer == NULL) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND,
@@ -1001,12 +925,6 @@ void handle_edit_player(struct connection *pc,
   struct nation_type *pnation;
   struct player_research *research;
   enum tech_state known;
-
-  if (!can_conn_edit(pc)) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND,
-                _("You are not allowed to edit."));
-    return;
-  }
 
   pplayer = valid_player_by_number(packet->id);
   if (!pplayer) {
@@ -1140,12 +1058,6 @@ void handle_edit_player_vision(struct connection *pc, int plr_no,
   struct player *pplayer;
   struct tile *ptile_center;
 
-  if (!can_conn_edit(pc)) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND,
-                _("You are not allowed to edit."));
-    return;
-  }
-
   ptile_center = map_pos_to_tile(x, y);
   if (!ptile_center) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND,
@@ -1218,12 +1130,6 @@ void handle_edit_player_vision(struct connection *pc, int plr_no,
 ****************************************************************************/
 void handle_edit_recalculate_borders(struct connection *pc)
 {
-  if (!can_conn_edit(pc)) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND,
-                _("You are not allowed to edit."));
-    return;
-  }
-
   map_calculate_borders();
 }
 
@@ -1233,12 +1139,6 @@ void handle_edit_recalculate_borders(struct connection *pc)
 void handle_edit_city_remove(struct connection *pc, int id)
 {
   struct city *pcity;
-
-  if (!can_conn_edit(pc)) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND,
-                _("You are not allowed to edit."));
-    return;
-  }
 
   pcity = game_find_city_by_number(id);
   if (pcity == NULL) {
@@ -1255,12 +1155,6 @@ void handle_edit_city_remove(struct connection *pc, int id)
 ****************************************************************************/
 void handle_edit_check_tiles(struct connection *pc)
 {
-  if (!can_conn_edit(pc)) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND,
-                _("You are not allowed to edit."));
-    return;
-  }
-
   check_edited_tile_terrains();
 }
 
@@ -1272,12 +1166,6 @@ void handle_edit_check_tiles(struct connection *pc)
 void handle_edit_toggle_fogofwar(struct connection *pc, int plr_no)
 {
   struct player *pplayer;
-
-  if (!can_conn_edit(pc)) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND,
-                _("You are not allowed to edit."));
-    return;
-  }
 
   if (!game.info.fogofwar) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND,
@@ -1314,12 +1202,6 @@ void handle_edit_territory(struct connection *pc, int x, int y, int owner,
   struct player *pplayer;
   struct tile *ptile_center;
 
-  if (!can_conn_edit(pc)) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND,
-                _("You are not allowed to edit."));
-    return;
-  }
-
   ptile_center = map_pos_to_tile(x, y);
   if (!ptile_center) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND,
@@ -1354,12 +1236,6 @@ void handle_edit_startpos(struct connection *pc, int x, int y,
   struct tile *ptile;
   const struct nation_type *pnation, *old;
 
-  if (!can_conn_edit(pc)) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND,
-                _("You are not allowed to edit."));
-    return;
-  }
-
   ptile = map_pos_to_tile(x, y);
   if (!ptile) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND,
@@ -1385,12 +1261,6 @@ void handle_edit_game(struct connection *pc,
                       struct packet_edit_game *packet)
 {
   bool changed = FALSE;
-
-  if (!can_conn_edit(pc)) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND,
-                _("You are not allowed to edit."));
-    return;
-  }
 
   if (packet->year != game.info.year) {
 

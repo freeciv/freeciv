@@ -1140,6 +1140,17 @@ int identity_number(void)
 }
 
 /**************************************************************************
+  Returns TRUE if the packet type is an edit packet sent by the client.
+
+  NB: The first and last client edit packets here must match those
+  defined in common/packets.def.
+**************************************************************************/
+static bool is_client_edit_packet(int type)
+{
+  return PACKET_EDIT_MODE <= type && type <= PACKET_EDIT_GAME;
+}
+
+/**************************************************************************
 Returns 0 if connection should be closed (because the clients was
 rejected). Returns 1 else.
 **************************************************************************/
@@ -1219,8 +1230,17 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
       || type == PACKET_SINGLE_WANT_HACK_REQ
       || type == PACKET_NATION_SELECT_REQ
       || type == PACKET_REPORT_REQ
-      || (PACKET_EDIT_MODE <= type
-          && type < PACKET_EDIT_OBJECT_CREATED)) {
+      || is_client_edit_packet(type)) {
+
+    /* Except for PACKET_EDIT_MODE (used to set edit mode), check
+     * that the client is allowed to send the given edit packet. */
+    if (is_client_edit_packet(type) && type != PACKET_EDIT_MODE
+        && !can_conn_edit(pconn)) {
+      notify_conn(pconn->self, NULL, E_BAD_COMMAND,
+                  _("You are not allowed to edit."));
+      return TRUE;
+    }
+
     if (!server_handle_packet(type, packet, NULL, pconn)) {
       freelog(LOG_ERROR, "Received unknown packet %d from %s",
 	      type, conn_description(pconn));

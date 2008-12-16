@@ -1425,11 +1425,11 @@ PACKET_RULESET_RESOURCE=124;sc,lsend
   STRING graphic_alt[MAX_LEN_NAME];
 end
 
-/************** Editing hash packets **********************/
+/************** Client Editor Packets **********************/
 
-/* Always keep this as the first edit type packet,
- * so that the test in server/srv_main.c +1203
- * is easy to write. */
+/* Always keep this as the first edit type packet sent by
+ * the client, so that the test in server/srv_main.c in
+ * the function is_client_edit_packet() is easy to write. */
 PACKET_EDIT_MODE=150;cs,handle-per-conn,dsend
   BOOL state;
 end
@@ -1616,14 +1616,16 @@ PACKET_EDIT_PLAYER_VISION=171;cs,handle-per-conn,dsend
   UINT8 size;
 end
 
-PACKET_EDIT_GAME=172;cs,handle-per-conn,handle-via-packet
+/* Always keep this as the last edit type packet sent by
+ * the client, so that the test in server/srv_main.c in
+ * the function is_client_edit_packet() is easy to write. */
+PACKET_EDIT_GAME=180;cs,handle-per-conn,handle-via-packet
   YEAR year;
 end
 
-/* Always keep this as the last edit type packet,
- * so that the test in server/srv_main.c +1213
- * is easy to write. */
-PACKET_EDIT_OBJECT_CREATED=173;sc,dsend
+/************** Server Editor Packets **********************/
+
+PACKET_EDIT_OBJECT_CREATED=181;sc,dsend
   SINT32 tag;
   SINT32 id;
 end
