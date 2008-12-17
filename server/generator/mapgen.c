@@ -1578,9 +1578,7 @@ static bool is_near_land(struct tile *ptile)
 {
   /* Note this function may sometimes be called on land tiles. */
   adjc_iterate(ptile, tile1) {
-    const struct terrain *pterrain1 = tile_terrain(tile1);
-    if (T_UNKNOWN != pterrain1
-        && !terrain_has_flag(pterrain1, TER_OCEANIC)) {
+    if (!is_ocean(tile_terrain(tile1))) {
       return TRUE;
     }
   } adjc_iterate_end;
