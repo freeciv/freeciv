@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.0.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-12-17 10:53+0100\n"
-"PO-Revision-Date: 2008-12-17 11:55+0100\n"
+"PO-Revision-Date: 2008-12-17 14:04+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -123,19 +123,19 @@ msgid "Enemy Diplomat: %s"
 msgstr "Nepřátelský Diplomat: %s"
 
 #: common/events.c:53
-#, fuzzy, c-format
+#, c-format
 msgid "Global: %s"
-msgstr "Cíl"
+msgstr "Globální: %s"
 
 #: common/events.c:54
-#, fuzzy, c-format
+#, c-format
 msgid "Hut: %s"
-msgstr "Host: %s"
+msgstr "Chýše: %s"
 
 #: common/events.c:55
-#, fuzzy, c-format
+#, c-format
 msgid "Nation: %s"
-msgstr "Národy"
+msgstr "Národ: %s"
 
 #: common/events.c:56
 #, fuzzy, c-format
@@ -143,14 +143,14 @@ msgid "Treaty: %s"
 msgstr "Velcí"
 
 #: common/events.c:57
-#, fuzzy, c-format
+#, c-format
 msgid "Unit: %s"
-msgstr "Jednotka %s"
+msgstr "Jednotka: %s"
 
 #: common/events.c:58
-#, fuzzy, c-format
+#, c-format
 msgid "Wonder: %s"
-msgstr "Divy: "
+msgstr "Div: %s"
 
 #: common/events.c:77
 #, fuzzy
@@ -163,15 +163,13 @@ msgid "Learned New Tech"
 msgstr "poblíž %s"
 
 #: common/events.c:79
-#, fuzzy
 msgid "Selected New Goal"
-msgstr "Vyberte technologii pro krádež"
+msgstr "Zvolen nový cíl"
 
 #: common/events.c:80
 #: common/events.c:147
-#, fuzzy
 msgid "Bought"
-msgstr "Jednotek: "
+msgstr "Koupeno"
 
 #: common/events.c:81
 #: common/events.c:148
@@ -192,9 +190,8 @@ msgid "New Improvement Selected"
 msgstr "Vylepšení"
 
 #: common/events.c:84
-#, fuzzy
 msgid "Sold"
-msgstr "Zlato"
+msgstr "Prodáno"
 
 #: common/events.c:85
 #, fuzzy
@@ -305,9 +302,8 @@ msgstr "Velvyslanectví"
 
 #: common/events.c:107
 #: common/events.c:114
-#, fuzzy
 msgid "Failed"
-msgstr "Žena"
+msgstr "Selhal"
 
 #: common/events.c:108
 #: common/events.c:115
@@ -373,9 +369,8 @@ msgid "Unit Spared by Barbarians"
 msgstr ""
 
 #: common/events.c:129
-#, fuzzy
 msgid "Barbarian Uprising"
-msgstr "Barbar"
+msgstr "Povstání barbarů"
 
 #: common/events.c:130
 msgid "Civil War"
@@ -494,19 +489,16 @@ msgid "Made Obsolete"
 msgstr "Prodat zastaralé"
 
 #: common/events.c:158
-#, fuzzy
 msgid "Started"
-msgstr "Stav"
+msgstr "Odstartován"
 
 #: common/events.c:159
-#, fuzzy
 msgid "Stopped"
-msgstr "Divy: "
+msgstr "Zastaven"
 
 #: common/events.c:160
-#, fuzzy
 msgid "Will Finish Next Turn"
-msgstr "Oznámení: Div světa %s ve městě %s bude dokončen v příštím kole."
+msgstr "Bude dokončeno v příštím kole"
 
 #: common/events.c:161
 msgid "AI Debug messages"
@@ -554,9 +546,8 @@ msgid "Game Started"
 msgstr "Hra spuštěna"
 
 #: common/events.c:171
-#, fuzzy
 msgid "Nation Selected"
-msgstr "Výběr jednotek"
+msgstr "Národ vybrán"
 
 #: common/events.c:172
 msgid "Player Destroyed"
@@ -1132,19 +1123,16 @@ msgid "Finish ok"
 msgstr "Finský"
 
 #: utility/ioz.c:515
-#, fuzzy
 msgid "Stream end"
-msgstr "Parní stroj"
+msgstr "Konec proudu"
 
 #: utility/ioz.c:518
-#, fuzzy
 msgid "Config error"
-msgstr "Konfigurovat"
+msgstr "Chyba konfigurace"
 
 #: utility/ioz.c:521
-#, fuzzy
 msgid "Sequence error"
-msgstr "Vědecký přehled"
+msgstr "Chyba sekvence"
 
 #: utility/ioz.c:524
 msgid "Parameter error"
@@ -1175,9 +1163,9 @@ msgid "Output buffer full"
 msgstr ""
 
 #: utility/ioz.c:549
-#, fuzzy, c-format
+#, c-format
 msgid "Bz2: \"%s\" (%d)"
-msgstr "Rok: %s (T%d)"
+msgstr "Bz2: \"%s\" (%d)"
 
 #: utility/ioz.c:552
 #, c-format
@@ -19442,7 +19430,7 @@ msgstr "?nationgroup:Středověký"
 
 #: data/default/nations.ruleset:26
 msgid "?nationgroup:Modern"
-msgstr ""
+msgstr "?nationgroup:Moderní"
 
 #: data/default/nations.ruleset:29
 msgid "?nationgroup:African"
@@ -19462,7 +19450,7 @@ msgstr "?nationgroup:Evropský"
 
 #: data/default/nations.ruleset:41
 msgid "?nationgroup:Oceanian"
-msgstr ""
+msgstr "?nationgroup:Oceánský"
 
 #: data/default/nations.ruleset:44
 msgid "?nationgroup:Fictional"
@@ -19749,7 +19737,7 @@ msgstr "?citystyle:Klasický"
 #: data/default/cities.ruleset:93
 #: data/civ2/cities.ruleset:92
 msgid "?citystyle:Tropical"
-msgstr ""
+msgstr "?citystyle:Tropický"
 
 #: data/default/cities.ruleset:102
 #: data/civ2/cities.ruleset:101
@@ -19795,13 +19783,13 @@ msgstr "Anarchie"
 #: data/civ2/governments.ruleset:53
 #: data/civ1/governments.ruleset:55
 msgid "Usurper"
-msgstr ""
+msgstr "Uzurpátor"
 
 #: data/default/governments.ruleset:57
 #: data/civ2/governments.ruleset:54
 #: data/civ1/governments.ruleset:56
 msgid "?female:Usurper"
-msgstr ""
+msgstr "?female:Uzurpátorka"
 
 #: data/default/governments.ruleset:59
 #: data/civ1/governments.ruleset:58
@@ -26211,7 +26199,7 @@ msgstr "Výchozí pravidla"
 
 #: data/default/game.ruleset:21
 msgid "You are playing Freeciv with default rules."
-msgstr ""
+msgstr "Hrajete Freeciv s výchozími pravidly."
 
 #, fuzzy
 #~ msgid "Tech"
