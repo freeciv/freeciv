@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.0.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-12-17 10:53+0100\n"
-"PO-Revision-Date: 2008-12-17 14:04+0100\n"
+"PO-Revision-Date: 2008-12-18 12:54+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -288,7 +288,7 @@ msgstr "%s incident !"
 
 #: common/events.c:105
 msgid "Escape"
-msgstr ""
+msgstr "Útěk"
 
 #: common/events.c:106
 #: common/events.c:113
@@ -329,11 +329,11 @@ msgstr "Krádež"
 
 #: common/events.c:119
 msgid "Eco-Disaster"
-msgstr ""
+msgstr "Ekologická katastrofa"
 
 #: common/events.c:120
 msgid "Nuke Detonated"
-msgstr ""
+msgstr "Jaderná exploze"
 
 #: common/events.c:121
 #, fuzzy
@@ -342,27 +342,27 @@ msgstr "První rok nájezdů"
 
 #: common/events.c:122
 msgid "City Founded from Hut"
-msgstr ""
+msgstr "Z chýše založeno město"
 
 #: common/events.c:123
 msgid "Gold Found in Hut"
-msgstr ""
+msgstr "V chýši nalezeno zlato"
 
 #: common/events.c:124
 msgid "Killed by Barbarians in a Hut"
-msgstr ""
+msgstr "Zabit barbary v chýši"
 
 #: common/events.c:125
 msgid "Mercenaries Found in Hut"
-msgstr ""
+msgstr "V chýši nalezeni žoldáci"
 
 #: common/events.c:126
 msgid "Settler Found in Hut"
-msgstr ""
+msgstr "V chýši nalezen osadník"
 
 #: common/events.c:127
 msgid "Tech Found in Hut"
-msgstr ""
+msgstr "V chýši nalezena technologie"
 
 #: common/events.c:128
 msgid "Unit Spared by Barbarians"
@@ -447,7 +447,7 @@ msgstr "Útok selhal"
 
 #: common/events.c:146
 msgid "Attack Succeeded"
-msgstr ""
+msgstr "Útok se podařil"
 
 #: common/events.c:149
 msgid "Defender Destroyed"
@@ -455,11 +455,11 @@ msgstr "Obránce zničen"
 
 #: common/events.c:150
 msgid "Defender Survived"
-msgstr ""
+msgstr "Obránce přežil"
 
 #: common/events.c:151
 msgid "Promoted to Veteran"
-msgstr ""
+msgstr "Povýšen na Veterána"
 
 #: common/events.c:152
 #, fuzzy
@@ -746,9 +746,9 @@ msgstr "Velikost %d"
 
 #: common/requirements.c:1290
 #: common/requirements.c:1299
-#, fuzzy, c-format
+#, c-format
 msgid "\"%s\" units"
-msgstr "%s jednotek"
+msgstr "\"%s\" jednotek"
 
 #: common/requirements.c:1295
 #, c-format
@@ -757,21 +757,21 @@ msgstr "%s jednotek"
 
 #. TRANS: "Hard AI"
 #: common/requirements.c:1315
-#, fuzzy, c-format
+#, c-format
 msgid "%s AI"
-msgstr "%d n.l."
+msgstr "%s PO"
 
 #. TRANS: "Land terrain"
 #: common/requirements.c:1320
-#, fuzzy, c-format
+#, c-format
 msgid "%s terrain"
-msgstr "Terén"
+msgstr "%s terén"
 
 #. TRANS: "Fortress base"
 #: common/requirements.c:1325
 #, c-format
 msgid "%s base"
-msgstr ""
+msgstr "%s základna"
 
 #: common/tech.c:817
 #: client/gui-gtk-2.0/repodlgs.c:504
@@ -820,9 +820,8 @@ msgid "Land"
 msgstr "Země"
 
 #: common/terrain.c:46
-#, fuzzy
 msgid "Oceanic"
-msgstr "Oceán"
+msgstr "Oceánský"
 
 #: common/terrain.c:537
 #: common/terrain.c:725
@@ -933,9 +932,8 @@ msgid "Transform"
 msgstr "Transformovat"
 
 #: common/unit.c:551
-#, fuzzy
 msgid "Base"
-msgstr "Odpad"
+msgstr "Základ"
 
 #: common/unit.c:559
 #: client/text.c:106
@@ -1118,9 +1116,8 @@ msgid "Flush ok"
 msgstr ""
 
 #: utility/ioz.c:512
-#, fuzzy
 msgid "Finish ok"
-msgstr "Finský"
+msgstr "Dokončeno ok"
 
 #: utility/ioz.c:515
 msgid "Stream end"
@@ -1136,7 +1133,7 @@ msgstr "Chyba sekvence"
 
 #: utility/ioz.c:524
 msgid "Parameter error"
-msgstr ""
+msgstr "Chyba parametru"
 
 #: utility/ioz.c:527
 msgid "Mem error"
@@ -1144,11 +1141,11 @@ msgstr "Mem chyba"
 
 #: utility/ioz.c:530
 msgid "Data error"
-msgstr ""
+msgstr "Chyba dat"
 
 #: utility/ioz.c:533
 msgid "Not bzip2 file"
-msgstr ""
+msgstr "Není bzip2 soubor"
 
 #: utility/ioz.c:536
 msgid "IO error"
@@ -1156,11 +1153,11 @@ msgstr "IO chyba"
 
 #: utility/ioz.c:539
 msgid "Unexpected EOF"
-msgstr ""
+msgstr "Neočekávaný EOF"
 
 #: utility/ioz.c:542
 msgid "Output buffer full"
-msgstr ""
+msgstr "Výstupní buffer plný"
 
 #: utility/ioz.c:549
 #, c-format
@@ -1170,7 +1167,7 @@ msgstr "Bz2: \"%s\" (%d)"
 #: utility/ioz.c:552
 #, c-format
 msgid "Bz2 error %d"
-msgstr ""
+msgstr "Bz2 chyba %d"
 
 #: utility/log.c:84
 #, c-format
@@ -1239,7 +1236,7 @@ msgstr[2] " (celkem %d opakování)"
 #: client/gui-sdl/mapview.c:159
 #, c-format
 msgid "Please report this message at %s"
-msgstr ""
+msgstr "Prosím nahlašte tuto zprávu na %s"
 
 #: utility/shared.c:182
 #, c-format
@@ -1577,18 +1574,17 @@ msgstr ""
 #. TRANS: auth option originates from internal default
 #: server/auth.c:186
 msgid " (default)"
-msgstr ""
+msgstr "(výchozí)"
 
 #. TRANS: auth option originates from config file
 #: server/auth.c:191
 msgid " (config)"
-msgstr ""
+msgstr "(konfig)"
 
 #. TRANS: auth option has been set from prompt
 #: server/auth.c:195
-#, fuzzy
 msgid " (set)"
-msgstr " (veterán)"
+msgstr " (nastaveno)"
 
 #: server/auth.c:234
 #, c-format
@@ -4853,7 +4849,6 @@ msgstr ""
 "  8 = letectvo"
 
 #: server/settings.c:695
-#, fuzzy
 msgid "National borders"
 msgstr "Státní hranice"
 
@@ -5506,9 +5501,9 @@ msgid "This civserver program has player authentication support, but it's curren
 msgstr ""
 
 #: server/srv_main.c:1984
-#, fuzzy, c-format
+#, c-format
 msgid "Sending info to metaserver <%s>"
-msgstr "Posílám info metaserveru [%s]"
+msgstr "Posílá se info metaserveru <%s>"
 
 #: server/srv_main.c:1989
 msgid "Not starting without explicitly requested metaserver connection."
@@ -6585,13 +6580,13 @@ msgstr ""
 
 #. TRANS: <untranslated name> - translated short help
 #: server/stdinhand.c:4050
-#, fuzzy, c-format
+#, c-format
 msgid "Command: %s  -  %s"
 msgstr "Příkaz: %s  -  %s"
 
 #. TRANS: <untranslated name>
 #: server/stdinhand.c:4056
-#, fuzzy, c-format
+#, c-format
 msgid "Command: %s"
 msgstr "Příkaz: %s"
 
@@ -6754,9 +6749,9 @@ msgid "Learned %s.  Scientists choose to research %s."
 msgstr ""
 
 #: server/techtools.c:374
-#, fuzzy, c-format
+#, c-format
 msgid "Learned %s. "
-msgstr "poblíž %s"
+msgstr "Objeveno %s"
 
 #: server/techtools.c:377
 #, c-format
@@ -6774,9 +6769,9 @@ msgid "Great scientists from all the world join your civilization: you get an im
 msgstr "Velcí filozofové z celého světa se připojili k naší civilizaci: získali jsme novou technologii."
 
 #: server/techtools.c:568
-#, fuzzy, c-format
+#, c-format
 msgid "Technology goal is %s."
-msgstr "Ve městě %s nebyla nalezena žádná nová technologie."
+msgstr "Technologický cíl je %s."
 
 #: server/techtools.c:700
 #, fuzzy, c-format
@@ -6997,7 +6992,7 @@ msgid "Your %s from %s has arrived in %s, and revenues amount to %d in gold and 
 msgstr "Jednotka %s z města %s dorazila do města %s.  Výtěžek ve formě zlata a výzkumu je %d."
 
 #: server/unittools.c:258
-#, fuzzy, c-format
+#, c-format
 msgid "%s was upgraded for free to %s."
 msgstr "Jednotka %s vylepšena zdarma na %s."
 
@@ -7023,9 +7018,8 @@ msgstr "Jednotce %s došlo palivo."
 
 #. TRANS: And, <the unit> became ...
 #: server/unittools.c:634
-#, fuzzy
 msgid "And, became more experienced!"
-msgstr " a stala se více zkušenou!"
+msgstr "A stala se více zkušenou!"
 
 #. TRANS: Your <unit> became ...
 #: server/unittools.c:638
@@ -7070,14 +7064,14 @@ msgstr "Vůdce barbarů byl zajat a prodán za výkupné %d zlatých."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
 #: server/unittools.c:1661
-#, fuzzy, c-format
+#, c-format
 msgid "Your attacking %s succeeded against the %s %s!"
 msgstr "Vaše útočící %s byla uspěšná proti %s %s!"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
 #: server/unittools.c:1670
 #: server/unittools.c:1728
-#, fuzzy, c-format
+#, c-format
 msgid "%s lost to an attack by the %s %s."
 msgstr "%s ztracena při útoku %s %s."
 
@@ -7093,16 +7087,16 @@ msgstr[2] "Vaše útočící %s byla uspěšná proti %s %s!"
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #: server/unittools.c:1737
-#, fuzzy, c-format
+#, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
 msgstr "%s ztracena %s %s při útoku %s %s."
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
 #: server/unittools.c:1752
-#, fuzzy, c-format
+#, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
-msgstr "%s (%s) ztracena při útoku %s %s."
+msgstr "%s (a %s) ztraceny při útoku %s %s."
 
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
@@ -7137,7 +7131,7 @@ msgid "yourself"
 msgstr "Vy"
 
 #: server/unittools.c:2050
-#, fuzzy, c-format
+#, c-format
 msgid "The %s %s was nuked."
 msgstr "Na %s %s byl proveden jaderný útok."
 
@@ -7152,9 +7146,9 @@ msgid "You nuked %s."
 msgstr "Při atomovém útoku jste ozářil(a) město %s."
 
 #: server/unittools.c:2108
-#, fuzzy, c-format
+#, c-format
 msgid "The %s detonated a nuke!"
-msgstr "%s odpálili atomovou zbraň."
+msgstr "%s odpálili atomovou zbraň!"
 
 #: server/unittools.c:2132
 #, c-format
@@ -7212,7 +7206,6 @@ msgid "Your %s has been killed by barbarians!"
 msgstr "Jednotka %s byla zničena barbary!"
 
 #: server/unittools.c:2321
-#, fuzzy
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr "Přelet nad osadou vyděsil její obyvatele, kteří se v hrůze rozprchli."
 
@@ -7541,7 +7534,6 @@ msgid "Workers: Happy"
 msgstr "Pracovníci: Šťastní"
 
 #: client/cityrepdata.c:451
-#, fuzzy
 msgid "?Content workers:C"
 msgstr "?Content workers:S"
 
@@ -7558,7 +7550,6 @@ msgid "Workers: Unhappy"
 msgstr "Pracovníci: Nešťastní"
 
 #: client/cityrepdata.c:455
-#, fuzzy
 msgid "?Angry workers:A"
 msgstr "?Angry workers:R"
 
@@ -7629,7 +7620,6 @@ msgstr "Jednotky"
 
 #. TRANS: Header "Number of units inside city"
 #: client/cityrepdata.c:468
-#, fuzzy
 msgid "?Present (units):Here"
 msgstr "?Present (units):Přít"
 
@@ -7649,9 +7639,8 @@ msgstr "Počet poporovaných jednotek"
 
 #. TRANS: Header "It will take this many turns before city grows"
 #: client/cityrepdata.c:476
-#, fuzzy
 msgid "?food (population):Grow"
-msgstr "Růst"
+msgstr "?food (populace):Růst"
 
 #: client/cityrepdata.c:477
 #: client/cityrepdata.c:523
@@ -7812,9 +7801,8 @@ msgstr "?cma:Guvernér"
 #: client/gui-win32/citydlg.c:737
 #: data/Freeciv.in:1459
 #: data/helpdata.txt:823
-#, fuzzy
 msgid "Citizen Governor"
-msgstr "Guvernér"
+msgstr "Guvernér města"
 
 #: client/cityrepdata.c:518
 #, fuzzy
@@ -7925,9 +7913,9 @@ msgid "There was an error while auto connecting; aborting."
 msgstr "Při autoamtickém spojení nastala chyba; končím."
 
 #: client/climisc.c:164
-#, fuzzy, c-format
+#, c-format
 msgid "Changing production of every %s into %s."
-msgstr "Měním výrobu z %s na %s."
+msgstr "Měním výrobu každé %s na %s."
 
 #: client/climisc.c:198
 msgid "?embassy:Both"
@@ -8287,7 +8275,7 @@ msgstr ""
 
 #: client/editor.c:1724
 msgid "Buffer empty."
-msgstr ""
+msgstr "Buffer prázdný."
 
 #: client/editor.c:1764
 #, c-format
@@ -9442,14 +9430,12 @@ msgid "Start of turn %d"
 msgstr "Začátek kola %d"
 
 #: client/packhand.c:1830
-#, fuzzy
 msgid "AI mode is now ON."
-msgstr "AI Mód je nyní %s."
+msgstr "PO Mód je nyní ZAP."
 
 #: client/packhand.c:1832
-#, fuzzy
 msgid "AI mode is now OFF."
-msgstr "AI Mód je nyní %s."
+msgstr "PO Mód je nyní VYP."
 
 #. TRANS: Dead -- Rest In Peace -- Reqia In Pace
 #: client/plrdlg_common.c:201
@@ -9568,9 +9554,8 @@ msgid "No %s could be disbanded."
 msgstr "Žádný %s nebyl rozpuštěn."
 
 #: client/servers.c:347
-#, fuzzy
 msgid "Could not open temp file."
-msgstr "Nemohu otevřít \"%s\"."
+msgstr "Nelze otevřít dočasný soubor."
 
 #: client/servers.c:409
 msgid "Invalid $http_proxy or metaserver value, must start with 'http://'"
@@ -9680,9 +9665,9 @@ msgstr[2] "%s území (%d tahů příměří)"
 
 #. TRANS: "Polish territory (friendly)"
 #: client/text.c:140
-#, fuzzy, c-format
+#, c-format
 msgid "%s territory (%s)"
-msgstr "Území %s %s"
+msgstr "%s území (%s)"
 
 #: client/text.c:145
 msgid "Unclaimed territory"
@@ -9705,9 +9690,9 @@ msgstr[2] "Město: %s (%s, %d tahů příměří)"
 
 #. TRANS: "City: Warsaw (Polish,friendly)"
 #: client/text.c:175
-#, fuzzy, c-format
+#, c-format
 msgid "City: %s (%s, %s)"
-msgstr "Město: %s (%s,%s)"
+msgstr "Město: %s (%s, %s)"
 
 #. TRANS: previous lines gave other information about the city.
 #: client/text.c:190
@@ -9781,9 +9766,9 @@ msgstr "Šance na vítězství: Ú:%d%% O:%d%%"
 #. TRANS: A is attack power, D is defense power, FP is firepower,
 #. * HP is hitpoints (current and max).
 #: client/text.c:307
-#, fuzzy, c-format
+#, c-format
 msgid "A:%d D:%d FP:%d HP:%d/%d (%s)"
-msgstr "Ú:%d O:%d PS:%d HS:%d/%d%s"
+msgstr "Ú:%d O:%d PS:%d HS:%d/%d (%s)"
 
 #. TRANS: "5 more" units on this tile
 #: client/text.c:316
@@ -9820,25 +9805,24 @@ msgid "Progress: no research"
 msgstr "Průběh: bez výzkumu"
 
 #: client/text.c:490
-#, fuzzy
 msgid "Progress: no research target"
-msgstr "Průběh: bez výzkumu"
+msgstr "Průběh: bez cíle výzkumu"
 
 #: client/text.c:495
-#, fuzzy, c-format
+#, c-format
 msgid "Progress: %d turn/advance"
 msgid_plural "Progress: %d turns/advance"
-msgstr[0] "Průběh: %d tah/objev (%d bodů/tah)"
-msgstr[1] "Průběh: %d tahy/objev (%d bodů/tah)"
-msgstr[2] "Průběh: %d tahů/objev (%d bodů/tah)"
+msgstr[0] "Průběh: %d tah/objev"
+msgstr[1] "Průběh: %d tahy/objev"
+msgstr[2] "Průběh: %d tahů/objev"
 
 #: client/text.c:500
-#, fuzzy, c-format
+#, c-format
 msgid "%d bulb/turn"
 msgid_plural "%d bulbs/turn"
-msgstr[0] "%d tah"
-msgstr[1] "%d tahy"
-msgstr[2] "%d tahů"
+msgstr[0] "%d žárovka/tah"
+msgstr[1] "%d žárovky/tah"
+msgstr[2] "%d žárovek/tah"
 
 #: client/text.c:505
 #, c-format
@@ -9849,9 +9833,9 @@ msgstr[1] ""
 msgstr[2] ""
 
 #: client/text.c:532
-#, fuzzy, c-format
+#, c-format
 msgid "%d/- (never)"
-msgstr "(Nikdy)"
+msgstr "%d/- (nikdy)"
 
 #: client/text.c:544
 #, fuzzy, c-format
@@ -11514,7 +11498,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/editgui.c:563
 msgid "Show the property editor."
-msgstr ""
+msgstr "Zobrazit editor vlastností."
 
 #: client/gui-gtk-2.0/editgui.c:977
 #, fuzzy
@@ -11652,7 +11636,7 @@ msgstr "Prezident"
 #: client/gui-gtk-2.0/editprop.c:3623
 #: client/gui-gtk-2.0/editprop.c:3649
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. TRANS: As in "this invention is known".
 #: client/gui-gtk-2.0/editprop.c:3135
@@ -11675,7 +11659,7 @@ msgstr "Stráž"
 #: client/gui-gtk-2.0/editprop.c:3617
 #: client/gui-gtk-2.0/editprop.c:3643
 msgid "Image"
-msgstr ""
+msgstr "Obrázek"
 
 #: client/gui-gtk-2.0/editprop.c:3586
 msgid "Resource"
@@ -11700,13 +11684,13 @@ msgstr "Špatné koordináty mapy."
 #. * The freeciv coordinate system is described in doc/HACKING.
 #: client/gui-gtk-2.0/editprop.c:3596
 msgid "NAT X"
-msgstr ""
+msgstr "NAT X"
 
 #. TRANS: The coordinate Y in native coordinates.
 #. * The freeciv coordinate system is described in doc/HACKING.
 #: client/gui-gtk-2.0/editprop.c:3600
 msgid "NAT Y"
-msgstr ""
+msgstr "NAT Y"
 
 #: client/gui-gtk-2.0/editprop.c:3602
 #, fuzzy
@@ -13926,7 +13910,7 @@ msgstr "Pokračovat v pohybu"
 #: client/gui-sdl/repodlgs.c:3325
 #: client/gui-sdl/spaceshipdlg.c:162
 msgid "Close Dialog (Esc)"
-msgstr ""
+msgstr "Zavřít Dialog (Esc)"
 
 #: client/gui-sdl/chatline.c:768
 #, c-format
@@ -14354,7 +14338,7 @@ msgstr "Přehled města"
 
 #: client/gui-sdl/cityrep.c:204
 msgid "Close Dialog"
-msgstr ""
+msgstr "Zavřít Dialog"
 
 #: client/gui-sdl/cityrep.c:218
 #, fuzzy
@@ -14794,7 +14778,7 @@ msgstr ""
 
 #: client/gui-sdl/gui_main.c:155
 msgid "Screen width"
-msgstr ""
+msgstr "Šířka obrazovky"
 
 #: client/gui-sdl/gui_main.c:156
 msgid "This option saves the width of the selected screen resolution"
@@ -14851,7 +14835,7 @@ msgstr ""
 #. TRANS: Future Technology
 #: client/gui-sdl/gui_tilespec.c:506
 msgid "FT"
-msgstr ""
+msgstr "TB"
 
 #: client/gui-sdl/helpdlg.c:213
 #, fuzzy
@@ -15612,7 +15596,7 @@ msgstr "Celkem výdaje:"
 
 #: client/gui-sdl/repodlgs.c:1867
 msgid "Net Income: "
-msgstr ""
+msgstr "Čistý příjem:"
 
 #: client/gui-sdl/repodlgs.c:1891
 #, c-format
@@ -15737,6 +15721,8 @@ msgid ""
 "%s\n"
 "finished!"
 msgstr ""
+"%s\n"
+"hotovo!"
 
 #: client/gui-sdl/wldlg.c:951
 #: client/gui-sdl/wldlg.c:1057
@@ -23626,7 +23612,7 @@ msgstr ""
 #: data/nation/iranian.ruleset:46
 #: data/nation/persian.ruleset:22
 msgid "Ayatollah"
-msgstr ""
+msgstr "Ajatoláh"
 
 #: data/nation/iraqi.ruleset:3
 #, fuzzy
