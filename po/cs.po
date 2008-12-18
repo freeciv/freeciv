@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.0.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-12-17 10:53+0100\n"
-"PO-Revision-Date: 2008-12-18 12:54+0100\n"
+"PO-Revision-Date: 2008-12-18 14:52+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -858,7 +858,7 @@ msgstr "Důl"
 
 #: common/terrain.c:542
 msgid "Hut"
-msgstr "Chatrč"
+msgstr "Chýše"
 
 #: common/terrain.c:543
 #: common/unit.c:533
@@ -2079,7 +2079,7 @@ msgstr "%s získali %s od %s."
 #: server/cityturn.c:1424
 #, c-format
 msgid "The %s have started building a spaceship!"
-msgstr "%s začali se stavbou vesmírn lodi!"
+msgstr "%s začali se stavbou vesmírné lodi!"
 
 #: server/cityturn.c:1486
 #, c-format
@@ -5278,7 +5278,7 @@ msgstr "Čekání"
 
 #: server/spacerace.c:165
 msgid "You need to have a capital in order to launch your spaceship."
-msgstr "Abyste mol(a) vypustit vesmírnou loď musíte mít hlavní město."
+msgstr "Abyste mohli vypustit vesmírnou loď musíte mít hlavní město."
 
 #: server/spacerace.c:171
 msgid "Your spaceship is already launched!"
@@ -9696,9 +9696,9 @@ msgstr "Město: %s (%s, %s)"
 
 #. TRANS: previous lines gave other information about the city.
 #: client/text.c:190
-#, fuzzy, c-format
+#, c-format
 msgid "?clistbegin: with %s"
-msgstr " s %s"
+msgstr "?clistbegin: s %s"
 
 #. TRANS: This appears with two or more previous entries in the list
 #: client/text.c:200
@@ -9750,7 +9750,7 @@ msgstr "Jednotka: %s (%s)"
 
 #. TRANS:  "Unit: Musketeers (Polish, 5 turn cease-fire)"
 #: client/text.c:266
-#, fuzzy, c-format
+#, c-format
 msgid "Unit: %s (%s, %d turn cease-fire)"
 msgid_plural "Unit: %s (%s, %d turn cease-fire)"
 msgstr[0] "Jednotka: %s (%s, %d tah příměří)"
@@ -9846,9 +9846,9 @@ msgstr[1] "%d/%d %d tahů"
 msgstr[2] "%d/%d %d tahů"
 
 #: client/text.c:547
-#, fuzzy, c-format
+#, c-format
 msgid "%d/%d (never)"
-msgstr "(Nikdy)"
+msgstr "%d%d (nikdy)"
 
 #: client/text.c:584
 #, c-format
@@ -9926,14 +9926,14 @@ msgstr ""
 
 #. TRANS: Gold, luxury, and science rates are in percentage values.
 #: client/text.c:670
-#, fuzzy, c-format
+#, c-format
 msgid "Tax rates: Gold:%d%% Luxury:%d%% Science:%d%%"
-msgstr "Daně:%d Luxus:%d Věda:%d"
+msgstr "Daně: Zlato:%d%% Luxus:%d%% Věda:%d%%"
 
 #: client/text.c:674
-#, fuzzy, c-format
+#, c-format
 msgid "Researching %s: %s"
-msgstr "Zkoumá se %s: %d/%d"
+msgstr "Zkoumá se %s: %s"
 
 #: client/text.c:681
 #, c-format
@@ -9953,12 +9953,12 @@ msgid "Government: %s"
 msgstr "Zřízení: %s"
 
 #: client/text.c:713
-#, fuzzy, c-format
+#, c-format
 msgid "%d unit"
 msgid_plural "%d units"
-msgstr[0] " jednotka"
-msgstr[1] " jednotky"
-msgstr[2] " jednotek"
+msgstr[0] "%d jednotka"
+msgstr[1] "%d jednotky"
+msgstr[2] "%d jednotek"
 
 #. TRANS: Impossible to reach goto target tile
 #: client/text.c:749
@@ -9971,17 +9971,17 @@ msgid "Turns to target: %d"
 msgstr "Tahů k cíli: %d"
 
 #: client/text.c:753
-#, fuzzy, c-format
+#, c-format
 msgid "Turns to target: %d to %d"
-msgstr "Tahů k cíli: %d"
+msgstr "Tahů k cíli: %d do %d"
 
 #: client/text.c:759
-#, fuzzy, c-format
+#, c-format
 msgid "%d unit selected"
 msgid_plural "%d units selected"
-msgstr[0] " jednotka vybrána"
-msgstr[1] "jednotky vybrány"
-msgstr[2] "jednotek vybráno"
+msgstr[0] "%d jednotka vybrána"
+msgstr[1] "%d jednotky vybrány"
+msgstr[2] "%d jednotek vybráno"
 
 #: client/text.c:764
 #, fuzzy
@@ -10039,11 +10039,8 @@ msgstr ""
 "%s: %d/%d."
 
 #: client/text.c:940
-#, fuzzy
 msgid "no research target."
-msgstr ""
-"%s\n"
-"(žádný výzkum)"
+msgstr "žádný cíl výzkumu."
 
 #. TRANS: <tech>: <amount>/<total bulbs>
 #: client/text.c:943
@@ -13938,9 +13935,8 @@ msgid "Server Settings"
 msgstr "Nastavení serveru"
 
 #: client/gui-sdl/citydlg.c:424
-#, fuzzy
 msgid "Unit commands"
-msgstr "Příkazy"
+msgstr "Příkazy jednotce"
 
 #: client/gui-sdl/citydlg.c:448
 #: data/Freeciv.in:1162
@@ -14124,14 +14120,14 @@ msgid "City options"
 msgstr "Možnosti města"
 
 #: client/gui-sdl/citydlg.c:1787
-#, fuzzy, c-format
+#, c-format
 msgid "Supported units: %d"
-msgstr "Podporovaných jednotek %d"
+msgstr "Podporované jednotky: %d"
 
 #: client/gui-sdl/citydlg.c:1845
-#, fuzzy, c-format
+#, c-format
 msgid "Present units: %d"
-msgstr "Přítomných jednotek %d"
+msgstr "Přítomné jednotky: %d"
 
 #: client/gui-sdl/citydlg.c:1894
 #: client/gui-sdl/citydlg.c:3738
@@ -14153,9 +14149,9 @@ msgid "Trade routes: "
 msgstr "Obchodní cesty:"
 
 #: client/gui-sdl/citydlg.c:2005
-#, fuzzy, c-format
+#, c-format
 msgid "Trade: +%d"
-msgstr "+%d obchod / %d"
+msgstr "Obchod: +%d"
 
 #: client/gui-sdl/citydlg.c:2545
 msgid "Citizens"
@@ -14166,9 +14162,9 @@ msgid "City improvements"
 msgstr "Vylepšení města"
 
 #: client/gui-sdl/citydlg.c:2574
-#, fuzzy, c-format
+#, c-format
 msgid "Food: %d per turn"
-msgstr "%3d zlata na kolo"
+msgstr "Jídlo: %d na tah"
 
 #: client/gui-sdl/citydlg.c:2611
 #, c-format
@@ -14176,19 +14172,19 @@ msgid "?food:Surplus: %d"
 msgstr "?food:Přebytek: %d"
 
 #: client/gui-sdl/citydlg.c:2659
-#, fuzzy, c-format
+#, c-format
 msgid "Production: %d (%d) per turn"
-msgstr "Zlato: %d (%+d)"
+msgstr "Produkce: %d (%d) na tah"
 
 #: client/gui-sdl/citydlg.c:2705
 #, c-format
 msgid "?production:Support: %d"
-msgstr ""
+msgstr "?production:Podpora: %d"
 
 #: client/gui-sdl/citydlg.c:2743
-#, fuzzy, c-format
+#, c-format
 msgid "Trade: %d per turn"
-msgstr "%3d zlata na kolo"
+msgstr "Obchod: %d na tah"
 
 #: client/gui-sdl/citydlg.c:2777
 #, c-format
@@ -14196,9 +14192,9 @@ msgid "Corruption: %d"
 msgstr "Korupce: %d"
 
 #: client/gui-sdl/citydlg.c:2814
-#, fuzzy, c-format
+#, c-format
 msgid "Gold: %d (%d) per turn"
-msgstr "Zlato: %d (%+d)"
+msgstr "Zlato: %d (%d) na tah"
 
 #: client/gui-sdl/citydlg.c:2861
 #, c-format
@@ -14206,29 +14202,27 @@ msgid "Upkeep: %d"
 msgstr "Údržba: %d"
 
 #: client/gui-sdl/citydlg.c:2900
-#, fuzzy, c-format
+#, c-format
 msgid "Science: %d per turn"
-msgstr "Výzkum: %d%%"
+msgstr "Věda: %d na tah"
 
 #: client/gui-sdl/citydlg.c:2940
-#, fuzzy, c-format
+#, c-format
 msgid "Luxury: %d per turn"
-msgstr "Luxus: %d celkem."
+msgstr "Luxus: %d na tah"
 
 #: client/gui-sdl/citydlg.c:2978
-#, fuzzy
 msgid "City growth: blocked"
-msgstr "Růst města"
+msgstr "Růst města: blokován"
 
 #: client/gui-sdl/citydlg.c:2980
-#, fuzzy
 msgid "City growth: never"
-msgstr "Růst města"
+msgstr "Růst města: nikdy"
 
 #: client/gui-sdl/citydlg.c:2984
-#, fuzzy, c-format
+#, c-format
 msgid "City shrinks: %d %s"
-msgstr "Město: %s (%s)"
+msgstr "Úpadek města: %d %s"
 
 #: client/gui-sdl/citydlg.c:2985
 #: client/gui-sdl/citydlg.c:2989
@@ -14261,9 +14255,9 @@ msgstr[1] "tahy"
 msgstr[2] "tahů"
 
 #: client/gui-sdl/citydlg.c:2988
-#, fuzzy, c-format
+#, c-format
 msgid "City growth: %d %s"
-msgstr "Růst města"
+msgstr "Růst města: %d %s"
 
 #: client/gui-sdl/citydlg.c:3027
 #: client/gui-sdl/citydlg.c:3139
@@ -14284,17 +14278,15 @@ msgstr "ukončeno"
 #: client/gui-sdl/citydlg.c:3606
 #, c-format
 msgid "City of %s (Population %s citizens)"
-msgstr ""
+msgstr "Město %s (Populace %s obyvatel)"
 
 #: client/gui-sdl/citydlg.c:3623
-#, fuzzy
 msgid " - under Citizen Governor control."
-msgstr "%s nyní ovládá počítač."
+msgstr " - pod kontrolou Guvernéra."
 
 #: client/gui-sdl/citydlg.c:3702
-#, fuzzy
 msgid "Present units"
-msgstr "Přítomných jednotek %d"
+msgstr "Přítomné jednotky"
 
 #: client/gui-sdl/citydlg.c:3713
 #: client/gui-win32/citydlg.c:818
@@ -14307,9 +14299,8 @@ msgstr "Změnit produkci"
 
 #: client/gui-sdl/citydlg.c:3799
 #: client/gui-sdl/dialogs.c:1272
-#, fuzzy
 msgid "Hurry production"
-msgstr "Produkce města"
+msgstr "Urychlit produkci"
 
 #: client/gui-sdl/citydlg.c:3830
 msgid "Previous city"
@@ -14324,17 +14315,17 @@ msgid "size"
 msgstr "velikost"
 
 #: client/gui-sdl/cityrep.c:168
-#, fuzzy
 msgid ""
 "time\n"
 "to grow"
-msgstr "Růst města"
+msgstr ""
+"doba\n"
+"do růstu"
 
 #: client/gui-sdl/cityrep.c:188
 #: client/gui-sdl/mapctrl.c:1589
-#, fuzzy
 msgid "Cities Report"
-msgstr "Přehled města"
+msgstr "Přehled měst"
 
 #: client/gui-sdl/cityrep.c:204
 msgid "Close Dialog"
@@ -14381,7 +14372,7 @@ msgstr "Předvolby"
 #: client/gui-sdl/cma_fe.c:858
 #, c-format
 msgid "City of %s (Population %s citizens) : %s"
-msgstr ""
+msgstr "Město %s (Populace %s obyvatel) : %s"
 
 #: client/gui-sdl/cma_fe.c:975
 msgid "Save settings as..."
@@ -14496,9 +14487,8 @@ msgid "Change Production"
 msgstr "Změnit produkci"
 
 #: client/gui-sdl/dialogs.c:1284
-#, fuzzy
 msgid "Change City Governor settings"
-msgstr "Nastavení hry"
+msgstr "Změnit nastavení Guvernéra"
 
 #: client/gui-sdl/dialogs.c:1305
 msgid "Goto here"
@@ -14798,7 +14788,6 @@ msgid "By changing this option you change the active theme. This is the same as 
 msgstr ""
 
 #: client/gui-sdl/gui_main.c:205
-#, fuzzy
 msgid "  -f,  --fullscreen\tStart Client in Fullscreen mode\n"
 msgstr "  -f,  --fullscreen\tStart klienta v módu přes celou obrazovku\n"
 
@@ -14891,9 +14880,8 @@ msgstr[1] "zlata"
 msgstr[2] "zlata"
 
 #: client/gui-sdl/helpdlg.c:1002
-#, fuzzy
 msgid "( with "
-msgstr " (s "
+msgstr "( s "
 
 #: client/gui-sdl/helpdlg.c:1005
 msgid " )"
@@ -14963,14 +14951,12 @@ msgid "Hide MiniMap"
 msgstr "Schovat minimapu"
 
 #: client/gui-sdl/mapctrl.c:513
-#, fuzzy
 msgid "Show Messages (F10)"
-msgstr "Zobrazit Log (F10)"
+msgstr "Zobrazit Zprávy (F10)"
 
 #: client/gui-sdl/mapctrl.c:516
-#, fuzzy
 msgid "Hide Messages (F10)"
-msgstr "Schovat Log (F10)"
+msgstr "Schovat Zprávy (F10)"
 
 #: client/gui-sdl/mapctrl.c:672
 msgid "Scale Minimap"
@@ -15034,22 +15020,14 @@ msgid "The SDL event buffer is full; you may see drawing errors as a result."
 msgstr ""
 
 #: client/gui-sdl/mapview.c:414
-#, fuzzy, c-format
+#, c-format
 msgid "%s Population: %s  Year: %s  Gold %d "
-msgstr ""
-"Populace: %s\n"
-"Rok: %s\n"
-"Zlato: %d\n"
-"Daně: %d Lux: %d Věda: %d"
+msgstr "%s Populace: %s  Rok: %s  Zlato %d "
 
 #: client/gui-sdl/mapview.c:422
-#, fuzzy, c-format
+#, c-format
 msgid "%s Population: %s  Year: %s  Gold %d Tax: %d Lux: %d Sci: %d "
-msgstr ""
-"Populace: %s\n"
-"Rok: %s\n"
-"Zlato: %d\n"
-"Daně: %d Lux: %d Věda: %d"
+msgstr "%s Populace: %s  Rok: %s  Zlato: %d Daně: %d Lux: %d Věda: %d"
 
 #: client/gui-sdl/mapview.c:533
 #: data/default/units.ruleset:24
@@ -15067,42 +15045,52 @@ msgstr ""
 "Naše území"
 
 #: client/gui-sdl/mapview.c:573
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "%s territory (%d turn ceasefire)"
 msgid_plural ""
 "\n"
 "%s territory (%d turn ceasefire)"
-msgstr[0] "%s území (%d tah příměří)"
-msgstr[1] "%s území (%d tahy příměří)"
-msgstr[2] "%s území (%d tahů příměří)"
+msgstr[0] ""
+"\n"
+"%s území (%d tah příměří)"
+msgstr[1] ""
+"\n"
+"%s území (%d tahy příměří)"
+msgstr[2] ""
+"\n"
+"%s území (%d tahů příměří)"
 
 #: client/gui-sdl/mapview.c:577
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Territory of the %s %s"
-msgstr "Území %s %s"
+msgstr ""
+"\n"
+"Území %s %s"
 
 #: client/gui-sdl/mapview.c:583
-#, fuzzy
 msgid ""
 "\n"
 "Unclaimed territory"
-msgstr "Nepřivlastněné území"
+msgstr ""
+"\n"
+"Nepřivlastněné území"
 
 #: client/gui-sdl/mapview.c:600
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "City of %s"
-msgstr "Město %s"
+msgstr ""
+"\n"
+"Město %s"
 
 #: client/gui-sdl/mapview.c:616
-#, fuzzy
 msgid "?blistbegin: with "
-msgstr " s "
+msgstr "?blistbegin: s "
 
 #: client/gui-sdl/mapview.c:618
 #: data/default/buildings.ruleset:113
@@ -15139,30 +15127,30 @@ msgstr ""
 "(%s,%s)"
 
 #: client/gui-sdl/mapview.c:656
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Food/Prod/Trade: %s"
-msgstr "Jídlo/Prod/Obch: %s"
+msgstr ""
+"\n"
+"Jídlo/Prod/Obch: %s"
 
 #: client/gui-sdl/mapview.c:892
 msgid "End of Turn"
 msgstr "Konec tahu"
 
 #: client/gui-sdl/mapview.c:892
-#, fuzzy
 msgid "Press"
-msgstr "Předvolby"
+msgstr "Stiskněte"
 
 #. TRANS: keyboard
 #: client/gui-sdl/menu.c:374
-#, fuzzy
 msgid "No orders"
-msgstr "Státní hranice"
+msgstr "Žádné rozkazy"
 
 #: client/gui-sdl/menu.c:374
 msgid "Space"
-msgstr "Vesmír"
+msgstr "Místo"
 
 #: client/gui-sdl/menu.c:388
 #: client/gui-xaw/menu.c:217
@@ -15170,9 +15158,8 @@ msgid "Wait"
 msgstr "Čekat"
 
 #: client/gui-sdl/menu.c:413
-#, fuzzy
 msgid "Diplomat|Spy Actions"
-msgstr "Diplomatické/Špionážní akce"
+msgstr "Diplomatické|Špionážní akce"
 
 #: client/gui-sdl/menu.c:425
 msgid "Disband"
