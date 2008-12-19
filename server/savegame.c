@@ -2060,23 +2060,22 @@ static void player_load_main(struct player *plr, int plrno,
 
   BV_CLR_ALL(plr->embassy);
   if (has_capability("embassies", savefile_options)) {
-    players_iterate(pother) {
-      if (secfile_lookup_bool(file, "player%d.embassy%d",
-			      plrno, player_number(pother))) {
+    player_slots_iterate(pother) {
+      if (secfile_lookup_bool_default(file, FALSE, "player%d.embassy%d",
+                                      plrno, player_index(pother))) {
 	BV_SET(plr->embassy, player_index(pother));
       }
-    } players_iterate_end;
+    } player_slots_iterate_end;
   } else {
     /* Required for 2.0 and earlier savegames.  Remove eventually and make
      * the cap check mandatory. */
     int embassy = secfile_lookup_int(file, "player%d.embassy", plrno);
 
-    players_iterate(pother) {
+    player_slots_iterate(pother) {
       if (embassy & (1 << player_index(pother))) {
 	BV_SET(plr->embassy, player_index(pother));
       }
-    } players_iterate_end;
-
+    } player_slots_iterate_end;
   }
 
   p = secfile_lookup_str_default(file, NULL, "player%d.city_style_by_name",
