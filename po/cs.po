@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.0.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-12-17 10:53+0100\n"
-"PO-Revision-Date: 2008-12-18 14:52+0100\n"
+"PO-Revision-Date: 2008-12-21 22:17+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -225,9 +225,8 @@ msgid "Growth"
 msgstr "Růst"
 
 #: common/events.c:92
-#, fuzzy
 msgid "May Soon Grow"
-msgstr "Růst města"
+msgstr "Může se brzy rozrůst"
 
 #: common/events.c:93
 msgid "Needs Aqueduct"
@@ -262,9 +261,8 @@ msgid "Transfer"
 msgstr "Transformovat"
 
 #: common/events.c:100
-#, fuzzy
 msgid "Was Built"
-msgstr "Hradby"
+msgstr "Bylo postaveno"
 
 #: common/events.c:101
 #, fuzzy
@@ -272,9 +270,8 @@ msgid "Worklist Events"
 msgstr "Upravit seznam prací"
 
 #: common/events.c:102
-#, fuzzy
 msgid "Production changed"
-msgstr "Produkce města"
+msgstr "Produkce změněna"
 
 #: common/events.c:103
 #: common/events.c:112
@@ -282,9 +279,8 @@ msgid "Bribe"
 msgstr ""
 
 #: common/events.c:104
-#, fuzzy
 msgid "Caused Incident"
-msgstr "%s incident !"
+msgstr "Způsoben incident"
 
 #: common/events.c:105
 msgid "Escape"
@@ -386,14 +382,12 @@ msgid "First Contact"
 msgstr "První kontakt"
 
 #: common/events.c:133
-#, fuzzy
 msgid "Learned New Government"
-msgstr "Vaše nové státní zřízení"
+msgstr "Objeveno nové státní zřízení"
 
 #: common/events.c:134
-#, fuzzy
 msgid "Low Funds"
-msgstr "Tahů"
+msgstr "Málo peněz"
 
 #: common/events.c:135
 #: common/terrain.c:541
@@ -437,7 +431,6 @@ msgid "Peace"
 msgstr "Mír"
 
 #: common/events.c:144
-#, fuzzy
 msgid "Shared Vision"
 msgstr "Sdílené nahlížení"
 
@@ -502,7 +495,7 @@ msgstr "Bude dokončeno v příštím kole"
 
 #: common/events.c:161
 msgid "AI Debug messages"
-msgstr ""
+msgstr "PO Ladící zprávy"
 
 #: common/events.c:162
 #, fuzzy
@@ -529,9 +522,8 @@ msgid "Connect/disconnect messages"
 msgstr "Probíhá připojování."
 
 #: common/events.c:167
-#, fuzzy
 msgid "Diplomatic Message"
-msgstr "Diplomacie: %s"
+msgstr "Diplomatická zpráva"
 
 #: common/events.c:168
 msgid "Error message from bad command"
@@ -563,9 +555,8 @@ msgid "Server Aborting"
 msgstr "Port serveru"
 
 #: common/events.c:175
-#, fuzzy
 msgid "Server Problems"
-msgstr "Možnosti serveru"
+msgstr "Problémy serveru"
 
 #: common/events.c:176
 #, fuzzy
@@ -578,7 +569,6 @@ msgid "Server settings changed"
 msgstr "Uložit nastavení"
 
 #: common/events.c:178
-#, fuzzy
 msgid "Turn Bell"
 msgstr "Konec tahu"
 
@@ -1686,9 +1676,9 @@ msgid "The password must have at least %d capital letters, %d numbers, and be at
 msgstr "Heslo musí mít nejméně %d velkých písmen, %d číslic a být minimálně %d [tisknutelných] znaků dlouhé. Zkuste to znovu."
 
 #: server/barbarian.c:150
-#, fuzzy, c-format
+#, c-format
 msgid "%s gain a leader by the name %s. Dangerous times may lie ahead."
-msgstr "Barbaři mají nového vůdce jménem %s.  Mohou nastat těžkosti."
+msgstr "%s mají nového vůdce jménem %s.  Mohou nastat těžké časy."
 
 #: server/barbarian.c:604
 #, c-format
@@ -2032,7 +2022,7 @@ msgstr "%s nemůže stavět %s ze seznamu prací; Neznámý důvod!  Odkládá s
 
 #. TRANS: The <city> worklist ....
 #: server/cityturn.c:1122
-#, fuzzy, c-format
+#, c-format
 msgid "The %s worklist is now empty."
 msgstr "Město %s má nyní prázdný seznam prací."
 
@@ -2108,9 +2098,9 @@ msgid "Celebrations in your honour in %s."
 msgstr "%s už nadále není oslavován ve městě %s."
 
 #: server/cityturn.c:1756
-#, fuzzy, c-format
+#, c-format
 msgid "Celebrations canceled in %s."
-msgstr "%s už nadále není oslavován ve městě %s."
+msgstr "Oslavy zrušeny v %s."
 
 #: server/cityturn.c:1786
 #, c-format
@@ -2400,9 +2390,8 @@ msgstr "Na všech připojených klientech zobrazí okno zobrazující uvedenou z
 
 #. TRANS: translate text between [] only
 #: server/commands.c:121
-#, fuzzy
 msgid "vote yes|no|abstain [vote number]"
-msgstr "vote yes|no [vote číslo]"
+msgstr "vote yes|no|abstain [vote číslo]"
 
 #: server/commands.c:122
 msgid "Cast a vote."
@@ -2647,11 +2636,12 @@ msgstr "Při volání bez argumentu nastaví úroveň všech počítačových hr
 
 #. TRANS: translate text between <> only
 #: server/commands.c:277
-#, fuzzy
 msgid ""
 "cheating\n"
 "cheating <player-name>"
-msgstr "create <jméno-hráče>"
+msgstr ""
+"cheating\n"
+"cheating <jméno-hráče>"
 
 #: server/commands.c:279
 #, fuzzy
@@ -3550,9 +3540,8 @@ msgid "Player cannot be created because random nation selection failed."
 msgstr "Po začátku hry již nelze odstraňovat hráče."
 
 #: server/edithand.c:928
-#, fuzzy
 msgid "Player creation failed."
-msgstr "Hráč %d"
+msgstr "Vytvoření hráče selhalo."
 
 #: server/edithand.c:970
 #, fuzzy, c-format
@@ -3789,7 +3778,7 @@ msgstr[2] ""
 
 #: server/plrhand.c:349
 msgid "Revolution: returning to anarchy."
-msgstr ""
+msgstr "Revoluce: návrat do anarchie."
 
 #: server/plrhand.c:410
 msgid "You should choose a new government from the government menu."
@@ -3881,9 +3870,9 @@ msgid "Could not throw %s into civil war - too many players"
 msgstr "Nelze uvrhnout %s do občanské války - příliš mnoho hráčů"
 
 #: server/plrhand.c:1735
-#, fuzzy, c-format
+#, c-format
 msgid "Could not throw %s into civil war - no available nations"
-msgstr "Nelze uvrhnout %s do občanské války - příliš mnoho hráčů"
+msgstr "Nelze uvrhnout %s do občanské války - nejsou dostupné národy"
 
 #: server/plrhand.c:1755
 msgid "Your nation is thrust into civil war."
@@ -3891,13 +3880,13 @@ msgstr "Váš národ byl uvržen do občanské války."
 
 #. TRANS: <leader> ... the Poles.
 #: server/plrhand.c:1759
-#, fuzzy, c-format
+#, c-format
 msgid "%s is the rebellious leader of the %s."
 msgstr "%s je nyní vůdce rebelů %s."
 
 #. TRANS: <city> ... the Poles.
 #: server/plrhand.c:1781
-#, fuzzy, c-format
+#, c-format
 msgid "%s declares allegiance to the %s."
 msgstr "Město %s vyhlásilo věrnost %s."
 
@@ -3921,79 +3910,71 @@ msgstr[2] ""
 
 #. TRANS: year <name> reports ...
 #: server/report.c:58
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s reports on the RICHEST Civilizations in the World."
-msgstr "%s přehled NEJBOHATŠÍCH civilizací světa."
+msgstr "%s %s přehled NEJBOHATŠÍCH civilizací světa."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:60
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s reports on the most ADVANCED Civilizations in the World."
-msgstr "%s přehled NEJVYSPĚLEJŠÍCH civilizací světa."
+msgstr "%s %s přehled NEJVYSPĚLEJŠÍCH civilizací světa."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:62
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s reports on the most MILITARIZED Civilizations in the World."
-msgstr "%s přehled NEJVYZBROJENĚJŠÍCH civilizací světa."
+msgstr "%s %s přehled NEJVYZBROJENĚJŠÍCH civilizací světa."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:64
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s reports on the HAPPIEST Civilizations in the World."
-msgstr "%s přehled NEJŠŤASTNĚJŠÍCH civilizac světa."
+msgstr "%s %s přehled NEJŠŤASTNĚJŠÍCH civilizací světa."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:66
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s reports on the LARGEST Civilizations in the World."
-msgstr "%s přehled NEJVĚTŠÍCH civilizací světa."
+msgstr "%s %s přehled NEJVĚTŠÍCH civilizací světa."
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:71
-#, fuzzy
 msgid "Herodotus"
 msgstr "Herodotův"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:73
-#, fuzzy
 msgid "Thucydides"
 msgstr "Thukydidův"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:75
-#, fuzzy
 msgid "Pliny the Elder"
 msgstr "Pliniův"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:77
-#, fuzzy
 msgid "Livy"
 msgstr "Liviův"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:79
-#, fuzzy
 msgid "Toynbee"
 msgstr "Toynbeeův"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:81
-#, fuzzy
 msgid "Gibbon"
 msgstr "Gibonnův"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:83
-#, fuzzy
 msgid "Ssu-ma Ch'ien"
 msgstr "Ssu-ma Čchienův"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:85
-#, fuzzy
 msgid "Pan Ku"
 msgstr "Pa Kunův"
 
@@ -4081,9 +4062,9 @@ msgstr "%2d: %s %s\n"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:170
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Average %s"
-msgstr "%2d: %s %s\n"
+msgstr "%2d: Průměrní %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:172
@@ -4258,15 +4239,13 @@ msgstr ""
 
 #. TRANS: Minor error message.
 #: server/savegame.c:183
-#, fuzzy
 msgid "Saved game contains incomplete map data.  This can happen with old saved games, or it may indicate an invalid saved game file.  Proceed at your own risk."
 msgstr "Uložená hra obsahuje neúplná data mapy. Může se jednat o starší verzi souboru nebo o neplatný soubor. Pokračujte na vlastní nebezpečí."
 
 #. TRANS: Fatal error message.
 #: server/savegame.c:4051
-#, fuzzy
 msgid "Saved game is too old, at least version 1.9.0 required."
-msgstr "Uložená hra je příliš stará. Nutná je alespoň verze 1.9.0."
+msgstr "Uložená hra je příliš stará, nutná je alespoň verze 1.9.0."
 
 #. TRANS: Fatal error message.
 #: server/savegame.c:4310
@@ -5249,9 +5228,9 @@ msgid "restarting soon for lack of players"
 msgstr "Zlato na začátku hry"
 
 #: server/sernet.c:942
-#, fuzzy, c-format
+#, c-format
 msgid "Server: bad address: <%s:%d>."
-msgstr "Server: špatná adresa: [%s:%d]."
+msgstr "Server: špatná adresa: <%s:%d>."
 
 #. TRANS: Game state for local server
 #: server/sernet.c:1278
@@ -5433,9 +5412,8 @@ msgid "Warning: rejecting old client %s"
 msgstr "Upozornění: odmítnut starý klient %s"
 
 #: server/srv_main.c:1174
-#, fuzzy
 msgid "Your client is too old. To use this server, please upgrade your client to a Freeciv 2.2 or later."
-msgstr "Váš klient je příliš starý. Pro použití tohoto serveru, prosím aktualizujte klienta na CVS verzi novější než 2003-11-28 nebo Freeciv 2.2 nebo novější."
+msgstr "Váš klient je příliš starý. Pro použití tohoto serveru, prosím aktualizujte klienta na Freeciv 2.2 nebo novější."
 
 #: server/srv_main.c:1261
 #, c-format
@@ -5690,9 +5668,9 @@ msgid "A user already exists by that name."
 msgstr "Hráč s tímto jménem již existuje."
 
 #: server/stdinhand.c:850
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create new player %s."
-msgstr "Chyba vytvoření nového počítačem ovládaného hráče: %s."
+msgstr "Selhalo vytvoření nového hráče %s."
 
 #: server/stdinhand.c:855
 #, c-format
@@ -5841,11 +5819,13 @@ msgstr "Neplatný argument %d."
 #: server/stdinhand.c:2971
 #: server/stdinhand.c:3182
 #: server/stdinhand.c:3373
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage:\n"
 "%s"
-msgstr "Použití: away"
+msgstr ""
+"Použití:\n"
+"%s"
 
 #: server/stdinhand.c:1412
 #, c-format
@@ -6322,9 +6302,9 @@ msgid "%s now observes"
 msgstr "%s nyní pozoruje"
 
 #: server/stdinhand.c:3006
-#, fuzzy, c-format
+#, c-format
 msgid "%s already controls %s."
-msgstr "%s již ovládá %s"
+msgstr "%s již ovládá %s."
 
 #: server/stdinhand.c:3020
 #, fuzzy, c-format
@@ -6342,9 +6322,9 @@ msgid "Reassigned nation to %s by %s."
 msgstr ""
 
 #: server/stdinhand.c:3111
-#, fuzzy, c-format
+#, c-format
 msgid "%s now controls %s (%s, %s)."
-msgstr "%s nyní ovládá %s (%s, %s)"
+msgstr "%s nyní ovládá %s (%s, %s)."
 
 #: server/stdinhand.c:3115
 #: server/stdinhand.c:4303
@@ -6709,9 +6689,8 @@ msgid "<no connections>"
 msgstr "<žádná spojení>"
 
 #: server/stdinhand.c:4442
-#, fuzzy
 msgid "List of scenarios available:"
-msgstr "Žádné dostupné jednotky"
+msgstr "Seznam dostupných scénářů:"
 
 #: server/techtools.c:106
 #, fuzzy, c-format
@@ -6724,9 +6703,9 @@ msgid "The %s have researched Future Tech. %d."
 msgstr "%s zahájili stavbu %s ve městě %s."
 
 #: server/techtools.c:166
-#, fuzzy, c-format
+#, c-format
 msgid "%s acquired from %s!"
-msgstr "%s získali %s od %s."
+msgstr "%s získáno od %s!"
 
 #: server/techtools.c:219
 #, c-format
@@ -6781,7 +6760,7 @@ msgstr "%s získali %s od %s."
 #: server/techtools.c:705
 #, c-format
 msgid "The %s stole %s from you!"
-msgstr ""
+msgstr "%s nám ukradli %s!"
 
 #: server/techtools.c:710
 #, fuzzy, c-format
@@ -6875,15 +6854,15 @@ msgstr "Vaše SDI obrana zabránila atomovému útoku na město %s."
 
 #. TRANS: "Your Cannon ... the Polish Destroyer."
 #: server/unithand.c:1019
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s survived the pathetic attack from the %s %s."
-msgstr "Vaše %s přežila patetický útok %s %s."
+msgstr "Vaše jednotka %s přežila patetický útok %s %s."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
 #: server/unithand.c:1028
-#, fuzzy, c-format
+#, c-format
 msgid "Your attacking %s failed against the %s %s!"
-msgstr "Vaše útočící %s selhala proti %s %s!"
+msgstr "Vaše útočící jednotka %s selhala proti %s %s!"
 
 #: server/unithand.c:1108
 #, c-format
@@ -7077,12 +7056,12 @@ msgstr "%s ztracena při útoku %s %s."
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
 #: server/unittools.c:1704
-#, fuzzy, c-format
+#, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural "Your attacking %s succeeded against the %s %s (and %d other units)!"
-msgstr[0] "Vaše útočící %s byla uspěšná proti %s %s!"
-msgstr[1] "Vaše útočící %s byla uspěšná proti %s %s!"
-msgstr[2] "Vaše útočící %s byla uspěšná proti %s %s!"
+msgstr[0] "Vaše útočící jednotka %s byla úspěšná proti %s %s (a %d další jednotce)!"
+msgstr[1] "Vaše útočící jednotka %s byla úspěšná proti %s %s (a %d dalším jednotkám)!"
+msgstr[2] "Vaše útočící jednotka %s byla úspěšná proti %s %s (a %d dalším jednotkám)!"
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
@@ -7160,9 +7139,8 @@ msgid "This unit type can not be paradropped."
 msgstr "Tento typ jednotky nemůže provést výsadek."
 
 #: server/unittools.c:2194
-#, fuzzy
 msgid "You cannot paradrop a unit that is transporting other units."
-msgstr "Nelze provést výsadek transportní jednotky."
+msgstr "Nelze provést výsadek jednotky transportující jiné jednotky."
 
 #: server/unittools.c:2200
 msgid "The destination location is not known."
@@ -7257,7 +7235,7 @@ msgstr ""
 #: server/unittools.c:3260
 #, c-format
 msgid "Attempt to build wonder for %s failed."
-msgstr ""
+msgstr "Pokus o stabu divu světa %s selhal."
 
 #: server/unittools.c:3269
 #, c-format
@@ -7294,7 +7272,6 @@ msgstr ""
 "Prosím nahlašte bug na %s."
 
 #: client/attribute.c:362
-#, fuzzy
 msgid "There has been a CMA error.  Your citizen governor settings may be broken."
 msgstr "Vyskytla se chyba ASM.  Vaše ASM nastavení je nejspíše poškozené."
 
@@ -7315,9 +7292,8 @@ msgstr ""
 #: client/audio.c:215
 #: client/audio.c:247
 #: client/audio.c:257
-#, fuzzy
 msgid "Proceeding with sound support disabled."
-msgstr "Pokračuji bez podpory zvuku"
+msgstr "Pokračujeme bez podpory zvuku."
 
 #: client/audio.c:199
 msgid "For sound support, install SDL_mixer"
@@ -7342,9 +7318,8 @@ msgid "No real audio subsystem managed to initialize!"
 msgstr "Nepodařilo se inicializovat žádný ze zvukových subsystémů!"
 
 #: client/audio.c:256
-#, fuzzy
 msgid "Perhaps there is some misconfiguration or bad permissions."
-msgstr "Je možné, že příčinou je špatná konfigurace nebo oprávnění"
+msgstr "Je možné, že příčinou je špatná konfigurace nebo oprávnění."
 
 #: client/chatline_common.c:164
 msgid "Freeciv is free software and you are welcome to distribute copies of it under certain conditions;"
@@ -7456,7 +7431,7 @@ msgstr "Stavba jednotek"
 #: client/citydlg_common.c:456
 #, c-format
 msgid "%+4d : Bonus from %s (%+d%%)\n"
-msgstr ""
+msgstr "%+4d : Bonus z %s (%+d%%)\n"
 
 #: client/citydlg_common.c:467
 #, c-format
@@ -7466,12 +7441,12 @@ msgstr ""
 #: client/citydlg_common.c:473
 #, c-format
 msgid "%+4d : Disorder\n"
-msgstr ""
+msgstr "%+4d : Nepokoje\n"
 
 #: client/citydlg_common.c:479
 #, c-format
 msgid "%+4d : Used\n"
-msgstr ""
+msgstr "%+4d : Použito\n"
 
 #: client/citydlg_common.c:484
 msgid "==== : Adds up to\n"
@@ -7480,7 +7455,7 @@ msgstr ""
 #: client/citydlg_common.c:486
 #, c-format
 msgid "%4d : Total surplus"
-msgstr ""
+msgstr "%4d : Celkový přebytek"
 
 #: client/cityrepdata.c:74
 msgid "?city_state:Rapture"
@@ -8200,6 +8175,8 @@ msgid ""
 "Create city.\n"
 "Shortcut: c"
 msgstr ""
+"Vytvořit město.\n"
+"Zkratka: c"
 
 #: client/editor.c:178
 #: client/plrdlg_common.c:263
@@ -8281,9 +8258,9 @@ msgstr "Buffer prázdný."
 #, c-format
 msgid "%d object copied."
 msgid_plural "%d objects copied."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%d objekt zkopírován."
+msgstr[1] "%d objekty zkopírovány."
+msgstr[2] "%d objektů zkopírováno."
 
 #: client/helpdata.c:128
 msgid "Terrain     Road   Irrigation     Mining         Transform\n"
@@ -8294,11 +8271,13 @@ msgid "(Railroads and fortresses require 3 turns, regardless of terrain.)"
 msgstr "(Železnice a pevnosti vyžadují 3 kola bez ohledu na terén.)"
 
 #: client/helpdata.c:173
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires the %s technology.\n"
 "\n"
-msgstr "Nemůžeme zkoumat tuto technologii."
+msgstr ""
+"Vyžaduje technologii %s.\n"
+"\n"
 
 #: client/helpdata.c:178
 #, c-format
@@ -8442,9 +8421,8 @@ msgid "* Belongs to %s units class.\n"
 msgstr ""
 
 #: client/helpdata.c:803
-#, fuzzy
 msgid "  * Can occupy empty enemy cities.\n"
-msgstr "* Může stavět nová města.\n"
+msgstr "  * Může okupovat prázdná města nepřátel.\n"
 
 #: client/helpdata.c:806
 msgid "  * Speed is not affected by terrain.\n"
@@ -8478,9 +8456,8 @@ msgid "* May not be built in cities.\n"
 msgstr "* Nemůže se stavět ve městech.\n"
 
 #: client/helpdata.c:835
-#, fuzzy
 msgid "* Only barbarians may build this.\n"
-msgstr "Toto mohou jen výsadkáři."
+msgstr "* Toto mohou stavět jen barbaři.\n"
 
 #: client/helpdata.c:838
 msgid "* Never has a home city.\n"
@@ -8804,13 +8781,13 @@ msgstr "* Pozemní jednotky se nemohou pohybovat v oceánu."
 
 #: client/helpdata.c:1319
 msgid "Features:\n"
-msgstr ""
+msgstr "Vlastnosti:\n"
 
 #. TRANS: Empty output type list, should never happen.
 #: client/helpdata.c:1425
 #: client/helpdata.c:1426
 msgid "?outputlist: Nothing "
-msgstr ""
+msgstr "?outputlist: Nic "
 
 #: client/helpdata.c:1433
 #, fuzzy, c-format
@@ -9204,11 +9181,11 @@ msgstr ""
 
 #: client/options.c:192
 msgid "Show icons in the technology tree"
-msgstr ""
+msgstr "Zobrazit ikony v technologickém stromu"
 
 #: client/options.c:193
 msgid "Setting this option will display icons on the technology tree diagram. Turning this option off makes the technology tree more compact."
-msgstr ""
+msgstr "Nastavení této možnosti zobrazí ikony v stromovém diagramu technologií. Vypnutím této možnosti udělá technologický strom více kompaktní."
 
 #: client/options.c:199
 msgid "Use curved lines in the technology tree"
@@ -9253,9 +9230,8 @@ msgid "Set this option to have any combat be centered automatically.  Disabled t
 msgstr ""
 
 #: client/options.c:225
-#, fuzzy
 msgid "Auto Center on New Turn"
-msgstr "Auto-centrovat na jednotkách"
+msgstr "Auto-centrovat při dalším tahu"
 
 #: client/options.c:226
 msgid "Set this option to have the client automatically recenter the map on a suitable location at the start of each turn."
@@ -9704,13 +9680,13 @@ msgstr "?clistbegin: s %s"
 #: client/text.c:200
 #, c-format
 msgid "?clistlast:, and %s"
-msgstr ""
+msgstr "?clistlast: a %s"
 
 #. TRANS: This appears with only one previous entry in the list
 #: client/text.c:204
-#, fuzzy, c-format
+#, c-format
 msgid "?clistlast: and %s"
-msgstr "Specialisté"
+msgstr "?clistlast: a %s"
 
 #: client/text.c:207
 #: client/text.c:1218
@@ -9828,9 +9804,9 @@ msgstr[2] "%d žárovek/tah"
 #, c-format
 msgid ", %d bulb/turn from team"
 msgid_plural ", %d bulbs/turn from team"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] ", %d žárovka/tah od týmu"
+msgstr[1] ", %d žárovky/tah od týmu"
+msgstr[2] ", %d žárovek/tah od týmu"
 
 #: client/text.c:532
 #, c-format
@@ -9838,12 +9814,12 @@ msgid "%d/- (never)"
 msgstr "%d/- (nikdy)"
 
 #: client/text.c:544
-#, fuzzy, c-format
+#, c-format
 msgid "%d/%d (%d turn)"
 msgid_plural "%d/%d (%d turns)"
-msgstr[0] "%d/%d %d tahů"
-msgstr[1] "%d/%d %d tahů"
-msgstr[2] "%d/%d %d tahů"
+msgstr[0] "%d/%d (%d tah)"
+msgstr[1] "%d/%d (%d tahy)"
+msgstr[2] "%d/%d (%d tahů)"
 
 #: client/text.c:547
 #, c-format
@@ -9922,7 +9898,7 @@ msgstr "Zlato: %d"
 #: client/text.c:667
 #, c-format
 msgid "Net Income: %d"
-msgstr ""
+msgstr "Čistý příjem: %d"
 
 #. TRANS: Gold, luxury, and science rates are in percentage values.
 #: client/text.c:670
@@ -9938,12 +9914,12 @@ msgstr "Zkoumá se %s: %s"
 #: client/text.c:681
 #, c-format
 msgid "Global warming chance: %d%% (%+d%%/turn)"
-msgstr ""
+msgstr "Šance na globální oteplení: %d%% (%+d%%/tah)"
 
 #: client/text.c:684
 #, c-format
 msgid "Nuclear winter chance: %d%% (%+d%%/turn)"
-msgstr ""
+msgstr "Šance na nukleární zimu: %d%% (%+d%%/tah)"
 
 #: client/text.c:689
 #: client/gui-win32/inteldlg.c:103
@@ -9963,7 +9939,7 @@ msgstr[2] "%d jednotek"
 #. TRANS: Impossible to reach goto target tile
 #: client/text.c:749
 msgid "?goto:Unreachable"
-msgstr ""
+msgstr "?goto:Nemožné"
 
 #: client/text.c:751
 #, c-format
@@ -9984,9 +9960,8 @@ msgstr[1] "%d jednotky vybrány"
 msgstr[2] "%d jednotek vybráno"
 
 #: client/text.c:764
-#, fuzzy
 msgid "No units selected."
-msgstr "Výběr jednotek"
+msgstr "Nevybrána žádná jednotka."
 
 #: client/text.c:846
 #, c-format
@@ -10004,14 +9979,12 @@ msgid "Others: %d military"
 msgstr ""
 
 #: client/text.c:881
-#, fuzzy
 msgid "No units to upgrade!"
-msgstr "Žádné jednotky nemohou být vylepšeny."
+msgstr "Žádné jednotky k vylepšení!"
 
 #: client/text.c:906
-#, fuzzy
 msgid "None of these units may be upgraded."
-msgstr "Žádné jednotky nemohou být vylepšeny."
+msgstr "Žádné z těchto jednotek nemohou být vylepšeny."
 
 #: client/text.c:912
 #, fuzzy, c-format
@@ -10073,9 +10046,9 @@ msgstr ""
 "%d."
 
 #: client/text.c:983
-#, fuzzy, c-format
+#, c-format
 msgid "Fallout rate: %d%%"
-msgstr "%s max úroveň: %d%%"
+msgstr "Radioaktivní spad: %d%%"
 
 #: client/text.c:985
 #, c-format
@@ -10213,7 +10186,7 @@ msgstr[2] "%d spokojený před postihem s "
 
 #. TRANS: 0-21 unhappy citizen(s).
 #: client/text.c:1299
-#, fuzzy, c-format
+#, c-format
 msgid "%d additional unhappy citizen."
 msgid_plural "%d additional unhappy citizens."
 msgstr[0] "%d dalších nespokojených obyvatel."
@@ -10821,7 +10794,6 @@ msgid "Happiness page"
 msgstr "Spokojenost"
 
 #: client/gui-gtk-2.0/citydlg.c:1041
-#, fuzzy
 msgid "Governor page"
 msgstr "Guvernér"
 
@@ -11245,9 +11217,8 @@ msgstr "Smazat tuto předvolbu?"
 
 #: client/gui-gtk-2.0/dialogs.c:197
 #: client/gui-gtk-2.0/messagewin.c:185
-#, fuzzy
 msgid "Goto _Location"
-msgstr "Jít k po_loze"
+msgstr "Jít na po_lohu"
 
 #: client/gui-gtk-2.0/dialogs.c:202
 #: client/gui-gtk-2.0/messagewin.c:189
@@ -11549,15 +11520,15 @@ msgstr "?Player:Jméno"
 #. TRANS: "Number of buildings, number of small
 #. * wonders (e.g. palace), number of great wonders."
 #: client/gui-gtk-2.0/editprop.c:867
-#, fuzzy, c-format
+#, c-format
 msgid "%db %ds %dW"
-msgstr "%d %s"
+msgstr "%db %ds %dDS"
 
 #. TRANS: "Number of technologies known".
 #: client/gui-gtk-2.0/editprop.c:879
-#, fuzzy, c-format
+#, c-format
 msgid "%d known"
-msgstr "Neznámý"
+msgstr "%d známých"
 
 #. TRANS: "The number of terrain specials (e.g. road,
 #. * rail, hut, etc.) present on a tile."
@@ -11621,9 +11592,8 @@ msgstr "Upravit"
 #. TRANS: As in "this building is present".
 #: client/gui-gtk-2.0/editprop.c:3120
 #: client/gui-gtk-2.0/editprop.c:3145
-#, fuzzy
 msgid "Present"
-msgstr "Prezident"
+msgstr "Přítomný"
 
 #: client/gui-gtk-2.0/editprop.c:3122
 #: client/gui-gtk-2.0/editprop.c:3129
@@ -11717,9 +11687,8 @@ msgstr "Odpad"
 #: client/gui-gtk-2.0/editprop.c:3619
 #: client/gui-gtk-2.0/editprop.c:3647
 #: client/gui-gtk-2.0/editprop.c:3666
-#, fuzzy
 msgid "Address"
-msgstr "Přidat předvolbu"
+msgstr "Adresa"
 
 #. TRANS: Image header
 #: client/gui-gtk-2.0/editprop.c:3621
@@ -11806,11 +11775,8 @@ msgid "Property Editor"
 msgstr "Editor seznamu prací"
 
 #: client/gui-gtk-2.0/editprop.c:5182
-#, fuzzy
 msgid "Close Tab"
-msgstr ""
-"Zavřít kartu:\n"
-"%s"
+msgstr "Zavřít kartu"
 
 #: client/gui-gtk-2.0/editprop.c:5230
 msgid "This shows the current property page in the property editor. You can also change pages by selecting one from the list."
@@ -11825,18 +11791,16 @@ msgid "Pressing this button will reset all modified properties of the selected o
 msgstr ""
 
 #: client/gui-gtk-2.0/editprop.c:5266
-#, fuzzy
 msgid "Destroy"
-msgstr "Torpédoborec"
+msgstr "Zničit"
 
 #: client/gui-gtk-2.0/editprop.c:5271
 msgid "Pressing this button will send a request to the server to destroy (i.e. erase) the objects selected in the object list."
 msgstr ""
 
 #: client/gui-gtk-2.0/editprop.c:5283
-#, fuzzy
 msgid "Create"
-msgstr "zelenáč"
+msgstr "Vytvořit"
 
 #: client/gui-gtk-2.0/editprop.c:5288
 msgid "Pressing this button will create a new object of the same type as the current property page and add it to the page. The specific type and count of the objects is taken from the editor tool state. So for example, the \"tool value\" of the unit tool and its \"count\" parameter affect unit creation."
@@ -12075,9 +12039,8 @@ msgid "Chat"
 msgstr "Chat"
 
 #: client/gui-gtk-2.0/gui_main.c:1615
-#, fuzzy
 msgid "Not _ready"
-msgstr ", nepřipraven"
+msgstr "Nepřip_raven"
 
 #: client/gui-gtk-2.0/gui_main.c:1626
 #: client/gui-gtk-2.0/pages.c:1605
@@ -13233,7 +13196,7 @@ msgstr "Zprávy"
 
 #: client/gui-gtk-2.0/plrdlg.c:329
 msgid "?show:Dead Players"
-msgstr ""
+msgstr "?show:Mrtví hráči"
 
 #. TRANS: Nations report title
 #. TRANS: Nations report action
@@ -13258,7 +13221,6 @@ msgid "_Meet"
 msgstr "_Setkat se"
 
 #: client/gui-gtk-2.0/plrdlg.c:457
-#, fuzzy
 msgid "Cancel _Treaty"
 msgstr "_Zrušit dohodu"
 
@@ -13421,9 +13383,8 @@ msgid "Aitoggle player"
 msgstr "aitoggle <jméno-hráče>"
 
 #: client/gui-gtk-2.0/pages.c:1240
-#, fuzzy
 msgid "Remove player"
-msgstr "Odstraňuji hráče %s."
+msgstr "Odstranit hráče"
 
 #: client/gui-gtk-2.0/pages.c:1251
 msgid "Give info access"
@@ -13555,9 +13516,8 @@ msgid "Goal"
 msgstr "Cíl"
 
 #: client/gui-gtk-2.0/repodlgs.c:641
-#, fuzzy
 msgid "?Building:Name"
-msgstr "Název stavby"
+msgstr "?Building:Název"
 
 #: client/gui-gtk-2.0/repodlgs.c:642
 #: client/gui-win32/repodlgs.c:460
@@ -13770,9 +13730,8 @@ msgid "Theme suggested"
 msgstr ""
 
 #: client/gui-gtk-2.0/theme_dlg.c:60
-#, fuzzy
 msgid "Load theme"
-msgstr "Nahrát hru"
+msgstr "Nahrát téma"
 
 #: client/gui-gtk-2.0/theme_dlg.c:62
 msgid "Keep current theme"
@@ -13790,9 +13749,8 @@ msgid "Prefered tileset"
 msgstr "Preferovaná sada dlaždic"
 
 #: client/gui-gtk-2.0/tileset_dlg.c:54
-#, fuzzy
 msgid "Load tileset"
-msgstr "Sada dlaždic"
+msgstr "Nahrát Sadu dlaždic"
 
 #: client/gui-gtk-2.0/tileset_dlg.c:56
 msgid "Keep current tileset"
@@ -13850,14 +13808,14 @@ msgid "Chan_ge Production"
 msgstr "Změn_it produkci"
 
 #: client/gui-sdl/caravan_dialog.c:131
-#, fuzzy, c-format
+#, c-format
 msgid "Your caravan has arrived at %s"
-msgstr "Vaše karavana dorazila"
+msgstr "Vaše karavana dorazila do %s"
 
 #: client/gui-sdl/caravan_dialog.c:156
 #, c-format
 msgid "Establish Traderoute with %s ( %d R&G + %d trade )"
-msgstr ""
+msgstr "Vytvořit obchodní trasu s %s ( %d P&Z + %d obchod )"
 
 #: client/gui-sdl/caravan_dialog.c:163
 #, fuzzy, c-format
@@ -14452,7 +14410,7 @@ msgstr "Vylepšit"
 #: client/gui-sdl/dialogs.c:660
 #, c-format
 msgid "Contact %s (%d / %d) %s(%d,%d,%d) %s"
-msgstr ""
+msgstr "Kontaktovat %s (%d / %d) %s(%d,%d,%d) %s"
 
 #: client/gui-sdl/dialogs.c:671
 #, fuzzy, c-format
@@ -14462,7 +14420,7 @@ msgstr "Ú:%d O:%d PS:%d HS:%d0%%"
 #: client/gui-sdl/dialogs.c:683
 #: client/gui-sdl/dialogs.c:1427
 #: client/gui-sdl/dialogs.c:1552
-#, fuzzy, c-format
+#, c-format
 msgid " CtW: Att:%d%% Def:%d%%"
 msgstr "Šance na vítězství: Ú:%d%% O:%d%%"
 
@@ -14510,7 +14468,7 @@ msgstr "Výsadek zde"
 #: client/gui-sdl/dialogs.c:1513
 #, c-format
 msgid "Activate %s (%d / %d) %s (%d,%d,%d) %s"
-msgstr ""
+msgstr "Aktivovat %s (%d / %d) %s (%d,%d,%d) %s"
 
 #: client/gui-sdl/dialogs.c:1415
 #: client/gui-sdl/dialogs.c:1540
@@ -14531,7 +14489,7 @@ msgstr "Strážit nečinné"
 #: client/gui-sdl/dialogs.c:1571
 #, c-format
 msgid "View Civiliopedia entry for %s"
-msgstr ""
+msgstr "Prohlédnout záznam Civilopedie pro %s"
 
 #: client/gui-sdl/dialogs.c:1977
 msgid "Choose Your New Government"
@@ -14735,7 +14693,7 @@ msgid "Unable to initialize SDL library: %s"
 msgstr "Nelze inicializovat SDL knihovnu: %s"
 
 #: client/gui-sdl/graphics.c:1021
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to initialize SDL_ttf library: %s"
 msgstr "Nelze inicializovat  SDL_ttf knihovnu: %s"
 
@@ -14775,9 +14733,8 @@ msgid "This option saves the width of the selected screen resolution"
 msgstr ""
 
 #: client/gui-sdl/gui_main.c:159
-#, fuzzy
 msgid "Screen height"
-msgstr "Kosmické lety"
+msgstr "Výška obrazovky"
 
 #: client/gui-sdl/gui_main.c:160
 msgid "This option saves the height of the selected screen resolution"
@@ -14934,12 +14891,12 @@ msgstr ""
 
 #: client/gui-sdl/mapctrl.c:273
 msgid "Show Unit Info Window"
-msgstr ""
+msgstr "Zobrazit Info okno jednotky"
 
 #: client/gui-sdl/mapctrl.c:329
 #: client/gui-sdl/mapctrl.c:1446
 msgid "Hide Unit Info Window"
-msgstr ""
+msgstr "Schovat Info okno jednotky"
 
 #: client/gui-sdl/mapctrl.c:383
 msgid "Show MiniMap"
@@ -15003,9 +14960,8 @@ msgid "Hide Messages"
 msgstr "Schovat Zprávy"
 
 #: client/gui-sdl/mapctrl.c:1624
-#, fuzzy
 msgid "Toggle Minimap Mode"
-msgstr "_Přepnout na PO mód"
+msgstr "Přepnout mód Minimapy"
 
 #: client/gui-sdl/mapctrl.c:1636
 #: client/gui-sdl/optiondlg.c:2193
@@ -15150,7 +15106,7 @@ msgstr "Žádné rozkazy"
 
 #: client/gui-sdl/menu.c:374
 msgid "Space"
-msgstr "Místo"
+msgstr "Mezerník"
 
 #: client/gui-sdl/menu.c:388
 #: client/gui-xaw/menu.c:217
@@ -15277,7 +15233,6 @@ msgid "Build Fortress"
 msgstr "Stavět opevnění"
 
 #: client/gui-sdl/menu.c:746
-#, fuzzy
 msgid "Transform Tile"
 msgstr "Transformovat"
 
@@ -15296,9 +15251,8 @@ msgid "Build Irrigation"
 msgstr "Stavět zavlažování"
 
 #: client/gui-sdl/menu.c:787
-#, fuzzy
 msgid "Form Traderoute"
-msgstr "Obchodní cesty"
+msgstr "Vytvořit Obchodní cestu"
 
 #: client/gui-sdl/menu.c:802
 #: client/gui-sdl/menu.c:1044
@@ -15339,15 +15293,13 @@ msgid "Trade with %s ( %d R&G bonus ) (R)"
 msgstr ""
 
 #: client/gui-sdl/menu.c:1092
-#, fuzzy
 msgid "Cut Down to"
-msgstr "Populace: %s"
+msgstr "Vykácet na"
 
 #: client/gui-sdl/menu.c:1098
 #: client/gui-sdl/menu.c:1123
-#, fuzzy
 msgid "Irrigate to"
-msgstr "Závlaha (-I)"
+msgstr "Závlažit na"
 
 #: client/gui-sdl/menu.c:1133
 msgid "Plant Forest"
@@ -15375,6 +15327,8 @@ msgid ""
 "Current Setup\n"
 "Fullscreen %dx%d"
 msgstr ""
+"Současné nastavení\n"
+"Fullscreen %dx%d"
 
 #: client/gui-sdl/optiondlg.c:442
 #: client/gui-sdl/optiondlg.c:627
@@ -15383,6 +15337,8 @@ msgid ""
 "Current Setup\n"
 "%dx%d"
 msgstr ""
+"Současné nastavení\n"
+"%dx%d"
 
 #: client/gui-sdl/optiondlg.c:603
 #, fuzzy
@@ -15391,7 +15347,7 @@ msgstr "Žádné dostupné divy světa"
 
 #: client/gui-sdl/optiondlg.c:609
 msgid "All resolutions available."
-msgstr ""
+msgstr "Všechna dostupná rozlišení."
 
 #: client/gui-sdl/optiondlg.c:645
 msgid "Fullscreen Mode"
@@ -15415,9 +15371,8 @@ msgid "Use color cursors"
 msgstr "Použít barevné kurzory"
 
 #: client/gui-sdl/optiondlg.c:1663
-#, fuzzy
 msgid "City Traderoutes"
-msgstr "Obchodní cesty:"
+msgstr "Obchodní cesty"
 
 #: client/gui-sdl/optiondlg.c:1690
 #: client/gui-xaw/menu.c:146
@@ -15509,7 +15464,7 @@ msgstr "Připojit na LAN server"
 
 #: client/gui-sdl/pages.c:302
 msgid "SDLClient welcomes you..."
-msgstr "SDL Klient tě vítá..."
+msgstr "SDL Klient vás vítá..."
 
 #: client/gui-sdl/plrdlg.c:650
 msgid "disconnected"
@@ -15520,27 +15475,28 @@ msgid "active"
 msgstr "aktivní"
 
 #: client/gui-sdl/repodlgs.c:352
-#, fuzzy
 msgid ""
 "under\n"
 "construction"
-msgstr "Konstrukce"
+msgstr ""
+"ve\n"
+"výrobě"
 
 #: client/gui-sdl/repodlgs.c:356
-#, fuzzy
 msgid ""
 "soonest\n"
 "completion"
-msgstr "Konstrukce"
+msgstr ""
+"brzy\n"
+"dokončeno"
 
 #: client/gui-sdl/repodlgs.c:360
 msgid "Total"
 msgstr "Celkem"
 
 #: client/gui-sdl/repodlgs.c:371
-#, fuzzy
 msgid "Units Report"
-msgstr "Přehled města"
+msgstr "Přehled jednotek"
 
 #: client/gui-sdl/repodlgs.c:1527
 #, c-format
@@ -15560,18 +15516,16 @@ msgid "Sell It?"
 msgstr "Prodat?"
 
 #: client/gui-sdl/repodlgs.c:1770
-#, fuzzy
 msgid "Economy Report"
-msgstr "Ekonomika: Zlato"
+msgstr "Ekonomický přehled"
 
 #: client/gui-sdl/repodlgs.c:1785
 msgid "Treasury: "
 msgstr "Pokladna:"
 
 #: client/gui-sdl/repodlgs.c:1807
-#, fuzzy
 msgid "Tax Rate: "
-msgstr "Hodnoty daní"
+msgstr "Daně:"
 
 #: client/gui-sdl/repodlgs.c:1828
 msgid "Total Income: "
@@ -15603,9 +15557,8 @@ msgid "Wonder"
 msgstr "Div světa"
 
 #: client/gui-sdl/repodlgs.c:2857
-#, fuzzy
 msgid "What should we focus on now?"
-msgstr "Jak budeme nazývat naše nové město?"
+msgstr "Na co bychom se měli soustředit nyní?"
 
 #: client/gui-sdl/repodlgs.c:3044
 msgid "Select target :"
@@ -15654,7 +15607,7 @@ msgstr "Start"
 #: client/gui-sdl/sprite.c:60
 #, c-format
 msgid "load_gfxfile: Unable to load graphic file %s!"
-msgstr ""
+msgstr "load_gfxfile: Nelze nahrát grafický soubor %s!"
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: client/gui-sdl/themes.c:57
@@ -15679,7 +15632,7 @@ msgid ""
 "%d gold per turn"
 msgstr ""
 "%s\n"
-"%d zlata na kolo"
+"%d zlata na tah"
 
 #: client/gui-sdl/wldlg.c:905
 #: client/gui-sdl/wldlg.c:1081
@@ -15769,7 +15722,7 @@ msgstr ""
 #: client/gui-sdl/wldlg.c:1386
 #, c-format
 msgid "%d gold per turn"
-msgstr "%d zlata na kolo"
+msgstr "%d zlata na tah"
 
 #: client/gui-sdl/wldlg.c:1393
 #, c-format
@@ -15796,6 +15749,9 @@ msgid ""
 "%d/%d %s\n"
 "never"
 msgstr ""
+"(%d/%d/%d)\n"
+"%d/%d %s\n"
+"nikdy"
 
 #: client/gui-sdl/wldlg.c:1490
 #, c-format
@@ -15804,6 +15760,9 @@ msgid ""
 "%d/%d %s\n"
 "%d %s"
 msgstr ""
+"(%d/%d/%d)\n"
+"%d/%d %s\n"
+"%d %s"
 
 #: client/gui-sdl/wldlg.c:1499
 #, c-format
@@ -16304,9 +16263,8 @@ msgstr "Luxus: %d%%"
 
 #: client/gui-win32/inteldlg.c:128
 #: client/gui-xaw/inteldlg.c:241
-#, fuzzy
 msgid "Researching: (Unknown)"
-msgstr "Zkoumáme: %s(%d/%d)"
+msgstr "Zkoumáme: (Neznámé)"
 
 #: client/gui-win32/inteldlg.c:131
 #: client/gui-xaw/inteldlg.c:244
@@ -16469,7 +16427,6 @@ msgstr "Ukázat město"
 
 #: client/gui-win32/plrdlg.c:70
 #: client/gui-xaw/plrdlg.c:356
-#, fuzzy
 msgid "You need an embassy to establish a diplomatic meeting."
 msgstr "Potřebujeme ambasádu pro diplomatická setkání."
 
@@ -16826,7 +16783,7 @@ msgstr "Demografie"
 
 #: client/gui-xaw/menu.c:240
 msgid "Editing Mode"
-msgstr ""
+msgstr "Mód úprav"
 
 #: client/gui-xaw/menu.c:241
 msgid "Tools"
@@ -17465,14 +17422,8 @@ msgid "  Present administrators: "
 msgstr "  Přítomní administrátoři: "
 
 #: data/helpdata.txt:55
-#, fuzzy
 msgid "If you find any bugs, then please send us a bug report.  This is best done by visiting the Freeciv Bug Tracking System, at:"
-msgstr ""
-"Pokud naleznete nějakou chybu, prosím pošlete nám bugreport.  Nejlépe pomocí návštěvy Freeciv Bug Tracking System, na:\n"
-"\n"
-"  http://bugs.freeciv.org/\n"
-"\n"
-"nebo zasláním emailu na:  bugs@freeciv.org"
+msgstr "Pokud naleznete nějakou chybu, prosím pošlete nám bugreport.  Nejlépe pomocí návštěvy Freeciv Bug Tracking System, na:"
 
 #: data/helpdata.txt:60
 msgid "For more information about submitting bug reports see the file BUGS in the Freeciv distribution.  For more information in general, visit the Freeciv website, at:"
@@ -19688,9 +19639,8 @@ msgstr "?Scientist:V"
 
 #: data/default/cities.ruleset:45
 #: data/civ2/cities.ruleset:45
-#, fuzzy
 msgid "taxman"
-msgstr "Hejtman"
+msgstr "výběrčí daní"
 
 #: data/default/cities.ruleset:46
 #: data/civ2/cities.ruleset:46
@@ -21709,7 +21659,7 @@ msgstr "První sekretář"
 
 #: data/nation/afghani.ruleset:26
 msgid "Mullah"
-msgstr ""
+msgstr "Muláh"
 
 #: data/nation/afghani.ruleset:27
 #: data/nation/australian.ruleset:28
@@ -21874,7 +21824,7 @@ msgstr "?plural:Antarktiďané"
 
 #: data/nation/antarctican.ruleset:6
 msgid "Independent South Pole, land of penguins."
-msgstr ""
+msgstr "Nezávislý Jižní pól, země tučňáků."
 
 #: data/nation/arab.ruleset:3
 msgid "Arab"
@@ -22983,9 +22933,8 @@ msgstr "Faraon"
 
 #: data/nation/egyptian.ruleset:26
 #: data/nation/nubian.ruleset:33
-#, fuzzy
 msgid "?female:Pharaoh"
-msgstr "Soudruh"
+msgstr "?female:Faraon"
 
 #: data/nation/egyptian.ruleset:27
 #: data/nation/nubian.ruleset:34
@@ -22994,9 +22943,8 @@ msgstr "Velký Faraon"
 
 #: data/nation/egyptian.ruleset:27
 #: data/nation/nubian.ruleset:34
-#, fuzzy
 msgid "?female:Great Pharaoh"
-msgstr "Velký Faraon"
+msgstr "?female:Velký Faraon"
 
 #: data/nation/emirati.ruleset:3
 #, fuzzy
@@ -23114,7 +23062,7 @@ msgstr "Sam"
 #: data/nation/european.ruleset:23
 #: data/nation/european.ruleset:24
 msgid "President of the Commission"
-msgstr ""
+msgstr "Prezident komise"
 
 #: data/nation/filipino.ruleset:3
 msgid "Filipino"
@@ -23157,15 +23105,13 @@ msgid "Premier"
 msgstr "Premiér"
 
 #: data/nation/french.ruleset:27
-#, fuzzy
 msgid "?female:Premier"
-msgstr "Prezident"
+msgstr "?female:Premiérka"
 
 #: data/nation/french.ruleset:28
 #: data/nation/german.ruleset:35
-#, fuzzy
 msgid "?female:Archbishop"
-msgstr "Arcibiskup"
+msgstr "?female:Arcibiskup"
 
 #: data/nation/galician.ruleset:3
 msgid "Galician"
@@ -23241,14 +23187,12 @@ msgid "The Gauls were a Celtic people occupying what is now France and Belgium. 
 msgstr ""
 
 #: data/nation/gallic.ruleset:30
-#, fuzzy
 msgid "Druid"
-msgstr "Ovoce"
+msgstr "Druid"
 
 #: data/nation/gallic.ruleset:30
-#, fuzzy
 msgid "?female:Druid"
-msgstr "Prezident"
+msgstr "?female:Druidka"
 
 #: data/nation/georgian.ruleset:3
 #, fuzzy
@@ -23354,14 +23298,12 @@ msgid "?female:Hacker"
 msgstr "?female:Hackerka"
 
 #: data/nation/hawaiian.ruleset:3
-#, fuzzy
 msgid "Hawaiian"
-msgstr "čekání"
+msgstr "Havajský"
 
 #: data/nation/hawaiian.ruleset:4
-#, fuzzy
 msgid "?plural:Hawaiians"
-msgstr "?plural:Bavoráci"
+msgstr "?plural:Havajané"
 
 #: data/nation/hawaiian.ruleset:7
 msgid "The Kingdom of Hawaii was established in 1810 by King Kamehameha the Great. Abolished in 1893, and subsequently annexed to the United States, the former kingdom became the 50th state of the United States on August 21, 1959."
@@ -23578,14 +23520,12 @@ msgid "?female:Great Shaman"
 msgstr "Velký šaman"
 
 #: data/nation/iranian.ruleset:3
-#, fuzzy
 msgid "Iranian"
-msgstr "Indický"
+msgstr "Íránský"
 
 #: data/nation/iranian.ruleset:4
-#, fuzzy
 msgid "?plural:Iranians"
-msgstr "?plural:Indové"
+msgstr "?plural:Íránci"
 
 #: data/nation/iranian.ruleset:6
 msgid "Iran means \"Land of the Aryans\" - long known as Persia in the Western world. The country is today an Islamic Republic and a major power in the Middle East."
@@ -23602,14 +23542,12 @@ msgid "Ayatollah"
 msgstr "Ajatoláh"
 
 #: data/nation/iraqi.ruleset:3
-#, fuzzy
 msgid "Iraqi"
-msgstr "Izraelský"
+msgstr "Irácký"
 
 #: data/nation/iraqi.ruleset:4
-#, fuzzy
 msgid "?plural:Iraqis"
-msgstr "?plural:Irové"
+msgstr "?plural:Iráčané"
 
 #: data/nation/iraqi.ruleset:6
 msgid "Iraq was founded after the fall of the Ottoman empire. It is encompassing the ancient region of Mesopotamia at the confluence of the Tigris and Euphrates rivers."
@@ -23628,9 +23566,8 @@ msgid "?plural:Irish"
 msgstr "?plural:Irové"
 
 #: data/nation/irish.ruleset:6
-#, fuzzy
 msgid "Ireland held out against the Romans and Vikings but was conquered by the Normans in 1171.  It was ruled by the English until 1922 when most of the country was granted limited autonomy, becoming a republic in 1949.  The North of Ireland was settled in the 17th century by Scottish and English planters and is now part of the United Kingdom."
-msgstr "Irsko odolávalo Římanům a Vikingům, ale bylo dobito Normany v roce 1171. Ovládáno bylo roku do 1922 Anglií, než dostala většina země omezenou autonomii a stala se republikou v roce 1949. Sever Irska byl obydlen v 17. stoleti skotskými a anglickými osadníky a nyní je součástí Spojeného království."
+msgstr "Irsko odolávalo Římanům a Vikingům, ale bylo dobito Normany v roce 1171. Ovládáno bylo roku do 1922 Anglií, než dostala většina země omezenou autonomii a stala se republikou v roce 1949. Sever Irska byl obydlen v 17. století skotskými a anglickými osadníky a nyní je součástí Spojeného království."
 
 #: data/nation/irish.ruleset:45
 msgid "High King"
@@ -23924,14 +23861,12 @@ msgid "In the aftermath of WWI Latvia proclaimed its independence from Russia. I
 msgstr ""
 
 #: data/nation/libyan.ruleset:3
-#, fuzzy
 msgid "Libyan"
-msgstr "Rozpustit"
+msgstr "Libyjský"
 
 #: data/nation/libyan.ruleset:4
-#, fuzzy
 msgid "?plural:Libyans"
-msgstr "?plural:Litevci"
+msgstr "?plural:Libyjci"
 
 #: data/nation/libyan.ruleset:6
 msgid "The region that is now Libya was a Roman colony until it was conquered by the Arab civilization in the 7th century. In 1912 it came under the control of Italy and after the Second World War Libya was granted independence as a condition of the Allied peace treaty with Italy."
@@ -24015,7 +23950,7 @@ msgstr ""
 
 #: data/nation/malagasy.ruleset:22
 msgid "High Commissioner"
-msgstr ""
+msgstr "Nejvyšší komisař"
 
 #: data/nation/malagasy.ruleset:22
 #, fuzzy
@@ -24139,7 +24074,7 @@ msgstr "?plural:Marťané"
 
 #: data/nation/martian.ruleset:6
 msgid "Marsmen landed on Earth in 4000 BC!"
-msgstr ""
+msgstr "Marťané přistáli na Zemi v roce 4000 př.n.l.!"
 
 #: data/nation/mayan.ruleset:3
 #, fuzzy
@@ -24295,14 +24230,12 @@ msgid "Nigeria won full independence from British rule in 1960."
 msgstr "Nigérie zvítězila v boji o nezávislost na Velké Británii v roce 1960."
 
 #: data/nation/norman.ruleset:3
-#, fuzzy
 msgid "Norman"
-msgstr "normální"
+msgstr "Normanský"
 
 #: data/nation/norman.ruleset:4
-#, fuzzy
 msgid "?plural:Normans"
-msgstr "?plural:Římané"
+msgstr "?plural:Normané"
 
 #: data/nation/norman.ruleset:6
 msgid "After several devastating Viking raids on what is today northern France and a siege of Paris, the Frankish king Charles the Simple granted the Viking leader Rollo a fiefdom in the area. This fief evolved into the Duchy of Normandy, of which the most famous duke is William II \"the Conqueror\" who invaded England in 1066."
@@ -24319,14 +24252,12 @@ msgid "?female:Jarl"
 msgstr "Soudruh"
 
 #: data/nation/northkorean.ruleset:3
-#, fuzzy
 msgid "North Korean"
-msgstr "Korejský"
+msgstr "Severokorejský"
 
 #: data/nation/northkorean.ruleset:4
-#, fuzzy
 msgid "?plural:North Koreans"
-msgstr "?plural:Korejci"
+msgstr "?plural:Severokorejci"
 
 #: data/nation/northkorean.ruleset:6
 msgid "In 1945 Korea was split by the Soviet Union and the United States into two states along 38th parallel forming North Korea and South Korea. Even 60 years since then, North Korea remains a communist state of Stalinist type."
@@ -24448,14 +24379,12 @@ msgid "The Federation of Pakistan was formed from the predominantly Muslim regio
 msgstr ""
 
 #: data/nation/papuan.ruleset:3
-#, fuzzy
 msgid "Papuan"
-msgstr "Populace"
+msgstr "Papuánský"
 
 #: data/nation/papuan.ruleset:4
-#, fuzzy
 msgid "?plural:Papuans"
-msgstr "?plural:Japonci"
+msgstr "?plural:Papuánci"
 
 #: data/nation/papuan.ruleset:6
 msgid "The Papuans are a Melanesian people on the island of New Guinea."
@@ -24524,14 +24453,12 @@ msgid "Suffet"
 msgstr ""
 
 #: data/nation/pirate.ruleset:3
-#, fuzzy
 msgid "Pirate"
-msgstr "Letiště"
+msgstr "Pirátský"
 
 #: data/nation/pirate.ruleset:4
-#, fuzzy
 msgid "?plural:Pirates"
-msgstr "?plural:Portugalci"
+msgstr "?plural:Piráti"
 
 #: data/nation/pirate.ruleset:5
 msgid "As long as honest men have sailed the seas, pirates have been a scourge of them and of all coastal dwelling peoples."
@@ -24606,14 +24533,12 @@ msgid "Portugal founded the first of the great mercantile empires in the 1400s o
 msgstr "Portugalci založili první velkou kupeckou říši v letech kolem roku 1400, díky zkušenostem se stavbou lodí získaným za prince Henryho, řečeného Navigátor."
 
 #: data/nation/prussian.ruleset:3
-#, fuzzy
 msgid "Prussian"
-msgstr "Perský"
+msgstr "Pruský"
 
 #: data/nation/prussian.ruleset:4
-#, fuzzy
 msgid "?plural:Prussians"
-msgstr "?plural:Peršané"
+msgstr "?plural:Prusové"
 
 #: data/nation/prussian.ruleset:7
 msgid "Prussia was originally the name of a pagan Baltic people, who in the 13th century were conquered by the German Teutonic Knight order. The knights established an independent state in this land, and in 1561 Grand Master Albrecht I proclaimed himself hereditary Duke of Prussia. Evolving into a regional military powerhouse, Prussia played an important role in uniting the German nation in 1871 and solidified its power during the Franco-Prussian war of the same year."
@@ -24927,14 +24852,12 @@ msgid "Dutch settlers began colonizing southern Africa in the 17th century. Afte
 msgstr ""
 
 #: data/nation/southkorean.ruleset:3
-#, fuzzy
 msgid "South Korean"
-msgstr "Jihoafrický"
+msgstr "Jihokorejský"
 
 #: data/nation/southkorean.ruleset:4
-#, fuzzy
 msgid "?plural:South Koreans"
-msgstr "?plural:Jihoafričané"
+msgstr "?plural:Jihokorejci"
 
 #: data/nation/southkorean.ruleset:6
 msgid "Formerly the site of a unified Korean state, the Korean peninsula is today divided into two states - North and South Korea - as a result of the stalemate after the Korean War in 1953. The South Korean government was formed from the nationalist and anti-communist \"Provisional Government of the Republic of Korea\" in 1948."
@@ -25124,14 +25047,12 @@ msgid "?female:Federal Chancellor"
 msgstr "Kancléř"
 
 #: data/nation/syrian.ruleset:3
-#, fuzzy
 msgid "Syrian"
-msgstr "Srbský"
+msgstr "Syrský"
 
 #: data/nation/syrian.ruleset:4
-#, fuzzy
 msgid "?plural:Syrians"
-msgstr "?plural:Srbové"
+msgstr "?plural:Syrové"
 
 #: data/nation/syrian.ruleset:6
 msgid "The modern Syrian Arab Republic was formed from a French mandate and gradually gained independence during the 1940s."
@@ -25201,28 +25122,24 @@ msgid "When the Chinese nationalists lost the armed struggle against the Chinese
 msgstr ""
 
 #: data/nation/tajik.ruleset:3
-#, fuzzy
 msgid "Tajik"
-msgstr "Thajský"
+msgstr "Tadžický"
 
 #: data/nation/tajik.ruleset:4
-#, fuzzy
 msgid "?plural:Tajiks"
-msgstr "?plural:Thajové"
+msgstr "?plural:Tadžikové"
 
 #: data/nation/tajik.ruleset:6
 msgid "Nation in Central Asia. Conquered by the Russian Empire in 19th century, Tajikistan got independence from the Soviet Union in 1991."
 msgstr ""
 
 #: data/nation/templar.ruleset:3
-#, fuzzy
 msgid "Knights Templar"
-msgstr "Rytíři"
+msgstr "Templářský"
 
 #: data/nation/templar.ruleset:4
-#, fuzzy
 msgid "?plural:Templars"
-msgstr "?plural:Mexičané"
+msgstr "?plural:Templáři"
 
 #: data/nation/templar.ruleset:6
 msgid "The Knights Templar were formed after the first Crusade in order to protect Pilgrims on their journeys in the Holy Land. The organization grew to immense power and wealth in the next 200 years, and were the innovators of many modern concepts such as Banking."
@@ -25374,21 +25291,18 @@ msgid "Paje"
 msgstr "Hráč"
 
 #: data/nation/turkmen.ruleset:3
-#, fuzzy
 msgid "Turkmen"
-msgstr "Turecký"
+msgstr "Turkménský"
 
 #: data/nation/turkmen.ruleset:4
-#, fuzzy
 msgid "?plural:Turkmens"
-msgstr "?plural:Turkové"
+msgstr "?plural:Turkménci"
 
 #: data/nation/turkmen.ruleset:6
 msgid "Nation in Central Asia. Conquered by the Russian Empire in 19th century, Turkmenistan got independence from the Soviet Union in 1991."
 msgstr ""
 
 #: data/nation/turk.ruleset:3
-#, fuzzy
 msgid "Turkish"
 msgstr "Turecký"
 
@@ -25397,9 +25311,8 @@ msgid "?plural:Turks"
 msgstr "?plural:Turkové"
 
 #: data/nation/turk.ruleset:6
-#, fuzzy
 msgid "Modern Turkey is the successor state of the Ottoman Empire, which collapsed and was dismembered by the victors in World War I after backing the Central Powers.  The country was subsequently reformed and secularized by Kemal Mustapha, the hero of the defense of Gallipoli."
-msgstr "Moderní Turecko je nastupním státem Ottomanské Říše, která upadla a byla rozdělena vítězi První světové války. Země byla postupně reformována a zesvetštěna Kemalem Mustafou, hrdinou od obrany Gallipole."
+msgstr "Moderní Turecko je nástupnickým státem Ottomanské Říše, která upadla a byla rozdělena vítězi První světové války. Země byla postupně reformována a zesvětštěna Kemalem Mustafou, hrdinou od obrany Gallipole."
 
 #: data/nation/ukrainian.ruleset:3
 msgid "Ukrainian"
@@ -25582,51 +25495,51 @@ msgstr "Zuluové jsou válečnickým národem, který migroval ze západu střed
 
 #: data/scenario/british-isles-85x80-v2.80.sav:3
 msgid "British Isles (medium/classic)"
-msgstr ""
+msgstr "Britské ostrovy (střední/klasické)"
 
 #: data/scenario/british-isles-85x80-v2.80.sav:4
 msgid "Classic-style 85x80 map of the British Isles."
-msgstr ""
+msgstr "Mapa Britských ostrovů klasického stylu 85x80."
 
 #: data/scenario/earth-160x90-v2.sav:3
 msgid "Earth (classic, large)"
-msgstr ""
+msgstr "Země (klasická, velká)"
 
 #: data/scenario/earth-160x90-v2.sav:4
 msgid "Classic-style 160x90 Earth scenario."
-msgstr ""
+msgstr "Scénář Země 160x90 klasického stylu."
 
 #: data/scenario/earth-80x50-v2.sav:3
 msgid "Earth (classic, small)"
-msgstr ""
+msgstr "Země (klasická, malá)"
 
 #: data/scenario/earth-80x50-v2.sav:4
 msgid "Classic-style 80x50 Earth scenario."
-msgstr ""
+msgstr "Scénář Země 80x50 klasického stylu."
 
 #: data/scenario/europe-200x100-v2.sav:3
 msgid "Europe (giant/classic)"
-msgstr ""
+msgstr "Evropa (obrovská/klasická)"
 
 #: data/scenario/europe-200x100-v2.sav:4
 msgid "Very large classic-style map of Europe."
-msgstr ""
+msgstr "Obrovská mapa Evropy klasického stylu."
 
 #: data/scenario/hagworld-120x60-v1.2.sav:5
 msgid "Earth (classic, medium)"
-msgstr ""
+msgstr "Země (klasická, střední)"
 
 #: data/scenario/hagworld-120x60-v1.2.sav:6
 msgid "Classic-style 120x60 Earth scenario."
-msgstr ""
+msgstr "Scénář Země 120x60 klasického stylu."
 
 #: data/scenario/iberian-peninsula-136x100-v1.0.sav:3
 msgid "Iberian Peninsula (classic/large)"
-msgstr ""
+msgstr "Apeninský poloostrov (klasický, velký)"
 
 #: data/scenario/iberian-peninsula-136x100-v1.0.sav:4
 msgid "Large classic-style map of the Iberian Peninsula (modern-day Spain and Portugal)."
-msgstr ""
+msgstr "Velká mapa Apeninského poloostrova klasického stylu (dnešní Španělsko a Portugalsko)"
 
 #: data/scenario/tutorial.sav:3
 msgid "Tutorial"
