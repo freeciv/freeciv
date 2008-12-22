@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.0.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-12-17 10:53+0100\n"
-"PO-Revision-Date: 2008-12-21 22:17+0100\n"
+"PO-Revision-Date: 2008-12-22 09:57+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -4348,11 +4348,11 @@ msgstr ""
 
 #: server/settings.c:144
 msgid "Cannot set endyear earlier than current year."
-msgstr ""
+msgstr "Nelze nastavit endyear dřívější než současný rok."
 
 #: server/settings.c:161
 msgid "Cannot change maxplayers in GGZ mode."
-msgstr ""
+msgstr "Nelze měnit maxplayers v GGZ módu."
 
 #: server/settings.c:166
 #, fuzzy
@@ -5697,7 +5697,7 @@ msgstr "Hráč %s byl odstraněn ze hry."
 #: server/stdinhand.c:3512
 #, c-format
 msgid "Name \"%s\" disallowed for security reasons."
-msgstr ""
+msgstr "Jméno \"%s\" je z bezpečnostních důvodů nemožné."
 
 #: server/stdinhand.c:965
 #, fuzzy, c-format
@@ -6109,7 +6109,7 @@ msgstr "%s technologie se ladí"
 #: server/stdinhand.c:2316
 #, c-format
 msgid "players=%d cities=%d citizens=%d units=%d"
-msgstr ""
+msgstr "hráčů=%d měst=%d obyvatel=%d jednotek=%d"
 
 #: server/stdinhand.c:2330
 #: server/stdinhand.c:2361
@@ -6666,14 +6666,14 @@ msgstr "Seznam týmů:"
 #, c-format
 msgid "%2d : '%s' : %d player"
 msgid_plural "%2d : '%s' : %d players"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%2d : '%s' : %d hráč"
+msgstr[1] "%2d : '%s' : %d hráči"
+msgstr[2] "%2d : '%s' : %d hráčů"
 
 #: server/stdinhand.c:4394
 #, c-format
 msgid "%2d : '%s' : 1 player : %s"
-msgstr ""
+msgstr "%2d : '%s' : 1 hráč : %s"
 
 #: server/stdinhand.c:4403
 #, c-format
@@ -7193,7 +7193,7 @@ msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr "Příkazy pro %s byly zrušeny, protože poblíž jsou jednotky."
 
 #: server/unittools.c:3073
-#, fuzzy, c-format
+#, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "Příkazy pro %s byly zrušeny, protože poblíž jsou jednotky."
 
@@ -7203,22 +7203,22 @@ msgid "Orders for %s aborted because building of city failed."
 msgstr "Rozkazy pro %s zrušeny kvůli selhání pohybu."
 
 #: server/unittools.c:3141
-#, fuzzy, c-format
+#, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr "Rozkazy pro %s zrušeny, protože určují neplatnou činnost."
 
 #: server/unittools.c:3160
-#, fuzzy, c-format
+#, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "Rozkazy pro %s zrušeny, protože určují neplatnou polohu."
 
 #: server/unittools.c:3170
-#, fuzzy, c-format
+#, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "Rozkazy pro %s zrušeny, v cestě jsou jednotky."
 
 #: server/unittools.c:3196
-#, fuzzy, c-format
+#, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "Rozkazy pro %s zrušeny kvůli selhání pohybu."
 
@@ -7409,9 +7409,9 @@ msgid "Small Wonder"
 msgstr "Malý div světa"
 
 #: client/citydlg_common.c:398
-#, fuzzy, c-format
+#, c-format
 msgid "%+4d : Citizens\n"
-msgstr "%s - %s obyvatel"
+msgstr "%+4d : Obyvatel\n"
 
 #: client/citydlg_common.c:405
 #, c-format
@@ -7419,9 +7419,9 @@ msgid "%+4d : Taxed from trade\n"
 msgstr ""
 
 #: client/citydlg_common.c:424
-#, fuzzy, c-format
+#, c-format
 msgid "%+4d : Trade route with %s\n"
-msgstr "Neexistují obchodní cesty.\n"
+msgstr "%+4d : Obchodní cesta s %s\n"
 
 #: client/citydlg_common.c:433
 #, fuzzy, c-format
@@ -7486,7 +7486,6 @@ msgid "Entertainers, Scientists, Taxmen"
 msgstr "Baviči, Vědci, Výběrčí daní"
 
 #: client/cityrepdata.c:444
-#, fuzzy
 msgid "Concise + Rapture, - Disorder"
 msgstr "Stručně + Oslavuje, - Nepokoj"
 
@@ -7747,14 +7746,12 @@ msgid "Economy: Science"
 msgstr "Ekonomika: Věda"
 
 #: client/cityrepdata.c:510
-#, fuzzy
 msgid "?number_trade_routes:n"
-msgstr "?number_trade_routes:O"
+msgstr "?number_trade_routes:n"
 
 #: client/cityrepdata.c:510
-#, fuzzy
 msgid "?number_trade_routes:R"
-msgstr "?number_trade_routes:c"
+msgstr "?number_trade_routes:R"
 
 #: client/cityrepdata.c:511
 msgid "Number of Trade Routes"
@@ -7819,9 +7816,8 @@ msgid "  -n, --name NAME\tUse NAME as name\n"
 msgstr "  -n, --name JMÉNO\tPoužít jméno JMÉNO\n"
 
 #: client/civclient.c:263
-#, fuzzy
 msgid "  -p, --port PORT\tConnect to server port PORT (usually with -a)\n"
-msgstr "  -p, --port PORT\tPřipojit na port serveru PORT\n"
+msgstr "  -p, --port PORT\tPřipojit na port serveru PORT (většinou s -a)\n"
 
 #: client/civclient.c:265
 #, c-format
@@ -7833,9 +7829,8 @@ msgid "  -r, --read FILE\tRead startup script FILE (for spawned server only)\n"
 msgstr "  -r, --read SOUBOR\tPřečte spouštěcí skript ze souboru SOUBOR\n"
 
 #: client/civclient.c:270
-#, fuzzy
 msgid "  -s, --server HOST\tConnect to the server at HOST (usually with -a)\n"
-msgstr "  -s, --server HOST\tPřipojit k serveru HOST\n"
+msgstr "  -s, --server HOST\tPřipojit k serveru HOST (většinou s -a)\n"
 
 #: client/civclient.c:272
 msgid "  -S, --Sound FILE\tRead sound tags from FILE\n"
@@ -8353,11 +8348,13 @@ msgid ""
 msgstr ""
 
 #: client/helpdata.c:232
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires %s terrain.\n"
 "\n"
-msgstr "* Vyžaduje %d populace pro stavbu.\n"
+msgstr ""
+"Vyžaduje terén %s.\n"
+"\n"
 
 #: client/helpdata.c:282
 #, c-format
@@ -8375,9 +8372,8 @@ msgid " Rivers"
 msgstr " Řeky"
 
 #: client/helpdata.c:487
-#, fuzzy
 msgid "Current ruleset contains no description."
-msgstr "Současný adresář s pravidly je: \"%s\""
+msgstr "Současná sada pravidel neobsahuje popis."
 
 #: client/helpdata.c:611
 #, c-format
@@ -8695,9 +8691,8 @@ msgid "* Will be built as a veteran in cities with appropriate training faciliti
 msgstr ""
 
 #: client/helpdata.c:1069
-#, fuzzy
 msgid "* May be promoted through combat or training\n"
-msgstr "* Může se stát vetránem během tréninku nebo boje.\n"
+msgstr "* Může být povýšena během boje nebo tréninku.\n"
 
 #. TRANS: List of possible unit types has this between
 #. *        last two elements
@@ -8893,14 +8888,12 @@ msgid "* You may grow your cities by means of celebrations. Your cities must be 
 msgstr ""
 
 #: client/helpdata.c:1549
-#, fuzzy
 msgid "* Your units cannot be bribed.\n"
-msgstr "Tato jednotka nemůže být uplacena!"
+msgstr "* Vaše jednotky nemohou být uplaceny.\n"
 
 #: client/helpdata.c:1552
-#, fuzzy
 msgid "* Your cities cannot be incited.\n"
-msgstr "Město nemůže být rozvráceno!"
+msgstr "* Vaše města nemohou být rozvrácena.\n"
 
 #: client/helpdata.c:1556
 msgid "* If any city is in disorder for more than two turns in a row, government will fall into anarchy.\n"
@@ -8923,9 +8916,8 @@ msgid "* Pays no upkeep for fanatics.\n"
 msgstr ""
 
 #: client/helpdata.c:1576
-#, fuzzy
 msgid "* Has no unhappy citizens.\n"
-msgstr "%d dalších nespokojených obyvatel."
+msgstr "* Nemá nespokojené obyvatele.\n"
 
 #: client/helpdata.c:1586
 #: client/helpdata.c:1590
@@ -8935,9 +8927,8 @@ msgid "* Veteran %s units.\n"
 msgstr ""
 
 #: client/helpdata.c:1597
-#, fuzzy
 msgid "* Veteran units.\n"
-msgstr "Námořní jednotky"
+msgstr "* Veteráni.\n"
 
 #. TRANS: %s is list of output types, with 'or'
 #: client/helpdata.c:1603
@@ -9632,7 +9623,7 @@ msgstr "%s území"
 
 #. TRANS: "Polish territory (5 turn cease-fire)"
 #: client/text.c:131
-#, fuzzy, c-format
+#, c-format
 msgid "%s territory (%d turn cease-fire)"
 msgid_plural "%s territory (%d turn cease-fire)"
 msgstr[0] "%s území (%d tah příměří)"
@@ -9657,7 +9648,7 @@ msgstr "Město: %s (%s)"
 
 #. TRANS:  "City: Warsaw (Polish, 5 turn cease-fire)"
 #: client/text.c:167
-#, fuzzy, c-format
+#, c-format
 msgid "City: %s (%s, %d turn cease-fire)"
 msgid_plural "City: %s (%s, %d turn cease-fire)"
 msgstr[0] "Město: %s (%s, %d tah příměří)"
@@ -9987,7 +9978,7 @@ msgid "None of these units may be upgraded."
 msgstr "Žádné z těchto jednotek nemohou být vylepšeny."
 
 #: client/text.c:912
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Upgrade %d unit for %d gold?\n"
 "Treasury contains %d gold."
@@ -9995,21 +9986,18 @@ msgid_plural ""
 "Upgrade %d units for %d gold?\n"
 "Treasury contains %d gold."
 msgstr[0] ""
-"Vylepšit %s na %s za %d zlatých?\n"
+"Vylepšit %d jednotku za %d zlatých?\n"
 "V pokladně je %d zlatých."
 msgstr[1] ""
-"Vylepšit %s na %s za %d zlatých?\n"
+"Vylepšit %d jednotky za %d zlatých?\n"
 "V pokladně je %d zlatých."
 msgstr[2] ""
-"Vylepšit %s na %s za %d zlatých?\n"
+"Vylepšit %d jednotek za %d zlatých?\n"
 "V pokladně je %d zlatých."
 
 #: client/text.c:933
-#, fuzzy
 msgid "Shows your progress in researching the current technology."
-msgstr ""
-"Zobrazí průběh výzkumu naší současné technologie.\n"
-"%s: %d/%d."
+msgstr "Zobrazí průběh výzkumu naší současné technologie."
 
 #: client/text.c:940
 msgid "no research target."
@@ -10022,11 +10010,8 @@ msgid "%s: %d/%d."
 msgstr "%s: %d/%d."
 
 #: client/text.c:963
-#, fuzzy
 msgid "Shows the progress of global warming:"
-msgstr ""
-"Zobrazit průběh globálního oteplování:\n"
-"%d."
+msgstr "Zobrazí průběh globálního oteplování:"
 
 #: client/text.c:964
 #, c-format
@@ -10039,11 +10024,8 @@ msgid "Chance of catastrophic warming each turn: %d%%"
 msgstr ""
 
 #: client/text.c:982
-#, fuzzy
 msgid "Shows the progress of nuclear winter:"
-msgstr ""
-"Zobrazit průběh nukleární zimy:\n"
-"%d."
+msgstr "Zobrazí průběh nukleární zimy:"
 
 #: client/text.c:983
 #, c-format
@@ -10056,11 +10038,8 @@ msgid "Chance of catastrophic winter each turn: %d%%"
 msgstr ""
 
 #: client/text.c:1000
-#, fuzzy
 msgid "Shows your current government:"
-msgstr ""
-"Zobrazí vaš současné státní zřízení:\n"
-"%s."
+msgstr "Zobrazí vaše současné státní zřízení:"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:1026
@@ -10235,9 +10214,9 @@ msgid "No usable default tileset found, aborting!"
 msgstr "Nenalezena použitelná výchozí sada dlaždic, končím!"
 
 #: client/tilespec.c:910
-#, fuzzy, c-format
+#, c-format
 msgid "Loading tileset \"%s\"."
-msgstr "Nahrávám pravidla"
+msgstr "Nahrává se sada dlaždic \"%s\"."
 
 #: client/tilespec.c:1059
 #: client/tilespec.c:1093
@@ -11021,9 +11000,8 @@ msgid "Cities"
 msgstr "Města"
 
 #: client/gui-gtk-2.0/cityrep.c:817
-#, fuzzy
 msgid "_Inspect"
-msgstr "_Samostatné"
+msgstr "_Ukázat"
 
 #: client/gui-gtk-2.0/cityrep.c:1231
 #: client/gui-gtk-2.0/cityrep.c:1252
@@ -11222,7 +11200,6 @@ msgstr "Jít na po_lohu"
 
 #: client/gui-gtk-2.0/dialogs.c:202
 #: client/gui-gtk-2.0/messagewin.c:189
-#, fuzzy
 msgid "Inspect _City"
 msgstr "_Ukázat město"
 
@@ -11285,14 +11262,12 @@ msgid "_Sentry idle"
 msgstr "_Strážit nečinné"
 
 #: client/gui-gtk-2.0/dialogs.c:625
-#, fuzzy
 msgid "Select _all"
-msgstr "Výběr"
+msgstr "Výbr_at vše"
 
 #: client/gui-gtk-2.0/dialogs.c:753
-#, fuzzy
 msgid "Nation _Groups:"
-msgstr "_Národy:"
+msgstr "Skupiny _Národů:"
 
 #: client/gui-gtk-2.0/dialogs.c:798
 msgid "Edit Nation"
@@ -11340,9 +11315,8 @@ msgid "City _Styles:"
 msgstr "_Styl měst:"
 
 #: client/gui-gtk-2.0/dialogs.c:938
-#, fuzzy
 msgid "_Description"
-msgstr "L_egenda"
+msgstr "_Popis"
 
 #: client/gui-gtk-2.0/dialogs.c:1281
 #: client/gui-xaw/dialogs.c:1492
@@ -11456,9 +11430,8 @@ msgid "Invalid amount of gold specified."
 msgstr "Určeno neplatné množství zlata."
 
 #: client/gui-gtk-2.0/editgui.c:205
-#, fuzzy
 msgid "Global Observer"
-msgstr "Pozorovatel"
+msgstr "Globální Pozorovatel"
 
 #: client/gui-gtk-2.0/editgui.c:550
 msgid "Switch player point-of-view. Use this to edit from the perspective of different players, or even as a global observer."
@@ -11474,9 +11447,8 @@ msgid "Select Tool Value"
 msgstr "Výběr"
 
 #: client/gui-gtk-2.0/editgui.c:1147
-#, fuzzy
 msgid "Editor Tool"
-msgstr "Editovací nástroje"
+msgstr "Editovací nástroj"
 
 #: client/gui-gtk-2.0/editgui.c:1161
 msgid "Click to change value if applicable."
@@ -11504,18 +11476,16 @@ msgid "Use this to change the \"applied player\" tool parameter. This controls f
 msgstr ""
 
 #: client/gui-gtk-2.0/editprop.c:614
-#, fuzzy
 msgid "Tile"
-msgstr "Sada dlaždic"
+msgstr "Dlaždice"
 
 #: client/gui-gtk-2.0/editprop.c:626
 msgid "Player"
 msgstr "Hráč"
 
 #: client/gui-gtk-2.0/editprop.c:630
-#, fuzzy
 msgid "?play:Game"
-msgstr "?Player:Jméno"
+msgstr "?play:Hra"
 
 #. TRANS: "Number of buildings, number of small
 #. * wonders (e.g. palace), number of great wonders."
@@ -11534,9 +11504,9 @@ msgstr "%d známých"
 #. * rail, hut, etc.) present on a tile."
 #: client/gui-gtk-2.0/editprop.c:890
 #: client/gui-gtk-2.0/editprop.c:899
-#, fuzzy, c-format
+#, c-format
 msgid "%d present"
-msgstr "_Přidat předvolbu"
+msgstr "%d přítomných"
 
 #. TRANS: Improvement never built.
 #: client/gui-gtk-2.0/editprop.c:922
@@ -11638,14 +11608,12 @@ msgid "Index"
 msgstr "Nečinný"
 
 #: client/gui-gtk-2.0/editprop.c:3590
-#, fuzzy
 msgid "?coordinate:X"
-msgstr "Špatné koordináty mapy."
+msgstr "?coordinate:X"
 
 #: client/gui-gtk-2.0/editprop.c:3592
-#, fuzzy
 msgid "?coordinate:Y"
-msgstr "Špatné koordináty mapy."
+msgstr "?coordinate:Y"
 
 #. TRANS: The coordinate X in native coordinates.
 #. * The freeciv coordinate system is described in doc/HACKING.
@@ -11660,16 +11628,14 @@ msgid "NAT Y"
 msgstr "NAT Y"
 
 #: client/gui-gtk-2.0/editprop.c:3602
-#, fuzzy
 msgid "Continent"
-msgstr "Připojit"
+msgstr "Kontinent"
 
 #: client/gui-gtk-2.0/editprop.c:3604
 #: client/gui-gtk-2.0/editprop.c:3625
 #: client/gui-gtk-2.0/editprop.c:3651
-#, fuzzy
 msgid "?coordinates:X,Y"
-msgstr "Špatné koordináty mapy."
+msgstr "?coordinates:X,Y"
 
 #: client/gui-gtk-2.0/editprop.c:3606
 #: client/gui-gtk-2.0/menu.c:865
@@ -11703,9 +11669,8 @@ msgid "Type"
 msgstr "Typ"
 
 #: client/gui-gtk-2.0/editprop.c:3627
-#, fuzzy
 msgid "Moves Left"
-msgstr "Tahů"
+msgstr "Pohybu zbývá"
 
 #: client/gui-gtk-2.0/editprop.c:3629
 msgid "Fuel"
@@ -11770,9 +11735,8 @@ msgid "Enter a filter string to limit which properties are shown. The filter is 
 msgstr ""
 
 #: client/gui-gtk-2.0/editprop.c:5173
-#, fuzzy
 msgid "Property Editor"
-msgstr "Editor seznamu prací"
+msgstr "Editor vlastností"
 
 #: client/gui-gtk-2.0/editprop.c:5182
 msgid "Close Tab"
@@ -11971,14 +11935,12 @@ msgid "Help Label"
 msgstr ""
 
 #: client/gui-gtk-2.0/gui_main.c:221
-#, fuzzy
 msgid "Help Link"
-msgstr "Nápověda"
+msgstr "Odkaz Nápovědy"
 
 #: client/gui-gtk-2.0/gui_main.c:226
-#, fuzzy
 msgid "Help Text"
-msgstr "Nápověda"
+msgstr "Text Nápovědy"
 
 #: client/gui-gtk-2.0/gui_main.c:231
 msgid "Chatline Area"
@@ -12065,14 +12027,12 @@ msgstr "Vyberte _národ"
 
 #: client/gui-gtk-2.0/gui_main.c:1656
 #: client/gui-gtk-2.0/pages.c:1600
-#, fuzzy
 msgid "_Observe"
-msgstr "Pozorovatel"
+msgstr "_Pozorovat"
 
 #: client/gui-gtk-2.0/gui_main.c:1658
-#, fuzzy
 msgid "Do not _observe"
-msgstr "nyní _pozoruje"
+msgstr "Ne_pozorovat"
 
 #. TRANS: "<Novice AI>"
 #: client/gui-gtk-2.0/gui_main.c:1711
@@ -12491,9 +12451,8 @@ msgid "_Options"
 msgstr "_Možnosti"
 
 #: client/gui-gtk-2.0/menu.c:776
-#, fuzzy
 msgid "_Local Client"
-msgstr "Lokální Možnosti"
+msgstr "_Lokální klient"
 
 #: client/gui-gtk-2.0/menu.c:778
 msgid "_Message"
@@ -12561,9 +12520,8 @@ msgid "_Worklists"
 msgstr "Sezn_amy prací"
 
 #: client/gui-gtk-2.0/menu.c:818
-#, fuzzy
 msgid "Editing _Mode"
-msgstr "_Upravit"
+msgstr "_Upravovací mód"
 
 #: client/gui-gtk-2.0/menu.c:820
 msgid "Recalculate _Borders"
@@ -12615,9 +12573,8 @@ msgid "City _Productions"
 msgstr "_Produkci měst"
 
 #: client/gui-gtk-2.0/menu.c:845
-#, fuzzy
 msgid "City _Traderoutes"
-msgstr "Obchodní cesty:"
+msgstr "Obchodní ces_ty"
 
 #: client/gui-gtk-2.0/menu.c:851
 #: client/gui-win32/menu.c:343
@@ -12830,9 +12787,8 @@ msgid "_Irrigate"
 msgstr "Závlaha (-I)"
 
 #: client/gui-gtk-2.0/menu.c:938
-#, fuzzy
 msgid "Go _to"
-msgstr "Jít"
+msgstr "Jí_t"
 
 #: client/gui-gtk-2.0/menu.c:938
 msgid "_Build city"
@@ -13401,14 +13357,12 @@ msgid "Put on %s"
 msgstr "Populace: %s"
 
 #: client/gui-gtk-2.0/pages.c:1461
-#, fuzzy
 msgid "Number of _Players (including AI):"
 msgstr "_Počet hráčů (včetně počítačových):"
 
 #: client/gui-gtk-2.0/pages.c:1488
-#, fuzzy
 msgid "AI Skill _Level:"
-msgstr "Úroveň počítačem ovládaných hráčů:"
+msgstr "Úroveň počítačem ov_ládaných hráčů:"
 
 #: client/gui-gtk-2.0/pages.c:1505
 #, fuzzy
@@ -13818,9 +13772,9 @@ msgid "Establish Traderoute with %s ( %d R&G + %d trade )"
 msgstr "Vytvořit obchodní trasu s %s ( %d P&Z + %d obchod )"
 
 #: client/gui-sdl/caravan_dialog.c:163
-#, fuzzy, c-format
+#, c-format
 msgid "Enter Marketplace ( %d R&G bonus )"
-msgstr "Vstup na Tržiště"
+msgstr "Vstup na Tržiště ( %d R&Z bonus )"
 
 #: client/gui-sdl/caravan_dialog.c:181
 #: data/Freeciv.in:2270
@@ -15122,9 +15076,8 @@ msgid "Disband"
 msgstr "Rozpustit"
 
 #: client/gui-sdl/menu.c:464
-#, fuzzy
 msgid "Goto City"
-msgstr "Ovládat město"
+msgstr "Do města"
 
 #: client/gui-sdl/menu.c:477
 #: client/gui-win32/gotodlg.c:166
@@ -15145,19 +15098,16 @@ msgid "Patrol"
 msgstr "Hlídka"
 
 #: client/gui-sdl/menu.c:514
-#, fuzzy
 msgid "Connect irrigation"
-msgstr "Připojit/Zavlažování"
+msgstr "Připojit zavlažování"
 
 #: client/gui-sdl/menu.c:527
-#, fuzzy
 msgid "Connect road"
-msgstr "Připojit/Cesta"
+msgstr "Připojit cestu"
 
 #: client/gui-sdl/menu.c:540
-#, fuzzy
 msgid "Connect railroad"
-msgstr "Připojit/Cesta"
+msgstr "Připojit železnici"
 
 #: client/gui-sdl/menu.c:553
 msgid "Auto-Explore"
@@ -15174,7 +15124,6 @@ msgid "Auto-Settler"
 msgstr "Auto-Osadník"
 
 #: client/gui-sdl/menu.c:587
-#, fuzzy
 msgid "Wake Up Others"
 msgstr "Probudit ostatní"
 
@@ -15194,9 +15143,8 @@ msgid "Unload"
 msgstr "Vyložit"
 
 #: client/gui-sdl/menu.c:637
-#, fuzzy
 msgid "Find Homecity"
-msgstr "Najít město"
+msgstr "Najít domovské město"
 
 #: client/gui-sdl/menu.c:674
 #: client/gui-xaw/menu.c:186
@@ -15316,9 +15264,8 @@ msgid "empty worklist"
 msgstr "prázdný seznam prací"
 
 #: client/gui-sdl/optiondlg.c:337
-#, fuzzy
 msgid "Add new worklist"
-msgstr "Přejmenovat seznam prací"
+msgstr "Přidat nový seznam prací"
 
 #: client/gui-sdl/optiondlg.c:439
 #: client/gui-sdl/optiondlg.c:624
@@ -15341,9 +15288,8 @@ msgstr ""
 "%dx%d"
 
 #: client/gui-sdl/optiondlg.c:603
-#, fuzzy
 msgid "No modes available!"
-msgstr "Žádné dostupné divy světa"
+msgstr "Žádné dostupné módy!"
 
 #: client/gui-sdl/optiondlg.c:609
 msgid "All resolutions available."
@@ -15620,9 +15566,9 @@ msgid "No usable default theme found, aborting!"
 msgstr "Nenalezeno použitelné výchozí téma, končím!"
 
 #: client/gui-sdl/themespec.c:368
-#, fuzzy, c-format
+#, c-format
 msgid "Loading theme \"%s\"."
-msgstr "Nahrávám pravidla"
+msgstr "Nahrává se téma \"%s\"."
 
 #: client/gui-sdl/wldlg.c:898
 #: client/gui-sdl/wldlg.c:1075
@@ -21469,12 +21415,14 @@ msgid "Barbarian Leader"
 msgstr "Vůdce barbarů"
 
 #: data/default/units.ruleset:2028
-#, fuzzy
 msgid ""
 "One Barbarian Leader appears every time there is a barbarian uprising somewhere in the world.\n"
 "\n"
 "When a Barbarian Leader is killed on a tile without any defending units, the 100 gold ransom is paid, but only to land units and helicopters."
-msgstr "Pokud je barbarský vůdce zabit na políčku bez obranných jednotek, je vyplacena odměna 100 zlatých, ale jen pozemním jednotkám nebo vrtulníkům."
+msgstr ""
+"Pokaždé se objeví jeden vůdce Barbarů, neboť barbarské povstání je neustále někde ve světě.\n"
+"\n"
+"Pokud je barbarský vůdce zabit na políčku bez obranných jednotek, je vyplacena odměna 100 zlatých, ale jen pozemním jednotkám nebo vrtulníkům."
 
 #: data/default/units.ruleset:2037
 msgid "AWACS"
@@ -21546,12 +21494,14 @@ msgid "The Caravel replaces the Trireme and is much more reliable on the open se
 msgstr ""
 
 #: data/civ2/units.ruleset:1941
-#, fuzzy
 msgid ""
 "One Barbarian Leader appears every time there is a barbarian uprising somewhere in the world.\n"
 "\n"
 "When barbarian leader is killed on a tile without any defending units, the 100 gold ransom is paid, but only to land units and helicopters."
-msgstr "Pokud je barbarský vůdce zabit na políčku bez obranných jednotek, je vyplacena odměna 100 zlatých, ale jen pozemním jednotkám nebo vrtulníkům."
+msgstr ""
+"Pokaždé se objeví jeden vůdce Barbarů, neboť barbarské povstání je neustále někde ve světě.\n"
+"\n"
+"Pokud je barbarský vůdce zabit na políčku bez obranných jednotek, je vyplacena odměna 100 zlatých, ale jen pozemním jednotkám nebo vrtulníkům."
 
 #: data/civ1/units.ruleset:189
 msgid ""
@@ -21610,12 +21560,14 @@ msgstr ""
 "TIP 2:  Můžete se dostat do situace, kdy obsazujete velké a silné město hrubou silou, ale nepřátelská města jsou příliš silná. Přistavte poblíž města úklidovou četu osadníků aby mohli uklidit jaderný odpad ten samý tah, kdy vznikne. To snižuje šanci na vznik jaderné zimy. Eko-jaderné střely?"
 
 #: data/civ1/units.ruleset:1159
-#, fuzzy
 msgid ""
 "One Barbarian Leader appears every time there is a barbarian uprising somewhere in the world.\n"
 "\n"
 "When barbarian leader is killed on a tile without any defending units, the 100 gold ransom is paid, but only to land units."
-msgstr "Pokud vůdce barbarů zemře na políčku bez obránců, bude vyplacena odměna 100 zlatých, ale jen v případě pozemních jednotek."
+msgstr ""
+"Pokaždé se objeví jeden vůdce Barbarů, neboť barbarské povstání je neustále někde ve světě.\n"
+"\n"
+"Pokud vůdce barbarů zemře na políčku bez obránců, bude vyplacena odměna 100 zlatých, ale jen v případě pozemních jednotek."
 
 #: data/nation/aborigines.ruleset:3
 #, fuzzy
