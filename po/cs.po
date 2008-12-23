@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.0.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-12-17 10:53+0100\n"
-"PO-Revision-Date: 2008-12-23 15:27+0100\n"
+"PO-Revision-Date: 2008-12-23 16:04+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -12756,7 +12756,7 @@ msgstr "_Auto Osadník"
 #: client/gui-gtk-2.0/menu.c:930
 #: client/gui-win32/menu.c:380
 msgid "Auto E_xplore"
-msgstr "Auto Průzkum (_X)"
+msgstr "Auto Průzkum"
 
 #: client/gui-gtk-2.0/menu.c:932
 #: client/gui-gtk-2.0/menu.c:934
@@ -12767,7 +12767,7 @@ msgstr "_Připojit"
 #: client/gui-gtk-2.0/menu.c:932
 #: client/gui-win32/menu.c:382
 msgid "_Road"
-msgstr "Cesta (_R)"
+msgstr "Cesta"
 
 #: client/gui-gtk-2.0/menu.c:934
 #: client/gui-win32/menu.c:383
@@ -14834,7 +14834,7 @@ msgstr ""
 
 #: client/gui-sdl/inteldlg.c:371
 msgid "Their techs that we don't have :"
-msgstr ""
+msgstr "Jejich technologie, které nemáme :"
 
 #: client/gui-sdl/mapctrl.c:273
 msgid "Show Unit Info Window"
@@ -14864,7 +14864,7 @@ msgstr "Schovat Zprávy (F10)"
 
 #: client/gui-sdl/mapctrl.c:672
 msgid "Scale Minimap"
-msgstr ""
+msgstr "Měřítko Minimapy"
 
 #: client/gui-sdl/mapctrl.c:683
 msgid "Single Tile Width"
@@ -14920,7 +14920,7 @@ msgstr "Možnosti"
 
 #: client/gui-sdl/mapview.c:155
 msgid "The SDL event buffer is full; you may see drawing errors as a result."
-msgstr ""
+msgstr "SDL event buffer je plný; můžete vidět chyby zobrazení jako důsledek."
 
 #: client/gui-sdl/mapview.c:414
 #, c-format
@@ -15679,7 +15679,7 @@ msgstr "%d %s"
 
 #: client/gui-sdl/wldlg.c:1404
 msgid "shields into gold"
-msgstr ""
+msgstr "štíty na zlato"
 
 #: client/gui-sdl/wldlg.c:1483
 #, c-format
@@ -16203,7 +16203,7 @@ msgstr "Luxus: %d%%"
 #: client/gui-win32/inteldlg.c:128
 #: client/gui-xaw/inteldlg.c:241
 msgid "Researching: (Unknown)"
-msgstr "Zkoumáme: (Neznámé)"
+msgstr "Zkoumá se: (Neznámé)"
 
 #: client/gui-win32/inteldlg.c:131
 #: client/gui-xaw/inteldlg.c:244
@@ -16215,7 +16215,7 @@ msgstr "Zkoumá se: Neznámý(%d/-)"
 #: client/gui-xaw/inteldlg.c:248
 #, c-format
 msgid "Researching: %s(%d/%d)"
-msgstr "Zkoumáme: %s(%d/%d)"
+msgstr "Zkoumá se: %s(%d/%d)"
 
 #: client/gui-win32/inteldlg.c:144
 #: client/gui-xaw/inteldlg.c:262
@@ -17393,11 +17393,11 @@ msgstr ""
 
 #: data/helpdata.txt:388
 msgid "If you would like to add a localization (translation) for your language, please see the instructions at:"
-msgstr ""
+msgstr "Pokud byste chtěli přidat lokalizaci (překlad) do vašeho jazyka, prosím prohlédněte si instrukce na:"
 
 #: data/helpdata.txt:393
 msgid "You are also welcome to send any questions to the translation mailing list:"
-msgstr ""
+msgstr "Jsou také vítány jakékoliv dotazy k překladu do mailing listu:"
 
 #: data/helpdata.txt:402
 #, fuzzy
@@ -20829,7 +20829,7 @@ msgstr "Falanga"
 #: data/civ2/units.ruleset:305
 #: data/civ1/units.ruleset:265
 msgid "The Phalanx is armored infantry, suitable for defending your cities."
-msgstr ""
+msgstr "Phalanx je obrněná pěchota, vhodná pro obranu našich měst."
 
 #: data/default/units.ruleset:462
 #: data/civ2/units.ruleset:310
@@ -20861,7 +20861,7 @@ msgstr "Pikiníci"
 #: data/default/units.ruleset:552
 #: data/civ2/units.ruleset:400
 msgid "Equipped with long pikes, Pikemen replaces Phalanx as the preferred city defender."
-msgstr ""
+msgstr "Vybaveni dlouhými píkami, Pikiníci nahrazují Phalanxe jako preferovaný obránce města."
 
 #: data/default/units.ruleset:558
 #: data/civ2/units.ruleset:406
@@ -20872,7 +20872,7 @@ msgstr "Mušketýři"
 #: data/default/units.ruleset:585
 #: data/civ2/units.ruleset:433
 msgid "Musketeers are infantry equipped with early firearms and replace Pikemen as the preferred city defender."
-msgstr ""
+msgstr "Mušketýři jsou pěchota vybavená prvními střelnými zbraněmi a nahrazuje Pikiníky jako preferovaný obránce města."
 
 #: data/default/units.ruleset:592
 #: data/civ2/units.ruleset:475
@@ -20945,7 +20945,7 @@ msgstr "Výsadkáři"
 #: data/default/units.ruleset:756
 #: data/civ2/units.ruleset:639
 msgid "Paratroopers are experts at airborne attacks."
-msgstr ""
+msgstr "Výsadkáři jsou experti na útoky ze vzduchu."
 
 #: data/default/units.ruleset:765
 #: data/civ2/units.ruleset:648
@@ -20991,7 +20991,7 @@ msgstr "Rytíři"
 #: data/civ2/units.ruleset:837
 #: data/civ1/units.ruleset:493
 msgid "Knights are mounted and heavily armored warriors."
-msgstr ""
+msgstr "Rytíři jsou jízdní a těžce obrnění válečníci."
 
 #: data/default/units.ruleset:895
 #: data/civ2/units.ruleset:842
