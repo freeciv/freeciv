@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.0.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-12-17 10:53+0100\n"
-"PO-Revision-Date: 2008-12-23 13:59+0100\n"
+"PO-Revision-Date: 2008-12-23 15:27+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -182,7 +182,7 @@ msgstr "Postaveno"
 
 #: common/events.c:82
 msgid "Forced to Sell"
-msgstr ""
+msgstr "Vynucení k prodeji"
 
 #: common/events.c:83
 #, fuzzy
@@ -253,7 +253,7 @@ msgstr "Správce měst..."
 
 #: common/events.c:98
 msgid "Suggest Growth Throttling"
-msgstr ""
+msgstr "Doproučení přiškrcení růstu"
 
 #: common/events.c:99
 #, fuzzy
@@ -276,7 +276,7 @@ msgstr "Produkce změněna"
 #: common/events.c:103
 #: common/events.c:112
 msgid "Bribe"
-msgstr ""
+msgstr "Uplatit"
 
 #: common/events.c:104
 msgid "Caused Incident"
@@ -362,7 +362,7 @@ msgstr "V chýši nalezena technologie"
 
 #: common/events.c:128
 msgid "Unit Spared by Barbarians"
-msgstr ""
+msgstr "Jednotka ušetřena Barbary"
 
 #: common/events.c:129
 msgid "Barbarian Uprising"
@@ -509,7 +509,7 @@ msgstr "Karavana"
 
 #: common/events.c:164
 msgid "Chat error messages"
-msgstr ""
+msgstr "Chybové hlášky chatu"
 
 #: common/events.c:165
 #, fuzzy
@@ -527,7 +527,7 @@ msgstr "Diplomatická zpráva"
 
 #: common/events.c:168
 msgid "Error message from bad command"
-msgstr ""
+msgstr "Chybová hláška ze špatného příkazu"
 
 #: common/events.c:169
 msgid "Game Ended"
@@ -1079,6 +1079,10 @@ msgid ""
 "may not be displayed properly.  You can download iconv\n"
 "at http://gnu.org/.\n"
 msgstr ""
+"Máte spuštěno Freeciv bez podpory iconv.  Pokud\n"
+"použijete znakovou sadu latin1, některé znaky\n"
+"mohou být zobrazeny nekorektně.  Iconv můžete stáhnout\n"
+"na http://gnu.org/.\n"
 
 #. TRANS: "Could not convert text from <encoding a> to <encoding b>:"
 #. *        <externally translated error string>."
@@ -2148,7 +2152,7 @@ msgstr "Varování: volba %s je zastaralá.  Použijte -m pro metaserver.\n"
 #: server/civserver.c:207
 #, c-format
 msgid "Illegal value \"%s\" for --Announce"
-msgstr ""
+msgstr "Neplatná hodnota \"%s\" pro --Announce"
 
 #: server/civserver.c:211
 #, c-format
@@ -3366,12 +3370,12 @@ msgstr "%s způsobil incident při pokusu vyvolat povstání ve městě %s."
 #: server/edithand.c:146
 #, c-format
 msgid " *** Server set to edit mode by %s! *** "
-msgstr ""
+msgstr " *** Server nastaven do upravovacího módu hráčem %s! *** "
 
 #: server/edithand.c:151
 #, c-format
 msgid " *** Edit mode cancelled by %s. *** "
-msgstr ""
+msgstr " *** Upravovací mód zrušen hráčem %s. *** "
 
 #: server/edithand.c:177
 #: server/edithand.c:225
@@ -3495,7 +3499,7 @@ msgstr ""
 #: server/edithand.c:762
 #, c-format
 msgid "Cannot edit city with invalid city ID %d."
-msgstr ""
+msgstr "Nelze upravovat město s neplatným ID %d."
 
 #: server/edithand.c:774
 #, fuzzy, c-format
@@ -3505,7 +3509,7 @@ msgstr "Název připojení: %s"
 #: server/edithand.c:785
 #, c-format
 msgid "Invalid city size %d for city %s."
-msgstr ""
+msgstr "Neplatná velikost města %d pro město %s."
 
 #: server/edithand.c:802
 #, c-format
@@ -6140,7 +6144,7 @@ msgstr "Přepravní systém již není v ladícím módu."
 
 #: server/stdinhand.c:2390
 msgid "Ferry system in debug mode."
-msgstr ""
+msgstr "Přepravní systém v ladícím režimu."
 
 #: server/stdinhand.c:2403
 msgid "Value 2 must be integer."
@@ -6163,7 +6167,7 @@ msgstr "Toto nastavení nelze změnit poté co byla hra zahájena."
 #: server/stdinhand.c:2505
 #, c-format
 msgid "The parameter %s should only contain digits 0-1."
-msgstr ""
+msgstr "Parametr %s by měl obsahovat pouze číslice 0-1."
 
 #: server/stdinhand.c:2512
 msgid "Value out of range (minimum: 0, maximum: 1)."
@@ -6178,7 +6182,7 @@ msgstr "Volba: %s byla nastavena na %d."
 #: server/stdinhand.c:2547
 #, c-format
 msgid "The parameter %s should only contain +- and 0-9."
-msgstr ""
+msgstr "Parametr %s by měl obsahovat pouze znaky +- a číslice 0-9."
 
 #: server/stdinhand.c:2554
 #, c-format
@@ -8297,11 +8301,13 @@ msgid ""
 msgstr ""
 
 #: client/helpdata.c:194
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires the %s nation.\n"
 "\n"
-msgstr "* Vyžaduje %d populace pro stavbu.\n"
+msgstr ""
+"Vyžaduje %s národ.\n"
+"\n"
 
 #: client/helpdata.c:198
 #: client/helpdata.c:207
@@ -11580,9 +11586,8 @@ msgstr "Konec tahu"
 
 #. TRANS: As in "the player has set this nation".
 #: client/gui-gtk-2.0/editprop.c:3157
-#, fuzzy
 msgid "Set"
-msgstr "Stráž"
+msgstr "Nastavil"
 
 #: client/gui-gtk-2.0/editprop.c:3582
 #: client/gui-gtk-2.0/editprop.c:3617
@@ -12410,9 +12415,8 @@ msgstr "_Smazat Log"
 
 #: client/gui-gtk-2.0/menu.c:764
 #: client/gui-win32/menu.c:315
-#, fuzzy
 msgid "_Write Log"
-msgstr "E_xportovat log"
+msgstr "_Zapsat log"
 
 #: client/gui-gtk-2.0/menu.c:766
 #: client/gui-gtk-2.0/menu.c:768
@@ -12451,19 +12455,16 @@ msgid "_Message"
 msgstr "_Zpráva"
 
 #: client/gui-gtk-2.0/menu.c:780
-#, fuzzy
 msgid "_Remote Server"
-msgstr "_Odebrat"
+msgstr "_Vzdálený Server"
 
 #: client/gui-gtk-2.0/menu.c:782
-#, fuzzy
 msgid "Save Options _Now"
-msgstr "Možnosti hry"
+msgstr "Uložit Možnosti _nyní"
 
 #: client/gui-gtk-2.0/menu.c:784
-#, fuzzy
 msgid "Save Options on _Exit"
-msgstr "Volby serveru (stávající)"
+msgstr "Uložit Možnosti při _Ukončení"
 
 #: client/gui-gtk-2.0/menu.c:789
 #, fuzzy
@@ -19922,9 +19923,9 @@ msgid "You found %s in ancient scrolls of wisdom."
 msgstr "Nalezli jsme %s ve starodávných svitcích moudrosti."
 
 #: data/default/script.lua:30
-#, fuzzy, c-format
+#, c-format
 msgid "The %s have acquired %s from ancient scrolls of                      wisdom."
-msgstr "%s nalezli %s ve starodávných svitcích moudrosti."
+msgstr "%s nalezli %s ve starodávných svitcích                      moudrosti."
 
 #: data/default/script.lua:51
 msgid "A band of friendly mercenaries joins your cause."
@@ -19935,9 +19936,8 @@ msgid "You found a friendly city."
 msgstr "Nalezli jsme přátelské město."
 
 #: data/default/script.lua:71
-#, fuzzy
 msgid "Friendly nomads are impressed by you, and join you."
-msgstr "Udělal(a) jste dojem na skupinu kočovných nomádů, kteří se k Vám rozhodli připojit."
+msgstr "Udělali jsme dojem na skupinu kočovných nomádů, kteří se k nám rozhodli připojit."
 
 #: data/default/script.lua:94
 msgid "You have unleashed a horde of barbarians!"
@@ -21392,7 +21392,6 @@ msgstr "Průzkumník"
 
 #: data/default/units.ruleset:1962
 #: data/civ2/units.ruleset:1909
-#, fuzzy
 msgid "Explorers are brave individuals that are very useful for mapping unknown territory."
 msgstr "Průzkumníci jsou velice užiteční při mapování neznámého území."
 
@@ -23834,7 +23833,6 @@ msgid "?plural:Lithuanians"
 msgstr "?plural:Lotyši"
 
 #: data/nation/lithuanian.ruleset:6
-#, fuzzy
 msgid "Lithuania is a small country on the south coast of the Baltic Sea, northeast of Poland.  Lithuanian is the most archaic and complex of the northern Indo-European languages"
 msgstr "Lotyšsko je malá země na severním pobřeží Baltského moře, severovýchodně od Polska. Lotyšština je nejarchaičtější a komplexní ze severních Indo-Evropských jazyků."
 
