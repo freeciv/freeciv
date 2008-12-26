@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.0.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-12-17 10:53+0100\n"
-"PO-Revision-Date: 2008-12-26 12:51+0100\n"
+"PO-Revision-Date: 2008-12-26 15:49+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -140,7 +140,7 @@ msgstr "Národ: %s"
 #: common/events.c:56
 #, fuzzy, c-format
 msgid "Treaty: %s"
-msgstr "Velcí"
+msgstr "Přijmout _dohodu"
 
 #: common/events.c:57
 #, c-format
@@ -155,12 +155,12 @@ msgstr "Div: %s"
 #: common/events.c:77
 #, fuzzy
 msgid "Learned From Great Library"
-msgstr "Velká knihovna"
+msgstr "Vývojové nástroje z knihovny GNU C"
 
 #: common/events.c:78
 #, fuzzy
 msgid "Learned New Tech"
-msgstr "poblíž %s"
+msgstr "Objeveno nové státní zřízení"
 
 #: common/events.c:79
 msgid "Selected New Goal"
@@ -187,7 +187,7 @@ msgstr "Vynucení k prodeji"
 #: common/events.c:83
 #, fuzzy
 msgid "New Improvement Selected"
-msgstr "Vylepšení"
+msgstr "Zvolen nový cíl"
 
 #: common/events.c:84
 msgid "Sold"
@@ -196,7 +196,7 @@ msgstr "Prodáno"
 #: common/events.c:85
 #, fuzzy
 msgid "Building Unavailable Item"
-msgstr "Žádné dostupné stavby"
+msgstr "Falešná položka nabídky %d\n"
 
 #: common/events.c:86
 msgid "Captured/Destroyed"
@@ -213,12 +213,12 @@ msgstr "Občanské nepokoje"
 #: common/events.c:89
 #, fuzzy
 msgid "Famine"
-msgstr "Jméno města"
+msgstr "Hladomor úplně zničil město %s."
 
 #: common/events.c:90
 #, fuzzy
 msgid "Famine Feared"
-msgstr "Varování: Hrozí hladomor ve městě %s."
+msgstr "Obavy z hladomoru ve městě %s - %s ztraceni!"
 
 #: common/events.c:91
 msgid "Growth"
@@ -244,12 +244,12 @@ msgstr "Normální"
 #: common/events.c:96
 #, fuzzy
 msgid "Nuked"
-msgstr "Jméno města"
+msgstr "Na %s %s byl proveden jaderný útok."
 
 #: common/events.c:97
 #, fuzzy
 msgid "Released from citizen governor"
-msgstr "Správce měst..."
+msgstr " - pod kontrolou Guvernéra."
 
 #: common/events.c:98
 msgid "Suggest Growth Throttling"
@@ -258,7 +258,7 @@ msgstr "Doproučení přiškrcení růstu"
 #: common/events.c:99
 #, fuzzy
 msgid "Transfer"
-msgstr "Transformovat"
+msgstr "Transfer"
 
 #: common/events.c:100
 msgid "Was Built"
@@ -267,7 +267,7 @@ msgstr "Bylo postaveno"
 #: common/events.c:101
 #, fuzzy
 msgid "Worklist Events"
-msgstr "Upravit seznam prací"
+msgstr "Rozš. události:"
 
 #: common/events.c:102
 msgid "Production changed"
@@ -334,7 +334,7 @@ msgstr "Jaderná exploze"
 #: common/events.c:121
 #, fuzzy
 msgid "Barbarians in a Hut Roused"
-msgstr "První rok nájezdů"
+msgstr "Zabit barbary v chýši"
 
 #: common/events.c:122
 msgid "City Founded from Hut"
@@ -375,7 +375,7 @@ msgstr "Občanská válka"
 #: common/events.c:131
 #, fuzzy
 msgid "Collapse to Anarchy"
-msgstr "Skrýt vše"
+msgstr "Revoluce: návrat do anarchie."
 
 #: common/events.c:132
 msgid "First Contact"
@@ -401,17 +401,17 @@ msgstr "Znečištění"
 #: common/events.c:136
 #, fuzzy
 msgid "Revolt Ended"
-msgstr "Hra skončena"
+msgstr "Synchronizace skončila"
 
 #: common/events.c:137
 #, fuzzy
 msgid "Revolt Started"
-msgstr "Hra spuštěna"
+msgstr "Normálně spuštěno"
 
 #: common/events.c:138
 #, fuzzy
 msgid "Spaceship Events"
-msgstr "Kosmická loď"
+msgstr "Rozš. události:"
 
 #: common/events.c:139
 msgid "Alliance"
@@ -420,7 +420,7 @@ msgstr "Aliance"
 #: common/events.c:140
 #, fuzzy
 msgid "Broken"
-msgstr "Bratr"
+msgstr " (neplatný)"
 
 #: common/events.c:141
 msgid "Cease-fire"
@@ -457,7 +457,7 @@ msgstr "Povýšen na Veterána"
 #: common/events.c:152
 #, fuzzy
 msgid "Lost outside battle"
-msgstr " poblíž %s"
+msgstr "Prohrál jste bitvu"
 
 #: common/events.c:153
 msgid "Production Upgraded"
@@ -466,7 +466,7 @@ msgstr "Produkce vylepšena"
 #: common/events.c:154
 #, fuzzy
 msgid "Relocated"
-msgstr "Výběr jednotek"
+msgstr "PĹEMĂSTÄNO"
 
 #: common/events.c:155
 msgid "Orders / goto events"
@@ -479,7 +479,7 @@ msgstr "Dokončeno"
 #: common/events.c:157
 #, fuzzy
 msgid "Made Obsolete"
-msgstr "Prodat zastaralé"
+msgstr "Příkaz %c%s je zastaralý"
 
 #: common/events.c:158
 msgid "Started"
@@ -500,12 +500,12 @@ msgstr "PO Ladící zprávy"
 #: common/events.c:162
 #, fuzzy
 msgid "Broadcast Report"
-msgstr "Obchodní bilance"
+msgstr "Přehled o tiskárně"
 
 #: common/events.c:163
 #, fuzzy
 msgid "Caravan actions"
-msgstr "Karavana"
+msgstr "Vykonat akce"
 
 #: common/events.c:164
 msgid "Chat error messages"
@@ -514,12 +514,12 @@ msgstr "Chybové hlášky chatu"
 #: common/events.c:165
 #, fuzzy
 msgid "Chat messages"
-msgstr "Zprávy"
+msgstr "Zprávy z hovoru"
 
 #: common/events.c:166
 #, fuzzy
 msgid "Connect/disconnect messages"
-msgstr "Probíhá připojování."
+msgstr "Povolit připojení/odpojení"
 
 #: common/events.c:167
 msgid "Diplomatic Message"
@@ -552,7 +552,7 @@ msgstr "Přehled"
 #: common/events.c:174
 #, fuzzy
 msgid "Server Aborting"
-msgstr "Port serveru"
+msgstr "%1 server : přerušení spojení."
 
 #: common/events.c:175
 msgid "Server Problems"
@@ -561,12 +561,12 @@ msgstr "Problémy serveru"
 #: common/events.c:176
 #, fuzzy
 msgid "Message from server operator"
-msgstr "Operátor serveru: %s"
+msgstr "Chybová zpráva ze serveru: %s"
 
 #: common/events.c:177
 #, fuzzy
 msgid "Server settings changed"
-msgstr "Uložit nastavení"
+msgstr "Změněno nastavení písem"
 
 #: common/events.c:178
 msgid "Turn Bell"
@@ -579,7 +579,7 @@ msgstr "Výuková zpráva"
 #: common/events.c:180
 #, fuzzy
 msgid "Year Advance"
-msgstr "Technologie"
+msgstr "Postoupit na"
 
 #: common/player.c:42
 msgid "Away"
@@ -1418,7 +1418,7 @@ msgstr ""
 #: ai/advdiplomacy.c:1113
 #, fuzzy, c-format
 msgid "*%s (AI)* Peace in ... some other time."
-msgstr "*%s (řízen počítačem)* Mír .... hm, někdy jindy"
+msgstr "*%s (Řízený počítačem)* Mír. Dobrý nápad!"
 
 #: ai/advdiplomacy.c:1118
 #, c-format
@@ -1557,7 +1557,7 @@ msgstr ""
 #: server/auth.c:170
 #, fuzzy, c-format
 msgid "Auth option \"%s\":"
-msgstr "Všechny možnosti"
+msgstr "Duplex - volby"
 
 #. TRANS: After 'Auth option "user":'. Option value
 #. may have been inserted between these.
@@ -1588,7 +1588,7 @@ msgstr "Neplatná hodnota pro auth port: \"%s\""
 #: server/auth.c:281
 #, fuzzy, c-format
 msgid "Cannot load auth config file \"%s\"!"
-msgstr "Nelze nalézt zvukový soubor %s"
+msgstr "Nemohu načíst zdroje ze souboru '%s'."
 
 #: server/auth.c:392
 #, c-format
@@ -1616,7 +1616,7 @@ msgstr "Objevila se chyba při čtení z databáze uživatelů a přihlášení 
 #: server/auth.c:428
 #, c-format
 msgid "%s was rejected: Database error and guests not allowed."
-msgstr ""
+msgstr "%s byl odmítnut: Chyba databáze a anonymní připojení není povoleno."
 
 #: server/auth.c:435
 #, c-format
@@ -1644,7 +1644,7 @@ msgstr "Lituji, příliš mnoho špatných pokusů..."
 #: server/auth.c:481
 #, c-format
 msgid "%s was rejected: Too many wrong password verifies for new user."
-msgstr ""
+msgstr "%s byl odmítnut: Příliš špatných ověření hesla pro nového uživatele."
 
 #: server/auth.c:497
 msgid "Warning: There was an error in saving to the database. Continuing, but your stats will not be saved."
@@ -1666,7 +1666,7 @@ msgstr "Lituji, vaše spojení vypršelo..."
 #: server/auth.c:561
 #, c-format
 msgid "%s was rejected: Connection timeout waiting for password."
-msgstr ""
+msgstr "%s byl odmítnut: Spojení vypršelo při čekání na heslo."
 
 #: server/auth.c:626
 #, c-format
@@ -1776,7 +1776,7 @@ msgstr "%s patřící %s převedena na %s."
 #: server/citytools.c:590
 #, fuzzy, c-format
 msgid "%s %s lost in transfer to %s %s"
-msgstr "%s %s ztracena při útoku %s %s."
+msgstr "Přenést alfu do masky"
 
 #: server/citytools.c:680
 #, c-format
@@ -1787,7 +1787,7 @@ msgstr "%s ztraceno spolu s kontrolou %s."
 #: server/citytools.c:809
 #, fuzzy, c-format
 msgid "A replacement %s was built in %s."
-msgstr "Nový %s byl postaven v %s."
+msgstr "Ztratili jsme hlavní město %s. Nový %s byl postaven v %s."
 
 #: server/citytools.c:891
 #, c-format
@@ -1873,7 +1873,7 @@ msgstr[2] "Hráč %s osvobodil město %s a ukořistil v něm %d zlatých."
 #: server/citytools.c:1420
 #, fuzzy, c-format
 msgid "You have liberated %s!"
-msgstr "Založili jsme město %s"
+msgstr " Zadali jste \"%s\""
 
 #: server/citytools.c:1423
 #, fuzzy, c-format
@@ -2098,7 +2098,7 @@ msgstr "Znečištění poblíž města %s."
 #: server/cityturn.c:1750
 #, fuzzy, c-format
 msgid "Celebrations in your honour in %s."
-msgstr "%s už nadále není oslavován ve městě %s."
+msgstr "%s řekl vaši přezdívku v %s"
 
 #: server/cityturn.c:1756
 #, c-format
@@ -2747,7 +2747,7 @@ msgstr "Hra skončila remízou"
 #: server/commands.c:345
 #, fuzzy
 msgid "Concede the game."
-msgstr "Nelze nahrát uloženou hru"
+msgstr "Ukončit hru"
 
 #: server/commands.c:346
 msgid "This tells everyone else that you concede the game, and if all but one player (or one team) have conceded the game in this way then the game ends."
@@ -2934,7 +2934,7 @@ msgstr "Neplatné jméno '%s'"
 #: server/connecthand.c:283
 #, fuzzy, c-format
 msgid "%s was rejected: Invalid name [%s]."
-msgstr "%s byl(a) odmítnut(a): Nesouhlasící vlastnosti."
+msgstr "Nepřípustný název třídy znaků"
 
 #: server/connecthand.c:291
 #, c-format
@@ -3177,7 +3177,7 @@ msgstr "%s nemůžete uplatit!"
 #: server/diplomats.c:457
 #, fuzzy, c-format
 msgid "Your %s succeeded in bribing the %s."
-msgstr "Váš %s uspěl při uplácení jednotky %s."
+msgstr "Váš %1$s uspěl při uplácení jednotky %3$s hráče %2$s."
 
 #. TRANS: <unit> ... <Poles>
 #: server/diplomats.c:465
@@ -3293,7 +3293,7 @@ msgstr "%s zničili %s ve městě %s."
 #: server/diplomats.c:1095
 #, fuzzy, c-format
 msgid "An enemy %s has been eliminated by your %s."
-msgstr "Nepřátelský %s byl zlikvidován při obraně %s."
+msgstr "Jednotka %s byla zničena barbary!"
 
 #. TRANS: <unit> ... <city> ... <diplomat>
 #: server/diplomats.c:1102
@@ -3305,7 +3305,7 @@ msgstr "Váš %s byl zlikvidován při obraně města %s proti %s."
 #: server/diplomats.c:1110
 #, fuzzy, c-format
 msgid "Your %s has been eliminated defending against a %s."
-msgstr "Váš %s byl zlikvidován při obraně města proti %s."
+msgstr "Váš %s byl zlikvidován při obraně města %s proti %s."
 
 #: server/diplomats.c:1123
 #, c-format
@@ -3482,9 +3482,9 @@ msgid "Invalid veteran level %d for unit %d (%s)."
 msgstr ""
 
 #: server/edithand.c:692
-#, c-format
+#, fuzzy, c-format
 msgid "Cannot create a city at (%d, %d) because it is not on the map!"
-msgstr ""
+msgstr "Nelze umístit startovací pozici na (%d, %d), protože to není na mapě!"
 
 #: server/edithand.c:700
 #, c-format
@@ -3494,7 +3494,7 @@ msgstr ""
 #: server/edithand.c:711
 #, c-format
 msgid "A city may not be built at (%d, %d)."
-msgstr ""
+msgstr "Město nemůže být postaveno na (%d, %d)."
 
 #: server/edithand.c:762
 #, c-format
@@ -3502,9 +3502,9 @@ msgid "Cannot edit city with invalid city ID %d."
 msgstr "Nelze upravovat město s neplatným ID %d."
 
 #: server/edithand.c:774
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot edit city name: %s"
-msgstr "Název připojení: %s"
+msgstr "Nelze upravovat název města: %s"
 
 #: server/edithand.c:785
 #, c-format
@@ -3534,7 +3534,7 @@ msgstr ""
 #: server/edithand.c:910
 #, c-format
 msgid "No more players can be added because there are no available nations (%d used)."
-msgstr ""
+msgstr "Žádní další hráči nemohou být přidáni, protože nejsou dostupné národy (%d použito)."
 
 #: server/edithand.c:919
 #, fuzzy
@@ -3603,7 +3603,7 @@ msgstr "Nelze přepnout na hráče barbara."
 #: server/edithand.c:1326
 #, c-format
 msgid "Cannot edit territory of tile (%d, %d) because it is not on the map!"
-msgstr ""
+msgstr "Nelze upravovat dlaždici území (%d, %d), protože není na mapě!"
 
 #: server/edithand.c:1366
 #, c-format
@@ -3623,7 +3623,7 @@ msgstr "Námořní jednotky přidělované na začátku hry nejsou podporovány.
 #: server/gamehand.c:312
 #, fuzzy, c-format
 msgid "No units placed for %s!"
-msgstr "Výběr jednotek"
+msgstr "Jednotky pro zobrazování souřadnic."
 
 #: server/gamehand.c:336
 #: client/text.c:661
@@ -3787,19 +3787,16 @@ msgid "You should choose a new government from the government menu."
 msgstr "Můžete si zvolit nové státní zřízení z menu Státní zřízení -> Změna zřízení."
 
 #: server/plrhand.c:436
-#, fuzzy
 msgid "Tax rate exceeded the max rate; adjusted."
-msgstr "Úroveň pro daně přesahuje maximální hodnotu povolenou pro %s; upraveno."
+msgstr "Úroveň pro daně přesahuje maximální hodnotu; upraveno."
 
 #: server/plrhand.c:440
-#, fuzzy
 msgid "Science rate exceeded the max rate; adjusted."
-msgstr "Úroveň pro vědu přesahuje maximální hodnotu povolenou pro %s; upraveno."
+msgstr "Úroveň pro vědu přesahuje maximální hodnotu; upraveno."
 
 #: server/plrhand.c:444
-#, fuzzy
 msgid "Luxury rate exceeded the max rate; adjusted."
-msgstr "Úroveň pro luxus přesahuje maximální hodnotu povolenou pro %s; upraveno."
+msgstr "Úroveň pro luxus přesahuje maximální hodnotu; upraveno."
 
 #: server/plrhand.c:498
 #, c-format
@@ -3827,7 +3824,7 @@ msgid "The diplomatic state between the %s and the %s is now %s."
 msgstr "Diplomatický stav mezi %s a %s je nyní %s."
 
 #: server/plrhand.c:606
-#, fuzzy, c-format
+#, c-format
 msgid " %s canceled the diplomatic agreement! The diplomatic state between the %s and the %s is now %s."
 msgstr " %s zrušili diplomatické dohody! Diplomatický stav mezi %s a %s je nyní %s."
 
@@ -4229,7 +4226,7 @@ msgstr "%s %s (%s)"
 #: server/ruleset.c:190
 #, fuzzy, c-format
 msgid "Could not find a readable \"%s.%s\" ruleset file."
-msgstr "Nemohu najít čitelný soubor pravidel \"%s\"."
+msgstr "Nelze nalézt/otevřít výukový soubor:'%1'."
 
 #: server/ruleset.c:3618
 msgid "Loading rulesets"
@@ -4364,9 +4361,8 @@ msgid ""
 msgstr "Počet hráčů je vyšší než požadovaná hodnota, zůstává původní hodnota"
 
 #: server/settings.c:182
-#, fuzzy
 msgid "You are not allowed to set timeout values less than 30 seconds."
-msgstr "Nemáte povoleno měnit tuto volbu."
+msgstr "Nemáte povoleno nastavit hodnoty prodlev na méně než 30 sekund."
 
 #: server/settings.c:202
 msgid "All players must have a team if this option value is used."
@@ -5184,6 +5180,11 @@ msgid ""
 " 2 - bzip2\n"
 "Not all servers support all compression methods."
 msgstr ""
+"Kompresní knihovna použitá pro ukládání her.\n"
+" 0 - žádná\n"
+" 1 - zlib (gzip formát)\n"
+" 2 - bzip2\n"
+"Ne všechny servery podporují všechny kompresní metody."
 
 #: server/settings.c:1041
 msgid "Auto-save name prefix"
@@ -5208,7 +5209,7 @@ msgstr "Server nemůže číst ze standardního vstupu. Ignorováno."
 #: server/sernet.c:495
 #, fuzzy
 msgid "restarting for lack of players"
-msgstr "Zlato na začátku hry"
+msgstr "Čekám na připojení dalších hráčů..."
 
 #: server/sernet.c:518
 #, fuzzy, c-format
@@ -6029,9 +6030,9 @@ msgid "You are not allowed to use this command."
 msgstr "Nemáte povoleno používat tento příkaz."
 
 #: server/stdinhand.c:2158
-#, fuzzy, c-format
+#, c-format
 msgid "The argument \"%s\" is ambigious."
-msgstr "Argument '%s' příkazu help je nejednoznačný."
+msgstr "Argument \"%s\" je nesprávný."
 
 #: server/stdinhand.c:2181
 #, fuzzy, c-format
@@ -6067,9 +6068,9 @@ msgid "You voted against \"%s\""
 msgstr "Hlasoval jsi proti \"%s\""
 
 #: server/stdinhand.c:2210
-#, c-format
+#, fuzzy, c-format
 msgid "You abstained from voting on \"%s\""
-msgstr ""
+msgstr "Přihlásili jste se z jiného umístění."
 
 #: server/stdinhand.c:2237
 msgid "Can only use this command once game has begun."
@@ -6307,9 +6308,9 @@ msgid "Reassigned nation to %s by server console."
 msgstr "Může být použito pouze v serverové konzoli. "
 
 #: server/stdinhand.c:3056
-#, c-format
+#, fuzzy, c-format
 msgid "Reassigned nation to %s by %s."
-msgstr ""
+msgstr "Přinesen k Vám od:"
 
 #: server/stdinhand.c:3111
 #, c-format
@@ -6358,7 +6359,7 @@ msgstr "Mrtvý"
 #: server/stdinhand.c:3133
 #, fuzzy, c-format
 msgid "%s failed to attach to any player."
-msgstr "%s není připojen k žádnému hráči."
+msgstr "Selhalo vytvoření nového hráče %s."
 
 #: server/stdinhand.c:3203
 msgid "You can not detach other users."
@@ -6696,22 +6697,22 @@ msgstr "%s získáno od %s!"
 #: server/techtools.c:219
 #, c-format
 msgid "Discovery of %s makes the government form %s available. You may want to start a revolution."
-msgstr ""
+msgstr "Objev %s učinil dostupnou novou formu státního zřízení %s. Můžete začít revoluci."
 
 #: server/techtools.c:298
-#, c-format
+#, fuzzy, c-format
 msgid "Discovery of %s OBSOLETES %s in %s!"
-msgstr ""
+msgstr "Legal  (8 1/2 x 14 in)"
 
 #: server/techtools.c:349
 #, c-format
 msgid "Learned %s. Our scientists focus on %s; goal is %s."
-msgstr ""
+msgstr "Objeveno %s. Naši vědci se zaměřili na %s; cílem je %s."
 
 #: server/techtools.c:367
 #, c-format
 msgid "Learned %s.  Scientists choose to research %s."
-msgstr ""
+msgstr "Objeveno %s.  Vědci si vybrali výzkum %s."
 
 #: server/techtools.c:374
 #, c-format
@@ -6740,7 +6741,7 @@ msgstr "Technologický cíl je %s."
 #: server/techtools.c:700
 #, fuzzy, c-format
 msgid "You steal %s from the %s."
-msgstr "%s získali %s od %s."
+msgstr "Buď zticha."
 
 #: server/techtools.c:705
 #, c-format
@@ -6750,7 +6751,7 @@ msgstr "%s nám ukradli %s!"
 #: server/techtools.c:710
 #, fuzzy, c-format
 msgid "The %s have stolen %s from the %s."
-msgstr "%s získali %s od %s."
+msgstr "Od %1 do %2"
 
 #: server/unithand.c:119
 #, c-format
@@ -7080,7 +7081,7 @@ msgstr[2] "%s (%d) ztracena při útoku %s %s."
 #, fuzzy, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
-msgstr[0] "%d ztracena %s %s při útoku %s %s."
+msgstr[0] "Ztráta jídla při neexistenci akvaduktu"
 msgstr[1] "%d ztracena %s %s při útoku %s %s."
 msgstr[2] "%d ztracena %s %s při útoku %s %s."
 
@@ -7399,9 +7400,9 @@ msgid "%+4d : Citizens\n"
 msgstr "%+4d : Obyvatel\n"
 
 #: client/citydlg_common.c:405
-#, c-format
+#, fuzzy, c-format
 msgid "%+4d : Taxed from trade\n"
-msgstr ""
+msgstr "Celkem obchod z obchodních cest: %d"
 
 #: client/citydlg_common.c:424
 #, c-format
@@ -7411,7 +7412,7 @@ msgstr "%+4d : Obchodní cesta s %s\n"
 #: client/citydlg_common.c:433
 #, fuzzy, c-format
 msgid "%+4d : Building tithes\n"
-msgstr "Stavba jednotek"
+msgstr "Obecná budova modrá"
 
 #: client/citydlg_common.c:456
 #, c-format
@@ -7419,9 +7420,9 @@ msgid "%+4d : Bonus from %s (%+d%%)\n"
 msgstr "%+4d : Bonus z %s (%+d%%)\n"
 
 #: client/citydlg_common.c:467
-#, c-format
+#, fuzzy, c-format
 msgid "%+4d : Waste\n"
-msgstr ""
+msgstr "?waste:Odp"
 
 #: client/citydlg_common.c:473
 #, c-format
@@ -7434,8 +7435,9 @@ msgid "%+4d : Used\n"
 msgstr "%+4d : Použito\n"
 
 #: client/citydlg_common.c:484
+#, fuzzy
 msgid "==== : Adds up to\n"
-msgstr ""
+msgstr "O úroveň _výše"
 
 #: client/citydlg_common.c:486
 #, c-format
@@ -7605,7 +7607,7 @@ msgstr "?food (populace):Růst"
 #: client/cityrepdata.c:523
 #, fuzzy
 msgid "?Stock/Target:(Have/Need)"
-msgstr "(Hotovo/Potřeba)"
+msgstr "(Hotovo,Potřeba,Kol,Cena)"
 
 #: client/cityrepdata.c:478
 msgid "Turns until growth/famine"
@@ -7614,7 +7616,7 @@ msgstr "Počet tahů do růstu/hladomoru"
 #: client/cityrepdata.c:480
 #, fuzzy
 msgid "?size [short]:Sz"
-msgstr "?size:Vel"
+msgstr "soubor je příliš krátký"
 
 #: client/cityrepdata.c:480
 #: client/gui-gtk-2.0/editprop.c:3653
@@ -7645,7 +7647,7 @@ msgstr "Přebytek: Jídlo, Produkce, Obchod"
 #: client/cityrepdata.c:490
 #, fuzzy
 msgid "?Food surplus [short]:+F"
-msgstr "?Food surplus [short]:+J"
+msgstr "Přebytek: Jídlo, Produkce, Obchod"
 
 #: client/cityrepdata.c:490
 msgid "Surplus: Food"
@@ -7654,7 +7656,7 @@ msgstr "Přebytek: Jídlo"
 #: client/cityrepdata.c:492
 #, fuzzy
 msgid "?Production surplus [short]:+P"
-msgstr "?Production surplus [short]:+P"
+msgstr "Přebytek: Jídlo, Produkce, Obchod"
 
 #: client/cityrepdata.c:493
 msgid "Surplus: Production"
@@ -7672,7 +7674,7 @@ msgstr "Odpad"
 #: client/cityrepdata.c:496
 #, fuzzy
 msgid "?Trade surplus [short]:+T"
-msgstr "?Trade surplus [short]:+O"
+msgstr "Přebytek: Jídlo, Produkce, Obchod"
 
 #: client/cityrepdata.c:496
 msgid "Surplus: Trade"
@@ -7764,7 +7766,7 @@ msgstr "Guvernér města"
 #: client/cityrepdata.c:518
 #, fuzzy
 msgid "Turns/Buy"
-msgstr "Kol/Cena"
+msgstr "(Hotovo,Potřeba,Kol,Cena)"
 
 #: client/cityrepdata.c:522
 #: client/cityrepdata.c:524
@@ -7782,7 +7784,7 @@ msgstr "Specialisté: %s"
 
 #: client/civclient.c:246
 msgid "  -A, --Announce PROTO\tAnnounce game in LAN using protocol PROTO (IPv4/IPv6/none)\n"
-msgstr ""
+msgstr "  -A  --announce PROTO\tOznámit hru v LAN použitím protokolu PROTO (IPv4/IPv6/none)\n"
 
 #: client/civclient.c:247
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
@@ -7850,9 +7852,9 @@ msgid "Invalid debug level \"%s\" specified with --debug option.\n"
 msgstr "Neplatná ladící úroveň \"%s\" určená s --debug volbou.\n"
 
 #: client/civclient.c:340
-#, c-format
+#, fuzzy, c-format
 msgid "Invalid announce protocol \"%s\".\n"
-msgstr ""
+msgstr "Zadán neplatný protokol `%s'.\n"
 
 #: client/civclient.c:347
 #, c-format
@@ -8174,10 +8176,11 @@ msgid "Territory"
 msgstr "Území"
 
 #: client/editor.c:182
+#, fuzzy
 msgid ""
 "Change tile ownership.\n"
 "Shortcut: b"
-msgstr ""
+msgstr "vlastnictví %s nelze změnit\n"
 
 #: client/editor.c:183
 msgid "Start Position"
@@ -8303,27 +8306,27 @@ msgstr ""
 
 #: client/helpdata.c:198
 #: client/helpdata.c:207
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Only applies to %s units.\n"
 "\n"
-msgstr ""
+msgstr "Změny provést jen pro aktuální displej"
 
 #: client/helpdata.c:202
 #: client/helpdata.c:211
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Only applies to \"%s\" units.\n"
 "\n"
-msgstr ""
+msgstr "Změny provést jen pro aktuální displej"
 
 #: client/helpdata.c:216
 #: client/helpdata.c:220
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Applies only to %s.\n"
 "\n"
-msgstr ""
+msgstr "Filtr platí pro:"
 
 #: client/helpdata.c:224
 #, c-format
@@ -8408,9 +8411,9 @@ msgid "* Allows %s.\n"
 msgstr "* Umožňuje %s.\n"
 
 #: client/helpdata.c:799
-#, c-format
+#, fuzzy, c-format
 msgid "* Belongs to %s units class.\n"
-msgstr ""
+msgstr "Žádné jednotky k vylepšení!"
 
 #: client/helpdata.c:803
 msgid "  * Can occupy empty enemy cities.\n"
@@ -8422,7 +8425,7 @@ msgstr ""
 
 #: client/helpdata.c:809
 msgid "  * Slowed down while damaged\n"
-msgstr ""
+msgstr "  * Zpomalena při poškození\n"
 
 #: client/helpdata.c:812
 #, fuzzy
@@ -8497,7 +8500,7 @@ msgstr "* Nemůže být rozpuštěna.\n"
 #: client/helpdata.c:884
 #, fuzzy, no-c-format
 msgid "* May be disbanded in a city to recover 50% of the production cost.\n"
-msgstr "* Může být rozložen ve městě, za účelem získání 50% surovin potřebných k výrobě.\n"
+msgstr "* Může být rozložen ve městě, za účelem získání 50%% surovin potřebných k výrobě.\n"
 
 #: client/helpdata.c:888
 msgid "* Can build new cities.\n"
@@ -8553,7 +8556,7 @@ msgstr "* Může transformovat terén.\n"
 #: client/helpdata.c:934
 #, fuzzy, no-c-format
 msgid "* May fortify, granting a 50% defensive bonus.\n"
-msgstr "* Může se opevnit, aby ziskal o 50% vyšší obrannou sílu.\n"
+msgstr "* Může se opevnit, aby ziskal o 50%% vyšší obrannou sílu.\n"
 
 #: client/helpdata.c:937
 msgid "* May pillage to destroy infrastructure from tiles.\n"
@@ -8668,15 +8671,15 @@ msgstr ""
 #: client/helpdata.c:1057
 #: client/helpdata.c:1065
 msgid "* May be promoted after defeating an enemy unit.\n"
-msgstr ""
+msgstr "* Může být povýšena po poražení nepřítele.\n"
 
 #: client/helpdata.c:1049
 msgid "* Will be built as a veteran under communist governments.\n"
-msgstr ""
+msgstr "* Může být postavena jako veterán za socialismu.\n"
 
 #: client/helpdata.c:1051
 msgid "* May be promoted after a successful mission.\n"
-msgstr ""
+msgstr "* Může být povýšena po úspěšné misi.\n"
 
 #: client/helpdata.c:1054
 msgid "* Will be built as a veteran in cities with appropriate training facilities (see Barracks).\n"
@@ -8812,9 +8815,9 @@ msgstr ""
 
 #. TRANS: %s is the output type, like 'shield' or 'gold'.
 #: client/helpdata.c:1461
-#, c-format
+#, fuzzy, c-format
 msgid "* You pay no %s upkeep for your units.\n"
-msgstr ""
+msgstr "* Neplatíte údržbu za své jednotky.\n"
 
 #: client/helpdata.c:1465
 msgid "* You pay no upkeep for your units.\n"
@@ -8859,7 +8862,7 @@ msgstr ""
 
 #: client/helpdata.c:1516
 msgid "* Has unlimited science/gold/luxuries rates.\n"
-msgstr ""
+msgstr "* Má neomezené hodnoty vědy/zlata/luxusu.\n"
 
 #: client/helpdata.c:1521
 #, c-format
@@ -8918,9 +8921,9 @@ msgstr "* Nemá nespokojené obyvatele.\n"
 #: client/helpdata.c:1586
 #: client/helpdata.c:1590
 #: client/helpdata.c:1594
-#, c-format
+#, fuzzy, c-format
 msgid "* Veteran %s units.\n"
-msgstr ""
+msgstr "* Veteráni.\n"
 
 #: client/helpdata.c:1597
 msgid "* Veteran units.\n"
@@ -9235,11 +9238,11 @@ msgstr ""
 
 #: client/options.c:234
 msgid "Allow goto into the unknown"
-msgstr ""
+msgstr "Povolit přesun do neznáma"
 
 #: client/options.c:235
 msgid "Setting this option will make the game consider moving into unknown tiles.  If not, then goto routes will detour around or be blocked by unknown tiles."
-msgstr ""
+msgstr "Nastavením této možnosti umožníte přesun do neznámého terénu. Pokud ne, trasa povede okolo nebo bude blokována neznámým terénem."
 
 #: client/options.c:239
 msgid "Center map when Popup city"
@@ -9285,8 +9288,9 @@ msgid "Setting this option will pop up a newly-founded city's city dialog automa
 msgstr ""
 
 #: client/options.c:261
+#, fuzzy
 msgid "Background layer"
-msgstr ""
+msgstr "Skok mezi vrstvami"
 
 #: client/options.c:262
 msgid "The background layer of the overview shows just ocean and land."
@@ -9303,7 +9307,7 @@ msgstr ""
 #: client/options.c:269
 #, fuzzy
 msgid "Borders layer"
-msgstr "Hranice"
+msgstr "Skok mezi vrstvami"
 
 #: client/options.c:270
 msgid "The borders layer of the overview shows which tiles are owned by each player."
@@ -9321,7 +9325,7 @@ msgstr ""
 #: client/options.c:281
 #, fuzzy
 msgid "Units layer"
-msgstr "Jednotky"
+msgstr "Skok mezi vrstvami"
 
 #: client/options.c:282
 #, fuzzy
@@ -9331,7 +9335,7 @@ msgstr "Pokud je povoleno, budou výchozí jména měst nabízena v závislosti 
 #: client/options.c:285
 #, fuzzy
 msgid "Cities layer"
-msgstr "Města"
+msgstr "Skok mezi vrstvami"
 
 #: client/options.c:286
 #, fuzzy
@@ -9853,13 +9857,13 @@ msgstr "Daně:%d Luxus:%d Věda:%d"
 #: client/text.c:636
 #, fuzzy
 msgid "Moving: Nobody"
-msgstr "v %s"
+msgstr "Uživatel: nikdo"
 
 #: client/text.c:631
 #: client/text.c:638
 #, fuzzy, c-format
 msgid "Moving: %s"
-msgstr "v %s"
+msgstr "Přesunuje se %s"
 
 #: client/text.c:642
 msgid "(Click for more info)"
@@ -9951,19 +9955,21 @@ msgid "No units selected."
 msgstr "Nevybrána žádná jednotka."
 
 #: client/text.c:846
-#, c-format
+#, fuzzy, c-format
 msgid "Others: %d civil; %d military"
 msgstr ""
+"Vojenská služba\n"
+"(měsíců)"
 
 #: client/text.c:848
-#, c-format
+#, fuzzy, c-format
 msgid "Others: %d civilian"
-msgstr ""
+msgstr "Spatřen civilista!\n"
 
 #: client/text.c:850
-#, c-format
+#, fuzzy, c-format
 msgid "Others: %d military"
-msgstr ""
+msgstr "Vojenský přehled"
 
 #: client/text.c:881
 msgid "No units to upgrade!"
@@ -11438,7 +11444,7 @@ msgstr "Zobrazit editor vlastností."
 #: client/gui-gtk-2.0/editgui.c:977
 #, fuzzy
 msgid "Select Tool Value"
-msgstr "Výběr"
+msgstr "Zvolit ná_stroj a spustit..."
 
 #: client/gui-gtk-2.0/editgui.c:1147
 msgid "Editor Tool"
@@ -11451,7 +11457,7 @@ msgstr "Klikněte pro změnu hodnoty pokud je to vhodné."
 #: client/gui-gtk-2.0/editgui.c:1189
 #, fuzzy
 msgid "Click to change tool mode."
-msgstr "Nemohu otevřít \"%s\"."
+msgstr "práva souboru %s se nepodařila změnit na %04lo (%s)\n"
 
 #: client/gui-gtk-2.0/editgui.c:1203
 msgid "Mode"
@@ -11578,7 +11584,7 @@ msgstr "Známý"
 #: client/gui-gtk-2.0/editprop.c:3151
 #, fuzzy
 msgid "Turn Built"
-msgstr "Konec tahu"
+msgstr "Přeložen na %s %s %s\n"
 
 #. TRANS: As in "the player has set this nation".
 #: client/gui-gtk-2.0/editprop.c:3157
@@ -11598,7 +11604,7 @@ msgstr "Zdroj"
 #: client/gui-gtk-2.0/editprop.c:3588
 #, fuzzy
 msgid "Index"
-msgstr "Nečinný"
+msgstr "Index"
 
 #: client/gui-gtk-2.0/editprop.c:3590
 msgid "?coordinate:X"
@@ -11640,7 +11646,7 @@ msgstr "Speciality"
 #: client/gui-gtk-2.0/editprop.c:3608
 #, fuzzy
 msgid "Bases"
-msgstr "Odpad"
+msgstr "Základen"
 
 #: client/gui-gtk-2.0/editprop.c:3610
 #: client/gui-gtk-2.0/editprop.c:3619
@@ -11672,17 +11678,18 @@ msgstr "Palivo"
 #: client/gui-gtk-2.0/editprop.c:3631
 #, fuzzy
 msgid "Moved"
-msgstr "Tahů"
+msgstr "Skladba přesunuta"
 
 #: client/gui-gtk-2.0/editprop.c:3633
 #, fuzzy
 msgid "Done Moving"
-msgstr "Zpracování bronzu"
+msgstr "Přesunuji zprávy"
 
 #. TRANS: HP = Hit Points of a unit.
 #: client/gui-gtk-2.0/editprop.c:3636
+#, fuzzy
 msgid "HP"
-msgstr ""
+msgstr "Životů"
 
 #: client/gui-gtk-2.0/editprop.c:3638
 #: client/gui-sdl/dialogs.c:661
@@ -11705,7 +11712,7 @@ msgstr "Zásoba jídla"
 #: client/gui-gtk-2.0/editprop.c:3659
 #, fuzzy
 msgid "Shield Stock"
-msgstr "Štít"
+msgstr "Standardní tlačítko:"
 
 #: client/gui-gtk-2.0/editprop.c:3670
 msgid "Inventions"
@@ -11765,14 +11772,15 @@ msgstr ""
 
 #. TRANS: Vision layer name. Feel free to leave untranslated.
 #: client/gui-gtk-2.0/editprop.c:5653
+#, fuzzy
 msgid "Seen (Main)"
-msgstr ""
+msgstr "hlavní autor"
 
 #. TRANS: Vision layer name. Feel free to leave untranslated.
 #: client/gui-gtk-2.0/editprop.c:5657
 #, fuzzy
 msgid "Seen (Invis)"
-msgstr "Vyberte jednotku(y)"
+msgstr "Naposledy viděn"
 
 #: client/gui-gtk-2.0/finddlg.c:64
 #: client/gui-sdl/finddlg.c:130
@@ -11914,17 +11922,19 @@ msgid "FIXME"
 msgstr "OPRAVIT"
 
 #: client/gui-gtk-2.0/gui_main.c:206
+#, fuzzy
 msgid "Notify Label"
-msgstr ""
+msgstr "Velikost popisku"
 
 #: client/gui-gtk-2.0/gui_main.c:211
 #, fuzzy
 msgid "Spaceship Label"
-msgstr "Kosmická loď"
+msgstr "Velikost popisku"
 
 #: client/gui-gtk-2.0/gui_main.c:216
+#, fuzzy
 msgid "Help Label"
-msgstr ""
+msgstr "Velikost popisku"
 
 #: client/gui-gtk-2.0/gui_main.c:221
 msgid "Help Link"
@@ -11939,8 +11949,9 @@ msgid "Chatline Area"
 msgstr "Chatlinka"
 
 #: client/gui-gtk-2.0/gui_main.c:236
+#, fuzzy
 msgid "Beta Label"
-msgstr ""
+msgstr "Velikost popisku"
 
 #: client/gui-gtk-2.0/gui_main.c:241
 msgid "Small Font"
@@ -11949,7 +11960,7 @@ msgstr "Malý font"
 #: client/gui-gtk-2.0/gui_main.c:246
 #, fuzzy
 msgid "Comment Label"
-msgstr "Komentář"
+msgstr "Velikost popisku"
 
 #: client/gui-gtk-2.0/gui_main.c:251
 #: client/gui-sdl/optiondlg.c:1584
@@ -12012,7 +12023,7 @@ msgstr "_Start"
 #: client/gui-gtk-2.0/gui_main.c:1644
 #, fuzzy
 msgid "_Take Player"
-msgstr "Města"
+msgstr "Převzít tohoto hráče"
 
 #: client/gui-gtk-2.0/gui_main.c:1648
 #: client/gui-gtk-2.0/pages.c:1595
@@ -12465,7 +12476,7 @@ msgstr "Uložit Možnosti při _Ukončení"
 #: client/gui-gtk-2.0/menu.c:789
 #, fuzzy
 msgid "_Reload Tileset"
-msgstr "Sada dlaždic"
+msgstr "Načís&t sadu kachlí..."
 
 #: client/gui-gtk-2.0/menu.c:792
 #: client/gui-win32/menu.c:312
@@ -12529,7 +12540,7 @@ msgstr "_Zobrazit"
 #: client/gui-gtk-2.0/menu.c:830
 #, fuzzy
 msgid "City Outlines"
-msgstr "Možnosti města"
+msgstr "Zvolené město: %s"
 
 #: client/gui-gtk-2.0/menu.c:832
 #: client/gui-sdl/optiondlg.c:1636
@@ -13287,8 +13298,9 @@ msgid "Host: %s"
 msgstr "Host: %s"
 
 #: client/gui-gtk-2.0/pages.c:1141
+#, fuzzy
 msgid "Player/conn info"
-msgstr ""
+msgstr "  -v, --version              vytisknout informace o verzi\n"
 
 #: client/gui-gtk-2.0/pages.c:1168
 #, c-format
@@ -13298,7 +13310,7 @@ msgstr "%s info"
 #: client/gui-gtk-2.0/pages.c:1179
 #, fuzzy
 msgid "Toggle player ready"
-msgstr "aitoggle <jméno-hráče>"
+msgstr "Nelze přepnout na hráče barbara."
 
 #: client/gui-gtk-2.0/pages.c:1187
 msgid "Pick nation"
@@ -13326,18 +13338,20 @@ msgid "Remove player"
 msgstr "Odstranit hráče"
 
 #: client/gui-gtk-2.0/pages.c:1251
+#, fuzzy
 msgid "Give info access"
-msgstr ""
+msgstr "Nemohu přistupovat ke složce `%s': %s"
 
 #: client/gui-gtk-2.0/pages.c:1259
+#, fuzzy
 msgid "Give ctrl access"
-msgstr ""
+msgstr "Nemohu přistupovat ke složce `%s': %s"
 
 #. TRANS: e.g., "Put on Team 5"
 #: client/gui-gtk-2.0/pages.c:1325
 #, fuzzy, c-format
 msgid "Put on %s"
-msgstr "Populace: %s"
+msgstr "Tlačítka umístit ke okrajům"
 
 #: client/gui-gtk-2.0/pages.c:1461
 msgid "Number of _Players (including AI):"
@@ -13515,7 +13529,7 @@ msgstr "Typ jednotky"
 #: client/gui-win32/repodlgs.c:710
 #, fuzzy
 msgid "?Upgradable unit [short]:U"
-msgstr "V"
+msgstr "%"
 
 #: client/gui-gtk-2.0/repodlgs.c:956
 #: client/gui-win32/repodlgs.c:711
@@ -14351,7 +14365,7 @@ msgstr "Kontaktovat %s (%d / %d) %s(%d,%d,%d) %s"
 #: client/gui-sdl/dialogs.c:671
 #, fuzzy, c-format
 msgid "%s %s %s(A:%d D:%d M:%d FP:%d) HP:%d%%"
-msgstr "Ú:%d O:%d PS:%d HS:%d0%%"
+msgstr "Ú:%d O:%d PS:%d HS:%d/%d%s%s"
 
 #: client/gui-sdl/dialogs.c:683
 #: client/gui-sdl/dialogs.c:1427
@@ -14410,7 +14424,7 @@ msgstr "Aktivovat %s (%d / %d) %s (%d,%d,%d) %s"
 #: client/gui-sdl/dialogs.c:1540
 #, fuzzy, c-format
 msgid "%s %s %s (A:%d D:%d M:%d FP:%d) HP:%d%%"
-msgstr "Ú:%d O:%d PS:%d HS:%d0%%"
+msgstr "Ú:%d O:%d PS:%d HS:%d/%d%s%s"
 
 #: client/gui-sdl/dialogs.c:1476
 #: client/gui-win32/dialogs.c:762
@@ -14792,7 +14806,7 @@ msgstr "Zahraniční přehled"
 #: client/gui-sdl/inteldlg.c:260
 #, fuzzy, c-format
 msgid "Intelligence Information about the %s Spaceship"
-msgstr "Informace výzvědné služby pro %s impérium"
+msgstr "Získávám informace o fotoaparátu..."
 
 #: client/gui-sdl/inteldlg.c:268
 #: client/gui-win32/inteldlg.c:93
@@ -14854,12 +14868,14 @@ msgid "Scale Minimap"
 msgstr "Měřítko Minimapy"
 
 #: client/gui-sdl/mapctrl.c:683
+#, fuzzy
 msgid "Single Tile Width"
-msgstr ""
+msgstr "Šířka vykresleného textu"
 
 #: client/gui-sdl/mapctrl.c:687
+#, fuzzy
 msgid "Single Tile Height"
-msgstr ""
+msgstr "Výška vykresleného textu"
 
 #: client/gui-sdl/mapctrl.c:732
 #: client/gui-sdl/mapctrl.c:1076
@@ -14867,8 +14883,9 @@ msgid "Exit"
 msgstr "Konec"
 
 #: client/gui-sdl/mapctrl.c:1030
+#, fuzzy
 msgid "Scale Unit Info"
-msgstr ""
+msgstr "Schovat Info okno jednotky"
 
 #: client/gui-sdl/mapctrl.c:1040
 msgid "Width"
@@ -15211,14 +15228,14 @@ msgid "Add to City"
 msgstr "Přidat k městu"
 
 #: client/gui-sdl/menu.c:1068
-#, c-format
+#, fuzzy, c-format
 msgid "Form Traderoute with %s ( %d R&G + %d trade ) (R)"
-msgstr ""
+msgstr "Vytvořit obchodní trasu s %s ( %d P&Z + %d obchod )"
 
 #: client/gui-sdl/menu.c:1075
-#, c-format
+#, fuzzy, c-format
 msgid "Trade with %s ( %d R&G bonus ) (R)"
-msgstr ""
+msgstr "Požadovat obchod s %1"
 
 #: client/gui-sdl/menu.c:1092
 msgid "Cut Down to"
@@ -21494,20 +21511,23 @@ msgid "Militia"
 msgstr "Milice"
 
 #: data/civ1/units.ruleset:329
+#, fuzzy
 msgid "Musketeers are infantry equipped with early firearms and replace Phalanx as the preferred city defender."
-msgstr ""
+msgstr "Mušketýři jsou pěchota vybavená prvními střelnými zbraněmi a nahrazuje Pikiníky jako preferovaný obránce města."
 
 #: data/civ1/units.ruleset:394
 msgid "Mechanized Infantry; this unit has the strongest defence strength of any land unit, but is only available near the end of the technology tree."
 msgstr "Mechanizovaná pěchota má nejvyšší obrannou sílu ze všech pozemních jednotek, ale je umístěna až na konci technologického stromu."
 
 #: data/civ1/units.ruleset:427
+#, fuzzy
 msgid "Cavalry are mounted warriors and an early shock-troop that can penetrate deep into enemy territory."
-msgstr ""
+msgstr "Jízda jsou jízdní bojovníci a jako jednotky prvního sledu mohou proniknout hluboko do nepřátelského území."
 
 #: data/civ1/units.ruleset:624
+#, fuzzy
 msgid "The artillery is an upgraded cannon with improved defensive as well as offensive capabilities."
-msgstr ""
+msgstr "Houfnice je vylepšené dělostřelectvo s vylepšenou obranou a obrannými schopnostmi."
 
 #: data/civ1/units.ruleset:730
 msgid "Sail"
@@ -21548,12 +21568,12 @@ msgstr ""
 #: data/nation/aborigines.ruleset:3
 #, fuzzy
 msgid "Australian Aboriginal"
-msgstr "Australský"
+msgstr "Kanadské domorodé"
 
 #: data/nation/aborigines.ruleset:4
 #, fuzzy
 msgid "?plural:Aborigines"
-msgstr "?plural:Argentinci"
+msgstr "Forma plurálů:"
 
 #: data/nation/aborigines.ruleset:6
 msgid "Australian Aborigines is a collective term for the original inhabitants of the Australian continent. Aborigines from different parts of Australia refer to themselves with different names, including Koori, Yamaji, Nunga, and Murri."
@@ -21651,12 +21671,12 @@ msgstr "?female:První ministryně"
 #: data/nation/ainu.ruleset:3
 #, fuzzy
 msgid "Ainu"
-msgstr "Asijský"
+msgstr "ajnština"
 
 #: data/nation/ainu.ruleset:4
 #, fuzzy
 msgid "?plural:Ainu"
-msgstr "?plural:Finové"
+msgstr "Forma plurálů:"
 
 #: data/nation/ainu.ruleset:7
 msgid "The Ainu are the indigenous people of northern Japan, the Kuril islands, Sakhalin, and the southern part of the Kamchatka peninsula."
@@ -21679,7 +21699,7 @@ msgstr ""
 #: data/nation/akwe.ruleset:4
 #, fuzzy
 msgid "?plural:Akwe"
-msgstr "?plural:Aztékové"
+msgstr "Forma plurálů:"
 
 #: data/nation/akwe.ruleset:7
 msgid "The Akwe are also known by three different tribal names in Portuguese, Xavante, Xakriaba and Xerente. They have a patrilineal clan system and live in Mato Grosso and Tocantins states of Brazil, though they have been forced to move by Brazilians several times through their history. Traditionally, they are ruled by councils of elders who elect a chief and have likely lived in large ring villages since about the 9th century CE. They are Ge speakers who farm maize, manioc, sweet potatoes and yams."
@@ -21688,7 +21708,7 @@ msgstr ""
 #: data/nation/akwe.ruleset:23
 #, fuzzy
 msgid "He'a"
-msgstr "Hejtman"
+msgstr "_Hex"
 
 #: data/nation/akwe.ruleset:24
 #: data/nation/srivijaya.ruleset:22
@@ -21855,12 +21875,12 @@ msgstr ""
 #: data/nation/aymara.ruleset:3
 #, fuzzy
 msgid "Aymara"
-msgstr "Arabský"
+msgstr "Aymara"
 
 #: data/nation/aymara.ruleset:4
 #, fuzzy
 msgid "?plural:Aymaras"
-msgstr "?plural:Arabové"
+msgstr "Forma plurálů:"
 
 #: data/nation/aymara.ruleset:6
 msgid "After the collapse of the Tiwanaku civilization in the Andes, their heirs reorganized into a set of culturally close Aymara kingdoms that thrived around the Titicaca lake until they were conquered by the Incas."
@@ -21913,7 +21933,7 @@ msgstr "Alžírský"
 #: data/nation/azeri.ruleset:4
 #, fuzzy
 msgid "?plural:Azeris"
-msgstr "?plural:Aztékové"
+msgstr "Forma plurálů:"
 
 #: data/nation/azeri.ruleset:6
 msgid "The Azeris are the people of Azerbaijan. The territory of modern Azerbaijan was the scene of rises and falls of different ancient states of the Caucasus region. In 1813 Azerbaijan became part of the Russian Empire, which was followed by a short period of independence in 1918-1920 - as the first Islamic republic in history. Then Azerbaijan became part of the Soviet Union until its dissolution in 1991."
@@ -22002,8 +22022,9 @@ msgid "Since the dawn of civilization, barbarians have been a threat to cultured
 msgstr ""
 
 #: data/nation/basque.ruleset:3
+#, fuzzy
 msgid "Basque"
-msgstr ""
+msgstr "Baskická"
 
 #: data/nation/basque.ruleset:4
 msgid "?plural:Basques"
@@ -22021,7 +22042,7 @@ msgstr ""
 #: data/nation/basque.ruleset:33
 #, fuzzy
 msgid "?female:Buruzagi"
-msgstr "Soudruh"
+msgstr "Podstatné jméno ženského rodu"
 
 #. TRANS: Apaiz nagusi = Pope, Lord Protector
 #: data/nation/basque.ruleset:35
@@ -22054,7 +22075,7 @@ msgstr ""
 #: data/nation/basque.ruleset:41
 #, fuzzy
 msgid "?female:Lehendakari"
-msgstr "Prezident"
+msgstr "Podstatné jméno ženského rodu"
 
 #: data/nation/bavarian.ruleset:3
 msgid "Bavarian"
@@ -22093,13 +22114,14 @@ msgid "Belgium gained independance from the Dutch Kingdom in 1830. Belgium is ma
 msgstr "Belgie získala samostatnost na Německém Království v roce 1830 n.l. Je hlavně charaterizovatelná svým přesunem od jednolitého státu k federaci. To byl totiž výsledek téměř mírumilovného boje nacionalních Flámských a Walloonských nacionalistů."
 
 #: data/nation/bengali.ruleset:3
+#, fuzzy
 msgid "Bengali"
-msgstr ""
+msgstr "Bengálsky"
 
 #: data/nation/bengali.ruleset:4
 #, fuzzy
 msgid "?plural:Bengalis"
-msgstr "?plural:Angličané"
+msgstr "Forma plurálů:"
 
 #: data/nation/bengali.ruleset:6
 msgid "Bengal is a region in the easternmost part of the Indian subcontinent. The first recorded independent king of the Bengali is Shashanka who reigned around 606 AD. Today the People's Republic of Bangladesh occupies the eastern part of the region, while the western part is the Indian state of West Bengal."
@@ -22112,17 +22134,17 @@ msgstr ""
 #: data/nation/bengali.ruleset:25
 #, fuzzy
 msgid "?female:Nabob"
-msgstr "Konzul"
+msgstr "Podstatné jméno ženského rodu"
 
 #: data/nation/bengali.ruleset:26
 #, fuzzy
 msgid "Major"
-msgstr "Marťanský"
+msgstr "Velká"
 
 #: data/nation/bengali.ruleset:26
 #, fuzzy
 msgid "?female:Major"
-msgstr "Soudruh"
+msgstr "<b>Hlavní značky</b>"
 
 #: data/nation/boer.ruleset:3
 msgid "Boer"
@@ -22152,7 +22174,7 @@ msgstr ""
 #: data/nation/bosnia.ruleset:27
 #, fuzzy
 msgid "Ban"
-msgstr "Banka"
+msgstr "Zakázat"
 
 #: data/nation/brazilian.ruleset:3
 msgid "Brazilian"
@@ -22212,12 +22234,12 @@ msgstr "?female:Ředitelka-prezidentka"
 #: data/nation/breton.ruleset:3
 #, fuzzy
 msgid "Breton"
-msgstr "Bratr"
+msgstr "Bretonský"
 
 #: data/nation/breton.ruleset:4
 #, fuzzy
 msgid "?plural:Bretons"
-msgstr "?plural:Britové"
+msgstr "Forma plurálů:"
 
 #: data/nation/breton.ruleset:6
 msgid "Known to the Romans as Amorica, Brittany has been Celtic speaking for many centuries before Britons arrive in the peninsula a mercenaries, colonists and refugees in response to the chaos in Gaul and the invasion of Britain by Germanic tribes in the fifth century CE. Over the centuries, use of the Breton language has been pushed towards the west of the peninsula, with people speaking French instead. The Dukedom of Brittany itself was formally annexed to France in 1491."
@@ -22248,7 +22270,7 @@ msgstr "Britský"
 #: data/nation/british.ruleset:4
 #, fuzzy
 msgid "?plural:Britons"
-msgstr "?plural:Britové"
+msgstr "Forma plurálů:"
 
 #: data/nation/british.ruleset:6
 msgid "The United Kingdom was created in 1707 as a negotiated agreement between the kingdom of England and the kingdom of Scotland. The country - also known as Great Britain - became the leading industrial and maritime power in the 19th century."
@@ -22301,7 +22323,7 @@ msgstr "Bulharský"
 #: data/nation/burgundian.ruleset:4
 #, fuzzy
 msgid "?plural:Burgundians"
-msgstr "?plural:Britové"
+msgstr "Forma plurálů:"
 
 #: data/nation/burgundian.ruleset:6
 msgid "After the fall of the Western Roman Empire, a Germanic people known as the Burgundians settled in the Rhine Valley, lending their name to the region. Centuries later, the Duchy of Burgundy was a prosperous country with the court in Dijon outshining that of Paris. It is today one of the regions of France."
@@ -22323,8 +22345,9 @@ msgstr "Námořní pěchota"
 #: data/nation/russian.ruleset:47
 #: data/nation/samogitian.ruleset:20
 #: data/nation/serbian.ruleset:36
+#, fuzzy
 msgid "Duke"
-msgstr ""
+msgstr "Velkovévoda"
 
 #: data/nation/burgundian.ruleset:32
 #: data/nation/norman.ruleset:23
@@ -22337,13 +22360,14 @@ msgid "Duchess"
 msgstr "Velkovévodkyně"
 
 #: data/nation/burmese.ruleset:3
+#, fuzzy
 msgid "Burmese"
-msgstr ""
+msgstr "Barmsky"
 
 #: data/nation/burmese.ruleset:4
 #, fuzzy
 msgid "?plural:Burmese"
-msgstr "?plural:Turkové"
+msgstr "Forma plurálů:"
 
 #: data/nation/burmese.ruleset:6
 msgid "The Union of Burma (officially \"Myanmar\") is the largest country in mainland Southeast Asia."
@@ -22356,7 +22380,7 @@ msgstr ""
 #: data/nation/burmese.ruleset:21
 #, fuzzy
 msgid "?female:Bohmugyi"
-msgstr "Konzul"
+msgstr "Podstatné jméno ženského rodu"
 
 #: data/nation/burmese.ruleset:22
 #, fuzzy
@@ -22369,13 +22393,14 @@ msgid "Sayama"
 msgstr "Šaman"
 
 #: data/nation/burundi.ruleset:3
+#, fuzzy
 msgid "Burundi"
-msgstr ""
+msgstr "Burundi"
 
 #: data/nation/burundi.ruleset:4
 #, fuzzy
 msgid "?plural:Burundi"
-msgstr "?plural:Britové"
+msgstr "Burundi, Franky"
 
 #: data/nation/burundi.ruleset:7
 msgid "Lasting from 16th century, through European colonial administration, until finally overthrown in 1966, the Kingdom of Burundi was an East African state in which the King and aristocracy extracted taxes from the nation's peasantry. The last King, Ntare V Ndizeye, was killed in 1972 in a bid to restore the monarchy."
@@ -22420,7 +22445,7 @@ msgstr "Oáza"
 #: data/nation/byzantium.ruleset:28
 #, fuzzy
 msgid "?female:Basileus"
-msgstr "Oáza"
+msgstr "Podstatné jméno ženského rodu"
 
 #: data/nation/cambodian.ruleset:3
 #, fuzzy
@@ -22430,7 +22455,7 @@ msgstr "Kanadský"
 #: data/nation/cambodian.ruleset:4
 #, fuzzy
 msgid "?plural:Cambodians"
-msgstr "?plural:Kanaďané"
+msgstr "Forma plurálů:"
 
 #: data/nation/cambodian.ruleset:6
 msgid "Kampuchea (known in English as Cambodia) is the modern successor state of the mighty Khmer Empire, which ruled most of the Indochinese Peninsula between the 11th and 14th centuries."
@@ -22523,13 +22548,14 @@ msgid "Gran Bruixa"
 msgstr "Gran Bruixa"
 
 #: data/nation/cherokee.ruleset:3
+#, fuzzy
 msgid "Cherokee"
-msgstr ""
+msgstr "čerokézština"
 
 #: data/nation/cherokee.ruleset:4
 #, fuzzy
 msgid "?plural:Cherokees"
-msgstr "?plural:Řekové"
+msgstr "Forma plurálů:"
 
 #: data/nation/cherokee.ruleset:6
 msgid "The Cherokee nation is the largest Native American nation in North America today."
@@ -22570,12 +22596,12 @@ msgstr ""
 #: data/nation/cherokee.ruleset:25
 #, fuzzy
 msgid "Principal Chief"
-msgstr "Velký Náčelník"
+msgstr "Šéf obrů"
 
 #: data/nation/cherokee.ruleset:25
 #, fuzzy
 msgid "?female:Principal Chief"
-msgstr "Prezident"
+msgstr "?female:Velká Náčelnice"
 
 #: data/nation/chilean.ruleset:3
 msgid "Chilean"
@@ -22636,7 +22662,7 @@ msgstr "Uhlí"
 #: data/nation/chola.ruleset:4
 #, fuzzy
 msgid "?plural:Cholas"
-msgstr "?plural:Chile"
+msgstr "Forma plurálů:"
 
 #: data/nation/chola.ruleset:7
 msgid "The Cholas were a Tamil dynasty in centered in southern India and were rare in their level of influence in northern India. They began as a tributary state to the Pallavas, but in the 9th century their power began to grow. During the 11th century, they lead expeditions against other Indian states as far north as Bengal, as well as against the Maldives, Sri Lanka and even the Indonesian kingdom of Sri Vijaya. They collapsed, however, in the 1250s as other southern Indian states rose up."
@@ -22645,12 +22671,12 @@ msgstr ""
 #: data/nation/colombian.ruleset:3
 #, fuzzy
 msgid "Colombian"
-msgstr "Kolumbijský"
+msgstr "Kolumbijské peso"
 
 #: data/nation/colombian.ruleset:4
 #, fuzzy
 msgid "?plural:Colombians"
-msgstr "?plural:Kolumbijci"
+msgstr "Forma plurálů:"
 
 #: data/nation/colombian.ruleset:6
 msgid "Colombia is a country in northern South America. The region was an Amerindian cultural center in pre-European time. The Spanish began settling Colombia's north coast around 1500. In 1819 the Republic of Colombia gained independence."
@@ -22660,7 +22686,7 @@ msgstr ""
 #: data/nation/swiss.ruleset:19
 #, fuzzy
 msgid "General"
-msgstr "Interní"
+msgstr "Všeobecné"
 
 #: data/nation/colombian.ruleset:22
 #: data/nation/venezuelan.ruleset:27
@@ -22680,7 +22706,7 @@ msgstr "Oslavuje"
 #: data/nation/confederate.ruleset:4
 #, fuzzy
 msgid "?plural:Confederates"
-msgstr "?plural:Boerové"
+msgstr "Forma plurálů:"
 
 #: data/nation/confederate.ruleset:6
 msgid "The Confederate States of America was a splinter nation of the United States during the American Civil War. It was formed in 1861 by six Southern states but had to abandon their claims of independence a few years later after several military defeats by United States troops."
@@ -22715,17 +22741,17 @@ msgstr "Náčelník"
 #: data/nation/welsh.ruleset:25
 #, fuzzy
 msgid "?female:Chieftain"
-msgstr "Náčelník"
+msgstr "Náčelník trpaslíků"
 
 #: data/nation/cree.ruleset:3
 #, fuzzy
 msgid "Cree"
-msgstr "zelenáč"
+msgstr "krí"
 
 #: data/nation/cree.ruleset:4
 #, fuzzy
 msgid "?plural:Cree"
-msgstr "?plural:Řekové"
+msgstr "Forma plurálů:"
 
 #: data/nation/cree.ruleset:7
 msgid "The Cree are the largest native group in Canada with over 200,000 members who speak an Algonquian language and often call themselves \"Iiyiyuu\" or \"Iinuu,\" meaning \"people.\" They originally inhabited much of Quebec, Labrador, Alberta, Saskatchewan, Ontario and Manitoba."
@@ -22874,7 +22900,7 @@ msgstr "Emír"
 #: data/nation/emirati.ruleset:4
 #, fuzzy
 msgid "?plural:Emiratis"
-msgstr "?plural:Irové"
+msgstr "Forma plurálů:"
 
 #: data/nation/emirati.ruleset:6
 msgid "The history of the United Arab Emirates goes back to the 7th century. In the 19th century the Emirates became a dependency of the United Kingdom. In 1971 six emirates joined in a federative state as the United Arab Emirates. The following year, the seventh member emirate joined them."
@@ -22919,7 +22945,7 @@ msgstr "Evropský"
 #: data/nation/esperant.ruleset:4
 #, fuzzy
 msgid "?plural:Esperants"
-msgstr "?plural:Evropané"
+msgstr "Forma plurálů:"
 
 #: data/nation/esperant.ruleset:6
 msgid "The Esperants are a world community united by the Esperanto language."
@@ -23058,7 +23084,7 @@ msgstr "Premiérka"
 #: data/nation/galician.ruleset:25
 #, fuzzy
 msgid "Don"
-msgstr "Hotovo"
+msgstr "Nemys..."
 
 #: data/nation/galician.ruleset:25
 #, fuzzy
@@ -23100,7 +23126,7 @@ msgstr "Galicijský"
 #: data/nation/gallic.ruleset:4
 #, fuzzy
 msgid "?plural:Gauls"
-msgstr "?plural:Zuluové"
+msgstr "Forma plurálů:"
 
 #: data/nation/gallic.ruleset:6
 msgid "The Gauls were a Celtic people occupying what is now France and Belgium.  They lived in chiefdom-level societies that grew increasingly centralized and stratified under the influence of the Greek and Roman merchants and soldiers who came to Gaul.  Julius Caesar launched his eight year invasion of Gaul in 59 BCE.  He claimed to have killed one million people and enslaved another million out of an original population of three million.  The Gauls united and rallied under Vercingetorix, who defeated Caesar at the battle of Gergovia, but was later crushed by him at the battle of Alesia."
@@ -23117,12 +23143,12 @@ msgstr "?female:Druidka"
 #: data/nation/georgian.ruleset:3
 #, fuzzy
 msgid "Georgian"
-msgstr "Německý"
+msgstr "Gruzínsky"
 
 #: data/nation/georgian.ruleset:4
 #, fuzzy
 msgid "?plural:Georgians"
-msgstr "?plural:Němci"
+msgstr "Forma plurálů:"
 
 #: data/nation/georgian.ruleset:6
 msgid "The Georgians were one of the first peoples in history to adopt Christianity, in the 300s AD."
@@ -23183,7 +23209,7 @@ msgstr ""
 #: data/nation/gupta.ruleset:4
 #, fuzzy
 msgid "?plural:Gupta"
-msgstr "Holanďané"
+msgstr "Forma plurálů:"
 
 #: data/nation/gupta.ruleset:7
 msgid "The Gupta Empire was one of the great classical empires. It ruled northern India from around 240 to 550 CE."
@@ -23230,12 +23256,12 @@ msgstr ""
 #: data/nation/hellenic.ruleset:3
 #, fuzzy
 msgid "Hellenic"
-msgstr "Výzvědná služba"
+msgstr "Řecká republika"
 
 #: data/nation/hellenic.ruleset:4
 #, fuzzy
 msgid "?plural:Hellenes"
-msgstr "?plural:Islanďané"
+msgstr "Forma plurálů:"
 
 #: data/nation/hellenic.ruleset:6
 msgid "The Hellenic Republic - also known as Greece - was created when the Hellenic people gained independence from the Ottoman Empire in 1832."
@@ -23249,7 +23275,7 @@ msgstr "Postoj"
 #: data/nation/himyarite.ruleset:4
 #, fuzzy
 msgid "?plural:Himyar"
-msgstr "?plural:Arabové"
+msgstr "Forma plurálů:"
 
 #: data/nation/himyarite.ruleset:7
 msgid "The Himyar were originally a mountain tribe in what is now Yemen that conquered the other South Arabian kingdoms, including Sabaea in 115BCE, which were rich from the incense trade. The Himyar were castle-builders, finding it necessary to erect citadels to protect against Bedouin raids. The Axumite kingdom from Ethiopia ruled Sabaea from 340 to 378 CE, but the area was reconquered by Himyar forces in 525. The fall of the nation was a slow process involving the Christian states of Axum and the Byzantine Empire on one side, the Mandean Sassanid Empire of Persia on the other, and various South Arabian factions split between. The country switched from Axumite rule to Sassanid in 575 and in 628, the fifth Sassanid satrap of \"al-Yaman\" converted to Islam and Southern Arabia was incorporated into the new, expanding Muslim empire."
@@ -23258,12 +23284,12 @@ msgstr ""
 #: data/nation/hittite.ruleset:3
 #, fuzzy
 msgid "Hittite"
-msgstr "Postoj"
+msgstr "chetitština"
 
 #: data/nation/hittite.ruleset:4
 #, fuzzy
 msgid "?plural:Hittites"
-msgstr "?plural:Hobitové"
+msgstr "Forma plurálů:"
 
 #: data/nation/hittite.ruleset:6
 msgid "The Hittite kingdom lasted from about 1680 BC to about 1180 BC. They were the first civilisation to discover iron working. At its height, they controlled central Anatolia, north-western Syria and Mesopotamia down to Babylon."
@@ -23277,7 +23303,7 @@ msgstr "Hobitský"
 #: data/nation/hopi.ruleset:4
 #, fuzzy
 msgid "?plural:Hopis"
-msgstr "?plural:Hobitové"
+msgstr "Forma plurálů:"
 
 #: data/nation/hopi.ruleset:7
 msgid "A matrilineal culture in North America, who claim descent from the Hisatsinom. The Hopi live today on the Hopi Reservation in northeastern Arizona."
@@ -23320,7 +23346,7 @@ msgstr "Italský"
 #: data/nation/illyrian.ruleset:4
 #, fuzzy
 msgid "?plural:Illyrians"
-msgstr "?plural:Italové"
+msgstr "Forma plurálů:"
 
 #: data/nation/illyrian.ruleset:6
 msgid "Illyrians were Indo-European tribes who appeared in the  western part of the Balkan Peninsula before 1000 BC,  including the Dalmatians to the north,  Corcyra island and Ambracia bay in prehistoric Epirus to the south,  mixing with Thracians in Dardania to the east,  and settling Messapia across the Adriatic Sea.  Illyrian kingdoms were independent for centuries,  until conquered by the Roman Republic."
@@ -23373,7 +23399,7 @@ msgstr "Rádža"
 #: data/nation/indian.ruleset:19
 #, fuzzy
 msgid "?female:Raja"
-msgstr "Soudruh"
+msgstr "Podstatné jméno ženského rodu"
 
 #: data/nation/indian.ruleset:20
 msgid "Maharaja"
@@ -23382,7 +23408,7 @@ msgstr "Maharadža"
 #: data/nation/indian.ruleset:20
 #, fuzzy
 msgid "?female:Maharaja"
-msgstr "Maharadža"
+msgstr "Podstatné jméno ženského rodu"
 
 #: data/nation/indian.ruleset:21
 msgid "Mahatma"
@@ -23391,7 +23417,7 @@ msgstr "Mahátma"
 #: data/nation/indian.ruleset:21
 #, fuzzy
 msgid "?female:Mahatma"
-msgstr "Soudruh"
+msgstr "Podstatné jméno ženského rodu"
 
 #: data/nation/indonesian.ruleset:3
 msgid "Indonesian"
@@ -23408,12 +23434,12 @@ msgstr ""
 #: data/nation/inuit.ruleset:3
 #, fuzzy
 msgid "Inuit"
-msgstr "Konec"
+msgstr "Inuitská"
 
 #: data/nation/inuit.ruleset:4
 #, fuzzy
 msgid "?plural:Inuits"
-msgstr "?plural:Indové"
+msgstr "Forma plurálů:"
 
 #: data/nation/inuit.ruleset:6
 msgid "The Inuit people inhabit northern Canada and Greenland. Legend says that the Great Shaman Qitdlarssuaq lead his people to Thule (Qaanaaq) on the west coast of Greenland in the 10th century. All Inuit of today are descendents of the Thule culture."
@@ -23505,7 +23531,7 @@ msgstr "Premiér"
 #: data/nation/irish.ruleset:48
 #, fuzzy
 msgid "?female:Taoiseach"
-msgstr "Premiér"
+msgstr "Podstatné jméno ženského rodu"
 
 #: data/nation/iroquois.ruleset:3
 #, fuzzy
@@ -23515,7 +23541,7 @@ msgstr "Irský"
 #: data/nation/iroquois.ruleset:4
 #, fuzzy
 msgid "?plural:Iroquois"
-msgstr "?plural:Irové"
+msgstr "Forma plurálů:"
 
 #: data/nation/iroquois.ruleset:6
 msgid "The Iroquois Confederacy - known as Haudenosaunee in their own language - was a North American group of nations with common language and culture. They were based in what is now upstate New York and consisted originally of five nations: Seneca, Cayuga, Onondaga, Oneida and Mohawk. The confederacy had a written constitution and a currency system making them the most advanced state in North America upon the arrival of the Europeans."
@@ -23568,7 +23594,7 @@ msgstr ""
 #: data/nation/kanem-bornu.ruleset:4
 #, fuzzy
 msgid "?plural:Kanem-Bornu"
-msgstr "?plural:Korejci"
+msgstr "Množné číslo jednotky."
 
 #: data/nation/kanem-bornu.ruleset:7
 msgid "This empire lasted in some form from the 9th-century until 1893 in modern Chad and Nigeria and controlled much of the trans-Saharan trade."
@@ -23577,16 +23603,17 @@ msgstr ""
 #: data/nation/kanem-bornu.ruleset:23
 #, fuzzy
 msgid "Mai"
-msgstr "Marťanský"
+msgstr "Odes&lat emailem"
 
 #: data/nation/kazakh.ruleset:3
+#, fuzzy
 msgid "Kazakh"
-msgstr ""
+msgstr "Kazašsky"
 
 #: data/nation/kazakh.ruleset:4
 #, fuzzy
 msgid "?plural:Kazakhs"
-msgstr "?plural:Malajci"
+msgstr "Forma plurálů:"
 
 #: data/nation/kazakh.ruleset:6
 msgid "Kazakhs are descendants of Turkic and Mongolian nomadic tribes. Conquered by Russia in the 18th century, Kazahstan became independent in 1991 with the dissolution of the Soviet Union. It is one of ten largest states in the world by area."
@@ -23617,7 +23644,7 @@ msgstr "Předseda"
 #: data/nation/khwarezmian.ruleset:4
 #, fuzzy
 msgid "?plural:Khwarezmians"
-msgstr "?plural:Korejci"
+msgstr "Forma plurálů:"
 
 #: data/nation/khwarezmian.ruleset:7
 msgid "Known by the Greeks as Chorasmia, Khwarezm was an urbanized, centralized, and militarized state south of the Aral sea in Central Asia, controlling portions of the Silk Road. It was loosely controlled as a satrapy under the Achaemenid and Sassanid Persian dynasties and was mythic homeland of Zarathustra, the founder of Zoroastrianism. Following the introduction of Islam, Khwarezm tended to be devided into two seperate kingdoms, but was united under the Turkic Anushtegihidy dynasty, which lasted from 1097 until Chinggis Khan conquered it in 1231."
@@ -23630,12 +23657,12 @@ msgstr ""
 #: data/nation/kongo.ruleset:3
 #, fuzzy
 msgid "Kongo"
-msgstr "Mongolský"
+msgstr "konžština"
 
 #: data/nation/kongo.ruleset:4
 #, fuzzy
 msgid "?plural:Kongo"
-msgstr "?plural:Mongolové"
+msgstr "Forma plurálů:"
 
 #: data/nation/kongo.ruleset:7
 msgid "This Kingdom, lasting from roughly 1400 CE until the late 19th century, existed in the present-day countries of Angola and the Democratic Republic of the Congo. Soon after its formation, Portuguese explorers, missionaries and slavers began to arrive and exerted considerable influence in the Kingdom."
@@ -23661,12 +23688,12 @@ msgstr ""
 #: data/nation/kurd.ruleset:3
 #, fuzzy
 msgid "Kurdish"
-msgstr "Irský"
+msgstr "Kurdsky"
 
 #: data/nation/kurd.ruleset:4
 #, fuzzy
 msgid "?plural:Kurds"
-msgstr "?plural:Turkové"
+msgstr "Forma plurálů:"
 
 #: data/nation/kurd.ruleset:5
 msgid "Asian"
@@ -23681,13 +23708,14 @@ msgid "The Kurds are a distinct ethno-linguistic group speaking an Indo-Aryan la
 msgstr ""
 
 #: data/nation/kyrgyz.ruleset:3
+#, fuzzy
 msgid "Kyrgyz"
-msgstr ""
+msgstr "Kyrgyzská republika"
 
 #: data/nation/kyrgyz.ruleset:4
 #, fuzzy
 msgid "?plural:Kyrgyzs"
-msgstr "?plural:Arabové"
+msgstr "Forma plurálů:"
 
 #: data/nation/kyrgyz.ruleset:6
 msgid "Nation in Central Asia. Conquered by the Russian Empire in 19th century, Kyrgyzstan got independence from the Soviet Union in 1991."
@@ -23709,7 +23737,7 @@ msgstr "Japonský"
 #: data/nation/lankese.ruleset:4
 #, fuzzy
 msgid "?plural:Lankese"
-msgstr "?plural:Dánové"
+msgstr "Forma plurálů:"
 
 #: data/nation/lankese.ruleset:6
 msgid "Prince Vijaya came to Sri Lanka from Orissa, in north-eastern India during the 6th century BC and founded the Sinhalese kingdom there. During British colonialism the country was known as Ceylon."
@@ -23743,12 +23771,12 @@ msgstr "?cma:Guvernér"
 #: data/nation/lankese.ruleset:22
 #, fuzzy
 msgid "Supreme Commander"
-msgstr "Generální ředitel"
+msgstr " Midnight Commander "
 
 #: data/nation/lankese.ruleset:22
 #, fuzzy
 msgid "?female:Supreme Commander"
-msgstr "Generální ředitel"
+msgstr "GNU Midnight Commander %s\n"
 
 #: data/nation/laotian.ruleset:3
 #, fuzzy
@@ -23758,7 +23786,7 @@ msgstr "Litevský"
 #: data/nation/laotian.ruleset:4
 #, fuzzy
 msgid "?plural:Laotians"
-msgstr "?plural:Litevci"
+msgstr "Forma plurálů:"
 
 #: data/nation/laotian.ruleset:6
 msgid "The history of Laos starts with the Lan Xang kingdom created in the 14th century and ended in late 18th century with invasion of Siam (Thailand). In the end of the 19th century, Laos became part of French Indochina. French rule ended with independence in 1946 followed by 30 years of civil war. In 1975 the communist Pathet Lao established strict solicalist regime. However, in 1986 the liberalization and a gradual return to private enterpise started."
@@ -23795,7 +23823,7 @@ msgstr ""
 #: data/nation/libyan.ruleset:24
 #, fuzzy
 msgid "Colonel"
-msgstr "Zavřít"
+msgstr "plukovník"
 
 #: data/nation/lithuanian.ruleset:3
 msgid "Lithuanian"
@@ -23825,7 +23853,7 @@ msgstr "Rumunský"
 #: data/nation/lojbanistani.ruleset:4
 #, fuzzy
 msgid "?plural:Lojbanistanis"
-msgstr "?plural:Rumuné"
+msgstr "Forma plurálů:"
 
 #: data/nation/lojbanistani.ruleset:6
 msgid "Lojbanistan is a fictional place where people speak Lojban. Lojban is a constructed language meant for human communication. Lojban is syntactically unambiguous (\"Time flies like an arrow. Fruit flies like a banana.\"), culturally neutral and simple to learn."
@@ -23838,7 +23866,7 @@ msgstr ""
 #: data/nation/majapahit.ruleset:4
 #, fuzzy
 msgid "?plural:Majapahit"
-msgstr "?plural:Malajci"
+msgstr "Forma plurálů:"
 
 #: data/nation/majapahit.ruleset:7
 msgid "This empire began in 1293 CE when a local prince used invading Yuan dynasty troops to his own advantage by having them defeat his enemies and then expelling them. The Majapahit, centered in eastern Java, was heavily influenced by Buddhism and Hinduism and was a major regional power in the insular Southeast Asian world, a position which allowed them to control much of the trade between China, India and the Middle East. They lasted until 1500 when they were eclipsed by the Sultanate of Malacca and the rise of Islam in the Indonesian world."
@@ -23852,12 +23880,12 @@ msgstr "Mahátma"
 #: data/nation/malagasy.ruleset:3
 #, fuzzy
 msgid "Malagasy"
-msgstr "Král"
+msgstr "Malagsky"
 
 #: data/nation/malagasy.ruleset:4
 #, fuzzy
 msgid "?plural:Malagasies"
-msgstr "?plural:Malajci"
+msgstr "Forma plurálů:"
 
 #: data/nation/malagasy.ruleset:6
 msgid "The Malagasy are the people of Madagascar. For centuries, tribes from Indonesia, East Africa and the Arab world have gathered on the island."
@@ -23899,7 +23927,7 @@ msgstr "Sultán"
 #: data/nation/malaysian.ruleset:23
 #, fuzzy
 msgid "Tun"
-msgstr "Tahů"
+msgstr "TUN"
 
 #: data/nation/malian.ruleset:3
 #, fuzzy
@@ -23909,7 +23937,7 @@ msgstr "Malajský"
 #: data/nation/malian.ruleset:4
 #, fuzzy
 msgid "?plural:Malians"
-msgstr "?plural:Malajci"
+msgstr "Forma plurálů:"
 
 #: data/nation/malian.ruleset:6
 msgid "Sub-Saharan Africa has been a cultural and ethnical melting pot for millennia. In medieval times, the region was home to a succession of empires called the Sahelian kingdoms. Of these, the Islamic Mali Empire with its capital in Timbuktu was the most influential. This empire reigned from the 14th to the 17th century and was famed for its wealth and benevolent kings. The modern Republic of Mali derives its name from this empire."
@@ -23924,12 +23952,12 @@ msgstr "Námořní pěchota"
 #: data/nation/manchu.ruleset:3
 #, fuzzy
 msgid "Manchu"
-msgstr "Březnu"
+msgstr "manchu"
 
 #: data/nation/manchu.ruleset:4
 #, fuzzy
 msgid "?plural:Manchus"
-msgstr "?plural:Inkové"
+msgstr "Forma plurálů:"
 
 #: data/nation/manchu.ruleset:6
 msgid "The Manchus were a semi-nomadic people originating from the region called Manchuria in Northeast Asia. In the 17th century they conquered and ruled China as the Manchu Empire until 1911."
@@ -23938,12 +23966,12 @@ msgstr ""
 #: data/nation/maori.ruleset:3
 #, fuzzy
 msgid "Maori"
-msgstr "Marťanský"
+msgstr "Maorsky"
 
 #: data/nation/maori.ruleset:4
 #, fuzzy
 msgid "?plural:Maori"
-msgstr "?plural:Marťané"
+msgstr "Forma plurálů:"
 
 #: data/nation/maori.ruleset:6
 msgid "The Maori are a Polynesian people that migrated to and settled the island group that is now New Zealand. According to archeological evidence, the migration commenced in the 900s and continued until the 1400s."
@@ -23952,12 +23980,12 @@ msgstr ""
 #: data/nation/mapuche.ruleset:3
 #, fuzzy
 msgid "Mapuche"
-msgstr "Kampučíjský"
+msgstr "mapudungun; mapuche"
 
 #: data/nation/mapuche.ruleset:4
 #, fuzzy
 msgid "?plural:Mapuche"
-msgstr "?plural:Kambodžané"
+msgstr "mapudungun; mapuche"
 
 #: data/nation/mapuche.ruleset:7
 msgid "The Mapuche people successfully resisted the expansion of the Inka empire, halting them at the Maule river in what is now central Chile. They proved to be stubborn opponents of the Spanish, too, who, along with their Chilean successors, took 300 years to conquer them."
@@ -24010,17 +24038,18 @@ msgstr ""
 #: data/nation/mayan.ruleset:20
 #, fuzzy
 msgid "?female:Ajaw"
-msgstr "Soudruh"
+msgstr "Podstatné jméno ženského rodu"
 
 #. TRANS: Ah kin = Priest
 #: data/nation/mayan.ruleset:22
+#, fuzzy
 msgid "Ah kin"
-msgstr ""
+msgstr "Ah, čerstvé maso!"
 
 #: data/nation/mayan.ruleset:22
 #, fuzzy
 msgid "?female:Ah kin"
-msgstr "Konzul"
+msgstr "Ah, čerstvé maso!"
 
 #: data/nation/mexican.ruleset:3
 msgid "Mexican"
@@ -24035,13 +24064,14 @@ msgid "Mexico borrows its name from the Mexica people, another name for the Azte
 msgstr ""
 
 #: data/nation/moldovan.ruleset:3
+#, fuzzy
 msgid "Moldovan"
-msgstr ""
+msgstr "Mişu Moldovan"
 
 #: data/nation/moldovan.ruleset:4
 #, fuzzy
 msgid "?plural:Moldovans"
-msgstr "?plural:Malajci"
+msgstr "Forma plurálů:"
 
 #: data/nation/moldovan.ruleset:6
 msgid "Moldova was conquered by the Ottomans in the 16th century. Then in 1812 Moldova became part of the Russian Empire. From 1918 Moldova was part of Romania until inclusion  in the Soviet Union in 1940. The modern Republic of Moldova  gained independence from the Soviet Union in 1991."
@@ -24095,23 +24125,23 @@ msgstr "Během několika století po jejich sjednocení Genghisem Khanem, ovlád
 #: data/nation/uyghur.ruleset:29
 #, fuzzy
 msgid "?female:Khan"
-msgstr "Konzul"
+msgstr "Podstatné jméno ženského rodu"
 
 #: data/nation/mongol.ruleset:31
 #: data/nation/uyghur.ruleset:30
 #, fuzzy
 msgid "?female:Khagan"
-msgstr "Konzul"
+msgstr "Podstatné jméno ženského rodu"
 
 #: data/nation/muskogee.ruleset:3
 #, fuzzy
 msgid "Muskogee"
-msgstr "Mušketýři"
+msgstr "Muskogee"
 
 #: data/nation/muskogee.ruleset:4
 #, fuzzy
 msgid "?plural:Muskogee"
-msgstr "?plural:Turkové"
+msgstr "Forma plurálů:"
 
 #: data/nation/muskogee.ruleset:6
 msgid "The Muskogee was a confederacy of North American tribes, including the Creek, Seminole, Choctaw, and Chickasaw. They were based in the area now encompassed by the U.S. states of Georgia and Alabama. Creek and Seminole tribes briefly formed a sovereign state known as the \"State of Muskogee\" during the early 1800s."
@@ -24156,12 +24186,12 @@ msgstr ""
 #: data/nation/norman.ruleset:22
 #, fuzzy
 msgid "Jarl"
-msgstr "Hlídka"
+msgstr "Jarl"
 
 #: data/nation/norman.ruleset:22
 #, fuzzy
 msgid "?female:Jarl"
-msgstr "Soudruh"
+msgstr "Podstatné jméno ženského rodu"
 
 #: data/nation/northkorean.ruleset:3
 msgid "North Korean"
@@ -24195,12 +24225,12 @@ msgstr ""
 #: data/nation/nubian.ruleset:3
 #, fuzzy
 msgid "Nubian"
-msgstr "Kubánský"
+msgstr "núbijské jazyky"
 
 #: data/nation/nubian.ruleset:4
 #, fuzzy
 msgid "?plural:Nubians"
-msgstr "?plural:Kubánci"
+msgstr "Forma plurálů:"
 
 #: data/nation/nubian.ruleset:6
 msgid "A succession of kingdoms stretching roughly from the 1st to the 6th cataracts of Nile river in modern Sudan and Egypt, Nubia was ancient Egypt's perennial neighbor, competitor, trading partner, enemy, and source of gold, slaves and soldiers to the south. The border between the two nations fluctated time and time again. Lower Nubia was at times ruled by Egypt. The 25th Dynasty of Egypt, however, was a Nubian dynasty, and one that saw conflict with Assyria, which eventually wrested Egypt from Nubia. Brief conflict occurred with Rome in 24 BCE when Nubian armies routed the Roman garrison with it's famed archers. Nubia was a nation shaped by its position between the Mediterranean world and the African interior. Large Nubian states centered on Napata and later Meroe broke into smaller Christian kingdoms which persisted into medieval times before being conquered by Muslim Arabs."
@@ -24214,7 +24244,7 @@ msgstr "Nigérijský"
 #: data/nation/numidian.ruleset:4
 #, fuzzy
 msgid "?plural:Numidians"
-msgstr "?plural:Nigerijci"
+msgstr "Forma plurálů:"
 
 #: data/nation/numidian.ruleset:7
 msgid "The Numidians were an ancient Berber people renowned for their horsemanship who were composed of two main tribes in modern Algeria and Tunisia: the Massyli in the east and the Massaesyli in the west. They were united under King Massinissa, whose position was guaranteed by his Roman allies after the 2nd Punic War in which he aided the Romans in their defeat of the Carthaginians. His unified kingdom was short-lived, however, as the west was given to the Mauretanian king by the Romans following the death of King Jugurtha. Eventually all of Numidia and Mauretania were added to the Roman realm."
@@ -24241,8 +24271,9 @@ msgstr "_Chat"
 
 #. TRANS: Ha'wiih = Hereditary Chief
 #: data/nation/nuu-chah-nulth.ruleset:27
+#, fuzzy
 msgid "Ha'wiih"
-msgstr ""
+msgstr "Ha'Tang"
 
 #: data/nation/ottoman.ruleset:3
 msgid "Ottoman"
@@ -24284,7 +24315,7 @@ msgstr "Partizán"
 #: data/nation/pakistani.ruleset:4
 #, fuzzy
 msgid "?plural:Pakistanis"
-msgstr "?plural:Rumuné"
+msgstr "Forma plurálů:"
 
 #: data/nation/pakistani.ruleset:6
 msgid "The Federation of Pakistan was formed from the predominantly Muslim regions of British India in 1947."
@@ -24305,7 +24336,7 @@ msgstr ""
 #: data/nation/papuan.ruleset:16
 #, fuzzy
 msgid "Governor-General"
-msgstr "Guvernérka"
+msgstr "Obecné nastavení"
 
 #: data/nation/persian.ruleset:3
 msgid "Persian"
@@ -24322,12 +24353,12 @@ msgstr "První Perské (Achaemenid) Impérium trvalo od 550 - 330 př.n.l.; druh
 #: data/nation/peruvian.ruleset:3
 #, fuzzy
 msgid "Peruvian"
-msgstr "Perský"
+msgstr "Peruánský inti"
 
 #: data/nation/peruvian.ruleset:4
 #, fuzzy
 msgid "?plural:Peruvians"
-msgstr "?plural:Peršané"
+msgstr "Forma plurálů:"
 
 #: data/nation/peruvian.ruleset:6
 msgid "Peru was the cradle of the Inca Empire and civilization. It is still today a major center of indigenous South American culture."
@@ -24336,7 +24367,7 @@ msgstr ""
 #: data/nation/peruvian.ruleset:25
 #, fuzzy
 msgid "Protector"
-msgstr "Lord Protektor"
+msgstr "Lady Protektor"
 
 #: data/nation/phoenician.ruleset:3
 msgid "Phoenician"
@@ -24353,7 +24384,7 @@ msgstr ""
 #: data/nation/phoenician.ruleset:28
 #, fuzzy
 msgid "Milk"
-msgstr "Bavlna"
+msgstr "Vyplnit &mléčnou dráhu"
 
 #: data/nation/phoenician.ruleset:28
 #, fuzzy
@@ -24383,7 +24414,7 @@ msgstr "Polský"
 #: data/nation/polish.ruleset:4
 #, fuzzy
 msgid "?plural:Poles"
-msgstr "?plural:Poláci"
+msgstr "Dvě tyče"
 
 #: data/nation/polish.ruleset:6
 msgid "The Polish state was formed about a millennium ago, and reached its Golden Age near the end of the 16th century."
@@ -24406,7 +24437,7 @@ msgstr "Primas"
 #: data/nation/polish.ruleset:29
 #, fuzzy
 msgid "?female:Prymas"
-msgstr "Prezident"
+msgstr "Podstatné jméno ženského rodu"
 
 #. TRANS: Pierwszy Sekretarz = First Secretary
 #: data/nation/polish.ruleset:31
@@ -24462,12 +24493,12 @@ msgstr ""
 #: data/nation/templar.ruleset:47
 #, fuzzy
 msgid "Grand Master"
-msgstr "Gran Bardo"
+msgstr "Hlavní server:\n"
 
 #: data/nation/prussian.ruleset:27
 #, fuzzy
 msgid "Elector"
-msgstr "Elektřina"
+msgstr "S_elektor"
 
 #: data/nation/purhepecha.ruleset:3
 msgid "P'urhepecha"
@@ -24476,7 +24507,7 @@ msgstr ""
 #: data/nation/purhepecha.ruleset:4
 #, fuzzy
 msgid "?plural:P'urhepecha"
-msgstr "?plural:Francouzi"
+msgstr "Forma plurálů:"
 
 #: data/nation/purhepecha.ruleset:7
 msgid "The P'urhepecha are a people native to the modern Mexican state of Michoacan, the heart of a former empire known to them as Irechecua Tzintzuntzani, meaning the \"lands of Tzintzuntzan,\" their capital city. Their kings were the perennial enemy of the Aztec empire, who attempted an unsuccessful invasion of the P'urhepecha lands. When the Spanish arrived began their conquest of Mexico in 1519, the Aztecs sent an embassy seeking the support of the P'urhepecha, but was refused. The conquistadores' reputation preceded them and the P'urhepecha offered to become a subject state of the King of Spain rather than meet the same fate as their former enemies, the Aztecs. Nevertheless, the transition to Spanish rule was not smooth and devolved into violence. The empire, founded around 1450 CE, collapsed in 1521."
@@ -24516,12 +24547,12 @@ msgstr ""
 #: data/nation/romanian.ruleset:36
 #, fuzzy
 msgid "Rege"
-msgstr "Odebrat"
+msgstr "_Regulární výraz"
 
 #: data/nation/romanian.ruleset:36
 #, fuzzy
 msgid "Regina"
-msgstr "Královna"
+msgstr "Regina"
 
 #: data/nation/roman.ruleset:3
 msgid "Roman"
@@ -24574,7 +24605,7 @@ msgstr ""
 #: data/nation/ryukyuan.ruleset:4
 #, fuzzy
 msgid "?plural:Ryukyuans"
-msgstr "?plural:Rusové"
+msgstr "Forma plurálů:"
 
 #: data/nation/ryukyuan.ruleset:6
 msgid "The Ryukyu Kingdom (1372-1879) was the Land of Propriety, a peaceful maritime trading nation eventually invaded, occupied, and annexed by Japan."
@@ -24586,18 +24617,19 @@ msgid "Koku-o"
 msgstr ""
 
 #: data/nation/ryukyuan.ruleset:22
+#, fuzzy
 msgid "Jo-o"
-msgstr ""
+msgstr "Jordánsko (ar_JO)"
 
 #: data/nation/sami.ruleset:3
 #, fuzzy
 msgid "Sami"
-msgstr "Plachetnice"
+msgstr "Severní Sami"
 
 #: data/nation/sami.ruleset:4
 #, fuzzy
 msgid "?plural:Sami"
-msgstr "?plural:Thajové"
+msgstr "Severní Sami"
 
 #: data/nation/sami.ruleset:6
 msgid "The Sami are a people of northern Scandinavia. Their nation spans over the northernmost regions of the Scandinavian countries and northwestern Russia."
@@ -24612,7 +24644,7 @@ msgstr "Ne"
 #: data/nation/sami.ruleset:22
 #, fuzzy
 msgid "?female:Noaydde"
-msgstr "Soudruh"
+msgstr "Podstatné jméno ženského rodu"
 
 #: data/nation/samogitian.ruleset:3
 #, fuzzy
@@ -24622,7 +24654,7 @@ msgstr "Šaman"
 #: data/nation/samogitian.ruleset:4
 #, fuzzy
 msgid "?plural:Samogitians"
-msgstr "?plural:Litevci"
+msgstr "Forma plurálů:"
 
 #: data/nation/samogitian.ruleset:6
 msgid "Samogitia - historical country near the Baltic Sea - home to the last pagans in Europe (official until 1413). Today, Samogitia is a region of Lithuania"
@@ -24692,7 +24724,7 @@ msgstr "Tovaryš"
 #: data/nation/singaporean.ruleset:34
 #, fuzzy
 msgid "?female:Encik"
-msgstr "Konzul"
+msgstr "Podstatné jméno ženského rodu"
 
 #: data/nation/sioux.ruleset:3
 msgid "Sioux"
@@ -24814,16 +24846,17 @@ msgstr "Kardinál"
 #: data/nation/spanish.ruleset:29
 #, fuzzy
 msgid "?female:Cardinal"
-msgstr "Konzul"
+msgstr "Číslovka základní"
 
 #: data/nation/srivijaya.ruleset:3
+#, fuzzy
 msgid "Sri Vijaya"
-msgstr ""
+msgstr "Srí Lanka"
 
 #: data/nation/srivijaya.ruleset:4
 #, fuzzy
 msgid "?plural:Sri Vijaya"
-msgstr "?plural:Malajci"
+msgstr "Srí Lanka, Rupie"
 
 #: data/nation/srivijaya.ruleset:7
 msgid "Sri Vijaya was an empire centered on Palembang in eastern Sumatra and extended its control through much of the coastal regions of Sumatra, Java, Borneo and the Malay peninsula. It was founded sometime in the 3rd century CE and lasted until roughly 1400, falling first to Jambi, then to Singhasari and other regional powers, including the South Indian Chola dynasty."
@@ -24861,7 +24894,9 @@ msgstr ""
 #: data/nation/sumerian.ruleset:27
 #, fuzzy
 msgid "Nin"
-msgstr "Národ"
+msgstr ""
+"%s :%s\n"
+"dovnitř: %s ven: %s"
 
 #: data/nation/sumerian.ruleset:29
 msgid "Ensi"
@@ -24880,7 +24915,7 @@ msgstr "Plachetnice"
 #: data/nation/swazi.ruleset:4
 #, fuzzy
 msgid "?plural:Swazis"
-msgstr "?plural:Švýcaři"
+msgstr "Forma plurálů:"
 
 #: data/nation/swazi.ruleset:6
 msgid "The Swazis is a Bantu people of southern Africa. Under the leadership of Mswati II (1820 - 1868), the Swazis expanded their territory and stabilized the southern frontier with the Zulus."
@@ -24922,7 +24957,7 @@ msgstr ""
 #: data/nation/swiss.ruleset:19
 #, fuzzy
 msgid "?female:General"
-msgstr "Konzul"
+msgstr "?female:Hlavní sekretářka"
 
 #: data/nation/swiss.ruleset:20
 #, fuzzy
@@ -24932,12 +24967,13 @@ msgstr "Brazilský"
 #: data/nation/swiss.ruleset:20
 #, fuzzy
 msgid "?female:Bailiff"
-msgstr "Brazilský"
+msgstr "Podstatné jméno ženského rodu"
 
 #: data/nation/swiss.ruleset:21
 #: data/nation/swiss.ruleset:22
+#, fuzzy
 msgid "President of the Confederation"
-msgstr ""
+msgstr "Švýcarská konfederace"
 
 #: data/nation/swiss.ruleset:23
 msgid "Federal Chancellor"
@@ -24967,7 +25003,7 @@ msgstr "Terén"
 #: data/nation/taino.ruleset:4
 #, fuzzy
 msgid "?plural:Taino"
-msgstr "?plural:Thajové"
+msgstr "Forma plurálů:"
 
 #: data/nation/taino.ruleset:7
 msgid "Native inhabitants of the Bahamas, Cuba, Hispaniola, Puerto Rico, Jamaica, and other Caribbean islands who gave us the root words for hurricane, tobacco, potato, canoe, barbeque, hammock, and yucca. They were a matrilineal people, and the first that Columbus came into contact with in 1492. Though numbering the hundreds of thousands, if not millions, throughout the Caribbean, the Taino fell victim to slavery and disease, and their population declined rapidly as a result. Spanish accounts paint them as a peaceful people compared to their Carib neighbors to the south. Their dugout canoes, which were often nearly as long as Columbus' ships, ferried traders between islands. Recent genetic studies show that roughly half of Puerto Ricans have Taino maternal descent."
@@ -24993,7 +25029,7 @@ msgstr "Železnice"
 #: data/nation/tairona.ruleset:4
 #, fuzzy
 msgid "?plural:Tairona"
-msgstr "?plural:Thajové"
+msgstr "Forma plurálů:"
 
 #: data/nation/tairona.ruleset:7
 msgid "A Chibchan-speaking people related to the Kuna of Panama and the Muisca of central Colombia, the Tairona inhabit the modern Magdalena and La Guajira Departments of northern Colombia. Their city of Teyuna was founded sometime around 500BCE. The Tairona, living a mountainous area, built stone steps and terraces on steep hillsides in order to farm the region. Though they fought against the Spanish for 75 years, eventually they succumb to the various pressures that all Native American peoples were subject to at the period."
@@ -25054,7 +25090,7 @@ msgstr ""
 #: data/nation/templar.ruleset:47
 #, fuzzy
 msgid "Grand Mistress"
-msgstr "Gran Bardo"
+msgstr "Ano, paní."
 
 #: data/nation/texan.ruleset:3
 #, fuzzy
@@ -25064,7 +25100,7 @@ msgstr "Náčelník"
 #: data/nation/texan.ruleset:4
 #, fuzzy
 msgid "?plural:Texans"
-msgstr "?plural:Mexičané"
+msgstr "Forma plurálů:"
 
 #: data/nation/texan.ruleset:6
 msgid "Texas is second largest and second most populous state of the USA, famous for its \"larger than life\" cowboy mentality."
@@ -25090,7 +25126,7 @@ msgstr "Terén"
 #: data/nation/thracian.ruleset:4
 #, fuzzy
 msgid "?plural:Thracians"
-msgstr "?plural:Indové"
+msgstr "Forma plurálů:"
 
 #: data/nation/thracian.ruleset:7
 msgid "The second most numerous people in the ancient western world."
@@ -25120,7 +25156,7 @@ msgstr "Láma"
 #: data/nation/tibetan.ruleset:28
 #, fuzzy
 msgid "Dharma King"
-msgstr "Předseda"
+msgstr "Král Turongar"
 
 #: data/nation/tibetan.ruleset:29
 msgid "Dalai Lama"
@@ -25134,7 +25170,7 @@ msgstr "Marťanský"
 #: data/nation/tocharian.ruleset:4
 #, fuzzy
 msgid "?plural:Tocharians"
-msgstr "?plural:Marťané"
+msgstr "Forma plurálů:"
 
 #: data/nation/tocharian.ruleset:7
 msgid "The Tocharians were an Indo-European people living what is now Xinjiang in western China. Because of their unique geopolitical position, their kingdoms of Shanshan, Kucha, and Khotan (as well as other, smaller ones) were influenced by Chinese, Persian, Indian, Sogdian, Scythian, and Tibetan cultures. Their religion, dress, writing, and art all reflect these varied influences. They lived in oasis towns and cities along the Silk Road, along which Buddhism was carried into China. The area was at various times a military protectorate of China, such as during the Han and Tang dynasties. During the decline of the latter dynasty, the Turkic Uighur tribe moved into the Tarim basin, settling in and expanding their khanate through the Tocharian lands. The Uighur intermarried with the Tocharians and supplanted their language for all but liturgical purposes. Even this use fell when Islam spread and took the place of Buddhism as the predominant religion in the region."
@@ -25168,13 +25204,14 @@ msgid "The Phoenicians founded Carthage in the area where Tunisia is today. Cart
 msgstr ""
 
 #: data/nation/tupi.ruleset:3
+#, fuzzy
 msgid "Tupi"
-msgstr ""
+msgstr "tupi jazyky"
 
 #: data/nation/tupi.ruleset:4
 #, fuzzy
 msgid "?plural:Tupi"
-msgstr "?plural:Thajové"
+msgstr "tupi jazyky"
 
 #: data/nation/tupi.ruleset:7
 msgid "The Tupi are a native Brazilian people related to the Guarani who inhabited the modern Brazilian states of Paraiba, Pernambuco, Ceara, Rio Grande do Norte, Alagoas, Sergipe and others as well. Their chiefdoms were destroyed through Portuguese slave-raids, the creation of mission-villages, and disease. The Tupi intermarried with African slaves and Europeans alike and a great many Brazilian place names are derived from Tupi words. "
@@ -25246,17 +25283,17 @@ msgstr ""
 #: data/nation/un.ruleset:23
 #, fuzzy
 msgid "?female:Chairperson"
-msgstr "Soudruh"
+msgstr "Podstatné jméno ženského rodu"
 
 #: data/nation/un.ruleset:24
 #, fuzzy
 msgid "Secretary-General"
-msgstr "Guvernérka"
+msgstr "Hlavní sekretář"
 
 #: data/nation/un.ruleset:24
 #, fuzzy
 msgid "?female:Secretary-General"
-msgstr "Konzul"
+msgstr "?female:Hlavní sekretářka"
 
 #: data/nation/un.ruleset:25
 msgid "Representative"
@@ -25265,37 +25302,40 @@ msgstr ""
 #: data/nation/un.ruleset:25
 #, fuzzy
 msgid "?female:Representative"
-msgstr "?female:Prezidentka"
+msgstr "Podstatné jméno ženského rodu"
 
 #: data/nation/uruguayan.ruleset:3
+#, fuzzy
 msgid "Uruguayan"
-msgstr ""
+msgstr "Uruguayské peso"
 
 #: data/nation/uruguayan.ruleset:4
 #, fuzzy
 msgid "?plural:Uruguayans"
-msgstr "?plural:Bulhaři"
+msgstr "Forma plurálů:"
 
 #: data/nation/uruguayan.ruleset:6
 msgid "Uruguay, a small South American country sometimes referred to as \"Switzerland of the Americas\" due to its once highly developed social welfare system."
 msgstr ""
 
 #: data/nation/uyghur.ruleset:3
+#, fuzzy
 msgid "Uyghur"
-msgstr ""
+msgstr "ujgurština"
 
 #: data/nation/uyghur.ruleset:4
 #, fuzzy
 msgid "?plural:Uyghurs"
-msgstr "?plural:Turkové"
+msgstr "Forma plurálů:"
 
 #: data/nation/uyghur.ruleset:6
 msgid "Uyghur was an east Turk empire and civilization. At its height in 820 AD it controlled most of Central and North Asia. After clashing with the Chinese for several centuries, they were finally subdued by the Qing dynasty in the 1700s. Today, descendants of the Uyghur form the populations of the Central Asian states of Uzbekistan, Kazakhstan and Kyrgyzstan. They are also the main minority of the Xinjiang province of China."
 msgstr ""
 
 #: data/nation/uzbek.ruleset:3
+#, fuzzy
 msgid "Uzbek"
-msgstr ""
+msgstr "Uzbecky"
 
 #: data/nation/uzbek.ruleset:4
 msgid "?plural:Uzbeks"
@@ -25375,7 +25415,7 @@ msgstr "Italský"
 #: data/nation/westphalian.ruleset:4
 #, fuzzy
 msgid "?plural:Westphalians"
-msgstr "?plural:Italové"
+msgstr "Forma plurálů:"
 
 #: data/nation/westphalian.ruleset:6
 msgid "Westphalia, before becoming a Prussian province, was the western region of the Duchy of Saxony. Today it makes up the northern part of the largest German federal state, North Rhine-Westphalia."
