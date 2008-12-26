@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.0.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-12-17 10:53+0100\n"
-"PO-Revision-Date: 2008-12-26 19:13+0100\n"
+"PO-Revision-Date: 2008-12-26 20:17+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -22100,14 +22100,12 @@ msgid "?female:Nabob"
 msgstr "Podstatné jméno ženského rodu"
 
 #: data/nation/bengali.ruleset:26
-#, fuzzy
 msgid "Major"
 msgstr "Velká"
 
 #: data/nation/bengali.ruleset:26
-#, fuzzy
 msgid "?female:Major"
-msgstr "<b>Hlavní značky</b>"
+msgstr "?female:Major"
 
 #: data/nation/boer.ruleset:3
 msgid "Boer"
@@ -22306,9 +22304,8 @@ msgstr "Námořní pěchota"
 #: data/nation/russian.ruleset:47
 #: data/nation/samogitian.ruleset:20
 #: data/nation/serbian.ruleset:36
-#, fuzzy
 msgid "Duke"
-msgstr "Velkovévoda"
+msgstr "Vévoda"
 
 #: data/nation/burgundian.ruleset:32
 #: data/nation/norman.ruleset:23
@@ -22316,9 +22313,8 @@ msgstr "Velkovévoda"
 #: data/nation/russian.ruleset:47
 #: data/nation/samogitian.ruleset:20
 #: data/nation/serbian.ruleset:36
-#, fuzzy
 msgid "Duchess"
-msgstr "Velkovévodkyně"
+msgstr "Vévodkyně"
 
 #: data/nation/burmese.ruleset:3
 msgid "Burmese"
@@ -22533,9 +22529,8 @@ msgstr "?female:Velká Náčelnice"
 #: data/nation/sami.ruleset:23
 #: data/nation/sioux.ruleset:30
 #: data/nation/zulu.ruleset:39
-#, fuzzy
 msgid "Spokesman"
-msgstr "Singapurský"
+msgstr "Mluvčí"
 
 #: data/nation/cherokee.ruleset:24
 #: data/nation/iroquois.ruleset:28
@@ -22859,9 +22854,8 @@ msgstr ""
 
 #: data/nation/emirati.ruleset:26
 #: data/nation/kurd.ruleset:26
-#, fuzzy
 msgid "Sheikh"
-msgstr "Švédský"
+msgstr "Šejk"
 
 #: data/nation/emirati.ruleset:26
 #, fuzzy
@@ -22889,14 +22883,12 @@ msgid "Lady Protector"
 msgstr "Lady Protektor"
 
 #: data/nation/esperant.ruleset:3
-#, fuzzy
 msgid "Esperant"
-msgstr "Evropský"
+msgstr "Esperantský"
 
 #: data/nation/esperant.ruleset:4
-#, fuzzy
 msgid "?plural:Esperants"
-msgstr "Forma plurálů:"
+msgstr "?plural:Esperantisté"
 
 #: data/nation/esperant.ruleset:6
 msgid "The Esperants are a world community united by the Esperanto language."
@@ -23366,9 +23358,8 @@ msgid "Mahatma"
 msgstr "Mahátma"
 
 #: data/nation/indian.ruleset:21
-#, fuzzy
 msgid "?female:Mahatma"
-msgstr "Podstatné jméno ženského rodu"
+msgstr "?female:Mahátma"
 
 #: data/nation/indonesian.ruleset:3
 msgid "Indonesian"
@@ -23485,14 +23476,12 @@ msgid "?female:Taoiseach"
 msgstr "Podstatné jméno ženského rodu"
 
 #: data/nation/iroquois.ruleset:3
-#, fuzzy
 msgid "Iroquois"
-msgstr "Irský"
+msgstr "Irokézský"
 
 #: data/nation/iroquois.ruleset:4
-#, fuzzy
 msgid "?plural:Iroquois"
-msgstr "Forma plurálů:"
+msgstr "?plural:Irokézové"
 
 #: data/nation/iroquois.ruleset:6
 msgid "The Iroquois Confederacy - known as Haudenosaunee in their own language - was a North American group of nations with common language and culture. They were based in what is now upstate New York and consisted originally of five nations: Seneca, Cayuga, Onondaga, Oneida and Mohawk. The confederacy had a written constitution and a currency system making them the most advanced state in North America upon the arrival of the Europeans."
@@ -23604,14 +23593,12 @@ msgid "Khorezmshah"
 msgstr ""
 
 #: data/nation/kongo.ruleset:3
-#, fuzzy
 msgid "Kongo"
-msgstr "konžština"
+msgstr "Konžský"
 
 #: data/nation/kongo.ruleset:4
-#, fuzzy
 msgid "?plural:Kongo"
-msgstr "Forma plurálů:"
+msgstr "?plural:Konžané"
 
 #: data/nation/kongo.ruleset:7
 msgid "This Kingdom, lasting from roughly 1400 CE until the late 19th century, existed in the present-day countries of Angola and the Democratic Republic of the Congo. Soon after its formation, Portuguese explorers, missionaries and slavers began to arrive and exerted considerable influence in the Kingdom."
@@ -23635,14 +23622,12 @@ msgid "According to legend, the first Korean kingdom was founded in prehistory b
 msgstr ""
 
 #: data/nation/kurd.ruleset:3
-#, fuzzy
 msgid "Kurdish"
-msgstr "Kurdsky"
+msgstr "Kurdský"
 
 #: data/nation/kurd.ruleset:4
-#, fuzzy
 msgid "?plural:Kurds"
-msgstr "Forma plurálů:"
+msgstr "?plural:Kurdové"
 
 #: data/nation/kurd.ruleset:5
 msgid "Asian"
@@ -23657,14 +23642,12 @@ msgid "The Kurds are a distinct ethno-linguistic group speaking an Indo-Aryan la
 msgstr ""
 
 #: data/nation/kyrgyz.ruleset:3
-#, fuzzy
 msgid "Kyrgyz"
-msgstr "Kyrgyzská republika"
+msgstr "Kyrgyzský"
 
 #: data/nation/kyrgyz.ruleset:4
-#, fuzzy
 msgid "?plural:Kyrgyzs"
-msgstr "Forma plurálů:"
+msgstr "?plural:Kyrgyzové"
 
 #: data/nation/kyrgyz.ruleset:6
 msgid "Nation in Central Asia. Conquered by the Russian Empire in 19th century, Kyrgyzstan got independence from the Soviet Union in 1991."
@@ -23713,19 +23696,16 @@ msgstr "Guvernér"
 #: data/nation/lankese.ruleset:21
 #: data/nation/quebecois.ruleset:20
 #: data/nation/texan.ruleset:19
-#, fuzzy
 msgid "?female:Governor"
-msgstr "?cma:Guvernér"
+msgstr "?female:Guvernérka"
 
 #: data/nation/lankese.ruleset:22
-#, fuzzy
 msgid "Supreme Commander"
-msgstr " Midnight Commander "
+msgstr "Vrchní Velitel"
 
 #: data/nation/lankese.ruleset:22
-#, fuzzy
 msgid "?female:Supreme Commander"
-msgstr "GNU Midnight Commander %s\n"
+msgstr "?female:Vrchní Velitelka"
 
 #: data/nation/laotian.ruleset:3
 #, fuzzy
@@ -23770,9 +23750,8 @@ msgid "Dey"
 msgstr ""
 
 #: data/nation/libyan.ruleset:24
-#, fuzzy
 msgid "Colonel"
-msgstr "plukovník"
+msgstr "Plukovník"
 
 #: data/nation/lithuanian.ruleset:3
 msgid "Lithuanian"
@@ -23874,9 +23853,8 @@ msgid "Sultana"
 msgstr "Sultán"
 
 #: data/nation/malaysian.ruleset:23
-#, fuzzy
 msgid "Tun"
-msgstr "TUN"
+msgstr "Tun"
 
 #: data/nation/malian.ruleset:3
 #, fuzzy
@@ -24013,14 +23991,12 @@ msgid "Mexico borrows its name from the Mexica people, another name for the Azte
 msgstr ""
 
 #: data/nation/moldovan.ruleset:3
-#, fuzzy
 msgid "Moldovan"
-msgstr "Mişu Moldovan"
+msgstr "Moldavský"
 
 #: data/nation/moldovan.ruleset:4
-#, fuzzy
 msgid "?plural:Moldovans"
-msgstr "Forma plurálů:"
+msgstr "?plural:Moldavané"
 
 #: data/nation/moldovan.ruleset:6
 msgid "Moldova was conquered by the Ottomans in the 16th century. Then in 1812 Moldova became part of the Russian Empire. From 1918 Moldova was part of Romania until inclusion  in the Soviet Union in 1940. The modern Republic of Moldova  gained independence from the Soviet Union in 1991."
@@ -24252,19 +24228,16 @@ msgid "Padisah"
 msgstr "Padišáh"
 
 #: data/nation/ottoman.ruleset:30
-#, fuzzy
 msgid "Imparator"
-msgstr "Imperátor"
+msgstr "Imparator"
 
 #: data/nation/pakistani.ruleset:3
-#, fuzzy
 msgid "Pakistani"
-msgstr "Partizán"
+msgstr "Pakistánský"
 
 #: data/nation/pakistani.ruleset:4
-#, fuzzy
 msgid "?plural:Pakistanis"
-msgstr "Forma plurálů:"
+msgstr "?plural:Pakistánci"
 
 #: data/nation/pakistani.ruleset:6
 msgid "The Federation of Pakistan was formed from the predominantly Muslim regions of British India in 1947."
@@ -24793,9 +24766,8 @@ msgid "Cardinal"
 msgstr "Kardinál"
 
 #: data/nation/spanish.ruleset:29
-#, fuzzy
 msgid "?female:Cardinal"
-msgstr "Číslovka základní"
+msgstr "?female:Kardinálka"
 
 #: data/nation/srivijaya.ruleset:3
 #, fuzzy
@@ -24920,9 +24892,8 @@ msgstr "Podstatné jméno ženského rodu"
 
 #: data/nation/swiss.ruleset:21
 #: data/nation/swiss.ruleset:22
-#, fuzzy
 msgid "President of the Confederation"
-msgstr "Švýcarská konfederace"
+msgstr "Prezident Konfederace"
 
 #: data/nation/swiss.ruleset:23
 msgid "Federal Chancellor"
@@ -25282,9 +25253,8 @@ msgid "Uyghur was an east Turk empire and civilization. At its height in 820 AD 
 msgstr ""
 
 #: data/nation/uzbek.ruleset:3
-#, fuzzy
 msgid "Uzbek"
-msgstr "Uzbecky"
+msgstr "Uzbecký"
 
 #: data/nation/uzbek.ruleset:4
 msgid "?plural:Uzbeks"
