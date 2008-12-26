@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.0.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-12-17 10:53+0100\n"
-"PO-Revision-Date: 2008-12-26 15:49+0100\n"
+"PO-Revision-Date: 2008-12-26 19:13+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -138,9 +138,9 @@ msgid "Nation: %s"
 msgstr "Národ: %s"
 
 #: common/events.c:56
-#, fuzzy, c-format
+#, c-format
 msgid "Treaty: %s"
-msgstr "Přijmout _dohodu"
+msgstr "Dohoda: %s"
 
 #: common/events.c:57
 #, c-format
@@ -153,14 +153,12 @@ msgid "Wonder: %s"
 msgstr "Div: %s"
 
 #: common/events.c:77
-#, fuzzy
 msgid "Learned From Great Library"
-msgstr "Vývojové nástroje z knihovny GNU C"
+msgstr "Získáno z Velké Knihovny"
 
 #: common/events.c:78
-#, fuzzy
 msgid "Learned New Tech"
-msgstr "Objeveno nové státní zřízení"
+msgstr "Objevena nová technologie"
 
 #: common/events.c:79
 msgid "Selected New Goal"
@@ -185,18 +183,16 @@ msgid "Forced to Sell"
 msgstr "Vynucení k prodeji"
 
 #: common/events.c:83
-#, fuzzy
 msgid "New Improvement Selected"
-msgstr "Zvolen nový cíl"
+msgstr "Vybráno nové vylepšení"
 
 #: common/events.c:84
 msgid "Sold"
 msgstr "Prodáno"
 
 #: common/events.c:85
-#, fuzzy
 msgid "Building Unavailable Item"
-msgstr "Falešná položka nabídky %d\n"
+msgstr "Staví se Nedostupná položka"
 
 #: common/events.c:86
 msgid "Captured/Destroyed"
@@ -211,14 +207,12 @@ msgid "Civil Disorder"
 msgstr "Občanské nepokoje"
 
 #: common/events.c:89
-#, fuzzy
 msgid "Famine"
-msgstr "Hladomor úplně zničil město %s."
+msgstr "Hladomor"
 
 #: common/events.c:90
-#, fuzzy
 msgid "Famine Feared"
-msgstr "Obavy z hladomoru ve městě %s - %s ztraceni!"
+msgstr "Obavy z hladomoru"
 
 #: common/events.c:91
 msgid "Growth"
@@ -256,18 +250,16 @@ msgid "Suggest Growth Throttling"
 msgstr "Doproučení přiškrcení růstu"
 
 #: common/events.c:99
-#, fuzzy
 msgid "Transfer"
-msgstr "Transfer"
+msgstr "Přesun"
 
 #: common/events.c:100
 msgid "Was Built"
 msgstr "Bylo postaveno"
 
 #: common/events.c:101
-#, fuzzy
 msgid "Worklist Events"
-msgstr "Rozš. události:"
+msgstr "Události seznamu prací"
 
 #: common/events.c:102
 msgid "Production changed"
@@ -332,9 +324,8 @@ msgid "Nuke Detonated"
 msgstr "Jaderná exploze"
 
 #: common/events.c:121
-#, fuzzy
 msgid "Barbarians in a Hut Roused"
-msgstr "Zabit barbary v chýši"
+msgstr "Probuzeni Barbaři v Chýši"
 
 #: common/events.c:122
 msgid "City Founded from Hut"
@@ -373,9 +364,8 @@ msgid "Civil War"
 msgstr "Občanská válka"
 
 #: common/events.c:131
-#, fuzzy
 msgid "Collapse to Anarchy"
-msgstr "Revoluce: návrat do anarchie."
+msgstr "Pád do Anarchie"
 
 #: common/events.c:132
 msgid "First Contact"
@@ -399,28 +389,24 @@ msgid "Pollution"
 msgstr "Znečištění"
 
 #: common/events.c:136
-#, fuzzy
 msgid "Revolt Ended"
-msgstr "Synchronizace skončila"
+msgstr "Revoluce skončila"
 
 #: common/events.c:137
-#, fuzzy
 msgid "Revolt Started"
-msgstr "Normálně spuštěno"
+msgstr "Revoluce začala"
 
 #: common/events.c:138
-#, fuzzy
 msgid "Spaceship Events"
-msgstr "Rozš. události:"
+msgstr "Události kosmické lodi"
 
 #: common/events.c:139
 msgid "Alliance"
 msgstr "Aliance"
 
 #: common/events.c:140
-#, fuzzy
 msgid "Broken"
-msgstr " (neplatný)"
+msgstr "Rozbitý"
 
 #: common/events.c:141
 msgid "Cease-fire"
@@ -464,9 +450,8 @@ msgid "Production Upgraded"
 msgstr "Produkce vylepšena"
 
 #: common/events.c:154
-#, fuzzy
 msgid "Relocated"
-msgstr "PĹEMĂSTÄNO"
+msgstr "Přemístěno"
 
 #: common/events.c:155
 msgid "Orders / goto events"
@@ -503,23 +488,20 @@ msgid "Broadcast Report"
 msgstr "Přehled o tiskárně"
 
 #: common/events.c:163
-#, fuzzy
 msgid "Caravan actions"
-msgstr "Vykonat akce"
+msgstr "Akce karavany"
 
 #: common/events.c:164
 msgid "Chat error messages"
 msgstr "Chybové hlášky chatu"
 
 #: common/events.c:165
-#, fuzzy
 msgid "Chat messages"
-msgstr "Zprávy z hovoru"
+msgstr "Zprávy chatu"
 
 #: common/events.c:166
-#, fuzzy
 msgid "Connect/disconnect messages"
-msgstr "Povolit připojení/odpojení"
+msgstr "Připojovací/odpojovací zprávy"
 
 #: common/events.c:167
 msgid "Diplomatic Message"
@@ -550,23 +532,20 @@ msgid "Report"
 msgstr "Přehled"
 
 #: common/events.c:174
-#, fuzzy
 msgid "Server Aborting"
-msgstr "%1 server : přerušení spojení."
+msgstr "Přerušení serveru"
 
 #: common/events.c:175
 msgid "Server Problems"
 msgstr "Problémy serveru"
 
 #: common/events.c:176
-#, fuzzy
 msgid "Message from server operator"
-msgstr "Chybová zpráva ze serveru: %s"
+msgstr "Zpráva od operátora serveru"
 
 #: common/events.c:177
-#, fuzzy
 msgid "Server settings changed"
-msgstr "Změněno nastavení písem"
+msgstr "Změněno nastavení serveru"
 
 #: common/events.c:178
 msgid "Turn Bell"
@@ -577,9 +556,8 @@ msgid "Tutorial message"
 msgstr "Výuková zpráva"
 
 #: common/events.c:180
-#, fuzzy
 msgid "Year Advance"
-msgstr "Postoupit na"
+msgstr "Další Rok"
 
 #: common/player.c:42
 msgid "Away"
@@ -598,9 +576,8 @@ msgid "Hard"
 msgstr "Těžká"
 
 #: common/player.c:43
-#, fuzzy
 msgid "Cheating"
-msgstr "Chatlinka"
+msgstr "Podvádění"
 
 #: common/player.c:43
 msgid "Experimental"
@@ -651,9 +628,8 @@ msgid "?attitude:Worshipful"
 msgstr "?attitude:Ctihodný"
 
 #: common/player.c:783
-#, fuzzy
 msgid "?diplomatic_state:Armistice"
-msgstr "?diplomatic_state:Aliance"
+msgstr "?diplomatic_state:Příměří"
 
 #: common/player.c:784
 msgid "?diplomatic_state:War"
@@ -1555,9 +1531,9 @@ msgstr ""
 
 #. TRANS: Further information about option will follow.
 #: server/auth.c:170
-#, fuzzy, c-format
+#, c-format
 msgid "Auth option \"%s\":"
-msgstr "Duplex - volby"
+msgstr "Auth možnost \"%s\":"
 
 #. TRANS: After 'Auth option "user":'. Option value
 #. may have been inserted between these.
@@ -1586,9 +1562,9 @@ msgid "Illegal value for auth port: \"%s\""
 msgstr "Neplatná hodnota pro auth port: \"%s\""
 
 #: server/auth.c:281
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot load auth config file \"%s\"!"
-msgstr "Nemohu načíst zdroje ze souboru '%s'."
+msgstr "Nelze načíst auth konfig ze souboru \"%s\"!"
 
 #: server/auth.c:392
 #, c-format
@@ -1600,9 +1576,9 @@ msgid "Guests are not allowed on this server. Sorry."
 msgstr "Hosté nejsou povoleni na tomto serveru. Lituji."
 
 #: server/auth.c:400
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Guests not allowed."
-msgstr "%s byl(a) odmítnut(a): Nesouhlasící vlastnosti."
+msgstr "%s byl odmítnut: Anononymní hráči nejsou povoleni."
 
 #: server/auth.c:419
 #, c-format
@@ -1632,9 +1608,9 @@ msgid "This server allows only preregistered users. Sorry."
 msgstr "Tento server umožňuje jen předregistrované uživatele. Lituji."
 
 #: server/auth.c:452
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Only preregistered users allowed."
-msgstr "Tento server umožňuje jen předregistrované uživatele. Lituji."
+msgstr "%s byl odmítnut. Pouze předregistrovaní uživatelé jsou povoleni."
 
 #: server/auth.c:480
 #: server/auth.c:538
@@ -1651,9 +1627,9 @@ msgid "Warning: There was an error in saving to the database. Continuing, but yo
 msgstr "Upozornění: Vyskytla se chyba při ukládání do databáze. Pokračujeme, ale vaše statistisky nebudou uloženy."
 
 #: server/auth.c:540
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Too many wrong password tries."
-msgstr "%s byl(a) odmítnut(a): Nesouhlasící vlastnosti."
+msgstr "%s byl odmítnut: Příliš mnoho špatných zadání hesla."
 
 #: server/auth.c:549
 msgid "Your password is incorrect. Try again."
@@ -1774,9 +1750,9 @@ msgstr "%s patřící %s převedena na %s."
 
 #. TRANS: Polish Destroyer ... German <city>
 #: server/citytools.c:590
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s lost in transfer to %s %s"
-msgstr "Přenést alfu do masky"
+msgstr "%s %s ztracena při přesunu do %s %s"
 
 #: server/citytools.c:680
 #, c-format
@@ -1785,9 +1761,9 @@ msgstr "%s ztraceno spolu s kontrolou %s."
 
 #. TRANS: <building> ... <city>
 #: server/citytools.c:809
-#, fuzzy, c-format
+#, c-format
 msgid "A replacement %s was built in %s."
-msgstr "Ztratili jsme hlavní město %s. Nový %s byl postaven v %s."
+msgstr "Náhrada %s byla postavena v %s."
 
 #: server/citytools.c:891
 #, c-format
@@ -1871,14 +1847,14 @@ msgstr[1] "Hráč %s osvobodil město %s a ukořistil v něm %d zlatých."
 msgstr[2] "Hráč %s osvobodil město %s a ukořistil v něm %d zlatých."
 
 #: server/citytools.c:1420
-#, fuzzy, c-format
+#, c-format
 msgid "You have liberated %s!"
-msgstr " Zadali jste \"%s\""
+msgstr "Dobili jsme %s!"
 
 #: server/citytools.c:1423
-#, fuzzy, c-format
+#, c-format
 msgid "%s liberated %s."
-msgstr "%s vládne %s."
+msgstr "%s dobili %s."
 
 #: server/citytools.c:2073
 msgid " from the worklist"
@@ -2740,14 +2716,12 @@ msgid "Every <turn> turns, add <value> to timeout timer, then add <turninc> to <
 msgstr "Každých <počet> kol zvýší čas určený na jedno kolo o <hodnota> potom přidá <přírůstek> k <počet> a vynásobí <hodnota> číslem <násobek>. Používejte tento příkaz společně s volbou \"timeout\". Výchozí hodnoty jsou 0 0 0 1"
 
 #: server/commands.c:340
-#, fuzzy
 msgid "End the game immediately in a draw."
-msgstr "Hra skončila remízou"
+msgstr "Ukončit hru okamžitě v tahu."
 
 #: server/commands.c:345
-#, fuzzy
 msgid "Concede the game."
-msgstr "Ukončit hru"
+msgstr "Postoupit hru."
 
 #: server/commands.c:346
 msgid "This tells everyone else that you concede the game, and if all but one player (or one team) have conceded the game in this way then the game ends."
@@ -2932,9 +2906,9 @@ msgid "Invalid username '%s'"
 msgstr "Neplatné jméno '%s'"
 
 #: server/connecthand.c:283
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Invalid name [%s]."
-msgstr "Nepřípustný název třídy znaků"
+msgstr "%s byl odmítnut: Neplatné jméno [%s]."
 
 #: server/connecthand.c:291
 #, c-format
@@ -2942,9 +2916,9 @@ msgid "'%s' already connected."
 msgstr "'%s' je již připojen(a)."
 
 #: server/connecthand.c:294
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Duplicate login name [%s]."
-msgstr "%s byl(a) odmítnut(a): Nesouhlasící vlastnosti."
+msgstr "%s odmítnut: Duplicitní login [%s]."
 
 #: server/connecthand.c:322
 #: server/connecthand.c:331
@@ -3047,15 +3021,15 @@ msgstr "Dostali jsme %d zlatých."
 
 #. TRANS: ... Polish worldmap.
 #: server/diplhand.c:411
-#, fuzzy, c-format
+#, c-format
 msgid "You receive the %s worldmap."
-msgstr "Získal(a) jste mapu kontinentů, které %s zná."
+msgstr "Získali jsme %s mapu světa."
 
 #. TRANS: ... Polish seamap.
 #: server/diplhand.c:420
-#, fuzzy, c-format
+#, c-format
 msgid "You receive the %s seamap."
-msgstr "Získal(a) jste mapu moří, které %s zná."
+msgstr "Získali jsme %s mapu moří."
 
 #: server/diplhand.c:437
 #, c-format
@@ -3144,18 +3118,18 @@ msgid "The %s have established an embassy in %s."
 msgstr "%s založili vyslanectví ve městě %s."
 
 #: server/diplomats.c:334
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s could not sabotage the %s %s."
-msgstr "Váš %1$s neuspěl při sabotáži jednotky %3$s hráče %2$s."
+msgstr "Váš %s nemohl sabotovat %s %s."
 
 #: server/diplomats.c:356
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s succeeded in sabotaging the %s %s."
-msgstr "Váš %1$s uspěl při sabotáži jednotky %3$s hráče %2$s."
+msgstr "Váš %s uspěl při sabotáži %s %s."
 
 #. TRANS: ... the Poles!
 #: server/diplomats.c:363
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s was sabotaged by the %s!"
 msgstr "Váš %s byl sabotován hráčem %s!"
 
@@ -3164,14 +3138,14 @@ msgid "You can't bribe a unit from this nation."
 msgstr "Nemůžete uplácet jednotky tohoto národa."
 
 #: server/diplomats.c:423
-#, fuzzy, c-format
+#, c-format
 msgid "You don't have enough gold to bribe the %s %s."
-msgstr "Nemáte dostatek peněz na uplacení jednotky %2$s hráče %1$s."
+msgstr "Nemáte dostatek peněz na uplacení jednotky %s %s."
 
 #: server/diplomats.c:433
-#, fuzzy, c-format
+#, c-format
 msgid "You cannot bribe the %s!"
-msgstr "%s nemůžete uplatit!"
+msgstr "Nemůžete uplatit %s!"
 
 #. TRANS: <diplomat> ... <unit>
 #: server/diplomats.c:457
@@ -3451,9 +3425,9 @@ msgid "Cannot create unit of type %s on enemy tile (%d, %d)."
 msgstr ""
 
 #: server/edithand.c:479
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create a unit of type %s on the terrain at (%d, %d)."
-msgstr "* Na tomto terénu nemůžete stavět města."
+msgstr "Nelze vytvořit jednotku typu %s v terénu na (%d, %d)."
 
 #: server/edithand.c:530
 #, c-format
@@ -3482,9 +3456,9 @@ msgid "Invalid veteran level %d for unit %d (%s)."
 msgstr ""
 
 #: server/edithand.c:692
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create a city at (%d, %d) because it is not on the map!"
-msgstr "Nelze umístit startovací pozici na (%d, %d), protože to není na mapě!"
+msgstr "Nelze vytvořit město na (%d, %d), protože to není na mapě!"
 
 #: server/edithand.c:700
 #, c-format
@@ -3537,9 +3511,8 @@ msgid "No more players can be added because there are no available nations (%d u
 msgstr "Žádní další hráči nemohou být přidáni, protože nejsou dostupné národy (%d použito)."
 
 #: server/edithand.c:919
-#, fuzzy
 msgid "Player cannot be created because random nation selection failed."
-msgstr "Po začátku hry již nelze odstraňovat hráče."
+msgstr "Hráč nemůže být vytvořen, protože selhal náhodný výběr národa."
 
 #: server/edithand.c:928
 msgid "Player creation failed."
@@ -5207,19 +5180,17 @@ msgid "Server cannot read standard input. Ignoring input."
 msgstr "Server nemůže číst ze standardního vstupu. Ignorováno."
 
 #: server/sernet.c:495
-#, fuzzy
 msgid "restarting for lack of players"
-msgstr "Čekám na připojení dalších hráčů..."
+msgstr "restartuje se pro nedostatek hráčů"
 
 #: server/sernet.c:518
-#, fuzzy, c-format
+#, c-format
 msgid "restarting in %d seconds for lack of players"
-msgstr "Zlato na začátku hry"
+msgstr "restartuje se za %d sekund pro nedostatek hráčů"
 
 #: server/sernet.c:521
-#, fuzzy
 msgid "restarting soon for lack of players"
-msgstr "Zlato na začátku hry"
+msgstr "restartuje se později pro nedostatek hráčů"
 
 #: server/sernet.c:942
 #, c-format
@@ -6888,9 +6859,9 @@ msgid "No diplomat action possible."
 msgstr "Diplomatická akce není možná."
 
 #: server/unithand.c:1241
-#, fuzzy, c-format
+#, c-format
 msgid "Unit cannot perform diplomatic action from %s."
-msgstr "* Může provádět diplomatické akce.\n"
+msgstr "Jednotka nemůže provádět diplomatickou akci z %s."
 
 #: server/unithand.c:1259
 #, c-format
@@ -8322,11 +8293,13 @@ msgstr "Změny provést jen pro aktuální displej"
 
 #: client/helpdata.c:216
 #: client/helpdata.c:220
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Applies only to %s.\n"
 "\n"
-msgstr "Filtr platí pro:"
+msgstr ""
+"Platí pouze na %s.\n"
+"\n"
 
 #: client/helpdata.c:224
 #, c-format
@@ -9855,9 +9828,8 @@ msgstr "Daně:%d Luxus:%d Věda:%d"
 
 #: client/text.c:629
 #: client/text.c:636
-#, fuzzy
 msgid "Moving: Nobody"
-msgstr "Uživatel: nikdo"
+msgstr "Přesun: Nikdo"
 
 #: client/text.c:631
 #: client/text.c:638
@@ -12021,9 +11993,8 @@ msgid "_Start"
 msgstr "_Start"
 
 #: client/gui-gtk-2.0/gui_main.c:1644
-#, fuzzy
 msgid "_Take Player"
-msgstr "Převzít tohoto hráče"
+msgstr "Převzí_t Hráče"
 
 #: client/gui-gtk-2.0/gui_main.c:1648
 #: client/gui-gtk-2.0/pages.c:1595
@@ -12474,9 +12445,8 @@ msgid "Save Options on _Exit"
 msgstr "Uložit Možnosti při _Ukončení"
 
 #: client/gui-gtk-2.0/menu.c:789
-#, fuzzy
 msgid "_Reload Tileset"
-msgstr "Načís&t sadu kachlí..."
+msgstr "Z_novu načíst sadu dlaždic"
 
 #: client/gui-gtk-2.0/menu.c:792
 #: client/gui-win32/menu.c:312
@@ -21511,9 +21481,8 @@ msgid "Militia"
 msgstr "Milice"
 
 #: data/civ1/units.ruleset:329
-#, fuzzy
 msgid "Musketeers are infantry equipped with early firearms and replace Phalanx as the preferred city defender."
-msgstr "Mušketýři jsou pěchota vybavená prvními střelnými zbraněmi a nahrazuje Pikiníky jako preferovaný obránce města."
+msgstr "Mušketýři jsou pěchota vybavená prvními střelnými zbraněmi a nahrazuje Phalanxy jako preferovaný obránce města."
 
 #: data/civ1/units.ruleset:394
 msgid "Mechanized Infantry; this unit has the strongest defence strength of any land unit, but is only available near the end of the technology tree."
@@ -21566,14 +21535,12 @@ msgstr ""
 "Pokud vůdce barbarů zemře na políčku bez obránců, bude vyplacena odměna 100 zlatých, ale jen v případě pozemních jednotek."
 
 #: data/nation/aborigines.ruleset:3
-#, fuzzy
 msgid "Australian Aboriginal"
-msgstr "Kanadské domorodé"
+msgstr "Australský domorodý"
 
 #: data/nation/aborigines.ruleset:4
-#, fuzzy
 msgid "?plural:Aborigines"
-msgstr "Forma plurálů:"
+msgstr "?plural:Domorodci"
 
 #: data/nation/aborigines.ruleset:6
 msgid "Australian Aborigines is a collective term for the original inhabitants of the Australian continent. Aborigines from different parts of Australia refer to themselves with different names, including Koori, Yamaji, Nunga, and Murri."
@@ -21669,14 +21636,12 @@ msgid "?female:Prime Minister"
 msgstr "?female:První ministryně"
 
 #: data/nation/ainu.ruleset:3
-#, fuzzy
 msgid "Ainu"
-msgstr "ajnština"
+msgstr "Ajnský"
 
 #: data/nation/ainu.ruleset:4
-#, fuzzy
 msgid "?plural:Ainu"
-msgstr "Forma plurálů:"
+msgstr "?plural:Ajnové"
 
 #: data/nation/ainu.ruleset:7
 msgid "The Ainu are the indigenous people of northern Japan, the Kuril islands, Sakhalin, and the southern part of the Kamchatka peninsula."
@@ -22114,14 +22079,12 @@ msgid "Belgium gained independance from the Dutch Kingdom in 1830. Belgium is ma
 msgstr "Belgie získala samostatnost na Německém Království v roce 1830 n.l. Je hlavně charaterizovatelná svým přesunem od jednolitého státu k federaci. To byl totiž výsledek téměř mírumilovného boje nacionalních Flámských a Walloonských nacionalistů."
 
 #: data/nation/bengali.ruleset:3
-#, fuzzy
 msgid "Bengali"
-msgstr "Bengálsky"
+msgstr "Bengálský"
 
 #: data/nation/bengali.ruleset:4
-#, fuzzy
 msgid "?plural:Bengalis"
-msgstr "Forma plurálů:"
+msgstr "?plural:Bengálci"
 
 #: data/nation/bengali.ruleset:6
 msgid "Bengal is a region in the easternmost part of the Indian subcontinent. The first recorded independent king of the Bengali is Shashanka who reigned around 606 AD. Today the People's Republic of Bangladesh occupies the eastern part of the region, while the western part is the Indian state of West Bengal."
@@ -22232,14 +22195,12 @@ msgid "?female:Director-President"
 msgstr "?female:Ředitelka-prezidentka"
 
 #: data/nation/breton.ruleset:3
-#, fuzzy
 msgid "Breton"
 msgstr "Bretonský"
 
 #: data/nation/breton.ruleset:4
-#, fuzzy
 msgid "?plural:Bretons"
-msgstr "Forma plurálů:"
+msgstr "?plural:Bretonci"
 
 #: data/nation/breton.ruleset:6
 msgid "Known to the Romans as Amorica, Brittany has been Celtic speaking for many centuries before Britons arrive in the peninsula a mercenaries, colonists and refugees in response to the chaos in Gaul and the invasion of Britain by Germanic tribes in the fifth century CE. Over the centuries, use of the Breton language has been pushed towards the west of the peninsula, with people speaking French instead. The Dukedom of Brittany itself was formally annexed to France in 1491."
@@ -22360,14 +22321,12 @@ msgid "Duchess"
 msgstr "Velkovévodkyně"
 
 #: data/nation/burmese.ruleset:3
-#, fuzzy
 msgid "Burmese"
-msgstr "Barmsky"
+msgstr "Barmský"
 
 #: data/nation/burmese.ruleset:4
-#, fuzzy
 msgid "?plural:Burmese"
-msgstr "Forma plurálů:"
+msgstr "?plural:Barmané"
 
 #: data/nation/burmese.ruleset:6
 msgid "The Union of Burma (officially \"Myanmar\") is the largest country in mainland Southeast Asia."
@@ -22393,14 +22352,12 @@ msgid "Sayama"
 msgstr "Šaman"
 
 #: data/nation/burundi.ruleset:3
-#, fuzzy
 msgid "Burundi"
-msgstr "Burundi"
+msgstr "Burundský"
 
 #: data/nation/burundi.ruleset:4
-#, fuzzy
 msgid "?plural:Burundi"
-msgstr "Burundi, Franky"
+msgstr "?plural:Burunďané"
 
 #: data/nation/burundi.ruleset:7
 msgid "Lasting from 16th century, through European colonial administration, until finally overthrown in 1966, the Kingdom of Burundi was an East African state in which the King and aristocracy extracted taxes from the nation's peasantry. The last King, Ntare V Ndizeye, was killed in 1972 in a bid to restore the monarchy."
@@ -22448,14 +22405,12 @@ msgid "?female:Basileus"
 msgstr "Podstatné jméno ženského rodu"
 
 #: data/nation/cambodian.ruleset:3
-#, fuzzy
 msgid "Cambodian"
-msgstr "Kanadský"
+msgstr "Kamobodžský"
 
 #: data/nation/cambodian.ruleset:4
-#, fuzzy
 msgid "?plural:Cambodians"
-msgstr "Forma plurálů:"
+msgstr "?plural:Kambodžané"
 
 #: data/nation/cambodian.ruleset:6
 msgid "Kampuchea (known in English as Cambodia) is the modern successor state of the mighty Khmer Empire, which ruled most of the Indochinese Peninsula between the 11th and 14th centuries."
@@ -22548,14 +22503,12 @@ msgid "Gran Bruixa"
 msgstr "Gran Bruixa"
 
 #: data/nation/cherokee.ruleset:3
-#, fuzzy
 msgid "Cherokee"
-msgstr "čerokézština"
+msgstr "Čerokézský"
 
 #: data/nation/cherokee.ruleset:4
-#, fuzzy
 msgid "?plural:Cherokees"
-msgstr "Forma plurálů:"
+msgstr "?plural:Čerokézové"
 
 #: data/nation/cherokee.ruleset:6
 msgid "The Cherokee nation is the largest Native American nation in North America today."
@@ -22591,7 +22544,7 @@ msgstr "Singapurský"
 #: data/nation/sioux.ruleset:30
 #: data/nation/zulu.ruleset:39
 msgid "Spokeswoman"
-msgstr ""
+msgstr "Mluvčí"
 
 #: data/nation/cherokee.ruleset:25
 #, fuzzy
@@ -22699,14 +22652,12 @@ msgid "Governadora"
 msgstr "Guvernérka"
 
 #: data/nation/confederate.ruleset:3
-#, fuzzy
 msgid "Confederate"
-msgstr "Oslavuje"
+msgstr "Konfederační"
 
 #: data/nation/confederate.ruleset:4
-#, fuzzy
 msgid "?plural:Confederates"
-msgstr "Forma plurálů:"
+msgstr "?plural:Konfederace"
 
 #: data/nation/confederate.ruleset:6
 msgid "The Confederate States of America was a splinter nation of the United States during the American Civil War. It was formed in 1861 by six Southern states but had to abandon their claims of independence a few years later after several military defeats by United States troops."
@@ -23606,14 +23557,12 @@ msgid "Mai"
 msgstr "Odes&lat emailem"
 
 #: data/nation/kazakh.ruleset:3
-#, fuzzy
 msgid "Kazakh"
-msgstr "Kazašsky"
+msgstr "Kazašký"
 
 #: data/nation/kazakh.ruleset:4
-#, fuzzy
 msgid "?plural:Kazakhs"
-msgstr "Forma plurálů:"
+msgstr "?plural:Kazaši"
 
 #: data/nation/kazakh.ruleset:6
 msgid "Kazakhs are descendants of Turkic and Mongolian nomadic tribes. Conquered by Russia in the 18th century, Kazahstan became independent in 1991 with the dissolution of the Soviet Union. It is one of ten largest states in the world by area."
