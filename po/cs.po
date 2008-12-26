@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.0.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-12-17 10:53+0100\n"
-"PO-Revision-Date: 2008-12-26 11:00+0100\n"
+"PO-Revision-Date: 2008-12-26 12:51+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -470,7 +470,7 @@ msgstr "Výběr jednotek"
 
 #: common/events.c:155
 msgid "Orders / goto events"
-msgstr ""
+msgstr "Rozkazy / pohyb"
 
 #: common/events.c:156
 msgid "Finished"
@@ -1103,11 +1103,11 @@ msgstr "OK"
 
 #: utility/ioz.c:506
 msgid "Run ok"
-msgstr ""
+msgstr "Běh ok"
 
 #: utility/ioz.c:509
 msgid "Flush ok"
-msgstr ""
+msgstr "Růst ok"
 
 #: utility/ioz.c:512
 msgid "Finish ok"
@@ -2183,7 +2183,7 @@ msgstr ""
 
 #: server/civserver.c:230
 msgid "  -A  --announce PROTO\tAnnounce game in LAN using protocol PROTO (IPv4/IPv6/none)\n"
-msgstr ""
+msgstr "  -A  --announce PROTO\tOznámit hru v LAN použitím protokolu PROTO (IPv4/IPv6/none)\n"
 
 #: server/civserver.c:232
 #, fuzzy
@@ -2256,7 +2256,7 @@ msgstr "  -S, --Serverid ID\tNastaví server id na ID\n"
 
 #: server/civserver.c:267
 msgid "  -P, --Ppm\t\tSave ppms of the map when saving the game.\n"
-msgstr ""
+msgstr "  -P, --Ppm\t\tUložit ppm mapy při ukládání hry.\n"
 
 #: server/civserver.c:268
 msgid "  -r, --read FILE\tRead startup script FILE\n"
@@ -3553,17 +3553,17 @@ msgstr "Žádný hráč (ID %d)."
 #: server/edithand.c:1014
 #, c-format
 msgid "Cannot edit player with invalid player ID %d."
-msgstr ""
+msgstr "Nelze upravit hráče s neplatným ID %d."
 
 #: server/edithand.c:1026
 #, c-format
 msgid "Cannot set empty name for player (%d) '%s'."
-msgstr ""
+msgstr "Nelze nastavit prázdné jméno pro hráče (%d) '%s'."
 
 #: server/edithand.c:1039
 #, c-format
 msgid "Cannot change name of player (%d) '%s' to '%s': another player (%d) already has that name."
-msgstr ""
+msgstr "Nelze změnit jméno hráče (%d) '%s' na '%s': jiný hráč (%d) již má toto jméno."
 
 #: server/edithand.c:1059
 #, c-format
@@ -3608,12 +3608,12 @@ msgstr ""
 #: server/edithand.c:1366
 #, c-format
 msgid "Cannot place a start position at (%d, %d) because it is not on the map!"
-msgstr ""
+msgstr "Nelze umístit startovací pozici na (%d, %d), protože to není na mapě!"
 
 #: server/edithand.c:1402
 #, c-format
 msgid "Cannot set invalid game year %d. Valid year range is from %d to %d."
-msgstr ""
+msgstr "Nelze nastavit neplatný rok hry %d. Platný rozsah roků je od %d do %d."
 
 #: server/gamehand.c:154
 #, c-format
@@ -3641,17 +3641,17 @@ msgstr "Čas na jedno kolo je menší než nula, upraveno na nulu."
 
 #: server/ggzserver.c:123
 msgid "Unable to make temporary directory for GGZ game.\n"
-msgstr ""
+msgstr "Nelze vytvořit dočasný adresář pro GGZ hru.\n"
 
 #: server/ggzserver.c:131
 #, c-format
 msgid "Unable to change into temporary server directory %s.\n"
-msgstr ""
+msgstr "Nelze přejít do dočasného adresáře serveru %s.\n"
 
 #: server/ggzserver.c:266
 #: client/ggzclient.c:109
 msgid "Only the GGZ client must call civclient in ggz mode!\n"
-msgstr ""
+msgstr "Pouze GGZ klient musí volat civcilient v ggz módu!\n"
 
 #: server/handchat.c:67
 #, c-format
@@ -4264,7 +4264,7 @@ msgstr "Upozornění: Různé adresáře pro soubory pravidel ('%s' a '%s') již
 #: server/savegame.c:4609
 #, c-format
 msgid "%s had invalid nation; changing to %s."
-msgstr ""
+msgstr "%s měl neplatný národ; změněno na %s."
 
 #. TRANS: ... <Danish> alliance to <Poles>....
 #: server/savegame.c:4624
@@ -4370,7 +4370,7 @@ msgstr "Nemáte povoleno měnit tuto volbu."
 
 #: server/settings.c:202
 msgid "All players must have a team if this option value is used."
-msgstr ""
+msgstr "Pokud je tato hodnota použita, všichni hráči musí mít tým."
 
 #: server/settings.c:269
 msgid "Map size (in thousands of tiles)"
@@ -6041,9 +6041,9 @@ msgstr "Žádné předchozí platné hlasování."
 #: server/stdinhand.c:2182
 msgid "other vote running"
 msgid_plural "other votes running"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "jiná volba probíhá"
+msgstr[1] "jiné volby probíhají"
+msgstr[2] "jiných voleb probíhá"
 
 #: server/stdinhand.c:2190
 #: server/stdinhand.c:2495
@@ -6214,7 +6214,7 @@ msgstr[2] ""
 
 #: server/stdinhand.c:2685
 msgid "You cannot take a new player because there are no free player slots."
-msgstr ""
+msgstr "Nemůžete přebrat nového hráče, protože nejsou volné sloty pro hráče."
 
 #: server/stdinhand.c:2696
 msgid "Sorry, one can't observe barbarians in this game."
@@ -6392,7 +6392,7 @@ msgstr "Nelze nahrát hru, dokud jiná běží."
 #: server/stdinhand.c:3401
 #, c-format
 msgid "Cannot find savegame or scenario with the name \"%s\"."
-msgstr ""
+msgstr "Nelze nalézt uloženou hru nebo scénář s názvem \"%s\"."
 
 #: server/stdinhand.c:3418
 #, c-format
@@ -7215,7 +7215,7 @@ msgstr "Pokus o změnu domovského města jednotky %s selhal."
 #: server/unittools.c:3248
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
-msgstr ""
+msgstr "Pokus o vytvoření obchodní cesty pro %s selhal."
 
 #: server/unittools.c:3260
 #, c-format
@@ -8262,6 +8262,8 @@ msgid ""
 "Requires the %s government.\n"
 "\n"
 msgstr ""
+"Vyžaduje státní zřízení %s.\n"
+"\n"
 
 #: client/helpdata.c:182
 #, c-format
@@ -8278,6 +8280,8 @@ msgid ""
 "Requires the %s terrain special.\n"
 "\n"
 msgstr ""
+"Vyžaduje specialitu terénu %s.\n"
+"\n"
 
 #: client/helpdata.c:190
 #, c-format
@@ -8285,6 +8289,8 @@ msgid ""
 "Requires the %s terrain.\n"
 "\n"
 msgstr ""
+"Vyžaduje terén %s.\n"
+"\n"
 
 #: client/helpdata.c:194
 #, c-format
@@ -8812,7 +8818,7 @@ msgstr ""
 
 #: client/helpdata.c:1465
 msgid "* You pay no upkeep for your units.\n"
-msgstr ""
+msgstr "* Neplatíte údržbu za své jednotky.\n"
 
 #. TRANS: %s is the output type, like 'shield' or 'gold'.
 #. * There is currently no way to control the
@@ -8832,7 +8838,7 @@ msgstr ""
 #: client/helpdata.c:1489
 #, c-format
 msgid "* If you lose your capital, chance of civil war is %d%%.\n"
-msgstr ""
+msgstr "* Pokud ztratíte hlavní město, pravděpodobnost občanské války je %d%%.\n"
 
 #. TRANS: %d should always be greater than 2.
 #: client/helpdata.c:1496
@@ -8891,11 +8897,11 @@ msgstr ""
 
 #: client/helpdata.c:1561
 msgid "* Has a senate that may prevent declaration of war.\n"
-msgstr ""
+msgstr "* Má senát, který může předejít vyhlášení války.\n"
 
 #: client/helpdata.c:1565
 msgid "* Allows partisans when cities are taken by the enemy.\n"
-msgstr ""
+msgstr "* Umožňuje partyzány, když je město dobito nepřítelem.\n"
 
 #: client/helpdata.c:1569
 msgid "* Buildings that normally confer bonuses against unhappiness will instead give gold.\n"
@@ -8903,7 +8909,7 @@ msgstr ""
 
 #: client/helpdata.c:1573
 msgid "* Pays no upkeep for fanatics.\n"
-msgstr ""
+msgstr "* Neplatí údržbu za fanatiky.\n"
 
 #: client/helpdata.c:1576
 msgid "* Has no unhappy citizens.\n"
@@ -8942,7 +8948,7 @@ msgstr ""
 #: client/helpdata.c:1628
 #, c-format
 msgid "* %s production is increased %d%%.\n"
-msgstr ""
+msgstr "* %s produkce je zvýšena %d%%.\n"
 
 #. TRANS: %s is list of output types, with 'and'
 #: client/helpdata.c:1636
@@ -9100,7 +9106,7 @@ msgstr "Motiv"
 
 #: client/options.c:146
 msgid "By changing this option you change the active theme."
-msgstr ""
+msgstr "Změnou této možnosti změníte aktivní téma."
 
 #: client/options.c:149
 msgid "Tileset"
@@ -9154,11 +9160,11 @@ msgstr ""
 
 #: client/options.c:185
 msgid "Draw the citybar"
-msgstr ""
+msgstr "Zobrazit informace u měst"
 
 #: client/options.c:186
 msgid "Setting this option will display a 'citybar' containing useful information beneath each city. Disabling this option will display only the city's name and optionally, production."
-msgstr ""
+msgstr "Nastavením této možnosti se zobrazí 'citybar' obsahující užitečné informace pod každým městem. Vypnutím této možnosti zobrazí pouze jméno města a volitelně produkci."
 
 #: client/options.c:192
 msgid "Show icons in the technology tree"
@@ -9170,11 +9176,11 @@ msgstr "Nastavení této možnosti zobrazí ikony v stromovém diagramu technolo
 
 #: client/options.c:199
 msgid "Use curved lines in the technology tree"
-msgstr ""
+msgstr "Použít zaoblené čáry v technologickém stromu"
 
 #: client/options.c:200
 msgid "Setting this option make the technology tree diagram use curved lines to show technology relations. Turning this option off causes the lines to be drawn straight."
-msgstr ""
+msgstr "Nastavení této možnosti zaoblí čáry v technologickém stromu mezi technologiemi. Vypnutím této možnosti budou zobrazeny jen přímé čáry."
 
 #: client/options.c:205
 msgid "Draw shield graphics for units"
@@ -11440,7 +11446,7 @@ msgstr "Editovací nástroj"
 
 #: client/gui-gtk-2.0/editgui.c:1161
 msgid "Click to change value if applicable."
-msgstr ""
+msgstr "Klikněte pro změnu hodnoty pokud je to vhodné."
 
 #: client/gui-gtk-2.0/editgui.c:1189
 #, fuzzy
@@ -21048,7 +21054,7 @@ msgstr "Houfnice"
 #: data/default/units.ruleset:1117
 #: data/civ2/units.ruleset:1064
 msgid "Howitzers are upgraded artillery with improved defensive as well as offensive capabilities."
-msgstr ""
+msgstr "Houfnice je vylepšené dělostřelectvo s vylepšenou obranou a obrannými schopnostmi."
 
 #: data/default/units.ruleset:1123
 #: data/civ2/units.ruleset:1070
@@ -21060,7 +21066,7 @@ msgstr "Stíhačka"
 #: data/civ2/units.ruleset:1097
 #: data/civ1/units.ruleset:657
 msgid "Fighters are your first airborne units. They can move anywhere and attack any unit."
-msgstr ""
+msgstr "Stíhačky jsou naše první letecké jednotky. Mohou letět kamkoliv a útočit na jakoukoliv jednotku."
 
 #: data/default/units.ruleset:1156
 #: data/civ2/units.ruleset:1103
@@ -21072,7 +21078,7 @@ msgstr "Bombardér"
 #: data/civ2/units.ruleset:1129
 #: data/civ1/units.ruleset:689
 msgid "Bombers are specialized airborne units that may only attack ground targets, not other airborne units."
-msgstr ""
+msgstr "Bombardéry jsou speciální letecké jednotky, které mohou útočit pouze na pozemní cíle, ale na letecké ne."
 
 #: data/default/units.ruleset:1215
 #: data/civ2/units.ruleset:1162
