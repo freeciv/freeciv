@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.0.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-12-17 10:53+0100\n"
-"PO-Revision-Date: 2008-12-23 16:04+0100\n"
+"PO-Revision-Date: 2008-12-26 11:00+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3408,7 +3408,7 @@ msgstr "Nemáte povoleno upravovat."
 #: server/edithand.c:320
 #, c-format
 msgid "Cannot edit the tile (%d, %d) because it is not on the map!"
-msgstr ""
+msgstr "Nelze upravovat políčko (%d, %d), protože není na mapě!"
 
 #: server/edithand.c:192
 #, c-format
@@ -3514,7 +3514,7 @@ msgstr "Neplatná velikost města %d pro město %s."
 #: server/edithand.c:802
 #, c-format
 msgid "It is impossible for a city to have %s!"
-msgstr ""
+msgstr "Není možné, aby město mělo %s!"
 
 #: server/edithand.c:848
 #, c-format
@@ -4625,9 +4625,8 @@ msgid "The maximal number of human and AI players who can be in the game. When t
 msgstr "Maximální počet lidských a počítačových hráčů, kteří mohou hrát hru. Pokud již počet háčů ve hře dosáhl tohoto počtu, nebudou spojení od nových hráčů přijímána."
 
 #: server/settings.c:468
-#, fuzzy
 msgid "Limited number of AI players"
-msgstr "Minimální počet hráčů"
+msgstr "Omezený počet PO hráčů"
 
 #: server/settings.c:469
 #, fuzzy
@@ -4704,14 +4703,12 @@ msgid "If you change your current research technology, and you have positive res
 msgstr "Pokud změníte cíl výzkumu a máte li již v původním nějaké body, ztratíte z nich určité procento. Penalizace se nepočítá, pokud jste tento tah technologii dokončili."
 
 #: server/settings.c:545
-#, fuzzy
 msgid "Penalty when getting tech or gold from treaty"
 msgstr "Penále za zisk technologie díky dohodě"
 
 #: server/settings.c:546
-#, fuzzy
 msgid "For each technology you gain from a diplomatic treaty, you lose research points equal to this percentage of the cost to research a new technology. If this is non-zero, you can end up with negative research points. Also applies to gold transfers in diplomatic treaties."
-msgstr "Za každou technologii, získanou diplomatickou cestou, ztratíte tyto procenta při výzkumu nové technologie. Pokud tato hodnota není nulová, můžete skončit i se zápornou hodnotou bodů na výzkum."
+msgstr "Za každou technologii, získanou diplomatickou cestou, ztratíte tyto procenta při výzkumu nové technologie. Pokud tato hodnota není nulová, můžete skončit i se zápornou hodnotou bodů na výzkum. Vztahuje se také na přesuny zlata při diplomatických dohodách."
 
 #: server/settings.c:556
 msgid "Penalty when getting tech from conquering"
@@ -4738,9 +4735,8 @@ msgid "This is the base amount of food required to grow a city. This value is mu
 msgstr "Toto je základní množství jídla potřebného pro růst města. Tato hodnota je násobena další proměnnou, která je nastavena v závislosti na pravidlech a její velikost se mění s velikostí města."
 
 #: server/settings.c:588
-#, fuzzy
 msgid "Percentage food lost when building needed"
-msgstr "Ztráta jídla při neexistenci akvaduktu"
+msgstr "Procentuální ztráta jídla při potřebě stavby"
 
 #: server/settings.c:589
 msgid "If a city would expand, but it can't because it needs an Aqueduct (or Sewer System), it loses this percentage of its foodbox (or half that amount when it has a Granary)."
@@ -4775,9 +4771,8 @@ msgid "Minimum distance between cities"
 msgstr "Minimální vzdálenost mezi městy"
 
 #: server/settings.c:635
-#, fuzzy
 msgid "When a player attempts to found a new city, there may be no other city in this distance. For example, when this value is 3, there have to be at least two empty fields between two cities in every direction. If set to 0 (default), the ruleset value will be used."
-msgstr "Pokud hráč zakládá nové město, je testováno, jestli již v okolí neleží jiné ve vzdálenosti citymindist (minimální vzdálenost města). Například, je-li citymindist 3, musí být mezi novým a původním městem alespoň 2 prázdn políčka. Pokud je použita hodnota 0, bere se údaj z pravidel."
+msgstr "Pokud hráč zakládá nové město, je testováno, jestli již v okolí neleží jiné ve vzdálenosti citymindist (minimální vzdálenost města). Například, je-li citymindist 3, musí být mezi novým a původním městem alespoň 2 prázdná políčka. Pokud je použita hodnota 0 (výchozí), bere se údaj z pravidel."
 
 #: server/settings.c:646
 msgid "Number of turns between rapture effect"
@@ -4836,7 +4831,7 @@ msgstr "Státní hranice"
 #: server/settings.c:696
 #, fuzzy
 msgid "If this is set to greater than 0, then any land tiles around a fortress or city will be owned by that nation. Size of the claimed area is bigger for greater value. Claimed are also grows somewhat depending on city size. City always claims at least its workable area, no matter how low this setting is. Special rules apply for ocean tiles or tiles within range of more than one nation's cities."
-msgstr "Pokud je tato volba nastavena na více jak 0, pak každá políčko v této vzdálenosti od města bude vlastněno jeho národem. Speciální pravidla se uplatňují v ppřípadě moře a políček, které jsou v této vzdálenosti u více měst různých národů."
+msgstr "Pokud je tato volba nastavena na více jak 0, pak každá políčko v této vzdálenosti od města bude vlastněno jeho národem. Speciální pravidla se uplatňují v případě moře a políček, které jsou v této vzdálenosti u více měst různých národů."
 
 #: server/settings.c:709
 msgid "Units inside borders cause no unhappiness"
@@ -4962,9 +4957,8 @@ msgid "Players may meet for diplomacy this number of turns after their units hav
 msgstr "Hráči se mohou scházet za účelem diplomacie tento počet tahů po té, co se naposledy setkaly jejich jednotky, když nemají ambasádu. Pokud je tato hodnota nastavena na 0, nemohou se sejít, pokud nemají ambasádu."
 
 #: server/settings.c:829
-#, fuzzy
 msgid "Rebuild palace whenever capital is conquered"
-msgstr "Vybudování paláce při dobytí hl. města"
+msgstr "Vybudování paláce při dobytí hlavního města"
 
 #: server/settings.c:830
 msgid "If this is set to 1, when the capital is conquered the palace is automatically rebuilt for free in another randomly choosen city. This is significant because the technology requirement for building a palace will be ignored."
@@ -5056,9 +5050,8 @@ msgid "Timeout at least n seconds when enemy moved"
 msgstr "Prodleva nejméně n sekund když se přesouvá nepřítel"
 
 #: server/settings.c:917
-#, fuzzy
 msgid "Any time a unit moves while in sight of an enemy player, the remaining timeout is increased to this value."
-msgstr "Kdykoliv se přesouvá jednotka poblíž nepřátelského hráče, zbývající prodlevy jsou nastaveny na tuto hodnotu, když jsou nižší."
+msgstr "Kdykoliv se přesouvá jednotka poblíž nepřátelského hráče, zbývající prodlevy jsou zvýšeny na tuto hodnotu."
 
 #: server/settings.c:926
 #, fuzzy
@@ -5176,14 +5169,12 @@ msgid "Savegame compression level"
 msgstr "Úroveň komprimace ukládaných her"
 
 #: server/settings.c:1022
-#, fuzzy
 msgid "If non-zero, saved games will be compressed using zlib (gzip format) or bzip2. Larger values will give better compression but take longer."
-msgstr "V případě nenulové hodnoty budou hry ukládány komprimované pomocí knihovny zlib (formát gzip). Větší hodnoty znamenají lepší kompresi, ale ukládání trvá déle. Pokud nebyl tento server zkompilován s podporou knihovny zlib, bude maximální povolená hodnota nula."
+msgstr "V případě nenulové hodnoty budou hry ukládány komprimované pomocí knihovny zlib (formát gzip) nebo bzip2. Větší hodnoty znamenají lepší kompresi, ale ukládání trvá déle."
 
 #: server/settings.c:1030
-#, fuzzy
 msgid "Savegame compression algorithm"
-msgstr "Úroveň komprimace ukládaných her"
+msgstr "Algoritmus komprimace ukládaných her"
 
 #: server/settings.c:1031
 msgid ""
@@ -5364,9 +5355,9 @@ msgstr "obyvatelé upozorňují, že příměří s %s brzy skončí."
 
 #: server/srv_main.c:514
 #: server/srv_main.c:518
-#, fuzzy, c-format
+#, c-format
 msgid "The cease-fire with %s has run out. You are now at war with the %s."
-msgstr "Příměří s %s skončilo.  K %s jste nyní neutrální."
+msgstr "Příměří s %s skončilo.  S %s jste nyní ve válce."
 
 #: server/srv_main.c:536
 #, fuzzy, c-format
@@ -5616,9 +5607,8 @@ msgid "Server id: %s"
 msgstr "Server id: %s"
 
 #: server/stdinhand.c:694
-#, fuzzy
 msgid "You cannot save games manually on this server."
-msgstr "Přeruší hru a ukončí činnost serveru."
+msgstr "Na tomto serveru nelze ručně ukládat hry."
 
 #: server/stdinhand.c:711
 msgid "Cannot toggle a barbarian player."
@@ -5643,9 +5633,8 @@ msgid "Can't add more players, server is full."
 msgstr "Server je plný, nelze přidávat další hráče."
 
 #: server/stdinhand.c:805
-#, fuzzy
 msgid "Can't add more players, not enough nations."
-msgstr "Server je plný, nelze přidávat další hráče."
+msgstr "Nelze přidávat další hráče, není dostatek národů."
 
 #: server/stdinhand.c:812
 msgid "Can't use an empty name."
@@ -6031,7 +6020,6 @@ msgstr "Hlasování \"%s\" neprošlo s %d proti, %d pro a %d se zdrželo."
 
 #: server/stdinhand.c:2142
 #: server/stdinhand.c:2178
-#, fuzzy
 msgid "There are no votes running."
 msgstr "Neprobíhá žádné hlasovaní."
 
@@ -6212,9 +6200,8 @@ msgid "Sorry, you can't take a global observer. Observe it instead."
 msgstr "Lituji, nemůžete převzít globálního pozorvatele. Pozorujte ho místo toho."
 
 #: server/stdinhand.c:2665
-#, fuzzy
 msgid "You cannot take a new player at this time."
-msgstr "Lituji, nelze přebírat hráče v této hře."
+msgstr "Nyní nelze přebírat nového hráče."
 
 #. TRANS: Do not translate "maxplayers".
 #: server/stdinhand.c:2673
@@ -6455,9 +6442,9 @@ msgid "Your new vote cancelled your previous vote."
 msgstr "Váš nový hlas zrušil vaše předchozí hlasování."
 
 #: server/stdinhand.c:3675
-#, fuzzy, c-format
+#, c-format
 msgid "New vote (number %d) by %s: %s."
-msgstr "Nové hlasování, č. %d, od %s: %s."
+msgstr "Nové hlasování (číslo %d) navrhl hráč %s: %s."
 
 #: server/stdinhand.c:3685
 #, c-format
@@ -6739,7 +6726,7 @@ msgstr "Zkoumá se %s."
 #: server/techtools.c:383
 #, c-format
 msgid "Learned %s.  Scientists do not know what to research next."
-msgstr ""
+msgstr "Objeveno %s. Vědci neví, co dalšího mají zkoumat."
 
 #: server/techtools.c:400
 msgid "Great scientists from all the world join your civilization: you get an immediate advance."
@@ -6884,7 +6871,7 @@ msgstr "%s se může pohybovat jen v našich zónach kontroly."
 #: server/unithand.c:1132
 #, c-format
 msgid "%s cannot move that far from the coast line."
-msgstr ""
+msgstr "%s se nemůže vzdálit tak daleko od pobřeží."
 
 #: server/unithand.c:1138
 #, fuzzy, c-format
@@ -6907,7 +6894,7 @@ msgstr "* Může provádět diplomatické akce.\n"
 #: server/unithand.c:1259
 #, c-format
 msgid "You must declare war on %s first.  Try using players dialog (F3)."
-msgstr ""
+msgstr "Nejdříve musíte vyhlásit válku %s.  Zkuste použít dialog hráčů (F3)."
 
 #: server/unithand.c:1277
 msgid "This unit is being transported, and so cannot bombard."
@@ -8110,9 +8097,8 @@ msgid ""
 msgstr ""
 
 #: client/editor.c:159
-#, fuzzy
 msgid "Terrain Resource"
-msgstr "Terén: %s"
+msgstr "Zdroje terénu"
 
 #: client/editor.c:161
 msgid ""
@@ -8122,9 +8108,8 @@ msgid ""
 msgstr ""
 
 #: client/editor.c:163
-#, fuzzy
 msgid "Terrain Special"
-msgstr "Speciální"
+msgstr "Specialita terénu"
 
 #: client/editor.c:165
 msgid ""
@@ -8205,9 +8190,8 @@ msgid ""
 msgstr ""
 
 #: client/editor.c:1631
-#, fuzzy
 msgid "Paint"
-msgstr "Planiny"
+msgstr "Kreslit"
 
 #: client/editor.c:1635
 msgid "Erase Value"
@@ -8280,11 +8264,13 @@ msgid ""
 msgstr ""
 
 #: client/helpdata.c:182
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires the %s building.\n"
 "\n"
-msgstr "* Vyžaduje %d populace pro stavbu.\n"
+msgstr ""
+"Vyžaduje stavbu %s.\n"
+"\n"
 
 #: client/helpdata.c:186
 #, c-format
@@ -8339,6 +8325,8 @@ msgid ""
 "Requires a minimum size of %d.\n"
 "\n"
 msgstr ""
+"Vyžaduje minimální velikost %d.\n"
+"\n"
 
 #: client/helpdata.c:228
 #, c-format
@@ -8346,6 +8334,8 @@ msgid ""
 "Requires AI player of level %s.\n"
 "\n"
 msgstr ""
+"Vyžaduje PO hráče s úrovní %s.\n"
+"\n"
 
 #: client/helpdata.c:232
 #, c-format
@@ -11110,9 +11100,9 @@ msgid "Available Wonders"
 msgstr "Dostupné divy světa"
 
 #: client/gui-gtk-2.0/cityrep.c:1627
-#, fuzzy, c-format
+#, c-format
 msgid "Total Buy Cost: %d"
-msgstr "Celkem výdaje:"
+msgstr "Celkové výdaje: %d"
 
 #: client/gui-gtk-2.0/cma_fe.c:253
 #: client/gui-xaw/cma_fe.c:78
@@ -11836,9 +11826,8 @@ msgid "Air_lift"
 msgstr "Letecký _most"
 
 #: client/gui-gtk-2.0/gotodlg.c:128
-#, fuzzy
 msgid "_Goto"
-msgstr "Přesunout se (_G)"
+msgstr "Přesun (_G)"
 
 #: client/gui-gtk-2.0/gotodlg.c:139
 #: client/gui-sdl/gotodlg.c:234
@@ -11973,6 +11962,8 @@ msgid ""
 "This client has no special command line options\n"
 "\n"
 msgstr ""
+"Tento klient nemá sepciální možnosti příkazové řádky\n"
+"\n"
 
 #: client/gui-gtk-2.0/gui_main.c:826
 #: client/gui-gtk-2.0/gui_main.c:1471
@@ -12049,9 +12040,8 @@ msgid "Observer"
 msgstr "Pozorovatel"
 
 #: client/gui-gtk-2.0/gui_main.c:1793
-#, fuzzy
 msgid "Detached"
-msgstr "Mrtvý"
+msgstr "Detašovaný"
 
 #: client/gui-gtk-2.0/gui_main.c:2049
 msgid "Are you sure you want to quit?"
@@ -12518,11 +12508,11 @@ msgstr "_Upravovací mód"
 
 #: client/gui-gtk-2.0/menu.c:820
 msgid "Recalculate _Borders"
-msgstr ""
+msgstr "Přepočítat _Hranice"
 
 #: client/gui-gtk-2.0/menu.c:822
 msgid "Toggle Fog-of-war"
-msgstr ""
+msgstr "Přepnout Clonu-války"
 
 #: client/gui-gtk-2.0/menu.c:826
 #: client/gui-gtk-2.0/menu.c:973
@@ -12997,9 +12987,8 @@ msgid "_Playing"
 msgstr "_Hraní"
 
 #: client/gui-gtk-2.0/menu.c:1019
-#, fuzzy
 msgid "About Ruleset"
-msgstr "Vládce:"
+msgstr "O pravidlech"
 
 #: client/gui-gtk-2.0/menu.c:1022
 #: client/gui-win32/menu.c:426
@@ -13107,15 +13096,12 @@ msgid "Message Options"
 msgstr "Možnosti zpráv"
 
 #: client/gui-gtk-2.0/messagedlg.c:71
-#, fuzzy
 msgid ""
 "Where to display messages?\n"
 "<b>Out</b>put window ; <b>Mes</b>sages window ; <b>Pop</b>up individual window"
 msgstr ""
 "Kde zobrazovat zprávy?\n"
-"\t<b>Výs</b>tupní okno ;\n"
-"\t<b>Zpr</b>ávové okno ;\n"
-"\t<b>Sam</b>ostatné okno"
+"<b>Výs</b>tupní okno ; <b>Zpr</b>ávové okno ; <b>Sam</b>ostatné okno"
 
 #: client/gui-gtk-2.0/messagedlg.c:117
 msgid "Event"
@@ -13317,14 +13303,12 @@ msgid "Observe this player"
 msgstr "Pozorovat tohoto hráče"
 
 #: client/gui-gtk-2.0/pages.c:1204
-#, fuzzy
 msgid "Take this player"
-msgstr "Města"
+msgstr "Převzít tohoto hráče"
 
 #: client/gui-gtk-2.0/pages.c:1221
-#, fuzzy
 msgid "Cut connection"
-msgstr "Ruším spojení s %s."
+msgstr "Odpojit"
 
 #: client/gui-gtk-2.0/pages.c:1231
 #, fuzzy
@@ -13358,9 +13342,8 @@ msgid "AI Skill _Level:"
 msgstr "Úroveň počítačem ov_ládaných hráčů:"
 
 #: client/gui-gtk-2.0/pages.c:1505
-#, fuzzy
 msgid "Ruleset _Version:"
-msgstr "Vládce:"
+msgstr "_Verze Pravidel:"
 
 #: client/gui-gtk-2.0/pages.c:1513
 #: client/gui-gtk-2.0/pages.c:2112
@@ -13372,9 +13355,8 @@ msgid "Record"
 msgstr "Záznam"
 
 #: client/gui-gtk-2.0/pages.c:1536
-#, fuzzy
 msgid "Rating"
-msgstr "čekání"
+msgstr "Hodnocení"
 
 #: client/gui-gtk-2.0/pages.c:1538
 msgid "Ready"
@@ -13674,7 +13656,7 @@ msgstr "_Start"
 
 #: client/gui-gtk-2.0/theme_dlg.c:57
 msgid "Theme suggested"
-msgstr ""
+msgstr "Doporučené téma"
 
 #: client/gui-gtk-2.0/theme_dlg.c:60
 msgid "Load theme"
@@ -13682,7 +13664,7 @@ msgstr "Nahrát téma"
 
 #: client/gui-gtk-2.0/theme_dlg.c:62
 msgid "Keep current theme"
-msgstr ""
+msgstr "Ponechat současné téma"
 
 #: client/gui-gtk-2.0/theme_dlg.c:69
 #, c-format
@@ -13690,6 +13672,8 @@ msgid ""
 "Tileset suggests using %s theme.\n"
 "You are currently using %s."
 msgstr ""
+"Sada dlaždic doporučuje použít %s téma.\n"
+"Nyní se používá %s."
 
 #: client/gui-gtk-2.0/tileset_dlg.c:51
 msgid "Prefered tileset"
@@ -13701,7 +13685,7 @@ msgstr "Nahrát Sadu dlaždic"
 
 #: client/gui-gtk-2.0/tileset_dlg.c:56
 msgid "Keep current tileset"
-msgstr ""
+msgstr "Ponechat současnou sadu dlaždic"
 
 #: client/gui-gtk-2.0/tileset_dlg.c:63
 #, c-format
@@ -13710,6 +13694,9 @@ msgid ""
 "It might not work with other tilesets.\n"
 "You are currently using tileset %s."
 msgstr ""
+"Modpack doporučuje použít sadu dlaždic %s.\n"
+"To nemusí fungovat s jinými.\n"
+"Nyní se používá sada dlaždic %s."
 
 #: client/gui-gtk-2.0/wldlg.c:162
 msgid "new"
@@ -14237,24 +14224,20 @@ msgid "Close Dialog"
 msgstr "Zavřít Dialog"
 
 #: client/gui-sdl/cityrep.c:218
-#, fuzzy
 msgid "Information Report"
-msgstr "Pro informace o:"
+msgstr "Informační přehled"
 
 #: client/gui-sdl/cityrep.c:229
-#, fuzzy
 msgid "Happiness Report"
-msgstr "Spokojenost"
+msgstr "Přehled Spokojenosti"
 
 #: client/gui-sdl/cityrep.c:240
-#, fuzzy
 msgid "Garrison Report"
-msgstr "Konečný přehled:"
+msgstr "Přehled posádek"
 
 #: client/gui-sdl/cityrep.c:251
-#, fuzzy
 msgid "Maintenance Report"
-msgstr "Vědecký přehled"
+msgstr "Přehled údržby"
 
 #: client/gui-sdl/cityrep.c:522
 #: client/gui-sdl/cityrep.c:1045
@@ -14381,9 +14364,9 @@ msgid "Advanced Menu"
 msgstr "Pokročilé menu"
 
 #: client/gui-sdl/dialogs.c:1246
-#, fuzzy, c-format
+#, c-format
 msgid "Zoom to : %s"
-msgstr "Host:"
+msgstr "Přiblížit k : %s"
 
 #: client/gui-sdl/dialogs.c:1260
 #: client/gui-win32/citydlg.c:1065
@@ -14731,18 +14714,16 @@ msgid "FT"
 msgstr "TB"
 
 #: client/gui-sdl/helpdlg.c:213
-#, fuzzy
 msgid "Help : Improvements"
-msgstr "Prodej Vylepšení"
+msgstr "Nápověda : Vylepšení"
 
 #: client/gui-sdl/helpdlg.c:403
 msgid "Never"
 msgstr "Nikdy"
 
 #: client/gui-sdl/helpdlg.c:601
-#, fuzzy
 msgid "Help : Units"
-msgstr "Vyberte jednotku(y)"
+msgstr "Nápověda : Jednotky"
 
 #: client/gui-sdl/helpdlg.c:736
 #: client/gui-sdl/helpdlg.c:749
@@ -14793,7 +14774,7 @@ msgstr " )"
 
 #: client/gui-sdl/helpdlg.c:1903
 msgid "Help : Advances Tree"
-msgstr ""
+msgstr "Nápověda : Strom technologií"
 
 #: client/gui-sdl/inteldlg.c:221
 #: client/gui-win32/inteldlg.c:84
@@ -15297,9 +15278,8 @@ msgid "Smooth unit move steps"
 msgstr ""
 
 #: client/gui-sdl/optiondlg.c:1040
-#, fuzzy
 msgid "Show focus animation"
-msgstr "Ukazovat animace boje"
+msgstr "Ukazovat zaostřovací animace"
 
 #: client/gui-sdl/optiondlg.c:1067
 msgid "Show cursors animation"
@@ -15347,7 +15327,7 @@ msgstr "Pevnosti a letiště"
 
 #: client/gui-sdl/optiondlg.c:2070
 msgid "Civ3 city text style"
-msgstr ""
+msgstr "Civ3 styl textu měst"
 
 #: client/gui-sdl/optiondlg.c:2299
 msgid "Video options"
@@ -15552,7 +15532,7 @@ msgstr "load_gfxfile: Nelze nahrát grafický soubor %s!"
 #: client/gui-sdl/themes.c:57
 #, c-format
 msgid "No gui-sdl theme was found. For instructions on how to get one, please visit %s"
-msgstr ""
+msgstr "Nenalezeno gui-sdl téma. Pro instrukce jak nějaké získat, prosím navštivte %s"
 
 #: client/gui-sdl/themespec.c:337
 msgid "No usable default theme found, aborting!"
@@ -16616,7 +16596,7 @@ msgstr "Nelze otevřít sadu fontů: %s"
 #: client/gui-xaw/gui_main.c:381
 #: client/gui-xaw/gui_main.c:402
 msgid "Doing 'xset fp rehash' may temporarily solve a problem."
-msgstr ""
+msgstr "Příkazem 'xset fp rehash' můžete dočasně vyřešit problém."
 
 #: client/gui-xaw/gui_main.c:385
 #: client/gui-xaw/gui_main.c:406
@@ -18593,9 +18573,9 @@ msgid "Courthouse"
 msgstr "Budova soudu"
 
 #: data/default/buildings.ruleset:294
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Reduces the corruption and waste in a city by 50%.  Under a Democracy, a Courthouse makes 1 unhappy citizen content.  Also makes the revolt cost of the city 4 times bigger."
-msgstr "Snižuje korupci a plýtvání ve městě o 50%. Pod Demokracií (kapitalismem) uklidní jednoho nespokojenejo obyvatele na spokojeného. Taky snižuje na polovinu efekt vzdálenosti od hlavního města, při výpočtech ceny revolucí."
+msgstr "Snižuje korupci a plýtvání ve městě o 50%. V kapitalismu způsobí jednoho nespokojeného obyvatele. Také způsobí zvýšení ceny rozvratu města čtyřikrát více."
 
 #: data/default/buildings.ruleset:301
 #: data/civ2/buildings.ruleset:280
@@ -18623,9 +18603,8 @@ msgstr "Přístav"
 
 #: data/default/buildings.ruleset:361
 #: data/civ2/buildings.ruleset:340
-#, fuzzy
 msgid "Gives one extra food resource on all Oceanic squares.  The city needs to be coastal to build this improvement."
-msgstr "Každé políčko moře dá o jednu jednotku jídla více. Jen pobřežní města je mohou stavit."
+msgstr "Každé políčko moře dá o jednu jednotku jídla více. Jen pobřežní města mohou stavět toto vylepšení."
 
 #: data/default/buildings.ruleset:367
 #: data/civ2/buildings.ruleset:346
@@ -20967,7 +20946,7 @@ msgstr "Jízda"
 #: data/default/units.ruleset:824
 #: data/civ2/units.ruleset:707
 msgid "Horsemen are mounted warriors and an early shock-troop that can penetrate deep into enemy territory."
-msgstr ""
+msgstr "Jízda jsou jízdní bojovníci a jako jednotky prvního sledu mohou proniknout hluboko do nepřátelského území."
 
 #: data/default/units.ruleset:831
 #: data/civ2/units.ruleset:714
@@ -20979,7 +20958,7 @@ msgstr "Válečný vůz"
 #: data/civ2/units.ruleset:740
 #: data/civ1/units.ruleset:460
 msgid "Chariots are horse-pulled war wagons, stronger but more expensive than horsemen."
-msgstr ""
+msgstr "Válečné vozy jsou tažené koňmi, silnější ale dražší než jízda."
 
 #: data/default/units.ruleset:863
 #: data/civ2/units.ruleset:810
@@ -21001,7 +20980,7 @@ msgstr "Dragouni"
 #: data/default/units.ruleset:922
 #: data/civ2/units.ruleset:869
 msgid "Dragoons are mounted warriors carrying early firearms."
-msgstr ""
+msgstr "Dragouni jsou jízdní bojovníci s prvními střelnými zbraněmi."
 
 #: data/default/units.ruleset:927
 #: data/civ2/units.ruleset:874
@@ -21012,7 +20991,7 @@ msgstr "Kavalérie"
 #: data/default/units.ruleset:953
 #: data/civ2/units.ruleset:900
 msgid "Cavalry are mounted and highly trained soldiers."
-msgstr ""
+msgstr "Kavalérie jsou jízdní a vysoce vycvičení vojáci."
 
 #: data/default/units.ruleset:958
 #: data/civ2/units.ruleset:905
@@ -21131,7 +21110,7 @@ msgstr "Karavela"
 
 #: data/default/units.ruleset:1349
 msgid "The Caravel replaces the Trireme and can enter any ocean tile."
-msgstr ""
+msgstr "Karavela nahrazuje Trirému a může se pohybovat kdekoliv po oceánu."
 
 #: data/default/units.ruleset:1355
 #: data/civ2/units.ruleset:1302
@@ -21191,7 +21170,7 @@ msgstr "Křižník"
 #: data/civ2/units.ruleset:1463
 #: data/civ1/units.ruleset:856
 msgid "The Cruiser is a strong offensive boat unit."
-msgstr ""
+msgstr "Křižník je silná útočná námořní jednotka."
 
 #: data/default/units.ruleset:1521
 #: data/civ2/units.ruleset:1468
@@ -21201,7 +21180,7 @@ msgstr "AEGIS Křižník"
 #: data/default/units.ruleset:1547
 #: data/civ2/units.ruleset:1494
 msgid "The AEGIS Cruiser is equipped with an advanced defensive missile system."
-msgstr ""
+msgstr "AEGIS křižník je vybaven pokročilým obranným protiraketovým systémem."
 
 #: data/default/units.ruleset:1553
 #: data/civ2/units.ruleset:1500
@@ -21213,7 +21192,7 @@ msgstr "Bitevní loď"
 #: data/civ2/units.ruleset:1526
 #: data/civ1/units.ruleset:887
 msgid "The Battleship is the supreme naval unit with excellent offensive and defensive values."
-msgstr ""
+msgstr "Bitevní loď je nejlepší námořní jednotka s vyýbornými útočnými a obrannými hodnotami."
 
 #: data/default/units.ruleset:1585
 #: data/civ2/units.ruleset:1532
@@ -21254,7 +21233,7 @@ msgstr "Transport"
 #: data/civ2/units.ruleset:1631
 #: data/civ1/units.ruleset:990
 msgid "The Transport cannot attack on its own but may defend itself when under attack."
-msgstr ""
+msgstr "Transportní loď nemůže útočit ale může se bránit, pokud je proti ní veden útok."
 
 #: data/default/units.ruleset:1690
 #: data/civ2/units.ruleset:1637
@@ -21397,7 +21376,7 @@ msgstr "Průzkumníci jsou velice užiteční při mapování neznámého územ�
 
 #: data/default/units.ruleset:1996
 msgid "This is you. If you lose this unit, you lose the game. So don't."
-msgstr ""
+msgstr "To jste Vy. Pokud ztratíte tuto jednotku, prohrajete hru. "
 
 #: data/default/units.ruleset:2001
 #: data/civ2/units.ruleset:1915
@@ -21482,7 +21461,7 @@ msgstr ""
 
 #: data/civ2/units.ruleset:1296
 msgid "The Caravel replaces the Trireme and is much more reliable on the open seas."
-msgstr ""
+msgstr "Karavela nahrazuje Trirému a je mnohem spolehlivější na otevřeném moři."
 
 #: data/civ2/units.ruleset:1941
 msgid ""
@@ -21596,9 +21575,8 @@ msgstr "Emír"
 #: data/nation/afghani.ruleset:25
 #: data/nation/slovakian.ruleset:30
 #: data/nation/soviet.ruleset:27
-#, fuzzy
 msgid "General Secretary"
-msgstr "První sekretář"
+msgstr "Hlavní sekretář"
 
 #: data/nation/afghani.ruleset:26
 msgid "Mullah"
@@ -21753,9 +21731,8 @@ msgstr "Reverend"
 
 #: data/nation/american.ruleset:52
 #: data/nation/texan.ruleset:20
-#, fuzzy
 msgid "?female:Reverend"
-msgstr "Reverend"
+msgstr "?female:Reverendka"
 
 #: data/nation/antarctican.ruleset:3
 msgid "Antarctican"
@@ -22086,14 +22063,12 @@ msgid "Bavaria, before national unification in 1870AD, was one of the largest of
 msgstr "Bavorsko bylo před národním sjednocením v roce 1870 jedním z největších německých království."
 
 #: data/nation/belarusian.ruleset:3
-#, fuzzy
 msgid "Belarusian"
-msgstr "Bulharský"
+msgstr "Běloruský"
 
 #: data/nation/belarusian.ruleset:4
-#, fuzzy
 msgid "?plural:Belarusians"
-msgstr "?plural:Bulhaři"
+msgstr "?plural:Bělorusové"
 
 #: data/nation/belarusian.ruleset:6
 msgid "Belarus was part of the ancient Slavic state of Kievan Rus', then subsequently Lithuania, Rzeczpospolita, the Russian Empire and the Soviet Union. Belarus became independent in 1991 with the dissolution of the Soviet Union."
@@ -22225,9 +22200,8 @@ msgid "Director-President"
 msgstr "Ředitel-prezident"
 
 #: data/nation/brazilian.ruleset:27
-#, fuzzy
 msgid "?female:Director-President"
-msgstr "Ředitel-prezident"
+msgstr "?female:Ředitelka-prezidentka"
 
 #: data/nation/breton.ruleset:3
 #, fuzzy
@@ -22565,9 +22539,8 @@ msgstr "Velký Náčelník"
 #: data/nation/cherokee.ruleset:23
 #: data/nation/iroquois.ruleset:27
 #: data/nation/sioux.ruleset:29
-#, fuzzy
 msgid "?female:Great Chief"
-msgstr "Velký Náčelník"
+msgstr "?female:Velká Náčelnice"
 
 #: data/nation/cherokee.ruleset:24
 #: data/nation/iroquois.ruleset:28
@@ -22832,14 +22805,12 @@ msgid "The founding of the Danish kingdom is generally assigned to the reign of 
 msgstr "Založení Dánského království je přisuzováno říši Haralda Blatanda, který spojil nynější Dánsko v letech 958 - 988 n.l.  "
 
 #: data/nation/dominican.ruleset:3
-#, fuzzy
 msgid "Dominican"
-msgstr "Rumunský"
+msgstr "Dominikánský"
 
 #: data/nation/dominican.ruleset:4
-#, fuzzy
 msgid "?plural:Dominicans"
-msgstr "?plural:Rumuné"
+msgstr "?plural:Dominikánci"
 
 #: data/nation/dominican.ruleset:6
 msgid "The island of Dominica was first sighted by Europeans, including Christopher Columbus, in 1493. Legend has it that the island was named so since the day of its first sighting was a Sunday. Officially the \"Commonwealth of Dominica\", the country should not be confused with the Dominican Republic, another Caribbean nation."
@@ -23168,18 +23139,16 @@ msgid "Chancellor"
 msgstr "Kancléř"
 
 #: data/nation/german.ruleset:34
-#, fuzzy
 msgid "?female:Chancellor"
-msgstr "Kancléř"
+msgstr "?female:Kancléřka"
 
 #: data/nation/german.ruleset:36
 msgid "First Secretary"
 msgstr "První sekretář"
 
 #: data/nation/german.ruleset:36
-#, fuzzy
 msgid "?female:First Secretary"
-msgstr "První sekretář"
+msgstr "?female:První sekretářka"
 
 #: data/nation/greek.ruleset:3
 msgid "Greek"
@@ -23449,18 +23418,16 @@ msgid "Shaman"
 msgstr "Šaman"
 
 #: data/nation/inuit.ruleset:20
-#, fuzzy
 msgid "?female:Shaman"
-msgstr "Soudruh"
+msgstr "?female:Šamanka"
 
 #: data/nation/inuit.ruleset:21
 msgid "Great Shaman"
 msgstr "Velký šaman"
 
 #: data/nation/inuit.ruleset:21
-#, fuzzy
 msgid "?female:Great Shaman"
-msgstr "Velký šaman"
+msgstr "?female:Velká šamanka"
 
 #: data/nation/iranian.ruleset:3
 msgid "Iranian"
@@ -23895,9 +23862,8 @@ msgid "High Commissioner"
 msgstr "Nejvyšší komisař"
 
 #: data/nation/malagasy.ruleset:22
-#, fuzzy
 msgid "?female:High Commissioner"
-msgstr "Soudruh"
+msgstr "?female:Nejvyšší komisařka"
 
 #: data/nation/malaysian.ruleset:3
 msgid "Malaysian"
@@ -24019,14 +23985,12 @@ msgid "Marsmen landed on Earth in 4000 BC!"
 msgstr "Marťané přistáli na Zemi v roce 4000 př.n.l.!"
 
 #: data/nation/mayan.ruleset:3
-#, fuzzy
 msgid "Mayan"
-msgstr "Květnu"
+msgstr "Májský"
 
 #: data/nation/mayan.ruleset:4
-#, fuzzy
 msgid "?plural:Mayas"
-msgstr "?plural:Malajci"
+msgstr "?plural:Májové"
 
 #: data/nation/mayan.ruleset:6
 msgid "The Mayans were a Mesoamerican civilization. Famous for building great pyramids and palaces in the jungle."
@@ -24444,19 +24408,16 @@ msgid "Pierwszy Sekretarz"
 msgstr "První sekretář"
 
 #: data/nation/polish.ruleset:31
-#, fuzzy
 msgid "?female:Pierwszy Sekretarz"
-msgstr "První sekretář"
+msgstr "?female:První sekretářka"
 
 #: data/nation/polynesian.ruleset:3
-#, fuzzy
 msgid "Polynesian"
-msgstr "Perský"
+msgstr "Polynésané"
 
 #: data/nation/polynesian.ruleset:4
-#, fuzzy
 msgid "?plural:Polynesian"
-msgstr "?plural:Poláci"
+msgstr "?plural:Polynéský"
 
 #: data/nation/polynesian.ruleset:6
 msgid "Polynesian culture stretches from Hawaii to New Zealand to Easter Island and covers all the islands in between."
@@ -24589,14 +24550,12 @@ msgid "Tsaritsa"
 msgstr "Carevna"
 
 #: data/nation/rwandan.ruleset:3
-#, fuzzy
 msgid "Rwandan"
-msgstr "Kanadský"
+msgstr "Rwandský"
 
 #: data/nation/rwandan.ruleset:4
-#, fuzzy
 msgid "?plural:Rwandans"
-msgstr "?plural:Kanaďané"
+msgstr "?plural:Rwanďané"
 
 #: data/nation/rwandan.ruleset:6
 msgid "Rwanda is a hilly and very fertile country in the Great Lakes region of eastern Africa. It supports the densest population of the continent."
@@ -24680,9 +24639,8 @@ msgid "First Minister"
 msgstr "První ministr"
 
 #: data/nation/scottish.ruleset:26
-#, fuzzy
 msgid "?female:First Minister"
-msgstr "První ministr"
+msgstr "?female:První ministryně"
 
 #: data/nation/serbian.ruleset:3
 msgid "Serbian"
@@ -24755,9 +24713,8 @@ msgid "Slovakia is a country in the heart of Europe. Formerly part of Czechoslov
 msgstr "Slovensko je země v srdci Evropy. Bylo součástí Československa, pred tím do roku 1918 součástí Rakousko-Uherské monarchie."
 
 #: data/nation/slovakian.ruleset:26
-#, fuzzy
 msgid "?female:Leader"
-msgstr "Soudruh"
+msgstr "?female:Vůdkyně"
 
 #: data/nation/slovakian.ruleset:29
 msgid "Priestess"
@@ -24765,9 +24722,8 @@ msgstr "Kněžka"
 
 #: data/nation/slovakian.ruleset:30
 #: data/nation/soviet.ruleset:27
-#, fuzzy
 msgid "?female:General Secretary"
-msgstr "První sekretář"
+msgstr "?female:Hlavní sekretářka"
 
 #: data/nation/slovenian.ruleset:3
 msgid "Slovenian"
@@ -24822,9 +24778,8 @@ msgid "Great Leader"
 msgstr "Velký vůdce"
 
 #: data/nation/soviet.ruleset:28
-#, fuzzy
 msgid "?female:Great Leader"
-msgstr "Velký vůdce"
+msgstr "?female:Velká vůdkyně"
 
 #: data/nation/spanish.ruleset:3
 msgid "Spanish"
@@ -24979,14 +24934,12 @@ msgid "President of the Confederation"
 msgstr ""
 
 #: data/nation/swiss.ruleset:23
-#, fuzzy
 msgid "Federal Chancellor"
-msgstr "Kancléř"
+msgstr "Federální Kancléř"
 
 #: data/nation/swiss.ruleset:23
-#, fuzzy
 msgid "?female:Federal Chancellor"
-msgstr "Kancléř"
+msgstr "?female:Federální Kancléřka"
 
 #: data/nation/syrian.ruleset:3
 msgid "Syrian"
@@ -25339,9 +25292,8 @@ msgid "Uzbek"
 msgstr ""
 
 #: data/nation/uzbek.ruleset:4
-#, fuzzy
 msgid "?plural:Uzbeks"
-msgstr "?plural:Aztékové"
+msgstr "?plural:Uzbekové"
 
 #: data/nation/uzbek.ruleset:6
 msgid "Nation in Central Asia. Uzbekistan was the center of ancient states such as Khoresm, Khanate of Bukhara, Khanate of Kokand and others. Conquered by the Russian Empire in 19th century, Uzbekistan got independence from the Soviet Union in 1991."
@@ -25805,9 +25757,8 @@ msgid ""
 msgstr ""
 
 #: data/scenario/tutorial.sav:380
-#, fuzzy
 msgid "Loading tutorial events."
-msgstr "Nahrávám pravidla"
+msgstr "Nahrávají se výukové události."
 
 #: data/civ1/game.ruleset:19
 msgid "Civ1 ruleset"
