@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.0.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-12-17 10:53+0100\n"
-"PO-Revision-Date: 2008-12-26 20:17+0100\n"
+"PO-Revision-Date: 2008-12-27 11:03+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1337,9 +1337,9 @@ msgid "*%s (AI)* I wish to see you keep the current ceasefire for a bit longer f
 msgstr "*%s (PO)* Tak lehce to nepůjde, %s. Současné smlouvy zůstávají."
 
 #: ai/advdiplomacy.c:332
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* I simply do not trust you with an alliance yet, %s."
-msgstr "*%s (Řízený počítačem)* První zruš alianci s %s, %s"
+msgstr "*%s (PO)* Jednoduše Vám ještě nemůžeme věřit bez aliance, %s"
 
 #: ai/advdiplomacy.c:425
 #, c-format
@@ -1354,7 +1354,7 @@ msgstr "*%s (Řízený počítačem)* Promiň, ale sdílet s tebou vidění nen�
 #: ai/advdiplomacy.c:561
 #, c-format
 msgid "*%s (AI)* This deal was not very good for us, %s!"
-msgstr ""
+msgstr "*%s (Po)* Tato dohoda pro nás není moc dobrá, %s!"
 
 #: ai/advdiplomacy.c:583
 #, c-format
@@ -1362,9 +1362,9 @@ msgid "*%s (AI)* Welcome into our alliance %s!"
 msgstr "*%s (Řízený počítačem)* Vítej v alianci %s!"
 
 #: ai/advdiplomacy.c:587
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* Yes, may we forever stand united, %s."
-msgstr "*%s (Řízený počítačem)* Jasně, zůstaňme spojenci navždy, %s"
+msgstr "*%s (PO)* Jasně, zůstaňme spojenci navždy, %s."
 
 #: ai/advdiplomacy.c:594
 #, c-format
@@ -1372,9 +1372,9 @@ msgid "*%s (AI)* Yes, peace in our time!"
 msgstr "*%s (Řízený počítačem)* Mír. Dobrý nápad!"
 
 #: ai/advdiplomacy.c:599
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* Agreed. No more hostilities, %s."
-msgstr "*%s (Řízený počítačem)* Souhlasím. Žádné nepřátelství, %s"
+msgstr "*%s (PO)* Souhlasíme. Žádné další nepřátelství, %s."
 
 #: ai/advdiplomacy.c:821
 #, c-format
@@ -1392,9 +1392,9 @@ msgid "*%s (AI)* I have tolerated your vicious antics long enough! To war!"
 msgstr ""
 
 #: ai/advdiplomacy.c:1113
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* Peace in ... some other time."
-msgstr "*%s (Řízený počítačem)* Mír. Dobrý nápad!"
+msgstr "*%s (PO)* Mír... někdy jindy."
 
 #: ai/advdiplomacy.c:1118
 #, c-format
@@ -1505,9 +1505,9 @@ msgid "*%s (AI)* Greetings ally, I see you have not yet made war with our enemy,
 msgstr "*%s (řízen počítačem)* Nazdar spojenče, vidím, že jsi ještě nevyhlásil válku našim nepřátelům, %s. Proč Ti to musím připomínat?"
 
 #: ai/advdiplomacy.c:1567
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* Dishonoured one, we made a pact of alliance, and yet you remain at peace with our mortal enemy, %s! This is unacceptable; our alliance is no more!"
-msgstr "*%s (řízen počítačem)* Bezpáteřníče! Spojili jsme se v aliance a ty si klidně vegetuješ v míru s naším smrtelným protivníkem, %s! To nepřipustíme, rušíme alianci!"
+msgstr "*%s (PO)* Zrádče! Spojili jsme se v alianci a ty si klidně vegetuješ v míru s naším smrtelným protivníkem, %s! To nepřipustíme, rušíme alianci!"
 
 #: ai/advdiplomacy.c:1597
 #, fuzzy, c-format
@@ -1515,9 +1515,9 @@ msgid "*%s (AI)* Greetings friend, may we suggest making a common cause and join
 msgstr "*%s (řízen počítačem)* Nazdar příteli, mohl bych navrhnout spojení sil proti %s?"
 
 #: ai/advdiplomacy.c:1612
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* Greetings neighbour, may we suggest more peaceful relations?"
-msgstr "*%s (PO)* Zdravíme sousede, můžeme navrhnout společné tažení proti %s?"
+msgstr "*%s (PO)* Zdravíme sousede, můžeme navrhnout více přátelské vztahy?"
 
 #: ai/advdiplomacy.c:1627
 #, fuzzy, c-format
@@ -2114,7 +2114,7 @@ msgstr "Město %s je zrušeno a z jeho obyvatel jsou jednotky %s."
 
 #: server/civserver.c:79
 msgid "Setting timeout to 0. Autogame will stop.\n"
-msgstr ""
+msgstr "Prodleva nastavena na 0. Autohra se zastaví.\n"
 
 #: server/civserver.c:83
 msgid "You must interrupt Freeciv twice within one second to make it exit.\n"
@@ -2623,9 +2623,8 @@ msgstr ""
 "cheating <jméno-hráče>"
 
 #: server/commands.c:279
-#, fuzzy
 msgid "Set one or all AI players to 'cheating'."
-msgstr "Úroveň jednoho nebo všech počítačových hráčů bude 'easy'."
+msgstr "Úroveň jednoho nebo všech počítačových hráčů bude 'cheating'."
 
 #: server/commands.c:280
 #, fuzzy
@@ -2978,7 +2977,7 @@ msgstr[2] "Dohoda obsahuje %d již potvrzených klauzulí."
 
 #: server/diplhand.c:278
 #: server/diplhand.c:282
-#, fuzzy, c-format
+#, c-format
 msgid "One of the cities the %s are giving away is destroyed! Treaty canceled!"
 msgstr "Jedno z měst, kterého se %s vzdávají je zničeno! Dohoda zrušena!"
 
@@ -3155,7 +3154,7 @@ msgstr "Váš %1$s uspěl při uplácení jednotky %3$s hráče %2$s."
 
 #. TRANS: <unit> ... <Poles>
 #: server/diplomats.c:465
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s was bribed by the %s."
 msgstr "Jednotka %s byla uplacena hráčem %s."
 
@@ -3453,7 +3452,7 @@ msgstr "Žádná jednotka (ID %d)."
 #: server/edithand.c:655
 #, c-format
 msgid "Invalid veteran level %d for unit %d (%s)."
-msgstr ""
+msgstr "Neplatná úroveň %d veterána pro jednotku %d (%s)."
 
 #: server/edithand.c:692
 #, c-format
@@ -3503,7 +3502,7 @@ msgstr ""
 #: server/edithand.c:902
 #, c-format
 msgid "No more players can be added because the maximum number of players (%d) has been reached."
-msgstr ""
+msgstr "Žádní další hráči nermohou být přidáni, protože maximální počet hráčů (%d) byl dosažen."
 
 #: server/edithand.c:910
 #, c-format
@@ -4207,7 +4206,7 @@ msgstr "Nahrávám pravidla"
 
 #: server/ruleset.c:3688
 msgid "Reducing aifill because there are not enough playable nations."
-msgstr ""
+msgstr "Redukuje se aifill, protože není dostatek hratelných národů."
 
 #. TRANS: Minor error message.
 #: server/savegame.c:183
@@ -4894,12 +4893,12 @@ msgstr "Pokutd je toto nastaveno na 1, pouze ty jednotky a města, které vaše 
 
 #: server/settings.c:792
 msgid "Base chance for diplomats and spies to succeed."
-msgstr ""
+msgstr "Základní pravděpodobnost úspěchu pro diplomaty a špióny."
 
 #: server/settings.c:794
 #, no-c-format
 msgid "The chance of a spy returning from a successful mission and the base chance of success for diplomats and spies."
-msgstr ""
+msgstr "Pravděpodobnost úspěšného návratu z mise pro špióna a základní pravděpodobnost úspěchu pro diplomaty a špióny."
 
 #: server/settings.c:801
 msgid "Whether to allow space race"
@@ -5688,7 +5687,7 @@ msgstr "Nelze zapisovat do souboru skriptu '%s'."
 
 #: server/stdinhand.c:1089
 msgid "You cannot use the write command on this server for security reasons."
-msgstr ""
+msgstr "Příkaz write nelze na tomto serveru z bezpečnostních důvodů použít."
 
 #: server/stdinhand.c:1117
 #, c-format
@@ -5974,7 +5973,7 @@ msgstr ""
 #: server/stdinhand.c:2067
 #, c-format
 msgid "No such team %s.  Please give a valid team name or number."
-msgstr ""
+msgstr "Žádný tým %s.  Prosím zadejte platný název týmu nebo číslo."
 
 #: server/stdinhand.c:2074
 msgid "Cannot team a barbarian."
@@ -9833,9 +9832,9 @@ msgstr "Přesun: Nikdo"
 
 #: client/text.c:631
 #: client/text.c:638
-#, fuzzy, c-format
+#, c-format
 msgid "Moving: %s"
-msgstr "Přesunuje se %s"
+msgstr "Přesunuje se: %s"
 
 #: client/text.c:642
 msgid "(Click for more info)"
@@ -15419,9 +15418,9 @@ msgid ""
 msgstr ""
 
 #: client/gui-sdl/repodlgs.c:1534
-#, fuzzy, c-format
+#, c-format
 msgid "We can't sell any %s in this turn."
-msgstr "* Na tomto terénu nemůžete stavět města."
+msgstr "V tomto tahu nemůžeme prodat žádné %s."
 
 #: client/gui-sdl/repodlgs.c:1539
 msgid "Sell It?"
@@ -17346,7 +17345,6 @@ msgid "Freeciv is covered by the GPL, which is included here: "
 msgstr "Freeciv je pod licencí GPL, která je zde: "
 
 #: data/helpdata.txt:379
-#, fuzzy
 msgid ""
 "Freeciv supports several local languages.  See the Native Language Support section of the README file for instructions on how to use one of these languages.\n"
 "\n"
@@ -17354,15 +17352,7 @@ msgid ""
 msgstr ""
 "Freeciv podporuje několik jazyků.  Podívejte se do sekce Native Language Support v souboru README pro instrukce jak použít tyto jazyky.\n"
 "\n"
-"Pokud chcete přidat lokalizaci (překlad) pro svůj jazyk, prosím podívejte se na instrukce na:\n"
-"\n"
-"  http://www.freeciv.org/index.php/Localization\n"
-"\n"
-"Nejdříve si zkontrolujte, zda již lokalizace pro váš jazyk neprobíhá.\n"
-"\n"
-"Rádi uvítáme poslané otázky do mailing listu freeciv-i18n:\n"
-"\n"
-"  freeciv-i18n@freeciv.org"
+"Nejdříve si zkontrolujte, zda již lokalizace pro váš jazyk neprobíhá:"
 
 #: data/helpdata.txt:388
 msgid "If you would like to add a localization (translation) for your language, please see the instructions at:"
@@ -17373,7 +17363,6 @@ msgid "You are also welcome to send any questions to the translation mailing lis
 msgstr "Jsou také vítány jakékoliv dotazy k překladu do mailing listu:"
 
 #: data/helpdata.txt:402
-#, fuzzy
 msgid "Before a game is started, anyone can connect to the server by supplying its hostname and port number (5556 by default). If the server is started with the -m flag, it will report to the metaserver,"
 msgstr "Před spuštěním hry se může kdokoliv připojit na server, zadáním jeho hostname a čísla portu (5555 je výchozí). Pokud se server spustí s přepínačem -m, bude se hlásit na metaserveru,"
 
@@ -21690,7 +21679,7 @@ msgstr "?plural:Alžířané"
 
 #: data/nation/algerian.ruleset:6
 msgid "Algeria is an Arabic nation in North Africa. It is historically inhabited by the Berber people."
-msgstr ""
+msgstr "Alžírsko je arabský národ v severní Africe. Historicky je osídlen Berbery."
 
 #: data/nation/american.ruleset:3
 #: data/nation/muskogee.ruleset:5
@@ -21984,7 +21973,7 @@ msgstr "?plural:Barbaři"
 
 #: data/nation/barbarian.ruleset:5
 msgid "Since the dawn of civilization, barbarians have been a threat to cultured peoples everywhere."
-msgstr ""
+msgstr "Na úsvitu civilizací byli barbaři hrozbou všem kulturním lidem."
 
 #: data/nation/basque.ruleset:3
 #, fuzzy
@@ -22245,7 +22234,7 @@ msgstr "?plural:Bulhaři"
 
 #: data/nation/bulgarian.ruleset:6
 msgid "Bulgar leader Khan Asparukh led his people into the northern Balkans, and founded Bulgaria in 681. This was the first Slavic nation-state in history."
-msgstr ""
+msgstr "Bulharský vůdce chán Asparuch vedl své lidi na severní Balkán a založil Bulharsko v roce 681. Byl to první slovanský stát v historii."
 
 #: data/nation/bulgarian.ruleset:31
 msgid "Tzar"
@@ -22435,7 +22424,7 @@ msgstr "?plural:Kanaďané"
 
 #: data/nation/canadian.ruleset:7
 msgid "Canada is the geographically northernmost country in world: The Magnetic North Pole currently lies on Canadian territory."
-msgstr ""
+msgstr "Kanada je geograficky nejsevernější zemí ve světě. Severní magnetický pól leží na území Kanady."
 
 #: data/nation/carthaginian.ruleset:3
 msgid "Carthaginian"
@@ -22892,7 +22881,7 @@ msgstr "?plural:Esperantisté"
 
 #: data/nation/esperant.ruleset:6
 msgid "The Esperants are a world community united by the Esperanto language."
-msgstr ""
+msgstr "Esperantisté je celosvětová komunita spojená jazykem Esperanto."
 
 #: data/nation/estonian.ruleset:3
 msgid "Estonian"
@@ -23208,7 +23197,7 @@ msgstr "Forma plurálů:"
 
 #: data/nation/hellenic.ruleset:6
 msgid "The Hellenic Republic - also known as Greece - was created when the Hellenic people gained independence from the Ottoman Empire in 1832."
-msgstr ""
+msgstr "Helénská republika - také známá jako Řecko - byla vyhlášena Helénským lidem získáním nezávislosti na Otomanské říši v roce 1832."
 
 #: data/nation/himyarite.ruleset:3
 #, fuzzy
@@ -23651,7 +23640,7 @@ msgstr "?plural:Kyrgyzové"
 
 #: data/nation/kyrgyz.ruleset:6
 msgid "Nation in Central Asia. Conquered by the Russian Empire in 19th century, Kyrgyzstan got independence from the Soviet Union in 1991."
-msgstr ""
+msgstr "Národ ve střední Ázii. Dobyt ruským impériem v 19.století, nezávislost Kyrgizstán získal po rozpadu Sovětského svazu v roce 1991."
 
 #. TRANS: Khagan = Great Khan
 #: data/nation/kyrgyz.ruleset:26
@@ -23955,7 +23944,7 @@ msgstr "?plural:Májové"
 
 #: data/nation/mayan.ruleset:6
 msgid "The Mayans were a Mesoamerican civilization. Famous for building great pyramids and palaces in the jungle."
-msgstr ""
+msgstr "Májové byli středoamerickou civilizací. Věhlas získali stavbou velkých pyramid a paláců v džungli."
 
 #. TRANS: Ajaw = Lord
 #: data/nation/mayan.ruleset:20
@@ -23988,7 +23977,7 @@ msgstr "?plural:Mexičané"
 
 #: data/nation/mexican.ruleset:6
 msgid "Mexico borrows its name from the Mexica people, another name for the Aztecs."
-msgstr ""
+msgstr "Mexiko získalo svůj název podle Mexických lidí, jiného jména pro Aztéky."
 
 #: data/nation/moldovan.ruleset:3
 msgid "Moldovan"
@@ -24241,7 +24230,7 @@ msgstr "?plural:Pakistánci"
 
 #: data/nation/pakistani.ruleset:6
 msgid "The Federation of Pakistan was formed from the predominantly Muslim regions of British India in 1947."
-msgstr ""
+msgstr "Pakistánská federace vznikla z převážně muslimských regionů britské Indie v roce 1947."
 
 #: data/nation/papuan.ruleset:3
 msgid "Papuan"
@@ -24253,7 +24242,7 @@ msgstr "?plural:Papuánci"
 
 #: data/nation/papuan.ruleset:6
 msgid "The Papuans are a Melanesian people on the island of New Guinea."
-msgstr ""
+msgstr "Papuánci jsou Melanésané na ostrově Nová Guinea."
 
 #: data/nation/papuan.ruleset:16
 #, fuzzy
@@ -24451,7 +24440,7 @@ msgstr "?plural:Kebekové"
 
 #: data/nation/quebecois.ruleset:6
 msgid "Quebec is the largest province of Canada, housing the majority of the Francophone population of America."
-msgstr ""
+msgstr "Kebek je největší provincie Kanady, obydlená převážně frankofonní populací Ameriky."
 
 #: data/nation/romanian.ruleset:3
 msgid "Romanian"
@@ -25416,6 +25405,11 @@ msgid ""
 "and using your settlers to find a good place to build\n"
 "a city.  Use the number pad to move units around."
 msgstr ""
+"Vítejte ve Freeciv.  Vedete civilizaci.  Vaším\n"
+"úkolem je dobýt svět!  Měli byste začít\n"
+"průzkumem země okolo vaším průzkumníkem,\n"
+"a použít své osadníky k nalezení dobrého místa\n"
+"pro stavbu města.  Pro pohyb použijte num. klávesnici."
 
 #: data/scenario/tutorial.sav:34
 msgid ""
@@ -25934,9 +25928,8 @@ msgid "Civ2 ruleset"
 msgstr "Civ2 pravidla"
 
 #: data/civ2/game.ruleset:21
-#, fuzzy
 msgid "You are playing with civ2 style rules.These are quite close to Freeciv default rules, but with some additions."
-msgstr ""
+msgstr "Hrajete s civ2 pravidly. Ty jsou velmi blízké výchozím Freeciv pravidlům, ale s nějakými dodatky."
 
 #: data/default/game.ruleset:19
 msgid "Default ruleset"
