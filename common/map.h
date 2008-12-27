@@ -82,6 +82,12 @@ enum topo_flag {
   TF_HEX = 8
 };
 
+/* Parameters for terrain counting functions. */
+static const bool C_ADJACENT = FALSE;
+static const bool C_CARDINAL = TRUE;
+static const bool C_NUMBER = FALSE;
+static const bool C_PERCENT = TRUE;
+
 #define MAP_IS_ISOMETRIC (topo_has_flag(TF_ISO) || topo_has_flag(TF_HEX))
 
 #define CURRENT_TOPOLOGY (map.topology_id)

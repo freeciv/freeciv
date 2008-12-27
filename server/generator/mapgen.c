@@ -1526,15 +1526,53 @@ static void fill_island(int coast, long int *bucket,
 }
 
 /**************************************************************************
-  fill an island with rivers
+  Returns TRUE if ptile is suitable for a river mouth.
+**************************************************************************/
+static bool island_river_mouth_suitability(const struct tile *ptile)
+{
+  int num_card_ocean, pct_adj_ocean, num_adj_river;
+
+  num_card_ocean = count_ocean_near_tile(ptile, C_CARDINAL, C_NUMBER);
+  pct_adj_ocean = count_ocean_near_tile(ptile, C_ADJACENT, C_PERCENT);
+  num_adj_river = count_special_near_tile(ptile, C_ADJACENT, C_NUMBER,
+                                          S_RIVER);
+
+  return (num_card_ocean == 1 && pct_adj_ocean <= 35
+          && num_adj_river == 0);
+}
+
+/**************************************************************************
+  Returns TRUE if there is a river in a cardinal direction near the tile
+  and the tile is suitable for extending it.
+**************************************************************************/
+static bool island_river_suitability(const struct tile *ptile)
+{
+  int pct_adj_ocean, num_card_ocean, pct_adj_river, num_card_river;
+
+  num_card_river = count_special_near_tile(ptile, C_CARDINAL, C_NUMBER,
+                                           S_RIVER);
+  num_card_ocean = count_ocean_near_tile(ptile, C_CARDINAL, C_NUMBER);
+  pct_adj_ocean = count_ocean_near_tile(ptile, C_ADJACENT, C_PERCENT);
+  pct_adj_river = count_special_near_tile(ptile, C_ADJACENT, C_PERCENT,
+                                          S_RIVER);
+
+  return (num_card_river == 1 && num_card_ocean == 0
+          && pct_adj_ocean < 20 && pct_adj_river < 35
+          /* The following expression helps with straightness,
+           * ocean avoidance, and reduces forking. */
+          && (pct_adj_river + pct_adj_ocean * 2) < myrand(25) + 25);
+}
+
+/**************************************************************************
+  Fill an island with rivers.
 **************************************************************************/
 static void fill_island_rivers(int coast, long int *bucket,
-			       const struct gen234_state *const pstate)
+                               const struct gen234_state *const pstate)
 {
-  int i, k, capac;
-  long int failsafe;
+  long int failsafe, capac, i, k;
+  struct tile *ptile;
 
-  if (*bucket <= 0 ) {
+  if (*bucket <= 0) {
     return;
   }
   capac = pstate->totalmass;
@@ -1542,30 +1580,27 @@ static void fill_island_rivers(int coast, long int *bucket,
   i++;
   *bucket -= i * capac;
 
+  /* generate 75% more rivers than generator 1 */
+  i = (i * 175) / 100;
+
   k = i;
-  failsafe = i * (pstate->s - pstate->n) * (pstate->e - pstate->w);
+  failsafe = i * (pstate->s - pstate->n) * (pstate->e - pstate->w) * 5;
   if (failsafe < 0) {
     failsafe = -failsafe;
   }
 
-  while (i > 0 && (failsafe--) > 0) {
-    struct tile *ptile = get_random_map_position_from_state(pstate);
-    if (tile_continent(ptile) == pstate->isleindex
-	&& not_placed(ptile)) {
+  while (i > 0 && failsafe-- > 0) {
+    ptile = get_random_map_position_from_state(pstate);
+    if (tile_continent(ptile) != pstate->isleindex
+        || tile_has_special(ptile, S_RIVER)) {
+      continue;
+    }
 
-      /* the first condition helps make terrain more contiguous,
-	 the second lets it avoid the coast: */
-      if ((i * 3 > k * 2 
-	   || count_special_near_tile(ptile, FALSE, TRUE, S_RIVER) > 0
-	   || myrand(100) < 50)
-	  && (!is_cardinally_adj_to_ocean(ptile) || myrand(100) < coast)) {
-	if (is_water_adjacent_to_tile(ptile)
-	    && count_ocean_near_tile(ptile, FALSE, TRUE) < 50
-            && count_special_near_tile(ptile, FALSE, TRUE, S_RIVER) < 35) {
-	  tile_set_special(ptile, S_RIVER);
-	  i--;
-	}
-      }
+    if ((island_river_mouth_suitability(ptile)
+         && (myrand(100) < coast || i == k))
+        || island_river_suitability(ptile)) {
+      tile_set_special(ptile, S_RIVER);
+      i--;
     }
   }
 }
