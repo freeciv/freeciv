@@ -3108,6 +3108,11 @@ static void load_ruleset_game(void)
   /* Enable/Disable killstack */
   game.info.killstack = secfile_lookup_bool(&file, "combat_rules.killstack");
 
+  /* Enable/Disable tired attack penalty */
+  game.info.tired_attack
+    = secfile_lookup_bool_default(&file, GAME_DEFAULT_TIRED_ATTACK,
+                                  "combat_rules.tired_attack");
+
   svec = secfile_lookup_str_vec(&file, &game.info.num_teams, "teams.names");
   game.info.num_teams = MIN(MAX_NUM_TEAMS, game.info.num_teams);
   if (game.info.num_teams <= 0) {

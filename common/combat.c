@@ -375,6 +375,10 @@ int base_get_attack_power(const struct unit_type *punittype,
   power = punittype->attack_strength * POWER_FACTOR;
   power *= punittype->veteran[veteran].power_fact;
 
+  if (game.info.tired_attack && moves_left < SINGLE_MOVE) {
+    power = (power * moves_left) / SINGLE_MOVE;
+  }
+
   return power;
 }
 

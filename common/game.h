@@ -210,6 +210,8 @@ bool setting_class_is_changeable(enum sset_class class);
 
 #define GAME_DEFAULT_SLOW_INVASIONS  TRUE
 
+#define GAME_DEFAULT_TIRED_ATTACK    FALSE
+
 #define GAME_DEFAULT_DIPLOMACY       0
 #define GAME_MIN_DIPLOMACY           0
 #define GAME_MAX_DIPLOMACY           4
