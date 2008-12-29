@@ -3386,28 +3386,33 @@ bool load_command(struct connection *caller, const char *filename, bool check)
               filename);
     return FALSE;
   }
+
   {
     /* it is a normal savegame or maybe a scenario */
-    char tmp[MAX_LEN_PATH];
+    char testfile[MAX_LEN_PATH];
+    const char *paths[] = { "", "scenario/", NULL };
+    const char *exts[] = {
+      "sav", "gz", "bz2", "sav.gz", "sav.bz2", NULL
+    };
+    const char **path, **ext, *found = NULL;
 
-    my_snprintf(tmp, sizeof(tmp), "%s.sav", filename);
-    if (!datafilename(tmp)) {
-      my_snprintf(tmp, sizeof(tmp), "%s.sav.gz", filename);
-      if (!datafilename(tmp)) {
-        my_snprintf(tmp, sizeof(tmp), "scenario/%s.sav", filename);
-        if (!datafilename(tmp)) {
-          my_snprintf(tmp, sizeof(tmp), "scenario/%s.sav.gz", filename);
-          if (is_restricted(caller) && !datafilename(tmp)) {
-            cmd_reply(CMD_LOAD, caller, C_FAIL, _("Cannot find savegame or "
-                      "scenario with the name \"%s\"."), filename);
-            return FALSE;
-          }
+    for (path = paths; !found && *path; path++) {
+      for (ext = exts; !found && *ext; ext++) {
+        my_snprintf(testfile, sizeof(testfile), "%s%s.%s",
+                    *path, filename, *ext);
+        if ((found = datafilename(testfile))) {
+          sz_strlcpy(arg, found);
         }
       }
     }
-    if (datafilename(tmp)) {
-      sz_strlcpy(arg, datafilename(tmp));
-    } else {
+
+    if (is_restricted(caller) && !found) {
+      cmd_reply(CMD_LOAD, caller, C_FAIL, _("Cannot find savegame or "
+                "scenario with the name \"%s\"."), filename);
+      return FALSE;
+    }
+
+    if (!found) {
       sz_strlcpy(arg, filename);
     }
   }
