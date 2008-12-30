@@ -118,6 +118,9 @@ static int socklan;
 #define SPECLIST_TAG timer
 #define SPECLIST_TYPE struct timer
 #include "speclist.h"
+#define timer_list_iterate(ARG_list, NAME_item) \
+  TYPED_LIST_ITERATE(struct timer, (ARG_list), NAME_item)
+#define timer_list_iterate_end LIST_ITERATE_END
 
 #define PROCESSING_TIME_STATISTICS 0
 
@@ -198,16 +201,19 @@ static void handle_readline_input_callback(char *line)
 *****************************************************************************/
 void close_connection(struct connection *pconn)
 {
+  if (!pconn) {
+    return;
+  }
+
   cancel_connection_votes(pconn);
 
-  while (timer_list_size(pconn->server.ping_timers) > 0) {
-    struct timer *timer = timer_list_get(pconn->server.ping_timers, 0);
-
-    timer_list_unlink(pconn->server.ping_timers, timer);
-    free_timer(timer);
+  if (pconn->server.ping_timers != NULL) {
+    timer_list_iterate(pconn->server.ping_timers, timer) {
+      free_timer(timer);
+    } timer_list_iterate_end;
+    timer_list_free(pconn->server.ping_timers);
+    pconn->server.ping_timers = NULL;
   }
-  assert(timer_list_size(pconn->server.ping_timers) == 0);
-  timer_list_free(pconn->server.ping_timers);
 
   /* safe to do these even if not in lists: */
   conn_list_unlink(game.all_connections, pconn);

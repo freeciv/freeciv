@@ -213,7 +213,9 @@ struct timer *renew_timer_start(struct timer *t, enum timer_timetype type,
 ***********************************************************************/
 void free_timer(struct timer *t)
 {
-  free(t);
+  if (t != NULL) {
+    free(t);
+  }
 }
 
 /********************************************************************** 
