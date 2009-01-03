@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.0.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-12-17 10:53+0100\n"
-"PO-Revision-Date: 2008-12-27 11:03+0100\n"
+"PO-Revision-Date: 2009-01-03 09:53+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -8929,37 +8929,37 @@ msgstr "* %s produkce je zvýšena %d%%.\n"
 #: client/helpdata.c:1636
 #, c-format
 msgid "* %s production will suffer massive waste.\n"
-msgstr ""
+msgstr "* %s produkce způsobí masivní odpad.\n"
 
 #. TRANS: %s is list of output types, with 'and'
 #: client/helpdata.c:1641
 #, c-format
 msgid "* %s production will suffer some waste.\n"
-msgstr ""
+msgstr "* %s produkce způsobí nějaký odpad.\n"
 
 #. TRANS: %s is list of output types, with 'and'
 #: client/helpdata.c:1646
 #, c-format
 msgid "* %s production will suffer a small amount of waste.\n"
-msgstr ""
+msgstr "* %s produkce způsobí malé množství odpadu.\n"
 
 #. TRANS: %s is list of output types, with 'and'
 #: client/helpdata.c:1654
 #, c-format
 msgid "* %s waste will increase quickly with distance from capital.\n"
-msgstr ""
+msgstr "* %s odpad se rychle zvýší se vzdáleností od hlavního města.\n"
 
 #. TRANS: %s is list of output types, with 'and'
 #: client/helpdata.c:1660
 #, c-format
 msgid "* %s waste will increase with distance from capital.\n"
-msgstr ""
+msgstr "* %s odpad se zvýší se vzdáleností od hlavního města.\n"
 
 #. TRANS: %s is list of output types, with 'and'
 #: client/helpdata.c:1666
 #, c-format
 msgid "* %s waste will increase slowly with distance from capital.\n"
-msgstr ""
+msgstr "* %s odpad se pomalu zvýší se vzdáleností od hlavního města.\n"
 
 #: client/helpdata.c:1683
 #, c-format
@@ -9266,15 +9266,15 @@ msgstr "Skok mezi vrstvami"
 
 #: client/options.c:262
 msgid "The background layer of the overview shows just ocean and land."
-msgstr ""
+msgstr "Vrstva pozadí ukazuje jen oceány a pevninu."
 
 #: client/options.c:265
 msgid "Terrain relief map layer"
-msgstr ""
+msgstr "Vrstva reliéfu mapy"
 
 #: client/options.c:266
 msgid "The relief layer shows all terrains on the map."
-msgstr ""
+msgstr "Vrstva reliéfu mapy zobrazuje všechny terény na mapě."
 
 #: client/options.c:269
 #, fuzzy
@@ -9283,7 +9283,7 @@ msgstr "Skok mezi vrstvami"
 
 #: client/options.c:270
 msgid "The borders layer of the overview shows which tiles are owned by each player."
-msgstr ""
+msgstr "Vrstva hranic ukazuje přehled území jednotlivých hráčů."
 
 #: client/options.c:274
 #, fuzzy
