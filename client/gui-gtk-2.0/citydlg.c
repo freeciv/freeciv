@@ -513,7 +513,7 @@ static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev,
   struct city_dialog *pdialog = g_object_get_data(G_OBJECT(w), "pdialog");
 
   if (ev->button == 1) {
-    GtkWidget *p, *label;
+    GtkWidget *p, *label, *frame;
     char buf[1024];
     
     switch (GPOINTER_TO_UINT(data)) {
@@ -547,12 +547,16 @@ static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev,
     
     p = gtk_window_new(GTK_WINDOW_POPUP);
     gtk_widget_set_name(p, "Freeciv");
-    gtk_container_set_border_width(GTK_CONTAINER(p), 4);
+    gtk_container_set_border_width(GTK_CONTAINER(p), 2);
     gtk_window_set_position(GTK_WINDOW(p), GTK_WIN_POS_MOUSE);
+
+    frame = gtk_frame_new(NULL);
+    gtk_container_add(GTK_CONTAINER(p), frame);
 
     label = gtk_label_new(buf);
     gtk_widget_set_name(label, "city_info_label");
-    gtk_container_add(GTK_CONTAINER(p), label);
+    gtk_misc_set_padding(GTK_MISC(label), 4, 4);
+    gtk_container_add(GTK_CONTAINER(frame), label);
     gtk_widget_show_all(p);
 
     gdk_pointer_grab(p->window, TRUE, GDK_BUTTON_RELEASE_MASK,
