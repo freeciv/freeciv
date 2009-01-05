@@ -1181,7 +1181,11 @@ static void map_save(struct section_file *file)
     int l;
 
     for (l = 0; l < 4; l++) {
-      mod[l] = MIN(4 * j + l, -1);
+      if (4 * j + 1 > game.control.num_base_types) {
+        mod[l] = -1;
+      } else {
+        mod[l] = 4 * j + l;
+      }
     }
     sprintf (buf, "map.b%02d_%%03d", j);
     SAVE_NORMAL_MAP_DATA(ptile, file, buf,
@@ -3690,7 +3694,11 @@ static void player_save_vision(struct player *plr, int plrno,
     int l;
 
     for (l = 0; l < 4; l++) {
-      mod[l] = MAX(4 * j + l, -1);
+      if (4 * j + 1 > game.control.num_base_types) {
+        mod[l] = -1;
+      } else {
+        mod[l] = 4 * j + l;
+      }
     }
     sprintf (buf, "player%%d.map_b%02d_%%03d", j);
     SAVE_PLAYER_MAP_DATA(ptile, file, buf, plrno,
