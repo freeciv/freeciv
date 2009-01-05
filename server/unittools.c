@@ -797,7 +797,8 @@ static void update_unit_activity(struct unit *punit)
       struct base_type *new_base = base_by_number(punit->activity_base);
 
       base_type_iterate(old_base) {
-        if (!can_bases_coexist(old_base, new_base)) {
+        if (tile_has_base(ptile, old_base)
+            && !can_bases_coexist(old_base, new_base)) {
           if (base_has_flag(old_base, BF_CLAIM_TERRITORY)) {
             map_clear_border(ptile, ptile->owner);
             map_claim_ownership(ptile, NULL, NULL);
