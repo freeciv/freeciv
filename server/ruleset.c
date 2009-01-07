@@ -1334,11 +1334,15 @@ if (_count > MAX_VET_LEVELS) {						\
       ival = find_unit_role_by_rule_name(sval);
       if (ival==L_LAST) {
         freelog(LOG_ERROR, "\"%s\" unit_type \"%s\": bad role name \"%s\".",
-                filename,
-                utype_rule_name(u),
-                sval);
+                filename, utype_rule_name(u), sval);
+      } else if ((ival == L_FERRYBOAT || ival == L_BARBARIAN_BOAT)
+                 && u->uclass->move_type == LAND_MOVING) {
+        freelog(LOG_ERROR,
+                "\"%s\" unit_type \"%s\": role \"%s\" for land moving unit.",
+                filename, utype_rule_name(u), sval);
+      } else {
+        BV_SET(u->roles, ival - L_FIRST);
       }
-      BV_SET(u->roles, ival - L_FIRST);
       assert(utype_has_role(u, ival));
     }
     free(slist);

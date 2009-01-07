@@ -1180,7 +1180,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
           boattype = get_role_unit(L_FERRYBOAT, 0);
         }
       }
-      assert(SEA_MOVING == utype_move_type(boattype));
+      assert(LAND_MOVING != utype_move_type(boattype));
 
       go_by_boat = !(WARMAP_COST(ptile) <= (MIN(6, move_rate) * THRESHOLD)
                      && goto_is_sane(myunit, acity->tile, TRUE));
