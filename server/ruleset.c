@@ -3200,6 +3200,7 @@ static void send_ruleset_units(struct conn_list *dest)
     packet.paratroopers_mr_sub = u->paratroopers_mr_sub;
     packet.bombard_rate = u->bombard_rate;
     packet.cargo = u->cargo;
+    packet.targets = u->targets;
     for (i = 0; i < MAX_VET_LEVELS; i++) {
       sz_strlcpy(packet.veteran_name[i], u->veteran[i].name);
       packet.power_fact[i] = u->veteran[i].power_fact;
