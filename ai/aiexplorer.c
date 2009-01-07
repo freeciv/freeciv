@@ -63,6 +63,63 @@ static int likely_ocean(struct tile *ptile, struct player *pplayer)
 }
 
 /**************************************************************************
+  Returns TRUE if a unit owned by the given player can safely "explore" the
+  given tile. This mainly takes care that military units do not try to
+  move into another player's territory in violation of a treaty.
+**************************************************************************/
+static bool ai_may_explore(const struct tile *ptile,
+                           const struct player *pplayer,
+                           const bv_flags unit_flags)
+{
+  /* Don't allow military units to cross borders. */
+  if (!BV_ISSET(unit_flags, F_CIVILIAN)
+      && players_non_invade(tile_owner(ptile), pplayer)) {
+    return FALSE;
+  }
+
+  /* Can't visit tiles with non-allied units. */
+  if (is_non_allied_unit_tile(ptile, pplayer)) {
+    return FALSE;
+  }
+
+  /* Non-allied cities are taboo even if no units are inside. */
+  if (tile_city(ptile) && !pplayers_allied(tile_owner(ptile), pplayer)) {
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/***************************************************************************
+  TB function used by ai_explorer_goto().
+***************************************************************************/
+static enum tile_behavior ai_explorer_tb(const struct tile *ptile,
+                                         enum known_type k,
+                                         const struct pf_parameter *param)
+{
+  if (!ai_may_explore(ptile, param->owner, param->unit_flags)) {
+    return TB_IGNORE;
+  }
+  return TB_NORMAL;
+}
+
+/***************************************************************************
+  Constrained goto using ai_may_explore().
+***************************************************************************/
+static bool ai_explorer_goto(struct unit *punit, struct tile *ptile)
+{
+  struct pf_parameter parameter;
+  struct ai_risk_cost risk_cost;
+
+  ai_fill_unit_param(&parameter, &risk_cost, punit, ptile);
+  parameter.get_TB = ai_explorer_tb;
+
+  UNIT_LOG(LOG_DEBUG, punit, "ai_explorer_goto to %d,%d",
+           ptile->x, ptile->y);
+  return ai_unit_goto_constrained(punit, ptile, &parameter);
+}
+
+/**************************************************************************
 Return a value indicating how desirable it is to explore the given tile.
 In general, we want to discover unknown terrain of the opposite kind to
 our natural terrain, i.e. pedestrians like ocean and boats like land.
@@ -114,12 +171,13 @@ static int explorer_desirable(struct tile *ptile, struct player *pplayer,
   int unknown = 0;
 
   /* First do some checks that would make a tile completely non-desirable.
-   * If there
-   * is a city on the tile, or if the tile is not accessible, or if the 
-   * tile is on a different continent, or if we're a barbarian and
-   * the tile has a hut, don't go there. */
-  if (tile_city(ptile)
-      || (is_barbarian(pplayer) && tile_has_special(ptile, S_HUT))) {
+   * If we're a barbarian and the tile has a hut, don't go there. */
+  if (is_barbarian(pplayer) && tile_has_special(ptile, S_HUT)) {
+    return 0;
+  }
+
+  /* Do no try to cross borders and break a treaty, etc. */
+  if (!ai_may_explore(ptile, punit->owner, unit_type(punit)->flags)) {
     return 0;
   }
 
@@ -298,7 +356,7 @@ enum unit_move_result ai_manage_explorer(struct unit *punit)
   if (best_tile != NULL) {
     /* TODO: read the path off the map we made.  Then we can make a path 
      * which goes beside the unknown, with a good EC callback... */
-    if (!ai_unit_goto(punit, best_tile)) {
+    if (!ai_explorer_goto(punit, best_tile)) {
       /* Died?  Strange... */
       return MR_DEATH;
     }
