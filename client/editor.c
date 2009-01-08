@@ -177,9 +177,6 @@ void editor_init(void)
             | ETF_HAS_COPY_PASTE, _("Create city.\nShortcut: c"));
   tool_init(ETT_VISION, _("Vision"), ETF_HAS_SIZE,
             _("Modify player's tile knowledge.\nShortcut: v"));
-  tool_init(ETT_TERRITORY, _("Territory"),
-            ETF_HAS_SIZE | ETF_HAS_APPLIED_PLAYER,
-            _("Change tile ownership.\nShortcut: b"));
   tool_init(ETT_STARTPOS, _("Start Position"), ETF_HAS_APPLIED_PLAYER,
             _("Place a player start position.\nShortcut: p"));
 
@@ -861,10 +858,6 @@ void editor_apply_tool(const struct tile *ptile,
     }
     break;
 
-  case ETT_TERRITORY:
-    dsend_packet_edit_territory(my_conn, x, y, erase ? -1 : apno, size);
-    break;
-
   case ETT_STARTPOS:
     dsend_packet_edit_startpos(my_conn, x, y, erase ? -1 : apno);
     break;
@@ -1195,9 +1188,6 @@ struct sprite *editor_tool_get_sprite(enum editor_tool_type ett)
     break;
   case ETT_VISION:
     return sprites->vision;
-    break;
-  case ETT_TERRITORY:
-    return sprites->territory;
     break;
   case ETT_STARTPOS:
     return sprites->startpos;

@@ -513,7 +513,6 @@ static struct editbar *editbar_create(void)
   editbar_add_tool_button(eb, ETT_UNIT);
   editbar_add_tool_button(eb, ETT_CITY);
   editbar_add_tool_button(eb, ETT_VISION);
-  editbar_add_tool_button(eb, ETT_TERRITORY);
   editbar_add_tool_button(eb, ETT_STARTPOS);
 
   separator = gtk_vseparator_new();
@@ -1407,9 +1406,6 @@ static GdkPixbuf *get_tool_value_pixbuf(enum editor_tool_type ett,
   case ETT_VISION:
     sprite = sprites->vision;
     break;
-  case ETT_TERRITORY:
-    sprite = sprites->territory;
-    break;
   case ETT_STARTPOS:
     sprite = sprites->startpos;
     break;
@@ -1642,9 +1638,6 @@ gboolean handle_edit_key_press(GdkEventKey *ev)
     break;
   case GDK_v:
     new_ett = ETT_VISION;
-    break;
-  case GDK_b:
-    new_ett = ETT_TERRITORY;
     break;
   case GDK_p:
     new_ett = ETT_STARTPOS;

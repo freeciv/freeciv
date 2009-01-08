@@ -1471,12 +1471,6 @@ PACKET_EDIT_TILE_BASE=157;cs,handle-per-conn,dsend
   UINT8 size;
 end
 
-PACKET_EDIT_TERRITORY=158;cs,handle-per-conn,dsend
-  COORD x, y; key
-  PLAYER owner; # -1 (or other out of range) for erasing
-  UINT8 size;
-end
-
 PACKET_EDIT_STARTPOS=159;cs,handle-per-conn,dsend
   COORD x, y; key
   NATION nation; # -1 for erase

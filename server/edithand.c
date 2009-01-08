@@ -1194,40 +1194,6 @@ void handle_edit_toggle_fogofwar(struct connection *pc, int plr_no)
 }
 
 /****************************************************************************
-  Change the "ownership" of the tile(s) at the given coordinates.
-****************************************************************************/
-void handle_edit_territory(struct connection *pc, int x, int y, int owner,
-                           int size)
-{
-  struct player *pplayer;
-  struct tile *ptile_center;
-
-  ptile_center = map_pos_to_tile(x, y);
-  if (!ptile_center) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND,
-                _("Cannot edit territory of tile (%d, %d) because "
-                  "it is not on the map!"), x, y);
-    return;
-  }
-
-  /* NULL is ok; represents "no owner". */
-  pplayer = player_by_number(owner);
-
-  conn_list_do_buffer(game.est_connections);
-  square_iterate(ptile_center, size - 1, ptile) {
-    if (tile_owner(ptile) == pplayer
-        || tile_city(ptile) != NULL) {
-      continue;
-    }
-    /* FIXME: This does not play well with border code
-     * once edit mode is exited. */
-    tile_set_owner(ptile, pplayer);
-    send_tile_info(NULL, ptile, FALSE);
-  } square_iterate_end;
-  conn_list_do_unbuffer(game.est_connections);
-}
-
-/****************************************************************************
   Set the given position to be the start position for the given nation.
 ****************************************************************************/
 void handle_edit_startpos(struct connection *pc, int x, int y,
