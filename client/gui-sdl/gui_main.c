@@ -884,6 +884,16 @@ static void clear_double_messages_call(void)
 }
 
 /**************************************************************************
+  Entry point for freeciv client program. SDL has macro magic to turn
+  this in to function named SDL_main() and it provides actual main()
+  itself.
+**************************************************************************/
+int main(int argc, char **argv)
+{
+  return client_main(argc, argv);
+}
+
+/**************************************************************************
   The main loop for the UI.  This is called from main(), and when it
   exits the client will exit.
 **************************************************************************/

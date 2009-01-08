@@ -33,6 +33,8 @@ enum client_states {
   C_S_OVER,       /* Connected with game over. */
 };
 
+int client_main(int argc, char *argv[]);
+
 void client_packet_input(void *packet, int type);
 
 void send_report_request(enum report_type type);

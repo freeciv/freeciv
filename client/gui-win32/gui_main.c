@@ -714,7 +714,15 @@ static bool test_alphablend()
 extern void anim_cursor(float time);
 
 /**************************************************************************
+  Entry point for whole freeciv client program.
+**************************************************************************/
+int main(int argc, char **argv)
+{
+  return client_main(argc, argv);
+}
 
+/**************************************************************************
+  Entry point for GUI specific portion. Called from client_main()
 **************************************************************************/
 void
 ui_main(int argc, char *argv[])

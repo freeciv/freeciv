@@ -19,10 +19,6 @@
 #include <windows.h>	/* LoadLibrary() */
 #endif
 
-#ifdef SDL
-#include "SDL.h"
-#endif
-
 #include <assert.h>
 #include <math.h>
 #include <stdio.h>
@@ -202,9 +198,9 @@ static void client_game_free(void)
 }
 
 /**************************************************************************
-...
+  Entry point for common client code.
 **************************************************************************/
-int main(int argc, char *argv[])
+int client_main(int argc, char *argv[])
 {
   int i, loglevel;
   int ui_options = 0;

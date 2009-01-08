@@ -1422,7 +1422,15 @@ void ui_init(void)
 }
 
 /**************************************************************************
- called from main(), is what it's named.
+  Entry point for whole freeciv client program.
+**************************************************************************/
+int main(int argc, char **argv)
+{
+  return client_main(argc, argv);
+}
+
+/**************************************************************************
+  Called from client_main(), is what it's named.
 **************************************************************************/
 void ui_main(int argc, char **argv)
 {

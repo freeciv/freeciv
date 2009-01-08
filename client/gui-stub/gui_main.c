@@ -59,6 +59,14 @@ void ui_init(void)
 }
 
 /**************************************************************************
+  Entry point for whole freeciv client program.
+**************************************************************************/
+int main(int argc, char **argv)
+{
+  return client_main(argc, argv);
+}
+
+/**************************************************************************
   The main loop for the UI.  This is called from main(), and when it
   exits the client will exit.
 **************************************************************************/
