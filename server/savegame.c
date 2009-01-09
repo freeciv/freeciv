@@ -67,6 +67,8 @@
 /* generator */
 #include "utilities.h"
 
+#define TOKEN_SIZE 10
+
 #define LOG_WORKER		LOG_VERBOSE
 
 /* enum city_tile_type string constants for savegame */
@@ -219,6 +221,7 @@ static const char savefile_options_default[] =
 	" improvement_order"
 	" known32fix"
 	" map_editor"		/* unused */
+        " new_owner_map"
 	" orders"
 	" resources"
 	" rulesetdir"
@@ -1031,6 +1034,63 @@ static void map_load(struct section_file *file,
     }
   } whole_map_iterate_end;
 
+  /* Owner and ownership source are stored as plain numbers */
+  if (has_capability("new_owner_map", savefile_options)) {
+    int x, y;
+    struct player *owner;
+    struct tile *claimer;
+
+    for (y = 0; y < map.ysize; y++) {
+      char *buffer1 = 
+        secfile_lookup_str_default(file, NULL, "map.owner%03d", y);
+      char *buffer2 = 
+        secfile_lookup_str_default(file, NULL, "map.source%03d", y);
+      char *ptr1 = buffer1;
+      char *ptr2 = buffer2;
+
+      if (buffer1 == NULL) {
+        die("Savegame corrupt - map line %d not found.", y);
+      }
+      if (buffer2 == NULL) {
+        die("Savegame corrupt - map line %d not found.", y);
+      }
+      for (x = 0; x < map.xsize; x++) {
+        char token1[TOKEN_SIZE];
+        char token2[TOKEN_SIZE];
+        int number;
+        struct tile *ptile = native_pos_to_tile(x, y);
+
+        scanin(&ptr1, ",", token1, sizeof(token1));
+        scanin(&ptr2, ",", token2, sizeof(token2));
+        if (token1[0] == '\0' || token2[0] == '\0') {
+          die("Savegame corrupt - map size not correct.");
+        }
+        if (strcmp(token1, "-") == 0) {
+          owner = NULL;
+        } else {
+          if (sscanf(token1, "%d", &number)) {
+            owner = player_by_number(number);
+          } else {
+            die("Savegame corrupt - got map owner %s in (%d, %d).", 
+                token1, x, y);
+          }
+        }
+        if (strcmp(token2, "-") == 0) {
+          claimer = NULL;
+        } else {
+          if (sscanf(token2, "%d", &number)) {
+            claimer = index_to_tile(number);
+          } else {
+            die("Savegame corrupt - got map source %s in (%d, %d).", 
+                token2, x, y);
+          }
+        }
+
+        map_claim_ownership(ptile, owner, claimer);
+      }
+    }
+  }
+
   if (has_capability("bases", savefile_options)) {
     char zeroline[map.xsize+1];
     int i;
@@ -1192,7 +1252,6 @@ static void map_save(struct section_file *file)
 			 get_savegame_bases(ptile->bases, mod));
   } bases_halfbyte_iterate_end;
 
-#ifdef OWNER_SOURCE
   /* Store owner and ownership source as plain numbers */
   {
     int x, y;
@@ -1225,10 +1284,10 @@ static void map_save(struct section_file *file)
         char token[TOKEN_SIZE];
         struct tile *ptile = native_pos_to_tile(x, y);
 
-        if (ptile->owner_source == NULL) {
+        if (ptile->claimer == NULL) {
           strcpy(token, "-");
         } else {
-          my_snprintf(token, sizeof(token), "%d", tile_index(ptile->owner_source));
+          my_snprintf(token, sizeof(token), "%d", tile_index(ptile->claimer));
         }
         strcat(line, token);
         if (x + 1 < map.xsize) {
@@ -1238,7 +1297,6 @@ static void map_save(struct section_file *file)
       secfile_insert_str(file, line, "map.source%03d", y);
     }
   }
-#endif
 
   secfile_insert_bool(file, game.save_options.save_known, "game.save_known");
   if (game.save_options.save_known) {
