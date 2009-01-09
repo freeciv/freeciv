@@ -2391,7 +2391,7 @@ static void player_load_cities(struct player *plr, int plrno,
       pcity->original = past;
     }
     past = tile_owner(pcenter);
-    tile_set_owner(pcenter, plr); /* for city_owner(), just in case? */
+    tile_set_owner(pcenter, plr, pcenter); /* for city_owner(), just in case? */
     /* no city_choose_build_default(), values loaded below! */
 
     pcity->size = secfile_lookup_int(file, "player%d.c%d.size", plrno, i);
@@ -2830,7 +2830,6 @@ static void player_load_cities(struct player *plr, int plrno,
                                   plrno, i);
 
     /* After everything is loaded, but before vision. */
-    tile_set_owner(pcenter, past);
     map_claim_ownership(pcenter, plr, pcenter);
 
     /* adding the city contribution to fog-of-war */

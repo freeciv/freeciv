@@ -185,9 +185,6 @@ static void check_map(const char *file, int line)
       SANITY_TILE(ptile, same_pos(pcity->tile, ptile));
       SANITY_TILE(ptile, tile_owner(ptile) != NULL);
     }
-    if (tile_owner(ptile) != NULL) {
-      SANITY_TILE(ptile, map_get_player_site(ptile, tile_owner(ptile)) != NULL);
-    }
 
     index_to_map_pos(&x, &y, tile_index(ptile));
     SANITY_TILE(ptile, x == ptile->x && y == ptile->y);

@@ -43,8 +43,9 @@ struct tile {
   struct resource *resource;		/* NULL for no resource */
   struct terrain *terrain;		/* NULL for unknown tiles */
   struct unit_list *units;
-  struct player *owner;			/* NULL for not owned */
   struct city *worked;			/* NULL for not worked */
+  struct player *owner;			/* NULL for not owned */
+  struct tile *claimer;
   char *spec_sprite;
 };
 
@@ -68,7 +69,9 @@ void tile_set_continent(struct tile *ptile, Continent_id val);
 
 #define tile_owner(_tile) ((_tile)->owner)
 /*struct player *tile_owner(const struct tile *ptile);*/
-void tile_set_owner(struct tile *ptile, struct player *pplayer);
+void tile_set_owner(struct tile *ptile, struct player *pplayer,
+                    struct tile *claimer);
+#define tile_claimer(_tile) ((_tile)->claimer)
 
 #define tile_resource(_tile) ((_tile)->resource)
 #define tile_resource_is_valid(_tile) BV_ISSET((_tile)->special, S_RESOURCE_VALID)

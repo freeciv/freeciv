@@ -1918,7 +1918,7 @@ static void initworld(struct gen234_state *pstate)
     tile_set_continent(ptile, 0);
     map_set_placed(ptile); /* not a land tile */
     tile_clear_all_specials(ptile);
-    tile_set_owner(ptile, NULL);
+    tile_set_owner(ptile, NULL, NULL);
   } whole_map_iterate_end;
   
   if (HAS_POLES) {

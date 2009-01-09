@@ -24,6 +24,7 @@
 #include "support.h"
 
 #include "base.h"
+#include "borders.h"
 #include "events.h"
 #include "game.h"
 #include "map.h"
@@ -1529,66 +1530,13 @@ static void map_unit_homecity_enqueue(struct tile *ptile)
 
 /*************************************************************************
   Claim ownership of a single tile.
-
-  This is called for two reasons:
-  (1) Set a base or city.  The tile_owner() MUST be any previous owner.
-      Before city_refresh_vision() as that now depends on the vision_site.
-      The city SHOULD NOT be in the cities list yet.
-  (2) map_claim_border(), only after (1) has setup the vision_site.
 *************************************************************************/
 void map_claim_ownership(struct tile *ptile, struct player *powner,
                          struct tile *psource)
 {
-  struct city *pcity = tile_city(ptile);
   struct player *ploser = tile_owner(ptile);
 
-  if (NULL != ploser) {
-    struct player_tile *playtile = map_get_player_tile(ptile, ploser);
-
-    /* cleverly uses return that is NULL for non-site tile */
-    change_playertile_site(playtile, map_get_player_base(ptile, ploser));
-
-    if (NULL != playtile->site && ptile == psource) {
-      /* has new owner */
-      playtile->site->owner = powner;
-    }
-  }
-
-  if (NULL != powner && NULL != psource) {
-    struct player_tile *playsite = map_get_player_tile(psource, powner);
-    struct vision_site *psite = playsite->site;
-
-    if (NULL != psite) {
-      if (ptile != psource) {
-        struct player_tile *playtile = map_get_player_tile(ptile, powner);
-        assert(NULL == playtile->site);
-        change_playertile_site(playtile, psite);
-      } else if (NULL != pcity) {
-        update_vision_site_from_city(psite, pcity);
-      } else {
-        /* has new owner */
-        psite->owner = powner;
-      }
-    } else {
-      assert(ptile == psource);
-
-      if (NULL != pcity) {
-        psite = create_vision_site_from_city(pcity);
-      } else {
-        base_type_iterate(pbase) {
-          if (tile_has_base(ptile, pbase)
-              && base_has_flag(pbase, BF_CLAIM_TERRITORY)) {
-            psite = create_vision_site_from_base(ptile, pbase, powner);
-          }
-        } base_type_iterate_end;
-      }
-      change_playertile_site(playsite, psite);
-    }
-  } else {
-    assert(NULL == powner && NULL == psource);
-  }
-
-  tile_set_owner(ptile, powner);
+  tile_set_owner(ptile, powner, psource);
 
   if (ploser != powner) {
     if (S_S_RUNNING == server_state() && game.info.happyborders > 0) {
@@ -1604,184 +1552,83 @@ void map_claim_ownership(struct tile *ptile, struct player *powner,
 /*************************************************************************
   Remove border for this source.
 *************************************************************************/
-void map_clear_border(struct tile *ptile, struct player *powner)
+void map_clear_border(struct tile *ptile)
 {
-  struct city *pcity = tile_city(ptile);
-  struct vision_site *psite = map_get_player_site(ptile, powner);
+  int radius_sq = tile_border_radius_sq(ptile);
 
-  if (0 == game.info.borders_sq) {
-    /* no borders */
-    return;
-  }
+  circle_dxyr_iterate(ptile, radius_sq, dtile, dx, dy, dr) {
+    struct tile *claimer = tile_claimer(dtile);
 
-  if (NULL == psite) {
-    /* should never happen! call map_claim_ownership() first! */
-    freelog(LOG_ERROR, "(%2d,%2d) border has NULL source for %s",
-            TILE_XY(ptile),
-            nation_rule_name(nation_of_player(powner)));
-    return;
-  }
-
-  if (IDENTITY_NUMBER_ZERO == psite->identity) {
-    /* TODO: maybe someday, but currently should never be called! */
-    freelog(LOG_ERROR, "(%2d,%2d) border has zero identity for %s",
-            TILE_XY(ptile),
-            nation_rule_name(nation_of_player(powner)));
-    return;
-  }
-
-  if (NULL != pcity) {
-    freelog(LOG_VERBOSE, "(%2d,%2d) clear border %2d \"%s\"[%d]",
-            TILE_XY(ptile),
-            psite->border_radius_sq,
-            city_name(pcity), pcity->size);
-  } else {
-    freelog(LOG_VERBOSE, "(%2d,%2d) clear border %2d",
-            TILE_XY(ptile),
-            psite->border_radius_sq);
-  }
-
-  circle_dxyr_iterate(ptile, psite->border_radius_sq, dtile, dx, dy, dr) {
-    struct city *dcity = tile_city(dtile);
-    struct player *downer = tile_owner(dtile);
-    bool source_tile = FALSE;
-
-    if (NULL != dcity) {
-      /* cannot affect existing cities (including self) */
-      continue;
-    }
-
-    base_type_iterate(dbase) {
-      if (tile_has_base(dtile, dbase) && base_has_flag(dbase, BF_CLAIM_TERRITORY)) {
-        /* Cannot affect territory claiming bases */
-        source_tile = TRUE;
-        break;
-      }
-    } base_type_iterate_end;
-
-    if (source_tile) {
-      continue;
-    }
-
-    if (downer == powner) {
-      struct vision_site *dsite = map_get_player_site(dtile, downer);
-
-      if (dsite == psite) {
-        map_claim_ownership(dtile, NULL, NULL);
-      }
+    if (claimer == ptile) {
+      map_claim_ownership(dtile, NULL, NULL);
     }
   } circle_dxyr_iterate_end;
 }
 
 /*************************************************************************
-  Update borders for this source.  Call this for each new source.
-
-  This is dependent on the current vision, so must be done after
-  city_refresh_vision() and before (re-)arranging workers.
+  Update borders for this source. Call this for each new source.
 *************************************************************************/
-void map_claim_border(struct tile *ptile, struct player *powner)
+void map_claim_border(struct tile *ptile, struct player *owner)
 {
-  struct city *pcity = tile_city(ptile);
-  struct vision_site *psite = map_get_player_site(ptile, powner);
+  int radius_sq = tile_border_radius_sq(ptile);
 
-  if (0 == game.info.borders_sq) {
-    /* no borders */
-    return;
-  }
-
-  if (NULL == psite) {
-    /* should never happen! call map_claim_ownership() first! */
-    freelog(LOG_ERROR, "(%2d,%2d) border has NULL source for %s",
-            TILE_XY(ptile),
-            nation_rule_name(nation_of_player(powner)));
-    return;
-  }
-
-  if (IDENTITY_NUMBER_ZERO == psite->identity) {
-    /* TODO: maybe someday, but currently should never be called! */
-    freelog(LOG_ERROR, "(%2d,%2d) border has zero identity for %s",
-            TILE_XY(ptile),
-            nation_rule_name(nation_of_player(powner)));
-    return;
-  }
-
-  if (NULL != pcity) {
-    freelog(LOG_VERBOSE, "(%2d,%2d) claim border %2d \"%s\"[%d]",
-            TILE_XY(ptile),
-            psite->border_radius_sq,
-            city_name(pcity), pcity->size);
-  } else {
-    freelog(LOG_VERBOSE, "(%2d,%2d) claim border %2d",
-            TILE_XY(ptile),
-            psite->border_radius_sq);
-  }
-
-  circle_dxyr_iterate(ptile, psite->border_radius_sq, dtile, dx, dy, dr) {
+  circle_dxyr_iterate(ptile, radius_sq, dtile, dx, dy, dr) {
     struct city *dcity = tile_city(dtile);
-    struct player *downer = tile_owner(dtile);
+    struct tile *dclaimer = tile_claimer(dtile);
     bool source_tile = FALSE;
 
-    if (NULL != dcity) {
-      /* cannot affect existing cities (including self) */
-      continue;
-    }
-
-    base_type_iterate(dbase) {
-      if (tile_has_base(dtile, dbase) && base_has_flag(dbase, BF_CLAIM_TERRITORY)) {
-        /* Cannot affect territory claiming bases */
+    if (dr != 0) {
+      /* Do not claim cities or bases other than self */
+      if (NULL != dcity) {
         source_tile = TRUE;
-        break;
       }
-    } base_type_iterate_end;
+
+      if (!source_tile) {
+        base_type_iterate(dbase) {
+          if (tile_has_base(dtile, dbase) && base_has_flag(dbase, BF_CLAIM_TERRITORY)) {
+            /* Cannot affect territory claiming bases */
+            source_tile = TRUE;
+            break;
+          }
+        } base_type_iterate_end;
+      }
+    }
 
     if (source_tile) {
       continue;
     }
 
-    if (!map_is_known(dtile, powner)) {
+    if (!map_is_known(dtile, owner)) {
       /* without city_reveal_tiles option */
       continue;
     }
 
-    if (NULL != downer && downer != powner) {
-      struct vision_site *dsite = map_get_player_site(dtile, downer);
-      int r = sq_map_distance(dsite->location, dtile);
+    if (NULL != dclaimer && dclaimer != ptile) {
+      int r = sq_map_distance(dclaimer, dtile);
 
-      /* border tile claimed by another */
-      if (IDENTITY_NUMBER_ZERO == dsite->identity) {
-        /* ruins don't keep their borders */
-        dsite->owner = powner;
-        tile_set_owner(dtile, powner);
-        continue;
-      } else if (r < dr) {
+      if (r < dr) {
         /* nearest shall prevail */
         continue;
       } else if (r == dr) {
-        if (dsite->identity < psite->identity) {
-          /* lower shall prevail: airport/fortress/city */
-          continue;
-        } else if (dsite->identity == psite->identity) {
-          /* neither shall prevail */
-          map_claim_ownership(dtile, NULL, NULL);
-          continue;
-        }
+        /* older shall prevail */
+        continue;
       }
     }
 
     if (is_ocean_tile(dtile)) {
       if (is_claimable_ocean(dtile, ptile)) {
-        map_claim_ownership(dtile, powner, ptile);
+        map_claim_ownership(dtile, owner, ptile);
       }
     } else {
       if (tile_continent(dtile) == tile_continent(ptile)) {
-        map_claim_ownership(dtile, powner, ptile);
+        map_claim_ownership(dtile, owner, ptile);
       }
     }
   } circle_dxyr_iterate_end;
 }
 
 /*************************************************************************
-  Update borders for all sources.  Call this on turn end.
+  Update borders for all sources. Call this on turn end.
 *************************************************************************/
 void map_calculate_borders(void)
 {
@@ -1789,16 +1636,13 @@ void map_calculate_borders(void)
     return;
   }
 
-  freelog(LOG_VERBOSE,"map_calculate_borders() sites");
-  /* base sites are done first, as they may be thorn in city side. */
-  sites_iterate(psite) {
-    map_claim_border(psite->location, vision_owner(psite));
-  } sites_iterate_end;
+  freelog(LOG_VERBOSE,"map_calculate_borders()");
 
-  freelog(LOG_VERBOSE,"map_calculate_borders() cities");
-  cities_iterate(pcity) {
-    map_claim_border(pcity->tile, city_owner(pcity));
-  } cities_iterate_end;
+  whole_map_iterate(ptile) {
+    if (is_border_source(ptile)) {
+      map_claim_border(ptile, ptile->owner);
+    }
+  } whole_map_iterate_end;
 
   freelog(LOG_VERBOSE,"map_calculate_borders() workers");
   city_thaw_workers_queue();

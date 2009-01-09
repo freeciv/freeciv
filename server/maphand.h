@@ -101,7 +101,7 @@ void map_calculate_borders(void);
 void map_claim_border(struct tile *ptile, struct player *powner);
 void map_claim_ownership(struct tile *ptile, struct player *powner,
                          struct tile *psource);
-void map_clear_border(struct tile *ptile, struct player *powner);
+void map_clear_border(struct tile *ptile);
 
 void check_terrain_change(struct tile *ptile, struct terrain *oldter);
 bool need_to_fix_terrain_change(const struct terrain *oldter,

@@ -42,12 +42,24 @@ struct player *tile_owner(const struct tile *ptile)
 }
 #endif
 
+#ifndef tile_claimer
+/****************************************************************************
+  Return the player who owns this tile (or NULL if none).
+****************************************************************************/
+struct tile *tile_claimer(const struct tile *ptile)
+{
+  return ptile->claimer;
+}
+#endif
+
 /****************************************************************************
   Set the owner of a tile (may be NULL).
 ****************************************************************************/
-void tile_set_owner(struct tile *ptile, struct player *pplayer)
+void tile_set_owner(struct tile *ptile, struct player *pplayer,
+                    struct tile *claimer)
 {
   ptile->owner = pplayer;
+  ptile->claimer = claimer;
 }
 
 /****************************************************************************

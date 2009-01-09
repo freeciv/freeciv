@@ -116,9 +116,6 @@ struct vision_site {
   int identity;				/* city > IDENTITY_NUMBER_ZERO */
   int size;				/* city, or base pseudo-size */
 
-  /* The radius of the border source. */
-  int border_radius_sq;
-
   bool occupied;
   bool walls;
   bool happy;

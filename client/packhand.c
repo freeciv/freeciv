@@ -2316,7 +2316,7 @@ void handle_tile_info(struct packet_tile_info *packet)
   tile_set_resource(ptile, presource);
 
   if (tile_owner(ptile) != powner) {
-    tile_set_owner(ptile, powner);
+    tile_set_owner(ptile, powner, NULL);
     tile_changed = TRUE;
   }
 

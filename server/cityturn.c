@@ -498,9 +498,9 @@ bool city_reduce_size(struct city *pcity, int pop_loss,
     remove_city(pcity);
     return FALSE;
   }
+  map_clear_border(pcity->tile);
   pcity->size -= pop_loss;
-
-  city_refresh_vision(pcity);
+  map_claim_border(pcity->tile, pcity->owner);
 
   /* Cap the food stock at the new granary size. */
   if (pcity->food_stock > city_granary_size(pcity->size)) {
@@ -697,7 +697,7 @@ bool city_change_size(struct city *pcity, int size)
     return city_reduce_size(pcity, pcity->size - size, NULL);
   }
 
-  city_refresh_vision(pcity);
+  map_claim_border(pcity->tile, pcity->owner);
 
   return TRUE;
 }
@@ -714,7 +714,7 @@ static void city_populate(struct city *pcity)
   if (pcity->food_stock >= city_granary_size(pcity->size) 
      || city_rapture_grow(pcity)) {
     city_increase_size(pcity);
-    city_refresh_vision(pcity);
+    map_claim_border(pcity->tile, pcity->owner);
   } else if (pcity->food_stock < 0) {
     /* FIXME: should this depend on units with ability to build
      * cities or on units that require food in uppkeep?

@@ -896,7 +896,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 
   /* Has to follow the unfog call above. */
   city_list_unlink(pgiver->cities, pcity);
-  map_clear_border(pcenter, pgiver);
+  map_clear_border(pcenter);
   /* city_thaw_workers_queue() later */
 
   pcity->owner = ptaker;
@@ -1026,12 +1026,13 @@ void create_city(struct player *pplayer, struct tile *ptile,
 {
   struct nation_type *nation = nation_of_player(pplayer);
   struct player *saved_owner = tile_owner(ptile);
+  struct tile *saved_claimer = tile_claimer(ptile);
   struct city *pwork = tile_worked(ptile);
   struct city *pcity = create_city_virtual(pplayer, ptile, name);
 
   freelog(LOG_DEBUG, "create_city() %s", name);
 
-  tile_set_owner(ptile, pplayer); /* temporarily */
+  tile_set_owner(ptile, pplayer, ptile); /* temporarily */
   city_choose_build_default(pcity);
   pcity->ai.trade_want = TRADE_WEIGHTING;
   pcity->id = identity_number();
@@ -1079,7 +1080,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
   }
 
   /* Claim the ground we stand on */
-  tile_set_owner(ptile, saved_owner);
+  tile_set_owner(ptile, saved_owner, saved_claimer);
   map_claim_ownership(ptile, pplayer, ptile);
 
   /* Before arranging workers to show unknown land */
@@ -1242,10 +1243,9 @@ void remove_city(struct city *pcity)
     }
   }
 
-  map_clear_border(pcenter, powner);
+  map_clear_border(pcenter);
   city_thaw_workers_queue();
   city_refresh_queue_processing();
-  map_claim_ownership(pcenter, NULL, NULL);
 
   /* idex_unregister_city() is called in game_remove_city() below */
 
@@ -2291,37 +2291,7 @@ void city_landlocked_sell_coastal_improvements(struct tile *ptile)
 ****************************************************************************/
 void city_refresh_vision(struct city *pcity)
 {
-  struct tile *pcenter = city_tile(pcity);
-  struct player *powner = city_owner(pcity);
-  struct vision_site *psite = map_get_player_site(pcenter, powner);
   int radius_sq = get_city_bonus(pcity, EFT_CITY_VISION_RADIUS_SQ);
-
-  if (NULL != psite) {
-    int old_radius = psite->border_radius_sq;
-    int new_radius;
-
-    /* Exact behavior could be ruleset defined. */
-    if (game.info.borders_sq) {
-      new_radius = game.info.borders_sq;
-      if (psite->identity > 0) {
-        /* City */
-        new_radius = MAX(new_radius, 2*2+1*1);
-      }
-      new_radius += psite->size;
-    } else {
-      new_radius = 0;
-    }
-
-    if (old_radius > new_radius) {
-      map_clear_border(pcity->tile, pcity->owner);
-    }
-
-    psite->border_radius_sq = new_radius;
-
-    if (old_radius != new_radius) {
-      map_claim_border(pcity->tile, pcity->owner);
-    }
-  }
 
   vision_change_sight(pcity->server.vision, V_MAIN, radius_sq);
   vision_change_sight(pcity->server.vision, V_INVIS, 2);

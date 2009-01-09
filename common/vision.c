@@ -135,7 +135,6 @@ struct vision_site *create_vision_site_from_base(struct tile *ptile,
 
   psite = create_vision_site(-base_number(pbase) - 1, ptile, owner);
   psite->size = 0;
-  psite->border_radius_sq = game.info.borders_sq;
   sz_strlcpy(psite->name, base_name_translation(pbase));
 
   site_list_append(owner->sites, psite);
@@ -170,7 +169,6 @@ void copy_vision_site(struct vision_site *dest, struct vision_site *src)
   dest->owner = src->owner;
   dest->identity = src->identity;
   dest->size = src->size;
-  dest->border_radius_sq = src->border_radius_sq;
   dest->occupied = src->occupied;
   dest->walls = src->walls;
   dest->happy = src->happy;
