@@ -1037,8 +1037,8 @@ static void map_load(struct section_file *file,
   /* Owner and ownership source are stored as plain numbers */
   if (has_capability("new_owner_map", savefile_options)) {
     int x, y;
-    struct player *owner;
-    struct tile *claimer;
+    struct player *owner = NULL;
+    struct tile *claimer = NULL;
 
     for (y = 0; y < map.ysize; y++) {
       char *buffer1 = 
