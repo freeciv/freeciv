@@ -1,12 +1,12 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS=	aicore
+SUBDIRS = aicore
 
-noinst_LIBRARIES = libcivcommon.a
+lib_LTLIBRARIES = libfreeciv.la
 
 AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(srcdir)/aicore
 
-libcivcommon_a_SOURCES = \
+libfreeciv_la_SOURCES = \
 		base.c		\
 		base.h		\
 		borders.c	\
@@ -77,6 +77,14 @@ libcivcommon_a_SOURCES = \
 		version.c	\
 		version.h
 
+libfreeciv_la_DEPENDENCIES = \
+ $(top_builddir)/utility/libcivutility.la \
+ $(top_builddir)/common/aicore/libaicore.la
+
+libfreeciv_la_LIBADD = \
+ $(top_builddir)/utility/libcivutility.la \
+ $(top_builddir)/common/aicore/libaicore.la
+
 BUILT_SOURCES = packets_gen.c packets_gen.h
 
 # packets_gen.h must be generated before it can be included.
@@ -109,6 +117,3 @@ endif
 .PHONY : fc_svnrev_gen.h
 fc_svnrev_gen.h :
 	$(top_srcdir)/bootstrap/generate_svnrev.sh $(top_srcdir) $(top_builddir)
-
-#libcivcommon_a_DEPENDENCIES = ../utility/libcivutility.a
-#libcivcommon_a_LIBADD       = ../utility/libcivutility.a

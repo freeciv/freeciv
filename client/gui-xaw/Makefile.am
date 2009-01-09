@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-noinst_LIBRARIES = libguiclient.a
+noinst_LTLIBRARIES = libguiclient.la
 AM_CPPFLAGS = -I. -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/utility -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I$(srcdir)/../agents $(CLIENT_CFLAGS)
 
 # The AM_CPPFLAGS "-I." is so resources.c includes the locally generated 
@@ -16,9 +16,9 @@ Freeciv.h: $(top_builddir)/data/Freeciv
 	echo '/**************************************************/' >> Freeciv.h
 	$(srcdir)/ad2c $(top_builddir)/data/Freeciv >> Freeciv.h
 
-libguiclient_a_DEPENDENCIES = ad2c
+libguiclient_la_DEPENDENCIES = ad2c
 
-libguiclient_a_SOURCES = \
+libguiclient_la_SOURCES = \
 	ad2c		\
 	Freeciv.h	\
 	actions.c	\

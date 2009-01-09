@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-noinst_LIBRARIES = libscripting.a
+noinst_LTLIBRARIES = libscripting.la
 
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/utility -I$(top_srcdir)/common \
@@ -8,7 +8,7 @@ AM_CPPFLAGS = \
 	$(LUA_CFLAGS) $(TOLUA_CFLAGS)
 
 # api_gen.[ch] are now distributed to aid in cross-compiling.  See PR#13571.
-dist_libscripting_a_SOURCES = \
+dist_libscripting_la_SOURCES = \
 		api_actions.c	\
 		api_actions.h	\
 		api_find.c	\

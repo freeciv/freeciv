@@ -1,9 +1,9 @@
 ## Process this file with automake to produce Makefile.in
-noinst_LIBRARIES = libgenerator.a
+noinst_LTLIBRARIES = libgenerator.la
 
 AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(top_srcdir)/common -I$(top_srcdir)/server -I$(top_srcdir)/server/generator
 
-libgenerator_a_SOURCES = \
+libgenerator_la_SOURCES = \
 	mapgen.c \
 	mapgen.h \
 	mapgen_topology.c \

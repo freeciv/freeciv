@@ -2,7 +2,7 @@
 #
 
 # Helper function that adds flags (words) to variable listing them.
-# Makes sure there is no extra spaces even in any situation
+# Makes sure there is no extra spaces in any situation
 #
 # $1 - Name of the target variable
 # $2 - Flags to add

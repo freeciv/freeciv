@@ -206,7 +206,10 @@ AC_PROG_CC
 AC_PROG_CPP
 AC_PROG_CXX
 AC_PROG_LN_S
-AC_PROG_RANLIB
+AC_DISABLE_SHARED
+AC_PROG_LIBTOOL
+LIBTOOL="$LIBTOOL --preserve-dup-deps"
+AC_SUBST(LIBTOOL)
 AC_CHECK_TOOL(AR, ar)
 if test -z $AR; then
 	AC_MSG_ERROR([*** 'ar' missing.  Install binutils, fix your \$PATH, or set \$AR manually. ***])
@@ -565,6 +568,8 @@ fi
 if test "$ggz_server" = "yes" ; then
   AC_CHECK_FUNCS([chdir mkdtemp])
 fi
+
+FC_ADD_WORDS_TO_VAR([LDFLAGS], ["-Wl,-rpath=${lib_prefix}"])
 
 AC_SUBST(gui_sources)
 AC_SUBST(CLIENT_CFLAGS)

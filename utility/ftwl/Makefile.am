@@ -1,12 +1,12 @@
 ## Process this file with automake to produce Makefile.in
 
 if FTWL
-FTWLLIB=libftwl.a
+FTWLLIB=libftwl.la
 else
 FTWLLIB=
 endif
 
-noinst_LIBRARIES = $(FTWLLIB)
+noinst_LTLIBRARIES = $(FTWLLIB)
 
 AM_CPPFLAGS = -I. -I$(top_srcdir)/utility $(FTWL_CFLAGS)
 
@@ -80,5 +80,5 @@ if FTWL
 OTHER_FILES=$(ALL_OTHER_FILES)
 endif
 
-libftwl_a_SOURCES = $(BACKEND_X11_FILES) \
+libftwl_la_SOURCES = $(BACKEND_X11_FILES) \
 	$(BACKEND_SDL_FILES) $(OTHER_FILES)

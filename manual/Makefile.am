@@ -8,21 +8,19 @@ civmanual_SOURCES = \
 
 # This is a bit of a hack.  The program links in with the server lib
 # but also uses some files from the client.
-civmanual_DEPENDENCIES = ../utility/libcivutility.a ../common/libcivcommon.a \
-      ../ai/libcivai.a ../utility/libcivutility.a ../server/libcivserver.a \
-      ../utility/libcivutility.a ../common/aicore/libaicore.a \
-      ../client/helpdata.o \
-      ../server/scripting/libscripting.a \
-      $(LUA_AS_DEPENDENCY) $(TOLUA_AS_DEPENDENCY) \
-      ../server/generator/libgenerator.a
+civmanual_DEPENDENCIES = \
+ $(top_builddir)/common/libfreeciv.la \
+ $(top_builddir)/server/libfreeciv-srv.la \
+ $(top_builddir)/client/helpdata.lo \
+ $(top_builddir)/server/scripting/libscripting.la \
+ $(LUA_AS_DEPENDENCY) $(TOLUA_AS_DEPENDENCY) \
+ $(top_builddir)/server/generator/libgenerator.la
 civmanual_LDFLAGS = $(GGZDMOD_LDFLAGS)
-civmanual_LDADD        = ../utility/libcivutility.a ../common/libcivcommon.a \
-      ../ai/libcivai.a ../utility/libcivutility.a ../server/libcivserver.a \
-      $(INTLLIBS) ../client/helpdata.o \
-      ../utility/libcivutility.a ../common/libcivcommon.a ../ai/libcivai.a \
-      ../utility/libcivutility.a ../server/libcivserver.a \
-      ../utility/libcivutility.a ../common/aicore/libaicore.a \
-      ../server/scripting/libscripting.a \
-      $(LUA_LIBS) $(TOLUA_LIBS) \
-      ../server/generator/libgenerator.a \
-      $(SERVER_LIBS) $(AUTH_LIBS) $(LIB_GGZDMOD)
+civmanual_LDADD = \
+ $(top_builddir)/server/libfreeciv-srv.la \
+ ../client/helpdata.lo \
+ $(top_builddir)/server/scripting/libscripting.la \
+ $(LUA_LIBS) $(TOLUA_LIBS) \
+ $(top_builddir)/server/generator/libgenerator.la \
+ $(top_builddir)/common/libfreeciv.la $(INTLLIBS) \
+ $(SERVER_LIBS) $(AUTH_LIBS) $(LIB_GGZDMOD)
