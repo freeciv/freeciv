@@ -18,6 +18,7 @@
 #include <assert.h>
 #include <string.h>
 
+/* common & utility */
 #include "events.h"
 #include "fcintl.h"
 #include "ioz.h"
@@ -28,10 +29,11 @@
 #include "support.h"
 #include "version.h"
 
+/* client */
 #include "audio.h"
 #include "chatline_g.h"
 #include "cityrepdata.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "cma_fec.h"
 #include "dialogs_g.h"
 #include "mapview_common.h"

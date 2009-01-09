@@ -21,6 +21,7 @@
 #include <windows.h>
 #include <windowsx.h>
 
+/* common & utility */
 #include "fcintl.h"
 #include "game.h"
 #include "map.h"
@@ -30,7 +31,8 @@
 #include "unit.h"
 #include "unitlist.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "control.h"
 #include "dialogs.h"
 #include "goto.h"

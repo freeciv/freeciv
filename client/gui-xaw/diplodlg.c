@@ -32,6 +32,7 @@
 #include <X11/Xaw/AsciiText.h>  
 #include <X11/Xaw/Viewport.h>
 
+/* common & utility */
 #include "fcintl.h"
 #include "government.h"
 #include "map.h"
@@ -41,8 +42,9 @@
 #include "shared.h"
 #include "support.h"
 
+/* client */
 #include "chatline.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "climisc.h"
 #include "diptreaty.h"
 #include "gui_main.h"

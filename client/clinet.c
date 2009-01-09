@@ -62,6 +62,7 @@
 #  include <ggz-embed.h>
 #endif
 
+/* common & utility */
 #include "capstr.h"
 #include "dataio.h"
 #include "fcintl.h"
@@ -75,10 +76,11 @@
 #include "support.h"
 #include "version.h"
 
+/* client */
 #include "agents.h"
 #include "attribute.h"
 #include "chatline_g.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "climisc.h"
 #include "connectdlg_common.h"
 #include "connectdlg_g.h"

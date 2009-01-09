@@ -20,7 +20,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-                      
+
+/* common & utility */                      
 #include "capability.h"
 #include "fcintl.h"
 #include "map.h"
@@ -28,10 +29,11 @@
 #include "player.h"
 #include "support.h"
 #include "unit.h"
- 
+
+/* client */
 #include "chatline.h"
 #include "citydlg.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "climap.h"
 #include "climisc.h"
 #include "colors.h"

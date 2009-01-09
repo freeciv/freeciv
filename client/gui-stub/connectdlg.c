@@ -17,14 +17,16 @@
 
 #include <errno.h>
 
+/* utility */
 #include "fcintl.h"
 #include "log.h"
 #include "support.h"
 
 #include "connectdlg_g.h"
 
+/* client */
 #include "chatline_common.h"	/* for append_output_window */
-#include "civclient.h"
+#include "client_main.h"
 #include "connectdlg.h"
 #include "packhand_gen.h"
 

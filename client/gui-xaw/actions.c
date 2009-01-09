@@ -16,12 +16,14 @@
 #include <config.h>
 #endif
 
+/* common */
 #include "unitlist.h"
 
+/* client */
 #include "chatline.h"
 #include "citydlg.h"
 #include "cityrep.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "connectdlg.h"
 #include "control.h"
 #include "dialogs.h"

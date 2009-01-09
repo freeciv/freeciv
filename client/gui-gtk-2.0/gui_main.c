@@ -36,6 +36,7 @@
 #  include <ggz-gtk.h>
 #endif
 
+/* common & utility */
 #include "dataio.h"
 #include "fciconv.h"
 #include "fcintl.h"
@@ -49,8 +50,9 @@
 #include "unitlist.h"
 #include "version.h"
 
+/* client */
 #include "chatline.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "climisc.h"
 #include "clinet.h"
 #include "colors.h"

@@ -18,16 +18,19 @@
 #include <assert.h>
 #include <string.h>
 
+/* utility */
 #include "log.h"
 #include "mem.h"
 
+/* common */
 #include "map.h"
 #include "packets.h"
 #include "pf_tools.h"
 #include "unit.h"
 #include "unitlist.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "control.h"
 #include "mapview_g.h"
 

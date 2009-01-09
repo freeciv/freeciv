@@ -21,6 +21,7 @@
 #include <windowsx.h>
 #include <commctrl.h>
 
+/* common & utility */
 #include "fcintl.h"
 #include "log.h"
 #include "map.h"
@@ -30,8 +31,9 @@
 #include "support.h"
 #include "version.h"
 
+/* client */
 #include "chatline.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "climisc.h"
 #include "clinet.h"		/* connect_to_server() */
 #include "colors.h"

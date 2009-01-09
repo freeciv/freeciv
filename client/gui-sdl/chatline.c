@@ -34,7 +34,7 @@
 #include "packets.h"
 
 /* client */
-#include "civclient.h"
+#include "client_main.h"
 #include "clinet.h"
 #include "connectdlg_common.h"
 

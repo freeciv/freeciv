@@ -20,10 +20,12 @@
 
 #include <gtk/gtk.h>
 
+/* utility */
 #include "mem.h"
 #include "shared.h"
 #include "support.h"
 
+/* common */
 #include "diptreaty.h"
 #include "fcintl.h"
 #include "government.h"
@@ -31,8 +33,9 @@
 #include "packets.h"
 #include "player.h"
 
+/* client */
 #include "chatline.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "climisc.h"
 #include "options.h"
 

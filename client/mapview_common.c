@@ -17,12 +17,14 @@
 
 #include <assert.h>
 
+/* utility */
 #include "fcintl.h"
 #include "log.h"
 #include "rand.h"
 #include "support.h"
 #include "timing.h"
 
+/* common */
 #include "map.h"
 #include "unitlist.h"
 
@@ -31,7 +33,8 @@
 #include "mapctrl_g.h"
 #include "mapview_g.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "climap.h"
 #include "control.h"
 #include "editor.h"

@@ -33,14 +33,17 @@
 #include <X11/Xaw/Toggle.h>     
 #include <X11/Xaw/Viewport.h>
 
+/* utility */
 #include "fcintl.h"
 #include "mem.h"
 
+/* common */
 #include "city.h"
 #include "packets.h"
 #include "worklist.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "climisc.h"
 
 #include "gui_main.h"

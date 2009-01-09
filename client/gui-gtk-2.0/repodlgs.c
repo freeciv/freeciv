@@ -24,6 +24,7 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
+/* common & utility */
 #include "fcintl.h"
 #include "game.h" /* setting_class_is_changeable() */
 #include "government.h"
@@ -33,9 +34,10 @@
 #include "support.h"
 #include "unitlist.h"
 
+/* client */
 #include "chatline_common.h"
 #include "cityrep.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "climisc.h"
 #include "control.h"
 #include "dialogs.h"

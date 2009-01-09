@@ -19,13 +19,15 @@
 #include <stdarg.h>
 #include <string.h>
 
+/* common & utility */
 #include "capability.h"
 #include "hash.h"
 #include "log.h"
 #include "mem.h"
 #include "timing.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "cma_core.h"
 #include "cma_fec.h"
 #include "mapctrl_g.h"

@@ -49,7 +49,7 @@
 #include "unitlist.h"
 
 /* client */
-#include "civclient.h"
+#include "client_main.h"
 #include "clinet.h"
 #include "editgui_g.h"
 #include "ggzclient.h"

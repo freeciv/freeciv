@@ -26,6 +26,7 @@
 
 #include <png.h>
 
+/* common & utility */
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
@@ -35,7 +36,8 @@
 #include "unit.h"
 #include "version.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "climisc.h"
 #include "colors.h"
 #include "gui_main.h"

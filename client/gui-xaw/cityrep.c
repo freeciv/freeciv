@@ -31,6 +31,7 @@
 #include <X11/Xaw/Toggle.h>
 #include <X11/Xaw/Viewport.h>
 
+/* common & utility */
 #include "city.h"
 #include "fcintl.h"
 #include "log.h"
@@ -40,7 +41,8 @@
 #include "support.h"
 #include "unit.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "climisc.h"
 
 #include "chatline.h"

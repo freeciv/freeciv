@@ -17,15 +17,18 @@
 
 #include <gtk/gtk.h>
 
+/* utility */
 #include "support.h"
 
+/* common */
 #include "game.h"
 #include "unit.h"
 
+/* client */
 #include "dialogs_g.h"
 #include "chatline.h"
 #include "choice_dialog.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "climisc.h"
 #include "control.h"
 #include "gui_main.h"

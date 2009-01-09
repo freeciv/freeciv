@@ -32,6 +32,7 @@
 #include "canvas.h"
 #include "pixcomm.h"
 
+/* common & utility */
 #include "fcintl.h"
 #include "game.h"
 #include "map.h"
@@ -42,7 +43,8 @@
 #include "spaceship.h"
 #include "support.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "climisc.h"
 #include "colors.h"
 #include "dialogs.h"

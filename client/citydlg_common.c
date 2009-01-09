@@ -17,10 +17,12 @@
 
 #include <assert.h>
 
+/* utility */
 #include "fcintl.h"
 #include "log.h"
 #include "support.h"
 
+/* common */
 #include "city.h"
 #include "game.h"
 #include "specialist.h"
@@ -29,8 +31,9 @@
 #include "citydlg_g.h"
 #include "mapview_g.h"
 
+/* client */
 #include "citydlg_common.h"
-#include "civclient.h"		/* for can_client_issue_orders() */
+#include "client_main.h"		/* for can_client_issue_orders() */
 #include "climap.h"
 #include "control.h"
 #include "mapview_common.h"

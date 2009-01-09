@@ -23,7 +23,7 @@
 #include "packets.h"
 
 /* client */
-#include "civclient.h"
+#include "client_main.h"
 #include "text.h"
 
 /* gui-sdl */

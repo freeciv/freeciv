@@ -37,11 +37,13 @@
 #include "canvas.h"
 #include "pixcomm.h"
 
+/* utility */
 #include "fciconv.h"
 #include "fcintl.h"
 #include "log.h"
 #include "support.h"
 
+/* common */
 #include "game.h"
 #include "government.h"
 #include "map.h"
@@ -49,7 +51,7 @@
 #include "version.h"
 
 /* client */
-#include "civclient.h"
+#include "client_main.h"
 #include "climisc.h"
 #include "clinet.h"
 #include "control.h"

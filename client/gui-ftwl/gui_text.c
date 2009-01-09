@@ -20,16 +20,19 @@
 #include <stdarg.h>
 #include <string.h>
 
+/* utility */
 #include "fcintl.h"
 #include "log.h"
 #include "support.h"
 
+/* common */
 #include "map.h"
 #include "combat.h"
 #include "government.h"
 
+/* client */
 #include "climisc.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "control.h"
 #include "goto.h"
 #include "text.h"

@@ -26,15 +26,18 @@
 #include <X11/Xaw/List.h>
 #include <X11/Xaw/SimpleMenu.h>
 
+/* utility */
 #include "fcintl.h"
 #include "log.h"
 
+/* common */
 #include "game.h"
 #include "improvement.h"
 #include "tech.h"
 #include "unitlist.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "control.h"
 
 #include "dialogs.h"

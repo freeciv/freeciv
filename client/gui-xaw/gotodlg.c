@@ -29,9 +29,11 @@
 #include <X11/Xaw/Viewport.h>
 #include <X11/Xaw/Toggle.h>     
 
+/* utility */
 #include "mem.h"
 #include "support.h"
 
+/* common */
 #include "game.h"
 #include "map.h"
 #include "packets.h"
@@ -39,7 +41,8 @@
 #include "unit.h"
 #include "unitlist.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "control.h" /* get_unit_in_focus */
 #include "goto.h"
 

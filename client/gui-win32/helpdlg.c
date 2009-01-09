@@ -22,7 +22,8 @@
 
 #include <windows.h>
 #include <windowsx.h>
- 
+
+/* common & utility */ 
 #include "city.h"
 #include "fcintl.h"
 #include "genlist.h"
@@ -35,8 +36,9 @@
 #include "unit.h"
 #include "support.h"
 #include "version.h"
- 
-#include "civclient.h"
+
+/* client */
+#include "client_main.h"
 #include "climisc.h"
 #include "colors.h"
 #include "gui_stuff.h"

@@ -15,9 +15,11 @@
 #include <config.h>
 #endif
 
+/* utility */
 #include "log.h"
 
-#include "civclient.h" /* can_client_change_view() */
+/* client */
+#include "client_main.h" /* can_client_change_view() */
 #include "climap.h"
 #include "control.h"
 #include "options.h"

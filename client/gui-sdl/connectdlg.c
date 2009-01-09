@@ -32,7 +32,7 @@
 #include "log.h"
 
 /* client */
-#include "civclient.h"
+#include "client_main.h"
 #include "clinet.h"		/* connect_to_server() */
 #include "packhand.h"
 #include "servers.h"

@@ -33,12 +33,14 @@
 #include <X11/Xaw/Toggle.h>
 #include <X11/Xaw/Viewport.h>	/* for racesdlg */
 
+/* utility */
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
 #include "rand.h"
 #include "support.h"
 
+/* common */
 #include "game.h"
 #include "government.h"
 #include "map.h"
@@ -46,9 +48,10 @@
 #include "player.h"
 #include "unitlist.h"
 
+/* client */
 #include "chatline.h"
 #include "cityrep.h"	/* for popdown_city_report_dialog */
-#include "civclient.h"
+#include "client_main.h"
 #include "climisc.h"
 #include "control.h" /* request_xxx and set_unit_focus */
 #include "graphics.h"

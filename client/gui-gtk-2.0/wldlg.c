@@ -24,7 +24,7 @@
 
 #include "city.h"
 #include "citydlg_common.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "fcintl.h"
 #include "gui_main.h"
 #include "gui_stuff.h"

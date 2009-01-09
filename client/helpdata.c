@@ -24,6 +24,7 @@
 #include <stdio.h>
 #include <string.h>
 
+/* common & utility */
 #include "astring.h"
 #include "city.h"
 #include "effects.h"
@@ -42,7 +43,8 @@
 #include "support.h"
 #include "unit.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 
 #include "helpdata.h"
 

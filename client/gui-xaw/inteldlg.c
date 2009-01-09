@@ -26,6 +26,7 @@
 #include <X11/Xaw/SimpleMenu.h>
 #include <X11/Xaw/List.h>
 
+/* common & utility */
 #include "fcintl.h"
 #include "government.h"
 #include "packets.h"
@@ -33,7 +34,8 @@
 #include "shared.h"
 #include "support.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"

@@ -21,6 +21,7 @@
 #include <string.h>  
 #include <windows.h>
 
+/* common & utility */
 #include "astring.h"
 #include "capability.h"
 #include "fcintl.h"
@@ -34,9 +35,10 @@
 #include "unit.h"
 #include "unitlist.h"
  
+/* client */
 #include "chatline.h"
 #include "cityrep.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "climisc.h"
 #include "clinet.h"
 #include "connectdlg_common.h"

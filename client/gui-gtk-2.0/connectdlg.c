@@ -22,13 +22,15 @@
 
 #include <gtk/gtk.h>
 
+/* utility */
 #include "fcintl.h"
 #include "log.h"
 #include "packets.h"
 #include "support.h"
 #include "version.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "chatline.h"
 #include "colors.h"
 #include "connectdlg_common.h"

@@ -20,11 +20,13 @@
 #include <stdarg.h>
 #include <string.h>
 
+/* common */
 #include "government.h"
 #include "improvement.h"
 #include "tech.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "tilespec.h"
 
 #include "colors_g.h"

@@ -15,6 +15,7 @@
 #include <config.h>
 #endif
 
+/* common & utility */
 #include "fcintl.h"
 #include "game.h"
 #include "government.h"
@@ -23,8 +24,9 @@
 #include "shared.h"
 #include "support.h"
 
+/* client */
 #include "chatline_common.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "gui_main.h"
 #include "widget.h"
 

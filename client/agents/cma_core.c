@@ -21,6 +21,7 @@
 #include <unistd.h>
 #endif
 
+/* common & utility */
 #include "city.h"
 #include "dataio.h"
 #include "events.h"
@@ -36,12 +37,13 @@
 #include "support.h"
 #include "timing.h"
 
+/* client */
 #include "agents.h"
 #include "attribute.h"
 #include "chatline_g.h"
 #include "citydlg_g.h"
 #include "cityrep_g.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "climisc.h"
 #include "messagewin_g.h"
 #include "packhand.h"

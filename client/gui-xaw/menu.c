@@ -26,23 +26,22 @@
 #include <X11/Xaw/SmeLine.h>
 
 /* utility */
-
 #include "fcintl.h"
 #include "mem.h"
 #include "movement.h"
 #include "support.h"
 
 /* common */
-
 #include "game.h"
 #include "government.h"
 #include "map.h"
 #include "unit.h"
 #include "unitlist.h"
 
+/* client */
 #include "chatline.h"
 #include "cityrep.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "climisc.h"	/* can_units_do_connect */
 #include "clinet.h"
 #include "control.h" /* request_xxx and get_unit_in_focus */

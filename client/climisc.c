@@ -26,10 +26,12 @@ used throughout the client.
 #include <stdlib.h>
 #include <string.h>
 
+/* utility */
 #include "fcintl.h"
 #include "log.h"
 #include "support.h"
 
+/* common */
 #include "city.h"
 #include "diptreaty.h"
 #include "game.h"
@@ -46,7 +48,8 @@ used throughout the client.
 #include "gui_main_g.h"
 #include "mapview_g.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "climap.h"
 #include "climisc.h"
 #include "control.h"

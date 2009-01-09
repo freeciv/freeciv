@@ -40,7 +40,7 @@
 
 /* client */
 #include "citydlg_common.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "climisc.h"
 #include "overview_common.h"
 #include "pages_g.h"

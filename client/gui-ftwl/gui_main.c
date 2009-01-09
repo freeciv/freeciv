@@ -34,7 +34,7 @@
 #include "colors.h"
 #include "back_end.h"
 #include "widget.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "shared.h"
 #include "support.h"
 #include "tilespec.h"

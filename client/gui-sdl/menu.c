@@ -34,7 +34,7 @@
 #include "unitlist.h"
 
 /* client */
-#include "civclient.h" /* client_state */
+#include "client_main.h" /* client_state */
 #include "control.h"
 
 /* gui-sdl */

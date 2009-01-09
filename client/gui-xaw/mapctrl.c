@@ -31,6 +31,7 @@
 #include <X11/Xaw/SmeBSB.h>
 #include <X11/Xaw/SmeLine.h>
 
+/* common & utility */
 #include "climap.h"
 #include "fcintl.h"
 #include "game.h"
@@ -40,9 +41,10 @@
 #include "support.h"
 #include "unit.h"
 
+/* client */
 #include "chatline.h"
 #include "citydlg.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "colors.h"
 #include "control.h"
 #include "dialogs.h"

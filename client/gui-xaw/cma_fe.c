@@ -36,6 +36,7 @@
 #include "pixcomm.h"
 #include "canvas.h"
 
+/* common & utility */
 #include "city.h"
 #include "fcintl.h"
 #include "game.h"
@@ -47,7 +48,8 @@
 #include "shared.h"
 #include "support.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "cma_fec.h"
 
 #include "cityrep.h"

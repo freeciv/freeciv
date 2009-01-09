@@ -17,6 +17,7 @@
 
 #include <assert.h>
 
+/* common & utility */
 #include "dataio.h"
 #include "fcintl.h"
 #include "hash.h"
@@ -24,7 +25,8 @@
 #include "mem.h"
 #include "packets.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 
 #include "attribute.h"
 

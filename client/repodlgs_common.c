@@ -17,18 +17,21 @@
 
 #include <assert.h>
 
+/* utility */
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"		/* free */
 #include "support.h"		/* my_snprintf */
 
+/* common */
 #include "game.h"
 #include "government.h"
 #include "unitlist.h"
 
 #include "repodlgs_g.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "connectdlg_common.h"	/* is_server_running */
 #include "control.h"
 #include "options.h"

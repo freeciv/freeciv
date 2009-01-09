@@ -24,6 +24,7 @@
 #include <windowsx.h>
 #include <commctrl.h>
 
+/* common & utility */
 #include "diptreaty.h"
 #include "fcintl.h"
 #include "packets.h"
@@ -31,8 +32,9 @@
 #include "player.h"
 #include "support.h"
 
+/* client */
 #include "chatline.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "climisc.h"
 #include "gui_main.h"
 #include "gui_stuff.h"

@@ -23,6 +23,7 @@
 #include <windowsx.h>
 #include <commctrl.h>  
 
+/* common & utility */
 #include "city.h"
 #include "fcintl.h"
 #include "game.h"
@@ -36,7 +37,8 @@
 #include "support.h"
 #include "log.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "climisc.h"
 
 #include "wldlg.h"

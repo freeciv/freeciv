@@ -21,6 +21,7 @@
 #include <windows.h>
 #include <windowsx.h>
 
+/* common & utility */
 #include "fcintl.h"
 #include "game.h"
 #include "log.h"
@@ -34,9 +35,10 @@
 #include "unitlist.h"
 #include "version.h"
 
+/* client */
 #include "canvas.h"
 #include "citydlg.h" 
-#include "civclient.h"
+#include "client_main.h"
 #include "climap.h"
 #include "climisc.h"
 #include "colors.h"

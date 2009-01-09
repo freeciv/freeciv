@@ -26,6 +26,7 @@
 #  include <ggz-gtk.h>
 #endif
 
+/* common & utility */
 #include "dataio.h"
 #include "fcintl.h"
 #include "game.h"
@@ -35,7 +36,8 @@
 #include "support.h"
 #include "version.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "clinet.h"
 #include "connectdlg_common.h"
 #include "packhand.h"

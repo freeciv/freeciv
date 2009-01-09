@@ -19,16 +19,19 @@
 #include <stdarg.h>
 #include <string.h>
 
+/* utility */
 #include "fcintl.h"
 #include "hash.h"
 #include "log.h"
 #include "support.h"
 
+/* common */
 #include "map.h"
 #include "movement.h"
 #include "packets.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "climap.h"
 #include "control.h"
 #include "editor.h"

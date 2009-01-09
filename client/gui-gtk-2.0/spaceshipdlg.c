@@ -20,6 +20,7 @@
 
 #include <gtk/gtk.h>
 
+/* common & utility */
 #include "fcintl.h"
 #include "game.h"
 #include "map.h"
@@ -29,7 +30,8 @@
 #include "shared.h"
 #include "support.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "climisc.h"
 #include "colors.h"
 #include "dialogs.h"

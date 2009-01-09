@@ -26,6 +26,7 @@
 #include <stdlib.h>		/* exit */
 #include <string.h>
 
+/* common & utility */
 #include "astring.h"
 #include "base.h"
 #include "capability.h"
@@ -52,7 +53,8 @@
 #include "mapview_g.h"		/* for update_map_canvas_visible */
 #include "themes_g.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "climap.h"		/* for client_tile_get_known() */
 #include "control.h"		/* for fill_xxx */
 #include "editor.h"

@@ -18,6 +18,7 @@
 #include <assert.h>
 #include <string.h>
 
+/* common & utility */
 #include "fcintl.h"
 #include "map.h"
 #include "mem.h"
@@ -26,7 +27,8 @@
 #include "mapview_g.h"
 #include "messagewin_g.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "messagewin_common.h"
 #include "options.h"
 

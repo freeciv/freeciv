@@ -23,6 +23,7 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
+/* common & utility */
 #include "diptreaty.h"
 #include "fcintl.h"
 #include "packets.h"
@@ -30,8 +31,9 @@
 #include "player.h"
 #include "support.h"
 
+/* client */
 #include "chatline.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "climisc.h"
 #include "connectdlg_common.h"
 #include "dialogs.h"

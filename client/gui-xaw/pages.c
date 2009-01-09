@@ -23,12 +23,15 @@
 #include <X11/Xaw/Command.h>
 #include <X11/Xaw/List.h>
 
-#include "game.h"
-
+/* utility */
 #include "fcintl.h"
 #include "support.h"
 
-#include "civclient.h"
+/* common */
+#include "game.h"
+
+/* client */
+#include "client_main.h"
 #include "connectdlg_g.h"
 #include "dialogs_g.h"
 

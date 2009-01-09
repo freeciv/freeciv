@@ -15,11 +15,13 @@
 #include <config.h>
 #endif
 
+/* common & utility */
 #include "fcintl.h"
 #include "game.h"
 #include "support.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "climisc.h"
 #include "control.h"
 #include "mapctrl_common.h"

@@ -36,7 +36,7 @@
 #include "unitlist.h"
 
 #include "cityrep.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "cma_fe.h"
 #include "cma_fec.h" 
 #include "colors.h"

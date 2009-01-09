@@ -24,7 +24,7 @@
 #include "unitlist.h"
 
 /* client */
-#include "civclient.h"
+#include "client_main.h"
 #include "control.h"
 
 /* gui-sdl */

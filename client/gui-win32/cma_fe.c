@@ -18,15 +18,17 @@
 #include <windows.h>
 #include <windowsx.h>
 
+/* common & utility */
 #include "events.h"
 #include "fcintl.h"
 #include "game.h"
 #include "mem.h"
 #include "support.h"
 
+/* client */
 #include "chatline_g.h"
 #include "citydlg_g.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "cma_fec.h"
 #include "messagewin_g.h"
 

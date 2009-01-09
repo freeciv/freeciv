@@ -17,19 +17,22 @@
 
 #include <assert.h>
 
+/* utility */
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
 #include "timing.h"
 
+/* common */
 #include "game.h"
 #include "map.h"
 #include "movement.h"
 
+/* client */
 #include "audio.h"
 #include "chatline_g.h"
 #include "citydlg_g.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "climap.h"
 #include "climisc.h"
 #include "combat.h"

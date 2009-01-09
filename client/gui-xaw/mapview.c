@@ -26,19 +26,22 @@
 #include "canvas.h"
 #include "pixcomm.h"
 
+/* utility */
 #include "fcintl.h"
 #include "mem.h"
 #include "rand.h"
 #include "support.h"
 #include "timing.h"
 
+/* common */
 #include "government.h"		/* government_graphic() */
 #include "map.h"
 #include "player.h"
 #include "unit.h"
 #include "unitlist.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "climap.h"
 #include "climisc.h"
 #include "colors.h"

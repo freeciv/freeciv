@@ -21,10 +21,12 @@
 
 #include <gtk/gtk.h>
 
+/* utility */
 #include "astring.h"
 #include "fcintl.h"
 #include "log.h"
 
+/* common */
 #include "game.h"
 #include "government.h"
 #include "map.h"
@@ -34,9 +36,10 @@
 #include "unit.h"
 #include "unitlist.h"
 
+/* client */
 #include "chatline.h"
 #include "cityrep.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "clinet.h"
 #include "connectdlg_common.h"
 #include "connectdlg.h"

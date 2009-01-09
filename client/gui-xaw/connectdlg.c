@@ -29,14 +29,15 @@
 #include <X11/Xaw/List.h>
 #include <X11/Xaw/Viewport.h>
 
-
+/* common & utility */
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"     /* mystrdup() */
 #include "support.h"
 #include "version.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "clinet.h"		/* connect_to_server() */
 #include "packhand.h"
 #include "servers.h"

@@ -23,6 +23,7 @@
 #include <gtk/gtk.h>
 #include "gtkpixcomm.h"
 
+/* common & utility */
 #include "city.h"
 #include "fcintl.h"
 #include "government.h"
@@ -34,7 +35,8 @@
 #include "support.h"
 #include "version.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "climisc.h"
 #include "colors.h"
 #include "graphics.h"

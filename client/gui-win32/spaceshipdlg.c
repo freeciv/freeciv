@@ -20,6 +20,7 @@
 
 #include <windows.h>
 
+/* common & utility */
 #include "fcintl.h"
 #include "game.h"
 #include "map.h"
@@ -29,8 +30,9 @@
 #include "shared.h"
 #include "support.h"
 
+/* client */
 #include "canvas.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "climisc.h"
 #include "colors.h"
 #include "dialogs.h"

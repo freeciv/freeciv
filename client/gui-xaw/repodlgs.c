@@ -34,18 +34,21 @@
 #include <X11/Xaw/Toggle.h>
 #include <X11/Xaw/Viewport.h>
 
+/* utility */
 #include "fcintl.h"
 #include "shared.h"
 #include "support.h"
 
+/* common */
 #include "city.h"
 #include "game.h"
 #include "government.h"
 #include "packets.h"
 #include "unitlist.h"
 
+/* client */
 #include "chatline_common.h" /* for send_chat() */
-#include "civclient.h"
+#include "client_main.h"
 #include "climisc.h"
 #include "text.h"
 

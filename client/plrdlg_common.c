@@ -17,12 +17,14 @@
 
 #include <assert.h>
 
+/* common & utility */
 #include "connection.h"
 #include "fcintl.h"
 #include "game.h"
 #include "support.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "climisc.h"
 #include "text.h"
 

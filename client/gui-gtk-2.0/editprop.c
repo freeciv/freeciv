@@ -20,17 +20,20 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
+/* utility */
 #include "fcintl.h"
 #include "hash.h"
 #include "log.h"
 #include "mem.h"
 
+/* common */
 #include "game.h"
 #include "map.h"
 #include "movement.h"
 #include "tile.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "editor.h"
 #include "mapview_common.h"
 #include "tilespec.h"

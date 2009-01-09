@@ -18,6 +18,7 @@
 #include <assert.h>
 #include <string.h>
 
+/* common & utility */
 #include "capability.h"
 #include "capstr.h"
 #include "events.h"
@@ -38,13 +39,14 @@
 #include "unitlist.h"
 #include "worklist.h"
 
+/* client */
 #include "agents.h"
 #include "attribute.h"
 #include "audio.h"
 #include "chatline_g.h"
 #include "citydlg_g.h"
 #include "cityrep_g.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "climap.h"
 #include "climisc.h"
 #include "connectdlg_common.h"

@@ -23,6 +23,7 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
+/* common */
 #include "city.h"
 #include "fcintl.h"
 #include "game.h"
@@ -31,10 +32,11 @@
 #include "support.h"
 #include "unit.h"
 
+/* client */
 #include "chatline.h"
 #include "citydlg_common.h"
 #include "cityrepdata.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"

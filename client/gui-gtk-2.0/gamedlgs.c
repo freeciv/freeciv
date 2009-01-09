@@ -22,16 +22,19 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
+/* utility */
 #include "shared.h"
 #include "support.h"
 
+/* common */
 #include "events.h"
 #include "fcintl.h"
 #include "government.h"
 #include "packets.h"
 #include "player.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "options.h"
 
 #include "chatline.h"

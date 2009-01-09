@@ -23,6 +23,7 @@
 #include <windowsx.h>
 #include <commctrl.h>
 
+/* common & utility */
 #include "capability.h"
 #include "fcintl.h"
 #include "game.h"
@@ -36,7 +37,8 @@
 #include "support.h"
 #include "unitlist.h"
  
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "control.h"
 #include "tilespec.h"
 #include "packhand.h"

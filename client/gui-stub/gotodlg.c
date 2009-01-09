@@ -15,9 +15,11 @@
 #include <config.h>
 #endif
 
+/* common */
 #include "game.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "control.h"
 
 #include "gotodlg.h"

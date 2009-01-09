@@ -37,6 +37,7 @@ Freeciv - Copyright (C) 2004 - The Freeciv Project
 #include <sys/wait.h>
 #endif
 
+/* common & utility */
 #include "capability.h"
 #include "fcintl.h"
 #include "ioz.h"
@@ -47,7 +48,8 @@ Freeciv - Copyright (C) 2004 - The Freeciv Project
 #include "registry.h"
 #include "support.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "climisc.h"
 #include "clinet.h"		/* connect_to_server() */
 #include "packhand_gen.h"

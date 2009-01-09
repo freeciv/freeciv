@@ -18,18 +18,21 @@
 #include <assert.h>
 #include <stdlib.h>		/* qsort */
 
+/* utility */
 #include "fcintl.h"
 #include "log.h"
 #include "support.h"
 
+/* common */
 #include "combat.h"
 #include "game.h"
 #include "unitlist.h"
 
+/* client */
 #include "agents.h"
 #include "chatline_common.h"
 #include "cityrep_g.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "climisc.h"
 #include "cma_core.h"
 #include "control.h"

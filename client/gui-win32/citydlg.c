@@ -20,6 +20,7 @@
 #include <commctrl.h>
 #include <assert.h>
 
+/* common & utility */
 #include "city.h"
 #include "fcintl.h"
 #include "game.h"
@@ -32,9 +33,10 @@
 #include "support.h"
 #include "unitlist.h"
 
+/* client */
 #include "canvas.h"
 #include "cityrep.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "climap.h"
 #include "climisc.h"
 #include "cma_fe.h"

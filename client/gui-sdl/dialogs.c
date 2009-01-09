@@ -38,7 +38,7 @@
 #include "unitlist.h"
 
 /* client */
-#include "civclient.h"
+#include "client_main.h"
 #include "climap.h" /* for client_tile_get_known() */
 #include "goto.h"
 #include "packhand.h"

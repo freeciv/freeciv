@@ -17,6 +17,7 @@
 
 #include <stdio.h>
 
+/* common & utility */
 #include "fcintl.h"
 #include "game.h"
 #include "log.h"
@@ -26,7 +27,8 @@
 #include "support.h"
 #include "unitlist.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "climap.h"
 #include "climisc.h"
 #include "colors.h"

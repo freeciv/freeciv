@@ -38,7 +38,7 @@
 
 /* client */
 #include "citydlg_common.h"
-#include "civclient.h"		/* for client_state() */
+#include "client_main.h"		/* for client_state() */
 
 /* gui-sdl */
 #include "dialogs.h"

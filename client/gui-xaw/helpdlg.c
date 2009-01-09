@@ -29,6 +29,7 @@
 #include <X11/Xaw/AsciiText.h>
 #include <X11/Xaw/Tree.h>
 
+/* common & utility */
 #include "city.h"
 #include "fcintl.h"
 #include "genlist.h"
@@ -41,7 +42,8 @@
 #include "support.h"
 #include "version.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "climisc.h"
 #include "dialogs.h"
 #include "graphics.h"

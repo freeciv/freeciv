@@ -24,18 +24,21 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
+/* utility */
 #include "fcintl.h"
 #include "log.h"
 #include "shared.h"
 #include "support.h"
 
+/* common */
 #include "connection.h"
 #include "game.h"
 #include "government.h"
 #include "packets.h"
 
+/* client */
 #include "chatline_common.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "editor.h"
 #include "mapview_common.h"
 #include "tilespec.h"

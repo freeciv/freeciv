@@ -19,18 +19,21 @@
 #include <stdarg.h>
 #include <string.h>
 
+/* utility */
 #include "astring.h"
 #include "fcintl.h"
 #include "log.h"
 #include "support.h"
 
+/* common */
 #include "combat.h"
 #include "game.h"
 #include "government.h"
 #include "map.h"
 #include "unitlist.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "climap.h"
 #include "climisc.h"
 

@@ -18,6 +18,7 @@
 #include <assert.h>
 #include <gtk/gtk.h>
 
+/* common & utility */
 #include "combat.h"
 #include "fcintl.h"
 #include "game.h"
@@ -28,9 +29,10 @@
 
 #include "overview_common.h"
 
+/* client */
 #include "chatline.h"
 #include "citydlg.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "climap.h"
 #include "climisc.h"
 #include "colors.h"

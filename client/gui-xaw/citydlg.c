@@ -33,7 +33,6 @@
 #include <X11/IntrinsicP.h>
 
 /* utility */
-
 #include "fcintl.h"
 #include "mem.h"
 #include "genlist.h"
@@ -41,7 +40,6 @@
 #include "support.h"
 
 /* common */
-
 #include "city.h"
 #include "connection.h"	/* can_conn_edit */
 #include "game.h"
@@ -51,7 +49,8 @@
 #include "specialist.h"
 #include "unitlist.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "climap.h"
 #include "climisc.h"
 #include "control.h"	/* request_xxx and set_unit_focus */

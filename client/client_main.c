@@ -25,6 +25,7 @@
 #include <stdlib.h>
 #include <time.h>
 
+/* common & utility */
 #include "capstr.h"
 #include "dataio.h"
 #include "diptreaty.h"
@@ -42,6 +43,7 @@
 #include "timing.h"
 #include "version.h"
 
+/* client */
 #include "agents.h"
 #include "attribute.h"
 #include "audio.h"
@@ -74,7 +76,7 @@
 #include "tilespec.h"
 #include "themes_common.h"
 
-#include "civclient.h"
+#include "client_main.h"
 
 char *logfile = NULL;
 char *scriptfile = NULL;

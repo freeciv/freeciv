@@ -18,6 +18,7 @@
 #include <assert.h>
 #include <string.h>
 
+/* utility */
 #include "astring.h"
 #include "fcintl.h"
 #include "log.h"
@@ -26,8 +27,9 @@
 
 #include "chatline_g.h"
 
+/* client */
 #include "chatline_common.h"
-#include "civclient.h"
+#include "client_main.h"
 
 
 /* Stored up buffer of lines for the chatline */

@@ -24,7 +24,7 @@
 #include "game.h"
 
 /* client */
-#include "civclient.h" /* can_client_issue_orders() */
+#include "client_main.h" /* can_client_issue_orders() */
 
 /* gui-sdl */
 #include "citydlg.h"

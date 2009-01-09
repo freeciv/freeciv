@@ -24,6 +24,7 @@
 #include <windowsx.h>
 #include <commctrl.h>
 
+/* common & utility */
 #include "fcintl.h"
 #include "government.h"
 #include "packets.h"
@@ -31,9 +32,10 @@
 #include "support.h"
 #include "unitlist.h"
 
+/* client */
 #include "chatline_common.h"	/* send_chat() */ 
 #include "cityrep.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "climisc.h"
 #include "dialogs.h"
 #include "gui_stuff.h"

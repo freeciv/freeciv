@@ -26,14 +26,16 @@
 #include <X11/Xaw/Command.h>
 #include <X11/Xaw/List.h>
 
+/* common & utility */
 #include "diptreaty.h"
 #include "fcintl.h"
 #include "packets.h"
 #include "player.h"
 #include "support.h"
 
+/* client */
 #include "chatline.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "climisc.h"
 #include "diplodlg.h"
 #include "gui_main.h"

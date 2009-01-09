@@ -55,6 +55,7 @@
 #include <winsock.h>
 #endif
 
+/* utility */
 #include "fcintl.h"
 #include "hash.h"
 #include "log.h"
@@ -64,13 +65,15 @@
 #include "registry.h"
 #include "support.h"
 
+/* common */
 #include "capstr.h"
 #include "dataio.h"
 #include "game.h"
 #include "packets.h"
 #include "version.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "servers.h"
 
 #include "gui_main_g.h"

@@ -22,6 +22,7 @@
 #include <windows.h>
 #include <windowsx.h>
 
+/* common & utility */
 #include "city.h"
 #include "fcintl.h"
 #include "packets.h"
@@ -30,10 +31,11 @@
 #include "unit.h"
 #include "mem.h"
 
+/* client */
 #include "chatline.h"
 #include "citydlg.h"
 #include "cityrepdata.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "climisc.h"
 #include "gui_main.h"
 #include "gui_stuff.h"

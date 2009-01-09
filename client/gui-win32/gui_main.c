@@ -21,6 +21,7 @@
 #include <commctrl.h>
 #include <richedit.h>
 
+/* common & utility */
 #include "fciconv.h"
 #include "fcintl.h"
 #include "game.h"
@@ -33,8 +34,9 @@
 #include "version.h"
 #include "timing.h"
 
+/* client */
 #include "chatline.h"
-#include "civclient.h"
+#include "client_main.h"
 #include "climisc.h"
 #include "clinet.h"
 #include "colors.h"

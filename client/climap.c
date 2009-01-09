@@ -15,10 +15,12 @@
 #include <config.h>
 #endif
 
+/* common */
 #include "map.h"
 #include "shared.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 #include "climap.h"
 #include "tilespec.h"           /* tileset_is_isometric(tileset) */
 

@@ -27,6 +27,7 @@
 #include <X11/Xaw/Scrollbar.h>
 #include <X11/Xaw/Toggle.h>     
 
+/* common & utility */
 #include "fcintl.h"
 #include "government.h"
 #include "packets.h"
@@ -34,7 +35,8 @@
 #include "shared.h"
 #include "support.h"
 
-#include "civclient.h"
+/* client */
+#include "client_main.h"
 
 #include "gui_main.h"
 #include "gui_stuff.h"
