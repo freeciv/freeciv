@@ -36,6 +36,7 @@ tiles = { "row", "column", "tag"
  1,  2, "tx.airbase_full"
  1,  3, "base.fortress_fg"
  1,  4, "base.fortress_bg"
+ 1,  5, "base.buoy_mg"
 
 ; default city tiles
  2,  2, "cd.city"

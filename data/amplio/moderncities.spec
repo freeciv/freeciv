@@ -22,6 +22,7 @@ artists = "
     Airfield, city walls and misc stuff Hogne Håskjold <hogne@freeciv.org>
     Modern, Post Modern and Electric Age by Smiley, www.firstcultural.com
     City walls by Hogne Håskjold
+    Buoy by Eleazar
 "
 
 [file]
@@ -53,7 +54,7 @@ tiles = { "row", "column", "tag"
  0,  6, "city.electricage_occupied_0"
  0,  6, "city.modern_occupied_0"
  0,  6, "city.postmodern_occupied_0"
-
+ 0,  8, "base.buoy_mg"
 ;
 ; city tiles
 ;

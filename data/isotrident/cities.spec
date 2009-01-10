@@ -24,6 +24,7 @@ artists = "
     european style based on trident tileset by
     Tatu Rissanen <tatu.rissanen@hut.fi>
     Marco Saupe <msaupe@saale-net.de> (reworked classic, industrial and modern)
+    Eleazar (buoy)
 "
 
 [file]
@@ -51,6 +52,7 @@ tiles = { "row", "column", "tag"
  0,  2, "tx.airbase_full"
  0,  4, "base.fortress_fg"
  0,  5, "base.fortress_bg"
+ 0,  7, "base.buoy_mg"
 ;
 ; city tiles
 ;
