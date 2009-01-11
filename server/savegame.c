@@ -4070,7 +4070,6 @@ static void game_load_internal(struct section_file *file)
   enum tile_special_type *special_order = NULL;
   struct base_type **base_order = NULL;
   char *savefile_options = secfile_lookup_str(file, "savefile.options");
-  int old_borders;
 
   /* [savefile] */
 
@@ -4268,10 +4267,10 @@ static void game_load_internal(struct section_file *file)
     (void) section_file_lookup(file, "game.farmfood");
 
     /* National borders setting. */
-    old_borders = secfile_lookup_int_default(file, 0, "game.borders");
-    game.info.borders_sq = secfile_lookup_int_default(file,
-                                                      old_borders*old_borders,
-                                                      "game.borders_sq");
+    game.info.borders = secfile_lookup_int_default(file, 0, "game.borders");
+    if (game.info.borders > GAME_MAX_BORDERS) {
+      game.info.borders = 1;
+    }
     game.info.happyborders = secfile_lookup_bool_default(file, FALSE, 
 						    "game.happyborders");
 
@@ -5004,7 +5003,7 @@ void game_save(struct section_file *file, const char *save_reason)
   secfile_insert_bool(file, game.info.autoattack, "game.autoattack");
   secfile_insert_str(file, game.demography, "game.demography");
   secfile_insert_str(file, game.allow_take, "game.allow_take");
-  secfile_insert_int(file, game.info.borders_sq, "game.borders_sq");
+  secfile_insert_int(file, game.info.borders, "game.borders");
   secfile_insert_bool(file, game.info.happyborders, "game.happyborders");
   secfile_insert_int(file, game.info.diplomacy, "game.diplomacy");
   secfile_insert_int(file, game.info.allowed_city_names, "game.allowed_city_names");

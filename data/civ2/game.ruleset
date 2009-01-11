@@ -106,6 +106,12 @@ killstack = 1
 ;only fractional moves left.
 tired_attack = 1
 
+[borders]
+; Base border radius from city.
+radius_sq_city = 17
+; Border radius square increased by this amount / point of city size
+size_effect    = 1
+
 [teams]
 names =
  _("Team 0"),

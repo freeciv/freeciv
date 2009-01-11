@@ -36,15 +36,15 @@ int tile_border_radius_sq(struct tile *ptile)
   struct city *pcity;
   int radius_sq = 0;
 
-  if (game.info.borders_sq == 0) {
+  if (game.info.borders == 0) {
     return 0;
   }
 
   pcity = tile_city(ptile);
 
   if (pcity) {
-    radius_sq = MAX(game.info.borders_sq, 2*2+1*1);
-    radius_sq += pcity->size;
+    radius_sq = game.info.border_city_radius_sq;
+    radius_sq += pcity->size * game.info.border_size_effect;
   } else {
     base_type_iterate(pbase) {
       if (tile_has_base(ptile, pbase) && base_has_flag(pbase, BF_CLAIM_TERRITORY)) {

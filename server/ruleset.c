@@ -3117,6 +3117,11 @@ static void load_ruleset_game(void)
     = secfile_lookup_bool_default(&file, GAME_DEFAULT_TIRED_ATTACK,
                                   "combat_rules.tired_attack");
 
+  game.info.border_city_radius_sq
+    = secfile_lookup_int(&file, "borders.radius_sq_city");
+  game.info.border_size_effect
+    = secfile_lookup_int(&file, "borders.size_effect");
+
   svec = secfile_lookup_str_vec(&file, &game.info.num_teams, "teams.names");
   game.info.num_teams = MIN(MAX_NUM_TEAMS, game.info.num_teams);
   if (game.info.num_teams <= 0) {

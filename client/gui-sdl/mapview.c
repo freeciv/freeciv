@@ -557,7 +557,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
             2 * h + (DEFAULT_UNITS_H + (pInfo_Window->size.h - pInfo_Window->area.h))|| right) {
           struct city *pCity = tile_city(pTile);
 
-          if (game.info.borders_sq > 0 && !pCity) {
+          if (game.info.borders > 0 && !pCity) {
 	    const char *diplo_nation_plural_adjectives[DS_LAST] =
                         {Q_("?nation:Neutral"), Q_("?nation:Hostile"),
      			"" /* unused, DS_CEASEFIRE*/,
@@ -583,7 +583,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
                 cat_snprintf(buffer, sizeof(buffer), _("\nUnclaimed territory"));
               }
 	    }
-          } /* game.info.borders_sq > 0 && !pCity */
+          } /* game.info.borders > 0 && !pCity */
           
           if (pCity) {
             /* Look at city owner, not tile owner (the two should be the same, if

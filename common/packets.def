@@ -418,7 +418,7 @@ PACKET_GAME_INFO=15; sc
   BOOL fixedlength;
   BOOL auto_ai_toggle;
   BOOL fogofwar;  
-  UINT8 borders_sq;
+  UINT8 borders;
   BOOL happyborders;
   BOOL slow_invasions;
   UINT8 add_to_size_limit;
@@ -444,6 +444,8 @@ PACKET_GAME_INFO=15; sc
   YEAR tech_cost_double_year;
   BOOL killstack;
   BOOL tired_attack;
+  UINT8 border_city_radius_sq;
+  UINT8 border_size_effect;
   UINT8 upgrade_veteran_loss;
   UINT8 autoupgrade_veteran_loss;
   UINT16 incite_improvement_factor;

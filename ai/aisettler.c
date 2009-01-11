@@ -493,7 +493,7 @@ static bool settler_map_iterate(struct pf_parameter *parameter,
        * likelihood go away next turn, or even in a few nanoseconds. */
       continue;
     }
-    if (game.info.borders_sq > 0) {
+    if (game.info.borders > 0) {
       struct player *powner = tile_owner(ptile);
       if (NULL != powner
        && powner != pplayer

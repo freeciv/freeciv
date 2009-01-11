@@ -4124,7 +4124,7 @@ static int fill_grid_sprite_array(const struct tileset *t,
       }
     }
 
-    if (draw_borders && game.info.borders_sq > 0 && known[0] && known[1]) {
+    if (draw_borders && game.info.borders > 0 && known[0] && known[1]) {
       struct player *owner0 = tile_owner(pedge->tile[0]);
       struct player *owner1 = tile_owner(pedge->tile[1]);
 

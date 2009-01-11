@@ -312,7 +312,7 @@ static void check_city_map(struct city *pcity, const char *file, int line)
 		  city_name(pcity), pcity->size,
 		  is_city_center(pcity, ptile) ? "{city center}" : "");
 	}
-	if (game.info.borders_sq > 0 && owner && owner != city_owner(pcity)) {
+	if (game.info.borders > 0 && owner && owner != city_owner(pcity)) {
 	  SANITY_("(%4d,%4d) marked as empty, "
 		  "but in enemy territory! "
 		  "\"%s\"[%d]%s"),
@@ -348,7 +348,7 @@ static void check_city_map(struct city *pcity, const char *file, int line)
 		  city_name(pcity), pcity->size,
 		  is_city_center(pcity, ptile) ? "{city center}" : "");
 	}
-        if (game.info.borders_sq > 0 && owner && owner != city_owner(pcity)) {
+        if (game.info.borders > 0 && owner && owner != city_owner(pcity)) {
 	  SANITY_("(%4d,%4d) marked as worked, "
 		  "but in enemy territory! "
 		  "\"%s\"[%d]%s"),

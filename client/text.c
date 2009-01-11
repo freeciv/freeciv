@@ -115,7 +115,7 @@ const char *popup_info_text(struct tile *ptile)
   if (tile_has_special(ptile, S_HUT)) {
     astr_add_line(&str, _("Minor Tribe Village"));
   }
-  if (game.info.borders_sq > 0 && !pcity) {
+  if (game.info.borders > 0 && !pcity) {
     struct player *owner = tile_owner(ptile);
 
     if (NULL != client.conn.playing && owner == client.conn.playing) {

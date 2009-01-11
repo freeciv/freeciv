@@ -1633,7 +1633,7 @@ void map_claim_border(struct tile *ptile, struct player *owner)
 *************************************************************************/
 void map_calculate_borders(void)
 {
-  if (game.info.borders_sq == 0) {
+  if (game.info.borders == 0) {
     return;
   }
 

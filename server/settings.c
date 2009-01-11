@@ -690,16 +690,12 @@ struct settings_s settings[] = {
 	  GAME_MIN_KILLCITIZEN, GAME_MAX_KILLCITIZEN,
 	  GAME_DEFAULT_KILLCITIZEN)
 
-  GEN_INT("borders", game.info.borders_sq,
+  GEN_INT("borders", game.info.borders,
 	  SSET_RULES, SSET_MILITARY, SSET_SITUATIONAL, SSET_TO_CLIENT,
 	  N_("National borders"),
 	  N_("If this is set to greater than 0, then any land tiles "
 	     "around a fortress or city will be owned by that nation. "
-             "Size of the claimed area is bigger for greater value. "
-             "Claimed are also grows somewhat depending on city size. "
-             "City always claims at least its workable area, no matter how "
-             "low this setting is. Special rules apply for ocean tiles "
-             "or tiles within range of more than one nation's cities."),
+             "\n 0 - Disabled\n 1 - Enabled"),
 	  NULL,
 	  GAME_MIN_BORDERS, GAME_MAX_BORDERS, GAME_DEFAULT_BORDERS)
 
