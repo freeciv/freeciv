@@ -191,7 +191,6 @@ void player_init(struct player *plr)
   plr->capital = FALSE;
   plr->city_style=0;            /* should be first basic style */
   plr->cities = city_list_new();
-  plr->sites = site_list_new();
   plr->units = unit_list_new();
 
   plr->connections = conn_list_new();

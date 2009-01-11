@@ -1102,10 +1102,11 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
 	  reality_check_city(pdest, ptile);
 	} else /* We have a dest_city. update */
 	  if (from_tile->site->identity
-	   != dest_tile->site->identity)
+              != dest_tile->site->identity) {
 	    /* As the city was gone on the newer from_tile
 	       it will be removed by this function */
 	    reality_check_city(pdest, ptile);
+          }
       }
 
       /* Set and send new city info */

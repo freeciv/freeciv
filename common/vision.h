@@ -114,7 +114,7 @@ struct vision_site {
   struct player *owner;			/* May be NULL, always check! */
 
   int identity;				/* city > IDENTITY_NUMBER_ZERO */
-  int size;				/* city, or base pseudo-size */
+  int size;				/* city size */
 
   bool occupied;
   bool walls;
@@ -131,30 +131,8 @@ void free_vision_site(struct vision_site *psite);
 struct vision_site *create_vision_site(int identity, struct tile *location,
 				       struct player *owner);
 struct vision_site *create_vision_site_from_city(const struct city *pcity);
-struct vision_site *create_vision_site_from_base(struct tile *ptile,
-                                                 struct base_type *pbase,
-                                                 struct player *owner);
 void update_vision_site_from_city(struct vision_site *psite,
 				  const struct city *pcity);
 void copy_vision_site(struct vision_site *dest, struct vision_site *src);
-
-/* get 'struct site_list' and related functions: */
-#define SPECLIST_TAG site
-#define SPECLIST_TYPE struct vision_site
-#include "speclist.h"
-
-#define vision_site_list_iterate(sitelist, psite)\
-    TYPED_LIST_ITERATE(struct vision_site, sitelist, psite)
-#define vision_site_list_iterate_end  LIST_ITERATE_END
-
-#define sites_iterate(psite)						\
-{									\
-  players_iterate(psite##_player) {					\
-    vision_site_list_iterate(psite##_player->sites, psite) {
-
-#define sites_iterate_end						\
-    } vision_site_list_iterate_end;					\
-  } players_iterate_end;						\
-}
 
 #endif  /* FC__VISION_H */

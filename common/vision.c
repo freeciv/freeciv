@@ -87,11 +87,6 @@ void free_vision_site(struct vision_site *psite)
   }
   assert(psite->ref_count == 0);
 
-
-  if (psite->identity < 0) {
-    /* This is base, not city */
-    site_list_unlink(psite->owner->sites, psite);
-  }
   free(psite);
 }
 
@@ -120,24 +115,6 @@ struct vision_site *create_vision_site_from_city(const struct city *pcity)
 
   psite->size = pcity->size;
   sz_strlcpy(psite->name, city_name(pcity));
-
-  return psite;
-}
-
-/****************************************************************************
-  Build basic vision_site structure based on military base on tile.
-****************************************************************************/
-struct vision_site *create_vision_site_from_base(struct tile *ptile,
-                                                 struct base_type *pbase,
-                                                 struct player *owner)
-{
-  struct vision_site *psite;
-
-  psite = create_vision_site(-base_number(pbase) - 1, ptile, owner);
-  psite->size = 0;
-  sz_strlcpy(psite->name, base_name_translation(pbase));
-
-  site_list_append(owner->sites, psite);
 
   return psite;
 }

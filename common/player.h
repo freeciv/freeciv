@@ -181,7 +181,6 @@ struct player {
   struct player_diplstate diplstates[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   int city_style;
   struct city_list *cities;
-  struct site_list *sites;
   struct unit_list *units;
   struct player_score score;
   struct player_economic economic;
