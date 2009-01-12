@@ -261,39 +261,39 @@ static void insert_allows(struct universal *psource,
   buf[0] = '\0';
 
   /* FIXME: show other data like range and survives. */
-#define COREQ_APPEND(s)							    \
-  (coreq_buf[0] != '\0'							    \
-   ? cat_snprintf(coreq_buf, sizeof(coreq_buf), Q_("?clistmore:, %s"), (s))  \
-   : sz_strlcpy(coreq_buf, (s)))
 
   improvement_iterate(pimprove) {
     requirement_vector_iterate(&pimprove->reqs, req) {
       if (are_universals_equal(psource, &req->source)) {
-	char coreq_buf[512] = "";
+        char coreq_buf[512] = "";
 
-	requirement_vector_iterate(&pimprove->reqs, coreq) {
-	  if (!are_universals_equal(psource, &coreq->source)) {
-	    char buf2[512];
+        requirement_vector_iterate(&pimprove->reqs, coreq) {
+          if (!are_universals_equal(psource, &coreq->source)) {
+            char buf2[512] = "";
 
-	    COREQ_APPEND(universal_name_translation(&coreq->source,
-					     buf2, sizeof(buf2)));
-	  }
-	} requirement_vector_iterate_end;
+            universal_name_translation(&coreq->source, buf2,
+                                       sizeof(buf2));
+            if (coreq_buf[0] == '\0') {
+              sz_strlcpy(coreq_buf, buf2);
+            } else {
+              cat_snprintf(coreq_buf, sizeof(coreq_buf),
+                           Q_("?clistmore:, %s"), buf2);
+            }
+          }
+        } requirement_vector_iterate_end;
 
-	if (coreq_buf[0] == '\0') {
-	  cat_snprintf(buf, bufsz, _("Allows %s."),
-		       improvement_name_translation(pimprove));
-	} else {
-	  cat_snprintf(buf, bufsz, _("Allows %s (with %s)."),
-		       improvement_name_translation(pimprove),
-		       coreq_buf);
-	}
-	cat_snprintf(buf, bufsz, "\n");
+        if (coreq_buf[0] == '\0') {
+          cat_snprintf(buf, bufsz, _("Allows %s."),
+                       improvement_name_translation(pimprove));
+        } else {
+          cat_snprintf(buf, bufsz, _("Allows %s (with %s)."),
+                       improvement_name_translation(pimprove),
+                       coreq_buf);
+        }
+        cat_snprintf(buf, bufsz, "\n");
       }
     } requirement_vector_iterate_end;
   } improvement_iterate_end;
-
-#undef COREQ_APPEND
 }
 
 /****************************************************************
