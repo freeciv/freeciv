@@ -694,8 +694,10 @@ struct settings_s settings[] = {
 	  SSET_RULES, SSET_MILITARY, SSET_SITUATIONAL, SSET_TO_CLIENT,
 	  N_("National borders"),
 	  N_("If this is set to greater than 0, then any land tiles "
-	     "around a fortress or city will be owned by that nation. "
-             "\n 0 - Disabled\n 1 - Enabled"),
+	     "around a fortress or city will be owned by that nation.\n"
+             "  0 = Disabled\n"
+             "  1 = Enabled\n"
+             "  2 = See everything inside borders"),
 	  NULL,
 	  GAME_MIN_BORDERS, GAME_MAX_BORDERS, GAME_DEFAULT_BORDERS)
 

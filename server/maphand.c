@@ -1537,6 +1537,17 @@ void map_claim_ownership(struct tile *ptile, struct player *powner,
 {
   struct player *ploser = tile_owner(ptile);
 
+  if (game.info.borders > 1) {
+    if (ploser != powner) {
+      if (ploser) {
+        map_fog_tile(ploser, ptile, V_MAIN);
+      }
+      if (powner) {
+        map_unfog_tile(powner, ptile, TRUE, V_MAIN);
+      }
+    }
+  }
+
   tile_set_owner(ptile, powner, psource);
 
   if (ploser != powner) {
