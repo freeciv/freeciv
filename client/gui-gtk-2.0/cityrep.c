@@ -97,15 +97,17 @@ static void popup_last_menu(GtkMenuShell *menu, gpointer data);
 static void popup_first_menu(GtkMenuShell *menu, gpointer data);
 static void popup_next_menu(GtkMenuShell *menu, gpointer data);
 
-static GtkWidget *city_center_command, *city_popup_command, *city_buy_command;
+static GtkWidget *city_center_command;
+static GtkWidget *city_popup_command;
+static GtkWidget *city_buy_command;
 static GtkWidget *city_production_command;
+static GtkWidget *city_governor_command;
 static GtkWidget *city_total_buy_cost_label;
 
 
 static GtkWidget *change_improvements_item;
 static GtkWidget *change_units_item;
 static GtkWidget *change_wonders_item;
-static GtkWidget *change_cma_item;
 
 static GtkWidget *last_improvements_item;
 static GtkWidget *last_units_item;
@@ -544,6 +546,11 @@ static void append_cma_to_menu_item(GtkMenuItem *parent_item, bool change_cma)
   struct cm_parameter parameter;
   GtkWidget *w;
 
+  w = gtk_menu_item_get_submenu(parent_item);
+  if (w != NULL && GTK_WIDGET_VISIBLE(w)) {
+    return;
+  }
+
   gtk_menu_item_remove_submenu(parent_item);
   if (!can_client_issue_orders()) {
     return;
@@ -714,6 +721,11 @@ static GtkWidget *create_city_report_menubar(void)
   item = gtk_menu_item_new_with_mnemonic(_("Add _Last"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   create_last_menu(item);
+
+  item = gtk_menu_item_new_with_mnemonic(_("Gover_nor"));
+  city_governor_command = item;
+  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
+  append_cma_to_menu_item(GTK_MENU_ITEM(item), TRUE);
 
   item = gtk_menu_item_new_with_mnemonic(_("_Select"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
@@ -1180,6 +1192,10 @@ void city_report_dialog_update(void)
 
     city_selection_changed_callback(city_selection);
 
+    if (GTK_WIDGET_SENSITIVE(city_governor_command)) {
+      append_cma_to_menu_item(GTK_MENU_ITEM(city_governor_command), TRUE);
+    }
+
     select_menu_cached = FALSE;
   }
 }
@@ -1235,8 +1251,6 @@ static void create_change_menu(GtkWidget *item)
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), change_improvements_item);
   change_wonders_item = gtk_menu_item_new_with_label(_("Wonders"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), change_wonders_item);
-  change_cma_item = gtk_menu_item_new_with_label(_("Citizen Governor"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), change_cma_item);
 }
 
 /****************************************************************
@@ -1319,7 +1333,6 @@ static void popup_change_menu(GtkMenuShell *menu, gpointer data)
 				  FALSE, TRUE, CO_CHANGE,
 				  can_city_build_now,
 				  G_CALLBACK(select_impr_or_unit_callback), n);
-  append_cma_to_menu_item(GTK_MENU_ITEM(change_cma_item), TRUE);
 }
 
 /****************************************************************
@@ -1640,6 +1653,8 @@ static void city_selection_changed_callback(GtkTreeSelection *selection)
   n = gtk_tree_selection_count_selected_rows(selection);
 
   gtk_widget_set_sensitive(city_production_command,
+                           n > 0 && can_client_issue_orders());
+  gtk_widget_set_sensitive(city_governor_command,
                            n > 0 && can_client_issue_orders());
   gtk_widget_set_sensitive(city_center_command, n > 0);
   gtk_widget_set_sensitive(city_popup_command, n > 0);
