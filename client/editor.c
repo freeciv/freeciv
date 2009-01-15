@@ -270,6 +270,36 @@ bool editor_is_active(void)
 }
 
 /****************************************************************************
+  Returns TRUE if the given tool should be made availble to the user via
+  the editor GUI. For example, this will return FALSE for ETT_MILITARY_BASE
+  if there are no bases defined in the ruleset.
+
+  NB: This depends on the ruleset information received from the server, so
+  it will return FALSE if the client does not have it yet.
+****************************************************************************/
+bool editor_tool_is_usable(enum editor_tool_type ett)
+{
+  if (!editor || !(0 <= ett && ett < NUM_EDITOR_TOOL_TYPES)) {
+    return FALSE;
+  }
+
+  switch (ett) {
+  case ETT_MILITARY_BASE:
+    return base_count() > 0;
+    break;
+  case ETT_TERRAIN_RESOURCE:
+    return resource_count() > 0;
+    break;
+  case ETT_UNIT:
+    return utype_count() > 0;
+    break;
+  default:
+    break;
+  }
+  return TRUE;
+}
+
+/****************************************************************************
   Returns TRUE if the given tool type has sub-values (e.g. the terrain
   tool has values corresponding to the terrain types).
 ****************************************************************************/

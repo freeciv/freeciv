@@ -100,6 +100,7 @@ static void editbar_mode_button_toggled(GtkToggleButton *tb,
                                         gpointer userdata);
 static void editbar_tool_button_toggled(GtkToggleButton *tb,
                                         gpointer userdata);
+static void try_to_set_editor_tool(enum editor_tool_type ett);
 
 static struct editbar *editor_toolbar;
 static struct editinfobox *editor_infobox;
@@ -165,6 +166,31 @@ static void editbar_mode_button_toggled(GtkToggleButton *tb,
 }
 
 /****************************************************************************
+  Try to set the given tool as the current editor tool. If the tool is
+  unavailable (editor_tool_is_usable) an error popup is displayed.
+****************************************************************************/
+static void try_to_set_editor_tool(enum editor_tool_type ett)
+{
+  if (!(0 <= ett && ett < NUM_EDITOR_TOOL_TYPES)) {
+    return;
+  }
+
+  if (!editor_tool_is_usable(ett)) {
+    GtkWidget *dialog;
+    dialog = gtk_message_dialog_new(GTK_WINDOW(toplevel),
+        GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+        GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, "%s",
+        _("The current ruleset does not define any "
+          "objects corresponding to this editor tool."));
+    gtk_window_set_title(GTK_WINDOW(dialog), editor_tool_get_name(ett));
+    gtk_dialog_run(GTK_DIALOG(dialog));
+    gtk_widget_destroy(dialog);
+  } else {
+    editor_set_tool(ett);
+  }
+}
+
+/****************************************************************************
   Callback to handle toggling of any of the tool buttons.
 ****************************************************************************/
 static void editbar_tool_button_toggled(GtkToggleButton *tb,
@@ -177,7 +203,7 @@ static void editbar_tool_button_toggled(GtkToggleButton *tb,
   ett = GPOINTER_TO_INT(userdata);
 
   if (active) {
-    editor_set_tool(ett);
+    try_to_set_editor_tool(ett);
     editgui_refresh();
   }
 }
@@ -1708,7 +1734,7 @@ gboolean handle_edit_key_press(GdkEventKey *ev)
   }
 
   if (new_ett != NUM_EDITOR_TOOL_TYPES) {
-    editor_set_tool(new_ett);
+    try_to_set_editor_tool(new_ett);
   }
 
   editgui_refresh();

@@ -82,6 +82,7 @@ int editor_tool_get_applied_player(enum editor_tool_type ett);
 void editor_tool_set_applied_player(enum editor_tool_type,
                                     int player_no);
 
+bool editor_tool_is_usable(enum editor_tool_type ett);
 bool editor_tool_has_value(enum editor_tool_type ett);
 bool editor_tool_has_value_erase(enum editor_tool_type ett);
 int editor_tool_get_value(enum editor_tool_type ett);
