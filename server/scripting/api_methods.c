@@ -226,3 +226,33 @@ const char *api_methods_terrain_name_translation(Terrain *pterrain)
 {
   return terrain_name_translation(pterrain);
 }
+
+/**************************************************************************
+  Return TRUE iff city has building
+**************************************************************************/
+bool api_methods_city_has_building(City *pcity, Building_Type *building)
+{
+  return city_has_building(pcity, building);
+}
+
+/**************************************************************************
+  Return TRUE iff player has wonder
+**************************************************************************/
+bool api_methods_player_has_wonder(Player *pplayer, Building_Type *building)
+{
+  int bidx = improvement_index(building);
+
+  if (pplayer->small_wonders[bidx] > 0) {
+    return TRUE;
+  }
+
+  if (game.info.great_wonders[bidx] > 0) {
+    struct city *pcity = game_find_city_by_number(game.info.great_wonders[bidx]);
+
+    if (pcity && player_owns_city(pplayer, pcity)) {
+      return TRUE;
+    }
+  }
+
+  return FALSE;
+}

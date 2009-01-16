@@ -100,6 +100,8 @@ int api_methods_player_num_cities
 	@ methods_player_num_cities (Player *pplayer);
 int api_methods_player_num_units
 	@ methods_player_num_units (Player *pplayer);
+bool api_methods_player_has_wonder
+        @ methods_player_has_wonder (Player *pplayer, Building_Type *building);
 
 /* Unit */
 bool api_methods_unit_city_can_be_built_here
@@ -159,6 +161,10 @@ const char *api_methods_terrain_rule_name
 const char *api_methods_terrain_name_translation
 	@ methods_terrain_name_translation (Terrain *pterrain);
 
+/* City */
+bool api_methods_city_has_building
+        @ methods_city_has_building(City *pcity, Building_Type *building);
+
 $[
 -- Player methods.
 function Player:is_human()
@@ -171,6 +177,10 @@ end
 
 function Player:num_units()
   return methods_player_num_units(self)
+end
+
+function Player:has_wonder(building)
+  return methods_player_has_wonder(self, building)
 end
 
 -- Unit methods.
@@ -275,6 +285,11 @@ end
 
 function Terrain:name_translation()
   return methods_terrain_name_translation(self)
+end
+
+-- City methods
+function City:has_building(building)
+  return methods_city_has_building(self, building)
 end
 $]
 

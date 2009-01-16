@@ -48,5 +48,8 @@ const char *api_methods_tech_type_rule_name(Tech_Type *ptech);
 const char *api_methods_tech_type_name_translation(Tech_Type *ptech);
 const char *api_methods_terrain_rule_name(Terrain *pterrain);
 const char *api_methods_terrain_name_translation(Terrain *pterrain);
-#endif
 
+bool api_methods_city_has_building(City *pcity, Building_Type *building);
+bool api_methods_player_has_wonder(Player *pplayer, Building_Type *building);
+
+#endif /* FC__API_METHODS_H */
