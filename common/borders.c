@@ -47,8 +47,8 @@ int tile_border_radius_sq(struct tile *ptile)
     radius_sq += pcity->size * game.info.border_size_effect;
   } else {
     base_type_iterate(pbase) {
-      if (tile_has_base(ptile, pbase) && base_has_flag(pbase, BF_CLAIM_TERRITORY)) {
-        radius_sq = 5;
+      if (tile_has_base(ptile, pbase) && territory_claiming_base(pbase)) {
+        radius_sq = pbase->border_sq;
         break;
       }
     } base_type_iterate_end;
@@ -68,7 +68,7 @@ bool is_border_source(struct tile *ptile)
 
   if (tile_owner(ptile) != NULL) {
     base_type_iterate(pbase) {
-      if (tile_has_base(ptile, pbase) && base_has_flag(pbase, BF_CLAIM_TERRITORY)) {
+      if (tile_has_base(ptile, pbase) && territory_claiming_base(pbase)) {
         return TRUE;
       }
     } base_type_iterate_end;

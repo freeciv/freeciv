@@ -32,7 +32,7 @@ static struct base_type base_types[MAX_BASE_TYPES];
 
 static const char *base_type_flag_names[] = {
   "NoAggressive", "DefenseBonus", "NoStackDeath",
-  "ClaimTerritory", "DiplomatDefense", "ParadropFrom"
+  "DiplomatDefense", "ParadropFrom"
 };
 
 /* This must correspond to enum base_gui_type in base.h */
@@ -301,4 +301,12 @@ bool can_bases_coexist(const struct base_type *base1, const struct base_type *ba
   }
 
   return !BV_ISSET(base1->conflicts, base_index(base2));
+}
+
+/**************************************************************************
+  Does this base type claim territory?
+**************************************************************************/
+bool territory_claiming_base(const struct base_type *pbase)
+{
+  return pbase->border_sq >= 0;
 }

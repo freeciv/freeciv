@@ -1597,7 +1597,7 @@ void map_claim_border(struct tile *ptile, struct player *owner)
 
       if (!source_tile) {
         base_type_iterate(dbase) {
-          if (tile_has_base(dtile, dbase) && base_has_flag(dbase, BF_CLAIM_TERRITORY)) {
+          if (tile_has_base(dtile, dbase) && territory_claiming_base(dbase)) {
             /* Cannot affect territory claiming bases */
             source_tile = TRUE;
             break;

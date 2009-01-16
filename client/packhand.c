@@ -2911,6 +2911,7 @@ void handle_ruleset_base(struct packet_ruleset_base *p)
   pbase->gui_type = p->gui_type;
 
   pbase->build_time = p->build_time;
+  pbase->border_sq  = p->border_sq;
 
   pbase->flags = p->flags;
 

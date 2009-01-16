@@ -656,14 +656,18 @@ food        = 2
 ; name                    = Name of the base type.
 ; buildable               = Can base be built? Defaults to true
 ; graphic                 = tag specifing preferred graphic
-; graphic_alt             = tag for alternate garphic if preferred graphic is not 
+; graphic_alt             = tag for alternate graphic if preferred graphic is not 
 ;                           present. Can use eg "-" for no alternate graphic.
 ; activity_gfx            = tag specifing graphic for unit building base
 ; reqs                    = requirements to build the base (see effects.ruleset
 ;                           and README.effects for help on requirements)
 ; gui_type                = How gui should handle this base. Fortress/Airbase/Other
 ; build_time              = How long it takes for a unit to build this base
-; conflicts               = List of bases that cannot be on the same tile
+; border_sq               = Base will claim land ownership up to this radius,
+;                           -1 to disable.
+; conflicts               = List of bases that cannot be on the same tile.
+;                           Bases with non-zero border_sq automatically conflict
+;                           with each other.
 ; flags
 ;   - "NoAggressive"      = Units inside are not considered aggressive
 ;   - "DefenseBonus"      = Units inside gain defense bonus
@@ -686,5 +690,5 @@ reqs         =
 gui_type     = "Fortress"
 build_time   = 3
 native_to    = "Land"
-flags        = "NoAggressive", "DefenseBonus", "ClaimTerritory",
+flags        = "NoAggressive", "DefenseBonus",
                "NoStackDeath", "DiplomatDefense"

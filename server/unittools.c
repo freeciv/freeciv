@@ -729,7 +729,7 @@ static void update_unit_activity(struct unit *punit)
 
 	if (what != S_LAST) {
           if (what == S_PILLAGE_BASE) {
-            if (base_has_flag(first_base, BF_CLAIM_TERRITORY)) {
+            if (territory_claiming_base(first_base)) {
               map_clear_border(ptile);
               map_claim_ownership(ptile, NULL, NULL);
             }
@@ -799,7 +799,7 @@ static void update_unit_activity(struct unit *punit)
       base_type_iterate(old_base) {
         if (tile_has_base(ptile, old_base)
             && !can_bases_coexist(old_base, new_base)) {
-          if (base_has_flag(old_base, BF_CLAIM_TERRITORY)) {
+          if (territory_claiming_base(old_base)) {
             map_clear_border(ptile);
             map_claim_ownership(ptile, NULL, NULL);
           }
@@ -814,7 +814,7 @@ static void update_unit_activity(struct unit *punit)
       unit_list_refresh_vision(ptile->units);
 
       /* Claim base if it has "ClaimTerritory" flag */
-      if (base_has_flag(new_base, BF_CLAIM_TERRITORY)) {
+      if (territory_claiming_base(new_base)) {
         map_claim_ownership(ptile, unit_owner(punit), ptile);
         map_claim_border(ptile, unit_owner(punit));
         city_thaw_workers_queue();
@@ -2800,9 +2800,9 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
     ASSERT_VISION(new_vision);
 
     /* Claim ownership of fortress? */
-    if (tile_has_base_flag_for_unit(pdesttile, unit_type(punit),
-                                    BF_CLAIM_TERRITORY)
-        && (!tile_owner(pdesttile) || pplayers_at_war(tile_owner(pdesttile), pplayer))) {
+    if (tile_has_claimable_base(pdesttile, unit_type(punit))
+        && (!tile_owner(pdesttile)
+            || pplayers_at_war(tile_owner(pdesttile), pplayer))) {
       map_claim_ownership(pdesttile, pplayer, pdesttile);
       map_claim_border(pdesttile, pplayer);
       city_thaw_workers_queue();

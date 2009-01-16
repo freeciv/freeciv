@@ -2017,6 +2017,8 @@ static void load_ruleset_terrain(struct section_file *file)
     }
 
     pbase->build_time = secfile_lookup_int(file, "%s.build_time", section);
+    pbase->border_sq  = secfile_lookup_int_default(file, -1, "%s.border_sq",
+                                                   section);
 
     slist = secfile_lookup_str_vec(file, &nval, "%s.flags", section);
     BV_CLR_ALL(pbase->flags);
@@ -2033,7 +2035,7 @@ static void load_ruleset_terrain(struct section_file *file)
         BV_SET(pbase->flags, flag);
       }
     }
-    
+
     free(slist);
 
     slist = secfile_lookup_str_vec(file, &nval, "%s.conflicts", section);
@@ -2054,9 +2056,9 @@ static void load_ruleset_terrain(struct section_file *file)
     
     free(slist);
 
-    if (base_has_flag(pbase, BF_CLAIM_TERRITORY)) {
+    if (territory_claiming_base(pbase)) {
       base_type_iterate(pbase2) {
-        if (pbase2 > pbase && base_has_flag(pbase2, BF_CLAIM_TERRITORY)) {
+        if (pbase2 > pbase && territory_claiming_base(pbase2)) {
           BV_SET(pbase->conflicts, base_index(pbase2));
           BV_SET(pbase2->conflicts, base_index(pbase));
         }
@@ -3436,6 +3438,8 @@ static void send_ruleset_bases(struct conn_list *dest)
     packet.native_to = b->native_to;
 
     packet.gui_type = b->gui_type;
+    packet.build_time = b->build_time;
+    packet.border_sq = b->border_sq;
 
     packet.flags = b->flags;
 

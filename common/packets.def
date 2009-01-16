@@ -1318,6 +1318,7 @@ PACKET_RULESET_BASE=120;sc,lsend
   BASE_GUI gui_type;
   BV_UNIT_CLASSES native_to;
   UINT8 build_time;
+  UINT8 border_sq;
   BV_BASE_FLAGS flags;
 end
 

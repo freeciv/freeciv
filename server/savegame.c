@@ -1958,10 +1958,9 @@ static void player_load_units(struct player *plr, int plrno,
     unit_list_prepend(punit->tile->units, punit);
 
     /* Claim ownership of fortress? */
-    if (tile_has_base_flag_for_unit(punit->tile, unit_type(punit),
-                                    BF_CLAIM_TERRITORY)
-     && (!tile_owner(punit->tile)
-      || pplayers_at_war(tile_owner(punit->tile), plr))) {
+    if (tile_has_claimable_base(punit->tile, unit_type(punit))
+        && (!tile_owner(punit->tile)
+            || pplayers_at_war(tile_owner(punit->tile), plr))) {
       map_claim_ownership(punit->tile, plr, punit->tile);
       map_claim_border(punit->tile, plr);
       /* city_thaw_workers_queue() later */

@@ -29,7 +29,6 @@ enum base_flag_id {
                           * if base is close to city */
   BF_DEFENSE_BONUS,      /* Base provides defense bonus for units inside */
   BF_NO_STACK_DEATH,     /* Units inside will not die all at once */
-  BF_CLAIM_TERRITORY,    /* Base claims tile ownership */
   BF_DIPLOMAT_DEFENSE,   /* Base provides bonus for defending diplomat */
   BF_PARADROP_FROM,      /* Paratroopers can use base for paradrop */
   BF_LAST                /* This has to be last */
@@ -47,6 +46,7 @@ struct base_type {
   struct requirement_vector reqs;
   enum base_gui_type gui_type;
   int build_time;
+  int border_sq;
 
   bv_unit_classes native_to;
   bv_base_flags flags;
@@ -90,6 +90,8 @@ struct base_type *get_base_by_gui_type(enum base_gui_type type,
                                        const struct tile *ptile);
 
 bool can_bases_coexist(const struct base_type *base1, const struct base_type *base2);
+
+bool territory_claiming_base(const struct base_type *pbase);
 
 /* Initialization and iteration */
 void base_types_init(void);
