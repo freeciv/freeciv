@@ -809,6 +809,14 @@ static void end_phase(void)
     flush_packets();
   } phase_players_iterate_end;
 
+  phase_players_iterate(pplayer) {
+    if (pplayer->ai.control) {
+      /* This has to be after new units have been built in case
+       * ai_data_get() gets called for new unit leading to memory leak */
+      ai_data_phase_done(pplayer);
+    }
+  } phase_players_iterate_end;
+
   kill_dying_players();
 
   /* Unfreeze sending of cities. */

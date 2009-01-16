@@ -463,7 +463,6 @@ void ai_do_last_activities(struct player *pplayer)
   ai_manage_tech(pplayer); 
   TIMING_LOG(AIT_TECH, TIMER_STOP);
   ai_manage_spaceship(pplayer);
-  ai_data_phase_done(pplayer);
 
   TIMING_LOG(AIT_ALL, TIMER_STOP);
 }
