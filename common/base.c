@@ -31,7 +31,7 @@
 static struct base_type base_types[MAX_BASE_TYPES];
 
 static const char *base_type_flag_names[] = {
-  "NoAggressive", "DefenseBonus", "NoStackDeath",
+  "NoAggressive", "NoStackDeath",
   "DiplomatDefense", "ParadropFrom"
 };
 

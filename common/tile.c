@@ -248,6 +248,24 @@ bool tile_has_claimable_base(const struct tile *ptile,
 }
 
 /****************************************************************************
+  Calculate defense bonus given by bases
+****************************************************************************/
+int tile_bases_defense_bonus(const struct tile *ptile,
+                             const struct unit_type *punittype)
+{
+  int bonus = 0;
+
+  base_type_iterate(pbase) {
+    if (tile_has_base(ptile, pbase)
+        && is_native_base_to_uclass(pbase, utype_class(punittype))) {
+      bonus += pbase->defense_bonus;
+    }
+  } base_type_iterate_end;
+
+  return bonus;
+}
+
+/****************************************************************************
   Check if tile contains base native for unit
 ****************************************************************************/
 bool tile_has_native_base(const struct tile *ptile,

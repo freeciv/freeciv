@@ -1729,8 +1729,6 @@ static void load_ruleset_terrain(struct section_file *file)
       "parameters.river_help_text");
     sz_strlcpy(terrain_control.river_help_text, s);
   }
-  terrain_control.fortress_defense_bonus =
-    secfile_lookup_int_default(file, 100, "parameters.fortress_defense_bonus");
 
   terrain_control.road_superhighway_trade_bonus =
     secfile_lookup_int_default(file, 50, "parameters.road_superhighway_trade_bonus");
@@ -2019,6 +2017,9 @@ static void load_ruleset_terrain(struct section_file *file)
     pbase->build_time = secfile_lookup_int(file, "%s.build_time", section);
     pbase->border_sq  = secfile_lookup_int_default(file, -1, "%s.border_sq",
                                                    section);
+    pbase->defense_bonus  = secfile_lookup_int_default(file, 0,
+                                                       "%s.defense_bonus",
+                                                       section);
 
     slist = secfile_lookup_str_vec(file, &nval, "%s.flags", section);
     BV_CLR_ALL(pbase->flags);

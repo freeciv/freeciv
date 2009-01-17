@@ -27,7 +27,6 @@ enum base_gui_type {
 enum base_flag_id {
   BF_NOT_AGGRESSIVE = 0, /* Unit inside are not considered aggressive
                           * if base is close to city */
-  BF_DEFENSE_BONUS,      /* Base provides defense bonus for units inside */
   BF_NO_STACK_DEATH,     /* Units inside will not die all at once */
   BF_DIPLOMAT_DEFENSE,   /* Base provides bonus for defending diplomat */
   BF_PARADROP_FROM,      /* Paratroopers can use base for paradrop */
@@ -46,6 +45,7 @@ struct base_type {
   struct requirement_vector reqs;
   enum base_gui_type gui_type;
   int build_time;
+  int defense_bonus;
   int border_sq;
 
   bv_unit_classes native_to;

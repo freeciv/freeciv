@@ -467,9 +467,9 @@ static int defense_multiplication(const struct unit_type *att_type,
     }
   }
 
-  if (tile_has_base_flag_for_unit(ptile, def_type, BF_DEFENSE_BONUS) && !pcity) {
+  if (!pcity) {
     defensepower +=
-	(defensepower * terrain_control.fortress_defense_bonus) / 100;
+      defensepower * tile_bases_defense_bonus(ptile, def_type) / 100;
   }
 
   if ((pcity || fortified) && is_ground_unittype(def_type)) {

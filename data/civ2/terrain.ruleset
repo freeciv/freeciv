@@ -61,9 +61,6 @@ Roads and railroads can only be built on River squares if your\
  civilization has learned Bridge Building technology.\
 ")
 
-; percent added to defense if square has fortress
-fortress_defense_bonus=100
-
 ; percent added to trade production if road and city has superhighways
 road_superhighway_trade_bonus=50
 
@@ -778,6 +775,7 @@ shield      = 3
 ;                           and README.effects for help on requirements)
 ; gui_type                = How gui should handle this base. Fortress/Airbase/Other
 ; build_time              = How long it takes for a unit to build this base
+; defense_bonus           = Percent added to defense
 ; border_sq               = Base will claim land ownership up to this radius,
 ;                           -1 to disable.
 ; conflicts               = List of bases that cannot be on the same tile.
@@ -785,40 +783,39 @@ shield      = 3
 ;                           with each other.
 ; flags
 ;   - "NoAggressive"      = Units inside are not considered aggressive
-;   - "DefenseBonus"      = Units inside gain defense bonus
 ;   - "NoStackDeath"      = Units inside do not die all at once when attacked
 ;   - "DiplomatDefense"   = Diplomats inside get bonus to diplomatic defense
 ;   - "ParadropFrom"      = Paradrop can be initiated from base
 
 [base_fortress]
-name         = _("Fortress")
-graphic      = "base.fortress"
-graphic_alt  = "-"
-activity_gfx = "unit.fortress"
-reqs         =
+name          = _("Fortress")
+graphic       = "base.fortress"
+graphic_alt   = "-"
+activity_gfx  = "unit.fortress"
+reqs          =
     { "type", "name", "range"
       "Tech", "Construction", "Player"
       "TerrainClass", "Land", "Local"
       "UnitFlag", "Settlers", "Local"
     }
-gui_type     = "Fortress"
-build_time   = 3
-native_to    = "Land"
-flags        = "NoAggressive", "DefenseBonus",
-               "NoStackDeath", "DiplomatDefense"
+gui_type      = "Fortress"
+build_time    = 3
+defense_bonus = 100
+native_to     = "Land"
+flags         = "NoAggressive", "NoStackDeath", "DiplomatDefense"
 
 [base_airbase]
-name         = _("Airbase")
-graphic      = "base.airbase"
-graphic_alt  = "-"
-activity_gfx = "unit.airbase"
-reqs         =
+name          = _("Airbase")
+graphic       = "base.airbase"
+graphic_alt   = "-"
+activity_gfx  = "unit.airbase"
+reqs          =
     { "type", "name", "range"
       "Tech", "Radio", "Player"
       "TerrainClass", "Land", "Local"
       "UnitFlag", "Airbase", "Local"
     }
-gui_type     = "Airbase"
-build_time   = 3
-native_to    = "Air", "Helicopter", "Missile"
-flags        = "NoStackDeath", "DiplomatDefense", "ParadropFrom"
+gui_type      = "Airbase"
+build_time    = 3
+native_to     = "Air", "Helicopter", "Missile"
+flags         = "NoStackDeath", "DiplomatDefense", "ParadropFrom"
