@@ -54,7 +54,7 @@ dnl
 
 # Version number of this script.
 # First part is upstream (ggz) version and second Freeciv modifications.
-# serial 0014.1
+# serial 0014.2
 
 dnl ------------------------------------------------------------------------
 dnl Find a directory containing a single file
@@ -240,7 +240,8 @@ AC_DEFUN([AC_GGZ_VERSION],
 	LDFLAGS=$LIBGGZ_LDFLAGS
 	LIBS=$LIB_GGZ
 	CPPFLAGS=$LIBGGZ_INCLUDES
-	export LD_LIBRARY_PATH=$save_ldlibrary_path:$libggz_libraries
+	LD_LIBRARY_PATH=$save_ldlibrary_path:$libggz_libraries
+	export LD_LIBRARY_PATH
 
 	AC_MSG_CHECKING([for GGZ library version: $major.$minor.$micro])
 	AC_RUN_IFELSE(
