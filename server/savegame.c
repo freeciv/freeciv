@@ -1921,7 +1921,7 @@ static void player_load_units(struct player *plr, int plrno,
             /* Either ACTIVITY_FORTRESS or ACTIVITY_AIRBASE */
             order->activity = ACTIVITY_BASE;
             order->base = base_number(pbase);
-          } else if (base_buf) {
+          } else if (base_buf && base_buf[j] != '?') {
             base = char2num(base_buf[j]);
 
             if (base >= 0
