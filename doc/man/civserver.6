@@ -9,7 +9,7 @@
 .\"   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 .\"   GNU General Public License for more details.
 .\"
-.TH FREECIV 6 "April 16th 2008"
+.TH FREECIV 6 "January 16th 2009"
 .SH NAME
 civserver \- The server for the Freeciv game
 .SH SYNOPSIS
@@ -35,6 +35,9 @@ Auth aware servers have additional parameters:
 .B [ \-a|\-\-auth ] \
 [ \-G|\-\-Guests ] \
 [ \-N|\-\-Newusers ]
+
+IPv6 aware servers have additional parameter:
+.B [ \-A|\-\-announce \fIprotocol\fP ]
 
 .SH DESCRIPTION
 Freeciv is a free turn-based multiplayer strategy game, in which each player
@@ -64,6 +67,17 @@ not be combined; that is, "civserver \-fp savegame.sav 5557" will not work,
 instead you would need to enter "civserver \-f savegame.sav \-p 5557". All
 options have a short form (single hyphen and single letter) and a long form
 (double hyphen and a complete word); their effects are identical.
+.TP
+.BI "\-A, \-\-announce \fIprotocol\fP"
+Uses \fIprotocol\fP when announcing game in LAN.
+Possible values for \fIprotocol\fP are:
+
+\fBIPv4\fP
+
+\fBIPv6\fP
+
+\fBnone\fP
+
 .TP
 .BI "\-a, \-\-auth"
 Enables server authentication and allows access to registered players only.
