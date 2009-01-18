@@ -672,6 +672,7 @@ food        = 2
 ;   - "ClaimTerritory"    = Base will claim land ownership
 ;   - "DiplomatDefense"   = Diplomats inside get bonus to diplomatic defense
 ;   - "ParadropFrom"      = Paradrop can be initiated from base
+;   - "NativeTile"        = Units consider tile native regardless of terrain
 
 [base_fortress]
 name          = _("Fortress")

@@ -2205,7 +2205,8 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
   /* Safe terrain according to player map? */
   if (!is_native_terrain(unit_type(punit),
                          map_get_player_tile(ptile, pplayer)->terrain,
-                         map_get_player_tile(ptile, pplayer)->special)) {
+                         map_get_player_tile(ptile, pplayer)->special,
+                         map_get_player_tile(ptile, pplayer)->bases)) {
     notify_player(pplayer, ptile, E_BAD_COMMAND,
                      _("This unit cannot paradrop into %s."),
                      terrain_name_translation(

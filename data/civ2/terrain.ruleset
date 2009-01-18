@@ -786,6 +786,7 @@ shield      = 3
 ;   - "NoStackDeath"      = Units inside do not die all at once when attacked
 ;   - "DiplomatDefense"   = Diplomats inside get bonus to diplomatic defense
 ;   - "ParadropFrom"      = Paradrop can be initiated from base
+;   - "NativeTile"        = Units consider tile native regardless of terrain
 
 [base_fortress]
 name          = _("Fortress")

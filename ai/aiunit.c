@@ -2587,7 +2587,10 @@ void update_simple_ai_types(void)
 void unit_class_ai_init(void)
 {
   bv_special special;
+  bv_bases bases;
+
   BV_CLR_ALL(special); /* Can it move even without road */
+  BV_CLR_ALL(bases);
 
   unit_class_iterate(pclass) {
     bool move_land_enabled  = FALSE; /* Can move at some land terrains */
@@ -2596,7 +2599,7 @@ void unit_class_ai_init(void)
     bool move_sea_disabled  = FALSE; /* Cannot move at some ocean terrains */
 
     terrain_type_iterate(pterrain) {
-      if (is_native_to_class(pclass, pterrain, special)) {
+      if (is_native_to_class(pclass, pterrain, special, bases)) {
         /* Can move at terrain */
         if (is_ocean(pterrain)) {
           move_sea_enabled = TRUE;

@@ -35,10 +35,10 @@ bool is_native_tile_to_class(const struct unit_class *punitclass,
                              const struct tile *ptile);
 bool is_native_terrain(const struct unit_type *punittype,
                        const struct terrain *pterrain,
-                       bv_special special);
+                       bv_special special, bv_bases bases);
 bool is_native_to_class(const struct unit_class *punitclass,
                         const struct terrain *pterrain,
-                        bv_special special);
+                        bv_special special, bv_bases bases);
 bool is_native_near_tile(const struct unit_type *utype, const struct tile *ptile);
 bool can_exist_at_tile(const struct unit_type *utype,
                        const struct tile *ptile);

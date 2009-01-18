@@ -825,15 +825,17 @@ static void pft_fill_unit_default_parameter(struct pf_parameter *parameter,
     /* Unit is subject to terrain movement costs */
     struct unit_type *punittype = unit_type(punit);
     bv_special specials;
+    bv_bases bases;
 
     BV_CLR_ALL(specials); /* This works at the moment, since road is
                            * only special that affects is_native_terrain()
                            * Even if tile contains road, we can safely
                            * ignore it since movement cost for it is
                            * certainly less than SINGLE_MOVE. */
+    BV_CLR_ALL(bases);
 
     terrain_type_iterate(pterrain) {
-      if (is_native_terrain(punittype, pterrain, specials)) {
+      if (is_native_terrain(punittype, pterrain, specials, bases)) {
         /* Exact movement cost matters only if we can enter
          * the tile. */
         int mr = 2 * pterrain->movement_cost;

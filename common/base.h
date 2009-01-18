@@ -30,6 +30,7 @@ enum base_flag_id {
   BF_NO_STACK_DEATH,     /* Units inside will not die all at once */
   BF_DIPLOMAT_DEFENSE,   /* Base provides bonus for defending diplomat */
   BF_PARADROP_FROM,      /* Paratroopers can use base for paradrop */
+  BF_NATIVE_TILE,        /* Makes tile native terrain for units */
   BF_LAST                /* This has to be last */
 };
 
