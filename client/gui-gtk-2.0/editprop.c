@@ -317,6 +317,7 @@ enum object_property_ids {
   OPID_PLAYER_NATION,
   OPID_PLAYER_ADDRESS,
   OPID_PLAYER_INVENTIONS,
+  OPID_PLAYER_GOLD,
 
   OPID_GAME_YEAR
 };
@@ -1546,6 +1547,9 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
       } advance_index_iterate_end;
       pv->must_free = TRUE;
       break;
+    case OPID_PLAYER_GOLD:
+      pv->data.v_int = pplayer->economic.gold;
+      break;
     default:
       freelog(LOG_ERROR, "Unhandled request for value of property %d "
               "(%s) from object of type \"%s\" in "
@@ -1704,6 +1708,12 @@ static bool objbind_get_allowed_value_span(struct objbind *ob,
   } else if (objtype == OBJTYPE_PLAYER) {
 
     switch (propid) {
+    case OPID_PLAYER_GOLD:
+      min = 0;
+      max = 1000000; /* Arbitrary. */
+      step = 1;
+      big_step = 100;
+      break;
     default:
       freelog(LOG_ERROR, "Unhandled request for value range of "
               "property %d (%s) from object of type \"%s\" in "
@@ -2011,6 +2021,7 @@ static void objbind_pack_current_values(struct objbind *ob,
       packet->inventions[tech]
           = TECH_KNOWN == player_invention_state(pplayer, tech);
     } advance_index_iterate_end;
+    packet->gold = pplayer->economic.gold;
     /* TODO: Set more packet fields. */
 
   } else if (objtype == OBJTYPE_GAME) {
@@ -2163,6 +2174,9 @@ static void objbind_pack_modified_value(struct objbind *ob,
       advance_index_iterate(A_FIRST, tech) {
         packet->inventions[tech] = pv->data.v_inventions[tech];
       } advance_index_iterate_end;
+      break;
+    case OPID_PLAYER_GOLD:
+      packet->gold = pv->data.v_int;
       break;
     default:
       freelog(LOG_ERROR, "Unhandled request to pack value of "
@@ -2552,6 +2566,7 @@ static void objprop_setup_widget(struct objprop *op)
 
   case OPID_CITY_SIZE:
   case OPID_CITY_SHIELD_STOCK:
+  case OPID_PLAYER_GOLD:
   case OPID_GAME_YEAR:
     spin = gtk_spin_button_new_with_range(0.0, 100.0, 1.0);
     g_signal_connect(spin, "value-changed",
@@ -2727,6 +2742,7 @@ static void objprop_refresh_widget(struct objprop *op,
 
   case OPID_CITY_SIZE:
   case OPID_CITY_SHIELD_STOCK:
+  case OPID_PLAYER_GOLD:
   case OPID_GAME_YEAR:
     spin = objprop_get_child_widget(op, "spin");
     if (pv) {
@@ -3672,6 +3688,8 @@ static void property_page_setup_objprops(struct property_page *pp)
             | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_NATION);
     ADDPROP(OPID_PLAYER_INVENTIONS, _("Inventions"), OPF_IN_LISTVIEW
             | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INVENTIONS_ARRAY);
+    ADDPROP(OPID_PLAYER_GOLD, _("Gold"), OPF_IN_LISTVIEW
+            | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
     break;
 
   case OBJTYPE_GAME:

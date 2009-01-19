@@ -1012,6 +1012,20 @@ void handle_edit_player(struct connection *pc,
     update_research = TRUE;
   } advance_index_iterate_end;
   
+  /* Handle a change in the player's gold. */
+  if (packet->gold != pplayer->economic.gold) {
+    if (!(0 <= packet->gold && packet->gold <= 1000000)) {
+      notify_conn(pc->self, NULL, E_BAD_COMMAND,
+                  _("Cannot set gold for player %d (%s) because "
+                    "the value %d is outside the allowed range."),
+                  player_number(pplayer), player_name(pplayer),
+                  packet->gold);
+    } else {
+      pplayer->economic.gold = packet->gold;
+      changed = TRUE;
+    }
+  }
+
 
   /* TODO: Handle more property edits. */
 
