@@ -730,8 +730,17 @@ static void update_unit_activity(struct unit *punit)
 	if (what != S_LAST) {
           if (what == S_PILLAGE_BASE) {
             if (territory_claiming_base(first_base)) {
+              /* Clearing borders will take care of the vision providing
+               * bases as well. */
               map_clear_border(ptile);
               map_claim_ownership(ptile, NULL, NULL);
+            } else if (first_base->vision_sq >= 0) {
+              /* Base provides vision, but no borders. */
+              struct player *owner = tile_owner(ptile);
+              if (owner) {
+                map_refog_circle(owner, ptile, first_base->vision_sq, -1,
+                                 game.info.vision_reveal_tiles, V_MAIN);
+              }
             }
             tile_remove_base(ptile, first_base);
           } else {
@@ -802,6 +811,13 @@ static void update_unit_activity(struct unit *punit)
           if (territory_claiming_base(old_base)) {
             map_clear_border(ptile);
             map_claim_ownership(ptile, NULL, NULL);
+          } else if (old_base->vision_sq >= 0) {
+              /* Base provides vision, but no borders. */
+              struct player *owner = tile_owner(ptile);
+              if (owner) {
+                map_refog_circle(owner, ptile, old_base->vision_sq, -1,
+                                 game.info.vision_reveal_tiles, V_MAIN);
+              }
           }
           tile_remove_base(ptile, old_base);
         }
@@ -819,6 +835,12 @@ static void update_unit_activity(struct unit *punit)
         map_claim_border(ptile, unit_owner(punit));
         city_thaw_workers_queue();
         city_refresh_queue_processing();
+      } else if (new_base->vision_sq > 0) {
+        struct player *owner = tile_owner(ptile);
+        if (owner) {
+          map_refog_circle(owner, ptile, -1, new_base->vision_sq,
+                           game.info.vision_reveal_tiles, V_MAIN);
+        }
       }
 
       unit_activity_done = TRUE;

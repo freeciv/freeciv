@@ -603,12 +603,12 @@ static void shared_vision_change_seen(struct tile *ptile,
 }
 
 /**************************************************************************
-There doesn't have to be a city.
+  There doesn't have to be a city.
 **************************************************************************/
-static void map_refog_circle(struct player *pplayer, struct tile *ptile,
-			     int old_radius_sq, int new_radius_sq,
-			     bool can_reveal_tiles,
-			     enum vision_layer vlayer)
+void map_refog_circle(struct player *pplayer, struct tile *ptile,
+                      int old_radius_sq, int new_radius_sq,
+                      bool can_reveal_tiles,
+                      enum vision_layer vlayer)
 {
   if (old_radius_sq != new_radius_sq) {
     int max_radius = MAX(old_radius_sq, new_radius_sq);
@@ -1546,6 +1546,23 @@ void map_claim_ownership(struct tile *ptile, struct player *powner,
         map_unfog_tile(powner, ptile, TRUE, V_MAIN);
       }
     }
+  }
+
+  if (ploser != powner) {
+    base_type_iterate(pbase) {
+      if (tile_has_base(ptile, pbase)
+          && pbase->vision_sq >= 0) {
+        /* Transfer base provided vision to new owner */
+        if (powner) {
+          map_refog_circle(powner, ptile, -1, pbase->vision_sq,
+                           game.info.vision_reveal_tiles, V_MAIN);
+        }
+        if (ploser) {
+          map_refog_circle(ploser, ptile, pbase->vision_sq, -1,
+                           game.info.vision_reveal_tiles, V_MAIN);
+        }
+      }
+    } base_type_iterate_end;
   }
 
   tile_set_owner(ptile, powner, psource);

@@ -430,7 +430,7 @@ PACKET_GAME_INFO=15; sc
   UINT8 forced_science;
   UINT8 forced_luxury;
   UINT8 forced_gold;
-  BOOL city_reveal_tiles;
+  BOOL vision_reveal_tiles;
   UINT8 min_city_center_output[O_MAX];
   UINT8 min_dist_bw_cities;
   UINT8 init_vis_radius_sq;
@@ -1317,7 +1317,9 @@ PACKET_RULESET_BASE=120;sc,lsend
   BASE_GUI gui_type;
   BV_UNIT_CLASSES native_to;
   UINT8 build_time;
+  UINT8 defense_bonus;
   UINT8 border_sq;
+  UINT8 vision_sq;
   BV_BASE_FLAGS flags;
 end
 

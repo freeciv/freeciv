@@ -2017,6 +2017,8 @@ static void load_ruleset_terrain(struct section_file *file)
     pbase->build_time = secfile_lookup_int(file, "%s.build_time", section);
     pbase->border_sq  = secfile_lookup_int_default(file, -1, "%s.border_sq",
                                                    section);
+    pbase->vision_sq  = secfile_lookup_int_default(file, -1, "%s.vision_sq",
+                                                   section);
     pbase->defense_bonus  = secfile_lookup_int_default(file, 0,
                                                        "%s.defense_bonus",
                                                        section);
@@ -2842,7 +2844,7 @@ static void load_ruleset_cities(struct section_file *file)
   }
 
   /* civ1 & 2 didn't reveal tiles */
-  game.info.city_reveal_tiles =
+  game.info.vision_reveal_tiles =
     secfile_lookup_bool_default(file, FALSE, "parameters.vision_reveal_tiles");
 
   /* City Styles ... */
@@ -3440,7 +3442,9 @@ static void send_ruleset_bases(struct conn_list *dest)
 
     packet.gui_type = b->gui_type;
     packet.build_time = b->build_time;
+    packet.defense_bonus = b->defense_bonus;
     packet.border_sq = b->border_sq;
+    packet.vision_sq = b->vision_sq;
 
     packet.flags = b->flags;
 

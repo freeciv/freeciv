@@ -2891,7 +2891,7 @@ static void player_load_cities(struct player *plr, int plrno,
 
     /* adding the city contribution to fog-of-war */
     pcity->server.vision = vision_new(plr, pcenter);
-    vision_reveal_tiles(pcity->server.vision, game.info.city_reveal_tiles);
+    vision_reveal_tiles(pcity->server.vision, game.info.vision_reveal_tiles);
     city_refresh_vision(pcity);
 
     city_list_append(plr->cities, pcity);

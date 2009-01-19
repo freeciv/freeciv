@@ -61,6 +61,10 @@ void send_map_info(struct conn_list *dest);
 void map_show_tile(struct player *pplayer, struct tile *ptile);
 void map_show_circle(struct player *pplayer,
 		     struct tile *ptile, int radius_sq);
+void map_refog_circle(struct player *pplayer, struct tile *ptile,
+                      int old_radius_sq, int new_radius_sq,
+                      bool can_reveal_tiles,
+                      enum vision_layer vlayer);
 void map_show_all(struct player *pplayer);
 
 bool map_is_known_and_seen(const struct tile *ptile, struct player *pplayer,

@@ -48,6 +48,7 @@ struct base_type {
   int build_time;
   int defense_bonus;
   int border_sq;
+  int vision_sq;
 
   bv_unit_classes native_to;
   bv_base_flags flags;
