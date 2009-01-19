@@ -795,9 +795,10 @@ static int exit_terrain_info_dialog_callback(struct widget *pButton)
   return -1;
 }
 
-/***************************************************************
-  Return a (static) string with terrain defense bonus;
-***************************************************************/
+/**************************************************************************
+  Return a (static) string with terrain defense bonus.
+  This does not include bonuses some units may get out of bases.
+**************************************************************************/
 const char *sdl_get_tile_defense_info_text(struct tile *ptile)
 {
   static char buffer[64];
@@ -806,11 +807,9 @@ const char *sdl_get_tile_defense_info_text(struct tile *ptile)
   if(tile_has_special(ptile, S_RIVER)) {
     bonus += terrain_control.river_defense_bonus;
   }
-  if(tile_has_base_flag(ptile, BF_DEFENSE_BONUS)) {
-    bonus += terrain_control.fortress_defense_bonus;
-  }
+
   my_snprintf(buffer, sizeof(buffer), "Terrain Defense Bonus: +%d%% ", bonus);
-  
+
   return buffer;
 }
 
