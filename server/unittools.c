@@ -641,6 +641,26 @@ void notify_unit_experience(struct unit *punit, bool also)
 }
 
 /**************************************************************************
+  Pillages base from tile
+**************************************************************************/
+static void unit_pillage_base(struct tile *ptile, struct base_type *pbase)
+{
+  if (territory_claiming_base(pbase)) {
+    /* Clearing borders will take care of the vision providing
+     * bases as well. */
+    map_clear_border(ptile);
+  } else if (pbase->vision_sq >= 0) {
+    /* Base provides vision, but no borders. */
+    struct player *owner = tile_owner(ptile);
+    if (owner) {
+      map_refog_circle(owner, ptile, pbase->vision_sq, -1,
+                       game.info.vision_reveal_tiles, V_MAIN);
+    }
+  }
+  tile_remove_base(ptile, pbase);
+}
+
+/**************************************************************************
   progress settlers in their current tasks, 
   and units that is pillaging.
   also move units that is on a goto.
@@ -729,20 +749,7 @@ static void update_unit_activity(struct unit *punit)
 
 	if (what != S_LAST) {
           if (what == S_PILLAGE_BASE) {
-            if (territory_claiming_base(first_base)) {
-              /* Clearing borders will take care of the vision providing
-               * bases as well. */
-              map_clear_border(ptile);
-              map_claim_ownership(ptile, NULL, NULL);
-            } else if (first_base->vision_sq >= 0) {
-              /* Base provides vision, but no borders. */
-              struct player *owner = tile_owner(ptile);
-              if (owner) {
-                map_refog_circle(owner, ptile, first_base->vision_sq, -1,
-                                 game.info.vision_reveal_tiles, V_MAIN);
-              }
-            }
-            tile_remove_base(ptile, first_base);
+            unit_pillage_base(ptile, first_base);
           } else {
             tile_clear_special(ptile, what);
           }
@@ -763,7 +770,7 @@ static void update_unit_activity(struct unit *punit)
         base_type_iterate(pbase) {
           if (tile_has_base(ptile, pbase)) {
             /* Remove first base */
-            tile_remove_base(ptile, pbase);
+            unit_pillage_base(ptile, pbase);
             break; /* but only first */
           }
         } base_type_iterate_end;
