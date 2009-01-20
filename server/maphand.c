@@ -1537,7 +1537,7 @@ void map_claim_ownership(struct tile *ptile, struct player *powner,
 {
   struct player *ploser = tile_owner(ptile);
 
-  if (game.info.borders > 1) {
+  if (game.info.borders >= 2) {
     if (ploser != powner) {
       if (ploser) {
         map_fog_tile(ploser, ptile, V_MAIN);
@@ -1627,8 +1627,7 @@ void map_claim_border(struct tile *ptile, struct player *owner)
       continue;
     }
 
-    if (!map_is_known(dtile, owner)) {
-      /* without city_reveal_tiles option */
+    if (!map_is_known(dtile, owner) && game.info.borders < 3) {
       continue;
     }
 

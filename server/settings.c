@@ -697,7 +697,8 @@ struct settings_s settings[] = {
 	     "around a fortress or city will be owned by that nation.\n"
              "  0 = Disabled\n"
              "  1 = Enabled\n"
-             "  2 = See everything inside borders"),
+             "  2 = See everything inside borders\n"
+             "  3 = Borders expand to unknown, revealing tiles"),
 	  NULL,
 	  GAME_MIN_BORDERS, GAME_MAX_BORDERS, GAME_DEFAULT_BORDERS)
 

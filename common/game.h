@@ -204,7 +204,7 @@ bool setting_class_is_changeable(enum sset_class class);
 /* 0 means no national borders. */
 #define GAME_DEFAULT_BORDERS         1
 #define GAME_MIN_BORDERS             0
-#define GAME_MAX_BORDERS             2
+#define GAME_MAX_BORDERS             3
 
 #define GAME_DEFAULT_HAPPYBORDERS    TRUE
 
