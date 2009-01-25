@@ -33,20 +33,19 @@ AC_DEFUN([FC_CHECK_AUTH],
                    [AC_MSG_WARN([couldn't find mysql libs in normal locations]);
                     auth=false])
 
-      if test x$auth = x$true ; then
+      if test x$auth = xfalse ; then
         fc_preauth_LDFLAGS="$LDFLAGS"
         fc_mysql_lib_loc="-L/usr/lib/mysql -L/usr/local/lib/mysql"
 
         for __ldpath in $fc_mysql_lib_loc; do
           unset ac_cv_lib_mysqlclient_mysql_query
           LDFLAGS="$LDFLAGS $__ldpath"
-          auth=true
 
           AC_CHECK_LIB(mysqlclient, mysql_query,
                        [AUTH_LIBS="-lmysqlclient $AUTH_LIBS";
-                        AC_MSG_WARN([had to add $__ldpath to LDFLAGS])],
-                        [AC_MSG_WARN([couldn't find mysql libs in $__ldpath]);
-                         auth=false])
+                        AC_MSG_WARN([had to add $__ldpath to LDFLAGS])
+                        auth=true],
+                        [AC_MSG_WARN([couldn't find mysql libs in $__ldpath])])
 
           if test x$auth = xtrue; then
             break
@@ -54,6 +53,10 @@ AC_DEFUN([FC_CHECK_AUTH],
             LDFLAGS="$fc_preauth_LDFLAGS"
           fi
         done
+
+        if test x$auth = xfalse ; then
+          AC_MSG_ERROR([couldn't find mysql libs at all])
+        fi
       fi
     else
       AUTH_CFLAGS="-I$mysql_prefix/include $AUTH_CFLAGS"
