@@ -540,11 +540,11 @@ static void popup_properties(struct tile *ptile)
   tiles = tile_list_new();
 
   if (editor_tile_is_selected(ptile)) {
-    hash_iterate(editor->selected_tile_table, sel_tile, dummy) {
+    hash_keys_iterate(editor->selected_tile_table, sel_tile) {
       if (can_edit_tile_properties(sel_tile)) {
         tile_list_append(tiles, sel_tile);
       }
-    } hash_iterate_end;
+    } hash_keys_iterate_end;
   } else {
     if (can_edit_tile_properties(ptile)) {
       tile_list_append(tiles, ptile);
@@ -1049,9 +1049,9 @@ void editor_apply_tool_to_selection(void)
   }
 
   connection_do_buffer(&client.conn);
-  hash_iterate(editor->selected_tile_table, ptile, dummy) {
+  hash_keys_iterate(editor->selected_tile_table, ptile) {
     editor_apply_tool(ptile, TRUE);
-  } hash_iterate_end;
+  } hash_keys_iterate_end;
   editor_notify_edit_finished();
   connection_do_unbuffer(&client.conn);
 
@@ -1848,11 +1848,11 @@ const struct tile *editor_get_selection_center(void)
   }
 
   origin = map_pos_to_tile(0, 0);
-  hash_iterate(editor->selected_tile_table, ptile, dummy) {
+  hash_keys_iterate(editor->selected_tile_table, ptile) {
     map_distance_vector(&dx, &dy, origin, ptile);
     xsum += dx;
     ysum += dy;
-  } hash_iterate_end;
+  } hash_keys_iterate_end;
 
   cx = xsum / count;
   cy = ysum / count;

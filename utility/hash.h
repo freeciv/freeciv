@@ -82,29 +82,32 @@ unsigned int hash_num_deleted(const struct hash_table *h);
 bool hash_set_no_shrink(struct hash_table *h,
                         bool no_shrink);
 
-struct hash_iter {
-  const struct hash_table *table;
-  int index;
-  const void *key;
-  const void *value;
-};
+#include "iterator.h"
 
-bool hash_get_start_iter(const struct hash_table *h,
-                         struct hash_iter *iter);
-bool hash_iter_next(struct hash_iter *iter);
-void *hash_iter_get_key(struct hash_iter *iter);
-void *hash_iter_get_value(struct hash_iter *iter);
+struct hash_iter;
+size_t hash_iter_sizeof(void);
 
-#define hash_iterate(ARG_hash_table, NAME_key, NAME_value) {\
-  struct hash_iter MY_iter;\
-  if (hash_get_start_iter((ARG_hash_table), &MY_iter)) {\
-    void *NAME_key, *NAME_value;\
-    bool MY_more_items = TRUE;\
-    while (MY_more_items) {\
-      NAME_key = hash_iter_get_key(&MY_iter);\
-      NAME_value = hash_iter_get_value(&MY_iter);\
-      MY_more_items = hash_iter_next(&MY_iter);
+struct iterator *hash_key_iter_init(struct hash_iter *it,
+                                    const struct hash_table *h);
+#define hash_keys_iterate(ARG_ht, NAME_key)\
+  generic_iterate(struct hash_iter, void *, NAME_key,\
+                  hash_iter_sizeof, hash_key_iter_init, (ARG_ht))
+#define hash_keys_iterate_end generic_iterate_end
 
-#define hash_iterate_end } } }
+struct iterator *hash_value_iter_init(struct hash_iter *it,
+                                      const struct hash_table *h);
+#define hash_values_iterate(ARG_ht, NAME_value)\
+  generic_iterate(struct hash_iter, void *, NAME_value,\
+                  hash_iter_sizeof, hash_value_iter_init, (ARG_ht))
+#define hash_values_iterate_end generic_iterate_end
+
+struct iterator *hash_iter_init(struct hash_iter *it,
+                                const struct hash_table *h);
+void *hash_iter_get_key(const struct iterator *hash_iter);
+void *hash_iter_get_value(const struct iterator *hash_iter);
+#define hash_iterate(ARG_ht, NAME_iter)\
+  generic_iterate(struct hash_iter, struct iterator *, NAME_iter,\
+                  hash_iter_sizeof, hash_iter_init, (ARG_ht))
+#define hash_iterate_end generic_iterate_end
 
 #endif  /* FC__HASH_H */

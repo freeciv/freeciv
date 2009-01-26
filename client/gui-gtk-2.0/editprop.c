@@ -543,29 +543,13 @@ static void property_page_remove_creation_tag(struct property_page *pp,
 static bool property_page_tag_is_known(struct property_page *pp, int tag);
 static void property_page_clear_tags(struct property_page *pp);
 
-#define property_page_objprop_iterate(ARG_pp, NAME_op) do {\
-  struct objprop *NAME_op;\
-  if (!(ARG_pp) || !(ARG_pp)->objprop_table) {\
-    break;\
-  }\
-  hash_iterate((ARG_pp)->objprop_table, MY_dummy, MY_value) {\
-    NAME_op = MY_value;
+#define property_page_objprop_iterate(ARG_pp, NAME_op)\
+  hash_values_iterate((ARG_pp)->objprop_table, NAME_op)
+#define property_page_objprop_iterate_end hash_values_iterate_end
 
-#define property_page_objprop_iterate_end \
-  } hash_iterate_end;\
-} while (0)
-
-#define property_page_objbind_iterate(ARG_pp, NAME_ob) do {\
-  struct objbind *NAME_ob;\
-  if (!(ARG_pp) || !(ARG_pp)->objbind_table) {\
-    break;\
-  }\
-  hash_iterate((ARG_pp)->objbind_table, MY_dummy, MY_value) {\
-    NAME_ob = MY_value;
-
-#define property_page_objbind_iterate_end \
-  } hash_iterate_end;\
-} while (0)
+#define property_page_objbind_iterate(ARG_pp, NAME_ob)\
+  hash_values_iterate((ARG_pp)->objbind_table, NAME_ob)
+#define property_page_objbind_iterate_end hash_values_iterate_end
 
 
 /****************************************************************************

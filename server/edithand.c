@@ -98,9 +98,9 @@ static void check_edited_tile_terrains(void)
     return;
   }
 
-  hash_iterate(unfixed_tile_table, ptile, dummy) {
+  hash_keys_iterate(unfixed_tile_table, ptile) {
     fix_tile_on_terrain_change(ptile, FALSE);
-  } hash_iterate_end;
+  } hash_keys_iterate_end;
   hash_delete_all_entries(unfixed_tile_table);
 
   assign_continent_numbers();
