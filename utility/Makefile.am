@@ -23,6 +23,7 @@ libcivutility_la_SOURCES = \
 		inputfile.h	\
 		ioz.c		\
 		ioz.h		\
+		iterator.h	\
 		log.c		\
 		log.h		\
 		netintf.c	\
