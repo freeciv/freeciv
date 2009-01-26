@@ -476,13 +476,14 @@ void handle_single_want_hack_reply(bool you_have_hack)
   }
 
   if (you_have_hack) {
-    append_output_window(_("We have control of the server "
-                         "(command access level hack)"));
+    append_output_window(_("Established control over the server. "
+                           "You have command access level 'hack'."));
     client_has_hack = TRUE;
   } else if (is_server_running()) {
     /* only output this if we started the server and we NEED hack */
-    append_output_window(_("We can't take control of server, "
-                         "attempting to kill it."));
+    append_output_window(_("Failed to obtain the required access "
+                           "level to take control of the server. "
+                           "The server will now be shutdown."));
     client_kill_server(TRUE);
   }
 }
