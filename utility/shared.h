@@ -235,6 +235,16 @@ enum m_pre_result match_prefix(m_pre_accessor_fn_t accessor_fn,
                                m_strlen_fn_t len_fn,
 			       const char *prefix,
 			       int *ind_result);
+enum m_pre_result match_prefix_full(m_pre_accessor_fn_t accessor_fn,
+                                    size_t n_names,
+                                    size_t max_len_name,
+                                    m_pre_strncmp_fn_t cmp_fn,
+                                    m_strlen_fn_t len_fn,
+                                    const char *prefix,
+                                    int *ind_result,
+                                    int *matches,
+                                    int max_matches,
+                                    int *pnum_matches);
 
 char *get_multicast_group(bool ipv6_prefered);
 void interpret_tilde(char* buf, size_t buf_size, const char* filename);

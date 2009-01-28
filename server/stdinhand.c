@@ -4120,6 +4120,44 @@ static void show_help_command_list(struct connection *caller,
 }
 
 /**************************************************************************
+  Send a reply to the caller listing the matched names from an ambiguous
+  prefix.
+**************************************************************************/
+static void cmd_reply_matches(enum command_id cmd,
+                              struct connection *caller,
+                              m_pre_accessor_fn_t accessor_fn,
+                              int *matches, int num_matches)
+{
+  char buf[MAX_LEN_MSG];
+  const char *src, *end;
+  char *dest;
+  int i;
+
+  if (accessor_fn == NULL || matches == NULL || num_matches < 1) {
+    return;
+  }
+
+  dest = buf;
+  end = buf + sizeof(buf) - 1;
+
+  for (i = 0; i < num_matches && dest < end; i++) {
+    src = accessor_fn(matches[i]);
+    if (!src) {
+      continue;
+    }
+    if (dest != buf) {
+      *dest++ = ' ';
+    }
+    while (*src != '\0' && dest < end) {
+      *dest++ = *src++;
+    }
+  }
+  *dest = '\0';
+
+  cmd_reply(cmd, caller, C_COMMENT, _("Possible matches: %s"), buf);
+}
+
+/**************************************************************************
   Additional 'help' arguments
 **************************************************************************/
 enum HELP_GENERAL_ARGS { HELP_GENERAL_COMMANDS, HELP_GENERAL_OPTIONS,
@@ -4153,14 +4191,16 @@ static const char *helparg_accessor(int i) {
 **************************************************************************/
 static bool show_help(struct connection *caller, char *arg)
 {
+  int matches[64], num_matches = 0;
   enum m_pre_result match_result;
   int ind;
 
   assert(!may_use_nothing(caller));
     /* no commands means no help, either */
 
-  match_result = match_prefix(helparg_accessor, HELP_ARG_NUM, 0,
-			      mystrncasecmp, NULL, arg, &ind);
+  match_result = match_prefix_full(helparg_accessor, HELP_ARG_NUM, 0,
+                                   mystrncasecmp, NULL, arg, &ind, matches,
+                                   ARRAY_SIZE(matches), &num_matches);
 
   if (match_result==M_PRE_EMPTY) {
     show_help_intro(caller, CMD_HELP);
@@ -4169,6 +4209,8 @@ static bool show_help(struct connection *caller, char *arg)
   if (match_result==M_PRE_AMBIGUOUS) {
     cmd_reply(CMD_HELP, caller, C_FAIL,
 	      _("Help argument '%s' is ambiguous."), arg);
+    cmd_reply_matches(CMD_HELP, caller, helparg_accessor,
+                      matches, num_matches);
     return FALSE;
   }
   if (match_result==M_PRE_FAIL) {

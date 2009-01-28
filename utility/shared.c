@@ -1512,20 +1512,41 @@ const char *m_pre_description(enum m_pre_result result)
 }
 
 /***************************************************************************
+  See match_prefix_full().
+***************************************************************************/
+enum m_pre_result match_prefix(m_pre_accessor_fn_t accessor_fn,
+                               size_t n_names,
+                               size_t max_len_name,
+                               m_pre_strncmp_fn_t cmp_fn,
+                               m_strlen_fn_t len_fn,
+                               const char *prefix,
+                               int *ind_result)
+{
+  return match_prefix_full(accessor_fn, n_names, max_len_name, cmp_fn,
+                           len_fn, prefix, ind_result, NULL, 0, NULL);
+}
+
+/***************************************************************************
   Given n names, with maximum length max_len_name, accessed by
   accessor_fn(0) to accessor_fn(n-1), look for matching prefix
   according to given comparison function.
   Returns type of match or fail, and for return <= M_PRE_AMBIGUOUS
   sets *ind_result with matching index (or for ambiguous, first match).
   If max_len_name==0, treat as no maximum.
+  If the int array 'matches' is non-NULL, up to 'max_matches' ambiguous
+  matching names indices will be inserted into it. If 'pnum_matches' is
+  non-NULL, it will be set to the number of indices inserted into 'matches'.
 ***************************************************************************/
-enum m_pre_result match_prefix(m_pre_accessor_fn_t accessor_fn,
-			       size_t n_names,
-			       size_t max_len_name,
-			       m_pre_strncmp_fn_t cmp_fn,
-                               m_strlen_fn_t len_fn,
-			       const char *prefix,
-			       int *ind_result)
+enum m_pre_result match_prefix_full(m_pre_accessor_fn_t accessor_fn,
+                                    size_t n_names,
+                                    size_t max_len_name,
+                                    m_pre_strncmp_fn_t cmp_fn,
+                                    m_strlen_fn_t len_fn,
+                                    const char *prefix,
+                                    int *ind_result,
+                                    int *matches,
+                                    int max_matches,
+                                    int *pnum_matches)
 {
   int i, len, nmatches;
 
@@ -1552,6 +1573,9 @@ enum m_pre_result match_prefix(m_pre_accessor_fn_t accessor_fn,
       if (nmatches==0) {
 	*ind_result = i;	/* first match */
       }
+      if (matches != NULL && nmatches < max_matches) {
+        matches[nmatches] = i;
+      }
       nmatches++;
     }
   }
@@ -1559,6 +1583,9 @@ enum m_pre_result match_prefix(m_pre_accessor_fn_t accessor_fn,
   if (nmatches == 1) {
     return M_PRE_ONLY;
   } else if (nmatches > 1) {
+    if (pnum_matches != NULL) {
+      *pnum_matches = MIN(max_matches, nmatches);
+    }
     return M_PRE_AMBIGUOUS;
   } else {
     return M_PRE_FAIL;
