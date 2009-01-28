@@ -194,6 +194,7 @@ match=2
 *include "nation/ryukyuan.ruleset"
 *include "nation/sami.ruleset"
 *include "nation/samogitian.ruleset"
+*include "nation/saxon.ruleset"
 *include "nation/scottish.ruleset"
 *include "nation/serbian.ruleset"
 *include "nation/silesian.ruleset"

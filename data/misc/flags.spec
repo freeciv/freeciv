@@ -159,6 +159,7 @@ artists = "
    Ryukyu		Daniel Markstedt
    Samogitia		Daniel Markstedt and Jarno Vasamaa
    Sapmi		Dean Tersigni
+   Saxony               Björn Adelberg
    Scotland		Sigge Kotliar
    Serbia		Nikola Pizurica
    Silesia		Vasco Alexandre Da Silva Costa
@@ -361,6 +362,7 @@ sprites =
 		"f.ryukyu", "flags/ryukyu"
 		"f.samogitia", "flags/samogitia"
 		"f.sapmi", "flags/sapmi"
+		"f.saxony", "flags/saxony"
 		"f.scotland", "flags/scotland"
 		"f.serbia", "flags/serbia"
 		"f.silesia", "flags/silesia"
