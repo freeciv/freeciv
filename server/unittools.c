@@ -1143,25 +1143,61 @@ bool teleport_unit_to_city(struct unit *punit, struct city *pcity,
 }
 
 /**************************************************************************
-  Teleport or remove a unit due to stack conflict.
+  Move or remove a unit due to stack conflicts. This function will try to
+  find a random safe tile within a two tile distance of the unit's current
+  tile and move the unit there. If no tiles are found, the unit is
+  disbanded. If 'verbose' is TRUE, a message is sent to the unit owner
+  regarding what happened.
 **************************************************************************/
 void bounce_unit(struct unit *punit, bool verbose)
 {
-  struct player *pplayer = unit_owner(punit);
-  struct city *pcity = find_closest_owned_city(pplayer, punit->tile,
-                                               is_sailing_unit(punit), NULL);
+  struct player *pplayer;
+  struct tile *punit_tile;
+  int count = 0;
 
-  if (pcity && can_unit_exist_at_tile(punit, pcity->tile)) {
-    (void) teleport_unit_to_city(punit, pcity, 0, verbose);
-  } else {
-    /* remove it */
-    if (verbose) {
-      notify_player(unit_owner(punit), punit->tile, E_UNIT_LOST_MISC,
-		       _("Disbanded your %s."),
-		       unit_name_translation(punit));
-    }
-    wipe_unit(punit);
+  /* I assume that there are no topologies that have more than
+   * (2d + 1)^2 tiles in the "square" of "radius" d. */
+  const int DIST = 2;
+  struct tile *tiles[(2 * DIST + 1) * (2 * DIST + 1)];
+
+  if (!punit) {
+    return;
   }
+
+  pplayer = unit_owner(punit);
+  punit_tile = unit_tile(punit);
+
+  square_iterate(punit_tile, DIST, ptile) {
+    if (count >= ARRAY_SIZE(tiles)) {
+      break;
+    }
+    if (can_unit_survive_at_tile(punit, ptile)
+        && !is_non_allied_city_tile(ptile, pplayer)
+        && !is_non_allied_unit_tile(ptile, pplayer)) {
+      tiles[count++] = ptile;
+    }
+  } square_iterate_end;
+
+  if (count > 0) {
+    struct tile *ptile = tiles[myrand(count)];
+
+    if (verbose) {
+      /* TRANS: A unit is moved to resolve stack conflicts. */
+      notify_player(pplayer, ptile, E_UNIT_RELOCATED, _("Moved your %s."),
+                    unit_name_translation(punit));
+    }
+    move_unit(punit, ptile, 0);
+    return;
+  }
+
+  /* Didn't find a place to bounce the unit, just disband it. */
+  if (verbose) {
+    /* TRANS: A unit is disbanded to resolve stack conflicts. */
+    notify_player(pplayer, punit_tile, E_UNIT_LOST_MISC,
+                  _("Disbanded your %s."),
+                  unit_name_translation(punit));
+  }
+  wipe_unit(punit);
 }
 
 
