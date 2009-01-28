@@ -6,9 +6,9 @@ groups="Ancient","Asian"
 legend=_("The first Persian (Achaemenid) Empire lasted from 550BC to 330BC;\
  the second (Sassanid) from 226AD to 642AD.")
 leader=
- "Cyrus II",	; A native rendering of his name is "Kurush"
- "Darius I",	;		-""-		    "Darayavaush"
- "Xerxes I",	;		-""-		    "Khshayarsha"
+ "Kurush II", ; a.k.a. "Cyrus"
+ "Darayavaush I", ; a.k.a. "Darius"
+ "Khshayarsha I", ; a.k.a. "Xerxes"
  "Ardashir I",
  "Khosrau I",
  "Shapur I"

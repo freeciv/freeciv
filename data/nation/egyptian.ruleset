@@ -14,7 +14,7 @@ leader=
  "Thutmose I",
  "Hatshepsut",
  "Nefertiti",
- "Cheops",	; A more correct rendering of his name would be "Khufu"
+ "Khufu", ; a.k.a. "Cheops"
  "Akhenaten"
 leader_sex="Male", "Female", "Male", "Male", "Male",
         "Female", "Female", "Male", "Male"
