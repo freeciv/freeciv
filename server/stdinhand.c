@@ -1999,7 +1999,7 @@ static bool show_command(struct connection *caller, char *str, bool check)
 ******************************************************************/
 static bool is_ok_opt_name_char(char c)
 {
-  return my_isalnum(c);
+  return my_isalnum(c) || c == '_';
 }
 
 /******************************************************************
