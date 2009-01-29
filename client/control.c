@@ -931,6 +931,10 @@ void control_mouse_cursor(struct tile *ptile)
   struct city *pcity = NULL;
   struct unit_list *active_units = get_units_in_focus();
 
+  if (!enable_cursor_changes) {
+    return;
+  }
+
   if (C_S_RUNNING != client_state()) {
     action_state = CURSOR_ACTION_DEFAULT;
     return;
