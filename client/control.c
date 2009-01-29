@@ -941,6 +941,10 @@ void control_mouse_cursor(struct tile *ptile)
   struct unit_list *active_units = get_units_in_focus();
   enum cursor_type mouse_cursor_type = CURSOR_DEFAULT;
 
+  if (!enable_cursor_changes) {
+    return;
+  }
+
   if (C_S_RUNNING != client_state()) {
     update_mouse_cursor(CURSOR_DEFAULT);
     return;

@@ -89,6 +89,7 @@ bool ask_city_name = TRUE;
 bool popup_new_cities = TRUE;
 bool keyboardless_goto = TRUE;
 bool show_task_icons = TRUE;
+bool enable_cursor_changes = TRUE;
 
 /* This option is currently set by the client - not by the user. */
 bool update_city_text_in_refresh_tile = TRUE;
@@ -258,6 +259,12 @@ static client_option common_options[] = {
 		  N_("Setting this option will pop up a newly-founded "
 		     "city's city dialog automatically."),
 		  COC_INTERFACE),
+  GEN_BOOL_OPTION(enable_cursor_changes, N_("Enable cursor changing"),
+                  N_("This option controls whether the client should "
+                     "try to change the mouse cursor depending on what "
+                     "is being pointed at, as well as to indicate "
+                     "changes in the client or server state."),
+                  COC_INTERFACE),
 
   GEN_BOOL_OPTION(overview.layers[OLAYER_BACKGROUND],
 		  N_("Background layer"),
