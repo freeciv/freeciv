@@ -209,7 +209,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
   struct cma_dialog *pdialog;
   struct cm_parameter param;
   GtkWidget *frame, *page, *hbox, *label, *table;
-  GtkWidget *vbox, *sw, *hscale, *button, *align;
+  GtkWidget *vbox, *sw, *hscale, *button, *align, *image;
   GtkListStore *store;
   GtkCellRenderer *rend;
   GtkWidget *view;
@@ -268,7 +268,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
   label = g_object_new(GTK_TYPE_LABEL,
                        "use-underline", TRUE,
                        "mnemonic-widget", view,
-                       "label", _("_Presets:"),
+                       "label", _("Prese_ts:"),
                        "xalign", 0.0, "yalign", 0.5, NULL);
   gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
 
@@ -284,10 +284,13 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
   gtk_button_box_set_layout(GTK_BUTTON_BOX(hbox), GTK_BUTTONBOX_EDGE);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
 
-  pdialog->add_preset_command = gtk_button_new_from_stock(GTK_STOCK_NEW);
-  gtk_container_add(GTK_CONTAINER(hbox), pdialog->add_preset_command);
-  g_signal_connect(pdialog->add_preset_command, "clicked",
-		   G_CALLBACK(cma_add_preset_callback), pdialog);
+  button = gtk_button_new_with_mnemonic(_("Ne_w"));
+  image = gtk_image_new_from_stock(GTK_STOCK_NEW, GTK_ICON_SIZE_BUTTON);
+  gtk_button_set_image(GTK_BUTTON(button), image);
+  gtk_container_add(GTK_CONTAINER(hbox), button);
+  g_signal_connect(button, "clicked",
+                   G_CALLBACK(cma_add_preset_callback), pdialog);
+  pdialog->add_preset_command = button;
 
   pdialog->del_preset_command = gtk_button_new_from_stock(GTK_STOCK_DELETE);
   gtk_container_add(GTK_CONTAINER(hbox), pdialog->del_preset_command);

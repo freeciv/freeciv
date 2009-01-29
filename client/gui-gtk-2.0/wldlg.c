@@ -1249,7 +1249,7 @@ GtkWidget *create_worklist(void)
   ptr->help_cmd = button;
   gtk_widget_set_sensitive(ptr->help_cmd, FALSE);
 
-  button = gtk_button_new_with_mnemonic(_("Chan_ge Production"));
+  button = gtk_button_new_with_mnemonic(_("Change Prod_uction"));
   gtk_container_add(GTK_CONTAINER(bbox), button);
   g_signal_connect(button, "clicked",
 		   G_CALLBACK(change_callback), ptr);

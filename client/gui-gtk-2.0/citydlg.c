@@ -842,7 +842,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   label = g_object_new(GTK_TYPE_LABEL,
 		       "use-underline", TRUE,
 		       "mnemonic-widget", view,
-		       "label", _("_Improvements:"),
+		       "label", _("I_mprovements:"),
 		       "xalign", 0.0, "yalign", 0.5, NULL);
   gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
 
@@ -901,7 +901,7 @@ target_drag_data_received(GtkWidget *w, GdkDragContext *context,
 *****************************************************************/
 static void create_and_append_worklist_page(struct city_dialog *pdialog)
 {
-  const char *tab_title = _("_Production");
+  const char *tab_title = _("P_roduction");
   GtkWidget *label = gtk_label_new_with_mnemonic(tab_title);
   GtkWidget *page, *hbox, *editor, *bar;
 
@@ -952,7 +952,7 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
 static void create_and_append_happiness_page(struct city_dialog *pdialog)
 {
   GtkWidget *page, *vbox, *label, *table, *align;
-  const char *tab_title = _("_Happiness");
+  const char *tab_title = _("Happ_iness");
 
   page = gtk_hbox_new(FALSE, 6);
   gtk_container_set_border_width(GTK_CONTAINER(page), 8);
@@ -1119,7 +1119,7 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
   vbox2 = gtk_vbox_new(TRUE, 0);
   gtk_container_add(GTK_CONTAINER(frame), vbox2);
 
-  button = gtk_button_new_with_mnemonic(_("_Rename..."));
+  button = gtk_button_new_with_mnemonic(_("R_ename..."));
   pdialog->misc.rename_command = button;
   gtk_container_add(GTK_CONTAINER(vbox2), button);
   g_signal_connect(button, "clicked",
