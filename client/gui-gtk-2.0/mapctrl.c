@@ -301,22 +301,24 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
 
   case 3: /* RIGHT mouse button */
 
-    /* <SHIFT> + <CONTROL> + RMB : Show/hide workers. */
-    if ((ev->state & GDK_SHIFT_MASK) && (ev->state & GDK_CONTROL_MASK)) {
-      if (NULL != pcity) {
-        overlay_workers_at_city();
-      }
+    /* <SHIFT> + <ALT> + RMB : Show/hide workers. */
+    if ((ev->state & GDK_SHIFT_MASK) && (ev->state & GDK_MOD1_MASK)
+        && pcity != NULL) {
+      overlay_workers_at_city();
+    }
+    /* <SHIFT + CONTROL> + RMB: Paste Production. */
+    else if ((ev->state & GDK_SHIFT_MASK) && (ev->state & GDK_CONTROL_MASK)
+             && pcity != NULL) {
+      clipboard_paste_production(pcity);
+      cancel_tile_hiliting();
+    }
+    /* <SHIFT> + RMB: Copy Production. */
+    else if (ev->state & GDK_SHIFT_MASK) {
+      clipboard_copy_production(ptile);
     }
     /* <CONTROL> + RMB : Quickselect a land unit. */
     else if (ev->state & GDK_CONTROL_MASK) {
       action_button_pressed(ev->x, ev->y, SELECT_LAND);
-    }
-    /* <SHIFT> + RMB: Paste Production. */
-    else if ((ev->state & GDK_SHIFT_MASK)) {
-      if (NULL != pcity) {
-        clipboard_paste_production(pcity);
-        cancel_tile_hiliting();
-      }
     }
     /* Plain RMB click. */
     else {
