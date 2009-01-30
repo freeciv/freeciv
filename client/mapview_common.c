@@ -25,6 +25,7 @@
 #include "timing.h"
 
 /* common */
+#include "game.h"
 #include "map.h"
 #include "unitlist.h"
 
@@ -71,6 +72,15 @@ enum tile_update_type {
 static void queue_mapview_update(enum update_type update);
 static void queue_mapview_tile_update(struct tile *ptile,
 				      enum tile_update_type type);
+
+/* Helper struct for drawing traderoutes. */
+struct traderoute_line {
+  int x, y, width, height;
+};
+
+/* A traderoute line might need to be drawn in two parts. */
+static const int MAX_TRADEROUTE_DRAW_LINES = 2;
+
 
 /**************************************************************************
  Refreshes a single tile on the map canvas.
@@ -1078,6 +1088,129 @@ static void put_one_tile(struct canvas *pcanvas, enum mapview_layer layer,
 }
 
 /**************************************************************************
+  Depending on where ptile1 and ptile2 are on the map canvas, a traderoute
+  line may need to be drawn as two disjointed line segments. This function
+  fills the given line array 'lines' with the necessary line segments.
+
+  The return value is the number of line segments that need to be drawn.
+
+  NB: It is assumed ptile1 and ptile2 are already consistently ordered.
+  NB: 'lines' must be able to hold least MAX_TRADEROUTE_DRAW_LINES
+  elements.
+**************************************************************************/
+static int traderoute_to_canvas_lines(const struct tile *ptile1,
+                                      const struct tile *ptile2,
+                                      struct traderoute_line *lines)
+{
+  int dx, dy;
+
+  if (!ptile1 || !ptile2 || !lines) {
+    return 0;
+  }
+
+  base_map_distance_vector(&dx, &dy, TILE_XY(ptile1), TILE_XY(ptile2));
+  map_to_gui_pos(tileset, &lines[0].width, &lines[0].height, dx, dy);
+
+  /* FIXME: Remove these casts. */
+  tile_to_canvas_pos(&lines[0].x, &lines[0].y, (struct tile *)ptile1);
+  tile_to_canvas_pos(&lines[1].x, &lines[1].y, (struct tile *)ptile2);
+
+  if (lines[1].x - lines[0].x == lines[0].width
+      && lines[1].y - lines[0].y == lines[0].height) {
+    return 1;
+  }
+
+  lines[1].width = -lines[0].width;
+  lines[1].height = -lines[0].height;
+  return 2;
+}
+
+/**************************************************************************
+  Draw a colored traderoute line from one tile to another.
+**************************************************************************/
+static void draw_traderoute_line(const struct tile *ptile1,
+                                 const struct tile *ptile2,
+                                 enum color_std color)
+{
+  struct traderoute_line lines[MAX_TRADEROUTE_DRAW_LINES];
+  int line_count, i;
+  struct color *pcolor;
+
+  if (!ptile1 || !ptile2) {
+    return;
+  }
+
+  pcolor = get_color(tileset, color);
+  if (!pcolor) {
+    return;
+  }
+
+  /* Order the source and destination tiles consistently
+   * so that if a line is drawn twice it does not produce
+   * ugly effects due to dashes not lining up. */
+  if (tile_index(ptile2) > tile_index(ptile1)) {
+    const struct tile *tmp;
+    tmp = ptile1;
+    ptile1 = ptile2;
+    ptile2 = tmp;
+  }
+
+  line_count = traderoute_to_canvas_lines(ptile1, ptile2, lines);
+  for (i = 0; i < line_count; i++) {
+    canvas_put_line(mapview.store, pcolor, LINE_BORDER,
+                    lines[i].x + tileset_tile_width(tileset) / 2,
+                    lines[i].y + tileset_tile_height(tileset) / 2,
+                    lines[i].width, lines[i].height);
+  }
+}
+
+/**************************************************************************
+  Draw all traderoutes for the given city.
+**************************************************************************/
+static void draw_traderoutes_for_city(const struct city *pcity_src)
+{
+  int i;
+  const struct city *pcity_dest;
+
+  if (!pcity_src) {
+    return;
+  }
+
+  for (i = 0; i < NUM_TRADEROUTES; i++) {
+    pcity_dest = game_find_city_by_number(pcity_src->trade[i]);
+    if (!pcity_dest) {
+      continue;
+    }
+    draw_traderoute_line(city_tile(pcity_src), city_tile(pcity_dest),
+                         COLOR_MAPVIEW_GOTO); /* Cyan. */
+  }
+}
+
+/**************************************************************************
+  Draw traderoutes between cities as lines on the main map canvas.
+**************************************************************************/
+static void draw_traderoutes(void)
+{
+  if (!draw_city_traderoutes) {
+    return;
+  }
+
+  if (client_is_global_observer()) {
+    cities_iterate(pcity) {
+      draw_traderoutes_for_city(pcity);
+    } cities_iterate_end;
+  } else {
+    struct player *pplayer = client_player();
+    if (!pplayer) {
+      return;
+    }
+    city_list_iterate(pplayer->cities, pcity) {
+      draw_traderoutes_for_city(pcity);
+    } city_list_iterate_end;
+  }
+}
+
+/**************************************************************************
   Update (refresh) the map canvas starting at the given tile (in map
   coordinates) and with the given dimensions (also in map coordinates).
 
@@ -1158,6 +1291,8 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
       }
     } gui_rect_iterate_end;
   } mapview_layer_iterate_end;
+
+  draw_traderoutes();
 
   /* Draw the goto lines on top of the whole thing. This is done last as
    * we want it completely on top.
