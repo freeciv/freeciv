@@ -1311,22 +1311,24 @@ void maybe_make_contact(struct tile *ptile, struct player *pplayer)
 **************************************************************************/
 void shuffle_players(void)
 {
-  int i, pos, tmp;
+  /* shuffled_order is defined global */
+  int n = player_slot_count();
+  int i;
 
   freelog(LOG_DEBUG, "shuffle_players: creating shuffled order");
 
-  for (i = 0; i < player_slot_count(); i++) {
+  for (i = 0; i < n; i++) {
     shuffled_order[i] = i;
   }
 
-  for (i = 0; i < player_slot_count() - 1; i++) {
-    /* for each run: shuffled[ <i ] is already shuffled [Kero+dwp] */
-    pos = i + myrand(player_slot_count() - i);
-    tmp = shuffled_order[i]; 
-    shuffled_order[i] = shuffled_order[pos];
-    shuffled_order[pos] = tmp;
+  /* randomize it */
+  array_shuffle(shuffled_order, n);
+
+#ifdef DEBUG
+  for (i = 0; i < n; i++) {
     freelog(LOG_DEBUG, "shuffled_order[%d] = %d", i, shuffled_order[i]);
   }
+#endif
 }
 
 /**************************************************************************

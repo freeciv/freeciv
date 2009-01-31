@@ -254,4 +254,7 @@ bool make_dir(const char *pathname);
 bool path_is_absolute(const char *filename);
 
 char scanin(char **buf, char *delimiters, char *dest, int size);
+
+void array_shuffle(int *array, int n);
+
 #endif  /* FC__SHARED_H */

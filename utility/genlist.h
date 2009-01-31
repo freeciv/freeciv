@@ -84,6 +84,7 @@ bool genlist_search(struct genlist *pgenlist, const void *data);
 
 void genlist_sort(struct genlist *pgenlist,
 		  int (*compar)(const void *, const void *));
+void genlist_shuffle(struct genlist *pgenlist);
 
 #define ITERATOR_PTR(iter) ((iter) ? ((iter)->dataptr) : NULL)
 #define ITERATOR_NEXT(iter) (iter = (iter)->next)

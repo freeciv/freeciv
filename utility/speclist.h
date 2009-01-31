@@ -41,6 +41,7 @@
       bool foo_list_search(struct foo_list *this, foo_t *pfoo);
       void foo_list_sort(struct foo_list *This, 
          int (*compar)(const void *, const void *));
+      void foo_list_shuffle(struct foo_list *This);
 
    You should also define yourself:  (this file cannot do this for you)
    
@@ -146,6 +147,11 @@ static inline bool SPECLIST_FOO(_list_search) (SPECLIST_LIST *tthis,
 static inline void SPECLIST_FOO(_list_sort) (SPECLIST_LIST * tthis, int (*compar) (const void *, const void *))
 {
   genlist_sort(tthis->list, compar);
+}
+
+static inline void SPECLIST_FOO(_list_shuffle) (SPECLIST_LIST * tthis)
+{
+  genlist_shuffle(tthis->list);
 }
 
 #undef SPECLIST_TAG
