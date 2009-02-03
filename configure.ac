@@ -569,7 +569,7 @@ if test "$ggz_server" = "yes" ; then
   AC_CHECK_FUNCS([chdir mkdtemp])
 fi
 
-FC_ADD_WORDS_TO_VAR([LDFLAGS], ["-Wl,-rpath=${lib_prefix}"])
+FC_LD_FLAGS(["-Wl,-rpath=${lib_prefix}"], [], [LDFLAGS])
 
 AC_SUBST(gui_sources)
 AC_SUBST(CLIENT_CFLAGS)
