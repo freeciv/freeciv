@@ -766,7 +766,7 @@ static void fill_client_goto_parameter(struct unit *punit,
       }
     } else {
       /* otherwise moves_left_initially = punit->moves_left (default) */
-      assert(*connect_initial == 0);
+      *connect_initial = 0;
     }
     break;
   case HOVER_NUKE:
