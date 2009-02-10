@@ -90,6 +90,7 @@ bool popup_new_cities = TRUE;
 bool keyboardless_goto = TRUE;
 bool show_task_icons = TRUE;
 bool enable_cursor_changes = TRUE;
+bool separate_unit_selection = FALSE;
 
 /* This option is currently set by the client - not by the user. */
 bool update_city_text_in_refresh_tile = TRUE;
@@ -264,6 +265,11 @@ static client_option common_options[] = {
                      "try to change the mouse cursor depending on what "
                      "is being pointed at, as well as to indicate "
                      "changes in the client or server state."),
+                  COC_INTERFACE),
+  GEN_BOOL_OPTION(separate_unit_selection, N_("Select cities before units"),
+                  N_("If this option is enabled, when both cities and "
+                     "units are present in the selection rectangle, only "
+                     "cities will be selected."),
                   COC_INTERFACE),
 
   GEN_BOOL_OPTION(overview.layers[OLAYER_BACKGROUND],

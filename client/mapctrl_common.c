@@ -124,7 +124,7 @@ static void define_tiles_within_rectangle(void)
   const int inc_x = (rec_w > 0 ? half_W : -half_W);
   const int inc_y = (rec_h > 0 ? half_H : -half_H);
   int x, y, x2, y2, xx, yy;
-  int units = 0;
+  struct unit_list *units = unit_list_new();
 
   y = rec_corner_y;
   for (yy = 0; yy <= segments_y; yy++, y += inc_y) {
@@ -161,17 +161,25 @@ static void define_tiles_within_rectangle(void)
         tiles_hilited_cities = TRUE;
       }
       unit_list_iterate(ptile->units, punit) {
-	if (unit_owner(punit) == client.conn.playing) {
-	  if (units == 0 && !rectangle_append) {
-	    set_unit_focus(punit);
-	  } else {
-	    add_unit_focus(punit);
-	  }
-	  units++;
-	}
+        if (unit_owner(punit) == client.conn.playing) {
+          unit_list_append(units, punit);
+        }
       } unit_list_iterate_end;
     }
   }
+
+  if (!(separate_unit_selection && tiles_hilited_cities)
+      && unit_list_size(units) > 0) {
+    if (!rectangle_append) {
+      struct unit *punit = unit_list_get(units, 0);
+      set_unit_focus(punit);
+      unit_list_unlink(units, punit);
+    }
+    unit_list_iterate(units, punit) {
+      add_unit_focus(punit);
+    } unit_list_iterate_end;
+  }
+  unit_list_free(units);
 
   /* Hilite in City List Window */
   if (tiles_hilited_cities) {

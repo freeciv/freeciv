@@ -53,6 +53,7 @@ extern bool update_city_text_in_refresh_tile;
 extern bool keyboardless_goto;
 extern bool show_task_icons;
 extern bool enable_cursor_changes;
+extern bool separate_unit_selection;
 
 extern char font_city_label[512];
 extern char font_notify_label[512];
