@@ -94,6 +94,7 @@ int overview_canvas_store_height = 2 * 50;
 
 bool enable_tabs = TRUE;
 bool better_fog = TRUE;
+bool show_chat_message_time = FALSE;
 
 GtkWidget *toplevel;
 GdkWindow *root_window;
@@ -178,7 +179,13 @@ client_option gui_options[] = {
 		     N_("If this is enabled then a better method is used "
 			"for drawing fog-of-war.  It is not any slower but "
 			"will consume about twice as much memory."),
-		     COC_GRAPHICS, mapview_redraw_callback)
+		     COC_GRAPHICS, mapview_redraw_callback),
+  GEN_BOOL_OPTION(show_chat_message_time,
+                  N_("Show time for each chat message"),
+                  N_("If this option is enabled then all chat messages "
+                     "will be prefixed by a time string of the form "
+                     "[hour:minute:second]."),
+                  COC_INTERFACE)
 };
 const int num_gui_options = ARRAY_SIZE(gui_options);
 

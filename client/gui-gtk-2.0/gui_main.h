@@ -26,6 +26,7 @@ extern PangoFontDescription *        city_productions_font;
 
 extern bool enable_tabs;
 extern bool better_fog;
+extern bool show_chat_message_time;
 
 extern GdkGC *          civ_gc;
 extern GdkGC *          mask_fg_gc;
