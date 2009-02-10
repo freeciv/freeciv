@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #include <gdk/gdkkeysyms.h>
 
@@ -82,6 +83,18 @@ void real_append_output_window(const char *astring, int conn_id)
   buf = message_buffer;
   gtk_text_buffer_get_end_iter(buf, &i);
   gtk_text_buffer_insert(buf, &i, "\n", -1);
+
+  if (show_chat_message_time) {
+    char timebuf[64];
+    time_t now;
+    struct tm now_tm;
+
+    now = time(NULL);
+    localtime_r(&now, &now_tm);
+    strftime(timebuf, sizeof(timebuf), "[%H:%M:%S] ", &now_tm);
+    gtk_text_buffer_insert(buf, &i, timebuf, -1);
+  }
+
   gtk_text_buffer_insert(buf, &i, astring, -1);
 
   /* have to use a mark, or this won't work properly */
