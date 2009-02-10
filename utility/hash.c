@@ -870,7 +870,7 @@ struct iterator *hash_iter_init(struct hash_iter *it,
   it->vtable.get = hash_iter_get;
   it->vtable.valid = hash_iter_valid;
   it->b = h->buckets - 1;
-  it->end = h->buckets + h->num_buckets + 1;
+  it->end = h->buckets + h->num_buckets;
 
   /* Seek to the first used bucket. */
   hash_iter_next(ITERATOR(it));
