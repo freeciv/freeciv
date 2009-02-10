@@ -296,15 +296,11 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
       clipboard_paste_production(pcity);
       cancel_tile_hiliting();
     }
-    /* <SHIFT> + RMB: Copy Production. */
-    else if (ev->state & GDK_SHIFT_MASK) {
-      clipboard_copy_production(ptile);
-    }
     /* <CONTROL> + RMB : Quickselect a land unit. */
     else if (ev->state & GDK_CONTROL_MASK) {
       action_button_pressed(ev->x, ev->y, SELECT_LAND);
     }
-    /* Plain RMB click. */
+    /* Plain RMB click, possibly with <SHIFT>. */
     else {
       /*  A foolproof user will depress button on canvas,
        *  release it on another widget, and return to canvas

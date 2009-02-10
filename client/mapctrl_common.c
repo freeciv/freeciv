@@ -305,7 +305,16 @@ void release_right_button(int canvas_x, int canvas_y)
     define_tiles_within_rectangle();
     update_map_canvas_visible();
   } else {
-    recenter_button_pressed(canvas_x, canvas_y);
+    /* NB: Assumes 'rectangle_append' was set because <SHIFT> was on. */
+    if (rectangle_append) {
+      struct tile *ptile = canvas_pos_to_tile(canvas_x, canvas_y);
+      if (ptile != NULL) {
+        /* <SHIFT> + RMB: Copy Production. */
+        clipboard_copy_production(ptile);
+      }
+    } else {
+      recenter_button_pressed(canvas_x, canvas_y);
+    }
   }
   rectangle_active = FALSE;
   rbutton_down = FALSE;
