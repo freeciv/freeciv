@@ -1039,7 +1039,7 @@ struct settings_s settings[] = {
 	     SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_SERVER_ONLY,
 	     N_("Auto-save name prefix"),
 	     N_("Automatically saved games will have name "
-		"\"<prefix><year>.sav\". This setting sets "
+		"\"<prefix>-T<turn>-Y<year>.sav\". This setting sets "
 		"the <prefix> part."), NULL,
 	     GAME_DEFAULT_SAVE_NAME)
 

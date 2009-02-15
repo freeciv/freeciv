@@ -906,6 +906,40 @@ static void end_turn(void)
 }
 
 /**************************************************************************
+  Generate a default save file name and place it in the provided buffer.
+  The name will be of the form "<prefix>-T<turn>-Y<year><suffix><m>" where:
+
+    <prefix> = game.save_name
+    <turn>   = game.info.turn (zero padded to 3 places)
+    <year>   = game.info.year (not padded and no sign)
+    <suffix> = "BC" or "AD" for negative or positive year resp.
+    <m>      = "m" (for "manual save") if 'is_auto_save' is FALSE
+
+  Returns the number of characters written, or the number of characters
+  that would have been written if truncation occurs.
+**************************************************************************/
+static int generate_save_name(char *buf, int buflen, bool is_auto_save)
+{
+  int nb, year;
+  const char *year_suffix;
+
+  if (game.info.year < 0) {
+    year = -game.info.year;
+    year_suffix = "BC";
+  } else {
+    year = game.info.year;
+    year_suffix = "AD";
+  }
+
+  /* NB: If you change the format here, be sure to update the above
+   * function comment and the help text for the 'savename' setting. */
+  nb = my_snprintf(buf, buflen, "%s-T%03d-Y%d%s%s",
+                   game.save_name, game.info.turn, year,
+                   year_suffix, is_auto_save ? "" : "m");
+  return nb;
+}
+
+/**************************************************************************
 Unconditionally save the game, with specified filename.
 Always prints a message: either save ok, or failed.
 
@@ -930,10 +964,9 @@ void save_game(char *orig_filename, const char *save_reason)
     *dot = '\0';
   }
 
-  /* If orig_filename is NULL or empty, use "civgame.info.year>m". */
+  /* If orig_filename is NULL or empty, use a generated default name. */
   if (filename[0] == '\0'){
-    my_snprintf(filename, sizeof(filename),
-	"%s%+05dm", game.save_name, game.info.year);
+    generate_save_name(filename, sizeof(filename), FALSE);
   }
   
   timer_cpu = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
@@ -1009,8 +1042,7 @@ void save_game_auto(const char *save_reason)
 
   assert(strlen(game.save_name)<256);
   
-  my_snprintf(filename, sizeof(filename),
-	      "%s%+05d.sav", game.save_name, game.info.year);
+  generate_save_name(filename, sizeof(filename), TRUE);
   save_game(filename, save_reason);
   save_ppm();
 }
