@@ -77,16 +77,10 @@ int vision_get_sight(const struct vision *vision, enum vision_layer vlayer)
 }
 
 /****************************************************************************
-  ...
+  Frees vision site structure.
 ****************************************************************************/
 void free_vision_site(struct vision_site *psite)
 {
-  if (psite->ref_count > 0) {
-    /* Somebody still uses this vision site. Do not free */
-    return;
-  }
-  assert(psite->ref_count == 0);
-
   free(psite);
 }
 
@@ -130,25 +124,4 @@ void update_vision_site_from_city(struct vision_site *psite,
 
   psite->size = pcity->size;
   sz_strlcpy(psite->name, city_name(pcity));
-}
-
-/****************************************************************************
-  Copy relevant information from one site struct to another.
-  Currently only user expects everything except ref_count to be copied.
-  If other kind of users are added, parameter defining copied information
-  set should be added.
-****************************************************************************/
-void copy_vision_site(struct vision_site *dest, struct vision_site *src)
-{
-  /* Copy everything except ref_count. */
-  strcpy(dest->name, src->name);
-  dest->location = src->location;
-  dest->owner = src->owner;
-  dest->identity = src->identity;
-  dest->size = src->size;
-  dest->occupied = src->occupied;
-  dest->walls = src->walls;
-  dest->happy = src->happy;
-  dest->unhappy = src->unhappy;
-  dest->improvements = src->improvements;
 }

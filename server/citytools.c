@@ -1606,9 +1606,7 @@ void send_all_known_cities(struct conn_list *dest)
       continue;
     }
     whole_map_iterate(ptile) {
-      /* FIXME: map_get_player_base()???
-       * Should be cities only: map_get_player_city() */
-      if (!pplayer || NULL != map_get_player_base(ptile, pplayer)) {
+      if (!pplayer || NULL != map_get_player_site(ptile, pplayer)) {
 	send_city_info_at_tile(pplayer, pconn->self, NULL, ptile);
       }
     } whole_map_iterate_end;
@@ -1921,9 +1919,6 @@ void reality_check_city(struct player *pplayer,struct tile *ptile)
       dlsend_packet_city_remove(pplayer->connections, pdcity->identity);
       assert(playtile->site == pdcity);
       playtile->site = NULL;
-      pdcity->ref_count--; /* Subtract ref_count before calling
-                            * free_vision_site() */
-      assert(pdcity->ref_count >= 0);
       free_vision_site(pdcity);
     }
   }

@@ -80,8 +80,6 @@ void show_map_to_all(void);
 void player_map_allocate(struct player *pplayer);
 void player_map_free(struct player *pplayer);
 
-struct vision_site *map_get_player_base(const struct tile *ptile,
-					const struct player *pplayer);
 struct vision_site *map_get_player_city(const struct tile *ptile,
 					const struct player *pplayer);
 struct vision_site *map_get_player_site(const struct tile *ptile,

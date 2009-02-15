@@ -121,8 +121,6 @@ struct vision_site {
   bool happy;
   bool unhappy;
 
-  int ref_count;
-
   bv_imprs improvements;
 };
 
@@ -133,6 +131,5 @@ struct vision_site *create_vision_site(int identity, struct tile *location,
 struct vision_site *create_vision_site_from_city(const struct city *pcity);
 void update_vision_site_from_city(struct vision_site *psite,
 				  const struct city *pcity);
-void copy_vision_site(struct vision_site *dest, struct vision_site *src);
 
 #endif  /* FC__VISION_H */

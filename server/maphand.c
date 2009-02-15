@@ -403,7 +403,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
     } else if (pplayer && map_is_known(ptile, pplayer)
 	       && map_get_seen(ptile, pplayer, V_MAIN) == 0) {
       struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
-      struct vision_site *psite = map_get_player_base(ptile, pplayer);
+      struct vision_site *psite = map_get_player_site(ptile, pplayer);
 
       info.known = TILE_KNOWN_UNSEEN;
       info.continent = tile_continent(ptile);
@@ -799,24 +799,15 @@ void change_playertile_site(struct player_tile *ptile,
                             struct vision_site *new_site)
 {
   if (ptile->site == new_site) {
-    /* Do nothing. Especially: don't decrease ref_count and
-     * free vision site... */
+    /* Do nothing. */
     return;
   }
 
   if (ptile->site != NULL) {
     /* Releasing old site from tile */
-    ptile->site->ref_count--;
-    assert(ptile->site->ref_count >= 0);
-    if (ptile->site->ref_count == 0) {
-      /* Free vision site before losing its address completely */
-      free_vision_site(ptile->site);
-    }
+    free_vision_site(ptile->site);
   }
-  if (new_site != NULL) {
-    /* Assigning new site to tile */
-    new_site->ref_count++;
-  }
+
   ptile->site = new_site;
 }
 
@@ -892,21 +883,11 @@ void player_map_free(struct player *pplayer)
     return;
   }
 
-  /* removing borders */
-  whole_map_iterate(ptile) {
-    struct player_tile *playtile = map_get_player_tile(ptile, pplayer);
-
-    /* map_get_player_base() will return NULL for non-site tile */
-    change_playertile_site(playtile, map_get_player_base(ptile, pplayer));
-  } whole_map_iterate_end;
-
   /* only after removing borders! */
   whole_map_iterate(ptile) {
-    struct vision_site *psite = map_get_player_base(ptile, pplayer);
+    struct vision_site *psite = map_get_player_site(ptile, pplayer);
 
     if (NULL != psite) {
-      /* Player tile will be freed, so ref_count goes down */
-      psite->ref_count--;
       free_vision_site(psite);
     }
   } whole_map_iterate_end;
@@ -945,22 +926,6 @@ static void player_tile_init(struct tile *ptile, struct player *pplayer)
   vision_layer_iterate(v) {
     plrtile->own_seen[v] = plrtile->seen_count[v];
   } vision_layer_iterate_end;
-}
-
-/****************************************************************************
-  Returns vision site located at given tile from player map.
-  FIXME: Rename function as it's not returning only bases, but
-         any vision sites.
-****************************************************************************/
-struct vision_site *map_get_player_base(const struct tile *ptile,
-					const struct player *pplayer)
-{
-  struct vision_site *psite = map_get_player_site(ptile, pplayer);
-
-  if (NULL != psite && ptile == psite->location) {
-    return psite;
-  }
-  return NULL;
 }
 
 /****************************************************************************
@@ -1117,12 +1082,9 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
           /* We cannot assign new vision site with change_playertile_site(),
            * since location is not yet set up for new site */
           dest_tile->site = create_vision_site(0, NULL, NULL);
-          dest_tile->site->ref_count++;
 	}
-	/* Copy vision information.
-         * Note that we don't care if receiver knows vision source city
+        /* Note that we don't care if receiver knows vision source city
          * or not. */
-        copy_vision_site(dest_tile->site, from_tile->site);
 	send_city_info_at_tile(pdest, pdest->connections, NULL, ptile);
       }
 
