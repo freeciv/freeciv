@@ -902,7 +902,7 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile)
   }
 
   if (maybe_make_veteran(punit)) {
-    notify_unit_experience(punit, FALSE);
+    notify_unit_experience(punit);
   }
 
   send_unit_info(NULL, punit);
@@ -1021,7 +1021,7 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
 		  nation_adjective_for_player(unit_owner(plooser)),
 		  unit_name_translation(plooser));
     if (vet) {
-      notify_unit_experience(pwinner, TRUE);
+      notify_unit_experience(pwinner);
     }
     notify_player(unit_owner(plooser), def_tile, E_UNIT_LOST_ATT,
 		  /* TRANS: "... Cannon ... the Polish Destroyer." */

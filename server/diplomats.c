@@ -458,7 +458,7 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 		unit_name_translation(pdiplomat),
 		unit_name_translation(pvictim));
   if (maybe_make_veteran(pdiplomat)) {
-    notify_unit_experience(pdiplomat, TRUE);
+    notify_unit_experience(pdiplomat);
   }
   notify_player(uplayer, pvictim->tile, E_ENEMY_DIPLOMAT_BRIBE,
 		/* TRANS: <unit> ... <Poles> */
@@ -1142,7 +1142,7 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
 
 	/* Defending unit became more experienced? */
 	if (maybe_make_veteran(punit)) {
-	  notify_unit_experience(punit, FALSE);
+	  notify_unit_experience(punit);
 	}
 	wipe_unit(pdiplomat);
 	return FALSE;
@@ -1191,7 +1191,7 @@ static void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
 		  unit_name_translation(pdiplomat),
 		  city_name(spyhome));
     if (maybe_make_veteran(pdiplomat)) {
-      notify_unit_experience(pdiplomat, TRUE);
+      notify_unit_experience(pdiplomat);
     }
 
     /* being teleported costs all movement */

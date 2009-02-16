@@ -624,21 +624,18 @@ static bool maybe_settler_become_veteran(struct unit *punit)
 }
 
 /**************************************************************************
-  common notification for all experience levels.
-  When used immediately after another unit message, set also to TRUE.
+  Common notification for all experience levels.
 **************************************************************************/
-void notify_unit_experience(struct unit *punit, bool also)
+void notify_unit_experience(struct unit *punit)
 {
-  if (also) {
-    notify_player(unit_owner(punit), punit->tile, E_UNIT_BECAME_VET,
-  		  /* TRANS: And, <the unit> became ... */
-  		  _("And, became more experienced!"));
-  } else {
-    notify_player(unit_owner(punit), punit->tile, E_UNIT_BECAME_VET,
-  		  /* TRANS: Your <unit> became ... */
-  		  _("Your %s became more experienced!"),
-  		  unit_name_translation(punit));
+  if (!punit) {
+    return;
   }
+
+  notify_player(unit_owner(punit), unit_tile(punit), E_UNIT_BECAME_VET,
+                /* TRANS: Your <unit> became ... */
+                _("Your %s became more experienced!"),
+                unit_name_translation(punit));
 }
 
 /**************************************************************************
@@ -707,7 +704,7 @@ static void update_unit_activity(struct unit *punit)
 
     /* settler may become veteran when doing something useful */
     if (maybe_settler_become_veteran(punit)) {
-      notify_unit_experience(punit, FALSE);
+      notify_unit_experience(punit);
     }
     break;
   };
@@ -1730,7 +1727,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 		  nation_adjective_for_player(pvictim),
 		  unit_name_translation(punit));
     if (vet) {
-      notify_unit_experience(pkiller, TRUE);
+      notify_unit_experience(pkiller);
     }
     notify_player(pvictim, punit->tile, E_UNIT_LOST_DEF,
 		  /* TRANS: "Cannon ... the Polish Destroyer." */
@@ -1777,7 +1774,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 		  unit_name_translation(punit),
 		  unitcount - 1);
     if (vet) {
-      notify_unit_experience(pkiller, TRUE);
+      notify_unit_experience(pkiller);
     }
 
     /* inform the owners: this only tells about owned units that were killed.
