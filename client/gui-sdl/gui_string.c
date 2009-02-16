@@ -601,15 +601,6 @@ static TTF_Font * load_font(Uint16 ptsize)
 
   if(!pFont_with_FullPath) {
     const char *path = theme_font_filename(theme);
-#if 0    
-    if(!path) {
-      path = datafilename("stdfont.ttf");
-      if (!path) {
-      die(_("Couldn't find stdfont.ttf file. Please link/copy/move any"
-            "unicode ttf font to data dir as stdfont.ttf"));
-    }
-    }
-#endif
     pFont_with_FullPath = mystrdup(path);
     assert(pFont_with_FullPath != NULL);
   }
