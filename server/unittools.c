@@ -295,8 +295,9 @@ void pay_for_units(struct player *pplayer, struct city *pcity)
       assert(pplayer->economic.gold + potential_gold >= 0);
 
       notify_player(pplayer, NULL, E_UNIT_LOST_MISC,
-		       _("Not enough gold. %s disbanded"),
-		       unit_name_translation(punit));
+                    _("Not enough gold to pay upkeep "
+                      "for %s. Unit disbanded."),
+                    unit_name_translation(punit));
       wipe_unit(punit);
     } else {
       /* Gold can get negative here as city improvements will be sold
