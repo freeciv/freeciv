@@ -791,10 +791,12 @@ void report_demographics(struct connection *pconn)
     return;
   }
 
-  my_snprintf(civbuf, sizeof(civbuf), _("The %s of the %s (%s)"),
-	      government_name_for_player(pplayer),
-	      nation_plural_for_player(pplayer),
-	      textyear(game.info.year));
+  /* TRANS: <nation adjective> <government name> (<year>).
+   * E.g. "Polish Despotism (200 AD)". */
+  my_snprintf(civbuf, sizeof(civbuf), _("%s %s (%s)"),
+              nation_adjective_for_player(pplayer),
+              government_name_for_player(pplayer),
+              textyear(game.info.year));
 
   buffer[0] = '\0';
   for (i = 0; i < ARRAY_SIZE(rowtable); i++) {
