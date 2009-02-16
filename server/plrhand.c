@@ -1683,9 +1683,9 @@ void civil_war(struct player *pplayer)
 	  nation_rule_name(nation_of_player(pplayer)),
 	  player_name(cplayer));
   notify_player(pplayer, NULL, E_CIVIL_WAR,
-		   _("Your nation is thrust into civil war, "
-		     " %s is declared the leader of the rebel states."),
-		   player_name(cplayer));
+                _("Your nation is thrust into civil war! "
+                  "%s is declared the leader of the rebel states."),
+                player_name(cplayer));
 
   i = city_list_size(pplayer->cities)/2;   /* number to flip */
   j = city_list_size(pplayer->cities);	    /* number left to process */
