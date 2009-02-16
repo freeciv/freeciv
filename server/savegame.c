@@ -4069,11 +4069,10 @@ void game_load(struct section_file *file)
             && pplayers_allied(plr, aplayer)
             && pplayer_can_make_treaty(plr, aplayer, DS_ALLIANCE) 
                == DIPL_ALLIANCE_PROBLEM) {
-          /* TRANS: ... <Danish> alliance to <Poles>.... */
-          freelog(LOG_ERROR, _("Illegal alliance structure detected: "
-                  "%s alliance to %s reduced to peace treaty."),
-                  nation_adjective_for_player(plr),
-                  nation_plural_for_player(aplayer));
+          freelog(LOG_ERROR, "Illegal alliance structure detected: "
+                  "%s alliance to %s reduced to peace treaty.",
+                  nation_rule_name(plr->nation),
+                  nation_rule_name(aplayer->nation));
           plr->diplstates[aplayer->player_no].type = DS_PEACE;
           aplayer->diplstates[plr->player_no].type = DS_PEACE;
         }
