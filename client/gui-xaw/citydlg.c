@@ -2398,7 +2398,11 @@ void cityopt_cancel_command_callback(Widget w, XtPointer client_data,
 void cityopt_newcit_triggle_callback(Widget w, XtPointer client_data,
 					XtPointer call_data);
 
-char *newcitizen_labels[] = { N_("Workers"), N_("Scientists"), N_("Taxmen") };
+char *newcitizen_labels[] = {
+  N_("?city:Workers"),
+  N_("Scientists"),
+  N_("Taxmen")
+};
 
 static Widget cityopt_shell = 0;
 static Widget cityopt_triggle;

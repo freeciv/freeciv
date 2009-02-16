@@ -454,7 +454,7 @@ static const struct city_report_spec base_city_report_specs[] = {
     NULL, FUNC_TAG(unhappy) },
   { FALSE, 2, 1, NULL, N_("?Angry workers:A"), N_("Workers: Angry"),
     NULL, FUNC_TAG(angry) },
-  { TRUE, 10, 1, N_("Workers"),
+  { TRUE, 10, 1, N_("?city:Workers"),
     N_("?happy/content/unhappy/angry:H/C/U/A"),
     N_("Workers: Happy, Content, Unhappy, Angry"),
     NULL, FUNC_TAG(workers) },

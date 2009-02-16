@@ -314,7 +314,7 @@ Settlers and Engineers may work together to decrease the amount of\
 ")
 
 [unit_worker]
-name          = _("Workers")
+name          = _("?unit:Workers")
 class         = "Land"
 tech_req      = "Pottery"
 obsolete_by   = "Engineers"
