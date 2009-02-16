@@ -1308,7 +1308,6 @@ const char *text_happiness_cities(const struct city *pcity)
 
 /****************************************************************************
   Describing units that affect happiness.
-  FIXME: sentence fragments with parenthesis are hard to translate!
 ****************************************************************************/
 const char *text_happiness_units(const struct city *pcity)
 {
@@ -1319,25 +1318,19 @@ const char *text_happiness_units(const struct city *pcity)
   astr_clear(&str);
 
   if (mlmax > 0) {
-    astr_add_line(&str,
-                  /* TRANS: Martial law opening parenthesis */
-                  _("Martial law in effect ("));
-
+    int mleach = get_city_bonus(pcity, EFT_MARTIAL_LAW_EACH);
     if (mlmax == 100) {
-      astr_add(&str,
-               /* TRANS: no [unit] maximum */
-               _("no maximum, "));
+      astr_add_line(&str, "%s", _("Unlimited martial law in effect."));
     } else {
-      astr_add(&str,
-               PL_("%d unit maximum, ",
-                   "%d units maximum, ",
-                   mlmax),
-               mlmax);
+      astr_add_line(&str, PL_("%d military unit may impose martial law.",
+                              "Up to %d military units may impose martial "
+                              "law.", mlmax), mlmax);
     }
-    astr_add(&str,
-             /* TRANS: Martial law closing parenthesis */
-             _("%d per unit). "),
-             get_city_bonus(pcity, EFT_MARTIAL_LAW_EACH));
+    astr_add_line(&str, PL_("Each military unit makes %d "
+                            "unhappy citizen content.",
+                            "Each military unit makes %d "
+                            "unhappy citizens content.",
+                            mleach), mleach);
   } else if (uhcfac > 0) {
     astr_add_line(&str,
                   _("Military units in the field may cause unhappiness. "));
