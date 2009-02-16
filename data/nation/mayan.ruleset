@@ -3,8 +3,8 @@
 name=_("Mayan")
 plural=_("?plural:Mayas")
 groups="Ancient", "Medieval", "American"
-legend=_("The Mayans were a Mesoamerican civilization. Famous for building\
- great pyramids and palaces in the jungle.")
+legend=_("The Mayans were a Mesoamerican civilization. They are\
+ famous for building great pyramids and palaces in the jungle.")
 leader=
  "K'uk B'alam",
  "Zac-Kuk",
