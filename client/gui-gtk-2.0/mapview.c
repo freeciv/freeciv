@@ -98,11 +98,22 @@ void update_timeout_label(void)
 void update_info_label( void )
 {
   GtkWidget *label;
+  const struct player *pplayer = game.player_ptr;
 
   label = gtk_frame_get_label_widget(GTK_FRAME(main_frame_civ_name));
-  if (game.player_ptr) {
-    gtk_label_set_text(GTK_LABEL(label),
-		       nation_adjective_for_player(game.player_ptr));
+  if (pplayer != NULL) {
+    char nation[MAX_LEN_NAME];
+
+    /* Capitalize the first character of the translated nation
+     * plural name so that the frame label looks good. I assume
+     * that in the case that capitalization does not make sense
+     * (e.g. multi-byte characters or no "upper case" form in
+     * the translation language) my_toupper() will just return
+     * the same value as was passed into it. */
+    sz_strlcpy(nation, nation_plural_for_player(pplayer));
+    nation[0] = my_toupper(nation[0]);
+
+    gtk_label_set_text(GTK_LABEL(label), nation);
   } else {
     gtk_label_set_text(GTK_LABEL(label), "-");
   }
