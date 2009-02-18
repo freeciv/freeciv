@@ -529,7 +529,8 @@ static int get_lanservers(HWND list)
   struct server_list *server_list = NULL;
 
   if (lan) {
-    server_list = server_scan_get_servers(lan);
+    server_scan_poll(lan);
+    server_list = server_scan_get_list(lan);
     if (!server_list) {
       return -1;
     }
@@ -583,7 +584,8 @@ static int get_meta_list(HWND list)
 
   if (meta) {
     for (i = 0; i < 100; i++) {
-      server_list = server_scan_get_servers(meta);
+      server_scan_poll(meta);
+      server_list = server_scan_get_list(meta);
       if (server_list) {
         break;
       }
