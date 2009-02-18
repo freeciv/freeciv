@@ -601,8 +601,6 @@ void set_mapview_origin(int gui_x0, int gui_y0)
       base_set_mapview_origin(start_x + diff_x * (mytime / timing_sec),
 			      start_y + diff_y * (mytime / timing_sec));
       flush_dirty();
-      redraw_selection_rectangle();
-      editor_redraw();
       gui_flush();
       frames++;
     } while (currtime < timing_sec);
@@ -1064,7 +1062,6 @@ void put_nuke_mushroom_pixmaps(struct tile *ptile)
   dirty_rect(canvas_x, canvas_y, width, height);
 
   flush_dirty();
-  redraw_selection_rectangle();
   gui_flush();
 
   myusleep(1000000);
@@ -1982,7 +1979,6 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
       dirty_rect(canvas_x, canvas_y, tileset_tile_width(tileset), tileset_tile_height(tileset));
 
       flush_dirty();
-      redraw_selection_rectangle();
       gui_flush();
 
       usleep_since_timer_start(anim_timer, 20000);
@@ -2062,7 +2058,6 @@ void move_unit_map_canvas(struct unit *punit,
 
       /* Flush. */
       flush_dirty();
-      redraw_selection_rectangle();
       gui_flush();
 
       /* Restore the backup.  It won't take effect until the next flush. */
@@ -2431,8 +2426,6 @@ void unqueue_mapview_updates(bool write_to_screen)
 
   if (write_to_screen) {
     flush_dirty();
-    redraw_selection_rectangle();
-    editor_redraw();
     flush_dirty_overview();
   }
 }

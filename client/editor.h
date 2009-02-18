@@ -121,7 +121,6 @@ void editor_mouse_button_press(int canvas_x, int canvas_y,
 void editor_mouse_button_release(int canvas_x, int canvas_y,
                                  int button, int modifiers);
 void editor_mouse_move(int canvas_x, int canvas_y, int modifiers);
-void editor_redraw(void);
 
 void editor_apply_tool(const struct tile *ptile,
                        bool part_of_selection);

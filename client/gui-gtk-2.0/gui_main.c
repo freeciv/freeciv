@@ -118,6 +118,7 @@ GdkGC *fill_tile_gc;
 GdkGC *thin_line_gc;
 GdkGC *thick_line_gc;
 GdkGC *border_line_gc;
+GdkGC *selection_gc;
 GdkPixmap *gray50, *gray25, *black50;
 GdkPixmap *mask_bitmap;
 
@@ -1568,6 +1569,9 @@ void ui_main(int argc, char **argv)
     pixel.pixel = 0;
     gdk_gc_set_foreground(mask_bg_gc, &pixel);
   }
+
+  selection_gc = gdk_gc_new(root_window);
+  gdk_gc_set_function(selection_gc, GDK_XOR);
 
   tileset_init(tileset);
   tileset_load_tiles(tileset);

@@ -393,8 +393,6 @@ static bool is_flush_queued = FALSE;
 static gint unqueue_flush(gpointer data)
 {
   flush_dirty();
-  redraw_selection_rectangle();
-  editor_redraw();
   is_flush_queued = FALSE;
   return 0;
 }
@@ -776,14 +774,27 @@ void scrollbar_jump_callback(GtkAdjustment *adj, gpointer hscrollbar)
 }
 
 /**************************************************************************
- Area Selection
+  Draws a rectangle with top left corner at (canvas_x, canvas_y), and
+  width 'w' and height 'h'. It is drawn using the 'selection_gc' context,
+  so the pixel combining function is XOR. This means that drawing twice
+  in the same place will restore the image to its original state.
+
+  NB: A side effect of this function is to set the 'selection_gc' color
+  to COLOR_MAPVIEW_SELECTION.
 **************************************************************************/
 void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
 {
   GdkPoint points[5];
+  struct color *pcolor;
 
-  gdk_gc_set_foreground(civ_gc,
-			&get_color(tileset, COLOR_MAPVIEW_SELECTION)->color);
+  if (w == 0 || h == 0) {
+    return;
+  }
+
+  pcolor = get_color(tileset, COLOR_MAPVIEW_SELECTION);
+  if (!pcolor) {
+    return;
+  }
 
   /* gdk_draw_rectangle() must start top-left.. */
   points[0].x = canvas_x;
@@ -800,7 +811,10 @@ void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
 
   points[4].x = canvas_x;
   points[4].y = canvas_y;
-  gdk_draw_lines(map_canvas->window, civ_gc, points, ARRAY_SIZE(points));
+
+  gdk_gc_set_foreground(selection_gc, &pcolor->color);
+  gdk_draw_lines(map_canvas->window, selection_gc,
+                 points, ARRAY_SIZE(points));
 }
 
 /**************************************************************************

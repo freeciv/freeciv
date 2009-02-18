@@ -210,8 +210,7 @@ void update_selection_rectangle(int canvas_x, int canvas_y)
   rec_tile = ptile;
 
   /* Clear previous rectangle. */
-  dirty_all();
-  flush_dirty();
+  draw_selection_rectangle(rec_corner_x, rec_corner_y, rec_w, rec_h);
 
   /*  Fix canvas coords to the center of the tile.
    */

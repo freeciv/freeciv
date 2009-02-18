@@ -676,6 +676,24 @@ static void editor_end_selection_rectangle(int canvas_x, int canvas_y)
 }
 
 /****************************************************************************
+  Draws the editor selection rectangle using draw_selection_rectangle().
+****************************************************************************/
+static void editor_draw_selrect(void)
+{
+  if (!editor) {
+    return;
+  }
+
+  if (editor->selrect_active && editor->selrect_width > 0
+      && editor->selrect_height > 0) {
+    draw_selection_rectangle(editor->selrect_x,
+                             editor->selrect_y,
+                             editor->selrect_width,
+                             editor->selrect_height);
+  }
+}
+
+/****************************************************************************
   Handle the release of a mouse button click.
 ****************************************************************************/
 void editor_mouse_button_release(int canvas_x, int canvas_y,
@@ -726,8 +744,8 @@ static void editor_resize_selection_rectangle(int canvas_x, int canvas_y)
     y2 = editor->selrect_start_y;
   }
 
-  dirty_all();
-  flush_dirty();
+  /* Erase the previously drawn rectangle. */
+  editor_draw_selrect();
 
   if (x1 == x2 || y1 == y2) {
     editor->selrect_width = 0;
@@ -740,7 +758,7 @@ static void editor_resize_selection_rectangle(int canvas_x, int canvas_y)
   editor->selrect_width = x2 - x1;
   editor->selrect_height = y2 - y1;
 
-  editor_redraw();
+  editor_draw_selrect();
 }
 
 /****************************************************************************
@@ -922,25 +940,6 @@ const struct tile *editor_get_current_tile(void)
   }
   
   return editor->current_tile;
-}
-
-/****************************************************************************
-  Redraw any editor-specific decorations. This should usually be called
-  whenever the map canvas is redrawn.
-****************************************************************************/
-void editor_redraw(void)
-{
-  if (!editor) {
-    return;
-  }
-
-  if (editor->selrect_active && editor->selrect_width > 0
-      && editor->selrect_height > 0) {
-    draw_selection_rectangle(editor->selrect_x,
-                             editor->selrect_y,
-                             editor->selrect_width,
-                             editor->selrect_height);
-  }
 }
 
 /****************************************************************************
