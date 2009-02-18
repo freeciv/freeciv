@@ -61,8 +61,8 @@ static const char *cr_entry_hstate_concise(const struct city *pcity,
 					   const void *data)
 {
   static char buf[4];
-  my_snprintf(buf, sizeof(buf), "%s", (city_celebrating(pcity) ? "+" :
-				       (city_unhappy(pcity) ? "-" : " ")));
+  my_snprintf(buf, sizeof(buf), "%s", (city_celebrating(pcity) ? "*" :
+				       (city_unhappy(pcity) ? "X" : " ")));
   return buf;
 }
 
@@ -441,7 +441,7 @@ static const struct city_report_spec base_city_report_specs[] = {
     N_("Entertainers, Scientists, Taxmen"),
     NULL, FUNC_TAG(specialists) },
 
-  { FALSE,  1, 1, NULL,  NULL,          N_("Concise + Rapture, - Disorder"),
+  { FALSE,  1, 1, NULL,  NULL,          N_("Concise *=Rapture, X=Disorder"),
     NULL, FUNC_TAG(hstate_concise) },
   { TRUE,  -8, 1, NULL,  N_("State"),   N_("Rapture/Peace/Disorder"),
     NULL, FUNC_TAG(hstate_verbose) },
