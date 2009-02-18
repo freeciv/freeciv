@@ -321,6 +321,7 @@ bool draw_map_grid = FALSE;
 bool draw_city_names = TRUE;
 bool draw_city_growth = TRUE;
 bool draw_city_productions = FALSE;
+bool draw_city_buycost = FALSE;
 bool draw_city_traderoutes = FALSE;
 bool draw_terrain = TRUE;
 bool draw_coastline = FALSE;
@@ -351,6 +352,7 @@ view_option view_options[] = {
   VIEW_OPTION(draw_city_names),
   VIEW_OPTION(draw_city_growth),
   VIEW_OPTION(draw_city_productions),
+  VIEW_OPTION(draw_city_buycost),
   VIEW_OPTION(draw_city_traderoutes),
   VIEW_OPTION(draw_terrain),
   VIEW_OPTION(draw_coastline),

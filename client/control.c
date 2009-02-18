@@ -1704,6 +1704,19 @@ void request_toggle_city_productions(void)
 }
 
 /**************************************************************************
+ Toggle display of city buycost
+**************************************************************************/
+void request_toggle_city_buycost(void)
+{
+  if (!can_client_change_view()) {
+    return;
+  }
+
+  draw_city_buycost ^= 1;
+  update_map_canvas_visible();
+}
+
+/**************************************************************************
  Toggle display of city traderoutes
 **************************************************************************/
 void request_toggle_city_traderoutes(void)
@@ -2783,6 +2796,15 @@ void key_city_names_toggle(void)
 void key_city_growth_toggle(void)
 {
   request_toggle_city_growth();
+}
+
+/**************************************************************************
+  Toggles the showing of the buy cost of the current production in the
+  city descriptions.
+**************************************************************************/
+void key_city_buycost_toggle(void)
+{
+  request_toggle_city_buycost();
 }
 
 /**************************************************************************

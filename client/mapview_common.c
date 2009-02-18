@@ -2172,6 +2172,27 @@ struct city *find_city_near_tile(const struct tile *ptile)
 }
 
 /**************************************************************************
+  Append the buy cost of the current production of the given city to the
+  already NULL-terminated buffer. Does nothing if draw_city_buycost is
+  set to FALSE, or if it does not make sense to buy the current production
+  (e.g. coinage).
+**************************************************************************/
+static void append_city_buycost_string(const struct city *pcity,
+                                       char *buffer, int buffer_len)
+{
+  if (!pcity || !buffer || buffer_len < 1) {
+    return;
+  }
+
+  if (!draw_city_buycost || !city_can_buy(pcity)) {
+    return;
+  }
+
+  cat_snprintf(buffer, buffer_len, "/%d",
+               city_production_buy_gold_cost(pcity));
+}
+
+/**************************************************************************
   Find the mapview city production text for the given city, and place it
   into the buffer.
 **************************************************************************/
@@ -2192,6 +2213,8 @@ void get_city_mapview_production(struct city *pcity,
   } else {
     cat_snprintf(buffer, buffer_len, " %d", turns);
   }
+
+  append_city_buycost_string(pcity, buffer, buffer_len);
 }
 
 /**************************************************************************
