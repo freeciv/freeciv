@@ -1029,3 +1029,34 @@ void enable_widget_callback(GtkWidget *w, GCallback cb)
   g_signal_handler_unblock(w, hid);
 }
 
+/**************************************************************************
+  Convenience function to add a column to a GtkTreeView. Returns the added
+  column, or NULL if an error occured.
+**************************************************************************/
+GtkTreeViewColumn *add_treeview_column(GtkWidget *view, const char *title,
+                                       GType gtype, int model_index)
+{
+  GtkTreeViewColumn *col;
+  GtkCellRenderer *rend;
+  const char *attr;
+
+  g_return_val_if_fail(view != NULL, NULL);
+  g_return_val_if_fail(GTK_IS_TREE_VIEW(view), NULL);
+  g_return_val_if_fail(title != NULL, NULL);
+
+  if (gtype == G_TYPE_BOOLEAN) {
+    rend = gtk_cell_renderer_toggle_new();
+    attr = "active";
+  } else if (gtype == GDK_TYPE_PIXBUF) {
+    rend = gtk_cell_renderer_pixbuf_new();
+    attr = "pixbuf";
+  } else {
+    rend = gtk_cell_renderer_text_new();
+    attr = "text";
+  }
+
+  col = gtk_tree_view_column_new_with_attributes(title, rend, attr,
+                                                 model_index, NULL);
+  gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
+  return col;
+}

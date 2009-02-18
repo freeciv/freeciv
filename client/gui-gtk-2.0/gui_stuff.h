@@ -50,7 +50,8 @@ void itree_unselect(GtkTreeSelection *selection, ITree *it);
 gint gtk_tree_selection_get_row(GtkTreeSelection *selection);
 void gtk_tree_view_focus(GtkTreeView *view);
 void setup_dialog(GtkWidget *shell, GtkWidget *parent);
-
+GtkTreeViewColumn *add_treeview_column(GtkWidget *view, const char *title,
+                                       GType gtype, int model_index);
 
 
 enum gui_dialog_type {

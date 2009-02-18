@@ -538,7 +538,8 @@ static int get_server_list(char **list, char *errbuf, int n_errbuf)
 
   if (lan_mode) {
     if (lan) {
-      server_list = server_scan_get_servers(lan);
+      server_scan_poll(lan);
+      server_list = server_scan_get_list(lan);
       if (server_list == NULL) {
 	if (num_lanservers_timer == 0) {
 	  *list = mystrdup(" ");;
@@ -550,7 +551,8 @@ static int get_server_list(char **list, char *errbuf, int n_errbuf)
     }
   } else {
     if (meta) {
-      server_list = server_scan_get_servers(meta); 
+      server_scan_poll(meta);
+      server_list = server_scan_get_list(meta);
       if (!server_list) {
 	return -1;
       }

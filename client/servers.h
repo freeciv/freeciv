@@ -21,7 +21,7 @@
 struct server
 {
   char *host;
-  char *port;
+  int port;
   char *capability;
   char *patches;
   char *version;
@@ -37,7 +37,7 @@ struct server
     char *nation;
   } *players;
 
-  char *nplayers;
+  int nplayers;
 };
 
 #define SPECLIST_TAG server
@@ -62,7 +62,15 @@ typedef void (*ServerScanErrorFunc)(struct server_scan *scan,
 struct server_scan *server_scan_begin(enum server_scan_type type,
 				      ServerScanErrorFunc error_func);
 enum server_scan_type server_scan_get_type(const struct server_scan *scan);
-struct server_list *server_scan_get_servers(struct server_scan *scan);
+enum server_scan_status {
+  SCAN_STATUS_ERROR = 0,
+  SCAN_STATUS_WAITING,
+  SCAN_STATUS_PARTIAL,
+  SCAN_STATUS_DONE
+};
+enum server_scan_status server_scan_poll(struct server_scan *scan);
+const struct server_list *
+server_scan_get_list(const struct server_scan *scan);
 void server_scan_finish(struct server_scan *scan);
 
 #endif /* FC__SERVERS_H */

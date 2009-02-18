@@ -54,7 +54,7 @@
 
 #include "connectdlg.h"
 
-static struct server_list *pServer_list = NULL;
+static const struct server_list *pServer_list = NULL;
 static struct server_scan *pServer_scan = NULL; 
     
 static struct ADVANCED_DLG *pMeta_Severs = NULL;
@@ -148,7 +148,7 @@ static int sellect_meta_severs_callback(struct widget *pWidget)
     struct server *pServer = (struct server *)pWidget->data.ptr;
         
     sz_strlcpy(server_host, pServer->host);
-    sscanf(pServer->port, "%d", &server_port);
+    server_port = pServer->port;
     
     exit_meta_severs_dlg_callback(NULL);
   }
@@ -185,9 +185,9 @@ static void server_scan_error(struct server_scan *scan,
   same functionality for LAN server dettection.
   WARING !: for LAN scan use "finish_lanserver_scan()" to free server list.
 **************************************************************************/
-static struct server_list *sdl_create_server_list(bool lan)
+static const struct server_list *sdl_create_server_list(bool lan)
 {
-  struct server_list *server_list = NULL;
+  const struct server_list *server_list = NULL;
   int i;
     
   if (lan) {
@@ -203,7 +203,8 @@ static struct server_list *sdl_create_server_list(bool lan)
   SDL_Delay(5000);
     
   for (i = 0; i < 100; i++) {
-    server_list = server_scan_get_servers(pServer_scan);
+    server_scan_poll(pServer_scan);
+    server_list = server_scan_get_list(pServer_scan);
     if (server_list) {
       break;
     }
@@ -312,7 +313,7 @@ void popup_connection_dialog(bool lan_scan)
   /* servers */
   server_list_iterate(pServer_list, pServer) {
 
-    my_snprintf(cBuf, sizeof(cBuf), "%s Port %s Ver: %s %s %s %s\n%s",
+    my_snprintf(cBuf, sizeof(cBuf), "%s Port %d Ver: %s %s %s %d\n%s",
     	pServer->host, pServer->port, pServer->version, _(pServer->state),
     		_("Players"), pServer->nplayers, pServer->message);
 

@@ -64,6 +64,9 @@ static GtkWidget *scenario_description;
 static GtkListStore *load_store, *scenario_store,
   *nation_store, *meta_store, *lan_store; 
 
+static GtkListStore *server_playerlist_store;
+static GtkWidget *server_playerlist_view;
+
 static GtkTreeSelection *load_selection, *scenario_selection,
   *nation_selection, *meta_selection, *lan_selection;
 
@@ -72,8 +75,8 @@ static enum client_pages old_page = -1;
 static void set_page_callback(GtkWidget *w, gpointer data);
 static void update_nation_page(struct packet_game_load *packet);
 
-static guint scan_timer = 0;
-struct server_scan *lan, *meta;
+static guint meta_scan_timer, lan_scan_timer;
+static struct server_scan *meta_scan, *lan_scan;
 
 static GtkWidget *statusbar, *statusbar_frame;
 static GQueue *statusbar_queue;
@@ -270,84 +273,106 @@ static GtkWidget *network_confirm_password_label, *network_confirm_password;
 /**************************************************************************
   update a server list.
 **************************************************************************/
-static void update_server_list(GtkTreeSelection *selection,
-			       GtkListStore *store, struct server_list *list)
+static void update_server_list(enum server_scan_type sstype,
+                               const struct server_list *list)
 {
-  const gchar *host, *port;
+  GtkTreeSelection *sel = NULL;
+  GtkTreeView *view;
+  GtkTreeIter it;
+  GtkListStore *store;
+  const gchar *host, *portstr;
+  int port;
 
-  host = gtk_entry_get_text(GTK_ENTRY(network_host));
-  port = gtk_entry_get_text(GTK_ENTRY(network_port));
+  switch (sstype) {
+  case SERVER_SCAN_LOCAL:
+    sel = lan_selection;
+    break;
+  case SERVER_SCAN_GLOBAL:
+    sel = meta_selection;
+    break;
+  default:
+    break;
+  }
 
+  if (!sel) {
+    return;
+  }
+
+  view = gtk_tree_selection_get_tree_view(sel);
+  store = GTK_LIST_STORE(gtk_tree_view_get_model(view));
   gtk_list_store_clear(store);
 
   if (!list) {
     return;
   }
 
+  host = gtk_entry_get_text(GTK_ENTRY(network_host));
+  portstr = gtk_entry_get_text(GTK_ENTRY(network_port));
+  port = atoi(portstr);
+
   server_list_iterate(list, pserver) {
-    GtkTreeIter it;
-    gchar *row[6];
-
     gtk_list_store_append(store, &it);
-
-    row[0] = pserver->host;
-    row[1] = pserver->port;
-    row[2] = pserver->version;
-    row[3] = _(pserver->state);
-    row[4] = pserver->nplayers;
-    row[5] = pserver->message;
-
     gtk_list_store_set(store, &it,
-	0, row[0], 1, row[1], 2, row[2],
-	3, row[3], 4, row[4], 5, row[5], -1);
-
-    if (strcmp(host, pserver->host) == 0 && strcmp(port, pserver->port) == 0) {
-      gtk_tree_selection_select_iter(selection, &it);
+                       0, pserver->host,
+                       1, pserver->port,
+                       2, pserver->version,
+                       3, _(pserver->state),
+                       4, pserver->nplayers,
+                       5, pserver->message,
+                       -1);
+    if (strcmp(host, pserver->host) == 0 && port == pserver->port) {
+      gtk_tree_selection_select_iter(sel, &it);
     }
   } server_list_iterate_end;
 }
 
 /**************************************************************************
-  this function frees the list of LAN servers on timeout destruction. 
+  Free the server scans.
 **************************************************************************/
-static void get_server_scan_destroy(gpointer data)
+static void destroy_server_scans(void)
 {
-  if (meta) {
-    server_scan_finish(meta);
-    meta = NULL;
+  if (meta_scan) {
+    server_scan_finish(meta_scan);
+    meta_scan = NULL;
   }
-  if (lan) {
-    server_scan_finish(lan);
-    lan = NULL;
+  if (meta_scan_timer != 0) {
+    g_source_remove(meta_scan_timer);
+    meta_scan_timer = 0;
   }
-  scan_timer = 0;
+  if (lan_scan) {
+    server_scan_finish(lan_scan);
+    lan_scan = NULL;
+  }
+  if (lan_scan_timer != 0) {
+    g_source_remove(lan_scan_timer);
+    lan_scan_timer = 0;
+  }
 }
 
 /**************************************************************************
-  this function updates the list of servers every so often.
+  This function updates the list of servers every so often.
 **************************************************************************/
-static gboolean get_server_scan_list(gpointer data)
+static gboolean check_server_scan(gpointer data)
 {
-  struct server_list *server_list;
+  struct server_scan *scan = data;
+  const struct server_list *servers;
+  enum server_scan_status stat;
 
-  if (!meta && !lan) {
+  if (!scan) {
     return FALSE;
   }
 
-  if (lan) {
-    server_list = server_scan_get_servers(lan);
-    if (server_list) {
-      update_server_list(lan_selection, lan_store, server_list);
-    }
+  stat = server_scan_poll(scan);
+  if (stat >= SCAN_STATUS_PARTIAL) {
+    enum server_scan_type type;
+    type = server_scan_get_type(scan);
+    servers = server_scan_get_list(scan);
+    update_server_list(type, servers);
   }
 
-  if (meta) {
-    server_list = server_scan_get_servers(meta);
-    if (server_list) {
-      update_server_list(meta_selection, meta_store, server_list);
-    }
+  if (stat == SCAN_STATUS_ERROR || stat == SCAN_STATUS_DONE) {
+    return FALSE;
   }
-
   return TRUE;
 }
 
@@ -358,16 +383,16 @@ static void server_scan_error(struct server_scan *scan,
 			      const char *message)
 {
   append_output_window(message);
-  freelog(LOG_NORMAL, "%s", message);
+  freelog(LOG_ERROR, "%s", message);
 
   switch (server_scan_get_type(scan)) {
   case SERVER_SCAN_LOCAL:
-    server_scan_finish(lan);
-    lan = NULL;
+    server_scan_finish(lan_scan);
+    lan_scan = NULL;
     break;
   case SERVER_SCAN_GLOBAL:
-    server_scan_finish(meta);
-    meta = NULL;
+    server_scan_finish(meta_scan);
+    meta_scan = NULL;
     break;
   case SERVER_SCAN_LAST:
     break;
@@ -375,25 +400,17 @@ static void server_scan_error(struct server_scan *scan,
 }
 
 /**************************************************************************
-  update the metaserver and lan server lists.
+  Stop and restart the metaserver and lan server scans.
 **************************************************************************/
 static void update_network_lists(void)
 {
-  if (scan_timer != 0) {
-    g_source_remove(scan_timer);
-  }
+  destroy_server_scans();
 
-  if (!meta) {
-    meta = server_scan_begin(SERVER_SCAN_GLOBAL, server_scan_error);
-  }
+  meta_scan = server_scan_begin(SERVER_SCAN_GLOBAL, server_scan_error);
+  meta_scan_timer = g_timeout_add(200, check_server_scan, meta_scan);
 
-  if (!lan) {
-    lan = server_scan_begin(SERVER_SCAN_LOCAL, server_scan_error);
-  }
-
-  scan_timer = g_timeout_add_full(G_PRIORITY_DEFAULT, 100,
-                                  get_server_scan_list,
-                                  NULL, get_server_scan_destroy);
+  lan_scan = server_scan_begin(SERVER_SCAN_LOCAL, server_scan_error);
+  lan_scan_timer = g_timeout_add(500, check_server_scan, lan_scan);
 }
 
 /**************************************************************************
@@ -638,29 +655,70 @@ static void network_activate_callback(GtkTreeView *view,
 }
 
 /**************************************************************************
-  sets the host, port of the selected server.
+  Fills the server player list with the players in the given server, or
+  clears it if there is no player data.
+**************************************************************************/
+static void update_server_playerlist(const struct server *pserver)
+{
+  GtkListStore *store;
+  GtkTreeIter iter;
+  int n, i;
+
+  store = server_playerlist_store;
+  g_return_if_fail(store != NULL);
+
+  gtk_list_store_clear(store);
+  if (!pserver || !pserver->players) {
+    return;
+  }
+
+  n = pserver->nplayers;
+  for (i = 0; i < n; i++) {
+    gtk_list_store_append(store, &iter);
+    gtk_list_store_set(store, &iter,
+                       0, pserver->players[i].name,
+                       1, pserver->players[i].type,
+                       2, pserver->players[i].host,
+                       3, pserver->players[i].nation,
+                       -1);
+  }
+}
+
+/**************************************************************************
+  Sets the host, port and player list of the selected server.
 **************************************************************************/
 static void network_list_callback(GtkTreeSelection *select, gpointer data)
 {
   GtkTreeModel *model;
   GtkTreeIter it;
-  char *host, *port;
+  const char *host;
+  int port;
+  char portstr[32];
+  const struct server *pserver = NULL;
 
   if (!gtk_tree_selection_get_selected(select, &model, &it)) {
     return;
   }
 
-  /* only one server can be selected in either list. */
   if (select == meta_selection) {
-    gtk_tree_selection_unselect_all(lan_selection);
-  } else {
-    gtk_tree_selection_unselect_all(meta_selection);
+    GtkTreePath *path;
+    const struct server_list *servers;
+
+    servers = server_scan_get_list(meta_scan);
+    path = gtk_tree_model_get_path(model, &it);
+    if (servers && path) {
+      gint pos = gtk_tree_path_get_indices(path)[0];
+      pserver = server_list_get(servers, pos);
+    }
+    gtk_tree_path_free(path);
   }
+  update_server_playerlist(pserver);
 
   gtk_tree_model_get(model, &it, 0, &host, 1, &port, -1);
 
   gtk_entry_set_text(GTK_ENTRY(network_host), host);
-  gtk_entry_set_text(GTK_ENTRY(network_port), port);
+  my_snprintf(portstr, sizeof(portstr), "%d", port);
+  gtk_entry_set_text(GTK_ENTRY(network_port), portstr);
 }
 
 /**************************************************************************
@@ -686,27 +744,10 @@ static void update_network_page(void)
 **************************************************************************/
 GtkWidget *create_network_page(void)
 {
-  GtkWidget *salign, *box, *sbox, *bbox, *notebook;
-
-  GtkWidget *button, *label, *view, *sw;
-  GtkCellRenderer *rend;
+  GtkWidget *box, *sbox, *bbox, *hbox, *notebook;
+  GtkWidget *button, *label, *view, *sw, *table;
   GtkTreeSelection *selection;
-
-  GtkWidget *table;
-
-  static const char *titles[] = {
-    N_("Server Name"),
-    N_("Port"),
-    N_("Version"),
-    N_("Status"),
-    N_("Players"),
-    N_("Comment")
-  };
-  static bool titles_done;
-
-  int i;
-
-  intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
+  GtkListStore *store;
 
   box = gtk_vbox_new(FALSE, 0);
   gtk_container_set_border_width(GTK_CONTAINER(box), 4);
@@ -715,8 +756,12 @@ GtkWidget *create_network_page(void)
   gtk_container_add(GTK_CONTAINER(box), notebook);
 
   /* LAN pane. */
-  lan_store = gtk_list_store_new(6, G_TYPE_STRING, G_TYPE_STRING,
-      G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+  lan_store = gtk_list_store_new(6, G_TYPE_STRING, /* host */
+                                 G_TYPE_INT,       /* port */
+                                 G_TYPE_STRING,    /* version */
+                                 G_TYPE_STRING,    /* state */
+                                 G_TYPE_INT,       /* nplayers */
+                                 G_TYPE_STRING);   /* message */
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(lan_store));
   g_object_unref(lan_store);
@@ -732,11 +777,12 @@ GtkWidget *create_network_page(void)
   g_signal_connect(selection, "changed",
                    G_CALLBACK(network_list_callback), NULL);
 
-  rend = gtk_cell_renderer_text_new();
-  for (i = 0; i < ARRAY_SIZE(titles); i++) {
-    gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
-	-1, titles[i], rend, "text", i, NULL);
-  }
+  add_treeview_column(view, _("Server Name"), G_TYPE_STRING, 0);
+  add_treeview_column(view, _("Port"), G_TYPE_INT, 1);
+  add_treeview_column(view, _("Version"), G_TYPE_STRING, 2);
+  add_treeview_column(view, _("Status"), G_TYPE_STRING, 3);
+  add_treeview_column(view, _("Players"), G_TYPE_INT, 4);
+  add_treeview_column(view, _("Comment"), G_TYPE_STRING, 5);
 
   label = gtk_label_new_with_mnemonic(_("Local _Area Network"));
 
@@ -751,8 +797,12 @@ GtkWidget *create_network_page(void)
 
 
   /* Metaserver pane. */
-  meta_store = gtk_list_store_new(6, G_TYPE_STRING, G_TYPE_STRING,
-      G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+  meta_store = gtk_list_store_new(6, G_TYPE_STRING, /* host */
+                                  G_TYPE_INT,       /* port */
+                                  G_TYPE_STRING,    /* version */
+                                  G_TYPE_STRING,    /* state */
+                                  G_TYPE_INT,       /* nplayers */
+                                  G_TYPE_STRING);   /* message */
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(meta_store));
   g_object_unref(meta_store);
@@ -768,11 +818,12 @@ GtkWidget *create_network_page(void)
   g_signal_connect(selection, "changed",
                    G_CALLBACK(network_list_callback), NULL);
 
-  rend = gtk_cell_renderer_text_new();
-  for (i = 0; i < ARRAY_SIZE(titles); i++) {
-    gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
-	-1, titles[i], rend, "text", i, NULL);
-  }
+  add_treeview_column(view, _("Server Name"), G_TYPE_STRING, 0);
+  add_treeview_column(view, _("Port"), G_TYPE_INT, 1);
+  add_treeview_column(view, _("Version"), G_TYPE_STRING, 2);
+  add_treeview_column(view, _("Status"), G_TYPE_STRING, 3);
+  add_treeview_column(view, _("Players"), G_TYPE_INT, 4);
+  add_treeview_column(view, _("Comment"), G_TYPE_STRING, 5);
 
   label = gtk_label_new_with_mnemonic(_("Internet _Metaserver"));
 
@@ -789,15 +840,14 @@ GtkWidget *create_network_page(void)
   sbox = gtk_vbox_new(FALSE, 0);
   gtk_box_pack_start(GTK_BOX(box), sbox, FALSE, FALSE, 0);
 
-  salign = gtk_alignment_new(0.5, 0.5, 0.0, 0.0);
-  gtk_box_pack_start(GTK_BOX(sbox), salign, FALSE, FALSE, 18);
+  hbox = gtk_hbox_new(FALSE, 12);
+  gtk_box_pack_start(GTK_BOX(sbox), hbox, FALSE, FALSE, 8);
 
   table = gtk_table_new(6, 2, FALSE);
   gtk_table_set_row_spacings(GTK_TABLE(table), 2);
   gtk_table_set_col_spacings(GTK_TABLE(table), 12);
   gtk_table_set_row_spacing(GTK_TABLE(table), 2, 12);
-  gtk_widget_set_size_request(table, 400, -1);
-  gtk_container_add(GTK_CONTAINER(salign), table);
+  gtk_box_pack_start(GTK_BOX(hbox), table, FALSE, FALSE, 0);
 
   network_host = gtk_entry_new();
   g_signal_connect(network_host, "activate",
@@ -885,6 +935,28 @@ GtkWidget *create_network_page(void)
   network_confirm_password_label = label;
   gtk_table_attach(GTK_TABLE(table), label, 0, 1, 5, 6,
 		   GTK_FILL, GTK_FILL, 0, 0);
+
+  /* Server player list. */
+  store = gtk_list_store_new(4, G_TYPE_STRING,
+                             G_TYPE_STRING,
+                             G_TYPE_STRING,
+                             G_TYPE_STRING);
+  server_playerlist_store = store;
+
+  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+  add_treeview_column(view, _("Name"), G_TYPE_STRING, 0);
+  add_treeview_column(view, _("Type"), G_TYPE_STRING, 1);
+  add_treeview_column(view, _("Host"), G_TYPE_STRING, 2);
+  add_treeview_column(view, _("Nation"), G_TYPE_STRING, 3);
+  server_playerlist_view = view;
+
+  sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
+				      GTK_SHADOW_ETCHED_IN);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
+				 GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  gtk_container_add(GTK_CONTAINER(sw), view);
+  gtk_box_pack_start(GTK_BOX(hbox), sw, TRUE, TRUE, 0);
 
 
   bbox = gtk_hbutton_box_new();
@@ -2159,10 +2231,7 @@ void set_client_page(enum client_pages page)
   case PAGE_LOAD:
     break;
   case PAGE_NETWORK:
-    if (scan_timer != 0) {
-      g_source_remove(scan_timer);
-      scan_timer = 0;
-    }
+    destroy_server_scans();
     break;
   case PAGE_GAME:
     enable_menus(FALSE);
