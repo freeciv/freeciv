@@ -51,6 +51,7 @@ used throughout the client.
 #include "climisc.h"
 #include "clinet.h"
 #include "control.h"
+#include "mapctrl_common.h"
 #include "messagewin_common.h"
 #include "packhand.h"
 #include "plrdlg_common.h"
@@ -1102,4 +1103,60 @@ bool can_units_do_connect(struct unit_list *punits,
   } unit_list_iterate_end;
 
   return FALSE;
+}
+
+/****************************************************************************
+  Comparison function used by qsort in buy_production_in_selected_cities().
+****************************************************************************/
+static int city_buy_cost_compare(const void *a, const void *b)
+{
+  const struct city *ca, *cb;
+  ca = *((const struct city **) a);
+  cb = *((const struct city **) b);
+  return city_buy_cost(ca) - city_buy_cost(cb);
+}
+
+/****************************************************************************
+  For each selected city, buy the current production. The selected cities
+  are sorted so production is bought in the cities with lowest cost first.
+****************************************************************************/
+void buy_production_in_selected_cities(void)
+{
+  const struct player *pplayer = game.player_ptr;
+  if (!pplayer || !pplayer->cities
+      || city_list_size(pplayer->cities) < 1) {
+    return;
+  }
+
+  int gold = pplayer->economic.gold;
+  if (gold < 1) {
+    return;
+  }
+
+  const int n = city_list_size(pplayer->cities);
+  struct city *cities[n];
+  int i, count = 0;
+
+  city_list_iterate(pplayer->cities, pcity) {
+    if (!is_city_hilited(pcity) || !city_can_buy(pcity)) {
+      continue;
+    }
+    cities[count++] = pcity;
+  } city_list_iterate_end;
+
+  if (count < 1) {
+    return;
+  }
+
+  qsort(cities, count, sizeof(*cities), city_buy_cost_compare);
+
+  struct connection *pconn = &aconnection;
+  connection_do_buffer(pconn);
+
+  for (i = 0; i < count && gold > 0; i++) {
+    gold -= city_buy_cost(cities[i]);
+    city_buy_production(cities[i]);
+  }
+
+  connection_do_unbuffer(pconn);
 }

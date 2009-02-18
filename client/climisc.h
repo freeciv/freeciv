@@ -118,4 +118,6 @@ void common_taxrates_callback(int i);
 bool can_units_do_connect(struct unit_list *punits,
 			  enum unit_activity activity);
 
+void buy_production_in_selected_cities(void);
+
 #endif  /* FC__CLIMISC_H */
