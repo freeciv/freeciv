@@ -124,4 +124,6 @@ enum unit_bg_color_type { UNIT_BG_HP_LOSS,
 
 enum unit_bg_color_type unit_color_type(const struct unit_type *punittype);
 
+void buy_production_in_selected_cities(void);
+
 #endif  /* FC__CLIMISC_H */

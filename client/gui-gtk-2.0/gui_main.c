@@ -651,6 +651,13 @@ static gboolean key_press_map_canvas(GtkWidget *w, GdkEventKey *ev,
     key_cancel_action();
     return TRUE;
 
+  case GDK_b:
+    if (tiles_hilited_cities) {
+      buy_production_in_selected_cities();
+      return TRUE;
+    }
+    break;
+
   default:
     break;
   };
