@@ -53,6 +53,7 @@ extern bool keyboardless_goto;
 extern bool show_task_icons;
 extern bool enable_cursor_changes;
 extern bool separate_unit_selection;
+extern bool unit_selection_clears_orders;
 
 enum client_option_type {
   COT_BOOL,
