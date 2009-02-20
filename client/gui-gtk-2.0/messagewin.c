@@ -141,6 +141,36 @@ static void meswin_cell_data_func(GtkTreeViewColumn *col,
   }
 }
 					     
+/**************************************************************************
+  Mouse button press handler for the message window treeview. We only
+  care about right clicks on a row; this action centers on the tile
+  associated with the event at that row (if applicable).
+**************************************************************************/
+static gboolean meswin_button_press_callback(GtkWidget *widget,
+                                             GdkEventButton *ev,
+                                             gpointer data)
+{
+  GtkTreePath *path = NULL;
+  gint row;
+
+  if (ev->type != GDK_BUTTON_PRESS || ev->button != 3) {
+    return FALSE;
+  }
+
+  if (!gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(widget),
+                                     (gint) ev->x, (gint) ev->y,
+                                     &path, NULL, NULL, NULL)) {
+    return TRUE;
+  }
+
+  row = gtk_tree_path_get_indices(path)[0];
+  gtk_tree_path_free(path);
+
+  meswin_goto(row);
+
+  return TRUE;
+}
+
 /****************************************************************
 ...
 *****************************************************************/
@@ -180,6 +210,8 @@ static void create_meswin_dialog(void)
 		   G_CALLBACK(meswin_selection_callback), NULL);
   g_signal_connect(view, "row_activated",
 		   G_CALLBACK(meswin_row_activated_callback), NULL);
+  g_signal_connect(view, "button-press-event",
+                   G_CALLBACK(meswin_button_press_callback), NULL);
 
   cmd = gui_dialog_add_stockbutton(meswin_shell, GTK_STOCK_JUMP_TO,
       _("Goto _Location"), CMD_GOTO);
