@@ -106,6 +106,9 @@ void anchor_selection_rectangle(int canvas_x, int canvas_y,
     on the map and hilited in the City List Window.
 
  Later, I'll want to add unit hiliting for mass orders.       -ali
+
+ NB: At the end of this function the current selection rectangle will be
+ erased (by being redrawn).
 **************************************************************************/
 static void define_tiles_within_rectangle(void)
 {
@@ -150,7 +153,7 @@ static void define_tiles_within_rectangle(void)
        */
       if (ptile->city && city_owner(ptile->city) == game.player_ptr) {
 	/* FIXME: handle rectangle_append */
-        map_deco[ptile->index].hilite = HILITE_CITY;
+        mapdeco_set_highlight(ptile, TRUE);
         tiles_hilited_cities = TRUE;
       }
       unit_list_iterate(ptile->units, punit) {
@@ -174,6 +177,9 @@ static void define_tiles_within_rectangle(void)
   }
   unit_list_unlink_all(units);
   unit_list_free(units);
+
+  /* Clear previous rectangle. */
+  draw_selection_rectangle(rec_corner_x, rec_corner_y, rec_w, rec_h);
 
   /* Hilite in City List Window */
   if (tiles_hilited_cities) {
@@ -275,7 +281,9 @@ void cancel_selection_rectangle(void)
   if (rectangle_active) {
     rectangle_active = FALSE;
     rbutton_down = FALSE;
-    dirty_rect(rec_corner_x, rec_corner_y, rec_w, rec_h);
+
+    /* Erase the previously drawn selection rectangle. */
+    draw_selection_rectangle(rec_corner_x, rec_corner_y, rec_w, rec_h);
   }
 }
 
@@ -284,7 +292,7 @@ void cancel_selection_rectangle(void)
 **************************************************************************/
 bool is_city_hilited(struct city *pcity)
 {
-  return map_deco[pcity->tile->index].hilite == HILITE_CITY;
+  return pcity && mapdeco_is_highlight_set(pcity->tile);
 }
 
 /**************************************************************************
@@ -294,12 +302,7 @@ void cancel_tile_hiliting(void)
 {
   if (tiles_hilited_cities)  {
     tiles_hilited_cities = FALSE;
-
-    whole_map_iterate(ptile) {
-      map_deco[ptile->index].hilite = HILITE_NONE;
-    } whole_map_iterate_end;
-
-    update_map_canvas_visible();
+    mapdeco_clear_highlights();
   }
 }
 
@@ -311,7 +314,6 @@ void release_right_button(int canvas_x, int canvas_y)
 {
   if (rectangle_active) {
     define_tiles_within_rectangle();
-    update_map_canvas_visible();
   } else {
     /* NB: Assumes 'rectangle_append' was set because <SHIFT> was on. */
     if (rectangle_append) {
@@ -335,22 +337,20 @@ void toggle_tile_hilite(struct tile *ptile)
 {
   struct city *pcity = ptile->city;
 
-  if (map_deco[ptile->index].hilite == HILITE_CITY) {
-    map_deco[ptile->index].hilite = HILITE_NONE;
+  if (mapdeco_is_highlight_set(ptile)) {
+    mapdeco_set_highlight(ptile, FALSE);
     if (pcity) {
       toggle_city_hilite(pcity, FALSE); /* cityrep.c */
     }
   }
   else if (pcity && city_owner(pcity) == game.player_ptr) {
-    map_deco[ptile->index].hilite = HILITE_CITY;
+    mapdeco_set_highlight(ptile, TRUE);
     tiles_hilited_cities = TRUE;
     toggle_city_hilite(pcity, TRUE);
   }
   else  {
     return;
   }
-
-  refresh_tile_mapcanvas(ptile, FALSE, TRUE);
 }
 
 /**************************************************************************

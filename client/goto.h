@@ -32,7 +32,6 @@ bool goto_pop_waypoint(void);
 
 bool is_valid_goto_destination(const struct tile *ptile);
 bool is_valid_goto_draw_line(struct tile *dest_tile);
-bool is_drawn_line(struct tile *dest_tile, int dir);
  
 void request_orders_cleared(struct unit *punit);
 void send_goto_path(struct unit *punit, struct pf_path *path,
