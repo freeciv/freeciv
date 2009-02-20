@@ -83,6 +83,7 @@ static GQueue *statusbar_queue;
 static guint statusbar_timer = 0;
 
 static GtkWidget *ruleset_combo;
+static GtkWidget *start_page_entry;
 
 /**************************************************************************
   spawn a server, if there isn't one, using the default settings.
@@ -1656,6 +1657,7 @@ GtkWidget *create_start_page(void)
       G_CALLBACK(inputline_handler), NULL);
   g_signal_connect(entry, "activate",
       G_CALLBACK(inputline_return), NULL);
+  start_page_entry = entry;
 
   bbox = gtk_hbutton_box_new();
   gtk_box_set_spacing(GTK_BOX(bbox), 12);
@@ -2287,6 +2289,7 @@ void set_client_page(enum client_pages page)
   case PAGE_MAIN:
     break;
   case PAGE_START:
+    gtk_widget_grab_focus(start_page_entry);
     chatline_scroll_to_bottom();
     break;
   case PAGE_GGZ:
