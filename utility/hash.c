@@ -130,7 +130,15 @@ struct hash_table {
   unsigned int num_entries;	/* does not included deleted entries */
   unsigned int num_deleted;
   bool frozen;			/* do not auto-resize when set */
+  bool no_shrink;		/* do not auto-shrink when set */
 };
+
+struct hash_iter {
+  struct iterator vtable;
+  const struct hash_bucket *b, *end;
+};
+
+#define HASH_ITER(p) ((struct hash_iter *)(p))
 
 /* Calculate hash value given hash_table ptr and key: */
 #define HASH_VAL(h,k) (((h)->fval)((k), ((h)->num_buckets)))
@@ -158,6 +166,7 @@ static void zero_htable(struct hash_table *h)
   h->free_data_func = NULL;
   h->num_buckets = h->num_entries = h->num_deleted = 0;
   h->frozen = FALSE;
+  h->no_shrink = FALSE;
 }
 
 
@@ -438,6 +447,9 @@ static void hash_maybe_resize(struct hash_table *h, bool expandingp)
   if (h->frozen) {
     return;
   }
+  if (!expandingp && h->no_shrink) {
+    return;
+  }
   num_used = h->num_entries + h->num_deleted;
   if (expandingp) {
     limit = FULL_RATIO * h->num_buckets;
@@ -663,9 +675,16 @@ void hash_delete_all_entries(struct hash_table *h)
 {
   unsigned int bucket_nr;
 
-  /* Modeled after hash_key_by_number and hash_delete_entry. */
-  for (bucket_nr = 0; bucket_nr < h->num_buckets; bucket_nr++) {
-    hash_delete_bucket(h, &h->buckets[bucket_nr], NULL, NULL);
+  if (h->free_key_func == NULL && h->free_data_func == NULL) {
+    memset(h->buckets, 0, sizeof(struct hash_bucket) * h->num_buckets);
+    h->num_entries = 0;
+    h->num_deleted = 0;
+    h->frozen = FALSE;
+  } else {
+    /* Modeled after hash_key_by_number and hash_delete_entry. */
+    for (bucket_nr = 0; bucket_nr < h->num_buckets; bucket_nr++) {
+      hash_delete_bucket(h, &h->buckets[bucket_nr], NULL, NULL);
+    }
   }
   hash_maybe_shrink(h);
 }
@@ -770,4 +789,113 @@ const void *hash_value_by_number(const struct hash_table *h,
 				 unsigned int entry_number)
 {
   return hash_lookup_data(h, hash_key_by_number(h, entry_number));
+}
+
+/**************************************************************************
+  Prevent or allow the hash table automatically shrinking. Returns
+  the old value of the setting.
+**************************************************************************/
+bool hash_set_no_shrink(struct hash_table *h, bool no_shrink)
+{
+  bool old = h->no_shrink;
+  h->no_shrink = no_shrink;
+  return old;
+}
+
+/**************************************************************************
+  "Sizeof" function implementation for generic_iterate hash iterators.
+**************************************************************************/
+size_t hash_iter_sizeof(void)
+{
+  return sizeof(struct hash_iter);
+}
+
+/**************************************************************************
+  Helper function for hash (key, value) pair iteration.
+**************************************************************************/
+void *hash_iter_get_key(const struct iterator *hash_iter)
+{
+  struct hash_iter *it = HASH_ITER(hash_iter);
+  return (void *) it->b->key;
+}
+
+/**************************************************************************
+  Helper function for hash (key, value) pair iteration.
+**************************************************************************/
+void *hash_iter_get_value(const struct iterator *hash_iter)
+{
+  struct hash_iter *it = HASH_ITER(hash_iter);
+  return (void *) it->b->data;
+}
+
+/**************************************************************************
+  Iterator interface 'next' function implementation.
+**************************************************************************/
+static void hash_iter_next(struct iterator *iter)
+{
+  struct hash_iter *it = HASH_ITER(iter);
+  do {
+    it->b++;
+  } while (it->b < it->end && it->b->used != BUCKET_USED);
+}
+
+/**************************************************************************
+  Iterator interface 'get' function implementation. This just returns the
+  iterator itself, so you would need to use hash_iter_get_key/value to
+  get the actual keys and values.
+**************************************************************************/
+static void *hash_iter_get(const struct iterator *iter)
+{
+  return (void *) iter;
+}
+
+/**************************************************************************
+  Iterator interface 'valid' function implementation.
+**************************************************************************/
+static bool hash_iter_valid(const struct iterator *iter)
+{
+  struct hash_iter *it = HASH_ITER(iter);
+  return it->b < it->end;
+}
+
+/**************************************************************************
+  Returns an iterator that iterates over both keys and values of the hash
+  table. NB: iterator_get() returns an iterator pointer, so use the helper
+  functions hash_iter_get_{key,value} to access the key and value.
+**************************************************************************/
+struct iterator *hash_iter_init(struct hash_iter *it,
+                                const struct hash_table *h)
+{
+  it->vtable.next = hash_iter_next;
+  it->vtable.get = hash_iter_get;
+  it->vtable.valid = hash_iter_valid;
+  it->b = h->buckets - 1;
+  it->end = h->buckets + h->num_buckets;
+
+  /* Seek to the first used bucket. */
+  hash_iter_next(ITERATOR(it));
+
+  return ITERATOR(it);
+}
+
+/**************************************************************************
+  Returns an iterator over the hash table's keys.
+**************************************************************************/
+struct iterator *hash_key_iter_init(struct hash_iter *it,
+                                    const struct hash_table *h)
+{
+  struct iterator *ret = hash_iter_init(it, h);
+  it->vtable.get = hash_iter_get_key;
+  return ret;
+}
+
+/**************************************************************************
+  Returns an iterator over the hash table's values.
+**************************************************************************/
+struct iterator *hash_value_iter_init(struct hash_iter *it,
+                                      const struct hash_table *h)
+{
+  struct iterator *ret = hash_iter_init(it, h);
+  it->vtable.get = hash_iter_get_value;
+  return ret;
 }

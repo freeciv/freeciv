@@ -79,4 +79,35 @@ unsigned int hash_num_entries(const struct hash_table *h);
 unsigned int hash_num_buckets(const struct hash_table *h);
 unsigned int hash_num_deleted(const struct hash_table *h);
 
+bool hash_set_no_shrink(struct hash_table *h,
+                        bool no_shrink);
+
+#include "iterator.h"
+
+struct hash_iter;
+size_t hash_iter_sizeof(void);
+
+struct iterator *hash_key_iter_init(struct hash_iter *it,
+                                    const struct hash_table *h);
+#define hash_keys_iterate(ARG_ht, NAME_key)\
+  generic_iterate(struct hash_iter, void *, NAME_key,\
+                  hash_iter_sizeof, hash_key_iter_init, (ARG_ht))
+#define hash_keys_iterate_end generic_iterate_end
+
+struct iterator *hash_value_iter_init(struct hash_iter *it,
+                                      const struct hash_table *h);
+#define hash_values_iterate(ARG_ht, NAME_value)\
+  generic_iterate(struct hash_iter, void *, NAME_value,\
+                  hash_iter_sizeof, hash_value_iter_init, (ARG_ht))
+#define hash_values_iterate_end generic_iterate_end
+
+struct iterator *hash_iter_init(struct hash_iter *it,
+                                const struct hash_table *h);
+void *hash_iter_get_key(const struct iterator *hash_iter);
+void *hash_iter_get_value(const struct iterator *hash_iter);
+#define hash_iterate(ARG_ht, NAME_iter)\
+  generic_iterate(struct hash_iter, struct iterator *, NAME_iter,\
+                  hash_iter_sizeof, hash_iter_init, (ARG_ht))
+#define hash_iterate_end generic_iterate_end
+
 #endif  /* FC__HASH_H */
