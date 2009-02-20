@@ -312,6 +312,20 @@ static void current_focus_append(struct unit *punit)
   punit->focus_status = FOCUS_AVAIL;
   refresh_unit_mapcanvas(punit, punit->tile, TRUE, FALSE);
 
+  if (unit_selection_clears_orders) {
+    clear_unit_orders(punit);
+  }
+}
+
+/**************************************************************************
+  Clear all orders for the given unit.
+**************************************************************************/
+void clear_unit_orders(struct unit *punit)
+{
+  if (!punit) {
+    return;
+  }
+
   if (unit_has_orders(punit)) {
     /* Clear the focus unit's orders. */
     request_orders_cleared(punit);
@@ -1918,6 +1932,7 @@ void request_unit_move_done(void)
 {
   if (get_num_units_in_focus() > 0) {
     unit_list_iterate(get_units_in_focus(), punit) {
+      clear_unit_orders(punit);
       punit->focus_status = FOCUS_DONE;
     } unit_list_iterate_end;
     advance_unit_focus();

@@ -116,6 +116,7 @@ void request_toggle_focus_unit(void);
 void request_toggle_fog_of_war(void);
 
 void wakeup_sentried_units(struct tile *ptile);
+void clear_unit_orders(struct unit *punit);
 
 bool unit_is_in_focus(const struct unit *punit);
 struct unit *get_focus_unit_on_tile(const struct tile *ptile);

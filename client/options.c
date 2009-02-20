@@ -91,6 +91,7 @@ bool keyboardless_goto = TRUE;
 bool show_task_icons = TRUE;
 bool enable_cursor_changes = TRUE;
 bool separate_unit_selection = FALSE;
+bool unit_selection_clears_orders = TRUE;
 
 /* This option is currently set by the client - not by the user. */
 bool update_city_text_in_refresh_tile = TRUE;
@@ -270,6 +271,15 @@ static client_option common_options[] = {
                   N_("If this option is enabled, when both cities and "
                      "units are present in the selection rectangle, only "
                      "cities will be selected."),
+                  COC_INTERFACE),
+  GEN_BOOL_OPTION(unit_selection_clears_orders,
+                  N_("Clear unit orders on selection"),
+                  N_("Enabling this option will cause unit orders to be "
+                     "cleared whenever one or more units are selected. If "
+                     "this option is disabled, selecting units will not "
+                     "cause them to stop their current activity. Instead, "
+                     "their orders will be cleared only when new orders "
+                     "are given or if you press <space>."),
                   COC_INTERFACE),
 
   GEN_BOOL_OPTION(overview.layers[OLAYER_BACKGROUND],

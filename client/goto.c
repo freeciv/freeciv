@@ -1185,6 +1185,7 @@ void send_goto_route(void)
       path = pft_concat(path, goto_map->parts[i].path);
     }
 
+    clear_unit_orders(punit);
     if (goto_last_order == ORDER_LAST) {
       send_goto_path(punit, path, NULL);
     } else {
