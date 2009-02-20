@@ -40,21 +40,6 @@
 #define PATH_LOG_LEVEL          LOG_DEBUG
 #define PACKET_LOG_LEVEL        LOG_DEBUG
 
-/* For each tile and each direction we store the number of lines going out 
- * of the tile in this direction.  Since each line is undirected, we only 
- * store the 4 lower-numbered directions for each tile; the 4 upper-numbered
- * directions are stored as reverses from the target tile.
- * Notes: 1. This assumes that 
- * - there are 8 directions
- * - out of every two opposite directions (like NORTH and SOUTH) one and 
- *   only one has number less than 4
- * 2. There _can_ be more than one line drawn between two tiles, because of 
- * the waypoints. */
-struct goto_tiles {
-  unsigned char drawn[4];
-};
-static struct goto_tiles *tiles = NULL;
-
 /*
  * The whole path is separated by waypoints into parts.  Each part has its
  * own starting position and requires its own map.  When the unit is unable
@@ -97,10 +82,6 @@ struct goto_map {
 
 static struct goto_map_list *goto_maps = NULL;
 
-#define DRAWN(_tile, dir) (tiles[tile_index(_tile)].drawn[dir])
-
-static void increment_drawn(struct tile *src_tile, enum direction8 dir);
-static void decrement_drawn(struct tile *src_tile, enum direction8 dir);
 static void reset_last_part(struct goto_map *goto_map);
 static void remove_last_part(struct goto_map *goto_map);
 
@@ -148,8 +129,6 @@ void init_client_goto(void)
   free_client_goto();
 
   goto_maps = goto_map_list_new();
-
-  tiles = fc_calloc(MAP_INDEX_SIZE, sizeof(*tiles));
 }
 
 /********************************************************************** 
@@ -163,11 +142,6 @@ void free_client_goto(void)
     } goto_map_list_iterate_end;
     goto_map_list_free(goto_maps);
     goto_maps = NULL;
-  }
-
-  if (NULL != tiles) {
-    free(tiles);
-    tiles = NULL;
   }
 }
 
@@ -224,7 +198,7 @@ static bool update_last_part(struct goto_map *goto_map,
       struct pf_position *a = &p->path->positions[i];
 
       if (is_valid_dir(a->dir_to_next_pos)) {
-	decrement_drawn(a->tile, a->dir_to_next_pos);
+        mapdeco_remove_gotoline(a->tile, a->dir_to_next_pos);
       } else {
 	assert(i < p->path->length - 1
 	       && a->tile == p->path->positions[i + 1].tile);
@@ -241,7 +215,7 @@ static bool update_last_part(struct goto_map *goto_map,
     struct pf_position *a = &new_path->positions[i];
 
     if (is_valid_dir(a->dir_to_next_pos)) {
-      increment_drawn(a->tile, a->dir_to_next_pos);
+      mapdeco_add_gotoline(a->tile, a->dir_to_next_pos);
     } else {
       assert(i < new_path->length - 1
 	     && a->tile == new_path->positions[i + 1].tile);
@@ -1229,87 +1203,6 @@ void send_goto_route(void)
     }
     pf_destroy_path(path);
   } goto_map_unit_iterate_end;
-}
-
-/* ================= drawn functions ============================ */
-
-/********************************************************************** 
-  Every line segment has 2 ends; we only keep track of it at one end
-  (the one from which dir i <4). This function returns pointer to the
-  correct char. This function is for internal use only. Use get_drawn
-  when in doubt.
-***********************************************************************/
-static unsigned char *get_drawn_char(struct tile *ptile, enum direction8 dir)
-{
-  struct tile *tile1;
-
-  tile1 = mapstep(ptile, dir);
-
-  if (dir >= 4) {
-    ptile = tile1;
-    dir = DIR_REVERSE(dir);
-  }
-
-  return &DRAWN(ptile, dir);
-}
-
-/**************************************************************************
-  Increments the number of segments at the location, and draws the
-  segment if necessary.
-**************************************************************************/
-static void increment_drawn(struct tile *src_tile, enum direction8 dir)
-{
-  unsigned char *count = get_drawn_char(src_tile, dir);
-
-  freelog(LOG_DEBUG, "increment_drawn(src=(%d,%d) dir=%s)",
-          TILE_XY(src_tile), dir_get_name(dir));
-
-  if (*count < 255) {
-    (*count)++;
-  } else {
-    /* don't overflow unsigned char. */
-    assert(*count < 255);
-  }
-
-  if (*count == 1) {
-    draw_segment(src_tile, dir);
-  }
-}
-
-/**************************************************************************
-  Decrements the number of segments at the location, and clears the
-  segment if necessary.
-**************************************************************************/
-static void decrement_drawn(struct tile *src_tile, enum direction8 dir)
-{
-  unsigned char *count = get_drawn_char(src_tile, dir);
-
-  freelog(LOG_DEBUG, "decrement_drawn(src=(%d,%d) dir=%s)",
-          TILE_XY(src_tile), dir_get_name(dir));
-
-  if (*count > 0) {
-    (*count)--;
-  } else {
-    /* don't underflow unsigned char. */
-    assert(*count > 0);
-  }
-
-  if (*count == 0) {
-    undraw_segment(src_tile, dir);
-  }
-}
-
-/****************************************************************************
-  Return TRUE if there is a line drawn from (x,y) in the given direction.
-  This is used by mapview to determine whether to draw a goto line.
-****************************************************************************/
-bool is_drawn_line(struct tile *ptile, int dir)
-{
-  if (!mapstep(ptile, dir)) {
-    return 0;
-  }
-
-  return (*get_drawn_char(ptile, dir) != 0);
 }
 
 /**************************************************************************

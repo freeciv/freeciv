@@ -19,6 +19,7 @@
 
 /* utility */
 #include "fcintl.h"
+#include "hash.h"
 #include "log.h"
 #include "rand.h"
 #include "support.h"
@@ -45,7 +46,14 @@
 #include "overview_common.h"
 #include "tilespec.h"
 
-struct mapview_decoration *map_deco;
+struct hash_table *mapdeco_highlight_table;
+struct hash_table *mapdeco_crosshair_table;
+
+struct gotoline_counter {
+  int line_count[DIR8_COUNT];
+};
+struct hash_table *mapdeco_gotoline_table;
+
 struct view mapview;
 bool can_slide = TRUE;
 
@@ -1304,8 +1312,8 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
       continue;
     }
     adjc_dir_iterate(ptile, adjc_tile, dir) {
-      if (is_drawn_line(ptile, dir)) {
-	draw_segment(ptile, dir);
+      if (mapdeco_is_gotoline_set(ptile, dir)) {
+        draw_segment(ptile, dir);
       }
     } adjc_dir_iterate_end;
   } gui_rect_iterate_end;
@@ -1894,22 +1902,6 @@ void draw_segment(struct tile *src_tile, enum direction8 dir)
    * which fails when the size of the mapview approaches that of the map. */
 }
 
-/**************************************************************************
-  Remove the line from src_x, src_y in the given direction, and redraw
-  the change if necessary.
-**************************************************************************/
-void undraw_segment(struct tile *src_tile, enum direction8 dir)
-{
-  struct tile *dst_tile = mapstep(src_tile, dir);
-
-  if (is_drawn_line(src_tile, dir) || !dst_tile) {
-    assert(0);
-    return;
-  }
-  refresh_tile_mapcanvas(src_tile, FALSE, FALSE);
-  refresh_tile_mapcanvas(dst_tile, FALSE, FALSE);
-}
-
 /****************************************************************************
   This function is called to decrease a unit's HP smoothly in battle
   when combat_animation is turned on.
@@ -2120,7 +2112,7 @@ struct city *find_city_or_settler_near_tile(const struct tile *ptile,
        * city (perhaps an UNSEEN city) may be working it!
        */
       
-      if (map_deco[tile_index(pcity->tile)].hilite == HILITE_CITY) {
+      if (mapdeco_is_highlight_set(city_tile(pcity))) {
 	/* rule c */
 	return pcity;
       }
@@ -2570,16 +2562,300 @@ static bool can_do_cached_drawing(void)
   Called when we receive map dimensions.  It initialized the mapview
   decorations.
 **************************************************************************/
-void init_mapview_decorations(void)
+void mapdeco_init(void)
 {
   /* HACK: this must be called on a map_info packet. */
   mapview.can_do_cached_drawing = can_do_cached_drawing();
 
-  map_deco = fc_realloc(map_deco, MAP_INDEX_SIZE * sizeof(*map_deco));
-  whole_map_iterate(ptile) {
-    map_deco[tile_index(ptile)].hilite = HILITE_NONE;
-    map_deco[tile_index(ptile)].crosshair = 0;
-  } whole_map_iterate_end;
+  mapdeco_free();
+  mapdeco_highlight_table = hash_new(hash_fval_keyval, hash_fcmp_keyval);
+  mapdeco_crosshair_table = hash_new(hash_fval_keyval, hash_fcmp_keyval);
+  mapdeco_gotoline_table = hash_new(hash_fval_keyval, hash_fcmp_keyval);
+}
+
+/**************************************************************************
+  Free all memory used for map decorations.
+**************************************************************************/
+void mapdeco_free(void)
+{
+  if (mapdeco_highlight_table) {
+    hash_free(mapdeco_highlight_table);
+    mapdeco_highlight_table = NULL;
+  }
+  if (mapdeco_crosshair_table) {
+    hash_free(mapdeco_crosshair_table);
+    mapdeco_crosshair_table = NULL;
+  }
+  if (mapdeco_gotoline_table) {
+    hash_values_iterate(mapdeco_gotoline_table, pglc) {
+      free(pglc);
+    } hash_values_iterate_end;
+    hash_free(mapdeco_gotoline_table);
+    mapdeco_gotoline_table = NULL;
+  }
+}
+
+/**************************************************************************
+  Set the given tile's map decoration as either highlighted or not,
+  depending on the value of 'highlight'.
+**************************************************************************/
+void mapdeco_set_highlight(const struct tile *ptile, bool highlight)
+{
+  bool changed = FALSE;
+  if (!ptile || !mapdeco_highlight_table) {
+    return;
+  }
+
+  if (highlight) {
+    changed = hash_insert(mapdeco_highlight_table, ptile, NULL);
+  } else {
+    changed = hash_key_exists(mapdeco_highlight_table, ptile);
+    hash_delete_entry(mapdeco_highlight_table, ptile);
+  }
+
+  if (changed) {
+    /* FIXME: Remove the cast. */
+    refresh_tile_mapcanvas((struct tile *) ptile, TRUE, FALSE);
+  }
+}
+
+/**************************************************************************
+  Return TRUE if the given tile is highlighted.
+**************************************************************************/
+bool mapdeco_is_highlight_set(const struct tile *ptile)
+{
+  if (!ptile || !mapdeco_highlight_table) {
+    return FALSE;
+  }
+  return hash_key_exists(mapdeco_highlight_table, ptile);
+}
+
+/**************************************************************************
+  Clears all highlighting. Marks the previously highlighted tiles as
+  needing a mapview update.
+**************************************************************************/
+void mapdeco_clear_highlights(void)
+{
+  if (!mapdeco_highlight_table) {
+    return;
+  }
+
+  hash_keys_iterate(mapdeco_highlight_table, ptile) {
+    refresh_tile_mapcanvas(ptile, TRUE, FALSE);
+  } hash_keys_iterate_end;
+
+  hash_delete_all_entries(mapdeco_highlight_table);
+}
+
+/**************************************************************************
+  Marks the given tile as having a "crosshair" map decoration.
+**************************************************************************/
+void mapdeco_set_crosshair(const struct tile *ptile, bool crosshair)
+{
+  bool changed;
+
+  if (!mapdeco_crosshair_table || !ptile) {
+    return;
+  }
+
+  if (crosshair) {
+    changed = hash_insert(mapdeco_crosshair_table, ptile, NULL);
+  } else {
+    changed = hash_key_exists(mapdeco_crosshair_table, ptile);
+    hash_delete_entry(mapdeco_crosshair_table, ptile);
+  }
+
+  if (changed) {
+    /* FIXME: Remove the cast. */
+    refresh_tile_mapcanvas((struct tile *) ptile, FALSE, FALSE);
+  }
+}
+
+/**************************************************************************
+  Returns TRUE if there is a "crosshair" decoration set at the given tile.
+**************************************************************************/
+bool mapdeco_is_crosshair_set(const struct tile *ptile)
+{
+  if (!mapdeco_crosshair_table || !ptile) {
+    return FALSE;
+  }
+  return hash_key_exists(mapdeco_crosshair_table, ptile);
+}
+
+/**************************************************************************
+  Clears all previous set tile crosshair decorations. Marks the affected
+  tiles as needing a mapview update.
+**************************************************************************/
+void mapdeco_clear_crosshairs(void)
+{
+  if (!mapdeco_crosshair_table) {
+    return;
+  }
+
+  hash_keys_iterate(mapdeco_crosshair_table, ptile) {
+    refresh_tile_mapcanvas(ptile, FALSE, FALSE);
+  } hash_keys_iterate_end;
+
+  hash_delete_all_entries(mapdeco_crosshair_table);
+}
+
+/**************************************************************************
+  Add a goto line from the given tile 'ptile' in the direction 'dir'. If
+  there was no previously drawn line there, a mapview update is queued
+  for the source and destination tiles.
+**************************************************************************/
+void mapdeco_add_gotoline(const struct tile *ptile, enum direction8 dir)
+{
+  struct gotoline_counter *pglc;
+  const struct tile *ptile_dest;
+  bool changed;
+
+  if (!mapdeco_gotoline_table || !ptile
+      || !(0 <= dir && dir < DIR8_COUNT)) {
+    return;
+  }
+  ptile_dest = mapstep(ptile, dir);
+  if (!ptile_dest) {
+    return;
+  }
+
+  pglc = hash_lookup_data(mapdeco_gotoline_table, ptile);
+  if (!pglc) {
+    pglc = fc_calloc(1, sizeof(*pglc));
+    hash_insert(mapdeco_gotoline_table, ptile, pglc);
+  }
+  changed = (pglc->line_count[dir] < 1);
+  pglc->line_count[dir]++;
+
+  if (changed) {
+    /* FIXME: Remove cast. */
+    refresh_tile_mapcanvas((struct tile *) ptile, FALSE, FALSE);
+    refresh_tile_mapcanvas((struct tile *) ptile_dest, FALSE, FALSE);
+  }
+}
+
+/**************************************************************************
+  Removes a goto line from the given tile 'ptile' going in the direction
+  'dir'. If this was the last line there, a mapview update is queued to
+  erase the drawn line.
+**************************************************************************/
+void mapdeco_remove_gotoline(const struct tile *ptile,
+                             enum direction8 dir)
+{
+  struct gotoline_counter *pglc;
+  bool changed = FALSE;
+
+  if (!mapdeco_gotoline_table || !ptile
+      || !(0 <= dir && dir < DIR8_COUNT)) {
+    return;
+  }
+
+  pglc = hash_lookup_data(mapdeco_gotoline_table, ptile);
+  if (!pglc) {
+    return;
+  }
+
+  pglc->line_count[dir]--;
+  if (pglc->line_count[dir] <= 0) {
+    pglc->line_count[dir] = 0;
+    changed = TRUE;
+  }
+
+  if (changed) {
+    /* FIXME: Remove the casts. */
+    refresh_tile_mapcanvas((struct tile *) ptile, FALSE, FALSE);
+    ptile = mapstep(ptile, dir);
+    if (ptile != NULL) {
+      refresh_tile_mapcanvas((struct tile *) ptile, FALSE, FALSE);
+    }
+  }
+}
+
+/**************************************************************************
+  Set the map decorations for the given unit's goto route. A goto route
+  consists of one or more goto lines, with each line being from the center
+  of one tile to the center of another tile.
+**************************************************************************/
+void mapdeco_set_gotoroute(const struct unit *punit)
+{
+  const struct unit_order *porder;
+  const struct tile *ptile;
+  int i, ind;
+
+  if (!punit || !unit_tile(punit) || !unit_has_orders(punit)
+      || punit->orders.length < 1) {
+    return;
+  }
+
+  ptile = unit_tile(punit);
+
+  for (i = 0; ptile != NULL && i < punit->orders.length; i++) {
+    if (punit->orders.index + i >= punit->orders.length
+        && !punit->orders.repeat) {
+      break;
+    }
+
+    ind = (punit->orders.index + i) % punit->orders.length;
+    porder = &punit->orders.list[ind];
+    if (porder->order != ORDER_MOVE) {
+      break;
+    }
+
+    mapdeco_add_gotoline(ptile, porder->dir);
+    ptile = mapstep(ptile, porder->dir);
+  }
+}
+
+/**************************************************************************
+  Returns TRUE if a goto line should be drawn from the given tile in the
+  given direction.
+**************************************************************************/
+bool mapdeco_is_gotoline_set(const struct tile *ptile,
+                             enum direction8 dir)
+{
+  struct gotoline_counter *pglc;
+
+  if (!ptile || !(0 <= dir && dir < DIR8_COUNT)
+      || !mapdeco_gotoline_table) {
+    return FALSE;
+  }
+
+  pglc = hash_lookup_data(mapdeco_gotoline_table, ptile);
+  if (!pglc) {
+    return FALSE;
+  }
+
+  return pglc->line_count[dir] > 0;
+}
+
+/**************************************************************************
+  Clear all goto line map decorations and queues mapview updates for the
+  affected tiles.
+**************************************************************************/
+void mapdeco_clear_gotoroutes(void)
+{
+  const struct tile *ptile;
+  struct gotoline_counter *pglc;
+
+  if (!mapdeco_gotoline_table) {
+    return;
+  }
+
+  hash_iterate(mapdeco_gotoline_table, iter) {
+    ptile = hash_iter_get_key(iter);
+    pglc = hash_iter_get_value(iter);
+
+    /* FIXME: Remove the casts. */
+    refresh_tile_mapcanvas((struct tile *) ptile, FALSE, FALSE);
+    adjc_dir_iterate(ptile, ptile_dest, dir) {
+      if (pglc->line_count[dir] > 0) {
+        refresh_tile_mapcanvas((struct tile *) ptile_dest, FALSE, FALSE);
+      }
+    } adjc_dir_iterate_end;
+
+    free(pglc);
+  } hash_iterate_end;
+  hash_delete_all_entries(mapdeco_gotoline_table);
 }
 
 /**************************************************************************

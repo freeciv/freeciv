@@ -4096,10 +4096,8 @@ static int fill_grid_sprite_array(const struct tileset *t,
       }
     }
 
-    if ((pedge->tile[0]
-	 && map_deco[tile_index(pedge->tile[0])].hilite == HILITE_CITY)
-	|| (pedge->tile[1]
-	    && map_deco[tile_index(pedge->tile[1])].hilite == HILITE_CITY)) {
+    if (mapdeco_is_highlight_set(pedge->tile[0])
+        || mapdeco_is_highlight_set(pedge->tile[1])) {
       ADD_SPRITE_SIMPLE(t->sprites.grid.selected[pedge->type]);
     } else if (!draw_terrain && draw_coastline
 	       && pedge->tile[0] && pedge->tile[1]
@@ -4494,7 +4492,7 @@ int fill_sprite_array(struct tileset *t,
 
   case LAYER_OVERLAYS:
     sprs += fill_city_overlays_sprite_array(t, sprs, ptile, citymode);
-    if (ptile && map_deco[tile_index(ptile)].crosshair > 0) {
+    if (mapdeco_is_crosshair_set(ptile)) {
       ADD_SPRITE_SIMPLE(t->sprites.user.attention);
     }
     break;

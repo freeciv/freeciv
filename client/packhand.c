@@ -1560,7 +1560,7 @@ void handle_map_info(int xsize, int ysize, int topology_id)
 
   map_allocate();
   init_client_goto();
-  init_mapview_decorations();
+  mapdeco_init();
 
   generate_citydlg_dimensions();
 

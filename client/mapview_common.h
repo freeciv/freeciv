@@ -25,15 +25,6 @@
 
 struct canvas_store;		/* opaque type, real type is gui-dep */
 
-struct mapview_decoration {
-  /* For client Area Selection */
-  enum tile_hilite {
-    HILITE_NONE, HILITE_CITY
-  } hilite;
-
-  int crosshair; /* A refcount */
-};
-
 struct view {
   int gui_x0, gui_y0;
   int width, height;		/* Size in pixels. */
@@ -43,7 +34,24 @@ struct view {
   struct canvas *store, *tmp_store;
 };
 
-extern struct mapview_decoration *map_deco;
+void mapdeco_init(void);
+void mapdeco_free(void);
+void mapdeco_set_highlight(const struct tile *ptile, bool highlight);
+bool mapdeco_is_highlight_set(const struct tile *ptile);
+void mapdeco_clear_highlights(void);
+void mapdeco_set_crosshair(const struct tile *ptile, bool crosshair);
+bool mapdeco_is_crosshair_set(const struct tile *ptile);
+void mapdeco_clear_crosshairs(void);
+void mapdeco_set_gotoroute(const struct unit *punit);
+void mapdeco_add_gotoline(const struct tile *ptile,
+                          enum direction8 dir);
+void mapdeco_remove_gotoline(const struct tile *ptile,
+                             enum direction8 dir);
+bool mapdeco_is_gotoline_set(const struct tile *ptile,
+                             enum direction8 dir);
+void mapdeco_clear_gotoroutes(void);
+
+
 extern struct view mapview;
 
 /* HACK: Callers can set this to FALSE to disable sliding.  It should be
@@ -303,7 +311,6 @@ void get_city_mapview_traderoutes(struct city *pcity,
                                   size_t traderoutes_buffer_len,
                                   enum color_std *traderoutes_color);
 
-void init_mapview_decorations(void);
 bool map_canvas_resized(int width, int height);
 void init_mapcanvas_and_overview(void);
 
