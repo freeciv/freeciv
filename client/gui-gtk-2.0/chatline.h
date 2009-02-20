@@ -24,5 +24,6 @@ extern int history_pos;
 
 void inputline_return(GtkEntry *w, gpointer data);
 void set_output_window_text(const char *text);
+void chatline_scroll_to_bottom(void);
 
 #endif  /* FC__CHATLINE_H */
