@@ -410,6 +410,48 @@ static gboolean toplevel_focus(GtkWidget *w, GtkDirectionType arg)
   return FALSE;
 }
 
+
+/**************************************************************************
+  Idle callback for scrolling down the chatline.
+  NB: Only to be used by queue_chatline_scroll_to_bottom().
+**************************************************************************/
+static gboolean chatline_scroll_callback(gpointer data)
+{
+  guint *pid = data;
+  chatline_scroll_to_bottom();
+  *pid = 0;
+  return FALSE; /* Remove this idle function. */
+}
+
+/**************************************************************************
+  Adds an idle callback to scroll the chatline to the bottom.
+**************************************************************************/
+static void queue_chatline_scroll_to_bottom(void)
+{
+  static guint id = 0;
+  if (id == 0) {
+    id = g_idle_add(chatline_scroll_callback, &id);
+  }
+}
+
+/**************************************************************************
+  When the chatline text view is resized, scroll it to the bottom. This
+  prevents users from accidentally missing messages when the chatline
+  gets scrolled up a small amount and stops scrolling down automatically.
+**************************************************************************/
+static void main_message_area_size_allocate(GtkWidget *widget,
+                                            GtkAllocation *allocation,
+                                            gpointer data)
+{
+  static int old_width = 0, old_height = 0;
+  if (allocation->width != old_width
+      || allocation->height != old_height) {
+    queue_chatline_scroll_to_bottom();
+    old_width = allocation->width;
+    old_height = allocation->height;
+  }
+}
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -1353,6 +1395,8 @@ static void setup_widgets(void)
   text = gtk_text_view_new_with_buffer(message_buffer);
   gtk_text_view_set_editable(GTK_TEXT_VIEW(text), FALSE);
   gtk_container_add(GTK_CONTAINER(sw), text);
+  g_signal_connect(text, "size-allocate",
+                   G_CALLBACK(main_message_area_size_allocate), NULL);
 
   gtk_widget_set_name(text, "chatline");
 

@@ -66,23 +66,50 @@ void inputline_return(GtkEntry *w, gpointer data)
 }
 
 /**************************************************************************
+  Scroll a textview so that the given mark is visible, but only if the
+  scroll window containing the textview is very close to the bottom. The
+  text mark 'scroll_target' should probably be the first character of the
+  last line in the text buffer.
+**************************************************************************/
+static void scroll_if_necessary(GtkTextView *textview,
+                                GtkTextMark *scroll_target)
+{
+  GtkWidget *sw;
+  GtkAdjustment *vadj;
+  gdouble val, max, upper, page_size;
+
+  g_return_if_fail(textview != NULL);
+  g_return_if_fail(scroll_target != NULL);
+
+  sw = gtk_widget_get_parent(GTK_WIDGET(textview));
+  g_return_if_fail(sw != NULL);
+  g_return_if_fail(GTK_IS_SCROLLED_WINDOW(sw));
+
+  vadj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(sw));
+  val = gtk_adjustment_get_value(GTK_ADJUSTMENT(vadj));
+  g_object_get(G_OBJECT(vadj), "upper", &upper,
+               "page-size", &page_size, NULL);
+  max = upper - page_size;
+  if (max - val < 10.0) {
+    gtk_text_view_scroll_to_mark(GTK_TEXT_VIEW(textview), scroll_target,
+                                 0.0, TRUE, 1.0, 0.0);
+  }
+}
+
+/**************************************************************************
   Appends the string to the chat output window.  The string should be
   inserted on its own line, although it will have no newline.
 **************************************************************************/
 void real_append_output_window(const char *astring, int conn_id)
 {
-  GtkWidget *sw;
-  GtkAdjustment *slider;
-  bool scroll;
-
   GtkTextBuffer *buf;
-  GtkTextIter i;
+  GtkTextIter iter;
   GtkTextMark *mark;
 
-
   buf = message_buffer;
-  gtk_text_buffer_get_end_iter(buf, &i);
-  gtk_text_buffer_insert(buf, &i, "\n", -1);
+  gtk_text_buffer_get_end_iter(buf, &iter);
+  gtk_text_buffer_insert(buf, &iter, "\n", -1);
+  mark = gtk_text_buffer_create_mark(buf, NULL, &iter, TRUE);
 
   if (show_chat_message_time) {
     char timebuf[64];
@@ -92,41 +119,18 @@ void real_append_output_window(const char *astring, int conn_id)
     now = time(NULL);
     localtime_r(&now, &now_tm);
     strftime(timebuf, sizeof(timebuf), "[%H:%M:%S] ", &now_tm);
-    gtk_text_buffer_insert(buf, &i, timebuf, -1);
+    gtk_text_buffer_insert(buf, &iter, timebuf, -1);
   }
 
-  gtk_text_buffer_insert(buf, &i, astring, -1);
+  gtk_text_buffer_insert(buf, &iter, astring, -1);
 
-  /* have to use a mark, or this won't work properly */
-  gtk_text_buffer_get_end_iter(buf, &i);
-  mark = gtk_text_buffer_create_mark(buf, NULL, &i, FALSE);
-
-
-  sw = gtk_widget_get_parent(GTK_WIDGET(main_message_area));
-  slider = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(sw));
-
-  /* scroll forward only if slider is near the bottom */
-  scroll = ((slider->value + slider->page_size) >=
-      (slider->upper - slider->step_increment));
-  if (scroll) {
-    gtk_text_view_scroll_mark_onscreen(GTK_TEXT_VIEW(main_message_area),
-	mark);
+  if (main_message_area) {
+    scroll_if_necessary(GTK_TEXT_VIEW(main_message_area), mark);
   }
-
-  sw = gtk_widget_get_parent(GTK_WIDGET(start_message_area));
-  slider = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(sw));
-
-  /* scroll forward only if slider is near the bottom */
-  scroll = ((slider->value + slider->page_size) >=
-      (slider->upper - slider->step_increment));
-  if (scroll) {
-    gtk_text_view_scroll_mark_onscreen(GTK_TEXT_VIEW(start_message_area),
-	mark);
+  if (start_message_area) {
+    scroll_if_necessary(GTK_TEXT_VIEW(start_message_area), mark);
   }
-
-
   gtk_text_buffer_delete_mark(buf, mark);
-
 
   append_network_statusbar(astring, FALSE);
 }
@@ -162,4 +166,26 @@ void clear_output_window(void)
 void set_output_window_text(const char *text)
 {
   gtk_text_buffer_set_text(message_buffer, text, -1);
+}
+
+/**************************************************************************
+  Scrolls the pregame and in-game chat windows all the way to the bottom.
+**************************************************************************/
+void chatline_scroll_to_bottom(void)
+{
+  GtkTextIter end;
+
+  if (!message_buffer) {
+    return;
+  }
+  gtk_text_buffer_get_end_iter(message_buffer, &end);
+
+  if (main_message_area) {
+    gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(main_message_area),
+                                 &end, 0.0, TRUE, 1.0, 0.0);
+  }
+  if (start_message_area) {
+    gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(start_message_area),
+                                 &end, 0.0, TRUE, 1.0, 0.0);
+  }
 }

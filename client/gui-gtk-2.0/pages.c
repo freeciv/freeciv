@@ -2285,7 +2285,10 @@ void set_client_page(enum client_pages page)
 
   switch (new_page) {
   case PAGE_MAIN:
+    break;
   case PAGE_START:
+    chatline_scroll_to_bottom();
+    break;
   case PAGE_GGZ:
     break;
   case PAGE_NATION:
@@ -2298,6 +2301,7 @@ void set_client_page(enum client_pages page)
     gtk_tree_view_focus(gtk_tree_selection_get_tree_view(scenario_selection));
     break;
   case PAGE_GAME:
+    chatline_scroll_to_bottom();
     break;
   case PAGE_NETWORK:
     update_network_lists();
