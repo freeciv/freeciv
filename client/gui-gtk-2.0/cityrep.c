@@ -73,6 +73,7 @@ static void city_command_callback(struct gui_dialog *dlg, int response,
                                   gpointer data);
 
 static void city_selection_changed_callback(GtkTreeSelection *selection);
+static void city_clear_worklist_callback(GtkMenuItem *item, gpointer data);
 static void update_total_buy_cost(void);
 
 static void create_select_menu(GtkWidget *item);
@@ -729,6 +730,14 @@ static GtkWidget *create_city_report_menubar(void)
   item = gtk_menu_item_new_with_mnemonic(_("Add _Last"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   create_last_menu(item);
+
+  item = gtk_separator_menu_item_new();
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+
+  item = gtk_menu_item_new_with_mnemonic(_("Clear _Worklist"));
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  g_signal_connect(item, "activate",
+                   G_CALLBACK(city_clear_worklist_callback), NULL);
 
   item = gtk_menu_item_new_with_mnemonic(_("Gover_nor"));
   city_governor_command = item;
@@ -1672,6 +1681,39 @@ static void city_selection_changed_callback(GtkTreeSelection *selection)
                            n > 0 && can_client_issue_orders());
 
   update_total_buy_cost();
+}
+
+/**************************************************************************
+  Clear the worklist in one selected city in the city report.
+**************************************************************************/
+static void clear_worklist_foreach_func(GtkTreeModel *model,
+                                        GtkTreePath *path,
+                                        GtkTreeIter *it,
+                                        gpointer data)
+{
+  struct city *pcity;
+
+  gtk_tree_model_get(model, it, 0, &pcity, -1);
+  if (pcity && game_find_city_by_number(pcity->id)) {
+    struct worklist empty;
+    init_worklist(&empty);
+    city_set_worklist(pcity, &empty);
+  }
+}
+
+/**************************************************************************
+  Called when the "clear worklist" menu item is activated.
+**************************************************************************/
+static void city_clear_worklist_callback(GtkMenuItem *item, gpointer data)
+{
+  struct connection *pconn = &client.conn;
+
+  g_return_if_fail(city_selection != NULL);
+
+  connection_do_buffer(pconn);
+  gtk_tree_selection_selected_foreach(city_selection,
+                                      clear_worklist_foreach_func, NULL);
+  connection_do_unbuffer(pconn);
 }
 
 /****************************************************************
