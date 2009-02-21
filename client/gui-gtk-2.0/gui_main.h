@@ -28,6 +28,7 @@ extern bool enable_tabs;
 extern bool better_fog;
 extern bool show_chat_message_time;
 extern bool split_bottom_notebook;
+extern bool new_messages_go_to_top;
 extern bool metaserver_tab_first;
 
 extern GdkGC *          civ_gc;
