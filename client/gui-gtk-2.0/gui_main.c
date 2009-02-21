@@ -99,6 +99,7 @@ bool enable_tabs = TRUE;
 bool better_fog = TRUE;
 bool show_chat_message_time = FALSE;
 bool split_bottom_notebook = FALSE;
+bool new_messages_go_to_top = FALSE;
 bool metaserver_tab_first = FALSE;
 
 GtkWidget *toplevel;
@@ -217,6 +218,12 @@ client_option gui_options[] = {
                         "notebook into a left and right notebook so that "
                         "two tabs may be viewed at once."),
                      COC_INTERFACE, split_bottom_notebook_callback),
+  GEN_BOOL_OPTION(new_messages_go_to_top,
+                  N_("New message events go to top of list"),
+                  N_("If this option is enabled, new events in the "
+                     "message window will appear at the top of the list, "
+                     "rather than being appended at the bottom."),
+                  COC_INTERFACE),
   GEN_BOOL_OPTION(metaserver_tab_first,
                   N_("Metaserver tab first in network page"),
                   N_("If this option is enabled, the metaserver tab will "
