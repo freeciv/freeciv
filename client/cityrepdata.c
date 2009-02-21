@@ -435,16 +435,20 @@ static const char *cr_entry_cma(const struct city *pcity,
 #define FUNC_TAG(var)  cr_entry_##var, #var 
 
 static const struct city_report_spec base_city_report_specs[] = {
+  { TRUE, -15, 0, NULL,  N_("?city:Name"), N_("City Name"),
+    NULL, FUNC_TAG(cityname) },
+  { TRUE,   2, 1, NULL,  N_("?size [short]:Sz"), N_("Size"),
+    NULL, FUNC_TAG(size) },
+  { TRUE,  -8, 1, NULL,  N_("State"),   N_("Rapture/Peace/Disorder"),
+    NULL, FUNC_TAG(hstate_verbose) },
+  { FALSE,  1, 1, NULL,  NULL,          N_("Concise *=Rapture, X=Disorder"),
+    NULL, FUNC_TAG(hstate_concise) },
+
   /* Specialists grouped with init_city_report_game_data specialists */ 
   { FALSE,  7, 1, N_("Special"),
     N_("?entertainers/scientists/taxmen:E/S/T"),
     N_("Entertainers, Scientists, Taxmen"),
     NULL, FUNC_TAG(specialists) },
-
-  { FALSE,  1, 1, NULL,  NULL,          N_("Concise *=Rapture, X=Disorder"),
-    NULL, FUNC_TAG(hstate_concise) },
-  { TRUE,  -8, 1, NULL,  N_("State"),   N_("Rapture/Peace/Disorder"),
-    NULL, FUNC_TAG(hstate_verbose) },
 
   { FALSE, 2, 1, NULL, N_("?Happy workers:H"), N_("Workers: Happy"),
     NULL, FUNC_TAG(happy) },
@@ -477,12 +481,6 @@ static const struct city_report_spec base_city_report_specs[] = {
     N_("?Stock/Target:(Have/Need)"),
     N_("Turns until growth/famine"),
     NULL, FUNC_TAG(growturns) },
-  { TRUE,   2, 1, NULL,  N_("?size [short]:Sz"), N_("Size"),
-    NULL, FUNC_TAG(size) },
-
-  /* city name closer to center, try to keep within scroll window */
-  { TRUE, -15, 0, NULL,  N_("?city:Name"), N_("City Name"),
-    NULL, FUNC_TAG(cityname) },
 
   { TRUE,  10, 1, N_("Surplus"), N_("?food/production/trade:F/P/T"),
                                  N_("Surplus: Food, Production, Trade"),

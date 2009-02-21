@@ -645,14 +645,22 @@ static void append_cma_to_menu_item(GtkMenuItem *parent_item, bool change_cma)
 static void city_report_update_views(void)
 {
   struct city_report_spec *spec;
-  int i;
+  GtkTreeView *view;
+  GtkTreeViewColumn *col;
+  GList *columns, *p;
 
-  for (i=0, spec=city_report_specs; i<NUM_CREPORT_COLS; i++, spec++) {
-    GtkTreeViewColumn *col;
+  view = GTK_TREE_VIEW(city_view);
+  g_return_if_fail(view != NULL);
 
-    col = gtk_tree_view_get_column(GTK_TREE_VIEW(city_view), i);
+  columns = gtk_tree_view_get_columns(view);
+
+  for (p = columns; p != NULL; p = p->next) {
+    col = p->data;
+    spec = g_object_get_data(G_OBJECT(col), "city_report_spec");
     gtk_tree_view_column_set_visible(col, spec->show);
   }
+
+  g_list_free(columns);
 }
 
 /****************************************************************
@@ -879,6 +887,8 @@ static void create_city_report_dialog(bool make_modal)
     col = gtk_tree_view_column_new_with_attributes(titles[i], renderer,NULL);
     gtk_tree_view_column_set_visible(col, spec->show);
     gtk_tree_view_column_set_sort_column_id(col, i);
+    gtk_tree_view_column_set_reorderable(col, TRUE);
+    g_object_set_data(G_OBJECT(col), "city_report_spec", spec);
     gtk_tree_view_append_column(GTK_TREE_VIEW(city_view), col);
     gtk_tree_view_column_set_cell_data_func(col, renderer,
       cityrep_cell_data_func, GINT_TO_POINTER(i), NULL);
