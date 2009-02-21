@@ -49,6 +49,7 @@ extern bool map_scrollbars;
 extern bool dialogs_on_top;
 extern bool ask_city_name;
 extern bool popup_new_cities;
+extern bool popup_caravan_arrival;
 extern bool update_city_text_in_refresh_tile;
 extern bool keyboardless_goto;
 extern bool show_task_icons;

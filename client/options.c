@@ -87,6 +87,7 @@ bool map_scrollbars = FALSE;
 bool dialogs_on_top = TRUE;
 bool ask_city_name = TRUE;
 bool popup_new_cities = TRUE;
+bool popup_caravan_arrival = TRUE;
 bool keyboardless_goto = TRUE;
 bool show_task_icons = TRUE;
 bool enable_cursor_changes = TRUE;
@@ -261,6 +262,16 @@ static client_option common_options[] = {
 		  N_("Setting this option will pop up a newly-founded "
 		     "city's city dialog automatically."),
 		  COC_INTERFACE),
+  GEN_BOOL_OPTION(popup_caravan_arrival, N_("Pop up caravan actions"),
+                  N_("If this option is enabled, when caravans arrive "
+                     "at a city where they can establish a traderoute "
+                     "or help build a wonder, a window will popup asking "
+                     "which action should be performed. Disabling this "
+                     "option means you will have to do the action "
+                     "manually by pressing either 'r' (for a traderoute) "
+                     "or 'b' (for building a wonder) when the caravan "
+                     "is in the city."),
+                  COC_INTERFACE),
   GEN_BOOL_OPTION(enable_cursor_changes, N_("Enable cursor changing"),
                   N_("This option controls whether the client should "
                      "try to change the mouse cursor depending on what "
