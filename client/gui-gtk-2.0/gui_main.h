@@ -27,6 +27,7 @@ extern PangoFontDescription *        city_productions_font;
 extern bool enable_tabs;
 extern bool better_fog;
 extern bool show_chat_message_time;
+extern bool split_bottom_notebook;
 
 extern GdkGC *          civ_gc;
 extern GdkGC *          mask_fg_gc;
@@ -74,6 +75,7 @@ extern GtkWidget *	toplevel_tabs;
 extern GtkWidget *	top_notebook;
 extern GtkWidget *      map_widget;
 extern GtkWidget *	bottom_notebook;
+extern GtkWidget *	right_notebook;
 extern GtkTextBuffer *	message_buffer;
 
 /* NB: Must match creation arugments in

@@ -178,9 +178,14 @@ static void create_meswin_dialog(void)
 {
   GtkCellRenderer *renderer;
   GtkTreeViewColumn *col;
-  GtkWidget *view, *sw, *cmd;
+  GtkWidget *view, *sw, *cmd, *notebook;
 
-  gui_dialog_new(&meswin_shell, GTK_NOTEBOOK(bottom_notebook), NULL);
+  if (split_bottom_notebook) {
+    notebook = right_notebook;
+  } else {
+    notebook = bottom_notebook;
+  }
+  gui_dialog_new(&meswin_shell, GTK_NOTEBOOK(notebook), NULL);
   gui_dialog_set_title(meswin_shell, _("Messages"));
 
   meswin_store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_BOOLEAN);
