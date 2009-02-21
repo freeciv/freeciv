@@ -100,6 +100,7 @@ bool better_fog = TRUE;
 bool show_chat_message_time = FALSE;
 bool split_bottom_notebook = FALSE;
 bool new_messages_go_to_top = FALSE;
+bool show_message_window_buttons = TRUE;
 bool metaserver_tab_first = FALSE;
 
 GtkWidget *toplevel;
@@ -223,6 +224,17 @@ client_option gui_options[] = {
                   N_("If this option is enabled, new events in the "
                      "message window will appear at the top of the list, "
                      "rather than being appended at the bottom."),
+                  COC_INTERFACE),
+  GEN_BOOL_OPTION(show_message_window_buttons,
+                  N_("Show extra message window buttons"),
+                  N_("If this option is enabled, there will be two "
+                     "buttons displayed in the message window for "
+                     "inspecting a city and going to a location. If this "
+                     "option is disabled, these buttons will not appear "
+                     "(you can still double-click with the left mouse "
+                     "button or right-click on a row to inspect or goto "
+                     "respectively). This option will only take effect "
+                     "once the message window is closed and reopened."),
                   COC_INTERFACE),
   GEN_BOOL_OPTION(metaserver_tab_first,
                   N_("Metaserver tab first in network page"),

@@ -216,13 +216,15 @@ static void create_meswin_dialog(void)
   g_signal_connect(view, "button-press-event",
                    G_CALLBACK(meswin_button_press_callback), NULL);
 
-  cmd = gui_dialog_add_stockbutton(meswin_shell, GTK_STOCK_JUMP_TO,
-      _("Goto _Location"), CMD_GOTO);
-  gtk_widget_set_sensitive(cmd, FALSE);
-  
-  cmd = gui_dialog_add_stockbutton(meswin_shell, GTK_STOCK_ZOOM_IN,
-      _("Inspect _City"), CMD_POPCITY);
-  gtk_widget_set_sensitive(cmd, FALSE);
+  if (show_message_window_buttons) {
+    cmd = gui_dialog_add_stockbutton(meswin_shell, GTK_STOCK_JUMP_TO,
+                                     _("Goto _Location"), CMD_GOTO);
+    gtk_widget_set_sensitive(cmd, FALSE);
+
+    cmd = gui_dialog_add_stockbutton(meswin_shell, GTK_STOCK_ZOOM_IN,
+                                     _("Inspect _City"), CMD_POPCITY);
+    gtk_widget_set_sensitive(cmd, FALSE);
+  }
 
   gui_dialog_add_button(meswin_shell, GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
 
