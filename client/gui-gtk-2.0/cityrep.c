@@ -640,6 +640,127 @@ static void append_cma_to_menu_item(GtkMenuItem *parent_item, bool change_cma)
   gtk_widget_show_all(menu);
 }
 
+/**************************************************************************
+  Helper function to append a worklist to the current work list of one city
+  in the city report. This function is called over all selected rows in the
+  list view.
+**************************************************************************/
+static void append_worklist_foreach(GtkTreeModel *model, GtkTreePath *path,
+                                    GtkTreeIter *it, gpointer data)
+{
+  struct worklist *pwl;
+  struct city *pcity;
+
+  pwl = data;
+  g_return_if_fail(pwl != NULL);
+  g_return_if_fail(pwl->is_valid);
+
+  gtk_tree_model_get(model, it, 0, &pcity, -1);
+  if (!pcity || !game_find_city_by_number(pcity->id)) {
+    return;
+  }
+  city_queue_insert_worklist(pcity, -1, pwl);
+}
+
+/**************************************************************************
+  Menu item callback to append the global worklist associated with this
+  item to the worklists of all selected cities. The worklist pointer is
+  passed in 'data'.
+**************************************************************************/
+static void append_worklist_callback(GtkMenuItem *menuitem, gpointer data)
+{
+  g_return_if_fail(city_selection != NULL);
+  gtk_tree_selection_selected_foreach(city_selection,
+                                      append_worklist_foreach, data);
+}
+
+/**************************************************************************
+  Helper function to set a worklist for one city in the city report. This
+  function is called over all selected rows in the list view.
+**************************************************************************/
+static void set_worklist_foreach(GtkTreeModel *model, GtkTreePath *path,
+                                 GtkTreeIter *it, gpointer data)
+{
+  struct worklist *pwl;
+  struct city *pcity;
+
+  pwl = data;
+  g_return_if_fail(pwl != NULL);
+  g_return_if_fail(pwl->is_valid);
+
+  gtk_tree_model_get(model, it, 0, &pcity, -1);
+  if (!pcity || !game_find_city_by_number(pcity->id)) {
+    return;
+  }
+  city_set_queue(pcity, pwl);
+}
+
+/**************************************************************************
+  Menu item callback to set a city's worklist to the global worklist
+  associated with this menu item. The worklist pointer is passed in 'data'.
+**************************************************************************/
+static void set_worklist_callback(GtkMenuItem *menuitem, gpointer data)
+{
+  g_return_if_fail(city_selection != NULL);
+  gtk_tree_selection_selected_foreach(city_selection, set_worklist_foreach,
+                                      data);
+}
+
+/**************************************************************************
+  Empty and refill the submenu of the menu item passed as 'data'. The menu
+  will be filled with menu items corresponding to the global worklists.
+**************************************************************************/
+static void production_menu_shown(GtkWidget *widget, gpointer data)
+{
+  struct worklist *worklists;
+  GtkWidget *menu, *item;
+  GtkMenuItem *parent_item;
+  GCallback callback;
+  int i, count = 0;
+
+  parent_item = data;
+  g_return_if_fail(parent_item != NULL);
+  g_return_if_fail(GTK_IS_MENU_ITEM(parent_item));
+
+  callback = g_object_get_data(G_OBJECT(parent_item), "item_callback");
+  g_return_if_fail(callback != NULL);
+
+  menu = gtk_menu_item_get_submenu(parent_item);
+  if (menu != NULL && GTK_WIDGET_VISIBLE(menu)) {
+    gtk_menu_shell_deactivate(GTK_MENU_SHELL(menu));
+  }
+
+  if (menu == NULL) {
+    menu = gtk_menu_new();
+    gtk_menu_item_set_submenu(parent_item, menu);
+  }
+
+  if (!can_client_issue_orders()) {
+    return;
+  }
+
+  gtk_container_forall(GTK_CONTAINER(menu),
+                       (GtkCallback) gtk_widget_destroy, NULL);
+
+  worklists = client.worklists;
+  for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
+    if (!worklists[i].is_valid) {
+      continue;
+    }
+    item = gtk_menu_item_new_with_label(worklists[i].name);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+    g_signal_connect(item, "activate", callback, &worklists[i]);
+    count++;
+  }
+
+  if (count == 0) {
+    item = gtk_menu_item_new_with_label(_("(no worklists defined)"));
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  }
+
+  gtk_widget_show_all(menu);
+}
+
 /****************************************************************
 ...
 *****************************************************************/
@@ -733,6 +854,18 @@ static GtkWidget *create_city_report_menubar(void)
 
   item = gtk_separator_menu_item_new();
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+
+  item = gtk_menu_item_new_with_label(_("Set Worklist"));
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  g_object_set_data(G_OBJECT(item), "item_callback",
+                    set_worklist_callback);
+  g_signal_connect(menu, "show", G_CALLBACK(production_menu_shown), item);
+
+  item = gtk_menu_item_new_with_label(_("Append Worklist"));
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  g_object_set_data(G_OBJECT(item), "item_callback",
+                    append_worklist_callback);
+  g_signal_connect(menu, "show", G_CALLBACK(production_menu_shown), item);
 
   item = gtk_menu_item_new_with_mnemonic(_("Clear _Worklist"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
