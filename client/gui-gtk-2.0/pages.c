@@ -1606,8 +1606,8 @@ GtkWidget *create_start_page(void)
 
   rend = gtk_cell_renderer_text_new();
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
-					      -1, _("Leader"), rend,
-					      "text", 3, NULL);
+                                              -1, _("?player:Leader"),
+                                              rend, "text", 3, NULL);
 
   rend = gtk_cell_renderer_text_new();
   col = gtk_tree_view_column_new_with_attributes(_("Nation"),
