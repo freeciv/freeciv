@@ -1229,6 +1229,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 	   && unit_owner(punit) == game.player_ptr
 	   && !unit_has_orders(punit)
 	   && can_client_issue_orders()
+	   && popup_caravan_arrival
 	   && (unit_can_help_build_wonder_here(punit)
 	       || unit_can_est_traderoute_here(punit))) {
 	  process_caravan_arrival(punit);
