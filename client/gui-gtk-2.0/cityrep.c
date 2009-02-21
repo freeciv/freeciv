@@ -59,7 +59,7 @@
 #define CMA_CUSTOM	(10001)
 
 enum city_operation_type {
-  CO_CHANGE, CO_LAST, CO_NEXT, CO_FIRST, CO_NONE
+  CO_CHANGE, CO_LAST, CO_NEXT, CO_FIRST, CO_NEXT_TO_LAST, CO_NONE
 };
 
 /******************************************************************/
@@ -81,6 +81,7 @@ static void create_change_menu(GtkWidget *item);
 static void create_last_menu(GtkWidget *item);
 static void create_first_menu(GtkWidget *item);
 static void create_next_menu(GtkWidget *item);
+static void create_next_to_last_menu(GtkWidget *item);
 
 static struct gui_dialog *city_dialog_shell = NULL;
 
@@ -97,6 +98,7 @@ static void popup_change_menu(GtkMenuShell *menu, gpointer data);
 static void popup_last_menu(GtkMenuShell *menu, gpointer data);
 static void popup_first_menu(GtkMenuShell *menu, gpointer data);
 static void popup_next_menu(GtkMenuShell *menu, gpointer data);
+static void popup_next_to_last_menu(GtkMenuShell *menu, gpointer data);
 
 static GtkWidget *city_center_command;
 static GtkWidget *city_popup_command;
@@ -122,6 +124,9 @@ static GtkWidget *next_improvements_item;
 static GtkWidget *next_units_item;
 static GtkWidget *next_wonders_item;
 
+static GtkWidget *next_to_last_improvements_item;
+static GtkWidget *next_to_last_units_item;
+static GtkWidget *next_to_last_wonders_item;
 
 static GtkWidget *select_island_item;
 
@@ -398,6 +403,32 @@ static void worklist_next_impr_or_unit_iterate(GtkTreeModel *model,
   /* perhaps should warn the user if not successful? */
 }
 
+/**************************************************************************
+  Called by select_impr_or_unit_callback for each city that is selected in
+  the city list dialog to have an object added before the last position in
+  the worklist.
+**************************************************************************/
+static void worklist_next_to_last_impr_or_unit_iterate(GtkTreeModel *model,
+                                                       GtkTreePath *path,
+                                                       GtkTreeIter *it,
+                                                       gpointer data)
+{
+  struct universal target;
+  struct city *pcity;
+  gint id, n;
+
+  target = cid_decode(GPOINTER_TO_INT(data));
+
+  gtk_tree_model_get(model, it, 1, &id, -1);
+  pcity = game_find_city_by_number(id);
+  if (!pcity) {
+    return;
+  }
+
+  n = worklist_length(&pcity->worklist);
+  city_queue_insert(pcity, n, target);
+}
+
 /****************************************************************
 ...
 *****************************************************************/
@@ -427,6 +458,7 @@ static void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
       }
     }
   } else {
+    GtkTreeSelectionForeachFunc foreach_func;
     connection_do_buffer(&client.conn);
     switch (city_operation) {
     case CO_LAST:
@@ -448,6 +480,11 @@ static void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
       gtk_tree_selection_selected_foreach(city_selection,
 					  worklist_next_impr_or_unit_iterate,
 					  GINT_TO_POINTER(cid_encode(target)));
+      break;
+    case CO_NEXT_TO_LAST:
+      foreach_func = worklist_next_to_last_impr_or_unit_iterate;
+      gtk_tree_selection_selected_foreach(city_selection, foreach_func,
+                                          GINT_TO_POINTER(cid_encode(target)));
       break;
     default:
       assert(FALSE); /* should never get here. */
@@ -847,6 +884,10 @@ static GtkWidget *create_city_report_menubar(void)
   item = gtk_menu_item_new_with_mnemonic(_("Add _Next"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   create_next_menu(item);
+
+  item = gtk_menu_item_new_with_mnemonic(_("Add _2nd Last"));
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  create_next_to_last_menu(item);
 
   item = gtk_menu_item_new_with_mnemonic(_("Add _Last"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
@@ -1462,6 +1503,30 @@ static void create_next_menu(GtkWidget *item)
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), next_wonders_item);
 }
 
+/**************************************************************************
+  Append the "next to last" submenu to the given menu item.
+**************************************************************************/
+static void create_next_to_last_menu(GtkWidget *parent_item)
+{
+  GtkWidget *menu, *item;
+
+  menu = gtk_menu_new();
+  gtk_menu_item_set_submenu(GTK_MENU_ITEM(parent_item), menu);
+  g_signal_connect(menu, "show",
+                   G_CALLBACK(popup_next_to_last_menu), NULL);
+
+  item = gtk_menu_item_new_with_label(_("Units"));
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  next_to_last_units_item = item;
+
+  item = gtk_menu_item_new_with_label(_("Improvements"));
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  next_to_last_improvements_item = item;
+
+  item = gtk_menu_item_new_with_label(_("Wonders"));
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  next_to_last_wonders_item = item;
+}
 
 
 /****************************************************************
@@ -1556,7 +1621,36 @@ static void popup_next_menu(GtkMenuShell *menu, gpointer data)
 				  G_CALLBACK(select_impr_or_unit_callback), n);
 }
 
+/**************************************************************************
+  Re-create the submenus in the next-to-last production change menu.
+**************************************************************************/
+static void popup_next_to_last_menu(GtkMenuShell *menu, gpointer data)
+{
+  GtkWidget *item;
+  GCallback callback;
+  int n;
 
+  g_return_if_fail(city_selection != NULL);
+
+  n = gtk_tree_selection_count_selected_rows(city_selection);
+  callback = G_CALLBACK(select_impr_or_unit_callback);
+
+  item = next_to_last_improvements_item;
+  append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(item),
+                                   FALSE, FALSE, CO_NEXT_TO_LAST,
+                                   can_city_build_now,
+                                   callback, n);
+  item = next_to_last_units_item;
+  append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(item),
+                                   TRUE, FALSE, CO_NEXT_TO_LAST,
+                                   can_city_build_now,
+                                   callback, n);
+  item = next_to_last_wonders_item;
+  append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(item),
+                                   FALSE, TRUE, CO_NEXT_TO_LAST,
+                                   can_city_build_now,
+                                   callback, n);
+}
 
 /****************************************************************
 ...
