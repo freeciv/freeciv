@@ -1616,7 +1616,7 @@ GtkWidget *create_start_page(void)
                CL_COL_GGZ_RATING, "rating_col");
   add_tree_col(view, G_TYPE_BOOLEAN, _("Ready"),
                CL_COL_READY_STATE, NULL);
-  add_tree_col(view, G_TYPE_STRING, _("Leader"),
+  add_tree_col(view, G_TYPE_STRING, _("?player:Leader"),
                CL_COL_PLAYER_NAME, NULL);
   add_tree_col(view, G_TYPE_STRING, _("Nation"),
                CL_COL_NATION, NULL);
