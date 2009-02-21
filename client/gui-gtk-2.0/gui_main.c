@@ -99,6 +99,7 @@ bool enable_tabs = TRUE;
 bool better_fog = TRUE;
 bool show_chat_message_time = FALSE;
 bool split_bottom_notebook = FALSE;
+bool metaserver_tab_first = FALSE;
 
 GtkWidget *toplevel;
 GdkWindow *root_window;
@@ -216,6 +217,12 @@ client_option gui_options[] = {
                         "notebook into a left and right notebook so that "
                         "two tabs may be viewed at once."),
                      COC_INTERFACE, split_bottom_notebook_callback),
+  GEN_BOOL_OPTION(metaserver_tab_first,
+                  N_("Metaserver tab first in network page"),
+                  N_("If this option is enabled, the metaserver tab will "
+                     "be the first notebook tab in the network page. This "
+                     "option requires a restart in order to take effect."),
+                  COC_NETWORK),
   GEN_FONT_OPTION(font_city_label,
   		  city_label,
 		  N_("City Label"),
