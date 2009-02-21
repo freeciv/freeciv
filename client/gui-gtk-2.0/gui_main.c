@@ -95,13 +95,15 @@ int overview_canvas_store_height = 2 * 50;
 bool enable_tabs = TRUE;
 bool better_fog = TRUE;
 bool show_chat_message_time = FALSE;
+bool split_bottom_notebook = FALSE;
 
 GtkWidget *toplevel;
 GdkWindow *root_window;
 GtkWidget *toplevel_tabs;
 GtkWidget *top_vbox;
-GtkWidget *top_notebook, *bottom_notebook;
+GtkWidget *top_notebook, *bottom_notebook, *right_notebook;
 GtkWidget *map_widget;
+static GtkWidget *bottom_hpaned;
 
 int city_names_font_size = 0, city_productions_font_size = 0;
 PangoFontDescription *main_font;
@@ -147,6 +149,8 @@ GtkWidget *government_ebox;
 const char * const gui_character_encoding = "UTF-8";
 const bool gui_use_transliteration = FALSE;
 
+static void split_bottom_notebook_callback(struct client_option *op);
+
 client_option gui_options[] = {
   /* This option is the same as the one in gui-gtk */
   GEN_BOOL_OPTION(map_scrollbars, N_("Show Map Scrollbars"),
@@ -186,7 +190,13 @@ client_option gui_options[] = {
                   N_("If this option is enabled then all chat messages "
                      "will be prefixed by a time string of the form "
                      "[hour:minute:second]."),
-                  COC_INTERFACE)
+                  COC_INTERFACE),
+  GEN_BOOL_OPTION_CB(split_bottom_notebook,
+                     N_("Split bottom notebook area"),
+                     N_("Enabling this option will split the bottom "
+                        "notebook into a left and right notebook so that "
+                        "two tabs may be viewed at once."),
+                     COC_INTERFACE, split_bottom_notebook_callback)
 };
 const int num_gui_options = ARRAY_SIZE(gui_options);
 
@@ -941,7 +951,7 @@ void enable_menus(bool enable)
 static void setup_widgets(void)
 {
   GtkWidget *box, *ebox, *hbox, *sbox, *align, *label;
-  GtkWidget *frame, *table, *table2, *paned, *sw, *text;
+  GtkWidget *frame, *table, *table2, *paned, *hpaned, *sw, *text;
   int i;
   char buf[256];
   struct sprite *sprite;
@@ -1247,10 +1257,22 @@ static void setup_widgets(void)
   gtk_paned_pack2(GTK_PANED(paned), sbox, TRUE, TRUE);
   avbox = detached_widget_fill(sbox);
 
+  hpaned = gtk_hpaned_new();
+  gtk_box_pack_start(GTK_BOX(avbox), hpaned, TRUE, TRUE, 0);
+  bottom_hpaned = hpaned;
+
   bottom_notebook = gtk_notebook_new();
   gtk_notebook_set_tab_pos(GTK_NOTEBOOK(bottom_notebook), GTK_POS_TOP);
   gtk_notebook_set_scrollable(GTK_NOTEBOOK(bottom_notebook), TRUE);
-  gtk_box_pack_start(GTK_BOX(avbox), bottom_notebook, TRUE, TRUE, 0);
+  gtk_paned_pack1(GTK_PANED(hpaned), bottom_notebook, TRUE, TRUE);
+
+  right_notebook = gtk_notebook_new();
+  g_object_ref(right_notebook);
+  gtk_notebook_set_tab_pos(GTK_NOTEBOOK(right_notebook), GTK_POS_TOP);
+  gtk_notebook_set_scrollable(GTK_NOTEBOOK(right_notebook), TRUE);
+  if (split_bottom_notebook) {
+    gtk_paned_pack2(GTK_PANED(hpaned), right_notebook, TRUE, TRUE);
+  }
 
   vbox = gtk_vbox_new(FALSE, 0);
 
@@ -2011,4 +2033,19 @@ void add_idle_callback(void (callback)(void *), void *data)
   cb->callback = callback;
   cb->data = data;
   gtk_idle_add(idle_callback_wrapper, cb);
+}
+
+/****************************************************************************
+  Option callback for the 'split_bottom_notebook' option.
+****************************************************************************/
+static void split_bottom_notebook_callback(struct client_option *op)
+{
+  popdown_meswin_dialog();
+  if (*op->p_bool_value) {
+    gtk_paned_pack2(GTK_PANED(bottom_hpaned), right_notebook, TRUE, TRUE);
+    gtk_widget_show_all(right_notebook);
+  } else {
+    gtk_container_remove(GTK_CONTAINER(bottom_hpaned), right_notebook);
+  }
+  popup_meswin_dialog(FALSE);
 }
