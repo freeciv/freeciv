@@ -232,8 +232,6 @@ static void create_meswin_dialog(void)
   gui_dialog_set_default_size(meswin_shell, 520, 300);
 
   gui_dialog_show_all(meswin_shell);
-
-  gtk_tree_view_focus(GTK_TREE_VIEW(view));
 }
 
 /**************************************************************************
