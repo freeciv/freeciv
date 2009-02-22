@@ -114,11 +114,11 @@ void real_append_output_window(const char *astring, int conn_id)
   if (show_chat_message_time) {
     char timebuf[64];
     time_t now;
-    struct tm now_tm;
+    struct tm *now_tm;
 
     now = time(NULL);
-    localtime_r(&now, &now_tm);
-    strftime(timebuf, sizeof(timebuf), "[%H:%M:%S] ", &now_tm);
+    now_tm = localtime(&now);
+    strftime(timebuf, sizeof(timebuf), "[%H:%M:%S] ", now_tm);
     gtk_text_buffer_insert(buf, &iter, timebuf, -1);
   }
 
