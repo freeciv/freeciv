@@ -18,6 +18,7 @@
 #include <assert.h>
 
 #include "fcintl.h"
+#include "hash.h"
 #include "log.h"
 #include "mem.h"
 #include "timing.h"
@@ -1210,22 +1211,75 @@ void request_unit_wakeup(struct unit *punit)
 }
 
 /****************************************************************************
-  Select all units of the same type as the given unit.
+  Select all units based on the given list of units and the selection modes.
 ****************************************************************************/
-void request_unit_select_same_type(struct unit_list *punits)
+void request_unit_select(struct unit_list *punits,
+                         enum unit_select_type_mode seltype,
+                         enum unit_select_location_mode selloc)
 {
-  if (can_client_change_view()) {
-    unit_list_iterate(punits, punit) {
-      unit_list_iterate(unit_owner(punit)->units, punit2) {
-	if (unit_type(punit2) == unit_type(punit)
-	    && !unit_list_search(punits, punit2)
-	    && punit2->activity == ACTIVITY_IDLE
-	    && !unit_has_orders(punit2)) {
-	  add_unit_focus(punit2);
-	}
+  const struct player *pplayer;
+  struct unit *punit_first;
+  struct hash_table *tile_table, *type_table, *cont_table;
+
+  if (!can_client_change_view() || !punits
+      || unit_list_size(punits) < 1) {
+    return;
+  }
+
+  punit_first = unit_list_get(punits, 0);
+
+  if (seltype == SELTYPE_SINGLE) {
+    set_unit_focus(punit_first);
+    return;
+  }
+
+  pplayer = unit_owner(punit_first);
+  tile_table = hash_new(hash_fval_keyval, hash_fcmp_keyval);
+  type_table = hash_new(hash_fval_keyval, hash_fcmp_keyval);
+  cont_table = hash_new(hash_fval_int, hash_fcmp_int);
+
+  unit_list_iterate(punits, punit) {
+    if (seltype == SELTYPE_SAME) {
+      hash_insert(type_table, unit_type(punit), NULL);
+    }
+
+    if (selloc == SELLOC_TILE) {
+      hash_insert(tile_table, punit->tile, NULL);
+    } else if (selloc == SELLOC_CONT) {
+      hash_insert(cont_table, &punit->tile->continent, NULL);
+    }
+  } unit_list_iterate_end;
+
+  if (selloc == SELLOC_TILE) {
+    hash_keys_iterate(tile_table, key) {
+      const struct tile *ptile = key;
+      unit_list_iterate(ptile->units, punit) {
+        if (unit_owner(punit) != pplayer) {
+          continue;
+        }
+        if (seltype == SELTYPE_SAME
+            && !hash_key_exists(type_table, unit_type(punit))) {
+          continue;
+        }
+        add_unit_focus(punit);
       } unit_list_iterate_end;
+    } hash_keys_iterate_end;
+  } else {
+    unit_list_iterate(pplayer->units, punit) {
+      if ((seltype == SELTYPE_SAME
+           && !hash_key_exists(type_table, unit_type(punit)))
+          || (selloc == SELLOC_CONT
+              && !hash_key_exists(cont_table, &punit->tile->continent))) {
+        continue;
+      }
+
+      add_unit_focus(punit);
     } unit_list_iterate_end;
   }
+
+  hash_free(tile_table);
+  hash_free(type_table);
+  hash_free(cont_table);
 }
 
 /**************************************************************************
