@@ -156,8 +156,11 @@ enum MenuID {
   MENU_ORDER_UPGRADE,
   MENU_ORDER_DIPLOMAT_DLG,
   MENU_ORDER_NUKE,
-  MENU_ORDER_SELECT_SAME_TYPE,
+  MENU_ORDER_SELECT_SINGLE,
   MENU_ORDER_SELECT_SAME_TYPE_TILE,
+  MENU_ORDER_SELECT_ALL_ON_TILE,
+  MENU_ORDER_SELECT_SAME_TYPE_CONT,
+  MENU_ORDER_SELECT_SAME_TYPE,
   MENU_ORDER_WAIT,
   MENU_ORDER_DONE,
 
@@ -438,11 +441,20 @@ static void orders_menu_callback(gpointer callback_data,
 				 guint callback_action, GtkWidget *widget)
 {
   switch(callback_action) {
-  case MENU_ORDER_SELECT_SAME_TYPE:
-    request_unit_select_same_type(get_units_in_focus());
+  case MENU_ORDER_SELECT_SINGLE:
+    request_unit_select(get_units_in_focus(), SELTYPE_SINGLE, SELLOC_TILE);
     break;
   case MENU_ORDER_SELECT_SAME_TYPE_TILE:
-    request_unit_select_same_type_tile(get_units_in_focus());
+    request_unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_TILE);
+    break;
+  case MENU_ORDER_SELECT_ALL_ON_TILE:
+    request_unit_select(get_units_in_focus(), SELTYPE_ALL, SELLOC_TILE);
+    break;
+  case MENU_ORDER_SELECT_SAME_TYPE_CONT:
+    request_unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_CONT);
+    break;
+  case MENU_ORDER_SELECT_SAME_TYPE:
+    request_unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_ALL);
     break;
   case MENU_ORDER_BUILD_CITY:
     unit_list_iterate(get_units_in_focus(), punit) {
@@ -968,10 +980,20 @@ static GtkItemFactoryEntry menu_items[]	=
 	orders_menu_callback,	MENU_ORDER_NUKE						},
   { "/" N_("Orders") "/sep5",				NULL,
 	NULL,			0,					"<Separator>"	},
-  { "/" N_("Orders") "/" N_("Select same type"), "y",
-    orders_menu_callback, MENU_ORDER_SELECT_SAME_TYPE },
-  { "/" N_("Orders") "/" N_("Select same type in tile"), "<shift>y",
-    orders_menu_callback, MENU_ORDER_SELECT_SAME_TYPE_TILE },
+  { "/" N_("Orders") "/" N_("Select"),			NULL,
+	NULL,			0,					"<Branch>"	},
+  { "/" N_("Orders") "/" N_("Select") "/tearoff1",	NULL,
+	NULL,			0,					"<Tearoff>"	},
+  { "/" N_("Orders") "/" N_("Select") "/" N_("Single"), "j",
+        orders_menu_callback,	MENU_ORDER_SELECT_SINGLE				},
+  { "/" N_("Orders") "/" N_("Select") "/" N_("Same Type On Tile"), "k",
+        orders_menu_callback,	MENU_ORDER_SELECT_SAME_TYPE_TILE			},
+  { "/" N_("Orders") "/" N_("Select") "/" N_("All On Tile"), "<shift>k",
+        orders_menu_callback,	MENU_ORDER_SELECT_ALL_ON_TILE				},
+  { "/" N_("Orders") "/" N_("Select") "/" N_("Same Type On Continent"), "y",
+        orders_menu_callback,	MENU_ORDER_SELECT_SAME_TYPE_CONT			},
+  { "/" N_("Orders") "/" N_("Select") "/" N_("Same Type Everywhere"), "<shift>y",
+        orders_menu_callback,	MENU_ORDER_SELECT_SAME_TYPE				},
   { "/" N_("Orders") "/" N_("_Wait"),			"w",
 	orders_menu_callback,	MENU_ORDER_WAIT						},
   { "/" N_("Orders") "/" N_("Done"),			"space",

@@ -87,8 +87,25 @@ void request_unit_return(struct unit *punit);
 void request_unit_upgrade(struct unit *punit);
 void request_units_wait(struct unit_list *punits);
 void request_unit_wakeup(struct unit *punit);
-void request_unit_select_same_type(struct unit_list *punits);
-void request_unit_select_same_type_tile(struct unit_list *punits);
+
+enum unit_select_type_mode {
+  SELTYPE_SINGLE = 0,
+  SELTYPE_SAME,
+  SELTYPE_ALL,
+  NUM_SELTYPES
+};
+
+enum unit_select_location_mode {
+  SELLOC_TILE = 0,
+  SELLOC_CONT, /* Continent. */
+  SELLOC_ALL,
+  NUM_SELLOCS
+};
+
+void request_unit_select(struct unit_list *punits,
+                         enum unit_select_type_mode seltype,
+                         enum unit_select_location_mode selloc);
+
 void request_diplomat_action(enum diplomat_actions action, int dipl_id,
 			     int target_id, int value);
 void request_diplomat_answer(enum diplomat_actions action, int dipl_id,
