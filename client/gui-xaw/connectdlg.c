@@ -534,7 +534,7 @@ void meta_list_destroy(Widget w, XtPointer client_data, XtPointer call_data)
 static int get_server_list(char **list, char *errbuf, int n_errbuf)
 {
   char line[256];
-  struct server_list *server_list = NULL;
+  const struct server_list *server_list = NULL;
 
   if (lan_mode) {
     if (lan) {
@@ -561,7 +561,7 @@ static int get_server_list(char **list, char *errbuf, int n_errbuf)
 
   server_list_iterate(server_list,pserver) {
     if (pserver == NULL) continue;
-    my_snprintf(line, sizeof(line), "%-35s %-5s %-11s %-11s %2s   %s",
+    my_snprintf(line, sizeof(line), "%-35s %-5d %-11s %-11s %2d   %s",
 		pserver->host, pserver->port, pserver->version,
 		_(pserver->state), pserver->nplayers, pserver->message);
     if (*list) free(*list);
