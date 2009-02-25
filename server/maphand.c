@@ -936,15 +936,13 @@ struct vision_site *map_get_player_city(const struct tile *ptile,
 {
   struct vision_site *psite = map_get_player_site(ptile, pplayer);
 
-  if (NULL != psite && ptile == psite->location
-   && IDENTITY_NUMBER_ZERO < psite->identity) {
-    return psite;
-  }
-  return NULL;
+  assert(psite == NULL || psite->location == ptile);
+ 
+  return psite;
 }
 
 /****************************************************************************
-  ...
+  Returns site located at given tile from player map.
 ****************************************************************************/
 struct vision_site *map_get_player_site(const struct tile *ptile,
 					const struct player *pplayer)
