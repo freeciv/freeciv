@@ -105,7 +105,10 @@ static int set_hw_params(void)
   unsigned rrate;
   unsigned period_time = 100000;
 
-  snd_pcm_hw_params_alloca(&hwparams);
+  const size_t size = snd_pcm_hw_params_sizeof();
+  char hwparams_mem[size];
+  memset(hwparams_mem, 0, size);
+  hwparams = (snd_pcm_hw_params_t *) hwparams_mem;
 
   if (snd_pcm_hw_params_any(sound_handle, hwparams) < 0) {
     return -1;
