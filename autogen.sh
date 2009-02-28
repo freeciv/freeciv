@@ -19,6 +19,7 @@ BUILDDIR=`pwd`
 FC_USE_NLS=yes
 FC_USE_NEWAUTOCONF=yes
 FC_HELP=no
+FC_RUN_CONFIGURE=yes
 
 # Leave out NLS checks
 for NAME in $@ ; do
@@ -28,6 +29,9 @@ for NAME in $@ ; do
   if [ "x$NAME" = "x--disable-nls" ]; then 
     echo "! nls checks disabled"
     FC_USE_NLS=no
+  fi
+  if [ "x$NAME" = "x--no-configure-run" ]; then 
+    FC_RUN_CONFIGURE=no
   fi
   FC_NEWARGLINE="$FC_NEWARGLINE $NAME"
 done
@@ -289,6 +293,13 @@ cd $BUILDDIR
 echo "+ removing config.cache ... "
 rm -f config.cache
 
+# exit if we did --no-configure-run
+if [ "$FC_RUN_CONFIGURE" = "no" ]; then
+  echo
+  echo "Now type 'configure' to configure $package."
+  exit 0
+fi
+ 
 echo "+ running configure ... "
 echo
 if [ -z "$FC_NEWARGLINE" ]; then
