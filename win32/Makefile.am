@@ -14,9 +14,8 @@ nodist_noinst_DATA = \
 CLEANFILES = $(nodist_noinst_DATA)
 
 clienticon.o: clienticon.rc
-	windres -i clienticon.rc -o clienticon.o
+	$(WINDRES) -I$(srcdir) -i $(srcdir)/clienticon.rc -o clienticon.o
 
 servericon.o: servericon.rc
-	windres -i servericon.rc -o servericon.o
+	$(WINDRES) -I$(srcdir) -i $(srcdir)/servericon.rc -o servericon.o
 endif
-
