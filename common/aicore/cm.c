@@ -1025,13 +1025,22 @@ static void clean_lattice(struct tile_type_vector *lattice,
 {
   int i, j; /* i is the index we read, j is the index we write */
   struct tile_type_vector tofree;
+  bool forced_loop = FALSE;
 
   /* We collect the types we want to remove and free them in one fell 
      swoop at the end, in order to avoid memory errors.  */
   tile_type_vector_init(&tofree);
 
-  for (i = 0, j = 0; i < lattice->size; i++) {
+  /* forced_loop is workaround for what seems like gcc optimization
+   * bug.
+   * This applies to -O2 optimization on some distributions. */
+  if (lattice->size > 0) {
+    forced_loop = TRUE;
+  }
+  for (i = 0, j = 0; i < lattice->size || forced_loop; i++) {
     struct cm_tile_type *ptype = lattice->p[i];
+
+    forced_loop = FALSE;
 
     if (ptype->lattice_depth >= pcity->size) {
       tile_type_vector_add(&tofree, ptype);
