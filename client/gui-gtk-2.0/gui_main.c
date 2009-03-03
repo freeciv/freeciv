@@ -57,6 +57,7 @@
 #include "clinet.h"
 #include "colors.h"
 #include "connectdlg.h"
+#include "connectdlg_common.h"
 #include "control.h"
 #include "cma_fe.h"
 #include "dialogs.h"
@@ -102,6 +103,7 @@ bool split_bottom_notebook = FALSE;
 bool new_messages_go_to_top = FALSE;
 bool show_message_window_buttons = TRUE;
 bool metaserver_tab_first = FALSE;
+bool allied_chat_only = FALSE;
 
 GtkWidget *toplevel;
 GdkWindow *root_window;
@@ -172,6 +174,7 @@ char font_city_names[512] = "Sans Bold 10";
 char font_city_productions[512] = "Serif 10";
 
 static void split_bottom_notebook_callback(struct client_option *op);
+static void allied_chat_only_callback(struct client_option *op);
 
 client_option gui_options[] = {
   /* This option is the same as the one in gui-gtk */
@@ -242,6 +245,19 @@ client_option gui_options[] = {
                      "be the first notebook tab in the network page. This "
                      "option requires a restart in order to take effect."),
                   COC_NETWORK),
+  GEN_BOOL_OPTION_CB(allied_chat_only,
+                     N_("Plain chat messages are sent to allies only"),
+                     N_("If this option is enabled, then plain messages "
+                        "typed into the chat entry while the game is "
+                        "running will only be sent to your allies. "
+                        "Otherwise plain messages will be sent as "
+                        "public chat messages. To send a public chat "
+                        "message with this option enabled, prefix the "
+                        "message with a single colon ':'. This option "
+                        "can also be set using a toggle button beside "
+                        "the chat entry (only visible in multiplayer "
+                        "games)."),
+                     COC_NETWORK, allied_chat_only_callback),
   GEN_FONT_OPTION(font_city_label,
   		  city_label,
 		  N_("City Label"),
@@ -319,6 +335,7 @@ static int unit_ids[MAX_NUM_UNITS_BELOW];  /* ids of the units icons in
 GtkTextView *main_message_area;
 GtkTextBuffer *message_buffer;
 static GtkWidget *inputline;
+static GtkWidget *allied_chat_toggle_button;
 
 static enum Display_color_type display_color_type;  /* practically unused */
 static gint timer_id;                               /*       ditto        */
@@ -348,6 +365,8 @@ static gboolean select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev,
 					    gpointer data);
 static gboolean quit_dialog_callback(void);
 
+static void allied_chat_button_toggled(GtkToggleButton *button,
+                                       gpointer user_data);
 
 /****************************************************************************
   Called by the tileset code to set the font size that should be used to
@@ -1084,6 +1103,7 @@ static void setup_widgets(void)
 {
   GtkWidget *box, *ebox, *hbox, *sbox, *align, *label;
   GtkWidget *frame, *table, *table2, *paned, *hpaned, *sw, *text;
+  GtkWidget *button;
   int i;
   char buf[256];
   struct sprite *sprite;
@@ -1457,13 +1477,24 @@ static void setup_widgets(void)
   chat_welcome_message();
 
   /* the chat line */
-  inputline = gtk_entry_new();
-  gtk_box_pack_start(GTK_BOX(vbox), inputline, FALSE, FALSE, 3);
+  hbox = gtk_hbox_new(FALSE, 4);
+  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 3);
 
+  inputline = gtk_entry_new();
   g_signal_connect(inputline, "activate",
 		   G_CALLBACK(inputline_return), NULL);
   g_signal_connect(inputline, "key_press_event",
                    G_CALLBACK(inputline_handler), NULL);
+  gtk_box_pack_start(GTK_BOX(hbox), inputline, TRUE, TRUE, 0);
+
+  button = gtk_toggle_button_new_with_label(_("Allies Only"));
+  gtk_button_set_focus_on_click(GTK_BUTTON(button), FALSE);
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button),
+                               allied_chat_only);
+  g_signal_connect(button, "toggled",
+                   G_CALLBACK(allied_chat_button_toggled), NULL);
+  gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 2);
+  allied_chat_toggle_button = button;
 
   /* Other things to take care of */
 
@@ -2234,4 +2265,51 @@ static void split_bottom_notebook_callback(struct client_option *op)
     gtk_container_remove(GTK_CONTAINER(bottom_hpaned), right_notebook);
   }
   popup_meswin_dialog(FALSE);
+}
+
+/****************************************************************************
+  Option callback for the 'allied_chat_only' option. This updates the state
+  of the associated toggle button.
+****************************************************************************/
+static void allied_chat_only_callback(struct client_option *op)
+{
+  GtkWidget *button;
+
+  button = allied_chat_toggle_button;
+  g_return_if_fail(button != NULL);
+  g_return_if_fail(GTK_IS_TOGGLE_BUTTON(button));
+
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button),
+                               *op->p_bool_value);
+}
+
+/**************************************************************************
+  Set the chatline buttons to reflect the state of the game and current
+  client options. This function should be called on game start.
+**************************************************************************/
+void refresh_chat_buttons(void)
+{
+  GtkWidget *button;
+
+  button = allied_chat_toggle_button;
+  g_return_if_fail(button != NULL);
+  g_return_if_fail(GTK_IS_TOGGLE_BUTTON(button));
+
+  /* Hide the "Allies Only" button for local games. */
+  if (is_server_running()) {
+    gtk_widget_hide(button);
+  } else {
+    gtk_widget_show(button);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button),
+                                 allied_chat_only);
+  }
+}
+
+/**************************************************************************
+  Handle a toggle of the "Allies Only" chat button.
+**************************************************************************/
+static void allied_chat_button_toggled(GtkToggleButton *button,
+                                       gpointer user_data)
+{
+  allied_chat_only = gtk_toggle_button_get_active(button);
 }

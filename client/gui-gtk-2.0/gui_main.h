@@ -31,6 +31,7 @@ extern bool split_bottom_notebook;
 extern bool new_messages_go_to_top;
 extern bool show_message_window_buttons;
 extern bool metaserver_tab_first;
+extern bool allied_chat_only;
 
 extern GdkGC *          civ_gc;
 extern GdkGC *          mask_fg_gc;
@@ -107,6 +108,7 @@ gboolean inputline_handler(GtkWidget *w, GdkEventKey *ev);
 
 void reset_unit_table(void);
 void popup_quit_dialog(void);
+void refresh_chat_buttons(void);
 
 /* There simply is no proper header to place this define. Creating one
  * just for this seems overkill. */

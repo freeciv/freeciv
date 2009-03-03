@@ -27,6 +27,7 @@
 #include "packets.h"
 #include "support.h"
 
+#include "client_main.h"
 #include "climisc.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
@@ -36,6 +37,55 @@
 
 struct genlist *history_list;
 int history_pos;
+
+/**************************************************************************
+  Helper function to determine if a given client input line is intended as
+  a "plain" public message. Note that messages prefixed with : are a
+  special case (explicit public messages), and will return FALSE.
+**************************************************************************/
+static bool is_plain_public_message(const char *s)
+{
+  /* FIXME: These prefix definitions are duplicated in the server. */
+  const char ALLIES_CHAT_PREFIX = '.';
+  const char SERVER_COMMAND_PREFIX = '/';
+  const char MESSAGE_PREFIX = ':';
+
+  const char *p;
+
+  /* If it is a server command or an explicit ally
+   * message, then it is not a public message. */
+  if (s[0] == SERVER_COMMAND_PREFIX || s[0] == ALLIES_CHAT_PREFIX) {
+    return FALSE;
+  }
+
+  /* It might be a private message of the form
+   *   'player name with spaces':the message
+   * or with ". So skip past the player name part. */
+  if (s[0] == '\'' || s[0] == '"') {
+    p = strchr(s + 1, s[0]);
+  } else {
+    p = s;
+  }
+
+  /* Now we just need to check that it is not a private
+   * message. If we encounter a space then the preceeding
+   * text could not have been a user/player name (the
+   * quote check above eliminated names with spaces) so
+   * it must be a public message. Otherwise if we encounter
+   * the message prefix : then the text parsed up until now
+   * was a player/user name and the line is intended as
+   * a private message (or explicit public message if the
+   * first character is :). */
+  while (p != NULL && *p != '\0') {
+    if (my_isspace(*p)) {
+      return TRUE;
+    } else if (*p == MESSAGE_PREFIX) {
+      return FALSE;
+    }
+    p++;
+  }
+  return TRUE;
+}
 
 
 /**************************************************************************
@@ -48,7 +98,14 @@ void inputline_return(GtkEntry *w, gpointer data)
   theinput = gtk_entry_get_text(w);
   
   if (*theinput) {
-    send_chat(theinput);
+    if (client_state() == C_S_RUNNING && allied_chat_only
+        && is_plain_public_message(theinput)) {
+      char buf[MAX_LEN_MSG];
+      my_snprintf(buf, sizeof(buf), ". %s", theinput);
+      send_chat(buf);
+    } else {
+      send_chat(theinput);
+    }
 
     if (genlist_size(history_list) >= MAX_CHATLINE_HISTORY) {
       void *data;
