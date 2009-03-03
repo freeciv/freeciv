@@ -306,6 +306,62 @@ static void toggle_dead_players(GtkCheckMenuItem* item, gpointer data)
 }
 
 /**************************************************************************
+  Create and return the "diplomacy" menu for the player report. This menu
+  contains diplomacy actions the current player can use on other nations.
+**************************************************************************/
+static GtkWidget *create_diplomacy_menu(void)
+{
+  GtkWidget *menu, *item;
+
+  menu = gtk_menu_new();
+
+  item = gtk_menu_item_new_with_mnemonic(_("_Meet"));
+  g_signal_connect(item, "activate",
+                   G_CALLBACK(players_meet_callback), NULL);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  players_meet_command = item;
+
+  item = gtk_menu_item_new_with_mnemonic(_("Cancel _Treaty"));
+  g_signal_connect(item, "activate",
+                   G_CALLBACK(players_war_callback), NULL);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  players_war_command = item;
+
+  item = gtk_menu_item_new_with_mnemonic(_("_Withdraw Vision"));
+  g_signal_connect(item, "activate",
+                   G_CALLBACK(players_vision_callback), NULL);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  players_vision_command = item;
+
+  return menu;
+}
+
+/**************************************************************************
+  Create and return the "intelligence" menu. The items in this menu are
+  used by the player to see more detailed information about other nations.
+**************************************************************************/
+static GtkWidget *create_intelligence_menu(void)
+{
+  GtkWidget *menu, *item;
+
+  menu = gtk_menu_new();
+
+  item = gtk_menu_item_new_with_mnemonic(_("_Report"));
+  g_signal_connect(item, "activate",
+                   G_CALLBACK(players_intel_callback), NULL);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  players_int_command = item;
+
+  item = gtk_menu_item_new_with_mnemonic(_("_Spaceship"));
+  g_signal_connect(item, "activate",
+                   G_CALLBACK(players_sship_callback), NULL);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  players_sship_command = item;
+
+  return menu;
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 static GtkWidget* create_show_menu(void)
@@ -442,41 +498,6 @@ void create_players_dialog(void)
   gtk_box_pack_start(GTK_BOX(players_dialog_shell->vbox), sw,
 		     TRUE, TRUE, 0);
 
-  players_int_command = gtk_button_new_with_mnemonic(_("_Intelligence"));
-  g_signal_connect(players_int_command, "clicked",
-      G_CALLBACK(players_intel_callback), NULL);
-  gui_dialog_add_widget(players_dialog_shell, players_int_command);  
-  gtk_size_group_add_widget(players_dialog_shell->gui_button, 
-      players_int_command);
-
-  players_meet_command = gtk_button_new_with_mnemonic(_("_Meet"));
-  g_signal_connect(players_meet_command, "clicked",
-      G_CALLBACK(players_meet_callback), NULL);
-  gui_dialog_add_widget(players_dialog_shell, players_meet_command);
-  gtk_size_group_add_widget(players_dialog_shell->gui_button, 
-      players_meet_command);
-
-  players_war_command = gtk_button_new_with_mnemonic(_("Cancel _Treaty"));
-  g_signal_connect(players_war_command, "clicked",
-      G_CALLBACK(players_war_callback), NULL);
-  gui_dialog_add_widget(players_dialog_shell, players_war_command);  
-  gtk_size_group_add_widget(players_dialog_shell->gui_button,
-      players_war_command);
-
-  players_vision_command  = gtk_button_new_with_mnemonic(_("_Withdraw vision"));
-  g_signal_connect(players_vision_command, "clicked",
-      G_CALLBACK(players_vision_callback), NULL);
-  gui_dialog_add_widget(players_dialog_shell, players_vision_command);  
-  gtk_size_group_add_widget(players_dialog_shell->gui_button,
-     players_vision_command);
-
-  players_sship_command = gtk_button_new_with_mnemonic(_("_Spaceship"));
-  g_signal_connect(players_sship_command, "clicked",
-      G_CALLBACK(players_sship_callback), NULL);
-  gui_dialog_add_widget(players_dialog_shell, players_sship_command);
-  gtk_size_group_add_widget(players_dialog_shell->gui_button,
-      players_sship_command);
-
   vbox = gtk_vbox_new(FALSE, 0);
   
   sep = gtk_hseparator_new();
@@ -487,7 +508,17 @@ void create_players_dialog(void)
 
   gui_dialog_add_widget(players_dialog_shell, vbox);
   gtk_box_set_child_packing(GTK_BOX(players_dialog_shell->action_area), 
-      vbox, FALSE, FALSE, 0, GTK_PACK_END);
+                            vbox, FALSE, FALSE, 0, GTK_PACK_START);
+
+  item = gtk_menu_item_new_with_mnemonic(_("Di_plomacy"));
+  menu = create_diplomacy_menu();
+  gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
+
+  item = gtk_menu_item_new_with_mnemonic(_("_Intelligence"));
+  menu = create_intelligence_menu();
+  gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
 
   item = gtk_menu_item_new_with_mnemonic(_("_Display"));
   menu = create_show_menu();

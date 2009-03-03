@@ -171,19 +171,17 @@ static void ggz_login(void)
 **************************************************************************/
 GtkWidget *create_main_page(void)
 {
-  GtkWidget *align, *box, *sbox, *bbox, *frame, *image;
-
-  GtkWidget *button;
+  GtkWidget *widget, *align, *vbox, *frame, *image, *button, *table;
   GtkSizeGroup *size;
 
   size = gtk_size_group_new(GTK_SIZE_GROUP_BOTH);
 
-  box = gtk_vbox_new(FALSE, 6);
-  gtk_container_set_border_width(GTK_CONTAINER(box), 4);
+  vbox = gtk_vbox_new(FALSE, 0);
+  widget = vbox;
 
   align = gtk_alignment_new(0.5, 0.0, 0.0, 0.0);
   gtk_container_set_border_width(GTK_CONTAINER(align), 18);
-  gtk_box_pack_start(GTK_BOX(box), align, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(vbox), align, FALSE, FALSE, 0);
 
   frame = gtk_frame_new(NULL);
   gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_ETCHED_OUT);
@@ -191,60 +189,8 @@ GtkWidget *create_main_page(void)
 
   image = gtk_image_new_from_file(tileset_main_intro_filename(tileset));
   g_signal_connect_after(image, "expose_event",
-      G_CALLBACK(intro_expose), NULL);
+                         G_CALLBACK(intro_expose), NULL);
   gtk_container_add(GTK_CONTAINER(frame), image);
-
-  align = gtk_alignment_new(0.5, 0.0, 0.0, 0.0);
-  gtk_box_pack_start(GTK_BOX(box), align, FALSE, FALSE, 0);
-
-  sbox = gtk_vbox_new(FALSE, 18);
-  gtk_container_add(GTK_CONTAINER(align), sbox);
-
-  bbox = gtk_vbox_new(FALSE, 6);
-  gtk_container_add(GTK_CONTAINER(sbox), bbox);
-
-  button = gtk_button_new_with_mnemonic(_("Start _New Game"));
-  gtk_size_group_add_widget(size, button);
-  gtk_container_add(GTK_CONTAINER(bbox), button);
-  g_signal_connect(button, "clicked",
-      G_CALLBACK(start_new_game_callback), NULL);
-
-  button = gtk_button_new_with_mnemonic(_("Start _Scenario Game"));
-  gtk_size_group_add_widget(size, button);
-  gtk_container_add(GTK_CONTAINER(bbox), button);
-  g_signal_connect(button, "clicked",
-      G_CALLBACK(start_scenario_callback), NULL);
-
-  button = gtk_button_new_with_mnemonic(_("_Load Saved Game"));
-  gtk_size_group_add_widget(size, button);
-  gtk_container_add(GTK_CONTAINER(bbox), button);
-  g_signal_connect(button, "clicked",
-      G_CALLBACK(load_saved_game_callback), NULL);
-
-  bbox = gtk_vbox_new(FALSE, 6);
-  gtk_container_add(GTK_CONTAINER(sbox), bbox);
-
-  button = gtk_button_new_with_mnemonic(_("C_onnect to Network Game"));
-  gtk_size_group_add_widget(size, button);
-  gtk_container_add(GTK_CONTAINER(bbox), button);
-  g_signal_connect(button, "clicked",
-      G_CALLBACK(set_page_callback), GUINT_TO_POINTER(PAGE_NETWORK));
-
-#ifdef GGZ_GTK
-  button = gtk_button_new_with_mnemonic(_("Connect to Gaming _Zone"));
-  gtk_size_group_add_widget(size, button);
-  gtk_container_add(GTK_CONTAINER(bbox), button);
-  g_signal_connect(button, "clicked", ggz_login, NULL);
-#endif
-
-  bbox = gtk_vbox_new(FALSE, 6);
-  gtk_container_add(GTK_CONTAINER(sbox), bbox);
-
-  button = gtk_button_new_from_stock(GTK_STOCK_QUIT);
-  gtk_size_group_add_widget(size, button);
-  gtk_container_add(GTK_CONTAINER(bbox), button);
-  g_signal_connect(button, "clicked",
-      G_CALLBACK(gtk_main_quit), NULL);
 
 #if IS_BETA_VERSION
   {
@@ -258,7 +204,53 @@ GtkWidget *create_main_page(void)
   }
 #endif
 
-  return box;
+  table = gtk_table_new(3, 2, TRUE);
+  align = gtk_alignment_new(0.5, 0.5, 0.0, 0.0);
+  gtk_box_pack_start(GTK_BOX(vbox), align, TRUE, TRUE, 12);
+
+  gtk_table_set_row_spacings(GTK_TABLE(table), 8);
+  gtk_table_set_col_spacings(GTK_TABLE(table), 18);
+  gtk_container_add(GTK_CONTAINER(align), table);
+
+  button = gtk_button_new_with_mnemonic(_("Start _New Game"));
+  gtk_size_group_add_widget(size, button);
+  gtk_table_attach_defaults(GTK_TABLE(table), button, 0, 1, 0, 1);
+  g_signal_connect(button, "clicked",
+                   G_CALLBACK(start_new_game_callback), NULL);
+
+  button = gtk_button_new_with_mnemonic(_("Start _Scenario Game"));
+  gtk_size_group_add_widget(size, button);
+  gtk_table_attach_defaults(GTK_TABLE(table), button, 0, 1, 1, 2);
+  g_signal_connect(button, "clicked",
+                   G_CALLBACK(start_scenario_callback), NULL);
+
+  button = gtk_button_new_with_mnemonic(_("_Load Saved Game"));
+  gtk_size_group_add_widget(size, button);
+  gtk_table_attach_defaults(GTK_TABLE(table), button, 0, 1, 2, 3);
+  g_signal_connect(button, "clicked",
+                   G_CALLBACK(load_saved_game_callback), NULL);
+
+  button = gtk_button_new_with_mnemonic(_("C_onnect to Network Game"));
+  gtk_size_group_add_widget(size, button);
+  gtk_table_attach_defaults(GTK_TABLE(table), button, 1, 2, 0, 1);
+  g_signal_connect(button, "clicked",
+                   G_CALLBACK(set_page_callback),
+                   GUINT_TO_POINTER(PAGE_NETWORK));
+
+#ifdef GGZ_GTK
+  button = gtk_button_new_with_mnemonic(_("Connect to Gaming _Zone"));
+  gtk_size_group_add_widget(size, button);
+  gtk_table_attach_defaults(GTK_TABLE(table), button, 1, 2, 1, 2);
+  g_signal_connect(button, "clicked", ggz_login, NULL);
+#endif
+
+  button = gtk_button_new_from_stock(GTK_STOCK_QUIT);
+  gtk_size_group_add_widget(size, button);
+  gtk_table_attach_defaults(GTK_TABLE(table), button, 1, 2, 2, 3);
+  g_signal_connect(button, "clicked",
+                   G_CALLBACK(gtk_main_quit), NULL);
+
+  return widget;
 }
 
 
@@ -1630,7 +1622,8 @@ GtkWidget *create_start_page(void)
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
 				      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
-				 GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
+                                 GTK_POLICY_AUTOMATIC,
+                                 GTK_POLICY_ALWAYS);
   gtk_widget_set_size_request(sw, -1, 200);
   gtk_container_add(GTK_CONTAINER(sw), view);
   gtk_box_pack_start(GTK_BOX(sbox), sw, TRUE, TRUE, 0);
@@ -1640,7 +1633,8 @@ GtkWidget *create_start_page(void)
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
 				      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
-				 GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
+                                 GTK_POLICY_AUTOMATIC,
+                                 GTK_POLICY_ALWAYS);
   gtk_box_pack_start(GTK_BOX(box), sw, TRUE, TRUE, 0);
 
   text = gtk_text_view_new_with_buffer(message_buffer);
@@ -2261,6 +2255,7 @@ void set_client_page(enum client_pages page)
   case PAGE_NATION:
     break;
   case PAGE_GAME:
+    reset_unit_table();
     enable_menus(TRUE);
     break;
   case PAGE_LOAD:

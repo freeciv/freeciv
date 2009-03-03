@@ -1024,8 +1024,6 @@ static void populate_unit_pixmap_table(void)
       
     gtk_table_attach_defaults(GTK_TABLE(table), unit_below_pixmap_button[i],
                               i, i + 1, 1, 2);
-    gtk_widget_set_size_request(unit_below_pixmap[i],
-				tileset_full_tile_width(tileset), tileset_full_tile_height(tileset));
     gtk_pixcomm_clear(GTK_PIXCOMM(unit_below_pixmap[i]));
   }
 
@@ -1045,23 +1043,25 @@ void reset_unit_table(void)
 {
   int i;
 
-  /* Unreference all of the widgets that we're about to reallocate, thus
-   * avoiding a memory leak. Remove them from the container first, just
-   * to be safe. Note, the widgets are ref'd in
-   * populatate_unit_pixmap_table. */
-  gtk_container_remove(GTK_CONTAINER(unit_pixmap_table),
-		       unit_pixmap_button);
-  gtk_widget_unref(unit_pixmap);
-  gtk_widget_unref(unit_pixmap_button);
-  for (i = 0; i < num_units_below; i++) {
+  if (unit_pixmap_button) {
+    /* Unreference all of the widgets that we're about to reallocate, thus
+     * avoiding a memory leak. Remove them from the container first, just
+     * to be safe. Note, the widgets are ref'd in
+     * populatate_unit_pixmap_table. */
     gtk_container_remove(GTK_CONTAINER(unit_pixmap_table),
-			 unit_below_pixmap_button[i]);
-    gtk_widget_unref(unit_below_pixmap[i]);
-    gtk_widget_unref(unit_below_pixmap_button[i]);
+                         unit_pixmap_button);
+    gtk_widget_unref(unit_pixmap);
+    gtk_widget_unref(unit_pixmap_button);
+    for (i = 0; i < num_units_below; i++) {
+      gtk_container_remove(GTK_CONTAINER(unit_pixmap_table),
+                           unit_below_pixmap_button[i]);
+      gtk_widget_unref(unit_below_pixmap[i]);
+      gtk_widget_unref(unit_below_pixmap_button[i]);
+    }
+    gtk_container_remove(GTK_CONTAINER(unit_pixmap_table),
+                         more_arrow_pixmap);
+    gtk_widget_unref(more_arrow_pixmap);
   }
-  gtk_container_remove(GTK_CONTAINER(unit_pixmap_table),
-		       more_arrow_pixmap);
-  gtk_widget_unref(more_arrow_pixmap);
 
   populate_unit_pixmap_table();
 
@@ -1211,13 +1211,15 @@ static void setup_widgets(void)
 
   ebox = gtk_event_box_new();
   gtk_widget_add_events(ebox, GDK_BUTTON_PRESS_MASK);
-
-  gtk_box_pack_start(GTK_BOX(vbox), ebox, FALSE, FALSE, 0);
-
-  main_label_info = gtk_label_new("\n\n\n\n");
-  gtk_container_add(GTK_CONTAINER(ebox), main_label_info);
   g_signal_connect(ebox, "button_press_event",
                    G_CALLBACK(show_info_popup), NULL);
+  gtk_box_pack_start(GTK_BOX(vbox), ebox, FALSE, FALSE, 0);
+
+  label = gtk_label_new(NULL);
+  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+  gtk_misc_set_padding(GTK_MISC(label), 2, 2);
+  gtk_container_add(GTK_CONTAINER(ebox), label);
+  main_label_info = label;
 
   /* Production status */
 
@@ -1300,7 +1302,6 @@ static void setup_widgets(void)
   timeout_label = gtk_label_new("");
 
   frame = gtk_frame_new(NULL);
-  gtk_widget_set_size_request(frame, tileset_small_sprite_width(tileset), tileset_small_sprite_height(tileset));
   gtk_table_attach_defaults(GTK_TABLE(table), frame, 4, 10, 1, 2);
   gtk_container_add(GTK_CONTAINER(frame), timeout_label);
 
@@ -1330,8 +1331,11 @@ static void setup_widgets(void)
   unit_info_frame = gtk_frame_new("");
   gtk_box_pack_start(GTK_BOX(unit_info_box), unit_info_frame, FALSE, FALSE, 0);
     
-  unit_info_label = gtk_label_new("\n\n\n");
-  gtk_container_add(GTK_CONTAINER(unit_info_frame), unit_info_label);
+  label = gtk_label_new(NULL);
+  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+  gtk_misc_set_padding(GTK_MISC(label), 2, 2);
+  gtk_container_add(GTK_CONTAINER(unit_info_frame), label);
+  unit_info_label = label;
 
   box = gtk_hbox_new(FALSE,0);
   gtk_box_pack_start(GTK_BOX(unit_info_box), box, FALSE, FALSE, 0);
@@ -1343,7 +1347,6 @@ static void setup_widgets(void)
   gtk_table_set_col_spacings(GTK_TABLE(table), 2);
 
   unit_pixmap_table = table;
-  populate_unit_pixmap_table();
 
   /* Map canvas, editor toolbar, and scrollbars */
 
@@ -1386,7 +1389,6 @@ static void setup_widgets(void)
                                    |GDK_POINTER_MOTION_MASK
                                    |GDK_SCROLL_MASK);
 
-  gtk_widget_set_size_request(map_canvas, 510, 300);
   gtk_container_add(GTK_CONTAINER(frame), map_canvas);
 
   map_horizontal_scrollbar = gtk_hscrollbar_new(NULL);
@@ -1454,7 +1456,6 @@ static void setup_widgets(void)
 				      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw), GTK_POLICY_AUTOMATIC,
   				 GTK_POLICY_ALWAYS);
-  gtk_widget_set_size_request(sw, 600, 100);
   gtk_box_pack_start(GTK_BOX(vbox), sw, TRUE, TRUE, 0);
 
   label = gtk_label_new(_("Chat"));
@@ -1499,7 +1500,6 @@ static void setup_widgets(void)
   /* Other things to take care of */
 
   gtk_widget_show_all(gtk_bin_get_child(GTK_BIN(toplevel)));
-  gtk_widget_hide(more_arrow_pixmap);
 
   if (enable_tabs) {
     popup_meswin_dialog(FALSE);
@@ -1985,6 +1985,10 @@ void set_unit_icon(int idx, struct unit *punit)
     unit_ids[idx] = punit ? punit->id : 0;
   }
 
+  if (!w) {
+    return;
+  }
+
   gtk_pixcomm_freeze(GTK_PIXCOMM(w));
 
   if (punit) {
@@ -2004,6 +2008,10 @@ void set_unit_icon(int idx, struct unit *punit)
 void set_unit_icons_more_arrow(bool onoff)
 {
   static bool showing = FALSE;
+
+  if (!more_arrow_pixmap) {
+    return;
+  }
 
   if (onoff && !showing) {
     gtk_widget_show(more_arrow_pixmap);
