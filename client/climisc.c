@@ -572,8 +572,10 @@ static int target_get_section(struct city_production target)
   } else {
     if (improvement_has_flag(target.value, IF_GOLD)) {
       return 1;
-    } else if (is_great_wonder(target.value)) {
+    } else if (is_small_wonder(target.value)) {
       return 4;
+    } else if (is_great_wonder(target.value)) {
+      return 5;
     } else {
       return 0;
     }
@@ -603,7 +605,8 @@ static int my_cmp(const void *p1, const void *p2)
  section 1: Capitalization
  section 2: F_NONMIL units
  section 3: other units
- section 4: wonders
+ section 4: small wonders
+ section 5: great wonders
 **************************************************************************/
 void name_and_sort_items(struct city_production *targets, int num_targets,
 			 struct item *items,
