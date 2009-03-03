@@ -284,6 +284,7 @@ void game_init(void)
   game.info.techpenalty   = GAME_DEFAULT_TECHPENALTY;
   game.info.razechance    = GAME_DEFAULT_RAZECHANCE;
   game.info.spacerace     = GAME_DEFAULT_SPACERACE;
+  game.info.endspaceship  = GAME_DEFAULT_END_SPACESHIP;
   game.info.turnblock     = GAME_DEFAULT_TURNBLOCK;
   game.info.fogofwar      = GAME_DEFAULT_FOGOFWAR;
   game.info.borders       = GAME_DEFAULT_BORDERS;

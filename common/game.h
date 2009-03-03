@@ -270,6 +270,7 @@ bool setting_class_is_changeable(enum sset_class class);
 #define GAME_DEFAULT_SCORETURN       20
 
 #define GAME_DEFAULT_SPACERACE       TRUE
+#define GAME_DEFAULT_END_SPACESHIP   TRUE
 
 #define GAME_DEFAULT_TURNBLOCK       TRUE
 

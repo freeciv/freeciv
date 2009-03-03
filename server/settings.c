@@ -802,6 +802,13 @@ struct settings_s settings[] = {
 	   NULL, 
 	   GAME_DEFAULT_SPACERACE)
 
+  GEN_BOOL("endspaceship", game.info.endspaceship, SSET_RULES_FLEXIBLE,
+           SSET_SCIENCE, SSET_VITAL, SSET_TO_CLIENT,
+           N_("Should the game end if the spaceship arrives?"),
+           N_("If this option is set to 1, the game will end with the "
+              "arrival of a spaceship at Alpha Centauri."), NULL,
+           GAME_DEFAULT_END_SPACESHIP)
+
   GEN_INT("civilwarsize", game.info.civilwarsize,
 	  SSET_RULES_FLEXIBLE, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
 	  N_("Minimum number of cities for civil war"),

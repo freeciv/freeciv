@@ -268,6 +268,11 @@ bool check_for_game_over(void)
                   _("The %s spaceship has arrived at Alpha Centauri."),
                   nation_adjective_for_player(victor));
 
+    if (!game.info.endspaceship) {
+      /* games does not end on spaceship arrival */
+      return FALSE;
+    }
+
     /* this guy has won, now check if anybody else wins with him */
     players_iterate(pplayer) {
       if (pplayer->team == victor->team && pplayer != victor) {
@@ -322,7 +327,7 @@ bool check_for_game_over(void)
 	}
       } players_iterate_end;
       ggz_report_victory();
-      return TRUE;
+      return win; /* TRUE */
     }
   } team_iterate_end;
 

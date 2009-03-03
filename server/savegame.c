@@ -4409,6 +4409,9 @@ static void game_load_internal(struct section_file *file)
 
     game.info.spacerace = secfile_lookup_bool_default(file, game.info.spacerace,
 						"game.spacerace");
+    game.info.endspaceship =
+      secfile_lookup_bool_default(file, game.info.endspaceship,
+                                  "game.endspaceship");
 
     game.info.auto_ai_toggle = 
       secfile_lookup_bool_default(file, game.info.auto_ai_toggle, 
@@ -4987,6 +4990,7 @@ void game_save(struct section_file *file, const char *save_reason)
 
   secfile_insert_bool(file, game.info.fogofwar, "game.fogofwar");
   secfile_insert_bool(file, game.info.spacerace, "game.spacerace");
+  secfile_insert_bool(file, game.info.endspaceship, "game.endspaceship");
   secfile_insert_bool(file, game.info.auto_ai_toggle, "game.auto_ai_toggle");
   secfile_insert_int(file, game.info.diplchance, "game.diplchance");
   secfile_insert_int(file, game.info.aqueductloss, "game.aqueductloss");
