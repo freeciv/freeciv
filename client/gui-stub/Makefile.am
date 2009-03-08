@@ -1,7 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
 noinst_LTLIBRARIES = libguiclient.la
-AM_CPPFLAGS = -I. -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/utility -I$(top_srcdir)/common $(CLIENT_CFLAGS)
+AM_CPPFLAGS = -I. -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/utility -I$(top_srcdir)/common $(CLIENT_CFLAGS) $(SOUND_CFLAGS)
 
 libguiclient_la_SOURCES = \
 	canvas.c	\

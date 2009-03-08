@@ -2,7 +2,7 @@
 
 noinst_LTLIBRARIES = libguiclient.la
 
-AM_CPPFLAGS = -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/utility -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I$(srcdir)/../agents $(CLIENT_CFLAGS)
+AM_CPPFLAGS = -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/utility -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I$(srcdir)/../agents $(CLIENT_CFLAGS) $(SOUND_CFLAGS)
 
 libguiclient_la_SOURCES = \
 	SDL_rotozoom.c	\

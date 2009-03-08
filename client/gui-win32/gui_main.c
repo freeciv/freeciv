@@ -15,6 +15,10 @@
 #include <config.h>
 #endif
 
+#ifdef SDL
+#include "SDL.h"
+#endif
+
 #include <windows.h>
 #include <winsock.h>
 #include <windowsx.h>

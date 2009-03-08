@@ -2,7 +2,7 @@
 
 noinst_LTLIBRARIES = libguiclient.la
 
-AM_CPPFLAGS = -I. -I$(srcdir)/.. -I$(srcdir)/../agents -I$(top_srcdir)/utility -I$(srcdir)/../include -I$(top_srcdir)/common/aicore -I$(top_srcdir)/common $(CLIENT_CFLAGS)
+AM_CPPFLAGS = -I. -I$(srcdir)/.. -I$(srcdir)/../agents -I$(top_srcdir)/utility -I$(srcdir)/../include -I$(top_srcdir)/common/aicore -I$(top_srcdir)/common $(CLIENT_CFLAGS) $(SOUND_CFLAGS)
 
 libguiclient_la_SOURCES = \
 	canvas.c	\

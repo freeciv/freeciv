@@ -15,6 +15,10 @@
 #include <config.h>
 #endif
 
+#ifdef SDL
+#include "SDL.h"
+#endif
+
 #include <assert.h>
 #ifdef HAVE_LOCALE_H
 #include <locale.h>
