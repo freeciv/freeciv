@@ -1055,11 +1055,11 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
       dest_tile->bases    = from_tile->bases;
       dest_tile->last_updated = from_tile->last_updated;
       send_tile_info(pdest->connections, ptile, FALSE);
-	
+
       /* update and send city knowledge */
       /* remove outdated cities */
-      if (dest_tile->site && dest_tile->site->location == ptile) {
-	if (!from_tile->site || from_tile->site->location != ptile) {
+      if (dest_tile->site) {
+	if (!from_tile->site) {
 	  /* As the city was gone on the newer from_tile
 	     it will be removed by this function */
 	  reality_check_city(pdest, ptile);
@@ -1073,13 +1073,12 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
       }
 
       /* Set and send new city info */
-      if (from_tile->site && from_tile->site->location == ptile) {
-	if (!dest_tile->site || dest_tile->site->location != ptile) {
-	  change_playertile_site(dest_tile, NULL);
-
+      if (from_tile->site) {
+	if (!dest_tile->site) {
           /* We cannot assign new vision site with change_playertile_site(),
            * since location is not yet set up for new site */
-          dest_tile->site = create_vision_site(0, NULL, NULL);
+          dest_tile->site = create_vision_site(0, ptile, NULL);
+          *dest_tile->site = *from_tile->site;
 	}
         /* Note that we don't care if receiver knows vision source city
          * or not. */
