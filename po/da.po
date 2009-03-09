@@ -9204,11 +9204,11 @@ msgid ""
 "to do the action manually by pressing either 'r' (for a traderoute) or "
 "'b' (for building a wonder) when the caravan is in the city."
 msgstr ""
-"Hvis denne indstilling er slået til vil et vindue åbne sig, når en karavane "
+"Hvis denne indstilling er slået til, vil et vindue åbne sig, når en karavane "
 "ankommer til en by, hvor den kan etablere en handelsrute eller hjælpe med "
-"at bygge et vidunder, der spørger hvilken handling der skal ske. Hvis denne "
-"indstilling slås fra skal du udføre handlingen manuelt ved at trykke på "
-"enten 'r' (for en handelsrute) eller 'b' (for at bygge et vidunder) når "
+"at bygge et vidunder, der spørger hvilken handling der skal udføres. Hvis denne "
+"indstilling slås fra, skal du udføre handlingen manuelt ved at trykke på "
+"enten 'r' (for en handelsrute) eller 'b' (for at bygge et vidunder), når "
 "karavanen er i byen."
 
 #: client/options.c:260
@@ -9239,7 +9239,7 @@ msgstr ""
 
 #: client/options.c:272
 msgid "Clear unit orders on selection"
-msgstr "Ryd enhedsordre ved valg"
+msgstr "Ryd enhedsordrer ved valg"
 
 #: client/options.c:273
 msgid ""
@@ -9248,7 +9248,7 @@ msgid ""
 "not cause them to stop their current activity. Instead, their orders will be "
 "cleared only when new orders are given or if you press <space>."
 msgstr ""
-"Ved at slå denne indstilling til vil enhedsordre blive ryddet når en eller "
+"Ved at slå denne indstilling til vil enhedsordrer blive ryddet når en eller "
 "flere enheder vælges. Hvis indstillingen er slået fra, vil det at vælge "
 "enheder ikke få dem til at stoppe med deres nuværende aktivitet. I steden "
 "for vil deres ordre kun blive ryddet når nye ordre bliver givet eller hvis "
@@ -10807,7 +10807,7 @@ msgstr "Tilføj _næste"
 
 #: client/gui-gtk-2.0/cityrep.c:888
 msgid "Add _2nd Last"
-msgstr "Tilføj _2sidste"
+msgstr "Tilføj _2. sidste"
 
 #: client/gui-gtk-2.0/cityrep.c:892
 msgid "Add _Last"
@@ -11338,15 +11338,15 @@ msgstr ""
 
 #: client/gui-gtk-2.0/gui_main.c:201
 msgid "Split bottom notebook area"
-msgstr "Opdel notebookområdets bund"
+msgstr "Opdel notebogsområdets bund"
 
 #: client/gui-gtk-2.0/gui_main.c:202
 msgid ""
 "Enabling this option will split the bottom notebook into a left and right "
 "notebook so that two tabs may be viewed at once."
 msgstr ""
-"Ved at slå denne indstilling til vil bunden af notebooken blive opdelt i en "
-"højre og venstre notebook så to faneblade kan ses på en gang."
+"Ved at slå denne indstilling til vil bunden af notebogen blive opdelt i en "
+"højre og venstre notebog så to faneblade kan ses på en gang."
 
 #: client/gui-gtk-2.0/gui_main.c:207
 msgid "New message events go to top of list"
@@ -11357,7 +11357,7 @@ msgid ""
 "If this option is enabled, new events in the message window will appear at "
 "the top of the list, rather than being appended at the bottom."
 msgstr ""
-"Hvis denne indstilling er slået til vil nye beskeder i beskedsvinduet komme "
+"Hvis denne indstilling er slået til vil nye beskeder i beskedsvinduet vises "
 "øverst i listen, fremfor at de bliver tilføjet i bunden."
 
 #: client/gui-gtk-2.0/gui_main.c:213
@@ -11389,13 +11389,13 @@ msgid ""
 "If this option is enabled, the metaserver tab will be the first notebook tab "
 "in the network page. This option requires a restart in order to take effect."
 msgstr ""
-"Hvis denne indstilling er slået til vil fanebladet for metaserveren være den "
-"første notebookfaneblad på netværkssiden. Denne indstilling kræver en genstart "
+"Hvis denne indstilling er slået til, vil fanebladet for metaserveren være den "
+"første notebogfaneblad på netværkssiden. Denne indstilling kræver en genstart "
 "for at træde i kraft."
 
 #: client/gui-gtk-2.0/gui_main.c:230
 msgid "Plain chat messages are sent to allies only"
-msgstr "Simple snakkebeskeder sendes kun til allierede"
+msgstr "Enkle snakkebeskeder sendes kun til allierede"
 
 #: client/gui-gtk-2.0/gui_main.c:231
 msgid ""
@@ -11406,8 +11406,8 @@ msgid ""
 "option can also be set using a toggle button beside the chat entry (only "
 "visible in multiplayer games)."
 msgstr ""
-"Hvis denne indstilling er slået til så vil simple beskeder indtastet mens "
-"spillet kører kun blive sendt til allierede. Ellers vil simple beskeder blive "
+"Hvis denne indstilling er slået til så vil enkle beskeder indtastet mens "
+"spillet kører kun blive sendt til allierede. Ellers vil enkle beskeder blive "
 "sendt som offentlige snakkebeskeder. For at sende en offentlig besked når "
 "denne indstilling er slået til skrives der et enkelt kolon ':' først i "
 "beskeden. Denne indstilling kan også indstilles via en knap ved siden af "
@@ -26517,9 +26517,6 @@ msgstr "Hold 31"
 
 #~ msgid "Unknown unit type '%s' in player%d section"
 #~ msgstr "Forkert enhedstype '%s' i spiller%d sektion"
-
-#~ msgid "Savegame error: invalid unit orders."
-#~ msgstr "Fejl på gemt spil: Ugyldig enhedsordre."
 
 #~ msgid "Unsupported government found (%s)"
 #~ msgstr "Usupporteret ledelsesform fundet (%s)"
