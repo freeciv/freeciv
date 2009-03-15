@@ -1101,6 +1101,29 @@ void enable_menus(bool enable)
 }
 
 /**************************************************************************
+  Workaround for a crash that occurs when a button release event is
+  emitted for a notebook with no pages. See PR#40743.
+  FIXME: Remove this hack once gtk_notebook_button_release() in
+  gtk/gtknotebook.c checks for NULL notebook->cur_page.
+**************************************************************************/
+static gboolean right_notebook_button_release(GtkWidget *widget,
+                                              GdkEventButton *event)
+{
+  if (event->type != GDK_BUTTON_RELEASE) {
+    return FALSE;
+  }
+
+  if (!GTK_IS_NOTEBOOK(widget)
+      || -1 == gtk_notebook_get_current_page(GTK_NOTEBOOK(widget))) {
+    /* Make sure the default gtk handler
+     * does NOT get called in this case. */
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/**************************************************************************
  do the heavy lifting for the widget setup.
 **************************************************************************/
 static void setup_widgets(void)
@@ -1449,6 +1472,8 @@ static void setup_widgets(void)
   g_object_ref(right_notebook);
   gtk_notebook_set_tab_pos(GTK_NOTEBOOK(right_notebook), GTK_POS_TOP);
   gtk_notebook_set_scrollable(GTK_NOTEBOOK(right_notebook), TRUE);
+  g_signal_connect(right_notebook, "button-release-event",
+                   G_CALLBACK(right_notebook_button_release), NULL);
   if (split_bottom_notebook) {
     gtk_paned_pack2(GTK_PANED(hpaned), right_notebook, TRUE, TRUE);
   }
