@@ -847,6 +847,84 @@ struct settings_s settings[] = {
               "on the surrounding terrain."),
            NULL, GAME_DEFAULT_NATURALCITYNAMES)
 
+  GEN_BOOL("migration", game.info.migration,
+           SSET_RULES_FLEXIBLE, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
+           N_("Whether to enable citizen migration"),
+           N_("This is the master setting that controls whether citizen "
+              "migration is active in the game. If enabled, citizens may "
+              "automatically move from less desirable cities to more "
+              "desirable ones. The \"desirability\" of a given city is "
+              "calculated from a number of factors. In general larger "
+              "cities with more income and improvements will be preferred. "
+              "Citizens will never migrate out of the capital, or cause "
+              "a wonder to be lost by disbanding a city. A number of other "
+              "settings control how migration behaves:\n"
+              "  mgr_turninterval - How often citizens try to migrate.\n"
+              "  mgr_foodneeded   - Whether destination food is checked.\n"
+              "  mgr_distance     - How far citizens will migrate.\n"
+              "  mgr_worldchance  - Chance for inter-nation migration.\n"
+              "  mgr_nationchance - Chance for intra-nation migration."),
+           NULL, GAME_DEFAULT_MIGRATION)
+
+  GEN_INT("mgr_turninterval", game.info.mgr_turninterval,
+          SSET_RULES_FLEXIBLE, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
+          N_("Number of turns between migrations from a city"),
+          N_("This setting controls the number of turns between migration "
+             "checks for a given city. The interval is calculated from "
+             "the founding turn of the city. So for example if this "
+             "setting is 5, citizens will look for a suitable migration "
+             "destination every five turns from the founding of their "
+             "current city. Migration will never occur the same turn "
+             "that a city is built. This setting has no effect unless "
+             "migration is enabled by the 'migration' setting."), NULL,
+          GAME_MIN_MGR_TURNINTERVAL, GAME_MAX_MGR_TURNINTERVAL,
+          GAME_DEFAULT_MGR_TURNINTERVAL)
+
+  GEN_BOOL("mgr_foodneeded", game.info.mgr_foodneeded,
+          SSET_RULES_FLEXIBLE, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
+           N_("Whether migration is limited by food"),
+           N_("If this setting is enabled, citizens will not migrate to "
+              "cities which would not have enough food to support them. "
+              "This setting has no effect unless migration is enabled by "
+              "the 'migration' setting."), NULL,
+           GAME_DEFAULT_MGR_FOODNEEDED)
+
+  GEN_INT("mgr_distance", game.info.mgr_distance,
+          SSET_RULES_FLEXIBLE, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
+          N_("Maximum distance citizens may migrate"),
+          N_("This setting controls how far citizens may look for a "
+             "suitable migration destination when deciding which city "
+             "to migrate to. For example, with a value of 3, there can "
+             "be at most a 2 tile distance between cities undergoing "
+             "migration. This setting has no effect unless migration "
+             "is activated by the 'migration' setting."), NULL,
+          GAME_MIN_MGR_DISTANCE, GAME_MAX_MGR_DISTANCE,
+          GAME_DEFAULT_MGR_DISTANCE)
+
+  GEN_INT("mgr_nationchance", game.info.mgr_nationchance,
+          SSET_RULES_FLEXIBLE, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
+          N_("Percent probability for migration within the same nation"),
+          N_("This setting controls how likely it is for citizens to "
+             "migrate between cities owned by the same player. Zero "
+             "indicates migration will never occur, 100 means that "
+             "migration will always occur if the citizens find a suitable "
+             "destination. This setting has no effect unless migration "
+             "is activated by the 'migration' setting."), NULL,
+          GAME_MIN_MGR_NATIONCHANCE, GAME_MAX_MGR_NATIONCHANCE,
+          GAME_DEFAULT_MGR_NATIONCHANCE)
+
+  GEN_INT("mgr_worldchance", game.info.mgr_worldchance,
+          SSET_RULES_FLEXIBLE, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
+          N_("Percent probability for migration between foreign cities"),
+          N_("This setting controls how likely it is for migration "
+             "to occur between cities owned by different players. "
+             "Zero indicates migration will never occur, 100 means "
+             "that citizens will always migrate if they find a suitable "
+             "destination. This setting has no effect if migration is "
+             "not enabled by the 'migration' setting."), NULL,
+          GAME_MIN_MGR_WORLDCHANCE, GAME_MAX_MGR_WORLDCHANCE,
+          GAME_DEFAULT_MGR_WORLDCHANCE)
+
   /* Meta options: these don't affect the internal rules of the game, but
    * do affect players.  Also options which only produce extra server
    * "output" and don't affect the actual game.

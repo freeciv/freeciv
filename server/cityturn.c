@@ -90,6 +90,10 @@ static void define_orig_production_values(struct city *pcity);
 static void update_city_activity(struct player *pplayer, struct city *pcity);
 static void nullify_caravan_and_disband_plus(struct city *pcity);
 
+static float city_migration_score(const struct city *pcity);
+static bool do_city_migration(struct city *pcity_from,
+                              struct city *pcity_to);
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -1866,4 +1870,397 @@ static bool disband_city(struct city *pcity)
 
   remove_city(pcity);
   return TRUE;
+}
+
+/***************************************************************************
+  Helper function to calculate a "score" of a city. The score is used to get
+  an estimate of the "migration desirability" of the city. The higher the
+  score the more likely citizens will migrate to it.
+
+  The score depends on the city size, the feeling of its citizens, the cost
+  of all buildings in the city, and the surplus of trade, luxury and
+  science.
+
+  formula:
+    score = ([city size] + feeling) * factors
+
+  * feeling of the citizens
+    feeling = 1.00 * happy citizens
+            + 0.00 * content citizens
+            - 0.25 * unhappy citizens
+            - 0.50 * unhappy citizens
+
+  * factors
+    * the build costs of all buildings
+      f = (1 + (1 - exp(-[build shield cost]/1000))/5)
+    * the trade of the city
+      f = (1 + (1 - exp(-[city surplus trade]/100))/5)
+    * the luxury within the city
+      f = (1 + (1 - exp(-[city surplus luxury]/100))/5)
+    * the science within the city
+      f = (1 + (1 - exp(-[city surplus science]/100))/5)
+
+  all factors f have values between 1 and 1.2; the overall factor will be
+  between 1.0 (smaller cities) and 2.0 (bigger cities)
+
+  [build shield cost], [city surplus trade], [city surplus luxury] and
+  [city surplus science] _must_ be >= 0!
+
+  * if the city has at least one wonder a factor of 1.25 is added
+  * for the capital an additional factor of 1.25 is used
+**************************************************************************/
+static float city_migration_score(const struct city *pcity)
+{
+  float score = 0.0;
+  int build_shield_cost = 0;
+  bool has_wonder = FALSE;
+
+  if (!pcity) {
+    return 0.0;
+  }
+
+  /* feeling of the citizens */
+  score = (pcity->size + 1.00 * pcity->feel[CITIZEN_HAPPY][FEELING_FINAL]
+           + 0.00 * pcity->feel[CITIZEN_CONTENT][FEELING_FINAL]
+           - 0.25 * pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL]
+           - 0.50 * pcity->feel[CITIZEN_ANGRY][FEELING_FINAL]);
+
+  /* calculate shield build cost for all buildings */
+  city_built_iterate(pcity, pimprove) {
+    build_shield_cost += impr_build_shield_cost(pimprove);
+    if (is_wonder(pimprove)) {
+      /* this city has a wonder */
+      has_wonder = TRUE;
+    }
+  } city_built_iterate_end;
+
+  /* take shield costs of all buidings into account; normalized by 1000 */
+  score *= (1 + (1 - exp(- (float) build_shield_cost / 1000)) / 5);
+  /* take trade into account; normalized by 100 */
+  score *= (1 + (1 - exp(- (float) pcity->surplus[O_TRADE] / 100)) / 5);
+  /* take luxury into account; normalized by 100 */
+  score *= (1 + (1 - exp(- (float) pcity->surplus[O_LUXURY] / 100)) / 5);
+  /* take science into account; normalized by 100 */
+  score *= (1 + (1 - exp(- (float) pcity->surplus[O_SCIENCE] / 100)) / 5);
+
+  if (has_wonder) {
+    /* people like wonders */
+    score *= 1.25;
+  }
+
+  if (is_capital(pcity)) {
+    /* the capital is a magnet for the citizens */
+    score *= 1.25;
+  }
+
+  freelog(LOG_DEBUG, "[M] %s score: %.3f", city_name(pcity), score);
+
+  return score;
+}
+
+/**************************************************************************
+  Do the migrations between the cities that overlap, if the growth of the
+  target city is not blocked due to a missing improvement or missing food.
+
+  Returns TRUE if migration occured.
+**************************************************************************/
+static bool do_city_migration(struct city *pcity_from,
+                              struct city *pcity_to)
+{
+  struct player *pplayer_from, *pplayer_to;
+  struct tile *ptile_from, *ptile_to;
+  const char *name_from, *name_to, *nation_from, *nation_to;
+  char saved_name_from[MAX_LEN_NAME];
+  struct city *rcity = NULL;
+
+  if (!pcity_from || !pcity_to) {
+    return FALSE;
+  }
+
+  pplayer_from = city_owner(pcity_from);
+  pplayer_to = city_owner(pcity_to);
+  name_from = city_name(pcity_from);
+  name_to = city_name(pcity_to);
+  nation_from = nation_adjective_for_player(pplayer_from);
+  nation_to = nation_adjective_for_player(pplayer_to);
+  ptile_from = city_tile(pcity_from);
+  ptile_to = city_tile(pcity_to);
+
+  if (game.info.mgr_foodneeded && pcity_to->surplus[O_FOOD] < 0) {
+    /* insufficiency food in receiver city; no additional citizens */
+    if (pplayer_from == pplayer_to) {
+      /* migration between one nation */
+      /* TRANS: From <city1> to <city2>. */
+      notify_player(pplayer_to, ptile_to, E_CITY_TRANSFER,
+                    _("Migrants from %s can't go to %s because there is "
+                      "not enough food available!"),
+                    name_from, name_to);
+    } else {
+      /* migration between different nations */
+      /* TRANS: From <city1> to <city2> (<city2 nation adjective>). */
+      notify_player(pplayer_from, ptile_to, E_CITY_TRANSFER,
+                    _("Migrants from %s can't go to %s (%s) because there "
+                      "is not enough food available!"),
+                    name_from, name_to, nation_to);
+      /* TRANS: From <city1> (<city1 nation afjective>) to <city2>. */
+      notify_player(pplayer_to, ptile_to, E_CITY_TRANSFER,
+                    _("Migrants from %s (%s) can't go to %s because there "
+                      "is not enough food available!"),
+                    name_from, nation_from, name_to);
+    }
+
+    return FALSE;
+  }
+
+  if (!city_can_grow_to(pcity_to, pcity_to->size + 1)) {
+    /* receiver city can't grow  */
+    if (pplayer_from == pplayer_to) {
+      /* migration between one nation */
+      /* TRANS: From <city1> to <city2>. */
+      notify_player(pplayer_to, ptile_to, E_CITY_TRANSFER,
+                    _("Migrants from %s can't go to %s because it needs "
+                      "an improvement to grow!"),
+                    name_from, name_to);
+    } else {
+      /* migration between different nations */
+      /* TRANS: From <city1> to <city2> of <city2 nation adjective>. */
+      notify_player(pplayer_from, ptile_to, E_CITY_TRANSFER,
+                    _("Migrants from %s can't go to %s (%s) because it "
+                      "needs an improvement to grow!"),
+                    name_from, name_to, nation_to);
+      /* TRANS: From <city1> (<city1 nation afjective>) to <city2>. */
+      notify_player(pplayer_to, ptile_to, E_CITY_TRANSFER,
+                    _("Migrants from %s (%s) can't go to %s because it "
+                      "needs an improvement to grow!"),
+                    name_from, nation_from, name_to);
+    }
+
+    return FALSE;
+  }
+
+  /* we copy the city name, since maybe we disband the city! */
+  sz_strlcpy(saved_name_from, name_from);
+  /* reduce size of giver */
+  if (pcity_from->size == 1) {
+    /* do not destroy wonders */
+    city_built_iterate(pcity_from, pimprove) {
+      if (is_wonder(pimprove)) {
+        return FALSE;
+      }
+    } city_built_iterate_end;
+
+    /* find closest city other of the same player than pcity_from */
+    rcity = find_closest_owned_city(pplayer_from, ptile_from,
+                                    FALSE, pcity_from);
+
+    if (rcity) {
+      /* transfer all units to the closest city */
+      transfer_city_units(pplayer_from, pplayer_from,
+                          pcity_from->units_supported, rcity, pcity_from,
+                          -1, TRUE);
+      remove_city(pcity_from);
+
+      notify_player(pplayer_from, ptile_from, E_CITY_LOST,
+                    _("%s was disbanded by its citizens."),
+                    saved_name_from);
+    } else {
+      /* it's the only city of the nation */
+      return FALSE;
+    }
+  } else {
+    city_reduce_size(pcity_from, 1, pplayer_from);
+    city_refresh_vision(pcity_from);
+    city_refresh(pcity_from);
+  }
+  /* raise size of receiver city */
+  city_increase_size(pcity_to);
+  city_refresh_vision(pcity_to);
+  city_refresh(pcity_to);
+
+  if (pplayer_from == pplayer_to) {
+    /* migration between one nation */
+    /* TRANS: From <city1> to <city2>. */
+    notify_player(pplayer_from, ptile_to, E_CITY_TRANSFER,
+                  _("Migrants from %s moved to %s in search of a better "
+                    "life."), saved_name_from, name_to);
+  } else {
+    /* migration between different nations */
+    /* TRANS: From <city1> to <city2> (<city2 nation adjective>). */
+    notify_player(pplayer_from, ptile_to, E_CITY_TRANSFER,
+                  _("Migrants from %s moved to %s (%s) in search of a "
+                    "better life."),
+                  saved_name_from, name_to, nation_to);
+    /* TRANS: From <city1> (<city1 nation adjective>) to <city2>. */
+    notify_player(pplayer_to, ptile_to, E_CITY_TRANSFER,
+                  _("Migrants from %s (%s) moved to %s in search of a "
+                    "better life."),
+                  saved_name_from, nation_from, name_to);
+  }
+
+  freelog(LOG_DEBUG, "[M] T%d migration successful (%s -> %s)",
+          game.info.turn, saved_name_from, name_to);
+
+  return TRUE;
+}
+
+/**************************************************************************
+  Check for citizens who want to migrate between the cities that overlap.
+  Migrants go to the city with higher score, if the growth of the target
+  city is not blocked due to a missing improvement.
+
+  The following setting are used:
+
+  'game.info.mgr_turninterval' controls the number of turns between
+  migration checks for one city (counted from the founding). If this
+  setting is zero, or it is the first turn (T0), migration does no occur.
+
+  'game.info.mgr_distance' is the maximal distance for migration.
+
+  'game.info.mgr_nationchance' gives the chance for migration within one
+  nation.
+
+  'game.info.mgr_worldchance' gives the chance for migration between all
+  nations.
+**************************************************************************/
+void check_city_migrations(struct player *pplayer)
+{
+  float best_city_player_score, best_city_world_score;
+  struct city *best_city_player, *best_city_world, *acity;
+  float score_from, score_tmp, weight;
+  int dist;
+
+  if (!game.info.migration) {
+    return;
+  }
+
+  if (!pplayer || !pplayer->cities) {
+    return;
+  }
+
+  if (game.info.mgr_turninterval <= 0
+      || (game.info.mgr_worldchance <= 0
+          && game.info.mgr_nationchance <= 0)) {
+    return;
+  }
+
+  city_list_iterate(pplayer->cities, pcity) {
+    pcity->migration_score = city_migration_score(pcity);
+  } city_list_iterate_end;
+
+  /* check for each city
+   * city_list_iterate_safe_end must be used because we could
+   * remove one city from the list */
+  city_list_iterate_safe(pplayer->cities, pcity) {
+    /* no migration out of the capital */
+    if (is_capital(pcity)) {
+      continue;
+    }
+
+    /* check only each (game.info.mgr_turninterval) turn
+     * (counted from the funding turn) and do not migrate
+     * the same turn a city is founded */
+    if (game.info.turn == pcity->turn_founded
+        || ((game.info.turn - pcity->turn_founded)
+            % game.info.mgr_turninterval) != 0) {
+      continue;
+    }
+
+    best_city_player_score = 0.0;
+    best_city_world_score = 0.0;
+    best_city_player = NULL;
+    best_city_world = NULL;
+
+    /* score of the actual city
+     * taking into account a persistence factor of 3 */
+    score_from = pcity->migration_score * 3;
+
+    freelog(LOG_DEBUG, "[M] T%d check city: %s score: %6.3f (%s)",
+            game.info.turn, city_name(pcity), score_from,
+            player_name(pplayer));
+
+    /* consider all cities within the set distance */
+    iterate_outward(city_tile(pcity), game.info.mgr_distance + 1, ptile) {
+      acity = tile_city(ptile);
+
+      if (!acity || acity == pcity) {
+        /* no city or the city in the center */
+        continue;
+      }
+
+      /* distance between the two cities */
+      dist = real_map_distance(city_tile(pcity), city_tile(acity));
+
+      /* score of the second city, weighted by the distance */
+      weight = ((float) (GAME_MAX_MGR_DISTANCE + 1 - dist)
+                / (float) (GAME_MAX_MGR_DISTANCE + 1));
+      score_tmp = acity->migration_score * weight;
+
+      freelog(LOG_DEBUG, "[M] T%d - compare city: %s (%s) dist: %d "
+              "score: %6.3f", game.info.turn, city_name(acity),
+              player_name(city_owner(acity)), dist, score_tmp);
+
+      if (game.info.mgr_nationchance > 0 && city_owner(acity) == pplayer) {
+        /* migration between cities of the same owner */
+        if (score_tmp > score_from && score_tmp > best_city_player_score) {
+          /* select the best! */
+          best_city_player_score = score_tmp;
+          best_city_player = acity;
+
+          freelog(LOG_DEBUG, "[M] T%d - best city (player): %s (%s) score: "
+                  "%6.3f (> %6.3f)", game.info.turn,
+                  city_name(best_city_player), player_name(pplayer),
+                  best_city_player_score, score_from);
+        }
+      } else if (game.info.mgr_worldchance > 0
+                 && city_owner(acity) != pplayer) {
+        /* migration between cities of different owners */
+        if (score_tmp > score_from && score_tmp > best_city_world_score) {
+          /* select the best! */
+          best_city_world_score = score_tmp;
+          best_city_world = acity;
+
+          freelog(LOG_DEBUG, "[M] T%d - best city (world): %s (%s) score: "
+                  "%6.3f (> %6.3f)", game.info.turn,
+                  city_name(best_city_world),
+                  player_name(city_owner(best_city_world)),
+                  best_city_world_score, score_from);
+        }
+      }
+    } iterate_outward_end;
+
+    if (best_city_player_score > 0) {
+      /* first, do the migration within one nation */
+      if (myrand(100) >= game.info.mgr_nationchance) {
+        /* no migration */
+        notify_player(pplayer, city_tile(pcity), E_CITY_TRANSFER,
+                      _("Citizens of %s are thinking about migrating to %s "
+                        "for a better life."),
+                      pcity->name, city_name(best_city_player));
+      } else {
+        do_city_migration(pcity, best_city_player);
+      }
+
+      /* stop here */
+      continue;
+    }
+
+    if (best_city_world_score > 0) {
+      /* second, do the migration between all nations */
+      if (myrand(100) >= game.info.mgr_worldchance) {
+        const char *nname;
+        nname = nation_adjective_for_player(city_owner(best_city_world));
+        /* no migration */
+        /* TRANS: <city1> to <city2> (<city2 nation adjective>). */
+        notify_player(pplayer, city_tile(pcity), E_CITY_TRANSFER,
+                      _("Citizens of %s are thinking about migrating to %s "
+                        "(%s) for a better life."),
+                      city_name(pcity), city_name(best_city_world), nname);
+      } else {
+        do_city_migration(pcity, best_city_world);
+      }
+
+      /* stop here */
+      continue;
+    }
+  } city_list_iterate_safe_end;
 }

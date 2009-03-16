@@ -41,10 +41,10 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 void transfer_city(struct player *ptaker, struct city *pcity,
 		   int kill_outside, bool transfer_unit_verbose,
 		   bool resolve_stack, bool raze);
-struct city *find_closest_owned_city(struct player *pplayer,
-				     struct tile *ptile,
-				     bool sea_required,
-				     struct city *pexclcity);
+struct city *find_closest_owned_city(const struct player *pplayer,
+                                     const struct tile *ptile,
+                                     bool sea_required,
+                                     const struct city *pexclcity);
 void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger);
 
 bool send_city_suppression(bool now);

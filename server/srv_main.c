@@ -882,6 +882,13 @@ static void end_turn(void)
   summon_barbarians(); /* wild guess really, no idea where to put it, but
 			  I want to give them chance to move their units */
 
+  if (game.info.migration) {
+    freelog(LOG_DEBUG, "Season of migrations");
+    players_iterate(pplayer) {
+      check_city_migrations(pplayer);
+    } players_iterate_end;
+  }
+
   update_environmental_upset(S_POLLUTION, &game.info.heating,
 			     &game.info.globalwarming, &game.info.warminglevel,
 			     global_warming);

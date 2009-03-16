@@ -415,6 +415,12 @@ PACKET_GAME_INFO=15; sc
   UINT8 razechance;
   BOOL savepalace;
   BOOL natural_city_names;
+  BOOL migration;
+  UINT8 mgr_turninterval;
+  BOOL mgr_foodneeded;
+  UINT8 mgr_distance;
+  UINT8 mgr_nationchance;
+  UINT8 mgr_worldchance;
   BOOL turnblock;
   BOOL fixedlength;
   BOOL auto_ai_toggle;
@@ -536,6 +542,7 @@ PACKET_CITY_INFO=21; sc,lsend
 
   TURN turn_founded;
   TURN turn_last_built;
+  FLOAT migration_score;
   UINT8 changed_from_kind;
   UINT8 changed_from_value;
   UINT16 before_change_shields;

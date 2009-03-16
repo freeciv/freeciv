@@ -4354,6 +4354,24 @@ static void game_load_internal(struct section_file *file)
     game.info.allowed_city_names =
       secfile_lookup_int_default(file, game.info.allowed_city_names,
                                  "game.allowed_city_names"); 
+    game.info.migration =
+      secfile_lookup_int_default(file, game.info.migration,
+                                 "game.migration");
+    game.info.mgr_turninterval =
+      secfile_lookup_int_default(file, game.info.mgr_turninterval,
+                                 "game.mgr_turninterval");
+    game.info.mgr_foodneeded =
+      secfile_lookup_bool_default(file, game.info.mgr_foodneeded,
+                                 "game.mgr_foodneeded");
+    game.info.mgr_distance =
+      secfile_lookup_int_default(file, game.info.mgr_distance,
+                                 "game.mgr_distance");
+    game.info.mgr_nationchance =
+      secfile_lookup_int_default(file, game.info.mgr_nationchance,
+                                 "game.mgr_nationchance");
+    game.info.mgr_worldchance =
+      secfile_lookup_int_default(file, game.info.mgr_worldchance,
+                                 "game.mgr_worldchance");
 
     if(civstyle == 1) {
       string = "civ1";
@@ -5009,6 +5027,18 @@ void game_save(struct section_file *file, const char *save_reason)
   secfile_insert_bool(file, game.info.happyborders, "game.happyborders");
   secfile_insert_int(file, game.info.diplomacy, "game.diplomacy");
   secfile_insert_int(file, game.info.allowed_city_names, "game.allowed_city_names");
+  secfile_insert_bool(file, game.info.migration,
+                      "game.migration");
+  secfile_insert_int(file, game.info.mgr_turninterval,
+                     "game.mgr_turninterval");
+  secfile_insert_bool(file, game.info.mgr_foodneeded,
+                      "game.mgr_foodneeded");
+  secfile_insert_int(file, game.info.mgr_distance,
+                     "game.mgr_distance");
+  secfile_insert_int(file, game.info.mgr_nationchance,
+                     "game.mgr_nationchance");
+  secfile_insert_int(file, game.info.mgr_worldchance,
+                     "game.mgr_worldchance");
 
   {
     /* Now always save these, so the server options reflect the

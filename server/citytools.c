@@ -703,8 +703,10 @@ If sea_required, returned city must be adjacent to ocean.
 If pexclcity, do not return it as the closest city.
 Returns NULL if no satisfactory city can be found.
 ***********************************************************************/
-struct city *find_closest_owned_city(struct player *pplayer, struct tile *ptile,
-				     bool sea_required, struct city *pexclcity)
+struct city *find_closest_owned_city(const struct player *pplayer,
+                                     const struct tile *ptile,
+                                     bool sea_required,
+                                     const struct city *pexclcity)
 {
   int dist = -1;
   struct city *rcity = NULL;
@@ -1810,6 +1812,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
 
   packet->turn_last_built=pcity->turn_last_built;
   packet->turn_founded = pcity->turn_founded;
+  packet->migration_score = pcity->migration_score;
 
   packet->changed_from_kind = pcity->changed_from.kind;
   packet->changed_from_value = universal_number(&pcity->changed_from);

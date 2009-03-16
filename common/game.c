@@ -275,6 +275,12 @@ void game_init(void)
   game.info.celebratesize = GAME_DEFAULT_CELEBRATESIZE;
   game.info.savepalace    = GAME_DEFAULT_SAVEPALACE;
   game.info.natural_city_names = GAME_DEFAULT_NATURALCITYNAMES;
+  game.info.migration        = GAME_DEFAULT_MIGRATION;
+  game.info.mgr_turninterval = GAME_DEFAULT_MGR_TURNINTERVAL;
+  game.info.mgr_foodneeded   = GAME_DEFAULT_MGR_FOODNEEDED;
+  game.info.mgr_distance     = GAME_DEFAULT_MGR_DISTANCE;
+  game.info.mgr_worldchance  = GAME_DEFAULT_MGR_WORLDCHANCE;
+  game.info.mgr_nationchance = GAME_DEFAULT_MGR_NATIONCHANCE;
   game.info.angrycitizen  = GAME_DEFAULT_ANGRYCITIZEN;
   game.info.foodbox       = GAME_DEFAULT_FOODBOX;
   game.info.shieldbox = GAME_DEFAULT_SHIELDBOX;
