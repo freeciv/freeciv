@@ -39,8 +39,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-16 16:22+0100\n"
-"PO-Revision-Date: 2009-03-16 20:24+0100\n"
+"POT-Creation-Date: 2009-03-17 13:27+0100\n"
+"PO-Revision-Date: 2009-03-17 14:03+0100\n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
 "MIME-Version: 1.0\n"
@@ -10795,23 +10795,23 @@ msgstr "Zeige Schaltflächen zu Nachrichten"
 
 #: client/gui-gtk-2.0/gui_main.c:214
 msgid "If this option is enabled, there will be two buttons displayed in the message window for inspecting a city and going to a location. If this option is disabled, these buttons will not appear (you can still double-click with the left mouse button or right-click on a row to inspect or goto respectively). This option will only take effect once the message window is closed and reopened."
-msgstr ""
+msgstr "Mit dieser Option werden im Nachrichtenfenster zwei Schaltflächen angezeigt, um das Stadtfenster zu öffnen, und um den Ort auf der Karte zu zentrieren. Ohne diese Option können diese Funktionen mit Doppelklick links und Rechts-Klick auf die Nachrichtenzeile ausgelöst werden. Die Änderung wird erst nach Schliessen und Wiederöffnen des Nachrichtenfensters wirksam."
 
 #: client/gui-gtk-2.0/gui_main.c:224
 msgid "Metaserver tab first in network page"
-msgstr ""
+msgstr "Metaserver ist erster Reiter auf der Netzwerkseite"
 
 #: client/gui-gtk-2.0/gui_main.c:225
 msgid "If this option is enabled, the metaserver tab will be the first notebook tab in the network page. This option requires a restart in order to take effect."
-msgstr ""
+msgstr "Mit dieser Option wird die Metaserverseite als erster Reiter im Netzwerkfenster angezeigt. Die Änderung erfordert einen Neustart."
 
 #: client/gui-gtk-2.0/gui_main.c:230
 msgid "Plain chat messages are sent to allies only"
-msgstr ""
+msgstr "Allgemeine Chat-Nachrichten werden nur an Alliierte übermittelt"
 
 #: client/gui-gtk-2.0/gui_main.c:231
 msgid "If this option is enabled, then plain messages typed into the chat entry while the game is running will only be sent to your allies. Otherwise plain messages will be sent as public chat messages. To send a public chat message with this option enabled, prefix the message with a single colon ':'. This option can also be set using a toggle button beside the chat entry (only visible in multiplayer games)."
-msgstr ""
+msgstr "Mit dieser Option werden allgemeine Mitteilungen, die während des laufenden Spiels im Chatfenster geschrieben werden, nur an die eigenen Verbündeten übermittelt. Ohne die Option gehen sie an alle Mitspieler. Um öffentliche Mitteilungen zu schicken, wenn diese Option eingeschaltet ist, kann ihnen ein Doppelpunkt ':' vorangestellt werden. Diese Option kann ebenfalls mit dem Schalter neben dem Chatfenster gesetzt werden, der nur in Mehrspielerspielen sichtbar ist."
 
 #: client/gui-gtk-2.0/gui_main.c:340
 #: client/gui-xaw/gui_main.c:245
@@ -21922,9 +21922,8 @@ msgid "?plural:Malians"
 msgstr "Mali"
 
 #: data/nation/malian.ruleset:6
-#, fuzzy
 msgid "Sub-Saharan Africa has been a cultural and ethnical melting pot for millennia. In medieval times, the region was home to a succession of empires called the Sahelian kingdoms. Of these, the Islamic Mali empire with its capital in Timbuktu was the most influential. This empire reigned from the 14th to the 17th century and was famed for its wealth and benevolent kings. The modern Republic of Mali derives its name from this empire."
-msgstr "Das Afrika südlich der Sahara ist seit Jahrtausenden ein kultureller und ethnischer Schmelztiegel. Im Mittelalter gab es dort verschiedene Königreiche. Eines davon, das islamische Großreich Mali mit der Hauptstadt Timbuktu, war das einflußreichste. Es herrschte vom 14. bis 17. Jahrhundert und war berühmt für seine wohlhabenden und wohlwollenden Könige. Die heutige Republik Mali hat hiervon seinen Namen abgeleitet."
+msgstr "Das Afrika südlich der Sahara ist seit Jahrtausenden ein kultureller und ethnischer Schmelztiegel. Im Mittelalter gab es dort eine Folge so genannter Sahelischer Königreiche. Eines davon, das islamische Großreich Mali mit der Hauptstadt Timbuktu, war das Einflussreichste. Es herrschte vom 14. bis 17. Jahrhundert und war berühmt für seine wohlhabenden und wohlwollenden Könige. Die heutige Republik Mali hat hiervon seinen Namen erhalten."
 
 #: data/nation/malian.ruleset:27
 msgid "Mansa"
@@ -21975,7 +21974,6 @@ msgid "?plural:Mayas"
 msgstr "Maya"
 
 #: data/nation/mayan.ruleset:6
-#, fuzzy
 msgid "The Mayans were a Mesoamerican civilization. They are famous for building great pyramids and palaces in the jungle."
 msgstr "Die Maya waren eine mesoamerikanische Zivilisation. Bekannt sind die großen Pyramiden und Paläste, die sie im Dschungel errichteten."
 
@@ -22437,9 +22435,8 @@ msgid "?plural:Soviets"
 msgstr "Sowjets"
 
 #: data/nation/soviet.ruleset:6
-#, fuzzy
 msgid "The history of the Soviet Union starts in November 1917, when under Lenin's leadership a Bolshevik revolution occurred. On December 31 1922, four Soviet republics integrated into one country. The Soviet Union became one of most powerful states in the 20th century, but by the end of 1991 it had disintegrated into fifteen independent countries due to social and economic problems."
-msgstr "Die sowjetische Geschichte begann im November 1917 mit der bolschewistischen Revolution unter der Führerschaft Lenins. Am 31. Dezember 1922 wurden vier Sowjetrepubliken zu einem Land integriert. Die Sowjetunion wurde einer der mächtigsten Staaten im 20. Jahrhundert. Aufgrund zahlreicher sozialer Umbrüche zerfiel jedoch Ende 1991 in 15 unabhängige Länder."
+msgstr "Die sowjetische Geschichte begann im November 1917 mit der bolschewistischen Revolution unter der Führerschaft Lenins. Am 31. Dezember 1922 wurden vier Sowjetrepubliken zu einem Land integriert. Die Sowjetunion wurde einer der mächtigsten Staaten im 20. Jahrhundert. Aufgrund sozialer und wirtschaftlicher Probleme zerfiel sie jedoch Ende 1991 in 15 unabhängige Länder."
 
 #: data/nation/spanish.ruleset:3
 msgid "Spanish"
@@ -22738,7 +22735,6 @@ msgid "?plural:Westphalians"
 msgstr "Westfalen"
 
 #: data/nation/westphalian.ruleset:6
-#, fuzzy
 msgid "Westphalia, before becoming a Prussian province, was the western region of the duchy of Saxony. Today it makes up the northern part of the largest German federal state, North Rhine-Westphalia."
 msgstr "Westfalen bildete den Westen des Herzogtums Sachsen, bevor es eine preußische Provinz wurde. Heute ist es der nördliche Teil des größten deutschen Bundeslandes Nordrhein-Westfalen."
 
@@ -22911,7 +22907,6 @@ msgstr ""
 "Produktion der Einheit beginnen."
 
 #: data/scenario/tutorial.sav:83
-#, fuzzy
 msgid ""
 "Another city!  You are really getting the hang of this.  You\n"
 "probably have a pretty good idea what to do with new cities by\n"
@@ -22934,8 +22929,8 @@ msgstr ""
 "du auf andere Zivilisationen triffst). Die oberste Zeile zeigt\n"
 "den Namen und die Größe der Stadt, sowie einen oder mehrere\n"
 "Sterne, sobald sich Einheiten in der Stadt befinden. Die unterste\n"
-"Zeile zeigt an, was die Stadt produziert und wann sie damit\n"
-"fertig ist; dort steht auch, wann sie auf die nächste Größenstufe\n"
+"Zeile zeigt an, was die Stadt produziert und wieviele Runden es\n"
+"dauert; dort steht auch, wann sie auf die nächste Größenstufe\n"
 "wachsen wird."
 
 #: data/scenario/tutorial.sav:96
@@ -23014,7 +23009,7 @@ msgstr ""
 "nichts nützt)."
 
 #: data/scenario/tutorial.sav:145
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Now your city has grown to size five.  As cities get larger unrest\n"
 "becomes a problem.  A city of this size will usually have one unhappy\n"
@@ -23040,11 +23035,11 @@ msgstr ""
 "\n"
 "Dagegen kannst du verschiedene Dinge unternehmen. Recht einfach\n"
 "kann ein Tempel (oder eine andere kulturelle Stadterweiterung)\n"
-"errichtet werden (in der Hilfe für Stadterweiterungen steht mehr).\n"
-"Hast du weitere große Städte, kann es sich lohnen, die Steuerrate\n"
-"anzupassen, um mehr Luxus zu erhalten (je 2 Luxus stellen einen\n"
-"Bürger zufrieden). Ein Marktplatz in der Stadt erhöht diesen Nutzen,\n"
-"indem der Luxus um 50%% gesteigert wird."
+"errichtet werden, der einen Bürger zufrieden macht (in der Hilfe für\n"
+"Stadterweiterungen steht mehr). Hast du weitere große Städte, kann\n"
+"es sich lohnen, die Steuerrate anzupassen, um mehr Luxus zu erhalten\n"
+"(je 2 Luxus stellen einen Bürger zufrieden). Ein Marktplatz in der Stadt\n"
+"erhöht diesen Nutzen, indem der Luxus um 50%% gesteigert wird."
 
 #: data/scenario/tutorial.sav:162
 msgid ""
@@ -23130,7 +23125,6 @@ msgstr ""
 "In der Hilfe zu Geländeformen findest du genauere Informationen."
 
 #: data/scenario/tutorial.sav:222
-#, fuzzy
 msgid ""
 "Your second Settlers should also be used to build a new city.\n"
 "Notice how when you move the Settlers away from your existing cities\n"
@@ -23145,7 +23139,7 @@ msgid ""
 msgstr ""
 "Deine zweiten Siedler sollten ebenfalls eine neue Stadt gründen.\n"
 "Wenn du den Siedler bewegst, wird das Gebiet angezeigt, das eine\n"
-"Stadt an diesem Platz nutzen könnte. Außredem zeigt eine weiße\n"
+"Stadt an diesem Platz nutzen könnte. Außerdem zeigt eine weiße\n"
 "Linie, welche Felder bereits von deiner Zivilisation genutzt werden.\n"
 "Es ist empfehlenswert, das alle Felder abgedeckt werden, aber auch,\n"
 "dass sich die Städte so wenig wie möglich überlappen. Dann haben\n"
@@ -23543,4 +23537,3 @@ msgstr "Team 30"
 #: data/default/game.ruleset:160
 msgid "Team 31"
 msgstr "Team 31"
-
