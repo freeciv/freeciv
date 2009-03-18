@@ -39,8 +39,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-17 13:27+0100\n"
-"PO-Revision-Date: 2009-03-17 14:03+0100\n"
+"POT-Creation-Date: 2009-03-18 11:13+0100\n"
+"PO-Revision-Date: 2009-03-18 12:30+0100\n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
 "MIME-Version: 1.0\n"
@@ -10194,16 +10194,16 @@ msgstr "Arbeitsliste löschen"
 
 #: client/gui-gtk-2.0/cityrep.c:916
 msgid "Gover_nor"
-msgstr "Bürgermeister"
+msgstr "Bürger_meister"
 
 #: client/gui-gtk-2.0/cityrep.c:921
 msgid "_Select"
-msgstr "_Auswählen"
+msgstr "Aus_wählen"
 
 #: client/gui-gtk-2.0/cityrep.c:925
 #: client/gui-gtk-2.0/plrdlg.c:521
 msgid "_Display"
-msgstr "_Anzeige"
+msgstr "A_nzeige"
 
 #: client/gui-gtk-2.0/cityrep.c:1006
 #: client/gui-gtk-2.0/menu.c:839
@@ -10224,7 +10224,7 @@ msgstr "Städte"
 
 #: client/gui-gtk-2.0/cityrep.c:1023
 msgid "_Inspect"
-msgstr "_Stadt ansehen"
+msgstr "S_tadt ansehen"
 
 #: client/gui-gtk-2.0/cityrep.c:1439
 #: client/gui-gtk-2.0/cityrep.c:1458
@@ -11342,16 +11342,16 @@ msgstr "_Feldergrafik neu laden"
 
 #: client/gui-gtk-2.0/menu.c:747
 msgid "Save Options on _Exit"
-msgstr "Option_en beim Verlassen speichern"
+msgstr "_Optionen beim Verlassen speichern"
 
 #: client/gui-gtk-2.0/menu.c:749
 msgid "Sa_ve Options"
-msgstr "Opt_ionen sichern"
+msgstr "O_ptionen sichern"
 
 #: client/gui-gtk-2.0/menu.c:753
 #: client/gui-win32/menu.c:308
 msgid "Server O_ptions"
-msgstr "Server_optionen"
+msgstr "Serverop_tionen"
 
 #: client/gui-gtk-2.0/menu.c:757
 #: client/gui-win32/menu.c:310
@@ -11431,7 +11431,7 @@ msgstr "_Ansicht"
 
 #: client/gui-gtk-2.0/menu.c:799
 msgid "City Outlines"
-msgstr "Stadtgrenzen"
+msgstr "_Stadtgrenzen"
 
 #: client/gui-gtk-2.0/menu.c:801
 #: client/gui-win32/menu.c:335
@@ -11441,7 +11441,7 @@ msgstr "_Gitterlinien"
 #: client/gui-gtk-2.0/menu.c:803
 #: client/gui-win32/menu.c:336
 msgid "National _Borders"
-msgstr "Nationale _Grenzen"
+msgstr "Nationale Gren_zen"
 
 #: client/gui-gtk-2.0/menu.c:805
 #: client/gui-win32/menu.c:337
@@ -11456,20 +11456,20 @@ msgstr "Städte_wachstum"
 #: client/gui-gtk-2.0/menu.c:809
 #: client/gui-win32/menu.c:339
 msgid "City _Productions"
-msgstr "städtische _Erzeugnisse"
+msgstr "Stadt_produktion"
 
 #: client/gui-gtk-2.0/menu.c:811
 msgid "City Buy Cost"
-msgstr "Kaufpreis"
+msgstr "_Kaufpreis"
 
 #: client/gui-gtk-2.0/menu.c:813
 msgid "City Traderoutes"
-msgstr "Handelswege"
+msgstr "_Handelswege"
 
 #: client/gui-gtk-2.0/menu.c:815
 #: client/gui-sdl/optiondlg.c:1719
 msgid "Draw city worker map grid"
-msgstr "Zeige Kartengitter für Stadtarbeiter"
+msgstr "Zeige Kar_tengitter für Stadtarbeiter"
 
 #: client/gui-gtk-2.0/menu.c:819
 #: client/gui-sdl/optiondlg.c:1635
@@ -11854,7 +11854,7 @@ msgstr "_Die besten 5 Städte"
 #: client/gui-gtk-2.0/menu.c:971
 #: client/gui-win32/menu.c:409
 msgid "_Messages"
-msgstr "_Nachrichten"
+msgstr "Na_chrichten"
 
 #: client/gui-gtk-2.0/menu.c:973
 #: client/gui-win32/menu.c:410
@@ -11934,7 +11934,7 @@ msgstr "_Arbeitsliste bearbeiten"
 #: client/gui-gtk-2.0/menu.c:993
 #: client/gui-win32/menu.c:421
 msgid "Citizen _Management"
-msgstr "_Bürgermeister"
+msgstr "Bürger_meister"
 
 #: client/gui-gtk-2.0/menu.c:995
 #: client/gui-win32/menu.c:422
@@ -11944,7 +11944,7 @@ msgstr "_Spiel"
 #: client/gui-gtk-2.0/menu.c:999
 #: client/gui-win32/menu.c:424
 msgid "City _Improvements"
-msgstr "_Stadterweiterungen"
+msgstr "S_tadterweiterungen"
 
 #: client/gui-gtk-2.0/menu.c:1003
 #: client/gui-win32/menu.c:426
@@ -11954,7 +11954,7 @@ msgstr "_Kampf"
 #: client/gui-gtk-2.0/menu.c:1005
 #: client/gui-win32/menu.c:427
 msgid "_ZOC"
-msgstr "_Kontrollzonen"
+msgstr "K_ontrollzonen"
 
 #: client/gui-gtk-2.0/menu.c:1007
 #: client/gui-win32/menu.c:428
@@ -11979,7 +11979,7 @@ msgstr "_Zufriedenheit"
 #: client/gui-gtk-2.0/menu.c:1017
 #: client/gui-win32/menu.c:433
 msgid "Space _Race"
-msgstr "_Weltraum"
+msgstr "Weltra_um"
 
 #: client/gui-gtk-2.0/menu.c:1021
 #: client/gui-win32/menu.c:435
@@ -12094,7 +12094,7 @@ msgstr "Karteneinsicht _verbieten"
 
 #: client/gui-gtk-2.0/plrdlg.c:348
 msgid "_Report"
-msgstr "Be_richte"
+msgstr "_Berichte"
 
 #: client/gui-gtk-2.0/plrdlg.c:386
 msgid "?show:Dead Players"
@@ -12116,7 +12116,7 @@ msgstr "Nationen"
 
 #: client/gui-gtk-2.0/plrdlg.c:511
 msgid "Di_plomacy"
-msgstr "Di_plomatie"
+msgstr "_Diplomatie"
 
 #: client/gui-gtk-2.0/plrdlg.c:516
 msgid "_Intelligence"
@@ -12453,16 +12453,16 @@ msgstr "Gesamtausgaben:"
 
 #: client/gui-gtk-2.0/repodlgs.c:714
 msgid "Sell _Obsolete"
-msgstr "_Verkaufe Veraltetes"
+msgstr "_Veraltete verkaufen"
 
 #: client/gui-gtk-2.0/repodlgs.c:719
 msgid "Sell _All"
-msgstr "_Alles verkaufen"
+msgstr "A_lles verkaufen"
 
 #: client/gui-gtk-2.0/repodlgs.c:797
 #, c-format
 msgid "Do you really wish to sell your %s?\n"
-msgstr "Soll %s wirklich verkauft werden?\n"
+msgstr "Soll %s wirklich in allen Städten verkauft werden?\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:800
 msgid "Sell Improvements"
@@ -12689,7 +12689,7 @@ msgstr "_Arbeitslisten:"
 
 #: client/gui-gtk-2.0/wldlg.c:543
 msgid "Edit Global _Worklists"
-msgstr "Bearbeite _generelle Arbeitsliste"
+msgstr "_Bearbeite globale Arbeitsliste"
 
 #: client/gui-gtk-2.0/wldlg.c:1035
 #: client/gui-win32/citydlg.c:1092
@@ -12703,7 +12703,7 @@ msgstr "_Mögliche Aufgaben:"
 
 #: client/gui-gtk-2.0/wldlg.c:1156
 msgid "Show _Future Targets"
-msgstr "_Zeige alle Aufträge"
+msgstr "Zei_ge alle Aufträge"
 
 #: client/gui-gtk-2.0/wldlg.c:1243
 msgid "Target _Worklist:"
@@ -12711,7 +12711,7 @@ msgstr "Arbeits_liste:"
 
 #: client/gui-gtk-2.0/wldlg.c:1261
 msgid "_Add Global Worklist"
-msgstr "Neue _generelle Arbeitsliste"
+msgstr "Neue globale _Arbeitsliste"
 
 #: client/gui-gtk-2.0/wldlg.c:1277
 msgid "Chan_ge Production"
@@ -16735,7 +16735,7 @@ msgstr "Arbeitsliste bearbeiten"
 
 #: data/helpdata.txt:568
 msgid "The worklist editor is used to edit both worklists for each city (from the city dialog) and global worklists. Using this editor you can create lists specifying what to build in the turns to come."
-msgstr "Mit diesem Editor können sowohl die Arbeitslisten der einzelnen Städte als auch generelle Arbeitslisten bearbeitet werden."
+msgstr "Mit diesem Editor können sowohl die Arbeitslisten der einzelnen Städte als auch globale Arbeitslisten bearbeitet werden."
 
 #: data/helpdata.txt:572
 msgid "To add an item to the worklist, double-click the desired item in the list of available items. You can also press the Help button to get help on the selected item. Pressing Help with no item selected will display this page."
@@ -23537,3 +23537,4 @@ msgstr "Team 30"
 #: data/default/game.ruleset:160
 msgid "Team 31"
 msgstr "Team 31"
+
