@@ -40,7 +40,7 @@ msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-03-18 11:13+0100\n"
-"PO-Revision-Date: 2009-03-18 12:30+0100\n"
+"PO-Revision-Date: 2009-03-20 13:16+0100\n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
 "MIME-Version: 1.0\n"
@@ -6819,7 +6819,7 @@ msgstr "%+4d : Bonus von %s (%+d%%)\n"
 #: client/citydlg_common.c:462
 #, c-format
 msgid "%+4d : Waste\n"
-msgstr "%+4d : Müll\n"
+msgstr "%+4d : Verschwendung\n"
 
 #: client/citydlg_common.c:468
 #, c-format
@@ -6881,11 +6881,11 @@ msgstr "Status"
 
 #: client/cityrepdata.c:450
 msgid "Rapture/Peace/Disorder"
-msgstr "begeistert/normal/in Aufruhr"
+msgstr "Status: begeistert/normal/in Aufruhr"
 
 #: client/cityrepdata.c:452
 msgid "Concise *=Rapture, X=Disorder"
-msgstr "Kurze Statusanzeige: *=begeistert, X=in Aufruhr"
+msgstr "Kurzer Status: *=begeistert, X=in Aufruhr"
 
 #: client/cityrepdata.c:456
 msgid "Special"
@@ -6951,7 +6951,7 @@ msgstr "Bester"
 
 #: client/cityrepdata.c:474
 msgid "attack"
-msgstr "Angr."
+msgstr "Angr"
 
 #: client/cityrepdata.c:475
 msgid "Best attacking units"
@@ -6959,7 +6959,7 @@ msgstr "Bester Angreifer"
 
 #: client/cityrepdata.c:476
 msgid "defense"
-msgstr "Vert."
+msgstr "Vertd"
 
 #: client/cityrepdata.c:477
 msgid "Best defending units"
@@ -6995,7 +6995,7 @@ msgstr "Einheiten"
 #. TRANS: Header "Number of units inside city"
 #: client/cityrepdata.c:480
 msgid "?Present (units):Here"
-msgstr "station."
+msgstr "stat"
 
 #: client/cityrepdata.c:481
 msgid "Number of units present"
@@ -7004,7 +7004,7 @@ msgstr "Stationierte Einheiten"
 #. TRANS: Header "Number of units supported by given city"
 #: client/cityrepdata.c:484
 msgid "?Supported (units):Owned"
-msgstr "unterh."
+msgstr "unth"
 
 #: client/cityrepdata.c:485
 msgid "Number of units supported"
@@ -7013,12 +7013,12 @@ msgstr "Unterstützte Einheiten"
 #. TRANS: Header "It will take this many turns before city grows"
 #: client/cityrepdata.c:488
 msgid "?food (population):Grow"
-msgstr "Wachstum"
+msgstr "Wächst in"
 
 #: client/cityrepdata.c:489
 #: client/cityrepdata.c:528
 msgid "?Stock/Target:(Have/Need)"
-msgstr "(aktuell/benötigt)"
+msgstr "(vorh/ben)"
 
 #: client/cityrepdata.c:490
 msgid "Turns until growth/famine"
@@ -7026,7 +7026,7 @@ msgstr "Runden bis Wachstum/Hungersnot"
 
 #: client/cityrepdata.c:493
 msgid "Surplus"
-msgstr "Überschuß"
+msgstr "Übersch"
 
 #: client/cityrepdata.c:493
 msgid "?food/production/trade:F/P/T"
@@ -7058,7 +7058,7 @@ msgstr "-P"
 
 #: client/cityrepdata.c:501
 msgid "Waste"
-msgstr "Müll"
+msgstr "Verschwendung"
 
 #: client/cityrepdata.c:502
 msgid "?Trade surplus [short]:+T"
@@ -7121,11 +7121,11 @@ msgstr "Wirtschaft: Forschung"
 
 #: client/cityrepdata.c:516
 msgid "?number_trade_routes:n"
-msgstr "#"
+msgstr "Anz"
 
 #: client/cityrepdata.c:516
 msgid "?number_trade_routes:R"
-msgstr "HW"
+msgstr "HaW"
 
 #: client/cityrepdata.c:517
 msgid "Number of Trade Routes"
@@ -7137,7 +7137,7 @@ msgstr "UV"
 
 #: client/cityrepdata.c:521
 msgid "?cma:Governor"
-msgstr "Bürgermeister"
+msgstr "Bürgerm"
 
 #: client/cityrepdata.c:521
 #: client/gui-gtk-2.0/cityrep.c:1766
@@ -7151,16 +7151,16 @@ msgstr "Bürgermeister"
 
 #: client/cityrepdata.c:524
 msgid "Turns/Buy"
-msgstr "Runden/Preis"
+msgstr "Ru/Preis"
 
 #: client/cityrepdata.c:527
 #: client/cityrepdata.c:529
 msgid "Currently Building"
-msgstr "derzeitiges Projekt"
+msgstr "Derzeit in Bau"
 
 #: client/cityrepdata.c:573
 msgid "?specialist:S"
-msgstr "F"
+msgstr "Sp"
 
 #: client/cityrepdata.c:576
 msgid "Specialists"
@@ -8144,37 +8144,37 @@ msgstr "* Der Ertrag von %s steigt um %d%%.\n"
 #: client/helpdata.c:1625
 #, c-format
 msgid "* %s production will suffer massive waste.\n"
-msgstr "* Der Ertrag von %s verursacht große Mengen Müll.\n"
+msgstr "* Die Produktion von %s leidet unter großer Verschwendung.\n"
 
 #. TRANS: %s is list of output types, with 'and'
 #: client/helpdata.c:1630
 #, c-format
 msgid "* %s production will suffer some waste.\n"
-msgstr "* Der Ertrag von %s verursacht einigen Müll.\n"
+msgstr "* Die Produktion von %s leidet unter Verschwendung.\n"
 
 #. TRANS: %s is list of output types, with 'and'
 #: client/helpdata.c:1635
 #, c-format
 msgid "* %s production will suffer a small amount of waste.\n"
-msgstr "* Der Ertrag von %s verursacht geringe Mengen von Müll.\n"
+msgstr "* Die Produktion von %s leidet unter einer geringen Verschwendung.\n"
 
 #. TRANS: %s is list of output types, with 'and'
 #: client/helpdata.c:1643
 #, c-format
 msgid "* %s waste will increase quickly with distance from capital.\n"
-msgstr "* %s-Müll nimmt mit der Entfernung von der Hauptstadt schnell zu.\n"
+msgstr "* %s-Verschwendung nimmt mit der Entfernung von der Hauptstadt schnell zu.\n"
 
 #. TRANS: %s is list of output types, with 'and'
 #: client/helpdata.c:1649
 #, c-format
 msgid "* %s waste will increase with distance from capital.\n"
-msgstr "* %s-Müll nimmt mit der Entfernung von der Hauptstadt zu.\n"
+msgstr "* %s-Verschwendung nimmt mit der Entfernung von der Hauptstadt zu.\n"
 
 #. TRANS: %s is list of output types, with 'and'
 #: client/helpdata.c:1655
 #, c-format
 msgid "* %s waste will increase slowly with distance from capital.\n"
-msgstr "* %s-Müll nimmt mit der Entfernung von der Hauptstadt langsam zu.\n"
+msgstr "* %s-Verschwendung nimmt mit der Entfernung von der Hauptstadt langsam zu.\n"
 
 #: client/helpdata.c:1672
 #, c-format
@@ -9870,7 +9870,7 @@ msgstr "Korruption"
 #: client/gui-gtk-2.0/citydlg.c:587
 #: client/gui-win32/citydlg.c:671
 msgid "Waste:"
-msgstr "Müll:"
+msgstr "Verschwendung:"
 
 #: client/gui-gtk-2.0/citydlg.c:588
 #: client/gui-win32/citydlg.c:672
@@ -17460,7 +17460,7 @@ msgstr "Unter Korruption sind die Handelsverluste aus Ineffizienz und Diebstahl 
 
 #: data/helpdata.txt:1338
 msgid "Waste is the loss of shields due to inefficiency and greed. Under most forms of government, the farther away from the capital a city is, the more shields will be lost to waste.  (If you do not have a capital, your cities will suffer extremely high levels of waste.)  A Courthouse will reduce the level of waste in a city. Waste can result in your cities not building anything."
-msgstr "Unter Müll sind die Produktionsverluste durch Ineffizienz und Gier zu verstehen. Unter den meisten Regierungsformen nimmt er um so mehr zu, je weiter eine Stadt von der Hauptstadt entfernt ist. (Ohne Hauptstadt nehmen die Produktionsverluste in den Städten ein riesiges Ausmaß an.) Ein Gerichtsgebäude hilft, das Müllaufkommen einer Stadt zu verringern. Müll kann dazu führen, daß ihre Städte nichts mehr produzieren."
+msgstr "Unter Verschwendung sind die Produktionsverluste durch Ineffizienz und Gier zu verstehen. Unter den meisten Regierungsformen nimmt er um so mehr zu, je weiter eine Stadt von der Hauptstadt entfernt ist. (Ohne Hauptstadt nehmen die Produktionsverluste in den Städten ein riesiges Ausmaß an.) Ein Gerichtsgebäude hilft, die Verschwendung einer Stadt zu verringern. Verschwendung kann dazu führen, dass ihre Städte nichts mehr produzieren."
 
 #: data/helpdata.txt:1345
 msgid "TIP 1:  Offensive military campaigns are difficult under Republican and Democratic governments unless you give your citizens lots of luxuries to keep them happy.  When conquering other civilizations, it may be helpful to switch to one of the more militant styles of government."
@@ -17662,7 +17662,7 @@ msgstr "Gerichtsgebäude"
 
 #: data/default/buildings.ruleset:290
 msgid "Reduces the corruption and waste in a city by 50%.  Under a Democracy, a Courthouse makes 1 unhappy citizen content.  Also makes the revolt cost of the city 4 times bigger."
-msgstr "Halbiert die Korruption und das Müllaufkommen. In einer Demokratie macht es einen Unzufriedenen zufrieden. Außerdem werden die Kosten einer Revolte vervierfacht."
+msgstr "Halbiert die Korruption und die Verschwendung. In einer Demokratie macht es einen Unzufriedenen zufrieden. Außerdem werden die Kosten einer Revolte vervierfacht."
 
 #: data/default/buildings.ruleset:297
 #: data/civ2/buildings.ruleset:276
@@ -18387,7 +18387,7 @@ msgstr "Unterhält die Bürger einer Stadt und macht 3 (nach Entdeckung der Elek
 
 #: data/civ2/buildings.ruleset:268
 msgid "Reduces the corruption and waste in a city by 50%.  Under a Democracy, a Courthouse makes 1 unhappy citizen content.  Also halves the effective distance to the capital, for the purpose of calculating revolt cost."
-msgstr "Halbiert die Korruption und das Müllaufkommen. In einer Demokratie macht es einen Unzufriedenen zufrieden. Erhöht die Kosten einer Revolte, indem der Entfernungseffekt zur Hauptstadt halbiert wird."
+msgstr "Halbiert die Korruption und die Verschwendung. In einer Demokratie macht es einen Unzufriedenen zufrieden. Erhöht die Kosten einer Revolte, indem der Entfernungseffekt zur Hauptstadt halbiert wird."
 
 #: data/civ2/buildings.ruleset:357
 #: data/civ1/buildings.ruleset:283
@@ -18629,7 +18629,7 @@ msgstr "Steuereintreiber"
 #: data/default/cities.ruleset:46
 #: data/civ2/cities.ruleset:46
 msgid "?Taxman:T"
-msgstr "S"
+msgstr "St"
 
 #: data/default/cities.ruleset:74
 #: data/civ2/cities.ruleset:74
@@ -18901,7 +18901,7 @@ msgid ""
 msgstr ""
 "Anarchie ist einfach die Abwesenheit jeder erkennbarer Regierung. Die Bürger sind unorganisiert und unproduktiv, und geben alles Einkommen so schnell wie möglich aus, anstatt Steuern zu zahlen und Forschung zu betreiben.\n"
 "\n"
-"In der Anarchie gibt es etwas weniger Korruption und Müll, aber etwas mehr Unzufriedenheit als in der Diktatur."
+"In der Anarchie gibt es etwas weniger Korruption und Verschwendung, aber etwas mehr Unzufriedenheit als in der Diktatur."
 
 #: data/civ2/governments.ruleset:78
 msgid ""
@@ -18911,7 +18911,7 @@ msgid ""
 msgstr ""
 "In der Diktatur bist du der unumschränkte Herrscher deines Volkes. Du kontrollierst deine Bürger hauptsächlich mit Hilfe des Kriegsrechts.\n"
 "\n"
-"In der Diktatur gibt es von allen Regierungsformen die höchste Korruption und den meisten Müll."
+"In der Diktatur gibt es von allen Regierungsformen die größte Korruption und Verschwendung."
 
 #: data/civ2/governments.ruleset:100
 msgid ""
@@ -18921,7 +18921,7 @@ msgid ""
 msgstr ""
 "In der Monarchie dient ein König oder eine Königin als Aushängeschild deiner Regierung.\n"
 "\n"
-"Die Monarchie leidet wie die Republik unter geringer Korruption und geringem Müll."
+"Die Monarchie leidet wie die Republik wenig unter Korruption und Verschwendung."
 
 #: data/civ2/governments.ruleset:121
 msgid ""
@@ -18931,7 +18931,7 @@ msgid ""
 msgstr ""
 "Eine kommunistische Regierung geht von dem Ideal aus, daß alle Menschen gleich sind. Alle Güter gehören dem Staat, anstatt Privatpersonen. Der Kommunismus ermöglicht ein Gleichgewicht zwischen militärisch und wirtschaftlich orientierter Staatsführung.\n"
 "\n"
-"Es gibt eine mäßige Korruption, die nicht von der Entfernung zur Hauptstadt abhängig ist. Auch der Müll hängt nicht von der Hauptstadtentfernung ab."
+"Es gibt eine mäßige Korruption, die nicht von der Entfernung zur Hauptstadt abhängig ist. Auch die Verschwendung hängt nicht von der Hauptstadtentfernung ab."
 
 #: data/civ2/governments.ruleset:135
 #: data/default/techs.ruleset:297
@@ -18968,7 +18968,7 @@ msgid ""
 "\n"
 "Because (happy) citizens of Democracy believe strongly in the government, their loyalty is unswerving.  Military units of Democratic civilizations cannot be bribed, and Democratic cities cannot be incited to revolt by enemy Diplomats and Spies."
 msgstr ""
-"In der Demokratie regieren die Bürger direkt durch Abstimmungen und Wahlen. Demokratie erlaubt den größtmöglichen Handel, aber auch das größte Potential für Unzufriedenheit. Es gibt keine Korruption oder Müll, aber Bürger werden durch Kriege sehr unruhig.\n"
+"In der Demokratie regieren die Bürger direkt durch Abstimmungen und Wahlen. Demokratie erlaubt den größtmöglichen Handel, aber auch das größte Potential für Unzufriedenheit. Es gibt keine Korruption oder Verschwendung, aber Bürger werden durch Kriege sehr unruhig.\n"
 "\n"
 "Weil zufriedene Bürger fest an die Regierung glauben, ist ihre Loyalität unerschütterlich. Truppen können nicht bestochen werden, und feindliche Diplomaten und Spione können in den Städten keine Revolte entfachen."
 
