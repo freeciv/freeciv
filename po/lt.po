@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-02-03 09:41-0500\n"
-"PO-Revision-Date: 2008-11-18 19:56+0300\n"
+"PO-Revision-Date: 2009-03-21 16:24+0300\n"
 "Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
 "MIME-Version: 1.0\n"
@@ -377,9 +377,8 @@ msgid "Global"
 msgstr "Tikslas"
 
 #: common/events.c:99
-#, fuzzy
 msgid "Eco-Disaster"
-msgstr "Globalus: Ekologinė katastrofa"
+msgstr "Ekologinė katastrofa"
 
 #: common/events.c:100
 #, fuzzy
@@ -631,7 +630,7 @@ msgstr "Žaidėjo nustatymai"
 #: common/events.c:261
 #, c-format
 msgid "?eventdescr:%s: %s"
-msgstr ""
+msgstr "?eventdescr:%s: %s"
 
 #: common/player.c:42
 msgid "Away"
@@ -2151,7 +2150,7 @@ msgid "Celebrations in your honour in %s."
 msgstr "Audringos šventės Jūsų garbei mieste %s."
 
 #: server/cityturn.c:1576
-#, fuzzy, c-format
+#, c-format
 msgid "Celebrations canceled in %s."
 msgstr "Šventimas atšauktas %s."
 
@@ -2223,6 +2222,8 @@ msgid ""
 "Usage: %s [option ...]\n"
 "Valid options are:\n"
 msgstr ""
+"Naudojimas: %s [parinktis ...]\n"
+"Galimos parinktys yra:\n"
 
 #: server/civserver.c:216
 #, fuzzy
@@ -2259,7 +2260,7 @@ msgstr "  -f, --file FAILAS\tĮkelti išsaugotą žaidimą FAILAS\n"
 #: client/civclient.c:248
 #: manual/civmanual.c:373
 msgid "  -h, --help\t\tPrint a summary of the options\n"
-msgstr ""
+msgstr "  -h, --help\t\tAtspausdinti parinkčių santrauką\n"
 
 #: server/civserver.c:234
 msgid "  -l, --log FILE\tUse FILE as logfile\n"
@@ -2317,9 +2318,9 @@ msgstr "  -v, --version\t\tAtspausdinti versijos numerį\n"
 #: client/gui-sdl/gui_main.c:211
 #: client/gui-xaw/gui_main.c:248
 #: manual/civmanual.c:376
-#, fuzzy, c-format
+#, c-format
 msgid "Report bugs at %s\n"
-msgstr "Pranešti apie klaidas į <%s>.\n"
+msgstr "Pranešti apie klaidas į <%s>\n"
 
 #: server/commands.c:37
 msgid "Start the game, or restart after loading a savegame."
@@ -2341,7 +2342,7 @@ msgstr ""
 
 #: server/commands.c:56
 msgid "Show help about server commands and server options."
-msgstr ""
+msgstr "Rodyti pagalbą apie serverio komandas ir parinktis."
 
 #: server/commands.c:57
 msgid "With no arguments gives some introductory help.  With argument \"commands\" or \"options\" gives respectively a list of all commands or all options.  Otherwise the argument is taken as a command name or option name, and help is given for that command or option.  For options, the help information includes the current and default values for that option.  The argument may be abbreviated where unambiguous."
@@ -2452,7 +2453,7 @@ msgstr "Nustatyti serverio parinktį."
 #. TRANS: translate text between <> only
 #: server/commands.c:150
 msgid "team <player> [team]"
-msgstr ""
+msgstr "team <žaidėjas> [komanda]"
 
 #: server/commands.c:151
 msgid "Change, add or remove a player's team affiliation."
@@ -3321,7 +3322,7 @@ msgstr ""
 #: server/diplomats.c:1188
 #, c-format
 msgid "Your %s has successfully completed the mission and returned unharmed to %s."
-msgstr ""
+msgstr "Jūsų %s sėkmingai baigė misiją ir sveikas grįžo į %s."
 
 #: server/diplomats.c:1207
 #, fuzzy, c-format
@@ -4212,7 +4213,7 @@ msgstr "0 = nėra 1x1 salų; 1 = kažkiek 1x1 salų"
 
 #: server/settings.c:343
 msgid "Whether the poles are separate continents"
-msgstr ""
+msgstr "Ar ašigaliai yra atskiri žemynai"
 
 #: server/settings.c:344
 msgid "0 = continents may attach to poles; 1 = poles will usually be separate"
@@ -4319,7 +4320,7 @@ msgstr ""
 
 #: server/settings.c:457
 msgid "Total number of players (including AI players)"
-msgstr ""
+msgstr "Bendras žaidėjų skaičius (įskaitant DI žaidėjus)"
 
 #: server/settings.c:458
 msgid "If set to a positive value, then AI players will be automatically created or removed to keep the total number of players at this amount."
@@ -5413,11 +5414,13 @@ msgstr "Netinkamas argumentas %d."
 #: server/stdinhand.c:2929
 #: server/stdinhand.c:3094
 #: server/stdinhand.c:3257
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage:\n"
 "%s"
-msgstr "Naudojimas: away"
+msgstr ""
+"Naudojimas:\n"
+"%s"
 
 #: server/stdinhand.c:1456
 #, c-format
@@ -5598,6 +5601,8 @@ msgid ""
 "Undefined argument.  Usage:\n"
 "%s"
 msgstr ""
+"Neapibrėžtas argumentas.  Naudojimas:\n"
+"%s"
 
 #: server/stdinhand.c:2108
 #, c-format
@@ -5704,9 +5709,9 @@ msgstr ""
 
 #: server/stdinhand.c:2383
 #: server/stdinhand.c:2424
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s no longer debugged."
-msgstr "%s daugiau nebestebi."
+msgstr "%s %s daugiau nebederinamas."
 
 #: server/stdinhand.c:2398
 msgid "Ferry system is no longer in debug mode."
@@ -8004,7 +8009,7 @@ msgstr ""
 #: client/helpdata.c:1027
 #: client/helpdata.c:1035
 msgid "* May be promoted after defeating an enemy unit.\n"
-msgstr ""
+msgstr "* Gali būti paaukštintas, nugalėjęs priešo dalinį.\n"
 
 #: client/helpdata.c:1019
 msgid "* Will be built as a veteran under communist governments.\n"
@@ -8012,7 +8017,7 @@ msgstr ""
 
 #: client/helpdata.c:1021
 msgid "* May be promoted after a successful mission.\n"
-msgstr ""
+msgstr "* Gali būti paaukštintas po sėkmingos misijos.\n"
 
 #: client/helpdata.c:1024
 msgid "* Will be built as a veteran in cities with appropriate training facilities (see Barracks).\n"
@@ -10316,15 +10321,15 @@ msgstr "_Keisti"
 
 #: client/gui-gtk-2.0/cityrep.c:698
 msgid "Add _First"
-msgstr ""
+msgstr "Pridėti _pirmą"
 
 #: client/gui-gtk-2.0/cityrep.c:702
 msgid "Add _Next"
-msgstr ""
+msgstr "Pridėti _kitą"
 
 #: client/gui-gtk-2.0/cityrep.c:706
 msgid "Add _Last"
-msgstr ""
+msgstr "Pridėti p_askutinį"
 
 #: client/gui-gtk-2.0/cityrep.c:710
 msgid "_Select"
@@ -11711,7 +11716,7 @@ msgstr "Statyti ka_syklą"
 #: client/gui-gtk-2.0/menu.c:872
 #: client/gui-gtk-2.0/menu.c:1406
 msgid "Transf_orm Terrain"
-msgstr ""
+msgstr "Transf_ormuoti vietovę"
 
 #: client/gui-gtk-2.0/menu.c:874
 #: client/gui-gtk-2.0/menu.c:1552
@@ -12959,9 +12964,8 @@ msgid "Sorry, you can't buy here in this turn."
 msgstr "Apgailestaujame, negalite čia pirkti šiuo ėjimu."
 
 #: client/gui-sdl/citydlg.c:1187
-#, fuzzy
 msgid "Buy it?"
-msgstr "Ar pirkti?"
+msgstr "Pirkti?"
 
 #: client/gui-sdl/citydlg.c:1213
 #: client/gui-sdl/cma_fe.c:330
@@ -13025,9 +13029,8 @@ msgid "Yes"
 msgstr "Taip"
 
 #: client/gui-sdl/citydlg.c:1402
-#, fuzzy
 msgid "Sell it?"
-msgstr "Ar parduoti?"
+msgstr "Parduoti?"
 
 #: client/gui-sdl/citydlg.c:1435
 #: client/gui-win32/citydlg.c:796
@@ -13181,9 +13184,8 @@ msgstr "Miestas auga: %d %s"
 
 #: client/gui-sdl/citydlg.c:3028
 #: client/gui-sdl/citydlg.c:3140
-#, fuzzy
 msgid "Stock"
-msgstr "atsargos"
+msgstr "Atsargos"
 
 #: client/gui-sdl/citydlg.c:3039
 #: data/default/buildings.ruleset:322
@@ -13252,7 +13254,7 @@ msgstr "Miestų ataskaita"
 
 #: client/gui-sdl/cityrep.c:201
 msgid "Close Dialog"
-msgstr ""
+msgstr "Užverti dialogą"
 
 #: client/gui-sdl/cityrep.c:215
 msgid "Information Report"
@@ -13439,7 +13441,7 @@ msgstr "Nuskraidinti čia"
 #: client/gui-sdl/dialogs.c:1512
 #, c-format
 msgid "Activate %s (%d / %d) %s (%d,%d,%d) %s"
-msgstr ""
+msgstr "Aktyvuoti %s (%d / %d) %s (%d,%d,%d) %s"
 
 #: client/gui-sdl/dialogs.c:1414
 #: client/gui-sdl/dialogs.c:1539
@@ -19297,9 +19299,8 @@ msgid "Deserts are regions of extreme dryness, making agriculture and trade very
 msgstr "Dykumos yra labai sausos vietos, kurios daro žemės ūkį ir prekybą yra labai sunkius."
 
 #: data/default/terrain.ruleset:636
-#, fuzzy
 msgid "Desert hills"
-msgstr "Dykuma"
+msgstr "Dykumos kalvos"
 
 #: data/default/terrain.ruleset:668
 #: data/default/terrain.ruleset:893
@@ -19331,9 +19332,8 @@ msgid "In addition to being amenable to agriculture, Hills are frequently rich i
 msgstr "Be to, kad kalvos yra tinkamos žemės ūkiui, jos dažnai gali būti gausios resursų."
 
 #: data/default/terrain.ruleset:674
-#, fuzzy
 msgid "Alpine forest"
-msgstr "Alpių kariai"
+msgstr "Alpių miškas"
 
 #: data/default/terrain.ruleset:706
 #: data/default/terrain.ruleset:744
@@ -19514,9 +19514,8 @@ msgid "Tundra are broad, cold regions, fit for some agriculture and little else.
 msgstr "Tundra yra platūs, šalti regionai, tinkami šiokiam tokiam žemės ūkiui ir beveik niekam daugiau."
 
 #: data/default/terrain.ruleset:1541
-#, fuzzy
 msgid "Alpine tundra"
-msgstr "Alpių kariai"
+msgstr "Alpių tundra"
 
 #: data/default/terrain.ruleset:1578
 #: data/civ2/terrain.ruleset:1467
@@ -24097,7 +24096,7 @@ msgstr "Uighurai buvo rytinė Turkų imperija ir civilizacija. Savo klestėjimo 
 
 #: data/nation/uzbek.ruleset:3
 msgid "Uzbek"
-msgstr ""
+msgstr "Uzbekų"
 
 #: data/nation/uzbek.ruleset:4
 msgid "?plural:Uzbeks"
