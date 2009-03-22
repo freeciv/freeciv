@@ -9950,7 +9950,7 @@ msgstr "부대를 요새화시킴(_F)"
 
 #: client/gui-gtk-2.0/citydlg.c:2101 client/gui-win32/citydlg.c:1520
 msgid "Make new _homecity"
-msgstr ""
+msgstr "홈 도시로 하기(_H)"
 
 #: client/gui-gtk-2.0/citydlg.c:2108
 msgid "U_pgrade unit"
@@ -10000,7 +10000,7 @@ msgstr "도시이름 바꾸기"
 #: client/gui-gtk-2.0/citydlg.c:2573 client/gui-win32/citydlg.c:1202
 #: client/gui-xaw/citydlg.c:1380
 msgid "What should we rename the city to?"
-msgstr ""
+msgstr "도시 이름을 무엇으로 바꾸겠습니까?"
 
 #: client/gui-gtk-2.0/cityrep.c:794
 msgid "(no worklists defined)"
@@ -10020,7 +10020,7 @@ msgstr "다음에 추가(_N)"
 
 #: client/gui-gtk-2.0/cityrep.c:888
 msgid "Add _2nd Last"
-msgstr ""
+msgstr "맨뒤 이전에 추가(_2)"
 
 #: client/gui-gtk-2.0/cityrep.c:892
 msgid "Add _Last"
@@ -10091,7 +10091,7 @@ msgstr "도시 없음"
 
 #: client/gui-gtk-2.0/cityrep.c:1672 client/gui-win32/cityrep.c:441
 msgid "Invert Selection"
-msgstr ""
+msgstr "선택 거꾸로 하기"
 
 #: client/gui-gtk-2.0/cityrep.c:1682
 msgid "Building Units"
@@ -10213,7 +10213,7 @@ msgstr "새로운 미리설정 이름짓기"
 #: client/gui-gtk-2.0/cma_fe.c:541 client/gui-sdl/cma_fe.c:297
 #: client/gui-win32/cma_fe.c:384
 msgid "What should we name the preset?"
-msgstr ""
+msgstr "미리설정 이름을 지어 주세요."
 
 #: client/gui-gtk-2.0/cma_fe.c:648
 msgid "Remove this preset?"
@@ -10221,7 +10221,7 @@ msgstr "이 미리설정을 지우시겠습니까?"
 
 #: client/gui-gtk-2.0/dialogs.c:196 client/gui-gtk-2.0/messagewin.c:222
 msgid "Goto _Location"
-msgstr ""
+msgstr "장소로 이동하기(_L)"
 
 #: client/gui-gtk-2.0/dialogs.c:201 client/gui-gtk-2.0/messagewin.c:226
 msgid "Inspect _City"
@@ -10245,7 +10245,7 @@ msgstr "약탈하기"
 #: client/gui-gtk-2.0/dialogs.c:312 client/gui-win32/dialogs.c:1755
 #: data/Freeciv.in:2502
 msgid "Select what to pillage:"
-msgstr ""
+msgstr "약탈 할 것을 선택하세요:"
 
 #: client/gui-gtk-2.0/dialogs.c:506
 msgid "Unit"
