@@ -144,7 +144,7 @@ msgstr "도시 : 교통"
 
 #: common/events.c:57
 msgid "City: Was Built"
-msgstr "도시 : 건설되었음"
+msgstr "도시 : 건설되었슴"
 
 #: common/events.c:58
 msgid "City: Worklist Events"
@@ -1037,12 +1037,12 @@ msgstr "에러 %d(sterror이 없는 컴파일)"
 #: ai/aicity.c:1043 server/citytools.c:1932
 #, c-format
 msgid "The %s have stopped building The %s in %s."
-msgstr ""
+msgstr "%s(은)는 %s의 건설을 %s어서 중단했습니다."
 
 #: ai/aicity.c:1054 server/citytools.c:1973
 #, c-format
 msgid "The %s have started building The %s in %s."
-msgstr ""
+msgstr "%s(은)는 %s의 건설을 %s어서 시작했습니다."
 
 #: ai/aicity.c:1381
 #, c-format
@@ -7208,11 +7208,11 @@ msgstr "서로"
 
 #: client/climisc.c:217
 msgid "?embassy:Yes"
-msgstr "우리 있음"
+msgstr "우리 있슴"
 
 #: client/climisc.c:220
 msgid "?embassy:With Us"
-msgstr "상대 있음"
+msgstr "상대 있슴"
 
 #: client/climisc.c:223
 msgid "?embassy:Contact"
@@ -7641,7 +7641,7 @@ msgstr ""
 
 #: client/helpdata.c:879
 msgid "* Can build fortresses.\n"
-msgstr "※ 요새를 세울 수 있음.\n"
+msgstr "※ 요새를 세울 수 있슴.\n"
 
 #: client/helpdata.c:883
 #, c-format
@@ -7663,11 +7663,11 @@ msgstr ""
 
 #: client/helpdata.c:897
 msgid "* Can transform tiles.\n"
-msgstr "※ 지형을 개조할 수 있음.\n"
+msgstr "※ 지형을 개조할 수 있슴.\n"
 
 #: client/helpdata.c:900
 msgid "* Can build airbases.\n"
-msgstr "※ 공군 기지를 세울 수 있음.\n"
+msgstr "※ 공군 기지를 세울 수 있슴.\n"
 
 #: client/helpdata.c:904
 #, c-format
@@ -9911,7 +9911,7 @@ msgstr "%d부대 원조됨"
 #: client/gui-gtk-2.0/citydlg.c:1858
 #, c-format
 msgid "Present units %d"
-msgstr "%d부대 있음"
+msgstr "%d부대 있슴"
 
 #: client/gui-gtk-2.0/citydlg.c:1981 client/gui-gtk-2.0/cityrep.c:1019
 msgid "Cen_ter"
@@ -10653,11 +10653,11 @@ msgstr ""
 
 #: client/gui-gtk-2.0/gui_main.c:1657
 msgid "Not _ready"
-msgstr "준비 안 됐음(_R)"
+msgstr "준비 안 됐슴(_R)"
 
 #: client/gui-gtk-2.0/gui_main.c:1668 client/gui-gtk-2.0/pages.c:1677
 msgid "_Ready"
-msgstr "준비 됐음(_R)"
+msgstr "준비 됐슴(_R)"
 
 #: client/gui-gtk-2.0/gui_main.c:1672 client/gui-gtk-2.0/gui_main.c:1678
 #: client/gui-gtk-2.0/pages.c:2204
@@ -10670,7 +10670,7 @@ msgstr "이 사용자 데려오기(_T)"
 
 #: client/gui-gtk-2.0/gui_main.c:1689 client/gui-gtk-2.0/pages.c:1667
 msgid "Pick _Nation"
-msgstr "민족을 선택(_N)"
+msgstr "민족 선택(_N)"
 
 #: client/gui-gtk-2.0/gui_main.c:1696 client/gui-gtk-2.0/pages.c:1672
 msgid "_Observe"
@@ -14621,7 +14621,7 @@ msgstr ""
 
 #: client/gui-xaw/citydlg.c:308
 msgid "(is empty)"
-msgstr "(비어있음)"
+msgstr "(비어있슴)"
 
 #: client/gui-xaw/citydlg.c:310
 msgid "(in prog.)"
