@@ -1,7 +1,7 @@
 # Korean localization of Freeciv
 # Copyright (C) 1996 A Kjeldberg, L Gregersen, P Unold
 # This file is distributed under the same license as the Freeciv package.
-# Daniel Markstedt <himasaram@spray.se>, 2007 - 2008
+# Daniel Markstedt <himasaram@spray.se>, 2007 - 2009
 # Jungho Lee <junghoya@gmail.com>, 2007
 #
 msgid ""
@@ -196,7 +196,7 @@ msgstr "도시 : 우주선 사건"
 
 #: common/events.c:70
 msgid "Diplomat Action: Bribe"
-msgstr "외교관 행동 : 뇌물"
+msgstr "외교관 행동 : 매수"
 
 #: common/events.c:71
 msgid "Diplomat Action: Caused Incident"
@@ -232,7 +232,7 @@ msgstr "외교관 행동 : 절도"
 
 #: common/events.c:79
 msgid "Enemy Diplomat: Bribe"
-msgstr "적군 외교관 : 뇌물"
+msgstr "적군 외교관 : 매수"
 
 #: common/events.c:80
 msgid "Enemy Diplomat: Embassy"
@@ -730,8 +730,8 @@ msgid ""
 "Upgrade %s to %s for %d gold?\n"
 "Treasury contains %d gold."
 msgstr ""
-"%s에서 %s로 %d의 금이 필요한데 업그레이드 하시겠습니까?\n"
-" %d의 금을 자금으로 갖고 있습니다."
+"%s에서 %s(으)로 %d의 금이 필요한데 업그레이드 하시겠습니까?\n"
+"%d의 금을 자금으로 갖고 있습니다."
 
 #: common/unit.c:1579
 #, c-format
@@ -744,8 +744,8 @@ msgid ""
 "Upgrading %s to %s costs %d gold.\n"
 "Treasury contains %d gold."
 msgstr ""
-"%s에서 %s로 %d의 금을 소비하여 업그레이드 합니다\n"
-" %d의 금을 자금으로 갖고 있습니다."
+"%s에서 %s(으)로 %d의 금을 소비하여 업그레이드 합니다.\n"
+"%d의 금을 자금으로 갖고 있습니다."
 
 #: common/unit.c:1594
 msgid "You can only upgrade units in your cities."
@@ -754,7 +754,7 @@ msgstr "당신은 오직 당신도시 안에서 부대를 업그레이드 시킬
 #: common/unit.c:1598
 #, c-format
 msgid "Upgrading this %s would strand units it transports."
-msgstr "이  %s의 업그레이드는 해안가로 운반할 것입니다"
+msgstr "이 %s의 업그레이드는 해안가로 운반할 것입니다"
 
 #: common/unittype.c:61
 msgid "Missile"
@@ -2939,23 +2939,23 @@ msgstr ""
 
 #: server/diplomats.c:411
 msgid "You can't bribe a unit from this nation."
-msgstr ""
+msgstr "이 나라의 부대를 매수할 수 없습니다."
 
 #: server/diplomats.c:422
 #, c-format
 msgid "You don't have enough gold to bribe the %s %s."
-msgstr ""
+msgstr "%s %s(을)를 매수 할 금액이 없습니다."
 
 #: server/diplomats.c:432
 #, c-format
 msgid "You cannot bribe the %s!"
-msgstr "%s에게 뇌물을 줄수 없습니다"
+msgstr "%s(을)를 매수할 수 없습니다!"
 
 #. TRANS: <diplomat> ... <unit>
 #: server/diplomats.c:455
 #, c-format
 msgid "Your %s succeeded in bribing the %s."
-msgstr ""
+msgstr "당신의 %s(은)는 %s(을)를 성공적으로 매수하였습니다."
 
 #. TRANS: <unit> ... <Poles>
 #: server/diplomats.c:463
@@ -7208,11 +7208,11 @@ msgstr "서로"
 
 #: client/climisc.c:217
 msgid "?embassy:Yes"
-msgstr "우리 있슴"
+msgstr "우리 있음"
 
 #: client/climisc.c:220
 msgid "?embassy:With Us"
-msgstr "상대 있슴"
+msgstr "상대 있음"
 
 #: client/climisc.c:223
 msgid "?embassy:Contact"
@@ -7641,7 +7641,7 @@ msgstr ""
 
 #: client/helpdata.c:879
 msgid "* Can build fortresses.\n"
-msgstr "* 요새를 세울 수 있슴.\n"
+msgstr "※ 요새를 세울 수 있음.\n"
 
 #: client/helpdata.c:883
 #, c-format
@@ -7663,11 +7663,11 @@ msgstr ""
 
 #: client/helpdata.c:897
 msgid "* Can transform tiles.\n"
-msgstr "* 지형을 개조할 수 있슴.\n"
+msgstr "※ 지형을 개조할 수 있음.\n"
 
 #: client/helpdata.c:900
 msgid "* Can build airbases.\n"
-msgstr "* 공군 기지를 세울 수 있슴.\n"
+msgstr "※ 공군 기지를 세울 수 있음.\n"
 
 #: client/helpdata.c:904
 #, c-format
@@ -7692,7 +7692,7 @@ msgstr ""
 
 #: client/helpdata.c:921
 msgid "* May not be bribed.\n"
-msgstr ""
+msgstr "※ 매수시킬 수 없음.\n"
 
 #: client/helpdata.c:924
 msgid "* Can attack enemy air units.\n"
@@ -8021,7 +8021,7 @@ msgstr ""
 
 #: client/helpdata.c:1536
 msgid "* Your units cannot be bribed.\n"
-msgstr ""
+msgstr "※ 당신의 부대를 매수시킬 수 없습니다.\n"
 
 #: client/helpdata.c:1539
 msgid "* Your cities cannot be incited.\n"
@@ -8148,7 +8148,7 @@ msgstr ", "
 #: client/helpdata.c:1707
 #, c-format
 msgid "%s%d unhappy"
-msgstr ""
+msgstr "%s%d 불만"
 
 #: client/mapctrl_common.c:399
 #, c-format
@@ -9145,11 +9145,11 @@ msgstr ""
 
 #: client/text.c:898
 msgid "No units to upgrade!"
-msgstr "업그레이드 할수 있는 부대가 없습니다"
+msgstr "업그레이드 할수 있는 부대가 없습니다!"
 
 #: client/text.c:923
 msgid "None of these units may be upgraded."
-msgstr ""
+msgstr "이 부대를 업그레이드 할수 없습니다!"
 
 #: client/text.c:929
 #, c-format
@@ -9160,7 +9160,11 @@ msgid_plural ""
 "Upgrade %d units for %d gold?\n"
 "Treasury contains %d gold."
 msgstr[0] ""
+"%d부대를 업그레이드 하시겠습니까?\n"
+"%d의 금을 자금으로 갖고 있습니다."
 msgstr[1] ""
+"%d부대를 업그레이드 하시겠습니까?\n"
+"%d의 금을 자금으로 갖고 있습니다."
 
 #: client/text.c:950
 msgid "Shows your progress in researching the current technology."
@@ -9455,12 +9459,12 @@ msgstr ""
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:85 client/gui-win32/dialogs.c:1363
 msgid "Ooops..."
-msgstr "웁스..."
+msgstr "아이구..."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:86 client/gui-win32/dialogs.c:1364
 #: client/gui-xaw/diplomat_dialog.c:110
 msgid "This unit cannot be bribed!"
-msgstr "이 부대는 뇌물을 받을수 없습니다"
+msgstr "이 부대를 매수할 수 없습니다!"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:93
 #: client/gui-sdl/diplomat_dialog.c:1395 client/gui-win32/dialogs.c:1368
@@ -9470,6 +9474,8 @@ msgid ""
 "Bribe unit for %d gold?\n"
 "Treasury contains %d gold."
 msgstr ""
+"이 부대를 %d금으로 매수하시겠습니까?\n"
+"%d의 금을 자금으로 갖고 있습니다."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:95
 #: client/gui-sdl/diplomat_dialog.c:701 client/gui-sdl/diplomat_dialog.c:1377
@@ -9485,6 +9491,8 @@ msgid ""
 "Bribing the unit costs %d gold.\n"
 "Treasury contains %d gold."
 msgstr ""
+"이 부대를 매수 하려면 %d의 금을 소비합니다.\n"
+"%d의 금을 자금으로 갖고 있습니다."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:103
 #: client/gui-gtk-2.0/diplomat_dialog.c:560
@@ -9903,7 +9911,7 @@ msgstr "%d부대 원조됨"
 #: client/gui-gtk-2.0/citydlg.c:1858
 #, c-format
 msgid "Present units %d"
-msgstr "%d부대 있슴"
+msgstr "%d부대 있음"
 
 #: client/gui-gtk-2.0/citydlg.c:1981 client/gui-gtk-2.0/cityrep.c:1019
 msgid "Cen_ter"
@@ -9955,6 +9963,8 @@ msgid ""
 "Buy %s for %d gold?\n"
 "Treasury contains %d gold."
 msgstr ""
+"%s(을)를 %d의 금으로 사시겠습니까?\n"
+"%d의 금을 자금으로 갖고 있습니다."
 
 #: client/gui-gtk-2.0/citydlg.c:2429 client/gui-gtk-2.0/citydlg.c:2441
 #: client/gui-win32/citydlg.c:906 client/gui-win32/citydlg.c:915
@@ -9969,12 +9979,14 @@ msgid ""
 "%s costs %d gold.\n"
 "Treasury contains %d gold."
 msgstr ""
+"%s(은)는 %d의 금을 소비합니다.\n"
+"%d의 금을 자금으로 갖고 있습니다."
 
 #: client/gui-gtk-2.0/citydlg.c:2491 client/gui-sdl/citydlg.c:1406
 #: client/gui-win32/citydlg.c:957 client/gui-xaw/citydlg.c:2301
 #, c-format
 msgid "Sell %s for %d gold?"
-msgstr ""
+msgstr "%s(을)를 %d의 금으로 팔겠습니까?"
 
 #: client/gui-gtk-2.0/citydlg.c:2496 client/gui-win32/citydlg.c:962
 #: data/Freeciv.in:2239
@@ -10000,11 +10012,11 @@ msgstr "변환(_G)"
 
 #: client/gui-gtk-2.0/cityrep.c:880
 msgid "Add _First"
-msgstr ""
+msgstr "앞에 추가(_F)"
 
 #: client/gui-gtk-2.0/cityrep.c:884
 msgid "Add _Next"
-msgstr ""
+msgstr "다음에 추가(_N)"
 
 #: client/gui-gtk-2.0/cityrep.c:888
 msgid "Add _2nd Last"
@@ -10012,7 +10024,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/cityrep.c:892
 msgid "Add _Last"
-msgstr ""
+msgstr "뒤에 추가(_L)"
 
 #: client/gui-gtk-2.0/cityrep.c:899
 msgid "Set Worklist"
@@ -10023,14 +10035,12 @@ msgid "Append Worklist"
 msgstr "작업리스트 첨부"
 
 #: client/gui-gtk-2.0/cityrep.c:911
-#, fuzzy
 msgid "Clear _Worklist"
-msgstr "목표 작업리스트:(_W)"
+msgstr "작업리스트 지우기(_W)"
 
 #: client/gui-gtk-2.0/cityrep.c:916
-#, fuzzy
 msgid "Gover_nor"
-msgstr "통치자"
+msgstr "통치자(_N)"
 
 #: client/gui-gtk-2.0/cityrep.c:921
 msgid "_Select"
@@ -11096,14 +11106,12 @@ msgid "City _Productions"
 msgstr "도시 생산(_P)"
 
 #: client/gui-gtk-2.0/menu.c:811
-#, fuzzy
 msgid "City Buy Cost"
-msgstr "총비용 : %d"
+msgstr "도시 생산 구입 비용"
 
 #: client/gui-gtk-2.0/menu.c:813
-#, fuzzy
 msgid "City Traderoutes"
-msgstr "무역 경로"
+msgstr "도시 무역 경로"
 
 #: client/gui-gtk-2.0/menu.c:815 client/gui-sdl/optiondlg.c:1719
 msgid "Draw city worker map grid"
@@ -11122,7 +11130,7 @@ msgstr "해안선"
 
 #: client/gui-gtk-2.0/menu.c:827 client/gui-win32/menu.c:343
 msgid "Roads & Rails"
-msgstr "다리와 철도"
+msgstr "도로와 철도"
 
 #: client/gui-gtk-2.0/menu.c:831 client/gui-sdl/optiondlg.c:1933
 #: client/gui-win32/menu.c:345 client/gui-xaw/menu.c:152
@@ -11334,9 +11342,8 @@ msgid "Select"
 msgstr "선택"
 
 #: client/gui-gtk-2.0/menu.c:934
-#, fuzzy
 msgid "Single"
-msgstr "정글"
+msgstr "단 부대"
 
 #: client/gui-gtk-2.0/menu.c:936
 msgid "Same Type On Tile"
@@ -11598,12 +11605,10 @@ msgid "Cancel _Treaty"
 msgstr "조약 파기(_T)"
 
 #: client/gui-gtk-2.0/plrdlg.c:329
-#, fuzzy
 msgid "_Withdraw Vision"
 msgstr "시야 제거(_W)"
 
 #: client/gui-gtk-2.0/plrdlg.c:348
-#, fuzzy
 msgid "_Report"
 msgstr "보고(_R)"
 
@@ -11622,9 +11627,8 @@ msgid "Nations"
 msgstr "민족"
 
 #: client/gui-gtk-2.0/plrdlg.c:511
-#, fuzzy
 msgid "Di_plomacy"
-msgstr "외교"
+msgstr "외교(_P)"
 
 #: client/gui-gtk-2.0/plrdlg.c:516
 msgid "_Intelligence"
@@ -11734,7 +11738,7 @@ msgstr "형식"
 #: client/gui-gtk-2.0/pages.c:952 client/gui-win32/plrdlg.c:337
 #: data/Freeciv.in:88
 msgid "Host"
-msgstr ""
+msgstr "호스트"
 
 #: client/gui-gtk-2.0/pages.c:981
 msgid "C_onnect"
@@ -11820,7 +11824,7 @@ msgstr "룰세트:(_V)"
 
 #: client/gui-gtk-2.0/pages.c:1558 client/gui-gtk-2.0/pages.c:2193
 msgid "_More Game Options..."
-msgstr "다른 게임 옵션...(_M)"
+msgstr "기타 게임 옵션...(_M)"
 
 #: client/gui-gtk-2.0/pages.c:1583
 msgid "Record"
@@ -11835,9 +11839,8 @@ msgid "Ready"
 msgstr "준비"
 
 #: client/gui-gtk-2.0/pages.c:1601
-#, fuzzy
 msgid "?player:Leader"
-msgstr "이름"
+msgstr "지도자"
 
 #: client/gui-gtk-2.0/pages.c:1732 client/gui-sdl/chatline.c:185
 msgid "Choose Saved Game to Load"
@@ -14233,7 +14236,7 @@ msgstr "로그인 :"
 
 #: client/gui-win32/connectdlg.c:1061
 msgid "Host:"
-msgstr "호스트 ip :"
+msgstr "호스트 :"
 
 #: client/gui-win32/connectdlg.c:1062
 msgid "Port:"
@@ -14245,7 +14248,7 @@ msgstr ""
 
 #: client/gui-win32/dialogs.c:555
 msgid "Leader:"
-msgstr "지도자:"
+msgstr "지도자 :"
 
 #: client/gui-win32/dialogs.c:575
 msgid "City Style:"
@@ -15370,7 +15373,9 @@ msgstr " 확인 "
 msgid ""
 "Name             Nation       Embassy  Dipl.State      Vision   "
 "Reputation    State    Host"
-msgstr "           "
+msgstr ""
+"이름              민족          대사관    외교             시야      "
+"평판           상태      호스트"
 
 #: data/Freeciv.in:3246
 msgid "Cancel pact"
@@ -15378,11 +15383,11 @@ msgstr "계약 파기"
 
 #: data/Freeciv.in:3333 data/Freeciv.in:3334
 msgid "Pregame"
-msgstr "게임전"
+msgstr "게임 전"
 
 #: data/Freeciv.in:3350
 msgid "Name              Ready Leader          Nation          "
-msgstr "이름            준비뇜 지도자        민족"
+msgstr "이름              준비됨  지도자            민족             "
 
 #: data/helpdata.txt:38
 msgid ""
@@ -16332,7 +16337,7 @@ msgstr ""
 
 #: data/helpdata.txt:1089
 msgid " Combat example 1"
-msgstr "전투 예 1"
+msgstr "전투 예제 1"
 
 #: data/helpdata.txt:1090
 msgid ""
@@ -16380,7 +16385,7 @@ msgstr ""
 
 #: data/helpdata.txt:1127
 msgid " Combat example 2"
-msgstr "전투 예제2"
+msgstr "전투 예제 2"
 
 #: data/helpdata.txt:1128
 msgid ""
@@ -18949,7 +18954,6 @@ msgid ""
 msgstr ""
 
 #: data/default/units.ruleset:238
-#, fuzzy
 msgid "?unit:Workers"
 msgstr "노동자"
 
@@ -19515,7 +19519,6 @@ msgid "Explorers are very useful for mapping unknown territory."
 msgstr ""
 
 #: data/default/units.ruleset:1864
-#, fuzzy
 msgid "?unit:Leader"
 msgstr "지도자"
 
@@ -21778,14 +21781,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/slovakian.ruleset:26
-#, fuzzy
 msgid "?male:Leader"
 msgstr "지도자"
 
 #: data/nation/slovakian.ruleset:26
-#, fuzzy
 msgid "?female:Leader"
-msgstr "동무"
+msgstr "지도자"
 
 #: data/nation/slovakian.ruleset:29
 msgid "Pope"
