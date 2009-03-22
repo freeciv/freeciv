@@ -1,4 +1,83 @@
-Please see http://www.freeciv.org/wiki/NEWS-2.1.0 for a list of
-changes since Freeciv 2.0.
+This is Freeciv 2.1.9.
 
-Please see http://www.freeciv.org/wiki/NEWS for a complete list.
+What's changed since 2.1.8:
+
+--
+Fixed crash due to gcc 4.x optimization bug. (#40610) 
+
+Fixed island generator rivers and double-continent bug. (#15947, #17435) 
+
+Fixed auto-explore not respecting borders. (#40570) 
+
+Fixed stack teleporting exploit. (#40658) 
+
+Fixed crash when doing irrigation-connect on a mine. (#40676) 
+
+Fixed update bug for the city report total buy cost label. (#40695) 
+
+Fixed memory leak in server scan code. (#40707) 
+
+Fixed data type conversion bug affecting unit power factor. (#40746) 
+
+Fixed many typos and style errors in translated messages. (#40688, #40686, #40685, #40684, #40699, #40687, #40689, #40691, #40693, #40694, #40725) 
+
+Changed the save file name format to <savename>-T<turn>-Y<year>.sav. (#40681) 
+
+Changed the selection rectangle drawing method to speed up map drawing. (#40646) 
+
+Changed the city report concise rapture symbols back to * and X. (#40700) 
+
+Changed mass unit selection to include units with order or units under AI control. (#40727) 
+
+Changed the default metaserver for both client and server to the one at cazfi.net. (#40752) 
+
+Improved gtk widget layout so that the Freeciv window can fit on a 800x600 display. (#12825) 
+
+Improved map decoration drawing (popup info, goto lines, city high-lighting) for speed and memory efficiency. (#40717) 
+
+Improved mass unit selection: j selects a single unit, k selects tile units, y selects continent units. (#40727) 
+
+Improved automatic chatline scrolling. (#40721) 
+
+Added option to disable mouse cursor changing. (#40678) 
+
+Added option to draw traderoute lines with toggle shortcut Ctrl+t. (#40668) 
+
+Added option to prefix client chat messages with the current time. (#40706) 
+
+Added option to preferentially select cities over units with the selection rectangle. (#40703) 
+
+Added option to show production buy cost in the city descriptions. (#40702) 
+
+Added option to not clear unit orders when units are selected. (#40724) 
+
+Added option to split the lower chatline area in to two notebooks, with the message window appearing in the right notebook. (#40705) 
+
+Added option to disable the automatic caravan arrival popup. (#40730) 
+
+Added client shortcut b for buying production in selected cities. (#40704) 
+
+Added a list view in the network page showing current players on a server. (#40707) 
+
+Added client ability to center on an event tile by right-clicking on a row in the message window. (#40719) 
+
+Added client ability to reorder city report columns by dragging the column headers in the gtk2 client. (#40680) 
+
+Added worklist manipulation operations to the city report menus. (#40723, #40728, #40729) 
+
+Added multiplayer allies-only chat toggle button. (#40487) 
+
+Added more information to map popup info window. (#40488) 
+
+Added a toplevel menu item for the Governor menu in the city report. (#40677) 
+
+Added city production clipboard shortcuts Shift+right-click to copy and Ctrl+Shift+right-click to paste. (#40679) 
+
+Updated Finnish, Catalan, Estontian, Danish, Lithuanian, German, and Korean translations.
+--
+
+Please see http://www.freeciv.org/wiki/NEWS-2.1.0 for an overview of
+major changes since Freeciv 2.0.
+
+Please see http://www.freeciv.org/wiki/NEWS for a complete list of
+changes.
