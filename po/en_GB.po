@@ -4,7 +4,7 @@
 #
 # Translated words are:
 #
-#   traveller, centre, railway, cancelled, colour, neighbour
+#   traveller, centre, railway, cancelled, colour, neighbour, mediaeval
 #
 msgid ""
 msgstr ""
@@ -17589,7 +17589,7 @@ msgstr ""
 
 #: data/default/nations.ruleset:23
 msgid "?nationgroup:Medieval"
-msgstr ""
+msgstr "Mediaeval"
 
 #: data/default/nations.ruleset:26
 msgid "?nationgroup:Modern"
@@ -19911,6 +19911,8 @@ msgid ""
 "Austria means Eastern Realm, given its position as the far east territory of "
 "the medieval Holy Roman Empire."
 msgstr ""
+"Austria means Eastern Realm, given its position as the far east territory of "
+"the mediaeval Holy Roman Empire."
 
 #: data/nation/aztec.ruleset:3
 msgid "Aztec"
@@ -21245,13 +21247,11 @@ msgstr ""
 msgid "?plural:Malians"
 msgstr ""
 
-# typo fix
 #: data/nation/malian.ruleset:6
-#, fuzzy
 msgid ""
 "Sub-Saharan Africa has been a cultural and ethnical melting pot for "
-"millennia. In medieval times, the region was home to a succession of empires "
-"called the Sahelian kingdoms. Of these, the Islamic Mali empire with its "
+"millennia. In mediaeval times, the region was home to a succession of empires "
+"called the Sahelian kingdoms. Of these, the Islamic Mali Empire with its "
 "capital in Timbuktu was the most influential. This empire reigned from the "
 "14th to the 17th century and was famed for its wealth and benevolent kings. "
 "The modern Republic of Mali derives its name from this empire."
@@ -22242,17 +22242,12 @@ msgstr ""
 msgid "?plural:Westphalians"
 msgstr ""
 
-# typo fix
 #: data/nation/westphalian.ruleset:6
-#, fuzzy
 msgid ""
 "Westphalia, before becoming a Prussian province, was the western region of "
 "the duchy of Saxony. Today it makes up the northern part of the largest "
 "German federal state, North Rhine-Westphalia."
 msgstr ""
-"Westphalia, before becoming a Prussian province, was the western region of "
-"the Duchy of Saxony. Today it makes up the northern part of the largest "
-"German federal state, North Rhine-Westphalia."
 
 #: data/nation/zulu.ruleset:3
 msgid "Zulu"
@@ -22387,7 +22382,6 @@ msgid ""
 msgstr ""
 
 #: data/scenario/tutorial.sav:83
-#, fuzzy
 msgid ""
 "Another city!  You are really getting the hang of this.  You\n"
 "probably have a pretty good idea what to do with new cities by\n"
@@ -22408,7 +22402,7 @@ msgstr ""
 "The flag and background colour indicate what civilization the city\n"
 "belongs to (this will be useful when you meet other civilizations).\n"
 "The top row of the bar also shows the name and size of the city, and\n"
-"will show one or more starts to indicate if there are units in the\n"
+"will show one or more stars to indicate if there are units in the\n"
 "city.  The bottom row shows what the city is building, and how long it\n"
 "will take; it also shows how long the city will take to grow to the\n"
 "next largest size."
