@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-06 17:36+0200\n"
+"POT-Creation-Date: 2009-03-22 11:49+0900\n"
 "PO-Revision-Date: 2009-03-07 18:43+0300\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
@@ -9205,8 +9205,8 @@ msgid ""
 "'b' (for building a wonder) when the caravan is in the city."
 msgstr ""
 "Hvis denne indstilling er slået til, vil et vindue åbne sig, når en karavane "
-"ankommer til en by, hvor den kan etablere en handelsrute eller hjælpe med "
-"at bygge et vidunder, der spørger hvilken handling der skal udføres. Hvis denne "
+"ankommer til en by, hvor den kan etablere en handelsrute eller hjælpe med at "
+"bygge et vidunder, der spørger hvilken handling der skal udføres. Hvis denne "
 "indstilling slås fra, skal du udføre handlingen manuelt ved at trykke på "
 "enten 'r' (for en handelsrute) eller 'b' (for at bygge et vidunder), når "
 "karavanen er i byen."
@@ -11373,12 +11373,12 @@ msgid ""
 "respectively). This option will only take effect once the message window is "
 "closed and reopened."
 msgstr ""
-"Hvis denne indstilling er slået til vil to knapper blive vist i beskedvinduet. "
-"Den ene viser inspektion af en by og den anden kan gå til en placering på kortet. "
-"Hvis denne indstilling slås fra vil disse knapper ikke blive vist (du kan stadig "
-"dobbeltklikke med venstre museknap eller højreklikke på en række for at inspicere "
-"eller gå til). Denne indstilling vil kun træde i kraft når beskedvinduet er lukket "
-"og genåbnet."
+"Hvis denne indstilling er slået til vil to knapper blive vist i "
+"beskedvinduet. Den ene viser inspektion af en by og den anden kan gå til en "
+"placering på kortet. Hvis denne indstilling slås fra vil disse knapper ikke "
+"blive vist (du kan stadig dobbeltklikke med venstre museknap eller "
+"højreklikke på en række for at inspicere eller gå til). Denne indstilling "
+"vil kun træde i kraft når beskedvinduet er lukket og genåbnet."
 
 #: client/gui-gtk-2.0/gui_main.c:224
 msgid "Metaserver tab first in network page"
@@ -11389,9 +11389,9 @@ msgid ""
 "If this option is enabled, the metaserver tab will be the first notebook tab "
 "in the network page. This option requires a restart in order to take effect."
 msgstr ""
-"Hvis denne indstilling er slået til, vil fanebladet for metaserveren være den "
-"første notebogfaneblad på netværkssiden. Denne indstilling kræver en genstart "
-"for at træde i kraft."
+"Hvis denne indstilling er slået til, vil fanebladet for metaserveren være "
+"den første notebogfaneblad på netværkssiden. Denne indstilling kræver en "
+"genstart for at træde i kraft."
 
 #: client/gui-gtk-2.0/gui_main.c:230
 msgid "Plain chat messages are sent to allies only"
@@ -11421,22 +11421,22 @@ msgstr ""
 "Denne klient har ingen specielle indstillinger for kommandolinje\n"
 "\n"
 
-#: client/gui-gtk-2.0/gui_main.c:835 client/gui-gtk-2.0/gui_main.c:1483
+#: client/gui-gtk-2.0/gui_main.c:835 client/gui-gtk-2.0/gui_main.c:1508
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:1202 client/gui-gtk-2.0/gui_main.c:1209
+#: client/gui-gtk-2.0/gui_main.c:1225 client/gui-gtk-2.0/gui_main.c:1232
 #: client/gui-sdl/mapctrl.c:1566 client/gui-win32/gui_main.c:482
 #: data/Freeciv.in:2618
 msgid "Turn Done"
 msgstr "Afslut runde"
 
-#: client/gui-gtk-2.0/gui_main.c:1209 client/gui-sdl/mapctrl.c:1566
+#: client/gui-gtk-2.0/gui_main.c:1232 client/gui-sdl/mapctrl.c:1566
 #: client/gui-sdl/mapview.c:1082
 msgid "Shift+Return"
 msgstr "Shift+Return"
 
-#: client/gui-gtk-2.0/gui_main.c:1243 client/gui-gtk-2.0/menu.c:797
+#: client/gui-gtk-2.0/gui_main.c:1266 client/gui-gtk-2.0/menu.c:797
 #: client/gui-gtk-2.0/menu.c:799 client/gui-gtk-2.0/menu.c:801
 #: client/gui-gtk-2.0/menu.c:803 client/gui-gtk-2.0/menu.c:805
 #: client/gui-gtk-2.0/menu.c:807 client/gui-gtk-2.0/menu.c:809
@@ -11455,11 +11455,11 @@ msgstr "Shift+Return"
 msgid "View"
 msgstr "Kortvindue"
 
-#: client/gui-gtk-2.0/gui_main.c:1334
+#: client/gui-gtk-2.0/gui_main.c:1359
 msgid "Chat"
 msgstr "Snak"
 
-#: client/gui-gtk-2.0/gui_main.c:1352 client/gui-win32/gui_main.c:538
+#: client/gui-gtk-2.0/gui_main.c:1377 client/gui-win32/gui_main.c:538
 #: data/Freeciv.in:2809
 msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it\n"
@@ -11473,73 +11473,73 @@ msgstr ""
 "\n"
 "Og giv dem så tørt på!"
 
-#: client/gui-gtk-2.0/gui_main.c:1367
+#: client/gui-gtk-2.0/gui_main.c:1392
 msgid "Allies Only"
 msgstr "Kun allierede"
 
-#: client/gui-gtk-2.0/gui_main.c:1632
+#: client/gui-gtk-2.0/gui_main.c:1657
 msgid "Not _ready"
 msgstr "Ikke kla_r"
 
-#: client/gui-gtk-2.0/gui_main.c:1643 client/gui-gtk-2.0/pages.c:1677
+#: client/gui-gtk-2.0/gui_main.c:1668 client/gui-gtk-2.0/pages.c:1677
 msgid "_Ready"
 msgstr "_Klargør alle"
 
-#: client/gui-gtk-2.0/gui_main.c:1647 client/gui-gtk-2.0/gui_main.c:1653
+#: client/gui-gtk-2.0/gui_main.c:1672 client/gui-gtk-2.0/gui_main.c:1678
 #: client/gui-gtk-2.0/pages.c:2204
 msgid "_Start"
 msgstr "_Start"
 
-#: client/gui-gtk-2.0/gui_main.c:1661
+#: client/gui-gtk-2.0/gui_main.c:1686
 msgid "_Take Player"
 msgstr "_Benyt denne spiller"
 
-#: client/gui-gtk-2.0/gui_main.c:1664 client/gui-gtk-2.0/pages.c:1667
+#: client/gui-gtk-2.0/gui_main.c:1689 client/gui-gtk-2.0/pages.c:1667
 msgid "Pick _Nation"
 msgstr "Vælg _nation"
 
-#: client/gui-gtk-2.0/gui_main.c:1671 client/gui-gtk-2.0/pages.c:1672
+#: client/gui-gtk-2.0/gui_main.c:1696 client/gui-gtk-2.0/pages.c:1672
 msgid "_Observe"
 msgstr "_Observer"
 
-#: client/gui-gtk-2.0/gui_main.c:1673
+#: client/gui-gtk-2.0/gui_main.c:1698
 msgid "Do not _observe"
 msgstr "Undlad at _observere"
 
-#: client/gui-gtk-2.0/gui_main.c:1695 client/gui-xaw/pages.c:211
+#: client/gui-gtk-2.0/gui_main.c:1720 client/gui-xaw/pages.c:211
 msgid "<AI>"
 msgstr "<AI>"
 
-#: client/gui-gtk-2.0/gui_main.c:1698
+#: client/gui-gtk-2.0/gui_main.c:1723
 msgid "<Novice AI>"
 msgstr "<Novice AI>"
 
-#: client/gui-gtk-2.0/gui_main.c:1701
+#: client/gui-gtk-2.0/gui_main.c:1726
 msgid "<Easy AI>"
 msgstr "<Nem AI>"
 
-#: client/gui-gtk-2.0/gui_main.c:1704
+#: client/gui-gtk-2.0/gui_main.c:1729
 msgid "<Normal AI>"
 msgstr "<Normal AI>"
 
-#: client/gui-gtk-2.0/gui_main.c:1707
+#: client/gui-gtk-2.0/gui_main.c:1732
 msgid "<Hard AI>"
 msgstr "<Dygtig AI>"
 
-#: client/gui-gtk-2.0/gui_main.c:1717 client/gui-win32/dialogs.c:594
+#: client/gui-gtk-2.0/gui_main.c:1742 client/gui-win32/dialogs.c:594
 #: client/gui-xaw/pages.c:217
 msgid "Random"
 msgstr "Tilfældig"
 
-#: client/gui-gtk-2.0/gui_main.c:1783
+#: client/gui-gtk-2.0/gui_main.c:1808
 msgid "Observer"
 msgstr "Observatør"
 
-#: client/gui-gtk-2.0/gui_main.c:1783
+#: client/gui-gtk-2.0/gui_main.c:1808
 msgid "Detached"
 msgstr "Aftaget"
 
-#: client/gui-gtk-2.0/gui_main.c:2048
+#: client/gui-gtk-2.0/gui_main.c:2073
 msgid "Are you sure you want to quit?"
 msgstr "Er du sikker på at du vil slutte?"
 

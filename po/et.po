@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: et\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-02-26 22:06+0200\n"
+"POT-Creation-Date: 2009-03-22 11:49+0900\n"
 "PO-Revision-Date: 2009-02-27 00:03+0200\n"
 "Last-Translator: Elmo Todurov <todurov@gmail.com>\n"
 "Language-Team: eesti\n"
@@ -717,7 +717,7 @@ msgstr "Avasta"
 msgid "Transform"
 msgstr "Muuda"
 
-#: common/unit.c:584 client/text.c:106 client/gui-sdl/citydlg.c:1972
+#: common/unit.c:584 client/text.c:157 client/gui-sdl/citydlg.c:1972
 #: client/gui-win32/citydlg.c:1257 client/gui-xaw/citydlg.c:1423
 msgid "Unknown"
 msgstr "Teadmata"
@@ -2011,7 +2011,9 @@ msgstr ""
 msgid ""
 "  -a  --auth FILE\tEnable server authentication with configuration from "
 "FILE.\n"
-msgstr "  -a  --auth FAIL\tLülita sisse serveri autentimine konfiga mis tuleb FAIList.\n"
+msgstr ""
+"  -a  --auth FAIL\tLülita sisse serveri autentimine konfiga mis tuleb "
+"FAIList.\n"
 
 #: server/civserver.c:210
 msgid "  -G  --Guests\t\tAllow guests to login if auth is enabled.\n"
@@ -2096,7 +2098,7 @@ msgstr "  -R, --Ranklog FILE\tKasuta FILEi kui edetabeli logifaili\n"
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tNäita versiooninumbrit\n"
 
-#: server/civserver.c:248 client/gui-gtk-2.0/gui_main.c:323
+#: server/civserver.c:248 client/gui-gtk-2.0/gui_main.c:342
 #: client/gui-sdl/gui_main.c:209 client/gui-xaw/gui_main.c:247
 #: manual/civmanual.c:384
 #, c-format
@@ -2281,10 +2283,10 @@ msgstr ""
 "Mängija, kel on info-taseme juurdepääs alustab juht-taseme käsu andmisel "
 "hääletuse selle käsu kohta.  /vote-käsk, millele järgneb \"yes\" või \"no"
 "\" (ja vabatahtlikus korras ka hääletuse number) annab su hääle.  Kui sa ei "
-"anna hääletuse numbrit, läheb hääl viimasesse hääletusse.  Korraga saab hääletusele "
-"panna ainult ühe ettepaneku.  Hääletus on automaatselt võidetud, kui rohkem kui pooled "
-"mängijad hääletavad poolt või automaatselt kaotatud, kui üle poole "
-"mängijatest hääletab vastu."
+"anna hääletuse numbrit, läheb hääl viimasesse hääletusse.  Korraga saab "
+"hääletusele panna ainult ühe ettepaneku.  Hääletus on automaatselt võidetud, "
+"kui rohkem kui pooled mängijad hääletavad poolt või automaatselt kaotatud, "
+"kui üle poole mängijatest hääletab vastu."
 
 #: server/commands.c:121
 msgid ""
@@ -3329,7 +3331,7 @@ msgstr "%s põhjustasid intsidendi, kui üritasid revolutsiooni süüdata %s-s."
 msgid "Sea moving start units are not yet supported. Nobody gets %s."
 msgstr "Merel sõitvad algüksused ei ole veel toetatud. Keegi ei saanud %s-t."
 
-#: server/gamehand.c:310 client/text.c:632
+#: server/gamehand.c:310 client/text.c:691
 #, c-format
 msgid "Year: %s"
 msgstr "Aasta: %s"
@@ -6214,24 +6216,24 @@ msgid "Barbarian"
 msgstr "Barbar"
 
 #: server/stdinhand.c:3141 server/stdinhand.c:4262 client/plrdlg_common.c:256
-#: client/gui-gtk-2.0/pages.c:2108 client/gui-sdl/plrdlg.c:645
+#: client/gui-gtk-2.0/pages.c:2102 client/gui-sdl/plrdlg.c:645
 #: client/gui-win32/connectdlg.c:201 client/gui-win32/plrdlg.c:335
 msgid "AI"
 msgstr "Tehisintellekt"
 
 #: server/stdinhand.c:3142 server/stdinhand.c:4264
-#: client/gui-gtk-2.0/pages.c:2108 client/gui-gtk-2.0/pages.c:2131
+#: client/gui-gtk-2.0/pages.c:2102 client/gui-gtk-2.0/pages.c:2125
 #: client/gui-win32/connectdlg.c:201 client/gui-win32/connectdlg.c:213
 msgid "Human"
 msgstr "inimene"
 
-#: server/stdinhand.c:3144 client/gui-gtk-2.0/pages.c:2107
-#: client/gui-gtk-2.0/pages.c:2130 client/gui-win32/connectdlg.c:200
+#: server/stdinhand.c:3144 client/gui-gtk-2.0/pages.c:2101
+#: client/gui-gtk-2.0/pages.c:2124 client/gui-win32/connectdlg.c:200
 #: client/gui-win32/connectdlg.c:212
 msgid "Alive"
 msgstr "Elus"
 
-#: server/stdinhand.c:3145 client/gui-gtk-2.0/pages.c:2107
+#: server/stdinhand.c:3145 client/gui-gtk-2.0/pages.c:2101
 #: client/gui-win32/connectdlg.c:200
 msgid "Dead"
 msgstr "Surnud"
@@ -6499,8 +6501,8 @@ msgstr ", raskusaste %s"
 
 #. TRANS: continue list, in case comma is not the separator of choice.
 #: server/stdinhand.c:4275 server/stdinhand.c:4279 client/helpdata.c:257
-#: client/helpdata.c:752 client/text.c:185 client/text.c:1165
-#: client/text.c:1203
+#: client/helpdata.c:752 client/text.c:241 client/text.c:1224
+#: client/text.c:1262
 #, c-format
 msgid "?clistmore:, %s"
 msgstr ", %s"
@@ -7271,7 +7273,7 @@ msgid_plural "%3d turns"
 msgstr[0] "%3d käik"
 msgstr[1] "%3d käiku"
 
-#: client/citydlg_common.c:245 client/citydlg_common.c:369 client/text.c:572
+#: client/citydlg_common.c:245 client/citydlg_common.c:369 client/text.c:631
 #: client/agents/cma_fec.c:249 client/agents/cma_fec.c:283
 #: client/gui-gtk-2.0/citydlg.c:1416 client/gui-sdl/cityrep.c:533
 #: client/gui-sdl/cityrep.c:1058 client/gui-sdl/wldlg.c:1352
@@ -7850,28 +7852,28 @@ msgstr "%s annavad jagatud vaate"
 msgid "The %s give an embassy"
 msgstr "%s annavad saatkonna"
 
-#: client/climisc.c:903
+#: client/climisc.c:906
 msgid "Popup Request"
 msgstr ""
 
-#: client/climisc.c:933
+#: client/climisc.c:936
 msgid "Exporting output window to civgame.log ..."
 msgstr "Ekspordin väljundakna sisu faili civgame.log ..."
 
-#: client/climisc.c:937
+#: client/climisc.c:940
 msgid "Export complete."
 msgstr "Eksportimine valmis."
 
-#: client/climisc.c:939
+#: client/climisc.c:942
 msgid "Export failed, couldn't write to file."
 msgstr "Eksportimine ebaõnnestus, ei suutnud kirjutada faili."
 
-#: client/climisc.c:1039
+#: client/climisc.c:1042
 #, c-format
 msgid "You don't buy %s in %s!"
 msgstr ""
 
-#: client/climisc.c:1057
+#: client/climisc.c:1060
 #, c-format
 msgid "%s costs %d gold and you only have %d gold."
 msgstr "%s maksab %d raha, aga meil on ainult %d raha."
@@ -7920,19 +7922,19 @@ msgstr ""
 "Automaatselt ühendun serveri \"%s\" porti %d mängijana \"%s\" iga %f sekundi "
 "takka %d korda"
 
-#: client/connectdlg_common.c:79 client/gui-gtk-2.0/pages.c:1366
+#: client/connectdlg_common.c:79 client/gui-gtk-2.0/pages.c:1358
 msgid "novice"
 msgstr "algaja"
 
-#: client/connectdlg_common.c:80 client/gui-gtk-2.0/pages.c:1366
+#: client/connectdlg_common.c:80 client/gui-gtk-2.0/pages.c:1358
 msgid "easy"
 msgstr "kerge"
 
-#: client/connectdlg_common.c:81 client/gui-gtk-2.0/pages.c:1367
+#: client/connectdlg_common.c:81 client/gui-gtk-2.0/pages.c:1359
 msgid "normal"
 msgstr "tavaline"
 
-#: client/connectdlg_common.c:82 client/gui-gtk-2.0/pages.c:1367
+#: client/connectdlg_common.c:82 client/gui-gtk-2.0/pages.c:1359
 msgid "hard"
 msgstr "raske"
 
@@ -9271,13 +9273,13 @@ msgid "Username"
 msgstr "Kasutajanimi"
 
 #: client/plrdlg_common.c:251 client/gui-gtk-2.0/dialogs.c:651
-#: client/gui-gtk-2.0/pages.c:2163
+#: client/gui-gtk-2.0/pages.c:2157
 msgid "Flag"
 msgstr "Lipp"
 
 #: client/plrdlg_common.c:252 client/gui-gtk-2.0/dialogs.c:655
-#: client/gui-gtk-2.0/pages.c:961 client/gui-gtk-2.0/pages.c:1613
-#: client/gui-gtk-2.0/pages.c:2165 client/gui-sdl/repodlgs.c:2063
+#: client/gui-gtk-2.0/pages.c:953 client/gui-gtk-2.0/pages.c:1605
+#: client/gui-gtk-2.0/pages.c:2159 client/gui-sdl/repodlgs.c:2063
 #: client/gui-win32/connectdlg.c:990 client/gui-win32/dialogs.c:542
 #: client/gui-win32/plrdlg.c:335
 msgid "Nation"
@@ -9291,7 +9293,7 @@ msgstr "Piir"
 msgid "Score"
 msgstr "Skoor"
 
-#: client/plrdlg_common.c:255 client/gui-gtk-2.0/pages.c:1619
+#: client/plrdlg_common.c:255 client/gui-gtk-2.0/pages.c:1611
 msgid "Team"
 msgstr "Meeskond"
 
@@ -9371,270 +9373,296 @@ msgstr ""
 msgid "Failed looking up metaserver's host"
 msgstr "Metaserveri hosti lahendamine ebaõnnestus"
 
-#: client/text.c:85 client/text.c:86 client/text.c:91
+#. TRANS: "AI <player name>"
+#: client/text.c:94
+#, c-format
+msgid "AI %s"
+msgstr ""
+
+#. TRANS: "<nation adjective>, team <team name>"
+#: client/text.c:118
+#, fuzzy, c-format
+msgid "%s, team %s"
+msgstr ", meeskond %s"
+
+#: client/text.c:135 client/text.c:136 client/text.c:141
 #: client/gui-sdl/mapview.c:752
 msgid "?nation:Neutral"
 msgstr "?nation:Neutraalsed"
 
-#: client/text.c:85 client/gui-sdl/mapview.c:752
+#: client/text.c:135 client/gui-sdl/mapview.c:752
 msgid "?nation:Hostile"
 msgstr "?nation:Vaenulikud"
 
-#: client/text.c:87 client/gui-sdl/mapview.c:754
+#: client/text.c:137 client/gui-sdl/mapview.c:754
 msgid "?nation:Peaceful"
 msgstr "?nation:Rahumeelsed"
 
-#: client/text.c:87 client/gui-sdl/mapview.c:754
+#: client/text.c:137 client/gui-sdl/mapview.c:754
 msgid "?nation:Friendly"
 msgstr "?nation:Sõbralikud"
 
-#: client/text.c:88 client/gui-sdl/mapview.c:755
+#: client/text.c:138 client/gui-sdl/mapview.c:755
 msgid "?nation:Mysterious"
 msgstr "?nation:Saladuslikud"
 
-#: client/text.c:88
+#: client/text.c:138
 msgid "?nation:Friendly(team)"
 msgstr "?nation:Sõbralikud (meeskond)"
 
-#: client/text.c:90 client/gui-sdl/mapview.c:785
+#: client/text.c:140 client/gui-sdl/mapview.c:785
 msgid "?city:Neutral"
 msgstr "?city:Neutraalne"
 
-#: client/text.c:90 client/gui-sdl/mapview.c:785
+#: client/text.c:140 client/gui-sdl/mapview.c:785
 msgid "?city:Hostile"
 msgstr "?city:Vaenulik"
 
-#: client/text.c:92 client/gui-sdl/mapview.c:786
+#: client/text.c:142 client/gui-sdl/mapview.c:786
 msgid "?city:Peaceful"
 msgstr "?city:Rahumeelne"
 
-#: client/text.c:92 client/gui-sdl/mapview.c:787
+#: client/text.c:142 client/gui-sdl/mapview.c:787
 msgid "?city:Friendly"
 msgstr "?city:Sõbralik"
 
-#: client/text.c:92 client/gui-sdl/mapview.c:787
+#: client/text.c:142 client/gui-sdl/mapview.c:787
 msgid "?city:Mysterious"
 msgstr "?city:Saladuslik"
 
-#: client/text.c:93
+#: client/text.c:143
 msgid "?city:Friendly(team)"
 msgstr "?city:Sõbralik (meeskond)"
 
-#: client/text.c:100
+#: client/text.c:151
 #, c-format
 msgid "Location: (%d, %d) [%d]"
 msgstr "Asukoht: (%d, %d) [%d]"
 
-#: client/text.c:109
+#: client/text.c:153
+#, c-format
+msgid "Native coordinates: (%d, %d)"
+msgstr ""
+
+#: client/text.c:160
 #, c-format
 msgid "Terrain: %s"
 msgstr "Maastik: %s"
 
-#: client/text.c:110
+#: client/text.c:161
 #, c-format
 msgid "Food/Prod/Trade: %s"
 msgstr "Toit/Tootm/Kaubandus: %s"
 
-#: client/text.c:113
+#: client/text.c:164
 msgid "Minor Tribe Village"
 msgstr "Väike höimu küla"
 
-#: client/text.c:119
+#: client/text.c:173
 #, fuzzy
 msgid "Our territory"
 msgstr "Meie territoorium"
 
-#. TRANS: "Polish territory"
-#: client/text.c:122
+#. TRANS: "Territory of <username> (<nation + team>)"
+#: client/text.c:176
 #, fuzzy, c-format
-msgid "%s territory"
-msgstr "%s-ide territoorium"
+msgid "Territory of %s (%s)"
+msgstr ""
+"\n"
+"Maaomanik %s %s"
 
-#. TRANS: "Polish territory (5 turn cease-fire)"
-#: client/text.c:131
-#, c-format
-msgid "%s territory (%d turn cease-fire)"
-msgid_plural "%s territory (%d turn cease-fire)"
-msgstr[0] "Rahvuse %s territoorium (%d käigu pikkune vaherahu)"
-msgstr[1] "Rahvuse %s territoorium (%d käigu pikkune vaherahu)"
-
-#. TRANS: "Polish territory (friendly)"
-#: client/text.c:140
+#: client/text.c:186
 #, fuzzy, c-format
-msgid "%s territory (%s)"
-msgstr "Maaomanik %s %s"
-
-#: client/text.c:145
-msgid "Unclaimed territory"
-msgstr "Omanikuta territoorium"
-
-#. TRANS: "City: Warsaw (Polish)"
-#: client/text.c:156
-#, c-format
-msgid "City: %s (%s)"
-msgstr "Linn: %s (%s)"
-
-#. TRANS:  "City: Warsaw (Polish, 5 turn cease-fire)"
-#: client/text.c:166
-#, c-format
-msgid "City: %s (%s, %d turn cease-fire)"
-msgid_plural "City: %s (%s, %d turn cease-fire)"
+msgid "Territory of %s (%s) (%d turn cease-fire)"
+msgid_plural "Territory of %s (%s) (%d turn cease-fire)"
 msgstr[0] "Linn: %s (%s, %d käigu pikkune vaherahu)"
 msgstr[1] "Linn: %s (%s, %d käigu pikkune vaherahu)"
 
-#. TRANS: "City: Warsaw (Polish,friendly)"
-#: client/text.c:174
-#, c-format
-msgid "City: %s (%s, %s)"
+#. TRANS: "Territory of <username>
+#. * (<nation + team> | <diplomatic state>)"
+#: client/text.c:195
+#, fuzzy, c-format
+msgid "Territory of %s (%s | %s)"
+msgstr ""
+"\n"
+"Maaomanik %s %s"
+
+#: client/text.c:200
+msgid "Unclaimed territory"
+msgstr "Omanikuta territoorium"
+
+#. TRANS: "City: <city name> | <username> (<nation + team>)"
+#: client/text.c:214
+#, fuzzy, c-format
+msgid "City: %s | %s (%s)"
+msgstr "Linn: %s (%s, %s)"
+
+#. TRANS:  "City: <city name> | <username>
+#. * (<nation + team>, <number> turn cease-fire)"
+#: client/text.c:224
+#, fuzzy, c-format
+msgid "City: %s | %s (%s, %d turn cease-fire)"
+msgid_plural "City: %s | %s (%s, %d turn cease-fire)"
+msgstr[0] "Linn: %s (%s, %d käigu pikkune vaherahu)"
+msgstr[1] "Linn: %s (%s, %d käigu pikkune vaherahu)"
+
+#. TRANS: "City: <city name> | <username>
+#. * (<nation + team>, <diplomatic state>)"
+#: client/text.c:231
+#, fuzzy, c-format
+msgid "City: %s | %s (%s, %s)"
 msgstr "Linn: %s (%s, %s)"
 
 #. TRANS: previous lines gave other information about the city.
-#: client/text.c:189
+#: client/text.c:246
 #, fuzzy, c-format
 msgid "?clistbegin: with %s"
 msgstr " koos %s"
 
 #. TRANS: "Trade from Warsaw: 5"
-#: client/text.c:202
+#: client/text.c:259
 #, c-format
 msgid "Trade from %s: %d"
 msgstr "Kaubandus linnast %s: %d"
 
-#: client/text.c:210
+#: client/text.c:267
 #, c-format
 msgid "Infrastructure: %s"
 msgstr "Infrastruktuur: %s"
 
-#: client/text.c:215
+#: client/text.c:272
 #, c-format
 msgid "Activity: %s"
 msgstr "Tegevus: %s"
 
-#. TRANS: "Unit: Musketeers (Polish, Warsaw)"
-#. TRANS: "Unit: Musketeers (Polish,friendly)"
-#: client/text.c:226 client/text.c:253
-#, c-format
-msgid "Unit: %s (%s, %s)"
+#. TRANS: "Unit: <unit type> | <username>
+#. * (<nation + team>, <homecity>)"
+#. TRANS: "Unit: <unit type> | <username> (<nation + team>,
+#. * <diplomatic state>)"
+#: client/text.c:287 client/text.c:313
+#, fuzzy, c-format
+msgid "Unit: %s | %s (%s, %s)"
 msgstr "Üksus: %s (%s, %s)"
 
-#. TRANS: "Unit: Musketeers (Polish)"
-#: client/text.c:232
+#. TRANS: "Unit: <unit type> | <username> (<nation + team>)"
+#: client/text.c:292
 #, fuzzy, c-format
-msgid "Unit: %s (%s)"
-msgstr "Üksus: %s (%s)"
+msgid "Unit: %s | %s (%s)"
+msgstr "Üksus: %s (%s, %s)"
 
-#. TRANS:  "Unit: Musketeers (Polish, 5 turn cease-fire)"
-#: client/text.c:245
-#, c-format
-msgid "Unit: %s (%s, %d turn cease-fire)"
-msgid_plural "Unit: %s (%s, %d turn cease-fire)"
+#. TRANS:  "Unit: <unit type> | <username> (<nation + team>,
+#. * <number> turn cease-fire)"
+#: client/text.c:305
+#, fuzzy, c-format
+msgid "Unit: %s | %s (%s, %d turn cease-fire)"
+msgid_plural "Unit: %s | %s (%s, %d turn cease-fire)"
 msgstr[0] "Üksus: %s (%s, %d-käigune sõjategevuse peatamine)"
 msgstr[1] "Üksus: %s (%s, %d-käigune sõjategevuse peatamine)"
 
 #. TRANS: "Chance to win: A:95% D:46%"
-#: client/text.c:279
+#: client/text.c:338
 #, c-format
 msgid "Chance to win: A:%d%% D:%d%%"
 msgstr "Võiduvõimalus: R: %d%% K: %d%%"
 
 #. TRANS: A is attack power, D is defense power, FP is firepower,
 #. * HP is hitpoints (current and max).
-#: client/text.c:286
+#: client/text.c:345
 #, fuzzy, c-format
 msgid "A:%d D:%d FP:%d HP:%d/%d (%s)"
 msgstr "R: %d K: %d FP: %d HP:%d/%d (%s)"
 
 #. TRANS: "5 more" units on this tile
-#: client/text.c:295
+#: client/text.c:354
 #, c-format
 msgid "  (%d more)"
 msgstr "  (%d veel)"
 
 #. TRANS: on own line immediately following \n, ... <city>
-#: client/text.c:364
+#: client/text.c:423
 #, c-format
 msgid "far from %s"
 msgstr ""
 
 #. TRANS: on own line immediately following \n, ... <city>
-#: client/text.c:367
+#: client/text.c:426
 #, c-format
 msgid "near %s"
 msgstr "lähim %s"
 
 #. TRANS: on own line immediately following \n, ... <city>
-#: client/text.c:370
+#: client/text.c:429
 #, c-format
 msgid "in %s"
 msgstr "%s-s"
 
 #. TRANS: on own line immediately following \n, ... <city>
-#: client/text.c:403
+#: client/text.c:462
 #, c-format
 msgid "from %s"
 msgstr "%s-lt"
 
-#: client/text.c:466
+#: client/text.c:525
 msgid "Progress: no research"
 msgstr "Progress: ei jaksa midagi uurida"
 
-#: client/text.c:470
+#: client/text.c:529
 msgid "Progress: no research target"
 msgstr "Progress: pole teadustöö eesmärki"
 
-#: client/text.c:475
+#: client/text.c:534
 #, c-format
 msgid "Progress: %d turn/advance"
 msgid_plural "Progress: %d turns/advance"
 msgstr[0] "Progress: %d käik avastuseni"
 msgstr[1] "Progress: %d käiku avastuseni"
 
-#: client/text.c:480
+#: client/text.c:539
 #, c-format
 msgid "%d bulb/turn"
 msgid_plural "%d bulbs/turn"
 msgstr[0] "%d pirn käigus"
 msgstr[1] "%d pirni käigus"
 
-#: client/text.c:485
+#: client/text.c:544
 #, c-format
 msgid ", %d bulb/turn from team"
 msgid_plural ", %d bulbs/turn from team"
 msgstr[0] ", %d pirn/käigus meeskonnalt"
 msgstr[1] ", %d pirni/käigus meeskonnalt"
 
-#: client/text.c:512
+#: client/text.c:571
 #, c-format
 msgid "%d/- (never)"
 msgstr "%d/- (iialgi)"
 
-#: client/text.c:524
+#: client/text.c:583
 #, c-format
 msgid "%d/%d (%d turn)"
 msgid_plural "%d/%d (%d turns)"
 msgstr[0] "%d/%d (%d käik)"
 msgstr[1] "%d/%d (%d käiku)"
 
-#: client/text.c:527
+#: client/text.c:586
 #, c-format
 msgid "%d/%d (never)"
 msgstr "%d/%d (iialgi)"
 
-#: client/text.c:564
+#: client/text.c:623
 #, c-format
 msgid "%d step"
 msgid_plural "%d steps"
 msgstr[0] "%d samm"
 msgstr[1] "%d sammu"
 
-#: client/text.c:566
+#: client/text.c:625
 #, c-format
 msgid "%d bulb"
 msgid_plural "%d bulbs"
 msgstr[0] "%d pirn"
 msgstr[1] "%d pirni"
 
-#: client/text.c:570 client/agents/cma_fec.c:269 client/agents/cma_fec.c:313
+#: client/text.c:629 client/agents/cma_fec.c:269 client/agents/cma_fec.c:313
 #: client/gui-gtk-2.0/citydlg.c:1421 client/gui-win32/citydlg.c:460
 #, c-format
 msgid "%d turn"
@@ -9642,89 +9670,89 @@ msgid_plural "%d turns"
 msgstr[0] "%d käik"
 msgstr[1] "%d käiku"
 
-#: client/text.c:592
+#: client/text.c:651
 #, c-format
 msgid "Population: %s"
 msgstr "Rahvaarv: %s"
 
-#: client/text.c:595
+#: client/text.c:654
 #, c-format
 msgid "Year: %s (T%d)"
 msgstr "Aasta: %s (K%d)"
 
-#: client/text.c:598
+#: client/text.c:657
 #, c-format
 msgid "Gold: %d (%+d)"
 msgstr "Kulda: %d (%+d)"
 
-#: client/text.c:600
+#: client/text.c:659
 #, c-format
 msgid "Tax: %d Lux: %d Sci: %d"
 msgstr "Maksud:%d Hüved:%d Teadus:%d"
 
-#: client/text.c:607
+#: client/text.c:666
 #, fuzzy
 msgid "Moving: Nobody"
 msgstr "Liigub: %s"
 
-#: client/text.c:609
+#: client/text.c:668
 #, c-format
 msgid "Moving: %s"
 msgstr "Liigub: %s"
 
-#: client/text.c:613
+#: client/text.c:672
 msgid "(Click for more info)"
 msgstr "(Klõpsa rohkema nägemiseks)"
 
-#: client/text.c:629
+#: client/text.c:688
 #, c-format
 msgid "%s People"
 msgstr "%s kodanikku"
 
-#: client/text.c:633
+#: client/text.c:692
 #, c-format
 msgid "Turn: %d"
 msgstr "Käik: %d"
 
-#: client/text.c:635 client/gui-win32/inteldlg.c:111
+#: client/text.c:694 client/gui-win32/inteldlg.c:111
 #: client/gui-xaw/inteldlg.c:208
 #, c-format
 msgid "Gold: %d"
 msgstr "Kulda: %d"
 
-#: client/text.c:636
+#: client/text.c:695
 #, c-format
 msgid "Net Income: %d"
 msgstr "Kogusissetulek: %d"
 
 #. TRANS: Gold, luxury, and science rates are in percentage values.
-#: client/text.c:639
+#: client/text.c:698
 #, c-format
 msgid "Tax rates: Gold:%d%% Luxury:%d%% Science:%d%%"
 msgstr "Maksumäärad: Kuld:%d%% Hüved:%d%% Teadus:%d%%"
 
-#: client/text.c:643
+#: client/text.c:702
 #, c-format
 msgid "Researching %s: %s"
 msgstr "Uuritakse %s: %s"
 
-#: client/text.c:650
+#: client/text.c:709
 #, c-format
 msgid "Global warming chance: %d%% (%+d%%/turn)"
 msgstr "Tõenäosus globaalseks soojenemiseks: %d%% (%+d%%/käik)"
 
-#: client/text.c:653
+#: client/text.c:712
 #, c-format
 msgid "Nuclear winter chance: %d%% (%+d%%/turn)"
 msgstr "Tõenäosus tuumatalveks: %d%% (%+d%%/käik)"
 
-#: client/text.c:658 client/gui-win32/inteldlg.c:104
+#: client/text.c:717 client/gui-win32/inteldlg.c:104
 #: client/gui-xaw/inteldlg.c:200
 #, c-format
 msgid "Government: %s"
 msgstr "Riigikord: %s"
 
-#: client/text.c:682
+#: client/text.c:741
 #, c-format
 msgid "%d unit"
 msgid_plural "%d units"
@@ -9732,55 +9760,55 @@ msgstr[0] "%d üksus"
 msgstr[1] "%d üksust"
 
 #. TRANS: Impossible to reach goto target tile
-#: client/text.c:715 client/gui-sdl/mapview.c:566
+#: client/text.c:774 client/gui-sdl/mapview.c:566
 msgid "?goto:Unreachable"
 msgstr ""
 
-#: client/text.c:717 client/gui-sdl/mapview.c:568
+#: client/text.c:776 client/gui-sdl/mapview.c:568
 #, c-format
 msgid "Turns to target: %d"
 msgstr "Käike sihtmärgini: %d"
 
-#: client/text.c:719 client/gui-sdl/mapview.c:570
+#: client/text.c:778 client/gui-sdl/mapview.c:570
 #, c-format
 msgid "Turns to target: %d to %d"
 msgstr "Käike sihtmärgini: %d kuni %d"
 
-#: client/text.c:725 client/gui-sdl/mapview.c:576
+#: client/text.c:784 client/gui-sdl/mapview.c:576
 #, c-format
 msgid "%d unit selected"
 msgid_plural "%d units selected"
 msgstr[0] "%d üksus valitud"
 msgstr[1] "%d üksust valitud"
 
-#: client/text.c:730 client/gui-sdl/mapview.c:581
+#: client/text.c:789 client/gui-sdl/mapview.c:581
 msgid "No units selected."
 msgstr "Ühtegi üksust pole valitud."
 
-#: client/text.c:804 client/gui-sdl/mapview.c:654
+#: client/text.c:863 client/gui-sdl/mapview.c:654
 #, c-format
 msgid "Others: %d civil; %d military"
 msgstr ""
 
-#: client/text.c:806 client/gui-sdl/mapview.c:656
+#: client/text.c:865 client/gui-sdl/mapview.c:656
 #, c-format
 msgid "Others: %d civilian"
 msgstr ""
 
-#: client/text.c:808 client/gui-sdl/mapview.c:658
+#: client/text.c:867 client/gui-sdl/mapview.c:658
 #, c-format
 msgid "Others: %d military"
 msgstr ""
 
-#: client/text.c:839
+#: client/text.c:898
 msgid "No units to upgrade!"
 msgstr "Pole ühtki uuendamist vajavat üksust!"
 
-#: client/text.c:864
+#: client/text.c:923
 msgid "None of these units may be upgraded."
 msgstr "Neid üksusi ei saa uuendada."
 
-#: client/text.c:870
+#: client/text.c:929
 #, c-format
 msgid ""
 "Upgrade %d unit for %d gold?\n"
@@ -9795,72 +9823,72 @@ msgstr[1] ""
 "Kas uuendada %d üksust %d raha eest?\n"
 "Meil on hetkel %d raha."
 
-#: client/text.c:891
+#: client/text.c:950
 msgid "Shows your progress in researching the current technology."
 msgstr "Näitab tehnoloogia avastamise hetkeseisu."
 
-#: client/text.c:897
+#: client/text.c:956
 msgid "no research target."
 msgstr ""
 
 #. TRANS: <tech>: <amount>/<total bulbs>
-#: client/text.c:900
+#: client/text.c:959
 #, c-format
 msgid "%s: %d/%d."
 msgstr ""
 
-#: client/text.c:920
+#: client/text.c:979
 msgid "Shows the progress of global warming:"
 msgstr "Näitab globaalse soojenemise arengut:"
 
-#: client/text.c:921
+#: client/text.c:980
 #, c-format
 msgid "Pollution rate: %d%%"
 msgstr "Saastamise määr: %d%%"
 
-#: client/text.c:923
+#: client/text.c:982
 #, c-format
 msgid "Chance of catastrophic warming each turn: %d%%"
 msgstr "Tõenäosus katastroofiliseks soojenemiseks igal käigul: %d%%"
 
-#: client/text.c:939
+#: client/text.c:998
 msgid "Shows the progress of nuclear winter:"
 msgstr "Näitab tuumatalve arengut:"
 
-#: client/text.c:940
+#: client/text.c:999
 #, c-format
 msgid "Fallout rate: %d%%"
 msgstr "Tuumajäätmete määr: %d%%"
 
-#: client/text.c:942
+#: client/text.c:1001
 #, c-format
 msgid "Chance of catastrophic winter each turn: %d%%"
 msgstr "Tõenäosus katastroofiliseks talveks igal käigul: %d"
 
-#: client/text.c:957
+#: client/text.c:1016
 msgid "Shows your current government:"
 msgstr "Näitab su praegust valitsus:"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:981
+#: client/text.c:1040
 #, c-format
 msgid "Population:      %5d"
 msgstr "Rahvaarv:      %5d"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:984
+#: client/text.c:1043
 #, c-format
 msgid "Support:         %5d %%"
 msgstr ""
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:988
+#: client/text.c:1047
 #, c-format
 msgid "Energy:          %5d %%"
 msgstr ""
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:992
+#: client/text.c:1051
 #, c-format
 msgid "Mass:            %5d ton"
 msgid_plural "Mass:            %5d tons"
@@ -9868,97 +9896,97 @@ msgstr[0] "Mass:            %5d tonn"
 msgstr[1] "Mass:            %5d tonni"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:998
+#: client/text.c:1057
 #, c-format
 msgid "Travel time:     %5.1f years"
 msgstr "Reisu aeg:     %5.1f aastat"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1002
+#: client/text.c:1061
 msgid "Travel time:        N/A     "
 msgstr "Reisu aeg:     Ei tea    "
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1006
+#: client/text.c:1065
 #, c-format
 msgid "Success prob.:   %5d %%"
 msgstr "Edu võimalus: %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1010
+#: client/text.c:1069
 #, c-format
 msgid "Year of arrival: %8s"
 msgstr "Saabumise aasta %8s"
 
-#: client/text.c:1030
+#: client/text.c:1089
 msgid "?timeout:off"
 msgstr "?timeout:väljas"
 
-#: client/text.c:1054
+#: client/text.c:1113
 #, c-format
 msgid "?seconds:%02ds"
 msgstr "%02ds"
 
-#: client/text.c:1056
+#: client/text.c:1115
 #, c-format
 msgid "?mins/secs:%02dm %02ds"
 msgstr "%02dm %02ds"
 
-#: client/text.c:1058
+#: client/text.c:1117
 #, c-format
 msgid "?hrs/mns:%02dh %02dm"
 msgstr "%02dh %02dm"
 
-#: client/text.c:1060
+#: client/text.c:1119
 #, c-format
 msgid "?dys/hrs:%02dd %02dh"
 msgstr "%02dd %02dh"
 
-#: client/text.c:1063
+#: client/text.c:1122
 msgid "?duration:overflow"
 msgstr ""
 
-#: client/text.c:1084
+#: client/text.c:1143
 #, c-format
 msgid "%6d.%02d ms"
 msgstr "%6d.%02d ms"
 
 #. TRANS: <nation adjective> <government name>.
 #. * E.g. "Polish Republic".
-#: client/text.c:1129
+#: client/text.c:1188
 #, fuzzy, c-format
 msgid "?nationgovernment:%s %s"
 msgstr "Riigikord: %s"
 
 #. TRANS: "Observer: 1985"
-#: client/text.c:1139
+#: client/text.c:1198
 #, c-format
 msgid "Observer: %s"
 msgstr "Pealtvaataja: %s"
 
-#: client/text.c:1157
+#: client/text.c:1216
 msgid "Buildings: "
 msgstr "Ehitised: "
 
-#: client/text.c:1174 client/text.c:1213
+#: client/text.c:1233 client/text.c:1272
 msgid "None. "
 msgstr "Puudub."
 
-#: client/text.c:1176 client/text.c:1215
+#: client/text.c:1235 client/text.c:1274
 msgid "?clistend:."
 msgstr "."
 
-#: client/text.c:1194
+#: client/text.c:1253
 msgid "Wonders: "
 msgstr "Ilmaimed: "
 
-#: client/text.c:1249
+#: client/text.c:1308
 #, c-format
 msgid "Cities: %d total, %d over threshold of %d cities."
 msgstr ""
 
 #. TRANS: 0-21 content [citizen(s)] ...
-#: client/text.c:1253
+#: client/text.c:1312
 #, c-format
 msgid "%d content before penalty."
 msgid_plural "%d content before penalty."
@@ -9966,41 +9994,41 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. TRANS: 0-21 unhappy citizen(s).
-#: client/text.c:1259
+#: client/text.c:1318
 #, fuzzy, c-format
 msgid "%d additional unhappy citizen."
 msgid_plural "%d additional unhappy citizens."
 msgstr[0] "%d uut õnnetut kodanikku."
 msgstr[1] "%d uut õnnetut kodanikku."
 
-#: client/text.c:1280
+#: client/text.c:1339
 #, fuzzy
 msgid "Unlimited martial law in effect."
 msgstr "Kehtib sõjaolukord ("
 
-#: client/text.c:1282
+#: client/text.c:1341
 #, fuzzy, c-format
 msgid "%d military unit may impose martial law."
 msgid_plural "Up to %d military units may impose martial law."
 msgstr[0] "* Tsiviilüksus (ei saa rünnata ega sõjaseisukorda kehtestada).\n"
 msgstr[1] "* Tsiviilüksus (ei saa rünnata ega sõjaseisukorda kehtestada).\n"
 
-#: client/text.c:1286
+#: client/text.c:1345
 #, fuzzy, c-format
 msgid "Each military unit makes %d unhappy citizen content."
 msgid_plural "Each military unit makes %d unhappy citizens content."
 msgstr[0] "Lõbustab linnaelanikke, tehes 3 õnnetut kodanikku rahulolevaks."
 msgstr[1] "Lõbustab linnaelanikke, tehes 3 õnnetut kodanikku rahulolevaks."
 
-#: client/text.c:1293
+#: client/text.c:1352
 msgid "Military units in the field may cause unhappiness. "
 msgstr ""
 
-#: client/text.c:1296
+#: client/text.c:1355
 msgid "Military units have no happiness effect. "
 msgstr "Sõjaväeüksusi ei mõjuta meeleolu."
 
-#: client/text.c:1311
+#: client/text.c:1370
 #, c-format
 msgid "Luxury: %d total."
 msgstr "Hüved: kokku %d."
@@ -10358,7 +10386,7 @@ msgstr "_Ava kaubatee"
 msgid "Enter Marketplace"
 msgstr "Mine turule"
 
-#: client/gui-gtk-2.0/chatline.c:161 client/gui-win32/chatline.c:134
+#: client/gui-gtk-2.0/chatline.c:218 client/gui-win32/chatline.c:134
 #: client/gui-xaw/chatline.c:120
 msgid "Cleared output window."
 msgstr "Väljundi aken puhastatud"
@@ -10700,7 +10728,7 @@ msgstr "Kuberner"
 msgid "_Select"
 msgstr "_Vali"
 
-#: client/gui-gtk-2.0/cityrep.c:925 client/gui-gtk-2.0/plrdlg.c:490
+#: client/gui-gtk-2.0/cityrep.c:925 client/gui-gtk-2.0/plrdlg.c:521
 msgid "_Display"
 msgstr "_Näita"
 
@@ -10908,8 +10936,8 @@ msgstr "Vali mille maha lõhkuda:"
 msgid "Unit"
 msgstr "Üksus"
 
-#: client/gui-gtk-2.0/dialogs.c:507 client/gui-gtk-2.0/pages.c:958
-#: client/gui-gtk-2.0/pages.c:1587 client/gui-gtk-2.0/pages.c:2161
+#: client/gui-gtk-2.0/dialogs.c:507 client/gui-gtk-2.0/pages.c:950
+#: client/gui-gtk-2.0/pages.c:1579 client/gui-gtk-2.0/pages.c:2155
 #: client/gui-gtk-2.0/wldlg.c:1035 client/gui-win32/connectdlg.c:985
 #: client/gui-win32/plrdlg.c:335 manual/civmanual.c:302 data/Freeciv.in:80
 msgid "Name"
@@ -11122,29 +11150,29 @@ msgstr "Vali sihtkoht"
 msgid "Show _All Cities"
 msgstr "Näita kõiki linnu"
 
-#: client/gui-gtk-2.0/gui_main.c:159
+#: client/gui-gtk-2.0/gui_main.c:162
 msgid "Show Map Scrollbars"
 msgstr "Näita kaardi kerimisribasid"
 
-#: client/gui-gtk-2.0/gui_main.c:160
+#: client/gui-gtk-2.0/gui_main.c:163
 msgid "Disable this option to hide the scrollbars on the map view."
 msgstr "Lülita see valik välja, et peita kaardi vaates kerimisribad."
 
-#: client/gui-gtk-2.0/gui_main.c:164
+#: client/gui-gtk-2.0/gui_main.c:167
 msgid "Keyboardless goto"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:165
+#: client/gui-gtk-2.0/gui_main.c:168
 msgid ""
 "If this option is set then a goto may be initiated by left-clicking and then "
 "holding down the mouse button while dragging the mouse onto a different tile."
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:170
+#: client/gui-gtk-2.0/gui_main.c:173
 msgid "Keep dialogs on top"
 msgstr "Hoia aknad kõige peal"
 
-#: client/gui-gtk-2.0/gui_main.c:171
+#: client/gui-gtk-2.0/gui_main.c:174
 msgid ""
 "If this option is set then dialog windows will always remain in front of the "
 "main Freeciv window. Disabling this has no effect in fullscreen mode."
@@ -11152,31 +11180,31 @@ msgstr ""
 "Kui see valik on aktiivne, siis jäävad avanenud aknad Freecivi põhiakna "
 "peale. Täisekraani korral ei muuda selle valiku keelamine midagi."
 
-#: client/gui-gtk-2.0/gui_main.c:175
+#: client/gui-gtk-2.0/gui_main.c:178
 msgid "Show worklist task icons"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:176
+#: client/gui-gtk-2.0/gui_main.c:179
 msgid ""
 "Disabling this will turn off the unit and building icons in the worklist "
 "dialog and the production tab of the city dialog."
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:180
+#: client/gui-gtk-2.0/gui_main.c:183
 msgid "Enable status report tabs"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:181
+#: client/gui-gtk-2.0/gui_main.c:184
 msgid ""
 "If this option is enabled then report dialogs will be shown as separate tabs "
 "rather than in popup dialogs."
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:186 client/gui-win32/gui_main.c:110
+#: client/gui-gtk-2.0/gui_main.c:189 client/gui-win32/gui_main.c:110
 msgid "Better fog-of-war drawing"
 msgstr "Parem sõjaudu joonistamine"
 
-#: client/gui-gtk-2.0/gui_main.c:187 client/gui-win32/gui_main.c:111
+#: client/gui-gtk-2.0/gui_main.c:190 client/gui-win32/gui_main.c:111
 msgid ""
 "If this is enabled then a better method is used for drawing fog-of-war.  It "
 "is not any slower but will consume about twice as much memory."
@@ -11185,41 +11213,41 @@ msgstr ""
 "joonistamiseks. See meetod ei ole aeglasem, kuid nõuab umbes kaks korda "
 "rohkem mälu."
 
-#: client/gui-gtk-2.0/gui_main.c:192
+#: client/gui-gtk-2.0/gui_main.c:195
 msgid "Show time for each chat message"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:193
+#: client/gui-gtk-2.0/gui_main.c:196
 msgid ""
 "If this option is enabled then all chat messages will be prefixed by a time "
 "string of the form [hour:minute:second]."
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:198
+#: client/gui-gtk-2.0/gui_main.c:201
 msgid "Split bottom notebook area"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:199
+#: client/gui-gtk-2.0/gui_main.c:202
 msgid ""
 "Enabling this option will split the bottom notebook into a left and right "
 "notebook so that two tabs may be viewed at once."
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:204
+#: client/gui-gtk-2.0/gui_main.c:207
 msgid "New message events go to top of list"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:205
+#: client/gui-gtk-2.0/gui_main.c:208
 msgid ""
 "If this option is enabled, new events in the message window will appear at "
 "the top of the list, rather than being appended at the bottom."
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:210
+#: client/gui-gtk-2.0/gui_main.c:213
 msgid "Show extra message window buttons"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:211
+#: client/gui-gtk-2.0/gui_main.c:214
 msgid ""
 "If this option is enabled, there will be two buttons displayed in the "
 "message window for inspecting a city and going to a location. If this option "
@@ -11229,38 +11257,52 @@ msgid ""
 "closed and reopened."
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:221
+#: client/gui-gtk-2.0/gui_main.c:224
 msgid "Metaserver tab first in network page"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:222
+#: client/gui-gtk-2.0/gui_main.c:225
 msgid ""
 "If this option is enabled, the metaserver tab will be the first notebook tab "
 "in the network page. This option requires a restart in order to take effect."
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:321 client/gui-xaw/gui_main.c:245
+#: client/gui-gtk-2.0/gui_main.c:230
+msgid "Plain chat messages are sent to allies only"
+msgstr ""
+
+#: client/gui-gtk-2.0/gui_main.c:231
+msgid ""
+"If this option is enabled, then plain messages typed into the chat entry "
+"while the game is running will only be sent to your allies. Otherwise plain "
+"messages will be sent as public chat messages. To send a public chat message "
+"with this option enabled, prefix the message with a single colon ':'. This "
+"option can also be set using a toggle button beside the chat entry (only "
+"visible in multiplayer games)."
+msgstr ""
+
+#: client/gui-gtk-2.0/gui_main.c:340 client/gui-xaw/gui_main.c:245
 msgid ""
 "This client has no special command line options\n"
 "\n"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:816 client/gui-gtk-2.0/gui_main.c:1452
+#: client/gui-gtk-2.0/gui_main.c:835 client/gui-gtk-2.0/gui_main.c:1508
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:1181 client/gui-gtk-2.0/gui_main.c:1188
+#: client/gui-gtk-2.0/gui_main.c:1225 client/gui-gtk-2.0/gui_main.c:1232
 #: client/gui-sdl/mapctrl.c:1566 client/gui-win32/gui_main.c:482
 #: data/Freeciv.in:2618
 msgid "Turn Done"
 msgstr "Käigud käidud"
 
-#: client/gui-gtk-2.0/gui_main.c:1188 client/gui-sdl/mapctrl.c:1566
+#: client/gui-gtk-2.0/gui_main.c:1232 client/gui-sdl/mapctrl.c:1566
 #: client/gui-sdl/mapview.c:1082
 msgid "Shift+Return"
 msgstr "Shift+Return"
 
-#: client/gui-gtk-2.0/gui_main.c:1220 client/gui-gtk-2.0/menu.c:797
+#: client/gui-gtk-2.0/gui_main.c:1266 client/gui-gtk-2.0/menu.c:797
 #: client/gui-gtk-2.0/menu.c:799 client/gui-gtk-2.0/menu.c:801
 #: client/gui-gtk-2.0/menu.c:803 client/gui-gtk-2.0/menu.c:805
 #: client/gui-gtk-2.0/menu.c:807 client/gui-gtk-2.0/menu.c:809
@@ -11279,11 +11321,11 @@ msgstr "Shift+Return"
 msgid "View"
 msgstr "Vaade"
 
-#: client/gui-gtk-2.0/gui_main.c:1313
+#: client/gui-gtk-2.0/gui_main.c:1359
 msgid "Chat"
 msgstr "Loba"
 
-#: client/gui-gtk-2.0/gui_main.c:1331 client/gui-win32/gui_main.c:538
+#: client/gui-gtk-2.0/gui_main.c:1377 client/gui-win32/gui_main.c:538
 #: data/Freeciv.in:2809
 msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it\n"
@@ -11294,70 +11336,74 @@ msgstr ""
 "arvestades teatud tingimusi; Loe Abi menüüst \"Koopiate tegemine\".\n"
 "Aga nüüd mine ja tiri nendel närakatel tsivilisatsioon üle kõrvade!"
 
-#: client/gui-gtk-2.0/gui_main.c:1601
+#: client/gui-gtk-2.0/gui_main.c:1392
+msgid "Allies Only"
+msgstr ""
+
+#: client/gui-gtk-2.0/gui_main.c:1657
 msgid "Not _ready"
 msgstr "Pole _valmis"
 
-#: client/gui-gtk-2.0/gui_main.c:1612 client/gui-gtk-2.0/pages.c:1683
+#: client/gui-gtk-2.0/gui_main.c:1668 client/gui-gtk-2.0/pages.c:1677
 msgid "_Ready"
 msgstr "_Valmis"
 
-#: client/gui-gtk-2.0/gui_main.c:1616 client/gui-gtk-2.0/gui_main.c:1622
-#: client/gui-gtk-2.0/pages.c:2210
+#: client/gui-gtk-2.0/gui_main.c:1672 client/gui-gtk-2.0/gui_main.c:1678
+#: client/gui-gtk-2.0/pages.c:2204
 msgid "_Start"
 msgstr "_Alusta"
 
-#: client/gui-gtk-2.0/gui_main.c:1630
+#: client/gui-gtk-2.0/gui_main.c:1686
 #, fuzzy
 msgid "_Take Player"
 msgstr "Vali see mängija"
 
-#: client/gui-gtk-2.0/gui_main.c:1633 client/gui-gtk-2.0/pages.c:1673
+#: client/gui-gtk-2.0/gui_main.c:1689 client/gui-gtk-2.0/pages.c:1667
 msgid "Pick _Nation"
 msgstr "Vali _Rahvus"
 
-#: client/gui-gtk-2.0/gui_main.c:1640 client/gui-gtk-2.0/pages.c:1678
+#: client/gui-gtk-2.0/gui_main.c:1696 client/gui-gtk-2.0/pages.c:1672
 msgid "_Observe"
 msgstr "_Vaatle"
 
-#: client/gui-gtk-2.0/gui_main.c:1642
+#: client/gui-gtk-2.0/gui_main.c:1698
 msgid "Do not _observe"
 msgstr "Ära _vaatle"
 
-#: client/gui-gtk-2.0/gui_main.c:1664 client/gui-xaw/pages.c:211
+#: client/gui-gtk-2.0/gui_main.c:1720 client/gui-xaw/pages.c:211
 msgid "<AI>"
 msgstr "<tehismõistus>"
 
-#: client/gui-gtk-2.0/gui_main.c:1667
+#: client/gui-gtk-2.0/gui_main.c:1723
 msgid "<Novice AI>"
 msgstr "<Algaja tehismõistus>"
 
-#: client/gui-gtk-2.0/gui_main.c:1670
+#: client/gui-gtk-2.0/gui_main.c:1726
 msgid "<Easy AI>"
 msgstr "<Kerge tehismõistus>"
 
-#: client/gui-gtk-2.0/gui_main.c:1673
+#: client/gui-gtk-2.0/gui_main.c:1729
 msgid "<Normal AI>"
 msgstr "<Normaalne tehismõistus>"
 
-#: client/gui-gtk-2.0/gui_main.c:1676
+#: client/gui-gtk-2.0/gui_main.c:1732
 msgid "<Hard AI>"
 msgstr "<Raske tehismõistus>"
 
-#: client/gui-gtk-2.0/gui_main.c:1686 client/gui-win32/dialogs.c:594
+#: client/gui-gtk-2.0/gui_main.c:1742 client/gui-win32/dialogs.c:594
 #: client/gui-xaw/pages.c:217
 msgid "Random"
 msgstr "Juhuslik"
 
-#: client/gui-gtk-2.0/gui_main.c:1752
+#: client/gui-gtk-2.0/gui_main.c:1808
 msgid "Observer"
 msgstr "Vaatleja"
 
-#: client/gui-gtk-2.0/gui_main.c:1752
+#: client/gui-gtk-2.0/gui_main.c:1808
 msgid "Detached"
 msgstr "Lahti ühenduund"
 
-#: client/gui-gtk-2.0/gui_main.c:2009
+#: client/gui-gtk-2.0/gui_main.c:2073
 msgid "Are you sure you want to quit?"
 msgstr "Ära välju veel, kogu maailm polegi sinu ideoloogiat täis."
 
@@ -12068,7 +12114,7 @@ msgstr "_Teated"
 msgid "_Demographics"
 msgstr "_Demograafia"
 
-#: client/gui-gtk-2.0/menu.c:975 client/gui-gtk-2.0/plrdlg.c:471
+#: client/gui-gtk-2.0/menu.c:975 client/gui-gtk-2.0/plrdlg.c:354
 #: client/gui-win32/menu.c:411
 msgid "_Spaceship"
 msgstr "Ko_smoselaev"
@@ -12247,7 +12293,25 @@ msgstr "Uues"
 msgid "Messages"
 msgstr "Teated"
 
-#: client/gui-gtk-2.0/plrdlg.c:330
+#: client/gui-gtk-2.0/plrdlg.c:317
+msgid "_Meet"
+msgstr "_Kohta"
+
+#: client/gui-gtk-2.0/plrdlg.c:323
+msgid "Cancel _Treaty"
+msgstr "Katkesta _leping"
+
+#: client/gui-gtk-2.0/plrdlg.c:329
+#, fuzzy
+msgid "_Withdraw Vision"
+msgstr "_Võta vaade tagasi"
+
+#: client/gui-gtk-2.0/plrdlg.c:348
+#, fuzzy
+msgid "_Report"
+msgstr "_Raportid"
+
+#: client/gui-gtk-2.0/plrdlg.c:386
 msgid "?show:Dead Players"
 msgstr "?show:Surnud mängijad"
 
@@ -12255,275 +12319,268 @@ msgstr "?show:Surnud mängijad"
 #. TRANS: Nations report action
 #. TRANS: Nations report title
 #. TRANS: Nations report action
-#: client/gui-gtk-2.0/plrdlg.c:350 client/gui-sdl/mapctrl.c:1580
+#: client/gui-gtk-2.0/plrdlg.c:406 client/gui-sdl/mapctrl.c:1580
 #: client/gui-sdl/plrdlg.c:608 client/gui-win32/plrdlg.c:344
 #: client/gui-xaw/menu.c:221 data/Freeciv.in:3192 data/Freeciv.in:3193
 msgid "Nations"
 msgstr "Rahvused"
 
-#: client/gui-gtk-2.0/plrdlg.c:443
+#: client/gui-gtk-2.0/plrdlg.c:511
+#, fuzzy
+msgid "Di_plomacy"
+msgstr "Diplomaatia"
+
+#: client/gui-gtk-2.0/plrdlg.c:516
 msgid "_Intelligence"
 msgstr "Luure_info"
 
-#: client/gui-gtk-2.0/plrdlg.c:450
-msgid "_Meet"
-msgstr "_Kohta"
-
-#: client/gui-gtk-2.0/plrdlg.c:457
-msgid "Cancel _Treaty"
-msgstr "Katkesta _leping"
-
-#: client/gui-gtk-2.0/plrdlg.c:464
-msgid "_Withdraw vision"
-msgstr "_Võta vaade tagasi"
-
-#: client/gui-gtk-2.0/plrdlg.c:495
+#: client/gui-gtk-2.0/plrdlg.c:526
 msgid "_AI"
 msgstr "_Tehismõistus"
 
-#: client/gui-gtk-2.0/plrdlg.c:501
+#: client/gui-gtk-2.0/plrdlg.c:532
 msgid "_Toggle AI Mode"
 msgstr "_Lülita tehismõistuseks"
 
-#: client/gui-gtk-2.0/pages.c:212
+#: client/gui-gtk-2.0/pages.c:221
 msgid "Start _New Game"
 msgstr "_Alusta uut mängu"
 
-#: client/gui-gtk-2.0/pages.c:218
+#: client/gui-gtk-2.0/pages.c:227
 msgid "Start _Scenario Game"
 msgstr "Alusta uut s_tsenaariumi"
 
-#: client/gui-gtk-2.0/pages.c:224
+#: client/gui-gtk-2.0/pages.c:233
 msgid "_Load Saved Game"
 msgstr "Lae _salvestatud mäng"
 
-#: client/gui-gtk-2.0/pages.c:233
+#: client/gui-gtk-2.0/pages.c:239
 msgid "C_onnect to Network Game"
 msgstr "Ühendu _võrgumängu"
 
-#: client/gui-gtk-2.0/pages.c:240
+#: client/gui-gtk-2.0/pages.c:247
 msgid "Connect to Gaming _Zone"
 msgstr "Ühendu Gaming _Zone'sse"
 
-#: client/gui-gtk-2.0/pages.c:632 client/gui-win32/connectdlg.c:300
+#: client/gui-gtk-2.0/pages.c:624 client/gui-win32/connectdlg.c:300
 #: client/gui-xaw/connectdlg.c:326
 msgid "Passwords don't match, enter password."
 msgstr "Paroolid ei kattu, sisesta parool."
 
-#: client/gui-gtk-2.0/pages.c:787 client/gui-gtk-2.0/pages.c:828
+#: client/gui-gtk-2.0/pages.c:779 client/gui-gtk-2.0/pages.c:820
 #: client/gui-win32/connectdlg.c:916
 msgid "Server Name"
 msgstr "Serveri nimi"
 
-#: client/gui-gtk-2.0/pages.c:788 client/gui-gtk-2.0/pages.c:829
+#: client/gui-gtk-2.0/pages.c:780 client/gui-gtk-2.0/pages.c:821
 #: client/gui-sdl/mapview.c:814 client/gui-win32/connectdlg.c:916
 #: data/Freeciv.in:96
 msgid "Port"
 msgstr "Port"
 
-#: client/gui-gtk-2.0/pages.c:789 client/gui-gtk-2.0/pages.c:830
+#: client/gui-gtk-2.0/pages.c:781 client/gui-gtk-2.0/pages.c:822
 #: client/gui-win32/connectdlg.c:917
 msgid "Version"
 msgstr "Versioon"
 
-#: client/gui-gtk-2.0/pages.c:790 client/gui-gtk-2.0/pages.c:831
-#: client/gui-gtk-2.0/pages.c:2167 client/gui-win32/connectdlg.c:917
+#: client/gui-gtk-2.0/pages.c:782 client/gui-gtk-2.0/pages.c:823
+#: client/gui-gtk-2.0/pages.c:2161 client/gui-win32/connectdlg.c:917
 #: client/gui-win32/connectdlg.c:995
 msgid "Status"
 msgstr "Staatus"
 
-#: client/gui-gtk-2.0/pages.c:791 client/gui-gtk-2.0/pages.c:832
+#: client/gui-gtk-2.0/pages.c:783 client/gui-gtk-2.0/pages.c:824
 #: client/gui-sdl/connectdlg.c:318 client/gui-sdl/plrdlg.c:330
 #: client/gui-win32/connectdlg.c:917
 msgid "Players"
 msgstr "Mängijaid"
 
-#: client/gui-gtk-2.0/pages.c:792 client/gui-gtk-2.0/pages.c:833
+#: client/gui-gtk-2.0/pages.c:784 client/gui-gtk-2.0/pages.c:825
 #: client/gui-win32/connectdlg.c:918
 msgid "Comment"
 msgstr "Kommentaar"
 
-#: client/gui-gtk-2.0/pages.c:794
+#: client/gui-gtk-2.0/pages.c:786
 msgid "Local _Area Network"
 msgstr "_Kohtvõrk"
 
-#: client/gui-gtk-2.0/pages.c:835
+#: client/gui-gtk-2.0/pages.c:827
 msgid "Internet _Metaserver"
 msgstr "Interneti _metaserver"
 
-#: client/gui-gtk-2.0/pages.c:872
+#: client/gui-gtk-2.0/pages.c:864
 msgid "_Host:"
 msgstr "_Host:"
 
-#: client/gui-gtk-2.0/pages.c:889
+#: client/gui-gtk-2.0/pages.c:881
 msgid "_Port:"
 msgstr "_Port:"
 
-#: client/gui-gtk-2.0/pages.c:906
+#: client/gui-gtk-2.0/pages.c:898
 msgid "_Login:"
 msgstr "K_asutajanimi:"
 
-#: client/gui-gtk-2.0/pages.c:924
+#: client/gui-gtk-2.0/pages.c:916
 msgid "Pass_word:"
 msgstr "_Parool:"
 
-#: client/gui-gtk-2.0/pages.c:942
+#: client/gui-gtk-2.0/pages.c:934
 msgid "Conf_irm Password:"
 msgstr "Kinnita _parool:"
 
-#: client/gui-gtk-2.0/pages.c:959 client/gui-gtk-2.0/pages.c:2169
+#: client/gui-gtk-2.0/pages.c:951 client/gui-gtk-2.0/pages.c:2163
 #: client/gui-gtk-2.0/repodlgs.c:634 client/gui-gtk-2.0/wldlg.c:1035
 #: client/gui-win32/citydlg.c:1083 client/gui-win32/connectdlg.c:1000
 #: client/gui-win32/wldlg.c:800 client/gui-win32/wldlg.c:806
 msgid "Type"
 msgstr "Tüüp"
 
-#: client/gui-gtk-2.0/pages.c:960 client/gui-win32/plrdlg.c:337
+#: client/gui-gtk-2.0/pages.c:952 client/gui-win32/plrdlg.c:337
 #: data/Freeciv.in:88
 msgid "Host"
 msgstr "Host"
 
-#: client/gui-gtk-2.0/pages.c:989
+#: client/gui-gtk-2.0/pages.c:981
 msgid "C_onnect"
 msgstr "_Ühendu"
 
-#: client/gui-gtk-2.0/pages.c:1219
+#: client/gui-gtk-2.0/pages.c:1211
 #, c-format
 msgid "Connection name: %s"
 msgstr "Ühenduse nimi: %s"
 
-#: client/gui-gtk-2.0/pages.c:1222
+#: client/gui-gtk-2.0/pages.c:1214
 #, c-format
 msgid "Player name: %s"
 msgstr "Mängija nimi: %s"
 
-#: client/gui-gtk-2.0/pages.c:1227
+#: client/gui-gtk-2.0/pages.c:1219
 #, c-format
 msgid "Host: %s"
 msgstr "Masin: %s"
 
-#: client/gui-gtk-2.0/pages.c:1235
+#: client/gui-gtk-2.0/pages.c:1227
 msgid "Player/conn info"
 msgstr "Mängija/ühenduse info"
 
-#: client/gui-gtk-2.0/pages.c:1262
+#: client/gui-gtk-2.0/pages.c:1254
 #, c-format
 msgid "%s info"
 msgstr "%s info"
 
-#: client/gui-gtk-2.0/pages.c:1273
+#: client/gui-gtk-2.0/pages.c:1265
 msgid "Toggle player ready"
 msgstr "Lülita mängija valmidust"
 
-#: client/gui-gtk-2.0/pages.c:1281
+#: client/gui-gtk-2.0/pages.c:1273
 msgid "Pick nation"
 msgstr "Vali rahvus"
 
-#: client/gui-gtk-2.0/pages.c:1291
+#: client/gui-gtk-2.0/pages.c:1283
 msgid "Observe this player"
 msgstr "Vaatle seda mängijat"
 
-#: client/gui-gtk-2.0/pages.c:1298
+#: client/gui-gtk-2.0/pages.c:1290
 msgid "Take this player"
 msgstr "Vali see mängija"
 
-#: client/gui-gtk-2.0/pages.c:1315
+#: client/gui-gtk-2.0/pages.c:1307
 msgid "Cut connection"
 msgstr "Katkesta ühendus"
 
-#: client/gui-gtk-2.0/pages.c:1325
+#: client/gui-gtk-2.0/pages.c:1317
 msgid "Aitoggle player"
 msgstr "Lülita tehismõistusele"
 
-#: client/gui-gtk-2.0/pages.c:1334
+#: client/gui-gtk-2.0/pages.c:1326
 msgid "Remove player"
 msgstr "Eemalda mängija"
 
-#: client/gui-gtk-2.0/pages.c:1345
+#: client/gui-gtk-2.0/pages.c:1337
 msgid "Give info access"
 msgstr "Anna käsutase info "
 
-#: client/gui-gtk-2.0/pages.c:1353
+#: client/gui-gtk-2.0/pages.c:1345
 msgid "Give ctrl access"
 msgstr "Anna käsutase ctrl"
 
 #. TRANS: e.g., "Put on Team 5"
-#: client/gui-gtk-2.0/pages.c:1415
+#: client/gui-gtk-2.0/pages.c:1407
 #, c-format
 msgid "Put on %s"
 msgstr "Lisa %s hulka"
 
-#: client/gui-gtk-2.0/pages.c:1519
+#: client/gui-gtk-2.0/pages.c:1511
 msgid "Number of _Players (including AI):"
 msgstr "_Mängijate arv (tehismõistus kaasa arvatud):"
 
-#: client/gui-gtk-2.0/pages.c:1542
+#: client/gui-gtk-2.0/pages.c:1534
 msgid "AI Skill _Level:"
 msgstr "_Tehisintellekti tase:"
 
-#: client/gui-gtk-2.0/pages.c:1558
+#: client/gui-gtk-2.0/pages.c:1550
 msgid "Ruleset _Version:"
 msgstr "_Reeglistiku versioon:"
 
-#: client/gui-gtk-2.0/pages.c:1566 client/gui-gtk-2.0/pages.c:2199
+#: client/gui-gtk-2.0/pages.c:1558 client/gui-gtk-2.0/pages.c:2193
 msgid "_More Game Options..."
 msgstr "Rohkem mängu_seadeid..."
 
-#: client/gui-gtk-2.0/pages.c:1591
+#: client/gui-gtk-2.0/pages.c:1583
 msgid "Record"
 msgstr "Salvesta"
 
-#: client/gui-gtk-2.0/pages.c:1596
+#: client/gui-gtk-2.0/pages.c:1588
 msgid "Rating"
 msgstr "Reiting"
 
-#: client/gui-gtk-2.0/pages.c:1602
+#: client/gui-gtk-2.0/pages.c:1594
 msgid "Ready"
 msgstr "Valmis"
 
-#: client/gui-gtk-2.0/pages.c:1609
+#: client/gui-gtk-2.0/pages.c:1601
 #, fuzzy
 msgid "?player:Leader"
 msgstr "?Player:Nimi"
 
-#: client/gui-gtk-2.0/pages.c:1738 client/gui-sdl/chatline.c:185
+#: client/gui-gtk-2.0/pages.c:1732 client/gui-sdl/chatline.c:185
 msgid "Choose Saved Game to Load"
 msgstr "Vali salvestatud mäng laadimiseks"
 
-#: client/gui-gtk-2.0/pages.c:1830
+#: client/gui-gtk-2.0/pages.c:1824
 msgid "Choose Saved Game to _Load:"
 msgstr "Vali salvestatud mäng _laadimiseks:"
 
-#: client/gui-gtk-2.0/pages.c:1850 client/gui-gtk-2.0/pages.c:2043
-#: client/gui-gtk-2.0/pages.c:2455
+#: client/gui-gtk-2.0/pages.c:1844 client/gui-gtk-2.0/pages.c:2037
+#: client/gui-gtk-2.0/pages.c:2451
 msgid "_Browse..."
 msgstr "Lehitse..."
 
-#: client/gui-gtk-2.0/pages.c:1917
+#: client/gui-gtk-2.0/pages.c:1911
 msgid "Choose a Scenario"
 msgstr "Vali stsenaarium"
 
-#: client/gui-gtk-2.0/pages.c:2004
+#: client/gui-gtk-2.0/pages.c:1998
 msgid "Choose a _Scenario:"
 msgstr "Vali _stsenaarium:"
 
-#: client/gui-gtk-2.0/pages.c:2179
+#: client/gui-gtk-2.0/pages.c:2173
 msgid "Choose a _nation to play:"
 msgstr "Vali _rahvus, mida mängida:"
 
-#: client/gui-gtk-2.0/pages.c:2367 client/gui-win32/menu.c:581
+#: client/gui-gtk-2.0/pages.c:2363 client/gui-win32/menu.c:581
 msgid "Select Location to Save"
 msgstr "Vali koht salvestamiseks"
 
-#: client/gui-gtk-2.0/pages.c:2452 client/gui-sdl/optiondlg.c:2273
+#: client/gui-gtk-2.0/pages.c:2448 client/gui-sdl/optiondlg.c:2273
 msgid "Save Game"
 msgstr "Salvesta mäng"
 
-#: client/gui-gtk-2.0/pages.c:2493
+#: client/gui-gtk-2.0/pages.c:2489
 msgid "Saved _Games:"
 msgstr "_Salvestatud mängud:"
 
-#: client/gui-gtk-2.0/pages.c:2520
+#: client/gui-gtk-2.0/pages.c:2516
 msgid "Save _Filename:"
 msgstr "Salvestise _failinimi:"
 
@@ -23939,7 +23996,8 @@ msgstr ""
 "korraldasid bolševikud revolutsiooni. 1922. a. 31. detsembril ühinesid neli "
 "Nõukogude vabariiki üheks suureks riigiks. Nõukogude Liidust sai üks 20-nda "
 "sajandi võimsamaid riike, kuid 1991.a. lõpul lagunes Nõukogude Liit mitmete "
-"sotsiaalsete ja majanduslike probleemide tagajärjel viietestkümneks iseseisvaks riigiks."
+"sotsiaalsete ja majanduslike probleemide tagajärjel viietestkümneks "
+"iseseisvaks riigiks."
 
 #: data/nation/spanish.ruleset:3
 msgid "Spanish"
@@ -25154,6 +25212,26 @@ msgid "Team 31"
 msgstr "Meeskond 31"
 
 #, fuzzy
+#~ msgid "%s territory"
+#~ msgstr "%s-ide territoorium"
+
+#~ msgid "%s territory (%d turn cease-fire)"
+#~ msgid_plural "%s territory (%d turn cease-fire)"
+#~ msgstr[0] "Rahvuse %s territoorium (%d käigu pikkune vaherahu)"
+#~ msgstr[1] "Rahvuse %s territoorium (%d käigu pikkune vaherahu)"
+
+#, fuzzy
+#~ msgid "%s territory (%s)"
+#~ msgstr "Maaomanik %s %s"
+
+#~ msgid "City: %s (%s)"
+#~ msgstr "Linn: %s (%s)"
+
+#, fuzzy
+#~ msgid "Unit: %s (%s)"
+#~ msgstr "Üksus: %s (%s)"
+
+#, fuzzy
 #~ msgid "Auth config filename \"%s\" not allowed!"
 #~ msgstr "See nimi pole lubatud."
 
@@ -25296,9 +25374,6 @@ msgstr "Meeskond 31"
 
 #~ msgid ", nation %s"
 #~ msgstr ", rahvus %s"
-
-#~ msgid ", team %s"
-#~ msgstr ", meeskond %s"
 
 #~ msgid "_Map"
 #~ msgstr "_Kaart"

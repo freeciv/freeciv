@@ -15374,8 +15374,8 @@ msgid ""
 "Name             Nation       Embassy  Dipl.State      Vision   "
 "Reputation    State    Host"
 msgstr ""
-"이름              민족          대사관    외교             시야      "
-"평판           상태      호스트"
+"이름              민족          대사관    외교             시야      평"
+"판           상태      호스트"
 
 #: data/Freeciv.in:3246
 msgid "Cancel pact"
