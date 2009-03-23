@@ -72,6 +72,7 @@
 #include "pages_g.h"
 #include "plrdlg_g.h"
 #include "repodlgs_g.h"
+#include "servers.h"
 #include "tilespec.h"
 #include "themes_common.h"
 
@@ -383,8 +384,18 @@ int main(int argc, char *argv[])
     sz_strlcpy(server_host, default_server_host); 
   if (user_name[0] == '\0')
     sz_strlcpy(user_name, default_user_name); 
-  if (metaserver[0] == '\0')
-    sz_strlcpy(metaserver, default_metaserver); 
+  if (metaserver[0] == '\0') {
+    /* FIXME: Find a cleaner way to achieve this. */
+    const char *oldaddr = "http://meta.freeciv.org/metaserver.phtml";
+    if (0 == strcmp(default_metaserver, oldaddr)) {
+      freelog(LOG_NORMAL, _("Updating old metaserver address \"%s\"."),
+              oldaddr);
+      sz_strlcpy(default_metaserver, METALIST_ADDR);
+      freelog(LOG_NORMAL, _("Default metaserver has been set to \"%s\"."),
+              METALIST_ADDR);
+    }
+    sz_strlcpy(metaserver, default_metaserver);
+  }
   if (server_port == -1) server_port = default_server_port;
 
   /* This seed is not saved anywhere; randoms in the client should
