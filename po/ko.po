@@ -9160,10 +9160,10 @@ msgid_plural ""
 "Upgrade %d units for %d gold?\n"
 "Treasury contains %d gold."
 msgstr[0] ""
-"%d부대를 업그레이드 하시겠습니까?\n"
+"%d부대를 %d의 금으로 업그레이드 하시겠습니까?\n"
 "%d의 금을 자금으로 갖고 있습니다."
 msgstr[1] ""
-"%d부대를 업그레이드 하시겠습니까?\n"
+"%d부대를 %d의 금으로 업그레이드 하시겠습니까?\n"
 "%d의 금을 자금으로 갖고 있습니다."
 
 #: client/text.c:950
