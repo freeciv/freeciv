@@ -40,7 +40,7 @@ msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-03-24 11:26+0100\n"
-"PO-Revision-Date: 2009-03-24 11:50+0100\n"
+"PO-Revision-Date: 2009-03-24 22:03+0100\n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
 "MIME-Version: 1.0\n"
@@ -8925,13 +8925,13 @@ msgstr "Tätigkeit: %s"
 #: client/text.c:313
 #, c-format
 msgid "Unit: %s | %s (%s, %s)"
-msgstr "Einheit: %s | %s (die %s, %s)"
+msgstr "Einheit: %s | %s (%s, %s)"
 
 #. TRANS: "Unit: <unit type> | <username> (<nation + team>)"
 #: client/text.c:292
 #, c-format
 msgid "Unit: %s | %s (%s)"
-msgstr "Einheit: %s | %s (die %s)"
+msgstr "Einheit: %s | %s (%s)"
 
 #. TRANS:  "Unit: <unit type> | <username> (<nation + team>,
 #. * <number> turn cease-fire)"
@@ -8939,8 +8939,8 @@ msgstr "Einheit: %s | %s (die %s)"
 #, c-format
 msgid "Unit: %s | %s (%s, %d turn cease-fire)"
 msgid_plural "Unit: %s | %s (%s, %d turn cease-fire)"
-msgstr[0] "Einheit: %s | %s (die %s, %d Runde Feuerpause)"
-msgstr[1] "Einheit: %s | %s (die %s, %d Runden Feuerpause)"
+msgstr[0] "Einheit: %s | %s (%s, %d Runde Feuerpause)"
+msgstr[1] "Einheit: %s | %s (%s, %d Runden Feuerpause)"
 
 #. TRANS: "Chance to win: A:95% D:46%"
 #: client/text.c:338
