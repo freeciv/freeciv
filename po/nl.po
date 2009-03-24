@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-22 11:49+0900\n"
+"POT-Creation-Date: 2009-03-24 08:07+0900\n"
 "PO-Revision-Date: 2007-09-01 22:18+0300\n"
 "Last-Translator: Jelle Pelfrene <jelle.pelfrene@student.kuleuven.ac.be>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
@@ -2012,7 +2012,7 @@ msgstr "Dit is de server voor %s"
 msgid "You can learn a lot about Freeciv at %s"
 msgstr "U kunt veel leren over Freeciv op %s"
 
-#: server/civserver.c:206 client/civclient.c:237 manual/civmanual.c:380
+#: server/civserver.c:206 client/civclient.c:238 manual/civmanual.c:380
 #, c-format
 msgid ""
 "Usage: %s [option ...]\n"
@@ -2040,14 +2040,14 @@ msgstr "  -N  --Newusers\tLaat nieuwkomers toe terwijl auth uitstaat.\n"
 msgid "  -b  --bind ADDR\tListen for clients on ADDR\n"
 msgstr "  -b, --bind ADDR\tLuister naar clients op ADDR\n"
 
-#: server/civserver.c:217 client/civclient.c:241
+#: server/civserver.c:217 client/civclient.c:242
 msgid ""
 "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
 msgstr ""
 "  -d, --debug GETAL\tZet debug-logniveau (0 tot 4,of 4:bestand1,min,"
 "max:...)\n"
 
-#: server/civserver.c:221 client/civclient.c:245
+#: server/civserver.c:221 client/civclient.c:246
 msgid "  -d, --debug NUM\tSet debug log level (0 to 3)\n"
 msgstr "  -d, --debug GETAL\tZet debug-logniveau (0 tot 3)\n"
 
@@ -2055,7 +2055,7 @@ msgstr "  -d, --debug GETAL\tZet debug-logniveau (0 tot 3)\n"
 msgid "  -f, --file FILE\tLoad saved game FILE\n"
 msgstr "  -f, --file BESTAND\tLaad opgeslagen spel BESTAND\n"
 
-#: server/civserver.c:225 client/civclient.c:248 manual/civmanual.c:382
+#: server/civserver.c:225 client/civclient.c:249 manual/civmanual.c:382
 msgid "  -h, --help\t\tPrint a summary of the options\n"
 msgstr "  -h, --help\t\tGeef een samenvatting van de opties\n"
 
@@ -2104,7 +2104,7 @@ msgstr "  -r, --read BESTAND\tLees startscript BESTAND\n"
 msgid "  -R, --Ranklog FILE\tUse FILE as ranking logfile\n"
 msgstr "  -R, --Ranklog BESTAND\tGebruik BESTAND als ranglogbestand\n"
 
-#: server/civserver.c:247 client/civclient.c:267 manual/civmanual.c:383
+#: server/civserver.c:247 client/civclient.c:268 manual/civmanual.c:383
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tToon het versienummer\n"
 
@@ -7793,52 +7793,52 @@ msgstr "?specialist:S"
 msgid "Specialists"
 msgstr "Specialisten"
 
-#: client/civclient.c:239
+#: client/civclient.c:240
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
 msgstr "  -a, --autoconnect\tSla verbindingsdialoog over\n"
 
-#: client/civclient.c:249
+#: client/civclient.c:250
 msgid "  -l, --log FILE\tUse FILE as logfile (spawned server also uses this)\n"
 msgstr ""
 "  -l, --log BESTAND\tGebruik BESTAND als logbestand (ook zelfstartserver)\n"
 
-#: client/civclient.c:251
+#: client/civclient.c:252
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
 msgstr "  -m, --meta HOST\tVerbind met de metaserver op HOST\n"
 
-#: client/civclient.c:253
+#: client/civclient.c:254
 msgid "  -n, --name NAME\tUse NAME as name\n"
 msgstr "  -n, --name NAAM\tGebruik NAAM als naam\n"
 
-#: client/civclient.c:255
+#: client/civclient.c:256
 #, fuzzy
 msgid "  -p, --port PORT\tConnect to server port PORT (usually with -a)\n"
 msgstr "  -p, --port POORT\tVerbind met server poort POORT\n"
 
-#: client/civclient.c:257
+#: client/civclient.c:258
 #, c-format
 msgid "  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"
 msgstr "  -P, --Plugin PLUGIN\tGebruik PLUGIN voor geluidsuitvoer %s\n"
 
-#: client/civclient.c:259
+#: client/civclient.c:260
 msgid "  -r, --read FILE\tRead startup script FILE (for spawned server only)\n"
 msgstr ""
 "  -r, --read BESTAND\tLees startscript BESTAND(enkel zelfstartserver)\n"
 
-#: client/civclient.c:262
+#: client/civclient.c:263
 #, fuzzy
 msgid "  -s, --server HOST\tConnect to the server at HOST (usually with -a)\n"
 msgstr "  -s, --server HOST\tVerbind met de server op HOST\n"
 
-#: client/civclient.c:264
+#: client/civclient.c:265
 msgid "  -S, --Sound FILE\tRead sound tags from FILE\n"
 msgstr "  -S, --Sound BESTAND\tLees geluids info van BESTAND\n"
 
-#: client/civclient.c:265
+#: client/civclient.c:266
 msgid "  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"
 msgstr "  -t, --tiles BESTAND\tKijk in data bestand BESTAND voor vlakken\n"
 
-#: client/civclient.c:268
+#: client/civclient.c:269
 #, c-format
 msgid ""
 "      --\t\tPass any following options to the UI.\n"
@@ -7848,35 +7848,45 @@ msgstr ""
 "\t\t\tProbeer \"%s -- --help\" voor details.\n"
 
 #. TRANS: No full stop after the URL, could cause confusion.
-#: client/civclient.c:273
+#: client/civclient.c:274
 #, fuzzy, c-format
 msgid "Report bugs at %s\n"
 msgstr "Rapporteer fouten aan <%s>.\n"
 
-#: client/civclient.c:297
+#: client/civclient.c:298
 #, c-format
 msgid "Invalid port \"%s\" specified with --port option.\n"
 msgstr "Ongeldige poort \"%s\" opgegeven met de --port optie.\n"
 
-#: client/civclient.c:299 client/civclient.c:314
+#: client/civclient.c:300 client/civclient.c:315
 msgid "Try using --help.\n"
 msgstr "Probeer met --help.\n"
 
-#: client/civclient.c:312
+#: client/civclient.c:313
 #, c-format
 msgid "Invalid debug level \"%s\" specified with --debug option.\n"
 msgstr "Ongeldig debug niveau \"%s\" opgegeven met --debug option.\n"
 
-#: client/civclient.c:325
+#: client/civclient.c:326
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Niet-herkende optie: \"%s\"\n"
 
-#: client/civclient.c:539
+#: client/civclient.c:391
+#, fuzzy, c-format
+msgid "Updating old metaserver address \"%s\"."
+msgstr "metaserver <adres>"
+
+#: client/civclient.c:394
+#, fuzzy, c-format
+msgid "Default metaserver has been set to \"%s\"."
+msgstr "Optie: %s is ingesteld op \"%s\"."
+
+#: client/civclient.c:550
 msgid "Game started."
 msgstr "Spel begonnen."
 
-#: client/civclient.c:577
+#: client/civclient.c:588
 msgid "There was an error while auto connecting; aborting."
 msgstr ""
 "Er trad een fout op bij het automatisch maken van een verbinding; afbreken."

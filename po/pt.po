@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-22 11:49+0900\n"
+"POT-Creation-Date: 2009-03-24 08:07+0900\n"
 "PO-Revision-Date: 2007-09-01 22:56+0300\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: \n"
@@ -1973,7 +1973,7 @@ msgstr "Este é o servidor para %s"
 msgid "You can learn a lot about Freeciv at %s"
 msgstr "Pode aprender muito sobre o Freeciv em %s"
 
-#: server/civserver.c:206 client/civclient.c:237 manual/civmanual.c:380
+#: server/civserver.c:206 client/civclient.c:238 manual/civmanual.c:380
 #, c-format
 msgid ""
 "Usage: %s [option ...]\n"
@@ -2001,14 +2001,14 @@ msgstr ""
 msgid "  -b  --bind ADDR\tListen for clients on ADDR\n"
 msgstr "  -p, --port PORTO\tEscuta por clientes no porto PORTO\n"
 
-#: server/civserver.c:217 client/civclient.c:241
+#: server/civserver.c:217 client/civclient.c:242
 msgid ""
 "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
 msgstr ""
 "  -d, --debug NUM\tDefine nível log depuração (0 a 4, ou 4:ficheiro1,mín,"
 "máx:...)\n"
 
-#: server/civserver.c:221 client/civclient.c:245
+#: server/civserver.c:221 client/civclient.c:246
 msgid "  -d, --debug NUM\tSet debug log level (0 to 3)\n"
 msgstr "  -d, --debug NUM\tDefine nível log depuração (0 a 3)\n"
 
@@ -2016,7 +2016,7 @@ msgstr "  -d, --debug NUM\tDefine nível log depuração (0 a 3)\n"
 msgid "  -f, --file FILE\tLoad saved game FILE\n"
 msgstr "  -f, --file FICHEIRO\tLer jogo gravado em FICHEIRO\n"
 
-#: server/civserver.c:225 client/civclient.c:248 manual/civmanual.c:382
+#: server/civserver.c:225 client/civclient.c:249 manual/civmanual.c:382
 msgid "  -h, --help\t\tPrint a summary of the options\n"
 msgstr "  -h, --help\t\tApresenta um resumo das opções\n"
 
@@ -2067,7 +2067,7 @@ msgstr "  -r, --read FICHEIRO\tLer ficheiro de arranque FICHEIRO\n"
 msgid "  -R, --Ranklog FILE\tUse FILE as ranking logfile\n"
 msgstr "  -l, --log FICHEIRO\tUtiliza FICHEIRO para o registo\n"
 
-#: server/civserver.c:247 client/civclient.c:267 manual/civmanual.c:383
+#: server/civserver.c:247 client/civclient.c:268 manual/civmanual.c:383
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tApresenta o número de versão\n"
 
@@ -7672,52 +7672,52 @@ msgstr "?Especiais:E"
 msgid "Specialists"
 msgstr "Especiais"
 
-#: client/civclient.c:239
+#: client/civclient.c:240
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
 msgstr "  -a, --autoconnect\tSaltar diálogo de ligação\n"
 
-#: client/civclient.c:249
+#: client/civclient.c:250
 #, fuzzy
 msgid "  -l, --log FILE\tUse FILE as logfile (spawned server also uses this)\n"
 msgstr "  -l, --log FICHEIRO\tUtiliza FICHEIRO para o registo\n"
 
-#: client/civclient.c:251
+#: client/civclient.c:252
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
 msgstr "  -m, --meta SERVIDOR\tLigar ao metaservidor em SERVIDOR\n"
 
-#: client/civclient.c:253
+#: client/civclient.c:254
 msgid "  -n, --name NAME\tUse NAME as name\n"
 msgstr "  -n, --name NOME\tUtilizar NOME como nome\n"
 
-#: client/civclient.c:255
+#: client/civclient.c:256
 #, fuzzy
 msgid "  -p, --port PORT\tConnect to server port PORT (usually with -a)\n"
 msgstr "  -p, --port PORTO\tLigar ao porto do servidor PORTO\n"
 
-#: client/civclient.c:257
+#: client/civclient.c:258
 #, c-format
 msgid "  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"
 msgstr "  -P, --Plugin PLUGIN\tUtilizar PLUGIN para saida de som %s\n"
 
-#: client/civclient.c:259
+#: client/civclient.c:260
 #, fuzzy
 msgid "  -r, --read FILE\tRead startup script FILE (for spawned server only)\n"
 msgstr "  -r, --read FICHEIRO\tLer ficheiro de arranque FICHEIRO\n"
 
-#: client/civclient.c:262
+#: client/civclient.c:263
 #, fuzzy
 msgid "  -s, --server HOST\tConnect to the server at HOST (usually with -a)\n"
 msgstr "  -s, --server SERVIDOR\tLigar ao servidor em SERVIDOR\n"
 
-#: client/civclient.c:264
+#: client/civclient.c:265
 msgid "  -S, --Sound FILE\tRead sound tags from FILE\n"
 msgstr "  -S, --Sound FICHEIRO\tLer etiquetas de som em FICHEIRO\n"
 
-#: client/civclient.c:265
+#: client/civclient.c:266
 msgid "  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"
 msgstr "  -t, --tiles FICHEIRO\t\tUtilizar FICHEIRO.tilespec para mapa\n"
 
-#: client/civclient.c:268
+#: client/civclient.c:269
 #, c-format
 msgid ""
 "      --\t\tPass any following options to the UI.\n"
@@ -7727,35 +7727,45 @@ msgstr ""
 "\t\t\tTente \"%s -- --help\" para mais informações.\n"
 
 #. TRANS: No full stop after the URL, could cause confusion.
-#: client/civclient.c:273
+#: client/civclient.c:274
 #, fuzzy, c-format
 msgid "Report bugs at %s\n"
 msgstr "Relate erros (bugs) para <%s> (em Inglês).\n"
 
-#: client/civclient.c:297
+#: client/civclient.c:298
 #, c-format
 msgid "Invalid port \"%s\" specified with --port option.\n"
 msgstr ""
 
-#: client/civclient.c:299 client/civclient.c:314
+#: client/civclient.c:300 client/civclient.c:315
 msgid "Try using --help.\n"
 msgstr ""
 
-#: client/civclient.c:312
+#: client/civclient.c:313
 #, c-format
 msgid "Invalid debug level \"%s\" specified with --debug option.\n"
 msgstr ""
 
-#: client/civclient.c:325
+#: client/civclient.c:326
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Opção desconhecida: \"%s\"\n"
 
-#: client/civclient.c:539
+#: client/civclient.c:391
+#, fuzzy, c-format
+msgid "Updating old metaserver address \"%s\"."
+msgstr "metaservidor <endereço>"
+
+#: client/civclient.c:394
+#, fuzzy, c-format
+msgid "Default metaserver has been set to \"%s\"."
+msgstr "Opção: %s foi alterada para \"%s\"."
+
+#: client/civclient.c:550
 msgid "Game started."
 msgstr "Jogo iniciado."
 
-#: client/civclient.c:577
+#: client/civclient.c:588
 msgid "There was an error while auto connecting; aborting."
 msgstr "Ocorreu um erro ao liga-se automaticamente; a abortar."
 

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-22 11:49+0900\n"
+"POT-Creation-Date: 2009-03-24 08:07+0900\n"
 "PO-Revision-Date: 2006-03-26 14:53+0800\n"
 "Last-Translator: Hongjia Cao <hjcao@yahoo.com>\n"
 "Language-Team: zh_CN <i18n-translation@linux.net.cn>\n"
@@ -1938,7 +1938,7 @@ msgstr "这是 %s 的服务器。"
 msgid "You can learn a lot about Freeciv at %s"
 msgstr "您可以从 %s 获得大量关于 Freeciv 的信息。"
 
-#: server/civserver.c:206 client/civclient.c:237 manual/civmanual.c:380
+#: server/civserver.c:206 client/civclient.c:238 manual/civmanual.c:380
 #, c-format
 msgid ""
 "Usage: %s [option ...]\n"
@@ -1966,13 +1966,13 @@ msgstr "  -N  --Newusers\t在使用认证的情况下允许新建用户登录。\n"
 msgid "  -b  --bind ADDR\tListen for clients on ADDR\n"
 msgstr "  -b  --bind ADDR\t在地址 ADDR 上监听客户端连接\n"
 
-#: server/civserver.c:217 client/civclient.c:241
+#: server/civserver.c:217 client/civclient.c:242
 msgid ""
 "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
 msgstr ""
 "  -d, --debug NUM\t设置调试日志级别（0 到 4， 或 4:file1,min,max:...）\n"
 
-#: server/civserver.c:221 client/civclient.c:245
+#: server/civserver.c:221 client/civclient.c:246
 msgid "  -d, --debug NUM\tSet debug log level (0 to 3)\n"
 msgstr "  -d, --debug NUM\t将调试日志级别设置为 (0 到 3)\n"
 
@@ -1980,7 +1980,7 @@ msgstr "  -d, --debug NUM\t将调试日志级别设置为 (0 到 3)\n"
 msgid "  -f, --file FILE\tLoad saved game FILE\n"
 msgstr "  -f, --file FILE\t从 FILE 中载入保存的游戏\n"
 
-#: server/civserver.c:225 client/civclient.c:248 manual/civmanual.c:382
+#: server/civserver.c:225 client/civclient.c:249 manual/civmanual.c:382
 msgid "  -h, --help\t\tPrint a summary of the options\n"
 msgstr "  -h, --help\t\t打印选项概述\n"
 
@@ -2028,7 +2028,7 @@ msgstr "  -r, --read FILE\t读取启动脚本 FILE\n"
 msgid "  -R, --Ranklog FILE\tUse FILE as ranking logfile\n"
 msgstr "  -R, --Ranklog FILE\t使用 FILE 作为级别日志文件\n"
 
-#: server/civserver.c:247 client/civclient.c:267 manual/civmanual.c:383
+#: server/civserver.c:247 client/civclient.c:268 manual/civmanual.c:383
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\t打印版本号\n"
 
@@ -7468,50 +7468,50 @@ msgstr "专"
 msgid "Specialists"
 msgstr "专业人员："
 
-#: client/civclient.c:239
+#: client/civclient.c:240
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
 msgstr "  -a, --autoconnect\t跳过连接对话框\n"
 
-#: client/civclient.c:249
+#: client/civclient.c:250
 msgid "  -l, --log FILE\tUse FILE as logfile (spawned server also uses this)\n"
 msgstr "  -l, --log FILE\t将 FILE 作为日志文件（派生的服务器也将使用此文件）\n"
 
-#: client/civclient.c:251
+#: client/civclient.c:252
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
 msgstr "  -m, --meta HOST\t连接到位于 HOST 的元服务器\n"
 
-#: client/civclient.c:253
+#: client/civclient.c:254
 msgid "  -n, --name NAME\tUse NAME as name\n"
 msgstr "  -n, --name NAME\t使用 NAME 作为名字\n"
 
-#: client/civclient.c:255
+#: client/civclient.c:256
 #, fuzzy
 msgid "  -p, --port PORT\tConnect to server port PORT (usually with -a)\n"
 msgstr "  -p, --port PORT\t连接到服务器端口 PORT\n"
 
-#: client/civclient.c:257
+#: client/civclient.c:258
 #, c-format
 msgid "  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"
 msgstr "  -P, --Plugin PLUGIN\t使用 PLUGIN 作为声效插件 %s\n"
 
-#: client/civclient.c:259
+#: client/civclient.c:260
 msgid "  -r, --read FILE\tRead startup script FILE (for spawned server only)\n"
 msgstr "  -r, --read FILE\t读取启动脚本 FILE （仅用于派生的服务器）\n"
 
-#: client/civclient.c:262
+#: client/civclient.c:263
 #, fuzzy
 msgid "  -s, --server HOST\tConnect to the server at HOST (usually with -a)\n"
 msgstr "  -s, --server HOST\t连接到位于 HOST 的服务器\n"
 
-#: client/civclient.c:264
+#: client/civclient.c:265
 msgid "  -S, --Sound FILE\tRead sound tags from FILE\n"
 msgstr "  -S, --Sound FILE\t从 FILE 中读取音效标记\n"
 
-#: client/civclient.c:265
+#: client/civclient.c:266
 msgid "  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"
 msgstr "  -t, --tiles FILE\t使用数据文件 FILE.tilespec 作为地图风格\n"
 
-#: client/civclient.c:268
+#: client/civclient.c:269
 #, c-format
 msgid ""
 "      --\t\tPass any following options to the UI.\n"
@@ -7521,35 +7521,45 @@ msgstr ""
 "\t\t\t请尝试“%s -- --help”以得到更多信息。\n"
 
 #. TRANS: No full stop after the URL, could cause confusion.
-#: client/civclient.c:273
+#: client/civclient.c:274
 #, fuzzy, c-format
 msgid "Report bugs at %s\n"
 msgstr "将错误报告发送到 <%s>。\n"
 
-#: client/civclient.c:297
+#: client/civclient.c:298
 #, c-format
 msgid "Invalid port \"%s\" specified with --port option.\n"
 msgstr "--port 选项指定了无效的端口“%s”。\n"
 
-#: client/civclient.c:299 client/civclient.c:314
+#: client/civclient.c:300 client/civclient.c:315
 msgid "Try using --help.\n"
 msgstr "请使用 --help 选项。\n"
 
-#: client/civclient.c:312
+#: client/civclient.c:313
 #, c-format
 msgid "Invalid debug level \"%s\" specified with --debug option.\n"
 msgstr "--debug 选项指定了无效的调式级别“%s”。\n"
 
-#: client/civclient.c:325
+#: client/civclient.c:326
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "无法识别的选项：“%s”\n"
 
-#: client/civclient.c:539
+#: client/civclient.c:391
+#, fuzzy, c-format
+msgid "Updating old metaserver address \"%s\"."
+msgstr "metaserver <地址>"
+
+#: client/civclient.c:394
+#, fuzzy, c-format
+msgid "Default metaserver has been set to \"%s\"."
+msgstr "选项：%s 已被设置为“%s”。"
+
+#: client/civclient.c:550
 msgid "Game started."
 msgstr "游戏已开始。"
 
-#: client/civclient.c:577
+#: client/civclient.c:588
 msgid "There was an error while auto connecting; aborting."
 msgstr "自动连接时出现错误；中断。"
 

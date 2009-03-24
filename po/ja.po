@@ -144,7 +144,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.99-devel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-22 11:49+0900\n"
+"POT-Creation-Date: 2009-03-24 08:07+0900\n"
 "PO-Revision-Date: 2007-08-12 15:56+0300\n"
 "Last-Translator: MITA Yuusuke <clefs@mail.goo.ne.jp>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
@@ -2250,7 +2250,7 @@ msgstr "これは %s のためのサーバです。"
 msgid "You can learn a lot about Freeciv at %s"
 msgstr "Freeciv についての情報を %s で提供しています。"
 
-#: server/civserver.c:206 client/civclient.c:237 manual/civmanual.c:380
+#: server/civserver.c:206 client/civclient.c:238 manual/civmanual.c:380
 #, c-format
 msgid ""
 "Usage: %s [option ...]\n"
@@ -2284,14 +2284,14 @@ msgstr ""
 msgid "  -b  --bind ADDR\tListen for clients on ADDR\n"
 msgstr "  -b, --bind ADDR\tアドレス ADDR でクライアントを待つ\n"
 
-#: server/civserver.c:217 client/civclient.c:241
+#: server/civserver.c:217 client/civclient.c:242
 msgid ""
 "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
 msgstr ""
 "  -d, --debug NUM\tデバックログレベルをセットする(0 から 4, もしくは 4:ファイ"
 "ル1,最小,最大:...)\n"
 
-#: server/civserver.c:221 client/civclient.c:245
+#: server/civserver.c:221 client/civclient.c:246
 msgid "  -d, --debug NUM\tSet debug log level (0 to 3)\n"
 msgstr "  -d, --debug NUM\tデバックログレベルをセットする(0 から 3)\n"
 
@@ -2299,7 +2299,7 @@ msgstr "  -d, --debug NUM\tデバックログレベルをセットする(0 か�
 msgid "  -f, --file FILE\tLoad saved game FILE\n"
 msgstr "  -f, --file FILE\t保存されたゲーム FILE をロードする\n"
 
-#: server/civserver.c:225 client/civclient.c:248 manual/civmanual.c:382
+#: server/civserver.c:225 client/civclient.c:249 manual/civmanual.c:382
 msgid "  -h, --help\t\tPrint a summary of the options\n"
 msgstr "  -h, --help\t\tオプションの一覧を表示\n"
 
@@ -2350,7 +2350,7 @@ msgstr "  -r, --read FILE\t起動スクリプト FILE を読む\n"
 msgid "  -R, --Ranklog FILE\tUse FILE as ranking logfile\n"
 msgstr "  -R, --Ranklog FILE\tランキング記録ファイルとして FILE を使う\n"
 
-#: server/civserver.c:247 client/civclient.c:267 manual/civmanual.c:383
+#: server/civserver.c:247 client/civclient.c:268 manual/civmanual.c:383
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tバージョン番号を表示する\n"
 
@@ -8269,54 +8269,54 @@ msgstr "専門家"
 msgid "Specialists"
 msgstr "専門家"
 
-#: client/civclient.c:239
+#: client/civclient.c:240
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
 msgstr "  -a, --autoconnect\t接続ダイアログをスキップする\n"
 
 # spawned serverって何じゃらほい (clefs)
 # たぶんcivclientが自動で立ち上げるサーバのこと
-#: client/civclient.c:249
+#: client/civclient.c:250
 msgid "  -l, --log FILE\tUse FILE as logfile (spawned server also uses this)\n"
 msgstr ""
 "  -l, --log FILE\t記録ファイルとして FILE を使う (派生サーバもこれを使いま"
 "す\n"
 
-#: client/civclient.c:251
+#: client/civclient.c:252
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
 msgstr "  -m, --meta HOST\tHOST にあるメタサーバに接続する\n"
 
-#: client/civclient.c:253
+#: client/civclient.c:254
 msgid "  -n, --name NAME\tUse NAME as name\n"
 msgstr "  -n, --name NAME\t名前として NAME を使います\n"
 
-#: client/civclient.c:255
+#: client/civclient.c:256
 msgid "  -p, --port PORT\tConnect to server port PORT (usually with -a)\n"
 msgstr ""
 "  -p, --port PORT\tサーバのポート PORT に接続します (普通に　-aをつけて)\n"
 
-#: client/civclient.c:257
+#: client/civclient.c:258
 #, c-format
 msgid "  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"
 msgstr "  -P, --Plugin PLUGIN\tPLUGIN をサウンド出力に使う %s\n"
 
-#: client/civclient.c:259
+#: client/civclient.c:260
 msgid "  -r, --read FILE\tRead startup script FILE (for spawned server only)\n"
 msgstr "  -r, --read FILE\t起動スクリプト FILE を読む (派生サーバのみ)\n"
 
-#: client/civclient.c:262
+#: client/civclient.c:263
 msgid "  -s, --server HOST\tConnect to the server at HOST (usually with -a)\n"
 msgstr ""
 "  -s, --server HOST\tHOST にあるサーバに接続します (普通に　-aをつけて)\n"
 
-#: client/civclient.c:264
+#: client/civclient.c:265
 msgid "  -S, --Sound FILE\tRead sound tags from FILE\n"
 msgstr "  -S, --Sound FILE\tFILE から音楽タグを読む\n"
 
-#: client/civclient.c:265
+#: client/civclient.c:266
 msgid "  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"
 msgstr "  -t, --tiles FILE\tタイルとしてデータファイル FILE.tilespec を使う\n"
 
-#: client/civclient.c:268
+#: client/civclient.c:269
 #, c-format
 msgid ""
 "      --\t\tPass any following options to the UI.\n"
@@ -8326,37 +8326,47 @@ msgstr ""
 "\t\t\t詳しくは \"%s -- --help\" を試みて下さい。\n"
 
 #. TRANS: No full stop after the URL, could cause confusion.
-#: client/civclient.c:273
+#: client/civclient.c:274
 #, fuzzy, c-format
 msgid "Report bugs at %s\n"
 msgstr "<%s>へバグを報告して下さい。\n"
 
 # clefs
-#: client/civclient.c:297
+#: client/civclient.c:298
 #, c-format
 msgid "Invalid port \"%s\" specified with --port option.\n"
 msgstr "--port オプションで無効なポート \"%s\" が指定されました。\n"
 
-#: client/civclient.c:299 client/civclient.c:314
+#: client/civclient.c:300 client/civclient.c:315
 msgid "Try using --help.\n"
 msgstr "--help を試みて下さい。\n"
 
 # clefs
-#: client/civclient.c:312
+#: client/civclient.c:313
 #, c-format
 msgid "Invalid debug level \"%s\" specified with --debug option.\n"
 msgstr "--debug オプションで無効なデバッグレベル \"%s\" が指定されました。\n"
 
-#: client/civclient.c:325
+#: client/civclient.c:326
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "認識できないオプション: \"%s\"\n"
 
-#: client/civclient.c:539
+#: client/civclient.c:391
+#, fuzzy, c-format
+msgid "Updating old metaserver address \"%s\"."
+msgstr "metaserver <所在>"
+
+#: client/civclient.c:394
+#, fuzzy, c-format
+msgid "Default metaserver has been set to \"%s\"."
+msgstr "オプション: %s は \"%s\" に設定されました。"
+
+#: client/civclient.c:550
 msgid "Game started."
 msgstr "ゲームが始まりました。"
 
-#: client/civclient.c:577
+#: client/civclient.c:588
 msgid "There was an error while auto connecting; aborting."
 msgstr "自動接続中にエラーが起こりました。中断しています。"
 

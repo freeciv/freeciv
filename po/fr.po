@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-22 11:49+0900\n"
+"POT-Creation-Date: 2009-03-24 08:07+0900\n"
 "PO-Revision-Date: 2007-08-12 15:06+0300\n"
 "Last-Translator: Frederic Rodrigo <f.rodrigo free.fr>\n"
 "Language-Team: <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -2053,7 +2053,7 @@ msgstr "Ceci est le serveur pour %s"
 msgid "You can learn a lot about Freeciv at %s"
 msgstr "Vous pouvez en apprendre davantage sur Freeciv sur %s"
 
-#: server/civserver.c:206 client/civclient.c:237 manual/civmanual.c:380
+#: server/civserver.c:206 client/civclient.c:238 manual/civmanual.c:380
 #, c-format
 msgid ""
 "Usage: %s [option ...]\n"
@@ -2086,14 +2086,14 @@ msgstr ""
 msgid "  -b  --bind ADDR\tListen for clients on ADDR\n"
 msgstr "  -b, --bind ADR\tÉcouter les clients sur ADR\n"
 
-#: server/civserver.c:217 client/civclient.c:241
+#: server/civserver.c:217 client/civclient.c:242
 msgid ""
 "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
 msgstr ""
 "  -d, --debug NUM\tChoisir le niveau de débogage (0 à 4 ou 4:fichier1,min,"
 "max:...)\n"
 
-#: server/civserver.c:221 client/civclient.c:245
+#: server/civserver.c:221 client/civclient.c:246
 msgid "  -d, --debug NUM\tSet debug log level (0 to 3)\n"
 msgstr "  -d, --debug NUM\tChoisir le niveau de débogage (0 à 3)\n"
 
@@ -2101,7 +2101,7 @@ msgstr "  -d, --debug NUM\tChoisir le niveau de débogage (0 à 3)\n"
 msgid "  -f, --file FILE\tLoad saved game FILE\n"
 msgstr "  -f, --file FICH\tCharger une partie sauvegardée dans FICH\n"
 
-#: server/civserver.c:225 client/civclient.c:248 manual/civmanual.c:382
+#: server/civserver.c:225 client/civclient.c:249 manual/civmanual.c:382
 msgid "  -h, --help\t\tPrint a summary of the options\n"
 msgstr "  -h, --help\t\tAfficher un résumé des options\n"
 
@@ -2157,7 +2157,7 @@ msgstr ""
 "  -R, --Ranklok FICHIER\tUtiliser FICHIER comme fichier historique des "
 "classements\n"
 
-#: server/civserver.c:247 client/civclient.c:267 manual/civmanual.c:383
+#: server/civserver.c:247 client/civclient.c:268 manual/civmanual.c:383
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tAfficher le numéro de version\n"
 
@@ -7937,57 +7937,57 @@ msgstr "?specialist:S"
 msgid "Specialists"
 msgstr "Spécialistes"
 
-#: client/civclient.c:239
+#: client/civclient.c:240
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
 msgstr "  -a, --autoconnect\t\tConnexion automatique à un serveur\n"
 
-#: client/civclient.c:249
+#: client/civclient.c:250
 msgid "  -l, --log FILE\tUse FILE as logfile (spawned server also uses this)\n"
 msgstr ""
 "  -l, --log FICHIER\t\tUtilise FICHIER comme fichier journal (le serveur "
 "dépendant utilise également ce fichier)\n"
 
-#: client/civclient.c:251
+#: client/civclient.c:252
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
 msgstr "  -m, --meta M\t\tSe connecter au métaserveur M\n"
 
-#: client/civclient.c:253
+#: client/civclient.c:254
 msgid "  -n, --name NAME\tUse NAME as name\n"
 msgstr "  -n, --name N\t\tUtiliser le nom N\n"
 
-#: client/civclient.c:255
+#: client/civclient.c:256
 msgid "  -p, --port PORT\tConnect to server port PORT (usually with -a)\n"
 msgstr ""
 "  -p, --port P\t\tSe connecter au port P du serveur (habituellement utilisé "
 "avec -a)\n"
 
-#: client/civclient.c:257
+#: client/civclient.c:258
 #, c-format
 msgid "  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"
 msgstr "  -P, --Plugin PLUGIN\tUtilise PLUGIN pour la sortie audio %s\n"
 
-#: client/civclient.c:259
+#: client/civclient.c:260
 msgid "  -r, --read FILE\tRead startup script FILE (for spawned server only)\n"
 msgstr ""
 "  -r, --read FICHIER\t\t\tLire le script de démarrage FICHIER (pour le "
 "serveur dépendant seulement)\n"
 
-#: client/civclient.c:262
+#: client/civclient.c:263
 msgid "  -s, --server HOST\tConnect to the server at HOST (usually with -a)\n"
 msgstr ""
 "  -s, --server S\tSe connecter au serveur S(habituellement utilisé avec -a)\n"
 
-#: client/civclient.c:264
+#: client/civclient.c:265
 msgid "  -S, --Sound FILE\tRead sound tags from FILE\n"
 msgstr "  -S, --Sound F\tLire les informations sur le son dans le fichier F\n"
 
-#: client/civclient.c:265
+#: client/civclient.c:266
 msgid "  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"
 msgstr ""
 "  -t, --tiles F\t\tUtiliser le fichier de données F.tilespec pour les "
 "graphiques\n"
 
-#: client/civclient.c:268
+#: client/civclient.c:269
 #, c-format
 msgid ""
 "      --\t\tPass any following options to the UI.\n"
@@ -7997,35 +7997,45 @@ msgstr ""
 "\t\t\tEssayez \"%s -- --help\" pour plus d'info.\n"
 
 #. TRANS: No full stop after the URL, could cause confusion.
-#: client/civclient.c:273
+#: client/civclient.c:274
 #, fuzzy, c-format
 msgid "Report bugs at %s\n"
 msgstr "Signaler les bogues à %s.\n"
 
-#: client/civclient.c:297
+#: client/civclient.c:298
 #, c-format
 msgid "Invalid port \"%s\" specified with --port option.\n"
 msgstr "Port invalide \"%s\" spécifié pour l'option --port.\n"
 
-#: client/civclient.c:299 client/civclient.c:314
+#: client/civclient.c:300 client/civclient.c:315
 msgid "Try using --help.\n"
 msgstr "Essayer d'utiliser --help.\n"
 
-#: client/civclient.c:312
+#: client/civclient.c:313
 #, c-format
 msgid "Invalid debug level \"%s\" specified with --debug option.\n"
 msgstr "Niveau de débogage invalide \"%s\" spécifié pour l'option --debug.\n"
 
-#: client/civclient.c:325
+#: client/civclient.c:326
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Option non reconnue: \"%s\"\n"
 
-#: client/civclient.c:539
+#: client/civclient.c:391
+#, fuzzy, c-format
+msgid "Updating old metaserver address \"%s\"."
+msgstr "metaserver <adresse>"
+
+#: client/civclient.c:394
+#, fuzzy, c-format
+msgid "Default metaserver has been set to \"%s\"."
+msgstr "Option : %s a été positionnée à \"%s\"."
+
+#: client/civclient.c:550
 msgid "Game started."
 msgstr "Partie commencée."
 
-#: client/civclient.c:577
+#: client/civclient.c:588
 msgid "There was an error while auto connecting; aborting."
 msgstr "La connexion automatique a échoué ; abandon."
 
