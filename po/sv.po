@@ -20730,7 +20730,7 @@ msgid ""
 "Great philosophers from all the world join your civilization: you get an "
 "immediate advance."
 msgstr ""
-"Stora filosofer från hela världen ansluta sig till vår civilisation: vi få "
+"Stora filosofer från hela världen ansluter sig till vår civilisation: vi får "
 "genast 1 framsteg."
 
 #: data/default/techs.ruleset:531 data/civ2/techs.ruleset:528
