@@ -1,4 +1,795 @@
 
+------------------------------------------------------------------------
+r15604 | dmarks | 2009-03-25 08:07:13 +0900 (Wed, 25 Mar 2009) | 1 line
+
+Changes after running update-po
+------------------------------------------------------------------------
+r15603 | chrisk | 2009-03-25 06:09:52 +0900 (Wed, 25 Mar 2009) | 2 lines
+
+
+4330 translated messages.
+------------------------------------------------------------------------
+r15601 | dmarks | 2009-03-24 22:11:57 +0900 (Tue, 24 Mar 2009) | 1 line
+
+Fix grammatical oddness in Swedish translation. Patch by Erik Larsson <erik@kaldo.se> in PR#40622
+------------------------------------------------------------------------
+r15600 | chrisk | 2009-03-24 20:05:59 +0900 (Tue, 24 Mar 2009) | 2 lines
+
+
+4330 translated messages.
+------------------------------------------------------------------------
+r15599 | dmarks | 2009-03-24 09:31:07 +0900 (Tue, 24 Mar 2009) | 1 line
+
+Changes after running update-po
+------------------------------------------------------------------------
+r15598 | jcreus | 2009-03-24 07:46:38 +0900 (Tue, 24 Mar 2009) | 1 line
+
+4330 translated messages
+------------------------------------------------------------------------
+r15596 | mbook | 2009-03-24 03:19:27 +0900 (Tue, 24 Mar 2009) | 4 lines
+
+Automatically update old metaserver address.
+
+See #40752
+
+------------------------------------------------------------------------
+r15595 | dmarks | 2009-03-23 19:29:19 +0900 (Mon, 23 Mar 2009) | 1 line
+
+Fix gettext error
+------------------------------------------------------------------------
+r15594 | dmarks | 2009-03-22 19:19:02 +0900 (Sun, 22 Mar 2009) | 1 line
+
+Update NEWS for 2.1.9
+------------------------------------------------------------------------
+r15593 | dmarks | 2009-03-22 19:06:30 +0900 (Sun, 22 Mar 2009) | 1 line
+
+77 translated messages, 4251 untranslated messages.
+------------------------------------------------------------------------
+r15592 | dmarks | 2009-03-22 18:58:31 +0900 (Sun, 22 Mar 2009) | 1 line
+
+2503 translated messages, 1825 untranslated messages.
+------------------------------------------------------------------------
+r15591 | dmarks | 2009-03-22 18:42:17 +0900 (Sun, 22 Mar 2009) | 1 line
+
+2501 translated messages, 1827 untranslated messages.
+------------------------------------------------------------------------
+r15590 | dmarks | 2009-03-22 18:22:44 +0900 (Sun, 22 Mar 2009) | 1 line
+
+Changes after running update-po
+------------------------------------------------------------------------
+r15589 | dmarks | 2009-03-22 16:06:52 +0900 (Sun, 22 Mar 2009) | 1 line
+
+2494 translated messages, 1834 untranslated messages.
+------------------------------------------------------------------------
+r15587 | mbook | 2009-03-22 12:24:59 +0900 (Sun, 22 Mar 2009) | 4 lines
+
+Use cazfi.net metaserver as the default.
+
+See #40752
+
+------------------------------------------------------------------------
+r15586 | dmarks | 2009-03-22 12:15:51 +0900 (Sun, 22 Mar 2009) | 1 line
+
+Straighten out some fuzzies in Korean translation.
+------------------------------------------------------------------------
+r15584 | chrisk | 2009-03-20 21:37:19 +0900 (Fri, 20 Mar 2009) | 2 lines
+
+city report headers, waste is Verschwendung
+4328 translated messages.
+------------------------------------------------------------------------
+r15583 | chrisk | 2009-03-18 20:39:39 +0900 (Wed, 18 Mar 2009) | 2 lines
+
+Tried to get the shortcuts right
+4328 translated messages.
+------------------------------------------------------------------------
+r15582 | chrisk | 2009-03-17 22:19:32 +0900 (Tue, 17 Mar 2009) | 2 lines
+
+
+4328 translated messages.
+------------------------------------------------------------------------
+r15580 | chrisk | 2009-03-17 04:28:13 +0900 (Tue, 17 Mar 2009) | 2 lines
+
+
+4316 translated messages, 7 fuzzy translations, 5 untranslated messages.
+------------------------------------------------------------------------
+r15578 | mbook | 2009-03-16 08:58:27 +0900 (Mon, 16 Mar 2009) | 6 lines
+
+Work around crash due to missing NULL pointer check in gtk notebook code.
+
+See #40743
+
+Reported by: Brendon Oram <bjoram@gmail.com>
+
+------------------------------------------------------------------------
+r15576 | mbook | 2009-03-16 08:33:28 +0900 (Mon, 16 Mar 2009) | 6 lines
+
+Fix data type bug causing unit power factor to lose precision.
+
+See #40746
+
+Reported by: kevin in Korea <kevin.in.korea@gmail.com>
+
+------------------------------------------------------------------------
+r15575 | cazfi | 2009-03-10 00:54:34 +0900 (Tue, 10 Mar 2009) | 2 lines
+
+Updated translation by Joe Dalton
+
+------------------------------------------------------------------------
+r15574 | cazfi | 2009-03-09 03:42:13 +0900 (Mon, 09 Mar 2009) | 2 lines
+
+Updated translation by Joe Dalton
+
+------------------------------------------------------------------------
+r15570 | jcreus | 2009-03-08 03:20:38 +0900 (Sun, 08 Mar 2009) | 1 line
+
+4328 messages
+------------------------------------------------------------------------
+r15568 | cazfi | 2009-03-06 23:25:30 +0900 (Fri, 06 Mar 2009) | 2 lines
+
+Updated translation by Sini Ruohomaa.
+
+------------------------------------------------------------------------
+r15566 | mbook | 2009-03-04 07:59:28 +0900 (Wed, 04 Mar 2009) | 20 lines
+
+Rearrange widget layout to fit on an 800x600 display.
+
+- Main page buttons are arranged in a 3x2 table.
+- Removed most calls to gtk_widget_set_size_request().
+- Do not fill in the unit pixmap table until after
+  the game starts.
+- Player report buttons are replaced by a menu bar.
+- Allow horizontal scrolling for the pregame player
+  list and chat textview.
+- The unit info label and civilization info label
+  contents are aligned to the left.
+
+See #12825
+
+Requested by:
+  Steve Walton <swalton@clara.net>
+  Peeter Vois <Peeter.Vois@mail.ee>
+  jukey <jukey@ju-key.de>
+  Vadim Peretokin <vperetokin@gmail.com>
+
+------------------------------------------------------------------------
+r15564 | mbook | 2009-03-04 07:41:50 +0900 (Wed, 04 Mar 2009) | 8 lines
+
+Sort small wonders separately in production lists.
+
+- Small wonders are sorted before great wonders in
+  their own block, instead of being mixed in with
+  regular buildings.
+
+See #40740
+
+------------------------------------------------------------------------
+r15562 | mbook | 2009-03-04 07:36:36 +0900 (Wed, 04 Mar 2009) | 15 lines
+
+Improved popit info text.
+
+- Added location coordinates, native coordinates and
+  continent number.
+- Added owner username (or player name for AIs) and
+  owner team to tile, city and unit description strings.
+- Added line break and indent between city description
+  and city improvements.
+- Updated TRANS comments and used angled brackets <>
+  for %s example placeholders.
+
+See #40488
+
+Requested by: Tomasz Niemcewicz <niemcewiczt@gmail.com>
+
+------------------------------------------------------------------------
+r15560 | mbook | 2009-03-04 07:26:24 +0900 (Wed, 04 Mar 2009) | 6 lines
+
+Multiplayer allies-only chat toggle button and option.
+
+See #40487
+
+Requested by: Tomasz Niemcewicz <niemcewiczt@gmail.com>
+
+------------------------------------------------------------------------
+r15557 | cazfi | 2009-03-02 02:35:28 +0900 (Mon, 02 Mar 2009) | 5 lines
+
+Workaround for gcc optimization bug causing server to crash immediately
+when new city is founded.
+
+Reported by many in #40610
+
+------------------------------------------------------------------------
+r15555 | cazfi | 2009-03-02 02:28:50 +0900 (Mon, 02 Mar 2009) | 2 lines
+
+Updated translation by Joe Dalton.
+
+------------------------------------------------------------------------
+r15553 | cproc | 2009-03-01 07:37:27 +0900 (Sun, 01 Mar 2009) | 3 lines
+
+add a "--no-configure-run" option to autogen.sh
+
+See PR#40739.
+------------------------------------------------------------------------
+r15550 | elmo | 2009-02-27 07:04:15 +0900 (Fri, 27 Feb 2009) | 1 line
+
+Some new translations, some fixes to oddites
+------------------------------------------------------------------------
+r15548 | mbook | 2009-02-26 12:23:39 +0900 (Thu, 26 Feb 2009) | 4 lines
+
+Fix missing Q_() for qualified column name.
+
+See #40738
+
+------------------------------------------------------------------------
+r15545 | cazfi | 2009-02-25 01:35:44 +0900 (Wed, 25 Feb 2009) | 4 lines
+
+Fixed compiler warnings.
+
+See #40736
+
+------------------------------------------------------------------------
+r15542 | mbook | 2009-02-23 06:56:48 +0900 (Mon, 23 Feb 2009) | 6 lines
+
+Avoid gtk warning due to focusing unrealized treeview.
+
+See #40731
+
+Reported by: Marko Lindqvist <cazfi74@gmail.com>
+
+------------------------------------------------------------------------
+r15541 | cazfi | 2009-02-23 03:01:50 +0900 (Mon, 23 Feb 2009) | 5 lines
+
+Use localtime() instead of localtime_r() since latter does not exist on all
+supported platforms (MinGW).
+
+See #40726
+
+------------------------------------------------------------------------
+r15538 | mbook | 2009-02-22 09:03:26 +0900 (Sun, 22 Feb 2009) | 19 lines
+
+Improved mass unit selection.
+
+- Shortcut 'j' selects a single unit (the first
+  unit in the selection list).
+- Shortcut 'k' selects all units of the same type
+  as the currently selected units on the same tiles
+  as the currently selected units.
+- Shortcut '<shift>k' selects all units on the same
+  tiles as the currenty selected units.
+- Shortcut 'y' selects all units of the same type
+  on the same continents as the currently selected
+  units.
+- Shortcut '<shift>y' selects all units of the same
+  type as the currently selected units.
+- Selection includes units with orders or units under
+  AI control.
+
+See #40727
+
+------------------------------------------------------------------------
+r15536 | mbook | 2009-02-22 08:46:13 +0900 (Sun, 22 Feb 2009) | 7 lines
+
+City report "Add 2nd Last" production menu item.
+
+See #40729
+
+Suggested by guest Carstairs in the wishlist forum:
+http://forum.freeciv.org/viewtopic.php?t=5797
+
+------------------------------------------------------------------------
+r15534 | mbook | 2009-02-22 08:41:23 +0900 (Sun, 22 Feb 2009) | 7 lines
+
+Added set and append worklist menu items to the city report.
+
+See #40728
+
+Suggested by guest Carstairs in the wishlist forum:
+http://forum.freeciv.org/viewtopic.php?t=5797
+
+------------------------------------------------------------------------
+r15532 | mbook | 2009-02-22 08:35:23 +0900 (Sun, 22 Feb 2009) | 4 lines
+
+Option to disable caravan popup.
+
+See #40730
+
+------------------------------------------------------------------------
+r15530 | mbook | 2009-02-22 08:24:42 +0900 (Sun, 22 Feb 2009) | 6 lines
+
+Fix "leader" translation ambiguity.
+
+See #40725
+
+Reported by: Susanna Bj?\195?\182rverud <susanna.bjorverud@telia.com>
+
+------------------------------------------------------------------------
+r15528 | mbook | 2009-02-22 08:20:22 +0900 (Sun, 22 Feb 2009) | 4 lines
+
+Clear worklist menu item in the city report.
+
+See #40723
+
+------------------------------------------------------------------------
+r15526 | mbook | 2009-02-22 08:16:34 +0900 (Sun, 22 Feb 2009) | 4 lines
+
+Option to hide message window buttons.
+
+See #40733
+
+------------------------------------------------------------------------
+r15524 | mbook | 2009-02-22 08:08:30 +0900 (Sun, 22 Feb 2009) | 11 lines
+
+Option to have new events appear at the top of the message window.
+
+- Some cleanup and generalization of message
+  window code.
+- The message window list store now keeps track
+  of the "meswin" row of an event added to the
+  store. This value is the index passed to such
+  functions as get_message() and meswin_goto().
+
+See #40718
+
+------------------------------------------------------------------------
+r15522 | mbook | 2009-02-22 07:17:28 +0900 (Sun, 22 Feb 2009) | 4 lines
+
+Option to have the metaserver tab appear first in the network page.
+
+See #40701
+
+------------------------------------------------------------------------
+r15520 | mbook | 2009-02-22 06:16:03 +0900 (Sun, 22 Feb 2009) | 7 lines
+
+Option to split the lower area into two notebooks.
+
+- If the option is enabled, the message window will
+  always appear in the right notebook.
+
+See #40705
+
+------------------------------------------------------------------------
+r15518 | mbook | 2009-02-22 06:08:41 +0900 (Sun, 22 Feb 2009) | 9 lines
+
+Revert city report column ordering changes of r12989.
+
+- The first four columns of the city report are name,
+  size, state and concise state.
+- In the gtk2 client, columns may be reordered by clicking
+  and dragging the column headers.
+
+See #40680
+
+------------------------------------------------------------------------
+r15516 | mbook | 2009-02-20 14:08:25 +0900 (Fri, 20 Feb 2009) | 9 lines
+
+Option to not clear unit orders on selection.
+
+- If the option is enabled, selecting a unit does
+  not clear its orders.
+- Orders can be cleared by issuing new orders or
+  by pressing <space>.
+
+See #40724
+
+------------------------------------------------------------------------
+r15514 | mbook | 2009-02-20 11:03:49 +0900 (Fri, 20 Feb 2009) | 4 lines
+
+Focus chat entry when switching to the start/pregame page.
+
+See #40722
+
+------------------------------------------------------------------------
+r15512 | mbook | 2009-02-20 10:56:26 +0900 (Fri, 20 Feb 2009) | 8 lines
+
+Improved automatic chatline scrolling.
+
+- The chatline textview is scrolled to the bottom
+  when switching to the pregame or game page, and
+  whenever the textview widget is resized.
+
+See #40721
+
+------------------------------------------------------------------------
+r15510 | mbook | 2009-02-20 10:46:06 +0900 (Fri, 20 Feb 2009) | 4 lines
+
+Right click on message window row centers on event tile.
+
+See #40719
+
+------------------------------------------------------------------------
+r15508 | mbook | 2009-02-20 10:35:01 +0900 (Fri, 20 Feb 2009) | 12 lines
+
+Map decoration drawing speedup and cleanup.
+
+- Removed drawing code from client/goto.[ch].
+- Removed expensive redraws caused by calls to
+  update_map_canvas_visible() in popit and
+  selection rectangle code.
+- Replaced map-sized arrays by hash tables.
+- Added 'mapdeco' API for marking tile highlights,
+  tile crosshairs, and goto line segments.
+
+See #40717
+
+------------------------------------------------------------------------
+r15507 | mbook | 2009-02-20 10:17:20 +0900 (Fri, 20 Feb 2009) | 4 lines
+
+Backport generic iterator interface and improved hash table iteration from trunk.
+
+See #40716
+
+------------------------------------------------------------------------
+r15506 | jcreus | 2009-02-19 08:22:13 +0900 (Thu, 19 Feb 2009) | 1 line
+
+Updating Catalan translation
+------------------------------------------------------------------------
+r15504 | mbook | 2009-02-18 13:31:03 +0900 (Wed, 18 Feb 2009) | 13 lines
+
+Server player list addition and server scan cleanup.
+
+- Information about players on a server is visible
+  in a list view in the network page (it remains
+  empty for lan servers because they do not send
+  this information).
+- General cleanup and simplification of server
+  scan API and usage.
+- Fixed memory leak due to server scans or their
+  resources not being freed in some situations.
+
+See #40707
+
+------------------------------------------------------------------------
+r15502 | mbook | 2009-02-18 13:13:41 +0900 (Wed, 18 Feb 2009) | 7 lines
+
+Buy city production directly from mapview.
+
+- Selecting cities and pressing 'b' buys the cities'
+  productions in the order of cheapest first.
+
+See #40704
+
+------------------------------------------------------------------------
+r15500 | mbook | 2009-02-18 13:05:31 +0900 (Wed, 18 Feb 2009) | 4 lines
+
+Option to show production buy cost in the city description.
+
+See #40702
+
+------------------------------------------------------------------------
+r15498 | mbook | 2009-02-18 12:20:26 +0900 (Wed, 18 Feb 2009) | 7 lines
+
+Revert city report concise status symbols changes.
+
+- The concise city status symbols are changed back to
+  * for celebrating and X for disorder.
+
+See #40700
+
+------------------------------------------------------------------------
+r15496 | mbook | 2009-02-18 11:26:17 +0900 (Wed, 18 Feb 2009) | 8 lines
+
+Use XOR drawing operation for selection rectangle.
+
+- The selection rectangle is erased by drawing over
+  itself.
+- Removed unneeded calls to redraw_selection_rectangle().
+
+See #40646
+
+------------------------------------------------------------------------
+r15485 | mbook | 2009-02-16 09:18:21 +0900 (Mon, 16 Feb 2009) | 6 lines
+
+Minor fixes and improvements in nation legend texts.
+
+See #40694
+
+Reported by: Sini Ruohomaa <sini.ruohomaa@cs.helsinki.fi>
+
+------------------------------------------------------------------------
+r15484 | mbook | 2009-02-16 09:18:18 +0900 (Mon, 16 Feb 2009) | 10 lines
+
+Fix veteran notify message grammar.
+
+- Do not try to "link up" veteran notify message
+  with previous event.
+- Simplified notify_unit_experience().
+
+See #40693
+
+Reported by: Sini Ruohomaa <sini.ruohomaa@cs.helsinki.fi>
+
+------------------------------------------------------------------------
+r15483 | mbook | 2009-02-16 09:18:15 +0900 (Mon, 16 Feb 2009) | 6 lines
+
+Fix typo and unused code in SDL strings.
+
+See #40691
+
+Reported by: Sini Ruohomaa <sini.ruohomaa@cs.helsinki.fi>
+
+------------------------------------------------------------------------
+r15482 | mbook | 2009-02-16 09:18:12 +0900 (Mon, 16 Feb 2009) | 6 lines
+
+Fix "<government> of the <nation>" constructs.
+
+See #40689
+
+Reported by: Sini Ruohomaa <sini.ruohomaa@cs.helsinki.fi>
+
+------------------------------------------------------------------------
+r15481 | mbook | 2009-02-16 09:18:10 +0900 (Mon, 16 Feb 2009) | 6 lines
+
+Fix and improve gold upkeep disband message.
+
+See #40687
+
+Reported by: Sini Ruohomaa <sini.ruohomaa@cs.helsinki.fi>
+
+------------------------------------------------------------------------
+r15480 | mbook | 2009-02-16 09:18:07 +0900 (Mon, 16 Feb 2009) | 6 lines
+
+Do not translate internal game loading error message.
+
+See #40690
+
+Reported by: Sini Ruohomaa <sini.ruohomaa@cs.helsinki.fi>
+
+------------------------------------------------------------------------
+r15479 | mbook | 2009-02-16 09:18:05 +0900 (Mon, 16 Feb 2009) | 6 lines
+
+Fix typos in tutorial scenario.
+
+See #40699
+
+Reported by: Sini Ruohomaa <sini.ruohomaa@cs.helsinki.fi>
+
+------------------------------------------------------------------------
+r15478 | mbook | 2009-02-16 09:18:02 +0900 (Mon, 16 Feb 2009) | 4 lines
+
+Capitalize first letter of civilization frame label.
+
+See #40692
+
+------------------------------------------------------------------------
+r15477 | mbook | 2009-02-16 09:18:00 +0900 (Mon, 16 Feb 2009) | 6 lines
+
+Fix "workers" translation ambiguity.
+
+See #40684
+
+Reported by: Sini Ruohomaa <sini.ruohomaa@cs.helsinki.fi>
+
+------------------------------------------------------------------------
+r15476 | mbook | 2009-02-16 09:17:57 +0900 (Mon, 16 Feb 2009) | 6 lines
+
+Fix sentence fragments in text_happiness_units().
+
+See #40685
+
+Reported by: Sini Ruohomaa <sini.ruohomaa@cs.helsinki.fi>
+
+------------------------------------------------------------------------
+r15475 | mbook | 2009-02-16 09:17:54 +0900 (Mon, 16 Feb 2009) | 6 lines
+
+Fix typo and awkward phrasing in diplomacy help text.
+
+See #40686
+
+Reported by: Sini Ruohomaa <sini.ruohomaa@cs.helsinki.fi>
+
+------------------------------------------------------------------------
+r15474 | mbook | 2009-02-16 09:17:50 +0900 (Mon, 16 Feb 2009) | 6 lines
+
+Fix civil war message grammar.
+
+See #40688
+
+Reported by: Sini Ruohomaa <sini.ruohomaa@cs.helsinki.fi>
+
+------------------------------------------------------------------------
+r15471 | mbook | 2009-02-16 04:18:31 +0900 (Mon, 16 Feb 2009) | 4 lines
+
+Improved autogenerated savename with turn number.
+
+See #40681
+
+------------------------------------------------------------------------
+r15468 | mbook | 2009-02-10 13:10:43 +0900 (Tue, 10 Feb 2009) | 4 lines
+
+Option to select cities before units with the selection rectangle.
+
+See #40703
+
+------------------------------------------------------------------------
+r15466 | mbook | 2009-02-10 12:52:32 +0900 (Tue, 10 Feb 2009) | 4 lines
+
+Option to prefix chat messages with the current time.
+
+See #40706
+
+------------------------------------------------------------------------
+r15465 | mbook | 2009-02-10 12:19:36 +0900 (Tue, 10 Feb 2009) | 4 lines
+
+Fix unit selection append feature I previously broke.
+
+See #40698
+
+------------------------------------------------------------------------
+r15464 | mbook | 2009-02-10 12:15:17 +0900 (Tue, 10 Feb 2009) | 6 lines
+
+S2_1 port of the total buy cost label update bug fix.
+
+See #40695
+
+Reported by: Christian Knoke <chrisk@cknoke.de>
+
+------------------------------------------------------------------------
+r15462 | mbook | 2009-02-08 03:46:45 +0900 (Sun, 08 Feb 2009) | 6 lines
+
+Fix assertion failure when doing irrigation-connect on a mine.
+
+See #40676
+
+Reported By: Ann Barcomb <ann@domaintje.com>
+
+------------------------------------------------------------------------
+r15460 | cazfi | 2009-02-04 05:14:13 +0900 (Wed, 04 Feb 2009) | 2 lines
+
+Updated translation by Sini Ruohomaa.
+
+------------------------------------------------------------------------
+r15456 | mbook | 2009-01-30 12:42:47 +0900 (Fri, 30 Jan 2009) | 9 lines
+
+Minimal mapview traderoute lines by popular request.
+
+- View menu entry "City Traderoutes" (shortcut ctrl+t)
+  controls whether traderoute lines are drawn on the map.
+
+See #40668
+
+Ported from warclient code originally by pepeto and myself.
+
+------------------------------------------------------------------------
+r15452 | mbook | 2009-01-29 11:31:24 +0900 (Thu, 29 Jan 2009) | 7 lines
+
+Re-enable copy to production clipboard.
+
+- shift + right mouse button is copy.
+- shift + ctrl + right mouse button is paste.
+
+See #40679
+
+------------------------------------------------------------------------
+r15450 | mbook | 2009-01-29 10:35:12 +0900 (Thu, 29 Jan 2009) | 4 lines
+
+Option to disable all mouse cursor changes.
+
+See #40678
+
+------------------------------------------------------------------------
+r15449 | mbook | 2009-01-29 10:29:39 +0900 (Thu, 29 Jan 2009) | 4 lines
+
+Move governor menu to its own menu item in the city report.
+
+See #40677
+
+------------------------------------------------------------------------
+r15444 | mbook | 2009-01-29 06:47:32 +0900 (Thu, 29 Jan 2009) | 9 lines
+
+Fix teleporting exploit by modifying bounce_unit() behavior.
+
+- When resolving stack conflicts, instead of teleporting
+  to the nearest owned city, units are moved to a random
+  safe tile within a 2 tile distance of their current
+  position.
+
+See #40658
+
+------------------------------------------------------------------------
+r15441 | mbook | 2009-01-26 14:30:57 +0900 (Mon, 26 Jan 2009) | 4 lines
+
+Somewhat clearer client hack access messages.
+
+See #40662
+
+------------------------------------------------------------------------
+r15438 | cazfi | 2009-01-26 00:53:44 +0900 (Mon, 26 Jan 2009) | 5 lines
+
+Fixed  a bug that mysql libraries wewre never searched from alternative
+locations.
+
+See #40674
+
+------------------------------------------------------------------------
+r15425 | cazfi | 2009-01-17 20:44:55 +0900 (Sat, 17 Jan 2009) | 6 lines
+
+Fixed bashisms from configure to make it work with Solaris /bin/sh
+
+Patch by Halton Huo
+
+See #40659
+
+------------------------------------------------------------------------
+r15415 | mbook | 2009-01-12 11:18:15 +0900 (Mon, 12 Jan 2009) | 9 lines
+
+Fix compilation with Sun Studio Community Edition compiler.
+
+- Replaced O_COUNT by O_MAX in local struct array field.
+- Replaced COREQ_APPEND macro by equivalent code.
+
+See #40616
+
+Reported by: James McClain <james.mcclain@gmail.com>
+
+------------------------------------------------------------------------
+r15411 | mbook | 2009-01-10 12:44:08 +0900 (Sat, 10 Jan 2009) | 6 lines
+
+Fix startunits in default server script.
+
+See #40611
+
+Reported by: Brandon Van Every <bvanevery@gmail.com>
+
+------------------------------------------------------------------------
+r15397 | mbook | 2009-01-07 15:50:23 +0900 (Wed, 07 Jan 2009) | 7 lines
+
+Make auto-explore respect borders.
+
+See #40570
+
+Patch by: Thomas Kuehne <thomas@kuehne.cn>
+  (With minor changes by me.)
+
+------------------------------------------------------------------------
+r15390 | mbook | 2008-12-30 13:16:41 +0900 (Tue, 30 Dec 2008) | 10 lines
+
+Check for NULL ping timers when closing a connection.
+
+- Add timer_list_iterate macro.
+- Check for NULL connection in close_connection().
+- Check for NULL timer in free_timer().
+
+See #40605
+
+Reported by: Marko Lindqvist <cazfi74@gmail.com>
+
+------------------------------------------------------------------------
+r15385 | mbook | 2008-12-27 14:23:51 +0900 (Sat, 27 Dec 2008) | 6 lines
+
+Fix river generation for island generator.
+
+See #15947
+
+Patch by: Brendon Oram <bjoram@gmail.com>
+
+------------------------------------------------------------------------
+r15367 | mbook | 2008-12-17 11:58:08 +0900 (Wed, 17 Dec 2008) | 6 lines
+
+Prevent island generator from connecting continents.
+
+See #17435
+
+Patch by: Brendon Oram <bjoram@gmail.com>
+
+------------------------------------------------------------------------
+r15361 | mbook | 2008-12-06 13:58:41 +0900 (Sat, 06 Dec 2008) | 4 lines
+
+Remove is_safe_filename check in load_auth_config.
+
+See #40577
+
+------------------------------------------------------------------------
+r15348 | jcreus | 2008-11-30 23:05:12 +0900 (Sun, 30 Nov 2008) | 1 line
+
+4290 messages
+------------------------------------------------------------------------
+r15346 | dmarks | 2008-11-30 21:46:55 +0900 (Sun, 30 Nov 2008) | 1 line
+
+Bump version to 2.1.8+
+------------------------------------------------------------------------
+r15344 | dmarks | 2008-11-30 21:44:26 +0900 (Sun, 30 Nov 2008) | 1 line
+
+Update changelog for 2.1.8
+
 Sun, 30 Nov 2008 03:48:06 -0800  dmarks:
 
 	Changed paths:
