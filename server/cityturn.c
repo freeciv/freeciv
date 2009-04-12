@@ -82,12 +82,40 @@ static void upgrade_building_prod(struct city *pcity);
 static struct unit_type *unit_upgrades_to(struct city *pcity,
 					  struct unit_type *id);
 static void upgrade_unit_prod(struct city *pcity);
-static void pay_for_buildings(struct player *pplayer, struct city *pcity);
+
+/* Helper struct for associating a building to a city. */
+struct cityimpr {
+  struct city *pcity;
+  struct impr_type *pimprove;
+};
+
+#define SPECVEC_TAG cityimpr
+#define SPECVEC_TYPE struct cityimpr
+#include "specvec.h"
+
+/* Helper struct for storing a unit with its gold upkeep. */
+struct unitgold {
+  struct unit *punit;
+  int gold_upkeep;
+};
+
+#define SPECVEC_TAG unitgold
+#define SPECVEC_TYPE struct unitgold
+#include "specvec.h"
+
+static int city_total_impr_gold_upkeep(const struct city *pcity);
+static int city_total_unit_gold_upkeep(const struct city *pcity);
+static bool sell_random_buildings(struct player *pplayer,
+                                  struct cityimpr_vector *imprs);
+static bool sell_random_units(struct player *pplayer,
+                              struct unitgold_vector *units);
+static void city_balance_treasury(struct city *pcity);
+static void player_balance_treasury(struct player *pplayer);
 
 static bool disband_city(struct city *pcity);
 
 static void define_orig_production_values(struct city *pcity);
-static void update_city_activity(struct player *pplayer, struct city *pcity);
+static void update_city_activity(struct city *pcity);
 static void nullify_caravan_and_disband_plus(struct city *pcity);
 
 static float city_migration_score(const struct city *pcity);
@@ -414,27 +442,62 @@ void send_city_turn_notifications(struct conn_list *dest, struct city *pcity)
 }
 
 /**************************************************************************
-...
+  Update all cities of one nation (costs for buildings, unit upkeep, ...).
 **************************************************************************/
 void update_city_activities(struct player *pplayer)
 {
-  int gold;
-  gold=pplayer->economic.gold;
+  int n, gold;
+
+  assert(pplayer != NULL);
+  assert(pplayer->cities != NULL);
+
+  n = city_list_size(pplayer->cities);
+  gold = pplayer->economic.gold;
   pplayer->bulbs_last_turn = 0;
-  city_list_iterate_safe(pplayer->cities, pcity)
-     update_city_activity(pplayer, pcity);
-  city_list_iterate_safe_end;
+
+  if (n > 0) {
+    struct city *cities[n];
+    int i = 0, r;
+
+    city_list_iterate(pplayer->cities, pcity) {
+      cities[i++] = pcity;
+    } city_list_iterate_end;
+
+    /* How gold upkeep is handled depends on the setting
+     * 'game.info.gold_upkeep_style':
+     * 0 - Each city tries to balance its upkeep individually
+     *     (this is done in update_city_activity()).
+     * 1 - The nation as a whole balances the treasury. */
+
+    /* Iterate over cities in a random order. */
+    while (i > 0) {
+      r = myrand(i);
+      update_city_activity(cities[r]);
+      cities[r] = cities[--i];
+    }
+
+    if (game.info.gold_upkeep_style == 1 && pplayer->economic.gold < 0) {
+      player_balance_treasury(pplayer);
+    }
+
+    /* Should not happen. */
+    assert(pplayer->economic.gold >= 0);
+  }
+
   pplayer->ai.prev_gold = gold;
-  /* This test include the cost of the units because pay_for_units is called
-   * in update_city_activity */
+  /* This test includes the cost of the units because
+   * units are paid for in update_city_activity(). */
   if (gold - (gold - pplayer->economic.gold) * 3 < 0) {
     notify_player(pplayer, NULL, E_LOW_ON_FUNDS,
-		     _("WARNING, we're LOW on FUNDS sire."));  
+                  _("WARNING, we're LOW on FUNDS sire."));
   }
-    /* uncomment to unbalance the game, like in civ1 (CLG)
-      if (pplayer->got_tech && pplayer->research->researched > 0)    
-        pplayer->research->researched=0;
-    */
+
+#if 0
+  /* Uncomment to unbalance the game, like in civ1 (CLG). */
+  if (pplayer->got_tech && pplayer->research->researched > 0) {
+    pplayer->research->researched = 0;
+  }
+#endif
 }
 
 /**************************************************************************
@@ -1561,26 +1624,257 @@ static bool city_build_stuff(struct player *pplayer, struct city *pcity)
 }
 
 /**************************************************************************
-  Pay for upkeep costs for all buildings, or sell them.
+  Returns the total amount of gold needed to pay for all buildings in the
+  city.
 **************************************************************************/
-static void pay_for_buildings(struct player *pplayer, struct city *pcity)
+static int city_total_impr_gold_upkeep(const struct city *pcity)
 {
+  int gold_needed = 0;
+
+  if (!pcity) {
+    return 0;
+  }
+
+  city_built_iterate(pcity, pimprove) {
+      gold_needed += city_improvement_upkeep(pcity, pimprove);
+  } city_built_iterate_end;
+
+  return gold_needed;
+}
+
+/***************************************************************************
+  Get the total amount of gold needed to pay upkeep costs for all supported
+  units of the city. Takes into account EFT_UNIT_UPKEEP_FREE_PER_CITY.
+***************************************************************************/
+static int city_total_unit_gold_upkeep(const struct city *pcity)
+{
+  int gold_needed = 0;
+  int free[O_COUNT], upkeep[O_COUNT];
+
+  if (!pcity || !pcity->units_supported
+      || unit_list_size(pcity->units_supported) < 1) {
+    return 0;
+  }
+
+  memset(free, 0, O_COUNT * sizeof(*free));
+  free[O_GOLD] = get_city_output_bonus(pcity, get_output_type(O_GOLD),
+                                       EFT_UNIT_UPKEEP_FREE_PER_CITY);
+
+  unit_list_iterate(pcity->units_supported, punit) {
+    city_unit_upkeep(punit, upkeep, free);
+    gold_needed += upkeep[O_GOLD];
+  } unit_list_iterate_end;
+
+  return gold_needed;
+}
+
+/**************************************************************************
+  Randomly sell buildings from the given vector until the player has
+  a non-negative amount of gold left in the treasury. Returns TRUE if
+  enough buildings were sold to pay the deficit.
+
+  NB: It is assumed that gold upkeep for the buildings has already been
+  paid this turn, hence when a building is sold its upkeep is given back
+  to the player.
+  NB: The contents of 'imprs' are usually mangled by this function.
+  NB: It is assumed that all buildings in 'imprs' can be sold.
+**************************************************************************/
+static bool sell_random_buildings(struct player *pplayer,
+                                  struct cityimpr_vector *imprs)
+{
+  struct city *pcity;
+  struct impr_type *pimprove;
+  int n, r;
+
+  assert(pplayer != NULL);
+
+  n = imprs ? cityimpr_vector_size(imprs) : 0;
+  while (pplayer->economic.gold < 0 && n > 0) {
+    r = myrand(n);
+    pcity = imprs->p[r].pcity;
+    pimprove = imprs->p[r].pimprove;
+
+    notify_player(pplayer, city_tile(pcity), E_IMP_AUCTIONED,
+                  _("Can't afford to maintain %s in %s, building sold!"),
+                  improvement_name_translation(pimprove),
+                  city_name(pcity));
+
+    do_sell_building(pplayer, pcity, pimprove);
+    city_refresh(pcity);
+
+    /* Get back the gold upkeep that was already paid this turn. */
+    pplayer->economic.gold += city_improvement_upkeep(pcity, pimprove);
+
+    imprs->p[r] = imprs->p[--n];
+  }
+
+  return pplayer->economic.gold >= 0;
+}
+
+/**************************************************************************
+  Randomly "sell" units from the given vector until the player has a
+  a non-negative amount of gold left in the treasury. Returns TRUE if
+  enough units were sold to pay the deficit.
+
+  NB: It is assumed that gold upkeep for the units has already been paid
+  this turn, hence when a unit is "sold" its upkeep is given back to the
+  player.
+  NB: The contents of 'units' are usually mangled by this function.
+  NB: It is assumed that all units in 'units' have positive gold upkeep.
+**************************************************************************/
+static bool sell_random_units(struct player *pplayer,
+                              struct unitgold_vector *units)
+{
+  struct unit *punit;
+  int gold_upkeep, n, r;
+
+  assert(pplayer != NULL);
+
+  n = units ? unitgold_vector_size(units) : 0;
+  while (pplayer->economic.gold < 0 && n > 0) {
+    r = myrand(n);
+    punit = units->p[r].punit;
+    gold_upkeep = units->p[r].gold_upkeep;
+
+    notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_MISC,
+                  _("Not enough gold. %s disbanded"),
+                  unit_name_translation(punit));
+    wipe_unit(punit);
+
+    /* Get the upkeep gold back. */
+    pplayer->economic.gold += gold_upkeep;
+
+    units->p[r] = units->p[--n];
+  }
+
+  return pplayer->economic.gold >= 0;
+}
+
+/**************************************************************************
+  Balance the gold of a nation by selling some random buildings. If this
+  does not help, then disband some units which need gold upkeep.
+**************************************************************************/
+static void player_balance_treasury(struct player *pplayer)
+{
+  struct cityimpr_vector imprs;
+  struct cityimpr ci;
+  struct unitgold_vector units;
+  struct unitgold ug;
+  int free[O_COUNT], upkeep[O_COUNT];
+
+  if (!pplayer) {
+    return;
+  }
+
+  cityimpr_vector_init(&imprs);
+  unitgold_vector_init(&units);
+
+  city_list_iterate(pplayer->cities, pcity) {
+    city_built_iterate(pcity, pimprove) {
+      if (can_city_sell_building(pcity, pimprove)) {
+        ci.pcity = pcity;
+        ci.pimprove = pimprove;
+        cityimpr_vector_append(&imprs, &ci);
+      }
+    } city_built_iterate_end;
+  } city_list_iterate_end;
+
+  if (sell_random_buildings(pplayer, &imprs)) {
+    goto CLEANUP;
+  }
+
+  memset(free, 0, O_COUNT * sizeof(*free));
+
+  city_list_iterate(pplayer->cities, pcity) {
+    free[O_GOLD] = get_city_output_bonus(pcity, get_output_type(O_GOLD),
+                                         EFT_UNIT_UPKEEP_FREE_PER_CITY);
+    unit_list_iterate(pcity->units_supported, punit) {
+      city_unit_upkeep(punit, upkeep, free);
+      if (upkeep[O_GOLD] > 0) {
+        ug.punit = punit;
+        ug.gold_upkeep = upkeep[O_GOLD];
+        unitgold_vector_append(&units, &ug);
+      }
+    } unit_list_iterate_end;
+  } city_list_iterate_end;
+
+  if (sell_random_units(pplayer, &units)) {
+    goto CLEANUP;
+  }
+
+  /* If we get here it means the player has
+   * negative gold. This should never happen. */
+  die("Player cannot have negative gold.");
+
+CLEANUP:
+  cityimpr_vector_free(&imprs);
+  unitgold_vector_free(&units);
+}
+
+/**************************************************************************
+  Balance the gold of one city by randomly selling some buildings. If this
+  does not help, randomly disband some units which need gold upkeep.
+
+  NB: This function adds the gold upkeep of disbanded units back to the
+  player's gold. Hence it assumes that this gold was previously taken
+  from the player (i.e. in update_city_activity()).
+**************************************************************************/
+static void city_balance_treasury(struct city *pcity)
+{
+  struct player *pplayer;
+  struct cityimpr_vector imprs;
+  struct cityimpr ci;
+  struct unitgold_vector units;
+  struct unitgold ug;
+  int free[O_COUNT], upkeep[O_COUNT];
+
+  if (!pcity) {
+    return;
+  }
+
+  pplayer = city_owner(pcity);
+  cityimpr_vector_init(&imprs);
+  unitgold_vector_init(&units);
+
+  /* Create a vector of all buildings that can be sold. */
   city_built_iterate(pcity, pimprove) {
     if (can_city_sell_building(pcity, pimprove)) {
-      int upkeep = city_improvement_upkeep(pcity, pimprove);
-
-      if (pplayer->economic.gold - upkeep < 0) {
-	notify_player(pplayer, pcity->tile, E_IMP_AUCTIONED,
-			 _("Can't afford to maintain %s in %s, "
-			   "building sold!"),
-			 improvement_name_translation(pimprove),
-			 city_name(pcity));
-	do_sell_building(pplayer, pcity, pimprove);
-	city_refresh(pcity);
-      } else
-        pplayer->economic.gold -= upkeep;
+      ci.pcity = pcity;
+      ci.pimprove = pimprove;
+      cityimpr_vector_append(&imprs, &ci);
     }
   } city_built_iterate_end;
+
+  /* Try to sell some buildings. */
+  if (sell_random_buildings(pplayer, &imprs)) {
+    goto CLEANUP;
+  }
+
+  memset(free, 0, O_COUNT * sizeof(*free));
+  free[O_GOLD] = get_city_output_bonus(pcity, get_output_type(O_GOLD),
+                                       EFT_UNIT_UPKEEP_FREE_PER_CITY);
+
+  /* Create a vector of all supported units with gold upkeep. */
+  unit_list_iterate(pcity->units_supported, punit) {
+    city_unit_upkeep(punit, upkeep, free);
+    if (upkeep[O_GOLD] > 0) {
+      ug.punit = punit;
+      ug.gold_upkeep = upkeep[O_GOLD];
+      unitgold_vector_append(&units, &ug);
+    }
+  } unit_list_iterate_end;
+
+  /* Still not enough gold, so try "selling" some units. */
+  if (sell_random_units(pplayer, &units)) {
+    goto CLEANUP;
+  }
+
+  /* If we get here the player has negative gold, but hopefully
+   * another city will be able to pay the deficit, so continue. */
+
+CLEANUP:
+  cityimpr_vector_free(&imprs);
+  unitgold_vector_free(&units);
 }
 
 /**************************************************************************
@@ -1737,16 +2031,25 @@ void nullify_prechange_production(struct city *pcity)
 /**************************************************************************
  Called every turn, at end of turn, for every city.
 **************************************************************************/
-static void update_city_activity(struct player *pplayer, struct city *pcity)
+static void update_city_activity(struct city *pcity)
 {
-  struct government *g = government_of_city(pcity);
-  int saved_id = pcity->id;
+  struct player *pplayer;
+  struct government *gov;
+
+  if (!pcity) {
+    return;
+  }
+
+  pplayer = city_owner(pcity);
+  gov = government_of_city(pcity);
 
   city_refresh(pcity);
 
-  /* reporting of celebrations rewritten, copying the treatment of disorder below,
+  /* Reporting of celebrations rewritten, copying the treatment of disorder below,
      with the added rapture rounds count.  991219 -- Jing */
   if (city_build_stuff(pplayer, pcity)) {
+    int saved_id;
+
     if (city_celebrating(pcity)) {
       pcity->rapture++;
       if (pcity->rapture == 1) {
@@ -1760,61 +2063,65 @@ static void update_city_activity(struct player *pplayer, struct city *pcity)
                       _("Celebrations canceled in %s."),
                       city_name(pcity));
       }
-      pcity->rapture=0;
+      pcity->rapture = 0;
     }
-    pcity->was_happy=city_happy(pcity);
+    pcity->was_happy = city_happy(pcity);
 
     /* City population updated here, after the rapture stuff above. --Jing */
-    {
-      int id=pcity->id;
-      city_populate(pcity);
-      if(!player_find_city_by_id(pplayer, id))
-	return;
+    saved_id = pcity->id;
+    city_populate(pcity);
+    if (!player_find_city_by_id(pplayer, saved_id)) {
+      return;
     }
 
-    pcity->is_updated=TRUE;
-
-    pcity->did_sell=FALSE;
+    pcity->is_updated = TRUE;
+    pcity->did_sell = FALSE;
     pcity->did_buy = FALSE;
     pcity->airlift = get_city_bonus(pcity, EFT_AIRLIFT);
     update_tech(pplayer, pcity->prod[O_SCIENCE]);
-    pplayer->economic.gold+=pcity->prod[O_GOLD];
-    pay_for_units(pplayer, pcity);
-    if (city_exist(saved_id)) {
-      pay_for_buildings(pplayer, pcity);
 
-      if(city_unhappy(pcity)) { 
-        pcity->anarchy++;
-        if (pcity->anarchy == 1) {
-          notify_player(pplayer, pcity->tile, E_CITY_DISORDER,
-                        _("Civil disorder in %s."),
-                        city_name(pcity));
-        } else {
-          notify_player(pplayer, pcity->tile, E_CITY_DISORDER,
-                        _("CIVIL DISORDER CONTINUES in %s."),
-                        city_name(pcity));
-        }
-      } else {
-        if (pcity->anarchy != 0) {
-          notify_player(pplayer, pcity->tile, E_CITY_NORMAL,
-                        _("Order restored in %s."),
-                        city_name(pcity));
-        }
-        pcity->anarchy = 0;
-      }
-      check_pollution(pcity);
+    /* Update the treasury. */
+    pplayer->economic.gold += pcity->prod[O_GOLD];
+    pplayer->economic.gold -= city_total_impr_gold_upkeep(pcity);
+    pplayer->economic.gold -= city_total_unit_gold_upkeep(pcity);
 
-      send_city_info(NULL, pcity);
-      if (pcity->anarchy>2 
-          && get_player_bonus(pplayer, EFT_REVOLUTION_WHEN_UNHAPPY) > 0) {
-        notify_player(pplayer, pcity->tile, E_ANARCHY,
-                      _("The people have overthrown your %s, "
-                        "your country is in turmoil."),
-                      government_name_translation(g));
-        handle_player_change_government(pplayer, government_number(g));
-      }
-      sanity_check_city(pcity);
+    if (game.info.gold_upkeep_style == 0 && pplayer->economic.gold < 0) {
+      /* Not enough gold - we have to sell some buildings, and if that
+       * is not enough, disband units with gold upkeep. */
+      city_balance_treasury(pcity);
     }
+
+    if (city_unhappy(pcity)) {
+      pcity->anarchy++;
+      if (pcity->anarchy == 1) {
+        notify_player(pplayer, pcity->tile, E_CITY_DISORDER,
+                      _("Civil disorder in %s."),
+                      city_name(pcity));
+      } else {
+        notify_player(pplayer, pcity->tile, E_CITY_DISORDER,
+                      _("CIVIL DISORDER CONTINUES in %s."),
+                      city_name(pcity));
+      }
+    } else {
+      if (pcity->anarchy != 0) {
+        notify_player(pplayer, pcity->tile, E_CITY_NORMAL,
+                      _("Order restored in %s."),
+                      city_name(pcity));
+      }
+      pcity->anarchy = 0;
+    }
+    check_pollution(pcity);
+
+    send_city_info(NULL, pcity);
+    if (pcity->anarchy > 2
+        && get_player_bonus(pplayer, EFT_REVOLUTION_WHEN_UNHAPPY) > 0) {
+      notify_player(pplayer, pcity->tile, E_ANARCHY,
+                    _("The people have overthrown your %s, "
+                      "your country is in turmoil."),
+                    government_name_translation(gov));
+      handle_player_change_government(pplayer, government_number(gov));
+    }
+    sanity_check_city(pcity);
   }
 }
 

@@ -3025,6 +3025,17 @@ static void load_ruleset_game(void)
     game.info.nuke_contamination = CONTAMINATION_POLLUTION;
   }
 
+  game.info.gold_upkeep_style
+    = secfile_lookup_int_default(&file, GAME_DEFAULT_GOLD_UPKEEP_STYLE,
+                                 "civstyle.gold_upkeep_style");
+  if (game.info.gold_upkeep_style > GAME_MAX_GOLD_UPKEEP_STYLE
+      || game.info.gold_upkeep_style < GAME_MIN_GOLD_UPKEEP_STYLE) {
+    freelog(LOG_ERROR, "Bad value %d for gold_upkeep_style. Using default"
+            "value (%d).", game.info.gold_upkeep_style,
+            GAME_DEFAULT_GOLD_UPKEEP_STYLE);
+    game.info.gold_upkeep_style = GAME_DEFAULT_GOLD_UPKEEP_STYLE;
+  }
+
   food_ini = secfile_lookup_int_vec(&file, &game.info.granary_num_inis, 
 				    "civstyle.granary_food_ini");
   if (game.info.granary_num_inis > MAX_GRANARY_INIS) {

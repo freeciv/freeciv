@@ -50,7 +50,6 @@ int get_unit_vision_at(struct unit *punit, struct tile *ptile,
 		       enum vision_layer vlayer);
 void unit_refresh_vision(struct unit *punit);
 void unit_list_refresh_vision(struct unit_list *punitlist);
-void pay_for_units(struct player *pplayer, struct city *pcity);
 void bounce_unit(struct unit *punit, bool verbose);
 
 /* creation/deletion/upgrading */

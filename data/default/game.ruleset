@@ -68,6 +68,18 @@ pillage_select		= 1
 ;   "Fallout"   - Nuclear Fallout (distinct from industrial/population).
 nuke_contamination	= "Fallout"
 
+; Method of paying unit and improvement gold upkeep
+; 0 - The player's total gold must be non-negative after paying upkeep
+;     costs associated with each city. If for any city the player's gold
+;     is negative, random buildings in the city are sold off. If the gold
+;     is still negative, then supported units with gold upkeep are
+;     disbanded.
+; 1 - Gold upkeep for all buildings and units is paid in a lump sum after
+;     all cities have been processed. If the player does not have enough
+;     gold, random buildings from random cities are sold. If still more
+;     gold is needed, then random units with gold upkeep are disbanded.
+gold_upkeep_style = 0
+
 ; Parameters used to generalize the calculation of city granary size:
 ;   if city_size <= num_inis:
 ;     city_granary_size = (granary_food_ini[city_size] * foodbox / 100)

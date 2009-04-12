@@ -443,6 +443,7 @@ PACKET_GAME_INFO=15; sc
   UINT8 init_vis_radius_sq;
   BOOL pillage_select;
   UINT8 nuke_contamination;
+  UINT8 gold_upkeep_style;
   UINT8 granary_food_ini[MAX_GRANARY_INIS];
   UINT8 granary_num_inis;
   UINT8 granary_food_inc;
