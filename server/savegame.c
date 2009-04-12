@@ -945,7 +945,7 @@ static struct resource *identifier_to_resource(char c)
    || c == RESOURCE_NONE_IDENTIFIER) {
     return NULL;
   }
-  if (20200 > game.version) {
+  if (20199 > game.version) {
     return update22_resource(c);
   }
   return find_resource_by_identifier(c);
@@ -1024,7 +1024,7 @@ static void map_load(struct section_file *file,
     }
     if ('x' == ptile->resource->identifier
      && 'd' == ptile->terrain->identifier
-     && 20200 > game.version) {
+     && 20199 > game.version) {
       /* for compatibility with civ2 split of desert oil */
       ptile->resource = find_resource_by_identifier('X');
     }
