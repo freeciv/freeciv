@@ -25,6 +25,7 @@ struct server_arguments {
   /* metaserver information */
   bool metaserver_no_send;
   char metaserver_addr[256];
+  char metaserver_name[256];
   unsigned short int metaserver_port;
   /* address this server is to listen on (NULL => INADDR_ANY) */
   char *bind_addr;
