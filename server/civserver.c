@@ -143,13 +143,17 @@ int main(int argc, char *argv[])
       fc_fprintf(stderr, _("Warning: the %s option is obsolete.  "
 			   "Use -m to enable the metaserver.\n"), argv[inx]);
       showhelp = TRUE;
-    } else if (is_option("--meta", argv[inx]))
+    } else if (is_option("--meta", argv[inx])) {
       srvarg.metaserver_no_send = FALSE;
-    else if ((option = get_option_malloc("--Metaserver",
+    } else if ((option = get_option_malloc("--Metaserver",
 					 argv, &inx, argc))) {
       sz_strlcpy(srvarg.metaserver_addr, option);
       free(option);
       srvarg.metaserver_no_send = FALSE;      /* --Metaserver implies --meta */
+    } else if ((option = get_option_malloc("--identity",
+					   argv, &inx, argc))) {
+      sz_strlcpy(srvarg.metaserver_name, option);
+      free(option);
     } else if ((option = get_option_malloc("--port", argv, &inx, argc))) {
       if (sscanf(option, "%d", &srvarg.port) != 1) {
 	showhelp = TRUE;
@@ -227,7 +231,7 @@ int main(int argc, char *argv[])
   if (showhelp) {
     fc_fprintf(stderr,
 	       _("Usage: %s [option ...]\nValid options are:\n"), argv[0]);
-    fc_fprintf(stderr, _("  -A  --announce PROTO\tAnnounce game in LAN using protocol PROTO (IPv4/IPv6/none)\n"));
+    fc_fprintf(stderr, _("  -A  --Announce PROTO\tAnnounce game in LAN using protocol PROTO (IPv4/IPv6/none)\n"));
 #ifdef HAVE_AUTH
     fc_fprintf(stderr, _("  -a  --auth FILE\tEnable server authentication "
                          "with configuration from FILE.\n"));
@@ -247,6 +251,7 @@ int main(int argc, char *argv[])
     fc_fprintf(stderr, _("  -f, --file FILE\tLoad saved game FILE\n"));
     fc_fprintf(stderr,
 	       _("  -h, --help\t\tPrint a summary of the options\n"));
+   fc_fprintf(stderr, _("  -i, --identity ADDR\tBe known as ADDR at metaserver\n"));
     fc_fprintf(stderr, _("  -l, --log FILE\tUse FILE as logfile\n"));
     fc_fprintf(stderr, _("  -m, --meta\t\tNotify metaserver and "
 			 "send server's info\n"));
