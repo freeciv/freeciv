@@ -254,7 +254,7 @@ int client_main(int argc, char *argv[])
 		 _("  -h, --help\t\tPrint a summary of the options\n"));
       fc_fprintf(stderr, _("  -l, --log FILE\tUse FILE as logfile "
 			   "(spawned server also uses this)\n"));
-      fc_fprintf(stderr, _("  -m, --meta HOST\t"
+      fc_fprintf(stderr, _("  -M, --Meta HOST\t"
 			   "Connect to the metaserver at HOST\n"));
       fc_fprintf(stderr, _("  -n, --name NAME\tUse NAME as name\n"));
       fc_fprintf(stderr,
@@ -288,7 +288,7 @@ int client_main(int argc, char *argv[])
     } else if ((option = get_option_malloc("--name", argv, &i, argc))) {
       sz_strlcpy(user_name, option);
       free(option);
-    } else if ((option = get_option_malloc("--meta", argv, &i, argc))) {
+    } else if ((option = get_option_malloc("--Meta", argv, &i, argc))) {
       sz_strlcpy(metaserver, option);
       free(option);
     } else if ((option = get_option_malloc("--Sound", argv, &i, argc))) {
