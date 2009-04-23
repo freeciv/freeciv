@@ -405,7 +405,7 @@ int client_main(int argc, char *argv[])
     sz_strlcpy(user_name, default_user_name); 
   if (metaserver[0] == '\0') {
     /* FIXME: Find a cleaner way to achieve this. */
-    const char *oldaddr = "http://meta.freeciv.org/metaserver.phtml";
+    const char *oldaddr = "http://www.cazfi.net/freeciv/metaserver/";
     if (0 == strcmp(default_metaserver, oldaddr)) {
       freelog(LOG_NORMAL, _("Updating old metaserver address \"%s\"."),
               oldaddr);
