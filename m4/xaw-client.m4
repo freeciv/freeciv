@@ -82,14 +82,8 @@ You may need to install a libpng \"development\" package.])
 	dnl Xaw or Xaw3d:
 	if test -n "$WITH_XAW3D"; then
 	  FC_CHECK_X_LIB(Xaw3d, main, , AC_MSG_ERROR(did not find Xaw3d library))
-	elif test "$client" = "xaw"; then
+        else
 	  FC_CHECK_X_LIB(Xaw, main, , AC_MSG_ERROR(did not find Xaw library))
-	else
-	  FC_CHECK_X_LIB(Xaw3d, main, , noXaw3d=1)
-	  if test -n "$noXaw3d"; then
-	    FC_CHECK_X_LIB(Xaw, main, ,
-	      AC_MSG_ERROR(did not find either Xaw or Xaw3d library))
-	  fi
 	fi
 
 	CLIENT_CFLAGS="$X_CFLAGS"
