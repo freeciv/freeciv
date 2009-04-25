@@ -319,7 +319,7 @@ static void meta_send_request(struct server_scan *scan)
 
   if (fc_writesocket(scan->sock, str, strlen(str)) != strlen(str)) {
     /* Even with non-blocking this shouldn't fail. */
-    scan->error_func(scan, mystrerror());
+    scan->error_func(scan, fc_strerror(fc_get_errno()));
     return;
   }
 
@@ -359,7 +359,7 @@ static void meta_read_response(struct server_scan *scan)
 	/* Keep waiting. */
 	return;
       }
-      scan->error_func(scan, mystrerror());
+      scan->error_func(scan, fc_strerror(fc_get_errno()));
       return;
     } else if (result == 0) {
       fz_FILE *f;
@@ -389,7 +389,7 @@ static void meta_read_response(struct server_scan *scan)
       return;
     } else {
       if (fwrite(buf, 1, result, scan->meta.fp) != result) {
-	scan->error_func(scan, mystrerror());
+	scan->error_func(scan, fc_strerror(fc_get_errno()));
       }
     }
   }
@@ -423,7 +423,7 @@ static bool begin_metaserver_scan(struct server_scan *scan)
   }
   
   if ((s = socket(addr.saddr.sa_family, SOCK_STREAM, 0)) == -1) {
-    scan->error_func(scan, mystrerror());
+    scan->error_func(scan, fc_strerror(fc_get_errno()));
     return FALSE;
   }
 
@@ -436,7 +436,7 @@ static bool begin_metaserver_scan(struct server_scan *scan)
       scan->sock = s;
     } else {
       fc_closesocket(s);
-      scan->error_func(scan, mystrerror());
+      scan->error_func(scan, fc_strerror(fc_get_errno()));
       return FALSE;
     }
   } else {
@@ -470,7 +470,7 @@ get_metaserver_list(struct server_scan *scan)
   switch (scan->meta.state) {
   case META_CONNECTING:
     if (fc_select(scan->sock + 1, NULL, &sockset, NULL, &tv) < 0) {
-      scan->error_func(scan, mystrerror());
+      scan->error_func(scan, fc_strerror(fc_get_errno()));
     } else if (FD_ISSET(scan->sock, &sockset)) {
       meta_send_request(scan);
     }
@@ -479,7 +479,7 @@ get_metaserver_list(struct server_scan *scan)
     break;
   case META_WAITING:
     if (fc_select(scan->sock + 1, &sockset, NULL, NULL, &tv) < 0) {
-      scan->error_func(scan, mystrerror());
+      scan->error_func(scan, fc_strerror(fc_get_errno()));
     } else if (FD_ISSET(scan->sock, &sockset)) {
       meta_read_response(scan);
       return SCAN_STATUS_PARTIAL;
@@ -578,13 +578,13 @@ static bool begin_lanserver_scan(struct server_scan *scan)
 
   /* Create a socket for broadcasting to servers. */
   if ((sock = socket(family, SOCK_DGRAM, 0)) < 0) {
-    freelog(LOG_ERROR, "socket failed: %s", mystrerror());
+    freelog(LOG_ERROR, "socket failed: %s", fc_strerror(fc_get_errno()));
     return FALSE;
   }
 
   if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR,
                  (char *)&opt, sizeof(opt)) == -1) {
-    freelog(LOG_ERROR, "SO_REUSEADDR failed: %s", mystrerror());
+    freelog(LOG_ERROR, "SO_REUSEADDR failed: %s", fc_strerror(fc_get_errno()));
   }
 
   /* Set the UDP Multicast group IP address. */
@@ -617,14 +617,14 @@ static bool begin_lanserver_scan(struct server_scan *scan)
   ttl = SERVER_LAN_TTL;
   if (setsockopt(sock, IPPROTO_IP, IP_MULTICAST_TTL, (const char*)&ttl, 
                  sizeof(ttl))) {
-    freelog(LOG_ERROR, "setsockopt failed: %s", mystrerror());
+    freelog(LOG_ERROR, "setsockopt failed: %s", fc_strerror(fc_get_errno()));
     return FALSE;
   }
 #endif /* HAVE_WINSOCK */
 
   if (setsockopt(sock, SOL_SOCKET, SO_BROADCAST, (const char*)&opt, 
                  sizeof(opt))) {
-    freelog(LOG_ERROR, "setsockopt failed: %s", mystrerror());
+    freelog(LOG_ERROR, "setsockopt failed: %s", fc_strerror(fc_get_errno()));
     return FALSE;
   }
 
@@ -637,7 +637,8 @@ static bool begin_lanserver_scan(struct server_scan *scan)
              sockaddr_size(&addr)) < 0) {
     /* This can happen when there's no network connection - it should
      * give an in-game message. */
-    freelog(LOG_ERROR, "lanserver scan sendto failed: %s", mystrerror());
+    freelog(LOG_ERROR, "lanserver scan sendto failed: %s",
+	    fc_strerror(fc_get_errno()));
     return FALSE;
   } else {
     freelog(LOG_DEBUG, ("Sending request for server announcement on LAN."));
@@ -647,7 +648,7 @@ static bool begin_lanserver_scan(struct server_scan *scan)
 
   /* Create a socket for listening for server packets. */
   if ((scan->sock = socket(family, SOCK_DGRAM, 0)) < 0) {
-    scan->error_func(scan, mystrerror());
+    scan->error_func(scan, fc_strerror(fc_get_errno()));
     return FALSE;
   }
 
@@ -655,7 +656,7 @@ static bool begin_lanserver_scan(struct server_scan *scan)
 
   if (setsockopt(scan->sock, SOL_SOCKET, SO_REUSEADDR,
                  (char *)&opt, sizeof(opt)) == -1) {
-    freelog(LOG_ERROR, "SO_REUSEADDR failed: %s", mystrerror());
+    freelog(LOG_ERROR, "SO_REUSEADDR failed: %s", fc_strerror(fc_get_errno()));
   }
                                                                                
   memset(&addr, 0, sizeof(addr));
@@ -674,7 +675,7 @@ static bool begin_lanserver_scan(struct server_scan *scan)
   }
 
   if (bind(scan->sock, &addr.saddr, sockaddr_size(&addr)) < 0) {
-    scan->error_func(scan, mystrerror());
+    scan->error_func(scan, fc_strerror(fc_get_errno()));
     return FALSE;
   }
 
@@ -692,7 +693,7 @@ static bool begin_lanserver_scan(struct server_scan *scan)
 
     if (setsockopt(scan->sock, IPPROTO_IPV6, IPV6_ADD_MEMBERSHIP,
                    (const char*)&mreq6, sizeof(mreq6)) < 0) {
-      scan->error_func(scan, mystrerror());
+      scan->error_func(scan, fc_strerror(fc_get_errno()));
     }
   } else {
     inet_pton(AF_INET, group, &mreq4.imr_multiaddr.s_addr);
@@ -701,7 +702,7 @@ static bool begin_lanserver_scan(struct server_scan *scan)
 
     if (setsockopt(scan->sock, IPPROTO_IP, IP_ADD_MEMBERSHIP,
                    (const char*)&mreq4, sizeof(mreq4)) < 0) {
-      scan->error_func(scan, mystrerror());
+      scan->error_func(scan, fc_strerror(fc_get_errno()));
       return FALSE;
     }
   }

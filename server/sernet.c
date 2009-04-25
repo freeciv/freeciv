@@ -843,7 +843,7 @@ static int server_accept_connection(int sockfd)
   fromlen = sizeof(fromend);
 
   if ((new_sock = accept(sockfd, &fromend.saddr, &fromlen)) == -1) {
-    freelog(LOG_ERROR, "accept failed: %s", mystrerror());
+    freelog(LOG_ERROR, "accept failed: %s", fc_strerror(fc_get_errno()));
     return -1;
   }
 
@@ -952,23 +952,23 @@ int server_open_socket(void)
 
   /* Create socket for client connections. */
   if((sock = socket(src.saddr.sa_family, SOCK_STREAM, 0)) == -1) {
-    die("socket failed: %s", mystrerror());
+    die("socket failed: %s", fc_strerror(fc_get_errno()));
   }
 
   opt = 1;
   if(setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, 
 		(char *)&opt, sizeof(opt)) == -1) {
-    freelog(LOG_ERROR, "SO_REUSEADDR failed: %s", mystrerror());
+    freelog(LOG_ERROR, "SO_REUSEADDR failed: %s", fc_strerror(fc_get_errno()));
   }
 
   if(bind(sock, &src.saddr, sockaddr_size(&src)) == -1) {
-    freelog(LOG_FATAL, "Server bind failed: %s", mystrerror());
+    freelog(LOG_FATAL, "Server bind failed: %s", fc_strerror(fc_get_errno()));
     sockaddr_debug(&src);
     exit(EXIT_FAILURE);
   }
 
   if(listen(sock, MAX_NUM_CONNECTIONS) == -1) {
-    freelog(LOG_FATAL, "listen failed: %s", mystrerror());
+    freelog(LOG_FATAL, "listen failed: %s", fc_strerror(fc_get_errno()));
     exit(EXIT_FAILURE);
   }
 
@@ -987,12 +987,12 @@ int server_open_socket(void)
 
   /* Create socket for server LAN announcements */
   if ((socklan = socket(lan_family, SOCK_DGRAM, 0)) < 0) {
-     freelog(LOG_ERROR, "socket failed: %s", mystrerror());
+    freelog(LOG_ERROR, "socket failed: %s", fc_strerror(fc_get_errno()));
   }
 
   if (setsockopt(socklan, SOL_SOCKET, SO_REUSEADDR,
                  (char *)&opt, sizeof(opt)) == -1) {
-    freelog(LOG_ERROR, "SO_REUSEADDR failed: %s", mystrerror());
+    freelog(LOG_ERROR, "SO_REUSEADDR failed: %s", fc_strerror(fc_get_errno()));
   }
 
   fc_nonblock(socklan);
@@ -1017,7 +1017,7 @@ int server_open_socket(void)
   }
 
   if (bind(socklan, &addr.saddr, sockaddr_size(&addr)) < 0) {
-    freelog(LOG_ERROR, "Lan bind failed: %s", mystrerror());
+    freelog(LOG_ERROR, "Lan bind failed: %s", fc_strerror(fc_get_errno()));
   }
 
 #ifndef IPV6_SUPPORT
@@ -1034,7 +1034,7 @@ int server_open_socket(void)
     if (setsockopt(socklan, IPPROTO_IPV6, IPV6_ADD_MEMBERSHIP,
                    (const char*)&mreq6, sizeof(mreq6)) < 0) {
       freelog(LOG_ERROR, "IPV6_ADD_MEMBERSHIP (%s) failed: %s",
-              group, mystrerror());
+              group, fc_strerror(fc_get_errno()));
     }
   } else {
     inet_pton(AF_INET, group, &mreq4.imr_multiaddr.s_addr);
@@ -1044,7 +1044,7 @@ int server_open_socket(void)
     if (setsockopt(socklan, IPPROTO_IP, IP_ADD_MEMBERSHIP,
                    (const char*)&mreq4, sizeof(mreq4)) < 0) {
       freelog(LOG_ERROR, "IP_ADD_MEMBERSHIP (%s) failed: %s",
-              group, mystrerror());
+              group, fc_strerror(fc_get_errno()));
     }
   }
 
@@ -1192,7 +1192,7 @@ static void get_lanserver_announcement(void)
 
   while (fc_select(socklan + 1, &readfs, NULL, &exceptfs, &tv) == -1) {
     if (errno != EINTR) {
-      freelog(LOG_ERROR, "select failed: %s", mystrerror());
+      freelog(LOG_ERROR, "select failed: %s", fc_strerror(fc_get_errno()));
       return;
     }
     /* EINTR can happen sometimes, especially when compiling with -pg.
@@ -1241,7 +1241,7 @@ static void send_lanserver_response(void)
 
   /* Create a socket to broadcast to client. */
   if ((socksend = socket(AF_INET,SOCK_DGRAM, 0)) < 0) {
-    freelog(LOG_ERROR, "socket failed: %s", mystrerror());
+    freelog(LOG_ERROR, "socket failed: %s", fc_strerror(fc_get_errno()));
     return;
   }
 
@@ -1259,14 +1259,14 @@ static void send_lanserver_response(void)
   ttl = SERVER_LAN_TTL;
   if (setsockopt(socksend, IPPROTO_IP, IP_MULTICAST_TTL, 
                  (const char*)&ttl, sizeof(ttl))) {
-    freelog(LOG_ERROR, "setsockopt failed: %s", mystrerror());
+    freelog(LOG_ERROR, "setsockopt failed: %s", fc_strerror(fc_get_errno()));
     return;
   }
 #endif
 
   if (setsockopt(socksend, SOL_SOCKET, SO_BROADCAST, 
                  (const char*)&setting, sizeof(setting))) {
-    freelog(LOG_ERROR, "setsockopt failed: %s", mystrerror());
+    freelog(LOG_ERROR, "setsockopt failed: %s", fc_strerror(fc_get_errno()));
     return;
   }
 
@@ -1314,7 +1314,8 @@ static void send_lanserver_response(void)
   /* Sending packet to client with the information gathered above. */
   if (sendto(socksend, buffer,  size, 0, &addr.saddr,
       sockaddr_size(&addr)) < 0) {
-    freelog(LOG_ERROR, "landserver response sendto failed: %s", mystrerror());
+    freelog(LOG_ERROR, "landserver response sendto failed: %s",
+	    fc_strerror(fc_get_errno()));
     return;
   }
 

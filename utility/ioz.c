@@ -562,7 +562,7 @@ const char *fz_strerror(fz_FILE *fp)
       int errnum;
       const char *estr = gzerror(fp->u.zlib, &errnum);
       if (errnum == Z_ERRNO) {
-	retval = mystrerror();
+	retval = fc_strerror(fc_get_errno());
       } else {
 	retval = estr;
       }
@@ -570,7 +570,7 @@ const char *fz_strerror(fz_FILE *fp)
     break;
 #endif
   case FZ_PLAIN:
-    retval = mystrerror();
+    retval = fc_strerror(fc_get_errno());
     break;
   default:
     /* Should never happen */

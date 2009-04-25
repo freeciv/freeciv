@@ -217,7 +217,7 @@ char *convert_string(const char *text,
     /* TRANS: "Could not convert text from <encoding a> to <encoding b>:" 
      *        <externally translated error string>."*/
     freelog(LOG_ERROR, _("Could not convert text from %s to %s: %s"), from,
-	    to, mystrerror());
+	    to, fc_strerror(fc_get_errno()));
     /* The best we can do? */
     if (alloc) {
       return mystrdup(text);

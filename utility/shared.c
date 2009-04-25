@@ -1047,7 +1047,7 @@ char **datafilelist(const char* suffix)
       } else {
 	/* TRANS: "...: <externally translated error string>."*/
         freelog(LOG_ERROR, _("Could not read data directory %s: %s."),
-		dirs[dir_num], mystrerror());
+		dirs[dir_num], fc_strerror(fc_get_errno()));
       }
       continue;
     }

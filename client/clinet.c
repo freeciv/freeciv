@@ -203,13 +203,13 @@ static int try_to_connect(const char *username, char *errbuf, int errbufsize)
   
   if ((client.conn.sock = socket(server_addr.saddr.sa_family,
                                  SOCK_STREAM, 0)) == -1) {
-    (void) mystrlcpy(errbuf, mystrerror(), errbufsize);
+    (void) mystrlcpy(errbuf, fc_strerror(fc_get_errno()), errbufsize);
     return -1;
   }
 
   if (fc_connect(client.conn.sock, &server_addr.saddr,
                  sockaddr_size(&server_addr)) == -1) {
-    (void) mystrlcpy(errbuf, mystrerror(), errbufsize);
+    (void) mystrlcpy(errbuf, fc_strerror(fc_get_errno()), errbufsize);
     fc_closesocket(client.conn.sock);
     client.conn.sock = -1;
 #ifdef HAVE_WINSOCK
@@ -355,7 +355,7 @@ static int read_from_connection(struct connection *pc, bool block)
       }
 
       freelog(LOG_ERROR, "select() return=%d errno=%d (%s)",
-	      n, errno, mystrerror());
+	      n, errno, fc_strerror(fc_get_errno()));
       return -1;
     }
 

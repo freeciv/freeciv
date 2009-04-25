@@ -260,6 +260,18 @@ char *mystrcasestr(const char *haystack, const char *needle)
 }
 
 /***************************************************************
+  Returns last error code.
+***************************************************************/
+fc_errno fc_get_errno(void)
+{
+#ifdef WIN32_NATIVE
+  return GetLastError();
+#else
+  return errno;
+#endif
+}
+
+/***************************************************************
   Return a string which describes a given error (errno-style.)
   The string is converted as necessary from the local_encoding
   to internal_encoding, for inclusion in translations.  May be
@@ -267,30 +279,28 @@ char *mystrcasestr(const char *haystack, const char *needle)
 
   Note that this is not the reentrant form.
 ***************************************************************/
-const char *mystrerror(void)
+const char *fc_strerror(fc_errno err)
 {
 #ifdef WIN32_NATIVE
   static char buf[256];
-  long int error;
 
-  error = GetLastError();
   if (!FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-		     NULL, error, 0, buf, sizeof(buf), NULL)) {
+		     NULL, err, 0, buf, sizeof(buf), NULL)) {
     my_snprintf(buf, sizeof(buf),
-		_("error %ld (failed FormatMessage)"), error);
+		_("error %ld (failed FormatMessage)"), err);
   }
   return buf;
 #else
 #ifdef HAVE_STRERROR
   static char buf[256];
 
-  return local_to_internal_string_buffer(strerror(errno),
+  return local_to_internal_string_buffer(strerror(err),
                                          buf, sizeof(buf));
 #else
   static char buf[64];
 
   my_snprintf(buf, sizeof(buf),
-	      _("error %d (compiled without strerror)"), errno);
+	      _("error %d (compiled without strerror)"), err);
   return buf;
 #endif
 #endif
