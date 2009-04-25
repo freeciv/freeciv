@@ -15,7 +15,7 @@
 #include <config.h>
 #endif
 
-#ifdef SDL
+#ifdef AUDIO_SDL
 #include "SDL.h"
 #endif
 
