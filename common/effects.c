@@ -537,6 +537,7 @@ Impr_type_id ai_find_source_building(struct city *pcity,
       } requirement_list_iterate_end;
       if (!wrong_unit && building != NULL) {
         best_building = building;
+	greatest_value = peffect->value;
       }
     }
   } effect_list_iterate_end;
