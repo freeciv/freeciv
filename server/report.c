@@ -570,6 +570,11 @@ static int get_corruption(struct player *pplayer)
   return result;
 }
 
+static int get_total_score(struct player *pplayer)
+{
+  return pplayer->score.game;
+}
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -970,7 +975,9 @@ static void log_civ_score(void)
     {"unhappypop",      get_unhappypop},
     {"specialists",     get_specialists},
     {"gov",             get_gov},
-    {"corruption",      get_corruption} /* new 1.11.5 tags end here */
+    {"corruption",      get_corruption}, /* new 1.11.5 tags end here */
+
+    {"score",           get_total_score} /* New 2.1.10 tag */
   };
 
   enum { SL_CREATE, SL_APPEND, SL_UNSPEC } oper = SL_UNSPEC;
