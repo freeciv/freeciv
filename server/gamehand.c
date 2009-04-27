@@ -50,7 +50,7 @@
 struct unit_type *crole_to_unit_type(char crole,struct player *pplayer)
 {
   struct unit_type *utype = NULL;
-  enum unit_flag_id role;
+  enum unit_role_id role;
 
   switch(crole) {
   case 'c':
