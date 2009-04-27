@@ -66,7 +66,7 @@ static void place_starting_unit(struct tile *ptile, struct player *pplayer,
 				char crole)
 {
   struct unit_type *utype;
-  enum unit_flag_id role;
+  enum unit_role_id role;
 
   assert(!is_non_allied_unit_tile(ptile, pplayer));
 
