@@ -944,7 +944,7 @@ int server_open_socket(void)
   struct ipv6_mreq mreq6;
 #endif
 
-  if (!net_lookup_service(srvarg.bind_addr, srvarg.port, &src)) {
+  if (!net_lookup_service(srvarg.bind_addr, srvarg.port, &src, FALSE)) {
     freelog(LOG_FATAL, _("Server: bad address: <%s:%d>."),
 	    srvarg.bind_addr, srvarg.port);
     exit(EXIT_FAILURE);
@@ -952,7 +952,37 @@ int server_open_socket(void)
 
   /* Create socket for client connections. */
   if((sock = socket(src.saddr.sa_family, SOCK_STREAM, 0)) == -1) {
-    die("socket failed: %s", fc_strerror(fc_get_errno()));
+    fc_errno error = fc_get_errno();
+
+#ifdef IPV6_SUPPORT
+#ifdef EAFNOSUPPORT
+    bool still_error = TRUE;
+
+    if (error == EAFNOSUPPORT && src.saddr.sa_family == AF_INET6 && srvarg.bind_addr == NULL) {
+      /* Let's try IPv4 socket instead */
+      freelog(LOG_NORMAL, _("Cannot open IPv6 socket, trying IPv4 instead"));
+
+      if (!net_lookup_service(NULL, srvarg.port, &src, TRUE)) {
+	freelog(LOG_FATAL, _("IPv4 service lookup failed <%d>."),
+		srvarg.port);
+	exit(EXIT_FAILURE);
+      }
+
+      /* Create socket for client connections. */
+      if((sock = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
+	fc_errno error2 = fc_get_errno();
+	freelog(LOG_ERROR, "Even IPv4 socket failed: %s", fc_strerror(error2));
+      } else {
+	still_error = FALSE;
+      }
+    }
+
+    if (still_error)
+#endif /* EAFNOSUPPORT */
+#endif /* IPv6 support */
+    {
+      die("socket failed: %s", fc_strerror(error));
+    }
   }
 
   opt = 1;

@@ -172,7 +172,7 @@ static int get_server_address(const char *hostname, int port,
   if (!hostname)
     hostname = "localhost";
 
-  if (!net_lookup_service(hostname, port, &server_addr)) {
+  if (!net_lookup_service(hostname, port, &server_addr, FALSE)) {
     (void) mystrlcpy(errbuf, _("Failed looking up host."), errbufsize);
     return -1;
   }

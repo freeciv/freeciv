@@ -95,7 +95,7 @@ void fc_shutdown_network(void);
 
 void fc_nonblock(int sockfd);
 bool net_lookup_service(const char *name, int port,
-                        union fc_sockaddr *addr);
+                        union fc_sockaddr *addr, bool force_ipv4);
 fz_FILE *fc_querysocket(int sock, void *buf, size_t size);
 int find_next_free_port(int starting_port);
 

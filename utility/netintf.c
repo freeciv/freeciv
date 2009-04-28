@@ -301,7 +301,8 @@ bool sockaddr_ipv6(union fc_sockaddr *addr)
 /***************************************************************************
   Look up the service at hostname:port and fill in *sa.
 ***************************************************************************/
-bool net_lookup_service(const char *name, int port, union fc_sockaddr *addr)
+bool net_lookup_service(const char *name, int port, union fc_sockaddr *addr,
+			bool force_ipv4)
 {
   struct hostent *hp;
   struct sockaddr_in *sock4;
@@ -314,32 +315,38 @@ bool net_lookup_service(const char *name, int port, union fc_sockaddr *addr)
 #ifdef IPV6_SUPPORT
   sock6 = &addr->saddr_in6;
 
-  addr->saddr.sa_family = AF_INET6;
-  sock6->sin6_port = htons(port);
+    if (!force_ipv4) {
+    addr->saddr.sa_family = AF_INET6;
+    sock6->sin6_port = htons(port);
 
-  if (!name) {
-    sock6->sin6_addr = in6addr_any;
-    return TRUE;
-  }
-#else /* IPv6 support */
-  addr->saddr.sa_family = AF_INET;
-  sock4->sin_port = htons(port);
+    if (!name) {
+      sock6->sin6_addr = in6addr_any;
+      return TRUE;
+    }
 
-  if (!name) {
-    sock4->sin_addr.s_addr = htonl(INADDR_ANY);
-    return TRUE;
-  }
+    if (inet_pton(AF_INET6, name, &sock6->sin6_addr)) {
+      return TRUE;
+    }
+    /* TODO: Replace gethostbyname2() with getaddrinfo() */
+    hp = gethostbyname2(name, AF_INET6);
+  } else
 #endif /* IPv6 support */
+  {
+    addr->saddr.sa_family = AF_INET;
+    sock4->sin_port = htons(port);
+
+    if (!name) {
+      sock4->sin_addr.s_addr = htonl(INADDR_ANY);
+      return TRUE;
+    }
+  }
 
 #ifdef IPV6_SUPPORT
-  if (inet_pton(AF_INET6, name, &sock6->sin6_addr)) {
-    return TRUE;
-  }
-  /* TODO: Replace gethostbyname2() with getaddrinfo() */
-  hp = gethostbyname2(name, AF_INET6);
-  if (!hp || hp->h_addrtype != AF_INET6) {
+  if (force_ipv4 || !hp || hp->h_addrtype != AF_INET6) {
     /* Try to fallback to IPv4 resolution */
-    freelog(LOG_DEBUG, "Falling back to IPv4");
+    if (!force_ipv4) {
+      freelog(LOG_DEBUG, "Falling back to IPv4");
+    }
     hp = gethostbyname2(name, AF_INET);
     if (!hp || hp->h_addrtype != AF_INET) {
       return FALSE;

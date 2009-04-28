@@ -417,7 +417,7 @@ static bool begin_metaserver_scan(struct server_scan *scan)
     return FALSE;
   }
 
-  if (!net_lookup_service(scan->meta.name, scan->meta.port, &addr)) {
+  if (!net_lookup_service(scan->meta.name, scan->meta.port, &addr, FALSE)) {
     scan->error_func(scan, _("Failed looking up metaserver's host"));
     return FALSE;
   }
