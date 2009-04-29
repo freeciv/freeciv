@@ -17,12 +17,14 @@
 
 #include <assert.h>
 
-/* common & utility */
+/* utility */
 #include "dataio.h"
 #include "fcintl.h"
 #include "hash.h"
 #include "log.h"
 #include "mem.h"
+
+/* common */
 #include "packets.h"
 
 /* client */
@@ -324,7 +326,7 @@ void attribute_flush(void)
 {
   struct player *pplayer = client.conn.playing;
 
-  if (!pplayer) {
+  if (!pplayer || client_is_observer() || !pplayer->is_alive) {
     return;
   }
 
