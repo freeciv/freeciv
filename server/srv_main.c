@@ -644,6 +644,7 @@ static void begin_turn(bool is_new_turn)
     players_iterate(pplayer) {
       calc_civ_score(pplayer);
     } players_iterate_end;
+    log_civ_score();
   }
 
   /* find out if users attached to players have been attached to those players
@@ -2083,6 +2084,8 @@ static void srv_scores(void)
   players_iterate(pplayer) {
     calc_civ_score(pplayer);
   } players_iterate_end;
+
+  log_civ_score();
 
   report_final_scores();
   show_map_to_all();
