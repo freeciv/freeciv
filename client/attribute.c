@@ -17,14 +17,19 @@
 
 #include <assert.h>
 
+/* utility */
 #include "dataio.h"
 #include "fcintl.h"
-#include "game.h"
 #include "hash.h"
 #include "log.h"
 #include "mem.h"
+
+/* common */
+#include "game.h"
 #include "packets.h"
 
+/* client */
+#include "civclient.h"
 #include "clinet.h"
 
 #include "attribute.h"
@@ -323,7 +328,7 @@ void attribute_flush(void)
 {
   struct player *pplayer = game.player_ptr;
 
-  if (!pplayer) {
+  if (!pplayer || client_is_observer() || !pplayer->is_alive) {
     return;
   }
 
