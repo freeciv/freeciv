@@ -632,6 +632,7 @@ static void begin_turn(bool is_new_turn)
     players_iterate(pplayer) {
       calc_civ_score(pplayer);
     } players_iterate_end;
+    log_civ_score();
   }
 
   /* find out if users attached to players have been attached to those players
@@ -2018,6 +2019,7 @@ static void srv_scores(void)
   players_iterate(pplayer) {
     calc_civ_score(pplayer);
   } players_iterate_end;
+  log_civ_score();
 
   send_game_state(game.est_connections, C_S_OVER);
   report_final_scores();

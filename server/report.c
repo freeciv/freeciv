@@ -883,9 +883,9 @@ static bool scan_score_log(FILE * fp, int *last_turn, char *id,
 }
 
 /**************************************************************************
-Create a log file of the civilizations so you can see what was happening.
+  Create a log file of the civilizations so you can see what was happening.
 **************************************************************************/
-static void log_civ_score(void)
+void log_civ_score(void)
 {
   static const char logname[] = "civscore.log";
   static FILE *fp = NULL;
@@ -937,6 +937,10 @@ static void log_civ_score(void)
   enum { SL_CREATE, SL_APPEND, SL_UNSPEC } oper = SL_UNSPEC;
   int i;
   char id[MAX_ID_LEN];
+
+  if (!game.scorelog) {
+    return;
+  }
 
   if (!player_name_ptrs[0]) {
     int i;
@@ -1067,10 +1071,6 @@ log_civ_score_disable:
 **************************************************************************/
 void make_history_report(void)
 {
-  if (game.scorelog) {
-    log_civ_score();
-  }
-
   if (player_count() == 1) {
     return;
   }
