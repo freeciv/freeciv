@@ -34,6 +34,7 @@
 #include "srv_main.h"
 
 static int get_civ_score(const struct player *pplayer);
+static int get_spaceship_score(const struct player *pplayer);
 
 /**************************************************************************
   Allocates, fills and returns a land area claim map.
@@ -308,12 +309,7 @@ void calc_civ_score(struct player *pplayer)
     }
   } improvement_iterate_end;
 
-  /* How much should a spaceship be worth?
-   * This gives 100 points per 10,000 citizens. */
-  if (pplayer->spaceship.state == SSHIP_ARRIVED) {
-    pplayer->score.spaceship += (int)(100 * pplayer->spaceship.habitation
-				      * pplayer->spaceship.success_rate);
-  }
+  pplayer->score.spaceship = pplayer->spaceship.state;
 
   pplayer->score.game = get_civ_score(pplayer);
 }
@@ -328,7 +324,22 @@ static int get_civ_score(const struct player *pplayer)
   return (total_player_citizens(pplayer)
 	  + pplayer->score.techs * 2
 	  + pplayer->score.wonders * 5
-	  + pplayer->score.spaceship);
+	  + get_spaceship_score(pplayer));
+}
+
+/**************************************************************************
+  Return the spaceship score
+**************************************************************************/
+static int get_spaceship_score(const struct player *pplayer)
+{
+  if (pplayer->score.spaceship == SSHIP_ARRIVED) {
+    /* How much should a spaceship be worth?
+     * This gives 100 points per 10,000 citizens. */
+    return (int)(100 * pplayer->spaceship.habitation
+		 * pplayer->spaceship.success_rate);
+  } else {
+    return 0;
+  }
 }
 
 /**************************************************************************
