@@ -12,6 +12,8 @@
 ** enhancements, or modifications.
 */
 
+#include <stdio.h>
+
 #include"parsecmd.hxx"
 
 string PARSECMD::next(){
