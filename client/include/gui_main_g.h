@@ -35,6 +35,8 @@ void set_unit_icons_more_arrow(bool onoff);
 
 void add_idle_callback(void (callback)(void *), void *data);
 
+enum gui_type get_gui_type(void);
+
 extern const char *client_string;
 
 #endif  /* FC__GUI_MAIN_G_H */

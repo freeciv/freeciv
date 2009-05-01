@@ -216,6 +216,8 @@ void handle_server_join_reply(bool you_can_join, char *message,
   close_connection_dialog();
 
   if (you_can_join) {
+    struct packet_client_info client_info;
+
     freelog(LOG_VERBOSE, "join game accept:%s", message);
     client.conn.established = TRUE;
     client.conn.id = conn_id;
@@ -229,6 +231,9 @@ void handle_server_join_reply(bool you_can_join, char *message,
 	|| get_client_page() == PAGE_GGZ) {
       set_client_page(PAGE_START);
     }
+
+    client_info.gui = get_gui_type();
+    send_packet_client_info(&client.conn, &client_info);
 
     /* we could always use hack, verify we're local */ 
     send_client_wants_hack(challenge_file);

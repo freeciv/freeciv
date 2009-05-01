@@ -525,6 +525,14 @@ void ui_exit()
 }
 
 /**************************************************************************
+  Return our GUI type
+**************************************************************************/
+enum gui_type get_gui_type(void)
+{
+  return GUI_XAW;
+}
+
+/**************************************************************************
   Callack for when user clicks one of the unit icons on left hand side
   (units on same square as current unit).  Use unit_ids[] data and change
   focus to clicked unit.

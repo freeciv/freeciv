@@ -203,6 +203,14 @@ void srv_init(void)
 }
 
 /**************************************************************************
+  Handle client info packet
+**************************************************************************/
+void handle_client_info(struct connection *pc, enum gui_type gui)
+{
+  freelog(LOG_DEBUG, "%s's client has %s gui.", pc->username, gui_name(gui));
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 enum server_states server_state(void)
@@ -1315,7 +1323,8 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
       && type != PACKET_NATION_SELECT_REQ
       && type != PACKET_PLAYER_READY
       && type != PACKET_CONN_PONG
-      && type != PACKET_REPORT_REQ) {
+      && type != PACKET_REPORT_REQ
+      && type != PACKET_CLIENT_INFO) {
     if (S_S_OVER == server_state()) {
       /* This can happen by accident, so we don't want to print
 	 out lots of error messages. Ie, we use LOG_DEBUG. */

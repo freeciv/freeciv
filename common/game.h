@@ -143,6 +143,8 @@ bool is_player_phase(const struct player *pplayer, int phase);
 
 const char *population_to_text(int thousand_citizen);
 
+const char *gui_name(enum gui_type);
+
 extern struct civ_game game;
 
 bool setting_class_is_changeable(enum sset_class class);

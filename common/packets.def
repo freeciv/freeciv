@@ -194,6 +194,7 @@ type REQ_RANGE		= uint8(enum req_range)
 type EFFECT_TYPE	= uint8(enum effect_type)
 type BASE               = uint8(Base_type_id)
 type BASE_GUI           = uint8(enum base_gui_type)
+type GUI_TYPE           = uint8(enum gui_type)
 
 type BV_IMPRS		= bitvector(bv_imprs)
 type BV_UCLASS_FLAGS    = bitvector(bv_unit_class_flags)
@@ -253,7 +254,7 @@ grouped together. There are the following groups:
   Spaceship
   Ruleset
 
-The last used packet number is 138.
+The last used packet number is 139.
 ****************************************************/
 
 
@@ -1012,6 +1013,10 @@ PACKET_CONN_PING=88;sc
 end
 
 PACKET_CONN_PONG=89;cs,handle-per-conn
+end
+
+PACKET_CLIENT_INFO=139;cs,handle-per-conn
+  GUI_TYPE gui;
 end
 
 /************** New turn packets **********************/

@@ -277,4 +277,14 @@ struct ai_choice;			/* incorporates universals_u */
 
 BV_DEFINE(bv_bases, MAX_BASE_TYPES);
 
+enum gui_type {
+  GUI_STUB,
+  GUI_GTK2,
+  GUI_SDL,
+  GUI_XAW,
+  GUI_WIN32,
+  GUI_FTWL,
+  GUI_LAST
+};
+
 #endif /* FC__FC_TYPES_H */
