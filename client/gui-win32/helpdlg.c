@@ -492,6 +492,7 @@ static void help_update_improvement(const struct help_item *pitem,
 		    get_req_source_text(&preq->source, req_buf,
 		    sizeof(req_buf)));
       i++;
+      break;
     } requirement_vector_iterate_end;
 /*    create_tech_tree(help_improvement_tree, 0, imp->tech_req, 3);*/
   }
@@ -522,8 +523,6 @@ static void help_update_wonder(const struct help_item *pitem,
 
     sprintf(buf, "%d", impr_build_shield_cost(which));
     SetWindowText(help_ilabel[1], buf);
-    sprintf(buf, "%d", imp->upkeep);
-    SetWindowText(help_ilabel[3], buf);
 
     /* FIXME: this should show ranges and all the MAX_NUM_REQS reqs. 
      * Currently it's limited to 1 req but this code is partially prepared
@@ -531,12 +530,19 @@ static void help_update_wonder(const struct help_item *pitem,
      * definition. */
     i = 0;
     requirement_vector_iterate(&imp->reqs, preq) {
-      SetWindowText(help_ilabel[5 + i],
+      SetWindowText(help_ilabel[3 + i],
 		    get_req_source_text(&preq->source, req_buf,
 		    sizeof(req_buf)));
       i++;
+      break;
     } requirement_vector_iterate_end;
-/*    create_tech_tree(help_improvement_tree, 0, imp->tech_req, 3);*/
+    if (imp->obsolete_by != A_LAST) {
+      SetWindowText(help_ilabel[5],
+                    advance_name_for_player(game.player_ptr,
+                                            imp->obsolete_by));
+    } else {
+      SetWindowText(help_ilabel[5], _("None"));
+    }
   }
   else {
     /* can't find wonder */
