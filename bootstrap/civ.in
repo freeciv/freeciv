@@ -29,7 +29,7 @@ if test -x "$BUILDDIR/client/$EXENAME" ; then
 elif test -x "$BUILDDIR/$EXENAME" ; then
   EXE=$BUILDDIR/$EXENAME
 else
-  EXE=`ls -1 "$BUILDDIR/${EXENAME}-"* "$BUILDDIR/client/${EXENAME}-"* 2> /dev/null |\
+  EXE=`ls -1 "$BUILDDIR/${PROGNAME}-"*@EXEEXT@ "$BUILDDIR/client/${PROGNAME}-"*@EXEEXT@ 2> /dev/null |\
   while read program ; do
     if test -x "$program" ; then
       echo $program
