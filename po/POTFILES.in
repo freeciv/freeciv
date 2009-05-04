@@ -55,6 +55,7 @@ server/stdinhand.c
 server/techtools.c
 server/unithand.c
 server/unittools.c
+server/voting.c
 server/generator/mapgen.c
 server/generator/startpos.c
 client/attribute.c
@@ -62,7 +63,7 @@ client/audio.c
 client/chatline_common.c
 client/citydlg_common.c
 client/cityrepdata.c
-client/civclient.c
+client/client_main.c
 client/climisc.c
 client/clinet.c
 client/connectdlg_common.c
