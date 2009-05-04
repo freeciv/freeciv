@@ -5,9 +5,8 @@
 
 AC_DEFUN([FC_XAW_CLIENT],
 [
-  if test "$client" = yes ; then
-    AC_MSG_WARN([Not checking for XAW; use --enable-client=xaw to enable])
-  elif test "$client" = xaw ; then
+  if test "x$gui_xaw" = "xyes" || test "x$client" = "xall" ||
+     test "x$client" = "xauto" ; then
     dnl Checks for X:
     AC_PATH_XTRA
 
@@ -34,13 +33,15 @@ AC_DEFUN([FC_XAW_CLIENT],
       [
         AC_CHECK_LIB([png], [png_read_image], [X_LIBS="$X_LIBS -lpng -lm"],
         [
-          AC_MSG_ERROR([Could not find PNG library.])
+          FC_NO_CLIENT([xaw], [Could not find PNG library.])
+          no_png=yes
         ])
       ])
       AC_CHECK_HEADER([png.h],,
       [
-	AC_MSG_ERROR([libpng found but not png.h.
+        FC_NO_CLIENT([xaw], [libpng found but not png.h.
 You may need to install a libpng \"development\" package.])
+        no_png=yes
       ])
     ])
 
@@ -86,16 +87,19 @@ You may need to install a libpng \"development\" package.])
 	  FC_CHECK_X_LIB(Xaw, main, , AC_MSG_ERROR(did not find Xaw library))
 	fi
 
-	CLIENT_CFLAGS="$X_CFLAGS"
-	CLIENT_LIBS="$X_LIBS $X_EXTRA_LIBS"
+	GUI_xaw_CFLAGS="$X_CFLAGS"
+	GUI_xaw_LIBS="$X_LIBS $X_EXTRA_LIBS"
 
 	found_client=yes
       fi
     fi
 
-    if test "x$found_client" = "xyes"; then
-      client=xaw
-    elif test "$client" = "xaw"; then
+    if test "x$found_client" = "xyes" && test "x$no_png" != "xyes"; then
+      gui_xaw=yes
+      if test "x$client" = "xauto" ; then
+        client=yes
+      fi
+    elif test "x$gui_xaw" = "xyes"; then
       if test "x$haveXpm" = "xno"; then
 	AC_MSG_ERROR(specified client 'xaw' not configurable -- need Xpm library and development headers; perhaps try/adjust --with-xpm-lib)
       else

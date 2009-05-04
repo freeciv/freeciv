@@ -1,7 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
-noinst_LTLIBRARIES = libguiclient.la
-AM_CPPFLAGS = -I. -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/utility -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I$(srcdir)/../agents $(CLIENT_CFLAGS) $(SOUND_CFLAGS)
+noinst_LTLIBRARIES = libgui-xaw.la
+AM_CPPFLAGS = -I. -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/utility -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I$(srcdir)/../agents $(GUI_xaw_CFLAGS) $(SOUND_CFLAGS)
 
 # The AM_CPPFLAGS "-I." is so resources.c includes the locally generated 
 # Freeciv.h in the builddir, in preference to the one 
@@ -16,9 +16,9 @@ Freeciv.h: $(top_builddir)/data/Freeciv
 	echo '/**************************************************/' >> Freeciv.h
 	$(srcdir)/ad2c $(top_builddir)/data/Freeciv >> Freeciv.h
 
-libguiclient_la_DEPENDENCIES = ad2c
+libgui_xaw_la_DEPENDENCIES = ad2c
 
-libguiclient_la_SOURCES = \
+libgui_xaw_la_SOURCES = \
 	ad2c		\
 	Freeciv.h	\
 	actions.c	\

@@ -15,19 +15,38 @@
 #***********************************************************************/
 
 BUILDDIR=`dirname $0`
-EXENAME=civclient@EXEEXT@
+PROGNAME=freeciv
+EXENAME=${PROGNAME}@EXEEXT@
 
-if [ "x$FREECIV_PATH" = "x" ] ; then
-  FREECIV_PATH=".@HOST_PATH_SEPARATOR@data@HOST_PATH_SEPARATOR@~/.freeciv"
+gui=`echo "$1" | awk -F= '$1 ~ /^--gui$/ { print $2 }'`
+if test "x$gui" != "x" ; then
+  EXENAME=${PROGNAME}-${gui}@EXEEXT@
+  shift
 fi
-export FREECIV_PATH="$FREECIV_PATH@HOST_PATH_SEPARATOR@@abs_top_builddir@/data@HOST_PATH_SEPARATOR@@abs_top_srcdir@/data"
 
-[ -x $BUILDDIR/client/$EXENAME ] && EXE=$BUILDDIR/client/$EXENAME
-[ -x $BUILDDIR/$EXENAME ] && EXE=$BUILDDIR/$EXENAME
+if test -x "$BUILDDIR/client/$EXENAME" ; then
+  EXE=$BUILDDIR/client/$EXENAME
+elif test -x "$BUILDDIR/$EXENAME" ; then
+  EXE=$BUILDDIR/$EXENAME
+else
+  EXE=`ls -1 "$BUILDDIR/${EXENAME}-"* "$BUILDDIR/client/${EXENAME}-"* 2> /dev/null |\
+  while read program ; do
+    if test -x "$program" ; then
+      echo $program
+      break
+    fi
+  done`
+fi
 
-if [ "$EXE" = "" ]; then
-  echo $0: Unable to find $EXENAME.
+if test "x$EXE" = "x"; then
+  echo $0: Unable to find client executable: $EXENAME
   exit 1
 fi
 
-exec $EXE ${1+"$@"}
+if test "x$FREECIV_PATH" = "x" ; then
+  FREECIV_PATH=".@HOST_PATH_SEPARATOR@data@HOST_PATH_SEPARATOR@~/.freeciv"
+fi
+export FREECIV_PATH="${FREECIV_PATH}@HOST_PATH_SEPARATOR@@abs_top_builddir@/data@HOST_PATH_SEPARATOR@@abs_top_srcdir@/data"
+
+echo "Running $EXE"
+exec "$EXE" ${1+"$@"}

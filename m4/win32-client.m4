@@ -5,7 +5,8 @@
 
 AC_DEFUN([FC_WIN32_CLIENT],
 [
-  if test "$client" = "win32" || test "$client" = "yes" ; then
+  if test "x$gui_win32" = "xyes" || test "x$client" = "xauto" ||
+     test "x$client" = "xall" ; then
     if test "$MINGW32" = "yes"; then
     
       PKG_PROG_PKG_CONFIG
@@ -13,8 +14,8 @@ AC_DEFUN([FC_WIN32_CLIENT],
       dnl Check for libpng
       PKG_CHECK_MODULES([PNG], [libpng],
       [
-        CLIENT_LIBS="-lwsock32 -lcomctl32 -mwindows $PNG_LIBS"
-        CLIENT_CFLAGS="$PNG_CFLAGS"
+        GUI_win32_LIBS="-lwsock32 -lcomctl32 -mwindows $PNG_LIBS"
+        GUI_win32_CFLAGS="$PNG_CFLAGS"
       ],
       [
         AC_CHECK_LIB([z], [gzgets],
@@ -32,8 +33,11 @@ AC_DEFUN([FC_WIN32_CLIENT],
             AC_CHECK_HEADER([png.h],
             [
               found_client=yes
-              client=win32
-              CLIENT_LIBS="-lwsock32 -lcomctl32  -lpng -mwindows"
+	      gui_win32=yes
+              if test "x$client" = "xauto" ; then
+                client=yes
+              fi
+              GUI_win32_LIBS="-lwsock32 -lcomctl32  -lpng -mwindows"
             ],
             [
               FC_NO_CLIENT([win32], [libpng-dev is needed])

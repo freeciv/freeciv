@@ -8,7 +8,7 @@
 
 AC_DEFUN([FC_NO_CLIENT],
 [
-  if test "$client" = "$1"; then
+  if test "x`eval echo '$'gui_$1`" = "xyes"; then
     AC_MSG_ERROR([specified client '$1' not configurable ($2)])
   fi
 ])

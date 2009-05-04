@@ -63,11 +63,11 @@ dnl  no=do not compile server,  yes=compile server,  *=error
 AC_ARG_ENABLE(server,
 [  --disable-server        do not compile the server],
 [case "${enableval}" in
-  yes) server=true ;;
-  no)  server=false ;;
+  yes) server=yes ;;
+  no)  server=no ;;
   *)   AC_MSG_ERROR(bad value ${enableval} for --disable-server) ;;
-esac], [server=true])
-AM_CONDITIONAL(SERVER, test x$server = xtrue)
+esac], [server=yes])
+AM_CONDITIONAL(SERVER, test x$server = xyes)
 
 dnl yes     - Support for IPv6 required
 dnl no      - Legacy IPv4 support
@@ -96,26 +96,49 @@ WITH_READLINE=$withval,	dnl yes/no - required to use / never use
 WITH_READLINE="maybe"	dnl maybe  - use if found [default]
 )
 
-dnl  no=do not compile client,  yes=guess it,  *=use this client or error
+dnl no:   Do not compile client.
+dnl auto: Autodetect one.
+dnl all:  Autodetect as many as possible.
+dnl comma-separated-list: Detect these or abort.
 AC_ARG_ENABLE(client,
-[  --enable-client[=no/yes/xaw3d/xaw/gtk/win32/sdl/ftwl]
-                          compile a client [default=yes] (if yes, guess type)],
-[case "${enableval}" in
-  yes)	  client=yes ;;
-  no)	  client=no ;;
-  xaw3d)  client=xaw
-	  WITH_XAW3D=1 ;;
-  ftwl)   client=ftwl ;;
-  gtk)    client=gtk-2.0 ;;
-  gtk2)   client=gtk-2.0 ;;
-  gtk2.0) client=gtk-2.0 ;;
-  gtk20)  client=gtk-2.0 ;;
-  *)	  client="${enableval}"
-	  if test ! -d "${srcdir}/client/gui-$client" ; then
-	    AC_MSG_ERROR(bad value ${enableval} for --enable-client)
-	  fi ;;
-esac], [client=yes])
-AM_CONDITIONAL(CLIENT, test x$client != xno)
+[  --enable-client[=auto/all/gtk/sdl/xaw/win32/ftwl/stub)]
+                          clients to compile [[auto]] (or list for multiple)],
+[clients=${enableval}],
+[client=auto])
+
+gui_gtk2=no
+gui_sdl=no
+gui_xaw=no
+gui_win32=no
+gui_ftwl=no
+gui_beos=no
+gui_stub=no
+
+AC_PROG_SED
+
+for gui in $(echo $clients | $SED 's/,/ /g') ; do
+  if test "x$gui" = "xno" ; then
+    client=no
+  elif test "x$gui" = "xauto" ; then
+    client=auto
+  elif test "x$gui" = "xall" ; then
+    client=all
+  else
+    if test "x$gui" = "xgtk"    ||
+       test "x$gui" = "xgtk2"   ||
+       test "x$gui" = "xgtk2.0" ||
+       test "x$gui" = "xgtk20"  ||
+       test "x$gui" = "xgtk-2.0" ; then
+      gui_gtk2=yes
+    else
+      if test ! -d "${srcdir}/client/gui-$gui" ; then
+        AC_MSG_ERROR(bad value ${gui} for --enable-client)
+      fi
+      eval "gui_$gui=yes"
+    fi
+    client=yes
+  fi
+done
 
 dnl You MUST build ftwl to use the ftwl client
 AC_ARG_ENABLE(ftwl,
@@ -128,10 +151,7 @@ AC_ARG_ENABLE(ftwl,
   *)	  AC_MSG_ERROR(bad value ${enableval} for --enable-ftwl) ;;
 esac], [ftwl=no])
 AM_CONDITIONAL(FTWL, test x$ftwl != xno)
-if test "$ftwl" = no && test "$client" = ftwl ; then
-  AC_MSG_ERROR(You must use --enable-ftwl to use the ftwl client)
-fi
-if test "$ftwl" != no ; then
+if test "x$ftwl" != "xno" ; then
   PKG_PROG_PKG_CONFIG
   PKG_CHECK_MODULES([CAIRO], [cairo],,
     [AC_MSG_ERROR([--enable-ftwl requires cairo])])
@@ -148,6 +168,10 @@ AC_ARG_WITH(xaw3d,
 [  --with-xaw3d            use the Xaw3d widget set for the xaw client],
 WITH_XAW3D=1
 )
+
+if test "x$WITH_XAW" != "x" && test "x$WITH_XAW3D" != "x" ; then
+  AC_MSG_ERROR(Cannot use both --with-xaw and --with-xaw3d at the same time)
+fi
 
 AC_ARG_ENABLE([svnrev],
 [  --enable-svnrev         get svn revision to version information],
@@ -463,7 +487,7 @@ AC_CHECK_LIB(z, gzgets, ,
   AC_MSG_ERROR([Could not find zlib library.]), )
 AC_CHECK_HEADER(zlib.h, , 
   AC_MSG_ERROR([zlib found but not zlib.h.  
-You may need to install a zlib \"development\" package.]))
+You may need to install a zlib devel package.]))
 AC_PATH_PROG(GZIP, gzip, "no")
 if test "$GZIP" = "no"; then
   AC_MSG_ERROR([You need the gzip program for compilation.])
@@ -491,18 +515,23 @@ if test "$ftwl" = opengl ; then
 fi
 
 dnl Check and choose clients
-if test x$client != xno; then
+if test "x$client" != "xno"; then
 
   dnl if specified --with-xaw or --with-xaw3d, assume --enable-client=xaw
-  if test x$client = xyes; then
-    if test -n "$WITH_XAW" || test -n "$WITH_XAW3D"; then
-      client=xaw
+  if test -n "$WITH_XAW" || test -n "$WITH_XAW3D"; then
+    if test "x$client" = "xauto" ; then
+      gui_xaw=yes
+      client=yes
+    elif test "x$client" = "xall" ; then
+      gui_xaw=yes
     fi
   fi
 
   dnl if need to guess client, announce checking
-  if test x$client = xyes; then
+  if test "x$client" = "xauto"; then
     AS_MESSAGE([checking for which client to compile:...])
+  elif test "x$client" = "xall" ; then
+    AS_MESSAGE([checking for which clients to compile:...])
   fi
 
   dnl Gtk-2.0-specific overrides
@@ -514,25 +543,42 @@ if test x$client != xno; then
   dnl Xaw-specific overrides
   FC_XAW_CLIENT
 
-  if test "$client" = ftwl ; then
-      AC_MSG_CHECKING([will compile gui-ftwl])
+  if test "x$gui_ftwl" = "xyes" || test "x$client" = "xall" ||
+     test "x$client" = "xauto" ; then
+    AC_MSG_CHECKING([will compile gui-ftwl])
+    if test "x$ftwl" = "xno" ; then
+      AC_MSG_RESULT([no])
+      if test "x$gui_ftwl" = "xyes" ; then
+        AC_MSG_ERROR(You must use --enable-ftwl to compile the ftwl client)
+      fi
+    else
       AC_MSG_RESULT([yes])
-      CLIENT_CFLAGS="$CLIENT_CFLAGS $FTWL_CFLAGS"
-      CLIENT_LIBS="$CLIENT_LIBS $FTWL_LIBS"
+      gui_ftwl=yes
+      if test "x$client" = "xauto" ; then
+        client=yes
+      fi
+      GUI_ftwl_CFLAGS="$GUI_ftwl_CFLAGS $FTWL_CFLAGS"
+      GUI_ftwl_LIBS="$GUI_ftwl_LIBS $FTWL_LIBS"
+    fi
   fi
 
   dnl BeOS-specific overrides
-  if test "$client" = beos || test "$client" = yes ; then
+  if test "x$gui_beos" = "xyes" || test "x$client" = "xall"
+     test "x$client" = "xauto" ; then
+    AC_MSG_CHECKING([will compile gui-beos])
     if test x`$UNAME -s` = xBeOS ; then
-      CLIENT_CFLAGS=
-      CLIENT_LIBS="-Lgui-beos/lib -lBdhGame -lBdhDialog -lBdh -ltranslation -lbe -lroot"
-      found_client=yes
-    fi
-
-    if test "x$found_client" = "xyes"; then
-      client=beos
-    elif test "$client" = "beos"; then
-      AC_MSG_ERROR(specified client 'beos' not configurable)
+      AC_MSG_RESULT([yes])
+      gui_beos=yes
+      if test "x$client" = "xauto" ; then
+        client=yes
+      fi
+      GUI_beos_CFLAGS=
+      GUI_beos_LIBS="-Lgui-beos/lib -lBdhGame -lBdhDialog -lBdh -ltranslation -lbe -lroot"
+    else
+      AC_MSG_RESULT([no])
+      if test "x$gui_beos" = "xyes" ; then
+        AC_MSG_ERROR(The BeOS client is only available on BeOS.)
+      fi
     fi
   fi
 
@@ -540,32 +586,47 @@ if test x$client != xno; then
   FC_WIN32_CLIENT
 
   dnl Stub-specific overrides
-  if test "$client" = stub ; then
+  if test "x$gui_stub" = "xyes" || test "x$client" = "xall" ; then
     found_client=yes
 
     if test "x$found_client" = "xyes"; then
-      client=stub
-      CLIENT_LIBS="-lm"
-    elif test "$client" = "stub"; then
+      gui_stub=yes
+      if test "x$client" = "xauto" ; then
+        client=yes
+      fi
+      GUI_stub_LIBS="-lm"
+    elif test "x$gui_stub" = "xyes"; then
       AC_MSG_ERROR(specified client 'stub' not configurable)
     fi
   fi
 
-  dnl If client still "yes", error out since we couldn't guess it
-  if test "$client" = yes ; then
+  dnl If client still "auto", error out since we couldn't guess it
+  if test "x$client" = "xauto" ; then
     AC_MSG_ERROR(could not guess which client to compile)
   fi
 
   dnl Check for sound support, sets SOUND_CFLAGS, SOUND_LIBS, AUDIO_SDL
   FC_CHECK_SOUND()
+fi
 
-  gui_sources="gui-$client"
+if test "x$client" = "xall" ; then
+  if test "x$gui_gtk2" = "xyes" ||
+     test "x$gui_sdl" = "xyes" ||
+     test "x$gui_xaw" = "xyes" ||
+     test "x$gui_ftwl" = "xyes" ||
+     test "x$gui_win32" = "xyes" ||
+     test "x$gui_beos" = "xyes" ||
+     test "x$gui_stub" = "xyes" ; then
+    client=yes
+  else
+    client=no
+  fi
 fi
 
 dnl Check for GGZ
-if test "$client" = "gtk-2.0" ; then
+if test "x$gui_gtk2" = "yes" ; then
   AC_GGZ_CHECK("gtk")
-  CLIENT_LIBS="$CLIENT_LIBS $LIB_GGZ_GTK"
+  GUI_gtk2_LIBS="$GUI_gtk2_LIBS $LIB_GGZ_GTK"
 else
   AC_GGZ_CHECK
 fi
@@ -575,25 +636,50 @@ fi
 
 FC_LD_FLAGS(["-Wl,-rpath=${lib_prefix}"], [], [LDFLAGS])
 
-AC_SUBST(gui_sources)
-AC_SUBST(CLIENT_CFLAGS)
-AC_SUBST(CLIENT_CXXFLAGS)
-AC_SUBST(CLIENT_LIBS)
-AC_SUBST(CLIENT_LDFLAGS)
-AC_SUBST(SOUND_CFLAGS)
-AC_SUBST(SOUND_LIBS)
-AC_SUBST(FTWL_CFLAGS)
+AM_CONDITIONAL([CLIENT], [test "x$client" = "xyes"])
+
+AC_SUBST([GUI_gtk2_CFLAGS])
+AC_SUBST([GUI_gtk2_CXXFLAGS])
+AC_SUBST([GUI_gtk2_LIBS])
+AC_SUBST([GUI_gtk2_LDFLAGS])
+AC_SUBST([GUI_sdl_CFLAGS])
+AC_SUBST([GUI_sdl_CXXFLAGS])
+AC_SUBST([GUI_sdl_LIBS])
+AC_SUBST([GUI_sdl_LDFLAGS])
+AC_SUBST([GUI_xaw_CFLAGS])
+AC_SUBST([GUI_xaw_CXXFLAGS])
+AC_SUBST([GUI_xaw_LIBS])
+AC_SUBST([GUI_xaw_LDFLAGS])
+AC_SUBST([GUI_ftwl_CFLAGS])
+AC_SUBST([GUI_ftwl_CXXFLAGS])
+AC_SUBST([GUI_ftwl_LIBS])
+AC_SUBST([GUI_ftwl_LDFLAGS])
+AC_SUBST([GUI_win32_CFLAGS])
+AC_SUBST([GUI_win32_CXXFLAGS])
+AC_SUBST([GUI_win32_LIBS])
+AC_SUBST([GUI_win32_LDFLAGS])
+AC_SUBST([GUI_stub_CFLAGS])
+AC_SUBST([GUI_stub_CXXFLAGS])
+AC_SUBST([GUI_stub_LIBS])
+AC_SUBST([GUI_stub_LDFLAGS])
+AC_SUBST([GUI_beos_CFLAGS])
+AC_SUBST([GUI_beos_CXXFLAGS])
+AC_SUBST([GUI_beos_LIBS])
+AC_SUBST([GUI_beos_LDFLAGS])
+AC_SUBST([SOUND_CFLAGS])
+AC_SUBST([SOUND_LIBS])
+AC_SUBST([FTWL_CFLAGS])
 AC_SUBST([VERSION_WITHOUT_LABEL])
 AC_SUBST([VERSION_LABEL])
 AC_SUBST([HOST_PATH_SEPARATOR])
 AM_CONDITIONAL(AUDIO_SDL, test "x$SDL_mixer" = "xyes")
-AM_CONDITIONAL(CLIENT_GUI_SDL, test "$gui_sources" = "gui-sdl")
-AM_CONDITIONAL(CLIENT_GUI_GTK_2_0, test "$gui_sources" = "gui-gtk-2.0")
-AM_CONDITIONAL(CLIENT_GUI_XAW, test "$gui_sources" = "gui-xaw")
-AM_CONDITIONAL(CLIENT_GUI_BEOS, test "$gui_sources" = "gui-beos")
-AM_CONDITIONAL(CLIENT_GUI_STUB, test "$gui_sources" = "gui-stub")
-AM_CONDITIONAL(CLIENT_GUI_WIN32, test "$gui_sources" = "gui-win32")
-AM_CONDITIONAL(CLIENT_GUI_FTWL, test "$gui_sources" = "gui-ftwl")
+AM_CONDITIONAL(CLIENT_GUI_SDL, test "x$gui_sdl" = "xyes")
+AM_CONDITIONAL(CLIENT_GUI_GTK_2_0, test "x$gui_gtk2" = "xyes")
+AM_CONDITIONAL(CLIENT_GUI_XAW, test "x$gui_xaw" = "xyes")
+AM_CONDITIONAL(CLIENT_GUI_STUB, test "x$gui_stub" = "xyes")
+AM_CONDITIONAL(CLIENT_GUI_WIN32, test "x$gui_win32" = "xyes")
+AM_CONDITIONAL(CLIENT_GUI_FTWL, test "x$gui_ftwl" = "xyes")
+AM_CONDITIONAL(CLIENT_GUI_BEOS, test "x$gui_beos" = "xyes")
 AM_CONDITIONAL(FTWL, test "$ftwl" != "no")
 AM_CONDITIONAL(FTWL_X11, test "$ftwl" = "x11")
 AM_CONDITIONAL(FTWL_SDL, test "$ftwl" = "sdl")
@@ -601,7 +687,7 @@ AM_CONDITIONAL(FTWL_OPENGL, test "$ftwl" = "opengl")
 AM_CONDITIONAL(MINGW32, test x"$MINGW32" = "xyes")
 
 dnl Checks for additional server libraries:
-if test x$server = xtrue; then
+if test "x$server" = "xyes"; then
     dnl Some systems (e.g., BeOS) need this lib
     AC_CHECK_LIB(bind, gethostbyaddr, SERVER_LIBS="-lbind $SERVER_LIBS")
 
@@ -631,11 +717,11 @@ if test "x$MINGW32" != "xyes"; then
                    sys/select.h sys/signal.h sys/socket.h sys/termio.h \
                    sys/uio.h termios.h)
 fi
-if test x$client = xxaw; then
+if test "x$gui_xaw" = "xyes" ; then
   dnl Want to get appropriate -I flags:
   fc_save_CPPFLAGS="$CPPFLAGS"
-  CPPFLAGS="$CPPFLAGS $CLIENT_CFLAGS"
-  AC_CHECK_HEADER(X11/xpm.h, , 
+  CPPFLAGS="$CPPFLAGS $GUI_xaw_CFLAGS"
+  AC_CHECK_HEADER(X11/xpm.h, ,
     AC_MSG_ERROR(need X11/xpm.h header; perhaps try/adjust --with-xpm-include))
   CPPFLAGS="$fc_save_CPPFLAGS"
 fi
@@ -967,3 +1053,23 @@ if test "$USE_NLS" != "yes" ; then
 fi
 
 AC_OUTPUT
+
+AC_MSG_NOTICE([
+****************** Configuration Summary ******************
+
+  Build freeciv client: $client
+    Debugging support:  $enable_debug
+
+  Client frontends:
+    Gtk-2.0: $gui_gtk2
+    SDL:     $gui_sdl
+    Xaw:     $gui_xaw
+    Win32:   $gui_win32
+    FTWL:    $gui_ftwl
+    Stub:    $gui_stub
+
+  Build freeciv server:    $server
+    Debugging support:     $enable_debug
+    Auth database support: $auth
+])
+

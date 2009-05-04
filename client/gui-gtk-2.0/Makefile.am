@@ -1,7 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
-noinst_LTLIBRARIES = libguiclient.la
-AM_CPPFLAGS = -I. -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/utility -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I$(srcdir)/../agents $(CLIENT_CFLAGS) $(SOUND_CFLAGS) $(GGZ_GTK_INCLUDES)
+noinst_LTLIBRARIES = libgui-gtk2.la
+AM_CPPFLAGS = -I. -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/utility -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I$(srcdir)/../agents $(GUI_gtk2_CFLAGS) $(SOUND_CFLAGS) $(GGZ_GTK_INCLUDES)
 
 # The AM_CPPFLAGS "-I." is so resources.c includes the locally generated 
 # Freeciv.h in the builddir, in preference to the one 
@@ -16,9 +16,9 @@ Freeciv.h: $(top_srcdir)/data/freeciv.rc-2.0
 	echo '/*********************************************************/' >> Freeciv.h
 	$(srcdir)/rc2c $(top_srcdir)/data/freeciv.rc-2.0 >> Freeciv.h
 
-libguiclient_la_DEPENDENCIES = rc2c
+libgui_gtk2_la_DEPENDENCIES = rc2c
 
-libguiclient_la_SOURCES = \
+libgui_gtk2_la_SOURCES = \
 	rc2c		\
 	Freeciv.h	\
 	canvas.c	\

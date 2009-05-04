@@ -8,22 +8,22 @@ AC_DEFUN([FC_CHECK_AUTH],
   AC_ARG_ENABLE([auth], 
   [  --enable-auth[[=no/yes/try]] compile in authentication [[default=no]]],
   [case "${enableval}" in
-    yes) auth=true
-         must_auth=true ;;
-    no)  auth=false ;;
-    try) auth=true ;;
+    yes) auth=yes
+         must_auth=yes ;;
+    no)  auth=no ;;
+    try) auth=yes ;;
     *)   AC_MSG_ERROR([bad value ${enableval} for --enable-auth]) ;;
-   esac], [auth=false])
+   esac], [auth=no])
 
   AC_ARG_WITH(mysql-prefix,[  --with-mysql-prefix=PFX Prefix where MySQL is installed (optional)],
               mysql_prefix="$withval", mysql_prefix="")
 
-  if test x$auth = xtrue; then
+  if test x$auth = xyes ; then
 
-    if test x$mysql_prefix = x; then
+    if test x$mysql_prefix = x ; then
       AC_CHECK_HEADER(mysql/mysql.h, , 
                       [AC_MSG_WARN([couldn't find mysql header: disabling auth]);
-                       auth=false])
+                       auth=no])
 
       dnl we need to set -L correctly, we will check once in standard locations
       dnl then we will check with other LDFLAGS. if none of these work, we fail.
@@ -69,19 +69,19 @@ AC_DEFUN([FC_CHECK_AUTH],
       LIBS="$LIBS $AUTH_LIBS"
       AC_CHECK_HEADER(mysql/mysql.h, , 
                       [AC_MSG_WARN([couldn't find mysql header in $mysql_prefix/include]);
-                       auth=false])
-      if test x$auth = xtrue; then
+                       auth=no])
+      if test x$auth = xyes; then
         AC_CHECK_LIB(mysqlclient, mysql_query, ,
                      [AC_MSG_WARN([couldn't find mysql libs in $mysql_prefix/lib/mysql]);
-                      auth=false])
+                      auth=no])
       fi
       CFLAGS="$auth_saved_cflags"
       CPPFLAGS="$auth_saved_cppflags"
       LIBS="$auth_saved_libs"
     fi
 
-    if test x$auth = xfalse; then
-      if test x$must_auth = xtrue; then
+    if test x$auth = xno; then
+      if test x$must_auth = xyes; then
         AC_MSG_ERROR([can't find mysql: cannot build authentication support])
       else
         AC_MSG_WARN([can't find mysql -- disabling authentication])
@@ -94,7 +94,7 @@ AC_DEFUN([FC_CHECK_AUTH],
   fi
 
 
-  if test x$auth = xtrue; then
+  if test x$auth = xyes; then
     AC_DEFINE(HAVE_AUTH, 1, [compile with authentication])
   fi
 
