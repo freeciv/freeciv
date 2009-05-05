@@ -213,6 +213,9 @@ struct unit_type {
   /* Values for bombardment */
   int bombard_rate;
 
+  /* Values for founding cities */
+  int city_size;
+
   struct unit_class *uclass;
 
   bv_unit_classes cargo;

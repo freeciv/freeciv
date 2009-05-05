@@ -2617,6 +2617,7 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
   u->paratroopers_mr_req = p->paratroopers_mr_req;
   u->paratroopers_mr_sub = p->paratroopers_mr_sub;
   u->bombard_rate       = p->bombard_rate;
+  u->city_size          = p->city_size;
   u->cargo              = p->cargo;
   u->targets            = p->targets;
 

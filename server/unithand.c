@@ -614,6 +614,7 @@ static void city_build(struct player *pplayer, struct unit *punit,
 		       char *name)
 {
   char message[1024];
+  int size;
 
   if (!is_allowed_city_name(pplayer, name, message, sizeof(message))) {
     notify_player(pplayer, punit->tile, E_BAD_COMMAND,
@@ -622,6 +623,14 @@ static void city_build(struct player *pplayer, struct unit *punit,
   }
 
   create_city(pplayer, punit->tile, name);
+  size = unit_type(punit)->city_size;
+  if (size > 1) {
+    struct city *pcity = tile_city(punit->tile);
+
+    assert(pcity != NULL);
+
+    city_change_size(pcity, size);
+  }
   wipe_unit(punit);
 }
 
@@ -643,12 +652,13 @@ void handle_unit_build_city(struct player *pplayer, int unit_id, char *name)
 
   res = test_unit_add_or_build_city(punit);
 
-  if (res == AB_BUILD_OK)
+  if (res == AB_BUILD_OK) {
     city_build(pplayer, punit, name);
-  else if (res == AB_ADD_OK)
+  } else if (res == AB_ADD_OK) {
     city_add_unit(pplayer, punit);
-  else
+  } else {
     city_add_or_build_error(pplayer, punit, res);
+  }
 }
 
 /**************************************************************************

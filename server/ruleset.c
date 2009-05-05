@@ -1284,6 +1284,7 @@ if (_count > MAX_VET_LEVELS) {						\
         0, "%s.paratroopers_mr_sub", sec[i]);
     u->bombard_rate = secfile_lookup_int_default(file,
 	0, "%s.bombard_rate", sec[i]);
+    u->city_size = secfile_lookup_int_default(file, 1, "%s.city_size", sec[i]);
   } unit_type_iterate_end;
   
   /* flags */
@@ -1357,6 +1358,13 @@ if (_count > MAX_VET_LEVELS) {						\
               utype_rule_name(u),
               advance_rule_name(u->require_advance));
       u->require_advance = A_NEVER;
+    }
+
+    if (utype_has_flag(u, F_SETTLERS)
+        && u->city_size <= 0) {
+      ruleset_error(LOG_ERROR, "\"%s\": Unit %s would build size %d cities",
+                    filename, utype_rule_name(u), u->city_size);
+      u->city_size = 1;
     }
   } unit_type_iterate_end;
 
@@ -3220,6 +3228,7 @@ static void send_ruleset_units(struct conn_list *dest)
     packet.paratroopers_mr_req = u->paratroopers_mr_req;
     packet.paratroopers_mr_sub = u->paratroopers_mr_sub;
     packet.bombard_rate = u->bombard_rate;
+    packet.city_size = u->city_size;
     packet.cargo = u->cargo;
     packet.targets = u->targets;
     for (i = 0; i < MAX_VET_LEVELS; i++) {

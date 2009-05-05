@@ -1130,6 +1130,7 @@ PACKET_RULESET_UNIT=96;sc,lsend
   UINT8 move_bonus[MAX_VET_LEVELS];
 
   UINT8 bombard_rate;
+  UINT8 city_size;
 
   BV_UNIT_CLASSES cargo;
   BV_UNIT_CLASSES targets;
