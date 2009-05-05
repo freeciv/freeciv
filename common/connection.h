@@ -49,8 +49,11 @@ struct timer_list;
 ***************************************************************************/
 enum cmdlevel_id {    /* access levels for users to issue commands        */
   ALLOW_NONE = 0,     /* user may issue no commands at all                */
-  ALLOW_INFO,         /* user may issue informational commands            */
+  ALLOW_INFO,         /* informational or observer commands only          */
+  ALLOW_BASIC,        /* user may issue basic player commands             */
   ALLOW_CTRL,         /* user may issue commands that affect game & users */
+                      /* (starts a vote if the user's level is 'basic')   */
+  ALLOW_ADMIN,        /* user may issue commands that affect the server   */
   ALLOW_HACK,         /* user may issue *all* commands - dangerous!       */
 
   ALLOW_NUM,          /* the number of levels                             */
@@ -58,7 +61,7 @@ enum cmdlevel_id {    /* access levels for users to issue commands        */
 };
 /*  the set command is a special case:                                    */
 /*    - ALLOW_CTRL is required for SSET_TO_CLIENT options                 */
-/*    - ALLOW_HACK is required for SSET_TO_SERVER options                 */
+/*    - ALLOW_HACK is required for SSET_SERVER_ONLY options               */
 
 /***************************************************************************
   On the distinction between nations(formerly races), players, and users,
@@ -137,7 +140,7 @@ struct connection {
   char capability[MAX_LEN_CAPSTR];
 
   /* 
-   * "access_level" stores the access granted to the client
+   * "access_level" stores the current access level of the client
    * corresponding to this connection.
    */
   enum cmdlevel_id access_level;
@@ -203,6 +206,9 @@ struct connection {
 
     /* for reverse lookup and blacklisting in db */
     char ipaddr[MAX_LEN_ADDR];
+
+    /* The access level initially given to the client upon connection. */
+    enum cmdlevel_id granted_access_level;
   } server;
 
   /*

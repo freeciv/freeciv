@@ -75,8 +75,8 @@
 
 #define TOKEN_DELIMITERS " \t\n,"
 
-static enum cmdlevel_id default_access_level = ALLOW_INFO;
-static enum cmdlevel_id   first_access_level = ALLOW_INFO;
+static enum cmdlevel_id default_access_level = ALLOW_BASIC;
+static enum cmdlevel_id   first_access_level = ALLOW_BASIC;
 
 static bool cut_client_connection(struct connection *caller, char *name,
                                   bool check);
@@ -3661,7 +3661,7 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
        || S_S_RUNNING == server_state())
       && connection_can_vote(caller)
       && !check
-      && caller->access_level == ALLOW_INFO
+      && caller->access_level == ALLOW_BASIC
       && command_level(command_by_number(cmd)) == ALLOW_CTRL) {
     struct vote *pvote;
 
@@ -3695,7 +3695,7 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
   }
 
   if (caller
-      && !(check && caller->access_level >= ALLOW_INFO 
+      && !(check && caller->access_level >= ALLOW_BASIC
            && ALLOW_CTRL == command_level(command_by_number(cmd)))
       && caller->access_level < command_level(command_by_number(cmd))) {
     cmd_reply(cmd, caller, C_FAIL,

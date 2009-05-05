@@ -31,7 +31,7 @@ struct command {
 
 /* Commands must match the values in enum command_id. */
 static struct command commands[] = {
-  {"start",	ALLOW_INFO,
+  {"start",	ALLOW_BASIC,
    /* no translatable parameters */
    "start",
    N_("Start the game, or restart after loading a savegame."),
@@ -109,14 +109,14 @@ static struct command commands[] = {
       "used by clients).  With an argument, show only the named option, "
       "or options with that prefix.")
   },
-  {"wall",	ALLOW_HACK,
+  {"wall",	ALLOW_ADMIN,
    /* TRANS: translate text between <> only */
    N_("wall <message>"),
    N_("Send message to all connections."),
    N_("For each connected client, pops up a window showing the message "
       "entered.")
   },
-  {"vote",	ALLOW_INFO,
+  {"vote",	ALLOW_BASIC,
    /* TRANS: translate text between [] only */
    N_("vote yes|no|abstain [vote number]"),
    N_("Cast a vote."),
@@ -176,7 +176,7 @@ static struct command commands[] = {
    N_("metapatch <meta-line>"),
    N_("Set metaserver patches line."), NULL
   },
-  {"metaconnection",	ALLOW_HACK,
+  {"metaconnection",	ALLOW_ADMIN,
    /* no translatable parameters */
    "metaconnection u|up\n"
    "metaconnection d|down\n"
@@ -186,7 +186,7 @@ static struct command commands[] = {
       "'metaconnection down' or 'metac d' brings the metaserver connection down.\n"
       "'metaconnection up' or 'metac u' brings the metaserver connection up.")
   },
-  {"metaserver",ALLOW_HACK,
+  {"metaserver",	ALLOW_ADMIN,
    /* TRANS: translate text between <> only */
    N_("metaserver <address>"),
    N_("Set address (URL) for metaserver to report to."), NULL
@@ -230,7 +230,7 @@ static struct command commands[] = {
    N_("The 'create' command is only available before the game has "
       "been started.")
   },
-  {"away",	ALLOW_INFO,
+  {"away",	ALLOW_BASIC,
    /* no translatable parameters */
    "away",
    N_("Set yourself in away mode. The AI will watch your back."),
@@ -292,7 +292,7 @@ static struct command commands[] = {
       "FOR TESTING OF NEW AI FEATURES! For ordinary servers, this option "
       "has no effect.")
   },
-  {"cmdlevel",	ALLOW_HACK,  /* confusing to leave this at ALLOW_CTRL */
+  {"cmdlevel",	ALLOW_ADMIN,
    /* TRANS: translate text between <> only */
    N_("cmdlevel\n"
       "cmdlevel <level>\n"
@@ -303,8 +303,10 @@ static struct command commands[] = {
    N_("The command access level controls which server commands are available\n"
       "to users via the client chatline.  The available levels are:\n"
       "    none  -  no commands\n"
-      "    info  -  informational commands only\n"
+      "    info  -  informational or observer commands only\n"
+      "    basic -  commands available to players in the game\n"
       "    ctrl  -  commands that affect the game and users\n"
+      "    admin -  commands that affect server operation\n"
       "    hack  -  *all* commands - dangerous!\n"
       "With no arguments, the current command access levels are reported.\n"
       "With a single argument, the level is set for all existing "
@@ -320,7 +322,7 @@ static struct command commands[] = {
       "Note that this command now takes connection names, not player names."
       )
   },
-  {"first", ALLOW_INFO,
+  {"first", ALLOW_BASIC,
    /* no translatable parameters */
    "first",
    N_("If there is none, become the game organizer with increased permissions."),
@@ -334,12 +336,12 @@ static struct command commands[] = {
       "to <turn> and multiply <value> by <valuemult>.  Use this command in "
       "concert with the option \"timeout\". Defaults are 0 0 0 1")
   },
-  {"endgame",	ALLOW_HACK,
+  {"endgame",	ALLOW_ADMIN,
    /* no translatable parameters */
    "endgame",
    N_("End the game immediately in a draw."), NULL,
   },
-  {"surrender",	ALLOW_INFO,
+  {"surrender",	ALLOW_BASIC,
    /* no translatable parameters */
    "surrender",
    N_("Concede the game."),
@@ -354,7 +356,7 @@ static struct command commands[] = {
    N_("This *completely* removes a player from the game, including "
       "all cities and units etc.  Use with care!")
   },
-  {"save",	ALLOW_HACK,
+  {"save",	ALLOW_ADMIN,
    /* TRANS: translate text between <> only */
    N_("save\n"
       "save <file-name>"),

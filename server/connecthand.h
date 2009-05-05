@@ -40,5 +40,6 @@ bool attach_connection_to_player(struct connection *pconn,
                                  bool observing);
 bool detach_connection_to_player(struct connection *pconn,
                                  bool observing);
+void restore_access_level(struct connection *pconn);
 
 #endif /* FC__CONNECTHAND_H */

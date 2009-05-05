@@ -42,6 +42,28 @@
 
 #include "connecthand.h"
 
+
+/**************************************************************************
+  Restore access level for the given connection (user). Used when taking
+  a player, observing, or detaching.
+
+  NB: This function does not send updated connection information to other
+  clients, you need to do that yourself afterwards.
+**************************************************************************/
+void restore_access_level(struct connection *pconn)
+{
+  /* Restore previous privileges. */
+  pconn->access_level = pconn->server.granted_access_level;
+
+  /* Detached connections must have at most the same privileges
+   * as observers, unless they were granted something higher than
+   * ALLOW_BASIC in the first place. */
+  if ((pconn->observer || !pconn->playing)
+      && pconn->access_level == ALLOW_BASIC) {
+    pconn->access_level = ALLOW_INFO;
+  }
+}
+
 /**************************************************************************
   This is used when a new player joins a server, before the game
   has started.  If pconn is NULL, is an AI, else a client.
@@ -155,7 +177,8 @@ void establish_new_connection(struct connection *pconn)
     send_player_info_c(NULL, dest);
     send_conn_info(game.est_connections, dest);
   }
-  /* redundant self to self cannot be avoided */
+
+  restore_access_level(pconn);
   send_conn_info(dest, game.est_connections);
 
   /* remind the connection who he is */
@@ -508,6 +531,8 @@ bool attach_connection_to_player(struct connection *pconn,
   pconn->playing = pplayer;
   conn_list_append(pplayer->connections, pconn);
 
+  restore_access_level(pconn);
+
   return TRUE;
 }
   
@@ -544,6 +569,8 @@ bool detach_connection_to_player(struct connection *pconn,
   } conn_list_iterate_end;
 
   pconn->playing = NULL;
+
+  restore_access_level(pconn);
 
   return TRUE;
 }

@@ -1900,7 +1900,7 @@ void update_conn_list_dialog(void)
                     ai_level_name(pplayer->ai.skill_level));
       } else {
         sz_strlcpy(user_name, pplayer->username);
-        if (access_level > ALLOW_INFO) {
+        if (access_level > ALLOW_BASIC) {
           sz_strlcat(user_name, "*");
         }
       }

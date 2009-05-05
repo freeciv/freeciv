@@ -60,11 +60,14 @@ int delayed_disconnect = 0;
 /**************************************************************************
   Command access levels for client-side use; at present, they are only
   used to control access to server commands typed at the client chatline.
+  NB: These must match enum cmdlevel_id in common/connection.h.
 **************************************************************************/
 static const char *levelnames[] = {
   "none",
   "info",
+  "basic",
   "ctrl",
+  "admin",
   "hack"
 };
 

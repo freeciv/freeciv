@@ -905,6 +905,7 @@ int server_make_connection(int new_sock, const char *client_addr, const char *cl
       pconn->server.ping_timers =
 	  fc_malloc(sizeof(*pconn->server.ping_timers));
       pconn->server.ping_timers = timer_list_new();
+      pconn->server.granted_access_level = pconn->access_level;
       pconn->ping_time = -1.0;
       pconn->incoming_packet_notify = NULL;
       pconn->outgoing_packet_notify = NULL;
