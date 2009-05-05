@@ -33,5 +33,6 @@ void send_conn_info_remove(struct conn_list *src, struct conn_list *dest);
 bool attach_connection_to_player(struct connection *pconn, 
                                  struct player *pplayer);
 bool unattach_connection_from_player(struct connection *pconn);
+void restore_access_level(struct connection *pconn);
 
 #endif /* FC__CONNECTHAND_H */

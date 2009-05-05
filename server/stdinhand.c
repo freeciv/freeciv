@@ -75,7 +75,7 @@
 
 #define TOKEN_DELIMITERS " \t\n,"
 
-static enum cmdlevel_id default_access_level = ALLOW_INFO;
+static enum cmdlevel_id default_access_level = ALLOW_BASIC;
 static enum cmdlevel_id   first_access_level = ALLOW_CTRL;
 
 static bool cut_client_connection(struct connection *caller, char *name,
@@ -3614,7 +3614,7 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
       && caller->player
       && !caller->observer /* don't allow observers to ask votes */
       && !check
-      && caller->access_level == ALLOW_INFO
+      && caller->access_level == ALLOW_BASIC
       && commands[cmd].level == ALLOW_CTRL) {
     int idx = player_index(caller->player);
 
@@ -3648,7 +3648,7 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
     }
   }
   if (caller
-      && !(check && caller->access_level >= ALLOW_INFO 
+      && !(check && caller->access_level >= ALLOW_BASIC
            && commands[cmd].level == ALLOW_CTRL)
       && caller->access_level < commands[cmd].level) {
     cmd_reply(cmd, caller, C_FAIL,

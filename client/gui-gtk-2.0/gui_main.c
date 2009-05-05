@@ -1732,7 +1732,7 @@ void update_conn_list_dialog(void)
 	  sz_strlcpy(name, _("<Hard AI>"));
 	  break;
 	}
-      } else if (access_level <= ALLOW_INFO) {
+      } else if (access_level <= ALLOW_BASIC) {
 	sz_strlcpy(name, pplayer->username);
       } else {
         my_snprintf(name, sizeof(name), "%s*", pplayer->username);
