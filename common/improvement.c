@@ -532,6 +532,20 @@ struct city *find_city_from_great_wonder(const struct impr_type *pimprove)
 }
 
 /**************************************************************************
+  Get the player owning this small wonder.
+**************************************************************************/
+struct player *great_wonder_owner(const struct impr_type *pimprove)
+{
+  struct city *pcity = find_city_from_great_wonder(pimprove);
+
+  if (!pcity) {
+    return NULL;
+  }
+
+  return city_owner(pcity);
+}
+
+/**************************************************************************
   Get the player city with this small wonder.
 **************************************************************************/
 struct city *find_city_from_small_wonder(const struct player *pplayer,

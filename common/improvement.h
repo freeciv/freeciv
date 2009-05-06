@@ -116,6 +116,7 @@ bool can_city_sell_building(struct city *pcity,
 struct city *find_city_from_great_wonder(const struct impr_type *pimprove);
 struct city *find_city_from_small_wonder(const struct player *pplayer,
 					 const struct impr_type *pimprove);
+struct player *great_wonder_owner(const struct impr_type *pimprove);
 
 /* player related improvement functions */
 bool improvement_obsolete(const struct player *pplayer,
