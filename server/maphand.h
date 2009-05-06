@@ -50,11 +50,11 @@ void give_map_from_player_to_player(struct player *pfrom, struct player *pdest);
 void give_seamap_from_player_to_player(struct player *pfrom, struct player *pdest);
 void give_citymap_from_player_to_player(struct city *pcity,
 					struct player *pfrom, struct player *pdest);
-void send_all_known_tiles(struct conn_list *dest);
+void send_all_known_tiles(struct conn_list *dest, bool force);
 
 bool send_tile_suppression(bool now);
 void send_tile_info(struct conn_list *dest, struct tile *ptile,
-                    bool send_unknown);
+                    bool send_unknown, bool force);
 
 void send_map_info(struct conn_list *dest);
 

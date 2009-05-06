@@ -294,7 +294,7 @@ void give_citymap_from_player_to_player(struct city *pcity,
   calculations, so it will be correct before this, for each connection
   during this, and at end.
 **************************************************************************/
-void send_all_known_tiles(struct conn_list *dest)
+void send_all_known_tiles(struct conn_list *dest, bool force)
 {
   int tiles_sent;
 
@@ -315,7 +315,7 @@ void send_all_known_tiles(struct conn_list *dest)
       conn_list_do_buffer(dest);
     }
 
-    send_tile_info(dest, ptile, FALSE);
+    send_tile_info(dest, ptile, FALSE, force);
   } whole_map_iterate_end;
 
   conn_list_do_unbuffer(dest);
@@ -342,7 +342,7 @@ bool send_tile_suppression(bool now)
   update_tile_knowledge().
 **************************************************************************/
 void send_tile_info(struct conn_list *dest, struct tile *ptile,
-                    bool send_unknown)
+                    bool send_unknown, bool force)
 {
   struct packet_tile_info info;
   const struct nation_type *pnation;
@@ -399,7 +399,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
       } tile_special_type_iterate_end;
       info.bases = ptile->bases;
 
-      send_packet_tile_info(pconn, FALSE, &info);
+      send_packet_tile_info(pconn, force, &info);
     } else if (pplayer && map_is_known(ptile, pplayer)
 	       && map_get_seen(ptile, pplayer, V_MAIN) == 0) {
       struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
@@ -426,7 +426,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
       } tile_special_type_iterate_end;
       info.bases = plrtile->bases;
 
-      send_packet_tile_info(pconn, FALSE, &info);
+      send_packet_tile_info(pconn, force, &info);
     } else if (send_unknown) {
       info.known = TILE_UNKNOWN;
       info.continent = 0;
@@ -441,7 +441,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
       } tile_special_type_iterate_end;
       BV_CLR_ALL(info.bases);
 
-      send_packet_tile_info(pconn, FALSE, &info);
+      send_packet_tile_info(pconn, force, &info);
     }
   }
   conn_list_iterate_end;
@@ -476,7 +476,7 @@ static void really_unfog_tile(struct player *pplayer, struct tile *ptile,
      * continent number before it can handle following packets
      */
     update_player_tile_knowledge(pplayer, ptile);
-    send_tile_info(pplayer->connections, ptile, FALSE);
+    send_tile_info(pplayer->connections, ptile, FALSE, FALSE);
     /* NOTE: because the V_INVIS case doesn't fall into this if statement,
      * changes to V_INVIS fogging won't send a new info packet to the client
      * and the client's tile_seen[V_INVIS] bitfield may end up being out
@@ -547,7 +547,7 @@ static void really_fog_tile(struct player *pplayer, struct tile *ptile,
 
   if (vlayer == V_MAIN) {
     update_player_tile_last_seen(pplayer, ptile);
-    send_tile_info(pplayer->connections, ptile, FALSE);
+    send_tile_info(pplayer->connections, ptile, FALSE, FALSE);
   }
 }
 
@@ -654,7 +654,7 @@ void map_show_tile(struct player *src_player, struct tile *ptile)
 	update_player_tile_knowledge(pplayer, ptile);
 	update_player_tile_last_seen(pplayer, ptile);
 
-	send_tile_info(pplayer->connections, ptile, FALSE);
+	send_tile_info(pplayer->connections, ptile, FALSE, FALSE);
 
 	/* remove old cities that exist no more */
 	reality_check_city(pplayer, ptile);
@@ -1001,7 +1001,7 @@ void update_tile_knowledge(struct tile *ptile)
   players_iterate(pplayer) {
     if (map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
       if (update_player_tile_knowledge(pplayer, ptile)) {
-        send_tile_info(pplayer->connections, ptile, FALSE);
+        send_tile_info(pplayer->connections, ptile, FALSE, FALSE);
       }
     }
   } players_iterate_end;
@@ -1011,7 +1011,7 @@ void update_tile_knowledge(struct tile *ptile)
     struct player *pplayer = pconn->playing;
 
     if (NULL == pplayer && pconn->observer) {
-      send_tile_info(pconn->self, ptile, FALSE);
+      send_tile_info(pconn->self, ptile, FALSE, FALSE);
     }
   } conn_list_iterate_end;
 }
@@ -1054,7 +1054,7 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
       dest_tile->resource = from_tile->resource;
       dest_tile->bases    = from_tile->bases;
       dest_tile->last_updated = from_tile->last_updated;
-      send_tile_info(pdest->connections, ptile, FALSE);
+      send_tile_info(pdest->connections, ptile, FALSE, FALSE);
 
       /* update and send city knowledge */
       /* remove outdated cities */
@@ -1429,7 +1429,7 @@ void check_terrain_change(struct tile *ptile, struct terrain *oldter)
 
   fix_tile_on_terrain_change(ptile, TRUE);
   assign_continent_numbers();
-  send_all_known_tiles(NULL);
+  send_all_known_tiles(NULL, FALSE);
 }
 
 /*************************************************************************
@@ -1532,7 +1532,7 @@ void map_claim_ownership(struct tile *ptile, struct player *powner,
     }
 
     if (!city_map_update_tile_frozen(ptile)) {
-      send_tile_info(NULL, ptile, FALSE);
+      send_tile_info(NULL, ptile, FALSE, FALSE);
     }
   }
 }

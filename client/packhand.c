@@ -2492,9 +2492,9 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
    * the nation selection dialog if it is open. */
   popdown_races_dialog();
 
-  ruleset_data_free();
-
+  game_free();
   ruleset_cache_init();
+  game_init();
 
   game.control = *packet;
 

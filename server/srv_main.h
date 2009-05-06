@@ -97,7 +97,7 @@ void start_game(void);
 void save_game(char *orig_filename, const char *save_reason);
 void pick_random_player_name(const struct nation_type *pnation,
 			     char *newname);
-void send_all_info(struct conn_list *dest);
+void send_all_info(struct conn_list *dest, bool force);
 
 void identity_number_release(int id);
 void identity_number_reserve(int id);

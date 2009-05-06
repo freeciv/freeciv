@@ -338,7 +338,7 @@ void effect_req_append(struct effect *peffect, bool neg,
 }
 
 /**************************************************************************
-  Initialize the ruleset cache.  The ruleset cache should be emtpy
+  Initialize the ruleset cache.  The ruleset cache should be empty
   before this is done (so if it's previously been initialized, it needs
   to be freed (see ruleset_cache_free) before it can be reused).
 **************************************************************************/

@@ -362,7 +362,7 @@ bool check_for_game_over(void)
   Send all information for when game starts or client reconnects.
   Ruleset information should have been sent before this.
 **************************************************************************/
-void send_all_info(struct conn_list *dest)
+void send_all_info(struct conn_list *dest, bool force)
 {
   conn_list_iterate(dest, pconn) {
       send_attribute_block(pconn->playing, pconn);
@@ -374,7 +374,7 @@ void send_all_info(struct conn_list *dest)
   send_player_info_c(NULL, dest);
   send_conn_info(game.est_connections, dest);
   send_spaceship_info(NULL, dest);
-  send_all_known_tiles(dest);
+  send_all_known_tiles(dest, force);
   send_all_known_cities(dest);
   send_all_known_units(dest);
   send_player_turn_notifications(dest);
@@ -2246,7 +2246,7 @@ static void srv_ready(void)
   }
 
   lsend_packet_freeze_hint(game.est_connections);
-  send_all_info(game.est_connections);
+  send_all_info(game.est_connections, FALSE);
   lsend_packet_thaw_hint(game.est_connections);
   
   if (game.info.is_new_game) {

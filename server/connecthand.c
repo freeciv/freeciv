@@ -142,7 +142,7 @@ void establish_new_connection(struct connection *pconn)
       /* Player and other info is only updated when the game is running.
        * See the comment in lost_connection_to_client(). */
       send_packet_freeze_hint(pconn);
-      send_all_info(dest);
+      send_all_info(dest, TRUE);
       send_diplomatic_meetings(pconn);
       send_packet_thaw_hint(pconn);
       dsend_packet_start_phase(pconn, game.info.phase);

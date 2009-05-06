@@ -104,7 +104,7 @@ static void check_edited_tile_terrains(void)
   hash_delete_all_entries(unfixed_tile_table);
 
   assign_continent_numbers();
-  send_all_known_tiles(NULL);
+  send_all_known_tiles(NULL, FALSE);
 }
 
 /****************************************************************************
@@ -377,7 +377,7 @@ void handle_edit_tile(struct connection *pc,
   /* Send the new state to all affected. */
   if (changed) {
     update_tile_knowledge(ptile);
-    send_tile_info(NULL, ptile, FALSE);
+    send_tile_info(NULL, ptile, FALSE, FALSE);
   }
 }
 
@@ -1132,7 +1132,7 @@ void handle_edit_player_vision(struct connection *pc, int plr_no,
       map_clear_known(ptile, pplayer);
     }
 
-    send_tile_info(NULL, ptile, TRUE);
+    send_tile_info(NULL, ptile, TRUE, FALSE);
   } square_iterate_end;
   conn_list_do_unbuffer(game.est_connections);
 }
@@ -1230,7 +1230,7 @@ void handle_edit_startpos(struct connection *pc, int x, int y,
   map_set_startpos(ptile, pnation);
 
   if (old != pnation) {
-    send_tile_info(NULL, ptile, FALSE);
+    send_tile_info(NULL, ptile, FALSE, FALSE);
   }
 }
 
