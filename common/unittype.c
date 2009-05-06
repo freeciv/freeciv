@@ -535,9 +535,20 @@ bool can_player_build_unit_direct(const struct player *p,
    * can build that building.  Note that individual cities may not have
    * that building, so they still may not be able to build the unit. */
   impr_req = punittype->impr_requirement;
-  if (impr_req != B_LAST
-      && !can_player_build_improvement_direct(p, impr_req)) {
-    return FALSE;
+  if (impr_req != B_LAST) {
+    if (is_great_wonder(impr_req) &&
+        great_wonder_was_built(impr_req)) {
+      /* It's already built great wonder */
+      if (great_wonder_owner(impr_req) != p) {
+        /* Not owned by this player. Either destroyed or owned by somebody
+         * else. */
+        return FALSE;
+      }
+    } else {
+      if (!can_player_build_improvement_direct(p, impr_req)) {
+        return FALSE;
+      }
+    }
   }
 
   return TRUE;

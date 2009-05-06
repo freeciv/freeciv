@@ -132,6 +132,7 @@ bool is_improvement(Impr_type_id id);
 struct city *find_city_from_great_wonder(Impr_type_id id);
 struct city *find_city_from_small_wonder(const struct player *pplayer,
 					 Impr_type_id id);
+struct player *great_wonder_owner(Impr_type_id id);
 
 bool great_wonder_was_built(Impr_type_id id);
 
