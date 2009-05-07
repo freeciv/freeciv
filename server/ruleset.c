@@ -3816,6 +3816,7 @@ static bool sanity_check_req_set(int reqs_of_type[], struct requirement *preq,
      case VUT_OTYPE:
      case VUT_SPECIALIST:
      case VUT_MINSIZE: /* Breaks nothing, but has no sense either */
+     case VUT_MINYEAR:
      case VUT_AI_LEVEL:
      case VUT_TERRAINCLASS:
        /* There can be only one requirement of these types (with current

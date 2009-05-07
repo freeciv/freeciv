@@ -40,8 +40,8 @@ survives destruction (wonders only).
 
 A requirement type is the type of the requirement and can be one of "None" 
 (default), "Tech", "Gov", "Building", "Special", "Terrain", "UnitType", 
-"UnitFlag", "UnitClass", "Nation", "OutputType", "MinSize", "AI" and
-"TerrainClass". MinSize is the minimum size of a city required. AI is ai
+"UnitFlag", "UnitClass", "Nation", "OutputType", "MinYear", "MinSize", "AI"
+and "TerrainClass". MinSize is the minimum size of a city required. AI is ai
 player difficulty level. TerrainClass is either "Land" or "Oceanic".
 
 Effect types 

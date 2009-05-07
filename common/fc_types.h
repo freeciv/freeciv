@@ -237,6 +237,7 @@ typedef union {
 
   enum ai_level ai_level;
   int minsize;
+  int minyear;
   Output_type_id outputtype;
   int terrainclass;			/* enum terrain_class */
   int special;				/* enum tile_special_type */
@@ -265,6 +266,7 @@ enum universals_n {
   VUT_AI_LEVEL,		/* AI level of the player */
   VUT_TERRAINCLASS,	/* More generic terrain type, currently "Land" or "Ocean" */
   VUT_BASE,
+  VUT_MINYEAR,
   VUT_LAST
 };
 

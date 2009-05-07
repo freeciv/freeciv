@@ -47,7 +47,8 @@ static const char *universal_names[] = {
   "MinSize",
   "AI",
   "TerrainClass",
-  "Base"
+  "Base",
+  "MinYear"
 };
 
 /* Names of requirement ranges. These must correspond to enum req_range in
@@ -207,6 +208,12 @@ struct universal universal_by_rule_name(const char *kind,
       return source;
     }
     break;
+  case VUT_MINYEAR:
+    source.value.minyear = atoi(value);
+    if (source.value.minyear >= GAME_START_YEAR) {
+      return source;
+    }
+    break;
   case VUT_LAST:
   default:
     break;
@@ -298,8 +305,11 @@ struct universal universal_by_number(const enum universals_n kind,
   case VUT_TERRAINCLASS:
     source.value.terrainclass = value;
     return source;
-   case VUT_BASE:
+  case VUT_BASE:
     source.value.base = base_by_number(value);
+    return source;
+  case VUT_MINYEAR:
+    source.value.minyear = value;
     return source;
   case VUT_LAST:
     return source;
@@ -364,6 +374,8 @@ int universal_number(const struct universal *source)
     return source->value.terrainclass;
   case VUT_BASE:
     return base_number(source->value.base);
+  case VUT_MINYEAR:
+    return source->value.minyear;
   case VUT_LAST:
   default:
     break;
@@ -420,6 +432,9 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_AI_LEVEL:
       req.range = REQ_RANGE_PLAYER;
       break;
+    case VUT_MINYEAR:
+      req.range = REQ_RANGE_WORLD;
+      break;
     }
   }
 
@@ -463,6 +478,9 @@ struct requirement req_from_str(const char *type, const char *range,
   case VUT_OTYPE:
   case VUT_SPECIALIST:
     invalid = (req.range != REQ_RANGE_LOCAL);
+    break;
+  case VUT_MINYEAR:
+    invalid = (req.range != REQ_RANGE_WORLD);
     break;
   case VUT_NONE:
     invalid = FALSE;
@@ -1049,6 +1067,9 @@ bool is_req_active(const struct player *target_player,
                                  req->range, req->survives,
                                  req->source.value.base);
     break;
+  case VUT_MINYEAR:
+    eval = game.info.year >= req->source.value.minyear;
+    break;
   case VUT_LAST:
     assert(0);
     return FALSE;
@@ -1132,6 +1153,9 @@ bool is_req_unchanging(const struct requirement *req)
      * reasons and so that the AI doesn't get confused (since the AI
      * doesn't know how to meet special and terrain requirements). */
     return TRUE;
+  case VUT_MINYEAR:
+    /* Once year is reached, it does not change again */
+    return req->source.value.minyear > game.info.year;
   case VUT_LAST:
     break;
   }
@@ -1184,6 +1208,8 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.terrainclass == psource2->value.terrainclass;
   case VUT_BASE:
     return psource1->value.base == psource2->value.base;
+  case VUT_MINYEAR:
+    return psource1->value.minyear == psource2->value.minyear;
   case VUT_LAST:
     break;
   }
@@ -1324,6 +1350,10 @@ const char *universal_name_translation(const struct universal *psource,
     /* TRANS: "Fortress base" */
     cat_snprintf(buf, bufsz, _("%s base"),
                  base_name_translation(psource->value.base));
+    break;
+  case VUT_MINYEAR:
+    cat_snprintf(buf, bufsz, _("After %s"),
+                 textyear(psource->value.minyear));
     break;
   case VUT_LAST:
     assert(0);

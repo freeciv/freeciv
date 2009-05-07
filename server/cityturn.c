@@ -1122,6 +1122,20 @@ static bool worklist_change_build_target(struct player *pplayer,
 	      freelog(LOG_ERROR, "worklist_change_build_target()"
 	      	      " has bogus preq");
 	      break;
+            case VUT_MINYEAR:
+              /* FIXME: if negated: we should skip rather than postpone,
+               * since we'll never be able to meet this req... */
+              notify_player(pplayer, pcity->tile, E_CITY_CANTBUILD,
+                            _("%s can't build %s from the worklist; "
+                              "Only available from %s.  Postponing..."),
+                            city_name(pcity),
+                            city_improvement_name_translation(pcity, ptarget),
+                            textyear(preq->source.value.minyear));
+              script_signal_emit("building_cant_be_built", 3,
+                                 API_TYPE_BUILDING_TYPE, ptarget,
+                                 API_TYPE_CITY, pcity,
+                                 API_TYPE_STRING, "need_minyear");
+              break;
 	    case VUT_NONE:
 	    case VUT_LAST:
 	    default:
