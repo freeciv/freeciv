@@ -274,6 +274,12 @@ void free_compression_queue(struct connection *pconn);
 void conn_clear_packet_cache(struct connection *pconn);
 
 const char *conn_description(const struct connection *pconn);
+bool conn_controls_player(const struct connection *pconn);
+bool conn_is_global_observer(const struct connection *pconn);
+enum cmdlevel_id conn_get_access(const struct connection *pconn);
+
+struct player;
+struct player *conn_get_player(const struct connection *pconn);
 
 int get_next_request_id(int old_request_id);
 
