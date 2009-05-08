@@ -539,6 +539,7 @@ void handle_single_want_hack_req(struct connection *pc,
   }
 
   if (you_have_hack) {
+    pc->server.granted_access_level = ALLOW_HACK;
     pc->access_level = ALLOW_HACK;
   }
 
