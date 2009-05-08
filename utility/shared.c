@@ -291,6 +291,19 @@ int get_tokens(const char *str, char **tokens, size_t num_tokens,
 }
 
 /***************************************************************
+  Convenience function to cleanup the result of get_tokens().
+***************************************************************/
+void free_tokens(char **tokens, size_t ntokens)
+{
+  size_t i;
+  for (i = 0; i < ntokens; i++) {
+    if (tokens[i]) {
+      free(tokens[i]);
+    }
+  }
+}
+
+/***************************************************************
   Returns a statically allocated string containing a nicely-formatted
   version of the given number according to the user's locale.  (Only
   works for numbers >= zero.)  The number is given in scientific notation
