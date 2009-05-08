@@ -707,3 +707,45 @@ void conn_clear_packet_cache(struct connection *pc)
     }
   }
 }
+
+/**************************************************************************
+  Returns TRUE if the given connection is attached to a player which it
+  also controls (i.e. not a player observer).
+**************************************************************************/
+bool conn_controls_player(const struct connection *pconn)
+{
+  return pconn && pconn->playing && !pconn->observer;
+}
+
+/**************************************************************************
+  Returns TRUE if the given connection is a global observer.
+**************************************************************************/
+bool conn_is_global_observer(const struct connection *pconn)
+{
+  return pconn && !pconn->playing && pconn->observer;
+}
+
+/**************************************************************************
+  Returns the player that this connection is attached to, or NULL. Note
+  that this will return the observed player for connections that are
+  observing players.
+**************************************************************************/
+struct player *conn_get_player(const struct connection *pconn)
+{
+  if (!pconn) {
+    return NULL;
+  }
+  return pconn->playing;
+}
+
+/**************************************************************************
+  Returns the current access level of the given connection.
+  NB: If 'pconn' is NULL, this function will return ALLOW_NONE.
+**************************************************************************/
+enum cmdlevel_id conn_get_access(const struct connection *pconn)
+{
+  if (!pconn) {
+    return ALLOW_NONE; /* Would not want to give hack on error... */
+  }
+  return pconn->access_level;
+}
