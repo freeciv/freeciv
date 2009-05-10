@@ -107,6 +107,13 @@ match_types = "water", "ice"
 
 ; Water graphics referenced by terrain.ruleset
 ;
+[tile_lake]
+is_blended = 0
+num_layers = 1
+layer0_match_type = "shallow"
+layer0_match_with = "land"
+layer0_sprite_type = "corner"
+
 [tile_coast]
 is_blended = 1
 num_layers = 2

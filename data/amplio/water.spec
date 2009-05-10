@@ -157,4 +157,41 @@ tiles = { "row", "column", "tag"
  2, 11, "t.l1.floor_cell_r_i_w_i"
  2, 13, "t.l1.floor_cell_r_w_i_i"
  2, 15, "t.l1.floor_cell_r_i_i_i"
+
+; lake tiles
+ 9, 0,  "t.l0.lake_cell_u_s_s_s" ;vacant cell
+ 9, 2,  "t.l0.lake_cell_u_l_s_s"
+ 9, 4,  "t.l0.lake_cell_u_s_l_s"
+ 9, 6,  "t.l0.lake_cell_u_l_l_s"
+ 9, 8,  "t.l0.lake_cell_u_s_s_l"
+ 9, 10, "t.l0.lake_cell_u_l_s_l"
+ 9, 12, "t.l0.lake_cell_u_s_l_l"
+ 9, 14, "t.l0.lake_cell_u_l_l_l"
+ 
+ 10, 0,  "t.l0.lake_cell_d_s_s_s" ;vacant cell
+ 10, 2,  "t.l0.lake_cell_d_l_s_s"
+ 10, 4,  "t.l0.lake_cell_d_s_l_s"
+ 10, 6,  "t.l0.lake_cell_d_l_l_s"
+ 10, 8,  "t.l0.lake_cell_d_s_s_l"
+ 10, 10, "t.l0.lake_cell_d_l_s_l"
+ 10, 12, "t.l0.lake_cell_d_s_l_l"
+ 10, 14, "t.l0.lake_cell_d_l_l_l"
+
+ 11, 0,  "t.l0.lake_cell_l_s_s_s" ;vacant cell
+ 11, 2,  "t.l0.lake_cell_l_l_s_s"
+ 11, 4,  "t.l0.lake_cell_l_s_l_s"
+ 11, 6,  "t.l0.lake_cell_l_l_l_s"
+ 11, 8,  "t.l0.lake_cell_l_s_s_l"
+ 11, 10, "t.l0.lake_cell_l_l_s_l"
+ 11, 12, "t.l0.lake_cell_l_s_l_l"
+ 11, 14, "t.l0.lake_cell_l_l_l_l"
+
+ 11, 1,  "t.l0.lake_cell_r_s_s_s"
+ 11, 3,  "t.l0.lake_cell_r_l_s_s"
+ 11, 5,  "t.l0.lake_cell_r_s_l_s"
+ 11, 7,  "t.l0.lake_cell_r_l_l_s"
+ 11, 9,  "t.l0.lake_cell_r_s_s_l"
+ 11, 11, "t.l0.lake_cell_r_l_s_l"
+ 11, 13, "t.l0.lake_cell_r_s_l_l"
+ 11, 15, "t.l0.lake_cell_r_l_l_l"
 }
