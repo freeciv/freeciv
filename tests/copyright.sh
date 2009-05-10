@@ -7,7 +7,6 @@ files=`find $1 -name "*.c" -o -name "*.h" \
        | fgrep -v "_gen." \
        | grep -v "config.h" \
        | grep -v "config.mac.h" \
-       | grep -v amiga \
        | grep -v gtkpixcomm \
        | grep -v mmx.h \
        | grep -v SDL_ttf \
@@ -19,7 +18,7 @@ files=`find $1 -name "*.c" -o -name "*.h" \
        | grep -v client/gui-sdl/alphablit.c `
 
 echo "# No Freeciv Copyright:"
-echo "# Excludes: generated files, amiga, various 3rd party sources"
+echo "# Excludes: generated files, various 3rd party sources"
 for file in $files; do
 #    echo "testing $file..."
     grep "Freeciv - Copyright" $file >/dev/null || echo $file
