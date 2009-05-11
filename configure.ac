@@ -6,7 +6,7 @@ AC_INIT
 AC_PREREQ(2.55)
 AC_CONFIG_SRCDIR([common/game.c])
 AC_CONFIG_AUX_DIR(bootstrap) # This can't be quoted or automake will fail
-AM_CONFIG_HEADER(config.h)
+AM_CONFIG_HEADER([config.h]) # Compatible with automake 1.6 and earlier
 AC_CANONICAL_HOST
 AC_GNU_SOURCE
 
@@ -321,7 +321,7 @@ Try --disable-nls. Read ABOUT-NLS.)
   if test "$IS_BETA_VERSION" = "1" || test "$IS_DEVEL_VERSION" = "1"; then
     AC_MSG_CHECKING(for GNU xgettext version >= 0.10.36)
     xgettext_version=`$XGETTEXT --version 2>&1 | grep GNU | head -n 1 | sed 's/"/ /g'`
-    AC_TRY_RUN([
+    AC_RUN_IFELSE([AC_LANG_SOURCE([[
 #include <stdio.h>
 
 const char *version = "$xgettext_version";
@@ -342,21 +342,18 @@ int main()
   }
   return 0;
 }
-    ],
-    AC_MSG_RESULT(yes)
-    ,
-    [
+    ]])],[AC_MSG_RESULT(yes)
+    ],[
      AC_MSG_RESULT(no)
      AC_MSG_WARN(You may have problems with creating pox files. \
 Please update your gettext package.)   
-    ]
-    ,
-    echo error
-    )
+    
+    ],[echo error
+    ])
 
     AC_MSG_CHECKING(for GNU msgfmt version >= 0.10.35)
     msgfmt_version=`$MSGFMT --version 2>&1 | grep GNU | head -n 1 | sed 's/"/ /g'`
-    AC_TRY_RUN([
+    AC_RUN_IFELSE([AC_LANG_SOURCE([[
 #include <stdio.h>
 
 const char *version = "$msgfmt_version";
@@ -378,19 +375,16 @@ int main()
   }
   return 0;
 }
-    ],
-    AC_MSG_RESULT(yes)
-    ,
-    [
+    ]])],[AC_MSG_RESULT(yes)
+    ],[
     AC_MSG_RESULT(no)
     AC_MSG_ERROR(You are unable to create *.gmo files.
 This is development version which doesn't include them. Please update your
 gettext package. We recommend you versions >= 0.10.38. Or use 
 --disable-nls instead.)
-    ]
-    ,
-    echo error
-    )
+    
+    ],[echo error
+    ])
   fi
 else
   dnl Setup POFILES even when NLS disabled.
@@ -801,10 +795,8 @@ AC_CHECK_FUNC(fcntl,
 
 dnl Checks if SIGPIPE is usable
 AC_MSG_CHECKING([for SIGPIPE])
-AC_TRY_COMPILE([#include <signal.h>],[signal (SIGPIPE, SIG_IGN)],
-               [AC_MSG_RESULT([yes])
-                AC_DEFINE(HAVE_SIGPIPE, 1, [sigpipe support])],
-               [AC_MSG_RESULT([no])])
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <signal.h>]], [[signal (SIGPIPE, SIG_IGN)]])],[AC_MSG_RESULT([yes])
+                AC_DEFINE(HAVE_SIGPIPE, 1, [sigpipe support])],[AC_MSG_RESULT([no])])
 
 dnl export where the datadir is going to be installed
 FC_EXPAND_DIR(FREECIV_DATADIR, "$datadir/freeciv")
