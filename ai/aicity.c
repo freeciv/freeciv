@@ -427,6 +427,7 @@ static int improvement_effect_value(struct player *pplayer,
     v += c * amount;
     break;
 
+  case EFT_TURN_YEARS:
   case EFT_SLOW_DOWN_TIMELINE:
     /* AI doesn't care about these. */
     break;

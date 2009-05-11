@@ -206,11 +206,15 @@ No_Incite
 Gain_AI_Love
     Gain amount points of "AI love" with AI(s).
 
+Turn_Years
+    Year advances by AMOUNT each turn unless Slow_Down_Timeline causes it
+    to be less.
+
 Slow_Down_Timeline
     Slow down the timeline based on the AMOUNT. If AMOUNT >= 3 the timeline 
-will be 1 year/turn; with AMOUNT == 2 it is 2 years/turn; with AMOUNT == 1 it 
-is 5 years/turn; with AMOUNT <= 0 the timeline is unaffected. The effect will 
-be ignored if game.spacerace isn't set.
+will be max 1 year/turn; with AMOUNT == 2 it is max 2 years/turn;
+with AMOUNT == 1 it is max 5 years/turn; with AMOUNT <= 0 the timeline is
+unaffected. The effect will be ignored if game.spacerace isn't set.
 
 Civil_War_Chance
     Chance of player splitting due to civil war when capital captured is 

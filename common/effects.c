@@ -92,6 +92,7 @@ static const char *effect_type_names[EFT_LAST] = {
   "Defend_Bonus",
   "No_Incite",
   "Gain_AI_Love",
+  "Turn_Years",
   "Slow_Down_Timeline",
   "Civil_War_Chance",
   "Empire_Size_Base",

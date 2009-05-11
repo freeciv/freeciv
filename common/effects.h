@@ -79,6 +79,7 @@ enum effect_type {
   EFT_DEFEND_BONUS,
   EFT_NO_INCITE,
   EFT_GAIN_AI_LOVE,
+  EFT_TURN_YEARS,
   EFT_SLOW_DOWN_TIMELINE, /* Space module tech slowdown */
   EFT_CIVIL_WAR_CHANCE,
   EFT_EMPIRE_SIZE_BASE, /* +1 unhappy when more than this cities */

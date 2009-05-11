@@ -482,11 +482,13 @@ void initialize_globals(void)
 ***************************************************************/
 int game_next_year(int year)
 {
+  int increase = get_world_bonus(EFT_TURN_YEARS);
   const int slowdown = (game.info.spacerace
 			? get_world_bonus(EFT_SLOW_DOWN_TIMELINE) : 0);
 
-  if (year == 1) /* hacked it to get rid of year 0 */
+  if (year == 1) { /* hacked it to get rid of year 0 */
     year = 0;
+  }
 
     /* !McFred: 
        - want year += 1 for spaceship.
@@ -503,23 +505,25 @@ int game_next_year(int year)
 
   /* Note the slowdown operates even if Enable_Space is not active.  See
    * README.effects for specifics. */
-  if (year >= 1900 || (slowdown >= 3 && year > 0)) {
-    year += 1;
-  } else if (year >= 1750 || slowdown >= 2) {
-    year += 2;
-  } else if (year >= 1500 || slowdown >= 1) {
-    year += 5;
-  } else if( year >= 1000 )
-    year += 10;
-  else if( year >= 0 )
-    year += 20;
-  else if( year >= -1000 ) /* used this line for tuning (was -1250) */
-    year += 25;
-  else
-    year += 50; 
+  if (slowdown >= 3) {
+    if (increase > 1) {
+      increase = 1;
+    }
+  } else if (slowdown >= 2) {
+    if (increase > 2) {
+      increase = 2;
+    }
+  } else if (slowdown >= 1) {
+    if (increase > 5) {
+      increase = 5;
+    }
+  }
 
-  if (year == 0) 
+  year += increase;
+
+  if (year == 0) {
     year = 1;
+  }
 
   return year;
 }
