@@ -541,7 +541,8 @@ bool city_can_change_build(const struct city *pcity)
 **************************************************************************/
 const char *city_name(const struct city *pcity)
 {
-  assert(NULL != pcity && NULL != pcity->name);
+  assert(NULL != pcity);
+  assert(NULL != pcity->name);
   return pcity->name;
 }
 
@@ -550,7 +551,8 @@ const char *city_name(const struct city *pcity)
 **************************************************************************/
 struct player *city_owner(const struct city *pcity)
 {
-  assert(NULL != pcity && NULL != pcity->owner);
+  assert(NULL != pcity);
+  assert(NULL != pcity->owner);
   return pcity->owner;
 }
 
