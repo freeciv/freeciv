@@ -16,14 +16,17 @@
 #endif
 
 #include <assert.h>
+#include <stdarg.h>
 #include <string.h>
 
 /* utility */
 #include "astring.h"
 #include "fcintl.h"
 #include "log.h"
-#include "packets.h"
 #include "support.h"
+
+/* common */
+#include "packets.h"
 
 #include "chatline_g.h"
 

@@ -16,31 +16,36 @@
 #endif
 
 #include <assert.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+/* utility */
+#include "fcintl.h"
+#include "log.h"
+#include "mem.h"
+#include "registry.h"
+#include "shared.h"
+#include "support.h"
+
+/* common */
 #include "base.h"
 #include "capability.h"
 #include "city.h"
 #include "effects.h"
-#include "fcintl.h"
 #include "game.h"
 #include "government.h"
-#include "log.h"
 #include "map.h"
-#include "mem.h"
 #include "movement.h"
 #include "nation.h"
 #include "packets.h"
-#include "registry.h"
 #include "requirements.h"
-#include "shared.h"
 #include "specialist.h"
-#include "support.h"
 #include "tech.h"
 #include "unit.h"
 
+/* server */
 #include "citytools.h"
 #include "plrhand.h"
 #include "script.h"
