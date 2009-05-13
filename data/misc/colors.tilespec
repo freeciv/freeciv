@@ -21,58 +21,30 @@ player = {"r", "g", "b"
 ; Tile tags should match [tile_*] sections in *.tilespec(s)
 ; corresponding to graphic tag in terrain.ruleset(s)
 tiles = {"r", "g", "b", "tag"
-    0,   0, 220, "coast"
-    0,   0, 200, "shelf"
+    0,   0, 220, "lake"
+    0,   0, 200, "coast"
 
     0,   0, 170, "floor"
-    0,   0, 170, "trench"
-    0,   0, 170, "ridge"
-    0,   0, 170, "vent"
 
   255, 255, 255, "arctic"
-  255, 255, 255, "icy_plain"
-  255, 255, 255, "icy_hills"
 
   212, 179, 101, "desert"
-  212, 179, 101, "desert_plain"
-  212, 179, 101, "desert_hills"
 
    43, 107,  19, "forest"
-   43, 107,  19, "brown_coniferous"
-   43, 107,  19, "brown_deciduous"
-   43, 107,  19, "brown_hills_coniferous"
-   43, 107,  19, "brown_hills_deciduous"
-   43, 107,  19, "green_coniferous"
-   43, 107,  19, "green_deciduous"
-   43, 107,  19, "green_hills_coniferous"
-   43, 107,  19, "green_hills_deciduous"
-   43, 107,  19, "swamp_coniferous"
-   43, 107,  19, "swamp_deciduous"
 
    10, 123,   2, "grassland"
-   10, 123,   2, "green_hills"
 
   142, 121,  63, "hills"
-  142, 121,  63, "brown_hills"
 
    54, 162,  38, "jungle"
-   54, 162,  38, "brown_jungle"
-   54, 162,  38, "brown_hills_jungle"
-   54, 162,  38, "green_jungle"
-   54, 162,  38, "green_hills_jungle"
-   54, 162,  38, "swamp_jungle"
 
   138, 168,  60, "plains"
 
   167,  77,  38, "mountains"
-  167,  77,  38, "icy_peaks"
-  167,  77,  38, "volcano"
-  167,  77,  38, "icy_volcano"
 
    44,  64,  44, "swamp"
 
    74,  74,  74, "tundra"
-   74,  74,  74, "tundra_hills"
 }
 
 ; Mapview
