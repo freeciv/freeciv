@@ -72,7 +72,7 @@
 
 #include "dialogs.h"
 
-struct player *races_player;
+static char races_player_name[MAX_LEN_NAME];
 
 extern bool is_unit_move_blocked;
 extern void popdown_diplomat_dialog(void);
@@ -2197,6 +2197,7 @@ static int races_dialog_ok_callback(struct widget *pStart_Button)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
     char *pStr = convert_to_chars(pSetup->pName_Edit->string16->text);
+    const struct player *races_player;
   
     /* perform a minimum of sanity test on the name */
     if (strlen(pStr) == 0) {
@@ -2208,10 +2209,14 @@ static int races_dialog_ok_callback(struct widget *pStart_Button)
       return (-1);
     }
   
-    dsend_packet_nation_select_req(&aconnection, player_number(races_player),
-                                   pSetup->nation,
-                                   pSetup->leader_sex, pStr,
-                                   pSetup->nation_city_style);
+    races_player = find_player_by_name(races_player_name);
+    if (races_player) {
+      dsend_packet_nation_select_req(&aconnection,
+                                     player_number(races_player),
+                                     pSetup->nation,
+                                     pSetup->leader_sex, pStr,
+                                     pSetup->nation_city_style);
+    }
     FC_FREE(pStr);
   
     popdown_races_dialog();  
@@ -2677,7 +2682,11 @@ void popup_races_dialog(struct player *pplayer)
     return;
   }
   
-  races_player = pplayer;
+  if (pplayer) {
+    sz_strlcpy(races_player_name, player_name(pplayer));
+  } else {
+    races_player_name[0] = '\0';
+  }
   
   pNationDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   

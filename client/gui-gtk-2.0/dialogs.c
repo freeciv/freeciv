@@ -60,7 +60,7 @@
 
 /******************************************************************/
 static GtkWidget  *races_shell;
-struct player *races_player;
+static char races_player_name[MAX_LEN_NAME];
 static GtkWidget  *races_nation_list[MAX_NUM_NATION_GROUPS + 1];
 static GtkWidget  *races_leader;
 static GList      *races_leader_list;
@@ -88,6 +88,7 @@ static void races_city_style_callback(GtkTreeSelection *select, gpointer data);
 static gboolean races_selection_func(GtkTreeSelection *select,
 				     GtkTreeModel *model, GtkTreePath *path,
 				     gboolean selected, gpointer data);
+static const struct player *get_races_player(void);
 
 static int selected_nation;
 static int selected_sex;
@@ -625,6 +626,7 @@ static GtkWidget* create_list_of_nations_in_group(struct nation_group* group,
   GtkTreeSelection *select;
   GtkCellRenderer *render;
   GtkTreeViewColumn *column;
+  const struct player *races_player = get_races_player();
 
   store = gtk_list_store_new(5, G_TYPE_INT, G_TYPE_BOOLEAN,
       GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_STRING);
@@ -777,7 +779,11 @@ static void create_races_dialog(struct player *pplayer)
 				      GTK_RESPONSE_ACCEPT,
 				      NULL);
   races_shell = shell;
-  races_player = pplayer;
+  if (pplayer) {
+    sz_strlcpy(races_player_name, player_name(pplayer));
+  } else {
+    races_player_name[0] = '\0';
+  }
   setup_dialog(shell, toplevel);
 
   gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_CENTER_ON_PARENT);
@@ -1233,13 +1239,22 @@ static void races_city_style_callback(GtkTreeSelection *select, gpointer data)
 **************************************************************************/
 static void races_response(GtkWidget *w, gint response, gpointer data)
 {
+  const struct player *races_player;
+  int plrno;
+
+  races_player = get_races_player();
+  if (!races_player) {
+    popdown_races_dialog();
+    return;
+  }
+  plrno = player_number(races_player);
+
   if (response == GTK_RESPONSE_ACCEPT) {
     const char *s;
 
     if (selected_nation == -1) {
-      dsend_packet_nation_select_req(&aconnection,
-				     races_player->player_no,
-				     -1, FALSE, "", 0);
+      dsend_packet_nation_select_req(&aconnection, plrno,
+                                     -1, FALSE, "", 0);
       popdown_races_dialog();
       return;
     }
@@ -1263,13 +1278,10 @@ static void races_response(GtkWidget *w, gint response, gpointer data)
       return;
     }
 
-    dsend_packet_nation_select_req(&aconnection,
-				   player_number(races_player), selected_nation,
-				   selected_sex, s, selected_city_style);
+    dsend_packet_nation_select_req(&aconnection, plrno, selected_nation,
+                                   selected_sex, s, selected_city_style);
   } else if (response == GTK_RESPONSE_NO) {
-    dsend_packet_nation_select_req(&aconnection,
-				   player_number(races_player),
-				   -1, FALSE, "", 0);
+    dsend_packet_nation_select_req(&aconnection, plrno, -1, FALSE, "", 0);
   } else if (response == GTK_RESPONSE_CANCEL) {
     /* Nothing - this allows the player to keep his currently selected
      * nation. */
@@ -1332,5 +1344,18 @@ void popup_upgrade_dialog(struct unit_list *punits)
 void popdown_all_game_dialogs(void)
 {
   gui_dialog_destroy_all();
+}
+
+/**************************************************************************
+  Helper function to work-around the fact that players may be renumbered
+  over the life-time of the nation selection dialog. It uses player names
+  ('races_player_name') to try to uniquely determine the player that the
+  user wants to modify.
+
+  NB: May return NULL.
+**************************************************************************/
+static const struct player *get_races_player(void)
+{
+  return find_player_by_name(races_player_name);
 }
 
