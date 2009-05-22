@@ -1994,11 +1994,16 @@ void move_unit_map_canvas(struct unit *punit,
 struct city *find_city_or_settler_near_tile(const struct tile *ptile,
 					    struct unit **punit)
 {
-  struct city *pcity = ptile->worked, *closest_city;
+  struct city *pcity = NULL, *closest_city;
   struct unit *closest_settler = NULL, *best_settler = NULL;
 
   if (punit) {
     *punit = NULL;
+  }
+
+  if (ptile && ptile->worked) {
+    /* Make sure the city exists. */
+    pcity = game_find_city_by_number(ptile->worked->id);
   }
 
   if (pcity) {
