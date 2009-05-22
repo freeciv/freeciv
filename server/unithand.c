@@ -556,6 +556,14 @@ static void city_add_or_build_error(struct player *pplayer,
 		     _("%s unit has no moves left to build city."),
 		     unit_name_translation(punit));
     break;
+  case AB_NOT_OWNER:
+    notify_player(pplayer, punit->tile, E_BAD_COMMAND,
+                  /* TRANS: <city> is owned by <nation>, cannot add <unit>. */
+                  _("%s is owned by %s, cannot add %s."),
+                  city_name(pcity),
+                  nation_plural_for_player(city_owner(pcity)),
+                  unit_name_translation(punit));
+    break;
   case AB_TOO_BIG:
     notify_player(pplayer, punit->tile, E_BAD_COMMAND,
 		     _("%s is too big to add %s."),
@@ -571,9 +579,9 @@ static void city_add_or_build_error(struct player *pplayer,
     break;
   default:
     /* Shouldn't happen */
-    freelog(LOG_ERROR, "Cannot add %s to %s for unknown reason",
+    freelog(LOG_ERROR, "Cannot add %s to %s for unknown reason (%d)",
 	    unit_rule_name(punit),
-	    city_name(pcity));
+	    city_name(pcity), res);
     notify_player(pplayer, punit->tile, E_BAD_COMMAND,
 		     _("Can't add %s to %s."),
 		     unit_name_translation(punit),
