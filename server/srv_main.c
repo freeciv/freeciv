@@ -576,20 +576,27 @@ static void update_diplomatics(void)
 ****************************************************************************/
 static void kill_dying_players(void)
 {
+  bool voter_died = FALSE;
+
   players_iterate(pplayer) {
     if (pplayer->is_alive) {
       /* cities or units remain? */
       if (0 == city_list_size(pplayer->cities)
-       && 0 == unit_list_size(pplayer->units)) {
-	pplayer->is_dying = TRUE;
+          && 0 == unit_list_size(pplayer->units)) {
+        pplayer->is_dying = TRUE;
       }
       /* also F_GAMELOSS in unittools server_remove_unit() */
       if (pplayer->is_dying) {
-	pplayer->is_dying = FALSE; /* Can't get more dead than this. */
-	kill_player(pplayer);
+        pplayer->is_dying = FALSE; /* Can't get more dead than this. */
+        voter_died = voter_died || pplayer->is_connected;
+        kill_player(pplayer);
       }
     }
   } players_iterate_end;
+
+  if (voter_died) {
+    send_updated_vote_totals(NULL);
+  }
 }
 
 /**************************************************************************
@@ -1094,6 +1101,9 @@ void start_game(void)
 
   clear_all_votes();
 
+  /* Prevent problems with commands that only make sense in pregame. */
+  clear_all_votes();
+
   set_server_state(S_S_GENERATING_WAITING); /* loaded ??? */
   force_end_of_sniff = TRUE;
   /* There's no stateful packet set to client until srv_ready(). */
@@ -1107,6 +1117,7 @@ void server_quit(void)
   set_server_state(S_S_OVER);
   server_game_free();
   diplhand_free();
+  voting_free();
 
   /* Free all the warmap arrays */
   free_mapqueue();
@@ -2031,6 +2042,7 @@ static void srv_prepare(void)
   edithand_init();
   voting_init();
   diplhand_init();
+  voting_init();
 
   /* init network */  
   init_connections(); 

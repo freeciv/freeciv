@@ -207,6 +207,8 @@ void close_connection(struct connection *pconn)
 
   cancel_connection_votes(pconn);
 
+  cancel_connection_votes(pconn);
+
   if (pconn->server.ping_timers != NULL) {
     timer_list_iterate(pconn->server.ping_timers, timer) {
       free_timer(timer);
@@ -222,6 +224,8 @@ void close_connection(struct connection *pconn)
   pconn->playing = NULL;
   pconn->access_level = ALLOW_NONE;
   connection_common_close(pconn);
+
+  send_updated_vote_totals(NULL);
 }
 
 /*****************************************************************************

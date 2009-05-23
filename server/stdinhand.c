@@ -96,10 +96,6 @@ static bool take_command(struct connection *caller, char *name, bool check);
 static bool end_command(struct connection *caller, char *str, bool check);
 static bool surrender_command(struct connection *caller, char *str, bool check);
 
-/* Vote command helpers. NB: Must match enum vote_type. */
-static const char *const vote_args[] = {
-  "abstain", "yes", "no", NULL
-};
 
 static const char horiz_line[] =
 "------------------------------------------------------------------------------";
@@ -2090,9 +2086,46 @@ static bool team_command(struct connection *caller, char *str, bool check)
   return res;
 }
 
-/******************************************************************
-  Vote command argument accessor.
-******************************************************************/
+/**************************************************************************
+  List all running votes. Moved from /vote command.
+**************************************************************************/
+static void show_votes(struct connection *caller)
+{
+  int count = 0;
+  const char *title;
+
+  if (vote_list != NULL) {
+    vote_list_iterate(vote_list, pvote) {
+      if (!conn_can_see_vote(caller, pvote)) {
+        continue;
+      }
+      title = vote_is_team_only(pvote) ? _("Teamvote") : _("Vote");
+      cmd_reply(CMD_VOTE, caller, C_COMMENT,
+                _("%s %d \"%s\" (needs %0.0f%%%s): %d for, "
+                  "%d against, and %d abstained out of %d players."),
+                title, pvote->vote_no, pvote->cmdline,
+                MIN(100, pvote->need_pc * 100 + 1),
+                pvote->flags & VCF_NODISSENT ? _(" no dissent") : "",
+                pvote->yes, pvote->no, pvote->abstain, game.nplayers);
+      count++;
+    } vote_list_iterate_end;
+  }
+
+  if (count == 0) {
+    cmd_reply(CMD_VOTE, caller, C_COMMENT,
+              _("There are no votes going on."));
+  }
+}
+
+/**************************************************************************
+  Vote command argument definitions.
+**************************************************************************/
+static const char *const vote_args[] = {
+  "yes",
+  "no",
+  "abstain",
+  NULL
+};
 static const char *vote_arg_accessor(int i)
 {
   return vote_args[i];
@@ -2106,51 +2139,30 @@ static bool vote_command(struct connection *caller, char *str,
 {
   char buf[MAX_LEN_CONSOLE_LINE];
   char *arg[2];
-  int ntokens = 0, i = 0, vote_no = -1;
+  int ntokens = 0, i = 0, which = -1;
   enum m_pre_result match_result;
   struct vote *pvote = NULL;
   bool res = FALSE;
 
   if (check) {
     /* This should never happen, since /vote must always be
-     * set to ALLOW_INFO or less. But just in case... */
+     * set to ALLOW_BASIC or less. But just in case... */
     return FALSE;
   }
 
   sz_strlcpy(buf, str);
   ntokens = get_tokens(buf, arg, 2, TOKEN_DELIMITERS);
 
-  if (ntokens <= 0) {
-    int num_voters, vote_count;
-    
-    num_voters = voting_get_voter_count();
-    vote_count = voting_get_vote_count();
-
-    vote_list_iterate(voting_get_vote_list(), pvote) {
-      cmd_reply(CMD_VOTE, caller, C_COMMENT,
-                _("Vote %d \"%s\": %d for, "
-                  "%d against, and %d abstained out of %d voters."),
-                vote_number(pvote), vote_cmdline(pvote),
-                vote_cast_count(pvote, VOTE_YES),
-                vote_cast_count(pvote, VOTE_NO),
-                vote_cast_count(pvote, VOTE_ABSTAIN),
-                num_voters);
-    } vote_list_iterate_end;
-
-    if (vote_count == 0) {
-      cmd_reply(CMD_VOTE, caller, C_COMMENT,
-                _("There are no votes running."));
-    }
-
-    return TRUE;
-
-  } else if (!connection_can_vote(caller)) {
+  if (ntokens == 0) {
+    show_votes(caller);
+    goto CLEANUP;
+  } else if (!conn_can_vote(caller, NULL)) {
     cmd_reply(CMD_VOTE, caller, C_FAIL,
               _("You are not allowed to use this command."));
     goto CLEANUP;
   }
 
-  match_result = match_prefix(vote_arg_accessor, NUM_VOTE_TYPES, 0,
+  match_result = match_prefix(vote_arg_accessor, VOTE_NUM, 0,
                               mystrncasecmp, NULL, arg[0], &i);
 
   if (match_result == M_PRE_AMBIGUOUS) {
@@ -2167,52 +2179,51 @@ static bool vote_command(struct connection *caller, char *str,
 
   if (ntokens == 1) {
     /* Applies to last vote */
-
-    pvote = voting_get_last_vote();
-    if (pvote != NULL) {
-      vote_no = vote_number(pvote);
+    if (vote_number_sequence > 0 && get_vote_by_no(vote_number_sequence)) {
+      which = vote_number_sequence;
     } else {
-      int num_votes = voting_get_vote_count();
+      int num_votes = vote_list_size(vote_list);
       if (num_votes == 0) {
-        cmd_reply(CMD_VOTE, caller, C_FAIL,
-                  _("There are no votes running."));
+        cmd_reply(CMD_VOTE, caller, C_FAIL, _("There are no votes running."));
       } else {
-        cmd_reply(CMD_VOTE, caller, C_FAIL,
-                  _("No legal last vote (%d %s)."),
-                  num_votes, PL_("other vote running",
-                                 "other votes running",
+        cmd_reply(CMD_VOTE, caller, C_FAIL, _("No legal last vote (%d %s)."),
+                  num_votes, PL_("other vote running", "other votes running",
                                  num_votes));
       }
       goto CLEANUP;
     }
   } else {
-    if (sscanf(arg[1], "%d", &vote_no) <= 0) {
+    if (sscanf(arg[1], "%d", &which) <= 0) {
       cmd_reply(CMD_VOTE, caller, C_SYNTAX, _("Value must be an integer."));
       goto CLEANUP;
     }
   }
 
-  if (!(pvote = voting_get_vote_by_no(vote_no))) {
-    cmd_reply(CMD_VOTE, caller, C_FAIL, _("No such vote (%d)."), vote_no);
+  if (!(pvote = get_vote_by_no(which))) {
+    cmd_reply(CMD_VOTE, caller, C_FAIL, _("No such vote (%d)."), which);
+    goto CLEANUP;
+  }
+
+  if (!conn_can_vote(caller, pvote)) {
+    cmd_reply(CMD_VOTE, caller, C_FAIL,
+              _("You are not allowed to vote on that."));
     goto CLEANUP;
   }
 
   if (i == VOTE_YES) {
     cmd_reply(CMD_VOTE, caller, C_COMMENT, _("You voted for \"%s\""),
-              vote_cmdline(pvote));
+              pvote->cmdline);
     connection_vote(caller, pvote, VOTE_YES);
   } else if (i == VOTE_NO) {
     cmd_reply(CMD_VOTE, caller, C_COMMENT, _("You voted against \"%s\""),
-              vote_cmdline(pvote));
+              pvote->cmdline);
     connection_vote(caller, pvote, VOTE_NO);
   } else if (i == VOTE_ABSTAIN) {
     cmd_reply(CMD_VOTE, caller, C_COMMENT,
-              _("You abstained from voting on \"%s\""),
-              vote_cmdline(pvote));
+              _("You abstained from voting on \"%s\""), pvote->cmdline);
     connection_vote(caller, pvote, VOTE_ABSTAIN);
   } else {
-    freelog(LOG_FATAL, "Bad vote type %d in /vote command.", i);
-    assert(0);
+    assert(0);                  /* Must never happen */
   }
 
   res = TRUE;
@@ -2921,6 +2932,8 @@ static bool observe_command(struct connection *caller, char *str, bool check)
 	      pconn->username);
   }
 
+  send_updated_vote_totals(NULL);
+
   end:;
   /* free our args */
   for (i = 0; i < ntokens; i++) {
@@ -3129,6 +3142,8 @@ static bool take_command(struct connection *caller, char *str, bool check)
     if (pplayer->ai.control && game.info.auto_ai_toggle) {
       toggle_ai_player_direct(NULL, pplayer);
     }
+
+    send_updated_vote_totals(NULL);
   } else {
     cmd_reply(CMD_TAKE, caller, C_FAIL, _("%s failed to attach to any player."),
               pconn->username);
@@ -3274,6 +3289,9 @@ bool detach_command(struct connection *caller, char *str, bool check)
 
   if (pplayer && !pplayer->is_connected) {
     bool player_changed = FALSE;
+
+    cancel_connection_votes(pconn);
+    send_updated_vote_totals(NULL);
 
     /* aitoggle the player if no longer connected. */
     if (game.info.auto_ai_toggle && !pplayer->ai.control) {
@@ -3603,6 +3621,7 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
       *cptr_s, *cptr_d;
   int i;
   enum command_id cmd;
+  enum cmdlevel_id level;
 
   /* notify to the server console */
   if (!check && caller) {
@@ -3644,6 +3663,20 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
     *cptr_d=*cptr_s;
   *cptr_d='\0';
 
+  cptr_s = skip_leading_spaces(cptr_s);
+
+  /* keep this before we cut everything after a space */
+  sz_strlcpy(allargs, cptr_s);
+  cut_comment(allargs);
+
+  sz_strlcpy(arg, cptr_s);
+  cut_comment(arg);
+
+  i = strlen(arg) - 1;
+  while (i > 0 && my_isspace(arg[i])) {
+    arg[i--] = '\0';
+  }
+
   cmd = command_named(command, FALSE);
   if (cmd == CMD_AMBIGUOUS) {
     cmd = command_named(command, TRUE);
@@ -3657,66 +3690,60 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
     return FALSE;
   }
 
-  if ((S_S_INITIAL == server_state()
-       || S_S_RUNNING == server_state())
-      && connection_can_vote(caller)
-      && !check
-      && caller->access_level == ALLOW_BASIC
-      && command_level(command_by_number(cmd)) == ALLOW_CTRL) {
-    struct vote *pvote;
+  level = command_level(command_by_number(cmd));
+
+  if (conn_can_vote(caller, NULL) && level == ALLOW_CTRL
+      && conn_get_access(caller) == ALLOW_BASIC && !check) {
+    struct vote *vote;
 
     /* If we already have a vote going, cancel it in favour of the new
-     * vote command (it will be cancelled by vote_new()). You can only
-     * have one vote at a time. */
-    if (voting_get_vote_by_caller(caller)) {
+     * vote command. You can only have one vote at a time. */
+    if (get_vote_by_caller(caller)) {
       cmd_reply(CMD_VOTE, caller, C_COMMENT,
                 _("Your new vote cancelled your previous vote."));
     }
 
     /* Check if the vote command would succeed. */
     if (handle_stdin_input(caller, full_command, TRUE)
-        && (pvote = vote_new(caller, full_command))) {
-      notify_conn(NULL, NULL, E_SETTING,
-                  _("New vote (number %d) by %s: %s."),
-                  vote_number(pvote), caller->username,
-                  full_command);
+        && (vote = vote_new(caller, allargs, cmd))) {
+      char votedesc[MAX_LEN_CONSOLE_LINE];
+      const struct player *teamplr;
+      const char *what;
+
+      describe_vote(vote, votedesc, sizeof(votedesc));
+
+      if (vote_is_team_only(vote)) {
+        what = _("New teamvote");
+        teamplr = conn_get_player(caller);
+      } else {
+        what = _("New vote");
+        teamplr = NULL;
+      }
+      notify_team(teamplr, NULL, E_CHAT_MSG,
+                  _("%s (number %d) by %s: %s"), what,
+                  vote->vote_no, caller->username, votedesc);
 
       /* Vote on your own suggestion. */
-      connection_vote(caller, pvote, VOTE_YES);
+      connection_vote(caller, vote, VOTE_YES);
       return TRUE;
 
     } else {
       cmd_reply(CMD_VOTE, caller, C_FAIL,
-                _("Your new vote (\"%s\") was not legal or was not"
-                  " recognized."),
-                full_command);
+                _("Your new vote (\"%s\") was not "
+                  "legal or was not recognized."), full_command);
       return FALSE;
     }
   }
 
-  if (caller
-      && !(check && caller->access_level >= ALLOW_BASIC
-           && ALLOW_CTRL == command_level(command_by_number(cmd)))
-      && caller->access_level < command_level(command_by_number(cmd))) {
+  if (caller && !(check && conn_get_access(caller) >= ALLOW_BASIC
+                  && level == ALLOW_CTRL)
+      && conn_get_access(caller) < level) {
     cmd_reply(cmd, caller, C_FAIL,
 	      _("You are not allowed to use this command."));
     return FALSE;
   }
 
-  cptr_s = skip_leading_spaces(cptr_s);
-  sz_strlcpy(arg, cptr_s);
-
-  cut_comment(arg);
-
-  /* keep this before we cut everything after a space */
-  sz_strlcpy(allargs, cptr_s);
-  cut_comment(allargs);
-
-  i=strlen(arg)-1;
-  while(i>0 && my_isspace(arg[i]))
-    arg[i--]='\0';
-
-  if (!check && ALLOW_INFO < command_level(command_by_number(cmd))) {
+  if (!check && level > ALLOW_INFO) {
     /*
      * this command will affect the game - inform all players
      *

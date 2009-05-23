@@ -1643,3 +1643,41 @@ PACKET_EDIT_OBJECT_CREATED=181;sc,dsend
   SINT32 tag;
   SINT32 id;
 end
+
+/*************** "voteinfo" capability packets ***************/
+
+PACKET_VOTE_NEW=145;sc,handle-via-packet,no-delta
+  UINT32 vote_no;
+  STRING user[MAX_LEN_NAME];
+  STRING desc[512];
+  UINT8 percent_required;
+  UINT32 flags;
+end
+
+/* Sent to the client to give the new vote totals. */
+PACKET_VOTE_UPDATE=146;sc,no-delta
+  UINT32 vote_no; key
+  UINT8 yes;
+  UINT8 no;
+  UINT8 abstain;
+  UINT8 num_voters;
+end
+
+PACKET_VOTE_REMOVE=147;sc,no-delta
+  UINT32 vote_no;
+end
+
+PACKET_VOTE_RESOLVE=148;sc,no-delta
+  UINT32 vote_no;
+  BOOL passed;
+end
+
+/* Sent to the server by the client when the client
+ * votes:
+ * - yes     (value = +1)
+ * - no      (value = -1)
+ * - abstain (value =  0) */
+PACKET_VOTE_SUBMIT=149;cs,handle-per-conn,no-delta
+  UINT32 vote_no;
+  SINT8 value;
+end

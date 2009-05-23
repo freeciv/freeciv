@@ -54,3 +54,12 @@ void gui_set_rulesets(int num_rulesets, char **rulesets)
 {
   /* PORTME */
 }
+
+/****************************************************************************
+  Refresh all vote related GUI widgets. Called by the voteinfo module when
+  the client receives new vote information from the server.
+****************************************************************************/
+void voteinfo_gui_update(void)
+{
+  /* PORTME */
+}

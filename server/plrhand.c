@@ -48,11 +48,11 @@
 #include "settlers.h"
 #include "srv_main.h"
 #include "stdinhand.h"
-#include "techtools.h"
-#include "unittools.h"
 #include "spaceship.h"
 #include "spacerace.h"
+#include "techtools.h"
 #include "unittools.h"
+#include "voting.h"
 
 #include "advdiplomacy.h"
 #include "advmilitary.h"
@@ -758,22 +758,34 @@ void notify_embassies(struct player *pplayer, struct player *exclude,
 }
 
 /**************************************************************************
-  Sends a message to all players on pplayer's team
+  Sends a message to all players on pplayer's team. If 'pplayer' is NULL,
+  sends to all players.
 **************************************************************************/
-void notify_team(struct player *pplayer,
-		 struct tile *ptile, enum event_type event,
-		 const char* format, ...)
+void notify_team(const struct player *pplayer, struct tile *ptile,
+                 enum event_type event, const char* format, ...)
 {
+  struct conn_list *dest = game.est_connections;
   va_list args;
 
-  players_iterate(other_player) {
-    va_start(args, format);
-    if (!players_on_same_team(pplayer, other_player)) {
-      continue;
-    }
-    vnotify_conn(other_player->connections, ptile, event, format, args);
-    va_end(args);
-  } players_iterate_end;
+  if (pplayer) {
+    dest = conn_list_new();
+    players_iterate(other_player) {
+      if (!players_on_same_team(pplayer, other_player)) {
+        continue;
+      }
+      conn_list_iterate(other_player->connections, pconn) {
+        conn_list_append(dest, pconn);
+      } conn_list_iterate_end;
+    } players_iterate_end;
+  }
+
+  va_start(args, format);
+  vnotify_conn(dest, ptile, event, format, args);
+  va_end(args);
+
+  if (pplayer) {
+    conn_list_free(dest);
+  }
 }
 
 /****************************************************************************
@@ -1214,6 +1226,8 @@ void server_remove_player(struct player *pplayer)
   set_player_count(player_count() - 1);
 
   aifill(game.info.aifill);
+
+  send_updated_vote_totals(NULL);
 }
 
 /**************************************************************************

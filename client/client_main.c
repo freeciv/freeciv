@@ -75,6 +75,7 @@
 #include "repodlgs_g.h"
 #include "tilespec.h"
 #include "themes_common.h"
+#include "voteinfo.h"
 
 #include "client_main.h"
 
@@ -389,6 +390,7 @@ int client_main(int argc, char *argv[])
   init_player_dlg_common();
   init_themes();
   settable_options_init();
+  voteinfo_queue_init();
 
   load_general_options();
 
@@ -460,6 +462,7 @@ void client_exit(void)
   
   chatline_common_done();
   message_options_free();
+  voteinfo_queue_free();
   client_game_free();
 
   helpdata_done(); /* client_exit() unlinks help text list */
@@ -736,6 +739,8 @@ int get_seconds_to_turndone(void)
 double real_timer_callback(void)
 {
   double time_until_next_call = 1.0;
+
+  voteinfo_queue_check_removed();
 
   {
     double autoconnect_time = try_to_autoconnect();

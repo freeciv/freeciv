@@ -298,3 +298,12 @@ void start_page_msg_close(Widget w)
 {
   popdown_start_page();
 }
+
+/****************************************************************************
+  Refresh all vote related GUI widgets. Called by the voteinfo module when
+  the client receives new vote information from the server.
+****************************************************************************/
+void voteinfo_gui_update(void)
+{
+  /* PORTME */
+}
