@@ -116,6 +116,8 @@ civclient_SOURCES = $(AUDIO_SDL_FILES) \
 	themes_common.h	\
 	tilespec.c	\
 	tilespec.h	\
+	voteinfo.c	\
+	voteinfo.h	\
 	audio.c         \
 	audio.h         \
 	audio_none.c    \
