@@ -603,7 +603,7 @@ static struct vote_cast *vote_cast_new(struct vote *pvote)
   if (!pvote) {
     return NULL;
   }
-  
+
   pvc = fc_malloc(sizeof(struct vote_cast));
   pvc->conn_id = -1;
   pvc->vote_cast = VOTE_ABSTAIN;
