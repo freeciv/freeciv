@@ -25,6 +25,8 @@ struct command {
   const char *synopsis;	  /* one or few-line summary of usage */
   const char *short_help; /* one line (about 70 chars) description */
   const char *extra_help; /* extra help information; will be line-wrapped */
+  int vote_flags;         /* how to handle votes */
+  int vote_percent;       /* percent required, meaning depends on flags */
 };
 
 /* Order here is important: for ambiguous abbreviations the first
@@ -91,5 +93,7 @@ enum command_id {
 };
 
 extern const struct command commands[];
+
+enum cmdlevel_id command_access_level(enum command_id cmd);
 
 #endif				/* FC__COMMANDS_H */

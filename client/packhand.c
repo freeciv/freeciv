@@ -69,6 +69,7 @@
 #include "repodlgs_g.h"
 #include "spaceshipdlg_g.h"
 #include "tilespec.h"
+#include "voteinfo.h"
 #include "wldlg_g.h"
 
 #include "packhand.h"
@@ -2966,3 +2967,73 @@ void handle_ruleset_effect_req(struct packet_ruleset_effect_req *packet)
   recv_ruleset_effect_req(packet);
 }
 
+/**************************************************************************
+  A vote no longer exists. Remove from queue and update gui.
+**************************************************************************/
+void handle_vote_remove(int vote_no)
+{
+  voteinfo_queue_delayed_remove(vote_no);
+  voteinfo_gui_update();
+}
+
+/**************************************************************************
+  Find and update the corresponding vote and refresh the GUI.
+**************************************************************************/
+void handle_vote_update(int vote_no, int yes, int no, int abstain,
+                        int num_voters)
+{
+  struct voteinfo *vi;
+
+  vi = voteinfo_queue_find(vote_no);
+  if (vi == NULL) {
+    freelog(LOG_ERROR, "Got packet_vote_update for non-existant vote %d!",
+            vote_no);
+    return;
+  }
+
+  vi->yes = yes;
+  vi->no = no;
+  vi->abstain = abstain;
+  vi->num_voters = num_voters;
+
+  voteinfo_gui_update();
+}
+
+/**************************************************************************
+  Create a new vote and add it to the queue. Refresh the GUI.
+**************************************************************************/
+void handle_vote_new(struct packet_vote_new *packet)
+{
+  if (voteinfo_queue_find(packet->vote_no)) {
+    freelog(LOG_ERROR, "Got a packet_vote_new for already existing "
+            "vote %d!", packet->vote_no);
+    return;
+  }
+
+  voteinfo_queue_add(packet->vote_no,
+                     packet->user,
+                     packet->desc,
+                     packet->percent_required,
+                     packet->flags);
+  voteinfo_gui_update();
+}
+
+/**************************************************************************
+  Update the vote's status and refresh the GUI.
+**************************************************************************/
+void handle_vote_resolve(int vote_no, bool passed)
+{
+  struct voteinfo *vi;
+
+  vi = voteinfo_queue_find(vote_no);
+  if (vi == NULL) {
+    freelog(LOG_ERROR, "Got packet_vote_resolve for non-existant "
+            "vote %d!", vote_no);
+    return;
+  }
+
+  vi->resolved = TRUE;
+  vi->passed = passed;
+
+  voteinfo_gui_update();
+}

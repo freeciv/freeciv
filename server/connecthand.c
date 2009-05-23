@@ -39,6 +39,7 @@
 #include "sernet.h"
 #include "srv_main.h"
 #include "stdinhand.h"
+#include "voting.h"
 
 #include "connecthand.h"
 
@@ -181,6 +182,9 @@ void establish_new_connection(struct connection *pconn)
 
   restore_access_level(pconn);
   send_conn_info(dest, game.est_connections);
+
+  send_running_votes(pconn);
+  send_updated_vote_totals(NULL);
 
   /* remind the connection who he is */
   if (!pconn->player) {

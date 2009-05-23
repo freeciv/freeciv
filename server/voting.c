@@ -390,7 +390,7 @@ struct vote *vote_new(struct connection *caller,
 
 /**************************************************************************
   Check if we satisfy the criteria for resolving a vote, and resolve it
-  if these critera are indeed met. Updates yes and no variables in voting 
+  if these critera are indeed met. Updates yes and no variables in voting
   struct as well.
 **************************************************************************/
 static void check_vote(struct vote *pvote)

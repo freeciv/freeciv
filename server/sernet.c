@@ -82,6 +82,7 @@
 #include "plrhand.h"
 #include "srv_main.h"
 #include "stdinhand.h"
+#include "voting.h"
 
 #include "sernet.h"
 
@@ -203,6 +204,8 @@ void close_connection(struct connection *pconn)
     return;
   }
 
+  cancel_connection_votes(pconn);
+
   if (pconn->server.ping_timers != NULL) {
     timer_list_iterate(pconn->server.ping_timers, timer) {
       free_timer(timer);
@@ -219,6 +222,8 @@ void close_connection(struct connection *pconn)
   pconn->player = NULL;
   pconn->access_level = ALLOW_NONE;
   connection_common_close(pconn);
+
+  send_updated_vote_totals(NULL);
 }
 
 /*****************************************************************************
