@@ -338,6 +338,30 @@ bool client_handle_packet(enum packet_type type, void *packet)
     handle_ruleset_resource(packet);
     return TRUE;
 
+  case PACKET_VOTE_NEW:
+    handle_vote_new(packet);
+    return TRUE;
+
+  case PACKET_VOTE_UPDATE:
+    handle_vote_update(
+      ((struct packet_vote_update *)packet)->vote_no,
+      ((struct packet_vote_update *)packet)->yes,
+      ((struct packet_vote_update *)packet)->no,
+      ((struct packet_vote_update *)packet)->abstain,
+      ((struct packet_vote_update *)packet)->num_voters);
+    return TRUE;
+
+  case PACKET_VOTE_REMOVE:
+    handle_vote_remove(
+      ((struct packet_vote_remove *)packet)->vote_no);
+    return TRUE;
+
+  case PACKET_VOTE_RESOLVE:
+    handle_vote_resolve(
+      ((struct packet_vote_resolve *)packet)->vote_no,
+      ((struct packet_vote_resolve *)packet)->passed);
+    return TRUE;
+
   default:
     return FALSE;
   }

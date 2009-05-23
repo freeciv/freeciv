@@ -314,6 +314,12 @@ bool server_handle_packet(enum packet_type type, void *packet,
     handle_single_want_hack_req(pconn, packet);
     return TRUE;
 
+  case PACKET_VOTE_SUBMIT:
+    handle_vote_submit(pconn,
+      ((struct packet_vote_submit *)packet)->vote_no,
+      ((struct packet_vote_submit *)packet)->value);
+    return TRUE;
+
   default:
     return FALSE;
   }

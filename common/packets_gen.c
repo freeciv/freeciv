@@ -395,6 +395,21 @@ void *get_packet_from_connection_helper(struct connection *pc,
   case PACKET_RULESET_RESOURCE:
     return receive_packet_ruleset_resource(pc, type);
 
+  case PACKET_VOTE_NEW:
+    return receive_packet_vote_new(pc, type);
+
+  case PACKET_VOTE_UPDATE:
+    return receive_packet_vote_update(pc, type);
+
+  case PACKET_VOTE_REMOVE:
+    return receive_packet_vote_remove(pc, type);
+
+  case PACKET_VOTE_RESOLVE:
+    return receive_packet_vote_resolve(pc, type);
+
+  case PACKET_VOTE_SUBMIT:
+    return receive_packet_vote_submit(pc, type);
+
   default:
     freelog(LOG_ERROR, "unknown packet type %d received from %s",
 	    type, conn_description(pc));
@@ -757,6 +772,21 @@ const char *get_packet_name(enum packet_type type)
 
   case PACKET_RULESET_RESOURCE:
     return "PACKET_RULESET_RESOURCE";
+
+  case PACKET_VOTE_NEW:
+    return "PACKET_VOTE_NEW";
+
+  case PACKET_VOTE_UPDATE:
+    return "PACKET_VOTE_UPDATE";
+
+  case PACKET_VOTE_REMOVE:
+    return "PACKET_VOTE_REMOVE";
+
+  case PACKET_VOTE_RESOLVE:
+    return "PACKET_VOTE_RESOLVE";
+
+  case PACKET_VOTE_SUBMIT:
+    return "PACKET_VOTE_SUBMIT";
 
   default:
     return "unknown";
@@ -28922,5 +28952,460 @@ void lsend_packet_ruleset_resource(struct conn_list *dest, const struct packet_r
   conn_list_iterate(dest, pconn) {
     send_packet_ruleset_resource(pconn, packet);
   } conn_list_iterate_end;
+}
+
+static struct packet_vote_new *receive_packet_vote_new_100(struct connection *pc, enum packet_type type)
+{
+  RECEIVE_PACKET_START(packet_vote_new, real_packet);
+  {
+    int readin;
+  
+    dio_get_uint32(&din, &readin);
+    real_packet->vote_no = readin;
+  }
+  dio_get_string(&din, real_packet->user, sizeof(real_packet->user));
+  dio_get_string(&din, real_packet->desc, sizeof(real_packet->desc));
+  {
+    int readin;
+  
+    dio_get_uint8(&din, &readin);
+    real_packet->percent_required = readin;
+  }
+  {
+    int readin;
+  
+    dio_get_uint32(&din, &readin);
+    real_packet->flags = readin;
+  }
+
+  RECEIVE_PACKET_END(real_packet);
+}
+
+static int send_packet_vote_new_100(struct connection *pc, const struct packet_vote_new *packet)
+{
+  const struct packet_vote_new *real_packet = packet;
+  SEND_PACKET_START(PACKET_VOTE_NEW);
+
+  dio_put_uint32(&dout, real_packet->vote_no);
+  dio_put_string(&dout, real_packet->user);
+  dio_put_string(&dout, real_packet->desc);
+  dio_put_uint8(&dout, real_packet->percent_required);
+  dio_put_uint32(&dout, real_packet->flags);
+
+  SEND_PACKET_END;
+}
+
+static void ensure_valid_variant_packet_vote_new(struct connection *pc)
+{
+  int variant = -1;
+
+  if(pc->phs.variant[PACKET_VOTE_NEW] != -1) {
+    return;
+  }
+
+  if(FALSE) {
+  } else if(TRUE) {
+    variant = 100;
+  } else {
+    die("unknown variant");
+  }
+  pc->phs.variant[PACKET_VOTE_NEW] = variant;
+}
+
+struct packet_vote_new *receive_packet_vote_new(struct connection *pc, enum packet_type type)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
+  assert(pc->phs.variant != NULL);
+  if (pc->is_server) {
+    freelog(LOG_ERROR, "Receiving packet_vote_new at the server.");
+  }
+  ensure_valid_variant_packet_vote_new(pc);
+
+  switch(pc->phs.variant[PACKET_VOTE_NEW]) {
+    case 100: return receive_packet_vote_new_100(pc, type);
+    default: die("unknown variant"); return NULL;
+  }
+}
+
+int send_packet_vote_new(struct connection *pc, const struct packet_vote_new *packet)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
+  assert(pc->phs.variant != NULL);
+  if (!pc->is_server) {
+    freelog(LOG_ERROR, "Sending packet_vote_new from the client.");
+  }
+  ensure_valid_variant_packet_vote_new(pc);
+
+  switch(pc->phs.variant[PACKET_VOTE_NEW]) {
+    case 100: return send_packet_vote_new_100(pc, packet);
+    default: die("unknown variant"); return -1;
+  }
+}
+
+static struct packet_vote_update *receive_packet_vote_update_100(struct connection *pc, enum packet_type type)
+{
+  RECEIVE_PACKET_START(packet_vote_update, real_packet);
+  {
+    int readin;
+  
+    dio_get_uint32(&din, &readin);
+    real_packet->vote_no = readin;
+  }
+  {
+    int readin;
+  
+    dio_get_uint8(&din, &readin);
+    real_packet->yes = readin;
+  }
+  {
+    int readin;
+  
+    dio_get_uint8(&din, &readin);
+    real_packet->no = readin;
+  }
+  {
+    int readin;
+  
+    dio_get_uint8(&din, &readin);
+    real_packet->abstain = readin;
+  }
+  {
+    int readin;
+  
+    dio_get_uint8(&din, &readin);
+    real_packet->num_voters = readin;
+  }
+
+  RECEIVE_PACKET_END(real_packet);
+}
+
+static int send_packet_vote_update_100(struct connection *pc, const struct packet_vote_update *packet)
+{
+  const struct packet_vote_update *real_packet = packet;
+  SEND_PACKET_START(PACKET_VOTE_UPDATE);
+
+  dio_put_uint32(&dout, real_packet->vote_no);
+  dio_put_uint8(&dout, real_packet->yes);
+  dio_put_uint8(&dout, real_packet->no);
+  dio_put_uint8(&dout, real_packet->abstain);
+  dio_put_uint8(&dout, real_packet->num_voters);
+
+  SEND_PACKET_END;
+}
+
+static void ensure_valid_variant_packet_vote_update(struct connection *pc)
+{
+  int variant = -1;
+
+  if(pc->phs.variant[PACKET_VOTE_UPDATE] != -1) {
+    return;
+  }
+
+  if(FALSE) {
+  } else if(TRUE) {
+    variant = 100;
+  } else {
+    die("unknown variant");
+  }
+  pc->phs.variant[PACKET_VOTE_UPDATE] = variant;
+}
+
+struct packet_vote_update *receive_packet_vote_update(struct connection *pc, enum packet_type type)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
+  assert(pc->phs.variant != NULL);
+  if (pc->is_server) {
+    freelog(LOG_ERROR, "Receiving packet_vote_update at the server.");
+  }
+  ensure_valid_variant_packet_vote_update(pc);
+
+  switch(pc->phs.variant[PACKET_VOTE_UPDATE]) {
+    case 100: return receive_packet_vote_update_100(pc, type);
+    default: die("unknown variant"); return NULL;
+  }
+}
+
+int send_packet_vote_update(struct connection *pc, const struct packet_vote_update *packet)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
+  assert(pc->phs.variant != NULL);
+  if (!pc->is_server) {
+    freelog(LOG_ERROR, "Sending packet_vote_update from the client.");
+  }
+  ensure_valid_variant_packet_vote_update(pc);
+
+  switch(pc->phs.variant[PACKET_VOTE_UPDATE]) {
+    case 100: return send_packet_vote_update_100(pc, packet);
+    default: die("unknown variant"); return -1;
+  }
+}
+
+static struct packet_vote_remove *receive_packet_vote_remove_100(struct connection *pc, enum packet_type type)
+{
+  RECEIVE_PACKET_START(packet_vote_remove, real_packet);
+  {
+    int readin;
+  
+    dio_get_uint32(&din, &readin);
+    real_packet->vote_no = readin;
+  }
+
+  RECEIVE_PACKET_END(real_packet);
+}
+
+static int send_packet_vote_remove_100(struct connection *pc, const struct packet_vote_remove *packet)
+{
+  const struct packet_vote_remove *real_packet = packet;
+  SEND_PACKET_START(PACKET_VOTE_REMOVE);
+
+  dio_put_uint32(&dout, real_packet->vote_no);
+
+  SEND_PACKET_END;
+}
+
+static void ensure_valid_variant_packet_vote_remove(struct connection *pc)
+{
+  int variant = -1;
+
+  if(pc->phs.variant[PACKET_VOTE_REMOVE] != -1) {
+    return;
+  }
+
+  if(FALSE) {
+  } else if(TRUE) {
+    variant = 100;
+  } else {
+    die("unknown variant");
+  }
+  pc->phs.variant[PACKET_VOTE_REMOVE] = variant;
+}
+
+struct packet_vote_remove *receive_packet_vote_remove(struct connection *pc, enum packet_type type)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
+  assert(pc->phs.variant != NULL);
+  if (pc->is_server) {
+    freelog(LOG_ERROR, "Receiving packet_vote_remove at the server.");
+  }
+  ensure_valid_variant_packet_vote_remove(pc);
+
+  switch(pc->phs.variant[PACKET_VOTE_REMOVE]) {
+    case 100: return receive_packet_vote_remove_100(pc, type);
+    default: die("unknown variant"); return NULL;
+  }
+}
+
+int send_packet_vote_remove(struct connection *pc, const struct packet_vote_remove *packet)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
+  assert(pc->phs.variant != NULL);
+  if (!pc->is_server) {
+    freelog(LOG_ERROR, "Sending packet_vote_remove from the client.");
+  }
+  ensure_valid_variant_packet_vote_remove(pc);
+
+  switch(pc->phs.variant[PACKET_VOTE_REMOVE]) {
+    case 100: return send_packet_vote_remove_100(pc, packet);
+    default: die("unknown variant"); return -1;
+  }
+}
+
+static struct packet_vote_resolve *receive_packet_vote_resolve_100(struct connection *pc, enum packet_type type)
+{
+  RECEIVE_PACKET_START(packet_vote_resolve, real_packet);
+  {
+    int readin;
+  
+    dio_get_uint32(&din, &readin);
+    real_packet->vote_no = readin;
+  }
+  dio_get_bool8(&din, &real_packet->passed);
+
+  RECEIVE_PACKET_END(real_packet);
+}
+
+static int send_packet_vote_resolve_100(struct connection *pc, const struct packet_vote_resolve *packet)
+{
+  const struct packet_vote_resolve *real_packet = packet;
+  SEND_PACKET_START(PACKET_VOTE_RESOLVE);
+
+  dio_put_uint32(&dout, real_packet->vote_no);
+  dio_put_bool8(&dout, real_packet->passed);
+
+  SEND_PACKET_END;
+}
+
+static void ensure_valid_variant_packet_vote_resolve(struct connection *pc)
+{
+  int variant = -1;
+
+  if(pc->phs.variant[PACKET_VOTE_RESOLVE] != -1) {
+    return;
+  }
+
+  if(FALSE) {
+  } else if(TRUE) {
+    variant = 100;
+  } else {
+    die("unknown variant");
+  }
+  pc->phs.variant[PACKET_VOTE_RESOLVE] = variant;
+}
+
+struct packet_vote_resolve *receive_packet_vote_resolve(struct connection *pc, enum packet_type type)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
+  assert(pc->phs.variant != NULL);
+  if (pc->is_server) {
+    freelog(LOG_ERROR, "Receiving packet_vote_resolve at the server.");
+  }
+  ensure_valid_variant_packet_vote_resolve(pc);
+
+  switch(pc->phs.variant[PACKET_VOTE_RESOLVE]) {
+    case 100: return receive_packet_vote_resolve_100(pc, type);
+    default: die("unknown variant"); return NULL;
+  }
+}
+
+int send_packet_vote_resolve(struct connection *pc, const struct packet_vote_resolve *packet)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
+  assert(pc->phs.variant != NULL);
+  if (!pc->is_server) {
+    freelog(LOG_ERROR, "Sending packet_vote_resolve from the client.");
+  }
+  ensure_valid_variant_packet_vote_resolve(pc);
+
+  switch(pc->phs.variant[PACKET_VOTE_RESOLVE]) {
+    case 100: return send_packet_vote_resolve_100(pc, packet);
+    default: die("unknown variant"); return -1;
+  }
+}
+
+static struct packet_vote_submit *receive_packet_vote_submit_100(struct connection *pc, enum packet_type type)
+{
+  RECEIVE_PACKET_START(packet_vote_submit, real_packet);
+  {
+    int readin;
+  
+    dio_get_uint32(&din, &readin);
+    real_packet->vote_no = readin;
+  }
+  {
+    int readin;
+  
+    dio_get_sint8(&din, &readin);
+    real_packet->value = readin;
+  }
+
+  RECEIVE_PACKET_END(real_packet);
+}
+
+static int send_packet_vote_submit_100(struct connection *pc, const struct packet_vote_submit *packet)
+{
+  const struct packet_vote_submit *real_packet = packet;
+  SEND_PACKET_START(PACKET_VOTE_SUBMIT);
+
+  dio_put_uint32(&dout, real_packet->vote_no);
+  dio_put_sint8(&dout, real_packet->value);
+
+  SEND_PACKET_END;
+}
+
+static void ensure_valid_variant_packet_vote_submit(struct connection *pc)
+{
+  int variant = -1;
+
+  if(pc->phs.variant[PACKET_VOTE_SUBMIT] != -1) {
+    return;
+  }
+
+  if(FALSE) {
+  } else if(TRUE) {
+    variant = 100;
+  } else {
+    die("unknown variant");
+  }
+  pc->phs.variant[PACKET_VOTE_SUBMIT] = variant;
+}
+
+struct packet_vote_submit *receive_packet_vote_submit(struct connection *pc, enum packet_type type)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
+  assert(pc->phs.variant != NULL);
+  if (!pc->is_server) {
+    freelog(LOG_ERROR, "Receiving packet_vote_submit at the client.");
+  }
+  ensure_valid_variant_packet_vote_submit(pc);
+
+  switch(pc->phs.variant[PACKET_VOTE_SUBMIT]) {
+    case 100: return receive_packet_vote_submit_100(pc, type);
+    default: die("unknown variant"); return NULL;
+  }
+}
+
+int send_packet_vote_submit(struct connection *pc, const struct packet_vote_submit *packet)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
+  assert(pc->phs.variant != NULL);
+  if (pc->is_server) {
+    freelog(LOG_ERROR, "Sending packet_vote_submit from the server.");
+  }
+  ensure_valid_variant_packet_vote_submit(pc);
+
+  switch(pc->phs.variant[PACKET_VOTE_SUBMIT]) {
+    case 100: return send_packet_vote_submit_100(pc, packet);
+    default: die("unknown variant"); return -1;
+  }
 }
 
