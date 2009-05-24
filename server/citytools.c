@@ -1805,6 +1805,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   packet->food_stock=pcity->food_stock;
   packet->shield_stock=pcity->shield_stock;
   packet->pollution=pcity->pollution;
+  packet->illness = pcity->illness;
   packet->city_options = pcity->city_options;
   
   packet->production_kind = pcity->production.kind;

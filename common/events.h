@@ -126,6 +126,7 @@ enum event_type {
   E_LOG_FATAL,
   E_TECH_GOAL,			/* Changed tech goal */
   E_UNIT_LOST_MISC,             /* Non-battle unit deaths */
+  E_CITY_PLAGUE,		/* Plague within a city */
   /* 
    * Note: If you add a new event, make sure you make a similar change
    * to the events array in common/events.c using GEN_EV,

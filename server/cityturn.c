@@ -117,6 +117,7 @@ static bool disband_city(struct city *pcity);
 static void define_orig_production_values(struct city *pcity);
 static void update_city_activity(struct city *pcity);
 static void nullify_caravan_and_disband_plus(struct city *pcity);
+static bool check_plague(const struct city * pcity);
 
 static float city_migration_score(const struct city *pcity);
 static bool do_city_migration(struct city *pcity_from,
@@ -2081,6 +2082,18 @@ static void update_city_activity(struct city *pcity)
     }
     pcity->was_happy = city_happy(pcity);
 
+    /* Handle the illness. */
+    if (game.info.plague_on && pcity->size > 1) {
+      /* illness only if the city has a size greater than 1 */
+      if (check_plague(pcity)) {
+        notify_player(pplayer, city_tile(pcity), E_CITY_PLAGUE,
+                      _("%s had been struck by a plague! Population lost!"), 
+                      city_name(pcity));
+        city_reduce_size(pcity, 1, NULL);
+        pcity->turn_plague = game.info.turn;
+      }
+    }
+
     /* City population updated here, after the rapture stuff above. --Jing */
     saved_id = pcity->id;
     city_populate(pcity);
@@ -2137,6 +2150,18 @@ static void update_city_activity(struct city *pcity)
     }
     sanity_check_city(pcity);
   }
+}
+
+/*****************************************************************************
+ check if city suffers from a plague. Return TRUE if it does, FALSE if not.
+ ****************************************************************************/
+static bool check_plague(const struct city * pcity)
+{
+  if (myrand(1000) < pcity->illness) {
+    return TRUE;
+  }
+
+  return FALSE;
 }
 
 /**************************************************************************

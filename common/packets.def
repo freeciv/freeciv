@@ -448,6 +448,9 @@ PACKET_GAME_INFO=15; sc
   UINT8 granary_food_ini[MAX_GRANARY_INIS];
   UINT8 granary_num_inis;
   UINT8 granary_food_inc;
+  BOOL plague_on;
+  UINT8 illness_safe_mod;
+  UINT8 health_trade_penalty;
   UINT8 tech_cost_style;
   UINT8 tech_leakage;
   YEAR tech_cost_double_year;
@@ -538,6 +541,7 @@ PACKET_CITY_INFO=21; sc,lsend
   UINT8 trade_value[NUM_TRADEROUTES];
 
   UINT16 pollution;
+  UINT16 illness;
 
   UINT8 production_kind;
   UINT8 production_value;

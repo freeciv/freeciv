@@ -221,6 +221,7 @@ m_trireme = "stdsounds/inh2o.ogg" ; [pox]
 ;e_city_nuked = ""
 ;e_city_production_changed = ""
 ;e_city_transfer = ""
+;e_city_plague = ""
 ;e_civil_war = ""
 ;e_connection = ""
 ;e_destroyed = ""

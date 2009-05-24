@@ -618,6 +618,7 @@ void handle_city_info(struct packet_city_info *packet)
     pcity->shield_stock = packet->shield_stock;
   }
   pcity->pollution=packet->pollution;
+  pcity->illness = packet->illness;
 
   if (city_is_new
       || !are_universals_equal(&pcity->production, &product)) {
@@ -935,6 +936,7 @@ void handle_city_short_info(struct packet_city_short_info *packet)
     pcity->food_stock         = 0;
     pcity->shield_stock       = 0;
     pcity->pollution          = 0;
+    pcity->illness            = 0;
     BV_CLR_ALL(pcity->city_options);
     pcity->production.kind    = VUT_NONE;
     pcity->production.value.building = NULL;

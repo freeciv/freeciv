@@ -490,6 +490,43 @@ void get_city_dialog_output_text(const struct city *pcity,
 }
 
 /**************************************************************************
+  Return text describing the chance for a plague.
+**************************************************************************/
+void get_city_dialog_illness_text(const struct city *pcity,
+                                  char *buf, size_t bufsz)
+{
+  int illness, trade, from_size;
+  struct effect_list *plist;
+
+  illness = city_illness(pcity, &trade, NULL, &from_size);
+  buf[0] = '\0';
+
+  cat_snprintf(buf, bufsz, _("%+2.1f : Risk from trade\n"),
+               ((float)(trade) / 10.0));
+  cat_snprintf(buf, bufsz, _("%+2.1f : Risk from over crowdness\n"),
+               ((float)(from_size) / 10.0));
+
+  plist = effect_list_new();
+
+  (void) get_city_bonus_effects(plist, pcity, NULL, EFT_HEALTH);
+
+  effect_list_iterate(plist, peffect) {
+    char buf2[512];
+
+    get_effect_req_text(peffect, buf2, sizeof(buf2));
+
+    cat_snprintf(buf, bufsz,
+                 _("%+2.1f : Bonus from %s\n"),
+                 -peffect->value / 10.0, buf2);
+  } effect_list_iterate_end;
+  effect_list_free(plist);
+
+  cat_snprintf(buf, bufsz, _("==== : Adds up to\n"));
+  cat_snprintf(buf, bufsz, _("%2.1f : Total chance for a plague"),
+               ((float)(illness) / 10.0));
+}
+
+/**************************************************************************
   Return text describing the pollution output.
 **************************************************************************/
 void get_city_dialog_pollution_text(const struct city *pcity,

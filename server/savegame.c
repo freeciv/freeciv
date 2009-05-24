@@ -2471,11 +2471,13 @@ static void player_load_cities(struct player *plr, int plrno,
       secfile_lookup_int(file, "player%d.c%d.shield_stock", plrno, i);
 
     pcity->airlift =
-      secfile_lookup_int_default(file, 0, "player%d.c%d.airlift",
-                                  plrno,i);
+      secfile_lookup_int_default(file, 0, "player%d.c%d.airlift", plrno,i);
     pcity->was_happy =
       secfile_lookup_bool_default(file, FALSE, "player%d.c%d.was_happy",
                                   plrno,i);
+    pcity->turn_plague =
+      secfile_lookup_int_default(file, 0, "player%d.c%d.turn_plague",
+                                 plrno,i);
 
     pcity->anarchy =
       secfile_lookup_int(file, "player%d.c%d.anarchy", plrno, i);
@@ -3596,9 +3598,11 @@ static void player_save_cities(struct player *plr, int plrno,
 		       plrno, i);
 
     secfile_insert_int(file, pcity->airlift, "player%d.c%d.airlift",
-                        plrno, i);
+                       plrno, i);
     secfile_insert_bool(file, pcity->was_happy, "player%d.c%d.was_happy",
                         plrno, i);
+    secfile_insert_int(file, pcity->turn_plague, "player%d.c%d.turn_plague",
+                       plrno, i);
 
     secfile_insert_int(file, pcity->anarchy, "player%d.c%d.anarchy", plrno,i);
     secfile_insert_int(file, pcity->rapture, "player%d.c%d.rapture", plrno,i);

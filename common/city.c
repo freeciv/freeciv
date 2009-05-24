@@ -2063,6 +2063,66 @@ int city_pollution(const struct city *pcity, int shield_total)
 }
 
 /**************************************************************************
+ Gets whether cities that pcity trades with had the plague. If so, it 
+ returns the health penalty.
+ *************************************************************************/
+static int get_trade_illness(const struct city *pcity)
+{
+  int i;
+  int total_penalty = 0;
+
+  for (i = 0 ; i < NUM_TRADEROUTES ; i++) {
+    struct city *trade_city = game_find_city_by_number(pcity->trade[i]);
+    if (trade_city != NULL
+        && trade_city->turn_plague != -1
+        && trade_city->turn_plague - game.info.turn < 5) {
+      total_penalty += game.info.health_trade_penalty;
+    }
+  }
+
+  return total_penalty;
+}
+
+/**************************************************************************
+  Gets any effects ragarding health the city might have from buildings or
+  sabotage.
+**************************************************************************/
+static int get_city_health(const struct city *pcity)
+{
+  return get_city_bonus(pcity, EFT_HEALTH);
+}
+
+/**************************************************************************
+ Set city's illness. Illness cannot exceed 999, or be less then 0
+ City illness is:  (city_size - min_illness_size) + 10 * trade
+                   routes to plagued cities - effect of buildings
+ *************************************************************************/
+int city_illness(const struct city *pcity, int *trade_ill, int *effects,
+                 int *from_size)
+{
+  int size_mod = game.info.illness_safe_mod;
+  int trade_penalty = get_trade_illness(pcity);
+  int city_health_effects = get_city_health(pcity);
+  int illness = (pcity->size * pcity->size) - size_mod + trade_penalty
+               + pcity->pollution + city_health_effects;
+
+  /* returning other data */
+  if (trade_ill) {
+    *trade_ill = trade_penalty;
+  }
+
+  if (effects) {
+    *effects = city_health_effects;
+  }
+
+  if (from_size) {
+    *from_size = (pcity->size * pcity->size) - size_mod;
+  }
+
+  return CLIP(0, illness , 999);
+}
+
+/**************************************************************************
    Set food, trade and shields production in a city.
 
    This initializes the prod[] and waste[] arrays.  It assumes that
@@ -2255,6 +2315,9 @@ void city_refresh_from_main_map(struct city *pcity, bool full_refresh)
   set_city_production(pcity);
   citizen_base_mood(pcity);
   pcity->pollution = city_pollution(pcity, pcity->prod[O_SHIELD]);
+
+  /* This must be after pollution */
+  pcity->illness = city_illness(pcity, NULL, NULL, NULL);
 
   happy_copy(pcity, FEELING_LUXURY);
   citizen_happy_luxury(pcity);	/* with our new found luxuries */
@@ -2492,6 +2555,7 @@ struct city *create_city_virtual(struct player *pplayer,
   pcity->food_stock = 0;
   pcity->shield_stock = 0;
   pcity->pollution = 0;
+  pcity->illness = 0;
 
   pcity->airlift = 0;
   pcity->debug = FALSE;
@@ -2507,6 +2571,8 @@ struct city *create_city_virtual(struct player *pplayer,
   pcity->rapture = 0;
   pcity->steal = 0;
 #endif
+
+  pcity->turn_plague = -1; /* -1 = never */
 
   pcity->turn_founded = game.info.turn;
   pcity->turn_last_built = game.info.turn;

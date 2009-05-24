@@ -40,6 +40,7 @@ enum effect_type {
   /* TODO: EFT_FORCE_CONTENT_PCT, */
   EFT_GIVE_IMM_TECH,
   EFT_GROWTH_FOOD,
+  EFT_HEALTH, /* reduced illness due to buildings, ... */
   EFT_HAVE_EMBASSIES,
   EFT_MAKE_CONTENT,
   EFT_MAKE_CONTENT_MIL,

@@ -316,6 +316,7 @@ struct city {
   int food_stock;
   int shield_stock;
   int pollution;                /* not saved */
+  int illness;                  /* not saved */
 
   /* turn states */
   int airlift;
@@ -324,6 +325,7 @@ struct city {
   bool did_sell;
   bool is_updated;              /* not saved */
   bool was_happy;
+  int turn_plague;              /* last turn with plague in the city */
 
   int anarchy;                  /* anarchy rounds count */ 
   int rapture;                  /* rapture rounds count */ 
@@ -642,6 +644,8 @@ int get_city_tithes_bonus(const struct city *pcity);
 int city_pollution_types(const struct city *pcity, int shield_total,
 			 int *pollu_prod, int *pollu_pop, int *pollu_mod);
 int city_pollution(const struct city *pcity, int shield_total);
+int city_illness(const struct city *pcity, int *trade_ill, int *effects,
+                 int *from_size);
 
 bool city_exist(int id);
 

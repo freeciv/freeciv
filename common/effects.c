@@ -54,6 +54,7 @@ static const char *effect_type_names[EFT_LAST] = {
   /* TODO: "Force_Content_Pct", */
   "Give_Imm_Tech",
   "Growth_Food",
+  "Health",
   "Have_Embassies",
   "Make_Content",
   "Make_Content_Mil",
@@ -762,14 +763,14 @@ bool is_building_replaced(const struct city *pcity,
   is done with it.
 **************************************************************************/
 static int get_target_bonus_effects(struct effect_list *plist,
-			  	    const struct player *target_player,
-				    const struct city *target_city,
-				    const struct impr_type *target_building,
-				    const struct tile *target_tile,
-				    const struct unit_type *target_unittype,
-				    const struct output_type *target_output,
-				    const struct specialist *target_specialist,
-				    enum effect_type effect_type)
+                                    const struct player *target_player,
+                                    const struct city *target_city,
+                                    const struct impr_type *target_building,
+                                    const struct tile *target_tile,
+                                    const struct unit_type *target_unittype,
+                                    const struct output_type *target_output,
+                                    const struct specialist *target_specialist,
+                                    enum effect_type effect_type)
 {
   int bonus = 0;
 
