@@ -145,7 +145,7 @@ int main(int argc, char *argv[])
     fprintf(stderr, _("  -q, --quitidle TIME\tQuit if no players for TIME seconds\n"));
     fprintf(stderr, _("  -r, --read FILE\tRead startup script FILE\n"));
     fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
-    fprintf(stderr, _("Report bugs to <%s>.\n"), BUG_EMAIL_ADDRESS);
+    fprintf(stderr, _("Report bugs to <%s>.\n"), BUG_ADDRESS);
     exit(EXIT_SUCCESS);
   }
 

@@ -225,7 +225,7 @@ static int myerr(Display *p, XErrorEvent *e)
 static void print_usage(const char *argv0)
 {
   /* add client-specific usage information here */
-  fprintf(stderr, _("Report bugs to <%s>.\n"), BUG_EMAIL_ADDRESS);
+  fprintf(stderr, _("Report bugs to <%s>.\n"), BUG_ADDRESS);
 }
 
 /**************************************************************************

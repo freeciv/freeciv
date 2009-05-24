@@ -267,7 +267,7 @@ static void log_callback_utf8(int level, const char *message)
 static void print_usage(const char *argv0)
 {
   /* add client-specific usage information here */
-  fprintf_utf8(stderr, _("Report bugs to <%s>.\n"), BUG_EMAIL_ADDRESS);
+  fprintf_utf8(stderr, _("Report bugs to <%s>.\n"), BUG_ADDRESS);
 }
 
 /**************************************************************************
