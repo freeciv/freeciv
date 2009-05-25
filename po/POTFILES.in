@@ -52,6 +52,7 @@ server/stdinhand.c
 server/techtools.c
 server/unithand.c
 server/unittools.c
+server/voting.c
 server/generator/mapgen.c
 server/generator/startpos.c
 client/attribute.c
