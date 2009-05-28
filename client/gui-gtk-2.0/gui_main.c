@@ -108,6 +108,7 @@ bool new_messages_go_to_top = FALSE;
 bool show_message_window_buttons = TRUE;
 bool metaserver_tab_first = FALSE;
 bool allied_chat_only = FALSE;
+bool small_display_layout = FALSE;
 
 GtkWidget *toplevel;
 GdkWindow *root_window;
@@ -262,6 +263,16 @@ client_option gui_options[] = {
                         "the chat entry (only visible in multiplayer "
                         "games)."),
                      COC_NETWORK, allied_chat_only_callback),
+  GEN_BOOL_OPTION(small_display_layout,
+                  N_("Arrange widgets for small displays"),
+                  N_("If this option is enabled, widgets in the main "
+                     "window will be arrange so that they take up the "
+                     "least amount of total screen space. Specifically, "
+                     "the left panel containing the overview, player "
+                     "status, and the unit information box will be "
+                     "extended over the entire left side of the window. "
+                     "This option requires a restart in order to take "
+                     "effect."), COC_INTERFACE),
   GEN_FONT_OPTION(font_city_label,
   		  city_label,
 		  N_("City Label"),
@@ -1172,11 +1183,6 @@ static void setup_widgets(void)
 
   editgui_create_widgets();
 
-  /* the window is divided into two panes. "top" and "message window" */ 
-  paned = gtk_vpaned_new();
-  gtk_notebook_append_page(GTK_NOTEBOOK(notebook),
-      paned, NULL);
-
 #ifdef GGZ_GTK
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook),
 			   ggz_gtk_create_main_area(toplevel), NULL);
@@ -1185,15 +1191,26 @@ static void setup_widgets(void)
   /* *** everything in the top *** */
 
   top_vbox = gtk_vbox_new(FALSE, 5);
-  gtk_paned_pack1(GTK_PANED(paned), top_vbox, TRUE, FALSE);
-
   hbox = gtk_hbox_new(FALSE, 0);
-  gtk_box_pack_end(GTK_BOX(top_vbox), hbox, TRUE, TRUE, 0);
+  paned = gtk_vpaned_new();
+
+  if (small_display_layout) {
+    /* The window is divided into two horizontal panels: overview +
+     * civinfo + unitinfo, main view + message window. */
+    gtk_notebook_append_page(GTK_NOTEBOOK(notebook), top_vbox, NULL);
+    gtk_box_pack_end(GTK_BOX(top_vbox), hbox, TRUE, TRUE, 0);
+    gtk_box_pack_end(GTK_BOX(hbox), paned, TRUE, TRUE, 0);
+  } else {
+    /* The window is divided into two vertical panes: overview +
+     * + civinfo + unitinfo + main view, message window. */
+    gtk_notebook_append_page(GTK_NOTEBOOK(notebook), paned, NULL);
+    gtk_paned_pack1(GTK_PANED(paned), top_vbox, TRUE, FALSE);
+    gtk_box_pack_end(GTK_BOX(top_vbox), hbox, TRUE, TRUE, 0);
+  }
 
   /* this holds the overview canvas, production info, etc. */
   vbox = gtk_vbox_new(FALSE, 3);
   gtk_box_pack_start(GTK_BOX(hbox), vbox, FALSE, FALSE, 0);
-
 
   /* overview canvas */
   ahbox = detached_widget_new();
@@ -1224,7 +1241,7 @@ static void setup_widgets(void)
   /* The rest */
 
   ahbox = detached_widget_new();
-  gtk_container_add(GTK_CONTAINER(vbox), ahbox);
+  gtk_box_pack_start(GTK_BOX(vbox), ahbox, TRUE, TRUE, 0);
   avbox = detached_widget_fill(ahbox);
 
   /* Info on player's civilization, when game is running. */
@@ -1377,10 +1394,17 @@ static void setup_widgets(void)
 
   /* Map canvas, editor toolbar, and scrollbars */
 
+  /* The top notebook containing the map view and dialogs. */
+
   top_notebook = gtk_notebook_new();  
   gtk_notebook_set_tab_pos(GTK_NOTEBOOK(top_notebook), GTK_POS_BOTTOM);
   gtk_notebook_set_scrollable(GTK_NOTEBOOK(top_notebook), TRUE);
-  gtk_box_pack_start(GTK_BOX(hbox), top_notebook, TRUE, TRUE, 0);
+
+  if (small_display_layout) {
+    gtk_paned_pack1(GTK_PANED(paned), top_notebook, TRUE, TRUE);
+  } else {
+    gtk_box_pack_start(GTK_BOX(hbox), top_notebook, TRUE, TRUE, 0);
+  }
 
   map_widget = gtk_table_new(2, 2, FALSE);
 
@@ -1400,6 +1424,7 @@ static void setup_widgets(void)
                    GTK_EXPAND|GTK_SHRINK|GTK_FILL, 0, 0);
 
   map_canvas = gtk_drawing_area_new();
+  gtk_widget_set_size_request(map_canvas, 300, 300);
   GTK_WIDGET_SET_FLAGS(map_canvas, GTK_CAN_FOCUS);
 
   for (i = 0; i < 5; i++) {
