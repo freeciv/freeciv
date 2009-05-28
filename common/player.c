@@ -596,12 +596,21 @@ int num_known_tech_with_flag(const struct player *pplayer,
 int player_get_expected_income(const struct player *pplayer)
 {
   int income = 0;
-  /* FIXME: almost the same as get_economy_report_data() */
 
   /* City income/expenses. */
   city_list_iterate(pplayer->cities, pcity) {
     /* Gold suplus accounts for imcome plus building and unit upkeep. */
     income += pcity->surplus[O_GOLD];
+
+    /* Gold upkeep for buildings and units is defined by the setting
+     * 'game.info.gold_upkeep_style':
+     * 0: cities pay for buildings and units (this is included in
+     *    pcity->surplus[O_GOLD])
+     * 1: the nation pays for buildings and units */
+    if (game.info.gold_upkeep_style > 0) {
+      income -= city_total_impr_gold_upkeep(pcity);
+      income -= city_total_unit_gold_upkeep(pcity);
+    }
 
     /* Capitalization income. */
     if (city_production_has_flag(pcity, IF_GOLD)) {

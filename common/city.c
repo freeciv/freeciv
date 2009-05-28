@@ -664,6 +664,51 @@ int city_population(const struct city *pcity)
 }
 
 /**************************************************************************
+  Returns the total amount of gold needed to pay for all buildings in the
+  city.
+**************************************************************************/
+int city_total_impr_gold_upkeep(const struct city *pcity)
+{
+  int gold_needed = 0;
+
+  if (!pcity) {
+    return 0;
+  }
+
+  city_built_iterate(pcity, pimprove) {
+      gold_needed += city_improvement_upkeep(pcity, pimprove);
+  } city_built_iterate_end;
+
+  return gold_needed;
+}
+
+/***************************************************************************
+  Get the total amount of gold needed to pay upkeep costs for all supported
+  units of the city. Takes into account EFT_UNIT_UPKEEP_FREE_PER_CITY.
+***************************************************************************/
+int city_total_unit_gold_upkeep(const struct city *pcity)
+{
+  int gold_needed = 0;
+  int free[O_COUNT], upkeep[O_COUNT];
+
+  if (!pcity || !pcity->units_supported
+      || unit_list_size(pcity->units_supported) < 1) {
+    return 0;
+  }
+
+  memset(free, 0, O_COUNT * sizeof(*free));
+  free[O_GOLD] = get_city_output_bonus(pcity, get_output_type(O_GOLD),
+                                       EFT_UNIT_UPKEEP_FREE_PER_CITY);
+
+  unit_list_iterate(pcity->units_supported, punit) {
+    city_unit_upkeep(punit, upkeep, free);
+    gold_needed += upkeep[O_GOLD];
+  } unit_list_iterate_end;
+
+  return gold_needed;
+}
+
+/**************************************************************************
   Return TRUE if the city has this building in it.
 **************************************************************************/
 bool city_has_building(const struct city *pcity,
@@ -2259,10 +2304,14 @@ static inline void city_support(struct city *pcity)
   pcity->martial_law = 0;
   pcity->unit_happy_upkeep = 0;
 
-  /* Add base amounts for building upkeep and citizen consumption. */
-  city_built_iterate(pcity, pimprove) {
-    pcity->usage[O_GOLD] += city_improvement_upkeep(pcity, pimprove);
-  } city_built_iterate_end;
+  /* Building gold upkeep depends on the setting
+   * 'game.info.gold_upkeep_style':
+   * 0 - The upkeep for buildings is paid by the city.
+   * 1 - The upkeep for buildings is paid by the nation. */
+  if (game.info.gold_upkeep_style == 0) {
+    pcity->usage[O_GOLD] += city_total_impr_gold_upkeep(pcity);
+  }
+  /* Food consumption by citizens. */
   pcity->usage[O_FOOD] += game.info.food_cost * pcity->size;
 
   /* military units in this city (need _not_ be home city) can make
@@ -2288,7 +2337,13 @@ static inline void city_support(struct city *pcity)
     city_unit_upkeep(this_unit, upkeep_cost, free_upkeep);
 
     output_type_iterate(o) {
-      pcity->usage[o] += upkeep_cost[o];
+      /* Unit gold upkeep depends on the setting
+       * 'game.info.gold_upkeep_style':
+       * 0 - The upkeep for units is paid by the homecity.
+       * 1 - The upkeep for units is paid by the nation. */
+      if (!(game.info.gold_upkeep_style > 0 && o == O_GOLD)) {
+        pcity->usage[o] += upkeep_cost[o];
+      }
     } output_type_iterate_end;
     pcity->unit_happy_upkeep += happy_cost;
   } unit_list_iterate_end;

@@ -103,8 +103,6 @@ struct unitgold {
 #define SPECVEC_TYPE struct unitgold
 #include "specvec.h"
 
-static int city_total_impr_gold_upkeep(const struct city *pcity);
-static int city_total_unit_gold_upkeep(const struct city *pcity);
 static bool sell_random_buildings(struct player *pplayer,
                                   struct cityimpr_vector *imprs);
 static bool sell_random_units(struct player *pplayer,
@@ -1636,51 +1634,6 @@ static bool city_build_stuff(struct player *pplayer, struct city *pcity)
     break;
   };
   return FALSE;
-}
-
-/**************************************************************************
-  Returns the total amount of gold needed to pay for all buildings in the
-  city.
-**************************************************************************/
-static int city_total_impr_gold_upkeep(const struct city *pcity)
-{
-  int gold_needed = 0;
-
-  if (!pcity) {
-    return 0;
-  }
-
-  city_built_iterate(pcity, pimprove) {
-      gold_needed += city_improvement_upkeep(pcity, pimprove);
-  } city_built_iterate_end;
-
-  return gold_needed;
-}
-
-/***************************************************************************
-  Get the total amount of gold needed to pay upkeep costs for all supported
-  units of the city. Takes into account EFT_UNIT_UPKEEP_FREE_PER_CITY.
-***************************************************************************/
-static int city_total_unit_gold_upkeep(const struct city *pcity)
-{
-  int gold_needed = 0;
-  int free[O_COUNT], upkeep[O_COUNT];
-
-  if (!pcity || !pcity->units_supported
-      || unit_list_size(pcity->units_supported) < 1) {
-    return 0;
-  }
-
-  memset(free, 0, O_COUNT * sizeof(*free));
-  free[O_GOLD] = get_city_output_bonus(pcity, get_output_type(O_GOLD),
-                                       EFT_UNIT_UPKEEP_FREE_PER_CITY);
-
-  unit_list_iterate(pcity->units_supported, punit) {
-    city_unit_upkeep(punit, upkeep, free);
-    gold_needed += upkeep[O_GOLD];
-  } unit_list_iterate_end;
-
-  return gold_needed;
 }
 
 /**************************************************************************

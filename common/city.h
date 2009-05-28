@@ -473,6 +473,8 @@ struct player *city_owner(const struct city *pcity);
 struct tile *city_tile(const struct city *pcity);
 
 int city_population(const struct city *pcity);
+int city_total_impr_gold_upkeep(const struct city *pcity);
+int city_total_unit_gold_upkeep(const struct city *pcity);
 int city_unit_unhappiness(struct unit *punit, int *free_happy);
 void city_unit_upkeep(struct unit *punit, int *outputs, int *free_upkeep);
 bool city_happy(const struct city *pcity);  /* generally use celebrating instead */
