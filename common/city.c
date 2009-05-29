@@ -2349,9 +2349,9 @@ static inline void city_support(struct city *pcity)
 
   /* Building gold upkeep depends on the setting
    * 'game.info.gold_upkeep_style':
-   * 0 - The upkeep for buildings is paid by the city.
-   * 1 - The upkeep for buildings is paid by the nation. */
-  if (game.info.gold_upkeep_style == 0) {
+   * 0,1 - The upkeep for buildings is paid by the city.
+   * 2   - The upkeep for buildings is paid by the nation. */
+  if (game.info.gold_upkeep_style < 2) {
     pcity->usage[O_GOLD] += city_total_impr_gold_upkeep(pcity);
   }
   /* Food consumption by citizens. */
@@ -2379,13 +2379,12 @@ static inline void city_support(struct city *pcity)
     output_type_iterate(o) {
       /* Unit gold upkeep depends on the setting
        * 'game.info.gold_upkeep_style':
-       * 0 - The upkeep for units is paid by the homecity.
-       * 1 - The upkeep for units is paid by the nation. */
+       * 0   - The upkeep for units is paid by the homecity.
+       * 1,2 - The upkeep for units is paid by the nation. */
       if (!(game.info.gold_upkeep_style > 0 && o == O_GOLD)) {
         pcity->usage[o] += punit->upkeep[o];
       }
     } output_type_iterate_end;
-
     pcity->unit_happy_upkeep += happy_cost;
   } unit_list_iterate_end;
 }

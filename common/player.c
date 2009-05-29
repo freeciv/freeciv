@@ -606,10 +606,22 @@ int player_get_expected_income(const struct player *pplayer)
      * 'game.info.gold_upkeep_style':
      * 0: cities pay for buildings and units (this is included in
      *    pcity->surplus[O_GOLD])
-     * 1: the nation pays for buildings and units */
+     * 1: cities pay only for buildings; the nation pays for units
+     * 2: the nation pays for buildings and units */
     if (game.info.gold_upkeep_style > 0) {
-      income -= city_total_impr_gold_upkeep(pcity);
-      income -= city_total_unit_gold_upkeep(pcity);
+      switch (game.info.gold_upkeep_style) {
+        case 2:
+          /* nation pays for buildings (and units) */
+          income -= city_total_impr_gold_upkeep(pcity);
+          /* no break */
+        case 1:
+          /* nation pays for units */
+          income -= city_total_unit_gold_upkeep(pcity);
+          break;
+        default:
+          /* fallthru */
+          break;
+      }
     }
 
     /* Capitalization income. */

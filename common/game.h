@@ -187,7 +187,7 @@ bool setting_class_is_changeable(enum sset_class class);
 
 #define GAME_DEFAULT_GOLD_UPKEEP_STYLE 0
 #define GAME_MIN_GOLD_UPKEEP_STYLE     0
-#define GAME_MAX_GOLD_UPKEEP_STYLE     1
+#define GAME_MAX_GOLD_UPKEEP_STYLE     2
 
 #define GAME_DEFAULT_FOODBOX         100
 #define GAME_MIN_FOODBOX             1
