@@ -472,6 +472,16 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   /* This may cause a diplomatic incident */
   maybe_cause_incident(DIPLOMAT_BRIBE, pplayer, pvictim, NULL);
 
+  /* update unit upkeep in the homecity of the victim */
+  if (pvictim->homecity > 0) {
+    /* update unit upkeep */
+    city_units_upkeep(game_find_city_by_number(pvictim->homecity));
+  }
+  /* update unit upkeep in the new homecity */
+  if (pvictim->homecity > 0) {
+    city_units_upkeep(game_find_city_by_number(gained_unit->homecity));
+  }
+
   /* Be sure to wipe the converted unit! */
   victim_tile = pvictim->tile;
   wipe_unit(pvictim);

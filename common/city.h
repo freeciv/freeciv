@@ -629,6 +629,7 @@ Specialist_type_id best_specialist(Output_type_id otype,
 				   const struct city *pcity);
 int get_final_city_output_bonus(const struct city *pcity, Output_type_id otype);
 bool city_built_last_turn(const struct city *pcity);
+void city_units_upkeep(const struct city *pcity);
 
 /* city creation / destruction */
 struct city *create_city_virtual(struct player *pplayer,

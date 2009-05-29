@@ -689,20 +689,14 @@ int city_total_impr_gold_upkeep(const struct city *pcity)
 int city_total_unit_gold_upkeep(const struct city *pcity)
 {
   int gold_needed = 0;
-  int free[O_COUNT], upkeep[O_COUNT];
 
   if (!pcity || !pcity->units_supported
       || unit_list_size(pcity->units_supported) < 1) {
     return 0;
   }
 
-  memset(free, 0, O_COUNT * sizeof(*free));
-  free[O_GOLD] = get_city_output_bonus(pcity, get_output_type(O_GOLD),
-                                       EFT_UNIT_UPKEEP_FREE_PER_CITY);
-
   unit_list_iterate(pcity->units_supported, punit) {
-    city_unit_upkeep(punit, upkeep, free);
-    gold_needed += upkeep[O_GOLD];
+    gold_needed += punit->upkeep[O_GOLD];
   } unit_list_iterate_end;
 
   return gold_needed;
@@ -2264,12 +2258,11 @@ void city_unit_upkeep(struct unit *punit, int *outputs, int *free_upkeep)
   struct unit_type *ut = unit_type(punit);
   struct player *plr = unit_owner(punit);
 
-  assert(punit != NULL && ut != NULL 
+  assert(punit != NULL && ut != NULL
          && free_upkeep != NULL && outputs != NULL);
   memset(outputs, 0, O_COUNT * sizeof(*outputs));
 
   /* set current upkeep on unit to zero */
-
   output_type_iterate(o) {
     int cost = utype_upkeep_cost(ut, plr, o);
     if (cost > 0) {
@@ -2286,18 +2279,68 @@ void city_unit_upkeep(struct unit *punit, int *outputs, int *free_upkeep)
 }
 
 /**************************************************************************
+  Recalculate the upkeep needed for all units supported by the city. It has
+  to be called
+  - if the number of units supported by a city changes
+    * create a unit (./server/unittools.c:create_unit_full)
+    * bride a unit (./server/diplomats.c:diplomat_bribe)
+    * change homecity (./server/unithand.c:unit_change_homecity_handling)
+    * destroy a unit (./server/unittools.c:wipe_unit)
+  - if the rules for the upkeep calculation change (government change).
+    * government change (./server/cityturn.c:city_refresh_for_player)
+    * teach researched (TODO)
+    * new building (TODO)
+    * building destroyed (TODO)
+
+  At the moment it is also called in the main cityturn loop
+  (./server/cityturn.c:update_city_activities).
+**************************************************************************/
+void city_units_upkeep(const struct city *pcity)
+{
+  int free[O_LAST], cost;
+  struct unit_type *ut;
+  struct player *plr;
+
+  if (!pcity || !pcity->units_supported
+      || unit_list_size(pcity->units_supported) < 1) {
+    return;
+  }
+
+  memset(free, 0, O_COUNT * sizeof(*free));
+  output_type_iterate(o) {
+    free[o] = get_city_output_bonus(pcity, get_output_type(o),
+                                    EFT_UNIT_UPKEEP_FREE_PER_CITY);
+  } output_type_iterate_end;
+
+  /* save the upkeep for all units in the corresponding punit struct */
+  unit_list_iterate(pcity->units_supported, punit) {
+    ut = unit_type(punit);
+    plr = unit_owner(punit);
+
+    output_type_iterate(o) {
+      cost = utype_upkeep_cost(ut, plr, o);
+      if (cost > 0) {
+        if (free[o] > cost) {
+          free[o] -= cost;
+          cost = 0;
+        } else {
+          cost -= free[o];
+          free[o] = 0;
+        }
+      }
+
+      punit->upkeep[o] = cost;
+    } output_type_iterate_end;
+  } unit_list_iterate_end;
+}
+
+/**************************************************************************
   Calculate upkeep costs.  This builds the pcity->usage[] array as well
   as setting some happiness values.
 **************************************************************************/
 static inline void city_support(struct city *pcity)
 {
-  int free_upkeep[O_COUNT];
   int free_unhappy = get_city_bonus(pcity, EFT_MAKE_CONTENT_MIL);
-
-  output_type_iterate(o) {
-    free_upkeep[o] = get_city_output_bonus(pcity, get_output_type(o), 
-                                           EFT_UNIT_UPKEEP_FREE_PER_CITY);
-  } output_type_iterate_end;
 
   /* Clear all usage values. */
   memset(pcity->usage, 0, O_COUNT * sizeof(*pcity->usage));
@@ -2330,11 +2373,8 @@ static inline void city_support(struct city *pcity)
     pcity->martial_law *= get_city_bonus(pcity, EFT_MARTIAL_LAW_EACH);
   }
 
-  unit_list_iterate(pcity->units_supported, this_unit) {
-    int upkeep_cost[O_COUNT];
-    int happy_cost = city_unit_unhappiness(this_unit, &free_unhappy);
-
-    city_unit_upkeep(this_unit, upkeep_cost, free_upkeep);
+  unit_list_iterate(pcity->units_supported, punit) {
+    int happy_cost = city_unit_unhappiness(punit, &free_unhappy);
 
     output_type_iterate(o) {
       /* Unit gold upkeep depends on the setting
@@ -2342,9 +2382,10 @@ static inline void city_support(struct city *pcity)
        * 0 - The upkeep for units is paid by the homecity.
        * 1 - The upkeep for units is paid by the nation. */
       if (!(game.info.gold_upkeep_style > 0 && o == O_GOLD)) {
-        pcity->usage[o] += upkeep_cost[o];
+        pcity->usage[o] += punit->upkeep[o];
       }
     } output_type_iterate_end;
+
     pcity->unit_happy_upkeep += happy_cost;
   } unit_list_iterate_end;
 }

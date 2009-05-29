@@ -1859,6 +1859,9 @@ static void player_load_units(struct player *plr, int plrno,
        otherwise these don't get initialized (and AI calculations
        etc may use junk values).
     */
+    output_type_iterate(o) {
+      punit->upkeep[o] = utype_upkeep_cost(type, plr, o);
+    } output_type_iterate_end;
 
     /* load the unit orders */
     if (has_capability("orders", savefile_options)) {
@@ -4721,6 +4724,8 @@ static void game_load_internal(struct section_file *file)
      * loaded (in player_load) but before player (dumb) cities are loaded
      * in player_load_vision(). */
     cities_iterate(pcity) {
+      /* update unit upkeep */
+      city_units_upkeep(pcity);
       city_refresh_from_main_map(pcity, TRUE);
     } cities_iterate_end;
 

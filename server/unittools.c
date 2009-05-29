@@ -1338,6 +1338,9 @@ void upgrade_unit(struct unit *punit, struct unit_type *to_unit,
                          - game.info.upgrade_veteran_loss, 0);
   }
 
+  /* update unit upkeep */
+  city_units_upkeep(game_find_city_by_number(punit->homecity));
+
   conn_list_do_buffer(pplayer->connections);
 
   unit_refresh_vision(punit);
@@ -1423,6 +1426,9 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
   send_unit_info(NULL, punit);
   maybe_make_contact(ptile, unit_owner(punit));
   wakeup_neighbor_sentries(punit);
+
+  /* update unit upkeep */
+  city_units_upkeep(game_find_city_by_number(homecity_id));
 
   /* The unit may have changed the available tiles in nearby cities. */
   city_map_update_tile_now(ptile);
@@ -1578,6 +1584,9 @@ void wipe_unit(struct unit *punit)
     /* Now remove the unit. */
     server_remove_unit(punit);
   }
+
+  /* update unit upkeep */
+  city_units_upkeep(game_find_city_by_number(punit->homecity));
 
   /* Finally reassign, bounce, or destroy all units that cannot exist at this
    * location without transport. */

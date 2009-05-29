@@ -93,10 +93,10 @@ struct cityimpr {
 #define SPECVEC_TYPE struct cityimpr
 #include "specvec.h"
 
-/* Helper struct for storing a unit with its gold upkeep. */
+/* Helper struct for storing all units with gold upkeep.
+ * Replace this by unit_list? - MaPfa */
 struct unitgold {
   struct unit *punit;
-  int gold_upkeep;
 };
 
 #define SPECVEC_TAG unitgold
@@ -143,6 +143,7 @@ void city_refresh_for_player(struct player *pplayer)
 {
   conn_list_do_buffer(pplayer->connections);
   city_list_iterate(pplayer->cities, pcity)
+    city_units_upkeep(pcity);
     city_refresh(pcity);
     send_city_info(pplayer, pcity);
   city_list_iterate_end;
@@ -471,6 +472,8 @@ void update_city_activities(struct player *pplayer)
     /* Iterate over cities in a random order. */
     while (i > 0) {
       r = myrand(i);
+      /* update unit upkeep */
+      city_units_upkeep(cities[r]);
       update_city_activity(cities[r]);
       cities[r] = cities[--i];
     }
@@ -1702,7 +1705,7 @@ static bool sell_random_units(struct player *pplayer,
   while (pplayer->economic.gold < 0 && n > 0) {
     r = myrand(n);
     punit = units->p[r].punit;
-    gold_upkeep = units->p[r].gold_upkeep;
+    gold_upkeep = punit->upkeep[O_GOLD];
 
     notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_MISC,
                   _("Not enough gold. %s disbanded"),
@@ -1728,7 +1731,6 @@ static void player_balance_treasury(struct player *pplayer)
   struct cityimpr ci;
   struct unitgold_vector units;
   struct unitgold ug;
-  int free[O_COUNT], upkeep[O_COUNT];
 
   if (!pplayer) {
     return;
@@ -1751,16 +1753,10 @@ static void player_balance_treasury(struct player *pplayer)
     goto CLEANUP;
   }
 
-  memset(free, 0, O_COUNT * sizeof(*free));
-
   city_list_iterate(pplayer->cities, pcity) {
-    free[O_GOLD] = get_city_output_bonus(pcity, get_output_type(O_GOLD),
-                                         EFT_UNIT_UPKEEP_FREE_PER_CITY);
     unit_list_iterate(pcity->units_supported, punit) {
-      city_unit_upkeep(punit, upkeep, free);
-      if (upkeep[O_GOLD] > 0) {
+      if (punit->upkeep[O_GOLD] > 0) {
         ug.punit = punit;
-        ug.gold_upkeep = upkeep[O_GOLD];
         unitgold_vector_append(&units, &ug);
       }
     } unit_list_iterate_end;
@@ -1794,7 +1790,6 @@ static void city_balance_treasury(struct city *pcity)
   struct cityimpr ci;
   struct unitgold_vector units;
   struct unitgold ug;
-  int free[O_COUNT], upkeep[O_COUNT];
 
   if (!pcity) {
     return;
@@ -1818,16 +1813,10 @@ static void city_balance_treasury(struct city *pcity)
     goto CLEANUP;
   }
 
-  memset(free, 0, O_COUNT * sizeof(*free));
-  free[O_GOLD] = get_city_output_bonus(pcity, get_output_type(O_GOLD),
-                                       EFT_UNIT_UPKEEP_FREE_PER_CITY);
-
   /* Create a vector of all supported units with gold upkeep. */
   unit_list_iterate(pcity->units_supported, punit) {
-    city_unit_upkeep(punit, upkeep, free);
-    if (upkeep[O_GOLD] > 0) {
+    if (punit->upkeep[O_GOLD] > 0) {
       ug.punit = punit;
-      ug.gold_upkeep = upkeep[O_GOLD];
       unitgold_vector_append(&units, &ug);
     }
   } unit_list_iterate_end;
