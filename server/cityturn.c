@@ -1678,7 +1678,7 @@ static bool sell_random_buildings(struct player *pplayer,
                   city_name(pcity));
 
     do_sell_building(pplayer, pcity, pimprove);
-    city_refresh(pcity);
+    city_refresh_queue_add(pcity);
 
     /* Get back the gold upkeep that was already paid this turn. */
     pplayer->economic.gold += city_improvement_upkeep(pcity, pimprove);
@@ -1687,6 +1687,8 @@ static bool sell_random_buildings(struct player *pplayer,
   }
 
   return pplayer->economic.gold >= 0;
+
+  city_refresh_queue_processing();
 }
 
 /**************************************************************************
