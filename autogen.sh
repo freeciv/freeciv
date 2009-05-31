@@ -242,7 +242,7 @@ real_package_name "automake" "ftp://ftp.gnu.org/pub/gnu/automake/" 1 6 || DIE=1
 AUTOMAKE=$REALPKGNAME
 real_package_name "aclocal" "ftp://ftp.gnu.org/pub/gnu/automake/" 1 6 || DIE=1
 ACLOCAL=$REALPKGNAME
-real_package_name "libtoolize" "ftp://ftp.gnu.org/pub/gnu/libtool/" 1 || DIE=1
+real_package_name "libtoolize" "ftp://ftp.gnu.org/pub/gnu/libtool/" 1 4 3 || DIE=1
 LIBTOOLIZE=$REALPKGNAME
 
 if [ "$FC_USE_NLS" = "yes" ]; then
