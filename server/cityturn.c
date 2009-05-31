@@ -93,20 +93,10 @@ struct cityimpr {
 #define SPECVEC_TYPE struct cityimpr
 #include "specvec.h"
 
-/* Helper struct for storing all units with gold upkeep.
- * Replace this by unit_list? - MaPfa */
-struct unitgold {
-  struct unit *punit;
-};
-
-#define SPECVEC_TAG unitgold
-#define SPECVEC_TYPE struct unitgold
-#include "specvec.h"
-
 static bool sell_random_buildings(struct player *pplayer,
                                   struct cityimpr_vector *imprs);
 static bool sell_random_units(struct player *pplayer,
-                              struct unitgold_vector *units);
+                              struct unit_list *punitlist);
 static bool city_balance_treasury_buildings(struct city *pcity);
 static bool city_balance_treasury_units(struct city *pcity);
 static bool player_balance_treasury_buildings(struct player *pplayer);
@@ -1711,28 +1701,29 @@ static bool sell_random_buildings(struct player *pplayer,
   NB: It is assumed that all units in 'units' have positive gold upkeep.
 **************************************************************************/
 static bool sell_random_units(struct player *pplayer,
-                              struct unitgold_vector *units)
+                              struct unit_list *punitlist)
 {
   struct unit *punit;
   int gold_upkeep, n, r;
 
   assert(pplayer != NULL);
 
-  n = units ? unitgold_vector_size(units) : 0;
+  n = punitlist ? unit_list_size(punitlist) : 0;
   while (pplayer->economic.gold < 0 && n > 0) {
     r = myrand(n);
-    punit = units->p[r].punit;
+    punit = unit_list_get(punitlist, r);
     gold_upkeep = punit->upkeep[O_GOLD];
 
     notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_MISC,
                   _("Not enough gold. %s disbanded"),
                   unit_name_translation(punit));
+    unit_list_unlink(punitlist, punit);
     wipe_unit(punit);
 
     /* Get the upkeep gold back. */
     pplayer->economic.gold += gold_upkeep;
 
-    units->p[r] = units->p[--n];
+    n--;
   }
 
   return pplayer->economic.gold >= 0;
@@ -1778,31 +1769,29 @@ static bool player_balance_treasury_buildings(struct player *pplayer)
 **************************************************************************/
 static bool player_balance_treasury_units(struct player *pplayer)
 {
-  struct unitgold_vector units;
-  struct unitgold ug;
+  struct unit_list *punitlist;
 
   if (!pplayer) {
     return FALSE;
   }
 
-  unitgold_vector_init(&units);
+  punitlist = unit_list_new();
 
   city_list_iterate(pplayer->cities, pcity) {
     unit_list_iterate(pcity->units_supported, punit) {
       if (punit->upkeep[O_GOLD] > 0) {
-        ug.punit = punit;
-        unitgold_vector_append(&units, &ug);
+        unit_list_append(punitlist, punit);
       }
     } unit_list_iterate_end;
   } city_list_iterate_end;
 
-  if (!sell_random_units(pplayer, &units)) {
+  if (!sell_random_units(pplayer, punitlist)) {
     /* If we get here it means the player has
      * negative gold. This should never happen. */
     die("Player cannot have negative gold.");
   }
 
-  unitgold_vector_free(&units);
+  unit_list_free(punitlist);
 
   return pplayer->economic.gold >= 0;
 }
@@ -1854,34 +1843,33 @@ static bool city_balance_treasury_buildings(struct city *pcity)
 static bool city_balance_treasury_units(struct city *pcity)
 {
   struct player *pplayer;
-  struct unitgold_vector units;
-  struct unitgold ug;
+  struct unit_list *punitlist;
 
   if (!pcity) {
     return TRUE;
   }
 
   pplayer = city_owner(pcity);
-  unitgold_vector_init(&units);
+  punitlist = unit_list_new();
 
   /* Create a vector of all supported units with gold upkeep. */
   unit_list_iterate(pcity->units_supported, punit) {
     if (punit->upkeep[O_GOLD] > 0) {
-      ug.punit = punit;
-      unitgold_vector_append(&units, &ug);
-    }
+       unit_list_append(punitlist, punit);
+     }
   } unit_list_iterate_end;
 
   /* Still not enough gold, so try "selling" some units. */
-  sell_random_units(pplayer, &units);
+  sell_random_units(pplayer, punitlist);
 
   /* If we get here the player has negative gold, but hopefully
    * another city will be able to pay the deficit, so continue. */
 
-  unitgold_vector_free(&units);
+  unit_list_free(punitlist);
 
   return pplayer->economic.gold >= 0;
 }
+
 
 /**************************************************************************
  Add some Pollution if we have waste
