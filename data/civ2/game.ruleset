@@ -56,7 +56,13 @@ nuke_contamination	= "Pollution"
 ;     is negative, random buildings in the city are sold off. If the gold
 ;     is still negative, then supported units with gold upkeep are
 ;     disbanded.
-; 1 - Gold upkeep for all buildings and units is paid in a lump sum after
+; 1 - In the first step, the player's total gold must be non-negative after
+;     paying upkeep for all buildings within a city. If for any city the
+;     player's gold is negative, random buildings in the city are sold off.
+;     In the second step, gold upkeep for all units is paid in a lump sum.
+;     If the player does not have enough gold, random units with gold upkeep
+;     are disbanded.
+; 2 - Gold upkeep for all buildings and units is paid in a lump sum after
 ;     all cities have been processed. If the player does not have enough
 ;     gold, random buildings from random cities are sold. If still more
 ;     gold is needed, then random units with gold upkeep are disbanded.
