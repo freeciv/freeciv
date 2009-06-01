@@ -460,7 +460,7 @@ static void option_command_callback(GtkWidget *win, gint rid)
 *****************************************************************/
 static void create_option_dialog(void)
 {
-  GtkWidget *ebox, *label, *notebook, *align, *vbox[COC_MAX];
+  GtkWidget *ebox, *label, *notebook, *align, *vbox[COC_MAX], *sw;
   int i, len[COC_MAX];
   GtkSizeGroup *group[2][COC_MAX];
   GtkTooltips *tips;
@@ -473,17 +473,26 @@ static void create_option_dialog(void)
 	GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
 	NULL);
   setup_dialog(option_dialog_shell, toplevel);
-  gtk_window_set_position (GTK_WINDOW(option_dialog_shell), GTK_WIN_POS_MOUSE);
+  gtk_window_set_position(GTK_WINDOW(option_dialog_shell),
+                          GTK_WIN_POS_MOUSE);
+  gtk_window_set_default_size(GTK_WINDOW(option_dialog_shell), -1, 400);
 
   notebook = gtk_notebook_new();
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(option_dialog_shell)->vbox),
-		     notebook, FALSE, FALSE, 0);
+                     notebook, TRUE, TRUE, 0);
 
   for (i = 0; i < COC_MAX; i++) {
     label = gtk_label_new_with_mnemonic(_(client_option_class_names[i]));
+
+    sw = gtk_scrolled_window_new(NULL, NULL);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
+                                   GTK_POLICY_NEVER,
+                                   GTK_POLICY_AUTOMATIC);
+    gtk_notebook_append_page(GTK_NOTEBOOK(notebook), sw, label);
+
     align = gtk_alignment_new(0.0, 0.0, 1.0, 0.0);
     gtk_container_set_border_width(GTK_CONTAINER(align), 8);
-    gtk_notebook_append_page(GTK_NOTEBOOK(notebook), align, label);
+    gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(sw), align);
 
     vbox[i] = gtk_vbox_new(TRUE, 0);
     gtk_container_add(GTK_CONTAINER(align), vbox[i]);
