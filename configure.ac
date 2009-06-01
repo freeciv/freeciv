@@ -122,7 +122,9 @@ gui_ftwl=no
 gui_beos=no
 gui_stub=no
 
-AC_PROG_SED
+dnl AC_PROG_SED is available only in autoconf 2.60 and later.
+dnl With older autoconf, assume that 'sed' is ok.
+ifdef([AC_PROG_SED], [AC_PROG_SED], [SED=sed])
 
 for gui in $(echo $clients | $SED 's/,/ /g') ; do
   if test "x$gui" = "xno" ; then
