@@ -2305,7 +2305,8 @@ static const char *objprop_get_attribute_type_string(const struct objprop *op)
   }
 
   gtype = objprop_get_gtype(op);
-  if (gtype == G_TYPE_INT || gtype == G_TYPE_STRING) {
+  if (gtype == G_TYPE_INT || gtype == G_TYPE_STRING
+      || gtype == G_TYPE_BOOLEAN) {
     return "text";
   } else if (gtype == GDK_TYPE_PIXBUF) {
     return "pixbuf";
@@ -2388,7 +2389,8 @@ static GtkCellRenderer *objprop_create_cell_renderer(const struct objprop *op)
 
   gtype = objprop_get_gtype(op);
 
-  if (gtype == G_TYPE_INT || gtype == G_TYPE_STRING) {
+  if (gtype == G_TYPE_INT || gtype == G_TYPE_STRING
+      || gtype == G_TYPE_BOOLEAN) {
     cell = gtk_cell_renderer_text_new();
   } else if (gtype == GDK_TYPE_PIXBUF) {
     cell = gtk_cell_renderer_pixbuf_new();
