@@ -124,7 +124,7 @@ void gui_dialog_set_return_dialog(struct gui_dialog *dlg,
 struct client_option;
 void gui_update_font_from_option(struct client_option *o);
 
-void disable_widget_callback(GtkWidget *w, GCallback cb);
-void enable_widget_callback(GtkWidget *w, GCallback cb);
+void disable_gobject_callback(GObject *obj, GCallback cb);
+void enable_gobject_callback(GObject *obj, GCallback cb);
 
 #endif  /* FC__GUI_STUFF_H */

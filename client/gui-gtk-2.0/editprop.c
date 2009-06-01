@@ -2730,7 +2730,7 @@ static void objprop_refresh_widget(struct objprop *op,
   case OPID_GAME_YEAR:
     spin = objprop_get_child_widget(op, "spin");
     if (pv) {
-      disable_widget_callback(spin,
+      disable_gobject_callback(G_OBJECT(spin),
           G_CALLBACK(objprop_widget_spin_button_changed));
       if (objbind_get_allowed_value_span(ob, op, &min, &max,
                                          &step, &big_step)) {
@@ -2739,7 +2739,7 @@ static void objprop_refresh_widget(struct objprop *op,
                                        step, big_step);
       }
       gtk_spin_button_set_value(GTK_SPIN_BUTTON(spin), pv->data.v_int);
-      enable_widget_callback(spin,
+      enable_gobject_callback(G_OBJECT(spin),
           G_CALLBACK(objprop_widget_spin_button_changed));
     }
     gtk_widget_set_sensitive(spin, pv != NULL);
@@ -2753,7 +2753,7 @@ static void objprop_refresh_widget(struct objprop *op,
     spin = objprop_get_child_widget(op, "spin");
     label = objprop_get_child_widget(op, "max-value-label");
     if (pv) {
-      disable_widget_callback(spin,
+      disable_gobject_callback(G_OBJECT(spin),
           G_CALLBACK(objprop_widget_spin_button_changed));
       if (objbind_get_allowed_value_span(ob, op, &min, &max,
                                          &step, &big_step)) {
@@ -2766,7 +2766,7 @@ static void objprop_refresh_widget(struct objprop *op,
         gtk_label_set_text(GTK_LABEL(label), NULL);
       }
       gtk_spin_button_set_value(GTK_SPIN_BUTTON(spin), pv->data.v_int);
-      enable_widget_callback(spin,
+      enable_gobject_callback(G_OBJECT(spin),
           G_CALLBACK(objprop_widget_spin_button_changed));
     } else {
       gtk_label_set_text(GTK_LABEL(label), NULL);
@@ -2791,7 +2791,7 @@ static void objprop_refresh_widget(struct objprop *op,
   case OPID_UNIT_MOVED:
   case OPID_UNIT_DONE_MOVING:
     button = objprop_get_child_widget(op, "checkbutton");
-    disable_widget_callback(button,
+    disable_gobject_callback(G_OBJECT(button),
         G_CALLBACK(objprop_widget_toggle_button_changed));
     if (pv) {
       gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button),
@@ -2799,7 +2799,7 @@ static void objprop_refresh_widget(struct objprop *op,
     } else {
       gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), FALSE);
     }
-    enable_widget_callback(button,
+    enable_gobject_callback(G_OBJECT(button),
         G_CALLBACK(objprop_widget_toggle_button_changed));
     gtk_widget_set_sensitive(button, pv != NULL);
     break;
@@ -5107,7 +5107,7 @@ static void property_editor_destroy_button_clicked(GtkButton *button,
 /****************************************************************************
   Handle a change in the active item of the combobox, set by the user.
   NB: This function will also be called if the active item is changed
-  via the API, so use enable/disable_widget_callback if needed.
+  via the API, so use enable/disable_gobject_callback if needed.
 ****************************************************************************/
 static void property_editor_combo_changed(GtkComboBox *combo,
                                           gpointer userdata)
@@ -5331,8 +5331,8 @@ void property_editor_load_tiles(struct property_editor *pe,
     return;
   }
 
-  disable_widget_callback(pe->combo,
-                          G_CALLBACK(property_editor_combo_changed));
+  disable_gobject_callback(G_OBJECT(pe->combo),
+                           G_CALLBACK(property_editor_combo_changed));
 
   for (objtype = 0; objtype < NUM_OBJTYPES; objtype++) {
     pp = property_editor_get_page(pe, objtype);
@@ -5349,8 +5349,8 @@ void property_editor_load_tiles(struct property_editor *pe,
   gtk_notebook_set_current_page(GTK_NOTEBOOK(pe->notebook), objtype);
   gtk_combo_box_set_active(GTK_COMBO_BOX(pe->combo), objtype);
   
-  enable_widget_callback(pe->combo,
-                         G_CALLBACK(property_editor_combo_changed));
+  enable_gobject_callback(G_OBJECT(pe->combo),
+                          G_CALLBACK(property_editor_combo_changed));
 }
 
 /****************************************************************************
@@ -5476,11 +5476,11 @@ void property_editor_reload(struct property_editor *pe, int objtype)
   property_page_fill_widgets(pp);
   gtk_notebook_set_current_page(GTK_NOTEBOOK(pe->notebook), objtype);
 
-  disable_widget_callback(pe->combo,
-                          G_CALLBACK(property_editor_combo_changed));
+  disable_gobject_callback(G_OBJECT(pe->combo),
+                           G_CALLBACK(property_editor_combo_changed));
   gtk_combo_box_set_active(GTK_COMBO_BOX(pe->combo), objtype);
-  enable_widget_callback(pe->combo,
-                         G_CALLBACK(property_editor_combo_changed));
+  enable_gobject_callback(G_OBJECT(pe->combo),
+                          G_CALLBACK(property_editor_combo_changed));
 }
 
 /****************************************************************************

@@ -128,18 +128,22 @@ static void refresh_all_buttons(struct editbar *eb)
     if (tb == NULL) {
       continue;
     }
-    disable_widget_callback(tb, G_CALLBACK(editbar_mode_button_toggled));
+    disable_gobject_callback(G_OBJECT(tb),
+                             G_CALLBACK(editbar_mode_button_toggled));
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tb), i == etm);
-    enable_widget_callback(tb, G_CALLBACK(editbar_mode_button_toggled));
+    enable_gobject_callback(G_OBJECT(tb),
+                            G_CALLBACK(editbar_mode_button_toggled));
     gtk_widget_set_sensitive(tb, editor_tool_has_mode(ett, i));
   }
 
   if (0 <= ett && ett < NUM_EDITOR_TOOL_TYPES
       && eb->tool_buttons[ett] != NULL) {
     tb = eb->tool_buttons[ett];
-    disable_widget_callback(tb, G_CALLBACK(editbar_tool_button_toggled));
+    disable_gobject_callback(G_OBJECT(tb),
+                             G_CALLBACK(editbar_tool_button_toggled));
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tb), TRUE);
-    enable_widget_callback(tb, G_CALLBACK(editbar_tool_button_toggled));
+    enable_gobject_callback(G_OBJECT(tb),
+                            G_CALLBACK(editbar_tool_button_toggled));
   }
 }
 

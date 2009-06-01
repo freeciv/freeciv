@@ -998,35 +998,35 @@ void gui_update_font_from_option(struct client_option *o) {
 
 /****************************************************************************
   Temporarily disable signal invocation of the given callback for the given
-  widget. Re-enable the signal with enable_widget_callback.
+  GObject. Re-enable the signal with enable_gobject_callback.
 ****************************************************************************/
-void disable_widget_callback(GtkWidget *w, GCallback cb)
+void disable_gobject_callback(GObject *obj, GCallback cb)
 {
   gulong hid;
 
-  if (!w || !cb) {
+  if (!obj || !cb) {
     return;
   }
 
-  hid = g_signal_handler_find(w, G_SIGNAL_MATCH_FUNC,
+  hid = g_signal_handler_find(obj, G_SIGNAL_MATCH_FUNC,
                               0, 0, NULL, cb, NULL);
-  g_signal_handler_block(w, hid);
+  g_signal_handler_block(obj, hid);
 }
 
 /****************************************************************************
-  Re-enable a signal callback blocked by disable_widget_callback.
+  Re-enable a signal callback blocked by disable_gobject_callback.
 ****************************************************************************/
-void enable_widget_callback(GtkWidget *w, GCallback cb)
+void enable_gobject_callback(GObject *obj, GCallback cb)
 {
   gulong hid;
 
-  if (!w || !cb) {
+  if (!obj || !cb) {
     return;
   }
 
-  hid = g_signal_handler_find(w, G_SIGNAL_MATCH_FUNC,
+  hid = g_signal_handler_find(obj, G_SIGNAL_MATCH_FUNC,
                               0, 0, NULL, cb, NULL);
-  g_signal_handler_unblock(w, hid);
+  g_signal_handler_unblock(obj, hid);
 }
 
 /**************************************************************************
