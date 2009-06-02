@@ -487,6 +487,8 @@ struct property_page {
   GtkWidget *extviewer_notebook;
   GtkTooltips *tooltips;
 
+  struct property_editor *pe_parent;
+
   struct hash_table *objprop_table;
   struct hash_table *objbind_table;
   struct hash_table *tag_table;
@@ -494,7 +496,8 @@ struct property_page {
   struct objbind *focused_objbind;
 };
 
-static struct property_page *property_page_new(int objtype);
+static struct property_page *
+property_page_new(int objtype, struct property_editor *parent);
 static void property_page_setup_objprops(struct property_page *pp);
 static const char *property_page_get_name(const struct property_page *pp);
 static int property_page_get_objtype(const struct property_page *pp);
@@ -550,6 +553,15 @@ static void property_page_remove_creation_tag(struct property_page *pp,
                                               int tag);
 static bool property_page_tag_is_known(struct property_page *pp, int tag);
 static void property_page_clear_tags(struct property_page *pp);
+static void property_page_apply_button_clicked(GtkButton *button,
+                                               gpointer userdata);
+static void property_page_refresh_button_clicked(GtkButton *button,
+                                                 gpointer userdata);
+static void property_page_create_button_clicked(GtkButton *button,
+                                                gpointer userdata);
+static void property_page_destroy_button_clicked(GtkButton *button,
+                                                 gpointer userdata);
+
 
 #define property_page_objprop_iterate(ARG_pp, NAME_op)\
   hash_values_iterate((ARG_pp)->objprop_table, NAME_op)
@@ -566,9 +578,6 @@ static void property_page_clear_tags(struct property_page *pp);
 struct property_editor {
   GtkWidget *widget;
   GtkWidget *notebook;
-  GtkWidget *combo;
-  GtkWidget *create_button, *destroy_button;
-  GtkTooltips *tooltips;
 
   struct property_page *property_pages[NUM_OBJTYPES];
 };
@@ -578,23 +587,6 @@ static bool property_editor_add_page(struct property_editor *pe,
                                      int objtype);
 static struct property_page *
 property_editor_get_page(struct property_editor *pe, int objtype);
-static struct property_page *
-property_editor_get_current_page(struct property_editor *pe);
-static void property_editor_apply_button_clicked(GtkButton *button,
-                                                 gpointer userdata);
-static void property_editor_refresh_button_clicked(GtkButton *button,
-                                                   gpointer userdata);
-static void property_editor_create_button_clicked(GtkButton *button,
-                                                  gpointer userdata);
-static void property_editor_destroy_button_clicked(GtkButton *button,
-                                                   gpointer userdata);
-static void property_editor_combo_changed(GtkComboBox *combo,
-                                          gpointer userdata);
-static void property_editor_page_changed(GtkNotebook *notebook,
-                                         GtkNotebookPage *page,
-                                         guint page_num,
-                                         gpointer userdata);
-
 
 static struct property_editor *the_property_editor;
 
@@ -3971,21 +3963,25 @@ static void property_page_quick_find_entry_changed(GtkWidget *entry,
 
 /****************************************************************************
   Create and return a property page of the given object type.
-  Return NULL if the page could not be created.
+  Returns NULL if the page could not be created.
 ****************************************************************************/
-static struct property_page *property_page_new(int objtype)
+static struct property_page *
+property_page_new(int objtype, struct property_editor *pe)
 {
   struct property_page *pp;
   GtkWidget *vbox, *vbox2, *hbox, *hbox2, *paned, *frame, *w;
   GtkWidget *scrollwin, *view, *label, *entry, *viewport, *notebook;
+  GtkWidget *button, *hsep, *image;
   GtkAdjustment *hadj, *vadj;
   GtkTreeSelection *sel;
   GtkCellRenderer *cell;
   GtkTreeViewColumn *col;
+  GtkSizeGroup *sizegroup;
   int num_columns = 0;
   GType *gtype_array;
   int col_id = 1;
   const char *attr_type_str, *name;
+  char title[64];
 
   if (!(0 <= objtype && objtype < NUM_OBJTYPES)) {
     return NULL;
@@ -3994,6 +3990,9 @@ static struct property_page *property_page_new(int objtype)
   pp = fc_calloc(1, sizeof(struct property_page));
   pp->objtype = objtype;
   pp->tooltips = gtk_tooltips_new();
+  pp->pe_parent = pe;
+
+  sizegroup = gtk_size_group_new(GTK_SIZE_GROUP_BOTH);
 
   pp->objprop_table = hash_new(hash_fval_int, hash_fcmp_int);
   property_page_setup_objprops(pp);
@@ -4027,11 +4026,15 @@ static struct property_page *property_page_new(int objtype)
   pp->object_store = gtk_list_store_newv(num_columns, gtype_array);
   free(gtype_array);
 
-
   paned = gtk_hpaned_new();
+  gtk_paned_set_position(GTK_PANED(paned), 256);
   pp->widget = paned;
 
   /* Left side object list view. */
+
+  vbox = gtk_vbox_new(FALSE, 4);
+  gtk_container_set_border_width(GTK_CONTAINER(vbox), 4);
+  gtk_paned_pack1(GTK_PANED(paned), vbox, TRUE, TRUE);
 
   scrollwin = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrollwin),
@@ -4039,7 +4042,7 @@ static struct property_page *property_page_new(int objtype)
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollwin),
                                  GTK_POLICY_AUTOMATIC,
                                  GTK_POLICY_AUTOMATIC);
-  gtk_paned_pack1(GTK_PANED(paned), scrollwin, TRUE, TRUE);
+  gtk_box_pack_start(GTK_BOX(vbox), scrollwin, TRUE, TRUE, 0);
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(pp->object_store));
   gtk_tree_view_set_rules_hint(GTK_TREE_VIEW(view), TRUE);
@@ -4094,28 +4097,88 @@ static struct property_page *property_page_new(int objtype)
   gtk_container_add(GTK_CONTAINER(scrollwin), view);
   pp->object_view = view;
 
+  if (!objtype_is_conserved(objtype)) {
+    hbox = gtk_hbox_new(FALSE, 4);
+    gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+
+    button = gtk_button_new();
+    hbox2 = gtk_hbox_new(FALSE, 0);
+    image = gtk_image_new_from_stock(GTK_STOCK_REMOVE,
+                                     GTK_ICON_SIZE_BUTTON);
+    gtk_box_pack_start(GTK_BOX(hbox2), image, FALSE, FALSE, 0);
+    label = gtk_label_new(_("Destroy"));
+    gtk_box_pack_start(GTK_BOX(hbox2), label, FALSE, FALSE, 0);
+    gtk_container_add(GTK_CONTAINER(button), hbox2);
+    gtk_size_group_add_widget(sizegroup, button);
+    gtk_tooltips_set_tip(pp->tooltips, button,
+        _("Pressing this button will send a request to the server "
+          "to destroy (i.e. erase) the objects selected in the object "
+          "list."), "");
+    g_signal_connect(button, "clicked",
+                     G_CALLBACK(property_page_destroy_button_clicked), pp);
+    gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
+
+    button = gtk_button_new();
+    hbox2 = gtk_hbox_new(FALSE, 0);
+    image = gtk_image_new_from_stock(GTK_STOCK_ADD, GTK_ICON_SIZE_BUTTON);
+    gtk_box_pack_start(GTK_BOX(hbox2), image, FALSE, FALSE, 0);
+    label = gtk_label_new(_("Create"));
+    gtk_box_pack_start(GTK_BOX(hbox2), label, FALSE, FALSE, 0);
+    gtk_container_add(GTK_CONTAINER(button), hbox2);
+    gtk_size_group_add_widget(sizegroup, button);
+    gtk_tooltips_set_tip(pp->tooltips, button,
+        _("Pressing this button will create a new object of the "
+          "same type as the current property page and add it to "
+          "the page. The specific type and count of the objects "
+          "is taken from the editor tool state. So for example, "
+          "the \"tool value\" of the unit tool and its \"count\" "
+          "parameter affect unit creation."), "");
+    g_signal_connect(button, "clicked",
+                     G_CALLBACK(property_page_create_button_clicked), pp);
+    gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
+  }
 
   /* Right side properties panel. */
 
-  hbox = gtk_hbox_new(FALSE, 0);
-  gtk_container_set_border_width(GTK_CONTAINER(hbox), 4);
+  hbox = gtk_hbox_new(FALSE, 4);
   gtk_paned_pack2(GTK_PANED(paned), hbox, TRUE, TRUE);
 
-  vbox = gtk_vbox_new(FALSE, 0);
+  vbox = gtk_vbox_new(FALSE, 4);
+  gtk_container_set_border_width(GTK_CONTAINER(vbox), 4);
   gtk_box_pack_start(GTK_BOX(hbox), vbox, FALSE, FALSE, 0);
 
   /* Extended property viewer to the right of the properties panel.
    * This needs to be created before property widgets, since some
    * might try to append themselves to this notebook. */
+
+  vbox2 = gtk_vbox_new(FALSE, 4);
+  gtk_box_pack_start(GTK_BOX(hbox), vbox2, TRUE, TRUE, 0);
+
   notebook = gtk_notebook_new();
+  gtk_widget_set_size_request(notebook, 256, -1);
   gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebook), FALSE);
   gtk_notebook_set_show_border(GTK_NOTEBOOK(notebook), FALSE);
-  gtk_box_pack_start(GTK_BOX(hbox), notebook, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(vbox2), notebook, TRUE, TRUE, 0);
   pp->extviewer_notebook = notebook;
 
+  hsep = gtk_hseparator_new();
+  gtk_box_pack_start(GTK_BOX(vbox2), hsep, FALSE, FALSE, 0);
+
+  hbox2 = gtk_hbox_new(FALSE, 0);
+  gtk_container_set_border_width(GTK_CONTAINER(hbox2), 4);
+  gtk_box_pack_start(GTK_BOX(vbox2), hbox2, FALSE, FALSE, 0);
+
+  button = gtk_button_new_from_stock(GTK_STOCK_CLOSE);
+  gtk_size_group_add_widget(sizegroup, button);
+  g_signal_connect_swapped(button, "clicked",
+      G_CALLBACK(gtk_widget_hide_on_delete), pe->widget);
+  gtk_box_pack_end(GTK_BOX(hbox2), button, FALSE, FALSE, 0);
+
   /* Now create the properties panel. */
-  frame = gtk_frame_new(_("Properties"));
-  gtk_container_set_border_width(GTK_CONTAINER(frame), 4);
+
+  my_snprintf(title, sizeof(title), _("%s Properties"),
+              objtype_get_name(objtype));
+  frame = gtk_frame_new(title);
   gtk_widget_set_size_request(frame, 256, -1);
   gtk_box_pack_start(GTK_BOX(vbox), frame, TRUE, TRUE, 0);
 
@@ -4149,7 +4212,6 @@ static struct property_page *property_page_new(int objtype)
   } property_page_objprop_iterate_end;
 
   hbox2 = gtk_hbox_new(FALSE, 4);
-  gtk_container_set_border_width(GTK_CONTAINER(hbox2), 4);
   gtk_box_pack_start(GTK_BOX(vbox), hbox2, FALSE, FALSE, 4);
 
   label = gtk_label_new(_("Filter:"));
@@ -4166,8 +4228,29 @@ static struct property_page *property_page_new(int objtype)
       G_CALLBACK(property_page_quick_find_entry_changed), pp);
   gtk_box_pack_start(GTK_BOX(hbox2), entry, TRUE, TRUE, 0);
 
+  hbox2 = gtk_hbox_new(FALSE, 4);
+  gtk_box_pack_start(GTK_BOX(vbox), hbox2, FALSE, FALSE, 0);
 
-  gtk_paned_set_position(GTK_PANED(paned), 300);
+  button = gtk_button_new_from_stock(GTK_STOCK_APPLY);
+  gtk_size_group_add_widget(sizegroup, button);
+  gtk_tooltips_set_tip(pp->tooltips, button,
+      _("Pressing this button will send all modified properties of "
+        "the objects selected in the object list to the server. "
+        "Modified properties' names are shown in red in the properties "
+        "panel."), "");
+  g_signal_connect(button, "clicked",
+                   G_CALLBACK(property_page_apply_button_clicked), pp);
+  gtk_box_pack_end(GTK_BOX(hbox2), button, FALSE, FALSE, 0);
+
+  button = gtk_button_new_from_stock(GTK_STOCK_REFRESH);
+  gtk_size_group_add_widget(sizegroup, button);
+  gtk_tooltips_set_tip(pp->tooltips, button,
+      _("Pressing this button will reset all modified properties of "
+        "the selected objects to their current values (the values "
+        "they have on the server)."), "");
+  g_signal_connect(button, "clicked",
+                   G_CALLBACK(property_page_refresh_button_clicked), pp);
+  gtk_box_pack_end(GTK_BOX(hbox2), button, FALSE, FALSE, 0);
 
   return pp;
 }
@@ -5158,6 +5241,65 @@ static void property_page_clear_tags(struct property_page *pp)
 }
 
 /****************************************************************************
+  Handles the 'clicked' signal for the "Apply" button in the property page.
+****************************************************************************/
+static void property_page_apply_button_clicked(GtkButton *button,
+                                               gpointer userdata)
+{
+  struct property_page *pp = userdata;
+  property_page_send_values(pp);
+}
+
+/****************************************************************************
+  Handles the 'clicked' signal for the "Refresh" button in the
+  property page.
+****************************************************************************/
+static void property_page_refresh_button_clicked(GtkButton *button,
+                                                 gpointer userdata)
+{
+  struct property_page *pp = userdata;
+  property_page_reset_objbinds(pp);
+}
+
+/****************************************************************************
+  Handle a request to create a new object in the property page.
+****************************************************************************/
+static void property_page_create_button_clicked(GtkButton *button,
+                                                gpointer userdata)
+{
+  struct property_page *pp = userdata, *tile_pp;
+  struct tile_list *tiles = NULL;
+  struct tile *ptile;
+
+  if (!pp) {
+    return;
+  }
+
+  tile_pp = property_editor_get_page(pp->pe_parent, OBJTYPE_TILE);
+  tiles = tile_list_new();
+
+  property_page_objbind_iterate(tile_pp, ob) {
+    ptile = objbind_get_object(ob);
+    if (ptile) {
+      tile_list_append(tiles, ptile);
+    }
+  } property_page_objbind_iterate_end;
+
+  property_page_create_objects(pp, tiles);
+  tile_list_free(tiles);
+}
+
+/****************************************************************************
+  Handle a click on the "destroy" button.
+****************************************************************************/
+static void property_page_destroy_button_clicked(GtkButton *button,
+                                                 gpointer userdata)
+{
+  struct property_page *pp = userdata;
+  property_page_destroy_objects(pp);
+}
+
+/****************************************************************************
   Create and add a property page for the given object type
   to the property editor. Returns TRUE if successful.
 ****************************************************************************/
@@ -5171,12 +5313,12 @@ static bool property_editor_add_page(struct property_editor *pe,
   if (!pe || !pe->notebook) {
     return FALSE;
   }
-  
+
   if (!(0 <= objtype && objtype < NUM_OBJTYPES)) {
     return FALSE;
   }
 
-  pp = property_page_new(objtype);
+  pp = property_page_new(objtype, pe);
   if (!pp) {
     return FALSE;
   }
@@ -5205,275 +5347,44 @@ property_editor_get_page(struct property_editor *pe, int objtype)
 }
 
 /****************************************************************************
-  Returns the property page that is currently shown in the notebook, or NULL.
-****************************************************************************/
-static struct property_page *
-property_editor_get_current_page(struct property_editor *pe)
-{
-  int objtype;
-
-  if (!pe || !pe->notebook) {
-    return NULL;
-  }
-
-  objtype = gtk_notebook_get_current_page(GTK_NOTEBOOK(pe->notebook));
-  return property_editor_get_page(pe, objtype);
-}
-
-/****************************************************************************
-  Handles the 'clicked' signal for the "Apply" button in the property editor.
-****************************************************************************/
-static void property_editor_apply_button_clicked(GtkButton *button,
-                                                 gpointer userdata)
-{
-  struct property_editor *pe = userdata;
-  property_page_send_values(property_editor_get_current_page(pe));
-}
-
-/****************************************************************************
-  Handles the 'clicked' signal for the "Refresh" button in the
-  property editor.
-****************************************************************************/
-static void property_editor_refresh_button_clicked(GtkButton *button,
-                                                   gpointer userdata)
-{
-  struct property_editor *pe = userdata;
-  property_page_reset_objbinds(property_editor_get_current_page(pe));
-}
-
-/****************************************************************************
-  Handle a request to create a new object in the current property page.
-****************************************************************************/
-static void property_editor_create_button_clicked(GtkButton *button,
-                                                  gpointer userdata)
-{
-  struct property_editor *pe = userdata;
-  struct property_page *pp;
-  struct tile_list *tiles;
-  struct tile *ptile;
-
-  tiles = tile_list_new();
-
-  pp = property_editor_get_page(pe, OBJTYPE_TILE);
-  property_page_objbind_iterate(pp, ob) {
-    ptile = objbind_get_object(ob);
-    if (ptile) {
-      tile_list_append(tiles, ptile);
-    }
-  } property_page_objbind_iterate_end;
-
-  pp = property_editor_get_current_page(pe);
-  property_page_create_objects(pp, tiles);
-
-  tile_list_free(tiles);
-}
-
-/****************************************************************************
-  Handle a click on the "destroy" button.
-****************************************************************************/
-static void property_editor_destroy_button_clicked(GtkButton *button,
-                                                   gpointer userdata)
-{
-  struct property_editor *pe = userdata;
-  property_page_destroy_objects(property_editor_get_current_page(pe));
-}
-
-/****************************************************************************
-  Handle a change in the active item of the combobox, set by the user.
-  NB: This function will also be called if the active item is changed
-  via the API, so use enable/disable_gobject_callback if needed.
-****************************************************************************/
-static void property_editor_combo_changed(GtkComboBox *combo,
-                                          gpointer userdata)
-{
-  struct property_editor *pe;
-  int objtype;
-
-  pe = userdata;
-  if (!pe || !pe->notebook) {
-    return;
-  }
-
-  objtype = gtk_combo_box_get_active(combo);
-  if (!(0 <= objtype && objtype < NUM_OBJTYPES)) {
-    return;
-  }
-  gtk_notebook_set_current_page(GTK_NOTEBOOK(pe->notebook), objtype);
-}
-
-/****************************************************************************
-  Handle any special widget updates right before the property editor
-  changes to a page in the notebook.
-****************************************************************************/
-static void property_editor_page_changed(GtkNotebook *notebook,
-                                         GtkNotebookPage *page,
-                                         guint page_num,
-                                         gpointer userdata)
-{
-  struct property_editor *pe;
-  int objtype;
-  bool sensitive;
-
-  pe = userdata;
-  if (!pe || !pe->notebook || !pe->create_button || !pe->destroy_button) {
-    return;
-  }
-
-  objtype = page_num;
-
-  sensitive = !objtype_is_conserved(objtype);
-  gtk_widget_set_sensitive(pe->create_button, sensitive);
-  gtk_widget_set_sensitive(pe->destroy_button, sensitive);
-}
-
-/****************************************************************************
   Create and return the property editor widget bundle.
 ****************************************************************************/
 static struct property_editor *property_editor_new(void)
 {
   struct property_editor *pe;
-  GtkWidget *notebook, *button, *label, *combo, *image;
-  GtkWidget *hbox, *vbox, *hbox2, *evbox, *spacer;
-  GtkSizeGroup *sizegroup;
-  int objtype, w, h;
-  const char *name;
+  GtkWidget *win, *notebook, *vbox;
+  int objtype;
 
   pe = fc_calloc(1, sizeof(*pe));
-  pe->tooltips = gtk_tooltips_new();
 
-  hbox = gtk_hbox_new(FALSE, 4);
-  pe->widget = hbox;
+  /* The property editor dialog window. */
 
+  win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_title(GTK_WINDOW(win), _("Property Editor"));
+  gtk_window_set_resizable(GTK_WINDOW(win), TRUE);
+  gtk_window_set_default_size(GTK_WINDOW(win), 780, 500);
+  gtk_window_set_position(GTK_WINDOW(win), GTK_WIN_POS_CENTER_ON_PARENT);
+  gtk_window_set_transient_for(GTK_WINDOW(win), GTK_WINDOW(toplevel));
+  gtk_window_set_destroy_with_parent(GTK_WINDOW(win), TRUE);
+  gtk_window_set_type_hint(GTK_WINDOW(win), GDK_WINDOW_TYPE_HINT_DIALOG);
+  gtk_container_set_border_width(GTK_CONTAINER(win), 4);
+  g_signal_connect(win, "delete-event",
+                   G_CALLBACK(gtk_widget_hide_on_delete), NULL);
+  pe->widget = win;
 
-  /* Insert into bottom notebook with custom label. */
-
-  hbox2 = gtk_hbox_new(FALSE, 0);
-
-  label = gtk_label_new(_("Property Editor"));
-  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-  gtk_misc_set_padding(GTK_MISC(label), 4, 0);
-  gtk_box_pack_start(GTK_BOX(hbox2), label, TRUE, TRUE, 0);
-
-  button = gtk_button_new();
-  gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
-  gtk_icon_size_lookup(GTK_ICON_SIZE_MENU, &w, &h);
-  gtk_widget_set_size_request(button, w, h);
-  gtk_tooltips_set_tip(pe->tooltips, button, _("Close Tab"), "");
-  g_signal_connect_swapped(button, "clicked",
-      G_CALLBACK(gtk_widget_hide_on_delete), pe->widget);
-  gtk_box_pack_start(GTK_BOX(hbox2), button, FALSE, FALSE, 0);
-
-  image = gtk_image_new_from_stock(GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
-  gtk_container_add(GTK_CONTAINER(button), image);
-
-  gtk_widget_show_all(hbox2);
-
-  gtk_notebook_append_page(GTK_NOTEBOOK(bottom_notebook),
-                           pe->widget, hbox2);
+  vbox = gtk_vbox_new(FALSE, 4);
+  gtk_container_add(GTK_CONTAINER(win), vbox);
 
   /* Property pages. */
 
   notebook = gtk_notebook_new();
-  gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebook), FALSE);
-  gtk_box_pack_start(GTK_BOX(hbox), notebook, TRUE, TRUE, 0);
-  g_signal_connect(notebook, "switch-page",
-                   G_CALLBACK(property_editor_page_changed), pe);
+  gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebook), TRUE);
+  gtk_box_pack_start(GTK_BOX(vbox), notebook, TRUE, TRUE, 0);
   pe->notebook = notebook;
 
   for (objtype = 0; objtype < NUM_OBJTYPES; objtype++) {
     property_editor_add_page(pe, objtype);
   }
-
-  /* Page switching combobox and controlling buttons. */
-
-  vbox = gtk_vbox_new(FALSE, 8);
-  gtk_container_set_border_width(GTK_CONTAINER(vbox), 4);
-  gtk_box_pack_start(GTK_BOX(hbox), vbox, FALSE, FALSE, 0);
-
-  sizegroup = gtk_size_group_new(GTK_SIZE_GROUP_BOTH);
-
-  /* Upper buttons/combobox. */
-  combo = gtk_combo_box_new_text();
-  gtk_size_group_add_widget(sizegroup, combo);
-  for (objtype = 0; objtype < NUM_OBJTYPES; objtype++) {
-    name = property_page_get_name(property_editor_get_page(pe, objtype));
-    if (!name) {
-      continue;
-    }
-    gtk_combo_box_append_text(GTK_COMBO_BOX(combo), name);
-  }
-  g_signal_connect(combo, "changed",
-                   G_CALLBACK(property_editor_combo_changed), pe);
-  evbox = gtk_event_box_new();
-  gtk_tooltips_set_tip(pe->tooltips, evbox,
-      _("This shows the current property page in the property editor. "
-        "You can also change pages by selecting one from the list."), "");
-  gtk_container_add(GTK_CONTAINER(evbox), combo);
-  gtk_box_pack_start(GTK_BOX(vbox), evbox, FALSE, FALSE, 0);
-  pe->combo = combo;
-
-  /* Lower buttons. */
-  button = gtk_button_new_from_stock(GTK_STOCK_APPLY);
-  gtk_size_group_add_widget(sizegroup, button);
-  gtk_tooltips_set_tip(pe->tooltips, button,
-      _("Pressing this button will send all modified properties of "
-        "the objects selected in the object list to the server. "
-        "Modified properties' names are shown in red in the properties "
-        "panel."), "");
-  g_signal_connect(button, "clicked",
-                   G_CALLBACK(property_editor_apply_button_clicked), pe);
-  gtk_box_pack_end(GTK_BOX(vbox), button, FALSE, FALSE, 0);
-
-  button = gtk_button_new_from_stock(GTK_STOCK_REFRESH);
-  gtk_size_group_add_widget(sizegroup, button);
-  gtk_tooltips_set_tip(pe->tooltips, button,
-      _("Pressing this button will reset all modified properties of "
-        "the selected objects to their current values (the values "
-        "they have on the server)."), "");
-  g_signal_connect(button, "clicked",
-                   G_CALLBACK(property_editor_refresh_button_clicked), pe);
-  gtk_box_pack_end(GTK_BOX(vbox), button, FALSE, FALSE, 0);
-
-  spacer = gtk_alignment_new(0.5, 0.5, 0.0, 0.0);
-  gtk_widget_set_size_request(spacer, -1, 8);
-  gtk_box_pack_end(GTK_BOX(vbox), spacer, FALSE, FALSE, 0);
-
-  button = gtk_button_new();
-  hbox2 = gtk_hbox_new(FALSE, 0);
-  image = gtk_image_new_from_stock(GTK_STOCK_REMOVE, GTK_ICON_SIZE_BUTTON);
-  gtk_box_pack_start(GTK_BOX(hbox2), image, FALSE, FALSE, 0);
-  label = gtk_label_new(_("Destroy"));
-  gtk_box_pack_start(GTK_BOX(hbox2), label, FALSE, FALSE, 0);
-  gtk_container_add(GTK_CONTAINER(button), hbox2);
-  gtk_size_group_add_widget(sizegroup, button);
-  gtk_tooltips_set_tip(pe->tooltips, button,
-      _("Pressing this button will send a request to the server "
-        "to destroy (i.e. erase) the objects selected in the object "
-        "list."), "");
-  g_signal_connect(button, "clicked",
-                   G_CALLBACK(property_editor_destroy_button_clicked), pe);
-  gtk_box_pack_end(GTK_BOX(vbox), button, FALSE, FALSE, 0);
-  pe->destroy_button = button;
-
-  button = gtk_button_new();
-  hbox2 = gtk_hbox_new(FALSE, 0);
-  image = gtk_image_new_from_stock(GTK_STOCK_ADD, GTK_ICON_SIZE_BUTTON);
-  gtk_box_pack_start(GTK_BOX(hbox2), image, FALSE, FALSE, 0);
-  label = gtk_label_new(_("Create"));
-  gtk_box_pack_start(GTK_BOX(hbox2), label, FALSE, FALSE, 0);
-  gtk_container_add(GTK_CONTAINER(button), hbox2);
-  gtk_size_group_add_widget(sizegroup, button);
-  gtk_tooltips_set_tip(pe->tooltips, button,
-      _("Pressing this button will create a new object of the "
-        "same type as the current property page and add it to "
-        "the page. The specific type and count of the objects "
-        "is taken from the editor tool state. So for example, "
-        "the \"tool value\" of the unit tool and its \"count\" "
-        "parameter affect unit creation."), "");
-  g_signal_connect(button, "clicked",
-                   G_CALLBACK(property_editor_create_button_clicked), pe);
-  gtk_box_pack_end(GTK_BOX(vbox), button, FALSE, FALSE, 0);
-  pe->create_button = button;
 
   gtk_widget_show_all(pe->widget);
 
@@ -5505,9 +5416,6 @@ void property_editor_load_tiles(struct property_editor *pe,
     return;
   }
 
-  disable_gobject_callback(G_OBJECT(pe->combo),
-                           G_CALLBACK(property_editor_combo_changed));
-
   for (objtype = 0; objtype < NUM_OBJTYPES; objtype++) {
     pp = property_editor_get_page(pe, objtype);
     property_page_load_tiles(pp, tiles);
@@ -5521,10 +5429,6 @@ void property_editor_load_tiles(struct property_editor *pe,
   }
   objtype = preferred[i];
   gtk_notebook_set_current_page(GTK_NOTEBOOK(pe->notebook), objtype);
-  gtk_combo_box_set_active(GTK_COMBO_BOX(pe->combo), objtype);
-  
-  enable_gobject_callback(G_OBJECT(pe->combo),
-                          G_CALLBACK(property_editor_combo_changed));
 }
 
 /****************************************************************************
@@ -5533,16 +5437,11 @@ void property_editor_load_tiles(struct property_editor *pe,
 ****************************************************************************/
 void property_editor_popup(struct property_editor *pe, int objtype)
 {
-  int page;
-
-  if (!pe || !pe->widget || !bottom_notebook) {
+  if (!pe || !pe->widget) {
     return;
   }
 
-  gtk_widget_show(pe->widget);
-  page = gtk_notebook_page_num(GTK_NOTEBOOK(bottom_notebook),
-                               pe->widget);
-  gtk_notebook_set_current_page(GTK_NOTEBOOK(bottom_notebook), page);
+  gtk_window_present(GTK_WINDOW(pe->widget));
   if (0 <= objtype && objtype < NUM_OBJTYPES) {
     gtk_notebook_set_current_page(GTK_NOTEBOOK(pe->notebook), objtype);
   }
@@ -5653,12 +5552,6 @@ void property_editor_reload(struct property_editor *pe, int objtype)
 
   property_page_fill_widgets(pp);
   gtk_notebook_set_current_page(GTK_NOTEBOOK(pe->notebook), objtype);
-
-  disable_gobject_callback(G_OBJECT(pe->combo),
-                           G_CALLBACK(property_editor_combo_changed));
-  gtk_combo_box_set_active(GTK_COMBO_BOX(pe->combo), objtype);
-  enable_gobject_callback(G_OBJECT(pe->combo),
-                          G_CALLBACK(property_editor_combo_changed));
 }
 
 /****************************************************************************
