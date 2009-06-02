@@ -144,13 +144,34 @@ struct unit_type *unit_type(const struct unit *punit)
 int utype_upkeep_cost(const struct unit_type *ut, struct player *pplayer,
                       Output_type_id otype)
 {
-  int val = ut->upkeep[otype];
+  int val = ut->upkeep[otype], gold_upkeep_factor;
 
   if (get_player_bonus(pplayer, EFT_FANATICS)
       && BV_ISSET(ut->flags, F_FANATIC)) {
     /* Special case: fanatics have no upkeep under fanaticism. */
     return 0;
   }
+
+  /* switch shield upkeep to gold upkeep if
+     - the effect 'EFT_SHIELD2GOLD_FACTOR' is non-zero (it gives the
+        conversion factor in percent)
+     FIXME: Should the ai know about this? */
+  gold_upkeep_factor = get_player_bonus(pplayer, EFT_SHIELD2GOLD_FACTOR);
+  gold_upkeep_factor = (gold_upkeep_factor > 0) ? gold_upkeep_factor : 0;
+  if (gold_upkeep_factor > 0) {
+    switch (otype) {
+      case O_GOLD:
+        val = ceil((0.01 * gold_upkeep_factor) * ut->upkeep[O_SHIELD]);
+        break;
+      case O_SHIELD:
+        val = 0;
+        break;
+      default:
+        /* fall through */
+        break;
+    }
+  }
+
   val *= get_player_output_bonus(pplayer, get_output_type(otype), 
                                  EFT_UPKEEP_FACTOR);
   return val;

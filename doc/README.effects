@@ -306,3 +306,8 @@ Visible_Wall
 
 Tech_Cost_Factor
     Factor for research costs.
+
+Shield2Gold_Factor
+    factor in percent for the conversion of unit gold upkeep to shield upkeep.
+    A value of 200 would transfor 1 shield upkeep to 2 gold upkeep. The range
+    of this effect must be player or world.

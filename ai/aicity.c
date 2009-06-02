@@ -722,6 +722,7 @@ static int improvement_effect_value(struct player *pplayer,
     break;
     /* This has no effect for AI */
   case EFT_VISIBLE_WALLS:
+  case EFT_SHIELD2GOLD_FACTOR:
     break;
   case EFT_TECH_COST_FACTOR:
     v -= amount * 50;

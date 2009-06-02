@@ -108,6 +108,8 @@ enum effect_type {
   EFT_UPGRADE_PRICE_PCT,
   EFT_VISIBLE_WALLS,     /* City should use walls gfx */
   EFT_TECH_COST_FACTOR,
+  EFT_SHIELD2GOLD_FACTOR, /* [x%] gold upkeep instead of [1] shield upkeep
+                           * for units */
   EFT_LAST	/* keep this last */
 };
 
