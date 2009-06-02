@@ -2129,9 +2129,10 @@ int city_illness(const struct city *pcity, int *trade_ill, int *effects,
 {
   int size_mod = game.info.illness_safe_mod;
   int trade_penalty = get_trade_illness(pcity);
-  int city_health_effects = get_city_health(pcity);
+  /* city health effects remove illness */
+  int city_illness_effects = -get_city_health(pcity);
   int illness = (pcity->size * pcity->size) - size_mod + trade_penalty
-               + pcity->pollution + city_health_effects;
+               + pcity->pollution + city_illness_effects;
 
   /* returning other data */
   if (trade_ill) {
@@ -2139,7 +2140,7 @@ int city_illness(const struct city *pcity, int *trade_ill, int *effects,
   }
 
   if (effects) {
-    *effects = city_health_effects;
+    *effects = city_illness_effects;
   }
 
   if (from_size) {
