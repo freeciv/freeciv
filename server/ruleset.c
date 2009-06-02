@@ -3830,6 +3830,8 @@ static bool sanity_check_req_set(int reqs_of_type[], struct requirement *preq,
      case VUT_MINYEAR:
      case VUT_AI_LEVEL:
      case VUT_TERRAINCLASS:
+     case VUT_TERRAINALTER: /* Local range only */
+     case VUT_CITYTILE:
        /* There can be only one requirement of these types (with current
         * range limitations)
         * Requirements might be identical, but we consider multiple

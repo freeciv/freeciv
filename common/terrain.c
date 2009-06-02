@@ -46,6 +46,12 @@ static const char *terrain_class_names[] = {
   N_("Oceanic")
 };
 
+static const char *terrain_alteration_names[] = {
+  N_("CanIrrigate"),
+  N_("CanMine"),
+  N_("CanRoad")
+};
+
 /* T_UNKNOWN isn't allowed here. */
 #define SANITY_CHECK_TERRAIN(pterrain)					\
   assert((pterrain)->item_number >= 0					\
@@ -878,4 +884,77 @@ const char *terrain_class_name_translation(enum terrain_class tclass)
   }
 
   return _(terrain_class_names[tclass]);
+}
+
+/****************************************************************************
+  Can terrain support given infrastructure?
+****************************************************************************/
+bool terrain_can_support_alteration(const struct terrain *pterrain,
+                                    enum terrain_alteration alter)
+{
+  switch (alter) {
+   case TA_CAN_IRRIGATE:
+     return (terrain_control.may_irrigate
+          && (pterrain == pterrain->irrigation_result));
+   case TA_CAN_MINE:
+     return (terrain_control.may_mine
+          && (pterrain == pterrain->mining_result));
+   case TA_CAN_ROAD:
+     return (terrain_control.may_road && (pterrain->road_time > 0));
+   case TA_LAST:
+   default:
+     break;
+  }
+
+  assert(FALSE);
+  return FALSE;
+}
+
+/****************************************************************************
+  Return the terrain alteration possibility value matching name, or TA_LAST
+  if none matches.
+****************************************************************************/
+enum terrain_alteration find_terrain_alteration_by_rule_name(const char *name)
+{
+  int i;
+
+  for (i = 0; i < TA_LAST; i++) {
+    if (0 == strcmp(terrain_alteration_names[i], name)) {
+      return i;
+    }
+  }
+
+  return TA_LAST;
+}
+
+/****************************************************************************
+  Return the (untranslated) rule name of the given terrain alteration.
+  You don't have to free the return pointer.
+****************************************************************************/
+const char *terrain_alteration_rule_name(enum terrain_alteration talter)
+{
+  if (talter < 0 || talter >= TA_LAST) {
+    return NULL;
+  }
+
+  return terrain_alteration_names[talter];
+}
+
+/****************************************************************************
+  Return the (translated) name of the infrastructure (e.g., "Irrigation").
+  You don't have to free the return pointer.
+****************************************************************************/
+const char *terrain_alteration_name_translation(enum terrain_alteration talter)
+{
+  switch(talter) {
+   case TA_CAN_IRRIGATE:
+     return special_name_translation(S_IRRIGATION);
+   case TA_CAN_MINE:
+     return special_name_translation(S_MINE);
+   case TA_CAN_ROAD:
+     return special_name_translation(S_ROAD);
+   case TA_LAST:
+   default:
+     return NULL;
+  }
 }

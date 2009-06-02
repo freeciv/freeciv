@@ -234,6 +234,13 @@ static void insert_requirement(char *buf, size_t bufsz,
      cat_snprintf(buf, bufsz, _("Requires %s terrain.\n\n"),
                   terrain_class_name_translation(req->source.value.terrainclass));
      return;
+  case VUT_TERRAINALTER:
+     cat_snprintf(buf, bufsz, _("Requires terrain on which %s can be built.\n\n"),
+                  terrain_alteration_name_translation(req->source.value.terrainalter));
+     return;
+  case VUT_CITYTILE:
+     cat_snprintf(buf, bufsz, _("Applies only to city centers.\n\n"));
+     return;
   case VUT_LAST:
   default:
     break;

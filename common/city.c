@@ -749,7 +749,6 @@ int city_improvement_upkeep(const struct city *pcity,
 int city_tile_output(const struct city *pcity, const struct tile *ptile,
 		     bool is_celebrating, Output_type_id otype)
 {
-  struct tile tile;
   int prod;
   struct terrain *pterrain = tile_terrain(ptile);
 
@@ -766,38 +765,27 @@ int city_tile_output(const struct city *pcity, const struct tile *ptile,
     prod += tile_resource(ptile)->output[otype];
   }
 
-  /* create dummy tile which has the city center bonuses. */
-  tile.terrain = pterrain;
-  tile.special = tile_specials(ptile);
-
-  if (NULL != pcity
-      && is_city_center(pcity, ptile)
-      && pterrain == pterrain->irrigation_result
-      && terrain_control.may_irrigate) {
-    /* The center tile is auto-irrigated. */
-    tile_set_special(&tile, S_IRRIGATION);
-
-    if (player_knows_techs_with_flag(city_owner(pcity), TF_FARMLAND)) {
-      tile_set_special(&tile, S_FARMLAND);
-    }
-  }
-
   switch (otype) {
   case O_SHIELD:
-    if (contains_special(tile.special, S_MINE)) {
+    if (tile_has_special(ptile, S_MINE)) {
       prod += pterrain->mining_shield_incr;
     }
     break;
   case O_FOOD:
-    if (contains_special(tile.special, S_IRRIGATION)) {
+    /* The city center tile is auto-irrigated. */
+    if (tile_has_special(ptile, S_IRRIGATION)
+        || (NULL != pcity
+            && is_city_center(pcity, ptile)
+            && pterrain == pterrain->irrigation_result
+            && terrain_control.may_irrigate)) {
       prod += pterrain->irrigation_food_incr;
     }
     break;
   case O_TRADE:
-    if (contains_special(tile.special, S_RIVER) && !is_ocean(tile.terrain)) {
+    if (tile_has_special(ptile, S_RIVER) && !is_ocean_tile(ptile)) {
       prod += terrain_control.river_trade_incr;
     }
-    if (contains_special(tile.special, S_ROAD)) {
+    if (tile_has_special(ptile, S_ROAD)) {
       prod += pterrain->road_trade_incr;
     }
     break;
@@ -808,7 +796,7 @@ int city_tile_output(const struct city *pcity, const struct tile *ptile,
     break;
   }
 
-  if (contains_special(tile.special, S_RAILROAD)) {
+  if (tile_has_special(ptile, S_RAILROAD)) {
     prod += (prod * terrain_control.rail_tile_bonus[otype]) / 100;
   }
 
@@ -838,11 +826,11 @@ int city_tile_output(const struct city *pcity, const struct tile *ptile,
     }
   }
 
-  if (contains_special(tile.special, S_POLLUTION)) {
+  if (tile_has_special(ptile, S_POLLUTION)) {
     prod -= (prod * terrain_control.pollution_tile_penalty[otype]) / 100;
   }
 
-  if (contains_special(tile.special, S_FALLOUT)) {
+  if (tile_has_special(ptile, S_FALLOUT)) {
     prod -= (prod * terrain_control.fallout_tile_penalty[otype]) / 100;
   }
 
@@ -2793,4 +2781,16 @@ bool city_is_virtual(const struct city *pcity)
   }
 
   return pcity != game_find_city_by_number(pcity->id);
+}
+
+/**************************************************************************
+  Return citytile type for a given rule name
+**************************************************************************/
+enum citytile_type find_citytile_by_rule_name(const char *name)
+{
+  if (!mystrcasecmp(name, "center")) {
+    return CITYT_CENTER;
+  }
+
+  return CITYT_LAST;
 }

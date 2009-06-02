@@ -1581,6 +1581,17 @@ reqs	=
       "OutputType", "food", "local"
     }
 
+[effect_supermarket_2]
+name	= "Output_Per_Tile"
+value	= 50
+reqs	=
+    { "type", "name", "range"
+      "CityTile", "Center", "Local"
+      "TerrainAlter", "CanIrrigate", "Local"
+      "Building", "Supermarket", "City"
+      "OutputType", "Food", "Local"
+    }
+
 [effect_temple]
 name	= "Make_Content"
 value	= 1

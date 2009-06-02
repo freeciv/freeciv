@@ -201,6 +201,14 @@ enum barbarian_type {
   SEA_BARBARIAN = 2
 };
 
+/*
+ * Citytile requirement types. 
+ */
+enum citytile_type {
+  CITYT_CENTER,
+  CITYT_LAST
+};
+
 /* Sometimes we don't know (or don't care) if some requirements for effect
  * are currently fulfilled or not. This enum tells lower level functions
  * how to handle uncertain requirements.
@@ -237,10 +245,12 @@ typedef union {
   struct base_type *base;
 
   enum ai_level ai_level;
+  enum citytile_type citytile;
   int minsize;
   int minyear;
   Output_type_id outputtype;
   int terrainclass;			/* enum terrain_class */
+  int terrainalter;                     /* enum terrain_alteration */
   int special;				/* enum tile_special_type */
   int unitclassflag;			/* enum unit_class_flag_id */
   int unitflag;				/* enum unit_flag_id */
@@ -268,6 +278,8 @@ enum universals_n {
   VUT_TERRAINCLASS,	/* More generic terrain type, currently "Land" or "Ocean" */
   VUT_BASE,
   VUT_MINYEAR,
+  VUT_TERRAINALTER,     /* Terrain alterations that are possible */
+  VUT_CITYTILE,         /* Target tile is used by city */
   VUT_LAST
 };
 

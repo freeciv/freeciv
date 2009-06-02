@@ -686,4 +686,6 @@ bool city_exist(int id);
 	(CITY_MAP_RADIUS == city_x && CITY_MAP_RADIUS == city_y)
 #define FREE_WORKED_TILES (1)
 
+enum citytile_type find_citytile_by_rule_name(const char *name);
+
 #endif  /* FC__CITY_H */

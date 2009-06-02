@@ -140,6 +140,16 @@ enum mapgen_terrain_property {
   MG_LAST
 };
 
+/* Types of alterations available to terrain.
+ * This enum is only used in the effects system; the relevant information
+ * is encoded in other members of the terrain structure. */
+enum terrain_alteration {
+  TA_CAN_IRRIGATE,	/* Can build irrigation without changing terrain */
+  TA_CAN_MINE,		/* Can build mine without changing terrain */
+  TA_CAN_ROAD,		/* Can build roads and/or railroads */
+  TA_LAST
+};
+
 /*
  * This struct gives data about each terrain type.  There are many ways
  * it could be extended.
@@ -301,6 +311,13 @@ const char *terrain_class_name_translation(enum terrain_class tclass);
 bool terrain_belongs_to_class(const struct terrain *pterrain,
                               enum terrain_class tclass);
 bool is_terrain_class_near_tile(const struct tile *ptile, enum terrain_class tclass);
+
+/* Functions to deal with possible terrain alterations. */
+enum terrain_alteration find_terrain_alteration_by_rule_name(const char *name);
+const char *terrain_alteration_rule_name(enum terrain_alteration talter);
+const char *terrain_alteration_name_translation(enum terrain_alteration talter);
+bool terrain_can_support_alteration(const struct terrain *pterrain,
+                                    enum terrain_alteration talter);
 
 /* Initialization and iteration */
 struct resource *resource_array_first(void);

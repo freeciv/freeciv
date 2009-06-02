@@ -1127,6 +1127,8 @@ static bool worklist_change_build_target(struct player *pplayer,
 	    case VUT_UCFLAG:
 	    case VUT_OTYPE:
 	    case VUT_SPECIALIST:
+	    case VUT_TERRAINALTER: /* XXX could do this in principle */
+	    case VUT_CITYTILE:
 	      /* Will only happen with a bogus ruleset. */
 	      freelog(LOG_ERROR, "worklist_change_build_target()"
 	      	      " has bogus preq");
