@@ -1258,7 +1258,29 @@ void handle_edit_game(struct connection *pc,
     }
   }
 
+  if (packet->scenario != game.scenario.is_scenario) {
+    game.scenario.is_scenario = packet->scenario;
+    changed = TRUE;
+  }
+
+  if (0 != strncmp(packet->scenario_name, game.scenario.name, 256)) {
+    sz_strlcpy(game.scenario.name, packet->scenario_name);
+    changed = TRUE;
+  }
+
+  if (0 != strncmp(packet->scenario_desc, game.scenario.description,
+                   MAX_LEN_PACKET)) {
+    sz_strlcpy(game.scenario.description, packet->scenario_desc);
+    changed = TRUE;
+  }
+
+  if (packet->scenario_players != game.scenario.players) {
+    game.scenario.players = packet->scenario_players;
+    changed = TRUE;
+  }
+
   if (changed) {
+    send_scenario_info(NULL);
     send_game_info(NULL);
   }
 }
@@ -1291,12 +1313,9 @@ void handle_scenario_info(struct connection *pc,
                           struct packet_scenario_info *packet)
 {
   game.scenario.is_scenario = packet->is_scenario;
-
-  if (packet->is_scenario) {
-    sz_strlcpy(game.scenario.name, packet->name);
-    sz_strlcpy(game.scenario.description, packet->description);
-    game.scenario.players = packet->players;
-  }
+  sz_strlcpy(game.scenario.name, packet->name);
+  sz_strlcpy(game.scenario.description, packet->description);
+  game.scenario.players = packet->players;
 
   /* Send new info to everybody. */
   send_scenario_info(NULL);

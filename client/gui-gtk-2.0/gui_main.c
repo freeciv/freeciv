@@ -585,7 +585,9 @@ static gboolean toplevel_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
 
   focus = gtk_window_get_focus(GTK_WINDOW(toplevel));
   if (focus) {
-    if (GTK_IS_ENTRY(focus)) {
+    if (GTK_IS_ENTRY(focus)
+        || (GTK_IS_TEXT_VIEW(focus)
+            && gtk_text_view_get_editable(GTK_TEXT_VIEW(focus)))) {
       /* Propagate event to currently focused entry widget. */
       if (gtk_widget_event(focus, (GdkEvent *) ev)) {
 	/* Do not propagate event to our children. */

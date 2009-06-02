@@ -1693,6 +1693,10 @@ end
  * the function is_client_edit_packet() is easy to write. */
 PACKET_EDIT_GAME=180;cs,handle-per-conn,handle-via-packet
   YEAR year;
+  BOOL scenario;
+  STRING scenario_name[256];
+  STRING scenario_desc[MAX_LEN_PACKET];
+  BOOL scenario_players;
 end
 
 /************** Server Editor Packets **********************/

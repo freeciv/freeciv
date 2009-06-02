@@ -226,6 +226,7 @@ struct propval {
 };
 
 static void propval_free(struct propval *pv);
+static void propval_free_data(struct propval *pv);
 static struct propval *propval_copy(struct propval *pv);
 static bool propval_equal(struct propval *pva, struct propval *pvb);
 static int propval_as_string(struct propval *pv, char *buf, int buflen);
@@ -319,7 +320,11 @@ enum object_property_ids {
   OPID_PLAYER_INVENTIONS,
   OPID_PLAYER_GOLD,
 
-  OPID_GAME_YEAR
+  OPID_GAME_YEAR,
+  OPID_GAME_SCENARIO,
+  OPID_GAME_SCENARIO_NAME,
+  OPID_GAME_SCENARIO_DESC,
+  OPID_GAME_SCENARIO_PLAYERS
 };
 
 enum object_property_flags {
@@ -451,6 +456,7 @@ struct extviewer {
   GtkWidget *view_label;
 
   GtkListStore *store;
+  GtkTextBuffer *textbuf;
 };
 
 static struct extviewer *extviewer_new(struct objprop *op);
@@ -465,6 +471,8 @@ static void extviewer_panel_button_clicked(GtkButton *button,
 static void extviewer_view_cell_toggled(GtkCellRendererToggle *cell,
                                         gchar *path,
                                         gpointer userdata);
+static void extviewer_textbuf_changed(GtkTextBuffer *textbuf,
+                                      gpointer userdata);
 
 
 /****************************************************************************
@@ -821,7 +829,8 @@ static void add_column(GtkWidget *view,
 }
 
 /****************************************************************************
-  Fill the supplied buffer with a string representation of the given value.
+  Fill the supplied buffer with a short string representation of the given
+  value.
 ****************************************************************************/
 static int propval_as_string(struct propval *pv, char *buf, int buflen)
 {
@@ -885,6 +894,13 @@ static int propval_as_string(struct propval *pv, char *buf, int buflen)
       }
     } base_type_iterate_end;
     ret = my_snprintf(buf, buflen, _("%d present"), count);
+    break;
+
+  case VALTYPE_STRING:
+    /* Assume it is a very long string. */
+    count = strlen(pv->data.v_const_string);
+    ret = my_snprintf(buf, buflen, PL_("%d byte", "%d bytes", count),
+                      count);
     break;
 
   default:
@@ -1028,28 +1044,38 @@ static void propval_free(struct propval *pv)
     return;
   }
 
-  if (pv->must_free) {
-    switch (pv->valtype) {
-    case VALTYPE_PIXBUF:
-      g_object_unref(pv->data.v_pixbuf);
-      break;
-    case VALTYPE_STRING:
-    case VALTYPE_BUILT_ARRAY:
-    case VALTYPE_INVENTIONS_ARRAY:
-    case VALTYPE_TILE_VISION_DATA:
-      free(pv->data.v_pointer);
-      break;
-    default:
-      freelog(LOG_FATAL, "Unhandled request to free data %p (type %s) "
-              "in propval_free().",
-              pv->data.v_pointer, valtype_get_name(pv->valtype));
-      assert(FALSE);
-      break;
-    }
-    pv->data.v_pointer = NULL;
+  propval_free_data(pv);
+  free(pv);
+}
+
+/****************************************************************************
+  Frees the internal data held by the propval, without freeing the propval
+  struct itself.
+****************************************************************************/
+static void propval_free_data(struct propval *pv)
+{
+  if (!pv || !pv->must_free) {
+    return;
   }
 
-  free(pv);
+  switch (pv->valtype) {
+  case VALTYPE_PIXBUF:
+    g_object_unref(pv->data.v_pixbuf);
+    break;
+  case VALTYPE_STRING:
+  case VALTYPE_BUILT_ARRAY:
+  case VALTYPE_INVENTIONS_ARRAY:
+  case VALTYPE_TILE_VISION_DATA:
+    free(pv->data.v_pointer);
+    break;
+  default:
+    freelog(LOG_FATAL, "Unhandled request to free data %p "
+            "(type %s) in propval_free_data().",
+            pv->data.v_pointer, valtype_get_name(pv->valtype));
+    assert(FALSE);
+    break;
+  }
+  pv->data.v_pointer = NULL;
 }
 
 /****************************************************************************
@@ -1554,6 +1580,18 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
     case OPID_GAME_YEAR:
       pv->data.v_int = pgame->info.year;
       break;
+    case OPID_GAME_SCENARIO:
+      pv->data.v_bool = pgame->scenario.is_scenario;
+      break;
+    case OPID_GAME_SCENARIO_NAME:
+      pv->data.v_const_string = pgame->scenario.name;
+      break;
+    case OPID_GAME_SCENARIO_DESC:
+      pv->data.v_const_string = pgame->scenario.description;
+      break;
+    case OPID_GAME_SCENARIO_PLAYERS:
+      pv->data.v_bool = pgame->scenario.players;
+      break;
     default:
       freelog(LOG_ERROR, "Unhandled request for value of property %d "
               "(%s) from object of type \"%s\" in "
@@ -2017,6 +2055,10 @@ static void objbind_pack_current_values(struct objbind *ob,
     }
 
     packet->year = pgame->info.year;
+    packet->scenario = pgame->scenario.is_scenario;
+    sz_strlcpy(packet->scenario_name, pgame->scenario.name);
+    sz_strlcpy(packet->scenario_desc, pgame->scenario.description);
+    packet->scenario_players = pgame->scenario.players;
     /* TODO: Set more packet fields. */
   }
 }
@@ -2176,6 +2218,18 @@ static void objbind_pack_modified_value(struct objbind *ob,
     switch (propid) {
     case OPID_GAME_YEAR:
       packet->year = pv->data.v_int;
+      break;
+    case OPID_GAME_SCENARIO:
+      packet->scenario = pv->data.v_bool;
+      break;
+    case OPID_GAME_SCENARIO_NAME:
+      sz_strlcpy(packet->scenario_name, pv->data.v_const_string);
+      break;
+    case OPID_GAME_SCENARIO_DESC:
+      sz_strlcpy(packet->scenario_desc, pv->data.v_const_string);
+      break;
+    case OPID_GAME_SCENARIO_PLAYERS:
+      packet->scenario_players = pv->data.v_bool;
       break;
     default:
       freelog(LOG_ERROR, "Unhandled request to pack value of "
@@ -2542,6 +2596,7 @@ static void objprop_setup_widget(struct objprop *op)
 
   case OPID_CITY_NAME:
   case OPID_PLAYER_NAME:
+  case OPID_GAME_SCENARIO_NAME:
     entry = gtk_entry_new();
     gtk_entry_set_width_chars(GTK_ENTRY(entry), 8);
     g_signal_connect(entry, "activate",
@@ -2585,6 +2640,7 @@ static void objprop_setup_widget(struct objprop *op)
   case OPID_CITY_BUILDINGS:
   case OPID_PLAYER_NATION:
   case OPID_PLAYER_INVENTIONS:
+  case OPID_GAME_SCENARIO_DESC:
     ev = extviewer_new(op);
     objprop_set_extviewer(op, ev);
     gtk_box_pack_start(GTK_BOX(hbox), extviewer_get_panel_widget(ev),
@@ -2594,6 +2650,8 @@ static void objprop_setup_widget(struct objprop *op)
 
   case OPID_UNIT_MOVED:
   case OPID_UNIT_DONE_MOVING:
+  case OPID_GAME_SCENARIO:
+  case OPID_GAME_SCENARIO_PLAYERS:
     button = gtk_check_button_new();
     g_signal_connect(button, "toggled",
         G_CALLBACK(objprop_widget_toggle_button_changed), op);
@@ -2717,6 +2775,7 @@ static void objprop_refresh_widget(struct objprop *op,
 
   case OPID_CITY_NAME:
   case OPID_PLAYER_NAME:
+  case OPID_GAME_SCENARIO_NAME:
     entry = objprop_get_child_widget(op, "entry");
     if (pv) {
       gtk_entry_set_text(GTK_ENTRY(entry), pv->data.v_string);
@@ -2782,6 +2841,7 @@ static void objprop_refresh_widget(struct objprop *op,
   case OPID_CITY_BUILDINGS:
   case OPID_PLAYER_NATION:
   case OPID_PLAYER_INVENTIONS:
+  case OPID_GAME_SCENARIO_DESC:
     ev = objprop_get_extviewer(op);
     if (pv) {
       extviewer_refresh_widgets(ev, pv);
@@ -2792,6 +2852,8 @@ static void objprop_refresh_widget(struct objprop *op,
 
   case OPID_UNIT_MOVED:
   case OPID_UNIT_DONE_MOVING:
+  case OPID_GAME_SCENARIO:
+  case OPID_GAME_SCENARIO_PLAYERS:
     button = objprop_get_child_widget(op, "checkbutton");
     disable_gobject_callback(G_OBJECT(button),
         G_CALLBACK(objprop_widget_toggle_button_changed));
@@ -2975,6 +3037,7 @@ static struct extviewer *extviewer_new(struct objprop *op)
   GtkWidget *view = NULL, *spacer;
   GtkTreeSelection *sel;
   GtkListStore *store = NULL;
+  GtkTextBuffer *textbuf = NULL;
   GType *gtypes;
   int propid, num_cols;
 
@@ -2995,6 +3058,7 @@ static struct extviewer *extviewer_new(struct objprop *op)
   case OPID_TILE_BASES:
   case OPID_CITY_BUILDINGS:
   case OPID_PLAYER_INVENTIONS:
+  case OPID_GAME_SCENARIO_DESC:
     hbox = gtk_hbox_new(FALSE, 4);
     ev->panel_widget = hbox;
 
@@ -3079,6 +3143,9 @@ static struct extviewer *extviewer_new(struct objprop *op)
     store = gtk_list_store_new(4, G_TYPE_BOOLEAN, G_TYPE_INT,
                                GDK_TYPE_PIXBUF, G_TYPE_STRING);
     break;
+  case OPID_GAME_SCENARIO_DESC:
+    textbuf = gtk_text_buffer_new(NULL);
+    break;
   default:
     freelog(LOG_ERROR, "Unhandled request to create data store "
             "for property %d (%s) in extviewer_new().",
@@ -3087,7 +3154,7 @@ static struct extviewer *extviewer_new(struct objprop *op)
   }
 
   ev->store = store;
-
+  ev->textbuf = textbuf;
 
   /* Create the view widget. */
 
@@ -3100,7 +3167,7 @@ static struct extviewer *extviewer_new(struct objprop *op)
   gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
   ev->view_label = label;
 
-  if (store) {
+  if (store || textbuf) {
     scrollwin = gtk_scrolled_window_new(NULL, NULL);
     gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrollwin),
                                         GTK_SHADOW_ETCHED_IN);
@@ -3109,12 +3176,19 @@ static struct extviewer *extviewer_new(struct objprop *op)
                                    GTK_POLICY_AUTOMATIC);
     gtk_box_pack_start(GTK_BOX(vbox), scrollwin, TRUE, TRUE, 0);
 
-    view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
-    gtk_tree_view_set_rules_hint(GTK_TREE_VIEW(view), TRUE);
-    gtk_container_add(GTK_CONTAINER(scrollwin), view);
+    if (store) {
+      view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+      gtk_tree_view_set_rules_hint(GTK_TREE_VIEW(view), TRUE);
+      sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
+      gtk_tree_selection_set_mode(sel, GTK_SELECTION_MULTIPLE);
+    } else {
+      const bool editable = !objprop_is_readonly(op);
+      view = gtk_text_view_new_with_buffer(textbuf);
+      gtk_text_view_set_editable(GTK_TEXT_VIEW(view), editable);
+      gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(view), editable);
+    }
 
-    sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
-    gtk_tree_selection_set_mode(sel, GTK_SELECTION_MULTIPLE);
+    gtk_container_add(GTK_CONTAINER(scrollwin), view);
   }
 
   switch (propid) {
@@ -3179,6 +3253,11 @@ static struct extviewer *extviewer_new(struct objprop *op)
                FALSE, FALSE, NULL, NULL);
     break;
 
+  case OPID_GAME_SCENARIO_DESC:
+    g_signal_connect(textbuf, "changed",
+                     G_CALLBACK(extviewer_textbuf_changed), ev);
+    break;
+
   default:
     freelog(LOG_ERROR, "Unhandled request to configure view widget "
             "for property %d (%s) in extviewer_new().",
@@ -3241,6 +3320,7 @@ static void extviewer_refresh_widgets(struct extviewer *ev,
   const char *name;
   GdkPixbuf *pixbuf;
   GtkListStore *store;
+  GtkTextBuffer *textbuf;
   GtkTreeIter iter;
 
   if (!ev) {
@@ -3257,6 +3337,7 @@ static void extviewer_refresh_widgets(struct extviewer *ev,
   propval_free(ev->pv_cached);
   ev->pv_cached = propval_copy(pv);
   store = ev->store;
+  textbuf = ev->textbuf;
 
 
   /* NB: Remember to have -1 as the last argument to
@@ -3373,9 +3454,20 @@ static void extviewer_refresh_widgets(struct extviewer *ev,
     gtk_label_set_text(GTK_LABEL(ev->panel_label), buf);
     break;
 
+  case OPID_GAME_SCENARIO_DESC:
+    disable_gobject_callback(G_OBJECT(ev->textbuf),
+                             G_CALLBACK(extviewer_textbuf_changed));
+    gtk_text_buffer_set_text(textbuf, pv->data.v_const_string, -1);
+    enable_gobject_callback(G_OBJECT(ev->textbuf),
+                            G_CALLBACK(extviewer_textbuf_changed));
+    gtk_widget_set_sensitive(ev->view_widget, TRUE);
+    propval_as_string(pv, buf, sizeof(buf));
+    gtk_label_set_text(GTK_LABEL(ev->panel_label), buf);
+    break;
+
   default:
     freelog(LOG_ERROR, "Unhandled request to refresh widgets "
-            "extviwer_refresh_widgets() for objprop id=%d "
+            "extviewer_refresh_widgets() for objprop id=%d "
             "name \"%s\".", propid, objprop_get_name(op));
     break;
   }
@@ -3400,6 +3492,10 @@ static void extviewer_clear_widgets(struct extviewer *ev)
   propval_free(ev->pv_cached);
   ev->pv_cached = NULL;
 
+  if (ev->panel_label != NULL) {
+    gtk_label_set_text(GTK_LABEL(ev->panel_label), NULL);
+  }
+
   switch (propid) {
   case OPID_TILE_SPECIALS:
   case OPID_TILE_BASES:
@@ -3407,18 +3503,22 @@ static void extviewer_clear_widgets(struct extviewer *ev)
   case OPID_CITY_BUILDINGS:
   case OPID_PLAYER_INVENTIONS:
     gtk_list_store_clear(ev->store);
-    if (ev->panel_label != NULL) {
-      gtk_label_set_text(GTK_LABEL(ev->panel_label), NULL);
-    }
     break;
   case OPID_PLAYER_NATION:
     gtk_list_store_clear(ev->store);
-    gtk_label_set_text(GTK_LABEL(ev->panel_label), NULL);
     gtk_image_set_from_pixbuf(GTK_IMAGE(ev->panel_image), NULL);
+    break;
+  case OPID_GAME_SCENARIO_DESC:
+    disable_gobject_callback(G_OBJECT(ev->textbuf),
+                             G_CALLBACK(extviewer_textbuf_changed));
+    gtk_text_buffer_set_text(ev->textbuf, "", -1);
+    enable_gobject_callback(G_OBJECT(ev->textbuf),
+                            G_CALLBACK(extviewer_textbuf_changed));
+    gtk_widget_set_sensitive(ev->view_widget, FALSE);
     break;
   default:
     freelog(LOG_ERROR, "Unhandled request to clear widgets "
-            "in extviwer_clear_widgets() for objprop id=%d "
+            "in extviewer_clear_widgets() for objprop id=%d "
             "name \"%s\".", propid, objprop_get_name(op));
     break;
   }
@@ -3562,11 +3662,60 @@ static void extviewer_view_cell_toggled(GtkCellRendererToggle *cell,
     break;
 
   default:
+    freelog(LOG_ERROR, "Unhandled widget toggled signal in "
+            "extviewer_view_cell_toggled() for objprop id=%d "
+            "name \"%s\".", propid, objprop_get_name(op));
     return;
     break;
   }
 
   property_page_change_value(pp, op, pv);
+}
+
+/****************************************************************************
+  Handle a change in the extviewer's text buffer.
+****************************************************************************/
+static void extviewer_textbuf_changed(GtkTextBuffer *textbuf,
+                                      gpointer userdata)
+{
+  struct extviewer *ev;
+  struct objprop *op;
+  struct property_page *pp;
+  int propid;
+  struct propval value = {{0,}, VALTYPE_STRING, FALSE}, *pv;
+  GtkTextIter start, end;
+  char buf[64], *text;
+
+  ev = userdata;
+  if (!ev) {
+    return;
+  }
+
+  op = extviewer_get_objprop(ev);
+  propid = objprop_get_id(op);
+  pp = objprop_get_property_page(op);
+
+  gtk_text_buffer_get_start_iter(textbuf, &start);
+  gtk_text_buffer_get_end_iter(textbuf, &end);
+  text = gtk_text_buffer_get_text(textbuf, &start, &end, FALSE);
+  value.data.v_const_string = text;
+  pv = &value;
+
+  switch (propid) {
+  case OPID_GAME_SCENARIO_DESC:
+    propval_as_string(pv, buf, sizeof(buf));
+    gtk_label_set_text(GTK_LABEL(ev->panel_label), buf);
+    break;
+  default:
+    freelog(LOG_ERROR, "Unhandled widget modified signal in "
+            "extviewer_textbuf_changed() for objprop id=%d "
+            "name \"%s\".", propid, objprop_get_name(op));
+    return;
+    break;
+  }
+
+  property_page_change_value(pp, op, pv);
+  g_free(text);
 }
 
 /****************************************************************************
@@ -3681,6 +3830,15 @@ static void property_page_setup_objprops(struct property_page *pp)
   case OBJTYPE_GAME:
     ADDPROP(OPID_GAME_YEAR, _("Year"), OPF_IN_LISTVIEW
             | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
+    ADDPROP(OPID_GAME_SCENARIO, _("Scenario"), OPF_IN_LISTVIEW
+            | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BOOL);
+    ADDPROP(OPID_GAME_SCENARIO_NAME, _("Scenario Name"), OPF_IN_LISTVIEW
+            | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_STRING);
+    ADDPROP(OPID_GAME_SCENARIO_DESC, _("Scenario Description"),
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE,
+            VALTYPE_STRING);
+    ADDPROP(OPID_GAME_SCENARIO_PLAYERS, _("Save Players"), OPF_IN_LISTVIEW
+            | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BOOL);
     break;
 
   default:

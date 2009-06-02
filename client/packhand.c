@@ -2488,12 +2488,11 @@ void handle_tile_info(struct packet_tile_info *packet)
 void handle_scenario_info(struct packet_scenario_info *packet)
 {
   game.scenario.is_scenario = packet->is_scenario;
+  sz_strlcpy(game.scenario.name, packet->name);
+  sz_strlcpy(game.scenario.description, packet->description);
+  game.scenario.players = packet->players;
 
-  if (packet->is_scenario) {
-    sz_strlcpy(game.scenario.name, packet->name);
-    sz_strlcpy(game.scenario.description, packet->description);
-    game.scenario.players = packet->players;
-  }
+  editgui_notify_object_changed(OBJTYPE_GAME, 1, FALSE);
 }
 
 /**************************************************************************
