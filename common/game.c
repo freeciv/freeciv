@@ -358,6 +358,8 @@ void game_init(void)
   game.control.prefered_tileset[0] = '\0';
 
   game.scenario.is_scenario = FALSE;
+  game.scenario.name[0] = '\0';
+  game.scenario.description[0] = '\0';
   game.scenario.players = TRUE;
 
   sz_strlcpy(game.demography, GAME_DEFAULT_DEMOGRAPHY);
