@@ -39,6 +39,7 @@ struct server_arguments {
   char load_filename[512]; /* FIXME: may not be long enough? use MAX_PATH? */
   char *script_filename;
   char *saves_pathname;
+  char *scenarios_pathname;
   char serverid[256];
   /* save a ppm of the map? */
   bool save_ppm;
@@ -94,7 +95,7 @@ bool check_for_game_over(void);
 
 bool server_packet_input(struct connection *pconn, void *packet, int type);
 void start_game(void);
-void save_game(char *orig_filename, const char *save_reason);
+void save_game(char *orig_filename, const char *save_reason, bool scenario);
 void pick_random_player_name(const struct nation_type *pnation,
 			     char *newname);
 void send_all_info(struct conn_list *dest, bool force);

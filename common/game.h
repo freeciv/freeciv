@@ -52,6 +52,8 @@ struct civ_game {
   struct government *government_during_revolution;
 
   struct packet_ruleset_control control;
+  struct packet_scenario_info scenario;
+
   bool debug[DEBUG_LAST];
   int version;
   int timeoutint;     /* increase timeout every N turns... */
@@ -95,7 +97,6 @@ struct civ_game {
   /* used by the map editor to control game_save; could be used by the server too */
   struct {
     bool save_random;
-    bool save_players;
     bool save_known; /* loading will just reveal the squares around cities and units */
     bool save_starts; /* start positions will be auto generated */
     bool save_private_map; /* FoW map; will be created if not saved */

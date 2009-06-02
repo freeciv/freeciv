@@ -21,6 +21,8 @@ void init_new_game(void);
 void send_year_to_clients(int year);
 void send_game_info(struct conn_list *dest);
 
+void send_scenario_info(struct conn_list *dest);
+
 struct unit_type *crole_to_unit_type(char crole,struct player *pplayer);
 
 int update_timeout(void);

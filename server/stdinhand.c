@@ -691,7 +691,7 @@ static bool save_command(struct connection *caller, char *arg, bool check)
     return FALSE;
   }
   if (!check) {
-    save_game(arg, "User request");
+    save_game(arg, "User request", FALSE);
   }
   return TRUE;
 }

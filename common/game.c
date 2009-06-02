@@ -357,11 +357,13 @@ void game_init(void)
 
   game.control.prefered_tileset[0] = '\0';
 
+  game.scenario.is_scenario = FALSE;
+  game.scenario.players = TRUE;
+
   sz_strlcpy(game.demography, GAME_DEFAULT_DEMOGRAPHY);
   sz_strlcpy(game.allow_take, GAME_DEFAULT_ALLOW_TAKE);
 
   game.save_options.save_random = TRUE;
-  game.save_options.save_players = TRUE;
   game.save_options.save_known = TRUE;
   game.save_options.save_starts = TRUE;
   game.save_options.save_private_map = TRUE;

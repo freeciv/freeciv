@@ -179,6 +179,7 @@ void srv_init(void)
   srvarg.load_filename[0] = '\0';
   srvarg.script_filename = NULL;
   srvarg.saves_pathname = "";
+  srvarg.scenarios_pathname = "";
 
   srvarg.quitidle = 0;
 
@@ -975,7 +976,7 @@ Always prints a message: either save ok, or failed.
 Note that if !HAVE_LIBZ, then game.info.save_compress_level should never
 become non-zero, so no need to check HAVE_LIBZ explicitly here as well.
 **************************************************************************/
-void save_game(char *orig_filename, const char *save_reason)
+void save_game(char *orig_filename, const char *save_reason, bool scenario)
 {
   char filename[600];
   char *dot;
@@ -1002,7 +1003,7 @@ void save_game(char *orig_filename, const char *save_reason)
   timer_user = new_timer_start(TIMER_USER, TIMER_ACTIVE);
     
   section_file_init(&file);
-  game_save(&file, save_reason);
+  game_save(&file, save_reason, scenario);
 
   /* Append ".sav" to filename. */
   sz_strlcat(filename, ".sav");
@@ -1036,10 +1037,18 @@ void save_game(char *orig_filename, const char *save_reason)
   if (!path_is_absolute(filename)) {
     char tmpname[600];
 
-    /* Ensure the saves directory exists. */
-    make_dir(srvarg.saves_pathname);
+    if (!scenario) {
+      /* Ensure the saves directory exists. */
+      make_dir(srvarg.saves_pathname);
 
-    sz_strlcpy(tmpname, srvarg.saves_pathname);
+      sz_strlcpy(tmpname, srvarg.saves_pathname);
+    } else {
+      /* Make sure scenario directory exist */
+      make_dir(srvarg.scenarios_pathname);
+
+      sz_strlcpy(tmpname, srvarg.scenarios_pathname);
+    }
+
     if (tmpname[0] != '\0') {
       sz_strlcat(tmpname, "/");
     }
@@ -1072,7 +1081,7 @@ void save_game_auto(const char *save_reason)
   assert(strlen(game.save_name)<256);
   
   generate_save_name(filename, sizeof(filename), TRUE);
-  save_game(filename, save_reason);
+  save_game(filename, save_reason, FALSE);
   save_ppm();
 }
 

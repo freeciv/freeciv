@@ -2483,6 +2483,20 @@ void handle_tile_info(struct packet_tile_info *packet)
 }
 
 /**************************************************************************
+  Received packet containing info about current scenario
+**************************************************************************/
+void handle_scenario_info(struct packet_scenario_info *packet)
+{
+  game.scenario.is_scenario = packet->is_scenario;
+
+  if (packet->is_scenario) {
+    sz_strlcpy(game.scenario.name, packet->name);
+    sz_strlcpy(game.scenario.description, packet->description);
+    game.scenario.players = packet->players;
+  }
+}
+
+/**************************************************************************
   Take arrival of ruleset control packet to indicate that
   current allocated governments should be free'd, and new
   memory allocated for new size. The same for nations.

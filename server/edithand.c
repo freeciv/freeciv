@@ -1262,3 +1262,42 @@ void handle_edit_game(struct connection *pc,
     send_game_info(NULL);
   }
 }
+
+/****************************************************************************
+  Make scenario file out of current game.
+****************************************************************************/
+void handle_save_scenario(struct connection *pc, char *name)
+{
+  if (pc->access_level != ALLOW_HACK) {
+    notify_conn(pc->self, NULL, E_BAD_COMMAND,
+                _("No permissions to remotely save scenario."));
+    return;
+  }
+
+  if (!game.scenario.is_scenario) {
+    /* Scenario information not available */
+    notify_conn(pc->self, NULL, E_BAD_COMMAND,
+                _("Scenario information not set. Cannot save scenario."));
+    return;
+  }
+
+  save_game(name, "Scenario", TRUE);
+}
+
+/****************************************************************************
+  Handle scenario information packet
+****************************************************************************/
+void handle_scenario_info(struct connection *pc,
+                          struct packet_scenario_info *packet)
+{
+  game.scenario.is_scenario = packet->is_scenario;
+
+  if (packet->is_scenario) {
+    sz_strlcpy(game.scenario.name, packet->name);
+    sz_strlcpy(game.scenario.description, packet->description);
+    game.scenario.players = packet->players;
+  }
+
+  /* Send new info to everybody. */
+  send_scenario_info(NULL);
+}

@@ -374,6 +374,24 @@ void send_game_info(struct conn_list *dest)
 }
 
 /**************************************************************************
+  Send current scenario info. dest NULL causes send to everyone
+**************************************************************************/
+void send_scenario_info(struct conn_list *dest)
+{
+  struct packet_scenario_info sinfo;
+
+  if (!dest) {
+    dest = game.est_connections;
+  }
+
+  sinfo = game.scenario;
+
+  conn_list_iterate(dest, pconn) {
+    send_packet_scenario_info(pconn, &sinfo);
+  } conn_list_iterate_end;
+}
+
+/**************************************************************************
   adjusts game.info.timeout based on various server options
 
   timeoutint: adjust game.info.timeout every timeoutint turns

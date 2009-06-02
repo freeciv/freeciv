@@ -85,6 +85,8 @@ static guint statusbar_timer = 0;
 static GtkWidget *ruleset_combo;
 static GtkWidget *start_page_entry;
 
+static bool save_scenario = FALSE;
+
 /**************************************************************************
   spawn a server, if there isn't one, using the default settings.
 **************************************************************************/
@@ -1734,14 +1736,14 @@ static void load_browse_callback(GtkWidget *w, gpointer data)
 /**************************************************************************
   update the saved games list store.
 **************************************************************************/
-static void update_saves_store(GtkListStore *store)
+static void update_saves_store(GtkListStore *store, const char *dir)
 {
   struct datafile_list *files;
 
   gtk_list_store_clear(store);
 
   /* search for user saved games. */
-  files = datafilelist_infix("saves", ".sav", FALSE);
+  files = datafilelist_infix(dir, ".sav", FALSE);
   datafile_list_iterate(files, pfile) {
     GtkTreeIter it;
 
@@ -1777,7 +1779,7 @@ static void update_saves_store(GtkListStore *store)
 **************************************************************************/
 static void update_load_page(void)
 {
-  update_saves_store(load_store);
+  update_saves_store(load_store, "saves");
 }
 
 /**************************************************************************
@@ -2343,7 +2345,7 @@ enum {
 **************************************************************************/
 static void update_save_dialog(void)
 {
-  update_saves_store(save_store);
+  update_saves_store(save_store, save_scenario ? "scenario" : "saves");
 }
 
 /**************************************************************************
@@ -2376,7 +2378,12 @@ static void save_response_callback(GtkWidget *w, gint arg)
 
       text = gtk_entry_get_text(GTK_ENTRY(save_entry));
       filename = g_filename_from_utf8(text, -1, NULL, NULL, NULL);
-      send_save_game(filename);
+      if (save_scenario) {
+        dsend_packet_save_scenario(&client.conn, filename);
+      } else {
+        send_save_game(filename);
+        g_free(filename);
+      }
       g_free(filename);
     }
     break;
@@ -2427,7 +2434,7 @@ static void save_list_callback(GtkTreeSelection *select, gpointer data)
 /**************************************************************************
   create save dialog.
 **************************************************************************/
-static void create_save_dialog(void)
+static void create_save_dialog(bool scenario)
 {
   GtkWidget *shell;
 
@@ -2437,8 +2444,9 @@ static void create_save_dialog(void)
   GtkCellRenderer *rend;
   GtkTreeSelection *selection;
 
+  save_scenario = scenario;
 
-  shell = gtk_dialog_new_with_buttons(_("Save Game"),
+  shell = gtk_dialog_new_with_buttons(scenario ? _("Save Scenario") : _("Save Game"),
       NULL,
       0,
       _("_Browse..."),
@@ -2530,10 +2538,10 @@ static void create_save_dialog(void)
 /**************************************************************************
   popup save dialog.
 **************************************************************************/
-void popup_save_dialog(void)
+void popup_save_dialog(bool scenario)
 {
   if (!save_dialog_shell) {
-    create_save_dialog();
+    create_save_dialog(scenario);
   }
   update_save_dialog();
  

@@ -4071,6 +4071,7 @@ static void game_load_internal(struct section_file *file)
   int improvement_order_size = 0;
   int technology_order_size = 0;
   int civstyle = 0;
+  char *scen_text;
   char **improvement_order = NULL;
   char **technology_order = NULL;
   enum tile_special_type *special_order = NULL;
@@ -4108,6 +4109,22 @@ static void game_load_internal(struct section_file *file)
     for (; j < S_LAST + (4 - (S_LAST % 4)); j++) {
       special_order[j] = S_LAST;
     }
+  }
+
+  /* [scenario] */
+  scen_text = secfile_lookup_str_default(file, "", "scenario.name");
+  if (scen_text[0] != '\0') {
+    game.scenario.is_scenario = TRUE;
+    sz_strlcpy(game.scenario.name, scen_text);
+    scen_text = secfile_lookup_str_default(file, "",
+                                           "scenarion.description");
+    if (scen_text[0] != '\0') {
+      sz_strlcpy(game.scenario.description, scen_text);
+    } else {
+      game.scenario.description[0] = '\0';
+    }
+  } else {
+    game.scenario.is_scenario = FALSE;
   }
 
   /* [game] */
@@ -4475,8 +4492,11 @@ static void game_load_internal(struct section_file *file)
     team_remove_player(pplayer);
   } players_iterate_end;
 
-  set_player_count(secfile_lookup_int(file, "game.nplayers"));
-
+  if (!game.info.is_new_game) {
+    set_player_count(secfile_lookup_int(file, "game.nplayers"));
+  } else {
+    set_player_count(0);
+  }
 
   script_state_load(file);
 
@@ -4852,22 +4872,28 @@ static void game_load_internal(struct section_file *file)
 }
 
 /***************************************************************
-...
+  Main game saving function
 ***************************************************************/
-void game_save(struct section_file *file, const char *save_reason)
+void game_save(struct section_file *file, const char *save_reason,
+               bool scenario)
 {
   int i;
   int version;
   char options[512];
   char temp[B_LAST+1];
   const char *user_message;
+  bool save_players;
+  enum server_states srv_state;
 
   /* [savefile] */
   sz_strlcpy(options, savefile_options_default);
-  if (game.info.is_new_game) {
+  if (game.info.is_new_game
+      || (scenario && !game.scenario.players)) {
     if (map.num_start_positions>0) {
       sz_strlcat(options, " startpos");
     }
+  }
+  if (game.info.is_new_game) {
     if (map.have_resources) {
       sz_strlcat(options, " specials");
     }
@@ -4943,6 +4969,13 @@ void game_save(struct section_file *file, const char *save_reason)
     }
   }
 
+  /* [scenario] */
+  if (scenario) {
+    secfile_insert_str(file, game.scenario.name, "scenario.name");
+    secfile_insert_str(file, game.scenario.description,
+                       "scenario.description");
+  }
+
   /* [game] */
   version = MAJOR_VERSION *10000 + MINOR_VERSION *100 + PATCH_VERSION; 
   secfile_insert_int(file, version, "game.version");
@@ -4951,8 +4984,13 @@ void game_save(struct section_file *file, const char *save_reason)
    * started the first time), it should always be considered a running
    * game for savegame purposes:
    */
-  secfile_insert_int(file, (int) (game.info.is_new_game ? server_state() :
-				  S_S_RUNNING), "game.server_state");
+  if (scenario && !game.scenario.players) {
+    srv_state = S_S_INITIAL;
+  } else {
+    srv_state = game.info.is_new_game ? server_state() : S_S_RUNNING;
+  }
+
+  secfile_insert_int(file, (int) srv_state, "game.server_state");
   
   secfile_insert_str(file, get_meta_patches_string(), "game.metapatches");
   secfile_insert_bool(file, game.meta_info.user_message_set,
@@ -5112,9 +5150,15 @@ void game_save(struct section_file *file, const char *save_reason)
     return; /* want to save scenarios as well */
   }
 
-  secfile_insert_bool(file, game.save_options.save_players,
+  if (scenario) {
+    save_players = game.scenario.players;
+  } else {
+    save_players = TRUE;
+  }
+
+  secfile_insert_bool(file, save_players,
 		      "game.save_players");
-  if (game.save_options.save_players) {
+  if (save_players) {
     /* 1.14 servers depend on improvement order in ruleset. Here we
      * are trying to simulate 1.14.1 default order
      */

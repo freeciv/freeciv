@@ -31,7 +31,7 @@ GtkWidget *create_nation_page(void);
 
 GtkWidget *create_statusbar(void);
 void append_network_statusbar(const char *text, bool force);
-void popup_save_dialog(void);
+void popup_save_dialog(bool scenario);
 
 #endif  /* FC__PAGES_H */
 

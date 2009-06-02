@@ -196,6 +196,8 @@ int main(int argc, char *argv[])
       free(option);
     } else if ((option = get_option_malloc("--saves", argv, &inx, argc))) {
       srvarg.saves_pathname = option; /* Never freed. */
+    } else if ((option = get_option_malloc("--scenarios", argv, &inx, argc))) {
+      srvarg.scenarios_pathname = option; /* Never freed */
     } else if (is_option("--version", argv[inx])) {
       showvers = TRUE;
     } else if ((option = get_option_malloc("--Announce", argv, &inx, argc))) {

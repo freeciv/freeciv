@@ -148,6 +148,7 @@ void establish_new_connection(struct connection *pconn)
       send_packet_thaw_hint(pconn);
       dsend_packet_start_phase(pconn, game.info.phase);
     } else {
+      send_scenario_info(dest);
       send_game_info(dest);
       /* send new player connection to everybody */
       send_player_info(pplayer, NULL);
