@@ -4504,6 +4504,12 @@ static void property_page_fill_widgets(struct property_page *pp)
         property_page_set_store_value(pp, op, ob, &iter);
       } property_page_objprop_iterate_end;
     } property_page_objbind_iterate_end;
+
+    if (gtk_tree_model_get_iter_first(model, &iter)) {
+      GtkTreeSelection *sel;
+      sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(pp->object_view));
+      gtk_tree_selection_select_iter(sel, &iter);
+    }
   }
 
   ob = property_page_get_focused_objbind(pp);
