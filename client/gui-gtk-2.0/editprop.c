@@ -4400,7 +4400,7 @@ static bool property_page_set_store_value(struct property_page *pp,
   int col_id;
   struct propval *pv;
   int valtype;
-  char buf[128];
+  char buf[128], *p;
   GdkPixbuf *pixbuf = NULL;
   GtkListStore *store;
 
@@ -4433,7 +4433,15 @@ static bool property_page_set_store_value(struct property_page *pp,
     gtk_list_store_set(store, iter, col_id, pv->data.v_bool, -1);
     break;
   case VALTYPE_STRING:
-    gtk_list_store_set(store, iter, col_id, pv->data.v_string, -1);
+    if (mystrlcpy(buf, pv->data.v_string, 28) >= 28) {
+      sz_strlcat(buf, "...");
+    }
+    for (p = buf; *p; p++) {
+      if (*p == '\n' || *p == '\t' || *p == '\r') {
+        *p = ' ';
+      }
+    }
+    gtk_list_store_set(store, iter, col_id, buf, -1);
     break;
   case VALTYPE_PIXBUF:
     gtk_list_store_set(store, iter, col_id, pv->data.v_pixbuf, -1);
