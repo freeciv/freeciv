@@ -46,6 +46,7 @@
 #include "control.h"
 #include "dialogs.h"
 #include "editgui.h"
+#include "editprop.h"
 #include "finddlg.h"
 #include "gotodlg.h"
 #include "graphics.h"
@@ -180,6 +181,7 @@ enum MenuID {
   MENU_EDITOR_RECALCULATE_BORDERS,
   MENU_EDITOR_TOGGLE_FOGOFWAR,
   MENU_EDITOR_SAVE,
+  MENU_EDITOR_PROPERTIES,
 
   MENU_HELP_LANGUAGES,
   MENU_HELP_CONNECTING,
@@ -673,6 +675,14 @@ static void editor_menu_callback(gpointer callback_data,
   case MENU_EDITOR_SAVE:
     popup_save_dialog(TRUE);
     break;
+  case MENU_EDITOR_PROPERTIES:
+    {
+      struct property_editor *pe;
+      pe = editprop_get_property_editor();
+      property_editor_reload(pe, OBJTYPE_GAME);
+      property_editor_popup(pe, OBJTYPE_GAME);
+    }
+    break;
   default:
     break;
   }
@@ -846,6 +856,8 @@ static GtkItemFactoryEntry menu_items[]	=
 	editor_menu_callback, MENU_EDITOR_RECALCULATE_BORDERS },
   { "/" N_("_Edit") "/" N_("Toggle Fog-of-war"), "<control>f",
 	editor_menu_callback, MENU_EDITOR_TOGGLE_FOGOFWAR },
+  { "/" N_("_Edit") "/" N_("Game\\/Scenario Properties"), NULL,
+        editor_menu_callback, MENU_EDITOR_PROPERTIES },
   { "/" N_("_Edit") "/" N_("Save Scenario"), NULL,
         editor_menu_callback, MENU_EDITOR_SAVE, "<StockItem>",
         GTK_STOCK_SAVE_AS },
@@ -1460,6 +1472,8 @@ void update_menus(void)
     menus_set_sensitive("<main>/_Edit/Recalculate _Borders",
 			can_conn_edit(&client.conn));
     menus_set_sensitive("<main>/_Edit/Toggle Fog-of-war",
+			can_conn_edit(&client.conn));
+    menus_set_sensitive("<main>/_Edit/Game\\/Scenario Properties",
 			can_conn_edit(&client.conn));
     menus_set_sensitive("<main>/_Edit/Save Scenario",
 			can_conn_edit(&client.conn));

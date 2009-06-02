@@ -551,7 +551,7 @@ static void popup_properties(struct tile *ptile)
     }
   }
 
-  editgui_popup_properties(tiles);
+  editgui_popup_properties(tiles, NUM_OBJTYPES);
 
   tile_list_free(tiles);
 }

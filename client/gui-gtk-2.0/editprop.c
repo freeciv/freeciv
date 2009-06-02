@@ -5528,9 +5528,10 @@ void property_editor_load_tiles(struct property_editor *pe,
 }
 
 /****************************************************************************
-  Show the property editor to the user.
+  Show the property editor to the user, with given page corresponding to
+  'objtype' in front (if a valid object type).
 ****************************************************************************/
-void property_editor_popup(struct property_editor *pe)
+void property_editor_popup(struct property_editor *pe, int objtype)
 {
   int page;
 
@@ -5542,6 +5543,9 @@ void property_editor_popup(struct property_editor *pe)
   page = gtk_notebook_page_num(GTK_NOTEBOOK(bottom_notebook),
                                pe->widget);
   gtk_notebook_set_current_page(GTK_NOTEBOOK(bottom_notebook), page);
+  if (0 <= objtype && objtype < NUM_OBJTYPES) {
+    gtk_notebook_set_current_page(GTK_NOTEBOOK(pe->notebook), objtype);
+  }
 }
 
 /****************************************************************************

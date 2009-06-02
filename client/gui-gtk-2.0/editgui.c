@@ -467,7 +467,7 @@ static void editbar_player_properties_button_clicked(GtkButton *b,
   pe = editprop_get_property_editor();
   property_editor_reload(pe, OBJTYPE_GAME);
   property_editor_reload(pe, OBJTYPE_PLAYER);
-  property_editor_popup(pe);
+  property_editor_popup(pe, OBJTYPE_PLAYER);
 }
 
 /****************************************************************************
@@ -1819,22 +1819,22 @@ void editgui_tileset_changed(void)
 }
 
 /****************************************************************************
-  Popup the property editor on the given list of tiles.
+  Popup the property editor. If 'tiles' is non-NULL, the tiles, units and
+  cities in those tiles are added to the property editor's object list. If
+  'objtype' is a valid object type, the corresponding page of the property
+  editor notebook is focused. Otherwise which page is focused depends on
+  what was loaded from 'tiles'.
 ****************************************************************************/
-void editgui_popup_properties(const struct tile_list *tiles)
+void editgui_popup_properties(const struct tile_list *tiles, int objtype)
 {
   struct property_editor *pe;
-
-  if (!tiles || tile_list_size(tiles) < 1) {
-    return;
-  }
 
   pe = editprop_get_property_editor();
   property_editor_clear(pe);
   property_editor_reload(pe, OBJTYPE_PLAYER);
   property_editor_reload(pe, OBJTYPE_GAME);
   property_editor_load_tiles(pe, tiles);
-  property_editor_popup(pe);
+  property_editor_popup(pe, objtype);
 }
 
 /****************************************************************************

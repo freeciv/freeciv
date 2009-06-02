@@ -1091,7 +1091,7 @@ void editgui_refresh(void)
 /****************************************************************************
   Stub for editor function
 ****************************************************************************/
-void editgui_popup_properties(const struct tile_list *tiles)
+void editgui_popup_properties(const struct tile_list *tiles, int objtype)
 {}
 
 /****************************************************************************
