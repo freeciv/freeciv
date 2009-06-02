@@ -2064,3 +2064,15 @@ reqs    =
     { "type", "name", "range"
       "MinYear", "1900", "World"
     }
+
+[effect_tech_cost_base]
+name    = "Tech_Cost_Factor"
+value   = 1
+
+[effect_tech_cost_double]
+name    = "Tech_Cost_Factor"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "MinYear", "1", "World"
+    }

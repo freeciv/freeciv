@@ -303,3 +303,6 @@ Upgrade_Price_Pct
 
 Visible_Wall
     Positive amount only instructs clients to use wall graphics for city.
+
+Tech_Cost_Factor
+    Factor for research costs.

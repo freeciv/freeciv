@@ -577,11 +577,7 @@ int base_total_bulbs_required(const struct player *pplayer,
     base_cost = 0.0;
   }
 
-  /* Research becomes more expensive this year and after. */
-  if (game.info.tech_cost_double_year != 0
-      && game.info.year >= game.info.tech_cost_double_year) {
-    base_cost *= 2.0;
-  }
+  base_cost *= get_player_bonus(pplayer, EFT_TECH_COST_FACTOR);
 
   switch (game.info.tech_leakage) {
   case 0:

@@ -3099,8 +3099,6 @@ static void load_ruleset_game(void)
 	    game.info.tech_cost_style);
     game.info.tech_cost_style = 0;
   }
-  game.info.tech_cost_double_year = 
-      secfile_lookup_int_default(&file, 1, "civstyle.tech_cost_double_year");
 
   game.info.upgrade_veteran_loss
     = secfile_lookup_int(&file, "civstyle.upgrade_veteran_loss");

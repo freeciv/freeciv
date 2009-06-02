@@ -105,9 +105,6 @@ tech_cost_style = 0
 ;     players (human and AI) which already know the tech.
 tech_leakage = 0
 
-; Research cost doubles after this year. Set to zero to disable.
-tech_cost_double_year = 1
-
 ; city_incite_cost = 
 ; total_factor * (city_size) *
 ; (base_incite_cost + (units_cost) * unit_factor + 

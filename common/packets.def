@@ -456,7 +456,6 @@ PACKET_GAME_INFO=15; sc
   UINT8 health_trade_penalty;
   UINT8 tech_cost_style;
   UINT8 tech_leakage;
-  YEAR tech_cost_double_year;
   BOOL killstack;
   BOOL tired_attack;
   UINT8 border_city_radius_sq;

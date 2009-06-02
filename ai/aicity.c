@@ -723,6 +723,9 @@ static int improvement_effect_value(struct player *pplayer,
     /* This has no effect for AI */
   case EFT_VISIBLE_WALLS:
     break;
+  case EFT_TECH_COST_FACTOR:
+    v -= amount * 50;
+    break;
   case EFT_LAST:
     freelog(LOG_ERROR, "Bad effect type.");
     break;

@@ -119,7 +119,8 @@ static const char *effect_type_names[EFT_LAST] = {
   "Output_Inc_Tile_Celebrate",
   "City_Unhappy_Size",
   "Upgrade_Price_Pct",
-  "Visible_Walls"
+  "Visible_Walls",
+  "Tech_Cost_Factor"
 };
 
 static bool initialized = FALSE;
