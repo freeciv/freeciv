@@ -495,16 +495,18 @@ void get_city_dialog_output_text(const struct city *pcity,
 void get_city_dialog_illness_text(const struct city *pcity,
                                   char *buf, size_t bufsz)
 {
-  int illness, trade, from_size;
+  int illness, ill_size, ill_trade, ill_pollution;
   struct effect_list *plist;
 
-  illness = city_illness(pcity, &trade, NULL, &from_size);
+  illness = city_illness(pcity, &ill_size, &ill_trade, &ill_pollution, NULL);
   buf[0] = '\0';
 
-  cat_snprintf(buf, bufsz, _("%+2.1f : Risk from trade\n"),
-               ((float)(trade) / 10.0));
   cat_snprintf(buf, bufsz, _("%+2.1f : Risk from over crowdness\n"),
-               ((float)(from_size) / 10.0));
+               ((float)(ill_size) / 10.0));
+  cat_snprintf(buf, bufsz, _("%+2.1f : Risk from trade\n"),
+               ((float)(ill_trade) / 10.0));
+  cat_snprintf(buf, bufsz, _("%+2.1f : Risk from pollution\n"),
+               ((float)(ill_pollution) / 10.0));
 
   plist = effect_list_new();
 

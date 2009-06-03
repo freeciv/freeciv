@@ -1450,7 +1450,7 @@ static void city_dialog_update_information(GtkWidget **info_ebox,
   my_snprintf(buf[POLLUTION], sizeof(buf[POLLUTION]), "%2d",
 	      pcity->pollution);
   my_snprintf(buf[ILLNESS], sizeof(buf[ILLNESS]), "%2.1f",
-	      ((float)(city_illness(pcity, NULL, NULL, NULL)) / 10.0));
+              ((float)(city_illness(pcity, NULL, NULL, NULL, NULL)) / 10.0));
 
   /* stick 'em in the labels */
 

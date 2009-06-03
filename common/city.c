@@ -2124,8 +2124,8 @@ static int get_city_health(const struct city *pcity)
  City illness is:  (city_size - min_illness_size) + 10 * trade
                    routes to plagued cities - effect of buildings
  *************************************************************************/
-int city_illness(const struct city *pcity, int *trade_ill, int *effects,
-                 int *from_size)
+int city_illness(const struct city *pcity, int *ill_size, int *ill_trade,
+                 int *ill_pollution, int *ill_effects)
 {
   int size_mod = game.info.illness_safe_mod;
   int trade_penalty = get_trade_illness(pcity);
@@ -2135,16 +2135,20 @@ int city_illness(const struct city *pcity, int *trade_ill, int *effects,
                + pcity->pollution + city_illness_effects;
 
   /* returning other data */
-  if (trade_ill) {
-    *trade_ill = trade_penalty;
+  if (ill_size) {
+    *ill_size = (pcity->size * pcity->size) - size_mod;
   }
 
-  if (effects) {
-    *effects = city_illness_effects;
+  if (ill_trade) {
+    *ill_trade = trade_penalty;
   }
 
-  if (from_size) {
-    *from_size = (pcity->size * pcity->size) - size_mod;
+  if (ill_pollution) {
+    *ill_pollution = pcity->pollution;
+  }
+
+  if (ill_effects) {
+    *ill_effects = city_illness_effects;
   }
 
   return CLIP(0, illness , 999);
@@ -2401,7 +2405,7 @@ void city_refresh_from_main_map(struct city *pcity, bool full_refresh)
   pcity->pollution = city_pollution(pcity, pcity->prod[O_SHIELD]);
 
   /* This must be after pollution */
-  pcity->illness = city_illness(pcity, NULL, NULL, NULL);
+  pcity->illness = city_illness(pcity, NULL, NULL, NULL, NULL);
 
   happy_copy(pcity, FEELING_LUXURY);
   citizen_happy_luxury(pcity);	/* with our new found luxuries */

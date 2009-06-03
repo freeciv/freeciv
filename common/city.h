@@ -647,8 +647,8 @@ int get_city_tithes_bonus(const struct city *pcity);
 int city_pollution_types(const struct city *pcity, int shield_total,
 			 int *pollu_prod, int *pollu_pop, int *pollu_mod);
 int city_pollution(const struct city *pcity, int shield_total);
-int city_illness(const struct city *pcity, int *trade_ill, int *effects,
-                 int *from_size);
+int city_illness(const struct city *pcity, int *ill_size, int *ill_trade,
+                 int *ill_pollution, int *ill_effects);
 
 bool city_exist(int id);
 
