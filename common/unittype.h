@@ -68,6 +68,7 @@ struct unit_class {
    which uses unit_has_type_flag() without twiddling bits is unchanged.
    (It is easier to go from i to (1<<i) than the reverse.)
    See data/default/units.ruleset for documentation of their effects.
+   Change the array *flag_names[] in unittype.c accordingly.
 */
 enum unit_flag_id { 
   F_TRADE_ROUTE=0,
@@ -112,6 +113,7 @@ enum unit_flag_id {
   F_AIRUNIT,          /* Bad at attacking F_AEGIS units */
   F_FIGHTER,          /* Good at attacking F_HELICOPTER units */
   F_BARBARIAN_ONLY,   /* Only barbarians can build this unit */
+  F_SHIELD2GOLD,      /* upkeep can switch from shield to gold */
   F_LAST
 };
 #define F_MAX 64

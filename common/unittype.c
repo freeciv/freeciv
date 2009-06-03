@@ -53,7 +53,7 @@ static const char *flag_names[] = {
   "AddToCity", "Fanatic", "GameLoss", "Unique", "Unbribable", 
   "Undisbandable", "SuperSpy", "NoHome", "NoVeteran", "Bombarder",
   "CityBuster", "NoBuild", "BadWallAttacker", "BadCityDefender",
-  "Helicopter", "AirUnit", "Fighter", "BarbarianOnly"
+  "Helicopter", "AirUnit", "Fighter", "BarbarianOnly", "Shield2Gold"
 };
 static const char *role_names[] = {
   "FirstBuild", "Explorer", "Hut", "HutTech", "Partisan",
@@ -154,11 +154,12 @@ int utype_upkeep_cost(const struct unit_type *ut, struct player *pplayer,
 
   /* switch shield upkeep to gold upkeep if
      - the effect 'EFT_SHIELD2GOLD_FACTOR' is non-zero (it gives the
-        conversion factor in percent)
+       conversion factor in percent) and
+     - the unit has the corresponding flag set (F_SHIELD2GOLD)
      FIXME: Should the ai know about this? */
   gold_upkeep_factor = get_player_bonus(pplayer, EFT_SHIELD2GOLD_FACTOR);
   gold_upkeep_factor = (gold_upkeep_factor > 0) ? gold_upkeep_factor : 0;
-  if (gold_upkeep_factor > 0) {
+  if (gold_upkeep_factor > 0 && utype_has_flag(ut, F_SHIELD2GOLD)) {
     switch (otype) {
       case O_GOLD:
         val = ceil((0.01 * gold_upkeep_factor) * ut->upkeep[O_SHIELD]);

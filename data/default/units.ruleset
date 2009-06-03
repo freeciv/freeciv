@@ -229,6 +229,7 @@ flags         = "Unreachable"
 ; "AirUnit"     = very bad at attacking "AEGIS" units
 ; "Fighter"     = good attacker against "Helicopter" units
 ; "BarbarianOnly" = only barbarians can build this unit
+; "Shield2Gold" = Switch from shield upkeep to gold upkeep possible
 ;
 ; Following flag strings require extra fields:
 ;  "Paratroopers"
