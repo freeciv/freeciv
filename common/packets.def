@@ -380,6 +380,7 @@ PACKET_GAME_INFO=15; sc
   TURN turn;
   PHASE phase;
   YEAR year, end_year;
+  BOOL year_0_hack;
 
   UINT8 phase_mode;
   UINT32 num_phases;
@@ -461,6 +462,7 @@ PACKET_GAME_INFO=15; sc
   BOOL tired_attack;
   UINT8 border_city_radius_sq;
   UINT8 border_size_effect;
+  BOOL calendar_skip_0;
   UINT8 upgrade_veteran_loss;
   UINT8 autoupgrade_veteran_loss;
   UINT16 incite_improvement_factor;

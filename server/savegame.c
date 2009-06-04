@@ -4207,6 +4207,8 @@ static void game_load_internal(struct section_file *file)
     }
 
     game.info.year          = secfile_lookup_int(file, "game.year");
+    game.info.year_0_hack   = secfile_lookup_bool_default(file, FALSE,
+                                                          "game.year_0_hack");
 
     if (has_capability("turn", savefile_options)) {
       game.info.turn = secfile_lookup_int(file, "game.turn");
@@ -5015,6 +5017,7 @@ void game_save(struct section_file *file, const char *save_reason,
   secfile_insert_int(file, game.info.end_year, "game.end_year");
   secfile_insert_int(file, game.info.year, "game.year");
   secfile_insert_int(file, game.info.turn, "game.turn");
+  secfile_insert_bool(file, game.info.year_0_hack, "game.year_0_hack");
   secfile_insert_int(file, game.info.phase_mode,
                      "game.phase_mode");
   secfile_insert_int(file, game.phase_mode_stored,

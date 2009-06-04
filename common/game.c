@@ -257,6 +257,7 @@ void game_init(void)
   game.info.netwait       = GAME_DEFAULT_NETWAIT;
   game.info.end_year      = GAME_DEFAULT_END_YEAR;
   game.info.year          = GAME_START_YEAR;
+  game.info.year_0_hack   = FALSE;
   game.info.turn          = 0;
   game.info.min_players   = GAME_DEFAULT_MIN_PLAYERS;
   game.info.max_players   = GAME_DEFAULT_MAX_PLAYERS;
@@ -317,6 +318,8 @@ void game_init(void)
   game.info.save_compress_type = FZ_PLAIN;
 #endif
   game.info.government_during_revolution_id = G_MAGIC;   /* flag */
+
+  game.info.calendar_skip_0 = FALSE;
 
   game.info.is_new_game   = TRUE;
   game.info.is_edit_mode = FALSE;
@@ -490,8 +493,10 @@ int game_next_year(int year)
   const int slowdown = (game.info.spacerace
 			? get_world_bonus(EFT_SLOW_DOWN_TIMELINE) : 0);
 
-  if (year == 1) { /* hacked it to get rid of year 0 */
+  if (game.info.year_0_hack) {
+    /* hacked it to get rid of year 0 */
     year = 0;
+    game.info.year_0_hack = FALSE;
   }
 
     /* !McFred: 
@@ -525,8 +530,9 @@ int game_next_year(int year)
 
   year += increase;
 
-  if (year == 0) {
+  if (year == 0 && game.info.calendar_skip_0) {
     year = 1;
+    game.info.year_0_hack = TRUE;
   }
 
   return year;

@@ -138,6 +138,10 @@ radius_sq_city = 17
 ; Border radius square increased by this amount / point of city size
 size_effect    = 1
 
+[calendar]
+; Year 1 instead of 0.
+skip_year_0 = 1
+
 [teams]
 names =
  _("Team 0"),

@@ -3159,6 +3159,9 @@ static void load_ruleset_game(void)
   game.info.border_size_effect
     = secfile_lookup_int(&file, "borders.size_effect");
 
+  game.info.calendar_skip_0
+    = secfile_lookup_bool_default(&file, FALSE, "calendar.skip_year_0");
+
   svec = secfile_lookup_str_vec(&file, &game.info.num_teams, "teams.names");
   game.info.num_teams = MIN(MAX_NUM_TEAMS, game.info.num_teams);
   if (game.info.num_teams <= 0) {
