@@ -1542,6 +1542,10 @@ reqs	=
       "Building", "Supermarket", "City"
       "OutputType", "Food", "Local"
     }
+nreqs   =
+    { "type", "name", "range"
+      "CityTile", "Center", "Local"
+    }
 
 [effect_supermarket_2]
 name	= "Output_Per_Tile"
