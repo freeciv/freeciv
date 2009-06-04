@@ -453,7 +453,8 @@ PACKET_GAME_INFO=15; sc
   UINT8 granary_food_inc;
   BOOL plague_on;
   UINT8 illness_safe_mod;
-  UINT8 health_trade_penalty;
+  UINT8 illness_trade_infection;
+  UINT8 illness_pollution_factor;
   UINT8 tech_cost_style;
   UINT8 tech_leakage;
   BOOL killstack;

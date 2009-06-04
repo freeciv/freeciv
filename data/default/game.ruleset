@@ -99,7 +99,10 @@ granary_food_inc	= 10
 plague_on = 0
 ; how much trading with a plagued city increases our city's chance for plague
 ; (in tenth of percents)
-health_trade_penalty = 10
+illness_trade_infection = 10
+; how much pollution within a city increases its chance for plague
+; (as a multiplier in tenth of percents)
+illness_pollution_factor = 1000
 ; how much to reduce from the basic chance (in tenth of percents)
 illness_safe_mod = 20
 

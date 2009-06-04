@@ -2103,7 +2103,7 @@ static int get_trade_illness(const struct city *pcity)
     if (trade_city != NULL
         && trade_city->turn_plague != -1
         && trade_city->turn_plague - game.info.turn < 5) {
-      total_penalty += game.info.health_trade_penalty;
+      total_penalty += game.info.illness_trade_infection;
     }
   }
 
@@ -2129,10 +2129,12 @@ int city_illness(const struct city *pcity, int *ill_size, int *ill_trade,
 {
   int size_mod = game.info.illness_safe_mod;
   int trade_penalty = get_trade_illness(pcity);
+  int pollution_penalty = ceil(pcity->pollution
+                               * game.info.illness_pollution_factor / 1000);
   /* city health effects remove illness */
   int city_illness_effects = -get_city_health(pcity);
   int illness = (pcity->size * pcity->size) - size_mod + trade_penalty
-               + pcity->pollution + city_illness_effects;
+               + pollution_penalty + city_illness_effects;
 
   /* returning other data */
   if (ill_size) {
@@ -2144,7 +2146,7 @@ int city_illness(const struct city *pcity, int *ill_size, int *ill_trade,
   }
 
   if (ill_pollution) {
-    *ill_pollution = pcity->pollution;
+    *ill_pollution = pollution_penalty;
   }
 
   if (ill_effects) {

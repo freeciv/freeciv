@@ -2992,8 +2992,12 @@ static void load_ruleset_game(void)
     game.control.description[0] = '\0';
   }
 
-  game.info.health_trade_penalty = 
-        secfile_lookup_int_default(&file, 10, "civstyle.health_trade_penalty");
+  game.info.illness_trade_infection =
+        secfile_lookup_int_default(&file, 10,
+                                   "civstyle.illness_trade_infection");
+  game.info.illness_pollution_factor =
+        secfile_lookup_int_default(&file, 1000,
+                                   "civstyle.illness_pollution_factor");
   game.info.illness_safe_mod = 
         secfile_lookup_int_default(&file, 20, "civstyle.illness_safe_mod");
   game.info.plague_on = 
