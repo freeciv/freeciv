@@ -121,7 +121,8 @@ static const char *effect_type_names[EFT_LAST] = {
   "Upgrade_Price_Pct",
   "Visible_Walls",
   "Tech_Cost_Factor",
-  "Shield2Gold_Factor"
+  "Shield2Gold_Factor",
+  "Tile_Workable"
 };
 
 static bool initialized = FALSE;

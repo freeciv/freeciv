@@ -719,6 +719,7 @@ static int improvement_effect_value(struct player *pplayer,
   case EFT_OUTPUT_PENALTY_TILE:
   case EFT_OUTPUT_INC_TILE_CELEBRATE:
   case EFT_TRADE_REVENUE_BONUS:
+  case EFT_TILE_WORKABLE:
     break;
     /* This has no effect for AI */
   case EFT_VISIBLE_WALLS:

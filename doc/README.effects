@@ -315,3 +315,6 @@ Shield2Gold_Factor
     A value of 200 would transfor 1 shield upkeep to 2 gold upkeep. The range
     of this effect must be player or world. Note that only units with the
     "Shield2Gold" flag will be affected by this.
+
+Tile_Workable
+    If value != 0, city can work target tile.

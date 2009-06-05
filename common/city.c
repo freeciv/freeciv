@@ -558,7 +558,7 @@ bool can_city_build_later(const struct city *pcity,
 }
 
 /****************************************************************************
-  Returns TRUE iff if the given city can use this kind of specialist.
+  Returns TRUE iff the given city can use this kind of specialist.
 ****************************************************************************/
 bool city_can_use_specialist(const struct city *pcity,
 			     Specialist_type_id type)
@@ -569,7 +569,7 @@ bool city_can_use_specialist(const struct city *pcity,
 }
 
 /****************************************************************************
-  Returns TRUE iff if the given city can change what it is building
+  Returns TRUE iff the given city can change what it is building
 ****************************************************************************/
 bool city_can_change_build(const struct city *pcity)
 {
@@ -703,7 +703,7 @@ int city_total_unit_gold_upkeep(const struct city *pcity)
 }
 
 /**************************************************************************
-  Return TRUE if the city has this building in it.
+  Return TRUE iff the city has this building in it.
 **************************************************************************/
 bool city_has_building(const struct city *pcity,
 		       const struct impr_type *pimprove)
@@ -879,6 +879,10 @@ bool city_can_work_tile(const struct city *pcity, const struct tile *ptile)
 
   if (!is_free_worked(pcity, ptile)
    && NULL != unit_occupies_tile(ptile, powner)) {
+    return FALSE;
+  }
+
+  if (!get_city_tile_output_bonus(pcity, ptile, NULL, EFT_TILE_WORKABLE)) {
     return FALSE;
   }
 

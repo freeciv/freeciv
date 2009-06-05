@@ -110,6 +110,7 @@ enum effect_type {
   EFT_TECH_COST_FACTOR,
   EFT_SHIELD2GOLD_FACTOR, /* [x%] gold upkeep instead of [1] shield upkeep
                            * for units */
+  EFT_TILE_WORKABLE,
   EFT_LAST	/* keep this last */
 };
 

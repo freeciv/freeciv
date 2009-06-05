@@ -2066,3 +2066,8 @@ reqs    =
 [effect_tech_cost_base]
 name    = "Tech_Cost_Factor"
 value   = 1
+
+; Cities can always work tiles
+[effect_tile_workable]
+name    = "Tile_Workable"
+value   = 1

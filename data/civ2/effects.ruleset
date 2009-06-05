@@ -2080,3 +2080,8 @@ reqs    =
     { "type", "name", "range"
       "MinYear", "1", "World"
     }
+
+; Cities can always work tiles
+[effect_tile_workable]
+name    = "Tile_Workable"
+value   = 1
