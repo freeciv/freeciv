@@ -2175,6 +2175,7 @@ static void srv_ready(void)
 #endif
 
   if (game.info.is_new_game) {
+    game.info.year = game.info.start_year;
     generate_players();
     final_ruleset_adjustments();
   }

@@ -3162,6 +3162,10 @@ static void load_ruleset_game(void)
   game.info.calendar_skip_0
     = secfile_lookup_bool_default(&file, FALSE, "calendar.skip_year_0");
 
+  game.info.start_year
+    = secfile_lookup_int_default(&file, GAME_START_YEAR,
+                                 "calendar.start_year");
+
   svec = secfile_lookup_str_vec(&file, &game.info.num_teams, "teams.names");
   game.info.num_teams = MIN(MAX_NUM_TEAMS, game.info.num_teams);
   if (game.info.num_teams <= 0) {

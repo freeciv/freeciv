@@ -166,6 +166,8 @@ radius_sq_city = 17
 size_effect    = 1
 
 [calendar]
+; Year in the beginning of the game
+start_year = -4000
 ; Year 1 instead of 0.
 skip_year_0 = 1
 
