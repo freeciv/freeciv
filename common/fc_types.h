@@ -132,7 +132,7 @@ struct unit;
 
 /* Changing these will break network compatibility. */
 #define SP_MAX 20
-#define MAX_NUM_REQS 4
+#define MAX_NUM_REQS 10
 
 #define MAX_NUM_RULESETS 16
 #define MAX_RULESET_NAME_LENGTH 64
