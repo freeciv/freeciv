@@ -242,7 +242,8 @@ static char *check_ruleset_capabilities(struct section_file *file,
 **************************************************************************/
 static struct requirement_vector *lookup_req_list(struct section_file *file,
 						  const char *sec,
-						  const char *sub)
+						  const char *sub,
+                                                  const char *rfor)
 {
   char *type, *name;
   int j;
@@ -279,6 +280,12 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
     }
 
     requirement_vector_append(&list, &req);
+  }
+
+  if (j > MAX_NUM_REQS) {
+    freelog(LOG_FATAL, "Too many (%d) requirements for %s. Max is %d",
+            j, rfor, MAX_NUM_REQS);
+    exit(EXIT_FAILURE);
   }
 
   return &list;
@@ -1328,8 +1335,10 @@ static void load_ruleset_buildings(struct section_file *file)
   sec = secfile_get_secnames_prefix(file, BUILDING_SECTION_PREFIX, &nval);
 
   for (i = 0; i < nval; i++) {
-    struct requirement_vector *reqs = lookup_req_list(file, sec[i], "reqs");
     struct impr_type *b = improvement_by_number(i);
+    struct requirement_vector *reqs =
+      lookup_req_list(file, sec[i], "reqs",
+                      improvement_rule_name(i));
     char *sval, **slist;
     int j, nflags, ival;
 
@@ -1786,7 +1795,8 @@ static void load_ruleset_governments(struct section_file *file)
   /* easy ones: */
   government_iterate(g) {
     int i = g->index;
-    struct requirement_vector *reqs = lookup_req_list(file, sec[i], "reqs");
+    struct requirement_vector *reqs = lookup_req_list(file, sec[i], "reqs",
+                                                      government_rule_name(g));
 
     if (section_file_lookup(file, "%s.ai_better", sec[i])) {
       char entry[100];
@@ -2406,7 +2416,7 @@ static void load_ruleset_cities(struct section_file *file)
     item = secfile_lookup_str_default(file, s->name, "%s.short_name", sec[i]);
     sz_strlcpy(s->short_name, item);
 
-    reqs = lookup_req_list(file, sec[i], "reqs");
+    reqs = lookup_req_list(file, sec[i], "reqs", s->name);
     requirement_vector_copy(&s->reqs, reqs);
 
     if (requirement_vector_size(&s->reqs) == 0 && DEFAULT_SPECIALIST == -1) {
@@ -2466,7 +2476,7 @@ static void load_ruleset_cities(struct section_file *file)
 	       secfile_lookup_str_default(file, "generic", 
 	    		"%s.citizens_graphic_alt", styles[i]));
 
-    reqs = lookup_req_list(file, styles[i], "reqs");
+    reqs = lookup_req_list(file, styles[i], "reqs", city_style_rule_name(i));
     requirement_vector_copy(&city_styles[i].reqs, reqs);
 
     replacement = secfile_lookup_str(file, "%s.replaced_by", styles[i]);
@@ -2521,13 +2531,15 @@ static void load_ruleset_effects(struct section_file *file)
 
     peffect = effect_new(eff, value);
 
-    requirement_vector_iterate(lookup_req_list(file, sec[i], "reqs"), req) {
+    requirement_vector_iterate(lookup_req_list(file, sec[i], "reqs", type),
+                               req) {
       struct requirement *preq = fc_malloc(sizeof(*preq));
 
       *preq = *req;
       effect_req_append(peffect, FALSE, preq);
     } requirement_vector_iterate_end;
-    requirement_vector_iterate(lookup_req_list(file, sec[i], "nreqs"), req) {
+    requirement_vector_iterate(lookup_req_list(file, sec[i], "nreqs", type),
+                               req) {
       struct requirement *preq = fc_malloc(sizeof(*preq));
 
       *preq = *req;
