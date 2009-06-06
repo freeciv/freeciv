@@ -1996,6 +1996,8 @@ static void load_ruleset_terrain(struct section_file *file)
 
     pbase->buildable = secfile_lookup_bool_default(file, TRUE,
                                                   "%s.buildable", section);
+    pbase->pillageable = secfile_lookup_bool_default(file, TRUE,
+                                                     "%s.pillageable", section);
 
     sz_strlcpy(pbase->graphic_str,
                secfile_lookup_str_default(file, "-", "%s.graphic", section));
@@ -3483,6 +3485,7 @@ static void send_ruleset_bases(struct conn_list *dest)
     sz_strlcpy(packet.graphic_alt, b->graphic_alt);
     sz_strlcpy(packet.activity_gfx, b->activity_gfx);
     packet.buildable = b->buildable;
+    packet.pillageable = b->pillageable;
 
     j = 0;
     requirement_vector_iterate(&b->reqs, preq) {

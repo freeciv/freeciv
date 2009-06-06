@@ -901,10 +901,16 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 
         base_type_iterate(pbase) {
           if (tile_has_base(ptile, pbase)) {
-            first_base = pbase;
-            break;
+            if (pbase->pillageable) {
+              first_base = pbase;
+              break;
+            }
           }
         } base_type_iterate_end;
+
+        if (numpresent == 0 && first_base == NULL) {
+          return FALSE;
+        }
 
 	if (target == S_LAST) {
 	  for (i = 0; infrastructure_specials[i] != S_LAST; i++) {

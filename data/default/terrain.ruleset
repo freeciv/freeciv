@@ -887,6 +887,7 @@ shield      = 3
 ;
 ; name                    = Name of the base type.
 ; buildable               = Can base be built? Defaults to true
+; pillageable             = Can base be pillaged? Defaults to true
 ; graphic                 = tag specifing preferred graphic
 ; graphic_alt             = tag for alternate graphic if preferred graphic is not 
 ;                           present. Can use eg "-" for no alternate graphic.

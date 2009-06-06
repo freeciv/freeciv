@@ -695,8 +695,10 @@ static void update_unit_activity(struct unit *punit)
 
         base_type_iterate(pbase) {
           if (tile_has_base(ptile, pbase)) {
-            first_base = pbase;
-            break;
+            if (pbase->pillageable) {
+              first_base = pbase;
+              break;
+            }
           }
         } base_type_iterate_end;
 
@@ -725,9 +727,11 @@ static void update_unit_activity(struct unit *punit)
       if (what_pillaged == S_PILLAGE_BASE) {
         base_type_iterate(pbase) {
           if (tile_has_base(ptile, pbase)) {
-            /* Remove first base */
-            unit_pillage_base(ptile, pbase);
-            break; /* but only first */
+            if (pbase->pillageable) {
+              /* Remove first pillageable base */
+              unit_pillage_base(ptile, pbase);
+              break; /* but only first */
+            }
           }
         } base_type_iterate_end;
       } else {

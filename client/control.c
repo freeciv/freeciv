@@ -1649,8 +1649,10 @@ void request_unit_pillage(struct unit *punit)
 
   base_type_iterate(pbase) {
     if (tile_has_base(ptile, pbase)) {
-      first_base = pbase;
-      break;
+      if (pbase->pillageable) {
+        first_base = pbase;
+        break;
+      }
     }
   } base_type_iterate_end;
 
