@@ -890,7 +890,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
       bv_special pspresent = get_tile_infrastructure_set(ptile, &numpresent);
 
       if ((numpresent > 0 || tile_has_any_bases(ptile))
-          && is_ground_unit(punit)) {
+          && uclass_has_flag(unit_class(punit), UCF_CAN_PILLAGE)) {
 	bv_special psworking;
 	int i;
 
