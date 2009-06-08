@@ -453,8 +453,9 @@ PACKET_GAME_INFO=15; sc
   UINT8 granary_food_ini[MAX_GRANARY_INIS];
   UINT8 granary_num_inis;
   UINT8 granary_food_inc;
-  BOOL plague_on;
-  UINT8 illness_safe_mod;
+  BOOL illness_on;
+  UINT8 illness_min_size;
+  UINT8 illness_base_factor;
   UINT8 illness_trade_infection;
   UINT8 illness_pollution_factor;
   UINT8 tech_cost_style;

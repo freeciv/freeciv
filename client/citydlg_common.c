@@ -495,11 +495,16 @@ void get_city_dialog_output_text(const struct city *pcity,
 void get_city_dialog_illness_text(const struct city *pcity,
                                   char *buf, size_t bufsz)
 {
-  int illness, ill_size, ill_trade, ill_pollution;
+  int illness, ill_base, ill_size, ill_trade, ill_pollution;
   struct effect_list *plist;
 
-  illness = city_illness(pcity, &ill_size, &ill_trade, &ill_pollution, NULL);
+  illness = city_illness(pcity, &ill_base, &ill_size, &ill_trade,
+                         &ill_pollution);
   buf[0] = '\0';
+
+  if (!game.info.illness_on) {
+    cat_snprintf(buf, bufsz, _("Illness deactivated in ruleset\n"));
+  }
 
   cat_snprintf(buf, bufsz, _("%+2.1f : Risk from over crowdness\n"),
                ((float)(ill_size) / 10.0));
@@ -510,7 +515,7 @@ void get_city_dialog_illness_text(const struct city *pcity,
 
   plist = effect_list_new();
 
-  (void) get_city_bonus_effects(plist, pcity, NULL, EFT_HEALTH);
+  (void) get_city_bonus_effects(plist, pcity, NULL, EFT_HEALTH_PCT);
 
   effect_list_iterate(plist, peffect) {
     char buf2[512];
@@ -519,7 +524,7 @@ void get_city_dialog_illness_text(const struct city *pcity,
 
     cat_snprintf(buf, bufsz,
                  _("%+2.1f : Bonus from %s\n"),
-                 -peffect->value / 10.0, buf2);
+                 -(0.1 * ill_base * peffect->value / 100), buf2);
   } effect_list_iterate_end;
   effect_list_free(plist);
 

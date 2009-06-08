@@ -2094,8 +2094,11 @@ int city_pollution(const struct city *pcity, int shield_total)
 }
 
 /**************************************************************************
- Gets whether cities that pcity trades with had the plague. If so, it 
- returns the health penalty.
+  Gets whether cities that pcity trades with had the plague. If so, it 
+  returns the health penalty in tenth of percent which depends on the size
+  of both cities. The health penalty is given as the product of the ruleset
+  option 'game.info.illness_trade_infection' (in percent) and the square
+  root of the product of the size of both cities.
  *************************************************************************/
 static int get_trade_illness(const struct city *pcity)
 {
@@ -2107,7 +2110,8 @@ static int get_trade_illness(const struct city *pcity)
     if (trade_city != NULL
         && trade_city->turn_plague != -1
         && trade_city->turn_plague - game.info.turn < 5) {
-      total_penalty += game.info.illness_trade_infection;
+      total_penalty += game.info.illness_trade_infection / 100
+                       * sqrt(pcity->size * trade_city->size);
     }
   }
 
@@ -2115,49 +2119,55 @@ static int get_trade_illness(const struct city *pcity)
 }
 
 /**************************************************************************
-  Gets any effects ragarding health the city might have from buildings or
-  sabotage.
+  Get any effects regarding health from the buildings of the city. The
+  effect defines the reduction of the possibility of an illness in percent.
 **************************************************************************/
 static int get_city_health(const struct city *pcity)
 {
-  return get_city_bonus(pcity, EFT_HEALTH);
+  return get_city_bonus(pcity, EFT_HEALTH_PCT);
 }
 
 /**************************************************************************
- Set city's illness. Illness cannot exceed 999, or be less then 0
- City illness is:  (city_size - min_illness_size) + 10 * trade
-                   routes to plagued cities - effect of buildings
+  Calculate city's illness in tenth of percent:
+
+  base illness (maximum illness given by 'game.info.illness_base_factor')
+  + trade illness (see get_trade_illness())
+  + pollution illness (ruleset option 'game.info.illness_pollution_factor'
+  times the pollution in the city)
+
+  The illness is reduced by the percentage given by the health effect.
+  Illness cannot exceed 999, or be less then 0
  *************************************************************************/
-int city_illness(const struct city *pcity, int *ill_size, int *ill_trade,
-                 int *ill_pollution, int *ill_effects)
+int city_illness(const struct city *pcity, int *ill_base, int *ill_size,
+                 int *ill_trade, int *ill_pollution)
 {
-  int size_mod = game.info.illness_safe_mod;
-  int trade_penalty = get_trade_illness(pcity);
-  int pollution_penalty = ceil(pcity->pollution
-                               * game.info.illness_pollution_factor / 1000);
-  /* city health effects remove illness */
-  int city_illness_effects = -get_city_health(pcity);
-  int illness = (pcity->size * pcity->size) - size_mod + trade_penalty
-               + pollution_penalty + city_illness_effects;
+  int illness_size = (1- exp(- pcity->size / 10)) * 10
+                     * game.info.illness_base_factor;
+  int illness_trade = get_trade_illness(pcity);
+  int illness_pollution = game.info.illness_pollution_factor / 100
+                          * pcity->pollution;
+  int illness_base = illness_size + illness_trade + illness_pollution;
+
+  int illness_percent = 100 - get_city_health(pcity);
 
   /* returning other data */
   if (ill_size) {
-    *ill_size = (pcity->size * pcity->size) - size_mod;
+    *ill_size = illness_size;
   }
 
   if (ill_trade) {
-    *ill_trade = trade_penalty;
+    *ill_trade = illness_trade;
   }
 
   if (ill_pollution) {
-    *ill_pollution = pollution_penalty;
+    *ill_pollution = illness_pollution;
   }
 
-  if (ill_effects) {
-    *ill_effects = city_illness_effects;
+  if (ill_base) {
+    *ill_base = illness_base;
   }
 
-  return CLIP(0, illness , 999);
+  return CLIP(0, illness_base*illness_percent/100 , 999);
 }
 
 /**************************************************************************

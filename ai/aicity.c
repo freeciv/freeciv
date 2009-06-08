@@ -521,9 +521,9 @@ static int improvement_effect_value(struct player *pplayer,
   case EFT_GROWTH_FOOD:
     v += c * 4 + (amount / 7) * pcity->surplus[O_FOOD];
     break;
-  case EFT_HEALTH:
+  case EFT_HEALTH_PCT:
     /* Is plague possible */
-    if (game.info.plague_on && pcity->size > 1) {
+    if (game.info.illness_on && pcity->size > MAX(1, game.info.illness_min_size)) {
       v += c * 5 + (amount / 5) * pcity->illness;
     }
     break;

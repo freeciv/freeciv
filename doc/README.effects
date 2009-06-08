@@ -134,8 +134,8 @@ Pollu_Pop_Pct
 Pollu_Prod_Pct
     Increases pollution caused by shields by amount percent.
 
-Health
-    Reduces possibility of plague in a city
+Health_Pct
+    Reduces possibility of illness (plague) in a city by amount percent.
 
 Reveal_Cities
     Immediately make all cities known.

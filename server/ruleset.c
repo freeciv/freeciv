@@ -3005,16 +3005,19 @@ static void load_ruleset_game(void)
     game.control.description[0] = '\0';
   }
 
+  game.info.illness_on =
+        secfile_lookup_int_default(&file, 0, "civstyle.illness_on");
+  game.info.illness_base_factor =
+        secfile_lookup_int_default(&file, 25,
+                                   "civstyle.illness_base_factor");
+  game.info.illness_min_size =
+        secfile_lookup_int_default(&file, 3, "civstyle.illness_min_size");
   game.info.illness_trade_infection =
-        secfile_lookup_int_default(&file, 10,
+        secfile_lookup_int_default(&file, 50,
                                    "civstyle.illness_trade_infection");
   game.info.illness_pollution_factor =
-        secfile_lookup_int_default(&file, 1000,
+        secfile_lookup_int_default(&file, 50,
                                    "civstyle.illness_pollution_factor");
-  game.info.illness_safe_mod = 
-        secfile_lookup_int_default(&file, 20, "civstyle.illness_safe_mod");
-  game.info.plague_on = 
-        secfile_lookup_int_default(&file, 0, "civstyle.plague_on");
   game.info.base_pollution = 
         secfile_lookup_int_default(&file, -20, "civstyle.base_pollution");
   game.info.happy_cost =

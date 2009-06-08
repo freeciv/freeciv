@@ -95,16 +95,18 @@ gold_upkeep_style = 0
 granary_food_ini	= 20
 granary_food_inc	= 10
 
-; Whether plagues are possible
-plague_on = 0
-; how much trading with a plagued city increases our city's chance for plague
-; (in tenth of percents)
-illness_trade_infection = 10
-; how much pollution within a city increases its chance for plague
-; (as a multiplier in tenth of percents)
-illness_pollution_factor = 1000
-; how much to reduce from the basic chance (in tenth of percents)
-illness_safe_mod = 20
+; Whether plagues (illness) are possible
+illness_on = 0
+; the base factor for illness (of percent)
+illness_base_factor = 25
+; minimum city size for illness
+illness_min_size = 3
+; factor for how much trading with a plagued city increases our city's
+; chance for plague (in percent)
+illness_trade_infection = 50
+; factor for how much pollution within a city increases its chance for
+; plague (in percent)
+illness_pollution_factor = 50
 
 ; Method of calculating technology costs
 ;   0 - Civ (I|II) style. Every new tech add researchcost to cost of next tech.

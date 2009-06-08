@@ -54,7 +54,7 @@ static const char *effect_type_names[EFT_LAST] = {
   /* TODO: "Force_Content_Pct", */
   "Give_Imm_Tech",
   "Growth_Food",
-  "Health",
+  "Health_Pct",
   "Have_Embassies",
   "Make_Content",
   "Make_Content_Mil",
