@@ -1010,6 +1010,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
     auto_arrange_workers(pcity); /* does city_map_update_all() */
     city_thaw_workers(pcity);
     city_thaw_workers_queue();  /* after old city has a chance to work! */
+    city_refresh_queue_add(pcity);
     city_refresh_queue_processing();
 
     send_city_info(NULL, pcity);
@@ -2022,9 +2023,81 @@ void building_lost(struct city *pcity, const struct impr_type *pimprove)
     spaceship_lost(owner);
   }
 
+  /* update city; influence of effects (buildings, ...) on unit upkeep */
+  city_refresh(pcity);
+
   /* Re-update the city's visible area.  This updates fog if the vision
    * range increases or decreases. */
   city_refresh_vision(pcity);
+}
+
+/**************************************************************************
+  Recalculate the upkeep needed for all units supported by the city. It has
+  to be called
+
+  - if a save game is loaded (via city_refresh() in game_load_internal())
+
+  - if the number of units supported by a city changes
+    * create a unit (in create_unit_full())
+    * bride a unit (in diplomat_bribe())
+    * change homecity (in unit_change_homecity_handling())
+    * destroy a unit (in wipe_unit())
+
+  - if the rules for the upkeep calculation change. This is due to effects
+    which influence the upkeep calculation.
+    * tech researched, government change (via city_refresh())
+    * building destroyed (in building_lost())
+    * building created (via city_refresh() in in city_build_building())
+
+  If the upkeep for a unit changes, an update is send to the player.
+**************************************************************************/
+void city_units_upkeep(const struct city *pcity)
+{
+  int free[O_COUNT], cost;
+  struct unit_type *ut;
+  struct player *plr;
+  bool update;
+
+  if (!pcity || !pcity->units_supported
+      || unit_list_size(pcity->units_supported) < 1) {
+    return;
+  }
+
+  memset(free, 0, O_COUNT * sizeof(*free));
+  output_type_iterate(o) {
+    free[o] = get_city_output_bonus(pcity, get_output_type(o),
+                                    EFT_UNIT_UPKEEP_FREE_PER_CITY);
+  } output_type_iterate_end;
+
+  /* save the upkeep for all units in the corresponding punit struct */
+  unit_list_iterate(pcity->units_supported, punit) {
+    ut = unit_type(punit);
+    plr = unit_owner(punit);
+    update = FALSE;
+
+    output_type_iterate(o) {
+      cost = utype_upkeep_cost(ut, plr, o);
+      if (cost > 0) {
+        if (free[o] > cost) {
+          free[o] -= cost;
+          cost = 0;
+        } else {
+          cost -= free[o];
+          free[o] = 0;
+        }
+      }
+
+      if (cost != punit->upkeep[o]) {
+        update = TRUE;
+        punit->upkeep[o] = cost;
+      }
+    } output_type_iterate_end;
+
+    if (update) {
+      /* update unit information to the player */
+      send_unit_info(plr, punit);
+    }
+  } unit_list_iterate_end;
 }
 
 /**************************************************************************

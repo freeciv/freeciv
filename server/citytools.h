@@ -70,6 +70,7 @@ void remove_trade_route(struct city *pc1, struct city *pc2);
 void do_sell_building(struct player *pplayer, struct city *pcity,
 		      struct impr_type *pimprove);
 void building_lost(struct city *pcity, const struct impr_type *pimprove);
+void city_units_upkeep(const struct city *pcity);
 
 bool is_production_equal(const struct universal *one,
 			 const struct universal *two);

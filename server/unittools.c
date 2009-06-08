@@ -1840,6 +1840,9 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
   packet->x = punit->tile->x;
   packet->y = punit->tile->y;
   packet->homecity = punit->homecity;
+  output_type_iterate(o) {
+    packet->upkeep[o] = punit->upkeep[o];
+  } output_type_iterate_end;
   packet->veteran = punit->veteran;
   packet->type = utype_number(unit_type(punit));
   packet->movesleft = punit->moves_left;

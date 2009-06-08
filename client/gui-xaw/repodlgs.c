@@ -1073,9 +1073,7 @@ void activeunits_report_dialog_update(void)
 {
   struct repoinfo {
     int active_count;
-    int upkeep_shield;
-    int upkeep_food;
-    /* int upkeep_gold;   FIXME: add gold when gold is implemented --jjm */
+    int upkeep[O_COUNT];
     int building_count;
   };
 
@@ -1105,23 +1103,14 @@ void activeunits_report_dialog_update(void)
     memset(unitarray, '\0', sizeof(unitarray));
 
     city_list_iterate(client.conn.playing->cities, pcity) {
-      int free_upkeep[O_COUNT];
-
-      output_type_iterate(o) {
-        free_upkeep[o] = get_city_output_bonus(pcity, get_output_type(o),
-                                               EFT_UNIT_UPKEEP_FREE_PER_CITY);
-      } output_type_iterate_end;
-
       unit_list_iterate(client.conn.playing->units, punit) {
-        int upkeep_cost[O_COUNT];
         Unit_type_id uti = utype_index(unit_type(punit));
 
-        city_unit_upkeep(punit, upkeep_cost, free_upkeep);
         (unitarray[uti].active_count)++;
         if (punit->homecity) {
-          /* TODO: upkeep for generic output types. */
-          unitarray[uti].upkeep_shield += upkeep_cost[O_SHIELD];
-          unitarray[uti].upkeep_food += upkeep_cost[O_FOOD];
+          output_type_iterate(o) {
+            unitarray[uti].upkeep[o] += punit->upkeep[o];
+          } output_type_iterate_end;
         }
       } unit_list_iterate_end;
     } city_list_iterate_end;
@@ -1148,15 +1137,17 @@ void activeunits_report_dialog_update(void)
 	   can_upgrade_unittype(client.conn.playing, punittype) != NULL ? '*': '-',
 	   unitarray[i].building_count,
 	   unitarray[i].active_count,
-	   unitarray[i].upkeep_shield,
-	   unitarray[i].upkeep_food
+           unitarray[i].upkeep[O_SHIELD],
+           unitarray[i].upkeep[O_FOOD]
+           /* TODO: add upkeep[O_GOLD] here */
 	  );
 	activeunits_list_names_ptrs[k]=activeunits_list_names[k];
 	activeunits_type[k]=(unitarray[i].active_count > 0) ? i : U_LAST;
 	k++;
 	unittotals.active_count += unitarray[i].active_count;
-	unittotals.upkeep_shield += unitarray[i].upkeep_shield;
-	unittotals.upkeep_food += unitarray[i].upkeep_food;
+        output_type_iterate(o) {
+          unittotals.upkeep[o] = unitarray[uti].upkeep[o];
+        } output_type_iterate_end;
 	unittotals.building_count += unitarray[i].building_count;
       }
     } unit_type_iterate_end;
@@ -1170,7 +1161,8 @@ void activeunits_report_dialog_update(void)
     my_snprintf(activeunits_total, sizeof(activeunits_total),
 	    _("Totals:                     %9d%9d%9d%9d"),
 	    unittotals.building_count, unittotals.active_count,
-	    unittotals.upkeep_shield, unittotals.upkeep_food);
+           unittotals.upkeep[O_SHIELD], unittotals.upkeep[O_FOOD]);
+            /* TODO: add upkeep[O_GOLD] here */
     xaw_set_label(activeunits_label2, activeunits_total); 
 
     activeunits_list_names_ptrs[k]=0;

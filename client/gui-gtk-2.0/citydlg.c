@@ -1654,13 +1654,7 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
   struct unit_node_vector *nodes;
   int n, m, i;
   char buf[30];
-  int free_upkeep[O_COUNT];
   int free_unhappy = get_city_bonus(pdialog->pcity, EFT_MAKE_CONTENT_MIL);
-
-  output_type_iterate(o) {
-    free_upkeep[o] = get_city_output_bonus(pdialog->pcity, get_output_type(o),
-                                           EFT_UNIT_UPKEEP_FREE_PER_CITY);
-  } output_type_iterate_end;
 
   if (NULL != client.conn.playing
       && city_owner(pdialog->pcity) != client.conn.playing) {
@@ -1721,11 +1715,8 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
   i = 0;
   unit_list_iterate(units, punit) {
     struct unit_node *pnode;
-    int upkeep_cost[O_COUNT];
     int happy_cost = city_unit_unhappiness(punit, &free_unhappy);
 
-    city_unit_upkeep(punit, upkeep_cost, free_upkeep);
-    
     pnode = unit_node_vector_get(nodes, i);
     if (pnode) {
       GtkWidget *cmd, *pix;
@@ -1735,7 +1726,8 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
 
       gtk_pixcomm_freeze(GTK_PIXCOMM(pix));
       put_unit_gpixmap(punit, GTK_PIXCOMM(pix));
-      put_unit_gpixmap_city_overlays(punit, GTK_PIXCOMM(pix), upkeep_cost, happy_cost);
+      put_unit_gpixmap_city_overlays(punit, GTK_PIXCOMM(pix), punit->upkeep,
+                                     happy_cost);
       gtk_pixcomm_thaw(GTK_PIXCOMM(pix));
 
       g_signal_handlers_disconnect_matched(cmd,

@@ -117,6 +117,9 @@ static void packhand_init(void)
 
 /**************************************************************************
   Unpackage the unit information into a newly allocated unit structure.
+
+  Information for the client must also be processed in
+  handle_unit_packet_common()!
 **************************************************************************/
 static struct unit * unpackage_unit(struct packet_unit_info *packet)
 {
@@ -130,6 +133,9 @@ static struct unit * unpackage_unit(struct packet_unit_info *packet)
   punit->id = packet->id;
   punit->tile = map_pos_to_tile(packet->x, packet->y);
   punit->homecity = packet->homecity;
+  output_type_iterate(o) {
+    punit->upkeep[o] = packet->upkeep[o];
+  } output_type_iterate_end;
   punit->moves_left = packet->movesleft;
   punit->hp = packet->hp;
   punit->activity = packet->activity;
@@ -177,6 +183,9 @@ static struct unit * unpackage_unit(struct packet_unit_info *packet)
   Unpackage a short_unit_info packet.  This extracts a limited amount of
   information about the unit, and is sent for units we shouldn't know
   everything about (like our enemies' units).
+
+  Information for the client must also be processed in
+  handle_unit_packet_common()!
 **************************************************************************/
 static struct unit *unpackage_short_unit(struct packet_unit_short_info *packet)
 {
@@ -1203,7 +1212,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
   bool check_focus = FALSE;     /* conservative focus change */
   bool moved = FALSE;
   bool ret = FALSE;
-  
+
   punit = player_find_unit_by_id(unit_owner(packet_unit), packet_unit->id);
   if (!punit && game_find_unit_by_number(packet_unit->id)) {
     /* This means unit has changed owner. We deal with this here
@@ -1413,6 +1422,11 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 	refresh_city_dialog(tile_city(punit->tile));
       }
     }
+
+    /* unit upkeep information */
+    output_type_iterate(o) {
+      punit->upkeep[o] = packet_unit->upkeep[o];
+    } output_type_iterate_end;
 
     punit->veteran = packet_unit->veteran;
     punit->moves_left = packet_unit->moves_left;

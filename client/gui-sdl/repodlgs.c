@@ -58,50 +58,37 @@
 /* ===================================================================== */
 static struct ADVANCED_DLG *pUnitsDlg = NULL;
 static struct SMALL_DLG *pUnits_Upg_Dlg = NULL;
-    
+
 struct units_entry {
   int active_count;
-  int upkeep_shield;
-  int upkeep_food;
-  int upkeep_gold;
+  int upkeep[O_COUNT];
   int building_count;
   int soonest_completions;
 };
 
 
 static void get_units_report_data(struct units_entry *entries, 
-  					struct units_entry *total)
+                                  struct units_entry *total)
 {
   int time_to_build;
-  int upkeep_cost[O_COUNT];
-  int free_upkeep[O_COUNT];
 
   memset(entries, '\0', U_LAST * sizeof(struct units_entry));
   memset(total, '\0', sizeof(struct units_entry));
   for(time_to_build = 0; time_to_build < U_LAST; time_to_build++) {
     entries[time_to_build].soonest_completions = FC_INFINITY;
   }
+
   unit_list_iterate(client.conn.playing->units, pUnit) {
     Unit_type_id uti = utype_index(unit_type(pUnit));
     (entries[uti].active_count)++;
     (total->active_count)++;
     if (pUnit->homecity) {
       output_type_iterate(o) {
-        free_upkeep[o] = get_city_output_bonus(game_find_city_by_number(pUnit->homecity),
-                           get_output_type(o), EFT_UNIT_UPKEEP_FREE_PER_CITY);
+        entries[uti].upkeep[o] += punit->upkeep[o];
       } output_type_iterate_end;
-
-      city_unit_upkeep(pUnit, upkeep_cost, free_upkeep);
-      
-      entries[uti].upkeep_shield += upkeep_cost[O_SHIELD];
-      total->upkeep_shield += upkeep_cost[O_SHIELD];
-      entries[uti].upkeep_food += upkeep_cost[O_FOOD];
-      total->upkeep_food += upkeep_cost[O_FOOD];
-      entries[uti].upkeep_gold += upkeep_cost[O_GOLD];
-      total->upkeep_gold += upkeep_cost[O_GOLD];
     }
   } unit_list_iterate_end;
-    
+
   city_list_iterate(client.conn.playing->cities, pCity) {
     if (VUT_UTYPE == pCity->production.kind) {
       struct unit_type *pUnitType = pCity->production.value.utype;
@@ -405,7 +392,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   pBuf->size.w = pText1->w + adj_size(6);
   add_to_gui_list(ID_LABEL, pBuf);
   /* ---------------------------------------------- */
-  my_snprintf(cBuf, sizeof(cBuf), "%d", total->upkeep_shield);
+  my_snprintf(cBuf, sizeof(cBuf), "%d", total->upkeep[O_SHIELD]);
 	
   pStr = create_str16_from_char(cBuf, adj_font(10));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
@@ -415,7 +402,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   pBuf->size.w = pText1->w;
   add_to_gui_list(ID_LABEL, pBuf);
   /* ---------------------------------------------- */	
-  my_snprintf(cBuf, sizeof(cBuf), "%d", total->upkeep_food);
+  my_snprintf(cBuf, sizeof(cBuf), "%d", total->upkeep[O_FOOD]);
 	
   pStr = create_str16_from_char(cBuf, adj_font(10));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
@@ -425,7 +412,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   pBuf->size.w = pText1->w;
   add_to_gui_list(ID_LABEL, pBuf);
   /* ---------------------------------------------- */	
-  my_snprintf(cBuf, sizeof(cBuf), "%d", total->upkeep_gold);
+  my_snprintf(cBuf, sizeof(cBuf), "%d", total->upkeep[O_GOLD]);
 	
   pStr = create_str16_from_char(cBuf, adj_font(10));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
@@ -498,7 +485,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       add_to_gui_list(MAX_ID - utype_number(i), pBuf);
       
       /* shield upkeep */	
-      my_snprintf(cBuf, sizeof(cBuf), "%d", units[utype_index(i)].upkeep_shield);
+      my_snprintf(cBuf, sizeof(cBuf), "%d", units[utype_index(i)].upkeep[O_SHIELD]);
       pStr = create_str16_from_char(cBuf, adj_font(10));
       pStr->style |= SF_CENTER;
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
@@ -511,7 +498,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       add_to_gui_list(MAX_ID - utype_number(i), pBuf);
 	
       /* food upkeep */
-      my_snprintf(cBuf, sizeof(cBuf), "%d", units[utype_index(i)].upkeep_food);
+      my_snprintf(cBuf, sizeof(cBuf), "%d", units[utype_index(i)].upkeep[O_FOOD]);
       pStr = create_str16_from_char(cBuf, adj_font(10));
       pStr->style |= SF_CENTER;
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
@@ -525,7 +512,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       add_to_gui_list(MAX_ID - utype_number(i), pBuf);
 
       /* gold upkeep */
-      my_snprintf(cBuf, sizeof(cBuf), "%d", units[utype_index(i)].upkeep_gold);
+      my_snprintf(cBuf, sizeof(cBuf), "%d", units[utype_index(i)].upkeep[O_GOLD]);
       pStr = create_str16_from_char(cBuf, adj_font(10));
       pStr->style |= SF_CENTER;
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
@@ -912,15 +899,15 @@ void activeunits_report_dialog_update(void)
             copy_chars_to_string16(pBuf->string16, cBuf);
 
             pBuf = pBuf->prev; /* shield upkeep */
-            my_snprintf(cBuf, sizeof(cBuf), "%d", units[utype_index(i)].upkeep_shield);
+            my_snprintf(cBuf, sizeof(cBuf), "%d", units[utype_index(i)].upkeep[O_SHIELD]);
             copy_chars_to_string16(pBuf->string16, cBuf);
 
             pBuf = pBuf->prev; /* food upkeep */
-            my_snprintf(cBuf, sizeof(cBuf), "%d", units[utype_index(i)].upkeep_food);
+            my_snprintf(cBuf, sizeof(cBuf), "%d", units[utype_index(i)].upkeep[O_FOOD]);
             copy_chars_to_string16(pBuf->string16, cBuf);
 
             pBuf = pBuf->prev; /* gold upkeep */
-            my_snprintf(cBuf, sizeof(cBuf), "%d", units[utype_index(i)].upkeep_gold);
+            my_snprintf(cBuf, sizeof(cBuf), "%d", units[utype_index(i)].upkeep[O_GOLD]);
             copy_chars_to_string16(pBuf->string16, cBuf);
 
             pBuf = pBuf->prev; /* building */
@@ -994,12 +981,12 @@ void activeunits_report_dialog_update(void)
   
     /* total shields cost */
     pBuf = pBuf->prev;
-    my_snprintf(cBuf, sizeof(cBuf), "%d", units_total.upkeep_shield);
+    my_snprintf(cBuf, sizeof(cBuf), "%d", units_total.upkeep[O_SHIELD]);
     copy_chars_to_string16(pBuf->string16, cBuf);
   
     /* total food cost widget */
     pBuf = pBuf->prev;
-    my_snprintf(cBuf, sizeof(cBuf), "%d", units_total.upkeep_food);
+    my_snprintf(cBuf, sizeof(cBuf), "%d", units_total.upkeep[O_FOOD]);
     copy_chars_to_string16(pBuf->string16, cBuf);
   
     /* total building count */

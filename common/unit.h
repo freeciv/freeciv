@@ -142,6 +142,7 @@ struct unit {
   struct player *owner; /* Cannot be NULL. */
   int id;
   int homecity;
+
   int upkeep[O_LAST]; /* unit upkeep with regards to the homecity */
 
   int moves_left;

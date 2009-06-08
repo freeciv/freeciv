@@ -4746,8 +4746,6 @@ static void game_load_internal(struct section_file *file)
      * loaded (in player_load) but before player (dumb) cities are loaded
      * in player_load_vision(). */
     cities_iterate(pcity) {
-      /* update unit upkeep */
-      city_units_upkeep(pcity);
       city_refresh_from_main_map(pcity, TRUE);
     } cities_iterate_end;
 

@@ -1222,23 +1222,14 @@ void activeunits_report_dialog_update(void)
 
     memset(unitarray, '\0', sizeof(unitarray));
     city_list_iterate(client.conn.playing->cities, pcity) {
-      int free_upkeep[O_COUNT];
-
-      output_type_iterate(o) {
-        free_upkeep[o] = get_city_output_bonus(pcity, get_output_type(o),
-                                               EFT_UNIT_UPKEEP_FREE_PER_CITY);
-      } output_type_iterate_end;
-
       unit_list_iterate(pcity->units_supported, punit) {
-        int upkeep_cost[O_COUNT];
         Unit_type_id uti = utype_index(unit_type(punit));
 
-        city_unit_upkeep(punit, upkeep_cost, free_upkeep);
         (unitarray[uti].active_count)++;
         if (punit->homecity) {
-	  output_type_iterate(o) {
-	    unitarray[uti].upkeep[o] += upkeep_cost[o];
-	  } output_type_iterate_end;
+          output_type_iterate(o) {
+            unitarray[uti].upkeep[o] += punit->upkeep[o];
+          } output_type_iterate_end;
         }
       } unit_list_iterate_end;
     } city_list_iterate_end;

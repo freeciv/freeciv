@@ -119,6 +119,7 @@ static bool do_city_migration(struct city *pcity_from,
 void city_refresh(struct city *pcity)
 {
   pcity->server.needs_refresh = FALSE;
+  city_units_upkeep(pcity); /* update unit upkeep */
   city_refresh_from_main_map(pcity, TRUE);
 
    /* AI would calculate this 1000 times otherwise; better to do it
@@ -135,7 +136,6 @@ void city_refresh_for_player(struct player *pplayer)
 {
   conn_list_do_buffer(pplayer->connections);
   city_list_iterate(pplayer->cities, pcity)
-    city_units_upkeep(pcity);
     city_refresh(pcity);
     send_city_info(pplayer, pcity);
   city_list_iterate_end;

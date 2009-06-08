@@ -476,7 +476,6 @@ int city_population(const struct city *pcity);
 int city_total_impr_gold_upkeep(const struct city *pcity);
 int city_total_unit_gold_upkeep(const struct city *pcity);
 int city_unit_unhappiness(struct unit *punit, int *free_happy);
-void city_unit_upkeep(struct unit *punit, int *outputs, int *free_upkeep);
 bool city_happy(const struct city *pcity);  /* generally use celebrating instead */
 bool city_unhappy(const struct city *pcity);                /* anarchy??? */
 bool base_city_celebrating(const struct city *pcity);
@@ -629,7 +628,6 @@ Specialist_type_id best_specialist(Output_type_id otype,
 				   const struct city *pcity);
 int get_final_city_output_bonus(const struct city *pcity, Output_type_id otype);
 bool city_built_last_turn(const struct city *pcity);
-void city_units_upkeep(const struct city *pcity);
 
 /* city creation / destruction */
 struct city *create_city_virtual(struct player *pplayer,

@@ -597,11 +597,10 @@ activeunits_report_dialog_update(void)
 {
   struct repoinfo {
     int active_count;
-    int upkeep_shield;
-    int upkeep_food;
-    /* int upkeep_gold;   FIXME: add gold when gold is implemented --jjm */
+    int upkeep[O_COUNT];
     int building_count;
-  };                         
+  };
+
   if(activeunits_dlg) {
     HWND lv;
     int    i, k, can;
@@ -623,23 +622,14 @@ activeunits_report_dialog_update(void)
     memset(unitarray, '\0', sizeof(unitarray));
 
    city_list_iterate(client.conn.playing->cities, pcity) {
-      int free_upkeep[O_COUNT];
-
-      output_type_iterate(o) {
-        free_upkeep[o] = get_city_output_bonus(pcity, get_output_type(o),
-                                               EFT_UNIT_UPKEEP_FREE_PER_CITY);
-      } output_type_iterate_end;
-
       unit_list_iterate(client.conn.playing->units, punit) {
-        int upkeep_cost[O_COUNT];
         Unit_type_id uti = utype_index(unit_type(punit));
 
-        city_unit_upkeep(punit, upkeep_cost, free_upkeep);
         (unitarray[uti].active_count)++;
         if (punit->homecity) {
-          /* TODO: upkeep for generic output types. */
-          unitarray[uti].upkeep_shield += upkeep_cost[O_SHIELD];
-          unitarray[uti].upkeep_food += upkeep_cost[O_FOOD];
+          output_type_iterate(o) {
+            unitarray[uti].upkeep[o] += punit->upkeep[o];
+          } output_type_iterate_end;
         }
       } unit_list_iterate_end;
    } city_list_iterate_end;
@@ -667,15 +657,17 @@ activeunits_report_dialog_update(void)
         my_snprintf(buf[3], sizeof(buf[3]), "%3d",
                     unitarray[index].active_count);
         my_snprintf(buf[4], sizeof(buf[4]), "%3d",
-                    unitarray[index].upkeep_shield);
+                    unitarray[index].upkeep[O_SHIELD]);
         my_snprintf(buf[5], sizeof(buf[5]), "%3d",
-				   unitarray[index].upkeep_food);
-	fcwin_listview_add_row(lv,k,AU_COL,row);
+                    unitarray[index].upkeep[O_FOOD]);
+        /* TODO: add upkeep[O_GOLD] here */
+        fcwin_listview_add_row(lv,k,AU_COL,row);
         activeunits_type[k]=(unitarray[index].active_count > 0) ? putype : NULL;
         k++;
         unittotals.active_count += unitarray[index].active_count;
-        unittotals.upkeep_shield += unitarray[index].upkeep_shield;
-        unittotals.upkeep_food += unitarray[index].upkeep_food;
+        output_type_iterate(o) {
+          unittotals.upkeep[0] = unitarray[index].upkeep[o]
+        } output_type_iterate_end;
         unittotals.building_count += unitarray[index].building_count;
       }
     } unit_type_iterate_end;
@@ -684,8 +676,9 @@ activeunits_report_dialog_update(void)
     buf[1][0]='\0';
     my_snprintf(buf[2],sizeof(buf[2]),"%d",unittotals.building_count);
     my_snprintf(buf[3],sizeof(buf[3]),"%d",unittotals.active_count);
-    my_snprintf(buf[4],sizeof(buf[4]),"%d",unittotals.upkeep_shield);
-    my_snprintf(buf[5],sizeof(buf[5]),"%d",unittotals.upkeep_food);  
+    my_snprintf(buf[4],sizeof(buf[4]),"%d",unittotals.upkeep[O_SHIELD]);
+    my_snprintf(buf[5],sizeof(buf[5]),"%d",unittotals.upkeep[O_FOOD]);
+    /* TODO: add upkeep[O_GOLD] here */
     fcwin_listview_add_row(lv,k,AU_COL,row);
     EnableWindow(GetDlgItem(activeunits_dlg,ID_MILITARY_UPGRADE),FALSE);
     ListView_SetColumnWidth(lv,0,LVSCW_AUTOSIZE);

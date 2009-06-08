@@ -1378,11 +1378,7 @@ struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
     punit->tile = NULL;
     punit->homecity = IDENTITY_NUMBER_ZERO;
   }
-  /* upkeep is set by ./common/city.c:city_units_upkeep */
   memset(punit->upkeep, 0, O_LAST * sizeof(*punit->upkeep));
-  output_type_iterate(o) {
-    punit->upkeep[o] = utype_upkeep_cost(punittype, pplayer, o);
-  } output_type_iterate_end;
   punit->goto_tile = NULL;
   punit->veteran = veteran_level;
   /* A unit new and fresh ... */

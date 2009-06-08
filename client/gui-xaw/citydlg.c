@@ -1688,13 +1688,7 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
   struct unit_list *plist;
   int i, j, adj_base;
   Widget pixcomm;
-  int free_upkeep[O_COUNT];
   int free_unhappy = get_city_bonus(pdialog->pcity, EFT_MAKE_CONTENT_MIL);
-
-  output_type_iterate(o) {
-    free_upkeep[o] = get_city_output_bonus(pdialog->pcity, get_output_type(o),
-                                           EFT_UNIT_UPKEEP_FREE_PER_CITY);
-  } output_type_iterate_end;
 
   if (NULL != client.conn.playing
       && city_owner(pdialog->pcity) != client.conn.playing) {
@@ -1713,10 +1707,7 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
   j = 0; /* index into list */
   unit_list_iterate(plist, punit) {
     struct canvas store;
-    int upkeep_cost[O_COUNT];
     int happy_cost = city_unit_unhappiness(punit, &free_unhappy);
-  	 
-    city_unit_upkeep(punit, upkeep_cost, free_upkeep);
 
     if (j++ < pdialog->support_unit_base) {
       continue;
@@ -1734,8 +1725,8 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
     XawPixcommClear(pixcomm); /* STG */
     put_unit(punit, &store, 0, 0);
     put_unit_pixmap_city_overlays(punit,
-				  XawPixcommPixmap(pixcomm),
-                                  upkeep_cost, happy_cost);
+                                  XawPixcommPixmap(pixcomm),
+                                  punit->upkeep, happy_cost);
 
     xaw_expose_now(pixcomm);
 

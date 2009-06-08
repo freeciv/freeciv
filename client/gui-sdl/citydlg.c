@@ -616,9 +616,7 @@ static SDL_Surface *create_unit_surface(struct unit *pUnit, bool support, int w,
   int i, step;
   SDL_Rect src_rect, dest;
   SDL_Surface *pSurf, *pZoomed;
-  
-  int upkeep_cost[O_COUNT];
-  int free_upkeep[O_COUNT];
+
   int free_unhappy;
   int happy_cost;
 
@@ -642,16 +640,9 @@ static SDL_Surface *create_unit_surface(struct unit *pUnit, bool support, int w,
     
     free_unhappy = get_city_bonus(pCityDlg->pCity, EFT_MAKE_CONTENT_MIL);
     happy_cost = city_unit_unhappiness(pUnit, &free_unhappy);
-    
-    output_type_iterate(o) {
-      free_upkeep[o] = get_city_output_bonus(pCityDlg->pCity, get_output_type(o),
-                                             EFT_UNIT_UPKEEP_FREE_PER_CITY);
-    } output_type_iterate_end;
-    
-    city_unit_upkeep(pUnit, upkeep_cost, free_upkeep);
 
-    i = upkeep_cost[O_SHIELD] + upkeep_cost[O_FOOD] +
-	upkeep_cost[O_GOLD] + happy_cost;
+    i = pUnit->upkeep[O_SHIELD] + pUnit->upkeep[O_FOOD] +
+        pUnit->upkeep[O_GOLD] + happy_cost;
 
     if (i * pIcons->pFood->w > pSurf->w / 2) {
       step = (pSurf->w / 2 - pIcons->pFood->w) / (i - 1);
@@ -662,17 +653,17 @@ static SDL_Surface *create_unit_surface(struct unit *pUnit, bool support, int w,
     dest.y = pSurf->h - pIcons->pFood->h - adj_size(2);
     dest.x = pSurf->w / 8;
 
-    for (i = 0; i < upkeep_cost[O_SHIELD]; i++) {
+    for (i = 0; i < pUnit->upkeep[O_SHIELD]; i++) {
       alphablit(pIcons->pShield, NULL, pSurf, &dest);
       dest.x += step;
     }
 
-    for (i = 0; i < upkeep_cost[O_FOOD]; i++) {
+    for (i = 0; i < pUnit->upkeep[O_FOOD]; i++) {
       alphablit(pIcons->pFood, NULL, pSurf, &dest);
       dest.x += step;
     }
 
-    for (i = 0; i < upkeep_cost[O_GOLD]; i++) {
+    for (i = 0; i < pUnit->upkeep[O_GOLD]; i++) {
       alphablit(pIcons->pCoin, NULL, pSurf, &dest);
       dest.x += step;
     }

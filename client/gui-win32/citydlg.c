@@ -350,7 +350,6 @@ void city_dialog_update_supported_units(HDC hdc, struct city_dialog *pdialog)
   int i;
   struct unit_list *plist;
   struct canvas store;
-  int free_upkeep[O_COUNT];
   int free_unhappy;
 
   store.type = CANVAS_DC;
@@ -361,49 +360,45 @@ void city_dialog_update_supported_units(HDC hdc, struct city_dialog *pdialog)
 
   free_unhappy = get_city_bonus(pdialog->pcity, EFT_MAKE_CONTENT_MIL);
 
-  output_type_iterate(o) {
-    free_upkeep[o] = get_city_output_bonus(pdialog->pcity, get_output_type(o),
-                                           EFT_UNIT_UPKEEP_FREE_PER_CITY);
-  } output_type_iterate_end;
-
   if (city_owner(pdialog->pcity) != client.conn.playing) {
     plist = pdialog->pcity->info_units_supported;
   } else {
     plist = pdialog->pcity->units_supported;
-  }      
-     
-  for(i = 0; i < NUM_UNITS_SHOWN; i++) {   
+  }
+
+  for(i = 0; i < NUM_UNITS_SHOWN; i++) {
     RECT rc;
-    pdialog->support_unit_ids[i]=0;      
+    pdialog->support_unit_ids[i]=0;
     rc.top=pdialog->supported_y;
-    rc.left=pdialog->pop_x+i*(tileset_small_sprite_width(tileset)+tileset_tile_width(tileset));
+    rc.left=pdialog->pop_x+i*(tileset_small_sprite_width(tileset) +
+            tileset_tile_width(tileset));
     rc.right=rc.left+tileset_tile_width(tileset);
-    rc.bottom=rc.top+tileset_small_sprite_height(tileset)+tileset_tile_height(tileset);
-    FillRect(hdc, &rc, 
-	     (HBRUSH)GetClassLong(pdialog->mainwindow,GCL_HBRBACKGROUND));
+    rc.bottom=rc.top+tileset_small_sprite_height(tileset) +
+              tileset_tile_height(tileset);
+    FillRect(hdc, &rc,
+             (HBRUSH)GetClassLong(pdialog->mainwindow,GCL_HBRBACKGROUND));
   }
 
   i = 0;
-  
+
   unit_list_iterate(plist, punit) {
-    int upkeep_cost[O_COUNT];
     int happy_cost = city_unit_unhappiness(punit, &free_unhappy);
-        
-    city_unit_upkeep(punit, upkeep_cost, free_upkeep);
 
     put_unit(punit, &store,
-	     pdialog->pop_x + i * (tileset_small_sprite_width(tileset) + tileset_tile_width(tileset)),
+	     pdialog->pop_x + i * (tileset_small_sprite_width(tileset) +
+                      tileset_tile_width(tileset)),
 	     pdialog->supported_y);
     put_unit_city_overlays(punit, &store,
-             pdialog->pop_x + i * (tileset_small_sprite_width(tileset) + tileset_tile_width(tileset)),
-                           pdialog->supported_y, upkeep_cost, happy_cost);
+             pdialog->pop_x + i * (tileset_small_sprite_width(tileset) +
+                                   tileset_tile_width(tileset)),
+             pdialog->supported_y, punit->upkeep, happy_cost);
     pdialog->support_unit_ids[i] = punit->id;
     i++;
     if (i == NUM_UNITS_SHOWN) {
       break;
     }
   } unit_list_iterate_end;
-}   
+}
 
 /**************************************************************************
 ...

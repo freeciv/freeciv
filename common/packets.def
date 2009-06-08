@@ -758,6 +758,8 @@ PACKET_UNIT_INFO=49; sc,lsend
   COORD x,y;
   CITY homecity;
 
+  UINT8 upkeep[O_MAX];
+
   UINT8 veteran;
   BOOL ai, paradropped;
   BOOL transported, done_moving;
