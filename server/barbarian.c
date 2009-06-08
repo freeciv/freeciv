@@ -243,7 +243,7 @@ bool unleash_barbarians(struct tile *ptile)
    *        we should unleash those.
    *        Doesn't affect any ruleset I'm aware of. */
   if (game.info.barbarianrate == 0
-      || game.info.year < game.info.onsetbarbarian
+      || game.info.turn < game.info.onsetbarbarian
       || num_role_units(L_BARBARIAN) == 0) {
     unit_list_iterate_safe((ptile)->units, punit) {
       wipe_unit(punit);
@@ -624,7 +624,7 @@ void summon_barbarians(void)
     return;
   }
 
-  if (game.info.year < game.info.onsetbarbarian) {
+  if (game.info.turn < game.info.onsetbarbarian) {
     return;
   }
 

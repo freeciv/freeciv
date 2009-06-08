@@ -320,7 +320,7 @@ void calc_civ_score(struct player *pplayer)
 static int get_civ_score(const struct player *pplayer)
 {
   /* We used to count pplayer->score.happy here too, but this is too easily
-   * manipulated by players at the endyear. */
+   * manipulated by players at the endrturn. */
   return (total_player_citizens(pplayer)
 	  + pplayer->score.techs * 2
 	  + pplayer->score.wonders * 5
@@ -463,7 +463,7 @@ void save_ppm(void)
 
   Barbarians do not count as winners or losers.
 
-  Games ending by endyear results in a draw, we don't rank in that case.
+  Games ending by endturn results in a draw, we don't rank in that case.
 **************************************************************************/
 void rank_users(void)
 {
@@ -473,8 +473,8 @@ void rank_users(void)
   enum victory_state plr_state[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   struct player *spacerace_winner = NULL;
 
-  /* game ending via endyear results in a draw. We don't rank. */
-  if (game.info.year > game.info.end_year) {
+  /* game ending via endturn results in a draw. We don't rank. */
+  if (game.info.turn > game.info.end_turn) {
     return;
   }
 

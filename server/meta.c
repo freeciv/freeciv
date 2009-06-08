@@ -361,7 +361,7 @@ static bool send_to_metaserver(enum meta_flag flag)
     s = end_of_strn(s, &rest);
 
     my_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
-                fc_url_encode("endyear"), game.info.end_year);
+                fc_url_encode("endturn"), game.info.end_turn);
     s = end_of_strn(s, &rest);
 
     my_snprintf(s, rest, "vn[]=%s&vv[]=%d&",

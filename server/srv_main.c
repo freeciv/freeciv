@@ -239,10 +239,10 @@ bool check_for_game_over(void)
   int barbs = 0, alive = 0;
   struct player *victor = NULL, *spacer = NULL;
 
-  /* quit if we are past the year limit */
-  if (game.info.year > game.info.end_year) {
+  /* quit if we are past the turn limit */
+  if (game.info.turn > game.info.end_turn) {
     notify_conn(game.est_connections, NULL, E_GAME_END, 
-		_("Game ended in a draw as end year exceeded"));
+		_("Game ended in a draw as end turn exceeded"));
     ggz_report_victory();
     return TRUE;
   }

@@ -134,14 +134,14 @@ static bool startunits_callback(const char *value,
 }
 
 /*************************************************************************
-  Verify that a given endyear is valid.
+  Verify that a given endturn is valid.
 *************************************************************************/
-static bool endyear_callback(int value, struct connection *caller,
+static bool endturn_callback(int value, struct connection *caller,
                              const char **error_string)
 {
-  if (value < game.info.year) {
-    /* Tried to set endyear earlier than current year */
-    *error_string = _("Cannot set endyear earlier than current year.");
+  if (value < game.info.turn) {
+    /* Tried to set endturn earlier than current turn */
+    *error_string = _("Cannot set endturn earlier than current turn.");
     return FALSE;
   }
   return TRUE;
@@ -762,8 +762,8 @@ struct settings_s settings[] = {
 
   GEN_INT("onsetbarbs", game.info.onsetbarbarian,
 	  SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_VITAL, SSET_TO_CLIENT,
-	  N_("Barbarian onset year"),
-	  N_("Barbarians will not appear before this year."), NULL,
+	  N_("Barbarian onset turn"),
+	  N_("Barbarians will not appear before this turn."), NULL,
 	  GAME_MIN_ONSETBARBARIAN, GAME_MAX_ONSETBARBARIAN, 
 	  GAME_DEFAULT_ONSETBARBARIAN)
 
@@ -928,7 +928,7 @@ struct settings_s settings[] = {
   /* Meta options: these don't affect the internal rules of the game, but
    * do affect players.  Also options which only produce extra server
    * "output" and don't affect the actual game.
-   * ("endyear" is here, and not RULES_FLEXIBLE, because it doesn't
+   * ("endturn" is here, and not RULES_FLEXIBLE, because it doesn't
    * affect what happens in the game, it just determines when the
    * players stop playing and look at the score.)
    */
@@ -975,12 +975,12 @@ struct settings_s settings[] = {
 	      "connects, and on when a player disconnects."),
 	   NULL, GAME_DEFAULT_AUTO_AI_TOGGLE)
 
-  GEN_INT("endyear", game.info.end_year,
+  GEN_INT("endturn", game.info.end_turn,
 	  SSET_META, SSET_SOCIOLOGY, SSET_VITAL, SSET_TO_CLIENT,
-	  N_("Year the game ends"),
-          N_("The game will end at the end of the given year."),
-          endyear_callback,
-          GAME_MIN_END_YEAR, GAME_MAX_END_YEAR, GAME_DEFAULT_END_YEAR)
+	  N_("Turn the game ends"),
+          N_("The game will end at the end of the given turn."),
+          endturn_callback,
+          GAME_MIN_END_TURN, GAME_MAX_END_TURN, GAME_DEFAULT_END_TURN)
 
   GEN_INT("timeout", game.info.timeout,
 	  SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_TO_CLIENT,

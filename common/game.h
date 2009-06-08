@@ -170,9 +170,9 @@ bool setting_class_is_changeable(enum sset_class class);
 
 #define GAME_DEFAULT_ANGRYCITIZEN TRUE
 
-#define GAME_DEFAULT_END_YEAR    5000
-#define GAME_MIN_END_YEAR        -32768
-#define GAME_MAX_END_YEAR        32767
+#define GAME_DEFAULT_END_TURN    5000
+#define GAME_MIN_END_TURN        -32768
+#define GAME_MAX_END_TURN        32767
 
 #define GAME_DEFAULT_MIN_PLAYERS     1
 #define GAME_MIN_MIN_PLAYERS         0
@@ -345,10 +345,9 @@ bool setting_class_is_changeable(enum sset_class class);
 #define GAME_MIN_BARBARIANRATE       0
 #define GAME_MAX_BARBARIANRATE       4
 
-#define GAME_DEFAULT_ONSETBARBARIAN  (GAME_START_YEAR+ \
-				      ((GAME_DEFAULT_END_YEAR-(GAME_START_YEAR))/3))
-#define GAME_MIN_ONSETBARBARIAN      GAME_START_YEAR
-#define GAME_MAX_ONSETBARBARIAN      GAME_MAX_END_YEAR
+#define GAME_DEFAULT_ONSETBARBARIAN  60
+#define GAME_MIN_ONSETBARBARIAN      0
+#define GAME_MAX_ONSETBARBARIAN      GAME_MAX_END_TURN
 
 #define GAME_DEFAULT_OCCUPYCHANCE    0
 #define GAME_MIN_OCCUPYCHANCE        0

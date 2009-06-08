@@ -379,8 +379,9 @@ PACKET_GAME_INFO=15; sc
   UINT32 timeout;
   TURN turn;
   PHASE phase;
-  YEAR year, start_year, end_year;
+  YEAR year, start_year;
   BOOL year_0_hack;
+  UINT32 end_turn;
 
   UINT8 phase_mode;
   UINT32 num_phases;
@@ -410,7 +411,7 @@ PACKET_GAME_INFO=15; sc
   UINT8 rapturedelay;
   UINT8 celebratesize; /* size limit for cities before they can celebrate */
   UINT8 barbarianrate;
-  UINT8 onsetbarbarian;
+  UINT32 onsetbarbarian;
   UINT8 occupychance;
   BOOL autoattack;
   BOOL spacerace;

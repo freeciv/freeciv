@@ -256,7 +256,7 @@ void game_init(void)
   game.info.tcptimeout    = GAME_DEFAULT_TCPTIMEOUT;
   game.info.netwait       = GAME_DEFAULT_NETWAIT;
   game.info.start_year    = GAME_START_YEAR;
-  game.info.end_year      = GAME_DEFAULT_END_YEAR;
+  game.info.end_turn      = GAME_DEFAULT_END_TURN;
   game.info.year          = GAME_START_YEAR;
   game.info.year_0_hack   = FALSE;
   game.info.turn          = 0;
