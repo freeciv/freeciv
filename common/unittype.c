@@ -40,9 +40,9 @@ static struct unit_class unit_classes[UCL_LAST];
 */
 
 static const char *unit_class_flag_names[] = {
-  "TerrainSpeed", "DamageSlows", "CanOccupy", "Missile",
+  "TerrainSpeed", "DamageSlows", "CanOccupyCity", "Missile",
   "RoadNative", "RiverNative", "BuildAnywhere", "Unreachable",
-  "CollectRansom", "ZOC", "CanFortify", "CanPillage"
+  "CollectRansom", "ZOC", "CanFortify", "CanPillage", "DoesntOccupyTile"
 };
 static const char *flag_names[] = {
   "TradeRoute", "HelpWonder", "IgZOC", "NonMil", "IgTer", 

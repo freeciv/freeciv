@@ -995,7 +995,8 @@ static void process_attacker_want(struct city *pcity,
       if (move_type != LAND_MOVING && vuln == 0) {
         desire = 0;
         
-      } else if (uclass_has_flag(utype_class(punittype), UCF_CAN_OCCUPY) && acity
+      } else if (uclass_has_flag(utype_class(punittype), UCF_CAN_OCCUPY_CITY)
+                 && acity
                  && acity->ai.invasion.attack > 0
                  && acity->ai.invasion.occupy == 0) {
         desire = bcost * SHIELD_WEIGHTING;

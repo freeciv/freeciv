@@ -28,7 +28,7 @@
 enum unit_class_flag_id {
   UCF_TERRAIN_SPEED = 0,
   UCF_DAMAGE_SLOWS,
-  UCF_CAN_OCCUPY,         /* Can occupy enemy cities */
+  UCF_CAN_OCCUPY_CITY,    /* Can occupy enemy cities */
   UCF_MISSILE,
   UCF_ROAD_NATIVE,        /* Considers any road tile native terrain */
   UCF_RIVER_NATIVE,       /* Considers any river tile native terrain */
@@ -38,6 +38,7 @@ enum unit_class_flag_id {
   UCF_ZOC,                /* Is subject to ZOC */
   UCF_CAN_FORTIFY,        /* Can fortify on land squares */
   UCF_CAN_PILLAGE,
+  UCF_DOESNT_OCCUPY_TILE, /* Cities can still work tile when enemy unit on it */
   UCF_LAST
 };
 

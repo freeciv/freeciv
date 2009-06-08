@@ -807,7 +807,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   cat_snprintf(buf, bufsz,
                _("* Belongs to %s units class.\n"),
                uclass_name_translation(utype_class(utype)));
-  if (uclass_has_flag(utype_class(utype), UCF_CAN_OCCUPY)
+  if (uclass_has_flag(utype_class(utype), UCF_CAN_OCCUPY_CITY)
       && !utype_has_flag(utype, F_CIVILIAN)) {
     CATLSTR(buf, bufsz, _("  * Can occupy empty enemy cities.\n"));
   }
@@ -823,6 +823,10 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   if (uclass_has_flag(utype_class(utype), UCF_UNREACHABLE)) {
     CATLSTR(buf, bufsz,
 	    _("  * Is unreachable. Most units cannot attack this one.\n"));
+  }
+  if (uclass_has_flag(utype_class(utype), UCF_DOESNT_OCCUPY_TILE)) {
+    CATLSTR(buf, bufsz,
+	    _("  * Doesn't prevent enemy cities from using tile.\n"));
   }
 
   if (utype->need_improvement) {

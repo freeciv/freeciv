@@ -59,7 +59,7 @@ veteran_move_bonus = 0, 0
 ;
 ; "TerrainSpeed"  = Units use terrain spesific speed
 ; "DamageSlows"   = Damages units are slowed down
-; "CanOccupy"     = Military units of this class can occupy enemy cities
+; "CanOccupyCity" = Military units of this class can occupy enemy cities
 ; "Missile"       = Unit is destroyed when it attacks
 ; "RoadNative"    = Road tiles are always considered native terrain
 ; "RiverNative"   = River tiles are always considered native terrain
@@ -71,6 +71,8 @@ veteran_move_bonus = 0, 0
 ;                   override this
 ; "CanFortify"    = Unit can fortify at land squares
 ; "CanPillage"    = Unit can pillage tile infrastructure
+; "DoesntOccupyTile"  = Even if this kind of enemy unit is on tile, cities can
+;                       still work that tile
 
 [unitclass_missile]
 name          = _("Missile")
@@ -78,14 +80,14 @@ move_type     = "Air"
 min_speed     = 1
 hp_loss_pct   = 0
 hut_behavior  = "Frighten"
-flags         = "Missile", "Unreachable"
+flags         = "Missile", "Unreachable", "DoesntOccupyTile"
 
 [unitclass_land]
 name          = _("Land")
 move_type     = "Land"
 min_speed     = 1
 hp_loss_pct   = 0
-flags         = "TerrainSpeed", "DamageSlows", "CanOccupy", "BuildAnywhere",
+flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
                 "CollectRansom", "ZOC", "CanFortify", "CanPillage"
 
 [unitclass_sea]
@@ -100,7 +102,7 @@ name          = _("Helicopter")
 move_type     = "Both"
 min_speed     = 1
 hp_loss_pct   = 10
-flags         = "CanOccupy", "CollectRansom"
+flags         = "CanOccupyCity", "CollectRansom"
 
 [unitclass_air]
 name          = _("Air")
@@ -108,7 +110,7 @@ move_type     = "Air"
 min_speed     = 1
 hp_loss_pct   = 0
 hut_behavior  = "Frighten"
-flags         = "Unreachable"
+flags         = "Unreachable", "DoesntOccupyTile"
 
 ; Below: The individual units, one per section.
 ;

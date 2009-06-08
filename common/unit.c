@@ -1240,7 +1240,7 @@ struct unit *unit_occupies_tile(const struct tile *ptile,
       continue;
     }
 
-    if (is_air_unit(punit)) {
+    if (uclass_has_flag(unit_class(punit), UCF_DOESNT_OCCUPY_TILE)) {
       continue;
     }
 

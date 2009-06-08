@@ -282,7 +282,8 @@ bool is_square_threatened(const struct player *pplayer,
 bool is_field_unit(const struct unit *punit);              /* ships+aero */
 bool is_hiding_unit(const struct unit *punit);
 #define COULD_OCCUPY(punit) \
-  (uclass_has_flag(unit_class(punit), UCF_CAN_OCCUPY) && is_military_unit(punit))
+  (uclass_has_flag(unit_class(punit), UCF_CAN_OCCUPY_CITY) \
+   && is_military_unit(punit))
 bool can_unit_add_to_city (const struct unit *punit);
 bool can_unit_build_city (const struct unit *punit);
 bool can_unit_add_or_build_city (const struct unit *punit);
