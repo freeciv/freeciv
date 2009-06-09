@@ -1129,17 +1129,25 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 	strcat(astr.str, deli_str);
       }
     }
-    
-    assert(num_allowed_units > 0);
 
-    cat_snprintf(buf, bufsz,
-                 PL_("* Unit has to be in a city, or on a %s"
-                     " after %d turn.\n",
-                     "* Unit has to be in a city, or on a %s"
-                     " after %d turns.\n",
-                     utype->fuel),
-                 astr.str,
-                 utype->fuel);
+    if (num_allowed_units == 0) {
+     cat_snprintf(buf, bufsz,
+                   PL_("* Unit has to be in a city, or a base"
+                       " after %d turn.\n",
+                       "* Unit has to be in a city, or a base"
+                       " after %d turns.\n",
+                       utype->fuel),
+                  utype->fuel);
+    } else {
+      cat_snprintf(buf, bufsz,
+                   PL_("* Unit has to be in a city, a base, or on a %s"
+                       " after %d turn.\n",
+                       "* Unit has to be in a city, a base, or on a %s"
+                       " after %d turns.\n",
+                       utype->fuel),
+                   astr.str,
+                   utype->fuel);
+    }
     astr_free(&astr);
   }
   if (strlen(buf) > 0) {
