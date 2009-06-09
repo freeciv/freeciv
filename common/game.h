@@ -146,6 +146,8 @@ const char *population_to_text(int thousand_citizen);
 
 const char *gui_name(enum gui_type);
 
+const char *textyear(int year);
+
 extern struct civ_game game;
 
 bool setting_class_is_changeable(enum sset_class class);

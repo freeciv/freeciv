@@ -149,7 +149,6 @@ bool is_ascii_name(const char *name);
 bool is_base64url(const char *s);
 bool is_safe_filename(const char *name);
 void randomize_base64url_string(char *s, size_t n);
-const char *textyear(int year);
 
 int compare_strings(const void *first, const void *second);
 int compare_strings_ptrs(const void *first, const void *second);

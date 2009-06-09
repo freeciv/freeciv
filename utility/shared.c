@@ -508,20 +508,6 @@ void randomize_base64url_string(char *s, size_t n)
   s[i] = '\0';
 }
 
-/***************************************************************
-  Produce a statically allocated textual representation of the given
-  year.
-***************************************************************/
-const char *textyear(int year)
-{
-  static char y[32];
-  if (year<0) 
-    my_snprintf(y, sizeof(y), _("%d BC"), -year);
-  else
-    my_snprintf(y, sizeof(y), _("%d AD"), year);
-  return y;
-}
-
 /**************************************************************************
   Compares two strings, in the collating order of the current locale,
   given pointers to the two strings (i.e., given "char *"s).

@@ -382,6 +382,8 @@ PACKET_GAME_INFO=15; sc
   YEAR year, start_year;
   BOOL year_0_hack;
   UINT32 end_turn;
+  STRING positive_year_label[MAX_LEN_NAME];
+  STRING negative_year_label[MAX_LEN_NAME];
 
   UINT8 phase_mode;
   UINT32 num_phases;

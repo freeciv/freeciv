@@ -3141,6 +3141,13 @@ static void load_ruleset_game(void)
     = secfile_lookup_int_default(&file, GAME_START_YEAR,
                                  "calendar.start_year");
 
+  sz_strlcpy(game.info.positive_year_label,
+             _(secfile_lookup_str_default(&file, "AD",
+                                          "calendar.positive_label")));
+  sz_strlcpy(game.info.negative_year_label,
+             _(secfile_lookup_str_default(&file, "BC",
+                                          "calendar.negative_label")));
+
   svec = secfile_lookup_str_vec(&file, &game.info.num_teams, "teams.names");
   game.info.num_teams = MIN(MAX_NUM_TEAMS, game.info.num_teams);
   if (game.info.num_teams <= 0) {

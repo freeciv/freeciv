@@ -955,10 +955,10 @@ static int generate_save_name(char *buf, int buflen, bool is_auto_save)
 
   if (game.info.year < 0) {
     year = -game.info.year;
-    year_suffix = "BC";
+    year_suffix = game.info.negative_year_label;
   } else {
     year = game.info.year;
-    year_suffix = "AD";
+    year_suffix = game.info.positive_year_label;
   }
 
   /* NB: If you change the format here, be sure to update the above

@@ -260,6 +260,8 @@ void game_init(void)
   game.info.year          = GAME_START_YEAR;
   game.info.year_0_hack   = FALSE;
   game.info.turn          = 0;
+  game.info.positive_year_label[0] = '\0';
+  game.info.negative_year_label[0] = '\0';
   game.info.min_players   = GAME_DEFAULT_MIN_PLAYERS;
   game.info.max_players   = GAME_DEFAULT_MAX_PLAYERS;
   game.info.pingtimeout   = GAME_DEFAULT_PINGTIMEOUT;
@@ -694,4 +696,23 @@ bool setting_class_is_changeable(enum sset_class class)
   freelog(LOG_ERROR, "Unexpected case %d in %s line %d",
 	  class, __FILE__, __LINE__);
   return FALSE;
+}
+
+/****************************************************************************
+  Produce a statically allocated textual representation of the given
+  year.
+****************************************************************************/
+const char *textyear(int year)
+{
+  static char y[32];
+  if (year < 0) {
+    /* TRANS: <year> <label> -> "1000 BC" */
+    my_snprintf(y, sizeof(y), _("%d %s"), -year,
+                game.info.negative_year_label);
+  } else {
+    /* TRANS: <year> <label> -> "1000 AD" */
+    my_snprintf(y, sizeof(y), _("%d %s"), year,
+                game.info.positive_year_label);
+  }
+  return y;
 }
