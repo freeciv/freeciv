@@ -666,7 +666,7 @@ activeunits_report_dialog_update(void)
         k++;
         unittotals.active_count += unitarray[index].active_count;
         output_type_iterate(o) {
-          unittotals.upkeep[0] = unitarray[index].upkeep[o]
+          unittotals.upkeep[0] = unitarray[index].upkeep[o];
         } output_type_iterate_end;
         unittotals.building_count += unitarray[index].building_count;
       }
