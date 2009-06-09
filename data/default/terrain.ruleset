@@ -301,7 +301,7 @@ defense_bonus        = 0
 food                 = 0
 shield               = 0
 trade                = 0
-resources            = "resource_icy_ivory", "resource_icy_oil"
+resources            = "resource_icy_ivory", "resource_oil"
 road_trade_incr      = 0
 road_time            = 4
 irrigation_result    = "no"
@@ -338,7 +338,7 @@ defense_bonus        = 0
 food                 = 0
 shield               = 1
 trade                = 0
-resources            = "resource_oasis", "resource_desert_oil"
+resources            = "resource_oasis", "resource_oil"
 road_trade_incr      = 1
 road_time            = 2
 irrigation_result    = "yes"
@@ -674,8 +674,6 @@ Tundra are broad, cold regions, fit for some agriculture and little\
 ; identifier           = single-character identifier used in savegames.  This
 ;                        must be unique for each resource, and changing it will
 ;                        break savegame compatibility.
-; update22one          = single-character identifier in < 2.2 civ1 savegames.
-; update22two          = single-character identifier in < 2.2 civ2 savegames.
 ; food                 = increased food production
 ; shield               = increased shield production
 ; trade                = increased trade production
@@ -685,7 +683,6 @@ name        = _("Gold")
 graphic     = "ts.gold"
 graphic_alt = "-"
 identifier  = "$"
-update22one = "H"
 trade       = 6
 # glacier, hills, mountains.
 
@@ -701,8 +698,7 @@ shield      = 3
 name        = _("?animals:Game")
 graphic     = "ts.tundra_game"
 graphic_alt = "-"
-identifier  = "A"
-update22two = "e"
+identifier  = "e"
 food        = 2
 shield      = 1
 # tundra.
@@ -711,8 +707,7 @@ shield      = 1
 name        = _("Furs")
 graphic     = "ts.furs"
 graphic_alt = "-"
-identifier  = "b"
-update22two = "u"
+identifier  = "u"
 food        = 1
 trade       = 3
 # tundra-only (beaver pelts).
@@ -721,8 +716,7 @@ trade       = 3
 name        = _("Coal")
 graphic     = "ts.coal"
 graphic_alt = "-"
-identifier  = "C"
-update22two = "c"
+identifier  = "c"
 shield      = 2
 # hills.
 
@@ -730,8 +724,7 @@ shield      = 2
 name        = _("Fish")
 graphic     = "ts.fish"
 graphic_alt = "-"
-identifier  = "F"
-update22two = "y"
+identifier  = "y"
 food        = 2
 # ocean.
 
@@ -748,23 +741,17 @@ trade       = 1
 name        = _("Gems")
 graphic     = "ts.gems"
 graphic_alt = "-"
-identifier  = "G"
-update22two = "g"
+identifier  = "g"
 trade       = 4
 # jungle.
 
 ; "h" reserved for strategic horses
 
-; "H" formerly for update22one gold
-
-; "i" reserved for incense
-
 [resource_buffalo]
 name        = _("Buffalo")
 graphic     = "ts.buffalo"
 graphic_alt = "-"
-identifier  = "I"
-update22two = "b"
+identifier  = "b"
 shield      = 2
 # plains (horses => buffalo => cattle).
 
@@ -786,8 +773,7 @@ food        = 2
 name        = _("Oasis")
 graphic     = "ts.oasis"
 graphic_alt = "-"
-identifier  = "O"
-update22two = "o"
+identifier  = "o"
 food        = 3
 # desert.
 
@@ -795,8 +781,7 @@ food        = 3
 name        = _("Peat")
 graphic     = "ts.peat"
 graphic_alt = "-"
-identifier  = "P"
-update22two = "a"
+identifier  = "a"
 shield      = 4
 # swamp (petroleum => peat => petroleum).
 
@@ -814,8 +799,7 @@ food        = 2
 name        = _("Resources")
 graphic     = "ts.grassland_resources"
 graphic_alt = "-"
-identifier  = "R"
-update22two = "r"
+identifier  = "r"
 shield      = 1
 # grassland.
 
@@ -823,8 +807,7 @@ shield      = 1
 name        = _("Ivory")
 graphic     = "ts.arctic_ivory"
 graphic_alt = "-"
-identifier  = "S"
-update22two = "i"
+identifier  = "i"
 food        = 1
 shield      = 1
 trade       = 4
@@ -866,22 +849,13 @@ identifier  = "w"
 trade       = 4
 # hills-only.
 
-[resource_icy_oil]
+[resource_oil]
 name        = _("Oil")
 graphic     = "ts.oil"
 graphic_alt = "-"
 identifier  = "x"
-shield      = 3 ;reduced from 4
-# glacier-only.
-
-[resource_desert_oil]
-name        = _("Oil")
-graphic     = "ts.oil"
-graphic_alt = "-"
-identifier  = "X"
-update22two = "P"
-shield      = 3
-# desert-only, special processing, see savegame map_load().
+shield      = 3 ; glacier used to have 4
+# glacier, desert
 
 ; Base types:
 ;

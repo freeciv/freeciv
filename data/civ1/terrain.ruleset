@@ -552,8 +552,6 @@ Tundra are broad, cold regions, fit for some agriculture and little\
 ; identifier           = single-character identifier used in savegames.  This
 ;                        must be unique for each resource, and changing it will
 ;                        break savegame compatibility.
-; update22one          = single-character identifier in < 2.2 civ1 savegames.
-; update22two          = single-character identifier in < 2.2 civ2 savegames.
 ; food                 = increased food production
 ; shield               = increased shield production
 ; trade                = increased trade production
@@ -562,8 +560,7 @@ Tundra are broad, cold regions, fit for some agriculture and little\
 name        = _("Gold")
 graphic     = "ts.gold"
 graphic_alt = "-"
-identifier  = "$"
-update22one = "H"
+identifier  = "H"
 trade       = 6
 # mountains.
 
@@ -572,7 +569,6 @@ name        = _("?animals:Game")
 graphic     = "ts.tundra_game"
 graphic_alt = "-"
 identifier  = "A"
-update22two = "e"
 food        = 2
 # forest, tundra.
 
@@ -581,7 +577,6 @@ name        = _("Coal")
 graphic     = "ts.coal"
 graphic_alt = "-"
 identifier  = "C"
-update22two = "c"
 shield      = 2
 # hills.
 
@@ -590,7 +585,6 @@ name        = _("Fish")
 graphic     = "ts.fish"
 graphic_alt = "-"
 identifier  = "F"
-update22two = "y"
 food        = 2
 # ocean.
 
@@ -599,7 +593,6 @@ name        = _("Gems")
 graphic     = "ts.gems"
 graphic_alt = "-"
 identifier  = "G"
-update22two = "g"
 trade       = 4
 # jungle.
 
@@ -608,7 +601,6 @@ name        = _("Horses")
 graphic     = "ts.horses"
 graphic_alt = "-"
 identifier  = "I"
-update22two = "b"
 shield      = 2
 # plains (horses => buffalo => cattle).
 
@@ -617,7 +609,6 @@ name        = _("Oasis")
 graphic     = "ts.oasis"
 graphic_alt = "-"
 identifier  = "O"
-update22two = "o"
 food        = 3
 # desert.
 
@@ -626,7 +617,6 @@ name        = _("Oil")
 graphic     = "ts.oil"
 graphic_alt = "-"
 identifier  = "P"
-update22two = "a"
 shield      = 4
 # swamp (petroleum => peat => petroleum).
 
@@ -635,7 +625,6 @@ name        = _("Resources")
 graphic     = "ts.grassland_resources"
 graphic_alt = "-"
 identifier  = "R"
-update22two = "r"
 shield      = 1
 # grassland.
 
@@ -644,7 +633,6 @@ name        = _("Seals")
 graphic     = "ts.seals"
 graphic_alt = "-"
 identifier  = "S"
-update22two = "i"
 food        = 2
 # arctic (seals => walrus).
 

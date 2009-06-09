@@ -74,10 +74,6 @@
 #define UNIT_CLASS_SECTION_PREFIX "unitclass_"
 #define UNIT_SECTION_PREFIX "unit_"
 
-/* savegame conversion: resource identifiers */
-char *update22one = NULL;
-char *update22two = NULL;
-
 static const char name_too_long[] = "Name \"%s\" too long; truncating.";
 #define check_name(name) (check_strlen(name, MAX_LEN_NAME, name_too_long))
 #define name_strlcpy(dst, src) \
@@ -1643,16 +1639,6 @@ static void load_terrain_names(struct section_file *file)
   }
   game.control.resource_count = nval;
 
-  if (update22one) {
-    free(update22one);
-  }
-  update22one = fc_calloc(nval, sizeof(char));
-
-  if (update22two) {
-    free(update22two);
-  }
-  update22two = fc_calloc(nval, sizeof(char));
-
   /* avoid re-reading files */
   if (resource_sections) {
     free(resource_sections);
@@ -1953,33 +1939,6 @@ static void load_ruleset_terrain(struct section_file *file)
       }
     }
 
-    update22one[i]
-      = secfile_lookup_str_default(file, identifier,
-                                   "%s.update22one", rsection)[0];
-    if (RESOURCE_NULL_IDENTIFIER == update22one[i]) {
-      ruleset_error(LOG_ERROR, "\"%s\" [%s] update22one missing value.",
-                    filename, rsection);
-    }
-    if (RESOURCE_NONE_IDENTIFIER == update22one[i]) {
-      ruleset_error(LOG_ERROR,
-                    "\"%s\" [%s] cannot use '%c' as an identifier;"
-                    " it is reserved.",
-                    filename, rsection, update22one[i]);
-    }
-
-    update22two[i]
-      = secfile_lookup_str_default(file, identifier,
-                                   "%s.update22two", rsection)[0];
-    if (RESOURCE_NULL_IDENTIFIER == update22two[i]) {
-      ruleset_error(LOG_ERROR, "\"%s\" [%s] update22two missing value.",
-                    filename, rsection);
-    }
-    if (RESOURCE_NONE_IDENTIFIER == update22two[i]) {
-      ruleset_error(LOG_ERROR,
-                    "\"%s\" [%s] cannot use '%c' as an identifier;"
-                    " it is reserved.",
-                    filename, rsection, update22two[i]);
-    }
   } resource_type_iterate_end;
 
   /* base details */

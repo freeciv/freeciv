@@ -914,28 +914,6 @@ static void set_savegame_old_resource(struct resource **r,
 }
 
 /****************************************************************************
-  Convert an older resource into the current value.
-****************************************************************************/
-static struct resource *update22_resource(char c)
-{
-  /* Different rulesets had different resources. */
-  if (strcmp(game.rulesetdir, "civ1") == 0) {
-    resource_type_iterate(presource) {
-      if (update22one[resource_index(presource)] == c) {
-        return presource;
-      }
-    } resource_type_iterate_end;
-  } else {
-    resource_type_iterate(presource) {
-      if (update22two[resource_index(presource)] == c) {
-        return presource;
-      }
-    } resource_type_iterate_end;
-  }
-  return NULL;
-}
-
-/****************************************************************************
   Return the resource for the given identifier.
 ****************************************************************************/
 static struct resource *identifier_to_resource(char c)
@@ -944,9 +922,6 @@ static struct resource *identifier_to_resource(char c)
   if (c == RESOURCE_NULL_IDENTIFIER
    || c == RESOURCE_NONE_IDENTIFIER) {
     return NULL;
-  }
-  if (20199 > game.version) {
-    return update22_resource(c);
   }
   return find_resource_by_identifier(c);
 }
@@ -1021,12 +996,6 @@ static void map_load(struct section_file *file,
     if (NULL == ptile->resource
      || NULL == ptile->terrain) {
       continue;
-    }
-    if ('x' == ptile->resource->identifier
-     && 'd' == ptile->terrain->identifier
-     && 20199 > game.version) {
-      /* for compatibility with civ2 split of desert oil */
-      ptile->resource = find_resource_by_identifier('X');
     }
     if (terrain_has_resource(ptile->terrain, ptile->resource)) {
       /* cannot use set_special() for internal values */
