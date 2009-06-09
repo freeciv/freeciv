@@ -61,7 +61,7 @@ static struct SMALL_DLG *pUnits_Upg_Dlg = NULL;
 
 struct units_entry {
   int active_count;
-  int upkeep[O_COUNT];
+  int upkeep[O_LAST];
   int building_count;
   int soonest_completions;
 };
@@ -78,11 +78,11 @@ static void get_units_report_data(struct units_entry *entries,
     entries[time_to_build].soonest_completions = FC_INFINITY;
   }
 
-  unit_list_iterate(client.conn.playing->units, pUnit) {
-    Unit_type_id uti = utype_index(unit_type(pUnit));
+  unit_list_iterate(client.conn.playing->units, punit) {
+    Unit_type_id uti = utype_index(unit_type(punit));
     (entries[uti].active_count)++;
     (total->active_count)++;
-    if (pUnit->homecity) {
+    if (punit->homecity) {
       output_type_iterate(o) {
         entries[uti].upkeep[o] += punit->upkeep[o];
       } output_type_iterate_end;
