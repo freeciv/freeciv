@@ -824,6 +824,10 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz,
 	    _("  * Is unreachable. Most units cannot attack this one.\n"));
   }
+  if (uclass_has_flag(utype_class(utype), UCF_CAN_PILLAGE)) {
+    CATLSTR(buf, bufsz,
+	    _("  * Can pillage tile improvements.\n"));
+  }
   if (uclass_has_flag(utype_class(utype), UCF_DOESNT_OCCUPY_TILE)) {
     CATLSTR(buf, bufsz,
 	    _("  * Doesn't prevent enemy cities from using tile.\n"));
