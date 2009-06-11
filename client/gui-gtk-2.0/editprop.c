@@ -1647,7 +1647,7 @@ static bool objbind_get_allowed_value_span(struct objbind *ob,
       break;
     case OPID_UNIT_FUEL:
       min = 0;
-      max = putype->fuel;
+      max = utype_fuel(putype);
       step = 1;
       big_step = 5;
       break;

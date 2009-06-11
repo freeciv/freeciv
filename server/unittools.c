@@ -304,7 +304,7 @@ void player_restore_units(struct player *pplayer)
     }
 
     /* 4) Rescue planes if needed */
-    if (unit_type(punit)->fuel) {
+    if (utype_fuel(unit_type(punit))) {
       /* Shall we emergency return home on the last vapors? */
 
       /* I think this is strongly against the spirit of client goto.
@@ -392,14 +392,14 @@ void player_restore_units(struct player *pplayer)
       /* 6) Automatically refuel air units in cities, airbases, and
        *    transporters (carriers). */
       if (is_unit_being_refueled(punit)) {
-	punit->fuel=unit_type(punit)->fuel;
+	punit->fuel = utype_fuel(unit_type(punit));
       }
     }
   } unit_list_iterate_safe_end;
 
   /* 7) Check if there are air units without fuel */
   unit_list_iterate_safe(pplayer->units, punit) {
-    if (punit->fuel <= 0 && unit_type(punit)->fuel) {
+    if (punit->fuel <= 0 && utype_fuel(unit_type(punit))) {
       notify_player(pplayer, punit->tile, E_UNIT_LOST_MISC, 
 		       _("Your %s has run out of fuel."),
 		       unit_name_translation(punit));

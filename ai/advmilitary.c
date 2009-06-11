@@ -1120,7 +1120,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   best_choice.type = CT_ATTACKER;
   best_choice.want = choice->want;
 
-  assert(is_military_unit(myunit) && !is_air_unit(myunit));
+  assert(is_military_unit(myunit) && !utype_fuel(unit_type(myunit)));
 
   if (pcity->ai.danger != 0 && assess_defense(pcity) == 0) {
     /* Defence comes first! */

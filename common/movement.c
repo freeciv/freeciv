@@ -302,7 +302,7 @@ bool can_unit_survive_at_tile(const struct unit *punit,
     return TRUE;
   }
 
-  if (unit_type(punit)->fuel > 0) {
+  if (utype_fuel(unit_type(punit))) {
     /* Unit requires fuel and this is not refueling tile */
     return FALSE;
   }

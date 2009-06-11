@@ -364,13 +364,13 @@ const char *utype_values_string(const struct unit_type *punittype)
 {
   static char buffer[256];
 
-  if (punittype->fuel > 0) {
+  if (utype_fuel(punittype)) {
     my_snprintf(buffer, sizeof(buffer),
 		"%d/%d/%d(%d)",
 		punittype->attack_strength,
 		punittype->defense_strength,
 		punittype->move_rate / 3,
-		punittype->move_rate / 3 * punittype->fuel);
+		punittype->move_rate / 3 * utype_fuel(punittype));
   } else {
     my_snprintf(buffer, sizeof(buffer),
 		"%d/%d/%d",

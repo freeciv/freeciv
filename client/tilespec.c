@@ -3261,7 +3261,7 @@ static int fill_unit_sprite_array(const struct tileset *t,
   }
 
   if (t->sprites.unit.lowfuel
-      && unit_type(punit)->fuel > 0
+      && utype_fuel(unit_type(punit))
       && punit->fuel == 1
       && punit->moves_left <= 2 * SINGLE_MOVE) {
     /* Show a low-fuel graphic if the plane has 2 or fewer moves left. */

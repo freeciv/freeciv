@@ -1094,7 +1094,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                    uclass_name_translation(pclass));
     }
   } unit_class_iterate_end;
-  if (utype->fuel > 0) {
+  if (utype_fuel(utype)) {
     char allowed_units[10][64];
     int num_allowed_units = 0;
     int j;
@@ -1140,17 +1140,17 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                        " after %d turn.\n",
                        "* Unit has to be in a city, or a base"
                        " after %d turns.\n",
-                       utype->fuel),
-                  utype->fuel);
+                       utype_fuel(utype)),
+                  utype_fuel(utype));
     } else {
       cat_snprintf(buf, bufsz,
                    PL_("* Unit has to be in a city, a base, or on a %s"
                        " after %d turn.\n",
                        "* Unit has to be in a city, a base, or on a %s"
                        " after %d turns.\n",
-                       utype->fuel),
+                       utype_fuel(utype)),
                    astr.str,
-                   utype->fuel);
+                   utype_fuel(utype));
     }
     astr_free(&astr);
   }

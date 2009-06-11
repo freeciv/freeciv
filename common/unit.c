@@ -1054,7 +1054,7 @@ const char *unit_activity_text(const struct unit *punit)
   switch(punit->activity) {
    case ACTIVITY_IDLE:
      moves_str = _("Moves");
-     if (unit_type(punit)->fuel) {
+     if (utype_fuel(unit_type(punit))) {
        int rate,f;
        rate=unit_type(punit)->move_rate/SINGLE_MOVE;
        f=((punit->fuel)-1);
@@ -1383,16 +1383,13 @@ struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
   punit->veteran = veteran_level;
   /* A unit new and fresh ... */
   punit->debug = FALSE;
-  punit->fuel = unit_type(punit)->fuel;
+  punit->fuel = utype_fuel(unit_type(punit));
   punit->birth_turn = game.info.turn;
   punit->hp = unit_type(punit)->hp;
   punit->moves_left = unit_move_rate(punit);
   punit->moved = FALSE;
   punit->paradropped = FALSE;
   punit->done_moving = FALSE;
-  if (is_barbarian(pplayer)) {
-    punit->fuel = BARBARIAN_LIFE;
-  }
   punit->ai.done = FALSE;
   punit->ai.cur_pos = NULL;
   punit->ai.prev_pos = NULL;

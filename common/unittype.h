@@ -329,6 +329,8 @@ bool can_player_build_unit_later(const struct player *p,
 bool can_player_build_unit_now(const struct player *p,
 			       const struct unit_type *punittype);
 
+#define utype_fuel(ptype) (ptype)->fuel
+
 /* Initialization and iteration */
 void unit_types_init(void);
 void unit_types_free(void);

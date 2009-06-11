@@ -573,7 +573,7 @@ void handle_edit_unit(struct connection *pc,
     changed = TRUE;
   }
 
-  fuel = CLIP(0, packet->fuel, putype->fuel);
+  fuel = CLIP(0, packet->fuel, utype_fuel(putype));
   if (fuel != punit->fuel) {
     punit->fuel = fuel;
     changed = TRUE;

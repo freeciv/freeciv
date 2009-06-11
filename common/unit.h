@@ -19,8 +19,6 @@
 #include "unittype.h"
 #include "vision.h"
 
-#define BARBARIAN_LIFE    5
-
 /* Changing this enum will break network compatability. */
 enum unit_orders {
   ORDER_MOVE = 0,

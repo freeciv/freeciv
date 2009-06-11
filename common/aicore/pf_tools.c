@@ -698,7 +698,7 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
     break;
   }
 
-  if (!parameter->get_moves_left_req && unit_type(punit)->fuel > 0) {
+  if (!parameter->get_moves_left_req && utype_fuel(unit_type(punit))) {
     /* Unit needs fuel */
     parameter->get_moves_left_req = get_fuel_moves_left_req;
     parameter->turn_mode = TM_WORST_TIME;
@@ -863,9 +863,9 @@ static void pft_fill_unit_default_parameter(struct pf_parameter *parameter,
   parameter->start_tile = punit->tile;
   parameter->moves_left_initially = punit->moves_left;
   parameter->move_rate = unit_move_rate(punit);
-  if (is_air_unit(punit)) {
+  if (utype_fuel(unit_type(punit))) {
     parameter->fuel_left_initially = punit->fuel;
-    parameter->fuel = unit_type(punit)->fuel;
+    parameter->fuel = utype_fuel(unit_type(punit));
   } else {
     parameter->fuel = 1;
     parameter->fuel_left_initially = 1;

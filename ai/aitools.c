@@ -369,7 +369,7 @@ bool ai_gothere(struct player *pplayer, struct unit *punit,
 struct tile *immediate_destination(struct unit *punit,
 				   struct tile *dest_tile)
 {
-  if (!same_pos(punit->tile, dest_tile) && is_air_unit(punit)) {
+  if (!same_pos(punit->tile, dest_tile) && utype_fuel(unit_type(punit))) {
     struct tile *waypoint_tile = punit->goto_tile;
 
     if (find_air_first_destination(punit, &waypoint_tile)) {
@@ -654,8 +654,6 @@ void ai_fill_unit_param(struct pf_parameter *parameter,
 			struct ai_risk_cost *risk_cost,
 			struct unit *punit, struct tile *ptile)
 {
-  const bool is_air = is_air_unit(punit)
-                      && punit->ai.ai_role != AIUNIT_ESCORT;
   const bool long_path = LONG_TIME < (map_distance(punit->tile, punit->tile)
 				      * SINGLE_MOVE
 				      / unit_type(punit)->move_rate);
@@ -680,7 +678,8 @@ void ai_fill_unit_param(struct pf_parameter *parameter,
     /* The destination may be a coastal land tile,
      * in which case the ferry should stop on an adjacent tile. */
     pft_fill_unit_overlap_param(parameter, punit);
-  } else if (is_ai && !is_air && is_military_unit(punit)
+  } else if (is_ai && !utype_fuel(unit_type(punit))
+             && is_military_unit(punit)
 	     && (punit->ai.ai_role == AIUNIT_DEFEND_HOME
 		 || punit->ai.ai_role == AIUNIT_ATTACK
 		 || punit->ai.ai_role ==  AIUNIT_ESCORT
@@ -695,10 +694,10 @@ void ai_fill_unit_param(struct pf_parameter *parameter,
   /* Should we use the risk avoidance code?
    * The risk avoidance code uses omniscience, so do not use for
    * human-player units under temporary AI control.
-   * Air units are immune to most risks, especially dangerous terrain.
    * Barbarians bravely/stupidly ignore risks
    */
-  if (is_ai && !is_air && !barbarian) {
+  if (is_ai && !uclass_has_flag(unit_class(punit), UCF_UNREACHABLE)
+      && !barbarian) {
     ai_avoid_risks(parameter, risk_cost, punit, NORMAL_STACKING_FEARFULNESS);
   }
 
@@ -709,7 +708,7 @@ void ai_fill_unit_param(struct pf_parameter *parameter,
    * TODO: This is compatible with old code,
    * but probably ought to be more cautious for non military units
    */
-  if (is_ai && !is_ferry && !is_air) {
+  if (is_ai && !is_ferry && !utype_fuel(unit_type(punit))) {
     parameter->get_moves_left_req = NULL;
   }
 
@@ -757,8 +756,6 @@ void ai_fill_unit_param(struct pf_parameter *parameter,
   } else if (is_ferry) {
     /* Ferries are not warships */
     parameter->get_TB = no_fights;
-  } else if (is_air) {
-    /* Default tile behaviour */
   } else if (is_losing_hp(punit)) {
     /* Losing hitpoints over time (helicopter in default rules) */
     /* Default tile behaviour */

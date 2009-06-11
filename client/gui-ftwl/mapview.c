@@ -1438,7 +1438,7 @@ static void fill_actions(void)
     if (can_unit_do_connect(punit, ACTIVITY_IDLE)) {
       ADD("unit_connect");
     }
-    if (!(is_air_unit(punit))) {
+    if (!utype_fuel(unit_type(punit))) {
       ADD("unit_return_nearest");
     }
     if (!unit_has_type_flag(punit, F_UNDISBANDABLE)) {

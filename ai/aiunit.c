@@ -1224,8 +1224,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
   /*** Very preliminary checks */
   *dest_tile = punit->tile;
 
-  if (unit_type(punit)->fuel
-      || is_losing_hp(punit)) {
+  if (utype_fuel(unit_type(punit)) || is_losing_hp(punit)) {
     /* Don't know what to do with them! */
     /* This is not LOG_ERROR in stable branch, as calling
      * fstk is in many cases right thing to do when custom
@@ -2026,7 +2025,7 @@ void ai_manage_military(struct player *pplayer, struct unit *punit)
   /* "Escorting" aircraft should not do anything. They are activated
    * by their transport or charge.  We do _NOT_ set them to 'done'
    * since they may need be activated once our charge moves. */
-  if (punit->ai.ai_role == AIUNIT_ESCORT && is_air_unit(punit)) {
+  if (punit->ai.ai_role == AIUNIT_ESCORT && utype_fuel(unit_type(punit))) {
     return;
   }
 
@@ -2253,7 +2252,7 @@ void ai_manage_unit(struct player *pplayer, struct unit *punit)
     ai_manage_ferryboat(pplayer, punit);
     TIMING_LOG(AIT_FERRY, TIMER_STOP);
     return;
-  } else if (is_air_unit(punit)
+  } else if (utype_fuel(unit_type(punit))
              && punit->ai.ai_role != AIUNIT_ESCORT) {
     TIMING_LOG(AIT_AIRUNIT, TIMER_START);
     ai_manage_airunit(pplayer, punit);
