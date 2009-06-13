@@ -473,22 +473,10 @@ static void ai_reevaluate_building(struct city *pcity, int *value,
   FIXME: Due to the nature of assess_distance, a city will only be 
   afraid of a boat laden with enemies if it stands on the coast (i.e.
   is directly reachable by this boat).
-
-  FIXME: CPU cycles are spent to determine all danger types, but
-  only DANGER_WALL and DANGER_LAND are ever used.
 ***********************************************************************/
-enum danger_type {
-  DANGER_ALL,  /* All but nuclear danger */
-  DANGER_LAND, /* Land danger that can be countered with Walls */
-  DANGER_SEA,
-  DANGER_AIR,
-  DANGER_NUKE,
-  DANGER_LAST };
-
 static unsigned int assess_danger(struct city *pcity)
 {
   int i;
-  unsigned int danger[DANGER_LAST];
   int defender;
   struct player *pplayer = city_owner(pcity);
   bool pikemen = FALSE;
@@ -496,10 +484,13 @@ static unsigned int assess_danger(struct city *pcity)
   int igwall_threat = 0;
   struct tile *ptile = pcity->tile;
   int defense;
+  unsigned int danger_reduced[B_LAST]; /* How much such danger there is that
+                                          building would help against */
+  int total_danger = 0;
 
   TIMING_LOG(AIT_DANGER, TIMER_START);
 
-  memset(&danger, 0, sizeof(danger));
+  memset(&danger_reduced, 0, sizeof(danger_reduced));
 
   generate_warmap(pcity, NULL);	/* generates both land and sea maps */
 
@@ -533,7 +524,6 @@ static unsigned int assess_danger(struct city *pcity)
       /* Although enemy units will not be in our cities,
        * we might still consider allies to be dangerous,
        * so dist can be 0. */
-      bool igwall = unit_really_ignores_citywalls(punit);
 
       if (unit_has_type_flag(punit, F_PARATROOPERS)) {
         paramove = unit_type(punit)->paratroopers_range;
@@ -582,52 +572,35 @@ static unsigned int assess_danger(struct city *pcity)
 
       vulnerability *= vulnerability; /* positive feedback */
 
-      if (!igwall) {
-        /* walls */
-        danger[DANGER_LAND] += vulnerability * move_rate / MAX(dist, 1);
-      } else if (is_sailing_unit(punit)) {
-        /* coastal */
-        danger[DANGER_SEA] += vulnerability * move_rate / MAX(dist, 1);
-      } else if (is_air_unit(punit) && !unit_has_type_flag(punit, F_NUCLEAR)) {
-        /* SAM */
-        danger[DANGER_AIR] += vulnerability * move_rate / MAX(dist, 1);
+      if (unit_has_type_flag(punit, F_NUCLEAR)) {
+        defender = ai_find_source_building(pcity, EFT_NUKE_PROOF,
+                                           unit_class(punit), MOVETYPE_LAST);
+        danger_reduced[defender] += vulnerability * move_rate / MAX(dist, 1);
+      } else if (!unit_has_type_flag(punit, F_IGWALL)) {
+        defender = ai_find_source_building(pcity, EFT_DEFEND_BONUS,
+                                           unit_class(punit), MOVETYPE_LAST);
+        danger_reduced[defender] += vulnerability * move_rate / MAX(dist, 1);
+      } else {
+        igwall_threat += vulnerability;
       }
-      if (uclass_has_flag(unit_class(punit), UCF_MISSILE)) {
-        /* SDI */
-        danger[DANGER_NUKE] += vulnerability * move_rate / MAX(move_rate, dist);
-      }
-      if (!unit_has_type_flag(punit, F_NUCLEAR)) {
-        /* only SDI helps against NUCLEAR */
-        vulnerability = dangerfunct(vulnerability, move_rate, dist);
-        danger[DANGER_ALL] += vulnerability;
-        if (igwall) {
-          igwall_threat += vulnerability;
-        }
-      }
+
+      vulnerability = dangerfunct(vulnerability, move_rate, dist);
+      total_danger += vulnerability;
+
     } unit_list_iterate_end;
   } players_iterate_end;
 
-  /* Watch out for integer overflows */
-  for (i = 0; i < DANGER_LAST; i++) {
-    if (danger[i] < 0 || danger[i] > 1 << 25) {
-      /* I hope never to see this! */
-      freelog(LOG_ERROR, "Dangerous danger[%d] (%d) in %s.  Beware of "
-              "overflow.", i, danger[i], city_name(pcity));
-      danger[i] = danger[i] >> 2; /* reduce probability of overflow */
-    }
-  }
-
   if (igwall_threat == 0) {
     pcity->ai.wallvalue = 90;
-  } else if (danger[DANGER_ALL]) {
-    pcity->ai.wallvalue = (danger[DANGER_ALL] * 9 - igwall_threat * 8) 
-                           * 10 / (danger[DANGER_ALL]);
+  } else if (total_danger) {
+    pcity->ai.wallvalue = ((total_danger * 9 - igwall_threat * 8) 
+                           * 10 / total_danger);
   } else {
     /* No danger.
      * This is half of the wallvalue of what danger 1 would produce. */
     pcity->ai.wallvalue = 5;
   }
- 
+
   if (pcity->ai.grave_danger != 0) {
     /* really, REALLY urgent to defend */
     urgency += 10;
@@ -639,31 +612,20 @@ static unsigned int assess_danger(struct city *pcity)
    *        Now we consider any land mover helper suitable. */
   defense = assess_defense_igwall(pcity);
 
-  defender = ai_find_source_building(pcity, EFT_DEFEND_BONUS, NULL, LAND_MOVING);
-  if (defender != B_LAST) {
-    ai_reevaluate_building(pcity, &pcity->ai.building_want[defender],
-	urgency, danger[DANGER_LAND], defense);
-  }
-
-  defender = ai_find_source_building(pcity, EFT_DEFEND_BONUS, NULL, SEA_MOVING);
-  if (defender != B_LAST) {
-    ai_reevaluate_building(pcity, &pcity->ai.building_want[defender],
-                           urgency, danger[DANGER_SEA], defense);
-  }
-
-  defender = ai_find_source_building(pcity, EFT_DEFEND_BONUS, NULL, AIR_MOVING);
-  if (defender != B_LAST) {
-    ai_reevaluate_building(pcity, &pcity->ai.building_want[defender],
-                           urgency, danger[DANGER_AIR], defense);
+  for (i = 0; i < B_LAST; i++) {
+    if (danger_reduced[i] > 0) {
+      ai_reevaluate_building(pcity, &pcity->ai.building_want[i],
+                             urgency, danger_reduced[i], defense);
+    }
   }
 
   if (ai_handicap(pplayer, H_DANGER)
-      && danger[DANGER_ALL] == 0) {
+      && total_danger == 0) {
     /* Has to have some danger
      * Otherwise grave_danger will be ignored. */
     pcity->ai.danger = 1;
   } else {
-    pcity->ai.danger = danger[DANGER_ALL];
+    pcity->ai.danger = total_danger;
   }
   pcity->ai.urgency = urgency;
 
@@ -753,7 +715,7 @@ static bool process_defender_want(struct player *pplayer, struct city *pcity,
   int best_unit_cost = 1;
 
   memset(tech_desire, 0, sizeof(tech_desire));
-  
+
   simple_ai_unit_type_iterate(punittype) {
     int desire; /* How much we want the unit? */
     int move_type = utype_move_type(punittype);

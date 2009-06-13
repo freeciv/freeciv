@@ -318,24 +318,6 @@ double unit_win_chance(const struct unit *attacker,
 }
 
 /**************************************************************************
-  a wrapper that returns whether or not a unit ignores citywalls
-**************************************************************************/
-static bool unit_ignores_citywalls(const struct unit *punit)
-{
-  return (unit_has_type_flag(punit, F_IGWALL));
-}
-
-/**************************************************************************
-  Takes into account unit move_type as well, and Walls variant.
-**************************************************************************/
-bool unit_really_ignores_citywalls(const struct unit *punit)
-{
-  return (unit_ignores_citywalls(punit)
-	  || is_air_unit(punit)
-	  || is_sailing_unit(punit));
-}
-
-/**************************************************************************
   Try defending against nuclear attack, if succed return a city which 
   had enough luck and EFT_NUKE_PROOF.
   If the attack was succesful return NULL.
