@@ -155,6 +155,8 @@ struct attribute_block_s {
 #define MAX_ATTRIBUTE_BLOCK     (256*1024)	/* largest attribute block */
 };
 
+struct Treaty;
+
 struct player {
   bool used;
   char name[MAX_LEN_NAME];
@@ -188,6 +190,15 @@ struct player {
   int bulbs_last_turn;    /* # bulbs researched last turn only */
   struct player_spaceship spaceship;
   struct player_ai ai;
+  struct {
+    void (*first_activities)(struct player *pplayer);
+    void (*diplomacy_actions)(struct player *pplayer);
+    void (*last_activities)(struct player *pplayer);
+    void (*treaty_evaluate)(struct player *pplayer, struct player *aplayer, struct Treaty *ptreaty);
+    void (*treaty_accepted)(struct player *pplayer, struct player *aplayer, struct Treaty *ptreaty);
+    void (*first_contact)(struct player *pplayer, struct player *aplayer);
+    void (*incident_diplomat)(struct player *violator, struct player *victim);
+  } ai_funcs;
   bool was_created;                    /* if the player was /created */
   bool is_connected;
   struct connection *current_conn;     /* non-null while handling packet */

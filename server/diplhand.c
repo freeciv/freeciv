@@ -57,6 +57,28 @@ static struct treaty_list *treaties = NULL;
 #define TURNS_LEFT 16
 
 /**************************************************************************
+  Calls treaty_evaluate function if such is set for AI player                           
+**************************************************************************/
+static void call_treaty_evaluate(struct player *pplayer, struct player *aplayer,
+                                 struct Treaty *ptreaty)
+{
+  if (pplayer->ai.control && pplayer->ai_funcs.treaty_evaluate) {
+    pplayer->ai_funcs.treaty_evaluate(pplayer, aplayer, ptreaty);
+  }
+}
+
+/**************************************************************************
+  Calls treaty_accepted function if such is set for AI player
+**************************************************************************/
+static void call_treaty_accepted(struct player *pplayer, struct player *aplayer,
+                                 struct Treaty *ptreaty)
+{
+  if (pplayer->ai.control && pplayer->ai_funcs.treaty_accepted) {
+    pplayer->ai_funcs.treaty_accepted(pplayer, aplayer, ptreaty);
+  }
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 void diplhand_init(void)
@@ -351,12 +373,8 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
       }
     } clause_list_iterate_end;
 
-    if (pplayer->ai.control) {
-      ai_treaty_accepted(pplayer, pother, ptreaty);
-    }
-    if (pother->ai.control) {
-      ai_treaty_accepted(pother, pplayer, ptreaty);
-    }
+    call_treaty_accepted(pplayer, pother, ptreaty);
+    call_treaty_accepted(pother, pplayer, ptreaty);
 
     clause_list_iterate(ptreaty->clauses, pclause) {
       struct player *pgiver = pclause->from;
@@ -604,12 +622,8 @@ void handle_diplomacy_remove_clause_req(struct player *pplayer,
     dlsend_packet_diplomacy_remove_clause(pother->connections,
 					  player_number(pplayer), giver, type,
 					  value);
-    if (pplayer->ai.control) {
-      ai_treaty_evaluate(pplayer, pother, ptreaty);
-    }
-    if (pother->ai.control) {
-      ai_treaty_evaluate(pother, pplayer, ptreaty);
-    }
+    call_treaty_evaluate(pplayer, pother, ptreaty);
+    call_treaty_evaluate(pother, pplayer, ptreaty);
   }
 }
 
@@ -656,12 +670,8 @@ void handle_diplomacy_create_clause_req(struct player *pplayer,
     dlsend_packet_diplomacy_create_clause(pother->connections,
 					  player_number(pplayer), giver, type,
 					  value);
-    if (pplayer->ai.control) {
-      ai_treaty_evaluate(pplayer, pother, ptreaty);
-    }
-    if (pother->ai.control) {
-      ai_treaty_evaluate(pother, pplayer, ptreaty);
-    }
+    call_treaty_evaluate(pplayer, pother, ptreaty);
+    call_treaty_evaluate(pother, pplayer, ptreaty);
   }
 }
 

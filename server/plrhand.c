@@ -1136,6 +1136,30 @@ struct conn_list *player_reply_dest(struct player *pplayer)
 	  pplayer->connections);
 }
 
+/**************************************************************************
+  Call first_contact function if such is defined for player
+**************************************************************************/
+static void call_first_contact(struct player *pplayer, struct player *aplayer)
+{
+  if (pplayer->ai_funcs.first_contact) {
+    pplayer->ai_funcs.first_contact(pplayer, aplayer);
+  }
+}
+
+/**************************************************************************
+  Initialize player ai_funcs function pointers.
+**************************************************************************/
+static void init_ai_funcs(struct player *pplayer)
+{
+  pplayer->ai_funcs.first_activities = ai_do_first_activities;
+  pplayer->ai_funcs.diplomacy_actions = ai_diplomacy_actions;
+  pplayer->ai_funcs.last_activities = ai_do_last_activities;
+  pplayer->ai_funcs.treaty_evaluate = ai_treaty_evaluate;
+  pplayer->ai_funcs.treaty_accepted = ai_treaty_accepted;
+  pplayer->ai_funcs.first_contact = ai_diplomacy_first_contact;
+  pplayer->ai_funcs.incident_diplomat = ai_incident_diplomat;
+}
+
 /****************************************************************************
   Initialize ANY newly-created player on the server.
 
@@ -1149,6 +1173,8 @@ struct conn_list *player_reply_dest(struct player *pplayer)
 void server_player_init(struct player *pplayer,
 			bool initmap, bool needs_team)
 {
+  init_ai_funcs(pplayer);
+
   if (initmap) {
     player_map_allocate(pplayer);
   }
@@ -1265,10 +1291,10 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
 		     nation_plural_for_player(pplayer1),
 		     player_name(pplayer1));
     if (pplayer1->ai.control) {
-      ai_diplomacy_first_contact(pplayer1, pplayer2);
+      call_first_contact(pplayer1, pplayer2);
     }
     if (pplayer2->ai.control && !pplayer1->ai.control) {
-      ai_diplomacy_first_contact(pplayer2, pplayer1);
+      call_first_contact(pplayer2, pplayer1);
     }
     send_player_info(pplayer1, pplayer2);
     send_player_info(pplayer2, pplayer1);

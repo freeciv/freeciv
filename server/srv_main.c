@@ -607,8 +607,10 @@ static void ai_start_phase(void)
 {
   phase_players_iterate(pplayer) {
     if (pplayer->ai.control) {
-      ai_do_first_activities(pplayer);
-      flush_packets();			/* AIs can be such spammers... */
+      if (pplayer->ai_funcs.first_activities) {
+        pplayer->ai_funcs.first_activities(pplayer);
+        flush_packets(); /* AIs can be such spammers... */
+      }
     }
   } phase_players_iterate_end;
   kill_dying_players();
@@ -748,7 +750,9 @@ static void begin_phase(bool is_new_phase)
     /* Try to avoid hiding events under a diplomacy dialog */
     phase_players_iterate(pplayer) {
       if (pplayer->ai.control && !is_barbarian(pplayer)) {
-	ai_diplomacy_actions(pplayer);
+        if (pplayer->ai_funcs.diplomacy_actions) {
+          pplayer->ai_funcs.diplomacy_actions(pplayer);
+        }
       }
     } phase_players_iterate_end;
 
@@ -815,7 +819,9 @@ static void end_phase(void)
     }
     auto_settlers_player(pplayer);
     if (pplayer->ai.control) {
-      ai_do_last_activities(pplayer);
+      if (pplayer->ai_funcs.last_activities) {
+        pplayer->ai_funcs.last_activities(pplayer);
+      }
     }
   } phase_players_iterate_end;
 

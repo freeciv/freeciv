@@ -1297,7 +1297,9 @@ static void maybe_cause_incident(enum diplomat_actions action, struct player *of
       die("Bug in maybe_cause_incident()");
     }
     victim_player->diplstates[player_index(offender)].has_reason_to_cancel = 2;
-    ai_incident_diplomat(offender, victim_player);
+    if (victim_player->ai_funcs.incident_diplomat) {
+      victim_player->ai_funcs.incident_diplomat(offender, victim_player);
+    }
     send_player_info(offender, NULL);
     send_player_info(victim_player, NULL);
   }
