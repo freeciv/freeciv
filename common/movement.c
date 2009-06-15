@@ -102,7 +102,7 @@ bool can_attack_from_non_native(struct unit_type *utype)
   /* It's clear that LAND_MOVING should not be able to attack from
    * non-native (unless F_MARINES) and it's clear that SEA_MOVING
    * should be able to attack from non-native. It's not clear what to do
-   * with HELI_MOVING and AIR_MOVING. At the moment we return FALSE for
+   * with BOTH_MOVING and AIR_MOVING. At the moment we return FALSE for
    * them. One can always give "Marines" flag for them. This should be
    * generalized for unit_classes anyway. */
   return (utype_class(utype)->move_type == SEA_MOVING

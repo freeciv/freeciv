@@ -149,7 +149,7 @@ enum unit_move_type {
   AIR_MOVING = 0,
   LAND_MOVING = 1,
   SEA_MOVING = 2,
-  HELI_MOVING = 3,
+  BOTH_MOVING = 3,
   MOVETYPE_LAST = 4
 };
 

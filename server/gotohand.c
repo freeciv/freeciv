@@ -230,7 +230,7 @@ static void init_warmap(struct tile *orig_tile, enum unit_move_type move_type)
 
   switch (move_type) {
   case LAND_MOVING:
-  case HELI_MOVING:
+  case BOTH_MOVING:
   case AIR_MOVING:
     assert(sizeof(*warmap.cost) == sizeof(char));
     memset(warmap.cost, MAXCOST, MAP_INDEX_SIZE * sizeof(char));

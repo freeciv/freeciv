@@ -1134,7 +1134,7 @@ enum unit_bg_color_type unit_color_type(const struct unit_type *punittype)
     return UNIT_BG_SEA;
   }
 
-  assert(pclass->move_type == HELI_MOVING
+  assert(pclass->move_type == BOTH_MOVING
          || pclass->move_type == AIR_MOVING);
 
   if (uclass_has_flag(pclass, UCF_TERRAIN_SPEED)) {

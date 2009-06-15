@@ -687,10 +687,7 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
     }
     break;
   case AIR_MOVING:
-    parameter->get_MC = airmove;
-    break;
-  case HELI_MOVING:
-    /* Helicoptors are treated similarly to airplanes. */
+  case BOTH_MOVING:
     parameter->get_MC = airmove;
     break;
   default:
@@ -729,7 +726,7 @@ void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
     parameter->get_MC = sea_overlap_move;
     break;
   case AIR_MOVING:
-  case HELI_MOVING:
+  case BOTH_MOVING:
     parameter->get_MC = airmove; /* very crude */
     break;
   default:
@@ -760,7 +757,7 @@ void pft_fill_unit_attack_param(struct pf_parameter *parameter,
     parameter->get_MC = sea_attack_move;
     break;
   case AIR_MOVING:
-  case HELI_MOVING:
+  case BOTH_MOVING:
     parameter->get_MC = airmove; /* very crude */
     break;
   default:

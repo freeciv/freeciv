@@ -370,7 +370,7 @@ static int num_affected_units(const struct effect *peffect,
          return ai->stats.units.land;
      case SEA_MOVING:
        return ai->stats.units.sea;
-     case HELI_MOVING:
+     case BOTH_MOVING:
      case AIR_MOVING:
        return ai->stats.units.amphibious;
      case MOVETYPE_LAST:
