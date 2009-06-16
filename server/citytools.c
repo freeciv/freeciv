@@ -994,11 +994,9 @@ void transfer_city(struct player *ptaker, struct city *pcity,
       build_free_small_wonders(pgiver, &had_small_wonders);
     }
 
-    /* Remove the sight points from the giver...and refresh the city's
-     * vision range, since it might be different under the new owner. */
+    /* Refresh the city's vision range, since it might be different 
+     * under the new owner. */
     city_refresh_vision(pcity);
-    vision_clear_sight(old_vision);
-    vision_free(old_vision);
 
     /* Update the national borders, within the current vision and culture.
      * This could leave a border ring around the city, updated later by
@@ -1017,6 +1015,10 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 
     sanity_check_city(pcity);
   }
+
+  /* Remove the sight points from the giver. */
+  vision_clear_sight(old_vision);
+  vision_free(old_vision);
 
   sync_cities();
 }
