@@ -454,7 +454,8 @@ static int defense_multiplication(const struct unit_type *att_type,
       defensepower * tile_bases_defense_bonus(ptile, def_type) / 100;
   }
 
-  if ((pcity || fortified) && is_ground_unittype(def_type)) {
+  if ((pcity || fortified)
+      && uclass_has_flag(utype_class(def_type), UCF_CAN_FORTIFY)) {
     defensepower = (defensepower * 3) / 2;
   }
 
