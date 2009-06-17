@@ -1552,6 +1552,7 @@ void wipe_unit(struct unit *punit)
   struct unit_type *putype_save = unit_type(punit); /* for notify messages */
   int drowning = 0;
   int saved_id = punit->id;
+  int homecity_id = punit->homecity;
 
   /* First pull all units off of the transporter. */
   if (get_transporter_capacity(punit) > 0) {
@@ -1590,7 +1591,7 @@ void wipe_unit(struct unit *punit)
   }
 
   /* update unit upkeep */
-  city_units_upkeep(game_find_city_by_number(punit->homecity));
+  city_units_upkeep(game_find_city_by_number(homecity_id));
 
   /* Finally reassign, bounce, or destroy all units that cannot exist at this
    * location without transport. */
