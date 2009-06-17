@@ -119,15 +119,6 @@ bool is_sailing_unit(const struct unit *punit)
 
 
 /****************************************************************************
-  Return TRUE iff this unit is an air/plane unit (including missiles).
-****************************************************************************/
-bool is_air_unit(const struct unit *punit)
-{
-  return (uclass_move_type(unit_class(punit)) == AIR_MOVING);
-}
-
-
-/****************************************************************************
   Return TRUE iff this unit is a ground/land/normal unit.
 ****************************************************************************/
 bool is_ground_unit(const struct unit *punit)

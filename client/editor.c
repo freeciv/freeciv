@@ -448,7 +448,7 @@ static void editor_grab_tool(const struct tile *ptile)
     struct unit *grabbed_punit = NULL;
     unit_list_iterate(ptile->units, punit) {
       score = 0;
-      if (is_air_unit(punit)) {
+      if (uclass_has_flag(unit_class(punit), UCF_UNREACHABLE)) {
         score = 5;
       } else if (is_ground_unit(punit)) {
         score = 4;

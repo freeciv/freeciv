@@ -24,7 +24,6 @@ bool can_attack_non_native(struct unit_type *utype);
 bool can_attack_from_non_native(struct unit_type *utype);
 
 bool is_sailing_unit(const struct unit *punit);
-bool is_air_unit(const struct unit *punit);
 bool is_ground_unit(const struct unit *punit);
 bool is_sailing_unittype(const struct unit_type *punittype);
 bool is_ground_unittype(const struct unit_type *punittype);
