@@ -116,7 +116,8 @@ static void enqueue_call(struct my_agent *agent,
 {
   va_list ap;
   struct call *pcall2;
-  int x, y, arg = 0;
+  int arg = 0;
+  const struct tile *ptile;
 
   va_start(ap, cb_type);
 
@@ -130,9 +131,8 @@ static void enqueue_call(struct my_agent *agent,
     arg = va_arg(ap, int);
     break;
   case OCT_TILE:
-    x = va_arg(ap, int);
-    y = va_arg(ap, int);
-    arg = map_pos_to_index(x, y);
+    ptile = va_arg(ap, const struct tile *);
+    arg = ptile->index;
     break;
   case OCT_NEW_TURN:
     /* nothing */
