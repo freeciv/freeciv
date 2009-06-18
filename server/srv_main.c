@@ -731,7 +731,9 @@ static void begin_phase(bool is_new_phase)
     /* human players also need this for building advice */
     ai_data_phase_init(pplayer, is_new_phase);
     if (!pplayer->ai.control) {
-      ai_manage_buildings(pplayer); /* building advisor */
+      if (pplayer->ai_funcs.building_advisor_init) {
+        pplayer->ai_funcs.building_advisor_init(pplayer); /* building advisor */
+      }
     }
   } phase_players_iterate_end;
 
@@ -814,14 +816,14 @@ static void end_phase(void)
     } unit_list_iterate_end;
   } players_iterate_end;
   phase_players_iterate(pplayer) {
-    if (pplayer->ai.control) {
-      ai_settler_init(pplayer);
+    if (pplayer->ai.control && pplayer->ai_funcs.before_auto_settlers) {
+      pplayer->ai_funcs.before_auto_settlers(pplayer);
     }
-    auto_settlers_player(pplayer);
-    if (pplayer->ai.control) {
-      if (pplayer->ai_funcs.last_activities) {
-        pplayer->ai_funcs.last_activities(pplayer);
-      }
+    if (pplayer->ai_funcs.auto_settlers) {
+      pplayer->ai_funcs.auto_settlers(pplayer);
+    }
+    if (pplayer->ai.control && pplayer->ai_funcs.last_activities) {
+      pplayer->ai_funcs.last_activities(pplayer);
     }
   } phase_players_iterate_end;
 

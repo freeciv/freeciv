@@ -37,6 +37,8 @@
 
 #include "script.h"
 
+/* server */
+#include "aiiface.h"
 #include "citytools.h"
 #include "cityturn.h"
 #include "connecthand.h"
@@ -57,7 +59,6 @@
 #include "advdiplomacy.h"
 #include "advmilitary.h"
 #include "aidata.h"
-#include "aihand.h"
 
 static void package_player_common(struct player *plr,
                                   struct packet_player_info *packet);
@@ -570,7 +571,9 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
     }
   }
   if (new_type == DS_WAR) {
-    ai_incident_war(pplayer, pplayer2);
+    if (pplayer2->ai_funcs.incident_war) {
+      pplayer2->ai_funcs.incident_war(pplayer, pplayer2);
+    }
   }
   pplayer->diplstates[player_index(pplayer2)].has_reason_to_cancel = 0;
 
@@ -1144,20 +1147,6 @@ static void call_first_contact(struct player *pplayer, struct player *aplayer)
   if (pplayer->ai_funcs.first_contact) {
     pplayer->ai_funcs.first_contact(pplayer, aplayer);
   }
-}
-
-/**************************************************************************
-  Initialize player ai_funcs function pointers.
-**************************************************************************/
-static void init_ai_funcs(struct player *pplayer)
-{
-  pplayer->ai_funcs.first_activities = ai_do_first_activities;
-  pplayer->ai_funcs.diplomacy_actions = ai_diplomacy_actions;
-  pplayer->ai_funcs.last_activities = ai_do_last_activities;
-  pplayer->ai_funcs.treaty_evaluate = ai_treaty_evaluate;
-  pplayer->ai_funcs.treaty_accepted = ai_treaty_accepted;
-  pplayer->ai_funcs.first_contact = ai_diplomacy_first_contact;
-  pplayer->ai_funcs.incident_diplomat = ai_incident_diplomat;
 }
 
 /****************************************************************************

@@ -19,6 +19,8 @@ civserver_SOURCES = \
 		civserver.h
 
 libfreeciv_srv_la_SOURCES = \
+		aiiface.c	\
+		aiiface.h	\
 		airgoto.c	\
 		airgoto.h	\
 		auth.c		\

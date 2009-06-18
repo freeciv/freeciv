@@ -191,13 +191,21 @@ struct player {
   struct player_spaceship spaceship;
   struct player_ai ai;
   struct {
+    void (*auto_settlers)(struct player *pplayer);
+    void (*building_advisor_init)(struct player *pplayer);
+    void (*building_advisor)(struct city *pcity, struct ai_choice *choice);
+    enum unit_move_result (*auto_explorer)(struct unit *punit);
     void (*first_activities)(struct player *pplayer);
     void (*diplomacy_actions)(struct player *pplayer);
     void (*last_activities)(struct player *pplayer);
+    void (*before_auto_settlers)(struct player *pplayer);
     void (*treaty_evaluate)(struct player *pplayer, struct player *aplayer, struct Treaty *ptreaty);
     void (*treaty_accepted)(struct player *pplayer, struct player *aplayer, struct Treaty *ptreaty);
     void (*first_contact)(struct player *pplayer, struct player *aplayer);
     void (*incident_diplomat)(struct player *violator, struct player *victim);
+    void (*incident_war)(struct player *violator, struct player *victim);
+    void (*incident_pillage)(struct player *violator, struct player *victim);
+    void (*incident_nuclear)(struct player *violator, struct player *victim);
   } ai_funcs;
   bool was_created;                    /* if the player was /created */
   bool is_connected;

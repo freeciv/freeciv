@@ -723,6 +723,7 @@ static void update_unit_activity(struct unit *punit)
     else if (total_activity_targeted(ptile, ACTIVITY_PILLAGE, 
                                      punit->activity_target) >= 1) {
       enum tile_special_type what_pillaged = punit->activity_target;
+      struct player *victim;
 
       if (what_pillaged == S_PILLAGE_BASE) {
         base_type_iterate(pbase) {
@@ -745,9 +746,12 @@ static void update_unit_activity(struct unit *punit)
 	}
       } unit_list_iterate_end;
       update_tile_knowledge(ptile);
-      
-      ai_incident_pillage(unit_owner(punit), tile_owner(ptile));
-      
+
+      victim = tile_owner(ptile);
+      if (victim->ai_funcs.incident_pillage) {
+        victim->ai_funcs.incident_pillage(unit_owner(punit), victim);
+      }
+
       /* Change vision if effects have changed. */
       unit_list_refresh_vision(ptile->units);
     }
@@ -2133,10 +2137,12 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
 **************************************************************************/
 void do_nuclear_explosion(struct player *pplayer, struct tile *ptile)
 {
-  if (tile_owner(ptile)) {
-    ai_incident_nuclear(pplayer, tile_owner(ptile));
-  } else {
-    ai_incident_nuclear(pplayer, NULL);
+  struct player *victim = tile_owner(ptile);
+
+  if (victim && victim->ai_funcs.incident_nuclear) {
+    victim->ai_funcs.incident_nuclear(pplayer, victim);
+  } else if (pplayer->ai_funcs.incident_nuclear) {
+    pplayer->ai_funcs.incident_nuclear(pplayer, NULL);
   }
 
   square_iterate(ptile, 1, ptile1) {
@@ -2185,27 +2191,34 @@ bool do_airline(struct unit *punit, struct city *city2)
 **************************************************************************/
 void do_explore(struct unit *punit)
 {
-  switch (ai_manage_explorer(punit)) {
-  case MR_DEATH:
-    /* don't use punit! */
-    return;
-  case MR_OK:
-    /* FIXME: ai_manage_explorer() isn't supposed to change the activity,
-     * but don't count on this.  See PR#39792.
-     */
-    if (punit->activity == ACTIVITY_EXPLORE) {
-      break;
-    }
-    /* fallthru */
-  default:
-    unit_activity_handling(punit, ACTIVITY_IDLE);
+  struct player *owner = unit_owner(punit);
 
-    /* FIXME: When the ai_manage_explorer() call changes the activity from
-     * EXPLORE to IDLE, in unit_activity_handling() ai.control is left
-     * alone.  We reset it here.  See PR#12931. */
+  if (owner->ai_funcs.auto_explorer) {
+    switch (owner->ai_funcs.auto_explorer(punit)) {
+      case MR_DEATH:
+        /* don't use punit! */
+        return;
+      case MR_OK:
+        /* FIXME: ai_manage_explorer() isn't supposed to change the activity,
+         * but don't count on this.  See PR#39792.
+         */
+        if (punit->activity == ACTIVITY_EXPLORE) {
+          break;
+        }
+        /* fallthru */
+      default:
+        unit_activity_handling(punit, ACTIVITY_IDLE);
+
+        /* FIXME: When the ai_manage_explorer() call changes the activity from
+         * EXPLORE to IDLE, in unit_activity_handling() ai.control is left
+         * alone.  We reset it here.  See PR#12931. */
+        punit->ai.control = FALSE;
+        break;
+    };
+  } else {
+    unit_activity_handling(punit, ACTIVITY_IDLE);
     punit->ai.control = FALSE;
-    break;
-  };
+  }
   send_unit_info(NULL, punit); /* probably duplicate */
 }
 
