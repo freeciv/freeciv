@@ -86,6 +86,10 @@ static bool currently_running = FALSE;
 static bool calls_are_equal(const struct call *pcall1,
 			    const struct call *pcall2)
 {
+  if (pcall1->agent != pcall2->agent) {
+    return FALSE;
+  }
+
   if (pcall1->type != pcall2->type && pcall1->cb_type != pcall2->cb_type) {
     return FALSE;
   }
