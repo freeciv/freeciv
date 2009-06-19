@@ -883,6 +883,8 @@ sound		= "b_stock_exchange"
 sound_alt	= "b_generic"
 ; /* xgettext:no-c-format */
 helptext	= _("\
+Together with a Bank, a Stock Exchange boosts tax and luxury\
+ production in a city by 50%. \
 Together with a Marketplace and a Bank, a Stock Exchange boosts\
  tax and luxury production in a city by 150%.\
 ")
