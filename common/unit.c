@@ -17,6 +17,7 @@
 
 #include <assert.h>
 
+#include "astring.h"
 #include "fcintl.h"
 #include "mem.h"
 #include "shared.h"
@@ -1044,96 +1045,130 @@ bv_special get_unit_tile_pillage_set(const struct tile *ptile)
 }
 
 /**************************************************************************
-  Return text describing the current unit's activity.
-**************************************************************************/
-const char *unit_activity_text(const struct unit *punit)
-{
-  static char text[64];
-  const char *moves_str;
-   
-  switch(punit->activity) {
-   case ACTIVITY_IDLE:
-     moves_str = _("Moves");
-     if (utype_fuel(unit_type(punit))) {
-       int rate,f;
-       rate=unit_type(punit)->move_rate/SINGLE_MOVE;
-       f=((punit->fuel)-1);
-      if ((punit->moves_left % SINGLE_MOVE) != 0) {
-	 if(punit->moves_left/SINGLE_MOVE>0) {
-	   my_snprintf(text, sizeof(text), "%s: (%d)%d %d/%d", moves_str,
-		       ((rate*f)+(punit->moves_left/SINGLE_MOVE)),
-		       punit->moves_left/SINGLE_MOVE, punit->moves_left%SINGLE_MOVE,
-		       SINGLE_MOVE);
-	 } else {
-	   my_snprintf(text, sizeof(text), "%s: (%d)%d/%d", moves_str,
-		       ((rate*f)+(punit->moves_left/SINGLE_MOVE)),
-		       punit->moves_left%SINGLE_MOVE, SINGLE_MOVE);
-	 }
-       } else {
-	 my_snprintf(text, sizeof(text), "%s: (%d)%d", moves_str,
-		     rate*f+punit->moves_left/SINGLE_MOVE,
-		     punit->moves_left/SINGLE_MOVE);
-       }
-     } else {
-      if ((punit->moves_left % SINGLE_MOVE) != 0) {
-	 if(punit->moves_left/SINGLE_MOVE>0) {
-	   my_snprintf(text, sizeof(text), "%s: %d %d/%d", moves_str,
-		       punit->moves_left/SINGLE_MOVE, punit->moves_left%SINGLE_MOVE,
-		       SINGLE_MOVE);
-	 } else {
-	   my_snprintf(text, sizeof(text),
-		       "%s: %d/%d", moves_str, punit->moves_left%SINGLE_MOVE,
-		       SINGLE_MOVE);
-	 }
-       } else {
-	 my_snprintf(text, sizeof(text),
-		     "%s: %d", moves_str, punit->moves_left/SINGLE_MOVE);
-       }
-     }
-     return text;
-   case ACTIVITY_POLLUTION:
-   case ACTIVITY_FALLOUT:
-   case ACTIVITY_ROAD:
-   case ACTIVITY_RAILROAD:
-   case ACTIVITY_MINE: 
-   case ACTIVITY_IRRIGATE:
-   case ACTIVITY_TRANSFORM:
-   case ACTIVITY_FORTIFYING:
-   case ACTIVITY_FORTIFIED:
-   case ACTIVITY_AIRBASE:
-   case ACTIVITY_FORTRESS:
-   case ACTIVITY_SENTRY:
-   case ACTIVITY_GOTO:
-   case ACTIVITY_EXPLORE:
-     return get_activity_text (punit->activity);
-   case ACTIVITY_PILLAGE:
-     if (punit->activity_target == S_LAST) {
-       return get_activity_text (punit->activity);
-     } else {
-       bv_special pset;
-       bv_bases bases;
+  Return text describing the unit's current activity as a static string.
 
-       BV_CLR_ALL(pset);
-       BV_SET(pset, punit->activity_target);
-       BV_CLR_ALL(bases);
-       if (0 <= punit->activity_base
-           && punit->activity_base < base_count()) {
-         BV_SET(bases, punit->activity_base);
-       }
-       my_snprintf(text, sizeof(text), "%s: %s",
-		   get_activity_text (punit->activity),
-		   get_infrastructure_text(pset, bases));
-       return (text);
-     }
-   case ACTIVITY_BASE:
-     my_snprintf(text, sizeof(text), "%s: %s",
-                 get_activity_text(punit->activity),
-                 base_name_translation(base_by_number(punit->activity_base)));
-     return text;
-   default:
-    die("Unknown unit activity %d in unit_activity_text()", punit->activity);
+  FIXME: Convert all callers of this function to unit_activity_astr()
+  because this function is not re-entrant.
+**************************************************************************/
+const char *unit_activity_text(const struct unit *punit) {
+  static struct astring str = ASTRING_INIT;
+
+  astr_clear(&str);
+  unit_activity_astr(punit, &str);
+
+  return str.str;
+}
+
+/**************************************************************************
+  Append text describing the unit's current activity to the given astring.
+**************************************************************************/
+void unit_activity_astr(const struct unit *punit, struct astring *astr)
+{
+  if (!punit || !astr) {
+    return;
   }
-  return NULL;
+
+  switch (punit->activity) {
+  case ACTIVITY_IDLE:
+    if (utype_fuel(unit_type(punit))) {
+      int rate, f;
+      rate = unit_type(punit)->move_rate / SINGLE_MOVE;
+      f = ((punit->fuel) - 1);
+
+      if ((punit->moves_left % SINGLE_MOVE) != 0) {
+        if (punit->moves_left / SINGLE_MOVE > 0) {
+          astr_add_line(astr, "%s: (%d)%d %d/%d", _("Moves"),
+                        ((rate * f) + (punit->moves_left / SINGLE_MOVE)),
+                        punit->moves_left / SINGLE_MOVE,
+                        punit->moves_left % SINGLE_MOVE, SINGLE_MOVE);
+        } else {
+          astr_add_line(astr, "%s: (%d)%d/%d", _("Moves"),
+                        ((rate * f) + (punit->moves_left / SINGLE_MOVE)),
+                        punit->moves_left % SINGLE_MOVE, SINGLE_MOVE);
+        }
+      } else {
+        astr_add_line(astr, "%s: (%d)%d", _("Moves"),
+                      rate * f + punit->moves_left / SINGLE_MOVE,
+                      punit->moves_left / SINGLE_MOVE);
+      }
+    } else {
+      if ((punit->moves_left % SINGLE_MOVE) != 0) {
+        if (punit->moves_left / SINGLE_MOVE > 0) {
+          astr_add_line(astr, "%s: %d %d/%d", _("Moves"),
+                        punit->moves_left / SINGLE_MOVE,
+                        punit->moves_left % SINGLE_MOVE, SINGLE_MOVE);
+        } else {
+          astr_add_line(astr, "%s: %d/%d", _("Moves"),
+                        punit->moves_left % SINGLE_MOVE, SINGLE_MOVE);
+        }
+      } else {
+        astr_add_line(astr, "%s: %d", _("Moves"),
+                      punit->moves_left / SINGLE_MOVE);
+      }
+    }
+    break;
+  case ACTIVITY_POLLUTION:
+  case ACTIVITY_FALLOUT:
+  case ACTIVITY_ROAD:
+  case ACTIVITY_RAILROAD:
+  case ACTIVITY_MINE:
+  case ACTIVITY_IRRIGATE:
+  case ACTIVITY_TRANSFORM:
+  case ACTIVITY_FORTIFYING:
+  case ACTIVITY_FORTIFIED:
+  case ACTIVITY_AIRBASE:
+  case ACTIVITY_FORTRESS:
+  case ACTIVITY_SENTRY:
+  case ACTIVITY_GOTO:
+  case ACTIVITY_EXPLORE:
+    astr_add_line(astr, "%s", get_activity_text(punit->activity));
+    break;
+  case ACTIVITY_PILLAGE:
+    if (punit->activity_target == S_LAST) {
+      astr_add_line(astr, "%s", get_activity_text(punit->activity));
+    } else {
+      bv_special pset;
+      bv_bases bases;
+
+      BV_CLR_ALL(pset);
+      BV_SET(pset, punit->activity_target);
+      BV_CLR_ALL(bases);
+      if (0 <= punit->activity_base && punit->activity_base < base_count()) {
+        BV_SET(bases, punit->activity_base);
+      }
+      astr_add_line(astr, "%s: %s", get_activity_text(punit->activity),
+                    get_infrastructure_text(pset, bases));
+    }
+    break;
+  case ACTIVITY_BASE:
+    {
+      struct base_type *pbase;
+      pbase = base_by_number(punit->activity_base);
+      astr_add_line(astr, "%s: %s", get_activity_text(punit->activity),
+                    base_name_translation(pbase));
+    }
+    break;
+  default:
+    die("Unknown unit activity %d in unit_activity_text()",
+        punit->activity);
+  }
+}
+
+/**************************************************************************
+  Append a line of text describing the unit's upkeep to the astring.
+
+  NB: In the client it is assumed that this information is only available
+  for units owned by the client's player; the caller must check this.
+**************************************************************************/
+void unit_upkeep_astr(const struct unit *punit, struct astring *astr)
+{
+  if (!punit || !astr) {
+    return;
+  }
+
+  astr_add_line(astr, "%s %d/%d/%d", _("Food/Shield/Gold:"),
+                punit->upkeep[O_FOOD], punit->upkeep[O_SHIELD],
+                punit->upkeep[O_GOLD]);
 }
 
 /**************************************************************************

@@ -461,6 +461,9 @@ const char *get_nearest_city_text(struct city *pcity, int sq_dist)
 
 /****************************************************************************
   Returns the unit description.
+
+  FIXME: This function is not re-entrant because it returns a pointer to
+  static data.
 ****************************************************************************/
 const char *unit_description(struct unit *punit)
 {
@@ -470,6 +473,7 @@ const char *unit_description(struct unit *punit)
   struct city *pcity_near = get_nearest_city(punit, &pcity_near_dist);
   struct unit_type *ptype = unit_type(punit);
   static struct astring str = ASTRING_INIT;
+  const struct player *pplayer = client_player();
 
   astr_clear(&str);
 
@@ -478,8 +482,12 @@ const char *unit_description(struct unit *punit)
   if (ptype->veteran[punit->veteran].name[0] != '\0') {
     astr_add(&str, " (%s)", _(ptype->veteran[punit->veteran].name));
   }
+
+  if (pplayer == unit_owner(punit)) {
+    unit_upkeep_astr(punit, &str);
+  }
   astr_add(&str, "\n");
-  astr_add_line(&str, "%s", unit_activity_text(punit));
+  unit_activity_astr(punit, &str);
 
   if (pcity) {
     /* TRANS: on own line immediately following \n, ... <city> */

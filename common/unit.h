@@ -289,7 +289,11 @@ enum add_build_city_result test_unit_add_or_build_city(const struct unit *
 						       punit);
 bool kills_citizen_after_attack(const struct unit *punit);
 
+struct astring; /* Forward declaration. */
+void unit_activity_astr(const struct unit *punit, struct astring *astr);
+void unit_upkeep_astr(const struct unit *punit, struct astring *astr);
 const char *unit_activity_text(const struct unit *punit);
+
 int get_transporter_capacity(const struct unit *punit);
 
 struct player *unit_owner(const struct unit *punit);
