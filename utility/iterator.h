@@ -77,7 +77,8 @@ do {\
   char MY_mem_##NAME_a[FUNC_size()];\
   struct iterator *MY_it_##NAME_a;\
   TYPE_a NAME_a;\
-  MY_it_##NAME_a = FUNC_init((TYPE_it *) MY_mem_##NAME_a , ## __VA_ARGS__);\
+  MY_it_##NAME_a =\
+    FUNC_init((TYPE_it *) (void *) MY_mem_##NAME_a , ## __VA_ARGS__);\
   for (; iterator_valid(MY_it_##NAME_a); iterator_next(MY_it_##NAME_a)) {\
     NAME_a = (TYPE_a) iterator_get(MY_it_##NAME_a);\
 
