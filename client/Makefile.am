@@ -132,6 +132,7 @@ libfcgui_gtk2_la_LIBADD = gui-gtk-2.0/libgui-gtk2.la agents/libagents.la
 freeciv_gtk2_SOURCES = dummy.c
 freeciv_gtk2_LDFLAGS = $(GUI_gtk2_LDFLAGS) $(GGZMOD_LDFLAGS)
 freeciv_gtk2_LDADD = \
+ $(SOUND_LIBS) \
  libfcgui-gtk2.la \
  $(top_builddir)/common/libfreeciv.la \
  $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(LIB_GGZMOD) $(CLIENTICON) \
@@ -190,6 +191,7 @@ libfcgui_win32_la_LIBADD = gui-win32/libgui-win32.la agents/libagents.la
 freeciv_win32_SOURCES = dummy.c
 freeciv_win32_LDFLAGS = $(GUI_win32_LDFLAGS) $(GGZMOD_LDFLAGS)
 freeciv_win32_LDADD = \
+ $(SOUND_LIBS) \
  libfcgui-win32.la \
  $(top_builddir)/common/libfreeciv.la \
  $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(LIB_GGZMOD) $(CLIENTICON) \
