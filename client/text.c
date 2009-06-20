@@ -1191,14 +1191,19 @@ const char *get_ping_time_text(const struct player *pplayer)
 
   astr_clear(&str);
 
-  if (conn_list_size(pplayer->connections) > 0
-      && conn_list_get(pplayer->connections, 0)->ping_time != -1.0) {
-    double ping_time_in_ms =
-	1000 * conn_list_get(pplayer->connections, 0)->ping_time;
+  conn_list_iterate(pplayer->connections, pconn) {
+    if (!pconn->observer
+	/* Certainly not needed, but safer. */
+	&& 0 == strcmp(pconn->username, pplayer->username)) {
+      if (pconn->ping_time != -1) {
+	double ping_time_in_ms = 1000 * pconn->ping_time;
 
-    astr_add(&str, _("%6d.%02d ms"), (int) ping_time_in_ms,
-	((int) (ping_time_in_ms * 100.0)) % 100);
-  }
+	astr_add(&str, _("%6d.%02d ms"), (int) ping_time_in_ms,
+		 ((int) (ping_time_in_ms * 100.0)) % 100);
+      }
+      break;
+    }
+  } conn_list_iterate_end;
 
   return str.str;
 }
