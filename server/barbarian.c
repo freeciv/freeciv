@@ -553,6 +553,8 @@ static void try_summon_barbarians(void)
     if (!barbarians) {
       return;
     }
+    ai_data_phase_init(barbarians, TRUE); /* Created ferry may need ai data */
+
     boat = find_a_unit_type(L_BARBARIAN_BOAT,-1);
 
     if (is_native_tile(boat, utile)
@@ -583,6 +585,8 @@ static void try_summon_barbarians(void)
         really_created++;
       }
     }
+
+    ai_data_phase_done(barbarians);
   }
 
   if (really_created == 0) {
