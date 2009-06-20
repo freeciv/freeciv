@@ -96,6 +96,7 @@ static bool take_command(struct connection *caller, char *name, bool check);
 static bool end_command(struct connection *caller, char *str, bool check);
 static bool surrender_command(struct connection *caller, char *str, bool check);
 
+static bool is_ok_opt_name_char(char c);
 
 static const char horiz_line[] =
 "------------------------------------------------------------------------------";
@@ -1554,10 +1555,12 @@ static bool explain_option(struct connection *caller, char *str, bool check)
   char command[MAX_LEN_CONSOLE_LINE], *cptr_s, *cptr_d;
   int cmd;
 
-  for (cptr_s = str; *cptr_s != '\0' && !my_isalnum(*cptr_s); cptr_s++) {
+  for (cptr_s = str; *cptr_s != '\0' && !is_ok_opt_name_char(*cptr_s);
+       cptr_s++) {
     /* nothing */
   }
-  for (cptr_d = command; *cptr_s != '\0' && my_isalnum(*cptr_s); cptr_s++, cptr_d++)
+  for (cptr_d = command; *cptr_s != '\0' && is_ok_opt_name_char(*cptr_s);
+       cptr_s++, cptr_d++)
     *cptr_d=*cptr_s;
   *cptr_d='\0';
 
