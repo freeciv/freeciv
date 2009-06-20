@@ -533,8 +533,6 @@ static struct editbar *editbar_create(void)
   sprites = get_editor_sprites(tileset);
 
   editbar_add_mode_button(eb, ETM_ERASE);
-  editbar_add_mode_button(eb, ETM_COPY);
-  editbar_add_mode_button(eb, ETM_PASTE);
 
   separator = gtk_vseparator_new();
   gtk_box_pack_start(GTK_BOX(hbox), separator, FALSE, FALSE, 0);
@@ -547,6 +545,7 @@ static struct editbar *editbar_create(void)
   editbar_add_tool_button(eb, ETT_CITY);
   editbar_add_tool_button(eb, ETT_VISION);
   editbar_add_tool_button(eb, ETT_STARTPOS);
+  editbar_add_tool_button(eb, ETT_COPYPASTE);
 
   separator = gtk_vseparator_new();
   gtk_box_pack_start(GTK_BOX(hbox), separator, FALSE, FALSE, 0);
@@ -1442,6 +1441,9 @@ static GdkPixbuf *get_tool_value_pixbuf(enum editor_tool_type ett,
   case ETT_STARTPOS:
     sprite = sprites->startpos;
     break;
+  case ETT_COPYPASTE:
+    sprite = sprites->copypaste;
+    break;
   default:
     break;
   }
@@ -1542,7 +1544,7 @@ static void editinfobox_refresh(struct editinfobox *ei)
     struct sprite *spr;
     char status[256];
 
-    ebuf = editor_tool_get_copy_buffer(ett);
+    ebuf = editor_get_copy_buffer();
     edit_buffer_get_status_string(ebuf, status, sizeof(status));
     gtk_label_set_text(GTK_LABEL(ei->tool_value_label), status);
 
@@ -1603,9 +1605,11 @@ static gboolean handle_edit_key_press_with_shift(GdkEventKey *ev)
     editor_tool_toggle_mode(ett, ETM_ERASE);
     break;
   case GDK_C:
+    editor_set_tool(ETT_COPYPASTE);
     editor_tool_toggle_mode(ett, ETM_COPY);
     break;
   case GDK_V:
+    editor_set_tool(ETT_COPYPASTE);
     editor_tool_toggle_mode(ett, ETM_PASTE);
     break;
   case GDK_T:

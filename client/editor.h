@@ -38,6 +38,7 @@ enum editor_tool_type {
   ETT_VISION,
   ETT_TERRITORY,
   ETT_STARTPOS,
+  ETT_COPYPASTE,
 
   NUM_EDITOR_TOOL_TYPES
 };
@@ -98,7 +99,7 @@ const char *editor_get_mode_tooltip(enum editor_tool_mode etm);
 struct sprite *editor_get_mode_sprite(enum editor_tool_mode etm);
 
 struct edit_buffer;
-struct edit_buffer *editor_tool_get_copy_buffer(enum editor_tool_type ett);
+struct edit_buffer *editor_get_copy_buffer(void);
 
 
 enum editor_keyboard_modifiers {

@@ -2310,6 +2310,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   SET_EDITOR_SPRITE(brush);
   SET_EDITOR_SPRITE(copy);
   SET_EDITOR_SPRITE(paste);
+  SET_EDITOR_SPRITE(copypaste);
   SET_EDITOR_SPRITE(startpos);
   SET_EDITOR_SPRITE(terrain);
   SET_EDITOR_SPRITE(terrain_resource);

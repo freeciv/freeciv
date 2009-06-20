@@ -227,6 +227,7 @@ struct editor_sprites {
     *brush,
     *copy,
     *paste,
+    *copypaste,
     *startpos,
     *terrain,
     *terrain_resource,
