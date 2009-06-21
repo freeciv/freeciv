@@ -2597,6 +2597,9 @@ struct city *create_city_virtual(struct player *pplayer,
   pcity->turn_founded = game.info.turn;
   pcity->turn_last_built = game.info.turn;
 
+  pcity->migration_score = 0.0; /* Updated by check_city_migrations. */
+  pcity->mgr_score_calc_turn = -1; /* -1 = never */
+
 #ifdef ZERO_VARIABLES_FOR_SEARCHING
   pcity->before_change_shields = 0;
   pcity->caravan_shields = 0;

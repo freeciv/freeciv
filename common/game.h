@@ -272,11 +272,11 @@ bool setting_class_is_changeable(enum sset_class class);
 #define GAME_MAX_MGR_DISTANCE         7
 
 #define GAME_DEFAULT_MGR_NATIONCHANCE 50
-#define GAME_MIN_MGR_NATIONCHANCE     1
+#define GAME_MIN_MGR_NATIONCHANCE     0
 #define GAME_MAX_MGR_NATIONCHANCE     100
 
 #define GAME_DEFAULT_MGR_WORLDCHANCE  10
-#define GAME_MIN_MGR_WORLDCHANCE      1
+#define GAME_MIN_MGR_WORLDCHANCE      0
 #define GAME_MAX_MGR_WORLDCHANCE      100
 
 #define GAME_DEFAULT_AQUEDUCTLOSS    0

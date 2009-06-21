@@ -332,7 +332,8 @@ struct city {
   int steal;                    /* diplomats steal once; for spies, gets harder */
   int turn_founded;
   int turn_last_built;
-  float migration_score;        /* Updated by check_city_migrations. */
+  float migration_score;        /* not saved; updated by city_migration_score. */
+  int mgr_score_calc_turn;      /* not saved */
 
   int before_change_shields;    /* If changed this turn, shields before penalty */
   int caravan_shields;          /* If caravan has helped city to build wonder. */

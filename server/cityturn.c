@@ -109,9 +109,10 @@ static void update_city_activity(struct city *pcity);
 static void nullify_caravan_and_disband_plus(struct city *pcity);
 static bool check_plague(const struct city * pcity);
 
-static float city_migration_score(const struct city *pcity);
+static float city_migration_score(struct city *pcity);
 static bool do_city_migration(struct city *pcity_from,
                               struct city *pcity_to);
+static void check_city_migrations_player(const struct player *pplayer);
 
 /**************************************************************************
 ...
@@ -2227,7 +2228,7 @@ static bool disband_city(struct city *pcity)
     feeling = 1.00 * happy citizens
             + 0.00 * content citizens
             - 0.25 * unhappy citizens
-            - 0.50 * unhappy citizens
+            - 0.50 * angry citizens
 
   * factors
     * the build costs of all buildings
@@ -2248,14 +2249,19 @@ static bool disband_city(struct city *pcity)
   * if the city has at least one wonder a factor of 1.25 is added
   * for the capital an additional factor of 1.25 is used
 **************************************************************************/
-static float city_migration_score(const struct city *pcity)
+static float city_migration_score(struct city *pcity)
 {
   float score = 0.0;
   int build_shield_cost = 0;
   bool has_wonder = FALSE;
 
   if (!pcity) {
-    return 0.0;
+    return score;
+  }
+
+  if (pcity->mgr_score_calc_turn == game.info.turn) {
+    /* up-to-date migration score */
+    return pcity->migration_score;
   }
 
   /* feeling of the citizens */
@@ -2274,13 +2280,16 @@ static float city_migration_score(const struct city *pcity)
   } city_built_iterate_end;
 
   /* take shield costs of all buidings into account; normalized by 1000 */
-  score *= (1 + (1 - exp(- (float) build_shield_cost / 1000)) / 5);
+  score *= (1 + (1 - exp(- (float) MAX(0, build_shield_cost) / 1000)) / 5);
   /* take trade into account; normalized by 100 */
-  score *= (1 + (1 - exp(- (float) pcity->surplus[O_TRADE] / 100)) / 5);
+  score *= (1 + (1 - exp(- (float) MAX(0, pcity->surplus[O_TRADE]) / 100))
+                / 5);
   /* take luxury into account; normalized by 100 */
-  score *= (1 + (1 - exp(- (float) pcity->surplus[O_LUXURY] / 100)) / 5);
+  score *= (1 + (1 - exp(- (float) MAX(0, pcity->surplus[O_LUXURY]) / 100))
+                / 5);
   /* take science into account; normalized by 100 */
-  score *= (1 + (1 - exp(- (float) pcity->surplus[O_SCIENCE] / 100)) / 5);
+  score *= (1 + (1 - exp(- (float) MAX(0, pcity->surplus[O_SCIENCE]) / 100))
+                / 5);
 
   if (has_wonder) {
     /* people like wonders */
@@ -2293,6 +2302,11 @@ static float city_migration_score(const struct city *pcity)
   }
 
   freelog(LOG_DEBUG, "[M] %s score: %.3f", city_name(pcity), score);
+
+  /* set migration score for the city */
+  pcity->migration_score = score;
+  /* set the turn, when the score was calculated */
+  pcity->mgr_score_calc_turn = game.info.turn;
 
   return score;
 }
@@ -2461,18 +2475,9 @@ static bool do_city_migration(struct city *pcity_from,
   'game.info.mgr_worldchance' gives the chance for migration between all
   nations.
 **************************************************************************/
-void check_city_migrations(struct player *pplayer)
+void check_city_migrations(void)
 {
-  float best_city_player_score, best_city_world_score;
-  struct city *best_city_player, *best_city_world, *acity;
-  float score_from, score_tmp, weight;
-  int dist;
-
   if (!game.info.migration) {
-    return;
-  }
-
-  if (!pplayer || !pplayer->cities) {
     return;
   }
 
@@ -2482,9 +2487,25 @@ void check_city_migrations(struct player *pplayer)
     return;
   }
 
-  city_list_iterate(pplayer->cities, pcity) {
-    pcity->migration_score = city_migration_score(pcity);
-  } city_list_iterate_end;
+  /* check for migration */
+  players_iterate(pplayer) {
+    if (!pplayer->cities) {
+      continue;
+    }
+
+    check_city_migrations_player(pplayer);
+  } players_iterate_end;
+}
+
+/**************************************************************************
+  Check for migration for each city of one player
+**************************************************************************/
+static void check_city_migrations_player(const struct player *pplayer)
+{
+  float best_city_player_score, best_city_world_score;
+  struct city *best_city_player, *best_city_world, *acity;
+  float score_from, score_tmp, weight;
+  int dist;
 
   /* check for each city
    * city_list_iterate_safe_end must be used because we could
@@ -2511,7 +2532,7 @@ void check_city_migrations(struct player *pplayer)
 
     /* score of the actual city
      * taking into account a persistence factor of 3 */
-    score_from = pcity->migration_score * 3;
+    score_from = city_migration_score(pcity) * 3;
 
     freelog(LOG_DEBUG, "[M] T%d check city: %s score: %6.3f (%s)",
             game.info.turn, city_name(pcity), score_from,
@@ -2532,7 +2553,7 @@ void check_city_migrations(struct player *pplayer)
       /* score of the second city, weighted by the distance */
       weight = ((float) (GAME_MAX_MGR_DISTANCE + 1 - dist)
                 / (float) (GAME_MAX_MGR_DISTANCE + 1));
-      score_tmp = acity->migration_score * weight;
+      score_tmp = city_migration_score(acity) * weight;
 
       freelog(LOG_DEBUG, "[M] T%d - compare city: %s (%s) dist: %d "
               "score: %6.3f", game.info.turn, city_name(acity),

@@ -910,9 +910,7 @@ static void end_turn(void)
 
   if (game.info.migration) {
     freelog(LOG_DEBUG, "Season of migrations");
-    players_iterate(pplayer) {
-      check_city_migrations(pplayer);
-    } players_iterate_end;
+    check_city_migrations();
   }
 
   update_environmental_upset(S_POLLUTION, &game.info.heating,

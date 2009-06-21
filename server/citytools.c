@@ -1816,7 +1816,6 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
 
   packet->turn_last_built=pcity->turn_last_built;
   packet->turn_founded = pcity->turn_founded;
-  packet->migration_score = pcity->migration_score;
 
   packet->changed_from_kind = pcity->changed_from.kind;
   packet->changed_from_value = universal_number(&pcity->changed_from);
