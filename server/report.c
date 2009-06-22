@@ -1159,7 +1159,7 @@ void report_final_scores(void)
     packet.bnp[i] = get_economics(size[i].player); 
     packet.mfg[i] = get_production(size[i].player); 
     packet.cities[i] = get_cities(size[i].player); 
-    packet.techs[i] = get_techs(size[i].player) - 1; 
+    packet.techs[i] = get_techs(size[i].player);
     packet.mil_service[i] = get_mil_service(size[i].player); 
     packet.wonders[i] = get_wonders(size[i].player); 
     packet.research[i] = get_research(size[i].player); 
