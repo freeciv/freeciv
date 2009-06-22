@@ -44,6 +44,9 @@
 #include <winsock.h>
 #endif
 
+/* utility */
+#include "astring.h"
+#include "capability.h"
 #include "fciconv.h"
 #include "fcintl.h"
 #include "log.h"
@@ -55,7 +58,7 @@
 #include "support.h"
 #include "timing.h"
 
-#include "capability.h"
+/* common */
 #include "capstr.h"
 #include "city.h"
 #include "dataio.h"
@@ -71,6 +74,7 @@
 #include "unitlist.h"
 #include "version.h"
 
+/* server */
 #include "auth.h"
 #include "barbarian.h"
 #include "cityhand.h"
@@ -102,6 +106,7 @@
 #include "unittools.h"
 #include "voting.h"
 
+/* ai */
 #include "advdiplomacy.h"
 #include "advmilitary.h"
 #include "aicity.h"
@@ -110,6 +115,7 @@
 #include "aisettler.h"
 #include "citymap.h"
 
+/* generator */
 #include "mapgen.h"
 
 static void end_turn(void);
@@ -238,6 +244,31 @@ bool check_for_game_over(void)
 {
   int barbs = 0, alive = 0;
   struct player *victor = NULL, *spacer = NULL;
+  int winners = 0;
+  struct astring str = ASTRING_INIT;
+
+  astr_clear(&str);
+  /* Check for scenatio victory */
+  players_iterate(pplayer) {
+    if (pplayer->is_winner) {
+      if (winners) {
+        /* TRANS: Another entry in winners list */
+        astr_add(&str, ", the %s", nation_adjective_for_player(pplayer));
+      } else {
+        /* TRANS: Beginning of the winners list */
+        astr_add(&str, "the %s", nation_adjective_for_player(pplayer));
+      }
+      ggz_report_victor(pplayer);
+      winners++;
+    }
+  } players_iterate_end;
+  if (winners) {
+    /* TRANS: There can be several winners listed */
+    notify_conn(game.est_connections, NULL, E_GAME_END,
+                _("Scenario victory to %s."), str.str);
+    ggz_report_victory();
+    return TRUE;
+  }
 
   /* quit if we are past the turn limit */
   if (game.info.turn > game.info.end_turn) {

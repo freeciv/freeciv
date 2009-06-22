@@ -256,3 +256,11 @@ bool api_methods_player_has_wonder(Player *pplayer, Building_Type *building)
 
   return FALSE;
 }
+
+/**************************************************************************
+  Make player winner of the scenario
+**************************************************************************/
+void api_methods_player_victory(Player *pplayer)
+{
+  player_set_winner(pplayer);
+}

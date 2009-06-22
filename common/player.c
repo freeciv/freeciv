@@ -200,6 +200,7 @@ void player_init(struct player *plr)
   plr->was_created = FALSE;
   plr->is_alive=TRUE;
   plr->is_dying = FALSE;
+  plr->is_winner = FALSE;
   plr->surrendered = FALSE;
   BV_CLR_ALL(plr->embassy);
   for(i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
@@ -993,6 +994,14 @@ struct player_research *get_player_research(const struct player *plr)
     return NULL;
   }
   return &(plr->team->research);
+}
+
+/****************************************************************************
+  Marks player as winner.
+****************************************************************************/
+void player_set_winner(struct player *plr)
+{
+  plr->is_winner = TRUE;
 }
 
 /****************************************************************************

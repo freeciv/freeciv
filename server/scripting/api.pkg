@@ -102,6 +102,8 @@ int api_methods_player_num_units
 	@ methods_player_num_units (Player *pplayer);
 bool api_methods_player_has_wonder
         @ methods_player_has_wonder (Player *pplayer, Building_Type *building);
+void api_methods_player_victory
+        @ methods_player_victory (Player *pplayer);
 
 /* Unit */
 bool api_methods_unit_city_can_be_built_here
@@ -181,6 +183,10 @@ end
 
 function Player:has_wonder(building)
   return methods_player_has_wonder(self, building)
+end
+
+function Player:victory()
+  methods_player_victory(self)
 end
 
 -- Unit methods.

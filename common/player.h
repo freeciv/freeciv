@@ -173,6 +173,7 @@ struct player {
   int nturns_idle;
   bool is_alive;
   bool is_dying; /* set once the player is in the process of dying */
+  bool is_winner; /* This player is winner in scenario game */
   bool surrendered; /* has indicated willingness to surrender */
 
   /* Turn in which the player's revolution is over; see update_revolution. */
@@ -318,6 +319,8 @@ bool is_barbarian(const struct player *pplayer);
 bool gives_shared_vision(const struct player *me, const struct player *them);
 
 struct player_research *get_player_research(const struct player *p1);
+
+void player_set_winner(struct player *plr);
 
 /* Initialization and iteration */
 void player_init(struct player *plr);
