@@ -1770,7 +1770,7 @@ void handle_conn_info(struct packet_conn_info *pinfo)
       aconnection.established = pconn->established;
       aconnection.observer = pconn->observer;
       aconnection.access_level = pconn->access_level;
-      aconnection.player = pplayer;
+      game.player_ptr = aconnection.player = pplayer;
     }
   }
   update_players_dialog();
