@@ -1382,7 +1382,7 @@ static void show_full_citybar(struct canvas *pcanvas,
 
   /* We can see the city's production or growth values if
    * we are observing or playing as the owner of the city. */
-  const bool can_see_inside = (client_is_observer()
+  const bool can_see_inside = (!game.player_ptr
                                || city_owner(pcity) == game.player_ptr);
   const bool should_draw_productions = (can_see_inside
                                         && draw_city_productions);
