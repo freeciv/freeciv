@@ -15,4 +15,7 @@
 
 void init_ai_funcs(struct player *pplayer);
 
+void call_incident(enum incident_type type, struct player *violator,
+                   struct player *victim);
+
 #endif /* FC__AIIFACE_H */

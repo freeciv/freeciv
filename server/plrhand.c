@@ -571,9 +571,7 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
     }
   }
   if (new_type == DS_WAR) {
-    if (pplayer2->ai_funcs.incident_war) {
-      pplayer2->ai_funcs.incident_war(pplayer, pplayer2);
-    }
+    call_incident(INCIDENT_WAR, pplayer, pplayer2);
   }
   pplayer->diplstates[player_index(pplayer2)].has_reason_to_cancel = 0;
 

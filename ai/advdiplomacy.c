@@ -68,6 +68,11 @@ static bool diplomacy_verbose = TRUE;
 /* turns to wait after contact before taking aim for war */
 #define TURNS_BEFORE_TARGET 15
 
+static void ai_incident_war(struct player *violator, struct player *victim);
+static void ai_incident_diplomat(struct player *violator, struct player *victim);
+static void ai_incident_nuclear(struct player *violator, struct player *victim);
+static void ai_incident_pillage(struct player *violator, struct player *victim);
+
 /**********************************************************************
   Send a diplomatic message. Use this instead of notify directly
   because we may want to highligh/present these messages differently
@@ -1655,13 +1660,38 @@ bool ai_on_war_footing(struct player *pplayer)
   return FALSE;
 }
 
+/********************************************************************** 
+  Handle incident caused by violator
+***********************************************************************/
 /* AI attitude call-backs */
+void ai_incident(enum incident_type type, struct player *violator,
+                 struct player *victim)
+{
+  switch(type) {
+    case INCIDENT_DIPLOMAT:
+      ai_incident_diplomat(violator, victim);
+      break;
+    case INCIDENT_WAR:
+      ai_incident_war(violator, victim);
+      break;
+    case INCIDENT_PILLAGE:
+      ai_incident_pillage(violator, victim);
+      break;
+    case INCIDENT_NUCLEAR:
+      ai_incident_nuclear(violator, victim);
+      break;
+    case INCIDENT_LAST:
+      /* Assert that always fails, but with meaningfull message */
+      assert(type != INCIDENT_LAST);
+      break;
+  }
+}
 
 /********************************************************************** 
   Nuclear strike. Victim is whoever's territory was hit, and may be
   NULL.
 ***********************************************************************/
-void ai_incident_nuclear(struct player *violator, struct player *victim)
+static void ai_incident_nuclear(struct player *violator, struct player *victim)
 {
   if (violator == victim) {
     players_iterate(pplayer) {
@@ -1693,7 +1723,7 @@ void ai_incident_nuclear(struct player *violator, struct player *victim)
 /********************************************************************** 
   Diplomat caused an incident.
 ***********************************************************************/
-void ai_incident_diplomat(struct player *violator, struct player *victim)
+static void ai_incident_diplomat(struct player *violator, struct player *victim)
 {
   players_iterate(pplayer) {
     if (!pplayer->ai.control) {
@@ -1718,7 +1748,7 @@ void ai_incident_diplomat(struct player *violator, struct player *victim)
   Reasons for war and other mitigating circumstances are checked
   in calling code.
 ***********************************************************************/
-void ai_incident_war(struct player *violator, struct player *victim)
+static void ai_incident_war(struct player *violator, struct player *victim)
 {
   players_iterate(pplayer) {
     if (!pplayer->ai.control) {
@@ -1758,7 +1788,7 @@ void ai_incident_war(struct player *violator, struct player *victim)
 /***************************************************************************
   Violator pillaged something on victims territory
 ***************************************************************************/
-void ai_incident_pillage(struct player *violator, struct player *victim)
+static void ai_incident_pillage(struct player *violator, struct player *victim)
 {
   if (violator == victim) {
     return;

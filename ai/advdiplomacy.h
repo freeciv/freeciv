@@ -33,10 +33,8 @@ void ai_treaty_evaluate(struct player *pplayer, struct player *aplayer,
 void ai_treaty_accepted(struct player *pplayer, struct player *aplayer, 
                         struct Treaty *ptreaty);
 
-void ai_incident_war(struct player *violator, struct player *victim);
-void ai_incident_diplomat(struct player *violator, struct player *victim);
-void ai_incident_nuclear(struct player *violator, struct player *victim);
-void ai_incident_pillage(struct player *violator, struct player *victim);
+void ai_incident(enum incident_type type, struct player *violator,
+                 struct player *victim);
 
 bool ai_on_war_footing(struct player *pplayer);
 

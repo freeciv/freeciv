@@ -45,8 +45,19 @@ void init_ai_funcs(struct player *pplayer)
   pplayer->ai_funcs.treaty_evaluate = ai_treaty_evaluate;
   pplayer->ai_funcs.treaty_accepted = ai_treaty_accepted;
   pplayer->ai_funcs.first_contact = ai_diplomacy_first_contact;
-  pplayer->ai_funcs.incident_diplomat = ai_incident_diplomat;
-  pplayer->ai_funcs.incident_war = ai_incident_war;
-  pplayer->ai_funcs.incident_pillage = ai_incident_pillage;
-  pplayer->ai_funcs.incident_nuclear = ai_incident_nuclear;
+  pplayer->ai_funcs.incident = ai_incident;
+}
+
+/**************************************************************************
+  Call incident function of victim, or failing that, incident function
+  of violator.
+**************************************************************************/
+void call_incident(enum incident_type type, struct player *violator,
+                   struct player *victim)
+{
+  if (victim && victim->ai_funcs.incident) {
+    victim->ai_funcs.incident(type, violator, victim);
+  } else if (violator && violator->ai_funcs.incident) {
+    violator->ai_funcs.incident(type, violator, victim);
+  }
 }

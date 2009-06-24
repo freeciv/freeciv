@@ -20,6 +20,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* utility */
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
@@ -27,6 +28,7 @@
 #include "shared.h"
 #include "support.h"
 
+/* common */
 #include "base.h"
 #include "city.h"
 #include "combat.h"
@@ -41,9 +43,12 @@
 #include "unit.h"
 #include "unitlist.h"
 
+/* aicore */
 #include "path_finding.h"
 #include "pf_tools.h"
 
+/* server */
+#include "aiiface.h"
 #include "barbarian.h"
 #include "citytools.h"
 #include "cityturn.h"
@@ -60,6 +65,7 @@
 #include "unithand.h"
 #include "unittools.h"
 
+/* ai */
 #include "advdiplomacy.h"
 #include "aiexplorer.h"
 #include "aiferry.h"
@@ -723,7 +729,6 @@ static void update_unit_activity(struct unit *punit)
     else if (total_activity_targeted(ptile, ACTIVITY_PILLAGE, 
                                      punit->activity_target) >= 1) {
       enum tile_special_type what_pillaged = punit->activity_target;
-      struct player *victim;
 
       if (what_pillaged == S_PILLAGE_BASE) {
         base_type_iterate(pbase) {
@@ -747,10 +752,7 @@ static void update_unit_activity(struct unit *punit)
       } unit_list_iterate_end;
       update_tile_knowledge(ptile);
 
-      victim = tile_owner(ptile);
-      if (victim->ai_funcs.incident_pillage) {
-        victim->ai_funcs.incident_pillage(unit_owner(punit), victim);
-      }
+      call_incident(INCIDENT_PILLAGE, unit_owner(punit), tile_owner(ptile));
 
       /* Change vision if effects have changed. */
       unit_list_refresh_vision(ptile->units);
@@ -2139,11 +2141,7 @@ void do_nuclear_explosion(struct player *pplayer, struct tile *ptile)
 {
   struct player *victim = tile_owner(ptile);
 
-  if (victim && victim->ai_funcs.incident_nuclear) {
-    victim->ai_funcs.incident_nuclear(pplayer, victim);
-  } else if (pplayer->ai_funcs.incident_nuclear) {
-    pplayer->ai_funcs.incident_nuclear(pplayer, NULL);
-  }
+  call_incident(INCIDENT_NUCLEAR, pplayer, victim);
 
   square_iterate(ptile, 1, ptile1) {
     do_nuke_tile(pplayer, ptile1);

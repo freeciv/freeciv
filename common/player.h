@@ -147,6 +147,11 @@ enum player_debug_types {
   PLAYER_DEBUG_DIPLOMACY, PLAYER_DEBUG_TECH, PLAYER_DEBUG_LAST
 };
 
+enum incident_type {
+  INCIDENT_DIPLOMAT = 0, INCIDENT_WAR, INCIDENT_PILLAGE,
+  INCIDENT_NUCLEAR, INCIDENT_LAST
+};
+
 BV_DEFINE(bv_debug, PLAYER_DEBUG_LAST);
 
 struct attribute_block_s {
@@ -203,10 +208,8 @@ struct player {
     void (*treaty_evaluate)(struct player *pplayer, struct player *aplayer, struct Treaty *ptreaty);
     void (*treaty_accepted)(struct player *pplayer, struct player *aplayer, struct Treaty *ptreaty);
     void (*first_contact)(struct player *pplayer, struct player *aplayer);
-    void (*incident_diplomat)(struct player *violator, struct player *victim);
-    void (*incident_war)(struct player *violator, struct player *victim);
-    void (*incident_pillage)(struct player *violator, struct player *victim);
-    void (*incident_nuclear)(struct player *violator, struct player *victim);
+    void (*incident)(enum incident_type type, struct player *violator,
+                     struct player *victim);
   } ai_funcs;
   bool was_created;                    /* if the player was /created */
   bool is_connected;
