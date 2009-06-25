@@ -924,12 +924,12 @@ void put_one_element(struct canvas *pcanvas, enum mapview_layer layer,
 
 /**************************************************************************
   Draw the given unit onto the canvas store at the given location.  The
-  area of drawing is tileset_full_tile_height(tileset) x tileset_full_tile_width(tileset).
+  area of drawing is tileset_unit_height(tileset) x tileset_unit_width(tileset).
 **************************************************************************/
 void put_unit(const struct unit *punit,
 	      struct canvas *pcanvas, int canvas_x, int canvas_y)
 {
-  canvas_y += (tileset_full_tile_height(tileset) - tileset_tile_height(tileset));
+  canvas_y += (tileset_unit_height(tileset) - tileset_tile_height(tileset));
   mapview_layer_iterate(layer) {
     put_one_element(pcanvas, layer, NULL, NULL, NULL,
 		    punit, NULL, canvas_x, canvas_y, NULL);
@@ -2023,6 +2023,7 @@ void move_unit_map_canvas(struct unit *punit,
     tile_to_canvas_pos(&start_x, &start_y, src_tile);
     if (tileset_is_isometric(tileset)) {
       start_y -= tileset_tile_height(tileset) / 2;
+      start_y -= tileset_unit_height(tileset) - tileset_full_tile_height(tileset);
     }
 
     /* Bring the backing store up to date, but don't flush. */
@@ -2042,11 +2043,11 @@ void move_unit_map_canvas(struct unit *punit,
       /* Backup the canvas store to the temp store. */
       canvas_copy(mapview.tmp_store, mapview.store,
 		  new_x, new_y, new_x, new_y,
-		  tileset_full_tile_width(tileset), tileset_full_tile_height(tileset));
+		  tileset_unit_width(tileset), tileset_unit_height(tileset));
 
       /* Draw */
       put_unit(punit, mapview.store, new_x, new_y);
-      dirty_rect(new_x, new_y, tileset_full_tile_width(tileset), tileset_full_tile_height(tileset));
+      dirty_rect(new_x, new_y, tileset_unit_width(tileset), tileset_unit_height(tileset));
 
       /* Flush. */
       flush_dirty();
@@ -2055,8 +2056,8 @@ void move_unit_map_canvas(struct unit *punit,
       /* Restore the backup.  It won't take effect until the next flush. */
       canvas_copy(mapview.store, mapview.tmp_store,
 		  new_x, new_y, new_x, new_y,
-		  tileset_full_tile_width(tileset), tileset_full_tile_height(tileset));
-      dirty_rect(new_x, new_y, tileset_full_tile_width(tileset), tileset_full_tile_height(tileset));
+		  tileset_unit_width(tileset), tileset_unit_height(tileset));
+      dirty_rect(new_x, new_y, tileset_unit_width(tileset), tileset_unit_height(tileset));
     } while (mytime < timing_sec);
   }
 }
@@ -2353,7 +2354,7 @@ void unqueue_mapview_updates(bool write_to_screen)
    * edge/corner graphics).
    */
   const int W = tileset_tile_width(tileset), H = tileset_tile_height(tileset);
-  const int UW = tileset_full_tile_width(tileset), UH = tileset_full_tile_height(tileset);
+  const int UW = tileset_unit_width(tileset), UH = tileset_unit_height(tileset);
   const int city_width = get_citydlg_canvas_width() + W;
   const int city_height = get_citydlg_canvas_height() + H;
   const struct {

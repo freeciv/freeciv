@@ -393,6 +393,7 @@ struct tileset {
 
   int normal_tile_width, normal_tile_height;
   int full_tile_width, full_tile_height;
+  int unit_tile_width, unit_tile_height;
   int small_sprite_width, small_sprite_height;
 
   char *main_intro_filename;
@@ -543,6 +544,22 @@ int tileset_full_tile_width(const struct tileset *t)
 int tileset_full_tile_height(const struct tileset *t)
 {
   return t->full_tile_height;
+}
+
+/****************************************************************************
+  Return the unit tile width of the current tileset.
+****************************************************************************/
+int tileset_unit_width(const struct tileset *t)
+{
+  return t->unit_tile_width;
+}
+
+/****************************************************************************
+  Return the unit tile height of the current tileset.
+****************************************************************************/
+int tileset_unit_height(const struct tileset *t)
+{
+  return t->unit_tile_height;
 }
 
 /****************************************************************************
@@ -1387,6 +1404,10 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
     t->full_tile_width = t->normal_tile_width;
     t->full_tile_height = t->normal_tile_height;
   }
+  t->unit_tile_width
+    = secfile_lookup_int_default(file, t->full_tile_width, "tilespec.unit_width");
+  t->unit_tile_height
+    = secfile_lookup_int_default(file, t->full_tile_height, "tilespec.unit_height");
   t->small_sprite_width
     = secfile_lookup_int(file, "tilespec.small_tile_width");
   t->small_sprite_height

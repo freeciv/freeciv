@@ -1015,7 +1015,7 @@ static void populate_unit_pixmap_table(void)
 
   /* Note, we ref this and other widgets here so that we can unref them
    * in reset_unit_table. */
-  unit_pixmap = gtk_pixcomm_new(tileset_full_tile_width(tileset), tileset_full_tile_height(tileset));
+  unit_pixmap = gtk_pixcomm_new(tileset_unit_width(tileset), tileset_unit_height(tileset));
   gtk_widget_ref(unit_pixmap);
   gtk_pixcomm_clear(GTK_PIXCOMM(unit_pixmap));
   unit_pixmap_button = gtk_event_box_new();
@@ -1027,8 +1027,8 @@ static void populate_unit_pixmap_table(void)
 		   GINT_TO_POINTER(-1));
 
   for (i = 0; i < num_units_below; i++) {
-    unit_below_pixmap[i] = gtk_pixcomm_new(tileset_full_tile_width(tileset),
-                                           tileset_full_tile_height(tileset));
+    unit_below_pixmap[i] = gtk_pixcomm_new(tileset_unit_width(tileset),
+                                           tileset_unit_height(tileset));
     gtk_widget_ref(unit_below_pixmap[i]);
     unit_below_pixmap_button[i] = gtk_event_box_new();
     gtk_widget_ref(unit_below_pixmap_button[i]);

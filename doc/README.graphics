@@ -88,6 +88,10 @@ options include:
                           with highest priority.
   normal_tile_width     : the width of terrain tiles
   normal_tile_height    : the height of terrain tiles
+  unit_width            : unit sprite width. Default is always ok, setting is
+                          provided just for symmetry with unit_height
+  unit_height           : unit sprite height if more than 1.5x terrain tile
+                          height in isometric tileset
   small_tile_width      : the width of icon sprites
   small_tile_height     : the height of icon sprites
   roadstyle             : Specifies how roads and rail are drawn.
