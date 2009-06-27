@@ -141,7 +141,7 @@ static bool ai_may_explore(const struct tile *ptile,
 ***************************************************************************/
 static enum tile_behavior ai_explorer_tb(const struct tile *ptile,
                                          enum known_type k,
-                                         struct pf_parameter *param)
+                                         const struct pf_parameter *param)
 {
   if (!ai_may_explore(ptile, param->owner, param->unit_flags)) {
     return TB_IGNORE;
