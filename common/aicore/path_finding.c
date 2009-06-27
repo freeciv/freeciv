@@ -1348,7 +1348,9 @@ static struct pf_path *pf_danger_map_get_path(struct pf_map *pfm,
   struct pf_danger_map *pfdm = PF_DANGER_MAP(pfm);
   struct pf_danger_node *node = &pfdm->lattice[tile_index(ptile)];
 
-  if (node->status != NS_UNINIT && node->is_dangerous) {
+  if (node->status != NS_UNINIT
+      && node->is_dangerous
+      && !same_pos(ptile, pfm->params.start_tile)) {
     /* "Best" path to a dangerous tile is undefined */
     /* TODO: return the "safest" path */
     return NULL;
