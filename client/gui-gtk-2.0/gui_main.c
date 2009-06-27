@@ -1185,11 +1185,6 @@ static void setup_widgets(void)
 
   editgui_create_widgets();
 
-#ifdef GGZ_GTK
-  gtk_notebook_append_page(GTK_NOTEBOOK(notebook),
-			   ggz_gtk_create_main_area(toplevel), NULL);
-#endif
-
   /* *** everything in the top *** */
 
   top_vbox = gtk_vbox_new(FALSE, 5);
@@ -1209,6 +1204,11 @@ static void setup_widgets(void)
     gtk_paned_pack1(GTK_PANED(paned), top_vbox, TRUE, FALSE);
     gtk_box_pack_end(GTK_BOX(top_vbox), hbox, TRUE, TRUE, 0);
   }
+
+#ifdef GGZ_GTK
+  gtk_notebook_append_page(GTK_NOTEBOOK(notebook),
+			   ggz_gtk_create_main_area(toplevel), NULL);
+#endif
 
   /* this holds the overview canvas, production info, etc. */
   vbox = gtk_vbox_new(FALSE, 3);
