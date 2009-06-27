@@ -2039,9 +2039,9 @@ void handle_tile_info(struct packet_tile_info *packet)
   } tile_special_type_iterate_end;
 
   if (NULL != ptile->resource) {
-    tile_changed = (ptile->resource->index != packet->resource);
+    tile_changed |= (ptile->resource->index != packet->resource);
   } else {
-    tile_changed = (-1 != packet->resource);
+    tile_changed |= (-1 != packet->resource);
   }
 
   /* always called after setting terrain */
