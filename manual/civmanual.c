@@ -107,8 +107,6 @@ static bool manual_command(void)
   char filename[40];
   enum manuals manuals;
 
-  /* Initialize game with default values */
-  game_init();
   /* Reset aifill to zero */
   game.info.aifill = 0;
   load_rulesets();
@@ -356,11 +354,14 @@ int main(int argc, char **argv)
   init_nls();
   init_character_encodings(FC_DEFAULT_DATA_ENCODING, FALSE);
 
+  /* Initialize game with default values */
+  game_init();
+
   /* parse command-line arguments... */
   inx = 1;
   while (inx < argc) {
-    if ((option = get_option_malloc("--file", argv, &inx, argc))) {
-      sz_strlcpy(srvarg.load_filename, option);
+    if ((option = get_option_malloc("--ruleset", argv, &inx, argc))) {
+      sz_strlcpy(game.rulesetdir, option);
       free(option);
     } else if (is_option("--help", argv[inx])) {
       showhelp = TRUE;
@@ -378,8 +379,11 @@ int main(int argc, char **argv)
     fc_fprintf(stderr,
          _("Usage: %s [option ...]\nValid options are:\n"), argv[0]);
     fc_fprintf(stderr,
-         _("  -h, --help\t\tPrint a summary of the options\n"));
-    fc_fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
+         _("  -r, --ruleset RULESET  Make manual for RULESET\n"));
+    fc_fprintf(stderr,
+         _("  -h, --help             Print a summary of the options\n"));
+    fc_fprintf(stderr,
+         _("  -v, --version          Print the version number\n"));
     /* TRANS: No full stop after the URL, could cause confusion. */
     fc_fprintf(stderr, _("Report bugs at %s\n"), BUG_URL);
     exit(EXIT_SUCCESS);
