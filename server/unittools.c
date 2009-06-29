@@ -2375,7 +2375,7 @@ static void unit_enter_hut(struct unit *punit)
   }
   
   /* AI with H_LIMITEDHUTS only gets 25 gold (or barbs if unlucky) */
-  if (pplayer->ai.control && ai_handicap(pplayer, H_LIMITEDHUTS)) {
+  if (pplayer->ai_data.control && ai_handicap(pplayer, H_LIMITEDHUTS)) {
     (void) hut_get_limited(punit);
     return;
   }
@@ -2672,7 +2672,7 @@ static void unit_move_consequences(struct unit *punit,
 
   if (tocity) { /* entering a city */
     if (tocity->owner == pplayer_end_pos) {
-      if (tocity != homecity_end_pos && !pplayer_end_pos->ai.control) {
+      if (tocity != homecity_end_pos && !pplayer_end_pos->ai_data.control) {
         city_refresh(tocity);
         send_city_info(pplayer_end_pos, tocity);
       }
@@ -2688,7 +2688,7 @@ static void unit_move_consequences(struct unit *punit,
     }
     if (fromcity != homecity_start_pos
         && fromcity->owner == pplayer_start_pos
-        && !pplayer_start_pos->ai.control) {
+        && !pplayer_start_pos->ai_data.control) {
       city_refresh(fromcity);
       send_city_info(pplayer_start_pos, fromcity);
     }
@@ -2710,14 +2710,14 @@ static void unit_move_consequences(struct unit *punit,
     }
   }
 
-  if (refresh_homecity_start_pos && !pplayer_start_pos->ai.control) {
+  if (refresh_homecity_start_pos && !pplayer_start_pos->ai_data.control) {
     city_refresh(homecity_start_pos);
     send_city_info(pplayer_start_pos, homecity_start_pos);
   }
   if (refresh_homecity_end_pos
       && (!refresh_homecity_start_pos
           || homecity_start_pos != homecity_end_pos)
-      && !pplayer_end_pos->ai.control) {
+      && !pplayer_end_pos->ai_data.control) {
     city_refresh(homecity_end_pos);
     send_city_info(pplayer_end_pos, homecity_end_pos);
   }
@@ -2904,7 +2904,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
       }
 
       /* Set activity to sentry if boarding a ship. */
-      if (ptransporter && !pplayer->ai.control && !unit_has_orders(punit)
+      if (ptransporter && !pplayer->ai_data.control && !unit_has_orders(punit)
           && !can_unit_exist_at_tile(punit, pdesttile)) {
         set_unit_activity(punit, ACTIVITY_SENTRY);
       }

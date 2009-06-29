@@ -1111,8 +1111,8 @@ bool is_req_active(const struct player *target_player,
     break;
   case VUT_AI_LEVEL:
     eval = target_player
-      && target_player->ai.control
-      && target_player->ai.skill_level == req->source.value.ai_level;
+      && target_player->ai_data.control
+      && target_player->ai_data.skill_level == req->source.value.ai_level;
     break;
   case VUT_TERRAINCLASS:
     eval = is_terrain_class_in_range(target_tile,

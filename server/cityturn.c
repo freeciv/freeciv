@@ -330,7 +330,7 @@ void auto_arrange_workers(struct city *pcity)
 				   MIN(pcity->surplus[o], 0));
     } output_type_iterate_end;
     cmp.require_happy = FALSE;
-    cmp.allow_disorder = city_owner(pcity)->ai.control ? FALSE : TRUE;
+    cmp.allow_disorder = city_owner(pcity)->ai_data.control ? FALSE : TRUE;
     cm_query_result(pcity, &cmp, &cmr);
   }
   if (!cmr.found_a_valid) {
@@ -493,7 +493,7 @@ void update_city_activities(struct player *pplayer)
     assert(pplayer->economic.gold >= 0);
   }
 
-  pplayer->ai.prev_gold = gold;
+  pplayer->ai_data.prev_gold = gold;
   /* This test includes the cost of the units because
    * units are paid for in update_city_activity() or
    * player_balance_treasury_units(). */

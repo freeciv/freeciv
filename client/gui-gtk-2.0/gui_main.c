@@ -1832,7 +1832,7 @@ void update_conn_list_dialog(void)
       int num_unready = 0;
 
       players_iterate(pplayer) {
-	if (!pplayer->ai.control && !pplayer->is_ready) {
+        if (!pplayer->ai_data.control && !pplayer->is_ready) {
 	  num_unready++;
 	}
       } players_iterate_end;
@@ -1920,11 +1920,11 @@ void update_conn_list_dialog(void)
         }
       } conn_list_iterate_end;
 
-      if (pplayer->ai.control && !pplayer->was_created
+      if (pplayer->ai_data.control && !pplayer->was_created
           && !pplayer->is_connected) {
         /* TRANS: "<Novice AI>" */
         my_snprintf(user_name, sizeof(user_name), _("<%s AI>"),
-                    ai_level_name(pplayer->ai.skill_level));
+                    ai_level_name(pplayer->ai_data.skill_level));
       } else {
         sz_strlcpy(user_name, pplayer->username);
         if (access_level > ALLOW_BASIC) {
@@ -1932,7 +1932,7 @@ void update_conn_list_dialog(void)
         }
       }
 
-      is_ready = pplayer->ai.control ? TRUE : pplayer->is_ready;
+      is_ready = pplayer->ai_data.control ? TRUE : pplayer->is_ready;
 
       if (pplayer->nation == NO_NATION_SELECTED) {
 	nation = _("Random");
@@ -1950,14 +1950,14 @@ void update_conn_list_dialog(void)
 
       rating_text[0] = '\0';
       if ((in_ggz || with_ggz)
-	  && !pplayer->ai.control
+          && !pplayer->ai_data.control
 	  && user_get_rating(pplayer->username, &rating)) {
 	my_snprintf(rating_text, sizeof(rating_text), "%d", rating);
       }
 
       record_text[0] = '\0';
       if ((in_ggz || with_ggz)
-	  && !pplayer->ai.control
+          && !pplayer->ai_data.control
 	  && user_get_record(pplayer->username,
 			       &wins, &losses, &ties, &forfeits)) {
 	if (forfeits == 0 && ties == 0) {

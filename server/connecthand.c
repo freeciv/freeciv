@@ -135,7 +135,7 @@ void establish_new_connection(struct connection *pconn)
     /* a player has already been created for this user, reconnect */
     attach_connection_to_player(pconn, pplayer, FALSE);
 
-    if (game.info.auto_ai_toggle && pplayer->ai.control) {
+    if (game.info.auto_ai_toggle && pplayer->ai_data.control) {
       toggle_ai_player_direct(NULL, pplayer);
     }
 
@@ -207,7 +207,7 @@ void establish_new_connection(struct connection *pconn)
   if (S_S_RUNNING == server_state() && game.info.turnblock) {
     players_iterate(cplayer) {
       if (cplayer->is_alive
-          && !cplayer->ai.control
+          && !cplayer->ai_data.control
           && !cplayer->phase_done
           && cplayer != pconn->playing) {  /* skip current player */
         notify_conn(dest, NULL, E_CONNECTION,
@@ -369,12 +369,12 @@ void lost_connection_to_client(struct connection *pconn)
 
   if (game.info.is_new_game
       && !pplayer->is_connected /* eg multiple controllers */
-      && !pplayer->ai.control    /* eg created AI player */
+      && !pplayer->ai_data.control    /* eg created AI player */
       && S_S_INITIAL == server_state()) {
     server_remove_player(pplayer);
   } else {
     if (game.info.auto_ai_toggle
-        && !pplayer->ai.control
+        && !pplayer->ai_data.control
         && !pplayer->is_connected /* eg multiple controllers */) {
       toggle_ai_player_direct(NULL, pplayer);
     }
@@ -519,8 +519,8 @@ bool attach_connection_to_player(struct connection *pconn,
        * find_uncontrolled_player above, then that player
        * will be an AI created by aifill. So turn off AI
        * mode if it is still on. */
-      if (pplayer->ai.control) {
-        pplayer->ai.control = FALSE;
+      if (pplayer->ai_data.control) {
+        pplayer->ai_data.control = FALSE;
       }
       /* If we are attached to a completely new player in
        * pregame, set its name to the connection's user

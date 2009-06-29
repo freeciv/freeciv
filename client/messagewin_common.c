@@ -79,7 +79,7 @@ void update_meswin_dialog(void)
   if (!is_meswin_open() && messages_total > 0
       && !client_is_observer()
       && NULL != client.conn.playing
-      && !client.conn.playing->ai.control) {
+      && !client.conn.playing->ai_data.control) {
     popup_meswin_dialog(FALSE);
     change = FALSE;
     return;

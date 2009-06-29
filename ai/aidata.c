@@ -440,7 +440,7 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
 
   /*** Diplomacy ***/
 
-  if (pplayer->ai.control && !is_barbarian(pplayer) && is_new_phase) {
+  if (pplayer->ai_data.control && !is_barbarian(pplayer) && is_new_phase) {
     ai_diplomacy_begin_new_phase(pplayer, ai);
   }
 
@@ -548,7 +548,8 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
     bool found_human = FALSE;
     ai->max_num_cities = 3;
     players_iterate(aplayer) {
-      if (aplayer == pplayer || aplayer->ai.control || !aplayer->is_alive) {
+      if (aplayer == pplayer || aplayer->ai_data.control
+          || !aplayer->is_alive) {
         continue;
       }
       ai->max_num_cities = MAX(ai->max_num_cities,
@@ -661,7 +662,7 @@ void ai_data_init(struct player *pplayer)
     ai->diplomacy.player_intel[i].war_reason = WAR_REASON_NONE;
     ai->diplomacy.player_intel[i].distance = 1;
     ai->diplomacy.player_intel[i].ally_patience = 0;
-    pplayer->ai.love[i] = 1;
+    pplayer->ai_data.love[i] = 1;
     ai->diplomacy.player_intel[i].asked_about_peace = 0;
     ai->diplomacy.player_intel[i].asked_about_alliance = 0;
     ai->diplomacy.player_intel[i].asked_about_ceasefire = 0;

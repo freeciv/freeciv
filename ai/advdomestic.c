@@ -252,7 +252,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
    * ai_manage_cities.  The expand value is the % that the AI should
    * value expansion (basically to handicap easier difficutly levels)
    * and is set when the difficulty level is changed (stdinhand.c). */
-  settler_want = pcity->ai.settler_want * pplayer->ai.expand / 100;
+  settler_want = pcity->ai.settler_want * pplayer->ai_data.expand / 100;
 
   if (ai->wonder_city == pcity->id) {
     settler_want /= 5;

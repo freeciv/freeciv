@@ -195,7 +195,7 @@ struct player {
 
   int bulbs_last_turn;    /* # bulbs researched last turn only */
   struct player_spaceship spaceship;
-  struct player_ai ai;
+  struct player_ai ai_data;
   struct {
     void (*auto_settlers)(struct player *pplayer);
     void (*building_advisor_init)(struct player *pplayer);

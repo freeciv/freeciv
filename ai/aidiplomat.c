@@ -130,7 +130,8 @@ void ai_choose_diplomat_defensive(struct player *pplayer,
               city_name(pcity));
       ut = get_role_unit(F_DIPLOMAT, 0);
       if (ut) {
-        pplayer->ai.tech_want[advance_index(ut->require_advance)] += DIPLO_DEFENSE_WANT;
+        pplayer->ai_data.tech_want[advance_index(ut->require_advance)]
+          += DIPLO_DEFENSE_WANT;
         TECH_LOG(LOG_DEBUG, pplayer, ut->require_advance,
                  "ai_choose_diplomat_defensive() + %d for %s",
                  DIPLO_DEFENSE_WANT,
@@ -188,7 +189,7 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
     incite_cost = city_incite_cost(pplayer, acity);
     if (HOSTILE_PLAYER(pplayer, ai, city_owner(acity))
         && (incite_cost < INCITE_IMPOSSIBLE_COST)
-        && (incite_cost < pplayer->economic.gold - pplayer->ai.est_upkeep)) {
+        && (incite_cost < pplayer->economic.gold - pplayer->ai_data.est_upkeep)) {
       /* incite gain (FIXME: we should count wonders too but need to
          cache that somehow to avoid CPU hog -- Per) */
       gain_incite = acity->prod[O_FOOD] * FOOD_WEIGHTING
@@ -249,7 +250,7 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
               city_name(acity),
               gain_incite,
               incite_cost,
-              pplayer->economic.gold - pplayer->ai.est_upkeep,
+              pplayer->economic.gold - pplayer->ai_data.est_upkeep,
               gain_theft,
               time_to_dest);
       choice->want = want;
@@ -276,10 +277,10 @@ static void ai_diplomat_city(struct unit *punit, struct city *ctarget)
   struct player *tplayer = city_owner(ctarget);
   int count_impr = count_sabotagable_improvements(ctarget);
   int count_tech = count_stealable_techs(pplayer, tplayer);
-  int gold_avail = pplayer->economic.gold - 2 * pplayer->ai.est_upkeep;
+  int gold_avail = pplayer->economic.gold - 2 * pplayer->ai_data.est_upkeep;
   int incite_cost;
 
-  assert(pplayer->ai.control);
+  assert(pplayer->ai_data.control);
 
   if (punit->moves_left == 0) {
     UNIT_LOG(LOG_ERROR, punit, "no moves left in ai_diplomat_city()!");
@@ -381,7 +382,7 @@ static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
 	    && (get_player_research(pplayer)->techs_researched
 		< get_player_research(aplayer)->techs_researched)
 	    && !dipldef)
-        || (incite_cost < (pplayer->economic.gold - pplayer->ai.est_upkeep)
+        || (incite_cost < (pplayer->economic.gold - pplayer->ai_data.est_upkeep)
             && can_incite && !dipldef)) {
       /* We have the closest enemy city on the continent */
       *ctarget = acity;
@@ -462,7 +463,7 @@ static struct city *ai_diplomat_defend(struct player *pplayer,
 static bool ai_diplomat_bribe_nearby(struct player *pplayer, 
                                      struct unit *punit, struct pf_map *map)
 {
-  int gold_avail = pplayer->economic.gold - pplayer->ai.est_upkeep;
+  int gold_avail = pplayer->economic.gold - pplayer->ai_data.est_upkeep;
   struct ai_data *ai = ai_data_get(pplayer);
 
   pf_iterator(map, pos) {

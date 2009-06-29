@@ -33,7 +33,7 @@ struct Player {
   const char *name;
   Nation_Type *nation;
 
-  Player_ai ai;
+  Player_ai ai_data;
 };
 
 struct City {

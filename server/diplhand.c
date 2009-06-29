@@ -62,7 +62,7 @@ static struct treaty_list *treaties = NULL;
 static void call_treaty_evaluate(struct player *pplayer, struct player *aplayer,
                                  struct Treaty *ptreaty)
 {
-  if (pplayer->ai.control && pplayer->ai_funcs.treaty_evaluate) {
+  if (pplayer->ai_data.control && pplayer->ai_funcs.treaty_evaluate) {
     pplayer->ai_funcs.treaty_evaluate(pplayer, aplayer, ptreaty);
   }
 }
@@ -73,7 +73,7 @@ static void call_treaty_evaluate(struct player *pplayer, struct player *aplayer,
 static void call_treaty_accepted(struct player *pplayer, struct player *aplayer,
                                  struct Treaty *ptreaty)
 {
-  if (pplayer->ai.control && pplayer->ai_funcs.treaty_accepted) {
+  if (pplayer->ai_data.control && pplayer->ai_funcs.treaty_accepted) {
     pplayer->ai_funcs.treaty_accepted(pplayer, aplayer, ptreaty);
   }
 }

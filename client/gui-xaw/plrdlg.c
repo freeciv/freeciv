@@ -238,10 +238,11 @@ void update_players_dialog(void)
       }
 
       /* text for name, plus AI marker */       
-      if(pplayer->ai.control)
-	my_snprintf(namebuf, sizeof(namebuf), "*%-15s",player_name(pplayer));
-      else
+      if (pplayer->ai_data.control) {
+        my_snprintf(namebuf, sizeof(namebuf), "*%-15s",player_name(pplayer));
+      } else {
         my_snprintf(namebuf, sizeof(namebuf), "%-16s",player_name(pplayer));
+      }
       namebuf[16] = '\0';
 
       /* text for diplstate type and turns -- not applicable if this is me */

@@ -637,7 +637,7 @@ void popup_players_nations_dialog(void)
       
       pDS = pplayer_get_diplstate(client.conn.playing, pPlayer);
             
-      if(pPlayer->ai.control) {
+      if(pPlayer->ai_data.control) {
 	state = _("AI");
       } else {
         if (pPlayer->is_connected) {

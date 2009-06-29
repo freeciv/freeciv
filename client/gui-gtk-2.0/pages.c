@@ -1077,12 +1077,12 @@ static void take_callback(GtkWidget *w, gpointer data)
     const char *name = player_name(plr);
   
     if (client_is_observer()) {
-      if (plr->ai.control) {
+      if (plr->ai_data.control) {
         send_chat_printf("/aitoggle \"%s\"", name);
       }
       send_chat_printf("/take \"%s\"", name);
     } else {
-      if (!plr->ai.control) {
+      if (!plr->ai_data.control) {
         /* Make sure player reverts to AI control. This is much more neat,
          * and hides the ugly double username in the name list because
          * the player username equals the connection username. */
@@ -1165,7 +1165,7 @@ static void conn_menu_player_command(GtkMenuItem *menuitem, gpointer data)
 ****************************************************************************/
 static void conn_menu_player_take(GtkMenuItem *menuitem, gpointer data)
 {
-  if (conn_menu_player->ai.control) {
+  if (conn_menu_player->ai_data.control) {
     /* See comment on detach command for why */
     send_chat_printf("/aitoggle \"%s\"", player_name(conn_menu_player));
   }
@@ -1250,7 +1250,7 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
 
   if (pplayer) {
     entry = gtk_menu_item_new_with_label(_("Toggle player ready"));
-    gtk_widget_set_sensitive(entry, pplayer && !pplayer->ai.control);
+    gtk_widget_set_sensitive(entry, pplayer && !pplayer->ai_data.control);
     g_object_set_data_full(G_OBJECT(menu), "ready", entry,
                            (GtkDestroyNotify) gtk_widget_unref);
     gtk_container_add(GTK_CONTAINER(menu), entry);
@@ -1341,7 +1341,7 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
   }
 
   if (ALLOW_CTRL <= client.conn.access_level
-      && NULL != pplayer && pplayer->ai.control) {
+      && NULL != pplayer && pplayer->ai_data.control) {
     enum ai_level level;
 
     entry = gtk_separator_menu_item_new();

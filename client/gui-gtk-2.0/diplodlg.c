@@ -177,7 +177,7 @@ static void popup_diplomacy_dialog(int other_player_id, int initiated_from)
     return;
   }
 
-  if (client.conn.playing->ai.control) {
+  if (client.conn.playing->ai_data.control) {
     return;			/* Don't show if we are AI controlled. */
   }
 

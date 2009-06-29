@@ -1230,7 +1230,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
 				       pdesttile)) {
 	int target_id = 0;
         
-        if (pplayer->ai.control) {
+        if (pplayer->ai_data.control) {
           return FALSE;
         }
         

@@ -720,7 +720,7 @@ static void popup_diplomacy_dialog(int other_player_id)
 {
   struct Diplomacy_dialog *pdialog;
 
-  if (client.conn.playing->ai.control) {
+  if (client.conn.playing->ai_data.control) {
     return;			/* Don't show if we are AI controlled. */
   }
 

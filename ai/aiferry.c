@@ -525,7 +525,7 @@ bool ai_amphibious_goto_constrained(struct unit *ferry,
   struct pf_map *map = NULL;
   struct pf_path *path = NULL;
 
-  assert(pplayer->ai.control);
+  assert(pplayer->ai_data.control);
   assert(!unit_has_orders(passenger));
   assert(ferry->tile == passenger->tile);
 

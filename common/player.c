@@ -208,12 +208,12 @@ void player_init(struct player *plr)
     plr->diplstates[i].has_reason_to_cancel = 0;
     plr->diplstates[i].contact_turns_left = 0;
   }
-  plr->ai.control=FALSE;
-  BV_CLR_ALL(plr->ai.handicaps);
-  plr->ai.skill_level = 0;
-  plr->ai.fuzzy = 0;
-  plr->ai.expand = 100;
-  plr->ai.barbarian_type = NOT_A_BARBARIAN;
+  plr->ai_data.control=FALSE;
+  BV_CLR_ALL(plr->ai_data.handicaps);
+  plr->ai_data.skill_level = 0;
+  plr->ai_data.fuzzy = 0;
+  plr->ai_data.expand = 100;
+  plr->ai_data.barbarian_type = NOT_A_BARBARIAN;
   plr->economic.tax=PLAYER_DEFAULT_TAX_RATE;
   plr->economic.science=PLAYER_DEFAULT_SCIENCE_RATE;
   plr->economic.luxury=PLAYER_DEFAULT_LUXURY_RATE;
@@ -658,7 +658,7 @@ struct player_economic player_limit_to_max_rates(struct player *pplayer)
   struct player_economic economic;
 
   /* ai players allowed to cheat */
-  if (pplayer->ai.control) {
+  if (pplayer->ai_data.control) {
     return pplayer->economic;
   }
 
@@ -725,10 +725,10 @@ struct city *find_palace(const struct player *pplayer)
 **************************************************************************/
 bool ai_handicap(const struct player *pplayer, enum handicap_type htype)
 {
-  if (!pplayer->ai.control) {
+  if (!pplayer->ai_data.control) {
     return TRUE;
   }
-  return BV_ISSET(pplayer->ai.handicaps, htype);
+  return BV_ISSET(pplayer->ai_data.handicaps, htype);
 }
 
 /**************************************************************************
@@ -749,10 +749,10 @@ the "ai_fuzzy(pplayer," part, and read the previous example as:
 **************************************************************************/
 bool ai_fuzzy(const struct player *pplayer, bool normal_decision)
 {
-  if (!pplayer->ai.control || pplayer->ai.fuzzy == 0) {
+  if (!pplayer->ai_data.control || pplayer->ai_data.fuzzy == 0) {
     return normal_decision;
   }
-  if (myrand(1000) >= pplayer->ai.fuzzy) {
+  if (myrand(1000) >= pplayer->ai_data.fuzzy) {
     return normal_decision;
   }
   return !normal_decision;
@@ -918,7 +918,7 @@ bool players_on_same_team(const struct player *pplayer1,
 
 bool is_barbarian(const struct player *pplayer)
 {
-  return pplayer->ai.barbarian_type != NOT_A_BARBARIAN;
+  return pplayer->ai_data.barbarian_type != NOT_A_BARBARIAN;
 }
 
 /**************************************************************************

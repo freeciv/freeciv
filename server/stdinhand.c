@@ -709,18 +709,19 @@ void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
     return;
   }
 
-  pplayer->ai.control = !pplayer->ai.control;
-  if (pplayer->ai.control) {
+  pplayer->ai_data.control = !pplayer->ai_data.control;
+  if (pplayer->ai_data.control) {
     cmd_reply(CMD_AITOGGLE, caller, C_OK,
 	      _("%s is now under AI control."),
 	      player_name(pplayer));
-    if (pplayer->ai.skill_level==0) {
-      pplayer->ai.skill_level = game.info.skill_level;
+    if (pplayer->ai_data.skill_level == 0) {
+      pplayer->ai_data.skill_level = game.info.skill_level;
     }
     /* Set the skill level explicitly, because eg: the player skill
        level could have been set as AI, then toggled, then saved,
        then reloaded. */ 
-    set_ai_level(caller, player_name(pplayer), pplayer->ai.skill_level, FALSE);
+    set_ai_level(caller, player_name(pplayer),
+                 pplayer->ai_data.skill_level, FALSE);
     /* the AI can't do active diplomacy */
     cancel_all_meetings(pplayer);
     /* The following is sometimes necessary to avoid using
@@ -866,7 +867,7 @@ static bool create_ai_player(struct connection *caller, char *arg, bool check)
   sz_strlcpy(pplayer->username, ANON_USER_NAME);
 
   pplayer->was_created = TRUE; /* must use /remove explicitly to remove */
-  pplayer->ai.control = TRUE;
+  pplayer->ai_data.control = TRUE;
   set_ai_level_directer(pplayer, game.info.skill_level);
   send_player_info_c(pplayer, game.est_connections);
 
@@ -1684,11 +1685,11 @@ void send_server_settings(struct conn_list *dest)
 ******************************************************************/
 void set_ai_level_directer(struct player *pplayer, enum ai_level level)
 {
-  pplayer->ai.handicaps = handicap_of_skill_level(level);
-  pplayer->ai.fuzzy = fuzzy_of_skill_level(level);
-  pplayer->ai.expand = expansionism_of_skill_level(level);
-  pplayer->ai.science_cost = science_cost_of_skill_level(level);
-  pplayer->ai.skill_level = level;
+  pplayer->ai_data.handicaps = handicap_of_skill_level(level);
+  pplayer->ai_data.fuzzy = fuzzy_of_skill_level(level);
+  pplayer->ai_data.expand = expansionism_of_skill_level(level);
+  pplayer->ai_data.science_cost = science_cost_of_skill_level(level);
+  pplayer->ai_data.skill_level = level;
 }
 
 /******************************************************************
@@ -1749,7 +1750,7 @@ static bool set_ai_level(struct connection *caller, const char *name,
   pplayer=find_player_by_name_prefix(name, &match_result);
 
   if (pplayer) {
-    if (pplayer->ai.control) {
+    if (pplayer->ai_data.control) {
       if (check) {
         return TRUE;
       }
@@ -1770,7 +1771,7 @@ static bool set_ai_level(struct connection *caller, const char *name,
       return TRUE;
     }
     players_iterate(pplayer) {
-      if (pplayer->ai.control) {
+      if (pplayer->ai_data.control) {
 	set_ai_level_directer(pplayer, level);
 	send_player_info(pplayer, NULL);
         cmd_reply(cmd_of_level(level), caller, C_OK,
@@ -1807,19 +1808,19 @@ static bool set_away(struct connection *caller, char *name, bool check)
     notify_conn(caller->self, NULL, E_SETTING,
 		_("Only players may use the away command."));
     return FALSE;
-  } else if (!caller->playing->ai.control && !check) {
+  } else if (!caller->playing->ai_data.control && !check) {
     notify_conn(game.est_connections, NULL, E_SETTING,
 		_("%s set to away mode."), 
                 player_name(caller->playing));
     send_player_info(caller->playing, NULL);
     set_ai_level_directer(caller->playing, AI_LEVEL_AWAY);
-    caller->playing->ai.control = TRUE;
+    caller->playing->ai_data.control = TRUE;
     cancel_all_meetings(caller->playing);
   } else if (!check) {
     notify_conn(game.est_connections, NULL, E_SETTING,
 		_("%s returned to game."), 
                 player_name(caller->playing));
-    caller->playing->ai.control = FALSE;
+    caller->playing->ai_data.control = FALSE;
     /* We have to do it, because the client doesn't display 
      * dialogs for meetings in AI mode. */
     cancel_all_meetings(caller->playing);
@@ -2627,7 +2628,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
     } else if (op->bool_value == &game.info.auto_ai_toggle) {
       if (*op->bool_value) {
         players_iterate(pplayer) {
-          if (!pplayer->ai.control && !pplayer->is_connected) {
+          if (!pplayer->ai_data.control && !pplayer->is_connected) {
             toggle_ai_player_direct(NULL, pplayer);
             send_player_info_c(pplayer, game.est_connections);
           }
@@ -2726,7 +2727,7 @@ static bool is_allowed_to_take(struct player *pplayer, bool will_obs,
       }
       return FALSE;
     }
-  } else if (pplayer->ai.control) {
+  } else if (pplayer->ai_data.control) {
     if (!(allow = strchr(game.allow_take, (game.info.is_new_game ? 'A' : 'a')))) {
       if (will_obs) {
         mystrlcpy(msg, _("Sorry, one can't observe AI players in this game."),
@@ -3129,7 +3130,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
               player_name(pplayer),
               is_barbarian(pplayer)
               ? _("Barbarian")
-              : pplayer->ai.control
+              : pplayer->ai_data.control
               ? _("AI")
               : _("Human"),
               pplayer->is_alive
@@ -3142,7 +3143,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
     }
 
     /* aitoggle the player back to human as necessary. */
-    if (pplayer->ai.control && game.info.auto_ai_toggle) {
+    if (pplayer->ai_data.control && game.info.auto_ai_toggle) {
       toggle_ai_player_direct(NULL, pplayer);
     }
 
@@ -3297,7 +3298,7 @@ bool detach_command(struct connection *caller, char *str, bool check)
     send_updated_vote_totals(NULL);
 
     /* aitoggle the player if no longer connected. */
-    if (game.info.auto_ai_toggle && !pplayer->ai.control) {
+    if (game.info.auto_ai_toggle && !pplayer->ai_data.control) {
       toggle_ai_player_direct(NULL, pplayer);
       player_changed = TRUE;
     }
@@ -3351,7 +3352,7 @@ static void send_load_game_info(bool load_successful)
 	packet.nations[i] = -1;
       }
       packet.is_alive[i] = pplayer->is_alive;
-      packet.is_ai[i] = pplayer->ai.control;
+      packet.is_ai[i] = pplayer->ai_data.control;
       i++;
     } players_iterate_end;
 
@@ -3951,7 +3952,7 @@ bool start_command(struct connection *caller, bool check, bool notify)
 
     human_players = 0;
     players_iterate(plr) {
-      if (!plr->ai.control) {
+      if (!plr->ai_data.control) {
         human_players++;
       }
     } players_iterate_end;
@@ -4378,7 +4379,7 @@ void show_players(struct connection *caller)
       
       if (is_barbarian(pplayer)) {
 	sz_strlcat(buf2, _("Barbarian"));
-      } else if (pplayer->ai.control) {
+      } else if (pplayer->ai_data.control) {
 	sz_strlcat(buf2, _("AI"));
       } else {
 	sz_strlcat(buf2, _("Human"));
@@ -4386,9 +4387,9 @@ void show_players(struct connection *caller)
       if (!pplayer->is_alive) {
 	sz_strlcat(buf2, _(", Dead"));
       }
-      if(pplayer->ai.control) {
+      if(pplayer->ai_data.control) {
 	cat_snprintf(buf2, sizeof(buf2), _(", difficulty level %s"),
-                     ai_level_name(pplayer->ai.skill_level));
+                     ai_level_name(pplayer->ai_data.skill_level));
       }
       if (!game.info.is_new_game) {
 	/* TRANS: continue list, in case comma is not the separator of choice. */

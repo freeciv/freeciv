@@ -833,7 +833,7 @@ void process_caravan_arrival(struct unit *punit)
 		  || unit_can_est_traderoute_here(punit))
 	&& (NULL == client.conn.playing
 	    || (unit_owner(punit) == client.conn.playing
-		&& !client.conn.playing->ai.control))) {
+                && !client.conn.playing->ai_data.control))) {
       struct city *pcity_dest = tile_city(punit->tile);
       struct city *pcity_homecity = game_find_city_by_number(punit->homecity);
 

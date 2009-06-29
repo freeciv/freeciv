@@ -645,7 +645,7 @@ void update_turn_done_button_state()
   if (turn_done_state) {
     if (waiting_for_end_turn
 	|| (NULL != client.conn.playing
-	    && client.conn.playing->ai.control
+            && client.conn.playing->ai_data.control
 	    && !ai_manual_turn_done)) {
       send_turn_done();
     } else {

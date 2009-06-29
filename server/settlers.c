@@ -232,7 +232,7 @@ static int ai_calc_fallout(struct city *pcity, struct player *pplayer,
   tile_set_special(ptile, S_FALLOUT);
 
   /* FIXME: need a better way to guarantee fallout is cleaned up. */
-  if (!pplayer->ai.control) {
+  if (!pplayer->ai_data.control) {
     goodness = (goodness + best + 50) * 2;
   }
 
@@ -250,7 +250,7 @@ static int ai_calc_fallout(struct city *pcity, struct player *pplayer,
 static bool is_wet(struct player *pplayer, struct tile *ptile)
 {
   /* FIXME: this should check a handicap. */
-  if (!pplayer->ai.control && !map_is_known(ptile, pplayer)) {
+  if (!pplayer->ai_data.control && !map_is_known(ptile, pplayer)) {
     return FALSE;
   }
 
@@ -890,9 +890,9 @@ static int evaluate_improvements(struct unit *punit,
 	      } else if (act == ACTIVITY_RAILROAD) {
 		extra = road_bonus(ptile, S_RAILROAD) * 3;
 	      } else if (act == ACTIVITY_FALLOUT) {
-		extra = pplayer->ai.frost;
+		extra = pplayer->ai_data.frost;
 	      } else if (act == ACTIVITY_POLLUTION) {
-		extra = pplayer->ai.warmth;
+		extra = pplayer->ai_data.warmth;
 	      }    
 	      
 	      consider_settler_action(pplayer, act,
@@ -972,7 +972,7 @@ static void auto_settler_findwork(struct player *pplayer,
 
     /* Check that the mission is still possible.  If the tile has become
      * unavailable or the player has been autotoggled, call it off. */
-    if (!unit_owner(punit)->ai.control
+    if (!unit_owner(punit)->ai_data.control
 	|| !city_can_be_built_here(ptile, punit)) {
       UNIT_LOG(LOG_SETTLER, punit, "city founding mission failed");
       ai_unit_new_role(punit, AIUNIT_NONE, NULL);
@@ -1018,7 +1018,7 @@ static void auto_settler_findwork(struct player *pplayer,
     TIMING_LOG(AIT_WORKERS, TIMER_STOP);
   }
 
-  if (unit_has_type_flag(punit, F_CITIES) && pplayer->ai.control) {
+  if (unit_has_type_flag(punit, F_CITIES) && pplayer->ai_data.control) {
     /* may use a boat: */
     TIMING_LOG(AIT_SETTLERS, TIMER_START);
     find_best_city_placement(punit, &result, TRUE, FALSE);
@@ -1230,7 +1230,7 @@ void auto_settlers_player(struct player *pplayer)
   
   t = renew_timer_start(t, TIMER_CPU, TIMER_DEBUG);
 
-  if (pplayer->ai.control) {
+  if (pplayer->ai_data.control) {
     /* Set up our city map. */
     citymap_turn_init(pplayer);
   }
@@ -1247,24 +1247,24 @@ void auto_settlers_player(struct player *pplayer)
    * This depends heavily on the calculations in update_environmental_upset.
    * Aside from that it's more or less a WAG that simply grows incredibly
    * large as an environmental disaster approaches. */
-  pplayer->ai.warmth
+  pplayer->ai_data.warmth
     = (WARMING_FACTOR * game.info.heating / ((game.info.warminglevel + 1) / 2)
        + game.info.globalwarming);
-  pplayer->ai.frost
+  pplayer->ai_data.frost
     = (COOLING_FACTOR * game.info.cooling / ((game.info.coolinglevel + 1) / 2)
        + game.info.nuclearwinter);
 
   freelog(LOG_DEBUG, "Warmth = %d, game.globalwarming=%d",
-	  pplayer->ai.warmth, game.info.globalwarming);
+	  pplayer->ai_data.warmth, game.info.globalwarming);
   freelog(LOG_DEBUG, "Frost = %d, game.nuclearwinter=%d",
-	  pplayer->ai.warmth, game.info.nuclearwinter);
+	  pplayer->ai_data.warmth, game.info.nuclearwinter);
 
   /* Auto-settle with a settler unit if it's under AI control (e.g. human
    * player auto-settler mode) or if the player is an AI.  But don't
    * auto-settle with a unit under orders even for an AI player - these come
    * from the human player and take precedence. */
   unit_list_iterate_safe(pplayer->units, punit) {
-    if ((punit->ai.control || pplayer->ai.control)
+    if ((punit->ai.control || pplayer->ai_data.control)
 	&& (unit_has_type_flag(punit, F_SETTLERS)
 	    || unit_has_type_flag(punit, F_CITIES))
 	&& !unit_has_orders(punit)
@@ -1311,9 +1311,9 @@ void contemplate_new_city(struct city *pcity)
   virtualunit = create_unit_virtual(pplayer, pcity, unit_type, 0);
   virtualunit->tile = pcenter;
 
-  assert(pplayer->ai.control);
+  assert(pplayer->ai_data.control);
 
-  if (pplayer->ai.control) {
+  if (pplayer->ai_data.control) {
     struct cityresult result;
     bool is_coastal = is_ocean_near_tile(pcenter);
 

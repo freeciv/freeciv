@@ -174,7 +174,7 @@ bool is_player_dangerous(struct player *pplayer, struct player *aplayer)
     return TRUE;
   }
   
-  if (pplayer->ai.love[player_index(aplayer)] < MAX_AI_LOVE / 10) {
+  if (pplayer->ai_data.love[player_index(aplayer)] < MAX_AI_LOVE / 10) {
     /* We don't trust players who we don't like. Note that 
      * aplayer's units inside pplayer's borders decreases AI's love */
     return TRUE;
@@ -193,7 +193,7 @@ bool is_player_dangerous(struct player *pplayer, struct player *aplayer)
 *************************************************************************/
 bool ai_unit_execute_path(struct unit *punit, struct pf_path *path)
 {
-  const bool is_ai = unit_owner(punit)->ai.control;
+  const bool is_ai = unit_owner(punit)->ai_data.control;
   int i;
 
   /* We start with i = 1 for i = 0 is our present position */
@@ -658,7 +658,7 @@ void ai_fill_unit_param(struct pf_parameter *parameter,
 				      * SINGLE_MOVE
 				      / unit_type(punit)->move_rate);
   const bool barbarian = is_barbarian(unit_owner(punit));
-  const bool is_ai = unit_owner(punit)->ai.control;
+  const bool is_ai = unit_owner(punit)->ai_data.control;
   bool is_ferry = FALSE;
 
   if (punit->ai.ai_role != AIUNIT_HUNTER
@@ -974,7 +974,7 @@ bool ai_unit_attack(struct unit *punit, struct tile *ptile)
   bool alive;
 
   CHECK_UNIT(punit);
-  assert(unit_owner(punit)->ai.control);
+  assert(unit_owner(punit)->ai_data.control);
   assert(is_tiles_adjacent(punit->tile, ptile));
 
   unit_activity_handling(punit, ACTIVITY_IDLE);
@@ -1005,7 +1005,7 @@ bool ai_unit_move(struct unit *punit, struct tile *ptile)
   struct unit *bodyguard;
   int sanity = punit->id;
   struct player *pplayer = unit_owner(punit);
-  const bool is_ai = pplayer->ai.control;
+  const bool is_ai = pplayer->ai_data.control;
 
   CHECK_UNIT(punit);
   assert(is_tiles_adjacent(punit->tile, ptile));
@@ -1143,7 +1143,7 @@ void ai_government_change(struct player *pplayer, struct government *gov)
 int ai_gold_reserve(struct player *pplayer)
 {
   int i = total_player_citizens(pplayer)*2;
-  return MAX(pplayer->ai.maxbuycost, i);
+  return MAX(pplayer->ai_data.maxbuycost, i);
 }
 
 /**************************************************************************
@@ -1225,7 +1225,7 @@ void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
   struct player *plr = city_owner(pcity);
 
   improvement_iterate(pimprove) {
-    if (!plr->ai.control && is_wonder(pimprove)) {
+    if (!plr->ai_data.control && is_wonder(pimprove)) {
       continue; /* Humans should not be advised to build wonders or palace */
     }
     if (pcity->ai.building_want[improvement_index(pimprove)] > want

@@ -1144,7 +1144,7 @@ void handle_diplomacy_init_meeting(int counterpart, int initiated_from)
     return;
   }
 
-  if (client.conn.playing->ai.control) {
+  if (client.conn.playing->ai_data.control) {
     return;			/* Don't show if we are AI controlled. */
   }
 

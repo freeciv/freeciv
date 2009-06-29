@@ -641,12 +641,12 @@ int base_total_bulbs_required(const struct player *pplayer,
   }
 
   /* Assign a science penalty to the AI at easier skill levels.  This code
-   * can also be adpoted to create an extra-hard AI skill level where the AI
+   * can also be adopted to create an extra-hard AI skill level where the AI
    * gets science benefits */
 
-  if (pplayer && pplayer->ai.control) {
-    assert(pplayer->ai.science_cost > 0);
-    base_cost *= (double)pplayer->ai.science_cost / 100.0;
+  if (pplayer && pplayer->ai_data.control) {
+    assert(pplayer->ai_data.science_cost > 0);
+    base_cost *= (double)pplayer->ai_data.science_cost / 100.0;
   }
 
   base_cost *= (double)game.info.sciencebox / 100.0;

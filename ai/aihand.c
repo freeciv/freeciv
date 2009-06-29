@@ -412,7 +412,7 @@ static void ai_manage_government(struct player *pplayer)
        * We want something better pretty soon! */
       want += 25 * game.info.turn;
     }
-    pplayer->ai.tech_want[ai->goal.govt.req] += want;
+    pplayer->ai_data.tech_want[ai->goal.govt.req] += want;
     TECH_LOG(LOG_DEBUG, pplayer, advance_by_number(ai->goal.govt.req), 
              "ai_manage_government() + %d for %s",
              want,

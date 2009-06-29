@@ -259,7 +259,7 @@ static void finish_revolution(struct player *pplayer)
 		   nation_plural_for_player(pplayer),
 		   government_name_translation(government));
 
-  if (!pplayer->ai.control) {
+  if (!pplayer->ai_data.control) {
     /* Keep luxuries if we have any.  Try to max out science. -GJW */
     int max = get_player_bonus(pplayer, EFT_MAX_RATES);
 
@@ -304,7 +304,7 @@ void handle_player_change_government(struct player *pplayer, int government)
      * or even in the past (if the player is in anarchy and hasn't chosen
      * a government). */
     turns = pplayer->revolution_finishes - game.info.turn;
-  } else if ((pplayer->ai.control && !ai_handicap(pplayer, H_REVOLUTION))
+  } else if ((pplayer->ai_data.control && !ai_handicap(pplayer, H_REVOLUTION))
 	     || get_player_bonus(pplayer, EFT_NO_ANARCHY)) {
     /* AI players without the H_REVOLUTION handicap can skip anarchy */
     turns = 0;
@@ -913,12 +913,12 @@ static void package_player_common(struct player *plr,
 
   packet->is_alive=plr->is_alive;
   packet->is_connected=plr->is_connected;
-  packet->ai=plr->ai.control;
-  packet->ai_skill_level = plr->ai.control ? plr->ai.skill_level : 0;
+  packet->ai = plr->ai_data.control;
+  packet->ai_skill_level = plr->ai_data.control ? plr->ai_data.skill_level : 0;
   for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
-    packet->love[i] = plr->ai.love[i];
+    packet->love[i] = plr->ai_data.love[i];
   }
-  packet->barbarian_type = plr->ai.barbarian_type;
+  packet->barbarian_type = plr->ai_data.barbarian_type;
 
   packet->phase_done = plr->phase_done;
   packet->nturns_idle=plr->nturns_idle;
@@ -926,7 +926,7 @@ static void package_player_common(struct player *plr,
   for (i = 0; i < B_LAST/*improvement_count()*/; i++) {
     packet->small_wonders[i] = plr->small_wonders[i];
   }
-  packet->science_cost = plr->ai.science_cost;
+  packet->science_cost = plr->ai_data.science_cost;
 }
 
 /**************************************************************************
@@ -1277,10 +1277,10 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
 		     _("You have made contact with the %s, ruled by %s."),
 		     nation_plural_for_player(pplayer1),
 		     player_name(pplayer1));
-    if (pplayer1->ai.control) {
+    if (pplayer1->ai_data.control) {
       call_first_contact(pplayer1, pplayer2);
     }
-    if (pplayer2->ai.control && !pplayer1->ai.control) {
+    if (pplayer2->ai_data.control && !pplayer1->ai_data.control) {
       call_first_contact(pplayer2, pplayer1);
     }
     send_player_info(pplayer1, pplayer2);
@@ -1615,16 +1615,16 @@ static struct player *split_player(struct player *pplayer)
 
   /* Do the ai */
 
-  cplayer->ai.control = TRUE;
-  cplayer->ai.prev_gold = pplayer->ai.prev_gold;
-  cplayer->ai.maxbuycost = pplayer->ai.maxbuycost;
-  cplayer->ai.handicaps = pplayer->ai.handicaps;
-  cplayer->ai.warmth = pplayer->ai.warmth;
-  cplayer->ai.frost = pplayer->ai.frost;
+  cplayer->ai_data.control = TRUE;
+  cplayer->ai_data.prev_gold = pplayer->ai_data.prev_gold;
+  cplayer->ai_data.maxbuycost = pplayer->ai_data.maxbuycost;
+  cplayer->ai_data.handicaps = pplayer->ai_data.handicaps;
+  cplayer->ai_data.warmth = pplayer->ai_data.warmth;
+  cplayer->ai_data.frost = pplayer->ai_data.frost;
   set_ai_level_direct(cplayer, game.info.skill_level);
 
   advance_index_iterate(A_NONE, i) {
-    cplayer->ai.tech_want[i] = pplayer->ai.tech_want[i];
+    cplayer->ai_data.tech_want[i] = pplayer->ai_data.tech_want[i];
   } advance_index_iterate_end;
   
   /* change the original player */
@@ -1656,7 +1656,7 @@ static struct player *split_player(struct player *pplayer)
    * to avoid doing some ai calculations with bogus data. */
   ai_data_phase_init(cplayer, TRUE);
   assess_danger_player(cplayer);
-  if (pplayer->ai.control) {
+  if (pplayer->ai_data.control) {
     assess_danger_player(pplayer);
   }
 

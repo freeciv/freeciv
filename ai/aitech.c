@@ -93,10 +93,10 @@ static void ai_select_tech(struct player *pplayer,
 
       /* We only want it if we haven't got it (so AI is human after all) */
       if (steps > 0) { 
-	values[i] += pplayer->ai.tech_want[i];
+        values[i] += pplayer->ai_data.tech_want[i];
 	advance_index_iterate(A_FIRST, k) {
 	  if (is_tech_a_req_for_goal(pplayer, k, i)) {
-	    values[k] += pplayer->ai.tech_want[i] / steps;
+            values[k] += pplayer->ai_data.tech_want[i] / steps;
 	  }
 	} advance_index_iterate_end;
       }
@@ -125,7 +125,8 @@ static void ai_select_tech(struct player *pplayer,
       goal_values[i] /= steps;
       if (steps < 6) {
 	freelog(LOG_DEBUG, "%s: want = %d, value = %d, goal_value = %d",
-		advance_name_by_player(pplayer, i), pplayer->ai.tech_want[i],
+                advance_name_by_player(pplayer, i),
+                pplayer->ai_data.tech_want[i],
 		values[i], goal_values[i]);
       }
     }
@@ -304,7 +305,7 @@ struct unit_type *ai_wants_role_unit(struct player *pplayer,
       /* We already have a role unit of this kind */
       want /= 2;
     }
-    pplayer->ai.tech_want[advance_index(best_tech)] += want;
+    pplayer->ai_data.tech_want[advance_index(best_tech)] += want;
     TECH_LOG(LOG_DEBUG, pplayer, best_tech,
              "+ %d for %s by role",
              want,

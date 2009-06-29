@@ -221,7 +221,7 @@ static void popup_diplomacy_dialog(int other_player_id)
 {
   struct Diplomacy_dialog *pdialog = find_diplomacy_dialog(other_player_id);
 
-  if (NULL == client.conn.playing || client.conn.playing->ai.control) {
+  if (NULL == client.conn.playing || client.conn.playing->ai_data.control) {
     return;			/* Don't show if we are AI controlled. */
   }
 
