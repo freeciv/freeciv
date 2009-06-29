@@ -1210,7 +1210,8 @@ void static war_countdown(struct player *pplayer, struct player *target,
   players_iterate(ally) {
     if (!pplayers_allied(pplayer, ally) 
         || !ally->is_alive
-        || ally == target) {
+        || ally == target
+        || NEVER_MET(pplayer, ally)) {
       continue;
     }
 
