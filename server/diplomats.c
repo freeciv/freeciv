@@ -1043,17 +1043,22 @@ static void diplomat_charge_movement (struct unit *pdiplomat, struct tile *ptile
 
 /**************************************************************************
   This determines if a diplomat/spy succeeds against some defender,
-  who is also a diplomat or spy.
+  who is also a diplomat or spy. Note: a superspy attacker always
+  succeeds, otherwise a superspy defender always wins.
 
   Return TRUE if the "attacker" succeeds.
 **************************************************************************/
-static bool diplomat_success_vs_defender (struct unit *pattacker, 
-	struct unit *pdefender, struct tile *pdefender_tile)
+static bool diplomat_success_vs_defender(struct unit *pattacker,
+                                         struct unit *pdefender,
+                                         struct tile *pdefender_tile)
 {
   int chance = 50; /* Base 50% chance */
 
-  if (unit_has_type_flag(pdefender, F_SUPERSPY)) {
+  if (unit_has_type_flag(pattacker, F_SUPERSPY)) {
     return TRUE;
+  }
+  if (unit_has_type_flag(pdefender, F_SUPERSPY)) {
+    return FALSE;
   }
   if (unit_has_type_flag(pattacker, F_SPY)) {
     chance += 25;
@@ -1071,11 +1076,11 @@ static bool diplomat_success_vs_defender (struct unit *pattacker,
   } else {
     if (tile_has_base_flag_for_unit(pdefender_tile, unit_type(pdefender),
                                     BF_DIPLOMAT_DEFENSE)) {
-	chance -= chance * 25 / 100; /* 25% penalty */
+      chance -= chance * 25 / 100; /* 25% penalty */
     }
   }
   
-  return myrand(100) > chance;
+  return myrand(100) < chance;
 }
 
 /**************************************************************************
@@ -1096,12 +1101,13 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
   /* We don't need a _safe iterate since no transporters should be
    * destroyed. */
   unit_list_iterate(ptile->units, punit) {
-    if (unit_has_type_flag(punit, F_DIPLOMAT) || unit_has_type_flag(punit, F_SUPERSPY)) {
-      /* A F_SUPERSPY unit may not acutally be a spy, but a superboss which 
-         we cannot allow puny diplomats from getting the better of. Note that 
-         diplomat_success_vs_defender(punit) is always TRUE if the attacker
-         is F_SUPERSPY. Hence F_SUPERSPY vs F_SUPERSPY in a diplomatic contest
-         always kills the attacker. */
+    if (unit_has_type_flag(punit, F_DIPLOMAT)
+        || unit_has_type_flag(punit, F_SUPERSPY)) {
+      /* A F_SUPERSPY unit may not actually be a spy, but a superboss
+       * which we cannot allow puny diplomats from getting the better
+       * of. Note that diplomat_success_vs_defender() is always TRUE
+       * if the attacker is F_SUPERSPY. Hence F_SUPERSPY vs F_SUPERSPY
+       * in a diplomatic contest always kills the attacker. */
       if (diplomat_success_vs_defender(pdiplomat, punit, ptile) 
           && !unit_has_type_flag(punit, F_SUPERSPY)) {
 	/* Defending Spy/Diplomat dies. */
