@@ -24,7 +24,6 @@ void stdinhand_turn(void);
 void stdinhand_free(void);
 
 bool handle_stdin_input(struct connection *caller, char *str, bool check);
-void report_server_options(struct conn_list *dest, int which);
 void send_server_settings(struct conn_list *dest);
 void set_ai_level_direct(struct player *pplayer, enum ai_level level);
 void set_ai_level_directer(struct player *pplayer, enum ai_level level);

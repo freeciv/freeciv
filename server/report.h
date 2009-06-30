@@ -31,6 +31,4 @@ bool is_valid_demography(const char *demography,
 void report_demographics(struct connection *pconn);
 void report_final_scores(void);
 
-/* See also report_server_options() in stdinhand.h */
-
 #endif  /* FC__REPORT_H */
