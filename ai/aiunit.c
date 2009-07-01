@@ -2570,7 +2570,7 @@ void update_simple_ai_types(void)
 	&& !utype_has_flag(punittype, F_CIVILIAN)
 	&& !uclass_has_flag(utype_class(punittype), UCF_MISSILE)
 	&& !utype_has_flag(punittype, F_NO_LAND_ATTACK)
-        && utype_move_type(punittype) != AIR_MOVING
+        && !utype_fuel(punittype)
 	&& punittype->transport_capacity < 8) {
       simple_ai_types[i] = punittype;
       i++;
