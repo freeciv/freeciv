@@ -628,7 +628,7 @@ if test "x$client" = "xall" ; then
 fi
 
 dnl Check for GGZ
-if test "x$gui_gtk2" = "yes" ; then
+if test "x$gui_gtk2" = "xyes" ; then
   AC_GGZ_CHECK("gtk")
   GUI_gtk2_LIBS="$GUI_gtk2_LIBS $LIB_GGZ_GTK"
 else
