@@ -380,7 +380,7 @@ int get_defense_power(const struct unit *punit)
 {
   int db, power = base_get_defense_power(punit);
 
-  if (is_ground_unit(punit)) {
+  if (uclass_has_flag(unit_class(punit), UCF_TERRAIN_DEFENSE)) {
     db = 10 + tile_terrain(punit->tile)->defense_bonus / 10;
     if (tile_has_special(punit->tile, S_RIVER)) {
       db += (db * terrain_control.river_defense_bonus) / 100;

@@ -62,7 +62,8 @@ veteran_move_bonus = 0, 0, 0, 0
 ;
 ; ** Unit class Flags **
 ;
-; "TerrainSpeed"  = Units use terrain spesific speed
+; "TerrainSpeed"   = Units use terrain specific speed
+; "TerrainDefense" = Units gain defense bonus from terrain
 ; "DamageSlows"   = Damages units are slowed down
 ; "CanOccupyCity" = Military units of this class can occupy enemy cities
 ; "Missile"       = Unit is destroyed when it attacks
@@ -93,7 +94,8 @@ move_type     = "Land"
 min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
-                "CollectRansom", "ZOC", "CanFortify", "CanPillage"
+                "CollectRansom", "ZOC", "CanFortify", "CanPillage",
+                "TerrainDefense"
 
 [unitclass_sea]
 name          = _("Sea")

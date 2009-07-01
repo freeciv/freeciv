@@ -27,6 +27,7 @@
 
 enum unit_class_flag_id {
   UCF_TERRAIN_SPEED = 0,
+  UCF_TERRAIN_DEFENSE,
   UCF_DAMAGE_SLOWS,
   UCF_CAN_OCCUPY_CITY,    /* Can occupy enemy cities */
   UCF_MISSILE,
