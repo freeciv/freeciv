@@ -1775,6 +1775,8 @@ void handle_unit_orders(struct player *pplayer,
   }
 
   free_unit_orders(punit);
+  /* If we waited on a tile, reset punit->done_moving */
+  punit->done_moving = (punit->moves_left <= 0);
 
   if (packet->length == 0) {
     assert(!unit_has_orders(punit));
