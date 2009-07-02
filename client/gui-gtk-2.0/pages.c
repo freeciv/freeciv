@@ -1593,9 +1593,10 @@ GtkWidget *create_start_page(void)
    * connection_list_columns in gui_main.h. */
   store = gtk_tree_store_new(CL_NUM_COLUMNS, G_TYPE_INT,
                              G_TYPE_STRING, G_TYPE_BOOLEAN,
-                             G_TYPE_STRING, G_TYPE_STRING,
-                             G_TYPE_STRING, G_TYPE_STRING,
-                             G_TYPE_STRING, G_TYPE_INT);
+                             G_TYPE_STRING, GDK_TYPE_PIXBUF,
+			     G_TYPE_STRING, G_TYPE_STRING,
+			     G_TYPE_STRING, G_TYPE_STRING,
+			     G_TYPE_INT);
   connection_list_store = store;
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
@@ -1612,6 +1613,8 @@ GtkWidget *create_start_page(void)
                CL_COL_READY_STATE, NULL);
   add_tree_col(view, G_TYPE_STRING, Q_("?player:Leader"),
                CL_COL_PLAYER_NAME, NULL);
+  add_tree_col(view, GDK_TYPE_PIXBUF, _("Flag"),
+               CL_COL_FLAG, NULL);
   add_tree_col(view, G_TYPE_STRING, _("Nation"),
                CL_COL_NATION, NULL);
   add_tree_col(view, G_TYPE_STRING, _("Team"),

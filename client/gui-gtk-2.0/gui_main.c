@@ -82,6 +82,7 @@
 #include "optiondlg.h"
 #include "options.h"
 #include "pages.h"
+#include "plrdlg.h"
 #include "spaceshipdlg.h"
 #include "resources.h"
 #include "text.h"
@@ -1896,6 +1897,7 @@ void update_conn_list_dialog(void)
       && connection_list_store != NULL) {
     GtkTreeStore *store;
     GtkTreeIter iter, parent;
+    GdkPixbuf *pixbuf;
     bool is_ready;
     const char *nation, *plr_name, *team;
     char user_name[MAX_LEN_NAME + 8], rating_text[128], record_text[128];
@@ -1911,6 +1913,7 @@ void update_conn_list_dialog(void)
     players_iterate(pplayer) {
       conn_id = -1;
       access_level = ALLOW_NONE;
+      pixbuf = pplayer->nation ? get_flag(pplayer->nation) : NULL;;
 
       conn_list_iterate(pplayer->connections, pconn) {
         if (pconn->playing == pplayer && !pconn->observer) {
@@ -1978,6 +1981,7 @@ void update_conn_list_dialog(void)
                          CL_COL_USER_NAME, user_name,
                          CL_COL_READY_STATE, is_ready,
                          CL_COL_PLAYER_NAME, plr_name,
+			 CL_COL_FLAG, pixbuf,
                          CL_COL_NATION, nation,
                          CL_COL_TEAM, team,
                          CL_COL_GGZ_RECORD, record_text,
@@ -1997,7 +2001,10 @@ void update_conn_list_dialog(void)
                            CL_COL_TEAM, _("Observer"),
                            CL_COL_CONN_ID, pconn->id, -1);
       } conn_list_iterate_end;
-      
+
+      if (pixbuf) {
+	g_object_unref(pixbuf);
+      }
     } players_iterate_end;
 
     /* Finally, insert global observers and detached connections. */

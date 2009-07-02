@@ -90,6 +90,7 @@ enum connection_list_columns {
   CL_COL_USER_NAME,
   CL_COL_READY_STATE,
   CL_COL_PLAYER_NAME,
+  CL_COL_FLAG,
   CL_COL_NATION,
   CL_COL_TEAM,
   CL_COL_GGZ_RECORD,
