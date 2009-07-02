@@ -96,6 +96,7 @@ static const char *effect_type_names[EFT_LAST] = {
   "Turn_Years",
   "Slow_Down_Timeline",
   "Civil_War_Chance",
+  "Migration_Pct",
   "Empire_Size_Base",
   "Empire_Size_Step",
   "Max_Rates",

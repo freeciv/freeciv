@@ -728,6 +728,19 @@ static int improvement_effect_value(struct player *pplayer,
   case EFT_TECH_COST_FACTOR:
     v -= amount * 50;
     break;
+  case EFT_MIGRATION_PCT:
+    /* consider all foreign cities within the set distance */
+    iterate_outward(city_tile(pcity), game.info.mgr_distance + 1, ptile) {
+      struct city *acity = tile_city(ptile);
+
+      if (!acity || acity == pcity || city_owner(acity) == pplayer) {
+        /* no city, the city in the center or own city */
+        continue;
+      }
+
+      v += amount; /* AI wants migration into its cities! */
+    } iterate_outward_end;
+    break;
   case EFT_LAST:
     freelog(LOG_ERROR, "Bad effect type.");
     break;

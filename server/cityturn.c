@@ -2248,6 +2248,7 @@ static bool disband_city(struct city *pcity)
 
   * if the city has at least one wonder a factor of 1.25 is added
   * for the capital an additional factor of 1.25 is used
+  * the score is also modified by the effect EFT_MIGRATION_PCT
 **************************************************************************/
 static float city_migration_score(struct city *pcity)
 {
@@ -2300,6 +2301,9 @@ static float city_migration_score(struct city *pcity)
     /* the capital is a magnet for the citizens */
     score *= 1.25;
   }
+
+  /* take into account effects */
+  score *= (1.0 + get_city_bonus(pcity, EFT_MIGRATION_PCT) / 100);
 
   freelog(LOG_DEBUG, "[M] %s score: %.3f", city_name(pcity), score);
 

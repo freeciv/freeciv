@@ -318,3 +318,7 @@ Shield2Gold_Factor
 
 Tile_Workable
     If value != 0, city can work target tile.
+
+Migration_Pct
+    Increase the calculated migration score for the a city by amount in
+    percent.

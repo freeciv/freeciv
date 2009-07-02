@@ -83,6 +83,7 @@ enum effect_type {
   EFT_TURN_YEARS,
   EFT_SLOW_DOWN_TIMELINE, /* Space module tech slowdown */
   EFT_CIVIL_WAR_CHANCE,
+  EFT_MIGRATION_PCT, /* change of the migration score */
   EFT_EMPIRE_SIZE_BASE, /* +1 unhappy when more than this cities */
   EFT_EMPIRE_SIZE_STEP, /* adds additional +1 unhappy steps to above */
   EFT_MAX_RATES,
