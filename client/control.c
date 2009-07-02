@@ -1187,7 +1187,7 @@ void request_unit_return(struct unit *punit)
   struct pf_path *path;
 
   if ((path = path_to_nearest_allied_city(punit))) {
-    int turns = pf_last_position(path)->turn;
+    int turns = pf_path_get_last_position(path)->turn;
     int max_hp = unit_type(punit)->hp;
 
     if (punit->hp + turns *
@@ -1202,7 +1202,7 @@ void request_unit_return(struct unit *punit)
     } else {
       send_goto_path(punit, path, NULL);
     }
-    pf_destroy_path(path);
+    pf_path_destroy(path);
   }
 }
 

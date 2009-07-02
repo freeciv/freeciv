@@ -424,7 +424,7 @@ bool ai_follow_path(struct unit *punit, struct pf_path *path,
 void ai_log_path(struct unit *punit,
 		 struct pf_path *path, struct pf_parameter *parameter)
 {
-  const struct pf_position *last = pf_last_position(path);
+  const struct pf_position *last = pf_path_get_last_position(path);
   const int cc = PF_TURN_FACTOR * last->total_MC
                  + parameter->move_rate * last->total_EC;
   const int tc = cc / (PF_TURN_FACTOR *parameter->move_rate); 
@@ -447,8 +447,8 @@ bool ai_unit_goto_constrained(struct unit *punit, struct tile *ptile,
 			      struct pf_parameter *parameter)
 {
   bool alive = TRUE;
-  struct pf_map *map = NULL;
-  struct pf_path *path = NULL;
+  struct pf_map *pfm;
+  struct pf_path *path;
 
   UNIT_LOG(LOG_DEBUG, punit, "constrained goto to %d,%d",
 	   ptile->x, ptile->y);
@@ -475,8 +475,8 @@ bool ai_unit_goto_constrained(struct unit *punit, struct tile *ptile,
     return TRUE;
   }
 
-  map = pf_create_map(parameter);
-  path = pf_get_path(map, ptile);
+  pfm = pf_map_new(parameter);
+  path = pf_map_get_path(pfm, ptile);
 
   if (path) {
     ai_log_path(punit, path, parameter);
@@ -486,8 +486,8 @@ bool ai_unit_goto_constrained(struct unit *punit, struct tile *ptile,
     UNIT_LOG(LOG_DEBUG, punit, "no path to destination");
   }
 
-  pf_destroy_path(path);
-  pf_destroy_map(map);
+  pf_path_destroy(path);
+  pf_map_destroy(pfm);
 
   return alive;
 }

@@ -176,56 +176,70 @@
  *
  * A) the caller knows the map position of the goal and wants to know the 
  * path:
- * 
+ *
  * struct pf_parameter parameter;
- * struct pf_map *pf_map;
- * struct pf_path path;
+ * struct pf_map *pfm;
+ * struct pf_path *path;
  * 
  * // fill parameter (see below)
  *
- * pf_map = pf_create_map(&parameter);
+ * pfm = pf_map_new(&parameter);
  *
- * if(pf_get_path(pf_map, goal_x, goal_y, &path)) {
+ * if ((path = pf_map_get_path(pfm, ptile))) {
  *   // success, use path
+ *   pf_path_destroy(path);
  * } else {
  *   // no path could be found
  * }
  *
- * pf_destroy_map(pf_map);
+ * pf_map_destroy(pfm);
  *
- * You may call pf_get_path multiple times with the same pf_map.
+ * You may call pf_map_get_path multiple times with the same pfm.
  *
  * B) the caller doesn't know the map position of the goal yet (but knows 
  * what he is looking for, e.g. a port) and wants to iterate over
  * all paths in order of increasing costs (total_CC):
  *
  * struct pf_parameter parameter;
- * struct pf_map *pf_map;
- * struct pf_path path;
+ * struct pf_map *pfm;
  * 
  * // fill parameter (see below)
  *
- * pf_map = pf_create_map(&parameter);
+ * pfm = pf_map_new(&parameter);
  *
- * while (pf_next(pf_map)) {
- *   // get information about the next shortest path / next nearest position
+ * pf_map_iterate_*(pfm, something, TRUE) {
  *
- *   // do action (ignoring, saving, aborting the loop, ...) for this postion
- * }
+ * } pf_map_iterate_*_end;
  *
- * pf_destroy_map(pf_map);
+ * pf_map_destroy(pfm);
  *
- * Depending on the kind of information required, the first part of the
- * while-body may look like:
+ * Depending on the kind of information required, the iteration macro
+ * should be:
  *
- *  1) information (for example the total MC or the number of turns) on the 
+ *  1) tile iteration:
+ *     pf_map_iterate_tiles(pfm, ptile, TRUE) {
+ *       // do something
+ *     } pf_map_iterate_tiles_end;
+ *
+ *  2) move cost iteration on the nearest position:
+ *     pf_map_iterate_move_costs(pfm, ptile, move_cost, TRUE) {
+ *       // do something
+ *     } pf_map_iterate_move_costs_end;
+ *
+ *  3) information (for example the total MC and the number of turns) on the 
  *  next nearest position:
- *     struct pf_position pos;
- *     pf_next_get_position(pf_map, &pos);
+ *     pf_map_iterate_positions(pfm, pos, TRUE) {
+ *       // do something
+ *     } pf_map_iterate_positions_end;
  *
- *  2) information about the whole path (leading to the next nearest position):
- *     struct pf_path path;
- *     pf_next_get_path(pf_map, &path);
+ *  4) information about the whole path (leading to the next nearest position):
+ *     pf_map_iterate_pathes(pfm, path, TRUE) {
+ *       // do something
+ *       pf_path_destroy(path);
+ *     } pf_map_iterate_pathes_end;
+ *
+ * The third argument passed to the iteration macros is a condition that
+ * controls if the start tile of the pf_parameter should iterated or not.
  *
  *
  * FILLING the struct pf_parameter:
@@ -235,7 +249,7 @@
  * Hints:
  * 1. It is useful to limit the expansion of unknown tiles with a get_TB
  * callback.  In this case you might set the unknown_MC to be 0.
- * 2. If there are two paths of the same cost to a tile (x,y), you are
+ * 2. If there are two paths of the same cost to a tile, you are
  * not guaranteed to get the one with the least steps in it.  If you care,
  * specifying EC to be 1 will do the job.
  * 3. To prevent AI from thinking that it can pass through "chokepoints"
@@ -405,58 +419,148 @@ struct pf_parameter {
 /* The map itself.  Opaque type. */
 struct pf_map;
 
+
+
 /* ======================== Public Interface =========================== */
 
 /* Returns a map which can be used to query for paths or to iterate
  * over all paths. Does not perform any computations itself, just sets
  * everything up. */
-struct pf_map *pf_create_map(const struct pf_parameter *const parameter);
+struct pf_map *pf_map_new(const struct pf_parameter *const parameter);
 
 /* After usage the map should be destroyed. */
-void pf_destroy_map(struct pf_map *pfm);
+void pf_map_destroy(struct pf_map *pfm);
 
 /* Tries to find the best path in the given map to the position ptile.
- * If NULL is returned no path could be found.  The pf_last_position of such 
- * path would be the same (almost) as the result of the call to 
- * pf_get_position(pf_map, ptile, &pos) */
-struct pf_path *pf_get_path(struct pf_map *pfm, struct tile *ptile);
+ * If NULL is returned no path could be found.  The pf_path_get_last_position
+ * of such path would be the same (almost) as the result of the call to 
+ * pf_map_get_position(pfm, ptile, &pos) */
+struct pf_path *pf_map_get_path(struct pf_map *pfm, struct tile *ptile);
 
 /* Iterates the map until it reaches ptile.  Then fills the info
  * about it into pos.  Returns FALSE if position is unreachable.
  * Contents of pos in this case is not defined. */
-bool pf_get_position(struct pf_map *pfm, struct tile *ptile,
-                     struct pf_position *pos);
+bool pf_map_get_position(struct pf_map *pfm, struct tile *ptile,
+			 struct pf_position *pos);
 
 /* Iterates the path-finding algorithm one step further, to the next 
  * nearest position.  This full info on this position and the best path to 
- * it can be obtained using pf_next_get_position and pf_next_get_path, 
- * correspondingly.  Returns FALSE if no further positions are available in 
- * this map.  If pf_get_path/position(pf_map, ptile, .) has been called
- * before the call to pf_next, the iteration  will resume from ptile */
-bool pf_next(struct pf_map *pfm);
+ * it can be obtained using pf_map_iterator_get_position and
+ * pf_map_iteratir_get_path, correspondingly.  Returns FALSE if no
+ * further positions are available in this map.  If pf_map_get_path(pfm, ptile)
+ * or pf_map_get_position(pfm, ptile, &pos) has been called before the call
+ * to pf_map_iterate(pfm), the iteration will resume from ptile. */
+bool pf_map_iterate(struct pf_map *pfm);
 
-/* Return the full info on the position reached in the last call to 
- * pf_next. */
-void pf_next_get_position(struct pf_map *pfm, struct pf_position *pos);
+/* Return the map iterator tile. */
+struct tile *pf_map_iterator_get_tile(struct pf_map *pfm);
 
-/* Return the path to the position reached in the last call to pf_next. */
-struct pf_path *pf_next_get_path(struct pf_map *pfm);
+/* Return the move cost at the map iterator tile. */
+int pf_map_iterator_get_move_cost(struct pf_map *pfm);
+
+/* Return the map iterator position.  This is equivalent to
+ * pf_map_get_position(pfm, pf_map_iterator_get_tile(pfm), &pos). */
+void pf_map_iterator_get_position(struct pf_map *pfm,
+				  struct pf_position *pos);
+
+/* Return the map iterator path.  This is equivalent to
+ * pf_map_get_path(pfm, pf_map_iterator_get_tile(pfm)). */
+struct pf_path *pf_map_iterator_get_path(struct pf_map *pfm);
 
 /* Return the current parameters for the given map. */
-const struct pf_parameter *pf_get_parameter(const struct pf_map *pfm);
+const struct pf_parameter *pf_map_get_parameter(const struct pf_map *pfm);
 
 
 
 /* Print the path via freelog and the given log-level. For
  * debugging purposes. Make sure the path is valid (if you
- * got it from pf_get_path). */
-void pf_print_path(int log_level, const struct pf_path *path);
+ * got it from pf_map_get_path()). */
+void pf_path_print(const struct pf_path *path, int log_level);
 
 /* After use, a path must be destroyed. pf_destroy_path will also
- * accept NULL (which is returned by pf_get_path in error case). */
-void pf_destroy_path(struct pf_path *path);
+ * accept NULL (which is returned by pf_map_get_path in error case). */
+void pf_path_destroy(struct pf_path *path);
 
 /* Returns the last position of the given path. */
-const struct pf_position *pf_last_position(const struct pf_path *path);
+const struct pf_position *pf_path_get_last_position(const struct pf_path *path);
 
-#endif
+
+
+/*
+ * This macro iterates all reachable tiles.
+ *
+ * - pfm: A pf_map structure pointer.
+ * - tile_iter: The name of the iterator to use (type struct tile *).
+ * - from_start_tile: A boolean value which indicate if the start_tile
+ * should be iterated or not.
+ */
+#define pf_map_iterate_tiles(pfm, tile_iter, from_start_tile)\
+if ((from_start_tile) || pf_map_iterate((pfm))) {\
+  struct pf_map *__pf_map = (pfm);\
+  struct tile *tile_iter;\
+  do {\
+    tile_iter = pf_map_iterator_get_tile(__pf_map);
+#define pf_map_iterate_tiles_end\
+  } while (pf_map_iterate(__pf_map));\
+}
+
+/*
+ * This macro iterates all reachable tiles and their move costs.
+ *
+ * - pfm: A pf_map structure pointer.
+ * - tile_iter: The name of the iterator to use (type struct tile *).
+ * - move_cost: The name of the variable containing the move cost info.
+ * - from_start_tile: A boolean value which indicate if the start_tile
+ * should be iterated or not.
+ */
+#define pf_map_iterate_move_costs(pfm, tile_iter, move_cost, from_start_tile)\
+if ((from_start_tile) || pf_map_iterate((pfm))) {\
+  struct pf_map *__pf_map = (pfm);\
+  struct tile *tile_iter;\
+  int move_cost;\
+  do {\
+    tile_iter = pf_map_iterator_get_tile(__pf_map);\
+    move_cost = pf_map_iterator_get_move_cost(__pf_map);
+#define pf_map_iterate_move_costs_end\
+  } while (pf_map_iterate(__pf_map));\
+}
+
+/*
+ * This macro iterates all reachable tiles and fill a pf_position
+ * structure as info.
+ *
+ * - pfm: A pf_map structure pointer.
+ * - pos_iter: The name of the iterator to use (type struct pf_position).
+ * - from_start_tile: A boolean value which indicate if the start_tile
+ * should be iterated or not.
+ */
+#define pf_map_iterate_positions(pfm, pos_iter, from_start_tile)\
+if ((from_start_tile) || pf_map_iterate((pfm))) {\
+  struct pf_map *__pf_map = (pfm);\
+  struct pf_position pos_iter;\
+  do {\
+    pf_map_iterator_get_position(__pf_map, &pos_iter);
+#define pf_map_iterate_positions_end\
+  } while (pf_map_iterate(__pf_map));\
+}
+
+/*
+ * This macro iterates all possible pathes.
+ * NB: you need to free the pathes with pf_path_destroy(path_iter).
+ *
+ * - pfm: A pf_map structure pointer.
+ * - path_iter: The name of the iterator to use (type struct pf_path *).
+ * - from_start_tile: A boolean value which indicate if the start_tile
+ * should be iterated or not.
+ */
+#define pf_map_iterate_pathes(pfm, path_iter, from_start_tile)\
+if ((from_start_tile) || pf_map_iterate((pfm))) {\
+  struct pf_map *__pf_map = (pfm);\
+  struct pf_path *path_iter;\
+  do {\
+    path_iter = pf_map_iterator_get_path(__pf_map);
+#define pf_map_iterate_pathes_end\
+  } while (pf_map_iterate(__pf_map));\
+}
+
+#endif /* FC__PATH_FINDING_H */

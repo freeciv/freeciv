@@ -1063,7 +1063,7 @@ static void auto_settler_findwork(struct player *pplayer,
 
   /* Run the "autosettler" program */
   if (punit->ai.ai_role == AIUNIT_AUTO_SETTLER) {
-    struct pf_map *map;
+    struct pf_map *pfm;
     struct pf_path *path;
     struct pf_parameter parameter;
 
@@ -1109,8 +1109,8 @@ static void auto_settler_findwork(struct player *pplayer,
     }
 
     pft_fill_unit_parameter(&parameter, punit);
-    map = pf_create_map(&parameter);
-    path = pf_get_path(map, best_tile);
+    pfm = pf_map_new(&parameter);
+    path = pf_map_get_path(pfm, best_tile);
 
     if (path) {
       bool alive;
@@ -1124,13 +1124,13 @@ static void auto_settler_findwork(struct player *pplayer,
         send_unit_info(NULL, punit); /* FIXME: probably duplicate */
       }
 
-      pf_destroy_path(path);
+      pf_path_destroy(path);
     } else {
       freelog(LOG_DEBUG, "Autosettler does not find path (%d,%d) -> (%d,%d)",
               punit->tile->x, punit->tile->y, best_tile->x, best_tile->y);
     }
 
-    pf_destroy_map(map);
+    pf_map_destroy(pfm);
 
     return;
   }

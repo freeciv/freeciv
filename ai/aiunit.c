@@ -46,9 +46,6 @@
 #include "unithand.h"
 #include "unittools.h"
 
-#include "path_finding.h"
-#include "pf_tools.h"
-
 #include "advmilitary.h"
 #include "aiair.h"
 #include "aicity.h"
@@ -611,31 +608,28 @@ static struct pf_path *find_rampage_target(struct unit *punit,
    * enemy units because we are looking for trouble!
    * Hence no call ai_avoid_risks()
    */
-  
-  tgt_map = pf_create_map(&parameter);
-  while (pf_next(tgt_map)) {
-    struct pf_position pos;
+
+  tgt_map = pf_map_new(&parameter);
+  pf_map_iterate_move_costs(tgt_map, iter_tile, move_cost, FALSE) {
     int want;
     bool move_needed;
     int thresh;
  
-    pf_next_get_position(tgt_map, &pos);
-    
-    if (pos.total_MC > punit->moves_left) {
+    if (move_cost > punit->moves_left) {
       /* This is too far */
       break;
     }
 
     if (ai_handicap(pplayer, H_TARGETS) 
-        && !map_is_known_and_seen(pos.tile, pplayer, V_MAIN)) {
+        && !map_is_known_and_seen(iter_tile, pplayer, V_MAIN)) {
       /* The target is under fog of war */
       continue;
     }
     
-    want = ai_rampage_want(punit, pos.tile);
+    want = ai_rampage_want(punit, iter_tile);
 
     /* Negative want means move needed even though the tiles are adjacent */
-    move_needed = (!is_tiles_adjacent(punit->tile, pos.tile)
+    move_needed = (!is_tiles_adjacent(punit->tile, iter_tile)
                    || want < 0);
     /* Select the relevant threshold */
     thresh = (move_needed ? thresh_move : thresh_adj);
@@ -645,17 +639,17 @@ static struct pf_path *find_rampage_target(struct unit *punit,
       /* The new want exceeds both the previous maximum 
        * and the relevant threshold, so it's worth recording */
       max_want = want;
-      ptile = pos.tile;
+      ptile = iter_tile;
     }
-  }
+  } pf_map_iterate_move_costs_end;
 
   if (max_want > 0) {
     /* We found something */
-    path = pf_get_path(tgt_map, ptile);
+    path = pf_map_get_path(tgt_map, ptile);
     assert(path != NULL);
   }
 
-  pf_destroy_map(tgt_map);
+  pf_map_destroy(tgt_map);
   
   return path;
 }
@@ -675,7 +669,7 @@ static struct pf_path *find_rampage_target(struct unit *punit,
   Returns TRUE if survived the rampage session.
 **************************************************************************/
 bool ai_military_rampage(struct unit *punit, int thresh_adj, 
-                                int thresh_move)
+			 int thresh_move)
 {
   int count = punit->moves_left + 1; /* break any infinite loops */
   struct pf_path *path = NULL;
@@ -693,7 +687,7 @@ bool ai_military_rampage(struct unit *punit, int thresh_adj,
       /* Died */
       count = -1;
     }
-    pf_destroy_path(path);
+    pf_path_destroy(path);
     path = NULL;
   }
 

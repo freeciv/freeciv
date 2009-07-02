@@ -267,7 +267,7 @@ enum unit_move_result ai_manage_explorer(struct unit *punit)
   int best_MC = FC_INFINITY;
 
   /* Path-finding stuff */
-  struct pf_map *map;
+  struct pf_map *pfm;
   struct pf_parameter parameter;
 
 #define DIST_FACTOR   0.6
@@ -289,18 +289,15 @@ enum unit_move_result ai_manage_explorer(struct unit *punit)
   /* When exploring, even AI should pretend to not cheat. */
   parameter.omniscience = FALSE;
 
-  map = pf_create_map(&parameter);
-  while (pf_next(map)) {
+  pfm = pf_map_new(&parameter);
+  pf_map_iterate_move_costs(pfm, ptile, move_cost, FALSE) {
     int desirable;
     double log_desirable;
-    struct pf_position pos;
 
-    pf_next_get_position(map, &pos);
-    
     /* Our callback should insure this. */
-    assert(map_is_known(pos.tile, pplayer));
-    
-    desirable = explorer_desirable(pos.tile, pplayer, punit);
+    assert(map_is_known(ptile, pplayer));
+
+    desirable = explorer_desirable(ptile, pplayer, punit);
 
     if (desirable <= 0) { 
       /* Totally non-desirable tile. No need to continue. */
@@ -331,12 +328,12 @@ enum unit_move_result ai_manage_explorer(struct unit *punit)
      * the conditional below. It looks cryptic, but all it is is testing which
      * of two goodnesses is bigger after taking the natural log of both sides.
      */
-    if (log_desirable + pos.total_MC * logDF 
+    if (log_desirable + move_cost * logDF 
 	> log_most_desirable + best_MC * logDF) {
 
       log_most_desirable = log_desirable;
-      best_tile = pos.tile;
-      best_MC = pos.total_MC;
+      best_tile = ptile;
+      best_MC = move_cost;
 
       /* take the natural log and solve equation (1) above.  We round
        * max_dist down (is this correct?). */
@@ -344,11 +341,11 @@ enum unit_move_result ai_manage_explorer(struct unit *punit)
     }
 
     /* let's not go further than this */
-    if (pos.total_MC > max_dist) {
+    if (move_cost > max_dist) {
       break;
     }
-  }
-  pf_destroy_map(map);
+  } pf_map_iterate_move_costs_end;
+  pf_map_destroy(pfm);
 
   TIMING_LOG(AIT_EXPLORER, TIMER_STOP);
 

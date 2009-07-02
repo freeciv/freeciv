@@ -894,9 +894,10 @@ struct pf_path *pft_concat(struct pf_path *dest_path,
   } else {
     int old_length = dest_path->length;
 
-    assert(pf_last_position(dest_path)->tile == src_path->positions[0].tile);
-    assert(pf_last_position(dest_path)->moves_left ==
-	   src_path->positions[0].moves_left);
+    assert(pf_path_get_last_position(dest_path)->tile
+	   == src_path->positions[0].tile);
+    assert(pf_path_get_last_position(dest_path)->moves_left
+	   == src_path->positions[0].moves_left);
     dest_path->length += src_path->length - 1;
     dest_path->positions =
 	fc_realloc(dest_path->positions,

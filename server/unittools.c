@@ -326,19 +326,20 @@ void player_restore_units(struct player *pplayer)
         } else {
           bool alive = true;
 
-          struct pf_map *map;
+          struct pf_map *pfm;
           struct pf_parameter parameter;
 
           pft_fill_unit_parameter(&parameter, punit);
-          map = pf_create_map(&parameter);
+          pfm = pf_map_new(&parameter);
 
-          pf_iterator(map, pos) {
-            if (pos.total_MC > punit->moves_left) {
+          pf_map_iterate_move_costs(pfm, ptile, move_cost, TRUE) {
+            if (move_cost > punit->moves_left) {
               /* Too far */
               break;
             }
 
-            if (is_airunit_refuel_point(pos.tile, pplayer, unit_type(punit), FALSE)) {
+            if (is_airunit_refuel_point(ptile, pplayer,
+					unit_type(punit), FALSE)) {
 
               struct pf_path *path;
               int id = punit->id;
@@ -347,13 +348,13 @@ void player_restore_units(struct player *pplayer)
                * we free them before engaging goto. */
               free_unit_orders(punit);
 
-              path = pf_get_path(map, pos.tile);
+              path = pf_map_get_path(pfm, ptile);
 
-	      alive = ai_follow_path(punit, path, pos.tile);
+	      alive = ai_follow_path(punit, path, ptile);
 
 	      if (!alive) {
                 freelog(LOG_ERROR, "rescue plane: unit %d died enroute!", id);
-              } else if (!same_pos(punit->tile, pos.tile)) {
+              } else if (!same_pos(punit->tile, ptile)) {
                   /* Enemy units probably blocked our route
                    * FIXME: We should try find alternative route around
                    * the enemy unit instead of just giving up and crashing. */
@@ -379,11 +380,11 @@ void player_restore_units(struct player *pplayer)
                               _("Your %s has returned to refuel."),
                               unit_name_translation(punit));
 	      }
-              pf_destroy_path(path);
+              pf_path_destroy(path);
               break;
             }
-          } pf_iterator_end;
-          pf_destroy_map(map);
+          } pf_map_iterate_move_costs_end;
+          pf_map_destroy(pfm);
 
           if (!alive) {
             /* Unit died trying to move to refuel point. */

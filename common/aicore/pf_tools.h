@@ -59,11 +59,4 @@ enum tile_behavior no_intermediate_fights(const struct tile *ptile,
                                           enum known_type known,
                                           const struct pf_parameter *param);
 
-#define pf_iterator(map, position) {                       \
-  struct pf_position position;                             \
-  while (pf_next(map)) {                                   \
-    pf_next_get_position(map, &position);
-
-#define pf_iterator_end }}
-
 #endif				/* FC__PF_TOOLS_H */

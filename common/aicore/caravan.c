@@ -166,17 +166,17 @@ static void caravan_search_from(const struct unit *caravan,
                                 int turns_before, int moves_left_before,
                                 search_callback callback,
                                 void *callback_data) {
-  struct pf_map *map;
+  struct pf_map *pfm;
   struct pf_parameter pfparam;
   int end_time;
 
   end_time = param->horizon - turns_before;
 
   /* Initialize the pf run. */
-  pft_fill_unit_parameter(&pfparam, (struct unit*) caravan);
+  pft_fill_unit_parameter(&pfparam, (struct unit *) caravan);
   pfparam.start_tile = start_tile;
   pfparam.moves_left_initially = moves_left_before;
-  map = pf_create_map(&pfparam);
+  pfm = pf_map_new(&pfparam);
 
   /* For every tile in distance order:
      quit if we've exceeded the maximum number of turns
@@ -184,24 +184,21 @@ static void caravan_search_from(const struct unit *caravan,
      Do-while loop rather than while loop to make sure to process the
      start tile.
    */
-  do {
-    struct pf_position p;
+  pf_map_iterate_positions(pfm, pos, TRUE) {
     struct city *pcity;
 
-    pf_next_get_position(map, &p);
-    if (p.turn > end_time) {
+    if (pos.turn > end_time) {
       break;
     }
 
-    pcity = tile_city(p.tile);
-    if (pcity) {
-      bool stop = callback(callback_data, pcity, turns_before + p.turn,
-                           p.moves_left);
-      if(stop) break;
+    pcity = tile_city(pos.tile);
+    if (pcity && callback(callback_data, pcity, turns_before + pos.turn,
+			  pos.moves_left)) {
+      break;
     }
-  } while (pf_next(map));
+  } pf_map_iterate_positions_end;
 
-  pf_destroy_map(map);
+  pf_map_destroy(pfm);
 }
 
 

@@ -277,7 +277,7 @@ static void ai_hunter_try_launch(struct player *pplayer,
 {
   int target_sanity = target->id;
   struct pf_parameter parameter;
-  struct pf_map *map;
+  struct pf_map *pfm;
 
   unit_list_iterate(punit->tile->units, missile) {
     struct unit *sucker = NULL;
@@ -286,20 +286,19 @@ static void ai_hunter_try_launch(struct player *pplayer,
         && uclass_has_flag(unit_class(missile), UCF_MISSILE)) {
       UNIT_LOG(LOGLEVEL_HUNT, missile, "checking for hunt targets");
       pft_fill_unit_parameter(&parameter, punit);
-      map = pf_create_map(&parameter);
+      pfm = pf_map_new(&parameter);
 
-      pf_iterator(map, pos) {
-        if (pos.total_MC > missile->moves_left / SINGLE_MOVE) {
+      pf_map_iterate_move_costs(pfm, ptile, move_cost, FALSE) {
+        if (move_cost > missile->moves_left / SINGLE_MOVE) {
           break;
         }
-        if (tile_city(pos.tile)
-            || !can_unit_attack_tile(punit, pos.tile)) {
+        if (tile_city(ptile) || !can_unit_attack_tile(punit, ptile)) {
           continue;
         }
-        unit_list_iterate(pos.tile->units, victim) {
+        unit_list_iterate(ptile->units, victim) {
           struct unit_type *ut = unit_type(victim);
-          enum diplstate_type ds = pplayer_get_diplstate(pplayer, 
-                                                         unit_owner(victim))->type;
+          enum diplstate_type ds =
+	    pplayer_get_diplstate(pplayer, unit_owner(victim))->type;
 
           if (ds != DS_WAR) {
             continue;
@@ -308,10 +307,10 @@ static void ai_hunter_try_launch(struct player *pplayer,
             sucker = victim;
             UNIT_LOG(LOGLEVEL_HUNT, missile, "found primary target %d(%d, %d)"
                      " dist %d", victim->id, TILE_XY(victim->tile), 
-                     pos.total_MC);
+                     move_cost);
             break; /* Our target! Get him!!! */
           }
-          if (ut->move_rate + victim->moves_left > pos.total_MC
+          if (ut->move_rate + victim->moves_left > move_cost
               && ATTACK_POWER(victim) > DEFENCE_POWER(punit)
               && (utype_move_type(ut) == SEA_MOVING
                   || utype_move_type(ut) == AIR_MOVING)) {
@@ -325,8 +324,8 @@ static void ai_hunter_try_launch(struct player *pplayer,
         if (sucker) {
           break; /* found something - kill it! */
         }
-      } pf_iterator_end;
-      pf_destroy_map(map);
+      } pf_map_iterate_move_costs_end;
+      pf_map_destroy(pfm);
       if (sucker) {
         if (game_find_unit_by_number(missile->transported_by)) {
           unload_unit_from_transporter(missile);
@@ -385,7 +384,7 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
 {
   bool is_virtual = (punit->id == 0);
   struct pf_parameter parameter;
-  struct pf_map *map;
+  struct pf_map *pfm;
   int limit = unit_move_rate(punit) * 6;
   struct unit *original_target = game_find_unit_by_number(punit->ai.target);
   int original_threat = 0, original_cost = 0;
@@ -394,21 +393,21 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
   assert(pplayer->is_alive);
 
   pft_fill_unit_parameter(&parameter, punit);
-  map = pf_create_map(&parameter);
+  pfm = pf_map_new(&parameter);
 
   if (original_target) {
     ai_hunter_juiciness(pplayer, punit, original_target, 
                         &original_threat, &original_cost);
   }
 
-  pf_iterator(map, pos) {
+  pf_map_iterate_move_costs(pfm, ptile, move_cost, FALSE) {
     /* End faster if we have a target */
-    if (pos.total_MC > limit) {
+    if (move_cost > limit) {
       UNIT_LOG(LOGLEVEL_HUNT, punit, "gave up finding hunt target");
-      pf_destroy_map(map);
+      pf_map_destroy(pfm);
       return 0;
     }
-    unit_list_iterate_safe(pos.tile->units, target) {
+    unit_list_iterate_safe(ptile->units, target) {
       struct player *aplayer = unit_owner(target);
       int dist1, dist2, stackthreat = 0, stackcost = 0;
       int sanity_target = target->id;
@@ -418,8 +417,8 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
       if (!is_player_dangerous(pplayer, aplayer)) {
         continue;
       }
-      if (tile_city(pos.tile)
-          || !can_unit_attack_tile(punit, pos.tile)
+      if (tile_city(ptile)
+          || !can_unit_attack_tile(punit, ptile)
           || TEST_BIT(target->ai.hunted, player_index(pplayer))) {
         /* Can't hunt this one.  The bit is cleared in the beginning
          * of each turn. */
@@ -467,7 +466,7 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
 		 unit_build_shield_cost(punit));
         continue; /* Too expensive */
       }
-      stackthreat /= pos.total_MC + 1;
+      stackthreat /= move_cost + 1;
       if (!is_virtual 
           && original_target != target
           && original_threat > stackthreat) {
@@ -492,7 +491,7 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
       /* Ok, now we FINALLY have a target worth destroying! */
       punit->ai.target = target->id;
       if (is_virtual) {
-        pf_destroy_map(map);
+        pf_map_destroy(pfm);
         return stackthreat;
       }
 
@@ -506,23 +505,23 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
       if (target != game_find_unit_by_number(sanity_target)) {
         UNIT_LOG(LOGLEVEL_HUNT, punit, "mission accomplished by cargo (pre)");
         ai_unit_new_role(punit, AIUNIT_NONE, NULL);
-        pf_destroy_map(map);
+        pf_map_destroy(pfm);
         return -1; /* try again */
       }
 
       /* Go towards it. */
-      path = pf_get_path(map, target->tile);
+      path = pf_map_get_path(pfm, target->tile);
       if (!ai_unit_execute_path(punit, path)) {
-        pf_destroy_path(path);
-        pf_destroy_map(map);
+        pf_path_destroy(path);
+        pf_map_destroy(pfm);
         return 0;
       }
-      pf_destroy_path(path);
+      pf_path_destroy(path);
 
       if (target != game_find_unit_by_number(sanity_target)) {
         UNIT_LOG(LOGLEVEL_HUNT, punit, "mission accomplished");
         ai_unit_new_role(punit, AIUNIT_NONE, NULL);
-        pf_destroy_map(map);
+        pf_map_destroy(pfm);
         return -1; /* try again */
       }
 
@@ -531,17 +530,17 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
       if (target != game_find_unit_by_number(sanity_target)) {
         UNIT_LOG(LOGLEVEL_HUNT, punit, "mission accomplished by cargo (post)");
         ai_unit_new_role(punit, AIUNIT_NONE, NULL);
-        pf_destroy_map(map);
+        pf_map_destroy(pfm);
         return -1; /* try again */
       }
 
-      pf_destroy_map(map);
+      pf_map_destroy(pfm);
       punit->ai.done = TRUE;
       return stackthreat; /* still have work to do */
     } unit_list_iterate_safe_end;
-  } pf_iterator_end;
+  } pf_map_iterate_move_costs_end;
 
   UNIT_LOG(LOGLEVEL_HUNT, punit, "ran out of map finding hunt target");
-  pf_destroy_map(map);
+  pf_map_destroy(pfm);
   return 0; /* found nothing */
 }

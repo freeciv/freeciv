@@ -476,13 +476,12 @@ static bool settler_map_iterate(struct pf_parameter *parameter,
   int best_turn = 0; /* Which turn we found the best fit */
   struct player *pplayer = unit_owner(punit);
   struct ai_data *ai = ai_data_get(pplayer);
-  struct pf_map *map;
+  struct pf_map *pfm;
   bool found = FALSE; /* The return value */
 
-  map = pf_create_map(parameter);
-  pf_iterator(map, pos) {
+  pfm = pf_map_new(parameter);
+  pf_map_iterate_move_costs(pfm, ptile, move_cost, FALSE) {
     int turns;
-    struct tile *ptile = pos.tile;
 
     if (is_ocean_tile(ptile)) {
       continue; /* This can happen if there is a ferry near shore. */
@@ -504,7 +503,7 @@ static bool settler_map_iterate(struct pf_parameter *parameter,
     }
 
     /* Calculate worth */
-    city_desirability(pplayer, ai, punit, pos.tile, &result);
+    city_desirability(pplayer, ai, punit, ptile, &result);
 
     /* Check if actually found something */
     if (result.total == 0) {
@@ -512,7 +511,7 @@ static bool settler_map_iterate(struct pf_parameter *parameter,
     }
 
     /* This algorithm punishes long treks */
-    turns = pos.total_MC / parameter->move_rate;
+    turns = move_cost / parameter->move_rate;
     result.result = amortize(result.total, PERFECTION * turns);
 
     /* Reduce want by settler cost. Easier than amortize, but still
@@ -536,9 +535,9 @@ static bool settler_map_iterate(struct pf_parameter *parameter,
         && best_turn < turns /*+ game.info.min_dist_bw_cities*/) {
       break;
     }
-  } pf_iterator_end;
+  } pf_map_iterate_positions_end;
 
-  pf_destroy_map(map);
+  pf_map_destroy(pfm);
 
   assert(!found || 0 <= best->result);
   return found;

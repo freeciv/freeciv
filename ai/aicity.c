@@ -1085,16 +1085,16 @@ static void calculate_city_clusters(struct player *pplayer)
 
   city_list_iterate(pplayer->cities, pcity) {
     struct pf_parameter parameter;
-    struct pf_map *map;
+    struct pf_map *pfm;
 
     ghost->tile = pcity->tile;
     pft_fill_unit_parameter(&parameter, ghost);
-    map = pf_create_map(&parameter);
+    pfm = pf_map_new(&parameter);
 
-    pf_iterator(map, pos) {
-      struct city *acity = tile_city(pos.tile);
+    pf_map_iterate_move_costs(pfm, ptile, move_cost, FALSE) {
+      struct city *acity = tile_city(ptile);
 
-      if (pos.total_MC > range) {
+      if (move_cost > range) {
         break;
       }
       if (!acity) {
@@ -1103,9 +1103,9 @@ static void calculate_city_clusters(struct player *pplayer)
       if (city_owner(acity) == pplayer) {
         pcity->ai.downtown++;
       }
-    } pf_iterator_end;
+    } pf_map_iterate_move_costs_end;
 
-    pf_destroy_map(map);
+    pf_map_destroy(pfm);
   } city_list_iterate_end;
 
   destroy_unit_virtual(ghost);
@@ -1117,7 +1117,7 @@ static void calculate_city_clusters(struct player *pplayer)
 static void calculate_wonder_helpers(struct player *pplayer, 
                                      struct ai_data *ai)
 {
-  struct pf_map *map;
+  struct pf_map *pfm;
   struct pf_parameter parameter;
   struct unit_type *punittype;
   struct unit *ghost;
@@ -1144,23 +1144,23 @@ static void calculate_wonder_helpers(struct player *pplayer,
   maxrange = unit_move_rate(ghost) * 7;
 
   pft_fill_unit_parameter(&parameter, ghost);
-  map = pf_create_map(&parameter);
+  pfm = pf_map_new(&parameter);
 
-  pf_iterator(map, pos) {
-    struct city *acity = tile_city(pos.tile);
+  pf_map_iterate_move_costs(pfm, ptile, move_cost, FALSE) {
+    struct city *acity = tile_city(ptile);
 
-    if (pos.total_MC > maxrange) {
+    if (move_cost > maxrange) {
       break;
     }
     if (!acity) {
       continue;
     }
     if (city_owner(acity) == pplayer) {
-      acity->ai.distance_to_wonder_city = pos.total_MC;
+      acity->ai.distance_to_wonder_city = move_cost;
     }
-  } pf_iterator_end;
+  } pf_map_iterate_move_costs_end;
 
-  pf_destroy_map(map);
+  pf_map_destroy(pfm);
   destroy_unit_virtual(ghost);
 }
 

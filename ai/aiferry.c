@@ -420,9 +420,9 @@ int aiferry_find_boat(struct unit *punit, int cap, struct pf_path **path)
   param.get_EC = sea_move;
   param.get_MC = combined_land_sea_move;
 
-  search_map = pf_create_map(&param);
+  search_map = pf_map_new(&param);
 
-  pf_iterator(search_map, pos) {
+  pf_map_iterate_positions(search_map, pos, TRUE) {
    /* Should this be !can_unit_exist_at_tile() instead of is_ocean() some day?
     * That would allow special units to wade in shallow coast waters to meet
     * ferry where deep sea starts. */
@@ -455,9 +455,9 @@ int aiferry_find_boat(struct unit *punit, int cap, struct pf_path **path)
 		     aunit->moves_left);
 	    if (path) {
              if (*path) {
-                pf_destroy_path(*path);
+                pf_path_destroy(*path);
               }
-	      *path = pf_next_get_path(search_map);
+	      *path = pf_map_iterator_get_path(search_map);
 	    }
             best_turns = turns;
             best_id = aunit->id;
@@ -465,8 +465,8 @@ int aiferry_find_boat(struct unit *punit, int cap, struct pf_path **path)
         }
       } unit_list_iterate_end;
     } square_iterate_end;
-  } pf_iterator_end;
-  pf_destroy_map(search_map);
+  } pf_map_iterate_positions_end;
+  pf_map_destroy(search_map);
 
   return best_id;
 }
@@ -522,8 +522,8 @@ bool ai_amphibious_goto_constrained(struct unit *ferry,
 {
   bool alive = TRUE;
   struct player *pplayer = unit_owner(passenger);
-  struct pf_map *map = NULL;
-  struct pf_path *path = NULL;
+  struct pf_map *pfm;
+  struct pf_path *path;
 
   assert(pplayer->ai_data.control);
   assert(!unit_has_orders(passenger));
@@ -541,8 +541,8 @@ bool ai_amphibious_goto_constrained(struct unit *ferry,
     return TRUE;
   }
 
-  map = pf_create_map(&parameter->combined);
-  path = pf_get_path(map, ptile);
+  pfm = pf_map_new(&parameter->combined);
+  path = pf_map_get_path(pfm, ptile);
 
   if (path) {
     ai_log_path(passenger, path, &parameter->combined);
@@ -587,8 +587,8 @@ bool ai_amphibious_goto_constrained(struct unit *ferry,
     UNIT_LOG(LOG_DEBUG, passenger, "no path to destination");
   }
 
-  pf_destroy_path(path);
-  pf_destroy_map(map);
+  pf_path_destroy(path);
+  pf_map_destroy(pfm);
 
   return alive;
 }
@@ -658,10 +658,10 @@ bool aiferry_gobyboat(struct player *pplayer, struct unit *punit,
        * It might not lead _onto_ the boat. */
       if (!ai_unit_execute_path(punit, path_to_ferry)) { 
         /* Died. */
-	pf_destroy_path(path_to_ferry);
+	pf_path_destroy(path_to_ferry);
         return FALSE;
       }
-      pf_destroy_path(path_to_ferry);
+      pf_path_destroy(path_to_ferry);
     }
 
     if (!is_ocean_near_tile(punit->tile)) {
@@ -778,7 +778,7 @@ bool aiferry_gobyboat(struct player *pplayer, struct unit *punit,
 static bool aiferry_findcargo(struct unit *pferry)
 {
   /* Path-finding stuff */
-  struct pf_map *map;
+  struct pf_map *pfm;
   struct pf_parameter parameter;
   int passengers = ai_data_get(unit_owner(pferry))->stats.passengers;
 
@@ -794,13 +794,9 @@ static bool aiferry_findcargo(struct unit *pferry)
    * might be "blocked" by unknown.  We don't want to fight though */
   parameter.get_TB = no_fights;
   
-  map = pf_create_map(&parameter);
-  while (pf_next(map)) {
-    struct pf_position pos;
-
-    pf_next_get_position(map, &pos);
-    
-    unit_list_iterate(pos.tile->units, aunit) {
+  pfm = pf_map_new(&parameter);
+  pf_map_iterate_tiles(pfm, ptile, TRUE) {
+    unit_list_iterate(ptile->units, aunit) {
       if (unit_owner(pferry) == unit_owner(aunit) 
 	  && (aunit->ai.ferryboat == FERRY_WANTED
 	      || aunit->ai.ferryboat == pferry->id)) {
@@ -812,17 +808,17 @@ static bool aiferry_findcargo(struct unit *pferry)
 	pferry->goto_tile = aunit->tile;
         /* Exchange phone numbers */
         aiferry_psngr_meet_boat(aunit, pferry);
-        pf_destroy_map(map);
+        pf_map_destroy(pfm);
         return TRUE;
       }
     } unit_list_iterate_end;
-  }
+  } pf_map_iterate_tiles_end;
 
   /* False positive can happen if we cannot find a route to the passenger
    * because of an internal sea or enemy blocking the route */
   UNIT_LOG(LOGLEVEL_FERRY, pferry,
            "AI Passengers counting reported false positive %d", passengers);
-  pf_destroy_map(map);
+  pf_map_destroy(pfm);
   return FALSE;
 }
 
@@ -841,7 +837,7 @@ static bool aiferry_findcargo(struct unit *pferry)
 static bool aiferry_find_interested_city(struct unit *pferry)
 {
   /* Path-finding stuff */
-  struct pf_map *map;
+  struct pf_map *pfm;
   struct pf_parameter parameter;
   /* Early termination condition */
   int turns_horizon = FC_INFINITY;
@@ -855,16 +851,12 @@ static bool aiferry_find_interested_city(struct unit *pferry)
   parameter.get_TB = no_fights_or_unknown;
   parameter.omniscience = FALSE;
   
-  map = pf_create_map(&parameter);
+  pfm = pf_map_new(&parameter);
   parameter.turn_mode = TM_WORST_TIME;
 
-  /* We want to consider the place we are currently in too, hence the 
-   * do-while loop */
-  do { 
-    struct pf_position pos;
+  pf_map_iterate_positions(pfm, pos, TRUE) {
     struct city *pcity;
 
-    pf_next_get_position(map, &pos);
     if (pos.turn >= turns_horizon) {
       /* Won't be able to find anything better than what we have */
       break;
@@ -920,9 +912,9 @@ static bool aiferry_find_interested_city(struct unit *pferry)
         needed = TRUE;
       }
     }
-  } while (pf_next(map));
+  } pf_map_iterate_positions_end;
 
-  pf_destroy_map(map);
+  pf_map_destroy(pfm);
   return needed;
 }
 

@@ -168,7 +168,7 @@ static bool update_last_part(struct goto_map *goto_map,
 
   freelog(LOG_DEBUG, "update_last_part(%d,%d) old (%d,%d)-(%d,%d)",
           TILE_XY(ptile), TILE_XY(p->start_tile), TILE_XY(p->end_tile));
-  new_path = pf_get_path(p->map, ptile);
+  new_path = pf_map_get_path(p->map, ptile);
 
   if (!new_path) {
     freelog(PATH_LOG_LEVEL, "  no path found");
@@ -177,7 +177,7 @@ static bool update_last_part(struct goto_map *goto_map,
   }
 
   freelog(PATH_LOG_LEVEL, "  path found:");
-  pf_print_path(PATH_LOG_LEVEL, new_path);
+  pf_path_print(new_path, PATH_LOG_LEVEL);
 
   if (p->path) {
     /* We had a path drawn already.  Determine how much of it we can reuse
@@ -204,7 +204,7 @@ static bool update_last_part(struct goto_map *goto_map,
 	       && a->tile == p->path->positions[i + 1].tile);
       }
     }
-    pf_destroy_path(p->path);
+    pf_path_destroy(p->path);
     p->path = NULL;
 
     old_tile = p->end_tile;
@@ -223,12 +223,12 @@ static bool update_last_part(struct goto_map *goto_map,
   }
   p->path = new_path;
   p->end_tile = ptile;
-  p->end_moves_left = pf_last_position(p->path)->moves_left;
-  p->end_fuel_left = pf_last_position(p->path)->fuel_left;
+  p->end_moves_left = pf_path_get_last_position(p->path)->moves_left;
+  p->end_fuel_left = pf_path_get_last_position(p->path)->fuel_left;
 
   if (hover_state == HOVER_CONNECT) {
     int move_rate = goto_map->template.move_rate;
-    int moves = pf_last_position(p->path)->total_MC;
+    int moves = pf_path_get_last_position(p->path)->total_MC;
 
     p->time = moves / move_rate;
     if (goto_map->connect_initial > 0) {
@@ -237,7 +237,7 @@ static bool update_last_part(struct goto_map *goto_map,
     freelog(PATH_LOG_LEVEL, "To (%d,%d) MC: %d, connect_initial: %d",
 	    TILE_XY(ptile), moves, goto_map->connect_initial);
   } else {
-    p->time = pf_last_position(p->path)->turn;
+    p->time = pf_path_get_last_position(p->path)->turn;
   }
 
   /* Refresh tiles so turn information is shown. */
@@ -299,7 +299,7 @@ static void add_part(struct goto_map *goto_map)
   p->end_tile = p->start_tile;
   p->time = 0;
   parameter.start_tile = p->start_tile;
-  p->map = pf_create_map(&parameter);
+  p->map = pf_map_new(&parameter);
 }
 
 /********************************************************************** 
@@ -314,9 +314,9 @@ static void remove_last_part(struct goto_map *goto_map)
   reset_last_part(goto_map);
   if (p->path) {
     /* We do not always have a path */
-    pf_destroy_path(p->path);
+    pf_path_destroy(p->path);
   }
-  pf_destroy_map(p->map);
+  pf_map_destroy(p->map);
   goto_map->num_parts--;
 }
 
@@ -1010,22 +1010,17 @@ bool send_goto_tile(struct unit *punit, struct tile *ptile)
 {
   int dummy1, dummy2;
   struct pf_parameter parameter;
-  struct pf_map *map;
-  struct pf_path *path = NULL;
+  struct pf_map *pfm;
+  struct pf_path *path;
 
   fill_client_goto_parameter(punit, &parameter, &dummy1, &dummy2);
-  map = pf_create_map(&parameter);
+  pfm = pf_map_new(&parameter);
+  path = pf_map_get_path(pfm, ptile);
+  pf_map_destroy(pfm);
 
-  pf_iterator(map, pos) {
-    if (pos.tile == ptile) {
-      path = pf_next_get_path(map);
-      break;
-    }
-  } pf_iterator_end;
-
-  pf_destroy_map(map);
   if (path) {
     send_goto_path(punit, path, NULL);
+    pf_path_destroy(path);
     return TRUE;
   } else {
     return FALSE;
@@ -1041,7 +1036,7 @@ void send_patrol_route(void)
   assert(goto_is_active());
   goto_map_unit_iterate(goto_maps, goto_map, punit) {
     int i;
-    struct pf_map *map;
+    struct pf_map *pfm;
     struct pf_path *return_path;
     struct pf_path *path = NULL;
     struct pf_parameter parameter = goto_map->template;
@@ -1055,11 +1050,11 @@ void send_patrol_route(void)
     parameter.start_tile = last_part->end_tile;
     parameter.moves_left_initially = last_part->end_moves_left;
     parameter.fuel_left_initially = last_part->end_fuel_left;
-    map = pf_create_map(&parameter);
-    return_path = pf_get_path(map, goto_map->parts[0].start_tile);
+    pfm = pf_map_new(&parameter);
+    return_path = pf_map_get_path(pfm, goto_map->parts[0].start_tile);
     if (!return_path) {
       /* Cannot make a path */
-      pf_destroy_map(map);
+      pf_map_destroy(pfm);
       continue;
     }
 
@@ -1068,12 +1063,12 @@ void send_patrol_route(void)
     }
     path = pft_concat(path, return_path);
 
-    pf_destroy_map(map);
-    pf_destroy_path(return_path);
+    pf_map_destroy(pfm);
+    pf_path_destroy(return_path);
 
     send_path_orders(punit, path, TRUE, TRUE, NULL);
 
-    pf_destroy_path(path);
+    pf_path_destroy(path);
   } goto_map_unit_iterate_end;
 }
 
@@ -1202,7 +1197,7 @@ void send_goto_route(void)
 
       send_goto_path(punit, path, &order);
     }
-    pf_destroy_path(path);
+    pf_path_destroy(path);
   } goto_map_unit_iterate_end;
 }
 
@@ -1214,33 +1209,25 @@ struct pf_path *path_to_nearest_allied_city(struct unit *punit)
 {
   int dummy1, dummy2;
   struct pf_parameter parameter;
-  struct pf_map *map;
+  struct pf_map *pfm;
   struct pf_path *path = NULL;
-  struct city *pcity = is_allied_city_tile(punit->tile, unit_owner(punit));
 
-  if (pcity) {
+  if (is_allied_city_tile(punit->tile, unit_owner(punit))) {
     /* We're already on a city - don't go anywhere. */
     return NULL;
   }
 
   fill_client_goto_parameter(punit, &parameter, &dummy1, &dummy2);
-  map = pf_create_map(&parameter);
+  pfm = pf_map_new(&parameter);
 
-  while (pf_next(map)) {
-    struct pf_position pos;
-
-    pf_next_get_position(map, &pos);
-
-    if ((pcity = is_allied_city_tile(pos.tile, unit_owner(punit)))) {
+  pf_map_iterate_tiles(pfm, ptile, FALSE) {
+    if (is_allied_city_tile(ptile, unit_owner(punit))) {
+      path = pf_map_get_path(pfm, ptile);
       break;
     }
-  }
+  } pf_map_iterate_tiles_end;
 
-  if (pcity) {
-    path = pf_next_get_path(map);
-  }
-
-  pf_destroy_map(map);
+  pf_map_destroy(pfm);
 
   return path;
 }
