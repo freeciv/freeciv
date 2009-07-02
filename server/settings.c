@@ -209,26 +209,6 @@ static bool phasemode_callback(int value, struct connection *caller,
   return TRUE;
 }
 
-/************************************************************************/
-#if defined(HAVE_LIBBZ2)
-#define GAME_MIN_COMPRESS_TYPE FZ_PLAIN
-#define GAME_MAX_COMPRESS_TYPE FZ_BZIP2
-#define GAME_DEFAULT_COMPRESS_TYPE FZ_BZIP2
-
-#elif defined(HAVE_LIBZ)
-#define GAME_MIN_COMPRESS_TYPE FZ_PLAIN
-#define GAME_MAX_COMPRESS_TYPE FZ_ZLIB
-#define GAME_DEFAULT_COMPRESS_TYPE FZ_ZLIB
-
-#else
-#define GAME_MIN_COMPRESS_TYPE FZ_PLAIN
-#define GAME_MAX_COMPRESS_TYPE FZ_PLAIN
-#define GAME_DEFAULT_COMPRESS_TYPE FZ_PLAIN
-
-#endif
-
-/************************************************************************/
-
 #define GEN_BOOL(name, value, sclass, scateg, slevel, to_client,	\
 		 short_help, extra_help, func, _default)		\
   {name, sclass, to_client, short_help, extra_help, SSET_BOOL,		\
