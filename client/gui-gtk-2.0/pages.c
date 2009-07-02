@@ -1562,12 +1562,12 @@ GtkWidget *create_start_page(void)
   gtk_box_pack_start(GTK_BOX(vbox), align, FALSE, FALSE, 8);
 
 
-  conn_model = gtk_tree_store_new(9, G_TYPE_INT,
+  conn_model = gtk_tree_store_new(10, G_TYPE_INT,
 				  G_TYPE_STRING, G_TYPE_BOOLEAN,
 				  G_TYPE_STRING, G_TYPE_STRING,
 				  G_TYPE_STRING, G_TYPE_STRING,
-				  G_TYPE_STRING,
-				  G_TYPE_INT);
+				  G_TYPE_STRING, G_TYPE_INT,
+				  GDK_TYPE_PIXBUF);
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(conn_model));
   g_object_unref(conn_model);
@@ -1591,9 +1591,8 @@ GtkWidget *create_start_page(void)
 
   /* FIXME: should change to always be minimum-width. */
   rend = gtk_cell_renderer_toggle_new();
-  col = gtk_tree_view_column_new_with_attributes(_("Ready"),
-						       rend,
-						       "active", 2, NULL);
+  col = gtk_tree_view_column_new_with_attributes(_("Ready"), rend,
+						 "active", 2, NULL);
   gtk_tree_view_insert_column(GTK_TREE_VIEW(view), col, -1);
 
   rend = gtk_cell_renderer_text_new();
@@ -1601,16 +1600,19 @@ GtkWidget *create_start_page(void)
                                               -1, Q_("?player:Leader"),
                                               rend, "text", 3, NULL);
 
-  rend = gtk_cell_renderer_text_new();
-  col = gtk_tree_view_column_new_with_attributes(_("Nation"),
-							rend,
-							"text", 4, NULL);
+  rend = gtk_cell_renderer_pixbuf_new();
+  col = gtk_tree_view_column_new_with_attributes(_("Flag"), rend,
+						 "pixbuf", 9, NULL);
   gtk_tree_view_insert_column(GTK_TREE_VIEW(view), col, -1);
 
   rend = gtk_cell_renderer_text_new();
-  col = gtk_tree_view_column_new_with_attributes(_("Team"),
-						      rend,
-						      "text", 5, NULL);
+  col = gtk_tree_view_column_new_with_attributes(_("Nation"), rend,
+						 "text", 4, NULL);
+  gtk_tree_view_insert_column(GTK_TREE_VIEW(view), col, -1);
+
+  rend = gtk_cell_renderer_text_new();
+  col = gtk_tree_view_column_new_with_attributes(_("Team"), rend,
+						 "text", 5, NULL);
   gtk_tree_view_insert_column(GTK_TREE_VIEW(view), col, -1);
 
   g_signal_connect(view, "button-press-event",

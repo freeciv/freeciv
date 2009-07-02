@@ -75,6 +75,7 @@
 #include "optiondlg.h"
 #include "options.h"
 #include "pages.h"
+#include "plrdlg.h"
 #include "spaceshipdlg.h"
 #include "resources.h"
 #include "text.h"
@@ -1734,6 +1735,7 @@ void update_conn_list_dialog(void)
 
     gtk_tree_store_clear(conn_model);
     players_iterate(pplayer) {
+      GdkPixbuf *pixbuf = pplayer->nation ? get_flag(pplayer->nation) : NULL;
       enum cmdlevel_id access_level = ALLOW_NONE;
       int conn_id = -1;
 
@@ -1818,7 +1820,11 @@ void update_conn_list_dialog(void)
 			 6, record_text,
 			 7, rating_text,
 			 8, conn_id,
+			 9, pixbuf,
 			 -1);
+      if (pixbuf) {
+  	g_object_unref(pixbuf);
+      }    
     } players_iterate_end;
     conn_list_iterate(game.est_connections, pconn) {
       GtkTreeIter conn_it, *parent;
