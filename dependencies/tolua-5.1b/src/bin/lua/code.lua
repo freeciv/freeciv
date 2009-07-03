@@ -41,8 +41,9 @@ function classCode:register ()
                )
  output(b..strbyte(" "))
  output('\n  };\n')
- output('  luaL_loadbuffer(tolua_S,(char*)B,sizeof(B),"tolua: embedded Lua code") ||\n')
- output('  lua_pcall(tolua_S,0,LUA_MULTRET,0);')
+ output('  if (!luaL_loadbuffer(tolua_S,(char*)B,sizeof(B),"tolua: embedded Lua code")) {\n')
+ output('    lua_pcall(tolua_S,0,LUA_MULTRET,0);\n')
+ output('  }\n')
  output(' } /* end of embedded lua code */\n\n')
 end
  
