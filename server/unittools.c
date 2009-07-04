@@ -2192,8 +2192,8 @@ void do_explore(struct unit *punit)
 {
   struct player *owner = unit_owner(punit);
 
-  if (owner->ai_funcs.auto_explorer) {
-    switch (owner->ai_funcs.auto_explorer(punit)) {
+  if (owner->ai->funcs.auto_explorer) {
+    switch (owner->ai->funcs.auto_explorer(punit)) {
       case MR_DEATH:
         /* don't use punit! */
         return;

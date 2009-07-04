@@ -16,6 +16,7 @@
 #endif
 
 /* common */
+#include "ai.h"
 #include "player.h"
 
 /* server */
@@ -32,20 +33,22 @@
 /**************************************************************************
   Initialize player ai_funcs function pointers.
 **************************************************************************/
-void init_ai_funcs(struct player *pplayer)
+void ai_init(void)
 {
-  pplayer->ai_funcs.auto_settlers = auto_settlers_player;
-  pplayer->ai_funcs.building_advisor_init = ai_manage_buildings;
-  pplayer->ai_funcs.building_advisor = ai_advisor_choose_building;
-  pplayer->ai_funcs.auto_explorer = ai_manage_explorer;
-  pplayer->ai_funcs.first_activities = ai_do_first_activities;
-  pplayer->ai_funcs.diplomacy_actions = ai_diplomacy_actions;
-  pplayer->ai_funcs.last_activities = ai_do_last_activities;
-  pplayer->ai_funcs.before_auto_settlers = ai_settler_init;
-  pplayer->ai_funcs.treaty_evaluate = ai_treaty_evaluate;
-  pplayer->ai_funcs.treaty_accepted = ai_treaty_accepted;
-  pplayer->ai_funcs.first_contact = ai_diplomacy_first_contact;
-  pplayer->ai_funcs.incident = ai_incident;
+  struct ai_type *ai = get_ai_type(AI_DEFAULT);
+
+  ai->funcs.auto_settlers = auto_settlers_player;
+  ai->funcs.building_advisor_init = ai_manage_buildings;
+  ai->funcs.building_advisor = ai_advisor_choose_building;
+  ai->funcs.auto_explorer = ai_manage_explorer;
+  ai->funcs.first_activities = ai_do_first_activities;
+  ai->funcs.diplomacy_actions = ai_diplomacy_actions;
+  ai->funcs.last_activities = ai_do_last_activities;
+  ai->funcs.before_auto_settlers = ai_settler_init;
+  ai->funcs.treaty_evaluate = ai_treaty_evaluate;
+  ai->funcs.treaty_accepted = ai_treaty_accepted;
+  ai->funcs.first_contact = ai_diplomacy_first_contact;
+  ai->funcs.incident = ai_incident;
 }
 
 /**************************************************************************
@@ -55,9 +58,9 @@ void init_ai_funcs(struct player *pplayer)
 void call_incident(enum incident_type type, struct player *violator,
                    struct player *victim)
 {
-  if (victim && victim->ai_funcs.incident) {
-    victim->ai_funcs.incident(type, violator, victim);
-  } else if (violator && violator->ai_funcs.incident) {
-    violator->ai_funcs.incident(type, violator, victim);
+  if (victim && victim->ai->funcs.incident) {
+    victim->ai->funcs.incident(type, violator, victim);
+  } else if (violator && violator->ai->funcs.incident) {
+    violator->ai->funcs.incident(type, violator, victim);
   }
 }

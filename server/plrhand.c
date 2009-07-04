@@ -1142,8 +1142,8 @@ struct conn_list *player_reply_dest(struct player *pplayer)
 **************************************************************************/
 static void call_first_contact(struct player *pplayer, struct player *aplayer)
 {
-  if (pplayer->ai_funcs.first_contact) {
-    pplayer->ai_funcs.first_contact(pplayer, aplayer);
+  if (pplayer->ai->funcs.first_contact) {
+    pplayer->ai->funcs.first_contact(pplayer, aplayer);
   }
 }
 
@@ -1160,7 +1160,7 @@ static void call_first_contact(struct player *pplayer, struct player *aplayer)
 void server_player_init(struct player *pplayer,
 			bool initmap, bool needs_team)
 {
-  init_ai_funcs(pplayer);
+  pplayer->ai = get_ai_type(AI_DEFAULT);
 
   if (initmap) {
     player_map_allocate(pplayer);

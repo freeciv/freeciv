@@ -75,6 +75,7 @@
 #include "version.h"
 
 /* server */
+#include "aiiface.h"
 #include "auth.h"
 #include "barbarian.h"
 #include "cityhand.h"
@@ -638,8 +639,8 @@ static void ai_start_phase(void)
 {
   phase_players_iterate(pplayer) {
     if (pplayer->ai_data.control) {
-      if (pplayer->ai_funcs.first_activities) {
-        pplayer->ai_funcs.first_activities(pplayer);
+      if (pplayer->ai->funcs.first_activities) {
+        pplayer->ai->funcs.first_activities(pplayer);
         flush_packets(); /* AIs can be such spammers... */
       }
     }
@@ -762,8 +763,8 @@ static void begin_phase(bool is_new_phase)
     /* human players also need this for building advice */
     ai_data_phase_init(pplayer, is_new_phase);
     if (!pplayer->ai_data.control) {
-      if (pplayer->ai_funcs.building_advisor_init) {
-        pplayer->ai_funcs.building_advisor_init(pplayer); /* building advisor */
+      if (pplayer->ai->funcs.building_advisor_init) {
+        pplayer->ai->funcs.building_advisor_init(pplayer); /* building advisor */
       }
     }
   } phase_players_iterate_end;
@@ -783,8 +784,8 @@ static void begin_phase(bool is_new_phase)
     /* Try to avoid hiding events under a diplomacy dialog */
     phase_players_iterate(pplayer) {
       if (pplayer->ai_data.control && !is_barbarian(pplayer)) {
-        if (pplayer->ai_funcs.diplomacy_actions) {
-          pplayer->ai_funcs.diplomacy_actions(pplayer);
+        if (pplayer->ai->funcs.diplomacy_actions) {
+          pplayer->ai->funcs.diplomacy_actions(pplayer);
         }
       }
     } phase_players_iterate_end;
@@ -847,14 +848,14 @@ static void end_phase(void)
     } unit_list_iterate_end;
   } players_iterate_end;
   phase_players_iterate(pplayer) {
-    if (pplayer->ai_data.control && pplayer->ai_funcs.before_auto_settlers) {
-      pplayer->ai_funcs.before_auto_settlers(pplayer);
+    if (pplayer->ai_data.control && pplayer->ai->funcs.before_auto_settlers) {
+      pplayer->ai->funcs.before_auto_settlers(pplayer);
     }
-    if (pplayer->ai_funcs.auto_settlers) {
-      pplayer->ai_funcs.auto_settlers(pplayer);
+    if (pplayer->ai->funcs.auto_settlers) {
+      pplayer->ai->funcs.auto_settlers(pplayer);
     }
-    if (pplayer->ai_data.control && pplayer->ai_funcs.last_activities) {
-      pplayer->ai_funcs.last_activities(pplayer);
+    if (pplayer->ai_data.control && pplayer->ai->funcs.last_activities) {
+      pplayer->ai->funcs.last_activities(pplayer);
     }
   } phase_players_iterate_end;
 
@@ -2090,6 +2091,7 @@ static void srv_prepare(void)
   voting_init();
   diplhand_init();
   voting_init();
+  ai_init();
 
   /* init network */  
   init_connections(); 

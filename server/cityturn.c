@@ -841,8 +841,8 @@ void advisor_choose_build(struct player *pplayer, struct city *pcity)
   struct ai_choice choice;
 
   /* See what AI has to say */
-  if (pplayer->ai_funcs.building_advisor) {
-    pplayer->ai_funcs.building_advisor(pcity, &choice);
+  if (pplayer->ai->funcs.building_advisor) {
+    pplayer->ai->funcs.building_advisor(pcity, &choice);
 
     if (valid_improvement(choice.value.building)) {
       struct universal target = {

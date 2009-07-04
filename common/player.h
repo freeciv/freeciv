@@ -147,11 +147,6 @@ enum player_debug_types {
   PLAYER_DEBUG_DIPLOMACY, PLAYER_DEBUG_TECH, PLAYER_DEBUG_LAST
 };
 
-enum incident_type {
-  INCIDENT_DIPLOMAT = 0, INCIDENT_WAR, INCIDENT_PILLAGE,
-  INCIDENT_NUCLEAR, INCIDENT_LAST
-};
-
 BV_DEFINE(bv_debug, PLAYER_DEBUG_LAST);
 
 struct attribute_block_s {
@@ -160,7 +155,7 @@ struct attribute_block_s {
 #define MAX_ATTRIBUTE_BLOCK     (256*1024)	/* largest attribute block */
 };
 
-struct Treaty;
+struct ai_type;
 
 struct player {
   bool used;
@@ -196,21 +191,7 @@ struct player {
   int bulbs_last_turn;    /* # bulbs researched last turn only */
   struct player_spaceship spaceship;
   struct player_ai ai_data;
-  struct {
-    void (*auto_settlers)(struct player *pplayer);
-    void (*building_advisor_init)(struct player *pplayer);
-    void (*building_advisor)(struct city *pcity, struct ai_choice *choice);
-    enum unit_move_result (*auto_explorer)(struct unit *punit);
-    void (*first_activities)(struct player *pplayer);
-    void (*diplomacy_actions)(struct player *pplayer);
-    void (*last_activities)(struct player *pplayer);
-    void (*before_auto_settlers)(struct player *pplayer);
-    void (*treaty_evaluate)(struct player *pplayer, struct player *aplayer, struct Treaty *ptreaty);
-    void (*treaty_accepted)(struct player *pplayer, struct player *aplayer, struct Treaty *ptreaty);
-    void (*first_contact)(struct player *pplayer, struct player *aplayer);
-    void (*incident)(enum incident_type type, struct player *violator,
-                     struct player *victim);
-  } ai_funcs;
+  struct ai_type *ai;
   bool was_created;                    /* if the player was /created */
   bool is_connected;
   struct connection *current_conn;     /* non-null while handling packet */

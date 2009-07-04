@@ -4831,8 +4831,8 @@ static void game_load_internal(struct section_file *file)
     /* Recalculate for all players. */
     pplayer->ai_data.control = FALSE;
 
-    if (pplayer->ai_funcs.building_advisor_init) {
-      pplayer->ai_funcs.building_advisor_init(pplayer);
+    if (pplayer->ai->funcs.building_advisor_init) {
+      pplayer->ai->funcs.building_advisor_init(pplayer);
     }
 
     pplayer->ai_data.control = saved_ai_control;

@@ -19,30 +19,35 @@
 #include <stdarg.h>
 #include <string.h>
 
+/* utility */
+#include "fcintl.h"
+#include "log.h"
+#include "mem.h"
+#include "rand.h"
+#include "shared.h"
+#include "support.h"
+
+/* common */
 #include "aisupport.h"
 #include "city.h"
 #include "diptreaty.h"
 #include "events.h"
-#include "fcintl.h"
 #include "game.h"
-#include "log.h"
-#include "mem.h"
 #include "packets.h"
 #include "player.h"
-#include "rand.h"
 #include "nation.h"
-#include "shared.h"
 #include "spaceship.h"
-#include "support.h"
 #include "tech.h"
 #include "unitlist.h"
 
+/* server */
 #include "citytools.h"
 #include "diplhand.h"
 #include "plrhand.h"
 #include "maphand.h"
 #include "settlers.h"  /* amortize */
 
+/* ai */
 #include "aidata.h"
 #include "ailog.h"
 #include "aiunit.h"

@@ -208,6 +208,7 @@ void player_init(struct player *plr)
     plr->diplstates[i].has_reason_to_cancel = 0;
     plr->diplstates[i].contact_turns_left = 0;
   }
+  plr->ai = NULL;
   plr->ai_data.control=FALSE;
   BV_CLR_ALL(plr->ai_data.handicaps);
   plr->ai_data.skill_level = 0;

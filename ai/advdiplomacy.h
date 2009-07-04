@@ -15,6 +15,8 @@
 
 #include "fc_types.h"
 
+#include "ai.h" /* incident_type */
+
 struct Treaty;
 struct Clause;
 struct ai_data;
