@@ -1049,6 +1049,7 @@ void server_quit(void)
 
   stdinhand_free();
   close_connections_and_socket();
+  free_nls();
   exit(EXIT_SUCCESS);
 }
 
