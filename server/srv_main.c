@@ -1179,6 +1179,7 @@ void server_quit(void)
   edithand_free();
   voting_free();
   close_connections_and_socket();
+  free_nls();
   exit(EXIT_SUCCESS);
 }
 

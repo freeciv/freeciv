@@ -468,6 +468,9 @@ void client_exit(void)
   helpdata_done(); /* client_exit() unlinks help text list */
   conn_list_free(game.all_connections);
   conn_list_free(game.est_connections);
+
+  free_nls();
+
   exit(EXIT_SUCCESS);
 }
 

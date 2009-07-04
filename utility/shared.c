@@ -1396,7 +1396,7 @@ char *get_langname(void)
 ***************************************************************************/
 void init_nls(void)
 {
-  /* 
+  /*
    * Setup the cached locale numeric formatting information. Defaults
    * are as appropriate for the US.
    */
@@ -1433,8 +1433,9 @@ void init_nls(void)
 
     if (lc->grouping[0] == '\0') {
       /* This actually indicates no grouping at all. */
-      static char m = CHAR_MAX;
-      grouping = &m;
+      char *m = malloc(sizeof(char));
+      *m = CHAR_MAX;
+      grouping = m;
     } else {
       size_t len;
       for (len = 0;
@@ -1450,6 +1451,17 @@ void init_nls(void)
     grouping_sep = mystrdup(lc->thousands_sep);
   }
 #endif
+}
+
+/***************************************************************************
+  Free memory allocated by Native Language Support
+***************************************************************************/
+void free_nls(void)
+{
+  free(grouping);
+  grouping = NULL;
+  free(grouping_sep);
+  grouping_sep = NULL;
 }
 
 /***************************************************************************
