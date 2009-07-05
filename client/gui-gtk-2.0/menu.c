@@ -1017,6 +1017,8 @@ static GtkItemFactoryEntry menu_items[]	=
 	orders_menu_callback,	MENU_ORDER_WAIT						},
   { "/" N_("Orders") "/" N_("Done"),			"space",
 	orders_menu_callback,	MENU_ORDER_DONE						},
+  { "/" N_("Orders") "/" N_("Build Base"),              NULL,
+        NULL,                   0,                                      "<Branch>"      },
   /* Reports menu ... */
   { "/" N_("_Reports"),					NULL,
 	NULL,			0,					"<Branch>"	},
@@ -1362,6 +1364,19 @@ static void government_callback(GtkMenuItem *item, gpointer data)
   popup_revolution_dialog(gov);
 }
 
+
+/****************************************************************************
+  The player has chosen a base to build from the menu.
+****************************************************************************/
+static void base_callback(GtkMenuItem *item, gpointer data)
+{
+  struct base_type *pbase = data;
+
+  unit_list_iterate(get_units_in_focus(), punit) {
+    request_new_unit_activity_base(punit, pbase);
+  } unit_list_iterate_end;
+}
+
 /****************************************************************************
   Return the text for the tile, changed by the activity.
 
@@ -1408,6 +1423,12 @@ void update_menus(void)
     menus_set_sensitive("<main>/_Orders", FALSE);
     menus_set_sensitive("<main>/_Reports", FALSE);
   } else {
+    struct unit_list *punits = NULL;
+
+    if (get_num_units_in_focus() > 0) {
+      punits = get_units_in_focus();
+    }
+
     const char *path =
       menu_path_remove_uline("<main>/_Game/_Government");
     GtkWidget *parent = gtk_item_factory_get_widget(item_factory, path);
@@ -1450,6 +1471,41 @@ void update_menus(void)
           gtk_widget_show(item);
         }
       } government_iterate_end;
+    }
+
+    path = menu_path_remove_uline("<main>/_Orders/Build Base");
+    parent = gtk_item_factory_get_widget(item_factory, path);
+
+    if (parent) {
+      GList *list, *iter;
+
+      /* remove previous base entries. */
+      list = gtk_container_get_children(GTK_CONTAINER(parent));
+      for (iter = g_list_nth(list, 0); iter; iter = g_list_next(iter)) {
+        gtk_widget_destroy(GTK_WIDGET(iter->data));
+      }
+      g_list_free(list);
+
+      /* add new base entries. */
+      base_type_iterate(p) {
+        if (p->buildable) {
+          GtkWidget *item;
+          char buf[256];
+          my_snprintf(buf, sizeof(buf), _("%s"),
+                      base_name_translation(p));
+          item = gtk_menu_item_new_with_label(buf);
+
+          g_signal_connect(item, "activate",
+                           G_CALLBACK(base_callback), p);
+
+           if (punits) {
+             gtk_widget_set_sensitive(item, can_units_do_base(punits, base_number(p)));
+           }
+
+          gtk_menu_shell_append(GTK_MENU_SHELL(parent), item);
+          gtk_widget_show(item);
+        }
+      } base_type_iterate_end;
     }
 
     menus_set_sensitive("<main>/_Reports", TRUE);
@@ -1548,12 +1604,11 @@ void update_menus(void)
       char irrtext[128], mintext[128], transtext[128];
       const char *roadtext;
       struct terrain *pterrain;
-      struct unit_list *punits = get_units_in_focus();
 
       sz_strlcpy(irrtext, _("Build _Irrigation"));
       sz_strlcpy(mintext, _("Build _Mine"));
       sz_strlcpy(transtext, _("Transf_orm Terrain"));
-      
+
       /* Enable the button for adding to a city in all cases, so we
 	 get an eventual error message from the server if we try. */
       menus_set_sensitive("<main>/_Orders/_Build City",
