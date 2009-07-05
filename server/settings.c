@@ -1078,7 +1078,7 @@ struct settings_s settings[] = {
 	  N_("Turns per auto-save"),
 	  N_("The game will be automatically saved per this number of "
 	     "turns. Zero means never auto-save."), NULL, 
-	  0, 200, GAME_DEFAULT_SAVETURNS)
+          GAME_MIN_SAVETURNS, GAME_MAX_SAVETURNS, GAME_DEFAULT_SAVETURNS)
 
   GEN_INT("compress", game.info.save_compress_level,
 	  SSET_META, SSET_INTERNAL, SSET_RARE, SSET_SERVER_ONLY,
