@@ -72,7 +72,7 @@ static int seamove(const struct tile *ptile, enum direction8 dir,
 }
 
 /*************************************************************
-  Cost function for AIR_MOVING and amphibious units
+  Cost function for flying and amphibious units
 *************************************************************/
 static int airmove(const struct tile *ptile, enum direction8 dir,
                    const struct tile *ptile1,
@@ -686,7 +686,6 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
       parameter->get_MC = seamove_no_bombard;
     }
     break;
-  case AIR_MOVING:
   case BOTH_MOVING:
     parameter->get_MC = airmove;
     break;
@@ -725,7 +724,6 @@ void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
   case SEA_MOVING:
     parameter->get_MC = sea_overlap_move;
     break;
-  case AIR_MOVING:
   case BOTH_MOVING:
     parameter->get_MC = airmove; /* very crude */
     break;
@@ -756,7 +754,6 @@ void pft_fill_unit_attack_param(struct pf_parameter *parameter,
   case SEA_MOVING:
     parameter->get_MC = sea_attack_move;
     break;
-  case AIR_MOVING:
   case BOTH_MOVING:
     parameter->get_MC = airmove; /* very crude */
     break;

@@ -1052,7 +1052,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz, _("* Will never achieve veteran status.\n"));
   } else {
     switch(utype_move_type(utype)) {
-      case AIR_MOVING:
       case BOTH_MOVING:
         CATLSTR(buf, bufsz,
                 _("* Will be built as a veteran in cities with appropriate"

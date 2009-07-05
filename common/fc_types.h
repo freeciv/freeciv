@@ -146,11 +146,10 @@ typedef int Unit_Class_id;
  * would have a recursive dependency.
  * Order must mach order in move_type_names array. */
 enum unit_move_type {
-  AIR_MOVING = 0,
-  LAND_MOVING = 1,
-  SEA_MOVING = 2,
-  BOTH_MOVING = 3,
-  MOVETYPE_LAST = 4
+  LAND_MOVING = 0,
+  SEA_MOVING,
+  BOTH_MOVING,
+  MOVETYPE_LAST
 };
 
 /* The direction8 gives the 8 possible directions.  These may be used in

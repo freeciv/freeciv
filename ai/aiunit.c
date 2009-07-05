@@ -2209,9 +2209,10 @@ void ai_manage_unit(struct player *pplayer, struct unit *punit)
 
   if (get_transporter_capacity(punit) > 0) {
     unit_class_iterate(pclass) {
+      /* FIXME: BOTH_MOVING units need ferry only if they use fuel */
       if (can_unit_type_transport(unit_type(punit), pclass)
           && (pclass->move_type == LAND_MOVING
-              || (pclass->move_type == AIR_MOVING
+              || (pclass->move_type == BOTH_MOVING
                   && !uclass_has_flag(pclass, UCF_MISSILE)))) {
         is_ferry = TRUE;
         break;

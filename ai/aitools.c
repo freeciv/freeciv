@@ -664,9 +664,10 @@ void ai_fill_unit_param(struct pf_parameter *parameter,
   if (punit->ai.ai_role != AIUNIT_HUNTER
       && get_transporter_capacity(punit) > 0) {
     unit_class_iterate(uclass) {
+      /* FIXME: BOTH_MOVING units need ferry only if they use fuel */
       if (can_unit_type_transport(unit_type(punit), uclass)
           && (uclass->move_type == LAND_MOVING
-              || (uclass->move_type == AIR_MOVING
+              || (uclass->move_type == BOTH_MOVING
                   && !uclass_has_flag(uclass, UCF_MISSILE)))) {
         is_ferry = TRUE;
         break;

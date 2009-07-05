@@ -313,7 +313,7 @@ static void ai_hunter_try_launch(struct player *pplayer,
           if (ut->move_rate + victim->moves_left > move_cost
               && ATTACK_POWER(victim) > DEFENCE_POWER(punit)
               && (utype_move_type(ut) == SEA_MOVING
-                  || utype_move_type(ut) == AIR_MOVING)) {
+                  || utype_move_type(ut) == BOTH_MOVING)) {
             /* Threat to our carrier. Kill it. */
             sucker = victim;
             UNIT_LOG(LOGLEVEL_HUNT, missile, "found aux target %d(%d, %d)",
