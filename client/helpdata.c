@@ -814,6 +814,9 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   if (!uclass_has_flag(utype_class(utype), UCF_TERRAIN_SPEED)) {
     CATLSTR(buf, bufsz, _("  * Speed is not affected by terrain.\n"));
   }
+  if (!uclass_has_flag(utype_class(utype), UCF_TERRAIN_DEFENSE)) {
+    CATLSTR(buf, bufsz, _("  * Does not get defense bonuses from terrain.\n"));
+  }
   if (uclass_has_flag(utype_class(utype), UCF_DAMAGE_SLOWS)) {
     CATLSTR(buf, bufsz, _("  * Slowed down while damaged\n"));
   }
