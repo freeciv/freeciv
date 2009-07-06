@@ -660,12 +660,14 @@ static int tile_move_cost_ptrs(struct unit *punit,
   }
 
   if (game.info.slow_invasions
-      && punit 
-      && is_ground_unit(punit) 
-      && is_ocean_tile(t1)
-      && !is_ocean_tile(t2)) {
-    /* Ground units moving from sea to land lose all their movement
-     * if "slowinvasions" server option is turned on. */
+      && punit
+      && tile_city(t1) == NULL
+      && !is_native_tile(unit_type(punit), t1)
+      && is_native_tile(unit_type(punit), t2)) {
+    /* If "slowinvasions" option is turned on, units moving from
+     * non-native terrain (from transport) to native terrain lose all their
+     * movement.
+     * e.g. ground units moving from sea to land */
     return punit->moves_left;
   }
 
