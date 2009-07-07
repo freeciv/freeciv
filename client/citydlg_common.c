@@ -392,7 +392,7 @@ void get_city_dialog_output_text(const struct city *pcity,
 {
   int total = 0;
   int priority;
-  int tax[O_COUNT];
+  int tax[O_LAST];
   struct output_type *output = &output_types[otype];
 
   buf[0] = '\0';
@@ -402,7 +402,7 @@ void get_city_dialog_output_text(const struct city *pcity,
   total += pcity->citizen_base[otype];
 
   /* Hack to get around the ugliness of add_tax_income. */
-  memset(tax, 0, O_COUNT * sizeof(*tax));
+  memset(tax, 0, O_LAST * sizeof(*tax));
   add_tax_income(city_owner(pcity), pcity->prod[O_TRADE], tax);
   if (tax[otype] != 0) {
     cat_snprintf(buf, bufsz, _("%+4d : Taxed from trade\n"), tax[otype]);

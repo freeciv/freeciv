@@ -161,7 +161,7 @@ static inline void tile_type_vector_add(struct tile_type_vector *tthis,
  * vector is empty.  We can never run out of specialists.
        */
 struct cm_tile_type {
-  int production[O_MAX];
+  int production[O_LAST];
   double estimated_fitness; /* weighted sum of production */
   bool is_specialist;
   Specialist_type_id spec; /* valid only if is_specialist */
@@ -183,7 +183,7 @@ struct partial_solution {
   int *worker_counts;   /* number of workers on each type */
   int *prereqs_filled;  /* number of better types filled up */
 
-  int production[O_MAX]; /* raw production, cached for the heuristic */
+  int production[O_LAST]; /* raw production, cached for the heuristic */
   int idle;             /* number of idle workers */
 };
 
@@ -199,7 +199,7 @@ struct cm_state {
 
   /* the tile lattice */
   struct tile_type_vector lattice;
-  struct tile_type_vector lattice_by_prod[O_MAX];
+  struct tile_type_vector lattice_by_prod[O_LAST];
 
   /* the best known solution, and its fitness */
   struct partial_solution best;
@@ -209,7 +209,7 @@ struct cm_state {
    * this fails to satisfy the constraints, so we can stop investigating
    * this branch.  A solution with more production than this may still
    * fail (for being unhappy, for instance). */
-  int min_production[O_MAX];
+  int min_production[O_LAST];
 
   /* the current solution we're examining. */
   struct partial_solution current;
@@ -684,7 +684,7 @@ static struct cm_fitness evaluate_solution(struct cm_state *state,
 {
   struct city *pcity = state->pcity;
   struct city backup;
-  int surplus[O_COUNT];
+  int surplus[O_LAST];
   bool disorder, happy;
 
   /* make a backup, apply and evaluate the solution, and restore.  This costs
@@ -1493,7 +1493,7 @@ static void compute_max_stats_heuristic(const struct cm_state *state,
 ****************************************************************************/
 static bool choice_is_promising(struct cm_state *state, int newchoice)
 {
-  int production[O_COUNT];
+  int production[O_LAST];
   bool beats_best = FALSE;
 
   compute_max_stats_heuristic(state, &state->current, production, newchoice);
@@ -1581,7 +1581,7 @@ static double estimate_fitness(const struct cm_state *state,
 			       const int production[]) {
   const struct city *pcity = state->pcity;
   const struct player *pplayer = city_owner(pcity);
-  double estimates[O_COUNT];
+  double estimates[O_LAST];
   double sum = 0;
 
   output_type_iterate(stat) {

@@ -832,7 +832,7 @@ void popup_city_cma_dialog(struct city *pCity)
   SDL_Color bg_color = {255, 255, 255, 136};
   
   struct widget *pWindow, *pBuf;
-  SDL_Surface *pLogo, *pText[O_COUNT + 1], *pMinimal, *pFactor;
+  SDL_Surface *pLogo, *pText[O_LAST + 1], *pMinimal, *pFactor;
   SDL_Surface *pCity_Map;
   SDL_String16 *pStr;
   char cBuf[128];
@@ -938,7 +938,7 @@ void popup_city_cma_dialog(struct city *pCity)
   } output_type_iterate_end;
   
   copy_chars_to_string16(pStr, _("Celebrate"));
-  pText[O_COUNT] = create_text_surf_from_str16(pStr);
+  pText[O_LAST] = create_text_surf_from_str16(pStr);
   FREESTRING16(pStr);
   
   /* happy factor label */
@@ -1074,7 +1074,7 @@ void popup_city_cma_dialog(struct city *pCity)
   area.y = dst.y - adj_size(20);
   w = area.w = adj_size(10) + text_w + adj_size(10) + pWindow->prev->prev->size.w + adj_size(5 + 70 + 5) +
 		pWindow->prev->prev->size.w + adj_size(5 + 55 + 10);
-  area.h = (O_COUNT + 1) * (pText[0]->h + adj_size(6)) + adj_size(20);
+  area.h = (O_LAST + 1) * (pText[0]->h + adj_size(6)) + adj_size(20);
   SDL_FillRectAlpha(pWindow->theme, &area, &bg_color);
   putframe(pWindow->theme, area.x, area.y, area.x + area.w - 1, area.y + area.h - 1,
            map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_CMA_FRAME)));
@@ -1138,12 +1138,12 @@ void popup_city_cma_dialog(struct city *pCity)
   /* happy factor label */
   pBuf = pBuf->prev;
   pBuf->size.x = pBuf->next->next->size.x;
-  pBuf->size.y = pWindow->size.y + dst.y + (pText[O_COUNT]->h - pBuf->size.h) / 2;
+  pBuf->size.y = pWindow->size.y + dst.y + (pText[O_LAST]->h - pBuf->size.h) / 2;
   
   /* happy factor sb */
   pBuf = pBuf->prev;
   pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(5);
-  pBuf->size.y = pWindow->size.y + dst.y + (pText[O_COUNT]->h - pBuf->size.h) / 2;
+  pBuf->size.y = pWindow->size.y + dst.y + (pText[O_LAST]->h - pBuf->size.h) / 2;
   
   area.x = pBuf->size.x - pWindow->size.x - adj_size(2);
   area.y = pBuf->size.y - pWindow->size.y;
@@ -1160,9 +1160,9 @@ void popup_city_cma_dialog(struct city *pCity)
   
   /* celebrate static text */
   dst.x += (adj_size(10) + pBuf->size.w + adj_size(5));
-  dst.y += (pBuf->size.h - pText[O_COUNT]->h) / 2;
-  alphablit(pText[O_COUNT], NULL, pWindow->theme, &dst);
-  FREESURFACE(pText[O_COUNT]);
+  dst.y += (pBuf->size.h - pText[O_LAST]->h) / 2;
+  alphablit(pText[O_LAST], NULL, pWindow->theme, &dst);
+  FREESURFACE(pText[O_LAST]);
   /* ------------------------ */
   
   /* save as */

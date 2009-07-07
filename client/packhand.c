@@ -939,9 +939,9 @@ void handle_city_short_info(struct packet_city_short_info *packet)
       pcity->trade[i] = 0;
       pcity->trade_value[i] = 0;
     }
-    memset(pcity->surplus, 0, O_COUNT * sizeof(*pcity->surplus));
-    memset(pcity->waste, 0, O_COUNT * sizeof(*pcity->waste));
-    memset(pcity->prod, 0, O_COUNT * sizeof(*pcity->prod));
+    memset(pcity->surplus, 0, O_LAST * sizeof(*pcity->surplus));
+    memset(pcity->waste, 0, O_LAST * sizeof(*pcity->waste));
+    memset(pcity->prod, 0, O_LAST * sizeof(*pcity->prod));
     pcity->food_stock         = 0;
     pcity->shield_stock       = 0;
     pcity->pollution          = 0;

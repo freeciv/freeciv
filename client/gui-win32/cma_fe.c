@@ -54,9 +54,9 @@ struct cma_dialog {
   HWND change;
   HWND perm;
   HWND release;
-  HWND minimal_surplus[O_MAX];
+  HWND minimal_surplus[O_LAST];
   HWND happy;
-  HWND factor[O_MAX + 1];
+  HWND factor[O_LAST + 1];
   int id;
 };
 
@@ -238,7 +238,7 @@ static void set_hscales(const struct cm_parameter *const parameter,
   } output_type_iterate_end;
   Button_SetCheck(pdialog->happy,
 		  parameter->require_happy ? BST_CHECKED : BST_UNCHECKED);
-  handle_hscroll(pdialog->mainwin, pdialog->factor[O_COUNT],
+  handle_hscroll(pdialog->mainwin, pdialog->factor[O_LAST],
 		 SB_THUMBTRACK, parameter->happy_factor);
   allow_refreshes = 1;
 }
@@ -522,7 +522,7 @@ static void hscale_changed(struct cma_dialog *pdialog)
   } output_type_iterate_end;
   
   param.require_happy = (Button_GetCheck(pdialog->happy) == BST_CHECKED) ? 1 : 0;
-  param.happy_factor = ScrollBar_GetPos(pdialog->factor[O_COUNT]);
+  param.happy_factor = ScrollBar_GetPos(pdialog->factor[O_LAST]);
   
   /* save the change */
   cmafec_set_fe_parameter(pdialog->pcity, &param);

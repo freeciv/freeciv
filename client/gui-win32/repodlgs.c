@@ -597,7 +597,7 @@ activeunits_report_dialog_update(void)
 {
   struct repoinfo {
     int active_count;
-    int upkeep[O_COUNT];
+    int upkeep[O_LAST];
     int building_count;
   };
 

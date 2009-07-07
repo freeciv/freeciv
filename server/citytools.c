@@ -2054,7 +2054,7 @@ void building_lost(struct city *pcity, const struct impr_type *pimprove)
 **************************************************************************/
 void city_units_upkeep(const struct city *pcity)
 {
-  int free[O_COUNT], cost;
+  int free[O_LAST], cost;
   struct unit_type *ut;
   struct player *plr;
   bool update;
@@ -2064,7 +2064,7 @@ void city_units_upkeep(const struct city *pcity)
     return;
   }
 
-  memset(free, 0, O_COUNT * sizeof(*free));
+  memset(free, 0, O_LAST * sizeof(*free));
   output_type_iterate(o) {
     free[o] = get_city_output_bonus(pcity, get_output_type(o),
                                     EFT_UNIT_UPKEEP_FREE_PER_CITY);

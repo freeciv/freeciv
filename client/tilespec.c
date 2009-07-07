@@ -243,7 +243,7 @@ struct named_sprites {
   struct {
     struct sprite
       *unhappy[2],
-      *output[O_MAX][2];
+      *output[O_LAST][2];
   } upkeep;
   struct {
     struct sprite

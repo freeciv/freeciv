@@ -31,12 +31,12 @@
 
 /* A description of the goal. */
 struct cm_parameter {
-  int minimal_surplus[O_MAX];
+  int minimal_surplus[O_LAST];
   bool require_happy;
   bool allow_disorder;
   bool allow_specialists;
 
-  int factor[O_MAX];
+  int factor[O_LAST];
   int happy_factor;
 };
 
@@ -44,7 +44,7 @@ struct cm_parameter {
 struct cm_result {
   bool found_a_valid, disorder, happy;
 
-  int surplus[O_MAX];
+  int surplus[O_LAST];
 
   bool worker_positions_used[CITY_MAP_SIZE][CITY_MAP_SIZE];
   int specialists[SP_MAX];

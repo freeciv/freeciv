@@ -82,7 +82,7 @@ struct resource {
 #define RESOURCE_NULL_IDENTIFIER '\0'
 #define RESOURCE_NONE_IDENTIFIER ' '
 
-  int output[O_MAX]; /* Amount added by this resource. */
+  int output[O_LAST]; /* Amount added by this resource. */
 };
 
 /* === */
@@ -167,7 +167,7 @@ struct terrain {
   int movement_cost;
   int defense_bonus; /* % defense bonus - defaults to zero */
 
-  int output[O_MAX];
+  int output[O_LAST];
 
   struct resource **resources; /* NULL-terminated */
 

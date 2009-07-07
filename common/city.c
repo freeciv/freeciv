@@ -51,7 +51,6 @@ int city_tiles;
 
 /* One day these values may be read in from the ruleset.  In the meantime
  * they're just an easy way to access information about each output type. */
-const Output_type_id num_output_types = O_LAST;
 struct output_type output_types[O_LAST] = {
   {O_FOOD, N_("Food"), "food", TRUE, UNHAPPY_PENALTY_SURPLUS},
   {O_SHIELD, N_("Shield"), "shield", TRUE, UNHAPPY_PENALTY_SURPLUS},
@@ -1695,7 +1694,7 @@ static inline void get_worked_tile_output(const struct city *pcity,
 #endif
   struct tile *pcenter = city_tile(pcity);
 
-  memset(output, 0, O_COUNT * sizeof(*output));
+  memset(output, 0, O_LAST * sizeof(*output));
   
   city_tile_iterate_cxy(pcenter, ptile, x, y) {
     if (main_map) {
@@ -2046,7 +2045,7 @@ static inline void unhappy_city_check(struct city *pcity)
     } output_type_iterate_end;
   } else {
     memset(pcity->unhappy_penalty, 0,
- 	   O_COUNT * sizeof(*pcity->unhappy_penalty));
+ 	   O_LAST * sizeof(*pcity->unhappy_penalty));
   }
 }
 
@@ -2268,7 +2267,7 @@ static inline void city_support(struct city *pcity)
   int free_unhappy = get_city_bonus(pcity, EFT_MAKE_CONTENT_MIL);
 
   /* Clear all usage values. */
-  memset(pcity->usage, 0, O_COUNT * sizeof(*pcity->usage));
+  memset(pcity->usage, 0, O_LAST * sizeof(*pcity->usage));
   pcity->martial_law = 0;
   pcity->unit_happy_upkeep = 0;
 
@@ -2555,13 +2554,13 @@ struct city *create_city_virtual(struct player *pplayer,
   }
   memset(pcity->tile_output, 0, sizeof(pcity->tile_output));
 
-  memset(pcity->surplus, 0, O_COUNT * sizeof(*pcity->surplus));
-  memset(pcity->waste, 0, O_COUNT * sizeof(*pcity->waste));
+  memset(pcity->surplus, 0, O_LAST * sizeof(*pcity->surplus));
+  memset(pcity->waste, 0, O_LAST * sizeof(*pcity->waste));
   memset(pcity->unhappy_penalty, 0,
-	 O_COUNT * sizeof(*pcity->unhappy_penalty));
-  memset(pcity->prod, 0, O_COUNT * sizeof(*pcity->prod));
-  memset(pcity->citizen_base, 0, O_COUNT * sizeof(*pcity->citizen_base));
-  memset(pcity->usage, 0, O_COUNT * sizeof(*pcity->usage));
+	 O_LAST * sizeof(*pcity->unhappy_penalty));
+  memset(pcity->prod, 0, O_LAST * sizeof(*pcity->prod));
+  memset(pcity->citizen_base, 0, O_LAST * sizeof(*pcity->citizen_base));
+  memset(pcity->usage, 0, O_LAST * sizeof(*pcity->usage));
 #endif
 
   output_type_iterate(o) {

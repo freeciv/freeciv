@@ -72,12 +72,10 @@ enum sset_class {
   SSET_LAST
 };
 
+/* Changing this breaks network compatibility. */
 enum output_type_id {
   O_FOOD, O_SHIELD, O_TRADE, O_GOLD, O_LUXURY, O_SCIENCE, O_LAST
 };
-/* num_output_types = O_LAST; see common/city.c */
-#define O_COUNT num_output_types
-#define O_MAX O_LAST /* Changing this breaks network compatibility. */
 
 /* Changing this enum will break savegame and network compatability. */
 enum unit_activity {

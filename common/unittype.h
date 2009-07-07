@@ -206,7 +206,7 @@ struct unit_type {
   bv_roles roles;
 
   int happy_cost;  /* unhappy people in home city */
-  int upkeep[O_MAX];
+  int upkeep[O_LAST];
 
   int paratroopers_range; /* only valid for F_PARATROOPERS */
   int paratroopers_mr_req;

@@ -446,7 +446,7 @@ PACKET_GAME_INFO=15; sc
   UINT8 forced_luxury;
   UINT8 forced_gold;
   BOOL vision_reveal_tiles;
-  UINT8 min_city_center_output[O_MAX];
+  UINT8 min_city_center_output[O_LAST];
   UINT8 min_dist_bw_cities;
   UINT8 init_vis_radius_sq;
   BOOL pillage_select;
@@ -538,12 +538,12 @@ PACKET_CITY_INFO=21; sc,lsend
   UINT8 specialists_size;
   UINT8 specialists[SP_MAX:specialists_size];
 
-  SINT16 surplus[O_MAX];
-  UINT16 waste[O_MAX];
-  SINT16 unhappy_penalty[O_MAX];
-  UINT16 prod[O_MAX];
-  SINT16 citizen_base[O_MAX];
-  SINT16 usage[O_MAX];
+  SINT16 surplus[O_LAST];
+  UINT16 waste[O_LAST];
+  SINT16 unhappy_penalty[O_LAST];
+  UINT16 prod[O_LAST];
+  SINT16 citizen_base[O_LAST];
+  SINT16 usage[O_LAST];
   UINT16 food_stock, shield_stock;
 
   UINT16 trade[NUM_TRADEROUTES];
@@ -762,7 +762,7 @@ PACKET_UNIT_INFO=49; sc,lsend
   COORD x,y;
   CITY homecity;
 
-  UINT8 upkeep[O_MAX];
+  UINT8 upkeep[O_LAST];
 
   UINT8 veteran;
   BOOL ai, paradropped;
@@ -1134,7 +1134,7 @@ PACKET_RULESET_UNIT=96;sc,lsend
   UINT8 fuel;
 
   UINT8 happy_cost;   # unhappy people in home city
-  UINT8 upkeep[O_MAX]; # normal upkeep cost (food, gold, shields)
+  UINT8 upkeep[O_LAST]; # normal upkeep cost (food, gold, shields)
 
   UINT8 paratroopers_range;  # max range of paratroopers, F_PARATROOPERS
   UINT8 paratroopers_mr_req;
@@ -1222,9 +1222,9 @@ PACKET_RULESET_TERRAIN_CONTROL=101;sc,lsend
   STRING river_help_text[MAX_LEN_PACKET]; # help for Civ2-style rivers
 
   UINT16 road_superhighway_trade_bonus;  # % added to trade if road/s-highway
-  UINT16 rail_tile_bonus[O_MAX];        /* % added to output if railroad */
-  UINT8 pollution_tile_penalty[O_MAX]; /* % taken from output if polluted */
-  UINT8 fallout_tile_penalty[O_MAX]; /* % taken from output if polluted */
+  UINT16 rail_tile_bonus[O_LAST];        /* % added to output if railroad */
+  UINT8 pollution_tile_penalty[O_LAST]; /* % taken from output if polluted */
+  UINT8 fallout_tile_penalty[O_LAST]; /* % taken from output if polluted */
 end
 
 PACKET_RULESET_NATION_GROUPS=118;sc,lsend
@@ -1301,7 +1301,7 @@ PACKET_RULESET_TERRAIN=105;sc,lsend
   UINT8 movement_cost;
   SINT16 defense_bonus;
 
-  UINT8 output[O_MAX];
+  UINT8 output[O_LAST];
   UINT8 num_resources;
   RESOURCE resources[MAX_NUM_RESOURCES:num_resources];
 
@@ -1456,7 +1456,7 @@ PACKET_RULESET_RESOURCE=124;sc,lsend
   RESOURCE id;
   
   STRING name_orig[MAX_LEN_NAME];
-  UINT8 output[O_MAX];
+  UINT8 output[O_LAST];
   STRING graphic_str[MAX_LEN_NAME];
   STRING graphic_alt[MAX_LEN_NAME];
 end

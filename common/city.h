@@ -296,18 +296,18 @@ struct city {
   int trade[NUM_TRADEROUTES], trade_value[NUM_TRADEROUTES];
 
   /* Tile output, regardless of if the tile is actually worked. */
-  unsigned char tile_output[CITY_MAP_SIZE][CITY_MAP_SIZE][O_MAX];
+  unsigned char tile_output[CITY_MAP_SIZE][CITY_MAP_SIZE][O_LAST];
 
   /* the productions */
-  int surplus[O_MAX]; /* Final surplus in each category. */
-  int waste[O_MAX]; /* Waste/corruption in each category. */
-  int unhappy_penalty[O_MAX]; /* Penalty from unhappy cities. */
-  int prod[O_MAX]; /* Production is total minus waste and penalty. */
-  int citizen_base[O_MAX]; /* Base production from citizens. */
-  int usage[O_MAX]; /* Amount of each resource being used. */
+  int surplus[O_LAST]; /* Final surplus in each category. */
+  int waste[O_LAST]; /* Waste/corruption in each category. */
+  int unhappy_penalty[O_LAST]; /* Penalty from unhappy cities. */
+  int prod[O_LAST]; /* Production is total minus waste and penalty. */
+  int citizen_base[O_LAST]; /* Base production from citizens. */
+  int usage[O_LAST]; /* Amount of each resource being used. */
 
   /* Cached values for CPU savings. */
-  int bonus[O_MAX];
+  int bonus[O_LAST];
 
   int martial_law; /* Number of citizens pacified by martial law. */
   int unit_happy_upkeep; /* Number of citizens angered by military action. */
@@ -670,7 +670,7 @@ bool city_exist(int id);
 {									    \
   Output_type_id output;						    \
 									    \
-  for (output = 0; output < O_COUNT; output++) {
+  for (output = 0; output < O_LAST; output++) {
 
 #define output_type_iterate_end						    \
   }									    \

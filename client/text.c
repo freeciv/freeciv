@@ -48,9 +48,9 @@ const char *get_tile_output_text(const struct tile *ptile)
 {
   static struct astring str = ASTRING_INIT;
   int i;
-  char output_text[O_MAX][16];
+  char output_text[O_LAST][16];
 
-  for (i = 0; i < O_MAX; i++) {
+  for (i = 0; i < O_LAST; i++) {
     int before_penalty = 0;
     int x = city_tile_output(NULL, ptile, FALSE, i);
 

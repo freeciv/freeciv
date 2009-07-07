@@ -157,9 +157,9 @@ int ai_eval_calc_city(struct city *pcity, struct ai_data *ai)
 static inline int city_want(struct player *pplayer, struct city *acity, 
                             struct ai_data *ai, struct impr_type *pimprove)
 {
-  int want = 0, prod[O_COUNT], bonus[O_COUNT], waste[O_COUNT], i;
+  int want = 0, prod[O_LAST], bonus[O_LAST], waste[O_LAST], i;
 
-  memset(prod, 0, O_COUNT * sizeof(*prod));
+  memset(prod, 0, O_LAST * sizeof(*prod));
   if (NULL != pimprove
    && ai->impr_calc[improvement_index(pimprove)] == AI_IMPR_CALCULATE_FULL) {
     struct tile *acenter = city_tile(acity);
@@ -179,7 +179,7 @@ static inline int city_want(struct player *pplayer, struct city *acity,
     add_specialist_output(acity, prod);
   } else {
     assert(sizeof(*prod) == sizeof(*acity->citizen_base));
-    memcpy(prod, acity->citizen_base, O_COUNT * sizeof(*prod));
+    memcpy(prod, acity->citizen_base, O_LAST * sizeof(*prod));
   }
 
   for (i = 0; i < NUM_TRADEROUTES; i++) {

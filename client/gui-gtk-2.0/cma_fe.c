@@ -315,7 +315,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
 
   /* Minimal Surplus and Factor */
 
-  table = gtk_table_new(O_COUNT + 2, 3, TRUE);
+  table = gtk_table_new(O_LAST + 2, 3, TRUE);
   gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 2);
 
   label = gtk_label_new(_("Minimal Surplus"));
@@ -358,12 +358,12 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
 
   label = gtk_label_new(_("Celebrate"));
   gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1,
-			    O_COUNT + 1, O_COUNT + 2);
+			    O_LAST + 1, O_LAST + 2);
   gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
 
   hbox = gtk_hbox_new(FALSE, 0);
   gtk_table_attach_defaults(GTK_TABLE(table), hbox, 1, 2,
-			    O_COUNT + 1, O_COUNT + 2);
+			    O_LAST + 1, O_LAST + 2);
 
   pdialog->happy_button = gtk_check_button_new();
   gtk_box_pack_start(GTK_BOX(hbox), pdialog->happy_button, FALSE, FALSE,
@@ -374,16 +374,16 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
   g_signal_connect(pdialog->happy_button, "toggled",
 		   G_CALLBACK(hscale_changed), pdialog);
 
-  pdialog->factor[O_COUNT] =
+  pdialog->factor[O_LAST] =
       GTK_ADJUSTMENT(gtk_adjustment_new(0, 0, 50, 1, 0, 0));
 
-  hscale = gtk_hscale_new(GTK_ADJUSTMENT(pdialog->factor[O_COUNT]));
+  hscale = gtk_hscale_new(GTK_ADJUSTMENT(pdialog->factor[O_LAST]));
   gtk_table_attach_defaults(GTK_TABLE(table), hscale, 2, 3,
-			    O_COUNT + 1, O_COUNT + 2);
+			    O_LAST + 1, O_LAST + 2);
   gtk_scale_set_digits(GTK_SCALE(hscale), 0);
   gtk_scale_set_value_pos(GTK_SCALE(hscale), GTK_POS_LEFT);
 
-  g_signal_connect(pdialog->factor[O_COUNT],
+  g_signal_connect(pdialog->factor[O_LAST],
 		   "value_changed",
 		   G_CALLBACK(hscale_changed), pdialog);
 
@@ -717,7 +717,7 @@ static void set_hscales(const struct cm_parameter *const parameter,
   } output_type_iterate_end;
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pdialog->happy_button),
 			       parameter->require_happy);
-  gtk_adjustment_set_value(pdialog->factor[O_COUNT],
+  gtk_adjustment_set_value(pdialog->factor[O_LAST],
 			   parameter->happy_factor);
   allow_refreshes = 1;
 }
@@ -741,7 +741,7 @@ static void hscale_changed(GtkAdjustment *get, gpointer data)
   } output_type_iterate_end;
   param.require_happy =
       (GTK_TOGGLE_BUTTON(pdialog->happy_button)->active ? 1 : 0);
-  param.happy_factor = (int) (pdialog->factor[O_COUNT]->value);
+  param.happy_factor = (int) (pdialog->factor[O_LAST]->value);
 
   /* save the change */
   cmafec_set_fe_parameter(pdialog->pcity, &param);
