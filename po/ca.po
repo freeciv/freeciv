@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-07-07 00:41+0200\n"
-"PO-Revision-Date: 2009-07-07 02:03+0200\n"
+"PO-Revision-Date: 2009-07-08 23:35+0200\n"
 "Last-Translator: Joan Creus <joan.creus at gmail dot com>\n"
 "Language-Team: Català <ca@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1802,7 +1802,7 @@ msgstr "%s queda destruïda per la fam."
 msgid "%s can't build %s from the worklist; tech not yet available.  Postponing..."
 msgstr ""
 "%s no pot construir %s de la llista de treball, la tecnologia encara no està "
-"disponible.  Es posposa..."
+"disponible.  S'ajorna..."
 
 #: server/cityturn.c:662 server/cityturn.c:698
 #, c-format
@@ -1822,54 +1822,46 @@ msgid ""
 "Postponing..."
 msgstr ""
 "%s no pot construir %s de la llista de treball, la tecnologia %s encara no "
-"està disponible.  Es posposa..."
+"està disponible.  S'ajorna..."
 
 #: server/cityturn.c:743
 #, c-format
 msgid "%s can't build %s from the worklist; need to have %s first.  Postponing..."
-msgstr "%s no pot construir %s de la llista de treball, cal tenir %s.  Es posposa..."
+msgstr "%s no pot construir %s de la llista de treball, cal tenir %s.  S'ajorna..."
 
 #: server/cityturn.c:756
 #, c-format
 msgid "%s can't build %s from the worklist; it needs %s government.  Postponing..."
-msgstr ""
-"%s no pot construir %s de la llista de treball, necessita govern %s.  Es "
-"posposa..."
+msgstr "%s no pot construir %s de la llista de treball, necessita govern %s.  S'ajorna..."
 
 #: server/cityturn.c:768
 #, c-format
 msgid "%s can't build %s from the worklist; %s special is required.  Postponing..."
-msgstr ""
-"%s no pot construir %s de la llista de treball, cal una casella amb %s.  Es "
-"posposa..."
+msgstr "%s no pot construir %s de la llista de treball, cal una casella amb %s.  S'ajorna..."
 
 #: server/cityturn.c:780
 #, c-format
 msgid "%s can't build %s from the worklist; %s terrain is required.  Postponing..."
-msgstr ""
-"%s no pot construir %s de la llista de treball, cal terreny de %s.  Es "
-"posposa..."
+msgstr "%s no pot construir %s de la llista de treball, cal terreny de %s.  S'ajorna..."
 
 #: server/cityturn.c:794
 #, c-format
 msgid "%s can't build %s from the worklist; only %s may build this.  Postponing..."
 msgstr ""
 "%s no pot construir %s de la llista de treball; només %s pot construir-ho.  "
-"Es posposa..."
+"S'ajorna..."
 
 #: server/cityturn.c:813
 #, c-format
 msgid "%s can't build %s from the worklist; city must be of size %d.  Postponing..."
 msgstr ""
 "%s no pot construir %s de la llista de treball, la ciutat ha de ser de mida %"
-"d.  Es posposa..."
+"d.  S'ajorna..."
 
 #: server/cityturn.c:835
 #, c-format
 msgid "%s can't build %s from the worklist; Reason unknown!  Postponing..."
-msgstr ""
-"%s no pot construir %s de la llista de treball, raó desconeguda!!!.  Es "
-"posposa..."
+msgstr "%s no pot construir %s de la llista de treball, raó desconeguda!!!.  S'ajorna..."
 
 #. TRANS: The <city> worklist ....
 #: server/cityturn.c:870
