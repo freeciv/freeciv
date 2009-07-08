@@ -46,6 +46,7 @@ libgui_gtk2_la_SOURCES = \
 	editgui.h	\
 	editprop.c	\
 	editprop.h	\
+	embedggz.c	\
 	diplomat_dialog.c \
 	finddlg.c	\
 	finddlg.h	\

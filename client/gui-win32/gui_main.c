@@ -25,16 +25,18 @@
 #include <commctrl.h>
 #include <richedit.h>
 
-/* common & utility */
+/* utility */
 #include "fciconv.h"
 #include "fcintl.h"
-#include "game.h"
 #include "log.h"
-#include "map.h"
 #include "mem.h"
 #include "netintf.h"
 #include "shared.h"
 #include "support.h"
+
+/* common */
+#include "game.h"
+#include "map.h"
 #include "version.h"
 #include "timing.h"
 
@@ -48,6 +50,7 @@
 #include "control.h"
 #include "dialogs.h"
 #include "editgui_g.h"
+#include "ggz_g.h"
 #include "gotodlg.h"
 #include "gui_stuff.h"
 #include "graphics.h"
@@ -957,4 +960,16 @@ void editgui_notify_object_changed(int objtype, int object_id, bool remove)
   Stub for editor function
 ****************************************************************************/
 void editgui_notify_object_created(int tag, int id)
+{}
+
+/****************************************************************************
+  Stub for ggz function
+****************************************************************************/
+void gui_ggz_embed_leave_table(void)
+{}
+
+/****************************************************************************
+  Stub for ggz function
+****************************************************************************/
+void gui_ggz_embed_ensure_server(void)
 {}

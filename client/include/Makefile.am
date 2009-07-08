@@ -11,6 +11,7 @@ noinst_HEADERS = \
 	diplodlg_g.h	\
 	editgui_g.h	\
 	finddlg_g.h	\
+	ggz_g.h		\
 	gotodlg_g.h	\
 	graphics_g.h	\
 	gui_main_g.h	\

@@ -53,6 +53,7 @@
 #include "clinet.h"
 #include "editgui_g.h"
 #include "ggzclient.h"
+#include "ggz_g.h"
 #include "tilespec.h"
 
 /* gui-sdl */
@@ -1173,4 +1174,16 @@ void editgui_notify_object_changed(int objtype, int object_id, bool remove)
   Stub for editor function
 ****************************************************************************/
 void editgui_notify_object_created(int tag, int id)
+{}
+
+/****************************************************************************
+  Stub for ggz function
+****************************************************************************/
+void gui_ggz_embed_leave_table(void)
+{}
+
+/****************************************************************************
+  Stub for ggz function
+****************************************************************************/
+void gui_ggz_embed_ensure_server(void)
 {}

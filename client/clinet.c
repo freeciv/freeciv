@@ -58,22 +58,20 @@
 #include <winsock.h>
 #endif
 
-#ifdef GGZ_GTK
-#  include <ggz-embed.h>
-#endif
-
-/* common & utility */
+/* utility */
 #include "capstr.h"
 #include "dataio.h"
 #include "fcintl.h"
-#include "game.h"
 #include "hash.h"
 #include "log.h"
 #include "mem.h"
 #include "netintf.h"
-#include "packets.h"
 #include "registry.h"
 #include "support.h"
+
+/* common */
+#include "game.h"
+#include "packets.h"
 #include "version.h"
 
 /* client */
@@ -86,6 +84,7 @@
 #include "connectdlg_g.h"
 #include "dialogs_g.h"		/* popdown_races_dialog() */
 #include "ggzclient.h"
+#include "ggz_g.h"
 #include "gui_main_g.h"		/* add_net_input(), remove_net_input() */
 #include "mapview_common.h"	/* unqueue_mapview_update */
 #include "menu_g.h"
@@ -116,9 +115,7 @@ static void close_socket_nomessage(struct connection *pc)
     remove_ggz_input();
   }
   if (in_ggz) {
-#ifdef GGZ_GTK
-    ggz_embed_leave_table();
-#endif
+    gui_ggz_embed_leave_table();
   }
   connection_common_close(pc);
   remove_net_input();

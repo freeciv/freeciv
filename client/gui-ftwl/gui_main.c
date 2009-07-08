@@ -27,10 +27,13 @@
 #include "fciconv.h"
 #include "log.h"
 #include "registry.h"
+#include "shared.h"
+#include "support.h"
 
 /* client */
 #include "clinet.h"
 #include "editgui_g.h"
+#include "ggz_g.h"
 #include "graphics_g.h"
 
 #include "chatline.h"
@@ -39,8 +42,6 @@
 #include "back_end.h"
 #include "widget.h"
 #include "client_main.h"
-#include "shared.h"
-#include "support.h"
 #include "tilespec.h"
 #include "theme_engine.h"
 #include "chat.h"
@@ -398,4 +399,16 @@ void editgui_notify_object_changed(int objtype, int object_id, bool remove)
   Stub for editor function
 ****************************************************************************/
 void editgui_notify_object_created(int tag, int id)
+{}
+
+/****************************************************************************
+  Stub for ggz function
+****************************************************************************/
+void gui_ggz_embed_leave_table(void)
+{}
+
+/****************************************************************************
+  Stub for ggz function
+****************************************************************************/
+void gui_ggz_embed_ensure_server(void)
 {}
