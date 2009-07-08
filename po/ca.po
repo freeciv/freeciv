@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-07-08 22:00+0200\n"
-"PO-Revision-Date: 2009-07-08 23:31+0200\n"
+"PO-Revision-Date: 2009-07-08 23:43+0200\n"
 "Last-Translator: Joan Creus <joan.creus at gmail dot com>\n"
 "Language-Team: Català <ca@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -239,9 +239,8 @@ msgid "Was Built"
 msgstr "Construïda"
 
 #: common/events.c:101
-#, fuzzy
 msgid "Has Plague"
-msgstr "Esborrar clàusula"
+msgstr "Pateix Epidèmia"
 
 #: common/events.c:102
 msgid "Worklist Events"
@@ -1986,7 +1985,7 @@ msgstr "%s queda destruïda per la fam."
 msgid "%s can't build %s from the worklist; tech not yet available.  Postponing..."
 msgstr ""
 "%s no pot construir %s de la llista de treball, la tecnologia encara no està "
-"disponible.  Es posposa..."
+"disponible.  S'ajorna..."
 
 #: server/cityturn.c:943 server/cityturn.c:983
 #, c-format
@@ -2006,47 +2005,41 @@ msgid ""
 "Postponing..."
 msgstr ""
 "%s no pot construir %s de la llista de treball, la tecnologia %s encara no "
-"està disponible.  Es posposa..."
+"està disponible.  S'ajorna..."
 
 #: server/cityturn.c:1028
 #, c-format
 msgid "%s can't build %s from the worklist; need to have %s first.  Postponing..."
-msgstr "%s no pot construir %s de la llista de treball, cal tenir %s.  Es posposa..."
+msgstr "%s no pot construir %s de la llista de treball, cal tenir %s.  S'ajorna..."
 
 #: server/cityturn.c:1041
 #, c-format
 msgid "%s can't build %s from the worklist; it needs %s government.  Postponing..."
-msgstr ""
-"%s no pot construir %s de la llista de treball, necessita govern %s.  Es "
-"posposa..."
+msgstr "%s no pot construir %s de la llista de treball, necessita govern %s.  S'ajorna..."
 
 #: server/cityturn.c:1053
 #, c-format
 msgid "%s can't build %s from the worklist; %s special is required.  Postponing..."
-msgstr ""
-"%s no pot construir %s de la llista de treball, cal una casella amb %s.  Es "
-"posposa..."
+msgstr "%s no pot construir %s de la llista de treball, cal una casella amb %s.  S'ajorna..."
 
 #: server/cityturn.c:1065
 #, c-format
 msgid "%s can't build %s from the worklist; %s terrain is required.  Postponing..."
-msgstr ""
-"%s no pot construir %s de la llista de treball, cal terreny de %s.  Es "
-"posposa..."
+msgstr "%s no pot construir %s de la llista de treball, cal terreny de %s.  S'ajorna..."
 
 #: server/cityturn.c:1079
 #, c-format
 msgid "%s can't build %s from the worklist; only %s may build this.  Postponing..."
 msgstr ""
 "%s no pot construir %s de la llista de treball; només %s pot construir-ho.  "
-"Es posposa..."
+"S'ajorna..."
 
 #: server/cityturn.c:1091
 #, c-format
 msgid "%s can't build %s from the worklist; city must be of size %d.  Postponing..."
 msgstr ""
 "%s no pot construir %s de la llista de treball, la ciutat ha de ser de mida %"
-"d.  Es posposa..."
+"d.  S'ajorna..."
 
 #: server/cityturn.c:1105
 #, c-format
@@ -2055,7 +2048,7 @@ msgid ""
 "Postponing..."
 msgstr ""
 "%s no pot construir %s de la llista de treball; només IA de nivell %s pot "
-"construir-ho.  Es posposa..."
+"construir-ho.  S'ajorna..."
 
 #: server/cityturn.c:1118
 #, c-format
@@ -2064,7 +2057,7 @@ msgid ""
 "Postponing..."
 msgstr ""
 "%s no pot construir %s de la llista de treball, necessita classe de terreny %"
-"s.  Es posposa..."
+"s.  S'ajorna..."
 
 #: server/cityturn.c:1144
 #, c-format
@@ -3746,24 +3739,24 @@ msgstr "No es poden crear unitats a la casella (%d, %d) perquè no és al mapa!"
 msgid ""
 "Cannot create a unit at (%d, %d) because the given unit type id %d is "
 "invalid."
-msgstr ""
+msgstr "No es pot crear una unitat a (%d, %d) perquè l'identificador de tipus d'unitat %d no és vàlid."
 
 #: server/edithand.c:426
 #, c-format
 msgid ""
 "Cannot create a unit of type %s at (%d, %d) because the given owner's player "
 "id %d is invalid."
-msgstr ""
+msgstr "No es pot crear una unitat de tipus %s a (%d, %d) perquè l'identificador l'identificador de jugador del seu propietari %d no és vàlid."
 
 #: server/edithand.c:437
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create unit of type %s on enemy tile (%d, %d)."
-msgstr "No es pot crear una unitat en una casella enemiga."
+msgstr "No es pot crear una unitat de tipus %s a la casella enemiga (%d, %d)."
 
 #: server/edithand.c:445
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create a unit of type %s on the terrain at (%d, %d)."
-msgstr "No es pot crear unitat de %s sobre aquest terreny."
+msgstr "No es pot crear una unitat de tipus %s sobre el terreny de (%d, %d)."
 
 #: server/edithand.c:490
 #, c-format
@@ -3855,22 +3848,20 @@ msgstr ""
 msgid ""
 "No more players can be added because there are no available nations (%d "
 "used)."
-msgstr ""
+msgstr "No es poden afegir més jugadors perquè no queden nacions (se'n fan servir %d)."
 
 #: server/edithand.c:849
-#, fuzzy
 msgid "Player cannot be created because random nation selection failed."
-msgstr "Els jugadors no es poden esborrar un cop la partida ha començat."
+msgstr "Els jugador no es pot crear perquè ha fallat la selecció aleatòria de nació."
 
 #: server/edithand.c:858
-#, fuzzy
 msgid "Player creation failed."
-msgstr "Jugador Destruït"
+msgstr "Ha fallat la creació del jugador."
 
 #: server/edithand.c:894
-#, fuzzy, c-format
+#, c-format
 msgid "No such player (ID %d)."
-msgstr "No existeix la votació (%d)"
+msgstr "No existeix el jugador (ID %d)."
 
 #: server/edithand.c:932
 #, c-format
