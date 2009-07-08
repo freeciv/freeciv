@@ -249,8 +249,7 @@ void worklist_load(struct section_file *file, struct worklist *pwl,
       bool is_unit = secfile_lookup_bool_default(file, FALSE,
 						 "%s.wl_is_unit%d",
 						 path_str, i);
-      pwl->entries[i].kind = is_unit ? VUT_UTYPE : VUT_IMPROVEMENT;
-      kind = universal_kind_name(&pwl->entries[i]);
+      kind = universal_kind_name(is_unit ? VUT_UTYPE : VUT_IMPROVEMENT);
     }
 
     /* We lookup the production value by name.  An invalid entry isn't a
@@ -299,7 +298,7 @@ void worklist_save(struct section_file *file, struct worklist *pwl,
     secfile_insert_bool(file, (VUT_UTYPE == entry->kind),
 			"%s.wl_is_unit%d", path_str, i);
 
-    secfile_insert_str(file, universal_kind_name(entry),
+    secfile_insert_str(file, universal_type_rule_name(entry),
                        "%s.wl_kind%d", path_str, i);
     secfile_insert_str(file, universal_rule_name(entry),
 		       "%s.wl_value%d", path_str, i);

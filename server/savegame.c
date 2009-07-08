@@ -2491,8 +2491,7 @@ static void player_load_cities(struct player *plr, int plrno,
       bool is_unit = secfile_lookup_bool_default(file, FALSE,
 						 "player%d.c%d.is_building_unit",
 						 plrno, i);
-      pcity->production.kind = is_unit ? VUT_UTYPE : VUT_IMPROVEMENT;
-      kind = universal_kind_name(&pcity->production);
+      kind = universal_kind_name(is_unit ? VUT_UTYPE : VUT_IMPROVEMENT);
     }
 
     name = secfile_lookup_str_default(file, NULL,
@@ -2543,8 +2542,7 @@ static void player_load_cities(struct player *plr, int plrno,
       bool is_unit = secfile_lookup_bool_default(file, FALSE,
 						 "player%d.c%d.changed_from_is_unit",
 						 plrno, i);
-      pcity->changed_from.kind = is_unit ? VUT_UTYPE : VUT_IMPROVEMENT;
-      kind = universal_kind_name(&pcity->changed_from);
+      kind = universal_kind_name(is_unit ? VUT_UTYPE : VUT_IMPROVEMENT);
     }
 
     name = secfile_lookup_str_default(file, NULL,
@@ -3599,13 +3597,13 @@ static void player_save_cities(struct player *plr, int plrno,
     secfile_insert_str(file, city_name(pcity), "player%d.c%d.name", plrno, i);
 
     /* before 2.2.0 unit production was indicated by flag. */
-    secfile_insert_str(file, universal_kind_name(&pcity->production),
+    secfile_insert_str(file, universal_type_rule_name(&pcity->production),
                        "player%d.c%d.currently_building_kind", plrno, i);
     secfile_insert_str(file, universal_rule_name(&pcity->production),
                        "player%d.c%d.currently_building_name", plrno, i);
 
     /* before 2.2.0 unit production was indicated by flag. */
-    secfile_insert_str(file, universal_kind_name(&pcity->changed_from),
+    secfile_insert_str(file, universal_type_rule_name(&pcity->changed_from),
                        "player%d.c%d.changed_from_kind", plrno, i);
     secfile_insert_str(file, universal_rule_name(&pcity->changed_from),
                        "player%d.c%d.changed_from_name", plrno, i);

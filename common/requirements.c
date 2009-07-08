@@ -1305,10 +1305,10 @@ bool are_universals_equal(const struct universal *psource1,
   Return the (untranslated) rule name of the kind of universal.
   You don't have to free the return pointer.
 *****************************************************************************/
-const char *universal_kind_name(const struct universal *psource)
+const char *universal_kind_name(const enum universals_n kind)
 {
-  assert(psource->kind >= 0 && psource->kind < ARRAY_SIZE(universal_names));
-  return universal_names[psource->kind];
+  assert(kind >= 0 && kind < ARRAY_SIZE(universal_names));
+  return universal_names[kind];
 }
 
 /****************************************************************************
@@ -1463,7 +1463,7 @@ const char *universal_name_translation(const struct universal *psource,
 *****************************************************************************/
 const char *universal_type_rule_name(const struct universal *psource)
 {
-  return universal_names[psource->kind];
+  return universal_kind_name(psource->kind);
 }
 
 /**************************************************************************

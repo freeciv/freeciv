@@ -107,7 +107,7 @@ void universal_extraction(const struct universal *source,
 bool are_universals_equal(const struct universal *psource1,
 			  const struct universal *psource2);
 
-const char *universal_kind_name(const struct universal *psource);
+const char *universal_kind_name(const enum universals_n kind);
 const char *universal_rule_name(const struct universal *psource);
 const char *universal_name_translation(const struct universal *psource,
 				       char *buf, size_t bufsz);
