@@ -53,6 +53,7 @@ enum pf_mode {
 enum pf_node_status {
   NS_UNINIT = 0,		/* memory is calloced, hence zero 
 				 * means uninitialised */
+  NS_INIT,                      /* node initialized, but no path found yet */
   NS_NEW,			/* the optimal route isn't found yet */
   NS_WAITING,			/* the optimal route is found,
 				 * considering waiting */
@@ -246,9 +247,6 @@ static void pf_normal_node_init(struct pf_normal_map *pfnm,
 {
   const struct pf_parameter *params = pf_map_get_parameter(PF_MAP(pfnm));
 
-  /* We will change the status of the tile once we have put
-   * sensible values into node->cost */
-
   /* Establish the "known" status of node */
   if (params->omniscience) {
     node->node_known_type = TILE_KNOWN_SEEN;
@@ -289,6 +287,8 @@ static void pf_normal_node_init(struct pf_normal_map *pfnm,
   } else {
     node->extra_tile = 0;
   }
+
+  node->status = NS_INIT;
 }
 
 /****************************************************************************
@@ -468,7 +468,7 @@ static bool pf_jumbo_map_iterate(struct pf_map *pfm)
       continue;
     }
 
-    if (node1->status == NS_UNINIT) {
+    if (node1->status <= NS_INIT) {
       node1->cost = PF_IMPOSSIBLE_MC;
     }
 
@@ -580,7 +580,7 @@ static bool pf_normal_map_iterate(struct pf_map *pfm)
       /* Update costs and add to queue, if we found a better route to xy1. */
       cost_of_path = get_total_CC(params, cost, extra);
 
-      if (node1->status == NS_UNINIT
+      if (node1->status == NS_INIT
           || cost_of_path < get_total_CC(params, node1->cost,
                                          node1->extra_cost)) {
         node1->status = NS_NEW;
@@ -827,9 +827,6 @@ static void pf_danger_node_init(struct pf_danger_map *pfdm,
 {
   const struct pf_parameter *params = pf_map_get_parameter(PF_MAP(pfdm));
 
-  /* We will change the status of the tile once we have put
-   * sensible values into node->cost */
-
   /* Establish the "known" status of node */
   if (params->omniscience) {
     node->node_known_type = TILE_KNOWN_SEEN;
@@ -875,6 +872,8 @@ static void pf_danger_node_init(struct pf_danger_map *pfdm,
     params->is_pos_dangerous(ptile, node->node_known_type, params);
 
   /* waited is set to zero by fc_calloc. */
+
+  node->status = NS_INIT;
 }
 
 /****************************************************************************
@@ -1266,7 +1265,7 @@ static bool pf_danger_map_iterate(struct pf_map *pfm)
       if (!node1->is_dangerous) {
         int cost_of_path = get_total_CC(params, cost, extra);
 
-        if (node1->status == NS_UNINIT
+        if (node1->status == NS_INIT
             || (cost_of_path< get_total_CC(params, node1->cost,
                                            node1->extra_cost))) {
           node1->extra_cost = extra;
@@ -1295,7 +1294,7 @@ static bool pf_danger_map_iterate(struct pf_map *pfm)
          * 2: we can possibly go further across dangerous area or
          * 3: we can have lower extra and will not
          *    overwrite anything useful */
-        if (node1->status == NS_UNINIT
+        if (node1->status == NS_INIT
             || (get_moves_left(params, cost)
                 > get_moves_left(params, node1->cost))
             || ((get_total_CC(params, cost, extra)
@@ -1342,7 +1341,7 @@ static bool pf_danger_map_iterate(struct pf_map *pfm)
   pfm->tile = tile;
   node = &pfdm->lattice[index];
 
-  assert(node->status != NS_UNINIT);
+  assert(node->status > NS_INIT);
 
   if (node->status == NS_WAITING) {
     /* We've already returned this node once, skip it */
@@ -1596,9 +1595,6 @@ static void pf_fuel_node_init(struct pf_fuel_map *pffm,
 {
   const struct pf_parameter *params = pf_map_get_parameter(PF_MAP(pffm));
 
-  /* We will change the status of the tile once we have put
-   * sensible values into node->cost */
-
   /* Establish the "known" status of node */
   if (params->omniscience) {
     node->node_known_type = TILE_KNOWN_SEEN;
@@ -1653,6 +1649,8 @@ static void pf_fuel_node_init(struct pf_fuel_map *pffm,
   }
 
   /* waited is set to zero by fc_calloc. */
+
+  node->status = NS_INIT;
 }
 
 /****************************************************************************
@@ -2100,7 +2098,7 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
        */
       pos = node1->fuel_segment;
       cost_of_path = get_total_CC(params, cost, extra);
-      if (node1->status == NS_UNINIT) {
+      if (node1->status == NS_INIT) {
         /* Not calculated yet */
         old_cost_of_path = 0;
       } else if (pos) {
@@ -2126,7 +2124,7 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
         prev_tile = NULL;
       }
 
-      if (node1->status == NS_UNINIT || cost_of_path < old_cost_of_path
+      if (node1->status == NS_INIT || cost_of_path < old_cost_of_path
           || (prev_tile && mlr > node->moves_left_req)) {
         node1->extra_cost = extra;
         node1->cost = cost;
@@ -2215,7 +2213,7 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
   pfm->tile = tile;
   node = &pffm->lattice[index];
 
-  assert(node->status != NS_UNINIT);
+  assert(node->status > NS_INIT);
 
   if (node->status == NS_WAITING) {
     /* We've already returned this node once, skip it */
