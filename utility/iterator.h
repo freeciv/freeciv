@@ -13,6 +13,8 @@
 #ifndef FC__ITERATOR_H
 #define FC__ITERATOR_H
 
+#include "support.h" /* bool */
+
 /***********************************************************************
   Iterator base class. "Derived" iterators must have this struct as
   their first member (as a "vtable") and provide implementations of the
