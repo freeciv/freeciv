@@ -3724,6 +3724,7 @@ void load_rulesets(void)
   script_free();
 
   script_init();
+  openload_script_file("default");
   openload_script_file("script");
 
   /* Build AI unit class cache corresponding to loaded rulesets */
