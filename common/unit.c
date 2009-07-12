@@ -1356,8 +1356,7 @@ bool unit_being_aggressive(const struct unit *punit)
       && tile_owner(punit->tile) == unit_owner(punit)) {
     return FALSE;
   }
-  if (is_ground_unit(punit) &&
-      tile_has_base_flag_for_unit(punit->tile,
+  if (tile_has_base_flag_for_unit(punit->tile,
                                   unit_type(punit),
                                   BF_NOT_AGGRESSIVE)) {
     return !is_unit_near_a_friendly_city (punit);
