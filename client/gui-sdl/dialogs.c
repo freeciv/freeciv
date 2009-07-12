@@ -211,6 +211,14 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
   			a: %s\nb: %s",headline, lines );
 }
 
+/**************************************************************************
+  Popup a dialog to display connection message from server.
+**************************************************************************/
+void popup_connect_msg(const char *headline, const char *message)
+{
+  freelog(LOG_ERROR, "popup_connect_msg() PORT ME");
+}
+
 /* ----------------------------------------------------------------------- */
 struct ADVANCED_DLG *pNotifyDlg = NULL;
 

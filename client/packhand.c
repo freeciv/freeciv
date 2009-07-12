@@ -1134,7 +1134,16 @@ void handle_chat_msg(char *message, int x, int y,
 
   handle_event(message, ptile, event, conn_id);
 }
- 
+
+/**************************************************************************
+  Handle a connect message packet. Server sends connect message to
+  client immediately when client connects.
+**************************************************************************/
+void handle_connect_msg(char *message)
+{
+  popup_connect_msg(_("Welcome"), message);
+}
+
 /**************************************************************************
 ...
 **************************************************************************/

@@ -391,7 +391,16 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
   /*  XtSetSensitive(toplevel, FALSE); */
 }
 
+/**************************************************************************
+  Popup a dialog to display connection message from server.
+**************************************************************************/
+void popup_connect_msg(const char *headline, const char *message)
+{
+  /* FIXME: Needs proper implementation.
+   *        Now just puts to chat window so message is not completely lost. */
 
+  append_output_window(message);
+}
 
 /****************************************************************
 ...

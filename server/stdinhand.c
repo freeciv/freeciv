@@ -1077,8 +1077,7 @@ static void write_init_script(char *script_filename)
 }
 
 /**************************************************************************
-...
-('caller' argument is unused)
+ Generate init script from settings currently in use
 **************************************************************************/
 static bool write_command(struct connection *caller, char *arg, bool check)
 {
@@ -1595,6 +1594,46 @@ static bool wall(char *str, bool check)
   if (!check) {
     notify_conn(NULL, NULL, E_MESSAGE_WALL,
  		_("Server Operator: %s"), str);
+  }
+  return TRUE;
+}
+
+/******************************************************************
+  Set message to send to all new connections
+******************************************************************/
+static bool connectmsg_command(struct connection *caller, char *str,
+                               bool check)
+{
+  unsigned int bufsize = sizeof(game.connectmsg);
+
+  if (is_restricted(caller)) {
+    return FALSE;
+  }
+  if (!check) {
+    int i;
+    int c = 0;
+
+    for (i = 0; c < bufsize -1 && str[i] != '\0'; i++) {
+      if (str[i] ==  '\\') {
+        i++;
+
+        if (str[i] == 'n') {
+          game.connectmsg[c++] = '\n';
+        } else {
+          game.connectmsg[c++] = str[i];
+        }
+      } else {
+        game.connectmsg[c++] = str[i];
+      }
+    }
+
+    game.connectmsg[c++] = '\0';
+
+    if (c == bufsize) {
+      /* Truncated */
+      cmd_reply(CMD_CONNECTMSG, caller, C_WARNING,
+		_("Connectmsg truncated to %u bytes."), bufsize);
+    }
   }
   return TRUE;
 }
@@ -3816,6 +3855,8 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
     return set_rulesetdir(caller, arg, check);
   case CMD_WALL:
     return wall(arg, check);
+  case CMD_CONNECTMSG:
+    return connectmsg_command(caller, arg, check);
   case CMD_VOTE:
     return vote_command(caller, arg, check);
   case CMD_READ_SCRIPT:

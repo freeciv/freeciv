@@ -325,6 +325,11 @@ bool handle_login_request(struct connection *pconn,
     }
   } conn_list_iterate_end;
 
+  if (game.connectmsg[0] != '\0') {
+    freelog(LOG_DEBUG, "Sending connectmsg: %s", game.connectmsg);
+    dsend_packet_connect_msg(pconn, game.connectmsg);
+  }
+
   if (srvarg.auth_enabled) {
     return authenticate_user(pconn, req->username);
   } else {

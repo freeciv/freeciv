@@ -37,6 +37,7 @@ enum command_id {
   CMD_EXPLAIN,
   CMD_SHOW,
   CMD_WALL,
+  CMD_CONNECTMSG,
   CMD_VOTE,
   
   /* mostly non-harmful: */

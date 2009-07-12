@@ -26,6 +26,7 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
 			      struct tile *ptile);
 void popup_notify_dialog(const char *caption, const char *headline,
 			 const char *lines);
+void popup_connect_msg(const char *headline, const char *message);
 
 void popup_races_dialog(struct player *pplayer);
 void popdown_races_dialog(void);

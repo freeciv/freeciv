@@ -69,7 +69,7 @@ struct civ_game {
    * use.  The "stored" value is a value the player can change; it won't
    * take effect until the next turn. */
   int phase_mode_stored;
-  char *startmessage;
+  char connectmsg[MAX_LEN_MSG];
   struct player players[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   int nplayers;
   struct conn_list *all_connections;        /* including not yet established */

@@ -173,6 +173,14 @@ static void notify_goto_response(GtkWidget *w, gint response)
   gtk_widget_destroy(w);
 }
 
+/****************************************************************
+  User clicked close for connect message dialog
+*****************************************************************/
+static void notify_connect_msg_response(GtkWidget *w, gint response)
+{
+  gtk_widget_destroy(w);
+}
+
 /**************************************************************************
   Popup a dialog to display information about an event that has a
   specific location.  The user should be given the option to goto that
@@ -222,6 +230,35 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
   g_object_set_data(G_OBJECT(shell), "tile", ptile);
 
   g_signal_connect(shell, "response", G_CALLBACK(notify_goto_response), NULL);
+  gtk_widget_show(shell);
+}
+
+/**************************************************************************
+  Popup a dialog to display connection message from server.
+**************************************************************************/
+void popup_connect_msg(const char *headline, const char *message)
+{
+  GtkWidget *shell, *label;
+  
+  shell = gtk_dialog_new_with_buttons(headline,
+        NULL,
+        0,
+        NULL);
+  setup_dialog(shell, toplevel);
+  gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_CLOSE);
+  gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_CENTER_ON_PARENT);
+
+  label = gtk_label_new(message);
+  gtk_label_set_selectable(GTK_LABEL(label), 1);
+
+  gtk_container_add(GTK_CONTAINER(GTK_DIALOG(shell)->vbox), label);
+  gtk_widget_show(label);
+
+  gtk_dialog_add_button(GTK_DIALOG(shell), GTK_STOCK_CLOSE,
+			GTK_RESPONSE_CLOSE);
+
+  g_signal_connect(shell, "response", G_CALLBACK(notify_connect_msg_response),
+                   NULL);
   gtk_widget_show(shell);
 }
 

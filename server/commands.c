@@ -126,6 +126,13 @@ static struct command commands[] = {
       "entered."),
    VCF_NONE, 0
   },
+  {"connectmsg", ALLOW_ADMIN,
+   /* TRANS: translate text between <> only */
+   N_("connectmsg <message>"),
+   N_("Set message to show to connecting players."),
+   N_("Set message to sends to clients when they connect.\n"
+      "Empty message means that no message is sent.")
+  },
   {"vote",	ALLOW_BASIC,
    /* TRANS: translate text between [] only */
    N_("vote yes|no|abstain [vote number]"),

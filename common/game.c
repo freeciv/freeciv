@@ -409,6 +409,7 @@ void game_init(void)
 
   game.meta_info.user_message_set = FALSE;
   game.meta_info.user_message[0] = '\0';
+  game.connectmsg[0] = '\0';
 }
 
 /****************************************************************************

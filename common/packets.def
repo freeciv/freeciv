@@ -257,7 +257,7 @@ grouped together. There are the following groups:
   Voting
   Editor
 
-The last used packet number is 181.
+The last used packet number is 182.
 ****************************************************/
 
 
@@ -516,6 +516,10 @@ PACKET_CHAT_MSG=18;sc, pre-send, post-recv,lsend,dsend
 end
 
 PACKET_CHAT_MSG_REQ=19;cs,handle-per-conn,dsend
+  STRING message[MAX_LEN_MSG];
+end
+
+PACKET_CONNECT_MSG=182;sc,dsend
   STRING message[MAX_LEN_MSG];
 end
 

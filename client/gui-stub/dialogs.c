@@ -32,6 +32,14 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
 }
 
 /**************************************************************************
+  Popup a dialog to display connection message from server.
+**************************************************************************/
+void popup_connect_msg(const char *headline, const char *message)
+{
+  /* PORTME */
+}
+
+/**************************************************************************
   Popup a generic dialog to display some generic information.
 **************************************************************************/
 void popup_notify_dialog(const char *caption, const char *headline,
