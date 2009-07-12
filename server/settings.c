@@ -1119,6 +1119,11 @@ struct settings_s settings[] = {
   GEN_END
 };
 
+#undef GEN_BOOL
+#undef GEN_INT
+#undef GEN_STRING
+#undef GEN_END
+
 /* The number of settings, not including the END. */
 const int SETTINGS_NUM = ARRAY_SIZE(settings) - 1;
 
