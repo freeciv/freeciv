@@ -24,6 +24,7 @@
 /* common */
 #include "game.h"
 #include "government.h"
+#include "movement.h"
 
 /* client */
 #include "client_main.h"

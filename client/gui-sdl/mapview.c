@@ -36,6 +36,7 @@
 #include "game.h"
 #include "goto.h"
 #include "government.h"
+#include "movement.h"
 #include "unitlist.h"
 
 /* client */

@@ -32,6 +32,7 @@
 
 /* common */
 #include "game.h"
+#include "movement.h"
 #include "unit.h"
 
 /* client */
