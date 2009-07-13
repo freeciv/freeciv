@@ -1035,7 +1035,8 @@ bv_special get_unit_tile_pillage_set(const struct tile *ptile)
   BV_CLR_ALL(tgt_ret);
   unit_list_iterate(ptile->units, punit) {
     if (punit->activity == ACTIVITY_PILLAGE
-	&& punit->activity_target != S_LAST) {
+        && punit->activity_target != S_LAST
+        && punit->activity_target != S_PILLAGE_BASE) {
       assert(punit->activity_target < S_LAST);
       BV_SET(tgt_ret, punit->activity_target);
     }
