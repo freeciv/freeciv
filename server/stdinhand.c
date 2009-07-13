@@ -95,6 +95,11 @@ static bool observe_command(struct connection *caller, char *name, bool check);
 static bool take_command(struct connection *caller, char *name, bool check);
 static bool end_command(struct connection *caller, char *str, bool check);
 static bool surrender_command(struct connection *caller, char *str, bool check);
+static bool handle_stdin_input_real(struct connection *caller, char *str,
+                                    bool check, int read_recursion);
+static bool read_init_script_real(struct connection *caller,
+                                  char *script_filename, bool from_cmdline,
+                                  bool check, int read_recursion);
 
 static bool is_ok_opt_name_char(char c);
 
@@ -915,6 +920,16 @@ static bool remove_player(struct connection *caller, char *arg, bool check)
 }
 
 /**************************************************************************
+  Main entry point for reading an init script.
+**************************************************************************/
+bool read_init_script(struct connection *caller, char *script_filename,
+                      bool from_cmdline, bool check)
+{
+  return read_init_script_real(caller, script_filename, from_cmdline,
+                               check, 0);
+}
+
+/**************************************************************************
   Returns FALSE iff there was an error.
 
   Security: We will look for a file with mandatory extension '.serv',
@@ -925,8 +940,9 @@ static bool remove_player(struct connection *caller, char *arg, bool check)
   permissions of the caller, so it will in any case not lead to elevated
   permissions unless there are other bugs.
 **************************************************************************/
-bool read_init_script(struct connection *caller, char *script_filename,
-                      bool from_cmdline)
+static bool read_init_script_real(struct connection *caller,
+                                  char *script_filename, bool from_cmdline,
+                                  bool check, int read_recursion)
 {
   FILE *script_file;
   const char extension[] = ".serv";
@@ -976,9 +992,9 @@ bool read_init_script(struct connection *caller, char *script_filename,
 
     /* the size is set as to not overflow buffer in handle_stdin_input */
     while (fgets(buffer, MAX_LEN_CONSOLE_LINE - 1, script_file)) {
-			/* Execute script contents with same permissions as caller */
-      handle_stdin_input(caller, buffer, FALSE);
-		}
+      /* Execute script contents with same permissions as caller */
+      handle_stdin_input_real(caller, buffer, check, read_recursion);
+    }
     fclose(script_file);
     return TRUE;
   } else {
@@ -991,15 +1007,20 @@ bool read_init_script(struct connection *caller, char *script_filename,
 }
 
 /**************************************************************************
-...
+  Main entry point for the read command.
 **************************************************************************/
-static bool read_command(struct connection *caller, char *arg, bool check)
+static bool read_command(struct connection *caller, char *arg, bool check,
+                         int read_recursion)
 {
-  if (check) {
-    return TRUE; /* FIXME: no actual checks done */
+  if (read_recursion > GAME_MAX_READ_RECURSION) {
+    freelog(LOG_ERROR, "Error: recursive calls to read!");
+    return FALSE;
   }
-  /* warning: there is no recursion check! */
-  return read_init_script(caller, arg, FALSE);
+
+  /* increase the number of calls to read */
+  read_recursion++;
+
+  return read_init_script_real(caller, arg, FALSE, check, read_recursion);
 }
 
 /**************************************************************************
@@ -3650,6 +3671,14 @@ static bool quit_game(struct connection *caller, bool check)
 }
 
 /**************************************************************************
+  Main entry point for "command input".
+**************************************************************************/
+bool handle_stdin_input(struct connection *caller, char *str, bool check)
+{
+  return handle_stdin_input_real(caller, str, check, 0);
+}
+
+/**************************************************************************
   Handle "command input", which could really come from stdin on console,
   or from client chat command, or read from file with -r, etc.
   caller==NULL means console, str is the input, which may optionally
@@ -3657,7 +3686,8 @@ static bool quit_game(struct connection *caller, bool check)
 
   If check is TRUE, then do nothing, just check syntax.
 **************************************************************************/
-bool handle_stdin_input(struct connection *caller, char *str, bool check)
+static bool handle_stdin_input_real(struct connection *caller, char *str,
+                                    bool check, int read_recursion)
 {
   char command[MAX_LEN_CONSOLE_LINE], arg[MAX_LEN_CONSOLE_LINE],
       allargs[MAX_LEN_CONSOLE_LINE], full_command[MAX_LEN_CONSOLE_LINE],
@@ -3860,7 +3890,7 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
   case CMD_VOTE:
     return vote_command(caller, arg, check);
   case CMD_READ_SCRIPT:
-    return read_command(caller, arg, check);
+    return read_command(caller, arg, check, read_recursion);
   case CMD_WRITE_SCRIPT:
     return write_command(caller, arg, check);
   case CMD_RFCSTYLE:	/* see console.h for an explanation */

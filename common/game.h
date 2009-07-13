@@ -398,4 +398,6 @@ bool setting_class_is_changeable(enum sset_class class);
 
 #define GAME_START_YEAR -4000
 
+#define GAME_MAX_READ_RECURSION 10 /* max recursion for the read command */
+
 #endif  /* FC__GAME_H */

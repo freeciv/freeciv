@@ -2140,7 +2140,7 @@ static void srv_prepare(void)
 
   /* load a script file */
   if (srvarg.script_filename
-      && !read_init_script(NULL, srvarg.script_filename, TRUE)) {
+      && !read_init_script(NULL, srvarg.script_filename, TRUE, FALSE)) {
     exit(EXIT_FAILURE);
   }
 }
