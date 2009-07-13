@@ -27,6 +27,7 @@
 #include "events.h"
 #include "game.h"
 #include "government.h"
+#include "movement.h"
 #include "player.h"
 #include "unitlist.h"
 

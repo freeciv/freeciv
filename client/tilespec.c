@@ -26,24 +26,27 @@
 #include <stdlib.h>		/* exit */
 #include <string.h>
 
-/* common & utility */
+/* utility */
 #include "astring.h"
-#include "base.h"
 #include "capability.h"
 #include "fcintl.h"
-#include "game.h"		/* game.control.styles_count */
-#include "government.h"
 #include "hash.h"
 #include "log.h"
-#include "map.h"
 #include "mem.h"
-#include "nation.h"
-#include "player.h"
 #include "rand.h"
 #include "registry.h"
 #include "shared.h"
-#include "specialist.h"
 #include "support.h"
+
+/* common */
+#include "base.h"
+#include "game.h"		/* game.control.styles_count */
+#include "government.h"
+#include "map.h"
+#include "movement.h"
+#include "nation.h"
+#include "player.h"
+#include "specialist.h"
 #include "unit.h"
 #include "unitlist.h"
 

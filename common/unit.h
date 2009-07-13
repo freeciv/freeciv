@@ -200,11 +200,6 @@ struct unit {
   } orders;
 };
 
-#define SINGLE_MOVE 3
-#define MOVE_COST_RIVER 1
-#define MOVE_COST_RAIL 0
-#define MOVE_COST_ROAD 1
-
 bool is_real_activity(enum unit_activity activity);
 
 /* Iterates over the types of unit activity. */

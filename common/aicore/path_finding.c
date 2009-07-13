@@ -17,12 +17,15 @@
 
 #include <assert.h>
 
-#include "game.h"
+/* utility */
 #include "log.h"
-#include "map.h"
 #include "mem.h"
 #include "pqueue.h"
-#include "unitlist.h"
+
+/* common */
+#include "game.h"
+#include "map.h"
+#include "movement.h"
 
 #include "path_finding.h"
 

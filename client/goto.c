@@ -24,6 +24,7 @@
 
 /* common */
 #include "map.h"
+#include "movement.h"
 #include "packets.h"
 #include "pf_tools.h"
 #include "unit.h"

@@ -14,9 +14,15 @@
 #define FC__MOVEMENT_H
 
 #include "fc_types.h"
-#include "terrain.h"
 #include "unit.h"       /* enum unit_activity */
-#include "unittype.h"
+
+#define SINGLE_MOVE     3
+#define MOVE_COST_RIVER 1
+#define MOVE_COST_RAIL  0
+#define MOVE_COST_ROAD  1
+
+struct unit_type;
+struct terrain;
 
 int unit_move_rate(const struct unit *punit);
 bool unit_can_defend_here(const struct unit *punit);
