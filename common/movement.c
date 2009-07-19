@@ -152,9 +152,12 @@ bool is_ground_unittype(const struct unit_type *punittype)
 bool can_exist_at_tile(const struct unit_type *utype,
                        const struct tile *ptile)
 {
-  /* Cities are safe havens except for sea units without ocean access. */
-  if (tile_city(ptile) && !(is_sailing_unittype(utype)
-                            && !is_ocean_near_tile(ptile))) {
+  /* Cities are safe havens except for units in the middle of non-native
+   * terrain. This can happen if adjacent terrain is changed after unit
+   * arrived to city */
+  if (tile_city(ptile)
+      && (uclass_has_flag(utype_class(utype), UCF_BUILD_ANYWHERE)
+          || is_native_near_tile(utype, ptile))) {
     return TRUE;
   }
 
