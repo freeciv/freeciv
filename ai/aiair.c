@@ -76,7 +76,7 @@ static bool ai_should_we_air_attack_tile(struct unit *punit,
    * attack anything.  Production should not happen if there is an idle 
    * unit of the same type nearby */
   if (acity && punit->id != 0
-      && acity->ai.invasion.occupy == 0 && !COULD_OCCUPY(punit)) {
+      && acity->ai->invasion.occupy == 0 && !COULD_OCCUPY(punit)) {
     /* No units capable of occupying are invading */
     freelog(LOG_DEBUG, "Don't want to attack %s, although we could", 
             city_name(acity));
@@ -259,7 +259,7 @@ static bool ai_find_strategic_airbase(struct unit *punit,
       struct city *base_city 
         = tile_city(get_refuel_tile(airbase));
      
-      if (base_city && base_city->ai.grave_danger != 0) {
+      if (base_city && base_city->ai->grave_danger != 0) {
         /* Fly there immediately!! */
 	*airbase_tile = get_refuel_tile(airbase);
         found = TRUE;

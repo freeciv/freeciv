@@ -59,7 +59,7 @@ static struct tile* find_best_tile_to_paradrop_to(struct unit *punit)
     acity = tile_city(ptile);
     if (acity && city_owner(acity) == unit_owner(punit)
         && unit_list_size(ptile->units) == 0) {
-      val = acity->size * acity->ai.urgency;
+      val = acity->size * acity->ai->urgency;
       if (val > best) {
 	best = val;
 	best_tile = ptile;

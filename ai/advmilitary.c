@@ -240,8 +240,9 @@ int assess_defense_quadratic(struct city *pcity)
    * wallvalue = 40, walls = 20,
    * wallvalue = 90, walls = 30 */
 
-  while (walls * walls < pcity->ai.wallvalue * 10)
+  while (walls * walls < pcity->ai->wallvalue * 10) {
     walls++;
+  }
 
   unit_list_iterate(pcity->tile->units, punit) {
     defense += base_assess_defense_unit(pcity, punit, igwall, FALSE,
@@ -265,7 +266,7 @@ One unit only, mostly for findjob; handling boats correctly. 980803 -- Syela
 int assess_defense_unit(struct city *pcity, struct unit *punit, bool igwall)
 {
   return base_assess_defense_unit(pcity, punit, igwall, TRUE,
-				  pcity->ai.wallvalue);
+				  pcity->ai->wallvalue);
 }
 
 /********************************************************************** 
@@ -496,15 +497,15 @@ static unsigned int assess_danger(struct city *pcity)
 
   if (ai_handicap(pplayer, H_DANGER)) {
     /* Always thinks that city is in grave danger */
-    pcity->ai.grave_danger = 1;
+    pcity->ai->grave_danger = 1;
   } else {
-    pcity->ai.grave_danger = 0;
+    pcity->ai->grave_danger = 0;
   }
-  pcity->ai.diplomat_threat = FALSE;
-  pcity->ai.has_diplomat = FALSE;
+  pcity->ai->diplomat_threat = FALSE;
+  pcity->ai->has_diplomat = FALSE;
 
   unit_list_iterate(ptile->units, punit) {
-    if (unit_has_type_flag(punit, F_DIPLOMAT)) pcity->ai.has_diplomat = TRUE;
+    if (unit_has_type_flag(punit, F_DIPLOMAT)) pcity->ai->has_diplomat = TRUE;
     if (unit_has_type_flag(punit, F_PIKEMEN)) pikemen = TRUE;
   } unit_list_iterate_end;
 
@@ -534,7 +535,7 @@ static unsigned int assess_danger(struct city *pcity)
           urgency++;
         }
         if (dist <= move_rate || dist <= paramove + move_rate) {
-          pcity->ai.grave_danger++;
+          pcity->ai->grave_danger++;
         }
       } else {
         unit_class_iterate(punitclass) {
@@ -546,7 +547,7 @@ static unsigned int assess_danger(struct city *pcity)
               urgency++;
             }
             if (dist <= move_rate || dist <= paramove + move_rate) {
-              pcity->ai.grave_danger++;
+              pcity->ai->grave_danger++;
             }
             break;
           }
@@ -567,7 +568,7 @@ static unsigned int assess_danger(struct city *pcity)
       }
 
       if (unit_has_type_flag(punit, F_DIPLOMAT) && (dist <= 2 * move_rate)) {
-	pcity->ai.diplomat_threat = TRUE;
+	pcity->ai->diplomat_threat = TRUE;
       }
 
       vulnerability *= vulnerability; /* positive feedback */
@@ -591,17 +592,17 @@ static unsigned int assess_danger(struct city *pcity)
   } players_iterate_end;
 
   if (igwall_threat == 0) {
-    pcity->ai.wallvalue = 90;
+    pcity->ai->wallvalue = 90;
   } else if (total_danger) {
-    pcity->ai.wallvalue = ((total_danger * 9 - igwall_threat * 8) 
+    pcity->ai->wallvalue = ((total_danger * 9 - igwall_threat * 8) 
                            * 10 / total_danger);
   } else {
     /* No danger.
      * This is half of the wallvalue of what danger 1 would produce. */
-    pcity->ai.wallvalue = 5;
+    pcity->ai->wallvalue = 5;
   }
 
-  if (pcity->ai.grave_danger != 0) {
+  if (pcity->ai->grave_danger != 0) {
     /* really, REALLY urgent to defend */
     urgency += 10;
   }
@@ -614,7 +615,7 @@ static unsigned int assess_danger(struct city *pcity)
 
   for (i = 0; i < B_LAST; i++) {
     if (danger_reduced[i] > 0) {
-      ai_reevaluate_building(pcity, &pcity->ai.building_want[i],
+      ai_reevaluate_building(pcity, &pcity->ai->building_want[i],
                              urgency, danger_reduced[i], defense);
     }
   }
@@ -623,11 +624,11 @@ static unsigned int assess_danger(struct city *pcity)
       && total_danger == 0) {
     /* Has to have some danger
      * Otherwise grave_danger will be ignored. */
-    pcity->ai.danger = 1;
+    pcity->ai->danger = 1;
   } else {
-    pcity->ai.danger = total_danger;
+    pcity->ai->danger = total_danger;
   }
-  pcity->ai.urgency = urgency;
+  pcity->ai->urgency = urgency;
 
   TIMING_LOG(AIT_DANGER, TIMER_STOP);
 
@@ -749,7 +750,7 @@ static bool process_defender_want(struct player *pplayer, struct city *pcity,
       int limit_cost = pcity->shield_stock + 40;
 
       if (walls && move_type == LAND_MOVING) {
-	desire *= pcity->ai.wallvalue;
+	desire *= pcity->ai->wallvalue;
 	/* TODO: More use of POWER_FACTOR ! */
 	desire /= POWER_FACTOR;
       }
@@ -779,7 +780,7 @@ static bool process_defender_want(struct player *pplayer, struct city *pcity,
       /* Contrary to the above, we don't care if walls are actually built 
        * - we're looking into the future now. */
       if (move_type == LAND_MOVING) {
-	desire *= pcity->ai.wallvalue;
+	desire *= pcity->ai->wallvalue;
 	desire /= POWER_FACTOR;
       }
 
@@ -796,7 +797,7 @@ static bool process_defender_want(struct player *pplayer, struct city *pcity,
 
   if (best_unit_type) {
     if (!walls && utype_move_type(best_unit_type) == LAND_MOVING) {
-      best *= pcity->ai.wallvalue;
+      best *= pcity->ai->wallvalue;
       best /= POWER_FACTOR;
     }
   } else {
@@ -916,7 +917,9 @@ static void process_attacker_want(struct city *pcity,
                                        punittype->hp);
       
       /* Take into account reinforcements strength */
-      if (acity) attack += acity->ai.attack;
+      if (acity) {
+        attack += acity->ai->attack;
+      }
 
       if (attack == 0) {
        /* Yes, it can happen that a military unit has attack=1,
@@ -960,23 +963,23 @@ static void process_attacker_want(struct city *pcity,
         
       } else if (uclass_has_flag(utype_class(punittype), UCF_CAN_OCCUPY_CITY)
                  && acity
-                 && acity->ai.invasion.attack > 0
-                 && acity->ai.invasion.occupy == 0) {
+                 && acity->ai->invasion.attack > 0
+                 && acity->ai->invasion.occupy == 0) {
         desire = bcost * SHIELD_WEIGHTING;
 
       } else {
         if (!acity) {
           desire = kill_desire(value, attack, bcost, vuln, victim_count);
         } else {
-          int city_attack = acity->ai.attack * acity->ai.attack;
+          int city_attack = acity->ai->attack * acity->ai->attack;
 
           /* See aiunit.c:find_something_to_kill() for comments. */
           
-          desire = kill_desire(value, attack, (bcost + acity->ai.bcost), vuln,
+          desire = kill_desire(value, attack, (bcost + acity->ai->bcost), vuln,
                                victim_count);
           
-          if (value * city_attack > acity->ai.bcost * vuln) {
-            desire -= kill_desire(value, city_attack, acity->ai.bcost, vuln,
+          if (value * city_attack > acity->ai->bcost * vuln) {
+            desire -= kill_desire(value, city_attack, acity->ai->bcost, vuln,
                                   victim_count);
           }
         }
@@ -1086,7 +1089,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
 
   assert(is_military_unit(myunit) && !utype_fuel(unit_type(myunit)));
 
-  if (pcity->ai.danger != 0 && assess_defense(pcity) == 0) {
+  if (pcity->ai->danger != 0 && assess_defense(pcity) == 0) {
     /* Defence comes first! */
     return;
   }
@@ -1109,7 +1112,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   
   attack = unit_att_rating(myunit);
   if (acity) {
-    attack += acity->ai.attack;
+    attack += acity->ai->attack;
   }
   attack *= attack;
   
@@ -1182,7 +1185,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
 	def_owner = unit_owner(pdef);
       }
     }
-    if (COULD_OCCUPY(myunit) || acity->ai.invasion.occupy > 0) {
+    if (COULD_OCCUPY(myunit) || acity->ai->invasion.occupy > 0) {
       /* bonus for getting the city */
       benefit += 40;
     }
@@ -1332,31 +1335,31 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
   /* It has to be AFTER assess_danger thanks to wallvalue. */
   our_def = assess_defense_quadratic(pcity); 
 
-  if (pcity->id == ai->wonder_city && pcity->ai.grave_danger == 0) {
+  if (pcity->id == ai->wonder_city && pcity->ai->grave_danger == 0) {
     return; /* Other cities can build our defenders, thank you! */
   }
 
   ai_choose_diplomat_defensive(pplayer, pcity, choice, our_def);
 
   /* Otherwise no need to defend yet */
-  if (pcity->ai.danger != 0) {
+  if (pcity->ai->danger != 0) {
     struct impr_type *pimprove;
     int num_defenders = unit_list_size(ptile->units);
     int wall_id, danger;
 
     /* First determine the danger.  It is measured in percents of our 
      * defensive strength, capped at 200 + urgency */
-    if (pcity->ai.danger >= our_def) {
+    if (pcity->ai->danger >= our_def) {
       if (urgency == 0) {
         /* don't waste money */
         danger = 100;
       } else if (our_def == 0) {
         danger = 200 + urgency;
       } else {
-        danger = MIN(200, 100 * pcity->ai.danger / our_def) + urgency;
+        danger = MIN(200, 100 * pcity->ai->danger / our_def) + urgency;
       }
     } else { 
-      danger = 100 * pcity->ai.danger / our_def;
+      danger = 100 * pcity->ai->danger / our_def;
     }
     if (pcity->surplus[O_SHIELD] <= 0 && our_def != 0) {
       /* Won't be able to support anything */
@@ -1377,16 +1380,16 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
     pimprove = improvement_by_number(wall_id);
 
     if (wall_id != B_LAST
-	&& pcity->ai.building_want[wall_id] != 0 && our_def != 0 
+	&& pcity->ai->building_want[wall_id] != 0 && our_def != 0 
         && can_city_build_improvement_now(pcity, pimprove)
         && (danger < 101 || num_defenders > 1
-            || (pcity->ai.grave_danger == 0 
+            || (pcity->ai->grave_danger == 0 
                 && pplayer->economic.gold > impr_buy_gold_cost(pimprove, pcity->shield_stock)))
         && ai_fuzzy(pplayer, TRUE)) {
       /* NB: great wall is under domestic */
       choice->value.building = pimprove;
       /* building_want is hacked by assess_danger */
-      choice->want = pcity->ai.building_want[wall_id];
+      choice->want = pcity->ai->building_want[wall_id];
       if (urgency == 0 && choice->want > 100) {
         choice->want = 100;
       }
@@ -1437,7 +1440,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
   /* If we are in severe danger, don't consider attackers. This is probably
      too general. In many cases we will want to buy attackers to counterattack.
      -- Per */
-  if (choice->want > 100 && pcity->ai.grave_danger > 0) {
+  if (choice->want > 100 && pcity->ai->grave_danger > 0) {
     CITY_LOG(LOGLEVEL_BUILD, pcity, "severe danger (want %d), force defender",
              choice->want);
     return;

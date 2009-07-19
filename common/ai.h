@@ -27,7 +27,10 @@ enum incident_type {
 };
 
 struct ai_type
-{  struct {
+{
+  struct {
+    void (*init_city)(struct city *pcity);
+    void (*close_city)(struct city *pcity);
     void (*auto_settlers)(struct player *pplayer);
     void (*building_advisor_init)(struct player *pplayer);
     void (*building_advisor)(struct city *pcity, struct ai_choice *choice);
@@ -45,5 +48,14 @@ struct ai_type
 };
 
 struct ai_type *get_ai_type(int id);
+void init_ai(struct ai_type *ai);
+
+
+#define ai_type_iterate(NAME_ai) \
+do { \
+  struct ai_type *NAME_ai = get_ai_type(AI_DEFAULT);
+
+#define ai_type_iterate_end \
+  } while (FALSE);
 
 #endif  /* FC__AI_H */

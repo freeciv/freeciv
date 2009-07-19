@@ -140,8 +140,8 @@ void CITY_LOG(int level, const struct city *pcity, const char *msg, ...)
               nation_rule_name(nation_of_city(pcity)),
               city_name(pcity),
               TILE_XY(pcity->tile), pcity->size,
-              pcity->ai.danger, pcity->ai.urgency,
-              pcity->ai.grave_danger);
+              pcity->ai->danger, pcity->ai->urgency,
+              pcity->ai->grave_danger);
 
   va_start(ap, msg);
   my_vsnprintf(buffer2, sizeof(buffer2), msg, ap);

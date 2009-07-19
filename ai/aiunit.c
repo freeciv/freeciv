@@ -112,16 +112,16 @@ static void ai_airlift(struct player *pplayer)
     transported = NULL;
 
     city_list_iterate(pplayer->cities, pcity) {
-      if (pcity->ai.urgency > comparison && pcity->airlift) {
-        comparison = pcity->ai.urgency;
+      if (pcity->ai->urgency > comparison && pcity->airlift) {
+        comparison = pcity->ai->urgency;
         most_needed = pcity;
       }
     } city_list_iterate_end;
     if (!most_needed) {
       comparison = 0;
       city_list_iterate(pplayer->cities, pcity) {
-        if (pcity->ai.danger > comparison && pcity->airlift) {
-          comparison = pcity->ai.danger;
+        if (pcity->ai->danger > comparison && pcity->airlift) {
+          comparison = pcity->ai->danger;
           most_needed = pcity;
         }
       } city_list_iterate_end;
@@ -135,14 +135,14 @@ static void ai_airlift(struct player *pplayer)
       struct city *pcity = tile_city(ptile);
 
       if (pcity
-          && pcity->ai.urgency == 0
-          && pcity->ai.danger - DEFENCE_POWER(punit) < comparison
+          && pcity->ai->urgency == 0
+          && pcity->ai->danger - DEFENCE_POWER(punit) < comparison
           && unit_can_airlift_to(punit, most_needed)
           && DEFENCE_POWER(punit) > 2
           && (punit->ai.ai_role == AIUNIT_NONE
               || punit->ai.ai_role == AIUNIT_DEFEND_HOME)
           && IS_ATTACKER(punit)) {
-        comparison = pcity->ai.danger;
+        comparison = pcity->ai->danger;
         transported = punit;
       }
     } unit_list_iterate_end;
@@ -879,21 +879,21 @@ int look_for_charge(struct player *pplayer, struct unit *punit,
 
    city_list_iterate(pplayer->cities, mycity) {
     if (!goto_is_sane(punit, mycity->tile, TRUE)
-        || mycity->ai.urgency == 0) {
+        || mycity->ai->urgency == 0) {
       continue;
     }
     if (pcity
-        && (pcity->ai.grave_danger > 0
-            || pcity->ai.urgency > mycity->ai.urgency
-            || ((pcity->ai.danger > mycity->ai.danger
+        && (pcity->ai->grave_danger > 0
+            || pcity->ai->urgency > mycity->ai->urgency
+            || ((pcity->ai->danger > mycity->ai->danger
                  || punit->ai.ai_role == AIUNIT_DEFEND_HOME)
-                && mycity->ai.grave_danger == 0))) {
+                && mycity->ai->grave_danger == 0))) {
       /* Do not yoyo between cities in need of defense. Chances are
        * we'll be between cities when we are needed the most! */
       continue;
     }
     dist = unit_move_turns(punit, mycity->tile);
-    def = (mycity->ai.danger - assess_defense_quadratic(mycity));
+    def = (mycity->ai->danger - assess_defense_quadratic(mycity));
     if (def <= 0) {
       continue;
     }
@@ -962,8 +962,9 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
      * or the unit we should protect is still alive... */
     if ((aunit && (aiguard_has_guard(aunit) || aiguard_wanted(aunit))
          && unit_def_rating_basic(punit) > unit_def_rating_basic(aunit)) 
-        || (acity && city_owner(acity) == unit_owner(punit) && acity->ai.urgency != 0 
-            && acity->ai.danger > assess_defense_quadratic(acity))) {
+        || (acity && city_owner(acity) == unit_owner(punit)
+            && acity->ai->urgency != 0 
+            && acity->ai->danger > assess_defense_quadratic(acity))) {
       return; /* Yep! */
     } else {
       ai_unit_new_role(punit, AIUNIT_NONE, NULL); /* Nope! */
@@ -1160,9 +1161,9 @@ static void invasion_funct(struct unit *punit, bool dest, int radius,
     if (pcity
         && HOSTILE_PLAYER(pplayer, ai, city_owner(pcity))
 	&& (dest || !has_defense(pcity))) {
-      pcity->ai.invasion.attack++;
+      pcity->ai->invasion.attack++;
       if (which == INVASION_OCCUPY) {
-        pcity->ai.invasion.occupy++;
+        pcity->ai->invasion.occupy++;
       }
     }
   } square_iterate_end;
@@ -1253,9 +1254,9 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
     }
     city_list_iterate(aplayer->cities, acity) {
       reinforcements_cost_and_value(punit, acity->tile,
-                                    &acity->ai.attack, &acity->ai.bcost);
-      acity->ai.invasion.attack = 0;
-      acity->ai.invasion.occupy = 0;
+                                    &acity->ai->attack, &acity->ai->bcost);
+      acity->ai->invasion.attack = 0;
+      acity->ai->invasion.occupy = 0;
     } city_list_iterate_end;
   } players_iterate_end;
 
@@ -1272,8 +1273,8 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
         invasion_funct(aunit, TRUE, 0,
                        (COULD_OCCUPY(aunit) ? INVASION_OCCUPY : INVASION_ATTACK));
         if ((pcity = tile_city(aunit->goto_tile))) {
-          pcity->ai.attack += unit_att_rating(aunit);
-          pcity->ai.bcost += unit_build_shield_cost(aunit);
+          pcity->ai->attack += unit_att_rating(aunit);
+          pcity->ai->bcost += unit_build_shield_cost(aunit);
         } 
       }
       invasion_funct(aunit, FALSE, unit_move_rate(aunit) / SINGLE_MOVE,
@@ -1423,20 +1424,21 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
         }
       }
 
-      reserves = acity->ai.invasion.attack - unit_list_size(acity->tile->units);
+      reserves = acity->ai->invasion.attack -
+        unit_list_size(acity->tile->units);
 
       if (reserves >= 0) {
         /* We have enough units to kill all the units in the city */
         if (reserves > 0
-            && (COULD_OCCUPY(punit) || acity->ai.invasion.occupy > 0)) {
+            && (COULD_OCCUPY(punit) || acity->ai->invasion.occupy > 0)) {
           /* There are units able to occupy the city after all defenders
            * are killed! */
           benefit += 60;
         }
       }
 
-      attack = (attack_value + acity->ai.attack) 
-        * (attack_value + acity->ai.attack);
+      attack = (attack_value + acity->ai->attack) 
+        * (attack_value + acity->ai->attack);
       /* Avoiding handling upkeep aggregation this way -- Syela */
       
       /* AI was not sending enough reinforcements to totally wipe out a city
@@ -1453,16 +1455,16 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
         /* Too far! */
         want = 0;
       } else if (COULD_OCCUPY(punit)
-                 && acity->ai.invasion.attack > 0
-                 && acity->ai.invasion.occupy == 0) {
+                 && acity->ai->invasion.attack > 0
+                 && acity->ai->invasion.occupy == 0) {
         /* Units able to occupy really needed there! */
         want = bcost * SHIELD_WEIGHTING;
       } else {
-        int a_squared = acity->ai.attack * acity->ai.attack;
+        int a_squared = acity->ai->attack * acity->ai->attack;
         
-        want = kill_desire(benefit, attack, (bcost + acity->ai.bcost), 
+        want = kill_desire(benefit, attack, (bcost + acity->ai->bcost), 
                            vuln, victim_count);
-        if (benefit * a_squared > acity->ai.bcost * vuln) {
+        if (benefit * a_squared > acity->ai->bcost * vuln) {
           /* If there're enough units to do the job, we don't need this
            * one. */
           /* FIXME: The problem with ai.bcost is that bigger it is, less is
@@ -1470,7 +1472,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
            * cavalries to take over a city, we have four (which is not
            * enough), then we will be severely discouraged to build the
            * fifth one.  Where is logic in this??!?! --GB */
-          want -= kill_desire(benefit, a_squared, acity->ai.bcost, 
+          want -= kill_desire(benefit, a_squared, acity->ai->bcost, 
                               vuln, victim_count);
         }
       }
@@ -2297,7 +2299,7 @@ static void ai_set_defenders(struct player *pplayer)
     /* The idea here is that we should never keep more than two
      * units in permanent defense. */
     int total_defense = 0;
-    int total_attack = pcity->ai.danger;
+    int total_attack = pcity->ai->danger;
     bool emergency = FALSE;
     int count = 0;
 

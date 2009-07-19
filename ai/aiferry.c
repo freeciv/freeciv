@@ -865,7 +865,7 @@ static bool aiferry_find_interested_city(struct unit *pferry)
     pcity = tile_city(pos.tile);
     
     if (pcity && city_owner(pcity) == unit_owner(pferry)
-        && (pcity->ai.choice.need_boat 
+        && (pcity->ai->choice.need_boat 
             || (VUT_UTYPE == pcity->production.kind
 		&& utype_has_role(pcity->production.value.utype,
 				  L_FERRYBOAT)))) {

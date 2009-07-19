@@ -2834,28 +2834,28 @@ static void player_load_cities(struct player *plr, int plrno,
     }
 
     /* FIXME: remove this when the urgency is properly recalculated. */
-    pcity->ai.urgency =
+    pcity->ai->urgency =
       secfile_lookup_int_default(file, 0, "player%d.c%d.ai.urgency",
                                  plrno, i);
 
     /* avoid myrand recalculations on subsequent reload. */
-    pcity->ai.building_turn =
+    pcity->ai->building_turn =
       secfile_lookup_int_default(file, 0, "player%d.c%d.ai.building_turn",
                                  plrno, i);
-    pcity->ai.building_wait =
+    pcity->ai->building_wait =
       secfile_lookup_int_default(file, BUILDING_WAIT_MINIMUM,
                                  "player%d.c%d.ai.building_wait",
                                  plrno, i);
 
     /* avoid myrand and expensive recalculations on subsequent reload. */
-    pcity->ai.founder_turn =
+    pcity->ai->founder_turn =
       secfile_lookup_int_default(file, 0, "player%d.c%d.ai.founder_turn",
                                  plrno, i);
-    pcity->ai.founder_want =
+    pcity->ai->founder_want =
       secfile_lookup_int_default(file, 0, "player%d.c%d.ai.founder_want",
                                  plrno, i);
-    pcity->ai.founder_boat =
-      secfile_lookup_bool_default(file, (pcity->ai.founder_want < 0),
+    pcity->ai->founder_boat =
+      secfile_lookup_bool_default(file, (pcity->ai->founder_want < 0),
                                   "player%d.c%d.ai.founder_boat",
                                   plrno, i);
 
@@ -3667,21 +3667,21 @@ static void player_save_cities(struct player *plr, int plrno,
     }
 
     /* FIXME: remove this when the urgency is properly recalculated. */
-    secfile_insert_int(file, pcity->ai.urgency,
+    secfile_insert_int(file, pcity->ai->urgency,
 		       "player%d.c%d.ai.urgency", plrno, i);
 
     /* avoid myrand recalculations on subsequent reload. */
-    secfile_insert_int(file, pcity->ai.building_turn,
+    secfile_insert_int(file, pcity->ai->building_turn,
 		       "player%d.c%d.ai.building_turn", plrno, i);
-    secfile_insert_int(file, pcity->ai.building_wait,
+    secfile_insert_int(file, pcity->ai->building_wait,
 		       "player%d.c%d.ai.building_wait", plrno, i);
 
     /* avoid myrand and expensive recalculations on subsequent reload. */
-    secfile_insert_int(file, pcity->ai.founder_turn,
+    secfile_insert_int(file, pcity->ai->founder_turn,
 		       "player%d.c%d.ai.founder_turn", plrno, i);
-    secfile_insert_int(file, pcity->ai.founder_want,
+    secfile_insert_int(file, pcity->ai->founder_want,
 		       "player%d.c%d.ai.founder_want", plrno, i);
-    secfile_insert_bool(file, pcity->ai.founder_boat,
+    secfile_insert_bool(file, pcity->ai->founder_boat,
 		       "player%d.c%d.ai.founder_boat", plrno, i);
   } city_list_iterate_end;
 }

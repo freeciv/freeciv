@@ -25,22 +25,25 @@
 #include <stdlib.h>
 #include <time.h>
 
-/* common & utility */
+/* utility */
 #include "capstr.h"
 #include "dataio.h"
-#include "diptreaty.h"
 #include "fciconv.h"
 #include "fcintl.h"
-#include "game.h"
-#include "idex.h"
 #include "log.h"
-#include "map.h"
 #include "mem.h"
-#include "netintf.h"
-#include "packets.h"
 #include "rand.h"
 #include "support.h"
 #include "timing.h"
+
+/* common */
+#include "ai.h"
+#include "diptreaty.h"
+#include "game.h"
+#include "idex.h"
+#include "map.h"
+#include "netintf.h"
+#include "packets.h"
 #include "version.h"
 
 /* client */
@@ -222,7 +225,12 @@ int client_main(int argc, char *argv[])
 # endif
 #endif
 
-  i_am_client(); /* Tell to libcivcommon that we are client */
+  i_am_client(); /* Tell to libfreeciv that we are client */
+
+  /* Ensure that all AIs are initialized to unused state */
+  ai_type_iterate(ai) {
+    init_ai(ai);
+  } ai_type_iterate_end;
 
   init_nls();
   audio_init();

@@ -36,3 +36,11 @@ struct ai_type *get_ai_type(int id)
 
   return &default_ai;
 }
+
+/***************************************************************
+  Initializes AI structure.
+***************************************************************/
+void init_ai(struct ai_type *ai)
+{
+  memset(ai, 0, sizeof(*ai));
+}

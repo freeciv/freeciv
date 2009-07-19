@@ -111,7 +111,7 @@ static bool ai_do_build_city(struct player *pplayer, struct unit *punit)
   initialize_infrastructure_cache(pplayer);
 
   /* Init ai.choice. Handling ferryboats might use it. */
-  init_choice(&pcity->ai.choice);
+  init_choice(&pcity->ai->choice);
 
   return TRUE;
 }
@@ -857,12 +857,12 @@ static int evaluate_improvements(struct unit *punit,
 
 	  /* now, consider various activities... */
 	  activity_type_iterate(act) {
-	    if (pcity->ai.act_value[act][cx][cy] >= 0
+            if (pcity->ai->act_value[act][cx][cy] >= 0
                 && act != ACTIVITY_BASE /* This needs separate implementation */
 		&& can_unit_do_activity_targeted_at(punit, act, S_LAST,
                                                     ptile, -1)) {
 	      int extra = 0;
-	      int base_value = pcity->ai.act_value[act][cx][cy];
+              int base_value = pcity->ai->act_value[act][cx][cy];
 
 	      time = mv_turns + get_turns_for_activity_at(punit, act, ptile);
 	      
@@ -874,14 +874,14 @@ static int evaluate_improvements(struct unit *punit,
 		   * railroads in main consider_settler_action call */
 		  consider_settler_action(pplayer, ACTIVITY_ROAD,
 				extra,
-				pcity->ai.act_value[ACTIVITY_ROAD][cx][cy], 
+                                pcity->ai->act_value[ACTIVITY_ROAD][cx][cy], 
 				oldv, in_use, mv_turns, time,
 				&best_newv, &best_oldv, travel_time,
 				best_act, best_tile,
 				ptile);
 		  
 		  base_value
-		    = pcity->ai.act_value[ACTIVITY_RAILROAD][cx][cy];
+                    = pcity->ai->act_value[ACTIVITY_RAILROAD][cx][cy];
 		  
 		  /* Count road time plus rail time. */
 		  time += get_turns_for_activity_at(punit, ACTIVITY_RAILROAD, 
@@ -1182,7 +1182,7 @@ void initialize_infrastructure_cache(struct player *pplayer)
 
     city_map_iterate(city_x, city_y) {
       activity_type_iterate(act) {
-	pcity->ai.act_value[act][city_x][city_y] = -1;
+        pcity->ai->act_value[act][city_x][city_y] = -1;
       } activity_type_iterate_end;
     } city_map_iterate_end;
 
@@ -1192,24 +1192,24 @@ void initialize_infrastructure_cache(struct player *pplayer)
       bv_special old_special = ptile->special;
 #endif
 
-      pcity->ai.act_value[ACTIVITY_POLLUTION][city_x][city_y] 
-	= ai_calc_pollution(pcity, city_x, city_y, best, ptile);
-      pcity->ai.act_value[ACTIVITY_FALLOUT][city_x][city_y]
-	= ai_calc_fallout(pcity, pplayer, city_x, city_y, best, ptile);
-      pcity->ai.act_value[ACTIVITY_MINE][city_x][city_y]
-	= ai_calc_mine(pcity, city_x, city_y, ptile);
-      pcity->ai.act_value[ACTIVITY_IRRIGATE][city_x][city_y]
+      pcity->ai->act_value[ACTIVITY_POLLUTION][city_x][city_y] 
+        = ai_calc_pollution(pcity, city_x, city_y, best, ptile);
+      pcity->ai->act_value[ACTIVITY_FALLOUT][city_x][city_y]
+        = ai_calc_fallout(pcity, pplayer, city_x, city_y, best, ptile);
+      pcity->ai->act_value[ACTIVITY_MINE][city_x][city_y]
+        = ai_calc_mine(pcity, city_x, city_y, ptile);
+      pcity->ai->act_value[ACTIVITY_IRRIGATE][city_x][city_y]
         = ai_calc_irrigate(pcity, pplayer, city_x, city_y, ptile);
-      pcity->ai.act_value[ACTIVITY_TRANSFORM][city_x][city_y]
-	= ai_calc_transform(pcity, city_x, city_y, ptile);
+      pcity->ai->act_value[ACTIVITY_TRANSFORM][city_x][city_y]
+        = ai_calc_transform(pcity, city_x, city_y, ptile);
 
       /* road_bonus() is handled dynamically later; it takes into
        * account settlers that have already been assigned to building
        * roads this turn. */
-      pcity->ai.act_value[ACTIVITY_ROAD][city_x][city_y]
-	= ai_calc_road(pcity, pplayer, city_x, city_y, ptile);
-      pcity->ai.act_value[ACTIVITY_RAILROAD][city_x][city_y]
-	= ai_calc_railroad(pcity, pplayer, city_x, city_y, ptile);
+      pcity->ai->act_value[ACTIVITY_ROAD][city_x][city_y]
+        = ai_calc_road(pcity, pplayer, city_x, city_y, ptile);
+      pcity->ai->act_value[ACTIVITY_RAILROAD][city_x][city_y]
+        = ai_calc_railroad(pcity, pplayer, city_x, city_y, ptile);
 
       /* Make sure nothing was accidentally changed by these calculations. */
       assert(old_terrain == tile_terrain(ptile)
@@ -1326,9 +1326,9 @@ void contemplate_new_city(struct city *pcity)
 	     (result.virt_boat ? "build a boat" : 
 	      (result.overseas ? "use a boat" : "walk")));
 
-    pcity->ai.founder_want = (result.virt_boat ? 
-			      -result.result : result.result);
-    pcity->ai.founder_boat = result.overseas;
+    pcity->ai->founder_want = (result.virt_boat ? 
+                               -result.result : result.result);
+    pcity->ai->founder_boat = result.overseas;
   }
   destroy_unit_virtual(virtualunit);
 }
@@ -1384,5 +1384,5 @@ void contemplate_terrain_improvements(struct city *pcity)
            ai->stats.workers[place], 
            ai->stats.cities[place]);
   assert(want >= 0);
-  pcity->ai.settler_want = want;
+  pcity->ai->settler_want = want;
 }

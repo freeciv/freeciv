@@ -1039,7 +1039,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
 
   tile_set_owner(ptile, pplayer, ptile); /* temporarily */
   city_choose_build_default(pcity);
-  pcity->ai.trade_want = TRADE_WEIGHTING;
+  pcity->ai->trade_want = TRADE_WEIGHTING;
   pcity->id = identity_number();
   idex_register_city(pcity);
 

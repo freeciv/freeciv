@@ -391,7 +391,7 @@ struct city {
     struct vision *vision;
   } server;
 
-  struct ai_city ai;
+  struct ai_city *ai;
 
   /* info for dipl/spy investigation -- used only in client */
   struct unit_list *info_units_supported;

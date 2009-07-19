@@ -19,17 +19,20 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* utility */
 #include "distribute.h"
 #include "fcintl.h"
 #include "log.h"
+#include "mem.h"
 #include "support.h"
 
+/* common */
+#include "ai.h"
 #include "effects.h"
 #include "game.h"
 #include "government.h"
 #include "improvement.h"
 #include "map.h"
-#include "mem.h"
 #include "movement.h"
 #include "packets.h"
 #include "specialist.h"
@@ -2640,37 +2643,13 @@ struct city *create_city_virtual(struct player *pplayer,
   pcity->server.synced = FALSE;
   pcity->server.vision = NULL; /* No vision. */
 
-  pcity->ai.building_turn = 0;
 #endif
-  pcity->ai.building_wait = BUILDING_WAIT_MINIMUM;
-#ifdef ZERO_VARIABLES_FOR_SEARCHING
-  memset(pcity->ai.building_want, 0, sizeof(pcity->ai.building_want));
 
-  /* pcity->ai.choice; placeholder for searching */
-  /* pcity->ai.worth; placeholder for searching */
-
-  pcity->ai.invasion = 0;
-  pcity->ai.bcost = 0;
-  pcity->ai.attack = 0;
-
-  pcity->ai.danger = 0;
-  pcity->ai.grave_danger = 0;
-  pcity->ai.urgency = 0;
-  pcity->ai.wallvalue = 0;
-
-  pcity->ai.downtown = 0;
-  /* pcity->ai.distance_to_wonder_city; placeholder for searching */
-
-  /* pcity->ai.celebrate; placeholder for searching */
-  /* pcity->ai.diplomat_threat; placeholder for searching */
-  /* pcity->ai.has_diplomat; placeholder for searching */
-
-  pcity->ai.founder_boat = FALSE;
-  pcity->ai.founder_turn = 0;
-  pcity->ai.founder_want = 0; /* calculating this is really expensive */
-  pcity->ai.settler_want = 0;
-#endif
-  pcity->ai.trade_want = 1; /* we always want some TRADE_WEIGHTING */
+  ai_type_iterate(ai) {
+    if (ai->funcs.init_city) {
+      ai->funcs.init_city(pcity);
+    }
+  } ai_type_iterate_end;
 
   /* pcity->ai.act_value; placeholder for searching */
   /* info_units_present; placeholder for searching */
@@ -2687,6 +2666,12 @@ struct city *create_city_virtual(struct player *pplayer,
 **************************************************************************/
 void destroy_city_virtual(struct city *pcity)
 {
+  ai_type_iterate(ai) {
+    if (ai->funcs.close_city) {
+      ai->funcs.close_city(pcity);
+    }
+  } ai_type_iterate_end;
+
   unit_list_free(pcity->units_supported);
   memset(pcity, 0, sizeof(*pcity)); /* ensure no pointers remain */
   free(pcity);

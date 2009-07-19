@@ -37,6 +37,10 @@ void ai_init(void)
 {
   struct ai_type *ai = get_ai_type(AI_DEFAULT);
 
+  init_ai(ai);
+
+  ai->funcs.init_city = ai_init_city;
+  ai->funcs.close_city = ai_close_city;
   ai->funcs.auto_settlers = auto_settlers_player;
   ai->funcs.building_advisor_init = ai_manage_buildings;
   ai->funcs.building_advisor = ai_advisor_choose_building;
