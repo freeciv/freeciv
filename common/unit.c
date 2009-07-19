@@ -866,8 +866,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     return FALSE;
 
   case ACTIVITY_BASE:
-    return (can_build_base(punit, pbase, ptile)
-            && !tile_has_base(ptile, pbase));
+    return can_build_base(punit, pbase, ptile);
 
   case ACTIVITY_SENTRY:
     if (!can_unit_survive_at_tile(punit, punit->tile)

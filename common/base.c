@@ -148,6 +148,11 @@ bool can_build_base(const struct unit *punit, const struct base_type *pbase,
     return FALSE;
   }
 
+  if (tile_has_base(ptile, pbase)) {
+    /* Exist already */
+    return FALSE;
+  }
+
   return are_reqs_active(unit_owner(punit), NULL, NULL, ptile,
                          unit_type(punit), NULL, NULL, &pbase->reqs,
                          RPT_CERTAIN);
