@@ -10,7 +10,8 @@ CLIENTS := gtk2,xaw,sdl
 
 CONFIG_PARAMS := --cache-file=$(shell pwd)/config.cache 		\
 		 --prefix=/usr --datadir=/usr/share/games --bindir=/usr/games \
-		 --enable-client=$(CLIENTS) --with-xaw3d --enable-svnrev
+		 --enable-client=$(CLIENTS) --with-xaw3d --enable-svnrev \
+		 --enable-shared
 
 build: build-stamp
 build-stamp:
@@ -64,6 +65,7 @@ binary-arch: build install
 	dh_compress
 	dh_fixperms
 	dh_installdeb
+	dh_makeshlibs
 	dh_shlibdeps
 	dh_gencontrol
 	dh_md5sums
