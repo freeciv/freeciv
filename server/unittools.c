@@ -779,43 +779,7 @@ static void update_unit_activity(struct unit *punit)
         >= tile_activity_base_time(ptile, punit->activity_base)) {
       struct base_type *new_base = base_by_number(punit->activity_base);
 
-      base_type_iterate(old_base) {
-        if (tile_has_base(ptile, old_base)
-            && !can_bases_coexist(old_base, new_base)) {
-          if (territory_claiming_base(old_base)) {
-            map_clear_border(ptile);
-            map_claim_ownership(ptile, NULL, NULL);
-          } else if (old_base->vision_sq >= 0) {
-              /* Base provides vision, but no borders. */
-              struct player *owner = tile_owner(ptile);
-              if (owner) {
-                map_refog_circle(owner, ptile, old_base->vision_sq, -1,
-                                 game.info.vision_reveal_tiles, V_MAIN);
-              }
-          }
-          tile_remove_base(ptile, old_base);
-        }
-      } base_type_iterate_end;
-
-      tile_add_base(ptile, new_base);
-
-      /* Watchtower might become effective
-       * FIXME: Reqs on other specials will not be updated immediately. */
-      unit_list_refresh_vision(ptile->units);
-
-      /* Claim base if it has "ClaimTerritory" flag */
-      if (territory_claiming_base(new_base)) {
-        map_claim_ownership(ptile, unit_owner(punit), ptile);
-        map_claim_border(ptile, unit_owner(punit));
-        city_thaw_workers_queue();
-        city_refresh_queue_processing();
-      } else if (new_base->vision_sq > 0) {
-        struct player *owner = tile_owner(ptile);
-        if (owner) {
-          map_refog_circle(owner, ptile, -1, new_base->vision_sq,
-                           game.info.vision_reveal_tiles, V_MAIN);
-        }
-      }
+      create_base(ptile, new_base, unit_owner(punit));
 
       unit_activity_done = TRUE;
     }

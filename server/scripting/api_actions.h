@@ -25,5 +25,7 @@ void api_actions_change_gold(Player *pplayer, int amount);
 Tech_Type *api_actions_give_technology(Player *pplayer, Tech_Type *ptech,
                                        const char *reason);
 
-#endif
+void api_actions_create_base(Tile *ptile, const char *name,
+                             struct player *pplayer);
 
+#endif

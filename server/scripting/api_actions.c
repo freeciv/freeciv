@@ -15,9 +15,11 @@
 #include <config.h>
 #endif
 
+/* server */
 #include "barbarian.h"
-#include "plrhand.h"
 #include "citytools.h"
+#include "maphand.h"
+#include "plrhand.h"
 #include "techtools.h"
 #include "unittools.h"
 
@@ -102,5 +104,23 @@ Tech_Type *api_actions_give_technology(Player *pplayer, Tech_Type *ptech,
     return result;
   } else {
     return advance_by_number(A_NONE);
+  }
+}
+
+/**************************************************************************
+  Create a new base.
+**************************************************************************/
+void api_actions_create_base(Tile *ptile, const char *name, Player *pplayer)
+{
+  struct base_type *pbase;
+
+  if (!name) {
+    return;
+  }
+
+  pbase = find_base_type_by_rule_name(name);
+
+  if (pbase) {
+    create_base(ptile, pbase, pplayer);
   }
 }

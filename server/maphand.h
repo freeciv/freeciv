@@ -118,4 +118,7 @@ void vision_clear_sight(struct vision *vision);
 void change_playertile_site(struct player_tile *ptile,
                             struct vision_site *new_site);
 
+void create_base(struct tile *ptile, struct base_type *pbase,
+                 struct player *pplayer);
+
 #endif  /* FC__MAPHAND_H */
