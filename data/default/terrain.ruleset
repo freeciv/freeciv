@@ -916,3 +916,19 @@ gui_type      = "Airbase"
 build_time    = 3
 native_to     = "Air", "Helicopter", "Missile"
 flags         = "NoStackDeath", "DiplomatDefense", "ParadropFrom"
+
+[base_buoy]
+name          = _("Buoy")
+graphic       = "base.buoy"
+graphic_alt   = "base.fortress"
+activity_gfx  = "unit.fortress"
+reqs          =
+    { "type", "name", "range"
+      "Tech", "Radio", "Player"
+      "TerrainClass", "Oceanic", "Local"
+      "UnitFlag", "Airbase", "Local"
+    }
+gui_type      = "Fortress"
+build_time    = 3
+border_sq     = 0
+vision_sq     = 5
