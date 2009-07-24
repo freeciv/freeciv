@@ -200,6 +200,17 @@ static void ai_choose_trade_route(struct city *pcity,
    * we want it to build less valued buildings too. */
   want /= 130;
 
+  /* Increase want for trade routes if our economy is very weak.
+   * We may have enough gold, but only because we have already set
+   * tax rate to 100%. So don't check gold directly, but tax rate.
+   * This method helps us out of deadlocks of completely stalled
+   * scientific progress.
+   */
+  if (pplayer->economic.science < 50 && trade_routes < NUM_TRADEROUTES) {
+    want *=
+      (6 - pplayer->economic.science/10) * (6 - pplayer->economic.science/10);
+  }
+
   if (trade_routes == 0) {
     /* If we have no trade routes at all, we are certainly creating a new one. */
     want += 20;
