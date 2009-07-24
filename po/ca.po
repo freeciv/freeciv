@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-07-08 22:00+0200\n"
-"PO-Revision-Date: 2009-07-08 23:43+0200\n"
+"PO-Revision-Date: 2009-07-24 23:32+0200\n"
 "Last-Translator: Joan Creus <joan.creus at gmail dot com>\n"
 "Language-Team: Català <ca@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -774,7 +774,7 @@ msgstr "Camí"
 #: client/gui-win32/menu.c:348 client/gui-xaw/menu.c:155
 #: manual/civmanual.c:216
 msgid "Irrigation"
-msgstr "Irrigació"
+msgstr "Regadiu"
 
 #: common/terrain.c:545 common/terrain.c:729 common/unit.c:537
 #: data/default/techs.ruleset:571 data/civ2/techs.ruleset:568
@@ -3761,87 +3761,85 @@ msgstr "No es pot crear una unitat de tipus %s sobre el terreny de (%d, %d)."
 #: server/edithand.c:490
 #, c-format
 msgid "Cannot remove units at tile (%d, %d) because it is not on the map!"
-msgstr ""
+msgstr "No es poden treure unitats de la casella (%d, %d) perquè no es al mapa!"
 
 #: server/edithand.c:498
 #, c-format
 msgid ""
 "Cannot remove a unit at (%d, %d) because the given unit type id %d is "
 "invalid."
-msgstr ""
+msgstr "No es pot treure una unitat de (%d, %d) perquè l'identificador de tipus d'unitat donat %d no és vàlid."
 
 #: server/edithand.c:506
 #, c-format
 msgid ""
 "Cannot remove a unit of type %s at (%d, %d) because the given owner's player "
 "id %d is invalid."
-msgstr ""
+msgstr "No es pot treure una unitat de tipus %s a (%d, %d) perquè l'identificador de jugador del propietari que s'ha donat %d no és vàlid."
 
 #: server/edithand.c:537 server/edithand.c:562
-#, fuzzy, c-format
+#, c-format
 msgid "No such unit (ID %d)."
-msgstr "No existeix la votació (%d)"
+msgstr "No existeix la unitat (ID %d)"
 
 #: server/edithand.c:603
 #, c-format
 msgid "Invalid veteran level %d for unit %d (%s)."
-msgstr ""
+msgstr "Nivell %d de veterania no vàlid per unitat %d (%s)."
 
 #: server/edithand.c:634
 #, c-format
 msgid "Cannot create a city at (%d, %d) because it is not on the map!"
-msgstr ""
+msgstr "No es pot crear una ciutat a (%d, %d) perquè no és al mapa!"
 
 #: server/edithand.c:642
 #, c-format
 msgid ""
 "Cannot create a city at (%d, %d) because the given owner's player id %d is "
 "invalid"
-msgstr ""
+msgstr "No es pot crear una ciutat a (%d, %d) perquè l'identificador de jugador %d del propietari que s'ha donat no és vàlid."
 
 #: server/edithand.c:653
 #, c-format
 msgid "A city may not be built at (%d, %d)."
-msgstr ""
+msgstr "No es pot construir una ciutat a (%d, %d)."
 
 #: server/edithand.c:698
 #, c-format
 msgid "Cannot edit city with invalid city ID %d."
-msgstr ""
+msgstr "No es pot editar ciutat amb ID de ciutat no vàlid %d."
 
 #: server/edithand.c:710
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot edit city name: %s"
-msgstr "Nom de connexió: %s"
+msgstr "No es pot editar el nom de ciutat: %s"
 
 #: server/edithand.c:721
 #, c-format
 msgid "Invalid city size %d for city %s."
-msgstr ""
+msgstr "Mida %d de ciutat no vàlida per ciutat %s."
 
 #: server/edithand.c:738
 #, c-format
 msgid "It is impossible for a city to have %s!"
-msgstr ""
+msgstr "És impossible que una ciutat tingui %s!"
 
 #: server/edithand.c:784
 #, c-format
 msgid "Invalid city food stock amount %d for city %s (allowed range is %d to %d)."
-msgstr ""
+msgstr "Quantitat de menjar acumulat %d no vàlida per a la ciutat %s (el rang permès és de %d a %d)."
 
 #: server/edithand.c:798
 #, c-format
 msgid "Invalid city shield stock amount %d for city %s (allowed range is %d to %d)."
-msgstr ""
+msgstr "Quantitat de producció acumulada %d no vàlida per a la ciutat %s (el rang permès és de %d a %d)."
 
 #: server/edithand.c:832
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "No more players can be added because the maximum number of players (%d) has "
 "been reached."
-msgstr ""
-"No pots agafar un nou jugador perquè s'ha arribat al màxim de %d jugador (la "
-"preferència maxplayers)"
+msgstr "No es poden afegir més jugadors perquè s'ha arribat al màxim de jugadors (%d)."
 
 #: server/edithand.c:840
 #, c-format
@@ -3866,33 +3864,33 @@ msgstr "No existeix el jugador (ID %d)."
 #: server/edithand.c:932
 #, c-format
 msgid "Cannot edit player with invalid player ID %d."
-msgstr ""
+msgstr "No es pot editar el jugador amb ID de jugador %d no vàlid."
 
 #: server/edithand.c:944
 #, c-format
 msgid "Cannot set empty name for player (%d) '%s'."
-msgstr ""
+msgstr "No es pot deixar el nom buit per al jugador (%d) '%s'."
 
 #: server/edithand.c:957
 #, c-format
 msgid ""
 "Cannot change name of player (%d) '%s' to '%s': another player (%d) already "
 "has that name."
-msgstr ""
+msgstr "No es pot modificar el nom del jugador (%d) '%s' a '%s': un altre jugador (%d) ja té aquest nom."
 
 #: server/edithand.c:977
 #, c-format
 msgid ""
 "Cannot change nation for player %d (%s) because the given nation ID %d is "
 "invalid."
-msgstr ""
+msgstr "No es pot canviar la nació del jugador %d (%s) perquè l'identificador de nació donat %d no és vàlid."
 
 #: server/edithand.c:983
 #, c-format
 msgid ""
 "Cannot change nation for player %d (%s) to nation %d (%s) because that "
 "nation is already assigned to player %d (%s)."
-msgstr ""
+msgstr "No es pot canviar la nació del jugador %d (%s) a la nació %d (%s) perquè aquesta nació ja està assignada al jugador %d (%s)."
 
 #: server/edithand.c:1019
 #, c-format
@@ -3914,9 +3912,9 @@ msgid ""
 msgstr ""
 
 #: server/edithand.c:1160
-#, fuzzy, c-format
+#, c-format
 msgid "No such city (ID %d)."
-msgstr "No existeix la votació (%d)"
+msgstr "No existeix la ciutat (ID %d)"
 
 #: server/edithand.c:1186
 #, fuzzy
@@ -4075,12 +4073,12 @@ msgstr "Desmantellat el teu %s degut a un canvi de terreny."
 
 #: server/meta.c:193
 msgid "Not reporting to the metaserver in this game."
-msgstr "No s'informa al metaservidor d'aquesta partida."
+msgstr "No s'informa al metaservidor en aquesta partida."
 
 #: server/meta.c:436
-#, fuzzy, c-format
+#, c-format
 msgid "Metaserver: bad address: <%s %d>."
-msgstr "Metaservidor: adreça incorrecta: [%s:%d]."
+msgstr "Metaservidor: adreça incorrecta: <%s %d>."
 
 #: server/plrhand.c:133
 #, c-format
@@ -4132,19 +4130,16 @@ msgid "You should choose a new government from the government menu."
 msgstr "Hauries de triar un nou govern del menú de governs."
 
 #: server/plrhand.c:437
-#, fuzzy
 msgid "Tax rate exceeded the max rate; adjusted."
-msgstr "La taxa d'impostos excedeix la taxa màxima per %s; s'ha ajustat."
+msgstr "La taxa d'impostos excedeix la taxa màxima; s'ha ajustat."
 
 #: server/plrhand.c:441
-#, fuzzy
 msgid "Science rate exceeded the max rate; adjusted."
-msgstr "La taxa de ciència excedeix la taxa màxima per %s; s'ha ajustat."
+msgstr "La taxa de ciència excedeix la taxa màxima; s'ha ajustat."
 
 #: server/plrhand.c:445
-#, fuzzy
 msgid "Luxury rate exceeded the max rate; adjusted."
-msgstr "La taxa de luxes excedeix la taxa màxima per %s; s'ha ajustat."
+msgstr "La taxa de luxes excedeix la taxa màxima; s'ha ajustat."
 
 #: server/plrhand.c:499
 #, c-format
@@ -4579,12 +4574,11 @@ msgstr "No s'ha pogut trobar un fitxer de regles \"%s.%s\" llegible."
 
 #: server/ruleset.c:3665
 msgid "Loading rulesets"
-msgstr "S'està carregant el conjunt de regles"
+msgstr "S'està carregant els conjunt de regles"
 
 #: server/ruleset.c:3735
-#, fuzzy
 msgid "Reducing aifill because there are not enough playable nations."
-msgstr "No pots agafar un nou jugador perquè no queden posicions de jugador lliures."
+msgstr "S'ha reduït el nombre d'IA perquè no hi ha prou nacions jugables."
 
 #. TRANS: Minor error message.
 #: server/savegame.c:185
@@ -5460,14 +5454,12 @@ msgstr ""
 "4 - hordes furioses, molts bàrbars"
 
 #: server/settings.c:745
-#, fuzzy
 msgid "Barbarian onset turn"
-msgstr "Any d'aparició de bàrbars"
+msgstr "Torn d'aparició de bàrbars"
 
 #: server/settings.c:746
-#, fuzzy
 msgid "Barbarians will not appear before this turn."
-msgstr "Els bàrbars no apareixeran abans d'aquest any."
+msgstr "Els bàrbars no apareixeran abans d'aquest torn."
 
 #: server/settings.c:752
 msgid "Length in turns of revolution"
@@ -5522,11 +5514,10 @@ msgid "Should the game end if the spaceship arrives?"
 msgstr ""
 
 #: server/settings.c:788
-#, fuzzy
 msgid ""
 "If this option is set to 1, the game will end with the arrival of a "
 "spaceship at Alpha Centauri."
-msgstr "Si aquesta opció és 1, els jugadors poden construir naus espacials. "
+msgstr "Si aquesta opció és 1, el joc acabarà amb l'arribada d'una nau espacial a Alpha Centauri."
 
 #: server/settings.c:794
 msgid "Minimum number of cities for civil war"
@@ -5755,14 +5746,12 @@ msgstr ""
 "quan un jugador es desconnecta."
 
 #: server/settings.c:960
-#, fuzzy
 msgid "Turn the game ends"
-msgstr "Any que la partida s'acaba"
+msgstr "Torn que la partida s'acaba"
 
 #: server/settings.c:961
-#, fuzzy
 msgid "The game will end at the end of the given turn."
-msgstr "La partida s'acabarà al final de l'any donat."
+msgstr "La partida s'acabarà al final del torn donat."
 
 #: server/settings.c:967
 msgid "Maximum seconds per turn"
@@ -5999,22 +5988,21 @@ msgstr "El servidor no pot llegir l'entrada estàndard. S'ignora l'entrada."
 
 #: server/sernet.c:505
 msgid "restarting for lack of players"
-msgstr "reiniciant per falta de jugadors"
+msgstr "reiniciant per manca de jugadors"
 
 #: server/sernet.c:528
-#, fuzzy, c-format
+#, c-format
 msgid "restarting in %d seconds for lack of players"
-msgstr "reiniciant per falta de jugadors"
+msgstr "reiniciant en %d segons per manca de jugadors"
 
 #: server/sernet.c:531
-#, fuzzy
 msgid "restarting soon for lack of players"
-msgstr "reiniciant per falta de jugadors"
+msgstr "reiniciant aviat per manca de jugadors"
 
 #: server/sernet.c:953
-#, fuzzy, c-format
+#, c-format
 msgid "Server: bad address: <%s:%d>."
-msgstr "Servidor: adreça incorrecta: [%s:%d]."
+msgstr "Servidor: adreça incorrecta: <%s:%d>."
 
 #: server/sernet.c:968
 msgid "Cannot open IPv6 socket, trying IPv4 instead"
@@ -6217,9 +6205,8 @@ msgstr ""
 "plau el teu client a Freeciv 2.2 o posterior."
 
 #: server/srv_main.c:1361
-#, fuzzy
 msgid "You are not allowed to edit."
-msgstr "No tens permís per votar sobre això."
+msgstr "No tens permís per editar."
 
 #: server/srv_main.c:1403
 #, c-format
@@ -6289,9 +6276,9 @@ msgstr ""
 "mateix no es fa servir."
 
 #: server/srv_main.c:2128
-#, fuzzy, c-format
+#, c-format
 msgid "Sending info to metaserver <%s>"
-msgstr "S'està enviant informació al metaservidor [%s]"
+msgstr "S'està enviant informació al metaservidor <%s>"
 
 #: server/srv_main.c:2133
 msgid "Not starting without explicitly requested metaserver connection."
@@ -6449,9 +6436,8 @@ msgid "Can't add more players, server is full."
 msgstr "No es poden afegir més jugadors, el servidor està ple."
 
 #: server/stdinhand.c:803
-#, fuzzy
 msgid "Can't add more players, not enough nations."
-msgstr "No es poden afegir més jugadors, el servidor està ple."
+msgstr "No es poden afegir més jugadors, no hi ha prou nacions."
 
 #: server/stdinhand.c:810
 msgid "Can't use an empty name."
@@ -6475,9 +6461,9 @@ msgid "A user already exists by that name."
 msgstr "Ja existeix un usuari amb aquest nom."
 
 #: server/stdinhand.c:848
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create new player %s."
-msgstr "Error en crear el nou jugador d'IA: %s."
+msgstr "Error en crear el nou jugador %s."
 
 #: server/stdinhand.c:853
 #, c-format
@@ -8192,9 +8178,8 @@ msgid "See the \"Copying\" item on the Help menu."
 msgstr " Consulta el punt \"Llicència\" en el menú d'ajuda."
 
 #: client/chatline_common.c:172
-#, fuzzy
 msgid "Now ... Go give 'em hell!"
-msgstr "Ara.. Desperta ferro!!!"
+msgstr "Ara... Desperta ferro!!!"
 
 #. TRANS: Use longer of "XXX turns" and "never"
 #: client/citydlg_common.c:220
@@ -9117,7 +9102,7 @@ msgstr[1] ""
 
 #: client/helpdata.c:130
 msgid "Terrain     Road   Irrigation     Mining         Transform\n"
-msgstr "Terreny    Camí    Irrigació     Mineria        Transformar\n"
+msgstr "Terreny    Camí    Regadiu      Mineria        Transformar\n"
 
 #: client/helpdata.c:155
 msgid "(Railroads and fortresses require 3 turns, regardless of terrain.)"
@@ -9704,7 +9689,7 @@ msgstr "* Permet als %s millorar camins a ferrocarrils.\n"
 #: client/helpdata.c:1251
 #, c-format
 msgid "* Allows %s to upgrade irrigation to farmland.\n"
-msgstr "* Permet als %s millorar la irrigació a horta.\n"
+msgstr "* Permet als %s millorar el regadiu a horta.\n"
 
 #: client/helpdata.c:1285
 msgid "* Pollution cannot be generated on this terrain."
@@ -18539,7 +18524,7 @@ msgstr ""
 " Cada ciutat té una àrea de terra conreable al voltant que s'utilitza per a "
 "produir menjar, béns i per generar comerç. Aquesta producció pot augmentar-"
 "se utilitzant Colons per millorar les terres de conreu. La terra es pot "
-"millorar amb camins, irrigació, mines i d'altres."
+"millorar amb camins, regadiu, mines i d'altres."
 
 #: data/helpdata.txt:666
 msgid ""
@@ -19659,7 +19644,7 @@ msgid ""
 msgstr ""
 "Els tipus de terreny adequats es poden irrigar. Això requereix una font "
 "d'aigua propera: una casella d'Oceà o de Riu, o una altra casella que "
-"estigui irrigada, ha de ser directament adjacent a la casella que es vol "
+"sigui de regadiu, ha de ser directament adjacent a la casella que es vol "
 "irrigar, cap al nord, sud, est o oest. Irrigar una casella fa que produeixi "
 "menjar addicional a cada torn. A més, quan tens suficient tecnologia, pots "
 "irrigar una casella una segona vegada, convertint-la en Horta, que encara és "
@@ -19794,7 +19779,7 @@ msgid ""
 " - a road"
 msgstr ""
 " - horta\n"
-" - irrigació\n"
+" - regadiu\n"
 " - mina\n"
 " - una fortificació\n"
 " - una base aèria\n"
@@ -19810,7 +19795,7 @@ msgid ""
 "pillaging will not convert it back into a Forest -- to do so, you would have "
 "to convert the tile again with a Settler or Engineer."
 msgstr ""
-"Les caselles que no tenen alteracions de terreny (horta, irrigació, mina, "
+"Les caselles que no tenen alteracions de terreny (horta, regadiu, mina, "
 "fortificació, base aèria, ferrocarril o camí) no es poden saquejar. A més, "
 "les conversions i transformacions de terreny no es poden desfer saquejant. "
 "Per exemple, si has irrigat una casella de Bosc per convertir-la en Planes, "
@@ -23134,7 +23119,7 @@ msgstr ""
 #: data/default/units.ruleset:1029 data/civ2/units.ruleset:976
 #: data/civ1/units.ruleset:569
 msgid "Cannon"
-msgstr "Canó"
+msgstr "Canons"
 
 #: data/default/units.ruleset:1055 data/civ2/units.ruleset:1002
 #: data/civ1/units.ruleset:595
@@ -23229,23 +23214,21 @@ msgid "An improved Bomber, with improved attack and a higher movement radius."
 msgstr "Un Bombarder millorat, amb més atac i radi de moviment."
 
 #: data/default/units.ruleset:1320
-#, fuzzy
 msgid ""
 "The Trireme is your first boat unit. It can act as a transport ship and has "
 "rudimentary offensive capabilities, but may not enter deep ocean tiles."
 msgstr ""
 "El Trirrem és la primera unitat marítima que pots tenir. Pot fer de vaixell "
 "de transport i té una capacitat ofensiva rudimentària, però no pot aventurar-"
-"se massa lluny de terra."
+"se cap a caselles oceàniques."
 
 #: data/default/units.ruleset:1327 data/civ2/units.ruleset:1274
 msgid "Caravel"
 msgstr "Caravel·la"
 
 #: data/default/units.ruleset:1354
-#, fuzzy
 msgid "The Caravel replaces the Trireme and can enter any ocean tile."
-msgstr "La Caravel·la substitueix el Trirrem i és molt més segura a mar obert."
+msgstr "La Caravel·la substitueix el Trirrem i pot anar per qualsevol casella d'oceà."
 
 #: data/default/units.ruleset:1360 data/civ2/units.ruleset:1307
 msgid "Galleon"
@@ -24629,7 +24612,6 @@ msgid "?plural:Bretons"
 msgstr "Bretons"
 
 #: data/nation/breton.ruleset:6
-#, fuzzy
 msgid ""
 "Known to the Romans as Armorica, Brittany had been Celtic speaking for many "
 "centuries before Britons arrived in the peninsula as mercenaries, colonists "
@@ -25109,7 +25091,6 @@ msgid "?plural:Cholas"
 msgstr "Xola"
 
 #: data/nation/chola.ruleset:7
-#, fuzzy
 msgid ""
 "The Cholas were a Tamil dynasty centered in southern India and were rare in "
 "their level of influence in northern India. They began as a tributary state "
@@ -25122,7 +25103,7 @@ msgstr ""
 "Els Xola eren una dinastia tàmil centrada al sud de l'Índia, i van tenir "
 "poca influència al nord. Van començar com un estat tributari dels Pallava, "
 "però al segle IX el seu poder va començar a créixer. Durant el segle XI, van "
-"dirigir expedicions contra altres estats indis tan al nord com Bengala, així "
+"dirigir expedicions contra d'altres estats indis tan al nord com Bengala, així "
 "com les Maldives, Sri Lanka, i fins i tot el regne indonesi de Sri Vijaia. "
 "Van enfonsar-se, no obstant, cap al 1250, per l'ascens d'altres estats indis "
 "del sud."
@@ -26361,7 +26342,6 @@ msgid "?plural:Khwarezmians"
 msgstr "Khwarèsmids"
 
 #: data/nation/khwarezmian.ruleset:7
-#, fuzzy
 msgid ""
 "Known by the Greeks as Chorasmia, Khwarezm was an urbanized, centralized, "
 "and militarized state south of the Aral sea in Central Asia, controlling "
@@ -26540,7 +26520,6 @@ msgid "?plural:Laotians"
 msgstr "Laosians"
 
 #: data/nation/laotian.ruleset:6
-#, fuzzy
 msgid ""
 "The history of Laos starts with the Lan Xang kingdom created in the 14th "
 "century and ended in late 18th century with invasion of Siam (Thailand). In "
@@ -27312,7 +27291,6 @@ msgid "?plural:Phoenicians"
 msgstr "Fenicis"
 
 #: data/nation/phoenician.ruleset:6
-#, fuzzy
 msgid ""
 "Phoenicia was an ancient civilization, based in what is now the coastal "
 "regions of Lebanon and Syria.  They spoke a Canaanite language related to "
@@ -27330,7 +27308,7 @@ msgstr ""
 "alfabets etrusc i llatí. Els grecs i els romans els coneixien per la seva "
 "manufactura de tints violeta a partir d'una petxina, cosa que els va donar "
 "els seus noms grec i llatí. S'autoanomenaven Kan'ani i els seus descendents "
-"púnics (cartaginesos) de l'època de Sant Agustí, s'autoanomenaven Chanani"
+"púnics (cartaginesos) de l'època de Sant Agustí, s'autoanomenaven Chanani."
 
 #: data/nation/phoenician.ruleset:28
 msgid "Milk"
@@ -27482,7 +27460,6 @@ msgid "?plural:P'urhepecha"
 msgstr "?plural:P'urhepecha"
 
 #: data/nation/purhepecha.ruleset:7
-#, fuzzy
 msgid ""
 "The P'urhepecha are a people native to the modern Mexican state of "
 "Michoacan, the heart of a former empire known to them as Irechecua "
@@ -27704,20 +27681,18 @@ msgstr ""
 "regió de Lituània."
 
 #: data/nation/saxon.ruleset:3
-#, fuzzy
 msgid "Saxon"
-msgstr "So"
+msgstr "Saxó"
 
 #: data/nation/saxon.ruleset:4
-#, fuzzy
 msgid "?plural:Saxons"
-msgstr "Espanyols"
+msgstr "Saxons"
 
 #: data/nation/saxon.ruleset:6
 msgid ""
 "The Electorate of Saxony was an independent hereditary electorate of the "
 "Holy Roman Empire from 1356-1806."
-msgstr ""
+msgstr "L'Electorat de Saxònia va ser un electorat del Sacre Imperi Romà Germànic, hereditari i independent des de 1356 a 1806."
 
 #: data/nation/scottish.ruleset:3
 msgid "Scottish"
@@ -27877,7 +27852,6 @@ msgid "?plural:South Africans"
 msgstr "Sud-africans"
 
 #: data/nation/southafrican.ruleset:6
-#, fuzzy
 msgid ""
 "Dutch settlers began colonizing southern Africa in the 17th century. After "
 "many wars between primarily Boers (descendants of Dutch settlers), British "
@@ -27890,10 +27864,10 @@ msgid ""
 msgstr ""
 "Colons holandesos van començar a colonitzar el Sud d'Àfrica al segle XVII. "
 "Després de moltes guerres principalment entre Bòers (descendents dels colons "
-"holandesos), les forces britàniques i Zulus, la Unió Sudafricana va ser "
+"holandesos), les forces britàniques i els Zulus, la Unió Sudafricana va ser "
 "creada el 1910. El govern sudafricà va guanyar notorietat per la seva "
 "política d'\"apartheid\": la desigualtat davant la llei segons el color de "
-"la pell d'un ciutadà. Després de l'adopció de la primera constitució no "
+"la pell dels ciutadans. Després de l'adopció de la primera constitució no "
 "racista del país el 1994, Nelson Mandela, que havia estat durant molt temps "
 "un pres polític, va ser proclamat primer president de Sudàfrica triat d'una "
 "forma realment democràtica."
@@ -29401,9 +29375,8 @@ msgid "Loading tutorial events."
 msgstr "Carregant esdeveniments d'aprenentatge."
 
 #: data/civ1/game.ruleset:19
-#, fuzzy
 msgid "Civ1 ruleset"
-msgstr "S'està carregant el conjunt de regles"
+msgstr "Joc de regles de Civ1"
 
 #: data/civ1/game.ruleset:21
 msgid ""
@@ -29414,6 +29387,10 @@ msgid ""
 " * There is less technologies, buildings and units\n"
 " * Units have no hitpoints. If they win battle, they remain in full health\n"
 msgstr ""
+"Estàs jugant amb regles de l'estil de civ1. Aquestes regles són molt més senzilles que les que vénen per defecte amb el Freeciv. Si només coneixes les regles per defecte, suggerim que passis una estona comprovant-ne les diferències.\n"
+"\n"
+" * Hi ha menys tecnologies, edificis i unitats\n"
+" * Les Unitats no tenen punts de vida. Si guanyen la batlla, continuen en plena forma.\n"
 
 #: data/civ1/game.ruleset:155 data/civ2/game.ruleset:149
 #: data/default/game.ruleset:181
@@ -29576,29 +29553,28 @@ msgid "Team 31"
 msgstr "Equip 31"
 
 #: data/civ2/game.ruleset:19
-#, fuzzy
 msgid "Civ2 ruleset"
-msgstr "S'està carregant el conjunt de regles"
+msgstr "Joc de regles de Civ2"
 
 #: data/civ2/game.ruleset:21
 msgid ""
 "You are playing with civ2 style rules.These are quite close to Freeciv "
 "default rules, but with some additions."
-msgstr ""
+msgstr "Estàs jugant amb regles a l'estil de civ2. Aquestes s'assemblen força a les que vénen per defecte amb Freeciv, però amb alguns canvis."
 
 #: data/default/game.ruleset:19
 msgid "Default ruleset"
-msgstr ""
+msgstr "Joc de regles per defecte"
 
 #: data/default/game.ruleset:21
 msgid "You are playing Freeciv with default rules."
-msgstr ""
+msgstr "Estàs jugant al Freeciv amb les regles per defecte."
 
 #: data/default/game.ruleset:176
 msgid "AD"
-msgstr ""
+msgstr "dC"
 
 #: data/default/game.ruleset:177
 msgid "BC"
-msgstr ""
+msgstr "aC"
 
