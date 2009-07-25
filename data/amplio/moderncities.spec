@@ -23,6 +23,7 @@ artists = "
     Modern, Post Modern and Electric Age by Smiley, www.firstcultural.com
     City walls by Hogne Håskjold
     Buoy by Eleazar
+    Ruins by Vincent Croisier
 "
 
 [file]
@@ -55,6 +56,7 @@ tiles = { "row", "column", "tag"
  0,  6, "city.modern_occupied_0"
  0,  6, "city.postmodern_occupied_0"
  0,  8, "base.buoy_mg"
+ 0,  9, "base.ruins_mg"
 ;
 ; city tiles
 ;

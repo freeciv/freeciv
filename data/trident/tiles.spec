@@ -10,6 +10,7 @@ artists = "
     Tatu Rissanen <tatu.rissanen@hut.fi>
     Jeff Mallatt <jjm@codewell.com> (miscellaneous)
     Eleazar (buoy)
+    Vincent Croisier <vincent.croisier@advalvas.be> (ruins)
 "
 
 [file]
@@ -486,6 +487,7 @@ tiles = { "row", "column", "tag"
  12, 10, "tx.oil_mine"
  12, 11, "tx.pollution"
  12, 12, "base.buoy_mg"
+ 12, 13, "base.ruins_mg"
  12, 14, "tx.village"
  12, 15, "base.fortress_bg"
  13, 16, "base.airbase_mg"
