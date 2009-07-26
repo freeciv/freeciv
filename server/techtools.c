@@ -118,16 +118,16 @@ static void tech_researched(struct player *plr)
 		     research->future_tech);
   
   }
-  script_signal_emit("tech_researched", 3,
-		     API_TYPE_TECH_TYPE, tech, API_TYPE_PLAYER, plr,
-		     API_TYPE_STRING, "researched");
-
   /* Deduct tech cost */
   research->bulbs_researched = 
       MAX(research->bulbs_researched - total_bulbs_required(plr), 0);
 
   /* do all the updates needed after finding new tech */
   found_new_tech(plr, research->researching, TRUE, TRUE);
+
+  script_signal_emit("tech_researched", 3,
+		     API_TYPE_TECH_TYPE, tech, API_TYPE_PLAYER, plr,
+		     API_TYPE_STRING, "researched");
 }
 
 /****************************************************************************
@@ -168,10 +168,6 @@ void do_tech_parasite_effect(struct player *pplayer)
 			   _("%s acquired from %s!"),
 			   advance_name_for_player(pplayer, i),
 			   buf);
-	  script_signal_emit("tech_researched", 3,
-			     API_TYPE_TECH_TYPE, &advances[i],
-			     API_TYPE_PLAYER, pplayer,
-			     API_TYPE_STRING, "stolen");
 	  notify_embassies(pplayer, NULL, NULL, E_TECH_GAIN,
 			   _("The %s have acquired %s from %s."),
 			   nation_plural_for_player(pplayer),
@@ -180,6 +176,11 @@ void do_tech_parasite_effect(struct player *pplayer)
 
 	  do_free_cost(pplayer, i);
 	  found_new_tech(pplayer, i, FALSE, TRUE);
+
+	  script_signal_emit("tech_researched", 3,
+			     API_TYPE_TECH_TYPE, &advances[i],
+			     API_TYPE_PLAYER, pplayer,
+			     API_TYPE_STRING, "stolen");
 	  break;
 	}
       }
@@ -691,10 +692,6 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
 	       && get_invention(victim, preferred) == TECH_KNOWN));
     stolen_tech = preferred;
   }
-  script_signal_emit("tech_researched", 3,
-		     API_TYPE_TECH_TYPE, &advances[stolen_tech],
-		     API_TYPE_PLAYER, pplayer,
-		     API_TYPE_STRING, "stolen");
 
   notify_player(pplayer, NULL, E_TECH_GAIN,
 		   _("You steal %s from the %s."),
@@ -714,6 +711,12 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
 
   do_conquer_cost(pplayer, stolen_tech);
   found_new_tech(pplayer, stolen_tech, FALSE, TRUE);
+
+  script_signal_emit("tech_researched", 3,
+		     API_TYPE_TECH_TYPE, &advances[stolen_tech],
+		     API_TYPE_PLAYER, pplayer,
+		     API_TYPE_STRING, "stolen");
+
   return stolen_tech;
 }
 
