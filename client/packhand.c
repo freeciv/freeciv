@@ -3054,7 +3054,7 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
 }
 
 /**************************************************************************
-...
+  Handle city style packet.
 **************************************************************************/
 void handle_ruleset_city(struct packet_ruleset_city *packet)
 {
@@ -3069,7 +3069,7 @@ void handle_ruleset_city(struct packet_ruleset_city *packet)
     return;
   }
   cs = &city_styles[id];
-  
+
   for (j = 0; j < packet->reqs_count; j++) {
     requirement_vector_append(&cs->reqs, &packet->reqs[j]);
   }
@@ -3080,6 +3080,8 @@ void handle_ruleset_city(struct packet_ruleset_city *packet)
   cs->name.translated = NULL;
   sz_strlcpy(cs->graphic, packet->graphic);
   sz_strlcpy(cs->graphic_alt, packet->graphic_alt);
+  sz_strlcpy(cs->oceanic_graphic, packet->oceanic_graphic);
+  sz_strlcpy(cs->oceanic_graphic_alt, packet->oceanic_graphic_alt);
   sz_strlcpy(cs->citizens_graphic, packet->citizens_graphic);
   sz_strlcpy(cs->citizens_graphic_alt, packet->citizens_graphic_alt);
 

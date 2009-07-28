@@ -150,13 +150,17 @@ struct drawing_data {
   struct sprite *mine;
 };
 
+struct city_style_threshold {
+  int city_size;
+  struct sprite *sprite;
+};
+
 struct city_sprite {
   struct {
-    int num_thresholds;
-    struct {
-      int city_size;
-      struct sprite *sprite;
-    } *thresholds;
+    int land_num_thresholds;
+    struct city_style_threshold *land_thresholds;
+    int oceanic_num_thresholds;
+    struct city_style_threshold *oceanic_thresholds;
   } *styles;
   int num_styles;
 };
@@ -1994,11 +1998,19 @@ static struct sprite *get_city_sprite(const struct city_sprite *city_sprite,
   /* get style and match the best tile based on city size */
   int style = style_of_city(pcity);
   int num_thresholds;
+  struct city_style_threshold *thresholds;
   int t;
 
   assert(style < city_sprite->num_styles);
 
-  num_thresholds = city_sprite->styles[style].num_thresholds;
+  if (is_ocean_tile(pcity->tile)
+      && city_sprite->styles[style].oceanic_num_thresholds != 0) {
+    num_thresholds = city_sprite->styles[style].oceanic_num_thresholds;
+    thresholds = city_sprite->styles[style].oceanic_thresholds;
+  } else {
+    num_thresholds = city_sprite->styles[style].land_num_thresholds;
+    thresholds = city_sprite->styles[style].land_thresholds;
+  }
 
   if (num_thresholds == 0) {
     return NULL;
@@ -2007,12 +2019,50 @@ static struct sprite *get_city_sprite(const struct city_sprite *city_sprite,
   /* We find the sprite with the largest threshold value that's no bigger
    * than this city size. */
   for (t = 0; t < num_thresholds; t++) {
-    if (pcity->size < city_sprite->styles[style].thresholds[t].city_size) {
+    if (pcity->size < thresholds[t].city_size) {
       break;
     }
   }
 
-  return city_sprite->styles[style].thresholds[MAX(t - 1, 0)].sprite;
+  return thresholds[MAX(t - 1, 0)].sprite;
+}
+
+/****************************************************************************
+  Allocates one threshold set for city sprite
+****************************************************************************/
+static int load_city_thresholds_sprites(struct tileset *t, const char *tag,
+                                        char *graphic, char *graphic_alt,
+                                        struct city_style_threshold **thresholds)
+{
+  char buffer[128];
+  char *gfx_in_use = graphic;
+  int num_thresholds = 0;
+  struct sprite *sprite;
+  int size;
+
+  *thresholds = NULL;
+
+  for (size = 0; size < MAX_CITY_SIZE; size++) {
+    my_snprintf(buffer, sizeof(buffer), "%s_%s_%d",
+                gfx_in_use, tag, size);
+    if ((sprite = load_sprite(t, buffer))) {
+      num_thresholds++;
+      *thresholds = fc_realloc(*thresholds, num_thresholds * sizeof(**thresholds));
+      (*thresholds)[num_thresholds - 1].city_size = size;
+      (*thresholds)[num_thresholds - 1].sprite = sprite;
+    } else if (size == 0) {
+      if (gfx_in_use == graphic) {
+        /* Try again with graphic_alt. */
+        size--;
+        gfx_in_use = graphic_alt;
+      } else {
+        /* Don't load any others if the 0 element isn't there. */
+        break;
+      }
+    }
+  }
+
+  return num_thresholds;
 }
 
 /****************************************************************************
@@ -2026,8 +2076,7 @@ static struct city_sprite *load_city_sprite(struct tileset *t,
 					    const char *tag)
 {
   struct city_sprite *city_sprite = fc_malloc(sizeof(*city_sprite));
-  int style, size;
-  char buffer[128];
+  int style;
 
   /* Store number of styles we have allocated memory for.
    * game.control.styles_count might change if client disconnects from
@@ -2037,34 +2086,14 @@ static struct city_sprite *load_city_sprite(struct tileset *t,
 				  * sizeof(*city_sprite->styles));
 
   for (style = 0; style < city_sprite->num_styles; style++) {
-    int thresholds = 0;
-    struct sprite *sprite;
-    char *graphic = city_styles[style].graphic;
-
-    city_sprite->styles[style].thresholds = NULL;
-    for (size = 0; size < MAX_CITY_SIZE; size++) {
-      my_snprintf(buffer, sizeof(buffer), "%s_%s_%d",
-		  graphic, tag, size);
-      if ((sprite = load_sprite(t, buffer))) {
-	thresholds++;
-	city_sprite->styles[style].thresholds
-	  = fc_realloc(city_sprite->styles[style].thresholds,
-		       thresholds
-		       * sizeof(*city_sprite->styles[style].thresholds));
-	city_sprite->styles[style].thresholds[thresholds - 1].city_size = size;
-	city_sprite->styles[style].thresholds[thresholds - 1].sprite = sprite;
-      } else if (size == 0) {
-	if (graphic == city_styles[style].graphic) {
-	  /* Try again with graphic_alt. */
-	  size--;
-	  graphic = city_styles[style].graphic_alt;
-	} else {
-	  /* Don't load any others if the 0 element isn't there. */
-	  break;
-	}
-      }
-    }
-    city_sprite->styles[style].num_thresholds = thresholds;
+    city_sprite->styles[style].land_num_thresholds =
+      load_city_thresholds_sprites(t, tag, city_styles[style].graphic,
+                                   city_styles[style].graphic_alt,
+                                   &city_sprite->styles[style].land_thresholds);
+    city_sprite->styles[style].oceanic_num_thresholds =
+      load_city_thresholds_sprites(t, tag, city_styles[style].oceanic_graphic,
+                                   city_styles[style].oceanic_graphic_alt,
+                                   &city_sprite->styles[style].oceanic_thresholds);
   }
 
   return city_sprite;
@@ -2083,8 +2112,11 @@ static void free_city_sprite(struct city_sprite *city_sprite)
     return;
   }
   for (style = 0; style < city_sprite->num_styles; style++) {
-    if (city_sprite->styles[style].thresholds) {
-      free(city_sprite->styles[style].thresholds);
+    if (city_sprite->styles[style].land_thresholds) {
+      free(city_sprite->styles[style].land_thresholds);
+    }
+    if (city_sprite->styles[style].oceanic_thresholds) {
+      free(city_sprite->styles[style].oceanic_thresholds);
     }
   }
   free(city_sprite->styles);
@@ -4574,17 +4606,17 @@ void tileset_setup_city_tiles(struct tileset *t, int style)
     t->sprites.city.occupied = load_city_sprite(t, "occupied");
 
     for (style = 0; style < game.control.styles_count; style++) {
-      if (t->sprites.city.tile->styles[style].num_thresholds == 0) {
+      if (t->sprites.city.tile->styles[style].land_num_thresholds == 0) {
 	freelog(LOG_FATAL, "City style \"%s\": no city graphics.",
 		city_style_rule_name(style));
 	exit(EXIT_FAILURE);
       }
-      if (t->sprites.city.wall->styles[style].num_thresholds == 0) {
+      if (t->sprites.city.wall->styles[style].land_num_thresholds == 0) {
 	freelog(LOG_FATAL, "City style \"%s\": no wall graphics.",
 		city_style_rule_name(style));
 	exit(EXIT_FAILURE);
       }
-      if (t->sprites.city.occupied->styles[style].num_thresholds == 0) {
+      if (t->sprites.city.occupied->styles[style].land_num_thresholds == 0) {
 	freelog(LOG_FATAL, "City style \"%s\": no occupied graphics.",
 		city_style_rule_name(style));
 	exit(EXIT_FAILURE);
@@ -4863,13 +4895,14 @@ struct sprite *get_unittype_sprite(const struct tileset *t,
 struct sprite *get_sample_city_sprite(const struct tileset *t,
 				      int city_style)
 {
-  int num_thresholds = t->sprites.city.tile->styles[city_style].num_thresholds;
+  int num_thresholds =
+    t->sprites.city.tile->styles[city_style].land_num_thresholds;
 
   if (num_thresholds == 0) {
     return NULL;
   } else {
     return (t->sprites.city.tile->styles[city_style]
-	    .thresholds[num_thresholds - 1].sprite);
+	    .land_thresholds[num_thresholds - 1].sprite);
   }
 }
 

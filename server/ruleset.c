@@ -2842,7 +2842,13 @@ static void load_ruleset_cities(struct section_file *file)
 	       secfile_lookup_str(file, "%s.graphic", styles[i]));
     sz_strlcpy(city_styles[i].graphic_alt, 
 	       secfile_lookup_str(file, "%s.graphic_alt", styles[i]));
-    sz_strlcpy(city_styles[i].citizens_graphic, 
+    sz_strlcpy(city_styles[i].oceanic_graphic, 
+	       secfile_lookup_str_default(file, "",
+                                          "%s.oceanic_graphic", styles[i]));
+    sz_strlcpy(city_styles[i].oceanic_graphic_alt, 
+	       secfile_lookup_str_default(file, "",
+                                          "%s.oceanic_graphic_alt", styles[i]));
+    sz_strlcpy(city_styles[i].citizens_graphic,
 	       secfile_lookup_str_default(file, "-", 
 	    		"%s.citizens_graphic", styles[i]));
     sz_strlcpy(city_styles[i].citizens_graphic_alt, 
@@ -3601,6 +3607,8 @@ static void send_ruleset_cities(struct conn_list *dest)
     sz_strlcpy(city_p.name, city_styles[k].name.vernacular);
     sz_strlcpy(city_p.graphic, city_styles[k].graphic);
     sz_strlcpy(city_p.graphic_alt, city_styles[k].graphic_alt);
+    sz_strlcpy(city_p.oceanic_graphic, city_styles[k].oceanic_graphic);
+    sz_strlcpy(city_p.oceanic_graphic_alt, city_styles[k].oceanic_graphic_alt);
     sz_strlcpy(city_p.citizens_graphic, city_styles[k].citizens_graphic);
     sz_strlcpy(city_p.citizens_graphic_alt,
 			 city_styles[k].citizens_graphic_alt);
