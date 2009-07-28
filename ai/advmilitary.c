@@ -576,11 +576,15 @@ static unsigned int assess_danger(struct city *pcity)
       if (unit_has_type_flag(punit, F_NUCLEAR)) {
         defender = ai_find_source_building(pcity, EFT_NUKE_PROOF,
                                            unit_class(punit), MOVETYPE_LAST);
-        danger_reduced[defender] += vulnerability * move_rate / MAX(dist, 1);
+        if (defender != B_LAST) {
+          danger_reduced[defender] += vulnerability * move_rate / MAX(dist, 1);
+        }
       } else if (!unit_has_type_flag(punit, F_IGWALL)) {
         defender = ai_find_source_building(pcity, EFT_DEFEND_BONUS,
                                            unit_class(punit), MOVETYPE_LAST);
-        danger_reduced[defender] += vulnerability * move_rate / MAX(dist, 1);
+        if (defender != B_LAST) {
+          danger_reduced[defender] += vulnerability * move_rate / MAX(dist, 1);
+        }
       } else {
         igwall_threat += vulnerability;
       }
