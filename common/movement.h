@@ -26,8 +26,8 @@ struct terrain;
 
 int unit_move_rate(const struct unit *punit);
 bool unit_can_defend_here(const struct unit *punit);
-bool can_attack_non_native(struct unit_type *utype);
-bool can_attack_from_non_native(struct unit_type *utype);
+bool can_attack_non_native(const struct unit_type *utype);
+bool can_attack_from_non_native(const struct unit_type *utype);
 
 bool is_sailing_unit(const struct unit *punit);
 bool is_ground_unit(const struct unit *punit);

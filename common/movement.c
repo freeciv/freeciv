@@ -87,7 +87,7 @@ bool unit_can_defend_here(const struct unit *punit)
  This unit can attack non-native tiles (eg. Ships ability to
  shore bombardment)
 ****************************************************************************/
-bool can_attack_non_native(struct unit_type *utype)
+bool can_attack_non_native(const struct unit_type *utype)
 {
   return (utype_class(utype)->move_type == SEA_MOVING
           && !utype_has_flag(utype, F_NO_LAND_ATTACK));
@@ -97,7 +97,7 @@ bool can_attack_non_native(struct unit_type *utype)
  This unit can attack from non-native tiles (Marines can attack from
  transport, ships from harbour cities)
 ****************************************************************************/
-bool can_attack_from_non_native(struct unit_type *utype)
+bool can_attack_from_non_native(const struct unit_type *utype)
 {
   /* It's clear that LAND_MOVING should not be able to attack from
    * non-native (unless F_MARINES) and it's clear that SEA_MOVING
