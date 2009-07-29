@@ -396,7 +396,7 @@ struct settings_s settings[] = {
    * These are done when the game starts, so these are historical and
    * fixed after the game has started.
    */
-  GEN_INT("gameseed", game.seed,
+  GEN_INT("gameseed", game.server.seed,
 	  SSET_MAP_ADD, SSET_INTERNAL, SSET_RARE, SSET_SERVER_ONLY,
 	  N_("Game random seed"),
 	  N_("For zero (the default) a seed will be chosen based "
@@ -912,7 +912,7 @@ struct settings_s settings[] = {
    * affect what happens in the game, it just determines when the
    * players stop playing and look at the score.)
    */
-  GEN_STRING("allowtake", game.allow_take,
+  GEN_STRING("allowtake", game.server.allow_take,
 	     SSET_META, SSET_NETWORK, SSET_RARE, SSET_TO_CLIENT,
              N_("Players that users are allowed to take"),
              N_("This should be a string of characters, each of which "
@@ -975,7 +975,7 @@ struct settings_s settings[] = {
           timeout_callback,
           GAME_MIN_TIMEOUT, GAME_MAX_TIMEOUT, GAME_DEFAULT_TIMEOUT)
 
-  GEN_INT("timeaddenemymove", game.timeoutaddenemymove,
+  GEN_INT("timeaddenemymove", game.server.timeoutaddenemymove,
 	  SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_TO_CLIENT,
 	  N_("Timeout at least n seconds when enemy moved"),
 	  N_("Any time a unit moves while in sight of an enemy player, "
@@ -985,7 +985,7 @@ struct settings_s settings[] = {
   /* This setting points to the "stored" value; changing it won't have
    * an effect until the next synchronization point (i.e., the start of
    * the next turn). */
-  GEN_INT("phasemode", game.phase_mode_stored,
+  GEN_INT("phasemode", game.server.phase_mode_stored,
 	  SSET_META, SSET_INTERNAL, SSET_SITUATIONAL, SSET_TO_CLIENT,
 	  N_("Whether to have simultaneous player/team phases."),
           /* NB: The values must match enum phase_mode_types
@@ -1048,7 +1048,7 @@ struct settings_s settings[] = {
 	      "have clicked on \"Turn Done\"."), NULL,
 	   FALSE)
 
-  GEN_STRING("demography", game.demography,
+  GEN_STRING("demography", game.server.demography,
 	     SSET_META, SSET_INTERNAL, SSET_SITUATIONAL, SSET_TO_CLIENT,
 	     N_("What is in the Demographics report"),
 	     N_("This should be a string of characters, each of which "
@@ -1100,7 +1100,7 @@ struct settings_s settings[] = {
 	  GAME_MIN_COMPRESS_TYPE, GAME_MAX_COMPRESS_TYPE,
 	  GAME_DEFAULT_COMPRESS_TYPE)
 
-  GEN_STRING("savename", game.save_name,
+  GEN_STRING("savename", game.server.save_name,
 	     SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_SERVER_ONLY,
 	     N_("Auto-save name prefix"),
 	     N_("Automatically saved games will have name "
@@ -1108,7 +1108,7 @@ struct settings_s settings[] = {
 		"the <prefix> part."), NULL,
 	     GAME_DEFAULT_SAVE_NAME)
 
-  GEN_BOOL("scorelog", game.scorelog,
+  GEN_BOOL("scorelog", game.server.scorelog,
 	   SSET_META, SSET_INTERNAL, SSET_SITUATIONAL, SSET_SERVER_ONLY,
 	   N_("Whether to log player statistics"),
 	   N_("If this is set to 1, player statistics are appended to "

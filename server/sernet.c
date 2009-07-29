@@ -537,7 +537,7 @@ enum server_events server_sniff_all_input(void)
     }
 
     /* Pinging around for statistics */
-    if (time(NULL) > (game.last_ping + game.info.pingtime)) {
+    if (time(NULL) > (game.server.last_ping + game.info.pingtime)) {
       /* send data about the previous run */
       send_ping_times_to_all();
 
@@ -560,7 +560,7 @@ enum server_events server_sniff_all_input(void)
 	  ping_connection(pconn);
 	}
       } conn_list_iterate_end;
-      game.last_ping = time(NULL);
+      game.server.last_ping = time(NULL);
     }
 
     /* if we've waited long enough after a failure, respond to the client */
@@ -623,8 +623,8 @@ enum server_events server_sniff_all_input(void)
       (void) send_server_info_to_metaserver(META_REFRESH);
       if (game.info.timeout > 0
 	  && S_S_RUNNING == server_state()
-	  && game.phase_timer
-	  && (read_timer_seconds(game.phase_timer)
+	  && game.server.phase_timer
+	  && (read_timer_seconds(game.server.phase_timer)
 	      > game.info.seconds_to_phasedone)) {
 	con_prompt_off();
 	return S_E_END_OF_TURN_TIMEOUT;
@@ -787,8 +787,9 @@ enum server_events server_sniff_all_input(void)
 
   if (game.info.timeout > 0
       && S_S_RUNNING == server_state()
-      && game.phase_timer
-      && read_timer_seconds(game.phase_timer) > game.info.seconds_to_phasedone) {
+      && game.server.phase_timer
+      && (read_timer_seconds(game.server.phase_timer)
+          > game.info.seconds_to_phasedone)) {
     return S_E_END_OF_TURN_TIMEOUT;
   }
   return S_E_OTHERWISE;

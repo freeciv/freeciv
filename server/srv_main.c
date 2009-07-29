@@ -148,15 +148,15 @@ static bool has_been_srv_init = FALSE;
 **************************************************************************/
 void init_game_seed(void)
 {
-  if (game.seed == 0) {
+  if (game.server.seed == 0) {
     /* We strip the high bit for now because neither game file nor
        server options can handle unsigned ints yet. - Cedric */
-    game.seed = time(NULL) & (MAX_UINT32 >> 1);
-    freelog(LOG_DEBUG, "Setting game.seed:%d", game.seed);
+    game.server.seed = time(NULL) & (MAX_UINT32 >> 1);
+    freelog(LOG_DEBUG, "Setting game.seed:%d", game.server.seed);
   }
  
   if (!myrand_is_init()) {
-    mysrand(game.seed);
+    mysrand(game.server.seed);
   }
 }
 
@@ -659,7 +659,7 @@ static void begin_turn(bool is_new_turn)
 
   /* Reset this each turn. */
   if (is_new_turn) {
-    game.info.phase_mode = game.phase_mode_stored;
+    game.info.phase_mode = game.server.phase_mode_stored;
   }
 
   /* NB: Phase logic must match is_player_phase(). */
@@ -708,13 +708,13 @@ static void begin_turn(bool is_new_turn)
   } players_iterate_end;
 
   /* See if the value of fog of war has changed */
-  if (is_new_turn && game.info.fogofwar != game.fogofwar_old) {
+  if (is_new_turn && game.info.fogofwar != game.server.fogofwar_old) {
     if (game.info.fogofwar) {
       enable_fog_of_war();
-      game.fogofwar_old = TRUE;
+      game.server.fogofwar_old = TRUE;
     } else {
       disable_fog_of_war();
-      game.fogofwar_old = FALSE;
+      game.server.fogofwar_old = FALSE;
     }
   }
 
@@ -797,8 +797,8 @@ static void begin_phase(bool is_new_phase)
   sanity_check();
 
   game.info.seconds_to_phasedone = (double)game.info.timeout;
-  game.phase_timer = renew_timer_start(game.phase_timer,
-				       TIMER_USER, TIMER_ACTIVE);
+  game.server.phase_timer = renew_timer_start(game.server.phase_timer,
+                                              TIMER_USER, TIMER_ACTIVE);
   send_game_info(NULL);
 
   if (game.info.num_phases == 1) {
@@ -1002,7 +1002,7 @@ static int generate_save_name(char *buf, int buflen, bool is_auto_save)
   /* NB: If you change the format here, be sure to update the above
    * function comment and the help text for the 'savename' setting. */
   nb = my_snprintf(buf, buflen, "%s-T%03d-Y%d%s%s",
-                   game.save_name, game.info.turn, year,
+                   game.server.save_name, game.info.turn, year,
                    year_suffix, is_auto_save ? "" : "m");
   return nb;
 }
@@ -1116,7 +1116,7 @@ void save_game_auto(const char *save_reason)
 {
   char filename[512];
 
-  assert(strlen(game.save_name)<256);
+  assert(strlen(game.server.save_name)<256);
   
   generate_save_name(filename, sizeof(filename), TRUE);
   save_game(filename, save_reason, FALSE);
@@ -2243,7 +2243,7 @@ static void srv_ready(void)
     game.info.max_players = MAX(player_count(), game.info.max_players);
 
     /* Before the player map is allocated (and initialized)! */
-    game.fogofwar_old = game.info.fogofwar;
+    game.server.fogofwar_old = game.info.fogofwar;
 
     players_iterate(pplayer) {
       player_map_allocate(pplayer);

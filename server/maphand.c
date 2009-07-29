@@ -915,7 +915,7 @@ static void player_tile_init(struct tile *ptile, struct player *pplayer)
     BV_CLR(ptile->tile_seen[v], player_index(pplayer));
   } vision_layer_iterate_end;
 
-  if (!game.fogofwar_old) {
+  if (!game.server.fogofwar_old) {
     plrtile->seen_count[V_MAIN] = 1;
     if (map_is_known(ptile, pplayer)) {
       BV_SET(ptile->tile_seen[V_MAIN], player_index(pplayer));

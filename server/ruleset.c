@@ -203,7 +203,7 @@ static void openload_ruleset_file(struct section_file *file,
 			          const char *whichset)
 {
   char sfilename[512];
-  char *dfilename = valid_ruleset_filename(game.rulesetdir,
+  char *dfilename = valid_ruleset_filename(game.server.rulesetdir,
 					   whichset, RULES_SUFFIX);
 
   /* Need to save a copy of the filename for following message, since
@@ -222,7 +222,7 @@ static void openload_ruleset_file(struct section_file *file,
 **************************************************************************/
 static void openload_script_file(const char *whichset)
 {
-  char *dfilename = valid_ruleset_filename(game.rulesetdir,
+  char *dfilename = valid_ruleset_filename(game.server.rulesetdir,
 					   whichset, SCRIPT_SUFFIX);
 
   if (!script_do_file(dfilename)) {
@@ -3123,9 +3123,9 @@ static void load_ruleset_game(void)
   
   /* Load global initial items. */
   lookup_tech_list(&file, "options", "global_init_techs",
-		   game.rgame.global_init_techs, filename);
+		   game.server.rgame.global_init_techs, filename);
   lookup_building_list(&file, "options", "global_init_buildings",
-		       game.rgame.global_init_buildings, filename);
+		       game.server.rgame.global_init_buildings, filename);
 
   /* Enable/Disable killstack */
   game.info.killstack = secfile_lookup_bool(&file, "combat_rules.killstack");
@@ -3631,10 +3631,10 @@ static void send_ruleset_game(struct conn_list *dest)
          sizeof(game.veteran_chance));
     
   assert(sizeof(misc_p.global_init_techs) ==
-	 sizeof(game.rgame.global_init_techs));
+	 sizeof(game.server.rgame.global_init_techs));
   assert(ARRAY_SIZE(misc_p.global_init_techs) ==
-	 ARRAY_SIZE(game.rgame.global_init_techs));
-  memcpy(misc_p.global_init_techs, game.rgame.global_init_techs,
+	 ARRAY_SIZE(game.server.rgame.global_init_techs));
+  memcpy(misc_p.global_init_techs, game.server.rgame.global_init_techs,
 	 sizeof(misc_p.global_init_techs));
 
   misc_p.default_specialist = DEFAULT_SPECIALIST;
@@ -3784,10 +3784,9 @@ static bool nation_has_initial_tech(struct nation_type *pnation,
   int i;
 
   /* See if it's given as global init tech */
-  for (i = 0;
-       i < MAX_NUM_TECH_LIST && game.rgame.global_init_techs[i] != A_LAST;
-       i++) {
-    if (game.rgame.global_init_techs[i] == advance_number(tech)) {
+  for (i = 0; i < MAX_NUM_TECH_LIST
+       && game.server.rgame.global_init_techs[i] != A_LAST; i++) {
+    if (game.server.rgame.global_init_techs[i] == advance_number(tech)) {
       return TRUE;
     }
   }
@@ -4000,10 +3999,9 @@ static bool sanity_check_ruleset_data(void)
     int i;
 
     /* Check global initial techs */
-    for (i = 0;
-         i < MAX_NUM_TECH_LIST && game.rgame.global_init_techs[i] != A_LAST;
-         i++) {
-      Tech_type_id tech = game.rgame.global_init_techs[i];
+    for (i = 0; i < MAX_NUM_TECH_LIST
+         && game.server.rgame.global_init_techs[i] != A_LAST; i++) {
+      Tech_type_id tech = game.server.rgame.global_init_techs[i];
       struct advance *a = valid_advance_by_number(tech);
 
       if (!a) {

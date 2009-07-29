@@ -393,7 +393,7 @@ void save_ppm(void)
 
   /* put this file in the same place we put savegames */
   my_snprintf(filename, sizeof(filename),
-              "%s%+05d.int.ppm", game.save_name, game.info.year);
+              "%s%+05d.int.ppm", game.server.save_name, game.info.year);
 
   /* Ensure the saves directory exists. */
   make_dir(srvarg.saves_pathname);
@@ -414,7 +414,7 @@ void save_ppm(void)
 
   fprintf(fp, "P3\n# version:2\n# gameid: %s\n", server.game_identifier);
   fprintf(fp, "# An intermediate map from saved Freeciv game %s%+05d\n",
-          game.save_name, game.info.year);
+          game.server.save_name, game.info.year);
 
   players_iterate(pplayer) {
     fprintf(fp, "# playerno:%d:color:#%02x%02x%02x:name:\"%s\"\n", 

@@ -330,23 +330,6 @@ void game_init(void)
   game.info.aifill      = GAME_DEFAULT_AIFILL;
   sz_strlcpy(game.info.start_units, GAME_DEFAULT_START_UNITS);
 
-  game.fogofwar_old = game.info.fogofwar;
-  game.phase_mode_stored = GAME_DEFAULT_PHASE_MODE;
-  game.timeoutint    = GAME_DEFAULT_TIMEOUTINT;
-  game.timeoutintinc = GAME_DEFAULT_TIMEOUTINTINC;
-  game.timeoutinc    = GAME_DEFAULT_TIMEOUTINC;
-  game.timeoutincmult= GAME_DEFAULT_TIMEOUTINCMULT;
-  game.timeoutcounter= 1;
-  game.timeoutaddenemymove = GAME_DEFAULT_TIMEOUTADDEMOVE; 
-
-  game.last_ping     = 0;
-  game.scorelog    = GAME_DEFAULT_SCORELOG;
-  game.scoreturn   = GAME_DEFAULT_SCORETURN;
-  game.seed = GAME_DEFAULT_SEED;
-
-  sz_strlcpy(game.save_name, GAME_DEFAULT_SAVE_NAME);
-  sz_strlcpy(game.rulesetdir, GAME_DEFAULT_RULESETDIR);
-
   game.control.num_unit_classes = 0;
   game.control.num_unit_types = 0;
   game.control.num_impr_types = 0;
@@ -368,13 +351,40 @@ void game_init(void)
   game.scenario.description[0] = '\0';
   game.scenario.players = TRUE;
 
-  sz_strlcpy(game.demography, GAME_DEFAULT_DEMOGRAPHY);
-  sz_strlcpy(game.allow_take, GAME_DEFAULT_ALLOW_TAKE);
+  if (is_server()) {
+    game.server.fogofwar_old = game.info.fogofwar;
+    game.server.phase_mode_stored = GAME_DEFAULT_PHASE_MODE;
+    game.server.timeoutint = GAME_DEFAULT_TIMEOUTINT;
+    game.server.timeoutintinc = GAME_DEFAULT_TIMEOUTINTINC;
+    game.server.timeoutinc = GAME_DEFAULT_TIMEOUTINC;
+    game.server.timeoutincmult = GAME_DEFAULT_TIMEOUTINCMULT;
+    game.server.timeoutcounter = 1;
+    game.server.timeoutaddenemymove = GAME_DEFAULT_TIMEOUTADDEMOVE; 
 
-  game.save_options.save_random = TRUE;
-  game.save_options.save_known = TRUE;
-  game.save_options.save_starts = TRUE;
-  game.save_options.save_private_map = TRUE;
+    game.server.last_ping = 0;
+    game.server.scorelog = GAME_DEFAULT_SCORELOG;
+    game.server.scoreturn = GAME_DEFAULT_SCORETURN;
+    game.server.seed = GAME_DEFAULT_SEED;
+
+    sz_strlcpy(game.server.save_name, GAME_DEFAULT_SAVE_NAME);
+    sz_strlcpy(game.server.rulesetdir, GAME_DEFAULT_RULESETDIR);
+
+    sz_strlcpy(game.server.demography, GAME_DEFAULT_DEMOGRAPHY);
+    sz_strlcpy(game.server.allow_take, GAME_DEFAULT_ALLOW_TAKE);
+
+    game.server.save_options.save_random = TRUE;
+    game.server.save_options.save_known = TRUE;
+    game.server.save_options.save_starts = TRUE;
+    game.server.save_options.save_private_map = TRUE;
+
+    for (i = 0; i < DEBUG_LAST; i++) {
+      game.server.debug[i] = FALSE;
+    }
+
+    game.server.meta_info.user_message_set = FALSE;
+    game.server.meta_info.user_message[0] = '\0';
+    game.server.connectmsg[0] = '\0';
+  }
 
   init_our_capability();    
   map_init();
@@ -389,10 +399,6 @@ void game_init(void)
   idex_init();
   cm_init();
 
-  for (i = 0; i < DEBUG_LAST; i++) {
-    game.debug[i] = FALSE;
-  }
-
   /* players init */
   player_slots_iterate(pslot) {
     player_slot_set_used(pslot, FALSE);
@@ -406,10 +412,6 @@ void game_init(void)
     game.info.great_wonders[i]=0;
 
   terrain_control.river_help_text[0] = '\0';
-
-  game.meta_info.user_message_set = FALSE;
-  game.meta_info.user_message[0] = '\0';
-  game.connectmsg[0] = '\0';
 }
 
 /****************************************************************************

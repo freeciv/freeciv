@@ -776,7 +776,7 @@ void report_demographics(struct connection *pconn)
   BV_CLR_ALL(selcols);
   assert(ARRAY_SIZE(coltable) == DEM_COL_LAST);
   for (i = 0; i < DEM_COL_LAST; i++) {
-    if (strchr(game.demography, coltable[i].key)) {
+    if (strchr(game.server.demography, coltable[i].key)) {
       BV_SET(selcols, i);
       numcols++;
     }
@@ -784,7 +784,7 @@ void report_demographics(struct connection *pconn)
 
   anyrows = FALSE;
   for (i = 0; i < ARRAY_SIZE(rowtable); i++) {
-    if (strchr(game.demography, rowtable[i].key)) {
+    if (strchr(game.server.demography, rowtable[i].key)) {
       anyrows = TRUE;
       break;
     }
@@ -805,7 +805,7 @@ void report_demographics(struct connection *pconn)
 
   buffer[0] = '\0';
   for (i = 0; i < ARRAY_SIZE(rowtable); i++) {
-    if (strchr(game.demography, rowtable[i].key)) {
+    if (strchr(game.server.demography, rowtable[i].key)) {
       const char *name = _(rowtable[i].name);
 
       cat_snprintf(buffer, sizeof(buffer), "%s", name);
@@ -984,7 +984,7 @@ void log_civ_score(void)
   int i;
   char id[MAX_LEN_GAME_IDENTIFIER];
 
-  if (!game.scorelog) {
+  if (!game.server.scorelog) {
     return;
   }
 
@@ -1121,14 +1121,14 @@ void make_history_report(void)
     return;
   }
 
-  if (game.scoreturn > game.info.turn) {
+  if (game.server.scoreturn > game.info.turn) {
     return;
   }
 
-  game.scoreturn = game.info.turn + GAME_DEFAULT_SCORETURN
-                 + myrand(GAME_DEFAULT_SCORETURN);
+  game.server.scoreturn = (game.info.turn + GAME_DEFAULT_SCORETURN
+                           + myrand(GAME_DEFAULT_SCORETURN));
 
-  historian_generic(game.scoreturn % HISTORIAN_LAST);
+  historian_generic(game.server.scoreturn % HISTORIAN_LAST);
 }
 
 /**************************************************************************

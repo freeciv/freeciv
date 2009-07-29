@@ -2953,7 +2953,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
     return FALSE;
   }
 
-  if (game.info.timeout != 0 && game.timeoutaddenemymove > 0) {
+  if (game.info.timeout != 0 && game.server.timeoutaddenemymove > 0) {
     bool new_information_for_enemy = FALSE;
 
     phase_players_iterate(penemy) {

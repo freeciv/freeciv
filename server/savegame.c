@@ -1139,9 +1139,10 @@ static void map_save(struct section_file *file)
    * are now always saved in game_save()
    */
 
-  secfile_insert_bool(file, game.save_options.save_starts, "game.save_starts");
-  if (game.save_options.save_starts) {
-    for (i=0; i<map.num_start_positions; i++) {
+  secfile_insert_bool(file, game.server.save_options.save_starts,
+                      "game.save_starts");
+  if (game.server.save_options.save_starts) {
+    for (i = 0; i < map.num_start_positions; i++) {
       struct tile *ptile = map.start_positions[i].tile;
 
       secfile_insert_int(file, ptile->nat_x, "map.r%dsx", i);
@@ -1267,8 +1268,9 @@ static void map_save(struct section_file *file)
     }
   }
 
-  secfile_insert_bool(file, game.save_options.save_known, "game.save_known");
-  if (game.save_options.save_known) {
+  secfile_insert_bool(file, game.server.save_options.save_known,
+                      "game.save_known");
+  if (game.server.save_options.save_known) {
     int known[MAP_INDEX_SIZE];
 
     /* HACK: we convert the data into a 32-bit integer, and then save it as
@@ -1444,7 +1446,7 @@ static const char* old_unit_type_name(int id)
     return NULL;
   }
   /* Different rulesets had different unit names. */
-  if (strcmp(game.rulesetdir, "civ1") == 0) {
+  if (strcmp(game.server.rulesetdir, "civ1") == 0) {
     if (id >= ARRAY_SIZE(old_civ1_unit_types)) {
       return NULL;
     }
@@ -1508,7 +1510,7 @@ static const char* old_tech_name(int id)
     return NULL;
   }
 
-  if (strcmp(game.rulesetdir, "civ1") == 0 && id == 83) {
+  if (strcmp(game.server.rulesetdir, "civ1") == 0 && id == 83) {
     return "Religion";
   }
   
@@ -1622,7 +1624,7 @@ static const char* old_government_name(int id)
     exit(EXIT_FAILURE);
   }
   /* Different rulesets had different governments. */
-  if (strcmp(game.rulesetdir, "civ2") == 0) {
+  if (strcmp(game.server.rulesetdir, "civ2") == 0) {
     if (id >= ARRAY_SIZE(old_civ2_governments)) {
       freelog(LOG_FATAL, "Wrong government type id value (%d)", id);
       exit(EXIT_FAILURE);
@@ -3695,7 +3697,7 @@ static void player_save_vision(struct player *plr, int plrno,
   char impr_buf[MAX_NUM_ITEMS + 1];
   int i = 0;
 
-  if (!game.info.fogofwar || !game.save_options.save_private_map) {
+  if (!game.info.fogofwar || !game.server.save_options.save_private_map) {
     /* The player can see all, there's no reason to save the private map. */
     return;
   }
@@ -4034,6 +4036,7 @@ void game_load(struct section_file *file)
 static void game_load_internal(struct section_file *file)
 {
   int i, k;
+  int game_version;
   enum server_states tmp_server_state;
   RANDOM_STATE rstate;
   const char *string;
@@ -4097,10 +4100,10 @@ static void game_load_internal(struct section_file *file)
   }
 
   /* [game] */
-  game.version = secfile_lookup_int_default(file, 0, "game.version");
+  game_version = secfile_lookup_int_default(file, 0, "game.version");
 
   /* we require at least version 1.9.0 */
-  if (10900 > game.version) {
+  if (10900 > game_version) {
     freelog(LOG_FATAL,
 	    /* TRANS: Fatal error message. */
 	    _("Saved game is too old, at least version 1.9.0 required."));
@@ -4114,10 +4117,9 @@ static void game_load_internal(struct section_file *file)
     set_meta_patches_string(secfile_lookup_str_default(file, 
                                                 default_meta_patches_string(),
                                                 "game.metapatches"));
-    game.meta_info.user_message_set = secfile_lookup_bool_default(file,
-                                                                  FALSE,
-                                                "game.user_metamessage");
-    if (game.meta_info.user_message_set) {
+    game.server.meta_info.user_message_set =
+      secfile_lookup_bool_default(file, FALSE, "game.user_metamessage");
+    if (game.server.meta_info.user_message_set) {
       set_user_meta_message_string(secfile_lookup_str_default(file, 
                                                 default_meta_message_string(),
                                                 "game.metamessage"));
@@ -4139,23 +4141,23 @@ static void game_load_internal(struct section_file *file)
       game.info.skill_level = GAME_OLD_DEFAULT_SKILL_LEVEL;
 
     game.info.timeout       = secfile_lookup_int(file, "game.timeout");
-    game.timeoutint = secfile_lookup_int_default(file,
-						 GAME_DEFAULT_TIMEOUTINT,
-						 "game.timeoutint");
-    game.timeoutintinc =
+    game.server.timeoutint =
+      secfile_lookup_int_default(file, GAME_DEFAULT_TIMEOUTINT,
+                                 "game.timeoutint");
+    game.server.timeoutintinc =
 	secfile_lookup_int_default(file, GAME_DEFAULT_TIMEOUTINTINC,
 				   "game.timeoutintinc");
-    game.timeoutinc =
+    game.server.timeoutinc =
 	secfile_lookup_int_default(file, GAME_DEFAULT_TIMEOUTINC,
 				   "game.timeoutinc");
-    game.timeoutincmult =
+    game.server.timeoutincmult =
 	secfile_lookup_int_default(file, GAME_DEFAULT_TIMEOUTINCMULT,
 				   "game.timeoutincmult");
-    game.timeoutcounter =
+    game.server.timeoutcounter =
 	secfile_lookup_int_default(file, 1, "game.timeoutcounter");
 
-    game.timeoutaddenemymove
-      = secfile_lookup_int_default(file, game.timeoutaddenemymove,
+    game.server.timeoutaddenemymove
+      = secfile_lookup_int_default(file, game.server.timeoutaddenemymove,
 				   "game.timeoutaddenemymove");
 
     game.info.end_turn      = secfile_lookup_int_default(file, 5000,
@@ -4201,17 +4203,17 @@ static void game_load_internal(struct section_file *file)
 
       sp_stored
         = secfile_lookup_bool(file, "game.simultaneous_phases_stored");
-      game.phase_mode_stored = (sp_stored ? PMT_CONCURRENT
-                                : PMT_PLAYERS_ALTERNATE);
+      game.server.phase_mode_stored = (sp_stored ? PMT_CONCURRENT
+                                       : PMT_PLAYERS_ALTERNATE);
     } else {
-      game.phase_mode_stored = game.info.phase_mode;
+      game.server.phase_mode_stored = game.info.phase_mode;
     }
 
     game.info.phase_mode
       = secfile_lookup_int_default(file, game.info.phase_mode,
                                    "game.phase_mode");
-    game.phase_mode_stored
-      = secfile_lookup_int_default(file, game.phase_mode_stored,
+    game.server.phase_mode_stored
+      = secfile_lookup_int_default(file, game.server.phase_mode_stored,
                                    "game.phase_mode_stored");
 
     game.info.min_players   = secfile_lookup_int(file, "game.min_players");
@@ -4272,16 +4274,18 @@ static void game_load_internal(struct section_file *file)
     game.info.diplomacy = secfile_lookup_int_default(file, GAME_DEFAULT_DIPLOMACY, 
                                                 "game.diplomacy");
 
-    sz_strlcpy(game.save_name,
+    sz_strlcpy(game.server.save_name,
 	       secfile_lookup_str_default(file, GAME_DEFAULT_SAVE_NAME,
 					  "game.save_name"));
 
     game.info.aifill = secfile_lookup_int_default(file, 0, "game.aifill");
 
-    game.scorelog = secfile_lookup_bool_default(file, FALSE, "game.scorelog");
-    game.scoreturn =
-      secfile_lookup_int_default(file, game.info.turn + GAME_DEFAULT_SCORETURN,
-                                       "game.scoreturn");
+    game.server.scorelog = secfile_lookup_bool_default(file, FALSE,
+                                                       "game.scorelog");
+    game.server.scoreturn =
+      secfile_lookup_int_default(file,
+                                 game.info.turn + GAME_DEFAULT_SCORETURN,
+                                 "game.scoreturn");
     sz_strlcpy(server.game_identifier,
                secfile_lookup_str_default(file, "", "game.id"));
     /* We are not checking game_identifier legality just yet.
@@ -4289,7 +4293,7 @@ static void game_load_internal(struct section_file *file)
      * so that we can generate new game_identifier, if needed. */
 
     game.info.fogofwar = secfile_lookup_bool_default(file, FALSE, "game.fogofwar");
-    game.fogofwar_old = game.info.fogofwar;
+    game.server.fogofwar_old = game.info.fogofwar;
   
     game.info.civilwarsize =
       secfile_lookup_int_default(file, GAME_DEFAULT_CIVILWARSIZE,
@@ -4343,8 +4347,8 @@ static void game_load_internal(struct section_file *file)
     game.info.autoattack =
       secfile_lookup_bool_default(file, GAME_DEFAULT_AUTOATTACK,
                                   "game.autoattack");
-    game.seed =
-      secfile_lookup_int_default(file, game.seed,
+    game.server.seed =
+      secfile_lookup_int_default(file, game.server.seed,
                                  "game.randseed");
     game.info.allowed_city_names =
       secfile_lookup_int_default(file, game.info.allowed_city_names,
@@ -4406,17 +4410,17 @@ static void game_load_internal(struct section_file *file)
       T("game.info.t.game");
 #undef T
 
-      sz_strlcpy(game.rulesetdir, str);
+      sz_strlcpy(game.server.rulesetdir, str);
     } else {
-      sz_strlcpy(game.rulesetdir, 
+      sz_strlcpy(game.server.rulesetdir, 
 	       secfile_lookup_str_default(file, string,
 					  "game.rulesetdir"));
     }
 
-    sz_strlcpy(game.demography,
+    sz_strlcpy(game.server.demography,
 	       secfile_lookup_str_default(file, GAME_DEFAULT_DEMOGRAPHY,
 					  "game.demography"));
-    sz_strlcpy(game.allow_take,
+    sz_strlcpy(game.server.allow_take,
 	       secfile_lookup_str_default(file, GAME_DEFAULT_ALLOW_TAKE,
 					  "game.allow_take"));
 
@@ -4965,7 +4969,7 @@ void game_save(struct section_file *file, const char *save_reason,
   secfile_insert_int(file, (int) srv_state, "game.server_state");
   
   secfile_insert_str(file, get_meta_patches_string(), "game.metapatches");
-  secfile_insert_bool(file, game.meta_info.user_message_set,
+  secfile_insert_bool(file, game.server.meta_info.user_message_set,
                       "game.user_metamessage");
   user_message = get_user_meta_message_string();
   if (user_message != NULL) {
@@ -4978,11 +4982,11 @@ void game_save(struct section_file *file, const char *save_reason,
   secfile_insert_int(file, game.info.tech, "game.tech");
   secfile_insert_int(file, game.info.skill_level, "game.skill_level");
   secfile_insert_int(file, game.info.timeout, "game.timeout");
-  secfile_insert_int(file, game.timeoutint, "game.timeoutint");
-  secfile_insert_int(file, game.timeoutintinc, "game.timeoutintinc");
-  secfile_insert_int(file, game.timeoutinc, "game.timeoutinc");
-  secfile_insert_int(file, game.timeoutincmult, "game.timeoutincmult"); 
-  secfile_insert_int(file, game.timeoutcounter, "game.timeoutcounter");
+  secfile_insert_int(file, game.server.timeoutint, "game.timeoutint");
+  secfile_insert_int(file, game.server.timeoutintinc, "game.timeoutintinc");
+  secfile_insert_int(file, game.server.timeoutinc, "game.timeoutinc");
+  secfile_insert_int(file, game.server.timeoutincmult, "game.timeoutincmult"); 
+  secfile_insert_int(file, game.server.timeoutcounter, "game.timeoutcounter");
 
   secfile_insert_int(file, game.info.end_turn, "game.end_turn");
   secfile_insert_int(file, game.info.year, "game.year");
@@ -4990,7 +4994,7 @@ void game_save(struct section_file *file, const char *save_reason,
   secfile_insert_bool(file, game.info.year_0_hack, "game.year_0_hack");
   secfile_insert_int(file, game.info.phase_mode,
                      "game.phase_mode");
-  secfile_insert_int(file, game.phase_mode_stored,
+  secfile_insert_int(file, game.server.phase_mode_stored,
                      "game.phase_mode_stored");
   secfile_insert_int(file, game.info.min_players, "game.min_players");
   secfile_insert_int(file, game.info.max_players, "game.max_players");
@@ -5020,10 +5024,10 @@ void game_save(struct section_file *file, const char *save_reason,
   /* Write civstyle for compatibility with old servers */
   secfile_insert_int(file, 2, "game.civstyle");
   secfile_insert_int(file, game.info.save_nturns, "game.save_nturns");
-  secfile_insert_str(file, game.save_name, "game.save_name");
+  secfile_insert_str(file, game.server.save_name, "game.save_name");
   secfile_insert_int(file, game.info.aifill, "game.aifill");
-  secfile_insert_bool(file, game.scorelog, "game.scorelog");
-  secfile_insert_int(file, game.scoreturn, "game.scoreturn");
+  secfile_insert_bool(file, game.server.scorelog, "game.scorelog");
+  secfile_insert_int(file, game.server.scoreturn, "game.scoreturn");
   secfile_insert_str(file, server.game_identifier, "game.id");
 
   secfile_insert_bool(file, game.info.fogofwar, "game.fogofwar");
@@ -5041,8 +5045,8 @@ void game_save(struct section_file *file, const char *save_reason,
   secfile_insert_int(file, game.info.revolution_length, "game.revolen");
   secfile_insert_int(file, game.info.occupychance, "game.occupychance");
   secfile_insert_bool(file, game.info.autoattack, "game.autoattack");
-  secfile_insert_str(file, game.demography, "game.demography");
-  secfile_insert_str(file, game.allow_take, "game.allow_take");
+  secfile_insert_str(file, game.server.demography, "game.demography");
+  secfile_insert_str(file, game.server.allow_take, "game.allow_take");
   secfile_insert_int(file, game.info.borders, "game.borders");
   secfile_insert_bool(file, game.info.happyborders, "game.happyborders");
   secfile_insert_int(file, game.info.diplomacy, "game.diplomacy");
@@ -5086,9 +5090,9 @@ void game_save(struct section_file *file, const char *save_reason,
     secfile_insert_bool(file, map.separatepoles, "map.separatepoles");
   } 
 
-  secfile_insert_int(file, game.seed, "game.randseed");
+  secfile_insert_int(file, game.server.seed, "game.randseed");
   
-  if (myrand_is_init() && game.save_options.save_random) {
+  if (myrand_is_init() && game.server.save_options.save_random) {
     RANDOM_STATE rstate = get_myrand_state();
     secfile_insert_int(file, 1, "game.save_random");
     assert(rstate.is_init);
@@ -5111,7 +5115,7 @@ void game_save(struct section_file *file, const char *save_reason,
     secfile_insert_int(file, 0, "game.save_random");
   }
 
-  secfile_insert_str(file, game.rulesetdir, "game.rulesetdir");
+  secfile_insert_str(file, game.server.rulesetdir, "game.rulesetdir");
 
   if (!map_is_empty()) {
     map_save(file);

@@ -1048,7 +1048,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
     pplayer->capital = TRUE;
 
     for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
-      Impr_type_id n = game.rgame.global_init_buildings[i];
+      Impr_type_id n = game.server.rgame.global_init_buildings[i];
       struct impr_type *pimprove = improvement_by_number(n);
       if (n == B_LAST) {
 	break;

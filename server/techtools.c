@@ -606,10 +606,10 @@ void give_initial_techs(struct player* plr)
    * Give game wide initial techs
    */
   for (i = 0; i < MAX_NUM_TECH_LIST; i++) {
-    if (game.rgame.global_init_techs[i] == A_LAST) {
+    if (game.server.rgame.global_init_techs[i] == A_LAST) {
       break;
     }
-    found_new_tech(plr, game.rgame.global_init_techs[i], FALSE, TRUE);
+    found_new_tech(plr, game.server.rgame.global_init_techs[i], FALSE, TRUE);
   }
 
   /*

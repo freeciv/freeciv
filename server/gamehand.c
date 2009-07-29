@@ -357,11 +357,11 @@ void send_game_info(struct conn_list *dest)
 
   /* the following values are computed every
      time a packet_game_info packet is created */
-  if (game.info.timeout > 0 && game.phase_timer) {
+  if (game.info.timeout > 0 && game.server.phase_timer) {
     /* Sometimes this function is called before the phase_timer is
      * initialized.  In that case we want to send the dummy value. */
-    ginfo.seconds_to_phasedone
-      = game.info.seconds_to_phasedone - read_timer_seconds(game.phase_timer);
+    ginfo.seconds_to_phasedone = game.info.seconds_to_phasedone
+        - read_timer_seconds(game.server.phase_timer);
   } else {
     /* unused but at least initialized */
     ginfo.seconds_to_phasedone = -1.0;
@@ -404,16 +404,16 @@ void send_scenario_info(struct conn_list *dest)
 int update_timeout(void)
 {
   /* if there's no timer or we're doing autogame, do nothing */
-  if (game.info.timeout < 1 || game.timeoutint == 0) {
+  if (game.info.timeout < 1 || game.server.timeoutint == 0) {
     return game.info.timeout;
   }
 
-  if (game.timeoutcounter >= game.timeoutint) {
-    game.info.timeout += game.timeoutinc;
-    game.timeoutinc *= game.timeoutincmult;
+  if (game.server.timeoutcounter >= game.server.timeoutint) {
+    game.info.timeout += game.server.timeoutinc;
+    game.server.timeoutinc *= game.server.timeoutincmult;
 
-    game.timeoutcounter = 1;
-    game.timeoutint += game.timeoutintinc;
+    game.server.timeoutcounter = 1;
+    game.server.timeoutint += game.server.timeoutintinc;
 
     if (game.info.timeout > GAME_MAX_TIMEOUT) {
       notify_conn(game.est_connections, NULL, E_SETTING,
@@ -421,8 +421,8 @@ int update_timeout(void)
 		       "fixing at its maximum"));
       freelog(LOG_DEBUG, "game.info.timeout exceeded maximum value");
       game.info.timeout = GAME_MAX_TIMEOUT;
-      game.timeoutint = 0;
-      game.timeoutinc = 0;
+      game.server.timeoutint = 0;
+      game.server.timeoutinc = 0;
     } else if (game.info.timeout < 0) {
       notify_conn(game.est_connections, NULL, E_SETTING,
 		     _("The turn timeout is smaller than zero, "
@@ -431,14 +431,15 @@ int update_timeout(void)
       game.info.timeout = 0;
     }
   } else {
-    game.timeoutcounter++;
+    game.server.timeoutcounter++;
   }
 
   freelog(LOG_DEBUG, "timeout=%d, inc=%d incmult=%d\n   "
 	  "int=%d, intinc=%d, turns till next=%d",
-	  game.info.timeout, game.timeoutinc, game.timeoutincmult,
-	  game.timeoutint, game.timeoutintinc,
-	  game.timeoutint - game.timeoutcounter);
+	  game.info.timeout, game.server.timeoutinc,
+          game.server.timeoutincmult, game.server.timeoutint,
+          game.server.timeoutintinc,
+          game.server.timeoutint - game.server.timeoutcounter);
 
   return game.info.timeout;
 }
@@ -453,9 +454,9 @@ int update_timeout(void)
 **************************************************************************/
 void increase_timeout_because_unit_moved(void)
 {
-  if (game.info.timeout > 0 && game.timeoutaddenemymove > 0) {
-    double maxsec = (read_timer_seconds(game.phase_timer)
-		     + (double)game.timeoutaddenemymove);
+  if (game.info.timeout > 0 && game.server.timeoutaddenemymove > 0) {
+    double maxsec = (read_timer_seconds(game.server.phase_timer)
+		     + (double) game.server.timeoutaddenemymove);
 
     if (maxsec > game.info.seconds_to_phasedone) {
       game.info.seconds_to_phasedone = maxsec;

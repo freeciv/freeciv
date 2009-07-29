@@ -54,61 +54,67 @@ struct civ_game {
   struct packet_ruleset_control control;
   struct packet_scenario_info scenario;
 
-  bool debug[DEBUG_LAST];
-  int version;
-  int timeoutint;     /* increase timeout every N turns... */
-  int timeoutinc;     /* ... by this amount ... */
-  int timeoutincmult; /* ... and multiply timeoutinc by this amount ... */
-  int timeoutintinc;  /* ... and increase timeoutint by this amount */
-  int timeoutcounter; /* timeoutcounter - timeoutint = turns to next inc. */
-  int timeoutaddenemymove; /* minimum timeout after an enemy move is seen */
-  time_t last_ping;
-  struct timer *phase_timer; /* Time since seconds_to_phase_done was set. */
-
-  /* The .info.phase_mode value indicates the phase mode currently in
-   * use.  The "stored" value is a value the player can change; it won't
-   * take effect until the next turn. */
-  int phase_mode_stored;
-  char connectmsg[MAX_LEN_MSG];
   struct player players[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   int nplayers;
   struct conn_list *all_connections;        /* including not yet established */
   struct conn_list *est_connections;        /* all established client conns */
-  char save_name[MAX_LEN_NAME];
-  bool scorelog;
-  int scoreturn;			/* next make_history_report() */
-  int seed;
-  bool fogofwar_old;	/* as the fog_of_war bit get changed by setting
-			   the server we need to remember the old setting */
-  int ai_goal_government;	/* kludge */
-
-  char rulesetdir[MAX_LEN_NAME];
-
-  /* values from game.info.t */
-  struct {
-    /* Items given to all players at game start.  Server only. */
-    int global_init_techs[MAX_NUM_TECH_LIST];
-    int global_init_buildings[MAX_NUM_BUILDING_LIST];
-  } rgame;
-  
-  char demography[MAX_LEN_DEMOGRAPHY];
-  char allow_take[MAX_LEN_ALLOW_TAKE];
-
-  /* used by the map editor to control game_save; could be used by the server too */
-  struct {
-    bool save_random;
-    bool save_known; /* loading will just reveal the squares around cities and units */
-    bool save_starts; /* start positions will be auto generated */
-    bool save_private_map; /* FoW map; will be created if not saved */
-  } save_options;
 
   int work_veteran_chance[MAX_VET_LEVELS];
   int veteran_chance[MAX_VET_LEVELS];
 
-  struct {
-    bool user_message_set;
-    char user_message[256];
-  } meta_info;
+  union {
+    struct {
+      /* Nothing yet. */
+    } client;
+
+    struct {
+      bool debug[DEBUG_LAST];
+      int timeoutint;     /* increase timeout every N turns... */
+      int timeoutinc;     /* ... by this amount ... */
+      int timeoutincmult; /* ... and multiply timeoutinc by this amount ... */
+      int timeoutintinc;  /* ... and increase timeoutint by this amount */
+      int timeoutcounter; /* timeoutcounter - timeoutint = turns to next inc. */
+      int timeoutaddenemymove; /* minimum timeout after an enemy move is seen */
+      time_t last_ping;
+      struct timer *phase_timer; /* Time since seconds_to_phase_done was set. */
+      /* The .info.phase_mode value indicates the phase mode currently in
+       * use.  The "stored" value is a value the player can change; it won't
+       * take effect until the next turn. */
+      int phase_mode_stored;
+      char connectmsg[MAX_LEN_MSG];
+      char save_name[MAX_LEN_NAME];
+      bool scorelog;
+      int scoreturn;    /* next make_history_report() */
+      int seed;
+      bool fogofwar_old; /* as the fog_of_war bit get changed by setting
+                          * the server we need to remember the old setting */
+      char rulesetdir[MAX_LEN_NAME];
+      char demography[MAX_LEN_DEMOGRAPHY];
+      char allow_take[MAX_LEN_ALLOW_TAKE];
+
+      /* values from game.info.t */
+      struct {
+        /* Items given to all players at game start.  Server only. */
+        int global_init_techs[MAX_NUM_TECH_LIST];
+        int global_init_buildings[MAX_NUM_BUILDING_LIST];
+      } rgame;
+
+      /* used by the map editor to control game_save. */
+      struct {
+        bool save_random;
+  
+        bool save_known; /* loading will just reveal the squares around
+                          * cities and units */
+        bool save_starts; /* start positions will be auto generated */
+        bool save_private_map; /* FoW map; will be created if not saved */
+      } save_options;
+
+      struct {
+        bool user_message_set;
+        char user_message[256];
+      } meta_info;
+    } server;
+  };
 
   struct {
     /* Function to be called in game_remove_unit when a unit is deleted. */

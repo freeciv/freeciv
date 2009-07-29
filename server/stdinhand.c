@@ -1087,7 +1087,7 @@ static void write_init_script(char *script_filename)
     }
 
     /* rulesetdir */
-    fprintf(script_file, "rulesetdir %s\n", game.rulesetdir);
+    fprintf(script_file, "rulesetdir %s\n", game.server.rulesetdir);
 
     fclose(script_file);
 
@@ -1403,10 +1403,10 @@ static bool timeout_command(struct connection *caller, char *str, bool check)
   int i = 0, ntokens;
   int *timeouts[4];
 
-  timeouts[0] = &game.timeoutint;
-  timeouts[1] = &game.timeoutintinc;
-  timeouts[2] = &game.timeoutinc;
-  timeouts[3] = &game.timeoutincmult;
+  timeouts[0] = &game.server.timeoutint;
+  timeouts[1] = &game.server.timeoutintinc;
+  timeouts[2] = &game.server.timeoutinc;
+  timeouts[3] = &game.server.timeoutincmult;
 
   sz_strlcpy(buf, str);
   ntokens = get_tokens(buf, arg, 4, TOKEN_DELIMITERS);
@@ -1429,11 +1429,11 @@ static bool timeout_command(struct connection *caller, char *str, bool check)
 
   cmd_reply(CMD_TIMEOUT, caller, C_OK, _("Dynamic timeout set to "
 					 "%d %d %d %d"),
-	    game.timeoutint, game.timeoutintinc,
-	    game.timeoutinc, game.timeoutincmult);
+	    game.server.timeoutint, game.server.timeoutintinc,
+	    game.server.timeoutinc, game.server.timeoutincmult);
 
   /* if we set anything here, reset the counter */
-  game.timeoutcounter = 1;
+  game.server.timeoutcounter = 1;
   return TRUE;
 }
 
@@ -1625,7 +1625,7 @@ static bool wall(char *str, bool check)
 static bool connectmsg_command(struct connection *caller, char *str,
                                bool check)
 {
-  unsigned int bufsize = sizeof(game.connectmsg);
+  unsigned int bufsize = sizeof(game.server.connectmsg);
 
   if (is_restricted(caller)) {
     return FALSE;
@@ -1639,16 +1639,16 @@ static bool connectmsg_command(struct connection *caller, char *str,
         i++;
 
         if (str[i] == 'n') {
-          game.connectmsg[c++] = '\n';
+          game.server.connectmsg[c++] = '\n';
         } else {
-          game.connectmsg[c++] = str[i];
+          game.server.connectmsg[c++] = str[i];
         }
       } else {
-        game.connectmsg[c++] = str[i];
+        game.server.connectmsg[c++] = str[i];
       }
     }
 
-    game.connectmsg[c++] = '\0';
+    game.server.connectmsg[c++] = '\0';
 
     if (c == bufsize) {
       /* Truncated */
@@ -2456,12 +2456,12 @@ static bool debug_command(struct connection *caller, char *str,
   } else if (ntokens > 0 && strcmp(arg[0], "timing") == 0) {
     TIMING_RESULTS();
   } else if (ntokens > 0 && strcmp(arg[0], "ferries") == 0) {
-    if (game.debug[DEBUG_FERRIES]) {
-      game.debug[DEBUG_FERRIES] = FALSE;
+    if (game.server.debug[DEBUG_FERRIES]) {
+      game.server.debug[DEBUG_FERRIES] = FALSE;
       cmd_reply(CMD_DEBUG, caller, C_OK, _("Ferry system is no longer "
                 "in debug mode."));
     } else {
-      game.debug[DEBUG_FERRIES] = TRUE;
+      game.server.debug[DEBUG_FERRIES] = TRUE;
       cmd_reply(CMD_DEBUG, caller, C_OK, _("Ferry system in debug mode."));
     }
   } else if (ntokens > 0 && strcmp(arg[0], "unit") == 0) {
@@ -2722,7 +2722,8 @@ static bool is_allowed_to_take(struct player *pplayer, bool will_obs,
 
   if (!pplayer && will_obs) {
     /* Observer */
-    if (!(allow = strchr(game.allow_take, (game.info.is_new_game ? 'O' : 'o')))) {
+    if (!(allow = strchr(game.server.allow_take,
+                         (game.info.is_new_game ? 'O' : 'o')))) {
       if (will_obs) {
         mystrlcpy(msg, _("Sorry, one can't observe globally in this game."),
                   MAX_LEN_MSG);
@@ -2766,7 +2767,7 @@ static bool is_allowed_to_take(struct player *pplayer, bool will_obs,
     return TRUE;
 
   } else if (is_barbarian(pplayer)) {
-    if (!(allow = strchr(game.allow_take, 'b'))) {
+    if (!(allow = strchr(game.server.allow_take, 'b'))) {
       if (will_obs) {
         mystrlcpy(msg, _("Sorry, one can't observe barbarians in this game."),
                   MAX_LEN_MSG);
@@ -2777,7 +2778,7 @@ static bool is_allowed_to_take(struct player *pplayer, bool will_obs,
       return FALSE;
     }
   } else if (!pplayer->is_alive) {
-    if (!(allow = strchr(game.allow_take, 'd'))) {
+    if (!(allow = strchr(game.server.allow_take, 'd'))) {
       if (will_obs) {
         mystrlcpy(msg, _("Sorry, one can't observe dead players in this game."),
                   MAX_LEN_MSG);
@@ -2788,7 +2789,8 @@ static bool is_allowed_to_take(struct player *pplayer, bool will_obs,
       return FALSE;
     }
   } else if (pplayer->ai_data.control) {
-    if (!(allow = strchr(game.allow_take, (game.info.is_new_game ? 'A' : 'a')))) {
+    if (!(allow = strchr(game.server.allow_take,
+                         (game.info.is_new_game ? 'A' : 'a')))) {
       if (will_obs) {
         mystrlcpy(msg, _("Sorry, one can't observe AI players in this game."),
                   MAX_LEN_MSG);
@@ -2799,7 +2801,8 @@ static bool is_allowed_to_take(struct player *pplayer, bool will_obs,
       return FALSE;
     }
   } else { 
-    if (!(allow = strchr(game.allow_take, (game.info.is_new_game ? 'H' : 'h')))) {
+    if (!(allow = strchr(game.server.allow_take,
+                         (game.info.is_new_game ? 'H' : 'h')))) {
       if (will_obs) {
         mystrlcpy(msg, 
                   _("Sorry, one can't observe human players in this game."),
@@ -3585,7 +3588,8 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check)
   char filename[512], *pfilename;
   if ((str == NULL) || (strlen(str)==0)) {
     cmd_reply(CMD_RULESETDIR, caller, C_SYNTAX,
-             _("Current ruleset directory is \"%s\""), game.rulesetdir);
+             _("Current ruleset directory is \"%s\""),
+              game.server.rulesetdir);
     return FALSE;
   }
   if (S_S_INITIAL != server_state()) {
@@ -3609,7 +3613,7 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check)
     return FALSE;
   }
   if (!check) {
-    if (strcmp(str, game.rulesetdir) == 0) {
+    if (strcmp(str, game.server.rulesetdir) == 0) {
       cmd_reply(CMD_RULESETDIR, caller, C_OK,
 		_("Ruleset directory is already \"%s\""), str);
       return TRUE;
@@ -3619,7 +3623,7 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check)
 
     freelog(LOG_VERBOSE, "set_rulesetdir() does load_rulesets() with \"%s\"",
 	    str);
-    sz_strlcpy(game.rulesetdir, str);
+    sz_strlcpy(game.server.rulesetdir, str);
     load_rulesets();
 
     if (game.est_connections) {
