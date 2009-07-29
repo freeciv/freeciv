@@ -1135,3 +1135,80 @@ bool setting_is_changeable(int setting_id)
 {
   return setting_class_is_changeable(settings[setting_id].sclass);
 }
+/********************************************************************
+  Update the setting to the default value
+*********************************************************************/
+static void setting_set_to_default(int idx)
+{
+  struct settings_s *pset = &settings[idx];
+
+  switch (pset->stype) {
+    case SSET_BOOL:
+      (*pset->bool_value) = pset->bool_default_value;
+      break;
+    case SSET_INT:
+      (*pset->int_value) = pset->int_default_value;
+      break;
+    case SSET_STRING:
+      mystrlcpy(pset->string_value, pset->string_default_value,
+                pset->string_value_size);
+      break;
+  }
+
+  /* FIXME: duplicates stdinhand.c:set_command() */
+  if (pset->int_value == &game.info.aifill) {
+    aifill(*pset->int_value);
+  } else if (pset->bool_value == &game.info.auto_ai_toggle) {
+    if (*pset->bool_value) {
+      players_iterate(pplayer) {
+        if (!pplayer->ai_data.control && !pplayer->is_connected) {
+           toggle_ai_player_direct(NULL, pplayer);
+          send_player_info_c(pplayer, game.est_connections);
+        }
+      } players_iterate_end;
+    }
+  }
+}
+
+/**************************************************************************
+  Initialize stuff related to this code module.
+**************************************************************************/
+void settings_init(void)
+{
+  int i;
+
+  for (i = 0; i < SETTINGS_NUM; i++) {
+    setting_set_to_default(i);
+  }
+}
+
+/********************************************************************
+  Reset all settings iff they are changeable.
+*********************************************************************/
+void settings_reset(void)
+{
+  int i;
+
+  for (i = 0; i < SETTINGS_NUM; i++) {
+    if (setting_is_changeable(i)) {
+      setting_set_to_default(i);
+    }
+  }
+}
+
+/**************************************************************************
+  Update stuff every turn that is related to this code module. Run this
+  on turn end.
+**************************************************************************/
+void settings_turn(void)
+{
+  /* Nothing at the moment. */
+}
+
+/**************************************************************************
+  Deinitialize stuff related to this code module.
+**************************************************************************/
+void settings_free(void)
+{
+  /* Nothing at the moment. */
+}

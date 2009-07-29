@@ -112,4 +112,9 @@ extern const int SETTINGS_NUM;
 
 bool setting_is_changeable(int setting_id);
 
+void settings_init(void);
+void settings_reset(void);
+void settings_turn(void);
+void settings_free(void);
+
 #endif				/* FC__SETTINGS_H */

@@ -73,6 +73,7 @@ enum command_id {
   CMD_LOAD,
   CMD_READ_SCRIPT,
   CMD_WRITE_SCRIPT,
+  CMD_RESET,
 
   /* undocumented */
   CMD_RFCSTYLE,

@@ -100,6 +100,7 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
 static bool read_init_script_real(struct connection *caller,
                                   char *script_filename, bool from_cmdline,
                                   bool check, int read_recursion);
+static bool reset_command(struct connection *caller, bool check);
 
 static bool is_ok_opt_name_char(char c);
 
@@ -3897,6 +3898,8 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
     return read_command(caller, arg, check, read_recursion);
   case CMD_WRITE_SCRIPT:
     return write_command(caller, arg, check);
+  case CMD_RESET:
+    return reset_command(caller, check);
   case CMD_RFCSTYLE:	/* see console.h for an explanation */
     if (!check) {
       con_set_style(!con_get_style());
@@ -3967,6 +3970,30 @@ static bool surrender_command(struct connection *caller, char *str, bool check)
     cmd_reply(CMD_SURRENDER, caller, C_FAIL, _("You cannot surrender now."));
     return FALSE;
   }
+}
+
+/**************************************************************************
+  Reset all (changeable) game settings and reload the init script if it
+  was used.
+**************************************************************************/
+static bool reset_command(struct connection *caller, bool check)
+{
+  if (check) {
+    return TRUE;
+  }
+
+  settings_reset();
+
+  if (srvarg.script_filename &&
+      !read_init_script(NULL, srvarg.script_filename, TRUE, FALSE)) {
+    freelog(LOG_ERROR, _("Cannot load the script file '%s'"),
+            srvarg.script_filename);
+    return FALSE;
+  }
+
+  send_server_settings(NULL);
+  notify_conn(NULL, NULL, E_SETTING, _("Server: Settings re-initialized."));
+  return TRUE;
 }
 
 /**************************************************************************

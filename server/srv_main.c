@@ -98,6 +98,7 @@
 #include "score.h"
 #include "script_signal.h"
 #include "sernet.h"
+#include "settings.h"
 #include "settlers.h"
 #include "spacerace.h"
 #include "srv_main.h"
@@ -953,6 +954,7 @@ static void end_turn(void)
 			     nuclear_winter);
   update_diplomatics();
   make_history_report();
+  settings_turn();
   stdinhand_turn();
   voting_turn();
   send_player_turn_notifications(NULL);
@@ -1176,6 +1178,7 @@ void server_quit(void)
   }
 #endif /* HAVE_AUTH */
 
+  settings_free();
   stdinhand_free();
   edithand_free();
   voting_free();
@@ -2086,6 +2089,7 @@ static void srv_prepare(void)
   
   con_flush();
 
+  settings_init();
   stdinhand_init();
   edithand_init();
   voting_init();

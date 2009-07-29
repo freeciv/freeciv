@@ -432,6 +432,13 @@ static struct command commands[] = {
    N_("Write current settings as server commands to file."), NULL,
    VCF_NONE, 0
   },
+  {"reset",	ALLOW_CTRL,
+   N_("reset"),
+   N_("Reset all server settings."),
+   N_("Reset all settings and re-read the server start script, "
+      "if there was one given with the --read server argument. "),
+   VCF_NONE, 50
+  },
   {"rfcstyle",	ALLOW_HACK,
    /* no translatable parameters */
    "rfcstyle",
