@@ -1674,7 +1674,7 @@ void ui_exit()
 **************************************************************************/
 void update_conn_list_dialog(void)
 {
-  GtkTreeIter it[player_count()];
+  GtkTreeIter iter, parent;
 
   if (game.player_ptr) {
     char *text;
@@ -1809,8 +1809,8 @@ void update_conn_list_dialog(void)
 	}
       } conn_list_iterate_end;
 
-      gtk_tree_store_append(conn_model, &it[player_index(pplayer)], NULL);
-      gtk_tree_store_set(conn_model, &it[player_index(pplayer)],
+      gtk_tree_store_append(conn_model, &iter, NULL);
+      gtk_tree_store_set(conn_model, &iter,
 			 0, player_number(pplayer),
 			 1, name,
 			 2, is_ready,
@@ -1822,33 +1822,38 @@ void update_conn_list_dialog(void)
 			 8, conn_id,
 			 9, pixbuf,
 			 -1);
+      parent = iter;
+
+      /* Insert observers of this player as child nodes. */
+      conn_list_iterate(pplayer->connections, pconn) {
+        if (pconn->id == conn_id) {
+          continue;
+        }
+        gtk_tree_store_append(conn_model, &iter, &parent);
+        gtk_tree_store_set(conn_model, &iter,
+                           0, -1,
+                           1, pconn->username,
+                           5, _("Observer"),
+                           8, pconn->id, -1);
+      } conn_list_iterate_end;
+
       if (pixbuf) {
   	g_object_unref(pixbuf);
-      }    
+      }
     } players_iterate_end;
-    conn_list_iterate(game.est_connections, pconn) {
-      GtkTreeIter conn_it, *parent;
 
-      if (pconn->player && !pconn->observer) {
+    /* Finally, insert global observers and detached connections. */
+    conn_list_iterate(game.est_connections, pconn) {
+      if (pconn->player != NULL) {
 	continue; /* Already listed above. */
       }
-      sz_strlcpy(name, pconn->username);
-      is_ready = TRUE;
-      nation = "";
-      leader = "";
       team = pconn->observer ? _("Observer") : _("Detached");
-      parent = pconn->player ? &it[player_index(pconn->player)] : NULL;
-
-      gtk_tree_store_append(conn_model, &conn_it, parent);
-      gtk_tree_store_set(conn_model, &conn_it,
+      gtk_tree_store_append(conn_model, &iter, NULL);
+      gtk_tree_store_set(conn_model, &iter,
 			 0, -1,
-			 1, name,
-			 2, is_ready,
-			 3, leader,
-			 4, nation,
+			 1, pconn->username,
 			 5, team,
-			 8, pconn->id,
-			 -1);
+			 8, pconn->id, -1);
     } conn_list_iterate_end;
   }
 }
