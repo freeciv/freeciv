@@ -94,7 +94,6 @@ enum unit_flag_id {
   F_SPY,              /* Enhanced spy abilities */
   F_TRANSFORM,        /* Can transform terrain types (Engineers) */
   F_PARATROOPERS,
-  F_AIRBASE,          /* No hardcoded behavior, rulesets use for UnitFlag requirement */
   F_CITIES,           /* Can build cities */
   F_NO_LAND_ATTACK,   /* Cannot attack vs land squares (Submarine) */
   F_ADD_TO_CITY,      /* unit can add to city population */
@@ -117,6 +116,8 @@ enum unit_flag_id {
   F_FIGHTER,          /* Good at attacking F_HELICOPTER units */
   F_BARBARIAN_ONLY,   /* Only barbarians can build this unit */
   F_SHIELD2GOLD,      /* upkeep can switch from shield to gold */
+  F_USER_FLAG_1,      /* User defined flags start here */
+  F_LAST_USER_FLAG = F_USER_FLAG_1 + MAX_NUM_USER_UNIT_FLAGS - 1,
   F_LAST
 };
 #define F_MAX 64
@@ -263,6 +264,7 @@ bool utype_has_role(const struct unit_type *punittype, int role);
 enum unit_flag_id find_unit_flag_by_rule_name(const char *s);
 enum unit_role_id find_unit_role_by_rule_name(const char *s);
 
+void set_user_unit_flag_name(enum unit_flag_id id, const char *name);
 const char *unit_flag_rule_name(enum unit_flag_id id);
 const char *unit_role_rule_name(enum unit_role_id id);
 
@@ -335,6 +337,7 @@ bool can_player_build_unit_now(const struct player *p,
 /* Initialization and iteration */
 void unit_types_init(void);
 void unit_types_free(void);
+void unit_flags_free(void);
 
 struct unit_type *unit_type_array_first(void);
 const struct unit_type *unit_type_array_last(void);

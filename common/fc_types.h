@@ -34,6 +34,7 @@
 #define MAX_LEN_VET_SHORT_NAME 8
 #define MAX_VET_LEVELS 10
 #define MAX_BASE_TYPES 32
+#define MAX_NUM_USER_UNIT_FLAGS 4
 
 /* Changing these will probably break network compatability. */
 #define MAX_LEN_NAME     32

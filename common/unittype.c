@@ -49,12 +49,13 @@ static const char *flag_names[] = {
   "OneAttack", "Pikemen", "Horse", "IgWall", "FieldUnit", 
   "AEGIS", "Marines", "Partial_Invis", "Settlers", "Diplomat",
   "Trireme", "Nuclear", "Spy", "Transform", "Paratroopers",
-  "Airbase", "Cities", "No_Land_Attack",
+  "Cities", "No_Land_Attack",
   "AddToCity", "Fanatic", "GameLoss", "Unique", "Unbribable", 
   "Undisbandable", "SuperSpy", "NoHome", "NoVeteran", "Bombarder",
   "CityBuster", "NoBuild", "BadWallAttacker", "BadCityDefender",
   "Helicopter", "AirUnit", "Fighter", "BarbarianOnly", "Shield2Gold"
 };
+static char *user_flag_names[MAX_NUM_USER_UNIT_FLAGS] = { NULL, NULL, NULL, NULL };
 static const char *role_names[] = {
   "FirstBuild", "Explorer", "Hut", "HutTech", "Partisan",
   "DefendOk", "DefendGood", "AttackFast", "AttackStrong",
@@ -586,6 +587,26 @@ const char *unit_class_flag_rule_name(enum unit_class_flag_id id)
 }
 
 /**************************************************************************
+  Sets user defined name for unit flag.
+**************************************************************************/
+void set_user_unit_flag_name(enum unit_flag_id id, const char *name)
+{
+  int ufid = id - F_USER_FLAG_1;
+
+  assert(id >= F_USER_FLAG_1 && id < F_LAST);
+
+  if (user_flag_names[ufid] != 0) {
+    free(user_flag_names[ufid]);
+    user_flag_names[ufid] = NULL;
+  }
+
+  if (name) {
+    user_flag_names[ufid] = fc_malloc(strlen(name));
+    strcpy(user_flag_names[ufid], name);
+  }
+}
+
+/**************************************************************************
   Convert flag names to enum; case insensitive;
   returns F_LAST if can't match.
 **************************************************************************/
@@ -593,13 +614,20 @@ enum unit_flag_id find_unit_flag_by_rule_name(const char *s)
 {
   enum unit_flag_id i;
 
-  assert(ARRAY_SIZE(flag_names) == F_LAST);
+  assert(ARRAY_SIZE(flag_names) == F_USER_FLAG_1);
   
-  for(i=0; i<F_LAST; i++) {
-    if (mystrcasecmp(flag_names[i], s)==0) {
+  for (i = 0; i < F_USER_FLAG_1; i++) {
+    if (mystrcasecmp(flag_names[i], s) == 0) {
       return i;
     }
   }
+  for (i = 0; i < MAX_NUM_USER_UNIT_FLAGS; i++) {
+    if (user_flag_names[i] != NULL
+        && mystrcasecmp(user_flag_names[i], s) == 0) {
+      return i + F_USER_FLAG_1;
+    }
+  }
+
   return F_LAST;
 }
 
@@ -608,9 +636,14 @@ enum unit_flag_id find_unit_flag_by_rule_name(const char *s)
 **************************************************************************/
 const char *unit_flag_rule_name(enum unit_flag_id id)
 {
-  assert(ARRAY_SIZE(flag_names) == F_LAST);
+  assert(ARRAY_SIZE(flag_names) == F_USER_FLAG_1);
   assert(id >= 0 && id < F_LAST);
-  return flag_names[id];
+
+  if (id < F_USER_FLAG_1) {
+    return flag_names[id];
+  }
+
+  return user_flag_names[id - F_USER_FLAG_1];
 }
 
 /**************************************************************************
@@ -622,7 +655,7 @@ enum unit_role_id find_unit_role_by_rule_name(const char *s)
   enum unit_role_id i;
 
   assert(ARRAY_SIZE(role_names) == (L_LAST - L_FIRST));
-  
+
   for(i=L_FIRST; i<L_LAST; i++) {
     if (mystrcasecmp(role_names[i-L_FIRST], s)==0) {
       return i;
@@ -960,6 +993,21 @@ void unit_types_free(void)
   unit_type_iterate(punittype) {
     unit_type_free(punittype);
   } unit_type_iterate_end;
+}
+
+/***************************************************************
+  Frees the memory associated with all unit type flags
+***************************************************************/
+void unit_flags_free(void)
+{
+  int i;
+
+  for (i = 0; i < MAX_NUM_USER_UNIT_FLAGS; i++) {
+    if (user_flag_names[i] != 0) {
+      free(user_flag_names[i]);
+      user_flag_names[i] = NULL;
+    }
+  }
 }
 
 /**************************************************************************

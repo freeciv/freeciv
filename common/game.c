@@ -465,6 +465,7 @@ void ruleset_data_free()
   governments_free();
   nations_free();
   unit_types_free();
+  unit_flags_free();
   improvements_free();
   base_types_free();
   city_styles_free();

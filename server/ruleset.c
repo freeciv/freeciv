@@ -895,9 +895,31 @@ static void load_unit_names(struct section_file *file)
 {
   char **sec;
   int nval;
+  int user_flags;
+  char **flaglist;
+  int i;
   const char *filename = secfile_filename(file);
 
   (void) section_file_lookup(file, "datafile.description");	/* unused */
+
+  /* User unit flag names */
+  flaglist = secfile_lookup_str_vec(file, &user_flags,
+		  		    "flags.names");
+
+  if (user_flags > MAX_NUM_USER_UNIT_FLAGS) {
+    ruleset_error(LOG_FATAL, "\"%s\": Too many user unit type flags!",
+                  filename);
+  }
+
+  for (i = 0; i < user_flags; i++) {
+    set_user_unit_flag_name(F_USER_FLAG_1 + i, flaglist[i]);
+  }
+  for (; i < MAX_NUM_USER_UNIT_FLAGS; i++) {
+    set_user_unit_flag_name(F_USER_FLAG_1 + i, NULL);
+  }
+  if (flaglist) {
+    free(flaglist);
+  }
 
   /* Unit classes */
   sec = secfile_get_secnames_prefix(file, UNIT_CLASS_SECTION_PREFIX, &nval);

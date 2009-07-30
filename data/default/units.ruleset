@@ -18,6 +18,11 @@
 description="Default unit_type data for Freeciv"
 options="1.9"
 
+[flags]
+; Names for custom unit type flags.
+names = "Airbase"
+; Airbase - can build airbases. See airbase definition in terrain.ruleset
+
 [veteran_system]
 ; What are the names of the levels?
 veteran_names = _("green"), _("veteran"), _("hardened"), _("elite")
@@ -193,7 +198,6 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ; "Nuclear"	= nuke!
 ; "Transform"	= can transform terrain
 ; "Paratroopers"= (land only) can paradrop
-; "Airbase"	= (land only) can produce airbases
 ; "Cities"	= can disband to produce a city
 ; "No_Land_Attack" = (sea only) cannot attack targets on land
 ; "AddToCity"	= can disband to add a single point of population to a city

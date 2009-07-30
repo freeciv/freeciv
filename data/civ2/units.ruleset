@@ -13,6 +13,11 @@
 description="Civ2 unit_type data for Freeciv (approximate)"
 options="1.9"
 
+[flags]
+; Names for custom unit type flags.
+names = "Airbase"
+; Airbase - can build airbases. See airbase definition in terrain.ruleset
+
 [veteran_system]
 ; What are the names of the levels?
 veteran_names = _("green"), _("veteran")
