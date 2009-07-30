@@ -305,6 +305,7 @@ void game_init(void)
   game.info.fulltradesize = GAME_DEFAULT_FULLTRADESIZE;
   game.info.barbarianrate = GAME_DEFAULT_BARBARIANRATE;
   game.info.onsetbarbarian= GAME_DEFAULT_ONSETBARBARIAN;
+  game.info.trademindist  = GAME_DEFAULT_TRADEMINDIST;
   game.info.occupychance  = GAME_DEFAULT_OCCUPYCHANCE;
   game.info.autoattack    = GAME_DEFAULT_AUTOATTACK;
   game.info.revolution_length = GAME_DEFAULT_REVOLUTION_LENGTH;

@@ -621,6 +621,16 @@ struct settings_s settings[] = {
 	  GAME_MIN_CITYMINDIST, GAME_MAX_CITYMINDIST,
 	  GAME_DEFAULT_CITYMINDIST)
 
+  GEN_INT("trademindist", game.info.trademindist,
+          SSET_RULES_FLEXIBLE, SSET_ECONOMICS, SSET_RARE, SSET_TO_CLIENT,
+          N_("Minimum distance for traderoutes"),
+          N_("In order to establish a traderoute, cities must be at "
+             "least this far apart on the map. The distance is calculated "
+             "as \"manhattan distance\", that is, the sum of the "
+             "displacements along the x and y directions."), NULL,
+          GAME_MIN_TRADEMINDIST, GAME_MAX_TRADEMINDIST,
+          GAME_DEFAULT_TRADEMINDIST)
+
   GEN_INT("rapturedelay", game.info.rapturedelay,
 	  SSET_RULES, SSET_SOCIOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
           N_("Number of turns between rapture effect"),

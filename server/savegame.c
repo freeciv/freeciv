@@ -4229,6 +4229,8 @@ static void game_load_internal(struct section_file *file)
       secfile_lookup_int_default(file, GAME_DEFAULT_NOTRADESIZE, "game.notradesize");
     game.info.fulltradesize =
       secfile_lookup_int_default(file, GAME_DEFAULT_FULLTRADESIZE, "game.fulltradesize");
+    game.info.trademindist =
+      secfile_lookup_int_default(file, GAME_DEFAULT_TRADEMINDIST, "game.trademindist");
     game.info.angrycitizen =
       secfile_lookup_bool_default(file, GAME_DEFAULT_ANGRYCITIZEN, "game.angrycitizen");
     game.info.citymindist =
@@ -5006,6 +5008,7 @@ void game_save(struct section_file *file, const char *save_reason,
   secfile_insert_int(file, game.info.coolinglevel, "game.coolinglevel");
   secfile_insert_int(file, game.info.notradesize, "game.notradesize");
   secfile_insert_int(file, game.info.fulltradesize, "game.fulltradesize");
+  secfile_insert_int(file, game.info.trademindist, "game.trademindist");
   secfile_insert_bool(file, game.info.angrycitizen, "game.angrycitizen");
   secfile_insert_int(file, game.info.citymindist, "game.citymindist");
   secfile_insert_int(file, game.info.civilwarsize, "game.civilwarsize");

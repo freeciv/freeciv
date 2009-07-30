@@ -349,6 +349,10 @@ bool setting_class_is_changeable(enum sset_class class);
 #define GAME_MIN_FULLTRADESIZE       1
 #define GAME_MAX_FULLTRADESIZE       50
 
+#define GAME_DEFAULT_TRADEMINDIST    9
+#define GAME_MIN_TRADEMINDIST        1
+#define GAME_MAX_TRADEMINDIST        999
+
 #define GAME_DEFAULT_BARBARIANRATE   2
 #define GAME_MIN_BARBARIANRATE       0
 #define GAME_MAX_BARBARIANRATE       4
