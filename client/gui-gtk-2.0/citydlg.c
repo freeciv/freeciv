@@ -1443,14 +1443,18 @@ static void city_dialog_update_information(GtkWidget **info_ebox,
 		PL_("%d turn", "%d turns", abs(granaryturns)),
 		abs(granaryturns));
   }
-  my_snprintf(buf[CORRUPTION], sizeof(buf[CORRUPTION]), "%2d",
-	      pcity->waste[O_TRADE]);
-  my_snprintf(buf[WASTE], sizeof(buf[WASTE]), "%2d",
-          pcity->waste[O_SHIELD]);
-  my_snprintf(buf[POLLUTION], sizeof(buf[POLLUTION]), "%2d",
-	      pcity->pollution);
-  my_snprintf(buf[ILLNESS], sizeof(buf[ILLNESS]), "%2.1f",
-              ((float)(city_illness(pcity, NULL, NULL, NULL, NULL)) / 10.0));
+  my_snprintf(buf[CORRUPTION], sizeof(buf[CORRUPTION]), "%4d",
+              pcity->waste[O_TRADE]);
+  my_snprintf(buf[WASTE], sizeof(buf[WASTE]), "%4d",
+              pcity->waste[O_SHIELD]);
+  my_snprintf(buf[POLLUTION], sizeof(buf[POLLUTION]), "%4d",
+              pcity->pollution);
+  if (!game.info.illness_on) {
+    my_snprintf(buf[ILLNESS], sizeof(buf[ILLNESS]), " -.-");
+  } else {
+    my_snprintf(buf[ILLNESS], sizeof(buf[ILLNESS]), "%4.1f",
+                ((float)pcity->illness / 10.0));
+  }
 
   /* stick 'em in the labels */
 

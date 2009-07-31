@@ -503,7 +503,8 @@ void get_city_dialog_illness_text(const struct city *pcity,
   buf[0] = '\0';
 
   if (!game.info.illness_on) {
-    cat_snprintf(buf, bufsz, _("Illness deactivated in ruleset\n"));
+    cat_snprintf(buf, bufsz, _("Illness deactivated in ruleset."));
+    return;
   }
 
   cat_snprintf(buf, bufsz, _("%+2.1f : Risk from over crowdness\n"),
