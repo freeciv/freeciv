@@ -335,7 +335,7 @@ struct pf_parameter {
   int fuel;                     /* Should be 1 for units without fuel. */
 
   struct player *owner;
-  struct unit_class *uclass;
+  const struct unit_class *uclass;
 
   bv_flags unit_flags;          /* Like F_MARINE and F_TRIREME */
   bool omniscience;		/* Do we care if the tile is visible? */
@@ -388,9 +388,9 @@ struct pf_parameter {
   /* This is a jumbo callback which overrides all previous ones.  It takes 
    * care of everything (ZOC, known, costs etc).  
    * Variables:
-   *   from_x, from_y        -- position of the source tile
+   *   from_tile             -- the source tile
    *   from_cost, from_extra -- costs of the source tile
-   *   to_x, to_y            -- position of the dest tile
+   *   to_tile               -- the dest tile
    *   to_cost, to_extra     -- costs of the dest tile
    *   dir                   -- direction from source to dest
    *   param                 -- a pointer to this struct
@@ -419,6 +419,9 @@ struct pf_parameter {
 /* The map itself.  Opaque type. */
 struct pf_map;
 
+/* The city map strucure.  Opaque type. */
+struct pf_city_map;
+
 
 
 /* ======================== Public Interface =========================== */
@@ -426,7 +429,7 @@ struct pf_map;
 /* Returns a map which can be used to query for paths or to iterate
  * over all paths. Does not perform any computations itself, just sets
  * everything up. */
-struct pf_map *pf_map_new(const struct pf_parameter *const parameter);
+struct pf_map *pf_map_new(const struct pf_parameter *parameter);
 
 /* After usage the map should be destroyed. */
 void pf_map_destroy(struct pf_map *pfm);
@@ -483,6 +486,20 @@ void pf_path_destroy(struct pf_path *path);
 
 /* Returns the last position of the given path. */
 const struct pf_position *pf_path_get_last_position(const struct pf_path *path);
+
+
+
+/* Create a city cost map.  It is used to calculate the cost units may
+ * need to reach the city. */
+struct pf_city_map *pf_city_map_new(const struct city *pcity);
+
+/* Destroy a city cost map. */
+void pf_city_map_destroy(struct pf_city_map *pfcm);
+
+/* Get the move cost needed by the unit to reach the city. */
+int pf_city_map_get_move_cost(struct pf_city_map *pfcm,
+                              const struct unit_type *punittype,
+                              struct tile *ptile);
 
 
 

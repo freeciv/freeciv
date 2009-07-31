@@ -2553,3 +2553,118 @@ const struct pf_position *pf_path_get_last_position(const struct pf_path *path)
 {
   return &path->positions[path->length - 1];
 }
+
+
+
+/* ====================== pf_city map functions ======================= */
+
+/* We will iterate this map at max to this cost. */
+#define MAX_COST 255
+
+struct pf_city_map {
+  struct pf_parameter param;    /* Keep a parameter ready for usage. */
+  struct pf_map **maps;         /* A vector of pf_map for every unit_type. */
+};
+
+/************************************************************************
+  This function estime the cost for unit moves to reach the city.
+  N.B.: The costs are calculated in the invert order because we want
+  to know how many costs needs the units to REACH the city, and not
+  to leave it.
+************************************************************************/
+static int pf_city_map_get_costs(const struct tile *to_tile,
+                                 enum direction8 dir,
+                                 const struct tile *from_tile,
+                                 int to_cost, int to_extra,
+                                 int *from_cost, int *from_extra,
+                                 const struct pf_parameter *param)
+{
+  int cost;
+
+  if (!param->omniscience
+      && TILE_UNKNOWN == tile_get_known(to_tile, param->owner)) {
+    cost = SINGLE_MOVE;
+  } else if (!is_native_tile_to_class(param->uclass, to_tile)
+             && !tile_city(to_tile)) {
+    return -1;  /* Impossible move. */
+  } else if (uclass_has_flag(param->uclass, UCF_TERRAIN_SPEED)) {
+    if (BV_ISSET(param->unit_flags, F_IGTER)) {
+      cost = MIN(map_move_cost(from_tile, to_tile), SINGLE_MOVE);
+    } else {
+      cost = map_move_cost(from_tile, to_tile);
+    }
+  } else {
+    cost = SINGLE_MOVE;
+  }
+
+  if (to_cost + cost > MAX_COST) {
+    return -1;  /* We reached the maximum we wanted. */
+  } else if (*from_cost == PF_IMPOSSIBLE_MC     /* Uninitialized yet. */
+             || to_cost + cost < *from_cost) {
+    *from_cost = to_cost + cost;
+    /* N.B.: We don't deal with from_extra. */
+  }
+
+  /* Let's calculate some priority. */
+  return MAX(3 * SINGLE_MOVE - cost, 0);
+}
+
+/************************************************************************
+  Constructor: create a new city map. The pf_city_map is used to
+  check the move costs that the units needs to reach it.
+************************************************************************/
+struct pf_city_map *pf_city_map_new(const struct city *pcity)
+{
+  struct pf_city_map *pfcm = fc_malloc(sizeof(struct pf_city_map));
+
+  /* Initialize the parameter. */
+  memset(&pfcm->param, 0, sizeof(pfcm->param));
+  pfcm->param.get_costs = pf_city_map_get_costs;
+  pfcm->param.start_tile = city_tile(pcity);
+  pfcm->param.owner = city_owner(pcity);
+  pfcm->param.omniscience = !ai_handicap(city_owner(pcity), H_MAP);
+
+  /* Initialize the map vector. */
+  pfcm->maps = fc_calloc(utype_count(), sizeof(struct pf_map *));
+
+  return pfcm;
+}
+
+/************************************************************************
+  Destructor: free the new city map.
+************************************************************************/
+void pf_city_map_destroy(struct pf_city_map *pfcm)
+{
+  size_t i;
+
+  assert(NULL != pfcm);
+
+  for (i = 0; i < utype_count(); i++) {
+    if (pfcm->maps[i]) {
+      pf_map_destroy(pfcm->maps[i]);
+    }
+  }
+  free(pfcm->maps);
+  free(pfcm);
+}
+
+/************************************************************************
+  Get the move costs that unit needs to reach the city.
+************************************************************************/
+int pf_city_map_get_move_cost(struct pf_city_map *pfcm,
+                              const struct unit_type *punittype,
+                              struct tile *ptile)
+{
+  Unit_type_id index = utype_index(punittype);
+  struct pf_map *pfm = pfcm->maps[index];
+
+  if (!pfm) {
+    /* Not created yet. */
+    pfcm->param.uclass = utype_class(punittype);
+    pfcm->param.unit_flags = punittype->flags;
+    pfm =  pf_map_new(&pfcm->param);
+    pfcm->maps[index] = pfm;
+  }
+
+  return pfm->get_move_cost(pfm, ptile);
+}
