@@ -1132,17 +1132,17 @@ void request_unit_connect(enum unit_activity activity)
 }
 
 /**************************************************************************
-...
+  Returns one of the unit of the transporter which can have focus next.
 **************************************************************************/
-void request_unit_unload_all(struct unit *punit)
+struct unit *request_unit_unload_all(struct unit *punit)
 {
   struct tile *ptile = punit->tile;
   struct unit *plast = NULL;
 
-  if(get_transporter_capacity(punit) == 0) {
+  if (get_transporter_capacity(punit) == 0) {
     create_event(punit->tile, E_BAD_COMMAND,
 		 _("Only transporter units can be unloaded."));
-    return;
+    return NULL;
   }
 
   unit_list_iterate(ptile->units, pcargo) {
@@ -1159,15 +1159,7 @@ void request_unit_unload_all(struct unit *punit)
     }
   } unit_list_iterate_end;
 
-
-  if (plast) {
-    /* Unfocus the ship, and advance the focus to the last unloaded unit.
-     * If there is no unit unloaded (which shouldn't happen, but could if
-     * the caller doesn't check if the transporter is loaded), the we
-     * don't do anything. */
-    punit->focus_status = FOCUS_WAIT;
-    set_unit_focus(plast);
-  }
+  return plast;
 }
 
 /**************************************************************************
@@ -2532,9 +2524,24 @@ void key_unit_traderoute(void)
 **************************************************************************/
 void key_unit_unload_all(void)
 {
+  struct unit *pnext_focus = NULL, *plast;
+
   unit_list_iterate(get_units_in_focus(), punit) {
-    request_unit_unload_all(punit);
+    if ((plast = request_unit_unload_all(punit))) {
+      pnext_focus = plast;
+    }
   } unit_list_iterate_end;
+
+  if (pnext_focus) {
+    unit_list_iterate(get_units_in_focus(), punit) {
+      /* Unfocus the ships, and advance the focus to the last unloaded unit.
+       * If there is no unit unloaded (which shouldn't happen, but could if
+       * the caller doesn't check if the transporter is loaded), the we
+       * don't do anything. */
+      punit->focus_status = FOCUS_WAIT;
+    } unit_list_iterate_end;
+    set_unit_focus(pnext_focus);
+  }
 }
 
 /**************************************************************************
