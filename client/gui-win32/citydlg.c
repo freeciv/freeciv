@@ -60,7 +60,7 @@
 
 #define NUM_UNITS_SHOWN  12
 #define NUM_CITIZENS_SHOWN 25   
-#define NUM_INFO_FIELDS 11      /* number of fields in city_info */
+#define NUM_INFO_FIELDS 12      /* number of fields in city_info */
 #define ID_CITYOPT_RADIO 100
 #define ID_CITYOPT_TOGGLE 200
 #define NUM_TABS 6
@@ -432,7 +432,8 @@ static void city_dialog_update_information(HWND *info_label,
   struct city *pcity = pdialog->pcity;
   int granaryturns;
   enum { FOOD, SHIELD, TRADE, GOLD, LUXURY, SCIENCE, 
-	 GRANARY, GROWTH, CORRUPTION, WASTE, POLLUTION 
+	 GRANARY, GROWTH, CORRUPTION, WASTE, POLLUTION,
+         ILLNESS
   };
 
   /* fill the buffers with the necessary info */
@@ -468,12 +469,18 @@ static void city_dialog_update_information(HWND *info_label,
 		PL_("%d turn", "%d turns", abs(granaryturns)),
 		abs(granaryturns));
   }
-  my_snprintf(buf[CORRUPTION], sizeof(buf[CORRUPTION]), "%2d",
-	      pcity->waste[O_TRADE]);
-  my_snprintf(buf[WASTE], sizeof(buf[WASTE]), "%2d",
-          pcity->waste[O_SHIELD]);
-  my_snprintf(buf[POLLUTION], sizeof(buf[POLLUTION]), "%2d",
-	      pcity->pollution);
+  my_snprintf(buf[CORRUPTION], sizeof(buf[CORRUPTION]), "%4d",
+              pcity->waste[O_TRADE]);
+  my_snprintf(buf[WASTE], sizeof(buf[WASTE]), "%4d",
+              pcity->waste[O_SHIELD]);
+  my_snprintf(buf[POLLUTION], sizeof(buf[POLLUTION]), "%4d",
+              pcity->pollution);
+  if (!game.info.illness_on) {
+    my_snprintf(buf[ILLNESS], sizeof(buf[ILLNESS]), " -.-");
+  } else {
+    my_snprintf(buf[ILLNESS], sizeof(buf[ILLNESS]), "%4.1f",
+                ((float)pcity->illness / 10.0));
+  }
 
   /* stick 'em in the labels */
 
@@ -667,7 +674,8 @@ static struct fcwin_box *create_city_info_table(HWND owner, HWND *info_label)
   struct fcwin_box *hbox, *column1, *column2;
   HWND label;
 
-  static const char *output_label[NUM_INFO_FIELDS] = { N_("Food:"),
+  static const char *output_label[NUM_INFO_FIELDS] = {
+    N_("Food:"),
     N_("Prod:"),
     N_("Trade:"),
     N_("Gold:"),
@@ -677,7 +685,8 @@ static struct fcwin_box *create_city_info_table(HWND owner, HWND *info_label)
     N_("Change in:"),
     N_("Corruption:"),
     N_("Waste:"),
-    N_("Pollution:")
+    N_("Pollution:"),
+    N_("Plague Risk:")
   };
 
   hbox = fcwin_hbox_new(owner, TRUE);
