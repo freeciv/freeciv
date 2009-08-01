@@ -8,3 +8,11 @@
 --   but WITHOUT ANY WARRANTY; without even the implied warranty of
 --   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 --   GNU General Public License for more details.
+
+function city_destroyed_callback(city, loser, destroyer)
+  create_base(city.tile, "Ruins", NIL)
+  -- continue processing
+  return false
+end
+
+signal.connect("city_destroyed", "city_destroyed_callback")

@@ -932,3 +932,12 @@ gui_type      = "Fortress"
 build_time    = 3
 border_sq     = 0
 vision_sq     = 5
+
+[base_ruins]
+name          = _("Ruins")
+graphic       = "base.ruins"
+graphic_alt   = "-"
+activity_gfx  = "unit.fortress"
+buildable     = 0
+build_time    = 0
+gui_type      = "Other"
