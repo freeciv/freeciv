@@ -4732,6 +4732,18 @@ static void game_load_internal(struct section_file *file)
 		         improvement_order, improvement_order_size, base_order);
     } players_iterate_end;
 
+    whole_map_iterate(ptile) {
+      base_type_iterate(pbase) {
+        if (tile_has_base(ptile, pbase) && pbase->vision_sq > 0) {
+          struct player *owner = tile_owner(ptile);
+          if (owner) {
+            map_refog_circle(owner, ptile, -1, pbase->vision_sq,
+                             game.info.vision_reveal_tiles, V_MAIN);
+          }
+        }
+      } base_type_iterate_end;
+    } whole_map_iterate_end;
+
     /* We do this here since if the did it in player_load, player 1
        would try to unfog (unloaded) player 2's map when player 1's units
        were loaded */
