@@ -42,12 +42,26 @@ struct pf_path *pft_concat(struct pf_path *dest_path,
 			   const struct pf_path *src_path);
 bool pft_advance_path(struct pf_path *path,
 		      struct tile *ptile);
+
 void pft_fill_unit_parameter(struct pf_parameter *parameter,
-			     struct unit *punit);
+			     const struct unit *punit);
 void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
-				 struct unit *punit);
+				 const struct unit *punit);
 void pft_fill_unit_attack_param(struct pf_parameter *parameter,
-                                struct unit *punit);
+                                const struct unit *punit);
+
+void pft_fill_utype_parameter(struct pf_parameter *parameter,
+                              const struct unit_type *punittype,
+                              struct tile *pstart_tile,
+                              struct player *pplayer);
+void pft_fill_utype_overlap_param(struct pf_parameter *parameter,
+                                  const struct unit_type *punittype,
+                                  struct tile *pstart_tile,
+                                  struct player *pplayer);
+void pft_fill_utype_attack_param(struct pf_parameter *parameter,
+                                 const struct unit_type *punittype,
+                                 struct tile *pstart_tile,
+                                 struct player *pplayer);
 
 void pft_fill_amphibious_parameter(struct pft_amphibious *parameter);
 enum tile_behavior no_fights_or_unknown(const struct tile *ptile,

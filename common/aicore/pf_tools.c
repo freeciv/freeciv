@@ -18,19 +18,19 @@
 #include <assert.h>
 #include <string.h>
 
+/* utility */
 #include "log.h"
 #include "mem.h"
 
+/* common */
 #include "base.h"
 #include "game.h"
 #include "movement.h"
 #include "tile.h"
+#include "unit.h"
+#include "unittype.h"
 
 #include "pf_tools.h"
-
-
-static void pft_fill_unit_default_parameter(struct pf_parameter *parameter,
-					    struct unit *punit);
 
 /*************************************************************
   Cost of moving one normal step.
@@ -664,23 +664,122 @@ static bool amphibious_is_pos_dangerous(const struct tile *ptile,
 /* =====================  Tools for filling parameters =============== */
 
 /**********************************************************************
-  Fill unit-dependent parameters
+  Fill general use parameters to defaults.
 ***********************************************************************/
-void pft_fill_unit_parameter(struct pf_parameter *parameter,
-			     struct unit *punit)
+static void pft_fill_default_parameter(struct pf_parameter *parameter,
+                                       const struct unit_type *punittype)
 {
-  pft_fill_unit_default_parameter(parameter, punit);
+  struct unit_class *punitclass = utype_class(punittype);
 
-  switch (uclass_move_type(unit_class(punit))) {
+  parameter->turn_mode = TM_CAPPED;
+  parameter->unknown_MC = SINGLE_MOVE;
+
+  if (uclass_has_flag(punitclass, UCF_TERRAIN_SPEED)) {
+    /* Unit is subject to terrain movement costs */
+    bv_special specials;
+    bv_bases bases;
+
+    BV_CLR_ALL(specials); /* This works at the moment, since road is
+                           * only special that affects is_native_terrain()
+                           * Even if tile contains road, we can safely
+                           * ignore it since movement cost for it is
+                           * certainly less than SINGLE_MOVE. */
+    BV_CLR_ALL(bases);
+
+    terrain_type_iterate(pterrain) {
+      if (is_native_terrain(punittype, pterrain, specials, bases)) {
+        /* Exact movement cost matters only if we can enter
+         * the tile. */
+        int mr = 2 * pterrain->movement_cost;
+
+        parameter->unknown_MC = MAX(mr, parameter->unknown_MC);
+      } else {
+        /* FIXME: We might be unable to enter tile at all.
+                  This should have some cost too? */
+      }
+    } terrain_type_iterate_end;
+  }
+  if (uclass_move_type(punitclass) == SEA_MOVING) {
+    /* Sailing units explore less */
+    parameter->unknown_MC *= 2;
+  }
+
+  parameter->get_TB = NULL;
+  parameter->get_EC = NULL;
+  parameter->is_pos_dangerous = NULL;
+  parameter->get_moves_left_req = NULL;
+  parameter->get_costs = NULL;
+  parameter->get_zoc = NULL;
+  BV_CLR_ALL(parameter->unit_flags);
+
+  parameter->uclass = punitclass;
+  parameter->unit_flags = punittype->flags;
+}
+
+/**********************************************************************
+  Fill general use parameters to defaults for an unit type.
+***********************************************************************/
+static void pft_fill_utype_default_parameter(struct pf_parameter *parameter,
+                                             const struct unit_type *punittype,
+                                             struct tile *pstart_tile,
+                                             struct player *powner)
+{
+  pft_fill_default_parameter(parameter, punittype);
+
+  parameter->start_tile = pstart_tile;
+  parameter->moves_left_initially = punittype->move_rate;
+  parameter->move_rate = punittype->move_rate;
+  if (utype_fuel(punittype)) {
+    parameter->fuel_left_initially = utype_fuel(punittype);
+    parameter->fuel = utype_fuel(punittype);
+  } else {
+    parameter->fuel = 1;
+    parameter->fuel_left_initially = 1;
+  }
+  parameter->owner = powner;
+
+  parameter->omniscience = !ai_handicap(powner, H_MAP);
+}
+
+/**********************************************************************
+  Fill general use parameters to defaults for an unit.
+***********************************************************************/
+static void pft_fill_unit_default_parameter(struct pf_parameter *parameter,
+					    const struct unit *punit)
+{
+  pft_fill_default_parameter(parameter, unit_type(punit));
+
+  parameter->start_tile = unit_tile(punit);
+  parameter->moves_left_initially = punit->moves_left;
+  parameter->move_rate = unit_move_rate(punit);
+  if (utype_fuel(unit_type(punit))) {
+    parameter->fuel_left_initially = punit->fuel;
+    parameter->fuel = utype_fuel(unit_type(punit));
+  } else {
+    parameter->fuel = 1;
+    parameter->fuel_left_initially = 1;
+  }
+  parameter->owner = unit_owner(punit);
+
+  parameter->omniscience = !ai_handicap(unit_owner(punit), H_MAP);
+}
+
+/**********************************************************************
+  Base function to fill classic parameters.
+***********************************************************************/
+static void pft_fill_parameter(struct pf_parameter *parameter,
+                               const struct unit_type *punittype)
+{
+  switch (utype_move_type(punittype)) {
   case LAND_MOVING:
-    if (unit_has_type_flag(punit, F_IGTER)) {
+    if (utype_has_flag(punittype, F_IGTER)) {
       parameter->get_MC = igter_move_unit;
     } else {
       parameter->get_MC = normal_move_unit;
     }
     break;
   case SEA_MOVING:
-    if (can_attack_non_native(unit_type(punit))) {
+    if (can_attack_non_native(punittype)) {
       parameter->get_MC = seamove;
     } else {
       parameter->get_MC = seamove_no_bombard;
@@ -690,17 +789,17 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
     parameter->get_MC = airmove;
     break;
   default:
-    freelog(LOG_ERROR, "pft_fill_unit_parameter() impossible move type!");
+    freelog(LOG_ERROR, "pft_fill_parameter() impossible move type!");
     break;
   }
 
-  if (!parameter->get_moves_left_req && utype_fuel(unit_type(punit))) {
+  if (!parameter->get_moves_left_req && utype_fuel(punittype)) {
     /* Unit needs fuel */
     parameter->get_moves_left_req = get_fuel_moves_left_req;
     parameter->turn_mode = TM_WORST_TIME;
   }
 
-  if (!unit_type_really_ignores_zoc(unit_type(punit))) {
+  if (!unit_type_really_ignores_zoc(punittype)) {
     parameter->get_zoc = is_my_zoc;
   } else {
     parameter->get_zoc = NULL;
@@ -708,15 +807,38 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
 }
 
 /**********************************************************************
+  Fill classic parameters for an unit type.
+***********************************************************************/
+void pft_fill_utype_parameter(struct pf_parameter *parameter,
+                              const struct unit_type *punittype,
+                              struct tile *pstart_tile,
+                              struct player *pplayer)
+{
+  pft_fill_utype_default_parameter(parameter, punittype,
+                                   pstart_tile, pplayer);
+  pft_fill_parameter(parameter, punittype);
+}
+
+/**********************************************************************
+  Fill classic parameters for an unit.
+***********************************************************************/
+void pft_fill_unit_parameter(struct pf_parameter *parameter,
+			     const struct unit *punit)
+{
+  pft_fill_unit_default_parameter(parameter, punit);
+  pft_fill_parameter(parameter, unit_type(punit));
+}
+
+/**********************************************************************
+  pft_fill_*_overlap_param() base function.
+
   Switch on one tile overlapping into the non-native terrain.
   For sea/land bombardment and for ferries.
 **********************************************************************/
-void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
-				 struct unit *punit)
+static void pft_fill_overlap_param(struct pf_parameter *parameter,
+                                   const struct unit_type *punittype)
 {
-  pft_fill_unit_default_parameter(parameter, punit);
-
-  switch (uclass_move_type(unit_class(punit))) {
+  switch (utype_move_type(punittype)) {
   case LAND_MOVING:
     parameter->get_MC = land_overlap_move;
     parameter->get_TB = dont_cross_ocean;
@@ -728,11 +850,11 @@ void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
     parameter->get_MC = airmove; /* very crude */
     break;
   default:
-    freelog(LOG_ERROR, "pft_fill_unit_overlap_param() impossible move type!");
+    freelog(LOG_ERROR, "pft_fill_overlap_param() impossible move type!");
     break;
   }
 
-  if (!unit_type_really_ignores_zoc(unit_type(punit))) {
+  if (!unit_type_really_ignores_zoc(punittype)) {
     parameter->get_zoc = is_my_zoc;
   } else {
     parameter->get_zoc = NULL;
@@ -740,14 +862,40 @@ void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
 }
 
 /**********************************************************************
-  Consider attacking and non-attacking possibilities properly
+  Switch on one tile overlapping into the non-native terrain.
+  For sea/land bombardment and for ferry types.
 **********************************************************************/
-void pft_fill_unit_attack_param(struct pf_parameter *parameter,
-                                struct unit *punit)
+void pft_fill_utype_overlap_param(struct pf_parameter *parameter,
+                                  const struct unit_type *punittype,
+                                  struct tile *pstart_tile,
+                                  struct player *pplayer)
+{
+  pft_fill_utype_default_parameter(parameter, punittype,
+                                   pstart_tile, pplayer);
+  pft_fill_overlap_param(parameter, punittype);
+}
+
+
+/**********************************************************************
+  Switch on one tile overlapping into the non-native terrain.
+  For sea/land bombardment and for ferries.
+**********************************************************************/
+void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
+				 const struct unit *punit)
 {
   pft_fill_unit_default_parameter(parameter, punit);
+  pft_fill_overlap_param(parameter, unit_type(punit));
+}
 
-  switch (uclass_move_type(unit_class(punit))) {
+/**********************************************************************
+  pft_fill_*_attack_param() base function.
+
+  Consider attacking and non-attacking possibilities properly.
+**********************************************************************/
+static void pft_fill_attack_param(struct pf_parameter *parameter,
+                                  const struct unit_type *punittype)
+{
+  switch (utype_move_type(punittype)) {
   case LAND_MOVING:
     parameter->get_MC = land_attack_move;
     break;
@@ -758,11 +906,11 @@ void pft_fill_unit_attack_param(struct pf_parameter *parameter,
     parameter->get_MC = airmove; /* very crude */
     break;
   default:
-    freelog(LOG_ERROR, "pft_fill_unit_attack_param() impossible move type!");
+    freelog(LOG_ERROR, "pft_fill_attack_param() impossible move type!");
     break;
   }
 
-  if (!unit_type_really_ignores_zoc(unit_type(punit))) {
+  if (!unit_type_really_ignores_zoc(punittype)) {
     parameter->get_zoc = is_my_zoc;
   } else {
     parameter->get_zoc = NULL;
@@ -771,6 +919,33 @@ void pft_fill_unit_attack_param(struct pf_parameter *parameter,
   /* It is too complicated to work with danger here */
   parameter->is_pos_dangerous = NULL;
   parameter->get_moves_left_req = NULL;
+}
+
+/**********************************************************************
+  pft_fill_*_attack_param() base function.
+
+  Consider attacking and non-attacking possibilities properly.
+**********************************************************************/
+void pft_fill_utype_attack_param(struct pf_parameter *parameter,
+                                 const struct unit_type *punittype,
+                                 struct tile *pstart_tile,
+                                 struct player *pplayer)
+{
+  pft_fill_utype_default_parameter(parameter, punittype,
+                                   pstart_tile, pplayer);
+  pft_fill_attack_param(parameter, punittype);
+}
+
+/**********************************************************************
+  pft_fill_*_attack_param() base function.
+
+  Consider attacking and non-attacking possibilities properly.
+**********************************************************************/
+void pft_fill_unit_attack_param(struct pf_parameter *parameter,
+                                const struct unit *punit)
+{
+  pft_fill_unit_default_parameter(parameter, punit);
+  pft_fill_attack_param(parameter, unit_type(punit));
 }
 
 /****************************************************************************
@@ -804,71 +979,6 @@ void pft_fill_amphibious_parameter(struct pft_amphibious *parameter)
   BV_CLR_ALL(parameter->combined.unit_flags);
 
   parameter->combined.data = parameter;
-}
-
-/**********************************************************************
-  Fill general use parameters to defaults
-***********************************************************************/
-static void pft_fill_unit_default_parameter(struct pf_parameter *parameter,
-					    struct unit *punit)
-{
-  parameter->turn_mode = TM_CAPPED;
-  parameter->unknown_MC = SINGLE_MOVE;
-
-  if (uclass_has_flag(unit_class(punit), UCF_TERRAIN_SPEED)) {
-    /* Unit is subject to terrain movement costs */
-    struct unit_type *punittype = unit_type(punit);
-    bv_special specials;
-    bv_bases bases;
-
-    BV_CLR_ALL(specials); /* This works at the moment, since road is
-                           * only special that affects is_native_terrain()
-                           * Even if tile contains road, we can safely
-                           * ignore it since movement cost for it is
-                           * certainly less than SINGLE_MOVE. */
-    BV_CLR_ALL(bases);
-
-    terrain_type_iterate(pterrain) {
-      if (is_native_terrain(punittype, pterrain, specials, bases)) {
-        /* Exact movement cost matters only if we can enter
-         * the tile. */
-        int mr = 2 * pterrain->movement_cost;
-
-        parameter->unknown_MC = MAX(mr, parameter->unknown_MC);
-      } else {
-        /* FIXME: We might be unable to enter tile at all.
-                  This should have some cost too? */
-      }
-    } terrain_type_iterate_end;
-  }
-  if (is_sailing_unit(punit)) {
-    /* Sailing units explore less */
-    parameter->unknown_MC *= 2;
-  }
-
-  parameter->get_TB = NULL;
-  parameter->get_EC = NULL;
-  parameter->is_pos_dangerous = NULL;
-  parameter->get_moves_left_req = NULL;
-  parameter->get_costs = NULL;
-  parameter->get_zoc = NULL;
-  BV_CLR_ALL(parameter->unit_flags);
-
-  parameter->start_tile = punit->tile;
-  parameter->moves_left_initially = punit->moves_left;
-  parameter->move_rate = unit_move_rate(punit);
-  if (utype_fuel(unit_type(punit))) {
-    parameter->fuel_left_initially = punit->fuel;
-    parameter->fuel = utype_fuel(unit_type(punit));
-  } else {
-    parameter->fuel = 1;
-    parameter->fuel_left_initially = 1;
-  }
-  parameter->owner = unit_owner(punit);
-  parameter->uclass = unit_class(punit);
-  parameter->unit_flags = unit_type(punit)->flags;
-
-  parameter->omniscience = !ai_handicap(unit_owner(punit), H_MAP);
 }
 
 /**********************************************************************
