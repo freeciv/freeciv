@@ -1389,8 +1389,7 @@ static void show_full_citybar(struct canvas *pcanvas,
   /* We can see the city's production or growth values if
    * we are observing or playing as the owner of the city. */
   const bool can_see_inside
-    = (NULL == client.conn.playing
-       || city_owner(pcity) == client.conn.playing);
+    = (client_is_global_observer() || city_owner(pcity) == client_player());
   const bool should_draw_productions
     = can_see_inside && draw_city_productions;
   const bool should_draw_growth = can_see_inside && draw_city_growth;
@@ -1636,6 +1635,8 @@ static void show_small_citybar(struct canvas *pcanvas,
     prod_rect = {0, 0, 0, 0}, traderoutes_rect = {0,};
   int total_width, total_height;
   int spacer_width = 0;
+  const bool can_see_inside = (client_is_global_observer()
+                               || city_owner(pcity) == client_player());
 
   *width = *height = 0;
 
@@ -1659,13 +1660,13 @@ static void show_small_citybar(struct canvas *pcanvas,
     total_width += name_rect.w;
     total_height = MAX(total_height, name_rect.h);
 
-    if (draw_city_growth) {
+    if (draw_city_growth && can_see_inside) {
       get_text_size(&growth_rect.w, &growth_rect.h, FONT_CITY_PROD, growth);
       total_width += spacer_width + growth_rect.w;
       total_height = MAX(total_height, growth_rect.h);
     }
 
-    if (draw_city_traderoutes) {
+    if (draw_city_traderoutes && can_see_inside) {
       get_city_mapview_traderoutes(pcity, traderoutes,
                                    sizeof(traderoutes),
                                    &traderoutes_color);
@@ -1682,7 +1683,7 @@ static void show_small_citybar(struct canvas *pcanvas,
 		    get_color(tileset, COLOR_MAPVIEW_CITYTEXT), name);
     drawposx += name_rect.w;
 
-    if (draw_city_growth) {
+    if (draw_city_growth && can_see_inside) {
       drawposx += spacer_width;
       canvas_put_text(pcanvas, drawposx,
 		      canvas_y + total_height - growth_rect.h,
@@ -1691,7 +1692,7 @@ static void show_small_citybar(struct canvas *pcanvas,
       drawposx += growth_rect.w;
     }
 
-    if (draw_city_traderoutes) {
+    if (draw_city_traderoutes && can_see_inside) {
       drawposx += spacer_width;
       canvas_put_text(pcanvas, drawposx,
 		      canvas_y + total_height - traderoutes_rect.h,
@@ -1705,9 +1706,7 @@ static void show_small_citybar(struct canvas *pcanvas,
     *width = MAX(*width, total_width);
     *height += total_height + 3;
   }
-  if (draw_city_productions
-      && (NULL == client.conn.playing
-          || city_owner(pcity) == client.conn.playing)) {
+  if (draw_city_productions && can_see_inside) {
     get_city_mapview_production(pcity, prod, sizeof(prod));
     get_text_size(&prod_rect.w, &prod_rect.h, FONT_CITY_PROD, prod);
 
