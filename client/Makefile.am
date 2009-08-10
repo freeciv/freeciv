@@ -3,11 +3,15 @@
 ## Must be set before adding anything
 GUI_SUBDIRS =
 
+desktopfiledir = $(prefix)/share/applications
+
 if CLIENT_GUI_SDL
 GUI_SUBDIRS += gui-sdl
 endif
 if CLIENT_GUI_GTK_2_0
 GUI_SUBDIRS += gui-gtk-2.0
+desktopfile_DATA = \
+	freeciv.desktop
 endif
 if CLIENT_GUI_XAW
 GUI_SUBDIRS += gui-xaw
@@ -211,7 +215,3 @@ freeciv_stub_LDADD = \
  $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(LIB_GGZMOD) $(CLIENTICON) \
  $(GUI_stub_LIBS)
 endif
-
-desktopfiledir = $(prefix)/share/applications
-desktopfile_DATA = \
-	freeciv.desktop
