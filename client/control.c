@@ -1493,9 +1493,12 @@ void request_unit_unload(struct unit *pcargo)
       && can_unit_survive_at_tile(pcargo, pcargo->tile)) {
     dsend_packet_unit_unload(&client.conn, pcargo->id, ptrans->id);
 
-    /* Activate the unit. */
-    dsend_packet_unit_change_activity(&client.conn, pcargo->id,
-				      ACTIVITY_IDLE, S_LAST, -1);
+    if (unit_owner(pcargo) == client.conn.playing
+        && pcargo->activity != ACTIVITY_IDLE) {
+      /* Activate the unit. */
+      dsend_packet_unit_change_activity(&client.conn, pcargo->id,
+                                        ACTIVITY_IDLE, S_LAST, -1);
+    }
   }
 }
 
