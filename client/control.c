@@ -1454,9 +1454,12 @@ void request_unit_unload(struct unit *pcargo)
       && can_unit_survive_at_tile(pcargo, pcargo->tile)) {
     dsend_packet_unit_unload(&aconnection, pcargo->id, ptrans->id);
 
-    /* Activate the unit. */
-    dsend_packet_unit_change_activity(&aconnection, pcargo->id,
-				      ACTIVITY_IDLE, S_LAST);
+    if (unit_owner(pcargo) == game.player_ptr
+        && pcargo->activity != ACTIVITY_IDLE) {
+      /* Activate the unit. */
+      dsend_packet_unit_change_activity(&aconnection, pcargo->id,
+                                        ACTIVITY_IDLE, S_LAST);
+    }
   }
 }
 
