@@ -5,6 +5,7 @@
 
 AC_DEFUN([FC_XAW_CLIENT],
 [
+  AC_REQUIRE([AC_PATH_XTRA])
   if test "x$gui_xaw" = "xyes" || test "x$client" = "xall" ||
      test "x$client" = "xauto" ; then
     dnl Checks for X:
