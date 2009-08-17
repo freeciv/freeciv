@@ -127,6 +127,11 @@ static int get_move_rate(const struct pf_parameter *param)
 ********************************************************************/
 static int get_turn(const struct pf_parameter *param, int cost)
 {
+  if (get_move_rate(param) <= 0) {
+    /* This unit cannot move by itself. */
+    return FC_INFINITY;
+  }
+
   /* Negative cost can happen when a unit initially has more MP than its
    * move-rate (due to wonders transfer etc).  Although this may be a bug, 
    * we'd better be ready.
@@ -143,6 +148,11 @@ static int get_turn(const struct pf_parameter *param, int cost)
 static int get_moves_left(const struct pf_parameter *param, int cost)
 {
   int move_rate = get_move_rate(param);
+
+  if (move_rate <= 0) {
+    /* This unit never have moves left. */
+    return 0;
+  }
 
   /* Cost may be negative; see get_turn(). */
   return (cost < 0 ? move_rate - cost
@@ -167,17 +177,26 @@ static int get_total_CC(const struct pf_parameter *param, int cost,
 static void finalize_position(const struct pf_parameter *param,
                               struct pf_position *pos)
 {
+  int move_rate;
+
   if (param->turn_mode == TM_BEST_TIME
       || param->turn_mode == TM_WORST_TIME) {
     pos->turn *= param->fuel;
-    pos->turn += ((get_move_rate(param) - pos->moves_left)
-                  / param->move_rate);
+    move_rate = get_move_rate(param);
+    if (move_rate > 0) {
+      pos->turn += ((get_move_rate(param) - pos->moves_left)
+                    / param->move_rate);
 
-    /* We add 1 because a fuel of 1 means "no" fuel left; e.g. fuel
-     * ranges from [1,ut->fuel] not from [0,ut->fuel) as one may think. */
-    pos->fuel_left = pos->moves_left / param->move_rate + 1;
+      /* We add 1 because a fuel of 1 means "no" fuel left; e.g. fuel
+       * ranges from [1,ut->fuel] not from [0,ut->fuel) as one may think. */
+      pos->fuel_left = pos->moves_left / param->move_rate + 1;
 
-    pos->moves_left %= param->move_rate;
+      pos->moves_left %= param->move_rate;
+    } else {
+      /* This unit cannot move by itself. */
+      pos->turn = same_pos(pos->tile, param->start_tile) ? 0 : FC_INFINITY;
+      pos->fuel_left = 0;
+    }
   }
 }
 
@@ -1614,14 +1633,23 @@ static void pf_fuel_node_init(struct pf_fuel_map *pffm,
 /****************************************************************************
   Finalize the fuel position.
 ****************************************************************************/
-static void pf_fuel_base_finalize_position(struct pf_position *pos,
-                                           int move_rate,
+static void pf_fuel_base_finalize_position(const struct pf_parameter *param,
+                                           struct pf_position *pos,
                                            int cost, int moves_left)
 {
-  /* Cost may be negative; see get_turn(). */
-  pos->turn = cost < 0 ? 0 : cost / move_rate;
-  pos->fuel_left = (moves_left - 1) / move_rate + 1;
-  pos->moves_left = moves_left % move_rate;
+  int move_rate = get_move_rate(param);
+
+  if (move_rate > 0) {
+    /* Cost may be negative; see get_turn(). */
+    pos->turn = cost < 0 ? 0 : cost / move_rate;
+    pos->fuel_left = (moves_left - 1) / move_rate + 1;
+    pos->moves_left = moves_left % move_rate;
+  } else {
+    /* This unit cannot move by itself. */
+    pos->turn = same_pos(pos->tile, param->start_tile) ? 0 : FC_INFINITY;
+    pos->fuel_left = 0;
+    pos->moves_left = 0;
+  }
 }
 
 /****************************************************************************
@@ -1633,10 +1661,10 @@ static void pf_fuel_finalize_position(struct pf_position *pos,
                                       const struct pf_fuel_pos *head)
 {
   if (head) {
-    pf_fuel_base_finalize_position(pos, params->move_rate,
+    pf_fuel_base_finalize_position(params, pos,
                                    head->cost, head->moves_left);
   } else {
-    pf_fuel_base_finalize_position(pos, params->move_rate,
+    pf_fuel_base_finalize_position(params, pos,
                                    node->cost, node->moves_left);
   }
 }
@@ -2400,7 +2428,12 @@ bool pf_get_position(struct pf_map *pfm, struct tile *ptile,
 *****************************************************************/
 bool pf_next(struct pf_map *pfm)
 {
-  return pfm->iterate(pfm);
+  if (get_move_rate(pf_get_parameter(pfm)) <= 0) {
+    /* This unit cannot move by itself. */
+    return FALSE;
+  } else {
+    return pfm->iterate(pfm);
+  }
 }
 
 /*******************************************************************
