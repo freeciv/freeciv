@@ -499,7 +499,8 @@ void update_city_activities(struct player *pplayer)
    * player_balance_treasury_units(). */
   if (gold - (gold - pplayer->economic.gold) * 3 < 0) {
     notify_player(pplayer, NULL, E_LOW_ON_FUNDS,
-                  _("WARNING, we're LOW on FUNDS sire."));
+                  _("WARNING, we're LOW on FUNDS %s."),
+                  ruler_title_translation(pplayer));
   }
 
 #if 0
