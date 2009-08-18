@@ -345,7 +345,7 @@ static void view_menu_callback(gpointer callback_data, guint callback_action,
          * city name), can draw the city growth even without drawing
          * the city name. But the old method cannot. */
         menus_set_sensitive("<main>/_View/City G_rowth", draw_city_names);
-        menus_set_sensitive("<main>/_View/City _Traderoutes", draw_city_names);
+        menus_set_sensitive("<main>/_View/City Tra_deroutes", draw_city_names);
       }
     }
     break;
@@ -370,7 +370,7 @@ static void view_menu_callback(gpointer callback_data, guint callback_action,
   case MENU_VIEW_SHOW_TERRAIN:
     if (draw_terrain ^ GTK_CHECK_MENU_ITEM(widget)->active) {
       key_terrain_toggle();
-      menus_set_sensitive("<main>/View/Coastline", !draw_terrain);
+      menus_set_sensitive("<main>/View/C_oastline", !draw_terrain);
     }
     break;
   case MENU_VIEW_SHOW_COASTLINE:
@@ -408,7 +408,7 @@ static void view_menu_callback(gpointer callback_data, guint callback_action,
   case MENU_VIEW_SHOW_UNITS:
     if (draw_units ^ GTK_CHECK_MENU_ITEM(widget)->active) {
       key_units_toggle();
-      menus_set_sensitive("<main>/View/Focus Unit", !draw_units);
+      menus_set_sensitive("<main>/_View/Focu_s Unit", !draw_units);
     }
     break;
   case MENU_VIEW_SHOW_FOCUS_UNIT:
@@ -663,7 +663,7 @@ static void editor_menu_callback(gpointer callback_data,
      * cause the checkmark to appear, indicating wrongly that
      * edit mode is activated, reset the checkmark to the
      * correct, expected setting. */
-    menus_set_active_no_callback("<main>/_Edit/Editing _Mode",
+    menus_set_active_no_callback("<main>/_Edit/_Editing Mode",
                                  game.info.is_edit_mode);
     break;
   case MENU_EDITOR_RECALCULATE_BORDERS:
@@ -790,22 +790,10 @@ static GtkItemFactoryEntry menu_items[]	=
   /* Game menu ... */
   { "/" N_("_Game"),					NULL,
 	NULL,			0,					"<Branch>"	},
-  { "/" N_("Game") "/tearoff1",				NULL,
-	NULL,			0,					"<Tearoff>"	},
-  { "/" N_("Game") "/" N_("_Chat"),			NULL,
-	NULL,			0,					"<Branch>"	},
-  { "/" N_("Game") "/" N_("_Chat") "/" N_("_Clear Log"),		NULL,
+  { "/" N_("Game") "/" N_("_Clear Chat Log"),		NULL,
 	game_menu_callback,	MENU_GAME_CLEAR_OUTPUT					},
-  { "/" N_("Game") "/" N_("_Chat") "/" N_("_Write Log"),		NULL,
+  { "/" N_("Game") "/" N_("Save Chat _Log"),		NULL,
 	game_menu_callback,	MENU_GAME_OUTPUT_LOG					},
-  { "/" N_("Game") "/" N_("_Government"),		NULL,
-	NULL,			0,					"<Branch>"	},
-  { "/" N_("Game") "/" N_("_Government") "/" N_("_Tax Rates"),		"<shift>t",
-	government_menu_callback,	MENU_GOVERNMENT_TAX_RATE			},
-  { "/" N_("Game") "/" N_("_Government") "/" N_("_Revolution..."),	"<shift>r",
-	government_menu_callback,	MENU_GOVERNMENT_REVOLUTION			},
-  { "/" N_("Game") "/" N_("_Government") "/sep1", NULL,
-	NULL,			0,					"<Separator>"	},
   { "/" N_("Game") "/" N_("_Options"),			NULL,
 	NULL,			0,					"<Branch>"	},
   { "/" N_("Game") "/" N_("_Options") "/" N_("_Local Client"),		NULL,
@@ -821,7 +809,7 @@ static GtkItemFactoryEntry menu_items[]	=
   { "/" N_("Game") "/sep4",				NULL,
 	NULL,			0,					"<Separator>"	},
 #ifdef DEBUG
-  { "/" N_("Game") "/" N_("_Reload Tileset"), "<ctrl><alt>r",
+  { "/" N_("Game") "/" N_("_Reload Tileset"), "<control><alt>r",
     game_menu_callback, MENU_GAME_RELOAD_TILESET },
 #endif
   { "/" N_("Game") "/" N_("_Save Game"),		NULL,
@@ -841,20 +829,18 @@ static GtkItemFactoryEntry menu_items[]	=
   /* was Government menu ... */
   { "/" N_("_Edit"),					NULL,
 	NULL,			0,					"<Branch>"	},
-  { "/" N_("_Edit") "/tearoff1",			NULL,
-	NULL,			0,					"<Tearoff>"	},
-  { "/" N_("_Edit") "/" N_("_Find City"),		"<shift>f",
+  { "/" N_("_Edit") "/" N_("_Find City"),		"<control>f",
 	government_menu_callback,	MENU_GOVERNMENT_FIND_CITY			},
-  { "/" N_("_Edit") "/" N_("_Worklists"),		"<control>l",
+  { "/" N_("_Edit") "/" N_("Work_lists"),		"<control>l",
 	government_menu_callback,	MENU_GOVERNMENT_WORKLISTS			},
   { "/" N_("_Edit") "/sep1",				NULL,
 	NULL,			0,					"<Separator>"	},
   /* was Editor menu */
-  { "/" N_("_Edit") "/" N_("Editing _Mode"), "<control>e",
+  { "/" N_("_Edit") "/" N_("_Editing Mode"), "<control>e",
 	editor_menu_callback, MENU_EDITOR_TOGGLE, "<CheckItem>" },
   { "/" N_("_Edit") "/" N_("Recalculate _Borders"), NULL,
 	editor_menu_callback, MENU_EDITOR_RECALCULATE_BORDERS },
-  { "/" N_("_Edit") "/" N_("Toggle Fog-of-war"), "<control>f",
+  { "/" N_("_Edit") "/" N_("Toggle Fog of _War"), "<control>m",
 	editor_menu_callback, MENU_EDITOR_TOGGLE_FOGOFWAR },
   { "/" N_("_Edit") "/" N_("Game\\/Scenario Properties"), NULL,
         editor_menu_callback, MENU_EDITOR_PROPERTIES },
@@ -867,7 +853,7 @@ static GtkItemFactoryEntry menu_items[]	=
 	NULL,			0,					"<Branch>"	},
   { "/" N_("View") "/tearoff1",				NULL,
 	NULL,			0,					"<Tearoff>"	},
-  { "/" N_("View") "/" N_("City Outlines"), "<control>y",
+  { "/" N_("View") "/" N_("Cit_y Outlines"), "<control>y",
     view_menu_callback, MENU_VIEW_SHOW_CITY_OUTLINES, "<CheckItem>"},
   { "/" N_("View") "/" N_("City Output"), "<control>w",
     view_menu_callback, MENU_VIEW_SHOW_CITY_OUTPUT, "<CheckItem>"},
@@ -880,41 +866,39 @@ static GtkItemFactoryEntry menu_items[]	=
   { "/" N_("View") "/" N_("City G_rowth"),		"<control>r",
 	view_menu_callback,	MENU_VIEW_SHOW_CITY_GROWTH_TURNS,
 	"<CheckItem>"	},
-  { "/" N_("View") "/" N_("City _Productions"),		"<control>p",
+  { "/" N_("View") "/" N_("City _Production Levels"),		"<control>p",
 	view_menu_callback,	MENU_VIEW_SHOW_CITY_PRODUCTIONS,	"<CheckItem>"	},
   { "/" N_("View") "/" N_("City Buy Cost"),		NULL,
 	view_menu_callback,	MENU_VIEW_SHOW_CITY_BUYCOST,		"<CheckItem>"	},
-  { "/" N_("View") "/" N_("City _Traderoutes"),		"<control>t",
+  { "/" N_("View") "/" N_("City Tra_deroutes"),		"<control>d",
 	view_menu_callback,	MENU_VIEW_SHOW_CITY_TRADEROUTES,	"<CheckItem>"	},
   { "/" N_("View") "/sep1",				NULL,
 	NULL,			0,					"<Separator>"	},
-  { "/" N_("View") "/" N_("Terrain"),                   NULL,
+  { "/" N_("View") "/" N_("_Terrain"),                   NULL,
         view_menu_callback,     MENU_VIEW_SHOW_TERRAIN,	                "<CheckItem>"   },
-  { "/" N_("View") "/" N_("Coastline"),	                NULL,
+  { "/" N_("View") "/" N_("C_oastline"),	                NULL,
         view_menu_callback,     MENU_VIEW_SHOW_COASTLINE,       	"<CheckItem>"   },
-  { "/" N_("View") "/" N_("Improvements"),		NULL,
+  { "/" N_("View") "/" N_("_Improvements"),		NULL,
 	NULL,			0,					"<Branch>"	},
-  { "/" N_("View") "/" N_("Improvements") "/tearoff1",	NULL,
-	NULL,			0,					"<Tearoff>"	},
-  { "/" N_("View") "/" N_("Improvements") "/" N_("Roads & Rails"), NULL,
+  { "/" N_("View") "/" N_("_Improvements") "/" N_("_Roads & Rails"), NULL,
 	view_menu_callback,	MENU_VIEW_SHOW_ROADS_RAILS,		"<CheckItem>"	},
-  { "/" N_("View") "/" N_("Improvements") "/" N_("Irrigation"), NULL,
+  { "/" N_("View") "/" N_("_Improvements") "/" N_("_Irrigation"), NULL,
 	view_menu_callback,	MENU_VIEW_SHOW_IRRIGATION,		"<CheckItem>"	},
-  { "/" N_("View") "/" N_("Improvements") "/" N_("Mines"),	NULL,
+  { "/" N_("View") "/" N_("_Improvements") "/" N_("_Mines"),	NULL,
 	view_menu_callback,	MENU_VIEW_SHOW_MINES,			"<CheckItem>"	},
-  { "/" N_("View") "/" N_("Improvements") "/" N_("Fortress & Airbase"), NULL,
+  { "/" N_("View") "/" N_("_Improvements") "/" N_("_Fortress & Airbase"), NULL,
 	view_menu_callback,	MENU_VIEW_SHOW_FORTRESS_AIRBASE,	"<CheckItem>"	},
-  { "/" N_("View") "/" N_("Specials"),			NULL,
+  { "/" N_("View") "/" N_("_Specials"),			NULL,
 	view_menu_callback,	MENU_VIEW_SHOW_SPECIALS,		"<CheckItem>"	},
-  { "/" N_("View") "/" N_("Pollution & Fallout"),	NULL,
+  { "/" N_("View") "/" N_("Po_llution & Fallout"),	NULL,
 	view_menu_callback,	MENU_VIEW_SHOW_POLLUTION,		"<CheckItem>"	},
-  { "/" N_("View") "/" N_("Cities"),			NULL,
+  { "/" N_("View") "/" N_("Citi_es"),			NULL,
 	view_menu_callback,	MENU_VIEW_SHOW_CITIES,			"<CheckItem>"	},
-  { "/" N_("View") "/" N_("Units"),			NULL,
+  { "/" N_("View") "/" N_("_Units"),			NULL,
 	view_menu_callback,	MENU_VIEW_SHOW_UNITS,			"<CheckItem>"	},
-  { "/" N_("View") "/" N_("Focus Unit"),		NULL,
+  { "/" N_("View") "/" N_("Focu_s Unit"),		NULL,
 	view_menu_callback,	MENU_VIEW_SHOW_FOCUS_UNIT,		"<CheckItem>"	},
-  { "/" N_("View") "/" N_("Fog of War"),		NULL,
+  { "/" N_("View") "/" N_("Fog of _War"),		NULL,
 	view_menu_callback,	MENU_VIEW_SHOW_FOG_OF_WAR,		"<CheckItem>"	},
   { "/" N_("View") "/sep2",				NULL,
 	NULL,			0,					"<Separator>"	},
@@ -924,136 +908,151 @@ static GtkItemFactoryEntry menu_items[]	=
 	NULL,			0,					"<Separator>"	},
   { "/" N_("View") "/" N_("_Center View"),		"c",
 	view_menu_callback,	MENU_VIEW_CENTER_VIEW					},
-  /* Orders menu ... */
-  { "/" N_("_Orders"),					NULL,
+  /* Select menu ... */
+  { "/" N_("_Select"),					NULL,
 	NULL,			0,					"<Branch>"	},
-  { "/" N_("Orders") "/tearoff1",			NULL,
-	NULL,			0,					"<Tearoff>"	},
-  { "/" N_("Orders") "/" N_("_Build City"),		"b",
-	orders_menu_callback,	MENU_ORDER_BUILD_CITY					},
-  { "/" N_("Orders") "/" N_("Build _Road"),		"r",
-	orders_menu_callback,	MENU_ORDER_ROAD						},
-  { "/" N_("Orders") "/" N_("Build _Irrigation"),	"i",
-	orders_menu_callback,	MENU_ORDER_IRRIGATE					},
-  { "/" N_("Orders") "/" N_("Build _Mine"),		"m",
-	orders_menu_callback,	MENU_ORDER_MINE						},
-  { "/" N_("Orders") "/" N_("Transf_orm Terrain"),	"o",
-	orders_menu_callback,	MENU_ORDER_TRANSFORM					},
-  { "/" N_("Orders") "/" N_("Build _Fortress"),		"f",
-	orders_menu_callback,	MENU_ORDER_FORTRESS					},
-  { "/" N_("Orders") "/" N_("Build Airbas_e"),		"e",
-	orders_menu_callback,	MENU_ORDER_AIRBASE					},
-  { "/" N_("Orders") "/" N_("Clean _Pollution"),	"p",
-	orders_menu_callback,	MENU_ORDER_POLLUTION					},
-  { "/" N_("Orders") "/" N_("Clean _Nuclear Fallout"),	"n",
-	orders_menu_callback,	MENU_ORDER_FALLOUT					},
-  { "/" N_("Orders") "/sep1",			NULL,
-	NULL,			0,					"<Separator>"	},
-  { "/" N_("Orders") "/" N_("_Sentry"),			"s",
-	orders_menu_callback,	MENU_ORDER_SENTRY					},
-  { "/" N_("Orders") "/" N_("Pillage"),		        "<shift>p",
-	orders_menu_callback,	MENU_ORDER_PILLAGE					},
-  { "/" N_("Orders") "/sep2",				NULL,
-	NULL,			0,					"<Separator>"	},
-  { "/" N_("Orders") "/" N_("Make _Homecity"),		"h",
-	orders_menu_callback,	MENU_ORDER_HOMECITY					},
-  { "/" N_("Orders") "/" N_("_Load"),			"l",
-    orders_menu_callback, MENU_ORDER_LOAD},
-  { "/" N_("Orders") "/" N_("_Unload Transporter"),	"<shift>u",
-	orders_menu_callback,	MENU_ORDER_UNLOAD_TRANSPORTER					},
-  { "/" N_("Orders") "/" N_("_Unload"),			"u",
-    orders_menu_callback, MENU_ORDER_UNLOAD},
-  { "/" N_("Orders") "/" N_("Wake up o_thers"),		"<shift>w",
-	orders_menu_callback,	MENU_ORDER_WAKEUP_OTHERS				},
-  { "/" N_("Orders") "/sep3",				NULL,
-	NULL,			0,					"<Separator>"	},
-  { "/" N_("Orders") "/" N_("_Auto Settler"),		"a",
-	orders_menu_callback,	MENU_ORDER_AUTO_SETTLER					},
-  { "/" N_("Orders") "/" N_("Auto E_xplore"),		"x",
-	orders_menu_callback,	MENU_ORDER_AUTO_EXPLORE					},
-  {"/" N_("Orders") "/" N_("_Connect") "/" N_("_Road"), "<ctrl><shift>r",
-   orders_menu_callback, MENU_ORDER_CONNECT_ROAD},
-  {"/" N_("Orders") "/" N_("_Connect") "/" N_("Rai_l"), "<ctrl><shift>l",
-   orders_menu_callback, MENU_ORDER_CONNECT_RAIL},
-  {"/" N_("Orders") "/" N_("_Connect") "/" N_("_Irrigate"), "<ctrl><shift>i",
-   orders_menu_callback, MENU_ORDER_CONNECT_IRRIGATE},
-  {"/" N_("Orders") "/" N_("Go _to") "/" N_("_Build city"), "<ctrl><shift>b",
-   orders_menu_callback, MENU_ORDER_GO_BUILD_CITY},
-  { "/" N_("Orders") "/" N_("Patrol (_Q)"),		"q",
-	orders_menu_callback,	MENU_ORDER_PATROL					},
-  { "/" N_("Orders") "/" N_("_Go to"),			"g",
-	orders_menu_callback,	MENU_ORDER_GOTO						},
-  { "/" N_("Orders") "/" N_("Go\\/Airlift to City"),	"<shift>l",
-	orders_menu_callback,	MENU_ORDER_GOTO_CITY					},
-  { "/" N_("Orders") "/" N_("Return to nearest city"),	"<shift>g",
-	orders_menu_callback,	MENU_ORDER_RETURN },
-  { "/" N_("Orders") "/sep4",				NULL,
-	NULL,			0,					"<Separator>"	},
-  { "/" N_("Orders") "/" N_("Disband Unit"),		"<shift>d",
-	orders_menu_callback,	MENU_ORDER_DISBAND					},
-  { "/" N_("Orders") "/" N_("Upgrade unit"), "<ctrl>u",
-    orders_menu_callback, MENU_ORDER_UPGRADE },
-  { "/" N_("Orders") "/" N_("Diplomat\\/Spy Actions"),	"d",
-	orders_menu_callback,	MENU_ORDER_DIPLOMAT_DLG					},
-  { "/" N_("Orders") "/" N_("Explode Nuclear"),        "<shift>n",
-	orders_menu_callback,	MENU_ORDER_NUKE						},
-  { "/" N_("Orders") "/sep5",				NULL,
-	NULL,			0,					"<Separator>"	},
-  { "/" N_("Orders") "/" N_("Select"),			NULL,
-	NULL,			0,					"<Branch>"	},
-  { "/" N_("Orders") "/" N_("Select") "/tearoff1",	NULL,
-	NULL,			0,					"<Tearoff>"	},
-  { "/" N_("Orders") "/" N_("Select") "/" N_("Single"), "j",
+  { "/" N_("_Select") "/" N_("_Single Unit (Unselect Others)"), "z",
         orders_menu_callback,	MENU_ORDER_SELECT_SINGLE				},
-  { "/" N_("Orders") "/" N_("Select") "/" N_("Same Type On Tile"), "k",
-        orders_menu_callback,	MENU_ORDER_SELECT_SAME_TYPE_TILE			},
-  { "/" N_("Orders") "/" N_("Select") "/" N_("All On Tile"), "<shift>k",
+  { "/" N_("_Select") "/" N_("_All On Tile"), "v",
         orders_menu_callback,	MENU_ORDER_SELECT_ALL_ON_TILE				},
-  { "/" N_("Orders") "/" N_("Select") "/" N_("Same Type On Continent"), "y",
-        orders_menu_callback,	MENU_ORDER_SELECT_SAME_TYPE_CONT			},
-  { "/" N_("Orders") "/" N_("Select") "/" N_("Same Type Everywhere"), "<shift>y",
-        orders_menu_callback,	MENU_ORDER_SELECT_SAME_TYPE				},
-  { "/" N_("Orders") "/" N_("_Wait"),			"w",
-	orders_menu_callback,	MENU_ORDER_WAIT						},
-  { "/" N_("Orders") "/" N_("Done"),			"space",
-	orders_menu_callback,	MENU_ORDER_DONE						},
-  { "/" N_("Orders") "/" N_("Build Base"),              NULL,
-        NULL,                   0,                                      "<Branch>"      },
-  /* Reports menu ... */
-  { "/" N_("_Reports"),					NULL,
-	NULL,			0,					"<Branch>"	},
-  { "/" N_("Reports") "/tearoff1",			NULL,
-	NULL,			0,					"<Tearoff>"	},
-  { "/" N_("Reports") "/" N_("_View"),			"F1",
-	reports_menu_callback,	MENU_REPORT_MAP_VIEW					},
-  { "/" N_("Reports") "/" N_("_Units"),			"F2",
-	reports_menu_callback,	MENU_REPORT_UNITS					},
-  { "/" N_("Reports") "/" N_("_Nations"),		"F3",
-	reports_menu_callback,	MENU_REPORT_PLAYERS					},
-  { "/" N_("Reports") "/" N_("_Cities"),		"F4",
-	reports_menu_callback,	MENU_REPORT_CITIES					},
-  { "/" N_("Reports") "/" N_("_Economy"),		"F5",
-	reports_menu_callback,	MENU_REPORT_ECONOMY					},
-  { "/" N_("Reports") "/" N_("_Research"),		"F6",
-	reports_menu_callback,	MENU_REPORT_SCIENCE					},
-  { "/" N_("Reports") "/sep1",				NULL,
+  { "/" N_("_Select") "/sep1",				NULL,
 	NULL,			0,					"<Separator>"	},
-  { "/" N_("Reports") "/" N_("_Wonders of the World"),	"F7",
+  { "/" N_("_Select") "/" N_("Same Type on _Tile"), "<shift>v",
+        orders_menu_callback,	MENU_ORDER_SELECT_SAME_TYPE_TILE			},
+  { "/" N_("_Select") "/" N_("Same Type on _Continent"), "<shift>c",
+        orders_menu_callback,	MENU_ORDER_SELECT_SAME_TYPE_CONT			},
+  { "/" N_("_Select") "/" N_("Same Type _Everywhere"), "<shift>x",
+        orders_menu_callback,	MENU_ORDER_SELECT_SAME_TYPE				},
+  { "/" N_("_Select") "/sep2",				NULL,
+	NULL,			0,					"<Separator>"	},
+  { "/" N_("_Select") "/" N_("_Wait"),			"w",
+	orders_menu_callback,	MENU_ORDER_WAIT						},
+  { "/" N_("_Select") "/" N_("_Done"),			"space",
+	orders_menu_callback,	MENU_ORDER_DONE						},
+  /* Unit menu ... */
+  { "/" N_("_Unit"),					NULL,
+	NULL,			0,					"<Branch>"	},
+  { "/" N_("_Unit") "/" N_("_Go to"),			"g",
+	orders_menu_callback,	MENU_ORDER_GOTO						},
+  { "/" N_("_Unit") "/" N_("Go _to\\/Airlift to City..."),	"t",
+	orders_menu_callback,	MENU_ORDER_GOTO_CITY					},
+  { "/" N_("_Unit") "/" N_("_Return to Nearest City"),	"<shift>g",
+	orders_menu_callback,	MENU_ORDER_RETURN },
+  { "/" N_("_Unit") "/" N_("Auto E_xplore"),		"x",
+	orders_menu_callback,	MENU_ORDER_AUTO_EXPLORE					},
+  { "/" N_("_Unit") "/" N_("_Patrol"),		"q",
+	orders_menu_callback,	MENU_ORDER_PATROL					},
+  { "/" N_("_Unit") "/sep1",				NULL,
+	NULL,			0,					"<Separator>"	},
+  { "/" N_("_Unit") "/" N_("_Sentry"),			"s",
+	orders_menu_callback,	MENU_ORDER_SENTRY					},
+  { "/" N_("_Unit") "/" N_("Uns_entry All On Tile"),		"<shift>s",
+	orders_menu_callback,	MENU_ORDER_WAKEUP_OTHERS				},
+  { "/" N_("_Unit") "/sep2",				NULL,
+	NULL,			0,					"<Separator>"	},
+  { "/" N_("_Unit") "/" N_("_Load"),			"l",
+    orders_menu_callback, MENU_ORDER_LOAD},
+  { "/" N_("_Unit") "/" N_("_Unload"),			"u",
+    orders_menu_callback, MENU_ORDER_UNLOAD},
+  { "/" N_("_Unit") "/" N_("U_nload All From Transporter"),	"<shift>t",
+	orders_menu_callback,	MENU_ORDER_UNLOAD_TRANSPORTER					},
+  { "/" N_("_Unit") "/sep3",				NULL,
+	NULL,			0,					"<Separator>"	},
+  { "/" N_("_Unit") "/" N_("Set _Home City"),		"h",
+	orders_menu_callback,	MENU_ORDER_HOMECITY					},
+  { "/" N_("_Unit") "/" N_("Upgr_ade"), "<shift>u",
+    orders_menu_callback, MENU_ORDER_UPGRADE },
+  { "/" N_("_Unit") "/" N_("_Disband"),		"<shift>d",
+	orders_menu_callback,	MENU_ORDER_DISBAND					},
+  /* Work menu ... */
+  { "/" N_("_Work"),					NULL,
+	NULL,			0,					"<Branch>"	},
+  { "/" N_("_Work") "/" N_("_Build City"),		"b",
+	orders_menu_callback,	MENU_ORDER_BUILD_CITY					},
+  {"/" N_("_Work") "/" N_("Go _to and Build city"), "<shift>b",
+   orders_menu_callback, MENU_ORDER_GO_BUILD_CITY},
+  { "/" N_("_Work") "/" N_("_Auto Settler"),		"a",
+	orders_menu_callback,	MENU_ORDER_AUTO_SETTLER					},
+  { "/" N_("_Work") "/sep1",				NULL,
+	NULL,			0,					"<Separator>"	},
+  { "/" N_("_Work") "/" N_("Build _Road"),		"r",
+	orders_menu_callback,	MENU_ORDER_ROAD						},
+  { "/" N_("_Work") "/" N_("Build _Irrigation"),	"i",
+	orders_menu_callback,	MENU_ORDER_IRRIGATE					},
+  { "/" N_("_Work") "/" N_("Build _Mine"),		"m",
+	orders_menu_callback,	MENU_ORDER_MINE						},
+  { "/" N_("_Work") "/sep2",				NULL,
+	NULL,			0,					"<Separator>"	},
+  {"/" N_("_Work") "/" N_("Connect With Roa_d"), "<shift>r",
+   orders_menu_callback, MENU_ORDER_CONNECT_ROAD},
+  {"/" N_("_Work") "/" N_("Connect With Rai_l"), "<shift>l",
+   orders_menu_callback, MENU_ORDER_CONNECT_RAIL},
+  {"/" N_("_Work") "/" N_("Connect With Irri_gation"), "<shift>i",
+   orders_menu_callback, MENU_ORDER_CONNECT_IRRIGATE},
+  { "/" N_("_Work") "/sep3",				NULL,
+	NULL,			0,					"<Separator>"	},
+  { "/" N_("_Work") "/" N_("Transf_orm Terrain"),	"o",
+	orders_menu_callback,	MENU_ORDER_TRANSFORM					},
+  { "/" N_("_Work") "/" N_("Clean _Pollution"),	"p",
+	orders_menu_callback,	MENU_ORDER_POLLUTION					},
+  { "/" N_("_Work") "/" N_("Clean _Nuclear Fallout"),	"n",
+	orders_menu_callback,	MENU_ORDER_FALLOUT					},
+  /* Combat menu ... */
+  { "/" N_("_Combat"),					NULL,
+	NULL,			0,					"<Branch>"	},
+  { "/" N_("_Combat") "/" N_("Build _Fortress"),		"f",
+	orders_menu_callback,	MENU_ORDER_FORTRESS					},
+  { "/" N_("_Combat") "/" N_("Build Airbas_e"),		"e",
+	orders_menu_callback,	MENU_ORDER_AIRBASE					},
+  { "/" N_("_Combat") "/" N_("Build _Base"),              NULL,
+        NULL,                   0,                                      "<Branch>"      },
+  { "/" N_("_Combat") "/sep1",				NULL,
+	NULL,			0,					"<Separator>"	},
+  { "/" N_("_Combat") "/" N_("_Pillage"),		        "<shift>p",
+	orders_menu_callback,	MENU_ORDER_PILLAGE					},
+  { "/" N_("_Combat") "/" N_("_Diplomat\\/Spy Actions"),	"d",
+	orders_menu_callback,	MENU_ORDER_DIPLOMAT_DLG					},
+  { "/" N_("_Combat") "/" N_("Explode _Nuclear"),        "<shift>n",
+	orders_menu_callback,	MENU_ORDER_NUKE						},
+  /* Civilization menu ... */
+  { "/" N_("C_ivilization"),					NULL,
+	NULL,			0,					"<Branch>"	},
+  { "/" N_("C_ivilization") "/" N_("_View"),			"F1",
+	reports_menu_callback,	MENU_REPORT_MAP_VIEW					},
+  { "/" N_("C_ivilization") "/" N_("_Units"),			"F2",
+	reports_menu_callback,	MENU_REPORT_UNITS					},
+  { "/" N_("C_ivilization") "/" N_("_Nations"),		"F3",
+	reports_menu_callback,	MENU_REPORT_PLAYERS					},
+  { "/" N_("C_ivilization") "/" N_("_Cities"),		"F4",
+	reports_menu_callback,	MENU_REPORT_CITIES					},
+  { "/" N_("C_ivilization") "/" N_("_Economy"),		"F5",
+	reports_menu_callback,	MENU_REPORT_ECONOMY					},
+  { "/" N_("C_ivilization") "/" N_("_Research"),		"F6",
+	reports_menu_callback,	MENU_REPORT_SCIENCE					},
+  { "/" N_("C_ivilization") "/sep1",				NULL,
+	NULL,			0,					"<Separator>"	},
+  { "/" N_("C_ivilization") "/" N_("_Tax Rates..."),		"<control>t",
+	government_menu_callback,	MENU_GOVERNMENT_TAX_RATE			},
+  { "/" N_("C_ivilization") "/" N_("_Government"),		NULL,
+	NULL,			0,					"<Branch>"	},
+  { "/" N_("C_ivilization") "/" N_("_Government") "/" N_("_Revolution..."),	"<shift><control>r",
+	government_menu_callback,	MENU_GOVERNMENT_REVOLUTION			},
+  { "/" N_("C_ivilization") "/sep2", NULL,
+	NULL,			0,					"<Separator>"	},
+  { "/" N_("C_ivilization") "/" N_("_Wonders of the World"),	"F7",
 	reports_menu_callback,	MENU_REPORT_WOW						},
-  { "/" N_("Reports") "/" N_("_Top Five Cities"),	"F8",
+  { "/" N_("C_ivilization") "/" N_("Top _Five Cities"),	"F8",
 	reports_menu_callback,	MENU_REPORT_TOP_CITIES					},
-  { "/" N_("Reports") "/" N_("_Messages"),		"F9",
+  { "/" N_("C_ivilization") "/" N_("_Messages"),		"F9",
 	reports_menu_callback,	MENU_REPORT_MESSAGES					},
-  { "/" N_("Reports") "/" N_("_Demographics"),		"F11",
+  { "/" N_("C_ivilization") "/" N_("_Demographics"),		"F11",
 	reports_menu_callback,	MENU_REPORT_DEMOGRAPHIC					},
-  { "/" N_("Reports") "/" N_("_Spaceship"),		"F12",
+  { "/" N_("C_ivilization") "/" N_("_Spaceship"),		"F12",
 	reports_menu_callback,	MENU_REPORT_SPACESHIP					},
 
   /* Help menu ... */
   { "/" N_("_Help"),					NULL,
 	NULL,			0,					"<Branch>"	},
-  { "/" N_("Help") "/tearoff1",				NULL,
-	NULL,			0,					"<Tearoff>"	},
   { "/" N_("Help") "/" N_("Language_s"),		NULL,
 	help_menu_callback,	MENU_HELP_LANGUAGES					},
   { "/" N_("Help") "/" N_("Co_nnecting"),		NULL,
@@ -1420,8 +1419,11 @@ void update_menus(void)
   if (!can_client_change_view()) {
     menus_set_sensitive("<main>/_Edit", FALSE);
     menus_set_sensitive("<main>/_View", FALSE);
-    menus_set_sensitive("<main>/_Orders", FALSE);
-    menus_set_sensitive("<main>/_Reports", FALSE);
+    menus_set_sensitive("<main>/_Select", FALSE);
+    menus_set_sensitive("<main>/_Unit", FALSE);
+    menus_set_sensitive("<main>/_Work", FALSE);
+    menus_set_sensitive("<main>/_Combat", FALSE);
+    menus_set_sensitive("<main>/C_ivilization", FALSE);
   } else {
     struct unit_list *punits = NULL;
 
@@ -1430,7 +1432,7 @@ void update_menus(void)
     }
 
     const char *path =
-      menu_path_remove_uline("<main>/_Game/_Government");
+      menu_path_remove_uline("<main>/C_ivilization/_Government");
     GtkWidget *parent = gtk_item_factory_get_widget(item_factory, path);
 
     if (parent) {
@@ -1438,7 +1440,7 @@ void update_menus(void)
 
       /* remove previous government entries. */
       list = gtk_container_get_children(GTK_CONTAINER(parent));
-      for (iter = g_list_nth(list, 2); iter; iter = g_list_next(iter)) {
+      for (iter = g_list_nth(list, 1); iter; iter = g_list_next(iter)) {
 	gtk_widget_destroy(GTK_WIDGET(iter->data));
       }
       g_list_free(list);
@@ -1473,7 +1475,7 @@ void update_menus(void)
       } government_iterate_end;
     }
 
-    path = menu_path_remove_uline("<main>/_Orders/Build Base");
+    path = menu_path_remove_uline("<main>/_Combat/Build _Base");
     parent = gtk_item_factory_get_widget(item_factory, path);
 
     if (parent) {
@@ -1508,26 +1510,29 @@ void update_menus(void)
       } base_type_iterate_end;
     }
 
-    menus_set_sensitive("<main>/_Reports", TRUE);
+    menus_set_sensitive("<main>/C_ivilization", TRUE);
     menus_set_sensitive("<main>/_Edit", TRUE);
     menus_set_sensitive("<main>/_View", TRUE);
-    menus_set_sensitive("<main>/_Orders", can_client_issue_orders());
+    menus_set_sensitive("<main>/_Select", can_client_issue_orders());
+    menus_set_sensitive("<main>/_Unit", can_client_issue_orders());
+    menus_set_sensitive("<main>/_Work", can_client_issue_orders());
+    menus_set_sensitive("<main>/_Combat", can_client_issue_orders());
 
-    menus_set_sensitive("<main>/_Game/_Government",
+    menus_set_sensitive("<main>/C_ivilization/_Government",
 			can_client_issue_orders());
-    menus_set_sensitive("<main>/_Game/_Government/Tax Rates",
+    menus_set_sensitive("<main>/C_ivilization/_Tax Rates...",
 			game.info.changable_tax
                         && can_client_issue_orders());
 
-    menus_set_sensitive("<main>/_Edit/Worklists",
+    menus_set_sensitive("<main>/_Edit/Work_lists",
 			can_client_issue_orders());
-    menus_set_active_no_callback("<main>/_Edit/Editing _Mode",
+    menus_set_active_no_callback("<main>/_Edit/_Editing Mode",
                                  game.info.is_edit_mode);
-    menus_set_sensitive("<main>/_Edit/Editing _Mode",
+    menus_set_sensitive("<main>/_Edit/_Editing Mode",
                         can_conn_enable_editing(&client.conn));
     menus_set_sensitive("<main>/_Edit/Recalculate _Borders",
 			can_conn_edit(&client.conn));
-    menus_set_sensitive("<main>/_Edit/Toggle Fog-of-war",
+    menus_set_sensitive("<main>/_Edit/Toggle Fog of _War",
 			can_conn_edit(&client.conn));
     menus_set_sensitive("<main>/_Edit/Game\\/Scenario Properties",
 			can_conn_edit(&client.conn));
@@ -1537,21 +1542,21 @@ void update_menus(void)
     editgui_refresh();
 
     /* If the client is not attached to a player, disable these reports. */
-    menus_set_sensitive("<main>/_Reports/_Cities",
+    menus_set_sensitive("<main>/C_ivilization/_Cities",
 			(NULL != client.conn.playing));
-    menus_set_sensitive("<main>/_Reports/_Units",
+    menus_set_sensitive("<main>/C_ivilization/_Units",
 			(NULL != client.conn.playing));
-    menus_set_sensitive("<main>/_Reports/_Economy",
+    menus_set_sensitive("<main>/C_ivilization/_Economy",
 			(NULL != client.conn.playing));
-    menus_set_sensitive("<main>/_Reports/_Research",
+    menus_set_sensitive("<main>/C_ivilization/_Research",
 			(NULL != client.conn.playing));
-    menus_set_sensitive("<main>/_Reports/_Demographics",
+    menus_set_sensitive("<main>/C_ivilization/_Demographics",
 			(NULL != client.conn.playing));
-    menus_set_sensitive("<main>/_Reports/_Spaceship",
+    menus_set_sensitive("<main>/C_ivilization/_Spaceship",
 			(NULL != client.conn.playing
 			 && SSHIP_NONE != client.conn.playing->spaceship.state));
 
-    menus_set_active("<main>/_View/City Outlines", draw_city_outlines);
+    menus_set_active("<main>/_View/Cit_y Outlines", draw_city_outlines);
     menus_set_active("<main>/_View/City Output", draw_city_output);
     menus_set_active("<main>/_View/Map _Grid", draw_map_grid);
     menus_set_sensitive("<main>/_View/National _Borders",
@@ -1564,34 +1569,34 @@ void update_menus(void)
      * the city name. But the old method cannot. */
     if (draw_full_citybar) {
       menus_set_sensitive("<main>/_View/City G_rowth", TRUE);
-      menus_set_sensitive("<main>/_View/City _Traderoutes", TRUE);
+      menus_set_sensitive("<main>/_View/City Tra_deroutes", TRUE);
     } else {
       menus_set_sensitive("<main>/_View/City G_rowth", draw_city_names);
-      menus_set_sensitive("<main>/_View/City _Traderoutes", draw_city_names);
+      menus_set_sensitive("<main>/_View/City Tra_deroutes", draw_city_names);
     }
 
     menus_set_active("<main>/_View/City G_rowth", draw_city_growth);
-    menus_set_active("<main>/_View/City _Productions", draw_city_productions);
+    menus_set_active("<main>/_View/City _Production Levels", draw_city_productions);
     menus_set_active("<main>/_View/City Buy Cost", draw_city_buycost);
-    menus_set_active("<main>/_View/City _Traderoutes", draw_city_traderoutes);
-    menus_set_active("<main>/_View/Terrain", draw_terrain);
-    menus_set_active("<main>/_View/Coastline", draw_coastline);
-    menus_set_sensitive("<main>/_View/Coastline", !draw_terrain);
-    menus_set_active("<main>/_View/Improvements/Roads & Rails", draw_roads_rails);
-    menus_set_active("<main>/_View/Improvements/Irrigation", draw_irrigation);
-    menus_set_active("<main>/_View/Improvements/Mines", draw_mines);
-    menus_set_active("<main>/_View/Improvements/Fortress & Airbase", draw_fortress_airbase);
-    menus_set_active("<main>/_View/Specials", draw_specials);
-    menus_set_active("<main>/_View/Pollution & Fallout", draw_pollution);
-    menus_set_active("<main>/_View/Cities", draw_cities);
-    menus_set_active("<main>/_View/Units", draw_units);
-    menus_set_active("<main>/_View/Focus Unit", draw_focus_unit);
-    menus_set_sensitive("<main>/_View/Focus Unit", !draw_units);
-    menus_set_active("<main>/_View/Fog of War", draw_fog_of_war);
+    menus_set_active("<main>/_View/City Tra_deroutes", draw_city_traderoutes);
+    menus_set_active("<main>/_View/_Terrain", draw_terrain);
+    menus_set_active("<main>/_View/C_oastline", draw_coastline);
+    menus_set_sensitive("<main>/_View/C_oastline", !draw_terrain);
+    menus_set_active("<main>/_View/_Improvements/Roads & Rails", draw_roads_rails);
+    menus_set_active("<main>/_View/_Improvements/Irrigation", draw_irrigation);
+    menus_set_active("<main>/_View/_Improvements/Mines", draw_mines);
+    menus_set_active("<main>/_View/_Improvements/Fortress & Airbase", draw_fortress_airbase);
+    menus_set_active("<main>/_View/_Specials", draw_specials);
+    menus_set_active("<main>/_View/Po_llution & Fallout", draw_pollution);
+    menus_set_active("<main>/_View/Citi_es", draw_cities);
+    menus_set_active("<main>/_View/_Units", draw_units);
+    menus_set_active("<main>/_View/Focu_s Unit", draw_focus_unit);
+    menus_set_sensitive("<main>/_View/Focu_s Unit", !draw_units);
+    menus_set_active("<main>/_View/Fog of _War", draw_fog_of_war);
 
     menus_set_active("<main>/_View/_Full Screen", fullscreen_mode);
 
-    /* Remaining part of this function: Update Orders menu */
+    /* Remaining part of this function: Update Unit, Work, and Combat menus */
 
     if (!can_client_issue_orders()) {
       return;
@@ -1611,68 +1616,73 @@ void update_menus(void)
 
       /* Enable the button for adding to a city in all cases, so we
 	 get an eventual error message from the server if we try. */
-      menus_set_sensitive("<main>/_Orders/_Build City",
+      menus_set_sensitive("<main>/_Work/_Build City",
 		(can_units_do(punits, can_unit_add_or_build_city)
 		 || can_units_do(punits, unit_can_help_build_wonder_here)));
-      menus_set_sensitive("<main>/_Orders/Build _Road",
+      menus_set_sensitive("<main>/_Work/Go _to and Build city",
+		(can_units_do(punits, can_unit_add_or_build_city)
+		 || can_units_do(punits, unit_can_help_build_wonder_here)));
+      menus_set_sensitive("<main>/_Work/Build _Road",
                           (can_units_do_activity(punits, ACTIVITY_ROAD)
                            || can_units_do_activity(punits, ACTIVITY_RAILROAD)
                            || can_units_do(punits,
 					   unit_can_est_traderoute_here)));
-      menus_set_sensitive("<main>/_Orders/Build _Irrigation",
+      menus_set_sensitive("<main>/_Work/Build _Irrigation",
                           can_units_do_activity(punits, ACTIVITY_IRRIGATE));
-      menus_set_sensitive("<main>/_Orders/Build _Mine",
+      menus_set_sensitive("<main>/_Work/Build _Mine",
                           can_units_do_activity(punits, ACTIVITY_MINE));
-      menus_set_sensitive("<main>/_Orders/Transf_orm Terrain",
+      menus_set_sensitive("<main>/_Work/Transf_orm Terrain",
 			  can_units_do_activity(punits, ACTIVITY_TRANSFORM));
-      menus_set_sensitive("<main>/_Orders/Build _Fortress",
+      menus_set_sensitive("<main>/_Combat/Build _Fortress",
                           (can_units_do_base_gui(punits, BASE_GUI_FORTRESS)
                            || can_units_do_activity(punits,
 						    ACTIVITY_FORTIFYING)));
-      menus_set_sensitive("<main>/_Orders/Build Airbas_e",
+      menus_set_sensitive("<main>/_Combat/Build Airbas_e",
 			  can_units_do_base_gui(punits, BASE_GUI_AIRBASE));
-      menus_set_sensitive("<main>/_Orders/Clean _Pollution",
+      menus_set_sensitive("<main>/_Work/Clean _Pollution",
                           (can_units_do_activity(punits, ACTIVITY_POLLUTION)
                            || can_units_do(punits, can_unit_paradrop)));
-      menus_set_sensitive("<main>/_Orders/Clean _Nuclear Fallout",
+      menus_set_sensitive("<main>/_Work/Clean _Nuclear Fallout",
 			  can_units_do_activity(punits, ACTIVITY_FALLOUT));
-      menus_set_sensitive("<main>/_Orders/_Sentry",
+      menus_set_sensitive("<main>/_Unit/_Sentry",
 			  can_units_do_activity(punits, ACTIVITY_SENTRY));
-      menus_set_sensitive("<main>/_Orders/Pillage",
+      /* FIXME: should conditionally rename "Pillage" to "Pillage..." in cases where
+       * selecting the command results in a dialog box listing options of what to pillage */
+      menus_set_sensitive("<main>/_Combat/_Pillage",
 			  can_units_do_activity(punits, ACTIVITY_PILLAGE));
-      menus_set_sensitive("<main>/_Orders/_Disband Unit",
+      menus_set_sensitive("<main>/_Unit/_Disband",
 			  units_have_flag(punits, F_UNDISBANDABLE, FALSE));
-      menus_set_sensitive("<main>/_Orders/_Upgrade unit",
+      menus_set_sensitive("<main>/_Unit/_Upgrade",
 			  TRUE /* FIXME: what check should we do? */);
-      menus_set_sensitive("<main>/_Orders/Make _Homecity",
+      menus_set_sensitive("<main>/_Unit/Set _Home City",
 			  can_units_do(punits, can_unit_change_homecity));
-      menus_set_sensitive("<main>/_Orders/_Unload Transporter",
+      menus_set_sensitive("<main>/_Unit/U_nload All From Transporter",
 			  units_are_occupied(punits));
-      menus_set_sensitive("<main>/_Orders/_Load",
+      menus_set_sensitive("<main>/_Unit/_Load",
 			  units_can_load(punits));
-      menus_set_sensitive("<main>/_Orders/_Unload",
+      menus_set_sensitive("<main>/_Unit/_Unload",
 			  units_can_unload(punits));
-      menus_set_sensitive("<main>/_Orders/Wake up o_thers", 
+      menus_set_sensitive("<main>/_Unit/Uns_entry All On Tile", 
 			  units_have_activity_on_tile(punits,
 						      ACTIVITY_SENTRY));
-      menus_set_sensitive("<main>/_Orders/_Auto Settler",
+      menus_set_sensitive("<main>/_Work/_Auto Settler",
                           can_units_do(punits, can_unit_do_autosettlers));
-      menus_set_sensitive("<main>/_Orders/Auto E_xplore",
+      menus_set_sensitive("<main>/_Unit/Auto E_xplore",
                           can_units_do_activity(punits, ACTIVITY_EXPLORE));
-      menus_set_sensitive("<main>/_Orders/_Connect/_Road",
+      menus_set_sensitive("<main>/_Work/Connect With Roa_d",
                           can_units_do_connect(punits, ACTIVITY_ROAD));
-      menus_set_sensitive("<main>/_Orders/_Connect/_Rail",
+      menus_set_sensitive("<main>/_Work/Connect With Rai_l",
                           can_units_do_connect(punits, ACTIVITY_RAILROAD));
-      menus_set_sensitive("<main>/_Orders/_Connect/_Irrigate",
+      menus_set_sensitive("<main>/_Work/Connect With Irri_gation",
                           can_units_do_connect(punits, ACTIVITY_IRRIGATE));
-      menus_set_sensitive("<main>/_Orders/Diplomat\\/Spy Actions",
+      menus_set_sensitive("<main>/_Combat/_Diplomat\\/Spy Actions",
 			  can_units_do_diplomat_action(punits,
 						       DIPLOMAT_ANY_ACTION));
-      menus_set_sensitive("<main>/_Orders/Explode Nuclear",
+      menus_set_sensitive("<main>/_Combat/Explode _Nuclear",
 			  units_have_flag(punits, F_NUCLEAR, TRUE));
 
       if (units_have_flag(punits, F_HELP_WONDER, TRUE)) {
-        menus_rename("<main>/_Orders/_Build City", _("Help _Build Wonder"));
+        menus_rename("<main>/_Work/_Build City", _("Help _Build Wonder"));
       } else {
         bool city_on_tile = FALSE;
 
@@ -1686,15 +1696,15 @@ void update_menus(void)
         } unit_list_iterate_end;
         
         if (city_on_tile && units_have_flag(punits, F_ADD_TO_CITY, TRUE)) {
-          menus_rename("<main>/_Orders/_Build City", _("Add to City (_B)"));
+          menus_rename("<main>/_Work/_Build City", _("Add to City (_B)"));
         } else {
           /* refresh default order */
-          menus_rename("<main>/_Orders/_Build City", _("_Build City"));
+          menus_rename("<main>/_Work/_Build City", _("_Build City"));
         }
       }
  
       if (units_have_flag(punits, F_TRADE_ROUTE, TRUE))
-	menus_rename("<main>/_Orders/Build _Road", _("Make Trade _Route"));
+	menus_rename("<main>/_Work/Build _Road", _("Establish Trade _Route"));
       else if (units_have_flag(punits, F_SETTLERS, TRUE)) {
 	bool has_road = FALSE;
 
@@ -1714,10 +1724,10 @@ void update_menus(void)
 	  roadtext = _("Build _Road");
 	  road_activity=ACTIVITY_ROAD;  
 	}
-	menus_rename("<main>/_Orders/Build _Road", roadtext);
+	menus_rename("<main>/_Work/Build _Road", roadtext);
       }
       else
-	menus_rename("<main>/_Orders/Build _Road", _("Build _Road"));
+	menus_rename("<main>/_Work/Build _Road", _("Build _Road"));
 
       if (unit_list_size(punits) == 1) {
 	struct unit *punit = unit_list_get(punits, 0);
@@ -1746,25 +1756,31 @@ void update_menus(void)
 	}
       }
 
-      menus_rename("<main>/_Orders/Build _Irrigation", irrtext);
-      menus_rename("<main>/_Orders/Build _Mine", mintext);
-      menus_rename("<main>/_Orders/Transf_orm Terrain", transtext);
+      menus_rename("<main>/_Work/Build _Irrigation", irrtext);
+      menus_rename("<main>/_Work/Build _Mine", mintext);
+      menus_rename("<main>/_Work/Transf_orm Terrain", transtext);
 
       if (can_units_do_activity(punits, ACTIVITY_FORTIFYING)) {
-	menus_rename("<main>/_Orders/Build _Fortress", _("_Fortify"));
+	menus_rename("<main>/_Combat/Build _Fortress", _("_Fortify Unit"));
       } else {
-	menus_rename("<main>/_Orders/Build _Fortress", _("Build _Fortress"));
+	menus_rename("<main>/_Combat/Build _Fortress", _("Build _Fortress"));
       }
 
       if (units_have_flag(punits, F_PARATROOPERS, TRUE)) {
-	menus_rename("<main>/_Orders/Clean _Pollution", _("_Paradrop"));
+	menus_rename("<main>/_Work/Clean _Pollution", _("Drop _Paratrooper"));
       } else {
-	menus_rename("<main>/_Orders/Clean _Pollution", _("Clean _Pollution"));
+	menus_rename("<main>/_Work/Clean _Pollution", _("Clean _Pollution"));
       }
 
-      menus_set_sensitive("<main>/_Orders", TRUE);
+      menus_set_sensitive("<main>/_Select", TRUE);
+      menus_set_sensitive("<main>/_Unit", TRUE);
+      menus_set_sensitive("<main>/_Work", TRUE);
+      menus_set_sensitive("<main>/_Combat", TRUE);
     } else {
-      menus_set_sensitive("<main>/_Orders", FALSE);
+      menus_set_sensitive("<main>/_Select", FALSE);
+      menus_set_sensitive("<main>/_Unit", FALSE);
+      menus_set_sensitive("<main>/_Work", FALSE);
+      menus_set_sensitive("<main>/_Combat", FALSE);
     }
   }
 }

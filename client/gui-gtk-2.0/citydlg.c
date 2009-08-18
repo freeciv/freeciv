@@ -2128,7 +2128,7 @@ static gboolean present_unit_callback(GtkWidget * w, GdkEventButton * ev,
       GINT_TO_POINTER(punit->id));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 
-    item = gtk_menu_item_new_with_mnemonic(_("Make new _homecity"));
+    item = gtk_menu_item_new_with_mnemonic(_("Set _Home City"));
     g_signal_connect(item, "activate",
       G_CALLBACK(unit_homecity_callback),
       GINT_TO_POINTER(punit->id));

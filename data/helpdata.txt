@@ -429,46 +429,54 @@ name = _("Controls")
 text = _("\
 Unit Orders:\n\
 ============\n\
-    a: (a)uto-settler  (settler/worker units)\n\
-    b: (b)uild city  (settler units)\n\
-    b: help (b)uild wonder  (caravan units)\n\
-    C: unit (c)onnect  (then left-click mouse to select destination)\n\
-    d: (d)iplomat/spy actions  (diplomat/spy units)\n\
-    D: (D)isband unit\n\
-    e: build airbas(e)  (airbase units)\n\
-    f: (f)ortify unit  (military units)\n\
-    f: build (f)ortress  (settler/worker units)\n\
-    g: unit (g)oto  (then left-click mouse to select destination)\n\
-    g: add a (g)oto waypoint (when in goto mode)\n\
-    G: (G)oto/return to nearest city\n\
-    h: change (h)omecity  (to city at current location)\n\
-    i: build (i)rrigation or convert terrain (settler/worker units)\n\
-    l: (l)oad unit on boat\n\
-    L: go/air(l)ift to city\n\
-    m: build (m)ine or convert terrain (settler/worker units)\n\
-    n: clean (n)uclear fallout\n\
-    N: explode (N)uclear\n\
-    o: transf(o)rm terrain (engineer unit)\n\
-    p: clean (p)ollution  (settler/worker units)\n\
-    p: (p)aradrop  (paratroop units)\n\
-    P: (P)illage terrain alteration\n\
-    q: unit patrol  (then left-click mouse to select destination)\n\
-    q: add a patrol waypoint (when in patrol mode)\n\
-    r: build (r)oad/railroad  (settler/worker units)\n\
-    r: establish trade (r)oute  (caravan units)\n\
-    s: (s)entry unit\n\
-    u: (u)nload unit\n\
-    U: (U)nload all units from a boat\n\
-    W: (W)ake up other units on tile\n\
-    x: auto-e(x)plore\n\
-    y: Select all idle units of the same type as the active unit\n\
-space: unit stay put\n\
+  a: (a)uto-settler  (settler/worker units)\n\
+  b: (b)uild city  (settler units)\n\
+  b: help (b)uild wonder  (caravan units)\n\
+  B: go to and (B)uild city on target tile  (settler units)\n\
+  d: (d)iplomat/spy actions  (diplomat/spy units)\n\
+  D: (D)isband unit\n\
+  e: build airbas(e)  (airbase units)\n\
+  f: (f)ortify unit  (military units)\n\
+  f: build (f)ortress  (settler/worker units)\n\
+  g: (g)o to tile  (then left-click mouse to select target tile)\n\
+  g: add a (g)o-to waypoint  (when in go-to mode)\n\
+  G: return unit to nearest city\n\
+  h: set unit's (h)omecity  (to city on current tile)\n\
+  i: build (i)rrigation or convert terrain  (settler/worker units)\n\
+  I: connect current and target tile with (I)rrigation\n\
+  l: (l)oad unit on transporter\n\
+  L: connect current and target tile with rai(L)\n\
+  m: build (m)ine or convert terrain  (settler/worker units)\n\
+  n: clean (n)uclear fallout\n\
+  N: explode (N)uclear\n\
+  o: transf(o)rm terrain  (engineer unit)\n\
+  p: clean (p)ollution  (settler/worker units)\n\
+  p: drop (p)aratrooper  (paratroop units)\n\
+  P: (P)illage  (destroy terrain alteration)\n\
+  q: patrol with unit  (then left-click mouse to select other endpoint)\n\
+  q: add a patrol waypoint  (when in patrol mode)\n\
+  r: build (r)oad/railroad  (settler/worker units)\n\
+  r: establish trade (r)oute  (caravan units)\n\
+  R: connect current and target tile with (R)oad\n\
+  s: (s)entry unit\n\
+  S: un(S)entry all units on tile\n\
+  t: unit go (t)o/airlift to city\n\
+  T: unload all units from (T)ransporter\n\
+  u: (u)nload unit from transporter\n\
+  U: (U)pgrade unit\n\
+  x: unit auto e(x)plore\n\
+"), _("\
+Unit Selection:\n\
+==============\n\
+  z: select only first unit of selected group\n\
+  v: select all units on tile\n\
+  V: (on tile) select all units of the same type as the active unit\n\
+  C: (on continent) select all units of the same type as the active unit\n\
+  X: (everywhere) select all units of the same type as the active unit\n\
 \n\
-      Ctrl-U: (u)pgrade unit\n\
-Shift-Ctrl-B: Goto and (B)uild city on target\n\
-Shift-Ctrl-R: Connect current and target tile with (R)oad\n\
-Shift-Ctrl-L: Connect current and target tile with rai(L)\n\
-Shift-Ctrl-I: Connect current and target tile with (I)rrigation\n\
+  w: (w)ait: focus on next unit\n\
+  5: focus on previous unit\n\
+space: done giving orders  (unit stays put)\n\
 "), _("\
 Unit Movement:\n\
 ==============\n\
@@ -480,26 +488,27 @@ Unit Movement:\n\
   7: move north-west\n\
   8: move north\n\
   9: move north-east\n\
-\n\
-  5: focus on previous unit\n\
-  w: focus on next unit (wait)\n\
-  c: center view on unit\n\
 "), _("\
 Main Map (Keys):\n\
 ================\n\
-    Shift-home: center on capital\n\
+  c: (c)enter view on active unit\n\
+    Shift-home: center view on capital\n\
   Shift-arrows: scroll map\n\
-        Ctrl-G: show grid lines on/off\n\
-        Ctrl-B: show national borders on/off\n\
-        Ctrl-N: show city names on/off\n\
-        Ctrl-R: show city growth on/off\n\
-        Ctrl-P: show city production on/off\n\
+\n\
+  Ctrl-B: show/hide national borders\n\
+  Ctrl-D: show/hide city traderoutes\n\
+  Ctrl-G: show/hide map grid lines\n\
+  Ctrl-N: show/hide city names\n\
+  Ctrl-P: show/hide city production\n\
+  Ctrl-R: show/hide city growth\n\
+  Ctrl-W: show/hide city output\n\
+  Ctrl-Y: show/hide city outlines\n\
 "), _("\
 Main Map (Mouse):\n\
 =================\n\
   Left-click on city:          Pop up city dialog\n\
   Left-click on unit:          Activate unit\n\
-  Left-click-and-drag on unit: Goto command for unit\n\
+  Left-click-and-drag on unit: Go-to command for unit\n\
   Center-click:                Show tile info\n\
   Right-click:                 Center tile in view\n\
 \n\
@@ -534,12 +543,17 @@ Dialogs and Reports:\n\
     F11: open Demographics\n\
     F12: open Spaceship\n\
 \n\
-      T: open Tax/Lux/Sci Rates dialog\n\
-      F: open Find City dialog\n\
- Ctrl-L: open Worklists dialog\n\
-      R: open Revolution dialog\n\
+        Ctrl-F: open Find City dialog\n\
+        Ctrl-L: open Worklists dialog\n\
+        Ctrl-T: open Tax/Lux/Sci Rates dialog\n\
+  Shift-Ctrl-R: open Revolution dialog\n\
 \n\
 Shift-Return: Turn done\
+"), _("\
+Editing Mode (GTK):\n\
+================\n\
+    Ctrl-E: toggle editing mode\n\
+    Ctrl-M: toggle fog of war in editing mode\n\
 ")
 
 [help_chatline]
