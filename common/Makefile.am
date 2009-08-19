@@ -29,6 +29,8 @@ libfreeciv_la_SOURCES = \
 		effects.h	\
 		events.c	\
 		events.h	\
+		featured_text.c	\
+		featured_text.h	\
 		fc_types.h	\
 		game.c		\
 		game.h		\
