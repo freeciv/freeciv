@@ -1468,7 +1468,8 @@ void request_unit_load(struct unit *pcargo, struct unit *ptrans)
     ptrans = find_transporter_for_unit(pcargo);
   }
 
-  if (can_client_issue_orders()
+  if (ptrans
+      && can_client_issue_orders()
       && can_unit_load(pcargo, ptrans)) {
     dsend_packet_unit_load(&client.conn, pcargo->id, ptrans->id);
 
