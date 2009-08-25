@@ -227,7 +227,7 @@ void real_update_meswin_dialog(void)
 }
 
 /**************************************************************************
-  Popup (or raise) the message dialog; typically triggered by 'F10'.
+  Popup (or raise) the message dialog; typically triggered by 'F9'.
 **************************************************************************/
 void popup_meswin_dialog(bool raise)
 {

@@ -380,7 +380,7 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
       set_wstate(pMap_Button, FC_WS_NORMAL);
       pSellected_Widget = NULL;
       
-      copy_chars_to_string16(pMap_Button->string16, _("Show MiniMap"));
+      copy_chars_to_string16(pMap_Button->string16, _("Show Mini Map"));
           
       /* make new map icon */
       alphablit(pTheme->R_ARROW_Icon, NULL, pMap_Button->theme, NULL);
@@ -458,7 +458,7 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
         pSellected_Widget = NULL;
         
         /* show MiniMap */
-        copy_chars_to_string16(pMap_Button->string16, _("Hide MiniMap"));
+        copy_chars_to_string16(pMap_Button->string16, _("Hide Mini Map"));
           
         alphablit(pTheme->L_ARROW_Icon, NULL, pMap_Button->theme, NULL);
         SDL_Client_Flags |= CF_OVERVIEW_SHOWN;
@@ -510,10 +510,10 @@ static int toggle_msg_window_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) { 
     if (is_meswin_open()) {
       popdown_meswin_dialog();
-      copy_chars_to_string16(pWidget->string16, _("Show Messages (F10)"));
+      copy_chars_to_string16(pWidget->string16, _("Show Messages (F9)"));
     } else {
       popup_meswin_dialog(true);
-      copy_chars_to_string16(pWidget->string16, _("Hide Messages (F10)"));
+      copy_chars_to_string16(pWidget->string16, _("Hide Messages (F9)"));
     }
   
     pSellected_Widget = pWidget;
@@ -669,7 +669,7 @@ static void popup_minimap_scale_dialog(void)
   pScale_MiniMap_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
     
   /* create window */
-  pStr = create_str16_from_char(_("Scale Minimap"), adj_font(12));
+  pStr = create_str16_from_char(_("Scale Mini Map"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   pWindow = create_window_skeleton(NULL, pStr, 0);
   pWindow->action = move_scale_minmap_dlg_callback;
@@ -1421,11 +1421,11 @@ void popup_unitinfo_window() {
   /* revolution button */
   pWidget = create_icon2(adj_surf(GET_SURF(client_government_sprite())), pUnits_Info_Window->dst, (WF_FREE_GFX
 			| WF_WIDGET_HAS_INFO_LABEL| WF_RESTORE_BACKGROUND | WF_FREE_THEME));
-  my_snprintf(buf, sizeof(buf), "%s (%s)", _("Revolution"), "Shift+R");
+  my_snprintf(buf, sizeof(buf), "%s (%s)", _("Revolution"), "Ctrl+Shift+R");
   pWidget->string16 = create_str16_from_char(buf, adj_font(12));
   pWidget->action = revolution_callback;
   pWidget->key = SDLK_r;
-  pWidget->mod = KMOD_SHIFT;
+  pWidget->mod = KMOD_CTRL | KMOD_SHIFT;
 
   add_to_gui_list(ID_REVOLUTION, pWidget);
 
@@ -1587,12 +1587,12 @@ void popup_minimap_window() {
   pWidget = create_themeicon(pTheme->FindCity_Icon, pMiniMap_Window->dst,
    			     WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   my_snprintf(buf, sizeof(buf), "%s (%s)\n%s\n%s (%s)", _("Cities Report"),
-                                "F1", _("or"), _("Find City"), "Shift+F");
+                                "F4", _("or"), _("Find City"), "Ctrl+F");
   pWidget->string16 = create_str16_from_char(buf, adj_font(12));
   pWidget->string16->style |= SF_CENTER;
   pWidget->action = cities_action_callback;
   pWidget->key = SDLK_f;
-  pWidget->mod = KMOD_SHIFT;
+  pWidget->mod = KMOD_CTRL;
 
   add_to_gui_list(ID_CITIES, pWidget);
   
@@ -1611,17 +1611,17 @@ void popup_minimap_window() {
   /* show/hide log window button */
   pWidget = create_themeicon(pTheme->LOG_Icon, pMiniMap_Window->dst,
  			     WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  my_snprintf(buf, sizeof(buf), "%s (%s)", _("Hide Messages"), "F10");
+  my_snprintf(buf, sizeof(buf), "%s (%s)", _("Hide Messages"), "F9");
   pWidget->string16 = create_str16_from_char(buf, adj_font(12));
   pWidget->action = toggle_msg_window_callback;
-  pWidget->key = SDLK_F10;
+  pWidget->key = SDLK_F9;
 
   add_to_gui_list(ID_CHATLINE_TOGGLE_LOG_WINDOW_BUTTON, pWidget);
 
   /* toggle minimap mode button */
   pWidget = create_themeicon(pTheme->BORDERS_Icon, pMiniMap_Window->dst,
  			     WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  my_snprintf(buf, sizeof(buf), "%s (%s)", _("Toggle Minimap Mode"), "Shift+\\");
+  my_snprintf(buf, sizeof(buf), "%s (%s)", _("Toggle Mini Map Mode"), "Shift+\\");
   pWidget->string16 = create_str16_from_char(buf, adj_font(12));
   pWidget->action = toggle_minimap_mode_callback;
   pWidget->key = SDLK_BACKSLASH;
@@ -1654,7 +1654,7 @@ void popup_minimap_window() {
 			  WF_FREE_GFX | WF_FREE_THEME |
 		          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
 
-  pWidget->string16 = create_str16_from_char(_("Hide MiniMap"), adj_font(12));
+  pWidget->string16 = create_str16_from_char(_("Hide Mini Map"), adj_font(12));
   pWidget->action = toggle_map_window_callback;
 
   add_to_gui_list(ID_TOGGLE_MAP_WINDOW_BUTTON, pWidget);
@@ -2373,17 +2373,19 @@ bool map_event_handler(SDL_keysym Key)
         }
         return FALSE;
 
+      /* show city traderoutes - Ctrl+d */
+      case SDLK_d:
+        if (LCTRL || RCTRL) {
+          key_city_traderoutes_toggle();
+        }
+        return FALSE;
+
       /* *** some additional shortcuts that work in the SDL client only *** */
         
-      /* show city traderoutes	- Ctrl+t 
-       * show terrain 		- Ctrl+Shift+t  */ 
+      /* show terrain - Ctrl+Shift+t */
       case SDLK_t:
-        if (LCTRL || RCTRL) {
-          if (LSHIFT || RSHIFT) {
-            key_terrain_toggle();
-          } else {
-            key_city_traderoutes_toggle();
-          }
+        if ((LCTRL || RCTRL) && (LSHIFT || RSHIFT)) {
+          key_terrain_toggle();
         }
         return FALSE;
   
@@ -2405,9 +2407,9 @@ bool map_event_handler(SDL_keysym Key)
         }
         return FALSE;
   
-      /* show fortresses and airbases - Ctrl+f */
+      /* show fortresses and airbases - Ctrl+Shift+f */
       case SDLK_f:
-        if (LCTRL || RCTRL) {
+        if ((LCTRL || RCTRL) && (LSHIFT || RSHIFT)) {
           request_toggle_fortress_airbase();
         }
         return FALSE;
@@ -2571,7 +2573,7 @@ void popup_newcity_dialog(struct unit *pUnit, char *pSuggestname)
   pNewCity_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
 
   /* create window */
-  pStr = create_str16_from_char(_("Build New City"), adj_font(12));
+  pStr = create_str16_from_char(_("Build City"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   pWindow = create_window_skeleton(NULL, pStr, 0);
   pWindow->action = move_new_city_dlg_callback;

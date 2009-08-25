@@ -270,14 +270,14 @@ static Uint16 main_key_down_handler(SDL_keysym Key, void *pData)
 	    }
           return ID_ERROR;
 
-	  case SDLK_F1:
-            popup_city_report_dialog(FALSE);
-	  return ID_ERROR;
-	    
 	  case SDLK_F2:
 	    popup_activeunits_report_dialog(FALSE);
 	  return ID_ERROR;
 	   
+	  case SDLK_F4:
+            popup_city_report_dialog(FALSE);
+	  return ID_ERROR;
+	    
 	  case SDLK_F7:
             send_report_request(REPORT_WONDERS_OF_THE_WORLD);
           return ID_ERROR;
@@ -286,7 +286,7 @@ static Uint16 main_key_down_handler(SDL_keysym Key, void *pData)
             send_report_request(REPORT_TOP_5_CITIES);
           return ID_ERROR;
 	    
-	  case SDLK_F10:
+	  case SDLK_F9:
             if(is_meswin_open()) {
               popdown_meswin_dialog();
             } else {

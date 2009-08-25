@@ -313,10 +313,10 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
   set_new_icon2_theme(pBuf, adj_surf(GET_SURF(gov)), TRUE);    
   
   if (NULL != client.conn.playing) {
-    my_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s", _("Revolution"), "Shift+R",
+    my_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s", _("Revolution"), "Ctrl+Shift+R",
                                     government_name_for_player(client.conn.playing));
   } else {
-    my_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s", _("Revolution"), "Shift+R",
+    my_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s", _("Revolution"), "Ctrl+Shift+R",
                                     "None");
   }        
   copy_chars_to_string16(pBuf->string16, cBuf);
