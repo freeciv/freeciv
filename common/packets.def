@@ -1357,7 +1357,8 @@ PACKET_RULESET_BASE=120;sc,lsend
   UINT8 build_time;
   UINT8 defense_bonus;
   UINT8 border_sq;
-  UINT8 vision_sq;
+  UINT8 vision_main_sq;
+  UINT8 vision_invis_sq;
   BV_BASE_FLAGS flags;
 end
 

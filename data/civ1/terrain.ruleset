@@ -652,6 +652,8 @@ food        = 2
 ; defense_bonus           = Percent added to defense
 ; border_sq               = Base will claim land ownership up to this radius,
 ;                           -1 to disable.
+; vision_main_sq          = Base will have main layer vision to this radius
+; vision_invis_sq         = Base will have invisible layer vision to this radius
 ; conflicts               = List of bases that cannot be on the same tile.
 ;                           Bases with non-zero border_sq automatically conflict
 ;                           with each other.

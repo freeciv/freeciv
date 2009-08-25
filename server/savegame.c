@@ -4733,15 +4733,22 @@ static void game_load_internal(struct section_file *file)
     } players_iterate_end;
 
     whole_map_iterate(ptile) {
-      base_type_iterate(pbase) {
-        if (tile_has_base(ptile, pbase) && pbase->vision_sq > 0) {
-          struct player *owner = tile_owner(ptile);
-          if (owner) {
-            map_refog_circle(owner, ptile, -1, pbase->vision_sq,
-                             game.info.vision_reveal_tiles, V_MAIN);
+      struct player *owner = tile_owner(ptile);
+
+      if (owner) {
+        base_type_iterate(pbase) {
+          if (tile_has_base(ptile, pbase)) {
+            if (pbase->vision_main_sq > 0) {
+              map_refog_circle(owner, ptile, -1, pbase->vision_main_sq,
+                               game.info.vision_reveal_tiles, V_MAIN);
+            }
+            if (pbase->vision_invis_sq > 0) {
+              map_refog_circle(owner, ptile, -1, pbase->vision_invis_sq,
+                               game.info.vision_reveal_tiles, V_INVIS);
+            }
           }
-        }
-      } base_type_iterate_end;
+        } base_type_iterate_end;
+      }
     } whole_map_iterate_end;
 
     /* We do this here since if the did it in player_load, player 1

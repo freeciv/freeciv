@@ -612,12 +612,18 @@ static void unit_pillage_base(struct tile *ptile, struct base_type *pbase)
     /* Clearing borders will take care of the vision providing
      * bases as well. */
     map_clear_border(ptile);
-  } else if (pbase->vision_sq >= 0) {
-    /* Base provides vision, but no borders. */
+  } else {
     struct player *owner = tile_owner(ptile);
-    if (owner) {
-      map_refog_circle(owner, ptile, pbase->vision_sq, -1,
+
+    if (pbase->vision_main_sq >= 0 && owner) {
+    /* Base provides vision, but no borders. */
+      map_refog_circle(owner, ptile, pbase->vision_main_sq, -1,
                        game.info.vision_reveal_tiles, V_MAIN);
+    }
+    if (pbase->vision_invis_sq >= 0 && owner) {
+    /* Base provides vision, but no borders. */
+      map_refog_circle(owner, ptile, pbase->vision_invis_sq, -1,
+                       game.info.vision_reveal_tiles, V_INVIS);
     }
   }
   tile_remove_base(ptile, pbase);

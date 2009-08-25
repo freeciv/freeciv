@@ -1509,16 +1509,28 @@ void map_claim_ownership(struct tile *ptile, struct player *powner,
 
   if (ploser != powner) {
     base_type_iterate(pbase) {
-      if (tile_has_base(ptile, pbase)
-          && pbase->vision_sq >= 0) {
-        /* Transfer base provided vision to new owner */
-        if (powner) {
-          map_refog_circle(powner, ptile, -1, pbase->vision_sq,
-                           game.info.vision_reveal_tiles, V_MAIN);
+      if (tile_has_base(ptile, pbase)) {
+        if (pbase->vision_main_sq >= 0) {
+          /* Transfer base provided vision to new owner */
+          if (powner) {
+            map_refog_circle(powner, ptile, -1, pbase->vision_main_sq,
+                             game.info.vision_reveal_tiles, V_MAIN);
+          }
+          if (ploser) {
+            map_refog_circle(ploser, ptile, pbase->vision_main_sq, -1,
+                             game.info.vision_reveal_tiles, V_MAIN);
+          }
         }
-        if (ploser) {
-          map_refog_circle(ploser, ptile, pbase->vision_sq, -1,
-                           game.info.vision_reveal_tiles, V_MAIN);
+        if (pbase->vision_invis_sq >= 0) {
+          /* Transfer base provided vision to new owner */
+          if (powner) {
+            map_refog_circle(powner, ptile, -1, pbase->vision_invis_sq,
+                             game.info.vision_reveal_tiles, V_INVIS);
+          }
+          if (ploser) {
+            map_refog_circle(ploser, ptile, pbase->vision_invis_sq, -1,
+                             game.info.vision_reveal_tiles, V_INVIS);
+          }
         }
       }
     } base_type_iterate_end;
@@ -1676,12 +1688,17 @@ void create_base(struct tile *ptile, struct base_type *pbase,
       if (territory_claiming_base(old_base)) {
         map_clear_border(ptile);
         map_claim_ownership(ptile, NULL, NULL);
-      } else if (old_base->vision_sq >= 0) {
-        /* Base provides vision, but no borders. */
+      } else {
         struct player *owner = tile_owner(ptile);
-        if (owner) {
-          map_refog_circle(owner, ptile, old_base->vision_sq, -1,
+
+        if (old_base->vision_main_sq >= 0 && owner) {
+          /* Base provides vision, but no borders. */
+          map_refog_circle(owner, ptile, old_base->vision_main_sq, -1,
                            game.info.vision_reveal_tiles, V_MAIN);
+        }
+        if (old_base->vision_invis_sq >= 0 && owner) {
+          map_refog_circle(owner, ptile, old_base->vision_invis_sq, -1,
+                           game.info.vision_reveal_tiles, V_INVIS);
         }
       }
       tile_remove_base(ptile, old_base);
@@ -1700,11 +1717,16 @@ void create_base(struct tile *ptile, struct base_type *pbase,
     map_claim_border(ptile, pplayer);
     city_thaw_workers_queue();
     city_refresh_queue_processing();
-  } else if (pbase->vision_sq > 0) {
+  } else {
     struct player *owner = tile_owner(ptile);
-    if (owner) {
-      map_refog_circle(owner, ptile, -1, pbase->vision_sq,
+
+    if (pbase->vision_main_sq > 0 && owner) {
+      map_refog_circle(owner, ptile, -1, pbase->vision_main_sq,
                        game.info.vision_reveal_tiles, V_MAIN);
+    }
+    if (pbase->vision_invis_sq > 0 && owner) {
+      map_refog_circle(owner, ptile, -1, pbase->vision_invis_sq,
+                       game.info.vision_reveal_tiles, V_INVIS);
     }
   }
 }
