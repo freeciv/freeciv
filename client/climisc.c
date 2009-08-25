@@ -902,7 +902,7 @@ void handle_event(char *message, struct tile *ptile,
   /* Message window */
   if (BOOL_VAL(where & MW_MESSAGES)) {
     /* When the game isn't running, the messages dialog isn't present. */
-    if (C_S_RUNNING == client_state()) {
+    if (C_S_RUNNING <= client_state()) {
       add_notify_window(message, ptile, event);
       shown = TRUE;
     } else {
