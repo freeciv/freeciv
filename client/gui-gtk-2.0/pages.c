@@ -2381,11 +2381,13 @@ static void save_response_callback(GtkWidget *w, gint arg)
 
       text = gtk_entry_get_text(GTK_ENTRY(save_entry));
       filename = g_filename_from_utf8(text, -1, NULL, NULL, NULL);
+      if (!filename) {
+        break;
+      }
       if (save_scenario) {
         dsend_packet_save_scenario(&client.conn, filename);
       } else {
         send_save_game(filename);
-        g_free(filename);
       }
       g_free(filename);
     }
