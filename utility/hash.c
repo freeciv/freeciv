@@ -295,6 +295,9 @@ static unsigned int calc_appropriate_nbuckets(unsigned int num_entries)
   Allows to specify functions to free the memory allocated for the key and
   user-data that get called when removing the bucket from the hash table or
   changing key/user-data values.
+
+  NB: Be sure to check the "copy constructor" hash_copy() if you change
+  this function significantly.
 **************************************************************************/
 static struct hash_table *hash_new_nbuckets(hash_val_fn_t fval,
 					    hash_cmp_fn_t fcmp,
@@ -898,4 +901,73 @@ struct iterator *hash_value_iter_init(struct hash_iter *it,
   struct iterator *ret = hash_iter_init(it, h);
   it->vtable.get = hash_iter_get_value;
   return ret;
+}
+
+/**************************************************************************
+  Returns a newly allocated mostly deep copy of the given hash table.
+
+  NB: This just copies the key and value pointers (it does NOT make a deep
+  copy of those). So using this function with allocated keys/values or with
+  a hash_free_fn_t should be avoided, unless you know what you are doing.
+**************************************************************************/
+struct hash_table *hash_copy(const struct hash_table *other)
+{
+  struct hash_table *h;
+  size_t size;
+
+  if (!other) {
+    return NULL;
+  }
+
+  h = fc_malloc(sizeof(*h));
+
+  /* Copy fields. */
+  *h = *other;
+
+  /* But make fresh buckets. */
+  size = h->num_buckets * sizeof(struct hash_bucket);
+  h->buckets = fc_malloc(size);
+
+  /* NB: Shallow copy. */
+  memcpy(h->buckets, other->buckets, size);
+
+  return h;
+}
+
+/**************************************************************************
+  Returns TRUE if the two hash tables are equal. If the hash tables do
+  not have the same number of elements, or have different hashing, compare
+  or free functions, they will be "unequal". Otherwise this function will
+  compare key and value pointers.
+**************************************************************************/
+bool hash_equal(const struct hash_table *a, const struct hash_table *b)
+{
+  struct hash_iter hita, hitb;
+  struct iterator *ita, *itb;
+
+  if (a == b) {
+    return TRUE;
+  }
+  if (!a || !b) {
+    return FALSE;
+  }
+  if (a->fval != b->fval || a->fcmp != b->fcmp
+      || a->free_key_func != b->free_key_func
+      || a->free_data_func != b->free_data_func
+      || hash_num_entries(a) != hash_num_entries(b)) {
+    return FALSE;
+  }
+
+  ita = hash_iter_init(&hita, a);
+  itb = hash_iter_init(&hitb, b);
+  while (iterator_valid(ita) && iterator_valid(itb)) {
+    if (hash_iter_get_key(ita) != hash_iter_get_key(itb)
+        || hash_iter_get_value(ita) != hash_iter_get_value(itb)) {
+      return FALSE;
+    }
+    iterator_next(ita);
+    iterator_next(itb);
+  }
+
+  return TRUE;
 }

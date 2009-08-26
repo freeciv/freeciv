@@ -54,6 +54,8 @@ struct hash_table *hash_new_nentries_full(hash_val_fn_t fval,
 					  hash_free_fn_t free_key_func,
 					  hash_free_fn_t free_data_func,
 					  unsigned int nentries);
+struct hash_table *hash_copy(const struct hash_table *h);
+bool hash_equal(const struct hash_table *a, const struct hash_table *b);
 
 void hash_free(struct hash_table *h);
 
