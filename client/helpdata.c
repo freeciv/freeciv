@@ -1675,6 +1675,15 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
                        outputs_and.str);
         }
         break;
+      case EFT_HEALTH_PCT:
+        if (peffect->value > 0) {
+          CATLSTR(buf, bufsz, _("* Increases the possibility of plague"
+                                " within Your cities.\n"));
+        } else if (peffect->value < 0) {
+          CATLSTR(buf, bufsz, _("* Decreases the possibility of plague"
+                                " within Your cities.\n"));
+        }
+        break;
       case EFT_OUTPUT_WASTE_BY_DISTANCE:
         if (peffect->value >= 3) {
           cat_snprintf(buf, bufsz,
