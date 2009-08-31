@@ -34,6 +34,12 @@
 
 static struct nation_type *nations = NULL;
 
+struct nation_iter {
+  struct iterator vtable;
+  struct nation_type *p, *end;
+};
+#define NATION_ITER(p) ((struct nation_iter *)(p))
+
 static int num_nation_groups;
 static struct nation_group nation_groups[MAX_NUM_NATION_GROUPS];
 
@@ -326,26 +332,50 @@ Nation_type_id nation_count(void)
   return game.control.nation_count;
 }
 
-/**************************************************************************
-  Return the last item of nations.
-**************************************************************************/
-const struct nation_type *nation_array_last(void)
+/****************************************************************************
+  Implementation of iterator 'sizeof' function.
+****************************************************************************/
+size_t nation_iter_sizeof(void)
 {
-  if (game.control.nation_count > 0) {
-    return &nations[game.control.nation_count - 1];
-  }
-  return NULL;
+  return sizeof(struct nation_iter);
 }
 
-/**************************************************************************
-  Return the first item of nations.
-**************************************************************************/
-struct nation_type *nation_array_first(void)
+/****************************************************************************
+  Implementation of iterator 'next' function.
+****************************************************************************/
+static void nation_iter_next(struct iterator *iter)
 {
-  if (game.control.nation_count > 0) {
-    return nations;
-  }
-  return NULL;
+  NATION_ITER(iter)->p++;
+}
+
+/****************************************************************************
+  Implementation of iterator 'get' function.
+****************************************************************************/
+static void *nation_iter_get(const struct iterator *iter)
+{
+  return NATION_ITER(iter)->p;
+}
+
+/****************************************************************************
+  Implementation of iterator 'valid' function.
+****************************************************************************/
+static bool nation_iter_valid(const struct iterator *iter)
+{
+  struct nation_iter *it = NATION_ITER(iter);
+  return it->p < it->end;
+}
+
+/****************************************************************************
+  Implementation of iterator 'init' function.
+****************************************************************************/
+struct iterator *nation_iter_init(struct nation_iter *it)
+{
+  it->vtable.next = nation_iter_next;
+  it->vtable.get = nation_iter_get;
+  it->vtable.valid = nation_iter_valid;
+  it->p = nations;
+  it->end = nations + nation_count();
+  return ITERATOR(it);
 }
 
 /***************************************************************

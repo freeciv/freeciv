@@ -180,20 +180,16 @@ void nations_alloc(int num);
 void nations_free(void);
 void nation_city_names_free(struct nation_city *city_names);
 
-struct nation_type *nation_array_first(void);
-const struct nation_type *nation_array_last(void);
+#include "iterator.h"
+struct nation_iter;
+size_t nation_iter_sizeof(void);
+struct iterator *nation_iter_init(struct nation_iter *it);
 
 /* Iterate over nations.  This iterates over all nations, including
  * unplayable ones (use is_nation_playable to filter if necessary). */
-#define nations_iterate(_p)						\
-{									\
-  struct nation_type *_p = nation_array_first();			\
-  if (NULL != _p) {							\
-    for (; _p <= nation_array_last(); _p++) {
-
-#define nations_iterate_end						\
-    }									\
-  }									\
-}
+#define nations_iterate(NAME_pnation)\
+  generic_iterate(struct nation_iter, struct nation_type *,\
+                  NAME_pnation, nation_iter_sizeof, nation_iter_init)
+#define nations_iterate_end generic_iterate_end
 
 #endif  /* FC__NATION_H */
