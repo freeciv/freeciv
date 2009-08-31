@@ -1704,6 +1704,15 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
                          " with distance from capital.\n"),
                        outputs_and.str);
         }
+      case EFT_MIGRATION_PCT:
+        if (peffect->value > 0) {
+          CATLSTR(buf, bufsz, _("* Increases the possibility of migration"
+                                " into Your cities.\n"));
+        } else if (peffect->value < 0) {
+          CATLSTR(buf, bufsz, _("* Decreases the possibility of migration"
+                                " into Your cities.\n"));
+        }
+        break;
       default:
         break;
       };
