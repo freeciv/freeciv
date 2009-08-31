@@ -323,13 +323,13 @@ static struct my_menu main_menu[] = {
 
 
   {N_("_Edit"),					IDM_SUBMENU},
-  {N_("_Tax Rates")		"\tShift+T",	IDM_GOVERNMENT_TAX_RATE},
+  {N_("_Tax Rates...")		"\tCtl+T",	IDM_GOVERNMENT_TAX_RATE},
   { "", IDM_SEPARATOR},
   {N_("_Find City")		"\tCtl+F",	IDM_GOVERNMENT_FIND_CITY},
-  {N_("_Worklists")		"\tCtl+W",	IDM_GOVERNMENT_WORKLISTS},
+  {N_("Work_lists")		"\tCtl+L",	IDM_GOVERNMENT_WORKLISTS},
   { "", IDM_SEPARATOR},
   {N_("_Government"),				IDM_SUBMENU},
-  {N_("_Revolution"),				IDM_GOVERNMENT_REVOLUTION},
+  {N_("_Revolution...")         "\tCtl+Shift+R",IDM_GOVERNMENT_REVOLUTION},
   {"", IDM_SEPARATOR},
   {NULL, 0},
   {NULL, 0},
@@ -340,7 +340,7 @@ static struct my_menu main_menu[] = {
   {N_("National _Borders")	"\tCtl+B", 	IDM_VIEW_NATIONAL_BORDERS},
   {N_("City _Names")		"\tCtl+N",	IDM_VIEW_CITY_NAMES},
   {N_("City G_rowth")		"\tCtl+R", 	IDM_VIEW_CITY_GROWTH},
-  {N_("City _Productions")	"\tCtl+P",	IDM_VIEW_CITY_PRODUCTIONS},
+  {N_("City _Production Levels") "\tCtl+P",	IDM_VIEW_CITY_PRODUCTIONS},
   {N_("Terrain"),				IDM_VIEW_TERRAIN},
   {N_("Coastline"),				IDM_VIEW_COASTLINE},
   {N_("Improvements"),				IDM_SUBMENU},
@@ -373,22 +373,22 @@ static struct my_menu main_menu[] = {
   {N_("_Sentry")		"\tS",		IDM_ORDERS_SENTRY},
   {N_("Pillage")		"\tShift+P",	IDM_ORDERS_PILLAGE},
   {"", IDM_SEPARATOR},
-  {N_("Make _Homecity")		"\tH",		IDM_ORDERS_HOMECITY},
+  {N_("Set _Home City")		"\tH",		IDM_ORDERS_HOMECITY},
   {N_("_Load")			"\tL",		IDM_ORDERS_LOAD},
   {N_("_Unload")		"\tU",		IDM_ORDERS_UNLOAD},
-  {N_("Wake up o_thers")	"\tShift+W",	IDM_ORDERS_WAKEUP_OTHERS},
+  {N_("Uns_entry All On Tile")	"\tShift+S",	IDM_ORDERS_WAKEUP_OTHERS},
   {"", IDM_SEPARATOR},
   {N_("Auto Settler")		"\tA",		IDM_ORDERS_AUTO_SETTLER},
   {N_("Auto E_xplore")		"\tX",		IDM_ORDERS_AUTO_EXPLORE},
-  {N_("Connect"), 				IDM_SUBMENU},
-  {N_("_Road")			"\tCtl+Shift+R",IDM_ORDERS_CONNECT_ROAD},
-  {N_("Rai_l")			"\tCtl+Shift+L",IDM_ORDERS_CONNECT_RAIL},
-  {N_("_Irrigate")		"\tCtl+Shift+I",IDM_ORDERS_CONNECT_IRRIGATE},
+  {N_("Connect With"), 				IDM_SUBMENU},
+  {N_("_Road")			"\tShift+R",IDM_ORDERS_CONNECT_ROAD},
+  {N_("Rai_l")			"\tShift+L",IDM_ORDERS_CONNECT_RAIL},
+  {N_("_Irrigate")		"\tShift+I",IDM_ORDERS_CONNECT_IRRIGATE},
   {NULL, 0},
   {N_("Patrol")			"\tQ",		IDM_ORDERS_PATROL},
-  {N_("_Go to")			"\tG",		IDM_ORDERS_GOTO},
-  {N_("Go/Airlift to City")	"\tShift+L",	IDM_ORDERS_GOTO_CITY},
-  {N_("Return to nearest city") "\tShift+G",	IDM_ORDERS_RETURN},
+  {N_("_Go to Tile")		"\tG",		IDM_ORDERS_GOTO},
+  {N_("Go _to/Airlift to City...")	"\tT",		IDM_ORDERS_GOTO_CITY},
+  {N_("Return to Nearest City") "\tShift+G",	IDM_ORDERS_RETURN},
   {"", IDM_SEPARATOR},
   {N_("Disband Unit")		"\tShift+D",	IDM_ORDERS_DISBAND},
   {N_("Diplomat/Spy Actions")	"\tD", 		IDM_ORDERS_DIPLOMAT_DLG},
@@ -400,17 +400,17 @@ static struct my_menu main_menu[] = {
 
 
   {N_("_Reports"),				IDM_SUBMENU},
-  {N_("_Cities")		"\tF1",		IDM_REPORTS_CITIES},
   {N_("_Units")			"\tF2",		IDM_REPORTS_UNITS},
   /* TRANS: Nations report action */
   {N_("_Nations")		"\tF3",		IDM_REPORTS_PLAYERS},
+  {N_("_Cities")		"\tF4",		IDM_REPORTS_CITIES},
   {N_("_Economy")		"\tF5",		IDM_REPORTS_ECONOMY},
   /* TRANS: Research report action */
   {N_("_Research")		"\tF6",		IDM_REPORTS_SCIENCE},
   {"", IDM_SEPARATOR},
   {N_("_Wonders of the World")	"\tF7",		IDM_REPORTS_WONDERS},
-  {N_("_Top Five Cities")	"\tF8",		IDM_REPORTS_TOP_CITIES},
-  {N_("_Messages")		"\tF10",	IDM_REPORTS_MESSAGES},
+  {N_("Top _Five Cities")	"\tF8",		IDM_REPORTS_TOP_CITIES},
+  {N_("_Messages")		"\tF9",		IDM_REPORTS_MESSAGES},
   {N_("_Demographics")		"\tF11",	IDM_REPORTS_DEMOGRAPHICS},
   {N_("_Spaceship")		"\tF12",	IDM_REPORTS_SPACESHIP},
   {NULL, 0},
@@ -1213,7 +1213,7 @@ update_menus(void)
       }
  
       if (units_have_flag(punits, F_TRADE_ROUTE, TRUE)) {
-        my_rename_menu(menu, IDM_ORDERS_ROAD, N_("Make Trade Route") "\tR");
+        my_rename_menu(menu, IDM_ORDERS_ROAD, N_("Establish Trade Route") "\tR");
       } else if (units_have_flag(punits, F_SETTLERS, TRUE)) {
 	bool has_road = FALSE;
 
@@ -1281,7 +1281,7 @@ update_menus(void)
       }
 
       if (units_have_flag(punits, F_PARATROOPERS, TRUE)) {
-	my_rename_menu(menu, IDM_ORDERS_POLLUTION, N_("Paradrop") "\tP");
+	my_rename_menu(menu, IDM_ORDERS_POLLUTION, N_("Drop Paratrooper") "\tP");
       } else {
 	my_rename_menu(menu, IDM_ORDERS_POLLUTION, N_("Clean Pollution")
 		       "\tP");
