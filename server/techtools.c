@@ -119,12 +119,15 @@ static void tech_researched(struct player *plr)
   research->bulbs_researched = 
       MAX(research->bulbs_researched - total_bulbs_required(plr), 0);
 
+  /* cache researched technology for event signal, because found_new_tech() changes the research goal */
+  Tech_type_id researched_tech = research->researching;
+
   /* do all the updates needed after finding new tech */
   found_new_tech(plr, research->researching, TRUE, TRUE);
 
   script_signal_emit("tech_researched", 3,
 		     API_TYPE_TECH_TYPE,
-		     advance_by_number(research->researching),
+		     advance_by_number(researched_tech),
 		     API_TYPE_PLAYER, plr,
 		     API_TYPE_STRING, "researched");
 }
