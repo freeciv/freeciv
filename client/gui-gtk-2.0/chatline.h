@@ -26,4 +26,6 @@ void inputline_return(GtkEntry *w, gpointer data);
 void set_output_window_text(const char *text);
 void chatline_scroll_to_bottom(void);
 
+void set_message_buffer_view_link_handlers(GtkWidget *view);
+
 #endif  /* FC__CHATLINE_H */

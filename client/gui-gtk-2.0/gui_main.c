@@ -1519,6 +1519,7 @@ static void setup_widgets(void)
   gtk_notebook_append_page(GTK_NOTEBOOK(bottom_notebook), vbox, label);
 
   text = gtk_text_view_new_with_buffer(message_buffer);
+  set_message_buffer_view_link_handlers(text);
   gtk_text_view_set_editable(GTK_TEXT_VIEW(text), FALSE);
   gtk_container_add(GTK_CONTAINER(sw), text);
   g_signal_connect(text, "size-allocate",
