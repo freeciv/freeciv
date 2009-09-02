@@ -194,7 +194,7 @@ void init_new_game(void)
   const int NO_START_POS = -1;
   int start_pos[player_slot_count()];
   int placed_units[player_slot_count()];
-  bool pos_used[map.num_start_positions];
+  bool pos_used[map.server.num_start_positions];
   int i, num_used = 0;
 
   randomize_base64url_string(server.game_identifier,
@@ -205,16 +205,13 @@ void init_new_game(void)
 
   /* First set up some data fields. */
   freelog(LOG_VERBOSE, "Placing players at start positions.");
-  for (i = 0; i < map.num_start_positions; i++) {
-    struct nation_type *n = map.start_positions[i].nation;
+  for (i = 0; i < map.server.num_start_positions; i++) {
+    struct nation_type *n = map.server.start_positions[i].nation;
 
     pos_used[i] = FALSE;
     freelog(LOG_VERBOSE, "%3d : (%2d,%2d) : \"%s\" (%d)",
-	    i,
-	    map.start_positions[i].tile->x,
-	    map.start_positions[i].tile->y,
-	    n ? nation_rule_name(n) : "",
-	    n ? nation_number(n) : -1);
+	    i, TILE_XY(map.server.start_positions[i].tile),
+	    n ? nation_rule_name(n) : "", n ? nation_number(n) : -1);
   }
   players_iterate(pplayer) {
     start_pos[player_index(pplayer)] = NO_START_POS;
@@ -223,9 +220,9 @@ void init_new_game(void)
   /* Second, assign a nation to a start position for that nation. */
   freelog(LOG_VERBOSE, "Assigning matching nations.");
   players_iterate(pplayer) {
-    for (i = 0; i < map.num_start_positions; i++) {
+    for (i = 0; i < map.server.num_start_positions; i++) {
       assert(pplayer->nation != NO_NATION_SELECTED);
-      if (pplayer->nation == map.start_positions[i].nation) {
+      if (pplayer->nation == map.server.start_positions[i].nation) {
 	freelog(LOG_VERBOSE, "Start_pos %d matches player %d (%s).",
 		i,
 		player_number(pplayer),
@@ -241,9 +238,9 @@ void init_new_game(void)
   freelog(LOG_VERBOSE, "Assigning random nations.");
   players_iterate(pplayer) {
     if (start_pos[player_index(pplayer)] == NO_START_POS) {
-      int which = myrand(map.num_start_positions - num_used);
+      int which = myrand(map.server.num_start_positions - num_used);
 
-      for (i = 0; i < map.num_start_positions; i++) {
+      for (i = 0; i < map.server.num_start_positions; i++) {
 	if (!pos_used[i]) {
 	  if (which == 0) {
 	    freelog(LOG_VERBOSE,
@@ -266,7 +263,7 @@ void init_new_game(void)
   /* Loop over all players, creating their initial units... */
   players_iterate(pplayer) {
     struct start_position pos
-      = map.start_positions[start_pos[player_index(pplayer)]];
+      = map.server.start_positions[start_pos[player_index(pplayer)]];
 
     /* Place the first unit. */
     if (place_starting_unit(pos.tile, pplayer,
@@ -283,7 +280,7 @@ void init_new_game(void)
     struct tile *ptile;
     struct nation_type *nation = nation_of_player(pplayer);
     struct start_position p
-      = map.start_positions[start_pos[player_index(pplayer)]];
+      = map.server.start_positions[start_pos[player_index(pplayer)]];
 
     /* Place global start units */
     for (i = 1; i < strlen(game.info.start_units); i++) {

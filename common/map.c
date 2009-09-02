@@ -102,7 +102,10 @@ bool map_is_empty(void)
 void map_init(void)
 {
   map.topology_id = MAP_DEFAULT_TOPO;
-  map.size = MAP_DEFAULT_SIZE;
+  map.num_continents = 0;
+  map.num_oceans = 0;
+  map.tiles = NULL;
+  map.startpos_table = NULL;
 
   /* The [xy]size values are set in map_init_topology.  It is initialized
    * to a non-zero value because some places erronously use these values
@@ -110,25 +113,25 @@ void map_init(void)
   map.xsize = MAP_MIN_LINEAR_SIZE;  
   map.ysize = MAP_MIN_LINEAR_SIZE;
 
-  map.seed = MAP_DEFAULT_SEED;
-  map.riches                = MAP_DEFAULT_RICHES;
-  map.huts                  = MAP_DEFAULT_HUTS;
-  map.landpercent           = MAP_DEFAULT_LANDMASS;
-  map.wetness               = MAP_DEFAULT_WETNESS;
-  map.steepness             = MAP_DEFAULT_STEEPNESS;
-  map.generator             = MAP_DEFAULT_GENERATOR;
-  map.startpos              = MAP_DEFAULT_STARTPOS;
-  map.tinyisles             = MAP_DEFAULT_TINYISLES;
-  map.separatepoles         = MAP_DEFAULT_SEPARATE_POLES;
-  map.alltemperate          = MAP_DEFAULT_ALLTEMPERATE;
-  map.temperature           = MAP_DEFAULT_TEMPERATURE;
-  map.tiles                 = NULL;
-  map.num_continents        = 0;
-  map.num_oceans            = 0;
-  map.num_start_positions   = 0;
-  map.have_resources = FALSE;
-  map.have_rivers_overlay   = FALSE;
-  map.have_huts             = FALSE;
+  if (is_server()) {
+    map.server.size = MAP_DEFAULT_SIZE;
+    map.server.seed = MAP_DEFAULT_SEED;
+    map.server.riches = MAP_DEFAULT_RICHES;
+    map.server.huts = MAP_DEFAULT_HUTS;
+    map.server.landpercent = MAP_DEFAULT_LANDMASS;
+    map.server.wetness = MAP_DEFAULT_WETNESS;
+    map.server.steepness = MAP_DEFAULT_STEEPNESS;
+    map.server.generator = MAP_DEFAULT_GENERATOR;
+    map.server.startpos = MAP_DEFAULT_STARTPOS;
+    map.server.tinyisles = MAP_DEFAULT_TINYISLES;
+    map.server.separatepoles = MAP_DEFAULT_SEPARATE_POLES;
+    map.server.alltemperate = MAP_DEFAULT_ALLTEMPERATE;
+    map.server.temperature = MAP_DEFAULT_TEMPERATURE;
+    map.server.num_start_positions = 0;
+    map.server.have_resources = FALSE;
+    map.server.have_rivers_overlay = FALSE;
+    map.server.have_huts = FALSE;
+  }
 }
 
 /**************************************************************************
@@ -238,9 +241,9 @@ void map_init_topology(bool set_sizes)
 {
   enum direction8 dir;
 
-  if (!set_sizes) {
+  if (!set_sizes && is_server()) {
     /* Set map.size based on map.xsize and map.ysize. */
-    map.size = (float)(map_num_tiles()) / 1000.0 + 0.5;
+    map.server.size = (float)(map_num_tiles()) / 1000.0 + 0.5;
   }
   
   /* sanity check for iso topologies*/

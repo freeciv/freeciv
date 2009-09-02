@@ -36,11 +36,11 @@ int get_sqsize(void);
    DRY_MIN_LEVEL- DRY_MAX_LEVEL
  */
 #define COLD_LEVEL \
- (MAX(0,        MAX_COLATITUDE * (60*7 - map.temperature * 6 ) / 700))
+ (MAX(0,        MAX_COLATITUDE * (60*7 - map.server.temperature * 6 ) / 700))
 #define TROPICAL_LEVEL\
- (MIN(MAX_COLATITUDE, MAX_COLATITUDE * (143*7 - map.temperature * 10) / 700))
-#define DRY_MIN_LEVEL (MAX_COLATITUDE * (7300 - map.temperature * 18 ) / 10000)
-#define DRY_MAX_LEVEL (MAX_COLATITUDE * (7300 + map.temperature * 17 ) / 10000)
+ (MIN(MAX_COLATITUDE, MAX_COLATITUDE * (143*7 - map.server.temperature * 10) / 700))
+#define DRY_MIN_LEVEL (MAX_COLATITUDE * (7300 - map.server.temperature * 18 ) / 10000)
+#define DRY_MAX_LEVEL (MAX_COLATITUDE * (7300 + map.server.temperature * 17 ) / 10000)
 
 /* used to create the poles and for separating them.  In a
  * mercator projection map we don't want the poles to be too big. */

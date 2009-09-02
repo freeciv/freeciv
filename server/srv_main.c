@@ -1573,11 +1573,11 @@ void init_available_nations(void)
   bool start_nations;
   int i;
 
-  if (map.num_start_positions > 0) {
+  if (map.server.num_start_positions > 0) {
     start_nations = TRUE;
 
-    for (i = 0; i < map.num_start_positions; i++) {
-      if (map.start_positions[i].nation == NO_NATION_SELECTED) {
+    for (i = 0; i < map.server.num_start_positions; i++) {
+      if (map.server.start_positions[i].nation == NO_NATION_SELECTED) {
 	start_nations = FALSE;
 	break;
       }
@@ -1590,8 +1590,8 @@ void init_available_nations(void)
     nations_iterate(nation) {
       nation->is_available = FALSE;
     } nations_iterate_end;
-    for (i = 0; i < map.num_start_positions; i++) {
-      map.start_positions[i].nation->is_available = TRUE;
+    for (i = 0; i < map.server.num_start_positions; i++) {
+      map.server.start_positions[i].nation->is_available = TRUE;
     }
   }
   nations_iterate(nation) {
@@ -2222,9 +2222,11 @@ static void srv_ready(void)
     final_ruleset_adjustments();
   }
    
-  /* If we have a tile map, and map.generator==0, call map_fractal_generate
-   * anyway to make the specials, huts and continent numbers. */
-  if (map_is_empty() || (map.generator == 0 && game.info.is_new_game)) {
+  /* If we have a tile map, and map.server.generator == 0, call
+   * map_fractal_generate anyway to make the specials, huts and continent
+   * numbers. */
+  if (map_is_empty()
+      || (map.server.generator == 0 && game.info.is_new_game)) {
     struct unit_type *utype = crole_to_unit_type(game.info.start_units[0], NULL);
 
     map_fractal_generate(TRUE, utype);

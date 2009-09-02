@@ -244,7 +244,7 @@ struct settings_s settings[] = {
   /* These should be grouped by sclass */
   
   /* Map size parameters: adjustable if we don't yet have a map */  
-  GEN_INT("size", map.size, SSET_MAP_SIZE,
+  GEN_INT("size", map.server.size, SSET_MAP_SIZE,
 	  SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
           N_("Map size (in thousands of tiles)"),
           N_("This value is used to determine the map dimensions.\n"
@@ -295,7 +295,7 @@ struct settings_s settings[] = {
   /* Map generation parameters: once we have a map these are of historical
    * interest only, and cannot be changed.
    */
-  GEN_INT("generator", map.generator,
+  GEN_INT("generator", map.server.generator,
 	  SSET_MAP_GEN, SSET_GEOLOGY, SSET_VITAL,  SSET_TO_CLIENT,
 	  N_("Method used to generate map"),
 	  N_("0 = Scenario map - no generator;\n"
@@ -309,7 +309,7 @@ struct settings_s settings[] = {
 	     "generator.  See the \"startpos\" setting."), NULL,
 	  MAP_MIN_GENERATOR, MAP_MAX_GENERATOR, MAP_DEFAULT_GENERATOR)
 
-  GEN_INT("startpos", map.startpos,
+  GEN_INT("startpos", map.server.startpos,
 	  SSET_MAP_GEN, SSET_GEOLOGY, SSET_VITAL,  SSET_TO_CLIENT,
 	  N_("Method used to choose start positions"),
 	  N_("0 = Generator's choice.  Selecting this setting means\n"
@@ -323,26 +323,26 @@ struct settings_s settings[] = {
 	     "for the choice of start pos and to the number of players"),
 	  NULL, MAP_MIN_STARTPOS, MAP_MAX_STARTPOS, MAP_DEFAULT_STARTPOS)
 
-  GEN_BOOL("tinyisles", map.tinyisles,
+  GEN_BOOL("tinyisles", map.server.tinyisles,
 	   SSET_MAP_GEN, SSET_GEOLOGY, SSET_RARE, SSET_TO_CLIENT,
 	   N_("Presence of 1x1 islands"),
 	   N_("0 = no 1x1 islands; 1 = some 1x1 islands"), NULL,
 	   MAP_DEFAULT_TINYISLES)
 
-  GEN_BOOL("separatepoles", map.separatepoles,
+  GEN_BOOL("separatepoles", map.server.separatepoles,
 	   SSET_MAP_GEN, SSET_GEOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
 	   N_("Whether the poles are separate continents"),
 	   N_("0 = continents may attach to poles; 1 = poles will "
 	      "usually be separate"), NULL, 
 	   MAP_DEFAULT_SEPARATE_POLES)
 
-  GEN_BOOL("alltemperate", map.alltemperate, 
+  GEN_BOOL("alltemperate", map.server.alltemperate, 
            SSET_MAP_GEN, SSET_GEOLOGY, SSET_RARE, SSET_TO_CLIENT,
 	   N_("All the map is temperate"),
 	   N_("0 = normal Earth-like planet; 1 = all-temperate planet "),
 	   NULL, MAP_DEFAULT_ALLTEMPERATE)
 
-  GEN_INT("temperature", map.temperature,
+  GEN_INT("temperature", map.server.temperature,
  	  SSET_MAP_GEN, SSET_GEOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
  	  N_("Average temperature of the planet"),
  	  N_("Small values will give a cold map, while larger values will "
@@ -360,21 +360,21 @@ struct settings_s settings[] = {
           NULL,
   	  MAP_MIN_TEMPERATURE, MAP_MAX_TEMPERATURE, MAP_DEFAULT_TEMPERATURE)
  
-  GEN_INT("landmass", map.landpercent,
+  GEN_INT("landmass", map.server.landpercent,
 	  SSET_MAP_GEN, SSET_GEOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
 	  N_("Percentage of the map that is land"),
 	  N_("This setting gives the approximate percentage of the map "
 	     "that will be made into land."), NULL,
 	  MAP_MIN_LANDMASS, MAP_MAX_LANDMASS, MAP_DEFAULT_LANDMASS)
 
-  GEN_INT("steepness", map.steepness,
+  GEN_INT("steepness", map.server.steepness,
 	  SSET_MAP_GEN, SSET_GEOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
 	  N_("Amount of hills/mountains"),
 	  N_("Small values give flat maps, while higher values give a "
 	     "steeper map with more hills and mountains."), NULL,
 	  MAP_MIN_STEEPNESS, MAP_MAX_STEEPNESS, MAP_DEFAULT_STEEPNESS)
 
-  GEN_INT("wetness", map.wetness,
+  GEN_INT("wetness", map.server.wetness,
  	  SSET_MAP_GEN, SSET_GEOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
  	  N_("Amount of water on lands"), 
 	  N_("Small values mean lots of dry, desert-like land; "
@@ -382,7 +382,7 @@ struct settings_s settings[] = {
 	     "jungles, and rivers."), NULL, 
  	  MAP_MIN_WETNESS, MAP_MAX_WETNESS, MAP_DEFAULT_WETNESS)
 
-  GEN_INT("mapseed", map.seed,
+  GEN_INT("mapseed", map.server.seed,
 	  SSET_MAP_GEN, SSET_INTERNAL, SSET_RARE, SSET_SERVER_ONLY,
 	  N_("Map generation random seed"),
 	  N_("The same seed will always produce the same map; "
@@ -404,7 +404,7 @@ struct settings_s settings[] = {
 	     "only of interest while debugging the game"), NULL, 
 	  GAME_MIN_SEED, GAME_MAX_SEED, GAME_DEFAULT_SEED)
 
-  GEN_INT("specials", map.riches,
+  GEN_INT("specials", map.server.riches,
 	  SSET_MAP_ADD, SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
 	  N_("Amount of \"special\" resource squares"), 
 	  N_("Special resources improve the basic terrain type they "
@@ -412,7 +412,7 @@ struct settings_s settings[] = {
 	     "thousand."), NULL,
 	  MAP_MIN_RICHES, MAP_MAX_RICHES, MAP_DEFAULT_RICHES)
 
-  GEN_INT("huts", map.huts,
+  GEN_INT("huts", map.server.huts,
 	  SSET_MAP_ADD, SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
 	  N_("Amount of huts (minor tribe villages)"),
 	  N_("This setting gives the exact number of huts that will be "

@@ -1335,7 +1335,7 @@ void ai_diplomacy_actions(struct player *pplayer)
         && pplayer->diplstates[player_index(aplayer)].has_reason_to_cancel >= 2
         && ai->diplomacy.player_intel[player_index(aplayer)].countdown == -1) {
       DIPLO_LOG(LOG_DIPL2, pplayer, aplayer, "Plans war in revenge");
-      war_countdown(pplayer, aplayer, map.size, WAR_REASON_BEHAVIOUR);
+      war_countdown(pplayer, aplayer, map.server.size, WAR_REASON_BEHAVIOUR);
     }
   } players_iterate_end;
 
@@ -1386,7 +1386,7 @@ void ai_diplomacy_actions(struct player *pplayer)
         /* This means war!!! */
         pplayer->ai_data.love[player_index(aplayer)] -= MAX_AI_LOVE / 2;
         DIPLO_LOG(LOG_DIPL, pplayer, aplayer, "plans war due to spaceship");
-        war_countdown(pplayer, aplayer, 4 + map.size, WAR_REASON_SPACE);
+        war_countdown(pplayer, aplayer, 4 + map.server.size, WAR_REASON_SPACE);
       }
     } players_iterate_end;
   }
@@ -1429,7 +1429,7 @@ void ai_diplomacy_actions(struct player *pplayer)
       war_reason = WAR_REASON_NONE;
     }
     DIPLO_LOG(LOG_DEBUG, pplayer, target, "plans war for spoils");
-    war_countdown(pplayer, target, 4 + map.size, war_reason);
+    war_countdown(pplayer, target, 4 + map.server.size, war_reason);
   }
 
   /*** Declare war - against enemies of allies ***/
@@ -1446,7 +1446,7 @@ void ai_diplomacy_actions(struct player *pplayer)
 	    myrand(5) < 1)) {
       DIPLO_LOG(LOG_DEBUG, pplayer, aplayer, "plans war to help ally %s",
                 player_name(adip->at_war_with_ally));
-      war_countdown(pplayer, aplayer, 2 + map.size, WAR_REASON_ALLIANCE);
+      war_countdown(pplayer, aplayer, 2 + map.server.size, WAR_REASON_ALLIANCE);
     }
   } players_iterate_end;
 

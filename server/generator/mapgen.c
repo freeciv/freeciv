@@ -56,7 +56,7 @@ enum river_map_type {RS_BLOCKED = 0, RS_RIVER = 1};
    A value of 2 means river.                            -Erik Sigra */
 static int *river_map;
 
-#define HAS_POLES (map.temperature < 70 && !map.alltemperate  )
+#define HAS_POLES (map.server.temperature < 70 && !map.server.alltemperate)
 
 /* These are the old parameters of terrains types in %
    TODO: they depend on the hardcoded terrains */
@@ -327,15 +327,16 @@ static struct terrain *pick_terrain(enum mapgen_terrain_property target,
 /**************************************************************************
   make_relief() will convert all squares that are higher than thill to
   mountains and hills. Note that thill will be adjusted according to
-  the map.steepness value, so increasing map.mountains will result in
-  more hills and mountains.
+  the map.server.steepness value, so increasing map.mountains will result
+  in more hills and mountains.
 **************************************************************************/
 static void make_relief(void)
 {
-  /* Calculate the mountain level.  map.mountains specifies the percentage
-   * of land that is turned into hills and mountains. */
-  hmap_mountain_level = ((hmap_max_level - hmap_shore_level)
-			 * (100 - map.steepness)) / 100 + hmap_shore_level;
+  /* Calculate the mountain level.  map.server.mountains specifies the
+   * percentage of land that is turned into hills and mountains. */
+  hmap_mountain_level = (((hmap_max_level - hmap_shore_level)
+                          * (100 - map.server.steepness))
+                         / 100 + hmap_shore_level);
 
   whole_map_iterate(ptile) {
     if (not_placed(ptile) &&
@@ -375,7 +376,7 @@ static void make_polar(void)
 ************************************************************************/
 static bool ok_for_separate_poles(struct tile *ptile)
 {
-  if (!map.separatepoles) {
+  if (!map.server.separatepoles) {
     return TRUE;
   }
   adjc_iterate(ptile, tile1) {
@@ -902,7 +903,7 @@ static void make_rivers(void)
       /* The size of the map (poles counted in river_pct). */
       map_num_tiles() *
       /* Rivers need to be on land only. */
-      map.landpercent /
+      map.server.landpercent /
       /* Adjustment value. Tested by me. Gives no rivers with 'set
 	 rivers 0', gives a reasonable amount of rivers with default
 	 settings and as many rivers as possible with 'set rivers 100'. */
@@ -1012,7 +1013,7 @@ static void make_rivers(void)
 
 /**************************************************************************
   make land simply does it all based on a generated heightmap
-  1) with map.landpercent it generates a ocean/unknown map
+  1) with map.server.landpercent it generates a ocean/unknown map
   2) it then calls the above functions to generate the different terrains
 **************************************************************************/
 static void make_land(void)
@@ -1043,7 +1044,7 @@ static void make_land(void)
     assert(land_fill != NULL);
   }
 
-  hmap_shore_level = (hmap_max_level * (100 - map.landpercent)) / 100;
+  hmap_shore_level = (hmap_max_level * (100 - map.server.landpercent)) / 100;
   ini_hmap_low_level();
   whole_map_iterate(ptile) {
     tile_set_terrain(ptile, T_UNKNOWN); /* set as oceans count is used */
@@ -1172,69 +1173,69 @@ FIXME: Some continent numbers are unused at the end of this function, fx
        work...
 
   If "autosize" is specified then mapgen will automatically size the map
-  based on the map.size server parameter and the specified topology.  If
-  not map.xsize and map.ysize will be used.
+  based on the map.server.size server parameter and the specified topology.
+  If not map.xsize and map.ysize will be used.
 **************************************************************************/
 void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
 {
   /* save the current random state: */
   RANDOM_STATE rstate = get_myrand_state();
  
-  if (map.seed == 0) {
+  if (map.server.seed == 0) {
     /* Create a "random" map seed.  Note the call to myrand() which will
      * depend on the game seed. */
-    map.seed = (myrand(MAX_UINT32) ^ time(NULL)) & (MAX_UINT32 >> 1);
-    freelog(LOG_DEBUG, "Setting map.seed:%d", map.seed);
+    map.server.seed = (myrand(MAX_UINT32) ^ time(NULL)) & (MAX_UINT32 >> 1);
+    freelog(LOG_DEBUG, "Setting map.seed:%d", map.server.seed);
   }
 
-  mysrand(map.seed);
+  mysrand(map.server.seed);
 
   /* don't generate tiles with mapgen==0 as we've loaded them from file */
   /* also, don't delete (the handcrafted!) tiny islands in a scenario */
-  if (map.generator != 0) {
+  if (map.server.generator != 0) {
     generator_init_topology(autosize);
     map_allocate();
     adjust_terrain_param();
     /* if one mapgenerator fails, it will choose another mapgenerator */
     /* with a lower number to try again */
     
-    if (map.generator == 3) {
+    if (map.server.generator == 3) {
       /* 2 or 3 players per isle? */
-      if (map.startpos == 2 || (map.startpos == 3)) { 
+      if (map.server.startpos == 2 || (map.server.startpos == 3)) { 
 	mapgenerator4();
       }
-      if (map.startpos <= 1) {
+      if (map.server.startpos <= 1) {
 	/* single player per isle */
 	mapgenerator3();
       }
-      if (map.startpos == 4) {
+      if (map.server.startpos == 4) {
 	/* "variable" single player */
 	mapgenerator2();
       }
 
-      if (map.generator == 3) {
+      if (map.server.generator == 3) {
         smooth_water_depth();
       }
     }
 
-    if (map.generator == 2) {
-      make_pseudofractal1_hmap(1 + ((map.startpos == 0
-				     || map.startpos == 3)
+    if (map.server.generator == 2) {
+      make_pseudofractal1_hmap(1 + ((map.server.startpos == 0
+				     || map.server.startpos == 3)
 				    ? 0 : player_count()));
     }
 
-    if (map.generator == 1) {
+    if (map.server.generator == 1) {
       make_random_hmap(MAX(1, 1 + get_sqsize() 
-			   - (map.startpos ? player_count() / 4 : 0)));
+			   - (map.server.startpos ? player_count() / 4 : 0)));
     }
 
     /* if hmap only generator make anything else */
-    if (map.generator == 1 || map.generator == 2) {
+    if (map.server.generator == 1 || map.server.generator == 2) {
       make_land();
       free(height_map);
       height_map = NULL;
     }
-    if (!map.tinyisles) {
+    if (!map.server.tinyisles) {
       remove_tiny_islands();
     }
 
@@ -1252,12 +1253,12 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
   }
 
   /* some scenarios already provide specials */
-  if (!map.have_resources) {
-    add_resources(map.riches);
+  if (!map.server.have_resources) {
+    add_resources(map.server.riches);
   }
 
-  if (!map.have_huts) {
-    make_huts(map.huts); 
+  if (!map.server.have_huts) {
+    make_huts(map.server.huts); 
   }
 
   /* restore previous random state: */
@@ -1266,24 +1267,24 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
 
   /* We don't want random start positions in a scenario which already
    * provides them. */
-  if (map.num_start_positions == 0) {
+  if (map.server.num_start_positions == 0) {
     enum start_mode mode = MT_ALL;
     bool success;
     
-    switch (map.generator) {
+    switch (map.server.generator) {
     case 0:
     case 1:
-      mode = map.startpos;
+      mode = map.server.startpos;
       break;
     case 2:
-      if (map.startpos == 0) {
+      if (map.server.startpos == 0) {
         mode = MT_ALL;
       } else {
-        mode = map.startpos;
+        mode = map.server.startpos;
       }
       break;
     case 3:
-      if (map.startpos <= 1 || (map.startpos == 4)) {
+      if (map.server.startpos <= 1 || (map.server.startpos == 4)) {
         mode = MT_SINGLE;
       } else {
 	mode = MT_2or3;
@@ -1323,26 +1324,26 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
 **************************************************************************/
 static void adjust_terrain_param(void)
 {
-  int polar = 2 * ICE_BASE_LEVEL * map.landpercent / MAX_COLATITUDE ;
-  float factor = (100.0 - polar - map.steepness * 0.8 ) / 10000;
+  int polar = 2 * ICE_BASE_LEVEL * map.server.landpercent / MAX_COLATITUDE;
+  float factor = (100.0 - polar - map.server.steepness * 0.8 ) / 10000;
 
 
-  mountain_pct = factor * map.steepness * 90;
+  mountain_pct = factor * map.server.steepness * 90;
 
   /* 27 % if wetness == 50 & */
-  forest_pct = factor * (map.wetness * 40 + 700) ; 
+  forest_pct = factor * (map.server.wetness * 40 + 700) ; 
   jungle_pct = forest_pct * (MAX_COLATITUDE - TROPICAL_LEVEL) /
                (MAX_COLATITUDE * 2);
   forest_pct -= jungle_pct;
 
   /* 3 - 11 % */
-  river_pct = (100 - polar) * (3 + map.wetness / 12) / 100;
+  river_pct = (100 - polar) * (3 + map.server.wetness / 12) / 100;
 
   /* 6 %  if wetness == 50 && temperature == 50 */
-  swamp_pct = factor * MAX(0, 
-			   (map.wetness * 9 - 150 + map.temperature * 6));
-  desert_pct =factor * MAX(0,
-		(map.temperature * 15 - 250 + (100 - map.wetness) * 10)) ;
+  swamp_pct = factor * MAX(0,  (map.server.wetness * 9 - 150
+                                + map.server.temperature * 6));
+  desert_pct =factor * MAX(0, (map.server.temperature * 15 - 250
+                               + (100 - map.server.wetness) * 10)) ;
 }
 
 /****************************************************************************
@@ -1415,7 +1416,7 @@ static void add_resources(int prob)
       continue;
     }
     if (!is_ocean(pterrain) || near_safe_tiles (ptile)
-        || map.ocean_resources) {
+        || map.server.ocean_resources) {
       int i = 0;
       struct resource **r;
 
@@ -1431,7 +1432,7 @@ static void add_resources(int prob)
     }
   } whole_map_iterate_end;
   
-  map.have_resources = TRUE;
+  map.server.have_resources = TRUE;
 }
 
 /**************************************************************************
@@ -1955,12 +1956,12 @@ static void mapgenerator2(void)
    *     10% in small. */ 
   int bigfrac = 70, midfrac = 20, smallfrac = 10;
 
-  if (map.landpercent > 85) {
-    map.generator = 1;
+  if (map.server.landpercent > 85) {
+    map.server.generator = 1;
     return;
   }
 
-  pstate->totalmass = ((map.ysize - 6 - spares) * map.landpercent 
+  pstate->totalmass = ((map.ysize - 6 - spares) * map.server.landpercent 
                        * (map.xsize - spares)) / 100;
   totalweight = 100 * player_count();
 
@@ -2002,7 +2003,7 @@ static void mapgenerator2(void)
   if (bigfrac <= midfrac) {
     /* We could never make adequately big islands. */
     freelog(LOG_NORMAL, _("Falling back to generator %d."), 1);
-    map.generator = 1;
+    map.server.generator = 1;
 
     /* init world created this map, destroy it before abort */
     destroy_placed_map();
@@ -2044,18 +2045,17 @@ static void mapgenerator3(void)
   struct gen234_state state;
   struct gen234_state *pstate = &state;
 
-  if ( map.landpercent > 80) {
-    map.generator = 2;
+  if (map.server.landpercent > 80) {
+    map.server.generator = 2;
     return;
   }
 
-  pstate->totalmass =
-      ((map.ysize - 6 - spares) * map.landpercent * (map.xsize - spares)) /
-      100;
+  pstate->totalmass = (((map.ysize - 6 - spares) * map.server.landpercent
+                        * (map.xsize - spares)) / 100);
 
   bigislands= player_count();
 
-  landmass = (map.xsize * (map.ysize - 6) * map.landpercent)/100;
+  landmass = (map.xsize * (map.ysize - 6) * map.server.landpercent)/100;
   /* subtracting the arctics */
   if (landmass > 3 * map.ysize + player_count() * 3){
     landmass -= 3 * map.ysize;
@@ -2070,9 +2070,9 @@ static void mapgenerator3(void)
     islandmass= (landmass)/(bigislands);
   }
 
-  if (map.xsize < 40 || map.ysize < 40 || map.landpercent > 80) { 
+  if (map.xsize < 40 || map.ysize < 40 || map.server.landpercent > 80) { 
     freelog(LOG_NORMAL, _("Falling back to generator %d."), 2); 
-    map.generator = 2;
+    map.server.generator = 2;
     return; 
   }
 
@@ -2141,24 +2141,23 @@ static void mapgenerator4(void)
 
   /* no islands with mass >> sqr(min(xsize,ysize)) */
 
-  if (player_count() < 2 || map.landpercent > 80) {
-    map.startpos = 1;
+  if (player_count() < 2 || map.server.landpercent > 80) {
+    map.server.startpos = 1;
     return;
   }
 
-  if (map.landpercent > 60) {
+  if (map.server.landpercent > 60) {
     bigweight=30;
-  } else if (map.landpercent > 40) {
+  } else if (map.server.landpercent > 40) {
     bigweight=50;
   } else {
     bigweight=70;
   }
 
-  spares = (map.landpercent - 5) / 30;
+  spares = (map.server.landpercent - 5) / 30;
 
-  pstate->totalmass =
-      ((map.ysize - 6 - spares) * map.landpercent * (map.xsize - spares)) /
-      100;
+  pstate->totalmass = (((map.ysize - 6 - spares) * map.server.landpercent
+                        * (map.xsize - spares)) / 100);
 
   /*!PS: The weights NEED to sum up to totalweight (dammit) */
   totalweight = (30 + bigweight) * player_count();

@@ -41,36 +41,43 @@ struct civ_map {
   int num_valid_dirs, num_cardinal_dirs;
   struct iter_index *iterate_outwards_indices;
   int num_iterate_outwards_indices;
-  int size; /* used to calculate [xy]size */
   int xsize, ysize; /* native dimensions */
-  int seed;
-  int riches;
-  int huts;
-  int landpercent;
-  int generator;
-  int startpos;
-  bool tinyisles;
-  bool separatepoles;
-  bool alltemperate;
-  int temperature;
-  int wetness;
-  int steepness;
-  int num_start_positions;
-  bool have_resources;
-  bool ocean_resources;         /* Resources in the middle of the ocean */
-  bool have_huts;
-  bool have_rivers_overlay;	/* only applies if !have_resources */
   int num_continents;
   int num_oceans;               /* not updated at the client */
   struct tile *tiles;
-
   struct hash_table *startpos_table;
 
-  /* Only used by server. */
-  struct start_position {
-    struct tile *tile;
-    struct nation_type *nation; /* May be NO_NATION_SELECTED. */
-  } *start_positions;	/* allocated at runtime */
+  union {
+    struct {
+      /* Nothing yet. */
+    } client;
+
+    struct {
+      int size; /* used to calculate [xy]size */
+      int seed;
+      int riches;
+      int huts;
+      int landpercent;
+      int generator;
+      int startpos;
+      bool tinyisles;
+      bool separatepoles;
+      bool alltemperate;
+      int temperature;
+      int wetness;
+      int steepness;
+      int num_start_positions;
+      bool have_resources;
+      bool ocean_resources;         /* Resources in the middle of the ocean */
+      bool have_huts;
+      bool have_rivers_overlay;	/* only applies if !have_resources */
+
+      struct start_position {
+        struct tile *tile;
+        struct nation_type *nation; /* May be NO_NATION_SELECTED. */
+      } *start_positions;	/* allocated at runtime */
+    } server;
+  };
 };
 
 enum topo_flag {

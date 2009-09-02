@@ -379,11 +379,11 @@ static bool send_to_metaserver(enum meta_flag flag)
     s = end_of_strn(s, &rest);
 
     my_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
-                fc_url_encode("generator"), map.generator);
+                fc_url_encode("generator"), map.server.generator);
     s = end_of_strn(s, &rest);
 
     my_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
-                fc_url_encode("size"), map.size);
+                fc_url_encode("size"), map.server.size);
     s = end_of_strn(s, &rest);
   }
 

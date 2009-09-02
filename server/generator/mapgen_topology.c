@@ -33,7 +33,7 @@ int map_colatitude(const struct tile *ptile)
 {
   double x, y;
   
-  if (map.alltemperate) {
+  if (map.server.alltemperate) {
     /* An all-temperate map has "average" temperature everywhere.
      *
      * TODO: perhaps there should be a random temperature variation. */
@@ -215,15 +215,16 @@ static void set_sizes(double size, int Xratio, int Yratio)
 
   /* If the ratio is too big for some topology the simplest way to avoid
    * this error is to set the maximum size smaller for all topologies! */
-  if (map.size > size + 0.9) {
+  if (map.server.size > size + 0.9) {
     /* Warning when size is set uselessly big */ 
     freelog(LOG_ERROR,
 	    "Requested size of %d is too big for this topology.",
-	    map.size);
+	    map.server.size);
   }
   freelog(LOG_VERBOSE,
 	  "Creating a map of size %d x %d = %d tiles (%d requested).",
-	  map.xsize, map.ysize, map.xsize * map.ysize, map.size * 1000);
+	  map.xsize, map.ysize, map.xsize * map.ysize,
+          map.server.size * 1000);
 }
 
 /*
@@ -255,7 +256,7 @@ void generator_init_topology(bool autosize)
     assert(TF_WRAPX == 0x1 && TF_WRAPY == 0x2);
 
     /* Set map.xsize and map.ysize based on map.size. */
-    set_sizes(map.size, default_ratios[id][0], default_ratios[id][1]);
+    set_sizes(map.server.size, default_ratios[id][0], default_ratios[id][1]);
   }
 
   /* initialize the ICE_BASE_LEVEL */
@@ -268,13 +269,13 @@ void generator_init_topology(bool autosize)
   /*
    *if maps has strip like poles we get smaller poles 
    * (less playables than island poles)
-   *  5% for little maps; 2% for big ones, if map.temperature == 50 
+   *  5% for little maps; 2% for big ones, if map.server.temperature == 50 
    * exept if separate poles is set
    */
   if (!topo_has_flag(TF_WRAPX) || !topo_has_flag(TF_WRAPY)) {
     int sqsize = get_sqsize();
 
-    if (map.separatepoles) {
+    if (map.server.separatepoles) {
       /* with separatepoles option strip poles are useless */
       ice_base_colatitude =
 	  (MAX(0, 100 * COLD_LEVEL / 3 - 1 *  MAX_COLATITUDE) 

@@ -638,25 +638,26 @@ static void map_load_startpos(struct section_file *file)
       start_positions[j].nation = pnation;
       j++;
     }
-    map.num_start_positions = j;
-    if (map.num_start_positions > 0) {
-      map.start_positions = fc_realloc(map.start_positions,
-  	                               map.num_start_positions
-				       * sizeof(*map.start_positions));
+    map.server.num_start_positions = j;
+    if (map.server.num_start_positions > 0) {
+      map.server.start_positions =
+        fc_realloc(map.server.start_positions,
+                   map.server.num_start_positions
+                   * sizeof(*map.server.start_positions));
       for (i = 0; i < j; i++) {
-        map.start_positions[i] = start_positions[i];
+        map.server.start_positions[i] = start_positions[i];
       }
     }
   }
   
 
-  if (map.num_start_positions
-      && map.num_start_positions < game.info.max_players) {
+  if (map.server.num_start_positions
+      && map.server.num_start_positions < game.info.max_players) {
     freelog(LOG_VERBOSE,
 	    "Number of starts (%d) are lower than rules.max_players (%d),"
 	      " lowering rules.max_players.",
- 	    map.num_start_positions, game.info.max_players);
-    game.info.max_players = map.num_start_positions;
+ 	    map.server.num_start_positions, game.info.max_players);
+    game.info.max_players = map.server.num_start_positions;
   }
 }
 
@@ -671,8 +672,8 @@ static void map_load_tiles(struct section_file *file)
   /* In some cases we read these before, but not always, and
    * its safe to read them again:
    */
-  map.xsize=secfile_lookup_int(file, "map.width");
-  map.ysize=secfile_lookup_int(file, "map.height");
+  map.xsize = secfile_lookup_int(file, "map.width");
+  map.ysize = secfile_lookup_int(file, "map.height");
 
   /* With a FALSE parameter [xy]size are not changed by this call. */
   map_init_topology(FALSE);
@@ -726,7 +727,7 @@ static void map_load_rivers_overlay(struct section_file *file,
 			      const enum tile_special_type *special_order)
 {
   /* used by set_savegame_special */
-  map.have_rivers_overlay = TRUE;
+  map.server.have_rivers_overlay = TRUE;
 
   if (special_order) {
     special_halfbyte_iterate(j) {
@@ -776,7 +777,7 @@ static void set_savegame_special(bv_special *specials,
     if (sp >= S_LAST) {
       continue;
     }
-    if (map.have_rivers_overlay && sp != S_RIVER) {
+    if (map.server.have_rivers_overlay && sp != S_RIVER) {
       freelog(LOG_ERROR, "Rivers_overlay");
       continue;
     }
@@ -951,7 +952,7 @@ static void map_load(struct section_file *file,
   if (secfile_lookup_bool_default(file, TRUE, "game.save_starts")) {
     map_load_startpos(file);
   } else {
-    map.num_start_positions = 0;
+    map.server.num_start_positions = 0;
   }
 
   if (special_order) {
@@ -1125,7 +1126,7 @@ static void map_load(struct section_file *file,
       } player_slots_iterate_end;
     } whole_map_iterate_end;
   }
-  map.have_resources = TRUE;
+  map.server.have_resources = TRUE;
 }
 
 /***************************************************************
@@ -1142,14 +1143,14 @@ static void map_save(struct section_file *file)
   secfile_insert_bool(file, game.server.save_options.save_starts,
                       "game.save_starts");
   if (game.server.save_options.save_starts) {
-    for (i = 0; i < map.num_start_positions; i++) {
-      struct tile *ptile = map.start_positions[i].tile;
+    for (i = 0; i < map.server.num_start_positions; i++) {
+      struct tile *ptile = map.server.start_positions[i].tile;
 
       secfile_insert_int(file, ptile->nat_x, "map.r%dsx", i);
       secfile_insert_int(file, ptile->nat_y, "map.r%dsy", i);
 
-      if (map.start_positions[i].nation != NO_NATION_SELECTED) {
-	secfile_insert_str(file, nation_rule_name(map.start_positions[i].nation),
+      if (map.server.start_positions[i].nation != NO_NATION_SELECTED) {
+	secfile_insert_str(file, nation_rule_name(map.server.start_positions[i].nation),
 			   "map.r%dsnation", i);
       }
     }
@@ -1166,8 +1167,8 @@ static void map_save(struct section_file *file)
   SAVE_NORMAL_MAP_DATA(ptile, file, "map.t%03d",
 		       terrain2char(ptile->terrain));
 
-  if (!map.have_resources) {
-    if (map.have_rivers_overlay) {
+  if (!map.server.have_resources) {
+    if (map.server.have_rivers_overlay) {
       /* 
        * Save the rivers overlay map; this is a special case to allow
        * re-saving scenarios which have rivers overlay data.  This only
@@ -4507,29 +4508,30 @@ static void game_load_internal(struct section_file *file)
 
       map.topology_id = secfile_lookup_int_default(file, MAP_ORIGINAL_TOPO,
 					           "map.topology_id");
-      map.size = secfile_lookup_int_default(file, MAP_DEFAULT_SIZE,
-                                            "map.size");
-      map.riches = secfile_lookup_int(file, "map.riches");
-      map.huts = secfile_lookup_int(file, "map.huts");
-      map.generator = secfile_lookup_int(file, "map.generator");
-      map.seed = secfile_lookup_int(file, "map.seed");
-      map.landpercent = secfile_lookup_int(file, "map.landpercent");
-      map.wetness = secfile_lookup_int_default(file, MAP_DEFAULT_WETNESS,
-					       "map.wetness");
-      map.steepness = secfile_lookup_int_default(file, MAP_DEFAULT_STEEPNESS, 
-						 "map.steepness");
-      map.have_huts = secfile_lookup_bool_default(file, TRUE,
-						  "map.have_huts");
-      map.temperature =
-	secfile_lookup_int_default(file,
-				   MAP_DEFAULT_TEMPERATURE, "map.temperature");
-      map.alltemperate
+      map.server.size = secfile_lookup_int_default(file, MAP_DEFAULT_SIZE,
+                                                   "map.size");
+      map.server.riches = secfile_lookup_int(file, "map.riches");
+      map.server.huts = secfile_lookup_int(file, "map.huts");
+      map.server.generator = secfile_lookup_int(file, "map.generator");
+      map.server.seed = secfile_lookup_int(file, "map.seed");
+      map.server.landpercent = secfile_lookup_int(file, "map.landpercent");
+      map.server.wetness =
+        secfile_lookup_int_default(file, MAP_DEFAULT_WETNESS, "map.wetness");
+      map.server.steepness =
+        secfile_lookup_int_default(file, MAP_DEFAULT_STEEPNESS,
+                                   "map.steepness");
+      map.server.have_huts = secfile_lookup_bool_default(file, TRUE,
+                                                         "map.have_huts");
+      map.server.temperature =
+	secfile_lookup_int_default(file, MAP_DEFAULT_TEMPERATURE,
+                                   "map.temperature");
+      map.server.alltemperate
 	= secfile_lookup_bool_default(file, MAP_DEFAULT_ALLTEMPERATE,
 				      "map.alltemperate");
-      map.tinyisles
+      map.server.tinyisles
 	= secfile_lookup_bool_default(file, MAP_DEFAULT_TINYISLES,
 				      "map.tinyisles");
-      map.separatepoles
+      map.server.separatepoles
 	= secfile_lookup_bool_default(file, MAP_DEFAULT_SEPARATE_POLES,
 				      "map.separatepoles");
 
@@ -4542,7 +4544,7 @@ static void game_load_internal(struct section_file *file)
 	map.ysize = secfile_lookup_int(file, "map.ysize");
       }
 
-      if (S_S_INITIAL == tmp_server_state && 0 == map.generator) {
+      if (S_S_INITIAL == tmp_server_state && 0 == map.server.generator) {
 	/* generator 0 = map done with map editor */
 	/* aka a "scenario" */
         if (has_capability("specials",savefile_options)) {
@@ -4886,15 +4888,15 @@ void game_save(struct section_file *file, const char *save_reason,
   sz_strlcpy(options, savefile_options_default);
   if (game.info.is_new_game
       || (scenario && !game.scenario.players)) {
-    if (map.num_start_positions>0) {
+    if (map.server.num_start_positions>0) {
       sz_strlcat(options, " startpos");
     }
   }
   if (game.info.is_new_game) {
-    if (map.have_resources) {
+    if (map.server.have_resources) {
       sz_strlcat(options, " specials");
     }
-    if (map.have_rivers_overlay && !map.have_resources) {
+    if (map.server.have_rivers_overlay && !map.server.have_resources) {
       sz_strlcat(options, " riversoverlay");
     }
   }
@@ -5093,23 +5095,23 @@ void game_save(struct section_file *file, const char *save_reason,
      * when S_S_INITIAL, but I'm standardizing on width,height --dwp
      */
     secfile_insert_int(file, map.topology_id, "map.topology_id");
-    secfile_insert_int(file, map.size, "map.size");
+    secfile_insert_int(file, map.server.size, "map.size");
     secfile_insert_int(file, map.xsize, "map.width");
     secfile_insert_int(file, map.ysize, "map.height");
     secfile_insert_str(file, game.info.start_units, "game.start_units");
     secfile_insert_int(file, game.info.dispersion, "game.dispersion");
-    secfile_insert_int(file, map.seed, "map.seed");
-    secfile_insert_int(file, map.landpercent, "map.landpercent");
-    secfile_insert_int(file, map.riches, "map.riches");
-    secfile_insert_int(file, map.wetness, "map.wetness");
-    secfile_insert_int(file, map.steepness, "map.steepness");
-    secfile_insert_int(file, map.huts, "map.huts");
-    secfile_insert_int(file, map.generator, "map.generator");
-    secfile_insert_bool(file, map.have_huts, "map.have_huts");
-    secfile_insert_int(file, map.temperature, "map.temperature");
-    secfile_insert_bool(file, map.alltemperate, "map.alltemperate");
-    secfile_insert_bool(file, map.tinyisles, "map.tinyisles");
-    secfile_insert_bool(file, map.separatepoles, "map.separatepoles");
+    secfile_insert_int(file, map.server.seed, "map.seed");
+    secfile_insert_int(file, map.server.landpercent, "map.landpercent");
+    secfile_insert_int(file, map.server.riches, "map.riches");
+    secfile_insert_int(file, map.server.wetness, "map.wetness");
+    secfile_insert_int(file, map.server.steepness, "map.steepness");
+    secfile_insert_int(file, map.server.huts, "map.huts");
+    secfile_insert_int(file, map.server.generator, "map.generator");
+    secfile_insert_bool(file, map.server.have_huts, "map.have_huts");
+    secfile_insert_int(file, map.server.temperature, "map.temperature");
+    secfile_insert_bool(file, map.server.alltemperate, "map.alltemperate");
+    secfile_insert_bool(file, map.server.tinyisles, "map.tinyisles");
+    secfile_insert_bool(file, map.server.separatepoles, "map.separatepoles");
   } 
 
   secfile_insert_int(file, game.server.seed, "game.randseed");
