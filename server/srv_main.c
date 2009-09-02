@@ -1148,8 +1148,6 @@ void start_game(void)
 
   con_puts(C_OK, _("Starting game."));
 
-  clear_all_votes();
-
   /* Prevent problems with commands that only make sense in pregame. */
   clear_all_votes();
 
