@@ -569,9 +569,13 @@ void ai_treaty_evaluate(struct player *pplayer, struct player *aplayer,
     DIPLO_LOG(LOG_DIPL2, pplayer, aplayer, "balance was good: %d", 
               total_balance);
   } else {
-    notify(aplayer, _("*%s (AI)* This deal was not very good for us, %s!"),
+    /* AI complains about the treaty which was proposed, unless the AI
+     * made the proposal. */
+    if (pplayer != ptreaty->plr0) {
+      notify(aplayer, _("*%s (AI)* This deal was not very good for us, %s!"),
            player_name(pplayer),
            player_name(aplayer));
+    }
     DIPLO_LOG(LOG_DIPL2, pplayer, aplayer, "balance was bad: %d", 
               total_balance);
   }
