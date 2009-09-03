@@ -88,4 +88,12 @@ do {\
   }\
 } while (FALSE)
 
+/***************************************************************************
+  Iterator init functions cannot return NULL, so this dummy helper function
+  can be used to return a "generic invalid iterator" that will just exit
+  out of generic_iterate. Its size is just sizeof(struct iterator), so it
+  will fit into any iterator's allocated stack memory.
+***************************************************************************/
+struct iterator *invalid_iter_init(struct iterator *it);
+
 #endif /* FC__ITERATOR_H */
