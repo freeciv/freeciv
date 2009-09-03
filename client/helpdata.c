@@ -1090,6 +1090,15 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
         break;
     };
   }
+  if (utype_has_flag(utype, F_SHIELD2GOLD)) {
+    /* FIXME: the conversion shield => gold is activated if
+     *        EFT_SHIELD2GOLD_FACTOR is not equal null; how to determine
+     *        possible sources? */
+    CATLSTR(buf, bufsz,
+            _("* Under certain conditions the shield upkeep of this unit can "
+              " be converted to gold upkeep.\n"));
+  }
+
   unit_class_iterate(pclass) {
     if (uclass_has_flag(pclass, UCF_UNREACHABLE)
         && BV_ISSET(utype->targets, uclass_index(pclass))) {
