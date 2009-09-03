@@ -100,7 +100,8 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
 static bool read_init_script_real(struct connection *caller,
                                   char *script_filename, bool from_cmdline,
                                   bool check, int read_recursion);
-static bool reset_command(struct connection *caller, bool check);
+static bool reset_command(struct connection *caller, bool check,
+                          int read_recursion);
 
 static bool is_ok_opt_name_char(char c);
 
@@ -951,6 +952,15 @@ static bool read_init_script_real(struct connection *caller,
   char tilde_filename[4096];
   char *real_filename;
 
+  /* increase the number of calls to read */
+  read_recursion++;
+
+  /* check recursion depth */
+  if (read_recursion > GAME_MAX_READ_RECURSION) {
+    freelog(LOG_ERROR, "Error: recursive calls to read!");
+    return FALSE;
+  }
+
   /* abuse real_filename to find if we already have a .serv extension */
   real_filename = script_filename + strlen(script_filename) 
                   - MIN(strlen(extension), strlen(script_filename));
@@ -1013,14 +1023,6 @@ static bool read_init_script_real(struct connection *caller,
 static bool read_command(struct connection *caller, char *arg, bool check,
                          int read_recursion)
 {
-  if (read_recursion > GAME_MAX_READ_RECURSION) {
-    freelog(LOG_ERROR, "Error: recursive calls to read!");
-    return FALSE;
-  }
-
-  /* increase the number of calls to read */
-  read_recursion++;
-
   return read_init_script_real(caller, arg, FALSE, check, read_recursion);
 }
 
@@ -3782,7 +3784,7 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
     }
 
     /* Check if the vote command would succeed. */
-    if (handle_stdin_input(caller, full_command, TRUE)
+    if (handle_stdin_input_real(caller, full_command, TRUE, read_recursion)
         && (vote = vote_new(caller, allargs, cmd))) {
       char votedesc[MAX_LEN_CONSOLE_LINE];
       const struct player *teamplr;
@@ -3899,7 +3901,7 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
   case CMD_WRITE_SCRIPT:
     return write_command(caller, arg, check);
   case CMD_RESET:
-    return reset_command(caller, check);
+    return reset_command(caller, check, read_recursion);
   case CMD_RFCSTYLE:	/* see console.h for an explanation */
     if (!check) {
       con_set_style(!con_get_style());
@@ -3976,7 +3978,8 @@ static bool surrender_command(struct connection *caller, char *str, bool check)
   Reset all (changeable) game settings and reload the init script if it
   was used.
 **************************************************************************/
-static bool reset_command(struct connection *caller, bool check)
+static bool reset_command(struct connection *caller, bool check,
+                          int read_recursion)
 {
   if (check) {
     return TRUE;
@@ -3985,7 +3988,8 @@ static bool reset_command(struct connection *caller, bool check)
   settings_reset();
 
   if (srvarg.script_filename &&
-      !read_init_script(NULL, srvarg.script_filename, TRUE, FALSE)) {
+      !read_init_script_real(NULL, srvarg.script_filename, TRUE, FALSE,
+                             read_recursion)) {
     freelog(LOG_ERROR, _("Cannot load the script file '%s'"),
             srvarg.script_filename);
     return FALSE;
