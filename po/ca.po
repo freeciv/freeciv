@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-07-08 22:00+0200\n"
-"PO-Revision-Date: 2009-07-24 23:32+0200\n"
+"PO-Revision-Date: 2009-09-04 01:38+0200\n"
 "Last-Translator: Joan Creus <joan.creus at gmail dot com>\n"
 "Language-Team: Català <ca@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2176,7 +2176,7 @@ msgstr "S'ha restablert l'ordre a %s."
 #: server/cityturn.c:2140
 #, c-format
 msgid "The people have overthrown your %s, your country is in turmoil."
-msgstr "La gent ha destronat el teu %s, el país està en aixecament."
+msgstr "La gent ha destronat el teu %s, el país està sublevat."
 
 #: server/cityturn.c:2178
 #, c-format
@@ -3917,14 +3917,13 @@ msgid "No such city (ID %d)."
 msgstr "No existeix la ciutat (ID %d)"
 
 #: server/edithand.c:1186
-#, fuzzy
 msgid "Cannot toggle fog-of-war when it is already disabled."
-msgstr "No es pot iniciar la partida: ja s'està jugant."
+msgstr "No es pot commutar la penombra de guerra quan ja està inhabilitada."
 
 #: server/edithand.c:1194
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot toggle fog-of-war for invalid player ID %d."
-msgstr "No es pot canviar un jugador bàrbar."
+msgstr "No es pot commutar la penombra de guerra per jugador no vàlid ID %d."
 
 #: server/edithand.c:1222
 #, c-format
@@ -5576,9 +5575,8 @@ msgstr ""
 "terreny dels voltants."
 
 #: server/settings.c:832
-#, fuzzy
 msgid "Whether to enable citizen migration"
-msgstr "Si s'activa la penombra de guerra"
+msgstr "Si s'activa l'emigració de ciutadans"
 
 #: server/settings.c:833
 msgid ""
@@ -12473,7 +12471,7 @@ msgstr ""
 msgid ""
 "Use this to change the tool's \"count\" parameter. This controls for example "
 "how many units are placed at once with the unit tool."
-msgstr ""
+msgstr "Amb això es modifica el paràmetre \"nombre\" de l'eina. Això controla per exemple quantes unitats es col·loquen alhora amb l'eina d'unitats."
 
 #: client/gui-gtk-2.0/editgui.c:1302
 msgid ""
@@ -12750,9 +12748,8 @@ msgid ""
 msgstr ""
 
 #: client/gui-gtk-2.0/editprop.c:4125
-#, fuzzy
 msgid "Create"
-msgstr "Grans"
+msgstr "Crear"
 
 #: client/gui-gtk-2.0/editprop.c:4130
 msgid ""
@@ -12760,17 +12757,16 @@ msgid ""
 "current property page and add it to the page. The specific type and count of "
 "the objects is taken from the editor tool state. So for example, the \"tool "
 "value\" of the unit tool and its \"count\" parameter affect unit creation."
-msgstr ""
+msgstr "Prémer aquest botó crearà un objecte nou del mateix tipus que la pàgina de propietats actual i l'afegirà a la pàgina. El tipus i nombre específic d'objectes s'agafa de l'estat de l'eina d'edició. Així, per exemple, el \"valor d'eina\" de l'eina d'unitats i el seu paràmetre \"nombre\" afecten la creació d'unitats."
 
 #: client/gui-gtk-2.0/editprop.c:4179
-#, fuzzy, c-format
+#, c-format
 msgid "%s Properties"
-msgstr "_Propietats"
+msgstr "Propietats de %s"
 
 #: client/gui-gtk-2.0/editprop.c:4217
-#, fuzzy
 msgid "Filter:"
-msgstr "Caça"
+msgstr "Filtre:"
 
 #: client/gui-gtk-2.0/editprop.c:4222
 msgid ""
@@ -12794,9 +12790,8 @@ msgid ""
 msgstr ""
 
 #: client/gui-gtk-2.0/editprop.c:5363
-#, fuzzy
 msgid "Property Editor"
-msgstr "Editor de llistes de treball"
+msgstr "Editor de Propietats"
 
 #. TRANS: Vision layer name. Feel free to leave untranslated.
 #: client/gui-gtk-2.0/editprop.c:5729
@@ -13554,16 +13549,15 @@ msgstr "Recalcular _Fronteres"
 
 #: client/gui-gtk-2.0/menu.c:857
 msgid "Toggle Fog-of-war"
-msgstr ""
+msgstr "Commutar Penombra de guerra"
 
 #: client/gui-gtk-2.0/menu.c:859
 msgid "Game\\/Scenario Properties"
 msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:861 client/gui-gtk-2.0/pages.c:2452
-#, fuzzy
 msgid "Save Scenario"
-msgstr "Començar Partida en _Escenari"
+msgstr "Desar Escenari"
 
 #: client/gui-gtk-2.0/menu.c:866 client/gui-gtk-2.0/menu.c:1027
 #: client/gui-win32/menu.c:338
@@ -13575,9 +13569,8 @@ msgid "City Outlines"
 msgstr "Contorns de Ciutat"
 
 #: client/gui-gtk-2.0/menu.c:872 client/gui-sdl/optiondlg.c:1636
-#, fuzzy
 msgid "City Output"
-msgstr "Opcions de Ciutat"
+msgstr "Producció de Ciutat"
 
 #: client/gui-gtk-2.0/menu.c:874 client/gui-win32/menu.c:339
 msgid "Map _Grid"
@@ -13604,9 +13597,8 @@ msgid "City Buy Cost"
 msgstr "Cost de Compra de la Ciutat"
 
 #: client/gui-gtk-2.0/menu.c:887
-#, fuzzy
 msgid "City _Traderoutes"
-msgstr "Rutes Comercials de la Ciutat"
+msgstr "Ru_tes Comercials de la Ciutat"
 
 #: client/gui-gtk-2.0/menu.c:893 client/gui-win32/menu.c:345
 #: client/gui-xaw/menu.c:153
@@ -13852,9 +13844,8 @@ msgid "Done"
 msgstr "Passar el torn"
 
 #: client/gui-gtk-2.0/menu.c:1020
-#, fuzzy
 msgid "Build Base"
-msgstr "Construir Base aèria"
+msgstr "Construir Base"
 
 #: client/gui-gtk-2.0/menu.c:1023 client/gui-win32/menu.c:402
 msgid "_Reports"
@@ -13961,9 +13952,8 @@ msgid "_Playing"
 msgstr "_Com jugar"
 
 #: client/gui-gtk-2.0/menu.c:1073
-#, fuzzy
 msgid "About Ruleset"
-msgstr "Sol·licitud en popup"
+msgstr "Sobre el Joc de Regles"
 
 #: client/gui-gtk-2.0/menu.c:1076 client/gui-win32/menu.c:428
 msgid "City _Improvements"
@@ -14013,7 +14003,7 @@ msgstr "%s..."
 #: client/gui-gtk-2.0/menu.c:1494
 #, c-format
 msgid "%s"
-msgstr ""
+msgstr "%s"
 
 #: client/gui-gtk-2.0/menu.c:1601
 #, c-format
@@ -14345,7 +14335,7 @@ msgstr "Tria Partida Desada per _Carregar:"
 #: client/gui-gtk-2.0/pages.c:1846 client/gui-gtk-2.0/pages.c:2035
 #: client/gui-gtk-2.0/pages.c:2455
 msgid "_Browse..."
-msgstr "_Fullejar..."
+msgstr "_Navegar..."
 
 #: client/gui-gtk-2.0/pages.c:1910
 msgid "Choose a Scenario"
@@ -14404,7 +14394,7 @@ msgstr "Nom"
 
 #: client/gui-gtk-2.0/repodlgs.c:644 client/gui-win32/repodlgs.c:462
 msgid "Count"
-msgstr "Quantitat"
+msgstr "Nombre"
 
 #: client/gui-gtk-2.0/repodlgs.c:645 client/gui-gtk-2.0/wldlg.c:1010
 #: client/gui-win32/citydlg.c:1094 client/gui-win32/repodlgs.c:466
@@ -14674,9 +14664,8 @@ msgid "_Add Global Worklist"
 msgstr "_Afegir llista de treball global"
 
 #: client/gui-gtk-2.0/wldlg.c:1252
-#, fuzzy
 msgid "Change Prod_uction"
-msgstr "Canviar la producció"
+msgstr "Canviar Prod_ucció"
 
 #: client/gui-sdl/caravan_dialog.c:131
 #, c-format
@@ -16265,7 +16254,7 @@ msgstr "load_gfxfile: No s'ha pogut carregat arxiu gràfic %s!"
 msgid ""
 "No gui-sdl theme was found. For instructions on how to get one, please visit "
 "%s"
-msgstr ""
+msgstr "No s'ha trobat cap tema per al gui-sdl. Per instruccions sobre com obtenir-ne, visiteu si us plau %s"
 
 #: client/gui-sdl/themespec.c:337
 msgid "No usable default theme found, aborting!"
@@ -17578,17 +17567,15 @@ msgstr "Més informació"
 
 #: manual/civmanual.c:382
 msgid "  -r, --ruleset RULESET  Make manual for RULESET\n"
-msgstr ""
+msgstr "  -r, --ruleset JOCREGLES  Fer el manual per JOCREGLES\n"
 
 #: manual/civmanual.c:384
-#, fuzzy
 msgid "  -h, --help             Print a summary of the options\n"
-msgstr "  -h, --help\t\tMostra un resum de les opcions\n"
+msgstr "  -h, --help              Mostra un resum de les opcions\n"
 
 #: manual/civmanual.c:386
-#, fuzzy
 msgid "  -v, --version          Print the version number\n"
-msgstr "  -v, --version\t\tMostra la versió\n"
+msgstr "  -v, --version           Mostra la versió\n"
 
 #: data/Freeciv.in:68
 msgid "Connect to Freeciv Server"
@@ -17768,7 +17755,7 @@ msgstr "Configurar informe de ciutats"
 
 #: data/Freeciv.in:1846
 msgid "Building Name       Count Cost Total"
-msgstr "Nom construc.        Quant Cost Total"
+msgstr "Nom construc.        Nombr Cost Total"
 
 #: data/Freeciv.in:1922
 msgid "Unit Type            Upgrade  In-Prog   Active   Shield     Food"
@@ -20334,7 +20321,7 @@ msgid "Hydro Plant"
 msgstr "Central Hidroelèctrica"
 
 #: data/default/buildings.ruleset:384
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -20347,9 +20334,9 @@ msgid ""
 msgstr ""
 "Redueix la quantitat de contaminació generada per la producció d'una ciutat "
 "en un 50%. També augmenta la producció d'escuts d'una Fàbrica o Planta de "
-"Fabricació de la ciutat: una Fàbrica i una Central Nuclear juntes donen una "
+"Fabricació de la ciutat: una Fàbrica i una Central Hidroelèctrica juntes donen una "
 "bonificació de producció del 75%, i una Fàbrica, una Planta de Fabricació i "
-"una Central Nuclear juntes donen una bonificació de producció del 150%.\n"
+"una Central Hidroelèctrica juntes donen una bonificació de producció del 150%.\n"
 "\n"
 "Una ciutat només pot tenir una Central: Hidroelèctrica, Tèrmica, Nuclear o "
 "Solar."
@@ -20712,14 +20699,14 @@ msgid "Stock Exchange"
 msgstr "Borsa"
 
 #: data/default/buildings.ruleset:885
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Together with a Bank, a Stock Exchange boosts tax and luxury production in a "
 "city by 50%. Together with a Marketplace and a Bank, a Stock Exchange boosts "
 "tax and luxury production in a city by 150%."
 msgstr ""
-"Juntament amb un Mercat i un Banc, la Borsa impulsa la producció d'impostos "
-"i luxes de la ciutat en un 150%."
+"Juntament amb un Banc, la Borsa impulsa la producció d'impostos "
+"i luxes de la ciutat en un 50%. Juntament amb un Mercat i un Banc, una Borsa augmenta els impostos i el luxe d'una ciutat en un 150%."
 
 #: data/default/buildings.ruleset:893 data/civ2/buildings.ruleset:853
 msgid "Super Highways"
@@ -22479,7 +22466,7 @@ msgstr "Llac"
 
 #: data/default/terrain.ruleset:214
 msgid "Lake squares can never be polluted or subjected to fallout."
-msgstr ""
+msgstr "Les caselles de llac no poden tenir mai contaminació ni radioactivitat."
 
 #: data/default/terrain.ruleset:219 data/civ2/terrain.ruleset:181
 #: data/civ1/terrain.ruleset:173
@@ -22500,20 +22487,17 @@ msgstr ""
 "Les caselles d'oceà mai no poden tenir contaminació ni radioactivitat."
 
 #: data/default/terrain.ruleset:257
-#, fuzzy
 msgid "Deep Ocean"
-msgstr "Oceà"
+msgstr "Oceà Profund"
 
 #: data/default/terrain.ruleset:287
-#, fuzzy
 msgid ""
 "Oceans cover much of the world, and only seaworthy units can travel on "
 "them.\n"
 "\n"
 "Ocean squares can never be polluted or subjected to fallout."
 msgstr ""
-"Els oceans cobreixen la major part del món, i només les unitats marítimes "
-"(Trirrems i altres barques) hi poden viatjar.\n"
+"Els oceans cobreixen la major part del món, i només unitats marítimes preparades hi poden viatjar.\n"
 "\n"
 "Les caselles d'oceà mai no poden tenir contaminació ni radioactivitat."
 
