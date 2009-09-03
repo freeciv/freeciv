@@ -869,6 +869,10 @@ static bool hash_iter_valid(const struct iterator *iter)
 struct iterator *hash_iter_init(struct hash_iter *it,
                                 const struct hash_table *h)
 {
+  if (!h) {
+    return invalid_iter_init(ITERATOR(it));
+  }
+
   it->vtable.next = hash_iter_next;
   it->vtable.get = hash_iter_get;
   it->vtable.valid = hash_iter_valid;
@@ -887,7 +891,13 @@ struct iterator *hash_iter_init(struct hash_iter *it,
 struct iterator *hash_key_iter_init(struct hash_iter *it,
                                     const struct hash_table *h)
 {
-  struct iterator *ret = hash_iter_init(it, h);
+  struct iterator *ret;
+
+  if (!h) {
+    return invalid_iter_init(ITERATOR(it));
+  }
+
+  ret = hash_iter_init(it, h);
   it->vtable.get = hash_iter_get_key;
   return ret;
 }
@@ -898,7 +908,13 @@ struct iterator *hash_key_iter_init(struct hash_iter *it,
 struct iterator *hash_value_iter_init(struct hash_iter *it,
                                       const struct hash_table *h)
 {
-  struct iterator *ret = hash_iter_init(it, h);
+  struct iterator *ret;
+
+  if (!h) {
+    return invalid_iter_init(ITERATOR(it));
+  }
+
+  ret = hash_iter_init(it, h);
   it->vtable.get = hash_iter_get_value;
   return ret;
 }
