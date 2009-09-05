@@ -205,7 +205,8 @@ static bool sdl_get_chance_to_win(int *att_chance, int *def_chance,
   location.
 **************************************************************************/
 void popup_notify_goto_dialog(const char *headline, const char *lines,
-			      struct tile *ptile)
+                              const struct text_tag_list *tags,
+                              struct tile *ptile)
 {
   freelog(LOG_ERROR, "popup_notify_goto_dialog() PORT ME\n \
   			a: %s\nb: %s",headline, lines );

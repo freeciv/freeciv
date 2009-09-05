@@ -23,7 +23,9 @@
   Appends the string to the chat output window.  The string should be
   inserted on its own line, although it will have no newline.
 **************************************************************************/
-void real_append_output_window(const char *astring, int conn_id)
+void real_append_output_window(const char *astring,
+                               const struct text_tag_list *tags,
+                               int conn_id)
 {
   /* PORTME */
 }

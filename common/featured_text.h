@@ -139,6 +139,7 @@ size_t featured_text_apply_tag(const char *text_source,
                                ...);
 
 void text_tag_list_clear_all(struct text_tag_list *tags);
+struct text_tag_list *text_tag_list_dup(const struct text_tag_list *tags);
 
 /* Text tag functions. */
 enum text_tag_type text_tag_type(const struct text_tag *ptag);

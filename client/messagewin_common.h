@@ -14,13 +14,17 @@
 #ifndef FC__MESSAGEWIN_COMMON_H
 #define FC__MESSAGEWIN_COMMON_H
 
+/* utility */
 #include "shared.h"		/* bool type */
-#include "fc_types.h"		/* struct tile */
 
+/* common */
 #include "events.h"		/* enum event_type */
+#include "fc_types.h"		/* struct tile */
+#include "featured_text.h"      /* struct text_tag_list */
 
 struct message {
   char *descr;
+  struct text_tag_list *tags;
   struct tile *tile;
   enum event_type event;
   bool location_ok, city_ok, visited;
@@ -32,8 +36,8 @@ void meswin_force_thaw(void);
 
 void update_meswin_dialog(void);
 void clear_notify_window(void);
-void add_notify_window(char *message, struct tile *ptile,
-		       enum event_type event);
+void add_notify_window(const char *message, const struct text_tag_list *tags,
+                       struct tile *ptile, enum event_type event);
 
 struct message *get_message(int message_index);
 int get_num_messages(void);

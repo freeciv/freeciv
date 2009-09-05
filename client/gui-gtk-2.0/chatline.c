@@ -482,14 +482,14 @@ static void apply_text_tag(const struct text_tag *ptag, GtkTextBuffer *buf,
   Appends the string to the chat output window.  The string should be
   inserted on its own line, although it will have no newline.
 **************************************************************************/
-void real_append_output_window(const char *astring, int conn_id)
+void real_append_output_window(const char *astring,
+                               const struct text_tag_list *tags,
+                               int conn_id)
 {
   GtkTextBuffer *buf;
   GtkTextIter iter;
   GtkTextMark *mark;
   offset_t text_start_offset;
-  char plain_text[MAX_LEN_MSG];
-  struct text_tag_list *tags = text_tag_list_new();
 
   buf = message_buffer;
   gtk_text_buffer_get_end_iter(buf, &iter);
@@ -508,14 +508,10 @@ void real_append_output_window(const char *astring, int conn_id)
   }
 
   text_start_offset = gtk_text_iter_get_offset(&iter);
-  featured_text_to_plain_text(astring, plain_text, sizeof(plain_text), tags);
-  gtk_text_buffer_insert(buf, &iter, plain_text, -1);
-
+  gtk_text_buffer_insert(buf, &iter, astring, -1);
   text_tag_list_iterate(tags, ptag) {
-    apply_text_tag(ptag, buf, text_start_offset, plain_text);
+    apply_text_tag(ptag, buf, text_start_offset, astring);
   } text_tag_list_iterate_end;
-  text_tag_list_clear_all(tags);
-  text_tag_list_free(tags);
 
   if (main_message_area) {
     scroll_if_necessary(GTK_TEXT_VIEW(main_message_area), mark);

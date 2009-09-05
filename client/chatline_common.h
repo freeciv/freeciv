@@ -13,7 +13,11 @@
 #ifndef FC__CHATLINE_COMMON_H
 #define FC__CHATLINE_COMMON_H
 
+/* utility */
 #include "shared.h"		/* bool type */
+
+/* common */
+#include "featured_text.h"      /* struct text_tag_list */
 
 void send_chat(const char *message);
 void send_chat_printf(const char *format, ...)
@@ -22,8 +26,10 @@ void send_chat_printf(const char *format, ...)
 void chatline_common_init(void);
 void chatline_common_done(void);
 
-void append_output_window(const char *astring);
-void append_output_window_full(const char *astring, int conn_id);
+void append_output_window(const char *featured_text);
+void append_output_window_full(const char *plain_text,
+                               const struct text_tag_list *tags,
+                               int conn_id);
 
 void output_window_freeze(void);
 void output_window_thaw(void);

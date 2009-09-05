@@ -34,6 +34,7 @@ used throughout the client.
 /* common */
 #include "city.h"
 #include "diptreaty.h"
+#include "featured_text.h"
 #include "game.h"
 #include "government.h"
 #include "map.h"
@@ -41,6 +42,7 @@ used throughout the client.
 #include "spaceship.h"
 #include "unitlist.h"
 
+/* include */
 #include "chatline_g.h"
 #include "citydlg_g.h"
 #include "cityrep_g.h"
@@ -865,22 +867,28 @@ int num_present_units_in_city(struct city *pcity)
 }
 
 /**************************************************************************
-  Handles a chat message.
+  Handles a chat or event message.
 **************************************************************************/
-void handle_event(char *message, struct tile *ptile,
+void handle_event(const char *featured_text, struct tile *ptile,
 		  enum event_type event, int conn_id)
 {
+  char plain_text[MAX_LEN_MSG];
+  struct text_tag_list *tags = text_tag_list_new();
   int where = MW_OUTPUT;	/* where to display the message */
   bool fallback_needed = FALSE; /* we want fallback if actual 'where' is not
                                  * usable */
   bool shown = FALSE;           /* Message displayed somewhere at least */
-  
+
   if (event >= E_LAST)  {
     /* Server may have added a new event; leave as MW_OUTPUT */
     freelog(LOG_VERBOSE, "Unknown event type %d!", event);
   } else if (event >= 0)  {
     where = messages_where[event];
   }
+
+  /* Get the original text. */
+  featured_text_to_plain_text(featured_text, plain_text,
+                              sizeof(plain_text), tags);
 
   /* Popup */
   if (BOOL_VAL(where & MW_POPUP)) {
@@ -889,7 +897,7 @@ void handle_event(char *message, struct tile *ptile,
     if (NULL == client.conn.playing
         || !client.conn.playing->ai_data.control
         || event == E_MESSAGE_WALL) {
-      popup_notify_goto_dialog(_("Popup Request"), message, ptile);
+      popup_notify_goto_dialog(_("Popup Request"), plain_text, tags, ptile);
       shown = TRUE;
     } else {
       /* Force to chatline so it will be visible somewhere at least.
@@ -903,7 +911,7 @@ void handle_event(char *message, struct tile *ptile,
   if (BOOL_VAL(where & MW_MESSAGES)) {
     /* When the game isn't running, the messages dialog isn't present. */
     if (C_S_RUNNING <= client_state()) {
-      add_notify_window(message, ptile, event);
+      add_notify_window(plain_text, tags, ptile, event);
       shown = TRUE;
     } else {
       /* Force to chatline instead. */
@@ -913,10 +921,14 @@ void handle_event(char *message, struct tile *ptile,
 
   /* Chatline */
   if (BOOL_VAL(where & MW_OUTPUT) || (fallback_needed && !shown)) {
-    append_output_window_full(message, conn_id);
+    append_output_window_full(plain_text, tags, conn_id);
   }
 
   play_sound_for_event(event);
+
+  /* Free tags */
+  text_tag_list_clear_all(tags);
+  text_tag_list_free(tags);
 }
 
 /**************************************************************************

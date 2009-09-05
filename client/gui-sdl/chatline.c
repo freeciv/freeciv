@@ -405,7 +405,9 @@ void popup_input_line(void)
   Appends the string to the chat output window.  The string should be
   inserted on its own line, although it will have no newline.
 **************************************************************************/
-void real_append_output_window(const char *astring, int conn_id)
+void real_append_output_window(const char *astring,
+                               const struct text_tag_list *tags,
+                               int conn_id)
 {
   /* Currently this is a wrapper to the message subsystem. */
   if (pConnDlg) {
@@ -421,7 +423,7 @@ void real_append_output_window(const char *astring, int conn_id)
     char message[MAX_LEN_MSG];
     my_snprintf(message , MAX_LEN_MSG, "%s" , astring);
     
-    add_notify_window(message, NULL, E_CHAT_MSG);
+    add_notify_window(message, tags, NULL, E_CHAT_MSG);
   }
 }
 

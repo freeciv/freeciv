@@ -16,6 +16,7 @@
 #include "shared.h"		/* bool type */
 
 #include "fc_types.h"
+#include "featured_text.h"      /* struct text_tag_list */
 #include "nation.h"		/* Nation_type_id */
 #include "terrain.h"		/* enum tile_special_type */
 #include "unitlist.h"
@@ -23,9 +24,10 @@
 struct packet_nations_selected_info;
 
 void popup_notify_goto_dialog(const char *headline, const char *lines,
-			      struct tile *ptile);
+			      const struct text_tag_list *tags,
+                              struct tile *ptile);
 void popup_notify_dialog(const char *caption, const char *headline,
-			 const char *lines);
+                         const char *lines);
 void popup_connect_msg(const char *headline, const char *message);
 
 void popup_races_dialog(struct player *pplayer);

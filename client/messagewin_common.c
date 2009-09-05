@@ -18,11 +18,15 @@
 #include <assert.h>
 #include <string.h>
 
-/* common & utility */
+/* utility */
 #include "fcintl.h"
-#include "map.h"
 #include "mem.h"
 
+/* common */
+#include "featured_text.h"
+#include "map.h"
+
+/* include */
 #include "citydlg_g.h"
 #include "mapview_g.h"
 #include "messagewin_g.h"
@@ -102,6 +106,10 @@ void clear_notify_window(void)
   for (i = 0; i < messages_total; i++) {
     free(messages[i].descr);
     messages[i].descr = NULL;
+
+    text_tag_list_clear_all(messages[i].tags);
+    text_tag_list_free(messages[i].tags);
+    messages[i].tags = NULL;
   }
   messages_total = 0;
   update_meswin_dialog();
@@ -110,8 +118,8 @@ void clear_notify_window(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void add_notify_window(char *message, struct tile *ptile,
-		       enum event_type event)
+void add_notify_window(const char *message, const struct text_tag_list *tags,
+                       struct tile *ptile, enum event_type event)
 {
   const size_t min_msg_len = 50;
   size_t msg_len = strlen(message);
@@ -135,6 +143,7 @@ void add_notify_window(char *message, struct tile *ptile,
   messages[messages_total].tile = ptile;
   messages[messages_total].event = event;
   messages[messages_total].descr = s;
+  messages[messages_total].tags = text_tag_list_dup(tags);
   messages[messages_total].location_ok = (ptile != NULL);
   messages[messages_total].visited = FALSE;
   messages_total++;

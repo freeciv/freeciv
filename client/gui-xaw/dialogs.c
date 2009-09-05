@@ -334,7 +334,8 @@ static void notify_no_goto_command_callback(Widget w, XtPointer client_data,
   location.
 **************************************************************************/
 void popup_notify_goto_dialog(const char *headline, const char *lines,
-			      struct tile *ptile)
+                              const struct text_tag_list *tags,
+                              struct tile *ptile)
 {
   Widget notify_dialog_shell, notify_form, notify_command, notify_goto_command;
   Widget notify_headline, notify_label;

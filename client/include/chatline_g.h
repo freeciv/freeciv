@@ -15,7 +15,9 @@
 
 #include "chatline_common.h"
 
-void real_append_output_window(const char *astring, int conn_id);
+void real_append_output_window(const char *astring,
+                               const struct text_tag_list *tags,
+                               int conn_id);
 void log_output_window(void);
 void clear_output_window(void);
 

@@ -662,10 +662,37 @@ int text_tag_link_id(const struct text_tag *ptag)
 **************************************************************************/
 void text_tag_list_clear_all(struct text_tag_list *tags)
 {
+  if (!tags) {
+    return;
+  }
+
   text_tag_list_iterate(tags, ptag) {
     free(ptag);
   } text_tag_list_iterate_end;
   text_tag_list_clear(tags);
+}
+
+/**************************************************************************
+  This function returns a new pointer to a text_tag_list which is similar
+  to the 'tags' argument.
+**************************************************************************/
+struct text_tag_list *text_tag_list_dup(const struct text_tag_list *tags)
+{
+  struct text_tag_list *new_tags;
+
+  if (!tags) {
+    return NULL;
+  }
+
+  new_tags = text_tag_list_new();
+  text_tag_list_iterate(tags, ptag) {
+    struct text_tag *pnew_tag = fc_malloc(sizeof(struct text_tag));
+
+    *pnew_tag = *ptag;
+    text_tag_list_append(new_tags, pnew_tag);
+  } text_tag_list_iterate_end;
+
+  return new_tags;
 }
 
 /**************************************************************************

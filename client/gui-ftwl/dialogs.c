@@ -47,7 +47,8 @@ static Nation_type_id selected_nation;
   location.
 **************************************************************************/
 void popup_notify_goto_dialog(const char *headline, const char *lines,
-			      struct tile *ptile)
+                              const struct text_tag_list *tags,
+                              struct tile *ptile)
 {
   /* PORTME */
 }
