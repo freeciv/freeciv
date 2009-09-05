@@ -17,25 +17,28 @@
 
 #include <assert.h>
 
+/* utility */
+#include "government.h"
+#include "mem.h"
+#include "shared.h"
+
+/* common */
 #include "city.h"
 #include "combat.h"
 #include "game.h"
-#include "government.h"
 #include "log.h"
 #include "map.h"
-#include "mem.h"
 #include "movement.h"
 #include "packets.h"
 #include "player.h"
-#include "shared.h"
 #include "unit.h"
 #include "unitlist.h"
 
+/* aicore */
 #include "citymap.h"
-#include "path_finding.h"
 #include "pf_tools.h"
 
-#include "airgoto.h"
+/* server */
 #include "barbarian.h"
 #include "citytools.h"
 #include "cityturn.h"
@@ -47,6 +50,7 @@
 #include "unithand.h"
 #include "unittools.h"
 
+/* ai */
 #include "advmilitary.h"
 #include "aicity.h"
 #include "aidata.h"
@@ -367,25 +371,47 @@ bool ai_gothere(struct player *pplayer, struct unit *punit,
   For example, aircraft need these way-points to refuel.
 **************************************************************************/
 struct tile *immediate_destination(struct unit *punit,
-				   struct tile *dest_tile)
+                                   struct tile *dest_tile)
 {
   if (!same_pos(punit->tile, dest_tile) && utype_fuel(unit_type(punit))) {
-    struct tile *waypoint_tile = punit->goto_tile;
+    struct pf_parameter parameter;
+    struct pf_map *pfm;
+    struct pf_path *path;
+    size_t i;
 
-    if (find_air_first_destination(punit, &waypoint_tile)) {
-      return waypoint_tile;
-    } else {
-      freelog(LOG_VERBOSE, "Did not find an air-route for "
-	      "%s %s[%d] (%d,%d)->(%d,%d)",
-	      nation_rule_name(nation_of_unit(punit)),
-	      unit_rule_name(punit),
-	      punit->id,
-	      TILE_XY(punit->tile),
-	      TILE_XY(dest_tile));
-      /* Prevent take off */
-      return punit->tile;
+    pft_fill_unit_parameter(&parameter, punit);
+    pfm = pf_map_new(&parameter);
+    path = pf_map_get_path(pfm, punit->goto_tile);
+
+    if (path) {
+      for (i = 1; i < path->length; i++) {
+        if (path->positions[i].tile == path->positions[i - 1].tile) {
+          /* The path-finding code advices us to wait there to refuel. */
+          struct tile *ptile = path->positions[i].tile;
+
+          pf_path_destroy(path);
+          pf_map_destroy(pfm);
+          return ptile;
+        }
+      }
+      pf_path_destroy(path);
+      pf_map_destroy(pfm);
+      /* Seems it's the immediate destination */
+      return punit->goto_tile;
     }
+
+    pf_map_destroy(pfm);
+    freelog(LOG_VERBOSE, "Did not find an air-route for "
+            "%s %s[%d] (%d,%d)->(%d,%d)",
+            nation_rule_name(nation_of_unit(punit)),
+            unit_rule_name(punit),
+            punit->id,
+            TILE_XY(punit->tile),
+            TILE_XY(dest_tile));
+    /* Prevent take off */
+    return punit->tile;
   }
+
   /* else does not need way-points */
   return dest_tile;
 }

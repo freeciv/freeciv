@@ -30,7 +30,6 @@
 #include "movement.h"
 #include "unitlist.h"
 
-#include "airgoto.h"
 #include "maphand.h"
 #include "settlers.h"
 #include "unithand.h"
