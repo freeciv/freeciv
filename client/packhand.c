@@ -640,7 +640,7 @@ void handle_city_info(struct packet_city_info *packet)
 
 #ifdef DONE_BY_create_city_virtual
   if (city_is_new) {
-    init_worklist(&pcity->worklist);
+    worklist_init(&pcity->worklist);
 
     for (i = 0; i < ARRAY_SIZE(pcity->built); i++) {
       pcity->built[i].turn = I_NEVER;
@@ -648,7 +648,7 @@ void handle_city_info(struct packet_city_info *packet)
   }
 #endif
 
-  copy_worklist(&pcity->worklist, &packet->worklist);
+  worklist_copy(&pcity->worklist, &packet->worklist);
 
   pcity->airlift = packet->airlift;
   pcity->did_buy=packet->did_buy;
@@ -949,7 +949,7 @@ void handle_city_short_info(struct packet_city_short_info *packet)
     BV_CLR_ALL(pcity->city_options);
     pcity->production.kind    = VUT_NONE;
     pcity->production.value.building = NULL;
-    init_worklist(&pcity->worklist);
+    worklist_init(&pcity->worklist);
     pcity->airlift            = FALSE;
     pcity->did_buy            = FALSE;
     pcity->did_sell           = FALSE;

@@ -667,7 +667,7 @@ int city_set_worklist(struct city *pcity, struct worklist *pworklist)
 {
   struct worklist copy;
 
-  copy_worklist(&copy, pworklist);
+  worklist_copy(&copy, pworklist);
 
   /* Don't send the worklist name to the server. */
   copy.name[0] = '\0';
@@ -799,7 +799,7 @@ bool city_queue_insert(struct city *pcity, int position,
 **************************************************************************/
 bool city_queue_clear(struct city *pcity)
 {
-  init_worklist(&pcity->worklist);
+  worklist_init(&pcity->worklist);
 
   return TRUE;
 }
@@ -841,7 +841,7 @@ bool city_queue_insert_worklist(struct city *pcity, int position,
 **************************************************************************/
 void city_get_queue(struct city *pcity, struct worklist *pqueue)
 {
-  copy_worklist(pqueue, &pcity->worklist);
+  worklist_copy(pqueue, &pcity->worklist);
 
   /* The GUI wants current production to be in the task list, but the
      worklist API wants it out for reasons unknown. Perhaps someone enjoyed
@@ -861,7 +861,7 @@ bool city_set_queue(struct city *pcity, struct worklist *pqueue)
   struct worklist copy;
   struct universal target;
 
-  copy_worklist(&copy, pqueue);
+  worklist_copy(&copy, pqueue);
 
   /* The GUI wants current production to be in the task list, but the
      worklist API wants it out for reasons unknown. Perhaps someone enjoyed

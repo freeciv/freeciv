@@ -2823,7 +2823,7 @@ static void player_load_cities(struct player *plr, int plrno,
       }
     }
 
-    /* init_worklist() done in create_city_virtual() */
+    /* worklist_init() done in create_city_virtual() */
     worklist_load(file, &pcity->worklist, "player%d.c%d", plrno, i);
 
     /* after 2.1.0 new options format.  Old options are lost on upgrade. */

@@ -347,7 +347,7 @@ void handle_city_worklist(struct player *pplayer, int city_id,
     return;
   }
 
-  copy_worklist(&pcity->worklist, worklist);
+  worklist_copy(&pcity->worklist, worklist);
 
   send_city_info(pplayer, pcity);
 }

@@ -32,7 +32,7 @@
   For elements, only really need to set [0], but initialize the
   rest to avoid junk values in savefile.
 ****************************************************************/
-void init_worklist(struct worklist *pwl)
+void worklist_init(struct worklist *pwl)
 {
   int i;
 
@@ -108,7 +108,7 @@ void worklist_advance(struct worklist *pwl)
 /****************************************************************
 ...
 ****************************************************************/
-void copy_worklist(struct worklist *dst, const struct worklist *src)
+void worklist_copy(struct worklist *dst, const struct worklist *src)
 {
   assert(sizeof(*dst) == sizeof(*src));
   memcpy(dst, src, sizeof(*dst));
@@ -231,7 +231,7 @@ void worklist_load(struct section_file *file, struct worklist *pwl,
   my_vsnprintf(path_str, sizeof(path_str), path, ap);
   va_end(ap);
 
-  init_worklist(pwl);
+  worklist_init(pwl);
   pwl->length = secfile_lookup_int_default(file, 0,
 					   "%s.wl_length", path_str);
   name = secfile_lookup_str_default(file, "a worklist",

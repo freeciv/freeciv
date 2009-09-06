@@ -216,7 +216,7 @@ enum wl_report_ids {
 };
 
 static void global_commit_worklist(struct worklist *pwl, void *data);
-static void copy_worklist_to_editor(struct worklist *pwl,
+static void worklist_copy_to_editor(struct worklist *pwl,
                                     struct worklist_editor *peditor,
                                     int where);
 static void worklist_really_insert_item(struct worklist_editor *peditor,
@@ -278,7 +278,7 @@ static void global_delete_callback(struct worklist_report *preport, int sel)
       break;
 
   for (j = sel; j < i - 1; j++) {
-    copy_worklist(&client.worklists[j],
+    worklist_copy(&client.worklists[j],
                   &client.worklists[j + 1]);
   }
 
@@ -326,7 +326,7 @@ static void global_insert_callback(struct worklist_report *preport)
     return;
 
   /* Validate this slot. */
-  init_worklist(&client.worklists[j]);
+  worklist_init(&client.worklists[j]);
   client.worklists[j].is_valid = TRUE;
   strcpy(client.worklists[j].name, _("empty worklist"));
 
@@ -491,7 +491,7 @@ static void global_commit_worklist(struct worklist *pwl, void *data)
 {
   struct worklist_report *preport = (struct worklist_report *) data;
   
-  copy_worklist(&client.worklists[preport->wl_idx], pwl);
+  worklist_copy(&client.worklists[preport->wl_idx], pwl);
 }
 
 /****************************************************************
@@ -503,7 +503,7 @@ static void copy_editor_to_worklist(struct worklist_editor *peditor,
   int i, n;
 
   /* Fill in this worklist with the parameters set in the worklist dialog. */
-  init_worklist(pwl);
+  worklist_init(pwl);
 
   n = 0;
   for (i = 0; i < MAX_LEN_WORKLIST; i++) {
@@ -635,7 +635,7 @@ static void worklist_insert_item(struct worklist_editor *peditor,
   if (wid_is_worklist(wid)) {
     struct worklist *pwl = &client.worklists[wid_id(wid)];
 
-    copy_worklist_to_editor(pwl, peditor, where);
+    worklist_copy_to_editor(pwl, peditor, where);
     where += worklist_length(pwl);
   } else {
     worklist_really_insert_item(peditor, where, wid);
@@ -953,7 +953,7 @@ static void worklist_really_insert_item(struct worklist_editor *peditor,
 /*****************************************************************
  copies a worklist to the editor for editing
 ******************************************************************/
-static void copy_worklist_to_editor(struct worklist *pwl,
+static void worklist_copy_to_editor(struct worklist *pwl,
                                     struct worklist_editor *peditor,
                                     int where)
 {
@@ -990,11 +990,11 @@ static void worklist_prep(struct worklist_editor *peditor)
         wid_encode(VUT_UTYPE == peditor->pcity->production.kind, FALSE,
                    universal_number(&peditor->pcity->production));
     peditor->worklist_wids[1] = WORKLIST_END;
-    copy_worklist_to_editor(&peditor->pcity->worklist, peditor,
+    worklist_copy_to_editor(&peditor->pcity->worklist, peditor,
                             MAX_LEN_WORKLIST);
   } else {
     peditor->worklist_wids[0] = WORKLIST_END;
-    copy_worklist_to_editor(peditor->pwl, peditor, MAX_LEN_WORKLIST);
+    worklist_copy_to_editor(peditor->pwl, peditor, MAX_LEN_WORKLIST);
   }
 }
 

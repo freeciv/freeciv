@@ -133,7 +133,7 @@ static int edit_worklist_callback(struct widget *pWidget)
 	}
 	if (i + 1 < MAX_NUM_WORKLISTS &&
 	    client.worklists[i + 1].is_valid) {
-	  copy_worklist(&client.worklists[i],
+	  worklist_copy(&client.worklists[i],
 			  &client.worklists[i + 1]);
 	} else {
 	  client.worklists[i].is_valid = FALSE;
@@ -209,7 +209,7 @@ static int add_new_worklist_callback(struct widget *pWidget)
     }
     
     /* Validate this slot. */
-    init_worklist(&client.worklists[j]);
+    worklist_init(&client.worklists[j]);
     client.worklists[j].is_valid = TRUE;
     strcpy(client.worklists[j].name, _("empty worklist"));
     

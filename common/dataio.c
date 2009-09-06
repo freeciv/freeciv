@@ -657,7 +657,7 @@ void dio_get_worklist(struct data_in *din, struct worklist *pwl)
   if (pwl->is_valid) {
     int i, length;
 
-    init_worklist(pwl);
+    worklist_init(pwl);
 
     dio_get_uint8(din, &length);
     for (i = 0; i < length; i++) {

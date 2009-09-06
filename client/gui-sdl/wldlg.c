@@ -154,7 +154,7 @@ static int ok_worklist_editor_callback(struct widget *pWidget)
       city_set_worklist(pCity, pEditor->pCopy_WorkList);
     } else {
       /* commit global worklist */
-      copy_worklist(pEditor->pOrginal_WorkList, pEditor->pCopy_WorkList);
+      worklist_copy(pEditor->pOrginal_WorkList, pEditor->pCopy_WorkList);
       update_worklist_report_dialog();
     }  
     
@@ -722,7 +722,7 @@ static void set_global_worklist(struct widget *pWidget)
 	      *pWorkList = &client.worklists[MAX_ID - pWidget->ID];
     
     /* clear tmp worklist */
-    init_worklist(&wl);
+    worklist_init(&wl);
     
     wl_count = 0;
     /* copy global worklist to city worklist */
@@ -753,7 +753,7 @@ static void set_global_worklist(struct widget *pWidget)
       }  
       /* --------------------------------- */
       
-      copy_worklist(pEditor->pCopy_WorkList, &wl);
+      worklist_copy(pEditor->pCopy_WorkList, &wl);
     
       /* --------------------------------- */
       /* create new widget list */
@@ -1015,7 +1015,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   pEditor->pCity = pCity;
   pEditor->pOrginal_WorkList = pWorkList;
   pEditor->pCopy_WorkList = fc_calloc(1, sizeof(struct worklist));
-  copy_worklist(pEditor->pCopy_WorkList, pWorkList);
+  worklist_copy(pEditor->pCopy_WorkList, pWorkList);
   
   if(pCity) {
     pEditor->currently_building = pCity->production;

@@ -672,7 +672,7 @@ void insert_worklist_callback(Widget w, XtPointer client_data,
     return;
 
   /* Validate this slot. */
-  init_worklist(&client.worklists[j]);
+  worklist_init(&client.worklists[j]);
   client.worklists[j].is_valid = TRUE;
   strcpy(client.worklists[j].name, _("empty worklist"));
 
@@ -702,7 +702,7 @@ void delete_worklist_callback(Widget w, XtPointer client_data,
       break;
 
   for (j = retList->list_index; j < i-1; j++) {
-    copy_worklist(&client.worklists[j], 
+    worklist_copy(&client.worklists[j], 
                   &client.worklists[j+1]);
   }
 
@@ -745,7 +745,7 @@ void commit_player_worklist(struct worklist *pwl, void *data)
 
   pdialog = (struct worklist_report_dialog *)data;
 
-  copy_worklist(&client.worklists[pdialog->wl_idx], pwl);
+  worklist_copy(&client.worklists[pdialog->wl_idx], pwl);
 }
 
 /****************************************************************
@@ -1103,7 +1103,7 @@ void worklist_ok_callback(Widget w, XtPointer client_data, XtPointer call_data)
   
   /* Fill in this worklist with the parameters set in the worklist 
      dialog. */
-  init_worklist(&wl);
+  worklist_init(&wl);
   
   for (i = 0; i < MAX_LEN_WORKLIST; i++) {
     if (pdialog->worklist_ids[i] == WORKLIST_END) {

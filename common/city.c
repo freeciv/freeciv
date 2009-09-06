@@ -2624,7 +2624,7 @@ struct city *create_city_virtual(struct player *pplayer,
 #endif
 
   /* Set up the worklist */
-  init_worklist(&pcity->worklist);
+  worklist_init(&pcity->worklist);
 
 #ifdef ZERO_VARIABLES_FOR_SEARCHING
   BV_CLR_ALL(pcity->city_options);

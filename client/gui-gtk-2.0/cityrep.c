@@ -1923,7 +1923,7 @@ static void clear_worklist_foreach_func(GtkTreeModel *model,
   gtk_tree_model_get(model, it, 0, &pcity, -1);
   if (pcity && game_find_city_by_number(pcity->id)) {
     struct worklist empty;
-    init_worklist(&empty);
+    worklist_init(&empty);
     city_set_worklist(pcity, &empty);
   }
 }

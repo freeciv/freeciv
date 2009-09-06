@@ -1825,7 +1825,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   packet->caravan_shields=pcity->caravan_shields;
   packet->last_turns_shield_surplus = pcity->last_turns_shield_surplus;
 
-  copy_worklist(&packet->worklist, &pcity->worklist);
+  worklist_copy(&packet->worklist, &pcity->worklist);
   packet->diplomat_investigate=dipl_invest;
 
   packet->airlift = pcity->airlift;

@@ -29,7 +29,7 @@ struct worklist {
   struct universal entries[MAX_LEN_WORKLIST];
 };
 
-void init_worklist(struct worklist *pwl);
+void worklist_init(struct worklist *pwl);
 
 int worklist_length(const struct worklist *pwl);
 bool worklist_is_empty(const struct worklist *pwl);
@@ -38,7 +38,7 @@ bool worklist_peek_ith(const struct worklist *pwl,
 		       struct universal *prod, int idx);
 void worklist_advance(struct worklist *pwl);
 
-void copy_worklist(struct worklist *dst, const struct worklist *src);
+void worklist_copy(struct worklist *dst, const struct worklist *src);
 void worklist_remove(struct worklist *pwl, int idx);
 bool worklist_append(struct worklist *pwl, struct universal prod);
 bool worklist_insert(struct worklist *pwl, struct universal prod,
