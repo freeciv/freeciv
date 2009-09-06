@@ -1187,7 +1187,7 @@ static void draw_traderoutes_for_city(const struct city *pcity_src)
       continue;
     }
     draw_traderoute_line(city_tile(pcity_src), city_tile(pcity_dest),
-                         COLOR_MAPVIEW_GOTO); /* Cyan. */
+                         COLOR_MAPVIEW_TRADEROUTE_LINE);
   }
 }
 
@@ -2245,11 +2245,11 @@ void get_city_mapview_traderoutes(struct city *pcity,
 
   if (pcolor) {
     if (num_traderoutes == NUM_TRADEROUTES) {
-      *pcolor = COLOR_OVERVIEW_LAND; /* green */
+      *pcolor = COLOR_MAPVIEW_TRADEROUTES_ALL_BUILT;
     } else if (num_traderoutes == 0) {
-      *pcolor = COLOR_MAPVIEW_CITYGROWTH_BLOCKED; /* red */
+      *pcolor = COLOR_MAPVIEW_TRADEROUTES_NO_BUILT;
     } else {
-      *pcolor = COLOR_MAPVIEW_SELECTION; /* yellow */
+      *pcolor = COLOR_MAPVIEW_TRADEROUTES_SOME_BUILT;
     }
   }
 }

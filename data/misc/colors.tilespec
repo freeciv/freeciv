@@ -63,6 +63,18 @@ mapview_goto = {"r", "g", "b"
 mapview_selection = {"r", "g", "b"
     255, 255,   0
 }
+mapview_traderoute_line = {"r", "g", "b"
+    0,   255, 127
+}
+mapview_traderoutes_all_built = {"r", "g", "b"
+    0,   255,   0
+}
+mapview_traderoutes_some_built = {"r", "g", "b"
+    255, 255,   0
+}
+mapview_traderoutes_no_built = {"r", "g", "b"
+    255,   0,   0
+}
 
 ; Spaceship
 spaceship_background = {"r", "g", "b"
