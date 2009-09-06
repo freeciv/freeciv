@@ -8124,7 +8124,7 @@ int dsend_packet_city_worklist(struct connection *pc, int city_id, struct workli
   struct packet_city_worklist packet, *real_packet = &packet;
 
   real_packet->city_id = city_id;
-  copy_worklist(&real_packet->worklist, worklist);
+  worklist_copy(&real_packet->worklist, worklist);
   
   return send_packet_city_worklist(pc, real_packet);
 }

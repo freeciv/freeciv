@@ -242,7 +242,7 @@ class Field:
     # functions in the packet struct.
     def get_fill(self):
         if self.dataio_type=="worklist":
-            return "  copy_worklist(&real_packet->%(name)s, %(name)s);"%self.__dict__
+            return "  worklist_copy(&real_packet->%(name)s, %(name)s);"%self.__dict__
         if self.is_array==0:
             return "  real_packet->%(name)s = %(name)s;"%self.__dict__
         if self.dataio_type=="string":

@@ -2434,7 +2434,7 @@ struct city *create_city_virtual(struct player *pplayer,
   }
 
   /* Set up the worklist */
-  init_worklist(&pcity->worklist);
+  worklist_init(&pcity->worklist);
 
   {
     struct unit_type *u = best_role_unit(pcity, L_FIRSTBUILD);

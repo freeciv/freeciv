@@ -173,7 +173,7 @@ static void worklists_response(GtkWidget *w, gint response)
       }
 
       /* Validate this slot. */
-      init_worklist(&plr->worklists[i]);
+      worklist_init(&plr->worklists[i]);
       plr->worklists[i].is_valid = TRUE;
       strcpy(plr->worklists[i].name, _("new"));
 
@@ -1412,7 +1412,7 @@ void refresh_worklist(GtkWidget *editor)
   if (ptr->pcity) {
     city_get_queue(ptr->pcity, &queue);
   } else {
-    copy_worklist(&queue, pwl);
+    worklist_copy(&queue, pwl);
   }
 
   for (i = 0; i < worklist_length(&queue); i++) {
@@ -1476,7 +1476,7 @@ static void commit_worklist(struct worklist_data *ptr)
 
   model = GTK_TREE_MODEL(ptr->dst);
   
-  init_worklist(&queue);
+  worklist_init(&queue);
   sz_strlcpy(queue.name, pwl->name);
 
   i = 0;
@@ -1505,6 +1505,6 @@ static void commit_worklist(struct worklist_data *ptr)
       refresh_worklist(ptr->editor);
     }
   } else {
-    copy_worklist(pwl, &queue);
+    worklist_copy(pwl, &queue);
   }
 }

@@ -2494,7 +2494,6 @@ static void player_load(struct player *plr, int plrno,
       }
     }
 
-    init_worklist(&pcity->worklist);
     worklist_load(file, &pcity->worklist, "player%d.c%d", plrno, i);
 
     /* FIXME: remove this when the urgency is properly recalculated. */

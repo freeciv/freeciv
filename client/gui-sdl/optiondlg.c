@@ -134,7 +134,7 @@ static int edit_worklist_callback(struct widget *pWidget)
 	}
 	if (i + 1 < MAX_NUM_WORKLISTS &&
 	    game.player_ptr->worklists[i + 1].is_valid) {
-	  copy_worklist(&game.player_ptr->worklists[i],
+	  worklist_copy(&game.player_ptr->worklists[i],
 			  &game.player_ptr->worklists[i + 1]);
 	} else {
 	  game.player_ptr->worklists[i].is_valid = FALSE;
@@ -210,7 +210,7 @@ static int add_new_worklist_callback(struct widget *pWidget)
     }
     
     /* Validate this slot. */
-    init_worklist(&game.player_ptr->worklists[j]);
+    worklist_init(&game.player_ptr->worklists[j]);
     game.player_ptr->worklists[j].is_valid = TRUE;
     strcpy(game.player_ptr->worklists[j].name, _("empty worklist"));
     

@@ -531,13 +531,13 @@ void handle_city_info(struct packet_city_info *packet)
   pcity->production.is_unit = packet->production_is_unit;
   pcity->production.value = packet->production_value;
   if (city_is_new) {
-    init_worklist(&pcity->worklist);
+    worklist_init(&pcity->worklist);
 
     for (i = 0; i < ARRAY_SIZE(pcity->improvements); i++) {
       pcity->improvements[i] = I_NONE;
     }
   }
-  copy_worklist(&pcity->worklist, &packet->worklist);
+  worklist_copy(&pcity->worklist, &packet->worklist);
   pcity->did_buy=packet->did_buy;
   pcity->did_sell=packet->did_sell;
   pcity->was_happy=packet->was_happy;
@@ -786,7 +786,7 @@ void handle_city_short_info(struct packet_city_short_info *packet)
     BV_CLR_ALL(pcity->city_options);
     pcity->production.is_unit   = FALSE;
     pcity->production.value = 0;
-    init_worklist(&pcity->worklist);
+    worklist_init(&pcity->worklist);
     pcity->airlift            = FALSE;
     pcity->did_buy            = FALSE;
     pcity->did_sell           = FALSE;

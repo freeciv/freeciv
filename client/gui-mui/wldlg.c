@@ -112,7 +112,7 @@ static void worklist_report_insert( struct worklist_report_dialog **ppdialog)
     return;
 
   /* Validate this slot. */
-  init_worklist(&pdialog->pplr->worklists[j]);
+  worklist_init(&pdialog->pplr->worklists[j]);
   pdialog->pplr->worklists[j].is_valid = TRUE;
   strcpy(pdialog->pplr->worklists[j].name, _("empty worklist"));
 
@@ -140,7 +140,7 @@ static void worklist_report_delete( struct worklist_report_dialog **ppdialog)
       break;
 
   for (j = selection; j < i-1; j++) {
-    copy_worklist(&pdialog->pplr->worklists[j],
+    worklist_copy(&pdialog->pplr->worklists[j],
                   &pdialog->pplr->worklists[j+1]);
   }
 
@@ -345,7 +345,7 @@ static void commit_player_worklist(struct worklist *pwl, void *data)
   struct worklist_report_dialog *pdialog;
   pdialog = (struct worklist_report_dialog *)data;
 
-  copy_worklist(&pdialog->pplr->worklists[pdialog->wl_idx], pwl);
+  worklist_copy(&pdialog->pplr->worklists[pdialog->wl_idx], pwl);
   set(pdialog->wl_wnd,MUIA_Window_Open,FALSE);
 }
 

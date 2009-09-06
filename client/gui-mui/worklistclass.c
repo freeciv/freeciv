@@ -633,7 +633,7 @@ static VOID worklist_ok(struct Worklist_Data **pdata)
 
   /* Fill in this worklist with the parameters set in the worklist 
      dialog. */
-  init_worklist(&wl);
+  worklist_init(&wl);
 
   if (entries > MAX_LEN_WORKLIST-1) entries = MAX_LEN_WORKLIST-1;
 
