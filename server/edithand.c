@@ -872,7 +872,8 @@ void handle_edit_player_create(struct connection *pc, int tag)
   pplayer->economic = player_limit_to_max_rates(pplayer);
 
   init_tech(pplayer, TRUE);
-  give_initial_techs(pplayer);
+  give_global_initial_techs(pplayer);
+  give_nation_initial_techs(pplayer);
 
   send_player_info(pplayer, NULL);
   if (tag > 0) {

@@ -2256,10 +2256,11 @@ static void srv_ready(void)
       pplayer->economic.gold = game.info.gold;
     } players_iterate_end;
 
+    /* Give nation technologies, as specified in the ruleset. */
     players_iterate(pplayer) {
-      give_initial_techs(pplayer);
+      give_nation_initial_techs(pplayer);
     } players_iterate_end;
-    
+
     players_iterate(pplayer) {
       int i;
       bool free_techs_already_given = FALSE;
@@ -2273,9 +2274,12 @@ static void srv_ready(void)
       } players_iterate_end;
       
       if (free_techs_already_given) {
-        break;
+        continue;
       }
       
+      /* Give global technologies, as specified in the ruleset. */
+      give_global_initial_techs(pplayer);
+      /* Give random free technologies thanks to the techlevel setting. */
       for (i = 0; i < game.info.tech; i++) {
         give_random_initial_tech(pplayer);
       }
