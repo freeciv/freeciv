@@ -166,7 +166,8 @@ static struct player *create_barbarian_player(bool land)
   }
   set_ai_level_directer(barbarians, game.info.skill_level);
   init_tech(barbarians, TRUE);
-  give_initial_techs(barbarians);
+  give_global_initial_techs(barbarians);
+  give_nation_initial_techs(barbarians);
 
   /* Ensure that we are at war with everyone else */
   players_iterate(pplayer) {

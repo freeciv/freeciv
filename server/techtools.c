@@ -595,31 +595,35 @@ void init_tech(struct player *plr, bool update)
 }
 
 /****************************************************************************
-  Gives initial techs to the player
+  Gives global initial techs to the player.  The techs are read from the
+  game ruleset file.
 ****************************************************************************/
-void give_initial_techs(struct player* plr)
+void give_global_initial_techs(struct player *pplayer)
 {
-  struct nation_type *nation = nation_of_player(plr);
   int i;
-  
-  /*
-   * Give game wide initial techs
-   */
+
   for (i = 0; i < MAX_NUM_TECH_LIST; i++) {
     if (game.rgame.global_init_techs[i] == A_LAST) {
       break;
     }
-    found_new_tech(plr, game.rgame.global_init_techs[i], FALSE, TRUE);
+    found_new_tech(pplayer, game.rgame.global_init_techs[i], FALSE, TRUE);
   }
+}
 
-  /*
-   * Give nation specific initial techs
-   */
+/****************************************************************************
+  Gives nation specific initial techs to the player.  The techs are read
+  from the nation ruleset file.
+****************************************************************************/
+void give_nation_initial_techs(struct player *pplayer)
+{
+  const struct nation_type *nation = nation_of_player(pplayer);
+  int i;
+
   for (i = 0; i < MAX_NUM_TECH_LIST; i++) {
     if (nation->init_techs[i] == A_LAST) {
       break;
     }
-    found_new_tech(plr, nation->init_techs[i], FALSE, TRUE);
+    found_new_tech(pplayer, nation->init_techs[i], FALSE, TRUE);
   }
 }
 
@@ -628,7 +632,7 @@ void give_initial_techs(struct player* plr)
   Returns the tech. This differs from give_random_free_tech - it doesn't
   apply free cost
 ****************************************************************************/
-Tech_type_id give_random_initial_tech(struct player* pplayer)
+Tech_type_id give_random_initial_tech(struct player *pplayer)
 {
   Tech_type_id tech;
   
