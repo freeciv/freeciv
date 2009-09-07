@@ -35,6 +35,7 @@
 /* client */
 #include "client_main.h"
 #include "climisc.h"
+#include "control.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview_common.h"
@@ -127,6 +128,113 @@ void inputline_return(GtkEntry *w, gpointer data)
   }
 
   gtk_entry_set_text(w, "");
+}
+
+/**************************************************************************
+  Make a text tag for the selected text.
+**************************************************************************/
+void inputline_make_tag(enum text_tag_type type)
+{
+  char buf[MAX_LEN_MSG];
+  GtkEditable *editable = GTK_EDITABLE(inputline);
+  gint start_pos, end_pos;
+  gchar *selection;
+
+  if (!gtk_editable_get_selection_bounds(editable, &start_pos, &end_pos)) {
+    /* Let's say the selection starts and ends at the current position. */
+    start_pos = end_pos = gtk_editable_get_position(editable);
+  }
+
+  selection = gtk_editable_get_chars(editable, start_pos, end_pos);
+  if (0 != featured_text_apply_tag(selection, buf, sizeof(buf),
+                                   type, 0, OFFSET_UNSET)) {
+    /* Replace the selection. */
+    gtk_editable_delete_text(editable, start_pos, end_pos);
+    end_pos = start_pos;
+    gtk_editable_insert_text(editable, buf, -1, &end_pos);
+    gtk_editable_select_region(editable, start_pos, end_pos);
+  }
+  g_free(selection);
+}
+
+/**************************************************************************
+  Make a chat link at the current position or make the current selection
+  clickable.
+**************************************************************************/
+void inputline_make_chat_link(struct tile *ptile, bool unit)
+{
+  char buf[MAX_LEN_MSG];
+  GtkEditable *editable = GTK_EDITABLE(inputline);
+  gint start_pos, end_pos;
+  gchar *chars;
+  struct unit *punit;
+
+  /* Get the target. */
+  if (unit) {
+    punit = find_visible_unit(ptile);
+    if (!punit) {
+      append_output_window(_("No visible unit on this tile."));
+      return;
+    }
+  } else {
+    punit = NULL;
+  }
+
+  if (gtk_editable_get_selection_bounds(editable, &start_pos, &end_pos)) {
+    /* There is a selection, make it clickable. */
+    gpointer target;
+    enum text_link_type type;
+
+    chars = gtk_editable_get_chars(editable, start_pos, end_pos);
+    if (punit) {
+      type = TLT_UNIT;
+      target = punit;
+    } else if (tile_city(ptile)) {
+      type = TLT_CITY;
+      target = tile_city(ptile);
+    } else {
+      type = TLT_TILE;
+      target = ptile;
+    }
+
+    if (0 != featured_text_apply_tag(chars, buf, sizeof(buf), TTT_LINK,
+                                     0, OFFSET_UNSET, type, target)) {
+      /* Replace the selection. */
+      gtk_editable_delete_text(editable, start_pos, end_pos);
+      end_pos = start_pos;
+      gtk_editable_insert_text(editable, buf, -1, &end_pos);
+      gtk_widget_grab_focus(inputline);
+      gtk_editable_select_region(editable, start_pos, end_pos);
+    }
+  } else {
+    /* Just insert the link at the current position. */
+    start_pos = gtk_editable_get_position(editable);
+    end_pos = start_pos;
+    chars = gtk_editable_get_chars(editable, MAX(start_pos - 1, 0),
+                                   start_pos + 1);
+    if (punit) {
+      sz_strlcpy(buf, unit_link(punit));
+    } else if (tile_city(ptile)) {
+      sz_strlcpy(buf, city_link(tile_city(ptile)));
+    } else {
+      sz_strlcpy(buf, tile_link(ptile));
+    }
+
+    if (start_pos > 0 && strlen(chars) > 0 && chars[0] != ' ') {
+      /* Maybe insert an extra space. */
+      gtk_editable_insert_text(editable, " ", 1, &end_pos);
+    }
+    gtk_editable_insert_text(editable, buf, -1, &end_pos);
+    if (chars[start_pos > 0 ? 1 : 0] != '\0'
+        && chars[start_pos > 0 ? 1 : 0] != ' ') {
+      /* Maybe insert an extra space. */
+      gtk_editable_insert_text(editable, " ", 1, &end_pos);
+    }
+    gtk_widget_grab_focus(inputline);
+    gtk_editable_set_position(editable, end_pos);
+  }
+
+  g_free(chars);
 }
 
 /**************************************************************************

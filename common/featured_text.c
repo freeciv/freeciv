@@ -508,8 +508,7 @@ static size_t text_tag_start_sequence(const struct text_tag *ptag,
         break;
       };
 
-      if (ptag->stop_offset == OFFSET_UNSET
-          || ptag->stop_offset == ptag->start_offset) {
+      if (ptag->stop_offset == ptag->start_offset) {
         /* This is a single sequence like [link ... /]. */
         ret += my_snprintf(buf + ret, len - ret, "%c", SEQ_END);
       }
@@ -526,6 +525,11 @@ static size_t text_tag_start_sequence(const struct text_tag *ptag,
 static size_t text_tag_stop_sequence(const struct text_tag *ptag,
                                      char *buf, size_t len)
 {
+  if (ptag->type == TTT_LINK && ptag->stop_offset == ptag->start_offset) {
+    /* Should be already finished. */
+    return 0;
+  }
+
   return my_snprintf(buf, len, "%c%c%s%c", SEQ_START, SEQ_END,
                      text_tag_type_short_name(ptag->type), SEQ_STOP);
 }
@@ -937,24 +941,22 @@ size_t featured_text_apply_tag(const char *text_source,
   featured_text += len;
   featured_text_len -= len;
 
-  if (stop_offset == OFFSET_UNSET || stop_offset > start_offset) {
-    /* Second part: between the sequences. */
-    len = start_offset;
-    while (len < stop_offset
-           && *text_source != '\0'
-           && featured_text_len > 1) {
-      *featured_text++ = *text_source++;
-      featured_text_len--;
-      len++;
-    }
-    total_len += len;
-
-    /* Stop sequence. */
-    len = text_tag_stop_sequence(&tag, featured_text, featured_text_len);
-    total_len += len;
-    featured_text += len;
-    featured_text_len -= len;
+  /* Second part: between the sequences. */
+  len = start_offset;
+  while (len < stop_offset
+         && *text_source != '\0'
+         && featured_text_len > 1) {
+    *featured_text++ = *text_source++;
+    featured_text_len--;
+    len++;
   }
+  total_len += len;
+
+  /* Stop sequence. */
+  len = text_tag_stop_sequence(&tag, featured_text, featured_text_len);
+  total_len += len;
+  featured_text += len;
+  featured_text_len -= len;
 
   /* Third part: after the sequence. */
   while (*text_source != '\0'

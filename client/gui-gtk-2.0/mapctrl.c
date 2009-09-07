@@ -285,8 +285,14 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
 
   case 3: /* RIGHT mouse button */
 
+    /* <CONTROL> + <ALT> + RMB : insert city or tile chat link. */
+    /* <CONTROL> + <ALT> + <SHIFT> + RMB : insert unit chat link. */
+    if (ptile && (ev->state & GDK_MOD1_MASK)
+        && (ev->state & GDK_CONTROL_MASK)) {
+      inputline_make_chat_link(ptile, (ev->state & GDK_SHIFT_MASK) != 0);
+    }
     /* <SHIFT> + <ALT> + RMB : Show/hide workers. */
-    if ((ev->state & GDK_SHIFT_MASK) && (ev->state & GDK_MOD1_MASK)
+    else if ((ev->state & GDK_SHIFT_MASK) && (ev->state & GDK_MOD1_MASK)
         && pcity != NULL) {
       overlay_workers_at_city();
     }

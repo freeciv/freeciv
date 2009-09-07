@@ -82,6 +82,7 @@ extern GtkWidget *      map_widget;
 extern GtkWidget *	bottom_notebook;
 extern GtkWidget *	right_notebook;
 extern GtkTextBuffer *	message_buffer;
+extern GtkWidget *inputline;
 
 /* NB: Must match creation arugments in
  * create_start_page() in pages.c */

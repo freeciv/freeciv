@@ -40,17 +40,20 @@
 #  include <ggz-gtk.h>
 #endif
 
-/* common & utility */
-#include "dataio.h"
+/* utility */
 #include "fciconv.h"
 #include "fcintl.h"
-#include "game.h"
-#include "government.h"
 #include "log.h"
-#include "map.h"
 #include "mem.h"
 #include "shared.h"
 #include "support.h"
+
+/* common */
+#include "dataio.h"
+#include "featured_text.h"
+#include "game.h"
+#include "government.h"
+#include "map.h"
 #include "unitlist.h"
 #include "version.h"
 
@@ -350,7 +353,7 @@ static int unit_ids[MAX_NUM_UNITS_BELOW];  /* ids of the units icons in
                                             * information display: (or 0) */
 GtkTextView *main_message_area;
 GtkTextBuffer *message_buffer;
-static GtkWidget *inputline;
+GtkWidget *inputline;
 static GtkWidget *allied_chat_toggle_button;
 
 static enum Display_color_type display_color_type;  /* practically unused */
@@ -539,36 +542,60 @@ gboolean map_canvas_focus(void)
 **************************************************************************/
 gboolean inputline_handler(GtkWidget *w, GdkEventKey *ev)
 {
-  void *data = NULL;
-  gint keypress = FALSE;
+  if ((ev->state & GDK_CONTROL_MASK)) {
+    /* Chatline featured text support. */
+    switch (ev->keyval) {
+    case GDK_b:
+      inputline_make_tag(TTT_BOLD);
+      return TRUE;
 
-  if (ev->keyval == GDK_Up) {
-    keypress = TRUE;
+    case GDK_i:
+      inputline_make_tag(TTT_ITALIC);
+      return TRUE;
 
-    if (history_pos < genlist_size(history_list) - 1)
-      history_pos++;
+    case GDK_s:
+      inputline_make_tag(TTT_STRIKE);
+      return TRUE;
 
-    data = genlist_get(history_list, history_pos);
-  }
+    case GDK_u:
+      inputline_make_tag(TTT_UNDERLINE);
+      return TRUE;
 
-  if (ev->keyval == GDK_Down) {
-    keypress = TRUE;
+    default:
+      break;
+    }
 
-    if (history_pos >= 0)
-      history_pos--;
+  } else {
+    /* Chatline history controls. */
+    switch (ev->keyval) {
+    case GDK_Up:
+      if (history_pos < genlist_size(history_list) - 1) {
+        gtk_entry_set_text(GTK_ENTRY(w),
+                           genlist_get(history_list, history_pos));
+        gtk_editable_set_position(GTK_EDITABLE(w), -1);
+      }
+      return TRUE;
 
-    if (history_pos >= 0) {
-      data = genlist_get(history_list, history_pos);
-    } else {
-      data = "";
+    case GDK_Down:
+      if (history_pos >= 0) {
+        history_pos--;
+      }
+      
+      if (history_pos >= 0) {
+        gtk_entry_set_text(GTK_ENTRY(w),
+                           genlist_get(history_list, history_pos));
+      } else {
+        gtk_entry_set_text(GTK_ENTRY(w), "");
+      }
+      gtk_editable_set_position(GTK_EDITABLE(w), -1);
+      return TRUE;
+
+    default:
+      break;
     }
   }
 
-  if (data) {
-    gtk_entry_set_text(GTK_ENTRY(w), data);
-    gtk_editable_set_position(GTK_EDITABLE(w), -1);
-  }
-  return keypress;
+  return FALSE;
 }
 
 /**************************************************************************
