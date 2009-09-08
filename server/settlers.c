@@ -20,11 +20,13 @@
 #include <stdio.h>
 #include <string.h>
 
+/* utility */
 #include "log.h"
 #include "mem.h"
 #include "support.h"
 #include "timing.h"
 
+/* common */
 #include "city.h"
 #include "game.h"
 #include "government.h"
@@ -33,24 +35,27 @@
 #include "packets.h"
 #include "unitlist.h"
 
+/* aicore */
+#include "citymap.h"
 #include "path_finding.h"
 #include "pf_tools.h"
 
-#include "citytools.h"
-#include "gotohand.h"
-#include "maphand.h"
-#include "plrhand.h"
-#include "settlers.h"
-#include "unithand.h"
-#include "unittools.h"
-
+/* ai */
 #include "aicity.h"
 #include "aidata.h"
 #include "ailog.h"
 #include "aisettler.h"
 #include "aitools.h"
 #include "aiunit.h"
-#include "citymap.h"
+
+/* server */
+#include "citytools.h"
+#include "maphand.h"
+#include "plrhand.h"
+#include "unithand.h"
+#include "unittools.h"
+
+#include "settlers.h"
 
 /* This factor is multiplied on when calculating the want.  This is done
  * to avoid rounding errors in comparisons when looking for the best
@@ -660,20 +665,19 @@ static int ai_calc_railroad(struct city *pcity, struct player *pplayer,
 }
 
 /****************************************************************************
-  Compares the best known tile improvement action with improving the tile
-  at (x,y) with activity act.  Calculates the value of improving the tile
-  by discounting the total value by the time it would take to do the work
+  Compares the best known tile improvement action with improving ptile
+  with activity act.  Calculates the value of improving the tile by
+  discounting the total value by the time it would take to do the work
   and multiplying by some factor.
 ****************************************************************************/
-static void consider_settler_action(struct player *pplayer, 
+static void consider_settler_action(const struct player *pplayer, 
                                     enum unit_activity act, int extra, 
                                     int new_tile_value, int old_tile_value,
-				    bool in_use, int move_turns, int delay,
-				    int *best_value,
-				    int *best_old_tile_value,
-				    int *best_move_turns,
-				    enum unit_activity *best_act,
-				    struct tile **best_tile,
+                                    bool in_use, int delay,
+                                    int *best_value,
+                                    int *best_old_tile_value,
+                                    enum unit_activity *best_act,
+                                    struct tile **best_tile,
                                     struct tile *ptile)
 {
   bool consider;
@@ -714,7 +718,6 @@ static void consider_settler_action(struct player *pplayer,
     *best_old_tile_value = old_tile_value;
     *best_act = act;
     *best_tile = ptile;
-    *best_move_turns = move_turns;
   }
 }
 
@@ -763,9 +766,10 @@ static int unit_food_upkeep(struct unit *punit)
   Finds tiles to improve, using punit.
 
   The returned value is the goodness of the best tile and action found.  If
-  this return value is >0, then (gx,gy) indicates the tile chosen and bestact
-  indicates the activity it wants to do.  If 0 is returned then there are no
-  worthwhile activities available.
+  this return value is > 0, then best_tile indicates the tile chosen,
+  bestact indicates the activity it wants to do, and path (if not NULL)
+  indicates the path to follow for the unit.  If 0 is returned
+  then there are no worthwhile activities available.
 
   completion_time is the time that would be taken by punit to travel to
   and complete work at best_tile
@@ -776,29 +780,28 @@ static int unit_food_upkeep(struct unit *punit)
   if this array is NULL, workers are never displaced.
 ****************************************************************************/
 static int evaluate_improvements(struct unit *punit,
-				 enum unit_activity *best_act,
-				 struct tile **best_tile,
-				 int *travel_time,
-				 struct settlermap *state)
+                                 enum unit_activity *best_act,
+                                 struct tile **best_tile,
+                                 struct pf_path **path,
+                                 struct settlermap *state)
 {
-  struct city *mycity = tile_city(punit->tile);
-  struct player *pplayer = unit_owner(punit);
-  Continent_id ucont     = tile_continent(punit->tile);
-  int mv_rate         = unit_type(punit)->move_rate;
-  int mv_turns;			/* estimated turns to move to target square */
-  int oldv;			/* current value of consideration tile */
-  int best_oldv = 9999;		/* oldv of best target so far; compared if
-				   newv==best_newv; not initialized to zero,
-				   so that newv=0 activities are not chosen */
+  const struct player *pplayer = unit_owner(punit);
+  struct pf_parameter parameter;
+  struct pf_map *pfm;
+  struct pf_position pos;
+  int oldv;             /* Current value of consideration tile. */
+  int best_oldv = 9999; /* oldv of best target so far; compared if
+                         * newv == best_newv; not initialized to zero,
+                         * so that newv = 0 activities are not chosen. */
   bool can_rr = player_knows_techs_with_flag(pplayer, TF_RAILROAD);
-
   int best_newv = 0;
 
   /* closest worker, if any, headed towards target tile */
   struct unit *enroute = NULL;
 
-  generate_warmap(mycity, punit);
-  
+  pft_fill_unit_parameter(&parameter, punit);
+  pfm = pf_map_new(&parameter);
+
   city_list_iterate(pplayer->cities, pcity) {
     struct tile *pcenter = city_tile(pcity);
 
@@ -808,105 +811,102 @@ static int evaluate_improvements(struct unit *punit,
       bool in_use = (tile_worked(ptile) == pcity);
 
       if (!in_use && !city_can_work_tile(pcity, ptile)) {
-	/* Don't risk bothering with this tile. */
-	continue;
+        /* Don't risk bothering with this tile. */
+        continue;
       }
 
-      /* do not go to tiles that already have workers there */
+      /* Do not go to tiles that already have workers there. */
       unit_list_iterate(ptile->units, aunit) {
-	if (unit_owner(aunit) == pplayer
-	    && aunit->id != punit->id
-	    && unit_has_type_flag(aunit, F_SETTLERS)) {
-	  consider = FALSE;
-	}
+        if (unit_owner(aunit) == pplayer
+            && aunit->id != punit->id
+            && unit_has_type_flag(aunit, F_SETTLERS)) {
+          consider = FALSE;
+        }
       } unit_list_iterate_end;
 
-      if (state) {
-	enroute = player_find_unit_by_id(pplayer,
-					 state[tile_index(ptile)].enroute);
+      if (!consider) {
+        continue;
       }
 
-      if (consider 
-	  && tile_continent(ptile) == ucont
-	  && WARMAP_COST(ptile) <= THRESHOLD * mv_rate) {
-	int eta = FC_INFINITY, inbound_distance = FC_INFINITY, time;
+      if (state) {
+        enroute = player_find_unit_by_id(pplayer,
+                                         state[tile_index(ptile)].enroute);
+      }
 
-	if (enroute) {
-	  eta = state[tile_index(ptile)].eta;
-	  inbound_distance = real_map_distance(ptile, enroute->tile);
-	}
-	mv_turns = WARMAP_COST(ptile) / mv_rate;
-	oldv = city_tile_value(pcity, ptile, 0, 0);
+      if (pf_map_get_position(pfm, ptile, &pos)) {
+        int eta = FC_INFINITY, inbound_distance = FC_INFINITY, time;
 
-	/* only consider this tile if we are closer in time and space to
-	 * it than our other worker (if any) travelling to the site */
-	if ((enroute && enroute->id == punit->id)
-	    || mv_turns < eta
-	    || (mv_turns == eta
-		&& (real_map_distance(ptile, punit->tile)
-		    < inbound_distance))) {
+        if (enroute) {
+          eta = state[tile_index(ptile)].eta;
+          inbound_distance = real_map_distance(ptile, unit_tile(enroute));
+        }
 
-	  if (enroute) {
-	    UNIT_LOG(LOG_DEBUG, punit,
-		     "Considering %d,%d because we're closer "
-		     "(%d,%d) than %d (%d,%d)",
-		     TILE_XY(ptile), mv_turns,
-		     real_map_distance(ptile, punit->tile),
-		     enroute->id, eta, inbound_distance);
-	  }
+        /* Only consider this tile if we are closer in time and space to
+         * it than our other worker (if any) travelling to the site. */
+        if ((enroute && enroute->id == punit->id)
+            || pos.turn < eta
+            || (pos.turn == eta
+                && (real_map_distance(ptile, unit_tile(punit))
+                    < inbound_distance))) {
 
-	  /* now, consider various activities... */
-	  activity_type_iterate(act) {
+          if (enroute) {
+            UNIT_LOG(LOG_DEBUG, punit,
+                     "Considering (%d, %d) because we're closer "
+                     "(%d, %d) than %d (%d, %d)",
+                     TILE_XY(ptile), pos.turn,
+                     real_map_distance(ptile, unit_tile(punit)),
+                     enroute->id, eta, inbound_distance);
+          }
+
+          oldv = city_tile_value(pcity, ptile, 0, 0);
+
+          /* Now, consider various activities... */
+          activity_type_iterate(act) {
             if (pcity->ai->act_value[act][cx][cy] >= 0
-                && act != ACTIVITY_BASE /* This needs separate implementation */
-		&& can_unit_do_activity_targeted_at(punit, act, S_LAST,
+                /* This needs separate implementation. */
+                && act != ACTIVITY_BASE
+                && can_unit_do_activity_targeted_at(punit, act, S_LAST,
                                                     ptile, -1)) {
-	      int extra = 0;
+              int extra = 0;
               int base_value = pcity->ai->act_value[act][cx][cy];
 
-	      time = mv_turns + get_turns_for_activity_at(punit, act, ptile);
-	      
-	      if (act == ACTIVITY_ROAD) {
-		extra = road_bonus(ptile, S_ROAD) * 5;
-		if (can_rr) {
-		  /* if we can make railroads eventually, consider making
-		   * road here, and set extras and time to to consider
-		   * railroads in main consider_settler_action call */
-		  consider_settler_action(pplayer, ACTIVITY_ROAD,
-				extra,
-                                pcity->ai->act_value[ACTIVITY_ROAD][cx][cy], 
-				oldv, in_use, mv_turns, time,
-				&best_newv, &best_oldv, travel_time,
-				best_act, best_tile,
-				ptile);
-		  
-		  base_value
+              time = pos.turn + get_turns_for_activity_at(punit, act, ptile);
+
+              if (act == ACTIVITY_ROAD) {
+                extra = road_bonus(ptile, S_ROAD) * 5;
+                if (can_rr) {
+                  /* If we can make railroads eventually, consider making
+                   * road here, and set extras and time to to consider
+                   * railroads in main consider_settler_action call. */
+                  consider_settler_action(pplayer, ACTIVITY_ROAD, extra,
+                                          pcity->ai->act_value[ACTIVITY_ROAD][cx][cy], 
+                                          oldv, in_use, time,
+                                          &best_newv, &best_oldv,
+                                          best_act, best_tile, ptile);
+
+                  base_value
                     = pcity->ai->act_value[ACTIVITY_RAILROAD][cx][cy];
-		  
-		  /* Count road time plus rail time. */
-		  time += get_turns_for_activity_at(punit, ACTIVITY_RAILROAD, 
-						    ptile);
-		}
-	      } else if (act == ACTIVITY_RAILROAD) {
-		extra = road_bonus(ptile, S_RAILROAD) * 3;
-	      } else if (act == ACTIVITY_FALLOUT) {
-		extra = pplayer->ai_data.frost;
-	      } else if (act == ACTIVITY_POLLUTION) {
-		extra = pplayer->ai_data.warmth;
-	      }    
-	      
-	      consider_settler_action(pplayer, act,
-				      extra, 
-				      base_value, oldv, 
-				      in_use,
-				      mv_turns, time,
-				      &best_newv, &best_oldv, travel_time,
-				      best_act, best_tile,
-				      ptile);
-	      
-	    } /* endif: can the worker perform this action */
-	  } activity_type_iterate_end;
-	} /* endif: can we finish sooner than current worker, if any? */
+
+                  /* Count road time plus rail time. */
+                  time += get_turns_for_activity_at(punit, ACTIVITY_RAILROAD, 
+                                                    ptile);
+                }
+              } else if (act == ACTIVITY_RAILROAD) {
+                extra = road_bonus(ptile, S_RAILROAD) * 3;
+              } else if (act == ACTIVITY_FALLOUT) {
+                extra = pplayer->ai_data.frost;
+              } else if (act == ACTIVITY_POLLUTION) {
+                extra = pplayer->ai_data.warmth;
+              }
+
+              consider_settler_action(pplayer, act, extra, base_value,
+                                      oldv, in_use, time,
+                                      &best_newv, &best_oldv,
+                                      best_act, best_tile, ptile);
+
+            } /* endif: can the worker perform this action */
+          } activity_type_iterate_end;
+        } /* endif: can we finish sooner than current worker, if any? */
       } /* endif: are we travelling to a legal destination? */
     } city_tile_iterate_cxy_end;
   } city_list_iterate_end;
@@ -917,15 +917,21 @@ static int evaluate_improvements(struct unit *punit,
 
   if (best_newv > 0) {
     freelog(LOG_DEBUG,
-	    "Settler %d@(%d,%d) wants to %s at (%d,%d) with desire %d",
-	    punit->id, TILE_XY(punit->tile), get_activity_text(*best_act),
-	    TILE_XY(*best_tile), best_newv);
+            "Settler %d@(%d,%d) wants to %s at (%d,%d) with desire %d",
+            punit->id, TILE_XY(punit->tile), get_activity_text(*best_act),
+            TILE_XY(*best_tile), best_newv);
   } else {
     /* Fill in dummy values.  The callers should check if the return value
      * is > 0 but this will avoid confusing them. */
     *best_act = ACTIVITY_IDLE;
     *best_tile = NULL;
   }
+
+  if (path) {
+    *path = *best_tile ? pf_map_get_path(pfm, *best_tile) : NULL;
+  }
+
+  pf_map_destroy(pfm);
 
   return best_newv;
 }
@@ -943,6 +949,7 @@ static void auto_settler_findwork(struct player *pplayer,
   int best_impr = 0;            /* best terrain improvement we can do */
   enum unit_activity best_act;
   struct tile *best_tile = NULL;
+  struct pf_path *path = NULL;
   struct ai_data *ai = ai_data_get(pplayer);
 
   /* time it will take worker to complete its given task */
@@ -1014,7 +1021,10 @@ static void auto_settler_findwork(struct player *pplayer,
   if (unit_has_type_flag(punit, F_SETTLERS)) {
     TIMING_LOG(AIT_WORKERS, TIMER_START);
     best_impr = evaluate_improvements(punit, &best_act, &best_tile, 
-				      &completion_time, state);
+                                      &path, state);
+    if (path) {
+      completion_time = pf_path_get_last_position(path)->turn;
+    }
     TIMING_LOG(AIT_WORKERS, TIMER_STOP);
   }
 
@@ -1063,8 +1073,7 @@ static void auto_settler_findwork(struct player *pplayer,
 
   /* Run the "autosettler" program */
   if (punit->ai.ai_role == AIUNIT_AUTO_SETTLER) {
-    struct pf_map *pfm;
-    struct pf_path *path;
+    struct pf_map *pfm = NULL;
     struct pf_parameter parameter;
 
     struct unit *displaced;
@@ -1108,9 +1117,11 @@ static void auto_settler_findwork(struct player *pplayer,
       }
     }
 
-    pft_fill_unit_parameter(&parameter, punit);
-    pfm = pf_map_new(&parameter);
-    path = pf_map_get_path(pfm, best_tile);
+    if (!path) {
+      pft_fill_unit_parameter(&parameter, punit);
+      pfm = pf_map_new(&parameter);
+      path = pf_map_get_path(pfm, best_tile);
+    }
 
     if (path) {
       bool alive;
@@ -1130,7 +1141,9 @@ static void auto_settler_findwork(struct player *pplayer,
               punit->tile->x, punit->tile->y, best_tile->x, best_tile->y);
     }
 
-    pf_map_destroy(pfm);
+    if (pfm) {
+      pf_map_destroy(pfm);
+    }
 
     return;
   }
@@ -1343,7 +1356,6 @@ void contemplate_terrain_improvements(struct city *pcity)
 {
   struct unit *virtualunit;
   int want;
-  int completion_time;
   enum unit_activity best_act;
   struct tile *best_tile = NULL; /* May be accessed by freelog() calls. */
   struct tile *pcenter = city_tile(pcity);
@@ -1360,9 +1372,8 @@ void contemplate_terrain_improvements(struct city *pcity)
   /* Create a localized "virtual" unit to do operations with. */
   virtualunit = create_unit_virtual(pplayer, pcity, unit_type, 0);
   virtualunit->tile = pcenter;
-  want = evaluate_improvements(virtualunit, &best_act,
-			       &best_tile, &completion_time,
-			       NULL);
+  want = evaluate_improvements(virtualunit, &best_act, &best_tile,
+                               NULL, NULL);
   want = (want - unit_food_upkeep(virtualunit) * FOOD_WEIGHTING) * 100
          / (40 + unit_foodbox_cost(virtualunit));
   destroy_unit_virtual(virtualunit);
