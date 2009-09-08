@@ -22,7 +22,7 @@ REV="dist"
  # If not, we will not claim to know which svn revision this is
  # (REVSTATE will be OFF)
  if which svn && which tail && which wc ; then
-   REVTMP="r$(svn info 2>/dev/null | grep "^Revision: " | sed 's/^Revision: //')"
+   REVTMP="r$(LANG=C svn info 2>/dev/null | grep "^Revision: " | sed 's/^Revision: //')"
    if test "$REVTMP" != "r" ; then
      # This is svn checkout. Check for local modifications
      if test $(cd "$SRCROOT" ; svn diff | wc -l) -eq 0 ; then
