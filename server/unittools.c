@@ -1108,6 +1108,11 @@ void bounce_unit(struct unit *punit, bool verbose)
     if (count >= ARRAY_SIZE(tiles)) {
       break;
     }
+
+    if (ptile == punit_tile) {
+      continue;
+    }
+
     if (can_unit_survive_at_tile(punit, ptile)
         && !is_non_allied_city_tile(ptile, pplayer)
         && !is_non_allied_unit_tile(ptile, pplayer)) {
