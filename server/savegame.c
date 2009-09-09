@@ -4096,6 +4096,8 @@ static void game_load_internal(struct section_file *file)
     } else {
       game.scenario.description[0] = '\0';
     }
+    game.scenario.players
+      = secfile_lookup_bool_default(file, TRUE, "scenario.save_players");
   } else {
     game.scenario.is_scenario = FALSE;
   }
@@ -4973,6 +4975,7 @@ void game_save(struct section_file *file, const char *save_reason,
     secfile_insert_str(file, game.scenario.name, "scenario.name");
     secfile_insert_str(file, game.scenario.description,
                        "scenario.description");
+    secfile_insert_bool(file, game.scenario.players, "scenario.save_players");
   }
 
   /* [game] */
