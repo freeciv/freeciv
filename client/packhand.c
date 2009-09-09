@@ -18,61 +18,66 @@
 #include <assert.h>
 #include <string.h>
 
-/* common & utility */
+/* utility */
 #include "capability.h"
+#include "fcintl.h"
+#include "log.h"
+#include "mem.h"
+#include "support.h"
+
+/* common */
 #include "capstr.h"
 #include "events.h"
-#include "fcintl.h"
 #include "game.h"
 #include "government.h"
 #include "idex.h"
-#include "log.h"
 #include "map.h"
-#include "mem.h"
 #include "nation.h"
 #include "packets.h"
 #include "player.h"
 #include "spaceship.h"
 #include "specialist.h"
-#include "support.h"
 #include "unit.h"
 #include "unitlist.h"
 #include "worklist.h"
+
+/* include */
+#include "chatline_g.h"
+#include "citydlg_g.h"
+#include "cityrep_g.h"
+#include "connectdlg_g.h"
+#include "dialogs_g.h"
+#include "editgui_g.h"
+#include "gui_main_g.h"
+#include "inteldlg_g.h"
+#include "mapctrl_g.h"          /* popup_newcity_dialog() */
+#include "mapview_g.h"
+#include "menu_g.h"
+#include "messagewin_g.h"
+#include "pages_g.h"
+#include "plrdlg_g.h"
+#include "repodlgs_g.h"
+#include "spaceshipdlg_g.h"
+#include "wldlg_g.h"
 
 /* client */
 #include "agents.h"
 #include "attribute.h"
 #include "audio.h"
-#include "chatline_g.h"
-#include "citydlg_g.h"
-#include "cityrep_g.h"
 #include "client_main.h"
 #include "climap.h"
 #include "climisc.h"
 #include "connectdlg_common.h"
-#include "connectdlg_g.h"
 #include "control.h"
-#include "dialogs_g.h"
-#include "editgui_g.h"
 #include "editor.h"
 #include "ggzclient.h"
 #include "goto.h"               /* client_goto_init() */
-#include "gui_main_g.h"
-#include "helpdata.h"		/* boot_help_texts() */
-#include "inteldlg_g.h"
-#include "mapctrl_g.h"		/* popup_newcity_dialog() */
-#include "mapview_g.h"
-#include "menu_g.h"
-#include "messagewin_g.h"
+#include "helpdata.h"           /* boot_help_texts() */
+#include "mapview_common.h"
 #include "options.h"
 #include "overview_common.h"
-#include "pages_g.h"
-#include "plrdlg_g.h"
-#include "repodlgs_g.h"
-#include "spaceshipdlg_g.h"
 #include "tilespec.h"
 #include "voteinfo.h"
-#include "wldlg_g.h"
 
 #include "packhand.h"
 
@@ -1002,6 +1007,7 @@ void handle_new_year(int year, int turn)
 #endif
 
   update_city_descriptions();
+  link_marks_decrease_turn_counters();
 
   if (sound_bell_at_new_turn) {
     create_event(NULL, E_TURN_BELL, _("Start of turn %d"), game.info.turn);

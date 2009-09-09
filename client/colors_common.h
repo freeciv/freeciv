@@ -36,6 +36,9 @@ enum color_std {
   COLOR_MAPVIEW_TRADEROUTES_ALL_BUILT, /* green */
   COLOR_MAPVIEW_TRADEROUTES_SOME_BUILT, /* yellow */
   COLOR_MAPVIEW_TRADEROUTES_NO_BUILT, /* red */
+  COLOR_MAPVIEW_CITY_LINK, /* green */
+  COLOR_MAPVIEW_TILE_LINK, /* red */
+  COLOR_MAPVIEW_UNIT_LINK, /* cyan */
 
   /* Spaceship colors */
   COLOR_SPACESHIP_BACKGROUND, /* black */

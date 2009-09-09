@@ -61,6 +61,9 @@ char *color_names[] = {
   "mapview_traderoutes_all_built",
   "mapview_traderoutes_some_built",
   "mapview_traderoutes_no_built",
+  "mapview_city_link",
+  "mapview_tile_link",
+  "mapview_unit_link",
 
   /* Spaceship */
   "spaceship_background",

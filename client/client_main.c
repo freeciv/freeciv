@@ -46,36 +46,39 @@
 #include "packets.h"
 #include "version.h"
 
-/* client */
-#include "agents.h"
-#include "attribute.h"
-#include "audio.h"
+/* include */
 #include "chatline_g.h"
 #include "citydlg_g.h"
-#include "cityrepdata.h"
-#include "climisc.h"
-#include "clinet.h"
-#include "cma_core.h"		/* kludge */
-#include "connectdlg_common.h"  /* client_kill_server() */
 #include "connectdlg_g.h"
-#include "control.h" 
 #include "dialogs_g.h"
 #include "diplodlg_g.h"
 #include "editgui_g.h"
-#include "editor.h"
 #include "graphics_g.h"
-#include "ggzclient.h"
 #include "gui_main_g.h"
-#include "helpdata.h"		/* boot_help_texts() */
 #include "mapctrl_g.h"
 #include "mapview_g.h"
 #include "menu_g.h"
 #include "messagewin_g.h"
-#include "options.h"
-#include "packhand.h"
 #include "pages_g.h"
 #include "plrdlg_g.h"
 #include "repodlgs_g.h"
+
+/* client */
+#include "agents.h"
+#include "attribute.h"
+#include "audio.h"
+#include "cityrepdata.h"
+#include "climisc.h"
+#include "clinet.h"
+#include "cma_core.h"           /* kludge */
+#include "connectdlg_common.h"  /* client_kill_server() */
+#include "control.h" 
+#include "editor.h"
+#include "ggzclient.h"
+#include "helpdata.h"           /* boot_help_texts() */
+#include "mapview_common.h"
+#include "options.h"
+#include "packhand.h"
 #include "tilespec.h"
 #include "themes_common.h"
 #include "voteinfo.h"
@@ -188,6 +191,7 @@ static void client_game_init(void)
   attribute_init();
   agents_init();
   control_init();
+  link_marks_init();
 }
 
 /**************************************************************************
@@ -196,6 +200,7 @@ static void client_game_init(void)
 static void client_game_free(void)
 {
   packhand_free();
+  link_marks_free();
   control_done();
   free_help_texts();
   attribute_free();

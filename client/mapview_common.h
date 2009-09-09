@@ -14,11 +14,15 @@
 #ifndef FC__MAPVIEW_COMMON_H
 #define FC__MAPVIEW_COMMON_H
 
-#include "shared.h"		/* bool type */
+/* utility */
+#include "shared.h"             /* bool type */
 
+/* common */
 #include "fc_types.h"
+#include "featured_text.h"      /* enum text_link_type type */
 #include "map.h"
 
+/* include */
 #include "colors_g.h"
 
 #include "tilespec.h"
@@ -317,5 +321,15 @@ void init_mapcanvas_and_overview(void);
 void get_spaceship_dimensions(int *width, int *height);
 void put_spaceship(struct canvas *pcanvas, int canvas_x, int canvas_y,
 		   const struct player *pplayer);
+
+void link_marks_init(void);
+void link_marks_free(void);
+
+void link_marks_draw_all(void);
+void link_marks_clear_all(void);
+void link_marks_decrease_turn_counters(void);
+
+void link_mark_add_new(enum text_link_type type, int id);
+void link_mark_restore(enum text_link_type type, int id);
 
 #endif /* FC__MAPVIEW_COMMON_H */

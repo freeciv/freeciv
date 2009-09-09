@@ -56,6 +56,7 @@ used throughout the client.
 #include "climisc.h"
 #include "control.h"
 #include "mapctrl_common.h"
+#include "mapview_common.h"
 #include "messagewin_common.h"
 #include "packhand.h"
 #include "plrdlg_common.h"
@@ -889,6 +890,15 @@ void handle_event(const char *featured_text, struct tile *ptile,
   /* Get the original text. */
   featured_text_to_plain_text(featured_text, plain_text,
                               sizeof(plain_text), tags);
+
+  /* Display link marks when an user is pointed us something. */
+  if (conn_id != -1) {
+    text_tag_list_iterate(tags, ptag) {
+      if (text_tag_type(ptag) == TTT_LINK) {
+        link_mark_add_new(text_tag_link_type(ptag), text_tag_link_id(ptag));
+      }
+    } text_tag_list_iterate_end;
+  }
 
   /* Popup */
   if (BOOL_VAL(where & MW_POPUP)) {

@@ -36,9 +36,12 @@
 #include "client_main.h"
 #include "climisc.h"
 #include "control.h"
+#include "mapview_common.h"
+
+/* gui-gtk-2.0 */
+#include "colors.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
-#include "mapview_common.h"
 #include "pages.h"
 
 #include "chatline.h"
@@ -311,7 +314,9 @@ static gboolean event_after(GtkWidget *text_view, GdkEventButton *event)
 
         /* Real type is type - 1.
          * See comment in apply_text_tag() for g_object_set_data(). */
-        switch (type - 1) {
+        type--;
+
+        switch (type) {
         case TLT_CITY:
           {
             struct city *pcity = game_find_city_by_number(id);
@@ -349,6 +354,7 @@ static gboolean event_after(GtkWidget *text_view, GdkEventButton *event)
 
         if (ptile) {
           center_tile_mapcanvas(ptile);
+          link_mark_restore(type, id);
           gtk_widget_grab_focus(GTK_WIDGET(map_canvas));
         }
       }
@@ -546,32 +552,29 @@ static void apply_text_tag(const struct text_tag *ptag, GtkTextBuffer *buf,
     break;
   case TTT_LINK:
     {
-      GtkTextTag *tag = NULL;
+      struct color *pcolor = NULL;
+      GtkTextTag *tag;
 
       switch (text_tag_link_type(ptag)) {
       case TLT_CITY:
-        tag = gtk_text_buffer_create_tag(buf, NULL, 
-                                         "foreground", "green", 
-                                         "underline", PANGO_UNDERLINE_SINGLE,
-                                         NULL);
+        pcolor = get_color(tileset, COLOR_MAPVIEW_CITY_LINK);
         break;
       case TLT_TILE:
-        tag = gtk_text_buffer_create_tag(buf, NULL, 
-                                         "foreground", "red", 
-                                         "underline", PANGO_UNDERLINE_SINGLE,
-                                         NULL);
+        pcolor = get_color(tileset, COLOR_MAPVIEW_TILE_LINK);
         break;
       case TLT_UNIT:
-        tag = gtk_text_buffer_create_tag(buf, NULL, 
-                                         "foreground", "cyan", 
-                                         "underline", PANGO_UNDERLINE_SINGLE,
-                                         NULL);
+        pcolor = get_color(tileset, COLOR_MAPVIEW_UNIT_LINK);
         break;
       }
 
-      if (!tag) {
+      if (!pcolor) {
         break; /* Not a valid link type case. */
       }
+
+      tag = gtk_text_buffer_create_tag(buf, NULL, 
+                                       "foreground-gdk", &pcolor->color, 
+                                       "underline", PANGO_UNDERLINE_SINGLE,
+                                       NULL);
 
       /* Type 0 is reserved for non-link tags.  So, add 1 to the
        * type value. */

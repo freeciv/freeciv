@@ -75,6 +75,15 @@ mapview_traderoutes_some_built = {"r", "g", "b"
 mapview_traderoutes_no_built = {"r", "g", "b"
     255,   0,   0
 }
+mapview_city_link = {"r", "g", "b"
+    0,   255,   0
+}
+mapview_tile_link = {"r", "g", "b"
+    255,   0,   0
+}
+mapview_unit_link = {"r", "g", "b"
+    0,   255, 255
+}
 
 ; Spaceship
 spaceship_background = {"r", "g", "b"
