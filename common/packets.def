@@ -509,7 +509,7 @@ end
 
 /************** Chat/event packets **********************/
 
-PACKET_CHAT_MSG=18;sc, pre-send, post-recv,lsend,dsend
+PACKET_CHAT_MSG=18;sc, pre-send, post-recv,lsend
   STRING message[MAX_LEN_MSG];
   COORD x, y;
   EVENT event;

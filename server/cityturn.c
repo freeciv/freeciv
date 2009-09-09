@@ -191,11 +191,12 @@ void remove_obsolete_buildings_city(struct city *pcity, bool refresh)
     if (improvement_obsolete(pplayer, pimprove)
      && can_city_sell_building(pcity, pimprove)) {
       do_sell_building(pplayer, pcity, pimprove);
-      notify_player(pplayer, pcity->tile, E_IMP_SOLD, 
-		       _("%s is selling %s (obsolete) for %d."),
-		       city_name(pcity),
-		       improvement_name_translation(pimprove), 
-		       impr_sell_gold(pimprove));
+      notify_player(pplayer, pcity->tile, E_IMP_SOLD,
+                    FTC_SERVER_INFO, NULL,
+                    _("%s is selling %s (obsolete) for %d."),
+                    city_name(pcity),
+                    improvement_name_translation(pimprove), 
+                    impr_sell_gold(pimprove));
       sold = TRUE;
     }
   } city_built_iterate_end;
@@ -368,12 +369,12 @@ void send_global_city_turn_notifications(struct conn_list *dest)
           && is_great_wonder(pimprove)
 	  && (city_production_turns_to_build(pcity, TRUE) <= 1)
 	  && can_player_build_improvement_now(city_owner(pcity), pimprove)) {
-	notify_conn(dest, pcity->tile,
-		       E_WONDER_WILL_BE_BUILT,
-		       _("Notice: Wonder %s in %s will be finished"
-			 " next turn."), 
-		       improvement_name_translation(pimprove),
-		       city_name(pcity));
+	notify_conn(dest, pcity->tile, E_WONDER_WILL_BE_BUILT,
+                    FTC_SERVER_INFO, NULL,
+                    _("Notice: Wonder %s in %s will be finished"
+                      " next turn."), 
+                    improvement_name_translation(pimprove),
+                    city_name(pcity));
       }
     } city_list_iterate_end;
   } players_iterate_end;
@@ -404,31 +405,30 @@ void send_city_turn_notifications(struct conn_list *dest, struct city *pcity)
 	 preserves food.  -AJS */
       if (turns_growth < 5 && turns_granary < 5
 	  && turns_growth < turns_granary) {
-	notify_conn(dest, pcity->tile,
-			 E_CITY_GRAN_THROTTLE,
-			 _("Suggest throttling growth in %s to use %s "
-			   "(being built) more effectively."),
-			city_name(pcity),
-			improvement_name_translation(pimprove));
+	notify_conn(dest, pcity->tile, E_CITY_GRAN_THROTTLE,
+                    FTC_SERVER_INFO, NULL,
+                    _("Suggest throttling growth in %s to use %s "
+                      "(being built) more effectively."),
+                    city_name(pcity),
+                    improvement_name_translation(pimprove));
       }
     }
 
     can_grow = city_can_grow_to(pcity, pcity->size + 1);
 
     if ((turns_growth <= 0) && !city_celebrating(pcity) && can_grow) {
-      notify_conn(dest, pcity->tile,
-		       E_CITY_MAY_SOON_GROW,
-		       _("%s may soon grow to size %i."),
-		       city_name(pcity),
-		       pcity->size + 1);
+      notify_conn(dest, pcity->tile, E_CITY_MAY_SOON_GROW,
+                  FTC_SERVER_INFO, NULL,
+                  _("%s may soon grow to size %i."),
+                  city_name(pcity), pcity->size + 1);
     }
   } else {
     if (pcity->food_stock + pcity->surplus[O_FOOD] <= 0
 	&& pcity->surplus[O_FOOD] < 0) {
-      notify_conn(dest, pcity->tile,
-		     E_CITY_FAMINE_FEARED,
-		     _("Warning: Famine feared in %s."),
-		     city_name(pcity));
+      notify_conn(dest, pcity->tile, E_CITY_FAMINE_FEARED,
+                  FTC_SERVER_INFO, NULL,
+                  _("Warning: Famine feared in %s."),
+                  city_name(pcity));
     }
   }
   
@@ -499,6 +499,7 @@ void update_city_activities(struct player *pplayer)
    * player_balance_treasury_units(). */
   if (gold - (gold - pplayer->economic.gold) * 3 < 0) {
     notify_player(pplayer, NULL, E_LOW_ON_FUNDS,
+                  FTC_SERVER_INFO, NULL,
                   _("WARNING, we're LOW on FUNDS %s."),
                   ruler_title_translation(pplayer));
   }
@@ -683,14 +684,15 @@ static bool city_increase_size(struct city *pcity)
     if (get_current_construction_bonus(pcity, EFT_SIZE_ADJ, RPT_CERTAIN) > 0
         || get_current_construction_bonus(pcity, EFT_SIZE_UNLIMIT, RPT_CERTAIN) > 0) {
       notify_player(powner, pcity->tile, E_CITY_AQ_BUILDING,
-		       _("%s needs %s (being built) "
-			 "to grow any further."),
-			city_name(pcity),
-			improvement_name_translation(pimprove));
+                    FTC_SERVER_INFO, NULL,
+                    _("%s needs %s (being built) to grow any further."),
+                    city_name(pcity),
+                    improvement_name_translation(pimprove));
     } else {
       notify_player(powner, pcity->tile, E_CITY_AQUEDUCT,
-		       _("%s needs an improvement to grow any further."),
-		       city_name(pcity));
+                    FTC_SERVER_INFO, NULL,
+                    _("%s needs an improvement to grow any further."),
+                    city_name(pcity));
     }
     /* Granary can only hold so much */
     new_food = (city_granary_size(pcity->size)
@@ -743,12 +745,11 @@ static bool city_increase_size(struct city *pcity)
     }
   }
 
-  notify_player(powner, pcity->tile, E_CITY_GROWTH,
+  notify_player(powner, pcity->tile, E_CITY_GROWTH, FTC_SERVER_INFO, NULL,
                 _("%s grows to size %d."),
-                city_name(pcity),
-                pcity->size);
+                city_name(pcity), pcity->size);
   script_signal_emit("city_growth", 2,
-		      API_TYPE_CITY, pcity, API_TYPE_INT, pcity->size);
+                     API_TYPE_CITY, pcity, API_TYPE_INT, pcity->size);
   if (city_exist(saved_id)) {
     /* Script didn't destroy this city */
     sanity_check_city(pcity);
@@ -806,9 +807,9 @@ static void city_populate(struct city *pcity)
           && !unit_has_type_flag(punit, F_UNDISBANDABLE)) {
 
 	notify_player(city_owner(pcity), pcity->tile, E_UNIT_LOST_MISC,
-			 _("Famine feared in %s, %s lost!"), 
-			 city_name(pcity),
-			 unit_name_translation(punit));
+                      FTC_SERVER_INFO, NULL,
+                      _("Famine feared in %s, %s lost!"), 
+                      city_name(pcity), unit_name_translation(punit));
  
         wipe_unit(punit);
 
@@ -821,10 +822,12 @@ static void city_populate(struct city *pcity)
     } unit_list_iterate_safe_end;
     if (pcity->size > 1) {
       notify_player(city_owner(pcity), pcity->tile, E_CITY_FAMINE,
-		       _("Famine causes population loss in %s."),
-		       city_name(pcity));
+                    FTC_SERVER_INFO, NULL,
+                    _("Famine causes population loss in %s."),
+                    city_name(pcity));
     } else {
       notify_player(city_owner(pcity), pcity->tile, E_CITY_FAMINE,
+                    FTC_SERVER_INFO, NULL,
 		    _("Famine destroys %s entirely."),
 		    city_name(pcity));
     }
@@ -925,10 +928,10 @@ static bool worklist_change_build_target(struct player *pplayer,
       if (U_NOT_OBSOLETED == pupdate) {
 	/* Nope, we're stuck.  Skip this item from the worklist. */
 	notify_player(pplayer, pcity->tile, E_CITY_CANTBUILD,
-			 _("%s can't build %s from the worklist; "
-			   "tech not yet available.  Postponing..."),
-			 city_name(pcity),
-			 utype_name_translation(ptarget));
+                      FTC_SERVER_INFO, NULL,
+                      _("%s can't build %s from the worklist; "
+                        "tech not yet available.  Postponing..."),
+                      city_name(pcity), utype_name_translation(ptarget));
 	script_signal_emit("unit_cant_be_built", 3,
 			   API_TYPE_UNIT_TYPE, ptarget,
 			   API_TYPE_CITY, pcity,
@@ -941,9 +944,9 @@ static bool worklist_change_build_target(struct player *pplayer,
 	/* If the city can never build this unit or its descendants,
 	 * drop it. */
 	notify_player(pplayer, pcity->tile, E_CITY_CANTBUILD,
-			 _("%s can't build %s from the worklist.  "
-			   "Purging..."),
-			 city_name(pcity),
+                      FTC_SERVER_INFO, NULL,
+                      _("%s can't build %s from the worklist.  Purging..."),
+                      city_name(pcity),
 			 /* Yes, warn about the targets that's actually
 			    in the worklist, not its obsolete-closure
 			    pupdate. */
@@ -963,10 +966,11 @@ static bool worklist_change_build_target(struct player *pplayer,
       } else {
 	/* Yep, we can go after pupdate instead.  Joy! */
 	notify_player(pplayer, pcity->tile, E_WORKLIST,
-			 _("Production of %s is upgraded to %s in %s."),
-			 utype_name_translation(ptarget), 
-			 utype_name_translation(pupdate),
-			 city_name(pcity));
+                      FTC_SERVER_INFO, NULL,
+                      _("Production of %s is upgraded to %s in %s."),
+                      utype_name_translation(ptarget), 
+                      utype_name_translation(pupdate),
+                      city_name(pcity));
 	target.value.utype = pupdate;
       }
       break;
@@ -981,10 +985,10 @@ static bool worklist_change_build_target(struct player *pplayer,
       if (!success) {
 	/* Nope, never in a million years. */
 	notify_player(pplayer, pcity->tile, E_CITY_CANTBUILD,
-			 _("%s can't build %s from the worklist.  "
-			   "Purging..."),
-			 city_name(pcity),
-			 city_improvement_name_translation(pcity, ptarget));
+                      FTC_SERVER_INFO, NULL,
+                      _("%s can't build %s from the worklist.  Purging..."),
+                      city_name(pcity),
+                      city_improvement_name_translation(pcity, ptarget));
 	script_signal_emit("building_cant_be_built", 3,
 			   API_TYPE_BUILDING_TYPE, ptarget,
 			   API_TYPE_CITY, pcity,
@@ -1013,12 +1017,13 @@ static bool worklist_change_build_target(struct player *pplayer,
 	    switch (preq->source.kind) {
 	    case VUT_ADVANCE:
 	      notify_player(pplayer, pcity->tile, E_CITY_CANTBUILD,
-			       _("%s can't build %s from the worklist; "
-				 "tech %s not yet available.  Postponing..."),
-			       city_name(pcity),
-			       city_improvement_name_translation(pcity, ptarget),
-			       advance_name_for_player(pplayer,
-					     advance_number(preq->source.value.advance)));
+                            FTC_SERVER_INFO, NULL,
+                            _("%s can't build %s from the worklist; "
+                              "tech %s not yet available.  Postponing..."),
+                            city_name(pcity),
+                            city_improvement_name_translation(pcity, ptarget),
+                            advance_name_for_player(pplayer,
+                                 advance_number(preq->source.value.advance)));
 	      script_signal_emit("building_cant_be_built", 3,
 				 API_TYPE_BUILDING_TYPE, ptarget,
 				 API_TYPE_CITY, pcity,
@@ -1026,11 +1031,12 @@ static bool worklist_change_build_target(struct player *pplayer,
 	      break;
 	    case VUT_IMPROVEMENT:
 	      notify_player(pplayer, pcity->tile, E_CITY_CANTBUILD,
-			       _("%s can't build %s from the worklist; "
-				 "need to have %s first.  Postponing..."),
-			       city_name(pcity),
-			       city_improvement_name_translation(pcity, ptarget),
-			       city_improvement_name_translation(pcity,
+                            FTC_SERVER_INFO, NULL,
+                            _("%s can't build %s from the worklist; "
+                              "need to have %s first.  Postponing..."),
+                            city_name(pcity),
+                            city_improvement_name_translation(pcity, ptarget),
+                            city_improvement_name_translation(pcity,
 						preq->source.value.building));
 	      script_signal_emit("building_cant_be_built", 3,
 				 API_TYPE_BUILDING_TYPE, ptarget,
@@ -1039,11 +1045,12 @@ static bool worklist_change_build_target(struct player *pplayer,
 	      break;
 	    case VUT_GOVERNMENT:
 	      notify_player(pplayer, pcity->tile, E_CITY_CANTBUILD,
-			       _("%s can't build %s from the worklist; "
-				 "it needs %s government.  Postponing..."),
-			       city_name(pcity),
-			       city_improvement_name_translation(pcity, ptarget),
-			       government_name_translation(preq->source.value.govern));
+                            FTC_SERVER_INFO, NULL,
+                            _("%s can't build %s from the worklist; "
+                              "it needs %s government.  Postponing..."),
+                            city_name(pcity),
+                            city_improvement_name_translation(pcity, ptarget),
+                            government_name_translation(preq->source.value.govern));
 	      script_signal_emit("building_cant_be_built", 3,
 				 API_TYPE_BUILDING_TYPE, ptarget,
 				 API_TYPE_CITY, pcity,
@@ -1051,11 +1058,12 @@ static bool worklist_change_build_target(struct player *pplayer,
 	      break;
 	    case VUT_SPECIAL:
 	      notify_player(pplayer, pcity->tile, E_CITY_CANTBUILD,
-			       _("%s can't build %s from the worklist; "
-				 "%s special is required.  Postponing..."),
-			       city_name(pcity),
-			       city_improvement_name_translation(pcity, ptarget),
-			       special_name_translation(preq->source.value.special));
+                            FTC_SERVER_INFO, NULL,
+                            _("%s can't build %s from the worklist; "
+                              "%s special is required.  Postponing..."),
+                            city_name(pcity),
+                            city_improvement_name_translation(pcity, ptarget),
+                            special_name_translation(preq->source.value.special));
 	      script_signal_emit("building_cant_be_built", 3,
 				 API_TYPE_BUILDING_TYPE, ptarget,
 				 API_TYPE_CITY, pcity,
@@ -1063,11 +1071,12 @@ static bool worklist_change_build_target(struct player *pplayer,
 	      break;
 	    case VUT_TERRAIN:
 	      notify_player(pplayer, pcity->tile, E_CITY_CANTBUILD,
-			       _("%s can't build %s from the worklist; "
-				 "%s terrain is required.  Postponing..."),
-			       city_name(pcity),
-			       city_improvement_name_translation(pcity, ptarget),
-			       terrain_name_translation(preq->source.value.terrain));
+                            FTC_SERVER_INFO, NULL,
+                            _("%s can't build %s from the worklist; "
+                              "%s terrain is required.  Postponing..."),
+                            city_name(pcity),
+                            city_improvement_name_translation(pcity, ptarget),
+                            terrain_name_translation(preq->source.value.terrain));
 	      script_signal_emit("building_cant_be_built", 3,
 				 API_TYPE_BUILDING_TYPE, ptarget,
 				 API_TYPE_CITY, pcity,
@@ -1077,11 +1086,12 @@ static bool worklist_change_build_target(struct player *pplayer,
 	      /* FIXME: we should skip rather than postpone, since we'll
 	       * never be able to meet this req... */
 	      notify_player(pplayer, pcity->tile, E_CITY_CANTBUILD,
-			       _("%s can't build %s from the worklist; "
-				 "only %s may build this.  Postponing..."),
-			       city_name(pcity),
-			       city_improvement_name_translation(pcity, ptarget),
-			       nation_plural_translation(preq->source.value.nation));
+                            FTC_SERVER_INFO, NULL,
+                            _("%s can't build %s from the worklist; "
+                              "only %s may build this.  Postponing..."),
+                            city_name(pcity),
+                            city_improvement_name_translation(pcity, ptarget),
+                            nation_plural_translation(preq->source.value.nation));
 	      script_signal_emit("building_cant_be_built", 3,
 				 API_TYPE_BUILDING_TYPE, ptarget,
 				 API_TYPE_CITY, pcity,
@@ -1089,11 +1099,12 @@ static bool worklist_change_build_target(struct player *pplayer,
 	      break;
 	    case VUT_MINSIZE:
 	      notify_player(pplayer, pcity->tile, E_CITY_CANTBUILD,
-			       _("%s can't build %s from the worklist; "
-				 "city must be of size %d.  Postponing..."),
-			       city_name(pcity),
-			       city_improvement_name_translation(pcity, ptarget),
-			       preq->source.value.minsize);
+                            FTC_SERVER_INFO, NULL,
+                            _("%s can't build %s from the worklist; "
+                              "city must be of size %d.  Postponing..."),
+                            city_name(pcity),
+                            city_improvement_name_translation(pcity, ptarget),
+                            preq->source.value.minsize);
 	      script_signal_emit("building_cant_be_built", 3,
 				 API_TYPE_BUILDING_TYPE, ptarget,
 				 API_TYPE_CITY, pcity,
@@ -1103,6 +1114,7 @@ static bool worklist_change_build_target(struct player *pplayer,
               /* FIXME: we should skip rather than postpone, since we'll
                * never be able to meet this req... */
               notify_player(pplayer, pcity->tile, E_CITY_CANTBUILD,
+                            FTC_SERVER_INFO, NULL,
                             _("%s can't build %s from the worklist; "
                               "only AI of level %s may build this.  "
                               "Postponing..."),
@@ -1116,11 +1128,12 @@ static bool worklist_change_build_target(struct player *pplayer,
 	      break;
 	    case VUT_TERRAINCLASS:
 	      notify_player(pplayer, pcity->tile, E_CITY_CANTBUILD,
-			       _("%s can't build %s from the worklist; "
-				 "%s terrain class is required.  Postponing..."),
-			       city_name(pcity),
-			       city_improvement_name_translation(pcity, ptarget),
-			       terrain_class_name_translation(preq->source.value.terrainclass));
+                            FTC_SERVER_INFO, NULL,
+                            _("%s can't build %s from the worklist; "
+                              "%s terrain class is required.  Postponing..."),
+                            city_name(pcity),
+                            city_improvement_name_translation(pcity, ptarget),
+                            terrain_class_name_translation(preq->source.value.terrainclass));
 	      script_signal_emit("building_cant_be_built", 3,
 				 API_TYPE_BUILDING_TYPE, ptarget,
 				 API_TYPE_CITY, pcity,
@@ -1142,6 +1155,7 @@ static bool worklist_change_build_target(struct player *pplayer,
               /* FIXME: if negated: we should skip rather than postpone,
                * since we'll never be able to meet this req... */
               notify_player(pplayer, pcity->tile, E_CITY_CANTBUILD,
+                            FTC_SERVER_INFO, NULL,
                             _("%s can't build %s from the worklist; "
                               "Only available from %s.  Postponing..."),
                             city_name(pcity),
@@ -1176,18 +1190,20 @@ static bool worklist_change_build_target(struct player *pplayer,
 	  /* This shouldn't happen...
 	     FIXME: make can_city_build_improvement_now() return a reason enum. */
 	  notify_player(pplayer, pcity->tile, E_CITY_CANTBUILD,
-			   _("%s can't build %s from the worklist; "
-			     "Reason unknown!  Postponing..."),
-			   city_name(pcity),
-			   city_improvement_name_translation(pcity, ptarget));
+                        FTC_SERVER_INFO, NULL,
+                        _("%s can't build %s from the worklist; "
+                          "Reason unknown!  Postponing..."),
+                        city_name(pcity),
+                        city_improvement_name_translation(pcity, ptarget));
 	}
       } else {
 	/* Hey, we can upgrade the improvement!  */
 	notify_player(pplayer, pcity->tile, E_WORKLIST,
-			 _("Production of %s is upgraded to %s in %s."),
-			 city_improvement_name_translation(pcity, ptarget), 
-			 city_improvement_name_translation(pcity, pupdate),
-			 city_name(pcity));
+                      FTC_SERVER_INFO, NULL,
+                      _("Production of %s is upgraded to %s in %s."),
+                      city_improvement_name_translation(pcity, ptarget), 
+                      city_improvement_name_translation(pcity, pupdate),
+                      city_name(pcity));
 	target.value.building = pupdate;
 	success = TRUE;
       }
@@ -1215,6 +1231,7 @@ static bool worklist_change_build_target(struct player *pplayer,
     /* There *was* something in the worklist, but it's empty now.  Bug the
        player about it. */
     notify_player(pplayer, pcity->tile, E_WORKLIST,
+                  FTC_SERVER_INFO, NULL,
 		  /* TRANS: The <city> worklist .... */
 		  _("The %s worklist is now empty."),
 		  city_name(pcity));
@@ -1295,10 +1312,11 @@ static void upgrade_building_prod(struct city *pcity)
 
   if (upgrading && can_city_build_improvement_now(pcity, upgrading)) {
     notify_player(city_owner(pcity), pcity->tile, E_UNIT_UPGRADED,
-		     _("Production of %s is upgraded to %s in %s."),
-		     improvement_name_translation(producing),
-		     improvement_name_translation(upgrading),
-		     city_name(pcity));
+                  FTC_SERVER_INFO, NULL,
+                  _("Production of %s is upgraded to %s in %s."),
+                  improvement_name_translation(producing),
+                  improvement_name_translation(upgrading),
+                  city_name(pcity));
     pcity->production.kind = VUT_IMPROVEMENT;
     pcity->production.value.building = upgrading;
   }
@@ -1339,7 +1357,8 @@ static void upgrade_unit_prod(struct city *pcity)
   struct unit_type *upgrading = unit_upgrades_to(pcity, producing);
 
   if (upgrading && can_city_build_unit_direct(pcity, upgrading)) {
-    notify_player(city_owner(pcity), pcity->tile, E_UNIT_UPGRADED, 
+    notify_player(city_owner(pcity), pcity->tile, E_UNIT_UPGRADED,
+                  FTC_SERVER_INFO, NULL,
 		  _("Production of %s is upgraded to %s in %s."),
 		  utype_name_translation(producing),
 		  utype_name_translation(upgrading), 
@@ -1361,9 +1380,9 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
 	  && pcity->surplus[O_SHIELD] < 0
           && !unit_has_type_flag(punit, F_UNDISBANDABLE)) {
 	notify_player(pplayer, pcity->tile, E_UNIT_LOST_MISC,
-			 _("%s can't upkeep %s, unit disbanded."),
-			 city_name(pcity),
-			 unit_name_translation(punit));
+                      FTC_SERVER_INFO, NULL,
+                      _("%s can't upkeep %s, unit disbanded."),
+                      city_name(pcity), unit_name_translation(punit));
         handle_unit_disband(pplayer, punit->id);
 	/* pcity->surplus[O_SHIELD] is automatically updated. */
       }
@@ -1381,10 +1400,10 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
       if (upkeep > 0 && pcity->surplus[O_SHIELD] < 0) {
 	assert(unit_has_type_flag(punit, F_UNDISBANDABLE));
 	notify_player(pplayer, pcity->tile, E_UNIT_LOST_MISC,
-			 _("Citizens in %s perish for their failure to "
-			 "upkeep %s!"),
-			 city_name(pcity),
-			 unit_name_translation(punit));
+                      FTC_SERVER_INFO, NULL,
+                      _("Citizens in %s perish for their failure to "
+                        "upkeep %s!"),
+                      city_name(pcity), unit_name_translation(punit));
 	if (!city_reduce_size(pcity, 1, NULL)) {
 	  return FALSE;
 	}
@@ -1427,10 +1446,10 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 
   if (!can_city_build_improvement_now(pcity, pimprove)) {
     notify_player(pplayer, pcity->tile, E_CITY_CANTBUILD,
-		     _("%s is building %s, which "
-		       "is no longer available."),
-		     city_name(pcity),
-		     city_improvement_name_translation(pcity, pimprove));
+                  FTC_SERVER_INFO, NULL,
+                  _("%s is building %s, which is no longer available."),
+                  city_name(pcity),
+                  city_improvement_name_translation(pcity, pimprove));
     script_signal_emit("building_cant_be_built", 3,
 		       API_TYPE_BUILDING_TYPE, pimprove,
 		       API_TYPE_CITY, pcity,
@@ -1468,20 +1487,19 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
     if (is_great_wonder(pimprove)) {
       game.info.great_wonders[improvement_index(pimprove)] = pcity->id;
 
-      notify_player(NULL, pcity->tile, E_WONDER_BUILD,
-		       _("The %s have finished building %s in %s."),
-		       nation_plural_for_player(pplayer),
-		       city_improvement_name_translation(pcity, pimprove),
-		       city_name(pcity));
+      notify_player(NULL, pcity->tile, E_WONDER_BUILD, FTC_SERVER_INFO, NULL,
+                    _("The %s have finished building %s in %s."),
+                    nation_plural_for_player(pplayer),
+                    city_improvement_name_translation(pcity, pimprove),
+                    city_name(pcity));
 
     } else if (is_small_wonder(pimprove)) {
       pplayer->small_wonders[improvement_index(pimprove)] = pcity->id;
     }
 
-    notify_player(pplayer, pcity->tile, E_IMP_BUILD,
-		     _("%s has finished building %s."),
-		     city_name(pcity),
-		     improvement_name_translation(pimprove));
+    notify_player(pplayer, pcity->tile, E_IMP_BUILD, FTC_SERVER_INFO, NULL,
+                  _("%s has finished building %s."),
+                  city_name(pcity), improvement_name_translation(pimprove));
     script_signal_emit("building_built", 2,
 		       API_TYPE_BUILDING_TYPE, pimprove,
 		       API_TYPE_CITY, pcity);
@@ -1499,28 +1517,27 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
                                               RPT_CERTAIN))) {
       int i;
 
-      notify_player(pplayer, NULL, E_TECH_GAIN,
+      notify_player(pplayer, NULL, E_TECH_GAIN, FTC_SERVER_INFO, NULL,
 		    PL_("%s boosts research; you gain %d immediate advance.",
 			"%s boosts research; you gain %d immediate advances.",
 			mod),
-		    improvement_name_translation(pimprove),
-		    mod);
+		    improvement_name_translation(pimprove), mod);
 
       for (i = 0; i < mod; i++) {
 	Tech_type_id tech = give_immediate_free_tech(pplayer);
 
 	notify_embassies(pplayer, NULL, NULL, E_TECH_GAIN,
-	    _("The %s have acquired %s from %s."),
-	    nation_plural_for_player(pplayer),
-	    advance_name_for_player(pplayer, tech),
-	    improvement_name_translation(pimprove));
+                         FTC_SERVER_INFO, NULL,
+                         _("The %s have acquired %s from %s."),
+                         nation_plural_for_player(pplayer),
+                         advance_name_for_player(pplayer, tech),
+                         improvement_name_translation(pimprove));
       }
     }
     if (space_part && pplayer->spaceship.state == SSHIP_NONE) {
-      notify_player(NULL, pcity->tile, E_SPACESHIP,
-		       _("The %s have started "
-			 "building a spaceship!"),
-		       nation_plural_for_player(pplayer));
+      notify_player(NULL, pcity->tile, E_SPACESHIP, FTC_SERVER_INFO, NULL,
+                    _("The %s have started building a spaceship!"),
+                    nation_plural_for_player(pplayer));
       pplayer->spaceship.state = SSHIP_STARTED;
     }
     if (space_part) {
@@ -1552,15 +1569,14 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
   if (!can_city_build_unit_direct(pcity, utype)
       && !is_barbarian(pplayer)) {
     notify_player(pplayer, pcity->tile, E_CITY_CANTBUILD,
-        _("%s is building %s, which is no longer available."),
-        city_name(pcity),
-        utype_name_translation(utype));
+                  FTC_SERVER_INFO, NULL,
+                  _("%s is building %s, which is no longer available."),
+                  city_name(pcity), utype_name_translation(utype));
 
     /* Log before signal emitting, so pointers are certainly valid */
     freelog(LOG_VERBOSE, "%s %s tried to build %s, which is not available.",
             nation_rule_name(nation_of_city(pcity)),
-            city_name(pcity),
-            utype_rule_name(utype));
+            city_name(pcity), utype_rule_name(utype));
     script_signal_emit("unit_cant_be_built", 3,
 		       API_TYPE_UNIT_TYPE, utype,
 		       API_TYPE_CITY, pcity,
@@ -1580,9 +1596,9 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
 
     if (pcity->size <= pop_cost) {
       notify_player(pplayer, pcity->tile, E_CITY_CANTBUILD,
-		       _("%s can't build %s yet."),
-		       city_name(pcity),
-		       utype_name_translation(utype));
+                    FTC_SERVER_INFO, NULL,
+                    _("%s can't build %s yet."),
+                    city_name(pcity), utype_name_translation(utype));
       script_signal_emit("unit_cant_be_built", 3,
 			 API_TYPE_UNIT_TYPE, utype,
 			 API_TYPE_CITY, pcity,
@@ -1612,10 +1628,10 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
     pcity->shield_stock -= utype_build_shield_cost(utype);
 
     notify_player(pplayer, pcity->tile, E_UNIT_BUILT,
-		     /* TRANS: <city> is finished building <unit/building>. */
-		     _("%s is finished building %s."),
-		     city_name(pcity),
-		     utype_name_translation(utype));
+                  FTC_SERVER_INFO, NULL,
+                  /* TRANS: <city> is finished building <unit/building>. */
+                  _("%s is finished building %s."),
+                  city_name(pcity), utype_name_translation(utype));
 
     script_signal_emit("unit_built",
 		       2, API_TYPE_UNIT, punit, API_TYPE_CITY, pcity);
@@ -1680,9 +1696,9 @@ static bool sell_random_buildings(struct player *pplayer,
     pimprove = imprs->p[r].pimprove;
 
     notify_player(pplayer, city_tile(pcity), E_IMP_AUCTIONED,
+                  FTC_SERVER_INFO, NULL,
                   _("Can't afford to maintain %s in %s, building sold!"),
-                  improvement_name_translation(pimprove),
-                  city_name(pcity));
+                  improvement_name_translation(pimprove), city_name(pcity));
 
     do_sell_building(pplayer, pcity, pimprove);
     city_refresh_queue_add(pcity);
@@ -1724,6 +1740,7 @@ static bool sell_random_units(struct player *pplayer,
     gold_upkeep = punit->upkeep[O_GOLD];
 
     notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_MISC,
+                  FTC_SERVER_INFO, NULL,
                   _("Not enough gold. %s disbanded"),
                   unit_name_translation(punit));
     unit_list_unlink(punitlist, punit);
@@ -1906,8 +1923,8 @@ static void check_pollution(struct city *pcity)
 	tile_set_special(ptile, S_POLLUTION);
 	update_tile_knowledge(ptile);
 	notify_player(city_owner(pcity), pcenter, E_POLLUTION,
-		      _("Pollution near %s."),
-		      city_name(pcity));
+                      FTC_SERVER_INFO, NULL,
+                      _("Pollution near %s."), city_name(pcity));
 	return;
       }
       k--;
@@ -2057,12 +2074,14 @@ static void update_city_activity(struct city *pcity)
       pcity->rapture++;
       if (pcity->rapture == 1) {
         notify_player(pplayer, pcity->tile, E_CITY_LOVE,
+                      FTC_SERVER_INFO, NULL,
                       _("Celebrations in your honour in %s."),
                       city_name(pcity));
       }
     } else {
       if (pcity->rapture != 0) {
         notify_player(pplayer, pcity->tile, E_CITY_NORMAL,
+                      FTC_SERVER_INFO, NULL,
                       _("Celebrations canceled in %s."),
                       city_name(pcity));
       }
@@ -2075,6 +2094,7 @@ static void update_city_activity(struct city *pcity)
       /* illness only if the city has a size greater than 1 */
       if (check_plague(pcity)) {
         notify_player(pplayer, city_tile(pcity), E_CITY_PLAGUE,
+                      FTC_SERVER_INFO, NULL,
                       _("%s had been struck by a plague! Population lost!"), 
                       city_name(pcity));
         city_reduce_size(pcity, 1, NULL);
@@ -2117,16 +2137,19 @@ static void update_city_activity(struct city *pcity)
       pcity->anarchy++;
       if (pcity->anarchy == 1) {
         notify_player(pplayer, pcity->tile, E_CITY_DISORDER,
+                      FTC_SERVER_INFO, NULL,
                       _("Civil disorder in %s."),
                       city_name(pcity));
       } else {
         notify_player(pplayer, pcity->tile, E_CITY_DISORDER,
+                      FTC_SERVER_INFO, NULL,
                       _("CIVIL DISORDER CONTINUES in %s."),
                       city_name(pcity));
       }
     } else {
       if (pcity->anarchy != 0) {
         notify_player(pplayer, pcity->tile, E_CITY_NORMAL,
+                      FTC_SERVER_INFO, NULL,
                       _("Order restored in %s."),
                       city_name(pcity));
       }
@@ -2138,6 +2161,7 @@ static void update_city_activity(struct city *pcity)
     if (pcity->anarchy > 2
         && get_player_bonus(pplayer, EFT_REVOLUTION_WHEN_UNHAPPY) > 0) {
       notify_player(pplayer, pcity->tile, E_ANARCHY,
+                    FTC_SERVER_INFO, NULL,
                     _("The people have overthrown your %s, "
                       "your country is in turmoil."),
                     government_name_translation(gov));
@@ -2176,10 +2200,10 @@ static bool disband_city(struct city *pcity)
   if (!rcity) {
     /* What should we do when we try to disband our only city? */
     notify_player(pplayer, ptile, E_CITY_CANTBUILD,
-		     _("%s can't build %s yet, "
-		     "and we can't disband our only city."),
-		     city_name(pcity),
-		     utype_name_translation(utype));
+                  FTC_SERVER_INFO, NULL,
+                  _("%s can't build %s yet, "
+                    "and we can't disband our only city."),
+                  city_name(pcity), utype_name_translation(utype));
     script_signal_emit("unit_cant_be_built", 3,
 		       API_TYPE_UNIT_TYPE, utype,
 		       API_TYPE_CITY, pcity,
@@ -2203,11 +2227,10 @@ static bool disband_city(struct city *pcity)
   transfer_city_units(pplayer, pplayer, pcity->units_supported, rcity, 
                       pcity, -1, TRUE);
 
-  notify_player(pplayer, ptile, E_UNIT_BUILT,
-		   /* TRANS: "<city> is disbanded into Settler." */
-		   _("%s is disbanded into %s."), 
-		   city_name(pcity),
-		   utype_name_translation(utype));
+  notify_player(pplayer, ptile, E_UNIT_BUILT, FTC_SERVER_INFO, NULL,
+                /* TRANS: "<city> is disbanded into Settler." */
+                _("%s is disbanded into %s."), 
+                city_name(pcity), utype_name_translation(utype));
 
   remove_city(pcity);
   return TRUE;
@@ -2348,20 +2371,23 @@ static bool do_city_migration(struct city *pcity_from,
     /* insufficiency food in receiver city; no additional citizens */
     if (pplayer_from == pplayer_to) {
       /* migration between one nation */
-      /* TRANS: From <city1> to <city2>. */
       notify_player(pplayer_to, ptile_to, E_CITY_TRANSFER,
+                    FTC_SERVER_INFO, NULL,
+                    /* TRANS: From <city1> to <city2>. */
                     _("Migrants from %s can't go to %s because there is "
                       "not enough food available!"),
                     name_from, name_to);
     } else {
       /* migration between different nations */
-      /* TRANS: From <city1> to <city2> (<city2 nation adjective>). */
       notify_player(pplayer_from, ptile_to, E_CITY_TRANSFER,
+                    FTC_SERVER_INFO, NULL,
+                    /* TRANS: From <city1> to <city2> (<city2 nation adjective>). */
                     _("Migrants from %s can't go to %s (%s) because there "
                       "is not enough food available!"),
                     name_from, name_to, nation_to);
-      /* TRANS: From <city1> (<city1 nation afjective>) to <city2>. */
       notify_player(pplayer_to, ptile_to, E_CITY_TRANSFER,
+                    FTC_SERVER_INFO, NULL,
+                    /* TRANS: From <city1> (<city1 nation adjective>) to <city2>. */
                     _("Migrants from %s (%s) can't go to %s because there "
                       "is not enough food available!"),
                     name_from, nation_from, name_to);
@@ -2376,18 +2402,21 @@ static bool do_city_migration(struct city *pcity_from,
       /* migration between one nation */
       /* TRANS: From <city1> to <city2>. */
       notify_player(pplayer_to, ptile_to, E_CITY_TRANSFER,
+                    FTC_SERVER_INFO, NULL,
                     _("Migrants from %s can't go to %s because it needs "
                       "an improvement to grow!"),
                     name_from, name_to);
     } else {
       /* migration between different nations */
-      /* TRANS: From <city1> to <city2> of <city2 nation adjective>. */
       notify_player(pplayer_from, ptile_to, E_CITY_TRANSFER,
+                    FTC_SERVER_INFO, NULL,
+                    /* TRANS: From <city1> to <city2> of <city2 nation adjective>. */
                     _("Migrants from %s can't go to %s (%s) because it "
                       "needs an improvement to grow!"),
                     name_from, name_to, nation_to);
-      /* TRANS: From <city1> (<city1 nation afjective>) to <city2>. */
       notify_player(pplayer_to, ptile_to, E_CITY_TRANSFER,
+                    FTC_SERVER_INFO, NULL,
+                    /* TRANS: From <city1> (<city1 nation adjective>) to <city2>. */
                     _("Migrants from %s (%s) can't go to %s because it "
                       "needs an improvement to grow!"),
                     name_from, nation_from, name_to);
@@ -2419,6 +2448,7 @@ static bool do_city_migration(struct city *pcity_from,
       remove_city(pcity_from);
 
       notify_player(pplayer_from, ptile_from, E_CITY_LOST,
+                    FTC_SERVER_INFO, NULL,
                     _("%s was disbanded by its citizens."),
                     saved_name_from);
     } else {
@@ -2437,19 +2467,22 @@ static bool do_city_migration(struct city *pcity_from,
 
   if (pplayer_from == pplayer_to) {
     /* migration between one nation */
-    /* TRANS: From <city1> to <city2>. */
     notify_player(pplayer_from, ptile_to, E_CITY_TRANSFER,
+                  FTC_SERVER_INFO, NULL,
+                  /* TRANS: From <city1> to <city2>. */
                   _("Migrants from %s moved to %s in search of a better "
                     "life."), saved_name_from, name_to);
   } else {
     /* migration between different nations */
-    /* TRANS: From <city1> to <city2> (<city2 nation adjective>). */
     notify_player(pplayer_from, ptile_to, E_CITY_TRANSFER,
+                  FTC_SERVER_INFO, NULL,
+                  /* TRANS: From <city1> to <city2> (<city2 nation adjective>). */
                   _("Migrants from %s moved to %s (%s) in search of a "
                     "better life."),
                   saved_name_from, name_to, nation_to);
-    /* TRANS: From <city1> (<city1 nation adjective>) to <city2>. */
     notify_player(pplayer_to, ptile_to, E_CITY_TRANSFER,
+                  FTC_SERVER_INFO, NULL,
+                  /* TRANS: From <city1> (<city1 nation adjective>) to <city2>. */
                   _("Migrants from %s (%s) moved to %s in search of a "
                     "better life."),
                   saved_name_from, nation_from, name_to);
@@ -2598,6 +2631,7 @@ static void check_city_migrations_player(const struct player *pplayer)
       if (myrand(100) >= game.info.mgr_nationchance) {
         /* no migration */
         notify_player(pplayer, city_tile(pcity), E_CITY_TRANSFER,
+                      FTC_SERVER_INFO, NULL,
                       _("Citizens of %s are thinking about migrating to %s "
                         "for a better life."),
                       pcity->name, city_name(best_city_player));
@@ -2617,6 +2651,7 @@ static void check_city_migrations_player(const struct player *pplayer)
         /* no migration */
         /* TRANS: <city1> to <city2> (<city2 nation adjective>). */
         notify_player(pplayer, city_tile(pcity), E_CITY_TRANSFER,
+                      FTC_SERVER_INFO, NULL,
                       _("Citizens of %s are thinking about migrating to %s "
                         "(%s) for a better life."),
                       city_name(pcity), city_name(best_city_world), nname);

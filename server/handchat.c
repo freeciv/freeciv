@@ -16,22 +16,34 @@
 #endif
 
 #include <assert.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
 
+/* utility */
 #include "fcintl.h"
-#include "game.h"
-#include "packets.h"
-#include "player.h"
 #include "shared.h"
 #include "support.h"
 
+/* common */
+#include "game.h"
+#include "packets.h"
+#include "player.h"
+
+/* server */
 #include "console.h"
+#include "plrhand.h"
 #include "stdinhand.h"
 
 #include "handchat.h"
 
 #define MAX_LEN_CHAT_NAME (2*MAX_LEN_NAME+10)   /* for form_chat_name() names */
+
+static void send_chat_msg(struct conn_list *dest,
+                          const struct connection *sender,
+                          const char *fg_color, const char *bg_color,
+                          const char *format, ...)
+                          fc__attribute((__format__ (__printf__, 5, 6)));
 
 /**************************************************************************
   Formulate a name for this connection, prefering the player name when
@@ -50,7 +62,30 @@ static void form_chat_name(struct connection *pconn, char *buffer, size_t len)
     my_snprintf(buffer, len, "%s", player_name(pplayer));
   }
 }
-				
+
+/**************************************************************************
+  Send a chat message packet.
+**************************************************************************/
+static void send_chat_msg(struct conn_list *dest,
+                          const struct connection *sender,
+                          const char *fg_color, const char *bg_color,
+                          const char *format, ...)
+{
+  struct packet_chat_msg packet;
+  va_list args;
+
+  if (!dest) {
+    dest = game.est_connections;
+  }
+
+  va_start(args, format);
+  fill_packet_chat_msg(&packet, NULL, E_CHAT_MSG,
+                       sender, fg_color, bg_color, format, args);
+  va_end(args);
+
+  lsend_packet_chat_msg(dest, &packet);
+}
+
 /**************************************************************************
   Complain to sender that name was ambiguous.
   'player_conn' is 0 for player names, 1 for connection names,
@@ -59,25 +94,22 @@ static void form_chat_name(struct connection *pconn, char *buffer, size_t len)
 static void complain_ambiguous(struct connection *pconn, const char *name,
 			       int player_conn)
 {
-  char message[MAX_LEN_MSG];
-
   switch(player_conn) {
   case 0:
-    my_snprintf(message, sizeof(message),
-		_("%s is an ambiguous player name-prefix."), name);
+    notify_conn(pconn->self, NULL, E_CHAT_ERROR, FTC_SERVER_INFO, NULL,
+                _("%s is an ambiguous player name-prefix."), name);
     break;
   case 1:
-    my_snprintf(message, sizeof(message),
-		_("%s is an ambiguous connection name-prefix."), name);
+    notify_conn(pconn->self, NULL, E_CHAT_ERROR, FTC_SERVER_INFO, NULL,
+                _("%s is an ambiguous connection name-prefix."), name);
     break;
   case 2:
-    my_snprintf(message, sizeof(message),
+    notify_conn(pconn->self, NULL, E_CHAT_ERROR, FTC_SERVER_INFO, NULL,
                 _("%s is an anonymous name. Use connection name"), name);
     break;
   default:
     assert(0);
   }
-  dsend_packet_chat_msg(pconn, message, -1, -1, E_CHAT_ERROR, -1);
 }
 
 /**************************************************************************
@@ -87,19 +119,18 @@ static void chat_msg_to_conn(struct connection *sender,
 			     struct connection *dest, char *msg)
 {
   char sender_name[MAX_LEN_CHAT_NAME], dest_name[MAX_LEN_CHAT_NAME];
-  char message[MAX_LEN_MSG];
   
   msg = skip_leading_spaces(msg);
   
   form_chat_name(sender, sender_name, sizeof(sender_name));
   form_chat_name(dest, dest_name, sizeof(dest_name));
 
-  my_snprintf(message, sizeof(message), "->*%s* %s", dest_name, msg);
-  dsend_packet_chat_msg(sender, message, -1, -1, E_CHAT_MSG, sender->id);
+  send_chat_msg(sender->self, sender, FTC_PRIVATE_MSG, NULL,
+                "->*%s* %s", dest_name, msg);
 
   if (sender != dest) {
-    my_snprintf(message, sizeof(message), "*%s* %s", sender_name, msg);
-    dsend_packet_chat_msg(dest, message, -1, -1, E_CHAT_MSG, sender->id);
+    send_chat_msg(dest->self, sender, FTC_PRIVATE_MSG, NULL,
+                  "*%s* %s", sender_name, msg);
   }
 }
 
@@ -109,20 +140,19 @@ static void chat_msg_to_conn(struct connection *sender,
 static void chat_msg_to_player_multi(struct connection *sender,
 				     struct player *pdest, char *msg)
 {
-  char sender_name[MAX_LEN_CHAT_NAME], message[MAX_LEN_MSG];
+  char sender_name[MAX_LEN_CHAT_NAME];
 
   msg = skip_leading_spaces(msg);
   
   form_chat_name(sender, sender_name, sizeof(sender_name));
 
-  my_snprintf(message, sizeof(message), "->[%s] %s", player_name(pdest), msg);
-  dsend_packet_chat_msg(sender, message, -1, -1, E_CHAT_MSG, sender->id);
+  send_chat_msg(sender->self, sender, FTC_PRIVATE_MSG, NULL,
+                "->[%s] %s", player_name(pdest), msg);
 
-  my_snprintf(message, sizeof(message), "[%s] %s", sender_name, msg);
   conn_list_iterate(pdest->connections, dest_conn) {
     if (dest_conn != sender) {
-      dsend_packet_chat_msg(dest_conn, message,
-			    -1, -1, E_CHAT_MSG, sender->id);
+      send_chat_msg(dest_conn->self, sender, FTC_PRIVATE_MSG, NULL,
+                    "[%s] %s", sender_name, msg);
     }
   } conn_list_iterate_end;
 }
@@ -183,25 +213,22 @@ void handle_chat_msg_req(struct connection *pconn, char *message)
 
     /* this won't work if we aren't attached to a player */
     if (NULL == pconn->playing) {
-      my_snprintf(chat, sizeof(chat),
+      notify_conn(pconn->self, NULL, E_CHAT_ERROR, FTC_SERVER_INFO, NULL,
                   _("You are not attached to a player."));
-      dsend_packet_chat_msg(pconn, chat, -1, -1, E_CHAT_ERROR, -1);
       return;
     }
 
     message[0] = ' '; /* replace command prefix */
     form_chat_name(pconn, sender_name, sizeof(sender_name));
-    my_snprintf(chat, sizeof(chat),
-                _("%s to allies: %s"), sender_name,
-                skip_leading_spaces(message));
     /* FIXME: there should be a special case for the sender, like in
      * chat_msg_to_player_multi(). */
     players_iterate(aplayer) {
       if (!pplayers_allied(pconn->playing, aplayer)) {
         continue;
       }
-      dlsend_packet_chat_msg(aplayer->connections, chat, -1, -1,
-			     E_CHAT_MSG, pconn->id);
+      send_chat_msg(aplayer->connections, pconn, FTC_ALLY_MSG, NULL,
+                    _("%s to allies: %s"),
+                    sender_name, skip_leading_spaces(message));
     } players_iterate_end;
     return;
   }
@@ -285,10 +312,8 @@ void handle_chat_msg_req(struct connection *pconn, char *message)
       }
       if (pdest && match_result_player < M_PRE_AMBIGUOUS) {
 	/* Would have done something above if connected */
-	my_snprintf(chat, sizeof(chat),
-		    _("%s is not connected."),
-		    player_name(pdest));
-	dsend_packet_chat_msg(pconn, chat, -1, -1, E_CHAT_ERROR, -1);
+        notify_conn(pconn->self, NULL, E_CHAT_ERROR, FTC_SERVER_INFO, NULL,
+                    _("%s is not connected."), player_name(pdest));
 	return;
       }
     }
@@ -298,22 +323,20 @@ void handle_chat_msg_req(struct connection *pconn, char *message)
     cpblank=strchr(message, ' ');
     if (!cpblank || (cp < cpblank)) {
       if (double_colon) {
-	my_snprintf(chat, sizeof(chat),
-		    _("There is no connection by the name %s."), name);
+        notify_conn(pconn->self, NULL, E_CHAT_ERROR, FTC_SERVER_INFO, NULL,
+                    _("There is no connection by the name %s."), name);
       } else {
-	my_snprintf(chat, sizeof(chat),
-		    _("There is no player nor connection by the name %s."),
-		    name);
+        notify_conn(pconn->self, NULL, E_CHAT_ERROR, FTC_SERVER_INFO, NULL,
+                    _("There is no player nor connection by the name %s."),
+                    name);
       }
-      dsend_packet_chat_msg(pconn, chat, -1, -1, E_CHAT_ERROR, -1);
       return;
     }
   }
   /* global message: */
   form_chat_name(pconn, sender_name, sizeof(sender_name));
-  my_snprintf(chat, sizeof(chat),
-	      "<%s> %s", sender_name, message);
+  my_snprintf(chat, sizeof(chat), "<%s> %s", sender_name, message);
   con_puts(C_COMMENT, chat);
-  dlsend_packet_chat_msg(game.est_connections, chat,
-			 -1, -1, E_CHAT_MSG, pconn->id);
+  send_chat_msg(game.est_connections, pconn, FTC_PUBLIC_MSG, NULL,
+                "%s", chat);
 }

@@ -102,13 +102,13 @@ static void tech_researched(struct player *plr)
   /* plr will be notified when new tech is chosen */
 
   if (!is_future_tech(research->researching)) {
-    notify_embassies(plr, NULL, NULL, E_TECH_GAIN,
+    notify_embassies(plr, NULL, NULL, E_TECH_GAIN, FTC_SERVER_INFO, NULL,
 		     _("The %s have researched %s."), 
 		     nation_plural_for_player(plr),
 		     advance_name_researching(plr));
 
   } else {
-    notify_embassies(plr, NULL, NULL, E_TECH_GAIN,
+    notify_embassies(plr, NULL, NULL, E_TECH_GAIN, FTC_SERVER_INFO, NULL,
 		     _("The %s have researched Future Tech. %d."), 
 		     nation_plural_for_player(plr),
 		     research->future_tech);
@@ -166,11 +166,12 @@ void do_tech_parasite_effect(struct player *pplayer)
 	  }
 	} players_iterate_end;
 	if (num_players >= mod) {
-	  notify_player(pplayer, NULL, E_TECH_GAIN,
+	  notify_player(pplayer, NULL, E_TECH_GAIN, FTC_SERVER_INFO, NULL,
 			   _("%s acquired from %s!"),
 			   advance_name_for_player(pplayer, i),
 			   buf);
 	  notify_embassies(pplayer, NULL, NULL, E_TECH_GAIN,
+                           FTC_SERVER_INFO, NULL,
 			   _("The %s have acquired %s from %s."),
 			   nation_plural_for_player(pplayer),
 			   advance_name_for_player(pplayer, i),
@@ -220,7 +221,7 @@ static void update_player_after_tech_researched(struct player* plr,
   government_iterate(gov) {
     if (!could_switch_to_government[government_index(gov)]
 	&& can_change_to_government(plr, gov)) {
-      notify_player(plr, NULL, E_NEW_GOVERNMENT,
+      notify_player(plr, NULL, E_NEW_GOVERNMENT, FTC_SERVER_INFO, NULL,
 		       _("Discovery of %s makes the government form %s"
 			 " available. You may want to start a revolution."),
 		       advance_name_for_player(plr, tech_found),
@@ -300,10 +301,11 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
 	  && great_wonder_was_built(pimprove)
 	  && (pcity = find_city_from_great_wonder(pimprove))) {
 	notify_player(city_owner(pcity), NULL, E_WONDER_OBSOLETE,
-	                 _("Discovery of %s OBSOLETES %s in %s!"), 
-	                 advance_name_for_player(city_owner(pcity), tech_found),
-			 improvement_name_translation(pimprove),
-	                 city_name(pcity));
+                      FTC_SERVER_INFO, NULL,
+                      _("Discovery of %s OBSOLETES %s in %s!"), 
+                      advance_name_for_player(city_owner(pcity), tech_found),
+                      improvement_name_translation(pimprove),
+                      city_name(pcity));
       }
     } improvement_iterate_end;
   }
@@ -350,12 +352,11 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
     /* try to pick new tech to research */
 
     if (next_tech != A_UNSET) {
-      notify_team(plr, NULL, E_TECH_LEARNED,
-		       _("Learned %s. "
-			 "Our scientists focus on %s; goal is %s."),
-		       advance_name_for_player(plr, tech_found),
-		       advance_name_researching(plr),
-		       advance_name_for_player(plr, research->tech_goal));
+      notify_team(plr, NULL, E_TECH_LEARNED, FTC_SERVER_INFO, NULL,
+                  _("Learned %s. Our scientists focus on %s; goal is %s."),
+                  advance_name_for_player(plr, tech_found),
+                  advance_name_researching(plr),
+                  advance_name_for_player(plr, research->tech_goal));
     } else {
       if (plr->ai_data.control) {
         choose_random_tech(plr);
@@ -368,11 +369,10 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
       if (research->researching != A_UNSET 
           && (!is_future_tech(research->researching)
 	      || !is_future_tech(tech_found))) {
-	notify_team(plr, NULL, E_TECH_LEARNED,
-			 _("Learned %s.  Scientists "
-			   "choose to research %s."),
-			 advance_name_for_player(plr, tech_found),
-			 advance_name_researching(plr));
+	notify_team(plr, NULL, E_TECH_LEARNED, FTC_SERVER_INFO, NULL,
+                    _("Learned %s.  Scientists choose to research %s."),
+                    advance_name_for_player(plr, tech_found),
+                    advance_name_researching(plr));
       } else if (research->researching != A_UNSET) {
 	char buffer1[300], buffer2[300];
 
@@ -381,13 +381,13 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
 	research->future_tech++;
 	my_snprintf(buffer2, sizeof(buffer2), _("Researching %s."),
 		    advance_name_researching(plr));
-	notify_team(plr, NULL, E_TECH_LEARNED, "%s%s", buffer1,
-			 buffer2);
+	notify_team(plr, NULL, E_TECH_LEARNED, FTC_SERVER_INFO, NULL,
+                    "%s%s", buffer1, buffer2);
       } else {
-	notify_team(plr, NULL, E_TECH_LEARNED,
-			 _("Learned %s.  Scientists "
-			   "do not know what to research next."),
-			 advance_name_for_player(plr, tech_found));
+	notify_team(plr, NULL, E_TECH_LEARNED, FTC_SERVER_INFO, NULL,
+                    _("Learned %s.  Scientists "
+                      "do not know what to research next."),
+                    advance_name_for_player(plr, tech_found));
       }
     }
   }
@@ -398,13 +398,13 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
 
   if (bonus_tech_hack) {
     if (advance_by_number(tech_found)->bonus_message) {
-      notify_team(plr, NULL, E_TECH_GAIN,
-		     "%s", _(advance_by_number(tech_found)->bonus_message));
+      notify_team(plr, NULL, E_TECH_GAIN, FTC_SERVER_INFO, NULL,
+                  "%s", _(advance_by_number(tech_found)->bonus_message));
     } else {
-      notify_team(plr, NULL, E_TECH_GAIN,
-                     _("Great scientists from all the "
-		       "world join your civilization: you get "
-		       "an immediate advance."));
+      notify_team(plr, NULL, E_TECH_GAIN, FTC_SERVER_INFO, NULL,
+                  _("Great scientists from all the "
+                    "world join your civilization: you get "
+                    "an immediate advance."));
     }
     
     if (research->researching == A_UNSET) {
@@ -569,7 +569,7 @@ void choose_tech_goal(struct player *plr, Tech_type_id tech)
     /* It's been suggested that if the research target is empty then
      * choose_random_tech should be called here. */
     research->tech_goal = tech;
-    notify_research(plr, E_TECH_GOAL,
+    notify_research(plr, E_TECH_GOAL, FTC_SERVER_INFO, NULL,
 		    _("Technology goal is %s."),
 		    advance_name_for_player(plr, tech));
   }
@@ -701,17 +701,17 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
     stolen_tech = preferred;
   }
 
-  notify_player(pplayer, NULL, E_TECH_GAIN,
-		   _("You steal %s from the %s."),
-		   advance_name_for_player(pplayer, stolen_tech),
-		   nation_plural_for_player(victim));
+  notify_player(pplayer, NULL, E_TECH_GAIN, FTC_SERVER_INFO, NULL,
+                _("You steal %s from the %s."),
+                advance_name_for_player(pplayer, stolen_tech),
+                nation_plural_for_player(victim));
 
-  notify_player(victim, NULL, E_ENEMY_DIPLOMAT_THEFT,
-                   _("The %s stole %s from you!"),
-		   nation_plural_for_player(pplayer),
-		   advance_name_for_player(pplayer, stolen_tech));
+  notify_player(victim, NULL, E_ENEMY_DIPLOMAT_THEFT, FTC_SERVER_INFO, NULL,
+                _("The %s stole %s from you!"),
+                nation_plural_for_player(pplayer),
+                advance_name_for_player(pplayer, stolen_tech));
 
-  notify_embassies(pplayer, victim, NULL, E_TECH_GAIN,
+  notify_embassies(pplayer, victim, NULL, E_TECH_GAIN, FTC_SERVER_INFO, NULL,
 		   _("The %s have stolen %s from the %s."),
 		   nation_plural_for_player(pplayer),
 		   advance_name_for_player(pplayer, stolen_tech),

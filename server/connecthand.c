@@ -105,11 +105,11 @@ void establish_new_connection(struct connection *pconn)
 
   /* introduce the server to the connection */
   if (my_gethostname(hostname, sizeof(hostname)) == 0) {
-    notify_conn(dest, NULL, E_CONNECTION,
+    notify_conn(dest, NULL, E_CONNECTION, NULL, NULL,
 		_("Welcome to the %s Server running at %s port %d."),
                 freeciv_name_version(), hostname, srvarg.port);
   } else {
-    notify_conn(dest, NULL, E_CONNECTION,
+    notify_conn(dest, NULL, E_CONNECTION, NULL, NULL,
 		_("Welcome to the %s Server at port %d."),
                 freeciv_name_version(), srvarg.port);
   }
@@ -122,7 +122,7 @@ void establish_new_connection(struct connection *pconn)
           pconn->username, pconn->addr);
   conn_list_iterate(game.est_connections, aconn) {
     if (aconn != pconn) {
-      notify_conn(aconn->self, NULL, E_CONNECTION,
+      notify_conn(aconn->self, NULL, E_CONNECTION, FTC_SERVER_INFO, NULL,
 		  _("Server: %s has connected from %s."),
                   pconn->username, pconn->addr);
     }
@@ -170,7 +170,7 @@ void establish_new_connection(struct connection *pconn)
         /* send new player connection to everybody */
         send_player_info(pplayer, NULL);
       } else {
-        notify_conn(dest, NULL, E_CONNECTION,
+        notify_conn(dest, NULL, E_CONNECTION, FTC_SERVER_INFO, NULL,
                     _("Couldn't attach your connection to new player."));
         freelog(LOG_VERBOSE, "%s is not attached to a player", pconn->username);
 
@@ -188,16 +188,16 @@ void establish_new_connection(struct connection *pconn)
 
   /* remind the connection who he is */
   if (NULL == pconn->playing) {
-    notify_conn(dest, NULL, E_CONNECTION,
+    notify_conn(dest, NULL, E_CONNECTION, FTC_SERVER_INFO, NULL,
 		_("You are logged in as '%s' connected to no player."),
                 pconn->username);
   } else if (strcmp(player_name(pconn->playing), ANON_PLAYER_NAME) == 0) {
-    notify_conn(dest, NULL, E_CONNECTION,
+    notify_conn(dest, NULL, E_CONNECTION, FTC_SERVER_INFO, NULL,
 		_("You are logged in as '%s' connected to an "
 		  "anonymous player."),
 		pconn->username);
   } else {
-    notify_conn(dest, NULL, E_CONNECTION,
+    notify_conn(dest, NULL, E_CONNECTION, FTC_SERVER_INFO, NULL,
 		_("You are logged in as '%s' connected to %s."),
                 pconn->username,
                 player_name(pconn->playing));
@@ -210,7 +210,7 @@ void establish_new_connection(struct connection *pconn)
           && !cplayer->ai_data.control
           && !cplayer->phase_done
           && cplayer != pconn->playing) {  /* skip current player */
-        notify_conn(dest, NULL, E_CONNECTION,
+        notify_conn(dest, NULL, E_CONNECTION, NULL, NULL,
 		    _("Turn-blocking game play: "
 		      "waiting on %s to finish turn..."),
                     player_name(cplayer));
@@ -224,7 +224,7 @@ void establish_new_connection(struct connection *pconn)
   }
 
   if (game.info.is_edit_mode) {
-    notify_conn(dest, NULL, E_SETTING,
+    notify_conn(dest, NULL, E_SETTING, FTC_EDITOR, NULL,
                 _(" *** Server is in edit mode. *** "));
   }
 
@@ -353,15 +353,18 @@ void lost_connection_to_client(struct connection *pconn)
   const char *desc = conn_description(pconn);
 
   freelog(LOG_NORMAL, _("Lost connection: %s."), desc);
-  
+
   /* _Must_ avoid sending to pconn, in case pconn connection is
    * really lost (as opposed to server shutting it down) which would
    * trigger an error on send and recurse back to here.
    * Safe to unlink even if not in list: */
   conn_list_unlink(game.est_connections, pconn);
   delayed_disconnect++;
+  /* Special color (white on black) for player loss */
   notify_conn(game.est_connections, NULL, E_CONNECTION,
-	      _("Lost connection: %s."), desc);
+              conn_controls_player(pconn) ? "white" : FTC_SERVER_INFO,
+              conn_controls_player(pconn) ? "black" : NULL,
+              _("Lost connection: %s."), desc);
 
   detach_connection_to_player(pconn, FALSE);
   send_conn_info_remove(pconn->self, game.est_connections);

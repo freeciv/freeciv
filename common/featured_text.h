@@ -128,6 +128,16 @@ enum text_link_type {
   TLT_UNIT
 };
 
+/* Some event colors */
+#define FTC_WARNING     "#FF0000"
+#define FTC_LOG         "#7F7F7F"
+#define FTC_SERVER_INFO "#8B0000"
+#define FTC_EDITOR      "#0000FF"
+#define FTC_COMMAND     "#006400"
+#define FTC_PRIVATE_MSG "#A020F0"
+#define FTC_ALLY_MSG    "#551166"
+#define FTC_PUBLIC_MSG  "#00008B"
+
 /* Main functions. */
 size_t featured_text_to_plain_text(const char *featured_text,
                                    char *plain_text, size_t plain_text_len,

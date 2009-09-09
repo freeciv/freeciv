@@ -26,7 +26,7 @@
 void api_notify_embassies_msg(Player *pplayer, Tile *ptile, int event,
 			      const char *message)
 {
-  notify_embassies(pplayer, NULL, ptile, event, "%s", message);
+  notify_embassies(pplayer, NULL, ptile, event, NULL, NULL, "%s", message);
 }
 
 /**************************************************************************
@@ -35,6 +35,6 @@ void api_notify_embassies_msg(Player *pplayer, Tile *ptile, int event,
 void api_notify_event_msg(Player *pplayer, Tile *ptile, int event,
 		     	  const char *message)
 {
-  notify_player(pplayer, ptile, event, "%s", message);
+  notify_player(pplayer, ptile, event, NULL, NULL, "%s", message);
 }
 
