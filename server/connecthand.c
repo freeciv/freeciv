@@ -156,6 +156,7 @@ void establish_new_connection(struct connection *pconn)
       send_conn_info(game.est_connections, dest);
     }
   } else {
+    send_scenario_info(dest);
     send_game_info(dest);
 
     if (S_S_INITIAL == server_state() && game.info.is_new_game) {

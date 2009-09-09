@@ -408,6 +408,7 @@ void send_all_info(struct conn_list *dest, bool force)
   }
   conn_list_iterate_end;
 
+  send_scenario_info(dest);
   send_game_info(dest);
   send_map_info(dest);
   send_player_info_c(NULL, dest);
