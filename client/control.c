@@ -1443,6 +1443,14 @@ void request_unit_upgrade(struct unit *punit)
   }
 }
 
+/**************************************************************************
+  Sends unit transform packet.
+**************************************************************************/
+void request_unit_transform(struct unit *punit)
+{
+  dsend_packet_unit_transform(&client.conn, punit->id);
+}
+
 /****************************************************************************
   Call to request (from the server) that the settler unit is put into
   autosettler mode.
@@ -2613,6 +2621,16 @@ void key_unit_disband(void)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
     request_unit_disband(punit);
+  } unit_list_iterate_end;
+}
+
+/**************************************************************************
+  Unit transform key pressed or respective menu entry selected.
+**************************************************************************/
+void key_unit_transform_unit(void)
+{
+  unit_list_iterate(get_units_in_focus(), punit) {
+    request_unit_transform(punit);
   } unit_list_iterate_end;
 }
 

@@ -53,8 +53,8 @@ void unit_list_refresh_vision(struct unit_list *punitlist);
 void bounce_unit(struct unit *punit, bool verbose);
 
 /* creation/deletion/upgrading */
-void upgrade_unit(struct unit *punit, struct unit_type *to_unit,
-		  bool has_to_pay);
+void transform_unit(struct unit *punit, struct unit_type *to_unit,
+                    bool has_to_pay);
 struct unit *create_unit(struct player *pplayer, struct tile *ptile,
 			 struct unit_type *punittype,
 			 int veteran_level, int homecity_id, int moves_left);

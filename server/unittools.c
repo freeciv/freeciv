@@ -265,7 +265,7 @@ static void do_upgrade_effects(struct player *pplayer)
 		  _("%s was upgraded for free to %s."),
 		  unit_name_translation(punit),
 		  utype_name_translation(upgrade_type));
-    upgrade_unit(punit, upgrade_type, TRUE);
+    transform_unit(punit, upgrade_type, TRUE);
     unit_list_unlink(candidates, punit);
     upgrades--;
   }
@@ -1292,23 +1292,20 @@ bool is_airunit_refuel_point(struct tile *ptile, struct player *pplayer,
 }
 
 /**************************************************************************
-  Really upgrades a single unit.
+  Really transforms a single unit.
 
-  Before calling this function you should use unit_upgrade to test if
-  this is possible.
+  If calling this function for upgrade, you should use unit_upgrade
+  before to test if this is possible.
 
-  is_free: Leonardo upgrade for free, in all other cases the unit
-  owner has to pay
+  is_free: Does unit owner need to pay upgrade price.
 
   Note that this function is strongly tied to unit.c:test_unit_upgrade().
 **************************************************************************/
-void upgrade_unit(struct unit *punit, struct unit_type *to_unit,
-		  bool is_free)
+void transform_unit(struct unit *punit, struct unit_type *to_unit,
+                    bool is_free)
 {
   struct player *pplayer = unit_owner(punit);
   int old_mr = unit_move_rate(punit), old_hp = unit_type(punit)->hp;
-
-  assert(test_unit_upgrade(punit, is_free) == UR_OK);
 
   if (!is_free) {
     pplayer->economic.gold -=

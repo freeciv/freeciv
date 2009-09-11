@@ -2650,7 +2650,8 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
   u->transport_capacity = p->transport_capacity;
   u->hp                 = p->hp;
   u->firepower          = p->firepower;
-  u->obsoleted_by = utype_by_number(p->obsoleted_by);
+  u->obsoleted_by       = utype_by_number(p->obsoleted_by);
+  u->transformed_to     = utype_by_number(p->transformed_to);
   u->fuel               = p->fuel;
   u->flags              = p->flags;
   u->roles              = p->roles;

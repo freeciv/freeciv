@@ -155,6 +155,7 @@ enum MenuID {
   MENU_ORDER_RETURN,
   MENU_ORDER_DISBAND,
   MENU_ORDER_UPGRADE,
+  MENU_ORDER_TRANSFORM_UNIT,
   MENU_ORDER_DIPLOMAT_DLG,
   MENU_ORDER_NUKE,
   MENU_ORDER_SELECT_SINGLE,
@@ -587,6 +588,9 @@ static void orders_menu_callback(gpointer callback_data,
   case MENU_ORDER_UPGRADE:
     popup_upgrade_dialog(get_units_in_focus());
     break;
+  case MENU_ORDER_TRANSFORM_UNIT:
+    key_unit_transform_unit();
+    break;
    case MENU_ORDER_DIPLOMAT_DLG:
     key_unit_diplomat_actions();
     break;
@@ -962,6 +966,8 @@ static GtkItemFactoryEntry menu_items[]	=
 	orders_menu_callback,	MENU_ORDER_HOMECITY					},
   { "/" N_("_Unit") "/" N_("Upgr_ade"), "<shift>u",
     orders_menu_callback, MENU_ORDER_UPGRADE },
+  { "/" N_("_Unit") "/" N_("Trans_form"), "<shift>f",
+    orders_menu_callback, MENU_ORDER_TRANSFORM_UNIT },
   { "/" N_("_Unit") "/" N_("_Disband"),		"<shift>d",
 	orders_menu_callback,	MENU_ORDER_DISBAND					},
   /* Work menu ... */
@@ -1654,6 +1660,8 @@ void update_menus(void)
 			  units_have_flag(punits, F_UNDISBANDABLE, FALSE));
       menus_set_sensitive("<main>/_Unit/_Upgrade",
 			  TRUE /* FIXME: what check should we do? */);
+      menus_set_sensitive("<main>/_Unit/_Transform",
+                          units_can_transform(punits));
       menus_set_sensitive("<main>/_Unit/Set _Home City",
 			  can_units_do(punits, can_unit_change_homecity));
       menus_set_sensitive("<main>/_Unit/U_nload All From Transporter",

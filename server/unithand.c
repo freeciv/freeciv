@@ -132,7 +132,7 @@ void handle_unit_type_upgrade(struct player *pplayer, Unit_type_id uti)
 
       if (result == UR_OK) {
 	number_of_upgraded_units++;
-	upgrade_unit(punit, to_unittype, FALSE);
+	transform_unit(punit, to_unittype, FALSE);
       } else if (result == UR_NO_MONEY) {
 	break;
       }
@@ -177,7 +177,7 @@ void handle_unit_upgrade(struct player *pplayer, int unit_id)
     struct unit_type *to_unit = can_upgrade_unittype(pplayer, unit_type(punit));
     int cost = unit_upgrade_price(pplayer, unit_type(punit), to_unit);
 
-    upgrade_unit(punit, to_unit, FALSE);
+    transform_unit(punit, to_unit, FALSE);
     send_player_info(pplayer, pplayer);
     notify_player(pplayer, punit->tile, E_UNIT_UPGRADED,
                   FTC_SERVER_INFO, NULL,
@@ -189,6 +189,39 @@ void handle_unit_upgrade(struct player *pplayer, int unit_id)
     notify_player(pplayer, punit->tile, E_UNIT_UPGRADED,
                   FTC_SERVER_INFO, NULL,
 		  "%s", buf);
+  }
+}
+
+/**************************************************************************
+  Transform a single unit.
+**************************************************************************/
+void handle_unit_transform(struct player *pplayer, int unit_id)
+{
+  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
+  struct unit_type *to_type, *from_type;
+
+  if (NULL == punit) {
+    /* Shouldn't happen */
+    freelog(LOG_ERROR, "handle_unit_transform() invalid unit %d",
+	    unit_id);
+    return;
+  }
+
+  from_type = unit_type(punit);
+  to_type = from_type->transformed_to;
+
+  if (test_unit_transform(punit)) {
+    transform_unit(punit, to_type, TRUE);
+    notify_player(pplayer, punit->tile, E_UNIT_UPGRADED,
+                  FTC_SERVER_INFO, NULL,
+                  _("%s transformed to %s."),
+		  utype_name_translation(from_type),
+		  utype_name_translation(to_type));
+  } else {
+    notify_player(pplayer, punit->tile, E_UNIT_UPGRADED,
+                  FTC_SERVER_INFO, NULL,
+		  "%s cannot transform.",
+                  utype_name_translation(from_type));
   }
 }
 

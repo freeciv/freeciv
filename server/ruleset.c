@@ -1184,6 +1184,9 @@ if (_count > MAX_VET_LEVELS) {						\
 
     u->obsoleted_by = lookup_unit_type(file, sec[i], "obsolete_by", LOG_ERROR,
 				       filename, u->name.vernacular);
+    u->transformed_to = lookup_unit_type(file, sec[i], "transform_to",
+                                         LOG_ERROR, filename,
+                                         u->name.vernacular);
   } unit_type_iterate_end;
 
   /* main stats: */
@@ -3252,6 +3255,8 @@ static void send_ruleset_units(struct conn_list *dest)
     packet.firepower = u->firepower;
     packet.obsoleted_by = u->obsoleted_by
                           ? utype_number(u->obsoleted_by) : -1;
+    packet.transformed_to = u->transformed_to
+                            ? utype_number(u->transformed_to) : -1;
     packet.fuel = u->fuel;
     packet.flags = u->flags;
     packet.roles = u->roles;

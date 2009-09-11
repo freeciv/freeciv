@@ -1554,6 +1554,14 @@ enum unit_upgrade_result test_unit_upgrade(const struct unit *punit,
 }
 
 /**************************************************************************
+  Tests if unit can be transformed.
+**************************************************************************/
+bool test_unit_transform(const struct unit *punit)
+{
+  return unit_type(punit)->transformed_to != NULL;
+}
+
+/**************************************************************************
   Find the result of trying to upgrade the unit, and a message that
   most callers can use directly.
 **************************************************************************/
