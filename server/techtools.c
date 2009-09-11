@@ -606,7 +606,11 @@ void give_global_initial_techs(struct player *pplayer)
     if (game.rgame.global_init_techs[i] == A_LAST) {
       break;
     }
-    found_new_tech(pplayer, game.rgame.global_init_techs[i], FALSE, TRUE);
+    /* Maybe the player already got this tech by an other way (e.g. team). */
+    if (get_invention(pplayer, game.rgame.global_init_techs[i])
+        != TECH_KNOWN) {
+      found_new_tech(pplayer, game.rgame.global_init_techs[i], FALSE, TRUE);
+    }
   }
 }
 
@@ -623,7 +627,10 @@ void give_nation_initial_techs(struct player *pplayer)
     if (nation->init_techs[i] == A_LAST) {
       break;
     }
-    found_new_tech(pplayer, nation->init_techs[i], FALSE, TRUE);
+    /* Maybe the player already got this tech by an other way (e.g. team). */
+    if (get_invention(pplayer, nation->init_techs[i]) != TECH_KNOWN) {
+      found_new_tech(pplayer, nation->init_techs[i], FALSE, TRUE);
+    }
   }
 }
 
