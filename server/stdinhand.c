@@ -1125,8 +1125,8 @@ static bool write_command(struct connection *caller, char *arg, bool check)
  set ptarget's cmdlevel to level if caller is allowed to do so
 **************************************************************************/
 static bool set_cmdlevel(struct connection *caller,
-			struct connection *ptarget,
-			enum cmdlevel_id level)
+                         struct connection *ptarget,
+                         enum cmdlevel_id level)
 {
   assert(ptarget != NULL);    /* only ever call me for specific connection */
 
@@ -1140,14 +1140,17 @@ static bool set_cmdlevel(struct connection *caller,
      * and thus this clause is never used.
      */
     cmd_reply(CMD_CMDLEVEL, caller, C_FAIL,
-	      _("Cannot decrease command access level '%s' for connection '%s';"
-		" you only have '%s'."),
-	      cmdlevel_name(ptarget->access_level),
-	      ptarget->username,
-	      cmdlevel_name(caller->access_level));
+              _("Cannot decrease command access level '%s' "
+                "for connection '%s'; you only have '%s'."),
+              cmdlevel_name(ptarget->access_level),
+              ptarget->username,
+              cmdlevel_name(caller->access_level));
     return FALSE;
   } else {
     ptarget->access_level = level;
+    cmd_reply(CMD_CMDLEVEL, caller, C_OK,
+              _("Command access level set to '%s' for connection %s."),
+              cmdlevel_name(level), ptarget->username);
     return TRUE;
   }
 }
@@ -1202,148 +1205,135 @@ void notify_if_first_access_level_is_available(void)
 }
 
 /**************************************************************************
- Change command access level for individual player, or all, or new.
+   Change command access level for individual player, or all, or new.
 **************************************************************************/
 static bool cmdlevel_command(struct connection *caller, char *str, bool check)
 {
-  char arg_level[MAX_LEN_CONSOLE_LINE]; /* info, ctrl etc */
-  char arg_name[MAX_LEN_CONSOLE_LINE];	 /* a player name, or "new" */
-  char *cptr_s, *cptr_d;	 /* used for string ops */
-
+  char *arg[2];
+  int ntokens;
+  bool ret = FALSE;
   enum m_pre_result match_result;
   enum cmdlevel_id level;
   struct connection *ptarget;
 
-  /* find the start of the level: */
-  for (cptr_s = str; *cptr_s != '\0' && !my_isalnum(*cptr_s); cptr_s++) {
-    /* nothing */
-  }
+  ntokens = get_tokens(str, arg, 2, TOKEN_DELIMITERS);
 
-  /* copy the level into arg_level[] */
-  for(cptr_d=arg_level; *cptr_s != '\0' && my_isalnum(*cptr_s); cptr_s++, cptr_d++) {
-    *cptr_d=*cptr_s;
-  }
-  *cptr_d='\0';
-  
-  if (arg_level[0] == '\0') {
-    /* no level name supplied; list the levels */
-
-    cmd_reply(CMD_CMDLEVEL, caller, C_COMMENT, _("Command access levels in effect:"));
-
+  if (ntokens == 0) {
+    /* No argument supplied; list the levels */
+    cmd_reply(CMD_CMDLEVEL, caller, C_COMMENT, horiz_line);
+    cmd_reply(CMD_CMDLEVEL, caller, C_COMMENT,
+              _("Command access levels in effect:"));
+    cmd_reply(CMD_CMDLEVEL, caller, C_COMMENT, horiz_line);
     conn_list_iterate(game.est_connections, pconn) {
       cmd_reply(CMD_CMDLEVEL, caller, C_COMMENT, "cmdlevel %s %s",
-		cmdlevel_name(pconn->access_level), pconn->username);
-    }
-    conn_list_iterate_end;
+                cmdlevel_name(conn_get_access(pconn)), pconn->username);
+    } conn_list_iterate_end;
     cmd_reply(CMD_CMDLEVEL, caller, C_COMMENT,
-	      _("Command access level for new connections: %s"),
-	      cmdlevel_name(default_access_level));
+              _("Command access level for new connections: %s"),
+              cmdlevel_name(default_access_level));
     cmd_reply(CMD_CMDLEVEL, caller, C_COMMENT,
-	      _("Command access level for first player to take it: %s"),
-	      cmdlevel_name(first_access_level));
+              _("Command access level for first player to take it: %s"),
+              cmdlevel_name(first_access_level));
+    cmd_reply(CMD_CMDLEVEL, caller, C_COMMENT, horiz_line);
     return TRUE;
   }
 
-  /* a level name was supplied; set the level */
+  /* A level name was supplied; set the level */
+  if ((level = cmdlevel_named(arg[0])) == ALLOW_UNRECOGNIZED) {
+    char buf[512];
+    int i;
 
-  if ((level = cmdlevel_named(arg_level)) == ALLOW_UNRECOGNIZED) {
-    cmd_reply(CMD_CMDLEVEL, caller, C_SYNTAX,
-	      _("Error: command access level must be one of"
-		" 'none', 'info', 'ctrl', or 'hack'."));
-    return FALSE;
-  } else if (caller && level > caller->access_level) {
-    cmd_reply(CMD_CMDLEVEL, caller, C_FAIL,
-	      _("Cannot increase command access level to '%s';"
-		" you only have '%s' yourself."),
-	      arg_level, cmdlevel_name(caller->access_level));
-    return FALSE;
-  }
-  if (check) {
-    return TRUE; /* looks good */
-  }
-
-  /* find the start of the name: */
-  for (; *cptr_s != '\0' && !my_isalnum(*cptr_s); cptr_s++) {
-    /* nothing */
-  }
-
-  /* copy the name into arg_name[] */
-  for(cptr_d=arg_name;
-      *cptr_s != '\0' && (*cptr_s == '-' || *cptr_s == ' ' || my_isalnum(*cptr_s));
-      cptr_s++ , cptr_d++) {
-    *cptr_d=*cptr_s;
-  }
-  *cptr_d='\0';
- 
-  if (arg_name[0] == '\0') {
-    /* no playername supplied: set for all connections, and set the default */
-    conn_list_iterate(game.est_connections, pconn) {
-      if (set_cmdlevel(caller, pconn, level)) {
-	cmd_reply(CMD_CMDLEVEL, caller, C_OK,
-		  _("Command access level set to '%s' for connection %s."),
-		  cmdlevel_name(level), pconn->username);
-        send_conn_info(pconn->self, NULL);
-      } else {
-	cmd_reply(CMD_CMDLEVEL, caller, C_FAIL,
-		  _("Command access level could not be set to '%s' for "
-		    "connection %s."),
-		  cmdlevel_name(level), pconn->username);
-        return FALSE;
-      }
+    buf[0] = '\0';
+    for (i = 0; i < ALLOW_NUM; i++) {
+      cat_snprintf(buf, sizeof(buf), "%s'%s'%s",
+                   i == ALLOW_NUM - 1 ? Q_("?accslvllist:or ") : "",
+                   cmdlevel_name(i), i == ALLOW_NUM - 1 ? "" : ", ");
     }
-    conn_list_iterate_end;
-    
+    cmd_reply(CMD_CMDLEVEL, caller, C_SYNTAX,
+              /* TRANS: comma and 'or' separated list of access levels */
+              _("Error: command access level must be one of %s."), buf);
+    goto CLEAN_UP;
+  } else if (caller && level > conn_get_access(caller)) {
+    cmd_reply(CMD_CMDLEVEL, caller, C_FAIL,
+              _("Cannot increase command access level to '%s';"
+                " you only have '%s' yourself."),
+              arg[0], cmdlevel_name(conn_get_access(caller)));
+    goto CLEAN_UP;
+  }
+
+  if (check) {
+    return TRUE;                /* looks good */
+  }
+
+  if (ntokens == 1) {
+    /* No playername supplied: set for all connections */
+    conn_list_iterate(game.est_connections, pconn) {
+      if (pconn != caller) {
+        (void) set_cmdlevel(caller, pconn, level);
+      }
+    } conn_list_iterate_end;
+
+    /* Set the caller access level at last, because it could make the
+     * previous operations impossible if set before. */
+    if (caller) {
+      (void) set_cmdlevel(caller, caller, level);
+    }
+
+    /* Set default access for new connections. */
     default_access_level = level;
     cmd_reply(CMD_CMDLEVEL, caller, C_OK,
-		_("Command access level set to '%s' for new players."),
-		cmdlevel_name(level));
+              _("Command access level set to '%s' for new players."),
+              cmdlevel_name(level));
+    /* Set default access for first connection. */
     first_access_level = level;
     cmd_reply(CMD_CMDLEVEL, caller, C_OK,
-		_("Command access level set to '%s' for first player to grab it."),
-		cmdlevel_name(level));
-  }
-  else if (strcmp(arg_name,"new") == 0) {
+              _("Command access level set to '%s' "
+                "for first player to grab it."),
+              cmdlevel_name(level));
+
+    ret = TRUE;
+
+  } else if (mystrcasecmp(arg[1], "new") == 0) {
     default_access_level = level;
     cmd_reply(CMD_CMDLEVEL, caller, C_OK,
-		_("Command access level set to '%s' for new players."),
-		cmdlevel_name(level));
+              _("Command access level set to '%s' for new players."),
+              cmdlevel_name(level));
     if (level > first_access_level) {
       first_access_level = level;
       cmd_reply(CMD_CMDLEVEL, caller, C_OK,
-		_("Command access level set to '%s' for first player to grab it."),
-		cmdlevel_name(level));
+                _("Command access level set to '%s' "
+                  "for first player to grab it."),
+                cmdlevel_name(level));
     }
-  }
-  else if (strcmp(arg_name,"first") == 0) {
+
+    ret = TRUE;
+
+  } else if (mystrcasecmp(arg[1], "first") == 0) {
     first_access_level = level;
     cmd_reply(CMD_CMDLEVEL, caller, C_OK,
-		_("Command access level set to '%s' for first player to grab it."),
-		cmdlevel_name(level));
+              _("Command access level set to '%s' "
+                "for first player to grab it."),
+              cmdlevel_name(level));
     if (level < default_access_level) {
       default_access_level = level;
       cmd_reply(CMD_CMDLEVEL, caller, C_OK,
-		_("Command access level set to '%s' for new players."),
-		cmdlevel_name(level));
+                _("Command access level set to '%s' for new players."),
+                cmdlevel_name(level));
     }
-  }
-  else if ((ptarget = find_conn_by_user_prefix(arg_name, &match_result))) {
+
+    ret = TRUE;
+
+  } else if ((ptarget = find_conn_by_user_prefix(arg[1], &match_result))) {
     if (set_cmdlevel(caller, ptarget, level)) {
-      cmd_reply(CMD_CMDLEVEL, caller, C_OK,
-		_("Command access level set to '%s' for connection %s."),
-		cmdlevel_name(level), ptarget->username);
-      send_conn_info(ptarget->self, NULL);
-    } else {
-      cmd_reply(CMD_CMDLEVEL, caller, C_FAIL,
-		_("Command access level could not be set to '%s'"
-		  " for connection %s."),
-		cmdlevel_name(level), ptarget->username);
-      return FALSE;
+      ret = TRUE;
     }
   } else {
-    cmd_reply_no_such_conn(CMD_CMDLEVEL, caller, arg_name, match_result);
-    return FALSE;
+    cmd_reply_no_such_conn(CMD_CMDLEVEL, caller, arg[1], match_result);
   }
-  return TRUE;
+
+CLEAN_UP:
+  free_tokens(arg, ntokens);
+  return ret;
 }
 
 /**************************************************************************
