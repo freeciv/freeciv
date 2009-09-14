@@ -706,26 +706,27 @@ static void update_unit_activity(struct unit *punit)
     return;
 
   case ACTIVITY_PILLAGE:
-    if (punit->activity_target == S_LAST) { /* case for old save files */
+    if (punit->activity_target == S_LAST
+        && punit->activity_base == -1) { /* case for old save files */
       if (punit->activity_count >= 1) {
-        struct base_type *first_base = NULL;
         enum tile_special_type what;
+        bv_bases bases;
 
+        BV_CLR_ALL(bases);
         base_type_iterate(pbase) {
           if (tile_has_base(ptile, pbase)) {
             if (pbase->pillageable) {
-              first_base = pbase;
-              break;
+              BV_SET(bases, base_index(pbase));
             }
           }
         } base_type_iterate_end;
 
         what = get_preferred_pillage(get_tile_infrastructure_set(ptile, NULL),
-                                     first_base);
+                                     bases);
 
 	if (what != S_LAST) {
-          if (what == S_PILLAGE_BASE) {
-            unit_pillage_base(ptile, first_base);
+          if (what > S_LAST) {
+            unit_pillage_base(ptile, base_by_number(what - S_LAST - 1));
           } else {
             tile_clear_special(ptile, what);
           }
@@ -742,16 +743,8 @@ static void update_unit_activity(struct unit *punit)
                                      punit->activity_target) >= 1) {
       enum tile_special_type what_pillaged = punit->activity_target;
 
-      if (what_pillaged == S_PILLAGE_BASE) {
-        base_type_iterate(pbase) {
-          if (tile_has_base(ptile, pbase)) {
-            if (pbase->pillageable) {
-              /* Remove first pillageable base */
-              unit_pillage_base(ptile, pbase);
-              break; /* but only first */
-            }
-          }
-        } base_type_iterate_end;
+      if (what_pillaged == S_LAST && punit->activity_base != -1) {
+        unit_pillage_base(ptile, base_by_number(punit->activity_base));
       } else {
         tile_clear_special(ptile, what_pillaged);
       }

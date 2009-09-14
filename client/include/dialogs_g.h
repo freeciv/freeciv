@@ -49,7 +49,7 @@ void popup_incite_dialog(struct city *pcity, int cost);
 void popup_bribe_dialog(struct unit *punit, int cost);
 void popup_sabotage_dialog(struct city *pcity);
 void popup_pillage_dialog(struct unit *punit, bv_special may_pillage,
-                          struct base_type *pbase);
+                          bv_bases bases);
 void popup_upgrade_dialog(struct unit_list *punits);
 void popup_tileset_suggestion_dialog(void);
 bool popup_theme_suggestion_dialog(const char *theme_name);

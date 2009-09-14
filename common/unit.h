@@ -255,7 +255,8 @@ bool can_unit_do_activity_base(const struct unit *punit,
 void set_unit_activity(struct unit *punit, enum unit_activity new_activity);
 void set_unit_activity_targeted(struct unit *punit,
 				enum unit_activity new_activity,
-				enum tile_special_type new_target);
+				enum tile_special_type new_target,
+                                Base_type_id base);
 void set_unit_activity_base(struct unit *punit,
                             Base_type_id base);
 int get_activity_rate(const struct unit *punit);

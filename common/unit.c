@@ -775,7 +775,6 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
   struct player *pplayer = unit_owner(punit);
   struct terrain *pterrain = tile_terrain(ptile);
   struct unit_class *pclass = unit_class(punit);
-  struct base_type *first_base = NULL;
   struct base_type *pbase = base_by_number(base);
 
   switch(activity) {
@@ -888,6 +887,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     {
       int numpresent;
       bv_special pspresent = get_tile_infrastructure_set(ptile, &numpresent);
+      bv_bases bases;
 
       if ((numpresent > 0 || tile_has_any_bases(ptile))
           && uclass_has_flag(unit_class(punit), UCF_CAN_PILLAGE)) {
@@ -899,20 +899,21 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 	}
 	psworking = get_unit_tile_pillage_set(ptile);
 
+        BV_CLR_ALL(bases);
         base_type_iterate(pbase) {
           if (tile_has_base(ptile, pbase)) {
             if (pbase->pillageable) {
-              first_base = pbase;
-              break;
+              BV_SET(bases, base_index(pbase));
+              numpresent++;
             }
           }
         } base_type_iterate_end;
 
-        if (numpresent == 0 && first_base == NULL) {
+        if (numpresent == 0) {
           return FALSE;
         }
 
-	if (target == S_LAST) {
+	if (target == S_LAST && base == -1) {
 	  for (i = 0; infrastructure_specials[i] != S_LAST; i++) {
 	    enum tile_special_type spe = infrastructure_specials[i];
 
@@ -926,11 +927,11 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 	    }
 	  }
 	} else if (!game.info.pillage_select
-		   && target != get_preferred_pillage(pspresent, first_base)) {
+		   && target != get_preferred_pillage(pspresent, bases)) {
 	  return FALSE;
 	} else {
-          if (target == S_PILLAGE_BASE) {
-            return first_base != NULL;
+          if (target == S_LAST && base != -1) {
+            return BV_ISSET(bases, base);
           } else {
             return BV_ISSET(pspresent, target) && !BV_ISSET(psworking, target);
           }
@@ -990,13 +991,15 @@ void set_unit_activity(struct unit *punit, enum unit_activity new_activity)
 **************************************************************************/
 void set_unit_activity_targeted(struct unit *punit,
 				enum unit_activity new_activity,
-				enum tile_special_type new_target)
+				enum tile_special_type new_target,
+                                Base_type_id base)
 {
   assert(new_target != ACTIVITY_FORTRESS
          && new_target != ACTIVITY_AIRBASE);
 
   set_unit_activity(punit, new_activity);
   punit->activity_target = new_target;
+  punit->activity_base = base;
 }
 
 /**************************************************************************
@@ -1034,8 +1037,7 @@ bv_special get_unit_tile_pillage_set(const struct tile *ptile)
   BV_CLR_ALL(tgt_ret);
   unit_list_iterate(ptile->units, punit) {
     if (punit->activity == ACTIVITY_PILLAGE
-        && punit->activity_target != S_LAST
-        && punit->activity_target != S_PILLAGE_BASE) {
+        && punit->activity_target != S_LAST) {
       assert(punit->activity_target < S_LAST);
       BV_SET(tgt_ret, punit->activity_target);
     }

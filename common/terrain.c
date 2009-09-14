@@ -775,8 +775,8 @@ enum tile_special_type get_infrastructure_prereq(enum tile_special_type spe)
   be pillaged from the terrain set.  May return S_LAST if nothing
   better is available.
 ****************************************************************************/
-enum tile_special_type get_preferred_pillage(bv_special pset,
-                                             struct base_type *pbase)
+int get_preferred_pillage(bv_special pset,
+                          bv_bases bases)
 {
   if (contains_special(pset, S_FARMLAND)) {
     return S_FARMLAND;
@@ -787,9 +787,11 @@ enum tile_special_type get_preferred_pillage(bv_special pset,
   if (contains_special(pset, S_MINE)) {
     return S_MINE;
   }
-  if (pbase) {
-    return S_PILLAGE_BASE;
-  }
+  base_type_iterate(pbase) {
+    if (BV_ISSET(bases, base_index(pbase))) {
+      return S_LAST + base_index(pbase) + 1;
+    }
+  } base_type_iterate_end;
   if (contains_special(pset, S_RAILROAD)) {
     return S_RAILROAD;
   }
