@@ -1582,6 +1582,11 @@ static void setup_widgets(void)
   gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 2);
   allied_chat_toggle_button = button;
 
+  button = gtk_button_new_with_label(_("Clear links"));
+  g_signal_connect(button, "clicked",
+                   G_CALLBACK(link_marks_clear_all), NULL);
+  gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 2);
+
   /* Other things to take care of */
 
   gtk_widget_show_all(gtk_bin_get_child(GTK_BIN(toplevel)));
