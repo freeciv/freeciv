@@ -351,9 +351,8 @@ static void editor_start_selection_rectangle(int canvas_x, int canvas_y)
 
 /****************************************************************************
   Temporary convenience function to work-around the fact that certain
-  special values (S_RESOURCE_VALID and S_PILLAGE_BASE) do not in fact
-  correspond to drawable special types, or are to be phased out soon
-  (the base "specials").
+  special values (S_RESOURCE_VALID) do not in fact
+  correspond to drawable special types.
 ****************************************************************************/
 static inline bool tile_really_has_any_specials(const struct tile *ptile)
 {
@@ -366,7 +365,6 @@ static inline bool tile_really_has_any_specials(const struct tile *ptile)
   specials = tile_specials(ptile);
 
   BV_CLR(specials, S_RESOURCE_VALID);
-  BV_CLR(specials, S_PILLAGE_BASE);
 
   return BV_ISSET_ANY(specials);
 }

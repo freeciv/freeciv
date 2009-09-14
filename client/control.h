@@ -62,7 +62,8 @@ void request_move_unit_direction(struct unit *punit, int dir);
 void request_new_unit_activity(struct unit *punit, enum unit_activity act);
 void request_new_unit_activity_targeted(struct unit *punit,
 					enum unit_activity act,
-					enum tile_special_type tgt);
+					enum tile_special_type tgt,
+                                        Base_type_id base);
 void request_new_unit_activity_base(struct unit *punit,
 				    const struct base_type *pbase);
 void request_unit_load(struct unit *pcargo, struct unit *ptransporter);

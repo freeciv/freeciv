@@ -1727,12 +1727,20 @@ static LONG CALLBACK pillage_proc(HWND dlg,UINT message,
     id=LOWORD(wParam);
     if (id==IDCANCEL) {
       DestroyWindow(dlg);
-    } else if (id>=ID_PILLAGE_BASE) {
-      struct unit *punit=game_find_unit_by_number(unit_to_use_to_pillage);
+    } else if (id >= ID_PILLAGE_BASE) {
+      struct unit *punit = game_find_unit_by_number(unit_to_use_to_pillage);
       if (punit) {
+        Base_type_id pillage_base = -1;
+        int what = id - ID_PILLAGE_BASE;
+
+        if (what > S_LAST) {
+          pillage_base = what - S_LAST - 1;
+          what = S_LAST;
+        }
+
 	request_new_unit_activity_targeted(punit,
 					   ACTIVITY_PILLAGE,
-					   id-ID_PILLAGE_BASE);
+					   what, pillage_base);
 	DestroyWindow(dlg);
       }
     }
@@ -1748,11 +1756,12 @@ static LONG CALLBACK pillage_proc(HWND dlg,UINT message,
 **************************************************************************/
 void popup_pillage_dialog(struct unit *punit,
 			  bv_special may_pillage,
-                          struct base_type *pbase)
+                          bv_bases bases)
 {
   HWND dlg;
   struct fcwin_box *vbox;
-  enum tile_special_type what, prereq;
+  int what;
+  enum tile_special_type prereq;
 
   if (!is_showing_pillage_dialog) {
     is_showing_pillage_dialog = TRUE;
@@ -1766,30 +1775,30 @@ void popup_pillage_dialog(struct unit *punit,
     vbox=fcwin_vbox_new(dlg,FALSE);
     fcwin_box_add_static(vbox,_("Select what to pillage:"),0,SS_LEFT,
 			 FALSE,FALSE,10);
-    while ((what = get_preferred_pillage(may_pillage, pbase)) != S_LAST) {
-      if (what != S_PILLAGE_BASE) {
-        bv_special what_bv;
-        bv_bases bases;
+    while ((what = get_preferred_pillage(may_pillage, bases)) != S_LAST) {
+      bv_special what_bv;
+      bv_bases what_base;
 
-        BV_CLR_ALL(what_bv);
+      BV_CLR_ALL(what_bv);
+      BV_CLR_ALL(what_base);
+
+      if (what > S_LAST) {
+        BV_SET(what_base, what - S_LAST - 1);
+      } else {
         BV_SET(what_bv, what);
-        BV_CLR_ALL(bases);
-        if (pbase) {
-          BV_SET(bases, base_index(pbase));
-        }
+      }
 
-        fcwin_box_add_button(vbox, get_infrastructure_text(what_bv, bases),
-                             ID_PILLAGE_BASE+what,0,TRUE,FALSE,5);
+      fcwin_box_add_button(vbox, get_infrastructure_text(what_bv, what_base),
+                           ID_PILLAGE_BASE+what,0,TRUE,FALSE,5);
 
+      if (what > S_LAST) {
+        BV_CLR(bases, what - S_LAST - 1);
+      } else {
         clear_special(&may_pillage, what);
         prereq = get_infrastructure_prereq(what);
         if (prereq != S_LAST) {
           clear_special(&may_pillage, prereq);
         }
-      } else {
-        fcwin_box_add_button(vbox, base_name_translation(pbase),
-                             ID_PILLAGE_BASE + what, 0, TRUE, FALSE, 5);
-        pbase = NULL;
       }
     }
     fcwin_box_add_button(vbox,_("Cancel"),IDCANCEL,0,TRUE,FALSE,5);

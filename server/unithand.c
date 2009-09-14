@@ -63,7 +63,8 @@ static void city_build(struct player *pplayer, struct unit *punit,
 		       char *name);
 static void unit_activity_handling_targeted(struct unit *punit,
 					    enum unit_activity new_activity,
-					    enum tile_special_type new_target);
+					    enum tile_special_type new_target,
+                                            Base_type_id base);
 static void unit_activity_handling_base(struct unit *punit,
                                         Base_type_id base);
 static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id, struct city *pcity_dest);
@@ -770,7 +771,7 @@ void handle_unit_change_activity(struct player *pplayer, int unit_id,
     break;
 
   case ACTIVITY_EXPLORE:
-    unit_activity_handling_targeted(punit, activity, activity_target);
+    unit_activity_handling_targeted(punit, activity, activity_target, -1);
 
     /* Exploring is handled here explicitly, since the player expects to
      * see an immediate response from setting a unit to auto-explore.
@@ -782,7 +783,8 @@ void handle_unit_change_activity(struct player *pplayer, int unit_id,
     break;
 
   default:
-    unit_activity_handling_targeted(punit, activity, activity_target);
+    unit_activity_handling_targeted(punit, activity, activity_target,
+                                    activity_base);
     break;
   };
 }
@@ -1853,7 +1855,8 @@ void unit_activity_handling(struct unit *punit,
 **************************************************************************/
 static void unit_activity_handling_targeted(struct unit *punit,
 					    enum unit_activity new_activity,
-					    enum tile_special_type new_target)
+					    enum tile_special_type new_target,
+                                            Base_type_id base)
 {
   if (can_unit_do_activity_targeted(punit, new_activity, new_target,
                                     -1)) {
@@ -1861,7 +1864,7 @@ static void unit_activity_handling_targeted(struct unit *punit,
     enum tile_special_type old_target = punit->activity_target;
 
     free_unit_orders(punit);
-    set_unit_activity_targeted(punit, new_activity, new_target);
+    set_unit_activity_targeted(punit, new_activity, new_target, base);
     send_unit_info(NULL, punit);    
     unit_activity_dependencies(punit, old_activity, old_target);
   }

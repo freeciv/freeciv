@@ -1772,10 +1772,22 @@ static void player_load_units(struct player *plr, int plrno,
       = secfile_lookup_int_default(file, S_LAST,
 				   "player%d.u%d.activity_target", plrno, i);
 
-    if (activity == ACTIVITY_PILLAGE
-        && (punit->activity_target == S_OLD_FORTRESS
-            || punit->activity_target == S_OLD_AIRBASE)) {
-      punit->activity_target = S_PILLAGE_BASE;
+    if (activity == ACTIVITY_PILLAGE) {
+      struct base_type *pbase = NULL;
+
+      if (punit->activity_target == S_OLD_FORTRESS) {
+        punit->activity_target = S_LAST;
+        pbase = find_base_type_by_rule_name("Fortress");
+      } else if (punit->activity_target == S_OLD_AIRBASE) {
+        punit->activity_target = S_LAST;
+        pbase = find_base_type_by_rule_name("Airbase");
+      }
+
+      if (pbase != NULL) {
+        punit->activity_base = base_index(pbase);
+      } else {
+        punit->activity_base = -1;
+      }
     }
 
     punit->done_moving = secfile_lookup_bool_default(file,

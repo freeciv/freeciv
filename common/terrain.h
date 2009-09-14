@@ -44,16 +44,12 @@ enum tile_special_type {
   /* internal values not saved */
   S_LAST,
   S_RESOURCE_VALID = S_LAST,
-
-  /* internal values not saved and never set */
-  S_LAST_PLUS,
-  S_PILLAGE_BASE = S_LAST_PLUS,
 };
 
 /* S_LAST-terminated */
 extern enum tile_special_type infrastructure_specials[];
 
-BV_DEFINE(bv_special, S_LAST_PLUS);
+BV_DEFINE(bv_special, S_LAST);
 
 /* NB: This does not include S_FORTRESS and S_AIRBASE.
  * You must use base_type_iterate and related accessors
@@ -292,8 +288,8 @@ bool contains_any_specials(bv_special all);
 /* Special helper functions */
 const char *get_infrastructure_text(bv_special pset, bv_bases bases);
 enum tile_special_type get_infrastructure_prereq(enum tile_special_type spe);
-enum tile_special_type get_preferred_pillage(bv_special pset,
-                                             struct base_type *pbase);
+int get_preferred_pillage(bv_special pset,
+                          bv_bases bases);
 
 /* Functions to operate on a terrain special. */
 bool is_special_near_tile(const struct tile *ptile,

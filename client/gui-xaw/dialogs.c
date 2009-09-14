@@ -543,8 +543,16 @@ static void pillage_callback(Widget w, XtPointer client_data,
   if (client_data) {
     struct unit *punit = game_find_unit_by_number (unit_to_use_to_pillage);
     if (punit) {
+      Base_type_id pillage_base = -1;
+      int what = XTPOINTER_TO_INT(client_data);
+
+      if (what > S_LAST) {
+        pillage_base = what - S_LAST - 1;
+        what = S_LAST;
+      }
+
       request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE,
-					 XTPOINTER_TO_INT(client_data));
+					 what, pillage_base);
     }
   }
 
@@ -557,10 +565,11 @@ static void pillage_callback(Widget w, XtPointer client_data,
 *****************************************************************/
 void popup_pillage_dialog(struct unit *punit,
 			  bv_special may_pillage,
-                          struct base_type *pbase)
+                          bv_bases bases)
 {
   Widget shell, form, dlabel, button, prev;
-  enum tile_special_type what, prereq;
+  int what;
+  enum tile_special_type prereq;
 
   if (is_showing_pillage_dialog) {
     return;
@@ -576,38 +585,37 @@ void popup_pillage_dialog(struct unit *punit,
   dlabel = I_L(XtVaCreateManagedWidget("dlabel", labelWidgetClass, form, NULL));
 
   prev = dlabel;
-  while ((what = get_preferred_pillage(may_pillage, pbase)) != S_LAST) {
+  while ((what = get_preferred_pillage(may_pillage, bases)) != S_LAST) {
     bv_special what_bv;
+    bv_bases what_base;
 
-    if (what != S_PILLAGE_BASE) {
-      bv_bases bases;
+    BV_CLR_ALL(what_bv);
+    BV_CLR_ALL(what_base);
 
-      BV_CLR_ALL(what_bv);
+    if (what > S_LAST) {
+      BV_SET(what_base, what - S_LAST - 1);
+    } else {
       BV_SET(what_bv, what);
-      BV_CLR_ALL(bases);
-      button =
-        XtVaCreateManagedWidget ("button", commandWidgetClass, form,
-                                 XtNfromVert, prev,
-                                 XtNlabel,
-                                 (XtArgVal)(get_infrastructure_text(what_bv,
-                                                                    bases)),
-                                 NULL);
-      XtAddCallback(button, XtNcallback, pillage_callback,
-                    INT_TO_XTPOINTER(what));
+    }
+
+    button =
+      XtVaCreateManagedWidget ("button", commandWidgetClass, form,
+                               XtNfromVert, prev,
+                               XtNlabel,
+                               (XtArgVal)(get_infrastructure_text(what_bv,
+                                                                  what_base)),
+                               NULL);
+    XtAddCallback(button, XtNcallback, pillage_callback,
+                  INT_TO_XTPOINTER(what));
+
+    if (what > S_LAST) {
+      BV_CLR(bases, what - S_LAST - 1);
+    } else {
       clear_special(&may_pillage, what);
       prereq = get_infrastructure_prereq(what);
       if (prereq != S_LAST) {
         clear_special(&may_pillage, prereq);
       }
-    } else {
-      button =
-        XtVaCreateManagedWidget ("button", commandWidgetClass, form,
-                                 XtNfromVert, prev,
-                                 XtNlabel,
-                                 (XtArgVal)(base_name_translation(pbase)),
-                                 NULL);
-      XtAddCallback(button, XtNcallback, pillage_callback,
-                    INT_TO_XTPOINTER(S_PILLAGE_BASE));
     }
     prev = button;
   }

@@ -1694,13 +1694,21 @@ static int pillage_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     struct unit *pUnit = pWidget->data.unit;
-    enum tile_special_type what = MAX_ID - pWidget->ID;
-    
+    int what = MAX_ID - pWidget->ID;
+
     popdown_pillage_dialog();
     
     if (pUnit) 
     {
-      request_new_unit_activity_targeted(pUnit, ACTIVITY_PILLAGE, what);
+      Base_type_id pillage_base = -1;
+
+      if (what > S_LAST) {
+        pillage_base = what - S_LAST - 1;
+        what = S_LAST;
+      }
+
+      request_new_unit_activity_targeted(pUnit, ACTIVITY_PILLAGE, what,
+                                         pillage_base);
     }
   }  
   return -1;
@@ -1735,17 +1743,18 @@ static void popdown_pillage_dialog(void)
 **************************************************************************/
 void popup_pillage_dialog(struct unit *pUnit,
 			  bv_special may_pillage,
-                          struct base_type *pbase)
+                          bv_bases bases)
 {
   struct widget *pWindow = NULL, *pBuf = NULL;
   SDL_String16 *pStr;
-  enum tile_special_type what, prereq;
+  int what;
+  enum tile_special_type prereq;
   SDL_Rect area;
-  
+
   if (pPillage_Dlg) {
     return;
   }
-  
+
   is_unit_move_blocked = TRUE;
   pPillage_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
   
@@ -1778,30 +1787,39 @@ void popup_pillage_dialog(struct unit *pUnit,
   add_to_gui_list(ID_PILLAGE_DLG_EXIT_BUTTON, pBuf);
   /* ---------- */
   
-  while ((what = get_preferred_pillage(may_pillage, pbase)) != S_LAST) {
-      
+  while ((what = get_preferred_pillage(may_pillage, bases)) != S_LAST) {
     bv_special what_bv;
+    bv_bases what_base;
+    const char *name;
 
-    if (what != S_PILLAGE_BASE) {
-      BV_CLR_ALL(what_bv);
+    BV_CLR_ALL(what_bv);
+    BV_CLR_ALL(what_base);
+
+    if (what > S_LAST) {
+      struct base_type *pbase = base_by_number(what - S_LAST - 1);
+      BV_SET(what_base, what - S_LAST - 1);
+      name = base_name_translation(pbase);
+    } else {
       BV_SET(what_bv, what);
-    
-      create_active_iconlabel(pBuf, pWindow->dst, pStr,
-                              (char *) special_name_translation(what), pillage_callback);
+      name = special_name_translation(what);
+    }
+
+    create_active_iconlabel(pBuf, pWindow->dst, pStr,
+                            (char *) name, pillage_callback);
+
+    if (what > S_LAST) {
+      BV_CLR(bases, what - S_LAST - 1);
+    } else {
       clear_special(&may_pillage, what);
       prereq = get_infrastructure_prereq(what);
       if (prereq != S_LAST) {
-        clear_special(&may_pillage, prereq);  
+        clear_special(&may_pillage, prereq);
       }
-    } else {
-      create_active_iconlabel(pBuf, pWindow->dst, pStr,
-                              (char *) base_name_translation(pbase), pillage_callback);
-      pbase = NULL;
     }
 
     pBuf->data.unit = pUnit;
     set_wstate(pBuf, FC_WS_NORMAL);
-  
+
     add_to_gui_list(MAX_ID - what, pBuf);
     
     area.w = MAX(area.w, pBuf->size.w);

@@ -318,11 +318,19 @@ void popup_revolution_dialog(struct government *government)
 static void pillage_callback(GtkWidget *w, gpointer data)
 {
   struct unit *punit;
+  int what = GPOINTER_TO_INT(data);
 
   punit = game_find_unit_by_number(unit_to_use_to_pillage);
   if (punit) {
+    Base_type_id pillage_base = -1;
+
+    if (what > S_LAST) {
+      pillage_base = what - S_LAST - 1;
+      what = S_LAST;
+    }
+
     request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE,
-                                       GPOINTER_TO_INT(data));
+                                       what, pillage_base);
   }
 }
 
@@ -335,14 +343,15 @@ static void pillage_destroy_callback(GtkWidget *w, gpointer data)
 }
 
 /****************************************************************
-...
+  Opens pillage dialog listing possible pillage targets.
 *****************************************************************/
 void popup_pillage_dialog(struct unit *punit,
 			  bv_special may_pillage,
-                          struct base_type *pbase)
+                          bv_bases bases)
 {
   GtkWidget *shl;
-  enum tile_special_type what, prereq;
+  int what;
+  enum tile_special_type prereq;
 
   if (!is_showing_pillage_dialog) {
     is_showing_pillage_dialog = TRUE;
@@ -352,30 +361,30 @@ void popup_pillage_dialog(struct unit *punit,
 			       _("What To Pillage"),
 			       _("Select what to pillage:"));
 
-    while ((what = get_preferred_pillage(may_pillage, pbase)) != S_LAST) {
+    while ((what = get_preferred_pillage(may_pillage, bases)) != S_LAST) {
       bv_special what_bv;
-      bv_bases bases;
+      bv_bases what_base;
 
-      if (what != S_PILLAGE_BASE) {
-        BV_CLR_ALL(what_bv);
+      BV_CLR_ALL(what_bv);
+      BV_CLR_ALL(what_base);
+
+      if (what > S_LAST) {
+        BV_SET(what_base, what - S_LAST - 1);
+      } else {
         BV_SET(what_bv, what);
-        BV_CLR_ALL(bases);
-        if (pbase) {
-          BV_SET(bases, base_index(pbase));
-        }
-        choice_dialog_add(shl, get_infrastructure_text(what_bv, bases),
-                          G_CALLBACK(pillage_callback), GINT_TO_POINTER(what));
+      }
 
+      choice_dialog_add(shl, get_infrastructure_text(what_bv, what_base),
+                        G_CALLBACK(pillage_callback), GINT_TO_POINTER(what));
+
+      if (what > S_LAST) {
+        BV_CLR(bases, what - S_LAST - 1);
+      } else {
         clear_special(&may_pillage, what);
         prereq = get_infrastructure_prereq(what);
         if (prereq != S_LAST) {
           clear_special(&may_pillage, prereq);
         }
-      } else {
-        choice_dialog_add(shl, base_name_translation(pbase),
-                          G_CALLBACK(pillage_callback),
-                          GINT_TO_POINTER(S_PILLAGE_BASE));
-        pbase = NULL;
       }
     }
 

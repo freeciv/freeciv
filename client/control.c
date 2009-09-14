@@ -1391,10 +1391,11 @@ void request_new_unit_activity(struct unit *punit, enum unit_activity act)
 **************************************************************************/
 void request_new_unit_activity_targeted(struct unit *punit,
 					enum unit_activity act,
-					enum tile_special_type tgt)
+					enum tile_special_type tgt,
+                                        Base_type_id base)
 {
   dsend_packet_unit_change_activity(&client.conn, punit->id, act, tgt,
-                                    -1);
+                                    base);
 }
 
 /**************************************************************************
@@ -1637,8 +1638,8 @@ void request_unit_fortify(struct unit *punit)
 void request_unit_pillage(struct unit *punit)
 {
   bv_special pspossible;
+  bv_bases bases;
   struct tile *ptile = punit->tile;
-  struct base_type *first_base = NULL;
   bv_special pspresent = get_tile_infrastructure_set(ptile, NULL);
   bv_special psworking = get_unit_tile_pillage_set(ptile);
   int count = 0;
@@ -1651,21 +1652,29 @@ void request_unit_pillage(struct unit *punit)
     }
   } tile_special_type_iterate_end;
 
+  BV_CLR_ALL(bases);
   base_type_iterate(pbase) {
     if (tile_has_base(ptile, pbase)) {
       if (pbase->pillageable) {
-        first_base = pbase;
-        break;
+        BV_SET(bases, base_index(pbase));
+        count++;
       }
     }
   } base_type_iterate_end;
 
-  if (count > 1 || first_base) {
-    popup_pillage_dialog(punit, pspossible, first_base);
+  if (count > 1) {
+    popup_pillage_dialog(punit, pspossible, bases);
   } else {
-    enum tile_special_type what = get_preferred_pillage(pspossible, NULL);
+    Base_type_id pillage_base = -1;
+    int what = get_preferred_pillage(pspossible, bases);
 
-    request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE, what);
+    if (what > S_LAST) {
+      pillage_base = what - S_LAST - 1;
+      what = S_LAST;
+    }
+
+    request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE, what,
+                                       pillage_base);
   }
 }
 
