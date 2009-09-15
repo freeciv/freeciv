@@ -546,19 +546,19 @@ gboolean inputline_handler(GtkWidget *w, GdkEventKey *ev)
     /* Chatline featured text support. */
     switch (ev->keyval) {
     case GDK_b:
-      inputline_make_tag(TTT_BOLD);
+      inputline_make_tag(GTK_ENTRY(w), TTT_BOLD);
       return TRUE;
 
     case GDK_i:
-      inputline_make_tag(TTT_ITALIC);
+      inputline_make_tag(GTK_ENTRY(w), TTT_ITALIC);
       return TRUE;
 
     case GDK_s:
-      inputline_make_tag(TTT_STRIKE);
+      inputline_make_tag(GTK_ENTRY(w), TTT_STRIKE);
       return TRUE;
 
     case GDK_u:
-      inputline_make_tag(TTT_UNDERLINE);
+      inputline_make_tag(GTK_ENTRY(w), TTT_UNDERLINE);
       return TRUE;
 
     default:
