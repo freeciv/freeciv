@@ -29,6 +29,9 @@ struct section_file {
   struct sbuffer *sb;
 };
 
+typedef void (*error_func_t)(int loglevel, const char *format, ...)
+                             fc__attribute((__format__ (__printf__, 2, 3)));
+
 void section_file_init(struct section_file *file);
 bool section_file_load(struct section_file *my_section_file,
 		       const char *filename);
@@ -97,6 +100,12 @@ char *secfile_lookup_str_int(struct section_file *my_section_file,
 int secfile_lookup_int_default(struct section_file *my_section_file,
                                int def, const char *path, ...)
                                fc__attribute((__format__ (__printf__, 3, 4)));
+
+int secfile_lookup_int_default_min_max(error_func_t error_handle,
+                                       struct section_file *my_section_file,
+                                       int def, int minval, int maxval,
+                                       const char *path, ...)
+                                       fc__attribute((__format__ (__printf__, 6, 7)));
 
 bool secfile_lookup_bool_default(struct section_file *my_section_file,
 				 bool def, const char *path, ...)

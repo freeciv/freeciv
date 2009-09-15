@@ -194,10 +194,6 @@ bool setting_class_is_changeable(enum sset_class class);
 #define GAME_MIN_AIFILL              0
 #define GAME_MAX_AIFILL              GAME_MAX_MAX_PLAYERS
 
-#define GAME_DEFAULT_GOLD_UPKEEP_STYLE 0
-#define GAME_MIN_GOLD_UPKEEP_STYLE     0
-#define GAME_MAX_GOLD_UPKEEP_STYLE     2
-
 #define GAME_DEFAULT_FOODBOX         100
 #define GAME_MIN_FOODBOX             1
 #define GAME_MAX_FOODBOX             10000
@@ -222,10 +218,6 @@ bool setting_class_is_changeable(enum sset_class class);
 #define GAME_MAX_BORDERS             3
 
 #define GAME_DEFAULT_HAPPYBORDERS    TRUE
-
-#define GAME_DEFAULT_SLOW_INVASIONS  TRUE
-
-#define GAME_DEFAULT_TIRED_ATTACK    FALSE
 
 #define GAME_DEFAULT_DIPLOMACY       0
 #define GAME_MIN_DIPLOMACY           0
@@ -409,5 +401,123 @@ bool setting_class_is_changeable(enum sset_class class);
 #define GAME_START_YEAR -4000
 
 #define GAME_MAX_READ_RECURSION 10 /* max recursion for the read command */
+
+/* ruleset settings */
+
+#define RS_MAX_VALUE                             10000
+
+#define RS_DEFAULT_POS_YEAR_LABEL                "AD"
+#define RS_DEFAULT_NEG_YEAR_LABEL                "BC"
+
+#define RS_DEFAULT_ILLNESS_ON                    FALSE
+
+#define RS_DEFAULT_ILLNESS_BASE_FACTOR           25
+#define RS_MIN_ILLNESS_BASE_FACTOR               0
+#define RS_MAX_ILLNESS_BASE_FACTOR               RS_MAX_VALUE
+
+#define RS_DEFAULT_ILLNESS_MIN_SIZE              3
+#define RS_MIN_ILLNESS_MIN_SIZE                  1
+#define RS_MAX_ILLNESS_MIN_SIZE                  100
+
+#define RS_DEFAULT_ILLNESS_TRADE_INFECTION_PCT   50
+#define RS_MIN_ILLNESS_TRADE_INFECTION_PCT       0
+#define RS_MAX_ILLNESS_TRADE_INFECTION_PCT       500
+
+#define RS_DEFAULT_ILLNESS_POLLUTION_PCT         50
+#define RS_MIN_ILLNESS_POLLUTION_PCT             0
+#define RS_MAX_ILLNESS_POLLUTION_PCT             500
+
+#define RS_DEFAULT_CALENDAR_SKIP_0               TRUE
+
+#define RS_DEFAULT_BORDER_RADIUS_SQ_CITY         17 /* city radius 4 */
+#define RS_MIN_BORDER_RADIUS_SQ_CITY             0
+#define RS_MAX_BORDER_RADIUS_SQ_CITY             401 /* city radius 20 */
+
+#define RS_DEFAULT_BORDER_SIZE_EFFECT            1
+#define RS_MIN_BORDER_SIZE_EFFECT                0
+#define RS_MAX_BORDER_SIZE_EFFECT                100
+
+#define RS_DEFAULT_INCITE_BASE_COST              1000
+#define RS_MIN_INCITE_BASE_COST                  0
+#define RS_MAX_INCITE_BASE_COST                  RS_MAX_VALUE
+
+#define RS_DEFAULT_INCITE_IMPROVEMENT_FCT        1
+#define RS_MIN_INCITE_IMPROVEMENT_FCT            0
+#define RS_MAX_INCITE_IMPROVEMENT_FCT            RS_MAX_VALUE
+
+#define RS_DEFAULT_INCITE_UNIT_FCT               2
+#define RS_MIN_INCITE_UNIT_FCT                   0
+#define RS_MAX_INCITE_UNIT_FCT                   RS_MAX_VALUE
+
+#define RS_DEFAULT_INCITE_TOTAL_FCT              100
+#define RS_MIN_INCITE_TOTAL_FCT                  0
+#define RS_MAX_INCITE_TOTAL_FCT                  RS_MAX_VALUE
+
+#define RS_DEFAULT_GRANARY_FOOD_INI              20
+
+#define RS_DEFAULT_GRANARY_FOOD_INC              10
+#define RS_MIN_GRANARY_FOOD_INC                  0
+#define RS_MAX_GRANARY_FOOD_INC                  RS_MAX_VALUE
+
+#define RS_DEFAULT_CITY_CENTER_OUTPUT            0
+#define RS_MIN_CITY_CENTER_OUTPUT                0
+#define RS_MAX_CITY_CENTER_OUTPUT                RS_MAX_VALUE
+
+#define RS_DEFAULT_CITIES_MIN_DIST               2
+#define RS_MIN_CITIES_MIN_DIST                   1
+#define RS_MAX_CITIES_MIN_DIST                   RS_MAX_VALUE
+
+#define RS_DEFAULT_VIS_RADIUS_SQ                 5 /* city radius 2 */
+#define RS_MIN_VIS_RADIUS_SQ                     0
+#define RS_MAX_VIS_RADIUS_SQ                     401 /* city radius 20 */
+
+#define RS_DEFAULT_BASE_POLLUTION                -20
+/* no min / max values as it can be set to high negative values to
+ * deactiveate pollution and high positive values to create much
+ * pollution */
+
+#define RS_DEFAULT_HAPPY_COST                    2
+#define RS_MIN_HAPPY_COST                        0
+#define RS_MAX_HAPPY_COST                        100
+
+#define RS_DEFAULT_FOOD_COST                     2
+#define RS_MIN_FOOD_COST                         0
+#define RS_MAX_FOOD_COST                         100
+
+#define RS_DEFAULT_GOLD_UPKEEP_STYLE             0
+#define RS_MIN_GOLD_UPKEEP_STYLE                 0
+#define RS_MAX_GOLD_UPKEEP_STYLE                 2
+
+#define RS_DEFAULT_SLOW_INVASIONS                TRUE
+
+#define RS_DEFAULT_TIRED_ATTACK                  FALSE
+
+#define RS_DEFAULT_KILLSTACK                     TRUE
+
+#define RS_DEFAULT_BASE_BRIBE_COST               750
+#define RS_MIN_BASE_BRIBE_COST                   0
+#define RS_MAX_BASE_BRIBE_COST                   RS_MAX_VALUE
+
+#define RS_DEFAULT_RANSOM_GOLD                   100
+#define RS_MIN_RANSOM_GOLD                       0
+#define RS_MAX_RANSOM_GOLD                       RS_MAX_VALUE
+
+#define RS_DEFAULT_PILLAGE_SELECT                TRUE
+
+#define RS_DEFAULT_UPGRADE_VETERAN_LOSS          0
+#define RS_MIN_UPGRADE_VETERAN_LOSS              0
+#define RS_MAX_UPGRADE_VETERAN_LOSS              MAX_VET_LEVELS
+
+#define RS_DEFAULT_BASE_TECH_COST                20
+#define RS_MIN_BASE_TECH_COST                    0
+#define RS_MAX_BASE_TECH_COST                    200
+
+#define RS_DEFAULT_TECH_COST_STYLE               0
+#define RS_MIN_TECH_COST_STYLE                   0
+#define RS_MAX_TECH_COST_STYLE                   2
+
+#define RS_DEFAULT_TECH_LEAKAGE                  0
+#define RS_MIN_TECH_LEAKAGE                      0
+#define RS_MAX_TECH_LEAKAGE                      3
 
 #endif  /* FC__GAME_H */
