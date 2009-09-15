@@ -2398,11 +2398,14 @@ void srv_main(void)
   /* Run server loop */
   do {
     freelog(LOG_NORMAL, _("Now accepting new client connections."));
+    /* Remain in S_S_INITIAL until all players are ready. */
     while (S_S_INITIAL == server_state()) {
+      /* Server state is set to S_S_GENERATING_WAITING in start_game()
+       * called within server_sniff_all_input(). */
       server_sniff_all_input(); /* Accepting commands. */
     }
 
-    srv_ready();
+    srv_ready(); /* srv_ready() sets server state to S_S_RUNNING. */
     srv_running();
     srv_scores();
 
