@@ -45,12 +45,12 @@
 /* Define this to add in extra (very slow) assertions for the city code. */
 #undef CITY_DEBUGGING
 
-/* Iterate a city map, from the center (the city) outwards */
-struct iter_index *city_map_iterate_outwards_indices;
+/* Get city tile informations using the city tile index. */
+static struct iter_index *city_map_index;
 
 struct citystyle *city_styles = NULL;
 
-int city_tiles;
+static int city_tiles;
 
 /* One day these values may be read in from the ruleset.  In the meantime
  * they're just an easy way to access information about each output type. */
@@ -62,6 +62,45 @@ struct output_type output_types[O_LAST] = {
   {O_LUXURY, N_("Luxury"), "luxury", FALSE, UNHAPPY_PENALTY_NONE},
   {O_SCIENCE, N_("Science"), "science", FALSE, UNHAPPY_PENALTY_ALL_PRODUCTION}
 };
+
+/**************************************************************************
+  Returns the coordinates for the given city tile index taking into account
+  the city radius.
+**************************************************************************/
+bool city_tile_index_to_xy(int *city_map_x, int *city_map_y,
+                           int city_tile_index, int city_radius)
+{
+  assert(city_radius >= CITY_MAP_RADIUS);
+  assert(city_radius <= CITY_MAP_RADIUS);
+
+  /* tile indices are sorted from smallest to largest city radius */
+  if (city_tile_index < 0
+      || city_tile_index >= city_tiles) {
+    return FALSE;
+  }
+
+  *city_map_x = CITY_MAP_RADIUS + city_map_index[city_tile_index].dx;
+  *city_map_y = CITY_MAP_RADIUS + city_map_index[city_tile_index].dy;
+
+  return TRUE;
+}
+
+/**************************************************************************
+  Return the number of tiles for the given city radius. Special case is
+  the value -1 for no city tiles.
+**************************************************************************/
+int city_map_tiles(int city_radius)
+{
+  if (city_radius == -1) {
+    /* special case: minimal index value = city center */
+    return 0;
+  }
+
+  assert(city_radius >= CITY_MAP_RADIUS);
+  assert(city_radius <= CITY_MAP_RADIUS);
+
+  return city_tiles;
+}
 
 /**************************************************************************
   Return TRUE if the given city coordinate pair is "valid"; that is, if it
@@ -181,7 +220,7 @@ int compare_iter_index(const void *a, const void *b)
 void generate_city_map_indices(void)
 {
   int i = 0, dx, dy;
-  struct iter_index *array = city_map_iterate_outwards_indices;
+  struct iter_index *array = city_map_index;
 
   /* We don't use city-map iterators in this function because they may
    * rely on the indices that have not yet been generated. */
@@ -220,7 +259,7 @@ void generate_city_map_indices(void)
   }
 #endif
 
-  city_map_iterate_outwards_indices = array;
+  city_map_index = array;
 
   cm_init_citymap();
 }

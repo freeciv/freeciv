@@ -13,8 +13,8 @@
 #ifndef FC__CITY_H
 #define FC__CITY_H
 
+/* common */
 #include "fc_types.h"
-
 #include "improvement.h"
 #include "unitlist.h"
 #include "vision.h"
@@ -73,57 +73,72 @@ BV_DEFINE(bv_city_options, CITYO_LAST);
  */
 #define MAX_CITY_SIZE					100
 
-/*
- * Iterate a city map.  This iterates over all city positions in the
- * city map (i.e., positions that are workable by the city) in unspecified
- * order.
- */
-#define city_map_iterate(x, y) city_map_iterate_outwards(x, y)
-#define city_map_iterate_end city_map_iterate_outwards_end
-
 /* Iterate a city map, from the center (the city) outwards */
-extern struct iter_index {
+struct iter_index {
   int dx, dy, dist;
-} *city_map_iterate_outwards_indices;
-extern int city_tiles;
+};
 
-/* Iterate a city map, from the center (the city) outward.
- * (_x, _y) will be elements of [0,CITY_MAP_SIZE].
- */
-#define city_map_iterate_outwards(_x, _y)				\
+bool city_tile_index_to_xy(int *city_map_x, int *city_map_y,
+                           int city_tile_index, int city_radius);
+int city_map_tiles(int city_radius);
+
+/* Iterate over the tiles of a city map. Starting at a given city radius
+ * (starting at the city center is possible using _radius_min = -1) outward
+ * to the tiles of _radius_max. (_x, _y) will be the valid elements of
+ * [0, CITY_MAP_SIZE] taking into account the city radius. */
+#define city_map_iterate_outwards_radius(_radius_min, _radius_max,	\
+                                         _index, _x, _y)		\
 {									\
-  int _x, _y;								\
-  int _x##_y##_index = 0;						\
-  for (;								\
-       _x##_y##_index < CITY_TILES;					\
-       _x##_y##_index++) {						\
-    _x = CITY_MAP_RADIUS						\
-       + city_map_iterate_outwards_indices[_x##_y##_index].dx;		\
-    _y = CITY_MAP_RADIUS						\
-       + city_map_iterate_outwards_indices[_x##_y##_index].dy;
+  assert(_radius_min <= _radius_max);					\
+  int _x = 0, _y = 0, _index;						\
+  int _x##_y##_index = city_map_tiles(_radius_min);			\
+  while (city_tile_index_to_xy(&_x, &_y, _x##_y##_index,		\
+                               _radius_max)) {				\
+    _index = _x##_y##_index;						\
+    _x##_y##_index++;
 
-#define city_map_iterate_outwards_end					\
+#define city_map_iterate_outwards_radius_end				\
   }									\
 }
 
-/*
- * Iterate a city map in checked real map coordinates.
+/* Iterate a city map. This iterates over all city positions in the city
+ * map starting at the city center (i.e., positions that are workable by
+ * the city) using the coordinates (_x, _y). It is an abbreviation for
+ * city_map_iterate_outwards_radius(_end). */
+#define city_map_iterate(_x, _y)					\
+  city_map_iterate_outwards_radius(-1, CITY_MAP_RADIUS, _index##_x_y,	\
+                                   _x, _y)
+
+#define city_map_iterate_end						\
+  city_map_iterate_outwards_radius_end
+
+/* Iterate the tiles between two radii of a city map. */
+#define city_map_iterate_radius(_radius_min, _radius_max, _x, _y)	\
+  city_map_iterate_outwards_radius(_radius_min, _radius_max,		\
+                                   _index##_x_y, _x, _y)
+
+#define city_map_iterate_radius_end					\
+  city_map_iterate_outwards_radius_end
+
+/* Iterate a city map in checked real map coordinates.
+ * _radius is the city radius.
  * _city_tile is the center of the (possible) city.
- * (_x, _y) will be elements of [0,CITY_MAP_SIZE].
- */
+ * (_x, _y) will be the valid elements of [0, CITY_MAP_SIZE] taking
+ * into account the city radius. */
 #define city_tile_iterate_cxy(_city_tile, _tile, _x, _y) {		\
-  city_map_iterate_outwards(_x, _y) {					\
+  city_map_iterate(_x, _y) {						\
     struct tile *_tile = city_map_to_tile(_city_tile, _x, _y);		\
     if (NULL != _tile) {
 
 #define city_tile_iterate_cxy_end					\
     }									\
-  } city_map_iterate_outwards_end					\
+  } city_map_iterate_end						\
 }
 
 /* simple extension to skip is_free_worked() tiles. */
-#define city_tile_iterate_skip_free_cxy(_city_tile, _tile, _x, _y) {	\
-  city_map_iterate_outwards(_x, _y) {					\
+#define city_tile_iterate_skip_free_cxy(_city_tile, _tile,		\
+                                        _x, _y) {			\
+  city_map_iterate(_x, _y) {						\
     if (!is_free_worked_cxy(_x, _y)) {					\
       struct tile *_tile = city_map_to_tile(_city_tile, _x, _y);	\
       if (NULL != _tile) {
@@ -131,19 +146,28 @@ extern int city_tiles;
 #define city_tile_iterate_skip_free_cxy_end				\
       }									\
     }									\
-  } city_map_iterate_outwards_end;					\
+ } city_map_iterate_end;						\
 }
 
 /* Does the same thing as city_tile_iterate_cxy, but keeps the city
  * coordinates hidden. */
 #define city_tile_iterate(_city_tile, _tile)				\
 {									\
-  city_tile_iterate_cxy(_city_tile, _tile, _tile##_x, _tile##_y) { 
+  city_tile_iterate_cxy(_city_tile, _tile, _tile##_x, _tile##_y) {
 
-#define city_tile_iterate_end						\
-  } city_tile_iterate_cxy_end;						\
-}
+ #define city_tile_iterate_end						\
+   } city_tile_iterate_cxy_end;						\
+ }
 
+/* Iterate a city map. This iterates over all city positions in the city
+ * map starting at the city center (i.e., positions that are workable by
+ * the city) using the index (_index). It is an abbreviation for
+ * city_map_iterate_outwards_radius(_end). */
+#define city_map_iterate_index_xy(_index, _x, _y)			\
+  city_map_iterate_outwards_radius(-1, CITY_MAP_RADIUS, _index, _x, _y)
+
+#define city_map_iterate_index_xy_end					\
+  city_map_iterate_outwards_radius_end
 
 /* Improvement status (for cities' lists of improvements)
  * (replaced Impr_Status) */
