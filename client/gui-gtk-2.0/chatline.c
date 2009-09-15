@@ -136,10 +136,10 @@ void inputline_return(GtkEntry *w, gpointer data)
 /**************************************************************************
   Make a text tag for the selected text.
 **************************************************************************/
-void inputline_make_tag(enum text_tag_type type)
+void inputline_make_tag(GtkEntry *w, enum text_tag_type type)
 {
   char buf[MAX_LEN_MSG];
-  GtkEditable *editable = GTK_EDITABLE(inputline);
+  GtkEditable *editable = GTK_EDITABLE(w);
   gint start_pos, end_pos;
   gchar *selection;
 
@@ -164,10 +164,10 @@ void inputline_make_tag(enum text_tag_type type)
   Make a chat link at the current position or make the current selection
   clickable.
 **************************************************************************/
-void inputline_make_chat_link(struct tile *ptile, bool unit)
+void inputline_make_chat_link(GtkEntry *w, struct tile *ptile, bool unit)
 {
   char buf[MAX_LEN_MSG];
-  GtkEditable *editable = GTK_EDITABLE(inputline);
+  GtkEditable *editable = GTK_EDITABLE(w);
   gint start_pos, end_pos;
   gchar *chars;
   struct unit *punit;
@@ -206,7 +206,7 @@ void inputline_make_chat_link(struct tile *ptile, bool unit)
       gtk_editable_delete_text(editable, start_pos, end_pos);
       end_pos = start_pos;
       gtk_editable_insert_text(editable, buf, -1, &end_pos);
-      gtk_widget_grab_focus(inputline);
+      gtk_widget_grab_focus(GTK_WIDGET(w));
       gtk_editable_select_region(editable, start_pos, end_pos);
     }
   } else {
@@ -233,7 +233,7 @@ void inputline_make_chat_link(struct tile *ptile, bool unit)
       /* Maybe insert an extra space. */
       gtk_editable_insert_text(editable, " ", 1, &end_pos);
     }
-    gtk_widget_grab_focus(inputline);
+    gtk_widget_grab_focus(GTK_WIDGET(w));
     gtk_editable_set_position(editable, end_pos);
   }
 

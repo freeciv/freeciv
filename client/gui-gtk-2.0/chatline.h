@@ -27,8 +27,8 @@ extern struct genlist *history_list;
 extern int history_pos;
 
 void inputline_return(GtkEntry *w, gpointer data);
-void inputline_make_tag(enum text_tag_type type);
-void inputline_make_chat_link(struct tile *ptile, bool unit);
+void inputline_make_tag(GtkEntry *w, enum text_tag_type type);
+void inputline_make_chat_link(GtkEntry *w, struct tile *ptile, bool unit);
 
 void set_output_window_text(const char *text);
 void chatline_scroll_to_bottom(void);
