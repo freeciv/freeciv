@@ -986,9 +986,11 @@ static void end_turn(void)
 
 /**************************************************************************
   Generate a default save file name and place it in the provided buffer.
-  The name will be of the form "<prefix>-T<turn>-Y<year><suffix><m>" where:
+  The name will be of the form
+  "<prefix>-<reason>-T<turn>-Y<year><suffix><m>" where:
 
     <prefix> = game.save_name
+    <reason> = save reason if not normal save
     <turn>   = game.info.turn (zero padded to 3 places)
     <year>   = game.info.year (not padded and no sign)
     <suffix> = "BC" or "AD" for negative or positive year resp.
@@ -997,7 +999,8 @@ static void end_turn(void)
   Returns the number of characters written, or the number of characters
   that would have been written if truncation occurs.
 **************************************************************************/
-static int generate_save_name(char *buf, int buflen, bool is_auto_save)
+static int generate_save_name(char *buf, int buflen, bool is_auto_save,
+                              const char *reason)
 {
   int nb, year;
   const char *year_suffix;
@@ -1012,9 +1015,16 @@ static int generate_save_name(char *buf, int buflen, bool is_auto_save)
 
   /* NB: If you change the format here, be sure to update the above
    * function comment and the help text for the 'savename' setting. */
-  nb = my_snprintf(buf, buflen, "%s-T%03d-Y%d%s%s",
-                   game.server.save_name, game.info.turn, year,
-                   year_suffix, is_auto_save ? "" : "m");
+  if (reason == NULL) {
+    nb = my_snprintf(buf, buflen, "%s-T%03d-Y%d%s%s",
+                     game.server.save_name, game.info.turn, year,
+                     year_suffix, is_auto_save ? "" : "m");
+  } else {
+    nb = my_snprintf(buf, buflen, "%s-%s-T%03d-Y%d%s%s",
+                     game.server.save_name, reason, game.info.turn, year,
+                     year_suffix, is_auto_save ? "" : "m");
+  }
+
   return nb;
 }
 
@@ -1045,7 +1055,7 @@ void save_game(char *orig_filename, const char *save_reason, bool scenario)
 
   /* If orig_filename is NULL or empty, use a generated default name. */
   if (filename[0] == '\0'){
-    generate_save_name(filename, sizeof(filename), FALSE);
+    generate_save_name(filename, sizeof(filename), FALSE, NULL);
   }
   
   timer_cpu = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
@@ -1123,13 +1133,13 @@ void save_game(char *orig_filename, const char *save_reason, bool scenario)
 /**************************************************************************
 Save game with autosave filename
 **************************************************************************/
-void save_game_auto(const char *save_reason)
+void save_game_auto(const char *save_reason, const char *reason_filename)
 {
   char filename[512];
 
   assert(strlen(game.server.save_name)<256);
-  
-  generate_save_name(filename, sizeof(filename), TRUE);
+
+  generate_save_name(filename, sizeof(filename), TRUE, reason_filename);
   save_game(filename, save_reason, FALSE);
   save_ppm();
 }
@@ -2022,7 +2032,7 @@ static void srv_running(void)
       if (game.info.phase == 0) {
 	if (save_counter >= game.info.save_nturns && game.info.save_nturns > 0) {
 	  save_counter = 0;
-	  save_game_auto("Autosave");
+	  save_game_auto("Autosave", NULL);
 	}
 	save_counter++;
       }
@@ -2180,7 +2190,7 @@ static void srv_scores(void)
       && conn_list_size(game.est_connections) > 0) {
     /* Save game on game_over, but not when the gameover was caused by
      * the -q parameter. */
-    save_game_auto("Game over");
+    save_game_auto("Game over", "final");
   }
 }
 
