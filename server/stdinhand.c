@@ -3408,7 +3408,7 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check)
              _("Current ruleset directory is \"%s\""), game.rulesetdir);
     return FALSE;
   }
-  if (S_S_INITIAL != server_state()) {
+  if (S_S_INITIAL != server_state() || !game.info.is_new_game) {
     cmd_reply(CMD_RULESETDIR, caller, C_FAIL,
               _("This setting can't be modified after the game has started."));
     return FALSE;
