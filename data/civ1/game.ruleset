@@ -59,10 +59,10 @@ init_vis_radius_sq      = 2
 nuke_contamination      = "Pollution"
 
 ; Number of veteran levels lost when upgrading a unit
-upgrade_veteran_loss     = 255
+upgrade_veteran_loss     = 10
 
 ; Number of veteran levels lost when auto-upgrading a unit
-autoupgrade_veteran_loss = 255
+autoupgrade_veteran_loss = 10
 
 ; Whether player gets to select which terrain improvement to pillage.
 pillage_select           = 0

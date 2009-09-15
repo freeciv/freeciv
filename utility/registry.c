@@ -1185,6 +1185,47 @@ int secfile_lookup_int_default(struct section_file *my_section_file,
 }
 
 /**************************************************************************
+  As secfile_lookup_int_default(), but also check the range [min/max].
+**************************************************************************/
+int secfile_lookup_int_default_min_max(error_func_t error_handle,
+                                       struct section_file *my_section_file,
+                                       int def, int minval, int maxval,
+                                       const char *path, ...)
+{
+  assert(error_handle != NULL);
+
+  char buf[MAX_LEN_BUFFER];
+  va_list ap;
+  int ival;
+
+  va_start(ap, path);
+  my_vsnprintf(buf, sizeof(buf), path, ap);
+  va_end(ap);
+
+  ival = secfile_lookup_int_default(my_section_file, def, buf);
+
+  if(ival < minval) {
+    error_handle(LOG_ERROR, "sectionfile %s: '%s' should be in the "
+                            "interval [%d, %d] but is %d; using the "
+                            "minimal value.",
+                 secfile_filename(my_section_file), buf, minval, maxval,
+                 ival);
+    ival = minval;
+  }
+
+  if(ival > maxval) {
+    error_handle(LOG_ERROR, "sectionfile %s: '%s' should be in the "
+                            "interval [%d, %d] but is %d; using the "
+                            "maximal value.",
+                 secfile_filename(my_section_file), buf, minval, maxval,
+                 ival);
+    ival = maxval;
+  }
+
+  return ival;
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 bool secfile_lookup_bool(struct section_file *my_section_file, 

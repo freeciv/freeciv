@@ -299,7 +299,7 @@ void game_init(void)
   game.info.fogofwar      = GAME_DEFAULT_FOGOFWAR;
   game.info.borders       = GAME_DEFAULT_BORDERS;
   game.info.happyborders  = GAME_DEFAULT_HAPPYBORDERS;
-  game.info.slow_invasions= GAME_DEFAULT_SLOW_INVASIONS;
+  game.info.slow_invasions= RS_DEFAULT_SLOW_INVASIONS;
   game.info.auto_ai_toggle= GAME_DEFAULT_AUTO_AI_TOGGLE;
   game.info.notradesize   = GAME_DEFAULT_NOTRADESIZE;
   game.info.fulltradesize = GAME_DEFAULT_FULLTRADESIZE;

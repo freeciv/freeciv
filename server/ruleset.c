@@ -129,14 +129,13 @@ static void send_ruleset_game(struct conn_list *dest);
 static bool nation_has_initial_tech(struct nation_type *pnation,
                                     struct advance *tech);
 static bool sanity_check_ruleset_data(void);
-
+static void ruleset_error(int loglevel, const char *format, ...)
+                          fc__attribute((__format__ (__printf__, 2, 3)));
 
 /**************************************************************************
   Notifications about ruleset errors to clients. Especially important in
   case of internal server crashing.
 **************************************************************************/
-static void ruleset_error(int loglevel, const char *format, ...)
-                          fc__attribute((__format__ (__printf__, 2, 3)));
 static void ruleset_error(int loglevel, const char *format, ...)
 {
   va_list args;
@@ -2961,7 +2960,7 @@ static void load_ruleset_effects(struct section_file *file)
 }
 
 /**************************************************************************
-Load ruleset file
+  Load ruleset file.
 **************************************************************************/
 static void load_ruleset_game(void)
 {
@@ -2974,9 +2973,12 @@ static void load_ruleset_game(void)
 
   openload_ruleset_file(&file, "game");
   filename = secfile_filename(&file);
+
+  /* section: datafile */
   (void) check_ruleset_capabilities(&file, "+1.11.1", filename);
   (void) section_file_lookup(&file, "datafile.description");	/* unused */
 
+  /* section: tileset */
   text = secfile_lookup_str_default(&file, "", "tileset.prefered");
   if (text[0] != '\0') {
     /* There was tileset suggestion */
@@ -2986,6 +2988,7 @@ static void load_ruleset_game(void)
     game.control.prefered_tileset[0] = '\0';
   }
 
+  /* section: about */
   text = secfile_lookup_str(&file, "about.name");
   /* Ruleset/modpack name found */
   sz_strlcpy(game.control.name, text);
@@ -2999,54 +3002,114 @@ static void load_ruleset_game(void)
     game.control.description[0] = '\0';
   }
 
-  game.info.illness_on =
-        secfile_lookup_bool_default(&file, 0, "illness.illness_on");
-  game.info.illness_base_factor =
-        secfile_lookup_int_default(&file, 25,
-                                   "illness.illness_base_factor");
-  game.info.illness_min_size =
-        secfile_lookup_int_default(&file, 3, "illness.illness_min_size");
-  game.info.illness_trade_infection =
-        secfile_lookup_int_default(&file, 50,
-                                   "illness.illness_trade_infection");
-  game.info.illness_pollution_factor =
-        secfile_lookup_int_default(&file, 50,
-                                   "illness.illness_pollution_factor");
+  /* section: options */
+  lookup_tech_list(&file, "options", "global_init_techs",
+                   game.server.rgame.global_init_techs, filename);
+  lookup_building_list(&file, "options", "global_init_buildings",
+                       game.server.rgame.global_init_buildings, filename);
 
-  game.info.base_pollution = 
-        secfile_lookup_int_default(&file, -20, "civstyle.base_pollution");
-  game.info.happy_cost =
-        secfile_lookup_int_default(&file, 2, "civstyle.happy_cost");
-  game.info.food_cost =
-        secfile_lookup_int_default(&file, 2, "civstyle.food_cost");
-  game.info.base_bribe_cost =
-        secfile_lookup_int_default(&file, 750, "civstyle.base_bribe_cost");
-  game.info.ransom_gold =
-        secfile_lookup_int_default(&file, 100, "civstyle.ransom_gold");
-  game.info.base_tech_cost =
-        secfile_lookup_int_default(&file, 20, "civstyle.base_tech_cost");
+  /* section: civstyle */
+  game.info.base_pollution
+    = secfile_lookup_int_default(&file, RS_DEFAULT_BASE_POLLUTION,
+                                 "civstyle.base_pollution");
+  game.info.happy_cost
+    = secfile_lookup_int_default_min_max(ruleset_error, &file,
+                                         RS_DEFAULT_HAPPY_COST,
+                                         RS_MIN_HAPPY_COST,
+                                         RS_MAX_HAPPY_COST,
+                                         "civstyle.happy_cost");
+  game.info.food_cost
+    = secfile_lookup_int_default_min_max(ruleset_error, &file,
+                                         RS_DEFAULT_FOOD_COST,
+                                         RS_MIN_FOOD_COST,
+                                         RS_MAX_FOOD_COST,
+                                         "civstyle.food_cost");
+  /* TODO: move to global_unit_options */
+  game.info.base_bribe_cost
+    = secfile_lookup_int_default_min_max(ruleset_error, &file,
+                                         RS_DEFAULT_BASE_BRIBE_COST,
+                                         RS_MIN_BASE_BRIBE_COST,
+                                         RS_MAX_BASE_BRIBE_COST,
+                                         "civstyle.base_bribe_cost");
+  /* TODO: move to global_unit_options */
+  game.info.ransom_gold
+    = secfile_lookup_int_default_min_max(ruleset_error, &file,
+                                         RS_DEFAULT_RANSOM_GOLD,
+                                         RS_MIN_RANSOM_GOLD,
+                                         RS_MAX_RANSOM_GOLD,
+                                         "civstyle.ransom_gold");
+  /* TODO: move to global_unit_options */
+  game.info.pillage_select
+    = secfile_lookup_bool_default(&file, RS_DEFAULT_PILLAGE_SELECT,
+                                         "civstyle.pillage_select");
+  /* TODO: move to global_unit_options */
+  game.info.upgrade_veteran_loss
+    = secfile_lookup_int_default_min_max(ruleset_error, &file,
+                                         RS_DEFAULT_UPGRADE_VETERAN_LOSS,
+                                         RS_MIN_UPGRADE_VETERAN_LOSS,
+                                         RS_MAX_UPGRADE_VETERAN_LOSS,
+                                         "civstyle.upgrade_veteran_loss");
+  /* TODO: move to global_unit_options */
+  game.info.autoupgrade_veteran_loss
+    = secfile_lookup_int_default_min_max(ruleset_error, &file,
+                                         RS_DEFAULT_UPGRADE_VETERAN_LOSS,
+                                         RS_MIN_UPGRADE_VETERAN_LOSS,
+                                         RS_MAX_UPGRADE_VETERAN_LOSS,
+                                         "civstyle.autoupgrade_veteran_loss");
+  /* TODO: move to new section research */
+  game.info.base_tech_cost
+    = secfile_lookup_int_default_min_max(ruleset_error, &file,
+                                         RS_DEFAULT_BASE_TECH_COST,
+                                         RS_MIN_BASE_TECH_COST,
+                                         RS_MAX_BASE_TECH_COST,
+                                         "civstyle.base_tech_cost");
+
+  food_ini = secfile_lookup_int_vec(&file, &game.info.granary_num_inis,
+                                    "civstyle.granary_food_ini");
+  if (game.info.granary_num_inis > MAX_GRANARY_INIS) {
+    ruleset_error(LOG_FATAL,
+                  "Too many granary_food_ini entries (%d, max %d)",
+                  game.info.granary_num_inis, MAX_GRANARY_INIS);
+  } else if (game.info.granary_num_inis == 0) {
+    freelog(LOG_ERROR, "No values for granary_food_ini. Using default "
+                       "value %d.", RS_DEFAULT_GRANARY_FOOD_INI);
+    game.info.granary_num_inis = 1;
+    game.info.granary_food_ini[0] = RS_DEFAULT_GRANARY_FOOD_INI;
+  } else {
+    int i;
+
+    /* check for <= 0 entries */
+    for (i = 0; i < game.info.granary_num_inis; i++) {
+      if (food_ini[i] <= 0) {
+        if (i == 0) {
+          food_ini[i] = RS_DEFAULT_GRANARY_FOOD_INI;
+        } else {
+          food_ini[i] = food_ini[i - 1];
+        }
+        freelog(LOG_ERROR, "Bad value for granary_food_ini[%i]. Using %i.",
+                i, food_ini[i]);
+      }
+      game.info.granary_food_ini[i] = food_ini[i];
+    }
+  }
+  free(food_ini);
+
+  game.info.granary_food_inc
+    = secfile_lookup_int_default_min_max(ruleset_error, &file,
+                                         RS_DEFAULT_GRANARY_FOOD_INC,
+                                         RS_MIN_GRANARY_FOOD_INC,
+                                         RS_MAX_GRANARY_FOOD_INC,
+                                         "civstyle.granary_food_inc");
 
   output_type_iterate(o) {
     game.info.min_city_center_output[o]
-      = secfile_lookup_int_default(&file, 0,
-				   "civstyle.min_city_center_%s",
-				   get_output_identifier(o));
+      = secfile_lookup_int_default_min_max(ruleset_error, &file,
+                                           RS_DEFAULT_CITY_CENTER_OUTPUT,
+                                           RS_MIN_CITY_CENTER_OUTPUT,
+                                           RS_MAX_CITY_CENTER_OUTPUT,
+                                           "civstyle.min_city_center_%s",
+                                           get_output_identifier(o));
   } output_type_iterate_end;
-
-  /* This only takes effect if citymindist is set to 0. */
-  game.info.min_dist_bw_cities
-    = secfile_lookup_int(&file, "civstyle.min_dist_bw_cities");
-  if (game.info.min_dist_bw_cities < 1) {
-    freelog(LOG_ERROR, "Bad value %i for min_dist_bw_cities. Using 2.",
-	    game.info.min_dist_bw_cities);
-    game.info.min_dist_bw_cities = 2;
-  }
-
-  game.info.init_vis_radius_sq =
-    secfile_lookup_int(&file, "civstyle.init_vis_radius_sq");
-
-  game.info.pillage_select =
-      secfile_lookup_bool(&file, "civstyle.pillage_select");
 
   sval = secfile_lookup_str(&file, "civstyle.nuke_contamination" );
   if (mystrcasecmp(sval, "Pollution") == 0) {
@@ -3059,131 +3122,147 @@ static void load_ruleset_game(void)
     game.info.nuke_contamination = CONTAMINATION_POLLUTION;
   }
 
+  /* This only takes effect if citymindist is set to 0. */
+  game.info.min_dist_bw_cities
+    = secfile_lookup_int_default_min_max(ruleset_error, &file,
+                                         RS_DEFAULT_CITIES_MIN_DIST,
+                                         RS_MIN_CITIES_MIN_DIST,
+                                         RS_MAX_CITIES_MIN_DIST,
+                                         "civstyle.min_dist_bw_cities");
+  game.info.init_vis_radius_sq
+    = secfile_lookup_int_default_min_max(ruleset_error, &file,
+                                         RS_DEFAULT_VIS_RADIUS_SQ,
+                                         RS_MIN_VIS_RADIUS_SQ,
+                                         RS_MAX_VIS_RADIUS_SQ,
+                                         "civstyle.init_vis_radius_sq");
+
   game.info.gold_upkeep_style
-    = secfile_lookup_int_default(&file, GAME_DEFAULT_GOLD_UPKEEP_STYLE,
-                                 "civstyle.gold_upkeep_style");
-  if (game.info.gold_upkeep_style > GAME_MAX_GOLD_UPKEEP_STYLE
-      || game.info.gold_upkeep_style < GAME_MIN_GOLD_UPKEEP_STYLE) {
-    freelog(LOG_ERROR, "Bad value %d for gold_upkeep_style. Using default"
-            "value (%d).", game.info.gold_upkeep_style,
-            GAME_DEFAULT_GOLD_UPKEEP_STYLE);
-    game.info.gold_upkeep_style = GAME_DEFAULT_GOLD_UPKEEP_STYLE;
-  }
+    = secfile_lookup_int_default_min_max(ruleset_error, &file,
+                                         RS_DEFAULT_GOLD_UPKEEP_STYLE,
+                                         RS_MIN_GOLD_UPKEEP_STYLE,
+                                         RS_MAX_GOLD_UPKEEP_STYLE,
+                                         "civstyle.gold_upkeep_style");
 
-  food_ini = secfile_lookup_int_vec(&file, &game.info.granary_num_inis, 
-				    "civstyle.granary_food_ini");
-  if (game.info.granary_num_inis > MAX_GRANARY_INIS) {
-    ruleset_error(LOG_FATAL,
-                  "Too many granary_food_ini entries (%d, max %d)",
-                  game.info.granary_num_inis, MAX_GRANARY_INIS);
-  } else if (game.info.granary_num_inis == 0) {
-    freelog(LOG_ERROR, "No values for granary_food_ini. Using 1.");
-    game.info.granary_num_inis = 1;
-    game.info.granary_food_ini[0] = 1;
-  } else {
-    int i;
-
-    /* check for <= 0 entries */
-    for (i = 0; i < game.info.granary_num_inis; i++) {
-      if (food_ini[i] <= 0) {
-	if (i == 0) {
-	  food_ini[i] = 1;
-	} else {
-	  food_ini[i] = food_ini[i - 1];
-	}
-	freelog(LOG_ERROR, "Bad value for granary_food_ini[%i]. Using %i.",
-		i, food_ini[i]);
-      }
-      game.info.granary_food_ini[i] = food_ini[i];
-    }
-  }
-  free(food_ini);
-
-  game.info.granary_food_inc =
-    secfile_lookup_int(&file, "civstyle.granary_food_inc");
-  if (game.info.granary_food_inc < 0) {
-    freelog(LOG_ERROR, "Bad value %i for granary_food_inc. Using 100.",
-	    game.info.granary_food_inc);
-    game.info.granary_food_inc = 100;
-  }
-
-  game.info.tech_cost_style =
-      secfile_lookup_int(&file, "civstyle.tech_cost_style");
-  if (game.info.tech_cost_style < 0 || game.info.tech_cost_style > 2) {
-    freelog(LOG_ERROR, "Bad value %i for tech_cost_style. Using 0.",
-	    game.info.tech_cost_style);
-    game.info.tech_cost_style = 0;
-  }
-
-  game.info.upgrade_veteran_loss
-    = secfile_lookup_int(&file, "civstyle.upgrade_veteran_loss");
-
-  game.info.autoupgrade_veteran_loss
-    = secfile_lookup_int(&file, "civstyle.autoupgrade_veteran_loss");
-
-  game.info.tech_leakage =
-      secfile_lookup_int(&file, "civstyle.tech_leakage");
-  if (game.info.tech_leakage < 0 || game.info.tech_leakage > 3) {
-    freelog(LOG_ERROR, "Bad value %i for tech_leakage. Using 0.",
-	    game.info.tech_leakage);
-    game.info.tech_leakage = 0;
-  }
-
+  /* TODO: move to new section research */
+  game.info.tech_cost_style
+    = secfile_lookup_int_default_min_max(ruleset_error, &file,
+                                         RS_DEFAULT_TECH_COST_STYLE,
+                                         RS_MIN_TECH_COST_STYLE,
+                                         RS_MAX_TECH_COST_STYLE,
+                                         "civstyle.tech_cost_style");
+  /* TODO: move to new section research */
+  game.info.tech_leakage
+    = secfile_lookup_int_default_min_max(ruleset_error, &file,
+                                         RS_DEFAULT_TECH_LEAKAGE,
+                                         RS_MIN_TECH_LEAKAGE,
+                                         RS_MAX_TECH_LEAKAGE,
+                                         "civstyle.tech_leakage");
   if (game.info.tech_cost_style == 0 && game.info.tech_leakage != 0) {
     freelog(LOG_ERROR,
-	    "Only tech_leakage 0 supported with tech_cost_style 0.");
+            "Only tech_leakage 0 supported with tech_cost_style 0.");
     freelog(LOG_ERROR, "Switching to tech_leakage 0.");
     game.info.tech_leakage = 0;
   }
-    
-  /* City incite cost */
-  game.info.base_incite_cost =
-    secfile_lookup_int_default(&file, 1000, "incite_cost.base_incite_cost");
-  game.info.incite_improvement_factor = 
-    secfile_lookup_int_default(&file, 1, "incite_cost.improvement_factor");
-  game.info.incite_unit_factor = 
-    secfile_lookup_int_default(&file, 1, "incite_cost.unit_factor");
-  game.info.incite_total_factor = 
-    secfile_lookup_int_default(&file, 100, "incite_cost.total_factor");
 
-  /* Slow invasions */
-  game.info.slow_invasions = 
-    secfile_lookup_bool_default(&file, GAME_DEFAULT_SLOW_INVASIONS,
-                                "global_unit_options.slow_invasions");
-  
-  /* Load global initial items. */
-  lookup_tech_list(&file, "options", "global_init_techs",
-		   game.server.rgame.global_init_techs, filename);
-  lookup_building_list(&file, "options", "global_init_buildings",
-		       game.server.rgame.global_init_buildings, filename);
+  /* section: illness */
+  game.info.illness_on
+    = secfile_lookup_bool_default(&file, RS_DEFAULT_ILLNESS_ON,
+                                  "illness.illness_on");
+  game.info.illness_base_factor
+    = secfile_lookup_int_default_min_max(ruleset_error, &file,
+                                         RS_DEFAULT_ILLNESS_BASE_FACTOR,
+                                         RS_MIN_ILLNESS_BASE_FACTOR,
+                                         RS_MAX_ILLNESS_BASE_FACTOR,
+                                         "illness.illness_base_factor");
+  game.info.illness_min_size
+    = secfile_lookup_int_default_min_max(ruleset_error, &file,
+                                         RS_DEFAULT_ILLNESS_MIN_SIZE,
+                                         RS_MIN_ILLNESS_MIN_SIZE,
+                                         RS_MAX_ILLNESS_MIN_SIZE,
+                                         "illness.illness_min_size");
+  game.info.illness_trade_infection
+    = secfile_lookup_int_default_min_max(ruleset_error, &file,
+                                         RS_DEFAULT_ILLNESS_TRADE_INFECTION_PCT,
+                                         RS_MIN_ILLNESS_TRADE_INFECTION_PCT,
+                                         RS_MAX_ILLNESS_TRADE_INFECTION_PCT,
+                                         "illness.illness_trade_infection");
+  game.info.illness_pollution_factor
+    = secfile_lookup_int_default_min_max(ruleset_error, &file,
+                                         RS_DEFAULT_ILLNESS_POLLUTION_PCT,
+                                         RS_MIN_ILLNESS_POLLUTION_PCT,
+                                         RS_MAX_ILLNESS_POLLUTION_PCT,
+                                         "illness.illness_pollution_factor");
 
-  /* Enable/Disable killstack */
-  game.info.killstack = secfile_lookup_bool(&file, "combat_rules.killstack");
+  /* section: incite_cost */
+  game.info.base_incite_cost
+    = secfile_lookup_int_default_min_max(ruleset_error, &file,
+                                         RS_DEFAULT_INCITE_BASE_COST,
+                                         RS_MIN_INCITE_BASE_COST,
+                                         RS_MAX_INCITE_BASE_COST,
+                                         "incite_cost.base_incite_cost");
+  game.info.incite_improvement_factor
+    = secfile_lookup_int_default_min_max(ruleset_error, &file,
+                                         RS_DEFAULT_INCITE_IMPROVEMENT_FCT,
+                                         RS_MIN_INCITE_IMPROVEMENT_FCT,
+                                         RS_MAX_INCITE_IMPROVEMENT_FCT,
+                                         "incite_cost.improvement_factor");
+  game.info.incite_unit_factor
+    = secfile_lookup_int_default_min_max(ruleset_error, &file,
+                                         RS_DEFAULT_INCITE_UNIT_FCT,
+                                         RS_MIN_INCITE_UNIT_FCT,
+                                         RS_MAX_INCITE_UNIT_FCT,
+                                         "incite_cost.unit_factor");
+  game.info.incite_total_factor
+    = secfile_lookup_int_default_min_max(ruleset_error, &file,
+                                         RS_DEFAULT_INCITE_TOTAL_FCT,
+                                         RS_MIN_INCITE_TOTAL_FCT,
+                                         RS_MAX_INCITE_TOTAL_FCT,
+                                         "incite_cost.total_factor");
 
-  /* Enable/Disable tired attack penalty */
+  /* section: global_unit_options */
+  game.info.slow_invasions
+    = secfile_lookup_bool_default(&file, RS_DEFAULT_SLOW_INVASIONS,
+                                  "global_unit_options.slow_invasions");
+
+  /* section: combat_rules */
+  game.info.killstack
+    = secfile_lookup_bool_default(&file, RS_DEFAULT_KILLSTACK,
+                                  "combat_rules.killstack");
   game.info.tired_attack
-    = secfile_lookup_bool_default(&file, GAME_DEFAULT_TIRED_ATTACK,
+    = secfile_lookup_bool_default(&file, RS_DEFAULT_TIRED_ATTACK,
                                   "combat_rules.tired_attack");
 
+  /* section: borders */
   game.info.border_city_radius_sq
-    = secfile_lookup_int(&file, "borders.radius_sq_city");
+    = secfile_lookup_int_default_min_max(ruleset_error, &file,
+                                         RS_DEFAULT_BORDER_RADIUS_SQ_CITY,
+                                         RS_MIN_BORDER_RADIUS_SQ_CITY,
+                                         RS_MAX_BORDER_RADIUS_SQ_CITY,
+                                         "borders.radius_sq_city");
   game.info.border_size_effect
-    = secfile_lookup_int(&file, "borders.size_effect");
+    = secfile_lookup_int_default_min_max(ruleset_error, &file,
+                                         RS_DEFAULT_BORDER_SIZE_EFFECT,
+                                         RS_MIN_BORDER_SIZE_EFFECT,
+                                         RS_MAX_BORDER_SIZE_EFFECT,
+                                         "borders.size_effect");
 
+  /* section: calendar */
   game.info.calendar_skip_0
-    = secfile_lookup_bool_default(&file, FALSE, "calendar.skip_year_0");
-
+    = secfile_lookup_bool_default(&file, RS_DEFAULT_CALENDAR_SKIP_0,
+                                  "calendar.skip_year_0");
   game.info.start_year
     = secfile_lookup_int_default(&file, GAME_START_YEAR,
                                  "calendar.start_year");
-
   sz_strlcpy(game.info.positive_year_label,
-             _(secfile_lookup_str_default(&file, "AD",
+             _(secfile_lookup_str_default(&file,
+                                          RS_DEFAULT_POS_YEAR_LABEL,
                                           "calendar.positive_label")));
   sz_strlcpy(game.info.negative_year_label,
-             _(secfile_lookup_str_default(&file, "BC",
+             _(secfile_lookup_str_default(&file,
+                                          RS_DEFAULT_NEG_YEAR_LABEL,
                                           "calendar.negative_label")));
 
+  /* section: teams */
   svec = secfile_lookup_str_vec(&file, &game.info.num_teams, "teams.names");
   game.info.num_teams = MIN(MAX_NUM_TEAMS, game.info.num_teams);
   if (game.info.num_teams <= 0) {
