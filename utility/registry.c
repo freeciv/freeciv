@@ -1202,7 +1202,7 @@ int secfile_lookup_int_default_min_max(error_func_t error_handle,
   my_vsnprintf(buf, sizeof(buf), path, ap);
   va_end(ap);
 
-  ival = secfile_lookup_int_default(my_section_file, def, buf);
+  ival = secfile_lookup_int_default(my_section_file, def, "%s", buf);
 
   if(ival < minval) {
     error_handle(LOG_ERROR, "sectionfile %s: '%s' should be in the "
