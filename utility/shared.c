@@ -68,7 +68,7 @@
 /* If no default data path is defined use the default default one */
 #ifndef DEFAULT_DATA_PATH
 #define DEFAULT_DATA_PATH "." PATH_SEPARATOR "data" PATH_SEPARATOR \
-                          "~/.freeciv"
+                          "~/.freeciv/" DATASUBDIR
 #endif
 
 /* environment */

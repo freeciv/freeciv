@@ -13,6 +13,8 @@ IS_BETA_VERSION=0
 NEXT_STABLE_VERSION="2.3.0"
 RELEASE_MONTH=3
 
+DATASUBDIR=2.3
+
 # Freeciv network capstring: see documentation in common/capstr.c
 #
 # +Freeciv.Devel.YYYY.MMM.DD is the base capability string.

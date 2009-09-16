@@ -53,6 +53,11 @@ AC_DEFINE_UNQUOTED([NETWORK_CAPSTRING_OPTIONAL],
 		   [Additional optional network capabilities])
 AC_SUBST([NETWORK_CAPSTRING_OPTIONAL])
 
+AC_DEFINE_UNQUOTED([DATASUBDIR],
+                   ["$DATASUBDIR"],
+                   [Version specific subdir for default data path])
+AC_SUBST([DATASUBDIR])
+
 dnl Initialize automake stuff
 AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
 
@@ -804,9 +809,9 @@ dnl export where the datadir is going to be installed
 FC_EXPAND_DIR(FREECIV_DATADIR, "$datadir/freeciv")
 
 if test x"$MINGW32" = xyes; then
-  DEFAULT_DATA_PATH=".;data;~/.freeciv;$datadir/freeciv"
+  DEFAULT_DATA_PATH=".;data;~/.freeciv/$DATASUBDIR;$datadir/freeciv"
 else
-  DEFAULT_DATA_PATH=".:data:~/.freeciv:$datadir/freeciv"
+  DEFAULT_DATA_PATH=".:data:~/.freeciv/$DATASUBDIR:$datadir/freeciv"
 fi
 CPPFLAGS="$CPPFLAGS -DDEFAULT_DATA_PATH=\"\\\"$DEFAULT_DATA_PATH\\\"\""
 
