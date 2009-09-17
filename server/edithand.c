@@ -186,8 +186,10 @@ void handle_edit_tile_terrain(struct connection *pc, int x, int y,
   pterrain = terrain_by_number(terrain);
   if (!pterrain) {
     notify_conn(pc->self, ptile_center, E_BAD_COMMAND, FTC_EDITOR, NULL,
-                _("Cannot modify terrain for the tile (%d, %d) because "
-                  "%d is not a valid terrain id."), x, y, terrain);
+                /* TRANS: ..." the tile <tile-coordinates> because"... */
+                _("Cannot modify terrain for the tile %s because "
+                  "%d is not a valid terrain id."),
+                tile_link(ptile_center), terrain);
     return;
   }
 
@@ -258,8 +260,10 @@ void handle_edit_tile_special(struct connection *pc, int x, int y,
 
   if (!(0 <= special && special < S_LAST)) {
     notify_conn(pc->self, ptile_center, E_BAD_COMMAND, FTC_EDITOR, NULL,
-                _("Cannot modify specials for the tile (%d, %d) because "
-                  "%d is not a valid terrain special id."), x, y, special);
+                /* TRANS: ..." the tile <tile-coordinates> because"... */
+                _("Cannot modify specials for the tile %s because "
+                  "%d is not a valid terrain special id."),
+                tile_link(ptile_center), special);
     return;
   }
   
@@ -304,8 +308,10 @@ void handle_edit_tile_base(struct connection *pc, int x, int y,
 
   if (!pbase) {
     notify_conn(pc->self, ptile_center, E_BAD_COMMAND, FTC_EDITOR, NULL,
-                _("Cannot modify base for the tile (%d, %d) because "
-                  "%d is not a valid base type id."), x, y, id);
+                /* TRANS: ..." the tile <tile-coordinates> because"... */
+                _("Cannot modify base for the tile %s because "
+                  "%d is not a valid base type id."),
+                tile_link(ptile_center), id);
     return;
   }
   
@@ -415,18 +421,21 @@ void handle_edit_unit_create(struct connection *pc,
   punittype = utype_by_number(utid);
   if (!punittype) {
     notify_conn(pc->self, ptile, E_BAD_COMMAND, FTC_EDITOR, NULL,
-                _("Cannot create a unit at (%d, %d) because the "
-                  "given unit type id %d is invalid."), x, y, utid);
+                /* TRANS: ..." at <tile-coordinates> because"... */
+                _("Cannot create a unit at %s because the "
+                  "given unit type id %d is invalid."),
+                tile_link(ptile), utid);
     return;
   }
 
   pplayer = valid_player_by_number(owner);
   if (!pplayer) {
     notify_conn(pc->self, ptile, E_BAD_COMMAND, FTC_EDITOR, NULL,
-                _("Cannot create a unit of type %s at (%d, %d) "
+                /* TRANS: ..." type <unit-type> at <tile-coordinates>"... */
+                _("Cannot create a unit of type %s at %s "
                   "because the given owner's player id %d is "
                   "invalid."), utype_name_translation(punittype),
-                x, y, owner);
+                tile_link(ptile), owner);
     return;
   }
 
@@ -434,17 +443,21 @@ void handle_edit_unit_create(struct connection *pc,
       || (tile_city(ptile)
           && !pplayers_allied(pplayer, tile_owner(ptile)))) {
     notify_conn(pc->self, ptile, E_BAD_COMMAND, FTC_EDITOR, NULL,
+                /* TRANS: ..." type <unit-type> on enemy tile
+                 * <tile-coordinates>"... */
                 _("Cannot create unit of type %s on enemy tile "
-                  "(%d, %d)."), utype_name_translation(punittype),
-                x, y);
+                  "%s."), utype_name_translation(punittype),
+                tile_link(ptile));
     return;
   }
 
   if (!can_exist_at_tile(punittype, ptile)) {
     notify_conn(pc->self, ptile, E_BAD_COMMAND, FTC_EDITOR, NULL,
+                /* TRANS: ..." type <unit-type> on the terrain at
+                 * <tile-coordinates>"... */
                 _("Cannot create a unit of type %s on the terrain "
-                  "at (%d, %d)."),
-                utype_name_translation(punittype), x, y);
+                  "at %s."),
+                utype_name_translation(punittype), tile_link(ptile));
     return;
   }
 
@@ -495,18 +508,22 @@ void handle_edit_unit_remove(struct connection *pc, int owner,
   punittype = utype_by_number(utid);
   if (!punittype) {
     notify_conn(pc->self, ptile, E_BAD_COMMAND, FTC_EDITOR, NULL,
-                _("Cannot remove a unit at (%d, %d) because the "
-                  "given unit type id %d is invalid."), x, y, utid);
+                /* TRANS: ..." at <tile-coordinates> because"... */
+                _("Cannot remove a unit at %s because the "
+                  "given unit type id %d is invalid."),
+                tile_link(ptile), utid);
     return;
   }
 
   pplayer = valid_player_by_number(owner);
   if (!pplayer) {
     notify_conn(pc->self, ptile, E_BAD_COMMAND, FTC_EDITOR, NULL,
-                _("Cannot remove a unit of type %s at (%d, %d) "
+                /* TRANS: ..." type <unit-type> at <tile-coordinates>
+                 * because"... */
+                _("Cannot remove a unit of type %s at %s "
                   "because the given owner's player id %d is "
                   "invalid."), utype_name_translation(punittype),
-                x, y, owner);
+                tile_link(ptile), owner);
     return;
   }
 
@@ -601,7 +618,7 @@ void handle_edit_unit(struct connection *pc,
     if (putype->veteran[v].name[0] == '\0') {
       notify_conn(pc->self, NULL, E_BAD_COMMAND, FTC_EDITOR, NULL,
                   _("Invalid veteran level %d for unit %d (%s)."),
-                  v, id, unit_name_translation(punit));
+                  v, id, unit_link(punit));
     } else {
       punit->veteran = v;
       changed = TRUE;
@@ -639,9 +656,10 @@ void handle_edit_city_create(struct connection *pc, int owner, int x, int y,
   pplayer = player_by_number(owner);
   if (!pplayer) {
     notify_conn(pc->self, ptile, E_BAD_COMMAND, FTC_EDITOR, NULL,
-                _("Cannot create a city at (%d, %d) because the "
-                  "given owner's player id %d is invalid"), x, y,
-                owner);
+                /* TRANS: ..." at <tile-coordinates> because"... */
+                _("Cannot create a city at %s because the "
+                  "given owner's player id %d is invalid"), 
+                tile_link(ptile), owner);
     return;
 
   }
@@ -650,7 +668,8 @@ void handle_edit_city_create(struct connection *pc, int owner, int x, int y,
   if (is_enemy_unit_tile(ptile, pplayer) != NULL
       || !city_can_be_built_here(ptile, NULL)) {
     notify_conn(pc->self, ptile, E_BAD_COMMAND, FTC_EDITOR, NULL,
-                _("A city may not be built at (%d, %d)."), x, y);
+                /* TRANS: ..." at <tile-coordinates>." */
+                _("A city may not be built at %s."), tile_link(ptile));
     return;
   }
 
@@ -719,7 +738,7 @@ void handle_edit_city(struct connection *pc,
     if (!(0 < packet->size && packet->size <= MAX_CITY_SIZE)) {
       notify_conn(pc->self, ptile, E_BAD_COMMAND, FTC_EDITOR, NULL,
                   _("Invalid city size %d for city %s."),
-                  packet->size, pcity->name);
+                  packet->size, city_link(pcity));
     } else {
       /* FIXME: Slow and inefficient for large size changes. */
       city_change_size(pcity, packet->size);
@@ -783,7 +802,7 @@ void handle_edit_city(struct connection *pc,
       notify_conn(pc->self, ptile, E_BAD_COMMAND, FTC_EDITOR, NULL,
                   _("Invalid city food stock amount %d for city %s "
                     "(allowed range is %d to %d)."),
-                  packet->food_stock, pcity->name, 0, max);
+                  packet->food_stock, city_link(pcity), 0, max);
     } else {
       pcity->food_stock = packet->food_stock;
       changed = TRUE;
@@ -797,7 +816,7 @@ void handle_edit_city(struct connection *pc,
       notify_conn(pc->self, ptile, E_BAD_COMMAND, FTC_EDITOR, NULL,
                   _("Invalid city shield stock amount %d for city %s "
                     "(allowed range is %d to %d)."),
-                  packet->shield_stock, pcity->name, 0, max);
+                  packet->shield_stock, city_link(pcity), 0, max);
     } else {
       pcity->shield_stock = packet->shield_stock;
       changed = TRUE;
@@ -1084,8 +1103,10 @@ void handle_edit_player_vision(struct connection *pc, int plr_no,
   pplayer = valid_player_by_number(plr_no);
   if (!pplayer) {
     notify_conn(pc->self, ptile_center, E_BAD_COMMAND, FTC_EDITOR, NULL,
-                _("Cannot edit vision for the tile at (%d, %d) because "
-                  "given player id %d is invalid."), x, y, plr_no);
+                /* TRANS: ..." at <tile-coordinates> because"... */
+                _("Cannot edit vision for the tile at %s because "
+                  "given player id %d is invalid."),
+                tile_link(ptile_center), plr_no);
     return;
   }
 

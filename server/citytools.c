@@ -549,8 +549,8 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
       notify_player(from_player, punit->tile, E_UNIT_RELOCATED,
                     FTC_SERVER_INFO, NULL,
 		    _("Changed homecity of %s to %s."),
-		    unit_name_translation(punit),
-		    city_name(tocity));
+		    unit_link(punit),
+		    city_link(tocity));
     }
   } else {
     struct city *in_city = tile_city(punit->tile);
@@ -564,8 +564,8 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
 	notify_player(from_player, punit->tile, E_UNIT_RELOCATED,
                       FTC_SERVER_INFO, NULL,
 		      _("Transfered %s in %s from %s to %s."),
-		      unit_name_translation(punit),
-		      city_name(in_city),
+		      unit_link(punit),
+		      city_link(in_city),
 		      nation_plural_for_player(from_player),
 		      nation_plural_for_player(to_player));
       }
@@ -578,7 +578,7 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
 	notify_player(from_player, punit->tile, E_UNIT_RELOCATED,
 		      FTC_SERVER_INFO, NULL,
                       _("Transfered %s from %s to %s."),
-		      unit_name_translation(punit),
+		      unit_link(punit),
 		      nation_plural_for_player(from_player),
 		      nation_plural_for_player(to_player));
       }
@@ -593,9 +593,9 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
                       /* TRANS: Polish Destroyer ... German <city> */
 		      _("%s %s lost in transfer to %s %s"),
 		      nation_adjective_for_player(from_player),
-		      unit_name_translation(punit),
+		      unit_link(punit),
 		      nation_adjective_for_player(to_player),
-		      city_name(tocity));
+		      city_link(tocity));
       }
       wipe_unit(punit);
       return;
@@ -682,7 +682,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 	notify_player(unit_owner(vunit), vunit->tile,
                       E_UNIT_LOST_MISC, FTC_SERVER_INFO, NULL,
                       _("%s lost along with control of %s."),
-                      unit_name_translation(vunit), name);
+                      unit_link(vunit), name);
       }
       wipe_unit(vunit);
     }
@@ -815,7 +815,7 @@ static void build_free_small_wonders(struct player *pplayer,
 		    /* TRANS: <building> ... <city> */
 		    _("A replacement %s was built in %s."),
 		    improvement_name_translation(pimprove),
-		    city_name(pnew_city));
+		    city_link(pnew_city));
       /* 
        * The enemy want to see the new capital in his intelligence
        * report. 
@@ -898,7 +898,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 		  _("You already had a city called %s."
 		    " The city was renamed to %s."),
 		  old_city_name,
-		  city_name(pcity));
+		  city_link(pcity));
   }
 
   /* Has to follow the unfog call above. */
@@ -988,7 +988,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
                       " technological insight!\n"
                       "      Workers spontaneously gather and upgrade"
                       " the city with railroads."),
-                    city_name(pcity));
+                    city_link(pcity));
       tile_set_special(pcenter, S_RAILROAD);
       update_tile_knowledge(pcenter);
     }
@@ -1137,7 +1137,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
 
   notify_player(pplayer, ptile, E_CITY_BUILD, FTC_SERVER_INFO, NULL,
 		_("You have founded %s."),
-		city_name(pcity));
+		city_link(pcity));
   maybe_make_contact(ptile, city_owner(pcity));
 
   unit_list_iterate((ptile)->units, punit) {
@@ -1212,8 +1212,8 @@ void remove_city(struct city *pcity)
                           FTC_SERVER_INFO, NULL,
                           _("Moved %s out of disbanded city %s "
                             "since it cannot stay on %s."),
-                          unit_name_translation(punit),
-                          city_name(pcity),
+                          unit_link(punit),
+                          city_link(pcity),
                           terrain_name_translation(tile_terrain(pcenter)));
             break;
 	  }
@@ -1225,8 +1225,8 @@ void remove_city(struct city *pcity)
                     FTC_SERVER_INFO, NULL,
                     _("When %s was disbanded your %s could not "
                       "get out, and it was therefore lost."),
-                    city_name(pcity),
-                    unit_name_translation(punit));
+                    city_link(pcity),
+                    unit_link(punit));
       wipe_unit(punit);
     }
   } unit_list_iterate_safe_end;
@@ -1359,10 +1359,10 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
     notify_player(pplayer, pcity->tile, E_UNIT_WIN_ATT,
                   FTC_SERVER_INFO, NULL,
 		  _("You destroy %s completely."),
-		  city_name(pcity));
+		  city_link(pcity));
     notify_player(cplayer, pcity->tile, E_CITY_LOST, FTC_SERVER_INFO, NULL,
                   _("%s has been destroyed by %s."), 
-                  city_name(pcity), player_name(pplayer));
+                  city_link(pcity), player_name(pplayer));
     script_signal_emit("city_destroyed", 3,
                        API_TYPE_CITY, pcity,
                        API_TYPE_PLAYER, cplayer,
@@ -1392,7 +1392,7 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
 			" to %d gold!",
 			"You conquer %s; your lootings accumulate"
 			" to %d gold!", coins), 
-		    city_name(pcity),
+		    city_link(pcity),
 		    coins);
       notify_player(cplayer, pcity->tile, E_CITY_LOST,
                     FTC_SERVER_INFO, NULL,
@@ -1401,18 +1401,18 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
 			"%s conquered %s and looted %d gold"
 			" from the city.", coins),
 		    player_name(pplayer),
-		    city_name(pcity),
+		    city_link(pcity),
 		    coins);
     } else {
       notify_player(pplayer, pcity->tile, E_UNIT_WIN_ATT,
                     FTC_SERVER_INFO, NULL,
 		    _("You conquer %s"),
-		    city_name(pcity));
+		    city_link(pcity));
       notify_player(cplayer, pcity->tile, E_CITY_LOST,
                     FTC_SERVER_INFO, NULL,
 		    _("%s conquered %s."),
 		    player_name(pplayer),
-		    city_name(pcity));
+		    city_link(pcity));
     }
   } else {
     if (coins > 0) {
@@ -1422,7 +1422,7 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
 			" Lootings accumulate to %d gold.",
 			"You have liberated %s!"
 			" Lootings accumulate to %d gold.", coins),
-		    city_name(pcity),
+		    city_link(pcity),
 		    coins);
       notify_player(cplayer, pcity->tile, E_CITY_LOST,
                     FTC_SERVER_INFO, NULL,
@@ -1431,18 +1431,18 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
 			"%s liberated %s and looted %d gold"
 			" from the city.", coins),
 		    player_name(pplayer),
-		    city_name(pcity),
+		    city_link(pcity),
 		    coins);
     } else {
       notify_player(pplayer, pcity->tile, E_UNIT_WIN_ATT,
                     FTC_SERVER_INFO, NULL,
 		    _("You have liberated %s!"),
-		    city_name(pcity));
+		    city_link(pcity));
       notify_player(cplayer, pcity->tile, E_CITY_LOST,
                     FTC_SERVER_INFO, NULL,
 		    _("%s liberated %s."),
 		    player_name(pplayer),
-		    city_name(pcity));
+		    city_link(pcity));
     }
   }
 
@@ -2145,7 +2145,7 @@ void change_build_target(struct player *pplayer, struct city *pcity,
                   _("The %s have stopped building The %s in %s."),
                   nation_plural_for_player(pplayer),
                   city_production_name_translation(pcity),
-                  city_name(pcity));
+                  city_link(pcity));
   }
 
   /* Manage the city change-production penalty.
@@ -2173,7 +2173,7 @@ void change_build_target(struct player *pplayer, struct city *pcity,
                 FTC_SERVER_INFO, NULL,
 		/* TRANS: "<city> is building <production><source>." */
 		_("%s is building %s%s."),
-		city_name(pcity),
+		city_link(pcity),
 		name, source);
 
   /* If the city is building a wonder, tell the rest of the world
@@ -2185,7 +2185,7 @@ void change_build_target(struct player *pplayer, struct city *pcity,
 		  _("The %s have started building The %s in %s."),
 		  nation_plural_for_player(pplayer),
 		  name,
-		  city_name(pcity));
+		  city_link(pcity));
   }
 }
 
@@ -2366,7 +2366,7 @@ void city_landlocked_sell_coastal_improvements(struct tile *ptile)
                           _("You sell %s in %s (now landlocked)"
                             " for %d gold."),
                           improvement_name_translation(pimprove),
-                          city_name(pcity),
+                          city_link(pcity),
                           impr_sell_gold(pimprove)); 
 	  }
 	} requirement_vector_iterate_end;

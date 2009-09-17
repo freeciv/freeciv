@@ -242,10 +242,10 @@ void really_handle_city_sell(struct player *pplayer, struct city *pcity,
 
   pcity->did_sell=TRUE;
   notify_player(pplayer, pcity->tile, E_IMP_SOLD, FTC_SERVER_INFO, NULL,
-		   _("You sell %s in %s for %d gold."), 
-		   improvement_name_translation(pimprove),
-		   city_name(pcity),
-		   impr_sell_gold(pimprove));
+                _("You sell %s in %s for %d gold."), 
+                improvement_name_translation(pimprove),
+                city_link(pcity),
+                impr_sell_gold(pimprove));
   do_sell_building(pplayer, pcity, pimprove);
 
   city_refresh(pcity);
@@ -282,7 +282,7 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
  
   if (pcity->turn_founded == game.info.turn) {
     notify_player(pplayer, pcity->tile, E_BAD_COMMAND, FTC_SERVER_INFO, NULL,
-		  _("Cannot buy in city created this turn."));
+                  _("Cannot buy in city created this turn."));
     return;
   }
 
@@ -294,14 +294,14 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
 
   if (city_production_has_flag(pcity, IF_GOLD)) {
     notify_player(pplayer, pcity->tile, E_BAD_COMMAND, FTC_SERVER_INFO, NULL,
-                     _("You don't buy %s!"),
-		     improvement_name_translation(pcity->production.value.building));
+                  _("You don't buy %s!"),
+                  improvement_name_translation(pcity->production.value.building));
     return;
   }
 
   if (VUT_UTYPE == pcity->production.kind && pcity->anarchy != 0) {
     notify_player(pplayer, pcity->tile, E_BAD_COMMAND, FTC_SERVER_INFO, NULL,
-		     _("Can't buy units when city is in disorder."));
+                  _("Can't buy units when city is in disorder."));
     return;
   }
 
@@ -314,8 +314,8 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
     /* In case something changed while player tried to buy, or player 
      * tried to cheat! */
     notify_player(pplayer, pcity->tile, E_BAD_COMMAND, FTC_SERVER_INFO, NULL,
-		     _("%d gold required.  You only have %d gold."), cost,
-                     pplayer->economic.gold);
+                  _("%d gold required.  You only have %d gold."), cost,
+                  pplayer->economic.gold);
     return;
   }
 
@@ -426,7 +426,7 @@ void handle_city_change(struct player *pplayer, int city_id,
   }
   if (!city_can_change_build(pcity)) {
     notify_player(pplayer, pcity->tile, E_BAD_COMMAND, FTC_SERVER_INFO, NULL,
-		     _("You have bought this turn, can't change."));
+                  _("You have bought this turn, can't change."));
     return;
   }
 

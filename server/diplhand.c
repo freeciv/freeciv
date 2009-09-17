@@ -216,7 +216,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	    notify_player(pplayer, NULL, E_DIPLOMACY,
                           FTC_SERVER_INFO, NULL,
 			  _("You are not owner of %s, you can't accept treaty."),
-			  city_name(pcity));
+			  city_link(pcity));
 	    return;
 	  }
 	  if (is_capital(pcity)) {
@@ -224,7 +224,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
                           FTC_SERVER_INFO, NULL,
 			  _("Your capital (%s) is requested, "
 			    "you can't accept treaty."),
-			  city_name(pcity));
+			  city_link(pcity));
 	    return;
 	  }
 	  break;
@@ -335,7 +335,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 			  _("The %s no longer control %s! "
 			    "Treaty canceled!"),
 			  nation_plural_for_player(pother),
-			  city_name(pcity));
+			  city_link(pcity));
 	    goto cleanup;
 	  }
 	  if (is_capital(pcity)) {
@@ -343,7 +343,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
                           FTC_SERVER_INFO, NULL,
 			  _("Your capital (%s) is requested, "
 			    "you can't accept treaty."),
-			  city_name(pcity));
+			  city_link(pcity));
 	    goto cleanup;
 	  }
 
@@ -481,12 +481,12 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	  notify_player(pdest, pcity->tile, E_CITY_TRANSFER,
                         FTC_SERVER_INFO, NULL,
                         _("You receive city of %s from %s."),
-                        city_name(pcity), player_name(pgiver));
+                        city_link(pcity), player_name(pgiver));
 
 	  notify_player(pgiver, pcity->tile, E_CITY_LOST,
                         FTC_SERVER_INFO, NULL,
                         _("You give city of %s to %s."),
-                        city_name(pcity), player_name(pdest));
+                        city_link(pcity), player_name(pdest));
 
 	  transfer_city(pdest, pcity, -1, TRUE, TRUE, FALSE);
 	  break;

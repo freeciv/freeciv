@@ -1353,7 +1353,7 @@ static void bounce_units_on_terrain_change(struct tile *ptile)
 	  notify_player(unit_owner(punit), punit->tile, E_UNIT_RELOCATED,
                         FTC_SERVER_INFO, NULL,
                         _("Moved your %s due to changing terrain."),
-                        unit_name_translation(punit));
+                        unit_link(punit));
 	  unit_alive = move_unit(punit, ptile2, 0);
 	  if (unit_alive && punit->activity == ACTIVITY_SENTRY) {
 	    unit_activity_handling(punit, ACTIVITY_IDLE);
@@ -1371,7 +1371,7 @@ static void bounce_units_on_terrain_change(struct tile *ptile)
 	notify_player(unit_owner(punit), punit->tile, E_UNIT_LOST_MISC,
                       FTC_SERVER_INFO, NULL,
                       _("Disbanded your %s due to changing terrain."),
-                      unit_name_translation(punit));
+                      unit_link(punit));
 	wipe_unit(punit);
       }
     }
