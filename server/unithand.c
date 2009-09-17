@@ -175,8 +175,8 @@ void handle_unit_upgrade(struct player *pplayer, int unit_id)
 
   if (get_unit_upgrade_info(buf, sizeof(buf), punit) == UR_OK) {
     struct unit_type *from_unit = unit_type(punit);
-    struct unit_type *to_unit = can_upgrade_unittype(pplayer, unit_type(punit));
-    int cost = unit_upgrade_price(pplayer, unit_type(punit), to_unit);
+    struct unit_type *to_unit = can_upgrade_unittype(pplayer, from_unit);
+    int cost = unit_upgrade_price(pplayer, from_unit, to_unit);
 
     transform_unit(punit, to_unit, FALSE);
     send_player_info(pplayer, pplayer);
@@ -184,7 +184,7 @@ void handle_unit_upgrade(struct player *pplayer, int unit_id)
                   FTC_SERVER_INFO, NULL,
 		  _("%s upgraded to %s for %d gold."), 
 		  utype_name_translation(from_unit),
-		  utype_name_translation(to_unit),
+		  unit_link(punit),
 		  cost);
   } else {
     notify_player(pplayer, punit->tile, E_UNIT_UPGRADED,
@@ -505,7 +505,7 @@ void handle_unit_disband(struct player *pplayer, int unit_id)
     notify_player(unit_owner(punit), punit->tile, E_BAD_COMMAND,
                   FTC_SERVER_INFO, NULL,
                   _("%s refuses to disband!"),
-                  unit_name_translation(punit));
+                  unit_link(punit));
     return;
   }
 
@@ -596,38 +596,38 @@ static void city_add_or_build_error(struct player *pplayer,
     notify_player(pplayer, punit->tile, E_BAD_COMMAND,
                   FTC_SERVER_INFO, NULL,
                   _("%s unit has no moves left to add to %s."),
-                  unit_name_translation(punit),
-                  city_name(pcity));
+                  unit_link(punit),
+                  city_link(pcity));
     break;
   case AB_NO_MOVES_BUILD:
     notify_player(pplayer, punit->tile, E_BAD_COMMAND,
                   FTC_SERVER_INFO, NULL,
                   _("%s unit has no moves left to build city."),
-                  unit_name_translation(punit));
+                  unit_link(punit));
     break;
   case AB_NOT_OWNER:
     notify_player(pplayer, punit->tile, E_BAD_COMMAND,
                   FTC_SERVER_INFO, NULL,
                   /* TRANS: <city> is owned by <nation>, cannot add <unit>. */
                   _("%s is owned by %s, cannot add %s."),
-                  city_name(pcity),
+                  city_link(pcity),
                   nation_plural_for_player(city_owner(pcity)),
-                  unit_name_translation(punit));
+                  unit_link(punit));
     break;
   case AB_TOO_BIG:
     notify_player(pplayer, punit->tile, E_BAD_COMMAND,
                   FTC_SERVER_INFO, NULL,
                   _("%s is too big to add %s."),
-                  city_name(pcity),
-                  unit_name_translation(punit));
+                  city_link(pcity),
+                  unit_link(punit));
     break;
   case AB_NO_SPACE:
     notify_player(pplayer, punit->tile, E_BAD_COMMAND,
                   FTC_SERVER_INFO, NULL,
                   _("%s needs an improvement to grow, so "
                     "you cannot add %s."),
-                  city_name(pcity),
-                  unit_name_translation(punit));
+                  city_link(pcity),
+                  unit_link(punit));
     break;
   default:
     /* Shouldn't happen */
@@ -637,8 +637,8 @@ static void city_add_or_build_error(struct player *pplayer,
     notify_player(pplayer, punit->tile, E_BAD_COMMAND,
                   FTC_SERVER_INFO, NULL,
                   _("Can't add %s to %s."),
-                  unit_name_translation(punit),
-                  city_name(pcity));
+                  unit_link(punit),
+                  city_link(pcity));
     break;
   }
 }
@@ -660,8 +660,8 @@ static void city_add_unit(struct player *pplayer, struct unit *punit)
   notify_player(pplayer, pcity->tile, E_CITY_BUILD,
                 FTC_SERVER_INFO, NULL,
                 _("%s added to aid %s in growing."),
-                unit_name_translation(punit),
-                city_name(pcity));
+                unit_link(punit),
+                city_link(pcity));
   wipe_unit(punit);
   send_city_info(NULL, pcity);
 }
@@ -989,6 +989,7 @@ already made all necessary checks.
 **************************************************************************/
 static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
 {
+  char looser_link[MAX_LEN_NAME], winner_link[MAX_LEN_NAME];
   struct unit *plooser, *pwinner;
   struct city *pcity;
   int moves_used, def_moves_used; 
@@ -1023,7 +1024,7 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
       notify_player(city_owner(pcity), def_tile, E_UNIT_WIN,
                     FTC_SERVER_INFO, NULL,
                     _("The nuclear attack on %s was avoided by"
-                      " your SDI defense."), city_name(pcity));
+                      " your SDI defense."), city_link(pcity));
       wipe_unit(punit);
       return;
     } 
@@ -1081,7 +1082,11 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
 	old_defender_vet)) ? 0 : 1;
 
   send_combat(punit, pdefender, vet, 0);
-  
+
+  /* N.B.: unit_link always returns the same pointer. */
+  sz_strlcpy(looser_link, unit_link(plooser));
+  sz_strlcpy(winner_link, unit_link(pwinner));
+
   if (punit == plooser) {
     /* The attacker lost */
     freelog(LOG_DEBUG, "Attacker lost: %s %s against %s %s.",
@@ -1094,9 +1099,9 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
                   FTC_SERVER_INFO, NULL,
 		  /* TRANS: "Your Cannon ... the Polish Destroyer." */
 		  _("Your %s survived the pathetic attack from the %s %s."),
-		  unit_name_translation(pwinner),
+		  winner_link,
 		  nation_adjective_for_player(unit_owner(plooser)),
-		  unit_name_translation(plooser));
+		  looser_link);
     if (vet) {
       notify_unit_experience(pwinner);
     }
@@ -1104,9 +1109,9 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
                   FTC_SERVER_INFO, NULL,
 		  /* TRANS: "... Cannon ... the Polish Destroyer." */
 		  _("Your attacking %s failed against the %s %s!"),
-		  unit_name_translation(plooser),
+		  looser_link,
 		  nation_adjective_for_player(unit_owner(pwinner)),
-		  unit_name_translation(pwinner));
+		  winner_link);
     wipe_unit(plooser);
   } else {
     /* The defender lost, the attacker punit lives! */
@@ -1205,14 +1210,14 @@ static bool can_unit_move_to_tile_with_notify(struct unit *punit,
     notify_player(unit_owner(punit), src_tile, E_BAD_COMMAND,
                   FTC_SERVER_INFO, NULL,
                   _("%s can only move into your own zone of control."),
-                  unit_name_translation(punit));
+                  unit_link(punit));
     break;
 
   case MR_TRIREME:
     notify_player(unit_owner(punit), src_tile, E_BAD_COMMAND,
                   FTC_SERVER_INFO, NULL,
                   _("%s cannot move that far from the coast line."),
-                  unit_name_translation(punit));
+                  unit_link(punit));
     break;
 
   case MR_PEACE:
@@ -1325,7 +1330,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
           notify_player(pplayer, punit->tile, E_BAD_COMMAND,
                         FTC_SERVER_INFO, NULL,
                         _("Unit cannot perform diplomatic action from %s."),
-                          terrain_name_translation(tile_terrain(punit->tile)));
+                        terrain_name_translation(tile_terrain(punit->tile)));
         }
         return FALSE;
       }
@@ -1476,9 +1481,9 @@ void handle_unit_help_build_wonder(struct player *pplayer, int unit_id)
   notify_player(pplayer, pcity_dest->tile, E_CARAVAN_ACTION,
                 FTC_SERVER_INFO, NULL,
                 text, /* Must match arguments below. */
-                unit_name_translation(punit),
+                unit_link(punit),
                 improvement_name_translation(pcity_dest->production.value.building),
-                city_name(pcity_dest), 
+                city_link(pcity_dest), 
                 abs(build_points_left(pcity_dest)));
 
   wipe_unit(punit);
@@ -1492,6 +1497,8 @@ void handle_unit_help_build_wonder(struct player *pplayer, int unit_id)
 **************************************************************************/
 static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id, struct city *pcity_dest)
 {
+  char homecity_link[MAX_LEN_NAME], destcity_link[MAX_LEN_NAME];
+  char punit_link[MAX_LEN_NAME];
   int revenue, i;
   bool can_establish, home_full = FALSE, dest_full = FALSE;
   struct city *pcity_homecity; 
@@ -1527,20 +1534,23 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
                   FTC_SERVER_INFO, NULL,
                   _("Sorry, your %s cannot establish"
                     " a trade route because it has no home city"),
-                  unit_name_translation(punit));
+                  unit_link(punit));
     return FALSE;
    
   }
 
-    
+  sz_strlcpy(homecity_link, city_link(pcity_homecity));
+  sz_strlcpy(destcity_link, city_link(pcity_dest));
+  sz_strlcpy(punit_link, unit_link(punit));
+
   if (!can_cities_trade(pcity_homecity, pcity_dest)) {
     notify_player(pplayer, pcity_dest->tile, E_BAD_COMMAND,
                   FTC_SERVER_INFO, NULL,
                   _("Sorry, your %s cannot establish"
                     " a trade route between %s and %s"),
-                  unit_name_translation(punit),
-                  city_name(pcity_homecity),
-                  city_name(pcity_dest));
+                  punit_link,
+                  homecity_link,
+                  destcity_link);
     return FALSE;
   }
   
@@ -1568,12 +1578,12 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
                       FTC_SERVER_INFO, NULL,
 		     _("Sorry, your %s cannot establish"
 		       " a trade route here!"),
-		       unit_name_translation(punit));
+		       punit_link);
         notify_player(pplayer, pcity_dest->tile, E_BAD_COMMAND,
                       FTC_SERVER_INFO, NULL,
                       _("      The city of %s already has %d "
                         "better trade routes!"),
-                      city_name(pcity_homecity),
+                      homecity_link,
                       NUM_TRADEROUTES);
 	can_establish = FALSE;
       }
@@ -1589,12 +1599,12 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
                       FTC_SERVER_INFO, NULL,
                       _("Sorry, your %s cannot establish"
                         " a trade route here!"),
-                      unit_name_translation(punit));
+                      punit_link);
         notify_player(pplayer, pcity_dest->tile, E_BAD_COMMAND,
                       FTC_SERVER_INFO, NULL,
                       _("      The city of %s already has %d "
                         "better trade routes!"),
-                      city_name(pcity_dest),
+                      destcity_link,
                       NUM_TRADEROUTES);
 	can_establish = FALSE;
       }
@@ -1609,8 +1619,8 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
                     _("Sorry, %s has canceled the trade route "
                       "from %s to your city %s."),
                     player_name(city_owner(pcity_homecity)),
-                    city_name(pcity_homecity),
-                    city_name(pcity_out_of_home));
+                    homecity_link,
+                    city_link(pcity_out_of_home));
     }
 
     /* And the same for the dest city. */
@@ -1622,8 +1632,8 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
                     _("Sorry, %s has canceled the trade route "
                       "from %s to your city %s."),
                     player_name(city_owner(pcity_dest)),
-                    city_name(pcity_dest),
-                    city_name(pcity_out_of_dest));
+                    destcity_link,
+                    city_link(pcity_out_of_dest));
     }
   }
   
@@ -1655,9 +1665,9 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
                 FTC_SERVER_INFO, NULL,
                 _("Your %s from %s has arrived in %s,"
                   " and revenues amount to %d in gold and research."),
-                unit_name_translation(punit),
-                city_name(pcity_homecity),
-                city_name(pcity_dest),
+                punit_link,
+                homecity_link,
+                destcity_link,
                 revenue);
   wipe_unit(punit);
   pplayer->economic.gold += revenue;

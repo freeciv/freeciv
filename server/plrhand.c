@@ -1859,7 +1859,7 @@ void civil_war(struct player *pplayer)
                       FTC_SERVER_INFO, NULL,
                       /* TRANS: <city> ... the Poles. */
                       _("%s declares allegiance to the %s."),
-                      city_name(pcity),
+                      city_link(pcity),
                       nation_plural_for_player(cplayer));
 	i--;
       }

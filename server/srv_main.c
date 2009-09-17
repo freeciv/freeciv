@@ -508,7 +508,7 @@ static void remove_illegal_armistice_units(struct player *plr1,
       notify_player(plr1, punit->tile, E_DIPLOMACY, FTC_SERVER_INFO, NULL,
                     _("Your %s was disbanded in accordance with "
                       "your peace treaty with the %s."),
-                    unit_name_translation(punit),
+                    unit_link(punit),
                     nation_plural_for_player(plr2));
       wipe_unit(punit);
     }
@@ -519,7 +519,7 @@ static void remove_illegal_armistice_units(struct player *plr1,
       notify_player(plr2, punit->tile, E_DIPLOMACY, FTC_SERVER_INFO, NULL,
                     _("Your %s was disbanded in accordance with "
                       "your peace treaty with the %s."),
-                    unit_name_translation(punit),
+                    unit_link(punit),
                     nation_plural_for_player(plr1));
       wipe_unit(punit);
     }

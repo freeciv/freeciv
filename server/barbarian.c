@@ -607,13 +607,13 @@ static void try_summon_barbarians(void)
   /* There should probably be a different message about Sea Raiders */
   if (is_land_barbarian(barbarians)) {
     notify_player(victim, utile, E_UPRISING, FTC_SERVER_INFO, NULL,
-		  _("Native unrest near %s led by %s."),
-		  city_name(pc),
-		  player_name(barbarians));
+                  _("Native unrest near %s led by %s."),
+                  city_link(pc),
+                  player_name(barbarians));
   } else if (map_is_known_and_seen(utile, victim, V_MAIN)) {
     notify_player(victim, utile, E_UPRISING, FTC_SERVER_INFO, NULL,
-		  _("Sea raiders seen near %s!"),
-		  city_name(pc));
+                  _("Sea raiders seen near %s!"),
+                  city_link(pc));
   }
 }
 
