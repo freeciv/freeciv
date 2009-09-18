@@ -1161,7 +1161,14 @@ static void invasion_funct(struct unit *punit, bool dest, int radius,
     if (pcity
         && HOSTILE_PLAYER(pplayer, ai, city_owner(pcity))
 	&& (dest || !has_defense(pcity))) {
-      pcity->ai->invasion.attack++;
+      int attacks;
+
+      if (unit_has_type_flag(punit, F_ONEATTACK)) {
+        attacks = 1;
+      } else {
+        attacks = unit_type(punit)->move_rate;
+      }
+      pcity->ai->invasion.attack += attacks;
       if (which == INVASION_OCCUPY) {
         pcity->ai->invasion.occupy++;
       }
