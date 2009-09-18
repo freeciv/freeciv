@@ -1603,7 +1603,22 @@ void map_claim_border(struct tile *ptile, struct player *owner)
     }
 
     if (NULL != dclaimer && dclaimer != ptile) {
+      struct city *ccity = tile_city(dclaimer);
       int r = sq_map_distance(dclaimer, dtile);
+
+      if (ccity != NULL) {
+        /* Previously claimed by city */
+        int city_x, city_y;
+
+        map_distance_vector(&city_x, &city_y, ccity->tile, dtile);
+        city_x += CITY_MAP_RADIUS;
+        city_y += CITY_MAP_RADIUS;
+
+        if (is_valid_city_coords(city_x, city_y)) {
+          /* Tile is within city radius */
+          continue;
+        }
+      }
 
       if (r < dr) {
         /* nearest shall prevail */
