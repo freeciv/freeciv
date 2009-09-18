@@ -15,24 +15,19 @@
 
 #include <gtk/gtk.h>
 
-/* common */
-#include "featured_text.h"      /* enum text_tag_type */
-
 /* include */
 #include "chatline_g.h"
 
-#define	MAX_CHATLINE_HISTORY 20
+void chatline_init(void);
 
-extern struct genlist *history_list;
-extern int history_pos;
-
-void inputline_return(GtkEntry *w, gpointer data);
-void inputline_make_tag(GtkEntry *w, enum text_tag_type type);
-void inputline_make_chat_link(GtkEntry *w, struct tile *ptile, bool unit);
+void inputline_make_chat_link(GtkEntry *entry,
+                              struct tile *ptile, bool unit);
 
 void set_output_window_text(const char *text);
 void chatline_scroll_to_bottom(void);
 
 void set_message_buffer_view_link_handlers(GtkWidget *view);
+GtkWidget *inputline_toolkit_new(GtkWidget **pentry,
+                                 GtkWidget **pbutton_box);
 
 #endif  /* FC__CHATLINE_H */
