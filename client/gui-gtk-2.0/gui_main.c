@@ -538,67 +538,6 @@ gboolean map_canvas_focus(void)
 }
 
 /**************************************************************************
-...
-**************************************************************************/
-gboolean inputline_handler(GtkWidget *w, GdkEventKey *ev)
-{
-  if ((ev->state & GDK_CONTROL_MASK)) {
-    /* Chatline featured text support. */
-    switch (ev->keyval) {
-    case GDK_b:
-      inputline_make_tag(GTK_ENTRY(w), TTT_BOLD);
-      return TRUE;
-
-    case GDK_i:
-      inputline_make_tag(GTK_ENTRY(w), TTT_ITALIC);
-      return TRUE;
-
-    case GDK_s:
-      inputline_make_tag(GTK_ENTRY(w), TTT_STRIKE);
-      return TRUE;
-
-    case GDK_u:
-      inputline_make_tag(GTK_ENTRY(w), TTT_UNDERLINE);
-      return TRUE;
-
-    default:
-      break;
-    }
-
-  } else {
-    /* Chatline history controls. */
-    switch (ev->keyval) {
-    case GDK_Up:
-      if (history_pos < genlist_size(history_list) - 1) {
-        gtk_entry_set_text(GTK_ENTRY(w),
-                           genlist_get(history_list, history_pos));
-        gtk_editable_set_position(GTK_EDITABLE(w), -1);
-      }
-      return TRUE;
-
-    case GDK_Down:
-      if (history_pos >= 0) {
-        history_pos--;
-      }
-      
-      if (history_pos >= 0) {
-        gtk_entry_set_text(GTK_ENTRY(w),
-                           genlist_get(history_list, history_pos));
-      } else {
-        gtk_entry_set_text(GTK_ENTRY(w), "");
-      }
-      gtk_editable_set_position(GTK_EDITABLE(w), -1);
-      return TRUE;
-
-    default:
-      break;
-    }
-  }
-
-  return FALSE;
-}
-
-/**************************************************************************
   In GTK+ keyboard events are recursively propagated from the hierarchy
   parent down to its children. Sometimes this is not what we want.
   E.g. The inputline is active, the user presses the 's' key, we want it
@@ -1171,7 +1110,7 @@ static void setup_widgets(void)
 {
   GtkWidget *box, *ebox, *hbox, *sbox, *align, *label;
   GtkWidget *frame, *table, *table2, *paned, *hpaned, *sw, *text;
-  GtkWidget *button;
+  GtkWidget *button, *toolkit;
   int i;
   char buf[256];
   struct sprite *sprite;
@@ -1563,15 +1502,8 @@ static void setup_widgets(void)
   chat_welcome_message();
 
   /* the chat line */
-  hbox = gtk_hbox_new(FALSE, 4);
-  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 3);
-
-  inputline = gtk_entry_new();
-  g_signal_connect(inputline, "activate",
-		   G_CALLBACK(inputline_return), NULL);
-  g_signal_connect(inputline, "key_press_event",
-                   G_CALLBACK(inputline_handler), NULL);
-  gtk_box_pack_start(GTK_BOX(hbox), inputline, TRUE, TRUE, 0);
+  toolkit = inputline_toolkit_new(&inputline, &hbox);
+  gtk_box_pack_start(GTK_BOX(vbox), toolkit, FALSE, FALSE, 3);
 
   button = gtk_toggle_button_new_with_label(_("Allies Only"));
   gtk_button_set_focus_on_click(GTK_BUTTON(button), FALSE);
@@ -1810,10 +1742,7 @@ void ui_main(int argc, char **argv)
   happiness_dialog_init();
   intel_dialog_init();
   spaceship_dialog_init();
-
-  history_list = genlist_new();
-  history_pos = -1;
-
+  chatline_init();
   init_mapcanvas_and_overview();
 
   tileset_use_prefered_theme(tileset);

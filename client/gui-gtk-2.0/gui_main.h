@@ -107,8 +107,6 @@ void enable_menus(bool enable);
 
 gboolean map_canvas_focus(void);
 
-gboolean inputline_handler(GtkWidget *w, GdkEventKey *ev);
-
 void reset_unit_table(void);
 void popup_quit_dialog(void);
 void refresh_chat_buttons(void);

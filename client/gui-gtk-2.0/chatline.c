@@ -24,6 +24,7 @@
 
 /* utility */
 #include "fcintl.h"
+#include "genlist.h"
 #include "mem.h"
 #include "support.h"
 
@@ -46,8 +47,23 @@
 
 #include "chatline.h"
 
-struct genlist *history_list;
-int history_pos;
+#define	MAX_CHATLINE_HISTORY 20
+
+static struct genlist *history_list = NULL;
+static int history_pos = -1;
+
+static void inputline_make_tag(GtkEntry *entry, enum text_tag_type type);
+
+/**************************************************************************
+  Initializes the chatline stuff.
+**************************************************************************/
+void chatline_init(void)
+{
+  if (!history_list) {
+    history_list = genlist_new();
+    history_pos = -1;
+  }
+}
 
 /**************************************************************************
   Helper function to determine if a given client input line is intended as
@@ -100,9 +116,9 @@ static bool is_plain_public_message(const char *s)
 
 
 /**************************************************************************
-...
+  Called when the return key is pressed.
 **************************************************************************/
-void inputline_return(GtkEntry *w, gpointer data)
+static void inputline_return(GtkEntry *w, gpointer data)
 {
   const char *theinput;
 
@@ -134,14 +150,81 @@ void inputline_return(GtkEntry *w, gpointer data)
 }
 
 /**************************************************************************
+  Called when a key is pressed.
+**************************************************************************/
+static gboolean inputline_handler(GtkWidget *w, GdkEventKey *ev)
+{
+  if ((ev->state & GDK_CONTROL_MASK)) {
+    /* Chatline featured text support. */
+    switch (ev->keyval) {
+    case GDK_b:
+      inputline_make_tag(GTK_ENTRY(w), TTT_BOLD);
+      return TRUE;
+
+    case GDK_c:
+      inputline_make_tag(GTK_ENTRY(w), TTT_COLOR);
+      return TRUE;
+
+    case GDK_i:
+      inputline_make_tag(GTK_ENTRY(w), TTT_ITALIC);
+      return TRUE;
+
+    case GDK_s:
+      inputline_make_tag(GTK_ENTRY(w), TTT_STRIKE);
+      return TRUE;
+
+    case GDK_u:
+      inputline_make_tag(GTK_ENTRY(w), TTT_UNDERLINE);
+      return TRUE;
+
+    default:
+      break;
+    }
+
+  } else {
+    /* Chatline history controls. */
+    switch (ev->keyval) {
+    case GDK_Up:
+      if (history_pos < genlist_size(history_list) - 1) {
+        gtk_entry_set_text(GTK_ENTRY(w),
+                           genlist_get(history_list, history_pos));
+        gtk_editable_set_position(GTK_EDITABLE(w), -1);
+      }
+      return TRUE;
+
+    case GDK_Down:
+      if (history_pos >= 0) {
+        history_pos--;
+      }
+      
+      if (history_pos >= 0) {
+        gtk_entry_set_text(GTK_ENTRY(w),
+                           genlist_get(history_list, history_pos));
+      } else {
+        gtk_entry_set_text(GTK_ENTRY(w), "");
+      }
+      gtk_editable_set_position(GTK_EDITABLE(w), -1);
+      return TRUE;
+
+    default:
+      break;
+    }
+  }
+
+  return FALSE;
+}
+
+/**************************************************************************
   Make a text tag for the selected text.
 **************************************************************************/
-void inputline_make_tag(GtkEntry *w, enum text_tag_type type)
+void inputline_make_tag(GtkEntry *entry, enum text_tag_type type)
 {
   char buf[MAX_LEN_MSG];
-  GtkEditable *editable = GTK_EDITABLE(w);
+  GtkEditable *editable = GTK_EDITABLE(entry);
   gint start_pos, end_pos;
   gchar *selection;
+  gchar *fg_color_text = NULL;
+  gchar *bg_color_text = NULL;
 
   if (!gtk_editable_get_selection_bounds(editable, &start_pos, &end_pos)) {
     /* Let's say the selection starts and ends at the current position. */
@@ -149,25 +232,53 @@ void inputline_make_tag(GtkEntry *w, enum text_tag_type type)
   }
 
   selection = gtk_editable_get_chars(editable, start_pos, end_pos);
-  if (0 != featured_text_apply_tag(selection, buf, sizeof(buf),
+
+  if (type == TTT_COLOR) {
+    /* Get the color arguments. */
+    GdkColor *fg_color = g_object_get_data(G_OBJECT(entry), "fg_color");
+    GdkColor *bg_color = g_object_get_data(G_OBJECT(entry), "bg_color");
+
+    if (!fg_color && !bg_color) {
+      goto CLEAN_UP;
+    }
+
+    fg_color_text = fg_color ? gdk_color_to_string(fg_color) : NULL;
+    bg_color_text = bg_color ? gdk_color_to_string(bg_color) : NULL;
+
+    if (0 == featured_text_apply_tag(selection, buf, sizeof(buf),
+                                     TTT_COLOR, 0, OFFSET_UNSET,
+                                     fg_color_text, bg_color_text)) {
+      goto CLEAN_UP;
+    }
+  } else if (0 == featured_text_apply_tag(selection, buf, sizeof(buf),
                                    type, 0, OFFSET_UNSET)) {
-    /* Replace the selection. */
-    gtk_editable_delete_text(editable, start_pos, end_pos);
-    end_pos = start_pos;
-    gtk_editable_insert_text(editable, buf, -1, &end_pos);
-    gtk_editable_select_region(editable, start_pos, end_pos);
+    goto CLEAN_UP;
   }
+
+  /* Replace the selection. */
+  gtk_editable_delete_text(editable, start_pos, end_pos);
+  end_pos = start_pos;
+  gtk_editable_insert_text(editable, buf, -1, &end_pos);
+  gtk_editable_select_region(editable, start_pos, end_pos);
+
+CLEAN_UP:
   g_free(selection);
+  if (fg_color_text) {
+    g_free(fg_color_text);
+  }
+  if (bg_color_text) {
+    g_free(bg_color_text);
+  }
 }
 
 /**************************************************************************
   Make a chat link at the current position or make the current selection
   clickable.
 **************************************************************************/
-void inputline_make_chat_link(GtkEntry *w, struct tile *ptile, bool unit)
+void inputline_make_chat_link(GtkEntry *entry, struct tile *ptile, bool unit)
 {
   char buf[MAX_LEN_MSG];
-  GtkEditable *editable = GTK_EDITABLE(w);
+  GtkEditable *editable = GTK_EDITABLE(entry);
   gint start_pos, end_pos;
   gchar *chars;
   struct unit *punit;
@@ -206,7 +317,7 @@ void inputline_make_chat_link(GtkEntry *w, struct tile *ptile, bool unit)
       gtk_editable_delete_text(editable, start_pos, end_pos);
       end_pos = start_pos;
       gtk_editable_insert_text(editable, buf, -1, &end_pos);
-      gtk_widget_grab_focus(GTK_WIDGET(w));
+      gtk_widget_grab_focus(GTK_WIDGET(entry));
       gtk_editable_select_region(editable, start_pos, end_pos);
     }
   } else {
@@ -233,7 +344,7 @@ void inputline_make_chat_link(GtkEntry *w, struct tile *ptile, bool unit)
       /* Maybe insert an extra space. */
       gtk_editable_insert_text(editable, " ", 1, &end_pos);
     }
-    gtk_widget_grab_focus(GTK_WIDGET(w));
+    gtk_widget_grab_focus(GTK_WIDGET(entry));
     gtk_editable_set_position(editable, end_pos);
   }
 
@@ -688,4 +799,255 @@ void chatline_scroll_to_bottom(void)
     gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(start_message_area),
                                  &end, 0.0, TRUE, 1.0, 0.0);
   }
+}
+
+/**************************************************************************
+  Tool button clicked.
+**************************************************************************/
+static void make_tag_callback(GtkToolButton *button, gpointer data)
+{
+  inputline_make_tag(GTK_ENTRY(data),
+                     GPOINTER_TO_INT(g_object_get_data(G_OBJECT(button),
+                                                       "text_tag_type")));
+}
+
+/**************************************************************************
+  Color selection dialog response.
+**************************************************************************/
+static void color_selected(GtkDialog *dialog, gint res, gpointer data)
+{
+  GtkToolButton *button =
+    GTK_TOOL_BUTTON(g_object_get_data(G_OBJECT(dialog), "button"));
+  const gchar *color_target =
+    g_object_get_data(G_OBJECT(button), "color_target");
+  GdkColor *current_color = g_object_get_data(G_OBJECT(data), color_target);
+  GdkColormap *colormap = gdk_colormap_get_system();
+
+  if (res == GTK_RESPONSE_REJECT) {
+    /* Clears the current color. */
+    if (current_color) {
+      gdk_colormap_free_colors(colormap, current_color, 1);
+      gdk_color_free(current_color);
+      g_object_set_data(G_OBJECT(data), color_target, NULL);
+      gtk_tool_button_set_icon_widget(button, NULL);
+    }
+  } else if (res == GTK_RESPONSE_OK) {
+    /* Apply the new color. */
+    GdkPixmap *pixmap;
+    GtkWidget *image;
+    GtkColorSelection *selection =
+      GTK_COLOR_SELECTION(g_object_get_data(G_OBJECT(dialog), "selection"));
+
+    if (current_color) {
+      /* We already have a GdkColor pointer. */
+      gdk_colormap_free_colors(colormap, current_color, 1);
+      gtk_color_selection_get_current_color(selection, current_color);
+    } else {
+      /* We need to make a GdkColor pointer. */
+      GdkColor new_color;
+
+      gtk_color_selection_get_current_color(selection, &new_color);
+      current_color = gdk_color_copy(&new_color);
+      g_object_set_data(G_OBJECT(data), color_target, current_color);
+    }
+
+    gdk_colormap_alloc_color(colormap, current_color, TRUE, TRUE);
+    pixmap = gdk_pixmap_new(root_window, 16, 16, -1);
+    gdk_gc_set_foreground(fill_bg_gc, current_color);
+    gdk_draw_rectangle(pixmap, fill_bg_gc, TRUE, 0, 0, 16, 16);
+    image = gtk_pixmap_new(pixmap, NULL);
+    gtk_tool_button_set_icon_widget(button, image);
+    gtk_widget_show(image);
+    g_object_unref(G_OBJECT(pixmap));
+  }
+
+  gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
+/**************************************************************************
+  Color selection tool button clicked.
+**************************************************************************/
+static void select_color_callback(GtkToolButton *button, gpointer data)
+{
+  char buf[64];
+  GtkWidget *dialog, *selection;
+  /* "fg_color" or "bg_color". */
+  const gchar *color_target = g_object_get_data(G_OBJECT(button),
+                                                "color_target");
+  GdkColor *current_color = g_object_get_data(G_OBJECT(data), color_target);
+
+  /* TRANS: "foreground" or "background". */
+  my_snprintf(buf, sizeof(buf), _("Select the %s color"),
+              (const char *) g_object_get_data(G_OBJECT(button),
+                                               "color_info"));
+  dialog = gtk_dialog_new_with_buttons(buf, NULL, GTK_DIALOG_MODAL,
+                                       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+                                       GTK_STOCK_CLEAR, GTK_RESPONSE_REJECT,
+                                       GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+  setup_dialog(dialog, toplevel);
+  g_object_set_data(G_OBJECT(dialog), "button", button);
+  g_signal_connect(dialog, "response", G_CALLBACK(color_selected), data);
+
+  selection = gtk_color_selection_new();
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), selection,
+                     FALSE, FALSE, 0);
+  g_object_set_data(G_OBJECT(dialog), "selection", selection);
+  if (current_color) {
+    gtk_color_selection_set_current_color(GTK_COLOR_SELECTION(selection),
+                                          current_color);
+  }
+
+  gtk_widget_show_all(dialog);
+}
+
+/**************************************************************************
+  Show/Hide the toolbar.
+**************************************************************************/
+static void button_toggled(GtkToggleButton *button, gpointer data)
+{
+  if (gtk_toggle_button_get_active(button)) {
+    gtk_widget_show(GTK_WIDGET(data));
+  } else {
+    gtk_widget_hide(GTK_WIDGET(data));
+  }
+}
+
+/**************************************************************************
+  Returns a new inputline toolkit widget.
+
+  pentry: The resulting GtkEntry.
+  pbutton_box: A resulting GtkHBox where additionnal buttons
+  can be appened.
+**************************************************************************/
+GtkWidget *inputline_toolkit_new(GtkWidget **pentry, GtkWidget **pbutton_box)
+{
+  GtkWidget *vbox, *toolbar, *hbox, *button, *entry;
+  GtkToolItem *item;
+  GtkTooltips *tooltips;
+
+  tooltips = gtk_tooltips_new();
+  gtk_tooltips_enable(tooltips);
+
+  entry = gtk_entry_new();
+  vbox = gtk_vbox_new(FALSE, 2);
+
+  /* Toolbar. */
+  toolbar = gtk_toolbar_new();
+  gtk_box_pack_start(GTK_BOX(vbox), toolbar, FALSE, FALSE, 0);
+  gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar), GTK_ICON_SIZE_MENU);
+  gtk_toolbar_set_show_arrow(GTK_TOOLBAR(toolbar), FALSE);
+  gtk_toolbar_set_style(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_BOTH_HORIZ);
+  gtk_toolbar_set_orientation(GTK_TOOLBAR(toolbar),
+                              GTK_ORIENTATION_HORIZONTAL);
+  g_signal_connect(toolbar, "expose-event",
+                   G_CALLBACK(chatline_scroll_to_bottom), NULL);
+
+  /* Bold button. */
+  item = gtk_tool_button_new_from_stock(GTK_STOCK_BOLD);
+  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), item, -1);
+  g_object_set_data(G_OBJECT(item), "text_tag_type",
+                    GINT_TO_POINTER(TTT_BOLD));
+  g_signal_connect(item, "clicked", G_CALLBACK(make_tag_callback), entry);
+  gtk_tooltips_set_tip(tooltips, GTK_WIDGET(item),
+                       _("Bold (Ctrl-B)"), NULL);
+
+  /* Italic button. */
+  item = gtk_tool_button_new_from_stock(GTK_STOCK_ITALIC);
+  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), item, -1);
+  g_object_set_data(G_OBJECT(item), "text_tag_type",
+                    GINT_TO_POINTER(TTT_ITALIC));
+  g_signal_connect(item, "clicked", G_CALLBACK(make_tag_callback), entry);
+  gtk_tooltips_set_tip(tooltips, GTK_WIDGET(item),
+                       _("Italic (Ctrl-I)"), NULL);
+
+  /* Strike button. */
+  item = gtk_tool_button_new_from_stock(GTK_STOCK_STRIKETHROUGH);
+  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), item, -1);
+  g_object_set_data(G_OBJECT(item), "text_tag_type",
+                    GINT_TO_POINTER(TTT_STRIKE));
+  g_signal_connect(item, "clicked", G_CALLBACK(make_tag_callback), entry);
+  gtk_tooltips_set_tip(tooltips, GTK_WIDGET(item),
+                       _("Strikethrough (Ctrl-S)"), NULL);
+
+  /* Underline button. */
+  item = gtk_tool_button_new_from_stock(GTK_STOCK_UNDERLINE);
+  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), item, -1);
+  g_object_set_data(G_OBJECT(item), "text_tag_type",
+                    GINT_TO_POINTER(TTT_UNDERLINE));
+  g_signal_connect(item, "clicked", G_CALLBACK(make_tag_callback), entry);
+  gtk_tooltips_set_tip(tooltips, GTK_WIDGET(item),
+                       _("Underline (Ctrl-U)"), NULL);
+
+  /* Color button. */
+  item = gtk_tool_button_new_from_stock(GTK_STOCK_SELECT_COLOR);
+  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), item, -1);
+  g_object_set_data(G_OBJECT(item), "text_tag_type",
+                    GINT_TO_POINTER(TTT_COLOR));
+  g_signal_connect(item, "clicked", G_CALLBACK(make_tag_callback), entry);
+  gtk_tooltips_set_tip(tooltips, GTK_WIDGET(item),
+                       _("Color (Ctrl-C)"), NULL);
+
+  gtk_toolbar_insert(GTK_TOOLBAR(toolbar),
+                     gtk_separator_tool_item_new(), -1);
+
+  /* Foreground selector. */
+  item = gtk_tool_button_new(NULL, NULL);
+  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), item, -1);
+  g_object_set_data(G_OBJECT(item), "color_target", mystrdup("fg_color"));
+  g_object_set_data(G_OBJECT(item), "color_info", mystrdup(_("foreground")));
+  g_signal_connect(item, "clicked",
+                   G_CALLBACK(select_color_callback), entry);
+  gtk_tooltips_set_tip(tooltips, GTK_WIDGET(item),
+                       _("Select the foreground color"), NULL);
+
+  /* Background selector. */
+  item = gtk_tool_button_new(NULL, NULL);
+  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), item, -1);
+  g_object_set_data(G_OBJECT(item), "color_target", mystrdup("bg_color"));
+  g_object_set_data(G_OBJECT(item), "color_info", mystrdup(_("background")));
+  g_signal_connect(item, "clicked",
+                   G_CALLBACK(select_color_callback), entry);
+  gtk_tooltips_set_tip(tooltips, GTK_WIDGET(item),
+                       _("Select the background color"), NULL);
+
+  gtk_toolbar_insert(GTK_TOOLBAR(toolbar),
+                     gtk_separator_tool_item_new(), -1);
+
+  /* Return button. */
+  item = gtk_tool_button_new_from_stock(GTK_STOCK_OK);
+  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), item, -1);
+  g_signal_connect_swapped(item, "clicked",
+                           G_CALLBACK(inputline_return), entry);
+  gtk_tooltips_set_tip(tooltips, GTK_WIDGET(item),
+                       /* TRANS: "Return" means the return key. */
+                       _("Send the chat (Return)"), NULL);
+
+  /* Second line. */
+  hbox = gtk_hbox_new(FALSE, 4);
+  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+
+  /* Toggle button. */
+  button = gtk_toggle_button_new();
+  gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 2);
+  gtk_container_add(GTK_CONTAINER(button),
+                    gtk_image_new_from_stock(GTK_STOCK_EDIT,
+                                             GTK_ICON_SIZE_MENU));
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), TRUE);
+  g_signal_connect(button, "toggled", G_CALLBACK(button_toggled), toolbar);
+  gtk_tooltips_set_tip(tooltips, GTK_WIDGET(button), _("Chat tools"), NULL);
+
+  /* Entry. */
+  gtk_box_pack_start(GTK_BOX(hbox), entry, TRUE, TRUE, 2);
+  g_signal_connect(entry, "activate", G_CALLBACK(inputline_return), NULL);
+  g_signal_connect(entry, "key_press_event",
+                   G_CALLBACK(inputline_handler), NULL);
+
+  if (pentry) {
+    *pentry = entry;
+  }
+  if (pbutton_box) {
+    *pbutton_box = hbox;
+  }
+
+  return vbox;
 }

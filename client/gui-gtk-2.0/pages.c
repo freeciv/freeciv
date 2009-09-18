@@ -1494,7 +1494,7 @@ static void add_tree_col(GtkWidget *treeview, GType gtype,
 GtkWidget *create_start_page(void)
 {
   GtkWidget *box, *sbox, *bbox, *table, *align, *vbox;
-  GtkWidget *view, *sw, *text, *entry, *button, *spin, *option;
+  GtkWidget *view, *sw, *text, *toolkit, *button, *spin, *option;
   GtkWidget *label, *menu, *item;
   GtkTreeStore *store;
   enum ai_level level;
@@ -1651,16 +1651,8 @@ GtkWidget *create_start_page(void)
   gtk_container_add(GTK_CONTAINER(sw), text);
 
 
-  sbox = gtk_hbox_new(FALSE, 12);
-  gtk_box_pack_start(GTK_BOX(box), sbox, FALSE, FALSE, 0);
-
-  entry = gtk_entry_new();
-  gtk_box_pack_start(GTK_BOX(sbox), entry, TRUE, TRUE, 0);
-  g_signal_connect(entry, "key_press_event",
-      G_CALLBACK(inputline_handler), NULL);
-  g_signal_connect(entry, "activate",
-      G_CALLBACK(inputline_return), NULL);
-  start_page_entry = entry;
+  toolkit = inputline_toolkit_new(&start_page_entry, &sbox);
+  gtk_box_pack_start(GTK_BOX(box), toolkit, FALSE, FALSE, 0);
 
   bbox = gtk_hbutton_box_new();
   gtk_box_set_spacing(GTK_BOX(bbox), 12);
