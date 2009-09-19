@@ -670,6 +670,10 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
                && saved_id) {
       /* else transfer to specified city. */
       transfer_unit(vunit, pcity, verbose);
+      if (vunit->tile == ptile && !pplayers_allied(pplayer, pvictim)) {
+        /* Unit is inside city being transferred, bounce it */
+        bounce_unit(vunit, TRUE);
+      }
     } else {
       /* The unit is lost.  Call notify_player (in all other cases it is
        * called automatically). */

@@ -389,18 +389,14 @@ void handle_unit_diplomat_action(struct player *pplayer,
 }
 
 /**************************************************************************
-  Transfer a unit from one homecity to another. If unit is not presently
-  in its new homecity, it will be moved there. This new homecity must
+  Transfer a unit from one homecity to another. This new homecity must
   be valid for this unit.
-
-  Note that unit may die in the process.
 **************************************************************************/
 void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity)
 {
   struct city *old_pcity = game_find_city_by_number(punit->homecity);
   struct player *old_owner = unit_owner(punit);
   struct player *new_owner = city_owner(new_pcity);
-  bool unit_alive = TRUE;
 
   /* Calling this function when new_pcity is same as old_pcity should
    * be safe with current implementation, but it is not meant to
@@ -421,12 +417,6 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity)
     unit_refresh_vision(punit);
   }
 
-  if (!same_pos(punit->tile, new_pcity->tile)) {
-    assert(can_unit_exist_at_tile(punit, new_pcity->tile));
-    /* Teleport to location */
-    unit_alive = move_unit(punit, new_pcity->tile, 0);
-  }
-
   /* Remove from old city first and add to new city only after that.
    * This is more robust in case old_city == new_city (currently
    * prohibited by assert in the beginning of the function).
@@ -438,15 +428,13 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity)
     city_units_upkeep(old_pcity);
   }
 
-  if (unit_alive) {
-    unit_list_prepend(new_pcity->units_supported, punit);
+  unit_list_prepend(new_pcity->units_supported, punit);
 
-    /* update unit upkeep */
-    city_units_upkeep(new_pcity);
+  /* update unit upkeep */
+  city_units_upkeep(new_pcity);
 
-    punit->homecity = new_pcity->id;
-    send_unit_info(unit_owner(punit), punit);
-  }
+  punit->homecity = new_pcity->id;
+  send_unit_info(unit_owner(punit), punit);
 
   city_refresh(new_pcity);
   send_city_info(new_owner, new_pcity);
@@ -457,7 +445,7 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity)
     send_city_info(old_owner, old_pcity);
   }
 
-  assert(!unit_alive || unit_owner(punit) == city_owner(new_pcity));
+  assert(unit_owner(punit) == city_owner(new_pcity));
 }
 
 /**************************************************************************
