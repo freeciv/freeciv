@@ -44,7 +44,7 @@ if test "x$EXE" = "x"; then
 fi
 
 if test "x$FREECIV_PATH" = "x" ; then
-  FREECIV_PATH=".@HOST_PATH_SEPARATOR@data@HOST_PATH_SEPARATOR@~/.freeciv"
+  FREECIV_PATH=".@HOST_PATH_SEPARATOR@data@HOST_PATH_SEPARATOR@~/.freeciv/@DATASUBDIR@"
 fi
 export FREECIV_PATH="${FREECIV_PATH}@HOST_PATH_SEPARATOR@@abs_top_builddir@/data@HOST_PATH_SEPARATOR@@abs_top_srcdir@/data"
 
