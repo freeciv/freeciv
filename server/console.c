@@ -135,14 +135,18 @@ Write to console and add line-break, and show prompt if required.
 ************************************************************************/
 void con_write(enum rfc_status rfc_status, const char *message, ...)
 {
-  static char buf[MAX_LEN_CONSOLE_LINE];
+  /* First buffer contains featured text tags */
+  static char buf1[(int)trunc(MAX_LEN_CONSOLE_LINE * 1.5)];
+  static char buf2[MAX_LEN_CONSOLE_LINE];
   va_list args;
-  
+
   va_start(args, message);
-  my_vsnprintf(buf, sizeof(buf), message, args);
+  my_vsnprintf(buf1, sizeof(buf1), message, args);
   va_end(args);
 
-  con_puts(rfc_status, buf);
+  /* remove all format tags */
+  featured_text_to_plain_text(buf1, buf2, sizeof(buf2), NULL);
+  con_puts(rfc_status, buf2);
 }
 
 /************************************************************************
