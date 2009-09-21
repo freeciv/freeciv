@@ -15,7 +15,9 @@
 
 #include "fc_types.h"
 
-int tile_border_radius_sq(struct tile *ptile);
 bool is_border_source(struct tile *ptile);
+int tile_border_source_radius_sq(struct tile *ptile);
+int tile_border_source_strength(struct tile *ptile);
+int tile_border_strength(struct tile *ptile, struct tile *source);
 
 #endif  /* FC__BORDERS_H */
