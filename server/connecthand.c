@@ -123,7 +123,7 @@ void establish_new_connection(struct connection *pconn)
   conn_list_iterate(game.est_connections, aconn) {
     if (aconn != pconn) {
       notify_conn(aconn->self, NULL, E_CONNECTION, FTC_SERVER_INFO, NULL,
-		  _("Server: %s has connected from %s."),
+                  _("%s has connected from %s."),
                   pconn->username, pconn->addr);
     }
   } conn_list_iterate_end;
