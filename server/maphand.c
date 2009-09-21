@@ -1554,7 +1554,7 @@ void map_claim_ownership(struct tile *ptile, struct player *powner,
 *************************************************************************/
 void map_clear_border(struct tile *ptile)
 {
-  int radius_sq = tile_border_radius_sq(ptile);
+  int radius_sq = tile_border_source_radius_sq(ptile);
 
   circle_dxyr_iterate(ptile, radius_sq, dtile, dx, dy, dr) {
     struct tile *claimer = tile_claimer(dtile);
@@ -1570,31 +1570,13 @@ void map_clear_border(struct tile *ptile)
 *************************************************************************/
 void map_claim_border(struct tile *ptile, struct player *owner)
 {
-  int radius_sq = tile_border_radius_sq(ptile);
+  int radius_sq = tile_border_source_radius_sq(ptile);
 
   circle_dxyr_iterate(ptile, radius_sq, dtile, dx, dy, dr) {
-    struct city *dcity = tile_city(dtile);
     struct tile *dclaimer = tile_claimer(dtile);
-    bool source_tile = FALSE;
 
-    if (dr != 0) {
-      /* Do not claim cities or bases other than self */
-      if (NULL != dcity) {
-        source_tile = TRUE;
-      }
-
-      if (!source_tile) {
-        base_type_iterate(dbase) {
-          if (tile_has_base(dtile, dbase) && territory_claiming_base(dbase)) {
-            /* Cannot affect territory claiming bases */
-            source_tile = TRUE;
-            break;
-          }
-        } base_type_iterate_end;
-      }
-    }
-
-    if (source_tile) {
+    if (dr != 0 && is_border_source(dtile)) {
+      /* Do not claim border sources other than self */
       continue;
     }
 
@@ -1604,7 +1586,7 @@ void map_claim_border(struct tile *ptile, struct player *owner)
 
     if (NULL != dclaimer && dclaimer != ptile) {
       struct city *ccity = tile_city(dclaimer);
-      int r = sq_map_distance(dclaimer, dtile);
+      int strength_old, strength_new;
 
       if (ccity != NULL) {
         /* Previously claimed by city */
@@ -1620,11 +1602,12 @@ void map_claim_border(struct tile *ptile, struct player *owner)
         }
       }
 
-      if (r < dr) {
-        /* nearest shall prevail */
-        continue;
-      } else if (r == dr) {
-        /* older shall prevail */
+      strength_old = tile_border_strength(dtile, dclaimer);
+      strength_new = tile_border_strength(dtile, ptile);
+
+      if (strength_new <= strength_old) {
+        /* Stronger shall prevail,cd 
+         * in case of equel strength older shall prevail */
         continue;
       }
     }

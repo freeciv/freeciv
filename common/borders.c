@@ -31,7 +31,7 @@
 /*************************************************************************
   Border radius sq from given border source tile.
 *************************************************************************/
-int tile_border_radius_sq(struct tile *ptile)
+int tile_border_source_radius_sq(struct tile *ptile)
 {
   struct city *pcity;
   int radius_sq = 0;
@@ -55,6 +55,45 @@ int tile_border_radius_sq(struct tile *ptile)
   }
 
   return radius_sq;
+}
+
+/*************************************************************************
+  Border source strength
+*************************************************************************/
+int tile_border_source_strength(struct tile *ptile)
+{
+  struct city *pcity;
+  int strength = 0;
+
+  if (game.info.borders == 0) {
+    return 0;
+  }
+
+  pcity = tile_city(ptile);
+
+  if (pcity) {
+    strength = pcity->size + 2;
+  } else {
+    base_type_iterate(pbase) {
+      if (tile_has_base(ptile, pbase) && territory_claiming_base(pbase)) {
+        strength = 1;
+        break;
+      }
+    } base_type_iterate_end;
+  }
+
+  return strength;
+}
+
+/*************************************************************************
+  Border source strength at tile
+*************************************************************************/
+int tile_border_strength(struct tile *ptile, struct tile *source)
+{
+  int full_strength = tile_border_source_strength(source);
+  int sq_dist = sq_map_distance(ptile, source);
+
+  return full_strength * full_strength / sq_dist;
 }
 
 /*************************************************************************
