@@ -4013,7 +4013,7 @@ static bool reset_command(struct connection *caller, bool check,
 
   send_server_settings(NULL);
   notify_conn(NULL, NULL, E_SETTING, FTC_SERVER_INFO, NULL,
-              _("Server: Settings re-initialized."));
+              _("Settings re-initialized."));
   return TRUE;
 }
 
