@@ -2992,6 +2992,11 @@ static bool observe_command(struct connection *caller, char *str, bool check)
     send_diplomatic_meetings(pconn);
     send_packet_thaw_hint(pconn);
     dsend_packet_start_phase(pconn, game.info.phase);
+  } else if (S_S_OVER == server_state()) {
+    send_packet_freeze_hint(pconn);
+    send_all_info(pconn->self, TRUE);
+    send_packet_thaw_hint(pconn);
+    report_final_scores(pconn->self);
   } else {
     send_game_info(pconn->self);
     /* we already know existing connections */
@@ -3119,7 +3124,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
   }
 
   /* if we want to take while the game is running, reset the client */
-  if (S_S_RUNNING == server_state()) {
+  if (S_S_RUNNING <= server_state()) {
     send_rulesets(pconn->self);
     send_server_settings(pconn->self);
     /* others are sent below */
@@ -3232,6 +3237,11 @@ static bool take_command(struct connection *caller, char *str, bool check)
     send_diplomatic_meetings(pconn);
     send_packet_thaw_hint(pconn);
     dsend_packet_start_phase(pconn, game.info.phase);
+  } else if (S_S_OVER == server_state()) {
+    send_packet_freeze_hint(pconn);
+    send_all_info(pconn->self, TRUE);
+    send_packet_thaw_hint(pconn);
+    report_final_scores(pconn->self);
   } else {
     send_game_info(pconn->self);
     /* send changed player connection to everybody */
@@ -3311,7 +3321,7 @@ bool detach_command(struct connection *caller, char *str, bool check)
   }
 
   /* if we want to detach while the game is running, reset the client */
-  if (S_S_RUNNING == server_state()) {
+  if (S_S_RUNNING <= server_state()) {
     send_rulesets(pconn->self);
     send_server_settings(pconn->self);
     send_game_info(pconn->self);
@@ -3343,7 +3353,7 @@ bool detach_command(struct connection *caller, char *str, bool check)
     /* detach any observers */
     conn_list_iterate(pplayer->connections, aconn) {
       if (aconn->observer) {
-	if (S_S_RUNNING == server_state()) {
+	if (S_S_RUNNING <= server_state()) {
 	  send_rulesets(aconn->self);
 	  send_server_settings(aconn->self);
 	}
