@@ -391,6 +391,8 @@ const char *concat_tile_activity_text(struct tile *ptile)
 {
   int activity_total[ACTIVITY_LAST];
   int activity_units[ACTIVITY_LAST];
+  int base_total[MAX_BASE_TYPES];
+  int base_units[MAX_BASE_TYPES];
   int num_activities = 0;
   int remains, turns, i;
   static struct astring str = ASTRING_INIT;
@@ -399,15 +401,41 @@ const char *concat_tile_activity_text(struct tile *ptile)
 
   memset(activity_total, 0, sizeof(activity_total));
   memset(activity_units, 0, sizeof(activity_units));
+  memset(base_total, 0, sizeof(base_total));
+  memset(base_units, 0, sizeof(base_units));
 
   unit_list_iterate(ptile->units, punit) {
-    activity_total[punit->activity] += punit->activity_count;
-    activity_total[punit->activity] += get_activity_rate_this_turn(punit);
-    activity_units[punit->activity] += get_activity_rate(punit);
+    if (punit->activity == ACTIVITY_BASE) {
+      base_total[punit->activity_base] += punit->activity_count;
+      base_total[punit->activity_base] += get_activity_rate_this_turn(punit);
+      base_units[punit->activity_base] += get_activity_rate(punit);
+    } else {
+      activity_total[punit->activity] += punit->activity_count;
+      activity_total[punit->activity] += get_activity_rate_this_turn(punit);
+      activity_units[punit->activity] += get_activity_rate(punit);
+    }
   } unit_list_iterate_end;
 
   for (i = 0; i < ACTIVITY_LAST; i++) {
-    if (is_build_or_clean_activity(i) && activity_units[i] > 0) {
+    if (i == ACTIVITY_BASE) {
+      base_type_iterate(bp) {
+        Base_type_id b = base_index(bp);
+	if (base_units[b] > 0) {
+	  remains = tile_activity_base_time(ptile, b) - base_total[b];
+	  if (remains > 0) {
+	    turns = 1 + (remains + base_units[b] - 1) / base_units[b];
+	  } else {
+	    /* base will be finished this turn */
+	    turns = 1;
+	  }
+	  if (num_activities > 0) {
+	    astr_add(&str, "/");
+	  }
+	  astr_add(&str, "%s(%d)", base_name_translation(bp), turns);
+	  num_activities++;
+	}
+      } base_type_iterate_end;
+    } else if (is_build_or_clean_activity(i) && activity_units[i] > 0) {
       if (num_activities > 0) {
 	astr_add(&str, "/");
       }
