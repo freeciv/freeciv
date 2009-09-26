@@ -226,6 +226,7 @@ struct pf_normal_node {
   utiny_t node_known_type;
   utiny_t behavior;
   utiny_t zoc_number;		/* (enum pf_zoc_type really) */
+  bool can_invade;
 };
 
 /* Derived structure of struct pf_map. */
@@ -304,6 +305,12 @@ static void pf_normal_node_init(struct pf_normal_map *pfnm,
     node->extra_tile = params->get_EC(ptile, node->node_known_type, params);
   } else {
     node->extra_tile = 0;
+  }
+
+  if (params->can_invade_tile) {
+    node->can_invade = params->can_invade_tile(params->owner, ptile);
+  } else {
+    node->can_invade = TRUE;
   }
 
   node->status = NS_INIT;
@@ -560,7 +567,7 @@ static bool pf_normal_map_iterate(struct pf_map *pfm)
       }
 
       /* Can we enter this tile at all? */
-      if (node1->behavior == TB_IGNORE) {
+      if (!node1->can_invade || node1->behavior == TB_IGNORE) {
         continue;
       }
 
@@ -776,6 +783,7 @@ struct pf_danger_node {
   utiny_t node_known_type;
   utiny_t behavior;
   utiny_t zoc_number;		/* (enum pf_zoc_type really) */
+  bool can_invade;
   bool is_dangerous;
   bool waited;			/* TRUE if waited to get here */
 
@@ -864,6 +872,12 @@ static void pf_danger_node_init(struct pf_danger_map *pfdm,
     node->extra_tile = params->get_EC(ptile, node->node_known_type, params);
   } else {
     node->extra_tile = 0;
+  }
+
+  if (params->can_invade_tile) {
+    node->can_invade = params->can_invade_tile(params->owner, ptile);
+  } else {
+    node->can_invade = TRUE;
   }
 
   node->is_dangerous =
@@ -1224,7 +1238,7 @@ static bool pf_danger_map_iterate(struct pf_map *pfm)
       }
 
       /* Can we enter this tile at all? */
-      if (node1->behavior == TB_IGNORE) {
+      if (!node1->can_invade || node1->behavior == TB_IGNORE) {
         continue;
       }
 
@@ -1521,6 +1535,7 @@ struct pf_fuel_node {
   utiny_t node_known_type;
   utiny_t behavior;
   utiny_t zoc_number;		/* (enum pf_zoc_type really) */
+  bool can_invade;
   bool is_enemy_tile;
   int moves_left_req;		/* The minimum required moves left */
   bool waited;			/* TRUE if waited to get here */
@@ -1612,6 +1627,12 @@ static void pf_fuel_node_init(struct pf_fuel_map *pffm,
                                       params);
   } else {
     node->extra_tile = 0;
+  }
+
+  if (params->can_invade_tile) {
+    node->can_invade = params->can_invade_tile(params->owner, ptile);
+  } else {
+    node->can_invade = TRUE;
   }
 
   if (is_enemy_unit_tile(ptile, params->owner)
@@ -2035,7 +2056,7 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
       }
 
       /* Can we enter this tile at all? */
-      if (node1->behavior == TB_IGNORE) {
+      if (!node1->can_invade || node1->behavior == TB_IGNORE) {
         continue;
       }
 
