@@ -167,6 +167,20 @@ bool player_owns_city(const struct player *pplayer, const struct city *pcity)
   return (pcity && pplayer && city_owner(pcity) == pplayer);
 }
 
+/****************************************************************************
+  Return TRUE iff the player can invade a particular tile (linked with
+  borders and diplomatic states).
+****************************************************************************/
+bool player_can_invade_tile(const struct player *pplayer,
+                            const struct tile *ptile)
+{
+  const struct player *ptile_owner = tile_owner(ptile);
+
+  return (!ptile_owner
+          || ptile_owner == pplayer
+          || !players_non_invade(pplayer, ptile_owner));
+}
+
 /***************************************************************
   In the server you must use server_player_init.  Note that
   this function is matched by game_remove_player() in game.c,

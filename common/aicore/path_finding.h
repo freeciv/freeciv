@@ -365,6 +365,11 @@ struct pf_parameter {
   int (*get_EC) (const struct tile *ptile, enum known_type known,
                  const struct pf_parameter *param);
 
+  /* Callback to determines if we could invade the tile.  Returns TRUE
+   * if we can enter in the territory of the tile owner. */
+  bool (*can_invade_tile) (const struct player *pplayer,
+                           const struct tile *ptile);
+
   /* Although the rules governing ZoC are universal, the amount of
    * information available at server and client is different. To 
    * compensate for it, we might need to supply our own version 

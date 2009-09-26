@@ -489,9 +489,7 @@ enum unit_move_result test_unit_move_to_tile(const struct unit_type *punittype,
 
   /* 9) */
   if (!utype_has_flag(punittype, F_CIVILIAN)
-      && tile_owner(dst_tile)
-      && tile_owner(dst_tile) != unit_owner
-      && players_non_invade(unit_owner, tile_owner(dst_tile))) {
+      && !player_can_invade_tile(unit_owner, dst_tile)) {
     return MR_PEACE;
   }
 

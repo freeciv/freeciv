@@ -248,6 +248,8 @@ bool can_player_see_city_internals(const struct player *pplayer,
 
 bool player_owns_city(const struct player *pplayer,
 		      const struct city *pcity);
+bool player_can_invade_tile(const struct player *pplayer,
+                            const struct tile *ptile);
 
 struct city *player_find_city_by_id(const struct player *pplayer,
 				    int city_id);
