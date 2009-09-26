@@ -1382,6 +1382,7 @@ bool is_build_or_clean_activity(enum unit_activity activity)
   case ACTIVITY_TRANSFORM:
   case ACTIVITY_AIRBASE:
   case ACTIVITY_FALLOUT:
+  case ACTIVITY_BASE:
     return TRUE;
   default:
     return FALSE;
