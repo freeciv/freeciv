@@ -2856,6 +2856,12 @@ static bool observe_command(struct connection *caller, char *str, bool check)
     send_diplomatic_meetings(pconn);
     send_packet_thaw_hint(pconn);
     dsend_packet_start_phase(pconn, game.info.phase);
+  } else if (S_S_OVER == server_state()) {
+    send_packet_freeze_hint(pconn);
+    send_all_info(pconn->self);
+    send_game_state(pconn->self, C_S_OVER);
+    send_packet_thaw_hint(pconn);
+    report_final_scores(pconn->self);
   } else {
     /* send changed player connection to everybody */
     send_game_info(game.est_connections);
@@ -2979,7 +2985,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
   }
 
   /* if we want to take while the game is running, reset the client */
-  if (S_S_RUNNING == server_state()) {
+  if (S_S_RUNNING <= server_state()) {
     send_game_state(pconn->self, C_S_PREPARING);
     send_rulesets(pconn->self);
     send_server_settings(pconn->self);
@@ -2996,7 +3002,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
   if (pplayer) {
     conn_list_iterate(pplayer->connections, aconn) {
       if (!aconn->observer) {
-	if (S_S_RUNNING == server_state()) {
+	if (S_S_RUNNING <= server_state()) {
 	  send_game_state(aconn->self, C_S_PREPARING);
 	  send_rulesets(aconn->self);
 	  send_server_settings(aconn->self);
@@ -3068,6 +3074,12 @@ static bool take_command(struct connection *caller, char *str, bool check)
     send_diplomatic_meetings(pconn);
     send_packet_thaw_hint(pconn);
     dsend_packet_start_phase(pconn, game.info.phase);
+  } else if (S_S_OVER == server_state()) {
+    send_packet_freeze_hint(pconn);
+    send_all_info(pconn->self);
+    send_game_state(pconn->self, C_S_OVER);
+    send_packet_thaw_hint(pconn);
+    report_final_scores(pconn->self);
   } else {
     /* send changed player connection to everybody */
     send_game_info(game.est_connections);
@@ -3165,7 +3177,7 @@ static bool detach_command(struct connection *caller, char *str, bool check)
   }
 
   /* if we want to detach while the game is running, reset the client */
-  if (S_S_RUNNING == server_state()) {
+  if (S_S_RUNNING <= server_state()) {
     send_game_state(pconn->self, C_S_PREPARING);
     send_rulesets(pconn->self);
     send_server_settings(pconn->self);
@@ -3198,7 +3210,7 @@ static bool detach_command(struct connection *caller, char *str, bool check)
     /* detach any observers */
     conn_list_iterate(pplayer->connections, aconn) {
       if (aconn->observer) {
-	if (S_S_RUNNING == server_state()) {
+	if (S_S_RUNNING <= server_state()) {
 	  send_rulesets(aconn->self);
 	  send_server_settings(aconn->self);
 	}

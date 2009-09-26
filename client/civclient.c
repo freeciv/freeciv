@@ -521,22 +521,6 @@ void set_client_state(enum client_states newstate)
       && (C_S_PREPARING == newstate);
   enum client_states oldstate = civclient_state;
 
-  if (C_S_OVER == newstate) {
-    /*
-     * Extra kludge for end-game handling of the CMA.
-     */
-    if (game.player_ptr) {
-      city_list_iterate(game.player_ptr->cities, pcity) {
-	if (cma_is_city_under_agent(pcity, NULL)) {
-	  cma_release_city(pcity);
-	}
-      } city_list_iterate_end;
-    }
-    popdown_all_city_dialogs();
-    popdown_all_game_dialogs();
-    set_unit_focus(NULL);
-  }
-
   if (civclient_state != newstate) {
 
     /* If changing from pre-game state to _either_ select race
@@ -546,7 +530,7 @@ void set_client_state(enum client_states newstate)
 	&& C_S_RUNNING == newstate) {
       audio_stop();		/* stop intro sound loop */
     }
-      
+
     civclient_state = newstate;
 
     switch (civclient_state) {
@@ -564,6 +548,34 @@ void set_client_state(enum client_states newstate)
       update_unit_focus();
       can_slide = TRUE;
       set_client_page(PAGE_GAME);
+      break;
+    case C_S_OVER:
+      if (C_S_RUNNING == oldstate) {
+	/*
+	 * Extra kludge for end-game handling of the CMA.
+	 */
+	if (game.player_ptr) {
+	  city_list_iterate(game.player_ptr->cities, pcity) {
+	    if (cma_is_city_under_agent(pcity, NULL)) {
+	      cma_release_city(pcity);
+	    }
+	  } city_list_iterate_end;
+	}
+	popdown_all_city_dialogs();
+	popdown_all_game_dialogs();
+	set_unit_focus(NULL);
+      } else {
+	init_city_report_game_data();
+	precalc_tech_data();
+	if (game.player_ptr) {
+	  update_research(game.player_ptr);
+	}
+	role_unit_precalcs();
+	boot_help_texts();	/* reboot */
+	set_unit_focus(NULL);
+	set_client_page(PAGE_GAME);
+	center_on_something();
+      }
       break;
     case C_S_PREPARING:
       popdown_all_city_dialogs();
