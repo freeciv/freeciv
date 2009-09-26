@@ -555,23 +555,8 @@ void set_client_state(enum client_states newstate)
       && (C_S_PREPARING == newstate);
   enum client_states oldstate = civclient_state;
 
-  if (C_S_OVER == newstate) {
-    /*
-     * Extra kludge for end-game handling of the CMA.
-     */
-    if (NULL != client.conn.playing) {
-      city_list_iterate(client.conn.playing->cities, pcity) {
-	if (cma_is_city_under_agent(pcity, NULL)) {
-	  cma_release_city(pcity);
-	}
-      } city_list_iterate_end;
-    }
-    popdown_all_city_dialogs();
-    popdown_all_game_dialogs();
-    set_unit_focus(NULL);
-  }
-
   if (civclient_state != newstate) {
+    struct player *pplayer = client_player();
 
     /* If changing from pre-game state to _either_ select race
        or running state, then we have finished getting ruleset data.
@@ -580,7 +565,7 @@ void set_client_state(enum client_states newstate)
 	&& C_S_RUNNING == newstate) {
       audio_stop();		/* stop intro sound loop */
     }
-      
+
     civclient_state = newstate;
 
     switch (civclient_state) {
@@ -589,11 +574,11 @@ void set_client_state(enum client_states newstate)
       load_ruleset_specific_options();
       create_event(NULL, E_GAME_START, _("Game started."));
       precalc_tech_data();
-      if (NULL != client.conn.playing) {
-	player_research_update(client.conn.playing);
+      if (pplayer) {
+        player_research_update(pplayer);
       }
       role_unit_precalcs();
-      boot_help_texts(client.conn.playing);	/* reboot with player */
+      boot_help_texts(pplayer);	/* reboot with player */
       can_slide = FALSE;
       update_unit_focus();
       can_slide = TRUE;
@@ -603,6 +588,34 @@ void set_client_state(enum client_states newstate)
       free_intro_radar_sprites();
       agents_game_start();
       editgui_tileset_changed();
+      break;
+    case C_S_OVER:
+      if (C_S_RUNNING == oldstate) {
+        /*
+         * Extra kludge for end-game handling of the CMA.
+         */
+        if (pplayer && pplayer->cities) {
+          city_list_iterate(pplayer->cities, pcity) {
+            if (cma_is_city_under_agent(pcity, NULL)) {
+              cma_release_city(pcity);
+            }
+          } city_list_iterate_end;
+        }
+        popdown_all_city_dialogs();
+        popdown_all_game_dialogs();
+        set_unit_focus(NULL);
+      } else {
+        init_city_report_game_data();
+        precalc_tech_data();
+        if (pplayer) {
+          player_research_update(pplayer);
+        }
+        role_unit_precalcs();
+        boot_help_texts(pplayer);            /* reboot */
+        set_unit_focus(NULL);
+        set_client_page(PAGE_GAME);
+        center_on_something();
+      }
       break;
     case C_S_PREPARING:
       popdown_all_city_dialogs();

@@ -1135,11 +1135,15 @@ void make_history_report(void)
   Inform clients about player scores and statistics when the game ends.
   Called only from server/srv_main.c srv_scores()
 **************************************************************************/
-void report_final_scores(void)
+void report_final_scores(struct conn_list *dest)
 {
   int i, j = 0;
   struct player_score_entry size[player_count()];
   struct packet_endgame_report packet;
+
+  if (!dest) {
+    dest = game.est_connections;
+  }
 
   players_iterate(pplayer) {
     if (GOOD_PLAYER(pplayer)) {
@@ -1169,7 +1173,7 @@ void report_final_scores(void)
     packet.spaceship[i] = get_spaceship(size[i].player); 
   }  
 
-  lsend_packet_endgame_report(game.est_connections, &packet);
+  lsend_packet_endgame_report(dest, &packet);
 }	
 
 /**************************************************************************

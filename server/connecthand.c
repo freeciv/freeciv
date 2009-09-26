@@ -35,6 +35,7 @@
 #include "maphand.h"
 #include "meta.h"
 #include "plrhand.h"
+#include "report.h"
 #include "ruleset.h"
 #include "sernet.h"
 #include "srv_main.h"
@@ -147,6 +148,11 @@ void establish_new_connection(struct connection *pconn)
       send_diplomatic_meetings(pconn);
       send_packet_thaw_hint(pconn);
       dsend_packet_start_phase(pconn, game.info.phase);
+    } else if (S_S_OVER == server_state()) {
+      send_packet_freeze_hint(pconn);
+      send_all_info(dest, TRUE);
+      send_packet_thaw_hint(pconn);
+      report_final_scores(pconn->self);
     } else {
       send_scenario_info(dest);
       send_game_info(dest);

@@ -2180,7 +2180,7 @@ static void srv_scores(void)
 
   log_civ_score();
 
-  report_final_scores();
+  report_final_scores(NULL);
   show_map_to_all();
   notify_player(NULL, NULL, E_GAME_END, FTC_SERVER_INFO, NULL,
                 _("The game is over..."));
