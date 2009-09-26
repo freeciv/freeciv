@@ -1664,10 +1664,9 @@ static void pf_fuel_node_init(struct pf_fuel_map *pffm,
     node->is_enemy_tile = TRUE;
     node->moves_left_req = 0; /* Attack is always possible theorically */
   } else {
-    int mlr;
     node->is_enemy_tile = FALSE;
-    mlr = params->get_moves_left_req(ptile, node->node_known_type, params);
-    node->moves_left_req = mlr;
+    node->moves_left_req =
+      params->get_moves_left_req(ptile, node->node_known_type, params);
   }
 
   /* waited is set to zero by fc_calloc. */
@@ -2064,11 +2063,6 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
       struct tile *prev_tile;
       struct pf_fuel_pos *pos;
 
-      /* Cannot use this unreachable tile */
-      if (node1->moves_left_req == PF_IMPOSSIBLE_MC) {
-        continue;
-      }
-
       /* Non-full fuel tiles can be updated even after being processed */
       if ((node1->status == NS_PROCESSED  || node1->status == NS_WAITING)
           && node1->moves_left_req == 0) {
@@ -2078,6 +2072,11 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
       /* Initialise target tile if necessary */
       if (node1->status == NS_UNINIT) {
         pf_fuel_node_init(pffm, node1, tile1);
+      }
+
+      /* Cannot use this unreachable tile */
+      if (node1->moves_left_req == PF_IMPOSSIBLE_MC) {
+        continue;
       }
 
       /* Can we enter this tile at all? */
@@ -2309,17 +2308,17 @@ static struct pf_path *pf_fuel_map_get_path(struct pf_map *pfm,
 {
   struct pf_fuel_map *pffm = PF_FUEL_MAP(pfm);
   const struct pf_fuel_node *node = &pffm->lattice[tile_index(ptile)];
-  const struct tile *start_tile = pf_map_get_parameter(pfm)->start_tile;
 
   if (node->status != NS_UNINIT
-      && node->moves_left_req == PF_IMPOSSIBLE_MC) {
+      && node->moves_left_req == PF_IMPOSSIBLE_MC
+      && !same_pos(ptile, pfm->params.start_tile)) {
     /* Cannot reach it in any case. */
     return NULL;
   }
 
   if (pf_fuel_map_iterate_until(pffm, ptile)
       && (node->fuel_segment
-	  || same_pos(ptile, start_tile))) {
+          || same_pos(ptile, pfm->params.start_tile))) {
     return pf_fuel_map_construct_path(pffm, ptile);
   } else {
     return NULL;
