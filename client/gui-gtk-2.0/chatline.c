@@ -52,17 +52,31 @@
 static struct genlist *history_list = NULL;
 static int history_pos = -1;
 
+static struct inputline_toolkit {
+  GtkWidget *main_widget;
+  GtkWidget *entry;
+  GtkWidget *button_box;
+  GtkWidget *toolbar;
+  GtkWidget *toggle_button;
+  bool toolbar_displayed;
+} toolkit;      /* Singleton. */
+
 static void inputline_make_tag(GtkEntry *entry, enum text_tag_type type);
 
 /**************************************************************************
-  Initializes the chatline stuff.
+  Returns TRUE iff the input line has focus.
 **************************************************************************/
-void chatline_init(void)
+bool inputline_has_focus(void)
 {
-  if (!history_list) {
-    history_list = genlist_new();
-    history_pos = -1;
-  }
+  return GTK_WIDGET_HAS_FOCUS(toolkit.entry);
+}
+
+/**************************************************************************
+  Gives the focus to the intput line.
+**************************************************************************/
+void inputline_grab_focus(void)
+{
+  gtk_widget_grab_focus(toolkit.entry);
 }
 
 /**************************************************************************
@@ -275,9 +289,10 @@ CLEAN_UP:
   Make a chat link at the current position or make the current selection
   clickable.
 **************************************************************************/
-void inputline_make_chat_link(GtkEntry *entry, struct tile *ptile, bool unit)
+void inputline_make_chat_link(struct tile *ptile, bool unit)
 {
   char buf[MAX_LEN_MSG];
+  GtkWidget *entry = toolkit.entry;
   GtkEditable *editable = GTK_EDITABLE(entry);
   gint start_pos, end_pos;
   gchar *chars;
@@ -318,7 +333,7 @@ void inputline_make_chat_link(GtkEntry *entry, struct tile *ptile, bool unit)
       gtk_editable_delete_text(editable, start_pos, end_pos);
       end_pos = start_pos;
       gtk_editable_insert_text(editable, buf, -1, &end_pos);
-      gtk_widget_grab_focus(GTK_WIDGET(entry));
+      gtk_widget_grab_focus(entry);
       gtk_editable_select_region(editable, start_pos, end_pos);
     }
   } else {
@@ -345,7 +360,7 @@ void inputline_make_chat_link(GtkEntry *entry, struct tile *ptile, bool unit)
       /* Maybe insert an extra space. */
       gtk_editable_insert_text(editable, " ", 1, &end_pos);
     }
-    gtk_widget_grab_focus(GTK_WIDGET(entry));
+    gtk_widget_grab_focus(entry);
     gtk_editable_set_position(editable, end_pos);
   }
 
@@ -900,37 +915,172 @@ static void select_color_callback(GtkToolButton *button, gpointer data)
 }
 
 /**************************************************************************
+  Moves the tool kit to the toolkit view.
+**************************************************************************/
+static gboolean move_toolkit(GtkWidget *toolkit_view, GdkEventExpose *event,
+                             gpointer data)
+{
+  struct inputline_toolkit *ptoolkit = (struct inputline_toolkit *) data;
+  GtkWidget *parent = gtk_widget_get_parent(ptoolkit->main_widget);
+  GtkWidget *button_box = GTK_WIDGET(g_object_get_data(G_OBJECT(toolkit_view),
+                                                       "button_box"));
+  GList *list, *iter;
+
+  if (parent) {
+    if (parent == toolkit_view) {
+      return FALSE;     /* Already owned. */
+    }
+
+    /* N.B.: We need to hide/show the toolbar to reset the sensitivity
+     * of the tool buttons. */
+    if (ptoolkit->toolbar_displayed) {
+      gtk_widget_hide(ptoolkit->toolbar);
+    }
+    gtk_widget_reparent(ptoolkit->main_widget, toolkit_view);
+    if (ptoolkit->toolbar_displayed) {
+      gtk_widget_show(ptoolkit->toolbar);
+    }
+
+    if (!gtk_widget_get_parent(button_box)) {
+      /* Attach to the toolkit button_box. */
+      gtk_box_pack_end(GTK_BOX(ptoolkit->button_box), button_box,
+                       FALSE, FALSE, 0);
+    }
+    gtk_widget_show_all(ptoolkit->main_widget);
+
+    /* Hide all other buttons boxes. */
+    list = gtk_container_get_children(GTK_CONTAINER(ptoolkit->button_box));
+    for (iter = list; iter != NULL; iter = g_list_next(iter)) {
+      GtkWidget *widget = GTK_WIDGET(iter->data);
+
+      if (widget != button_box) {
+        gtk_widget_hide(widget);
+      }
+    }
+    g_list_free(list);
+
+  } else {
+    /* First time attached to a parent. */
+    gtk_box_pack_start(GTK_BOX(toolkit_view), ptoolkit->main_widget,
+                       TRUE, TRUE, 0);
+    gtk_box_pack_end(GTK_BOX(ptoolkit->button_box), button_box,
+                     FALSE, FALSE, 0);
+    gtk_widget_show_all(ptoolkit->main_widget);
+  }
+
+  return FALSE;
+}
+
+/**************************************************************************
+  Show/Hide the toolbar.
+**************************************************************************/
+static gboolean set_toolbar_visibility(GtkWidget *w,
+                                       GdkEventExpose *event,
+                                       gpointer data)
+{
+  struct inputline_toolkit *ptoolkit = (struct inputline_toolkit *) data;
+  GtkToggleButton *button = GTK_TOGGLE_BUTTON(toolkit.toggle_button);
+
+  if (ptoolkit->toolbar_displayed) {
+    if (!gtk_toggle_button_get_active(button)) {
+      /* button_toggled() will be called and the toolbar shown. */
+      gtk_toggle_button_set_active(button, TRUE);
+    } else {
+      /* Unsure the widget is visible. */
+      gtk_widget_show(ptoolkit->toolbar);
+    }
+  } else {
+    if (gtk_toggle_button_get_active(button)) {
+      /* button_toggled() will be called and the toolbar hiden. */
+      gtk_toggle_button_set_active(button, FALSE);
+    } else {
+      /* Unsure the widget is visible. */
+      gtk_widget_hide(ptoolkit->toolbar);
+    }
+  }
+
+  return FALSE;
+}
+
+/**************************************************************************
   Show/Hide the toolbar.
 **************************************************************************/
 static void button_toggled(GtkToggleButton *button, gpointer data)
 {
+  struct inputline_toolkit *ptoolkit = (struct inputline_toolkit *) data;
+
   if (gtk_toggle_button_get_active(button)) {
-    gtk_widget_show(GTK_WIDGET(data));
+    gtk_widget_show(ptoolkit->toolbar);
+    ptoolkit->toolbar_displayed = TRUE;
   } else {
-    gtk_widget_hide(GTK_WIDGET(data));
+    gtk_widget_hide(ptoolkit->toolbar);
+    ptoolkit->toolbar_displayed = FALSE;
   }
 }
 
 /**************************************************************************
-  Returns a new inputline toolkit widget.
+  Returns a new inputline toolkit view widget that can contain the
+  inputline.
 
-  pentry: The resulting GtkEntry.
-  pbutton_box: A resulting GtkHBox where additionnal buttons
-  can be appened.
+  This widget has the following datas:
+  "button_box": pointer to the GtkHBox where to append buttons.
 **************************************************************************/
-GtkWidget *inputline_toolkit_new(GtkWidget **pentry, GtkWidget **pbutton_box)
+GtkWidget *inputline_toolkit_view_new(void)
 {
-  GtkWidget *vbox, *toolbar, *hbox, *button, *entry;
+  GtkWidget *toolkit_view, *bbox;
+
+  /* Main widget. */
+  toolkit_view = gtk_vbox_new(FALSE, 0);
+  g_signal_connect(toolkit_view, "expose-event",
+                   G_CALLBACK(move_toolkit), &toolkit);
+
+  /* Button box. */
+  bbox = gtk_hbox_new(FALSE, 12);
+  g_object_set_data(G_OBJECT(toolkit_view), "button_box", bbox);
+
+  return toolkit_view;
+}
+
+/**************************************************************************
+  Appends a button to the inputline toolkit view widget.
+**************************************************************************/
+void inputline_toolkit_view_append_button(GtkWidget *toolkit_view,
+                                          GtkWidget *button)
+{
+  gtk_box_pack_start(GTK_BOX(g_object_get_data(G_OBJECT(toolkit_view),
+                     "button_box")), button, FALSE, FALSE, 0);
+}
+
+/**************************************************************************
+  Initializes the chatline stuff.
+**************************************************************************/
+void chatline_init(void)
+{
+  GtkWidget *vbox, *toolbar, *hbox, *button, *entry, *bbox;
   GtkToolItem *item;
   GtkTooltips *tooltips;
+
+  /* Chatline history. */
+  if (!history_list) {
+    history_list = genlist_new();
+    history_pos = -1;
+  }
+
+  /* Inputline toolkit. */
+  memset(&toolkit, 0, sizeof(toolkit));
 
   tooltips = gtk_tooltips_new();
   gtk_tooltips_enable(tooltips);
 
-  entry = gtk_entry_new();
   vbox = gtk_vbox_new(FALSE, 2);
+  toolkit.main_widget = vbox;
+  g_signal_connect(vbox, "expose-event",
+                   G_CALLBACK(set_toolbar_visibility), &toolkit);
 
-  /* Toolbar. */
+  entry = gtk_entry_new();
+  toolkit.entry = entry;
+
+  /* First line: toolbar */
   toolbar = gtk_toolbar_new();
   gtk_box_pack_start(GTK_BOX(vbox), toolbar, FALSE, FALSE, 0);
   gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar), GTK_ICON_SIZE_MENU);
@@ -940,6 +1090,7 @@ GtkWidget *inputline_toolkit_new(GtkWidget **pentry, GtkWidget **pbutton_box)
                               GTK_ORIENTATION_HORIZONTAL);
   g_signal_connect(toolbar, "expose-event",
                    G_CALLBACK(chatline_scroll_to_bottom), NULL);
+  toolkit.toolbar = toolbar;
 
   /* Bold button. */
   item = gtk_tool_button_new_from_stock(GTK_STOCK_BOLD);
@@ -1021,7 +1172,7 @@ GtkWidget *inputline_toolkit_new(GtkWidget **pentry, GtkWidget **pbutton_box)
                        /* TRANS: "Return" means the return key. */
                        _("Send the chat (Return)"), NULL);
 
-  /* Second line. */
+  /* Second line */
   hbox = gtk_hbox_new(FALSE, 4);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
 
@@ -1031,9 +1182,9 @@ GtkWidget *inputline_toolkit_new(GtkWidget **pentry, GtkWidget **pbutton_box)
   gtk_container_add(GTK_CONTAINER(button),
                     gtk_image_new_from_stock(GTK_STOCK_EDIT,
                                              GTK_ICON_SIZE_MENU));
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), TRUE);
-  g_signal_connect(button, "toggled", G_CALLBACK(button_toggled), toolbar);
+  g_signal_connect(button, "toggled", G_CALLBACK(button_toggled), &toolkit);
   gtk_tooltips_set_tip(tooltips, GTK_WIDGET(button), _("Chat tools"), NULL);
+  toolkit.toggle_button = button;
 
   /* Entry. */
   gtk_box_pack_start(GTK_BOX(hbox), entry, TRUE, TRUE, 2);
@@ -1041,12 +1192,8 @@ GtkWidget *inputline_toolkit_new(GtkWidget **pentry, GtkWidget **pbutton_box)
   g_signal_connect(entry, "key_press_event",
                    G_CALLBACK(inputline_handler), NULL);
 
-  if (pentry) {
-    *pentry = entry;
-  }
-  if (pbutton_box) {
-    *pbutton_box = hbox;
-  }
-
-  return vbox;
+  /* Button box. */
+  bbox = gtk_hbox_new(FALSE, 0);
+  gtk_box_pack_end(GTK_BOX(hbox), bbox, FALSE, FALSE, 0);
+  toolkit.button_box = bbox;
 }

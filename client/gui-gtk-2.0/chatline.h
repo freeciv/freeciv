@@ -20,14 +20,17 @@
 
 void chatline_init(void);
 
-void inputline_make_chat_link(GtkEntry *entry,
-                              struct tile *ptile, bool unit);
+void inputline_make_chat_link(struct tile *ptile, bool unit);
+bool inputline_has_focus(void);
+void inputline_grab_focus(void);
 
 void set_output_window_text(const char *text);
 void chatline_scroll_to_bottom(void);
 
 void set_message_buffer_view_link_handlers(GtkWidget *view);
-GtkWidget *inputline_toolkit_new(GtkWidget **pentry,
-                                 GtkWidget **pbutton_box);
+
+GtkWidget *inputline_toolkit_view_new(void);
+void inputline_toolkit_view_append_button(GtkWidget *toolkit_view,
+                                          GtkWidget *button);
 
 #endif  /* FC__CHATLINE_H */

@@ -83,7 +83,6 @@ static GQueue *statusbar_queue;
 static guint statusbar_timer = 0;
 
 static GtkWidget *ruleset_combo;
-static GtkWidget *start_page_entry;
 
 static bool save_scenario = FALSE;
 
@@ -1493,8 +1492,8 @@ static void add_tree_col(GtkWidget *treeview, GType gtype,
 **************************************************************************/
 GtkWidget *create_start_page(void)
 {
-  GtkWidget *box, *sbox, *bbox, *table, *align, *vbox;
-  GtkWidget *view, *sw, *text, *toolkit, *button, *spin, *option;
+  GtkWidget *box, *sbox, *table, *align, *vbox;
+  GtkWidget *view, *sw, *text, *toolkit_view, *button, *spin, *option;
   GtkWidget *label, *menu, *item;
   GtkTreeStore *store;
   enum ai_level level;
@@ -1651,32 +1650,28 @@ GtkWidget *create_start_page(void)
   gtk_container_add(GTK_CONTAINER(sw), text);
 
 
-  toolkit = inputline_toolkit_new(&start_page_entry, &sbox);
-  gtk_box_pack_start(GTK_BOX(box), toolkit, FALSE, FALSE, 0);
-
-  bbox = gtk_hbutton_box_new();
-  gtk_box_set_spacing(GTK_BOX(bbox), 12);
-  gtk_box_pack_start(GTK_BOX(sbox), bbox, FALSE, FALSE, 0);
+  toolkit_view = inputline_toolkit_view_new();
+  gtk_box_pack_start(GTK_BOX(box), toolkit_view, FALSE, FALSE, 0);
 
   button = gtk_button_new_from_stock(GTK_STOCK_CANCEL);
-  gtk_container_add(GTK_CONTAINER(bbox), button);
-  g_signal_connect(button, "clicked",
-      G_CALLBACK(main_callback), NULL);
+  inputline_toolkit_view_append_button(toolkit_view, button);
+  g_signal_connect(button, "clicked", G_CALLBACK(main_callback), NULL);
 
-  nation_button = gtk_stockbutton_new(GTK_STOCK_PROPERTIES, _("Pick _Nation"));
+  nation_button = gtk_stockbutton_new(GTK_STOCK_PROPERTIES,
+                                      _("Pick _Nation"));
+  inputline_toolkit_view_append_button(toolkit_view, nation_button);
   g_signal_connect(nation_button, "clicked",
-		   G_CALLBACK(pick_nation_callback), NULL);
-  gtk_container_add(GTK_CONTAINER(bbox), nation_button);
+                   G_CALLBACK(pick_nation_callback), NULL);
 
   take_button = gtk_stockbutton_new(GTK_STOCK_ZOOM_IN, _("_Observe"));
+  inputline_toolkit_view_append_button(toolkit_view, take_button);
   g_signal_connect(take_button, "clicked",
-		   G_CALLBACK(take_callback), NULL);
-  gtk_container_add(GTK_CONTAINER(bbox), take_button);
+                   G_CALLBACK(take_callback), NULL);
 
   ready_button = gtk_stockbutton_new(GTK_STOCK_EXECUTE, _("_Ready"));
+  inputline_toolkit_view_append_button(toolkit_view, ready_button);
   g_signal_connect(ready_button, "clicked",
-      G_CALLBACK(start_start_callback), NULL);
-  gtk_container_add(GTK_CONTAINER(bbox), ready_button);
+                   G_CALLBACK(start_start_callback), NULL);
 
   return box;
 }
@@ -2285,8 +2280,8 @@ void set_client_page(enum client_pages page)
   case PAGE_MAIN:
     break;
   case PAGE_START:
-    gtk_widget_grab_focus(start_page_entry);
     chatline_scroll_to_bottom();
+    inputline_grab_focus();
     break;
   case PAGE_GGZ:
     break;
