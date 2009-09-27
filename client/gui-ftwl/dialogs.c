@@ -61,7 +61,7 @@ void popup_connect_msg(const char *headline, const char *message)
   /* FIXME: Needs proper implementation.
    *        Now just puts to chat window so message is not completely lost. */
 
-  append_output_window(message);
+  output_window_append(FTC_CLIENT_INFO, NULL, message);
 }
 
 /**************************************************************************

@@ -26,10 +26,15 @@ void send_chat_printf(const char *format, ...)
 void chatline_common_init(void);
 void chatline_common_done(void);
 
-void append_output_window(const char *featured_text);
-void append_output_window_full(const char *plain_text,
-                               const struct text_tag_list *tags,
-                               int conn_id);
+void output_window_append(const char *fg_color, const char *bg_color,
+                          const char *featured_text);
+void output_window_vprintf(const char *fg_color, const char *bg_color,
+                           const char *format, va_list args);
+void output_window_printf(const char *fg_color, const char *bg_color,
+                          const char *format, ...)
+                          fc__attribute((__format__ (__printf__, 3, 4)));
+void output_window_event(const char *plain_text,
+                         const struct text_tag_list *tags, int conn_id);
 
 void output_window_freeze(void);
 void output_window_thaw(void);

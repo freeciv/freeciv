@@ -948,9 +948,10 @@ void diplodlg_key_gold(Widget w)
 					       player_number(pgiver),
 					       CLAUSE_GOLD, amount);
       XtVaSetValues(w, XtNstring, "", NULL);
+    } else {
+      output_window_append(FTC_CLIENT_INFO, NULL,
+                           _("Invalid amount of gold specified."));
     }
-    else
-      append_output_window(_("Invalid amount of gold specified."));
   }
 }
 

@@ -29,6 +29,6 @@ bool popdown_conn_list_dialog(void);
 void popdown_load_game_dialog(void);
 
 #define set_output_window_text( pString )	\
-	append_output_window( pString )
+	output_window_append( NULL, NULL, pString )
 
 #endif	/* FC__CHATLINE_H */

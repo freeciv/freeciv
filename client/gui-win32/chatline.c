@@ -89,7 +89,7 @@ static void append_output_window_real(const char *astring)
   Appends the string to the chat output window.  The string should be
   inserted on its own line, although it will have no newline.
 **************************************************************************/
-void real_append_output_window(const char *astring,
+void real_output_window_append(const char *astring,
                                const struct text_tag_list *tags,
                                int conn_id)
 {
@@ -134,5 +134,5 @@ void
 clear_output_window(void)
 {
   SetWindowText(logoutput_win,"");
-  append_output_window(_("Cleared output window."));
+  output_window_append(FTC_CLIENT_INFO, NULL, _("Cleared output window."));
 }

@@ -145,7 +145,8 @@ static void close_socket_callback(struct connection *pc)
   /* If we lost connection to the internal server - kill him */
   client_kill_server(TRUE);
   freelog(LOG_ERROR, "Lost connection to server!");
-  append_output_window(_("Lost connection to server!"));
+  output_window_append(FTC_CLIENT_INFO, NULL,
+                       _("Lost connection to server!"));
   if (with_ggz) {
     client_exit();
   }
@@ -287,7 +288,8 @@ void disconnect_from_server(void)
   if (force) {
     client_kill_server(TRUE);
   }
-  append_output_window(_("Disconnected from server."));
+  output_window_append(FTC_CLIENT_INFO, NULL,
+                       _("Disconnected from server."));
   if (with_ggz) {
     client_exit();
   }
@@ -488,9 +490,10 @@ double try_to_autoconnect(void)
   case ECONNREFUSED:		/* Server not available (yet) */
     if (!warning_shown) {
       freelog(LOG_ERROR, "Connection to server refused. "
-			 "Please start the server.");
-      append_output_window(_("Connection to server refused. "
-			     "Please start the server."));
+                         "Please start the server.");
+      output_window_append(FTC_CLIENT_INFO, NULL,
+                           _("Connection to server refused. "
+                             "Please start the server."));
       warning_shown = 1;
     }
     /* Try again in 0.5 seconds */
@@ -516,19 +519,18 @@ void start_autoconnecting_to_server(void)
 {
   char buf[512];
 
-  my_snprintf(buf, sizeof(buf),
-	      _("Auto-connecting to server \"%s\" at port %d "
-		"as \"%s\" every %f second(s) for %d times"),
-	      server_host, server_port, user_name,
-	      0.001 * AUTOCONNECT_INTERVAL,
-	      MAX_AUTOCONNECT_ATTEMPTS);
-  append_output_window(buf);
+  output_window_printf(FTC_CLIENT_INFO, NULL,
+                       _("Auto-connecting to server \"%s\" at port %d "
+                         "as \"%s\" every %f second(s) for %d times"),
+                       server_host, server_port, user_name,
+                       0.001 * AUTOCONNECT_INTERVAL,
+                       MAX_AUTOCONNECT_ATTEMPTS);
 
   if (get_server_address(server_host, server_port, buf, sizeof(buf)) < 0) {
     freelog(LOG_FATAL,
-	    _("Error contacting server \"%s\" at port %d "
-	      "as \"%s\":\n %s\n"),
-	    server_host, server_port, user_name, buf);
+            _("Error contacting server \"%s\" at port %d "
+              "as \"%s\":\n %s\n"),
+            server_host, server_port, user_name, buf);
     exit(EXIT_FAILURE);
   }
   autoconnecting = TRUE;

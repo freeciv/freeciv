@@ -854,13 +854,13 @@ void load_ruleset_specific_options(void)
 void save_options(void)
 {
   struct section_file sf;
-  char output_buffer[256];
   int i;
   view_option *v;
   char *name = option_file_name();
 
-  if(!name) {
-    append_output_window(_("Save failed, cannot find a filename."));
+  if (!name) {
+    output_window_append(FTC_CLIENT_INFO, NULL,
+                         _("Save failed, cannot find a filename."));
     return;
   }
 
@@ -920,13 +920,12 @@ void save_options(void)
 
   /* save to disk */
   if (!section_file_save(&sf, name, 0, FZ_PLAIN)) {
-    my_snprintf(output_buffer, sizeof(output_buffer),
-		_("Save failed, cannot write to file %s"), name);
+    output_window_printf(FTC_CLIENT_INFO, NULL,
+                         _("Save failed, cannot write to file %s"), name);
   } else {
-    my_snprintf(output_buffer, sizeof(output_buffer),
-		_("Saved settings to file %s"), name);
+    output_window_printf(FTC_CLIENT_INFO, NULL,
+                         _("Saved settings to file %s"), name);
   }
-  append_output_window(output_buffer);
   section_file_free(&sf);
 }
 

@@ -579,6 +579,52 @@ static size_t text_tag_replace_text(const struct text_tag *ptag,
 }
 
 /**************************************************************************
+  Returns a new text_tag or NULL on error.
+
+  Prototype:
+  - If tag_type is TTT_BOLD, TTT_ITALIC, TTT_STRIKE or TTT_UNDERLINE, there
+  shouldn't be any extra argument.
+  - If tag_type is TTT_COLOR:
+    size_t featured_text_apply_tag(..., const char *foreground,
+                                   const char *background);
+  - If tag_type is TTT_LINK and you want a city link:
+    size_t featured_text_apply_tag(..., TLT_CITY, struct city *pcity);
+  - If tag_type is TTT_LINK and you want a tile link:
+    size_t featured_text_apply_tag(..., TLT_TILE, struct tile *ptile);
+  - If tag_type is TTT_LINK and you want an unit link:
+    size_t featured_text_apply_tag(..., TLT_UNIT, struct unit *punit);
+
+  See also comment for text_tag_initv().
+**************************************************************************/
+struct text_tag *text_tag_new(enum text_tag_type tag_type,
+                              offset_t start_offset, offset_t stop_offset,
+                              ...)
+{
+  struct text_tag *ptag = fc_malloc(sizeof(struct text_tag));
+  va_list args;
+  bool ok;
+
+  va_start(args, stop_offset);
+  ok = text_tag_initv(ptag, tag_type, start_offset, stop_offset, args);
+  va_end(args);
+
+  if (ok) {
+    return ptag;
+  } else {
+    free(ptag);
+    return NULL;
+  }
+}
+
+/**************************************************************************
+  Free a text_tag structure.
+**************************************************************************/
+void text_tag_destroy(struct text_tag *ptag)
+{
+  free(ptag);
+}
+
+/**************************************************************************
   Return the type of this text tag.
 **************************************************************************/
 enum text_tag_type text_tag_type(const struct text_tag *ptag)
@@ -671,7 +717,7 @@ void text_tag_list_clear_all(struct text_tag_list *tags)
   }
 
   text_tag_list_iterate(tags, ptag) {
-    free(ptag);
+    text_tag_destroy(ptag);
   } text_tag_list_iterate_end;
   text_tag_list_clear(tags);
 }
@@ -812,7 +858,7 @@ size_t featured_text_to_plain_text(const char *featured_text,
                                             write - plain_text, buf)) {
               text_tag_list_append(tags, ptag);
             } else {
-              free(ptag);
+              text_tag_destroy(ptag);
               freelog(LOG_FEATURED_TEXT,
                       "Couldn't create a text tag with \"%s\".", buf);
             }

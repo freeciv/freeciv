@@ -370,7 +370,7 @@ static int inputline_return_callback(struct widget *pWidget)
     if (theinput && *theinput) {
       send_chat(theinput);
   
-      append_output_window(theinput);
+      output_window_append(NULL, NULL, theinput);
       FC_FREE(theinput);
     }
   }  
@@ -405,7 +405,7 @@ void popup_input_line(void)
   Appends the string to the chat output window.  The string should be
   inserted on its own line, although it will have no newline.
 **************************************************************************/
-void real_append_output_window(const char *astring,
+void real_output_window_append(const char *astring,
                                const struct text_tag_list *tags,
                                int conn_id)
 {
@@ -541,7 +541,7 @@ static int input_edit_conn_callback(struct widget *pWidget)
     
       if (*theinput != '\0') {
         send_chat(theinput);
-        /*real_append_output_window(theinput);*/
+        /*real_output_window_append(theinput);*/
       }
       
       FC_FREE(pWidget->string16->text);

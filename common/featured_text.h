@@ -132,6 +132,7 @@ enum text_link_type {
 #define FTC_WARNING     "#FF0000"
 #define FTC_LOG         "#7F7F7F"
 #define FTC_SERVER_INFO "#8B0000"
+#define FTC_CLIENT_INFO "#EF7F00"
 #define FTC_EDITOR      "#0000FF"
 #define FTC_COMMAND     "#006400"
 #define FTC_PRIVATE_MSG "#A020F0"
@@ -148,10 +149,16 @@ size_t featured_text_apply_tag(const char *text_source,
                                offset_t start_offset, offset_t stop_offset,
                                ...);
 
+/* Text tag list functions. */
 void text_tag_list_clear_all(struct text_tag_list *tags);
 struct text_tag_list *text_tag_list_dup(const struct text_tag_list *tags);
 
 /* Text tag functions. */
+struct text_tag *text_tag_new(enum text_tag_type tag_type,
+                              offset_t start_offset, offset_t stop_offset,
+                              ...);
+void text_tag_destroy(struct text_tag *ptag);
+
 enum text_tag_type text_tag_type(const struct text_tag *ptag);
 offset_t text_tag_start_offset(const struct text_tag *ptag);
 offset_t text_tag_stop_offset(const struct text_tag *ptag);

@@ -394,19 +394,21 @@ static void handle_city(struct city *pcity)
 
       cma_release_city(pcity);
 
-      create_event(pcity->tile, E_CITY_CMA_RELEASE,
-		   _("The citizen governor can't fulfill the requirements "
-		     "for %s. Passing back control."), city_name(pcity));
+      create_event(city_tile(pcity), E_CITY_CMA_RELEASE,
+                   FTC_CLIENT_INFO, NULL,
+                   _("The citizen governor can't fulfill the requirements "
+                     "for %s. Passing back control."), city_link(pcity));
       handled = TRUE;
       break;
     } else {
       if (!apply_result_on_server(pcity, &result)) {
 	freelog(HANDLE_CITY_LOG_LEVEL2, "  doesn't cleanly apply");
 	if (check_city(city_id, NULL) && i == 0) {
-	  create_event(pcity->tile, E_CITY_CMA_RELEASE,
-		       _("The citizen governor has gotten confused dealing "
-			 "with %s.  You may want to have a look."),
-		       city_name(pcity));
+          create_event(city_tile(pcity), E_CITY_CMA_RELEASE,
+                       FTC_CLIENT_INFO, NULL,
+                       _("The citizen governor has gotten confused dealing "
+                         "with %s.  You may want to have a look."),
+                       city_link(pcity));
 	}
       } else {
 	freelog(HANDLE_CITY_LOG_LEVEL2, "  ok");
@@ -423,10 +425,11 @@ static void handle_city(struct city *pcity)
     assert(pcity != NULL);
     freelog(HANDLE_CITY_LOG_LEVEL2, "  not handled");
 
-    create_event(pcity->tile, E_CITY_CMA_RELEASE,
-		 _("The citizen governor has gotten confused dealing "
-		   "with %s.  You may want to have a look."),
-		 city_name(pcity));
+    create_event(city_tile(pcity), E_CITY_CMA_RELEASE, 
+                 FTC_CLIENT_INFO, NULL,
+                 _("The citizen governor has gotten confused dealing "
+                   "with %s.  You may want to have a look."),
+                 city_link(pcity));
 
     cma_release_city(pcity);
 

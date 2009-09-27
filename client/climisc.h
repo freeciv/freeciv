@@ -99,8 +99,9 @@ int num_supported_units_in_city(struct city* pcity);
 void handle_event(const char *featured_text, struct tile *ptile,
 		  enum event_type event, int conn_id);
 void create_event(struct tile *ptile, enum event_type event,
-		  const char *format, ...)
-     fc__attribute((__format__ (__printf__, 3, 4)));
+                  const char *fg_color, const char *bg_color,
+                  const char *format, ...)
+     fc__attribute((__format__ (__printf__, 5, 6)));
 void write_chatline_content(const char *txt);
 
 void reports_freeze(void);

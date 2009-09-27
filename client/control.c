@@ -1140,8 +1140,8 @@ struct unit *request_unit_unload_all(struct unit *punit)
   struct unit *plast = NULL;
 
   if (get_transporter_capacity(punit) == 0) {
-    create_event(punit->tile, E_BAD_COMMAND,
-		 _("Only transporter units can be unloaded."));
+    create_event(punit->tile, E_BAD_COMMAND, FTC_CLIENT_INFO, NULL,
+                 _("Only transporter units can be unloaded."));
     return NULL;
   }
 
@@ -1461,8 +1461,8 @@ void request_unit_autosettlers(const struct unit *punit)
   if (punit && can_unit_do_autosettlers(punit)) {
     dsend_packet_unit_autosettlers(&client.conn, punit->id);
   } else if (punit) {
-    create_event(punit->tile, E_BAD_COMMAND,
-		 _("Only settler units can be put into auto mode."));
+    create_event(punit->tile, E_BAD_COMMAND, FTC_CLIENT_INFO, NULL,
+                 _("Only settler units can be put into auto mode."));
   }
 }
 
@@ -1556,8 +1556,8 @@ void request_unit_nuke(struct unit_list *punits)
     update_unit_info_label(punits);
     enter_goto_state(punits);
   } else {
-    create_event(offender, E_BAD_COMMAND,
-		 _("Only nuclear units can do this."));
+    create_event(offender, E_BAD_COMMAND, FTC_CLIENT_INFO, NULL,
+                 _("Only nuclear units can do this."));
   }
 }
 
@@ -1585,8 +1585,8 @@ void request_unit_paradrop(struct unit_list *punits)
     set_hover_state(punits, HOVER_PARADROP, ACTIVITY_LAST, ORDER_LAST);
     update_unit_info_label(punits);
   } else {
-    create_event(offender, E_BAD_COMMAND,
-		 _("Only paratrooper units can do this."));
+    create_event(offender, E_BAD_COMMAND, FTC_CLIENT_INFO, NULL,
+                 _("Only paratrooper units can do this."));
   }
 }
 
@@ -2092,7 +2092,8 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
 	offender = punit->tile;
       } unit_list_iterate_end;
       if (!possible) {
-	create_event(offender, E_BAD_COMMAND, _("Too far for this unit."));
+        create_event(offender, E_BAD_COMMAND, FTC_CLIENT_INFO, NULL,
+                     _("Too far for this unit."));
       } else {
         do_unit_goto(ptile);
 	if (!pcity) {
@@ -2303,8 +2304,8 @@ void do_unit_goto(struct tile *ptile)
   if (is_valid_goto_draw_line(ptile)) {
     send_goto_route();
   } else {
-    create_event(ptile, E_BAD_COMMAND,
-		 _("Didn't find a route to the destination!"));
+    create_event(ptile, E_BAD_COMMAND, FTC_CLIENT_INFO, NULL,
+                 _("Didn't find a route to the destination!"));
   }
 }
 
@@ -2333,8 +2334,8 @@ void do_unit_patrol_to(struct tile *ptile)
       && !is_non_allied_unit_tile(ptile, client.conn.playing)) {
     send_patrol_route();
   } else {
-    create_event(ptile, E_BAD_COMMAND,
-		 _("Didn't find a route to the destination!"));
+    create_event(ptile, E_BAD_COMMAND, FTC_CLIENT_INFO, NULL,
+                 _("Didn't find a route to the destination!"));
   }
 
   set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
@@ -2349,8 +2350,8 @@ void do_unit_connect(struct tile *ptile,
   if (is_valid_goto_draw_line(ptile)) {
     send_connect_route(activity);
   } else {
-    create_event(ptile, E_BAD_COMMAND,
-		 _("Didn't find a route to the destination!"));
+    create_event(ptile, E_BAD_COMMAND, FTC_CLIENT_INFO, NULL,
+                 _("Didn't find a route to the destination!"));
   }
 
   set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
@@ -2393,8 +2394,8 @@ void key_center_capital(void)
     center_tile_mapcanvas(capital->tile);
     put_cross_overlay_tile(capital->tile);
   } else {
-    create_event(NULL, E_BAD_COMMAND,
-		 _("Oh my! You seem to have no capital!"));
+    create_event(NULL, E_BAD_COMMAND, FTC_CLIENT_INFO, NULL,
+                 _("Oh my! You seem to have no capital!"));
   }
 }
 

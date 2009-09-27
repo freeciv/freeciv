@@ -167,14 +167,14 @@ void client_change_all(struct universal from,
     return;
   }
 
-  create_event(NULL, E_CITY_PRODUCTION_CHANGED,
-	       _("Changing production of every %s into %s."),
-	       VUT_UTYPE == from.kind
-	       ? utype_name_translation(from.value.utype)
-	       : improvement_name_translation(from.value.building),
-	       VUT_UTYPE == to.kind
-	       ? utype_name_translation(to.value.utype)
-	       : improvement_name_translation(to.value.building));
+  create_event(NULL, E_CITY_PRODUCTION_CHANGED, FTC_CLIENT_INFO, NULL,
+               _("Changing production of every %s into %s."),
+               VUT_UTYPE == from.kind
+               ? utype_name_translation(from.value.utype)
+               : improvement_name_translation(from.value.building),
+               VUT_UTYPE == to.kind
+               ? utype_name_translation(to.value.utype)
+               : improvement_name_translation(to.value.building));
 
   connection_do_buffer(&client.conn);
   city_list_iterate (client.conn.playing->cities, pcity) {
@@ -931,7 +931,7 @@ void handle_event(const char *featured_text, struct tile *ptile,
 
   /* Chatline */
   if (BOOL_VAL(where & MW_OUTPUT) || (fallback_needed && !shown)) {
-    append_output_window_full(plain_text, tags, conn_id);
+    output_window_event(plain_text, tags, conn_id);
   }
 
   play_sound_for_event(event);
@@ -946,7 +946,8 @@ void handle_event(const char *featured_text, struct tile *ptile,
   handle_chat_msg.
 **************************************************************************/
 void create_event(struct tile *ptile, enum event_type event,
-		  const char *format, ...)
+                  const char *fg_color, const char *bg_color,
+                  const char *format, ...)
 {
   va_list ap;
   char message[MAX_LEN_MSG];
@@ -955,7 +956,16 @@ void create_event(struct tile *ptile, enum event_type event,
   my_vsnprintf(message, sizeof(message), format, ap);
   va_end(ap);
 
-  handle_event(message, ptile, event, client.conn.id);
+  if ((fg_color && fg_color[0] != '\0')
+      || (bg_color && bg_color[0] != '\0')) {
+    char colored_text[MAX_LEN_MSG];
+
+    featured_text_apply_tag(message, colored_text, sizeof(colored_text),
+                            TTT_COLOR, 0, OFFSET_UNSET, fg_color, bg_color);
+    handle_event(colored_text, ptile, event, -1);
+  } else {
+    handle_event(message, ptile, event, -1);
+  }
 }
 
 /**************************************************************************
@@ -965,13 +975,15 @@ void write_chatline_content(const char *txt)
 {
   FILE *fp = fopen("civgame.log", "w");	/* should allow choice of name? */
 
-  append_output_window(_("Exporting output window to civgame.log ..."));
+  output_window_append(FTC_CLIENT_INFO, NULL,
+                       _("Exporting output window to civgame.log ..."));
   if (fp) {
     fputs(txt, fp);
     fclose(fp);
-    append_output_window(_("Export complete."));
+    output_window_append(FTC_CLIENT_INFO, NULL, _("Export complete."));
   } else {
-    append_output_window(_("Export failed, couldn't write to file."));
+    output_window_append(FTC_CLIENT_INFO, NULL,
+                         _("Export failed, couldn't write to file."));
   }
 }
 
@@ -1069,10 +1081,10 @@ void cityrep_buy(struct city *pcity)
   int value;
 
   if (city_production_has_flag(pcity, IF_GOLD)) {
-    create_event(pcity->tile, E_BAD_COMMAND,
-		_("You don't buy %s in %s!"),
-		improvement_name_translation(pcity->production.value.building),
-		city_name(pcity));
+    create_event(pcity->tile, E_BAD_COMMAND, FTC_CLIENT_INFO, NULL,
+                 _("You don't buy %s in %s!"),
+                 improvement_name_translation(pcity->production.value.building),
+                 city_link(pcity));
     return;
   }
   value = city_production_buy_gold_cost(pcity);
@@ -1080,11 +1092,11 @@ void cityrep_buy(struct city *pcity)
   if (city_owner(pcity)->economic.gold >= value) {
     city_buy_production(pcity);
   } else {
-    create_event(NULL, E_BAD_COMMAND,
-		 _("%s costs %d gold and you only have %d gold."),
-		 city_production_name_translation(pcity),
-		 value,
-		 city_owner(pcity)->economic.gold);
+    create_event(NULL, E_BAD_COMMAND, FTC_CLIENT_INFO, NULL,
+                 _("%s costs %d gold and you only have %d gold."),
+                 city_production_name_translation(pcity),
+                 value,
+                 city_owner(pcity)->economic.gold);
   }
 }
 

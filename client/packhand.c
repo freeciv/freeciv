@@ -224,7 +224,6 @@ void handle_server_join_reply(bool you_can_join, char *message,
                               char *capability, char *challenge_file,
                               int conn_id)
 {
-  char msg[MAX_LEN_MSG];
   char *s_capability = client.conn.capability;
 
   sz_strlcpy(client.conn.capability, capability);
@@ -253,13 +252,12 @@ void handle_server_join_reply(bool you_can_join, char *message,
     /* we could always use hack, verify we're local */ 
     send_client_wants_hack(challenge_file);
   } else {
-    my_snprintf(msg, sizeof(msg),
-		_("You were rejected from the game: %s"), message);
-    append_output_window(msg);
+    output_window_printf(FTC_SERVER_INFO, NULL,
+                         _("You were rejected from the game: %s"), message);
     client.conn.id = -1; /* not in range of conn_info id */
 
     if (auto_connect) {
-      freelog(LOG_NORMAL, "%s", msg);
+      freelog(LOG_NORMAL, _("You were rejected from the game: %s"), message);
     }
     gui_server_connect();
 
@@ -270,12 +268,10 @@ void handle_server_join_reply(bool you_can_join, char *message,
   if (strcmp(s_capability, our_capability) == 0) {
     return;
   }
-  my_snprintf(msg, sizeof(msg),
-	      _("Client capability string: %s"), our_capability);
-  append_output_window(msg);
-  my_snprintf(msg, sizeof(msg),
-	      _("Server capability string: %s"), s_capability);
-  append_output_window(msg);
+  output_window_printf(FTC_SERVER_INFO, NULL,
+                       _("Client capability string: %s"), our_capability);
+  output_window_printf(FTC_SERVER_INFO, NULL,
+                       _("Server capability string: %s"), s_capability);
 }
 
 /****************************************************************************
@@ -1010,7 +1006,8 @@ void handle_new_year(int year, int turn)
   link_marks_decrease_turn_counters();
 
   if (sound_bell_at_new_turn) {
-    create_event(NULL, E_TURN_BELL, _("Start of turn %d"), game.info.turn);
+    create_event(NULL, E_TURN_BELL, FTC_CLIENT_INFO, NULL,
+                 _("Start of turn %d"), game.info.turn);
   }
 
   agents_new_turn();
@@ -1867,9 +1864,11 @@ void handle_player_info(struct packet_player_info *pinfo)
     pplayer->ai_data.control = pinfo->ai;
     if (pplayer == my_player)  {
       if (my_player->ai_data.control) {
-        append_output_window(_("AI mode is now ON."));
+        output_window_append(FTC_CLIENT_INFO, NULL,
+                             _("AI mode is now ON."));
       } else {
-        append_output_window(_("AI mode is now OFF."));
+        output_window_append(FTC_CLIENT_INFO, NULL,
+                             _("AI mode is now OFF."));
       }
     }
   }
