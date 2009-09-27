@@ -377,7 +377,7 @@ static gboolean check_server_scan(gpointer data)
 static void server_scan_error(struct server_scan *scan,
 			      const char *message)
 {
-  append_output_window(message);
+  output_window_append(FTC_CLIENT_INFO, NULL, message);
   freelog(LOG_ERROR, "%s", message);
 
   switch (server_scan_get_type(scan)) {
@@ -602,7 +602,7 @@ static void connect_callback(GtkWidget *w, gpointer data)
     } else {
       append_network_statusbar(errbuf, TRUE);
 
-      append_output_window(errbuf);
+      output_window_append(FTC_CLIENT_INFO, NULL, errbuf);
     }
     break; 
   case NEW_PASSWORD_TYPE:

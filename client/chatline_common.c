@@ -120,7 +120,7 @@ void output_window_thaw(void)
 
   if (frozen_level == 0) {
     remaining_list_iterate(remains, pline) {
-      real_append_output_window(pline->text, pline->tags, pline->conn_id);
+      real_output_window_append(pline->text, pline->tags, pline->conn_id);
       free(pline->text);
       text_tag_list_clear_all(pline->tags);
       text_tag_list_free(pline->tags);
@@ -142,19 +142,38 @@ void output_window_force_thaw(void)
 }
 
 /**************************************************************************
-  Add a line of text to the output ("chatline") window.
+  Add a line of text to the output ("chatline") window, like puts() would
+  do it in the console.
 **************************************************************************/
-void append_output_window(const char *featured_text)
+void output_window_append(const char *fg_color, const char *bg_color,
+                          const char *featured_text)
 {
   char plain_text[MAX_LEN_MSG];
   struct text_tag_list *tags = text_tag_list_new();
 
-  /* Separates plain text and tags. */
+  /* Separate the text and the tags. */
   featured_text_to_plain_text(featured_text, plain_text,
                               sizeof(plain_text), tags);
 
+  if ((fg_color && fg_color[0] != '\0')
+      || (bg_color && bg_color[0] != '\0')) {
+    /* A color is requested. */
+    struct text_tag *ptag = text_tag_new(TTT_COLOR, 0, OFFSET_UNSET,
+                                         fg_color, bg_color);
+
+    if (ptag) {
+      /* Prepends to the list, to avoid to overwrite inside colors. */
+      text_tag_list_prepend(tags, ptag);
+    } else {
+      freelog(LOG_ERROR,
+              "Failed to create a color text tag (fg = %s, bg = %s).",
+              fg_color ? fg_color : "NULL",
+              bg_color ? bg_color : "NULL");
+    }
+  }
+
   if (frozen_level == 0) {
-    real_append_output_window(plain_text, tags, -1);
+    real_output_window_append(plain_text, tags, -1);
     text_tag_list_clear_all(tags);
     text_tag_list_free(tags);
   } else {
@@ -168,15 +187,41 @@ void append_output_window(const char *featured_text)
 }
 
 /**************************************************************************
-  Same as above, but here we know the connection id of the sender of the
-  text in question.
+  Add a line of text to the output ("chatline") window.  The text is
+  constructed in printf style.
 **************************************************************************/
-void append_output_window_full(const char *plain_text,
-                               const struct text_tag_list *tags,
-                               int conn_id)
+void output_window_vprintf(const char *fg_color, const char *bg_color,
+                           const char *format, va_list args)
+{
+  char featured_text[MAX_LEN_MSG];
+
+  my_vsnprintf(featured_text, sizeof(featured_text), format, args);
+  output_window_append(fg_color, bg_color, featured_text);
+}
+
+
+/**************************************************************************
+  Add a line of text to the output ("chatline") window.  The text is
+  constructed in printf style.
+**************************************************************************/
+void output_window_printf(const char *fg_color, const char *bg_color,
+                          const char *format, ...)
+{
+  va_list args;
+
+  va_start(args, format);
+  output_window_vprintf(fg_color, bg_color, format, args);
+  va_end(args);
+}
+
+/**************************************************************************
+  Add a line of text to the output ("chatline") window from server event.
+**************************************************************************/
+void output_window_event(const char *plain_text,
+                         const struct text_tag_list *tags, int conn_id)
 {
   if (frozen_level == 0) {
-    real_append_output_window(plain_text, tags, conn_id);
+    real_output_window_append(plain_text, tags, conn_id);
   } else {
     struct remaining *premain = fc_malloc(sizeof(*premain));
 
@@ -192,8 +237,11 @@ void append_output_window_full(const char *plain_text,
 ****************************************************************************/
 void chat_welcome_message(void)
 {
-  append_output_window(_("Freeciv is free software and you are welcome to "
-			 "distribute copies of it under certain conditions;"));
-  append_output_window(_("See the \"Copying\" item on the Help menu."));
-  append_output_window(_("Now ... Go give 'em hell!"));
+  output_window_append(NULL, NULL,
+                       _("Freeciv is free software and you are welcome to "
+                         "distribute copies of it under certain conditions;"));
+  output_window_append(NULL, NULL,
+                       _("See the \"Copying\" item on the Help menu."));
+  output_window_append(NULL, NULL,
+                       _("Now ... Go give 'em hell!"));
 }

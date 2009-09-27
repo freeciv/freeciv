@@ -371,7 +371,8 @@ static int gold_callback(struct widget *pWidget)
                                                CLAUSE_GOLD, amount);
       
     } else {
-      append_output_window(_("Invalid amount of gold specified."));
+      output_window_append(FTC_CLIENT_INFO, NULL,
+                           _("Invalid amount of gold specified."));
     }
     
     if(amount || !pWidget->string16->text) {

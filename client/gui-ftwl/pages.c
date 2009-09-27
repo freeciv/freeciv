@@ -24,7 +24,8 @@ static enum client_pages old_page = PAGE_MAIN;
 
 static void show_main_page()
 {
-  append_output_window("Connection dialog not yet implemented. Start client "
+  output_window_append(FTC_CLIENT_INFO, NULL,
+                       "Connection dialog not yet implemented. Start client "
                        "using the -a option.");
 }
 

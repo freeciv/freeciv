@@ -204,7 +204,7 @@ void popup_connect_msg(const char *headline, const char *message)
   /* FIXME: Needs proper implementation.
    *        Now just puts to chat window so message is not completely lost. */
 
-  append_output_window(message);
+  output_window_append(FTC_SERVER_INFO, NULL, message);
 }
 
 /**************************************************************************
@@ -370,7 +370,8 @@ static void do_select(HWND hWnd)
 		   name,MAX_LEN_NAME);
 
   if (strlen(name) == 0) {
-    append_output_window(_("You must type a legal name."));
+    output_window_append(FTC_CLIENT_INFO, NULL,
+                         _("You must type a legal name."));
     return;
   }
   dsend_packet_nation_select_req(&client.conn, player_number(races_player),

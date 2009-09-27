@@ -572,7 +572,8 @@ void set_client_state(enum client_states newstate)
     case C_S_RUNNING:
       init_city_report_game_data();
       load_ruleset_specific_options();
-      create_event(NULL, E_GAME_START, _("Game started."));
+      create_event(NULL, E_GAME_START,  FTC_CLIENT_INFO, NULL,
+                   _("Game started."));
       precalc_tech_data();
       if (pplayer) {
         player_research_update(pplayer);

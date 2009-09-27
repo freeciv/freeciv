@@ -2233,7 +2233,8 @@ static int races_dialog_ok_callback(struct widget *pStart_Button)
   
     /* perform a minimum of sanity test on the name */
     if (strlen(pStr) == 0) {
-      append_output_window(_("You must type a legal name."));
+      output_window_append(FTC_CLIENT_INFO, NULL,
+                           _("You must type a legal name."));
       pSellected_Widget = pStart_Button;
       set_wstate(pStart_Button, FC_WS_SELLECTED);
       widget_redraw(pStart_Button);

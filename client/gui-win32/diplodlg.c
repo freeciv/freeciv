@@ -261,7 +261,8 @@ static void handle_gold_entry(struct Diplomacy_dialog *pdialog,int plr)
 					player_number(pgiver),
 					CLAUSE_GOLD, amount);
      } else {
-       append_output_window(_("Invalid amount of gold specified."));
+       output_window_append(FTC_CLIENT_INFO, NULL,
+                            _("Invalid amount of gold specified."));
      }
   }
 }

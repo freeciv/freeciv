@@ -24,7 +24,7 @@
 #include "support.h"
 
 /* client */
-#include "chatline_common.h"	/* for append_output_window */
+#include "chatline_common.h"	/* for output_window_append */
 #include "client_main.h"
 #include "clinet.h"		/* connect_to_server() */
 #include "gui_main.h"
@@ -63,7 +63,7 @@ static void connect_callback(void)
     te_destroy_screen(screen);
     screen = NULL;
   } else {
-    append_output_window(errbuf);
+    output_window_append(FTC_CLIENT_INFO, NULL, errbuf);
   }
 }
 

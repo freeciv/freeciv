@@ -287,7 +287,8 @@ void inputline_make_chat_link(GtkEntry *entry, struct tile *ptile, bool unit)
   if (unit) {
     punit = find_visible_unit(ptile);
     if (!punit) {
-      append_output_window(_("No visible unit on this tile."));
+      output_window_append(FTC_CLIENT_INFO, NULL,
+                           _("No visible unit on this tile."));
       return;
     }
   } else {
@@ -392,7 +393,6 @@ static gboolean event_after(GtkWidget *text_view, GdkEventButton *event)
   GSList *tags, *tagp;
   gint x, y;
   struct tile *ptile = NULL;
-  char buf[64];
 
   if (event->type != GDK_BUTTON_RELEASE || event->button != 1) {
     return FALSE;
@@ -435,8 +435,8 @@ static gboolean event_after(GtkWidget *text_view, GdkEventButton *event)
             if (pcity) {
               ptile = city_tile(pcity);
             } else {
-              my_snprintf(buf, sizeof(buf), _("This city isn't known!"));
-              append_output_window(buf);
+              output_window_append(FTC_CLIENT_INFO, NULL,
+                                   _("This city isn't known!"));
             }
           }
           break;
@@ -444,9 +444,8 @@ static gboolean event_after(GtkWidget *text_view, GdkEventButton *event)
           ptile = index_to_tile(id);
 
           if (!ptile) {
-            my_snprintf(buf, sizeof(buf),
-                        _("This tile doesn't exist in this game!"));
-            append_output_window(buf);
+            output_window_append(FTC_CLIENT_INFO, NULL,
+                                 _("This tile doesn't exist in this game!"));
           }
           break;
         case TLT_UNIT:
@@ -456,8 +455,8 @@ static gboolean event_after(GtkWidget *text_view, GdkEventButton *event)
             if (punit) {
               ptile = unit_tile(punit);
             } else {
-              my_snprintf(buf, sizeof(buf), _("This unit isn't known!"));
-              append_output_window(buf);
+              output_window_append(FTC_CLIENT_INFO, NULL,
+                                   _("This unit isn't known!"));
             }
           }
           break;
@@ -704,7 +703,7 @@ static void apply_text_tag(const struct text_tag *ptag, GtkTextBuffer *buf,
   Appends the string to the chat output window.  The string should be
   inserted on its own line, although it will have no newline.
 **************************************************************************/
-void real_append_output_window(const char *astring,
+void real_output_window_append(const char *astring,
                                const struct text_tag_list *tags,
                                int conn_id)
 {
@@ -749,7 +748,7 @@ void real_append_output_window(const char *astring,
 /**************************************************************************
  I have no idea what module this belongs in -- Syela
  I've decided to put output_window routines in chatline.c, because
- the are somewhat related and append_output_window is already here.  --dwp
+ the are somewhat related and output_window_* is already here.  --dwp
 **************************************************************************/
 void log_output_window(void)
 {
