@@ -93,6 +93,7 @@ bool show_task_icons = TRUE;
 bool enable_cursor_changes = TRUE;
 bool separate_unit_selection = FALSE;
 bool unit_selection_clears_orders = TRUE;
+char highlight_our_names[128] = "yellow";
 
 /* This option is currently set by the client - not by the user. */
 bool update_city_text_in_refresh_tile = TRUE;
@@ -213,6 +214,13 @@ static client_option common_options[] = {
 			"as the flags on units.  If unset, the full flag will "
 			"be drawn."),
 		     COC_GRAPHICS, mapview_redraw_callback),
+  GEN_STR_OPTION(highlight_our_names,
+                 N_("Color to highlight your player/user name"),
+                 N_("If set, your player and user name in the new chat "
+                    "messages will be highlighted using this color as "
+                    "background.  If not set, it will just not highlight "
+                    "anything."),
+                 COC_GRAPHICS, NULL, NULL),
   GEN_BOOL_OPTION(ai_manual_turn_done, N_("Manual Turn Done in AI Mode"),
 		  N_("Disable this option if you do not want to "
 		     "press the Turn Done button manually when watching "

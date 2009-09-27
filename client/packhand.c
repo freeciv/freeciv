@@ -2042,16 +2042,17 @@ void handle_conn_info(struct packet_conn_info *pinfo)
     pconn->access_level = pinfo->access_level;
     pconn->playing = pplayer;
 
+    sz_strlcpy(pconn->username, pinfo->username);
+    sz_strlcpy(pconn->addr, pinfo->addr);
+    sz_strlcpy(pconn->capability, pinfo->capability);
+
     if (pinfo->id == client.conn.id) {
       client.conn.established = pconn->established;
       client.conn.observer = pconn->observer;
       client.conn.access_level = pconn->access_level;
       client.conn.playing = pconn->playing;
+      sz_strlcpy(client.conn.username, pinfo->username);
     }
-
-    sz_strlcpy(pconn->username, pinfo->username);
-    sz_strlcpy(pconn->addr, pinfo->addr);
-    sz_strlcpy(pconn->capability, pinfo->capability);
   }
 
   update_players_dialog();

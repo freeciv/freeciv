@@ -900,6 +900,42 @@ void handle_event(const char *featured_text, struct tile *ptile,
     } text_tag_list_iterate_end;
   }
 
+  /* Maybe highlight our player and user names if someone is talking
+   * about us. */
+  if (highlight_our_names[0] != '\0'
+      && conn_id != -1 && conn_id != client.conn.id) {
+    const char *username = client.conn.username;
+    size_t userlen = strlen(username);
+    const char *playername = ((client_player() && !client_is_observer())
+                              ? player_name(client_player()) : NULL);
+    size_t playerlen = playername ? strlen(playername) : 0;
+    const char *p;
+
+    if (playername && playername[0] == '\0') {
+      playername = NULL;
+    }
+
+    if (username && username[0] == '\0') {
+      username = NULL;
+    }
+
+    for (p = plain_text; *p != '\0'; p++) {
+      if (username
+          && 0 == mystrncasecmp(p, username, userlen)) {
+        /* Appends to be sure it will be applied at last. */
+        text_tag_list_append(tags, text_tag_new(TTT_COLOR, p - plain_text,
+                                                p - plain_text + userlen,
+                                                NULL, highlight_our_names));
+      } else if (playername
+                 && 0 == mystrncasecmp(p, playername, playerlen)) {
+        /* Appends to be sure it will be applied at last. */
+        text_tag_list_append(tags, text_tag_new(TTT_COLOR, p - plain_text,
+                                                p - plain_text + playerlen,
+                                                NULL, highlight_our_names));
+      }
+    }
+  }
+
   /* Popup */
   if (BOOL_VAL(where & MW_POPUP)) {
     /* Popups are usually not shown if player is under AI control.

@@ -56,6 +56,7 @@ extern bool show_task_icons;
 extern bool enable_cursor_changes;
 extern bool separate_unit_selection;
 extern bool unit_selection_clears_orders;
+extern char highlight_our_names[128];
 
 extern char font_city_label[512];
 extern char font_notify_label[512];
