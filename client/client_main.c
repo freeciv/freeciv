@@ -192,6 +192,7 @@ static void client_game_init(void)
   agents_init();
   control_init();
   link_marks_init();
+  voteinfo_queue_init();
 }
 
 /**************************************************************************
@@ -200,6 +201,7 @@ static void client_game_init(void)
 static void client_game_free(void)
 {
   packhand_free();
+  voteinfo_queue_free();
   link_marks_free();
   control_done();
   free_help_texts();
@@ -403,7 +405,6 @@ int client_main(int argc, char *argv[])
   init_player_dlg_common();
   init_themes();
   settable_options_init();
-  voteinfo_queue_init();
 
   load_general_options();
 
@@ -475,7 +476,6 @@ void client_exit(void)
   
   chatline_common_done();
   message_options_free();
-  voteinfo_queue_free();
   client_game_free();
 
   helpdata_done(); /* client_exit() unlinks help text list */
