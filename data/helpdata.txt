@@ -551,7 +551,7 @@ Dialogs and Reports:\n\
 Shift-Return: Turn done\
 "), _("\
 Editing Mode (GTK):\n\
-================\n\
+===================\n\
     Ctrl-E: toggle editing mode\n\
     Ctrl-M: toggle fog of war in editing mode\n\
 ")
@@ -575,6 +575,98 @@ will match only users (not players) named 'John'.  'Johnathan' will \
 still match.\
 "), _("\
   - Messages starting with '.' will be sent only to all your allies.\
+"), _("\
+Featured text (GTK):\n\
+====================\n\
+\n\
+Since 2.2, the GTK client has featured text support.  This feature allows \
+users to format the chat messages they are sending using boldface, italic, \
+colors, links, etc...  Such changes are performed using escape sequences.\
+"), _("\
+* Getting boldface:\n\
+Full name sequence: '[bold] ... [/bold]'\n\
+Abbreviation sequence: '[b] ... [/b]'\n\
+Short cut in the entry: Ctrl-B\n\
+Example: '[b]bold[/b]' will display the word 'bold' in bold style.\
+"), _("\
+* Getting colors:\n\
+Full name sequence: '[color] ... [/color]' \n\
+Abbreviation sequence: '[c] ... [/c]'\n\
+Short cut in the entry: Ctrl-C (you also need to select the color in the \
+toolbar over the entry)\n\
+The color start sequence always takes at least one of the following \
+parameters:\n\
+- 'foreground' (abbreviation 'fg'): a color name such as red, or a hex \
+specification such as #3050b2 or #35b.\n\
+- 'background' (abbreviation 'bg'): same as above.\n\
+Example: '[c fg=\"blue\" bg=\"yellow\"]color[/c]' will display the word \
+'color' in blue on a yellow background.\
+"), _("\
+* Getting italic:\n\
+Full name sequence: '[italic] ... [/italic]'\n\
+Abbreviation sequence: '[i] ... [/i]'\n\
+Short cut in the entry: Ctrl-I\n\
+Example: '[i]italic[/i]' will display the word 'italic' in italic style.\
+"), _("\
+* Getting strikethrough:\n\
+Full name sequence: '[strike] ... [/strike]'\n\
+Abbreviation sequence: '[s] ... [/s]'\n\
+Short cut in the entry: Ctrl-S\n\
+Example: '[s]strikethrough[/s]' will display the word 'strikethrough' with \
+a strike.\
+"), _("\
+* Getting underline:\n\
+Full name sequence: '[underline] ... [/underline]'\n\
+Abbreviation sequence: '[u] ... [/u]'\n\
+Short cut in the entry: Ctrl-U\n\
+Example: '[u]underlined[/u]' will display the word 'underlined' with an \
+underline.\
+"), _("\
+* Getting city links:\n\
+Full name sequence: '[link target=\"city\"] ... [/link]'\n\
+Abbreviation sequence: '[l tgt=\"city\"] ... [/l]'\n\
+Short cut: Control-Alt-Right-click on a city on the map.\n\
+The 'id' parameter must be set to the id of the city you are pointing.\n\
+An optional 'name' parameter can be set to bind the city name in the case \
+the destination users don't know this city on their map.\n\
+This expression can also be started and finished within the same pair of \
+brackets, like '[link target=\"city\" id=121 /]' (note the slash at the \
+end).\n\
+Examples: '[l tgt=\"city\" id=65]city[/l]' will make the word 'city' \
+clickable and pointing to the city id 65.\n\
+'[l tgt=\"city\" id=65 name=\"noname\" /]' will display the name of the \
+city id 65 if known, else, the word 'noname'.\
+"), _("\
+* Getting tile links:\n\
+Full name sequence: '[link target=\"tile\"] ... [/link]'\n\
+Abbreviation sequence: '[l tgt=\"tile\"] ... [/l]'\n\
+Short cut: Control-Alt-Right-click on a tile without city on the map.\n\
+The 'x' and 'y' parameters must be set to the tile location you are \
+pointing.\n\
+This expression can also be started and finished within the same pair of \
+brackets, like '[link target=\"tile\" x=5 y=36 /]' (note the slash at the \
+end).\n\
+Example: '[l tgt=\"tile\" x=17 y=3]this tile[/l]' will make the string \
+'this tile' clickable and pointing to the tile (17, 3).\
+"), _("\
+* Getting unit links:\n\
+Full name sequence: '[link target=\"unit\"] ... [/link]'\n\
+Abbreviation sequence: '[l tgt=\"unit\"] ... [/l]'\n\
+Short cut: Shift-Control-Alt-Right-click on a unit on the map.\n\
+The 'id' parameter must be set to the id of the unit you are pointing to.  \
+An optional 'name' parameter can be set to bind the unit name in the case \
+the destination users don't know this unit on their map.\n\
+This expression can also be started and finished within the same pair of \
+brackets, like '[link target=\"unit\" id=109 /]' (note the slash at the \
+end).\n\
+Examples: '[l tgt=\"unit\" id=235]unit[/l]' will make the word 'unit' \
+clickable and pointing to the city id 235.\n\
+'[l tgt=\"unit\" id=235 name=\"Warrior\" /]' will display the name of the \
+unit id 235 if known, else, the word 'Warrior'.\
+"), _("\
+Of course, the different escape sequences can be combined in the same \
+sentence, like '[i][c fg=\"blue\"]this [b]is [s]funny[c bg=\"green\"] \
+[u]to[/i] test[/b] this[/s] [/c]new[/u] feature[/c]'.\
 ")
 
 [help_worklist_editor]
