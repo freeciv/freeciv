@@ -353,7 +353,6 @@ static int unit_ids[MAX_NUM_UNITS_BELOW];  /* ids of the units icons in
                                             * information display: (or 0) */
 GtkTextView *main_message_area;
 GtkTextBuffer *message_buffer;
-GtkWidget *inputline;
 static GtkWidget *allied_chat_toggle_button;
 
 static enum Display_color_type display_color_type;  /* practically unused */
@@ -753,7 +752,7 @@ static gboolean toplevel_key_release_handler(GtkWidget *w, GdkEventKey *ev,
                                              gpointer data)
 {
   /* inputline history code */
-  if (!GTK_WIDGET_MAPPED(top_vbox) || GTK_WIDGET_HAS_FOCUS(inputline)) {
+  if (!GTK_WIDGET_MAPPED(top_vbox) || inputline_has_focus()) {
     return FALSE;
   }
 
@@ -771,7 +770,7 @@ static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEventKey *ev,
                                            gpointer data)
 {
   /* inputline history code */
-  if (!GTK_WIDGET_MAPPED(top_vbox) || GTK_WIDGET_HAS_FOCUS(inputline)) {
+  if (!GTK_WIDGET_MAPPED(top_vbox) || inputline_has_focus()) {
     return FALSE;
   }
 
@@ -802,7 +801,7 @@ static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEventKey *ev,
      * at the bottom of other dialogs.
      */
     gtk_notebook_set_current_page(GTK_NOTEBOOK(bottom_notebook), 0);
-    gtk_widget_grab_focus(inputline);
+    inputline_grab_focus();
     return TRUE;
 
   default:
@@ -1110,7 +1109,7 @@ static void setup_widgets(void)
 {
   GtkWidget *box, *ebox, *hbox, *sbox, *align, *label;
   GtkWidget *frame, *table, *table2, *paned, *hpaned, *sw, *text;
-  GtkWidget *button, *toolkit;
+  GtkWidget *button, *view;
   int i;
   char buf[256];
   struct sprite *sprite;
@@ -1502,8 +1501,8 @@ static void setup_widgets(void)
   chat_welcome_message();
 
   /* the chat line */
-  toolkit = inputline_toolkit_new(&inputline, &hbox);
-  gtk_box_pack_start(GTK_BOX(vbox), toolkit, FALSE, FALSE, 3);
+  view = inputline_toolkit_view_new();
+  gtk_box_pack_start(GTK_BOX(vbox), view, FALSE, FALSE, 3);
 
   button = gtk_toggle_button_new_with_label(_("Allies Only"));
   gtk_button_set_focus_on_click(GTK_BUTTON(button), FALSE);
@@ -1511,13 +1510,13 @@ static void setup_widgets(void)
                                allied_chat_only);
   g_signal_connect(button, "toggled",
                    G_CALLBACK(allied_chat_button_toggled), NULL);
-  gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 2);
+  inputline_toolkit_view_append_button(view, button);
   allied_chat_toggle_button = button;
 
   button = gtk_button_new_with_label(_("Clear links"));
   g_signal_connect(button, "clicked",
                    G_CALLBACK(link_marks_clear_all), NULL);
-  gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 2);
+  inputline_toolkit_view_append_button(view, button);
 
   /* Other things to take care of */
 

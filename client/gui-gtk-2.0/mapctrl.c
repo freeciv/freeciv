@@ -289,8 +289,7 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
     /* <CONTROL> + <ALT> + <SHIFT> + RMB : insert unit chat link. */
     if (ptile && (ev->state & GDK_MOD1_MASK)
         && (ev->state & GDK_CONTROL_MASK)) {
-      inputline_make_chat_link(GTK_ENTRY(inputline), ptile,
-                               (ev->state & GDK_SHIFT_MASK) != 0);
+      inputline_make_chat_link(ptile, (ev->state & GDK_SHIFT_MASK) != 0);
     }
     /* <SHIFT> + <ALT> + RMB : Show/hide workers. */
     else if ((ev->state & GDK_SHIFT_MASK) && (ev->state & GDK_MOD1_MASK)
