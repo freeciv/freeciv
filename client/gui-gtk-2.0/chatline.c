@@ -187,7 +187,7 @@ static gboolean inputline_handler(GtkWidget *w, GdkEventKey *ev)
     case GDK_Up:
       if (history_pos < genlist_size(history_list) - 1) {
         gtk_entry_set_text(GTK_ENTRY(w),
-                           genlist_get(history_list, history_pos));
+                           genlist_get(history_list, ++history_pos));
         gtk_editable_set_position(GTK_EDITABLE(w), -1);
       }
       return TRUE;
@@ -196,7 +196,7 @@ static gboolean inputline_handler(GtkWidget *w, GdkEventKey *ev)
       if (history_pos >= 0) {
         history_pos--;
       }
-      
+
       if (history_pos >= 0) {
         gtk_entry_set_text(GTK_ENTRY(w),
                            genlist_get(history_list, history_pos));
