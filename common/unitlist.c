@@ -15,6 +15,10 @@
 #include <config.h>
 #endif
 
+/* utility */
+#include "log.h"
+
+/* common */
 #include "game.h"
 #include "movement.h"
 #include "unitlist.h"
@@ -35,27 +39,25 @@ struct unit *unit_list_find(const struct unit_list *punitlist, int unit_id)
 }
 
 /****************************************************************************
- Comparison function for genlist_sort, sorting by ord_map:
+ Comparison function for unit_list_sort, sorting by ord_map:
  The indirection is a bit gory:
  Read from the right:
    1. cast arg "a" to "ptr to void*"   (we're sorting a list of "void*"'s)
    2. dereference to get the "void*"
    3. cast that "void*" to a "struct unit*"
 ****************************************************************************/
-static int compar_unit_ord_map(const void *a, const void *b)
+static int compar_unit_ord_map(const struct unit *const *ua,
+                               const struct unit *const *ub)
 {
-  struct unit *const *ua = a, *const *ub = b;
-
   return (*ua)->ord_map - (*ub)->ord_map;
 }
 
 /****************************************************************************
- Comparison function for genlist_sort, sorting by ord_city: see above.
+ Comparison function for unit_list_sort, sorting by ord_city: see above.
 ****************************************************************************/
-static int compar_unit_ord_city(const void *a, const void *b)
+static int compar_unit_ord_city(const struct unit *const *ua,
+                                const struct unit *const *ub)
 {
-  const struct unit * const *ua = a, * const *ub = b;
-
   return (*ua)->ord_city - (*ub)->ord_city;
 }
 

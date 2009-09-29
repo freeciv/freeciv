@@ -25,6 +25,7 @@
 
 /* utility */
 #include "fcintl.h"
+#include "log.h"
 #include "support.h"
 
 /* common */

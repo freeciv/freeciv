@@ -739,15 +739,16 @@ bool section_file_save(struct section_file *my_section_file,
 {
   char real_filename[1024];
   fz_FILE *fs;
-  struct genlist_link *ent_iter, *save_iter, *col_iter;
+  const struct genlist_link *ent_iter, *save_iter, *col_iter;
   struct entry *pentry, *col_pentry;
   int i;
   
   interpret_tilde(real_filename, sizeof(real_filename), filename);
   fs = fz_from_file(real_filename, "w", compression_method, compression_level);
 
-  if (!fs)
+  if (!fs) {
     return FALSE;
+  }
 
   section_list_iterate(my_section_file->sections, psection) {
     fz_fprintf(fs, "\n[%s]\n", psection->name);
@@ -755,9 +756,9 @@ bool section_file_save(struct section_file *my_section_file,
     /* Following doesn't use entry_list_iterate() because we want to do
      * tricky things with the iterators...
      */
-    for(ent_iter = psection->entries->list->head_link;
-        ent_iter && (pentry = ITERATOR_PTR(ent_iter));
-	ITERATOR_NEXT(ent_iter)) {
+    for (ent_iter = genlist_head(entry_list_base(psection->entries));
+         ent_iter && (pentry = genlist_link_data(ent_iter));
+         ent_iter = genlist_link_next(ent_iter)) {
 
       /* Tables: break out of this loop if this is a non-table
        * entry (pentry and ent_iter unchanged) or after table (pentry
@@ -801,7 +802,8 @@ bool section_file_save(struct section_file *my_section_file,
 	/* write the column names, and calculate ncol: */
 	ncol = 0;
 	col_iter = save_iter;
-	for( ; (col_pentry = ITERATOR_PTR(col_iter)); ITERATOR_NEXT(col_iter)) {
+        for(; (col_pentry = genlist_link_data(col_iter));
+            col_iter = genlist_link_next(col_iter)) {
 	  if(strncmp(col_pentry->name, first, offset) != 0)
 	    break;
 	  fz_fprintf(fs, "%c\"%s\"", (ncol==0?' ':','), col_pentry->name+offset);
@@ -818,8 +820,8 @@ bool section_file_save(struct section_file *my_section_file,
 	for(;;) {
 	  char expect[128];	/* pentry->name we're expecting */
 
-	  pentry = ITERATOR_PTR(ent_iter);
-	  col_pentry = ITERATOR_PTR(col_iter);
+	  pentry = genlist_link_data(ent_iter);
+	  col_pentry = genlist_link_data(col_iter);
 
 	  my_snprintf(expect, sizeof(expect), "%s%d.%s",
 		      base, irow, col_pentry->name+offset);
@@ -859,9 +861,9 @@ bool section_file_save(struct section_file *my_section_file,
 	    fz_fprintf(fs, "%s", moutstr(pentry->svalue, pentry->escaped));
 	  else
 	    fz_fprintf(fs, "%d", pentry->ivalue);
-	  
-	  ITERATOR_NEXT(ent_iter);
-	  ITERATOR_NEXT(col_iter);
+
+          ent_iter = genlist_link_next(ent_iter);
+          col_iter = genlist_link_next(col_iter);
 	  
 	  icol++;
 	  if(icol==ncol) {

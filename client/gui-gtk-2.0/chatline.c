@@ -25,6 +25,7 @@
 /* utility */
 #include "fcintl.h"
 #include "genlist.h"
+#include "log.h"
 #include "mem.h"
 #include "support.h"
 

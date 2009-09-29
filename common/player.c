@@ -17,17 +17,21 @@
 
 #include <assert.h>
 
-#include "city.h"
+/* utility */
 #include "fcintl.h"
+#include "log.h"
+#include "mem.h"
+#include "rand.h"
+#include "shared.h"
+#include "support.h"
+
+/* common */
+#include "city.h"
 #include "game.h"
 #include "government.h"
 #include "idex.h"
 #include "improvement.h"
 #include "map.h"
-#include "mem.h"
-#include "rand.h"
-#include "shared.h"
-#include "support.h"
 #include "tech.h"
 #include "unit.h"
 #include "unitlist.h"

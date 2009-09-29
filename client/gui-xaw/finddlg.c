@@ -28,10 +28,15 @@
 #include <X11/Xaw/List.h>
 #include <X11/Xaw/Viewport.h>
 
-#include "game.h"
+/* utility */
+#include "log.h"
 #include "mem.h"
+
+/* common */
+#include "game.h"
 #include "player.h"
 
+/* gui-xaw */
 #include "mapview.h"
 #include "gui_main.h"
 #include "gui_stuff.h"

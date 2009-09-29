@@ -22,13 +22,16 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
-/* common & utility */
+/* utility */
 #include "fcintl.h"
+#include "log.h"
+#include "support.h"
+
+/* common */
 #include "game.h"
 #include "map.h"
 #include "packets.h"
 #include "player.h"
-#include "support.h"
 #include "unit.h"
 #include "unitlist.h"
 
@@ -38,6 +41,7 @@
 #include "goto.h"
 #include "options.h"
 
+/* gui-gtk-2.0 */
 #include "dialogs.h"
 #include "gui_main.h"
 #include "gui_stuff.h"

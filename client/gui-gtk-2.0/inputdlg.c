@@ -19,8 +19,11 @@
 
 #include <gtk/gtk.h>  
 
+/* utility */
 #include "fcintl.h"
+#include "log.h"
 
+/* gui-gtk-2.0 */
 #include "gui_main.h"
 #include "gui_stuff.h"
 

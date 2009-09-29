@@ -1151,22 +1151,18 @@ char *datafilename(const char *filename)
 /**************************************************************************
   Compare modification times.
 **************************************************************************/
-static int compare_file_mtime_ptrs(const void *a, const void *b)
+static int compare_file_mtime_ptrs(const struct datafile *const *ppa,
+                                   const struct datafile * const *ppb)
 {
-  struct datafile * const *ppa = a;
-  struct datafile * const *ppb = b;
-
   return ((*ppa)->mtime < (*ppb)->mtime);
 }
 
 /**************************************************************************
   Compare names.
 **************************************************************************/
-static int compare_file_name_ptrs(const void *a, const void *b)
+static int compare_file_name_ptrs(const struct datafile *const *ppa,
+                                  const struct datafile * const *ppb)
 {
-  struct datafile * const *ppa = a;
-  struct datafile * const *ppb = b;
-
   return compare_strings((*ppa)->name, (*ppb)->name);
 }
 

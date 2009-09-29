@@ -845,7 +845,7 @@ static void tab_setsize(RECT *size, void *data)
   RECT rcclient;
   struct fcwin_win_data *wd;
   struct tab_data *td=data;
-  struct genlist_link *myiter;
+  const struct genlist_link *myiter;
   MoveWindow(td->win,size->left,size->top,size->right-size->left,
 	     size->bottom-size->top,TRUE);
   rc.left=size->left;
@@ -853,9 +853,9 @@ static void tab_setsize(RECT *size, void *data)
   rc.top=size->top;
   rc.bottom=size->bottom;
   TabCtrl_AdjustRect(td->win,FALSE,&rc);
-  myiter = td->tabslist->head_link;
-  for(;ITERATOR_PTR(myiter);ITERATOR_NEXT(myiter)) {
-    win=(HWND)ITERATOR_PTR(myiter);
+  myiter = genlist_head(td->tabslist);
+  for(;genlist_link_data(myiter);myiter=genlist_link_next(myiter)) {
+    win=(HWND)genlist_link_data(myiter);
     wd=(struct fcwin_win_data *)GetWindowLong(win,GWL_USERDATA);
     MoveWindow(win,rc.left,rc.top,rc.right-rc.left,rc.bottom-rc.top,TRUE);
     if (wd) {
@@ -874,14 +874,14 @@ static void tab_minsize(POINT *min,void *data)
   RECT rc;
   HWND win;
   struct fcwin_win_data *wd;
-  struct genlist_link *myiter;
+  const struct genlist_link *myiter;
   struct tab_data *td=data;
   min->x=0;
   min->y=0;
-  myiter = td->tabslist->head_link;
-  for(;ITERATOR_PTR(myiter);ITERATOR_NEXT(myiter)) {
+  myiter = genlist_head(td->tabslist);
+  for(;genlist_link_data(myiter);myiter=genlist_link_next(myiter)) {
     POINT box_min;
-    win=(HWND)ITERATOR_PTR(myiter);
+    win=(HWND)genlist_link_data(myiter);
     wd=(struct fcwin_win_data *)GetWindowLong(win,GWL_USERDATA);
     if (wd) {
       if (wd->full) {
@@ -1147,17 +1147,13 @@ void fcwin_box_add_box(struct fcwin_box *box, struct fcwin_box *box_to_add,
 **************************************************************************/
 void fcwin_box_calc_sizes(struct fcwin_box *box, POINT *minsize)
 {
-  int i;
+  int i=0;
   POINT biggest_minsize;
-  struct fcwin_box_item *fbi;
-  struct genlist_link *myiter;
   minsize->x=0;
   minsize->y=0;   
   biggest_minsize.x=0;
   biggest_minsize.y=0;
-  myiter = box->item_list->head_link;
-  for(i=0; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
-    fbi=(struct fcwin_box_item *)ITERATOR_PTR(myiter);
+  TYPED_LIST_ITERATE(struct fcwin_box_item, box->item_list, fbi) {
     fbi->minsize(&fbi->min,fbi->data);
     if (fbi->biggest_min.x<fbi->min.x)
       fbi->biggest_min.x=fbi->min.x;
@@ -1189,17 +1185,15 @@ void fcwin_box_calc_sizes(struct fcwin_box *box, POINT *minsize)
 	minsize->y+=fbi->min.y+fbi->padding;
       }
     
-  }
+  } LIST_ITERATE_END;
   if (box->same_size)
     {
-      myiter = box->item_list->head_link;
-      for(;ITERATOR_PTR(myiter);ITERATOR_NEXT(myiter)) {
-	fbi=(struct fcwin_box_item *)ITERATOR_PTR(myiter);
+      TYPED_LIST_ITERATE(struct fcwin_box_item, box->item_list, fbi) {
 	fbi->min.x=minsize->x;
 	fbi->min.y=minsize->y;
 	fbi->biggest_min.x=biggest_minsize.x;
 	fbi->biggest_min.y=biggest_minsize.y;
-      }
+      } LIST_ITERATE_END;
       if (box->horiz) {
 	minsize->x*=i;
 	biggest_minsize.x*=i;
@@ -1207,9 +1201,7 @@ void fcwin_box_calc_sizes(struct fcwin_box *box, POINT *minsize)
 	minsize->y*=i;
 	biggest_minsize.y*=i;
       }
-      myiter = box->item_list->head_link;
-      for(;ITERATOR_PTR(myiter);ITERATOR_NEXT(myiter)) {
-	fbi=(struct fcwin_box_item *)ITERATOR_PTR(myiter);
+      TYPED_LIST_ITERATE(struct fcwin_box_item, box->item_list, fbi) {
 	if (box->horiz) {
 	  minsize->x+=fbi->padding;
 	  biggest_minsize.x+=fbi->padding;
@@ -1217,7 +1209,7 @@ void fcwin_box_calc_sizes(struct fcwin_box *box, POINT *minsize)
 	  minsize->y+=fbi->padding;
 	  biggest_minsize.y+=fbi->padding;
 	}
-      }
+      } LIST_ITERATE_END;
       
     }
   box->minsize.x=minsize->x;
@@ -1268,8 +1260,6 @@ static int fcwin_box_layoutitem(struct fcwin_box *box,
 **************************************************************************/
 void fcwin_box_do_layout(struct fcwin_box *box, LPRECT size)
 {
-  struct fcwin_box_item *fbi;
-  struct genlist_link *myiter;
   int r;     
   int akku;       /* Doing some kind of 
                      Bresenhams line drawing algorithm */
@@ -1285,12 +1275,10 @@ void fcwin_box_do_layout(struct fcwin_box *box, LPRECT size)
       ||(size->bottom-size->top<box->biggest_minsize.y)) {
     box->biggest_minsize.x=box->minsize.x;
     box->biggest_minsize.y=box->minsize.y;
-    myiter = box->item_list->head_link;
-    for(;ITERATOR_PTR(myiter);ITERATOR_NEXT(myiter)) {
-      fbi=(struct fcwin_box_item *)ITERATOR_PTR(myiter);
+    TYPED_LIST_ITERATE(struct fcwin_box_item, box->item_list, fbi) {
       fbi->biggest_min.x=fbi->min.x;
       fbi->biggest_min.y=fbi->min.y;
-    }
+    } LIST_ITERATE_END;
   }
   if (box->num_variable_size>0)
     {
@@ -1306,10 +1294,7 @@ void fcwin_box_do_layout(struct fcwin_box *box, LPRECT size)
   else
     r=size->top;
   akku=0;
-  myiter = box->item_list->head_link;
-  for(;ITERATOR_PTR(myiter);ITERATOR_NEXT(myiter)) {
-    fbi=(struct fcwin_box_item *)ITERATOR_PTR(myiter);
-   
+  TYPED_LIST_ITERATE(struct fcwin_box_item, box->item_list, fbi) {
     if (fbi->expand) {
       akku+=reminder;
       if (akku>reminder) {
@@ -1322,7 +1307,7 @@ void fcwin_box_do_layout(struct fcwin_box *box, LPRECT size)
     else {
       r=fcwin_box_layoutitem(box,fbi,r,0);
     } 
-  }
+  } LIST_ITERATE_END;
 }
 
 /**************************************************************************

@@ -20,20 +20,29 @@
 
 #include <gtk/gtk.h>
 
-/* common & utility */
+/* utility */
 #include "fcintl.h"
-#include "game.h"
-#include "map.h"
+#include "log.h"
 #include "mem.h"
-#include "packets.h"
-#include "player.h"
 #include "shared.h"
 #include "support.h"
+
+/* common */
+#include "game.h"
+#include "map.h"
+#include "packets.h"
+#include "player.h"
+#include "spaceship.h"
 
 /* client */
 #include "client_main.h"
 #include "climisc.h"
 #include "colors.h"
+#include "options.h"
+#include "text.h"
+#include "tilespec.h"
+
+/* gui-gtk-2.0 */
 #include "dialogs.h"
 #include "graphics.h"
 #include "gui_main.h"
@@ -42,11 +51,7 @@
 #include "inputdlg.h"
 #include "mapctrl.h"
 #include "mapview.h"
-#include "options.h"
 #include "repodlgs.h"
-#include "spaceship.h"
-#include "text.h"
-#include "tilespec.h"
 
 #include "spaceshipdlg.h"
 

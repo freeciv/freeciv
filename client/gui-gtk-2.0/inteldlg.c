@@ -20,20 +20,25 @@
 
 #include <gtk/gtk.h>
 
-/* common & utility */
+/* utility */
 #include "fcintl.h"
-#include "government.h"
-#include "packets.h"
-#include "player.h"
+#include "log.h"
 #include "shared.h"
 #include "support.h"
 
+/* common */
+#include "government.h"
+#include "packets.h"
+#include "player.h"
+
 /* client */
 #include "client_main.h"
+#include "options.h"
+
+/* gui-gtk-2.0 */
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
-#include "options.h"
 
 #include "inteldlg.h"
 

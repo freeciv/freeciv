@@ -49,31 +49,18 @@
   See also the speclist module.
 ***********************************************************************/
 
-#include "support.h" /* bool */
+#include "support.h"    /* bool */
 
-/* A single element of a genlist, storing the pointer to user
-   data, and pointers to the next and previous elements:
-*/
-struct genlist_link {
-  struct genlist_link *next, *prev; 
-  void *dataptr;
-};
+/* A single element of a genlist, opaque type. */
+struct genlist_link;
 
-
-/* A genlist, storing the number of elements (for quick retrieval and
-   testing for empty lists), and pointers to the first and last elements
-   of the list.
-*/
-struct genlist {
-  int nelements;
-  struct genlist_link *head_link;
-  struct genlist_link *tail_link;
-};
+/* A genlist, opaque type. */
+struct genlist;
 
 int genlist_size(const struct genlist *pgenlist);
 void *genlist_get(const struct genlist *pgenlist, int idx);
 struct genlist *genlist_new(void);
-struct genlist *genlist_copy(struct genlist *pgenlist);
+struct genlist *genlist_copy(const struct genlist *pgenlist);
 void genlist_clear(struct genlist *pgenlist);
 void genlist_free(struct genlist *pgenlist);
 void genlist_append(struct genlist *pgenlist, void *data);
@@ -83,48 +70,74 @@ void genlist_unlink(struct genlist *pgenlist, void *punlink);
 bool genlist_search(struct genlist *pgenlist, const void *data);
 
 void genlist_sort(struct genlist *pgenlist,
-		  int (*compar)(const void *, const void *));
+                  int (*compar)(const void *, const void *));
 void genlist_shuffle(struct genlist *pgenlist);
 
-#define ITERATOR_PTR(iter) ((iter) ? ((iter)->dataptr) : NULL)
-#define ITERATOR_NEXT(iter) (iter = (iter)->next)
-#define ITERATOR_PREV(iter) (iter = (iter)->prev)
+const struct genlist_link *genlist_head(const struct genlist *pgenlist);
+const struct genlist_link *genlist_tail(const struct genlist *pgenlist);
+void *genlist_link_data(const struct genlist_link *plink);
+const struct genlist_link *genlist_link_prev(const struct genlist_link *plink);
+const struct genlist_link *genlist_link_next(const struct genlist_link *plink);
 
-
-/* This is to iterate for a type defined like:
-     struct unit_list { struct genlist list; };
-   where the pointers in the list are really pointers to "atype".
-   Eg, see speclist.h, which is what this is really for.
+/*
+ * This is to iterate for a type defined like with speclist.h
+ * where the pointers in the list are really pointers to "atype".
+ * Eg, see speclist.h, which is what this is really for.
 */
-#define TYPED_LIST_ITERATE(atype, typed_list, var)			    \
-{									    \
-  struct genlist_link *myiter = (typed_list)->list->head_link;		    \
-  atype *var;								    \
-									    \
-  for (; ITERATOR_PTR(myiter);) {					    \
-    var = (atype *)ITERATOR_PTR(myiter);				    \
-    ITERATOR_NEXT(myiter);
+#ifdef DEBUG
+#  define TYPED_LIST_ITERATE(atype, typed_list, var)                        \
+if (NULL == typed_list) {                                                   \
+  freelog(LOG_ERROR, "At %s, line %d: attempting to iterate a NULL list.",  \
+          __FILE__, __LINE__);                                              \
+} else {                                                                    \
+  const struct genlist_link *myiter;                                        \
+  atype *var;                                                               \
+  myiter = genlist_head((const struct genlist *) typed_list);               \
+  for (; genlist_link_data(myiter);) {                                      \
+    var = (atype *) genlist_link_data(myiter);                              \
+    myiter = genlist_link_next(myiter);
+#else
+#  define TYPED_LIST_ITERATE(atype, typed_list, var) {                      \
+  const struct genlist_link *myiter;                                        \
+  atype *var;                                                               \
+  myiter = genlist_head((const struct genlist *) typed_list);               \
+  for (; genlist_link_data(myiter);) {                                      \
+    var = (atype *) genlist_link_data(myiter);                              \
+    myiter = genlist_link_next(myiter);
+#endif /* DEBUG */
 
 /* Balance for above: */ 
-#define LIST_ITERATE_END						    \
-  }									    \
+#define LIST_ITERATE_END                                                    \
+  }                                                                         \
 }
 
 
 /* Same, but iterate backwards: */
-#define TYPED_LIST_ITERATE_REV(atype, typed_list, var)			    \
-{									    \
-  struct genlist_link *myiter = (typed_list)->list->tail_link;		    \
-  atype *var;								    \
-									    \
-  for (; ITERATOR_PTR(myiter);) {					    \
-    var = (atype *)ITERATOR_PTR(myiter);				    \
-    ITERATOR_PREV(myiter);
- 
-/* Balance for above: */ 
-#define LIST_ITERATE_REV_END						    \
-  }									    \
-}
+#ifdef DEBUG
+#  define TYPED_LIST_ITERATE_REV(atype, typed_list, var)                    \
+if (NULL == typed_list) {                                                   \
+  freelog(LOG_ERROR, "At %s, line %d: attempting to iterate a NULL list.",  \
+          __FILE__, __LINE__);                                              \
+} else {                                                                    \
+  const struct genlist_link *myiter;                                        \
+  atype *var;                                                               \
+  myiter = genlist_tail((const struct genlist *) typed_list);               \
+  for (; genlist_link_data(myiter);) {                                      \
+    var = (atype *) genlist_link_data(myiter);                              \
+    myiter = genlist_link_prev(myiter);
+#else
+#  define TYPED_LIST_ITERATE_REV(atype, typed_list, var) {                  \
+  const struct genlist_link *myiter;                                        \
+  atype *var;                                                               \
+  myiter = genlist_tail((const struct genlist *) typed_list);               \
+  for (; genlist_link_data(myiter);) {                                      \
+    var = (atype *) genlist_link_data(myiter);                              \
+    myiter = genlist_link_prev(myiter);
+#endif /* DEBUG */
 
+/* Balance for above: */ 
+#define LIST_ITERATE_REV_END                                                \
+  }                                                                         \
+}
 
 #endif  /* FC__GENLIST_H */

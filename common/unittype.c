@@ -18,15 +18,19 @@
 #include <assert.h>
 #include <string.h>
 
+/* utility */
 #include "astring.h"
 #include "fcintl.h"
-#include "game.h"
-#include "government.h"
+#include "log.h"
 #include "mem.h"
-#include "movement.h"
-#include "player.h"
 #include "shared.h"
 #include "support.h"
+
+/* common */
+#include "game.h"
+#include "government.h"
+#include "movement.h"
+#include "player.h"
 #include "tech.h"
 #include "unitlist.h"
 

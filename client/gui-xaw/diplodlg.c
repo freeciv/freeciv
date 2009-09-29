@@ -32,21 +32,26 @@
 #include <X11/Xaw/AsciiText.h>  
 #include <X11/Xaw/Viewport.h>
 
-/* common & utility */
+/* utility */
 #include "fcintl.h"
-#include "government.h"
-#include "map.h"
+#include "log.h"
 #include "mem.h"
-#include "packets.h"
-#include "player.h"
 #include "shared.h"
 #include "support.h"
 
+/* common */
+#include "diptreaty.h"
+#include "government.h"
+#include "map.h"
+#include "packets.h"
+#include "player.h"
+
 /* client */
-#include "chatline.h"
 #include "client_main.h"
 #include "climisc.h"
-#include "diptreaty.h"
+
+/* gui-xaw */
+#include "chatline.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
