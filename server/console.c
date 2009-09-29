@@ -136,7 +136,7 @@ Write to console and add line-break, and show prompt if required.
 void con_write(enum rfc_status rfc_status, const char *message, ...)
 {
   /* First buffer contains featured text tags */
-  static char buf1[(int)trunc(MAX_LEN_CONSOLE_LINE * 1.5)];
+  static char buf1[(MAX_LEN_CONSOLE_LINE * 3) / 2];
   static char buf2[MAX_LEN_CONSOLE_LINE];
   va_list args;
 
