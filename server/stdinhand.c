@@ -3052,6 +3052,8 @@ static bool take_command(struct connection *caller, char *str, bool check)
   }
 
   if (res) {
+    bool has_been_created = (pplayer == NULL);
+
     /* Successfully attached */
     pplayer = pconn->player; /* In case pplayer was NULL. */
 
@@ -3062,7 +3064,8 @@ static bool take_command(struct connection *caller, char *str, bool check)
     }
 
     /* aitoggle the player back to human as necessary. */
-    if (pplayer->ai.control && game.info.auto_ai_toggle) {
+    if (pplayer->ai.control
+        && (game.info.auto_ai_toggle || has_been_created)) {
       toggle_ai_player_direct(NULL, pplayer);
     }
   }
