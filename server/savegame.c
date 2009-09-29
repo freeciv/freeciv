@@ -4484,14 +4484,7 @@ static void game_load_internal(struct section_file *file)
     team_remove_player(pplayer);
   } players_iterate_end;
 
-  game.info.is_new_game = !secfile_lookup_bool_default(file, TRUE,
-						  "game.save_players");
-
-  if (!game.info.is_new_game) {
-    set_player_count(secfile_lookup_int(file, "game.nplayers"));
-  } else {
-    set_player_count(0);
-  }
+  set_player_count(secfile_lookup_int_default(file, 0, "game.nplayers"));
 
   script_state_load(file);
 
@@ -4616,6 +4609,9 @@ static void game_load_internal(struct section_file *file)
     randomize_base64url_string(server.game_identifier,
                                sizeof(server.game_identifier));
   }
+
+  game.info.is_new_game = !secfile_lookup_bool_default(file, TRUE,
+                                                       "game.save_players");
 
   map_load(file, savefile_options, special_order, base_order);
 
