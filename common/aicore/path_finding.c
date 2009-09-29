@@ -296,15 +296,21 @@ static void pf_normal_node_init(struct pf_normal_map *pfnm,
      * but not necessarily from it */
     node->zoc_number = (my_zoc ? ZOC_MINE
                         : (occupied ? ZOC_ALLIED : ZOC_NO));
+#ifdef ZERO_VARIABLES_FOR_SEARCHING
   } else {
+    /* Nodes are allocated by fc_calloc(), so should be already set to 0. */
     node->zoc_number = 0;
+#endif
   }
 
   /* Evaluate the extra cost of the destination */
   if (params->get_EC) {
     node->extra_tile = params->get_EC(ptile, node->node_known_type, params);
+#ifdef ZERO_VARIABLES_FOR_SEARCHING
   } else {
+    /* Nodes are allocated by fc_calloc(), so  should be already set to 0. */
     node->extra_tile = 0;
+#endif
   }
 
   if (params->can_invade_tile) {
@@ -863,15 +869,21 @@ static void pf_danger_node_init(struct pf_danger_map *pfdm,
      * but not necessarily from it */
     node->zoc_number = (my_zoc ? ZOC_MINE
                         : (occupied ? ZOC_ALLIED : ZOC_NO));
+#ifdef ZERO_VARIABLES_FOR_SEARCHING
   } else {
+    /* Nodes are allocated by fc_calloc(), so should be already set to 0. */
     node->zoc_number = 0;
+#endif
   }
 
   /* Evaluate the extra cost of the destination */
   if (params->get_EC) {
     node->extra_tile = params->get_EC(ptile, node->node_known_type, params);
+#ifdef ZERO_VARIABLES_FOR_SEARCHING
   } else {
+    /* Nodes are allocated by fc_calloc(), so should be already set to 0. */
     node->extra_tile = 0;
+#endif
   }
 
   if (params->can_invade_tile) {
@@ -1617,16 +1629,22 @@ static void pf_fuel_node_init(struct pf_fuel_map *pffm,
      * but not necessarily from it */
     node->zoc_number = (my_zoc ? ZOC_MINE
                         : (occupied ? ZOC_ALLIED : ZOC_NO));
+#ifdef ZERO_VARIABLES_FOR_SEARCHING
   } else {
+    /* Nodes are allocated by fc_calloc(), so should be already set to 0. */
     node->zoc_number = 0;
+#endif
   }
 
   /* Evaluate the extra cost of the destination */
   if (params->get_EC) {
     node->extra_tile = params->get_EC(ptile, node->node_known_type,
                                       params);
+#ifdef ZERO_VARIABLES_FOR_SEARCHING
   } else {
+    /* Nodes are allocated by fc_calloc(), so should be already set to 0. */
     node->extra_tile = 0;
+#endif
   }
 
   if (params->can_invade_tile) {
@@ -1638,9 +1656,15 @@ static void pf_fuel_node_init(struct pf_fuel_map *pffm,
   if (is_enemy_unit_tile(ptile, params->owner)
       || (is_enemy_city_tile(ptile, params->owner))) {
     node->is_enemy_tile = TRUE;
-    node->moves_left_req = 0; /* Attack is always possible theorically */
+#ifdef ZERO_VARIABLES_FOR_SEARCHING
+    /* Nodes are allocated by fc_calloc(), so should be already set to 0. */
+    node->moves_left_req = 0; /* Attack is always possible theorically. */
+#endif
   } else {
+#ifdef ZERO_VARIABLES_FOR_SEARCHING
+    /* Nodes are allocated by fc_calloc(), so should be already set to 0. */
     node->is_enemy_tile = FALSE;
+#endif
     node->moves_left_req =
       params->get_moves_left_req(ptile, node->node_known_type, params);
   }
