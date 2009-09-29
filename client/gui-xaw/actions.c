@@ -16,16 +16,21 @@
 #include <config.h>
 #endif
 
+/* utility */
+#include "log.h"
+
 /* common */
 #include "unitlist.h"
 
 /* client */
+#include "client_main.h"
+#include "control.h"
+
+/* gui-xaw */
 #include "chatline.h"
 #include "citydlg.h"
 #include "cityrep.h"
-#include "client_main.h"
 #include "connectdlg.h"
-#include "control.h"
 #include "dialogs.h"
 #include "diplodlg.h"
 #include "finddlg.h"

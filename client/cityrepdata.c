@@ -19,16 +19,22 @@
 #include <stdio.h>
 #include <string.h>
 
+/* utility */
 #include "fcintl.h"
+#include "log.h"
 #include "support.h"
 
+/* common */
 #include "city.h"
 #include "game.h"
 #include "map.h"
 #include "specialist.h"
 #include "unitlist.h"
 
+/* agents */
 #include "cma_fec.h"
+
+/* client */
 #include "options.h"
 
 #include "cityrepdata.h"

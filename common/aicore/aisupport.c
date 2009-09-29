@@ -15,13 +15,17 @@
 #include <config.h>
 #endif
 
+/* utility */
+#include "log.h"
+#include "shared.h"
+#include "support.h"
+
+/* common */
 #include "city.h"
 #include "game.h"
 #include "map.h"
 #include "player.h"
-#include "shared.h"
 #include "spaceship.h"
-#include "support.h"
 #include "tech.h"
 #include "unitlist.h"
 

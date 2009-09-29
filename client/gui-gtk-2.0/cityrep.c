@@ -23,13 +23,16 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
-/* common */
-#include "city.h"
+/* utility */
 #include "fcintl.h"
-#include "game.h"
-#include "packets.h"
+#include "log.h"
 #include "shared.h"
 #include "support.h"
+
+/* common */
+#include "city.h"
+#include "game.h"
+#include "packets.h"
 #include "unit.h"
 
 /* client */

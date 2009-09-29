@@ -17,16 +17,22 @@
 
 #include <gtk/gtk.h>
 
-#include "city.h"
+/* utility */
 #include "fcintl.h"
-#include "game.h"
-#include "government.h"
+#include "log.h"
 #include "mem.h"
 #include "support.h"
 
+/* common */
+#include "city.h"
+#include "game.h"
+#include "government.h"
+
+/* client */
 #include "text.h"
 #include "tilespec.h"
 
+/* gui-gtk-2.0 */
 #include "graphics.h"
 #include "gui_main.h"
 #include "gui_stuff.h"

@@ -32,16 +32,19 @@
 #include "canvas.h"
 #include "pixcomm.h"
 
-/* common & utility */
+/* utility */
 #include "fcintl.h"
+#include "log.h"
+#include "mem.h"
+#include "shared.h"
+#include "support.h"
+
+/* common */
 #include "game.h"
 #include "map.h"
-#include "mem.h"
 #include "packets.h"
 #include "player.h"
-#include "shared.h"
 #include "spaceship.h"
-#include "support.h"
 
 /* client */
 #include "client_main.h"

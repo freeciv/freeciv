@@ -2432,10 +2432,9 @@ void unload_unit_from_transporter(struct unit *punit)
   the list, since we wish to leave its transport out of combat
   if at all possible.
 *****************************************************************/
-static int compare_units(const void *p, const void *q)
+static int compare_units(const struct unit *const *p1,
+                         const struct unit *const *q1)
 {
-  struct unit * const *p1 = p;
-  struct unit * const *q1 = q;
   struct unit *p1def = get_defender(*p1, autoattack_target);
   struct unit *q1def = get_defender(*q1, autoattack_target);
   int p1uwc = unit_win_chance(*p1, p1def);

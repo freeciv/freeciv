@@ -21,15 +21,22 @@
 
 #include <gtk/gtk.h>
 
+/* utility */
 #include "fcintl.h"
+#include "log.h"
+
+/* common */
 #include "game.h"
 #include "player.h"
 
+/* client */
+#include "options.h"
+
+/* gui-gtk-2.0 */
 #include "dialogs.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
-#include "options.h"
 
 #include "finddlg.h"
 

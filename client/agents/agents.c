@@ -19,7 +19,7 @@
 #include <stdarg.h>
 #include <string.h>
 
-/* common & utility */
+/* utility */
 #include "capability.h"
 #include "hash.h"
 #include "log.h"
@@ -28,9 +28,13 @@
 
 /* client */
 #include "client_main.h"
+
+/* include */
+#include "mapctrl_g.h"
+
+/* agents */
 #include "cma_core.h"
 #include "cma_fec.h"
-#include "mapctrl_g.h"
 #include "sha.h"
 
 #include "agents.h"
@@ -169,12 +173,10 @@ static void enqueue_call(struct my_agent *agent,
 /***********************************************************************
  Helper.
 ***********************************************************************/
-static int my_call_sort(const void *a, const void *b)
+static int my_call_sort(const struct call *const *ppa,
+                        const struct call *const *ppb)
 {
-  const struct call *c1 = (const struct call *) *(const void **) a;
-  const struct call *c2 = (const struct call *) *(const void **) b;
-
-  return c1->agent->agent.level - c2->agent->agent.level;
+  return (*ppa)->agent->agent.level - (*ppb)->agent->agent.level;
 }
 
 /***********************************************************************

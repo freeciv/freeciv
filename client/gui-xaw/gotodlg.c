@@ -30,6 +30,7 @@
 #include <X11/Xaw/Toggle.h>     
 
 /* utility */
+#include "log.h"
 #include "mem.h"
 #include "support.h"
 
@@ -43,9 +44,10 @@
 
 /* client */
 #include "client_main.h"
-#include "control.h" /* get_unit_in_focus */
+#include "control.h"
 #include "goto.h"
 
+/* gui-xaw */
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapctrl.h"

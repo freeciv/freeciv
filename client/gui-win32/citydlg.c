@@ -1814,16 +1814,17 @@ static void initialize_city_dialogs(void)
 
 struct city_dialog *get_city_dialog(struct city *pcity)
 {   
-  struct genlist_link *myiter;
-  if (!city_dialogs_have_been_initialised)
+  if (!city_dialogs_have_been_initialised) {
     initialize_city_dialogs();
-  myiter = dialog_list->head_link;  
-  
-  for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter))
-    if(((struct city_dialog *)ITERATOR_PTR(myiter))->pcity==pcity)
-      return ITERATOR_PTR(myiter);
-  
-  return 0;      
+  }
+
+  TYPED_LIST_ITERATE(struct city_dialog, dialog_list, pdialog) {
+    if (pdialog->pcity == pcity) {
+      return pdialog;
+    }
+  } LIST_ITERATE_END;
+
+  return 0;
 }
 
 /**************************************************************************
@@ -1886,17 +1887,16 @@ popdown_all_city_dialogs(void)
 **************************************************************************/
 void citydlg_tileset_change(void)
 {
-  struct genlist_link *myiter;
-  if (!city_dialogs_have_been_initialised)
+  if (!city_dialogs_have_been_initialised) {
     initialize_city_dialogs();
+  }
 
   city_map_width = get_citydlg_canvas_width();
   city_map_height = get_citydlg_canvas_height();
 
-  myiter = dialog_list->head_link;
-  for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
+  TYPED_LIST_ITERATE(struct city_dialog, dialog_list, pdialog) {
     HDC hdc;
-    struct city_dialog *pdialog = (struct city_dialog *)ITERATOR_PTR(myiter);
+
     DeleteObject(pdialog->map_bmp);
     hdc = GetDC(pdialog->mainwindow);
     pdialog->map_bmp = CreateCompatibleBitmap(hdc, city_map_width,
@@ -1906,7 +1906,7 @@ void citydlg_tileset_change(void)
     pdialog->map_h = city_map_height;
     resize_city_dialog(pdialog);
     refresh_city_dialog(pdialog->pcity);
-  }
+  } LIST_ITERATE_END;
 }
 
 /**************************************************************************

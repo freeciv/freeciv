@@ -24,23 +24,25 @@
 #include <stdio.h>
 #include <string.h>
 
-/* common & utility */
+/* utility */
 #include "astring.h"
+#include "fcintl.h"
+#include "genlist.h"
+#include "log.h"
+#include "mem.h"
+#include "registry.h"
+#include "support.h"
+
+/* common */
 #include "city.h"
 #include "effects.h"
-#include "fcintl.h"
 #include "game.h"
-#include "genlist.h"
 #include "government.h"
-#include "log.h"
 #include "map.h"
-#include "mem.h"
 #include "movement.h"
 #include "packets.h"
-#include "registry.h"
 #include "requirements.h"
 #include "specialist.h"
-#include "support.h"
 #include "unit.h"
 
 /* client */
@@ -67,7 +69,7 @@ static const char * const help_type_names[] = {
     TYPED_LIST_ITERATE(struct help_item, helplist, phelp)
 #define help_list_iterate_end  LIST_ITERATE_END
 
-static struct genlist_link *help_nodes_iterator;
+static const struct genlist_link *help_nodes_iterator;
 static struct help_list *help_nodes;
 static bool help_nodes_init = FALSE;
 /* helpnodes_init is not quite the same as booted in boot_help_texts();
@@ -321,12 +323,13 @@ static struct help_item *new_help_item(int type)
  for help_list_sort(); sort by topic via compare_strings()
  (sort topics with more leading spaces after those with fewer)
 *****************************************************************/
-static int help_item_compar(const void *a, const void *b)
+static int help_item_compar(const struct help_item *const *ppa,
+                            const struct help_item *const *ppb)
 {
   const struct help_item *ha, *hb;
   char *ta, *tb;
-  ha = (const struct help_item*) *(const void**)a;
-  hb = (const struct help_item*) *(const void**)b;
+  ha = *ppa;
+  hb = *ppb;
   for (ta = ha->topic, tb = hb->topic; *ta != '\0' && *tb != '\0'; ta++, tb++) {
     if (*ta != ' ') {
       if (*tb == ' ') return -1;
@@ -641,7 +644,7 @@ get_help_item_spec(const char *name, enum help_page_type htype, int *pos)
 void help_iter_start(void)
 {
   check_help_nodes_init();
-  help_nodes_iterator = help_nodes->list->head_link;
+  help_nodes_iterator = genlist_head(help_list_base(help_nodes));
 }
 
 /****************************************************************
@@ -653,9 +656,9 @@ const struct help_item *help_iter_next(void)
   const struct help_item *pitem;
   
   check_help_nodes_init();
-  pitem = ITERATOR_PTR(help_nodes_iterator);
+  pitem = genlist_link_data(help_nodes_iterator);
   if (pitem) {
-    ITERATOR_NEXT(help_nodes_iterator);
+    help_nodes_iterator = genlist_link_next(help_nodes_iterator);
   }
 
   return pitem;
