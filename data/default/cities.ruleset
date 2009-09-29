@@ -136,6 +136,17 @@ citizens_graphic_alt = "generic"
 reqs = { "type", "name", "range"
          "tech", "Railroad", "Player"
        }
+replaced_by = "ElectricAge"
+
+[citystyle_electric]
+name        = _("?citystyle:ElectricAge")
+graphic     = "city.electricage"
+graphic_alt = "city.modern"
+citizens_graphic     = "electricage"
+citizens_graphic_alt = "generic"
+reqs = { "type", "name", "range"
+         "tech", "Automobile", "Player"
+       }
 replaced_by = "Modern"
 
 [citystyle_modern]
@@ -145,7 +156,7 @@ graphic_alt = "-"
 citizens_graphic     = "modern"
 citizens_graphic_alt = "generic"
 reqs = { "type", "name", "range"
-         "tech", "Automobile", "Player"
+         "tech", "Rocketry", "Player"
        }
 replaced_by = "PostModern"
 
