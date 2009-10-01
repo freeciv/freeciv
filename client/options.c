@@ -110,7 +110,7 @@ const char *client_option_class_names[COC_MAX] = {
   N_("Font")
 };
 
-static client_option common_options[] = {
+static struct client_option common_options[] = {
   GEN_STR_OPTION(default_user_name,
 		 N_("Login name"),
 		 N_("This is the default login username that will be used "
@@ -122,154 +122,155 @@ static client_option common_options[] = {
 		 N_("This is the default server hostname that will be used "
 		    "in the connection dialogs or with the -a command-line "
 		    "parameter."),
-		 COC_NETWORK, NULL, NULL),
+		 COC_NETWORK, "localhost", NULL),
   GEN_INT_OPTION(default_server_port,
 		 N_("Server port"),
 		 N_("This is the default server port that will be used "
 		    "in the connection dialogs or with the -a command-line "
 		    "parameter."),
-		 COC_NETWORK),
+		 COC_NETWORK, DEFAULT_SOCK_PORT, 0, 65535, NULL),
   GEN_STR_OPTION(default_metaserver,
 		 N_("Metaserver"),
 		 N_("The metaserver is a host that the client contacts to "
 		    "find out about games on the internet.  Don't change "
 		    "this from its default value unless you know what "
 		    "you're doing."),
-		 COC_NETWORK, NULL, NULL),
-  GEN_STR_OPTION(default_sound_set_name,
-		 N_("Soundset"),
-		 N_("This is the soundset that will be used.  Changing "
-		    "this is the same as using the -S command-line "
-		    "parameter."),
-		 COC_SOUND, get_soundset_list, NULL),
-  GEN_STR_OPTION(default_sound_plugin_name,
-		 N_("Sound plugin"),
-		 N_("If you have a problem with sound, try changing the "
-		    "sound plugin.  The new plugin won't take effect until "
-		    "you restart Freeciv.  Changing this is the same as "
-		    "using the -P command-line option."),
-		 COC_SOUND, get_soundplugin_list, NULL),
-  GEN_STR_OPTION(default_theme_name, N_("Theme"),
-		 N_("By changing this option you change the active theme."),
-		 COC_GRAPHICS,
-		 get_themes_list, theme_reread_callback),
-  GEN_STR_OPTION(default_tileset_name, N_("Tileset"),
-		 N_("By changing this option you change the active tileset. "
-		    "This is the same as using the -t command-line "
-		    "parameter."),
-		 COC_GRAPHICS,
-		 get_tileset_list, tilespec_reread_callback),
+		 COC_NETWORK, META_URL, NULL),
+  GEN_STR_LIST_OPTION(default_sound_set_name,
+                      N_("Soundset"),
+                      N_("This is the soundset that will be used.  Changing "
+                         "this is the same as using the -S command-line "
+                         "parameter."),
+                      COC_SOUND, "stdsounds", get_soundset_list, NULL),
+  GEN_STR_LIST_OPTION(default_sound_plugin_name,
+                      N_("Sound plugin"),
+                      N_("If you have a problem with sound, try changing "
+                         "the sound plugin.  The new plugin won't take "
+                         "effect until you restart Freeciv.  Changing this "
+                         "is the same as using the -P command-line option."),
+                      COC_SOUND, NULL, get_soundplugin_list, NULL),
+  GEN_STR_LIST_OPTION(default_theme_name, N_("Theme"),
+                      N_("By changing this option you change the "
+                         "active theme."),
+                      COC_GRAPHICS, NULL,
+                      get_themes_list, theme_reread_callback),
+  GEN_STR_LIST_OPTION(default_tileset_name, N_("Tileset"),
+                      N_("By changing this option you change the active "
+                         "tileset.  This is the same as using the -t "
+                         "command-line parameter."),
+                      COC_GRAPHICS, NULL,
+                      get_tileset_list, tilespec_reread_callback),
 
-  GEN_BOOL_OPTION_CB(solid_color_behind_units,
-		     N_("Solid unit background color"),
-		     N_("Setting this option will cause units on the map "
-			"view to be drawn with a solid background color "
-			"instead of the flag backdrop."),
-		     COC_GRAPHICS, mapview_redraw_callback),
+  GEN_BOOL_OPTION(solid_color_behind_units,
+                  N_("Solid unit background color"),
+                  N_("Setting this option will cause units on the map "
+                     "view to be drawn with a solid background color "
+                     "instead of the flag backdrop."),
+                  COC_GRAPHICS, FALSE, mapview_redraw_callback),
   GEN_BOOL_OPTION(sound_bell_at_new_turn, N_("Sound bell at new turn"),
 		  N_("Set this option to have a \"bell\" event be generated "
 		     "at the start of a new turn.  You can control the "
 		     "behavior of the \"bell\" event by editing the message "
 		     "options."),
-		  COC_SOUND),
+		  COC_SOUND, FALSE, NULL),
   GEN_INT_OPTION(smooth_move_unit_msec,
 		 N_("Unit movement animation time (milliseconds)"),
 		 N_("This option controls how long unit \"animation\" takes "
 		    "when a unit moves on the map view.  Set it to 0 to "
 		    "disable animation entirely."),
-		 COC_GRAPHICS),
+		 COC_GRAPHICS, 30, 0, 2000, NULL),
   GEN_INT_OPTION(smooth_center_slide_msec,
 		 N_("Mapview recentering time (milliseconds)"),
 		 N_("When the map view is recentered, it will slide "
 		    "smoothly over the map to its new position.  This "
 		    "option controls how long this slide lasts.  Set it to "
 		    "0 to disable mapview sliding entirely."),
-		 COC_GRAPHICS),
+		 COC_GRAPHICS, 200, 0, 5000, NULL),
   GEN_BOOL_OPTION(do_combat_animation, N_("Show combat animation"),
 		  N_("Disabling this option will turn off combat animation "
 		     "between units on the mapview."),
-		  COC_GRAPHICS),
-  GEN_BOOL_OPTION_CB(draw_full_citybar, N_("Draw the citybar"),
-		     N_("Setting this option will display a 'citybar' "
-			"containing useful information beneath each city. "
-			"Disabling this option will display only the city's "
-			"name and optionally, production."),
-		     COC_GRAPHICS, draw_full_citybar_changed_callback),
-  GEN_BOOL_OPTION_CB(reqtree_show_icons,
-                     N_("Show icons in the technology tree"),
-                     N_("Setting this option will display icons "
-		        "on the technology tree diagram. Turning "
-		        "this option off makes the technology tree "
-		        "more compact."),
-		     COC_GRAPHICS, reqtree_show_icons_callback),
-  GEN_BOOL_OPTION_CB(reqtree_curved_lines,
-                     N_("Use curved lines in the technology tree"),
-                     N_("Setting this option make the technology tree "
-                        "diagram use curved lines to show technology "
-                        "relations. Turning this option off causes "
-                        "the lines to be drawn straight."),
-		     COC_GRAPHICS, reqtree_show_icons_callback),
-  GEN_BOOL_OPTION_CB(draw_unit_shields, N_("Draw shield graphics for units"),
-		     N_("Setting this option will draw a shield icon "
-			"as the flags on units.  If unset, the full flag will "
-			"be drawn."),
-		     COC_GRAPHICS, mapview_redraw_callback),
-  GEN_STR_OPTION(highlight_our_names,
-                 N_("Color to highlight your player/user name"),
-                 N_("If set, your player and user name in the new chat "
-                    "messages will be highlighted using this color as "
-                    "background.  If not set, it will just not highlight "
-                    "anything."),
-                 COC_GRAPHICS, NULL, NULL),
+		  COC_GRAPHICS, TRUE, NULL),
+  GEN_BOOL_OPTION(draw_full_citybar, N_("Draw the citybar"),
+                  N_("Setting this option will display a 'citybar' "
+                     "containing useful information beneath each city. "
+                     "Disabling this option will display only the city's "
+                     "name and optionally, production."),
+                  COC_GRAPHICS, TRUE, draw_full_citybar_changed_callback),
+  GEN_BOOL_OPTION(reqtree_show_icons,
+                  N_("Show icons in the technology tree"),
+                  N_("Setting this option will display icons "
+                     "on the technology tree diagram. Turning "
+                     "this option off makes the technology tree "
+                     "more compact."),
+                  COC_GRAPHICS, TRUE, reqtree_show_icons_callback),
+  GEN_BOOL_OPTION(reqtree_curved_lines,
+                  N_("Use curved lines in the technology tree"),
+                  N_("Setting this option make the technology tree "
+                     "diagram use curved lines to show technology "
+                     "relations. Turning this option off causes "
+                     "the lines to be drawn straight."),
+                  COC_GRAPHICS, FALSE, reqtree_show_icons_callback),
+  GEN_BOOL_OPTION(draw_unit_shields, N_("Draw shield graphics for units"),
+                  N_("Setting this option will draw a shield icon "
+                     "as the flags on units.  If unset, the full flag will "
+                     "be drawn."),
+                  COC_GRAPHICS, TRUE, mapview_redraw_callback),
+   GEN_STR_OPTION(highlight_our_names,
+                  N_("Color to highlight your player/user name"),
+                  N_("If set, your player and user name in the new chat "
+                     "messages will be highlighted using this color as "
+                     "background.  If not set, it will just not highlight "
+                     "anything."),
+                  COC_GRAPHICS, "yellow", NULL),
   GEN_BOOL_OPTION(ai_manual_turn_done, N_("Manual Turn Done in AI Mode"),
 		  N_("Disable this option if you do not want to "
 		     "press the Turn Done button manually when watching "
 		     "an AI player."),
-		  COC_INTERFACE),
+		  COC_INTERFACE, TRUE, NULL),
   GEN_BOOL_OPTION(auto_center_on_unit, N_("Auto Center on Units"),
 		  N_("Set this option to have the active unit centered "
 		     "automatically when the unit focus changes."),
-		  COC_INTERFACE),
+		  COC_INTERFACE, TRUE, NULL),
   GEN_BOOL_OPTION(auto_center_on_combat, N_("Auto Center on Combat"),
 		  N_("Set this option to have any combat be centered "
 		     "automatically.  Disabled this will speed up the time "
 		     "between turns but may cause you to miss combat "
 		     "entirely."),
-		  COC_INTERFACE),
+		  COC_INTERFACE, FALSE, NULL),
   GEN_BOOL_OPTION(auto_center_each_turn, N_("Auto Center on New Turn"),
                   N_("Set this option to have the client automatically "
                      "recenter the map on a suitable location at the "
                      "start of each turn."),
-                  COC_INTERFACE),
+                  COC_INTERFACE, TRUE, NULL),
   GEN_BOOL_OPTION(wakeup_focus, N_("Focus on Awakened Units"),
 		  N_("Set this option to have newly awoken units be "
 		     "focused automatically."),
-		  COC_INTERFACE),
+		  COC_INTERFACE, TRUE, NULL),
   GEN_BOOL_OPTION(goto_into_unknown, N_("Allow goto into the unknown"),
 		  N_("Setting this option will make the game consider "
 		     "moving into unknown tiles.  If not, then goto routes "
 		     "will detour around or be blocked by unknown tiles."),
-		  COC_INTERFACE),
+		  COC_INTERFACE, TRUE, NULL),
   GEN_BOOL_OPTION(center_when_popup_city, N_("Center map when Popup city"),
 		  N_("Setting this option makes the mapview center on a "
 		     "city when its city dialog is popped up."),
-		  COC_INTERFACE),
+		  COC_INTERFACE, TRUE, NULL),
   GEN_BOOL_OPTION(concise_city_production, N_("Concise City Production"),
 		  N_("Set this option to make the city production (as shown "
 		     "in the city dialog) to be more compact."),
-		  COC_INTERFACE),
+		  COC_INTERFACE, FALSE, NULL),
   GEN_BOOL_OPTION(auto_turn_done, N_("End Turn when done moving"),
 		  N_("Setting this option makes your turn end automatically "
 		     "when all your units are done moving."),
-		  COC_INTERFACE),
+		  COC_INTERFACE, FALSE, NULL),
   GEN_BOOL_OPTION(ask_city_name, N_("Prompt for city names"),
 		  N_("Disabling this option will make the names of newly "
 		     "founded cities chosen automatically by the server."),
-		  COC_INTERFACE),
+		  COC_INTERFACE, TRUE, NULL),
   GEN_BOOL_OPTION(popup_new_cities, N_("Pop up city dialog for new cities"),
 		  N_("Setting this option will pop up a newly-founded "
 		     "city's city dialog automatically."),
-		  COC_INTERFACE),
+		  COC_INTERFACE, TRUE, NULL),
   GEN_BOOL_OPTION(popup_caravan_arrival, N_("Pop up caravan actions"),
                   N_("If this option is enabled, when caravans arrive "
                      "at a city where they can establish a traderoute "
@@ -279,18 +280,18 @@ static client_option common_options[] = {
                      "manually by pressing either 'r' (for a traderoute) "
                      "or 'b' (for building a wonder) when the caravan "
                      "is in the city."),
-                  COC_INTERFACE),
+                  COC_INTERFACE, TRUE, NULL),
   GEN_BOOL_OPTION(enable_cursor_changes, N_("Enable cursor changing"),
                   N_("This option controls whether the client should "
                      "try to change the mouse cursor depending on what "
                      "is being pointed at, as well as to indicate "
                      "changes in the client or server state."),
-                  COC_INTERFACE),
+                  COC_INTERFACE, TRUE, NULL),
   GEN_BOOL_OPTION(separate_unit_selection, N_("Select cities before units"),
                   N_("If this option is enabled, when both cities and "
                      "units are present in the selection rectangle, only "
                      "cities will be selected."),
-                  COC_INTERFACE),
+                  COC_INTERFACE, FALSE, NULL),
   GEN_BOOL_OPTION(unit_selection_clears_orders,
                   N_("Clear unit orders on selection"),
                   N_("Enabling this option will cause unit orders to be "
@@ -299,47 +300,50 @@ static client_option common_options[] = {
                      "cause them to stop their current activity. Instead, "
                      "their orders will be cleared only when new orders "
                      "are given or if you press <space>."),
-                  COC_INTERFACE),
+                  COC_INTERFACE, TRUE, NULL),
 
   GEN_BOOL_OPTION(overview.layers[OLAYER_BACKGROUND],
 		  N_("Background layer"),
 		  N_("The background layer of the overview shows just "
-		     "ocean and land."), COC_OVERVIEW),
-  GEN_BOOL_OPTION_CB(overview.layers[OLAYER_RELIEF],
-		     N_("Terrain relief map layer"),
-		     N_("The relief layer shows all terrains on the map."),
-		     COC_OVERVIEW, overview_redraw_callback),
-  GEN_BOOL_OPTION_CB(overview.layers[OLAYER_BORDERS],
-		     N_("Borders layer"),
-		     N_("The borders layer of the overview shows which tiles "
-			"are owned by each player."),
-		     COC_OVERVIEW, overview_redraw_callback),
-  GEN_BOOL_OPTION_CB(overview.layers[OLAYER_BORDERS_ON_OCEAN],
-                     N_("Borders layer on ocean tiles"),
-                     N_("The borders layer of the overview are drawn on "
-                        "ocean tiles as well (this may look ugly with many "
-                        "islands). This option is only of interest if you "
-                        "have set the option \"Borders layer\" already."),
-                     COC_OVERVIEW, overview_redraw_callback),
-  GEN_BOOL_OPTION_CB(overview.layers[OLAYER_UNITS],
-		     N_("Units layer"),
-		     N_("Enabling this will draw units on the overview."),
-		     COC_OVERVIEW, overview_redraw_callback),
-  GEN_BOOL_OPTION_CB(overview.layers[OLAYER_CITIES],
-		     N_("Cities layer"),
-		     N_("Enabling this will draw cities on the overview."),
-		     COC_OVERVIEW, overview_redraw_callback),
-  GEN_BOOL_OPTION_CB(overview.fog,
-		     N_("Overview fog of war"),
-		     N_("Enabling this will show fog of war on the "
-		        "overview."),
-		     COC_OVERVIEW, overview_redraw_callback)
+		     "ocean and land."),
+                  COC_OVERVIEW, TRUE, NULL),
+  GEN_BOOL_OPTION(overview.layers[OLAYER_RELIEF],
+                  N_("Terrain relief map layer"),
+                  N_("The relief layer shows all terrains on the map."),
+                  COC_OVERVIEW, FALSE, overview_redraw_callback),
+  GEN_BOOL_OPTION(overview.layers[OLAYER_BORDERS],
+                  N_("Borders layer"),
+                  N_("The borders layer of the overview shows which tiles "
+                     "are owned by each player."),
+                  COC_OVERVIEW, FALSE, overview_redraw_callback),
+  GEN_BOOL_OPTION(overview.layers[OLAYER_BORDERS_ON_OCEAN],
+                  N_("Borders layer on ocean tiles"),
+                  N_("The borders layer of the overview are drawn on "
+                     "ocean tiles as well (this may look ugly with many "
+                     "islands). This option is only of interest if you "
+                     "have set the option \"Borders layer\" already."),
+                  COC_OVERVIEW, TRUE, overview_redraw_callback),
+  GEN_BOOL_OPTION(overview.layers[OLAYER_UNITS],
+                  N_("Units layer"),
+                  N_("Enabling this will draw units on the overview."),
+                  COC_OVERVIEW, TRUE, overview_redraw_callback),
+  GEN_BOOL_OPTION(overview.layers[OLAYER_CITIES],
+                  N_("Cities layer"),
+                  N_("Enabling this will draw cities on the overview."),
+                  COC_OVERVIEW, TRUE, overview_redraw_callback),
+  GEN_BOOL_OPTION(overview.fog,
+                  N_("Overview fog of war"),
+                  N_("Enabling this will show fog of war on the "
+                     "overview."),
+                  COC_OVERVIEW, TRUE, overview_redraw_callback)
 };
-#undef GEN_INT_OPTION
 #undef GEN_BOOL_OPTION
+#undef GEN_INT_OPTION
 #undef GEN_STR_OPTION
+#undef GEN_FONT_OPTION
+#undef GEN_STR_LIST_OPTION
 
-static client_option *fc_options = NULL;
+static struct client_option *fc_options = NULL;
 static int num_options = 0;
 
 /** View Options: **/
@@ -771,21 +775,21 @@ void load_general_options(void)
 
   client_options_iterate(o) {
     switch (o->type) {
-    case COT_BOOL:
-      *(o->p_bool_value) =
-	  secfile_lookup_bool_default(&sf, *(o->p_bool_value), "%s.%s",
+    case COT_BOOLEAN:
+      *(o->boolean.pvalue) =
+	  secfile_lookup_bool_default(&sf, *(o->boolean.pvalue), "%s.%s",
 				      prefix, o->name);
       break;
-    case COT_INT:
-      *(o->p_int_value) =
-	  secfile_lookup_int_default(&sf, *(o->p_int_value), "%s.%s",
+    case COT_INTEGER:
+      *(o->integer.pvalue) =
+	  secfile_lookup_int_default(&sf, *(o->integer.pvalue), "%s.%s",
 				      prefix, o->name);
       break;
-    case COT_STR:
+    case COT_STRING:
     case COT_FONT:
-      mystrlcpy(o->p_string_value,
-                     secfile_lookup_str_default(&sf, o->p_string_value, "%s.%s",
-                     prefix, o->name), o->string_length);
+      mystrlcpy(o->string.pvalue,
+                     secfile_lookup_str_default(&sf, o->string.pvalue, "%s.%s",
+                     prefix, o->name), o->string.size);
       break;
     }
   } client_options_iterate_end;
@@ -880,15 +884,15 @@ void save_options(void)
 
   client_options_iterate(o) {
     switch (o->type) {
-    case COT_BOOL:
-      secfile_insert_bool(&sf, *(o->p_bool_value), "client.%s", o->name);
+    case COT_BOOLEAN:
+      secfile_insert_bool(&sf, *(o->boolean.pvalue), "client.%s", o->name);
       break;
-    case COT_INT:
-      secfile_insert_int(&sf, *(o->p_int_value), "client.%s", o->name);
+    case COT_INTEGER:
+      secfile_insert_int(&sf, *(o->integer.pvalue), "client.%s", o->name);
       break;
-    case COT_STR:
+    case COT_STRING:
     case COT_FONT:
-      secfile_insert_str(&sf, o->p_string_value, "client.%s", o->name);
+      secfile_insert_str(&sf, o->string.pvalue, "client.%s", o->name);
       break;
     }
   } client_options_iterate_end;

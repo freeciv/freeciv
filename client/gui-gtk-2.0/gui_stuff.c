@@ -989,7 +989,7 @@ void gui_update_font_from_option(struct client_option *o) {
 	"\n"
 	"widget \"Freeciv*.%s\" style \"ext-%s\"",
 	o->name,
-	o->p_string_value,
+	o->string.pvalue,
 	o->name, o->name);
 
     gtk_rc_parse_string(str);

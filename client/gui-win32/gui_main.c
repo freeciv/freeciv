@@ -115,20 +115,20 @@ struct fcwin_box *output_box;
 const char * const gui_character_encoding = NULL;
 const bool gui_use_transliteration = TRUE;
 
-client_option gui_options[] = {
-  GEN_BOOL_OPTION_CB(better_fog,
-		     N_("Better fog-of-war drawing"),
-		     N_("If this is enabled then a better method is used for "
-			"drawing fog-of-war.  It is not any slower but will "
-			"consume about twice as much memory."),
-		     COC_GRAPHICS, mapview_redraw_callback),
-  GEN_BOOL_OPTION_CB(enable_alpha,
-		     N_("Enable alpha blending"),
-		     N_("If this is enabled, then alpha blending will be "
-			"used in rendering, instead of an ordered dither.  "
-			"If there is no hardware support for alpha "
-			"blending, this is much slower."),
-		     COC_GRAPHICS, mapview_redraw_callback)
+struct client_option gui_options[] = {
+  GEN_BOOL_OPTION(better_fog,
+                  N_("Better fog-of-war drawing"),
+                  N_("If this is enabled then a better method is used for "
+                     "drawing fog-of-war.  It is not any slower but will "
+                     "consume about twice as much memory."),
+                  COC_GRAPHICS, TRUE, mapview_redraw_callback),
+  GEN_BOOL_OPTION(enable_alpha,
+                  N_("Enable alpha blending"),
+                  N_("If this is enabled, then alpha blending will be "
+                     "used in rendering, instead of an ordered dither.  "
+                     "If there is no hardware support for alpha "
+                     "blending, this is much slower."),
+                  COC_GRAPHICS, TRUE, mapview_redraw_callback)
 };
 const int num_gui_options = ARRAY_SIZE(gui_options);
 

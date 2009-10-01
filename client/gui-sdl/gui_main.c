@@ -148,25 +148,32 @@ enum USER_EVENT_ID {
   EXIT_FROM_EVENT_LOOP
 };
 
-client_option gui_options[] = {
+struct client_option gui_options[] = {
   GEN_BOOL_OPTION(gui_sdl_fullscreen, N_("Full Screen"), 
                   N_("If this option is set the client will use the "
                      "whole screen area for drawing"),
-                  COC_INTERFACE),
+                  COC_INTERFACE, FALSE, NULL),
   GEN_INT_OPTION(gui_sdl_screen_width, N_("Screen width"),
                  N_("This option saves the width of the selected screen "
                     "resolution"),
-                 COC_INTERFACE),
+#ifdef SMALL_SCREEN
+                 COC_INTERFACE, 320, 320, 1280, NULL),
+#else
+                 COC_INTERFACE, 640, 320, 1280, NULL),
+#endif
   GEN_INT_OPTION(gui_sdl_screen_height, N_("Screen height"),
                  N_("This option saves the height of the selected screen "
                     "resolution"),
-                 COC_INTERFACE),
-  GEN_STR_OPTION(gui_sdl_theme_name, N_("Theme"),
-		 N_("By changing this option you change the active theme. "
-		    "This is the same as using the -- --theme command-line "
-		    "parameter."),
-		 COC_GRAPHICS,
-		 get_theme_list, themespec_reread_callback),
+#ifdef SMALL_SCREEN
+                 COC_INTERFACE, 240, 240, 960, NULL),
+#else
+                 COC_INTERFACE, 480, 240, 960, NULL),
+#endif
+  GEN_STR_LIST_OPTION(gui_sdl_theme_name, N_("Theme"),
+                      N_("By changing this option you change the active "
+                         "theme. This is the same as using the -- --theme "
+                         "command-line parameter."), COC_GRAPHICS,
+                      "human", get_theme_list, themespec_reread_callback),
 };
 
 const int num_gui_options = ARRAY_SIZE(gui_options);
