@@ -1749,7 +1749,7 @@ void ui_main(int argc, char **argv)
   gtk_widget_show(toplevel);
 
   /* assumes toplevel showing */
-  set_client_state(C_S_PREPARING);
+  set_client_state(C_S_DISCONNECTED);
   
   /* assumes client_state is set */
   timer_id = g_timeout_add(TIMER_INTERVAL, timer_callback, NULL);

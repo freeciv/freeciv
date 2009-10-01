@@ -25,12 +25,23 @@
  */
 #define TIMER_INTERVAL (int)(real_timer_callback() * 1000)
 
-/* independent parallel of server_states */
+/* Client states (see also enum server_states in srv_main.h).
+ * Changing those values don't break the network compatibility.
+ *
+ * C_S_INITIAL:      Client boot, only used once on program start.
+ * C_S_DISCONNECTED: The state when the client is not connected
+ *                   to a server.  In this state, neither game nor ruleset
+ *                   is in effect.
+ * C_S_PREPARING:    Connected in pregame.  Game and ruleset are done.
+ * C_S_RUNNING:      Connected ith game in progress.
+ * C_S_OVER:         Connected with game over.
+ */
 enum client_states { 
-  C_S_INITIAL,    /* Client boot, only used once on program start. */
-  C_S_PREPARING,  /* Main menu (disconnected) and connected in pregame. */
-  C_S_RUNNING,    /* Connected with game in progress. */
-  C_S_OVER,       /* Connected with game over. */
+  C_S_INITIAL,
+  C_S_DISCONNECTED,
+  C_S_PREPARING,
+  C_S_RUNNING,
+  C_S_OVER,
 };
 
 int client_main(int argc, char *argv[]);

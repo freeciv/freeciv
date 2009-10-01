@@ -129,6 +129,7 @@ void i_am_client(void);
 void game_init(void);
 void game_map_init(void);
 void game_free(void);
+void game_reset(void);
 void ruleset_data_free(void);
 
 int game_next_year(int);

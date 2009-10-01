@@ -770,7 +770,7 @@ ui_main(int argc, char *argv[])
 
   freecivaccel=my_create_menu_acceltable();
  
-  set_client_state(C_S_PREPARING);
+  set_client_state(C_S_DISCONNECTED);
 
   callbacks = callback_list_new();
 

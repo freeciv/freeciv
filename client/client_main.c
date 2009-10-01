@@ -78,6 +78,7 @@
 #include "helpdata.h"           /* boot_help_texts() */
 #include "mapview_common.h"
 #include "options.h"
+#include "overview_common.h"
 #include "packhand.h"
 #include "tilespec.h"
 #include "themes_common.h"
@@ -209,6 +210,28 @@ static void client_game_free(void)
   agents_free();
   game_free();
 }
+
+#if 0
+/**************************************************************************
+  Called only by set_client_state() below.  Just free what is needed to
+  change view (player target).
+**************************************************************************/
+static void client_game_reset(void)
+{
+  packhand_free();
+  link_marks_free();
+  control_done();
+  attribute_free();
+  agents_free();
+
+  game_reset();
+
+  attribute_init();
+  agents_init();
+  control_init();
+  link_marks_init();
+}
+#endif
 
 /**************************************************************************
   Entry point for common client code.
@@ -400,6 +423,7 @@ int client_main(int argc, char *argv[])
   /* register exit handler */ 
   atexit(at_exit);
 
+  init_our_capability();
   chatline_common_init();
   message_options_init();
   init_player_dlg_common();
@@ -463,8 +487,10 @@ int client_main(int argc, char *argv[])
 **************************************************************************/
 void client_exit(void)
 {
-  attribute_flush();
-  client_remove_all_cli_conn();
+  if (client_state() >= C_S_PREPARING) {
+    attribute_flush();
+    client_remove_all_cli_conn();
+  }
 
   if (save_options_on_exit) {
     save_options();
@@ -476,7 +502,9 @@ void client_exit(void)
   
   chatline_common_done();
   message_options_free();
-  client_game_free();
+  if (client_state() >= C_S_PREPARING) {
+    client_game_free();
+  }
 
   helpdata_done(); /* client_exit() unlinks help text list */
   conn_list_free(game.all_connections);
@@ -547,120 +575,161 @@ void send_report_request(enum report_type type)
 }
 
 /**************************************************************************
-...
+  ...
 **************************************************************************/
 void set_client_state(enum client_states newstate)
 {
-  bool connect_error = (C_S_PREPARING == civclient_state)
-      && (C_S_PREPARING == newstate);
   enum client_states oldstate = civclient_state;
+  struct player *pplayer = client_player();
 
-  if (civclient_state != newstate) {
-    struct player *pplayer = client_player();
+  if (auto_connect && newstate == C_S_DISCONNECTED) {
+    if (oldstate == C_S_DISCONNECTED) {
+      freelog(LOG_FATAL,
+              _("There was an error while auto connecting; aborting."));
+        exit(EXIT_FAILURE);
+    } else {
+      start_autoconnecting_to_server();
+      auto_connect = FALSE;     /* Don't try this again. */
+    }
+  }
 
-    /* If changing from pre-game state to _either_ select race
-       or running state, then we have finished getting ruleset data.
-    */
-    if (C_S_PREPARING == civclient_state
-	&& C_S_RUNNING == newstate) {
-      audio_stop();		/* stop intro sound loop */
+  if (oldstate == newstate) {
+    return;
+  }
+
+  civclient_state = newstate;
+
+  switch (newstate) {
+  case C_S_INITIAL:
+    die("%d is not a valid client state to set", C_S_INITIAL);
+    break;
+
+  case C_S_DISCONNECTED:
+    popdown_all_city_dialogs();
+    close_all_diplomacy_dialogs();
+    popdown_all_game_dialogs();
+    clear_notify_window();
+
+    if (oldstate > C_S_DISCONNECTED) {
+      set_unit_focus(NULL);
+      agents_disconnect();
+      client_remove_all_cli_conn();
+      client_game_free();
     }
 
-    civclient_state = newstate;
+    if (!with_ggz) {
+      set_client_page(in_ggz ? PAGE_GGZ : PAGE_MAIN);
+    }
+    break;
 
-    switch (civclient_state) {
-    case C_S_RUNNING:
+  case C_S_PREPARING:
+    popdown_all_city_dialogs();
+    close_all_diplomacy_dialogs();
+    popdown_all_game_dialogs();
+    clear_notify_window();
+
+    if (oldstate < C_S_PREPARING) {
+      client_game_init();
+    } else {
+      /* From an upper state means that we didn't quit the server,
+       * so a lot of informations are still in effect. */
+      /* FIXME: client_game_reset(); */
+      client_game_free(); /* FIXME: remove this. */
+      client_game_init(); /* FIXME: remove this. */
+    }
+
+    set_unit_focus(NULL);
+
+    if (get_client_page() != PAGE_SCENARIO
+        && get_client_page() != PAGE_LOAD) {
+      set_client_page(PAGE_START);
+    }
+    break;
+
+  case C_S_RUNNING:
+    if (oldstate == C_S_PREPARING) {
+      popdown_races_dialog();
+      audio_stop();     /* stop intro sound loop. */
+    }
+
+    init_city_report_game_data();
+    load_ruleset_specific_options();
+    create_event(NULL, E_GAME_START, FTC_CLIENT_INFO, NULL,
+                 _("Game started."));
+    precalc_tech_data();
+    if (pplayer) {
+      player_research_update(pplayer);
+    }
+    boot_help_texts(pplayer);   /* reboot with player */
+    can_slide = FALSE;
+    update_unit_focus();
+    can_slide = TRUE;
+    set_client_page(PAGE_GAME);
+    /* Find something sensible to display instead of the intro gfx. */
+    center_on_something();
+    free_intro_radar_sprites();
+    agents_game_start();
+    editgui_tileset_changed();
+
+    refresh_overview_canvas();
+
+    update_info_label();        /* get initial population right */
+    update_unit_focus();
+    update_unit_info_label(get_units_in_focus());
+
+    if (auto_center_each_turn) {
+      center_on_something();
+    }
+    break;
+
+  case C_S_OVER:
+    if (C_S_RUNNING == oldstate) {
+      /* Extra kludge for end-game handling of the CMA. */
+      if (pplayer && pplayer->cities) {
+        city_list_iterate(pplayer->cities, pcity) {
+          if (cma_is_city_under_agent(pcity, NULL)) {
+            cma_release_city(pcity);
+          }
+        } city_list_iterate_end;
+      }
+      popdown_all_city_dialogs();
+      popdown_all_game_dialogs();
+      set_unit_focus(NULL);
+    } else {
+      /* From C_S_PREPARING. */
       init_city_report_game_data();
-      load_ruleset_specific_options();
-      create_event(NULL, E_GAME_START,  FTC_CLIENT_INFO, NULL,
-                   _("Game started."));
       precalc_tech_data();
       if (pplayer) {
         player_research_update(pplayer);
       }
       role_unit_precalcs();
-      boot_help_texts(pplayer);	/* reboot with player */
-      can_slide = FALSE;
-      update_unit_focus();
-      can_slide = TRUE;
-      set_client_page(PAGE_GAME);
-      /* Find something sensible to display instead of the intro gfx. */
-      center_on_something();
-      free_intro_radar_sprites();
-      agents_game_start();
-      editgui_tileset_changed();
-      break;
-    case C_S_OVER:
-      if (C_S_RUNNING == oldstate) {
-        /*
-         * Extra kludge for end-game handling of the CMA.
-         */
-        if (pplayer && pplayer->cities) {
-          city_list_iterate(pplayer->cities, pcity) {
-            if (cma_is_city_under_agent(pcity, NULL)) {
-              cma_release_city(pcity);
-            }
-          } city_list_iterate_end;
-        }
-        popdown_all_city_dialogs();
-        popdown_all_game_dialogs();
-        set_unit_focus(NULL);
-      } else {
-        init_city_report_game_data();
-        precalc_tech_data();
-        if (pplayer) {
-          player_research_update(pplayer);
-        }
-        role_unit_precalcs();
-        boot_help_texts(pplayer);            /* reboot */
-        set_unit_focus(NULL);
-        set_client_page(PAGE_GAME);
-        center_on_something();
-      }
-      break;
-    case C_S_PREPARING:
-      popdown_all_city_dialogs();
-      close_all_diplomacy_dialogs();
-      popdown_all_game_dialogs();
-      clear_notify_window();
-      if (C_S_INITIAL != oldstate) {
-	client_game_free();
-      }
-      client_game_init();
+      boot_help_texts(pplayer);            /* reboot */
       set_unit_focus(NULL);
-      if (!client.conn.established && !with_ggz) {
-	set_client_page(in_ggz ? PAGE_GGZ : PAGE_MAIN);
-      } else {
-	set_client_page(PAGE_START);
-      }
-      break;
-    default:
-      break;
-    };
-    update_menus();
+      set_client_page(PAGE_GAME);
+      center_on_something();
+    }
+    refresh_overview_canvas();
+
+    update_info_label();
+    update_unit_focus();
+    update_unit_info_label(NULL);
+
+    break;
   }
-  if (!client.conn.established && C_S_PREPARING == civclient_state) {
-    client_game_free();
-    client_game_init();
-    gui_server_connect();
-    if (auto_connect) {
-      if (connect_error) {
-	freelog(LOG_FATAL,
-		_("There was an error while auto connecting; aborting."));
-	exit(EXIT_FAILURE);
-      } else {
-	start_autoconnecting_to_server();
-	auto_connect = FALSE;	/* don't try this again */
-      }
-    } 
-  }
+
+  update_menus();
   update_turn_done_button_state();
   update_conn_list_dialog();
+  if (can_client_change_view()) {
+    update_map_canvas_visible();
+  }
+
+  /* If turn was going to change, that is now aborted. */
+  set_server_busy(FALSE);
 }
 
-
 /**************************************************************************
-...
+  ...
 **************************************************************************/
 enum client_states client_state(void)
 {
