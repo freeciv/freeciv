@@ -599,14 +599,13 @@ void set_user_unit_flag_name(enum unit_flag_id id, const char *name)
 
   assert(id >= F_USER_FLAG_1 && id < F_LAST);
 
-  if (user_flag_names[ufid] != 0) {
+  if (user_flag_names[ufid] != NULL) {
     free(user_flag_names[ufid]);
     user_flag_names[ufid] = NULL;
   }
 
-  if (name) {
-    user_flag_names[ufid] = fc_malloc(strlen(name));
-    strcpy(user_flag_names[ufid], name);
+  if (name && name[0] != '\0') {
+    user_flag_names[ufid] = mystrdup(name);
   }
 }
 
