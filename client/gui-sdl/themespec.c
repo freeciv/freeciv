@@ -433,8 +433,8 @@ void themespec_reread(const char *new_theme_name)
 **************************************************************************/
 void themespec_reread_callback(struct client_option *option)
 {
-  assert(option->p_string_value && *option->p_string_value != '\0');
-  themespec_reread(option->p_string_value);
+  assert(option->string.pvalue && *option->string.pvalue != '\0');
+  themespec_reread(option->string.pvalue);
 }
 
 /**************************************************************************

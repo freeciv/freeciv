@@ -84,7 +84,7 @@ const char *client_string = "gui-xaw";
 const char * const gui_character_encoding = NULL;
 const bool gui_use_transliteration = TRUE;
 
-client_option gui_options[] = {
+struct client_option gui_options[] = {
   /* None. */
 };
 const int num_gui_options = ARRAY_SIZE(gui_options);

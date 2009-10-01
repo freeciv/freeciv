@@ -138,6 +138,6 @@ bool load_theme(const char *theme_name)
 ****************************************************************************/
 void theme_reread_callback(struct client_option *option)
 {
-  assert(option->p_string_value && *option->p_string_value != '\0');
-  load_theme(option->p_string_value);
+  assert(option->string.pvalue && *option->string.pvalue!= '\0');
+  load_theme(option->string.pvalue);
 }

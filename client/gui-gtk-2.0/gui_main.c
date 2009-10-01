@@ -185,58 +185,58 @@ char font_city_productions[512] = "Serif 10";
 static void split_bottom_notebook_callback(struct client_option *op);
 static void allied_chat_only_callback(struct client_option *op);
 
-client_option gui_options[] = {
+struct client_option gui_options[] = {
   /* This option is the same as the one in gui-gtk */
   GEN_BOOL_OPTION(map_scrollbars, N_("Show Map Scrollbars"),
 		  N_("Disable this option to hide the scrollbars on the "
 		     "map view."),
-		  COC_INTERFACE),
+		  COC_INTERFACE, FALSE, NULL),
   /* This option is the same as the one in gui-gtk */
   GEN_BOOL_OPTION(keyboardless_goto, N_("Keyboardless goto"),
 		  N_("If this option is set then a goto may be initiated "
 		     "by left-clicking and then holding down the mouse "
 		     "button while dragging the mouse onto a different "
 		     "tile."),
-		  COC_INTERFACE),
+		  COC_INTERFACE, TRUE, NULL),
   GEN_BOOL_OPTION(dialogs_on_top, N_("Keep dialogs on top"),
 		  N_("If this option is set then dialog windows will always "
 		     "remain in front of the main Freeciv window. "
 		     "Disabling this has no effect in fullscreen mode."),
-		  COC_INTERFACE),
+		  COC_INTERFACE, TRUE, NULL),
   GEN_BOOL_OPTION(show_task_icons, N_("Show worklist task icons"),
 		  N_("Disabling this will turn off the unit and building "
 		     "icons in the worklist dialog and the production "
 		     "tab of the city dialog."),
-		  COC_GRAPHICS),
+		  COC_GRAPHICS, TRUE, NULL),
   GEN_BOOL_OPTION(enable_tabs, N_("Enable status report tabs"),
 		  N_("If this option is enabled then report dialogs will "
 		     "be shown as separate tabs rather than in popup "
 		     "dialogs."),
-		  COC_INTERFACE),
-  GEN_BOOL_OPTION_CB(better_fog,
-		     N_("Better fog-of-war drawing"),
-		     N_("If this is enabled then a better method is used "
-			"for drawing fog-of-war.  It is not any slower but "
-			"will consume about twice as much memory."),
-		     COC_GRAPHICS, mapview_redraw_callback),
+		  COC_INTERFACE, TRUE, NULL),
+  GEN_BOOL_OPTION(better_fog,
+                  N_("Better fog-of-war drawing"),
+                  N_("If this is enabled then a better method is used "
+                     "for drawing fog-of-war.  It is not any slower but "
+                     "will consume about twice as much memory."),
+                  COC_GRAPHICS, TRUE, mapview_redraw_callback),
   GEN_BOOL_OPTION(show_chat_message_time,
                   N_("Show time for each chat message"),
                   N_("If this option is enabled then all chat messages "
                      "will be prefixed by a time string of the form "
                      "[hour:minute:second]."),
-                  COC_INTERFACE),
-  GEN_BOOL_OPTION_CB(split_bottom_notebook,
-                     N_("Split bottom notebook area"),
-                     N_("Enabling this option will split the bottom "
-                        "notebook into a left and right notebook so that "
-                        "two tabs may be viewed at once."),
-                     COC_INTERFACE, split_bottom_notebook_callback),
+                  COC_INTERFACE, FALSE, NULL),
+  GEN_BOOL_OPTION(split_bottom_notebook,
+                  N_("Split bottom notebook area"),
+                  N_("Enabling this option will split the bottom "
+                     "notebook into a left and right notebook so that "
+                     "two tabs may be viewed at once."),
+                  COC_INTERFACE, FALSE, split_bottom_notebook_callback),
   GEN_BOOL_OPTION(new_messages_go_to_top,
                   N_("New message events go to top of list"),
                   N_("If this option is enabled, new events in the "
                      "message window will appear at the top of the list, "
                      "rather than being appended at the bottom."),
-                  COC_INTERFACE),
+                  COC_INTERFACE, FALSE, NULL),
   GEN_BOOL_OPTION(show_message_window_buttons,
                   N_("Show extra message window buttons"),
                   N_("If this option is enabled, there will be two "
@@ -247,26 +247,26 @@ client_option gui_options[] = {
                      "button or right-click on a row to inspect or goto "
                      "respectively). This option will only take effect "
                      "once the message window is closed and reopened."),
-                  COC_INTERFACE),
+                  COC_INTERFACE, TRUE, NULL),
   GEN_BOOL_OPTION(metaserver_tab_first,
                   N_("Metaserver tab first in network page"),
                   N_("If this option is enabled, the metaserver tab will "
                      "be the first notebook tab in the network page. This "
                      "option requires a restart in order to take effect."),
-                  COC_NETWORK),
-  GEN_BOOL_OPTION_CB(allied_chat_only,
-                     N_("Plain chat messages are sent to allies only"),
-                     N_("If this option is enabled, then plain messages "
-                        "typed into the chat entry while the game is "
-                        "running will only be sent to your allies. "
-                        "Otherwise plain messages will be sent as "
-                        "public chat messages. To send a public chat "
-                        "message with this option enabled, prefix the "
-                        "message with a single colon ':'. This option "
-                        "can also be set using a toggle button beside "
-                        "the chat entry (only visible in multiplayer "
-                        "games)."),
-                     COC_NETWORK, allied_chat_only_callback),
+                  COC_NETWORK, FALSE, NULL),
+  GEN_BOOL_OPTION(allied_chat_only,
+                  N_("Plain chat messages are sent to allies only"),
+                  N_("If this option is enabled, then plain messages "
+                     "typed into the chat entry while the game is "
+                     "running will only be sent to your allies. "
+                     "Otherwise plain messages will be sent as "
+                     "public chat messages. To send a public chat "
+                     "message with this option enabled, prefix the "
+                     "message with a single colon ':'. This option "
+                     "can also be set using a toggle button beside "
+                     "the chat entry (only visible in multiplayer "
+                     "games)."),
+                  COC_NETWORK, FALSE, allied_chat_only_callback),
   GEN_BOOL_OPTION(small_display_layout,
                   N_("Arrange widgets for small displays"),
                   N_("If this option is enabled, widgets in the main "
@@ -276,67 +276,55 @@ client_option gui_options[] = {
                      "status, and the unit information box will be "
                      "extended over the entire left side of the window. "
                      "This option requires a restart in order to take "
-                     "effect."), COC_INTERFACE),
+                     "effect."), COC_INTERFACE, FALSE, NULL),
   GEN_FONT_OPTION(font_city_label,
-  		  city_label,
 		  N_("City Label"),
 		  N_("FIXME"),
-		  COC_FONT),
+		  COC_FONT, "Monospace 8", NULL),
   GEN_FONT_OPTION(font_notify_label,
-  		  notify_label,
 		  N_("Notify Label"),
 		  N_("FIXME"),
-		  COC_FONT),
+		  COC_FONT, "Monospace Bold 9", NULL),
   GEN_FONT_OPTION(font_spaceship_label,
-  		  spaceship_label,
 		  N_("Spaceship Label"),
 		  N_("FIXME"),
-		  COC_FONT),
+		  COC_FONT, "Monospace 8", NULL),
   GEN_FONT_OPTION(font_help_label,
-  		  help_label,
 		  N_("Help Label"),
 		  N_("FIXME"),
-		  COC_FONT),
+		  COC_FONT, "Sans Bold 10", NULL),
   GEN_FONT_OPTION(font_help_link,
-  		  help_link,
 		  N_("Help Link"),
 		  N_("FIXME"),
-		  COC_FONT),
+		  COC_FONT, "Sans 9", NULL),
   GEN_FONT_OPTION(font_help_text,
-  		  help_text,
 		  N_("Help Text"),
 		  N_("FIXME"),
-		  COC_FONT),
+		  COC_FONT, "Monospace 8", NULL),
   GEN_FONT_OPTION(font_chatline,
-  		  chatline,
 		  N_("Chatline Area"),
 		  N_("FIXME"),
-		  COC_FONT),
+		  COC_FONT, "Monospace 8", NULL),
   GEN_FONT_OPTION(font_beta_label,
-  		  beta_label,
 		  N_("Beta Label"),
 		  N_("FIXME"),
-		  COC_FONT),
+		  COC_FONT, "Sans Italic 10", NULL),
   GEN_FONT_OPTION(font_small,
-  		  small_font,
 		  N_("Small Font"),
 		  N_("FIXME"),
-		  COC_FONT),
+		  COC_FONT, "Sans 9", NULL),
   GEN_FONT_OPTION(font_comment_label,
-  		  comment_label,
 		  N_("Comment Label"),
 		  N_("FIXME"),
-		  COC_FONT),
+		  COC_FONT, "Sans Italic 9", NULL),
   GEN_FONT_OPTION(font_city_names,
-  		  city_names_font,
 		  N_("City Names"),
 		  N_("FIXME"),
-		  COC_FONT),
+		  COC_FONT, "Sans Bold 10", NULL),
   GEN_FONT_OPTION(font_city_productions,
-  		  city_productions_font,
 		  N_("City Productions"),
 		  N_("FIXME"),
-		  COC_FONT)
+		  COC_FONT, "Serif 10", NULL)
 };
 const int num_gui_options = ARRAY_SIZE(gui_options);
 
@@ -2298,7 +2286,7 @@ void add_idle_callback(void (callback)(void *), void *data)
 static void split_bottom_notebook_callback(struct client_option *op)
 {
   popdown_meswin_dialog();
-  if (*op->p_bool_value) {
+  if (*op->boolean.pvalue) {
     gtk_paned_pack2(GTK_PANED(bottom_hpaned), right_notebook, TRUE, TRUE);
     gtk_widget_show_all(right_notebook);
   } else {
@@ -2320,7 +2308,7 @@ static void allied_chat_only_callback(struct client_option *op)
   g_return_if_fail(GTK_IS_TOGGLE_BUTTON(button));
 
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button),
-                               *op->p_bool_value);
+                               *op->boolean.pvalue);
 }
 
 /**************************************************************************

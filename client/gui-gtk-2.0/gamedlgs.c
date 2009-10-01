@@ -376,43 +376,43 @@ static void option_command_processing(void)
 
     client_options_iterate(o) {
       switch (o->type) {
-      case COT_BOOL:
-	b = *(o->p_bool_value);
-	*(o->p_bool_value) = GTK_TOGGLE_BUTTON(o->p_gui_data)->active;
-	if (b != *(o->p_bool_value) && o->change_callback) {
+      case COT_BOOLEAN:
+	b = *(o->boolean.pvalue);
+	*(o->boolean.pvalue) = GTK_TOGGLE_BUTTON(o->gui_data)->active;
+	if (b != *(o->boolean.pvalue) && o->change_callback) {
 	  (o->change_callback)(o);
 	}
 	break;
-      case COT_INT:
-	val = *(o->p_int_value);
-	dp = gtk_entry_get_text(GTK_ENTRY(o->p_gui_data));
-	sscanf(dp, "%d", o->p_int_value);
-	if (val != *(o->p_int_value) && o->change_callback) {
+      case COT_INTEGER:
+	val = *(o->integer.pvalue);
+	dp = gtk_entry_get_text(GTK_ENTRY(o->gui_data));
+	sscanf(dp, "%d", o->integer.pvalue);
+	if (val != *(o->integer.pvalue) && o->change_callback) {
 	  (o->change_callback)(o);
 	}
 	break;
-      case COT_STR:
-	if (o->p_string_vals) {
+      case COT_STRING:
+	if (o->string.val_accessor) {
 	  const char *new_value =
-	    gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(o->p_gui_data)->entry));
-	  if (strcmp(o->p_string_value, new_value)) {
-	    mystrlcpy(o->p_string_value, new_value, o->string_length);
+	    gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(o->gui_data)->entry));
+	  if (strcmp(o->string.pvalue, new_value)) {
+	    mystrlcpy(o->string.pvalue, new_value, o->string.size);
 	    if (o->change_callback) {
 	      (o->change_callback)(o);
 	    }
 	  }
 	} else {
-	  mystrlcpy(o->p_string_value,
-		    gtk_entry_get_text(GTK_ENTRY(o->p_gui_data)),
-		    o->string_length);
+	  mystrlcpy(o->string.pvalue,
+		    gtk_entry_get_text(GTK_ENTRY(o->gui_data)),
+		    o->string.size);
 	}
 	break;
       case COT_FONT:
 	{
 	  const char *new_value =
-	    gtk_font_button_get_font_name(GTK_FONT_BUTTON(o->p_gui_data));
-	  if (strcmp(o->p_string_value, new_value)) {
-	    mystrlcpy(o->p_string_value, new_value, o->string_length);
+	    gtk_font_button_get_font_name(GTK_FONT_BUTTON(o->gui_data));
+	  if (strcmp(o->string.pvalue, new_value)) {
+	    mystrlcpy(o->string.pvalue, new_value, o->string.size);
 	    gui_update_font_from_option(o);
 	  }
 	}
@@ -525,34 +525,34 @@ static void create_option_dialog(void)
     gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
     gtk_container_add(GTK_CONTAINER(ebox), label);
 
-    gtk_tooltips_set_tip(tips, ebox, _(o->helptext), NULL);
+    gtk_tooltips_set_tip(tips, ebox, _(o->help_text), NULL);
 
     switch (o->type) {
-    case COT_BOOL:
-      o->p_gui_data = gtk_check_button_new();
+    case COT_BOOLEAN:
+      o->gui_data = gtk_check_button_new();
       break;
-    case COT_INT:
-      o->p_gui_data = gtk_entry_new();
-      gtk_entry_set_max_length(GTK_ENTRY(o->p_gui_data), 5);
-      gtk_widget_set_size_request(GTK_WIDGET(o->p_gui_data), 45, -1);
+    case COT_INTEGER:
+      o->gui_data = gtk_entry_new();
+      gtk_entry_set_max_length(GTK_ENTRY(o->gui_data), 5);
+      gtk_widget_set_size_request(GTK_WIDGET(o->gui_data), 45, -1);
       break;
-    case COT_STR:
-      if (o->p_string_vals) {
-        o->p_gui_data = gtk_combo_new();
+    case COT_STRING:
+      if (o->string.val_accessor) {
+        o->gui_data = gtk_combo_new();
       } else {
-        o->p_gui_data = gtk_entry_new();
+        o->gui_data = gtk_entry_new();
       }
-      gtk_widget_set_size_request(GTK_WIDGET(o->p_gui_data), 150, -1);
+      gtk_widget_set_size_request(GTK_WIDGET(o->gui_data), 150, -1);
       break;
     case COT_FONT:
-      o->p_gui_data = gtk_font_button_new();
-      g_object_set(o->p_gui_data,
+      o->gui_data = gtk_font_button_new();
+      g_object_set(o->gui_data,
 	  	   "use-font", TRUE,
 		   NULL);
       break;
     }
-    gtk_container_add(GTK_CONTAINER(hbox), o->p_gui_data);
-    gtk_size_group_add_widget(group[1][o->category], o->p_gui_data);
+    gtk_container_add(GTK_CONTAINER(hbox), o->gui_data);
+    gtk_size_group_add_widget(group[1][o->category], o->gui_data);
 
     len[o->category]++;
   } client_options_iterate_end;
@@ -578,35 +578,35 @@ void popup_option_dialog(void)
 
   client_options_iterate(o) {
     switch (o->type) {
-    case COT_BOOL:
-      gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(o->p_gui_data),
-				   *(o->p_bool_value));
+    case COT_BOOLEAN:
+      gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(o->gui_data),
+				   *(o->boolean.pvalue));
       break;
-    case COT_INT:
-      my_snprintf(valstr, sizeof(valstr), "%d", *(o->p_int_value));
-      gtk_entry_set_text(GTK_ENTRY(o->p_gui_data), valstr);
+    case COT_INTEGER:
+      my_snprintf(valstr, sizeof(valstr), "%d", *(o->integer.pvalue));
+      gtk_entry_set_text(GTK_ENTRY(o->gui_data), valstr);
       break;
-    case COT_STR:
-      if (o->p_string_vals) {
+    case COT_STRING:
+      if (o->string.val_accessor) {
 	int i;
 	GList *items = NULL;
-	const char **vals = (*o->p_string_vals) ();
+	const char **vals = (*o->string.val_accessor) ();
 
 	for (i = 0; vals[i]; i++) {
-	  if (strcmp(vals[i], o->p_string_value) == 0) {
+	  if (strcmp(vals[i], o->string.pvalue) == 0) {
 	    continue;
 	  }
 	  items = g_list_prepend(items, (gpointer) vals[i]);
 	}
-	items = g_list_prepend(items, (gpointer) o->p_string_value);
-	gtk_combo_set_popdown_strings(GTK_COMBO(o->p_gui_data), items);
+	items = g_list_prepend(items, (gpointer) o->string.pvalue);
+	gtk_combo_set_popdown_strings(GTK_COMBO(o->gui_data), items);
       } else {
-	gtk_entry_set_text(GTK_ENTRY(o->p_gui_data), o->p_string_value);
+	gtk_entry_set_text(GTK_ENTRY(o->gui_data), o->string.pvalue);
       }
       break;
     case COT_FONT:
-      gtk_font_button_set_font_name(GTK_FONT_BUTTON(o->p_gui_data),
-	  			    o->p_string_value);
+      gtk_font_button_set_font_name(GTK_FONT_BUTTON(o->gui_data),
+	  			    o->string.pvalue);
       break;
     }
   } client_options_iterate_end;
