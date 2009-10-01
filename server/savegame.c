@@ -4472,9 +4472,6 @@ static void game_load_internal(struct section_file *file)
       base_order[j] = find_base_type_by_rule_name(modname[j]);
     }
     free(modname);
-    for (; j < game.control.num_base_types + (4 - (game.control.num_base_types % 4)); j++) {
-      base_order[j] = NULL;
-    }
   }
 
   /* Free all players from teams, and teams from players
