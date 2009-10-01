@@ -122,18 +122,9 @@ static void close_socket_nomessage(struct connection *pc)
   popdown_races_dialog(); 
   close_connection_dialog();
 
-  if (C_S_PREPARING == client_state()) {
-    if (!with_ggz) {
-      set_client_page(in_ggz ? PAGE_GGZ : PAGE_MAIN);
-    }
-  }
-
   reports_force_thaw();
   
-  set_client_state(C_S_PREPARING);
-  agents_disconnect();
-  update_menus();
-  client_remove_all_cli_conn();
+  set_client_state(C_S_DISCONNECTED);
 }
 
 /**************************************************************************

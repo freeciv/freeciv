@@ -284,7 +284,7 @@ static Boolean toplevel_work_proc(XtPointer client_data)
   /* This will cause the connect dialog to pop-up.
      We do it here so that the main window exists when that happens,
      so that the connect dialog can position itself relative to it. */
-  set_client_state(C_S_PREPARING);
+  set_client_state(C_S_DISCONNECTED);
   return (True);
 }
 

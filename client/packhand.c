@@ -251,6 +251,8 @@ void handle_server_join_reply(bool you_can_join, char *message,
 
     /* we could always use hack, verify we're local */ 
     send_client_wants_hack(challenge_file);
+
+    set_client_state(C_S_PREPARING);
   } else {
     output_window_printf(FTC_SERVER_INFO, NULL,
                          _("You were rejected from the game: %s"), message);
@@ -409,52 +411,6 @@ static void update_improvement_from_packet(struct city *pcity,
     if (pcity->built[improvement_index(pimprove)].turn > I_NEVER) {
       city_remove_improvement(pcity, pimprove);
     }
-  }
-}
-
-/****************************************************************************
-  Updates the client_state due to packets from the server.
-
-  NB: This is called at the beginning of each turn and phase.
-****************************************************************************/
-static void update_client_state(enum client_states value)
-{
-  bool changed = (client_state() != value);
-
-  if (C_S_PREPARING == client_state()
-      && C_S_RUNNING == value) {
-    popdown_races_dialog();
-  }
-  
-  set_client_state(value);
-
-  if (C_S_RUNNING == client_state()) {
-    refresh_overview_canvas();
-
-    update_info_label();	/* get initial population right */
-    update_unit_focus();
-    update_unit_info_label(get_units_in_focus());
-
-    if (auto_center_each_turn) {
-      center_on_something();
-    }
-  }
-
-  if (C_S_OVER == client_state()) {
-    refresh_overview_canvas();
-
-    update_info_label();
-    update_unit_focus();
-    update_unit_info_label(NULL); 
-  }
-
-  if (changed) {
-    if (can_client_change_view()) {
-      update_map_canvas_visible();
-    }
-
-    /* If turn was going to change, that is now aborted. */
-    set_server_busy(FALSE);
   }
 }
 
@@ -1051,7 +1007,7 @@ void handle_start_phase(int phase)
     return;
   }
 
-  update_client_state(C_S_RUNNING);
+  set_client_state(C_S_RUNNING);
 
   game.info.phase = phase;
 
@@ -1092,7 +1048,7 @@ void handle_begin_turn(void)
   freelog(LOG_DEBUG, "handle_begin_turn()");
 
   /* probably duplicate insurance */
-  update_client_state(C_S_RUNNING);
+  set_client_state(C_S_RUNNING);
 
   /* Possibly replace wait cursor with something else */
   set_server_busy(FALSE);
@@ -2531,7 +2487,7 @@ void handle_scenario_info(struct packet_scenario_info *packet)
 **************************************************************************/
 void handle_ruleset_control(struct packet_ruleset_control *packet)
 {
-  update_client_state(C_S_PREPARING);
+  set_client_state(C_S_PREPARING);
 
   /* The ruleset is going to load new nations. So close
    * the nation selection dialog if it is open. */
@@ -3246,7 +3202,7 @@ void handle_city_sabotage_list(int diplomat_id, int city_id,
 **************************************************************************/
 void handle_endgame_report(struct packet_endgame_report *packet)
 {
-  update_client_state(C_S_OVER);
+  set_client_state(C_S_OVER);
 
   popup_endgame_report_dialog(packet);
 }

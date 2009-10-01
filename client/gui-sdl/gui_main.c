@@ -1012,7 +1012,7 @@ void ui_main(int argc, char *argv[])
   /* this need correct Main.screen size */
   init_mapcanvas_and_overview();    
   
-  set_client_state(C_S_PREPARING);
+  set_client_state(C_S_DISCONNECTED);
 
   /* Main game loop */
   gui_event_loop(NULL, NULL, main_key_down_handler, main_key_up_handler,

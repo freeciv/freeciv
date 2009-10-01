@@ -456,9 +456,28 @@ void game_free(void)
 }
 
 /***************************************************************
- Frees all memory which in objects which are read from a ruleset.
+  Do all changes to change view, and not full
+  game_free()/game_init().
 ***************************************************************/
-void ruleset_data_free()
+void game_reset(void)
+{
+  if (is_server()) {
+    game_free();
+    game_init();
+  } else {
+    game_remove_all_players();
+    map_free();
+    idex_free();
+
+    map_init();
+    idex_init();
+  }
+}
+
+/***************************************************************
+  Frees all memory which in objects which are read from a ruleset.
+***************************************************************/
+void ruleset_data_free(void)
 {
   specialists_free();
   techs_free();

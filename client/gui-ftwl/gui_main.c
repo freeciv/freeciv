@@ -272,7 +272,7 @@ void ui_main(int argc, char *argv[])
   timer_callback(NULL);
   sw_window_set_key_notify(root_window, my_key_handler, NULL);
 
-  set_client_state(C_S_PREPARING);
+  set_client_state(C_S_DISCONNECTED);
   sw_mainloop(input_from_server);
 }
 
