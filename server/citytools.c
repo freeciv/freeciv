@@ -759,28 +759,44 @@ static void raze_city(struct city *pcity)
   pcity->shield_stock = 0;
 }
 
-/**************************************************************************
-The following has to be called every time a city, pcity, has changed
-owner to update the city's traderoutes.
-**************************************************************************/
-static void reestablish_city_trade_routes(struct city *pcity, int cities[]) 
+/***************************************************************************
+  The following has to be called every time AFTER a city (pcity) has changed
+  owner to update the city's traderoutes.
+***************************************************************************/
+static void reestablish_city_trade_routes(struct city *pcity) 
 {
   int i;
-  struct city *oldtradecity;
+  struct city *ptrade_city;
 
   for (i = 0; i < NUM_TRADEROUTES; i++) {
-    if (cities[i] != 0) {
-      oldtradecity = game_find_city_by_number(cities[i]);
-      assert(oldtradecity != NULL);
-      if (can_cities_trade(pcity, oldtradecity)
-          && can_establish_trade_route(pcity, oldtradecity)) {   
-	establish_trade_route(pcity, oldtradecity);
-      }
-      /* refresh regardless; either it lost a trade route or
-	 the trade route revenue changed. */
-      city_refresh(oldtradecity);
-      send_city_info(city_owner(oldtradecity), oldtradecity);
+    ptrade_city = game_find_city_by_number(pcity->trade[i]);
+
+    assert(pcity->trade[i] == 0 || ptrade_city != NULL);
+
+    if (!ptrade_city) {
+      /* no trade route on this slot */
+      continue;
     }
+
+    /* Remove the city's trade routes (old owner). */
+    remove_trade_route(ptrade_city, pcity);
+
+    /* Readd the city's trade route (new owner) */
+    if (can_cities_trade(pcity, ptrade_city)
+        && can_establish_trade_route(pcity, ptrade_city)) {
+      establish_trade_route(pcity, ptrade_city);
+    }
+
+    /* refresh regardless; either it lost a trade route or the trade
+     * route revenue changed. */
+    city_refresh(ptrade_city);
+    send_city_info(city_owner(ptrade_city), ptrade_city);
+
+    /* Give the new owner infos about the city which has a traderoute
+     * with the transferred city. */
+    reality_check_city(city_owner(pcity), ptrade_city->tile);
+    update_dumb_city(city_owner(pcity), ptrade_city);
+    send_city_info(city_owner(pcity), ptrade_city);
   }
 }
 
@@ -839,8 +855,6 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 		   int kill_outside, bool transfer_unit_verbose,
 		   bool resolve_stack, bool raze)
 {
-  int i;
-  int old_trade_routes[NUM_TRADEROUTES];
   char old_city_name[MAX_LEN_NAME];
   bv_imprs had_small_wonders;
   struct vision *old_vision, *new_vision;
@@ -930,31 +944,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 
   if (city_remains) {
     /* Update the city's trade routes. */
-    for (i = 0; i < NUM_TRADEROUTES; i++)
-      old_trade_routes[i] = pcity->trade[i];
-    for (i = 0; i < NUM_TRADEROUTES; i++) {
-      struct city *pother_city = game_find_city_by_number(pcity->trade[i]);
-
-      assert(pcity->trade[i] == 0 || pother_city != NULL);
-
-      if (pother_city) {
-        remove_trade_route(pother_city, pcity);
-      }
-    }
-    reestablish_city_trade_routes(pcity, old_trade_routes);
-
-    /*
-     * Give the new owner infos about all cities which have a traderoute
-     * with the transferred city.
-     */
-    for (i = 0; i < NUM_TRADEROUTES; i++) {
-      struct city *pother_city = game_find_city_by_number(pcity->trade[i]);
-      if (pother_city) {
-        reality_check_city(ptaker, pother_city->tile);
-        update_dumb_city(ptaker, pother_city);
-        send_city_info(ptaker, pother_city);
-      }
-    }
+    reestablish_city_trade_routes(pcity);
 
     city_refresh(pcity);
   }
