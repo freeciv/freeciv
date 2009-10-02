@@ -375,6 +375,17 @@ static struct command commands[] = {
       "concert with the option \"timeout\". Defaults are 0 0 0 1"),
    VCF_NONE, 50
   },
+  {"cancelvote", ALLOW_BASIC,
+   /* TRANS: translate text between <> only */
+   N_("cancelvote\n"
+      "cancelvote <vote number>\n"
+      "cancelvote all\n"),
+   N_("Cancel a running vote.\n"),
+   N_("With no arguments this command removes your own vote.  If you have "
+      "an admin access level, you can cancel any vote by vote number, or "
+      "all votes with the \'all\' argument."),
+    VCF_NONE, 0
+  },
   {"endgame",	ALLOW_ADMIN,
    /* no translatable parameters */
    "endgame",

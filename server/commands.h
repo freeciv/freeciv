@@ -64,6 +64,7 @@ enum command_id {
   CMD_CMDLEVEL,
   CMD_FIRSTLEVEL,
   CMD_TIMEOUT,
+  CMD_CANCELVOTE,
 
   /* potentially harmful: */
   CMD_END_GAME,
