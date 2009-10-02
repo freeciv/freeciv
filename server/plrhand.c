@@ -696,7 +696,9 @@ void fill_packet_chat_msg(struct packet_chat_msg *packet,
 }
 
 /**************************************************************************
-  This is the basis for following notify_conn* and notify_player* functions.
+  This is the basis for following notify_* functions. It uses the struct
+  packet_chat_msg as defined by fill_packet_chat_msg().
+
   Notify specified connections of an event of specified type (from events.h)
   and specified (x,y) coords associated with the event.  Coords will only
   apply if game has started and the conn's player knows that tile (or
@@ -704,61 +706,71 @@ void fill_packet_chat_msg(struct packet_chat_msg *packet,
   caller should specify (x,y) = (-1,-1); otherwise make sure that the
   coordinates have been normalized.
 **************************************************************************/
-void vnotify_conn(struct conn_list *dest, const struct tile *ptile,
-		  enum event_type event, const char *fg_color,
-                  const char *bg_color, const char *format,
-		  va_list vargs)
+void notify_conn_packet(struct conn_list *dest,
+                        const struct packet_chat_msg *packet)
 {
-  struct packet_chat_msg genmsg;
+  struct packet_chat_msg real_packet = *packet;
+  struct tile *ptile;
 
   if (!dest) {
     dest = game.est_connections;
   }
 
-  fill_packet_chat_msg(&genmsg, NULL, event, NULL,
-                       fg_color, bg_color, format, vargs);
+  if (is_normal_map_pos(packet->x, packet->y)) {
+    ptile = map_pos_to_tile(packet->x, packet->y);
+  } else {
+    ptile = NULL;
+  }
 
   conn_list_iterate(dest, pconn) {
-
     /* Avoid sending messages that could potentially reveal
      * internal information about the server machine to
      * connections that do not already have hack access. */
-    if ((event == E_LOG_ERROR || event == E_LOG_FATAL)
+    if ((packet->event == E_LOG_ERROR || packet->event == E_LOG_FATAL)
         && pconn->access_level != ALLOW_HACK) {
       continue;
     }
 
     if (S_S_RUNNING <= server_state()
-	&& ptile /* special case, see above */
-	&& ((NULL == pconn->playing && pconn->observer)
-	    || (NULL != pconn->playing && map_is_known(ptile, pconn->playing)))) {
-      genmsg.x = ptile->x;
-      genmsg.y = ptile->y;
+        && ptile /* special case, see above */
+        && ((NULL == pconn->playing && pconn->observer)
+            || (NULL != pconn->playing
+                && map_is_known(ptile, pconn->playing)))) {
+      /* coordinates are OK; see above */
+      real_packet.x = ptile->x;
+      real_packet.y = ptile->y;
     } else {
+      /* no coordinates */
       assert(S_S_RUNNING > server_state() || !is_normal_map_pos(-1, -1));
-      genmsg.x = -1;
-      genmsg.y = -1;
+      real_packet.x = -1;
+      real_packet.y = -1;
     }
-    send_packet_chat_msg(pconn, &genmsg);
-  }
-  conn_list_iterate_end;
+
+    send_packet_chat_msg(pconn, &real_packet);
+  } conn_list_iterate_end;
 }
 
 /**************************************************************************
-  See vnotify_conn - this is just the "non-v" version, with varargs.
+  See notify_conn_packet - this is just the "non-v" version, with varargs.
 **************************************************************************/
 void notify_conn(struct conn_list *dest, const struct tile *ptile,
-		 enum event_type event, const char *fg_color,
+                 enum event_type event, const char *fg_color,
                  const char *bg_color, const char *format, ...)
 {
+  struct packet_chat_msg genmsg;
   va_list args;
+
   va_start(args, format);
-  vnotify_conn(dest, ptile, event, fg_color, bg_color, format, args);
+  fill_packet_chat_msg(&genmsg, ptile, event, NULL,
+                       fg_color, bg_color, format, args);
+
   va_end(args);
+
+  notify_conn_packet(dest, &genmsg);
 }
 
 /**************************************************************************
-  Similar to vnotify_conn (see also), but takes player as "destination".
+  Similar to notify_conn_packet (see also), but takes player as "destination".
   If player != NULL, sends to all connections for that player.
   If player == NULL, sends to all game connections, to support
   old code, but this feature may go away - should use notify_conn(NULL)
@@ -769,11 +781,15 @@ void notify_player(const struct player *pplayer, const struct tile *ptile,
                    const char *bg_color, const char *format, ...) 
 {
   struct conn_list *dest = pplayer ? pplayer->connections : NULL;
+  struct packet_chat_msg genmsg;
   va_list args;
 
   va_start(args, format);
-  vnotify_conn(dest, ptile, event, fg_color, bg_color, format, args);
+  fill_packet_chat_msg(&genmsg, ptile, event, NULL,
+                       fg_color, bg_color, format, args);
   va_end(args);
+
+  notify_conn_packet(dest, &genmsg);
 }
 
 /**************************************************************************
@@ -796,9 +812,9 @@ void notify_embassies(const struct player *pplayer,
 
   players_iterate(other_player) {
     if (player_has_embassy(other_player, pplayer)
-	&& exclude != other_player
+        && exclude != other_player
         && pplayer != other_player) {
-      lsend_packet_chat_msg(other_player->connections, &genmsg);
+      notify_conn_packet(other_player->connections, &genmsg);
     }
   } players_iterate_end;
 }
@@ -812,7 +828,13 @@ void notify_team(const struct player *pplayer, const struct tile *ptile,
                  const char *bg_color, const char *format, ...)
 {
   struct conn_list *dest = game.est_connections;
+  struct packet_chat_msg genmsg;
   va_list args;
+
+  va_start(args, format);
+  fill_packet_chat_msg(&genmsg, ptile, event, NULL,
+                       fg_color, bg_color, format, args);
+  va_end(args);
 
   if (pplayer) {
     dest = conn_list_new();
@@ -826,9 +848,7 @@ void notify_team(const struct player *pplayer, const struct tile *ptile,
     } players_iterate_end;
   }
 
-  va_start(args, format);
-  vnotify_conn(dest, ptile, event, fg_color, bg_color, format, args);
-  va_end(args);
+  notify_conn_packet(dest, &genmsg);
 
   if (pplayer) {
     conn_list_free(dest);

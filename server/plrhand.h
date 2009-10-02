@@ -58,10 +58,8 @@ void fill_packet_chat_msg(struct packet_chat_msg *packet,
                           const struct connection *pconn,
                           const char *fg_color, const char *bg_color,
                           const char *format, va_list vargs);
-void vnotify_conn(struct conn_list *dest, const struct tile *ptile,
-                  enum event_type event, const char *fg_color,
-                  const char *bg_color, const char *format,
-                  va_list vargs);
+void notify_conn_packet(struct conn_list *dest,
+                        const struct packet_chat_msg *packet);
 void notify_conn(struct conn_list *dest, const struct tile *ptile,
                  enum event_type event, const char *fg_color,
                  const char *bg_color, const char *format, ...)
@@ -118,7 +116,6 @@ do {\
     }\
   } shuffled_players_iterate_end;\
 } while (0)
-
 
 bool civil_war_triggered(struct player *pplayer);
 void civil_war(struct player *pplayer);

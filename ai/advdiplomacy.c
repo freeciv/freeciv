@@ -88,10 +88,14 @@ static void notify(struct player *pplayer, const char *text, ...)
   if (diplomacy_verbose) {
     va_list ap;
     struct conn_list *dest = pplayer->connections;
+    struct packet_chat_msg packet;
 
     va_start(ap, text);
-    vnotify_conn(dest, NULL, E_DIPLOMACY, FTC_PRIVATE_MSG, NULL, text, ap);
+    fill_packet_chat_msg(&packet, NULL, E_DIPLOMACY, NULL,
+                         FTC_PRIVATE_MSG, NULL, text, ap);
     va_end(ap);
+
+    notify_conn_packet(dest, &packet);
   }
 }
 
