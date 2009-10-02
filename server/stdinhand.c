@@ -2307,6 +2307,94 @@ CLEANUP:
   return res;
 }
 
+/**************************************************************************
+  Cancel a vote... /cancelvote <vote number>|all.
+**************************************************************************/
+static bool cancelvote_command(struct connection *caller,
+                               char *arg, bool check)
+{
+  struct vote *pvote = NULL;
+  int vote_no;
+
+  if (check) {
+    /* This should never happen anyway, since /cancelvote
+     * is set to ALLOW_BASIC in both pregame and while the
+     * game is running. */
+    return FALSE;
+  }
+
+  remove_leading_trailing_spaces(arg);
+
+  if (arg[0] == '\0') {
+    if (caller == NULL) {
+      /* Server prompt */
+      cmd_reply(CMD_CANCELVOTE, caller, C_SYNTAX,
+                _("Missing argument <vote number> or "
+                  "the string \"all\"."));
+      return FALSE;
+    }
+    /* The caller cancel his/her own vote. */
+    if (!(pvote = get_vote_by_caller(caller))) {
+      cmd_reply(CMD_CANCELVOTE, caller, C_FAIL,
+                _("You don't have any vote going on."));
+      return FALSE;
+    }
+  } else if (mystrcasecmp(arg, "all") == 0) {
+    /* Cancel all votes (needs some privileges). */
+    if (vote_list_size(vote_list) == 0) {
+      cmd_reply(CMD_CANCELVOTE, caller, C_FAIL,
+                _("There isn't any vote going on."));
+      return FALSE;
+    } else if (!caller || conn_get_access(caller) >= ALLOW_ADMIN) {
+      clear_all_votes();
+      notify_conn(NULL, NULL, E_CHAT_MSG, FTC_SERVER_INFO, NULL,
+                  _("All votes have been removed."));
+      return TRUE;
+    } else {
+      cmd_reply(CMD_CANCELVOTE, caller, C_FAIL,
+                _("You are not allowed to use this command."));
+      return FALSE;
+    }
+  } else if (sscanf(arg, "%d", &vote_no) == 1) {
+    /* Cancel one particular vote (needs some privileges if the vote
+     * is not owned). */
+    if (!(pvote = get_vote_by_no(vote_no))) {
+      cmd_reply(CMD_CANCELVOTE, caller, C_FAIL,
+                _("No such vote (%d)."), vote_no);
+      return FALSE;
+    } else if (caller && conn_get_access(caller) < ALLOW_ADMIN
+               && caller->id != pvote->caller_id) {
+      cmd_reply(CMD_CANCELVOTE, caller, C_FAIL,
+                _("You are not allowed to cancel this vote (%d)."),
+                vote_no);
+      return FALSE;
+    }
+  } else {
+    cmd_reply(CMD_CANCELVOTE, caller, C_SYNTAX,
+              _("Usage: /cancelvote [<vote number>|all]"));
+    return FALSE;
+  }
+
+  assert(pvote != NULL);
+
+  if (caller) {
+    notify_team(conn_get_player(vote_get_caller(pvote)),
+                NULL, E_CHAT_MSG, FTC_SERVER_INFO, NULL,
+                _("%s has cancelled the vote \"%s\" (number %d)."),
+                caller->username, pvote->cmdline, pvote->vote_no);
+  } else {
+    /* Server prompt */
+    notify_team(conn_get_player(vote_get_caller(pvote)),
+                NULL, E_CHAT_MSG, FTC_SERVER_INFO, NULL,
+                _("The vote \"%s\" (number %d) has been cancelled."),
+                pvote->cmdline, pvote->vote_no);
+  }
+  /* Make it after, prevent crashs about a free pointer (pvote). */
+  remove_vote(pvote);
+
+  return TRUE;
+}
+
 /******************************************************************
   Turn on selective debugging.
 ******************************************************************/
@@ -3924,6 +4012,8 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
     return connectmsg_command(caller, arg, check);
   case CMD_VOTE:
     return vote_command(caller, arg, check);
+  case CMD_CANCELVOTE:
+    return cancelvote_command(caller, arg, check);
   case CMD_READ_SCRIPT:
     return read_command(caller, arg, check, read_recursion);
   case CMD_WRITE_SCRIPT:
