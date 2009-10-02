@@ -22,14 +22,17 @@
 #include <windows.h>
 #include <windowsx.h>
 
-/* common & utility */
-#include "city.h"
+/* utility */
 #include "fcintl.h"
-#include "packets.h"
+#include "log.h"
+#include "mem.h"
 #include "shared.h"
 #include "support.h"
+
+/* common */
+#include "city.h"
+#include "packets.h"
 #include "unit.h"
-#include "mem.h"
 
 /* client */
 #include "chatline.h"

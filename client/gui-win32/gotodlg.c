@@ -21,13 +21,16 @@
 #include <windows.h>
 #include <windowsx.h>
 
-/* common & utility */
+/* utility */
 #include "fcintl.h"
+#include "log.h"
+#include "support.h"
+
+/* common */
 #include "game.h"
 #include "map.h"
 #include "packets.h"
 #include "player.h"
-#include "support.h"
 #include "unit.h"
 #include "unitlist.h"
 

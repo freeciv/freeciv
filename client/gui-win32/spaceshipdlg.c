@@ -20,15 +20,18 @@
 
 #include <windows.h>
 
-/* common & utility */
+/* utility */
 #include "fcintl.h"
-#include "game.h"
-#include "map.h"
+#include "log.h"
 #include "mem.h"
-#include "packets.h"
-#include "player.h"
 #include "shared.h"
 #include "support.h"
+
+/* common */
+#include "game.h"
+#include "map.h"
+#include "packets.h"
+#include "player.h"
 
 /* client */
 #include "canvas.h"

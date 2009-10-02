@@ -18,12 +18,15 @@
 #include <windows.h>
 #include <windowsx.h>
 
-/* common & utility */
-#include "events.h"
+/* utility */
 #include "fcintl.h"
-#include "game.h"
+#include "log.h"
 #include "mem.h"
 #include "support.h"
+
+/* common */
+#include "events.h"
+#include "game.h"
 
 /* client */
 #include "chatline_g.h"

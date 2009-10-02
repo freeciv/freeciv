@@ -15,7 +15,9 @@
 #include <config.h>
 #endif
 
+/* utility */
 #include "genlist.h"
+#include "log.h"
 #include "mem.h"
 #include "shared.h"
 
