@@ -24,12 +24,15 @@
 #include <windowsx.h>
 #include <commctrl.h>
 
-/* common & utility */
+/* utility */
 #include "fcintl.h"
-#include "government.h"
-#include "packets.h"
+#include "log.h"
 #include "shared.h"
 #include "support.h"
+
+/* common */
+#include "government.h"
+#include "packets.h"
 #include "unitlist.h"
 
 /* client */

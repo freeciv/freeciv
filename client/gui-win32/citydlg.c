@@ -20,17 +20,21 @@
 #include <commctrl.h>
 #include <assert.h>
 
-/* common & utility */
-#include "city.h"
+/* utility */
 #include "fcintl.h"
-#include "game.h"
 #include "genlist.h"
-#include "map.h"
+#include "log.h"
 #include "mem.h"
 #include "packets.h"
-#include "player.h"
 #include "shared.h"
 #include "support.h"
+
+/* common */
+#include "city.h"
+#include "game.h"
+#include "map.h"
+#include "packets.h"
+#include "player.h"
 #include "unitlist.h"
 
 /* client */

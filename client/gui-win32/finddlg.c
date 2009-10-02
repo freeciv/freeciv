@@ -21,14 +21,19 @@
 #include <windows.h>
 #include <windowsx.h>
 
+/* utility */
 #include "fcintl.h"
+#include "log.h"
+
+/* common */
 #include "game.h"
 #include "player.h"
+
+/* gui-win32 */
 #include "gui_main.h"
 #include "gui_stuff.h"
-
 #include "dialogs.h"
-#include "mapview.h"     
+#include "mapview.h"
 #include "finddlg.h"
 
 extern HWND root_window;
