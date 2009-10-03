@@ -170,7 +170,7 @@ bool api_methods_city_has_building
 $[
 -- Player methods.
 function Player:is_human()
-  return not self.ai.control
+  return not self.ai_data.control
 end
 
 function Player:num_cities()
