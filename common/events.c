@@ -177,7 +177,7 @@ static struct {
   GEN_EV(E_MESSAGE_WALL,	E_S_XYZZY,	N_("Message from server operator")),
   GEN_EV(E_SETTING,		E_S_XYZZY,	N_("Server settings changed")),
   GEN_EV(E_TURN_BELL,		E_S_XYZZY,	N_("Turn Bell")),
-  GEN_EV(E_TUTORIAL,		E_S_XYZZY,	N_("Tutorial message")),
+  GEN_EV(E_SCRIPT,		E_S_XYZZY,	N_("Scenario/ruleset script message")),
   GEN_EV(E_NEXT_YEAR,		E_S_XYZZY,	N_("Year Advance")),
   GEN_EV_TERMINATOR
 };
