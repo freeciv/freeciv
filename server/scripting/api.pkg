@@ -373,11 +373,11 @@ $[
 -- Notify module implementation.
 
 function notify.all(...)
-  notify.event_msg(nil, nil, E.NOEVENT, string.format(unpack(arg)))
+  notify.event_msg(nil, nil, E.TUTORIAL, string.format(unpack(arg)))
 end
 
 function notify.player(player, ...)
-  notify.event_msg(player, nil, E.NOEVENT, string.format(unpack(arg)))
+  notify.event_msg(player, nil, E.TUTORIAL, string.format(unpack(arg)))
 end
 
 function notify.event(player, tile, event, ...)
