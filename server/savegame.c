@@ -200,11 +200,11 @@
 }
 
 /* Iterate on the bases half-bytes */
-#define bases_halfbyte_iterate(b)					    \
+#define bases_halfbyte_iterate(b, num_bases_types)			    \
 {									    \
   int b;                                                                    \
 									    \
-  for(b = 0; 4 * b < game.control.num_base_types; b++) {
+  for(b = 0; 4 * b < (num_bases_types); b++) {
 
 #define bases_halfbyte_iterate_end					    \
   }									    \
@@ -941,7 +941,8 @@ load a complete map from a savegame file
 static void map_load(struct section_file *file,
 		     char *savefile_options,
 		     const enum tile_special_type *special_order,
-                     struct base_type **base_order)
+                     struct base_type **base_order,
+                     int num_bases_types)
 {
   /* map_init();
    * This is already called in game_init(), and calling it
@@ -1072,7 +1073,7 @@ static void map_load(struct section_file *file,
     }
     zeroline[i] = '\0';
 
-    bases_halfbyte_iterate(j) {
+    bases_halfbyte_iterate(j, num_bases_types) {
       char buf[16]; /* enough for sprintf() below */
       sprintf(buf, "map.b%02d_%%03d", j);
 
@@ -1206,7 +1207,7 @@ static void map_save(struct section_file *file)
 			 get_savegame_special(ptile->special, mod));
   } special_halfbyte_iterate_end;
 
-  bases_halfbyte_iterate(j) {
+  bases_halfbyte_iterate(j, game.control.num_base_types) {
     char buf[16]; /* enough for sprintf() below */
     int mod[4];
     int l;
@@ -1646,7 +1647,8 @@ static const char* old_government_name(int id)
 static void player_load_units(struct player *plr, int plrno,
 			      struct section_file *file,
 			      char *savefile_options,
-                              struct base_type **base_order)
+                              struct base_type **base_order,
+                              int num_base_types)
 {
   int nunits, i, j;
   enum unit_activity activity;
@@ -1745,8 +1747,7 @@ static void player_load_units(struct player *plr, int plrno,
     } else if (activity == ACTIVITY_AIRBASE) {
       pbase = get_base_by_gui_type(BASE_GUI_AIRBASE, punit, punit->tile);
     } else if (activity == ACTIVITY_BASE) {
-      if (base >= 0
-          && base < sizeof(base_order) / sizeof (struct base_type *)) {
+      if (base >= 0 && base < num_base_types) {
         pbase = base_order[base];
       } else {
         freelog(LOG_ERROR, "Cannot find base %d for %s to build",
@@ -1911,8 +1912,7 @@ static void player_load_units(struct player *plr, int plrno,
           } else if (base_buf && base_buf[j] != '?') {
             base = char2num(base_buf[j]);
 
-            if (base >= 0
-                && base < sizeof(base_order) / sizeof (struct base_type *)) {
+            if (base >= 0 && base < num_base_types) {
               pbase = base_order[base];
             } else {
               freelog(LOG_ERROR, "Cannot find base %d for %s to build",
@@ -2971,7 +2971,8 @@ static void player_load_vision(struct player *plr, int plrno,
 			       const enum tile_special_type *special_order,
 			       char **improvement_order,
 			       int improvement_order_size,
-                               struct base_type **base_order)
+                               struct base_type **base_order,
+                               int num_base_types)
 {
   const char *p;
   int i, k, id;
@@ -3051,7 +3052,7 @@ static void player_load_vision(struct player *plr, int plrno,
       }
       zeroline[i]= '\0';
 
-      bases_halfbyte_iterate(j) {
+      bases_halfbyte_iterate(j, num_base_types) {
         char buf[32]; /* should be enough for snprintf() below */
 
         my_snprintf(buf, sizeof(buf), "player%d.map_b%02d_%%03d", plrno, j);
@@ -3735,7 +3736,7 @@ static void player_save_vision(struct player *plr, int plrno,
       get_savegame_special(map_get_player_tile(ptile, plr)->special, mod));
   } special_halfbyte_iterate_end;
 
-  bases_halfbyte_iterate(j) {
+  bases_halfbyte_iterate(j, game.control.num_base_types) {
     char buf[32]; /* enough for sprintf() below */
     int mod[4];
     int l;
@@ -4061,6 +4062,7 @@ static void game_load_internal(struct section_file *file)
   char **technology_order = NULL;
   enum tile_special_type *special_order = NULL;
   struct base_type **base_order = NULL;
+  int num_base_types = 0;
   char *savefile_options = secfile_lookup_str(file, "savefile.options");
 
   /* [savefile] */
@@ -4456,19 +4458,20 @@ static void game_load_internal(struct section_file *file)
 
   if (has_capability("bases", savefile_options)) {
     char **modname = NULL;
-    int nmod;
     int j;
 
-    nmod = secfile_lookup_int_default(file, 0, "savefile.num_bases");
+    num_base_types = secfile_lookup_int_default(file, 0,
+                                                "savefile.num_bases");
 
-    if (nmod > 0) {
-      modname = secfile_lookup_str_vec(file, &nmod,
+    if (num_base_types > 0) {
+      modname = secfile_lookup_str_vec(file, &num_base_types,
                                        "savefile.bases");
     }
 
     /* make sure that the size of the array is divisible by 4 */
-    base_order = fc_calloc(nmod + (4 - (nmod % 4)), sizeof(*base_order));
-    for (j = 0; j < nmod; j++) {
+    base_order = fc_calloc(4 * ((num_base_types + 3) / 4),
+                           sizeof(*base_order));
+    for (j = 0; j < num_base_types; j++) {
       base_order[j] = find_base_type_by_rule_name(modname[j]);
     }
     free(modname);
@@ -4552,7 +4555,8 @@ static void game_load_internal(struct section_file *file)
 	/* generator 0 = map done with map editor */
 	/* aka a "scenario" */
         if (has_capability("specials",savefile_options)) {
-          map_load(file, savefile_options, special_order, base_order);
+          map_load(file, savefile_options, special_order,
+                   base_order, num_base_types);
           return;
         }
         map_load_tiles(file);
@@ -4610,7 +4614,8 @@ static void game_load_internal(struct section_file *file)
   game.info.is_new_game = !secfile_lookup_bool_default(file, TRUE,
                                                        "game.save_players");
 
-  map_load(file, savefile_options, special_order, base_order);
+  map_load(file, savefile_options, special_order,
+           base_order, num_base_types);
 
   if (game.info.is_new_game) {
     /* override previous load */
@@ -4672,7 +4677,8 @@ static void game_load_internal(struct section_file *file)
                        technology_order, technology_order_size);
       player_load_cities(pplayer, plrno, file, savefile_options,
                          improvement_order, improvement_order_size);
-      player_load_units(pplayer, plrno, file, savefile_options, base_order);
+      player_load_units(pplayer, plrno, file, savefile_options,
+                        base_order, num_base_types);
       player_load_attributes(pplayer, plrno, file);
       loaded_players++;
     } player_slots_iterate_end;
@@ -4738,7 +4744,8 @@ static void game_load_internal(struct section_file *file)
     players_iterate(pplayer) {
       int n = player_index(pplayer);
       player_load_vision(pplayer, n, file, savefile_options, special_order,
-		         improvement_order, improvement_order_size, base_order);
+                         improvement_order, improvement_order_size,
+                         base_order, num_base_types);
     } players_iterate_end;
 
     whole_map_iterate(ptile) {
