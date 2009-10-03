@@ -451,7 +451,7 @@ void message_options_init(void)
     E_CHAT_MSG, E_CHAT_ERROR, E_CONNECTION, E_LOG_ERROR, E_SETTING
   };
   int all[] = {
-    E_LOG_FATAL, E_TUTORIAL
+    E_LOG_FATAL, E_SCRIPT
   };
   int i;
 

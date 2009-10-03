@@ -441,7 +441,7 @@ module E {
     E_ENEMY_DIPLOMAT_SABOTAGE @ ENEMY_DIPLOMAT_SABOTAGE,
     E_ENEMY_DIPLOMAT_THEFT @ ENEMY_DIPLOMAT_THEFT,
     E_CARAVAN_ACTION @ CARAVAN_ACTION,
-    E_TUTORIAL @ TUTORIAL,
+    E_SCRIPT @ SCRIPT,
     E_BROADCAST_REPORT @ BROADCAST_REPORT,
     E_GAME_END @ GAME_END,
     E_GAME_START @ GAME_START,
@@ -509,11 +509,11 @@ $[
 -- Notify module implementation.
 
 function notify.all(...)
-  notify.event_msg(nil, nil, E.NOEVENT, string.format(unpack(arg)))
+  notify.event_msg(nil, nil, E.SCRIPT, string.format(unpack(arg)))
 end
 
 function notify.player(player, ...)
-  notify.event_msg(player, nil, E.NOEVENT, string.format(unpack(arg)))
+  notify.event_msg(player, nil, E.SCRIPT, string.format(unpack(arg)))
 end
 
 function notify.event(player, tile, event, ...)
