@@ -71,6 +71,34 @@ extern char font_comment_label[512];
 extern char font_city_names[512];
 extern char font_city_productions[512];
 
+extern bool draw_city_outlines;
+extern bool draw_city_output;
+extern bool draw_map_grid;
+extern bool draw_city_names;
+extern bool draw_city_growth;
+extern bool draw_city_productions;
+extern bool draw_city_buycost;
+extern bool draw_city_traderoutes;
+extern bool draw_terrain;
+extern bool draw_coastline;
+extern bool draw_roads_rails;
+extern bool draw_irrigation;
+extern bool draw_mines;
+extern bool draw_fortress_airbase;
+extern bool draw_specials;
+extern bool draw_pollution;
+extern bool draw_cities;
+extern bool draw_units;
+extern bool draw_focus_unit;
+extern bool draw_fog_of_war;
+extern bool draw_borders;
+extern bool draw_full_citybar;
+extern bool draw_unit_shields;
+
+extern bool player_dlg_show_dead_players;
+extern bool reqtree_show_icons;
+extern bool reqtree_curved_lines;
+
 enum client_option_type {
   COT_BOOLEAN,
   COT_INTEGER,
@@ -312,42 +340,6 @@ const struct client_option *client_option_array_last(void);
 /* GUI-specific options declared in gui-xxx but handled by common code. */
 extern const int num_gui_options;
 extern struct client_option gui_options[];
-
-/** View Options: **/
-
-extern bool draw_city_outlines;
-extern bool draw_city_output;
-extern bool draw_map_grid;
-extern bool draw_city_names;
-extern bool draw_city_growth;
-extern bool draw_city_productions;
-extern bool draw_city_buycost;
-extern bool draw_city_traderoutes;
-extern bool draw_terrain;
-extern bool draw_coastline;
-extern bool draw_roads_rails;
-extern bool draw_irrigation;
-extern bool draw_mines;
-extern bool draw_fortress_airbase;
-extern bool draw_specials;
-extern bool draw_pollution;
-extern bool draw_cities;
-extern bool draw_units;
-extern bool draw_focus_unit;
-extern bool draw_fog_of_war;
-extern bool draw_borders;
-extern bool draw_full_citybar;
-extern bool draw_unit_shields;
-
-extern bool player_dlg_show_dead_players;
-extern bool reqtree_show_icons;
-extern bool reqtree_curved_lines;
-
-typedef struct {
-  const char *name;
-  bool *p_value;
-} view_option;
-extern view_option view_options[];
 
 /** Message Options: **/
 

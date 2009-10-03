@@ -98,8 +98,35 @@ char highlight_our_names[128] = "yellow";
 /* This option is currently set by the client - not by the user. */
 bool update_city_text_in_refresh_tile = TRUE;
 
+bool draw_city_outlines = TRUE;
+bool draw_city_output = FALSE;
+bool draw_map_grid = FALSE;
+bool draw_city_names = TRUE;
+bool draw_city_growth = TRUE;
+bool draw_city_productions = FALSE;
+bool draw_city_buycost = FALSE;
+bool draw_city_traderoutes = FALSE;
+bool draw_terrain = TRUE;
+bool draw_coastline = FALSE;
+bool draw_roads_rails = TRUE;
+bool draw_irrigation = TRUE;
+bool draw_mines = TRUE;
+bool draw_fortress_airbase = TRUE;
+bool draw_specials = TRUE;
+bool draw_pollution = TRUE;
+bool draw_cities = TRUE;
+bool draw_units = TRUE;
+bool draw_focus_unit = FALSE;
+bool draw_fog_of_war = TRUE;
+bool draw_borders = TRUE;
+bool draw_full_citybar = TRUE;
+bool draw_unit_shields = TRUE;
+bool player_dlg_show_dead_players = TRUE;
+bool reqtree_show_icons = TRUE;
+bool reqtree_curved_lines = FALSE;
+
 static void reqtree_show_icons_callback(struct client_option *option);
-static void draw_full_citybar_changed_callback(struct client_option *option);
+static void view_option_changed_callback(struct client_option *option);
 
 const char *client_option_class_names[COC_MAX] = {
   N_("Graphics"),
@@ -167,6 +194,88 @@ static struct client_option common_options[] = {
                      "view to be drawn with a solid background color "
                      "instead of the flag backdrop."),
                   COC_GRAPHICS, FALSE, mapview_redraw_callback),
+  GEN_BOOL_OPTION(draw_city_outlines, N_("Draw city outlines"),
+                  N_("Setting this option will draw a line at the city "
+                     "workable limit."),
+                  COC_GRAPHICS, TRUE, view_option_changed_callback),
+  GEN_BOOL_OPTION(draw_city_output, N_("Draw city output"),
+                  N_("Setting this option will draw city output for every "
+                     "citizen."),
+                  COC_GRAPHICS, FALSE, view_option_changed_callback),
+  GEN_BOOL_OPTION(draw_map_grid, N_("Draw the map grid"),
+                  N_("Setting this option will draw a grid over the map."),
+                  COC_GRAPHICS, FALSE, view_option_changed_callback),
+  GEN_BOOL_OPTION(draw_city_names, N_("Draw the city names"),
+                  N_("Setting this option will draw the names of the cities"
+                     "on the map."),
+                  COC_GRAPHICS, TRUE, view_option_changed_callback),
+  GEN_BOOL_OPTION(draw_city_growth, N_("Draw the city growthes"),
+                  N_("Setting this option will draw in how any turns the "
+                     "cities will grow or shrink."),
+                  COC_GRAPHICS, TRUE, view_option_changed_callback),
+  GEN_BOOL_OPTION(draw_city_productions, N_("Draw the city productions"),
+                  N_("Setting this option will draw what the cities are "
+                     "currently building on the map."),
+                  COC_GRAPHICS, FALSE, view_option_changed_callback),
+  GEN_BOOL_OPTION(draw_city_buycost, N_("Draw the city buy costs"),
+                  N_("Setting this option will draw how many golds are "
+                     "needed to buy the production of the cities."),
+                  COC_GRAPHICS, FALSE, view_option_changed_callback),
+  GEN_BOOL_OPTION(draw_city_traderoutes, N_("Draw the city traderoutes"),
+                  N_("Setting this option will draw traderoutes lines "
+                     "between cities which have traderoutes."),
+                  COC_GRAPHICS, FALSE, view_option_changed_callback),
+  GEN_BOOL_OPTION(draw_terrain, N_("Draw the terrain"),
+                  N_("Setting this option will draw the terrain."),
+                  COC_GRAPHICS, TRUE, view_option_changed_callback),
+  GEN_BOOL_OPTION(draw_coastline, N_("Draw the coast line"),
+                  N_("Setting this option will draw a line to separate the "
+                     "land of the ocean."),
+                  COC_GRAPHICS, FALSE, view_option_changed_callback),
+  GEN_BOOL_OPTION(draw_roads_rails, N_("Draw the roads and the railroads"),
+                  N_("Setting this option will draw the roads and the "
+                     "railroads on  the map."),
+                  COC_GRAPHICS, TRUE, view_option_changed_callback),
+  GEN_BOOL_OPTION(draw_irrigation, N_("Draw the irrigations"),
+                  N_("Setting this option will draw the irrigations "
+                     "on the map."),
+                  COC_GRAPHICS, TRUE, view_option_changed_callback),
+  GEN_BOOL_OPTION(draw_mines, N_("Draw the mines"),
+                  N_("Setting this option will draw the mines on the map."),
+                  COC_GRAPHICS, TRUE, view_option_changed_callback),
+  GEN_BOOL_OPTION(draw_fortress_airbase, N_("Draw the bases"),
+                  N_("Setting this option will draw the bases on the map."),
+                  COC_GRAPHICS, TRUE, view_option_changed_callback),
+  GEN_BOOL_OPTION(draw_specials, N_("Draw the specials"),
+                  N_("Setting this option will draw the specials on the "
+                     "map."),
+                  COC_GRAPHICS, TRUE, view_option_changed_callback),
+  GEN_BOOL_OPTION(draw_pollution, N_("Draw the pollution/nuclear fallouts"),
+                  N_("Setting this option will draw the pollution and the "
+                     "nuclear fallouts on the map."),
+                  COC_GRAPHICS, TRUE, view_option_changed_callback),
+  GEN_BOOL_OPTION(draw_cities, N_("Draw the cities"),
+                  N_("Setting this option will draw the cities on the map."),
+                  COC_GRAPHICS, TRUE, view_option_changed_callback),
+  GEN_BOOL_OPTION(draw_units, N_("Draw the units"),
+                  N_("Setting this option will draw the units on the map."),
+                  COC_GRAPHICS, TRUE, view_option_changed_callback),
+  GEN_BOOL_OPTION(draw_focus_unit, N_("Draw the units in focus"),
+                  N_("Setting this option will draw the units in focus, "
+                     "including the case the other units wouldn't be "
+                     "drawn."),
+                  COC_GRAPHICS, FALSE, view_option_changed_callback),
+  GEN_BOOL_OPTION(draw_fog_of_war, N_("Draw the fog of war"),
+                  N_("Setting this option will draw the fog of war."),
+                  COC_GRAPHICS, TRUE, view_option_changed_callback),
+  GEN_BOOL_OPTION(draw_borders, N_("Draw the borders"),
+                  N_("Setting this option will draw the nationnal borders."),
+                  COC_GRAPHICS, TRUE, view_option_changed_callback),
+  GEN_BOOL_OPTION(player_dlg_show_dead_players,
+                  N_("Show dead players in nation report."),
+                  N_("Setting this option will draw the players already "
+                     "dead in the nation report page."),
+                  COC_GRAPHICS, TRUE, view_option_changed_callback),
   GEN_BOOL_OPTION(sound_bell_at_new_turn, N_("Sound bell at new turn"),
 		  N_("Set this option to have a \"bell\" event be generated "
 		     "at the start of a new turn.  You can control the "
@@ -195,7 +304,7 @@ static struct client_option common_options[] = {
                      "containing useful information beneath each city. "
                      "Disabling this option will display only the city's "
                      "name and optionally, production."),
-                  COC_GRAPHICS, TRUE, draw_full_citybar_changed_callback),
+                  COC_GRAPHICS, TRUE, view_option_changed_callback),
   GEN_BOOL_OPTION(reqtree_show_icons,
                   N_("Show icons in the technology tree"),
                   N_("Setting this option will display icons "
@@ -346,66 +455,6 @@ static struct client_option common_options[] = {
 static struct client_option *fc_options = NULL;
 static int num_options = 0;
 
-/** View Options: **/
-
-bool draw_city_outlines = TRUE;
-bool draw_city_output = FALSE;
-bool draw_map_grid = FALSE;
-bool draw_city_names = TRUE;
-bool draw_city_growth = TRUE;
-bool draw_city_productions = FALSE;
-bool draw_city_buycost = FALSE;
-bool draw_city_traderoutes = FALSE;
-bool draw_terrain = TRUE;
-bool draw_coastline = FALSE;
-bool draw_roads_rails = TRUE;
-bool draw_irrigation = TRUE;
-bool draw_mines = TRUE;
-bool draw_fortress_airbase = TRUE;
-bool draw_specials = TRUE;
-bool draw_pollution = TRUE;
-bool draw_cities = TRUE;
-bool draw_units = TRUE;
-bool draw_focus_unit = FALSE;
-bool draw_fog_of_war = TRUE;
-bool draw_borders = TRUE;
-bool draw_full_citybar = TRUE;
-bool draw_unit_shields = TRUE;
-bool player_dlg_show_dead_players = TRUE;
-bool reqtree_show_icons = TRUE;
-bool reqtree_curved_lines = FALSE;
-
-#define VIEW_OPTION(name) { #name, &name }
-#define VIEW_OPTION_TERMINATOR { NULL, NULL }
-
-view_option view_options[] = {
-  VIEW_OPTION(draw_city_outlines),
-  VIEW_OPTION(draw_city_output),
-  VIEW_OPTION(draw_map_grid),
-  VIEW_OPTION(draw_city_names),
-  VIEW_OPTION(draw_city_growth),
-  VIEW_OPTION(draw_city_productions),
-  VIEW_OPTION(draw_city_buycost),
-  VIEW_OPTION(draw_city_traderoutes),
-  VIEW_OPTION(draw_terrain),
-  VIEW_OPTION(draw_coastline),
-  VIEW_OPTION(draw_roads_rails),
-  VIEW_OPTION(draw_irrigation),
-  VIEW_OPTION(draw_mines),
-  VIEW_OPTION(draw_fortress_airbase),
-  VIEW_OPTION(draw_specials),
-  VIEW_OPTION(draw_pollution),
-  VIEW_OPTION(draw_cities),
-  VIEW_OPTION(draw_units),
-  VIEW_OPTION(draw_focus_unit),
-  VIEW_OPTION(draw_fog_of_war),
-  VIEW_OPTION(draw_borders),
-  VIEW_OPTION(player_dlg_show_dead_players),
-  VIEW_OPTION_TERMINATOR
-};
-
-#undef VIEW_OPTION
-#undef VIEW_OPTION_TERMINATOR
 
 /** Message Options: **/
 
@@ -727,7 +776,6 @@ void load_general_options(void)
 {
   struct section_file sf;
   int i, num;
-  view_option *v;
   char *name;
   const char * const prefix = "client";
 
@@ -793,12 +841,6 @@ void load_general_options(void)
       break;
     }
   } client_options_iterate_end;
-
-  for (v = view_options; v->name; v++) {
-    *(v->p_value) =
-	secfile_lookup_bool_default(&sf, *(v->p_value), "%s.%s", prefix,
-				    v->name);
-  }
 
   message_options_load(&sf, prefix);
   
@@ -867,7 +909,6 @@ void save_options(void)
 {
   struct section_file sf;
   int i;
-  view_option *v;
   char *name = option_file_name();
 
   if (!name) {
@@ -896,10 +937,6 @@ void save_options(void)
       break;
     }
   } client_options_iterate_end;
-
-  for (v = view_options; v->name; v++) {
-    secfile_insert_bool(&sf, *(v->p_value), "client.%s", v->name);
-  }
 
   message_options_save(&sf, "client");
 
@@ -961,9 +998,9 @@ static void reqtree_show_icons_callback(struct client_option *option)
 }
 
 /****************************************************************************
-  Callback for when the draw_full_citybar option is changed.
+  Callback for when any view option is changed.
 ****************************************************************************/
-static void draw_full_citybar_changed_callback(struct client_option *option)
+static void view_option_changed_callback(struct client_option *option)
 {
   update_menus();
   update_map_canvas_visible();
