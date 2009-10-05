@@ -471,6 +471,11 @@ void game_reset(void)
 
     map_init();
     idex_init();
+    player_slots_iterate(pslot) {
+      player_slot_set_used(pslot, FALSE);
+      player_init(pslot);
+    } player_slots_iterate_end;
+    set_player_count(0);
   }
 }
 

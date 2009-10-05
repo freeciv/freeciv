@@ -995,6 +995,10 @@ void handle_end_phase(void)
 **************************************************************************/
 void handle_start_phase(int phase)
 {
+  if (!client_has_player() && !client_is_observer()) {
+    /* We are on detached state, let ignore this packet. */
+    return;
+  }
 
   if (phase < 0
       || (game.info.phase_mode == PMT_PLAYERS_ALTERNATE
@@ -1046,9 +1050,6 @@ void handle_start_phase(int phase)
 void handle_begin_turn(void)
 {
   freelog(LOG_DEBUG, "handle_begin_turn()");
-
-  /* probably duplicate insurance */
-  set_client_state(C_S_RUNNING);
 
   /* Possibly replace wait cursor with something else */
   set_server_busy(FALSE);
@@ -2003,6 +2004,11 @@ void handle_conn_info(struct packet_conn_info *pinfo)
     sz_strlcpy(pconn->capability, pinfo->capability);
 
     if (pinfo->id == client.conn.id) {
+      if (client.conn.playing != pconn->playing
+          || client.conn.observer != pconn->observer) {
+        set_client_state(C_S_PREPARING);
+      }
+
       client.conn.established = pconn->established;
       client.conn.observer = pconn->observer;
       client.conn.access_level = pconn->access_level;
@@ -2487,8 +2493,6 @@ void handle_scenario_info(struct packet_scenario_info *packet)
 **************************************************************************/
 void handle_ruleset_control(struct packet_ruleset_control *packet)
 {
-  set_client_state(C_S_PREPARING);
-
   /* The ruleset is going to load new nations. So close
    * the nation selection dialog if it is open. */
   popdown_races_dialog();

@@ -211,7 +211,6 @@ static void client_game_free(void)
   game_free();
 }
 
-#if 0
 /**************************************************************************
   Called only by set_client_state() below.  Just free what is needed to
   change view (player target).
@@ -231,7 +230,6 @@ static void client_game_reset(void)
   control_init();
   link_marks_init();
 }
-#endif
 
 /**************************************************************************
   Entry point for common client code.
@@ -633,9 +631,7 @@ void set_client_state(enum client_states newstate)
     } else {
       /* From an upper state means that we didn't quit the server,
        * so a lot of informations are still in effect. */
-      /* FIXME: client_game_reset(); */
-      client_game_free(); /* FIXME: remove this. */
-      client_game_init(); /* FIXME: remove this. */
+      client_game_reset();
     }
 
     set_unit_focus(NULL);
