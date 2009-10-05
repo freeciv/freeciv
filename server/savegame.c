@@ -4598,7 +4598,7 @@ static void game_load_internal(struct section_file *file)
     /* We're loading a running game without a seed (which is okay, if it's
      * a scenario).  We need to generate the game seed now because it will
      * be needed later during the load. */
-    if (S_S_RUNNING == tmp_server_state) {
+    if (S_S_GENERATING_WAITING < tmp_server_state) {
       init_game_seed();
       rstate = get_myrand_state();
     }
