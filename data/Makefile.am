@@ -1,7 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
 if CLIENT
-COMMON_CLIENT_FILES =			\
+CLIENT_FILES =				\
 	hex2t.tilespec			\
 	amplio.tilespec			\
 	isophex.tilespec		\
@@ -10,12 +10,11 @@ COMMON_CLIENT_FILES =			\
 	stdsounds.soundspec		\
 	helpdata.txt
 if CLIENT_GUI_XAW
-CLIENT_EXTRA_FILES = Freeciv
+CLIENT_FILES += Freeciv
 endif
 if CLIENT_GUI_GTK_2_0
-CLIENT_EXTRA_FILES = freeciv.rc-2.0
+CLIENT_FILES += freeciv.rc-2.0
 endif
-CLIENT_FILES = $(COMMON_CLIENT_FILES) $(CLIENT_EXTRA_FILES)
 else
 CLIENT_FILES =
 endif
