@@ -3085,9 +3085,6 @@ static bool observe_command(struct connection *caller, char *str, bool check)
     send_all_info(pconn->self, TRUE);
     send_packet_thaw_hint(pconn);
     report_final_scores(pconn->self);
-  } else {
-    send_game_info(pconn->self);
-    /* we already know existing connections */
   }
   /* redundant self to self cannot be avoided */
   send_player_info(pplayer, NULL);
@@ -3211,13 +3208,6 @@ static bool take_command(struct connection *caller, char *str, bool check)
     goto end;
   }
 
-  /* if we want to take while the game is running, reset the client */
-  if (S_S_RUNNING <= server_state()) {
-    send_rulesets(pconn->self);
-    send_server_settings(pconn->self);
-    /* others are sent below */
-  }
-
   if (pconn->playing && pconn->playing == pplayer) {
     /* Connection was observing the very player it now /take */
     was_observing_this = TRUE;
@@ -3227,29 +3217,24 @@ static bool take_command(struct connection *caller, char *str, bool check)
    * forcibly convert the user to an observer.
    */
   if (pplayer) {
-    conn_list_iterate(pplayer->connections, aconn) {
-      if (!aconn->observer) {
-	/* no need to resend rulesets for observers */
-	if (NULL == caller) {
-	  notify_conn(aconn->self, NULL, E_CONNECTION, FTC_SERVER_INFO, NULL,
-		      _("Reassigned nation to %s by server console."),
-		      pconn->username);
-	} else {
-	  notify_conn(aconn->self, NULL, E_CONNECTION, FTC_SERVER_INFO, NULL,
-		      _("Reassigned nation to %s by %s."),
-		      pconn->username,
-		      caller->username);
-	}
-	aconn->observer = TRUE;
-	send_conn_info(aconn->self, game.est_connections);
-      }
-    } conn_list_iterate_end;
+    if (NULL == caller) {
+      notify_conn(pplayer->connections, NULL, E_CONNECTION,
+                  FTC_SERVER_INFO, NULL,
+                  _("Reassigned nation to %s by server console."),
+                  pconn->username);
+    } else {
+      notify_conn(pplayer->connections, NULL, E_CONNECTION,
+                  FTC_SERVER_INFO, NULL,
+                  _("Reassigned nation to %s by %s."),
+                  pconn->username,
+                  caller->username);
+    }
   }
 
   /* if the connection is already attached to another player,
    * unattach and cleanup old player (rename, remove, etc)
    * We may have been observing the player we now want to take */
-  if (NULL != pconn->playing && !was_observing_this) {
+  if ((NULL != pconn->playing || pconn->observer) && !was_observing_this) {
     char name[MAX_LEN_NAME], username[MAX_LEN_NAME];
 
     if (pplayer) {
@@ -3334,7 +3319,6 @@ static bool take_command(struct connection *caller, char *str, bool check)
     send_packet_thaw_hint(pconn);
     report_final_scores(pconn->self);
   } else {
-    send_game_info(pconn->self);
     /* send changed player connection to everybody */
     send_player_info_c(pplayer, game.est_connections);
     /* we already know existing connections */
@@ -3413,9 +3397,6 @@ bool detach_command(struct connection *caller, char *str, bool check)
 
   /* if we want to detach while the game is running, reset the client */
   if (S_S_RUNNING <= server_state()) {
-    send_rulesets(pconn->self);
-    send_server_settings(pconn->self);
-    send_game_info(pconn->self);
     send_player_info_c(NULL, pconn->self);
     send_conn_info(game.est_connections, pconn->self);
   }
@@ -3444,10 +3425,6 @@ bool detach_command(struct connection *caller, char *str, bool check)
     /* detach any observers */
     conn_list_iterate(pplayer->connections, aconn) {
       if (aconn->observer) {
-	if (S_S_RUNNING <= server_state()) {
-	  send_rulesets(aconn->self);
-	  send_server_settings(aconn->self);
-	}
         notify_conn(aconn->self, NULL, E_CONNECTION, FTC_SERVER_INFO, NULL,
 		    _("detaching from %s."),
 		    player_name(pplayer));
