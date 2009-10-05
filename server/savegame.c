@@ -679,6 +679,9 @@ static void map_load_tiles(struct section_file *file)
   map_init_topology(FALSE);
 
   map_allocate();
+  player_slots_iterate(pplayer) {
+    player_map_allocate(pplayer);
+  } player_slots_iterate_end;
 
   /* get the terrain type */
   LOAD_MAP_DATA(ch, line, ptile,
@@ -1988,7 +1991,6 @@ static void player_load_main(struct player *plr, int plrno,
 
   research = get_player_research(plr);
 
-  server_player_init(plr, TRUE, FALSE);
   ai = ai_data_get(plr);
 
   plr->ai_data.barbarian_type = secfile_lookup_int_default(file, 0,
@@ -4485,6 +4487,9 @@ static void game_load_internal(struct section_file *file)
   } players_iterate_end;
 
   set_player_count(secfile_lookup_int_default(file, 0, "game.nplayers"));
+  player_slots_iterate(pplayer) {
+      server_player_init(pplayer, FALSE, FALSE);
+  } player_slots_iterate_end;
 
   script_state_load(file);
 
