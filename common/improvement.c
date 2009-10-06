@@ -576,7 +576,7 @@ bool can_sell_building(struct impr_type *pimprove)
 /****************************************************************************
   Return TRUE iff the city can sell the given improvement.
 ****************************************************************************/
-bool can_city_sell_building(struct city *pcity,
+bool can_city_sell_building(const struct city *pcity,
 			    struct impr_type *pimprove)
 {
   return (city_has_building(pcity, pimprove) && is_improvement(pimprove));

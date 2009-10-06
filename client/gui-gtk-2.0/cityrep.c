@@ -61,8 +61,14 @@
 #define CMA_NONE	(10000)
 #define CMA_CUSTOM	(10001)
 
+struct sell_data {
+  int count;                    /* Number of cities. */
+  int gold;                     /* Amount of gold. */
+  struct impr_type *target;     /* The target for selling. */
+};
+
 enum city_operation_type {
-  CO_CHANGE, CO_LAST, CO_NEXT, CO_FIRST, CO_NEXT_TO_LAST, CO_NONE
+  CO_CHANGE, CO_LAST, CO_NEXT, CO_FIRST, CO_NEXT_TO_LAST, CO_SELL, CO_NONE
 };
 
 /******************************************************************/
@@ -85,6 +91,7 @@ static void create_last_menu(GtkWidget *item);
 static void create_first_menu(GtkWidget *item);
 static void create_next_menu(GtkWidget *item);
 static void create_next_to_last_menu(GtkWidget *item);
+static void create_sell_menu(GtkWidget *item);
 
 static struct gui_dialog *city_dialog_shell = NULL;
 
@@ -103,13 +110,15 @@ static void popup_first_menu(GtkMenuShell *menu, gpointer data);
 static void popup_next_menu(GtkMenuShell *menu, gpointer data);
 static void popup_next_to_last_menu(GtkMenuShell *menu, gpointer data);
 
+static void recreate_sell_menu(void);
+
 static GtkWidget *city_center_command;
 static GtkWidget *city_popup_command;
 static GtkWidget *city_buy_command;
 static GtkWidget *city_production_command;
 static GtkWidget *city_governor_command;
+static GtkWidget *city_sell_command;
 static GtkWidget *city_total_buy_cost_label;
-
 
 static GtkWidget *change_improvements_item;
 static GtkWidget *change_units_item;
@@ -294,6 +303,10 @@ static void append_impr_or_unit_to_menu_item(GtkMenuItem *parent_item,
 	continue;
       }
 
+      if (city_operation == CO_SELL && i != 0) {
+        continue;
+      }
+
       my_snprintf(txt, ARRAY_SIZE(txt), "<span %s>%s</span>",
 		  markup[i], row[i]);
 
@@ -433,6 +446,26 @@ static void worklist_next_to_last_impr_or_unit_iterate(GtkTreeModel *model,
 }
 
 /****************************************************************
+  Iterate the cities going to sell.
+*****************************************************************/
+static void sell_impr_iterate(GtkTreeModel *model, GtkTreePath *path,
+                              GtkTreeIter *it, gpointer data)
+{
+  struct city *pcity;
+  gint id;
+  struct sell_data *sd = (struct sell_data *) data; 
+
+  gtk_tree_model_get(model, it, 1, &id, -1);
+  pcity = game_find_city_by_number(id);
+
+  if (pcity && !pcity->did_sell && city_has_building(pcity, sd->target)) {
+    sd->count++;
+    sd->gold += impr_sell_gold(sd->target);
+    city_sell_improvement(pcity, improvement_number(sd->target));
+  }
+}
+
+/****************************************************************
 ...
 *****************************************************************/
 static void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
@@ -489,8 +522,47 @@ static void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
       gtk_tree_selection_selected_foreach(city_selection, foreach_func,
                                           GINT_TO_POINTER(cid_encode(target)));
       break;
-    default:
-      assert(FALSE); /* should never get here. */
+    case CO_SELL:
+      assert(target.kind == VUT_IMPROVEMENT);
+      {
+        struct impr_type *building = target.value.building;
+        struct sell_data sd = { 0, 0, building };
+        GtkWidget *w;
+        gint res;
+        char buf[128];
+        const char *imprname = improvement_name_translation(building);
+
+        /* Ask confirmation */
+        my_snprintf(buf, sizeof(buf),
+                    _("Are you sure to sell those %s?"), imprname);
+        w = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL,
+                                   GTK_MESSAGE_QUESTION,
+                                   GTK_BUTTONS_YES_NO, "%s", buf);
+        res = gtk_dialog_run(GTK_DIALOG(w));    /* Synchron. */
+        gtk_widget_destroy(w);
+        if (res == GTK_RESPONSE_NO) {
+          break;
+        }
+
+        gtk_tree_selection_selected_foreach(city_selection,
+                                            sell_impr_iterate, &sd);
+        if (sd.count > 0) {
+          my_snprintf(buf, sizeof(buf), _("Sold %d %s for %d gold."),
+                      sd.count, imprname, sd.gold);
+        } else {
+          my_snprintf(buf, sizeof(buf), _("No %s could be sold."),
+                      imprname);
+        }
+        w = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL,
+                                   GTK_MESSAGE_INFO, GTK_BUTTONS_OK,
+                                   "%s", buf);
+        g_signal_connect(w, "response",
+                         G_CALLBACK(gtk_widget_destroy), NULL);
+        gtk_window_present(GTK_WINDOW(w));      /* Asynchron. */
+      }
+      break;
+    case CO_NONE:
+      break;
     }
     connection_do_unbuffer(&client.conn);
   }
@@ -920,6 +992,11 @@ static GtkWidget *create_city_report_menubar(void)
   city_governor_command = item;
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
   append_cma_to_menu_item(GTK_MENU_ITEM(item), TRUE);
+
+  item = gtk_menu_item_new_with_mnemonic(_("S_ell"));
+  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
+  city_sell_command = item;
+  create_sell_menu(item);
 
   item = gtk_menu_item_new_with_mnemonic(_("_Select"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
@@ -1531,6 +1608,17 @@ static void create_next_to_last_menu(GtkWidget *parent_item)
   next_to_last_wonders_item = item;
 }
 
+/****************************************************************
+  Create the sell menu (empty).
+*****************************************************************/
+static void create_sell_menu(GtkWidget *item)
+{
+  GtkWidget *menu;
+
+  menu = gtk_menu_new();
+  gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
+}
+
 
 /****************************************************************
 ...
@@ -1653,6 +1741,43 @@ static void popup_next_to_last_menu(GtkMenuShell *menu, gpointer data)
                                    FALSE, TRUE, CO_NEXT_TO_LAST,
                                    can_city_build_now,
                                    callback, n);
+}
+
+/****************************************************************
+  Same as can_city_sell_building(), but with universal argument.
+*****************************************************************/
+static bool can_city_sell_universal(const struct city *pcity,
+                                    struct universal target)
+{
+  return (target.kind == VUT_IMPROVEMENT
+          && can_city_sell_building(pcity, target.value.building));
+}
+
+/****************************************************************
+  Update the sell menu.
+*****************************************************************/
+static void recreate_sell_menu(void)
+{
+  int n;
+  GList *children;
+  GtkWidget *menu;
+
+  n = gtk_tree_selection_count_selected_rows(city_selection);
+  menu = gtk_menu_item_get_submenu(GTK_MENU_ITEM(city_sell_command));
+  gtk_menu_popdown(GTK_MENU(menu));
+
+  append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(city_sell_command),
+                                   FALSE, FALSE, CO_SELL,
+                                   can_city_sell_universal,
+                                   G_CALLBACK(select_impr_or_unit_callback),
+                                   n);
+
+  menu = gtk_menu_item_get_submenu(GTK_MENU_ITEM(city_sell_command));
+  children = gtk_container_get_children(GTK_CONTAINER(menu));
+
+  n = g_list_length(children);
+  gtk_widget_set_sensitive(city_sell_command, n > 0);
+  g_list_free(children);
 }
 
 /****************************************************************
@@ -1898,17 +2023,22 @@ static void update_total_buy_cost(void)
 static void city_selection_changed_callback(GtkTreeSelection *selection)
 {
   int n;
+  bool obs_may, plr_may;
 
   n = gtk_tree_selection_count_selected_rows(selection);
+  obs_may = n > 0;
+  plr_may = obs_may && can_client_issue_orders();
 
-  gtk_widget_set_sensitive(city_production_command,
-                           n > 0 && can_client_issue_orders());
-  gtk_widget_set_sensitive(city_governor_command,
-                           n > 0 && can_client_issue_orders());
-  gtk_widget_set_sensitive(city_center_command, n > 0);
-  gtk_widget_set_sensitive(city_popup_command, n > 0);
-  gtk_widget_set_sensitive(city_buy_command,
-                           n > 0 && can_client_issue_orders());
+  gtk_widget_set_sensitive(city_production_command, plr_may);
+  gtk_widget_set_sensitive(city_governor_command, plr_may);
+  gtk_widget_set_sensitive(city_center_command, obs_may);
+  gtk_widget_set_sensitive(city_popup_command, obs_may);
+  gtk_widget_set_sensitive(city_buy_command, plr_may);
+  if (plr_may) {
+    recreate_sell_menu();
+  } else {
+    gtk_widget_set_sensitive(city_sell_command, FALSE);
+  }
 
   update_total_buy_cost();
 }
