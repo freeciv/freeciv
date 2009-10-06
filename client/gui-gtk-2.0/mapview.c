@@ -646,7 +646,7 @@ void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
     return;
   }
 
-  if (fog && better_fog
+  if (fog && gui_gtk2_better_fog
       && ((ssprite->pixmap && !ssprite->pixmap_fogged)
 	  || (!ssprite->pixmap && !ssprite->pixbuf_fogged))) {
     fog_sprite(ssprite);
@@ -654,11 +654,11 @@ void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
 	|| (!ssprite->pixmap && !ssprite->pixbuf_fogged)) {
       freelog(LOG_NORMAL,
 	      _("Better fog will only work in truecolor.  Disabling it"));
-      better_fog = FALSE;
+      gui_gtk2_better_fog = FALSE;
     }
   }
 
-  if (fog && better_fog) {
+  if (fog && gui_gtk2_better_fog) {
     if (ssprite->pixmap) {
       if (ssprite->mask) {
 	gdk_gc_set_clip_origin(civ_gc, canvas_x, canvas_y);

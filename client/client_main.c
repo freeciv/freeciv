@@ -428,6 +428,7 @@ int client_main(int argc, char *argv[])
   init_themes();
   settable_options_init();
 
+  gui_options_extra_init();
   load_general_options();
 
   if (tileset_name[0] == '\0') {

@@ -420,7 +420,7 @@ static void option_command_processing(void)
       }
     } client_options_iterate_end;
 
-    if (map_scrollbars) {
+    if (gui_gtk2_map_scrollbars) {
       gtk_widget_show(map_horizontal_scrollbar);
       gtk_widget_show(map_vertical_scrollbar);
     } else {

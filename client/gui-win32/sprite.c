@@ -28,7 +28,6 @@
 #include "sprite.h"
 
 extern bool have_AlphaBlend;
-extern bool enable_alpha;
 
 extern BOOL (WINAPI * AlphaBlend)(HDC,int,int,int,int,HDC,int,int,int,int,BLENDFUNCTION);
 
@@ -225,7 +224,7 @@ static void real_draw_sprite(struct sprite *sprite, HDC hdc, int x, int y,
   w = MIN(w, sprite->width  - src_x);
   h = MIN(h, sprite->height - src_y);
 
-  blend = enable_alpha && sprite->pmimg;
+  blend = gui_win32_enable_alpha && sprite->pmimg;
 
   if (!fog && blend && !have_AlphaBlend) {
     blend_bmp_to_hdc(hdc, x, y, w, h, sprite->pmimg, src_x, src_y);

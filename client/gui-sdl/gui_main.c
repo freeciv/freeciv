@@ -91,17 +91,6 @@ const bool gui_use_transliteration = FALSE;
 
 Uint32 SDL_Client_Flags = 0;
 
-bool gui_sdl_fullscreen = FALSE;
-
-/* default screen resolution */
-#ifdef SMALL_SCREEN
-int gui_sdl_screen_width = 320;
-int gui_sdl_screen_height = 240;
-#else
-int gui_sdl_screen_width = 640;
-int gui_sdl_screen_height = 480;
-#endif
-
 Uint32 widget_info_counter = 0;
 int MOVE_STEP_X = DEFAULT_MOVE_STEP;
 int MOVE_STEP_Y = DEFAULT_MOVE_STEP;
@@ -147,36 +136,6 @@ enum USER_EVENT_ID {
   MAP_SCROLL,
   EXIT_FROM_EVENT_LOOP
 };
-
-struct client_option gui_options[] = {
-  GEN_BOOL_OPTION(gui_sdl_fullscreen, N_("Full Screen"), 
-                  N_("If this option is set the client will use the "
-                     "whole screen area for drawing"),
-                  COC_INTERFACE, FALSE, NULL),
-  GEN_INT_OPTION(gui_sdl_screen_width, N_("Screen width"),
-                 N_("This option saves the width of the selected screen "
-                    "resolution"),
-#ifdef SMALL_SCREEN
-                 COC_INTERFACE, 320, 320, 1280, NULL),
-#else
-                 COC_INTERFACE, 640, 320, 1280, NULL),
-#endif
-  GEN_INT_OPTION(gui_sdl_screen_height, N_("Screen height"),
-                 N_("This option saves the height of the selected screen "
-                    "resolution"),
-#ifdef SMALL_SCREEN
-                 COC_INTERFACE, 240, 240, 960, NULL),
-#else
-                 COC_INTERFACE, 480, 240, 960, NULL),
-#endif
-  GEN_STR_LIST_OPTION(gui_sdl_theme_name, N_("Theme"),
-                      N_("By changing this option you change the active "
-                         "theme. This is the same as using the -- --theme "
-                         "command-line parameter."), COC_GRAPHICS,
-                      "human", get_theme_list, themespec_reread_callback),
-};
-
-const int num_gui_options = ARRAY_SIZE(gui_options);
 
 struct callback {
   void (*callback)(void *data);
@@ -238,7 +197,7 @@ static void parse_options(int argc, char **argv)
       /* init events in other thread ( only linux and BeOS ) */  
       SDL_InitSubSystem(SDL_INIT_EVENTTHREAD);
     } else if ((option = get_option_malloc("--theme", argv, &i, argc))) {
-      sz_strlcpy(gui_sdl_theme_name, option);
+      sz_strlcpy(default_theme_name, option);
     }
     i++;
   }
@@ -874,6 +833,14 @@ void ui_init(void)
 #endif    
 
   flush_all();
+}
+
+/****************************************************************************
+  Extra initializers for client options.
+****************************************************************************/
+void gui_options_extra_init(void)
+{
+  /* Nothing to do. */
 }
 
 /**************************************************************************

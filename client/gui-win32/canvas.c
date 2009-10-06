@@ -21,9 +21,14 @@
 #include <windows.h>
 #include <windowsx.h>
 
+/* utility */
 #include "log.h"
 #include "fcintl.h"
 
+/* client */
+#include "options.h"
+
+/* gui-win32 */
 #include "canvas.h"
 #include "colors.h"
 #include "graphics.h"
@@ -268,18 +273,18 @@ void canvas_put_sprite_fogged(struct canvas *pcanvas,
   if (!psprite)
     return;
 
-  if (fog && better_fog && !psprite->fog) {
+  if (fog && gui_win32_better_fog && !psprite->fog) {
     fog_sprite(psprite);
     if (!psprite->fog) {
       freelog(LOG_NORMAL,
 	      _("Better fog will only work in truecolor.  Disabling it"));
-      better_fog = FALSE;
+      gui_win32_better_fog = FALSE;
     }
   }
 
   hdc = canvas_get_hdc(pcanvas);
 
-  if (fog && better_fog) {
+  if (fog && gui_win32_better_fog) {
     draw_sprite_fog(psprite, hdc, canvas_x, canvas_y);
   } else {
     draw_sprite(psprite, hdc, canvas_x, canvas_y);

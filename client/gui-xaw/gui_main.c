@@ -84,11 +84,6 @@ const char *client_string = "gui-xaw";
 const char * const gui_character_encoding = NULL;
 const bool gui_use_transliteration = TRUE;
 
-struct client_option gui_options[] = {
-  /* None. */
-};
-const int num_gui_options = ARRAY_SIZE(gui_options);
-
 static AppResources appResources;
 
 /* ids of the units icons in information display: (or 0) */
@@ -294,6 +289,14 @@ static Boolean toplevel_work_proc(XtPointer client_data)
 void ui_init(void)
 {
 
+}
+
+/****************************************************************************
+  Extra initializers for client options.
+****************************************************************************/
+void gui_options_extra_init(void)
+{
+  /* Nothing to do. */
 }
 
 /**************************************************************************

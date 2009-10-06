@@ -38,12 +38,6 @@ const char *client_string = "gui-stub";
 const char * const gui_character_encoding = "UTF-8";
 const bool gui_use_transliteration = FALSE;
 
-struct client_option gui_options[] = {
-  /* None. */
-};
-const int num_gui_options = ARRAY_SIZE(gui_options);
-
-
 /****************************************************************************
   Called by the tileset code to set the font size that should be used to
   draw the city names and productions.
@@ -79,6 +73,14 @@ void ui_main(int argc, char *argv[])
 {
   /* PORTME */
   fc_fprintf(stderr, "Freeciv rules!\n");
+}
+
+/****************************************************************************
+  Extra initializers for client options.
+****************************************************************************/
+void gui_options_extra_init(void)
+{
+  /* Nothing to do. */
 }
 
 /**************************************************************************

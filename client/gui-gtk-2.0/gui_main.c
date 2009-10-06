@@ -104,16 +104,6 @@ GdkPixmap *overview_canvas_store;       /* this pixmap acts as a backing store
 int overview_canvas_store_width = 2 * 80;
 int overview_canvas_store_height = 2 * 50;
 
-bool enable_tabs = TRUE;
-bool better_fog = TRUE;
-bool show_chat_message_time = FALSE;
-bool split_bottom_notebook = FALSE;
-bool new_messages_go_to_top = FALSE;
-bool show_message_window_buttons = TRUE;
-bool metaserver_tab_first = FALSE;
-bool allied_chat_only = FALSE;
-bool small_display_layout = FALSE;
-
 GtkWidget *toplevel;
 GdkWindow *root_window;
 GtkWidget *toplevel_tabs;
@@ -168,165 +158,6 @@ GtkWidget *government_ebox;
 
 const char * const gui_character_encoding = "UTF-8";
 const bool gui_use_transliteration = FALSE;
-
-char font_city_label[512] = "Monospace 8";
-char font_notify_label[512] = "Monospace Bold 9";
-char font_spaceship_label[512] = "Monospace 8";
-char font_help_label[512] = "Sans Bold 10";
-char font_help_link[512] = "Sans 9";
-char font_help_text[512] = "Monospace 8";
-char font_chatline[512] = "Monospace 8";
-char font_beta_label[512] = "Sans Italic 10";
-char font_small[512] = "Sans 9";
-char font_comment_label[512] = "Sans Italic 9";
-char font_city_names[512] = "Sans Bold 10";
-char font_city_productions[512] = "Serif 10";
-
-static void split_bottom_notebook_callback(struct client_option *op);
-static void allied_chat_only_callback(struct client_option *op);
-
-struct client_option gui_options[] = {
-  /* This option is the same as the one in gui-gtk */
-  GEN_BOOL_OPTION(map_scrollbars, N_("Show Map Scrollbars"),
-		  N_("Disable this option to hide the scrollbars on the "
-		     "map view."),
-		  COC_INTERFACE, FALSE, NULL),
-  /* This option is the same as the one in gui-gtk */
-  GEN_BOOL_OPTION(keyboardless_goto, N_("Keyboardless goto"),
-		  N_("If this option is set then a goto may be initiated "
-		     "by left-clicking and then holding down the mouse "
-		     "button while dragging the mouse onto a different "
-		     "tile."),
-		  COC_INTERFACE, TRUE, NULL),
-  GEN_BOOL_OPTION(dialogs_on_top, N_("Keep dialogs on top"),
-		  N_("If this option is set then dialog windows will always "
-		     "remain in front of the main Freeciv window. "
-		     "Disabling this has no effect in fullscreen mode."),
-		  COC_INTERFACE, TRUE, NULL),
-  GEN_BOOL_OPTION(show_task_icons, N_("Show worklist task icons"),
-		  N_("Disabling this will turn off the unit and building "
-		     "icons in the worklist dialog and the production "
-		     "tab of the city dialog."),
-		  COC_GRAPHICS, TRUE, NULL),
-  GEN_BOOL_OPTION(enable_tabs, N_("Enable status report tabs"),
-		  N_("If this option is enabled then report dialogs will "
-		     "be shown as separate tabs rather than in popup "
-		     "dialogs."),
-		  COC_INTERFACE, TRUE, NULL),
-  GEN_BOOL_OPTION(better_fog,
-                  N_("Better fog-of-war drawing"),
-                  N_("If this is enabled then a better method is used "
-                     "for drawing fog-of-war.  It is not any slower but "
-                     "will consume about twice as much memory."),
-                  COC_GRAPHICS, TRUE, mapview_redraw_callback),
-  GEN_BOOL_OPTION(show_chat_message_time,
-                  N_("Show time for each chat message"),
-                  N_("If this option is enabled then all chat messages "
-                     "will be prefixed by a time string of the form "
-                     "[hour:minute:second]."),
-                  COC_INTERFACE, FALSE, NULL),
-  GEN_BOOL_OPTION(split_bottom_notebook,
-                  N_("Split bottom notebook area"),
-                  N_("Enabling this option will split the bottom "
-                     "notebook into a left and right notebook so that "
-                     "two tabs may be viewed at once."),
-                  COC_INTERFACE, FALSE, split_bottom_notebook_callback),
-  GEN_BOOL_OPTION(new_messages_go_to_top,
-                  N_("New message events go to top of list"),
-                  N_("If this option is enabled, new events in the "
-                     "message window will appear at the top of the list, "
-                     "rather than being appended at the bottom."),
-                  COC_INTERFACE, FALSE, NULL),
-  GEN_BOOL_OPTION(show_message_window_buttons,
-                  N_("Show extra message window buttons"),
-                  N_("If this option is enabled, there will be two "
-                     "buttons displayed in the message window for "
-                     "inspecting a city and going to a location. If this "
-                     "option is disabled, these buttons will not appear "
-                     "(you can still double-click with the left mouse "
-                     "button or right-click on a row to inspect or goto "
-                     "respectively). This option will only take effect "
-                     "once the message window is closed and reopened."),
-                  COC_INTERFACE, TRUE, NULL),
-  GEN_BOOL_OPTION(metaserver_tab_first,
-                  N_("Metaserver tab first in network page"),
-                  N_("If this option is enabled, the metaserver tab will "
-                     "be the first notebook tab in the network page. This "
-                     "option requires a restart in order to take effect."),
-                  COC_NETWORK, FALSE, NULL),
-  GEN_BOOL_OPTION(allied_chat_only,
-                  N_("Plain chat messages are sent to allies only"),
-                  N_("If this option is enabled, then plain messages "
-                     "typed into the chat entry while the game is "
-                     "running will only be sent to your allies. "
-                     "Otherwise plain messages will be sent as "
-                     "public chat messages. To send a public chat "
-                     "message with this option enabled, prefix the "
-                     "message with a single colon ':'. This option "
-                     "can also be set using a toggle button beside "
-                     "the chat entry (only visible in multiplayer "
-                     "games)."),
-                  COC_NETWORK, FALSE, allied_chat_only_callback),
-  GEN_BOOL_OPTION(small_display_layout,
-                  N_("Arrange widgets for small displays"),
-                  N_("If this option is enabled, widgets in the main "
-                     "window will be arrange so that they take up the "
-                     "least amount of total screen space. Specifically, "
-                     "the left panel containing the overview, player "
-                     "status, and the unit information box will be "
-                     "extended over the entire left side of the window. "
-                     "This option requires a restart in order to take "
-                     "effect."), COC_INTERFACE, FALSE, NULL),
-  GEN_FONT_OPTION(font_city_label,
-		  N_("City Label"),
-		  N_("FIXME"),
-		  COC_FONT, "Monospace 8", NULL),
-  GEN_FONT_OPTION(font_notify_label,
-		  N_("Notify Label"),
-		  N_("FIXME"),
-		  COC_FONT, "Monospace Bold 9", NULL),
-  GEN_FONT_OPTION(font_spaceship_label,
-		  N_("Spaceship Label"),
-		  N_("FIXME"),
-		  COC_FONT, "Monospace 8", NULL),
-  GEN_FONT_OPTION(font_help_label,
-		  N_("Help Label"),
-		  N_("FIXME"),
-		  COC_FONT, "Sans Bold 10", NULL),
-  GEN_FONT_OPTION(font_help_link,
-		  N_("Help Link"),
-		  N_("FIXME"),
-		  COC_FONT, "Sans 9", NULL),
-  GEN_FONT_OPTION(font_help_text,
-		  N_("Help Text"),
-		  N_("FIXME"),
-		  COC_FONT, "Monospace 8", NULL),
-  GEN_FONT_OPTION(font_chatline,
-		  N_("Chatline Area"),
-		  N_("FIXME"),
-		  COC_FONT, "Monospace 8", NULL),
-  GEN_FONT_OPTION(font_beta_label,
-		  N_("Beta Label"),
-		  N_("FIXME"),
-		  COC_FONT, "Sans Italic 10", NULL),
-  GEN_FONT_OPTION(font_small,
-		  N_("Small Font"),
-		  N_("FIXME"),
-		  COC_FONT, "Sans 9", NULL),
-  GEN_FONT_OPTION(font_comment_label,
-		  N_("Comment Label"),
-		  N_("FIXME"),
-		  COC_FONT, "Sans Italic 9", NULL),
-  GEN_FONT_OPTION(font_city_names,
-		  N_("City Names"),
-		  N_("FIXME"),
-		  COC_FONT, "Sans Bold 10", NULL),
-  GEN_FONT_OPTION(font_city_productions,
-		  N_("City Productions"),
-		  N_("FIXME"),
-		  COC_FONT, "Serif 10", NULL)
-};
-const int num_gui_options = ARRAY_SIZE(gui_options);
 
 static GtkWidget *main_menubar;
 static GtkWidget *unit_pixmap_table;
@@ -1145,7 +976,7 @@ static void setup_widgets(void)
   hbox = gtk_hbox_new(FALSE, 0);
   paned = gtk_vpaned_new();
 
-  if (small_display_layout) {
+  if (gui_gtk2_small_display_layout) {
     /* The window is divided into two horizontal panels: overview +
      * civinfo + unitinfo, main view + message window. */
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), top_vbox, NULL);
@@ -1356,7 +1187,7 @@ static void setup_widgets(void)
   gtk_notebook_set_tab_pos(GTK_NOTEBOOK(top_notebook), GTK_POS_BOTTOM);
   gtk_notebook_set_scrollable(GTK_NOTEBOOK(top_notebook), TRUE);
 
-  if (small_display_layout) {
+  if (gui_gtk2_small_display_layout) {
     gtk_paned_pack1(GTK_PANED(paned), top_notebook, TRUE, TRUE);
   } else {
     gtk_box_pack_start(GTK_BOX(hbox), top_notebook, TRUE, TRUE, 0);
@@ -1455,7 +1286,7 @@ static void setup_widgets(void)
   gtk_notebook_set_scrollable(GTK_NOTEBOOK(right_notebook), TRUE);
   g_signal_connect(right_notebook, "button-release-event",
                    G_CALLBACK(right_notebook_button_release), NULL);
-  if (split_bottom_notebook) {
+  if (gui_gtk2_split_bottom_notebook) {
     gtk_paned_pack2(GTK_PANED(hpaned), right_notebook, TRUE, TRUE);
   }
 
@@ -1495,7 +1326,7 @@ static void setup_widgets(void)
   button = gtk_toggle_button_new_with_label(_("Allies Only"));
   gtk_button_set_focus_on_click(GTK_BUTTON(button), FALSE);
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button),
-                               allied_chat_only);
+                               gui_gtk2_allied_chat_only);
   g_signal_connect(button, "toggled",
                    G_CALLBACK(allied_chat_button_toggled), NULL);
   inputline_toolkit_view_append_button(view, button);
@@ -1510,14 +1341,14 @@ static void setup_widgets(void)
 
   gtk_widget_show_all(gtk_bin_get_child(GTK_BIN(toplevel)));
 
-  if (enable_tabs) {
+  if (gui_gtk2_enable_tabs) {
     popup_meswin_dialog(FALSE);
   }
 
   gtk_notebook_set_current_page(GTK_NOTEBOOK(top_notebook), 0);
   gtk_notebook_set_current_page(GTK_NOTEBOOK(bottom_notebook), 0);
 
-  if (!map_scrollbars) {
+  if (!gui_gtk2_map_scrollbars) {
     gtk_widget_hide(map_horizontal_scrollbar);
     gtk_widget_hide(map_vertical_scrollbar);
   }
@@ -1607,10 +1438,6 @@ void ui_main(int argc, char **argv)
     gtk_rc_parse(str);
     g_free(str);
   }
-
-  client_options_iterate(o) {
-    gui_update_font_from_option(o);
-  } client_options_iterate_end;
 
   toplevel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   g_signal_connect(toplevel, "key_press_event",
@@ -2281,7 +2108,7 @@ void add_idle_callback(void (callback)(void *), void *data)
 }
 
 /****************************************************************************
-  Option callback for the 'split_bottom_notebook' option.
+  Option callback for the 'gui_gtk2_split_bottom_notebook' option.
 ****************************************************************************/
 static void split_bottom_notebook_callback(struct client_option *op)
 {
@@ -2296,8 +2123,8 @@ static void split_bottom_notebook_callback(struct client_option *op)
 }
 
 /****************************************************************************
-  Option callback for the 'allied_chat_only' option. This updates the state
-  of the associated toggle button.
+  Option callback for the 'gui_gtk2_allied_chat_only' option.
+  This updates the state of the associated toggle button.
 ****************************************************************************/
 static void allied_chat_only_callback(struct client_option *op)
 {
@@ -2309,6 +2136,27 @@ static void allied_chat_only_callback(struct client_option *op)
 
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button),
                                *op->boolean.pvalue);
+}
+
+/****************************************************************************
+  Extra initializers for client options.  Here we make set the callback
+  for the specific gui-gtk-2.0 options.
+****************************************************************************/
+void gui_options_extra_init(void)
+{
+  client_options_iterate(o) {
+    if (o->type == COT_BOOLEAN
+        && o->boolean.pvalue == &gui_gtk2_allied_chat_only) {
+      o->change_callback = allied_chat_only_callback;
+    } else if (o->type == COT_BOOLEAN
+               && o->boolean.pvalue == &gui_gtk2_split_bottom_notebook) {
+      o->change_callback = split_bottom_notebook_callback;
+    } else if (o->type == COT_STRING
+               && o->string.pvalue) {
+    } else {
+      gui_update_font_from_option(o);
+    }
+  } client_options_iterate_end;
 }
 
 /**************************************************************************
@@ -2329,7 +2177,7 @@ void refresh_chat_buttons(void)
   } else {
     gtk_widget_show(button);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button),
-                                 allied_chat_only);
+                                 gui_gtk2_allied_chat_only);
   }
 }
 
@@ -2339,5 +2187,5 @@ void refresh_chat_buttons(void)
 static void allied_chat_button_toggled(GtkToggleButton *button,
                                        gpointer user_data)
 {
-  allied_chat_only = gtk_toggle_button_get_active(button);
+  gui_gtk2_allied_chat_only = gtk_toggle_button_get_active(button);
 }

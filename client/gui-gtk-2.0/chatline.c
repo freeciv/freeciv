@@ -140,7 +140,7 @@ static void inputline_return(GtkEntry *w, gpointer data)
   theinput = gtk_entry_get_text(w);
   
   if (*theinput) {
-    if (client_state() == C_S_RUNNING && allied_chat_only
+    if (client_state() == C_S_RUNNING && gui_gtk2_allied_chat_only
         && is_plain_public_message(theinput)) {
       char buf[MAX_LEN_MSG];
       my_snprintf(buf, sizeof(buf), ". %s", theinput);
@@ -733,7 +733,7 @@ void real_output_window_append(const char *astring,
   gtk_text_buffer_insert(buf, &iter, "\n", -1);
   mark = gtk_text_buffer_create_mark(buf, NULL, &iter, TRUE);
 
-  if (show_chat_message_time) {
+  if (gui_gtk2_show_chat_message_time) {
     char timebuf[64];
     time_t now;
     struct tm *now_tm;

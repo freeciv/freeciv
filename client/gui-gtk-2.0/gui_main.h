@@ -24,16 +24,6 @@ gchar *ntoh_str(const gchar *netstr);
 extern PangoFontDescription *        main_font;
 extern PangoFontDescription *        city_productions_font;
 
-extern bool enable_tabs;
-extern bool better_fog;
-extern bool show_chat_message_time;
-extern bool split_bottom_notebook;
-extern bool new_messages_go_to_top;
-extern bool show_message_window_buttons;
-extern bool metaserver_tab_first;
-extern bool allied_chat_only;
-extern bool small_display_layout;
-
 extern GdkGC *          civ_gc;
 extern GdkGC *          mask_fg_gc;
 extern GdkGC *          mask_bg_gc;

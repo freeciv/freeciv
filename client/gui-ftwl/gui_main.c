@@ -53,10 +53,6 @@
 const char * const gui_character_encoding = "UTF-8";
 const bool gui_use_transliteration = FALSE;
 
-struct client_option gui_options[] = {
-};
-const int num_gui_options = ARRAY_SIZE(gui_options);
-
 struct sw_widget *root_window;
 
 const char *client_string = "gui-fs";
@@ -72,6 +68,14 @@ static be_color all_colors[COLOR_EXT_LAST];
 void ui_init(void)
 {
   /* PORTME */
+}
+
+/****************************************************************************
+  Extra initializers for client options.
+****************************************************************************/
+void gui_options_extra_init(void)
+{
+  /* Nothing to do. */
 }
 
 /**************************************************************************
