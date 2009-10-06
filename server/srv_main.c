@@ -1371,6 +1371,7 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
       || type == PACKET_SINGLE_WANT_HACK_REQ
       || type == PACKET_NATION_SELECT_REQ
       || type == PACKET_REPORT_REQ
+      || type == PACKET_CLIENT_INFO
       || is_client_edit_packet(type)) {
 
     /* Except for PACKET_EDIT_MODE (used to set edit mode), check
@@ -1393,8 +1394,8 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
 
   if (NULL == pplayer) {
     /* don't support these yet */
-    freelog(LOG_ERROR, "Received packet from non-player connection %s",
- 	    conn_description(pconn));
+    freelog(LOG_ERROR, "Received packet %s from non-player connection %s",
+            get_packet_name(type), conn_description(pconn));
     return TRUE;
   }
 
