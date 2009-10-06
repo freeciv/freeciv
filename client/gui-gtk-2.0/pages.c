@@ -26,14 +26,16 @@
 #  include <ggz-gtk.h>
 #endif
 
-/* common & utility */
-#include "dataio.h"
+/* utility */
 #include "fcintl.h"
-#include "game.h"
 #include "log.h"
 #include "mem.h"
 #include "shared.h"
 #include "support.h"
+
+/* common */
+#include "dataio.h"
+#include "game.h"
 #include "version.h"
 
 /* client */
@@ -43,16 +45,18 @@
 #include "packhand.h"
 #include "servers.h"
 
-#include "dialogs_g.h"
-
+/* gui-gtk-2.0 */
 #include "chatline.h"
 #include "connectdlg.h"
+#include "dialogs.h"
 #include "graphics.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
-#include "pages.h"
-#include "plrdlg.h" /* for get_flag() */
+#include "plrdlg.h"             /* get_flag() */
 #include "repodlgs.h"
+#include "voteinfo_bar.h"
+
+#include "pages.h"
 
 GtkWidget *start_message_area;
 
@@ -1650,6 +1654,13 @@ GtkWidget *create_start_page(void)
   gtk_container_add(GTK_CONTAINER(sw), text);
 
 
+  /* Vote widgets. */
+  if (pregame_votebar == NULL) {
+    pregame_votebar = voteinfo_bar_new();
+  }
+  gtk_box_pack_start(GTK_BOX(box), pregame_votebar, FALSE, FALSE, 0);
+  
+
   toolkit_view = inputline_toolkit_view_new();
   gtk_box_pack_start(GTK_BOX(box), toolkit_view, FALSE, FALSE, 0);
 
@@ -2271,6 +2282,22 @@ void set_client_page(enum client_pages page)
 
   gtk_notebook_set_current_page(GTK_NOTEBOOK(toplevel_tabs), new_page);
 
+  switch (new_page) {
+  case PAGE_MAIN:
+  case PAGE_GGZ:
+  case PAGE_NATION:
+  case PAGE_LOAD:
+  case PAGE_SCENARIO:
+  case PAGE_NETWORK:
+    break;
+  case PAGE_START:
+    gtk_widget_hide(pregame_votebar);
+    break;
+  case PAGE_GAME:
+    gtk_widget_hide(ingame_votebar);
+    break;
+  }
+    
   /* Update the GUI. */
   while (gtk_events_pending()) {
     gtk_main_iteration();
@@ -2280,7 +2307,7 @@ void set_client_page(enum client_pages page)
   case PAGE_MAIN:
     break;
   case PAGE_START:
-    chatline_scroll_to_bottom();
+    chatline_scroll_to_bottom(FALSE);
     inputline_grab_focus();
     break;
   case PAGE_GGZ:
@@ -2295,7 +2322,7 @@ void set_client_page(enum client_pages page)
     gtk_tree_view_focus(gtk_tree_selection_get_tree_view(scenario_selection));
     break;
   case PAGE_GAME:
-    chatline_scroll_to_bottom();
+    chatline_scroll_to_bottom(FALSE);
     refresh_chat_buttons();
     break;
   case PAGE_NETWORK:
@@ -2306,6 +2333,10 @@ void set_client_page(enum client_pages page)
   }
 
   old_page = page;
+
+  /* We need to do at the end, because we need to know what is the
+   * current page. */
+  voteinfo_gui_update();
 }
 
 
@@ -2563,13 +2594,4 @@ void gui_set_rulesets(int num_rulesets, char **rulesets)
   no_ruleset_callback = FALSE;
 
   g_list_free(opts);
-}
-
-/****************************************************************************
-  Refresh all vote related GUI widgets. Called by the voteinfo module when
-  the client receives new vote information from the server.
-****************************************************************************/
-void voteinfo_gui_update(void)
-{
-  /* PORTME */
 }

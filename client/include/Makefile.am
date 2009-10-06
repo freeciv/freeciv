@@ -29,4 +29,5 @@ noinst_HEADERS = \
 	spaceshipdlg_g.h	\
 	sprite_g.h		\
 	themes_g.h		\
+	voteinfo_bar_g.h	\
 	wldlg_g.h

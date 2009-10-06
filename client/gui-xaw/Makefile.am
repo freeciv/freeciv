@@ -87,5 +87,7 @@ libgui_xaw_la_SOURCES = \
 	spaceshipdlg.c	\
 	spaceshipdlg.h  \
 	themes.c	\
+	voteinfo_bar.c	\
+	voteinfo_bar.h	\
 	wldlg.c		\
 	wldlg.h

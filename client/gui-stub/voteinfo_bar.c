@@ -10,28 +10,21 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__CHATLINE_H
-#define FC__CHATLINE_H
 
-#include <gtk/gtk.h>
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
-/* include */
-#include "chatline_g.h"
+/* client */
+#include "voteinfo.h"
 
-void chatline_init(void);
+#include "voteinfo_bar.h"
 
-void inputline_make_chat_link(struct tile *ptile, bool unit);
-bool inputline_has_focus(void);
-void inputline_grab_focus(void);
-
-void set_output_window_text(const char *text);
-bool chatline_is_scrolled_to_bottom(void);
-void chatline_scroll_to_bottom(bool delayed);
-
-void set_message_buffer_view_link_handlers(GtkWidget *view);
-
-GtkWidget *inputline_toolkit_view_new(void);
-void inputline_toolkit_view_append_button(GtkWidget *toolkit_view,
-                                          GtkWidget *button);
-
-#endif  /* FC__CHATLINE_H */
+/****************************************************************************
+  Refresh all vote related GUI widgets. Called by the voteinfo module when
+  the client receives new vote information from the server.
+****************************************************************************/
+void voteinfo_gui_update(void)
+{
+  /* PORTME */
+}

@@ -58,23 +58,27 @@
 #include "version.h"
 
 /* client */
-#include "chatline.h"
 #include "client_main.h"
 #include "climisc.h"
 #include "clinet.h"
 #include "colors.h"
-#include "connectdlg.h"
 #include "connectdlg_common.h"
 #include "control.h"
+#include "editor.h"
+#include "ggzclient.h"
+#include "options.h"
+#include "text.h"
+#include "tilespec.h"
+
+/* gui-gtk-2.0 */
+#include "chatline.h"
+#include "connectdlg.h"
 #include "cma_fe.h"
 #include "dialogs.h"
 #include "diplodlg.h"
 #include "editgui.h"
-#include "editor.h"
 #include "gotodlg.h"
-#include "ggzclient.h"
 #include "graphics.h"
-#include "gui_main.h"
 #include "gui_stuff.h"
 #include "happiness.h"
 #include "inteldlg.h"
@@ -83,14 +87,13 @@
 #include "menu.h"
 #include "messagewin.h"
 #include "optiondlg.h"
-#include "options.h"
 #include "pages.h"
 #include "plrdlg.h"
 #include "spaceshipdlg.h"
 #include "resources.h"
-#include "text.h"
-#include "tilespec.h"
+#include "voteinfo_bar.h"
 
+#include "gui_main.h"
 
 const char *client_string = "gui-gtk-2.0";
 
@@ -302,30 +305,6 @@ static gboolean toplevel_focus(GtkWidget *w, GtkDirectionType arg)
   return FALSE;
 }
 
-
-/**************************************************************************
-  Idle callback for scrolling down the chatline.
-  NB: Only to be used by queue_chatline_scroll_to_bottom().
-**************************************************************************/
-static gboolean chatline_scroll_callback(gpointer data)
-{
-  guint *pid = data;
-  chatline_scroll_to_bottom();
-  *pid = 0;
-  return FALSE; /* Remove this idle function. */
-}
-
-/**************************************************************************
-  Adds an idle callback to scroll the chatline to the bottom.
-**************************************************************************/
-static void queue_chatline_scroll_to_bottom(void)
-{
-  static guint id = 0;
-  if (id == 0) {
-    id = g_idle_add(chatline_scroll_callback, &id);
-  }
-}
-
 /**************************************************************************
   When the chatline text view is resized, scroll it to the bottom. This
   prevents users from accidentally missing messages when the chatline
@@ -338,7 +317,7 @@ static void main_message_area_size_allocate(GtkWidget *widget,
   static int old_width = 0, old_height = 0;
   if (allocation->width != old_width
       || allocation->height != old_height) {
-    queue_chatline_scroll_to_bottom();
+    chatline_scroll_to_bottom(TRUE);
     old_width = allocation->width;
     old_height = allocation->height;
   }
@@ -1271,8 +1250,15 @@ static void setup_widgets(void)
   gtk_paned_pack2(GTK_PANED(paned), sbox, TRUE, TRUE);
   avbox = detached_widget_fill(sbox);
 
+  vbox = gtk_vbox_new(FALSE, 0);
+  if (ingame_votebar == NULL) {
+    ingame_votebar = voteinfo_bar_new();
+  }
+  gtk_box_pack_start(GTK_BOX(vbox), ingame_votebar, FALSE, FALSE, 2);
+  gtk_box_pack_start(GTK_BOX(avbox), vbox, TRUE, TRUE, 0);
+
   hpaned = gtk_hpaned_new();
-  gtk_box_pack_start(GTK_BOX(avbox), hpaned, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(vbox), hpaned, TRUE, TRUE, 4);
   bottom_hpaned = hpaned;
 
   bottom_notebook = gtk_notebook_new();
