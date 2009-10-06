@@ -1940,6 +1940,23 @@ void reality_check_city(struct player *pplayer,struct tile *ptile)
 }
 
 /**************************************************************************
+  Removes a dumb city.  Called when the vision changed to unknown.
+**************************************************************************/
+void remove_dumb_city(struct player *pplayer, struct tile *ptile)
+{
+  struct vision_site *pdcity = map_get_player_city(ptile, pplayer);
+
+  if (pdcity) {
+    struct player_tile *playtile = map_get_player_tile(ptile, pplayer);
+
+    dlsend_packet_city_remove(pplayer->connections, pdcity->identity);
+    assert(playtile->site == pdcity);
+    playtile->site = NULL;
+    free_vision_site(pdcity);
+  }
+}
+
+/**************************************************************************
   Remove the trade route between pc1 and pc2 (if one exists).
 **************************************************************************/
 void remove_trade_route(struct city *pc1, struct city *pc2)
