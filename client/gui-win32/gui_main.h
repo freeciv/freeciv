@@ -150,8 +150,6 @@ extern HWND map_scroll_h;
 extern HWND map_scroll_v;
 extern struct fcwin_box *output_box;
 
-extern bool better_fog;
-
 void set_overview_win_dim(int w, int h);
 
 #endif  /* RC_INVOKED */

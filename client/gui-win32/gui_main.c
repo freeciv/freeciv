@@ -104,9 +104,6 @@ HFONT city_descriptions_font;
 
 extern int seconds_to_turndone;   
 
-bool better_fog = TRUE;
-bool enable_alpha = TRUE;
-
 const static RECT textwin_size={0,1,0,100};
 
 struct fcwin_box *main_win_box;
@@ -114,23 +111,6 @@ struct fcwin_box *output_box;
 
 const char * const gui_character_encoding = NULL;
 const bool gui_use_transliteration = TRUE;
-
-struct client_option gui_options[] = {
-  GEN_BOOL_OPTION(better_fog,
-                  N_("Better fog-of-war drawing"),
-                  N_("If this is enabled then a better method is used for "
-                     "drawing fog-of-war.  It is not any slower but will "
-                     "consume about twice as much memory."),
-                  COC_GRAPHICS, TRUE, mapview_redraw_callback),
-  GEN_BOOL_OPTION(enable_alpha,
-                  N_("Enable alpha blending"),
-                  N_("If this is enabled, then alpha blending will be "
-                     "used in rendering, instead of an ordered dither.  "
-                     "If there is no hardware support for alpha "
-                     "blending, this is much slower."),
-                  COC_GRAPHICS, TRUE, mapview_redraw_callback)
-};
-const int num_gui_options = ARRAY_SIZE(gui_options);
 
 bool process_net_input(void);
 
@@ -608,6 +588,14 @@ void ui_init(void)
 
 }
 
+/****************************************************************************
+  Extra initializers for client options.
+****************************************************************************/
+void gui_options_extra_init(void)
+{
+  /* Nothing to do. */
+}
+
 static HINSTANCE hmsimg32;
 
 /**************************************************************************
@@ -750,7 +738,7 @@ ui_main(int argc, char *argv[])
   InitCommonControls();
 
   have_AlphaBlend = test_alphablend();
-  enable_alpha = have_AlphaBlend;
+  gui_win32_enable_alpha = have_AlphaBlend;
 
   unitselect_init(freecivhinst);
   init_mapwindow();

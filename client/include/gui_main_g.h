@@ -23,6 +23,8 @@ void set_city_names_font_sizes(int city_names_font_size,
 void ui_init(void);
 void ui_main(int argc, char *argv[]);
 void ui_exit(void);
+void gui_options_extra_init(void);
+
 void update_conn_list_dialog(void);
 void sound_bell(void);
 void add_net_input(int);

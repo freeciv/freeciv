@@ -13,8 +13,12 @@
 #ifndef FC__OPTIONS_H
 #define FC__OPTIONS_H
 
+/* utility */
+#include "support.h"            /* bool type */
+
+/* common */
 #include "events.h"
-#include "shared.h"		/* bool type */
+#include "fc_types.h"           /* enum gui_type */
 
 extern char default_user_name[512];
 extern char default_server_host[512];
@@ -45,31 +49,15 @@ extern bool center_when_popup_city;
 extern bool concise_city_production;
 extern bool auto_turn_done;
 extern bool meta_accelerators;
-extern bool map_scrollbars;
-extern bool dialogs_on_top;
 extern bool ask_city_name;
 extern bool popup_new_cities;
 extern bool popup_caravan_arrival;
 extern bool update_city_text_in_refresh_tile;
 extern bool keyboardless_goto;
-extern bool show_task_icons;
 extern bool enable_cursor_changes;
 extern bool separate_unit_selection;
 extern bool unit_selection_clears_orders;
 extern char highlight_our_names[128];
-
-extern char font_city_label[512];
-extern char font_notify_label[512];
-extern char font_spaceship_label[512];
-extern char font_help_label[512];
-extern char font_help_link[512];
-extern char font_help_text[512];
-extern char font_chatline[512];
-extern char font_beta_label[512];
-extern char font_small[512];
-extern char font_comment_label[512];
-extern char font_city_names[512];
-extern char font_city_productions[512];
 
 extern bool draw_city_outlines;
 extern bool draw_city_output;
@@ -99,6 +87,41 @@ extern bool player_dlg_show_dead_players;
 extern bool reqtree_show_icons;
 extern bool reqtree_curved_lines;
 
+/* gui-gtk-2.0 client specific options. */
+extern bool gui_gtk2_map_scrollbars;
+extern bool gui_gtk2_dialogs_on_top;
+extern bool gui_gtk2_show_task_icons;
+extern bool gui_gtk2_enable_tabs;
+extern bool gui_gtk2_better_fog;
+extern bool gui_gtk2_show_chat_message_time;
+extern bool gui_gtk2_split_bottom_notebook;
+extern bool gui_gtk2_new_messages_go_to_top;
+extern bool gui_gtk2_show_message_window_buttons;
+extern bool gui_gtk2_metaserver_tab_first;
+extern bool gui_gtk2_allied_chat_only;
+extern bool gui_gtk2_small_display_layout;
+extern char gui_gtk2_font_city_label[512];
+extern char gui_gtk2_font_notify_label[512];
+extern char gui_gtk2_font_spaceship_label[512];
+extern char gui_gtk2_font_help_label[512];
+extern char gui_gtk2_font_help_link[512];
+extern char gui_gtk2_font_help_text[512];
+extern char gui_gtk2_font_chatline[512];
+extern char gui_gtk2_font_beta_label[512];
+extern char gui_gtk2_font_small[512];
+extern char gui_gtk2_font_comment_label[512];
+extern char gui_gtk2_font_city_names[512];
+extern char gui_gtk2_font_city_productions[512];
+
+/* gui-sdl client specific options. */
+extern bool gui_sdl_fullscreen;
+extern int gui_sdl_screen_width;
+extern int gui_sdl_screen_height;
+
+/* gui-win32 client specific options. */
+extern bool gui_win32_better_fog;
+extern bool gui_win32_enable_alpha;
+
 enum client_option_type {
   COT_BOOLEAN,
   COT_INTEGER,
@@ -123,6 +146,7 @@ struct client_option {
   const char *description;      /* One-line description */
   const char *help_text;        /* Paragraph-length help text */
   enum client_option_class category;
+  enum gui_type specific;       /* GUI_LAST for common options. */
   enum client_option_type type;
   union {
     /* COT_BOOLEAN type option. */
@@ -163,16 +187,19 @@ struct client_option {
  * ohelp: The help text for the client option.  Should be used with the N_()
  *        macro.
  * ocat:  The client_option_class of this client option.
+ * ospec: A gui_type enumerator which determin for what particular client
+ *        gui this option is for.  Sets to GUI_LAST for common options.
  * odef:  The default value of this client option (FALSE or TRUE).
  * ocb:   A callback function of type void (*)(struct client_option *)
  *        called when the option changed.
  */
-#define GEN_BOOL_OPTION(oname, odesc, ohelp, ocat, odef, ocb)               \
+#define GEN_BOOL_OPTION(oname, odesc, ohelp, ocat, ospec, odef, ocb)        \
 {                                                                           \
   .name = #oname,                                                           \
   .description = odesc,                                                     \
   .help_text = ohelp,                                                       \
   .category = ocat,                                                         \
+  .specific = ospec,                                                        \
   .type = COT_BOOLEAN,                                                      \
   {                                                                         \
     .boolean = {                                                            \
@@ -193,18 +220,21 @@ struct client_option {
  * ohelp: The help text for the client option.  Should be used with the N_()
  *        macro.
  * ocat:  The client_option_class of this client option.
+ * ospec: A gui_type enumerator which determin for what particular client
+ *        gui this option is for.  Sets to GUI_LAST for common options.
  * odef:  The default value of this client option.
  * omin:  The minimal value of this client option.
  * omax:  The maximal value of this client option.
  * ocb:   A callback function of type void (*)(struct client_option *)
  *        called when the option changed.
  */
-#define GEN_INT_OPTION(oname, odesc, ohelp, ocat, odef, omin, omax, ocb)    \
+#define GEN_INT_OPTION(oname, odesc, ohelp, ocat, ospec, odef, omin, omax, ocb) \
 {                                                                           \
   .name = #oname,                                                           \
   .description = odesc,                                                     \
   .help_text = ohelp,                                                       \
   .category = ocat,                                                         \
+  .specific = ospec,                                                        \
   .type = COT_INTEGER,                                                      \
   {                                                                         \
     .integer = {                                                            \
@@ -229,16 +259,19 @@ struct client_option {
  * ohelp: The help text for the client option.  Should be used with the N_()
  *        macro.
  * ocat:  The client_option_class of this client option.
+ * ospec: A gui_type enumerator which determin for what particular client
+ *        gui this option is for.  Sets to GUI_LAST for common options.
  * odef:  The default string for this client option.
  * ocb:   A callback function of type void (*)(struct client_option *)
  *        called when the option changed.
  */
-#define GEN_STR_OPTION(oname, odesc, ohelp, ocat, odef, ocb)                \
+#define GEN_STR_OPTION(oname, odesc, ohelp, ocat, ospec, odef, ocb)         \
 {                                                                           \
   .name = #oname,                                                           \
   .description = odesc,                                                     \
   .help_text = ohelp,                                                       \
   .category = ocat,                                                         \
+  .specific = ospec,                                                        \
   .type = COT_STRING,                                                       \
   {                                                                         \
     .string = {                                                             \
@@ -264,18 +297,21 @@ struct client_option {
  * ohelp: The help text for the client option.  Should be used with the N_()
  *        macro.
  * ocat:  The client_option_class of this client option.
+ * ospec: A gui_type enumerator which determin for what particular client
+ *        gui this option is for.  Sets to GUI_LAST for common options.
  * odef:  The default string for this client option.
  * oacc:  The string accessor where to find the allowed values of type
  *        const char **(*)(void) (returns a NULL-termined list of strings).
  * ocb:   A callback function of type void (*)(struct client_option *)
  *        called when the option changed.
  */
-#define GEN_STR_LIST_OPTION(oname, odesc, ohelp, ocat, odef, oacc, ocb)     \
+#define GEN_STR_LIST_OPTION(oname, odesc, ohelp, ocat, ospec, odef, oacc, ocb) \
 {                                                                           \
   .name = #oname,                                                           \
   .description = odesc,                                                     \
   .help_text = ohelp,                                                       \
   .category = ocat,                                                         \
+  .specific = ospec,                                                        \
   .type = COT_STRING,                                                       \
   {                                                                         \
     .string = {                                                             \
@@ -300,16 +336,19 @@ struct client_option {
  * ohelp: The help text for the client option.  Should be used with the N_()
  *        macro.
  * ocat:  The client_option_class of this client option.
+ * ospec: A gui_type enumerator which determin for what particular client
+ *        gui this option is for.  Sets to GUI_LAST for common options.
  * odef:  The default string for this client option.
  * ocb:   A callback function of type void (*)(struct client_option *)
  *        called when the option changed.
  */
-#define GEN_FONT_OPTION(oname, odesc, ohelp, ocat, odef, ocb)               \
+#define GEN_FONT_OPTION(oname, odesc, ohelp, ocat, ospec, odef, ocb)        \
 {                                                                           \
   .name = #oname,                                                           \
   .description = odesc,                                                     \
   .help_text = ohelp,                                                       \
   .category = ocat,                                                         \
+  .specific = ospec,                                                        \
   .type = COT_FONT,                                                         \
   {                                                                         \
     .string = {                                                             \
@@ -326,20 +365,17 @@ struct client_option {
 struct client_option *client_option_array_first(void);
 const struct client_option *client_option_array_last(void);
 
-#define client_options_iterate(_p)					\
-{									\
-  struct client_option *_p = client_option_array_first();		\
-  if (NULL != _p) {							\
-    for (; _p <= client_option_array_last(); _p++) {
+#define client_options_iterate(_p)                                          \
+{                                                                           \
+  const enum gui_type our_gui = get_gui_type();                             \
+  struct client_option *_p = client_option_array_first();                   \
+  for (; _p <= client_option_array_last(); _p++) {                          \
+    if (_p->specific == GUI_LAST || _p->specific == our_gui) {
 
-#define client_options_iterate_end					\
-    }									\
-  }									\
+#define client_options_iterate_end                                          \
+    }                                                                       \
+  }                                                                         \
 }
-
-/* GUI-specific options declared in gui-xxx but handled by common code. */
-extern const int num_gui_options;
-extern struct client_option gui_options[];
 
 /** Message Options: **/
 
