@@ -58,6 +58,7 @@
 #include "plrdlg_g.h"
 #include "repodlgs_g.h"
 #include "spaceshipdlg_g.h"
+#include "voteinfo_bar_g.h"
 #include "wldlg_g.h"
 
 /* client */

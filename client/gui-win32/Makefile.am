@@ -66,5 +66,7 @@ libgui_win32_la_SOURCES = \
 	sprite.c	\
 	sprite.h	\
 	themes.c	\
+	voteinfo_bar.c	\
+	voteinfo_bar.h	\
 	wldlg.c		\
 	wldlg.h

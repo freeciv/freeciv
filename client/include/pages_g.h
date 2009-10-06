@@ -30,6 +30,5 @@ enum client_pages {
 void set_client_page(enum client_pages page);
 enum client_pages get_client_page(void);
 void update_start_page(void);
-void voteinfo_gui_update(void);
 
 #endif  /* FC__PAGES_G_H */

@@ -795,24 +795,76 @@ void set_output_window_text(const char *text)
 }
 
 /**************************************************************************
-  Scrolls the pregame and in-game chat windows all the way to the bottom.
+  Returns whether the chatline is scrolled to the bottom.
 **************************************************************************/
-void chatline_scroll_to_bottom(void)
+bool chatline_is_scrolled_to_bottom(void)
 {
-  GtkTextIter end;
+  GtkWidget *sw, *w;
+  GtkAdjustment *vadj;
+  gdouble val, max, upper, page_size;
 
-  if (!message_buffer) {
-    return;
+  if (get_client_page() == PAGE_GAME) {
+    w = GTK_WIDGET(main_message_area);
+  } else {
+    w = GTK_WIDGET(start_message_area);
   }
-  gtk_text_buffer_get_end_iter(message_buffer, &end);
 
-  if (main_message_area) {
-    gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(main_message_area),
-                                 &end, 0.0, TRUE, 1.0, 0.0);
+  if (w == NULL) {
+    return TRUE;
   }
-  if (start_message_area) {
-    gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(start_message_area),
-                                 &end, 0.0, TRUE, 1.0, 0.0);
+
+  sw = gtk_widget_get_parent(w);
+  vadj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(sw));
+  val = gtk_adjustment_get_value(GTK_ADJUSTMENT(vadj));
+  g_object_get(G_OBJECT(vadj), "upper", &upper,
+               "page-size", &page_size, NULL);
+  max = upper - page_size;
+
+  /* Approximation. */
+  return max - val < 0.00000001;
+}
+
+/**************************************************************************
+  Scrolls the pregame and in-game chat windows all the way to the bottom.
+
+  Why do we do it in such a convuluted fasion rather than calling
+  chatline_scroll_to_bottom directly from toplevel_configure?
+  Because the widget is not at its final size yet when the configure
+  event occurs.
+**************************************************************************/
+static gboolean chatline_scroll_callback(gpointer data)
+{
+  chatline_scroll_to_bottom(FALSE);     /* Not delayed this time! */
+
+  *((guint *) data) = 0;
+  return FALSE;         /* Remove this idle function. */
+}
+
+/**************************************************************************
+  Scrolls the pregame and in-game chat windows all the way to the bottom.
+  If delayed is TRUE, it will be done in a idle_callback.
+**************************************************************************/
+void chatline_scroll_to_bottom(bool delayed)
+{
+  static guint callback_id = 0;
+
+  if (delayed) {
+    if (callback_id == 0) {
+      callback_id = g_idle_add(chatline_scroll_callback, &callback_id);
+    }
+  } else if (message_buffer) {
+    GtkTextIter end;
+
+    gtk_text_buffer_get_end_iter(message_buffer, &end);
+
+    if (main_message_area) {
+      gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(main_message_area),
+                                   &end, 0.0, TRUE, 1.0, 0.0);
+    }
+    if (start_message_area) {
+      gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(start_message_area),
+                                   &end, 0.0, TRUE, 1.0, 0.0);
+    }
   }
 }
 
@@ -1013,6 +1065,10 @@ static void button_toggled(GtkToggleButton *button, gpointer data)
   if (gtk_toggle_button_get_active(button)) {
     gtk_widget_show(ptoolkit->toolbar);
     ptoolkit->toolbar_displayed = TRUE;
+    if (chatline_is_scrolled_to_bottom()) {
+      /* Make sure to be still at the end. */
+      chatline_scroll_to_bottom(TRUE);
+    }
   } else {
     gtk_widget_hide(ptoolkit->toolbar);
     ptoolkit->toolbar_displayed = FALSE;
@@ -1089,8 +1145,6 @@ void chatline_init(void)
   gtk_toolbar_set_style(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_BOTH_HORIZ);
   gtk_toolbar_set_orientation(GTK_TOOLBAR(toolbar),
                               GTK_ORIENTATION_HORIZONTAL);
-  g_signal_connect(toolbar, "expose-event",
-                   G_CALLBACK(chatline_scroll_to_bottom), NULL);
   toolkit.toolbar = toolbar;
 
   /* Bold button. */

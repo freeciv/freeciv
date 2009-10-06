@@ -10,28 +10,17 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__CHATLINE_H
-#define FC__CHATLINE_H
+#ifndef FC__VOTEBAR_H
+#define FC__VOTEBAR_H
 
 #include <gtk/gtk.h>
 
 /* include */
-#include "chatline_g.h"
+#include "voteinfo_bar_g.h"
 
-void chatline_init(void);
+extern GtkWidget *pregame_votebar;
+extern GtkWidget *ingame_votebar;
 
-void inputline_make_chat_link(struct tile *ptile, bool unit);
-bool inputline_has_focus(void);
-void inputline_grab_focus(void);
+GtkWidget *voteinfo_bar_new(void);
 
-void set_output_window_text(const char *text);
-bool chatline_is_scrolled_to_bottom(void);
-void chatline_scroll_to_bottom(bool delayed);
-
-void set_message_buffer_view_link_handlers(GtkWidget *view);
-
-GtkWidget *inputline_toolkit_view_new(void);
-void inputline_toolkit_view_append_button(GtkWidget *toolkit_view,
-                                          GtkWidget *button);
-
-#endif  /* FC__CHATLINE_H */
+#endif  /* FC__VOTEBAR_H */

@@ -17,12 +17,18 @@
 
 #include <time.h>
 
+/* utility */
 #include "log.h"
+
+/* common */
 #include "packets.h"
 
+/* include */
+#include "voteinfo_bar_g.h"
+
+/* client */
 #include "client_main.h"
 #include "clinet.h"
-#include "pages_g.h"
 
 #include "voteinfo.h"
 

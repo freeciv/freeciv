@@ -88,6 +88,8 @@ libgui_sdl_la_SOURCES = \
 	themespec.h	\
 	unistring.c	\
 	unistring.h	\
+	voteinfo_bar.c	\
+	voteinfo_bar.h	\
 	widget.c	\
 	widget.h	\
 	widget_button.c \
