@@ -868,7 +868,7 @@ void reset_unit_table(void)
 void enable_menus(bool enable)
 {
   if (enable) {
-    setup_menus(toplevel, &main_menubar);
+    main_menubar = setup_menus(toplevel);
     gtk_box_pack_start(GTK_BOX(top_vbox), main_menubar, FALSE, FALSE, 0);
     update_menus();
     gtk_widget_show_all(main_menubar);
