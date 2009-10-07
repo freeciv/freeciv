@@ -13,7 +13,9 @@ if CLIENT_GUI_XAW
 CLIENT_FILES += Freeciv
 endif
 if CLIENT_GUI_GTK_2_0
-CLIENT_FILES += freeciv.rc-2.0
+CLIENT_FILES += \
+	freeciv.rc-2.0	\
+	gtk_menus.xml
 endif
 else
 CLIENT_FILES =
@@ -36,6 +38,7 @@ EXTRA_DIST = \
 	freeciv-client.png \
 	freeciv.rc	\
 	freeciv.rc-2.0	\
+	gtk_menus.xml	\
 	civserver.dsc.in	\
 	civclient.dsc.in	\
 	civserver.room.in	\
