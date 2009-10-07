@@ -43,6 +43,8 @@ libcivutility_la_SOURCES = \
 		shared.h	\
 		speclist.h	\
 		specvec.h	\
+		string_vector.c	\
+		string_vector.h	\
 		support.c	\
 		support.h	\
 		timing.c	\
