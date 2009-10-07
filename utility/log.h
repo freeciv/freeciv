@@ -100,4 +100,32 @@ static inline int logdebug_check(const char *file, int line)
   } while(FALSE) 
 #endif  /* DEBUG */
 
+#define RETURN_IF_FAIL(condition)                                           \
+if (!(condition)) {                                                         \
+  freelog(LOG_ERROR, "In %s() (%s, line %d): assertion '%s' failed.",       \
+          __FUNCTION__, __FILE__, __LINE__, #condition);                    \
+  return;                                                                   \
+}
+
+#define RETURN_VAL_IF_FAIL(condition, val)                                  \
+if (!(condition)) {                                                         \
+  freelog(LOG_ERROR, "In %s() (%s, line %d): assertion '%s' failed.",       \
+          __FUNCTION__, __FILE__, __LINE__, #condition);                    \
+  return val;                                                               \
+}
+
+#define RETURN_IF_FAIL_MSG(condition, format, ...)                          \
+if (!(condition)) {                                                         \
+  freelog(LOG_ERROR, "In %s() (%s, line %d): " format,                      \
+          __FUNCTION__, __FILE__, __LINE__, ## __VA_ARGS__);                \
+  return;                                                                   \
+}
+
+#define RETURN_VAL_IF_FAIL_MSG(condition, val, format, ...)                 \
+if (!(condition)) {                                                         \
+  freelog(LOG_ERROR, "In %s() (%s, line %d): " format,                      \
+          __FUNCTION__, __FILE__, __LINE__, ## __VA_ARGS__);                \
+  return val;                                                               \
+}
+
 #endif  /* FC__LOG_H */
