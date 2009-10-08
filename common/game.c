@@ -354,6 +354,7 @@ void game_init(void)
 
   if (is_server()) {
     game.server.fogofwar_old = game.info.fogofwar;
+    game.server.foggedborders = GAME_DEFAULT_FOGGEDBORDERS;
     game.server.phase_mode_stored = GAME_DEFAULT_PHASE_MODE;
     game.server.timeoutint = GAME_DEFAULT_TIMEOUTINT;
     game.server.timeoutintinc = GAME_DEFAULT_TIMEOUTINTINC;

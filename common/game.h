@@ -88,6 +88,7 @@ struct civ_game {
       int seed;
       bool fogofwar_old; /* as the fog_of_war bit get changed by setting
                           * the server we need to remember the old setting */
+      bool foggedborders;
       char rulesetdir[MAX_LEN_NAME];
       char demography[MAX_LEN_DEMOGRAPHY];
       char allow_take[MAX_LEN_ALLOW_TAKE];
@@ -212,6 +213,8 @@ bool setting_class_is_changeable(enum sset_class class);
 #define GAME_MAX_DIPLCOST            100
 
 #define GAME_DEFAULT_FOGOFWAR        TRUE
+
+#define GAME_DEFAULT_FOGGEDBORDERS   FALSE
 
 /* 0 means no national borders. */
 #define GAME_DEFAULT_BORDERS         1

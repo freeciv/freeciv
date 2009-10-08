@@ -30,6 +30,7 @@ struct player_tile {
   struct vision_site *site;		/* NULL for no vision site */
   struct resource *resource;		/* NULL for no resource */
   struct terrain *terrain;		/* NULL for unknown tiles */
+  struct player *owner; 		/* NULL for unowned */
   bv_special special;
   bv_bases bases;
 

@@ -346,6 +346,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
 {
   struct packet_tile_info info;
   const struct nation_type *pnation;
+  const struct player *owner;
 
   if (send_tile_suppressed) {
     return;
@@ -380,9 +381,8 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
     if (!pplayer || map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
       info.known = TILE_KNOWN_SEEN;
       info.continent = tile_continent(ptile);
-      info.owner = (NULL != tile_owner(ptile))
-                    ? player_number(tile_owner(ptile))
-                    : MAP_TILE_OWNER_NULL;
+      owner = tile_owner(ptile);
+      info.owner = (owner ? player_number(owner) : MAP_TILE_OWNER_NULL);
       info.worked = (NULL != tile_worked(ptile))
                      ? tile_worked(ptile)->id
                      : IDENTITY_NUMBER_ZERO;
@@ -407,9 +407,10 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
 
       info.known = TILE_KNOWN_UNSEEN;
       info.continent = tile_continent(ptile);
-      info.owner = (NULL != tile_owner(ptile))
-                   ? player_number(tile_owner(ptile))
-                   : MAP_TILE_OWNER_NULL;
+      owner = (game.server.foggedborders
+               ? plrtile->owner
+               : tile_owner(ptile));
+      info.owner = (owner ? player_number(owner) : MAP_TILE_OWNER_NULL);
       info.worked = (NULL != psite)
                     ? psite->identity
                     : IDENTITY_NUMBER_ZERO;
@@ -564,9 +565,14 @@ static void map_fog_tile(struct player *pplayer, struct tile *ptile,
   if (map_is_known(ptile, pplayer)) {
     players_iterate(pplayer2) {
       if (pplayer2 == pplayer || really_gives_vision(pplayer, pplayer2)) {
-	if (map_get_seen(ptile, pplayer2, vlayer) == 0) {
-	  really_fog_tile(pplayer2, ptile, vlayer);
-	}
+        if (map_get_seen(ptile, pplayer2, vlayer) == 0) {
+          if (game.server.foggedborders) {
+            struct player_tile *plrtile = map_get_player_tile(ptile,
+                                                              pplayer2);
+            plrtile->owner = tile_owner(ptile);
+          }
+          really_fog_tile(pplayer2, ptile, vlayer);
+        }
       }
     } players_iterate_end;
   }
@@ -907,6 +913,7 @@ static void player_tile_init(struct tile *ptile, struct player *pplayer)
   plrtile->terrain = T_UNKNOWN;
   clear_all_specials(&plrtile->special);
   plrtile->resource = NULL;
+  plrtile->owner = NULL;
   plrtile->site = NULL;
   BV_CLR_ALL(plrtile->bases);
 
@@ -972,15 +979,21 @@ struct player_tile *map_get_player_tile(const struct tile *ptile,
 bool update_player_tile_knowledge(struct player *pplayer, struct tile *ptile)
 {
   struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
+  struct player *owner = (game.server.foggedborders
+                          && !map_is_known_and_seen(ptile, pplayer, V_MAIN)
+                          ? plrtile->owner
+                          : tile_owner(ptile));
 
   if (plrtile->terrain != ptile->terrain
       || !BV_ARE_EQUAL(plrtile->special, ptile->special)
       || plrtile->resource != ptile->resource
+      || plrtile->owner != owner
       || !BV_ARE_EQUAL(plrtile->bases, ptile->bases)) {
     plrtile->terrain = ptile->terrain;
     plrtile->special = ptile->special;
     plrtile->resource = ptile->resource;
-    plrtile->bases    = ptile->bases;
+    plrtile->owner = owner;
+    plrtile->bases = ptile->bases;
     return TRUE;
   }
   return FALSE;
