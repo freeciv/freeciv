@@ -37,6 +37,7 @@ enum event_section_n {
   E_S_NATION,
   E_S_TREATY,
   E_S_UNIT,
+  E_S_VOTE,
   E_S_WONDER,
   E_S_XYZZY
 };
@@ -55,6 +56,7 @@ static const char *event_sections[] = {
   N_("Nation: %s"),
   N_("Treaty: %s"),
   N_("Unit: %s"),
+  N_("Vote: %s"),
   N_("Wonder: %s"),
   NULL
 };
@@ -154,6 +156,9 @@ static struct {
   GEN_EV(E_UNIT_UPGRADED,	E_S_UNIT,	N_("Production Upgraded")),
   GEN_EV(E_UNIT_RELOCATED,	E_S_UNIT,	N_("Relocated")),
   GEN_EV(E_UNIT_ORDERS,		E_S_UNIT,	N_("Orders / goto events")),
+  GEN_EV(E_VOTE_NEW,		E_S_VOTE,	N_("New vote")),
+  GEN_EV(E_VOTE_RESOLVED,	E_S_VOTE,	N_("Vote resolved")),
+  GEN_EV(E_VOTE_ABORTED,	E_S_VOTE,	N_("Vote cancelled")),
   GEN_EV(E_WONDER_BUILD,	E_S_WONDER,	N_("Finished")),
   GEN_EV(E_WONDER_OBSOLETE,	E_S_WONDER,	N_("Made Obsolete")),
   GEN_EV(E_WONDER_STARTED,	E_S_WONDER,	N_("Started")),

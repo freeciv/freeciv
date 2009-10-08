@@ -732,7 +732,8 @@ void message_options_init(void)
     E_CITY_MAY_SOON_GROW, E_WORKLIST, E_AI_DEBUG
   };
   int out_only[] = {
-    E_CHAT_MSG, E_CHAT_ERROR, E_CONNECTION, E_LOG_ERROR, E_SETTING
+    E_CHAT_MSG, E_CHAT_ERROR, E_CONNECTION, E_LOG_ERROR, E_SETTING,
+    E_VOTE_NEW, E_VOTE_RESOLVED, E_VOTE_ABORTED
   };
   int all[] = {
     E_LOG_FATAL, E_SCRIPT
