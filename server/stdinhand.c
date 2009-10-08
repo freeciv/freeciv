@@ -2347,7 +2347,7 @@ static bool cancelvote_command(struct connection *caller,
       return FALSE;
     } else if (!caller || conn_get_access(caller) >= ALLOW_ADMIN) {
       clear_all_votes();
-      notify_conn(NULL, NULL, E_CHAT_MSG, FTC_SERVER_INFO, NULL,
+      notify_conn(NULL, NULL, E_VOTE_ABORTED, FTC_SERVER_INFO, NULL,
                   _("All votes have been removed."));
       return TRUE;
     } else {
@@ -2379,13 +2379,13 @@ static bool cancelvote_command(struct connection *caller,
 
   if (caller) {
     notify_team(conn_get_player(vote_get_caller(pvote)),
-                NULL, E_CHAT_MSG, FTC_SERVER_INFO, NULL,
+                NULL, E_VOTE_ABORTED, FTC_SERVER_INFO, NULL,
                 _("%s has cancelled the vote \"%s\" (number %d)."),
                 caller->username, pvote->cmdline, pvote->vote_no);
   } else {
     /* Server prompt */
     notify_team(conn_get_player(vote_get_caller(pvote)),
-                NULL, E_CHAT_MSG, FTC_SERVER_INFO, NULL,
+                NULL, E_VOTE_ABORTED, FTC_SERVER_INFO, NULL,
                 _("The vote \"%s\" (number %d) has been cancelled."),
                 pvote->cmdline, pvote->vote_no);
   }
@@ -3887,7 +3887,7 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
         teamplr = NULL;
         background = "#AA0000";
       }
-      notify_team(teamplr, NULL, E_CHAT_MSG, "#FFFFFF", background,
+      notify_team(teamplr, NULL, E_VOTE_NEW, "#FFFFFF", background,
                   _("%s (number %d) by %s: %s"), what,
                   vote->vote_no, caller->username, votedesc);
 
