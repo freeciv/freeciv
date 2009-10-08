@@ -1664,7 +1664,8 @@ static void menus_rename(GtkActionGroup *group,
     return;
   }
 
-  gtk_action_set_label(action, new_label);
+  /* gtk_action_set_label() was added in Gtk 2.16. */
+  g_object_set(G_OBJECT(action), "label", new_label, NULL);
 }
 
 /****************************************************************
