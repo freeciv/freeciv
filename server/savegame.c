@@ -245,6 +245,9 @@ static void set_savegame_special(bv_special *specials, bv_bases *bases,
 
 static void game_load_internal(struct section_file *file);
 
+static char player_to_identier(const struct player *pplayer);
+static struct player *identifier_to_player(char c);
+
 /***************************************************************
 This returns an ascii hex value of the given half-byte of the binary
 integer. See ascii_hex2bin().
@@ -936,6 +939,34 @@ static struct resource *identifier_to_resource(char c)
 static char resource_to_identifier(const struct resource *presource)
 {
   return presource ? presource->identifier : RESOURCE_NONE_IDENTIFIER;
+}
+
+/****************************************************************************
+  Return the identifier for the given player.
+****************************************************************************/
+static char player_to_identier(const struct player *pplayer)
+{
+  if (!pplayer) {
+    return ' ';
+  }
+  if (player_number(pplayer) < 10) {
+    return '0' + player_number(pplayer);
+  }
+  return 'A' + player_number(pplayer) - 10;
+}
+
+/****************************************************************************
+  Return the player for the given identifier.
+****************************************************************************/
+static struct player *identifier_to_player(char c)
+{
+  if (c == ' ') {
+    return NULL;
+  }
+  if ('0' <= c && c <= '9') {
+    return player_by_number(c - '0');
+  }
+  return player_by_number(10 + c - 'A');
 }
 
 /***************************************************************
@@ -3068,6 +3099,12 @@ static void player_load_vision(struct player *plr, int plrno,
       /* Already loaded fortresses and airbases as part of specials */
     }
 
+    if (game.server.foggedborders) {
+      LOAD_MAP_DATA(ch, nat_y, ptile,
+          secfile_lookup_str(file, "player%d.map_owner%03d", plrno, nat_y),
+          map_get_player_tile(ptile, plr)->owner = identifier_to_player(ch));
+    }
+
     /* get 4-bit segments of 16-bit "updated" field */
     LOAD_MAP_DATA(ch, nat_y, ptile,
 		  secfile_lookup_str
@@ -3725,6 +3762,11 @@ static void player_save_vision(struct player *plr, int plrno,
   SAVE_PLAYER_MAP_DATA(ptile, file, "player%d.map_res%03d", plrno,
       resource_to_identifier(map_get_player_tile(ptile, plr)->resource));
 
+  if (game.server.foggedborders) {
+    SAVE_PLAYER_MAP_DATA(ptile, file, "player%d.map_owner%03d", plrno,
+      player_to_identier(map_get_player_tile(ptile, plr)->owner));
+  }
+
   special_halfbyte_iterate(j) {
     char buf[32]; /* enough for sprintf() below */
     enum tile_special_type mod[4];
@@ -4315,7 +4357,11 @@ static void game_load_internal(struct section_file *file)
 
     game.info.fogofwar = secfile_lookup_bool_default(file, FALSE, "game.fogofwar");
     game.server.fogofwar_old = game.info.fogofwar;
-  
+
+    game.server.foggedborders
+      = secfile_lookup_bool_default(file, GAME_DEFAULT_FOGGEDBORDERS,
+                                    "game.foggedborders");
+
     game.info.civilwarsize =
       secfile_lookup_int_default(file, GAME_DEFAULT_CIVILWARSIZE,
 				 "game.civilwarsize");
@@ -5075,6 +5121,7 @@ void game_save(struct section_file *file, const char *save_reason,
   secfile_insert_str(file, server.game_identifier, "game.id");
 
   secfile_insert_bool(file, game.info.fogofwar, "game.fogofwar");
+  secfile_insert_bool(file, game.server.foggedborders, "game.foggedborders");
   secfile_insert_bool(file, game.info.spacerace, "game.spacerace");
   secfile_insert_bool(file, game.info.endspaceship, "game.endspaceship");
   secfile_insert_bool(file, game.info.auto_ai_toggle, "game.auto_ai_toggle");
