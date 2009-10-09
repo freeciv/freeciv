@@ -134,7 +134,7 @@ void establish_new_connection(struct connection *pconn)
 
   if ((pplayer = find_player_by_user(pconn->username))) {
     /* a player has already been created for this user, reconnect */
-    attach_connection_to_player(pconn, pplayer, FALSE);
+    connection_attach(pconn, pplayer, FALSE);
 
     if (game.info.auto_ai_toggle && pplayer->ai_data.control) {
       toggle_ai_player_direct(NULL, pplayer);
@@ -166,9 +166,7 @@ void establish_new_connection(struct connection *pconn)
     send_game_info(dest);
 
     if (S_S_INITIAL == server_state() && game.info.is_new_game) {
-      bool succeeded;
-      succeeded = attach_connection_to_player(pconn, NULL, FALSE);
-      if (succeeded) {
+      if (connection_attach(pconn, NULL, FALSE)) {
         struct player *pplayer = pconn->playing;
         /* temporarily set player_name() to username */
         sz_strlcpy(pplayer->name, pconn->username);
@@ -373,7 +371,7 @@ void lost_connection_to_client(struct connection *pconn)
               conn_controls_player(pconn) ? "black" : NULL,
               _("Lost connection: %s."), desc);
 
-  detach_connection_to_player(pconn, FALSE);
+  connection_detach(pconn);
   send_conn_info_remove(pconn->self, game.est_connections);
   notify_if_first_access_level_is_available();
 
@@ -491,19 +489,26 @@ struct player *find_uncontrolled_player(void)
   Updates pconn->playing, pplayer->connections, pplayer->is_connected
   and pconn->observer.
 
-  If pplayer is NULL, take the next available player that is not connected.
-  Note "observer" connections do not count for is_connected.
+  - If pplayer is NULL and observing is FALSE: take the next available
+    player that is not connected.
+  - If pplayer is NULL and observing is TRUE: attach this connection to
+    the game as global observer.
+  - If pplayer is not NULL and observing is FALSE: take this player.
+  - If pplayer is not NULL and observing is TRUE: observe this player.
+ 
   Note take_command() needs to know if this function will success before
        it's time to call this. Keep take_command() checks in sync when
        modifying this.
 **************************************************************************/
-bool attach_connection_to_player(struct connection *pconn,
-                                 struct player *pplayer,
-                                 bool observing)
+bool connection_attach(struct connection *pconn, struct player *pplayer,
+                       bool observing)
 {
-  if (observing) {
-    assert(NULL != pplayer);
-  } else {
+  RETURN_VAL_IF_FAIL(pconn != NULL, FALSE);
+  RETURN_VAL_IF_FAIL_MSG(!pconn->observer && pconn->playing == NULL, FALSE,
+                         "connections must be detached with "
+                         "connection_detach() before calling this!");
+
+  if (!observing) {
     if (NULL == pplayer) {
       /* search for uncontrolled player */
       pplayer = find_uncontrolled_player();
@@ -549,9 +554,13 @@ bool attach_connection_to_player(struct connection *pconn,
 
   pconn->observer = observing;
   pconn->playing = pplayer;
-  conn_list_append(pplayer->connections, pconn);
+  if (pplayer) {
+    conn_list_append(pplayer->connections, pconn);
+  }
 
   restore_access_level(pconn);
+  /* Reset the delta-state. */
+  conn_clear_packet_cache(pconn);
 
   return TRUE;
 }
@@ -562,35 +571,28 @@ bool attach_connection_to_player(struct connection *pconn,
   pconn->playing->is_connected and pconn->observer.
 
   pconn remains a member of game.est_connections.
-
-  The 'observing' parameter should be TRUE if 'pconn' is to become
-  a global observer, FALSE otherwise.
 **************************************************************************/
-bool detach_connection_to_player(struct connection *pconn,
-                                 bool observing)
+void connection_detach(struct connection *pconn)
 {
-  pconn->observer = observing;
+  RETURN_IF_FAIL(pconn != NULL);
 
-  if (NULL == pconn->playing) {
-    return FALSE; /* no player is attached to this conn */
+  if (NULL != pconn->playing) {
+    conn_list_unlink(pconn->playing->connections, pconn);
+
+    pconn->playing->is_connected = FALSE;
+
+    /* If any other (non-observing) conn is attached to 
+     * this player, the player is still connected. */
+    conn_list_iterate(pconn->playing->connections, aconn) {
+      if (!aconn->observer) {
+        pconn->playing->is_connected = TRUE;
+        break;
+      }
+    } conn_list_iterate_end;
+
+    pconn->playing = NULL;
   }
 
-  conn_list_unlink(pconn->playing->connections, pconn);
-
-  pconn->playing->is_connected = FALSE;
-
-  /* If any other (non-observing) conn is attached to 
-   * this player, the player is still connected. */
-  conn_list_iterate(pconn->playing->connections, aconn) {
-    if (!aconn->observer) {
-      pconn->playing->is_connected = TRUE;
-      break;
-    }
-  } conn_list_iterate_end;
-
-  pconn->playing = NULL;
-
+  pconn->observer = FALSE;
   restore_access_level(pconn);
-
-  return TRUE;
 }

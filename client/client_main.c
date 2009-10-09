@@ -641,6 +641,9 @@ void set_client_state(enum client_states newstate)
         && get_client_page() != PAGE_LOAD) {
       set_client_page(PAGE_START);
     }
+
+    /* Reset the delta-state. */
+    conn_clear_packet_cache(&client.conn);
     break;
 
   case C_S_RUNNING:
