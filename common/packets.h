@@ -92,10 +92,6 @@ void post_receive_packet_chat_msg(struct connection *pc,
 void pre_send_packet_player_attribute_chunk(struct connection *pc,
 					    struct packet_player_attribute_chunk
 					    *packet);
-void post_receive_packet_ruleset_control(struct connection *pc,
-					 struct packet_ruleset_control *packet);
-void post_send_packet_ruleset_control(struct connection *pc,
-				      const struct packet_ruleset_control *packet);
 
 #define SEND_PACKET_START(type) \
   unsigned char buffer[MAX_LEN_PACKET]; \

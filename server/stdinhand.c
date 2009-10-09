@@ -3067,13 +3067,11 @@ static bool observe_command(struct connection *caller, char *str, bool check)
     }
   } players_iterate_end;
 
-  /* attach pconn to new player as an observer */
-  if (pplayer) {
-    attach_connection_to_player(pconn, pplayer, TRUE);
-  } else {
-    detach_connection_to_player(pconn, TRUE);
-  }
+  /* attach pconn to new player as an observer or as global observer */
+  connection_attach(pconn, pplayer, TRUE);
 
+  /* Send first to reset the client. */
+  send_conn_info(pconn->self, game.est_connections);
   if (S_S_RUNNING == server_state()) {
     send_packet_freeze_hint(pconn);
     send_all_info(pconn->self, TRUE);
@@ -3088,7 +3086,6 @@ static bool observe_command(struct connection *caller, char *str, bool check)
   }
   /* redundant self to self cannot be avoided */
   send_player_info(pplayer, NULL);
-  send_conn_info(pconn->self, game.est_connections);
 
   if (pplayer) {
     cmd_reply(CMD_OBSERVE, caller, C_OK, _("%s now observes %s"),
@@ -3164,7 +3161,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
   if (strcmp(arg[i], "-") == 0) {
     /* Find first uncontrolled player. This will return NULL if there is
      * no free players at the moment. Later call to
-     * attach_connection_to_player() will create new player for such NULL
+     * connection_attach_to_player() will create new player for such NULL
      * cases. */
     pplayer = find_uncontrolled_player();
   } else if (!(pplayer = find_player_by_name_prefix(arg[i], &match_result))) {
@@ -3261,7 +3258,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
 
   if (!was_observing_this || !pconn->playing) {
     /* Now attach to new player */
-    res = attach_connection_to_player(pconn, pplayer, FALSE);
+    res = connection_attach(pconn, pplayer, FALSE);
 
     /* Check aifill even if attach failed. Maybe we already detached. */
     aifill(game.info.aifill);
@@ -3307,6 +3304,8 @@ static bool take_command(struct connection *caller, char *str, bool check)
               pconn->username);
   }
 
+  /* Send first to reset the client. */
+  send_conn_info(pconn->self, game.est_connections);
   if (S_S_RUNNING == server_state()) {
     send_packet_freeze_hint(pconn);
     send_all_info(pconn->self, TRUE);
@@ -3323,8 +3322,6 @@ static bool take_command(struct connection *caller, char *str, bool check)
     send_player_info_c(pplayer, game.est_connections);
     /* we already know existing connections */
   }
-  /* redundant self to self cannot be avoided */
-  send_conn_info(pconn->self, game.est_connections);
 
   end:;
   /* free our args */
@@ -3402,14 +3399,13 @@ bool detach_command(struct connection *caller, char *str, bool check)
   }
 
   /* actually do the detaching */
+  connection_detach(pconn);
   if (pplayer) {
-    detach_connection_to_player(pconn, FALSE);
     cmd_reply(CMD_DETACH, caller, C_COMMENT,
 	      _("%s detaching from %s"),
 	      pconn->username,
 	      player_name(pplayer));
   } else {
-    pconn->observer = FALSE;
     cmd_reply(CMD_DETACH, caller, C_COMMENT,
 	      _("%s no longer observing."), pconn->username);
   }
@@ -3428,7 +3424,7 @@ bool detach_command(struct connection *caller, char *str, bool check)
         notify_conn(aconn->self, NULL, E_CONNECTION, FTC_SERVER_INFO, NULL,
 		    _("detaching from %s."),
 		    player_name(pplayer));
-        detach_connection_to_player(aconn, FALSE);
+        connection_detach(aconn);
         send_conn_info(aconn->self, game.est_connections);
       }
     } conn_list_iterate_end;
@@ -3605,7 +3601,7 @@ bool load_command(struct connection *caller, const char *filename, bool check)
   /* Detach current players, before we blow them away. */
   conn_list_iterate(game.est_connections, pconn) {
     if (pconn->playing != NULL) {
-      detach_connection_to_player(pconn, FALSE);
+      connection_detach(pconn);
       send_conn_info(pconn->self, NULL);
     }
   } conn_list_iterate_end;
@@ -3650,7 +3646,7 @@ bool load_command(struct connection *caller, const char *filename, bool check)
   conn_list_iterate(game.est_connections, pconn) {
     players_iterate(pplayer) {
       if (strcmp(pconn->username, pplayer->username) == 0) {
-        attach_connection_to_player(pconn, pplayer, FALSE);
+        connection_attach(pconn, pplayer, FALSE);
         send_player_info_c(pplayer, NULL);
         send_conn_info(pconn->self, NULL);
         break;
