@@ -292,8 +292,7 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
       inputline_make_chat_link(ptile, (ev->state & GDK_SHIFT_MASK) != 0);
     }
     /* <SHIFT> + <ALT> + RMB : Show/hide workers. */
-    else if ((ev->state & GDK_SHIFT_MASK) && (ev->state & GDK_MOD1_MASK)
-        && pcity != NULL) {
+    else if ((ev->state & GDK_SHIFT_MASK) && (ev->state & GDK_MOD1_MASK)) {
       overlay_workers_at_city();
     }
     /* <SHIFT + CONTROL> + RMB: Paste Production. */
