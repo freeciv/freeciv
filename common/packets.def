@@ -1373,7 +1373,7 @@ end
   other part of the rulesets.  (Terrain ruleset has enough info for its
   own "control" packet, done separately.)
 **************************************************************************/
-PACKET_RULESET_CONTROL=106; sc, lsend
+PACKET_RULESET_CONTROL=106; sc, post-send, post-recv, lsend
   UINT8 num_unit_classes;
   UINT8 num_unit_types;
   UINT8 num_impr_types;
