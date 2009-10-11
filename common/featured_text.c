@@ -758,6 +758,8 @@ static size_t extract_sequence_text(const char *featured_text,
   const char *stop = strchr(read, SEQ_STOP);
   const char *end = stop;
   const char *name;
+  size_t type_len;
+  size_t name_len;
   int i;
 
   if (!stop) {
@@ -786,10 +788,19 @@ static size_t extract_sequence_text(const char *featured_text,
     read++;
   }
 
+  /* Check the length of the type name. */
+  for (name = read; name < stop; name++) {
+    if (!my_isalpha(*name)) {
+      break;
+    }
+  }
+  type_len = name - read;
+
   *type = -1;
   for (i = 0; (name = text_tag_type_name(i)); i++) {
-    if (0 == mystrncasecmp(read, name, strlen(name))) {
-      read += strlen(name);
+    name_len = strlen(name);
+    if (name_len == type_len && 0 == mystrncasecmp(name, read, name_len)) {
+      read += name_len;
       *type = i;
       break;
     }
@@ -797,8 +808,9 @@ static size_t extract_sequence_text(const char *featured_text,
   if (*type == -1) {
     /* Try with short names. */
     for (i = 0; (name = text_tag_type_short_name(i)); i++) {
-      if (0 == mystrncasecmp(name, read, strlen(name))) {
-        read += strlen(name);
+      name_len = strlen(name);
+      if (name_len == type_len && 0 == mystrncasecmp(name, read, name_len)) {
+        read += name_len;
         *type = i;
         break;
       }
