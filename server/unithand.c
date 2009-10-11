@@ -434,7 +434,13 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity)
   city_units_upkeep(new_pcity);
 
   punit->homecity = new_pcity->id;
-  send_unit_info(unit_owner(punit), punit);
+  if (old_owner == new_owner) {
+    /* Only changed homecity only owner can see it. */
+    send_unit_info(new_owner, punit);
+  } else {
+    /* Player owner changed, send info to all able to see it. */
+    send_unit_info(NULL, punit);
+  }
 
   city_refresh(new_pcity);
   send_city_info(new_owner, new_pcity);
