@@ -519,8 +519,10 @@ static void map_unfog_tile(struct player *pplayer, struct tile *ptile,
     if (pplayer2 == pplayer || really_gives_vision(pplayer, pplayer2)) {
       bool known = map_is_known(ptile, pplayer2);
 
+      /* When fog of war is disabled, the seen count is always at least 1. */
       if ((!known && can_reveal_tiles)
-	  || (known && map_get_seen(ptile, pplayer2, vlayer) == 1)) {
+          || (known && (map_get_seen(ptile, pplayer2, vlayer)
+                        == 1 + !game.info.fogofwar))) {
 	really_unfog_tile(pplayer2, ptile, vlayer);
       }
     }
@@ -1194,7 +1196,10 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
 
 	    if (change != 0) {
 	      map_change_seen(ptile, pplayer2, change, v);
-	      if (map_get_seen(ptile, pplayer2, v) == change
+              /* When fog of war is disabled, the seen count is always
+               * at least 1. */
+              if ((map_get_seen(ptile, pplayer2, v)
+                   == change + !game.info.fogofwar)
 		  && map_is_known(ptile, pplayer)) {
 		really_unfog_tile(pplayer2, ptile, v);
 	      }
