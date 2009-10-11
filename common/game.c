@@ -430,6 +430,71 @@ void game_map_init(void)
   game.info.coolinglevel = (map_num_tiles() + 499) / 500;
 }
 
+/****************************************************************************
+  Remove all that is game-dependent in the player structure.
+****************************************************************************/
+static void game_player_reset(struct player *pplayer)
+{
+  if (pplayer->attribute_block.data) {
+    free(pplayer->attribute_block.data);
+    pplayer->attribute_block.data = NULL;
+  }
+  pplayer->attribute_block.length = 0;
+
+  if (pplayer->attribute_block_buffer.data) {
+    free(pplayer->attribute_block_buffer.data);
+    pplayer->attribute_block_buffer.data = NULL;
+  }
+  pplayer->attribute_block_buffer.length = 0;
+
+  unit_list_iterate(pplayer->units, punit) {
+    game_remove_unit(punit);
+  } unit_list_iterate_end;
+  if (0 != unit_list_size(pplayer->units)) {
+    freelog(LOG_ERROR, "game_remove_player() failed to remove %d %s units",
+            unit_list_size(pplayer->units),
+            nation_rule_name(nation_of_player(pplayer)));
+  }
+
+  city_list_iterate(pplayer->cities, pcity) {
+    game_remove_city(pcity);
+  } city_list_iterate_end;
+  if (0 != city_list_size(pplayer->cities)) {
+    freelog(LOG_ERROR, "game_remove_player() failed to remove %d %s cities",
+            city_list_size(pplayer->cities),
+            nation_rule_name(nation_of_player(pplayer)));
+  }
+}
+
+/****************************************************************************
+  Reset a player's data to its initial state.  After calling this you
+  must call player_init before the player can be used again.
+****************************************************************************/
+void game_remove_player(struct player *pplayer)
+{
+  game_player_reset(pplayer);
+
+#if 0
+  assert(conn_list_size(pplayer->connections) == 0);
+  /* FIXME: Connections that are unlinked here are left dangling.  It's up to
+   * the caller to fix them.  This happens when /loading a game while a
+   * client is connected. */
+#endif
+  conn_list_free(pplayer->connections);
+  pplayer->connections = NULL;
+
+  unit_list_free(pplayer->units);
+  pplayer->units = NULL;
+
+  city_list_free(pplayer->cities);
+  pplayer->cities = NULL;
+
+  /* This comes last because log calls in the above functions may use it. */
+  if (pplayer->nation != NULL) {
+    player_set_nation(pplayer, NULL);
+  }
+}
+
 /***************************************************************
   Remove all initialized players. This is all player slots, 
   since we initialize them all on game initialization.
@@ -466,17 +531,16 @@ void game_reset(void)
     game_free();
     game_init();
   } else {
-    game_remove_all_players();
+    /* Should do exactly the same as players_iterate here. */
+    player_slots_iterate(pslot) {
+      game_player_reset(pslot);
+    } player_slots_iterate_end;
+
     map_free();
     idex_free();
 
     map_init();
     idex_init();
-    player_slots_iterate(pslot) {
-      player_slot_set_used(pslot, FALSE);
-      player_init(pslot);
-    } player_slots_iterate_end;
-    set_player_count(0);
   }
 }
 
@@ -578,61 +642,6 @@ void game_advance_year(void)
 {
   game.info.year = game_next_year(game.info.year);
   game.info.turn++;
-}
-
-/****************************************************************************
-  Reset a player's data to its initial state.  After calling this you
-  must call player_init before the player can be used again.
-****************************************************************************/
-void game_remove_player(struct player *pplayer)
-{
-  if (pplayer->attribute_block.data) {
-    free(pplayer->attribute_block.data);
-    pplayer->attribute_block.data = NULL;
-  }
-  pplayer->attribute_block.length = 0;
-
-  if (pplayer->attribute_block_buffer.data) {
-    free(pplayer->attribute_block_buffer.data);
-    pplayer->attribute_block_buffer.data = NULL;
-  }
-  pplayer->attribute_block_buffer.length = 0;
-
-#if 0
-  assert(conn_list_size(pplayer->connections) == 0);
-  /* FIXME: Connections that are unlinked here are left dangling.  It's up to
-   * the caller to fix them.  This happens when /loading a game while a
-   * client is connected. */
-#endif
-  conn_list_free(pplayer->connections);
-  pplayer->connections = NULL;
-
-  unit_list_iterate(pplayer->units, punit) {
-    game_remove_unit(punit);
-  } unit_list_iterate_end;
-  if (0 != unit_list_size(pplayer->units)) {
-    freelog(LOG_ERROR, "game_remove_player() failed to remove %d %s units",
-            unit_list_size(pplayer->units),
-            nation_rule_name(nation_of_player(pplayer)));
-  }
-  unit_list_free(pplayer->units);
-  pplayer->units = NULL;
-
-  city_list_iterate(pplayer->cities, pcity) {
-    game_remove_city(pcity);
-  } city_list_iterate_end;
-  if (0 != city_list_size(pplayer->cities)) {
-    freelog(LOG_ERROR, "game_remove_player() failed to remove %d %s cities",
-            city_list_size(pplayer->cities),
-            nation_rule_name(nation_of_player(pplayer)));
-  }
-  city_list_free(pplayer->cities);
-  pplayer->cities = NULL;
-
-  /* This comes last because log calls in the above functions may use it. */
-  if (pplayer->nation != NULL) {
-    player_set_nation(pplayer, NULL);
-  }
 }
 
 /**************************************************************************
