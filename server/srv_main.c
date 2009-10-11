@@ -1372,6 +1372,7 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
       || type == PACKET_NATION_SELECT_REQ
       || type == PACKET_REPORT_REQ
       || type == PACKET_CLIENT_INFO
+      || type == PACKET_SAVE_SCENARIO
       || is_client_edit_packet(type)) {
 
     /* Except for PACKET_EDIT_MODE (used to set edit mode), check
