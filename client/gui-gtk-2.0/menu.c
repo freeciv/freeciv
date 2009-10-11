@@ -1856,7 +1856,7 @@ void update_menus(void)
 
   gtk_action_group_set_sensitive(safe_group, TRUE);
   gtk_action_group_set_sensitive(edit_group,
-                                 can_conn_enable_editing(&client.conn));
+                                 editor_is_active());
   gtk_action_group_set_sensitive(player_group, client_has_player());
   gtk_action_group_set_sensitive(playing_group, can_client_issue_orders()
                                  && !editor_is_active());
@@ -1868,6 +1868,8 @@ void update_menus(void)
                       && can_client_issue_orders());
 
   menus_set_active(safe_group, "EDIT_MODE", game.info.is_edit_mode);
+  menus_set_sensitive(safe_group, "EDIT_MODE",
+                      can_conn_enable_editing(&client.conn));
   editgui_refresh();
 
   menus_set_active(safe_group, "SHOW_CITY_OUTLINES", draw_city_outlines);
