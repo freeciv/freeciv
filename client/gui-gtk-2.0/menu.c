@@ -703,7 +703,11 @@ static void toggle_fog_callback(GtkAction *action, gpointer data)
 *****************************************************************/
 static void scenario_properties_callback(GtkAction *action, gpointer data)
 {
-  popup_save_dialog(TRUE);
+  struct property_editor *pe;
+
+  pe = editprop_get_property_editor();
+  property_editor_reload(pe, OBJTYPE_GAME);
+  property_editor_popup(pe, OBJTYPE_GAME);
 }
 
 /****************************************************************
@@ -711,11 +715,7 @@ static void scenario_properties_callback(GtkAction *action, gpointer data)
 *****************************************************************/
 static void save_scenario_callback(GtkAction *action, gpointer data)
 {
-  struct property_editor *pe;
-
-  pe = editprop_get_property_editor();
-  property_editor_reload(pe, OBJTYPE_GAME);
-  property_editor_popup(pe, OBJTYPE_GAME);
+  popup_save_dialog(TRUE);
 }
 
 /****************************************************************
