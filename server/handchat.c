@@ -148,12 +148,12 @@ static void chat_msg_to_player_multi(struct connection *sender,
   form_chat_name(sender, sender_name, sizeof(sender_name));
 
   send_chat_msg(sender->self, sender, FTC_PRIVATE_MSG, NULL,
-                "->[%s] %s", player_name(pdest), msg);
+                "->{%s} %s", player_name(pdest), msg);
 
   conn_list_iterate(pdest->connections, dest_conn) {
     if (dest_conn != sender) {
       send_chat_msg(dest_conn->self, sender, FTC_PRIVATE_MSG, NULL,
-                    "[%s] %s", sender_name, msg);
+                    "{%s} %s", sender_name, msg);
     }
   } conn_list_iterate_end;
 }
