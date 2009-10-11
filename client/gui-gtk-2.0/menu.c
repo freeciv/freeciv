@@ -1002,7 +1002,7 @@ static void clean_pollution_callback(GtkAction *action, gpointer data)
     /* FIXME: this can provide different actions for different units...
      * not good! */
     if (can_unit_do_activity(punit, ACTIVITY_POLLUTION)) {
-      request_unit_pillage(punit);
+      request_new_unit_activity(punit, ACTIVITY_POLLUTION);
     } else if (can_unit_paradrop(punit)) {
       /* FIXME: This is getting worse, we use a key_unit_*() function
        * which assign the order for all units!  Very bad! */
