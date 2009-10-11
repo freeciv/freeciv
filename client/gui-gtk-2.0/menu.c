@@ -49,6 +49,7 @@
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "helpdlg.h"
+#include "mapctrl.h"            /* center_on_unit(). */
 #include "messagedlg.h"
 #include "messagewin.h"
 #include "optiondlg.h"
@@ -1078,6 +1079,14 @@ static void tax_rate_callback(GtkAction *action, gpointer data)
 }
 
 /****************************************************************
+  Action "CENTER_VIEW" callback.
+*****************************************************************/
+static void center_view_callback(GtkAction *action, gpointer data)
+{
+  center_on_unit();
+}
+
+/****************************************************************
   Action "REPORT_UNITS" callback.
 *****************************************************************/
 static void report_units_callback(GtkAction *action, gpointer data)
@@ -1502,7 +1511,8 @@ static GtkActionGroup *get_player_group(void)
   if (!group) {
     const GtkActionEntry action_entries[] = {
       /* View menu. */
-      {"CENTER_VIEW", NULL, _("_Center View"), "c", NULL, NULL},
+      {"CENTER_VIEW", NULL, _("_Center View"),
+       "c", NULL, G_CALLBACK(center_view_callback)},
 
       /* Civilization menu. */
       {"REPORT_UNITS", NULL, _("_Units"),
