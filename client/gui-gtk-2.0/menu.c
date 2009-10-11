@@ -1858,9 +1858,10 @@ void update_menus(void)
   gtk_action_group_set_sensitive(edit_group,
                                  can_conn_enable_editing(&client.conn));
   gtk_action_group_set_sensitive(player_group, client_has_player());
-  gtk_action_group_set_sensitive(playing_group, can_client_issue_orders());
-  gtk_action_group_set_sensitive(unit_group,
-                                 can_client_issue_orders() && punits);
+  gtk_action_group_set_sensitive(playing_group, can_client_issue_orders()
+                                 && !editor_is_active());
+  gtk_action_group_set_sensitive(unit_group, can_client_issue_orders()
+                                 && !editor_is_active() && punits != NULL);
 
   menus_set_sensitive(playing_group, "TAX_RATE",
                       game.info.changable_tax
