@@ -20,6 +20,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* utility */
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
@@ -27,6 +28,7 @@
 #include "shared.h"
 #include "support.h"
 
+/* common */
 #include "city.h"
 #include "events.h"
 #include "game.h"
@@ -38,11 +40,14 @@
 #include "unit.h"
 #include "unitlist.h"
 
+/* scripting */
 #include "script.h"
 
+/* server */
 #include "citytools.h"
 #include "cityturn.h"
 #include "maphand.h"
+#include "notify.h"
 #include "plrhand.h"
 #include "sanitycheck.h"
 #include "settlers.h"

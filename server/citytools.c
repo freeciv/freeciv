@@ -20,6 +20,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* utility */
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
@@ -27,6 +28,7 @@
 #include "shared.h"
 #include "support.h"
 
+/* common */
 #include "base.h"
 #include "city.h"
 #include "events.h"
@@ -44,12 +46,18 @@
 #include "unitlist.h"
 #include "vision.h"
 
+/* ai */
+#include "aicity.h"
+#include "aiunit.h"
+
+/* scripting */
 #include "script.h"
 
+/* server */
 #include "barbarian.h"
-#include "citytools.h"
 #include "cityturn.h"
 #include "maphand.h"
+#include "notify.h"
 #include "plrhand.h"
 #include "sanitycheck.h"
 #include "sernet.h"
@@ -60,8 +68,7 @@
 #include "unithand.h"
 #include "unittools.h"
 
-#include "aicity.h"
-#include "aiunit.h"
+#include "citytools.h"
 
 
 /* Queue for pending auto_arrange_workers() */

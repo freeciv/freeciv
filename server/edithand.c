@@ -18,13 +18,15 @@
 #include <assert.h>
 #include <limits.h> /* USHRT_MAX */
 
-#include "events.h"
+/* utility */
 #include "fcintl.h"
 #include "hash.h"
 #include "log.h"
 #include "shared.h"
 #include "support.h"
 
+/* common */
+#include "events.h"
 #include "game.h"
 #include "government.h"
 #include "map.h"
@@ -33,19 +35,24 @@
 #include "terrain.h"
 #include "unitlist.h"
 
+/* generator */
+#include "utilities.h"
+
+/* server */
 #include "citytools.h"
 #include "cityturn.h"
 #include "connecthand.h"
-#include "edithand.h"
 #include "gamehand.h"
 #include "hand_gen.h"
 #include "maphand.h"
 #include "plrhand.h"
+#include "notify.h"
 #include "srv_main.h"
 #include "stdinhand.h"
 #include "techtools.h"
 #include "unittools.h"
-#include "utilities.h"
+
+#include "edithand.h"
 
 /* This table holds pointers to tiles for which expensive
  * checks (e.g. assign_continent_numbers) have been left

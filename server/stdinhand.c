@@ -35,8 +35,8 @@
 #include "log.h"
 #include "mem.h"
 #include "registry.h"
-#include "shared.h"		/* fc__attribute, bool type, etc. */
-#include "support.h"
+#include "shared.h"
+#include "support.h"            /* fc__attribute, bool type, etc. */
 #include "timing.h"
 
 /* common */
@@ -50,6 +50,10 @@
 #include "unitlist.h"
 #include "version.h"
 
+/* ai */
+#include "advmilitary.h"        /* assess_danger_player() */
+#include "ailog.h"
+
 /* server */
 #include "citytools.h"
 #include "commands.h"
@@ -61,6 +65,7 @@
 #include "mapgen.h"
 #include "maphand.h"
 #include "meta.h"
+#include "notify.h"
 #include "plrhand.h"
 #include "report.h"
 #include "ruleset.h"
@@ -73,8 +78,6 @@
 #include "stdinhand.h"
 #include "voting.h"
 
-#include "advmilitary.h"	/* assess_danger_player() */
-#include "ailog.h"
 
 
 #define TOKEN_DELIMITERS " \t\n,"

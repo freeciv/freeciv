@@ -18,15 +18,20 @@
 #include <assert.h>
 #include <string.h>
 
-#include "events.h"
+/* utility */
 #include "fcintl.h"
-#include "game.h"
 #include "log.h"
-#include "packets.h"
 #include "shared.h"
+
+/* common */
+#include "events.h"
+#include "game.h"
+#include "packets.h"
 #include "spaceship.h"
 
+/* server */
 #include "plrhand.h"
+#include "notify.h"
 #include "srv_main.h"
 
 #include "spacerace.h"

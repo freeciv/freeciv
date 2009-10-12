@@ -17,20 +17,26 @@
 
 #include <stdarg.h>
 
+/* utility */
 #include "astring.h"
-#include "city.h"
-#include "game.h"
 #include "log.h"
 #include "shared.h"
 #include "support.h"
-#include "unit.h"
 #include "timing.h"
 
+/* common */
+#include "city.h"
+#include "game.h"
+#include "unit.h"
+
+/* server */
 #include "gotohand.h"
-#include "plrhand.h"
+#include "notify.h"
 #include "srv_main.h"
 
+/* ai */
 #include "aidata.h"
+
 #include "ailog.h"
 
 static struct timer *aitimer[AIT_LAST][2];

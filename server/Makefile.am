@@ -57,6 +57,8 @@ libfreeciv_srv_la_SOURCES = \
 		maphand.h	\
 		meta.c		\
 		meta.h		\
+		notify.c	\
+		notify.h	\
 		plrhand.c	\
 		plrhand.h	\
 		report.c	\

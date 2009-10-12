@@ -23,13 +23,17 @@
 #include <readline/readline.h>
 #endif
 
+/* utility */
 #include "fciconv.h"
 #include "fcintl.h"
-#include "game.h"
 #include "log.h"
 #include "support.h"
 
-#include "plrhand.h"
+/* common */
+#include "game.h"
+
+/* server */
+#include "notify.h"
 #include "srv_main.h"
 
 #include "console.h"

@@ -15,7 +15,8 @@
 #include <config.h>
 #endif
 
-#include "plrhand.h"
+/* server */
+#include "notify.h"
 
 #include "api_notify.h"
 

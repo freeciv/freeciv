@@ -13,19 +13,6 @@
 #ifndef FC__PLRHAND_H
 #define FC__PLRHAND_H
 
-#include <stdarg.h>
-
-/* utility */
-#include "shared.h"             /* fc__attribute */
-
-/* common */
-#include "events.h"             /* enum event_type */
-#include "fc_types.h"
-#include "featured_text.h"      /* FTC_*: color pre-definitions. */
-#include "packets.h"
-
-#include "hand_gen.h"
-
 struct section_file;
 struct connection;
 struct conn_list;
@@ -52,36 +39,6 @@ void maybe_make_contact(struct tile *ptile, struct player *pplayer);
 void send_player_info(struct player *src, struct player *dest);
 void send_player_info_c(struct player *src, struct conn_list *dest);
 void send_player_slot_info_c(struct player *src, struct conn_list *dest);
-
-void fill_packet_chat_msg(struct packet_chat_msg *packet,
-                          const struct tile *ptile, enum event_type event,
-                          const struct connection *pconn,
-                          const char *fg_color, const char *bg_color,
-                          const char *format, va_list vargs);
-void notify_conn_packet(struct conn_list *dest,
-                        const struct packet_chat_msg *packet);
-void notify_conn(struct conn_list *dest, const struct tile *ptile,
-                 enum event_type event, const char *fg_color,
-                 const char *bg_color, const char *format, ...)
-                 fc__attribute((__format__ (__printf__, 6, 7)));
-void notify_player(const struct player *pplayer, const struct tile *ptile,
-                   enum event_type event, const char *fg_color,
-                   const char *bg_color, const char *format, ...)
-                   fc__attribute((__format__ (__printf__, 6, 7)));
-void notify_embassies(const struct player *pplayer,
-                      const struct player *exclude,
-                      const struct tile *ptile, enum event_type event,
-                      const char *fg_color, const char *bg_color,
-                      const char *format, ...)
-                      fc__attribute((__format__ (__printf__, 7, 8)));
-void notify_team(const struct player *pplayer, const struct tile *ptile,
-                 enum event_type event, const char *fg_color,
-                 const char *bg_color, const char *format, ...)
-                 fc__attribute((__format__ (__printf__, 6, 7)));
-void notify_research(const struct player *pplayer, enum event_type event,
-                     const char *fg_color, const char *bg_color,
-                     const char *format, ...)
-                     fc__attribute((__format__ (__printf__, 5, 6)));
 
 struct conn_list *player_reply_dest(struct player *pplayer);
 

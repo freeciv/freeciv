@@ -33,7 +33,7 @@
 
 /* server */
 #include "console.h"
-#include "plrhand.h"
+#include "notify.h"
 #include "stdinhand.h"
 
 #include "handchat.h"
@@ -80,8 +80,7 @@ static void send_chat_msg(struct conn_list *dest,
   }
 
   va_start(args, format);
-  fill_packet_chat_msg(&packet, NULL, E_CHAT_MSG,
-                       sender, fg_color, bg_color, format, args);
+  vpackage_chat_msg(&packet, sender, fg_color, bg_color, format, args);
   va_end(args);
 
   lsend_packet_chat_msg(dest, &packet);

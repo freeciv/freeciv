@@ -18,28 +18,35 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/* utility */
+#include "fcintl.h"
+#include "log.h"
+#include "mem.h"
+
+/* common */
 #include "diptreaty.h"
 #include "events.h"
-#include "fcintl.h"
 #include "game.h"
-#include "log.h"
 #include "map.h"
-#include "mem.h"
 #include "packets.h"
 #include "player.h"
 #include "unit.h"
 
+/* ai */
+#include "advdiplomacy.h"
+
+/* scripting */
 #include "script.h"
 
+/* server */
 #include "citytools.h"
 #include "cityturn.h"
 #include "maphand.h"
 #include "plrhand.h"
+#include "notify.h"
 #include "settlers.h"
 #include "techtools.h"
 #include "unittools.h"
-
-#include "advdiplomacy.h"
 
 #include "diplhand.h"
 

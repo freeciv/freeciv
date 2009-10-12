@@ -17,22 +17,26 @@
 
 #include <math.h>
 
+/* utility */
 #include "fcintl.h"
 #include "log.h"
 #include "support.h"
 
+/* common */
 #include "capability.h"
 #include "connection.h"
 #include "packets.h"
 #include "player.h"
 
+/* server */
 #include "commands.h"
 #include "console.h"
-#include "plrhand.h"
+#include "hand_gen.h"
+#include "notify.h"
 #include "settings.h"
 #include "stdinhand.h"
-#include "voting.h"
 
+#include "voting.h"
 
 struct vote_list *vote_list = NULL;
 int vote_number_sequence = 0;

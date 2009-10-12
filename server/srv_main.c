@@ -74,6 +74,18 @@
 #include "unitlist.h"
 #include "version.h"
 
+/* ai */
+#include "advdiplomacy.h"
+#include "advmilitary.h"
+#include "aicity.h"
+#include "aidata.h"
+#include "aihand.h"
+#include "aisettler.h"
+#include "citymap.h"
+
+/* generator */
+#include "mapgen.h"
+
 /* server */
 #include "aiiface.h"
 #include "auth.h"
@@ -90,6 +102,7 @@
 #include "handchat.h"
 #include "maphand.h"
 #include "meta.h"
+#include "notify.h"
 #include "plrhand.h"
 #include "report.h"
 #include "ruleset.h"
@@ -101,24 +114,13 @@
 #include "settings.h"
 #include "settlers.h"
 #include "spacerace.h"
-#include "srv_main.h"
 #include "stdinhand.h"
 #include "techtools.h"
 #include "unithand.h"
 #include "unittools.h"
 #include "voting.h"
 
-/* ai */
-#include "advdiplomacy.h"
-#include "advmilitary.h"
-#include "aicity.h"
-#include "aidata.h"
-#include "aihand.h"
-#include "aisettler.h"
-#include "citymap.h"
-
-/* generator */
-#include "mapgen.h"
+#include "srv_main.h"
 
 static void end_turn(void);
 static void announce_player(struct player *pplayer);

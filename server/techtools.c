@@ -16,6 +16,7 @@
 
 #include <assert.h>
 
+/* utility */
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
@@ -23,6 +24,7 @@
 #include "shared.h"
 #include "support.h"
 
+/* common */
 #include "game.h"
 #include "government.h"
 #include "movement.h"
@@ -30,15 +32,19 @@
 #include "tech.h"
 #include "unit.h"
 
+/* scripting */
 #include "script.h"
 
+/* server */
 #include "citytools.h"
 #include "cityturn.h"
 #include "gamehand.h"
 #include "maphand.h"
+#include "notify.h"
 #include "plrhand.h"
-#include "techtools.h"
 #include "unittools.h"
+
+#include "techtools.h"
 
 static Tech_type_id pick_random_tech(struct player* plr);
 

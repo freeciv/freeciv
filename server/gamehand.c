@@ -18,28 +18,33 @@
 #include <assert.h>
 #include <stdio.h> /* for remove() */ 
 
+/* utility */
 #include "capability.h"
-#include "events.h"
 #include "fcintl.h"
-#include "game.h"
-#include "improvement.h"
 #include "log.h"
 #include "mem.h"
-#include "movement.h"
-#include "packets.h"
 #include "rand.h"
 #include "registry.h"
 #include "shared.h"
 #include "support.h"
 
+/* common */
+#include "events.h"
+#include "game.h"
+#include "improvement.h"
+#include "movement.h"
+#include "packets.h"
+
+/* server */
 #include "connecthand.h"
 #include "ggzserver.h"
 #include "maphand.h"
+#include "notify.h"
 #include "plrhand.h"
+#include "srv_main.h"
 #include "unittools.h"
 
 #include "gamehand.h"
-#include "srv_main.h"
 
 #define CHALLENGE_ROOT "challenge"
 

@@ -17,12 +17,14 @@
 
 #include <assert.h>
 
+/* utility */
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
 #include "rand.h"
 #include "support.h"
 
+/* common */
 #include "base.h"
 #include "borders.h"
 #include "events.h"
@@ -35,17 +37,20 @@
 #include "unitlist.h"
 #include "vision.h"
 
+/* generator */
+#include "utilities.h"
+
+/* server */
 #include "citytools.h"
 #include "cityturn.h"
-#include "maphand.h"
-#include "plrhand.h"           /* notify_player */
+#include "notify.h"
+#include "plrhand.h"
 #include "sernet.h"
 #include "srv_main.h"
 #include "unithand.h"
 #include "unittools.h"
 
-/* generator */
-#include "utilities.h"
+#include "maphand.h"
 
 #define MAXIMUM_CLAIMED_OCEAN_SIZE (20)
 
