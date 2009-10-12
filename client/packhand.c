@@ -1970,12 +1970,16 @@ void handle_conn_info(struct packet_conn_info *pinfo)
 
     if (!pconn) {
       freelog(LOG_VERBOSE, "Server reports new connection %d %s",
-	      pinfo->id, pinfo->username);
-
-      pconn = fc_calloc(1, sizeof(struct connection));
-      pconn->buffer = NULL;
-      pconn->send_buffer = NULL;
-      pconn->ping_time = -1.0;
+              pinfo->id, pinfo->username);
+      if (pinfo->id == client.conn.id) {
+        /* Our connection. */
+        pconn = &client.conn;
+      } else {
+        pconn = fc_calloc(1, sizeof(struct connection));
+        pconn->buffer = NULL;
+        pconn->send_buffer = NULL;
+        pconn->ping_time = -1.0;
+      }
       if (pplayer) {
 	conn_list_append(pplayer->connections, pconn);
       }
@@ -1994,6 +1998,14 @@ void handle_conn_info(struct packet_conn_info *pinfo)
       }
     }
 
+    if (pconn == &client.conn
+        && (pconn->playing != pplayer
+            || pconn->observer != pinfo->observer)) {
+      /* Our connection state changed, let prepare the changes and reset
+       * the game. */
+      set_client_state(C_S_PREPARING);
+    }
+
     pconn->id = pinfo->id;
     pconn->established = pinfo->established;
     pconn->observer = pinfo->observer;
@@ -2003,25 +2015,12 @@ void handle_conn_info(struct packet_conn_info *pinfo)
     sz_strlcpy(pconn->username, pinfo->username);
     sz_strlcpy(pconn->addr, pinfo->addr);
     sz_strlcpy(pconn->capability, pinfo->capability);
-
-    if (pinfo->id == client.conn.id) {
-      if (client.conn.playing != pconn->playing
-          || client.conn.observer != pconn->observer) {
-        set_client_state(C_S_PREPARING);
-      }
-
-      client.conn.established = pconn->established;
-      client.conn.observer = pconn->observer;
-      client.conn.access_level = pconn->access_level;
-      client.conn.playing = pconn->playing;
-      sz_strlcpy(client.conn.username, pinfo->username);
-    }
   }
 
   update_players_dialog();
   update_conn_list_dialog();
 
-  if (pinfo->used && pinfo->id == client.conn.id) {
+  if (pinfo->used && pconn == &client.conn) {
     /* For updating the sensitivity of the "Edit Mode" menu item,
      * among other things. */
     update_menus();
