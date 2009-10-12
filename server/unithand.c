@@ -20,11 +20,13 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* utility */
 #include "fcintl.h"
 #include "mem.h"
 #include "rand.h"
 #include "shared.h"
 
+/* common */
 #include "city.h"
 #include "combat.h"
 #include "events.h"
@@ -38,22 +40,26 @@
 #include "unit.h"
 #include "unitlist.h"
 
+/* ai */
+#include "aiexplorer.h"
+#include "aitools.h"
+
+/* server */
 #include "barbarian.h"
 #include "citytools.h"
 #include "cityturn.h"
 #include "diplomats.h"
 #include "gotohand.h"
 #include "maphand.h"
+#include "notify.h"
 #include "plrhand.h"
 #include "settlers.h"
 #include "spacerace.h"
 #include "srv_main.h"
 #include "techtools.h"
-#include "unithand.h"
 #include "unittools.h"
 
-#include "aiexplorer.h"
-#include "aitools.h"
+#include "unithand.h"
 
 static void city_add_or_build_error(struct player *pplayer,
 				    struct unit *punit,

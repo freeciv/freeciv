@@ -25,11 +25,13 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* utility */
 #include "fcintl.h"
 #include "log.h"
 #include "rand.h"
 #include "support.h"
 
+/* common */
 #include "effects.h"
 #include "events.h"
 #include "game.h"
@@ -41,9 +43,14 @@
 #include "terrain.h"
 #include "unitlist.h"
 
-#include "barbarian.h"
+/* ai */
+#include "aidata.h"
+#include "aitools.h"
+
+/* server */
 #include "gamehand.h"
 #include "maphand.h"
+#include "notify.h"
 #include "plrhand.h"
 #include "srv_main.h"
 #include "stdinhand.h"
@@ -51,8 +58,7 @@
 #include "unithand.h"
 #include "unittools.h"
 
-#include "aidata.h"
-#include "aitools.h"
+#include "barbarian.h"
 
 #define BARBARIAN_INITIAL_VISION_RADIUS 3
 #define BARBARIAN_INITIAL_VISION_RADIUS_SQ 9

@@ -17,23 +17,28 @@
 
 #include <string.h>
 
+/* utility */
 #include "capability.h"
-#include "capstr.h"
-#include "events.h"
 #include "fcintl.h"
-#include "game.h"
 #include "log.h"
 #include "mem.h"
+#include "support.h"
+
+/* common */
+#include "capstr.h"
+#include "events.h"
+#include "game.h"
 #include "packets.h"
 #include "player.h"
-#include "support.h"
 #include "version.h"
 
+/* server */
 #include "auth.h"
 #include "diplhand.h"
 #include "gamehand.h"
 #include "maphand.h"
 #include "meta.h"
+#include "notify.h"
 #include "plrhand.h"
 #include "report.h"
 #include "ruleset.h"

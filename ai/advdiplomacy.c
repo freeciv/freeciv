@@ -43,8 +43,8 @@
 /* server */
 #include "citytools.h"
 #include "diplhand.h"
-#include "plrhand.h"
 #include "maphand.h"
+#include "notify.h"
 #include "settlers.h"  /* amortize */
 
 /* ai */
@@ -91,11 +91,11 @@ static void notify(struct player *pplayer, const char *text, ...)
     struct packet_chat_msg packet;
 
     va_start(ap, text);
-    fill_packet_chat_msg(&packet, NULL, E_DIPLOMACY, NULL,
-                         FTC_PRIVATE_MSG, NULL, text, ap);
+    vpackage_event(&packet, NULL, E_DIPLOMACY,
+                   FTC_PRIVATE_MSG, NULL, text, ap);
     va_end(ap);
 
-    notify_conn_packet(dest, &packet);
+    lsend_packet_chat_msg(dest, &packet);
   }
 }
 

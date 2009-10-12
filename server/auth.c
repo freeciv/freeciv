@@ -23,21 +23,25 @@
   #include <mysql/mysql.h>
 #endif
 
-#include "auth.h"
-#include "connection.h"
+/* utility */
 #include "fcintl.h"
 #include "log.h"
 #include "md5.h"
-#include "packets.h"
 #include "registry.h"
 #include "shared.h"
 #include "support.h"
 
-#include "auth.h"
+/* common */
+#include "connection.h"
+#include "packets.h"
+
+/* server */
 #include "connecthand.h"
-#include "plrhand.h"
+#include "notify.h"
 #include "sernet.h"
 #include "srv_main.h"
+
+#include "auth.h"
 
 /* where our mysql database is located and how to get to it */
 #define DEFAULT_AUTH_HOST     "localhost"

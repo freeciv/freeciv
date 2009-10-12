@@ -18,39 +18,45 @@
 #include <assert.h>
 #include <string.h>
 
+/* utility */
+#include "fcintl.h"
+#include "log.h"
+#include "rand.h"
+#include "shared.h"
+#include "support.h"
+
+/* common */
 #include "city.h"
 #include "combat.h"
 #include "effects.h"
 #include "events.h"
-#include "fcintl.h"
 #include "game.h"
 #include "government.h"
 #include "improvement.h"
-#include "log.h"
 #include "map.h"
 #include "movement.h"
 #include "packets.h"
 #include "player.h"
-#include "rand.h"
-#include "shared.h"
 #include "specialist.h"
-#include "support.h"
 #include "unit.h"
 #include "unitlist.h"
 
-#include "path_finding.h"
+/* aicore */
 #include "pf_tools.h"
 
+/* server */
 #include "cityhand.h"
 #include "citytools.h"
 #include "cityturn.h"
 #include "gotohand.h"
+#include "notify.h"
 #include "plrhand.h"
 #include "settlers.h"
 #include "srv_main.h"
 #include "unithand.h"
 #include "unittools.h"
 
+/* ai */
 #include "advdomestic.h"
 #include "advmilitary.h"
 #include "aidata.h"

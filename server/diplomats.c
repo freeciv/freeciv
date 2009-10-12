@@ -38,6 +38,7 @@
 #include "diplhand.h"
 #include "diplomats.h"
 #include "gotohand.h"
+#include "notify.h"
 #include "plrhand.h"
 #include "techtools.h"
 #include "unithand.h"

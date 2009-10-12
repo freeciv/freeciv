@@ -47,6 +47,13 @@
 #include "path_finding.h"
 #include "pf_tools.h"
 
+/* ai */
+#include "advdiplomacy.h"
+#include "aiexplorer.h"
+#include "aiferry.h"
+#include "aitools.h"
+#include "aiunit.h"
+
 /* server */
 #include "aiiface.h"
 #include "barbarian.h"
@@ -56,6 +63,7 @@
 #include "gamehand.h"
 #include "gotohand.h"
 #include "maphand.h"
+#include "notify.h"
 #include "plrhand.h"
 #include "script_signal.h"
 #include "sernet.h"
@@ -64,13 +72,6 @@
 #include "techtools.h"
 #include "unithand.h"
 #include "unittools.h"
-
-/* ai */
-#include "advdiplomacy.h"
-#include "aiexplorer.h"
-#include "aiferry.h"
-#include "aitools.h"
-#include "aiunit.h"
 
 /* We need this global variable for our sort algorithm */
 static struct tile *autoattack_target;

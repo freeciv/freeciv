@@ -20,22 +20,27 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* utility */
+#include "fcintl.h"
+#include "log.h"
+#include "rand.h"
+#include "support.h"
+
+/* common */
 #include "city.h"
 #include "events.h"
-#include "fcintl.h"
 #include "game.h"
 #include "idex.h"
-#include "log.h"
 #include "map.h"
 #include "player.h"
-#include "rand.h"
 #include "specialist.h"
-#include "support.h"
 #include "unit.h"
 #include "worklist.h"
 
+/* server */
 #include "citytools.h"
 #include "cityturn.h"
+#include "notify.h"
 #include "plrhand.h"
 #include "sanitycheck.h"
 
