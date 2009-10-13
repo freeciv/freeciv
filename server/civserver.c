@@ -32,15 +32,20 @@
 #include <windows.h>
 #endif
 
+/* utility */
 #include "fciconv.h"
 #include "fcintl.h"
-#include "game.h"
 #include "log.h"
 #include "shared.h"
 #include "support.h"
 #include "timing.h"
+
+/* common */
+#include "capstr.h"
+#include "game.h"
 #include "version.h"
 
+/* server */
 #include "console.h"
 #include "ggzserver.h"
 #include "meta.h"
@@ -285,6 +290,7 @@ int main(int argc, char *argv[])
   dont_run_as_root(argv[0], "freeciv_server");
 
   ggz_initialize();
+  init_our_capability();
 
   /* have arguments, call the main server loop... */
   srv_main();
