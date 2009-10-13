@@ -905,7 +905,7 @@ static gboolean right_notebook_button_release(GtkWidget *widget,
 **************************************************************************/
 static void setup_widgets(void)
 {
-  GtkWidget *box, *ebox, *hbox, *sbox, *align, *label;
+  GtkWidget *page, *box, *ebox, *hbox, *sbox, *align, *label;
   GtkWidget *frame, *table, *table2, *paned, *hpaned, *sw, *text;
   GtkWidget *button, *view;
   int i;
@@ -951,6 +951,13 @@ static void setup_widgets(void)
 
   /* *** everything in the top *** */
 
+  page = gtk_scrolled_window_new(NULL, NULL);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(page),
+                                 GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(page),
+                                      GTK_SHADOW_ETCHED_IN);
+  gtk_notebook_append_page(GTK_NOTEBOOK(notebook), page, NULL);
+
   top_vbox = gtk_vbox_new(FALSE, 5);
   hbox = gtk_hbox_new(FALSE, 0);
   paned = gtk_vpaned_new();
@@ -958,13 +965,14 @@ static void setup_widgets(void)
   if (gui_gtk2_small_display_layout) {
     /* The window is divided into two horizontal panels: overview +
      * civinfo + unitinfo, main view + message window. */
-    gtk_notebook_append_page(GTK_NOTEBOOK(notebook), top_vbox, NULL);
+    gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(page),
+                                          top_vbox);
     gtk_box_pack_end(GTK_BOX(top_vbox), hbox, TRUE, TRUE, 0);
     gtk_box_pack_end(GTK_BOX(hbox), paned, TRUE, TRUE, 0);
   } else {
     /* The window is divided into two vertical panes: overview +
      * + civinfo + unitinfo + main view, message window. */
-    gtk_notebook_append_page(GTK_NOTEBOOK(notebook), paned, NULL);
+    gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(page), paned);
     gtk_paned_pack1(GTK_PANED(paned), top_vbox, TRUE, FALSE);
     gtk_box_pack_end(GTK_BOX(top_vbox), hbox, TRUE, TRUE, 0);
   }
