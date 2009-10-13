@@ -246,6 +246,25 @@ static int compute_tech_sell_price(struct player* giver, struct player* taker,
 }
 
 /********************************************************************** 
+  Returns an enemy player to 'us' allied with 'them' if there is one.
+***********************************************************************/
+static const struct player *
+get_allied_with_enemy_player(const struct player *us,
+                             const struct player *them)
+{
+  players_iterate(aplayer) {
+    if (aplayer != us
+        && aplayer != them
+        && aplayer->is_alive
+        && pplayers_allied(them, aplayer)
+        && pplayer_get_diplstate(us, aplayer)->type == DS_WAR) {
+      return aplayer;
+    }
+  } players_iterate_end;
+  return NULL;
+}
+
+/********************************************************************** 
   Evaluate gold worth of a single clause in a treaty. Note that it
   sometimes matter a great deal who is giving what to whom, and
   sometimes (such as with treaties) it does not matter at all.
@@ -262,6 +281,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
   int worth = 0; /* worth for pplayer of what aplayer gives */
   bool give = (pplayer == pclause->from);
   struct player *giver;
+  const struct player *penemy;
   struct ai_dip_intel *adip = &ai->diplomacy.player_intel[player_index(aplayer)];
   bool is_dangerous;
 
@@ -300,11 +320,21 @@ static int ai_goldequiv_clause(struct player *pplayer,
 
     /* This guy is allied to one of our enemies. Only accept
      * ceasefire. */
-    if (adip->is_allied_with_enemy
+    if ((penemy = get_allied_with_enemy_player(pplayer, aplayer))
         && pclause->type != CLAUSE_CEASEFIRE) {
       notify(aplayer, _("*%s (AI)* First break alliance with %s, %s."),
-             player_name(pplayer),
-             player_name(adip->is_allied_with_enemy),
+             player_name(pplayer), player_name(penemy),
+             player_name(aplayer));
+      worth = -BIG_NUMBER;
+      break;
+    }
+
+    /* He was allied with an enemy at the begining of the turn. */
+    if (adip->is_allied_with_enemy
+        && pclause->type != CLAUSE_CEASEFIRE) {
+      notify(aplayer, _("*%s (AI)* I would like to see you keep your "
+                        "distance from %s for some time, %s."),
+             player_name(pplayer), player_name(adip->is_allied_with_enemy),
              player_name(aplayer));
       worth = -BIG_NUMBER;
       break;
