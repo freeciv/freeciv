@@ -2238,6 +2238,7 @@ void set_client_page(enum client_pages page)
     break;
   case PAGE_GAME:
     enable_menus(FALSE);
+    gtk_window_unmaximize(GTK_WINDOW(toplevel));
     break;
   default:
     break;
@@ -2260,6 +2261,7 @@ void set_client_page(enum client_pages page)
   case PAGE_GAME:
     reset_unit_table();
     enable_menus(TRUE);
+    gtk_window_maximize(GTK_WINDOW(toplevel));
     break;
   case PAGE_LOAD:
     update_load_page();
