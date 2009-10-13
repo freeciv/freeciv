@@ -204,10 +204,7 @@ static void popup_diplomacy_dialog(int other_player_id, int initiated_from)
 static void popup_add_menu(GtkMenuShell *parent, gpointer data)
 {
   struct Diplomacy_dialog *pdialog;
-  
-  gpointer plr;
-  struct player *plr0, *plr1;
-
+  struct player *pgiver, *pother;
   GtkWidget *item, *menu;
 
 
@@ -215,29 +212,23 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
   gtk_container_foreach(GTK_CONTAINER(parent),
                         (GtkCallback) gtk_widget_destroy, NULL);
 
-  pdialog = (struct Diplomacy_dialog *)data;
-  plr	  = g_object_get_data(G_OBJECT(parent), "plr");
-
-  plr0	  = pdialog->treaty.plr0;
-  plr1	  = pdialog->treaty.plr1;
-
-  if (plr == plr1) {
-    plr1  = plr0;
-    plr0  = plr;
-  }
+  pdialog = (struct Diplomacy_dialog *) data;
+  pgiver = (struct player *) g_object_get_data(G_OBJECT(parent), "plr");
+  pother = (pgiver == pdialog->treaty.plr0
+            ? pdialog->treaty.plr1 : pdialog->treaty.plr0);
 
 
   /* Maps. */
   menu = gtk_menu_new();
   item = gtk_menu_item_new_with_mnemonic(_("World-map"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu),item);
-  g_object_set_data(G_OBJECT(item), "plr", plr);
+  g_object_set_data(G_OBJECT(item), "plr", pgiver);
   g_signal_connect(item, "activate",
 		   G_CALLBACK(diplomacy_dialog_map_callback), pdialog);
 
   item = gtk_menu_item_new_with_mnemonic(_("Sea-map"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_object_set_data(G_OBJECT(item), "plr", plr);
+  g_object_set_data(G_OBJECT(item), "plr", pgiver);
   g_signal_connect(item, "activate",
 		   G_CALLBACK(diplomacy_dialog_seamap_callback), pdialog);
 
@@ -254,18 +245,18 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
     menu = gtk_menu_new();
 
     advance_index_iterate(A_FIRST, i) {
-      if (player_invention_state(plr0, i) == TECH_KNOWN
-          && player_invention_reachable(plr1, i)
-	  && (player_invention_state(plr1, i) == TECH_UNKNOWN
-	      || player_invention_state(plr1, i) == TECH_PREREQS_KNOWN)) {
+      if (player_invention_state(pgiver, i) == TECH_KNOWN
+          && player_invention_reachable(pother, i)
+	  && (player_invention_state(pother, i) == TECH_UNKNOWN
+	      || player_invention_state(pother, i) == TECH_PREREQS_KNOWN)) {
 	item =
 	  gtk_menu_item_new_with_label(advance_name_for_player(client.conn.playing, i));
 
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 	g_signal_connect(item, "activate",
 			 G_CALLBACK(diplomacy_dialog_tech_callback),
-			 GINT_TO_POINTER((player_number(plr0) << 24) |
-					 (player_number(plr1) << 16) |
+			 GINT_TO_POINTER((player_number(pgiver) << 24) |
+					 (player_number(pother) << 16) |
 					 i));
 	flag = TRUE;
       }
@@ -289,7 +280,7 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
 			      - Kris Bubendorfer
   *****************************************************************/
   {
-    int i = 0, j = 0, n = city_list_size(plr0->cities);
+    int i = 0, j = 0, n = city_list_size(pgiver->cities);
     struct city **city_list_ptrs;
 
     if (n > 0) {
@@ -298,7 +289,7 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
       city_list_ptrs = NULL;
     }
 
-    city_list_iterate(plr0->cities, pcity) {
+    city_list_iterate(pgiver->cities, pcity) {
       if (!is_capital(pcity)) {
 	city_list_ptrs[i] = pcity;
 	i++;
@@ -315,8 +306,8 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
       gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
       g_signal_connect(item, "activate",
 		       G_CALLBACK(diplomacy_dialog_city_callback),
-			 GINT_TO_POINTER((player_number(plr0) << 24) |
-					 (player_number(plr1) << 16) |
+			 GINT_TO_POINTER((player_number(pgiver) << 24) |
+					 (player_number(pother) << 16) |
 					 city_list_ptrs[j]->id));
     }
     free(city_list_ptrs);
@@ -331,11 +322,11 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
 
   /* Give shared vision. */
   item = gtk_menu_item_new_with_mnemonic(_("_Give shared vision"));
-  g_object_set_data(G_OBJECT(item), "plr", plr);
+  g_object_set_data(G_OBJECT(item), "plr", pgiver);
   g_signal_connect(item, "activate",
 		   G_CALLBACK(diplomacy_dialog_vision_callback), pdialog);
 
-  if (gives_shared_vision(plr0, plr1)) {
+  if (gives_shared_vision(pgiver, pother)) {
     gtk_widget_set_sensitive(item, FALSE);
   }
   gtk_menu_shell_append(GTK_MENU_SHELL(parent), item);
@@ -344,11 +335,12 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
 
   /* Give embassy. */
   item = gtk_menu_item_new_with_mnemonic(_("Give _embassy"));
-  g_object_set_data(G_OBJECT(item), "plr", plr);
+  g_object_set_data(G_OBJECT(item), "plr", pgiver);
   g_signal_connect(item, "activate",
 		   G_CALLBACK(diplomacy_dialog_embassy_callback), pdialog);
 
-  if (player_has_embassy(plr1, plr0)) {
+  /* Don't take in account the embassy effects. */
+  if (BV_ISSET(pother->embassy, player_index(pgiver))) {
     gtk_widget_set_sensitive(item, FALSE);
   }
   gtk_menu_shell_append(GTK_MENU_SHELL(parent), item);
@@ -356,7 +348,7 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
 
 
   /* Pacts. */
-  if (plr == pdialog->treaty.plr0) {
+  if (pgiver == pdialog->treaty.plr0) {
     menu = gtk_menu_new();
     item = gtk_menu_item_new_with_mnemonic(Q_("?diplomatic_state:Cease-fire"));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu),item);

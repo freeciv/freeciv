@@ -123,6 +123,8 @@ bool remove_clause(struct Treaty *ptreaty, struct player *pfrom,
 bool add_clause(struct Treaty *ptreaty, struct player *pfrom, 
 		enum clause_type type, int val)
 {
+  struct player *pto = (pfrom == ptreaty->plr0
+                        ? ptreaty->plr1 : ptreaty->plr0);
   struct Clause *pclause;
   enum diplstate_type ds = 
                      pplayer_get_diplstate(ptreaty->plr0, ptreaty->plr1)->type;
@@ -150,6 +152,18 @@ bool add_clause(struct Treaty *ptreaty, struct player *pfrom,
     return FALSE;
   }
 
+  /* Don't use player_has_embassy() here, because it also checks for the
+   * embassy effect, and we should always be able to make an embassy. */
+  if (type == CLAUSE_EMBASSY
+      && BV_ISSET(pto->embassy, player_index(pfrom))) {
+    /* we already have embassy */
+    freelog(LOG_ERROR,
+            "Illegal embassy clause: %s already have embassy with %s.",
+            nation_rule_name(nation_of_player(pto)),
+            nation_rule_name(nation_of_player(pfrom)));
+    return FALSE;
+  }
+      
   clause_list_iterate(ptreaty->clauses, pclause) {
     if(pclause->type==type
        && pclause->from==pfrom
