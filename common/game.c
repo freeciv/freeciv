@@ -17,25 +17,29 @@
 
 #include <assert.h>
 
-#include "base.h"
-#include "capstr.h"
-#include "city.h"
-#include "cm.h"
-#include "connection.h"
+/* utility */
 #include "fcintl.h"
-#include "government.h"
-#include "idex.h"
 #include "ioz.h"
 #include "log.h"
-#include "map.h"
 #include "mem.h"
+#include "shared.h"
+#include "support.h"
+
+/* aicore */
+#include "cm.h"
+
+/* common */
+#include "base.h"
+#include "city.h"
+#include "connection.h"
+#include "government.h"
+#include "idex.h"
+#include "map.h"
 #include "nation.h"
 #include "packets.h"
 #include "player.h"
-#include "shared.h"
 #include "spaceship.h"
 #include "specialist.h"
-#include "support.h"
 #include "tech.h"
 #include "unit.h"
 #include "unitlist.h"
@@ -388,7 +392,6 @@ void game_init(void)
     game.server.connectmsg[0] = '\0';
   }
 
-  init_our_capability();    
   map_init();
   terrains_init();
   base_types_init();
