@@ -1452,7 +1452,7 @@ static GtkActionGroup *get_unit_group(void)
        "e", NULL, G_CALLBACK(build_airbase_callback)},
 
       {"DO_PILLAGE", NULL, _("_Pillage"),
-       "p", NULL, G_CALLBACK(do_pillage_callback)},
+       "<Shift>p", NULL, G_CALLBACK(do_pillage_callback)},
       {"DIPLOMAT_ACTION", NULL, _("_Diplomat/Spy Actions"),
        "d", NULL, G_CALLBACK(diplomat_action_callback)},
       {"EXPLODE_NUKE", NULL, _("Explode _Nuclear"),
