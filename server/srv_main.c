@@ -359,7 +359,9 @@ bool check_for_game_over(void)
 void send_all_info(struct conn_list *dest)
 {
   conn_list_iterate(dest, pconn) {
-      send_attribute_block(pconn->player,pconn);
+    if (conn_controls_player(pconn)) {
+      send_attribute_block(pconn->player, pconn);
+    }
   }
   conn_list_iterate_end;
 
