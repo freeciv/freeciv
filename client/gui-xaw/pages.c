@@ -73,15 +73,26 @@ enum client_pages get_client_page(void)
 **************************************************************************/
 void set_client_page(enum client_pages page)
 {
-  /* PORTME */
-  if (page == PAGE_GAME) {
+  /* PORTME, PORTME, PORTME */
+  switch (page) {
+  case PAGE_MAIN:
+    /* FIXME: call main/intro page rather than falling to network page */
+    gui_server_connect();
+    break;
+  case PAGE_GAME:
     if (old_page == PAGE_START) {
       popdown_start_page();
     }
-  } else {
-    if (page == PAGE_START) {
-      popup_start_page();
-    }
+    break;
+  case PAGE_START:
+    popup_start_page();
+    break;
+  case PAGE_SCENARIO:
+  case PAGE_LOAD:
+  case PAGE_NETWORK:
+  case PAGE_NATION:
+  case PAGE_GGZ:
+    break;
   }
 
   old_page = page;
