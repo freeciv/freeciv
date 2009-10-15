@@ -649,8 +649,6 @@ static void read_keybindings(struct section_file *file,
   int i;
   char **sec = secfile_get_section_entries(file, "key_bindings", &num);
 
-  screen->keybindings = fc_malloc(sizeof(*(screen->keybindings)));
-
   screen->keybindings = keybinding_list_new();
 
   for (i = 0; i < num; i++) {
