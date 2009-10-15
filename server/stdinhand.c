@@ -1768,7 +1768,6 @@ static bool set_away(struct connection *caller, char *name, bool check)
     notify_conn(game.est_connections, NULL, E_SETTING,
 		_("%s set to away mode."), 
                 player_name(caller->player));
-    send_player_info(caller->player, NULL);
     set_ai_level_directer(caller->player, 1);
     caller->player->ai.control = TRUE;
     cancel_all_meetings(caller->player);
@@ -1781,6 +1780,9 @@ static bool set_away(struct connection *caller, char *name, bool check)
      * dialogs for meetings in AI mode. */
     cancel_all_meetings(caller->player);
   }
+
+  send_player_info(caller->player, NULL);
+
   return TRUE;
 }
 
