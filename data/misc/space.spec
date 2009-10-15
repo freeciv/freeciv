@@ -31,4 +31,5 @@ tiles = { "row", "column", "tag"
   0,  3, "spaceship.structural"
   0,  4, "spaceship.fuel"
   0,  5, "spaceship.propulsion"
+  0,  6, "spaceship.exhaust"
 }
