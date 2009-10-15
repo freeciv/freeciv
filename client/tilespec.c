@@ -2168,7 +2168,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   for (i = 0; i < SPACESHIP_COUNT; i++) {
     const char *names[SPACESHIP_COUNT]
       = {"solar_panels", "life_support", "habitation",
-	 "structural", "fuel", "propulsion"};
+	 "structural", "fuel", "propulsion", "exhaust"};
 
     my_snprintf(buffer, sizeof(buffer), "spaceship.%s", names[i]);
     SET_SPRITE(spaceship[i], buffer);

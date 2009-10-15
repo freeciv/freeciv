@@ -3005,6 +3005,11 @@ void put_spaceship(struct canvas *pcanvas, int canvas_x, int canvas_y,
 	      : get_spaceship_sprite(t, SPACESHIP_PROPULSION));
 
     canvas_put_sprite_full(pcanvas, x, y, sprite);
+
+    if (k && ship->state == SSHIP_LAUNCHED) {
+      sprite = get_spaceship_sprite(t, SPACESHIP_EXHAUST);
+      canvas_put_sprite_full(pcanvas, x + w, y, sprite);
+    }
   }
 
   for (i = 0; i < NUM_SS_STRUCTURALS; i++) {
