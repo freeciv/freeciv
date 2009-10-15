@@ -2817,22 +2817,16 @@ static bool set_command(struct connection *caller, char *str, bool check)
   be filled in with a NULL-terminated string containing the reason.
 **************************************************************************/
 static bool is_allowed_to_take(struct player *pplayer, bool will_obs, 
-                               char *msg)
+                               char *msg, size_t msg_len)
 {
   const char *allow;
 
   if (!pplayer && will_obs) {
-    /* Observer */
+    /* Global observer. */
     if (!(allow = strchr(game.server.allow_take,
                          (game.info.is_new_game ? 'O' : 'o')))) {
-      if (will_obs) {
-        mystrlcpy(msg, _("Sorry, one can't observe globally in this game."),
-                  MAX_LEN_MSG);
-      } else {
-        mystrlcpy(msg, _("Sorry, you can't take a global observer. Observe "
-                         "it instead."),
-                  MAX_LEN_MSG);
-      }
+      mystrlcpy(msg, _("Sorry, one can't observe globally in this game."),
+                msg_len);
       return FALSE;
     }
   } else if (!pplayer && !will_obs) {
@@ -2840,12 +2834,12 @@ static bool is_allowed_to_take(struct player *pplayer, bool will_obs,
 
     if (!game.info.is_new_game || server_state() != S_S_INITIAL) {
       mystrlcpy(msg, _("You cannot take a new player at this time."),
-                MAX_LEN_MSG);
+                msg_len);
       return FALSE;
     }
 
     if (player_count() >= game.info.max_players) {
-      my_snprintf(msg, MAX_LEN_MSG,
+      my_snprintf(msg, msg_len,
                   /* TRANS: Do not translate "maxplayers". */
                   PL_("You cannot take a new player because "
                       "the maximum of %d player has already "
@@ -2861,7 +2855,7 @@ static bool is_allowed_to_take(struct player *pplayer, bool will_obs,
     if (player_count() >= player_slot_count()) {
       mystrlcpy(msg, _("You cannot take a new player because there "
                        "are no free player slots."),
-                MAX_LEN_MSG);
+                msg_len);
       return FALSE;
     }
 
@@ -2870,22 +2864,24 @@ static bool is_allowed_to_take(struct player *pplayer, bool will_obs,
   } else if (is_barbarian(pplayer)) {
     if (!(allow = strchr(game.server.allow_take, 'b'))) {
       if (will_obs) {
-        mystrlcpy(msg, _("Sorry, one can't observe barbarians in this game."),
-                  MAX_LEN_MSG);
+        mystrlcpy(msg,
+                  _("Sorry, one can't observe barbarians in this game."),
+                  msg_len);
       } else {
         mystrlcpy(msg, _("Sorry, one can't take barbarians in this game."),
-                  MAX_LEN_MSG);
+                  msg_len);
       }
       return FALSE;
     }
   } else if (!pplayer->is_alive) {
     if (!(allow = strchr(game.server.allow_take, 'd'))) {
       if (will_obs) {
-        mystrlcpy(msg, _("Sorry, one can't observe dead players in this game."),
-                  MAX_LEN_MSG);
+        mystrlcpy(msg,
+                  _("Sorry, one can't observe dead players in this game."),
+                  msg_len);
       } else {
         mystrlcpy(msg, _("Sorry, one can't take dead players in this game."),
-                  MAX_LEN_MSG);
+                  msg_len);
       }
       return FALSE;
     }
@@ -2893,11 +2889,12 @@ static bool is_allowed_to_take(struct player *pplayer, bool will_obs,
     if (!(allow = strchr(game.server.allow_take,
                          (game.info.is_new_game ? 'A' : 'a')))) {
       if (will_obs) {
-        mystrlcpy(msg, _("Sorry, one can't observe AI players in this game."),
-                  MAX_LEN_MSG);
+        mystrlcpy(msg,
+                  _("Sorry, one can't observe AI players in this game."),
+                  msg_len);
       } else {
         mystrlcpy(msg, _("Sorry, one can't take AI players in this game."),
-                  MAX_LEN_MSG);
+                  msg_len);
       }
       return FALSE;
     }
@@ -2907,10 +2904,11 @@ static bool is_allowed_to_take(struct player *pplayer, bool will_obs,
       if (will_obs) {
         mystrlcpy(msg, 
                   _("Sorry, one can't observe human players in this game."),
-                  MAX_LEN_MSG);
+                  msg_len);
       } else {
-        mystrlcpy(msg, _("Sorry, one can't take human players in this game."),
-                  MAX_LEN_MSG);
+        mystrlcpy(msg,
+                  _("Sorry, one can't take human players in this game."),
+                  msg_len);
       }
       return FALSE;
     }
@@ -2919,7 +2917,7 @@ static bool is_allowed_to_take(struct player *pplayer, bool will_obs,
   allow++;
 
   if (will_obs && (*allow == '2' || *allow == '3')) {
-    mystrlcpy(msg, _("Sorry, one can't observe in this game."), MAX_LEN_MSG);
+    mystrlcpy(msg, _("Sorry, one can't observe in this game."), msg_len);
     return FALSE;
   }
 
@@ -2929,9 +2927,10 @@ static bool is_allowed_to_take(struct player *pplayer, bool will_obs,
     return FALSE;
   }
 
-  if (!will_obs && pplayer->is_connected && (*allow == '1' || *allow == '3')) {
+  if (!will_obs && pplayer->is_connected
+      && (*allow == '1' || *allow == '3')) {
     mystrlcpy(msg, _("Sorry, one can't take players already connected "
-                     "in this game."), MAX_LEN_MSG);
+                     "in this game."), msg_len);
     return FALSE;
   }
 
@@ -3005,7 +3004,7 @@ static bool observe_command(struct connection *caller, char *str, bool check)
   /******** PART II: do the observing ********/
 
   /* check allowtake for permission */
-  if (!is_allowed_to_take(pplayer, TRUE, msg)) {
+  if (!is_allowed_to_take(pplayer, TRUE, msg, sizeof(msg))) {
     cmd_reply(CMD_OBSERVE, caller, C_FAIL, "%s", msg);
     goto end;
   }
@@ -3175,7 +3174,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
   /******** PART II: do the attaching ********/
 
   /* check allowtake for permission */
-  if (!is_allowed_to_take(pplayer, FALSE, msg)) {
+  if (!is_allowed_to_take(pplayer, FALSE, msg, sizeof(msg))) {
     cmd_reply(CMD_TAKE, caller, C_FAIL, "%s", msg);
     goto end;
   }
