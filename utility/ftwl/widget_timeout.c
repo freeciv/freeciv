@@ -30,9 +30,11 @@
 # include <sys/timeb.h>
 #endif
 
-#include "widget_p.h"
-
+/* utility */
+#include "log.h"
 #include "mem.h"
+
+#include "widget_p.h"
 
 #ifndef HAVE_GETTIMEOFDAY
 #ifdef HAVE_FTIME
