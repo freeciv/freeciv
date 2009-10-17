@@ -913,7 +913,6 @@ void handle_edit_player_create(struct connection *pc, int tag)
 void handle_edit_player_remove(struct connection *pc, int id)
 {
   struct player *pplayer;
-  struct conn_list *conns;
 
   pplayer = valid_player_by_number(id);
   if (pplayer == NULL) {
@@ -922,16 +921,11 @@ void handle_edit_player_remove(struct connection *pc, int id)
     return;
   }
 
-  conns = conn_list_new();
-
-  conn_list_iterate(pplayer->connections, pconn) {
-    conn_list_append(conns, pconn);
-  } conn_list_iterate_end;
-  conn_list_iterate(conns, pconn) {
-    detach_command(NULL, pconn->username, FALSE);
-  } conn_list_iterate_end;
-
-  conn_list_free(conns);
+  /* Don't use conn_list_iterate here because connection_detach() can be
+   * recursive and free the next connection pointer. */
+  while (conn_list_size(pplayer->connections) > 0) {
+    connection_detach(conn_list_get(pplayer->connections, 0));
+  }
 
   kill_player(pplayer);
   whole_map_iterate(ptile) {

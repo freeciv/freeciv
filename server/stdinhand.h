@@ -34,7 +34,6 @@ void show_players(struct connection *caller);
 bool load_command(struct connection *caller,
 		  const char *filename, bool check);
 bool start_command(struct connection *caller, bool check, bool notify);
-bool detach_command(struct connection *caller, char *str, bool check);
 
 void toggle_ai_player_direct(struct connection *caller,
 			     struct player *pplayer);

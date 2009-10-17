@@ -72,11 +72,50 @@ void restore_access_level(struct connection *pconn)
 }
 
 /**************************************************************************
+  Send all packets that needs the connection to handle our server state.
+**************************************************************************/
+static void send_state_specific_packets(struct connection *pconn)
+{
+  /* Initial packets don't need to be resent.  See comment for
+   * connecthand.c::establish_new_connection(). */
+  switch (server_state()) {
+  case S_S_RUNNING:
+    send_packet_freeze_hint(pconn);
+    send_all_info(pconn->self, TRUE);
+    send_diplomatic_meetings(pconn);
+    send_packet_thaw_hint(pconn);
+    dsend_packet_start_phase(pconn, game.info.phase);
+    break;
+
+  case S_S_OVER:
+    send_packet_freeze_hint(pconn);
+    send_all_info(pconn->self, TRUE);
+    send_packet_thaw_hint(pconn);
+    report_final_scores(pconn->self);
+    break;
+
+  case S_S_INITIAL:
+  case S_S_GENERATING_WAITING:
+    break;
+  }
+}
+
+/**************************************************************************
   This is used when a new player joins a server, before the game
   has started.  If pconn is NULL, is an AI, else a client.
 
   N.B. this only attachs a connection to a player if 
        pconn->username == player->username
+
+  Here we send initial packets:
+  - ruleset datas.
+  - server settings.
+  - scenario info.
+  - game info.
+  - players infos (note it's resent in srv_main.c::send_all_info(),
+      see comment there).
+  - connections infos.
+  ... and additionnal packets if the game already started.
 **************************************************************************/
 void establish_new_connection(struct connection *pconn)
 {
@@ -136,65 +175,37 @@ void establish_new_connection(struct connection *pconn)
 
   send_rulesets(dest);
   send_server_settings(dest);
+  send_scenario_info(dest);
+  send_game_info(dest);
 
-  if ((pplayer = find_player_by_user(pconn->username))) {
+  if ((pplayer = find_player_by_user(pconn->username))
+      && connection_attach(pconn, pplayer, FALSE)) {
     /* a player has already been created for this user, reconnect */
-    connection_attach(pconn, pplayer, FALSE);
 
-    if (game.info.auto_ai_toggle && pplayer->ai_data.control) {
-      toggle_ai_player_direct(NULL, pplayer);
-    }
-
-    if (S_S_RUNNING == server_state()) {
-      /* Player and other info is only updated when the game is running.
-       * See the comment in lost_connection_to_client(). */
-      send_packet_freeze_hint(pconn);
-      send_all_info(dest, TRUE);
-      send_diplomatic_meetings(pconn);
-      send_packet_thaw_hint(pconn);
-      dsend_packet_start_phase(pconn, game.info.phase);
-    } else if (S_S_OVER == server_state()) {
-      send_packet_freeze_hint(pconn);
-      send_all_info(dest, TRUE);
-      send_packet_thaw_hint(pconn);
-      report_final_scores(pconn->self);
-    } else {
-      send_scenario_info(dest);
-      send_game_info(dest);
-      /* send new player connection to everybody */
-      send_player_info(pplayer, NULL);
+    if (S_S_INITIAL == server_state()) {
       send_player_info_c(NULL, dest);
-      send_conn_info(game.est_connections, dest);
     }
+    send_conn_info(game.est_connections, dest);
+    send_state_specific_packets(pconn);
+
   } else {
-    send_scenario_info(dest);
-    send_game_info(dest);
-
     if (S_S_INITIAL == server_state() && game.info.is_new_game) {
-      if (connection_attach(pconn, NULL, FALSE)) {
-        struct player *pplayer = pconn->playing;
-        /* temporarily set player_name() to username */
-        sz_strlcpy(pplayer->name, pconn->username);
-        aifill(game.info.aifill); /* first connect */
-
-        /* send new player connection to everybody */
-        send_player_info(pplayer, NULL);
-      } else {
+      if (!connection_attach(pconn, NULL, FALSE)) {
         notify_conn(dest, NULL, E_CONNECTION, FTC_SERVER_INFO, NULL,
                     _("Couldn't attach your connection to new player."));
-        freelog(LOG_VERBOSE, "%s is not attached to a player", pconn->username);
-
+        freelog(LOG_VERBOSE, "%s is not attached to a player",
+                pconn->username);
       }
     }
     send_player_info_c(NULL, dest);
     send_conn_info(game.est_connections, dest);
   }
 
-  restore_access_level(pconn);
-  send_conn_info(dest, game.est_connections);
-
-  send_running_votes(pconn);
-  send_updated_vote_totals(NULL);
+  if (NULL == pplayer) {
+    /* Else this has already been done in connection_attach(). */
+    restore_access_level(pconn);
+    send_conn_info(dest, game.est_connections);
+  }
 
   /* remind the connection who he is */
   if (NULL == pconn->playing) {
@@ -228,18 +239,19 @@ void establish_new_connection(struct connection *pconn)
     } players_iterate_end;
   }
 
-  /* if the game is running, players can just view the Players menu? --dwp */
-  if (S_S_RUNNING != server_state()) {
-    show_players(pconn);
-  }
-
   if (game.info.is_edit_mode) {
     notify_conn(dest, NULL, E_SETTING, FTC_EDITOR, NULL,
                 _(" *** Server is in edit mode. *** "));
   }
 
-  reset_all_start_commands();
-  (void) send_server_info_to_metaserver(META_INFO);
+  if (NULL != pplayer) {
+    /* Else, no need to do anything. */
+    send_running_votes(pconn);
+    send_updated_vote_totals(NULL);
+
+    reset_all_start_commands();
+    (void) send_server_info_to_metaserver(META_INFO);
+  }
 }
 
 /**************************************************************************
@@ -359,7 +371,6 @@ bool handle_login_request(struct connection *pconn,
 **************************************************************************/
 void lost_connection_to_client(struct connection *pconn)
 {
-  struct player *pplayer = pconn->playing;
   const char *desc = conn_description(pconn);
 
   freelog(LOG_NORMAL, _("Lost connection: %s."), desc);
@@ -377,38 +388,9 @@ void lost_connection_to_client(struct connection *pconn)
               _("Lost connection: %s."), desc);
 
   connection_detach(pconn);
-  send_conn_info_remove(pconn->self, game.est_connections);
   notify_if_first_access_level_is_available();
 
-  if (!pplayer) {
-    delayed_disconnect--;
-    return;
-  }
-
-  if (game.info.is_new_game
-      && !pplayer->is_connected /* eg multiple controllers */
-      && !pplayer->ai_data.control    /* eg created AI player */
-      && S_S_INITIAL == server_state()) {
-    server_remove_player(pplayer);
-  } else {
-    if (game.info.auto_ai_toggle
-        && !pplayer->ai_data.control
-        && !pplayer->is_connected /* eg multiple controllers */) {
-      toggle_ai_player_direct(NULL, pplayer);
-    }
-
-    check_for_full_turn_done();
-  }
-  /* send_player_info() was formerly updated by toggle_ai_player_direct(),
-   * so it must be safe to send here now?
-   *
-   * At other times, data from send_conn_info() is used by the client to
-   * display player information.  See establish_new_connection().
-   */
-  freelog(LOG_VERBOSE, "lost_connection_to_client() calls send_player_slot_info_c()");
-  send_player_slot_info_c(pplayer, game.est_connections);
-
-  reset_all_start_commands();
+  check_for_full_turn_done();
 
   delayed_disconnect--;
 }
@@ -530,32 +512,38 @@ bool connection_attach(struct connection *pconn, struct player *pplayer,
           return FALSE;
         }
       }
-    }
+      team_remove_player(pplayer);
+      server_player_init(pplayer, FALSE, TRUE);
+      /* Make it human! */
+      pplayer->ai_data.control = FALSE;
 
-    team_remove_player(pplayer);
-    server_player_init(pplayer, FALSE, TRUE);
+      if (!pplayer->was_created && NULL == pplayer->nation) {
+        /* Temporarily set player_name() to username. */
+        sz_strlcpy(pplayer->name, pconn->username);
+      }
+
+      aifill(game.info.aifill);
+    }
 
     sz_strlcpy(pplayer->username, pconn->username);
     pplayer->user_turns = 0; /* reset for a new user */
     pplayer->is_connected = TRUE;
 
-    if (server_state() == S_S_INITIAL) {
-      /* If we are attached to a player in pregame from
-       * find_uncontrolled_player above, then that player
-       * will be an AI created by aifill. So turn off AI
-       * mode if it is still on. */
-      if (pplayer->ai_data.control) {
-        pplayer->ai_data.control = FALSE;
-      }
-      /* If we are attached to a completely new player in
-       * pregame, set its name to the connection's user
-       * name so that the take command message will not
-       * display "noname". */
-      if (0 == strcmp(player_name(pplayer), ANON_PLAYER_NAME)) {
-        sz_strlcpy(pplayer->name, pconn->username);
-      }
+    if (game.info.auto_ai_toggle && pplayer->ai_data.control) {
+      toggle_ai_player_direct(NULL, pplayer);
     }
+
+    send_player_info_c(pplayer, game.est_connections);
   }
+
+  /* We don't want the connection's username on another player. */
+  players_iterate(aplayer) {
+    if (aplayer != pplayer
+        && 0 == strncmp(aplayer->username, pconn->username, MAX_LEN_NAME)) {
+      sz_strlcpy(aplayer->username, ANON_USER_NAME);
+      send_player_info_c(aplayer, NULL);
+    }
+  } players_iterate_end;
 
   pconn->observer = observing;
   pconn->playing = pplayer;
@@ -564,8 +552,13 @@ bool connection_attach(struct connection *pconn, struct player *pplayer,
   }
 
   restore_access_level(pconn);
+
   /* Reset the delta-state. */
-  conn_clear_packet_cache(pconn);
+  send_conn_info(pconn->self, game.est_connections);    /* Client side. */
+  conn_clear_packet_cache(pconn);                       /* Server side. */
+
+  /* Send new infos. */
+  send_state_specific_packets(pconn);
 
   return TRUE;
 }
@@ -579,25 +572,76 @@ bool connection_attach(struct connection *pconn, struct player *pplayer,
 **************************************************************************/
 void connection_detach(struct connection *pconn)
 {
+  struct player *pplayer;
+
   RETURN_IF_FAIL(pconn != NULL);
 
-  if (NULL != pconn->playing) {
-    conn_list_unlink(pconn->playing->connections, pconn);
+  if (NULL != (pplayer = pconn->playing)) {
+    bool was_connected = pplayer->is_connected;
 
-    pconn->playing->is_connected = FALSE;
+    conn_list_unlink(pplayer->connections, pconn);
+
+    pplayer->is_connected = FALSE;
 
     /* If any other (non-observing) conn is attached to 
      * this player, the player is still connected. */
-    conn_list_iterate(pconn->playing->connections, aconn) {
+    conn_list_iterate(pplayer->connections, aconn) {
       if (!aconn->observer) {
-        pconn->playing->is_connected = TRUE;
+        pplayer->is_connected = TRUE;
         break;
       }
     } conn_list_iterate_end;
+
+    if (was_connected && !pplayer->is_connected) {
+      if (!pplayer->was_created
+          && S_S_INITIAL == server_state()
+          && game.info.is_new_game) {
+        /* Remove player. */
+        conn_list_iterate(pplayer->connections, aconn) {
+          /* Detach all. */
+          if (aconn != pconn) {
+            notify_conn(aconn->self, NULL, E_CONNECTION,
+                        FTC_SERVER_INFO, NULL,
+                        _("detaching from %s."),
+                        player_name(pplayer));
+            /* Recursive... but shouldn't be problem. */
+            connection_detach(aconn);
+          }
+        } conn_list_iterate_end;
+
+        /* Actually do the removal. */
+        server_remove_player(pplayer);
+        send_player_slot_info_c(pplayer, NULL);
+        aifill(game.info.aifill);
+        reset_all_start_commands();
+      } else {
+        /* Aitoggle the player if no longer connected. */
+        if (game.info.auto_ai_toggle && !pplayer->ai_data.control) {
+          toggle_ai_player_direct(NULL, pplayer);
+          /* send_player_info() was formerly updated by
+           * toggle_ai_player_direct(), so it must be safe to send here now?
+           *
+           * At other times, data from send_conn_info() is used by the
+           * client to display player information.
+           * See establish_new_connection().
+           */
+          freelog(LOG_VERBOSE,
+                  "connection_detach() calls send_player_slot_info_c()");
+          send_player_info_c(pplayer, NULL);
+
+          reset_all_start_commands();
+        }
+      }
+    }
 
     pconn->playing = NULL;
   }
 
   pconn->observer = FALSE;
   restore_access_level(pconn);
+
+  cancel_connection_votes(pconn);
+  send_updated_vote_totals(NULL);
+
+  send_conn_info(pconn->self, game.est_connections);
 }

@@ -98,8 +98,6 @@ static bool set_ai_level(struct connection *caller, const char *name,
                          enum ai_level level, bool check);
 static bool set_away(struct connection *caller, char *name, bool check);
 
-static bool observe_command(struct connection *caller, char *name, bool check);
-static bool take_command(struct connection *caller, char *name, bool check);
 static bool end_command(struct connection *caller, char *str, bool check);
 static bool surrender_command(struct connection *caller, char *str, bool check);
 static bool handle_stdin_input_real(struct connection *caller, char *str,
@@ -2941,7 +2939,7 @@ static bool is_allowed_to_take(struct player *pplayer, bool will_obs,
 
 /**************************************************************************
  Observe another player. If we were already attached, detach 
- (see detach_command()). The console and those with ALLOW_HACK can
+ (see connection_detach()). The console and those with ALLOW_HACK can
  use the two-argument command and force others to observe.
 **************************************************************************/
 static bool observe_command(struct connection *caller, char *str, bool check)
@@ -3048,15 +3046,14 @@ static bool observe_command(struct connection *caller, char *str, bool check)
   /* if the connection is already attached to a player,
    * unattach and cleanup old player (rename, remove, etc) */
   if (TRUE) {
-    char name[MAX_LEN_NAME], username[MAX_LEN_NAME];
+    char name[MAX_LEN_NAME];
 
     if (pplayer) {
       /* if pconn->playing is removed, we'll lose pplayer */
       sz_strlcpy(name, player_name(pplayer));
     }
 
-    my_snprintf(username, sizeof(username), "'%s'", pconn->username);
-    detach_command(NULL, username, FALSE);
+    connection_detach(pconn);
 
     if (pplayer) {
       /* find pplayer again, the pointer might have been changed */
@@ -3064,43 +3061,17 @@ static bool observe_command(struct connection *caller, char *str, bool check)
     }
   } 
 
-  /* we don't want the connection's username on another player */
-  players_iterate(aplayer) {
-    if (strncmp(aplayer->username, pconn->username, MAX_LEN_NAME) == 0) {
-      sz_strlcpy(aplayer->username, ANON_USER_NAME);
-    }
-  } players_iterate_end;
-
   /* attach pconn to new player as an observer or as global observer */
-  connection_attach(pconn, pplayer, TRUE);
-
-  /* Send first to reset the client. */
-  send_conn_info(pconn->self, game.est_connections);
-  if (S_S_RUNNING == server_state()) {
-    send_packet_freeze_hint(pconn);
-    send_all_info(pconn->self, TRUE);
-    send_diplomatic_meetings(pconn);
-    send_packet_thaw_hint(pconn);
-    dsend_packet_start_phase(pconn, game.info.phase);
-  } else if (S_S_OVER == server_state()) {
-    send_packet_freeze_hint(pconn);
-    send_all_info(pconn->self, TRUE);
-    send_packet_thaw_hint(pconn);
-    report_final_scores(pconn->self);
+  if ((res = connection_attach(pconn, pplayer, TRUE))) {
+    if (pplayer) {
+      cmd_reply(CMD_OBSERVE, caller, C_OK, _("%s now observes %s"),
+                pconn->username,
+                player_name(pplayer));
+    } else {
+      cmd_reply(CMD_OBSERVE, caller, C_OK, _("%s now observes"),
+                pconn->username);
+    }
   }
-  /* redundant self to self cannot be avoided */
-  send_player_info(pplayer, NULL);
-
-  if (pplayer) {
-    cmd_reply(CMD_OBSERVE, caller, C_OK, _("%s now observes %s"),
-	      pconn->username,
-	      player_name(pplayer));
-  } else {
-    cmd_reply(CMD_OBSERVE, caller, C_OK, _("%s now observes"),
-	      pconn->username);
-  }
-
-  send_updated_vote_totals(NULL);
 
   end:;
   /* free our args */
@@ -3128,7 +3099,6 @@ static bool take_command(struct connection *caller, char *str, bool check)
   struct connection *pconn = caller;
   struct player *pplayer = NULL;
   bool res = FALSE;
-  bool was_observing_this = FALSE;
 
   /******** PART I: fill pconn and pplayer ********/
 
@@ -3163,11 +3133,22 @@ static bool take_command(struct connection *caller, char *str, bool check)
   }
 
   if (strcmp(arg[i], "-") == 0) {
+    if (!is_newgame) {
+      cmd_reply(CMD_TAKE, caller, C_FAIL,
+                _("You cannot issue \"/take -\" when "
+                  "the game already started."));
+      goto end;
+    }
+
     /* Find first uncontrolled player. This will return NULL if there is
      * no free players at the moment. Later call to
-     * connection_attach_to_player() will create new player for such NULL
+     * connection_attach() will create new player for such NULL
      * cases. */
     pplayer = find_uncontrolled_player();
+    if (pplayer) {
+      /* Make it human! */
+      pplayer->ai_data.control = FALSE;
+    }
   } else if (!(pplayer = find_player_by_name_prefix(arg[i], &match_result))) {
     cmd_reply_no_such_player(CMD_TAKE, caller, arg[i], match_result);
     goto end;
@@ -3209,11 +3190,6 @@ static bool take_command(struct connection *caller, char *str, bool check)
     goto end;
   }
 
-  if (pconn->playing && pconn->playing == pplayer) {
-    /* Connection was observing the very player it now /take */
-    was_observing_this = TRUE;
-  }
-
   /* if the player is controlled by another user,
    * forcibly convert the user to an observer.
    */
@@ -3230,21 +3206,28 @@ static bool take_command(struct connection *caller, char *str, bool check)
                   pconn->username,
                   caller->username);
     }
+
+    /* We are reassigning this nation, so we need to detach the current
+     * user to set a new one. */
+    conn_list_iterate(pplayer->connections, aconn) {
+      if (!aconn->observer) {
+        connection_detach(aconn);
+      }
+    } conn_list_iterate_end;
   }
 
   /* if the connection is already attached to another player,
    * unattach and cleanup old player (rename, remove, etc)
    * We may have been observing the player we now want to take */
-  if ((NULL != pconn->playing || pconn->observer) && !was_observing_this) {
-    char name[MAX_LEN_NAME], username[MAX_LEN_NAME];
+  if (NULL != pconn->playing || pconn->observer) {
+    char name[MAX_LEN_NAME];
 
     if (pplayer) {
       /* if pconn->playing is removed, we'll lose pplayer */
       sz_strlcpy(name, player_name(pplayer));
     }
 
-    my_snprintf(username, sizeof(username), "'%s'", pconn->username);
-    detach_command(NULL, username, FALSE);
+    connection_detach(pconn);
 
     if (pplayer) {
       /* find pplayer again; the pointer might have been changed */
@@ -3252,31 +3235,10 @@ static bool take_command(struct connection *caller, char *str, bool check)
     }
   }
 
-  /* we don't want the connection's username on another player */
-  players_iterate(aplayer) {
-    if (strncmp(aplayer->username, pconn->username, MAX_LEN_NAME) == 0) {
-      sz_strlcpy(aplayer->username, ANON_USER_NAME);
-      send_player_info_c(aplayer, NULL);
-    }
-  } players_iterate_end;
-
-  if (!was_observing_this || !pconn->playing) {
-    /* Now attach to new player */
-    res = connection_attach(pconn, pplayer, FALSE);
-
-    /* Check aifill even if attach failed. Maybe we already detached. */
-    aifill(game.info.aifill);
-  }
-
-  if (res) {
-    bool has_been_created = (pplayer == NULL);
-
+  /* Now attach to new player */
+  if ((res = connection_attach(pconn, pplayer, FALSE))) {
     /* Successfully attached */
     pplayer = pconn->playing; /* In case pplayer was NULL. */
-    if (was_observing_this) {
-      pconn->observer = FALSE;
-      sz_strlcpy(pplayer->username, pconn->username);
-    }
 
     /* inform about the status before changes */
     cmd_reply(CMD_TAKE, caller, C_OK, _("%s now controls %s (%s, %s)."),
@@ -3291,40 +3253,11 @@ static bool take_command(struct connection *caller, char *str, bool check)
               ? _("Alive")
               : _("Dead"));
 
-    /* if pplayer wasn't /created, and we're still in pregame, change its name */
-    if (!pplayer->was_created && is_newgame && !pplayer->nation) {
-      sz_strlcpy(pplayer->name, pconn->username);
-    }
-
-    /* aitoggle the player back to human as necessary. */
-    if (pplayer->ai_data.control
-        && (game.info.auto_ai_toggle || has_been_created)) {
-      toggle_ai_player_direct(NULL, pplayer);
-    }
-
     send_updated_vote_totals(NULL);
   } else {
-    cmd_reply(CMD_TAKE, caller, C_FAIL, _("%s failed to attach to any player."),
+    cmd_reply(CMD_TAKE, caller, C_FAIL,
+              _("%s failed to attach to any player."),
               pconn->username);
-  }
-
-  /* Send first to reset the client. */
-  send_conn_info(pconn->self, game.est_connections);
-  if (S_S_RUNNING == server_state()) {
-    send_packet_freeze_hint(pconn);
-    send_all_info(pconn->self, TRUE);
-    send_diplomatic_meetings(pconn);
-    send_packet_thaw_hint(pconn);
-    dsend_packet_start_phase(pconn, game.info.phase);
-  } else if (S_S_OVER == server_state()) {
-    send_packet_freeze_hint(pconn);
-    send_all_info(pconn->self, TRUE);
-    send_packet_thaw_hint(pconn);
-    report_final_scores(pconn->self);
-  } else {
-    /* send changed player connection to everybody */
-    send_player_info_c(pplayer, game.est_connections);
-    /* we already know existing connections */
   }
 
   end:;
@@ -3342,15 +3275,13 @@ static bool take_command(struct connection *caller, char *str, bool check)
   If called for a global observer connection (where pconn->playing is NULL)
   then it will correctly detach from observing mode.
 **************************************************************************/
-bool detach_command(struct connection *caller, char *str, bool check)
+static bool detach_command(struct connection *caller, char *str, bool check)
 {
   int i = 0, ntokens = 0;
   char buf[MAX_LEN_CONSOLE_LINE], *arg[1];
-
   enum m_pre_result match_result;
   struct connection *pconn = NULL;
   struct player *pplayer = NULL;
-  bool is_newgame = game.info.is_new_game && (S_S_INITIAL == server_state());
   bool res = FALSE;
 
   sz_strlcpy(buf, str);
@@ -3396,73 +3327,29 @@ bool detach_command(struct connection *caller, char *str, bool check)
     goto end;
   }
 
-  /* if we want to detach while the game is running, reset the client */
-  if (S_S_RUNNING <= server_state()) {
-    send_player_info_c(NULL, pconn->self);
-    send_conn_info(game.est_connections, pconn->self);
-  }
-
-  /* actually do the detaching */
-  connection_detach(pconn);
   if (pplayer) {
     cmd_reply(CMD_DETACH, caller, C_COMMENT,
-	      _("%s detaching from %s"),
-	      pconn->username,
-	      player_name(pplayer));
+              _("%s detaching from %s"),
+              pconn->username,
+              player_name(pplayer));
   } else {
     cmd_reply(CMD_DETACH, caller, C_COMMENT,
-	      _("%s no longer observing."), pconn->username);
-  }
-  /* useful self to self cannot be avoided */
-  send_conn_info(pconn->self, game.est_connections);
-
-  /* only remove the player if the game is new and in pregame, 
-   * the player wasn't /created, and no one is controlling it 
-   * and we were observing but no one else was... */
-  if (pplayer
-      && !pplayer->is_connected
-      && !pplayer->was_created && is_newgame) {
-    /* detach any observers */
-    conn_list_iterate(pplayer->connections, aconn) {
-      if (aconn->observer) {
-        notify_conn(aconn->self, NULL, E_CONNECTION, FTC_SERVER_INFO, NULL,
-		    _("detaching from %s."),
-		    player_name(pplayer));
-        connection_detach(aconn);
-        send_conn_info(aconn->self, game.est_connections);
-      }
-    } conn_list_iterate_end;
-
-    /* actually do the removal */
-    server_remove_player(pplayer);
-    send_player_slot_info_c(pplayer, NULL);
-    aifill(game.info.aifill);
-    reset_all_start_commands();
+              _("%s no longer observing."), pconn->username);
   }
 
-  cancel_connection_votes(pconn);
+  /* Actually do the detaching. */
+  connection_detach(pconn);
 
-  if (pplayer && !pplayer->is_connected) {
-    bool player_changed = FALSE;
-
-    cancel_connection_votes(pconn);
-    send_updated_vote_totals(NULL);
-
-    /* aitoggle the player if no longer connected. */
-    if (game.info.auto_ai_toggle && !pplayer->ai_data.control) {
-      toggle_ai_player_direct(NULL, pplayer);
-      player_changed = TRUE;
+  /* The user explicitly wanted to detach, so if a player is marked for him,
+   * reset its username. */
+  players_iterate(aplayer) {
+    if (0 == strncmp(aplayer->username, pconn->username, MAX_LEN_NAME)) {
+      sz_strlcpy(aplayer->username, ANON_USER_NAME);
+      send_player_info_c(aplayer, NULL);
     }
-    /* reset username if in pregame. */
-    if (is_newgame) {
-      sz_strlcpy(pplayer->username, ANON_USER_NAME);
-      player_changed = TRUE;
-    }
+  } players_iterate_end;
 
-    if (player_changed) {
-      send_player_info_c(pplayer, NULL);
-    }
-  }
+  check_for_full_turn_done();
 
   end:;
   /* free our args */

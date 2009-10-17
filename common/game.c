@@ -393,13 +393,7 @@ void game_init(void)
   }
 
   map_init();
-  terrains_init();
-  base_types_init();
-  improvements_init();
-  techs_init();
-  unit_classes_init();
-  unit_types_init();
-  specialists_init();
+  game_ruleset_init();
   teams_init();
   idex_init();
   cm_init();
@@ -520,7 +514,7 @@ void game_free(void)
   game_remove_all_players();
   map_free();
   idex_free();
-  ruleset_data_free();
+  game_ruleset_free();
   cm_free();
 }
 
@@ -548,9 +542,24 @@ void game_reset(void)
 }
 
 /***************************************************************
+  Initialize the objects which will read from a ruleset.
+***************************************************************/
+void game_ruleset_init(void)
+{
+  ruleset_cache_init();
+  terrains_init();
+  base_types_init();
+  improvements_init();
+  techs_init();
+  unit_classes_init();
+  unit_types_init();
+  specialists_init();
+}
+
+/***************************************************************
   Frees all memory which in objects which are read from a ruleset.
 ***************************************************************/
-void ruleset_data_free(void)
+void game_ruleset_free(void)
 {
   specialists_free();
   techs_free();
@@ -565,6 +574,7 @@ void ruleset_data_free(void)
   ruleset_cache_free();
   nation_groups_free();
 }
+
 
 /***************************************************************
 ...
