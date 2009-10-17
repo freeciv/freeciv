@@ -131,7 +131,9 @@ void game_init(void);
 void game_map_init(void);
 void game_free(void);
 void game_reset(void);
-void ruleset_data_free(void);
+
+void game_ruleset_init(void);
+void game_ruleset_free(void);
 
 int game_next_year(int);
 void game_advance_year(void);

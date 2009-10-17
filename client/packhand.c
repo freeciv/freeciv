@@ -1950,6 +1950,7 @@ void handle_player_info(struct packet_player_info *pinfo)
 void handle_conn_info(struct packet_conn_info *pinfo)
 {
   struct connection *pconn = find_conn_by_id(pinfo->id);
+  bool preparing_client_state = FALSE;
 
   freelog(LOG_DEBUG, "conn_info id%d used%d est%d plr%d obs%d acc%d",
 	  pinfo->id, pinfo->used, pinfo->established, pinfo->player_num,
@@ -1966,7 +1967,7 @@ void handle_conn_info(struct packet_conn_info *pinfo)
     client_remove_cli_conn(pconn);
     pconn = NULL;
   } else {
-    struct player *pplayer = valid_player_by_number(pinfo->player_num);
+    struct player *pplayer = player_slot_by_number(pinfo->player_num);
 
     if (!pconn) {
       freelog(LOG_VERBOSE, "Server reports new connection %d %s",
@@ -2003,7 +2004,7 @@ void handle_conn_info(struct packet_conn_info *pinfo)
             || pconn->observer != pinfo->observer)) {
       /* Our connection state changed, let prepare the changes and reset
        * the game. */
-      set_client_state(C_S_PREPARING);
+      preparing_client_state = TRUE;
     }
 
     pconn->id = pinfo->id;
@@ -2024,6 +2025,10 @@ void handle_conn_info(struct packet_conn_info *pinfo)
     /* For updating the sensitivity of the "Edit Mode" menu item,
      * among other things. */
     update_menus();
+  }
+
+  if (preparing_client_state) {
+    set_client_state(C_S_PREPARING);
   }
 }
 
@@ -2497,10 +2502,8 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
    * the nation selection dialog if it is open. */
   popdown_races_dialog();
 
-  game_free();
-  ruleset_cache_init();
-  game_init();
-
+  game_ruleset_free();
+  game_ruleset_init();
   game.control = *packet;
 
   /* check the values! */

@@ -1483,8 +1483,6 @@ static void load_building_names(struct section_file *file)
     b->name.translated = NULL;
   }
 
-  ruleset_cache_init();
-
   free(sec);
 }
 
@@ -3784,7 +3782,9 @@ void load_rulesets(void)
 
   freelog(LOG_NORMAL, _("Loading rulesets"));
 
-  ruleset_data_free();
+  game_ruleset_free();
+  game_ruleset_init();
+
   reset_player_nations();
   server.playable_nations = 0;
 

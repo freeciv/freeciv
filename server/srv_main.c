@@ -401,20 +401,20 @@ bool check_for_game_over(void)
 
 /**************************************************************************
   Send all information for when game starts or client reconnects.
-  Ruleset information should have been sent before this.
+  Initial packets should have been sent before calling this function.
+  See comment in connecthand.c::establish_new_connection().
 **************************************************************************/
 void send_all_info(struct conn_list *dest, bool force)
 {
   conn_list_iterate(dest, pconn) {
+    if (conn_controls_player(pconn)) {
       send_attribute_block(pconn->playing, pconn);
-  }
-  conn_list_iterate_end;
+    }
+  } conn_list_iterate_end;
 
-  send_scenario_info(dest);
-  send_game_info(dest);
-  send_map_info(dest);
+  /* Resend player info because it could have more infos (e.g. embassy). */
   send_player_info_c(NULL, dest);
-  send_conn_info(game.est_connections, dest);
+  send_map_info(dest);
   send_spaceship_info(NULL, dest);
   send_all_known_tiles(dest, force);
   send_all_known_cities(dest);

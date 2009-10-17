@@ -188,6 +188,9 @@ static void at_exit(void)
 **************************************************************************/
 static void client_game_init(void)
 {
+  client.conn.playing = NULL;
+  client.conn.observer = FALSE;
+
   game_init();
   attribute_init();
   agents_init();
@@ -209,6 +212,9 @@ static void client_game_free(void)
   attribute_free();
   agents_free();
   game_free();
+
+  client.conn.playing = NULL;
+  client.conn.observer = FALSE;
 }
 
 /**************************************************************************
@@ -592,6 +598,12 @@ void set_client_state(enum client_states newstate)
     }
   }
 
+  if (C_S_PREPARING == newstate
+      && (client_has_player() || client_is_observer())) {
+    /* Reset the delta-state. */
+    conn_clear_packet_cache(&client.conn);
+  }
+
   if (oldstate == newstate) {
     return;
   }
@@ -641,9 +653,6 @@ void set_client_state(enum client_states newstate)
         && get_client_page() != PAGE_LOAD) {
       set_client_page(PAGE_START);
     }
-
-    /* Reset the delta-state. */
-    conn_clear_packet_cache(&client.conn);
     break;
 
   case C_S_RUNNING:
