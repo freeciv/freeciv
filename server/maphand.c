@@ -1202,9 +1202,10 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
 	    if (change != 0) {
 	      map_change_seen(ptile, pplayer2, change, v);
               /* When fog of war is disabled, the seen count is always
-               * at least 1. */
-              if ((map_get_seen(ptile, pplayer2, v)
-                   == change + !game.info.fogofwar)
+               * at least 1.  Also when it's on the city radius, it has
+               * the same behaviour. */
+              if ((map_get_seen(ptile, pplayer2, v) == change
+                   || !map_is_known(ptile, pplayer2))
 		  && map_is_known(ptile, pplayer)) {
 		really_unfog_tile(pplayer2, ptile, v);
 	      }
