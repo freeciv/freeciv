@@ -93,7 +93,11 @@ int tile_border_strength(struct tile *ptile, struct tile *source)
   int full_strength = tile_border_source_strength(source);
   int sq_dist = sq_map_distance(ptile, source);
 
-  return full_strength * full_strength / sq_dist;
+  if (sq_dist > 0) {
+    return full_strength * full_strength / sq_dist;
+  } else {
+    return FC_INFINITY;
+  }
 }
 
 /*************************************************************************
