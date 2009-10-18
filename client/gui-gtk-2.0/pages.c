@@ -74,7 +74,9 @@ static GtkWidget *server_playerlist_view;
 static GtkTreeSelection *load_selection, *scenario_selection,
   *nation_selection, *meta_selection, *lan_selection;
 
-static enum client_pages old_page = -1;
+/* This is the current page, or the next we will switch to when the idle
+ * callback will be called. */
+static enum client_pages next_page = -1;
 
 static void set_page_callback(GtkWidget *w, gpointer data);
 static void update_nation_page(struct packet_game_load *packet);
@@ -2210,23 +2212,28 @@ GtkWidget *create_nation_page(void)
 **************************************************************************/
 enum client_pages get_client_page(void)
 {
-  return old_page;
+  return next_page;
 }
 
 /**************************************************************************
   changes the current page.
   this is basically a state machine. jumps actions are hardcoded.
 **************************************************************************/
-void set_client_page(enum client_pages page)
+static gboolean set_client_page_callback(gpointer data)
 {
-  enum client_pages new_page;
+  /* Invalid value at start, to be sure that it won't be catch throught a
+   * switch(). */
+  static enum client_pages old_page = -1;
+  /* Don't use next_page directly here because maybe it could be modified
+   * before we reach the end of this function. */
+  enum client_pages new_page = next_page;
 
-  new_page = page;
-  
+  /* Remove GSource id. */
+  *((guint *) data) = 0;
 
   /* If the page remains the same, don't do anything. */
   if (old_page == new_page) {
-    return;
+    return FALSE;
   }
 
   switch (old_page) {
@@ -2255,6 +2262,7 @@ void set_client_page(enum client_pages page)
     } else {
       gtk_widget_hide(start_options_table);
     }
+    voteinfo_gui_update();
     break;
   case PAGE_NATION:
     break;
@@ -2262,6 +2270,7 @@ void set_client_page(enum client_pages page)
     reset_unit_table();
     enable_menus(TRUE);
     gtk_window_maximize(GTK_WINDOW(toplevel));
+    voteinfo_gui_update();
     break;
   case PAGE_LOAD:
     update_load_page();
@@ -2284,22 +2293,6 @@ void set_client_page(enum client_pages page)
 
   gtk_notebook_set_current_page(GTK_NOTEBOOK(toplevel_tabs), new_page);
 
-  switch (new_page) {
-  case PAGE_MAIN:
-  case PAGE_GGZ:
-  case PAGE_NATION:
-  case PAGE_LOAD:
-  case PAGE_SCENARIO:
-  case PAGE_NETWORK:
-    break;
-  case PAGE_START:
-    gtk_widget_hide(pregame_votebar);
-    break;
-  case PAGE_GAME:
-    gtk_widget_hide(ingame_votebar);
-    break;
-  }
-    
   /* Update the GUI. */
   while (gtk_events_pending()) {
     gtk_main_iteration();
@@ -2334,13 +2327,23 @@ void set_client_page(enum client_pages page)
     break;
   }
 
-  old_page = page;
+  old_page = new_page;
 
-  /* We need to do at the end, because we need to know what is the
-   * current page. */
-  voteinfo_gui_update();
+  return FALSE;
 }
 
+/**************************************************************************
+  Changes the current page.  The action is delayed.
+**************************************************************************/
+void set_client_page(enum client_pages page)
+{
+  static guint callback_id = 0;
+
+  next_page = page;
+  if (0 == callback_id) {
+    callback_id = g_idle_add(set_client_page_callback, &callback_id);
+  }
+}
 
 /**************************************************************************
 ...
