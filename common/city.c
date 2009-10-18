@@ -330,10 +330,12 @@ const char *city_improvement_name_translation(const struct city *pcity,
   const char *state = NULL;
 
   if (is_great_wonder(pimprove)) {
-    if (great_wonder_was_built(pimprove)) {
-      state = Q_("?built:B");
+    if (great_wonder_is_available(pimprove)) {
+      state = Q_("?wonder:W");
+    } else if (great_wonder_is_destroyed(pimprove)) {
+      state = Q_("?destroyed:D");
     } else {
-      state = Q_("?wonder:w");
+      state = Q_("?built:B");
     }
   }
   if (pcity) {
@@ -1458,7 +1460,7 @@ int city_turns_to_build(const struct city *pcity,
 
   if (target.kind == VUT_IMPROVEMENT
       && is_great_wonder(target.value.building)
-      && great_wonder_was_built(target.value.building)) {
+      && !great_wonder_is_available(target.value.building)) {
     return FC_INFINITY;
   }
 
@@ -2499,6 +2501,11 @@ void city_add_improvement(struct city *pcity,
 			  const struct impr_type *pimprove)
 {
   pcity->built[improvement_index(pimprove)].turn = game.info.turn; /*I_ACTIVE*/
+
+  if (is_server() && is_wonder(pimprove)) {
+    /* Client just read the info from the packets. */
+    wonder_built(pcity, pimprove);
+  }
 }
 
 /**************************************************************************
@@ -2512,6 +2519,11 @@ void city_remove_improvement(struct city *pcity,
           pcity->name);
   
   pcity->built[improvement_index(pimprove)].turn = I_DESTROYED;
+
+  if (is_server() && is_wonder(pimprove)) {
+    /* Client just read the info from the packets. */
+    wonder_destroyed(pcity, pimprove);
+  }
 }
 
 /**************************************************************************

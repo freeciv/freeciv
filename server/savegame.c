@@ -4692,7 +4692,8 @@ static void game_load_internal(struct section_file *file)
         if (string[k] == '1') {
           struct impr_type *pimprove = find_improvement_by_rule_name(name);
           if (pimprove) {
-            game.info.great_wonders[improvement_index(pimprove)] = -1;
+            game.info.great_wonder_owners[improvement_index(pimprove)] =
+                WONDER_DESTROYED;
           }
         }
       }
@@ -4702,7 +4703,8 @@ static void game_load_internal(struct section_file *file)
           struct impr_type *pimprove = 
                         find_improvement_by_rule_name(improvement_order[k]);
           if (pimprove) {
-            game.info.great_wonders[improvement_index(pimprove)] = -1;
+            game.info.great_wonder_owners[improvement_index(pimprove)] =
+                WONDER_DESTROYED;
           }
         }
       }
@@ -5238,8 +5240,7 @@ void game_save(struct section_file *file, const char *save_reason,
      */
     improvement_iterate(pimprove) {
       if (is_great_wonder(pimprove)
-          && great_wonder_was_built(pimprove)
-          && !find_city_from_great_wonder(pimprove)) {
+          && great_wonder_is_destroyed(pimprove)) {
         temp[improvement_index(pimprove)] = '1';
       } else {
         temp[improvement_index(pimprove)] = '0';

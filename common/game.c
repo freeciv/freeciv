@@ -405,10 +405,12 @@ void game_init(void)
   } player_slots_iterate_end;
   set_player_count(0);
 
-  for (i=0; i<A_LAST; i++)      /* game.num_tech_types = 0 here */
-    game.info.global_advances[i]=FALSE;
-  for (i=0; i<B_LAST; i++)      /* game.num_impr_types = 0 here */
-    game.info.great_wonders[i]=0;
+  for (i = 0; i < A_LAST; i++) {        /* game.num_tech_types = 0 here */
+    game.info.global_advances[i] = FALSE;
+  }
+  for (i = 0; i < B_LAST; i++) {        /* game.num_impr_types = 0 here */
+    game.info.great_wonder_owners[i] = WONDER_NOT_OWNED;
+  }
 
   terrain_control.river_help_text[0] = '\0';
 }
@@ -581,14 +583,16 @@ void game_ruleset_free(void)
 ***************************************************************/
 void initialize_globals(void)
 {
-  players_iterate(plr) {
-    city_list_iterate(plr->cities, pcity) {
+  players_iterate(pplayer) {
+    city_list_iterate(pplayer->cities, pcity) {
       city_built_iterate(pcity, pimprove) {
-	if (is_great_wonder(pimprove)) {
-	  game.info.great_wonders[improvement_index(pimprove)] = pcity->id;
-	} else if (is_small_wonder(pimprove)) {
-	  plr->small_wonders[improvement_index(pimprove)] = pcity->id;
-	}
+        if (is_wonder(pimprove)) {
+          if (is_great_wonder(pimprove)) {
+            game.info.great_wonder_owners[improvement_index(pimprove)] =
+                player_number(pplayer);
+          }
+          pplayer->wonders[improvement_index(pimprove)] = pcity->id;
+        }
       } city_built_iterate_end;
     } city_list_iterate_end;
   } players_iterate_end;

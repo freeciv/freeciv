@@ -578,7 +578,8 @@ bool are_requirements_equal(const struct requirement *req1,
 static int num_world_buildings_total(const struct impr_type *building)
 {
   if (is_great_wonder(building)) {
-    return (great_wonder_was_built(building) ? 1 : 0);
+    return (great_wonder_is_built(building)
+            || great_wonder_is_destroyed(building) ? 1 : 0);
   } else {
     freelog(LOG_ERROR,
 	    /* TRANS: Obscure ruleset error. */
@@ -593,37 +594,12 @@ static int num_world_buildings_total(const struct impr_type *building)
 static int num_world_buildings(const struct impr_type *building)
 {
   if (is_great_wonder(building)) {
-    return (find_city_from_great_wonder(building) ? 1 : 0);
+    return (great_wonder_is_built(building) ? 1 : 0);
   } else {
     freelog(LOG_ERROR,
 	    /* TRANS: Obscure ruleset error. */
 	    _("World-ranged requirements are only supported for wonders."));
     return 0;
-  }
-}
-
-/**************************************************************************
-  Returns the player city with the given wonder.
-**************************************************************************/
-static struct city *player_find_city_from_wonder(const struct player *plr,
-						 const struct impr_type *building)
-{
-  int city_id;
-  struct city *pcity;
-
-  if (is_great_wonder(building)) {
-    city_id = game.info.great_wonders[improvement_index(building)];
-  } else if (is_small_wonder(building)) {
-    city_id = plr->small_wonders[improvement_index(building)];
-  } else {
-    return NULL;
-  }
-
-  pcity = game_find_city_by_number(city_id);
-  if (pcity && (city_owner(pcity) == plr)) {
-    return pcity;
-  } else {
-    return NULL;
   }
 }
 
@@ -634,7 +610,7 @@ static int num_player_buildings(const struct player *pplayer,
 				const struct impr_type *building)
 {
   if (is_wonder(building)) {
-    return (player_find_city_from_wonder(pplayer, building) ? 1 : 0);
+    return (wonder_is_built(pplayer, building) ? 1 : 0);
   } else {
     freelog(LOG_ERROR,
 	    /* TRANS: Obscure ruleset error. */
@@ -653,7 +629,7 @@ static int num_continent_buildings(const struct player *pplayer,
   if (is_wonder(building)) {
     const struct city *pcity;
 
-    pcity = player_find_city_from_wonder(pplayer, building);
+    pcity = find_city_from_wonder(pplayer, building);
     if (pcity && tile_continent(pcity->tile) == continent) {
       return 1;
     }

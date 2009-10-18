@@ -211,7 +211,7 @@ type DIPLSTATE		= diplstate(struct player_diplstate)
 type VISION		= uint32(unsigned int)
 
 # typedefs for IDs
-type PLAYER 		= UINT8
+type PLAYER 		= SINT8
 type CITY   		= UINT16
 type UNIT   		= UINT16
 type TECH     		= UINT8
@@ -494,7 +494,7 @@ PACKET_GAME_INFO=15; sc
   
   /* True if at least one civilization has researched a tech */
   BOOL global_advances[A_LAST]; diff
-  UINT16 great_wonders[B_LAST]; diff
+  PLAYER great_wonder_owners[B_LAST]; diff
 end
 
 PACKET_MAP_INFO=16; sc,lsend
@@ -722,7 +722,7 @@ PACKET_PLAYER_INFO=39;sc
   STRING inventions[A_LAST+1];
   SINT16 love[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
 
-  UINT16 small_wonders[B_LAST]; diff
+  CITY wonders[B_LAST]; diff
 end
 
 PACKET_PLAYER_PHASE_DONE=40;cs,dsend

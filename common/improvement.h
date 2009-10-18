@@ -107,16 +107,38 @@ bool is_wonder(const struct impr_type *pimprove);
 bool is_improvement(const struct impr_type *pimprove);
 bool is_special_improvement(const struct impr_type *pimprove);
 
-bool great_wonder_was_built(const struct impr_type *pimprove);
-
 bool can_sell_building(struct impr_type *pimprove);
 bool can_city_sell_building(const struct city *pcity,
 			    struct impr_type *pimprove);
 
+/* Macros for struct packet_game_info::great_wonder_owners[]. */
+#define WONDER_DESTROYED -2     /* Used as player id. */
+#define WONDER_NOT_OWNED -1     /* User as player id. */
+#define WONDER_OWNED(player_id) ((player_id) >= 0)
+
+/* Macros for struct player::wonders[]. */
+#define WONDER_NOT_BUILT 0      /* User as city id. */
+#define WONDER_BUILT(city_id) ((city_id) != WONDER_NOT_BUILT)
+
+void wonder_built(const struct city *pcity, const struct impr_type *pimprove);
+void wonder_destroyed(const struct city *pcity,
+                      const struct impr_type *pimprove);
+
+bool wonder_is_built(const struct player *pplayer,
+                     const struct impr_type *pimprove);
+struct city *find_city_from_wonder(const struct player *pplayer,
+                                   const struct impr_type *pimprove);
+
+bool great_wonder_is_built(const struct impr_type *pimprove);
+bool great_wonder_is_destroyed(const struct impr_type *pimprove);
+bool great_wonder_is_available(const struct impr_type *pimprove);
 struct city *find_city_from_great_wonder(const struct impr_type *pimprove);
-struct city *find_city_from_small_wonder(const struct player *pplayer,
-					 const struct impr_type *pimprove);
 struct player *great_wonder_owner(const struct impr_type *pimprove);
+
+bool small_wonder_is_built(const struct player *pplayer,
+                           const struct impr_type *pimprove);
+struct city *find_city_from_small_wonder(const struct player *pplayer,
+                                         const struct impr_type *pimprove);
 
 /* player related improvement functions */
 bool improvement_obsolete(const struct player *pplayer,
