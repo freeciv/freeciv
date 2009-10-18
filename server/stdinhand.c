@@ -3428,6 +3428,7 @@ bool load_command(struct connection *caller, const char *filename, bool check)
   struct timer *loadtimer, *uloadtimer;  
   struct section_file file;
   char arg[MAX_LEN_PATH];
+  struct conn_list *global_observers;
 
   if (!filename || filename[0] == '\0') {
     cmd_reply(CMD_LOAD, caller, C_FAIL, _("Usage:\n%s"),
@@ -3490,10 +3491,13 @@ bool load_command(struct connection *caller, const char *filename, bool check)
   }
 
   /* Detach current players, before we blow them away. */
+  global_observers = conn_list_new();
   conn_list_iterate(game.est_connections, pconn) {
     if (pconn->playing != NULL) {
       connection_detach(pconn);
-      send_conn_info(pconn->self, NULL);
+    } else if (pconn->observer) {
+      conn_list_append(global_observers, pconn);
+      connection_detach(pconn);
     }
   } conn_list_iterate_end;
 
@@ -3538,12 +3542,19 @@ bool load_command(struct connection *caller, const char *filename, bool check)
     players_iterate(pplayer) {
       if (strcmp(pconn->username, pplayer->username) == 0) {
         connection_attach(pconn, pplayer, FALSE);
-        send_player_info_c(pplayer, NULL);
-        send_conn_info(pconn->self, NULL);
         break;
       }
     } players_iterate_end;
   } conn_list_iterate_end;
+
+  /* Reattach global observers. */
+  conn_list_iterate(global_observers, pconn) {
+    if (NULL == pconn->playing) {
+      /* May have been assigned to a player before. */
+      connection_attach(pconn, NULL, TRUE);
+    }
+  } conn_list_iterate_end;
+  conn_list_free(global_observers);
 
   aifill(game.info.aifill);
   return TRUE;
