@@ -1368,7 +1368,8 @@ static void bounce_units_on_terrain_change(struct tile *ptile)
       /* look for a nearby safe tile */
       adjc_iterate(ptile, ptile2) {
 	if (can_unit_exist_at_tile(punit, ptile2)
-	    && !is_non_allied_unit_tile(ptile2, unit_owner(punit))) {
+            && !is_non_allied_unit_tile(ptile2, unit_owner(punit))
+            && !is_non_allied_city_tile(ptile2, unit_owner(punit))) {
 	  freelog(LOG_VERBOSE,
 		  "Moved %s %s due to changing terrain at (%d,%d).",
 		  nation_rule_name(nation_of_unit(punit)),
