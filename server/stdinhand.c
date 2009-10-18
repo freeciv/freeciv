@@ -3395,6 +3395,7 @@ bool load_command(struct connection *caller, const char *filename, bool check)
   struct timer *loadtimer, *uloadtimer;  
   struct section_file file;
   char arg[MAX_LEN_PATH];
+  struct conn_list *global_observers;
 
   if (!filename || filename[0] == '\0') {
     cmd_reply(CMD_LOAD, caller, C_FAIL, _("Usage: load <game name>"));
@@ -3460,6 +3461,19 @@ bool load_command(struct connection *caller, const char *filename, bool check)
 
   sz_strlcpy(srvarg.load_filename, arg);
 
+  /* Detach all connections when loading the game, preventing that some
+   * infos are sent to clients which have have the most of the datas
+   * uninitialized. */
+  global_observers = conn_list_new();
+  conn_list_iterate(game.est_connections, pconn) {
+    if (pconn->player) {
+      unattach_connection_from_player(pconn);
+    } else if (pconn->observer) {
+      conn_list_append(global_observers, pconn);
+      pconn->observer = FALSE;
+    }
+  } conn_list_iterate_end;
+
   game_load(&file);
   section_file_check_unused(&file, arg);
   section_file_free(&file);
@@ -3482,9 +3496,6 @@ bool load_command(struct connection *caller, const char *filename, bool check)
    * to connections that have the correct username. Any attachments
    * made before the game load are unattached. */
   conn_list_iterate(game.est_connections, pconn) {
-    if (pconn->player) {
-      unattach_connection_from_player(pconn);
-    }
     players_iterate(pplayer) {
       if (strcmp(pconn->username, pplayer->username) == 0) {
         attach_connection_to_player(pconn, pplayer);
@@ -3493,6 +3504,18 @@ bool load_command(struct connection *caller, const char *filename, bool check)
       }
     } players_iterate_end;
   } conn_list_iterate_end;
+
+  /* Reattach global observers. */
+  conn_list_iterate(global_observers, pconn) {
+    if (!pconn->player) {
+      /* May have been assigned to a player before. */
+      pconn->observer = TRUE;
+    }
+  } conn_list_iterate_end;
+  conn_list_free(global_observers);
+
+  send_conn_info(game.est_connections, game.est_connections);
+
   return TRUE;
 }
 
