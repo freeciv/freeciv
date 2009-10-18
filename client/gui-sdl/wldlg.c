@@ -1336,12 +1336,19 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
       if (is_wonder(pImprove)) {
         if (improvement_obsolete(client.conn.playing, pImprove)) {
           state = _("Obsolete");
-        } else {
-          if ((is_great_wonder(pImprove) && game.info.great_wonders[improvement_index(pImprove)] != 0) || 
-              (is_small_wonder(pImprove) && client.conn.playing->small_wonders[improvement_index(pImprove)] != 0)) {
-	    state = _("Built");
+        } else if (is_great_wonder(pImprove)) {
+          if (great_wonder_is_built(pImprove)) {
+            state = _("Built");
+          } else if (great_wonder_is_destroyed(pImprove)) {
+            state = _("Destroyed");
           } else {
-	    state = _("Wonder");
+            state = _("Great Wonder");
+          }
+        } else if (is_small_wonder(pImprove)) {
+          if (small_wonder_is_built(client.conn.playing, pImprove)) {
+            state = _("Built");
+          } else {
+            state = _("Small Wonder");
           }
         }
       } else {

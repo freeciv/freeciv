@@ -335,8 +335,10 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
 	if (is_great_wonder(pimprove)) {
           if (improvement_obsolete(pplayer, pimprove)) {
             state = _("Obsolete");
-          } else if (great_wonder_was_built(pimprove)) {
+          } else if (great_wonder_is_built(pimprove)) {
             state = _("Built");
+          } else if (great_wonder_is_destroyed(pimprove)) {
+            state = _("Destroyed");
           } else {
             state = _("Great Wonder");
           }

@@ -348,7 +348,7 @@ void report_wonders_of_the_world(struct conn_list *dest)
 		     city_improvement_name_translation(pcity, i),
 		     city_name(pcity),
 		     nation_adjective_for_player(city_owner(pcity)));
-      } else if (great_wonder_was_built(i)) {
+      } else if (great_wonder_is_destroyed(i)) {
 	cat_snprintf(buffer, sizeof(buffer), _("%s has been DESTROYED\n"),
 		     improvement_name_translation(i));
       }

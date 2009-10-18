@@ -1814,7 +1814,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->is_connected = pinfo->is_connected;
 
   for (i = 0; i < B_LAST; i++) {
-    pplayer->small_wonders[i] = pinfo->small_wonders[i];
+    pplayer->wonders[i] = pinfo->wonders[i];
   }
 
   /* We need to set ai.control before read_player_info_techs */

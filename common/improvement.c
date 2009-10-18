@@ -342,7 +342,8 @@ enum impr_flag_id find_improvement_flag_by_rule_name(const char *s)
 **************************************************************************/
 bool is_improvement_visible(const struct impr_type *pimprove)
 {
-  return (is_wonder(pimprove) || improvement_has_flag(pimprove, IF_VISIBLE_BY_OTHERS));
+  return (is_wonder(pimprove)
+          || improvement_has_flag(pimprove, IF_VISIBLE_BY_OTHERS));
 }
 
 /**************************************************************************
@@ -435,7 +436,7 @@ bool can_player_build_improvement_direct(const struct player *p,
 
   if (is_great_wonder(pimprove)) {
     /* Can't build wonder if already built */
-    if (great_wonder_was_built(pimprove)) {
+    if (!great_wonder_is_available(pimprove)) {
       return FALSE;
     }
   }
@@ -524,45 +525,209 @@ bool is_special_improvement(const struct impr_type *pimprove)
 }
 
 /**************************************************************************
-  Get the world city with this great wonder.
+  Build a wonder in the city.
 **************************************************************************/
-struct city *find_city_from_great_wonder(const struct impr_type *pimprove)
+void wonder_built(const struct city *pcity, const struct impr_type *pimprove)
 {
-  return game_find_city_by_number(game.info.great_wonders[improvement_index(pimprove)]);
+  struct player *pplayer;
+  int index = improvement_number(pimprove);
+
+  RETURN_IF_FAIL(NULL != pcity);
+  RETURN_IF_FAIL(is_wonder(pimprove));
+
+  pplayer = city_owner(pcity);
+  pplayer->wonders[index] = pcity->id;
+
+  if (is_great_wonder(pimprove)) {
+    game.info.great_wonder_owners[index] = player_number(pplayer);
+  }
 }
 
 /**************************************************************************
-  Get the player owning this small wonder.
+  Remove a wonder from a city and destroy it if it's a great wonder.  To
+  transfer a great wonder, use great_wonder_transfer.
 **************************************************************************/
-struct player *great_wonder_owner(const struct impr_type *pimprove)
+void wonder_destroyed(const struct city *pcity,
+                      const struct impr_type *pimprove)
 {
-  struct city *pcity = find_city_from_great_wonder(pimprove);
+  struct player *pplayer;
+  int index = improvement_number(pimprove);
 
-  if (!pcity) {
+  RETURN_IF_FAIL(NULL != pcity);
+  RETURN_IF_FAIL(is_wonder(pimprove));
+
+  pplayer = city_owner(pcity);
+  RETURN_IF_FAIL(pplayer->wonders[index] == pcity->id);
+  pplayer->wonders[index] = WONDER_NOT_BUILT;
+
+  if (is_great_wonder(pimprove)) {
+    RETURN_IF_FAIL(game.info.great_wonder_owners[index]
+                   == player_number(pplayer));
+    game.info.great_wonder_owners[index] = WONDER_DESTROYED;
+  }
+}
+
+/**************************************************************************
+  Returns whether the player has built this wonder (small or great).
+**************************************************************************/
+bool wonder_is_built(const struct player *pplayer,
+                     const struct impr_type *pimprove)
+{
+  RETURN_VAL_IF_FAIL(NULL != pplayer, NULL);
+  RETURN_VAL_IF_FAIL(is_wonder(pimprove), NULL);
+
+  return WONDER_BUILT(pplayer->wonders[improvement_index(pimprove)]);
+}
+
+/**************************************************************************
+  Get the world city with this wonder (small or great).  This doesn't
+  always success on the client side.
+**************************************************************************/
+struct city *find_city_from_wonder(const struct player *pplayer,
+                                   const struct impr_type *pimprove)
+{
+  int city_id = pplayer->wonders[improvement_index(pimprove)];
+
+  RETURN_VAL_IF_FAIL(NULL != pplayer, NULL);
+  RETURN_VAL_IF_FAIL(is_wonder(pimprove), NULL);
+
+  if (!WONDER_BUILT(city_id)) {
     return NULL;
   }
 
-  return city_owner(pcity);
+#ifdef DEBUG
+  if (is_server()) {
+    /* On client side, this info is not always known. */
+    struct city *pcity = player_find_city_by_id(pplayer, city_id);
+
+    if (NULL == pcity) {
+      freelog(LOG_ERROR, "Player %s (nb %d) has outdated wonder info for "
+              "%s (nb %d), it points to city nb %d.",
+              player_name(pplayer), player_number(pplayer),
+              improvement_rule_name(pimprove), improvement_number(pimprove),
+              pcity->id);
+    } else if (!city_has_building(pcity, pimprove)) {
+      freelog(LOG_ERROR, "Player %s (nb %d) has outdated wonder info for "
+              "%s (nb %d), the city %s (nb %d) doesn't have this wonder.",
+              player_name(pplayer), player_number(pplayer),
+              improvement_rule_name(pimprove), improvement_number(pimprove),
+              city_name(pcity), pcity->id);
+      return NULL;
+    }
+
+    return pcity;
+  }
+#endif /* DEBUG */
+
+  return player_find_city_by_id(pplayer, city_id);
+}
+
+/**************************************************************************
+  Returns whether this wonder is currently built.
+**************************************************************************/
+bool great_wonder_is_built(const struct impr_type *pimprove)
+{
+  RETURN_VAL_IF_FAIL(is_great_wonder(pimprove), FALSE);
+
+  return WONDER_OWNED(game.info.great_wonder_owners
+                      [improvement_index(pimprove)]);
+}
+
+/**************************************************************************
+  Returns whether this wonder has been destroyed.
+**************************************************************************/
+bool great_wonder_is_destroyed(const struct impr_type *pimprove)
+{
+  RETURN_VAL_IF_FAIL(is_great_wonder(pimprove), FALSE);
+
+  return (WONDER_DESTROYED
+          == game.info.great_wonder_owners[improvement_index(pimprove)]);
+}
+
+/**************************************************************************
+  Returns whether this wonder can be currently built.
+**************************************************************************/
+bool great_wonder_is_available(const struct impr_type *pimprove)
+{
+  RETURN_VAL_IF_FAIL(is_great_wonder(pimprove), FALSE);
+
+  return (WONDER_NOT_OWNED
+          == game.info.great_wonder_owners[improvement_index(pimprove)]);
+}
+
+/**************************************************************************
+  Get the world city with this great wonder.  This doesn't always success
+  on the client side.
+**************************************************************************/
+struct city *find_city_from_great_wonder(const struct impr_type *pimprove)
+{
+  int player_id = game.info.great_wonder_owners[improvement_index(pimprove)];
+
+  RETURN_VAL_IF_FAIL(is_great_wonder(pimprove), NULL);
+
+  if (WONDER_OWNED(player_id)) {
+#ifdef DEBUG
+    const struct player *pplayer = player_by_number(player_id);
+    struct city *pcity = find_city_from_wonder(pplayer, pimprove);
+
+    if (is_server() && NULL == pcity) {
+      freelog(LOG_ERROR, "Game has outdated wonder info for %s (nb %d), "
+              "the player %s (nb %d) doesn't have this wonder.",
+              improvement_rule_name(pimprove), improvement_number(pimprove),
+              player_name(pplayer), player_number(pplayer));
+    }
+
+    return pcity;
+#else
+    return find_city_from_wonder(player_by_number(player_id), improve_id);
+#endif /* DEBUG */
+  } else {
+    return NULL;
+  }
+}
+
+/**************************************************************************
+  Get the player owning this small wonder.  This doesn't always success on
+  the client side.
+**************************************************************************/
+struct player *great_wonder_owner(const struct impr_type *pimprove)
+{
+  int player_id = game.info.great_wonder_owners[improvement_index(pimprove)];
+
+  RETURN_VAL_IF_FAIL(is_great_wonder(pimprove), NULL);
+
+  if (WONDER_OWNED(player_id)) {
+    return player_by_number(player_id);
+  } else {
+    return NULL;
+  }
+}
+
+/**************************************************************************
+  Returns whether the player has built this small wonder.
+**************************************************************************/
+bool small_wonder_is_built(const struct player *pplayer,
+                           const struct impr_type *pimprove)
+{
+  RETURN_VAL_IF_FAIL(is_small_wonder(pimprove), FALSE);
+
+  return (NULL != pplayer
+          && wonder_is_built(pplayer, pimprove));
 }
 
 /**************************************************************************
   Get the player city with this small wonder.
 **************************************************************************/
 struct city *find_city_from_small_wonder(const struct player *pplayer,
-					 const struct impr_type *pimprove)
+                                         const struct impr_type *pimprove)
 {
-  if (!pplayer) {
-    return NULL; /* Used in some places in the client. */
-  }
-  return player_find_city_by_id(pplayer, pplayer->small_wonders[improvement_index(pimprove)]);
-}
+  RETURN_VAL_IF_FAIL(is_small_wonder(pimprove), NULL);
 
-/**************************************************************************
-  Was this great wonder built?
-**************************************************************************/
-bool great_wonder_was_built(const struct impr_type *pimprove)
-{
-  return (game.info.great_wonders[improvement_index(pimprove)] != 0);
+  if (NULL == pplayer) {
+    return NULL; /* Used in some places in the client. */
+  } else {
+    return find_city_from_wonder(pplayer, pimprove);
+  }
 }
 
 /**************************************************************************

@@ -1490,16 +1490,11 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
     pcity->turn_last_built = game.info.turn;
     /* to eliminate micromanagement */
     if (is_great_wonder(pimprove)) {
-      game.info.great_wonders[improvement_index(pimprove)] = pcity->id;
-
       notify_player(NULL, pcity->tile, E_WONDER_BUILD, FTC_SERVER_INFO, NULL,
                     _("The %s have finished building %s in %s."),
                     nation_plural_for_player(pplayer),
                     city_improvement_name_translation(pcity, pimprove),
                     city_link(pcity));
-
-    } else if (is_small_wonder(pimprove)) {
-      pplayer->small_wonders[improvement_index(pimprove)] = pcity->id;
     }
 
     notify_player(pplayer, pcity->tile, E_IMP_BUILD, FTC_SERVER_INFO, NULL,

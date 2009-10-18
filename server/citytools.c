@@ -56,6 +56,7 @@
 /* server */
 #include "barbarian.h"
 #include "cityturn.h"
+#include "gamehand.h"           /* send_game_info() */
 #include "maphand.h"
 #include "notify.h"
 #include "plrhand.h"
@@ -828,7 +829,6 @@ static void build_free_small_wonders(struct player *pplayer,
       assert(find_city_from_small_wonder(pplayer, pimprove) == NULL);
 
       city_add_improvement(pnew_city, pimprove);
-      pplayer->small_wonders[improvement_index(pimprove)] = pnew_city->id;
 
       /*
        * send_player_cities will recalculate all cities and send them to
@@ -870,6 +870,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   struct tile *pcenter = city_tile(pcity);
   int saved_id = pcity->id;
   bool city_remains = TRUE;
+  bool had_great_wonders = FALSE;
 
   assert(pgiver != ptaker);
 
@@ -897,6 +898,9 @@ void transfer_city(struct player *ptaker, struct city *pcity,
     if (is_small_wonder(pimprove)) {
       BV_SET(had_small_wonders, improvement_index(pimprove));
     } else {
+      if (is_great_wonder(pimprove)) {
+        had_great_wonders = TRUE;
+      }
       /* note: internal turn here, next city_built_iterate(). */
       pcity->built[improvement_index(pimprove)].turn = game.info.turn; /*I_ACTIVE*/
     }
@@ -1026,6 +1030,18 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   vision_clear_sight(old_vision);
   vision_free(old_vision);
 
+  /* Send wonder infos. */
+  if (had_great_wonders) {
+    send_game_info(NULL);
+    if (city_remains) {
+      send_player_info(ptaker, NULL);
+    }
+  }
+  if (BV_ISSET_ANY(had_small_wonders) || had_great_wonders) {
+    /* No need to send to detached connections. */
+    send_player_info(pgiver, NULL);
+  }
+
   sync_cities();
 }
 
@@ -1040,6 +1056,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
   struct tile *saved_claimer = tile_claimer(ptile);
   struct city *pwork = tile_worked(ptile);
   struct city *pcity = create_city_virtual(pplayer, ptile, name);
+  bool has_small_wonders = FALSE, has_great_wonders = FALSE;
 
   freelog(LOG_DEBUG, "create_city() %s", name);
 
@@ -1061,7 +1078,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
       }
       city_add_improvement(pcity, pimprove);
       if (is_small_wonder(pimprove)) {
-        pplayer->small_wonders[improvement_index(pimprove)] = pcity->id;
+        has_small_wonders = TRUE;
       }
       assert(!is_great_wonder(pimprove));
     }
@@ -1072,6 +1089,11 @@ void create_city(struct player *pplayer, struct tile *ptile,
 	break;
       }
       city_add_improvement(pcity, pimprove);
+      if (is_small_wonder(pimprove)) {
+        has_small_wonders = TRUE;
+      } else if (is_great_wonder(pimprove)) {
+        has_great_wonders = TRUE;
+      }
     }
   }
 
@@ -1156,6 +1178,16 @@ void create_city(struct player *pplayer, struct tile *ptile,
     }
   } unit_list_iterate_end;
 
+  /* Update wonder infos. */
+  if (has_great_wonders) {
+    send_game_info(NULL);
+    /* No need to send to detached connections. */
+    send_player_info(pplayer, NULL);
+  } else if (has_small_wonders) {
+    /* No need to send to detached connections. */
+    send_player_info(pplayer, NULL);
+  }
+
   sanity_check_city(pcity);
 
   script_signal_emit("city_built", 1, API_TYPE_CITY, pcity);
@@ -1172,6 +1204,7 @@ void remove_city(struct city *pcity)
   bv_imprs had_small_wonders;
   struct vision *old_vision;
   int id = pcity->id; /* We need this even after memory has been freed */
+  bool had_great_wonders = FALSE;
 
   BV_CLR_ALL(had_small_wonders);
   city_built_iterate(pcity, pimprove) {
@@ -1179,6 +1212,8 @@ void remove_city(struct city *pcity)
 
     if (is_small_wonder(pimprove)) {
       BV_SET(had_small_wonders, improvement_index(pimprove));
+    } else if (is_great_wonder(pimprove)) {
+      had_great_wonders = TRUE;
     }
   } city_built_iterate_end;
 
@@ -1293,6 +1328,16 @@ void remove_city(struct city *pcity)
      savepalace is on. */
   if (game.info.savepalace) {
     build_free_small_wonders(powner, &had_small_wonders);
+  }
+
+  /* Update wonder infos. */
+  if (had_great_wonders) {
+    send_game_info(NULL);
+    /* No need to send to detached connections. */
+    send_player_info(powner, NULL);
+  } else if (BV_ISSET_ANY(had_small_wonders)) {
+    /* No need to send to detached connections. */
+    send_player_info(powner, NULL);
   }
 
   sync_cities();

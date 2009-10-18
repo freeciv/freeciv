@@ -230,7 +230,8 @@ static int base_want(struct player *pplayer, struct city *pcity,
 {
   struct ai_data *ai = ai_data_get(pplayer);
   int final_want = 0;
-  int great_wonders_tmp = 0, small_wonders_tmp = 0;
+  int wonder_player_id = WONDER_NOT_OWNED;
+  int wonder_city_id = WONDER_NOT_BUILT;
 
   if (ai->impr_calc[improvement_index(pimprove)] == AI_IMPR_ESTIMATE) {
     return 0; /* Nothing to calculate here. */
@@ -242,15 +243,15 @@ static int base_want(struct player *pplayer, struct city *pcity,
     return 0;
   }
 
+  if (is_wonder(pimprove)) {
+    if (is_great_wonder(pimprove)) {
+      wonder_player_id =
+          game.info.great_wonder_owners[improvement_index(pimprove)];
+    }
+    wonder_city_id = pplayer->wonders[improvement_index(pimprove)];
+  }
   /* Add the improvement */
   city_add_improvement(pcity, pimprove);
-  if (is_great_wonder(pimprove)) {
-    great_wonders_tmp = game.info.great_wonders[improvement_index(pimprove)];
-    game.info.great_wonders[improvement_index(pimprove)] = pcity->id;
-  } else if (is_small_wonder(pimprove)) {
-    small_wonders_tmp = pplayer->small_wonders[improvement_index(pimprove)];
-    pplayer->small_wonders[improvement_index(pimprove)] = pcity->id;
-  }
 
   /* Stir, then compare notes */
   city_range_iterate(pcity, pplayer->cities, ai->impr_range[improvement_index(pimprove)], acity) {
@@ -259,10 +260,13 @@ static int base_want(struct player *pplayer, struct city *pcity,
 
   /* Restore */
   city_remove_improvement(pcity, pimprove);
-  if (is_great_wonder(pimprove)) {
-    game.info.great_wonders[improvement_index(pimprove)] = great_wonders_tmp;
-  } else if (is_small_wonder(pimprove)) {
-    pplayer->small_wonders[improvement_index(pimprove)] = small_wonders_tmp;
+  if (is_wonder(pimprove)) {
+    if (is_great_wonder(pimprove)) {
+      game.info.great_wonder_owners[improvement_index(pimprove)] =
+          wonder_player_id;
+    }
+
+    pplayer->wonders[improvement_index(pimprove)] = wonder_city_id;
   }
 
   return final_want;

@@ -717,6 +717,8 @@ void handle_edit_city(struct connection *pc,
   char buf[1024];
   int id;
   bool changed = FALSE;
+  bool need_game_info = FALSE;
+  bv_player need_player_info;
 
   pcity = game_find_city_by_number(packet->id);
   if (!pcity) {
@@ -728,6 +730,7 @@ void handle_edit_city(struct connection *pc,
 
   pplayer = city_owner(pcity);
   ptile = city_tile(pcity);
+  BV_CLR_ALL(need_player_info);
 
   /* Handle name change. */
   if (0 != strcmp(pcity->name, packet->name)) {
@@ -767,16 +770,11 @@ void handle_edit_city(struct connection *pc,
       continue;
     }
 
-    /* FIXME: game.info.great_wonders and pplayer->small_wonders
+    /* FIXME: game.info.great_wonder_owners and pplayer->wonders
      * logic duplication with city_build_building. */
 
     if (city_has_building(pcity, pimprove) && packet->built[id] < 0) {
 
-      if (is_great_wonder(pimprove)) {
-        game.info.great_wonders[id] = 0;
-      } else if (is_small_wonder(pimprove)) {
-        pplayer->small_wonders[id] = 0;
-      }
       city_remove_improvement(pcity, pimprove);
       changed = TRUE;
 
@@ -784,12 +782,20 @@ void handle_edit_city(struct connection *pc,
                && packet->built[id] >= 0) {
 
       if (is_great_wonder(pimprove)) {
-        oldcity = game_find_city_by_number(game.info.great_wonders[id]);
-        game.info.great_wonders[id] = pcity->id;
+        oldcity = find_city_from_great_wonder(pimprove);
+        if (oldcity != pcity) {
+          BV_SET(need_player_info, player_index(pplayer));
+        }
+        if (NULL != oldcity && city_owner(oldcity) != pplayer) {
+          /* Great wonders make more changes. */
+          need_game_info = TRUE;
+          BV_SET(need_player_info, player_index(city_owner(oldcity)));
+        }
       } else if (is_small_wonder(pimprove)) {
-        oldcity = player_find_city_by_id(pplayer,
-                                         pplayer->small_wonders[id]);
-        pplayer->small_wonders[id] = pcity->id;
+        oldcity = find_city_from_small_wonder(pplayer, pimprove);
+        if (oldcity != pcity) {
+          BV_SET(need_player_info, player_index(pplayer));
+        }
       }
 
       if (oldcity) {
@@ -842,6 +848,19 @@ void handle_edit_city(struct connection *pc,
     send_city_info(NULL, pcity);  
 
     conn_list_do_unbuffer(game.est_connections);
+  }
+
+  /* Update wonder infos. */
+  if (need_game_info) {
+    send_game_info(NULL);
+  }
+  if (BV_ISSET_ANY(need_player_info)) {
+    players_iterate(aplayer) {
+      if (BV_ISSET(need_player_info, player_index(aplayer))) {
+        /* No need to send to detached connections. */
+        send_player_info(aplayer, NULL);
+      }
+    } players_iterate_end;
   }
 }
 

@@ -244,7 +244,7 @@ void player_init(struct player *plr)
   plr->really_gives_vision = 0;
 
   for (i = 0; i < B_LAST; i++) {
-    plr->small_wonders[i] = 0;
+    plr->wonders[i] = WONDER_NOT_BUILT;
   }
 
   plr->attribute_block.data = NULL;

@@ -240,21 +240,7 @@ bool api_methods_city_has_building(City *pcity, Building_Type *building)
 **************************************************************************/
 bool api_methods_player_has_wonder(Player *pplayer, Building_Type *building)
 {
-  int bidx = improvement_index(building);
-
-  if (pplayer->small_wonders[bidx] > 0) {
-    return TRUE;
-  }
-
-  if (game.info.great_wonders[bidx] > 0) {
-    struct city *pcity = game_find_city_by_number(game.info.great_wonders[bidx]);
-
-    if (pcity && player_owns_city(pplayer, pcity)) {
-      return TRUE;
-    }
-  }
-
-  return FALSE;
+  return wonder_is_built(pplayer, building);
 }
 
 /**************************************************************************
