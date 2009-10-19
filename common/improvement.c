@@ -679,7 +679,7 @@ struct city *find_city_from_great_wonder(const struct impr_type *pimprove)
 
     return pcity;
 #else
-    return find_city_from_wonder(player_by_number(player_id), improve_id);
+    return find_city_from_wonder(player_by_number(player_id), pimprove);
 #endif /* DEBUG */
   } else {
     return NULL;
