@@ -249,7 +249,7 @@ enum unit_move_result ai_manage_explorer(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
   /* Loop prevention */
-  int init_moves = punit->moves_left;
+  const struct tile *init_tile = unit_tile(punit);
 
   /* The log of the want of the most desirable tile, 
    * given nearby water, cities, etc. */
@@ -360,8 +360,8 @@ enum unit_move_result ai_manage_explorer(struct unit *punit)
     UNIT_LOG(LOG_DEBUG, punit, "exploration GOTO succeeded");
     if (punit->moves_left > 0) {
       /* We can still move on... */
-      if (punit->moves_left < init_moves) {
-	/* At least we moved (and maybe even got to where we wanted).  
+      if (!same_pos(init_tile, unit_tile(punit))) {
+        /* At least we moved (and maybe even got to where we wanted).  
          * Let's do more exploring. 
          * (Checking only whether our position changed is unsafe: can allow
          * yoyoing on a RR) */
