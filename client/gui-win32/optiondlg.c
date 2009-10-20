@@ -19,13 +19,21 @@
 #include <windows.h>
 #include <windowsx.h>
 
+/* utility */
 #include "fcintl.h"
-#include "game.h"
+#include "string_vector.h"
 #include "support.h"
+
+/* common */
+#include "game.h"
+
+/* client */
 #include "options.h"
 
+/* gui-win32 */
 #include "gui_stuff.h"
 #include "gui_main.h"
+
 #include "optiondlg.h"
 
 static HWND option_dialog;
@@ -46,39 +54,31 @@ static LONG CALLBACK option_proc(HWND dlg,UINT message,
     break;
   case WM_COMMAND:
     if (LOWORD(wParam)==IDOK) {
+      void *gui_data;
       char dp[512];
-      bool b;
       int val;
       
-      client_options_iterate(o) {
-	switch (o->type) {
+      client_options_iterate(poption) {
+        gui_data = option_get_gui_data(poption);
+
+	switch (option_type(poption)) {
 	case COT_BOOLEAN:
-	  b = *(o->boolean.pvalue);
-	  *(o->boolean.pvalue)=(Button_GetCheck((HWND)(o->gui_data))==BST_CHECKED);
-	  if (b != *(o->boolean.pvalue) && o->change_callback) {
-	    (o->change_callback)(o);
-	  }
+          (void) option_bool_set(poption,
+                                 Button_GetCheck((HWND)(gui_data))
+                                 == BST_CHECKED);
 	  break;
 	case COT_INTEGER:
-	  val = *(o->integer.pvalue);
-	  GetWindowText((HWND)(o->gui_data),dp,sizeof(dp));
-	  sscanf(dp, "%d", o->integer.pvalue);
-	  if (val != *(o->integer.pvalue) && o->change_callback) {
-	    (o->change_callback)(o);
-	  }
+	  GetWindowText((HWND)(gui_data),dp,sizeof(dp));
+          if (1 == sscanf(dp, "%d", &val)) {
+            (void) option_int_set(poption, val);
+          }
 	  break;
 	case COT_STRING:
-	  if (!o->gui_data) {
+	  if (!gui_data) {
 	    break;
 	  }
-	  GetWindowText((HWND) (o->gui_data), dp,
-			sizeof(dp));
-	  if (strcmp(dp, o->string.pvalue)) {
-	    mystrlcpy(o->string.pvalue, dp, o->string.size);
-	    if (o->change_callback) {
-	      (o->change_callback)(o);
-	    }
-	  }
+	  GetWindowText((HWND) (gui_data), dp, sizeof(dp));
+          (void) option_str_set(poption, dp);
 	  break;
         case COT_FONT:
           /* FIXME: */
@@ -116,44 +116,44 @@ static void create_option_dialog(void)
   hbox=fcwin_hbox_new(option_dialog,FALSE);
   vbox=fcwin_vbox_new(option_dialog,TRUE);
   vbox_labels=fcwin_vbox_new(option_dialog,TRUE);
-  client_options_iterate(o) {
-    switch (o->type) {
+  client_options_iterate(poption) {
+    switch (option_type(poption)) {
     case COT_BOOLEAN:
-      fcwin_box_add_static(vbox_labels,_(o->description),
+      fcwin_box_add_static(vbox_labels, option_description(poption),
 			   0,SS_LEFT,TRUE,TRUE,0);
-      o->gui_data=(void *)
-	fcwin_box_add_checkbox(vbox," ",0,0,TRUE,TRUE,0);
+      option_set_gui_data(poption, (void *)
+                          fcwin_box_add_checkbox(vbox," ",0,0,TRUE,TRUE,0));
       break;
     case COT_INTEGER:
-      fcwin_box_add_static(vbox_labels,_(o->description),
+      fcwin_box_add_static(vbox_labels,option_description(poption),
 			   0,SS_LEFT,TRUE,TRUE,0);
-      o->gui_data=(void *)
-	fcwin_box_add_edit(vbox,"",6,0,0,TRUE,TRUE,0);
+      option_set_gui_data(poption, (void *)
+                          fcwin_box_add_edit(vbox,"",6,0,0,TRUE,TRUE,0));
       break;
     case COT_STRING:
-      fcwin_box_add_static(vbox_labels,_(o->description),
+      fcwin_box_add_static(vbox_labels,option_description(poption),
 			   0,SS_LEFT,TRUE,TRUE,0);
-      if (o->string.val_accessor) {
-	const char **vals = (*o->string.val_accessor)();
+      if (option_str_values(poption)) {
+        const struct strvec *vals = option_str_values(poption);
 
-	if (!vals[0]) {
-	  fcwin_box_add_static(vbox, o->string.pvalue, 0, SS_LEFT,
+	if (0 == strvec_size(vals)) {
+	  fcwin_box_add_static(vbox, option_str_get(poption), 0, SS_LEFT,
 			       TRUE, TRUE, 0);
-	  o->gui_data = NULL;
+          option_set_gui_data(poption, NULL);
 	} else {
-	  int j;
+          option_set_gui_data(poption, (void *)
+                              fcwin_box_add_combo(vbox, 5, 0,
+                              WS_VSCROLL | CBS_DROPDOWNLIST | CBS_SORT,
+                              TRUE, TRUE, 0));
 
-	  o->gui_data =
-	      fcwin_box_add_combo(vbox, 5, 0,
-				  WS_VSCROLL | CBS_DROPDOWNLIST | CBS_SORT,
-				  TRUE, TRUE, 0);
-	  for (j = 0; vals[j]; j++) {
-	    ComboBox_AddString(o->gui_data, vals[j]);
-	  }
+          strvec_iterate(vals, val) {
+            ComboBox_AddString(option_get_gui_data(poption), val);
+          } strvec_iterate_end;
 	}
       } else {
-	o->gui_data =
-	    (void *) fcwin_box_add_edit(vbox, "", 40, 0, 0, TRUE, TRUE, 0);
+        option_set_gui_data(poption, (void *)
+                            fcwin_box_add_edit(vbox, "", 40, 0, 0,
+                                               TRUE, TRUE, 0));
 	break;
       }
      case COT_FONT:
@@ -175,35 +175,38 @@ static void create_option_dialog(void)
 void popup_option_dialog(void)
 {
   char valstr[64];
+  void *gui_data;
 
   if (!option_dialog)
     create_option_dialog();
 
-  client_options_iterate(o) {
-    switch (o->type) {
+  client_options_iterate(poption) {
+    gui_data = option_get_gui_data(poption);
+
+    switch (option_type(poption)) {
     case COT_BOOLEAN:
-      Button_SetCheck((HWND)(o->gui_data),
-		      (*(o->boolean.pvalue))?BST_CHECKED:BST_UNCHECKED);
+      Button_SetCheck((HWND)(gui_data),
+		      option_bool_get(poption)?BST_CHECKED:BST_UNCHECKED);
       break;
     case COT_INTEGER:
-      my_snprintf(valstr, sizeof(valstr), "%d", *(o->integer.pvalue));
-      SetWindowText((HWND)(o->gui_data), valstr);
+      my_snprintf(valstr, sizeof(valstr), "%d", option_int_get(poption));
+      SetWindowText((HWND)(gui_data), valstr);
       break;
     case COT_STRING:
-      if (!o->gui_data) {
+      if (!gui_data) {
 	break;
       }
 
-      if ((o->string.val_accessor) && (o->string.pvalue[0] != 0)) {
+      if (option_str_values(poption) && option_str_get(poption)[0] != 0) {
 	int i =
-	    ComboBox_FindStringExact(o->gui_data, 0, o->string.pvalue);
+	    ComboBox_FindStringExact(gui_data, 0, option_str_get(poption));
 
 	if (i == CB_ERR) {
-	  i = ComboBox_AddString(o->gui_data, o->string.pvalue);
+	  i = ComboBox_AddString(gui_data, option_str_get(poption));
 	}
-	ComboBox_SetCurSel(o->gui_data, i);
+	ComboBox_SetCurSel(gui_data, i);
       } 
-      SetWindowText((HWND)(o->gui_data), o->string.pvalue);
+      SetWindowText((HWND)(gui_data), option_str_get(poption));
       break;
     case COT_FONT:
       /* FIXME: */

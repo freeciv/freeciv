@@ -1481,7 +1481,7 @@ static void settable_options_callback(GtkWidget *win, gint rid, GtkWidget *w)
   switch (rid) {
   case GTK_RESPONSE_ACCEPT:
     settable_options_processing(w);
-    save_options();
+    options_save();
     break;
   case GTK_RESPONSE_APPLY:
     settable_options_processing(w);

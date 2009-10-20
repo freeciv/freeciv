@@ -354,7 +354,7 @@ void handle_options_settable(struct packet_options_settable *packet)
     /* Only send our private settings if we are running
      * on a forked local server, i.e. started by the
      * client with the "Start New Game" button. */
-    load_settable_options(is_server_running());
+    options_load_settable(is_server_running());
     settable_options_loaded = TRUE;
   }
 }

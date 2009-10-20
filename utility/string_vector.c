@@ -106,7 +106,7 @@ void strvec_reserve(struct strvec *psv, size_t reserve)
 **************************************************************************/
 void strvec_store(struct strvec *psv, const char *const *vec, size_t size)
 {
-  if (size == -1) {
+  if (size == (size_t) -1) {
     strvec_clear(psv);
     for (; *vec; vec++) {
       strvec_append(psv, *vec);

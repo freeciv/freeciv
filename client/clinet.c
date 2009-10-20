@@ -285,7 +285,7 @@ void disconnect_from_server(void)
     client_exit();
   }
   if (save_options_on_exit) {
-    save_options();
+    options_save();
   }
 }  
 

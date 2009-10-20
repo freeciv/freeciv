@@ -978,19 +978,18 @@ void gui_dialog_set_return_dialog(struct gui_dialog *dlg,
 /**************************************************************************
   Updates a gui font style from a client option.
 **************************************************************************/
-void gui_update_font_from_option(struct client_option *o) {
-  if (o->type == COT_FONT) {
+void gui_update_font_from_option(struct client_option *poption) {
+  if (option_type(poption) == COT_FONT) {
     char str[512];
 
     my_snprintf(str, sizeof(str),
-	"style \"ext-%s\" {\n"
-	"  font_name = \"%s\"\n"
-	"}\n"
-	"\n"
-	"widget \"Freeciv*.%s\" style \"ext-%s\"",
-	o->name,
-	o->string.pvalue,
-	o->name, o->name);
+                "style \"ext-%s\" {\n"
+                "  font_name = \"%s\"\n"
+                "}\n"
+                "\n"
+                "widget \"Freeciv*.%s\" style \"ext-%s\"",
+                option_name(poption), option_font_get(poption),
+                option_name(poption), option_name(poption));
 
     gtk_rc_parse_string(str);
   }

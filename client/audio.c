@@ -20,14 +20,17 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* utility */
 #include "capability.h"
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
 #include "registry.h"
 #include "shared.h"
+#include "string_vector.h"
 #include "support.h"
 
+/* client */
 #include "audio_none.h"
 #ifdef AUDIO_SDL
 #include "audio_sdl.h"
@@ -46,37 +49,46 @@ static int num_plugins_used = 0;
 static int selected_plugin = -1;
 
 /**********************************************************************
-  Returns a static, NULL-terminated list of all sound plugins
+  Returns a static string vector of all sound plugins
   available on the system.  This function is unfortunately similar to
   audio_get_all_plugin_names().
 ***********************************************************************/
-const char **get_soundplugin_list(void)
+const struct strvec *get_soundplugin_list(void)
 {
-  static const char* plugin_list[MAX_NUM_PLUGINS + 1];
-  int i;
-  
-  for (i = 0; i < num_plugins_used; i++) {
-    plugin_list[i] = plugins[i].name;
+  static struct strvec *plugin_list = NULL;
+
+  if (NULL == plugin_list) {
+    int i;
+
+    plugin_list = strvec_new();
+    strvec_reserve(plugin_list, num_plugins_used);
+    for (i = 0; i < num_plugins_used; i++) {
+      strvec_set(plugin_list, i, plugins[i].name);
+    }
   }
-  assert(i <= MAX_NUM_PLUGINS);
-  plugin_list[i] = NULL;
 
   return plugin_list;
 }
 
 /**********************************************************************
-  Returns a static list of soundsets available on the system by
+  Returns a static string vector of soundsets available on the system by
   searching all data directories for files matching SNDSPEC_SUFFIX.
   The list is NULL-terminated.
 ***********************************************************************/
-const char **get_soundset_list(void)
+const struct strvec *get_soundset_list(void)
 {
-  static const char **audio_list = NULL;
+  static struct strvec *audio_list = NULL;
 
-  if (!audio_list) {
-    /* Note: this means you must restart the client after installing a new
-       soundset. */
-    audio_list = (const char **)datafilelist(SNDSPEC_SUFFIX);
+  if (NULL == audio_list) {
+    char **list, **file;
+
+    audio_list = strvec_new();
+    list = datafilelist(SNDSPEC_SUFFIX);
+    for (file = list; NULL != *file; file++) {
+      strvec_append(audio_list, *file);
+      free(*file);
+    }
+    free(list);
   }
 
   return audio_list;

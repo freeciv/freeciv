@@ -2104,10 +2104,10 @@ void add_idle_callback(void (callback)(void *), void *data)
 /****************************************************************************
   Option callback for the 'gui_gtk2_split_bottom_notebook' option.
 ****************************************************************************/
-static void split_bottom_notebook_callback(struct client_option *op)
+static void split_bottom_notebook_callback(struct client_option *poption)
 {
   popdown_meswin_dialog();
-  if (*op->boolean.pvalue) {
+  if (option_bool_get(poption)) {
     gtk_paned_pack2(GTK_PANED(bottom_hpaned), right_notebook, TRUE, TRUE);
     gtk_widget_show_all(right_notebook);
   } else {
@@ -2120,7 +2120,7 @@ static void split_bottom_notebook_callback(struct client_option *op)
   Option callback for the 'gui_gtk2_allied_chat_only' option.
   This updates the state of the associated toggle button.
 ****************************************************************************/
-static void allied_chat_only_callback(struct client_option *op)
+static void allied_chat_only_callback(struct client_option *poption)
 {
   GtkWidget *button;
 
@@ -2129,7 +2129,7 @@ static void allied_chat_only_callback(struct client_option *op)
   g_return_if_fail(GTK_IS_TOGGLE_BUTTON(button));
 
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button),
-                               *op->boolean.pvalue);
+                               option_bool_get(poption));
 }
 
 /****************************************************************************
@@ -2138,18 +2138,19 @@ static void allied_chat_only_callback(struct client_option *op)
 ****************************************************************************/
 void gui_options_extra_init(void)
 {
-  client_options_iterate(o) {
-    if (o->type == COT_BOOLEAN
-        && o->boolean.pvalue == &gui_gtk2_allied_chat_only) {
-      o->change_callback = allied_chat_only_callback;
-    } else if (o->type == COT_BOOLEAN
-               && o->boolean.pvalue == &gui_gtk2_split_bottom_notebook) {
-      o->change_callback = split_bottom_notebook_callback;
-    } else if (o->type == COT_STRING
-               && o->string.pvalue) {
-    } else {
-      gui_update_font_from_option(o);
-    }
+#define option_by_var(var) option_by_name(#var)
+  struct client_option *poption;
+
+  if ((poption = option_by_var(gui_gtk2_allied_chat_only))) {
+    option_set_changed_callback(poption, allied_chat_only_callback);
+  }
+
+  if ((poption = option_by_var(gui_gtk2_split_bottom_notebook))) {
+    option_set_changed_callback(poption, split_bottom_notebook_callback);
+  }
+
+  client_options_iterate(poption) {
+    gui_update_font_from_option(poption);
   } client_options_iterate_end;
 }
 

@@ -32,20 +32,27 @@
 #include <X11/Xaw/Toggle.h>
 #include <X11/Xaw/Viewport.h>
 
-#include "events.h"
+/* utility */
 #include "fcintl.h"
+#include "shared.h"
+#include "string_vector.h"
+#include "support.h"
+
+/* common */
+#include "events.h"
 #include "game.h"
 #include "packets.h"
 #include "player.h"
-#include "shared.h"
-#include "support.h"
 
+/* client */
+#include "options.h"
+
+/* gui-xaw */
 #include "chatline.h"
 #include "cityrep.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
-#include "options.h"
 
 #include "optiondlg.h"
 
@@ -65,23 +72,27 @@ void option_cancel_command_callback(Widget w, XtPointer client_data,
 void popup_option_dialog(void)
 {
   char valstr[64];
+  void *gui_data;
 
   create_option_dialog();
 
-  client_options_iterate(o) {
-    switch (o->type) {
+  client_options_iterate(poption) {
+    gui_data = option_get_gui_data(poption);
+
+    switch (option_type(poption)) {
     case COT_BOOLEAN:
-      XtVaSetValues((Widget) o->gui_data, XtNstate, *(o->boolean.pvalue),
-		    XtNlabel, *(o->boolean.pvalue) ? _("Yes") : _("No"), NULL);
+      XtVaSetValues((Widget) gui_data, XtNstate, option_bool_get(poption),
+                    XtNlabel, option_bool_get(poption) ? _("Yes") : _("No"),
+                    NULL);
       break;
     case COT_INTEGER:
-      my_snprintf(valstr, sizeof(valstr), "%d", *(o->integer.pvalue));
-      XtVaSetValues((Widget) o->gui_data, XtNstring, valstr, NULL);
+      my_snprintf(valstr, sizeof(valstr), "%d", option_int_get(poption));
+      XtVaSetValues((Widget) gui_data, XtNstring, valstr, NULL);
       break;
     case COT_STRING:
-      XtVaSetValues((Widget) o->gui_data,
-		    o->string.val_accessor ? "label" : XtNstring,
-		    o->string.pvalue, NULL);
+      XtVaSetValues((Widget) gui_data,
+                    option_str_values(poption) ? "label" : XtNstring,
+                    option_str_get(poption), NULL);
       break;
     case COT_FONT:
       /* FIXME */
@@ -142,15 +153,15 @@ void create_option_dialog(void)
 			    option_viewport, NULL);   
 
   prev_widget = NULL; /* init the prev-Widget */
-  client_options_iterate(o) {
-    const char *descr = _(o->description);
+  client_options_iterate(poption) {
+    const char *descr = option_description(poption);
     size_t len = strlen(descr);
 
     /* 
      * Remember widget so we can reset the vertical position; need to
      * do this because labels and toggles etc have different heights.
      */
-    o->gui_data = (void *) prev_widget;
+    option_set_gui_data(poption, prev_widget);
 
     if (prev_widget) {
       prev_widget = 
@@ -181,20 +192,22 @@ void create_option_dialog(void)
   XtVaGetValues(longest_label, XtNwidth, &width, NULL);
   XtVaSetValues(option_label, XtNwidth, width + 15, NULL);
 
-  client_options_iterate(o) {
+  client_options_iterate(poption) {
+    void *gui_data = option_get_gui_data(poption);
+
     /* 
-     * At the start of the loop o->gui_data will contain the widget
+     * At the start of the loop gui_data will contain the widget
      * which is above the label widget which is associated with this
      * option.
      */
-    switch (o->type) {
+    switch (option_type(poption)) {
     case COT_BOOLEAN:
-      if (o->gui_data) {
+      if (gui_data) {
 	prev_widget =
 	  XtVaCreateManagedWidget("toggle", toggleWidgetClass,
 				  option_scrollform,
 				  XtNfromHoriz, option_label,
-				  XtNfromVert, o->gui_data,
+				  XtNfromVert, gui_data,
 				  NULL);
       } else {
 	prev_widget =
@@ -206,21 +219,22 @@ void create_option_dialog(void)
       XtAddCallback(prev_widget, XtNcallback, toggle_callback, NULL);
       break;
     case COT_STRING:
-      if (o->string.val_accessor) {
-	int i;
-	const char **vals = (*o->string.val_accessor)();
+      if (option_str_values(poption)) {
+        const struct strvec *vals = option_str_values(poption);
 	Widget popupmenu;
 
-	if (o->gui_data) {
+        if (gui_data) {
 	  prev_widget =
-	    XtVaCreateManagedWidget(o->name, menuButtonWidgetClass,
+            XtVaCreateManagedWidget(option_name(poption),
+                                    menuButtonWidgetClass,
 				    option_scrollform,
 				    XtNfromHoriz, option_label,
-				    XtNfromVert, o->gui_data,
+				    XtNfromVert, gui_data,
 				    NULL);
 	} else {
 	  prev_widget =
-	    XtVaCreateManagedWidget(o->name, menuButtonWidgetClass,
+            XtVaCreateManagedWidget(option_name(poption),
+                                    menuButtonWidgetClass,
 				    option_scrollform,
 				    XtNfromHoriz, option_label,
 				    NULL);
@@ -231,14 +245,14 @@ void create_option_dialog(void)
 					 prev_widget,
 					 NULL);
 
-	for (i = 0; vals[i]; i++) {
-	  Widget entry = XtVaCreateManagedWidget(vals[i], smeBSBObjectClass,
-						 popupmenu, NULL);
-	  XtAddCallback(entry, XtNcallback, stropt_change_callback,
-			(XtPointer)(vals[i]));
-	}
+        strvec_iterate(vals, val) {
+	  Widget entry = XtVaCreateManagedWidget(val, smeBSBObjectClass,
+                                                 popupmenu, NULL);
+          XtAddCallback(entry, XtNcallback, stropt_change_callback,
+                        (XtPointer) val);
+        } strvec_iterate_end;
 
-	if (i == 0) {
+        if (0 == strvec_size(vals)) {
           /* We could disable this if there was just one possible choice,
              too, but for values that are uninitialized (empty) this
              would be confusing. */
@@ -252,12 +266,12 @@ void create_option_dialog(void)
       }
       /* else fall through */
     case COT_INTEGER:
-      if (o->gui_data) {
+      if (gui_data) {
 	prev_widget =
 	  XtVaCreateManagedWidget("input", asciiTextWidgetClass,
 				  option_scrollform,
 				  XtNfromHoriz, option_label,
-				  XtNfromVert, o->gui_data,
+				  XtNfromVert, gui_data,
 				  NULL);
       } else {
 	prev_widget =
@@ -273,7 +287,7 @@ void create_option_dialog(void)
     }
 
     /* store the final widget */
-    o->gui_data = (void *) prev_widget;
+    option_set_gui_data(poption, (void *) prev_widget);
   } client_options_iterate_end;
 
   option_ok_command =
@@ -318,34 +332,26 @@ void option_ok_command_callback(Widget w, XtPointer client_data,
   Boolean b;
   int val;
   XtPointer dp;
+  Widget gui_data;
 
-  client_options_iterate(o) {
-    switch (o->type) {
+  client_options_iterate(poption) {
+    gui_data = (Widget) option_get_gui_data(poption);
+
+    switch (option_type(poption)) {
     case COT_BOOLEAN:
-      b = *(o->boolean.pvalue);
-      XtVaGetValues((Widget) o->gui_data, XtNstate, o->boolean.pvalue, NULL);
-      if (b != *(o->boolean.pvalue) && o->change_callback) {
-	(o->change_callback)(o);
-      }
+      XtVaGetValues(gui_data, XtNstate, &b, NULL);
+      (void) option_bool_set(poption, b);
       break;
     case COT_INTEGER:
-      val = *(o->integer.pvalue);
-      XtVaGetValues(o->gui_data, XtNstring, &dp, NULL);
-      sscanf(dp, "%d", o->integer.pvalue);
-      if (val != *(o->integer.pvalue) && o->change_callback) {
-	(o->change_callback)(o);
-      }
+      XtVaGetValues(gui_data, XtNstring, &dp, NULL);
+      sscanf(dp, "%d", &val);
+      (void) option_int_set(poption, val);
       break;
     case COT_STRING:
-      XtVaGetValues(o->gui_data,
-		    o->string.val_accessor ? "label" : XtNstring,
-		    &dp, NULL);
-      if (strcmp(o->string.pvalue, dp)) {
-	mystrlcpy(o->string.pvalue, dp, o->string.size);
-	if (o->change_callback) {
-	  (o->change_callback)(o);
-	}
-      }
+      XtVaGetValues(gui_data,
+                    option_str_values(poption) ? "label" : XtNstring,
+                    &dp, NULL);
+      (void) option_str_set(poption, dp);
       break;
     case COT_FONT:
       /* FIXME */

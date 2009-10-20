@@ -537,7 +537,7 @@ static void game_menu_callback(Widget w, XtPointer client_data,
     popup_messageopt_dialog();
     break;
   case MENU_GAME_SAVE_SETTINGS:
-    save_options();
+    options_save();
     break;
   case MENU_GAME_SERVER_OPTIONS:
     popup_settable_options_dialog();
