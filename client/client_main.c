@@ -429,13 +429,12 @@ int client_main(int argc, char *argv[])
 
   init_our_capability();
   chatline_common_init();
-  message_options_init();
   init_player_dlg_common();
   init_themes();
   settable_options_init();
 
-  gui_options_extra_init();
-  load_general_options();
+  options_init();
+  options_load();
 
   if (tileset_name[0] == '\0') {
     sz_strlcpy(tileset_name, default_tileset_name);
@@ -498,7 +497,7 @@ void client_exit(void)
   }
 
   if (save_options_on_exit) {
-    save_options();
+    options_save();
   }
   
   tileset_free(tileset);
@@ -506,7 +505,7 @@ void client_exit(void)
   ui_exit();
   
   chatline_common_done();
-  message_options_free();
+  options_free();
   if (client_state() >= C_S_PREPARING) {
     client_game_free();
   }
@@ -662,7 +661,7 @@ void set_client_state(enum client_states newstate)
     }
 
     init_city_report_game_data();
-    load_ruleset_specific_options();
+    options_load_ruleset_specific();
     create_event(NULL, E_GAME_START, FTC_CLIENT_INFO, NULL,
                  _("Game started."));
     precalc_tech_data();

@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <string.h>
 
 /* utility */
@@ -25,6 +24,7 @@
 #include "mem.h"
 #include "registry.h"
 #include "shared.h"
+#include "string_vector.h"
 #include "support.h"
 
 /* common */
@@ -54,22 +54,248 @@
 
 #include "options.h"
 
-/* Iteration loop, including invalid options for the current gui type. */
-#define client_options_iterate_all(_p)                                      \
-{                                                                           \
-  struct client_option *_p = client_option_array_first();                   \
-  for (; _p <= client_option_array_last(); _p++) {                          \
-
-#define client_options_iterate_all_end                                      \
-  }                                                                         \
-}
-
 
 /****************************************************************
  The "options" file handles actual "options", and also view options,
  message options, dialog/report settings, cma settings, server settings,
  and global worklists.
 *****************************************************************/
+struct client_option {
+  const char *name;             /* Short name - used as an identifier */
+  const char *description;      /* One-line description */
+  const char *help_text;        /* Paragraph-length help text */
+  enum client_option_class category;
+  enum gui_type specific;       /* GUI_LAST for common options. */
+  enum client_option_type type;
+  union {
+    /* COT_BOOLEAN type option. */
+    struct {
+      bool *const pvalue;
+      const bool def;
+    } boolean;
+    /* COT_INTEGER type option. */
+    struct {
+      int *const pvalue;
+      const int def, min, max;
+    } integer;
+    /* COT_STRING type option. */
+    struct {
+      char *const pvalue;
+      const size_t size;
+      const char *const def;
+      /* 
+       * A function to return a string vector of possible string values,
+       * or NULL for none. 
+       */
+      const struct strvec *(*const val_accessor) (void);
+    } string;
+    /* COT_FONT type option. */
+    struct {
+      char *const pvalue;
+      const size_t size;
+      const char *const def;
+    } font;
+  };
+  void (*changed_callback) (struct client_option *option);
+
+  /* volatile */
+  void *gui_data;
+};
+
+/*
+ * Generate a client option of type COT_BOOLEAN.
+ *
+ * oname: The option data.  Note it is used as name to be loaded or saved.
+ *        So, you shouldn't change the name of this variable in any case.
+ * odesc: A short description of the client option.  Should be used with the
+ *        N_() macro.
+ * ohelp: The help text for the client option.  Should be used with the N_()
+ *        macro.
+ * ocat:  The client_option_class of this client option.
+ * ospec: A gui_type enumerator which determin for what particular client
+ *        gui this option is for.  Sets to GUI_LAST for common options.
+ * odef:  The default value of this client option (FALSE or TRUE).
+ * ocb:   A callback function of type void (*)(struct client_option *)
+ *        called when the option changed.
+ */
+#define GEN_BOOL_OPTION(oname, odesc, ohelp, ocat, ospec, odef, ocb)        \
+{                                                                           \
+  .name = #oname,                                                           \
+  .description = odesc,                                                     \
+  .help_text = ohelp,                                                       \
+  .category = ocat,                                                         \
+  .specific = ospec,                                                        \
+  .type = COT_BOOLEAN,                                                      \
+  {                                                                         \
+    .boolean = {                                                            \
+      .pvalue = &oname,                                                     \
+      .def = odef,                                                          \
+    }                                                                       \
+  },                                                                        \
+  .changed_callback = ocb,                                                   \
+}
+
+/*
+ * Generate a client option of type COT_INTEGER.
+ *
+ * oname: The option data.  Note it is used as name to be loaded or saved.
+ *        So, you shouldn't change the name of this variable in any case.
+ * odesc: A short description of the client option.  Should be used with the
+ *        N_() macro.
+ * ohelp: The help text for the client option.  Should be used with the N_()
+ *        macro.
+ * ocat:  The client_option_class of this client option.
+ * ospec: A gui_type enumerator which determin for what particular client
+ *        gui this option is for.  Sets to GUI_LAST for common options.
+ * odef:  The default value of this client option.
+ * omin:  The minimal value of this client option.
+ * omax:  The maximal value of this client option.
+ * ocb:   A callback function of type void (*)(struct client_option *)
+ *        called when the option changed.
+ */
+#define GEN_INT_OPTION(oname, odesc, ohelp, ocat, ospec, odef, omin, omax, ocb) \
+{                                                                           \
+  .name = #oname,                                                           \
+  .description = odesc,                                                     \
+  .help_text = ohelp,                                                       \
+  .category = ocat,                                                         \
+  .specific = ospec,                                                        \
+  .type = COT_INTEGER,                                                      \
+  {                                                                         \
+    .integer = {                                                            \
+      .pvalue = &oname,                                                     \
+      .def = odef,                                                          \
+      .min = omin,                                                          \
+      .max = omax                                                           \
+    }                                                                       \
+  },                                                                        \
+  .changed_callback = ocb,                                                   \
+}
+
+/*
+ * Generate a client option of type COT_STRING.
+ *
+ * oname: The option data.  Note it is used as name to be loaded or saved.
+ *        So, you shouldn't change the name of this variable in any case.
+ *        Be sure to pass the array variable and not a pointer to it because
+ *        the size is calculated with sizeof().
+ * odesc: A short description of the client option.  Should be used with the
+ *        N_() macro.
+ * ohelp: The help text for the client option.  Should be used with the N_()
+ *        macro.
+ * ocat:  The client_option_class of this client option.
+ * ospec: A gui_type enumerator which determin for what particular client
+ *        gui this option is for.  Sets to GUI_LAST for common options.
+ * odef:  The default string for this client option.
+ * ocb:   A callback function of type void (*)(struct client_option *)
+ *        called when the option changed.
+ */
+#define GEN_STR_OPTION(oname, odesc, ohelp, ocat, ospec, odef, ocb)         \
+{                                                                           \
+  .name = #oname,                                                           \
+  .description = odesc,                                                     \
+  .help_text = ohelp,                                                       \
+  .category = ocat,                                                         \
+  .specific = ospec,                                                        \
+  .type = COT_STRING,                                                       \
+  {                                                                         \
+    .string = {                                                             \
+      .pvalue = oname,                                                      \
+      .size = sizeof(oname),                                                \
+      .def = odef,                                                          \
+      .val_accessor = NULL                                                  \
+    }                                                                       \
+  },                                                                        \
+  .changed_callback = ocb,                                                   \
+}
+
+/*
+ * Generate a client option of type COT_STRING with a string accessor
+ * function.
+ *
+ * oname: The option data.  Note it is used as name to be loaded or saved.
+ *        So, you shouldn't change the name of this variable in any case.
+ *        Be sure to pass the array variable and not a pointer to it because
+ *        the size is calculated with sizeof().
+ * odesc: A short description of the client option.  Should be used with the
+ *        N_() macro.
+ * ohelp: The help text for the client option.  Should be used with the N_()
+ *        macro.
+ * ocat:  The client_option_class of this client option.
+ * ospec: A gui_type enumerator which determin for what particular client
+ *        gui this option is for.  Sets to GUI_LAST for common options.
+ * odef:  The default string for this client option.
+ * oacc:  The string accessor where to find the allowed values of type
+ *        const char **(*)(void) (returns a NULL-termined list of strings).
+ * ocb:   A callback function of type void (*)(struct client_option *)
+ *        called when the option changed.
+ */
+#define GEN_STR_LIST_OPTION(oname, odesc, ohelp, ocat, ospec, odef, oacc, ocb) \
+{                                                                           \
+  .name = #oname,                                                           \
+  .description = odesc,                                                     \
+  .help_text = ohelp,                                                       \
+  .category = ocat,                                                         \
+  .specific = ospec,                                                        \
+  .type = COT_STRING,                                                       \
+  {                                                                         \
+    .string = {                                                             \
+      .pvalue = oname,                                                      \
+      .size = sizeof(oname),                                                \
+      .def = odef,                                                          \
+      .val_accessor = oacc                                                  \
+    }                                                                       \
+  },                                                                        \
+  .changed_callback = ocb,                                                   \
+}
+
+/*
+ * Generate a client option of type COT_FONT.
+ *
+ * oname: The option data.  Note it is used as name to be loaded or saved.
+ *        So, you shouldn't change the name of this variable in any case.
+ *        Be sure to pass the array variable and not a pointer to it because
+ *        the size is calculated with sizeof().
+ * odesc: A short description of the client option.  Should be used with the
+ *        N_() macro.
+ * ohelp: The help text for the client option.  Should be used with the N_()
+ *        macro.
+ * ocat:  The client_option_class of this client option.
+ * ospec: A gui_type enumerator which determin for what particular client
+ *        gui this option is for.  Sets to GUI_LAST for common options.
+ * odef:  The default string for this client option.
+ * ocb:   A callback function of type void (*)(struct client_option *)
+ *        called when the option changed.
+ */
+#define GEN_FONT_OPTION(oname, odesc, ohelp, ocat, ospec, odef, ocb)        \
+{                                                                           \
+  .name = #oname,                                                           \
+  .description = odesc,                                                     \
+  .help_text = ohelp,                                                       \
+  .category = ocat,                                                         \
+  .specific = ospec,                                                        \
+  .type = COT_FONT,                                                         \
+  {                                                                         \
+    .font = {                                                               \
+      .pvalue = oname,                                                      \
+      .size = sizeof(oname),                                                \
+      .def = odef,                                                          \
+    }                                                                       \
+  },                                                                        \
+  .changed_callback = ocb,                                                   \
+}
+
+/* Iteration loop, including invalid options for the current gui type. */
+#define client_options_iterate_all(_p)                                      \
+{                                                                           \
+  const struct client_option *const _p##_max = options + num_options;       \
+  struct client_option *_p;                                                 \
+  for (_p = options; _p < _p##_max; _p++) {                                 \
+
+#define client_options_iterate_all_end                                      \
+  }                                                                         \
+}
+
 
 /** Defaults for options normally on command line **/
 
@@ -77,7 +303,7 @@ char default_user_name[512] = "\0";
 char default_server_host[512] = "localhost";
 int  default_server_port = DEFAULT_SOCK_PORT;
 char default_metaserver[512] = META_URL;
-char default_theme_name[512] = "human";
+char default_theme_name[512] = "";
 char default_tileset_name[512] = "\0";
 char default_sound_set_name[512] = "stdsounds";
 char default_sound_plugin_name[512] = "\0";
@@ -176,44 +402,40 @@ int gui_sdl_screen_height = 480;
 bool gui_win32_better_fog = TRUE;
 bool gui_win32_enable_alpha = TRUE;
 
+/* Set to TRUE after the first call to options_init(), to avoid the usage
+ * of non-initialized datas when calling the changed callback. */
+static bool options_fully_initialized = FALSE;
+
 static void reqtree_show_icons_callback(struct client_option *option);
 static void view_option_changed_callback(struct client_option *option);
-
-const char *client_option_class_names[COC_MAX] = {
-  N_("Graphics"),
-  N_("Overview"),
-  N_("Sound"),
-  N_("Interface"),
-  N_("Network"),
-  N_("Font")
-};
+static void mapview_redraw_callback(struct client_option *option);
 
 static struct client_option options[] = {
   GEN_STR_OPTION(default_user_name,
-		 N_("Login name"),
-		 N_("This is the default login username that will be used "
-		    "in the connection dialogs or with the -a command-line "
-		    "parameter."),
-		 COC_NETWORK, GUI_LAST, NULL, NULL),
+                 N_("Login name"),
+                 N_("This is the default login username that will be used "
+                    "in the connection dialogs or with the -a command-line "
+                    "parameter."),
+                 COC_NETWORK, GUI_LAST, NULL, NULL),
   GEN_STR_OPTION(default_server_host,
-		 N_("Server"),
-		 N_("This is the default server hostname that will be used "
-		    "in the connection dialogs or with the -a command-line "
-		    "parameter."),
-		 COC_NETWORK, GUI_LAST, "localhost", NULL),
+                 N_("Server"),
+                 N_("This is the default server hostname that will be used "
+                    "in the connection dialogs or with the -a command-line "
+                    "parameter."),
+                 COC_NETWORK, GUI_LAST, "localhost", NULL),
   GEN_INT_OPTION(default_server_port,
-		 N_("Server port"),
-		 N_("This is the default server port that will be used "
-		    "in the connection dialogs or with the -a command-line "
-		    "parameter."),
-		 COC_NETWORK, GUI_LAST, DEFAULT_SOCK_PORT, 0, 65535, NULL),
+                 N_("Server port"),
+                 N_("This is the default server port that will be used "
+                    "in the connection dialogs or with the -a command-line "
+                    "parameter."),
+                 COC_NETWORK, GUI_LAST, DEFAULT_SOCK_PORT, 0, 65535, NULL),
   GEN_STR_OPTION(default_metaserver,
-		 N_("Metaserver"),
-		 N_("The metaserver is a host that the client contacts to "
-		    "find out about games on the internet.  Don't change "
-		    "this from its default value unless you know what "
-		    "you're doing."),
-		 COC_NETWORK, GUI_LAST, META_URL, NULL),
+                 N_("Metaserver"),
+                 N_("The metaserver is a host that the client contacts to "
+                    "find out about games on the internet.  Don't change "
+                    "this from its default value unless you know what "
+                    "you're doing."),
+                 COC_NETWORK, GUI_LAST, META_URL, NULL),
   GEN_STR_LIST_OPTION(default_sound_set_name,
                       N_("Soundset"),
                       N_("This is the soundset that will be used.  Changing "
@@ -350,28 +572,28 @@ static struct client_option options[] = {
                   COC_GRAPHICS, GUI_LAST, TRUE,
                   view_option_changed_callback),
   GEN_BOOL_OPTION(sound_bell_at_new_turn, N_("Sound bell at new turn"),
-		  N_("Set this option to have a \"bell\" event be generated "
-		     "at the start of a new turn.  You can control the "
-		     "behavior of the \"bell\" event by editing the message "
-		     "options."),
-		  COC_SOUND, GUI_LAST, FALSE, NULL),
+                  N_("Set this option to have a \"bell\" event be generated "
+                     "at the start of a new turn.  You can control the "
+                     "behavior of the \"bell\" event by editing the message "
+                     "options."),
+                  COC_SOUND, GUI_LAST, FALSE, NULL),
   GEN_INT_OPTION(smooth_move_unit_msec,
-		 N_("Unit movement animation time (milliseconds)"),
-		 N_("This option controls how long unit \"animation\" takes "
-		    "when a unit moves on the map view.  Set it to 0 to "
-		    "disable animation entirely."),
-		 COC_GRAPHICS, GUI_LAST, 30, 0, 2000, NULL),
+                 N_("Unit movement animation time (milliseconds)"),
+                 N_("This option controls how long unit \"animation\" takes "
+                    "when a unit moves on the map view.  Set it to 0 to "
+                    "disable animation entirely."),
+                 COC_GRAPHICS, GUI_LAST, 30, 0, 2000, NULL),
   GEN_INT_OPTION(smooth_center_slide_msec,
-		 N_("Mapview recentering time (milliseconds)"),
-		 N_("When the map view is recentered, it will slide "
-		    "smoothly over the map to its new position.  This "
-		    "option controls how long this slide lasts.  Set it to "
-		    "0 to disable mapview sliding entirely."),
-		 COC_GRAPHICS, GUI_LAST, 200, 0, 5000, NULL),
+                 N_("Mapview recentering time (milliseconds)"),
+                 N_("When the map view is recentered, it will slide "
+                    "smoothly over the map to its new position.  This "
+                    "option controls how long this slide lasts.  Set it to "
+                    "0 to disable mapview sliding entirely."),
+                 COC_GRAPHICS, GUI_LAST, 200, 0, 5000, NULL),
   GEN_BOOL_OPTION(do_combat_animation, N_("Show combat animation"),
-		  N_("Disabling this option will turn off combat animation "
-		     "between units on the mapview."),
-		  COC_GRAPHICS, GUI_LAST, TRUE, NULL),
+                  N_("Disabling this option will turn off combat animation "
+                     "between units on the mapview."),
+                  COC_GRAPHICS, GUI_LAST, TRUE, NULL),
   GEN_BOOL_OPTION(draw_full_citybar, N_("Draw the citybar"),
                   N_("Setting this option will display a 'citybar' "
                      "containing useful information beneath each city. "
@@ -406,29 +628,29 @@ static struct client_option options[] = {
                      "anything."),
                   COC_GRAPHICS, GUI_LAST, "yellow", NULL),
   GEN_BOOL_OPTION(ai_manual_turn_done, N_("Manual Turn Done in AI Mode"),
-		  N_("Disable this option if you do not want to "
-		     "press the Turn Done button manually when watching "
-		     "an AI player."),
-		  COC_INTERFACE, GUI_LAST, TRUE, NULL),
+                  N_("Disable this option if you do not want to "
+                     "press the Turn Done button manually when watching "
+                     "an AI player."),
+                  COC_INTERFACE, GUI_LAST, TRUE, NULL),
   GEN_BOOL_OPTION(auto_center_on_unit, N_("Auto Center on Units"),
-		  N_("Set this option to have the active unit centered "
-		     "automatically when the unit focus changes."),
-		  COC_INTERFACE, GUI_LAST, TRUE, NULL),
+                  N_("Set this option to have the active unit centered "
+                     "automatically when the unit focus changes."),
+                  COC_INTERFACE, GUI_LAST, TRUE, NULL),
   GEN_BOOL_OPTION(auto_center_on_combat, N_("Auto Center on Combat"),
-		  N_("Set this option to have any combat be centered "
-		     "automatically.  Disabled this will speed up the time "
-		     "between turns but may cause you to miss combat "
-		     "entirely."),
-		  COC_INTERFACE, GUI_LAST, FALSE, NULL),
+                  N_("Set this option to have any combat be centered "
+                     "automatically.  Disabled this will speed up the time "
+                     "between turns but may cause you to miss combat "
+                     "entirely."),
+                  COC_INTERFACE, GUI_LAST, FALSE, NULL),
   GEN_BOOL_OPTION(auto_center_each_turn, N_("Auto Center on New Turn"),
                   N_("Set this option to have the client automatically "
                      "recenter the map on a suitable location at the "
                      "start of each turn."),
                   COC_INTERFACE, GUI_LAST, TRUE, NULL),
   GEN_BOOL_OPTION(wakeup_focus, N_("Focus on Awakened Units"),
-		  N_("Set this option to have newly awoken units be "
-		     "focused automatically."),
-		  COC_INTERFACE, GUI_LAST, TRUE, NULL),
+                  N_("Set this option to have newly awoken units be "
+                     "focused automatically."),
+                  COC_INTERFACE, GUI_LAST, TRUE, NULL),
   GEN_BOOL_OPTION(keyboardless_goto, N_("Keyboardless goto"),
                   N_("If this option is set then a goto may be initiated "
                      "by left-clicking and then holding down the mouse "
@@ -436,30 +658,30 @@ static struct client_option options[] = {
                      "tile."),
                   COC_INTERFACE, GUI_LAST, TRUE, NULL),
   GEN_BOOL_OPTION(goto_into_unknown, N_("Allow goto into the unknown"),
-		  N_("Setting this option will make the game consider "
-		     "moving into unknown tiles.  If not, then goto routes "
-		     "will detour around or be blocked by unknown tiles."),
-		  COC_INTERFACE, GUI_LAST, TRUE, NULL),
+                  N_("Setting this option will make the game consider "
+                     "moving into unknown tiles.  If not, then goto routes "
+                     "will detour around or be blocked by unknown tiles."),
+                  COC_INTERFACE, GUI_LAST, TRUE, NULL),
   GEN_BOOL_OPTION(center_when_popup_city, N_("Center map when Popup city"),
-		  N_("Setting this option makes the mapview center on a "
-		     "city when its city dialog is popped up."),
-		  COC_INTERFACE, GUI_LAST, TRUE, NULL),
+                  N_("Setting this option makes the mapview center on a "
+                     "city when its city dialog is popped up."),
+                  COC_INTERFACE, GUI_LAST, TRUE, NULL),
   GEN_BOOL_OPTION(concise_city_production, N_("Concise City Production"),
-		  N_("Set this option to make the city production (as shown "
-		     "in the city dialog) to be more compact."),
-		  COC_INTERFACE, GUI_LAST, FALSE, NULL),
+                  N_("Set this option to make the city production (as shown "
+                     "in the city dialog) to be more compact."),
+                  COC_INTERFACE, GUI_LAST, FALSE, NULL),
   GEN_BOOL_OPTION(auto_turn_done, N_("End Turn when done moving"),
-		  N_("Setting this option makes your turn end automatically "
-		     "when all your units are done moving."),
-		  COC_INTERFACE, GUI_LAST, FALSE, NULL),
+                  N_("Setting this option makes your turn end automatically "
+                     "when all your units are done moving."),
+                  COC_INTERFACE, GUI_LAST, FALSE, NULL),
   GEN_BOOL_OPTION(ask_city_name, N_("Prompt for city names"),
-		  N_("Disabling this option will make the names of newly "
-		     "founded cities chosen automatically by the server."),
-		  COC_INTERFACE, GUI_LAST, TRUE, NULL),
+                  N_("Disabling this option will make the names of newly "
+                     "founded cities chosen automatically by the server."),
+                  COC_INTERFACE, GUI_LAST, TRUE, NULL),
   GEN_BOOL_OPTION(popup_new_cities, N_("Pop up city dialog for new cities"),
-		  N_("Setting this option will pop up a newly-founded "
-		     "city's city dialog automatically."),
-		  COC_INTERFACE, GUI_LAST, TRUE, NULL),
+                  N_("Setting this option will pop up a newly-founded "
+                     "city's city dialog automatically."),
+                  COC_INTERFACE, GUI_LAST, TRUE, NULL),
   GEN_BOOL_OPTION(popup_caravan_arrival, N_("Pop up caravan actions"),
                   N_("If this option is enabled, when caravans arrive "
                      "at a city where they can establish a traderoute "
@@ -492,9 +714,9 @@ static struct client_option options[] = {
                   COC_INTERFACE, GUI_LAST, TRUE, NULL),
 
   GEN_BOOL_OPTION(overview.layers[OLAYER_BACKGROUND],
-		  N_("Background layer"),
-		  N_("The background layer of the overview shows just "
-		     "ocean and land."),
+                  N_("Background layer"),
+                  N_("The background layer of the overview shows just "
+                     "ocean and land."),
                   COC_OVERVIEW, GUI_LAST, TRUE, NULL),
   GEN_BOOL_OPTION(overview.layers[OLAYER_RELIEF],
                   N_("Terrain relief map layer"),
@@ -690,11 +912,449 @@ static struct client_option options[] = {
 };
 static const int num_options = ARRAY_SIZE(options);
 
-#undef GEN_BOOL_OPTION
-#undef GEN_INT_OPTION
-#undef GEN_STR_OPTION
-#undef GEN_FONT_OPTION
-#undef GEN_STR_LIST_OPTION
+
+/**************************************************************************
+  Returns the option corresponding to this id.
+**************************************************************************/
+struct client_option *option_by_number(int id)
+{
+  RETURN_VAL_IF_FAIL(0 <= id && id < num_options, NULL);
+  return options + id;
+}
+
+/**************************************************************************
+  Returns the option corresponding to this name.
+**************************************************************************/
+struct client_option *option_by_name(const char *name)
+{
+  client_options_iterate(poption) {
+    if (0 == strcmp(option_name(poption), name)) {
+      return poption;
+    }
+  } client_options_iterate_end;
+  return NULL;
+}
+
+/**************************************************************************
+  Returns the next valid option pointer for the current gui type.
+**************************************************************************/
+static struct client_option *option_next_valid(struct client_option *poption)
+{
+  static const struct client_option *const max = options + num_options;
+  const enum gui_type our_type = get_gui_type();
+
+  while (poption < max
+         && poption->specific != GUI_LAST
+         && poption->specific != our_type) {
+    poption++;
+  }
+
+  return (poption < max ? poption : NULL);
+}
+
+/**************************************************************************
+  Returns the first valid option pointer for the current gui type.
+**************************************************************************/
+struct client_option *option_first(void)
+{
+  return option_next_valid(options);
+}
+
+/**************************************************************************
+  Returns the next valid option pointer for the current gui type.
+**************************************************************************/
+struct client_option *option_next(struct client_option *poption)
+{
+  return option_next_valid(poption + 1);
+}
+
+/**************************************************************************
+  Set the function to call every time this option changes.  Can be NULL.
+**************************************************************************/
+void option_set_changed_callback(struct client_option *poption,
+                                 void (*callback) (struct client_option *))
+{
+  RETURN_IF_FAIL(NULL != poption);
+
+  poption->changed_callback = callback;
+}
+
+/**************************************************************************
+  Force to use the option changed callback.
+**************************************************************************/
+void option_changed(struct client_option *poption)
+{
+  RETURN_IF_FAIL(NULL != poption);
+
+  /* Prevent to use non-initialized datas. */
+  if (options_fully_initialized
+      && poption && poption->changed_callback) {
+    poption->changed_callback(poption);
+  }
+}
+
+/**************************************************************************
+  Set the option to its default value.  Returns TRUE if the option changed.
+**************************************************************************/
+bool option_reset(struct client_option *poption)
+{
+  RETURN_VAL_IF_FAIL(NULL != poption, FALSE);
+
+  switch (option_type(poption)) {
+  case COT_BOOLEAN:
+    return option_bool_set(poption, option_bool_def(poption));
+  case COT_INTEGER:
+    return option_int_set(poption, option_int_def(poption));
+  case COT_STRING:
+    return option_str_set(poption, option_str_def(poption));
+  case COT_FONT:
+    return option_font_set(poption, option_font_def(poption));
+  }
+  return FALSE;
+}
+
+/**************************************************************************
+  Load the option from a file.  Returns TRUE if the option changed.
+**************************************************************************/
+bool option_load(struct client_option *poption, struct section_file *sf)
+{
+  RETURN_VAL_IF_FAIL(NULL != poption, FALSE);
+  RETURN_VAL_IF_FAIL(NULL != sf, FALSE);
+
+  if (!section_file_lookup(sf, "client.%s", option_name(poption))) {
+    return FALSE;
+  }
+
+  switch (option_type(poption)) {
+  case COT_BOOLEAN:
+    return option_bool_set(poption,
+                           secfile_lookup_bool(sf, "client.%s",
+                                               option_name(poption)));
+  case COT_INTEGER:
+    return option_int_set(poption,
+                          secfile_lookup_int_default_min_max(real_freelog,
+                              sf, option_int_def(poption),
+                              option_int_min(poption),
+                              option_int_max(poption),
+                              "client.%s", option_name(poption)));
+  case COT_STRING:
+    return option_str_set(poption,
+                          secfile_lookup_str(sf, "client.%s",
+                                             option_name(poption)));
+  case COT_FONT:
+    return option_font_set(poption,
+                           secfile_lookup_str(sf, "client.%s",
+                                              option_name(poption)));
+  }
+  return FALSE;
+}
+
+/**************************************************************************
+  Returns the number of this option.
+**************************************************************************/
+int option_number(const struct client_option *poption)
+{
+  RETURN_VAL_IF_FAIL(NULL != poption, -1);
+
+  return poption - options;
+}
+
+/**************************************************************************
+  Returns the name of this option.
+**************************************************************************/
+const char *option_name(const struct client_option *poption)
+{
+  RETURN_VAL_IF_FAIL(NULL != poption, NULL);
+
+  return poption->name;
+}
+
+/**************************************************************************
+  Returns the description (translated) of this option.
+**************************************************************************/
+const char *option_description(const struct client_option *poption)
+{
+  RETURN_VAL_IF_FAIL(NULL != poption, NULL);
+
+  return _(poption->description);
+}
+
+/**************************************************************************
+  Returns the help text (translated) for this option.
+**************************************************************************/
+const char *option_help_text(const struct client_option *poption)
+{
+  RETURN_VAL_IF_FAIL(NULL != poption, NULL);
+
+  return _(poption->help_text);
+}
+
+/**************************************************************************
+  Returns the type of this option.
+**************************************************************************/
+enum client_option_type option_type(const struct client_option *poption)
+{
+  RETURN_VAL_IF_FAIL(NULL != poption, -1);
+
+  return poption->type;
+}
+
+/**************************************************************************
+  Returns the class of this option.
+**************************************************************************/
+enum client_option_class option_class(const struct client_option *poption)
+{
+  RETURN_VAL_IF_FAIL(NULL != poption, COC_MAX);
+
+  return poption->category;
+}
+
+/**************************************************************************
+  Returns the name (translated) of the option class.
+**************************************************************************/
+const char *option_class_name(enum client_option_class option_class)
+{
+  switch (option_class) {
+  case COC_GRAPHICS:
+    return _("Graphics");
+  case COC_OVERVIEW:
+    return _("Overview");
+  case COC_SOUND:
+    return _("Sound");
+  case COC_INTERFACE:
+    return _("Interface");
+  case COC_NETWORK:
+    return _("Network");
+  case COC_FONT:
+    return _("Font");
+  case COC_MAX:
+    break;
+  }
+
+  freelog(LOG_ERROR, "option_class_name(): invalid option class number %d.",
+          option_class);
+  return NULL;
+}
+
+/**************************************************************************
+  Set the gui data for this option.
+**************************************************************************/
+void option_set_gui_data(struct client_option *poption, void *data)
+{
+  RETURN_IF_FAIL(NULL != poption);
+
+  poption->gui_data = data;
+}
+
+/**************************************************************************
+  Returns the gui data of this option.
+**************************************************************************/
+void *option_get_gui_data(const struct client_option *poption)
+{
+  RETURN_VAL_IF_FAIL(NULL != poption, NULL);
+
+  return poption->gui_data;
+}
+
+/**************************************************************************
+  Returns the value of this option of type COT_BOOLEAN.
+**************************************************************************/
+bool option_bool_get(const struct client_option *poption)
+{
+  RETURN_VAL_IF_FAIL(NULL != poption, FALSE);
+  RETURN_VAL_IF_FAIL(COT_BOOLEAN == poption->type, FALSE);
+
+  return *poption->boolean.pvalue;
+}
+
+/**************************************************************************
+  Returns the default value of this option of type COT_BOOLEAN.
+**************************************************************************/
+bool option_bool_def(const struct client_option *poption)
+{
+  RETURN_VAL_IF_FAIL(NULL != poption, FALSE);
+  RETURN_VAL_IF_FAIL(COT_BOOLEAN == poption->type, FALSE);
+
+  return poption->boolean.def;
+}
+
+/**************************************************************************
+  Set the value of this option of type COT_BOOLEAN.  Returns TRUE if the
+  value changed.
+**************************************************************************/
+bool option_bool_set(struct client_option *poption, bool val)
+{
+  RETURN_VAL_IF_FAIL(NULL != poption, FALSE);
+  RETURN_VAL_IF_FAIL(COT_BOOLEAN == poption->type, FALSE);
+
+  if (*poption->boolean.pvalue == val) {
+    return FALSE;
+  }
+
+  *poption->boolean.pvalue = val;
+  option_changed(poption);
+  return TRUE;
+}
+
+/**************************************************************************
+  Returns the value of this option of type COT_INTEGER.
+**************************************************************************/
+int option_int_get(const struct client_option *poption)
+{
+  RETURN_VAL_IF_FAIL(NULL != poption, 0);
+  RETURN_VAL_IF_FAIL(COT_INTEGER == poption->type, 0);
+
+  return *poption->integer.pvalue;
+}
+
+/**************************************************************************
+  Returns the default value of this option of type COT_INTEGER.
+**************************************************************************/
+int option_int_def(const struct client_option *poption)
+{
+  RETURN_VAL_IF_FAIL(NULL != poption, 0);
+  RETURN_VAL_IF_FAIL(COT_INTEGER == poption->type, 0);
+
+  return poption->integer.def;
+}
+
+/**************************************************************************
+  Returns the minimal value for this option of type COT_INTEGER.
+**************************************************************************/
+int option_int_min(const struct client_option *poption)
+{
+  RETURN_VAL_IF_FAIL(NULL != poption, 0);
+  RETURN_VAL_IF_FAIL(COT_INTEGER == poption->type, 0);
+
+  return poption->integer.min;
+}
+
+/**************************************************************************
+  Returns the maximal value for this option of type COT_INTEGER.
+**************************************************************************/
+int option_int_max(const struct client_option *poption)
+{
+  RETURN_VAL_IF_FAIL(NULL != poption, 0);
+  RETURN_VAL_IF_FAIL(COT_INTEGER == poption->type, 0);
+
+  return poption->integer.max;
+}
+
+/**************************************************************************
+  Set the value of this option of type COT_INTEGER.  Returns TRUE if the
+  value changed.
+**************************************************************************/
+bool option_int_set(struct client_option *poption, int val)
+{
+  RETURN_VAL_IF_FAIL(NULL != poption, FALSE);
+  RETURN_VAL_IF_FAIL(COT_INTEGER == poption->type, FALSE);
+
+  if (val < poption->integer.min
+      || val > poption->integer.max
+      || *poption->integer.pvalue == val) {
+    return FALSE;
+  }
+
+  *poption->integer.pvalue = val;
+  option_changed(poption);
+  return TRUE;
+}
+
+/**************************************************************************
+  Returns the value of this option of type COT_STRING.
+**************************************************************************/
+const char *option_str_get(const struct client_option *poption)
+{
+  RETURN_VAL_IF_FAIL(NULL != poption, NULL);
+  RETURN_VAL_IF_FAIL(COT_STRING == poption->type, NULL);
+
+  return poption->string.pvalue;
+}
+
+/**************************************************************************
+  Returns the default value of this option of type COT_STRING.
+**************************************************************************/
+const char *option_str_def(const struct client_option *poption)
+{
+  RETURN_VAL_IF_FAIL(NULL != poption, NULL);
+  RETURN_VAL_IF_FAIL(COT_STRING == poption->type, NULL);
+
+  return poption->string.def;
+}
+
+/**************************************************************************
+  Returns the possible string values of this option.
+**************************************************************************/
+const struct strvec *option_str_values(const struct client_option *poption)
+{
+  RETURN_VAL_IF_FAIL(NULL != poption, NULL);
+  RETURN_VAL_IF_FAIL(COT_STRING == poption->type, NULL);
+
+  return (poption->string.val_accessor
+          ? poption->string.val_accessor() : NULL);
+}
+
+/**************************************************************************
+  Set the value of this option of type COT_STRING.  Returns TRUE if the
+  value changed.
+**************************************************************************/
+bool option_str_set(struct client_option *poption, const char *str)
+{
+  RETURN_VAL_IF_FAIL(NULL != poption, FALSE);
+  RETURN_VAL_IF_FAIL(COT_STRING == poption->type, FALSE);
+  RETURN_VAL_IF_FAIL(NULL != str, FALSE);
+
+  if (strlen(str) >= poption->string.size
+      || 0 == strcmp(poption->string.pvalue, str)) {
+    return FALSE;
+  }
+
+  mystrlcpy(poption->string.pvalue, str, poption->string.size);
+  option_changed(poption);
+  return TRUE;
+}
+
+/**************************************************************************
+  Returns the value of this option of type COT_FONT.
+**************************************************************************/
+const char *option_font_get(const struct client_option *poption)
+{
+  RETURN_VAL_IF_FAIL(NULL != poption, NULL);
+  RETURN_VAL_IF_FAIL(COT_FONT == poption->type, NULL);
+
+  return poption->font.pvalue;
+}
+
+/**************************************************************************
+  Returns the default value of this option of type COT_FONT.
+**************************************************************************/
+const char *option_font_def(const struct client_option *poption)
+{
+  RETURN_VAL_IF_FAIL(NULL != poption, NULL);
+  RETURN_VAL_IF_FAIL(COT_FONT == poption->type, NULL);
+
+  return poption->font.def;
+}
+
+/**************************************************************************
+  Set the value of this option of type COT_FONT.  Returns TRUE if the
+  value changed.
+**************************************************************************/
+bool option_font_set(struct client_option *poption, const char *str)
+{
+  RETURN_VAL_IF_FAIL(NULL != poption, FALSE);
+  RETURN_VAL_IF_FAIL(COT_FONT == poption->type, FALSE);
+  RETURN_VAL_IF_FAIL(NULL != str, FALSE);
+
+  if (strlen(str) >= poption->font.size
+      || 0 == strcmp(poption->font.pvalue, str)) {
+    return FALSE;
+  }
+
+  mystrlcpy(poption->font.pvalue, str, poption->font.size);
+  option_changed(poption);
+  return TRUE;
+}
 
 
 /** Message Options: **/
@@ -702,27 +1362,11 @@ static const int num_options = ARRAY_SIZE(options);
 unsigned int messages_where[E_LAST];
 
 
-/**************************************************************************
-  Return the first item of options.
-**************************************************************************/
-struct client_option *client_option_array_first(void)
-{
-  return options;
-}
-
-/**************************************************************************
-  Return the last item of options.
-**************************************************************************/
-const struct client_option *client_option_array_last(void)
-{
-  return options + num_options - 1;
-}
-
 /****************************************************************
   These could be a static table initialisation, except
   its easier to do it this way.
 *****************************************************************/
-void message_options_init(void)
+static void message_options_init(void)
 {
   int none[] = {
     E_IMP_BUY, E_IMP_SOLD, E_UNIT_BUY,
@@ -759,7 +1403,7 @@ void message_options_init(void)
 /****************************************************************
 ... 
 *****************************************************************/
-void message_options_free(void)
+static void message_options_free(void)
 {
   events_free();
 }
@@ -891,10 +1535,10 @@ static char *option_file_name(void)
 }
 
 
-/****************************************************************
- Load settable per connection/server options.
-*****************************************************************/
-void load_settable_options(bool send_it)
+/**************************************************************************
+  Load the server options.
+**************************************************************************/
+void options_load_settable(bool send_it)
 {
   char buffer[MAX_LEN_MSG];
   struct section_file sf;
@@ -1008,7 +1652,7 @@ static void save_settable_options(struct section_file *sf)
  Unfortunately, this means that some clients cannot display.
  Instead, use freelog().
 *****************************************************************/
-void load_general_options(void)
+void options_load(void)
 {
   struct section_file sf;
   int i, num;
@@ -1050,25 +1694,8 @@ void load_general_options(void)
     secfile_lookup_bool_default(&sf, fullscreen_mode,
 				"%s.fullscreen_mode", prefix);
 
-  client_options_iterate_all(o) {
-    switch (o->type) {
-    case COT_BOOLEAN:
-      *(o->boolean.pvalue) =
-	  secfile_lookup_bool_default(&sf, *(o->boolean.pvalue), "%s.%s",
-				      prefix, o->name);
-      break;
-    case COT_INTEGER:
-      *(o->integer.pvalue) =
-	  secfile_lookup_int_default(&sf, *(o->integer.pvalue), "%s.%s",
-				      prefix, o->name);
-      break;
-    case COT_STRING:
-    case COT_FONT:
-      mystrlcpy(o->string.pvalue,
-                     secfile_lookup_str_default(&sf, o->string.pvalue, "%s.%s",
-                     prefix, o->name), o->string.size);
-      break;
-    }
+  client_options_iterate_all(poption) {
+    option_load(poption, &sf);
   } client_options_iterate_all_end;
 
   message_options_load(&sf, prefix);
@@ -1092,14 +1719,16 @@ void load_general_options(void)
   }
  
   section_file_free(&sf);
+  options_fully_initialized = TRUE;
 }
+
 
 /****************************************************************
  this loads from the rc file any options which need to know what the 
  current ruleset is. It's called the first time client goes into
  C_S_RUNNING
 *****************************************************************/
-void load_ruleset_specific_options(void)
+void options_load_ruleset_specific(void)
 {
   struct section_file sf;
   int i;
@@ -1131,10 +1760,10 @@ void load_ruleset_specific_options(void)
   section_file_free(&sf);
 }
 
-/****************************************************************
-... 
-*****************************************************************/
-void save_options(void)
+/**************************************************************************
+  Save all options.
+**************************************************************************/
+void options_save(void)
 {
   struct section_file sf;
   int i;
@@ -1152,17 +1781,23 @@ void save_options(void)
   secfile_insert_bool(&sf, save_options_on_exit, "client.save_options_on_exit");
   secfile_insert_bool(&sf, fullscreen_mode, "client.fullscreen_mode");
 
-  client_options_iterate_all(o) {
-    switch (o->type) {
+  client_options_iterate_all(poption) {
+    switch (option_type(poption)) {
     case COT_BOOLEAN:
-      secfile_insert_bool(&sf, *(o->boolean.pvalue), "client.%s", o->name);
+      secfile_insert_bool(&sf, option_bool_get(poption),
+                          "client.%s", option_name(poption));
       break;
     case COT_INTEGER:
-      secfile_insert_int(&sf, *(o->integer.pvalue), "client.%s", o->name);
+      secfile_insert_int(&sf, option_int_get(poption),
+                         "client.%s", option_name(poption));
       break;
     case COT_STRING:
+      secfile_insert_str(&sf, option_str_get(poption),
+                         "client.%s", option_name(poption));
+      break;
     case COT_FONT:
-      secfile_insert_str(&sf, o->string.pvalue, "client.%s", o->name);
+      secfile_insert_str(&sf, option_font_get(poption),
+                         "client.%s", option_name(poption));
       break;
     }
   } client_options_iterate_all_end;
@@ -1207,10 +1842,77 @@ void save_options(void)
   section_file_free(&sf);
 }
 
+
+/**************************************************************************
+  Initialize the option module.
+**************************************************************************/
+void options_init(void)
+{
+  message_options_init();
+  gui_options_extra_init();
+
+  client_options_iterate_all(poption) {
+    switch (option_type(poption)) {
+    case COT_BOOLEAN:
+      break;
+
+    case COT_INTEGER:
+      if (option_int_def(poption) < option_int_min(poption)
+          || option_int_def(poption) > option_int_max(poption)) {
+        int new_default = MAX(MIN(option_int_def(poption),
+                                  option_int_max(poption)),
+                              option_int_min(poption));
+
+        freelog(LOG_ERROR, "option %s has default value of %d, which is "
+                "out of its range [%d; %d], changing to %d.",
+                option_name(poption), option_int_def(poption),
+                option_int_min(poption), option_int_max(poption),
+                new_default);
+        *((int *) &poption->integer.def) = new_default;
+      }
+      break;
+
+    case COT_STRING:
+      if (default_user_name == option_str_get(poption)) {
+        /* Hack to get a default value. */
+        *((const char **) &poption->string.def) =
+            mystrdup(default_user_name);
+      }
+
+      if (NULL == option_str_def(poption)) {
+        const struct strvec *values = option_str_values(poption);
+
+        if (NULL == values || strvec_size(values) == 0) {
+          freelog(LOG_ERROR, "Invalid NULL default string for option %s.",
+                  option_name(poption));
+        } else {
+          *((const char **) &poption->string.def) = strvec_get(values, 0);
+        }
+      }
+      break;
+
+    case COT_FONT:
+      break;
+    }
+
+    /* Set to default. */
+    option_reset(poption);
+  } client_options_iterate_all_end;
+}
+
+/**************************************************************************
+  Free the option module.
+**************************************************************************/
+void options_free(void)
+{
+  message_options_free();
+}
+
+
 /****************************************************************************
   Callback when a mapview graphics option is changed (redraws the canvas).
 ****************************************************************************/
-void mapview_redraw_callback(struct client_option *option)
+static void mapview_redraw_callback(struct client_option *option)
 {
   update_map_canvas_visible();
 }

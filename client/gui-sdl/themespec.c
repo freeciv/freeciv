@@ -428,16 +428,6 @@ void themespec_reread(const char *new_theme_name)
 }
 
 /**************************************************************************
-  This is merely a wrapper for themespec_reread (above) for use in
-  options.c and the client local options dialog.
-**************************************************************************/
-void themespec_reread_callback(struct client_option *option)
-{
-  assert(option->string.pvalue && *option->string.pvalue != '\0');
-  themespec_reread(option->string.pvalue);
-}
-
-/**************************************************************************
   Loads the given graphics file (found in the data path) into a newly
   allocated sprite.
 **************************************************************************/

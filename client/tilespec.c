@@ -36,6 +36,7 @@
 #include "rand.h"
 #include "registry.h"
 #include "shared.h"
+#include "string_vector.h"
 #include "support.h"
 
 /* common */
@@ -50,6 +51,7 @@
 #include "unit.h"
 #include "unitlist.h"
 
+/* include */
 #include "dialogs_g.h"
 #include "graphics_g.h"
 #include "gui_main_g.h"
@@ -57,6 +59,7 @@
 #include "themes_g.h"
 
 /* client */
+#include "citydlg_common.h"	/* for generate_citydlg_dimensions() */
 #include "client_main.h"
 #include "climap.h"		/* for client_tile_get_known() */
 #include "control.h"		/* for fill_xxx */
@@ -65,7 +68,6 @@
 #include "options.h"		/* for fill_xxx */
 #include "themes_common.h"
 
-#include "citydlg_common.h"	/* for generate_citydlg_dimensions() */
 #include "tilespec.h"
 
 #define TILESPEC_CAPSTR "+tilespec4+2007.Oct.26 duplicates_ok"
@@ -701,34 +703,28 @@ static bool is_cardinal_tileset_dir(const struct tileset *t,
 /**********************************************************************
   Returns a static list of tilesets available on the system by
   searching all data directories for files matching TILESPEC_SUFFIX.
-  The list is NULL-terminated.
 ***********************************************************************/
-const char **get_tileset_list(void)
+const struct strvec *get_tileset_list(void)
 {
-  static const char **tilesets = NULL;
+  static struct strvec *tilesets = NULL;
 
   if (!tilesets) {
     /* Note: this means you must restart the client after installing a new
        tileset. */
-    char **list = datafilelist(TILESPEC_SUFFIX);
-    int i, count = 0;
+    char **list, **file;
 
-    for (i = 0; list[i]; i++) {
-      struct tileset *t = tileset_read_toplevel(list[i], FALSE);
+    tilesets = strvec_new();
+    list = datafilelist(TILESPEC_SUFFIX);
+    for (file = list; NULL != *file; file++) {
+      struct tileset *t = tileset_read_toplevel(*file, FALSE);
 
       if (t) {
- 	tilesets = fc_realloc(tilesets, (count + 1) * sizeof(*tilesets));
- 	tilesets[count] = list[i];
- 	count++;
- 	tileset_free(t);
-      } else {
-	free(list[i]);
+        strvec_append(tilesets, *file);
+        tileset_free(t);
       }
+      free(*file);
     }
     free(list);
-
-    tilesets = fc_realloc(tilesets, (count + 1) * sizeof(*tilesets));
-    tilesets[count] = NULL;
   }
 
   return tilesets;
@@ -1031,10 +1027,12 @@ void tilespec_reread(const char *new_tileset_name)
   This is merely a wrapper for tilespec_reread (above) for use in
   options.c and the client local options dialog.
 **************************************************************************/
-void tilespec_reread_callback(struct client_option *option)
+void tilespec_reread_callback(struct client_option *poption)
 {
-  assert(option->string.pvalue && *option->string.pvalue != '\0');
-  tilespec_reread(option->string.pvalue);
+  const char *tileset_name = option_str_get(poption);
+
+  RETURN_IF_FAIL(NULL != tileset_name && tileset_name[0] != '\0');
+  tilespec_reread(tileset_name);
 }
 
 /**************************************************************************

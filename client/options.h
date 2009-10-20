@@ -139,243 +139,74 @@ enum client_option_class {
   COC_MAX
 };
 
-extern const char *client_option_class_names[];
-
-struct client_option {
-  const char *name;             /* Short name - used as an identifier */
-  const char *description;      /* One-line description */
-  const char *help_text;        /* Paragraph-length help text */
-  enum client_option_class category;
-  enum gui_type specific;       /* GUI_LAST for common options. */
-  enum client_option_type type;
-  union {
-    /* COT_BOOLEAN type option. */
-    struct {
-      bool *const pvalue;
-      const bool def;
-    } boolean;
-    /* COT_INTEGER type option. */
-    struct {
-      int *const pvalue;
-      const int def, min, max;
-    } integer;
-    /* COT_STRING or COT_FONT types option. */
-    struct {
-      char *const pvalue;
-      const size_t size;
-      const char *def;
-      /* 
-       * A function to return a static NULL-terminated list of possible
-       * string values, or NULL for none. 
-       */
-      const char **(*const val_accessor)(void);
-    } string;
-  };
-  void (*change_callback)(struct client_option *option);
-
-  /* volatile */
-  void *gui_data;
-};
-
-/*
- * Generate a client option of type COT_BOOLEAN.
- *
- * oname: The option data.  Note it is used as name to be loaded or saved.
- *        So, you shouldn't change the name of this variable in any case.
- * odesc: A short description of the client option.  Should be used with the
- *        N_() macro.
- * ohelp: The help text for the client option.  Should be used with the N_()
- *        macro.
- * ocat:  The client_option_class of this client option.
- * ospec: A gui_type enumerator which determin for what particular client
- *        gui this option is for.  Sets to GUI_LAST for common options.
- * odef:  The default value of this client option (FALSE or TRUE).
- * ocb:   A callback function of type void (*)(struct client_option *)
- *        called when the option changed.
- */
-#define GEN_BOOL_OPTION(oname, odesc, ohelp, ocat, ospec, odef, ocb)        \
-{                                                                           \
-  .name = #oname,                                                           \
-  .description = odesc,                                                     \
-  .help_text = ohelp,                                                       \
-  .category = ocat,                                                         \
-  .specific = ospec,                                                        \
-  .type = COT_BOOLEAN,                                                      \
-  {                                                                         \
-    .boolean = {                                                            \
-      .pvalue = &oname,                                                     \
-      .def = odef,                                                          \
-    }                                                                       \
-  },                                                                        \
-  .change_callback = ocb,                                                   \
-}
-
-/*
- * Generate a client option of type COT_INTEGER.
- *
- * oname: The option data.  Note it is used as name to be loaded or saved.
- *        So, you shouldn't change the name of this variable in any case.
- * odesc: A short description of the client option.  Should be used with the
- *        N_() macro.
- * ohelp: The help text for the client option.  Should be used with the N_()
- *        macro.
- * ocat:  The client_option_class of this client option.
- * ospec: A gui_type enumerator which determin for what particular client
- *        gui this option is for.  Sets to GUI_LAST for common options.
- * odef:  The default value of this client option.
- * omin:  The minimal value of this client option.
- * omax:  The maximal value of this client option.
- * ocb:   A callback function of type void (*)(struct client_option *)
- *        called when the option changed.
- */
-#define GEN_INT_OPTION(oname, odesc, ohelp, ocat, ospec, odef, omin, omax, ocb) \
-{                                                                           \
-  .name = #oname,                                                           \
-  .description = odesc,                                                     \
-  .help_text = ohelp,                                                       \
-  .category = ocat,                                                         \
-  .specific = ospec,                                                        \
-  .type = COT_INTEGER,                                                      \
-  {                                                                         \
-    .integer = {                                                            \
-      .pvalue = &oname,                                                     \
-      .def = odef,                                                          \
-      .min = omin,                                                          \
-      .max = omax                                                           \
-    }                                                                       \
-  },                                                                        \
-  .change_callback = ocb,                                                   \
-}
-
-/*
- * Generate a client option of type COT_STRING.
- *
- * oname: The option data.  Note it is used as name to be loaded or saved.
- *        So, you shouldn't change the name of this variable in any case.
- *        Be sure to pass the array variable and not a pointer to it because
- *        the size is calculated with sizeof().
- * odesc: A short description of the client option.  Should be used with the
- *        N_() macro.
- * ohelp: The help text for the client option.  Should be used with the N_()
- *        macro.
- * ocat:  The client_option_class of this client option.
- * ospec: A gui_type enumerator which determin for what particular client
- *        gui this option is for.  Sets to GUI_LAST for common options.
- * odef:  The default string for this client option.
- * ocb:   A callback function of type void (*)(struct client_option *)
- *        called when the option changed.
- */
-#define GEN_STR_OPTION(oname, odesc, ohelp, ocat, ospec, odef, ocb)         \
-{                                                                           \
-  .name = #oname,                                                           \
-  .description = odesc,                                                     \
-  .help_text = ohelp,                                                       \
-  .category = ocat,                                                         \
-  .specific = ospec,                                                        \
-  .type = COT_STRING,                                                       \
-  {                                                                         \
-    .string = {                                                             \
-      .pvalue = oname,                                                      \
-      .size = sizeof(oname),                                                \
-      .def = odef,                                                          \
-      .val_accessor = NULL                                                  \
-    }                                                                       \
-  },                                                                        \
-  .change_callback = ocb,                                                   \
-}
-
-/*
- * Generate a client option of type COT_STRING with a string accessor
- * function.
- *
- * oname: The option data.  Note it is used as name to be loaded or saved.
- *        So, you shouldn't change the name of this variable in any case.
- *        Be sure to pass the array variable and not a pointer to it because
- *        the size is calculated with sizeof().
- * odesc: A short description of the client option.  Should be used with the
- *        N_() macro.
- * ohelp: The help text for the client option.  Should be used with the N_()
- *        macro.
- * ocat:  The client_option_class of this client option.
- * ospec: A gui_type enumerator which determin for what particular client
- *        gui this option is for.  Sets to GUI_LAST for common options.
- * odef:  The default string for this client option.
- * oacc:  The string accessor where to find the allowed values of type
- *        const char **(*)(void) (returns a NULL-termined list of strings).
- * ocb:   A callback function of type void (*)(struct client_option *)
- *        called when the option changed.
- */
-#define GEN_STR_LIST_OPTION(oname, odesc, ohelp, ocat, ospec, odef, oacc, ocb) \
-{                                                                           \
-  .name = #oname,                                                           \
-  .description = odesc,                                                     \
-  .help_text = ohelp,                                                       \
-  .category = ocat,                                                         \
-  .specific = ospec,                                                        \
-  .type = COT_STRING,                                                       \
-  {                                                                         \
-    .string = {                                                             \
-      .pvalue = oname,                                                      \
-      .size = sizeof(oname),                                                \
-      .def = odef,                                                          \
-      .val_accessor = oacc                                                  \
-    }                                                                       \
-  },                                                                        \
-  .change_callback = ocb,                                                   \
-}
-
-/*
- * Generate a client option of type COT_FONT.
- *
- * oname: The option data.  Note it is used as name to be loaded or saved.
- *        So, you shouldn't change the name of this variable in any case.
- *        Be sure to pass the array variable and not a pointer to it because
- *        the size is calculated with sizeof().
- * odesc: A short description of the client option.  Should be used with the
- *        N_() macro.
- * ohelp: The help text for the client option.  Should be used with the N_()
- *        macro.
- * ocat:  The client_option_class of this client option.
- * ospec: A gui_type enumerator which determin for what particular client
- *        gui this option is for.  Sets to GUI_LAST for common options.
- * odef:  The default string for this client option.
- * ocb:   A callback function of type void (*)(struct client_option *)
- *        called when the option changed.
- */
-#define GEN_FONT_OPTION(oname, odesc, ohelp, ocat, ospec, odef, ocb)        \
-{                                                                           \
-  .name = #oname,                                                           \
-  .description = odesc,                                                     \
-  .help_text = ohelp,                                                       \
-  .category = ocat,                                                         \
-  .specific = ospec,                                                        \
-  .type = COT_FONT,                                                         \
-  {                                                                         \
-    .string = {                                                             \
-      .pvalue = oname,                                                      \
-      .size = sizeof(oname),                                                \
-      .def = odef,                                                          \
-      .val_accessor = NULL                                                  \
-    }                                                                       \
-  },                                                                        \
-  .change_callback = ocb,                                                   \
-}
-
-/* Initialization and iteration */
-struct client_option *client_option_array_first(void);
-const struct client_option *client_option_array_last(void);
+struct client_option;           /* Opaque type. */
 
 #define client_options_iterate(_p)                                          \
 {                                                                           \
-  const enum gui_type our_gui = get_gui_type();                             \
-  struct client_option *_p = client_option_array_first();                   \
-  for (; _p <= client_option_array_last(); _p++) {                          \
-    if (_p->specific == GUI_LAST || _p->specific == our_gui) {
+  struct client_option *_p = option_first();                                \
+  for (; _p; _p = option_next(_p)) {                                        \
 
 #define client_options_iterate_end                                          \
-    }                                                                       \
   }                                                                         \
 }
+
+/* Main functions. */
+void options_init(void);
+void options_free(void);
+void options_load(void);
+void options_load_ruleset_specific(void);
+void options_load_settable(bool send_it);
+void options_save(void);
+
+
+/* Option function accessors. */
+struct client_option *option_by_number(int id);
+struct client_option *option_by_name(const char *name);
+struct client_option *option_first(void);
+struct client_option *option_next(struct client_option *poption);
+
+void option_set_changed_callback(struct client_option *poption,
+                                 void (*callback) (struct client_option *));
+void option_changed(struct client_option *poption);
+bool option_reset(struct client_option *poption);
+struct section_file;
+bool option_load(struct client_option *poption, struct section_file *sf);
+
+int option_number(const struct client_option *poption);
+const char *option_name(const struct client_option *poption);
+const char *option_description(const struct client_option *poption);
+const char *option_help_text(const struct client_option *poption);
+enum client_option_type option_type(const struct client_option *poption);
+enum client_option_class option_class(const struct client_option *poption);
+const char *option_class_name(enum client_option_class option_class);
+
+/* Option gui functions. */
+void option_set_gui_data(struct client_option *poption, void *data);
+void *option_get_gui_data(const struct client_option *poption);
+
+/* Option type COT_BOOLEAN functions. */
+bool option_bool_get(const struct client_option *poption);
+bool option_bool_def(const struct client_option *poption);
+bool option_bool_set(struct client_option *poption, bool val);
+
+/* Option type COT_INTEGER functions. */
+int option_int_get(const struct client_option *poption);
+int option_int_def(const struct client_option *poption);
+int option_int_min(const struct client_option *poption);
+int option_int_max(const struct client_option *poption);
+bool option_int_set(struct client_option *poption, int val);
+
+/* Option type COT_STRING functions. */
+const char *option_str_get(const struct client_option *poption);
+const char *option_str_def(const struct client_option *poption);
+const struct strvec *option_str_values(const struct client_option *poption);
+bool option_str_set(struct client_option *poption, const char *str);
+
+/* Option type COT_FONT functions. */
+const char *option_font_get(const struct client_option *poption);
+const char *option_font_def(const struct client_option *poption);
+bool option_font_set(struct client_option *poption, const char *str);
+
 
 /** Message Options: **/
 
@@ -386,16 +217,5 @@ const struct client_option *client_option_array_last(void);
 #define MW_POPUP     4		/* popup an individual window */
 
 extern unsigned int messages_where[];	/* OR-ed MW_ values [E_LAST] */
-
-void message_options_init(void);
-void message_options_free(void);
-
-void load_general_options(void);
-void load_ruleset_specific_options(void);
-void load_settable_options(bool send_it);
-void save_options(void);
-
-/* Callback functions for changing options. */
-void mapview_redraw_callback(struct client_option *option);
 
 #endif  /* FC__OPTIONS_H */
