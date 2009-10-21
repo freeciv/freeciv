@@ -940,7 +940,7 @@ struct client_option *option_by_name(const char *name)
 **************************************************************************/
 static struct client_option *option_next_valid(struct client_option *poption)
 {
-  static const struct client_option *const max = options + num_options;
+  const struct client_option *const max = options + num_options;
   const enum gui_type our_type = get_gui_type();
 
   while (poption < max
