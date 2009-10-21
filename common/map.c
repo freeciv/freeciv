@@ -1230,8 +1230,7 @@ bool is_singular_tile(const struct tile *ptile, int dist)
 
 /****************************************************************************
   Set a start position at the given tile for the given nation. Clears any
-  existing start position at the tile. The 'pnation' argument may be NULL,
-  in which case this function has the same effect as map_clear_startpos().
+  existing start position at the tile.
 ****************************************************************************/
 void map_set_startpos(const struct tile *ptile,
                       const struct nation_type *pnation)
@@ -1243,15 +1242,33 @@ void map_set_startpos(const struct tile *ptile,
   }
   map_clear_startpos(ptile);
 
-  if (!pnation) {
-    return;
-  }
-
   spe = fc_calloc(1, sizeof(*spe));
   spe->key = tile_index(ptile);
   spe->nation = pnation;
 
   hash_insert(map.startpos_table, &spe->key, spe);
+}
+
+/****************************************************************************
+  Returns the nation of the start position at the given tile, or NULL if
+  none exists there.
+****************************************************************************/
+bool map_has_startpos(const struct tile *ptile)
+{
+  struct startpos_entry *spe;
+  int key;
+
+  if (!map.startpos_table || !ptile) {
+    return FALSE;
+  }
+
+  key = tile_index(ptile);
+  spe = hash_lookup_data(map.startpos_table, &key);
+  if (!spe) {
+    return FALSE;
+  }
+
+  return TRUE;
 }
 
 /****************************************************************************
