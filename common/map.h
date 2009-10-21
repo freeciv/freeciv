@@ -122,6 +122,7 @@ int get_direction_for_step(const struct tile *src_tile,
 
 void map_set_startpos(const struct tile *ptile,
                       const struct nation_type *pnation);
+bool map_has_startpos(const struct tile *ptile);
 const struct nation_type *map_get_startpos(const struct tile *ptile);
 void map_clear_startpos(const struct tile *ptile);
 
