@@ -326,7 +326,7 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
 void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
 		       struct unit *pvictim)
 {
-  char victim_link[MAX_LEN_NAME];
+  char victim_link[MAX_LEN_LINK];
   struct player *uplayer;
 
   /* Fetch target unit's player.  Sanity checks. */
@@ -407,7 +407,7 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
 void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 		    struct unit *pvictim)
 {
-  char victim_link[MAX_LEN_NAME];
+  char victim_link[MAX_LEN_LINK];
   struct player *uplayer;
   struct tile *victim_tile;
   int bribe_cost;
@@ -1131,7 +1131,7 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
 			             struct unit *pdiplomat,
 				     struct tile *ptile)
 {
-  char diplomat_link[MAX_LEN_NAME];
+  char diplomat_link[MAX_LEN_LINK];
   struct city *pcity = tile_city(ptile);
 
   /* N.B.: unit_link() always returns the same pointer. */

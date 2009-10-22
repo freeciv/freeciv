@@ -2350,7 +2350,7 @@ static bool do_city_migration(struct city *pcity_from,
 {
   struct player *pplayer_from, *pplayer_to;
   struct tile *ptile_from, *ptile_to;
-  char name_from[MAX_LEN_NAME], name_to[MAX_LEN_NAME];
+  char name_from[MAX_LEN_LINK], name_to[MAX_LEN_LINK];
   const char *nation_from, *nation_to;
   struct city *rcity = NULL;
 
@@ -2539,7 +2539,7 @@ void check_city_migrations(void)
 **************************************************************************/
 static void check_city_migrations_player(const struct player *pplayer)
 {
-  char city_link_text[MAX_LEN_NAME];
+  char city_link_text[MAX_LEN_LINK];
   float best_city_player_score, best_city_world_score;
   struct city *best_city_player, *best_city_world, *acity;
   float score_from, score_tmp, weight;

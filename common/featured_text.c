@@ -1035,10 +1035,10 @@ size_t featured_text_apply_tag(const char *text_source,
 **************************************************************************/
 const char *city_link(const struct city *pcity)
 {
-  static char buf[128];
+  static char buf[MAX_LEN_LINK];
 
   my_snprintf(buf, sizeof(buf), "%c%s tgt=\"%s\" id=%d name=\"%s\" %c%c",
-              SEQ_START, text_tag_type_name(TTT_LINK),
+              SEQ_START, text_tag_type_short_name(TTT_LINK),
               text_link_type_name(TLT_CITY), pcity->id,
               city_name(pcity), SEQ_END, SEQ_STOP);
   return buf;
@@ -1051,10 +1051,10 @@ const char *city_link(const struct city *pcity)
 **************************************************************************/
 const char *tile_link(const struct tile *ptile)
 {
-  static char buf[128];
+  static char buf[MAX_LEN_LINK];
 
   my_snprintf(buf, sizeof(buf), "%c%s tgt=\"%s\" x=%d y=%d %c%c",
-              SEQ_START, text_tag_type_name(TTT_LINK),
+              SEQ_START, text_tag_type_short_name(TTT_LINK),
               text_link_type_name(TLT_TILE), TILE_XY(ptile),
               SEQ_END, SEQ_STOP);
   return buf;
@@ -1067,12 +1067,12 @@ const char *tile_link(const struct tile *ptile)
 **************************************************************************/
 const char *unit_link(const struct unit *punit)
 {
-  static char buf[128];
+  static char buf[MAX_LEN_LINK];
 
   /* We use the rule name of the unit, it will be translated in every
    * local sides in the function text_tag_replace_text(). */
   my_snprintf(buf, sizeof(buf), "%c%s tgt=\"%s\" id=%d name=\"%s\" %c%c",
-              SEQ_START, text_tag_type_name(TTT_LINK),
+              SEQ_START, text_tag_type_short_name(TTT_LINK),
               text_link_type_name(TLT_UNIT), punit->id,
               unit_rule_name(punit), SEQ_END, SEQ_STOP);
   return buf;
