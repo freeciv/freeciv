@@ -370,8 +370,13 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
     info.spec_sprite[0] = '\0';
   }
 
-  pnation = map_get_startpos(ptile);
-  info.nation_start = pnation ? nation_number(pnation) : -1;
+  if (game.info.is_edit_mode) {
+    pnation = map_get_startpos(ptile);
+    info.nation_start = pnation ? nation_number(pnation)
+      : map_has_startpos(ptile) ? NATION_ANY : -1;
+  } else {
+    info.nation_start = -1;
+  }
 
   info.special[S_OLD_FORTRESS] = FALSE;
   info.special[S_OLD_AIRBASE] = FALSE;

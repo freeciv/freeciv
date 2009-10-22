@@ -2423,10 +2423,22 @@ void handle_tile_info(struct packet_tile_info *packet)
     }
   }
 
-  pnation = nation_by_number(packet->nation_start);
-  if (map_get_startpos(ptile) != pnation) {
-    map_set_startpos(ptile, pnation);
-    tile_changed = TRUE;
+  if (packet->nation_start == NATION_ANY) {
+    if (!map_has_startpos(ptile) || map_get_startpos(ptile) != NULL) {
+      map_set_startpos(ptile, NULL);
+      tile_changed = TRUE;
+    }
+  } else {
+    pnation = nation_by_number(packet->nation_start);
+    if (pnation == NULL) {
+      if (map_has_startpos(ptile)) {
+        map_clear_startpos(ptile);
+        tile_changed = TRUE;
+      }
+    } else if (map_get_startpos(ptile) != pnation) {
+      map_set_startpos(ptile, pnation);
+      tile_changed = TRUE;
+    }
   }
 
   if (TILE_KNOWN_SEEN == old_known && TILE_KNOWN_SEEN != new_known) {
