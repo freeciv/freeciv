@@ -92,8 +92,11 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
         return pplayers_allied(unit_owner(pdiplomat), city_owner(pcity));
       if (action == DIPLOMAT_EMBASSY
           && !get_player_bonus(city_owner(pcity), EFT_NO_DIPLOMACY)
-          && !player_has_embassy(unit_owner(pdiplomat), city_owner(pcity))) {
-	return TRUE;
+          /* Always allow embassy, even if a such effect is already
+           * in range. */
+          && !BV_ISSET(unit_owner(pdiplomat)->embassy,
+                       player_index(city_owner(pcity)))) {
+        return TRUE;
       }
       if(action==SPY_POISON &&
 	 pcity->size>1 &&
