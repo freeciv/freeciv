@@ -238,8 +238,6 @@ void inputline_make_tag(GtkEntry *entry, enum text_tag_type type)
   GtkEditable *editable = GTK_EDITABLE(entry);
   gint start_pos, end_pos;
   gchar *selection;
-  gchar *fg_color_text = NULL;
-  gchar *bg_color_text = NULL;
 
   if (!gtk_editable_get_selection_bounds(editable, &start_pos, &end_pos)) {
     /* Let's say the selection starts and ends at the current position. */
@@ -250,6 +248,7 @@ void inputline_make_tag(GtkEntry *entry, enum text_tag_type type)
 
   if (type == TTT_COLOR) {
     /* Get the color arguments. */
+    char fg_color_text[32], bg_color_text[32];
     GdkColor *fg_color = g_object_get_data(G_OBJECT(entry), "fg_color");
     GdkColor *bg_color = g_object_get_data(G_OBJECT(entry), "bg_color");
 
@@ -257,8 +256,8 @@ void inputline_make_tag(GtkEntry *entry, enum text_tag_type type)
       goto CLEAN_UP;
     }
 
-    fg_color_text = fg_color ? gdk_color_to_string(fg_color) : NULL;
-    bg_color_text = bg_color ? gdk_color_to_string(bg_color) : NULL;
+    color_to_string(fg_color, fg_color_text, sizeof(fg_color_text));
+    color_to_string(bg_color, bg_color_text, sizeof(bg_color_text));
 
     if (0 == featured_text_apply_tag(selection, buf, sizeof(buf),
                                      TTT_COLOR, 0, OFFSET_UNSET,
@@ -278,12 +277,6 @@ void inputline_make_tag(GtkEntry *entry, enum text_tag_type type)
 
 CLEAN_UP:
   g_free(selection);
-  if (fg_color_text) {
-    g_free(fg_color_text);
-  }
-  if (bg_color_text) {
-    g_free(bg_color_text);
-  }
 }
 
 /**************************************************************************
