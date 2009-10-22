@@ -989,7 +989,7 @@ already made all necessary checks.
 **************************************************************************/
 static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
 {
-  char looser_link[MAX_LEN_NAME], winner_link[MAX_LEN_NAME];
+  char looser_link[MAX_LEN_LINK], winner_link[MAX_LEN_LINK];
   struct unit *plooser, *pwinner;
   struct city *pcity;
   int moves_used, def_moves_used; 
@@ -1497,8 +1497,8 @@ void handle_unit_help_build_wonder(struct player *pplayer, int unit_id)
 **************************************************************************/
 static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id, struct city *pcity_dest)
 {
-  char homecity_link[MAX_LEN_NAME], destcity_link[MAX_LEN_NAME];
-  char punit_link[MAX_LEN_NAME];
+  char homecity_link[MAX_LEN_LINK], destcity_link[MAX_LEN_LINK];
+  char punit_link[MAX_LEN_LINK];
   int revenue, i;
   bool can_establish, home_full = FALSE, dest_full = FALSE;
   struct city *pcity_homecity; 

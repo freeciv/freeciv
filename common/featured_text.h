@@ -128,6 +128,9 @@ enum text_link_type {
   TLT_UNIT
 };
 
+/* Default maximal link size */
+#define MAX_LEN_LINK    128
+
 /* Some event colors */
 #define FTC_WARNING     "#FF0000"
 #define FTC_LOG         "#7F7F7F"

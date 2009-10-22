@@ -1650,7 +1650,7 @@ void wipe_unit(struct unit *punit)
 **************************************************************************/
 void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 {
-  char pkiller_link[MAX_LEN_NAME], punit_link[MAX_LEN_NAME];
+  char pkiller_link[MAX_LEN_LINK], punit_link[MAX_LEN_LINK];
   struct player *pvictim = unit_owner(punit);
   struct player *pvictor = unit_owner(pkiller);
   int ransom, unitcount = 0;
