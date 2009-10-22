@@ -829,10 +829,10 @@ static void package_player_info(struct player *plr,
     packet->target_government = plr->target_government
                                 ? government_number(plr->target_government)
                                 : -1;
-    memset(&packet->embassy, 0, sizeof(packet->embassy));
+    memset(&packet->real_embassy, 0, sizeof(packet->real_embassy));
     players_iterate(pother) {
-      packet->embassy[player_index(pother)]
-	= BV_ISSET(plr->embassy, player_index(pother));
+      packet->real_embassy[player_index(pother)] =
+        player_has_real_embassy(plr, pother);
     } players_iterate_end;
     packet->gives_shared_vision = plr->gives_shared_vision;
     for(i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
@@ -844,9 +844,9 @@ static void package_player_info(struct player *plr,
     }
   } else {
     packet->target_government = packet->government;
-    memset(&packet->embassy, 0, sizeof(packet->embassy));
-    if (receiver && player_has_embassy(plr, receiver)) {
-      packet->embassy[player_index(receiver)] = TRUE;
+    memset(&packet->real_embassy, 0, sizeof(packet->real_embassy));
+    if (receiver && player_has_real_embassy(plr, receiver)) {
+      packet->real_embassy[player_index(receiver)] = TRUE;
     }
     if (!receiver || !gives_shared_vision(plr, receiver)) {
       packet->gives_shared_vision = 0;
@@ -1447,7 +1447,7 @@ static struct player *split_player(struct player *pplayer)
   } advance_index_iterate_end;
   cplayer->phase_done = TRUE; /* Have other things to think
 				 about - paralysis */
-  BV_CLR_ALL(cplayer->embassy);   /* all embassies destroyed */
+  BV_CLR_ALL(cplayer->real_embassy);   /* all embassies destroyed */
 
   /* Do the ai */
 
@@ -1470,7 +1470,7 @@ static struct player *split_player(struct player *pplayer)
     pplayer->revolution_finishes = game.info.turn + 1;
   }
   get_player_research(pplayer)->bulbs_researched = 0;
-  BV_CLR_ALL(pplayer->embassy);   /* all embassies destroyed */
+  BV_CLR_ALL(pplayer->real_embassy);   /* all embassies destroyed */
 
   /* give splitted player the embassies to his team mates back, if any */
   if (pplayer->team) {

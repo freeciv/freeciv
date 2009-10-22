@@ -1768,10 +1768,10 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->economic.luxury = pinfo->luxury;
   pplayer->government = pgov;
   pplayer->target_government = ptarget_gov;
-  BV_CLR_ALL(pplayer->embassy);
+  BV_CLR_ALL(pplayer->real_embassy);
   players_iterate(pother) {
-    if (pinfo->embassy[player_index(pother)]) {
-      BV_SET(pplayer->embassy, player_index(pother));
+    if (pinfo->real_embassy[player_index(pother)]) {
+      BV_SET(pplayer->real_embassy, player_index(pother));
     }
   } players_iterate_end;
   pplayer->gives_shared_vision = pinfo->gives_shared_vision;

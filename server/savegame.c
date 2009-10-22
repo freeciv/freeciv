@@ -2140,12 +2140,12 @@ static void player_load_main(struct player *plr, int plrno,
     plr->target_government = government_of_player(plr);
   }
 
-  BV_CLR_ALL(plr->embassy);
+  BV_CLR_ALL(plr->real_embassy);
   if (has_capability("embassies", savefile_options)) {
     player_slots_iterate(pother) {
       if (secfile_lookup_bool_default(file, FALSE, "player%d.embassy%d",
                                       plrno, player_index(pother))) {
-	BV_SET(plr->embassy, player_index(pother));
+        BV_SET(plr->real_embassy, player_index(pother));
       }
     } player_slots_iterate_end;
   } else {
@@ -2155,7 +2155,7 @@ static void player_load_main(struct player *plr, int plrno,
 
     player_slots_iterate(pother) {
       if (embassy & (1 << player_index(pother))) {
-	BV_SET(plr->embassy, player_index(pother));
+        BV_SET(plr->real_embassy, player_index(pother));
       }
     } player_slots_iterate_end;
   }
@@ -3268,8 +3268,8 @@ static void player_save_main(struct player *plr, int plrno,
   }
 
   players_iterate(pother) {
-    secfile_insert_bool(file, BV_ISSET(plr->embassy, player_index(pother)),
-			"player%d.embassy%d", plrno, player_number(pother));
+    secfile_insert_bool(file, player_has_real_embassy(plr, pother),
+                        "player%d.embassy%d", plrno, player_number(pother));
   } players_iterate_end;
 
   /* Required for 2.0 and earlier servers.  Remove eventually. */

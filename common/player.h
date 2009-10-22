@@ -180,7 +180,7 @@ struct player {
   int revolution_finishes;
 
   bool capital; /* used to give player init_buildings in first city. */
-  bv_player embassy;
+  bv_player real_embassy;
   struct player_diplstate diplstates[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   int city_style;
   struct city_list *cities;
@@ -229,8 +229,13 @@ struct player *find_player_by_user(const char *name);
 
 bool player_set_nation(struct player *pplayer, struct nation_type *pnation);
 void player_set_unit_focus_status(struct player *pplayer);
+
 bool player_has_embassy(const struct player *pplayer,
-			const struct player *pplayer2);
+                        const struct player *pplayer2);
+bool player_has_real_embassy(const struct player *pplayer,
+                             const struct player *pplayer2);
+bool player_has_embassy_from_effect(const struct player *pplayer,
+                                    const struct player *pplayer2);
 
 bool can_player_see_unit(const struct player *pplayer,
 			 const struct unit *punit);

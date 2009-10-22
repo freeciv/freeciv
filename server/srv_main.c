@@ -2320,7 +2320,7 @@ static void srv_ready(void)
             && player_number(pplayer) != player_number(pdest)) {
           pplayer->diplstates[player_index(pdest)].type = DS_TEAM;
           give_shared_vision(pplayer, pdest);
-	  BV_SET(pplayer->embassy, player_index(pdest));
+          BV_SET(pplayer->real_embassy, player_index(pdest));
         }
       } players_iterate_end;
     } players_iterate_end;
