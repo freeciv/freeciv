@@ -165,6 +165,15 @@ void handle_edit_mode(struct connection *pc, bool is_edit_mode)
 
   if (game.info.is_edit_mode != is_edit_mode) {
     game.info.is_edit_mode = is_edit_mode;
+
+    /* We make startpos information available to clients only when in edit
+     * mode. */
+    whole_map_iterate(ptile) {
+      if (map_has_startpos(ptile)) {
+        send_tile_info(NULL, ptile, TRUE, FALSE);
+      }
+    } whole_map_iterate_end;
+
     send_game_info(NULL);
   }
 }

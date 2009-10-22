@@ -23,6 +23,8 @@
 /* Changing this value will break network compatibility. */
 #define NO_NATION_SELECTED (NULL)
 
+#define NATION_ANY -2
+
 /* 
  * Purpose of this constant is to catch invalid ruleset and network
  * data and to allow static allocation of the nation_info packet.
