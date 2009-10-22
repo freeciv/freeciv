@@ -151,16 +151,36 @@ enum dipl_reason pplayer_can_make_treaty(const struct player *p1,
 }
 
 /***************************************************************
-  Check if pplayer has an embassy with pplayer2. We always have
+  Check if pplayer has an embassy with pplayer2.  We always have
   an embassy with ourselves.
 ***************************************************************/
 bool player_has_embassy(const struct player *pplayer,
-			const struct player *pplayer2)
+                        const struct player *pplayer2)
 {
-  return (BV_ISSET(pplayer->embassy, player_index(pplayer2))
-          || (pplayer == pplayer2)
-          || (get_player_bonus(pplayer, EFT_HAVE_EMBASSIES) > 0
-              && !is_barbarian(pplayer2)));
+  return (pplayer == pplayer2
+          || player_has_real_embassy(pplayer, pplayer2)
+          || player_has_embassy_from_effect(pplayer, pplayer2));
+}
+
+/***************************************************************
+  Returns whether pplayer has a real embassy with pplayer2,
+  established from a diplomat, or through diplomatic meeting.
+***************************************************************/
+bool player_has_real_embassy(const struct player *pplayer,
+                             const struct player *pplayer2)
+{
+  return BV_ISSET(pplayer->real_embassy, player_index(pplayer2));
+}
+
+/***************************************************************
+  Returns whether pplayer has got embassy with pplayer2 thanks
+  to an effect (e.g. Macro Polo Embassy).
+***************************************************************/
+bool player_has_embassy_from_effect(const struct player *pplayer,
+                                    const struct player *pplayer2)
+{
+  return (get_player_bonus(pplayer, EFT_HAVE_EMBASSIES) > 0
+          && !is_barbarian(pplayer2));
 }
 
 /****************************************************************************
@@ -220,7 +240,7 @@ void player_init(struct player *plr)
   plr->is_dying = FALSE;
   plr->is_winner = FALSE;
   plr->surrendered = FALSE;
-  BV_CLR_ALL(plr->embassy);
+  BV_CLR_ALL(plr->real_embassy);
   for(i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
     plr->diplstates[i].type = DS_NO_CONTACT;
     plr->diplstates[i].has_reason_to_cancel = 0;

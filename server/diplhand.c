@@ -175,10 +175,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
       if (pclause->from == pplayer) {
 	switch(pclause->type) {
 	case CLAUSE_EMBASSY:
-          /* Don't use player_has_embassy() here, because it also checks
-           * for the embassy effect, and we should always be able to make
-           * an embassy. */
-          if (BV_ISSET(pother->embassy, player_index(pplayer))) {
+          if (player_has_real_embassy(pother, pplayer)) {
             freelog(LOG_ERROR, "%s tried to give embassy to %s, who already "
                     "has an embassy",
                     player_name(pplayer),
@@ -623,7 +620,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 void establish_embassy(struct player *pplayer, struct player *aplayer)
 {
   /* Establish the embassy. */
-  BV_SET(pplayer->embassy, player_index(aplayer));
+  BV_SET(pplayer->real_embassy, player_index(aplayer));
   send_player_info(pplayer, pplayer);
   send_player_info(pplayer, aplayer);  /* update player dialog with embassy */
   send_player_info(aplayer, pplayer);  /* INFO_EMBASSY level info */

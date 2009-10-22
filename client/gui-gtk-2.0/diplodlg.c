@@ -340,7 +340,7 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
 		   G_CALLBACK(diplomacy_dialog_embassy_callback), pdialog);
 
   /* Don't take in account the embassy effects. */
-  if (BV_ISSET(pother->embassy, player_index(pgiver))) {
+  if (player_has_real_embassy(pother, pgiver)) {
     gtk_widget_set_sensitive(item, FALSE);
   }
   gtk_menu_shell_append(GTK_MENU_SHELL(parent), item);

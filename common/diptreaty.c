@@ -152,10 +152,7 @@ bool add_clause(struct Treaty *ptreaty, struct player *pfrom,
     return FALSE;
   }
 
-  /* Don't use player_has_embassy() here, because it also checks for the
-   * embassy effect, and we should always be able to make an embassy. */
-  if (type == CLAUSE_EMBASSY
-      && BV_ISSET(pto->embassy, player_index(pfrom))) {
+  if (type == CLAUSE_EMBASSY && player_has_real_embassy(pto, pfrom)) {
     /* we already have embassy */
     freelog(LOG_ERROR,
             "Illegal embassy clause: %s already have embassy with %s.",

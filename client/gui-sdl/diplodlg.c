@@ -559,7 +559,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   }
   
   /* Don't take in account the embassy effects. */
-  if (!BV_ISSET(pPlayer1->embassy, player_index(pPlayer0))) {  
+  if (!player_has_real_embassy(pPlayer1, pPlayer0)) {  
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
         _("Give embassy"), adj_font(12),
                 (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
