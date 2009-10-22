@@ -576,7 +576,7 @@ void handle_menu(int code)
       popup_messageopt_dialog();
       break;
     case IDM_GAME_SAVE_SETTINGS:
-      save_options();
+      options_save();
       break;
     case IDM_GAME_SERVER_OPTIONS:
       popup_settable_options_dialog();
