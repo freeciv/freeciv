@@ -5096,14 +5096,39 @@ struct color_system *get_color_system(const struct tileset *t)
 ****************************************************************************/
 void tileset_use_prefered_theme(const struct tileset *t)
 {
+  char *default_theme_name = NULL;
+  size_t default_theme_name_sz = 0;
   int i;
-    
+
+  switch (get_gui_type()) {
+  case GUI_GTK2:
+    default_theme_name = gui_gtk2_default_theme_name;
+    default_theme_name_sz = sizeof(gui_gtk2_default_theme_name);
+    break;
+  case GUI_SDL:
+    default_theme_name = gui_sdl_default_theme_name;
+    default_theme_name_sz = sizeof(gui_sdl_default_theme_name);
+    break;
+  case GUI_STUB:
+  case GUI_XAW:
+  case GUI_WIN32:
+  case GUI_FTWL:
+  case GUI_LAST:
+    break;
+  }
+
+  if (NULL == default_theme_name || 0 == default_theme_name_sz) {
+    /* Theme is not supported by this client. */
+    return;
+  }
+
   for (i = 0; i < t->num_prefered_themes; i++) {
     if (strcmp(t->prefered_themes[i], default_theme_name)) {
       if (popup_theme_suggestion_dialog(t->prefered_themes[i])) {
         freelog(LOG_DEBUG, "trying theme \"%s\".", t->prefered_themes[i]);
         if (load_theme(t->prefered_themes[i])) {
-          sz_strlcpy(default_theme_name, t->prefered_themes[i]);
+          (void) mystrlcpy(default_theme_name, t->prefered_themes[i],
+                           default_theme_name_sz);
           return;
         }
       }

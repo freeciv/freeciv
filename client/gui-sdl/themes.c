@@ -49,7 +49,7 @@ void gui_load_theme(const char *directory, const char *theme_name)
 void gui_clear_theme(void)
 {
   theme_free(theme);
-  if (!load_theme(default_theme_name)) {
+  if (!load_theme(gui_sdl_default_theme_name)) {
     freelog(LOG_FATAL,
             /* TRANS: No full stop after the URL, could cause confusion. */
             _("No gui-sdl theme was found. For instructions on how to get one,"

@@ -340,7 +340,7 @@ void themespec_try_read(const char *theme_name)
 
     freelog(LOG_VERBOSE, "Trying theme \"%s\".", theme->name);
   }
-/*  sz_strlcpy(default_theme_name, theme_get_name(theme));*/
+/*  sz_strlcpy(gui_sdl_default_theme_name, theme_get_name(theme));*/
 }
 
 /**********************************************************************
@@ -389,7 +389,7 @@ void themespec_reread(const char *new_theme_name)
       die("Failed to re-read the currently loaded theme.");
     }
   }
-/*  sz_strlcpy(default_theme_name, theme->name);*/
+/*  sz_strlcpy(gui_sdl_default_theme_name, theme->name);*/
   theme_load_sprites(theme);
 
   /* Step 3: Setup

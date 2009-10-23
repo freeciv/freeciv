@@ -24,7 +24,6 @@ extern char default_user_name[512];
 extern char default_server_host[512];
 extern int default_server_port; 
 extern char default_metaserver[512];
-extern char default_theme_name[512];
 extern char default_tileset_name[512];
 extern char default_sound_set_name[512];
 extern char default_sound_plugin_name[512];
@@ -88,6 +87,8 @@ extern bool reqtree_show_icons;
 extern bool reqtree_curved_lines;
 
 /* gui-gtk-2.0 client specific options. */
+#define FC_GTK_DEFAULT_THEME_NAME "Freeciv"
+extern char gui_gtk2_default_theme_name[512];
 extern bool gui_gtk2_map_scrollbars;
 extern bool gui_gtk2_dialogs_on_top;
 extern bool gui_gtk2_show_task_icons;
@@ -114,6 +115,8 @@ extern char gui_gtk2_font_city_names[512];
 extern char gui_gtk2_font_city_productions[512];
 
 /* gui-sdl client specific options. */
+#define FC_SDL_DEFAULT_THEME_NAME "human"
+extern char gui_sdl_default_theme_name[512];
 extern bool gui_sdl_fullscreen;
 extern int gui_sdl_screen_width;
 extern int gui_sdl_screen_height;
