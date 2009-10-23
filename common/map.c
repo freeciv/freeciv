@@ -1229,6 +1229,18 @@ bool is_singular_tile(const struct tile *ptile, int dist)
 }
 
 /****************************************************************************
+  Is there start positions set for map
+****************************************************************************/
+bool map_startpositions_set(void)
+{
+  if (!map.startpos_table) {
+    return FALSE;
+  }
+
+  return hash_num_entries(map.startpos_table) != 0;
+}
+
+/****************************************************************************
   Set a start position at the given tile for the given nation. Clears any
   existing start position at the tile.
 ****************************************************************************/
