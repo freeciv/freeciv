@@ -1155,7 +1155,7 @@ static void map_load(struct section_file *file,
       BV_CLR_ALL(ptile->tile_known);
       player_slots_iterate(pslot) {
         if (known[tile_index(ptile)] & (1u << player_index(pslot))) {
-          BV_SET(ptile->tile_known, player_index(pslot));
+          map_set_known(ptile, pslot);
         }
       } player_slots_iterate_end;
     } whole_map_iterate_end;
