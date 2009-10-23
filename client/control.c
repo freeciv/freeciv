@@ -327,15 +327,13 @@ void clear_unit_orders(struct unit *punit)
     return;
   }
 
-  if (unit_has_orders(punit)) {
-    /* Clear the focus unit's orders. */
-    request_orders_cleared(punit);
-  }
-
   if (punit->activity != ACTIVITY_IDLE || punit->ai.control)  {
     punit->ai.control = FALSE;
     refresh_unit_city_dialogs(punit);
     request_new_unit_activity(punit, ACTIVITY_IDLE);
+  } else if (unit_has_orders(punit)) {
+    /* Clear the focus unit's orders. */
+    request_orders_cleared(punit);
   }
 }
 
