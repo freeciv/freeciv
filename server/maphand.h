@@ -60,6 +60,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
 void send_map_info(struct conn_list *dest);
 
 void map_show_tile(struct player *pplayer, struct tile *ptile);
+void map_hide_tile(struct player *pplayer, struct tile *ptile);
 void map_show_circle(struct player *pplayer,
 		     struct tile *ptile, int radius_sq);
 void map_refog_circle(struct player *pplayer, struct tile *ptile,

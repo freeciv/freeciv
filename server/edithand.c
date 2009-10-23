@@ -1141,13 +1141,13 @@ void handle_edit_player_vision(struct connection *pc, int plr_no,
 
   conn_list_do_buffer(game.est_connections);
   square_iterate(ptile_center, size - 1, ptile) {
-    struct city *pcity = tile_city(ptile);
 
     if (known && map_is_known(ptile, pplayer)) {
       continue;
     }
 
     if (!known) {
+      struct city *pcity = tile_city(ptile);
       bool cannot_make_unknown = FALSE;
 
       if (pcity && city_owner(pcity) == pplayer) {
@@ -1178,37 +1178,10 @@ void handle_edit_player_vision(struct connection *pc, int plr_no,
     }
 
     if (known) {
-      map_set_known(ptile, pplayer);
-      update_player_tile_knowledge(pplayer, ptile);
-      if (pcity && update_dumb_city(pplayer, pcity)) {
-        /* Update city. */
-        send_city_info(pplayer, pcity);
-      }
-        /* Send units. */
-      if (map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
-        unit_list_iterate(ptile->units, punit) {
-          if (!is_hiding_unit(punit)) {
-            send_unit_info(pplayer, punit);
-          }
-        } unit_list_iterate_end;
-      }
+      map_show_tile(pplayer, ptile);
     } else {
-      if (map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
-        /* Remove units. */
-        unit_list_iterate(ptile->units, punit) {
-          if (!is_hiding_unit(punit)) {
-            unit_goes_out_of_sight(pplayer, punit);
-          }
-        } unit_list_iterate_end;
-      }
-      if (pcity) {
-        /* Remove city. */
-        remove_dumb_city(pplayer, ptile);
-      }
-      map_clear_known(ptile, pplayer);
+      map_hide_tile(pplayer, ptile);
     }
-
-    send_tile_info(NULL, ptile, TRUE, FALSE);
   } square_iterate_end;
   conn_list_do_unbuffer(game.est_connections);
 }

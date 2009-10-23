@@ -410,8 +410,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
       info.bases = ptile->bases;
 
       send_packet_tile_info(pconn, force, &info);
-    } else if (pplayer && map_is_known(ptile, pplayer)
-	       && map_get_seen(ptile, pplayer, V_MAIN) == 0) {
+    } else if (pplayer && map_is_known(ptile, pplayer)) {
       struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
       struct vision_site *psite = map_get_player_site(ptile, pplayer);
 
@@ -662,7 +661,7 @@ void map_show_tile(struct player *src_player, struct tile *ptile)
   recurse++;
 
   players_iterate(pplayer) {
-    if (pplayer == src_player || really_gives_vision(pplayer, src_player)) {
+    if (pplayer == src_player || really_gives_vision(src_player, pplayer)) {
       struct city *pcity;
 
       if (!map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
@@ -693,6 +692,52 @@ void map_show_tile(struct player *src_player, struct tile *ptile)
 	  }
 	} vision_layer_iterate_end;
       }
+    }
+  } players_iterate_end;
+
+  recurse--;
+}
+
+/****************************************************************************
+  Hides the area to the player.
+
+  Callers may wish to buffer_shared_vision before calling this function.
+****************************************************************************/
+void map_hide_tile(struct player *src_player, struct tile *ptile)
+{
+  static int recurse = 0;
+
+  freelog(LOG_DEBUG, "Hiding %d,%d to %s",
+          TILE_XY(ptile), player_name(src_player));
+
+  assert(recurse == 0);
+  recurse++;
+
+  players_iterate(pplayer) {
+    if (pplayer == src_player || really_gives_vision(src_player, pplayer)) {
+      if (map_is_known(ptile, pplayer)) {
+        if (map_get_seen(ptile, pplayer, V_MAIN) > 0) {
+          update_player_tile_last_seen(pplayer, ptile);
+        }
+
+        /* Remove city. */
+        remove_dumb_city(pplayer, ptile);
+
+        if (map_get_seen(ptile, pplayer, V_MAIN) > 0) {
+          /* Remove units. */
+          vision_layer_iterate(v) {
+            unit_list_iterate(ptile->units, punit) {
+              if (unit_is_visible_on_layer(punit, v)) {
+                unit_goes_out_of_sight(pplayer, punit);
+              }
+            } unit_list_iterate_end;
+          } vision_layer_iterate_end;
+        }
+      }
+
+      map_clear_known(ptile, pplayer);
+
+      send_tile_info(pplayer->connections, ptile, TRUE, FALSE);
     }
   } players_iterate_end;
 
@@ -848,6 +893,9 @@ void map_set_known(struct tile *ptile, struct player *pplayer)
 void map_clear_known(struct tile *ptile, struct player *pplayer)
 {
   BV_CLR(ptile->tile_known, player_index(pplayer));
+  vision_layer_iterate(v) {
+    BV_CLR(ptile->tile_seen[v], player_index(pplayer));
+  } vision_layer_iterate_end;
 }
 
 /****************************************************************************
