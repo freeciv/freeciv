@@ -374,11 +374,13 @@ gboolean map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
   screen.
 **************************************************************************/
 void flush_mapcanvas(int canvas_x, int canvas_y,
-		     int pixel_width, int pixel_height)
+                     int pixel_width, int pixel_height)
 {
-  gdk_draw_drawable(map_canvas->window, civ_gc, mapview.store->v.pixmap,
-		    canvas_x, canvas_y, canvas_x, canvas_y,
-		    pixel_width, pixel_height);
+  if (NULL != map_canvas->window) {
+    gdk_draw_drawable(map_canvas->window, civ_gc, mapview.store->v.pixmap,
+                      canvas_x, canvas_y, canvas_x, canvas_y,
+                      pixel_width, pixel_height);
+  }
 }
 
 #define MAX_DIRTY_RECTS 20
