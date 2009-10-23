@@ -939,6 +939,8 @@ static void build_road_callback(GtkAction *action, gpointer data)
      * not good! */
     if (can_unit_do_activity(punit, ACTIVITY_ROAD)) {
       request_new_unit_activity(punit, ACTIVITY_ROAD);
+    } else if (can_unit_do_activity(punit, ACTIVITY_RAILROAD)) {
+      request_new_unit_activity(punit, ACTIVITY_RAILROAD);
     } else if (unit_can_est_traderoute_here(punit)) {
       request_unit_caravan_action(punit, PACKET_UNIT_ESTABLISH_TRADE);
     }
