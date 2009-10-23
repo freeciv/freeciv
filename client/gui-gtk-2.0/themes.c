@@ -99,13 +99,13 @@ void gui_clear_theme(void)
   bool theme_loaded;
 
   /* try to load user defined theme */
-  theme_loaded = load_theme(default_theme_name);
+  theme_loaded = load_theme(gui_gtk2_default_theme_name);
 
   /* no user defined theme loaded -> try to load Freeciv default theme */
   if (!theme_loaded) {
     theme_loaded = load_theme(FC_GTK_DEFAULT_THEME_NAME);
     if (theme_loaded) {
-      sz_strlcpy(default_theme_name, FC_GTK_DEFAULT_THEME_NAME);
+      sz_strlcpy(gui_gtk2_default_theme_name, FC_GTK_DEFAULT_THEME_NAME);
     }
   }
     

@@ -303,7 +303,6 @@ char default_user_name[512] = "\0";
 char default_server_host[512] = "localhost";
 int  default_server_port = DEFAULT_SOCK_PORT;
 char default_metaserver[512] = META_URL;
-char default_theme_name[512] = "";
 char default_tileset_name[512] = "\0";
 char default_sound_set_name[512] = "stdsounds";
 char default_sound_plugin_name[512] = "\0";
@@ -368,6 +367,7 @@ bool reqtree_show_icons = TRUE;
 bool reqtree_curved_lines = FALSE;
 
 /* gui-gtk-2.0 client specific options. */
+char gui_gtk2_default_theme_name[512] = FC_GTK_DEFAULT_THEME_NAME;
 bool gui_gtk2_map_scrollbars = FALSE;
 bool gui_gtk2_dialogs_on_top = TRUE;
 bool gui_gtk2_show_task_icons = TRUE;
@@ -394,6 +394,7 @@ char gui_gtk2_font_city_names[512] = "Sans Bold 10";
 char gui_gtk2_font_city_productions[512] = "Serif 10";
 
 /* gui-sdl client specific options. */
+char gui_sdl_default_theme_name[512] = FC_SDL_DEFAULT_THEME_NAME;
 bool gui_sdl_fullscreen = FALSE;
 int gui_sdl_screen_width = 640;
 int gui_sdl_screen_height = 480;
@@ -449,10 +450,18 @@ static struct client_option options[] = {
                          "effect until you restart Freeciv.  Changing this "
                          "is the same as using the -P command-line option."),
                       COC_SOUND, GUI_LAST, NULL, get_soundplugin_list, NULL),
-  GEN_STR_LIST_OPTION(default_theme_name, N_("Theme"),
+  /* gui_gtk2_default_theme_name and gui_sdl_default_theme_name are
+   * different settings to avoid client crash after loading the
+   * style for the other gui.  Keeps 2 different options! */
+  GEN_STR_LIST_OPTION(gui_gtk2_default_theme_name, N_("Theme"),
                       N_("By changing this option you change the "
                          "active theme."),
-                      COC_GRAPHICS, GUI_LAST, NULL,
+                      COC_GRAPHICS, GUI_GTK2, FC_GTK_DEFAULT_THEME_NAME,
+                      get_themes_list, theme_reread_callback),
+  GEN_STR_LIST_OPTION(gui_sdl_default_theme_name, N_("Theme"),
+                      N_("By changing this option you change the "
+                         "active theme."),
+                      COC_GRAPHICS, GUI_SDL, FC_SDL_DEFAULT_THEME_NAME,
                       get_themes_list, theme_reread_callback),
   GEN_STR_LIST_OPTION(default_tileset_name, N_("Tileset"),
                       N_("By changing this option you change the active "

@@ -197,7 +197,7 @@ static void parse_options(int argc, char **argv)
       /* init events in other thread ( only linux and BeOS ) */  
       SDL_InitSubSystem(SDL_INIT_EVENTTHREAD);
     } else if ((option = get_option_malloc("--theme", argv, &i, argc))) {
-      sz_strlcpy(default_theme_name, option);
+      sz_strlcpy(gui_sdl_default_theme_name, option);
     }
     i++;
   }
