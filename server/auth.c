@@ -392,7 +392,7 @@ bool authenticate_user(struct connection *pconn, char *username)
       get_unique_guest_name(username);
 
       if (strncmp(tmpname, username, MAX_LEN_NAME) != 0) {
-        notify_conn(pconn->self, NULL, E_CONNECTION, FTC_WARNING, NULL,
+        notify_conn(pconn->self, NULL, E_CONNECTION, ftc_warning,
                     _("Warning: the guest name '%s' has been "
                       "taken, renaming to user '%s'."), tmpname, username);
       }
@@ -419,7 +419,7 @@ bool authenticate_user(struct connection *pconn, char *username)
         sz_strlcpy(pconn->username, tmpname);
 
         freelog(LOG_ERROR, "Error reading database; connection -> guest");
-        notify_conn(pconn->self, NULL, E_CONNECTION, FTC_WARNING, NULL,
+        notify_conn(pconn->self, NULL, E_CONNECTION, ftc_warning,
                     _("There was an error reading the user "
                       "database, logging in as guest connection '%s'."), 
                     pconn->username);
@@ -497,7 +497,7 @@ bool handle_authentication_reply(struct connection *pconn, char *password)
     sz_strlcpy(pconn->server.password, password);
 
     if (!auth_db_save(pconn)) {
-      notify_conn(pconn->self, NULL, E_CONNECTION, FTC_WARNING, NULL,
+      notify_conn(pconn->self, NULL, E_CONNECTION, ftc_warning,
 		  _("Warning: There was an error in saving to the database. "
                     "Continuing, but your stats will not be saved."));
       freelog(LOG_ERROR, "Error writing to database for: %s", pconn->username);

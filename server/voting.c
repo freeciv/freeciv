@@ -516,13 +516,13 @@ static void check_vote(struct vote *pvote)
   }
 
   if (passed) {
-    notify_team(callplr, NULL, E_VOTE_RESOLVED, "#006400", "#AAFFAA",
+    notify_team(callplr, NULL, E_VOTE_RESOLVED, ftc_vote_passed,
                 _("%s %d \"%s\" is passed %d to %d with "
                   "%d abstentions and %d who did not vote."),
                 title, pvote->vote_no, pvote->cmdline, pvote->yes,
                 pvote->no, pvote->abstain, num_voters - num_cast);
   } else {
-    notify_team(callplr, NULL, E_VOTE_RESOLVED, "#8B0000", "#FFAAAA",
+    notify_team(callplr, NULL, E_VOTE_RESOLVED, ftc_vote_failed,
                 _("%s %d \"%s\" failed with %d against, %d for, "
                   "%d abstentions and %d who did not vote."),
                 title, pvote->vote_no, pvote->cmdline, pvote->no,
@@ -542,17 +542,17 @@ static void check_vote(struct vote *pvote)
 
     switch (pvc->vote_cast) {
     case VOTE_YES:
-      notify_team(callplr, NULL, E_VOTE_RESOLVED, "#000000", "#C8FFD5",
+      notify_team(callplr, NULL, E_VOTE_RESOLVED, ftc_vote_yes,
                   _("%s %d: %s voted yes."),
                   title, pvote->vote_no, pconn->username);
       break;
     case VOTE_NO:
-      notify_team(callplr, NULL, E_VOTE_RESOLVED, "#000000", "#FFD2D2",
+      notify_team(callplr, NULL, E_VOTE_RESOLVED, ftc_vote_no,
                   _("%s %d: %s voted no."),
                   title, pvote->vote_no, pconn->username);
       break;
     case VOTE_ABSTAIN:
-      notify_team(callplr, NULL, E_VOTE_RESOLVED, "#000000", "#E8E8E8",
+      notify_team(callplr, NULL, E_VOTE_RESOLVED, ftc_vote_abstain,
                   _("%s %d: %s chose to abstain."),
                   title, pvote->vote_no, pconn->username);
       break;

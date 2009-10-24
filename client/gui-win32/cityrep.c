@@ -686,7 +686,7 @@ static LONG CALLBACK cityrep_changeall_proc(HWND hWnd,
 	    id=ListBox_GetCurSel(GetDlgItem(hWnd,ID_PRODCHANGE_FROM));
 	    if (id==LB_ERR)
 	      {
-                output_window_append(FTC_CLIENT_INFO, NULL,
+                output_window_append(ftc_client,
                                      _("Select a unit or improvement"
                                        " to change production from."));
 		break;        
@@ -696,15 +696,14 @@ static LONG CALLBACK cityrep_changeall_proc(HWND hWnd,
 	    id=ListBox_GetCurSel(GetDlgItem(hWnd,ID_PRODCHANGE_TO));
 	    if (id==LB_ERR)
 	      {
-                output_window_append(FTC_CLIENT_INFO, NULL,
+                output_window_append(ftc_client,
                                      _("Select a unit or improvement"
                                        " to change production to."));
 		break;          
 	      }
 	    to=ListBox_GetItemData(GetDlgItem(hWnd,ID_PRODCHANGE_TO),id);
 	    if (from==to) {
-              output_window_append(FTC_CLIENT_INFO, NULL,
-                                   _("That's the same thing!"));
+              output_window_append(ftc_client, _("That's the same thing!"));
 	      break;
 	    }
 	    client_change_all(cid_decode(from), cid_decode(to));

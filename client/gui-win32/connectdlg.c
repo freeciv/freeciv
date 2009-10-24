@@ -275,7 +275,7 @@ static void connect_callback()
     if (connect_to_server(user_name, server_host, server_port,
                           errbuf, sizeof(errbuf)) != -1) {
     } else {
-      output_window_append(FTC_CLIENT_INFO, NULL, errbuf);
+      output_window_append(ftc_client, errbuf);
     }
 
     break; 
@@ -506,7 +506,7 @@ static LONG CALLBACK playersdlg_proc(HWND hWnd, UINT message, WPARAM wParam,
 static void server_scan_error(struct server_scan *scan,
 			      const char *message)
 {
-  output_window_append(FTC_CLIENT_INFO, NULL, message);
+  output_window_append(ftc_client, message);
   freelog(LOG_NORMAL, "%s", message);
   switch (server_scan_get_type(scan)) {
   case SERVER_SCAN_LOCAL:

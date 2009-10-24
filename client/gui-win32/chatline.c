@@ -134,5 +134,5 @@ void
 clear_output_window(void)
 {
   SetWindowText(logoutput_win,"");
-  output_window_append(FTC_CLIENT_INFO, NULL, _("Cleared output window."));
+  output_window_append(ftc_client, _("Cleared output window."));
 }

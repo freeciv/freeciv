@@ -77,7 +77,7 @@ void TECH_LOG(int level, const struct player *pplayer,
 
   cat_snprintf(buffer, sizeof(buffer), "%s", buffer2);
   if (BV_ISSET(pplayer->debug, PLAYER_DEBUG_TECH)) {
-    notify_conn(NULL, NULL, E_AI_DEBUG, FTC_LOG, NULL, "%s", buffer);
+    notify_conn(NULL, NULL, E_AI_DEBUG, ftc_log, "%s", buffer);
   }
   freelog(minlevel, "%s", buffer);
 }
@@ -120,7 +120,7 @@ void DIPLO_LOG(int level, const struct player *pplayer,
 
   cat_snprintf(buffer, sizeof(buffer), "%s", buffer2);
   if (BV_ISSET(pplayer->debug, PLAYER_DEBUG_DIPLOMACY)) {
-    notify_conn(NULL, NULL, E_AI_DEBUG, FTC_LOG, NULL, "%s", buffer);
+    notify_conn(NULL, NULL, E_AI_DEBUG, ftc_log, "%s", buffer);
   }
   freelog(minlevel, "%s", buffer);
 }
@@ -155,7 +155,7 @@ void CITY_LOG(int level, const struct city *pcity, const char *msg, ...)
 
   cat_snprintf(buffer, sizeof(buffer), "%s", buffer2);
   if (pcity->debug) {
-    notify_conn(NULL, NULL, E_AI_DEBUG, FTC_LOG, NULL, "%s", buffer);
+    notify_conn(NULL, NULL, E_AI_DEBUG, ftc_log, "%s", buffer);
   }
   freelog(minlevel, "%s", buffer);
 }
@@ -215,7 +215,7 @@ void UNIT_LOG(int level, const struct unit *punit, const char *msg, ...)
 
   cat_snprintf(buffer, sizeof(buffer), "%s", buffer2);
   if (punit->debug || messwin) {
-    notify_conn(NULL, NULL, E_AI_DEBUG, FTC_LOG, NULL, "%s", buffer);
+    notify_conn(NULL, NULL, E_AI_DEBUG, ftc_log, "%s", buffer);
   }
   freelog(minlevel, "%s", buffer);
 }
@@ -270,7 +270,7 @@ void BODYGUARD_LOG(int level, const struct unit *punit, const char *msg)
 	      s, id, charge_x, charge_y);
   cat_snprintf(buffer, sizeof(buffer), "%s", msg);
   if (punit->debug) {
-    notify_conn(NULL, NULL, E_AI_DEBUG, FTC_LOG, NULL, "%s", buffer);
+    notify_conn(NULL, NULL, E_AI_DEBUG, ftc_log, "%s", buffer);
   }
   freelog(minlevel, "%s", buffer);
 }
@@ -323,10 +323,10 @@ void TIMING_RESULTS(void)
            read_timer_seconds(aitimer[which][0]),                        \
            read_timer_seconds(aitimer[which][1]));                       \
   freelog(LOG_TEST, "%s", buf);                                          \
-  notify_conn(NULL, NULL, E_AI_DEBUG, FTC_LOG, NULL, "%s", buf);
+  notify_conn(NULL, NULL, E_AI_DEBUG, ftc_log, "%s", buf);
 
   freelog(LOG_TEST, "  --- AI timing results ---");
-  notify_conn(NULL, NULL, E_AI_DEBUG, FTC_LOG, NULL,
+  notify_conn(NULL, NULL, E_AI_DEBUG, ftc_log,
               "  --- AI timing results ---");
   AILOG_OUT("Total AI time", AIT_ALL);
   AILOG_OUT("Movemap", AIT_MOVEMAP);

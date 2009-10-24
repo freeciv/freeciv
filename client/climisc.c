@@ -167,7 +167,7 @@ void client_change_all(struct universal from,
     return;
   }
 
-  create_event(NULL, E_CITY_PRODUCTION_CHANGED, FTC_CLIENT_INFO, NULL,
+  create_event(NULL, E_CITY_PRODUCTION_CHANGED, ftc_client,
                _("Changing production of every %s into %s."),
                VUT_UTYPE == from.kind
                ? utype_name_translation(from.value.utype)
@@ -982,8 +982,7 @@ void handle_event(const char *featured_text, struct tile *ptile,
   handle_chat_msg.
 **************************************************************************/
 void create_event(struct tile *ptile, enum event_type event,
-                  const char *fg_color, const char *bg_color,
-                  const char *format, ...)
+                  const struct ft_color color, const char *format, ...)
 {
   va_list ap;
   char message[MAX_LEN_MSG];
@@ -992,12 +991,11 @@ void create_event(struct tile *ptile, enum event_type event,
   my_vsnprintf(message, sizeof(message), format, ap);
   va_end(ap);
 
-  if ((fg_color && fg_color[0] != '\0')
-      || (bg_color && bg_color[0] != '\0')) {
+  if (ft_color_requested(color)) {
     char colored_text[MAX_LEN_MSG];
 
     featured_text_apply_tag(message, colored_text, sizeof(colored_text),
-                            TTT_COLOR, 0, OFFSET_UNSET, fg_color, bg_color);
+                            TTT_COLOR, 0, OFFSET_UNSET, color);
     handle_event(colored_text, ptile, event, -1);
   } else {
     handle_event(message, ptile, event, -1);
@@ -1011,14 +1009,14 @@ void write_chatline_content(const char *txt)
 {
   FILE *fp = fopen("civgame.log", "w");	/* should allow choice of name? */
 
-  output_window_append(FTC_CLIENT_INFO, NULL,
+  output_window_append(ftc_client,
                        _("Exporting output window to civgame.log ..."));
   if (fp) {
     fputs(txt, fp);
     fclose(fp);
-    output_window_append(FTC_CLIENT_INFO, NULL, _("Export complete."));
+    output_window_append(ftc_client, _("Export complete."));
   } else {
-    output_window_append(FTC_CLIENT_INFO, NULL,
+    output_window_append(ftc_client,
                          _("Export failed, couldn't write to file."));
   }
 }
@@ -1117,7 +1115,7 @@ void cityrep_buy(struct city *pcity)
   int value;
 
   if (city_production_has_flag(pcity, IF_GOLD)) {
-    create_event(pcity->tile, E_BAD_COMMAND, FTC_CLIENT_INFO, NULL,
+    create_event(pcity->tile, E_BAD_COMMAND, ftc_client,
                  _("You don't buy %s in %s!"),
                  improvement_name_translation(pcity->production.value.building),
                  city_link(pcity));
@@ -1128,7 +1126,7 @@ void cityrep_buy(struct city *pcity)
   if (city_owner(pcity)->economic.gold >= value) {
     city_buy_production(pcity);
   } else {
-    create_event(NULL, E_BAD_COMMAND, FTC_CLIENT_INFO, NULL,
+    create_event(NULL, E_BAD_COMMAND, ftc_client,
                  _("%s costs %d gold and you only have %d gold."),
                  city_production_name_translation(pcity),
                  value,

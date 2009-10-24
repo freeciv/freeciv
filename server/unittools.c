@@ -262,8 +262,7 @@ static void do_upgrade_effects(struct player *pplayer)
     struct unit_type *type_to = can_upgrade_unittype(pplayer, type_from);
 
     transform_unit(punit, type_to, TRUE);
-    notify_player(pplayer, unit_tile(punit), E_UNIT_UPGRADED,
-                  FTC_SERVER_INFO, NULL,
+    notify_player(pplayer, unit_tile(punit), E_UNIT_UPGRADED, ftc_server,
                   _("%s was upgraded for free to %s."),
                   utype_name_translation(type_from),
                   unit_link(punit));
@@ -302,10 +301,9 @@ void player_restore_units(struct player *pplayer)
     /* 3) Check that unit has hitpoints */
     if (punit->hp<=0) {
       /* This should usually only happen for heli units,
-	 but if any other units get 0 hp somehow, catch
-	 them too.  --dwp  */
-      notify_player(pplayer, punit->tile, E_UNIT_LOST_MISC,
-                    FTC_SERVER_INFO, NULL,
+       * but if any other units get 0 hp somehow, catch
+       * them too.  --dwp  */
+      notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_MISC, ftc_server,
                     _("Your %s has run out of hit points."), 
                     unit_link(punit));
       wipe_unit(punit);
@@ -379,8 +377,8 @@ void player_restore_units(struct player *pplayer)
                   }
                 }
 
-                notify_player(pplayer, punit->tile, E_UNIT_ORDERS,
-                              FTC_SERVER_INFO, NULL,
+                notify_player(pplayer, unit_tile(punit),
+                              E_UNIT_ORDERS, ftc_server,
                               _("Your %s has returned to refuel."),
                               unit_link(punit));
 	      }
@@ -411,8 +409,7 @@ void player_restore_units(struct player *pplayer)
   /* 7) Check if there are air units without fuel */
   unit_list_iterate_safe(pplayer->units, punit) {
     if (punit->fuel <= 0 && utype_fuel(unit_type(punit))) {
-      notify_player(pplayer, punit->tile, E_UNIT_LOST_MISC,
-                    FTC_SERVER_INFO, NULL,
+      notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_MISC, ftc_server,
                     _("Your %s has run out of fuel."),
                     unit_link(punit));
       wipe_unit(punit);
@@ -602,8 +599,8 @@ void notify_unit_experience(struct unit *punit)
     return;
   }
 
-  notify_player(unit_owner(punit), unit_tile(punit), E_UNIT_BECAME_VET,
-                FTC_SERVER_INFO, NULL,
+  notify_player(unit_owner(punit), unit_tile(punit),
+                E_UNIT_BECAME_VET, ftc_server,
                 /* TRANS: Your <unit> became ... */
                 _("Your %s became more experienced!"),
                 unit_link(punit));
@@ -1061,8 +1058,8 @@ bool teleport_unit_to_city(struct unit *punit, struct city *pcity,
 	    TILE_XY(src_tile),
 	    city_name(pcity));
     if (verbose) {
-      notify_player(unit_owner(punit), pcity->tile, E_UNIT_RELOCATED,
-                    FTC_SERVER_INFO, NULL,
+      notify_player(unit_owner(punit), city_tile(pcity),
+                    E_UNIT_RELOCATED, ftc_server,
                     _("Teleported your %s to %s."),
                     unit_link(punit),
                     city_link(pcity));
@@ -1125,8 +1122,7 @@ void bounce_unit(struct unit *punit, bool verbose)
 
     if (verbose) {
       /* TRANS: A unit is moved to resolve stack conflicts. */
-      notify_player(pplayer, ptile, E_UNIT_RELOCATED,
-                    FTC_SERVER_INFO, NULL,
+      notify_player(pplayer, ptile, E_UNIT_RELOCATED, ftc_server,
                     _("Moved your %s."),
                     unit_link(punit));
     }
@@ -1137,8 +1133,7 @@ void bounce_unit(struct unit *punit, bool verbose)
   /* Didn't find a place to bounce the unit, just disband it. */
   if (verbose) {
     /* TRANS: A unit is disbanded to resolve stack conflicts. */
-    notify_player(pplayer, punit_tile, E_UNIT_LOST_MISC,
-                  FTC_SERVER_INFO, NULL,
+    notify_player(pplayer, punit_tile, E_UNIT_LOST_MISC, ftc_server,
                   _("Disbanded your %s."),
                   unit_link(punit));
   }
@@ -1475,14 +1470,12 @@ static void server_remove_unit(struct unit *punit)
 
   /* check if this unit had F_GAMELOSS flag */
   if (unit_has_type_flag(punit, F_GAMELOSS) && unit_owner(punit)->is_alive) {
-    notify_conn(game.est_connections, ptile, E_UNIT_LOST_MISC,
-                FTC_SERVER_INFO, NULL,
+    notify_conn(game.est_connections, ptile, E_UNIT_LOST_MISC, ftc_server,
                 _("Unable to defend %s, %s has lost the game."),
                 unit_link(punit),
                 player_name(unit_owner(punit)));
-    notify_player(unit_owner(punit), ptile, E_GAME_END,
-                  FTC_SERVER_INFO, NULL,
-		  _("Losing %s meant losing the game! "
+    notify_player(unit_owner(punit), ptile, E_GAME_END, ftc_server,
+                  _("Losing %s meant losing the game! "
                   "Be more careful next time!"),
                   unit_link(punit));
     unit_owner(punit)->is_dying = TRUE;
@@ -1518,8 +1511,7 @@ static void unit_lost_with_transport(const struct player *pplayer,
                                      struct unit *pcargo,
                                      struct unit_type *ptransport)
 {
-  notify_player(pplayer, pcargo->tile, E_UNIT_LOST_MISC,
-                FTC_SERVER_INFO, NULL,
+  notify_player(pplayer, unit_tile(pcargo), E_UNIT_LOST_MISC, ftc_server,
                 _("%s lost when %s was lost."),
                 unit_link(pcargo),
                 utype_name_translation(ptransport));
@@ -1598,8 +1590,7 @@ void wipe_unit(struct unit *punit)
 	    pcity = find_closest_owned_city(unit_owner(pcargo),
 					    pcargo->tile, TRUE, NULL);
 	    if (pcity && teleport_unit_to_city(pcargo, pcity, 0, FALSE)) {
-	      notify_player(pplayer, ptile, E_UNIT_RELOCATED,
-                            FTC_SERVER_INFO, NULL,
+              notify_player(pplayer, ptile, E_UNIT_RELOCATED, ftc_server,
                             _("%s escaped the destruction of %s, and "
                               "fled to %s."),
                             unit_link(pcargo),
@@ -1665,8 +1656,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
     /* Occupying units can collect ransom if leader is alone in the tile */
     ransom = (pvictim->economic.gold >= game.info.ransom_gold) 
              ? game.info.ransom_gold : pvictim->economic.gold;
-    notify_player(pvictor, pkiller->tile, E_UNIT_WIN_ATT,
-                  FTC_SERVER_INFO, NULL,
+    notify_player(pvictor, unit_tile(pkiller), E_UNIT_WIN_ATT, ftc_server,
                   _("Barbarian leader captured, %d gold ransom paid."),
                   ransom);
     pvictor->economic.gold += ransom;
@@ -1683,23 +1673,21 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
   }
 
   if (!is_stack_vulnerable(punit->tile) || unitcount == 1) {
-    notify_player(pvictor, pkiller->tile, E_UNIT_WIN_ATT,
-                  FTC_SERVER_INFO, NULL,
-		  /* TRANS: "... Cannon ... the Polish Destroyer." */
-		  _("Your attacking %s succeeded against the %s %s!"),
-		  pkiller_link,
-		  nation_adjective_for_player(pvictim),
-		  punit_link);
+    notify_player(pvictor, unit_tile(pkiller), E_UNIT_WIN_ATT, ftc_server,
+                  /* TRANS: "... Cannon ... the Polish Destroyer." */
+                  _("Your attacking %s succeeded against the %s %s!"),
+                  pkiller_link,
+                  nation_adjective_for_player(pvictim),
+                  punit_link);
     if (vet) {
       notify_unit_experience(pkiller);
     }
-    notify_player(pvictim, punit->tile, E_UNIT_LOST_DEF,
-                  FTC_SERVER_INFO, NULL,
-		  /* TRANS: "Cannon ... the Polish Destroyer." */
-		  _("%s lost to an attack by the %s %s."),
-		  punit_link,
-		  nation_adjective_for_player(pvictor),
-		  pkiller_link);
+    notify_player(pvictim, unit_tile(punit), E_UNIT_LOST_DEF, ftc_server,
+                  /* TRANS: "Cannon ... the Polish Destroyer." */
+                  _("%s lost to an attack by the %s %s."),
+                  punit_link,
+                  nation_adjective_for_player(pvictor),
+                  pkiller_link);
 
     wipe_unit(punit);
   } else { /* unitcount > 1 */
@@ -1728,17 +1716,16 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
     } unit_list_iterate_end;
 
     /* Inform the destroyer: lots of different cases here! */
-    notify_player(pvictor, pkiller->tile, E_UNIT_WIN_ATT,
-                  FTC_SERVER_INFO, NULL,
-		  /* TRANS: "... Cannon ... the Polish Destroyer ...." */
-		  PL_("Your attacking %s succeeded against the %s %s "
-		      "(and %d other unit)!",
-		      "Your attacking %s succeeded against the %s %s "
-		      "(and %d other units)!", unitcount - 1),
-		  pkiller_link,
-		  nation_adjective_for_player(pvictim),
-		  punit_link,
-		  unitcount - 1);
+    notify_player(pvictor, unit_tile(pkiller), E_UNIT_WIN_ATT, ftc_server,
+                  /* TRANS: "... Cannon ... the Polish Destroyer ...." */
+                  PL_("Your attacking %s succeeded against the %s %s "
+                      "(and %d other unit)!",
+                      "Your attacking %s succeeded against the %s %s "
+                      "(and %d other units)!", unitcount - 1),
+                  pkiller_link,
+                  nation_adjective_for_player(pvictim),
+                  punit_link,
+                  unitcount - 1);
     if (vet) {
       notify_unit_experience(pkiller);
     }
@@ -1749,74 +1736,74 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
      *
      * Also if a large number of units die you don't find out what type
      * they all are. */
-    for (i = 0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++) {
+    for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
       if (num_killed[i] == 1) {
-	if (i == player_index(pvictim)) {
-	  assert(other_killed[i] == NULL);
-	  notify_player(player_by_number(i), punit->tile, E_UNIT_LOST_DEF,
-                        FTC_SERVER_INFO, NULL,
-			/* TRANS: "Cannon ... the Polish Destroyer." */
-			_("%s lost to an attack by the %s %s."),
-			punit_link,
-			nation_adjective_for_player(pvictor),
-			pkiller_link);
-	} else {
-	  assert(other_killed[i] != punit);
-	  notify_player(player_by_number(i), punit->tile, E_UNIT_LOST_DEF,
-                        FTC_SERVER_INFO, NULL,
-			/* TRANS: "Cannon lost when the Polish Destroyer
-			 * attacked the German Musketeers." */
-			_("%s lost when the %s %s attacked the %s %s."),
-			unit_link(other_killed[i]),
-			nation_adjective_for_player(pvictor),
-			pkiller_link,
-			nation_adjective_for_player(pvictim),
-			punit_link);
-	}
+        if (i == player_index(pvictim)) {
+          assert(other_killed[i] == NULL);
+          notify_player(player_by_number(i), unit_tile(punit),
+                        E_UNIT_LOST_DEF, ftc_server,
+                        /* TRANS: "Cannon ... the Polish Destroyer." */
+                        _("%s lost to an attack by the %s %s."),
+                        punit_link,
+                        nation_adjective_for_player(pvictor),
+                        pkiller_link);
+        } else {
+          assert(other_killed[i] != punit);
+          notify_player(player_by_number(i), unit_tile(punit),
+                        E_UNIT_LOST_DEF, ftc_server,
+                        /* TRANS: "Cannon lost when the Polish Destroyer
+                         * attacked the German Musketeers." */
+                        _("%s lost when the %s %s attacked the %s %s."),
+                        unit_link(other_killed[i]),
+                        nation_adjective_for_player(pvictor),
+                        pkiller_link,
+                        nation_adjective_for_player(pvictim),
+                        punit_link);
+        }
       } else if (num_killed[i] > 1) {
-	if (i == player_index(pvictim)) {
-	  int others = num_killed[i] - 1;
+        if (i == player_index(pvictim)) {
+          int others = num_killed[i] - 1;
 
-	  if (others == 1) {
-	    notify_player(player_by_number(i), punit->tile, E_UNIT_LOST_DEF,
-                          FTC_SERVER_INFO, NULL,
-			  /* TRANS: "Musketeers (and Cannon) lost to an
-			   * attack from the Polish Destroyer." */
-			  _("%s (and %s) lost to an attack from the %s %s."),
-			  punit_link,
-			  unit_link(other_killed[i]),
-			  nation_adjective_for_player(pvictor),
-			  pkiller_link);
-	  } else {
-	    notify_player(player_by_number(i), punit->tile, E_UNIT_LOST_DEF,
-                          FTC_SERVER_INFO, NULL,
-			  /* TRANS: "Musketeers and 3 other units lost to
-			   * an attack from the Polish Destroyer."
-			   * (only happens with at least 2 other units) */
-			  PL_("%s and %d other unit lost to an attack "
-			      "from the %s %s.",
-			      "%s and %d other units lost to an attack "
-			      "from the %s %s.", others),
-			  punit_link,
-			  others,
-			  nation_adjective_for_player(pvictor),
-			  pkiller_link);
-	  }
-	} else {
-	  notify_player(player_by_number(i), punit->tile, E_UNIT_LOST_DEF,
-                        FTC_SERVER_INFO, NULL,
-			/* TRANS: "2 units lost when the Polish Destroyer
-			 * attacked the German Musketeers."
-			 * (only happens with at least 2 other units) */
-			PL_("%d unit lost when the %s %s attacked the %s %s.",
-			    "%d units lost when the %s %s attacked the %s %s.",
-			    num_killed[i]),
-			num_killed[i],
-			nation_adjective_for_player(pvictor),
-			pkiller_link,
-			nation_adjective_for_player(pvictim),
-			punit_link);
-	}
+          if (others == 1) {
+            notify_player(player_by_number(i), unit_tile(punit),
+                          E_UNIT_LOST_DEF, ftc_server,
+                          /* TRANS: "Musketeers (and Cannon) lost to an
+                           * attack from the Polish Destroyer." */
+                          _("%s (and %s) lost to an attack from the %s %s."),
+                          punit_link,
+                          unit_link(other_killed[i]),
+                          nation_adjective_for_player(pvictor),
+                          pkiller_link);
+          } else {
+            notify_player(player_by_number(i), unit_tile(punit),
+                          E_UNIT_LOST_DEF, ftc_server,
+                          /* TRANS: "Musketeers and 3 other units lost to
+                           * an attack from the Polish Destroyer."
+                           * (only happens with at least 2 other units) */
+                          PL_("%s and %d other unit lost to an attack "
+                              "from the %s %s.",
+                              "%s and %d other units lost to an attack "
+                              "from the %s %s.", others),
+                          punit_link,
+                          others,
+                          nation_adjective_for_player(pvictor),
+                          pkiller_link);
+          }
+        } else {
+          notify_player(player_by_number(i), unit_tile(punit),
+                        E_UNIT_LOST_DEF, ftc_server,
+                        /* TRANS: "2 units lost when the Polish Destroyer
+                         * attacked the German Musketeers."
+                         * (only happens with at least 2 other units) */
+                        PL_("%d unit lost when the %s %s attacked the %s %s.",
+                            "%d units lost when the %s %s attacked the %s %s.",
+                            num_killed[i]),
+                        num_killed[i],
+                        nation_adjective_for_player(pvictor),
+                        pkiller_link,
+                        nation_adjective_for_player(pvictim),
+                        punit_link);
+        }
       }
     }
 
@@ -2077,19 +2064,17 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
   struct city *pcity = NULL;
 
   unit_list_iterate_safe(ptile->units, punit) {
-    notify_player(unit_owner(punit), ptile, E_UNIT_LOST_MISC,
-                  FTC_SERVER_INFO, NULL,
-		  _("Your %s was nuked by %s."),
-		  unit_link(punit),
-		  pplayer == unit_owner(punit)
-		  ? _("yourself")
-		  : nation_plural_for_player(pplayer));
+    notify_player(unit_owner(punit), ptile, E_UNIT_LOST_MISC, ftc_server,
+                  _("Your %s was nuked by %s."),
+                  unit_link(punit),
+                  pplayer == unit_owner(punit)
+                  ? _("yourself")
+                  : nation_plural_for_player(pplayer));
     if (unit_owner(punit) != pplayer) {
-      notify_player(pplayer, ptile, E_UNIT_WIN,
-                    FTC_SERVER_INFO, NULL,
-		    _("The %s %s was nuked."),
-		    nation_adjective_for_player(unit_owner(punit)),
-		    unit_link(punit));
+      notify_player(pplayer, ptile, E_UNIT_WIN, ftc_server,
+                    _("The %s %s was nuked."),
+                    nation_adjective_for_player(unit_owner(punit)),
+                    unit_link(punit));
     }
     wipe_unit(punit);
   } unit_list_iterate_safe_end;
@@ -2097,19 +2082,17 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
   pcity = tile_city(ptile);
 
   if (pcity) {
-    notify_player(city_owner(pcity), ptile, E_CITY_NUKED,
-                  FTC_SERVER_INFO, NULL,
-		  _("%s was nuked by %s."),
-		  city_link(pcity),
-		  pplayer == city_owner(pcity)
-		  ? _("yourself")
-		  : nation_plural_for_player(pplayer));
+    notify_player(city_owner(pcity), ptile, E_CITY_NUKED, ftc_server,
+                  _("%s was nuked by %s."),
+                  city_link(pcity),
+                  pplayer == city_owner(pcity)
+                  ? _("yourself")
+                  : nation_plural_for_player(pplayer));
 
     if (city_owner(pcity) != pplayer) {
-      notify_player(pplayer, ptile, E_CITY_NUKED,
-                    FTC_SERVER_INFO, NULL,
-		    _("You nuked %s."),
-		    city_link(pcity));
+      notify_player(pplayer, ptile, E_CITY_NUKED, ftc_server,
+                    _("You nuked %s."),
+                    city_link(pcity));
     }
 
     city_reduce_size(pcity, pcity->size / 2, pplayer);
@@ -2144,10 +2127,9 @@ void do_nuclear_explosion(struct player *pplayer, struct tile *ptile)
     do_nuke_tile(pplayer, ptile1);
   } square_iterate_end;
 
-  notify_conn(NULL, ptile, E_NUKE,
-              FTC_SERVER_INFO, NULL,
-	      _("The %s detonated a nuke!"),
-	      nation_plural_for_player(pplayer));
+  notify_conn(NULL, ptile, E_NUKE, ftc_server,
+              _("The %s detonated a nuke!"),
+              nation_plural_for_player(pplayer));
 }
 
 /**************************************************************************
@@ -2169,8 +2151,8 @@ bool do_airline(struct unit *punit, struct city *city2)
   city1->airlift--;
   city2->airlift--;
 
-  notify_player(unit_owner(punit), city2->tile, E_UNIT_RELOCATED,
-                FTC_SERVER_INFO, NULL,
+  notify_player(unit_owner(punit), city_tile(city2),
+                E_UNIT_RELOCATED, ftc_server,
                 _("%s transported successfully."),
                 unit_link(punit));
 
@@ -2229,7 +2211,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
   struct player *pplayer = unit_owner(punit);
 
   if (!unit_has_type_flag(punit, F_PARATROOPERS)) {
-    notify_player(pplayer, punit->tile, E_BAD_COMMAND, FTC_SERVER_INFO, NULL,
+    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("This unit type can not be paradropped."));
     return FALSE;
   }
@@ -2239,13 +2221,13 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
   }
 
   if (get_transporter_occupancy(punit) > 0) {
-    notify_player(pplayer, punit->tile, E_BAD_COMMAND, FTC_SERVER_INFO, NULL,
+    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("You cannot paradrop a unit that is "
                     "transporting other units."));
   }
 
   if (!map_is_known(ptile, pplayer)) {
-    notify_player(pplayer, ptile, E_BAD_COMMAND, FTC_SERVER_INFO, NULL,
+    notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                   _("The destination location is not known."));
     return FALSE;
   }
@@ -2255,7 +2237,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
                          map_get_player_tile(ptile, pplayer)->terrain,
                          map_get_player_tile(ptile, pplayer)->special,
                          map_get_player_tile(ptile, pplayer)->bases)) {
-    notify_player(pplayer, ptile, E_BAD_COMMAND, FTC_SERVER_INFO, NULL,
+    notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                   _("This unit cannot paradrop into %s."),
                   terrain_name_translation(
                       map_get_player_tile(ptile, pplayer)->terrain));
@@ -2266,7 +2248,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
       && ((tile_city(ptile)
 	  && pplayers_non_attack(pplayer, tile_owner(ptile)))
       || is_non_attack_unit_tile(ptile, pplayer))) {
-    notify_player(pplayer, ptile, E_BAD_COMMAND, FTC_SERVER_INFO, NULL,
+    notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                   _("Cannot attack unless you declare war first."));
     return FALSE;    
   }
@@ -2275,7 +2257,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
     int range = unit_type(punit)->paratroopers_range;
     int distance = real_map_distance(punit->tile, ptile);
     if (distance > range) {
-      notify_player(pplayer, ptile, E_BAD_COMMAND, FTC_SERVER_INFO, NULL,
+      notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                     _("The distance to the target (%i) "
                       "is greater than the unit's range (%i)."),
                     distance, range);
@@ -2286,7 +2268,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
   /* Safe terrain, really? Not transformed since player last saw it. */
   if (!can_unit_exist_at_tile(punit, ptile)) {
     map_show_circle(pplayer, ptile, unit_type(punit)->vision_radius_sq);
-    notify_player(pplayer, ptile, E_UNIT_LOST_MISC, FTC_SERVER_INFO, NULL,
+    notify_player(pplayer, ptile, E_UNIT_LOST_MISC, ftc_server,
                   _("Your %s paradropped into the %s and was lost."),
                   unit_link(punit),
                   terrain_name_translation(tile_terrain(ptile)));
@@ -2298,7 +2280,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
       || is_non_allied_unit_tile(ptile, pplayer)) {
     map_show_circle(pplayer, ptile, unit_type(punit)->vision_radius_sq);
     maybe_make_contact(ptile, pplayer);
-    notify_player(pplayer, ptile, E_UNIT_LOST_MISC, FTC_SERVER_INFO, NULL,
+    notify_player(pplayer, ptile, E_UNIT_LOST_MISC, ftc_server,
                   _("Your %s was killed by enemy units at the "
                     "paradrop destination."),
                   unit_link(punit));
@@ -2327,17 +2309,16 @@ static bool hut_get_limited(struct unit *punit)
   /* 1 in 12 to get barbarians */
   if (hut_chance != 0) {
     int cred = 25;
-    notify_player(pplayer, punit->tile, E_HUT_GOLD, FTC_SERVER_INFO, NULL,
+    notify_player(pplayer, unit_tile(punit), E_HUT_GOLD, ftc_server,
                   _("You found %d gold."), cred);
     pplayer->economic.gold += cred;
   } else if (city_exists_within_city_radius(punit->tile, TRUE)
              || unit_has_type_flag(punit, F_GAMELOSS)) {
-    notify_player(pplayer, punit->tile, E_HUT_BARB_CITY_NEAR,
-                  FTC_SERVER_INFO, NULL,
+    notify_player(pplayer, unit_tile(punit),
+                  E_HUT_BARB_CITY_NEAR, ftc_server,
                   _("An abandoned village is here."));
   } else {
-    notify_player(pplayer, unit_tile(punit), E_HUT_BARB_KILLED,
-                  FTC_SERVER_INFO, NULL,
+    notify_player(pplayer, unit_tile(punit), E_HUT_BARB_KILLED, ftc_server,
                   _("Your %s has been killed by barbarians!"),
                   unit_link(punit));
     wipe_unit(punit);
@@ -2365,7 +2346,7 @@ static void unit_enter_hut(struct unit *punit)
   update_tile_knowledge(punit->tile);
 
   if (behavior == HUT_FRIGHTEN) {
-    notify_player(pplayer, punit->tile, E_HUT_BARB, FTC_SERVER_INFO, NULL,
+    notify_player(pplayer, unit_tile(punit), E_HUT_BARB, ftc_server,
                   _("Your overflight frightens the tribe;"
                     " they scatter in terror."));
     return;
@@ -2594,12 +2575,12 @@ static void wakeup_neighbor_sentries(struct unit *punit)
 	  && ppatrol->orders.vigilant) {
 	if (maybe_cancel_patrol_due_to_enemy(ppatrol)) {
 	  cancel_orders(ppatrol, "  stopping because of nearby enemy");
-	  notify_player(unit_owner(ppatrol), ppatrol->tile, E_UNIT_ORDERS,
-                        FTC_SERVER_INFO, NULL,
-			_("Orders for %s aborted after enemy movement was "
-			  "spotted."),
-			unit_link(ppatrol));
-	}
+          notify_player(unit_owner(ppatrol), unit_tile(ppatrol),
+                        E_UNIT_ORDERS, ftc_server,
+                        _("Orders for %s aborted after enemy movement was "
+                          "spotted."),
+                        unit_link(ppatrol));
+        }
       }
     } unit_list_iterate_end;
   } square_iterate_end;
@@ -3116,8 +3097,7 @@ bool execute_orders(struct unit *punit)
     if (punit->orders.vigilant && maybe_cancel_patrol_due_to_enemy(punit)) {
       /* "Patrol" orders are stopped if an enemy is near. */
       cancel_orders(punit, "  stopping because of nearby enemy");
-      notify_player(pplayer, punit->tile, E_UNIT_ORDERS,
-                    FTC_SERVER_INFO, NULL,
+      notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
                     _("Orders for %s aborted as there are units nearby."),
                     unit_link(punit));
       return TRUE;
@@ -3168,8 +3148,7 @@ bool execute_orders(struct unit *punit)
       if (player_find_unit_by_id(pplayer, unitid)) {
 	/* Build failed. */
 	cancel_orders(punit, " orders canceled; failed to build city");
-	notify_player(pplayer, punit->tile, E_UNIT_ORDERS,
-                      FTC_SERVER_INFO, NULL,
+        notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
                       _("Orders for %s aborted because building "
                         "of city failed."),
                       unit_link(punit));
@@ -3184,13 +3163,12 @@ bool execute_orders(struct unit *punit)
       if ((activity == ACTIVITY_BASE && !can_unit_do_activity_base(punit, base))
           || (activity != ACTIVITY_BASE
               && !can_unit_do_activity(punit, activity))) {
-	cancel_orders(punit, "  orders canceled because of failed activity");
-	notify_player(pplayer, punit->tile, E_UNIT_ORDERS,
-                      FTC_SERVER_INFO, NULL,
+        cancel_orders(punit, "  orders canceled because of failed activity");
+        notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
                       _("Orders for %s aborted since they "
                         "give an invalid activity."),
                       unit_link(punit));
-	return TRUE;
+        return TRUE;
       }
       punit->done_moving = TRUE;
 
@@ -3204,24 +3182,22 @@ bool execute_orders(struct unit *punit)
     case ORDER_MOVE:
       /* Move unit */
       if (!(dst_tile = mapstep(punit->tile, order.dir))) {
-	cancel_orders(punit, "  move order sent us to invalid location");
-	notify_player(pplayer, punit->tile, E_UNIT_ORDERS,
-                      FTC_SERVER_INFO, NULL,
+        cancel_orders(punit, "  move order sent us to invalid location");
+        notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
                       _("Orders for %s aborted since they "
                         "give an invalid location."),
                       unit_link(punit));
-	return TRUE;
+        return TRUE;
       }
 
       if (!last_order
-	  && maybe_cancel_goto_due_to_enemy(punit, dst_tile)) {
-	cancel_orders(punit, "  orders canceled because of enemy");
-	notify_player(pplayer, punit->tile, E_UNIT_ORDERS,
-                      FTC_SERVER_INFO, NULL,
+          && maybe_cancel_goto_due_to_enemy(punit, dst_tile)) {
+        cancel_orders(punit, "  orders canceled because of enemy");
+        notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
                       _("Orders for %s aborted as there "
                         "are units in the way."),
                       unit_link(punit));
-	return TRUE;
+        return TRUE;
       }
 
       freelog(LOG_DEBUG, "  moving to %d,%d",
@@ -3241,13 +3217,12 @@ bool execute_orders(struct unit *punit)
       }
 
       if (!res && punit->moves_left > 0) {
-	/* Movement failed (ZOC, etc.) */
-	cancel_orders(punit, "  attempt to move failed.");
-	notify_player(pplayer, punit->tile, E_UNIT_ORDERS,
-                      FTC_SERVER_INFO, NULL,
+        /* Movement failed (ZOC, etc.) */
+        cancel_orders(punit, "  attempt to move failed.");
+        notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
                       _("Orders for %s aborted because of failed move."),
                       unit_link(punit));
-	return TRUE;
+        return TRUE;
       }
 
       if (!res && punit->moves_left == 0) {
@@ -3283,24 +3258,22 @@ bool execute_orders(struct unit *punit)
       if (tile_city(punit->tile)) {
 	handle_unit_change_homecity(pplayer, unitid, tile_city(punit->tile)->id);
       } else {
-	cancel_orders(punit, "  no homecity");
-	notify_player(pplayer, punit->tile, E_UNIT_ORDERS,
-                      FTC_SERVER_INFO, NULL,
+        cancel_orders(punit, "  no homecity");
+        notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
                       _("Attempt to change homecity for %s failed."),
                       unit_link(punit));
-	return TRUE;
+        return TRUE;
       }
       break;
     case ORDER_TRADEROUTE:
       freelog(LOG_DEBUG, "  orders: establishing trade route.");
       handle_unit_establish_trade(pplayer, unitid);
       if (player_find_unit_by_id(pplayer, unitid)) {
-	cancel_orders(punit, "  no trade route city");
-	notify_player(pplayer, punit->tile, E_UNIT_ORDERS,
-                      FTC_SERVER_INFO, NULL,
+        cancel_orders(punit, "  no trade route city");
+        notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
                       _("Attempt to establish trade route for %s failed."),
                       unit_link(punit));
-	return TRUE;
+        return TRUE;
       } else {
 	return FALSE;
       }
@@ -3308,19 +3281,17 @@ bool execute_orders(struct unit *punit)
       freelog(LOG_DEBUG, "  orders: building wonder");
       handle_unit_help_build_wonder(pplayer, unitid);
       if (player_find_unit_by_id(pplayer, unitid)) {
-	cancel_orders(punit, "  no wonder city");
-	notify_player(pplayer, punit->tile, E_UNIT_ORDERS,
-                      FTC_SERVER_INFO, NULL,
+        cancel_orders(punit, "  no wonder city");
+        notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
                       _("Attempt to build wonder for %s failed."),
                       unit_link(punit));
-	return TRUE;
+        return TRUE;
       } else {
 	return FALSE;
       }
     case ORDER_LAST:
       cancel_orders(punit, "  client sent invalid order!");
-      notify_player(pplayer, punit->tile, E_UNIT_ORDERS,
-                    FTC_SERVER_INFO, NULL,
+      notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
                     _("Your %s has invalid orders."),
                     unit_link(punit));
       return TRUE;

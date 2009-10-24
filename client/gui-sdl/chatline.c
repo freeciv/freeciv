@@ -370,7 +370,7 @@ static int inputline_return_callback(struct widget *pWidget)
     if (theinput && *theinput) {
       send_chat(theinput);
   
-      output_window_append(NULL, NULL, theinput);
+      output_window_append(ftc_any, theinput);
       FC_FREE(theinput);
     }
   }  

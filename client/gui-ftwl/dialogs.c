@@ -61,7 +61,7 @@ void popup_connect_msg(const char *headline, const char *message)
   /* FIXME: Needs proper implementation.
    *        Now just puts to chat window so message is not completely lost. */
 
-  output_window_append(FTC_CLIENT_INFO, NULL, message);
+  output_window_append(ftc_client, message);
 }
 
 /**************************************************************************
@@ -83,7 +83,7 @@ static void connect_callback(struct sw_widget *list, void *data)
   struct nation_leader *leaders = get_nation_leaders(selected_nation, &leader_count);
 
   if (strlen(leaders[leader].name) == 0) {
-    append_output_window(_("You must type a legal name."));
+    output_window_append(ftc_client, _("You must type a legal name."));
     return;
   }
 

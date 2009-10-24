@@ -68,6 +68,35 @@ enum sequence_type {
   ST_SINGLE     /* e.g. [sequence/]. */
 };
 
+/* Predefined colors. */
+#define FT_COLOR(fg, bg) { .foreground = fg, .background = bg }
+struct ft_color ftc_any                 = FT_COLOR(NULL,        NULL);
+
+struct ft_color ftc_warning             = FT_COLOR("#FF0000",   NULL);
+struct ft_color ftc_log                 = FT_COLOR("#7F7F7F",   NULL);
+struct ft_color ftc_server              = FT_COLOR("#8B0000",   NULL);
+struct ft_color ftc_client              = FT_COLOR("#EF7F00",   NULL);
+struct ft_color ftc_editor              = FT_COLOR("#0000FF",   NULL);
+struct ft_color ftc_command             = FT_COLOR("#006400",   NULL);
+struct ft_color ftc_changed             = FT_COLOR("#FF0000",   NULL);
+struct ft_color ftc_server_prompt       = FT_COLOR("#FF0000",   "#BEBEBE");
+struct ft_color ftc_player_lost         = FT_COLOR("#FFFFFF",   "#000000");
+struct ft_color ftc_game_start          = FT_COLOR("#00FF00",   "#115511");
+
+struct ft_color ftc_chat_public         = FT_COLOR("#00008B",   NULL);
+struct ft_color ftc_chat_ally           = FT_COLOR("#551166",   NULL);
+struct ft_color ftc_chat_private        = FT_COLOR("#A020F0",   NULL);
+
+struct ft_color ftc_vote_public         = FT_COLOR("#FFFFFF",   "#AA0000");
+struct ft_color ftc_vote_team           = FT_COLOR("#FFFFFF",   "#5555CC");
+struct ft_color ftc_vote_passed         = FT_COLOR("#006400",   "#AAFFAA");
+struct ft_color ftc_vote_failed         = FT_COLOR("#8B0000",   "#FFAAAA");
+struct ft_color ftc_vote_yes            = FT_COLOR("#000000",   "#C8FFD5");
+struct ft_color ftc_vote_no             = FT_COLOR("#000000",   "#FFD2D2");
+struct ft_color ftc_vote_abstain        = FT_COLOR("#000000",   "#E8E8E8");
+#undef FT_COLOR
+
+
 /**************************************************************************
   Return the long name of the text tag type.
   See also text_tag_type_short_name().
@@ -338,8 +367,9 @@ static bool text_tag_init_from_sequence(struct text_tag *ptag,
   - If the text tag type is TTT_BOLD, TTT_ITALIC, TTT_STRIKE or
   TTT_UNDERLINE, there shouldn't be any extra argument.
   - If the text tag type is TTT_COLOR, then there should be 2 arguments of
-  type 'const char *'.  The first determines the foreground color, the last
-  the background color.  Empty strings and NULL are supported.
+  type 'const char *' or a struct ft_color .  The first determines the
+  foreground color, the last the background color.  Empty strings and NULL
+  are supported.
   - If the text tag type is TTT_LINK, then there should be 2 extra arguments.
   The first is type 'enum text_link_type' and will determine the type of the
   following argument:
@@ -585,14 +615,16 @@ static size_t text_tag_replace_text(const struct text_tag *ptag,
   - If tag_type is TTT_BOLD, TTT_ITALIC, TTT_STRIKE or TTT_UNDERLINE, there
   shouldn't be any extra argument.
   - If tag_type is TTT_COLOR:
-    size_t featured_text_apply_tag(..., const char *foreground,
-                                   const char *background);
+    struct text_tag *text_tag_new(..., const char *foreground,
+                                  const char *background);
+    or
+    struct text_tag *text_tag_new(..., const struct ft_color color);
   - If tag_type is TTT_LINK and you want a city link:
-    size_t featured_text_apply_tag(..., TLT_CITY, struct city *pcity);
+    struct text_tag *text_tag_new(..., TLT_CITY, struct city *pcity);
   - If tag_type is TTT_LINK and you want a tile link:
-    size_t featured_text_apply_tag(..., TLT_TILE, struct tile *ptile);
+    struct text_tag *text_tag_new(..., TLT_TILE, struct tile *ptile);
   - If tag_type is TTT_LINK and you want an unit link:
-    size_t featured_text_apply_tag(..., TLT_UNIT, struct unit *punit);
+    struct text_tag *text_tag_new(..., TLT_UNIT, struct unit *punit);
 
   See also comment for text_tag_initv().
 **************************************************************************/
@@ -946,6 +978,8 @@ size_t featured_text_to_plain_text(const char *featured_text,
   - If tag_type is TTT_COLOR:
     size_t featured_text_apply_tag(..., const char *foreground,
                                    const char *background);
+    or
+    size_t featured_text_apply_tag(..., const struct ft_color color);
   - If tag_type is TTT_LINK and you want a city link:
     size_t featured_text_apply_tag(..., TLT_CITY, struct city *pcity);
   - If tag_type is TTT_LINK and you want a tile link:

@@ -304,7 +304,7 @@ void connect_callback(Widget w, XtPointer client_data,
       popup_start_page();
       return;
     } else {
-      output_window_append(FTC_CLIENT_INFO, NULL, errbuf);
+      output_window_append(ftc_client, errbuf);
     }
   case NEW_PASSWORD_TYPE:
     XtVaGetValues(iinput, XtNstring, &dp, NULL);
@@ -346,7 +346,7 @@ void connect_callback(Widget w, XtPointer client_data,
 static void server_scan_error(struct server_scan *scan,
 			      const char *message)
 {
-  output_window_append(FTC_CLIENT_INFO, NULL, message);
+  output_window_append(ftc_client, message);
   freelog(LOG_NORMAL, "%s", message);
   switch (server_scan_get_type(scan)) {
   case SERVER_SCAN_LOCAL:
@@ -412,7 +412,7 @@ static void server_list_timer(XtPointer meta_list, XtIntervalId * id)
   if (get_server_list(server_list, errbuf, sizeof(errbuf))!=-1)  {
     XawListChange(meta_list, server_list, 0, 0, True);
   } else if (!lan_mode) {
-    output_window_append(FTC_CLIENT_INFO, NULL, errbuf);
+    output_window_append(ftc_client, errbuf);
   }
   num_lanservers_timer++;
 

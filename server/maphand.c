@@ -116,11 +116,11 @@ void global_warming(int effect)
     }
   }
 
-  notify_player(NULL, NULL, E_GLOBAL_ECO, FTC_SERVER_INFO, NULL,
+  notify_player(NULL, NULL, E_GLOBAL_ECO, ftc_server,
                 _("Global warming has occurred!"));
-  notify_player(NULL, NULL, E_GLOBAL_ECO, FTC_SERVER_INFO, NULL,
-		_("Coastlines have been flooded and vast "
-		  "ranges of grassland have become deserts."));
+  notify_player(NULL, NULL, E_GLOBAL_ECO, ftc_server,
+                _("Coastlines have been flooded and vast "
+                  "ranges of grassland have become deserts."));
 }
 
 /**************************************************************************
@@ -160,11 +160,11 @@ void nuclear_winter(int effect)
     }
   }
 
-  notify_player(NULL, NULL, E_GLOBAL_ECO, FTC_SERVER_INFO, NULL,
+  notify_player(NULL, NULL, E_GLOBAL_ECO, ftc_server,
                 _("Nuclear winter has occurred!"));
-  notify_player(NULL, NULL, E_GLOBAL_ECO, FTC_SERVER_INFO, NULL,
-		_("Wetlands have dried up and vast "
-		  "ranges of grassland have become tundra."));
+  notify_player(NULL, NULL, E_GLOBAL_ECO, ftc_server,
+                _("Wetlands have dried up and vast "
+                  "ranges of grassland have become tundra."));
 }
 
 /***************************************************************
@@ -183,17 +183,17 @@ void upgrade_city_rails(struct player *pplayer, bool discovery)
   conn_list_do_buffer(pplayer->connections);
 
   if (discovery) {
-    notify_player(pplayer, NULL, E_TECH_GAIN, FTC_SERVER_INFO, NULL,
-		  _("New hope sweeps like fire through the country as "
-		    "the discovery of railroad is announced.\n"
-		    "      Workers spontaneously gather and upgrade all "
-		    "cities with railroads."));
+    notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
+                  _("New hope sweeps like fire through the country as "
+                    "the discovery of railroad is announced.\n"
+                    "      Workers spontaneously gather and upgrade all "
+                    "cities with railroads."));
   } else {
-    notify_player(pplayer, NULL, E_TECH_GAIN, FTC_SERVER_INFO, NULL,
-		  _("The people are pleased to hear that your "
-		    "scientists finally know about railroads.\n"
-		    "      Workers spontaneously gather and upgrade all "
-		    "cities with railroads."));
+    notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
+                  _("The people are pleased to hear that your "
+                    "scientists finally know about railroads.\n"
+                    "      Workers spontaneously gather and upgrade all "
+                    "cities with railroads."));
   }
   
   city_list_iterate(pplayer->cities, pcity) {
@@ -1428,8 +1428,8 @@ static void bounce_units_on_terrain_change(struct tile *ptile)
 		  nation_rule_name(nation_of_unit(punit)),
 		  unit_rule_name(punit),
 		  TILE_XY(punit->tile));
-	  notify_player(unit_owner(punit), punit->tile, E_UNIT_RELOCATED,
-                        FTC_SERVER_INFO, NULL,
+          notify_player(unit_owner(punit), unit_tile(punit),
+                        E_UNIT_RELOCATED, ftc_server,
                         _("Moved your %s due to changing terrain."),
                         unit_link(punit));
 	  unit_alive = move_unit(punit, ptile2, 0);
@@ -1446,8 +1446,8 @@ static void bounce_units_on_terrain_change(struct tile *ptile)
 		nation_rule_name(nation_of_unit(punit)),
 		unit_rule_name(punit),
 		TILE_XY(punit->tile));
-	notify_player(unit_owner(punit), punit->tile, E_UNIT_LOST_MISC,
-                      FTC_SERVER_INFO, NULL,
+        notify_player(unit_owner(punit), unit_tile(punit),
+                      E_UNIT_LOST_MISC, ftc_server,
                       _("Disbanded your %s due to changing terrain."),
                       unit_link(punit));
 	wipe_unit(punit);

@@ -91,8 +91,7 @@ static void notify(struct player *pplayer, const char *text, ...)
     struct packet_chat_msg packet;
 
     va_start(ap, text);
-    vpackage_event(&packet, NULL, E_DIPLOMACY,
-                   FTC_PRIVATE_MSG, NULL, text, ap);
+    vpackage_event(&packet, NULL, E_DIPLOMACY, ftc_chat_private, text, ap);
     va_end(ap);
 
     lsend_packet_chat_msg(dest, &packet);

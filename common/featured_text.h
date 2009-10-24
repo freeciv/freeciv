@@ -131,16 +131,60 @@ enum text_link_type {
 /* Default maximal link size */
 #define MAX_LEN_LINK    128
 
-/* Some event colors */
-#define FTC_WARNING     "#FF0000"
-#define FTC_LOG         "#7F7F7F"
-#define FTC_SERVER_INFO "#8B0000"
-#define FTC_CLIENT_INFO "#EF7F00"
-#define FTC_EDITOR      "#0000FF"
-#define FTC_COMMAND     "#006400"
-#define FTC_PRIVATE_MSG "#A020F0"
-#define FTC_ALLY_MSG    "#551166"
-#define FTC_PUBLIC_MSG  "#00008B"
+/* Simplification for colors. */
+struct ft_color {
+  const char *foreground;
+  const char *background;
+};
+
+/**************************************************************************
+  Builds a featured text color.
+**************************************************************************/
+static inline struct ft_color ft_color(const char *foreground,
+                                       const char *background)
+{
+  struct ft_color color = {
+    .foreground = foreground,
+    .background = background
+  };
+
+  return color;
+}
+
+/**************************************************************************
+  Returns whether a color is requested.
+**************************************************************************/
+static inline bool ft_color_requested(const struct ft_color color)
+{
+  return ((NULL != color.foreground && '\0' != color.foreground)
+          || (NULL != color.background && '\0' != color.background));
+}
+
+/* Predefined colors. */
+extern struct ft_color ftc_any;
+
+extern struct ft_color ftc_warning;
+extern struct ft_color ftc_log;
+extern struct ft_color ftc_server;
+extern struct ft_color ftc_client;
+extern struct ft_color ftc_editor;
+extern struct ft_color ftc_command;
+extern struct ft_color ftc_changed;
+extern struct ft_color ftc_server_prompt;
+extern struct ft_color ftc_player_lost;
+extern struct ft_color ftc_game_start;
+
+extern struct ft_color ftc_chat_public;
+extern struct ft_color ftc_chat_ally;
+extern struct ft_color ftc_chat_private;
+
+extern struct ft_color ftc_vote_public;
+extern struct ft_color ftc_vote_team;
+extern struct ft_color ftc_vote_passed;
+extern struct ft_color ftc_vote_failed;
+extern struct ft_color ftc_vote_yes;
+extern struct ft_color ftc_vote_no;
+extern struct ft_color ftc_vote_abstain;
 
 /* Main functions. */
 size_t featured_text_to_plain_text(const char *featured_text,
