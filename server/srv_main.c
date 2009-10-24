@@ -410,10 +410,10 @@ void send_all_info(struct conn_list *dest, bool force)
   /* Resend player info because it could have more infos (e.g. embassy). */
   send_player_info_c(NULL, dest);
   send_map_info(dest);
-  send_spaceship_info(NULL, dest);
   send_all_known_tiles(dest, force);
   send_all_known_cities(dest);
   send_all_known_units(dest);
+  send_spaceship_info(NULL, dest);
   send_player_turn_notifications(dest);
 }
 
