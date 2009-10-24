@@ -62,6 +62,7 @@
 #include "pages_g.h"
 #include "plrdlg_g.h"
 #include "repodlgs_g.h"
+#include "voteinfo_bar_g.h"
 
 /* client */
 #include "agents.h"
@@ -677,6 +678,7 @@ void set_client_state(enum client_states newstate)
     free_intro_radar_sprites();
     agents_game_start();
     editgui_tileset_changed();
+    voteinfo_gui_update();
 
     refresh_overview_canvas();
 

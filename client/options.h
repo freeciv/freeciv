@@ -58,6 +58,11 @@ extern bool separate_unit_selection;
 extern bool unit_selection_clears_orders;
 extern char highlight_our_names[128];
 
+extern bool voteinfo_bar_use;
+extern bool voteinfo_bar_always_show;
+extern bool voteinfo_bar_hide_when_not_player;
+extern bool voteinfo_bar_new_at_front;
+
 extern bool draw_city_outlines;
 extern bool draw_city_output;
 extern bool draw_map_grid;

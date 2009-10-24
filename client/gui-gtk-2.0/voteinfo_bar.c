@@ -221,18 +221,13 @@ void voteinfo_gui_update(void)
     return;
   }
 
-  if (voteinfo_queue == NULL) {
+  if (!voteinfo_bar_can_be_shown()) {
     gtk_widget_hide_all(vib->box);
     return;
   }
 
-  vote_count = voteinfo_list_size(voteinfo_queue);
+  vote_count = voteinfo_queue_size();
   vi = voteinfo_queue_get_current(&index);
-
-  if (vote_count <= 0 || vi == NULL) {
-    gtk_widget_hide_all(vib->box);
-    return;
-  }
 
   if (vi != NULL && vi->resolved && vi->passed) {
     /* TRANS: Describing a vote that passed. */
