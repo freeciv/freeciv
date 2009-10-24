@@ -1741,7 +1741,7 @@ static const char *get_tile_change_menu_text(struct tile *ptile,
 /****************************************************************
   Updates the menus.
 *****************************************************************/
-void update_menus(void)
+static gboolean update_menus_callback(gpointer data)
 {
   GtkActionGroup *safe_group;
   GtkActionGroup *edit_group;
@@ -1753,8 +1753,10 @@ void update_menus(void)
   char irrtext[128], mintext[128], transtext[128];
   struct terrain *pterrain;
 
+  /* Remove GSource id. */
+  *((guint *) data) = 0;
   if (!ui_manager) {
-    return;
+    return FALSE;
   }
 
   safe_group = get_safe_group();
@@ -1781,7 +1783,7 @@ void update_menus(void)
     gtk_action_group_set_sensitive(unit_group, FALSE);
     gtk_action_group_set_sensitive(player_group, FALSE);
     gtk_action_group_set_sensitive(playing_group, FALSE);
-    return;
+    return FALSE;
   }
 
   if (get_num_units_in_focus() > 0) {
@@ -1933,7 +1935,7 @@ void update_menus(void)
   /* Remaining part of this function: Update Unit, Work, and Combat menus */
 
   if (!can_client_issue_orders() || !punits) {
-    return;
+    return FALSE;
   }
 
   /* Enable the button for adding to a city in all cases, so we
@@ -2101,5 +2103,19 @@ void update_menus(void)
     menus_rename(unit_group, "CLEAN_POLLUTION", _("Drop _Paratrooper"));
   } else {
     menus_rename(unit_group, "CLEAN_POLLUTION", _("Clean _Pollution"));
+  }
+
+  return FALSE;
+}
+
+/****************************************************************
+  Updates the menus.
+*****************************************************************/
+void update_menus(void)
+{
+  static guint callback_id = 0;
+
+  if (NULL != ui_manager && 0 == callback_id) {
+    callback_id = g_idle_add(update_menus_callback, &callback_id);
   }
 }
