@@ -52,16 +52,9 @@ struct voteinfo *voteinfo_queue_find(int vote_no);
 void voteinfo_do_vote(int vote_no, enum client_vote_type vote);
 struct voteinfo *voteinfo_queue_get_current(int *pindex);
 void voteinfo_queue_next(void);
+int voteinfo_queue_size(void);
 
-/* Define struct voteinfo_list type. */
-#define SPECLIST_TAG voteinfo
-#define SPECLIST_TYPE struct voteinfo
-#include "speclist.h"
-#define voteinfo_list_iterate(alist, pitem)\
-  TYPED_LIST_ITERATE(struct voteinfo, alist, pitem)
-#define voteinfo_list_iterate_end  LIST_ITERATE_END
-
-extern struct voteinfo_list *voteinfo_queue;
+bool voteinfo_bar_can_be_shown(void);
 
 #endif /* FC__VOTEINFO_H */
 

@@ -29,11 +29,20 @@
 /* client */
 #include "client_main.h"
 #include "clinet.h"
+#include "options.h"
 
 #include "voteinfo.h"
 
 
-struct voteinfo_list *voteinfo_queue = NULL;
+/* Define struct voteinfo_list type. */
+#define SPECLIST_TAG voteinfo
+#define SPECLIST_TYPE struct voteinfo
+#include "speclist.h"
+#define voteinfo_list_iterate(alist, pitem)\
+  TYPED_LIST_ITERATE(struct voteinfo, alist, pitem)
+#define voteinfo_list_iterate_end  LIST_ITERATE_END
+
+static struct voteinfo_list *voteinfo_queue = NULL;
 static int voteinfo_queue_current_index = 0;
 
 
@@ -133,7 +142,12 @@ void voteinfo_queue_add(int vote_no, const char *user, const char *desc,
   vi->percent_required = percent_required;
   vi->flags = flags;
 
-  voteinfo_list_append(voteinfo_queue, vi);
+  if (voteinfo_bar_new_at_front) {
+    voteinfo_list_prepend(voteinfo_queue, vi);
+    voteinfo_queue_current_index = 0;
+  } else {
+    voteinfo_list_append(voteinfo_queue, vi);
+  }
 }
 
 /**************************************************************************
@@ -273,5 +287,28 @@ void voteinfo_queue_next(void)
   if (voteinfo_queue_current_index >= size) {
     voteinfo_queue_current_index = 0;
   }
+}
+
+/**************************************************************************
+  Returns the number of pending votes.
+**************************************************************************/
+int voteinfo_queue_size(void)
+{
+  return (NULL != voteinfo_queue ? voteinfo_list_size(voteinfo_queue) : 0);
+}
+
+/**************************************************************************
+  Returns whether the voteinfo bar should be displayed or not.
+**************************************************************************/
+bool voteinfo_bar_can_be_shown(void)
+{
+  return (NULL != voteinfo_queue
+          && voteinfo_bar_use
+          && (voteinfo_bar_always_show
+              || (0 < voteinfo_list_size(voteinfo_queue)
+                  && NULL != voteinfo_queue_get_current(NULL)))
+          && (!voteinfo_bar_hide_when_not_player
+              || (client_has_player()
+                  && !client_is_observer())));
 }
 

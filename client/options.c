@@ -39,6 +39,7 @@
 #include "dialogs_g.h"
 #include "gui_main_g.h"
 #include "menu_g.h"
+#include "voteinfo_bar_g.h"
 
 /* client */
 #include "audio.h"
@@ -336,6 +337,11 @@ bool separate_unit_selection = FALSE;
 bool unit_selection_clears_orders = TRUE;
 char highlight_our_names[128] = "yellow";
 
+bool voteinfo_bar_use = TRUE;
+bool voteinfo_bar_always_show = FALSE;
+bool voteinfo_bar_hide_when_not_player = FALSE;
+bool voteinfo_bar_new_at_front = FALSE;
+
 /* This option is currently set by the client - not by the user. */
 bool update_city_text_in_refresh_tile = TRUE;
 
@@ -410,6 +416,7 @@ static bool options_fully_initialized = FALSE;
 static void reqtree_show_icons_callback(struct client_option *option);
 static void view_option_changed_callback(struct client_option *option);
 static void mapview_redraw_callback(struct client_option *option);
+static void voteinfo_bar_callback(struct client_option *option);
 
 static struct client_option options[] = {
   GEN_STR_OPTION(default_user_name,
@@ -721,6 +728,24 @@ static struct client_option options[] = {
                      "their orders will be cleared only when new orders "
                      "are given or if you press <space>."),
                   COC_INTERFACE, GUI_LAST, TRUE, NULL),
+  GEN_BOOL_OPTION(voteinfo_bar_use, N_("Enable vote bar"),
+                  N_("If this option is turned on, the vote bar will be "
+                     "displayed to show vote information."),
+                  COC_GRAPHICS, GUI_LAST, TRUE, voteinfo_bar_callback),
+  GEN_BOOL_OPTION(voteinfo_bar_always_show, N_("Always display the vote bar"),
+                  N_("If this option is turned on, the vote bar will never "
+                     "be hiden, notably when there won't be any running "
+                     "vote."),
+                  COC_GRAPHICS, GUI_LAST, FALSE, voteinfo_bar_callback),
+  GEN_BOOL_OPTION(voteinfo_bar_hide_when_not_player,
+                  N_("Do not show vote bar if not a player"),
+                  N_("If this option is enabled, the client won't show the "
+                     "vote bar if you are not a player."),
+                  COC_GRAPHICS, GUI_LAST, FALSE, voteinfo_bar_callback),
+  GEN_BOOL_OPTION(voteinfo_bar_new_at_front, N_("Set new votes at front"),
+                  N_("If this option is enabled, then the new votes will go "
+                     "to the front of the vote list"),
+                  COC_GRAPHICS, GUI_LAST, FALSE, voteinfo_bar_callback),
 
   GEN_BOOL_OPTION(overview.layers[OLAYER_BACKGROUND],
                   N_("Background layer"),
@@ -1943,4 +1968,12 @@ static void view_option_changed_callback(struct client_option *option)
 {
   update_menus();
   update_map_canvas_visible();
+}
+
+/****************************************************************************
+  Callback for when any voeinfo bar option is changed.
+****************************************************************************/
+static void voteinfo_bar_callback(struct client_option *option)
+{
+  voteinfo_gui_update();
 }
