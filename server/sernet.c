@@ -207,8 +207,6 @@ void close_connection(struct connection *pconn)
 
   cancel_connection_votes(pconn);
 
-  cancel_connection_votes(pconn);
-
   if (pconn->server.ping_timers != NULL) {
     timer_list_iterate(pconn->server.ping_timers, timer) {
       free_timer(timer);
