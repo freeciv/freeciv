@@ -72,35 +72,6 @@ void restore_access_level(struct connection *pconn)
 }
 
 /**************************************************************************
-  Send all packets that needs the connection to handle our server state.
-**************************************************************************/
-static void send_state_specific_packets(struct connection *pconn)
-{
-  /* Initial packets don't need to be resent.  See comment for
-   * connecthand.c::establish_new_connection(). */
-  switch (server_state()) {
-  case S_S_RUNNING:
-    send_packet_freeze_hint(pconn);
-    send_all_info(pconn->self, TRUE);
-    send_diplomatic_meetings(pconn);
-    send_packet_thaw_hint(pconn);
-    dsend_packet_start_phase(pconn, game.info.phase);
-    break;
-
-  case S_S_OVER:
-    send_packet_freeze_hint(pconn);
-    send_all_info(pconn->self, TRUE);
-    send_packet_thaw_hint(pconn);
-    report_final_scores(pconn->self);
-    break;
-
-  case S_S_INITIAL:
-  case S_S_GENERATING_WAITING:
-    break;
-  }
-}
-
-/**************************************************************************
   This is used when a new player joins a server, before the game
   has started.  If pconn is NULL, is an AI, else a client.
 
@@ -186,7 +157,6 @@ void establish_new_connection(struct connection *pconn)
       send_player_info_c(NULL, dest);
     }
     send_conn_info(game.est_connections, dest);
-    send_state_specific_packets(pconn);
 
   } else {
     if (S_S_INITIAL == server_state() && game.info.is_new_game) {
@@ -556,8 +526,28 @@ bool connection_attach(struct connection *pconn, struct player *pplayer,
   send_conn_info(pconn->self, game.est_connections);    /* Client side. */
   conn_clear_packet_cache(pconn);                       /* Server side. */
 
-  /* Send new infos. */
-  send_state_specific_packets(pconn);
+  /* Initial packets don't need to be resent.  See comment for
+   * connecthand.c::establish_new_connection(). */
+  switch (server_state()) {
+  case S_S_RUNNING:
+    send_packet_freeze_hint(pconn);
+    send_all_info(pconn->self, TRUE);
+    send_diplomatic_meetings(pconn);
+    send_packet_thaw_hint(pconn);
+    dsend_packet_start_phase(pconn, game.info.phase);
+    break;
+
+  case S_S_OVER:
+    send_packet_freeze_hint(pconn);
+    send_all_info(pconn->self, TRUE);
+    send_packet_thaw_hint(pconn);
+    report_final_scores(pconn->self);
+    break;
+
+  case S_S_INITIAL:
+  case S_S_GENERATING_WAITING:
+    break;
+  }
 
   return TRUE;
 }
