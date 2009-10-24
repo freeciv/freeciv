@@ -69,9 +69,8 @@ static void players_meet(int player_index)
     dsend_packet_diplomacy_init_meeting_req(&client.conn, player_index);
 
   } else {
-    output_window_append(FTC_CLIENT_INFO, NULL,
-                         _("You need an embassy to "
-                           "establish a diplomatic meeting."));
+    output_window_append(ftc_client, _("You need an embassy to "
+                                       "establish a diplomatic meeting."));
   }
 }
 

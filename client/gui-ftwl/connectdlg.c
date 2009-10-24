@@ -63,7 +63,7 @@ static void connect_callback(void)
     te_destroy_screen(screen);
     screen = NULL;
   } else {
-    output_window_append(FTC_CLIENT_INFO, NULL, errbuf);
+    output_window_append(ftc_client, errbuf);
   }
 }
 

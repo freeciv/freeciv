@@ -954,7 +954,7 @@ void diplodlg_key_gold(Widget w)
 					       CLAUSE_GOLD, amount);
       XtVaSetValues(w, XtNstring, "", NULL);
     } else {
-      output_window_append(FTC_CLIENT_INFO, NULL,
+      output_window_append(ftc_client,
                            _("Invalid amount of gold specified."));
     }
   }

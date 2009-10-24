@@ -662,8 +662,7 @@ void set_client_state(enum client_states newstate)
 
     init_city_report_game_data();
     options_load_ruleset_specific();
-    create_event(NULL, E_GAME_START, FTC_CLIENT_INFO, NULL,
-                 _("Game started."));
+    create_event(NULL, E_GAME_START, ftc_client, _("Game started."));
     precalc_tech_data();
     if (pplayer) {
       player_research_update(pplayer);

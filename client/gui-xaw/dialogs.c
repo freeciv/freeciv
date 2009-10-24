@@ -400,7 +400,7 @@ void popup_connect_msg(const char *headline, const char *message)
   /* FIXME: Needs proper implementation.
    *        Now just puts to chat window so message is not completely lost. */
 
-  output_window_append(FTC_SERVER_INFO, NULL, message);
+  output_window_append(ftc_client, message);
 }
 
 /****************************************************************
@@ -1505,20 +1505,17 @@ void races_ok_command_callback(Widget w, XtPointer client_data,
   XtPointer dp;
 
   if((selected_index=races_buttons_get_current())==-1) {
-    output_window_append(FTC_CLIENT_INFO, NULL,
-                         _("You must select a nation."));
+    output_window_append(ftc_client, _("You must select a nation."));
     return;
   }
 
   if((selected_sex=races_sex_buttons_get_current())==-1) {
-    output_window_append(FTC_CLIENT_INFO, NULL,
-                         _("You must select your sex."));
+    output_window_append(ftc_client, _("You must select your sex."));
     return;
   }
 
   if((selected_style=races_style_buttons_get_current())==-1) {
-    output_window_append(FTC_CLIENT_INFO, NULL,
-                         _("You must select your city style."));
+    output_window_append(ftc_client, _("You must select your city style."));
     return;
   }
 
@@ -1526,8 +1523,7 @@ void races_ok_command_callback(Widget w, XtPointer client_data,
 
   /* perform a minimum of sanity test on the name */
   if (strlen(dp) == 0) {
-    output_window_append(FTC_CLIENT_INFO, NULL,
-                         _("You must type a legal name."));
+    output_window_append(ftc_client, _("You must type a legal name."));
     return;
   }
 

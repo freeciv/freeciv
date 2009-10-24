@@ -268,8 +268,7 @@ bool check_for_game_over(void)
   } players_iterate_end;
   if (winners) {
     /* TRANS: There can be several winners listed */
-    notify_conn(game.est_connections, NULL, E_GAME_END,
-                FTC_SERVER_INFO, NULL,
+    notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
                 _("Scenario victory to %s."), str.str);
     ggz_report_victory();
     return TRUE;
@@ -277,9 +276,8 @@ bool check_for_game_over(void)
 
   /* quit if we are past the turn limit */
   if (game.info.turn > game.info.end_turn) {
-    notify_conn(game.est_connections, NULL, E_GAME_END,
-                FTC_SERVER_INFO, NULL,
-		_("Game ended in a draw as end turn exceeded"));
+    notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
+                _("Game ended in a draw as end turn exceeded"));
     ggz_report_victory();
     return TRUE;
   }
@@ -311,7 +309,7 @@ bool check_for_game_over(void)
     bool loner = TRUE;
     victor = spacer;
  
-    notify_player(NULL, NULL, E_SPACESHIP, FTC_SERVER_INFO, NULL,
+    notify_player(NULL, NULL, E_SPACESHIP, ftc_server,
                   _("The %s spaceship has arrived at Alpha Centauri."),
                   nation_adjective_for_player(victor));
 
@@ -329,7 +327,7 @@ bool check_for_game_over(void)
     } players_iterate_end;
 
     if (!loner) {
-      notify_conn(NULL, NULL, E_GAME_END, FTC_SERVER_INFO, NULL,
+      notify_conn(NULL, NULL, E_GAME_END, ftc_server,
                   _("Team victory to %s"),
                   team_name_translation(victor->team));
       players_iterate(pplayer) {
@@ -339,7 +337,7 @@ bool check_for_game_over(void)
       } players_iterate_end;
       ggz_report_victory();
     } else {
-      notify_conn(NULL, NULL, E_GAME_END, FTC_SERVER_INFO, NULL,
+      notify_conn(NULL, NULL, E_GAME_END, ftc_server,
                   _("Game ended in victory for %s"),
                   player_name(victor));
       ggz_report_victor(victor);
@@ -364,10 +362,9 @@ bool check_for_game_over(void)
       }
     } players_iterate_end;
     if (win) {
-      notify_conn(game.est_connections, NULL, E_GAME_END,
-                  FTC_SERVER_INFO, NULL,
-		  _("Team victory to %s"),
-		  team_name_translation(pteam));
+      notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
+                  _("Team victory to %s"),
+                  team_name_translation(pteam));
       players_iterate(pplayer) {
 	if (pplayer->is_alive
 	    && !pplayer->surrendered) {
@@ -381,16 +378,14 @@ bool check_for_game_over(void)
 
   /* quit if only one player is left alive */
   if (alive == 1) {
-    notify_conn(game.est_connections, NULL, E_GAME_END,
-                FTC_SERVER_INFO, NULL,
-		_("Game ended in victory for %s"),
-		player_name(victor));
+    notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
+                _("Game ended in victory for %s"),
+                player_name(victor));
     ggz_report_victor(victor);
     ggz_report_victory();
     return TRUE;
   } else if (alive == 0) {
-    notify_conn(game.est_connections, NULL, E_GAME_END,
-                FTC_SERVER_INFO, NULL,
+    notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
                 _("Game ended in a draw"));
     ggz_report_victory();
     return TRUE;
@@ -507,7 +502,7 @@ static void remove_illegal_armistice_units(struct player *plr1,
   unit_list_iterate_safe(plr1->units, punit) {
     if (tile_owner(punit->tile) == plr2
         && is_military_unit(punit)) {
-      notify_player(plr1, punit->tile, E_DIPLOMACY, FTC_SERVER_INFO, NULL,
+      notify_player(plr1, punit->tile, E_DIPLOMACY, ftc_server,
                     _("Your %s was disbanded in accordance with "
                       "your peace treaty with the %s."),
                     unit_link(punit),
@@ -518,7 +513,7 @@ static void remove_illegal_armistice_units(struct player *plr1,
   unit_list_iterate_safe(plr2->units, punit) {
     if (tile_owner(punit->tile) == plr1
         && is_military_unit(punit)) {
-      notify_player(plr2, punit->tile, E_DIPLOMACY, FTC_SERVER_INFO, NULL,
+      notify_player(plr2, punit->tile, E_DIPLOMACY, ftc_server,
                     _("Your %s was disbanded in accordance with "
                       "your peace treaty with the %s."),
                     unit_link(punit),
@@ -557,22 +552,22 @@ static void update_diplomatics(void)
         state->turns_left--;
         switch(state->turns_left) {
         case 1:
-          notify_player(plr1, NULL, E_DIPLOMACY, FTC_SERVER_INFO, NULL,
+          notify_player(plr1, NULL, E_DIPLOMACY, ftc_server,
                         _("Concerned citizens point out that the cease-fire "
                           "with %s will run out soon."),
                         player_name(plr2));
-          notify_player(plr2, NULL, E_DIPLOMACY, FTC_SERVER_INFO, NULL,
+          notify_player(plr2, NULL, E_DIPLOMACY, ftc_server,
                         _("Concerned citizens point out that the cease-fire "
                           "with %s will run out soon."),
                         player_name(plr1));
           break;
         case 0:
-          notify_player(plr1, NULL, E_DIPLOMACY, FTC_SERVER_INFO, NULL,
+          notify_player(plr1, NULL, E_DIPLOMACY, ftc_server,
                         _("The cease-fire with %s has run out. "
                           "You are now at war with the %s."),
                         player_name(plr2),
                         nation_plural_for_player(plr2));
-          notify_player(plr2, NULL, E_DIPLOMACY, FTC_SERVER_INFO, NULL,
+          notify_player(plr2, NULL, E_DIPLOMACY, ftc_server,
                         _("The cease-fire with %s has run out. "
                           "You are now at war with the %s."),
                         player_name(plr1),
@@ -590,8 +585,7 @@ static void update_diplomatics(void)
             if (plr3->is_alive && plr3 != plr1 && plr3 != plr2
                 && pplayers_allied(plr3, plr1)
                 && pplayers_allied(plr3, plr2)) {
-              notify_player(plr3, NULL, E_TREATY_BROKEN,
-                            FTC_SERVER_INFO, NULL,
+              notify_player(plr3, NULL, E_TREATY_BROKEN, ftc_server,
                             _("Ceasefire between %s and %s has run out. "
                               "They are at war. You cancel your alliance "
                               "with both."),
@@ -1088,7 +1082,7 @@ void save_game(char *orig_filename, const char *save_reason, bool scenario)
     default:
       freelog(LOG_ERROR, _("Unsupported compression type %d"),
               game.info.save_compress_type);
-      notify_conn(NULL, NULL, E_SETTING, FTC_WARNING, NULL,
+      notify_conn(NULL, NULL, E_SETTING, ftc_warning,
                   _("Unsupported compression type %d"),
                   game.info.save_compress_type);
       break;
@@ -1159,10 +1153,10 @@ void start_game(void)
   /* Remove ALLOW_CTRL from whoever has it (gotten from 'first'). */
   conn_list_iterate(game.est_connections, pconn) {
     if (pconn->access_level == ALLOW_CTRL) {
-      notify_conn(NULL, NULL, E_SETTING, FTC_SERVER_INFO, NULL,
-		  _("%s lost control cmdlevel on "
-		    "game start.  Use voting from now on."),
-		  pconn->username);
+      notify_conn(NULL, NULL, E_SETTING, ftc_server,
+                  _("%s lost control cmdlevel on "
+                    "game start.  Use voting from now on."),
+                  pconn->username);
       pconn->access_level = ALLOW_BASIC;
     }
   } conn_list_iterate_end;
@@ -1236,8 +1230,8 @@ void handle_report_req(struct connection *pconn, enum report_type type)
     return;
   }
 
-  notify_conn(dest, NULL, E_BAD_COMMAND, FTC_SERVER_INFO, NULL,
-	      _("request for unknown report (type %d)"), type);
+  notify_conn(dest, NULL, E_BAD_COMMAND, ftc_server,
+              _("request for unknown report (type %d)"), type);
 }
 
 /**************************************************************************
@@ -1381,7 +1375,7 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
      * that the client is allowed to send the given edit packet. */
     if (is_client_edit_packet(type) && type != PACKET_EDIT_MODE
         && !can_conn_edit(pconn)) {
-      notify_conn(pconn->self, NULL, E_BAD_COMMAND, FTC_EDITOR, NULL,
+      notify_conn(pconn->self, NULL, E_BAD_COMMAND, ftc_editor,
                   _("You are not allowed to edit."));
       return TRUE;
     }
@@ -1675,37 +1669,35 @@ void handle_nation_select_req(struct connection *pc,
     }
 
     if (!new_nation->is_available) {
-      notify_conn(pplayer->connections, NULL, E_NATION_SELECTED,
-                  FTC_SERVER_INFO, NULL,
-		  _("%s nation is not available in this scenario."),
-		  nation_adjective_translation(new_nation));
+      notify_conn(pplayer->connections, NULL, E_NATION_SELECTED, ftc_server,
+                  _("%s nation is not available in this scenario."),
+                  nation_adjective_translation(new_nation));
       return;
     }
     if (new_nation->player && new_nation->player != pplayer) {
-      notify_conn(pplayer->connections, NULL, E_NATION_SELECTED,
-                  FTC_SERVER_INFO, NULL,
-		  _("%s nation is already in use."),
-		  nation_adjective_translation(new_nation));
+      notify_conn(pplayer->connections, NULL, E_NATION_SELECTED, ftc_server,
+                  _("%s nation is already in use."),
+                  nation_adjective_translation(new_nation));
       return;
     }
 
     remove_leading_trailing_spaces(name);
 
     if (!is_allowed_player_name(pplayer, new_nation, name,
-				message, sizeof(message))) {
+                                message, sizeof(message))) {
       notify_conn(pplayer->connections, NULL, E_NATION_SELECTED,
-                  FTC_SERVER_INFO, NULL, "%s", message);
+                  ftc_server, "%s", message);
       return;
     }
 
     name[0] = my_toupper(name[0]);
     sz_strlcpy(pplayer->name, name);
 
-    notify_conn(NULL, NULL, E_NATION_SELECTED, FTC_SERVER_INFO, NULL,
-		_("%s is the %s ruler %s."),
-		pplayer->username,
-		nation_adjective_translation(new_nation),
-		player_name(pplayer));
+    notify_conn(NULL, NULL, E_NATION_SELECTED, ftc_server,
+                _("%s is the %s ruler %s."),
+                pplayer->username,
+                nation_adjective_translation(new_nation),
+                player_name(pplayer));
 
     pplayer->is_male = is_male;
     pplayer->city_style = city_style;
@@ -1757,10 +1749,10 @@ void handle_player_ready(struct player *requestor,
       }
     } players_iterate_end;
     if (num_unready > 0) {
-      notify_conn(NULL, NULL, E_SETTING, FTC_SERVER_INFO, NULL,
-		  _("Waiting to start game: %d out of %d players "
-		    "are ready to start."),
-		  num_ready, num_ready + num_unready);
+      notify_conn(NULL, NULL, E_SETTING, ftc_server,
+                  _("Waiting to start game: %d out of %d players "
+                    "are ready to start."),
+                  num_ready, num_ready + num_unready);
     } else {
       /* Check minplayers etc. and then start */
       start_command(NULL, FALSE, TRUE);
@@ -1828,10 +1820,10 @@ void aifill(int amount)
 	    _("%s has been added as %s level AI-controlled player."),
             player_name(pplayer),
 	    ai_level_name(pplayer->ai_data.skill_level));
-    notify_conn(NULL, NULL, E_SETTING, FTC_SERVER_INFO, NULL,
-		_("%s has been added as %s level AI-controlled player."),
-		player_name(pplayer),
-		ai_level_name(pplayer->ai_data.skill_level));
+    notify_conn(NULL, NULL, E_SETTING, ftc_server,
+                _("%s has been added as %s level AI-controlled player."),
+                player_name(pplayer),
+                ai_level_name(pplayer->ai_data.skill_level));
 
     send_player_info(pplayer, NULL);
   }
@@ -1967,10 +1959,10 @@ static void announce_player (struct player *pplayer)
 	   nation_plural_for_player(pplayer));
 
   players_iterate(other_player) {
-    notify_player(other_player, NULL, E_GAME_START, FTC_SERVER_INFO, NULL,
-		  _("%s rules the %s."),
-		  player_name(pplayer),
-		  nation_plural_for_player(pplayer));
+    notify_player(other_player, NULL, E_GAME_START, ftc_server,
+                  _("%s rules the %s."),
+                  player_name(pplayer),
+                  nation_plural_for_player(pplayer));
   } players_iterate_end;
 }
 
@@ -2188,7 +2180,7 @@ static void srv_scores(void)
 
   report_final_scores(NULL);
   show_map_to_all();
-  notify_player(NULL, NULL, E_GAME_END, FTC_SERVER_INFO, NULL,
+  notify_player(NULL, NULL, E_GAME_END, ftc_server,
                 _("The game is over..."));
   send_server_info_to_metaserver(META_INFO);
 

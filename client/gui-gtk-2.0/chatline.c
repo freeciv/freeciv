@@ -296,8 +296,7 @@ void inputline_make_chat_link(struct tile *ptile, bool unit)
   if (unit) {
     punit = find_visible_unit(ptile);
     if (!punit) {
-      output_window_append(FTC_CLIENT_INFO, NULL,
-                           _("No visible unit on this tile."));
+      output_window_append(ftc_client, _("No visible unit on this tile."));
       return;
     }
   } else {
@@ -444,8 +443,7 @@ static gboolean event_after(GtkWidget *text_view, GdkEventButton *event)
             if (pcity) {
               ptile = city_tile(pcity);
             } else {
-              output_window_append(FTC_CLIENT_INFO, NULL,
-                                   _("This city isn't known!"));
+              output_window_append(ftc_client, _("This city isn't known!"));
             }
           }
           break;
@@ -453,7 +451,7 @@ static gboolean event_after(GtkWidget *text_view, GdkEventButton *event)
           ptile = index_to_tile(id);
 
           if (!ptile) {
-            output_window_append(FTC_CLIENT_INFO, NULL,
+            output_window_append(ftc_client,
                                  _("This tile doesn't exist in this game!"));
           }
           break;
@@ -464,8 +462,7 @@ static gboolean event_after(GtkWidget *text_view, GdkEventButton *event)
             if (punit) {
               ptile = unit_tile(punit);
             } else {
-              output_window_append(FTC_CLIENT_INFO, NULL,
-                                   _("This unit isn't known!"));
+              output_window_append(ftc_client, _("This unit isn't known!"));
             }
           }
           break;

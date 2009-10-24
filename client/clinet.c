@@ -136,8 +136,7 @@ static void close_socket_callback(struct connection *pc)
   /* If we lost connection to the internal server - kill him */
   client_kill_server(TRUE);
   freelog(LOG_ERROR, "Lost connection to server!");
-  output_window_append(FTC_CLIENT_INFO, NULL,
-                       _("Lost connection to server!"));
+  output_window_append(ftc_client, _("Lost connection to server!"));
   if (with_ggz) {
     client_exit();
   }
@@ -279,8 +278,7 @@ void disconnect_from_server(void)
   if (force) {
     client_kill_server(TRUE);
   }
-  output_window_append(FTC_CLIENT_INFO, NULL,
-                       _("Disconnected from server."));
+  output_window_append(ftc_client, _("Disconnected from server."));
   if (with_ggz) {
     client_exit();
   }
@@ -482,9 +480,8 @@ double try_to_autoconnect(void)
     if (!warning_shown) {
       freelog(LOG_ERROR, "Connection to server refused. "
                          "Please start the server.");
-      output_window_append(FTC_CLIENT_INFO, NULL,
-                           _("Connection to server refused. "
-                             "Please start the server."));
+      output_window_append(ftc_client, _("Connection to server refused. "
+                                         "Please start the server."));
       warning_shown = 1;
     }
     /* Try again in 0.5 seconds */
@@ -510,7 +507,7 @@ void start_autoconnecting_to_server(void)
 {
   char buf[512];
 
-  output_window_printf(FTC_CLIENT_INFO, NULL,
+  output_window_printf(ftc_client,
                        _("Auto-connecting to server \"%s\" at port %d "
                          "as \"%s\" every %f second(s) for %d times"),
                        server_host, server_port, user_name,

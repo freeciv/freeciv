@@ -13,9 +13,12 @@
 #ifndef FC__CLIMISC_H
 #define FC__CLIMISC_H
 
-#include "shared.h"		/* MAX_LEN_NAME */
+/* utility */
+#include "shared.h"             /* MAX_LEN_NAME */
 
+/* common */
 #include "fc_types.h"
+#include "featured_text.h"      /* struct ft_color */
 #include "events.h"
 #include "unittype.h"
 #include "unitlist.h"
@@ -97,11 +100,10 @@ int num_present_units_in_city(struct city* pcity);
 int num_supported_units_in_city(struct city* pcity);	
 
 void handle_event(const char *featured_text, struct tile *ptile,
-		  enum event_type event, int conn_id);
+                  enum event_type event, int conn_id);
 void create_event(struct tile *ptile, enum event_type event,
-                  const char *fg_color, const char *bg_color,
-                  const char *format, ...)
-     fc__attribute((__format__ (__printf__, 5, 6)));
+                  const struct ft_color color, const char *format, ...)
+                  fc__attribute((__format__ (__printf__, 4, 5)));
 void write_chatline_content(const char *txt);
 
 void reports_freeze(void);

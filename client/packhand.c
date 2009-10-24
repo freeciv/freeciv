@@ -255,7 +255,7 @@ void handle_server_join_reply(bool you_can_join, char *message,
 
     set_client_state(C_S_PREPARING);
   } else {
-    output_window_printf(FTC_SERVER_INFO, NULL,
+    output_window_printf(ftc_client,
                          _("You were rejected from the game: %s"), message);
     client.conn.id = -1; /* not in range of conn_info id */
 
@@ -271,10 +271,10 @@ void handle_server_join_reply(bool you_can_join, char *message,
   if (strcmp(s_capability, our_capability) == 0) {
     return;
   }
-  output_window_printf(FTC_SERVER_INFO, NULL,
-                       _("Client capability string: %s"), our_capability);
-  output_window_printf(FTC_SERVER_INFO, NULL,
-                       _("Server capability string: %s"), s_capability);
+  output_window_printf(ftc_client, _("Client capability string: %s"),
+                       our_capability);
+  output_window_printf(ftc_client, _("Server capability string: %s"),
+                       s_capability);
 }
 
 /****************************************************************************
@@ -963,7 +963,7 @@ void handle_new_year(int year, int turn)
   link_marks_decrease_turn_counters();
 
   if (sound_bell_at_new_turn) {
-    create_event(NULL, E_TURN_BELL, FTC_CLIENT_INFO, NULL,
+    create_event(NULL, E_TURN_BELL, ftc_client,
                  _("Start of turn %d"), game.info.turn);
   }
 
@@ -1822,11 +1822,9 @@ void handle_player_info(struct packet_player_info *pinfo)
     pplayer->ai_data.control = pinfo->ai;
     if (pplayer == my_player)  {
       if (my_player->ai_data.control) {
-        output_window_append(FTC_CLIENT_INFO, NULL,
-                             _("AI mode is now ON."));
+        output_window_append(ftc_client, _("AI mode is now ON."));
       } else {
-        output_window_append(FTC_CLIENT_INFO, NULL,
-                             _("AI mode is now OFF."));
+        output_window_append(ftc_client, _("AI mode is now OFF."));
       }
     }
   }

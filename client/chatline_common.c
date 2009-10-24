@@ -145,7 +145,7 @@ void output_window_force_thaw(void)
   Add a line of text to the output ("chatline") window, like puts() would
   do it in the console.
 **************************************************************************/
-void output_window_append(const char *fg_color, const char *bg_color,
+void output_window_append(const struct ft_color color,
                           const char *featured_text)
 {
   char plain_text[MAX_LEN_MSG];
@@ -155,11 +155,9 @@ void output_window_append(const char *fg_color, const char *bg_color,
   featured_text_to_plain_text(featured_text, plain_text,
                               sizeof(plain_text), tags);
 
-  if ((fg_color && fg_color[0] != '\0')
-      || (bg_color && bg_color[0] != '\0')) {
+  if (ft_color_requested(color)) {
     /* A color is requested. */
-    struct text_tag *ptag = text_tag_new(TTT_COLOR, 0, OFFSET_UNSET,
-                                         fg_color, bg_color);
+    struct text_tag *ptag = text_tag_new(TTT_COLOR, 0, OFFSET_UNSET, color);
 
     if (ptag) {
       /* Prepends to the list, to avoid to overwrite inside colors. */
@@ -167,8 +165,8 @@ void output_window_append(const char *fg_color, const char *bg_color,
     } else {
       freelog(LOG_ERROR,
               "Failed to create a color text tag (fg = %s, bg = %s).",
-              fg_color ? fg_color : "NULL",
-              bg_color ? bg_color : "NULL");
+              (NULL != color.foreground ? color.foreground : "NULL"),
+              (NULL != color.background ? color.background : "NULL"));
     }
   }
 
@@ -190,13 +188,13 @@ void output_window_append(const char *fg_color, const char *bg_color,
   Add a line of text to the output ("chatline") window.  The text is
   constructed in printf style.
 **************************************************************************/
-void output_window_vprintf(const char *fg_color, const char *bg_color,
+void output_window_vprintf(const struct ft_color color,
                            const char *format, va_list args)
 {
   char featured_text[MAX_LEN_MSG];
 
   my_vsnprintf(featured_text, sizeof(featured_text), format, args);
-  output_window_append(fg_color, bg_color, featured_text);
+  output_window_append(color, featured_text);
 }
 
 
@@ -204,13 +202,13 @@ void output_window_vprintf(const char *fg_color, const char *bg_color,
   Add a line of text to the output ("chatline") window.  The text is
   constructed in printf style.
 **************************************************************************/
-void output_window_printf(const char *fg_color, const char *bg_color,
+void output_window_printf(const struct ft_color color,
                           const char *format, ...)
 {
   va_list args;
 
   va_start(args, format);
-  output_window_vprintf(fg_color, bg_color, format, args);
+  output_window_vprintf(color, format, args);
   va_end(args);
 }
 
@@ -237,11 +235,10 @@ void output_window_event(const char *plain_text,
 ****************************************************************************/
 void chat_welcome_message(void)
 {
-  output_window_append(NULL, NULL,
-                       _("Freeciv is free software and you are welcome to "
-                         "distribute copies of it under certain conditions;"));
-  output_window_append(NULL, NULL,
-                       _("See the \"Copying\" item on the Help menu."));
-  output_window_append(NULL, NULL,
-                       _("Now ... Go give 'em hell!"));
+  output_window_append(ftc_any, _("Freeciv is free software and you are "
+                                  "welcome to distribute copies of it "
+                                  "under certain conditions;"));
+  output_window_append(ftc_any, _("See the \"Copying\" item on the "
+                                  "Help menu."));
+  output_window_append(ftc_any, _("Now ... Go give 'em hell!"));
 }

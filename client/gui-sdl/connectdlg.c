@@ -96,7 +96,7 @@ static int connect_callback(struct widget *pWidget)
     if (connect_to_server(user_name, server_host, server_port,
                           errbuf, sizeof(errbuf)) != -1) {
     } else {
-      output_window_append(NULL, NULL, errbuf);
+      output_window_append(ftc_any, errbuf);
       real_update_meswin_dialog();
   
       /* button up */
@@ -161,7 +161,7 @@ static int sellect_meta_severs_callback(struct widget *pWidget)
 static void server_scan_error(struct server_scan *scan,
 			      const char *message)
 {
-  output_window_append(FTC_CLIENT_INFO, NULL, message);
+  output_window_append(ftc_client, message);
   freelog(LOG_NORMAL, "%s", message);
 
   switch (server_scan_get_type(scan)) {
@@ -277,11 +277,9 @@ void popup_connection_dialog(bool lan_scan)
   
   if(!pServer_list) {
     if (lan_scan) {
-      output_window_append(FTC_CLIENT_INFO, NULL,
-                           _("No LAN servers found")); 
+      output_window_append(ftc_client, _("No LAN servers found")); 
     } else {
-      output_window_append(FTC_CLIENT_INFO, NULL,
-                           _("No public servers found")); 
+      output_window_append(ftc_client, _("No public servers found")); 
     }        
     real_update_meswin_dialog();
     set_client_page(PAGE_NETWORK);
@@ -343,11 +341,9 @@ void popup_connection_dialog(bool lan_scan)
 
   if(!count) {
     if (lan_scan) {
-      output_window_append(FTC_CLIENT_INFO, NULL,
-                           _("No LAN servers found")); 
+      output_window_append(ftc_client, _("No LAN servers found")); 
     } else {
-      output_window_append(FTC_CLIENT_INFO, NULL,
-                           _("No public servers found"));
+      output_window_append(ftc_client, _("No public servers found"));
     }
     real_update_meswin_dialog();
     set_client_page(PAGE_NETWORK);

@@ -355,7 +355,7 @@ void players_meet_callback(Widget w, XtPointer client_data,
     if (can_meet_with_player(pplayer)) {
       dsend_packet_diplomacy_init_meeting_req(&client.conn, player_index);
     } else {
-      output_window_append(FTC_CLIENT_INFO, NULL,
+      output_window_append(ftc_client,
                            _("You need an embassy to establish"
                              " a diplomatic meeting."));
     }

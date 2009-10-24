@@ -101,8 +101,8 @@ void spy_poison(struct player *pplayer, struct unit *pdiplomat,
 
   /* If city is too small, can't poison. */
   if (pcity->size < 2) {
-    notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
-                  FTC_SERVER_INFO, NULL,
+    notify_player(pplayer, city_tile(pcity),
+                  E_MY_DIPLOMAT_FAILED, ftc_server,
                   _("Your %s could not poison the water"
                     " supply in %s."),
                   unit_link(pdiplomat),
@@ -117,16 +117,15 @@ void spy_poison(struct player *pplayer, struct unit *pdiplomat,
   city_reduce_size(pcity, 1, pplayer);
 
   /* Notify everybody involved. */
-  notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_POISON,
-                FTC_SERVER_INFO, NULL,
+  notify_player(pplayer, city_tile(pcity), E_MY_DIPLOMAT_POISON, ftc_server,
                 _("Your %s poisoned the water supply of %s."),
                 unit_link(pdiplomat),
                 city_link(pcity));
-  notify_player(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_POISON,
-                FTC_SERVER_INFO, NULL,
-		_("%s is suspected of poisoning the water supply of %s."),
-		player_name(pplayer),
-		city_link(pcity));
+  notify_player(cplayer, city_tile(pcity),
+                E_ENEMY_DIPLOMAT_POISON, ftc_server,
+                _("%s is suspected of poisoning the water supply of %s."),
+                player_name(pplayer),
+                city_link(pcity));
 
   /* Update clients. */
   city_refresh (pcity);  
@@ -267,8 +266,8 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
 
   /* Check for Barbarian response. */
   if (get_player_bonus(cplayer, EFT_NO_DIPLOMACY)) {
-    notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
-                  FTC_SERVER_INFO, NULL,
+    notify_player(pplayer, city_tile(pcity),
+                  E_MY_DIPLOMAT_FAILED, ftc_server,
                   _("Your %s was executed in %s by primitive %s."),
                   unit_link(pdiplomat),
                   city_link(pcity),
@@ -282,12 +281,12 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
   establish_embassy(pplayer, cplayer);
 
   /* Notify everybody involved. */
-  notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_EMBASSY,
-                FTC_SERVER_INFO, NULL,
+  notify_player(pplayer, city_tile(pcity),
+                E_MY_DIPLOMAT_EMBASSY, ftc_server,
                 _("You have established an embassy in %s."),
                 city_link(pcity));
-  notify_player(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_EMBASSY,
-                FTC_SERVER_INFO, NULL,
+  notify_player(cplayer, city_tile(pcity),
+                E_ENEMY_DIPLOMAT_EMBASSY, ftc_server,
                 _("The %s have established an embassy in %s."),
                 nation_plural_for_player(pplayer),
                 city_link(pcity));
@@ -347,7 +346,8 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
 
   /* If unit has too few hp, can't sabotage. */
   if (pvictim->hp < 2) {
-    notify_player(pplayer, pvictim->tile, E_MY_DIPLOMAT_FAILED,
+    notify_player(pplayer, unit_tile(pvictim),
+                  E_MY_DIPLOMAT_FAILED, ftc_server,
                   _("Your %s could not sabotage the %s %s."),
                   unit_link(pdiplomat),
                   nation_adjective_for_player(uplayer),
@@ -369,14 +369,14 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
   send_unit_info(NULL, pvictim);
 
   /* Notify everybody involved. */
-  notify_player(pplayer, pvictim->tile, E_MY_DIPLOMAT_SABOTAGE,
-                FTC_SERVER_INFO, NULL,
+  notify_player(pplayer, unit_tile(pvictim),
+                E_MY_DIPLOMAT_SABOTAGE, ftc_server,
                 _("Your %s succeeded in sabotaging the %s %s."),
                 unit_link(pdiplomat),
                 nation_adjective_for_player(uplayer),
                 victim_link);
-  notify_player(uplayer, pvictim->tile, E_ENEMY_DIPLOMAT_SABOTAGE,
-                FTC_SERVER_INFO, NULL,
+  notify_player(uplayer, unit_tile(pvictim),
+                E_ENEMY_DIPLOMAT_SABOTAGE, ftc_server,
                 /* TRANS: ... the Poles! */
                 _("Your %s was sabotaged by the %s!"),
                 victim_link,
@@ -426,8 +426,8 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 
   /* Check for unit from a bribable government. */
   if (get_player_bonus(uplayer, EFT_UNBRIBABLE_UNITS)) {
-    notify_player(pplayer, pdiplomat->tile, E_MY_DIPLOMAT_FAILED,
-                  FTC_SERVER_INFO, NULL,
+    notify_player(pplayer, unit_tile(pdiplomat),
+                  E_MY_DIPLOMAT_FAILED, ftc_server,
                   _("You can't bribe a unit from this nation."));
     return;
   }
@@ -440,8 +440,8 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 
   /* If player doesn't have enough gold, can't bribe. */
   if (pplayer->economic.gold < bribe_cost) {
-    notify_player(pplayer, pdiplomat->tile, E_MY_DIPLOMAT_FAILED,
-                  FTC_SERVER_INFO, NULL,
+    notify_player(pplayer, unit_tile(pdiplomat),
+                  E_MY_DIPLOMAT_FAILED, ftc_server,
                   _("You don't have enough gold to bribe the %s %s."),
                   nation_adjective_for_player(uplayer),
                   victim_link);
@@ -450,8 +450,8 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   }
 
   if (unit_has_type_flag(pvictim, F_UNBRIBABLE)) {
-    notify_player(pplayer, pdiplomat->tile, E_MY_DIPLOMAT_FAILED,
-                  FTC_SERVER_INFO, NULL,
+    notify_player(pplayer, unit_tile(pdiplomat),
+                  E_MY_DIPLOMAT_FAILED, ftc_server,
                   _("You cannot bribe the %s!"),
                   victim_link);
     return;
@@ -474,21 +474,21 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   send_unit_info(pplayer, gained_unit);
 
   /* Notify everybody involved. */
-  notify_player(pplayer, pvictim->tile, E_MY_DIPLOMAT_BRIBE,
-                FTC_SERVER_INFO, NULL,
-		/* TRANS: <diplomat> ... <unit> */
-		_("Your %s succeeded in bribing the %s."),
-		unit_link(pdiplomat),
-		victim_link);
+  notify_player(pplayer, unit_tile(pvictim), 
+                E_MY_DIPLOMAT_BRIBE, ftc_server,
+                /* TRANS: <diplomat> ... <unit> */
+                _("Your %s succeeded in bribing the %s."),
+                unit_link(pdiplomat),
+                victim_link);
   if (maybe_make_veteran(pdiplomat)) {
     notify_unit_experience(pdiplomat);
   }
-  notify_player(uplayer, pvictim->tile, E_ENEMY_DIPLOMAT_BRIBE,
-                FTC_SERVER_INFO, NULL,
-		/* TRANS: <unit> ... <Poles> */
-		_("Your %s was bribed by the %s."),
-		victim_link,
-		nation_plural_for_player(pplayer));
+  notify_player(uplayer, unit_tile(pvictim),
+                E_ENEMY_DIPLOMAT_BRIBE, ftc_server,
+                /* TRANS: <unit> ... <Poles> */
+                _("Your %s was bribed by the %s."),
+                victim_link,
+                nation_plural_for_player(pplayer));
 
   /* This costs! */
   pplayer->economic.gold -= bribe_cost;
@@ -629,22 +629,22 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   
   if (count > 0) {
     if (pcity->steal > 0 && !unit_has_type_flag(pdiplomat, F_SPY)) {
-      notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
-                    FTC_SERVER_INFO, NULL,
+      notify_player(pplayer, city_tile(pcity),
+                    E_MY_DIPLOMAT_FAILED, ftc_server,
                     _("%s was expecting your attempt to steal technology "
                       "again. Your %s was caught and executed."),
                     city_link(pcity),
                     unit_link(pdiplomat));
     } else {
-      notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
-                    FTC_SERVER_INFO, NULL,
+      notify_player(pplayer, city_tile(pcity),
+                    E_MY_DIPLOMAT_FAILED, ftc_server,
                     _("Your %s was caught in the attempt of"
                       " stealing technology from %s."),
                     unit_link(pdiplomat),
                     city_link(pcity));
     }
-    notify_player(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_FAILED,
-                  FTC_SERVER_INFO, NULL,
+    notify_player(cplayer, city_tile(pcity),
+                  E_ENEMY_DIPLOMAT_FAILED, ftc_server,
                   _("The %s %s failed to steal technology from %s."),
                   nation_adjective_for_player(pplayer),
                   unit_link(pdiplomat),
@@ -658,8 +658,8 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   tech_stolen = steal_a_tech(pplayer, cplayer, technology);
 
   if (tech_stolen == A_NONE) {
-    notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
-                  FTC_SERVER_INFO, NULL,
+    notify_player(pplayer, city_tile(pcity),
+                  E_MY_DIPLOMAT_FAILED, ftc_server,
                   _("No new technology found in %s."),
                   city_link(pcity));
     diplomat_charge_movement (pdiplomat, pcity->tile);
@@ -715,8 +715,8 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 
   /* See if the city is subvertable. */
   if (get_city_bonus(pcity, EFT_NO_INCITE) > 0) {
-    notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
-                  FTC_SERVER_INFO, NULL,
+    notify_player(pplayer, city_tile(pcity),
+                  E_MY_DIPLOMAT_FAILED, ftc_server,
                   _("You can't subvert this city."));
     freelog (LOG_DEBUG, "incite: city is protected");
     return;
@@ -727,10 +727,10 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 
   /* If player doesn't have enough gold, can't incite a revolt. */
   if (pplayer->economic.gold < revolt_cost) {
-    notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
-                  FTC_SERVER_INFO, NULL,
-		  _("You don't have enough gold to subvert %s."),
-		  city_link(pcity));
+    notify_player(pplayer, city_tile(pcity),
+                  E_MY_DIPLOMAT_FAILED, ftc_server,
+                  _("You don't have enough gold to subvert %s."),
+                  city_link(pcity));
     freelog(LOG_DEBUG, "incite: not enough gold");
     return;
   }
@@ -745,13 +745,13 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 
   /* Check if the Diplomat/Spy succeeds with his/her task. */
   if (myrand (100) >= game.info.diplchance) {
-    notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
-                  FTC_SERVER_INFO, NULL,
+    notify_player(pplayer, city_tile(pcity),
+                  E_MY_DIPLOMAT_FAILED, ftc_server,
                   _("Your %s was caught in the attempt"
                     " of inciting a revolt!"),
                   unit_link(pdiplomat));
-    notify_player(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_FAILED,
-                  FTC_SERVER_INFO, NULL,
+    notify_player(cplayer, city_tile(pcity),
+                  E_ENEMY_DIPLOMAT_FAILED, ftc_server,
                   _("You caught %s %s attempting"
                     " to incite a revolt in %s!"),
                   nation_adjective_for_player(pplayer),
@@ -774,12 +774,12 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   pplayer->economic.gold -= revolt_cost;
 
   /* Notify everybody involved. */
-  notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_INCITE,
-                FTC_SERVER_INFO, NULL,
+  notify_player(pplayer, city_tile(pcity),
+                E_MY_DIPLOMAT_INCITE, ftc_server,
                 _("Revolt incited in %s, you now rule the city!"),
                 city_link(pcity));
-  notify_player(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_INCITE,
-                FTC_SERVER_INFO, NULL,
+  notify_player(cplayer, city_tile(pcity),
+                E_ENEMY_DIPLOMAT_INCITE, ftc_server,
                 _("%s has revolted, %s influence suspected."),
                 city_link(pcity),
                 nation_adjective_for_player(pplayer));
@@ -858,13 +858,13 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 
   /* Check if the Diplomat/Spy succeeds with his/her task. */
   if (myrand (100) >= success_prob) {
-    notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
-                  FTC_SERVER_INFO, NULL,
+    notify_player(pplayer, city_tile(pcity),
+                  E_MY_DIPLOMAT_FAILED, ftc_server,
                   _("Your %s was caught in the attempt"
                     " of industrial sabotage!"),
                   unit_link(pdiplomat));
-    notify_player(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_SABOTAGE,
-                  FTC_SERVER_INFO, NULL,
+    notify_player(cplayer, city_tile(pcity),
+                  E_ENEMY_DIPLOMAT_SABOTAGE, ftc_server,
                   _("You caught %s %s attempting sabotage in %s!"),
                   nation_adjective_for_player(pplayer),
                   unit_link(pdiplomat),
@@ -898,8 +898,8 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
      * If nothing to do, say so, deduct movement cost and return.
      */
     if (count == 0 && pcity->shield_stock == 0) {
-      notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
-                    FTC_SERVER_INFO, NULL,
+      notify_player(pplayer, city_tile(pcity),
+                    E_MY_DIPLOMAT_FAILED, ftc_server,
                     _("Your %s could not find anything to sabotage in %s."),
                     unit_link(pdiplomat),
                     city_link(pcity));
@@ -948,8 +948,8 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 	       improvement,
 	       improvement_rule_name(pimprove));
       } else {
-	notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
-                      FTC_SERVER_INFO, NULL,
+        notify_player(pplayer, city_tile(pcity),
+                      E_MY_DIPLOMAT_FAILED, ftc_server,
                       _("You cannot sabotage a %s!"),
                       improvement_name_translation(pimprove));
 	diplomat_charge_movement (pdiplomat, pcity->tile);
@@ -960,8 +960,8 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 	return;
       }
     } else {
-      notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
-                    FTC_SERVER_INFO, NULL,
+      notify_player(pplayer, city_tile(pcity),
+                    E_MY_DIPLOMAT_FAILED, ftc_server,
                     _("Your %s could not find the %s to sabotage in %s."),
                     unit_name_translation(pdiplomat),
                     improvement_name_translation(pimprove),
@@ -986,20 +986,20 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
     /* Report it. */
     universal_name_translation(&pcity->production, prod, sizeof(prod));
 
-    notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_SABOTAGE,
-                  FTC_SERVER_INFO, NULL,
+    notify_player(pplayer, city_tile(pcity),
+                  E_MY_DIPLOMAT_SABOTAGE, ftc_server,
                   _("Your %s succeeded in destroying"
                     " the production of %s in %s."),
                   unit_link(pdiplomat),
                   prod,
                   city_name(pcity));
-    notify_player(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_SABOTAGE,
-                  FTC_SERVER_INFO, NULL,
-		  _("The production of %s was destroyed in %s,"
-		    " %s are suspected."),
-		  prod,
-		  city_link(pcity),
-		  nation_plural_for_player(pplayer));
+    notify_player(cplayer, city_tile(pcity),
+                  E_ENEMY_DIPLOMAT_SABOTAGE, ftc_server,
+                  _("The production of %s was destroyed in %s,"
+                    " %s are suspected."),
+                  prod,
+                  city_link(pcity),
+                  nation_plural_for_player(pplayer));
     freelog (LOG_DEBUG, "sabotage: sabotaged production");
   } else {
     int vulnerability = ptarget->sabotage;
@@ -1016,12 +1016,12 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 
     if (myrand(100) >= vulnerability) {
       /* Caught! */
-      notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
-                    FTC_SERVER_INFO, NULL,
+      notify_player(pplayer, city_tile(pcity),
+                    E_MY_DIPLOMAT_FAILED, ftc_server,
                     _("Your %s was caught in the attempt of sabotage!"),
                     unit_link(pdiplomat));
-      notify_player(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_FAILED,
-                    FTC_SERVER_INFO, NULL,
+      notify_player(cplayer, city_tile(pcity),
+                    E_ENEMY_DIPLOMAT_FAILED, ftc_server,
                     _("You caught %s %s attempting"
                       " to sabotage the %s in %s!"),
                     nation_adjective_for_player(pplayer),
@@ -1034,14 +1034,14 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
     }
 
     /* Report it. */
-    notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_SABOTAGE,
-                  FTC_SERVER_INFO, NULL,
+    notify_player(pplayer, city_tile(pcity),
+                  E_MY_DIPLOMAT_SABOTAGE, ftc_server,
                   _("Your %s destroyed the %s in %s."),
                   unit_link(pdiplomat),
                   improvement_name_translation(ptarget),
                   city_link(pcity));
-    notify_player(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_SABOTAGE,
-                  FTC_SERVER_INFO, NULL,
+    notify_player(cplayer, city_tile(pcity),
+                  E_ENEMY_DIPLOMAT_SABOTAGE, ftc_server,
                   _("The %s destroyed the %s in %s."),
                   nation_plural_for_player(pplayer),
                   improvement_name_translation(ptarget),
@@ -1149,59 +1149,53 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
        * in a diplomatic contest always kills the attacker. */
       if (diplomat_success_vs_defender(pdiplomat, punit, ptile) 
           && !unit_has_type_flag(punit, F_SUPERSPY)) {
-	/* Defending Spy/Diplomat dies. */
-	notify_player(pplayer, ptile, E_ENEMY_DIPLOMAT_FAILED,
-                      FTC_SERVER_INFO, NULL,
-		      /* TRANS: <unit> ... <diplomat> */
-		      _("An enemy %s has been eliminated by your %s."),
-		      unit_link(punit),
-		      diplomat_link);
+        /* Defending Spy/Diplomat dies. */
+        notify_player(pplayer, ptile, E_ENEMY_DIPLOMAT_FAILED, ftc_server,
+                      /* TRANS: <unit> ... <diplomat> */
+                      _("An enemy %s has been eliminated by your %s."),
+                      unit_link(punit),
+                      diplomat_link);
 
-	if (pcity) {
-	  notify_player(cplayer, ptile, E_MY_DIPLOMAT_FAILED,
-                        FTC_SERVER_INFO, NULL,
-			/* TRANS: <unit> ... <city> ... <diplomat> */
-			_("Your %s has been eliminated defending %s"
-			  " against a %s."),
-			unit_link(punit),
-			city_link(pcity),
-			diplomat_link);
-	} else {
-	  notify_player(cplayer, ptile, E_MY_DIPLOMAT_FAILED,
-                        FTC_SERVER_INFO, NULL,
-			/* TRANS: <unit> ... <diplomat> */
-			_("Your %s has been eliminated defending"
-			  " against a %s."),
-			unit_link(punit),
-			diplomat_link);
-	}
+        if (pcity) {
+          notify_player(cplayer, ptile, E_MY_DIPLOMAT_FAILED, ftc_server,
+                        /* TRANS: <unit> ... <city> ... <diplomat> */
+                        _("Your %s has been eliminated defending %s"
+                          " against a %s."),
+                        unit_link(punit),
+                        city_link(pcity),
+                        diplomat_link);
+        } else {
+          notify_player(cplayer, ptile, E_MY_DIPLOMAT_FAILED, ftc_server,
+                        /* TRANS: <unit> ... <diplomat> */
+                        _("Your %s has been eliminated defending"
+                          " against a %s."),
+                        unit_link(punit),
+                        diplomat_link);
+        }
 
         pdiplomat->moves_left = MAX(0, pdiplomat->moves_left - SINGLE_MOVE);
         send_unit_info(pplayer, pdiplomat);
 	wipe_unit(punit);
         return FALSE;
       } else {
-	/* Attacking Spy/Diplomat dies. */
-	notify_player(pplayer, ptile, E_MY_DIPLOMAT_FAILED,
-                      FTC_SERVER_INFO, NULL,
+        /* Attacking Spy/Diplomat dies. */
+        notify_player(pplayer, ptile, E_MY_DIPLOMAT_FAILED, ftc_server,
                       _("Your %s was eliminated by a defending %s."),
                       diplomat_link,
                       unit_link(punit));
 
-	if (pcity) {
-	  notify_player(cplayer, ptile, E_ENEMY_DIPLOMAT_FAILED,
-                        FTC_SERVER_INFO, NULL,
-			_("Eliminated %s %s while infiltrating %s."),
-			nation_adjective_for_player(pplayer),
-			diplomat_link,
-			city_link(pcity));
-	} else {
-	  notify_player(cplayer, ptile, E_ENEMY_DIPLOMAT_FAILED,
-                        FTC_SERVER_INFO, NULL,
-			_("Eliminated %s %s while infiltrating our troops."),
-			nation_adjective_for_player(pplayer),
-			diplomat_link);
-	}
+        if (pcity) {
+          notify_player(cplayer, ptile, E_ENEMY_DIPLOMAT_FAILED, ftc_server,
+                        _("Eliminated %s %s while infiltrating %s."),
+                        nation_adjective_for_player(pplayer),
+                        diplomat_link,
+                        city_link(pcity));
+        } else {
+          notify_player(cplayer, ptile, E_ENEMY_DIPLOMAT_FAILED, ftc_server,
+                        _("Eliminated %s %s while infiltrating our troops."),
+                        nation_adjective_for_player(pplayer),
+                        diplomat_link);
+        }
 
 	/* Defending unit became more experienced? */
 	if (maybe_make_veteran(punit)) {
@@ -1248,12 +1242,11 @@ static void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
       && unit_has_type_flag(pdiplomat, F_SPY)
       && (myrand (100) < escapechance || unit_has_type_flag(pdiplomat, F_SUPERSPY))) {
     /* Attacking Spy/Diplomat survives. */
-    notify_player(pplayer, ptile, E_MY_DIPLOMAT_ESCAPE,
-                  FTC_SERVER_INFO, NULL,
-		  _("Your %s has successfully completed"
-		    " the mission and returned unharmed to %s."),
-		  unit_link(pdiplomat),
-		  city_link(spyhome));
+    notify_player(pplayer, ptile, E_MY_DIPLOMAT_ESCAPE, ftc_server,
+                  _("Your %s has successfully completed"
+                    " the mission and returned unharmed to %s."),
+                  unit_link(pdiplomat),
+                  city_link(spyhome));
     if (maybe_make_veteran(pdiplomat)) {
       notify_unit_experience(pdiplomat);
     }
@@ -1268,15 +1261,13 @@ static void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
     return;
   } else {
     if (pcity) {
-      notify_player(pplayer, ptile, E_MY_DIPLOMAT_FAILED,
-                    FTC_SERVER_INFO, NULL,
+      notify_player(pplayer, ptile, E_MY_DIPLOMAT_FAILED, ftc_server,
                     _("Your %s was captured after completing"
                       " the mission in %s."),
                     unit_link(pdiplomat),
                     city_link(pcity));
     } else {
-      notify_player(pplayer, ptile, E_MY_DIPLOMAT_FAILED,
-                    FTC_SERVER_INFO, NULL,
+      notify_player(pplayer, ptile, E_MY_DIPLOMAT_FAILED, ftc_server,
                     _("Your %s was captured after completing"
                       " the mission."),
                     unit_link(pdiplomat));
@@ -1308,42 +1299,42 @@ static void maybe_cause_incident(enum diplomat_actions action, struct player *of
   if (!pplayers_at_war(offender, victim_player)) {
     switch (action) {
     case DIPLOMAT_BRIBE:
-      notify_player(offender, victim_tile, E_DIPLOMATIC_INCIDENT,
-                    FTC_SERVER_INFO, NULL,
+      notify_player(offender, victim_tile,
+                    E_DIPLOMATIC_INCIDENT, ftc_server,
                     _("You have caused an incident while bribing "
                       "the %s %s."),
                     nation_adjective_for_player(victim_player),
                     unit_link(victim_unit));
-      notify_player(victim_player, victim_tile, E_DIPLOMATIC_INCIDENT,
-                    FTC_SERVER_INFO, NULL,
+      notify_player(victim_player, victim_tile,
+                    E_DIPLOMATIC_INCIDENT, ftc_server,
                     _("%s has caused an incident while bribing your %s."),
                     player_name(offender),
                     unit_link(victim_unit));
       break;
     case DIPLOMAT_STEAL:
-      notify_player(offender, victim_tile, E_DIPLOMATIC_INCIDENT,
-                    FTC_SERVER_INFO, NULL,
+      notify_player(offender, victim_tile,
+                    E_DIPLOMATIC_INCIDENT, ftc_server,
                     _("You have caused an incident while attempting "
                       "to steal tech from %s."),
                     player_name(victim_player));
-      notify_player(victim_player, victim_tile, E_DIPLOMATIC_INCIDENT,
-                    FTC_SERVER_INFO, NULL,
+      notify_player(victim_player, victim_tile,
+                    E_DIPLOMATIC_INCIDENT, ftc_server,
                     _("%s has caused an incident while attempting "
                       "to steal tech from you."),
                     player_name(offender));
       break;
     case DIPLOMAT_INCITE:
-      notify_player(offender, victim_tile, E_DIPLOMATIC_INCIDENT,
-                    FTC_SERVER_INFO, NULL,
- 		    _("You have caused an incident while inciting a "
- 		      "revolt in %s."),
- 		    city_link(victim_city));
-      notify_player(victim_player, victim_tile, E_DIPLOMATIC_INCIDENT,
-                    FTC_SERVER_INFO, NULL,
- 		    _("%s have caused an incident while inciting a "
- 		      "revolt in %s."),
- 		    nation_plural_for_player(offender),
- 		    city_link(victim_city));
+      notify_player(offender, victim_tile,
+                    E_DIPLOMATIC_INCIDENT, ftc_server,
+                    _("You have caused an incident while inciting a "
+                      "revolt in %s."),
+                    city_link(victim_city));
+      notify_player(victim_player, victim_tile,
+                    E_DIPLOMATIC_INCIDENT, ftc_server,
+                    _("%s have caused an incident while inciting a "
+                      "revolt in %s."),
+                    nation_plural_for_player(offender),
+                    city_link(victim_city));
       break;
     case DIPLOMAT_MOVE:
     case DIPLOMAT_EMBASSY:

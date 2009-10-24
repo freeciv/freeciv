@@ -1779,7 +1779,7 @@ void options_save(void)
   char *name = option_file_name();
 
   if (!name) {
-    output_window_append(FTC_CLIENT_INFO, NULL,
+    output_window_append(ftc_client,
                          _("Save failed, cannot find a filename."));
     return;
   }
@@ -1842,11 +1842,10 @@ void options_save(void)
 
   /* save to disk */
   if (!section_file_save(&sf, name, 0, FZ_PLAIN)) {
-    output_window_printf(FTC_CLIENT_INFO, NULL,
+    output_window_printf(ftc_client,
                          _("Save failed, cannot write to file %s"), name);
   } else {
-    output_window_printf(FTC_CLIENT_INFO, NULL,
-                         _("Saved settings to file %s"), name);
+    output_window_printf(ftc_client, _("Saved settings to file %s"), name);
   }
   section_file_free(&sf);
 }

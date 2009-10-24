@@ -41,8 +41,9 @@
   ptile: A pointer to a tile the event is occuring.
   event: The event type.
   pconn: The sender of the event (e.g. when event is E_CHAT_MSG).
-  fg_color: The requested foreground color or NULL if not requested.
-  bg_color: The requested background color or NULL if not requested.
+  color: The requested color or ftc_any if not requested.  Some colors are
+    predefined in common/featured_text.h.  You can pass a custom one using
+    ft_color().
   format: The format of the message.
   vargs: The extra arguments to build the message.
 **************************************************************************/
@@ -50,7 +51,7 @@ static void package_event_full(struct packet_chat_msg *packet,
                                const struct tile *ptile,
                                enum event_type event,
                                const struct connection *pconn,
-                               const char *fg_color, const char *bg_color,
+                               const struct ft_color color,
                                const char *format, va_list vargs)
 {
   RETURN_IF_FAIL(NULL != packet);
@@ -65,14 +66,13 @@ static void package_event_full(struct packet_chat_msg *packet,
   packet->event = event;
   packet->conn_id = pconn ? pconn->id : -1;
 
-  if ((fg_color && fg_color[0] != '\0')
-      || (bg_color && bg_color[0] != '\0')) {
+  if (ft_color_requested(color)) {
     /* A color is requested. */
     char buf[MAX_LEN_MSG];
 
     my_vsnprintf(buf, sizeof(buf), format, vargs);
     featured_text_apply_tag(buf, packet->message, sizeof(packet->message),
-                            TTT_COLOR, 0, OFFSET_UNSET, fg_color, bg_color);
+                            TTT_COLOR, 0, OFFSET_UNSET, color);
   } else {
     /* Simple case */
     my_vsnprintf(packet->message, sizeof(packet->message), format, vargs);
@@ -84,18 +84,18 @@ static void package_event_full(struct packet_chat_msg *packet,
 
   packet: A pointer to the packet.
   sender: The sender of the message.
-  fg_color: The requested foreground color or NULL if not requested.
-  bg_color: The requested background color or NULL if not requested.
+  color: The requested color or ftc_any if not requested.  Some colors are
+    predefined in common/featured_text.h.  You can pass a custom one using
+    ft_color().
   format: The format of the message.
   vargs: The extra arguments to build the message.
 **************************************************************************/
 void vpackage_chat_msg(struct packet_chat_msg *packet,
                        const struct connection *sender,
-                       const char *fg_color, const char *bg_color,
+                       const struct ft_color color,
                        const char *format, va_list vargs)
 {
-  package_event_full(packet, NULL, E_CHAT_MSG, sender,
-                     fg_color, bg_color, format, vargs);
+  package_event_full(packet, NULL, E_CHAT_MSG, sender, color, format, vargs);
 }
 
 /**************************************************************************
@@ -103,20 +103,21 @@ void vpackage_chat_msg(struct packet_chat_msg *packet,
 
   packet: A pointer to the packet.
   sender: The sender of the message.
-  fg_color: The requested foreground color or NULL if not requested.
-  bg_color: The requested background color or NULL if not requested.
+  color: The requested color or ftc_any if not requested.  Some colors are
+    predefined in common/featured_text.h.  You can pass a custom one using
+    ft_color().
   format: The format of the message.
   ...: The extra arguments to build the message.
 **************************************************************************/
 void package_chat_msg(struct packet_chat_msg *packet,
                       const struct connection *sender,
-                      const char *fg_color, const char *bg_color,
+                      const struct ft_color color,
                       const char *format, ...)
 {
   va_list args;
 
   va_start(args, format);
-  vpackage_chat_msg(packet, sender, fg_color, bg_color, format, args);
+  vpackage_chat_msg(packet, sender, color, format, args);
   va_end(args);
 }
 
@@ -126,18 +127,19 @@ void package_chat_msg(struct packet_chat_msg *packet,
   packet: A pointer to the packet.
   ptile: A pointer to a tile the event is occuring.
   event: The event type.
-  fg_color: The requested foreground color or NULL if not requested.
-  bg_color: The requested background color or NULL if not requested.
+  color: The requested color or ftc_any if not requested.  Some colors are
+    predefined in common/featured_text.h.  You can pass a custom one using
+    ft_color().
   format: The format of the message.
   vargs: The extra arguments to build the message.
 **************************************************************************/
 void vpackage_event(struct packet_chat_msg *packet,
-                    const struct tile *ptile, enum event_type event,
-                    const char *fg_color, const char *bg_color,
+                    const struct tile *ptile,
+                    enum event_type event,
+                    const struct ft_color color,
                     const char *format, va_list vargs)
 {
-  package_event_full(packet, ptile, event, NULL,
-                     fg_color, bg_color, format, vargs);
+  package_event_full(packet, ptile, event, NULL, color, format, vargs);
 }
 
 /**************************************************************************
@@ -198,15 +200,17 @@ static void notify_conn_packet(struct conn_list *dest,
 /**************************************************************************
   See notify_conn_packet - this is just the "non-v" version, with varargs.
 **************************************************************************/
-void notify_conn(struct conn_list *dest, const struct tile *ptile,
-                 enum event_type event, const char *fg_color,
-                 const char *bg_color, const char *format, ...)
+void notify_conn(struct conn_list *dest,
+                 const struct tile *ptile,
+                 enum event_type event,
+                 const struct ft_color color,
+                 const char *format, ...)
 {
   struct packet_chat_msg genmsg;
   va_list args;
 
   va_start(args, format);
-  vpackage_event(&genmsg, ptile, event, fg_color, bg_color, format, args);
+  vpackage_event(&genmsg, ptile, event, color, format, args);
 
   va_end(args);
 
@@ -220,16 +224,18 @@ void notify_conn(struct conn_list *dest, const struct tile *ptile,
   old code, but this feature may go away - should use notify_conn(NULL)
   instead.
 **************************************************************************/
-void notify_player(const struct player *pplayer, const struct tile *ptile,
-                   enum event_type event, const char *fg_color,
-                   const char *bg_color, const char *format, ...) 
+void notify_player(const struct player *pplayer,
+                   const struct tile *ptile,
+                   enum event_type event,
+                   const struct ft_color color,
+                   const char *format, ...) 
 {
   struct conn_list *dest = pplayer ? pplayer->connections : NULL;
   struct packet_chat_msg genmsg;
   va_list args;
 
   va_start(args, format);
-  vpackage_event(&genmsg, ptile, event, fg_color, bg_color, format, args);
+  vpackage_event(&genmsg, ptile, event, color, format, args);
   va_end(args);
 
   notify_conn_packet(dest, &genmsg);
@@ -241,15 +247,16 @@ void notify_player(const struct player *pplayer, const struct tile *ptile,
 **************************************************************************/
 void notify_embassies(const struct player *pplayer,
                       const struct player *exclude,
-                      const struct tile *ptile, enum event_type event,
-                      const char *fg_color, const char *bg_color,
+                      const struct tile *ptile,
+                      enum event_type event,
+                      const struct ft_color color,
                       const char *format, ...) 
 {
   struct packet_chat_msg genmsg;
   va_list args;
 
   va_start(args, format);
-  vpackage_event(&genmsg, ptile, event, fg_color, bg_color, format, args);
+  vpackage_event(&genmsg, ptile, event, color, format, args);
   va_end(args);
 
   players_iterate(other_player) {
@@ -265,16 +272,18 @@ void notify_embassies(const struct player *pplayer,
   Sends a message to all players on pplayer's team. If 'pplayer' is NULL,
   sends to all players.
 **************************************************************************/
-void notify_team(const struct player *pplayer, const struct tile *ptile,
-                 enum event_type event, const char *fg_color,
-                 const char *bg_color, const char *format, ...)
+void notify_team(const struct player *pplayer,
+                 const struct tile *ptile,
+                 enum event_type event,
+                 const struct ft_color color,
+                 const char *format, ...)
 {
   struct conn_list *dest = game.est_connections;
   struct packet_chat_msg genmsg;
   va_list args;
 
   va_start(args, format);
-  vpackage_event(&genmsg, ptile, event, fg_color, bg_color, format, args);
+  vpackage_event(&genmsg, ptile, event, color, format, args);
   va_end(args);
 
   if (pplayer) {
@@ -304,15 +313,16 @@ void notify_team(const struct player *pplayer, const struct tile *ptile,
   assume no research message will have a tile associated.
 ****************************************************************************/
 void notify_research(const struct player *pplayer,
-                     enum event_type event, const char *fg_color,
-                     const char *bg_color, const char *format, ...)
+                     enum event_type event,
+                     const struct ft_color color,
+                     const char *format, ...)
 {
   struct packet_chat_msg genmsg;
   va_list args;
   struct player_research *research = get_player_research(pplayer);
 
   va_start(args, format);
-  vpackage_event(&genmsg, NULL, event, fg_color, bg_color, format, args);
+  vpackage_event(&genmsg, NULL, event, color, format, args);
   va_end(args);
 
   players_iterate(other_player) {

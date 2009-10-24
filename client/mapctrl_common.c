@@ -393,7 +393,7 @@ void clipboard_copy_production(struct tile *ptile)
       return;
     }
     if (!can_player_build_unit_direct(client.conn.playing, unit_type(punit)))  {
-      create_event(ptile, E_BAD_COMMAND, FTC_CLIENT_INFO, NULL,
+      create_event(ptile, E_BAD_COMMAND, ftc_client,
                    _("You don't know how to build %s!"),
                    unit_name_translation(punit));
       return;
@@ -404,8 +404,7 @@ void clipboard_copy_production(struct tile *ptile)
   upgrade_canvas_clipboard();
 
   create_event(ptile, E_CITY_PRODUCTION_CHANGED, /* ? */
-               FTC_CLIENT_INFO, NULL,
-               _("Copy %s to clipboard."),
+               ftc_client, _("Copy %s to clipboard."),
                universal_name_translation(&clipboard, buffer, sizeof(buffer)));
 }
 
@@ -419,7 +418,7 @@ void clipboard_paste_production(struct city *pcity)
     return;
   }
   if (NULL == clipboard.value.building) {
-    create_event(city_tile(pcity), E_BAD_COMMAND, FTC_CLIENT_INFO, NULL,
+    create_event(city_tile(pcity), E_BAD_COMMAND, ftc_client,
                  _("Clipboard is empty."));
     return;
   }

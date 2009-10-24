@@ -1490,8 +1490,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
      && is_great_wonder(pcity->production.value.building)
      && (CT_BUILDING != pcity->ai->choice.type
       || pcity->ai->choice.value.building != pcity->production.value.building)) {
-      notify_player(NULL, pcity->tile, E_WONDER_STOPPED,
-                    FTC_SERVER_INFO, NULL,
+      notify_player(NULL, pcity->tile, E_WONDER_STOPPED, ftc_server,
 		    _("The %s have stopped building The %s in %s."),
 		    nation_plural_for_player(pplayer),
 		    city_production_name_translation(pcity),
@@ -1501,8 +1500,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
       && is_great_wonder(pcity->ai->choice.value.building)
       && (VUT_IMPROVEMENT != pcity->production.kind
        || pcity->production.value.building != pcity->ai->choice.value.building)) {
-      notify_player(NULL, pcity->tile, E_WONDER_STARTED,
-                    FTC_SERVER_INFO, NULL,
+      notify_player(NULL, pcity->tile, E_WONDER_STARTED, ftc_server,
 		    _("The %s have started building The %s in %s."),
 		    nation_plural_for_player(city_owner(pcity)),
 		    city_improvement_name_translation(pcity,
@@ -1847,8 +1845,7 @@ static void ai_sell_obsolete_buildings(struct city *pcity)
        && (is_building_replaced(pcity, pimprove, RPT_CERTAIN)
 	   || building_unwanted(pplayer, pimprove))) {
       do_sell_building(pplayer, pcity, pimprove);
-      notify_player(pplayer, pcity->tile, E_IMP_SOLD,
-                    FTC_SERVER_INFO, NULL,
+      notify_player(pplayer, pcity->tile, E_IMP_SOLD, ftc_server,
                     _("%s is selling %s (not needed) for %d."), 
                     city_link(pcity),
                     improvement_name_translation(pimprove), 

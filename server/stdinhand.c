@@ -298,8 +298,8 @@ static void cmd_reply_line(enum command_id cmd, struct connection *caller,
                             : "(?!?)";  /* this case is a bug! */
 
   if (caller) {
-    notify_conn(caller->self, NULL, E_SETTING, FTC_COMMAND, NULL,
-		"/%s: %s%s", cmdname, prefix, line);
+    notify_conn(caller->self, NULL, E_SETTING, ftc_command,
+                "/%s: %s%s", cmdname, prefix, line);
     /* cc: to the console - testing has proved it's too verbose - rp
     con_write(rfc_status, "%s/%s: %s%s", caller->name, cmdname, prefix, line);
     */
@@ -311,8 +311,8 @@ static void cmd_reply_line(enum command_id cmd, struct connection *caller,
     conn_list_iterate(game.est_connections, pconn) {
       /* Do not tell caller, since he was told above! */
       if (caller != pconn) {
-        notify_conn(pconn->self, NULL, E_SETTING, FTC_COMMAND, NULL,
-		    "%s", line);
+        notify_conn(pconn->self, NULL, E_SETTING, ftc_command,
+                    "%s", line);
       }
     } conn_list_iterate_end;
   }
@@ -450,9 +450,9 @@ static void open_metaserver_connection(struct connection *caller)
 {
   server_open_meta();
   if (send_server_info_to_metaserver(META_INFO)) {
-    notify_conn(NULL, NULL, E_CONNECTION, FTC_SERVER_INFO, NULL,
-		_("Open metaserver connection to [%s]."),
-		meta_addr_port());
+    notify_conn(NULL, NULL, E_CONNECTION, ftc_server,
+                _("Open metaserver connection to [%s]."),
+                meta_addr_port());
   }
 }
 
@@ -463,9 +463,9 @@ static void close_metaserver_connection(struct connection *caller)
 {
   if (send_server_info_to_metaserver(META_GOODBYE)) {
     server_close_meta();
-    notify_conn(NULL, NULL, E_CONNECTION, FTC_SERVER_INFO, NULL,
-		_("Close metaserver connection to [%s]."),
-		meta_addr_port());
+    notify_conn(NULL, NULL, E_CONNECTION, ftc_server,
+                _("Close metaserver connection to [%s]."),
+                meta_addr_port());
   }
 }
 
@@ -528,12 +528,12 @@ static bool metapatches_command(struct connection *caller,
 
   if (is_metaserver_open()) {
     send_server_info_to_metaserver(META_INFO);
-    notify_conn(NULL, NULL, E_SETTING, FTC_SERVER_INFO, NULL,
-		_("Metaserver patches string set to '%s'."), arg);
+    notify_conn(NULL, NULL, E_SETTING, ftc_server,
+                _("Metaserver patches string set to '%s'."), arg);
   } else {
-    notify_conn(NULL, NULL, E_SETTING, FTC_SERVER_INFO, NULL,
-		_("Metaserver patches string set to '%s', "
-		  "not reporting to metaserver."), arg);
+    notify_conn(NULL, NULL, E_SETTING, ftc_server,
+                _("Metaserver patches string set to '%s', "
+                  "not reporting to metaserver."), arg);
   }
 
   return TRUE;
@@ -552,12 +552,12 @@ static bool metamessage_command(struct connection *caller,
   set_user_meta_message_string(arg);
   if (is_metaserver_open()) {
     send_server_info_to_metaserver(META_INFO);
-    notify_conn(NULL, NULL, E_SETTING, FTC_SERVER_INFO, NULL,
-		_("Metaserver message string set to '%s'."), arg);
+    notify_conn(NULL, NULL, E_SETTING, ftc_server,
+                _("Metaserver message string set to '%s'."), arg);
   } else {
-    notify_conn(NULL, NULL, E_SETTING, FTC_SERVER_INFO, NULL,
-		_("Metaserver message string set to '%s', "
-		  "not reporting to metaserver."), arg);
+    notify_conn(NULL, NULL, E_SETTING, ftc_server,
+                _("Metaserver message string set to '%s', "
+                  "not reporting to metaserver."), arg);
   }
 
   return TRUE;
@@ -576,7 +576,7 @@ static bool metaserver_command(struct connection *caller, char *arg,
 
   sz_strlcpy(srvarg.metaserver_addr, arg);
 
-  notify_conn(NULL, NULL, E_SETTING, FTC_SERVER_INFO, NULL,
+  notify_conn(NULL, NULL, E_SETTING, ftc_server,
               _("Metaserver is now [%s]."),
 	      meta_addr_port());
   return TRUE;
@@ -862,15 +862,15 @@ static bool create_ai_player(struct connection *caller, char *arg, bool check)
       return FALSE;
     }
 
-    notify_conn(NULL, NULL, E_SETTING, FTC_SERVER_INFO, NULL,
-		_("%s has been added as an AI-controlled player."),
-		arg);
+    notify_conn(NULL, NULL, E_SETTING, ftc_server,
+                _("%s has been added as an AI-controlled player."),
+                arg);
   } else {
-    notify_conn(NULL, NULL, E_SETTING, FTC_SERVER_INFO, NULL,
-		/* TRANS: <name> replacing <name> ... */
-		_("%s replacing %s as an AI-controlled player."),
-		arg,
-		player_name(pplayer));
+    notify_conn(NULL, NULL, E_SETTING, ftc_server,
+                /* TRANS: <name> replacing <name> ... */
+                _("%s replacing %s as an AI-controlled player."),
+                arg,
+                player_name(pplayer));
   }
 
   team_remove_player(pplayer);
@@ -1198,10 +1198,10 @@ void notify_if_first_access_level_is_available(void)
 {
   if (first_access_level > default_access_level
       && !first_access_level_is_taken()) {
-    notify_conn(NULL, NULL, E_SETTING, NULL, NULL,
-		_("Anyone can now become game organizer "
-		  "'%s' by issuing the 'first' command."),
-		cmdlevel_name(first_access_level));
+    notify_conn(NULL, NULL, E_SETTING, ftc_any,
+                _("Anyone can now become game organizer "
+                  "'%s' by issuing the 'first' command."),
+                cmdlevel_name(first_access_level));
   }
 }
 
@@ -1612,8 +1612,8 @@ static bool explain_option(struct connection *caller, char *str, bool check)
 static bool wall(char *str, bool check)
 {
   if (!check) {
-    notify_conn(NULL, NULL, E_MESSAGE_WALL, "#FF0000", "#BEBEBE",
- 		_("Server Operator: %s"), str);
+    notify_conn(NULL, NULL, E_MESSAGE_WALL, ftc_server_prompt,
+                _("Server Operator: %s"), str);
   }
   return TRUE;
 }
@@ -1868,15 +1868,15 @@ static bool set_away(struct connection *caller, char *name, bool check)
               _("Only players may use the away command."));
     return FALSE;
   } else if (!caller->playing->ai_data.control && !check) {
-    notify_conn(game.est_connections, NULL, E_SETTING, NULL, NULL,
-		_("%s set to away mode."), 
+    notify_conn(game.est_connections, NULL, E_SETTING, ftc_any,
+                _("%s set to away mode."), 
                 player_name(caller->playing));
     set_ai_level_directer(caller->playing, AI_LEVEL_AWAY);
     caller->playing->ai_data.control = TRUE;
     cancel_all_meetings(caller->playing);
   } else if (!check) {
-    notify_conn(game.est_connections, NULL, E_SETTING, NULL, NULL,
-		_("%s returned to game."), player_name(caller->playing));
+    notify_conn(game.est_connections, NULL, E_SETTING, ftc_any,
+                _("%s returned to game."), player_name(caller->playing));
     caller->playing->ai_data.control = FALSE;
     /* We have to do it, because the client doesn't display 
      * dialogs for meetings in AI mode. */
@@ -2000,7 +2000,7 @@ static bool show_command(struct connection *caller, char *str, bool check)
             /* Emphasizes the changed option. */
             feature_len = featured_text_apply_tag(value, buf, sizeof(buf),
                                                   TTT_COLOR, 0, 5,
-                                                  "red", NULL) - len;
+                                                  ftc_changed) - len;
             sz_strlcpy(value, buf);
           }
 	  break;
@@ -2014,7 +2014,7 @@ static bool show_command(struct connection *caller, char *str, bool check)
             /* Emphasizes the changed option. */
             feature_len = featured_text_apply_tag(value, buf, sizeof(buf),
                                                   TTT_COLOR, 0, 5,
-                                                  "red", NULL) - len;
+                                                  ftc_changed) - len;
             sz_strlcpy(value, buf);
           }
 	  break;
@@ -2027,7 +2027,7 @@ static bool show_command(struct connection *caller, char *str, bool check)
             /* Emphasizes the changed option. */
             feature_len = featured_text_apply_tag(value, buf, sizeof(buf),
                                                   TTT_COLOR, 0, OFFSET_UNSET,
-                                                  "red", NULL) - len;
+                                                  ftc_changed) - len;
             sz_strlcpy(value, buf);
           }
 	  break;
@@ -2350,7 +2350,7 @@ static bool cancelvote_command(struct connection *caller,
       return FALSE;
     } else if (!caller || conn_get_access(caller) >= ALLOW_ADMIN) {
       clear_all_votes();
-      notify_conn(NULL, NULL, E_VOTE_ABORTED, FTC_SERVER_INFO, NULL,
+      notify_conn(NULL, NULL, E_VOTE_ABORTED, ftc_server,
                   _("All votes have been removed."));
       return TRUE;
     } else {
@@ -2382,13 +2382,13 @@ static bool cancelvote_command(struct connection *caller,
 
   if (caller) {
     notify_team(conn_get_player(vote_get_caller(pvote)),
-                NULL, E_VOTE_ABORTED, FTC_SERVER_INFO, NULL,
+                NULL, E_VOTE_ABORTED, ftc_server,
                 _("%s has cancelled the vote \"%s\" (number %d)."),
                 caller->username, pvote->cmdline, pvote->vote_no);
   } else {
     /* Server prompt */
     notify_team(conn_get_player(vote_get_caller(pvote)),
-                NULL, E_VOTE_ABORTED, FTC_SERVER_INFO, NULL,
+                NULL, E_VOTE_ABORTED, ftc_server,
                 _("The vote \"%s\" (number %d) has been cancelled."),
                 pvote->cmdline, pvote->vote_no);
   }
@@ -2488,9 +2488,9 @@ static bool debug_command(struct connection *caller, char *str,
     } players_iterate_end;
     freelog(LOG_NORMAL, _("players=%d cities=%d citizens=%d units=%d"),
             players, cities, citizens, units);
-    notify_conn(game.est_connections, NULL, E_AI_DEBUG, FTC_LOG, NULL,
-		_("players=%d cities=%d citizens=%d units=%d"),
-		players, cities, citizens, units);
+    notify_conn(game.est_connections, NULL, E_AI_DEBUG, ftc_log,
+                _("players=%d cities=%d citizens=%d units=%d"),
+                players, cities, citizens, units);
   } else if (ntokens > 0 && strcmp(arg[0], "city") == 0) {
     int x, y;
     struct tile *ptile;
@@ -2776,7 +2776,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
   }
 
   if (!check && strlen(buffer) > 0 && sset_is_to_client(cmd)) {
-    notify_conn(NULL, NULL, E_SETTING, FTC_SERVER_INFO, NULL, "%s", buffer);
+    notify_conn(NULL, NULL, E_SETTING, ftc_server, "%s", buffer);
   }
 
   if (!check && do_update) {
@@ -3195,13 +3195,11 @@ static bool take_command(struct connection *caller, char *str, bool check)
    */
   if (pplayer) {
     if (NULL == caller) {
-      notify_conn(pplayer->connections, NULL, E_CONNECTION,
-                  FTC_SERVER_INFO, NULL,
+      notify_conn(NULL, NULL, E_CONNECTION, ftc_server,
                   _("Reassigned nation to %s by server console."),
                   pconn->username);
     } else {
-      notify_conn(pplayer->connections, NULL, E_CONNECTION,
-                  FTC_SERVER_INFO, NULL,
+      notify_conn(NULL, NULL, E_CONNECTION, ftc_server,
                   _("Reassigned nation to %s by %s."),
                   pconn->username,
                   caller->username);
@@ -3772,20 +3770,20 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
       char votedesc[MAX_LEN_CONSOLE_LINE];
       const struct player *teamplr;
       const char *what;
-      const char *background;
+      struct ft_color color;
 
       describe_vote(vote, votedesc, sizeof(votedesc));
 
       if (vote_is_team_only(vote)) {
         what = _("New teamvote");
         teamplr = conn_get_player(caller);
-        background = "#5555CC";
+        color = ftc_vote_team;
       } else {
         what = _("New vote");
         teamplr = NULL;
-        background = "#AA0000";
+        color = ftc_vote_public;
       }
-      notify_team(teamplr, NULL, E_VOTE_NEW, "#FFFFFF", background,
+      notify_team(teamplr, NULL, E_VOTE_NEW, color,
                   _("%s (number %d) by %s: %s"), what,
                   vote->vote_no, caller->username, votedesc);
 
@@ -3817,10 +3815,10 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
      * newline in str when it comes from the server command line
      */
     if (caller) {
-      notify_conn(NULL, NULL, E_SETTING, NULL, NULL,
+      notify_conn(NULL, NULL, E_SETTING, ftc_any,
                   "%s: '%s %s'", caller->username, command, arg);
     } else {
-      notify_conn(NULL, NULL, E_SETTING, "#FF0000", "#BEBEBE",
+      notify_conn(NULL, NULL, E_SETTING, ftc_server_prompt,
                   "%s: '%s %s'", _("(server prompt)"), command, arg);
     }
   }
@@ -3931,8 +3929,8 @@ static bool end_command(struct connection *caller, char *str, bool check)
     if (check) {
       return TRUE;
     }
-    notify_conn(game.est_connections, NULL, E_GAME_END,
-                FTC_SERVER_INFO, NULL, _("Game ended in a draw."));
+    notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
+                _("Game ended in a draw."));
     set_server_state(S_S_OVER);
     force_end_of_sniff = TRUE;
     cmd_reply(CMD_END_GAME, caller, C_OK,
@@ -3956,8 +3954,7 @@ static bool surrender_command(struct connection *caller, char *str, bool check)
     if (check) {
       return TRUE;
     }
-    notify_conn(game.est_connections, NULL, E_GAME_END,
-                FTC_SERVER_INFO, NULL,
+    notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
                 _("%s has conceded the game and can no longer win."),
                 player_name(caller->playing));
     caller->playing->surrendered = TRUE;
@@ -3990,7 +3987,7 @@ static bool reset_command(struct connection *caller, bool check,
   }
 
   send_server_settings(NULL);
-  notify_conn(NULL, NULL, E_SETTING, FTC_SERVER_INFO, NULL,
+  notify_conn(NULL, NULL, E_SETTING, ftc_server,
               _("Settings re-initialized."));
   return TRUE;
 }
@@ -4002,7 +3999,7 @@ static void start_cmd_reply(struct connection *caller, bool notify, char *msg)
 {
   cmd_reply(CMD_START_GAME, caller, C_FAIL, "%s", msg);
   if (notify) {
-    notify_conn(NULL, NULL, E_SETTING, FTC_SERVER_INFO, NULL, "%s", msg);
+    notify_conn(NULL, NULL, E_SETTING, ftc_server, "%s", msg);
   }
 }
 
@@ -4078,7 +4075,7 @@ bool start_command(struct connection *caller, bool check, bool notify)
       if (notify) {
         /* Called from handle_player_ready()
          * Last player just toggled ready-status. */
-        notify_conn(NULL, NULL, E_SETTING, "#00FF00", "#115511",
+        notify_conn(NULL, NULL, E_SETTING, ftc_game_start,
                     _("All players are ready; starting game."));
       }
       start_game();
@@ -4509,7 +4506,7 @@ void show_players(struct connection *caller)
           featured_text_apply_tag(_(", not ready"),
                                   buf2 + n, sizeof(buf2) - n,
                                   TTT_COLOR, 1, OFFSET_UNSET,
-                                  "red", NULL);
+                                  ftc_changed);
 	}
       }
       my_snprintf(buf, sizeof(buf), "%s (%s)", player_name(pplayer), buf2);

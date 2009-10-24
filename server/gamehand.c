@@ -155,10 +155,10 @@ static struct tile *place_starting_unit(struct tile *starttile,
       freelog(LOG_ERROR, "Sea moving start units are not yet supported, "
                            "%s not created.",
                          utype_rule_name(utype));
-      notify_player(pplayer, NULL, E_BAD_COMMAND, FTC_SERVER_INFO, NULL,
-		    _("Sea moving start units are not yet supported. "
-		      "Nobody gets %s."),
-		    utype_name_translation(utype));
+      notify_player(pplayer, NULL, E_BAD_COMMAND, ftc_server,
+                    _("Sea moving start units are not yet supported. "
+                      "Nobody gets %s."),
+                    utype_name_translation(utype));
       return NULL;
     }
 
@@ -335,7 +335,7 @@ void send_year_to_clients(int year)
   lsend_packet_new_year(game.est_connections, &apacket);
 
   /* Hmm, clients could add this themselves based on above packet? */
-  notify_conn(game.est_connections, NULL, E_NEXT_YEAR, NULL, NULL,
+  notify_conn(game.est_connections, NULL, E_NEXT_YEAR, ftc_any,
               _("Year: %s"), textyear(year));
 }
 
@@ -418,8 +418,7 @@ int update_timeout(void)
     game.server.timeoutint += game.server.timeoutintinc;
 
     if (game.info.timeout > GAME_MAX_TIMEOUT) {
-      notify_conn(game.est_connections, NULL, E_SETTING,
-                  FTC_SERVER_INFO, NULL,
+      notify_conn(game.est_connections, NULL, E_SETTING, ftc_server,
                   _("The turn timeout has exceeded its maximum value, "
                     "fixing at its maximum."));
       freelog(LOG_DEBUG, "game.info.timeout exceeded maximum value");
@@ -427,8 +426,7 @@ int update_timeout(void)
       game.server.timeoutint = 0;
       game.server.timeoutinc = 0;
     } else if (game.info.timeout < 0) {
-      notify_conn(game.est_connections, NULL, E_SETTING,
-                  FTC_SERVER_INFO, NULL,
+      notify_conn(game.est_connections, NULL, E_SETTING, ftc_server,
                   _("The turn timeout is smaller than zero, "
                     "fixing at zero."));
       freelog(LOG_DEBUG, "game.info.timeout less than zero");

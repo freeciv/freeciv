@@ -1327,14 +1327,12 @@ static void races_response(GtkWidget *w, gint response, gpointer data)
     }
 
     if (selected_sex == -1) {
-      output_window_append(FTC_CLIENT_INFO, NULL,
-                           _("You must select your sex."));
+      output_window_append(ftc_client, _("You must select your sex."));
       return;
     }
 
     if (selected_city_style == -1) {
-      output_window_append(FTC_CLIENT_INFO, NULL,
-                           _("You must select your city style."));
+      output_window_append(ftc_client, _("You must select your city style."));
       return;
     }
 
@@ -1343,8 +1341,7 @@ static void races_response(GtkWidget *w, gint response, gpointer data)
     /* Perform a minimum of sanity test on the name. */
     /* This could call is_allowed_player_name if it were available. */
     if (strlen(s) == 0) {
-      output_window_append(FTC_CLIENT_INFO, NULL,
-                           _("You must type a legal name."));
+      output_window_append(ftc_client, _("You must type a legal name."));
       return;
     }
 

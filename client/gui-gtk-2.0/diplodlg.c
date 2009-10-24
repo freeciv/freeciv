@@ -895,8 +895,7 @@ static void diplo_dialog_returnkey(GtkWidget *w, gpointer data)
 					     player_number(pgiver),
 					     CLAUSE_GOLD, amount);
   } else {
-    output_window_append(FTC_CLIENT_INFO, NULL,
-                         _("Invalid amount of gold specified."));
+    output_window_append(ftc_client, _("Invalid amount of gold specified."));
   }
 }
 

@@ -134,7 +134,7 @@ void kill_player(struct player *pplayer)
   }
 
   if (!is_barbarian(pplayer)) {
-    notify_player(NULL, NULL, E_DESTROYED, FTC_SERVER_INFO, NULL,
+    notify_player(NULL, NULL, E_DESTROYED, ftc_server,
                   _("The %s are no more!"),
                   nation_plural_for_player(pplayer));
   }
@@ -190,8 +190,8 @@ void handle_player_rates(struct player *pplayer,
   if (S_S_RUNNING != server_state()) {
     freelog(LOG_ERROR, "received player_rates packet from %s before start",
 	    player_name(pplayer));
-    notify_player(pplayer, NULL, E_BAD_COMMAND, FTC_SERVER_INFO, NULL,
-		  _("Cannot change rates before game start."));
+    notify_player(pplayer, NULL, E_BAD_COMMAND, ftc_server,
+                  _("Cannot change rates before game start."));
     return;
   }
 	
@@ -214,8 +214,8 @@ void handle_player_rates(struct player *pplayer,
       rtype = _("Science");
     }
 
-    notify_player(pplayer, NULL, E_BAD_COMMAND, FTC_SERVER_INFO, NULL,
-		  _("%s rate exceeds the max rate for %s."),
+    notify_player(pplayer, NULL, E_BAD_COMMAND, ftc_server,
+                  _("%s rate exceeds the max rate for %s."),
                   rtype,
                   government_name_for_player(pplayer));
   } else {
@@ -258,7 +258,7 @@ static void finish_revolution(struct player *pplayer)
 	  player_name(pplayer),
 	  government_rule_name(government),
 	  pplayer->revolution_finishes, game.info.turn);
-  notify_player(pplayer, NULL, E_REVOLT_DONE, FTC_SERVER_INFO, NULL,
+  notify_player(pplayer, NULL, E_REVOLT_DONE, ftc_server,
                 _("%s now governs the %s as a %s."), 
                 player_name(pplayer), 
                 nation_plural_for_player(pplayer),
@@ -336,7 +336,7 @@ void handle_player_change_government(struct player *pplayer, int government)
     finish_revolution(pplayer);
     return;
   } else if (turns > 0) {
-    notify_player(pplayer, NULL, E_REVOLT_START, FTC_SERVER_INFO, NULL,
+    notify_player(pplayer, NULL, E_REVOLT_START, ftc_server,
                   /* TRANS: this is a message event so don't make it
                    * too long. */
                   PL_("The %s have incited a revolt! "
@@ -351,7 +351,7 @@ void handle_player_change_government(struct player *pplayer, int government)
                   government_name_translation(pplayer->target_government));
   } else {
     assert(pplayer->target_government == game.government_during_revolution);
-    notify_player(pplayer, NULL, E_REVOLT_START, FTC_SERVER_INFO, NULL,
+    notify_player(pplayer, NULL, E_REVOLT_START, ftc_server,
                   _("Revolution: returning to anarchy."));
   }
 
@@ -412,7 +412,7 @@ void update_revolution(struct player *pplayer)
     } else {
       /* If the revolution is over but there's no target government set,
        * alert the player. */
-      notify_player(pplayer, NULL, E_REVOLT_DONE, NULL, NULL,
+      notify_player(pplayer, NULL, E_REVOLT_DONE, ftc_any,
                     _("You should choose a new government from the "
                       "government menu."));
     }
@@ -438,16 +438,16 @@ void check_player_max_rates(struct player *pplayer)
 
   pplayer->economic = player_limit_to_max_rates(pplayer);
   if (old_econ.tax > pplayer->economic.tax) {
-    notify_player(pplayer, NULL, E_NEW_GOVERNMENT, FTC_SERVER_INFO, NULL,
-		  _("Tax rate exceeded the max rate; adjusted."));
+    notify_player(pplayer, NULL, E_NEW_GOVERNMENT, ftc_server,
+                  _("Tax rate exceeded the max rate; adjusted."));
   }
   if (old_econ.science > pplayer->economic.science) {
-    notify_player(pplayer, NULL, E_NEW_GOVERNMENT, FTC_SERVER_INFO, NULL,
-		  _("Science rate exceeded the max rate; adjusted."));
+    notify_player(pplayer, NULL, E_NEW_GOVERNMENT, ftc_server,
+                  _("Science rate exceeded the max rate; adjusted."));
   }
   if (old_econ.luxury > pplayer->economic.luxury) {
-    notify_player(pplayer, NULL, E_NEW_GOVERNMENT, FTC_SERVER_INFO, NULL,
-		  _("Luxury rate exceeded the max rate; adjusted."));
+    notify_player(pplayer, NULL, E_NEW_GOVERNMENT, ftc_server,
+                  _("Luxury rate exceeded the max rate; adjusted."));
   }
 }
 
@@ -500,7 +500,7 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
       return;
     }
     remove_shared_vision(pplayer, pplayer2);
-    notify_player(pplayer2, NULL, E_TREATY_BROKEN, FTC_SERVER_INFO, NULL,
+    notify_player(pplayer2, NULL, E_TREATY_BROKEN, ftc_server,
                   _("%s no longer gives us shared vision!"),
                   player_name(pplayer));
     return;
@@ -511,7 +511,7 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
   /* The senate may not allow you to break the treaty.  In this case you
    * must first dissolve the senate then you can break it. */
   if (diplcheck == DIPL_SENATE_BLOCKING) {
-    notify_player(pplayer, NULL, E_TREATY_BROKEN, FTC_SERVER_INFO, NULL,
+    notify_player(pplayer, NULL, E_TREATY_BROKEN, ftc_server,
                   _("The senate will not allow you to break treaty "
                     "with the %s.  You must either dissolve the senate "
                     "or wait until a more timely moment."),
@@ -564,12 +564,12 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
    * will happen but the second one will fail. */
   if (get_player_bonus(pplayer, EFT_HAS_SENATE) > 0 && !repeat) {
     if (pplayer->diplstates[player_index(pplayer2)].has_reason_to_cancel > 0) {
-      notify_player(pplayer, NULL, E_TREATY_BROKEN, FTC_SERVER_INFO, NULL,
+      notify_player(pplayer, NULL, E_TREATY_BROKEN, ftc_server,
                     _("The senate passes your bill because of the "
                       "constant provocations of the %s."),
                     nation_plural_for_player(pplayer2));
     } else if (new_type == DS_WAR) {
-      notify_player(pplayer, NULL, E_TREATY_BROKEN, FTC_SERVER_INFO, NULL,
+      notify_player(pplayer, NULL, E_TREATY_BROKEN, ftc_server,
                     _("The senate refuses to break treaty with the %s, "
                       "but you have no trouble finding a new senate."),
                     nation_plural_for_player(pplayer2));
@@ -602,13 +602,13 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
   city_map_update_all_cities_for_player(pplayer2);
   sync_cities();
 
-  notify_player(pplayer, NULL, E_TREATY_BROKEN, FTC_SERVER_INFO, NULL,
+  notify_player(pplayer, NULL, E_TREATY_BROKEN, ftc_server,
                 _("The diplomatic state between the %s "
                   "and the %s is now %s."),
                 nation_plural_for_player(pplayer),
                 nation_plural_for_player(pplayer2),
                 diplstate_text(new_type));
-  notify_player(pplayer2, NULL, E_TREATY_BROKEN, FTC_SERVER_INFO, NULL,
+  notify_player(pplayer2, NULL, E_TREATY_BROKEN, ftc_server,
                 _(" %s canceled the diplomatic agreement! "
                   "The diplomatic state between the %s and the %s "
                   "is now %s."),
@@ -626,7 +626,7 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
         /* If an ally declares war on another ally, break off your alliance
          * to the aggressor. This prevents in-alliance wars, which are not
          * permitted. */
-        notify_player(other, NULL, E_TREATY_BROKEN, FTC_SERVER_INFO, NULL,
+        notify_player(other, NULL, E_TREATY_BROKEN, ftc_server,
                       _("%s has attacked your ally %s! "
                         "You cancel your alliance to the aggressor."),
                       player_name(pplayer),
@@ -638,7 +638,7 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
         /* We are in the same team as the agressor; we cannot break 
          * alliance with him. We trust our team mate and break alliance
          * with the attacked player */
-        notify_player(other, NULL, E_TREATY_BROKEN, FTC_SERVER_INFO, NULL,
+        notify_player(other, NULL, E_TREATY_BROKEN, ftc_server,
                       _("Your team mate %s declared war on %s. "
                         "You are obligated to cancel alliance with %s."),
                       player_name(pplayer),
@@ -1051,14 +1051,12 @@ void server_remove_player(struct player *pplayer)
 
   freelog(LOG_NORMAL, _("Removing player %s."), player_name(pplayer));
 
-  notify_conn(pplayer->connections, NULL, E_CONNECTION,
-              FTC_SERVER_INFO, NULL,
-	      _("You've been removed from the game!"));
+  notify_conn(pplayer->connections, NULL, E_CONNECTION, ftc_server,
+              _("You've been removed from the game!"));
 
-  notify_conn(game.est_connections, NULL, E_CONNECTION,
-              FTC_SERVER_INFO, NULL,
-	      _("%s has been removed from the game."),
-	      player_name(pplayer));
+  notify_conn(game.est_connections, NULL, E_CONNECTION, ftc_server,
+              _("%s has been removed from the game."),
+              player_name(pplayer));
 
   if (is_barbarian(pplayer)) {
     server.nbarbarians--;
@@ -1105,11 +1103,11 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
     pplayer2->diplstates[player1].type = DS_WAR;
     pplayer1->diplstates[player2].first_contact_turn = game.info.turn;
     pplayer2->diplstates[player1].first_contact_turn = game.info.turn;
-    notify_player(pplayer1, ptile, E_FIRST_CONTACT, FTC_SERVER_INFO, NULL,
+    notify_player(pplayer1, ptile, E_FIRST_CONTACT, ftc_server,
                   _("You have made contact with the %s, ruled by %s."),
                   nation_plural_for_player(pplayer2),
                   player_name(pplayer2));
-    notify_player(pplayer2, ptile, E_FIRST_CONTACT, FTC_SERVER_INFO, NULL,
+    notify_player(pplayer2, ptile, E_FIRST_CONTACT, ftc_server,
                   _("You have made contact with the %s, ruled by %s."),
                   nation_plural_for_player(pplayer1),
                   player_name(pplayer1));
@@ -1129,7 +1127,7 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
       if (pplayer1 != pplayer3 && pplayer2 != pplayer3 && pplayer3->is_alive
           && pplayers_allied(pplayer1, pplayer3)
           && pplayers_allied(pplayer2, pplayer3)) {
-        notify_player(pplayer3, NULL, E_TREATY_BROKEN, FTC_SERVER_INFO, NULL,
+        notify_player(pplayer3, NULL, E_TREATY_BROKEN, ftc_server,
                       _("%s and %s meet and go to instant war. You cancel your alliance "
                         "with both."),
                       player_name(pplayer1),
@@ -1616,10 +1614,10 @@ void civil_war(struct player *pplayer)
 	  "%s civil war; created AI %s",
 	  nation_rule_name(nation_of_player(pplayer)),
 	  nation_rule_name(nation_of_player(cplayer)));
-  notify_player(pplayer, NULL, E_CIVIL_WAR, FTC_SERVER_INFO, NULL,
+  notify_player(pplayer, NULL, E_CIVIL_WAR, ftc_server,
                 _("Your nation is thrust into civil war."));
 
-  notify_player(pplayer, NULL, E_FIRST_CONTACT, FTC_SERVER_INFO, NULL,
+  notify_player(pplayer, NULL, E_FIRST_CONTACT, ftc_server,
                 /* TRANS: <leader> ... the Poles. */
                 _("%s is the rebellious leader of the %s."),
                 player_name(cplayer),
@@ -1641,8 +1639,7 @@ void civil_war(struct player *pplayer)
 	freelog(LOG_VERBOSE, "%s declares allegiance to the %s.",
 		city_name(pcity),
 		nation_rule_name(nation_of_player(cplayer)));
-	notify_player(pplayer, pcity->tile, E_CITY_LOST,
-                      FTC_SERVER_INFO, NULL,
+	notify_player(pplayer, pcity->tile, E_CITY_LOST, ftc_server,
                       /* TRANS: <city> ... the Poles. */
                       _("%s declares allegiance to the %s."),
                       city_link(pcity),
@@ -1657,16 +1654,16 @@ void civil_war(struct player *pplayer)
 
   i = city_list_size(cplayer->cities);
 
-  notify_player(NULL, NULL, E_CIVIL_WAR, FTC_SERVER_INFO, NULL,
-		/* TRANS: ... Danes ... Poles ... <7> cities. */
-		PL_("Civil war partitions the %s;"
-		    " the %s now hold %d city.",
-		    "Civil war partitions the %s;"
-		    " the %s now hold %d cities.",
-		    i),
-		nation_plural_for_player(pplayer),
-		nation_plural_for_player(cplayer),
-		i);
+  notify_player(NULL, NULL, E_CIVIL_WAR, ftc_server,
+                /* TRANS: ... Danes ... Poles ... <7> cities. */
+                PL_("Civil war partitions the %s;"
+                    " the %s now hold %d city.",
+                    "Civil war partitions the %s;"
+                    " the %s now hold %d cities.",
+                    i),
+                nation_plural_for_player(pplayer),
+                nation_plural_for_player(cplayer),
+                i);
 }
 
 /**************************************************************************

@@ -150,12 +150,12 @@ void establish_new_connection(struct connection *pconn)
 
   /* introduce the server to the connection */
   if (my_gethostname(hostname, sizeof(hostname)) == 0) {
-    notify_conn(dest, NULL, E_CONNECTION, NULL, NULL,
-		_("Welcome to the %s Server running at %s port %d."),
+    notify_conn(dest, NULL, E_CONNECTION, ftc_any,
+                _("Welcome to the %s Server running at %s port %d."),
                 freeciv_name_version(), hostname, srvarg.port);
   } else {
-    notify_conn(dest, NULL, E_CONNECTION, NULL, NULL,
-		_("Welcome to the %s Server at port %d."),
+    notify_conn(dest, NULL, E_CONNECTION, ftc_any,
+                _("Welcome to the %s Server at port %d."),
                 freeciv_name_version(), srvarg.port);
   }
 
@@ -167,7 +167,7 @@ void establish_new_connection(struct connection *pconn)
           pconn->username, pconn->addr);
   conn_list_iterate(game.est_connections, aconn) {
     if (aconn != pconn) {
-      notify_conn(aconn->self, NULL, E_CONNECTION, FTC_SERVER_INFO, NULL,
+      notify_conn(aconn->self, NULL, E_CONNECTION, ftc_server,
                   _("%s has connected from %s."),
                   pconn->username, pconn->addr);
     }
@@ -191,7 +191,7 @@ void establish_new_connection(struct connection *pconn)
   } else {
     if (S_S_INITIAL == server_state() && game.info.is_new_game) {
       if (!connection_attach(pconn, NULL, FALSE)) {
-        notify_conn(dest, NULL, E_CONNECTION, FTC_SERVER_INFO, NULL,
+        notify_conn(dest, NULL, E_CONNECTION, ftc_server,
                     _("Couldn't attach your connection to new player."));
         freelog(LOG_VERBOSE, "%s is not attached to a player",
                 pconn->username);
@@ -209,16 +209,16 @@ void establish_new_connection(struct connection *pconn)
 
   /* remind the connection who he is */
   if (NULL == pconn->playing) {
-    notify_conn(dest, NULL, E_CONNECTION, FTC_SERVER_INFO, NULL,
+    notify_conn(dest, NULL, E_CONNECTION, ftc_server,
 		_("You are logged in as '%s' connected to no player."),
                 pconn->username);
   } else if (strcmp(player_name(pconn->playing), ANON_PLAYER_NAME) == 0) {
-    notify_conn(dest, NULL, E_CONNECTION, FTC_SERVER_INFO, NULL,
+    notify_conn(dest, NULL, E_CONNECTION, ftc_server,
 		_("You are logged in as '%s' connected to an "
 		  "anonymous player."),
 		pconn->username);
   } else {
-    notify_conn(dest, NULL, E_CONNECTION, FTC_SERVER_INFO, NULL,
+    notify_conn(dest, NULL, E_CONNECTION, ftc_server,
 		_("You are logged in as '%s' connected to %s."),
                 pconn->username,
                 player_name(pconn->playing));
@@ -231,7 +231,7 @@ void establish_new_connection(struct connection *pconn)
           && !cplayer->ai_data.control
           && !cplayer->phase_done
           && cplayer != pconn->playing) {  /* skip current player */
-        notify_conn(dest, NULL, E_CONNECTION, NULL, NULL,
+        notify_conn(dest, NULL, E_CONNECTION, ftc_any,
 		    _("Turn-blocking game play: "
 		      "waiting on %s to finish turn..."),
                     player_name(cplayer));
@@ -240,7 +240,7 @@ void establish_new_connection(struct connection *pconn)
   }
 
   if (game.info.is_edit_mode) {
-    notify_conn(dest, NULL, E_SETTING, FTC_EDITOR, NULL,
+    notify_conn(dest, NULL, E_SETTING, ftc_editor,
                 _(" *** Server is in edit mode. *** "));
   }
 
@@ -383,8 +383,7 @@ void lost_connection_to_client(struct connection *pconn)
   delayed_disconnect++;
   /* Special color (white on black) for player loss */
   notify_conn(game.est_connections, NULL, E_CONNECTION,
-              conn_controls_player(pconn) ? "white" : FTC_SERVER_INFO,
-              conn_controls_player(pconn) ? "black" : NULL,
+              conn_controls_player(pconn) ? ftc_player_lost : ftc_server,
               _("Lost connection: %s."), desc);
 
   connection_detach(pconn);
@@ -600,8 +599,7 @@ void connection_detach(struct connection *pconn)
         conn_list_iterate(pplayer->connections, aconn) {
           /* Detach all. */
           if (aconn != pconn) {
-            notify_conn(aconn->self, NULL, E_CONNECTION,
-                        FTC_SERVER_INFO, NULL,
+            notify_conn(aconn->self, NULL, E_CONNECTION, ftc_server,
                         _("detaching from %s."),
                         player_name(pplayer));
             /* Recursive... but shouldn't be problem. */

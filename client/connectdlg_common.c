@@ -205,7 +205,7 @@ bool client_start_server(void)
   /* This also resets client_has_hack. */
   client_kill_server(TRUE);
   
-  output_window_append(FTC_CLIENT_INFO, NULL, _("Starting server..."));
+  output_window_append(ftc_client, _("Starting server..."));
 
   /* find a free port */ 
   internal_server_port = find_next_free_port(DEFAULT_SOCK_PORT);
@@ -326,9 +326,8 @@ bool client_start_server(void)
       && !CreateProcess(NULL, cmdline3, NULL, NULL, TRUE,
 			DETACHED_PROCESS | NORMAL_PRIORITY_CLASS,
 			NULL, NULL, &si, &pi)) {
-    output_window_append(FTC_CLIENT_INFO, NULL,
-                         _("Couldn't start the server."));
-    output_window_append(FTC_CLIENT_INFO, NULL,
+    output_window_append(ftc_client, _("Couldn't start the server."));
+    output_window_append(ftc_client,
                          _("You'll have to start one manually. Sorry..."));
     return FALSE;
   }
@@ -360,11 +359,10 @@ bool client_start_server(void)
     /* possible that server is still running. kill it */ 
     client_kill_server(TRUE);
 
-    output_window_append(FTC_CLIENT_INFO, NULL,
-                         _("Couldn't connect to the server."));
-    output_window_append(FTC_CLIENT_INFO, NULL,
+    output_window_append(ftc_client, _("Couldn't connect to the server."));
+    output_window_append(ftc_client,
                          _("We probably couldn't start it from here."));
-    output_window_append(FTC_CLIENT_INFO, NULL,
+    output_window_append(ftc_client,
                          _("You'll have to start one manually. Sorry..."));
     return FALSE;
   }
@@ -483,13 +481,13 @@ void handle_single_want_hack_reply(bool you_have_hack)
   }
 
   if (you_have_hack) {
-    output_window_append(FTC_CLIENT_INFO, NULL,
+    output_window_append(ftc_client,
                          _("Established control over the server. "
                            "You have command access level 'hack'."));
     client_has_hack = TRUE;
   } else if (is_server_running()) {
     /* only output this if we started the server and we NEED hack */
-    output_window_append(FTC_CLIENT_INFO, NULL,
+    output_window_append(ftc_client,
                          _("Failed to obtain the required access "
                            "level to take control of the server. "
                            "The server will now be shutdown."));

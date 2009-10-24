@@ -21,44 +21,55 @@
 /* common */
 #include "events.h"
 #include "fc_types.h"
-#include "featured_text.h"      /* FTC_*: color pre-definitions. */
+#include "featured_text.h"      /* ftc_*: color pre-definitions. */
 #include "packets.h"
 
 void package_chat_msg(struct packet_chat_msg *packet,
                       const struct connection *sender,
-                      const char *fg_color, const char *bg_color,
+                      const struct ft_color color,
                       const char *format, ...)
-                      fc__attribute((__format__ (__printf__, 5, 6)));
+                      fc__attribute((__format__ (__printf__, 4, 5)));
 void vpackage_chat_msg(struct packet_chat_msg *packet,
                        const struct connection *sender,
-                       const char *fg_color, const char *bg_color,
-                       const char *format, va_list vargs);
+                       const struct ft_color color,
+                       const char *format,
+                       va_list vargs);
 void vpackage_event(struct packet_chat_msg *packet,
-                    const struct tile *ptile, enum event_type event,
-                    const char *fg_color, const char *bg_color,
-                    const char *format, va_list vargs);
+                    const struct tile *ptile,
+                    enum event_type event,
+                    const struct ft_color color,
+                    const char *format,
+                    va_list vargs);
 
-void notify_conn(struct conn_list *dest, const struct tile *ptile,
-                 enum event_type event, const char *fg_color,
-                 const char *bg_color, const char *format, ...)
-                 fc__attribute((__format__ (__printf__, 6, 7)));
-void notify_player(const struct player *pplayer, const struct tile *ptile,
-                   enum event_type event, const char *fg_color,
-                   const char *bg_color, const char *format, ...)
-                   fc__attribute((__format__ (__printf__, 6, 7)));
+void notify_conn(struct conn_list *dest,
+                 const struct tile *ptile,
+                 enum event_type event,
+                 const struct ft_color color,
+                 const char *format, ...)
+                 fc__attribute((__format__ (__printf__, 5, 6)));
+void notify_player(const struct player *pplayer,
+                   const struct tile *ptile,
+                   enum event_type event,
+                   const struct ft_color color,
+                   const char *format, ...)
+                   fc__attribute((__format__ (__printf__, 5, 6)));
 void notify_embassies(const struct player *pplayer,
                       const struct player *exclude,
-                      const struct tile *ptile, enum event_type event,
-                      const char *fg_color, const char *bg_color,
+                      const struct tile *ptile,
+                      enum event_type event,
+                      const struct ft_color color,
                       const char *format, ...)
-                      fc__attribute((__format__ (__printf__, 7, 8)));
-void notify_team(const struct player *pplayer, const struct tile *ptile,
-                 enum event_type event, const char *fg_color,
-                 const char *bg_color, const char *format, ...)
-                 fc__attribute((__format__ (__printf__, 6, 7)));
-void notify_research(const struct player *pplayer, enum event_type event,
-                     const char *fg_color, const char *bg_color,
+                      fc__attribute((__format__ (__printf__, 6, 7)));
+void notify_team(const struct player *pplayer,
+                 const struct tile *ptile,
+                 enum event_type event,
+                 const struct ft_color color,
+                 const char *format, ...)
+                 fc__attribute((__format__ (__printf__, 5, 6)));
+void notify_research(const struct player *pplayer,
+                     enum event_type event,
+                     const struct ft_color color,
                      const char *format, ...)
-                     fc__attribute((__format__ (__printf__, 5, 6)));
+                     fc__attribute((__format__ (__printf__, 4, 5)));
 
 #endif  /* FC__NOTIFY_H */
