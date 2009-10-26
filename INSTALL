@@ -87,7 +87,7 @@ contains the generated files.
    Especial the xgettext program is required to create the *.gmo
    files which aren't included in the svn tree.
 
- - GNU autoconf version 2.55 or better
+ - GNU autoconf version 2.58 or better
 
    Autoconf is required to create configure from configure.ac.
 

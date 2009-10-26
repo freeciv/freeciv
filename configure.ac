@@ -3,9 +3,10 @@ dnl Process this file with autoconf to produce a configure script.
 
 dnl Initialize with some random file to ensure the source is here.
 AC_INIT
-AC_PREREQ(2.55)
+AC_PREREQ(2.58)
 AC_CONFIG_SRCDIR([common/game.c])
 AC_CONFIG_AUX_DIR(bootstrap) # This can't be quoted or automake will fail
+AC_CONFIG_MACRO_DIR([m4])
 AM_CONFIG_HEADER([config.h]) # Compatible with automake 1.6 and earlier
 AC_CANONICAL_HOST
 AC_GNU_SOURCE
