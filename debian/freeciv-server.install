@@ -1,6 +1,6 @@
-usr/games/civserver
+usr/games/freeciv-server
 usr/lib/libfreeciv-srv.so.*
-usr/share/man/man6/civserver.6
+usr/share/man/man6/freeciv-server.6
 usr/share/applications/freeciv-server.desktop
 usr/share/games/freeciv/default
 usr/share/games/freeciv/default.serv

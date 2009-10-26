@@ -15,7 +15,7 @@
 #***********************************************************************/
 
 BUILDDIR=`dirname $0`
-EXENAME=civserver@EXEEXT@
+EXENAME=freeciv-server@EXEEXT@
 
 if [ "x$FREECIV_PATH" = "x" ] ; then
   FREECIV_PATH=".@HOST_PATH_SEPARATOR@data@HOST_PATH_SEPARATOR@~/.freeciv/@DATASUBDIR@"
