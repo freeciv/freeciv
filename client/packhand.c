@@ -750,7 +750,12 @@ void handle_city_short_info(struct packet_city_short_info *packet)
 
   /* We can't actually see the internals of the city, but the server tells
    * us this much. */
-  pcity->client.occupied = packet->occupied;
+  if (pcity->client.occupied != packet->occupied) {
+    pcity->client.occupied = packet->occupied;
+    if (draw_full_citybar) {
+      update_descriptions = TRUE;
+    }
+  }
   pcity->client.happy = packet->happy;
   pcity->client.unhappy = packet->unhappy;
 
@@ -1197,12 +1202,14 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 	  bool new_occupied =
 	    (unit_list_size(pcity->tile->units) > 0);
 
-	  if (pcity->client.occupied != new_occupied) {
-	    pcity->client.occupied = new_occupied;
-	    refresh_city_mapcanvas(pcity, pcity->tile, FALSE, FALSE);
-	    update_city_description(pcity);
-	  }
-	}
+          if (pcity->client.occupied != new_occupied) {
+            pcity->client.occupied = new_occupied;
+            refresh_city_mapcanvas(pcity, pcity->tile, FALSE, FALSE);
+            if (draw_full_citybar) {
+              update_city_description(pcity);
+            }
+          }
+        }
 
         if(pcity->id==punit->homecity)
 	  repaint_city = TRUE;
@@ -1216,6 +1223,9 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 	  if (!pcity->client.occupied) {
 	    pcity->client.occupied = TRUE;
 	    refresh_city_mapcanvas(pcity, pcity->tile, FALSE, FALSE);
+            if (draw_full_citybar) {
+              update_city_description(pcity);
+            }
 	  }
 	}
 
