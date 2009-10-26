@@ -389,7 +389,7 @@ void set_unit_focus(struct unit *punit)
   }
 
   update_unit_info_label(current_focus);
-  update_menus();
+  menus_update();
 }
 
 /**************************************************************************
@@ -420,7 +420,7 @@ void add_unit_focus(struct unit *punit)
 
   current_focus_append(punit);
   update_unit_info_label(current_focus);
-  update_menus();
+  menus_update();
 }
 
 /**************************************************************************
@@ -2058,7 +2058,7 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
   }
 
   if (unit_is_in_focus(punit)) {
-    update_menus();
+    menus_update();
   }
 }
 

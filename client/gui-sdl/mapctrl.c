@@ -538,7 +538,7 @@ int resize_minimap(void)
     popdown_minimap_window();
     popup_minimap_window();
     refresh_overview();
-    update_menus();
+    menus_update();
   }
   
   return 0;
@@ -940,7 +940,7 @@ int resize_unit_info(void)
   }
   
   if (C_S_RUNNING == client_state()) {
-    update_menus();
+    menus_update();
   }
   update_unit_info_label(get_units_in_focus());
       

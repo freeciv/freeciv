@@ -924,9 +924,18 @@ void free_bcgd_order_widgets(void)
 /* ============================== Native =============================== */
 
 /**************************************************************************
+  Initialize menus (sensitivity, name, etc.) based on the
+  current state and current ruleset, etc.  Call menus_update().
+**************************************************************************/
+void menus_init(void)
+{
+  menus_update();
+}
+
+/**************************************************************************
   Update all of the menus (sensitivity, etc.) based on the current state.
 **************************************************************************/
-void update_menus(void)
+void menus_update(void)
 {
   static Uint16 counter = 0;
   struct unit_list *punits = NULL;

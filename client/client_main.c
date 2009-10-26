@@ -726,7 +726,7 @@ void set_client_state(enum client_states newstate)
     break;
   }
 
-  update_menus();
+  menus_update();
   update_turn_done_button_state();
   update_conn_list_dialog();
   if (can_client_change_view()) {

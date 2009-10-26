@@ -13,6 +13,7 @@
 #ifndef FC__MENU_G_H
 #define FC__MENU_G_H
 
-void update_menus(void);
+void menus_init(void);
+void menus_update(void);
 
 #endif  /* FC__MENU_G_H */

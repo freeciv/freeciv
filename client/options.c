@@ -1966,7 +1966,7 @@ static void reqtree_show_icons_callback(struct client_option *option)
 ****************************************************************************/
 static void view_option_changed_callback(struct client_option *option)
 {
-  update_menus();
+  menus_init();
   update_map_canvas_visible();
 }
 

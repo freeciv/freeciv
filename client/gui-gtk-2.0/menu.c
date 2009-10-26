@@ -1741,7 +1741,7 @@ static const char *get_tile_change_menu_text(struct tile *ptile,
 /****************************************************************
   Updates the menus.
 *****************************************************************/
-static gboolean update_menus_callback(gpointer data)
+static gboolean menus_update_callback(gpointer data)
 {
   GtkActionGroup *safe_group;
   GtkActionGroup *edit_group;
@@ -1755,7 +1755,7 @@ static gboolean update_menus_callback(gpointer data)
 
   /* Remove GSource id. */
   *((guint *) data) = 0;
-  if (!ui_manager) {
+  if (NULL == ui_manager && !can_client_change_view()) {
     return FALSE;
   }
 
@@ -1765,177 +1765,64 @@ static gboolean update_menus_callback(gpointer data)
   playing_group = get_playing_group();
   player_group = get_player_group();
 
-  menus_set_active(safe_group, "SAVE_OPTIONS_ON_EXIT", save_options_on_exit);
-  menus_set_sensitive(safe_group, "SERVER_OPTIONS", client.conn.established);
-
-  menus_set_sensitive(safe_group, "GAME_SAVE_AS",
-                      can_client_access_hack()
-                      && C_S_RUNNING <= client_state());
-  menus_set_sensitive(safe_group, "GAME_SAVE",
-                      can_client_access_hack()
-                      && C_S_RUNNING <= client_state());
-  menus_set_sensitive(safe_group, "LEAVE",
-                      client.conn.established);
-
-  if (!can_client_change_view()) {
-    gtk_action_group_set_sensitive(safe_group, FALSE);
-    gtk_action_group_set_sensitive(edit_group, FALSE);
-    gtk_action_group_set_sensitive(unit_group, FALSE);
-    gtk_action_group_set_sensitive(player_group, FALSE);
-    gtk_action_group_set_sensitive(playing_group, FALSE);
-    return FALSE;
-  }
-
   if (get_num_units_in_focus() > 0) {
     punits = get_units_in_focus();
   }
 
-  if ((menu = find_action_menu(playing_group, "MENU_GOVERNMENT"))) {
-    GList *list, *iter;
-    GtkWidget *item, *image;
-    struct sprite *gsprite;
-    char buf[256];
-
-    /* Remove previous government entries. */
-    list = gtk_container_get_children(GTK_CONTAINER(menu));
-    for (iter = list; iter; iter = g_list_next(iter)) {
-      gtk_widget_destroy(GTK_WIDGET(iter->data));
-    }
-    g_list_free(list);
-
-    /* Add new government entries. */
-    item = gtk_menu_item_new_with_mnemonic(_("_Revolution..."));
-    g_signal_connect(item, "activate",
-                     G_CALLBACK(government_callback), NULL);
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-    gtk_widget_show(item);
-
-    item = gtk_separator_menu_item_new();
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-    gtk_widget_show(item);
-
-    government_iterate(g) {
-      if (g != game.government_during_revolution) {
-        my_snprintf(buf, sizeof(buf), _("%s..."),
-                    government_name_translation(g));
-        item = gtk_image_menu_item_new_with_label(buf);
-
-        if ((gsprite = get_government_sprite(tileset, g))) {
-          image = gtk_image_new_from_pixbuf(sprite_get_pixbuf(gsprite));
-          gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
-          gtk_widget_show(image);
-        }
-
-        g_signal_connect(item, "activate",
-                         G_CALLBACK(government_callback), g);
-
-        if (!can_change_to_government(client.conn.playing, g)) {
-          gtk_widget_set_sensitive(item, FALSE);
-        }
-
-        gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-        gtk_widget_show(item);
-      }
-    } government_iterate_end;
-  }
-
-  if ((menu = find_action_menu(unit_group, "MENU_BUILD_BASE"))) {
-    GList *list, *iter;
-    GtkWidget *item;
-
-    /* Remove previous base entries. */
-    list = gtk_container_get_children(GTK_CONTAINER(menu));
-    for (iter = list; iter; iter = g_list_next(iter)) {
-      gtk_widget_destroy(GTK_WIDGET(iter->data));
-    }
-    g_list_free(list);
-
-    /* Add new base entries. */
-    base_type_iterate(p) {
-      if (p->buildable) {
-        item = gtk_menu_item_new_with_label(base_name_translation(p));
-
-        g_signal_connect(item, "activate", G_CALLBACK(base_callback), p);
-
-         if (punits) {
-           gtk_widget_set_sensitive(item, can_units_do_base(punits,
-                                                            base_number(p)));
-         }
-
-        gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-        gtk_widget_show(item);
-      }
-    } base_type_iterate_end;
-  }
-
-  gtk_action_group_set_sensitive(safe_group, TRUE);
   gtk_action_group_set_sensitive(edit_group,
                                  editor_is_active());
-  gtk_action_group_set_sensitive(player_group, client_has_player());
   gtk_action_group_set_sensitive(playing_group, can_client_issue_orders()
                                  && !editor_is_active());
   gtk_action_group_set_sensitive(unit_group, can_client_issue_orders()
                                  && !editor_is_active() && punits != NULL);
-
-  menus_set_sensitive(playing_group, "TAX_RATE",
-                      game.info.changable_tax
-                      && can_client_issue_orders());
 
   menus_set_active(safe_group, "EDIT_MODE", game.info.is_edit_mode);
   menus_set_sensitive(safe_group, "EDIT_MODE",
                       can_conn_enable_editing(&client.conn));
   editgui_refresh();
 
-  menus_set_active(safe_group, "SHOW_CITY_OUTLINES", draw_city_outlines);
-  menus_set_active(safe_group, "SHOW_CITY_OUTPUT", draw_city_output);
-  menus_set_active(safe_group, "SHOW_MAP_GRID", draw_map_grid);
-  menus_set_sensitive(safe_group, "SHOW_NATIONAL_BORDERS",
-                      game.info.borders > 0);
-  menus_set_active(safe_group, "SHOW_NATIONAL_BORDERS", draw_borders);
-  menus_set_active(safe_group, "SHOW_CITY_NAMES", draw_city_names);
-
-  /* The "full" city bar (i.e. the new way of drawing the
-   * city name), can draw the city growth even without drawing
-   * the city name. But the old method cannot. */
-  if (draw_full_citybar) {
-    menus_set_sensitive(safe_group, "SHOW_CITY_GROWTH", TRUE);
-    menus_set_sensitive(safe_group, "SHOW_CITY_TRADEROUTES", TRUE);
-  } else {
-    menus_set_sensitive(safe_group, "SHOW_CITY_GROWTH", draw_city_names);
-    menus_set_sensitive(safe_group, "SHOW_CITY_TRADEROUTES",
-                        draw_city_names);
+  if (!can_client_issue_orders()) {
+    return FALSE;
   }
 
-  menus_set_active(safe_group, "SHOW_CITY_GROWTH", draw_city_growth);
-  menus_set_active(safe_group, "SHOW_CITY_PRODUCTIONS",
-                   draw_city_productions);
-  menus_set_sensitive(safe_group, "SHOW_CITY_BUY_COST",
-                      draw_city_productions);
-  menus_set_active(safe_group, "SHOW_CITY_BUY_COST", draw_city_buycost);
-  menus_set_active(safe_group, "SHOW_CITY_TRADEROUTES",
-                   draw_city_traderoutes);
-  menus_set_active(safe_group, "SHOW_TERRAIN", draw_terrain);
-  menus_set_sensitive(safe_group, "SHOW_COASTLINE", !draw_terrain);
-  menus_set_active(safe_group, "SHOW_COASTLINE", draw_coastline);
-  menus_set_active(safe_group, "SHOW_ROADS_RAILS", draw_roads_rails);
-  menus_set_active(safe_group, "SHOW_IRRIGATION", draw_irrigation);
-  menus_set_active(safe_group, "SHOW_MINES", draw_mines);
-  menus_set_active(safe_group, "SHOW_FORTRESS_AIRBASE",
-                   draw_fortress_airbase);
-  menus_set_active(safe_group, "SHOW_SPECIALS", draw_specials);
-  menus_set_active(safe_group, "SHOW_POLLUTION", draw_pollution);
-  menus_set_active(safe_group, "SHOW_CITIES", draw_cities);
-  menus_set_active(safe_group, "SHOW_UNITS", draw_units);
-  menus_set_sensitive(safe_group, "SHOW_FOCUS_UNIT", !draw_units);
-  menus_set_active(safe_group, "SHOW_FOCUS_UNIT", draw_focus_unit);
-  menus_set_active(safe_group, "SHOW_FOG_OF_WAR", draw_fog_of_war);
+  /* Set government sensitivity. */
+  if ((menu = find_action_menu(playing_group, "MENU_GOVERNMENT"))) {
+    GList *list, *iter;
+    struct government *pgov;
 
-  menus_set_active(safe_group, "FULL_SCREEN", fullscreen_mode);
+    list = gtk_container_get_children(GTK_CONTAINER(menu));
+    for (iter = list; NULL != iter; iter = g_list_next(iter)) {
+      pgov = g_object_get_data(G_OBJECT(iter->data), "government");
+      if (NULL != pgov) {
+        gtk_widget_set_sensitive(GTK_WIDGET(iter->data),
+                                 can_change_to_government(client_player(),
+                                                          pgov));
+      }
+    }
+    g_list_free(list);
+  }
+
+  if (!punits) {
+    return FALSE;
+  }
 
   /* Remaining part of this function: Update Unit, Work, and Combat menus */
 
-  if (!can_client_issue_orders() || !punits) {
-    return FALSE;
+  /* Set base sensitivity. */
+  if ((menu = find_action_menu(unit_group, "MENU_BUILD_BASE"))) {
+    GList *list, *iter;
+    struct base_type *pbase;
+
+    list = gtk_container_get_children(GTK_CONTAINER(menu));
+    for (iter = list; NULL != iter; iter = g_list_next(iter)) {
+      pbase = g_object_get_data(G_OBJECT(iter->data), "base");
+      if (NULL != pbase) {
+        gtk_widget_set_sensitive(GTK_WIDGET(iter->data),
+                                 can_units_do_base(punits,
+                                                   base_number(pbase)));
+      }
+    }
+    g_list_free(list);
   }
 
   /* Enable the button for adding to a city in all cases, so we
@@ -2108,14 +1995,216 @@ static gboolean update_menus_callback(gpointer data)
   return FALSE;
 }
 
+/**************************************************************************
+  Initialize menus (sensitivity, name, etc.) based on the
+  current state and current ruleset, etc.  Call menus_update().
+**************************************************************************/
+static gboolean menus_init_callback(gpointer data)
+{
+  GtkActionGroup *safe_group;
+  GtkActionGroup *edit_group;
+  GtkActionGroup *unit_group;
+  GtkActionGroup *playing_group;
+  GtkActionGroup *player_group;
+  GtkMenu *menu;
+
+  if (NULL == ui_manager) {
+    /* Remove GSource id. */
+    *((guint *) data) = 0;
+    return FALSE;
+  }
+
+  safe_group = get_safe_group();
+  edit_group = get_edit_group();
+  unit_group = get_unit_group();
+  playing_group = get_playing_group();
+  player_group = get_player_group();
+
+  menus_set_sensitive(safe_group, "GAME_SAVE_AS",
+                      can_client_access_hack()
+                      && C_S_RUNNING <= client_state());
+  menus_set_sensitive(safe_group, "GAME_SAVE",
+                      can_client_access_hack()
+                      && C_S_RUNNING <= client_state());
+
+  menus_set_active(safe_group, "SAVE_OPTIONS_ON_EXIT", save_options_on_exit);
+  menus_set_sensitive(safe_group, "SERVER_OPTIONS", client.conn.established);
+
+  menus_set_sensitive(safe_group, "LEAVE",
+                      client.conn.established);
+
+  if (!can_client_change_view()) {
+    gtk_action_group_set_sensitive(safe_group, FALSE);
+    gtk_action_group_set_sensitive(edit_group, FALSE);
+    gtk_action_group_set_sensitive(unit_group, FALSE);
+    gtk_action_group_set_sensitive(player_group, FALSE);
+    gtk_action_group_set_sensitive(playing_group, FALSE);
+    /* Remove GSource id. */
+    *((guint *) data) = 0;
+    return FALSE;
+  }
+
+  if ((menu = find_action_menu(playing_group, "MENU_GOVERNMENT"))) {
+    GList *list, *iter;
+    GtkWidget *item, *image;
+    struct sprite *gsprite;
+    char buf[256];
+
+    /* Remove previous government entries. */
+    list = gtk_container_get_children(GTK_CONTAINER(menu));
+    for (iter = list; NULL != iter; iter = g_list_next(iter)) {
+      gtk_widget_destroy(GTK_WIDGET(iter->data));
+    }
+    g_list_free(list);
+
+    /* Add new government entries. */
+    item = gtk_menu_item_new_with_mnemonic(_("_Revolution..."));
+    g_object_set_data(G_OBJECT(item), "government", NULL);
+    g_signal_connect(item, "activate",
+                     G_CALLBACK(government_callback), NULL);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+    gtk_widget_show(item);
+
+    item = gtk_separator_menu_item_new();
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+    gtk_widget_show(item);
+
+    government_iterate(g) {
+      if (g != game.government_during_revolution) {
+        my_snprintf(buf, sizeof(buf), _("%s..."),
+                    government_name_translation(g));
+        item = gtk_image_menu_item_new_with_label(buf);
+        g_object_set_data(G_OBJECT(item), "government", g);
+
+        if ((gsprite = get_government_sprite(tileset, g))) {
+          image = gtk_image_new_from_pixbuf(sprite_get_pixbuf(gsprite));
+          gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
+          gtk_widget_show(image);
+        }
+
+        g_signal_connect(item, "activate",
+                         G_CALLBACK(government_callback), g);
+        gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+        gtk_widget_show(item);
+      }
+    } government_iterate_end;
+  }
+
+  if ((menu = find_action_menu(unit_group, "MENU_BUILD_BASE"))) {
+    GList *list, *iter;
+    GtkWidget *item;
+
+    /* Remove previous base entries. */
+    list = gtk_container_get_children(GTK_CONTAINER(menu));
+    for (iter = list; NULL != iter; iter = g_list_next(iter)) {
+      gtk_widget_destroy(GTK_WIDGET(iter->data));
+    }
+    g_list_free(list);
+
+    /* Add new base entries. */
+    base_type_iterate(p) {
+      if (p->buildable) {
+        item = gtk_menu_item_new_with_label(base_name_translation(p));
+        g_object_set_data(G_OBJECT(item), "base", p);
+        g_signal_connect(item, "activate", G_CALLBACK(base_callback), p);
+        gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+        gtk_widget_show(item);
+      }
+    } base_type_iterate_end;
+  }
+
+  gtk_action_group_set_sensitive(safe_group, TRUE);
+  gtk_action_group_set_sensitive(player_group, client_has_player());
+
+  menus_set_sensitive(playing_group, "TAX_RATE",
+                      game.info.changable_tax
+                      && can_client_issue_orders());
+
+  menus_set_active(safe_group, "SHOW_CITY_OUTLINES", draw_city_outlines);
+  menus_set_active(safe_group, "SHOW_CITY_OUTPUT", draw_city_output);
+  menus_set_active(safe_group, "SHOW_MAP_GRID", draw_map_grid);
+  menus_set_sensitive(safe_group, "SHOW_NATIONAL_BORDERS",
+                      game.info.borders > 0);
+  menus_set_active(safe_group, "SHOW_NATIONAL_BORDERS", draw_borders);
+  menus_set_active(safe_group, "SHOW_CITY_NAMES", draw_city_names);
+
+  /* The "full" city bar (i.e. the new way of drawing the
+   * city name), can draw the city growth even without drawing
+   * the city name. But the old method cannot. */
+  if (draw_full_citybar) {
+    menus_set_sensitive(safe_group, "SHOW_CITY_GROWTH", TRUE);
+    menus_set_sensitive(safe_group, "SHOW_CITY_TRADEROUTES", TRUE);
+  } else {
+    menus_set_sensitive(safe_group, "SHOW_CITY_GROWTH", draw_city_names);
+    menus_set_sensitive(safe_group, "SHOW_CITY_TRADEROUTES",
+                        draw_city_names);
+  }
+
+  menus_set_active(safe_group, "SHOW_CITY_GROWTH", draw_city_growth);
+  menus_set_active(safe_group, "SHOW_CITY_PRODUCTIONS",
+                   draw_city_productions);
+  menus_set_sensitive(safe_group, "SHOW_CITY_BUY_COST",
+                      draw_city_productions);
+  menus_set_active(safe_group, "SHOW_CITY_BUY_COST", draw_city_buycost);
+  menus_set_active(safe_group, "SHOW_CITY_TRADEROUTES",
+                   draw_city_traderoutes);
+  menus_set_active(safe_group, "SHOW_TERRAIN", draw_terrain);
+  menus_set_sensitive(safe_group, "SHOW_COASTLINE", !draw_terrain);
+  menus_set_active(safe_group, "SHOW_COASTLINE", draw_coastline);
+  menus_set_active(safe_group, "SHOW_ROADS_RAILS", draw_roads_rails);
+  menus_set_active(safe_group, "SHOW_IRRIGATION", draw_irrigation);
+  menus_set_active(safe_group, "SHOW_MINES", draw_mines);
+  menus_set_active(safe_group, "SHOW_FORTRESS_AIRBASE",
+                   draw_fortress_airbase);
+  menus_set_active(safe_group, "SHOW_SPECIALS", draw_specials);
+  menus_set_active(safe_group, "SHOW_POLLUTION", draw_pollution);
+  menus_set_active(safe_group, "SHOW_CITIES", draw_cities);
+  menus_set_active(safe_group, "SHOW_UNITS", draw_units);
+  menus_set_sensitive(safe_group, "SHOW_FOCUS_UNIT", !draw_units);
+  menus_set_active(safe_group, "SHOW_FOCUS_UNIT", draw_focus_unit);
+  menus_set_active(safe_group, "SHOW_FOG_OF_WAR", draw_fog_of_war);
+
+  menus_set_active(safe_group, "FULL_SCREEN", fullscreen_mode);
+
+  return menus_update_callback(data);
+}
+
 /****************************************************************
   Updates the menus.
 *****************************************************************/
-void update_menus(void)
+static void menus_idle_update(bool init)
 {
   static guint callback_id = 0;
+  static bool need_init = FALSE;
 
-  if (NULL != ui_manager && 0 == callback_id) {
-    callback_id = g_idle_add(update_menus_callback, &callback_id);
+  if (NULL == ui_manager) {
+    return;
   }
+
+  if (callback_id == 0) {
+    need_init = init;
+    callback_id = g_idle_add(need_init ? menus_init_callback
+                             : menus_update_callback, &callback_id);
+  } else if (init && !need_init) {
+    g_source_remove(callback_id);
+    need_init = TRUE;
+    callback_id = g_idle_add(menus_init_callback, &callback_id);
+  }
+}
+
+/****************************************************************
+  Initialize menus (sensitivity, name, etc.) based on the
+  current state and current ruleset, etc.  Call menus_update().
+*****************************************************************/
+void menus_init(void)
+{
+  menus_idle_update(TRUE);
+}
+
+/****************************************************************
+  Updates the menus.
+*****************************************************************/
+void menus_update(void)
+{
+  menus_idle_update(FALSE);
 }

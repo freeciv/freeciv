@@ -238,7 +238,7 @@ void handle_server_join_reply(bool you_can_join, char *message,
     client.conn.id = conn_id;
 
     agents_game_joined();
-    update_menus();
+    menus_init();
     set_server_busy(FALSE);
     
     if (get_client_page() == PAGE_MAIN
@@ -298,7 +298,7 @@ void handle_city_remove(int city_id)
 
   /* update menus if the focus unit is on the tile. */
   if (get_num_units_in_focus() > 0) {
-    update_menus();
+    menus_update();
   }
 }
 
@@ -757,7 +757,7 @@ static void city_packet_common(struct city *pcity, struct tile *pcenter,
       && NULL != client.conn.playing
       && !client.conn.playing->ai_data.control
       && can_client_issue_orders()) {
-    update_menus();
+    menus_update();
     if (!city_dialog_is_open(pcity)) {
       popup_city_dialog(pcity);
     }
@@ -770,7 +770,7 @@ static void city_packet_common(struct city *pcity, struct tile *pcenter,
 
   /* update menus if the focus unit is on the tile. */
   if (get_focus_unit_on_tile(pcenter)) {
-    update_menus();
+    menus_update();
   }
 
   if (is_new) {
@@ -958,7 +958,7 @@ void handle_new_year(int year, int turn)
   auto_center_on_focus_unit();
 
   update_unit_info_label(get_units_in_focus());
-  update_menus();
+  menus_update();
 
   set_seconds_to_turndone(game.info.timeout);
 
@@ -1188,7 +1188,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 {
   struct city *pcity;
   struct unit *punit;
-  bool need_update_menus = FALSE;
+  bool need_menus_update = FALSE;
   bool repaint_unit = FALSE;
   bool repaint_city = FALSE;	/* regards unit's homecity */
   struct tile *old_tile = NULL;
@@ -1260,11 +1260,11 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
       punit->transported_by = packet_unit->transported_by;
       if (punit->occupy != packet_unit->occupy
-	  && get_focus_unit_on_tile(packet_unit->tile)) {
-	/* Special case: (un)loading a unit in a transporter on the
-	 * same tile as the focus unit may (dis)allow the focus unit to be
-	 * loaded.  Thus the orders->(un)load menu item needs updating. */
-	need_update_menus = TRUE;
+          && get_focus_unit_on_tile(packet_unit->tile)) {
+        /* Special case: (un)loading a unit in a transporter on the
+         * same tile as the focus unit may (dis)allow the focus unit to be
+         * loaded.  Thus the orders->(un)load menu item needs updating. */
+        need_menus_update = TRUE;
       }
       punit->occupy = packet_unit->occupy;
     
@@ -1290,7 +1290,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     /* These two lines force the menus to be updated as appropriate when
      * the focus unit changes. */
     if (unit_is_in_focus(punit)) {
-      need_update_menus = TRUE;
+      need_menus_update = TRUE;
     }
 
     if (punit->homecity != packet_unit->homecity) {
@@ -1326,7 +1326,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       }
       if (unit_is_in_focus(punit)) {
         /* Update the orders menu -- the unit might have new abilities */
-	need_update_menus = TRUE;
+        need_menus_update = TRUE;
       }
     }
 
@@ -1479,8 +1479,8 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     update_unit_focus();
   }
 
-  if (need_update_menus) {
-    update_menus();
+  if (need_menus_update) {
+    menus_update();
   }
 
   return ret;
@@ -1624,7 +1624,7 @@ void handle_game_info(struct packet_game_info *pinfo)
     boot_help_texts(client.conn.playing); /* reboot, after setting game.spacerace */
   }
   update_unit_focus();
-  update_menus();
+  menus_update();
   update_players_dialog();
   if (update_aifill_button) {
     update_start_page();
@@ -1662,9 +1662,8 @@ static bool read_player_info_techs(struct player *pplayer,
   } advance_index_iterate_end;
 
   if (need_effect_update) {
-    update_menus();
+    menus_update();
   }
-
   player_research_update(pplayer);
   return need_effect_update;
 }
@@ -1921,7 +1920,8 @@ void handle_player_info(struct packet_player_info *pinfo)
          on a river the road menu item will remain disabled unless we
          do this. (applys in other cases as well.) */
       if (get_num_units_in_focus() > 0) {
-        update_menus();
+        
+        menus_update();
       }
     }
     if (turn_done_changed) {
@@ -2040,7 +2040,7 @@ void handle_conn_info(struct packet_conn_info *pinfo)
   if (pinfo->used && pconn == &client.conn) {
     /* For updating the sensitivity of the "Edit Mode" menu item,
      * among other things. */
-    update_menus();
+    menus_update();
   }
 
   if (preparing_client_state) {
@@ -2265,7 +2265,7 @@ void handle_spaceship_info(struct packet_spaceship_info *p)
     refresh_spaceship_dialog(pplayer);
     return;
   }
-  update_menus();
+  menus_update();
 
   if (!spaceship_autoplace(pplayer, ship)) {
     refresh_spaceship_dialog(pplayer);
@@ -2501,7 +2501,7 @@ void handle_tile_info(struct packet_tile_info *packet)
   /* update menus if the focus unit is on the tile. */
   if (tile_changed) {
     if (get_focus_unit_on_tile(ptile)) {
-      update_menus();
+      menus_update();
     }
   }
 }

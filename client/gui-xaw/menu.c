@@ -278,10 +278,19 @@ static char *menu_entry_text(enum MenuIndex menu, int ent, int var,
 static void revolution_menu_callback(Widget w, XtPointer client_data,
 				     XtPointer garbage);
 
+/**************************************************************************
+  Initialize menus (sensitivity, name, etc.) based on the
+  current state and current ruleset, etc.  Call menus_update().
+**************************************************************************/
+void menus_init(void)
+{
+  menus_update();
+}
+
 /****************************************************************
 ...
 *****************************************************************/
-void update_menus(void)
+void menus_update(void)
 {
   if (!can_client_change_view()) {
     XtSetSensitive(menus[MENU_REPORT]->button, False);
