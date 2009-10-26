@@ -222,7 +222,7 @@ bool client_start_server(void)
 
     /* Set up the command-line parameters. */
     my_snprintf(port_buf, sizeof(port_buf), "%d", internal_server_port);
-    argv[argc++] = "civserver";
+    argv[argc++] = "freeciv-server";
     argv[argc++] = "-p";
     argv[argc++] = port_buf;
     argv[argc++] = "-q";
@@ -263,7 +263,7 @@ bool client_start_server(void)
     }
 
     /* If it's still attatched to our terminal, things get messed up, 
-      but civserver needs *something* */ 
+      but freeciv-server needs *something* */ 
     fclose(stdin);
     fd = open("/dev/null", O_RDONLY);
     if (fd != 0) {
@@ -272,10 +272,10 @@ bool client_start_server(void)
 
     /* these won't return on success */ 
     execvp("./ser", argv);
-    execvp("./server/civserver", argv);
-    execvp("civserver", argv);
+    execvp("./server/freeciv-server", argv);
+    execvp("freeciv-server", argv);
     
-    /* This line is only reached if civserver cannot be started, 
+    /* This line is only reached if freeciv-server cannot be started, 
      * so we kill the forked process.
      * Calling exit here is dangerous due to X11 problems (async replies) */ 
     _exit(1);
@@ -314,8 +314,10 @@ bool client_start_server(void)
   my_snprintf(options, sizeof(options), "-p %d -q 1 -e%s%s --saves \"%s\"",
 	      internal_server_port, logcmdline, scriptcmdline, savesdir);
   my_snprintf(cmdline1, sizeof(cmdline1), "./ser %s", options);
-  my_snprintf(cmdline2, sizeof(cmdline2), "./server/civserver %s", options);
-  my_snprintf(cmdline3, sizeof(cmdline3), "civserver %s", options);
+  my_snprintf(cmdline2, sizeof(cmdline2),
+              "./server/freeciv-server %s", options);
+  my_snprintf(cmdline3, sizeof(cmdline3),
+              "freeciv-server %s", options);
 
   if (!CreateProcess(NULL, cmdline1, NULL, NULL, TRUE,
 		     DETACHED_PROCESS | NORMAL_PRIORITY_CLASS,

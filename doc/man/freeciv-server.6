@@ -9,11 +9,11 @@
 .\"   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 .\"   GNU General Public License for more details.
 .\"
-.TH FREECIV 6 "January 16th 2009"
+.TH FREECIV 6 "October 22th 2009"
 .SH NAME
-civserver \- The server for the Freeciv game
+freeciv-server \- The server for the Freeciv game
 .SH SYNOPSIS
-.B civserver \
+.B freeciv-server \
 [ \-b|\-\-bind \fIaddress\fP ] \
 [ \-d|\-\-debug \fIlevel_number\fP ] \
 [ \-e|\-\-exit\-on\-end ] \
@@ -55,7 +55,7 @@ This is the server program used to establish a Freeciv server - See also
 
 This manual page only lists the command line arguments. For details
 of the directives necessary to configure
-.B civserver
+.B freeciv-server
 see the Server Manual which can be found at
 .UR
 http://www.freeciv.org/
@@ -63,8 +63,8 @@ http://www.freeciv.org/
 as well as the documentation which is part of the Freeciv distribution.
 .SH OPTIONS
 The following options are accepted on the command line of the server. They may
-not be combined; that is, "civserver \-fp savegame.sav 5557" will not work,
-instead you would need to enter "civserver \-f savegame.sav \-p 5557". All
+not be combined; that is, "freeciv-server \-fp savegame.sav 5557" will not work,
+instead you would need to enter "freeciv-server \-f savegame.sav \-p 5557". All
 options have a short form (single hyphen and single letter) and a long form
 (double hyphen and a complete word); their effects are identical.
 .TP
@@ -194,17 +194,17 @@ system, as it inhibits your servers from clobbering other's save game files.
 Causes the server to display its version number and exit.
 .SH EXAMPLES
 .TP
-.B civserver \-\-file oldgame.sav \-\-port 2244
+.B freeciv-server \-\-file oldgame.sav \-\-port 2244
 Starts a server on port \fI2244\fP, loading the save game file 
 \fIoldgame.sav\fP.
 .TP
-.B civserver \-R ranklog \-l logfile \-r script \-f oldgame.sav.gz -p 2244
+.B freeciv-server \-R ranklog \-l logfile \-r script \-f oldgame.sav.gz -p 2244
 Starts a server on port \fI2244\fP, loading the save game file 
 \fIoldgame.sav.gz\fP. Ranking related events are written to \fIranklog\fP, other 
 logging information is written to \fIlogfile\fP. When the server starts, it 
 immediately executes the commands contained in \fIscript\fP.
 .TP
-.B civserver -m -a -q 60 -p 2244 -d 2 -l logfile -r script -s ~/saves
+.B freeciv-server -m -a -q 60 -p 2244 -d 2 -l logfile -r script -s ~/saves
 Starts a server on port \fI2244\fP with authentication enabled and communicates 
 its existence to the standard Freeciv metaserver. Fatal, error, and normal 
 messages are written to \fIlogfile\fP. When the server starts it immediately 

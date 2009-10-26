@@ -213,7 +213,7 @@ static int try_to_connect(const char *username, char *errbuf, int errbufsize)
 }
 
 /**************************************************************************
-  Connect to a civserver instance -- or at least try to.  On success,
+  Connect to a freeciv-server instance -- or at least try to.  On success,
   return 0; on failure, put an error message in ERRBUF and return -1.
 **************************************************************************/
 int connect_to_server(const char *username, const char *hostname, int port,
@@ -497,7 +497,7 @@ double try_to_autoconnect(void)
 }
 
 /**************************************************************************
-  Start trying to autoconnect to civserver.  Calls
+  Start trying to autoconnect to freeciv-server.  Calls
   get_server_address(), then arranges for try_to_autoconnect(), which
   calls try_to_connect(), to be called roughly every
   AUTOCONNECT_INTERVAL milliseconds, until success, fatal error or

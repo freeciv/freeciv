@@ -2,7 +2,7 @@
 
 SUBDIRS = generator scripting
 
-bin_PROGRAMS = civserver
+bin_PROGRAMS = freeciv-server
 lib_LTLIBRARIES = libfreeciv-srv.la
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/utility -I$(srcdir)/../common -I$(srcdir)/../ai \
@@ -14,7 +14,7 @@ if MINGW32
 SERVERICON=../win32/servericon.o
 endif
 
-civserver_SOURCES = \
+freeciv_server_SOURCES = \
 		civserver.c	\
 		civserver.h
 
@@ -104,14 +104,16 @@ libfreeciv_srv_la_DEPENDENCIES = \
 libfreeciv_srv_la_LIBADD = \
  $(top_builddir)/ai/libcivai.la
 
-civserver_DEPENDENCIES = \
+freeciv_server_DEPENDENCIES = \
  $(top_builddir)/common/libfreeciv.la \
  ./libfreeciv-srv.la \
  ./scripting/libscripting.la \
  $(LUA_AS_DEPENDENCY) $(TOLUA_AS_DEPENDENCY) \
  ./generator/libgenerator.la
-civserver_LDFLAGS = $(GGZDMOD_LDFLAGS)
-civserver_LDADD = \
+
+freeciv_server_LDFLAGS = $(GGZDMOD_LDFLAGS)
+
+freeciv_server_LDADD = \
  $(top_builddir)/common/libfreeciv.la \
  ./libfreeciv-srv.la \
  $(top_builddir)/common/libfreeciv.la \
