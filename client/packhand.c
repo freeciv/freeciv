@@ -432,6 +432,7 @@ void handle_city_info(struct packet_city_info *packet)
   bool update_descriptions = FALSE;
   bool shield_stock_changed = FALSE;
   bool production_changed = FALSE;
+  bool traderoutes_changed = FALSE;
   struct unit_list *pfocus_units = get_units_in_focus();
   struct city *pcity = game_find_city_by_number(packet->id);
   struct tile *pcenter = map_pos_to_tile(packet->x, packet->y);
@@ -566,8 +567,11 @@ void handle_city_info(struct packet_city_info *packet)
   pcity->city_options = packet->city_options;
 
   for (i = 0; i < NUM_TRADEROUTES; i++) {
-    pcity->trade[i]=packet->trade[i];
-    pcity->trade_value[i]=packet->trade_value[i];
+    if (pcity->trade[i] != packet->trade[i]) {
+      pcity->trade[i] = packet->trade[i];
+      traderoutes_changed = TRUE;
+    }
+    pcity->trade_value[i] = packet->trade_value[i];
   }
 
   output_type_iterate(o) {
@@ -701,6 +705,10 @@ void handle_city_info(struct packet_city_info *packet)
       && caravan_dialog_is_open(NULL, &caravan_city_id)
       && caravan_city_id == pcity->id) {
     caravan_dialog_update();
+  }
+
+  if (traderoutes_changed && draw_city_traderoutes) {
+    update_map_canvas_visible();
   }
 }
 
