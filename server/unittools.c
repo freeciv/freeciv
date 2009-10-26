@@ -2548,20 +2548,41 @@ static void cancel_orders(struct unit *punit, char *dbg_msg)
 *****************************************************************/
 static void wakeup_neighbor_sentries(struct unit *punit)
 {
-  /* There may be sentried units with a sightrange>3, but we don't
+  bool alone_in_city;
+
+  if (NULL != tile_city(unit_tile(punit))) {
+    int count = 0;
+
+    unit_list_iterate(unit_tile(punit)->units, aunit) {
+      /* Consider only unit not transported. */
+      if (-1 == punit->transported_by) {
+        count++;
+      }
+    } unit_list_iterate_end;
+
+    alone_in_city = (1 == count);
+  } else {
+    alone_in_city = FALSE;
+  }
+
+  /* There may be sentried units with a sightrange > 3, but we don't
      wake them up if the punit is farther away than 3. */
-  square_iterate(punit->tile, 3, ptile) {
+  square_iterate(unit_tile(punit), 3, ptile) {
     unit_list_iterate(ptile->units, penemy) {
+      int distance_sq = sq_map_distance(punit->tile, ptile);
       int radius_sq = get_unit_vision_at(penemy, penemy->tile, V_MAIN);
 
       if (!pplayers_allied(unit_owner(punit), unit_owner(penemy))
-	  && penemy->activity == ACTIVITY_SENTRY
-	  && radius_sq >= sq_map_distance(punit->tile, ptile)
-	  && can_player_see_unit(unit_owner(penemy), punit)
-	  /* on board transport; don't awaken */
-	  && can_unit_exist_at_tile(penemy, penemy->tile)) {
-	set_unit_activity(penemy, ACTIVITY_IDLE);
-	send_unit_info(NULL, penemy);
+          && penemy->activity == ACTIVITY_SENTRY
+          && radius_sq >= distance_sq
+          /* If the unit moved on a city, and the unit is alone, consider
+           * it is visible. */
+          && (alone_in_city
+              || can_player_see_unit(unit_owner(penemy), punit))
+          /* on board transport; don't awaken */
+          && can_unit_exist_at_tile(penemy, unit_tile(penemy))) {
+        set_unit_activity(penemy, ACTIVITY_IDLE);
+        send_unit_info(NULL, penemy);
       }
     } unit_list_iterate_end;
   } square_iterate_end;
@@ -2809,6 +2830,9 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
   }
 
   unit_lives = unit_alive(saved_id);
+  if (unit_lives) {
+    wakeup_neighbor_sentries(punit);
+  }
 
   /* We first unfog the destination, then move the unit and send the
      move, and then fog the old territory. This means that the player
