@@ -1591,7 +1591,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
     if (can_establish && pcity_out_of_dest) {
       remove_trade_route(pcity_dest, pcity_out_of_dest);
       notify_player(city_owner(pcity_out_of_dest),
-                    city_tile(pcity_out_of_home),
+                    city_tile(pcity_out_of_dest),
                     E_CARAVAN_ACTION, ftc_server,
                     _("Sorry, %s has canceled the trade route "
                       "from %s to your city %s."),
