@@ -1572,7 +1572,7 @@ end
 
 PACKET_EDIT_STARTPOS=159;cs,handle-per-conn,dsend
   COORD x, y; key
-  NATION nation; # -1 for erase
+  NATION nation; # NATION_NONE for erase
 end
 
 PACKET_EDIT_TILE=160;cs,handle-per-conn,handle-via-packet

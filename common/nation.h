@@ -23,7 +23,8 @@
 /* Changing this value will break network compatibility. */
 #define NO_NATION_SELECTED (NULL)
 
-#define NATION_ANY -2
+#define NATION_NONE -1
+#define NATION_ANY  -2
 
 /* 
  * Purpose of this constant is to catch invalid ruleset and network
