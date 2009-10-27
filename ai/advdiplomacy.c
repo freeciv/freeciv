@@ -95,6 +95,8 @@ static void notify(struct player *pplayer, const char *text, ...)
     va_end(ap);
 
     lsend_packet_chat_msg(dest, &packet);
+    /* Add to the event cache. */
+    event_cache_add_for_player(&packet, pplayer);
   }
 }
 

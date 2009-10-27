@@ -663,6 +663,8 @@ static void begin_turn(bool is_new_turn)
 {
   freelog(LOG_DEBUG, "Begin turn");
 
+  event_cache_remove_old();
+
   /* Reset this each turn. */
   if (is_new_turn) {
     game.info.phase_mode = game.server.phase_mode_stored;
@@ -1669,15 +1671,15 @@ void handle_nation_select_req(struct connection *pc,
     }
 
     if (!new_nation->is_available) {
-      notify_conn(pplayer->connections, NULL, E_NATION_SELECTED, ftc_server,
-                  _("%s nation is not available in this scenario."),
-                  nation_adjective_translation(new_nation));
+      notify_player(pplayer, NULL, E_NATION_SELECTED, ftc_server,
+                    _("%s nation is not available in this scenario."),
+                    nation_adjective_translation(new_nation));
       return;
     }
     if (new_nation->player && new_nation->player != pplayer) {
-      notify_conn(pplayer->connections, NULL, E_NATION_SELECTED, ftc_server,
-                  _("%s nation is already in use."),
-                  nation_adjective_translation(new_nation));
+      notify_player(pplayer, NULL, E_NATION_SELECTED, ftc_server,
+                    _("%s nation is already in use."),
+                    nation_adjective_translation(new_nation));
       return;
     }
 
@@ -1685,8 +1687,8 @@ void handle_nation_select_req(struct connection *pc,
 
     if (!is_allowed_player_name(pplayer, new_nation, name,
                                 message, sizeof(message))) {
-      notify_conn(pplayer->connections, NULL, E_NATION_SELECTED,
-                  ftc_server, "%s", message);
+      notify_player(pplayer, NULL, E_NATION_SELECTED,
+                    ftc_server, "%s", message);
       return;
     }
 
@@ -1951,19 +1953,14 @@ void pick_random_player_name(const struct nation_type *pnation,
 /*************************************************************************
 ...
 *************************************************************************/
-static void announce_player (struct player *pplayer)
+static void announce_player(struct player *pplayer)
 {
-   freelog(LOG_NORMAL,
-	   _("%s rules the %s."),
-	   player_name(pplayer),
-	   nation_plural_for_player(pplayer));
+   freelog(LOG_NORMAL, _("%s rules the %s."),
+           player_name(pplayer), nation_plural_for_player(pplayer));
 
-  players_iterate(other_player) {
-    notify_player(other_player, NULL, E_GAME_START, ftc_server,
-                  _("%s rules the %s."),
-                  player_name(pplayer),
-                  nation_plural_for_player(pplayer));
-  } players_iterate_end;
+  notify_conn(game.est_connections, NULL, E_GAME_START,
+              ftc_server, _("%s rules the %s."),
+              player_name(pplayer), nation_plural_for_player(pplayer));
 }
 
 /**************************************************************************
@@ -2158,6 +2155,7 @@ static void srv_prepare(void)
 
   /* accept new players, wait for serverop to start..*/
   set_server_state(S_S_INITIAL);
+  aifill(game.info.aifill);
 
   /* load a script file */
   if (srvarg.script_filename
@@ -2357,6 +2355,7 @@ void server_game_init(void)
   memset(identity_numbers_used, 0, sizeof(identity_numbers_used));
   identity_number_reserve(IDENTITY_NUMBER_ZERO);
 
+  event_cache_init();
   game_init();
 }
 
@@ -2393,6 +2392,7 @@ void server_game_free(void)
     player_map_free(pplayer);
   } players_iterate_end;
 
+  event_cache_free();
   game_free();
 }
 

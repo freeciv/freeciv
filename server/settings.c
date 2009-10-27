@@ -668,17 +668,16 @@ struct settings_s settings[] = {
          NULL, GAME_DEFAULT_AUTOATTACK)
 
   GEN_INT("killcitizen", game.info.killcitizen,
-	  SSET_RULES, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
-	  N_("Reduce city population after attack"),
-	  N_("This flag indicates whether city population is reduced "
-	     "after successful attack of enemy unit, depending on "
-	     "its movement type (OR-ed):\n"
-	     "  1 = land\n"
-	     "  2 = sea\n"
-	     "  4 = heli\n"
-	     "  8 = air"), NULL,
-	  GAME_MIN_KILLCITIZEN, GAME_MAX_KILLCITIZEN,
-	  GAME_DEFAULT_KILLCITIZEN)
+          SSET_RULES, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
+          N_("Reduce city population after attack"),
+          N_("This flag indicates whether city population is reduced "
+             "after successful attack of enemy unit, depending on "
+             "its movement type (OR-ed):\n"
+             "  1 = land moving units\n"
+             "  2 = sea moving units\n"
+             "  4 = units able to move both on land and sea"), NULL,
+          GAME_MIN_KILLCITIZEN, GAME_MAX_KILLCITIZEN,
+          GAME_DEFAULT_KILLCITIZEN)
 
   GEN_INT("borders", game.info.borders,
 	  SSET_RULES, SSET_MILITARY, SSET_SITUATIONAL, SSET_TO_CLIENT,
