@@ -3195,7 +3195,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
   /* if the player is controlled by another user,
    * forcibly convert the user to an observer.
    */
-  if (pplayer) {
+  if (pplayer && pplayer->is_connected) {
     if (NULL == caller) {
       notify_conn(NULL, NULL, E_CONNECTION, ftc_server,
                   _("Reassigned nation to %s by server console."),

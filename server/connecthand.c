@@ -57,7 +57,7 @@
   NB: This function does not send updated connection information to other
   clients, you need to do that yourself afterwards.
 **************************************************************************/
-void restore_access_level(struct connection *pconn)
+static void restore_access_level(struct connection *pconn)
 {
   /* Restore previous privileges. */
   pconn->access_level = pconn->server.granted_access_level;
@@ -148,6 +148,7 @@ void establish_new_connection(struct connection *pconn)
   send_server_settings(dest);
   send_scenario_info(dest);
   send_game_info(dest);
+  send_pending_events(pconn, TRUE);
 
   if ((pplayer = find_player_by_user(pconn->username))
       && connection_attach(pconn, pplayer, FALSE)) {
@@ -535,6 +536,7 @@ bool connection_attach(struct connection *pconn, struct player *pplayer,
     send_diplomatic_meetings(pconn);
     send_packet_thaw_hint(pconn);
     dsend_packet_start_phase(pconn, game.info.phase);
+    send_pending_events(pconn, FALSE);
     break;
 
   case S_S_OVER:
@@ -542,6 +544,7 @@ bool connection_attach(struct connection *pconn, struct player *pplayer,
     send_all_info(pconn->self, TRUE);
     send_packet_thaw_hint(pconn);
     report_final_scores(pconn->self);
+    send_pending_events(pconn, FALSE);
     break;
 
   case S_S_INITIAL:

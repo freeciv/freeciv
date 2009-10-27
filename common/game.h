@@ -289,7 +289,7 @@ bool setting_class_is_changeable(enum sset_class class);
 
 #define GAME_DEFAULT_KILLCITIZEN     1
 #define GAME_MIN_KILLCITIZEN         0
-#define GAME_MAX_KILLCITIZEN         15
+#define GAME_MAX_KILLCITIZEN         ((1 << MOVETYPE_LAST) - 1)
 
 #define GAME_DEFAULT_TECHPENALTY     100
 #define GAME_MIN_TECHPENALTY         0

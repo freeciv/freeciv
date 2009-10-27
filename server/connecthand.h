@@ -38,6 +38,5 @@ struct player *find_uncontrolled_player(void);
 bool connection_attach(struct connection *pconn, struct player *pplayer,
                        bool observing);
 void connection_detach(struct connection *pconn);
-void restore_access_level(struct connection *pconn);
 
 #endif /* FC__CONNECTHAND_H */
