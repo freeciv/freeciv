@@ -350,10 +350,13 @@ void handle_options_settable(struct packet_options_settable *packet)
   o->extra_help = mystrdup(packet->extra_help);
 
   /* have no proper final packet, test for the last instead */
-  if (i == (num_settable_options - 1) && !settable_options_loaded) {
+  if (i == (num_settable_options - 1) && !settable_options_loaded
+      && packet->initial_setting) {
     /* Only send our private settings if we are running
      * on a forked local server, i.e. started by the
-     * client with the "Start New Game" button. */
+     * client with the "Start New Game" button.
+     * Do now override settings that are already saved to savegame
+     * and now loaded. */
     options_load_settable(is_server_running());
     settable_options_loaded = TRUE;
   }
