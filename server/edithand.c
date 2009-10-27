@@ -1264,6 +1264,7 @@ void handle_edit_startpos(struct connection *pc, int x, int y,
 {
   struct tile *ptile;
   const struct nation_type *pnation, *old;
+  bool removed = FALSE;
 
   ptile = map_pos_to_tile(x, y);
   if (!ptile) {
@@ -1275,10 +1276,21 @@ void handle_edit_startpos(struct connection *pc, int x, int y,
 
   old = map_get_startpos(ptile);
 
-  pnation = nation_by_number(nation);
-  map_set_startpos(ptile, pnation);
+  if (nation == NATION_NONE) {
+    if (map_has_startpos(ptile)) {
+      map_clear_startpos(ptile);
+      removed = TRUE;
+    }
+    pnation = NULL;
+  } else if (nation == NATION_ANY) {
+    map_set_startpos(ptile, NULL);
+    pnation = NULL;
+  } else {
+    pnation = nation_by_number(nation);
+    map_set_startpos(ptile, pnation);
+  }
 
-  if (old != pnation) {
+  if (old != pnation || removed) {
     send_tile_info(NULL, ptile, FALSE, FALSE);
   }
 }
