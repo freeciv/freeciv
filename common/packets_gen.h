@@ -1021,6 +1021,7 @@ struct packet_options_settable {
   char strval[MAX_LEN_PACKET];
   char default_strval[MAX_LEN_PACKET];
   int scategory;
+  bool initial_setting;
 };
 
 struct packet_ruleset_effect {

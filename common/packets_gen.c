@@ -28008,7 +28008,7 @@ void lsend_packet_options_settable_control(struct conn_list *dest, const struct 
 
 #define cmp_packet_options_settable_100 cmp_const
 
-BV_DEFINE(packet_options_settable_100_fields, 14);
+BV_DEFINE(packet_options_settable_100_fields, 15);
 
 static struct packet_options_settable *receive_packet_options_settable_100(struct connection *pc, enum packet_type type)
 {
@@ -28112,6 +28112,7 @@ static struct packet_options_settable *receive_packet_options_settable_100(struc
       real_packet->scategory = readin;
     }
   }
+  real_packet->initial_setting = BV_ISSET(fields, 14);
 
   clone = fc_malloc(sizeof(*clone));
   *clone = *real_packet;
@@ -28135,6 +28136,268 @@ static int send_packet_options_settable_100(struct connection *pc, const struct 
 
   if (!*hash) {
     *hash = hash_new(hash_packet_options_settable_100, cmp_packet_options_settable_100);
+  }
+  BV_CLR_ALL(fields);
+
+  old = hash_lookup_data(*hash, real_packet);
+  old_from_hash = (old != NULL);
+  if (!old) {
+    old = fc_malloc(sizeof(*old));
+    memset(old, 0, sizeof(*old));
+    force_send_of_unchanged = TRUE;
+  }
+
+  differ = (old->id != real_packet->id);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 0);}
+
+  differ = (strcmp(old->name, real_packet->name) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 1);}
+
+  differ = (strcmp(old->short_help, real_packet->short_help) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 2);}
+
+  differ = (strcmp(old->extra_help, real_packet->extra_help) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 3);}
+
+  differ = (old->stype != real_packet->stype);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 4);}
+
+  differ = (old->sclass != real_packet->sclass);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 5);}
+
+  differ = (old->is_visible != real_packet->is_visible);
+  if(differ) {different++;}
+  if(packet->is_visible) {BV_SET(fields, 6);}
+
+  differ = (old->val != real_packet->val);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 7);}
+
+  differ = (old->default_val != real_packet->default_val);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 8);}
+
+  differ = (old->min != real_packet->min);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 9);}
+
+  differ = (old->max != real_packet->max);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 10);}
+
+  differ = (strcmp(old->strval, real_packet->strval) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 11);}
+
+  differ = (strcmp(old->default_strval, real_packet->default_strval) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 12);}
+
+  differ = (old->scategory != real_packet->scategory);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 13);}
+
+  differ = (old->initial_setting != real_packet->initial_setting);
+  if(differ) {different++;}
+  if(packet->initial_setting) {BV_SET(fields, 14);}
+
+  if (different == 0 && !force_send_of_unchanged) {
+    return 0;
+  }
+
+  DIO_BV_PUT(&dout, fields);
+
+  if (BV_ISSET(fields, 0)) {
+    dio_put_uint16(&dout, real_packet->id);
+  }
+  if (BV_ISSET(fields, 1)) {
+    dio_put_string(&dout, real_packet->name);
+  }
+  if (BV_ISSET(fields, 2)) {
+    dio_put_string(&dout, real_packet->short_help);
+  }
+  if (BV_ISSET(fields, 3)) {
+    dio_put_string(&dout, real_packet->extra_help);
+  }
+  if (BV_ISSET(fields, 4)) {
+    dio_put_uint8(&dout, real_packet->stype);
+  }
+  if (BV_ISSET(fields, 5)) {
+    dio_put_uint8(&dout, real_packet->sclass);
+  }
+  /* field 6 is folded into the header */
+  if (BV_ISSET(fields, 7)) {
+    dio_put_sint32(&dout, real_packet->val);
+  }
+  if (BV_ISSET(fields, 8)) {
+    dio_put_sint32(&dout, real_packet->default_val);
+  }
+  if (BV_ISSET(fields, 9)) {
+    dio_put_sint32(&dout, real_packet->min);
+  }
+  if (BV_ISSET(fields, 10)) {
+    dio_put_sint32(&dout, real_packet->max);
+  }
+  if (BV_ISSET(fields, 11)) {
+    dio_put_string(&dout, real_packet->strval);
+  }
+  if (BV_ISSET(fields, 12)) {
+    dio_put_string(&dout, real_packet->default_strval);
+  }
+  if (BV_ISSET(fields, 13)) {
+    dio_put_uint8(&dout, real_packet->scategory);
+  }
+  /* field 14 is folded into the header */
+
+
+  if (old_from_hash) {
+    hash_delete_entry(*hash, old);
+  }
+
+  clone = old;
+
+  *clone = *real_packet;
+  hash_insert(*hash, clone, clone);
+  SEND_PACKET_END;
+}
+
+#define hash_packet_options_settable_101 hash_const
+
+#define cmp_packet_options_settable_101 cmp_const
+
+BV_DEFINE(packet_options_settable_101_fields, 14);
+
+static struct packet_options_settable *receive_packet_options_settable_101(struct connection *pc, enum packet_type type)
+{
+  packet_options_settable_101_fields fields;
+  struct packet_options_settable *old;
+  struct hash_table **hash = &pc->phs.received[type];
+  struct packet_options_settable *clone;
+  RECEIVE_PACKET_START(packet_options_settable, real_packet);
+
+  DIO_BV_GET(&din, fields);
+
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_options_settable_101, cmp_packet_options_settable_101);
+  }
+  old = hash_delete_entry(*hash, real_packet);
+
+  if (old) {
+    *real_packet = *old;
+  } else {
+    memset(real_packet, 0, sizeof(*real_packet));
+  }
+
+  if (BV_ISSET(fields, 0)) {
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->id = readin;
+    }
+  }
+  if (BV_ISSET(fields, 1)) {
+    dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
+  }
+  if (BV_ISSET(fields, 2)) {
+    dio_get_string(&din, real_packet->short_help, sizeof(real_packet->short_help));
+  }
+  if (BV_ISSET(fields, 3)) {
+    dio_get_string(&din, real_packet->extra_help, sizeof(real_packet->extra_help));
+  }
+  if (BV_ISSET(fields, 4)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->stype = readin;
+    }
+  }
+  if (BV_ISSET(fields, 5)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->sclass = readin;
+    }
+  }
+  real_packet->is_visible = BV_ISSET(fields, 6);
+  if (BV_ISSET(fields, 7)) {
+    {
+      int readin;
+    
+      dio_get_sint32(&din, &readin);
+      real_packet->val = readin;
+    }
+  }
+  if (BV_ISSET(fields, 8)) {
+    {
+      int readin;
+    
+      dio_get_sint32(&din, &readin);
+      real_packet->default_val = readin;
+    }
+  }
+  if (BV_ISSET(fields, 9)) {
+    {
+      int readin;
+    
+      dio_get_sint32(&din, &readin);
+      real_packet->min = readin;
+    }
+  }
+  if (BV_ISSET(fields, 10)) {
+    {
+      int readin;
+    
+      dio_get_sint32(&din, &readin);
+      real_packet->max = readin;
+    }
+  }
+  if (BV_ISSET(fields, 11)) {
+    dio_get_string(&din, real_packet->strval, sizeof(real_packet->strval));
+  }
+  if (BV_ISSET(fields, 12)) {
+    dio_get_string(&din, real_packet->default_strval, sizeof(real_packet->default_strval));
+  }
+  if (BV_ISSET(fields, 13)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->scategory = readin;
+    }
+  }
+
+  clone = fc_malloc(sizeof(*clone));
+  *clone = *real_packet;
+  if (old) {
+    free(old);
+  }
+  hash_insert(*hash, clone, clone);
+
+  RECEIVE_PACKET_END(real_packet);
+}
+
+static int send_packet_options_settable_101(struct connection *pc, const struct packet_options_settable *packet)
+{
+  const struct packet_options_settable *real_packet = packet;
+  packet_options_settable_101_fields fields;
+  struct packet_options_settable *old, *clone;
+  bool differ, old_from_hash, force_send_of_unchanged = TRUE;
+  struct hash_table **hash = &pc->phs.sent[PACKET_OPTIONS_SETTABLE];
+  int different = 0;
+  SEND_PACKET_START(PACKET_OPTIONS_SETTABLE);
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_options_settable_101, cmp_packet_options_settable_101);
   }
   BV_CLR_ALL(fields);
 
@@ -28270,8 +28533,10 @@ static void ensure_valid_variant_packet_options_settable(struct connection *pc)
   }
 
   if(FALSE) {
-  } else if(TRUE) {
+  } else if((has_capability("KeepSavedSetting", pc->capability) && has_capability("KeepSavedSetting", our_capability))) {
     variant = 100;
+  } else if(!(has_capability("KeepSavedSetting", pc->capability) && has_capability("KeepSavedSetting", our_capability))) {
+    variant = 101;
   } else {
     die("unknown variant");
   }
@@ -28294,6 +28559,7 @@ struct packet_options_settable *receive_packet_options_settable(struct connectio
 
   switch(pc->phs.variant[PACKET_OPTIONS_SETTABLE]) {
     case 100: return receive_packet_options_settable_100(pc, type);
+    case 101: return receive_packet_options_settable_101(pc, type);
     default: die("unknown variant"); return NULL;
   }
 }
@@ -28314,6 +28580,7 @@ int send_packet_options_settable(struct connection *pc, const struct packet_opti
 
   switch(pc->phs.variant[PACKET_OPTIONS_SETTABLE]) {
     case 100: return send_packet_options_settable_100(pc, packet);
+    case 101: return send_packet_options_settable_101(pc, packet);
     default: die("unknown variant"); return -1;
   }
 }
