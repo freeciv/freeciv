@@ -1706,6 +1706,8 @@ static void send_server_setting(struct conn_list *dest, int setting_id)
       };
     }
 
+    packet.initial_setting = game.info.is_new_game;
+
     send_packet_options_settable(pconn, &packet);
   } conn_list_iterate_end;
 }

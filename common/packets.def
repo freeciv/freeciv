@@ -1444,6 +1444,8 @@ PACKET_OPTIONS_SETTABLE=113;sc,lsend
   STRING default_strval[MAX_LEN_PACKET];	/* space for string */
 
   UINT8 scategory;
+
+  BOOL initial_setting;
 end
 
 /************** Effects hash packets **********************/
