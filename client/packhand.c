@@ -83,8 +83,9 @@
 #include "packhand.h"
 
 static void city_packet_common(struct city *pcity, struct tile *pcenter,
-                               struct player *powner, bool is_new,
-                               bool popup, bool investigate);
+                               struct player *powner,
+                               struct tile_list *worked_tiles,
+                               bool is_new, bool popup, bool investigate);
 static bool handle_unit_packet_common(struct unit *packet_unit);
 
 
@@ -435,6 +436,7 @@ void handle_city_info(struct packet_city_info *packet)
   bool traderoutes_changed = FALSE;
   struct unit_list *pfocus_units = get_units_in_focus();
   struct city *pcity = game_find_city_by_number(packet->id);
+  struct tile_list *worked_tiles = NULL;
   struct tile *pcenter = map_pos_to_tile(packet->x, packet->y);
   struct tile *ptile = NULL;
   struct player *powner = valid_player_by_number(packet->owner);
@@ -484,6 +486,16 @@ void handle_city_info(struct packet_city_info *packet)
       pcity->original = powner;
 
     } else if (city_owner(pcity) != powner) {
+      /* Remember what were the worked tiles.  The server won't
+       * send to us again. */
+      city_tile_iterate_skip_free_cxy(ptile, pworked, _x, _y) {
+        if (pcity == tile_worked(pworked)) {
+          if (NULL == worked_tiles) {
+            worked_tiles = tile_list_new();
+          }
+          tile_list_append(worked_tiles, pworked);
+        }
+      } city_tile_iterate_skip_free_cxy_end;
       client_remove_city(pcity);
       pcity = NULL;
       city_has_changed_owner = TRUE;
@@ -668,8 +680,8 @@ void handle_city_info(struct packet_city_info *packet)
            && popup_new_cities)
           || packet->diplomat_investigate;
 
-  city_packet_common(pcity, pcenter, powner, city_is_new, popup,
-                     packet->diplomat_investigate);
+  city_packet_common(pcity, pcenter, powner, worked_tiles,
+                     city_is_new, popup, packet->diplomat_investigate);
 
   if (city_is_new && !city_has_changed_owner) {
     agents_city_new(pcity);
@@ -718,9 +730,19 @@ void handle_city_info(struct packet_city_info *packet)
   data.
 ****************************************************************************/
 static void city_packet_common(struct city *pcity, struct tile *pcenter,
-                               struct player *powner, bool is_new,
-                               bool popup, bool investigate)
+                               struct player *powner,
+                               struct tile_list *worked_tiles,
+                               bool is_new, bool popup, bool investigate)
 {
+  if (NULL != worked_tiles) {
+    /* We need to transfer the worked infos because the server will assume
+     * those infos are kept in our side and won't send to us again. */
+    tile_list_iterate(worked_tiles, pwork) {
+      tile_set_worked(pwork, pcity);
+    } tile_list_iterate_end;
+    tile_list_free(worked_tiles);
+  }
+
   if (is_new) {
     pcity->units_supported = unit_list_new();
     pcity->info_units_supported = unit_list_new();
@@ -798,6 +820,7 @@ void handle_city_short_info(struct packet_city_short_info *packet)
   struct city *pcity = game_find_city_by_number(packet->id);
   struct tile *pcenter = map_pos_to_tile(packet->x, packet->y);
   struct tile *ptile = NULL;
+  struct tile_list *worked_tiles = NULL;
   struct player *powner = valid_player_by_number(packet->owner);
 
   if (NULL == powner) {
@@ -827,6 +850,16 @@ void handle_city_short_info(struct packet_city_short_info *packet)
       pcity->owner = powner;
       pcity->original = powner;
     } else if (city_owner(pcity) != powner) {
+      /* Remember what were the worked tiles.  The server won't
+       * send to us again. */
+      city_tile_iterate_skip_free_cxy(ptile, pworked, _x, _y) {
+        if (pcity == tile_worked(pworked)) {
+          if (NULL == worked_tiles) {
+            worked_tiles = tile_list_new();
+          }
+          tile_list_append(worked_tiles, pworked);
+        }
+      } city_tile_iterate_skip_free_cxy_end;
       client_remove_city(pcity);
       pcity = NULL;
       city_has_changed_owner = TRUE;
@@ -928,7 +961,8 @@ void handle_city_short_info(struct packet_city_short_info *packet)
   } /* Dumb values */
 #endif
 
-  city_packet_common(pcity, pcenter, powner, city_is_new, FALSE, FALSE);
+  city_packet_common(pcity, pcenter, powner, worked_tiles,
+                     city_is_new, FALSE, FALSE);
 
   if (city_is_new && !city_has_changed_owner) {
     agents_city_new(pcity);
