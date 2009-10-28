@@ -894,7 +894,9 @@ void map_clear_known(struct tile *ptile, struct player *pplayer)
 {
   BV_CLR(ptile->tile_known, player_index(pplayer));
   vision_layer_iterate(v) {
-    BV_CLR(ptile->tile_seen[v], player_index(pplayer));
+    if (0 == map_get_player_tile(ptile, pplayer)->seen_count[v]) {
+      BV_CLR(ptile->tile_seen[v], player_index(pplayer));
+    }
   } vision_layer_iterate_end;
 }
 
