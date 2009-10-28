@@ -95,6 +95,7 @@ struct client_option {
       char *const pvalue;
       const size_t size;
       const char *const def;
+      const char *const target;
     } font;
   };
   void (*changed_callback) (struct client_option *option);
@@ -133,7 +134,7 @@ struct client_option {
       .def = odef,                                                          \
     }                                                                       \
   },                                                                        \
-  .changed_callback = ocb,                                                   \
+  .changed_callback = ocb,                                                  \
 }
 
 /*
@@ -170,7 +171,7 @@ struct client_option {
       .max = omax                                                           \
     }                                                                       \
   },                                                                        \
-  .changed_callback = ocb,                                                   \
+  .changed_callback = ocb,                                                  \
 }
 
 /*
@@ -207,7 +208,7 @@ struct client_option {
       .val_accessor = NULL                                                  \
     }                                                                       \
   },                                                                        \
-  .changed_callback = ocb,                                                   \
+  .changed_callback = ocb,                                                  \
 }
 
 /*
@@ -257,6 +258,7 @@ struct client_option {
  *        So, you shouldn't change the name of this variable in any case.
  *        Be sure to pass the array variable and not a pointer to it because
  *        the size is calculated with sizeof().
+ * otgt:  The target widget style.
  * odesc: A short description of the client option.  Should be used with the
  *        N_() macro.
  * ohelp: The help text for the client option.  Should be used with the N_()
@@ -268,7 +270,7 @@ struct client_option {
  * ocb:   A callback function of type void (*)(struct client_option *)
  *        called when the option changed.
  */
-#define GEN_FONT_OPTION(oname, odesc, ohelp, ocat, ospec, odef, ocb)        \
+#define GEN_FONT_OPTION(oname, otgt, odesc, ohelp, ocat, ospec, odef, ocb)  \
 {                                                                           \
   .name = #oname,                                                           \
   .description = odesc,                                                     \
@@ -281,9 +283,10 @@ struct client_option {
       .pvalue = oname,                                                      \
       .size = sizeof(oname),                                                \
       .def = odef,                                                          \
+      .target = otgt,                                                       \
     }                                                                       \
   },                                                                        \
-  .changed_callback = ocb,                                                   \
+  .changed_callback = ocb,                                                  \
 }
 
 /* Iteration loop, including invalid options for the current gui type. */
@@ -315,7 +318,7 @@ bool fullscreen_mode = FALSE;
 
 bool solid_color_behind_units = FALSE;
 bool sound_bell_at_new_turn = FALSE;
-int  smooth_move_unit_msec = 30;
+int smooth_move_unit_msec = 30;
 int smooth_center_slide_msec = 200;
 bool do_combat_animation = TRUE;
 bool ai_manual_turn_done = TRUE;
@@ -417,6 +420,7 @@ static void reqtree_show_icons_callback(struct client_option *option);
 static void view_option_changed_callback(struct client_option *option);
 static void mapview_redraw_callback(struct client_option *option);
 static void voteinfo_bar_callback(struct client_option *option);
+static void font_changed_callback(struct client_option *option);
 
 static struct client_option options[] = {
   GEN_STR_OPTION(default_user_name,
@@ -866,54 +870,78 @@ static struct client_option options[] = {
                      "extended over the entire left side of the window. "
                      "This option requires a restart in order to take "
                      "effect."), COC_INTERFACE, GUI_GTK2, FALSE, NULL),
-  GEN_FONT_OPTION(gui_gtk2_font_city_label,
+  GEN_FONT_OPTION(gui_gtk2_font_city_label, "city_label",
                   N_("City Label"),
-                  N_("FIXME"),
-                  COC_FONT, GUI_GTK2, "Monospace 8", NULL),
-  GEN_FONT_OPTION(gui_gtk2_font_notify_label,
+                  N_("This font is used to display the city labels on city "
+                     "dialogs."),
+                  COC_FONT, GUI_GTK2,
+                  "Monospace 8", font_changed_callback),
+  GEN_FONT_OPTION(gui_gtk2_font_notify_label, "notify_label",
                   N_("Notify Label"),
-                  N_("FIXME"),
-                  COC_FONT, GUI_GTK2, "Monospace Bold 9", NULL),
-  GEN_FONT_OPTION(gui_gtk2_font_spaceship_label,
+                  N_("This font is used to display the server report such "
+                     "as demographic report or historian publications."),
+                  COC_FONT, GUI_GTK2,
+                  "Monospace Bold 9", font_changed_callback),
+  GEN_FONT_OPTION(gui_gtk2_font_spaceship_label, "spaceship_label",
                   N_("Spaceship Label"),
-                  N_("FIXME"),
-                  COC_FONT, GUI_GTK2, "Monospace 8", NULL),
-  GEN_FONT_OPTION(gui_gtk2_font_help_label,
+                  N_("This font is used to display the spaceship widgets."),
+                  COC_FONT, GUI_GTK2,
+                  "Monospace 8", font_changed_callback),
+  GEN_FONT_OPTION(gui_gtk2_font_help_label, "help_label",
                   N_("Help Label"),
-                  N_("FIXME"),
-                  COC_FONT, GUI_GTK2, "Sans Bold 10", NULL),
-  GEN_FONT_OPTION(gui_gtk2_font_help_link,
+                  N_("This font is used to display the help headers in the "
+                     "help window."),
+                  COC_FONT, GUI_GTK2,
+                  "Sans Bold 10", font_changed_callback),
+  GEN_FONT_OPTION(gui_gtk2_font_help_link, "help_link",
                   N_("Help Link"),
-                  N_("FIXME"),
-                  COC_FONT, GUI_GTK2, "Sans 9", NULL),
-  GEN_FONT_OPTION(gui_gtk2_font_help_text,
+                  N_("This font is used to display the help links in the "
+                     "help window."),
+                  COC_FONT, GUI_GTK2,
+                  "Sans 9", font_changed_callback),
+  GEN_FONT_OPTION(gui_gtk2_font_help_text, "help_text",
                   N_("Help Text"),
-                  N_("FIXME"),
-                  COC_FONT, GUI_GTK2, "Monospace 8", NULL),
-  GEN_FONT_OPTION(gui_gtk2_font_chatline,
+                  N_("This font is used to display the help body text in "
+                     "the help window."),
+                  COC_FONT, GUI_GTK2,
+                  "Monospace 8", font_changed_callback),
+  GEN_FONT_OPTION(gui_gtk2_font_chatline, "chatline",
                   N_("Chatline Area"),
-                  N_("FIXME"),
-                  COC_FONT, GUI_GTK2, "Monospace 8", NULL),
-  GEN_FONT_OPTION(gui_gtk2_font_beta_label,
+                  N_("This font is used to display the text in the "
+                     "chatline area."),
+                  COC_FONT, GUI_GTK2,
+                  "Monospace 8", font_changed_callback),
+  GEN_FONT_OPTION(gui_gtk2_font_beta_label, "beta_label",
                   N_("Beta Label"),
-                  N_("FIXME"),
-                  COC_FONT, GUI_GTK2, "Sans Italic 10", NULL),
-  GEN_FONT_OPTION(gui_gtk2_font_small,
+                  N_("This font is used to display the beta label."),
+                  COC_FONT, GUI_GTK2,
+                  "Sans Italic 10", font_changed_callback),
+  GEN_FONT_OPTION(gui_gtk2_font_small, "small_font",
                   N_("Small Font"),
-                  N_("FIXME"),
-                  COC_FONT, GUI_GTK2, "Sans 9", NULL),
-  GEN_FONT_OPTION(gui_gtk2_font_comment_label,
+                  N_("This font is used for any small font request.  For "
+                     "example, it is used for display the building lists "
+                     "in the city dialog, the economic report or the unit "
+                     "report."),
+                  COC_FONT, GUI_GTK2,
+                  "Sans 9", NULL),
+  GEN_FONT_OPTION(gui_gtk2_font_comment_label, "comment_label",
                   N_("Comment Label"),
-                  N_("FIXME"),
-                  COC_FONT, GUI_GTK2, "Sans Italic 9", NULL),
-  GEN_FONT_OPTION(gui_gtk2_font_city_names,
+                  N_("This font is used to diplay comment labels, such as "
+                     "in the governer page of the city dialogs."),
+                  COC_FONT, GUI_GTK2,
+                  "Sans Italic 9", font_changed_callback),
+  GEN_FONT_OPTION(gui_gtk2_font_city_names, "city_names",
                   N_("City Names"),
-                  N_("FIXME"),
-                  COC_FONT, GUI_GTK2, "Sans Bold 10", NULL),
-  GEN_FONT_OPTION(gui_gtk2_font_city_productions,
+                  N_("This font is used to the display the city names "
+                     "on the map."),
+                  COC_FONT, GUI_GTK2,
+                  "Sans Bold 10", font_changed_callback),
+  GEN_FONT_OPTION(gui_gtk2_font_city_productions, "city_productions",
                   N_("City Productions"),
-                  N_("FIXME"),
-                  COC_FONT, GUI_GTK2, "Serif 10", NULL),
+                  N_("This font is used to the display the city production "
+                     "names on the map."),
+                  COC_FONT, GUI_GTK2,
+                  "Serif 10", font_changed_callback),
 
   /* gui-sdl client specific options. */
   GEN_BOOL_OPTION(gui_sdl_fullscreen, N_("Full Screen"), 
@@ -1368,6 +1396,17 @@ const char *option_font_def(const struct client_option *poption)
   RETURN_VAL_IF_FAIL(COT_FONT == poption->type, NULL);
 
   return poption->font.def;
+}
+
+/**************************************************************************
+  Returns the target style name of this font.
+**************************************************************************/
+const char *option_font_target(const struct client_option *poption)
+{
+  RETURN_VAL_IF_FAIL(NULL != poption, FALSE);
+  RETURN_VAL_IF_FAIL(COT_FONT == poption->type, FALSE);
+
+  return poption->font.target;
 }
 
 /**************************************************************************
@@ -1945,7 +1984,7 @@ void options_free(void)
 /****************************************************************************
   Callback when a mapview graphics option is changed (redraws the canvas).
 ****************************************************************************/
-static void mapview_redraw_callback(struct client_option *option)
+static void mapview_redraw_callback(struct client_option *poption)
 {
   update_map_canvas_visible();
 }
@@ -1954,7 +1993,7 @@ static void mapview_redraw_callback(struct client_option *option)
    Callback when the reqtree  show icons option is changed.
    The tree is recalculated.
 ****************************************************************************/
-static void reqtree_show_icons_callback(struct client_option *option)
+static void reqtree_show_icons_callback(struct client_option *poption)
 {
   /* This will close research dialog, when it's open again the techtree will
    * be recalculated */
@@ -1964,7 +2003,7 @@ static void reqtree_show_icons_callback(struct client_option *option)
 /****************************************************************************
   Callback for when any view option is changed.
 ****************************************************************************/
-static void view_option_changed_callback(struct client_option *option)
+static void view_option_changed_callback(struct client_option *poption)
 {
   menus_init();
   update_map_canvas_visible();
@@ -1973,7 +2012,16 @@ static void view_option_changed_callback(struct client_option *option)
 /****************************************************************************
   Callback for when any voeinfo bar option is changed.
 ****************************************************************************/
-static void voteinfo_bar_callback(struct client_option *option)
+static void voteinfo_bar_callback(struct client_option *poption)
 {
   voteinfo_gui_update();
+}
+
+/****************************************************************************
+  Callback for font options.
+****************************************************************************/
+static void font_changed_callback(struct client_option *poption)
+{
+  RETURN_IF_FAIL(COT_FONT == option_type(poption));
+  gui_update_font(option_font_target(poption), option_font_get(poption));
 }

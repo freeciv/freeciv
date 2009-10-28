@@ -416,3 +416,11 @@ void gui_ggz_embed_leave_table(void)
 ****************************************************************************/
 void gui_ggz_embed_ensure_server(void)
 {}
+
+/**************************************************************************
+  Updates a gui font style.
+**************************************************************************/
+void gui_update_font(const char *font_name, const char *font_value)
+{
+  /* PORTME */
+}

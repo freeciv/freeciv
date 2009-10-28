@@ -2150,7 +2150,9 @@ void gui_options_extra_init(void)
   }
 
   client_options_iterate(poption) {
-    gui_update_font_from_option(poption);
+    if (COT_FONT == option_type(poption)) {
+      gui_update_font(option_font_target(poption), option_font_get(poption));
+    }
   } client_options_iterate_end;
 }
 

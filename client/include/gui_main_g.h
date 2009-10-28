@@ -39,6 +39,8 @@ void add_idle_callback(void (callback)(void *), void *data);
 
 enum gui_type get_gui_type(void);
 
+void gui_update_font(const char *font_name, const char *font_value);
+
 extern const char *client_string;
 
 #endif  /* FC__GUI_MAIN_G_H */
