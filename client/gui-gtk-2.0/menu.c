@@ -1831,8 +1831,7 @@ static gboolean menus_update_callback(gpointer data)
             (can_units_do(punits, can_unit_add_or_build_city)
              || can_units_do(punits, unit_can_help_build_wonder_here)));
   menus_set_sensitive(unit_group, "GO_BUILD_CITY",
-            (can_units_do(punits, can_unit_add_or_build_city)
-             || can_units_do(punits, unit_can_help_build_wonder_here)));
+                      units_have_flag(punits, F_CITIES, TRUE));
   menus_set_sensitive(unit_group, "BUILD_ROAD",
                       (can_units_do_activity(punits, ACTIVITY_ROAD)
                        || can_units_do_activity(punits, ACTIVITY_RAILROAD)
