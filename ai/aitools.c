@@ -1035,7 +1035,11 @@ bool ai_unit_move(struct unit *punit, struct tile *ptile)
   const bool is_ai = pplayer->ai_data.control;
 
   CHECK_UNIT(punit);
-  assert(is_tiles_adjacent(punit->tile, ptile));
+  RETURN_VAL_IF_FAIL_MSG(is_tiles_adjacent(unit_tile(punit), ptile), FALSE,
+                         "Tiles not adjacent: Unit = %d, "
+                         "from = (%d, %d]) to = (%d, %d).",
+                         punit->id, TILE_XY(unit_tile(punit)),
+                         TILE_XY(ptile));
 
   /* if enemy, stop and give a chance for the ai attack function
    * or the human player to handle this case */

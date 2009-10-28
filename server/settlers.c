@@ -973,6 +973,7 @@ static void auto_settler_findwork(struct player *pplayer,
 
   /*** If we are on a city mission: Go where we should ***/
 
+BUILD_CITY:
   if (punit->ai.ai_role == AIUNIT_BUILD_CITY) {
     struct tile *ptile = punit->goto_tile;
     int sanity = punit->id;
@@ -980,7 +981,7 @@ static void auto_settler_findwork(struct player *pplayer,
     /* Check that the mission is still possible.  If the tile has become
      * unavailable or the player has been autotoggled, call it off. */
     if (!unit_owner(punit)->ai_data.control
-	|| !city_can_be_built_here(ptile, punit)) {
+        || !city_can_be_built_here(ptile, punit)) {
       UNIT_LOG(LOG_SETTLER, punit, "city founding mission failed");
       ai_unit_new_role(punit, AIUNIT_NONE, NULL);
       set_unit_activity(punit, ACTIVITY_IDLE);
@@ -988,7 +989,8 @@ static void auto_settler_findwork(struct player *pplayer,
       return; /* avoid recursion at all cost */
     } else {
       /* Go there */
-      if ((!ai_gothere(pplayer, punit, ptile) && !game_find_unit_by_number(sanity))
+      if ((!ai_gothere(pplayer, punit, ptile)
+           && !game_find_unit_by_number(sanity))
           || punit->moves_left <= 0) {
         return;
       }
@@ -1050,12 +1052,17 @@ static void auto_settler_findwork(struct player *pplayer,
       /* Go make a city! */
       ai_unit_new_role(punit, AIUNIT_BUILD_CITY, result.tile);
       if (result.other_tile) {
-	/* Reserve best other tile (if there is one). */
-	/* FIXME: what is an "other tile" and why would we want to reserve
-	 * it? */
-	citymap_reserve_tile(result.other_tile, punit->id);
+        /* Reserve best other tile (if there is one). */
+        /* FIXME: what is an "other tile" and why would we want to reserve
+         * it? */
+        citymap_reserve_tile(result.other_tile, punit->id);
       }
       punit->goto_tile = result.tile; /* TMP */
+
+      /*** Go back to and found a city ***/
+      pf_path_destroy(path);
+      path = NULL;
+      goto BUILD_CITY;
     } else if (best_impr > 0) {
       UNIT_LOG(LOG_SETTLER, punit, "improves terrain instead of founding");
       /* Terrain improvements follows the old model, and is recalculated
@@ -1064,7 +1071,7 @@ static void auto_settler_findwork(struct player *pplayer,
     } else {
       UNIT_LOG(LOG_SETTLER, punit, "cannot find work");
       ai_unit_new_role(punit, AIUNIT_NONE, NULL);
-      return;
+      goto CLEANUP;
     }
   } else {
     /* We are a worker or engineer */
@@ -1080,7 +1087,7 @@ static void auto_settler_findwork(struct player *pplayer,
 
     if (!best_tile) {
       UNIT_LOG(LOG_DEBUG, punit, "giving up trying to improve terrain");
-      return; /* We cannot do anything */
+      goto CLEANUP; /* We cannot do anything */
     }
 
     /* Mark the square as taken. */
@@ -1105,6 +1112,7 @@ static void auto_settler_findwork(struct player *pplayer,
     state[tile_index(best_tile)].eta = completion_time;
       
     if (displaced) {
+      struct tile *goto_tile = punit->goto_tile;
       int saved_id = punit->id;
 
       displaced->goto_tile = NULL;
@@ -1113,7 +1121,16 @@ static void auto_settler_findwork(struct player *pplayer,
         /* Actions of the displaced settler somehow caused this settler
          * to die. (maybe by recursively giving control back to this unit)
          */
-        return;
+        goto CLEANUP;
+      }
+      if (goto_tile != punit->goto_tile) {
+        /* Actions of the displaced settler somehow caused this settler
+         * to get a new job. (A displaced B, B displaced C, C displaced A)
+         */
+        UNIT_LOG(LOG_DEBUG, punit, "%d has changed goals from (%d, %d) "
+                 "to (%d, %d) due to recursion",
+                 punit->id, TILE_XY(goto_tile), TILE_XY(punit->goto_tile));
+        goto CLEANUP;
       }
     }
 
@@ -1134,8 +1151,6 @@ static void auto_settler_findwork(struct player *pplayer,
         unit_activity_handling(punit, best_act);
         send_unit_info(NULL, punit); /* FIXME: probably duplicate */
       }
-
-      pf_path_destroy(path);
     } else {
       freelog(LOG_DEBUG, "Autosettler does not find path (%d,%d) -> (%d,%d)",
               punit->tile->x, punit->tile->y, best_tile->x, best_tile->y);
@@ -1145,7 +1160,7 @@ static void auto_settler_findwork(struct player *pplayer,
       pf_map_destroy(pfm);
     }
 
-    return;
+    goto CLEANUP;
   }
 
   /*** Recurse if we want to found a city ***/
@@ -1153,6 +1168,11 @@ static void auto_settler_findwork(struct player *pplayer,
   if (punit->ai.ai_role == AIUNIT_BUILD_CITY
       && punit->moves_left > 0) {
     auto_settler_findwork(pplayer, punit, state, recursion + 1);
+  }
+
+CLEANUP:
+  if (NULL != path) {
+    pf_path_destroy(path);
   }
 }
 #undef LOG_SETTLER
