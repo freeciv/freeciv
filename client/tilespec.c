@@ -4123,15 +4123,16 @@ static int fill_grid_sprite_array(const struct tileset *t,
       known[i] = tile && client_tile_get_known(tile) != TILE_UNKNOWN;
       unit[i] = FALSE;
       if (tile) {
-	unit_list_iterate(pfocus_units, pfocus_unit) {
-	  if (unit_has_type_flag(pfocus_unit, F_CITIES)
-	      && city_can_be_built_here(pfocus_unit->tile, pfocus_unit)
-	      && city_tile_to_city_map(&dummy_x, &dummy_y,
-				      pfocus_unit->tile, tile)) {
-	    unit[i] = TRUE;
-	    break;
-	  }
-	} unit_list_iterate_end;
+        unit_list_iterate(pfocus_units, pfocus_unit) {
+          if (unit_has_type_flag(pfocus_unit, F_CITIES)
+              && !unit_has_orders(pfocus_unit)
+              && city_can_be_built_here(pfocus_unit->tile, pfocus_unit)
+              && city_tile_to_city_map(&dummy_x, &dummy_y,
+                                      pfocus_unit->tile, tile)) {
+            unit[i] = TRUE;
+            break;
+          }
+        } unit_list_iterate_end;
       }
       worked[i] = FALSE;
 
