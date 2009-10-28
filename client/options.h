@@ -213,6 +213,7 @@ bool option_str_set(struct client_option *poption, const char *str);
 /* Option type COT_FONT functions. */
 const char *option_font_get(const struct client_option *poption);
 const char *option_font_def(const struct client_option *poption);
+const char *option_font_target(const struct client_option *poption);
 bool option_font_set(struct client_option *poption, const char *str);
 
 

@@ -404,10 +404,8 @@ static void option_command_processing(void)
       break;
 
     case COT_FONT:
-      if (option_font_set(poption, gtk_font_button_get_font_name
-                          (GTK_FONT_BUTTON(w)))) {
-        gui_update_font_from_option(poption);
-      }
+      (void) option_font_set(poption, gtk_font_button_get_font_name
+                             (GTK_FONT_BUTTON(w)));
       break;
     }
   } client_options_iterate_end;
