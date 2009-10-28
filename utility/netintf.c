@@ -156,7 +156,7 @@ int fc_writesocket(int sock, const void *buf, size_t size)
     set_socket_errno();
   }
 #else
-  result = write(sock, buf, size);
+  result = send(sock, buf, size, MSG_NOSIGNAL);
 #endif
 
   return result;
