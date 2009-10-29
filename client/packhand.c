@@ -1241,18 +1241,29 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 	  repaint_city = TRUE;
 	else
 	  refresh_city_dialog(pcity);
-	
-        if((unit_has_type_flag(punit, F_TRADE_ROUTE) || unit_has_type_flag(punit, F_HELP_WONDER))
-	   && game.player_ptr
-	   && !game.player_ptr->ai.control
-	   && unit_owner(punit) == game.player_ptr
-	   && !unit_has_orders(punit)
-	   && can_client_issue_orders()
-	   && popup_caravan_arrival
-	   && (unit_can_help_build_wonder_here(punit)
-	       || unit_can_est_traderoute_here(punit))) {
-	  process_caravan_arrival(punit);
-	}
+
+        if (popup_caravan_arrival
+            && NULL != game.player_ptr
+            && !game.player_ptr->ai.control
+            && can_client_issue_orders()
+            && !unit_has_orders(punit)) {
+          if (punit->transported_by == -1
+              && game.player_ptr == unit_owner(punit)
+              && (unit_can_help_build_wonder_here(punit)
+                  || unit_can_est_traderoute_here(punit))) {
+            process_caravan_arrival(punit);
+          }
+          /* Check for transported units. */
+          unit_list_iterate(game.player_ptr->units, pcargo) {
+            if (pcargo->transported_by == punit->id
+                && game.player_ptr == unit_owner(pcargo)
+                && !unit_has_orders(pcargo)
+                && (unit_can_help_build_wonder_here(pcargo)
+                     || unit_can_est_traderoute_here(pcargo))) {
+              process_caravan_arrival(pcargo);
+            }
+          } unit_list_iterate_end;
+        }
       }
 
     }  /*** End of Change position. ***/
