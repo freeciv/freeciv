@@ -162,92 +162,334 @@ static void insert_generated_table(char *outbuf, size_t outlen, const char *name
 /****************************************************************
   Append text for the requirement.  Something like
 
-    "Requires the Communism technology.\n\n"
+    "Requires the Communism technology.\n"
 
-  pplayer may be NULL.
+  pplayer may be NULL.  Note that it must be updated everytime
+  a new requirement type or range is defined.
 *****************************************************************/
-static void insert_requirement(char *buf, size_t bufsz,
-			      struct player *pplayer,
-			      struct requirement *req)
+static bool insert_requirement(char *buf, size_t bufsz,
+                               struct player *pplayer,
+                               const struct requirement *preq)
 {
-  switch (req->source.kind) {
+  switch (preq->source.kind) {
   case VUT_NONE:
-    return;
+    return FALSE;
+
   case VUT_ADVANCE:
-    cat_snprintf(buf, bufsz, _("Requires the %s technology.\n\n"),
-		 advance_name_for_player(pplayer,
-					 advance_number(req->source.value.advance)));
-    return;
-  case VUT_GOVERNMENT:
-    cat_snprintf(buf, bufsz, _("Requires the %s government.\n\n"),
-		 government_name_translation(req->source.value.govern));
-    return;
-  case VUT_IMPROVEMENT:
-    cat_snprintf(buf, bufsz, _("Requires the %s building.\n\n"),
-		 improvement_name_translation(req->source.value.building));
-    return;
-  case VUT_SPECIAL:
-    cat_snprintf(buf, bufsz, _("Requires the %s terrain special.\n\n"),
-		 special_name_translation(req->source.value.special));
-    return;
-  case VUT_TERRAIN:
-    cat_snprintf(buf, bufsz, _("Requires the %s terrain.\n\n"),
-		 terrain_name_translation(req->source.value.terrain));
-    return;
-  case VUT_NATION:
-    cat_snprintf(buf, bufsz, _("Requires the %s nation.\n\n"),
-		 nation_adjective_translation(req->source.value.nation));
-    return;
-  case VUT_UTYPE:
-    cat_snprintf(buf, bufsz, _("Only applies to %s units.\n\n"),
-		 utype_name_translation(req->source.value.utype));
-    return;
-  case VUT_UTFLAG:
-    cat_snprintf(buf, bufsz, _("Only applies to \"%s\" units.\n\n"),
-                /* flag names are never translated */
-                unit_flag_rule_name(req->source.value.unitflag));
-    return;
-  case VUT_UCLASS:
-    cat_snprintf(buf, bufsz, _("Only applies to %s units.\n\n"),
-		 uclass_name_translation(req->source.value.uclass));
-    return;
-  case VUT_UCFLAG:
-    cat_snprintf(buf, bufsz, _("Only applies to \"%s\" units.\n\n"),
-                /* flag names are never translated */
-                unit_class_flag_rule_name(req->source.value.unitclassflag));
-    return;
-  case VUT_OTYPE:
-    cat_snprintf(buf, bufsz, _("Applies only to %s.\n\n"),
-		 get_output_name(req->source.value.outputtype));
-    return;
-  case VUT_SPECIALIST:
-    cat_snprintf(buf, bufsz, _("Applies only to %s.\n\n"),
-		 specialist_name_translation(req->source.value.specialist));
-    return;
-  case VUT_MINSIZE:
-    cat_snprintf(buf, bufsz, _("Requires a minimum size of %d.\n\n"),
-		 req->source.value.minsize);
-    return;
-  case VUT_AI_LEVEL:
-    cat_snprintf(buf, bufsz, _("Requires AI player of level %s.\n\n"),
-                 ai_level_name(req->source.value.ai_level));
-    return;
-  case VUT_TERRAINCLASS:
-     cat_snprintf(buf, bufsz, _("Requires %s terrain.\n\n"),
-                  terrain_class_name_translation(req->source.value.terrainclass));
-     return;
-  case VUT_TERRAINALTER:
-     cat_snprintf(buf, bufsz, _("Requires terrain on which %s can be built.\n\n"),
-                  terrain_alteration_name_translation(req->source.value.terrainalter));
-     return;
-  case VUT_CITYTILE:
-     cat_snprintf(buf, bufsz, _("Applies only to city centers.\n\n"));
-     return;
-  case VUT_LAST:
-  default:
+    switch (preq->range) {
+    case REQ_RANGE_PLAYER:
+      cat_snprintf(buf, bufsz,
+                   _("Requires to have researched the %s technology.\n"),
+                   advance_name_for_player(pplayer, advance_number
+                                           (preq->source.value.advance)));
+      return TRUE;
+    case REQ_RANGE_WORLD:
+      cat_snprintf(buf, bufsz,
+                   _("Requires that any player has researched "
+                     "the %s technology.\n"),
+                   advance_name_for_player(pplayer, advance_number
+                                           (preq->source.value.advance)));
+      return TRUE;
+    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_ADJACENT:
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_LAST:
+      /* Not supported. */
+      break;
+    }
     break;
-  };
-  assert(0);
+
+  case VUT_GOVERNMENT:
+    cat_snprintf(buf, bufsz, _("Requires the %s government.\n"),
+                 government_name_translation(preq->source.value.govern));
+    return TRUE;
+
+  case VUT_IMPROVEMENT:
+    switch (preq->range) {
+    case REQ_RANGE_WORLD:
+      if (is_great_wonder(preq->source.value.building)) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires that the %s wonder is built.\n"),
+                     improvement_name_translation
+                     (preq->source.value.building));
+        return TRUE;
+      }
+      break;
+    case REQ_RANGE_PLAYER:
+      if (is_wonder(preq->source.value.building)) {
+        cat_snprintf(buf, bufsz, _("Requires the %s wonder.\n"),
+                     improvement_name_translation
+                     (preq->source.value.building));
+        return TRUE;
+      }
+      break;
+    case REQ_RANGE_CONTINENT:
+      if (is_wonder(preq->source.value.building)) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires the %s wonder on the continent.\n"),
+                     improvement_name_translation
+                     (preq->source.value.building));
+        return TRUE;
+      }
+      break;
+    case REQ_RANGE_CITY:
+      cat_snprintf(buf, bufsz,
+                   _("Requires the %s building in the city.\n"),
+                   improvement_name_translation
+                   (preq->source.value.building));
+      return TRUE;
+    case REQ_RANGE_LOCAL:
+      cat_snprintf(buf, bufsz,
+                   _("Only applies to \"%s\" buildings.\n"),
+                   improvement_name_translation
+                   (preq->source.value.building));
+      return TRUE;
+    case REQ_RANGE_ADJACENT:
+    case REQ_RANGE_LAST:
+      /* Not supported. */
+      break;
+    }
+    break;
+
+  case VUT_SPECIAL:
+    switch (preq->range) {
+    case REQ_RANGE_LOCAL:
+      cat_snprintf(buf, bufsz,
+                   _("Requires the %s terrain special on the tile.\n"),
+                   special_name_translation(preq->source.value.special));
+      return TRUE;
+    case REQ_RANGE_ADJACENT:
+      cat_snprintf(buf, bufsz,
+                   _("Requires the %s terrain special near the tile.\n"),
+                   special_name_translation(preq->source.value.special));
+      return TRUE;
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_LAST:
+      /* Not supported. */
+      break;
+    }
+    break;
+
+  case VUT_TERRAIN:
+    switch (preq->range) {
+    case REQ_RANGE_LOCAL:
+      cat_snprintf(buf, bufsz, _("Requires the %s terrain on the tile.\n"),
+                   terrain_name_translation(preq->source.value.terrain));
+      return TRUE;
+    case REQ_RANGE_ADJACENT:
+      cat_snprintf(buf, bufsz,_("Requires the %s terrain near the tile.\n"),
+                   terrain_name_translation(preq->source.value.terrain));
+      return TRUE;
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_LAST:
+      /* Not supported. */
+      break;
+    }
+    break;
+
+  case VUT_NATION:
+    switch (preq->range) {
+    case REQ_RANGE_PLAYER:
+      cat_snprintf(buf, bufsz, _("Requires the play the %s nation.\n"),
+                   nation_adjective_translation(preq->source.value.nation));
+      return TRUE;
+    case REQ_RANGE_WORLD:
+      cat_snprintf(buf, bufsz, _("Requires the %s nation in the game.\n"),
+                   nation_adjective_translation(preq->source.value.nation));
+      return TRUE;
+    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_ADJACENT:
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_LAST:
+      /* Not supported. */
+      break;
+    }
+    break;
+
+  case VUT_UTYPE:
+    switch (preq->range) {
+    case REQ_RANGE_LOCAL:
+      cat_snprintf(buf, bufsz, _("Only applies to %s units.\n"),
+                   utype_name_translation(preq->source.value.utype));
+      return TRUE;
+    case REQ_RANGE_ADJACENT:
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_LAST:
+      /* Not supported. */
+      break;
+    }
+    break;
+
+  case VUT_UTFLAG:
+    switch (preq->range) {
+    case REQ_RANGE_LOCAL:
+      cat_snprintf(buf, bufsz, _("Only applies to \"%s\" units.\n"),
+                   /* flag names are never translated */
+                   unit_flag_rule_name(preq->source.value.unitflag));
+      return TRUE;
+    case REQ_RANGE_ADJACENT:
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_LAST:
+      /* Not supported. */
+      break;
+    }
+    break;
+
+  case VUT_UCLASS:
+    switch (preq->range) {
+    case REQ_RANGE_LOCAL:
+      cat_snprintf(buf, bufsz, _("Only applies to %s units.\n"),
+                   uclass_name_translation(preq->source.value.uclass));
+      return TRUE;
+    case REQ_RANGE_ADJACENT:
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_LAST:
+      /* Not supported. */
+      break;
+    }
+    break;
+
+  case VUT_UCFLAG:
+    switch (preq->range) {
+    case REQ_RANGE_LOCAL:
+      cat_snprintf(buf, bufsz, _("Only applies to \"%s\" units.\n"),
+                   /* flag names are never translated */
+                   unit_class_flag_rule_name
+                   (preq->source.value.unitclassflag));
+      return TRUE;
+    case REQ_RANGE_ADJACENT:
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_LAST:
+      /* Not supported. */
+      break;
+    }
+    break;
+
+  case VUT_OTYPE:
+    cat_snprintf(buf, bufsz, _("Applies only to %s.\n"),
+                 get_output_name(preq->source.value.outputtype));
+    return TRUE;
+
+  case VUT_SPECIALIST:
+    cat_snprintf(buf, bufsz, _("Applies only to %s.\n"),
+                 specialist_name_translation(preq->source.value.specialist));
+    return TRUE;
+
+  case VUT_MINSIZE:
+    cat_snprintf(buf, bufsz, _("Requires a minimum size of %d.\n"),
+                 preq->source.value.minsize);
+    return TRUE;
+
+  case VUT_AI_LEVEL:
+    cat_snprintf(buf, bufsz, _("Requires AI player of level %s.\n"),
+                 ai_level_name(preq->source.value.ai_level));
+    return TRUE;
+
+  case VUT_TERRAINCLASS:
+    switch (preq->range) {
+    case REQ_RANGE_LOCAL:
+      cat_snprintf(buf, bufsz, _("Requires %s terrain class on the tile.\n"),
+                   terrain_class_name_translation
+                   (preq->source.value.terrainclass));
+      return TRUE;
+    case REQ_RANGE_ADJACENT:
+      cat_snprintf(buf, bufsz,
+                   _("Requires %s terrain class near the tile.\n"),
+                   terrain_class_name_translation
+                   (preq->source.value.terrainclass));
+      return TRUE;
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_LAST:
+      /* Not supported. */
+      break;
+    }
+    break;
+
+  case VUT_BASE:
+    switch (preq->range) {
+    case REQ_RANGE_LOCAL:
+      cat_snprintf(buf, bufsz, _("Requires a %s on the tile.\n"),
+                   base_name_translation(preq->source.value.base));
+      return TRUE;
+    case REQ_RANGE_ADJACENT:
+      cat_snprintf(buf, bufsz, _("Requires a %s near the tile.\n"),
+                   base_name_translation(preq->source.value.base));
+      return TRUE;
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_LAST:
+      /* Not supported. */
+      break;
+    }
+    break;
+
+  case VUT_MINYEAR:
+    cat_snprintf(buf, bufsz, _("Requires we reached the year %d.\n"),
+                 preq->source.value.minyear);
+    return TRUE;
+
+  case VUT_TERRAINALTER:
+    switch (preq->range) {
+    case REQ_RANGE_LOCAL:
+      cat_snprintf(buf, bufsz,
+                   _("Requires terrain on which %s can be built on tile.\n"),
+                   terrain_alteration_name_translation
+                   (preq->source.value.terrainalter));
+      return TRUE;
+    case REQ_RANGE_ADJACENT:
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_LAST:
+      /* Not supported. */
+      break;
+    }
+    break;
+
+  case VUT_CITYTILE:
+     cat_snprintf(buf, bufsz, _("Applies only to city centers.\n"));
+    return TRUE;
+
+  case VUT_LAST:
+    break;
+  }
+
+  {
+    char text[256];
+
+    freelog(LOG_ERROR,
+            "Requirement %s in range %d is not supported in helpdata.c.",
+            universal_name_translation(&preq->source, text, sizeof(text)),
+            preq->range);
+  }
+
+  return FALSE;
 }
 
 /****************************************************************************
@@ -684,8 +926,9 @@ const struct help_item *help_iter_next(void)
   user_text, if non-NULL, will be appended to the text.
 **************************************************************************/
 char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
-			const char *user_text, struct impr_type *pimprove)
+                        const char *user_text, struct impr_type *pimprove)
 {
+  bool reqs = FALSE;
   struct universal source = {
     .kind = VUT_IMPROVEMENT,
     .value = {.building = pimprove}
@@ -701,6 +944,17 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
   if (pimprove->helptext && pimprove->helptext[0] != '\0') {
     cat_snprintf(buf, bufsz, "%s\n\n", _(pimprove->helptext));
   }
+
+  /* Add requirement text for improvement itself */
+  requirement_vector_iterate(&pimprove->reqs, preq) {
+    if (insert_requirement(buf, bufsz, pplayer, preq)) {
+      reqs = TRUE;
+    }
+  } requirement_vector_iterate_end;
+  if (reqs) {
+    mystrlcat(buf, "\n", bufsz);
+  }
+
 
   if (valid_advance(pimprove->obsolete_by)) {
     cat_snprintf(buf, bufsz,
@@ -1336,8 +1590,9 @@ void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
   other requirements.
 *****************************************************************/
 void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
-			 const char *user_text, struct government *gov)
+                         const char *user_text, struct government *gov)
 {
+  bool reqs = FALSE;
   struct universal source = {
     .kind = VUT_GOVERNMENT,
     .value = {.govern = gov}
@@ -1352,8 +1607,13 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
 
   /* Add requirement text for government itself */
   requirement_vector_iterate(&gov->reqs, preq) {
-    insert_requirement(buf, bufsz, pplayer, preq);
+    if (insert_requirement(buf, bufsz, pplayer, preq)) {
+      reqs = TRUE;
+    }
   } requirement_vector_iterate_end;
+  if (reqs) {
+    mystrlcat(buf, "\n", bufsz);
+  }
 
   /* Effects */
   CATLSTR(buf, bufsz, _("Features:\n"));
