@@ -762,6 +762,18 @@ static int unit_food_upkeep(struct unit *punit)
   return upkeep;
 }
 
+/**************************************************************************
+  Don't enter in enemy territories.
+**************************************************************************/
+static bool autosettler_enter_territory(const struct player *pplayer,
+                                        const struct tile *ptile)
+{
+  const struct player *owner = tile_owner(ptile);
+
+  return (NULL == owner
+          || pplayers_allied(owner, pplayer));
+}
+
 /****************************************************************************
   Finds tiles to improve, using punit.
 
@@ -800,6 +812,7 @@ static int evaluate_improvements(struct unit *punit,
   struct unit *enroute = NULL;
 
   pft_fill_unit_parameter(&parameter, punit);
+  parameter.can_invade_tile = autosettler_enter_territory;
   pfm = pf_map_new(&parameter);
 
   city_list_iterate(pplayer->cities, pcity) {
@@ -1136,6 +1149,7 @@ BUILD_CITY:
 
     if (!path) {
       pft_fill_unit_parameter(&parameter, punit);
+      parameter.can_invade_tile = autosettler_enter_territory;
       pfm = pf_map_new(&parameter);
       path = pf_map_get_path(pfm, best_tile);
     }
