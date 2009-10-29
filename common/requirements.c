@@ -14,13 +14,13 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
+/* utility */
 #include "fcintl.h"
 #include "game.h"
 #include "log.h"
 #include "support.h"
 
+/* common */
 #include "government.h"
 #include "improvement.h"
 #include "map.h"
@@ -74,7 +74,8 @@ enum req_range req_range_from_str(const char *str)
 {
   enum req_range range;
 
-  assert(ARRAY_SIZE(req_range_names) == REQ_RANGE_LAST);
+  RETURN_VAL_IF_FAIL(ARRAY_SIZE(req_range_names) == REQ_RANGE_LAST,
+                     REQ_RANGE_LAST);
 
   for (range = 0; range < REQ_RANGE_LAST; range++) {
     if (0 == mystrcasecmp(req_range_names[range], str)) {
@@ -95,16 +96,16 @@ enum req_range req_range_from_str(const char *str)
 struct universal universal_by_rule_name(const char *kind,
 					const char *value)
 {
-  struct universal source;
+  struct universal source = { .kind = VUT_LAST };
 
-  assert(ARRAY_SIZE(universal_names) == VUT_LAST);
+  RETURN_VAL_IF_FAIL(ARRAY_SIZE(universal_names) == VUT_LAST, source);
 
   if (kind) {
     for (source.kind = 0;
-	 source.kind < ARRAY_SIZE(universal_names);
-	 source.kind++) {
+         source.kind < ARRAY_SIZE(universal_names);
+         source.kind++) {
       if (0 == mystrcasecmp(universal_names[source.kind], kind)) {
-	break;
+        break;
       }
     }
   } else {
@@ -229,7 +230,6 @@ struct universal universal_by_rule_name(const char *kind,
     }
     break;
   case VUT_LAST:
-  default:
     break;
   }
 
@@ -333,9 +333,6 @@ struct universal universal_by_number(const enum universals_n kind,
     return source;
   case VUT_LAST:
     return source;
-  default:
-    assert(0);
-    break;
   }
 
   /* If we reach here there's been an error. */
@@ -401,12 +398,12 @@ int universal_number(const struct universal *source)
   case VUT_CITYTILE:
     return source->value.citytile;
   case VUT_LAST:
-  default:
     break;
   }
 
   /* If we reach here there's been an error. */
-  assert(0);
+  freelog(LOG_ERROR, "universal_number(): invalid source kind %d.",
+          source->kind);
   return 0;
 }
 
@@ -721,7 +718,8 @@ static int count_buildings_in_range(const struct player *target_player,
   case REQ_RANGE_LAST:
     break;
   }
-  assert(0);
+
+  freelog(LOG_ERROR, "count_buildings_in_range(): invalid range %d.", range);
   return 0;
 }
 
@@ -746,7 +744,7 @@ static bool is_tech_in_range(const struct player *target_player,
     break;
   }
 
-  assert(0);
+  freelog(LOG_ERROR, "is_tech_in_range(): invalid range %d.", range);
   return FALSE;
 }
 
@@ -771,7 +769,7 @@ static bool is_special_in_range(const struct tile *target_tile,
     break;
   }
 
-  assert(0);
+  freelog(LOG_ERROR, "is_special_in_range(): invalid range %d.", range);
   return FALSE;
 }
 
@@ -800,7 +798,7 @@ static bool is_terrain_in_range(const struct tile *target_tile,
     break;
   }
 
-  assert(0);
+  freelog(LOG_ERROR, "is_terrain_in_range(): invalid range %d.", range);
   return FALSE;
 }
 
@@ -829,7 +827,8 @@ static bool is_terrain_class_in_range(const struct tile *target_tile,
     break;
   }
 
-  assert(0);
+  freelog(LOG_ERROR, "is_terrain_class_in_range(): invalid range %d.",
+          range);
   return FALSE;
 }
 
@@ -858,7 +857,7 @@ static bool is_base_type_in_range(const struct tile *target_tile,
     break;
   }
 
-  assert(0);
+  freelog(LOG_ERROR, "is_base_type_in_range(): invalid range %d.", range);
   return FALSE;
 }
 
@@ -887,7 +886,8 @@ static bool is_terrain_alter_possible_in_range(const struct tile *target_tile,
     break;
   }
 
-  assert(0);
+  freelog(LOG_ERROR,
+          "is_terrain_alter_possible_in_range(): invalid range %d.", range);
   return FALSE;
 }
 
@@ -917,7 +917,7 @@ static bool is_nation_in_range(const struct player *target_player,
     break;
   }
 
-  assert(0);
+  freelog(LOG_ERROR, "is_nation_in_range(): invalid range %d.", range);
   return FALSE;
 }
 
@@ -1118,14 +1118,17 @@ bool is_req_active(const struct player *target_player,
         }
       } else {
         /* Not implemented */
-        assert(FALSE);
+        freelog(LOG_ERROR, "is_req_active(): citytile %d not supported.",
+                req->source.value.citytile);
+        return FALSE;
       }
     } else {
       eval = FALSE;
     }
     break;
   case VUT_LAST:
-    assert(0);
+    freelog(LOG_ERROR, "is_req_active(): invalid source kind %d.",
+            req->source.kind);
     return FALSE;
   }
 
@@ -1215,7 +1218,8 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_LAST:
     break;
   }
-  assert(0);
+  freelog(LOG_ERROR, "is_req_unchanging(): invalid source kind %d.",
+          req->source.kind);
   return TRUE;
 }
 
@@ -1273,7 +1277,8 @@ bool are_universals_equal(const struct universal *psource1,
   case VUT_LAST:
     break;
   }
-  assert(0);
+  freelog(LOG_ERROR, "are_universals_equal(): invalid source kind %d.",
+          psource1->kind);
   return FALSE;
 }
 
@@ -1283,7 +1288,7 @@ bool are_universals_equal(const struct universal *psource1,
 *****************************************************************************/
 const char *universal_kind_name(const enum universals_n kind)
 {
-  assert(kind >= 0 && kind < ARRAY_SIZE(universal_names));
+  RETURN_VAL_IF_FAIL(kind >= 0 && kind < ARRAY_SIZE(universal_names), NULL);
   return universal_names[kind];
 }
 
@@ -1296,6 +1301,7 @@ const char *universal_rule_name(const struct universal *psource)
   switch (psource->kind) {
   case VUT_NONE:
   case VUT_CITYTILE:
+  case VUT_MINYEAR:
     /* TRANS: missing value */
     return N_("(none)");
   case VUT_ADVANCE:
@@ -1333,11 +1339,11 @@ const char *universal_rule_name(const struct universal *psource)
   case VUT_TERRAINALTER:
     return terrain_alteration_rule_name(psource->value.terrainalter);
   case VUT_LAST:
-  default:
-    assert(0);
     break;
   }
 
+  freelog(LOG_ERROR, "universal_rule_name: invalid source kind %d.",
+          psource->kind);
   return NULL;
 }
 
@@ -1353,83 +1359,85 @@ const char *universal_name_translation(const struct universal *psource,
   case VUT_NONE:
     /* TRANS: missing value */
     mystrlcat(buf, _("(none)"), bufsz);
-    break;
+    return buf;
   case VUT_ADVANCE:
     mystrlcat(buf, advance_name_translation(psource->value.advance), bufsz);
-    break;
+    return buf;
   case VUT_GOVERNMENT:
     mystrlcat(buf, government_name_translation(psource->value.govern), bufsz);
-    break;
+    return buf;
   case VUT_IMPROVEMENT:
     mystrlcat(buf, improvement_name_translation(psource->value.building), bufsz);
-    break;
+    return buf;
   case VUT_SPECIAL:
     mystrlcat(buf, special_name_translation(psource->value.special), bufsz);
-    break;
+    return buf;
   case VUT_TERRAIN:
     mystrlcat(buf, terrain_name_translation(psource->value.terrain), bufsz);
-    break;
+    return buf;
   case VUT_NATION:
     mystrlcat(buf, nation_adjective_translation(psource->value.nation), bufsz);
-    break;
+    return buf;
   case VUT_UTYPE:
     mystrlcat(buf, utype_name_translation(psource->value.utype), bufsz);
-    break;
+    return buf;
   case VUT_UTFLAG:
     cat_snprintf(buf, bufsz, _("\"%s\" units"),
 		 /* flag names are never translated */
 		 unit_flag_rule_name(psource->value.unitflag));
-    break;
+    return buf;
   case VUT_UCLASS:
     cat_snprintf(buf, bufsz, _("%s units"),
 		 uclass_name_translation(psource->value.uclass));
-    break;
+    return buf;
   case VUT_UCFLAG:
     cat_snprintf(buf, bufsz, _("\"%s\" units"),
 		 /* flag names are never translated */
 		 unit_flag_rule_name(psource->value.unitflag));
-    break;
+    return buf;
   case VUT_OTYPE:
     mystrlcat(buf, get_output_name(psource->value.outputtype), bufsz); /* FIXME */
-    break;
+    return buf;
   case VUT_SPECIALIST:
     mystrlcat(buf, specialist_name_translation(psource->value.specialist), bufsz);
-    break;
+    return buf;
   case VUT_MINSIZE:
     cat_snprintf(buf, bufsz, _("Size %d"),
 		 psource->value.minsize);
-    break;
+    return buf;
   case VUT_AI_LEVEL:
     /* TRANS: "Hard AI" */
     cat_snprintf(buf, bufsz, _("%s AI"),
                  ai_level_name(psource->value.ai_level)); /* FIXME */
-    break;
+    return buf;
   case VUT_TERRAINCLASS:
     /* TRANS: "Land terrain" */
     cat_snprintf(buf, bufsz, _("%s terrain"),
                  terrain_class_name_translation(psource->value.terrainclass));
-    break;
+    return buf;
   case VUT_BASE:
     /* TRANS: "Fortress base" */
     cat_snprintf(buf, bufsz, _("%s base"),
                  base_name_translation(psource->value.base));
-    break;
+    return buf;
   case VUT_MINYEAR:
     cat_snprintf(buf, bufsz, _("After %s"),
                  textyear(psource->value.minyear));
-    break;
+    return buf;
   case VUT_TERRAINALTER:
     /* TRANS: "Irrigation possible" */
     cat_snprintf(buf, bufsz, _("%s possible"),
                  terrain_alteration_name_translation(psource->value.terrainalter));
-    break;
+    return buf;
   case VUT_CITYTILE:
     mystrlcat(buf, _("City center tile"), bufsz);
-    break;
+    return buf;
   case VUT_LAST:
-    assert(0);
     break;
   }
+
+  freelog(LOG_ERROR, "universal_rule_name: invalid source kind %d.",
+          psource->kind);
 
   return buf;
 }
