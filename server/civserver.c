@@ -97,14 +97,17 @@ static void signal_handler(int sig)
     timer = renew_timer_start(timer, TIMER_USER, TIMER_ACTIVE);
     break;
 
+#ifdef SIGHUP
   case SIGHUP:
     save_and_exit(SIGHUP);
     break;
+#endif /* SIGHUP */
 
   case SIGTERM:
     save_and_exit(SIGTERM);
     break;
 
+#ifdef SIGPIPE
   case SIGPIPE:
     if (signal(SIGPIPE, signal_handler) == SIG_ERR) {
       /* Because the signal may have interrupted arbitrary code, we use
@@ -116,9 +119,10 @@ static void signal_handler(int sig)
       _Exit(EXIT_FAILURE);
     }
     break;
+#endif /* SIGPIPE */
   }
 }
-#endif
+#endif /* USE_INTERRUPT_HANDLERS */
 
 /**************************************************************************
  Entry point for Freeciv server.  Basically, does two things:
@@ -150,11 +154,13 @@ int main(int argc, char *argv[])
     exit(EXIT_FAILURE);
   }
 
+#ifdef SIGHUP
   if (SIG_ERR == signal(SIGHUP, signal_handler)) {
         fc_fprintf(stderr, _("Failed to install SIGHUP handler: %s\n"),
                    fc_strerror(fc_get_errno()));
     exit(EXIT_FAILURE);
   }
+#endif /* SIGHUP */
 
   if (SIG_ERR == signal(SIGTERM, signal_handler)) {
         fc_fprintf(stderr, _("Failed to install SIGTERM handler: %s\n"),
@@ -162,6 +168,7 @@ int main(int argc, char *argv[])
     exit(EXIT_FAILURE);
   }
 
+#ifdef SIGPIPE
   /* Ignore SIGPIPE, the error is handled by the return value
    * of the write call. */
   if (SIG_ERR == signal(SIGPIPE, signal_handler)) {
@@ -169,7 +176,8 @@ int main(int argc, char *argv[])
                fc_strerror(fc_get_errno()));
     exit(EXIT_FAILURE);
   }
-#endif
+#endif /* SIGPIPE */
+#endif /* USE_INTERRUPT_HANDLERS */
 
   /* initialize server */
   srv_init();
