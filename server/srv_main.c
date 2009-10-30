@@ -930,42 +930,56 @@ become non-zero, so no need to check HAVE_LIBZ explicitly here as well.
 **************************************************************************/
 void save_game(char *orig_filename, const char *save_reason)
 {
-  char filename[600];
-  char *dot;
+  char filepath[600];
+  char *dot, *filename;
   struct section_file file;
   struct timer *timer_cpu, *timer_user;
 
   if (!orig_filename) {
-    filename[0] = '\0';
+    filepath[0] = '\0';
+    filename = filepath;
   } else {
-    sz_strlcpy(filename, orig_filename);
-  }
+    sz_strlcpy(filepath, orig_filename);
+    if ((filename = strrchr(filepath, '/'))) {
+      filename++;
+    } else {
+      filename = filepath;
+    }
 
-  /* Strip extension. */
-  if ((dot = strchr(filename, '.'))) {
-    *dot = '\0';
+    /* Ignores the dot at the start of the filename. */
+    for (dot = filename; '.' == *dot; dot++) {
+      /* Nothing. */
+    }
+    if ('\0' == *dot) {
+      /* Only dots in this file name, consider it as empty. */
+      filename[0] = '\0';
+    } else if ((dot = strchr(dot, '.'))) {
+      /* Strikes extension. */
+      *dot = '\0';
+    }
   }
 
   /* If orig_filename is NULL or empty, use a generated default name. */
   if (filename[0] == '\0'){
-    generate_save_name(filename, sizeof(filename), FALSE, NULL);
+    generate_save_name(filename, sizeof(filepath) + filepath - filename,
+                       FALSE, NULL);
   }
-  
+
   timer_cpu = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
   timer_user = new_timer_start(TIMER_USER, TIMER_ACTIVE);
-    
+
   section_file_init(&file);
   game_save(&file, save_reason);
 
   /* Append ".sav" to filename. */
-  sz_strlcat(filename, ".sav");
+  sz_strlcat(filepath, ".sav");
 
   if (game.info.save_compress_level > 0) {
     /* Append ".gz" to filename. */
-    sz_strlcat(filename, ".gz");
+    sz_strlcat(filepath, ".gz");
   }
 
-  if (!path_is_absolute(filename)) {
+  if (!path_is_absolute(filepath)) {
     char tmpname[600];
 
     /* Ensure the saves directory exists. */
@@ -975,14 +989,14 @@ void save_game(char *orig_filename, const char *save_reason)
     if (tmpname[0] != '\0') {
       sz_strlcat(tmpname, "/");
     }
-    sz_strlcat(tmpname, filename);
-    sz_strlcpy(filename, tmpname);
+    sz_strlcat(tmpname, filepath);
+    sz_strlcpy(filepath, tmpname);
   }
 
-  if(!section_file_save(&file, filename, game.info.save_compress_level))
-    con_write(C_FAIL, _("Failed saving game as %s"), filename);
+  if(!section_file_save(&file, filepath, game.info.save_compress_level))
+    con_write(C_FAIL, _("Failed saving game as %s"), filepath);
   else
-    con_write(C_OK, _("Game saved as %s"), filename);
+    con_write(C_OK, _("Game saved as %s"), filepath);
 
   section_file_free(&file);
 
@@ -990,7 +1004,7 @@ void save_game(char *orig_filename, const char *save_reason)
 	  read_timer_seconds_free(timer_cpu),
 	  read_timer_seconds_free(timer_user));
 
-  ggz_game_saved(filename);
+  ggz_game_saved(filepath);
 }
 
 /**************************************************************************
