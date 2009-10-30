@@ -19,6 +19,7 @@ freeciv-server \- The server for the Freeciv game
 [ \-e|\-\-exit\-on\-end ] \
 [ \-f|\-\-file \fIfilename\fP ] \
 [ \-h|\-\-help ] \
+[ \-i|\-\-identity \fIaddress\fP ] \
 [ \-l|\-\-log \fIfilename\fP ] \
 [ \-M|\-\-Metaserver \fIaddress\fP ] \
 [ \-m|\-\-meta ] \
@@ -134,6 +135,10 @@ Allow guests to login as 'guest' when authentication is enabled.
 .TP
 .BI "\-h, \-\-help"
 Prints out a description of the command line options and exits.
+.TP
+.BI "\-i \fIaddress\fP, \-\-identity \fIaddress\fP"
+Reports the \fIaddress\fP to the metaserver.  Then, the metaserver will use
+this address to redirect the users.
 .TP
 .BI "\-l \fIfilename\fP, \-\-log \fIfilename\fP"
 Defines a log file, \fIfilename\fP, to be produced during processing. Use the
