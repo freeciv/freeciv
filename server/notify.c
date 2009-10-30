@@ -424,7 +424,11 @@ event_cache_data_new(const struct packet_chat_msg *packet,
 {
   struct event_cache_data *pdata;
 
-  RETURN_VAL_IF_FAIL(NULL != event_cache, NULL);
+  if (NULL == event_cache) {
+    /* Don't do log for this, because this could make an infinite
+     * recursion. */
+    return NULL;
+  }
   RETURN_VAL_IF_FAIL(NULL != packet, NULL);
 
   pdata = fc_malloc(sizeof(*pdata));
@@ -463,6 +467,9 @@ void event_cache_init(void)
 void event_cache_free(void)
 {
   if (event_cache != NULL) {
+    event_cache_iterate(pdata) {
+      event_cache_data_destroy(pdata);
+    } event_cache_iterate_end;
     event_cache_data_list_free(event_cache);
     event_cache = NULL;
   }
