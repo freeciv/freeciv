@@ -161,30 +161,30 @@ static inline bool ft_color_requested(const struct ft_color color)
 }
 
 /* Predefined colors. */
-extern struct ft_color ftc_any;
+extern const struct ft_color ftc_any;
 
-extern struct ft_color ftc_warning;
-extern struct ft_color ftc_log;
-extern struct ft_color ftc_server;
-extern struct ft_color ftc_client;
-extern struct ft_color ftc_editor;
-extern struct ft_color ftc_command;
-extern struct ft_color ftc_changed;
-extern struct ft_color ftc_server_prompt;
-extern struct ft_color ftc_player_lost;
-extern struct ft_color ftc_game_start;
+extern const struct ft_color ftc_warning;
+extern const struct ft_color ftc_log;
+extern const struct ft_color ftc_server;
+extern const struct ft_color ftc_client;
+extern const struct ft_color ftc_editor;
+extern const struct ft_color ftc_command;
+extern const struct ft_color ftc_changed;
+extern const struct ft_color ftc_server_prompt;
+extern const struct ft_color ftc_player_lost;
+extern const struct ft_color ftc_game_start;
 
-extern struct ft_color ftc_chat_public;
-extern struct ft_color ftc_chat_ally;
-extern struct ft_color ftc_chat_private;
+extern const struct ft_color ftc_chat_public;
+extern const struct ft_color ftc_chat_ally;
+extern const struct ft_color ftc_chat_private;
 
-extern struct ft_color ftc_vote_public;
-extern struct ft_color ftc_vote_team;
-extern struct ft_color ftc_vote_passed;
-extern struct ft_color ftc_vote_failed;
-extern struct ft_color ftc_vote_yes;
-extern struct ft_color ftc_vote_no;
-extern struct ft_color ftc_vote_abstain;
+extern const struct ft_color ftc_vote_public;
+extern const struct ft_color ftc_vote_team;
+extern const struct ft_color ftc_vote_passed;
+extern const struct ft_color ftc_vote_failed;
+extern const struct ft_color ftc_vote_yes;
+extern const struct ft_color ftc_vote_no;
+extern const struct ft_color ftc_vote_abstain;
 
 /* Main functions. */
 size_t featured_text_to_plain_text(const char *featured_text,
