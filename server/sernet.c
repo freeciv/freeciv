@@ -569,7 +569,7 @@ enum server_events server_sniff_all_input(void)
     } conn_list_iterate_end
 
     /* Don't wait if timeout == -1 (i.e. on auto games) */
-    if (S_S_INITIAL != server_state() && game.info.timeout == -1) {
+    if (S_S_RUNNING == server_state() && game.info.timeout == -1) {
       (void) send_server_info_to_metaserver(META_REFRESH);
       return S_E_END_OF_TURN_TIMEOUT;
     }
