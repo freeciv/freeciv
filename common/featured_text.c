@@ -70,30 +70,30 @@ enum sequence_type {
 
 /* Predefined colors. */
 #define FT_COLOR(fg, bg) { .foreground = fg, .background = bg }
-struct ft_color ftc_any                 = FT_COLOR(NULL,        NULL);
+const struct ft_color ftc_any           = FT_COLOR(NULL,        NULL);
 
-struct ft_color ftc_warning             = FT_COLOR("#FF0000",   NULL);
-struct ft_color ftc_log                 = FT_COLOR("#7F7F7F",   NULL);
-struct ft_color ftc_server              = FT_COLOR("#8B0000",   NULL);
-struct ft_color ftc_client              = FT_COLOR("#EF7F00",   NULL);
-struct ft_color ftc_editor              = FT_COLOR("#0000FF",   NULL);
-struct ft_color ftc_command             = FT_COLOR("#006400",   NULL);
-struct ft_color ftc_changed             = FT_COLOR("#FF0000",   NULL);
-struct ft_color ftc_server_prompt       = FT_COLOR("#FF0000",   "#BEBEBE");
-struct ft_color ftc_player_lost         = FT_COLOR("#FFFFFF",   "#000000");
-struct ft_color ftc_game_start          = FT_COLOR("#00FF00",   "#115511");
+const struct ft_color ftc_warning       = FT_COLOR("#FF0000",   NULL);
+const struct ft_color ftc_log           = FT_COLOR("#7F7F7F",   NULL);
+const struct ft_color ftc_server        = FT_COLOR("#8B0000",   NULL);
+const struct ft_color ftc_client        = FT_COLOR("#EF7F00",   NULL);
+const struct ft_color ftc_editor        = FT_COLOR("#0000FF",   NULL);
+const struct ft_color ftc_command       = FT_COLOR("#006400",   NULL);
+const struct ft_color ftc_changed       = FT_COLOR("#FF0000",   NULL);
+const struct ft_color ftc_server_prompt = FT_COLOR("#FF0000",   "#BEBEBE");
+const struct ft_color ftc_player_lost   = FT_COLOR("#FFFFFF",   "#000000");
+const struct ft_color ftc_game_start    = FT_COLOR("#00FF00",   "#115511");
 
-struct ft_color ftc_chat_public         = FT_COLOR("#00008B",   NULL);
-struct ft_color ftc_chat_ally           = FT_COLOR("#551166",   NULL);
-struct ft_color ftc_chat_private        = FT_COLOR("#A020F0",   NULL);
+const struct ft_color ftc_chat_public   = FT_COLOR("#00008B",   NULL);
+const struct ft_color ftc_chat_ally     = FT_COLOR("#551166",   NULL);
+const struct ft_color ftc_chat_private  = FT_COLOR("#A020F0",   NULL);
 
-struct ft_color ftc_vote_public         = FT_COLOR("#FFFFFF",   "#AA0000");
-struct ft_color ftc_vote_team           = FT_COLOR("#FFFFFF",   "#5555CC");
-struct ft_color ftc_vote_passed         = FT_COLOR("#006400",   "#AAFFAA");
-struct ft_color ftc_vote_failed         = FT_COLOR("#8B0000",   "#FFAAAA");
-struct ft_color ftc_vote_yes            = FT_COLOR("#000000",   "#C8FFD5");
-struct ft_color ftc_vote_no             = FT_COLOR("#000000",   "#FFD2D2");
-struct ft_color ftc_vote_abstain        = FT_COLOR("#000000",   "#E8E8E8");
+const struct ft_color ftc_vote_public   = FT_COLOR("#FFFFFF",   "#AA0000");
+const struct ft_color ftc_vote_team     = FT_COLOR("#FFFFFF",   "#5555CC");
+const struct ft_color ftc_vote_passed   = FT_COLOR("#006400",   "#AAFFAA");
+const struct ft_color ftc_vote_failed   = FT_COLOR("#8B0000",   "#FFAAAA");
+const struct ft_color ftc_vote_yes      = FT_COLOR("#000000",   "#C8FFD5");
+const struct ft_color ftc_vote_no       = FT_COLOR("#000000",   "#FFD2D2");
+const struct ft_color ftc_vote_abstain  = FT_COLOR("#000000",   "#E8E8E8");
 #undef FT_COLOR
 
 
