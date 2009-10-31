@@ -943,7 +943,7 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
 
 
   editor = create_worklist();
-  reset_worklist(editor, &pdialog->pcity->worklist, pdialog->pcity);
+  reset_city_worklist(editor, pdialog->pcity);
   gtk_box_pack_start(GTK_BOX(page), editor, TRUE, TRUE, 6);
   pdialog->production.worklist = editor;
 
@@ -2892,8 +2892,7 @@ static void switch_city_callback(GtkWidget *w, gpointer data)
 		     get_top_happiness_display(pdialog->pcity), TRUE, TRUE, 0);
   pdialog->cma_editor->pcity = new_pcity;
 
-  reset_worklist(pdialog->production.worklist,
-		 &pdialog->pcity->worklist, pdialog->pcity);
+  reset_city_worklist(pdialog->production.worklist, pdialog->pcity);
 
   can_slide = FALSE;
   center_tile_mapcanvas(pdialog->pcity->tile);

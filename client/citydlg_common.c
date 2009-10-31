@@ -665,7 +665,7 @@ int city_change_production(struct city *pcity, struct universal target)
 
   Note that the worklist does NOT include the current production.
 **************************************************************************/
-int city_set_worklist(struct city *pcity, struct worklist *pworklist)
+int city_set_worklist(struct city *pcity, const struct worklist *pworklist)
 {
   struct worklist copy;
 
@@ -812,7 +812,7 @@ bool city_queue_clear(struct city *pcity)
   Note that the queue DOES include the current production.
 **************************************************************************/
 bool city_queue_insert_worklist(struct city *pcity, int position,
-				struct worklist *worklist)
+				const struct worklist *worklist)
 {
   bool success = FALSE;
 
@@ -858,7 +858,7 @@ void city_get_queue(struct city *pcity, struct worklist *pqueue)
 /**************************************************************************
   Set the city current production and the worklist, like it should be.
 **************************************************************************/
-bool city_set_queue(struct city *pcity, struct worklist *pqueue)
+bool city_set_queue(struct city *pcity, const struct worklist *pqueue)
 {
   struct worklist copy;
   struct universal target;

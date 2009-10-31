@@ -40,6 +40,7 @@
 #include "climisc.h"
 #include "clinet.h"
 #include "connectdlg_common.h"
+#include "global_worklist.h"
 
 /* gui-sdl */
 #include "colors.h"
@@ -113,63 +114,46 @@ static int sound_callback(struct widget *pWidget)
   ...
 **************************************************************************/
 static int edit_worklist_callback(struct widget *pWidget)
-{  
-  switch(Main.event.button.button) {
+{
+  struct global_worklist *pGWL = global_worklist_by_id(MAX_ID - pWidget->ID);
+
+  if (!pGWL) {
+    return -1;
+  }
+
+  switch (Main.event.button.button) {
     case SDL_BUTTON_LEFT:
+      if (!(pGWL = global_worklist_by_id(MAX_ID - pWidget->ID))) {
+        break;
+      }
+
       pEdited_WorkList_Name = pWidget;
-      popup_worklist_editor(NULL, &client.worklists[MAX_ID - pWidget->ID]);
+      popup_worklist_editor(NULL, pGWL);
     break;
     case SDL_BUTTON_MIDDLE:
       /* nothing */
     break;
     case SDL_BUTTON_RIGHT:
     {
-      int i = MAX_ID - pWidget->ID;
+      /* Delete. */
       bool scroll = (pOption_Dlg->pADlg->pActiveWidgetList != NULL);
-      
-      for(; i < MAX_NUM_WORKLISTS; i++) {
-	if (!client.worklists[i].is_valid) {
-      	  break;
-	}
-	if (i + 1 < MAX_NUM_WORKLISTS &&
-	    client.worklists[i + 1].is_valid) {
-	  worklist_copy(&client.worklists[i],
-			  &client.worklists[i + 1]);
-	} else {
-	  client.worklists[i].is_valid = FALSE;
-	  strcpy(client.worklists[i].name, "\n");
-	}
-      
-      }
-    
+
+      global_worklist_destroy(pGWL);
       del_widget_from_vertical_scroll_widget_list(pOption_Dlg->pADlg, pWidget);
-      
+
       /* find if there was scrollbar hide */
-      if(scroll && pOption_Dlg->pADlg->pActiveWidgetList == NULL) {
+      if (scroll && pOption_Dlg->pADlg->pActiveWidgetList == NULL) {
         int len = pOption_Dlg->pADlg->pScroll->pUp_Left_Button->size.w;
-	pWidget = pOption_Dlg->pADlg->pEndActiveWidgetList->next;
+        pWidget = pOption_Dlg->pADlg->pEndActiveWidgetList->next;
         do {
           pWidget = pWidget->prev;
           pWidget->size.w += len;
           FREESURFACE(pWidget->gfx);
         } while(pWidget != pOption_Dlg->pADlg->pBeginActiveWidgetList);
       }   
-      
-      /* find if that was no empty list */
-      for (i = 0; i < MAX_NUM_WORKLISTS; i++)
-        if (!client.worklists[i].is_valid)
-          break;
 
-      /* No more worklist slots free. */
-      if (i < MAX_NUM_WORKLISTS &&
-	(get_wstate(pOption_Dlg->pADlg->pBeginActiveWidgetList) == FC_WS_DISABLED)) {
-        set_wstate(pOption_Dlg->pADlg->pBeginActiveWidgetList, FC_WS_NORMAL);
-        pOption_Dlg->pADlg->pBeginActiveWidgetList->string16->fgcol =
-	                  *get_game_colorRGB(COLOR_THEME_OPTIONDLG_WORKLISTLIST_TEXT);
-      }
-      
       redraw_group(pOption_Dlg->pBeginOptionsWidgetList,
-  				pOption_Dlg->pEndOptionsWidgetList, 0);
+                   pOption_Dlg->pEndOptionsWidgetList, 0);
       widget_mark_dirty(pOption_Dlg->pEndOptionsWidgetList);
       flush_dirty();
     }
@@ -190,33 +174,19 @@ static int add_new_worklist_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     struct widget *pNew_WorkList_Widget = NULL;
     struct widget *pWindow = pOption_Dlg->pEndOptionsWidgetList;
+    struct global_worklist *pGWL = global_worklist_new(_("empty worklist"));
     bool scroll = pOption_Dlg->pADlg->pActiveWidgetList == NULL;
     bool redraw_all = FALSE;
-    int j;
-  
+
     set_wstate(pWidget, FC_WS_NORMAL);
     pSellected_Widget = NULL;
-    
-    /* Find the next free worklist for this player */
-  
-    for (j = 0; j < MAX_NUM_WORKLISTS; j++)
-      if (!client.worklists[j].is_valid)
-        break;
-  
-    /* No more worklist slots free.  (!!!Maybe we should tell the user?) */
-    if (j == MAX_NUM_WORKLISTS) {
-      return -2;
-    }
-    
-    /* Validate this slot. */
-    worklist_init(&client.worklists[j]);
-    client.worklists[j].is_valid = TRUE;
-    strcpy(client.worklists[j].name, _("empty worklist"));
-    
+
     /* create list element */
-    pNew_WorkList_Widget = create_iconlabel_from_chars(NULL, pWidget->dst, 
-                  client.worklists[j].name, adj_font(12), WF_RESTORE_BACKGROUND);
-    pNew_WorkList_Widget->ID = MAX_ID - j;
+    pNew_WorkList_Widget =
+      create_iconlabel_from_chars(NULL, pWidget->dst, 
+                                  global_worklist_name(pGWL),
+                                  adj_font(12), WF_RESTORE_BACKGROUND);
+    pNew_WorkList_Widget->ID = MAX_ID - global_worklist_id(pGWL);
     pNew_WorkList_Widget->string16->style |= SF_CENTER;
     set_wstate(pNew_WorkList_Widget, FC_WS_NORMAL);
     pNew_WorkList_Widget->size.w = pWidget->size.w;
@@ -240,18 +210,6 @@ static int add_new_worklist_callback(struct widget *pWidget)
         FREESURFACE(pWindow->gfx);
       } while(pWindow != pOption_Dlg->pADlg->pBeginActiveWidgetList);
     }
-    
-    /* find if that was last empty list */
-    for (j = 0; j < MAX_NUM_WORKLISTS; j++)
-      if (!client.worklists[j].is_valid)
-        break;
-  
-    /* No more worklist slots free. */
-    if (j == MAX_NUM_WORKLISTS) {
-      set_wstate(pWidget, FC_WS_DISABLED);
-      pWidget->string16->fgcol = *(get_game_colorRGB(COLOR_THEME_WIDGET_DISABLED_TEXT));
-    }
-    
     
     if(redraw_all) {
       redraw_group(pOption_Dlg->pBeginOptionsWidgetList,
@@ -280,8 +238,7 @@ static int add_new_worklist_callback(struct widget *pWidget)
 
 /**************************************************************************
  * The Worklist Report part of Options dialog shows all the global
- * worklists that the player has defined.  There can be at most
- * MAX_NUM_WORKLISTS global worklists.
+ * worklists that the player has defined.
 **************************************************************************/
 static int work_lists_callback(struct widget *pWidget)
 {
@@ -290,7 +247,7 @@ static int work_lists_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     struct widget *pBuf = NULL;
     struct widget *pWindow = pOption_Dlg->pEndOptionsWidgetList;
-    int i , count = 0, scrollbar_width = 0;
+    int count = 0, scrollbar_width = 0;
     SDL_Rect area = {pWindow->area.x + adj_size(12),
                      pWindow->area.y + adj_size(12),
                      pWindow->area.w - adj_size(12) - adj_size(12),
@@ -315,35 +272,32 @@ static int work_lists_callback(struct widget *pWidget)
     add_to_gui_list(ID_LABEL, pBuf);
     
     /* ----------------------------- */
-    for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
-      if (client.worklists[i].is_valid) {
-        pBuf = create_iconlabel_from_chars(NULL, pWindow->dst, 
-                  client.worklists[i].name, adj_font(12),
-                                                WF_RESTORE_BACKGROUND);
-        set_wstate(pBuf, FC_WS_NORMAL);
-        add_to_gui_list(MAX_ID - i, pBuf);
-        pBuf->action = edit_worklist_callback;
-        pBuf->string16->style |= SF_CENTER;
-        count++;
-      
-        if(count>13) {
-          set_wflag(pBuf, WF_HIDDEN);
-        }
-      }
-    }
-    
-    if(count < MAX_NUM_WORKLISTS) {
-      pBuf = create_iconlabel_from_chars(NULL, pWindow->dst, 
-                  _("Add new worklist"), adj_font(12), WF_RESTORE_BACKGROUND);
+    global_worklists_iterate(pGWL) {
+      pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
+                                         global_worklist_name(pGWL),
+                                         adj_font(12),
+                                         WF_RESTORE_BACKGROUND);
       set_wstate(pBuf, FC_WS_NORMAL);
-      add_to_gui_list(ID_ADD_NEW_WORKLIST, pBuf);
-      pBuf->action = add_new_worklist_callback;
+      add_to_gui_list(MAX_ID - global_worklist_id(pGWL), pBuf);
+      pBuf->action = edit_worklist_callback;
       pBuf->string16->style |= SF_CENTER;
       count++;
-      
-      if(count>13) {
+
+      if (count > 13) {
         set_wflag(pBuf, WF_HIDDEN);
       }
+    } global_worklists_iterate_end;
+
+    pBuf = create_iconlabel_from_chars(NULL, pWindow->dst, 
+                _("Add new worklist"), adj_font(12), WF_RESTORE_BACKGROUND);
+    set_wstate(pBuf, FC_WS_NORMAL);
+    add_to_gui_list(ID_ADD_NEW_WORKLIST, pBuf);
+    pBuf->action = add_new_worklist_callback;
+    pBuf->string16->style |= SF_CENTER;
+    count++;
+    
+    if (count > 13) {
+      set_wflag(pBuf, WF_HIDDEN);
     }
     /* ----------------------------- */
     
@@ -2448,17 +2402,20 @@ void popdown_optiondlg(void)
 **************************************************************************/
 void update_worklist_report_dialog(void)
 {
-  if(pOption_Dlg) {
+  struct global_worklist *pGWL;
+
+  if (pOption_Dlg) {
     
     /* this is no NULL when inside worklist editors */
-    if(pEdited_WorkList_Name) {
+    if (pEdited_WorkList_Name
+        && (pGWL = global_worklist_by_id(MAX_ID - pEdited_WorkList_Name->ID))) {
       copy_chars_to_string16(pEdited_WorkList_Name->string16,
-        client.worklists[MAX_ID - pEdited_WorkList_Name->ID].name);
+                             global_worklist_name(pGWL));
       pEdited_WorkList_Name = NULL;
     }
   
     redraw_group(pOption_Dlg->pBeginOptionsWidgetList,
-  				pOption_Dlg->pEndOptionsWidgetList, 0);
+                 pOption_Dlg->pEndOptionsWidgetList, 0);
     widget_mark_dirty(pOption_Dlg->pEndOptionsWidgetList);
   }
 }

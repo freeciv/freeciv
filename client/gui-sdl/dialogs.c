@@ -983,7 +983,7 @@ static int change_production_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     struct city *pCity = pWidget->data.city;
     popdown_advanced_terrain_dialog();
-    popup_worklist_editor(pCity, &(pCity->worklist));
+    popup_worklist_editor(pCity, NULL);
   }
   return -1;
 }

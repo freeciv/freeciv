@@ -90,7 +90,7 @@ static int popup_citydlg_from_city_report_callback(struct widget *pWidget)
 static int popup_worklist_from_city_report_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    popup_worklist_editor(pWidget->data.city, &pWidget->data.city->worklist);
+    popup_worklist_editor(pWidget->data.city, NULL);
   }
   return -1;
 }

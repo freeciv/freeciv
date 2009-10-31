@@ -2178,7 +2178,7 @@ void button_up_on_map(struct mouse_button_behavior *button_behavior)
               if(((pCity = tile_city(ptile)) != NULL) &&
                 (city_owner(pCity) == client.conn.playing)) {
                 if(LCTRL) {
-                  popup_worklist_editor(pCity, &(pCity->worklist));
+                  popup_worklist_editor(pCity, NULL);
                 } else {
                   /* LALT - this work only with fullscreen mode */
                   popup_hurry_production_dialog(pCity, NULL);

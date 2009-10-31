@@ -23,26 +23,31 @@
 #include <windowsx.h>
 #include <commctrl.h>  
 
-/* common & utility */
-#include "city.h"
+/* utility */
 #include "fcintl.h"
-#include "game.h"
-#include "gui_main.h"
-#include "gui_stuff.h"
-#include "helpdlg.h"
-#include "inputdlg.h"
+#include "log.h"
 #include "mem.h"
+#include "support.h"
+
+/* common */
+#include "city.h"
+#include "game.h"
 #include "packets.h"
 #include "worklist.h"
-#include "support.h"
-#include "log.h"
 
 /* client */
 #include "client_main.h"
 #include "climisc.h"
+#include "global_worklist.h"
+
+/* gui-win32 */
+#include "citydlg.h"
+#include "gui_main.h"
+#include "gui_stuff.h"
+#include "helpdlg.h"
+#include "inputdlg.h"
 
 #include "wldlg.h"
-#include "citydlg.h"
 
 
 typedef int wid;
@@ -127,15 +132,12 @@ static int collect_wids1(wid * dest_wids, struct city *pcity, bool wl_first,
 
   /* Fill in the global worklists now?                      */
   /* perhaps judicious use of goto would be good here? -mck */
-  if (wl_first && client.worklists[0].is_valid && pcity) {
-    int i;
-
-    for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
-      if (client.worklists[i].is_valid) {
-	dest_wids[wids_used] = wid_encode(FALSE, TRUE, i);
-	wids_used++;
-      }
-    }
+  if (wl_first && pcity) {
+    global_worklists_iterate(pgwl) {
+      dest_wids[wids_used] = wid_encode(FALSE, TRUE,
+                                        global_worklist_id(pgwl));
+      wids_used++;
+    } global_worklists_iterate_end;
   }
 
   /* Fill in improvements and units */
@@ -146,23 +148,22 @@ static int collect_wids1(wid * dest_wids, struct city *pcity, bool wl_first,
     struct universal target = items[item].item;
 
     if (VUT_UTYPE == target.kind) {
-      dest_wids[wids_used] = wid_encode(TRUE, FALSE, utype_number(target.value.utype));
+      dest_wids[wids_used] = wid_encode(TRUE, FALSE,
+                                        utype_number(target.value.utype));
     } else {
-      dest_wids[wids_used] = wid_encode(FALSE, FALSE, improvement_number(target.value.building));
+      dest_wids[wids_used] = wid_encode(FALSE, FALSE,
+                                        improvement_number(target.value.building));
     }
     wids_used++;
   }
 
   /* we didn't fill in the global worklists above */
-  if (!wl_first && client.worklists[0].is_valid && pcity) {
-    int i;
-
-    for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
-      if (client.worklists[i].is_valid) {
-        dest_wids[wids_used] = wid_encode(FALSE, TRUE, i);
-        wids_used++;
-      }
-    }
+  if (!wl_first && pcity) {
+    global_worklists_iterate(pgwl) {
+      dest_wids[wids_used] = wid_encode(FALSE, TRUE,
+                                        global_worklist_id(pgwl));
+      wids_used++;
+    } global_worklists_iterate_end;
   }
 
   return wids_used;
@@ -178,7 +179,7 @@ struct worklist_report {
   HWND list;
   char worklist_names[MAX_NUM_WORKLISTS][MAX_LEN_NAME];
   char *worklist_names_ptrs[MAX_NUM_WORKLISTS + 1];
-  struct worklist *worklist_ptr[MAX_NUM_WORKLISTS];
+  int worklist_ids[MAX_NUM_WORKLISTS];
   int wl_idx;
 };
 static struct worklist_report *report_dialog;
@@ -188,7 +189,7 @@ struct worklist_editor {
   HWND win,worklist,avail;
   HWND toggle_show_advanced;
   struct city *pcity;
-  struct worklist *pwl;
+  int global_worklist_id;
   void *user_data;
   int changed;
   WorklistOkCallback ok_callback;
@@ -216,7 +217,7 @@ enum wl_report_ids {
 };
 
 static void global_commit_worklist(struct worklist *pwl, void *data);
-static void worklist_copy_to_editor(struct worklist *pwl,
+static void worklist_copy_to_editor(const struct worklist *pwl,
                                     struct worklist_editor *peditor,
                                     int where);
 static void worklist_really_insert_item(struct worklist_editor *peditor,
@@ -224,7 +225,7 @@ static void worklist_really_insert_item(struct worklist_editor *peditor,
 static void worklist_prep(struct worklist_editor *peditor);
 static void worklist_list_update(struct worklist_editor *peditor);
 static void targets_list_update(struct worklist_editor *peditor);
-static struct worklist_editor *create_worklist_editor(struct worklist *pwl,
+static struct worklist_editor *create_worklist_editor(int global_worklist_id,
 						      struct city *pcity,
 						      void *user_data,
 						      WorklistOkCallback ok_cb,
@@ -238,17 +239,15 @@ static void update_worklist_editor(struct worklist_editor *peditor);
 static void global_list_update(struct worklist_report *preport)
 {
   HWND lst;
-  int i, n;
+  int n = 0;
 
-  for (i = 0, n = 0; i < MAX_NUM_WORKLISTS; i++) {
-    if (client.worklists[i].is_valid) {
-      strcpy(preport->worklist_names[n], client.worklists[i].name);
-      preport->worklist_names_ptrs[n] = preport->worklist_names[n];
-      preport->worklist_ptr[n] = &client.worklists[i];
+  global_worklists_iterate(pgwl) {
+    strcpy(preport->worklist_names[n], global_worklist_name(pgwl));
+    preport->worklist_names_ptrs[n] = preport->worklist_names[n];
+    preport->worklist_ids[n] = global_worklist_id(pgwl);
 
-      n++;
-    }
-  }
+    n++;
+  } global_worklists_iterate_end;
 
   /* Terminators */
   preport->worklist_names_ptrs[n] = NULL;
@@ -270,24 +269,13 @@ static void global_list_update(struct worklist_report *preport)
 *****************************************************************/
 static void global_delete_callback(struct worklist_report *preport, int sel)
 {
-  int i, j;
+  struct global_worklist *pgwl = 
+      global_worklist_by_id(preport->worklist_ids[sel]);
 
-  /* Look for the last free worklist */
-  for (i = 0; i < MAX_NUM_WORKLISTS; i++)
-    if (!client.worklists[i].is_valid)
-      break;
-
-  for (j = sel; j < i - 1; j++) {
-    worklist_copy(&client.worklists[j],
-                  &client.worklists[j + 1]);
+  if (pgwl) {
+    global_worklist_destroy(pgwl);
+    global_list_update(preport);
   }
-
-  /* The last worklist in the set is no longer valid -- it's been slid up
-   * one slot. */
-  client.worklists[i-1].is_valid = FALSE;
-  strcpy(client.worklists[i-1].name, "\0");
-
-  global_list_update(preport);
 }
 
 /****************************************************************
@@ -296,12 +284,11 @@ static void global_delete_callback(struct worklist_report *preport, int sel)
 static void global_rename_sub_callback(HWND w, void * data)
 {
   struct worklist_report *preport = (struct worklist_report *) data;
+  struct global_worklist *pgwl;
 
-  if (preport) {
-    strncpy(client.worklists[preport->wl_idx].name,
-            input_dialog_get_input(w), MAX_LEN_NAME);
-    client.worklists[preport->wl_idx].name[MAX_LEN_NAME - 1] = '\0';
-
+  if (preport
+      && (pgwl = global_worklist_by_id(preport->worklist_ids[preport->wl_idx]))) {
+    global_worklist_set_name(pgwl, input_dialog_get_input(w));
     global_list_update(preport);
   }
 
@@ -313,23 +300,7 @@ static void global_rename_sub_callback(HWND w, void * data)
 *****************************************************************/
 static void global_insert_callback(struct worklist_report *preport)
 {
-  int j;
-
-  /* Find the next free worklist for this player */
-
-  for (j = 0; j < MAX_NUM_WORKLISTS; j++)
-    if (!client.worklists[j].is_valid)
-      break;
-
-  /* No more worklist slots free.  (!!!Maybe we should tell the user?) */
-  if (j == MAX_NUM_WORKLISTS)
-    return;
-
-  /* Validate this slot. */
-  worklist_init(&client.worklists[j]);
-  client.worklists[j].is_valid = TRUE;
-  strcpy(client.worklists[j].name, _("empty worklist"));
-
+  (void) global_worklist_new(_("empty worklist"));
   global_list_update(preport);
 }
 
@@ -341,6 +312,7 @@ static LONG CALLBACK global_wl_proc(HWND hwnd,UINT message,
 {
   int sel;
   struct worklist_report *preport;
+  struct global_worklist *pgwl;
   preport=fcwin_get_user_data(hwnd);
   assert(preport);
   switch(message) {
@@ -362,12 +334,13 @@ static LONG CALLBACK global_wl_proc(HWND hwnd,UINT message,
       DestroyWindow(hwnd);
       break;
     case ID_RENAME:
-      if (sel!=LB_ERR) {
+      if (sel!=LB_ERR
+          && (pgwl = global_worklist_by_id(preport->worklist_ids[sel]))) {
 	preport->wl_idx=sel;
 	input_dialog_create(hwnd,
 			    _("Rename Worklist"),
 			    _("What should the new name be?"),
-			    client.worklists[preport->wl_idx].name,
+			    global_worklist_name(pgwl),
 			    (void *) global_rename_sub_callback,
 			    (void *) preport,
 			    (void *) global_rename_sub_callback,
@@ -385,7 +358,7 @@ static LONG CALLBACK global_wl_proc(HWND hwnd,UINT message,
       if (sel!=LB_ERR) {
 	struct worklist_window_init init;
 	preport->wl_idx = sel;
-	init.pwl = preport->worklist_ptr[preport->wl_idx];
+	init.global_worklist_id = preport->worklist_ids[sel];
 	init.pcity = NULL;
 	init.parent = hwnd;
 	init.user_data = preport;
@@ -490,8 +463,12 @@ static void worklist_swap_entries(int i, int j,
 static void global_commit_worklist(struct worklist *pwl, void *data)
 {
   struct worklist_report *preport = (struct worklist_report *) data;
-  
-  worklist_copy(&client.worklists[preport->wl_idx], pwl);
+  struct global_worklist *pgwl =
+      global_worklist_by_id(preport->worklist_ids[preport->wl_idx]);
+
+  if (pgwl) {
+    global_worklist_set(pgwl, pwl);
+  }
 }
 
 /****************************************************************
@@ -519,8 +496,19 @@ static void copy_editor_to_worklist(struct worklist_editor *peditor,
       worklist_append(pwl, prod);
     }
   }
-  strcpy(pwl->name, peditor->pwl->name);
-  pwl->is_valid = peditor->pwl->is_valid;
+
+  if (peditor->pcity) {
+    strcpy(pwl->name, peditor->pcity->worklist.name);
+    pwl->is_valid = peditor->pcity->worklist.is_valid;
+  } else {
+    struct global_worklist *pgwl =
+        global_worklist_by_id(peditor->global_worklist_id);
+
+    if (pgwl) {
+      strcpy(pwl->name, global_worklist_name(pgwl));
+      pwl->is_valid = global_worklist_is_valid(pgwl);
+    }
+  }
 }
 
 /****************************************************************
@@ -633,10 +621,14 @@ static void worklist_insert_item(struct worklist_editor *peditor,
   
   /* target is a global worklist id */
   if (wid_is_worklist(wid)) {
-    struct worklist *pwl = &client.worklists[wid_id(wid)];
+    struct global_worklist *pgwl = global_worklist_by_id(wid_id(wid));
 
-    worklist_copy_to_editor(pwl, peditor, where);
-    where += worklist_length(pwl);
+    if (pgwl) {
+      const struct worklist *pwl = global_worklist_worklist(pgwl);
+
+      worklist_copy_to_editor(pwl, peditor, where);
+      where += worklist_length(pwl);
+    }
   } else {
     worklist_really_insert_item(peditor, where, wid);
     where++;
@@ -702,7 +694,8 @@ LONG CALLBACK worklist_editor_proc(HWND hwnd,UINT message,WPARAM wParam,
     {
       struct worklist_window_init *init;
       init = fcwin_get_user_data(hwnd);
-      peditor = create_worklist_editor(init->pwl, init->pcity, init->user_data,
+      peditor = create_worklist_editor(init->global_worklist_id,
+                                       init->pcity, init->user_data,
 				       init->ok_cb, init->cancel_cb, hwnd);
       update_worklist_editor(peditor);
     }
@@ -784,7 +777,7 @@ LONG CALLBACK worklist_editor_proc(HWND hwnd,UINT message,WPARAM wParam,
 /****************************************************************
  Worklist editor
 ****************************************************************/
-static struct worklist_editor *create_worklist_editor(struct worklist *pwl,
+static struct worklist_editor *create_worklist_editor(int global_worklist_id,
 						      struct city *pcity,
 						      void *user_data,
 						      WorklistOkCallback ok_cb,
@@ -813,7 +806,7 @@ static struct worklist_editor *create_worklist_editor(struct worklist *pwl,
   peditor=fc_malloc(sizeof(struct worklist_editor));
   
   peditor->pcity = pcity;
-  peditor->pwl = pwl;
+  peditor->global_worklist_id = global_worklist_id;
   peditor->user_data = user_data;
   peditor->ok_callback = ok_cb;
   peditor->cancel_callback = cancel_cb;
@@ -953,7 +946,7 @@ static void worklist_really_insert_item(struct worklist_editor *peditor,
 /*****************************************************************
  copies a worklist to the editor for editing
 ******************************************************************/
-static void worklist_copy_to_editor(struct worklist *pwl,
+static void worklist_copy_to_editor(const struct worklist *pwl,
                                     struct worklist_editor *peditor,
                                     int where)
 {
@@ -993,8 +986,14 @@ static void worklist_prep(struct worklist_editor *peditor)
     worklist_copy_to_editor(&peditor->pcity->worklist, peditor,
                             MAX_LEN_WORKLIST);
   } else {
-    peditor->worklist_wids[0] = WORKLIST_END;
-    worklist_copy_to_editor(peditor->pwl, peditor, MAX_LEN_WORKLIST);
+    struct global_worklist *pgwl =
+        global_worklist_by_id(peditor->global_worklist_id);
+
+    if (pgwl) {
+      peditor->worklist_wids[0] = WORKLIST_END;
+      worklist_copy_to_editor(global_worklist_worklist(pgwl),
+                              peditor, MAX_LEN_WORKLIST);
+    }
   }
 }
 
@@ -1077,8 +1076,14 @@ static void targets_list_update(struct worklist_editor *peditor)
     }
 
     if (wid_is_worklist(wid)) {
+      struct global_worklist *pgwl = global_worklist_by_id(wid_id(wid));
+
+      if (!pgwl) {
+        break;
+      }
+
       my_snprintf(buf[0], BUFFER_SIZE, "%s",
-		  client.worklists[wid_id(wid)].name);
+                  global_worklist_name(pgwl));
       my_snprintf(buf[1], BUFFER_SIZE, _("Worklist"));
       my_snprintf(buf[2], BUFFER_SIZE, "---");
       my_snprintf(buf[3], BUFFER_SIZE, "---");

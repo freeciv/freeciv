@@ -15,7 +15,11 @@
 
 #include <X11/Intrinsic.h>
 
+/* common */
 #include "fc_types.h"
+
+/* client */
+#include "global_worklist.h"
 
 typedef void (*WorklistOkCallback) (struct worklist *pwl, void *data);
 typedef void (*WorklistCancelCallback) (void *data);
@@ -23,7 +27,7 @@ typedef void (*WorklistCancelCallback) (void *data);
 void popup_worklists_dialog(struct player *pplay); 
                                         /* The global worklist view */
 
-Widget popup_worklist(struct worklist *pwl,struct city *pcity,
+Widget popup_worklist(struct city *pcity, struct global_worklist *pgwl,
 		      Widget parent, void *parent_data,
 		      WorklistOkCallback ok_cb,
 		      WorklistCancelCallback cancel_cb);
