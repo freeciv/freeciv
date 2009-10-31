@@ -118,6 +118,7 @@ extern char gui_gtk2_font_small[512];
 extern char gui_gtk2_font_comment_label[512];
 extern char gui_gtk2_font_city_names[512];
 extern char gui_gtk2_font_city_productions[512];
+extern char gui_gtk2_font_reqtree_text[512];
 
 /* gui-sdl client specific options. */
 #define FC_SDL_DEFAULT_THEME_NAME "human"

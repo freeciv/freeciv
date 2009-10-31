@@ -121,8 +121,8 @@ void gui_dialog_response_set_callback(struct gui_dialog *dlg,
 void gui_dialog_set_return_dialog(struct gui_dialog *dlg,
                                   struct gui_dialog *return_dialog);
 
-struct client_option;
-void gui_update_font_from_option(struct client_option *o);
+void gui_update_font_full(const char *font_name, const char *font_value,
+                          GtkStyle **pstyle);
 
 void disable_gobject_callback(GObject *obj, GCallback cb);
 void enable_gobject_callback(GObject *obj, GCallback cb);

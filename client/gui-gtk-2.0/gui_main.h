@@ -21,8 +21,9 @@
 /* network string charset conversion */
 gchar *ntoh_str(const gchar *netstr);
 
-extern PangoFontDescription *        main_font;
-extern PangoFontDescription *        city_productions_font;
+extern GtkStyle *city_names_style;
+extern GtkStyle *city_productions_style;
+extern GtkStyle *reqtree_text_style;
 
 extern GdkGC *          civ_gc;
 extern GdkGC *          mask_fg_gc;

@@ -55,11 +55,15 @@ style "comment_label"
 {
 }
 
-style "city_names_font"
+style "city_names"
 {
 }
 
-style "city_productions_font"
+style "city_productions"
+{
+}
+
+style "reqtree_text"
 {
 }
 
@@ -78,6 +82,7 @@ widget	"Freeciv*.chatline"		style	"chatline"
 widget	"Freeciv*.beta_label"		style	"beta_label"
 widget	"Freeciv*.small_font"		style	"small_font"
 widget	"Freeciv*.comment_label"	style	"comment_label"
-widget	"Freeciv*.city_names"		style	"city_names_font"
-widget	"Freeciv*.city_productions"	style	"city_productions_font"
+widget	"Freeciv*.city_names"		style	"city_names"
+widget	"Freeciv*.city_productions"	style	"city_productions"
+widget	"Freeciv*.reqtree_text"		style	"reqtree_text"
 widget	"gtk-tooltips*.*"		style	"tooltips"

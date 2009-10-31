@@ -356,13 +356,14 @@ void canvas_put_curved_line(struct canvas *pcanvas,
 
 static PangoLayout *layout;
 static struct {
-  PangoFontDescription **font;
+  GtkStyle **styles;
   bool shadowed;
 } fonts[FONT_COUNT] = {
-  {&main_font, TRUE},
-  {&city_productions_font, TRUE},
-  {&city_productions_font, FALSE} /* FIXME: should use separate font */
+  {&city_names_style, TRUE},
+  {&city_productions_style, TRUE},
+  {&reqtree_text_style, FALSE}
 };
+#define FONT(font) ((*fonts[font].styles)->font_desc)
 
 /****************************************************************************
   Return the size of the given text in the given font.  This size should
@@ -378,7 +379,7 @@ void get_text_size(int *width, int *height,
     layout = pango_layout_new(gdk_pango_context_get());
   }
 
-  pango_layout_set_font_description(layout, *fonts[font].font);
+  pango_layout_set_font_description(layout, FONT(font));
   pango_layout_set_text(layout, text, -1);
 
   pango_layout_get_pixel_extents(layout, &rect, NULL);
@@ -410,7 +411,7 @@ void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
   }
 
   gdk_gc_set_foreground(civ_gc, &pcolor->color);
-  pango_layout_set_font_description(layout, *fonts[font].font);
+  pango_layout_set_font_description(layout, FONT(font));
   pango_layout_set_text(layout, text, -1);
 
   pango_layout_get_pixel_extents(layout, &rect, NULL);

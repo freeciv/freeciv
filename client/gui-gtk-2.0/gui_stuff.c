@@ -23,13 +23,17 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
+/* utility */
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
 #include "support.h"
 
-#include "colors.h"
+/* client */
 #include "options.h"
+
+/* gui-gtk-2.0 */
+#include "colors.h"
 #include "gui_main.h"
 
 #include "gui_stuff.h"
@@ -995,6 +999,37 @@ void gui_update_font(const char *font_name, const char *font_value)
               font_name, font_value, font_name, font_name);
 
   gtk_rc_parse_string(str);
+}
+
+/****************************************************************************
+  Update a font option which is not attached to a widget.
+****************************************************************************/
+void gui_update_font_full(const char *font_name, const char *font_value,
+                          GtkStyle **pstyle)
+{
+  GtkSettings *settings;
+  GdkScreen *screen;
+  GtkStyle *style;
+  char buf[64];
+
+  gui_update_font(font_name, font_value);
+
+  screen = gdk_screen_get_default();
+  settings = gtk_settings_get_for_screen(screen);
+
+  my_snprintf(buf, sizeof(buf), "Freeciv*.%s", font_name);
+  style = gtk_rc_get_style_by_paths(settings, buf, NULL, G_TYPE_NONE);
+
+  if (style) {
+    g_object_ref(style);
+  } else {
+    style = gtk_style_new();
+  }
+
+  if (*pstyle) {
+    g_object_unref(*pstyle);
+  }
+  *pstyle = style;
 }
 
 /****************************************************************************
