@@ -15,6 +15,7 @@ libcivutility_la_SOURCES = \
 		distribute.h	\
 		fcintl.c	\
 		fcintl.h	\
+		generate_specenum.py	\
 		genlist.c	\
 		genlist.h	\
 		hash.c		\
@@ -41,6 +42,7 @@ libcivutility_la_SOURCES = \
 		sbuffer.h	\
 		shared.c	\
 		shared.h	\
+		specenum.h	\
 		speclist.h	\
 		specvec.h	\
 		string_vector.c	\
@@ -51,3 +53,14 @@ libcivutility_la_SOURCES = \
 		timing.h	\
 		md5.c		\
 		md5.h
+
+BUILT_SOURCES = specenum.h
+
+# specenum.h must be generated before it can be included.
+%.o : specenum.h
+
+specenum.h: specenum_generate
+.INTERMEDIATE: specenum_generate
+specenum_generate: generate_specenum.py
+	cd $(srcdir) && ./generate_specenum.py
+	touch specenum_generate
