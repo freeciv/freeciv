@@ -63,3 +63,4 @@ undep.sh
 civmanual
 freeciv.spec
 tolua
+specenum.h
