@@ -108,8 +108,6 @@ static bool read_init_script_real(struct connection *caller,
 static bool reset_command(struct connection *caller, bool check,
                           int read_recursion);
 
-static bool is_ok_opt_name_char(char c);
-
 static const char horiz_line[] =
 "------------------------------------------------------------------------------";
 
@@ -1572,20 +1570,12 @@ static void show_help_option_list(struct connection *caller,
 **************************************************************************/
 static bool explain_option(struct connection *caller, char *str, bool check)
 {
-  char command[MAX_LEN_CONSOLE_LINE], *cptr_s, *cptr_d;
   int cmd;
 
-  for (cptr_s = str; *cptr_s != '\0' && !is_ok_opt_name_char(*cptr_s);
-       cptr_s++) {
-    /* nothing */
-  }
-  for (cptr_d = command; *cptr_s != '\0' && is_ok_opt_name_char(*cptr_s);
-       cptr_s++, cptr_d++)
-    *cptr_d=*cptr_s;
-  *cptr_d='\0';
+  remove_leading_trailing_spaces(str);
 
-  if (*command != '\0') {
-    cmd=lookup_option(command);
+  if (*str != '\0') {
+    cmd = lookup_option(str);
     if (cmd >= 0 && cmd < SETTINGS_NUM) {
       show_help_option(caller, CMD_EXPLAIN, cmd);
     } else if (cmd == -1 || cmd == -3) {
@@ -2067,30 +2057,6 @@ static bool show_command(struct connection *caller, char *str, bool check)
   return TRUE;
 #undef cmd_reply_show
 #undef OPTION_NAME_SPACE
-}
-
-/******************************************************************
-  Which characters are allowed within option names: (for 'set')
-******************************************************************/
-static bool is_ok_opt_name_char(char c)
-{
-  return my_isalnum(c) || c == '_';
-}
-
-/******************************************************************
-  Which characters are allowed within option values: (for 'set')
-******************************************************************/
-static bool is_ok_opt_value_char(char c)
-{
-  return (c == '-') || (c == '*') || (c == '+') || (c == '=') || my_isalnum(c);
-}
-
-/******************************************************************
-  Which characters are allowed between option names and values: (for 'set')
-******************************************************************/
-static bool is_ok_opt_name_value_sep_char(char c)
-{
-  return (c == '=') || my_isspace(c);
 }
 
 /******************************************************************
@@ -2613,55 +2579,38 @@ static bool debug_command(struct connection *caller, char *str,
 ******************************************************************/
 static bool set_command(struct connection *caller, char *str, bool check)
 {
-  char command[MAX_LEN_CONSOLE_LINE], arg[MAX_LEN_CONSOLE_LINE], *cptr_s, *cptr_d;
-  int val, cmd, i;
+  char *args[2], *arg;
+  int val, cmd, i, nargs;
   struct settings_s *op;
   bool do_update;
   char buffer[500];
+  bool ret = FALSE;
 
-  for (cptr_s = str; *cptr_s != '\0' && !is_ok_opt_name_char(*cptr_s);
-       cptr_s++) {
-    /* nothing */
-  }
+  /* '=' is also a valid delimiter for this function. */
+  nargs = get_tokens(str, args, ARRAY_SIZE(args), TOKEN_DELIMITERS "=");
 
-  for(cptr_d=command;
-      *cptr_s != '\0' && is_ok_opt_name_char(*cptr_s);
-      cptr_s++, cptr_d++) {
-    *cptr_d=*cptr_s;
-  }
-  *cptr_d='\0';
-  
-  for (; *cptr_s != '\0' && is_ok_opt_name_value_sep_char(*cptr_s); cptr_s++) {
-    /* nothing */
-  }
-
-  for (cptr_d = arg; *cptr_s != '\0' && is_ok_opt_value_char(*cptr_s); cptr_s++, cptr_d++)
-    *cptr_d=*cptr_s;
-  *cptr_d='\0';
-
-  cmd = lookup_option(command);
-  if (cmd==-1) {
+  if (nargs < 2 || -1 == (cmd = lookup_option(args[0]))) {
     cmd_reply(CMD_SET, caller, C_SYNTAX,
               _("Undefined argument.  Usage:\n%s"),
               _(command_synopsis(command_by_number(CMD_SET))));
-    return FALSE;
+    goto cleanup;
   }
-  else if (cmd==-2) {
-    cmd_reply(CMD_SET, caller, C_SYNTAX,
-	      _("Ambiguous option name."));
-    return FALSE;
+  if (-2 == cmd) {
+    cmd_reply(CMD_SET, caller, C_SYNTAX, _("Ambiguous option name."));
+    goto cleanup;
   }
   if (!may_set_option(caller,cmd) && !check) {
      cmd_reply(CMD_SET, caller, C_FAIL,
-	       _("You are not allowed to set this option."));
-    return FALSE;
+               _("You are not allowed to set this option."));
+    goto cleanup;
   }
   if (!setting_is_changeable(cmd)) {
     cmd_reply(CMD_SET, caller, C_BOUNCE,
-	      _("This setting can't be modified after the game has started."));
-    return FALSE;
+              _("This setting can't be modified after the game has started."));
+    goto cleanup;
   }
 
+  arg = args[1];
   op = &settings[cmd];
 
   do_update = FALSE;
@@ -2671,7 +2620,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
   case SSET_BOOL:
     if (sscanf(arg, "%d", &val) != 1) {
       cmd_reply(CMD_SET, caller, C_SYNTAX, _("Value must be an integer."));
-      return FALSE;
+      goto cleanup;
     }
     /* make sure the input string only contains digits */
     for (i = 0;; i++) {
@@ -2682,13 +2631,13 @@ static bool set_command(struct connection *caller, char *str, bool check)
         cmd_reply(CMD_SET, caller, C_SYNTAX,
                   _("The parameter %s should only contain digits 0-1."),
                   op->name);
-        return FALSE;
+        goto cleanup;
       }
     }
     if (val != 0 && val != 1) {
       cmd_reply(CMD_SET, caller, C_SYNTAX,
 		_("Value out of range (minimum: 0, maximum: 1)."));
-      return FALSE;
+      goto cleanup;
     } else {
       const char *reject_message = NULL;
       bool b_val = (val != 0);
@@ -2696,7 +2645,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
       if (op->bool_validate != NULL
           && !op->bool_validate(b_val, caller, &reject_message)) {
         cmd_reply(CMD_SET, caller, C_SYNTAX, "%s", reject_message);
-        return FALSE;
+        goto cleanup;
       }
 
       if (!check) {
@@ -2712,7 +2661,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
   case SSET_INT:
     if (sscanf(arg, "%d", &val) != 1) {
       cmd_reply(CMD_SET, caller, C_SYNTAX, _("Value must be an integer."));
-      return FALSE;
+      goto cleanup;
     }
 	/* make sure the input string only contains digits */
     for (i = 0;; i++) {
@@ -2724,21 +2673,21 @@ static bool set_command(struct connection *caller, char *str, bool check)
         cmd_reply(CMD_SET, caller, C_SYNTAX,
                   _("The parameter %s should only contain +- and 0-9."),
                   op->name);
-        return FALSE;
+        goto cleanup;
       }
     }
     if (val < op->int_min_value || val > op->int_max_value) {
       cmd_reply(CMD_SET, caller, C_SYNTAX,
 		_("Value out of range (minimum: %d, maximum: %d)."),
 		op->int_min_value, op->int_max_value);
-      return FALSE;
+      goto cleanup;
     } else {
       const char *reject_message = NULL;
 
       if (op->int_validate != NULL
           && !op->int_validate(val, caller, &reject_message)) {
         cmd_reply(CMD_SET, caller, C_SYNTAX, "%s", reject_message);
-        return FALSE;
+        goto cleanup;
       }
 
       if (!check) {
@@ -2756,14 +2705,14 @@ static bool set_command(struct connection *caller, char *str, bool check)
       cmd_reply(CMD_SET, caller, C_SYNTAX,
                 _("String value too long.  Usage:\n%s"),
                 _(command_synopsis(command_by_number(CMD_SET))));
-      return FALSE;
+      goto cleanup;
     } else {
       const char *reject_message = NULL;
 
       if (op->string_validate
           && !op->string_validate(arg, caller, &reject_message)) {
         cmd_reply(CMD_SET, caller, C_SYNTAX, "%s", reject_message);
-        return FALSE;
+        goto cleanup;
       }
 
       if (!check) {
@@ -2776,6 +2725,8 @@ static bool set_command(struct connection *caller, char *str, bool check)
     }
     break;
   }
+
+  ret = TRUE;   /* Looks a success. */
 
   if (!check && strlen(buffer) > 0 && sset_is_to_client(cmd)) {
     notify_conn(NULL, NULL, E_SETTING, ftc_server, "%s", buffer);
@@ -2809,7 +2760,10 @@ static bool set_command(struct connection *caller, char *str, bool check)
     reset_all_start_commands();
     send_server_info_to_metaserver(META_INFO);
   }
-  return TRUE;
+
+  cleanup:
+  free_tokens(args, nargs);
+  return ret;
 }
 
 /**************************************************************************
