@@ -401,6 +401,7 @@ char gui_gtk2_font_small[512] = "Sans 9";
 char gui_gtk2_font_comment_label[512] = "Sans Italic 9";
 char gui_gtk2_font_city_names[512] = "Sans Bold 10";
 char gui_gtk2_font_city_productions[512] = "Serif 10";
+char gui_gtk2_font_reqtree_text[512] = "Serif 10";
 
 /* gui-sdl client specific options. */
 char gui_sdl_default_theme_name[512] = FC_SDL_DEFAULT_THEME_NAME;
@@ -416,11 +417,11 @@ bool gui_win32_enable_alpha = TRUE;
  * of non-initialized datas when calling the changed callback. */
 static bool options_fully_initialized = FALSE;
 
-static void reqtree_show_icons_callback(struct client_option *option);
-static void view_option_changed_callback(struct client_option *option);
-static void mapview_redraw_callback(struct client_option *option);
-static void voteinfo_bar_callback(struct client_option *option);
-static void font_changed_callback(struct client_option *option);
+static void reqtree_show_icons_callback(struct client_option *poption);
+static void view_option_changed_callback(struct client_option *poption);
+static void mapview_redraw_callback(struct client_option *poption);
+static void voteinfo_bar_callback(struct client_option *poption);
+static void font_changed_callback(struct client_option *poption);
 
 static struct client_option options[] = {
   GEN_STR_OPTION(default_user_name,
@@ -935,13 +936,19 @@ static struct client_option options[] = {
                   N_("This font is used to the display the city names "
                      "on the map."),
                   COC_FONT, GUI_GTK2,
-                  "Sans Bold 10", font_changed_callback),
+                  "Sans Bold 10", NULL),
   GEN_FONT_OPTION(gui_gtk2_font_city_productions, "city_productions",
                   N_("City Productions"),
                   N_("This font is used to the display the city production "
                      "names on the map."),
                   COC_FONT, GUI_GTK2,
-                  "Serif 10", font_changed_callback),
+                  "Serif 10", NULL),
+  GEN_FONT_OPTION(gui_gtk2_font_reqtree_text, "reqtree_text",
+                  N_("Requirement Tree"),
+                  N_("This font is used to the display the requirement tree "
+                     "in the science report."),
+                  COC_FONT, GUI_GTK2,
+                  "Serif 10", NULL),
 
   /* gui-sdl client specific options. */
   GEN_BOOL_OPTION(gui_sdl_fullscreen, N_("Full Screen"), 

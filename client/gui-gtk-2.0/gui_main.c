@@ -90,6 +90,7 @@
 #include "pages.h"
 #include "plrdlg.h"
 #include "spaceshipdlg.h"
+#include "repodlgs.h"
 #include "resources.h"
 #include "voteinfo_bar.h"
 
@@ -116,8 +117,9 @@ GtkWidget *map_widget;
 static GtkWidget *bottom_hpaned;
 
 int city_names_font_size = 0, city_productions_font_size = 0;
-PangoFontDescription *main_font;
-PangoFontDescription *city_productions_font;
+GtkStyle *city_names_style = NULL;
+GtkStyle *city_productions_style = NULL;
+GtkStyle *reqtree_text_style = NULL;
 
 GdkGC *civ_gc;
 GdkGC *mask_fg_gc;
@@ -219,11 +221,13 @@ void set_city_names_font_sizes(int my_city_names_font_size,
    * save the values for later. */
   city_names_font_size = my_city_names_font_size;
   city_productions_font_size = my_city_productions_font_size;
-  if (main_font) {
-    pango_font_description_set_size(main_font,
-				    PANGO_SCALE * city_names_font_size);
-    pango_font_description_set_size(city_productions_font,
-				    PANGO_SCALE * city_productions_font_size);
+  if (city_names_style) {
+    pango_font_description_set_size(city_names_style->font_desc,
+                                    PANGO_SCALE * city_names_font_size);
+  }
+  if (city_productions_style) {
+    pango_font_description_set_size(city_productions_style->font_desc,
+                                    PANGO_SCALE * city_productions_font_size);
   }
 }
 
@@ -1410,7 +1414,6 @@ void ui_main(int argc, char **argv)
 {
   const gchar *home;
   guint sig;
-  GtkStyle *style;
 
   parse_options(argc, argv);
 
@@ -1462,24 +1465,28 @@ void ui_main(int argc, char **argv)
 
   civ_gc = gdk_gc_new(root_window);
 
-  /* font names shouldn't be in spec files! */
-  style = gtk_rc_get_style_by_paths(gtk_settings_get_default(),
-				    "Freeciv*.city names",
-				    NULL, G_TYPE_NONE);
-  if (!style) {
-    style = gtk_style_new();
-  }
-  g_object_ref(style);
-  main_font = style->font_desc;
+  client_options_iterate(poption) {
+    if (COT_FONT == option_type(poption)) {
+      /* Force to call the appropriated callback. */
+      option_changed(poption);
+    }
+  } client_options_iterate_end;
 
-  style = gtk_rc_get_style_by_paths(gtk_settings_get_default(),
-				    "Freeciv*.city productions",
-				    NULL, G_TYPE_NONE);
-  if (!style) {
-    style = gtk_style_new();
+  if (NULL == city_names_style) {
+    city_names_style = gtk_style_new();
+    freelog(LOG_ERROR,
+            "city_names_style should have been set by options.");
   }
-  g_object_ref(style);
-  city_productions_font = style->font_desc;
+  if (NULL == city_productions_style) {
+    city_productions_style = gtk_style_new();
+    freelog(LOG_ERROR,
+            "city_productions_style should have been set by options.");
+  }
+  if (NULL == reqtree_text_style) {
+    reqtree_text_style = gtk_style_new();
+    freelog(LOG_ERROR,
+            "reqtree_text_style should have been set by options.");
+  }
 
   set_city_names_font_sizes(city_names_font_size, city_productions_font_size);
 
@@ -2133,27 +2140,66 @@ static void allied_chat_only_callback(struct client_option *poption)
 }
 
 /****************************************************************************
+  Change the city names font.
+****************************************************************************/
+static void apply_city_names_font(struct client_option *poption)
+{
+  gui_update_font_full(option_font_target(poption),
+                       option_font_get(poption),
+                       &city_names_style);
+  update_city_descriptions();
+}
+
+/****************************************************************************
+  Change the city productions font.
+****************************************************************************/
+static void apply_city_productions_font(struct client_option *poption)
+{
+  gui_update_font_full(option_font_target(poption),
+                       option_font_get(poption),
+                       &city_productions_style);
+  update_city_descriptions();
+}
+
+/****************************************************************************
+  Change the city productions font.
+****************************************************************************/
+static void apply_reqtree_text_font(struct client_option *poption)
+{
+  gui_update_font_full(option_font_target(poption),
+                       option_font_get(poption),
+                       &reqtree_text_style);
+  science_dialog_update();
+}
+
+/****************************************************************************
   Extra initializers for client options.  Here we make set the callback
   for the specific gui-gtk-2.0 options.
 ****************************************************************************/
 void gui_options_extra_init(void)
 {
-#define option_by_var(var) option_by_name(#var)
+
   struct client_option *poption;
 
-  if ((poption = option_by_var(gui_gtk2_allied_chat_only))) {
-    option_set_changed_callback(poption, allied_chat_only_callback);
+#define option_var_set_callback(var, callback)                              \
+  if ((poption = option_by_name(#var))) {                                   \
+    option_set_changed_callback(poption, callback);                         \
+  } else {                                                                  \
+    freelog(LOG_ERROR, "Didn't find option %s!", #var);                     \
   }
 
-  if ((poption = option_by_var(gui_gtk2_split_bottom_notebook))) {
-    option_set_changed_callback(poption, split_bottom_notebook_callback);
-  }
+  option_var_set_callback(gui_gtk2_allied_chat_only,
+                          allied_chat_only_callback);
+  option_var_set_callback(gui_gtk2_split_bottom_notebook,
+                          split_bottom_notebook_callback);
 
-  client_options_iterate(poption) {
-    if (COT_FONT == option_type(poption)) {
-      gui_update_font(option_font_target(poption), option_font_get(poption));
-    }
-  } client_options_iterate_end;
+  option_var_set_callback(gui_gtk2_font_city_names,
+                          apply_city_names_font);
+  option_var_set_callback(gui_gtk2_font_city_productions,
+                          apply_city_productions_font);
+  option_var_set_callback(gui_gtk2_font_reqtree_text,
+                          apply_reqtree_text_font);
+#undef option_var_set_callback
 }
 
 /**************************************************************************

@@ -144,10 +144,11 @@ static gboolean intro_expose(GtkWidget *w, GdkEventExpose *ev)
     char msgbuf[128];
 
     layout = pango_layout_new(gdk_pango_context_get());
-    pango_layout_set_font_description(layout, main_font);
+    pango_layout_set_font_description(layout,
+         pango_font_description_from_string("Sans Bold 10"));
 
     my_snprintf(msgbuf, sizeof(msgbuf), "%s%s",
-	word_version(), VERSION_STRING);
+                word_version(), VERSION_STRING);
     pango_layout_set_text(layout, msgbuf, -1);
 
     pango_layout_get_pixel_size(layout, &width, &height);
