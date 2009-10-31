@@ -82,6 +82,7 @@ struct goto_map {
   } goto_map_list_iterate_end;
 
 static struct goto_map_list *goto_maps = NULL;
+static bool goto_warned = FALSE;
 
 static void reset_last_part(struct goto_map *goto_map);
 static void remove_last_part(struct goto_map *goto_map);
@@ -173,6 +174,34 @@ static bool update_last_part(struct goto_map *goto_map,
 
   if (!new_path) {
     freelog(PATH_LOG_LEVEL, "  no path found");
+
+    if (p->start_tile == ptile) {
+      /* This mean we cannot reach the start point.  It is probably,
+       * a path-finding bug, but don't make infinite recursion. */
+
+      if (!goto_warned) {
+        freelog(LOG_ERROR, "No path found to reach the start point.");
+        goto_warned = TRUE;
+      }
+
+      if (p->path) {
+        /* Remove the goto lines. */
+        for (i = 0; i < p->path->length - 1; i++) {
+          struct pf_position *a = &p->path->positions[i];
+
+          if (is_valid_dir(a->dir_to_next_pos)) {
+            mapdeco_remove_gotoline(a->tile, a->dir_to_next_pos);
+          } else {
+            assert(i < p->path->length - 1
+                   && a->tile == p->path->positions[i + 1].tile);
+          }
+        }
+        pf_path_destroy(p->path);
+        p->path = NULL;
+      }
+      return FALSE;
+    }
+
     reset_last_part(goto_map);
     return FALSE;
   }
@@ -797,6 +826,7 @@ void enter_goto_state(struct unit_list *punits)
 
     goto_map_list_append(goto_maps, goto_map);
   } unit_list_iterate_end;
+  goto_warned = FALSE;
 }
 
 /********************************************************************** 
@@ -814,6 +844,7 @@ void exit_goto_state(void)
   goto_map_list_clear(goto_maps);
 
   goto_destination = NULL;
+  goto_warned = FALSE;
 }
 
 /********************************************************************** 
