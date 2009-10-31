@@ -45,6 +45,7 @@
 #include "audio.h"
 #include "cityrepdata.h"
 #include "client_main.h"
+#include "global_worklist.h"
 #include "mapview_common.h"
 #include "overview_common.h"
 #include "plrdlg_common.h"
@@ -1822,11 +1823,7 @@ void options_load_ruleset_specific(void)
     return;
 
   if (NULL != client.conn.playing) {
-    /* load global worklists */
-    for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
-      worklist_load(&sf, &client.worklists[i],
-		    "worklists.worklist%d", i);
-    }
+    global_worklists_load(&sf);
   }
 
   /* Load city report columns (which include some ruleset data). */
@@ -1903,12 +1900,7 @@ void options_save(void)
 
   /* insert global worklists */
   if (NULL != client.conn.playing) {
-    for(i = 0; i < MAX_NUM_WORKLISTS; i++){
-      if (client.worklists[i].is_valid) {
-	worklist_save(&sf, &client.worklists[i], client.worklists[i].length,
-		      "worklists.worklist%d", i);
-      }
-    }
+    global_worklists_save(&sf);
   }
 
   /* save to disk */

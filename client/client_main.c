@@ -75,6 +75,7 @@
 #include "connectdlg_common.h"  /* client_kill_server() */
 #include "control.h" 
 #include "editor.h"
+#include "global_worklist.h"
 #include "ggzclient.h"
 #include "helpdata.h"           /* boot_help_texts() */
 #include "mapview_common.h"
@@ -198,6 +199,7 @@ static void client_game_init(void)
   control_init();
   link_marks_init();
   voteinfo_queue_init();
+  global_worklists_init();
 }
 
 /**************************************************************************
@@ -213,6 +215,7 @@ static void client_game_free(void)
   attribute_free();
   agents_free();
   game_free();
+  global_worklists_free();
 
   client.conn.playing = NULL;
   client.conn.observer = FALSE;

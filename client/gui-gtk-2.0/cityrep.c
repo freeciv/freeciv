@@ -35,24 +35,28 @@
 #include "packets.h"
 #include "unit.h"
 
+/* agents */
+#include "cma_fec.h"
+
 /* client */
-#include "chatline.h"
 #include "citydlg_common.h"
 #include "cityrepdata.h"
 #include "client_main.h"
+#include "climisc.h"
+#include "global_worklist.h"
+#include "mapview_common.h"
+#include "options.h"
+
+/* gui-gtk-2.0 */
+#include "chatline.h"
+#include "citydlg.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
 #include "mapctrl.h"    /* is_city_hilited() */
-#include "mapview_common.h"
 #include "optiondlg.h"
-#include "options.h"
 #include "repodlgs.h"
-#include "climisc.h"
 
-#include "cma_fec.h"
-
-#include "citydlg.h"
 #include "cityrep.h"
 
 #define NEG_VAL(x)  ((x)<0 ? (x) : (-x))
@@ -760,7 +764,7 @@ static void append_cma_to_menu_item(GtkMenuItem *parent_item, bool change_cma)
 static void append_worklist_foreach(GtkTreeModel *model, GtkTreePath *path,
                                     GtkTreeIter *it, gpointer data)
 {
-  struct worklist *pwl;
+  const struct worklist *pwl;
   struct city *pcity;
 
   pwl = data;
@@ -781,9 +785,19 @@ static void append_worklist_foreach(GtkTreeModel *model, GtkTreePath *path,
 **************************************************************************/
 static void append_worklist_callback(GtkMenuItem *menuitem, gpointer data)
 {
+  struct global_worklist *pgwl =
+    global_worklist_by_id(GPOINTER_TO_INT(data));
+
   g_return_if_fail(city_selection != NULL);
+
+  if (!pgwl) {
+    /* Maybe removed by an other way, not an error. */
+    return;
+  }
+
   gtk_tree_selection_selected_foreach(city_selection,
-                                      append_worklist_foreach, data);
+                                      append_worklist_foreach,
+                                      (gpointer) global_worklist_get(pgwl));
 }
 
 /**************************************************************************
@@ -793,7 +807,7 @@ static void append_worklist_callback(GtkMenuItem *menuitem, gpointer data)
 static void set_worklist_foreach(GtkTreeModel *model, GtkTreePath *path,
                                  GtkTreeIter *it, gpointer data)
 {
-  struct worklist *pwl;
+  const struct worklist *pwl;
   struct city *pcity;
 
   pwl = data;
@@ -813,9 +827,21 @@ static void set_worklist_foreach(GtkTreeModel *model, GtkTreePath *path,
 **************************************************************************/
 static void set_worklist_callback(GtkMenuItem *menuitem, gpointer data)
 {
+  struct global_worklist *pgwl =
+    global_worklist_by_id(GPOINTER_TO_INT(data));
+
   g_return_if_fail(city_selection != NULL);
   gtk_tree_selection_selected_foreach(city_selection, set_worklist_foreach,
                                       data);
+
+  if (!pgwl) {
+    /* Maybe removed by an other way, not an error. */
+    return;
+  }
+
+  gtk_tree_selection_selected_foreach(city_selection,
+                                      set_worklist_foreach,
+                                      (gpointer) global_worklist_get(pgwl));
 }
 
 /**************************************************************************
@@ -824,11 +850,10 @@ static void set_worklist_callback(GtkMenuItem *menuitem, gpointer data)
 **************************************************************************/
 static void production_menu_shown(GtkWidget *widget, gpointer data)
 {
-  struct worklist *worklists;
   GtkWidget *menu, *item;
   GtkMenuItem *parent_item;
   GCallback callback;
-  int i, count = 0;
+  int count = 0;
 
   parent_item = data;
   g_return_if_fail(parent_item != NULL);
@@ -854,16 +879,13 @@ static void production_menu_shown(GtkWidget *widget, gpointer data)
   gtk_container_forall(GTK_CONTAINER(menu),
                        (GtkCallback) gtk_widget_destroy, NULL);
 
-  worklists = client.worklists;
-  for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
-    if (!worklists[i].is_valid) {
-      continue;
-    }
-    item = gtk_menu_item_new_with_label(worklists[i].name);
+  global_worklists_iterate(pgwl) {
+    item = gtk_menu_item_new_with_label(global_worklist_name(pgwl));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-    g_signal_connect(item, "activate", callback, &worklists[i]);
+    g_signal_connect(item, "activate", callback,
+                     GINT_TO_POINTER(global_worklist_id(pgwl)));
     count++;
-  }
+  } global_worklists_iterate_end;
 
   if (count == 0) {
     item = gtk_menu_item_new_with_label(_("(no worklists defined)"));

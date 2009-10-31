@@ -76,13 +76,15 @@ extern bool waiting_for_end_turn;
 extern bool turn_done_sent;
 extern bool in_ggz;
 
+struct global_worklist_list;    /* Defined in global_worklist.[ch]. */
+
 /* Structure for holding global client data.
  *
  * TODO: Lots more variables could be added here. */
 extern struct civclient {
   /* this is the client's connection to the server */
   struct connection conn;
-  struct worklist worklists[MAX_NUM_WORKLISTS];
+  struct global_worklist_list *worklists;
 } client;
 
 void wait_till_request_got_processed(int request_id);

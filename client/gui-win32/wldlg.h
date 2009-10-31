@@ -18,7 +18,7 @@ typedef void (*WorklistOkCallback) (struct worklist * pwl, void *data);
 typedef void (*WorklistCancelCallback) (void *data);
 
 struct worklist_window_init {
-  struct worklist *pwl;
+  int global_worklist_id;
   struct city *pcity;
   HWND parent;
   void *user_data;

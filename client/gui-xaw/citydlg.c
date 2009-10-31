@@ -2222,7 +2222,7 @@ void worklist_callback(Widget w, XtPointer client_data, XtPointer call_data)
     XtPopup(pdialog->worklist_shell, XtGrabNone);
   } else {
     pdialog->worklist_shell = 
-      popup_worklist(&pdialog->pcity->worklist, pdialog->pcity,
+      popup_worklist(pdialog->pcity, NULL,
 		     pdialog->shell, (void *) pdialog, commit_city_worklist,
 		     cancel_city_worklist);
   }

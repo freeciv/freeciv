@@ -1314,7 +1314,7 @@ static int change_prod_dlg_callback(struct widget *pButton)
     widget_flush(pButton);
   
     disable_city_dlg_widgets();
-    popup_worklist_editor(pCityDlg->pCity, &pCityDlg->pCity->worklist);
+    popup_worklist_editor(pCityDlg->pCity, NULL);
   }
   return -1;
 }

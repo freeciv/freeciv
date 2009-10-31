@@ -82,6 +82,8 @@ freeciv_client_src = $(AUDIO_SDL_FILES) \
 	editor.h 		\
 	ggzclient.c	\
 	ggzclient.h	\
+	global_worklist.c	\
+	global_worklist.h	\
 	goto.c		\
 	goto.h		\
 	helpdata.c	\

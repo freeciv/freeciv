@@ -782,7 +782,7 @@ static void CityDlgCreate(HWND hWnd,struct city_dialog *pdialog)
   cmadata->pcity = pdialog->pcity;
   cmadata->pdialog = NULL;
   user_data[PAGE_CMA] = cmadata;
-  wl_init.pwl = &pdialog->pcity->worklist;
+  wl_init.global_worklist_id = -1;
   wl_init.pcity = pdialog->pcity;
   wl_init.parent = pdialog->mainwindow;
   wl_init.user_data = pdialog;
