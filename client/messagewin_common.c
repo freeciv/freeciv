@@ -167,12 +167,16 @@ void add_notify_window(const char *message, const struct text_tag_list *tags,
 }
 
 /**************************************************************************
- Returns the pointer to a message.
+  Returns the pointer to a message.  Returns NULL on error.
 **************************************************************************/
 struct message *get_message(int message_index)
 {
-  assert(message_index >= 0 && message_index < messages_total);
-  return &messages[message_index];
+  if (message_index >= 0 && message_index < messages_total) {
+    return &messages[message_index];
+  } else {
+    /* Can happen in turn change... */
+    return NULL;
+  }
 }
 
 /**************************************************************************
