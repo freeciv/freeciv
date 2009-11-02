@@ -517,9 +517,7 @@ static void real_info_city_report_dialog_update(void)
       dst.y = 0;
       alphablit(pIcons->pWorklist, NULL, pLogo, &dst);
       my_snprintf(cBuf, sizeof(cBuf), "%s\n(%d/%d)\n%s",
-      	pName, pCity->shield_stock, togrow,
-		pCity->worklist.name[0] != '\0' ?
-			      pCity->worklist.name : _("worklist"));
+      	pName, pCity->shield_stock, togrow, _("worklist"));
     } else {
       my_snprintf(cBuf, sizeof(cBuf), "%s\n(%d/%d)%s",
       	pName, pCity->shield_stock, togrow,
@@ -1040,9 +1038,7 @@ static struct widget * real_city_report_dialog_update_city(struct widget *pWidge
     dst.y = 0;
     alphablit(pIcons->pWorklist, NULL, pLogo, &dst);
     my_snprintf(cBuf, sizeof(cBuf), "%s\n(%d/%d)\n%s",
-      	pName, pCity->shield_stock, togrow,
-		pCity->worklist.name[0] != '\0' ?
-			      pCity->worklist.name : _("worklist"));
+      	pName, pCity->shield_stock, togrow, _("worklist"));
   } else {
     my_snprintf(cBuf, sizeof(cBuf), "%s\n(%d/%d)",
       		pName, pCity->shield_stock, togrow);

@@ -23,9 +23,7 @@
 
 /* a worklist */
 struct worklist {
-  bool is_valid;
   int length;
-  char name[MAX_LEN_NAME];
   struct universal entries[MAX_LEN_WORKLIST];
 };
 
@@ -52,7 +50,7 @@ bool are_worklists_equal(const struct worklist *wlist1,
 void worklist_load(struct section_file *file, struct worklist *pwl,
 		   const char *path, ...)
   fc__attribute((__format__ (__printf__, 3, 4)));
-void worklist_save(struct section_file *file, struct worklist *pwl,
+void worklist_save(struct section_file *file, const struct worklist *pwl,
                    int max_length, const char *path, ...)
   fc__attribute((__format__ (__printf__, 4, 5)));
 

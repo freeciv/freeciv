@@ -223,7 +223,7 @@ class Field:
             else:     return "char *"
             
         if self.dataio_type=="worklist":
-            return "%s *"%self.struct_type
+            return "const %s *"%self.struct_type
         if self.is_array:
             return "%s *"%self.struct_type
         return self.struct_type+" "

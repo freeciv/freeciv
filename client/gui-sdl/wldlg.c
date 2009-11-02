@@ -71,6 +71,7 @@ struct EDITOR {
   struct city *pCity;
   int global_worklist_id;
   struct worklist worklist_copy;
+  char worklist_name[MAX_LEN_NAME];
   
   /* shortcuts  */
   struct widget *pDock;
@@ -160,7 +161,7 @@ static int ok_worklist_editor_callback(struct widget *pWidget)
 
       if (pGWL) {
         global_worklist_set(pGWL, &pEditor->worklist_copy);
-        global_worklist_set_name(pGWL, pEditor->worklist_copy.name);
+        global_worklist_set_name(pGWL, pEditor->worklist_name);
         update_worklist_report_dialog();
       }
     }  
@@ -180,11 +181,11 @@ static int rename_worklist_editor_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     if(pWidget->string16->text) {
       char *pText = convert_to_chars(pWidget->string16->text);
-      my_snprintf(pEditor->worklist_copy.name, MAX_LEN_NAME, "%s", pText);
+      my_snprintf(pEditor->worklist_name, MAX_LEN_NAME, "%s", pText);
       FC_FREE(pText);
     } else {
       /* empty input -> restore previous content */
-      copy_chars_to_string16(pWidget->string16, pEditor->worklist_copy.name);
+      copy_chars_to_string16(pWidget->string16, pEditor->worklist_name);
       widget_redraw(pWidget);
       widget_mark_dirty(pWidget);
       flush_dirty();
@@ -1030,10 +1031,13 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
     pEditor->currently_building = pCity->production;
     pEditor->stock = pCity->shield_stock;
     worklist_copy(&pEditor->worklist_copy, &pCity->worklist);
+    my_snprintf(pEditor->worklist_name, sizeof(pEditor->worklist_name),
+                "%s worklist", city_name(pCity));
   } else if (pGWL) {
     pEditor->pCity = NULL;
     pEditor->global_worklist_id = global_worklist_id(pGWL);
     worklist_copy(&pEditor->worklist_copy, global_worklist_get(pGWL));
+    sz_strlcpy(pEditor->worklist_name, global_worklist_name(pGWL));
   } else {
     /* Not valid variant! */
     return;

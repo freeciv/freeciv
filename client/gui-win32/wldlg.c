@@ -340,7 +340,7 @@ static LONG CALLBACK global_wl_proc(HWND hwnd,UINT message,
 	input_dialog_create(hwnd,
 			    _("Rename Worklist"),
 			    _("What should the new name be?"),
-			    global_worklist_name(pgwl),
+			    (char *) global_worklist_name(pgwl),
 			    (void *) global_rename_sub_callback,
 			    (void *) preport,
 			    (void *) global_rename_sub_callback,
@@ -496,19 +496,6 @@ static void copy_editor_to_worklist(struct worklist_editor *peditor,
       worklist_append(pwl, prod);
     }
   }
-
-  if (peditor->pcity) {
-    strcpy(pwl->name, peditor->pcity->worklist.name);
-    pwl->is_valid = peditor->pcity->worklist.is_valid;
-  } else {
-    struct global_worklist *pgwl =
-        global_worklist_by_id(peditor->global_worklist_id);
-
-    if (pgwl) {
-      strcpy(pwl->name, global_worklist_name(pgwl));
-      pwl->is_valid = global_worklist_is_valid(pgwl);
-    }
-  }
 }
 
 /****************************************************************
@@ -624,7 +611,7 @@ static void worklist_insert_item(struct worklist_editor *peditor,
     struct global_worklist *pgwl = global_worklist_by_id(wid_id(wid));
 
     if (pgwl) {
-      const struct worklist *pwl = global_worklist_worklist(pgwl);
+      const struct worklist *pwl = global_worklist_get(pgwl);
 
       worklist_copy_to_editor(pwl, peditor, where);
       where += worklist_length(pwl);
@@ -991,7 +978,7 @@ static void worklist_prep(struct worklist_editor *peditor)
 
     if (pgwl) {
       peditor->worklist_wids[0] = WORKLIST_END;
-      worklist_copy_to_editor(global_worklist_worklist(pgwl),
+      worklist_copy_to_editor(global_worklist_get(pgwl),
                               peditor, MAX_LEN_WORKLIST);
     }
   }

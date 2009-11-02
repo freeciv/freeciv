@@ -14,8 +14,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
 /* utility */
 #include "fcintl.h"
 #include "log.h"
@@ -37,12 +35,18 @@
 /* The global worklist structure. */
 struct global_worklist {
   int id;
+  char name[MAX_LEN_NAME];
+  bool is_valid;
   struct worklist worklist;
 };
 
 static bool global_worklist_load(struct section_file *file,
                                  const char *path, ...)
-  fc__attribute((__format__ (__printf__, 2, 3)));
+                                 fc__attribute((__format__ (__printf__, 2, 3)));
+static void global_worklist_save(const struct global_worklist *pgwl,
+                                 struct section_file *file, int max_length,
+                                 const char *path, ...)
+                                 fc__attribute((__format__ (__printf__, 4, 5)));
 
 /***********************************************************************
   Initialize the client global worklists.
@@ -92,6 +96,7 @@ static struct global_worklist *global_worklist_alloc(void)
   struct global_worklist *pgwl = fc_calloc(1, sizeof(struct global_worklist));
 
   pgwl->id = ++last_id;
+  pgwl->is_valid = TRUE;        /* FIXME */
   worklist_init(&pgwl->worklist);
 
   global_worklist_list_append(client.worklists, pgwl);
@@ -126,7 +131,7 @@ struct global_worklist *global_worklist_new(const char *name)
 ***********************************************************************/
 bool global_worklist_is_valid(const struct global_worklist *pgwl)
 {
-  return pgwl && pgwl->worklist.is_valid;
+  return pgwl && pgwl->is_valid;
 }
 
 /***********************************************************************
@@ -136,11 +141,7 @@ bool global_worklist_set(struct global_worklist *pgwl,
                          const struct worklist *pwl)
 {
   if (pgwl && pwl) {
-    char name[MAX_LEN_NAME];    /* FIXME: Remove this hack! */
-
-    sz_strlcpy(name, global_worklist_name(pgwl));
     worklist_copy(&pgwl->worklist, pwl);
-    global_worklist_set_name(pgwl, name);
     return TRUE;
   }
   return FALSE;
@@ -189,7 +190,7 @@ void global_worklist_set_name(struct global_worklist *pgwl,
                               const char *name)
 {
   if (name) {
-    sz_strlcpy(pgwl->worklist.name, name);
+    sz_strlcpy(pgwl->name, name);
   }
 }
 
@@ -199,7 +200,7 @@ void global_worklist_set_name(struct global_worklist *pgwl,
 const char *global_worklist_name(const struct global_worklist *pgwl)
 {
   assert(NULL != pgwl);
-  return pgwl->worklist.name;
+  return pgwl->name;
 }
 
 /***********************************************************************
@@ -210,7 +211,6 @@ static bool global_worklist_load(struct section_file *file,
                                  const char *path, ...)
 {
   struct global_worklist *pgwl;
-  struct worklist worklist;
   char path_str[1024];
   va_list args;
 
@@ -223,12 +223,11 @@ static bool global_worklist_load(struct section_file *file,
     return FALSE;
   }
 
-  worklist_load(file, &worklist, "%s", path_str);
-  if (worklist.is_valid) {
-    pgwl = global_worklist_alloc();
-    global_worklist_set_name(pgwl, worklist.name);
-    global_worklist_set(pgwl, &worklist);
-  }
+  /* FIXME: this always trunc the worklist if not valid on this ruleset. */
+  pgwl = global_worklist_alloc();
+  worklist_load(file, &pgwl->worklist, "%s", path_str);
+  global_worklist_set_name(pgwl,
+      secfile_lookup_str_default(file, _("noname"), "%s.wl_name", path_str));
   return TRUE;
 }
 
@@ -250,21 +249,39 @@ void global_worklists_load(struct section_file *file)
 }
 
 /***********************************************************************
-  Save all global worklist to a section file.
+  Save one global worklist into a section file.
+***********************************************************************/
+static void global_worklist_save(const struct global_worklist *pgwl,
+                                 struct section_file *file, int max_length,
+                                 const char *path, ...)
+{
+  char path_str[1024];
+  va_list args;
+
+  va_start(args, path);
+  my_vsnprintf(path_str, sizeof(path_str), path, args);
+  va_end(args);
+
+  secfile_insert_str(file, pgwl->name, "%s.wl_name", path_str);
+  worklist_save(file, &pgwl->worklist, max_length, "%s", path_str);
+}
+
+/***********************************************************************
+  Save all global worklist into a section file.
 ***********************************************************************/
 void global_worklists_save(struct section_file *file)
 {
-  int max_size = 0;
+  int max_length = 0;
   int i = 0;
 
   /* We want to keep savegame in tabular format, so each line has to be
    * of equal length.  So we need to know about the biggest worklist. */
   global_worklists_iterate_all(pgwl) {
-    max_size = MAX(max_size, worklist_length(&pgwl->worklist));
+    max_length = MAX(max_length, worklist_length(&pgwl->worklist));
   } global_worklists_iterate_all_end;
 
   global_worklists_iterate_all(pgwl) {
-    worklist_save(file, &pgwl->worklist, max_size,
-                  "worklists.worklist%d", i++);
+    global_worklist_save(pgwl, file, max_length,
+                         "worklists.worklist%d", i++);
   } global_worklists_iterate_all_end;
 }
