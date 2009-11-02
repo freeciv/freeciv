@@ -16,6 +16,8 @@
 #endif
 
 #include <string.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 /* utility */
 #include "fcintl.h"
@@ -1583,37 +1585,114 @@ static void save_cma_presets(struct section_file *file)
 }
 
 
+/* Old rc file name. */
+#define OLD_OPTION_FILE_NAME ".civclientrc"
+/* New rc file name. */
+#define NEW_OPTION_FILE_NAME ".freeciv-client-rc-%d.%d"
+/* The first version the new option name appeared (2.2). */
+#define FIRST_MAJOR_NEW_OPTION_FILE_NAME 2
+#define FIRST_MINOR_NEW_OPTION_FILE_NAME 2
 /****************************************************************
- Returns pointer to static memory containing name of option file.
- Ie, based on FREECIV_OPT env var, and home dir. (or a
- OPTION_FILE_NAME define defined in config.h)
- Or NULL if problem.
+  Returns pointer to static memory containing name of the current
+  option file.  Usually used for saving.
+  Ie, based on FREECIV_OPT env var, and home dir. (or a
+  OPTION_FILE_NAME define defined in config.h)
+  Or NULL if problem.
 *****************************************************************/
-static char *option_file_name(void)
+static const char *get_current_option_file_name(void)
 {
   static char name_buffer[256];
-  char *name;
+  const char *name;
 
   name = getenv("FREECIV_OPT");
 
   if (name) {
     sz_strlcpy(name_buffer, name);
   } else {
-#ifndef OPTION_FILE_NAME
+#ifdef OPTION_FILE_NAME
+    mystrlcpy(name_buffer, OPTION_FILE_NAME, sizeof(name_buffer));
+#else
     name = user_home_dir();
     if (!name) {
       freelog(LOG_ERROR, _("Cannot find your home directory"));
       return NULL;
     }
-    mystrlcpy(name_buffer, name, 231);
-    sz_strlcat(name_buffer, "/.civclientrc");
-#else
-    mystrlcpy(name_buffer,OPTION_FILE_NAME,sizeof(name_buffer));
-#endif
+    my_snprintf(name_buffer, sizeof(name_buffer),
+                "%s/" NEW_OPTION_FILE_NAME,
+                name, MAJOR_VERSION, MINOR_VERSION);
+#endif /* OPTION_FILE_NAME */
   }
   freelog(LOG_VERBOSE, "settings file is %s", name_buffer);
   return name_buffer;
 }
+
+/****************************************************************
+  Check the last option file we saved.  Usually used to load.
+  Ie, based on FREECIV_OPT env var, and home dir. (or a
+  OPTION_FILE_NAME define defined in config.h)
+  Or NULL if not found.
+*****************************************************************/
+static const char *get_last_option_file_name(void)
+{
+  static char name_buffer[256];
+  const char *name;
+
+  name = getenv("FREECIV_OPT");
+
+  if (name) {
+    sz_strlcpy(name_buffer, name);
+  } else {
+#ifdef OPTION_FILE_NAME
+    mystrlcpy(name_buffer, OPTION_FILE_NAME, sizeof(name_buffer));
+#else
+    int major, minor;
+    struct stat buf;
+
+    name = user_home_dir();
+    if (!name) {
+      freelog(LOG_ERROR, _("Cannot find your home directory"));
+      return NULL;
+    }
+    for (major = MAJOR_VERSION, minor = MINOR_VERSION;
+         major >= FIRST_MAJOR_NEW_OPTION_FILE_NAME; major--) {
+      for (; (major == FIRST_MAJOR_NEW_OPTION_FILE_NAME
+              ? minor >= FIRST_MINOR_NEW_OPTION_FILE_NAME 
+              : minor >= 0); minor--) {
+        my_snprintf(name_buffer, sizeof(name_buffer),
+                    "%s/" NEW_OPTION_FILE_NAME, name, major, minor);
+        if (0 == stat(name_buffer, &buf)) {
+          if (major != MAJOR_VERSION || minor != MINOR_VERSION) {
+            freelog(LOG_NORMAL, _("Didn't find '%s' option file, "
+                                  "loading from '%s' instead."),
+                    get_current_option_file_name() + strlen(name) + 1,
+                    name_buffer + strlen(name) + 1);
+          }
+          return name_buffer;
+        }
+      }
+      minor = 99;       /* Looks enough big. */
+    }
+    /* Try with the old one. */
+    my_snprintf(name_buffer, sizeof(name_buffer),
+                "%s/" OLD_OPTION_FILE_NAME, name);
+    if (0 == stat(name_buffer, &buf)) {
+      freelog(LOG_NORMAL, _("Didn't find '%s' option file, "
+                            "loading from '%s' instead."),
+              get_current_option_file_name() + strlen(name) + 1,
+              OLD_OPTION_FILE_NAME);
+      return name_buffer;
+    } else {
+      return NULL;
+    }
+#endif /* OPTION_FILE_NAME */
+  }
+  freelog(LOG_VERBOSE, "settings file is %s", name_buffer);
+  return name_buffer;
+}
+#undef OLD_OPTION_FILE_NAME
+#undef NEW_OPTION_FILE_NAME
+#undef FIRST_MAJOR_NEW_OPTION_FILE_NAME
+#undef FIRST_MINOR_NEW_OPTION_FILE_NAME
 
 
 /**************************************************************************
@@ -1623,17 +1702,18 @@ void options_load_settable(bool send_it)
 {
   char buffer[MAX_LEN_MSG];
   struct section_file sf;
-  char *name;
+  const char *name;
   char *desired_string;
   int i = 0;
 
-  name = option_file_name();
+  name = get_last_option_file_name();
   if (!name) {
     /* fail silently */
     return;
   }
-  if (!section_file_load(&sf, name))
+  if (!section_file_load(&sf, name)) {
     return;
+  }
 
   for (; i < num_settable_options; i++) {
     struct options_settable *o = &settable_options[i];
@@ -1737,13 +1817,14 @@ void options_load(void)
 {
   struct section_file sf;
   int i, num;
-  char *name;
+  const char *name;
   const char * const prefix = "client";
 
-  name = option_file_name();
+  name = get_last_option_file_name();
   if (!name) {
-    /* FIXME: need better messages */
-    freelog(LOG_ERROR, _("Save failed, cannot find a filename."));
+    freelog(LOG_NORMAL, _("Didn't find the option file."));
+    options_fully_initialized = TRUE;
+    create_default_cma_presets();
     return;
   }
   if (!section_file_load(&sf, name)) {
@@ -1761,6 +1842,7 @@ void options_load(void)
       freelog(LOG_NORMAL, _("Saved settings to file %s"), name);
     }
     section_file_free(&sf);
+    options_fully_initialized = TRUE;
     return;
   }
 
@@ -1813,14 +1895,15 @@ void options_load_ruleset_specific(void)
 {
   struct section_file sf;
   int i;
-  char *name = option_file_name();
+  const char *name = get_last_option_file_name();
 
   if (!name) {
     /* fail silently */
     return;
   }
-  if (!section_file_load(&sf, name))
+  if (!section_file_load(&sf, name)) {
     return;
+  }
 
   if (NULL != client.conn.playing) {
     global_worklists_load(&sf);
@@ -1844,7 +1927,7 @@ void options_save(void)
 {
   struct section_file sf;
   int i;
-  char *name = option_file_name();
+  const char *name = get_current_option_file_name();
 
   if (!name) {
     output_window_append(ftc_client,
