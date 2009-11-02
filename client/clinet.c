@@ -375,6 +375,8 @@ void input_from_server(int fd)
   if (read_from_connection(&aconnection, FALSE) >= 0) {
     enum packet_type type;
 
+    reports_freeze();
+    agents_freeze_hint();
     while (TRUE) {
       bool result;
       void *packet = get_packet_from_connection(&aconnection,
@@ -389,6 +391,8 @@ void input_from_server(int fd)
 	break;
       }
     }
+    agents_thaw_hint();
+    reports_thaw();
   } else {
     close_socket_callback(&aconnection);
   }
