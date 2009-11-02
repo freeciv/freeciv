@@ -158,12 +158,16 @@ void add_notify_window(char *message, struct tile *ptile,
 }
 
 /**************************************************************************
- Returns the pointer to a message.
+  Returns the pointer to a message.  Returns NULL on error.
 **************************************************************************/
 struct message *get_message(int message_index)
 {
-  assert(message_index >= 0 && message_index < messages_total);
-  return &messages[message_index];
+  if (message_index >= 0 && message_index < messages_total) {
+    return &messages[message_index];
+  } else {
+    /* Can happen in turn change... */
+    return NULL;
+  }
 }
 
 /**************************************************************************
