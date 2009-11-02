@@ -43,6 +43,7 @@
 #include "report.h"
 #include "ruleset.h"
 #include "sernet.h"
+#include "settings.h"
 #include "srv_main.h"
 #include "stdinhand.h"
 #include "voting.h"
