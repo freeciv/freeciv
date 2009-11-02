@@ -43,13 +43,16 @@
 #include <winsock.h>
 #endif
 
+/* utility */
 #include "capability.h"
-#include "events.h"
 #include "log.h"
 #include "mem.h"
+#include "support.h"
+
+/* common */
+#include "events.h"
 #include "player.h"
 #include "requirements.h"
-#include "support.h"
 #include "tech.h"
 #include "worklist.h"
 
@@ -388,18 +391,14 @@ void dio_put_tech_list(struct data_out *dout, const int *value)
 **************************************************************************/
 void dio_put_worklist(struct data_out *dout, const struct worklist *pwl)
 {
-  dio_put_bool8(dout, pwl->is_valid);
+  int i, length = worklist_length(pwl);
 
-  if (pwl->is_valid) {
-    int i, length = worklist_length(pwl);
+  dio_put_uint8(dout, length);
+  for (i = 0; i < length; i++) {
+    const struct universal *pcp = &(pwl->entries[i]);
 
-    dio_put_uint8(dout, length);
-    for (i = 0; i < length; i++) {
-      const struct universal *pcp = &(pwl->entries[i]);
-
-      dio_put_uint8(dout, pcp->kind);
-      dio_put_uint8(dout, universal_number(pcp));
-    }
+    dio_put_uint8(dout, pcp->kind);
+    dio_put_uint8(dout, universal_number(pcp));
   }
 }
 
@@ -652,25 +651,19 @@ void dio_get_tech_list(struct data_in *din, int *dest)
 **************************************************************************/
 void dio_get_worklist(struct data_in *din, struct worklist *pwl)
 {
-  dio_get_bool8(din, &pwl->is_valid);
+  int i, length;
 
-  if (pwl->is_valid) {
-    int i, length;
+  worklist_init(pwl);
 
-    worklist_init(pwl);
+  dio_get_uint8(din, &length);
+  for (i = 0; i < length; i++) {
+    int identifier;
+    int kind;
 
-    dio_get_uint8(din, &length);
-    for (i = 0; i < length; i++) {
-      struct universal prod;
-      int identifier;
-      int kind;
+    dio_get_uint8(din, &kind);
+    dio_get_uint8(din, &identifier);
 
-      dio_get_uint8(din, &kind);
-      dio_get_uint8(din, &identifier);
-
-      prod = universal_by_number(kind, identifier);
-      worklist_append(pwl, prod);
-    }
+    worklist_append(pwl, universal_by_number(kind, identifier));
   }
 }
 

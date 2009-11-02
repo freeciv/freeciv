@@ -18,17 +18,20 @@
 #include <stdarg.h>
 #include <string.h>
 
+/* utility */
 #include "log.h"
 #include "mem.h"
 #include "support.h"
 
+/* common */
 #include "city.h"
 #include "requirements.h"
 #include "unit.h"
+
 #include "worklist.h"
 
 /****************************************************************
-  Initialize a worklist to be empty and have a default name.
+  Initialize a worklist to be empty.
   For elements, only really need to set [0], but initialize the
   rest to avoid junk values in savefile.
 ****************************************************************/
@@ -36,9 +39,7 @@ void worklist_init(struct worklist *pwl)
 {
   int i;
 
-  pwl->is_valid = TRUE;
   pwl->length = 0;
-  strcpy(pwl->name, "a worklist");
 
   for (i = 0; i < MAX_LEN_WORKLIST; i++) {
     /* just setting the entry to zero: */
@@ -192,9 +193,6 @@ bool are_worklists_equal(const struct worklist *wlist1,
 {
   int i;
 
-  if (wlist1->is_valid != wlist2->is_valid) {
-    return FALSE;
-  }
   if (wlist1->length != wlist2->length) {
     return FALSE;
   }
@@ -220,8 +218,8 @@ void worklist_load(struct section_file *file, struct worklist *pwl,
 		   const char *path, ...)
 {
   int i;
-  const char* kind;
-  const char* name;
+  const char *kind;
+  const char *name;
   char path_str[1024];
   va_list ap;
 
@@ -234,11 +232,6 @@ void worklist_load(struct section_file *file, struct worklist *pwl,
   worklist_init(pwl);
   pwl->length = secfile_lookup_int_default(file, 0,
 					   "%s.wl_length", path_str);
-  name = secfile_lookup_str_default(file, "a worklist",
-				    "%s.wl_name", path_str);
-  sz_strlcpy(pwl->name, name);
-  pwl->is_valid = secfile_lookup_bool_default(file, FALSE,
-					      "%s.wl_is_valid", path_str);
 
   for (i = 0; i < pwl->length; i++) {
     kind = secfile_lookup_str_default(file, NULL,
@@ -274,7 +267,7 @@ void worklist_load(struct section_file *file, struct worklist *pwl,
 
   path and ... give the prefix to load from, printf-style.
 ****************************************************************************/
-void worklist_save(struct section_file *file, struct worklist *pwl,
+void worklist_save(struct section_file *file, const struct worklist *pwl,
                    int max_length, const char *path, ...)
 {
   char path_str[1024];
@@ -288,11 +281,9 @@ void worklist_save(struct section_file *file, struct worklist *pwl,
   va_end(ap);
 
   secfile_insert_int(file, pwl->length, "%s.wl_length", path_str);
-  secfile_insert_str(file, pwl->name, "%s.wl_name", path_str);
-  secfile_insert_bool(file, pwl->is_valid, "%s.wl_is_valid", path_str);
 
   for (i = 0; i < pwl->length; i++) {
-    struct universal *entry = pwl->entries + i;
+    const struct universal *entry = pwl->entries + i;
 
     /* before 2.2.0 unit production was indicated by flag. */
     secfile_insert_bool(file, (VUT_UTYPE == entry->kind),

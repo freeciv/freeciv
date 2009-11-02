@@ -667,14 +667,7 @@ int city_change_production(struct city *pcity, struct universal target)
 **************************************************************************/
 int city_set_worklist(struct city *pcity, const struct worklist *pworklist)
 {
-  struct worklist copy;
-
-  worklist_copy(&copy, pworklist);
-
-  /* Don't send the worklist name to the server. */
-  copy.name[0] = '\0';
-
-  return dsend_packet_city_worklist(&client.conn, pcity->id, &copy);
+  return dsend_packet_city_worklist(&client.conn, pcity->id, pworklist);
 }
 
 

@@ -1090,20 +1090,6 @@ void worklist_ok_callback(Widget w, XtPointer client_data, XtPointer call_data)
       continue;
     }
   }
-  if (pdialog->pcity) {
-    sz_strlcpy(wl.name, city_name(pdialog->pcity));
-    wl.is_valid = TRUE;
-  } else {
-    struct global_worklist *pgwl =
-      global_worklist_by_id(pdialog->global_worklist_id);
-
-    if (!pgwl) {
-      return;
-    }
-
-    sz_strlcpy(wl.name, global_worklist_name(pgwl));
-    wl.is_valid = global_worklist_is_valid(pgwl);
-  }
 
   /* Invoke the dialog's parent-specified callback */
   if (pdialog->ok_callback) {

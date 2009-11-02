@@ -769,7 +769,6 @@ static void append_worklist_foreach(GtkTreeModel *model, GtkTreePath *path,
 
   pwl = data;
   g_return_if_fail(pwl != NULL);
-  g_return_if_fail(pwl->is_valid);
 
   gtk_tree_model_get(model, it, 0, &pcity, -1);
   if (!pcity || !game_find_city_by_number(pcity->id)) {
@@ -812,7 +811,6 @@ static void set_worklist_foreach(GtkTreeModel *model, GtkTreePath *path,
 
   pwl = data;
   g_return_if_fail(pwl != NULL);
-  g_return_if_fail(pwl->is_valid);
 
   gtk_tree_model_get(model, it, 0, &pcity, -1);
   if (!pcity || !game_find_city_by_number(pcity->id)) {

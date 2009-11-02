@@ -344,7 +344,7 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
 ...
 **************************************************************************/
 void handle_city_worklist(struct player *pplayer, int city_id,
-			  struct worklist *worklist)
+                          const struct worklist *worklist)
 {
   struct city *pcity = player_find_city_by_id(pplayer, city_id);
 
