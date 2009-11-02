@@ -9,11 +9,12 @@
 .\"   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 .\"   GNU General Public License for more details.
 .\"
-.TH FREECIV 6 "April 19th 2009"
+.TH FREECIV 6 "October 30th 2009"
 .SH NAME
-civclient \- The client for the Freeciv game
+freeciv-gtk2, freeciv-sdl, freeciv-xaw, freeciv-win32, freeciv-ftwl, \
+\- The clients for the Freeciv game
 .SH SYNOPSIS
-.B civclient \
+.B freeciv-gtk2|freeciv-sdl|freeciv-xaw|freeciv-win32|freeciv-ftwl \
 [ \-a|\-\-autoconnect ] \
 [ \-d|\-\-debug \fIlevel_number\fP ] \
 [ \-h|\-\-help ] \
@@ -26,10 +27,30 @@ civclient \- The client for the Freeciv game
 [ \-s|\-\-server \fIaddress\fP ] \
 [ \-S|\-\-Sound \fIfilename\fP ] \
 [ \-t|\-\-tiles \fIstring\fP ] \
-[ \-v|\-\-version ]
+[ \-v|\-\-version ] \
+[ \-\- \fIextra parameters\fP ]
 
 IPv6 aware clients have additional parameter:
 .B [ \-A|\-\-announce \fIprotocol\fP ]
+
+freeciv-gtk2 accepts extra parameters following \fB\-\-\fP:
+.B [ \-h|\-\-help ]
+
+freeciv-sdl accepts extra parameters following \fB\-\-\fP:
+.B [ \-e|\-\-eventthread ] \
+[ \-f|\-\-fullscreen ] \
+[ \-h|\-\-help ] \
+[ \-t|\-\-theme \fIstring\fP ]
+
+freeciv-xaw accepts extra parameters following \fB\-\-\fP:
+.B [ \-h|\-\-help ]
+
+freeciv-ftwl accepts extra parameters following \fB\-\-\fP:
+.B [ \-d|\-\-dump ] \
+[ \-f|\-\-fullscreen ] \
+[ \-h|\-\-help ] \
+[ \-r|\-\-res \fIresolution\fP ] \
+[ \-t|\-\-theme \fIstring\fP ]
 
 .SH DESCRIPTION
 Freeciv is a free turn-based multiplayer strategy game, in which each player
@@ -47,20 +68,24 @@ This is the client program used to connect to a Freeciv server - See also
 
 This manual page only lists the command line arguments. For details
 regarding the options when using
-.B civclient
+.B freeciv-gtk2
+.B freeciv-sdl
+.B freeciv-xaw
+.B freeciv-win32
+or
+.B freeciv-ftwl
 see the Client Manual which can be found at
 .UR
 http://www.freeciv.org/
 .UE
 as well as the documentation which is part of the Freeciv distribution.
 .SH OPTIONS
-.I civclient
-accepts all of the standard X Toolkit command line options along with the
-additional options listed below. Those may not be combined; that is,
-"civclient \-np caesar 5557" will not work, instead you would need to enter
-"civclient \-n caesar \-p 5557". All options have a short form (single
-hyphen and single letter) and a long form (double hyphen and a complete word);
-their effects are identical.
+All the Freeciv clients accept of the standard X Toolkit command line
+options along with the additional options listed below. Those may not
+be combined; that is, "\-np caesar 5557" will not work, instead you
+ would need to enter "\-n caesar \-p 5557". All options have a short
+form (single hyphen and single letter) and a long form (double hyphen
+and a complete word); their effects are identical.
 .TP
 .BI "\-A, \-\-announce \fIprotocol\fP"
 Uses \fIprotocol\fP when searching game from LAN.
@@ -142,14 +167,43 @@ included with this distribution.
 .TP
 .BI "\-v, \-\-version"
 Prints the version number and exits.
+.TP
+.BI "\-\-"
+All parameters following this \-\- will be considered as a specific gui
+parameter.  See below.
+.TP
+.BI "\-\- \-d, \-\- \-\-dump"
+Enables screen dumper.  Only available for the \fBfreeciv-ftwl\fP client.
+.TP
+.BI "\-\- \-e, \-\- \-\-eventthread"
+Initializes the event subsystem in other thread.  Only available for the
+\fBfreeciv-sdl\fP client under Linux or BeOS.
+.TP
+.BI "\-\- \-f, \-\- \-\-fullscreen"
+Starts the client in full screen mode.  Only implemented in the
+\fBfreeciv-sdl\fP and \fBfreeciv-ftwl\fP clients.
+.TP
+.BI "\-\- \-h, \-\- \-\-help"
+Print the specific gui parameters help.  Note it is not implemented in
+the \fBfreeciv-win32\fP client.
+\fBfreeciv-sdl\fP and \fBfreeciv-ftwl\fP clients.
+.TP
+.BI "\-\- \-r \fIresolution\fP, \-\- \-\-res \fIresolution\fP"
+Uses the given resolution.  Note it is not implemented in
+the \fBfreeciv-win32\fP client.
+\fBfreeciv-sdl\fP and \fBfreeciv-ftwl\fP clients.
+.TP
+.BI "\-\- \-t \fIstring\fP, \-\- \-\-theme \fIstring\fP"
+Uses GUI theme \fIstring\fP.  Only available for the \fBfreeciv-ftwl\fP
+client.
 .SH "EXAMPLES"
 .TP
-.B civclient \-\-name "King Richard" \-\-server io.daimi.aau.dk
-Starts the client using the name \fIKing Richard\fP and connecting to the
-server at \fIio.daimi.aau.dk\fP.
+.B freeciv-gtk2 \-\-name "King Richard" \-\-server io.daimi.aau.dk
+Starts the GTK2 client using the name \fIKing Richard\fP and connecting
+to the server at \fIio.daimi.aau.dk\fP.
 .TP
-.B civclient \-a \-t trident
-Starts the client with the \fItrident\fP tiles and autoconnects to the 
+.B freeciv-sdl \-a \-t trident
+Starts the SDL client with the \fItrident\fP tiles and autoconnects to the 
 \fIlocalhost\fP.
 .SH FILES
 .TP
