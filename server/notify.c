@@ -369,6 +369,8 @@ void notify_research(const struct player *pplayer,
 #define EVENT_CACHE_MAX 256
 /* Control how many turns are kept the events. */
 #define EVENT_CACHE_TURNS 1
+/* Control if the turn and time of the event is displayed. */
+#define EVENT_CACHE_INFO TRUE
 
 /* The type of event target. */
 enum event_cache_target {
@@ -381,6 +383,7 @@ enum event_cache_target {
 struct event_cache_data {
   struct packet_chat_msg packet;
   int turn;
+  time_t timestamp;
   enum server_states server_state;
   enum event_cache_target target_type;
   bv_player target;     /* Used if target_type == ECT_PLAYERS. */
@@ -434,6 +437,7 @@ event_cache_data_new(const struct packet_chat_msg *packet,
   pdata = fc_malloc(sizeof(*pdata));
   pdata->packet = *packet;
   pdata->turn = game.info.turn;
+  pdata->timestamp = time(NULL);
   pdata->server_state = server_state();
   pdata->target_type = target_type;
   if (players) {
@@ -623,11 +627,23 @@ void send_pending_events(struct connection *pconn, bool include_public)
 {
   const struct player *pplayer = conn_get_player(pconn);
   bool is_global_observer = conn_is_global_observer(pconn);
+  char timestr[64];
+  struct packet_chat_msg pcm;
 
   event_cache_iterate(pdata) {
     if (event_cache_match(pdata, pplayer,
                           is_global_observer, include_public)) {
-      notify_conn_packet(pconn->self, &pdata->packet);
+      if (EVENT_CACHE_INFO) {
+        /* add turn and time to the message */
+        strftime(timestr, sizeof(timestr), "%H:%M:%S",
+                 localtime(&pdata->timestamp));
+        pcm = pdata->packet;
+        my_snprintf(pcm.message, sizeof(pcm.message), "(T%d - %s) %s",
+                    pdata->turn, timestr, pdata->packet.message);
+        notify_conn_packet(pconn->self, &pcm);
+      } else {
+        notify_conn_packet(pconn->self, &pdata->packet);
+      }
     }
   } event_cache_iterate_end;
 }
