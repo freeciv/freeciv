@@ -321,13 +321,15 @@ static void meswin_row_activated_callback(GtkTreeView *view,
   gtk_tree_model_get(model, &iter, 2, &row, -1);
   pmsg = get_message(row);
 
-  meswin_double_click(row);
-  meswin_set_visited(&iter, TRUE);
+  if (pmsg) {
+    meswin_double_click(row);
+    meswin_set_visited(&iter, TRUE);
 
-  gui_dialog_set_response_sensitive(meswin_shell, CMD_GOTO,
-                                    pmsg->location_ok);
-  gui_dialog_set_response_sensitive(meswin_shell, CMD_POPCITY,
-                                    pmsg->city_ok);
+    gui_dialog_set_response_sensitive(meswin_shell, CMD_GOTO,
+                                      pmsg->location_ok);
+    gui_dialog_set_response_sensitive(meswin_shell, CMD_POPCITY,
+                                      pmsg->city_ok);
+  }
 }
 
 /**************************************************************************
