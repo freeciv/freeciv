@@ -642,6 +642,14 @@ bool section_file_load(struct section_file *my_section_file,
   return section_file_load_section(my_section_file, filename, NULL);
 }
 
+/***************************************************************************
+  Simplification of fileinfoname().
+***************************************************************************/
+static const char *datafilename(const char *filename)
+{
+  return fileinfoname(get_data_dirs(), filename);
+}
+
 /**************************************************************************
   Like section_file_load, but this function will only load one "part" of
   the section file.  For instance if you pass in "tutorial", then it will

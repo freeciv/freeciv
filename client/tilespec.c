@@ -711,20 +711,18 @@ const struct strvec *get_tileset_list(void)
   if (!tilesets) {
     /* Note: this means you must restart the client after installing a new
        tileset. */
-    char **list, **file;
+    struct strvec *list = fileinfolist(get_data_dirs(), TILESPEC_SUFFIX);
 
     tilesets = strvec_new();
-    list = datafilelist(TILESPEC_SUFFIX);
-    for (file = list; NULL != *file; file++) {
-      struct tileset *t = tileset_read_toplevel(*file, FALSE);
+    strvec_iterate(list, file) {
+      struct tileset *t = tileset_read_toplevel(file, FALSE);
 
       if (t) {
-        strvec_append(tilesets, *file);
+        strvec_append(tilesets, file);
         tileset_free(t);
       }
-      free(*file);
-    }
-    free(list);
+    } strvec_iterate_end;
+    strvec_destroy(list);
   }
 
   return tilesets;
@@ -740,12 +738,13 @@ const struct strvec *get_tileset_list(void)
 static char *tilespec_fullname(const char *tileset_name)
 {
   if (tileset_name) {
-    char fname[strlen(tileset_name) + strlen(TILESPEC_SUFFIX) + 1], *dname;
+    char fname[strlen(tileset_name) + strlen(TILESPEC_SUFFIX) + 1];
+    const char *dname;
 
     my_snprintf(fname, sizeof(fname),
 		"%s%s", tileset_name, TILESPEC_SUFFIX);
 
-    dname = datafilename(fname);
+    dname = fileinfoname(get_data_dirs(), fname);
 
     if (dname) {
       return mystrdup(dname);
@@ -879,22 +878,20 @@ void tileset_free(struct tileset *t)
 void tilespec_try_read(const char *tileset_name, bool verbose)
 {
   if (!(tileset = tileset_read_toplevel(tileset_name, verbose))) {
-    char **list = datafilelist(TILESPEC_SUFFIX);
-    int i;
+    struct strvec *list = fileinfolist(get_data_dirs(), TILESPEC_SUFFIX);
 
-    for (i = 0; list[i]; i++) {
-      struct tileset *t = tileset_read_toplevel(list[i], FALSE);
+    strvec_iterate(list, file) {
+      struct tileset *t = tileset_read_toplevel(file, FALSE);
 
       if (t) {
-	if (!tileset || t->priority > tileset->priority) {
-	  tileset = t;
-	} else {
-	  tileset_free(t);
-	}
+        if (!tileset || t->priority > tileset->priority) {
+          tileset = t;
+        } else {
+          tileset_free(t);
+        }
       }
-      free(list[i]);
-    }
-    free(list);
+    } strvec_iterate_end;
+    strvec_destroy(list);
 
     if (!tileset) {
       freelog(LOG_FATAL, _("No usable default tileset found, aborting!"));
@@ -1046,11 +1043,11 @@ static struct sprite *load_gfx_file(const char *gfx_filename)
 
   /* Try out all supported file extensions to find one that works. */
   while ((gfx_fileext = *gfx_fileexts++)) {
-    char *real_full_name;
+    const char *real_full_name;
     char full_name[strlen(gfx_filename) + strlen(gfx_fileext) + 2];
 
     sprintf(full_name, "%s.%s", gfx_filename, gfx_fileext);
-    if ((real_full_name = datafilename(full_name))) {
+    if ((real_full_name = fileinfoname(get_data_dirs(), full_name))) {
       freelog(LOG_DEBUG, "trying to load gfx file \"%s\".", real_full_name);
       s = load_gfxfile(real_full_name);
       if (s) {
@@ -1252,11 +1249,11 @@ static char *tilespec_gfx_filename(const char *gfx_filename)
   {
     char *full_name =
        fc_malloc(strlen(gfx_filename) + strlen(gfx_current_fileext) + 2);
-    char *real_full_name;
+    const char *real_full_name;
 
     sprintf(full_name,"%s.%s",gfx_filename,gfx_current_fileext);
 
-    real_full_name = datafilename(full_name);
+    real_full_name = fileinfoname(get_data_dirs(), full_name);
     free(full_name);
     if (real_full_name) {
       return mystrdup(real_full_name);
@@ -1690,12 +1687,12 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
                                  sprite_hash_free_key, NULL);
   for (i = 0; i < num_spec_files; i++) {
     struct specfile *sf = fc_malloc(sizeof(*sf));
-    char *dname;
+    const char *dname;
 
     freelog(LOG_DEBUG, "spec file %s", spec_filenames[i]);
     
     sf->big_sprite = NULL;
-    dname = datafilename(spec_filenames[i]);
+    dname = fileinfoname(get_data_dirs(), spec_filenames[i]);
     if (!dname) {
       if (verbose) {
         freelog(LOG_ERROR, "Can't find spec file \"%s\".", spec_filenames[i]);

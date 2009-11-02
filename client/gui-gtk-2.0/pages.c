@@ -1740,42 +1740,23 @@ static void load_browse_callback(GtkWidget *w, gpointer data)
 /**************************************************************************
   update the saved games list store.
 **************************************************************************/
-static void update_saves_store(GtkListStore *store, const char *dir)
+static void update_saves_store(GtkListStore *store,
+                               const struct strvec *dirs)
 {
-  struct datafile_list *files;
+  struct fileinfo_list *files;
 
   gtk_list_store_clear(store);
 
   /* search for user saved games. */
-  files = datafilelist_infix(dir, ".sav", FALSE);
-  datafile_list_iterate(files, pfile) {
+  files = fileinfolist_infix(dirs, ".sav", FALSE);
+  fileinfo_list_iterate(files, pfile) {
     GtkTreeIter it;
 
     gtk_list_store_append(store, &it);
     gtk_list_store_set(store, &it,
-	0, pfile->name, 1, pfile->fullname, -1);
-
-    free(pfile->name);
-    free(pfile->fullname);
-    free(pfile);
-  } datafile_list_iterate_end;
-
-  datafile_list_free(files);
-
-  files = datafilelist_infix(NULL, ".sav", FALSE);
-  datafile_list_iterate(files, pfile) {
-    GtkTreeIter it;
-
-    gtk_list_store_append(store, &it);
-    gtk_list_store_set(store, &it,
-	0, pfile->name, 1, pfile->fullname, -1);
-
-    free(pfile->name);
-    free(pfile->fullname);
-    free(pfile);
-  } datafile_list_iterate_end;
-
-  datafile_list_free(files);
+                       0, pfile->name, 1, pfile->fullname, -1);
+  } fileinfo_list_iterate_end;
+  fileinfo_list_free_all(files);
 }
 
 /**************************************************************************
@@ -1783,7 +1764,7 @@ static void update_saves_store(GtkListStore *store, const char *dir)
 **************************************************************************/
 static void update_load_page(void)
 {
-  update_saves_store(load_store, "saves");
+  update_saves_store(load_store, get_save_dirs());
 }
 
 /**************************************************************************
@@ -1916,13 +1897,13 @@ static void scenario_browse_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void update_scenario_page(void)
 {
-  struct datafile_list *files;
+  struct fileinfo_list *files;
 
   gtk_list_store_clear(scenario_store);
 
   /* search for scenario files. */
-  files = datafilelist_infix("scenario", ".sav", TRUE);
-  datafile_list_iterate(files, pfile) {
+  files = fileinfolist_infix(get_scenario_dirs(), ".sav", TRUE);
+  fileinfo_list_iterate(files, pfile) {
     GtkTreeIter it;
     struct section_file sf;
 
@@ -1946,13 +1927,9 @@ static void update_scenario_page(void)
 			 2, "",
 			-1);
     }
+  } fileinfo_list_iterate_end;
 
-    free(pfile->name);
-    free(pfile->fullname);
-    free(pfile);
-  } datafile_list_iterate_end;
-
-  datafile_list_free(files);
+  fileinfo_list_free_all(files);
 }
 
 /**************************************************************************
@@ -2372,7 +2349,8 @@ enum {
 **************************************************************************/
 static void update_save_dialog(void)
 {
-  update_saves_store(save_store, save_scenario ? "scenario" : "saves");
+  update_saves_store(save_store, save_scenario
+                     ? get_scenario_dirs() : get_save_dirs());
 }
 
 /**************************************************************************

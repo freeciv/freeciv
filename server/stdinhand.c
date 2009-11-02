@@ -954,7 +954,7 @@ static bool read_init_script_real(struct connection *caller,
   const char extension[] = ".serv";
   char serv_filename[strlen(extension) + strlen(script_filename) + 2];
   char tilde_filename[4096];
-  char *real_filename;
+  const char *real_filename;
 
   /* increase the number of calls to read */
   read_recursion++;
@@ -987,7 +987,7 @@ static bool read_init_script_real(struct connection *caller,
     interpret_tilde(tilde_filename, sizeof(tilde_filename), serv_filename);
   }
 
-  real_filename = datafilename(tilde_filename);
+  real_filename = fileinfoname(get_data_dirs(), tilde_filename);
   if (!real_filename) {
     if (is_restricted(caller) && !from_cmdline) {
       cmd_reply(CMD_READ_SCRIPT, caller, C_FAIL,
@@ -3405,17 +3405,19 @@ bool load_command(struct connection *caller, const char *filename, bool check)
   {
     /* it is a normal savegame or maybe a scenario */
     char testfile[MAX_LEN_PATH];
-    const char *paths[] = { "", "scenario/", NULL };
+    const struct strvec *pathes[] = {
+      get_save_dirs(), get_scenario_dirs(), NULL
+    };
     const char *exts[] = {
       "sav", "gz", "bz2", "sav.gz", "sav.bz2", NULL
     };
-    const char **path, **ext, *found = NULL;
+    const char **ext, *found = NULL;
+    const struct strvec **path;
 
-    for (path = paths; !found && *path; path++) {
+    for (path = pathes; !found && *path; path++) {
       for (ext = exts; !found && *ext; ext++) {
-        my_snprintf(testfile, sizeof(testfile), "%s%s.%s",
-                    *path, filename, *ext);
-        if ((found = datafilename(testfile))) {
+        my_snprintf(testfile, sizeof(testfile), "%s.%s", filename, *ext);
+        if ((found = fileinfoname(*path, testfile))) {
           sz_strlcpy(arg, found);
         }
       }
@@ -3525,7 +3527,9 @@ bool load_command(struct connection *caller, const char *filename, bool check)
 **************************************************************************/
 static bool set_rulesetdir(struct connection *caller, char *str, bool check)
 {
-  char filename[512], *pfilename;
+  char filename[512];
+  const char *pfilename;
+
   if ((str == NULL) || (strlen(str)==0)) {
     cmd_reply(CMD_RULESETDIR, caller, C_SYNTAX,
              _("Current ruleset directory is \"%s\""),
@@ -3546,7 +3550,7 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check)
   }  
 
   my_snprintf(filename, sizeof(filename), "%s", str);
-  pfilename = datafilename(filename);
+  pfilename = fileinfoname(get_data_dirs(), filename);
   if (!pfilename) {
     cmd_reply(CMD_RULESETDIR, caller, C_SYNTAX,
              _("Ruleset directory \"%s\" not found"), str);
@@ -4574,36 +4578,18 @@ static void show_connections(struct connection *caller)
 static void show_scenarios(struct connection *caller)
 {
   char buf[MAX_LEN_CONSOLE_LINE];
-  struct datafile_list *files;
+  struct fileinfo_list *files;
 
   cmd_reply(CMD_LIST, caller, C_COMMENT, _("List of scenarios available:"));
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
 
-  files = datafilelist_infix("scenario", ".sav", TRUE);
+  files = fileinfolist_infix(get_scenario_dirs(), ".sav", TRUE);
   
-  datafile_list_iterate(files, pfile) {
+  fileinfo_list_iterate(files, pfile) {
     my_snprintf(buf, sizeof(buf), "%s", pfile->name);
     cmd_reply(CMD_LIST, caller, C_COMMENT, "%s", buf);
-
-    free(pfile->name);
-    free(pfile->fullname);
-    free(pfile);
-  } datafile_list_iterate_end;
-
-  datafile_list_free(files);
-
-  files = datafilelist_infix(NULL, ".sav", TRUE);
-
-  datafile_list_iterate(files, pfile) {
-    my_snprintf(buf, sizeof(buf), "%s", pfile->name);
-    cmd_reply(CMD_LIST, caller, C_COMMENT, "%s", buf);
-
-    free(pfile->name);
-    free(pfile->fullname);
-    free(pfile); 
-  } datafile_list_iterate_end;
-
-  datafile_list_free(files);
+  } fileinfo_list_iterate_end;
+  fileinfo_list_free_all(files);
 
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
 }

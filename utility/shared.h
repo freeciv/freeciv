@@ -150,8 +150,11 @@ bool is_base64url(const char *s);
 bool is_safe_filename(const char *name);
 void randomize_base64url_string(char *s, size_t n);
 
+int base_compare_strings(const char *first, const char *second);
 int compare_strings(const void *first, const void *second);
 int compare_strings_ptrs(const void *first, const void *second);
+int compare_strings_strvec(const char *const *first,
+                           const char *const *second);
 
 char *skip_leading_spaces(char *s);
 void remove_leading_trailing_spaces(char *s);
@@ -175,30 +178,35 @@ void real_die(const char *file, int line, const char *format, ...)
 /**************************************************************************
 ...
 **************************************************************************/
-struct datafile {
-  char *name;		/* descriptive file name string */
-  char *fullname;	/* full absolute filename */
-  time_t mtime;		/* last modification time  */
+struct fileinfo {
+  char *name;           /* descriptive file name string */
+  char *fullname;       /* full absolute filename */
+  time_t mtime;         /* last modification time  */
 };
 
-#define SPECLIST_TAG datafile
-#define SPECLIST_TYPE struct datafile
+#define SPECLIST_TAG fileinfo
+#define SPECLIST_TYPE struct fileinfo
 #include "speclist.h"
-#define datafile_list_iterate(list, pnode) \
-  TYPED_LIST_ITERATE(struct datafile, list, pnode)
-#define datafile_list_iterate_end LIST_ITERATE_END
-                                                                               
+#define fileinfo_list_iterate(list, pnode) \
+  TYPED_LIST_ITERATE(struct fileinfo, list, pnode)
+#define fileinfo_list_iterate_end LIST_ITERATE_END
+
 char *user_home_dir(void);
 char *user_username(char *buf, size_t bufsz);
   
-const char **get_data_dirs(int *num_dirs);
-  
-char **datafilelist(const char *suffix);
-struct datafile_list *datafilelist_infix(const char *subpath,
+const struct strvec *get_data_dirs(void);
+const struct strvec *get_save_dirs(void);
+const struct strvec *get_scenario_dirs(void);
+
+struct strvec *fileinfolist(const struct strvec *dirs, const char *suffix);
+struct fileinfo_list *fileinfolist_infix(const struct strvec *dirs,
                                          const char *infix, bool nodups);
-char *datafilename(const char *filename);
-char **datafilenames(const char *filename);
-char *datafilename_required(const char *filename);
+void fileinfo_list_free_all(struct fileinfo_list *files);
+const char *fileinfoname(const struct strvec *dirs, const char *filename);
+struct strvec *fileinfonames(const struct strvec *dirs,
+                             const char *filename);
+const char *fileinfoname_required(const struct strvec *dirs,
+                                  const char *filename);
 
 char *get_langname(void);
 void init_nls(void);

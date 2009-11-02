@@ -32,6 +32,7 @@
 #include "hash.h"
 #include "log.h"
 #include "registry.h"
+#include "string_vector.h"
 
 /* common */
 #include "game.h"
@@ -187,24 +188,20 @@ const char **get_theme_list(void)
   if (!themes) {
     /* Note: this means you must restart the client after installing a new
        theme. */
-    char **list = datafilelist(THEMESPEC_SUFFIX);
-    int i, count = 0;
+    struct strvec *list = fileinfolist(get_data_dirs(), THEMESPEC_SUFFIX);
+    int count = 0;
 
-    for (i = 0; list[i]; i++) {
-      struct theme *t = theme_read_toplevel(list[i]);
+    themes = fc_malloc((1 + strvec_size(list)) * sizeof(*themes));
+    strvec_iterate(list, file) {
+      struct theme *t = theme_read_toplevel(file);
 
       if (t) {
- 	themes = fc_realloc(themes, (count + 1) * sizeof(*themes));
- 	themes[count] = list[i];
- 	count++;
- 	theme_free(t);
-      } else {
-	FC_FREE(list[i]);
+        themes[count++] = mystrdup(file);
+        theme_free(t);
       }
-    }
-
-    themes = fc_realloc(themes, (count + 1) * sizeof(*themes));
+    } strvec_iterate_end;
     themes[count] = NULL;
+    strvec_destroy(list);
   }
 
   return themes;
@@ -225,7 +222,7 @@ static char *themespec_fullname(const char *theme_name)
     my_snprintf(fname, sizeof(fname),
 		"%s%s", theme_name, THEMESPEC_SUFFIX);
 
-/*    dname = datafilename(fname);*/
+/*    dname = fileinfoname(get_data_dirs(), fname);*/
     dname = fname;
 
     if (dname) {
@@ -316,22 +313,20 @@ void theme_free(struct theme *t)
 void themespec_try_read(const char *theme_name)
 {
   if (!(theme = theme_read_toplevel(theme_name))) {
-    char **list = datafilelist(THEMESPEC_SUFFIX);
-    int i;
+    struct strvec *list = fileinfolist(get_data_dirs(), THEMESPEC_SUFFIX);
 
-    for (i = 0; list[i]; i++) {
-      struct theme *t = theme_read_toplevel(list[i]);
+    strvec_iterate(list, file) {
+      struct theme *t = theme_read_toplevel(file);
 
       if (t) {
-	if (!theme || t->priority > theme->priority) {
-	  theme = t;
-	} else {
-	  theme_free(t);
-	}
+        if (!theme || t->priority > theme->priority) {
+          theme = t;
+        } else {
+          theme_free(t);
+        }
       }
-      FC_FREE(list[i]);
-    }
-    FC_FREE(list);
+    } strvec_iterate_end;
+    strvec_destroy(list);
 
     if (!theme) {
       freelog(LOG_FATAL, _("No usable default theme found, aborting!"));
@@ -438,11 +433,11 @@ static struct sprite *load_gfx_file(const char *gfx_filename)
 
   /* Try out all supported file extensions to find one that works. */
   while ((gfx_fileext = *gfx_fileexts++)) {
-    char *real_full_name;
+    const char *real_full_name;
     char full_name[strlen(gfx_filename) + strlen(gfx_fileext) + 2];
 
     sprintf(full_name, "%s.%s", gfx_filename, gfx_fileext);
-    if ((real_full_name = datafilename(full_name))) {
+    if ((real_full_name = fileinfoname(get_data_dirs(), full_name))) {
       freelog(LOG_DEBUG, "trying to load gfx file \"%s\".", real_full_name);
       s = load_gfxfile(real_full_name);
       if (s) {
@@ -642,11 +637,11 @@ char *themespec_gfx_filename(const char *gfx_filename)
   {
     char *full_name =
        fc_malloc(strlen(gfx_filename) + strlen(gfx_current_fileext) + 2);
-    char *real_full_name;
+    const char *real_full_name;
 
     sprintf(full_name,"%s.%s",gfx_filename,gfx_current_fileext);
 
-    real_full_name = datafilename(full_name);
+    real_full_name = fileinfoname(get_data_dirs(), full_name);
     FC_FREE(full_name);
     if (real_full_name) {
       return mystrdup(real_full_name);
@@ -675,6 +670,7 @@ struct theme *theme_read_toplevel(const char *theme_name)
   bool duplicates_ok;
   struct theme *t = theme_new();
   char *langname;
+  const char *filename;
 
   fname = themespec_fullname(theme_name);
   if (!fname) {
@@ -722,9 +718,8 @@ struct theme *theme_read_toplevel(const char *theme_name)
   } else {
     c = secfile_lookup_str(file, "themespec.font_file");
   }
-  t->font_filename = datafilename(c);
-  if (t->font_filename) {
-    t->font_filename = mystrdup(t->font_filename);
+  if ((filename = fileinfoname(get_data_dirs(), c))) {
+    t->font_filename = mystrdup(filename);
   } else {
     freelog(LOG_FATAL, "Could not open font: %s", c);
     section_file_free(file);
@@ -751,20 +746,19 @@ struct theme *theme_read_toplevel(const char *theme_name)
   t->sprite_hash = hash_new(hash_fval_string, hash_fcmp_string);
   for (i = 0; i < num_spec_files; i++) {
     struct specfile *sf = fc_malloc(sizeof(*sf));
-    char *dname;
 
     freelog(LOG_DEBUG, "spec file %s", spec_filenames[i]);
     
     sf->big_sprite = NULL;
-    dname = datafilename(spec_filenames[i]);
-    if (!dname) {
+    filename = fileinfoname(get_data_dirs(), spec_filenames[i]);
+    if (!filename) {
       freelog(LOG_ERROR, "Can't find spec file \"%s\".", spec_filenames[i]);
       section_file_free(file);
       FC_FREE(fname);
       theme_free(t);
       return NULL;
     }
-    sf->file_name = mystrdup(dname);
+    sf->file_name = mystrdup(filename);
     scan_specfile(t, sf, duplicates_ok);
 
     specfile_list_prepend(t->specfiles, sf);

@@ -399,7 +399,7 @@ static bool check_include(struct inputfile *inf)
   }
   inf->cur_line_pos = inf->cur_line.n-1;
 
-  full_name = inf->datafn(bare_name);
+  full_name = (char *) inf->datafn(bare_name);
   if (!full_name) {
     freelog(LOG_ERROR, "Could not find included file \"%s\"", bare_name);
     return FALSE;

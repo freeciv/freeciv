@@ -80,15 +80,7 @@ const struct strvec *get_soundset_list(void)
   static struct strvec *audio_list = NULL;
 
   if (NULL == audio_list) {
-    char **list, **file;
-
-    audio_list = strvec_new();
-    list = datafilelist(SNDSPEC_SUFFIX);
-    for (file = list; NULL != *file; file++) {
-      strvec_append(audio_list, *file);
-      free(*file);
-    }
-    free(list);
+    audio_list = fileinfolist(get_data_dirs(), SNDSPEC_SUFFIX);
   }
 
   return audio_list;
@@ -167,11 +159,11 @@ static const char *soundspec_fullname(const char *soundset_name)
 {
   const char *soundset_default = "stdsounds";	/* Do not i18n! */
   char *fname = fc_malloc(strlen(soundset_name) + strlen(SNDSPEC_SUFFIX) + 1);
-  char *dname;
+  const char *dname;
 
   sprintf(fname, "%s%s", soundset_name, SNDSPEC_SUFFIX);
 
-  dname = datafilename(fname);
+  dname = fileinfoname(get_data_dirs(), fname);
   free(fname);
 
   if (dname) {
@@ -274,7 +266,8 @@ void audio_real_init(const char *const spec_name,
 **************************************************************************/
 static bool audio_play_tag(const char *tag, bool repeat)
 {
-  char *soundfile, *fullpath = NULL;
+  char *soundfile;
+  const char *fullpath = NULL;
 
   if (!tag || strcmp(tag, "-") == 0) {
     return FALSE;
@@ -286,7 +279,7 @@ static bool audio_play_tag(const char *tag, bool repeat)
       freelog(LOG_VERBOSE, "No sound file for tag %s (file %s)", tag,
 	      soundfile);
     } else {
-      fullpath = datafilename(soundfile);
+      fullpath = fileinfoname(get_data_dirs(), soundfile);
       if (!fullpath) {
 	freelog(LOG_ERROR, "Cannot find audio file %s", soundfile);
       }

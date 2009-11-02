@@ -20,6 +20,7 @@
 /* utility */
 #include "fcintl.h"
 #include "log.h"
+#include "string_vector.h"
 
 /* gui-sdl */
 #include "themespec.h"
@@ -67,19 +68,18 @@ void gui_clear_theme(void)
 *****************************************************************************/
 char **get_gui_specific_themes_directories(int *count)
 {
-  int i;
+  const struct strvec *data_dirs = get_data_dirs();
+  char **directories = fc_malloc(strvec_size(data_dirs) * sizeof(char *));  
+  int i = 0;
 
-  const char **data_directories = get_data_dirs(count);
-
-  char **directories = fc_malloc(sizeof(char *) * *count);  
-
-  for (i = 0; i < *count; i++) {
-    char buf[strlen(data_directories[i]) + strlen("/themes/gui-sdl") + 1];
+  *count = strvec_size(data_dirs);
+  strvec_iterate(data_dirs, data_dir) {
+    char buf[strlen(data_dir) + strlen("/themes/gui-sdl") + 1];
     
-    my_snprintf(buf, sizeof(buf), "%s/themes/gui-sdl", data_directories[i]);
+    my_snprintf(buf, sizeof(buf), "%s/themes/gui-sdl", data_dir);
 
     directories[i] = mystrdup(buf);
-  }
+  } strvec_iterate_end;
 
   return directories;
 }

@@ -26,6 +26,7 @@
 #include "rand.h"
 #include "registry.h"
 #include "shared.h"
+#include "string_vector.h"
 #include "support.h"
 
 /* common */
@@ -518,19 +519,19 @@ const char *new_challenge_filename(struct connection *pc)
 static void send_ruleset_choices(struct connection *pc)
 {
   struct packet_ruleset_choices packet;
-  static char **rulesets = NULL;
-  int i;
+  static struct strvec *rulesets = NULL;
+  size_t i;
 
   if (!rulesets) {
     /* This is only read once per server invocation.  Add a new ruleset
      * and you have to restart the server. */
-    rulesets = datafilelist(RULESET_SUFFIX);
+    rulesets = fileinfolist(get_data_dirs(), RULESET_SUFFIX);
   }
 
-  for (i = 0; i < MAX_NUM_RULESETS && rulesets[i]; i++) {
-    sz_strlcpy(packet.rulesets[i], rulesets[i]);
+  packet.ruleset_count = MIN(MAX_NUM_RULESETS, strvec_size(rulesets));
+  for (i = 0; i < packet.ruleset_count; i++) {
+    sz_strlcpy(packet.rulesets[i], strvec_get(rulesets, i));
   }
-  packet.ruleset_count = i;
 
   send_packet_ruleset_choices(pc, &packet);
 }

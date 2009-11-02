@@ -592,7 +592,7 @@ void boot_help_texts(struct player *pplayer)
   static bool booted = FALSE;
 
   struct section_file file, *sf = &file;
-  char *filename;
+  const char *filename;
   struct help_item *pitem;
   int i, isec;
   char **sec, **paras;
@@ -612,7 +612,7 @@ void boot_help_texts(struct player *pplayer)
     freelog(LOG_VERBOSE, "Rebooting help texts");
   }    
 
-  filename = datafilename("helpdata.txt");
+  filename = fileinfoname(get_data_dirs(), "helpdata.txt");
   if (!filename) {
     freelog(LOG_ERROR, "Did not read help texts");
     return;

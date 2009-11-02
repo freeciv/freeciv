@@ -1544,10 +1544,10 @@ static GtkActionGroup *get_player_group(void)
 static const gchar *get_ui_filename(void)
 {
   static char filename[256];
-  char *name;
+  const char *name;
 
   if ((name = getenv("FREECIV_MENUS"))
-      || (name = datafilename("gtk_menus.xml"))) {
+      || (name = fileinfoname(get_data_dirs(), "gtk_menus.xml"))) {
     sz_strlcpy(filename, name);
   } else {
     freelog(LOG_ERROR, "Gtk menus: file definition not found");

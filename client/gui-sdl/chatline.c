@@ -153,7 +153,7 @@ static void popup_load_game_dialog(void)
   struct widget *pNextLabel = NULL; 
   SDL_String16 *pTitle, *pFilename;
   SDL_Rect area;
-  struct datafile_list *files;
+  struct fileinfo_list *files;
   int count = 0;
   int scrollbar_width = 0;
   int max_label_width = 0;
@@ -211,9 +211,8 @@ static void popup_load_game_dialog(void)
   hide_scrollbar(pLoadDialog->pScroll);
 
   /* search for user saved games. */
-  files = datafilelist_infix("saves", ".sav", FALSE);
-  datafile_list_iterate(files, pfile) {
-    
+  files = fileinfolist_infix(get_save_dirs(), ".sav", FALSE);
+  fileinfo_list_iterate(files, pfile) {
     count++;
     
     pFilename = create_str16_from_char(pfile->name, adj_font(13));
@@ -240,50 +239,8 @@ static void popup_load_game_dialog(void)
     }
 
     max_label_width = MAX(max_label_width, pFilenameLabel->size.w);
-        
-    free(pfile->name);
-    free(pfile->fullname);
-    free(pfile);
-  } datafile_list_iterate_end;
-
-  datafile_list_free(files);
-
-  files = datafilelist_infix(NULL, ".sav", FALSE);
-  datafile_list_iterate(files, pfile) {
-    
-    count++;
-    
-    pFilename = create_str16_from_char(pfile->name, adj_font(13));
-    pFilename->style |= SF_CENTER;
-    pFilenameLabel = create_iconlabel(NULL, pWindow->dst, pFilename,
-      (WF_FREE_DATA | WF_SELLECT_WITHOUT_BAR | WF_RESTORE_BACKGROUND));
-     
-    /* store filename */
-    pFilenameLabel->data.ptr = fc_calloc(1, strlen(pfile->fullname) + 1);
-    mystrlcpy((char*)pFilenameLabel->data.ptr, pfile->fullname, strlen(pfile->fullname) + 1);
-    
-    pFilenameLabel->action = load_selected_game_callback;
-     
-    set_wstate(pFilenameLabel, FC_WS_NORMAL);
-    
-    /* FIXME: this was supposed to be add_widget_to_vertical_scroll_widget_list(), but
-     * add_widget_to_vertical_scroll_widget_list() needs the scrollbar area to be defined
-     * for updating the scrollbar position, but the area is not known yet (depends on
-     * maximum label width) */ 
-    add_to_gui_list(ID_LABEL, pFilenameLabel);
-
-    if (count == 1) {
-      pFirstLabel = pFilenameLabel;
-    }
-
-    max_label_width = MAX(max_label_width, pFilenameLabel->size.w);
-        
-    free(pfile->name);
-    free(pfile->fullname);
-    free(pfile);
-  } datafile_list_iterate_end;
-
-  datafile_list_free(files);
+  } fileinfo_list_iterate_end;
+  fileinfo_list_free_all(files);
 
   pLastLabel = pFilenameLabel;
 

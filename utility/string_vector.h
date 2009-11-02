@@ -24,7 +24,11 @@ void strvec_reserve(struct strvec *psv, size_t reserve);
 void strvec_store(struct strvec *psv, const char *const *vec, size_t size);
 void strvec_clear(struct strvec *psv);
 void strvec_remove_empty(struct strvec *psv);
+void strvec_remove_duplicate(struct strvec *psv,
+                             int (*cmp_func) (const char *, const char *));
 void strvec_copy(struct strvec *dest, const struct strvec *src);
+void strvec_sort(struct strvec *psv, int (*sort_func) (const char *const *,
+                                                       const char *const *));
 
 void strvec_prepend(struct strvec *psv, const char *string);
 void strvec_append(struct strvec *psv, const char *string);

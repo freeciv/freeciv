@@ -203,10 +203,45 @@ Sets the multicast group (for the LAN tab).
 .BI FREECIV_PATH
 A colon separated list of directories pointing to the
 .B freeciv
-data directory. By default freeciv looks in the following directories, in order,
-for any data files: the current directory; the "data" subdirectory of the
-current directory; the subdirectory ".freeciv" in the user's home directory; and
-the directory where the files are placed by running "make install".
+directory. By default freeciv looks in the following directories,
+in order, for any data files: the current directory; the "data" subdirectory
+of the current directory; the subdirectories ".freeciv" and ".freeciv/2.3"
+in the user's home directory; and the directory where the files are placed
+by running "make install".  This setting has no effect if
+\fBFREECIV_DATA_PATH\fP, \fBFREECIV_SAVE_PATH\fP and
+\fBFREECIV_SCENARIO_PATH\fP are defined together.
+.TP
+.BI FREECIV_SCENARIO_PATH
+A colon separated list of directories pointing to the
+.B freeciv
+data directories. By default freeciv looks in the following directories,
+in order, for any data files: the current directory; the "data" subdirectory
+of the current directory; the subdirectory ".freeciv/2.3" in the user's
+home directory; and the directory where the files are placed by running
+"make install".  If not set,
+.BI FREECIV_PATH
+is used instead.
+.TP
+.BI FREECIV_SAVE_PATH
+A colon separated list of directories pointing to the
+.B freeciv
+save directories. By default freeciv looks in the following directories,
+in order, for any data files: the current directory; and the subdirectory
+".freeciv/saves" in the user's home directory.  If not set,
+.BI FREECIV_PATH
+is used instead, looking also in "saves" potential subdirectories.
+.TP
+.BI FREECIV_SCENARIO_PATH
+A colon separated list of directories pointing to the
+.B freeciv
+data directories. By default freeciv looks in the following directories,
+in order, for any data files: the current directory; the "data/scenario"
+subdirectory of the current directory; the subdirectory ".freeciv/scenarios"
+in the user's home directory; and the directory where the files are placed
+by running "make install".  If not set,
+.BI FREECIV_PATH
+is used instead, looking also in "scenario" and "scenarios" potential
+subdirectories.
 .TP
 .BI HOME
 Specifies the user's home directory.

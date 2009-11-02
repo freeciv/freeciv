@@ -155,17 +155,19 @@ static void ruleset_error(int loglevel, const char *format, ...)
   datafilename() wrapper: tries to match in two ways.
   Returns NULL on failure, the (statically allocated) filename on success.
 **************************************************************************/
-static char *valid_ruleset_filename(const char *subdir,
-				    const char *name, const char *extension)
+static const char *valid_ruleset_filename(const char *subdir,
+                                          const char *name,
+                                          const char *extension)
 {
-  char filename[512], *dfilename;
+  char filename[512];
+  const char *dfilename;
 
   assert(subdir && name && extension);
 
   my_snprintf(filename, sizeof(filename), "%s/%s.%s", subdir, name, extension);
   freelog(LOG_VERBOSE, "Trying \"%s\".",
                        filename);
-  dfilename = datafilename(filename);
+  dfilename = fileinfoname(get_data_dirs(), filename);
   if (dfilename) {
     return dfilename;
   }
@@ -173,7 +175,7 @@ static char *valid_ruleset_filename(const char *subdir,
   my_snprintf(filename, sizeof(filename), "default/%s.%s", name, extension);
   freelog(LOG_VERBOSE, "Trying \"%s\": default ruleset directory.",
                        filename);
-  dfilename = datafilename(filename);
+  dfilename = fileinfoname(get_data_dirs(), filename);
   if (dfilename) {
     return dfilename;
   }
@@ -181,7 +183,7 @@ static char *valid_ruleset_filename(const char *subdir,
   my_snprintf(filename, sizeof(filename), "%s_%s.%s", subdir, name, extension);
   freelog(LOG_VERBOSE, "Trying \"%s\": alternative ruleset filename syntax.",
                        filename);
-  dfilename = datafilename(filename);
+  dfilename = fileinfoname(get_data_dirs(), filename);
   if (dfilename) {
     return dfilename;
   } else {
@@ -202,8 +204,8 @@ static void openload_ruleset_file(struct section_file *file,
 			          const char *whichset)
 {
   char sfilename[512];
-  char *dfilename = valid_ruleset_filename(game.server.rulesetdir,
-					   whichset, RULES_SUFFIX);
+  const char *dfilename = valid_ruleset_filename(game.server.rulesetdir,
+                                                 whichset, RULES_SUFFIX);
 
   /* Need to save a copy of the filename for following message, since
      section_file_load() may call datafilename() for includes. */
@@ -221,8 +223,8 @@ static void openload_ruleset_file(struct section_file *file,
 **************************************************************************/
 static void openload_script_file(const char *whichset)
 {
-  char *dfilename = valid_ruleset_filename(game.server.rulesetdir,
-					   whichset, SCRIPT_SUFFIX);
+  const char *dfilename = valid_ruleset_filename(game.server.rulesetdir,
+                                                 whichset, SCRIPT_SUFFIX);
 
   if (!script_do_file(dfilename)) {
     ruleset_error(LOG_FATAL, "\"%s\": could not load ruleset script.",

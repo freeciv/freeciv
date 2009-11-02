@@ -770,12 +770,13 @@ void ui_init(void)
   /* create splash screen */  
 #ifdef SMALL_SCREEN
   {
-    SDL_Surface *pTmpSurf = load_surf(datafilename("misc/intro.png"));
+    SDL_Surface *pTmpSurf = load_surf(fileinfoname(get_data_dirs(),
+                                                   "misc/intro.png"));
     pBgd = zoomSurface(pTmpSurf, DEFAULT_ZOOM, DEFAULT_ZOOM, 0);
     FREESURFACE(pTmpSurf);
   }
 #else
-  pBgd = load_surf(datafilename("misc/intro.png"));
+  pBgd = load_surf(fileinfoname(get_data_dirs(), "misc/intro.png"));
 #endif
   
   if(pBgd && SDL_GetVideoInfo()->wm_available) {
