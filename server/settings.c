@@ -239,7 +239,7 @@ static bool phasemode_callback(int value, struct connection *caller,
       NULL, 0, NULL, 0, 0,					\
       NULL, NULL, NULL},
 
-struct settings_s settings[] = {
+struct setting settings[] = {
 
   /* These should be grouped by sclass */
   
@@ -1147,31 +1147,316 @@ struct settings_s settings[] = {
 const int SETTINGS_NUM = ARRAY_SIZE(settings) - 1;
 
 /****************************************************************************
-  Returns whether the specified server setting (option) can currently
-  be changed.  Does not indicate whether it can be changed by clients.
+  Returns the setting to the given id.
 ****************************************************************************/
-bool setting_is_changeable(int setting_id)
+struct setting *setting_by_number(int id)
 {
-  return setting_class_is_changeable(settings[setting_id].sclass);
+  assert(0 <= id && id < SETTINGS_NUM);
+  return settings + id;
 }
+
+/****************************************************************************
+  Returns the id to the given setting.
+****************************************************************************/
+int setting_number(const struct setting *pset)
+{
+  assert(pset != NULL);
+  return pset - settings;
+}
+
+/****************************************************************************
+  Access function for the setting name.
+****************************************************************************/
+const char *setting_name(const struct setting *pset)
+{
+  return pset->name;
+}
+
+/****************************************************************************
+  Access function for the short help (not translated yet) of the setting.
+****************************************************************************/
+const char *setting_short_help(const struct setting *pset)
+{
+  return pset->short_help;
+}
+
+/****************************************************************************
+  Access function for the long (extra) help (not translated yet) of
+  the setting.
+****************************************************************************/
+const char *setting_extra_help(const struct setting *pset)
+{
+  return pset->extra_help;
+}
+
+/****************************************************************************
+  Access function for the setting type.
+****************************************************************************/
+enum sset_type setting_type(const struct setting *pset)
+{
+  return pset->stype;
+}
+
+/****************************************************************************
+  Access function for the setting level (used by the /show command).
+****************************************************************************/
+enum sset_level setting_level(const struct setting *pset)
+{
+  return pset->slevel;
+}
+
+/****************************************************************************
+  Access function for the setting category name.
+****************************************************************************/
+const char *setting_category_name(const struct setting *pset)
+{
+  return sset_category_names[pset->scategory];
+}
+
+/****************************************************************************
+  Access function for the setting level name.
+****************************************************************************/
+const char *setting_level_name(const struct setting *pset)
+{
+  return sset_level_names[pset->slevel];
+}
+
+/****************************************************************************
+  Returns whether the specified server setting (option) can currently
+  be changed by the caller.  If it returns FALSE, then a reject message is
+  stored into the 'reject_msg' argument, if not NULL.
+****************************************************************************/
+bool setting_is_changeable(const struct setting *pset,
+                           struct connection *caller,
+                           const char **reject_msg)
+{
+  if (caller
+      && (caller->access_level < ALLOW_BASIC
+          || (caller->access_level < ALLOW_HACK && !pset->to_client))) {
+    if (reject_msg) {
+      *reject_msg = _("You are not allowed to set this option.");
+    }
+    return FALSE;
+  } else if (!setting_class_is_changeable(pset->sclass)) {
+    if (reject_msg) {
+      *reject_msg = _("This setting can't be modified "
+                      "after the game has started.");
+    }
+    return FALSE;
+  } else {
+    return TRUE;
+  }
+}
+
+/****************************************************************************
+  Returns whether the specified server setting (option) can be seen by the
+  caller.
+****************************************************************************/
+bool setting_is_visible(const struct setting *pset,
+                        struct connection *caller)
+{
+  return (!caller
+          || pset->to_client
+          || caller->access_level >= ALLOW_HACK);
+}
+
+/****************************************************************************
+  Returns the current boolean value.
+****************************************************************************/
+bool setting_bool_get(const struct setting *pset)
+{
+  assert(pset->stype == SSET_BOOL);
+  return *pset->bool_value;
+}
+
+/****************************************************************************
+  Returns the default boolean value for this setting.
+****************************************************************************/
+bool setting_bool_def(const struct setting *pset)
+{
+  assert(pset->stype == SSET_BOOL);
+  return pset->bool_default_value;
+}
+
+/****************************************************************************
+  Set the setting to 'val'.  Returns TRUE on success.  If it fails, then
+  the 'reject_msg' argument will point to the reason of the failure.
+****************************************************************************/
+bool setting_bool_set(struct setting *pset, bool val,
+                      struct connection *caller, const char **reject_msg)
+{
+  assert(pset->stype == SSET_BOOL);
+
+  if (!setting_bool_validate(pset, val, caller, reject_msg)) {
+    return FALSE;
+  }
+
+  *pset->bool_value = val;
+  return TRUE;
+}
+
+/****************************************************************************
+  Returns TRUE if 'val' is a valid value for this setting.  If it's not,
+  then reject_msg' argument will point to the reason.
+
+  FIXME: also check the access level of pconn.
+****************************************************************************/
+bool setting_bool_validate(const struct setting *pset, bool val,
+                           struct connection *caller,
+                           const char **reject_msg)
+{
+  assert(pset->stype == SSET_BOOL);
+  return (setting_is_changeable(pset, caller, reject_msg)
+          && (!pset->bool_validate
+              || pset->bool_validate(val, caller, reject_msg)));
+}
+
+/****************************************************************************
+  Returns the current integer value.
+****************************************************************************/
+int setting_int_get(const struct setting *pset)
+{
+  assert(pset->stype == SSET_INT);
+  return *pset->int_value;
+}
+
+/****************************************************************************
+  Returns the default integer value for this setting.
+****************************************************************************/
+int setting_int_def(const struct setting *pset)
+{
+  assert(pset->stype == SSET_INT);
+  return pset->int_default_value;
+}
+
+/****************************************************************************
+  Returns the minimal integer value for this setting.
+****************************************************************************/
+int setting_int_min(const struct setting *pset)
+{
+  assert(pset->stype == SSET_INT);
+  return pset->int_min_value;
+}
+
+/****************************************************************************
+  Returns the maximal integer value for this setting.
+****************************************************************************/
+int setting_int_max(const struct setting *pset)
+{
+  assert(pset->stype == SSET_INT);
+  return pset->int_max_value;
+}
+
+/****************************************************************************
+  Set the setting to 'val'.  Returns TRUE on success.  If it fails, then
+  the 'reject_msg' argument will point to the reason of the failure.
+****************************************************************************/
+bool setting_int_set(struct setting *pset, int val,
+                     struct connection *caller, const char **reject_msg)
+{
+  assert(pset->stype == SSET_INT);
+
+  if (!setting_int_validate(pset, val, caller, reject_msg)) {
+    return FALSE;
+  }
+
+  *pset->int_value = val;
+  return TRUE;
+}
+
+/****************************************************************************
+  Returns TRUE if 'val' is a valid value for this setting.  If it's not,
+  then reject_msg' argument will point to the reason.
+
+  FIXME: also check the access level of pconn.
+****************************************************************************/
+bool setting_int_validate(const struct setting *pset, int val,
+                          struct connection *caller, const char **reject_msg)
+{
+  assert(pset->stype == SSET_INT);
+
+  if (val < pset->int_min_value || val > pset->int_max_value) {
+    *reject_msg = _("Value out of range.");
+    return FALSE;
+  }
+
+  return (setting_is_changeable(pset, caller, reject_msg)
+          && (!pset->int_validate
+              || pset->int_validate(val, caller, reject_msg)));
+}
+
+/****************************************************************************
+  Returns the current string.
+****************************************************************************/
+const char *setting_str_get(const struct setting *pset)
+{
+  assert(pset->stype == SSET_STRING);
+  return pset->string_value;
+}
+
+/****************************************************************************
+  Returns the default string for this setting.
+****************************************************************************/
+const char *setting_str_def(const struct setting *pset)
+{
+  assert(pset->stype == SSET_STRING);
+  return pset->string_default_value;
+}
+
+/****************************************************************************
+  Set the setting to 'val'.  Returns TRUE on success.  If it fails, then
+  the 'reject_msg' argument will point to the reason of the failure.
+****************************************************************************/
+bool setting_str_set(struct setting *pset, const char *val,
+                     struct connection *caller, const char **reject_msg)
+{
+  assert(pset->stype == SSET_STRING);
+
+  if (!setting_str_validate(pset, val, caller, reject_msg)) {
+    return FALSE;
+  }
+
+  mystrlcpy(pset->string_value, val, pset->string_value_size);
+  return TRUE;
+}
+
+/****************************************************************************
+  Returns TRUE if 'val' is a valid value for this setting.  If it's not,
+  then reject_msg' argument will point to the reason.
+
+  FIXME: also check the access level of pconn.
+****************************************************************************/
+bool setting_str_validate(const struct setting *pset, const char *val,
+                          struct connection *caller, const char **reject_msg)
+{
+  assert(pset->stype == SSET_STRING);
+
+  if (strlen(val) > pset->string_value_size) {
+    *reject_msg = _("String value too long.");
+    return FALSE;
+  }
+
+  return (setting_is_changeable(pset, caller, reject_msg)
+          && (!pset->string_validate
+              || pset->string_validate(val, caller, reject_msg)));
+}
+
 /********************************************************************
   Update the setting to the default value
 *********************************************************************/
-static void setting_set_to_default(int idx)
+static void setting_set_to_default(struct setting *pset)
 {
-  struct settings_s *pset = &settings[idx];
-
   switch (pset->stype) {
-    case SSET_BOOL:
-      (*pset->bool_value) = pset->bool_default_value;
-      break;
-    case SSET_INT:
-      (*pset->int_value) = pset->int_default_value;
-      break;
-    case SSET_STRING:
-      mystrlcpy(pset->string_value, pset->string_default_value,
-                pset->string_value_size);
-      break;
+  case SSET_BOOL:
+    (*pset->bool_value) = pset->bool_default_value;
+    break;
+  case SSET_INT:
+    (*pset->int_value) = pset->int_default_value;
+    break;
+  case SSET_STRING:
+    mystrlcpy(pset->string_value, pset->string_default_value,
+              pset->string_value_size);
+    break;
   }
 
   /* FIXME: duplicates stdinhand.c:set_command() */
@@ -1194,11 +1479,9 @@ static void setting_set_to_default(int idx)
 **************************************************************************/
 void settings_init(void)
 {
-  int i;
-
-  for (i = 0; i < SETTINGS_NUM; i++) {
-    setting_set_to_default(i);
-  }
+  settings_iterate(pset) {
+    setting_set_to_default(pset);
+  } settings_iterate_end;
 }
 
 /********************************************************************
@@ -1206,13 +1489,11 @@ void settings_init(void)
 *********************************************************************/
 void settings_reset(void)
 {
-  int i;
-
-  for (i = 0; i < SETTINGS_NUM; i++) {
-    if (setting_is_changeable(i)) {
-      setting_set_to_default(i);
+  settings_iterate(pset) {
+    if (setting_is_changeable(pset, NULL, NULL)) {
+      setting_set_to_default(pset);
     }
-  }
+  } settings_iterate_end;
 }
 
 /**************************************************************************
@@ -1230,4 +1511,83 @@ void settings_turn(void)
 void settings_free(void)
 {
   /* Nothing at the moment. */
+}
+
+/****************************************************************************
+  Tell the client about just one server setting.  Call this after a setting
+  is saved.
+****************************************************************************/
+void send_server_setting(struct conn_list *dest, const struct setting *pset)
+{
+  struct packet_options_settable packet;
+
+  if (!dest) {
+    dest = game.est_connections;
+  }
+
+  conn_list_iterate(dest, pconn) {
+    memset(&packet, 0, sizeof(packet));
+
+    packet.id = setting_number(pset);
+    sz_strlcpy(packet.name, setting_name(pset));
+    sz_strlcpy(packet.short_help, setting_short_help(pset));
+    sz_strlcpy(packet.extra_help, setting_extra_help(pset));
+
+    packet.stype = setting_type(pset);
+    packet.scategory = pset->scategory;
+    packet.sclass = pset->sclass;
+    packet.is_visible = setting_is_visible(pset, pconn);
+
+    if (packet.is_visible) {
+      switch (packet.stype) {
+      case SSET_BOOL:
+        packet.min = FALSE;
+        packet.max = TRUE;
+        packet.val = setting_bool_get(pset);
+        packet.default_val = setting_bool_def(pset);
+        break;
+      case SSET_INT:
+        packet.min = setting_int_min(pset);
+        packet.max = setting_int_max(pset);
+        packet.val = setting_int_get(pset);
+        packet.default_val = setting_int_def(pset);
+        break;
+      case SSET_STRING:
+        sz_strlcpy(packet.strval, setting_str_get(pset));
+        sz_strlcpy(packet.default_strval, setting_str_def(pset));
+        break;
+      };
+    }
+
+    send_packet_options_settable(pconn, &packet);
+  } conn_list_iterate_end;
+}
+
+/****************************************************************************
+  Tell the client about all server settings.
+****************************************************************************/
+void send_server_settings(struct conn_list *dest)
+{
+  struct packet_options_settable_control control;
+  int i;
+
+  if (!dest) {
+    dest = game.est_connections;
+  }
+
+  /* count the number of settings */
+  control.num_settings = SETTINGS_NUM;
+
+  /* fill in the category strings */
+  control.num_categories = SSET_NUM_CATEGORIES;
+  for (i = 0; i < SSET_NUM_CATEGORIES; i++) {
+    strcpy(control.category_names[i], sset_category_names[i]);
+  }
+
+  /* send off the control packet */
+  lsend_packet_options_settable_control(dest, &control);
+
+  settings_iterate(pset) {
+    send_server_setting(dest, pset);
+  } settings_iterate_end;
 }

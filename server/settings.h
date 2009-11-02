@@ -61,7 +61,7 @@ typedef bool (*string_validate_func_t)(const char * value,
                                        struct connection *pconn,
                                        const char **reject_message);
 
-struct settings_s {
+struct setting {
   const char *name;
   enum sset_class sclass;
   bool to_client;
@@ -107,14 +107,69 @@ struct settings_s {
   size_t string_value_size;	/* max size we can write into string_value */
 };
 
-extern struct settings_s settings[];
 extern const int SETTINGS_NUM;
 
-bool setting_is_changeable(int setting_id);
+struct setting *setting_by_number(int id);
+int setting_number(const struct setting *pset);
+
+const char *setting_name(const struct setting *pset);
+const char *setting_short_help(const struct setting *pset);
+const char *setting_extra_help(const struct setting *pset);
+enum sset_type setting_type(const struct setting *pset);
+enum sset_level setting_level(const struct setting *pset);
+
+const char *setting_category_name(const struct setting *pset);
+const char *setting_level_name(const struct setting *pset);
+
+bool setting_is_changeable(const struct setting *pset,
+                           struct connection *caller,
+                           const char **reject_msg);
+bool setting_is_visible(const struct setting *pset,
+                        struct connection *caller);
+
+bool setting_bool_get(const struct setting *pset);
+bool setting_bool_def(const struct setting *pset);
+bool setting_bool_set(struct setting *pset, bool val,
+                      struct connection *caller, const char **reject_msg);
+bool setting_bool_validate(const struct setting *pset, bool val,
+                           struct connection *caller,
+                           const char **reject_msg);
+
+int setting_int_get(const struct setting *pset);
+int setting_int_def(const struct setting *pset);
+int setting_int_min(const struct setting *pset);
+int setting_int_max(const struct setting *pset);
+bool setting_int_set(struct setting *pset, int val,
+                     struct connection *caller, const char **reject_msg);
+bool setting_int_validate(const struct setting *pset, int val,
+                          struct connection *caller,
+                          const char **reject_msg);
+
+const char *setting_str_get(const struct setting *pset);
+const char *setting_str_def(const struct setting *pset);
+bool setting_str_set(struct setting *pset, const char *val,
+                     struct connection *caller, const char **reject_msg);
+bool setting_str_validate(const struct setting *pset, const char *val,
+                          struct connection *caller,
+                          const char **reject_msg);
+
+/* iterate over all settings */
+#define settings_iterate(_pset)                                            \
+{                                                                          \
+  int id;                                                                  \
+  for (id = 0; id < SETTINGS_NUM; id++) {                                  \
+    struct setting *_pset = setting_by_number(id);
+
+#define settings_iterate_end                                               \
+  }                                                                        \
+}
 
 void settings_init(void);
 void settings_reset(void);
 void settings_turn(void);
 void settings_free(void);
+
+void send_server_settings(struct conn_list *dest);
+void send_server_setting(struct conn_list *dest, const struct setting *pset);
 
 #endif				/* FC__SETTINGS_H */

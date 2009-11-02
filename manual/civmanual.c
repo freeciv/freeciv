@@ -21,6 +21,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* utility */
+#include "capability.h"
 #include "fciconv.h"
 #include "fcintl.h"
 #include "log.h"
@@ -29,7 +31,8 @@
 #include "shared.h"
 #include "support.h"
 
-#include "capability.h"
+/* common */
+#include "connection.h"
 #include "events.h"
 #include "game.h"
 #include "improvement.h"
@@ -37,10 +40,13 @@
 #include "player.h"
 #include "version.h"
 
+/* client */
 #include "helpdata.h"
 #include "helpdlg_g.h"
 
+/* server */
 #include "citytools.h"
+#include "commands.h"
 #include "connecthand.h"
 #include "console.h"
 #include "diplhand.h"
@@ -49,11 +55,9 @@
 #include "report.h"
 #include "ruleset.h"
 #include "savegame.h"
-#include "srv_main.h"
-
-#include "stdinhand.h"
-#include "commands.h"
 #include "settings.h"
+#include "srv_main.h"
+#include "stdinhand.h"
 
 enum manuals {
   MANUAL_SETTINGS,
@@ -106,6 +110,11 @@ static bool manual_command(void)
   FILE *doc;
   char filename[40];
   enum manuals manuals;
+  struct connection my_conn;
+
+  /* Default client access. */
+  connection_common_init(&my_conn);
+  my_conn.access_level = ALLOW_CTRL;
 
   /* Reset aifill to zero */
   game.info.aifill = 0;
@@ -126,59 +135,53 @@ static bool manual_command(void)
     switch (manuals) {
     case MANUAL_SETTINGS:
       fprintf(doc, _("<h1>Freeciv %s server options</h1>\n\n"), VERSION_STRING);
-      for (i = 0; settings[i].name; i++) {
-        struct settings_s *op = &settings[i];
-        const char *help = _(op->extra_help);
+      settings_iterate(pset) {
+        const char *help = _(setting_extra_help(pset));
 
         fprintf(doc, SEPARATOR);
-        fprintf(doc, "%s%s - %s%s\n\n", SECTION_BEGIN, op->name,
-                _(op->short_help), SECTION_END);
-        if (strlen(op->extra_help) > 0) {
+        fprintf(doc, "%s%s - %s%s\n\n", SECTION_BEGIN, setting_name(pset),
+                _(setting_short_help(pset)), SECTION_END);
+        if (strlen(setting_extra_help(pset)) > 0) {
           fprintf(doc, "<pre>%s</pre>\n\n", help);
         }
         fprintf(doc, "<p class=\"misc\">");
-        fprintf(doc, _("Level: %s.<br>"), _(sset_level_names[op->slevel]));
-        fprintf(doc, _("Category: %s.<br>"),
-                _(sset_category_names[op->scategory]));
-        if (op->to_client == SSET_SERVER_ONLY) {
+        fprintf(doc, _("Level: %s.<br>"), _(setting_level_name(pset)));
+        fprintf(doc, _("Category: %s.<br>"), _(setting_category_name(pset)));
+        
+        if (!setting_is_changeable(pset, &my_conn, NULL)) {
           fprintf(doc, _("Can only be used in server console. "));
         }
-        if (setting_is_changeable(i)) {
-          fprintf(doc, _("Can be changed during a game. "));
-        } else {
-          fprintf(doc, _("Can <b>not</b> be changed during a game. "));
-        }
         fprintf(doc, "</p>\n\n");
-        switch (op->stype) {
+        switch (setting_type(pset)) {
         case SSET_BOOL:
-          fprintf(doc, _("<p class=\"bounds\">Minimum: 0, Default: %d, "
-                         "Maximum: 1</p>\n\n"),
-                  op->bool_default_value ? 1 : 0);
-          if (*(op->bool_value) != op->bool_default_value) {
+          fprintf(doc, "<p class=\"bounds\">%s 0, %s %d, %s 1</p>\n\n",
+                  _("Minimum:"), _("Default:"),
+                  setting_bool_def(pset) ? 1 : 0, _("Maximum:"));
+          if (setting_bool_get(pset) != setting_bool_def(pset)) {
             fprintf(doc, _("<p class=\"changed\">Value set to %d</p>\n\n"),
-                    *(op->bool_value));
+                    setting_bool_get(pset) ? 1 : 0);
           }
           break;
         case SSET_INT:
-          fprintf(doc, _("<p class=\"bounds\">Minimum: %d, Default: %d, "
-                         "Maximum: %d</p>\n\n"),
-                  op->int_min_value, op->int_default_value,
-                  op->int_max_value);
-          if (*(op->int_value) != op->int_default_value) {
+          fprintf(doc, "<p class=\"bounds\">%s %d, %s %d, %s %d</p>\n\n",
+                  _("Minimum:"), setting_int_min(pset),
+                  _("Default:"), setting_int_def(pset),
+                  _("Maximum:"), setting_int_max(pset));
+          if (setting_int_get(pset) != setting_int_def(pset)) {
             fprintf(doc, _("<p class=\"changed\">Value set to %d</p>\n\n"),
-                    *(op->int_value));
+                    setting_int_get(pset));
           }
           break;
         case SSET_STRING:
-          fprintf(doc, _("<p class=\"bounds\">Default: \"%s\"</p>\n\n"),
-                  op->string_default_value);
-          if (strcmp(op->string_value, op->string_default_value) != 0) {
+          fprintf(doc, "<p class=\"bounds\">%s \"%s\"</p>\n\n",
+                  _("Default:"), setting_str_def(pset));
+          if (strcmp(setting_str_get(pset), setting_str_def(pset)) != 0) {
             fprintf(doc, _("<p class=\"changed\">Value set to %s</p>\n\n"),
-                    op->string_value);
+                    setting_str_get(pset));
           }
           break;
         }
-      }
+      } settings_iterate_end;
       break;
 
     case MANUAL_COMMANDS:

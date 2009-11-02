@@ -120,17 +120,6 @@ static bool is_restricted(struct connection *caller)
   return (caller && caller->access_level != ALLOW_HACK);
 }
 
-/********************************************************************
-Returns whether the specified server setting (option) should be
-sent to the client.
-*********************************************************************/
-static bool sset_is_to_client(int idx)
-{
-  assert(settings[idx].to_client == SSET_TO_CLIENT
-	 || settings[idx].to_client == SSET_SERVER_ONLY);
-  return (settings[idx].to_client == SSET_TO_CLIENT);
-}
-
 typedef enum {
     PNameOk,
     PNameEmpty,
@@ -230,48 +219,6 @@ static bool may_use_nothing(struct connection *caller)
     return FALSE;  /* on the console, everything is allowed */
   }
   return (caller->access_level == ALLOW_NONE);
-}
-
-/**************************************************************************
-  Whether the caller can set the specified option (assuming that
-  the state of the game would allow changing the option at all).
-  caller == NULL means console.
-**************************************************************************/
-static bool may_set_option(struct connection *caller, int option_idx)
-{
-  if (!caller) {
-    return TRUE;  /* on the console, everything is allowed */
-  } else {
-    int level = caller->access_level;
-    return ((level == ALLOW_HACK)
-	    || (level == ALLOW_CTRL && sset_is_to_client(option_idx)));
-  }
-}
-
-/**************************************************************************
-  Whether the caller can set the specified option, taking into account
-  access, and the game state.  caller == NULL means console.
-**************************************************************************/
-static bool may_set_option_now(struct connection *caller, int option_idx)
-{
-  return (may_set_option(caller, option_idx)
-	  && setting_is_changeable(option_idx));
-}
-
-/**************************************************************************
-  Whether the caller can SEE the specified option.
-  caller == NULL means console, which can see all.
-  client players can see "to client" options, or if player
-  has command access level to change option.
-**************************************************************************/
-static bool may_view_option(struct connection *caller, int option_idx)
-{
-  if (!caller) {
-    return TRUE;  /* on the console, everything is allowed */
-  } else {
-    return sset_is_to_client(option_idx)
-      || may_set_option(caller, option_idx);
-  }
 }
 
 /**************************************************************************
@@ -1043,9 +990,6 @@ static void write_init_script(char *script_filename)
 
   if (is_reg_file_for_access(real_filename, TRUE)
       && (script_file = fopen(real_filename, "w"))) {
-
-    int i;
-
     fprintf(script_file,
 	"#FREECIV SERVER COMMAND FILE, version %s\n", VERSION_STRING);
     fputs("# These are server options saved from a running civserver.\n",
@@ -1076,22 +1020,22 @@ static void write_init_script(char *script_filename)
 
     /* then, the 'set' option settings */
 
-    for (i=0;settings[i].name;i++) {
-      struct settings_s *op = &settings[i];
-
-      switch (op->stype) {
+    settings_iterate(pset) {
+      switch (setting_type(pset)) {
       case SSET_BOOL:
-	fprintf(script_file, "set %s %i\n", op->name,
-		(*op->bool_value) ? 1 : 0);
-	break;
+        fprintf(script_file, "set %s %d\n", setting_name(pset),
+                setting_bool_get(pset) ? 1 : 0);
+        break;
       case SSET_INT:
-	fprintf(script_file, "set %s %i\n", op->name, *op->int_value);
-	break;
+        fprintf(script_file, "set %s %d\n", setting_name(pset),
+                setting_int_get(pset));
+        break;
       case SSET_STRING:
-	fprintf(script_file, "set %s %s\n", op->name, op->string_value);
-	break;
+        fprintf(script_file, "set %s %s\n", setting_name(pset),
+                setting_str_get(pset));
+        break;
       }
-    }
+    } settings_iterate_end;
 
     /* rulesetdir */
     fprintf(script_file, "rulesetdir %s\n", game.server.rulesetdir);
@@ -1372,7 +1316,7 @@ static bool firstlevel_command(struct connection *caller, bool check)
 **************************************************************************/
 static const char *optname_accessor(int i)
 {
-  return settings[i].name;
+  return setting_name(setting_by_number(i));
 }
 
 #if defined HAVE_LIBREADLINE || defined HAVE_NEWLIBREADLINE
@@ -1385,7 +1329,7 @@ static const char *olvlname_accessor(int i)
   if (i < OLEVELS_NUM) {
     return sset_level_names[i];
   } else {
-    return settings[i-OLEVELS_NUM].name;
+    return optname_accessor(i-OLEVELS_NUM);
   }
 }
 #endif
@@ -1480,49 +1424,49 @@ static void show_help_option(struct connection *caller,
 			     enum command_id help_cmd,
 			     int id)
 {
-  struct settings_s *op = &settings[id];
+  struct setting *pset = setting_by_number(id);
 
-  if (op->short_help) {
+  if (setting_short_help(pset)) {
     cmd_reply(help_cmd, caller, C_COMMENT,
-	      /* TRANS: <untranslated name> - translated short help */
-	      _("Option: %s  -  %s"),
-	      op->name,
-	      _(op->short_help));
+              /* TRANS: <untranslated name> - translated short help */
+              _("Option: %s  -  %s"), setting_name(pset),
+              _(setting_short_help(pset)));
   } else {
     cmd_reply(help_cmd, caller, C_COMMENT,
-	      /* TRANS: <untranslated name> */
-	      _("Option: %s"),
-	      op->name);
+              /* TRANS: <untranslated name> */
+              _("Option: %s"), setting_name(pset));
   }
 
-  if(op->extra_help && strcmp(op->extra_help,"")!=0) {
-    const char *help = _(op->extra_help);
+  if(setting_extra_help(pset) && strcmp(setting_extra_help(pset),"")!=0) {
+    const char *help = _(setting_extra_help(pset));
 
     cmd_reply(help_cmd, caller, C_COMMENT, _("Description:"));
     cmd_reply_prefix(help_cmd, caller, C_COMMENT,
 		     "  ", "  %s", help);
   }
   cmd_reply(help_cmd, caller, C_COMMENT,
-	    _("Status: %s"), (setting_is_changeable(id)
-				  ? _("changeable") : _("fixed")));
-  
-  if (may_view_option(caller, id)) {
-    switch (op->stype) {
+            _("Status: %s"), (setting_is_changeable(pset, NULL, NULL)
+                              ? _("changeable") : _("fixed")));
+
+  if (setting_is_visible(pset, caller)) {
+    switch (setting_type(pset)) {
     case SSET_BOOL:
-      cmd_reply(help_cmd, caller, C_COMMENT,
-		_("Value: %d, Minimum: 0, Default: %d, Maximum: 1"),
-		(*(op->bool_value)) ? 1 : 0, op->bool_default_value ? 1 : 0);
+      cmd_reply(help_cmd, caller, C_COMMENT, "%s %d, %s 0, %s %d, %s 1",
+                _("Value:"), setting_bool_get(pset) ? 1 : 0,
+                _("Minimum:"), _("Default:"),
+                setting_bool_def(pset) ? 1 : 0, _("Maximum:"));
       break;
     case SSET_INT:
-      cmd_reply(help_cmd, caller, C_COMMENT,
-		_("Value: %d, Minimum: %d, Default: %d, Maximum: %d"),
-		*(op->int_value), op->int_min_value, op->int_default_value,
-		op->int_max_value);
+      cmd_reply(help_cmd, caller, C_COMMENT, "%s %d, %s %d, %s %d, %s %d",
+                _("Value:"), setting_int_get(pset),
+                _("Minimum:"), setting_int_min(pset),
+                _("Default:"), setting_int_def(pset),
+                _("Maximum:"), setting_int_max(pset));
       break;
     case SSET_STRING:
-      cmd_reply(help_cmd, caller, C_COMMENT,
-		_("Value: \"%s\", Default: \"%s\""), op->string_value,
-		op->string_default_value);
+      cmd_reply(help_cmd, caller, C_COMMENT, "%s \"%s\", %s \"%s\"",
+                _("Value:"), setting_str_get(pset),
+                _("Default:"), setting_str_def(pset));
       break;
     }
   }
@@ -1536,28 +1480,29 @@ static void show_help_option(struct connection *caller,
 static void show_help_option_list(struct connection *caller,
 				  enum command_id help_cmd)
 {
-  int i, j;
-  
   cmd_reply(help_cmd, caller, C_COMMENT, horiz_line);
   cmd_reply(help_cmd, caller, C_COMMENT,
 	    _("Explanations are available for the following server options:"));
   cmd_reply(help_cmd, caller, C_COMMENT, horiz_line);
   if(!caller && con_get_style()) {
-    for (i=0; settings[i].name; i++) {
-      cmd_reply(help_cmd, caller, C_COMMENT, "%s", settings[i].name);
-    }
+    settings_iterate(pset) {
+      cmd_reply(help_cmd, caller, C_COMMENT, "%s", setting_name(pset));
+    } settings_iterate_end
   } else {
     char buf[MAX_LEN_CONSOLE_LINE];
     buf[0] = '\0';
-    for (i=0, j=0; settings[i].name; i++) {
-      if (may_view_option(caller, i)) {
-	cat_snprintf(buf, sizeof(buf), "%-19s", settings[i].name);
-	if ((++j % 4) == 0) {
-	  cmd_reply(help_cmd, caller, C_COMMENT, "%s", buf);
-	  buf[0] = '\0';
-	}
+
+    settings_iterate(pset) {
+      int j = 0;
+      if (setting_is_visible(pset, caller)) {
+        cat_snprintf(buf, sizeof(buf), "%-19s", setting_name(pset));
+        if ((++j % 4) == 0) {
+          cmd_reply(help_cmd, caller, C_COMMENT, "%s", buf);
+          buf[0] = '\0';
+        }
       }
-    }
+    } settings_iterate_end;
+
     if (buf[0] != '\0') {
       cmd_reply(help_cmd, caller, C_COMMENT, "%s", buf);
     }
@@ -1646,89 +1591,6 @@ static bool connectmsg_command(struct connection *caller, char *str,
     }
   }
   return TRUE;
-}
-
-/****************************************************************************
-  Tell the client about just one server setting.  Call this after a setting
-  is saved.
-****************************************************************************/
-static void send_server_setting(struct conn_list *dest, int setting_id)
-{
-  struct packet_options_settable packet;
-  struct settings_s *setting = &settings[setting_id];
-
-  if (!dest) {
-    dest = game.est_connections;
-  }
-
-  conn_list_iterate(dest, pconn) {
-    memset(&packet, 0, sizeof(packet));
-
-    packet.id = setting_id;
-    sz_strlcpy(packet.name, setting->name);
-    sz_strlcpy(packet.short_help, setting->short_help);
-    sz_strlcpy(packet.extra_help, setting->extra_help);
-
-    packet.stype = setting->stype;
-    packet.scategory = setting->scategory;
-    packet.sclass = setting->sclass;
-    packet.is_visible = (sset_is_to_client(setting_id)
-			 || pconn->access_level == ALLOW_HACK);
-
-    if (packet.is_visible) {
-      switch (setting->stype) {
-      case SSET_BOOL:
-	packet.min = FALSE;
-	packet.max = TRUE;
-	packet.val = *(setting->bool_value);
-	packet.default_val = setting->bool_default_value;
-	break;
-      case SSET_INT:
-	packet.min = setting->int_min_value;
-	packet.max = setting->int_max_value;
-	packet.val = *(setting->int_value);
-	packet.default_val = setting->int_default_value;
-	break;
-      case SSET_STRING:
-	sz_strlcpy(packet.strval, setting->string_value);
-	sz_strlcpy(packet.default_strval, setting->string_default_value);
-	break;
-      };
-    }
-
-    packet.initial_setting = game.info.is_new_game;
-
-    send_packet_options_settable(pconn, &packet);
-  } conn_list_iterate_end;
-}
-
-/****************************************************************************
-  Tell the client about all server settings.
-****************************************************************************/
-void send_server_settings(struct conn_list *dest)
-{
-  struct packet_options_settable_control control;
-  int i;
-
-  if (!dest) {
-    dest = game.est_connections;
-  }
-
-  /* count the number of settings */
-  control.num_settings = SETTINGS_NUM;
-
-  /* fill in the category strings */
-  control.num_categories = SSET_NUM_CATEGORIES;
-  for (i = 0; i < SSET_NUM_CATEGORIES; i++) {
-    strcpy(control.category_names[i], sset_category_names[i]);
-  }
-
-  /* send off the control packet */
-  lsend_packet_options_settable_control(dest, &control);
-
-  for (i = 0; i < SETTINGS_NUM; i++) {
-    send_server_setting(dest, i);
-  }
 }
 
 /******************************************************************
@@ -1891,7 +1753,7 @@ static bool show_command(struct connection *caller, char *str, bool check)
   char buf[MAX_LEN_CONSOLE_LINE], value[MAX_LEN_CONSOLE_LINE];
   char command[MAX_LEN_CONSOLE_LINE], *cptr_s, *cptr_d;
   bool is_changed;
-  int cmd,i,len1;
+  int cmd, len1;
   enum sset_level level = SSET_VITAL;
   size_t clen = 0;
 
@@ -1910,7 +1772,7 @@ static bool show_command(struct connection *caller, char *str, bool check)
       /* Ignore levels when a particular option is specified. */
       level = SSET_NONE;
 
-      if (!may_view_option(caller, cmd)) {
+      if (!setting_is_visible(setting_by_number(cmd), caller)) {
         cmd_reply(CMD_SHOW, caller, C_FAIL,
 		  _("Sorry, you do not have access to view option '%s'."),
 		  command);
@@ -1972,22 +1834,23 @@ static bool show_command(struct connection *caller, char *str, bool check)
 
   buf[0] = '\0';
 
-  for (i = 0; settings[i].name; i++) {
+  settings_iterate(pset) {
     is_changed = FALSE;
-    if (may_view_option(caller, i)
-	&& (cmd == -1 || cmd == -3 || level == SSET_CHANGED || cmd == i 
-	|| (cmd == -2 && mystrncasecmp(settings[i].name, command, clen) == 0))) {
+    if (setting_is_visible(pset, caller)
+        && (cmd == -1 || cmd == -3 || level == SSET_CHANGED
+            || cmd == setting_number(pset)
+        || (cmd == -2
+            && mystrncasecmp(setting_name(pset), command, clen) == 0))) {
       /* in the cmd==i case, this loop is inefficient. never mind - rp */
-      struct settings_s *op = &settings[i];
       int len, feature_len = 0;
- 
-      if ((level == SSET_ALL || op->slevel == level || cmd >= 0 
-          || level == SSET_CHANGED))  {
-        switch (op->stype) {
-        case SSET_BOOL: 
-	  is_changed = (*op->bool_value != op->bool_default_value);
+
+      if (level == SSET_ALL || setting_level(pset) == level || cmd >= 0 
+          || level == SSET_CHANGED)  {
+        switch (setting_type(pset)) {
+        case SSET_BOOL:
+          is_changed = (setting_bool_get(pset) != setting_bool_def(pset));
           len = my_snprintf(value, sizeof(value), "%-5d (0,1)",
-                            (*op->bool_value) ? 1 : 0);
+                            (setting_bool_get(pset)) ? 1 : 0);
           if (is_changed) {
             /* Emphasizes the changed option. */
             feature_len = featured_text_apply_tag(value, buf, sizeof(buf),
@@ -1995,13 +1858,12 @@ static bool show_command(struct connection *caller, char *str, bool check)
                                                   ftc_changed) - len;
             sz_strlcpy(value, buf);
           }
-	  break;
-
-        case SSET_INT: 
-	  is_changed = (*op->int_value != op->int_default_value);
+          break;
+        case SSET_INT:
+          is_changed = (setting_int_get(pset) != setting_int_def(pset));
           len = my_snprintf(value, sizeof(value), "%-5d (%d,%d)",
-                            *op->int_value, op->int_min_value,
-                            op->int_max_value);
+                            setting_int_get(pset), setting_int_min(pset),
+                            setting_int_max(pset));
           if (is_changed) {
             /* Emphasizes the changed option. */
             feature_len = featured_text_apply_tag(value, buf, sizeof(buf),
@@ -2009,12 +1871,11 @@ static bool show_command(struct connection *caller, char *str, bool check)
                                                   ftc_changed) - len;
             sz_strlcpy(value, buf);
           }
-	  break;
-
+          break;
         case SSET_STRING:
-	  is_changed = (0 != strcmp(op->string_value, op->string_default_value));
+          is_changed = strcmp(setting_str_get(pset), setting_str_def(pset));
           len = my_snprintf(value, sizeof(value), "\"%s\"",
-                            op->string_value);
+                            setting_str_get(pset));
           if (is_changed) {
             /* Emphasizes the changed option. */
             feature_len = featured_text_apply_tag(value, buf, sizeof(buf),
@@ -2022,12 +1883,14 @@ static bool show_command(struct connection *caller, char *str, bool check)
                                                   ftc_changed) - len;
             sz_strlcpy(value, buf);
           }
-	  break;
+          break;
         }
 
         len = my_snprintf(buf, sizeof(buf),
-                          "%-*s %c%c%s", OPTION_NAME_SPACE, op->name,
-                          may_set_option_now(caller, i) ? '+' : ' ',
+                          "%-*s %c%c%s", OPTION_NAME_SPACE,
+                          setting_name(pset),
+                          setting_is_changeable(pset, caller, NULL)
+                          ? '+' : ' ',
                           is_changed ? ' ' : '=', value) - feature_len;
 
         if (len == -1) {
@@ -2039,13 +1902,13 @@ static bool show_command(struct connection *caller, char *str, bool check)
         } else {
           sz_strlcat(buf, " ");
         }
-        sz_strlcat(buf, _(op->short_help));
+        sz_strlcat(buf, _(setting_short_help(pset)));
         if ((is_changed) || (level != SSET_CHANGED)) {
-	  cmd_reply_show(buf);
-	}
+          cmd_reply_show(buf);
+        }
       }
     }
-  }
+  } settings_iterate_end;
   cmd_reply_show(horiz_line);
   if (level == SSET_VITAL) {
     cmd_reply_show(_("Try 'show situational' or 'show rare' to show "
@@ -2579,157 +2442,159 @@ static bool debug_command(struct connection *caller, char *str,
 ******************************************************************/
 static bool set_command(struct connection *caller, char *str, bool check)
 {
-  char *args[2], *arg;
+  char *args[2];
   int val, cmd, i, nargs;
-  struct settings_s *op;
+  struct setting *pset;
   bool do_update;
   char buffer[500];
+  const char *reject_msg = NULL;
   bool ret = FALSE;
 
   /* '=' is also a valid delimiter for this function. */
   nargs = get_tokens(str, args, ARRAY_SIZE(args), TOKEN_DELIMITERS "=");
 
-  if (nargs < 2 || -1 == (cmd = lookup_option(args[0]))) {
+  if (nargs < 2) {
     cmd_reply(CMD_SET, caller, C_SYNTAX,
               _("Undefined argument.  Usage:\n%s"),
               _(command_synopsis(command_by_number(CMD_SET))));
+    goto cleanup;
+  }
+
+  cmd = lookup_option(args[0]);
+  if (-1 == cmd) {
+    cmd_reply(CMD_SET, caller, C_SYNTAX,
+              _("Option '%s' not recognized."), args[0]);
     goto cleanup;
   }
   if (-2 == cmd) {
     cmd_reply(CMD_SET, caller, C_SYNTAX, _("Ambiguous option name."));
     goto cleanup;
   }
-  if (!may_set_option(caller,cmd) && !check) {
-     cmd_reply(CMD_SET, caller, C_FAIL,
-               _("You are not allowed to set this option."));
-    goto cleanup;
-  }
-  if (!setting_is_changeable(cmd)) {
-    cmd_reply(CMD_SET, caller, C_BOUNCE,
-              _("This setting can't be modified after the game has started."));
-    goto cleanup;
-  }
 
-  arg = args[1];
-  op = &settings[cmd];
+  pset = setting_by_number(cmd);
+
+  if (!setting_is_changeable(pset, caller, &reject_msg) && !check) {
+    cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
+    goto cleanup;
+  }
 
   do_update = FALSE;
   buffer[0] = '\0';
 
-  switch (op->stype) {
+  switch (setting_type(pset)) {
   case SSET_BOOL:
-    if (sscanf(arg, "%d", &val) != 1) {
+    if (sscanf(args[1], "%d", &val) != 1) {
       cmd_reply(CMD_SET, caller, C_SYNTAX, _("Value must be an integer."));
       goto cleanup;
     }
     /* make sure the input string only contains digits */
     for (i = 0;; i++) {
-      if (arg[i] == '\0' ) {
+      if (args[1][i] == '\0' ) {
         break;
       }
-      if (arg[i] < '0' || arg[i] > '1') {
+      if (args[1][i] < '0' || args[1][i] > '1') {
         cmd_reply(CMD_SET, caller, C_SYNTAX,
                   _("The parameter %s should only contain digits 0-1."),
-                  op->name);
+                  setting_name(pset));
         goto cleanup;
       }
     }
     if (val != 0 && val != 1) {
       cmd_reply(CMD_SET, caller, C_SYNTAX,
-		_("Value out of range (minimum: 0, maximum: 1)."));
+                _("Value out of range (minimum: 0, maximum: 1)."));
       goto cleanup;
     } else {
-      const char *reject_message = NULL;
-      bool b_val = (val != 0);
-
-      if (op->bool_validate != NULL
-          && !op->bool_validate(b_val, caller, &reject_message)) {
-        cmd_reply(CMD_SET, caller, C_SYNTAX, "%s", reject_message);
-        goto cleanup;
-      }
-
-      if (!check) {
-	*(op->bool_value) = b_val;
-	my_snprintf(buffer, sizeof(buffer),
-		    _("Option: %s has been set to %d."), op->name,
-		    *(op->bool_value) ? 1 : 0);
-	do_update = TRUE;
+      if (check) {
+        if (!setting_bool_validate(pset, val != 0, caller, &reject_msg)) {
+          cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
+          goto cleanup;
+        }
+      } else {
+        if (setting_bool_set(pset, val != 0, caller, &reject_msg)) {
+          my_snprintf(buffer, sizeof(buffer),
+                      _("Option: %s has been set to %d."),
+                      setting_name(pset), setting_bool_get(pset) ? 1 : 0);
+          do_update = TRUE;
+        } else {
+          cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
+          goto cleanup;
+        }
       }
     }
     break;
 
   case SSET_INT:
-    if (sscanf(arg, "%d", &val) != 1) {
+    if (sscanf(args[1], "%d", &val) != 1) {
       cmd_reply(CMD_SET, caller, C_SYNTAX, _("Value must be an integer."));
       goto cleanup;
     }
-	/* make sure the input string only contains digits */
+    /* make sure the input string only contains digits */
     for (i = 0;; i++) {
-      if (arg[i] == '\0' ) {
+      if (args[1][i] == '\0' ) {
         break;
       }
-      if ((arg[i] < '0' || arg[i] > '9')
-	  && (i != 0 || (arg[i] != '-' && arg[i] != '+'))) {
+      if ((args[1][i] < '0' || args[1][i] > '9')
+          && (i != 0 || (args[1][i] != '-' && args[1][i] != '+'))) {
         cmd_reply(CMD_SET, caller, C_SYNTAX,
                   _("The parameter %s should only contain +- and 0-9."),
-                  op->name);
+                  setting_name(pset));
         goto cleanup;
       }
     }
-    if (val < op->int_min_value || val > op->int_max_value) {
+    if (val < setting_int_min(pset) || val > setting_int_max(pset)) {
       cmd_reply(CMD_SET, caller, C_SYNTAX,
-		_("Value out of range (minimum: %d, maximum: %d)."),
-		op->int_min_value, op->int_max_value);
+                _("Value out of range (minimum: %d, maximum: %d)."),
+                setting_int_min(pset), setting_int_max(pset));
       goto cleanup;
     } else {
-      const char *reject_message = NULL;
-
-      if (op->int_validate != NULL
-          && !op->int_validate(val, caller, &reject_message)) {
-        cmd_reply(CMD_SET, caller, C_SYNTAX, "%s", reject_message);
-        goto cleanup;
-      }
-
-      if (!check) {
-	*(op->int_value) = val;
-	my_snprintf(buffer, sizeof(buffer),
-		    _("Option: %s has been set to %d."), op->name,
-		    *(op->int_value));
-	do_update = TRUE;
+      if (check) {
+        if (!setting_int_validate(pset, val, caller, &reject_msg)) {
+          cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
+          goto cleanup;
+        }
+      } else {
+        if (setting_int_set(pset, val, caller, &reject_msg)) {
+          my_snprintf(buffer, sizeof(buffer),
+                      _("Option: %s has been set to %d."),
+                      setting_name(pset), setting_int_get(pset));
+          do_update = TRUE;
+        } else {
+          cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
+          goto cleanup;
+        }
       }
     }
     break;
 
   case SSET_STRING:
-    if (strlen(arg) >= op->string_value_size) {
-      cmd_reply(CMD_SET, caller, C_SYNTAX,
-                _("String value too long.  Usage:\n%s"),
-                _(command_synopsis(command_by_number(CMD_SET))));
-      goto cleanup;
-    } else {
-      const char *reject_message = NULL;
-
-      if (op->string_validate
-          && !op->string_validate(arg, caller, &reject_message)) {
-        cmd_reply(CMD_SET, caller, C_SYNTAX, "%s", reject_message);
+    if (check) {
+      if (!setting_str_validate(pset, args[1], caller, &reject_msg)) {
+        cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
         goto cleanup;
       }
-
-      if (!check) {
-	strcpy(op->string_value, arg);
-	my_snprintf(buffer, sizeof(buffer),
-		    _("Option: %s has been set to \"%s\"."), op->name,
-		    op->string_value);
-	do_update = TRUE;
+    } else {
+      if (setting_str_set(pset, args[1], caller, &reject_msg)) {
+        my_snprintf(buffer, sizeof(buffer),
+                    _("Option: %s has been set to \"%s\"."),
+                    setting_name(pset), setting_str_get(pset));
+        do_update = TRUE;
+      } else {
+        cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
+        goto cleanup;
       }
     }
     break;
   }
 
-  ret = TRUE;   /* Looks a success. */
+  ret = TRUE;   /* Looks like a success. */
 
-  if (!check && strlen(buffer) > 0 && sset_is_to_client(cmd)) {
-    notify_conn(NULL, NULL, E_SETTING, ftc_server, "%s", buffer);
+  if (!check && strlen(buffer) > 0) {
+    /* Send only to connections able to see that. */
+    conn_list_iterate(game.est_connections, pconn) {
+      if (setting_is_visible(pset, pconn)) {
+        notify_conn(pconn->self, NULL, E_SETTING, ftc_server, "%s", buffer);
+      }
+    } conn_list_iterate_end;
   }
 
   if (!check && do_update) {
@@ -2737,10 +2602,10 @@ static bool set_command(struct connection *caller, char *str, bool check)
     /* Handle immediate side-effects of special setting changes. */
     /* FIXME: Redesign setting data structures so that this can
      * be done in a less brittle way. */
-    if (op->int_value == &game.info.aifill) {
-      aifill(*op->int_value);
-    } else if (op->bool_value == &game.info.auto_ai_toggle) {
-      if (*op->bool_value) {
+    if (pset->int_value == &game.info.aifill) {
+      aifill(setting_int_get(pset));
+    } else if (pset->bool_value == &game.info.auto_ai_toggle) {
+      if (setting_bool_get(pset)) {
         players_iterate(pplayer) {
           if (!pplayer->ai_data.control && !pplayer->is_connected) {
             toggle_ai_player_direct(NULL, pplayer);
@@ -2750,7 +2615,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
       }
     }
 
-    send_server_setting(NULL, cmd);
+    send_server_setting(NULL, pset);
     /* 
      * send any modified game parameters to the clients -- if sent
      * before S_S_RUNNING, triggers a popdown_races_dialog() call
