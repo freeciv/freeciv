@@ -4264,7 +4264,7 @@ static void game_load_internal(struct section_file *file)
     if (has_capability("turn", savefile_options)) {
       game.info.turn = secfile_lookup_int(file, "game.turn");
     } else {
-      game.info.turn = -2;
+      game.info.turn = 0;
     }
 
     if (section_file_lookup(file, "game.simultaneous_phases_now")) {
