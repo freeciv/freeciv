@@ -117,6 +117,7 @@ void update_worklist_report_dialog(void)
 {
   GtkTreeIter it;
 
+  gtk_list_store_clear(worklists_store);
   global_worklists_iterate(pgwl) {
     gtk_list_store_append(worklists_store, &it);
 
