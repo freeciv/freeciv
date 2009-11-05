@@ -4621,10 +4621,8 @@ static void game_load_internal(struct section_file *file)
 	map.ysize = secfile_lookup_int(file, "map.ysize");
       }
 
-      if (S_S_INITIAL == tmp_server_state &&
-          (game.scenario.is_scenario || 0 == map.server.generator)) {
-	/* generator 0 = map done with old map editor */
-	/* aka a "scenario" */
+      if (S_S_INITIAL == tmp_server_state && 0 == map.server.generator) {
+        /* generator 0 = map done with a map editor aka a "scenario" */
         if (has_capability("specials",savefile_options)) {
           map_load(file, savefile_options, special_order,
                    base_order, num_base_types);
@@ -5197,7 +5195,8 @@ void game_save(struct section_file *file, const char *save_reason,
     secfile_insert_int(file, map.server.wetness, "map.wetness");
     secfile_insert_int(file, map.server.steepness, "map.steepness");
     secfile_insert_int(file, map.server.huts, "map.huts");
-    secfile_insert_int(file, map.server.generator, "map.generator");
+    secfile_insert_int(file, scenario ? 0 : map.server.generator,
+                       "map.generator");
     secfile_insert_bool(file, map.server.have_huts, "map.have_huts");
     secfile_insert_int(file, map.server.temperature, "map.temperature");
     secfile_insert_bool(file, map.server.alltemperate, "map.alltemperate");
