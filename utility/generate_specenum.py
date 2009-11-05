@@ -17,7 +17,7 @@
 max_enum_values=10
 
 # The target file.
-target="utility/specenum.h"
+target="utility/specenum_gen.h"
 
 # Here are push all defined macros.
 macros=[]
@@ -91,7 +91,7 @@ def make_documentation(file):
  *   #define SPECENUM_VALUE0 TEST0
  *   #define SPECENUM_VALUE1 TEST1
  *   #define SPECENUM_VALUE3 TEST3
- *   #include "specenum.h"
+ *   #include "specenum_gen.h"
  *
  *  {
  *    static const char *strings[] = {
