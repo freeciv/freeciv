@@ -32,19 +32,39 @@
 
 #include "global_worklist.h"
 
+enum global_worklist_status {
+  /* Means we have a list of kind of universal and their name, but we
+   * don't know the id they could have on the server's ruleset.  In this
+   * case, we use the unbuilt part and not the worklist one. */
+  STATUS_UNBUILT,
+
+  /* Means this worklist is plainly usable at running time. */
+  STATUS_WORKLIST
+};
+
+
 /* The global worklist structure. */
 struct global_worklist {
   int id;
   char name[MAX_LEN_NAME];
-  bool is_valid;
-  struct worklist worklist;
+  enum global_worklist_status status;
+  union {
+    struct {
+      int length;
+      struct uni_name {
+        char *kind;
+        char *name;
+      } entries[MAX_LEN_WORKLIST];
+    } unbuilt;
+    struct worklist worklist;
+  };
 };
 
 static bool global_worklist_load(struct section_file *file,
                                  const char *path, ...)
                                  fc__attribute((__format__ (__printf__, 2, 3)));
 static void global_worklist_save(const struct global_worklist *pgwl,
-                                 struct section_file *file, int max_length,
+                                 struct section_file *file, int fill_until,
                                  const char *path, ...)
                                  fc__attribute((__format__ (__printf__, 4, 5)));
 
@@ -73,6 +93,78 @@ void global_worklists_free(void)
 }
 
 /***********************************************************************
+  Check if the global worklists are valid or not for the ruleset.
+***********************************************************************/
+void global_worklists_build(void)
+{
+  global_worklists_iterate_all(pgwl) {
+    if (pgwl->status == STATUS_UNBUILT) {
+      struct worklist worklist;
+      struct uni_name *puni_name;
+      int i;
+
+      /* Build a worklist. */
+      worklist_init(&worklist);
+      for (i = 0; i < pgwl->unbuilt.length; i++) {
+        struct universal source;
+
+        puni_name = pgwl->unbuilt.entries + i;
+        source = universal_by_rule_name(puni_name->kind, puni_name->name);
+        if (source.kind == VUT_LAST) {
+          /* This worklist is not valid on this ruleset.
+           * N.B.: Don't remove it to resave it in client rc file. */
+          break;
+        } else {
+          worklist_append(&worklist, source);
+        }
+      }
+
+      if (worklist_length(&worklist) != pgwl->unbuilt.length) {
+        /* Somewhat in this worklist is not supported by the current
+         * ruleset.  Don't try to build it, but keep it for later save. */
+        continue;
+      }
+
+      /* Now the worklist is built, change status. */
+      for (i = 0; i < pgwl->unbuilt.length; i++) {
+        puni_name = pgwl->unbuilt.entries + i;
+        free(puni_name->kind);
+        free(puni_name->name);
+      }
+      pgwl->status = STATUS_WORKLIST;
+      worklist_copy(&pgwl->worklist, &worklist);
+    }
+  } global_worklists_iterate_all_end;
+}
+
+/***********************************************************************
+  Convert the universal pointers to strings to work out-ruleset.
+***********************************************************************/
+void global_worklists_unbuild(void)
+{
+  global_worklists_iterate_all(pgwl) {
+    if (pgwl->status == STATUS_WORKLIST) {
+      struct worklist worklist;
+      struct uni_name *puni_name;
+      int i;
+
+      /* Copy before over-write. */
+      worklist_copy(&worklist, &pgwl->worklist);
+      pgwl->status = STATUS_UNBUILT;
+
+      pgwl->unbuilt.length = worklist_length(&worklist);
+      for (i = 0; i < worklist_length(&worklist); i++) {
+        puni_name = pgwl->unbuilt.entries + i;
+        puni_name->kind =
+          mystrdup(universal_type_rule_name(worklist.entries + i));
+        puni_name->name =
+          mystrdup(universal_rule_name(worklist.entries + i));
+      }
+    }
+  } global_worklists_iterate_all_end;
+}
+
+/***********************************************************************
   Returns the number of valid global worklists.
   N.B.: This counts only the valid global worklists.
 ***********************************************************************/
@@ -90,14 +182,24 @@ int global_worklists_number(void)
 /***********************************************************************
   Returns a new created global worklist structure.
 ***********************************************************************/
-static struct global_worklist *global_worklist_alloc(void)
+static struct global_worklist *
+global_worklist_alloc(enum global_worklist_status type)
 {
   static int last_id = 0;
   struct global_worklist *pgwl = fc_calloc(1, sizeof(struct global_worklist));
 
   pgwl->id = ++last_id;
-  pgwl->is_valid = TRUE;        /* FIXME */
-  worklist_init(&pgwl->worklist);
+  pgwl->status = type;
+
+  /* Specific initializer. */
+  switch (pgwl->status) {
+  case STATUS_UNBUILT:
+    /* All members set to 0 by fc_calloc. */
+    break;
+  case STATUS_WORKLIST:
+    worklist_init(&pgwl->worklist);
+    break;
+  }
 
   global_worklist_list_append(client.worklists, pgwl);
 
@@ -109,9 +211,28 @@ static struct global_worklist *global_worklist_alloc(void)
 ***********************************************************************/
 void global_worklist_destroy(struct global_worklist *pgwl)
 {
-  assert(NULL != pgwl);
+  RETURN_IF_FAIL(NULL != pgwl);
 
   global_worklist_list_unlink(client.worklists, pgwl);
+
+  /* Specific descturctor. */
+  switch (pgwl->status) {
+  case STATUS_UNBUILT:
+    {
+      struct uni_name *puni_name;
+      int i;
+
+      for (i = 0; i < pgwl->unbuilt.length; i++) {
+        puni_name = pgwl->unbuilt.entries + i;
+        free(puni_name->kind);
+        free(puni_name->name);
+      }
+    }
+    break;
+  case STATUS_WORKLIST:
+    break;
+  }
+
   free(pgwl);
 }
 
@@ -120,7 +241,7 @@ void global_worklist_destroy(struct global_worklist *pgwl)
 ***********************************************************************/
 struct global_worklist *global_worklist_new(const char *name)
 {
-  struct global_worklist *pgwl = global_worklist_alloc();
+  struct global_worklist *pgwl = global_worklist_alloc(STATUS_WORKLIST);
 
   global_worklist_set_name(pgwl, name);
   return pgwl;
@@ -131,7 +252,7 @@ struct global_worklist *global_worklist_new(const char *name)
 ***********************************************************************/
 bool global_worklist_is_valid(const struct global_worklist *pgwl)
 {
-  return pgwl && pgwl->is_valid;
+  return pgwl && pgwl->status == STATUS_WORKLIST;
 }
 
 /***********************************************************************
@@ -140,7 +261,7 @@ bool global_worklist_is_valid(const struct global_worklist *pgwl)
 bool global_worklist_set(struct global_worklist *pgwl,
                          const struct worklist *pwl)
 {
-  if (pgwl && pwl) {
+  if (pgwl && pgwl->status == STATUS_WORKLIST && pwl) {
     worklist_copy(&pgwl->worklist, pwl);
     return TRUE;
   }
@@ -152,7 +273,7 @@ bool global_worklist_set(struct global_worklist *pgwl,
 ***********************************************************************/
 const struct worklist *global_worklist_get(const struct global_worklist *pgwl)
 {
-  if (pgwl) {
+  if (pgwl && pgwl->status == STATUS_WORKLIST) {
     return &pgwl->worklist;
   } else {
     return NULL;
@@ -164,7 +285,7 @@ const struct worklist *global_worklist_get(const struct global_worklist *pgwl)
 ***********************************************************************/
 int global_worklist_id(const struct global_worklist *pgwl)
 {
-  assert(NULL != pgwl);
+  RETURN_VAL_IF_FAIL(NULL != pgwl, -1);
   return pgwl->id;
 }
 
@@ -199,7 +320,7 @@ void global_worklist_set_name(struct global_worklist *pgwl,
 ***********************************************************************/
 const char *global_worklist_name(const struct global_worklist *pgwl)
 {
-  assert(NULL != pgwl);
+  RETURN_VAL_IF_FAIL(NULL != pgwl, NULL);
   return pgwl->name;
 }
 
@@ -211,23 +332,53 @@ static bool global_worklist_load(struct section_file *file,
                                  const char *path, ...)
 {
   struct global_worklist *pgwl;
+  const char *kind;
+  const char *name;
   char path_str[1024];
-  va_list args;
+  va_list ap;
+  int i, length;
 
-  va_start(args, path);
-  my_vsnprintf(path_str, sizeof(path_str), path, args);
-  va_end(args);
+  /* The first part of the registry path is taken from the varargs to the
+   * function. */
+  va_start(ap, path);
+  my_vsnprintf(path_str, sizeof(path_str), path, ap);
+  va_end(ap);
 
-  if (-1 == secfile_lookup_int_default(file, -1, "%s.wl_length", path_str)) {
+  length = secfile_lookup_int_default(file, -1, "%s.wl_length", path_str);
+  if (length == -1) {
     /* Not set. */
     return FALSE;
   }
-
-  /* FIXME: this always trunc the worklist if not valid on this ruleset. */
-  pgwl = global_worklist_alloc();
-  worklist_load(file, &pgwl->worklist, "%s", path_str);
+  length = MIN(length, MAX_LEN_WORKLIST);
+  pgwl = global_worklist_alloc(STATUS_UNBUILT);
   global_worklist_set_name(pgwl,
-      secfile_lookup_str_default(file, _("noname"), "%s.wl_name", path_str));
+                           secfile_lookup_str_default(file, _("(noname)"),
+                                                      "%s.wl_name",
+                                                      path_str));
+
+  for (i = 0; i < length; i++) {
+    kind = secfile_lookup_str_default(file, NULL, "%s.wl_kind%d",
+                                      path_str, i);
+
+    if (!kind) {
+      /* before 2.2.0 unit production was indicated by flag. */
+      bool is_unit = secfile_lookup_bool_default(file, FALSE,
+                                                 "%s.wl_is_unit%d",
+                                                 path_str, i);
+      kind = universal_kind_name(is_unit ? VUT_UTYPE : VUT_IMPROVEMENT);
+    }
+
+    name = secfile_lookup_str_default(file, NULL, "%s.wl_value%d",
+                                      path_str, i);
+    if (NULL == kind || '\0' == kind[0] || NULL == name || '\0' == name[0]) {
+      break;
+    } else {
+      pgwl->unbuilt.entries[i].kind = mystrdup(kind);
+      pgwl->unbuilt.entries[i].name = mystrdup(name);
+      pgwl->unbuilt.length++;
+    }
+  }
+
   return TRUE;
 }
 
@@ -246,24 +397,64 @@ void global_worklists_load(struct section_file *file)
   for (i = 0; global_worklist_load(file, "worklists.worklist%d", i); i++) {
     /* Nothing to do more. */
   }
+
+  if (C_S_RUNNING <= client_state()) {
+    /* We need to build the worklists immediately. */
+    global_worklists_build();
+  }
 }
 
 /***********************************************************************
   Save one global worklist into a section file.
 ***********************************************************************/
 static void global_worklist_save(const struct global_worklist *pgwl,
-                                 struct section_file *file, int max_length,
+                                 struct section_file *file, int fill_until,
                                  const char *path, ...)
 {
   char path_str[1024];
-  va_list args;
+  int i = 0;
+  va_list ap;
 
-  va_start(args, path);
-  my_vsnprintf(path_str, sizeof(path_str), path, args);
-  va_end(args);
+  /* The first part of the registry path is taken from the varargs to the
+   * function. */
+  va_start(ap, path);
+  my_vsnprintf(path_str, sizeof(path_str), path, ap);
+  va_end(ap);
 
-  secfile_insert_str(file, pgwl->name, "%s.wl_name", path_str);
-  worklist_save(file, &pgwl->worklist, max_length, "%s", path_str);
+  secfile_insert_str(file, pgwl->name, "%s.wl_name", path_str);  
+
+  switch (pgwl->status) {
+  case STATUS_UNBUILT:
+    secfile_insert_int(file, pgwl->unbuilt.length,
+                       "%s.wl_length", path_str);
+    for (i = 0; i < pgwl->unbuilt.length; i++) {
+      secfile_insert_str(file, pgwl->unbuilt.entries[i].kind,
+                         "%s.wl_kind%d", path_str, i);
+      secfile_insert_str(file, pgwl->unbuilt.entries[i].name,
+                         "%s.wl_value%d", path_str, i);
+    }
+    break;
+  case STATUS_WORKLIST:
+    secfile_insert_int(file, worklist_length(&pgwl->worklist),
+                       "%s.wl_length", path_str);
+    for (i = 0; i < pgwl->unbuilt.length; i++) {
+      secfile_insert_str(file,
+                         universal_type_rule_name(pgwl->worklist.entries + i),
+                         "%s.wl_kind%d", path_str, i);
+      secfile_insert_str(file,
+                         universal_rule_name(pgwl->worklist.entries + i),
+                        "%s.wl_value%d", path_str, i);
+    }
+    break;
+  }
+
+  /* We want to keep savegame in tabular format, so each line has to be
+   * of equal length.  Fill table up to maximum worklist size. */
+  while (i < fill_until) {
+    secfile_insert_str(file, "", "%s.wl_kind%d", path_str, i);
+    secfile_insert_str(file, "", "%s.wl_value%d", path_str, i);
+    i++;
+  }
 }
 
 /***********************************************************************
@@ -277,7 +468,14 @@ void global_worklists_save(struct section_file *file)
   /* We want to keep savegame in tabular format, so each line has to be
    * of equal length.  So we need to know about the biggest worklist. */
   global_worklists_iterate_all(pgwl) {
-    max_length = MAX(max_length, worklist_length(&pgwl->worklist));
+    switch (pgwl->status) {
+    case STATUS_UNBUILT:
+      max_length = MAX(max_length, pgwl->unbuilt.length);
+      break;
+    case STATUS_WORKLIST:
+      max_length = MAX(max_length, worklist_length(&pgwl->worklist));
+      break;
+    }
   } global_worklists_iterate_all_end;
 
   global_worklists_iterate_all(pgwl) {

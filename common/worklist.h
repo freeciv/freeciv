@@ -44,16 +44,6 @@ bool worklist_insert(struct worklist *pwl, struct universal prod,
 bool are_worklists_equal(const struct worklist *wlist1,
 			 const struct worklist *wlist2);
 
-/* Functions to load and save a worklist from a registry file.  The path
- * is a printf-style string giving the registry prefix (which must be
- * the same for saving and loading). */
-void worklist_load(struct section_file *file, struct worklist *pwl,
-		   const char *path, ...)
-  fc__attribute((__format__ (__printf__, 3, 4)));
-void worklist_save(struct section_file *file, const struct worklist *pwl,
-                   int max_length, const char *path, ...)
-  fc__attribute((__format__ (__printf__, 4, 5)));
-
 /* Iterate over all entries in the worklist. */
 #define worklist_iterate(_list, _p)					\
 {									\
