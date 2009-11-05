@@ -25,6 +25,9 @@ struct global_worklist_list;            /* Opaque type. */
 
 void global_worklists_init(void);
 void global_worklists_free(void);
+void global_worklists_build(void);
+void global_worklists_unbuild(void);
+
 void global_worklists_load(struct section_file *file);
 void global_worklists_save(struct section_file *file);
 int global_worklists_number(void);

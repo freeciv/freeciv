@@ -248,6 +248,15 @@ static void game_load_internal(struct section_file *file);
 static char player_to_identier(const struct player *pplayer);
 static struct player *identifier_to_player(char c);
 
+
+static void worklist_load(struct section_file *file, struct worklist *pwl,
+                          const char *path, ...)
+                          fc__attribute((__format__ (__printf__, 3, 4)));
+static void worklist_save(struct section_file *file,
+                          const struct worklist *pwl,
+                          int max_length, const char *path, ...)
+                          fc__attribute((__format__ (__printf__, 4, 5)));
+
 /***************************************************************
 This returns an ascii hex value of the given half-byte of the binary
 integer. See ascii_hex2bin().
@@ -590,6 +599,110 @@ static int unquote_block(const char *const quoted_, void *dest,
   }
   return length;
 }
+
+
+/****************************************************************************
+  Load the worklist elements specified by path to the worklist pointed to
+  by pwl.
+
+  pwl should be a pointer to an existing worklist.
+
+  path and ... give the prefix to load from, printf-style.
+****************************************************************************/
+static void worklist_load(struct section_file *file, struct worklist *pwl,
+                          const char *path, ...)
+{
+  int i;
+  const char *kind;
+  const char *name;
+  char path_str[1024];
+  va_list ap;
+
+  /* The first part of the registry path is taken from the varargs to the
+   * function. */
+  va_start(ap, path);
+  my_vsnprintf(path_str, sizeof(path_str), path, ap);
+  va_end(ap);
+
+  worklist_init(pwl);
+  pwl->length = secfile_lookup_int_default(file, 0,
+					   "%s.wl_length", path_str);
+
+  for (i = 0; i < pwl->length; i++) {
+    kind = secfile_lookup_str_default(file, NULL,
+				      "%s.wl_kind%d",
+				      path_str, i);
+    if (!kind) {
+      /* before 2.2.0 unit production was indicated by flag. */
+      bool is_unit = secfile_lookup_bool_default(file, FALSE,
+						 "%s.wl_is_unit%d",
+						 path_str, i);
+      kind = universal_kind_name(is_unit ? VUT_UTYPE : VUT_IMPROVEMENT);
+    }
+
+    /* We lookup the production value by name.  An invalid entry isn't a
+     * fatal error; we just truncate the worklist. */
+    name = secfile_lookup_str_default(file, "-", "%s.wl_value%d",
+				      path_str, i);
+    pwl->entries[i] = universal_by_rule_name(kind, name);
+    if (VUT_LAST == pwl->entries[i].kind) {
+      freelog(LOG_ERROR, "%s.wl_value%d: unknown \"%s\" \"%s\".",
+              path_str, i, kind, name);
+      pwl->length = i;
+      break;
+    }
+  }
+}
+
+/****************************************************************************
+  Save the worklist elements specified by path from the worklist pointed to
+  by pwl.
+
+  pwl should be a pointer to an existing worklist.
+
+  path and ... give the prefix to load from, printf-style.
+****************************************************************************/
+static void worklist_save(struct section_file *file,
+                          const struct worklist *pwl,
+                          int max_length, const char *path, ...)
+{
+  char path_str[1024];
+  int i;
+  va_list ap;
+
+  /* The first part of the registry path is taken from the varargs to the
+   * function. */
+  va_start(ap, path);
+  my_vsnprintf(path_str, sizeof(path_str), path, ap);
+  va_end(ap);
+
+  secfile_insert_int(file, pwl->length, "%s.wl_length", path_str);
+
+  for (i = 0; i < pwl->length; i++) {
+    const struct universal *entry = pwl->entries + i;
+
+    /* before 2.2.0 unit production was indicated by flag. */
+    secfile_insert_bool(file, (VUT_UTYPE == entry->kind),
+			"%s.wl_is_unit%d", path_str, i);
+
+    secfile_insert_str(file, universal_type_rule_name(entry),
+                       "%s.wl_kind%d", path_str, i);
+    secfile_insert_str(file, universal_rule_name(entry),
+		       "%s.wl_value%d", path_str, i);
+  }
+
+  assert(max_length <= MAX_LEN_WORKLIST);
+
+  /* We want to keep savegame in tabular format, so each line has to be
+   * of equal length. Fill table up to maximum worklist size. */
+  for (i = pwl->length ; i < max_length; i++) {
+    /* before 2.2.0 unit production was indicated by flag. */
+    secfile_insert_bool(file, false, "%s.wl_is_unit%d", path_str, i);
+    secfile_insert_str(file, "", "%s.wl_kind%d", path_str, i);
+    secfile_insert_str(file, "", "%s.wl_value%d", path_str, i);
+  }
+}
+
 
 /***************************************************************
 load starting positions for the players from a savegame file

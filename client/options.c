@@ -1862,7 +1862,7 @@ void options_load(void)
   } client_options_iterate_all_end;
 
   message_options_load(&sf, prefix);
-  
+
   /* Players dialog */
   for(i = 1; i < num_player_dlg_columns; i++) {
     bool *show = &(player_dlg_columns[i].show);
@@ -1880,7 +1880,9 @@ void options_load(void)
       load_cma_preset(&sf, i);
     }
   }
- 
+
+  global_worklists_load(&sf);
+
   section_file_free(&sf);
   options_fully_initialized = TRUE;
 }
@@ -1903,10 +1905,6 @@ void options_load_ruleset_specific(void)
   }
   if (!section_file_load(&sf, name)) {
     return;
-  }
-
-  if (NULL != client.conn.playing) {
-    global_worklists_load(&sf);
   }
 
   /* Load city report columns (which include some ruleset data). */
@@ -1982,9 +1980,7 @@ void options_save(void)
   save_settable_options(&sf);
 
   /* insert global worklists */
-  if (NULL != client.conn.playing) {
-    global_worklists_save(&sf);
-  }
+  global_worklists_save(&sf);
 
   /* save to disk */
   if (!section_file_save(&sf, name, 0, FZ_PLAIN)) {
@@ -2004,6 +2000,7 @@ void options_init(void)
 {
   message_options_init();
   gui_options_extra_init();
+  global_worklists_init();
 
   client_options_iterate_all(poption) {
     switch (option_type(poption)) {
@@ -2060,6 +2057,7 @@ void options_init(void)
 void options_free(void)
 {
   message_options_free();
+  global_worklists_free();
 }
 
 

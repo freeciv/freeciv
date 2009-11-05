@@ -199,7 +199,6 @@ static void client_game_init(void)
   control_init();
   link_marks_init();
   voteinfo_queue_init();
-  global_worklists_init();
 }
 
 /**************************************************************************
@@ -215,7 +214,6 @@ static void client_game_free(void)
   attribute_free();
   agents_free();
   game_free();
-  global_worklists_free();
 
   client.conn.playing = NULL;
   client.conn.observer = FALSE;
@@ -627,6 +625,7 @@ void set_client_state(enum client_states newstate)
     if (oldstate > C_S_DISCONNECTED) {
       set_unit_focus(NULL);
       agents_disconnect();
+      global_worklists_unbuild();
       client_remove_all_cli_conn();
       client_game_free();
     }
@@ -672,6 +671,7 @@ void set_client_state(enum client_states newstate)
       player_research_update(pplayer);
     }
     boot_help_texts(pplayer);   /* reboot with player */
+    global_worklists_build();
     can_slide = FALSE;
     update_unit_focus();
     can_slide = TRUE;
@@ -716,6 +716,7 @@ void set_client_state(enum client_states newstate)
       }
       role_unit_precalcs();
       boot_help_texts(pplayer);            /* reboot */
+      global_worklists_build();
       set_unit_focus(NULL);
       set_client_page(PAGE_GAME);
       center_on_something();
