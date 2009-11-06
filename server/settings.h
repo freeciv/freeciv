@@ -89,22 +89,29 @@ struct setting {
    * legal. The char * is an error message in the case of reject. 
    */
 
-  /*** bool part ***/
-  bool *bool_value;
-  bool bool_default_value;
-  bool_validate_func_t bool_validate;
-
-  /*** int part ***/
-  int *int_value;
-  int int_default_value;
-  int_validate_func_t int_validate;
-  int int_min_value, int_max_value;
-
-  /*** string part ***/
-  char *string_value;
-  const char *string_default_value;
-  string_validate_func_t string_validate;
-  size_t string_value_size;	/* max size we can write into string_value */
+  union {
+    /*** bool part ***/
+    struct {
+      bool *const pvalue;
+      const bool default_value;
+      const bool_validate_func_t validate;
+    } boolean;
+    /*** int part ***/
+    struct {
+      int *const pvalue;
+      const int default_value;
+      const int min_value;
+      const int max_value;
+      const int_validate_func_t validate;
+    } integer;
+    /*** string part ***/
+    struct {
+      char *const value;
+      const char *const default_value;
+      const size_t value_size;
+      const string_validate_func_t validate;
+    } string;
+  };
 };
 
 extern const int SETTINGS_NUM;

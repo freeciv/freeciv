@@ -2602,13 +2602,13 @@ static bool set_command(struct connection *caller, char *str, bool check)
     /* Handle immediate side-effects of special setting changes. */
     /* FIXME: Redesign setting data structures so that this can
      * be done in a less brittle way. */
-    if (pset->int_value == &game.info.aifill) {
-      aifill(setting_int_get(pset));
-    } else if (pset->bool_value == &game.info.auto_ai_toggle) {
-      if (setting_bool_get(pset)) {
+    if (pset->integer.pvalue == &game.info.aifill) {
+      aifill(*pset->integer.pvalue);
+    } else if (pset->boolean.pvalue == &game.info.auto_ai_toggle) {
+      if (*pset->boolean.pvalue) {
         players_iterate(pplayer) {
           if (!pplayer->ai_data.control && !pplayer->is_connected) {
-            toggle_ai_player_direct(NULL, pplayer);
+             toggle_ai_player_direct(NULL, pplayer);
             send_player_info_c(pplayer, game.est_connections);
           }
         } players_iterate_end;
