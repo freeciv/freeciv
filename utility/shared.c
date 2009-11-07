@@ -1161,7 +1161,7 @@ const struct strvec *get_scenario_dirs(void)
     }
     strvec_remove_duplicate(dirs, strcmp);      /* Don't set a path both. */
     strvec_iterate(dirs, dirname) {
-      freelog(LOG_NORMAL, "Scenario path component: %s", dirname);
+      freelog(LOG_VERBOSE, "Scenario path component: %s", dirname);
     } strvec_iterate_end;
   }
 
