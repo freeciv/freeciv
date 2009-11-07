@@ -898,7 +898,9 @@ void editor_apply_tool(const struct tile *ptile,
     break;
 
   case ETT_STARTPOS:
-    dsend_packet_edit_startpos(my_conn, x, y, erase ? -1 : apno);
+    dsend_packet_edit_startpos(my_conn, x, y,
+                               erase ? NATION_NONE :
+                               nation_number(player_by_number(apno)->nation));
     break;
 
   default:
