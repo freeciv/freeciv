@@ -19,6 +19,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
+
 #ifdef HAVE_SIGNAL_H
 #include <signal.h>
 #endif
@@ -111,12 +115,12 @@ static void signal_handler(int sig)
   case SIGPIPE:
     if (signal(SIGPIPE, signal_handler) == SIG_ERR) {
       /* Because the signal may have interrupted arbitrary code, we use
-       * fprintf() and _Exit() here instead of freelog() and exit() so
+       * fprintf() and _exit() here instead of freelog() and exit() so
        * that we don't accidentally call any "unsafe" functions here
        * (see the manual page for the signal function). */
       fprintf(stderr, "\nFailed to reset SIGPIPE handler "
               "while handling SIGPIPE.\n");
-      _Exit(EXIT_FAILURE);
+      _exit(EXIT_FAILURE);
     }
     break;
 #endif /* SIGPIPE */
