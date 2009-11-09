@@ -218,7 +218,7 @@ static bool may_use_nothing(struct connection *caller)
   if (!caller) {
     return FALSE;  /* on the console, everything is allowed */
   }
-  return (caller->access_level == ALLOW_NONE);
+  return (ALLOW_NONE == conn_get_access(caller));
 }
 
 /**************************************************************************
@@ -1090,7 +1090,7 @@ static bool set_cmdlevel(struct connection *caller,
               cmdlevel_name(caller->access_level));
     return FALSE;
   } else {
-    ptarget->access_level = level;
+    conn_set_access(ptarget, level, TRUE);
     cmd_reply(CMD_CMDLEVEL, caller, C_OK,
               _("Command access level set to '%s' for connection %s."),
               cmdlevel_name(level), ptarget->username);
@@ -1301,7 +1301,7 @@ static bool firstlevel_command(struct connection *caller, bool check)
 	_("Someone else already is game organizer."));
     return FALSE;
   } else if (!check) {
-    caller->access_level = first_access_level;
+    conn_set_access(caller, first_access_level, FALSE);
     cmd_reply(CMD_FIRSTLEVEL, caller, C_OK,
               _("Connection %s has opted to become the game organizer."),
               caller->username);

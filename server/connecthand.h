@@ -23,6 +23,9 @@ struct packet_authentication_reply;
 struct packet_login_request;
 struct packet_server_join_req;
 
+void conn_set_access(struct connection *pconn, enum cmdlevel_id new_level,
+                     bool granted);
+
 void establish_new_connection(struct connection *pconn);
 void reject_new_connection(const char *msg, struct connection *pconn);
 
