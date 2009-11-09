@@ -14,7 +14,7 @@
 #
 
 # The maximum number of enumerators.
-max_enum_values=10
+max_enum_values=125
 
 # The target file.
 target="utility/specenum_gen.h"
@@ -131,6 +131,8 @@ def make_documentation(file):
 def make_macros(file):
     file.write('''
 #include "support.h"    /* bool type. */
+
+#include <assert.h>     /* assert() */
 
 #ifndef SPECENUM_NAME
 #error Must define a SPECENUM_NAME to use this header
