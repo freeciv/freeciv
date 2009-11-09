@@ -390,6 +390,11 @@ void game_init(void)
     game.server.meta_info.user_message_set = FALSE;
     game.server.meta_info.user_message[0] = '\0';
     game.server.connectmsg[0] = '\0';
+
+    game.server.event_cache.turns = GAME_DEFAULT_EVENT_CACHE_TURNS;
+    game.server.event_cache.max_size = GAME_MIN_EVENT_CACHE_MAX_SIZE;
+    game.server.event_cache.chat = GAME_DEFAULT_EVENT_CACHE_CHAT;
+    game.server.event_cache.info = GAME_DEFAULT_EVENT_CACHE_INFO;
   }
 
   map_init();

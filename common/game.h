@@ -93,6 +93,13 @@ struct civ_game {
       char demography[MAX_LEN_DEMOGRAPHY];
       char allow_take[MAX_LEN_ALLOW_TAKE];
 
+      struct {
+        int turns;
+        int max_size;
+        bool chat;
+        bool info;
+      } event_cache;
+
       /* values from game.info.t */
       struct {
         /* Items given to all players at game start.  Server only. */
@@ -377,6 +384,18 @@ bool setting_class_is_changeable(enum sset_class class);
 
 #define GAME_DEFAULT_DEMOGRAPHY      "NASRLPEMOqrb"
 #define GAME_DEFAULT_ALLOW_TAKE      "HAhadOo"
+
+#define GAME_DEFAULT_EVENT_CACHE_TURNS    1
+#define GAME_MIN_EVENT_CACHE_TURNS        0
+#define GAME_MAX_EVENT_CACHE_TURNS        9
+
+#define GAME_DEFAULT_EVENT_CACHE_MAX_SIZE   256
+#define GAME_MIN_EVENT_CACHE_MAX_SIZE        10
+#define GAME_MAX_EVENT_CACHE_MAX_SIZE      1000
+
+#define GAME_DEFAULT_EVENT_CACHE_CHAT     TRUE
+
+#define GAME_DEFAULT_EVENT_CACHE_INFO     FALSE
 
 #define GAME_DEFAULT_COMPRESS_LEVEL 6    /* if we have compression */
 #define GAME_MIN_COMPRESS_LEVEL     1
