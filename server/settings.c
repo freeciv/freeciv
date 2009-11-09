@@ -449,6 +449,34 @@ struct setting settings[] = {
 	     "all AI players will be removed."), NULL,
 	  GAME_MIN_AIFILL, GAME_MAX_AIFILL, GAME_DEFAULT_AIFILL)
 
+  GEN_INT("ec_turns", game.server.event_cache.turns,
+          SSET_RULES_FLEXIBLE, SSET_INTERNAL, SSET_SITUATIONAL, SSET_TO_CLIENT,
+          N_("Event cache for this number of turns"),
+          N_("Event messages are saved for this number of turns. A value of "
+             "0 deactivates the event cache."),
+          NULL, GAME_MIN_EVENT_CACHE_TURNS, GAME_MAX_EVENT_CACHE_TURNS,
+          GAME_DEFAULT_EVENT_CACHE_TURNS)
+
+  GEN_INT("ec_max_size", game.server.event_cache.max_size,
+          SSET_RULES_FLEXIBLE, SSET_INTERNAL, SSET_SITUATIONAL, SSET_TO_CLIENT,
+          N_("Size of the event cache"),
+          N_("This defines the maximal number of events in the event cache."),
+          NULL, GAME_MIN_EVENT_CACHE_MAX_SIZE, GAME_MAX_EVENT_CACHE_MAX_SIZE,
+          GAME_DEFAULT_EVENT_CACHE_MAX_SIZE)
+
+  GEN_BOOL("ec_chat", game.server.event_cache.chat,
+           SSET_RULES_FLEXIBLE, SSET_INTERNAL, SSET_SITUATIONAL, SSET_TO_CLIENT,
+           N_("Save chat messages in the event cache"),
+           N_("If set to 1 chat messages will be saved in the event cache."),
+           NULL, GAME_DEFAULT_EVENT_CACHE_CHAT)
+
+  GEN_BOOL("ec_info", game.server.event_cache.info,
+           SSET_RULES_FLEXIBLE, SSET_INTERNAL, SSET_SITUATIONAL, SSET_TO_CLIENT,
+           N_("Print turn and time for each cached event"),
+           N_("If set to 1 all cached events will be marked by the turn and time "
+              "of the event like '(T2 - 15:29:52)'."),
+           NULL, GAME_DEFAULT_EVENT_CACHE_INFO)
+
   /* Game initialization parameters (only affect the first start of the game,
    * and not reloads).  Can not be changed after first start of game.
    */

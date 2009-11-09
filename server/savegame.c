@@ -4643,6 +4643,19 @@ static void game_load_internal(struct section_file *file)
       secfile_lookup_bool_default(file, game.info.auto_ai_toggle, 
                                   "game.auto_ai_toggle");
 
+    game.server.event_cache.turns =
+      secfile_lookup_int_default(file, game.server.event_cache.turns,
+                                 "game.event_cache.turns");
+    game.server.event_cache.max_size =
+      secfile_lookup_int_default(file, game.server.event_cache.max_size,
+                                 "game.event_cache.max_size");
+    game.server.event_cache.chat =
+      secfile_lookup_bool_default(file, game.server.event_cache.chat,
+                                 "game.event_cache.chat");
+    game.server.event_cache.info =
+      secfile_lookup_bool_default(file, game.server.event_cache.info,
+                                 "game.event_cache.info");
+
     load_rulesets();
   }
 
@@ -5301,6 +5314,14 @@ void game_save(struct section_file *file, const char *save_reason,
                      "game.mgr_nationchance");
   secfile_insert_int(file, game.info.mgr_worldchance,
                      "game.mgr_worldchance");
+  secfile_insert_int(file, game.server.event_cache.turns,
+                     "game.event_cache.turns");
+  secfile_insert_int(file, game.server.event_cache.max_size,
+                     "game.event_cache.max_size");
+  secfile_insert_bool(file, game.server.event_cache.chat,
+                      "game.event_cache.chat");
+  secfile_insert_bool(file, game.server.event_cache.info,
+                      "game.event_cache.info");
 
   {
     /* Now always save these, so the server options reflect the

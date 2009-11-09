@@ -365,12 +365,6 @@ void notify_research(const struct player *pplayer,
 /**************************************************************************
   Event cache datas.
 **************************************************************************/
-/* Control how events can be saved at the same time. */
-#define EVENT_CACHE_MAX 256
-/* Control how many turns are kept the events. */
-#define EVENT_CACHE_TURNS 1
-/* Control if the turn and time of the event is displayed. */
-#define EVENT_CACHE_INFO TRUE
 
 /* The type of event target. */
 enum event_cache_target {
@@ -426,6 +420,7 @@ event_cache_data_new(const struct packet_chat_msg *packet,
                      struct event_cache_players *players)
 {
   struct event_cache_data *pdata;
+  int max_events;
 
   if (NULL == event_cache) {
     /* Don't do log for this, because this could make an infinite
@@ -433,6 +428,11 @@ event_cache_data_new(const struct packet_chat_msg *packet,
     return NULL;
   }
   RETURN_VAL_IF_FAIL(NULL != packet, NULL);
+
+  if (!game.server.event_cache.chat && packet->event == E_CHAT_MSG) {
+    /* chat messages should _not_ be saved */
+    return NULL;
+  }
 
   pdata = fc_malloc(sizeof(*pdata));
   pdata->packet = *packet;
@@ -447,7 +447,10 @@ event_cache_data_new(const struct packet_chat_msg *packet,
   }
   event_cache_data_list_append(event_cache, pdata);
 
-  while (event_cache_data_list_size(event_cache) > EVENT_CACHE_MAX) {
+  max_events = game.server.event_cache.max_size
+               ? game.server.event_cache.max_size
+               : GAME_MAX_EVENT_CACHE_MAX_SIZE;
+  while (event_cache_data_list_size(event_cache) > max_events) {
     event_cache_data_destroy(event_cache_data_list_get(event_cache, 0));
   }
 
@@ -485,7 +488,7 @@ void event_cache_free(void)
 void event_cache_remove_old(void)
 {
   event_cache_iterate(pdata) {
-    if (pdata->turn + EVENT_CACHE_TURNS <= game.info.turn) {
+    if (pdata->turn + game.server.event_cache.turns <= game.info.turn) {
       event_cache_data_destroy(pdata);
     }
   } event_cache_iterate_end;
@@ -496,7 +499,7 @@ void event_cache_remove_old(void)
 **************************************************************************/
 void event_cache_add_for_all(const struct packet_chat_msg *packet)
 {
-  if (0 < EVENT_CACHE_TURNS) {
+  if (0 < game.server.event_cache.turns) {
     (void) event_cache_data_new(packet, ECT_ALL, NULL);
   }
 }
@@ -506,7 +509,7 @@ void event_cache_add_for_all(const struct packet_chat_msg *packet)
 **************************************************************************/
 void event_cache_add_for_global_observers(const struct packet_chat_msg *packet)
 {
-  if (0 < EVENT_CACHE_TURNS) {
+  if (0 < game.server.event_cache.turns) {
     (void) event_cache_data_new(packet, ECT_GLOBAL_OBSERVERS, NULL);
   }
 }
@@ -526,7 +529,7 @@ void event_cache_add_for_player(const struct packet_chat_msg *packet,
     return;
   }
 
-  if (0 < EVENT_CACHE_TURNS
+  if (0 < game.server.event_cache.turns
       && (server_state() > S_S_INITIAL || !game.info.is_new_game)) {
     struct event_cache_data *pdata;
 
@@ -546,7 +549,7 @@ void event_cache_add_for_player(const struct packet_chat_msg *packet,
 void event_cache_add_for_players(const struct packet_chat_msg *packet,
                                  struct event_cache_players *players)
 {
-  if (0 < EVENT_CACHE_TURNS
+  if (0 < game.server.event_cache.turns
       && NULL != players
       && BV_ISSET_ANY(players->vector)
       && (server_state() > S_S_INITIAL || !game.info.is_new_game)) {
@@ -602,7 +605,8 @@ static bool event_cache_match(const struct event_cache_data *pdata,
   }
 
   if (server_state() == S_S_RUNNING
-      && game.info.turn != pdata->turn) {
+      && game.info.turn <= pdata->turn
+      && game.info.turn > pdata->turn - game.server.event_cache.turns) {
     return FALSE;
   }
 
@@ -633,7 +637,7 @@ void send_pending_events(struct connection *pconn, bool include_public)
   event_cache_iterate(pdata) {
     if (event_cache_match(pdata, pplayer,
                           is_global_observer, include_public)) {
-      if (EVENT_CACHE_INFO) {
+      if (game.server.event_cache.info) {
         /* add turn and time to the message */
         strftime(timestr, sizeof(timestr), "%H:%M:%S",
                  localtime(&pdata->timestamp));
