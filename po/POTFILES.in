@@ -71,6 +71,7 @@ client/connectdlg_common.c
 client/control.c
 client/editor.c
 client/ggzclient.c
+client/global_worklist.c
 client/helpdata.c
 client/mapctrl_common.c
 client/mapview_common.c
@@ -117,6 +118,7 @@ client/gui-gtk-2.0/spaceshipdlg.c
 client/gui-gtk-2.0/theme_dlg.c
 client/gui-gtk-2.0/tileset_dlg.c
 client/gui-gtk-2.0/wldlg.c
+client/gui-gtk-2.0/voteinfo_bar.c
 client/gui-sdl/caravan_dialog.c
 client/gui-sdl/chatline.c
 client/gui-sdl/citydlg.c
