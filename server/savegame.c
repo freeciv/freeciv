@@ -4303,8 +4303,18 @@ static void game_load_internal(struct section_file *file)
     exit(EXIT_FAILURE);
   }
 
-  tmp_server_state = (enum server_states)
-    secfile_lookup_int_default(file, S_S_RUNNING, "game.server_state");
+  tmp_server_state = server_states_invalid();
+  if (section_file_lookup(file, "game.server_state")) {
+    string = secfile_lookup_str_int(file, (int *) &tmp_server_state,
+                                    "game.server_state");
+    if (NULL != string) {
+      /* new in 2.2: server_state as string; see srv_main.h */
+      tmp_server_state = server_states_by_name(string, strcmp);
+    }
+  }
+  if (!server_states_is_valid(tmp_server_state)) {
+    tmp_server_state = S_S_RUNNING;
+  }
 
   {
     set_meta_patches_string(secfile_lookup_str_default(file, 
@@ -5190,8 +5200,10 @@ void game_save(struct section_file *file, const char *save_reason,
     srv_state = game.info.is_new_game ? server_state() : S_S_RUNNING;
   }
 
-  secfile_insert_int(file, (int) srv_state, "game.server_state");
-  
+  /* new in 2.2: save server state as string; see srv_main.h */
+  secfile_insert_str(file, server_states_name(srv_state),
+                     "game.server_state");
+
   secfile_insert_str(file, get_meta_patches_string(), "game.metapatches");
   secfile_insert_bool(file, game.server.meta_info.user_message_set,
                       "game.user_metamessage");
