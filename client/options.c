@@ -1492,31 +1492,70 @@ static void message_options_free(void)
 }
 
 /****************************************************************
-... 
+  Load the message options; use the function defined by
+  specnum.h (see also events.h).
 *****************************************************************/
-static void message_options_load(struct section_file *file, const char *prefix)
+static void message_options_load(struct section_file *file,
+                                 const char *prefix)
 {
-  int i;
+  enum event_type event;
+  int i, num_events;
+  char *p;
 
-  for (i = 0; i < E_LAST; i++) {
-    messages_where[i] =
-      secfile_lookup_int_default(file, messages_where[i],
-				 "%s.message_where_%02d", prefix, i);
+  num_events = secfile_lookup_int_default(file, -1, "messages.count");
+  if (num_events == -1) {
+    /* version < 2.2 */
+    for (i = 0; i < E_LAST; i++) {
+      messages_where[i] =
+        secfile_lookup_int_default(file, messages_where[i],
+                                   "%s.message_where_%02d", prefix, i);
+    }
+    return;
+  }
+
+  for (i = 0; i < num_events; i++) {
+    p = secfile_lookup_str(file, "messages.event%d.name", i);
+    event = event_type_by_name(p, strcmp);
+    if (!event_type_is_valid(event)) {
+      freelog(LOG_ERROR, "Invalid event: %s", p);
+      continue;
+    }
+
+    /* skip E_LAST */
+    if (event == E_LAST) {
+      continue;
+    }
+
+    messages_where[event]
+      = secfile_lookup_int(file, "messages.event%d.where", i);
   }
 }
 
 /****************************************************************
-... 
+  Save the message options; use the function defined by
+  specnum.h (see also events.h).
 *****************************************************************/
-static void message_options_save(struct section_file *file, const char *prefix)
+static void message_options_save(struct section_file *file,
+                                 const char *prefix)
 {
-  int i;
+  enum event_type event;
+  int i = 0;
 
-  for (i = 0; i < E_LAST; i++) {
-    secfile_insert_int_comment(file, messages_where[i],
-			       get_event_message_text(i),
-			       "%s.message_where_%02d", prefix, i);
+  for (event = event_type_begin(); event != event_type_end();
+       event = event_type_next(event)) {
+    /* skip E_LAST */
+    if (event == E_LAST) {
+      continue;
+    }
+
+    secfile_insert_str(file, event_type_name(event),
+                       "messages.event%d.name", i);
+    secfile_insert_int(file, messages_where[i],
+                       "messages.event%d.where", i);
+    i++;
   }
+
+  secfile_insert_int(file, i, "messages.count");
 }
 
 
