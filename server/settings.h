@@ -177,6 +177,7 @@ void settings_turn(void);
 void settings_free(void);
 
 void send_server_settings(struct conn_list *dest);
+void send_server_hack_level_settings(struct conn_list *dest);
 void send_server_setting(struct conn_list *dest, const struct setting *pset);
 
 #endif				/* FC__SETTINGS_H */

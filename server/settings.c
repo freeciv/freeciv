@@ -1562,6 +1562,19 @@ void send_server_setting(struct conn_list *dest, const struct setting *pset)
 }
 
 /****************************************************************************
+  Send the ALLOW_HACK server settings.  Usually called when the access level
+  of the user changes.
+****************************************************************************/
+void send_server_hack_level_settings(struct conn_list *dest)
+{
+  settings_iterate(pset) {
+    if (!pset->to_client) {
+      send_server_setting(dest, pset);
+    }
+  } settings_iterate_end;
+}
+
+/****************************************************************************
   Tell the client about all server settings.
 ****************************************************************************/
 void send_server_settings(struct conn_list *dest)

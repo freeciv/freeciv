@@ -52,6 +52,29 @@
 
 
 /**************************************************************************
+  Set the access level of a connection, and re-send some needed info.  If
+  granted is TRUE, then it will overwrite the granted_access_level too.
+  Else, it will affect only the current access level.
+
+  NB: This function does not send updated connection information to other
+  clients, you need to do that yourself afterwards.
+**************************************************************************/
+void conn_set_access(struct connection *pconn, enum cmdlevel_id new_level,
+                     bool granted)
+{
+  enum cmdlevel_id old_level = conn_get_access(pconn);
+
+  pconn->access_level = new_level;
+  if (granted) {
+    pconn->server.granted_access_level = new_level;
+  }
+
+  if (ALLOW_HACK == old_level || ALLOW_HACK == new_level) {
+    send_server_hack_level_settings(pconn->self);
+  }
+}
+
+/**************************************************************************
   Restore access level for the given connection (user). Used when taking
   a player, observing, or detaching.
 
@@ -61,15 +84,16 @@
 static void restore_access_level(struct connection *pconn)
 {
   /* Restore previous privileges. */
-  pconn->access_level = pconn->server.granted_access_level;
+  enum cmdlevel_id level = pconn->server.granted_access_level;
 
   /* Detached connections must have at most the same privileges
    * as observers, unless they were granted something higher than
    * ALLOW_BASIC in the first place. */
-  if ((pconn->observer || !pconn->playing)
-      && pconn->access_level == ALLOW_BASIC) {
-    pconn->access_level = ALLOW_INFO;
+  if ((pconn->observer || !pconn->playing) && level == ALLOW_BASIC) {
+    level = ALLOW_INFO;
   }
+
+  conn_set_access(pconn, level, FALSE);
 }
 
 /**************************************************************************

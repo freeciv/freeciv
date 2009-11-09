@@ -561,8 +561,7 @@ void handle_single_want_hack_req(struct connection *pc,
   }
 
   if (you_have_hack) {
-    pc->server.granted_access_level = ALLOW_HACK;
-    pc->access_level = ALLOW_HACK;
+    conn_set_access(pc, ALLOW_HACK, TRUE);
   }
 
   dsend_packet_single_want_hack_reply(pc, you_have_hack);
