@@ -56,12 +56,12 @@ struct server_arguments {
 };
 
 /* used in savegame values */
-enum server_states { 
-  S_S_INITIAL = 0, 
-  S_S_GENERATING_WAITING = 1,
-  S_S_RUNNING = 2,
-  S_S_OVER = 3,
-};
+#define SPECENUM_NAME server_states
+#define SPECENUM_VALUE0 S_S_INITIAL
+#define SPECENUM_VALUE1 S_S_GENERATING_WAITING
+#define SPECENUM_VALUE2 S_S_RUNNING
+#define SPECENUM_VALUE3 S_S_OVER
+#include "specenum_gen.h"
 
 /* Structure for holding global server data.
  *
