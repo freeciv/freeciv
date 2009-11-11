@@ -3921,7 +3921,6 @@ bool start_command(struct connection *caller, bool check, bool notify)
                       "to disconnect."));
     return FALSE;
   case S_S_RUNNING:
-  case S_S_GENERATING_WAITING:
     /* TRANS: given when /start is invoked while the game is running. */
     start_cmd_reply(caller, notify,
                     _("Cannot start the game: it is already running."));

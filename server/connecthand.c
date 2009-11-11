@@ -555,6 +555,9 @@ bool connection_attach(struct connection *pconn, struct player *pplayer,
   /* Initial packets don't need to be resent.  See comment for
    * connecthand.c::establish_new_connection(). */
   switch (server_state()) {
+  case S_S_INITIAL:
+    break;
+
   case S_S_RUNNING:
     send_packet_freeze_hint(pconn);
     send_all_info(pconn->self, TRUE);
@@ -570,10 +573,6 @@ bool connection_attach(struct connection *pconn, struct player *pplayer,
     send_packet_thaw_hint(pconn);
     report_final_scores(pconn->self);
     send_pending_events(pconn, FALSE);
-    break;
-
-  case S_S_INITIAL:
-  case S_S_GENERATING_WAITING:
     break;
   }
 

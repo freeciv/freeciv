@@ -4305,15 +4305,37 @@ static void game_load_internal(struct section_file *file)
 
   tmp_server_state = server_states_invalid();
   if (section_file_lookup(file, "game.server_state")) {
-    string = secfile_lookup_str_int(file, (int *) &tmp_server_state,
+    enum old_server_states {
+      OLD_S_S_INITIAL = 0,
+      OLD_S_S_GENERATING_WAITING = 1,
+      OLD_S_S_RUNNING = 2,
+      OLD_S_S_OVER = 3
+    } saved_state;
+
+    string = secfile_lookup_str_int(file, (int *) &saved_state,
                                     "game.server_state");
     if (NULL != string) {
       /* new in 2.2: server_state as string; see srv_main.h */
       tmp_server_state = server_states_by_name(string, strcmp);
+    } else {
+      /* in former savegames, server states are saved as magic numbers. */
+      switch (saved_state) {
+      case OLD_S_S_INITIAL:
+      case OLD_S_S_GENERATING_WAITING:
+        tmp_server_state = S_S_INITIAL;
+        break;
+      case OLD_S_S_RUNNING:
+        tmp_server_state = S_S_RUNNING;
+        break;
+      case OLD_S_S_OVER:
+        tmp_server_state = S_S_OVER;
+        break;
+      }
     }
   }
   if (!server_states_is_valid(tmp_server_state)) {
-    tmp_server_state = S_S_RUNNING;
+    /* Don't take any risk! */
+    tmp_server_state = S_S_INITIAL;
   }
 
   {
@@ -4806,7 +4828,7 @@ static void game_load_internal(struct section_file *file)
     /* We're loading a running game without a seed (which is okay, if it's
      * a scenario).  We need to generate the game seed now because it will
      * be needed later during the load. */
-    if (S_S_GENERATING_WAITING < tmp_server_state) {
+    if (S_S_RUNNING <= tmp_server_state) {
       init_game_seed();
       rstate = get_myrand_state();
     }

@@ -239,9 +239,6 @@ static bool send_to_metaserver(enum meta_flag flag)
   case S_S_OVER:
     sz_strlcpy(state, "Game Ended");
     break;
-  case S_S_GENERATING_WAITING:
-    sz_strlcpy(state, "Generating");
-    break;
   }
 
   /* get hostname */

@@ -1182,7 +1182,6 @@ void start_game(void)
   /* Prevent problems with commands that only make sense in pregame. */
   clear_all_votes();
 
-  set_server_state(S_S_GENERATING_WAITING); /* loaded ??? */
   force_end_of_sniff = TRUE;
   /* There's no stateful packet set to client until srv_ready(). */
 }
@@ -2421,10 +2420,9 @@ void srv_main(void)
   do {
     freelog(LOG_NORMAL, _("Now accepting new client connections."));
     /* Remain in S_S_INITIAL until all players are ready. */
-    while (S_S_INITIAL == server_state()) {
-      /* Server state is set to S_S_GENERATING_WAITING in start_game()
-       * called within server_sniff_all_input(). */
-      server_sniff_all_input(); /* Accepting commands. */
+    while (S_E_FORCE_END_OF_SNIFF != server_sniff_all_input()) {
+      /* When force_end_of_sniff is used in pregame, it means that the server
+       * is ready to start (usually set within start_game()). */
     }
 
     srv_ready(); /* srv_ready() sets server state to S_S_RUNNING. */

@@ -1323,9 +1323,6 @@ static void send_lanserver_response(void)
     /* TRANS: Game state for local server */
     my_snprintf(status, sizeof(status), _("Game over"));
     break;
-  case S_S_GENERATING_WAITING:
-    /* TRANS: Game state for local server */
-    my_snprintf(status, sizeof(status), _("Waiting"));
   }
 
    my_snprintf(players, sizeof(players), "%d",
