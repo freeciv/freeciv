@@ -53,13 +53,10 @@ enum sset_level {
 extern const char *sset_level_names[];
 extern const int OLEVELS_NUM;
 
-typedef bool (*bool_validate_func_t)(bool value, struct connection *pconn,
-                                     const char **reject_message);
-typedef bool (*int_validate_func_t)(int value, struct connection *pconn,
-                                    const char **reject_message);
-typedef bool (*string_validate_func_t)(const char * value,
-                                       struct connection *pconn,
-                                       const char **reject_message);
+struct setting; /* must be available before the callback function */
+typedef bool (*callback_func_t)(const struct setting *pset,
+                                const struct connection *caller,
+                                const char **message);
 
 struct setting {
   const char *name;
@@ -94,7 +91,6 @@ struct setting {
     struct {
       bool *const pvalue;
       const bool default_value;
-      const bool_validate_func_t validate;
     } boolean;
     /*** int part ***/
     struct {
@@ -102,16 +98,17 @@ struct setting {
       const int default_value;
       const int min_value;
       const int max_value;
-      const int_validate_func_t validate;
     } integer;
     /*** string part ***/
     struct {
       char *const value;
       const char *const default_value;
       const size_t value_size;
-      const string_validate_func_t validate;
     } string;
   };
+
+  /* validation function */
+  const callback_func_t func_validate;
 };
 
 extern const int SETTINGS_NUM;

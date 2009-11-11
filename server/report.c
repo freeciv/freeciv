@@ -715,7 +715,6 @@ static void dem_line_item(char *outptr, size_t out_size,
   static values from this file so it's done separately.
 *************************************************************************/
 bool is_valid_demography(const char *demography,
-                         struct connection *caller,
                          const char **error_string)
 {
   int len = strlen(demography), i;
