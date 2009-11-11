@@ -4507,6 +4507,9 @@ static void game_load_internal(struct section_file *file)
     game.info.civilwarsize =
       secfile_lookup_int_default(file, GAME_DEFAULT_CIVILWARSIZE,
 				 "game.civilwarsize");
+    game.info.restrictinfra =
+      secfile_lookup_bool_default(file, GAME_DEFAULT_RESTRICTINFRA,
+                                  "game.restrictinfra");
     game.info.contactturns =
       secfile_lookup_int_default(file, GAME_DEFAULT_CONTACTTURNS,
 				 "game.contactturns");
@@ -5259,6 +5262,7 @@ void game_save(struct section_file *file, const char *save_reason,
   secfile_insert_bool(file, game.info.angrycitizen, "game.angrycitizen");
   secfile_insert_int(file, game.info.citymindist, "game.citymindist");
   secfile_insert_int(file, game.info.civilwarsize, "game.civilwarsize");
+  secfile_insert_bool(file, game.info.restrictinfra, "game.restrictinfra");
   secfile_insert_int(file, game.info.contactturns, "game.contactturns");
   secfile_insert_int(file, game.info.rapturedelay, "game.rapturedelay");
   secfile_insert_int(file, game.info.diplcost, "game.diplcost");

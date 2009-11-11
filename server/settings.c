@@ -842,6 +842,13 @@ struct setting settings[] = {
 	  GAME_MIN_CIVILWARSIZE, GAME_MAX_CIVILWARSIZE, 
 	  GAME_DEFAULT_CIVILWARSIZE)
 
+  GEN_BOOL("restrictinfra", game.info.restrictinfra,
+           SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
+           N_("Restrict the use of the infrastructure for enemy units"),
+           N_("If this option is set to 1, the use of roads and rails "
+              "will be restricted for enemy units."), NULL,
+           GAME_DEFAULT_RESTRICTINFRA)
+
   GEN_INT("contactturns", game.info.contactturns,
 	  SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
 	  N_("Turns until player contact is lost"),

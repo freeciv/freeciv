@@ -256,6 +256,8 @@ bool setting_class_is_changeable(enum sset_class class);
 #define GAME_MIN_CIVILWARSIZE        6
 #define GAME_MAX_CIVILWARSIZE        1000
 
+#define GAME_DEFAULT_RESTRICTINFRA   FALSE
+
 #define GAME_DEFAULT_CONTACTTURNS    20
 #define GAME_MIN_CONTACTTURNS        0
 #define GAME_MAX_CONTACTTURNS        100

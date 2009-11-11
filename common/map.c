@@ -63,6 +63,9 @@ struct terrain_misc terrain_control;
 const int DIR_DX[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
 const int DIR_DY[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
 
+static bool restrict_infra(const struct unit *punit, const struct tile *t1,
+                           const struct tile *t2);
+
 /****************************************************************************
   Return a bitfield of the specials on the tile that are infrastructure.
 ****************************************************************************/
@@ -683,7 +686,7 @@ static int tile_move_cost_ptrs(struct unit *punit,
    * leaving ships, so F_IGTER check has to be before native terrain
    * check. We want to give railroad bonus only to native units. */
   if (tile_has_special(t1, S_RAILROAD) && tile_has_special(t2, S_RAILROAD)
-      && native) {
+      && native && !restrict_infra(punit, t1, t2)) {
     return MOVE_COST_RAIL;
   }
   if (punit && unit_has_type_flag(punit, F_IGTER)) {
@@ -693,7 +696,8 @@ static int tile_move_cost_ptrs(struct unit *punit,
     /* Loading to transport or entering port */
     return SINGLE_MOVE;
   }
-  if (tile_has_special(t1, S_ROAD) && tile_has_special(t2, S_ROAD)) {
+  if (tile_has_special(t1, S_ROAD) && tile_has_special(t2, S_ROAD)
+      && !restrict_infra(punit, t1, t2)) {
     return MOVE_COST_ROAD;
   }
 
@@ -719,6 +723,29 @@ static int tile_move_cost_ptrs(struct unit *punit,
   }
 
   return tile_terrain(t2)->movement_cost * SINGLE_MOVE;
+}
+
+/****************************************************************************
+  Returns TRUE if there is a restriction with regard to the infrastructure,
+  i.e. at least one of the tiles t1 and t2 is claimed by a unfriendly
+  nation. This means that one can not use of the infrastructure (road,
+  railroad) on this tile.
+****************************************************************************/
+static bool restrict_infra(const struct unit *punit, const struct tile *t1,
+                           const struct tile *t2)
+{
+  struct player *plr1 = tile_owner(t1), *plr2 = tile_owner(t2);
+
+  if (!punit || !game.info.restrictinfra) {
+    return FALSE;
+  }
+
+  if ((plr1 && pplayers_at_war(plr1, unit_owner(punit)))
+      || (plr2 && pplayers_at_war(plr2, unit_owner(punit)))) {
+    return TRUE;
+  }
+
+  return FALSE;
 }
 
 /****************************************************************************

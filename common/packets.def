@@ -409,6 +409,7 @@ PACKET_GAME_INFO=15; sc
   UINT8 diplchance;
   UINT8 citymindist;
   UINT8 civilwarsize;
+  BOOL restrictinfra;
   UINT8 contactturns;
   UINT8 rapturedelay;
   UINT8 celebratesize; /* size limit for cities before they can celebrate */
