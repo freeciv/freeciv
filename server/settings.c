@@ -51,11 +51,11 @@ const int OLEVELS_NUM = ARRAY_SIZE(sset_level_names);
   Verify that a given allowtake string is valid.  See
   game.allow_take.
 *************************************************************************/
-static bool allowtake_validation(const struct setting *pset,
-                                 const struct connection *caller,
-                                 const char **message)
+static bool allowtake_callback(const char *value,
+                               struct connection *caller,
+                               const char **error_string)
 {
-  int len = strlen(pset->string.value), i;
+  int len = strlen(value), i;
   bool havecharacter_state = FALSE;
 
   /* We check each character individually to see if it's valid.  This
@@ -68,26 +68,26 @@ static bool allowtake_validation(const struct setting *pset,
 
   for (i = 0; i < len; i++) {
     /* Check to see if the character is a primary label. */
-    if (strchr("HhAadbOo", pset->string.value[i])) {
+    if (strchr("HhAadbOo", value[i])) {
       havecharacter_state = TRUE;
       continue;
     }
 
     /* If we've already passed a primary label, check to see if the
      * character is a modifier. */
-    if (havecharacter_state && strchr("1234", pset->string.value[i])) {
+    if (havecharacter_state && strchr("1234", value[i])) {
       havecharacter_state = FALSE;
       continue;
     }
 
     /* Looks like the character was invalid. */
-    *message = _("Allowed take string contains invalid\n"
-                 "characters.  Try \"help allowtake\".");
+    *error_string = _("Allowed take string contains invalid\n"
+		      "characters.  Try \"help allowtake\".");
     return FALSE;
   }
 
   /* All characters were valid. */
-  *message = NULL;
+  *error_string = NULL;
   return TRUE;
 }
 
@@ -95,11 +95,11 @@ static bool allowtake_validation(const struct setting *pset,
   Verify that a given startunits string is valid.  See
   game.info.start_units.
 *************************************************************************/
-static bool startunits_validation(const struct setting *pset,
-                                  const struct connection *caller,
-                                  const char **message)
+static bool startunits_callback(const char *value,
+                                struct connection *caller,
+                                const char **error_string)
 {
-  int len = strlen(pset->string.value), i;
+  int len = strlen(value), i;
   bool have_founder = FALSE;
 
   /* We check each character individually to see if it's valid, and
@@ -107,101 +107,84 @@ static bool startunits_validation(const struct setting *pset,
 
   for (i = 0; i < len; i++) {
     /* Check for a city founder */
-    if (pset->string.value[i] == 'c') {
+    if (value[i] == 'c') {
       have_founder = TRUE;
       continue;
     }
     /* TODO: add 'f' back in here when we can support ferry units */
-    if (strchr("cwxksdDaA", pset->string.value[i])) {
+    if (strchr("cwxksdDaA", value[i])) {
       continue;
     }
 
     /* Looks like the character was invalid. */
-    *message = _("Starting units string contains invalid\n"
-                 "characters.  Try \"help startunits\".");
+    *error_string = _("Starting units string contains invalid\n"
+		      "characters.  Try \"help startunits\".");
     return FALSE;
   }
 
   if (!have_founder) {
-    *message = _("Starting units string does not contain\n"
-                 "at least one city founder.  Try \n"
-                 "\"help startunits\".");
+    *error_string = _("Starting units string does not contain\n"
+		      "at least one city founder.  Try \n"
+		      "\"help startunits\".");
     return FALSE;
   }
-
   /* All characters were valid. */
-  *message = NULL;
+  *error_string = NULL;
   return TRUE;
-}
-
-/*************************************************************************
-  Check the demography setting. Wrapper for is_valid_demography().
-*************************************************************************/
-static bool demography_validation(const struct setting *pset,
-                                  const struct connection *caller,
-                                  const char **message)
-{
-  return is_valid_demography(pset->string.value, message);
 }
 
 /*************************************************************************
   Verify that a given endturn is valid.
 *************************************************************************/
-static bool endturn_validation(const struct setting *pset,
-                               const struct connection *caller,
-                               const char **message)
+static bool endturn_callback(int value, struct connection *caller,
+                             const char **error_string)
 {
-  if (*pset->integer.pvalue < game.info.turn) {
+  if (value < game.info.turn) {
     /* Tried to set endturn earlier than current turn */
-    *message = _("Cannot set endturn earlier than current turn.");
+    *error_string = _("Cannot set endturn earlier than current turn.");
     return FALSE;
   }
-
-  *message = NULL;
   return TRUE;
 }
 
 /*************************************************************************
   Verify that a given maxplayers string is valid.
 *************************************************************************/
-static bool maxplayers_validation(const struct setting *pset,
-                                  const struct connection *caller,
-                                  const char **message)
+static bool maxplayers_callback(int value, struct connection *caller,
+                                const char **error_string)
 {
 #ifdef GGZ_SERVER
   if (with_ggz) {
     /* In GGZ mode the maxplayers is the number of actual players - set
      * when the game is lauched and not changed thereafter.  This may be
      * changed in future. */
-    *message = _("Cannot change maxplayers in GGZ mode.");
+    *error_string = _("Cannot change maxplayers in GGZ mode.");
     return FALSE;
   }
 #endif
-  if (*pset->integer.pvalue < player_count()) {
-    *message =_("Number of players is higher than requested value;\n"
-                "Keeping old value.");
+  if (value < player_count()) {
+    *error_string =_("Number of players is higher than requested value;\n"
+		     "Keeping old value.");
     return FALSE;
   }
 
-  *message = NULL;
+  *error_string = NULL;
   return TRUE;
 }
 
 /*************************************************************************
   Disallow low timeout values for non-hack connections.
 *************************************************************************/
-static bool timeout_validation(const struct setting *pset,
-                               const struct connection *caller,
-                               const char **message)
+static bool timeout_callback(int value, struct connection *caller,
+                             const char **error_string)
 {
-  if (caller && caller->access_level < ALLOW_HACK
-      && *pset->integer.pvalue < 30) {
-    *message = _("You are not allowed to set timeout values less "
-                 "than 30 seconds.");
+  if (caller && caller->access_level < ALLOW_HACK && value < 30) {
+    *error_string = _("You are not allowed to set timeout values less "
+                      "than 30 seconds.");
     return FALSE;
   }
 
-  *message = NULL;
+  *error_string = NULL;
   return TRUE;
 }
 
@@ -210,21 +193,19 @@ static bool timeout_validation(const struct setting *pset,
   phases. NB: Assumes that it is not possible to first set team
   alternating phase mode then make teamless players.
 *************************************************************************/
-static bool phasemode_validation(const struct setting *pset,
-                                 const struct connection *caller,
-                                 const char **message)
+static bool phasemode_callback(int value, struct connection *caller,
+                               const char **error_string)
 {
-  if (*pset->integer.pvalue == PMT_TEAMS_ALTERNATE) {
+  if (value == PMT_TEAMS_ALTERNATE) {
     players_iterate(pplayer) {
       if (!pplayer->team) {
-        *message = _("All players must have a team if this option "
-                     "value is used.");
+        *error_string = _("All players must have a team if this option "
+                          "value is used.");
         return FALSE;
       }
     } players_iterate_end;
   }
-
-  *message = NULL;
+  *error_string = NULL;
   return TRUE;
 }
 
@@ -233,30 +214,26 @@ static bool phasemode_validation(const struct setting *pset,
                  _default)                                              \
   {name, sclass, to_client, short_help, extra_help, SSET_BOOL,          \
       scateg, slevel,                                                   \
-      {.boolean = {&value, _default}},                                  \
-      func_validate},
+      {.boolean = {&value, _default, func_validate}}},
 
 #define GEN_INT(name, value, sclass, scateg, slevel, to_client,         \
                 short_help, extra_help, func_validate,                  \
                 _min, _max, _default)                                   \
   {name, sclass, to_client, short_help, extra_help, SSET_INT,           \
       scateg, slevel,                                                   \
-      {.integer = {&value, _default, _min, _max}},                      \
-      func_validate},
+      {.integer = {&value, _default, _min, _max, func_validate}}},
 
 #define GEN_STRING(name, value, sclass, scateg, slevel, to_client,      \
                    short_help, extra_help, func_validate,               \
                    _default)                                            \
   {name, sclass, to_client, short_help, extra_help, SSET_STRING,        \
       scateg, slevel,                                                   \
-      {.string = {value, _default, sizeof(value)}},                     \
-      func_validate},
+      {.string = {value, _default, sizeof(value), func_validate}}},
 
 #define GEN_END                                                         \
   {NULL, SSET_LAST, SSET_SERVER_ONLY, NULL, NULL, SSET_INT,             \
       SSET_NUM_CATEGORIES, SSET_NONE,                                   \
-      {.boolean = {FALSE, FALSE}},                                      \
-      NULL},
+      {.boolean = {FALSE, FALSE, NULL}}},
 
 struct setting settings[] = {
 
@@ -459,7 +436,7 @@ struct setting settings[] = {
           N_("The maximal number of human and AI players who can be in "
              "the game. When this number of players are connected in "
              "the pregame state, any new players who try to connect "
-             "will be rejected."), maxplayers_validation,
+             "will be rejected."), maxplayers_callback,
 	  GAME_MIN_MAX_PLAYERS, GAME_MAX_MAX_PLAYERS, GAME_DEFAULT_MAX_PLAYERS)
 
   GEN_INT("aifill", game.info.aifill,
@@ -521,7 +498,7 @@ struct setting settings[] = {
 		"    D   = Good defense unit (eg., Phalanx)\n"
 		"    a   = Fast attack unit (eg., Horsemen)\n"
 		"    A   = Strong attack unit (eg., Catapult)\n"),
-		startunits_validation, GAME_DEFAULT_START_UNITS)
+		startunits_callback, GAME_DEFAULT_START_UNITS)
 
   GEN_INT("dispersion", game.info.dispersion,
 	  SSET_GAME_INIT, SSET_SOCIOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
@@ -1019,7 +996,7 @@ struct setting settings[] = {
                 "3 = Controller allowed, no observers allowed, "
                 "can't displace connections;\n\n"
                 "4 = No controller allowed, observers allowed;\n\n"),
-                allowtake_validation, GAME_DEFAULT_ALLOW_TAKE)
+                allowtake_callback, GAME_DEFAULT_ALLOW_TAKE)
 
   GEN_BOOL("autotoggle", game.info.auto_ai_toggle,
 	   SSET_META, SSET_NETWORK, SSET_SITUATIONAL, SSET_TO_CLIENT,
@@ -1032,7 +1009,7 @@ struct setting settings[] = {
 	  SSET_META, SSET_SOCIOLOGY, SSET_VITAL, SSET_TO_CLIENT,
 	  N_("Turn the game ends"),
           N_("The game will end at the end of the given turn."),
-          endturn_validation,
+          endturn_callback,
           GAME_MIN_END_TURN, GAME_MAX_END_TURN, GAME_DEFAULT_END_TURN)
 
   GEN_INT("timeout", game.info.timeout,
@@ -1045,7 +1022,7 @@ struct setting settings[] = {
              "Only connections with hack level access may set the "
              "timeout to lower than 30 seconds. Use this with the "
              "command \"timeoutincrease\" to have a dynamic timer."),
-          timeout_validation,
+          timeout_callback,
           GAME_MIN_TIMEOUT, GAME_MAX_TIMEOUT, GAME_DEFAULT_TIMEOUT)
 
   GEN_INT("timeaddenemymove", game.server.timeoutaddenemymove,
@@ -1068,7 +1045,7 @@ struct setting settings[] = {
              "  0 = All players move concurrently.\n"
              "  1 = All players alternate movement.\n"
              "  2 = Only players on the same team move concurrently."),
-          phasemode_validation, GAME_MIN_PHASE_MODE,
+          phasemode_callback, GAME_MIN_PHASE_MODE,
           GAME_MAX_PHASE_MODE, GAME_DEFAULT_PHASE_MODE)
 
   GEN_INT("nettimeout", game.info.tcptimeout,
@@ -1144,7 +1121,7 @@ struct setting settings[] = {
 		"    b = display \"best nation\" column\n"
 		"The order of characters is not significant, but "
 		"their capitalization is."),
-             demography_validation, GAME_DEFAULT_DEMOGRAPHY)
+	     is_valid_demography, GAME_DEFAULT_DEMOGRAPHY)
 
   GEN_INT("saveturns", game.info.save_nturns,
 	  SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_SERVER_ONLY,
@@ -1361,8 +1338,8 @@ bool setting_bool_validate(const struct setting *pset, bool val,
 {
   assert(pset->stype == SSET_BOOL);
   return (setting_is_changeable(pset, caller, reject_msg)
-          && (!pset->func_validate
-              || pset->func_validate(pset, caller, reject_msg)));
+          && (!pset->boolean.validate
+              || pset->boolean.validate(val, caller, reject_msg)));
 }
 
 /****************************************************************************
@@ -1435,8 +1412,8 @@ bool setting_int_validate(const struct setting *pset, int val,
   }
 
   return (setting_is_changeable(pset, caller, reject_msg)
-          && (!pset->func_validate
-              || pset->func_validate(pset, caller, reject_msg)));
+          && (!pset->integer.validate
+              || pset->integer.validate(val, caller, reject_msg)));
 }
 
 /****************************************************************************
@@ -1491,8 +1468,8 @@ bool setting_str_validate(const struct setting *pset, const char *val,
   }
 
   return (setting_is_changeable(pset, caller, reject_msg)
-          && (!pset->func_validate
-              || pset->func_validate(pset, caller, reject_msg)));
+          && (!pset->string.validate
+              || pset->string.validate(val, caller, reject_msg)));
 }
 
 /********************************************************************
