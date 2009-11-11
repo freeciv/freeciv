@@ -1186,7 +1186,7 @@ void chatline_init(void)
                      gtk_separator_tool_item_new(), -1);
 
   /* Foreground selector. */
-  item = gtk_tool_button_new(NULL, NULL);
+  item = gtk_tool_button_new(NULL, "");
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar), item, -1);
   g_object_set_data(G_OBJECT(item), "color_target", mystrdup("fg_color"));
   g_object_set_data(G_OBJECT(item), "color_info", mystrdup(_("foreground")));
@@ -1196,7 +1196,7 @@ void chatline_init(void)
                        _("Select the foreground color"), NULL);
 
   /* Background selector. */
-  item = gtk_tool_button_new(NULL, NULL);
+  item = gtk_tool_button_new(NULL, "");
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar), item, -1);
   g_object_set_data(G_OBJECT(item), "color_target", mystrdup("bg_color"));
   g_object_set_data(G_OBJECT(item), "color_info", mystrdup(_("background")));
