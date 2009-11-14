@@ -175,7 +175,7 @@ bool setting_class_is_changeable(enum sset_class class);
 
 #define GAME_DEFAULT_GOLD        50
 #define GAME_MIN_GOLD            0
-#define GAME_MAX_GOLD            5000
+#define GAME_MAX_GOLD            50000
 
 #define GAME_DEFAULT_START_UNITS  "ccwwx"
 
@@ -185,7 +185,7 @@ bool setting_class_is_changeable(enum sset_class class);
 
 #define GAME_DEFAULT_TECHLEVEL   0
 #define GAME_MIN_TECHLEVEL       0
-#define GAME_MAX_TECHLEVEL       50
+#define GAME_MAX_TECHLEVEL       100
 
 #define GAME_DEFAULT_ANGRYCITIZEN TRUE
 

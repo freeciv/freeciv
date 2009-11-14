@@ -469,10 +469,12 @@ extern const int DIR_DY[8];
 #define MAP_MIN_HUTS             0
 #define MAP_MAX_HUTS             500
 
-/* Size of the map in thousands of tiles */
+/* Size of the map in thousands of tiles.  Setting the maximal size over
+ * than 30 is dangerous, because some parts of the code (e.g. path finding)
+ * assume the tile index is of type (signed short int). */
 #define MAP_DEFAULT_SIZE         4
 #define MAP_MIN_SIZE             1
-#define MAP_MAX_SIZE             29
+#define MAP_MAX_SIZE             30
 
 /* This defines the maximum linear size in _map_ coordinates.
  * This must be smaller than 255 because of the way coordinates are sent
