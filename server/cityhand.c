@@ -108,12 +108,12 @@ void handle_city_make_specialist(struct player *pplayer, int city_id,
   struct city *pcity = player_find_city_by_id(pplayer, city_id);
 
   if (NULL == pcity) {
-    freelog(LOG_ERROR,
-            "handle_city_make_specialist() bad city number %d.",
+    /* Probably lost. */
+    freelog(LOG_VERBOSE, "handle_city_make_specialist() bad city number %d.",
             city_id);
     return;
   }
-
+  
   if (!is_valid_city_coords(worker_x, worker_y)) {
     freelog(LOG_ERROR,
             "handle_city_make_specialist() invalid city map {%d,%d} \"%s\".",
@@ -124,7 +124,7 @@ void handle_city_make_specialist(struct player *pplayer, int city_id,
   pcenter = city_tile(pcity);
 
   if (NULL == (ptile = city_map_to_tile(pcenter, worker_x, worker_y))) {
-    freelog(LOG_ERROR,
+    freelog(LOG_VERBOSE,
             "handle_city_make_specialist() unavailable city map {%d,%d} \"%s\".",
             worker_x, worker_y,
             city_name(pcity));
@@ -163,8 +163,8 @@ void handle_city_make_worker(struct player *pplayer, int city_id,
   struct city *pcity = player_find_city_by_id(pplayer, city_id);
 
   if (NULL == pcity) {
-    freelog(LOG_ERROR,
-            "handle_city_make_worker() bad city number %d.",
+    /* Probably lost. */
+    freelog(LOG_VERBOSE, "handle_city_make_worker() bad city number %d.",
             city_id);
     return;
   }
@@ -179,7 +179,7 @@ void handle_city_make_worker(struct player *pplayer, int city_id,
   pcenter = city_tile(pcity);
 
   if (NULL == (ptile = city_map_to_tile(pcenter, worker_x, worker_y))) {
-    freelog(LOG_ERROR,
+    freelog(LOG_VERBOSE,
             "handle_city_make_worker() unavailable city map {%d,%d} \"%s\".",
             worker_x, worker_y,
             city_name(pcity));
