@@ -3356,7 +3356,7 @@ bool load_command(struct connection *caller, const char *filename, bool check)
 
   /* Everything seemed to load ok; spread the good news. */
   send_load_game_info(TRUE);
-  
+
   /* Attach connections to players. Currently, this applies only 
    * to connections that have the same username as a player. */
   conn_list_iterate(game.est_connections, pconn) {

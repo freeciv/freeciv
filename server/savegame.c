@@ -36,6 +36,7 @@
 #include "idex.h"
 #include "map.h"
 #include "movement.h"
+#include "packets.h"
 #include "specialist.h"
 #include "unit.h"
 #include "unitlist.h"
@@ -54,6 +55,7 @@
 #include "mapgen.h"
 #include "maphand.h"
 #include "meta.h"
+#include "notify.h"
 #include "plrhand.h"
 #include "ruleset.h"
 #include "savegame.h"
@@ -5114,6 +5116,9 @@ static void game_load_internal(struct section_file *file)
   if (!game.info.is_new_game) {
     set_myrand_state(rstate);
   }
+
+  /* load event cache */
+  event_cache_load(file, "event_cache");
 }
 
 /***************************************************************
@@ -5462,5 +5467,8 @@ void game_save(struct section_file *file, const char *save_reason,
 			 "game.shuffled_player_%d", i);
       i++;
     } shuffled_players_iterate_end;
+
+    /* save event cache */
+    event_cache_save(file, "event_cache");
   }
 }

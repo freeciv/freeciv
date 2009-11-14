@@ -24,6 +24,9 @@
 #include "featured_text.h"      /* ftc_*: color pre-definitions. */
 #include "packets.h"
 
+/* server */
+#include "srv_main.h"           /* enum server_states */
+
 void package_chat_msg(struct packet_chat_msg *packet,
                       const struct connection *sender,
                       const struct ft_color color,
@@ -73,6 +76,10 @@ void notify_research(const struct player *pplayer,
                      fc__attribute((__format__ (__printf__, 4, 5)));
 
 /* Event cache. */
+
+/* The type of event target. */
+struct event_cache_players;
+
 void event_cache_init(void);
 void event_cache_free(void);
 void event_cache_remove_old(void);
@@ -81,13 +88,17 @@ void event_cache_add_for_all(const struct packet_chat_msg *packet);
 void event_cache_add_for_global_observers(const struct packet_chat_msg *packet);
 void event_cache_add_for_player(const struct packet_chat_msg *packet,
                                 const struct player *pplayer);
-struct event_cache_players;
 struct event_cache_players *
 event_cache_player_add(struct event_cache_players *players,
-                       const struct player *pplayer);
+                       const struct player *pplayer)
+                       fc__attribute((warn_unused_result));
 void event_cache_add_for_players(const struct packet_chat_msg *packet,
                                  struct event_cache_players *players);
 
 void send_pending_events(struct connection *pconn, bool include_public);
+
+struct section_file;
+void event_cache_load(struct section_file *file, const char *section);
+void event_cache_save(struct section_file *file, const char *section);
 
 #endif  /* FC__NOTIFY_H */

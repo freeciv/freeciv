@@ -19,6 +19,7 @@
 
 /* utility */
 #include "log.h"
+#include "registry.h"
 
 /* common */
 #include "connection.h"
@@ -365,8 +366,6 @@ void notify_research(const struct player *pplayer,
 /**************************************************************************
   Event cache datas.
 **************************************************************************/
-
-/* The type of event target. */
 enum event_cache_target {
   ECT_ALL,
   ECT_PLAYERS,
@@ -397,6 +396,9 @@ struct event_cache_players {
 /* The full list of the events. */
 static struct event_cache_data_list *event_cache = NULL;
 
+/* Event cache status: ON(TRUE) / OFF(FALSE); used for saving the
+ * event cache */
+static bool event_cache_status = FALSE;
 
 /**************************************************************************
   Destroy an event_cache_data.  Removes it from the cache.
@@ -415,7 +417,8 @@ static void event_cache_data_destroy(struct event_cache_data *pdata)
   old entry if needed.
 **************************************************************************/
 static struct event_cache_data *
-event_cache_data_new(const struct packet_chat_msg *packet,
+event_cache_data_new(const struct packet_chat_msg *packet, int turn,
+                     time_t timestamp, enum server_states server_status,
                      enum event_cache_target target_type,
                      struct event_cache_players *players)
 {
@@ -434,11 +437,16 @@ event_cache_data_new(const struct packet_chat_msg *packet,
     return NULL;
   }
 
+  /* check if cache is active */
+  if (!event_cache_status) {
+    return NULL;
+  }
+
   pdata = fc_malloc(sizeof(*pdata));
   pdata->packet = *packet;
-  pdata->turn = game.info.turn;
-  pdata->timestamp = time(NULL);
-  pdata->server_state = server_state();
+  pdata->turn = turn;
+  pdata->timestamp = timestamp;
+  pdata->server_state = server_status;
   pdata->target_type = target_type;
   if (players) {
     pdata->target = players->vector;
@@ -466,6 +474,7 @@ void event_cache_init(void)
     event_cache_free();
   }
   event_cache = event_cache_data_list_new();
+  event_cache_status = TRUE;
 }
 
 /**************************************************************************
@@ -480,6 +489,7 @@ void event_cache_free(void)
     event_cache_data_list_free(event_cache);
     event_cache = NULL;
   }
+  event_cache_status = FALSE;
 }
 
 /**************************************************************************
@@ -500,7 +510,8 @@ void event_cache_remove_old(void)
 void event_cache_add_for_all(const struct packet_chat_msg *packet)
 {
   if (0 < game.server.event_cache.turns) {
-    (void) event_cache_data_new(packet, ECT_ALL, NULL);
+    (void) event_cache_data_new(packet, game.info.turn, time(NULL),
+                                server_state(), ECT_ALL, NULL);
   }
 }
 
@@ -510,7 +521,8 @@ void event_cache_add_for_all(const struct packet_chat_msg *packet)
 void event_cache_add_for_global_observers(const struct packet_chat_msg *packet)
 {
   if (0 < game.server.event_cache.turns) {
-    (void) event_cache_data_new(packet, ECT_GLOBAL_OBSERVERS, NULL);
+    (void) event_cache_data_new(packet, game.info.turn, time(NULL),
+                                server_state(), ECT_GLOBAL_OBSERVERS, NULL);
   }
 }
 
@@ -533,7 +545,8 @@ void event_cache_add_for_player(const struct packet_chat_msg *packet,
       && (server_state() > S_S_INITIAL || !game.info.is_new_game)) {
     struct event_cache_data *pdata;
 
-    pdata = event_cache_data_new(packet, ECT_PLAYERS, NULL);
+    pdata = event_cache_data_new(packet, game.info.turn, time(NULL),
+                                 server_state(), ECT_PLAYERS, NULL);
     RETURN_IF_FAIL(NULL != pdata);
     BV_SET(pdata->target, player_index(pplayer));
   }
@@ -553,7 +566,8 @@ void event_cache_add_for_players(const struct packet_chat_msg *packet,
       && NULL != players
       && BV_ISSET_ANY(players->vector)
       && (server_state() > S_S_INITIAL || !game.info.is_new_game)) {
-    (void) event_cache_data_new(packet, ECT_PLAYERS, players);
+    (void) event_cache_data_new(packet, game.info.turn, time(NULL),
+                                server_state(), ECT_PLAYERS, players);
   }
 
   if (NULL != players) {
@@ -605,7 +619,7 @@ static bool event_cache_match(const struct event_cache_data *pdata,
   }
 
   if (server_state() == S_S_RUNNING
-      && game.info.turn <= pdata->turn
+      && game.info.turn < pdata->turn
       && game.info.turn > pdata->turn - game.server.event_cache.turns) {
     return FALSE;
   }
@@ -650,4 +664,179 @@ void send_pending_events(struct connection *pconn, bool include_public)
       }
     }
   } event_cache_iterate_end;
+}
+
+/***************************************************************
+  Load the event cache from a savefile.
+***************************************************************/
+void event_cache_load(struct section_file *file, const char *section)
+{
+  struct packet_chat_msg packet;
+  enum event_cache_target target_type;
+  enum server_states server_status;
+  struct event_cache_players *players = NULL;
+  int i, turn, event_count;
+  time_t timestamp, now;
+  const char *p, *q;
+
+  event_count = secfile_lookup_int_default(file, 0, "%s.count", section);
+  freelog(LOG_VERBOSE, "saved events: %d", event_count);
+
+  if (0 >= event_count) {
+    return;
+  }
+
+  now = time(NULL);
+  for (i = 0; i < event_count; i++) {
+    /* restore packet */
+    packet.x = secfile_lookup_int_default(file, -1, "%s.events%d.x",
+                                          section, i);
+    packet.y = secfile_lookup_int_default(file, -1, "%s.events%d.y",
+                                          section, i);
+    packet.conn_id = -1;
+
+    p = secfile_lookup_str(file, "%s.events%d.event", section, i);
+    if (NULL == p) {
+      freelog(LOG_ERROR, "[Event cache %4d] Missing event type.", i);
+      continue;
+    }
+    packet.event = event_type_by_name(p, mystrcasecmp);
+    if (!event_type_is_valid(packet.event)) {
+      freelog(LOG_ERROR, "[Event cache %4d] Not supported event type: %s",
+              i, p);
+      continue;
+    }
+
+    p = secfile_lookup_str(file, "%s.events%d.message", section, i);
+    if (NULL == p) {
+      freelog(LOG_ERROR, "[Event cache %4d] Missing message.", i);
+      continue;
+    }
+    sz_strlcpy(packet.message, p);
+
+    /* restore event cache data */
+    turn = secfile_lookup_int_default(file, 0, "%s.events%d.turn",
+                                      section, i);
+    timestamp = secfile_lookup_int_default(file, now,
+                                           "%s.events%d.timestamp",
+                                           section, i);
+
+    p = secfile_lookup_str(file, "%s.events%d.server_state", section, i);
+    if (NULL == p) {
+      freelog(LOG_ERROR, "[Event cache %4d] Missing server state info.", i);
+      continue;
+    }
+    server_status = server_states_by_name(p, mystrcasecmp);
+    if (!server_states_is_valid(server_status)) {
+      freelog(LOG_ERROR, "[Event cache %4d] Server state no supported: %s",
+              i, p);
+      continue;
+    }
+
+    p = secfile_lookup_str(file, "%s.events%d.target", section, i);
+    if (NULL == p) {
+      freelog(LOG_ERROR, "[Event cache %4d] Missing target info.", i);
+      continue;
+    } else if (0 == mystrcasecmp(p, "All")) {
+      target_type = ECT_ALL;
+    } else if (0 == mystrcasecmp(p, "Global Observers")) {
+      target_type = ECT_GLOBAL_OBSERVERS;
+    } else {
+      bool valid = TRUE;
+
+      target_type = ECT_PLAYERS;
+      q = p;
+      players_iterate(pplayer) {
+        if ('1' == *q) {
+          players = event_cache_player_add(players, pplayer);
+        } else if ('0' != *q) {
+          /* a value not '0' or '1' means a corruption of the savegame */
+          valid = FALSE;
+          break;
+        }
+
+        q++;
+      } players_iterate_end;
+
+      if (!valid && NULL == players) {
+        freelog(LOG_ERROR, "[Event cache %4d] invalid target bitmap: %s",
+                i, p);
+        if (NULL != players) {
+          FC_FREE(players);
+        }
+      }
+    }
+
+    /* insert event into the cache */
+    (void) event_cache_data_new(&packet, turn, timestamp, server_status,
+                                target_type, players);
+
+    if (NULL != players) {
+      /* free the event cache player selection */
+      FC_FREE(players);
+    }
+
+    freelog(LOG_VERBOSE, "load event %4d: [T%03d] %s", i, turn,
+            packet.message);
+  }
+}
+
+/***************************************************************
+  Save the event cache into the savegame.
+***************************************************************/
+void event_cache_save(struct section_file *file, const char *section)
+{
+  int event_count = 0;
+  char target[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS + 1];
+  char *p;
+
+  /* stop event logging; this way events from freelog() will not be added
+   * to the event list while saving the event list */
+  event_cache_status = FALSE;
+
+  event_cache_iterate(pdata) {
+    secfile_insert_int(file, pdata->turn, "%s.events%d.turn",
+                       section, event_count);
+    secfile_insert_int(file, pdata->timestamp, "%s.events%d.timestamp",
+                       section, event_count);
+    secfile_insert_int(file, pdata->packet.x, "%s.events%d.x",
+                       section, event_count);
+    secfile_insert_int(file, pdata->packet.y, "%s.events%d.y",
+                       section, event_count);
+    secfile_insert_str(file, server_states_name(pdata->server_state),
+                       "%s.events%d.server_state", section, event_count);
+    secfile_insert_str(file, event_type_name(pdata->packet.event),
+                       "%s.events%d.event", section, event_count);
+    switch (pdata->target_type) {
+    case ECT_ALL:
+      my_snprintf(target, sizeof(target), "All");
+      break;
+    case ECT_PLAYERS:
+      p = target;
+      players_iterate(pplayer) {
+        *p++ = (BV_ISSET(pdata->target, player_index(pplayer)) ? '1' : '0');
+      } players_iterate_end;
+      *p = '\0';
+    break;
+    case ECT_GLOBAL_OBSERVERS:
+      my_snprintf(target, sizeof(target), "Global Observers");
+      break;
+    }
+    secfile_insert_str(file, target, "%s.events%d.target",
+                       section, event_count);
+    secfile_insert_str(file, pdata->packet.message, "%s.events%d.message",
+                       section, event_count);
+
+    freelog(LOG_VERBOSE, "save event %4d: [T%03d] %s", event_count,
+            pdata->turn, pdata->packet.message);
+
+    event_count++;
+  } event_cache_iterate_end;
+
+  /* save the number of events in the event cache */
+  secfile_insert_int(file, event_count, "%s.count", section);
+
+  freelog(LOG_VERBOSE, "events saved: %d", event_count);
+
+  event_cache_status = TRUE;
 }

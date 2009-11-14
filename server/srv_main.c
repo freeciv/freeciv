@@ -1984,6 +1984,7 @@ static void srv_running(void)
   struct timer *eot_timer;	/* time server processing at end-of-turn */
   int save_counter = 0;
   bool is_new_turn = game.info.is_new_game;
+  bool need_send_pending_events = !game.info.is_new_game;
 
   /* We may as well reset is_new_game now. */
   game.info.is_new_game = FALSE;
@@ -2017,8 +2018,17 @@ static void srv_running(void)
 
     for (; game.info.phase < game.info.num_phases; game.info.phase++) {
       freelog(LOG_DEBUG, "Starting phase %d/%d.", game.info.phase,
-	      game.info.num_phases);
+              game.info.num_phases);
       begin_phase(is_new_turn);
+      if (need_send_pending_events) {
+        /* When loading a savegame, we need to send loaded events, after
+         * the clients switched to the game page (after the first
+         * packet_start_phase is received). */
+        conn_list_iterate(game.est_connections, pconn) {
+          send_pending_events(pconn, TRUE);
+        } conn_list_iterate_end;
+        need_send_pending_events = FALSE;
+      }
       is_new_turn = TRUE;
 
       force_end_of_sniff = FALSE;
@@ -2349,7 +2359,7 @@ static void srv_ready(void)
   lsend_packet_freeze_hint(game.est_connections);
   send_all_info(game.est_connections, FALSE);
   lsend_packet_thaw_hint(game.est_connections);
-  
+
   if (game.info.is_new_game) {
     init_new_game();
   }
