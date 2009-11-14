@@ -21,6 +21,7 @@
 
 /* utility */
 #include "fcintl.h"
+#include "hash.h"
 #include "ioz.h"
 #include "log.h"
 #include "mem.h"
@@ -419,6 +420,8 @@ bool gui_win32_enable_alpha = TRUE;
 /* Set to TRUE after the first call to options_init(), to avoid the usage
  * of non-initialized datas when calling the changed callback. */
 static bool options_fully_initialized = FALSE;
+
+static struct hash_table *settable_options_hash = NULL;
 
 static void reqtree_show_icons_callback(struct client_option *poption);
 static void view_option_changed_callback(struct client_option *poption);
@@ -1737,111 +1740,142 @@ static const char *get_last_option_file_name(void)
 /**************************************************************************
   Load the server options.
 **************************************************************************/
-void options_load_settable(bool send_it)
+static void settable_options_load(struct section_file *sf)
 {
-  char buffer[MAX_LEN_MSG];
-  struct section_file sf;
-  const char *name;
-  char *desired_string;
-  int i = 0;
+  char buf[64];
+  char **entries, **entry;
+  const char *string;
+  int value;
+  int num;
 
-  name = get_last_option_file_name();
-  if (!name) {
-    /* fail silently */
-    return;
-  }
-  if (!section_file_load(&sf, name)) {
-    return;
-  }
+  RETURN_IF_FAIL(NULL != settable_options_hash);
 
-  for (; i < num_settable_options; i++) {
-    struct options_settable *o = &settable_options[i];
-    bool changed = FALSE;
+  hash_delete_all_entries(settable_options_hash);
 
-    my_snprintf(buffer, sizeof(buffer), "/set %s ", o->name);
+  entries = secfile_get_section_entries(sf, "server", &num);
 
-    switch (o->stype) {
-    case SSET_BOOL:
-      o->desired_val = secfile_lookup_bool_default(&sf, o->default_val,
-                                                   "server.%s", o->name);
-      changed = (o->desired_val != o->default_val
-              && o->desired_val != o->val);
-      if (changed) {
-        sz_strlcat(buffer, o->desired_val ? "1" : "0");
+  if (NULL != entries) {
+    for (entry = entries; 0 < num--; entry++) {
+      /* Before 2.2, some were saved as numbers. */
+      string = secfile_lookup_str_int(sf, &value, "server.%s", *entry);
+
+      if (NULL == string) {
+        my_snprintf(buf, sizeof(buf), "%d", value);
+        string = buf;
       }
-      break;
-    case SSET_INT:
-      o->desired_val = secfile_lookup_int_default(&sf, o->default_val,
-                                                  "server.%s", o->name);
-      changed = (o->desired_val != o->default_val
-              && o->desired_val != o->val);
-      if (changed) {
-        cat_snprintf(buffer, sizeof(buffer), "%d", o->desired_val);
-      }
-      break;
-    case SSET_STRING:
-      desired_string = secfile_lookup_str_default(&sf, o->default_strval,
-                                                  "server.%s", o->name);
-      if (NULL != desired_string) {
-        if (NULL != o->desired_strval) {
-          free(o->desired_strval);
-        }
-        o->desired_strval = mystrdup(desired_string);
-        changed = (0 != strcmp(desired_string, o->default_strval)
-                && 0 != strcmp(desired_string, o->strval));
-        if (changed) {
-          sz_strlcat(buffer, desired_string);
-        }
-      }
-      break;
-    default:
-      freelog(LOG_ERROR,
-              "load_settable_options() bad type %d.",
-              o->stype);
-      break;
-    };
 
-    if (changed && send_it) {
-      send_chat(buffer);
+      hash_insert(settable_options_hash, mystrdup(*entry), mystrdup(string));
     }
+    free(entries);
   }
-
-  section_file_free(&sf);
 }
 
 /****************************************************************
- Save settable per connection/server options.
+  Save the desired server options.
 *****************************************************************/
-static void save_settable_options(struct section_file *sf)
+static void settable_options_save(struct section_file *sf)
 {
-  int i = 0;
+  RETURN_IF_FAIL(NULL != settable_options_hash);
 
-  for (; i < num_settable_options; i++) {
-    struct options_settable *o = &settable_options[i];
+  hash_iterate(settable_options_hash, iter) {
+    secfile_insert_str(sf, (const char *) hash_iter_get_value(iter),
+                       "server.%s", (const char *) hash_iter_get_key(iter));
+  } hash_iterate_end;
+}
 
-    switch (o->stype) {
+/****************************************************************
+  Update the desired settable options hash table from the current
+  setting configuration.
+*****************************************************************/
+void desired_settable_options_update(void)
+{
+  char buf[64];
+  struct options_settable *pset;
+  const char *value;
+  int i;
+
+  RETURN_IF_FAIL(NULL != settable_options_hash);
+
+  for (i = 0; i < num_settable_options; i++) {
+    pset = settable_options + i;
+    if (!pset->is_visible) {
+      /* Cannot know the value of this setting in this case, don't overwrite. */
+      continue;
+    }
+
+    value = NULL;
+    switch (pset->stype) {
     case SSET_BOOL:
-      if (o->desired_val != o->default_val) {
-        secfile_insert_bool(sf, o->desired_val, "server.%s", o->name);
-      }
-      break;
     case SSET_INT:
-      if (o->desired_val != o->default_val) {
-        secfile_insert_int(sf, o->desired_val, "server.%s",  o->name);
-      }
+      my_snprintf(buf, sizeof(buf), "%d", pset->val);
+      value = buf;
       break;
     case SSET_STRING:
-      if (NULL != o->desired_strval
-       && 0 != strcmp(o->desired_strval, o->default_strval)) {
-        secfile_insert_str(sf, o->desired_strval, "server.%s", o->name);
-      }
+      value = pset->strval;
       break;
-    default:
-      freelog(LOG_ERROR,
-              "save_settable_options() bad type %d.",
-              o->stype);
-      break;
-    };
+    }
+
+    if (NULL == value) {
+      freelog(LOG_ERROR, "Wrong setting type (%d) for '%s'.",
+              pset->stype, pset->name);
+      continue;
+    }
+
+    hash_replace(settable_options_hash, mystrdup(pset->name), mystrdup(value));
+  }
+}
+
+/****************************************************************
+  Update a desired settable option in the hash table from a value
+  which can be different of the current consiguration.
+*****************************************************************/
+void desired_settable_option_update(const char *op_name, const char *op_value,
+                                    bool allow_replace)
+{
+  RETURN_IF_FAIL(NULL != settable_options_hash);
+
+  if (allow_replace) {
+    hash_delete_entry(settable_options_hash, op_name);
+  }
+  hash_insert(settable_options_hash, mystrdup(op_name), mystrdup(op_value));
+}
+
+/****************************************************************
+  Send the desired server options to the server.
+*****************************************************************/
+void desired_settable_option_send(struct options_settable *pset)
+{
+  char buf[64];
+  const char *desired;
+  const char *value;
+
+  RETURN_IF_FAIL(NULL != settable_options_hash);
+
+  desired = hash_lookup_data(settable_options_hash, pset->name);
+  if (NULL == desired) {
+    /* No change explicitly  desired. */
+    return;
+  }
+
+  value = NULL;
+  switch (pset->stype) {
+  case SSET_BOOL:
+  case SSET_INT:
+    my_snprintf(buf, sizeof(buf), "%d", pset->val);
+    value = buf;
+    break;
+  case SSET_STRING:
+    value = pset->strval;
+    break;
+  }
+
+  if (NULL != value) {
+    if (0 != strcmp(value, desired)) {
+      send_chat_printf("/set %s %s", pset->name, desired);
+    }
+  } else {
+    freelog(LOG_ERROR, "Wrong setting type (%d) for '%s'.",
+            pset->stype, pset->name);
   }
 }
 
@@ -1920,6 +1954,7 @@ void options_load(void)
     }
   }
 
+  settable_options_load(&sf);
   global_worklists_load(&sf);
 
   section_file_free(&sf);
@@ -2016,7 +2051,7 @@ void options_save(void)
 
   /* server settings */
   save_cma_presets(&sf);
-  save_settable_options(&sf);
+  settable_options_save(&sf);
 
   /* insert global worklists */
   global_worklists_save(&sf);
@@ -2040,6 +2075,9 @@ void options_init(void)
   message_options_init();
   gui_options_extra_init();
   global_worklists_init();
+
+  settable_options_hash = hash_new_full(hash_fval_string, hash_fcmp_string,
+                                        free, free);
 
   client_options_iterate_all(poption) {
     switch (option_type(poption)) {
@@ -2095,6 +2133,11 @@ void options_init(void)
 **************************************************************************/
 void options_free(void)
 {
+  if (NULL != settable_options_hash) {
+    hash_free(settable_options_hash);
+    settable_options_hash = NULL;
+  }
+
   message_options_free();
   global_worklists_free();
 }

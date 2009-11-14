@@ -57,17 +57,17 @@ struct options_settable {
 
   int val;
   int default_val;
-  int desired_val;
   int min;
   int max;
 
   char *strval;
   char *default_strval;
-  char *desired_strval;
 
   char *name;
   char *short_help;
   char *extra_help;
+
+  bool desired_sent;
 };
 
 extern struct options_settable *settable_options;

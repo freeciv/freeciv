@@ -1424,9 +1424,8 @@ static void option_changed_callback(GtkWidget *widget, gpointer data)
 /*************************************************************************
   helper function for server options dialog
 *************************************************************************/
-static void settable_options_processing(GtkWidget *final)
+static void settable_options_processing(GtkWidget *final, gboolean local_update)
 {
-  char buffer[MAX_LEN_MSG];
   const char *desired_string;
   GtkWidget *w = final;
 
@@ -1434,38 +1433,33 @@ static void settable_options_processing(GtkWidget *final)
     struct options_settable *o =
       (struct options_settable *)g_object_get_data(G_OBJECT(w), "changed");
 
-    /* if the entry has been changed, then send the changes to the server */
+    /* If the entry has been changed, then send the changes to the server. */
     if (NULL != o) {
-      /* append the name of the option */
-      my_snprintf(buffer, sizeof(buffer), "/set %s ", gtk_widget_get_name(w));
+      desired_string = NULL;
 
-      /* append the setting */
+      /* Get the setting string value. */
       switch (o->stype) {
       case SSET_BOOL:
-        o->desired_val = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(w));
-        sz_strlcat(buffer, o->desired_val ? "1" : "0");
+        desired_string = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(w))
+                          ? "1" : "0");
         break;
       case SSET_INT:
-        o->desired_val = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(w));
-        sz_strlcat(buffer, gtk_entry_get_text(GTK_ENTRY(w)));
-        break;
       case SSET_STRING:
         desired_string = gtk_entry_get_text(GTK_ENTRY(w));
-        if (NULL != desired_string) {
-          if (NULL != o->desired_strval) {
-            free(o->desired_strval);
-          }
-          o->desired_strval = mystrdup(desired_string);
-          sz_strlcat(buffer, desired_string);
-        }
-        break;
-      default:
-        freelog(LOG_ERROR,
-                "settable_options_processing() bad type %d.",
-                o->stype);
         break;
       };
-      send_chat(buffer);
+
+      if (NULL != desired_string) {
+        /* Send to server. */
+        send_chat_printf("/set %s %s", gtk_widget_get_name(w), desired_string);
+        if (local_update) {
+          /* Make a local change of the desired value for this option,
+           * probably because we want to save it before the server send its
+           * new value to us. */
+          desired_settable_option_update(gtk_widget_get_name(w),
+                                         desired_string, TRUE);
+        }
+      }
     }
 
     /* using the linked list, work backwards and check the previous widget */
@@ -1480,11 +1474,12 @@ static void settable_options_callback(GtkWidget *win, gint rid, GtkWidget *w)
 {
   switch (rid) {
   case GTK_RESPONSE_ACCEPT:
-    settable_options_processing(w);
+    desired_settable_options_update();
+    settable_options_processing(w, TRUE);
     options_save();
     break;
   case GTK_RESPONSE_APPLY:
-    settable_options_processing(w);
+    settable_options_processing(w, FALSE);
     break;
   default:
     break;

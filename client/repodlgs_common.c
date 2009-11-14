@@ -45,8 +45,6 @@ struct options_settable *settable_options = NULL;
 int num_options_categories = 0;
 int num_settable_options = 0;
 
-static bool settable_options_loaded = FALSE;	/* desired options from file */
-
 
 /****************************************************************
   Fills out the array of struct improvement_entry given by
@@ -199,8 +197,6 @@ bool is_report_dialogs_frozen(void)
 *******************************************************************/
 void settable_options_init(void)
 {
-  settable_options_loaded = FALSE;
-
   settable_options = NULL;
   num_settable_options = 0;
 
@@ -243,14 +239,7 @@ void settable_options_free(void)
   int i;
 
   for (i = 0; i < num_settable_options; i++) {
-    struct options_settable *o = &settable_options[i];
-    settable_option_strings_free(o);
-
-    /* special handling for non-packet strings */
-    if (NULL != o->desired_strval) {
-      free(o->desired_strval);
-      o->desired_strval = NULL;
-    }
+    settable_option_strings_free(settable_options + i);
   }
   free(settable_options);
 
@@ -271,7 +260,9 @@ void handle_options_settable_control(
 {
   int i; 
 
-  settable_options_free();
+  if (settable_options) {
+    settable_options_free();
+  }
 
   /* avoid a malloc of size 0 warning */
   if (0 == packet->num_categories
@@ -314,10 +305,6 @@ void handle_options_settable(struct packet_options_settable *packet)
 
   o->val = packet->val;
   o->default_val = packet->default_val;
-  if (!settable_options_loaded) {
-    o->desired_val = packet->default_val;
-    /* desired_val is loaded later */
-  }
   o->min = packet->min;
   o->max = packet->max;
 
@@ -349,16 +336,17 @@ void handle_options_settable(struct packet_options_settable *packet)
   o->short_help = mystrdup(packet->short_help);
   o->extra_help = mystrdup(packet->extra_help);
 
-  /* have no proper final packet, test for the last instead */
-  if (i == (num_settable_options - 1) && !settable_options_loaded
+  if (!o->desired_sent
+      && o->is_visible
+      && is_server_running()
       && packet->initial_setting) {
     /* Only send our private settings if we are running
      * on a forked local server, i.e. started by the
      * client with the "Start New Game" button.
      * Do now override settings that are already saved to savegame
      * and now loaded. */
-    options_load_settable(is_server_running());
-    settable_options_loaded = TRUE;
+    desired_settable_option_send(o);
+    o->desired_sent = TRUE;
   }
 }
 

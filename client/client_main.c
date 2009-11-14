@@ -199,6 +199,7 @@ static void client_game_init(void)
   control_init();
   link_marks_init();
   voteinfo_queue_init();
+  settable_options_init();
 }
 
 /**************************************************************************
@@ -207,6 +208,7 @@ static void client_game_init(void)
 static void client_game_free(void)
 {
   packhand_free();
+  settable_options_free();
   voteinfo_queue_free();
   link_marks_free();
   control_done();
@@ -433,7 +435,6 @@ int client_main(int argc, char *argv[])
   chatline_common_init();
   init_player_dlg_common();
   init_themes();
-  settable_options_init();
 
   options_init();
   options_load();
