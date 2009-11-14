@@ -85,18 +85,14 @@ void handle_unit_airlift(struct player *pplayer, int unit_id, int city_id)
   struct city *pcity = game_find_city_by_number(city_id);
 
   if (NULL == punit) {
-    /* Shouldn't happen */
-    freelog(LOG_ERROR, "handle_unit_airlift()"
-	    " invalid unit %d",
-	    unit_id);
+    /* Probably died or bribed. */
+    freelog(LOG_VERBOSE, "handle_unit_airlift() invalid unit %d", unit_id);
     return;
   }
 
   if (NULL == pcity) {
-    /* Shouldn't happen */
-    freelog(LOG_ERROR, "handle_unit_airlift()"
-	    " invalid city %d",
-	    city_id);
+    /* Probably lost. */
+    freelog(LOG_VERBOSE, "handle_unit_airlift() invalid city %d", city_id);
     return;
   }
 
@@ -113,10 +109,9 @@ void handle_unit_type_upgrade(struct player *pplayer, Unit_type_id uti)
   int number_of_upgraded_units = 0;
 
   if (NULL == from_unittype) {
-    /* Shouldn't happen */
-    freelog(LOG_ERROR, "handle_unit_type_upgrade()"
-	    " invalid unit type %d",
-	    uti);
+    /* Probably died or bribed. */
+    freelog(LOG_VERBOSE, "handle_unit_type_upgrade() invalid unit type %d",
+            uti);
     return;
   }
 
@@ -172,10 +167,8 @@ void handle_unit_upgrade(struct player *pplayer, int unit_id)
   struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
 
   if (NULL == punit) {
-    /* Shouldn't happen */
-    freelog(LOG_ERROR, "handle_unit_upgrade()"
-	    " invalid unit %d",
-	    unit_id);
+    /* Probably died or bribed. */
+    freelog(LOG_VERBOSE, "handle_unit_upgrade() invalid unit %d", unit_id);
     return;
   }
 
@@ -206,9 +199,8 @@ void handle_unit_transform(struct player *pplayer, int unit_id)
   struct unit_type *to_type, *from_type;
 
   if (NULL == punit) {
-    /* Shouldn't happen */
-    freelog(LOG_ERROR, "handle_unit_transform() invalid unit %d",
-	    unit_id);
+    /* Probably died or bribed. */
+    freelog(LOG_VERBOSE, "handle_unit_transform() invalid unit %d", unit_id);
     return;
   }
 
@@ -247,10 +239,9 @@ void handle_unit_diplomat_query(struct connection *pc,
   struct city *pcity = game_find_city_by_number(target_id);
 
   if (NULL == pdiplomat) {
-    /* Shouldn't happen */
-    freelog(LOG_ERROR, "handle_unit_diplomat_query()"
-	    " invalid diplomat %d",
-	    diplomat_id);
+    /* Probably died or bribed. */
+    freelog(LOG_VERBOSE, "handle_unit_diplomat_query() invalid diplomat %d",
+            diplomat_id);
     return;
   }
 
@@ -309,10 +300,9 @@ void handle_unit_diplomat_action(struct player *pplayer,
   struct city *pcity = game_find_city_by_number(target_id);
 
   if (NULL == pdiplomat) {
-    /* Shouldn't happen */
-    freelog(LOG_ERROR, "handle_unit_diplomat_action()"
-	    " invalid diplomat %d",
-	    diplomat_id);
+    /* Probably died or bribed. */
+    freelog(LOG_VERBOSE, "handle_unit_diplomat_action() invalid diplomat %d",
+            diplomat_id);
     return;
   }
 
@@ -467,10 +457,9 @@ void handle_unit_change_homecity(struct player *pplayer, int unit_id,
   struct city *pcity = player_find_city_by_id(pplayer, city_id);
 
   if (NULL == punit) {
-    /* Shouldn't happen */
-    freelog(LOG_ERROR, "handle_unit_change_homecity()"
-	    " invalid unit %d",
-	    unit_id);
+    /* Probably died or bribed. */
+    freelog(LOG_VERBOSE, "handle_unit_change_homecity() invalid unit %d",
+            unit_id);
     return;
   }
 
@@ -489,10 +478,8 @@ void handle_unit_disband(struct player *pplayer, int unit_id)
   struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
 
   if (NULL == punit) {
-    /* Shouldn't happen */
-    freelog(LOG_ERROR, "handle_unit_disband()"
-	    " invalid unit %d",
-	    unit_id);
+    /* Probably died or bribed. */
+    freelog(LOG_VERBOSE, "handle_unit_disband() invalid unit %d", unit_id);
     return;
   }
 
@@ -689,10 +676,9 @@ void handle_unit_build_city(struct player *pplayer, int unit_id, char *name)
   struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
 
   if (NULL == punit) {
-    /* Shouldn't happen */
-    freelog(LOG_ERROR, "handle_unit_build_city()"
-	    " invalid unit %d",
-	    unit_id);
+    /* Probably died or bribed. */
+    freelog(LOG_VERBOSE, "handle_unit_build_city() invalid unit %d",
+            unit_id);
     return;
   }
 
@@ -718,10 +704,9 @@ void handle_unit_change_activity(struct player *pplayer, int unit_id,
   struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
 
   if (NULL == punit) {
-    /* Shouldn't happen */
-    freelog(LOG_ERROR, "handle_unit_change_activity()"
-	    " invalid unit %d",
-	    unit_id);
+    /* Probably died or bribed. */
+    freelog(LOG_VERBOSE, "handle_unit_change_activity() invalid unit %d",
+            unit_id);
     return;
   }
 
@@ -781,10 +766,8 @@ void handle_unit_move(struct player *pplayer, int unit_id, int x, int y)
   struct tile *ptile = map_pos_to_tile(x, y);
 
   if (NULL == punit) {
-    /* Shouldn't happen */
-    freelog(LOG_ERROR, "handle_unit_move()"
-	    " invalid unit %d",
-	    unit_id);
+    /* Probably died or bribed. */
+    freelog(LOG_VERBOSE, "handle_unit_move() invalid unit %d", unit_id);
     return;
   }
 
@@ -1419,10 +1402,9 @@ void handle_unit_help_build_wonder(struct player *pplayer, int unit_id)
   struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
 
   if (NULL == punit) {
-    /* Shouldn't happen */
-    freelog(LOG_ERROR, "handle_unit_help_build_wonder()"
-	    " invalid unit %d",
-	    unit_id);
+    /* Probably died or bribed. */
+    freelog(LOG_VERBOSE, "handle_unit_help_build_wonder() invalid unit %d",
+            unit_id);
     return;
   }
 
@@ -1472,10 +1454,9 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
   struct city *pcity_out_of_home = NULL, *pcity_out_of_dest = NULL;
 
   if (NULL == punit) {
-    /* Shouldn't happen */
-    freelog(LOG_ERROR, "base_handle_unit_establish_trade()"
-	    " invalid unit %d",
-	    unit_id);
+    /* Probably died or bribed. */
+    freelog(LOG_VERBOSE, "base_handle_unit_establish_trade()"
+            " invalid unit %d", unit_id);
     return FALSE;
   }
 
@@ -1731,10 +1712,9 @@ void handle_unit_battlegroup(struct player *pplayer,
   struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
 
   if (NULL == punit) {
-    /* Shouldn't happen */
-    freelog(LOG_ERROR, "handle_unit_battlegroup()"
-	    " invalid unit %d",
-	    unit_id);
+    /* Probably died or bribed. */
+    freelog(LOG_VERBOSE, "handle_unit_battlegroup() invalid unit %d",
+            unit_id);
     return;
   }
 
@@ -1749,10 +1729,9 @@ void handle_unit_autosettlers(struct player *pplayer, int unit_id)
   struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
 
   if (NULL == punit) {
-    /* Shouldn't happen */
-    freelog(LOG_ERROR, "handle_unit_autosettlers()"
-	    " invalid unit %d",
-	    unit_id);
+    /* Probably died or bribed. */
+    freelog(LOG_VERBOSE, "handle_unit_autosettlers() invalid unit %d",
+            unit_id);
     return;
   }
 
@@ -1870,18 +1849,15 @@ void handle_unit_load(struct player *pplayer, int cargo_id, int trans_id)
   struct unit *ptrans = game_find_unit_by_number(trans_id);
 
   if (NULL == pcargo) {
-    /* Shouldn't happen */
-    freelog(LOG_ERROR, "handle_unit_load()"
-	    " invalid cargo %d",
-	    cargo_id);
+    /* Probably died or bribed. */
+    freelog(LOG_VERBOSE, "handle_unit_load() invalid cargo %d", cargo_id);
     return;
   }
 
   if (NULL == ptrans) {
-    /* Shouldn't happen */
-    freelog(LOG_ERROR, "handle_unit_load()"
-	    " invalid transport %d",
-	    trans_id);
+    /* Probably died or bribed. */
+    freelog(LOG_VERBOSE, "handle_unit_load() invalid transport %d",
+            trans_id);
     return;
   }
 
@@ -1906,18 +1882,15 @@ void handle_unit_unload(struct player *pplayer, int cargo_id, int trans_id)
   struct unit *ptrans = game_find_unit_by_number(trans_id);
 
   if (NULL == pcargo) {
-    /* Shouldn't happen */
-    freelog(LOG_ERROR, "handle_unit_unload()"
-	    " invalid cargo %d",
-	    cargo_id);
+    /* Probably died or bribed. */
+    freelog(LOG_VERBOSE, "handle_unit_unload() invalid cargo %d", cargo_id);
     return;
   }
 
   if (NULL == ptrans) {
-    /* Shouldn't happen */
-    freelog(LOG_ERROR, "handle_unit_unload()"
-	    " invalid transport %d",
-	    trans_id);
+    /* Probably died or bribed. */
+    freelog(LOG_VERBOSE, "handle_unit_unload() invalid transport %d",
+            trans_id);
     return;
   }
 
@@ -1947,10 +1920,8 @@ void handle_unit_nuke(struct player *pplayer, int unit_id)
   struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
 
   if (NULL == punit) {
-    /* Shouldn't happen */
-    freelog(LOG_ERROR, "handle_unit_nuke()"
-	    " invalid unit %d",
-	    unit_id);
+    /* Probably died or bribed. */
+    freelog(LOG_VERBOSE, "handle_unit_nuke() invalid unit %d", unit_id);
     return;
   }
 
@@ -1967,10 +1938,9 @@ void handle_unit_paradrop_to(struct player *pplayer, int unit_id, int x,
   struct tile *ptile = map_pos_to_tile(x, y);
 
   if (NULL == punit) {
-    /* Shouldn't happen */
-    freelog(LOG_ERROR, "handle_unit_paradrop_to()"
-	    " invalid unit %d",
-	    unit_id);
+    /* Probably died or bribed. */
+    freelog(LOG_VERBOSE, "handle_unit_paradrop_to() invalid unit %d",
+            unit_id);
     return;
   }
 
@@ -1998,10 +1968,9 @@ void handle_unit_orders(struct player *pplayer,
   struct tile *src_tile = map_pos_to_tile(packet->src_x, packet->src_y);
 
   if (NULL == punit) {
-    /* Shouldn't happen */
-    freelog(LOG_ERROR, "handle_unit_orders()"
-	    " invalid unit %d",
-	    packet->unit_id);
+    /* Probably died or bribed. */
+    freelog(LOG_VERBOSE, "handle_unit_orders() invalid unit %d",
+            packet->unit_id);
     return;
   }
 
