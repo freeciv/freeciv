@@ -384,13 +384,21 @@ bool client_start_server(void)
    * Setting the option here is a bit of a hack, but so long as the client
    * has sufficient permissions to do so (it doesn't have HACK access yet) it
    * is safe enough.  Note that if you load a savegame the topology will be
-   * set but then overwritten during the load. */
-  send_chat_printf("/set topology %d",
-                   (TF_WRAPX
-                    | ((tileset_is_isometric(tileset)
-                        && tileset_hex_height(tileset) == 0) ? TF_ISO : 0)
-                    | ((tileset_hex_width(tileset) != 0
-                        || tileset_hex_height(tileset) != 0) ? TF_HEX : 0)));
+   * set but then overwritten during the load.
+   *
+   * Don't send it now, it will be sent to the server when receiving the
+   * server setting infos. */
+  {
+    char buf[16];
+
+    my_snprintf(buf, sizeof(buf), "%d",
+                (TF_WRAPX
+                 | ((tileset_is_isometric(tileset)
+                    && tileset_hex_height(tileset) == 0) ? TF_ISO : 0)
+                 | ((tileset_hex_width(tileset) != 0
+                    || tileset_hex_height(tileset) != 0) ? TF_HEX : 0)));
+    desired_settable_option_update("topology", buf, FALSE);
+  }
 
   return TRUE;
 #endif /* HAVE_WORKING_FORK || WIN32_NATIVE */
