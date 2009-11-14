@@ -1,5 +1,4 @@
 [Desktop Entry]
-Encoding=UTF-8
 Name=Freeciv
 Name[ca]=Freeciv
 Name[es]=Freeciv
@@ -15,7 +14,7 @@ Comment[no]=Strategispill inspirert av historien til menneskelig sivilisasjon
 Comment[pt]=Jogo de estratégia por turnos inspirado na História da civilização humana
 Comment[sv]=Turordningsbaserat strategispel inspirerat av den mänskliga
 Exec=freeciv-gtk2
-Icon=freeciv-client.png
+Icon=freeciv-client
 StartupNotify=true
 Terminal=false
 Type=Application
