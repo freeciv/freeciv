@@ -393,6 +393,7 @@ bool gui_gtk2_show_message_window_buttons = TRUE;
 bool gui_gtk2_metaserver_tab_first = FALSE;
 bool gui_gtk2_allied_chat_only = FALSE;
 bool gui_gtk2_small_display_layout = FALSE;
+bool gui_gtk2_mouse_over_map_focus = FALSE;
 char gui_gtk2_font_city_label[512] = "Monospace 8";
 char gui_gtk2_font_notify_label[512] = "Monospace Bold 9";
 char gui_gtk2_font_spaceship_label[512] = "Monospace 8";
@@ -866,7 +867,7 @@ static struct client_option options[] = {
                      "can also be set using a toggle button beside "
                      "the chat entry (only visible in multiplayer "
                      "games)."),
-                  COC_NETWORK, GUI_GTK2, FALSE, NULL),
+                  COC_INTERFACE, GUI_GTK2, FALSE, NULL),
   GEN_BOOL_OPTION(gui_gtk2_small_display_layout,
                   N_("Arrange widgets for small displays"),
                   N_("If this option is enabled, widgets in the main "
@@ -877,6 +878,11 @@ static struct client_option options[] = {
                      "extended over the entire left side of the window. "
                      "This option requires a restart in order to take "
                      "effect."), COC_INTERFACE, GUI_GTK2, FALSE, NULL),
+  GEN_BOOL_OPTION(gui_gtk2_mouse_over_map_focus,
+                  N_("Mouse over the map widget selects it automatically"),
+                  N_("If this option is enabled, then the map will be "
+                     "focused when the mouse will be floating over it."),
+                  COC_INTERFACE, GUI_GTK2, FALSE, NULL),
   GEN_FONT_OPTION(gui_gtk2_font_city_label, "city_label",
                   N_("City Label"),
                   N_("This font is used to display the city labels on city "
