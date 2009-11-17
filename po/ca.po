@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-16 00:17+0100\n"
-"PO-Revision-Date: 2009-11-16 23:42+0100\n"
+"POT-Creation-Date: 2009-11-17 23:21+0100\n"
+"PO-Revision-Date: 2009-11-18 00:00+0100\n"
 "Last-Translator: Joan Creus <joan.creus at gmail dot com>\n"
 "Language-Team: Català <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3270,7 +3270,9 @@ msgstr "Restaurar totes les opcions del servidor"
 msgid ""
 "Reset all settings and re-read the server start script, if there was one "
 "given with the --read server argument. "
-msgstr "Restaurar totes les opcions i tornar a llegir l'script d'arrencada del servidor, si se n'havia donat algun amb l'argument de servidor --read."
+msgstr ""
+"Restaurar totes les opcions i tornar a llegir l'script d'arrencada del "
+"servidor, si se n'havia donat algun amb l'argument de servidor --read."
 
 #: server/commands.c:456
 msgid "Switch server output between 'RFC-style' and normal style."
@@ -5231,7 +5233,9 @@ msgstr "Cache d'esdeveniments per aquest nombre de torns"
 msgid ""
 "Event messages are saved for this number of turns. A value of 0 deactivates "
 "the event cache."
-msgstr "Es guarden els missatges d'esdeveniment aquest nombre de torns. Un valor de 0 desactiva la cache d'esdeveniments."
+msgstr ""
+"Es guarden els missatges d'esdeveniment aquest nombre de torns. Un valor de "
+"0 desactiva la cache d'esdeveniments."
 
 #: server/settings.c:466
 msgid "Size of the event cache"
@@ -5257,7 +5261,9 @@ msgstr "Escriure torn i hora per cada esdeveniment de la cache"
 msgid ""
 "If set to 1 all cached events will be marked by the turn and time of the "
 "event like '(T2 - 15:29:52)'."
-msgstr "Si es posa a 1, tots es esdeveniments de la cache es marcaran amb el torn i l'hora de l'esdeveniment, com ara '(T2 - 15:29:52)'."
+msgstr ""
+"Si es posa a 1, tots es esdeveniments de la cache es marcaran amb el torn i "
+"l'hora de l'esdeveniment, com ara '(T2 - 15:29:52)'."
 
 #: server/settings.c:491
 msgid "List of players' initial units"
@@ -5501,7 +5507,11 @@ msgid ""
 "In order to establish a traderoute, cities must be at least this far apart "
 "on the map. The distance is calculated as \"manhattan distance\", that is, "
 "the sum of the displacements along the x and y directions."
-msgstr "Per establir una ruta comercial, les ciutats han d'estar com a mínim a aquesta distància sobre el mapa. La distància es calcula a l'estil Manhattan, seguint la graella i sense utilitzar diagonals, és a dir, la suma dels desplaçaments al llarg dels eixos x i y."
+msgstr ""
+"Per establir una ruta comercial, les ciutats han d'estar com a mínim a "
+"aquesta distància sobre el mapa. La distància es calcula a l'estil "
+"Manhattan, seguint la graella i sense utilitzar diagonals, és a dir, la suma "
+"dels desplaçaments al llarg dels eixos x i y."
 
 #: server/settings.c:664
 msgid "Number of turns between rapture effect"
@@ -5570,8 +5580,8 @@ msgid ""
 "  4 = units able to move both on land and sea"
 msgstr ""
 "Aquest valor indica si la població d'una ciutat es redueix després d'un atac "
-"victoriós d'una unitat enemiga, segons per el seu tipus de moviment (s'hi fa una operació "
-"OR):\n"
+"victoriós d'una unitat enemiga, segons per el seu tipus de moviment (s'hi fa "
+"una operació OR):\n"
 "  1 = unitats que es mouen per terra\n"
 "  2 = unitats que es mouen per mar\n"
 "  4 = unitats que es poden moure tant per mar com per terra"
@@ -5721,7 +5731,11 @@ msgid ""
 "ownership if they do not have direct sight of the affected tiles. Otherwise, "
 "players can see any or all changes to borders as long as they have "
 "previously seen the tiles."
-msgstr "Si es permet aquesta opció, els jugadors no podran veure els canvis en la propietat de les caselles si no tenen visió directa de les caselles afectades. Altrament, els jugadors podran veure tots els canvis en fronteres amb l'única condició que hagin vist prèviament les caselles."
+msgstr ""
+"Si es permet aquesta opció, els jugadors no podran veure els canvis en la "
+"propietat de les caselles si no tenen visió directa de les caselles "
+"afectades. Altrament, els jugadors podran veure tots els canvis en fronteres "
+"amb l'única condició que hagin vist prèviament les caselles."
 
 #: server/settings.c:818
 msgid "Base chance for diplomats and spies to succeed."
@@ -6590,7 +6604,7 @@ msgstr "(ambigu)"
 
 #. TRANS: unrecognized command
 #. TRANS: "unknown" location
-#: server/stdinhand.c:242 client/citydlg_common.c:427
+#: server/stdinhand.c:242 client/citydlg_common.c:430
 #: client/gui-gtk-2.0/inteldlg.c:374 client/gui-sdl/inteldlg.c:298
 #: client/gui-sdl/inteldlg.c:310 client/gui-win32/inteldlg.c:148
 #: client/gui-xaw/inteldlg.c:271
@@ -8578,70 +8592,70 @@ msgstr "%+4d : Ciutadans\n"
 msgid "%+4d : Taxed from trade\n"
 msgstr "%+4d : Impostos sobre el comerç\n"
 
-#: client/citydlg_common.c:429
+#: client/citydlg_common.c:432
 #, c-format
 msgid "%+4d : Trade route with %s\n"
 msgstr "%+4d : Ruta comercial amb %s\n"
 
-#: client/citydlg_common.c:438
+#: client/citydlg_common.c:441
 #, c-format
 msgid "%+4d : Building tithes\n"
 msgstr "%+4d : Almoines per edificis\n"
 
-#: client/citydlg_common.c:461
+#: client/citydlg_common.c:464
 #, c-format
 msgid "%+4d : Bonus from %s (%+d%%)\n"
 msgstr "%+4d : Bonificació per %s (%+d%%)\n"
 
-#: client/citydlg_common.c:472
+#: client/citydlg_common.c:475
 #, c-format
 msgid "%+4d : Waste\n"
 msgstr "%+4d : Malbaratament\n"
 
-#: client/citydlg_common.c:478
+#: client/citydlg_common.c:481
 #, c-format
 msgid "%+4d : Disorder\n"
 msgstr "%+4d : Desordre\n"
 
-#: client/citydlg_common.c:484
+#: client/citydlg_common.c:487
 #, c-format
 msgid "%+4d : Used\n"
 msgstr "%+4d : Usat\n"
 
-#: client/citydlg_common.c:489 client/citydlg_common.c:534
+#: client/citydlg_common.c:492 client/citydlg_common.c:537
 msgid "==== : Adds up to\n"
 msgstr "==== : Total de\n"
 
-#: client/citydlg_common.c:491
+#: client/citydlg_common.c:494
 #, c-format
 msgid "%4d : Total surplus"
 msgstr "%4d : Excedent Total"
 
-#: client/citydlg_common.c:508
+#: client/citydlg_common.c:511
 msgid "Illness deactivated in ruleset."
 msgstr "Malaltia desactivada al joc de regles."
 
-#: client/citydlg_common.c:512
+#: client/citydlg_common.c:515
 #, c-format
 msgid "%+2.1f : Risk from over crowdness\n"
 msgstr "%+2.1f : Risc per superpoblació\n"
 
-#: client/citydlg_common.c:514
+#: client/citydlg_common.c:517
 #, c-format
 msgid "%+2.1f : Risk from trade\n"
 msgstr "%+2.1f : Risc per comerç\n"
 
-#: client/citydlg_common.c:516
+#: client/citydlg_common.c:519
 #, c-format
 msgid "%+2.1f : Risk from pollution\n"
 msgstr "%+2.1f : Risc per contaminació\n"
 
-#: client/citydlg_common.c:529
+#: client/citydlg_common.c:532
 #, c-format
 msgid "%+2.1f : Bonus from %s\n"
 msgstr "%+2.1f : Bonificació per %s\n"
 
-#: client/citydlg_common.c:535
+#: client/citydlg_common.c:538
 #, c-format
 msgid "%2.1f : Total chance for a plague"
 msgstr "%2.1f : Probabilitat total d'epidèmia"
@@ -9508,7 +9522,9 @@ msgstr "Requereix que la casella tingui el recurs especial de terreny %s.\n"
 #: client/helpdata.c:264
 #, c-format
 msgid "Requires the %s terrain special near the tile.\n"
-msgstr "Requereix que a prop de la casella hi hagi el recurs especial de terreny %s.\n"
+msgstr ""
+"Requereix que a prop de la casella hi hagi el recurs especial de terreny %"
+"s.\n"
 
 #: client/helpdata.c:280
 #, c-format
@@ -9972,7 +9988,9 @@ msgstr "* Pot guanyar experiència mitjançant combat o entrenament.\n"
 msgid ""
 "* Under certain conditions the shield upkeep of this unit can  be converted "
 "to gold upkeep.\n"
-msgstr "* En certes condicions, el manteniment en escuts d'aquesta unitat es pot convertir en manteniment en or.\n"
+msgstr ""
+"* En certes condicions, el manteniment en escuts d'aquesta unitat es pot "
+"convertir en manteniment en or.\n"
 
 #. TRANS: List of possible unit types has this between
 #. *        last two elements
@@ -10380,11 +10398,11 @@ msgstr "Copiar %s al portapapers."
 msgid "Clipboard is empty."
 msgstr "El portapapers és buit."
 
-#: client/options.c:434
+#: client/options.c:435
 msgid "Login name"
 msgstr "Nom de login"
 
-#: client/options.c:435
+#: client/options.c:436
 msgid ""
 "This is the default login username that will be used in the connection "
 "dialogs or with the -a command-line parameter."
@@ -10392,11 +10410,11 @@ msgstr ""
 "Aquest és el nom d'usuari per defecte que es farà servir als diàlegs de "
 "connexió o amb el paràmetre de línia de comandes -a."
 
-#: client/options.c:440
+#: client/options.c:441
 msgid "Server"
 msgstr "Servidor"
 
-#: client/options.c:441
+#: client/options.c:442
 msgid ""
 "This is the default server hostname that will be used in the connection "
 "dialogs or with the -a command-line parameter."
@@ -10404,11 +10422,11 @@ msgstr ""
 "És el nom del host servidor per defecte que es farà servir als diàlegs de "
 "connexió o amb el paràmetre de línia de comandes -a."
 
-#: client/options.c:446
+#: client/options.c:447
 msgid "Server port"
 msgstr "Port del servidor."
 
-#: client/options.c:447
+#: client/options.c:448
 msgid ""
 "This is the default server port that will be used in the connection dialogs "
 "or with the -a command-line parameter."
@@ -10416,11 +10434,11 @@ msgstr ""
 "És el port del servidor per defecte que es farà servir als diàlegs de "
 "connexió o amb el paràmetre de línia de comandes -a."
 
-#: client/options.c:452 client/gui-win32/connectdlg.c:906 data/Freeciv.in:107
+#: client/options.c:453 client/gui-win32/connectdlg.c:906 data/Freeciv.in:107
 msgid "Metaserver"
 msgstr "Metaservidor"
 
-#: client/options.c:453
+#: client/options.c:454
 msgid ""
 "The metaserver is a host that the client contacts to find out about games on "
 "the internet.  Don't change this from its default value unless you know what "
@@ -10430,11 +10448,11 @@ msgstr ""
 "partides en curs a Internet. No modifiquis el seu valor per defecte si no "
 "saps el que estàs fent."
 
-#: client/options.c:459
+#: client/options.c:460
 msgid "Soundset"
 msgstr "Joc de sons"
 
-#: client/options.c:460
+#: client/options.c:461
 msgid ""
 "This is the soundset that will be used.  Changing this is the same as using "
 "the -S command-line parameter."
@@ -10442,11 +10460,11 @@ msgstr ""
 "Aquest és el joc de sons que es farà servir. Modificar això és el mateix que "
 "fer servir el paràmetre de línia de comandes -S."
 
-#: client/options.c:465
+#: client/options.c:466
 msgid "Sound plugin"
 msgstr "Plugin de so"
 
-#: client/options.c:466
+#: client/options.c:467
 msgid ""
 "If you have a problem with sound, try changing the sound plugin.  The new "
 "plugin won't take effect until you restart Freeciv.  Changing this is the "
@@ -10456,19 +10474,19 @@ msgstr ""
 "plugin nou no es farà servir fins que no aturis i tornis a engegar el "
 "Freeciv. Modificar això és el mateix que fer servir la línia de comandes -P."
 
-#: client/options.c:474 client/options.c:479
+#: client/options.c:475 client/options.c:480
 msgid "Theme"
 msgstr "Tema"
 
-#: client/options.c:475 client/options.c:480
+#: client/options.c:476 client/options.c:481
 msgid "By changing this option you change the active theme."
 msgstr "Modificant aquesta opció, canvies el tema actiu."
 
-#: client/options.c:484
+#: client/options.c:485
 msgid "Tileset"
 msgstr "Joc de caselles"
 
-#: client/options.c:485
+#: client/options.c:486
 msgid ""
 "By changing this option you change the active tileset.  This is the same as "
 "using the -t command-line parameter."
@@ -10476,11 +10494,11 @@ msgstr ""
 "Modificant aquesta opció, canvies el joc de caselles actiu. És el mateix que "
 "fer servir el paràmetre de línia de comandes -t."
 
-#: client/options.c:492
+#: client/options.c:493
 msgid "Solid unit background color"
 msgstr "Color de fons d'unitat sòlid"
 
-#: client/options.c:493
+#: client/options.c:494
 msgid ""
 "Setting this option will cause units on the map view to be drawn with a "
 "solid background color instead of the flag backdrop."
@@ -10488,203 +10506,223 @@ msgstr ""
 "Fixar aquesta opció farà que, a la vista de mapa, les unitats es dibuixin "
 "amb un color de fons sòlid en comptes de la bandera."
 
-#: client/options.c:497
+#: client/options.c:498
 msgid "Draw city outlines"
 msgstr "Dibuixar contorns de ciutat"
 
-#: client/options.c:498
+#: client/options.c:499
 msgid "Setting this option will draw a line at the city workable limit."
-msgstr "Seleccionar aquesta opció farà dibuixar una línia al límit treballable per la ciutat."
+msgstr ""
+"Seleccionar aquesta opció farà dibuixar una línia al límit treballable per "
+"la ciutat."
 
-#: client/options.c:502
+#: client/options.c:503
 msgid "Draw city output"
 msgstr "Dibuixar producció de ciutat"
 
-#: client/options.c:503
+#: client/options.c:504
 #, fuzzy
 msgid "Setting this option will draw city output for every citizen."
 msgstr "Permetre-la farà que es dibuixin les ciutats al resum."
 
-#: client/options.c:507
+#: client/options.c:508
 msgid "Draw the map grid"
 msgstr "Dibuixar la graella del mapa"
 
-#: client/options.c:508
+#: client/options.c:509
 msgid "Setting this option will draw a grid over the map."
 msgstr "Seleccionar aquesta opció farà dibuixar una graella damunt del mapa."
 
-#: client/options.c:511
+#: client/options.c:512
 msgid "Draw the city names"
 msgstr "Escriure els noms de ciutat"
 
-#: client/options.c:512
+#: client/options.c:513
 msgid "Setting this option will draw the names of the citieson the map."
-msgstr "Seleccionar aquesta opció farà escriure els noms de les ciutats damunt del mapa."
+msgstr ""
+"Seleccionar aquesta opció farà escriure els noms de les ciutats damunt del "
+"mapa."
 
-#: client/options.c:516
+#: client/options.c:517
 #, fuzzy
 msgid "Draw the city growthes"
 msgstr "Dibuixar la barra de ciutat"
 
-#: client/options.c:517
+#: client/options.c:518
 msgid ""
 "Setting this option will draw in how any turns the cities will grow or "
 "shrink."
-msgstr "Seleccionar aquesta opció farà escriure en quants torns les ciutats creixeran o perdran població."
+msgstr ""
+"Seleccionar aquesta opció farà escriure en quants torns les ciutats "
+"creixeran o perdran població."
 
-#: client/options.c:521
+#: client/options.c:522
 msgid "Draw the city productions"
 msgstr "Dibuixar les produccions de les ciutats"
 
-#: client/options.c:522
+#: client/options.c:523
 msgid ""
 "Setting this option will draw what the cities are currently building on the "
 "map."
-msgstr "Seleccionar aquesta opció farà escriure el que les ciutats estan construint actualment damunt del mapa."
+msgstr ""
+"Seleccionar aquesta opció farà escriure el que les ciutats estan construint "
+"actualment damunt del mapa."
 
-#: client/options.c:526
+#: client/options.c:527
 msgid "Draw the city buy costs"
 msgstr "Escriure els costos de compra de les ciutats"
 
-#: client/options.c:527
+#: client/options.c:528
 msgid ""
 "Setting this option will draw how many golds are needed to buy the "
 "production of the cities."
-msgstr "Seleccionar aquesta opció farà escriure quant or cal per comprar la producció de les ciutats."
+msgstr ""
+"Seleccionar aquesta opció farà escriure quant or cal per comprar la "
+"producció de les ciutats."
 
-#: client/options.c:531
+#: client/options.c:532
 msgid "Draw the city traderoutes"
 msgstr "Dibuixar les rutes comercials de les ciutats"
 
-#: client/options.c:532
+#: client/options.c:533
 msgid ""
 "Setting this option will draw traderoutes lines between cities which have "
 "traderoutes."
-msgstr "Seleccionar aquesta opció farà dibuixar línies de rutes comercials entre les ciutats que en tinguin."
+msgstr ""
+"Seleccionar aquesta opció farà dibuixar línies de rutes comercials entre les "
+"ciutats que en tinguin."
 
-#: client/options.c:536
+#: client/options.c:537
 msgid "Draw the terrain"
 msgstr "Dibuixar el terreny"
 
-#: client/options.c:537
+#: client/options.c:538
 msgid "Setting this option will draw the terrain."
 msgstr "Seleccionar aquesta opció farà escriure el terreny."
 
-#: client/options.c:540
+#: client/options.c:541
 msgid "Draw the coast line"
 msgstr "Dibuixar la línia de costa"
 
-#: client/options.c:541
+#: client/options.c:542
 msgid "Setting this option will draw a line to separate the land of the ocean."
-msgstr "Seleccionar aquesta opció farà dibuixar una línia que separi la terra de l'oceà."
+msgstr ""
+"Seleccionar aquesta opció farà dibuixar una línia que separi la terra de "
+"l'oceà."
 
-#: client/options.c:545
+#: client/options.c:546
 msgid "Draw the roads and the railroads"
 msgstr "Dibuixar els camins i els ferrocarrils"
 
-#: client/options.c:546
+#: client/options.c:547
 msgid "Setting this option will draw the roads and the railroads on  the map."
 msgstr "Seleccionar aquesta opció dibuixarà els camins i els ferrocarrils al mapa."
 
-#: client/options.c:550
+#: client/options.c:551
 msgid "Draw the irrigations"
 msgstr "Dibuixar els regadius"
 
-#: client/options.c:551
+#: client/options.c:552
 msgid "Setting this option will draw the irrigations on the map."
 msgstr "Seleccionar aquesta opció farà dibuixar els regadius al mapa."
 
-#: client/options.c:555
+#: client/options.c:556
 msgid "Draw the mines"
 msgstr "Dibuixar les mines"
 
-#: client/options.c:556
+#: client/options.c:557
 msgid "Setting this option will draw the mines on the map."
 msgstr "Seleccionar aquesta opció farà dibuixar les mines al mapa."
 
-#: client/options.c:559
+#: client/options.c:560
 msgid "Draw the bases"
 msgstr "Dibuixar les bases"
 
-#: client/options.c:560
+#: client/options.c:561
 msgid "Setting this option will draw the bases on the map."
 msgstr "Seleccionar aquesta opció farà dibuixar les bases al mapa."
 
-#: client/options.c:563
+#: client/options.c:564
 msgid "Draw the specials"
 msgstr "Dibuixar els recursos especials"
 
-#: client/options.c:564
+#: client/options.c:565
 msgid "Setting this option will draw the specials on the map."
 msgstr "Seleccionar aquesta opció farà dibuixar els recursos especials al mapa."
 
-#: client/options.c:568
+#: client/options.c:569
 msgid "Draw the pollution/nuclear fallouts"
 msgstr "Dibuixar la contaminació normal/nuclear"
 
-#: client/options.c:569
+#: client/options.c:570
 msgid ""
 "Setting this option will draw the pollution and the nuclear fallouts on the "
 "map."
-msgstr "Seleccionar aquesta opció farà dibuixar la contaminació i la radioactivitat al mapa."
+msgstr ""
+"Seleccionar aquesta opció farà dibuixar la contaminació i la radioactivitat "
+"al mapa."
 
-#: client/options.c:573
+#: client/options.c:574
 msgid "Draw the cities"
 msgstr "Dibuixar les ciutats"
 
-#: client/options.c:574
+#: client/options.c:575
 msgid "Setting this option will draw the cities on the map."
 msgstr "Seleccionar aquesta opció farà que es dibuixin les ciutats al mapa."
 
-#: client/options.c:577
+#: client/options.c:578
 msgid "Draw the units"
 msgstr "Dibuixar les unitats"
 
-#: client/options.c:578
+#: client/options.c:579
 msgid "Setting this option will draw the units on the map."
 msgstr "Seleccionar aquesta opció farà dibuixar les unitats al mapa."
 
-#: client/options.c:581
+#: client/options.c:582
 msgid "Draw the units in focus"
 msgstr "Dibuixar les unitats amb focus"
 
-#: client/options.c:582
+#: client/options.c:583
 msgid ""
 "Setting this option will draw the units in focus, including the case the "
 "other units wouldn't be drawn."
-msgstr "Seleccionar aquesta opció farà dibuixar les unitats que tinguin el focus, fins i tot en el cas que les altres unitats no es dibuixessin."
+msgstr ""
+"Seleccionar aquesta opció farà dibuixar les unitats que tinguin el focus, "
+"fins i tot en el cas que les altres unitats no es dibuixessin."
 
-#: client/options.c:587
+#: client/options.c:588
 msgid "Draw the fog of war"
 msgstr "Dibuixar la penombra de guerra"
 
-#: client/options.c:588
+#: client/options.c:589
 msgid "Setting this option will draw the fog of war."
 msgstr "Seleccionar aquesta opció farà dibuixar la penombra de guerra."
 
-#: client/options.c:591
+#: client/options.c:592
 msgid "Draw the borders"
 msgstr "Dibuixar les fronteres"
 
-#: client/options.c:592
+#: client/options.c:593
 msgid "Setting this option will draw the nationnal borders."
 msgstr "Seleccionar aquesta opció farà dibuixar les fronteres entre nacions."
 
-#: client/options.c:596
+#: client/options.c:597
 msgid "Show dead players in nation report."
 msgstr "Mostrar jugadors morts a l'informe de nacions."
 
-#: client/options.c:597
+#: client/options.c:598
 msgid ""
 "Setting this option will draw the players already dead in the nation report "
 "page."
-msgstr "Seleccionar aquesta opció farà sortir els jugadors que ja han mort a l'informe de nacions."
+msgstr ""
+"Seleccionar aquesta opció farà sortir els jugadors que ja han mort a "
+"l'informe de nacions."
 
-#: client/options.c:601 client/gui-sdl/optiondlg.c:913
+#: client/options.c:602 client/gui-sdl/optiondlg.c:913
 msgid "Sound bell at new turn"
 msgstr "Fer sonar la campana a cada nou torn"
 
-#: client/options.c:602
+#: client/options.c:603
 msgid ""
 "Set this option to have a \"bell\" event be generated at the start of a new "
 "turn.  You can control the behavior of the \"bell\" event by editing the "
@@ -10694,11 +10732,11 @@ msgstr ""
 "de cada torn. Pots controlar el comportament de l'esdeveniment \"campana\" "
 "editant les opcions de missatge."
 
-#: client/options.c:608
+#: client/options.c:609
 msgid "Unit movement animation time (milliseconds)"
 msgstr "Temps d'animació de moviment d'unitat (milisegons)"
 
-#: client/options.c:609
+#: client/options.c:610
 msgid ""
 "This option controls how long unit \"animation\" takes when a unit moves on "
 "the map view.  Set it to 0 to disable animation entirely."
@@ -10706,11 +10744,11 @@ msgstr ""
 "Aquesta opció controla quant dura l'\"animació\" quan es mou una unitat en "
 "la vista de mapa. Deixa'l a 0 per inhabilitar del tot l'animació."
 
-#: client/options.c:614
+#: client/options.c:615
 msgid "Mapview recentering time (milliseconds)"
 msgstr "Temps de recentrar la vista de mapa (milisegons)"
 
-#: client/options.c:615
+#: client/options.c:616
 msgid ""
 "When the map view is recentered, it will slide smoothly over the map to its "
 "new position.  This option controls how long this slide lasts.  Set it to 0 "
@@ -10720,11 +10758,11 @@ msgstr ""
 "nova posició. Aquesta opció controla quant de temps dura aquest moviment. "
 "Deixa'l a 0 perquè sigui instantani."
 
-#: client/options.c:620 client/gui-sdl/optiondlg.c:967
+#: client/options.c:621 client/gui-sdl/optiondlg.c:967
 msgid "Show combat animation"
 msgstr "Mostrar animació de combat"
 
-#: client/options.c:621
+#: client/options.c:622
 msgid ""
 "Disabling this option will turn off combat animation between units on the "
 "mapview."
@@ -10732,11 +10770,11 @@ msgstr ""
 "Inhabilitar aquesta opció eliminarà l'animació de combats entre unitats a la "
 "vista de mapa."
 
-#: client/options.c:624
+#: client/options.c:625
 msgid "Draw the citybar"
 msgstr "Dibuixar la barra de ciutat"
 
-#: client/options.c:625
+#: client/options.c:626
 msgid ""
 "Setting this option will display a 'citybar' containing useful information "
 "beneath each city. Disabling this option will display only the city's name "
@@ -10746,11 +10784,11 @@ msgstr ""
 "útil a sota de cada ciutat. Sense aquesta opció es mostrarà només el nom de "
 "la ciutat i, opcionalment, la producció."
 
-#: client/options.c:631
+#: client/options.c:632
 msgid "Show icons in the technology tree"
 msgstr "Mostrar icones a l'arbre de tecnologia"
 
-#: client/options.c:632
+#: client/options.c:633
 msgid ""
 "Setting this option will display icons on the technology tree diagram. "
 "Turning this option off makes the technology tree more compact."
@@ -10758,11 +10796,11 @@ msgstr ""
 "Amb aquesta opció permesa es mostraran icones al diagrama de l'arbre de "
 "tecnologies. Sense aquesta opció, l'arbre queda més compacte."
 
-#: client/options.c:638
+#: client/options.c:639
 msgid "Use curved lines in the technology tree"
 msgstr "Mostrar línies corbades a l'arbre de tecnologia"
 
-#: client/options.c:639
+#: client/options.c:640
 msgid ""
 "Setting this option make the technology tree diagram use curved lines to "
 "show technology relations. Turning this option off causes the lines to be "
@@ -10772,11 +10810,11 @@ msgstr ""
 "línies corbades per mostrar les dependències tecnològiques. Sense aquesta "
 "opció, les línies es dibuixaran rectes."
 
-#: client/options.c:645
+#: client/options.c:646
 msgid "Draw shield graphics for units"
 msgstr "Dibuixar gràfic d'escut per les unitats"
 
-#: client/options.c:646
+#: client/options.c:647
 msgid ""
 "Setting this option will draw a shield icon as the flags on units.  If "
 "unset, the full flag will be drawn."
@@ -10784,22 +10822,22 @@ msgstr ""
 "Amb aquesta opció permesa es dibuixarà un escut com a bandera per les "
 "unitats. Sense aquesta opció, es dibuixarà la bandera sencera."
 
-#: client/options.c:651
-msgid "Color to highlight your player/user name"
-msgstr ""
-
 #: client/options.c:652
+msgid "Color to highlight your player/user name"
+msgstr "Color per remarcar el teu nom de jugador/usuari"
+
+#: client/options.c:653
 msgid ""
 "If set, your player and user name in the new chat messages will be "
 "highlighted using this color as background.  If not set, it will just not "
 "highlight anything."
-msgstr ""
+msgstr "Si s'especifica, el teu nom de jugador i usuari als nous missatges de xat es remarcaran amb aquest color de fons. Si no s'especifica, simplement no es remarcarà res."
 
-#: client/options.c:657
+#: client/options.c:658
 msgid "Manual Turn Done in AI Mode"
 msgstr "Passar el torn manualment en mode d'IA"
 
-#: client/options.c:658
+#: client/options.c:659
 msgid ""
 "Disable this option if you do not want to press the Turn Done button "
 "manually when watching an AI player."
@@ -10807,11 +10845,11 @@ msgstr ""
 "Inhabilita aquesta opció si no vols prémer manualment el botó \"Acabar el "
 "Torn\" quan estiguis observant un jugador IA."
 
-#: client/options.c:662 client/gui-sdl/optiondlg.c:1074
+#: client/options.c:663 client/gui-sdl/optiondlg.c:1074
 msgid "Auto Center on Units"
 msgstr "Centrar automàticament a les unitats"
 
-#: client/options.c:663
+#: client/options.c:664
 msgid ""
 "Set this option to have the active unit centered automatically when the unit "
 "focus changes."
@@ -10819,11 +10857,11 @@ msgstr ""
 "Selecciona aquesta opció perquè la unitat activa quedi centrada "
 "automàticament quan canviï el focus de la unitat."
 
-#: client/options.c:666 client/gui-sdl/optiondlg.c:1100
+#: client/options.c:667 client/gui-sdl/optiondlg.c:1100
 msgid "Auto Center on Combat"
 msgstr "Centrar automàticament en combat"
 
-#: client/options.c:667
+#: client/options.c:668
 msgid ""
 "Set this option to have any combat be centered automatically.  Disabled this "
 "will speed up the time between turns but may cause you to miss combat "
@@ -10833,11 +10871,11 @@ msgstr ""
 "automàticament. Amb això inhabilitat el temps entre torns serà més ràpid "
 "però pot ser que et perdis del tot alguns combats."
 
-#: client/options.c:672
+#: client/options.c:673
 msgid "Auto Center on New Turn"
 msgstr "Centrar automàticament en fer un torn nou"
 
-#: client/options.c:673
+#: client/options.c:674
 msgid ""
 "Set this option to have the client automatically recenter the map on a "
 "suitable location at the start of each turn."
@@ -10845,21 +10883,21 @@ msgstr ""
 "Selecciona aquesta opció perquè el client torni a centrar automàticament el "
 "mapa en una ubicació apropiada al principi de cada torn."
 
-#: client/options.c:677 client/gui-sdl/optiondlg.c:1127
+#: client/options.c:678 client/gui-sdl/optiondlg.c:1127
 msgid "Focus on Awakened Units"
 msgstr "Focalitzar en unitats despertades"
 
-#: client/options.c:678
+#: client/options.c:679
 msgid "Set this option to have newly awoken units be focused automatically."
 msgstr ""
 "Selecciona aquesta opció perquè les unitats que s'acaben de despertar rebin "
 "el focus automàticament."
 
-#: client/options.c:681
+#: client/options.c:682
 msgid "Keyboardless goto"
 msgstr "\"Anar a\" sense teclat"
 
-#: client/options.c:682
+#: client/options.c:683
 msgid ""
 "If this option is set then a goto may be initiated by left-clicking and then "
 "holding down the mouse button while dragging the mouse onto a different tile."
@@ -10868,11 +10906,11 @@ msgstr ""
 "botó esquerre i aguantant-lo mentre arrossegues el ratolí cap a una altra "
 "casella."
 
-#: client/options.c:687
+#: client/options.c:688
 msgid "Allow goto into the unknown"
 msgstr "Permetre anar cap a terreny desconegut"
 
-#: client/options.c:688
+#: client/options.c:689
 msgid ""
 "Setting this option will make the game consider moving into unknown tiles.  "
 "If not, then goto routes will detour around or be blocked by unknown tiles."
@@ -10881,11 +10919,11 @@ msgstr ""
 "desconegudes. Si no, les rutes donaran la volta o quedaran bloquejades per "
 "les caselles desconegudes."
 
-#: client/options.c:692
+#: client/options.c:693
 msgid "Center map when Popup city"
 msgstr "Centrar mapa quan s'obre ciutat"
 
-#: client/options.c:693
+#: client/options.c:694
 msgid ""
 "Setting this option makes the mapview center on a city when its city dialog "
 "is popped up."
@@ -10893,11 +10931,11 @@ msgstr ""
 "Seleccionar aquesta opció farà que la vista de mapa se centri sobre una "
 "ciutat quan s'obre el seu diàleg."
 
-#: client/options.c:696
+#: client/options.c:697
 msgid "Concise City Production"
 msgstr "Producció de ciutat concisa"
 
-#: client/options.c:697
+#: client/options.c:698
 msgid ""
 "Set this option to make the city production (as shown in the city dialog) to "
 "be more compact."
@@ -10905,11 +10943,11 @@ msgstr ""
 "Selecciona aquesta opció per fer que la producció de la ciutat (tal com la "
 "mostra el diàleg de ciutat) es mostri de forma més compacta."
 
-#: client/options.c:700 client/gui-sdl/optiondlg.c:1205
+#: client/options.c:701 client/gui-sdl/optiondlg.c:1205
 msgid "End Turn when done moving"
 msgstr "Acabar el torn un cop s'hagin fet tots els moviments"
 
-#: client/options.c:701
+#: client/options.c:702
 msgid ""
 "Setting this option makes your turn end automatically when all your units "
 "are done moving."
@@ -10917,11 +10955,11 @@ msgstr ""
 "Seleccionar aquesta opció fa que el teu torn s'acabi automàticament quan "
 "totes les teves unitats s'hagin acabat de moure."
 
-#: client/options.c:704 client/gui-sdl/optiondlg.c:1179
+#: client/options.c:705 client/gui-sdl/optiondlg.c:1179
 msgid "Prompt for city names"
 msgstr "Demanar els noms de les ciutats"
 
-#: client/options.c:705
+#: client/options.c:706
 msgid ""
 "Disabling this option will make the names of newly founded cities chosen "
 "automatically by the server."
@@ -10929,11 +10967,11 @@ msgstr ""
 "Inhabilitar aquesta opció farà que els noms de les noves ciutats es triïn "
 "automàticament per part del servidor."
 
-#: client/options.c:708 client/gui-sdl/optiondlg.c:1153
+#: client/options.c:709 client/gui-sdl/optiondlg.c:1153
 msgid "Pop up city dialog for new cities"
 msgstr "Mostrar el diàleg de ciutat en crear-ne una"
 
-#: client/options.c:709
+#: client/options.c:710
 msgid ""
 "Setting this option will pop up a newly-founded city's city dialog "
 "automatically."
@@ -10941,11 +10979,11 @@ msgstr ""
 "Seleccionar aquesta opció farà que s'obri el diàleg de ciutat en el moment "
 "de la fundació."
 
-#: client/options.c:712
+#: client/options.c:713
 msgid "Pop up caravan actions"
 msgstr "Finestra emergent per accions de caravana"
 
-#: client/options.c:713
+#: client/options.c:714
 msgid ""
 "If this option is enabled, when caravans arrive at a city where they can "
 "establish a traderoute or help build a wonder, a window will popup asking "
@@ -10960,11 +10998,11 @@ msgstr ""
 "manualment, prement 'r' (per una ruta comercial) o 'b' (per construir una "
 "meravella) quan la caravana sigui a la ciutat."
 
-#: client/options.c:722
+#: client/options.c:723
 msgid "Enable cursor changing"
 msgstr "Permetre canvi de cursor"
 
-#: client/options.c:723
+#: client/options.c:724
 msgid ""
 "This option controls whether the client should try to change the mouse "
 "cursor depending on what is being pointed at, as well as to indicate changes "
@@ -10974,11 +11012,11 @@ msgstr ""
 "ratolí segons on apunti, així com per indicar canvis en l'estat del client o "
 "del servidor."
 
-#: client/options.c:728
+#: client/options.c:729
 msgid "Select cities before units"
 msgstr "Seleccionar ciutats abans d'unitats"
 
-#: client/options.c:729
+#: client/options.c:730
 msgid ""
 "If this option is enabled, when both cities and units are present in the "
 "selection rectangle, only cities will be selected."
@@ -10986,11 +11024,11 @@ msgstr ""
 "Si s'activa aquesta opció, quan al rectangle de selecció hi hagi tant "
 "ciutats com unitats, se seleccionaran només les ciutats."
 
-#: client/options.c:734
+#: client/options.c:735
 msgid "Clear unit orders on selection"
 msgstr "Oblida les ordres de la unitat en seleccionar-la"
 
-#: client/options.c:735
+#: client/options.c:736
 msgid ""
 "Enabling this option will cause unit orders to be cleared whenever one or "
 "more units are selected. If this option is disabled, selecting units will "
@@ -11003,83 +11041,85 @@ msgstr ""
 "per fer-los oblidar les seves ordres cal donar-los-en de noves o clicar "
 "<espai>"
 
-#: client/options.c:742
-msgid "Enable vote bar"
-msgstr ""
-
 #: client/options.c:743
+msgid "Enable vote bar"
+msgstr "Permetre la barra de votacions"
+
+#: client/options.c:744
 msgid ""
 "If this option is turned on, the vote bar will be displayed to show vote "
 "information."
 msgstr ""
-
-#: client/options.c:746
-msgid "Always display the vote bar"
-msgstr ""
+"Si es permet aquesta opció, la barra de votacions mostrarà informació sobre "
+"les votacions."
 
 #: client/options.c:747
+msgid "Always display the vote bar"
+msgstr "Mostrar sempre la barra de votacions"
+
+#: client/options.c:748
 msgid ""
 "If this option is turned on, the vote bar will never be hiden, notably when "
 "there won't be any running vote."
 msgstr ""
-
-#: client/options.c:752
-msgid "Do not show vote bar if not a player"
-msgstr ""
+"Si es permet aquesta opció, la barra de votacions no s'amagarà mai, fins i "
+"tot quan no hi hagi cap votació en curs."
 
 #: client/options.c:753
-#, fuzzy
+msgid "Do not show vote bar if not a player"
+msgstr "No mostrar la barra de votacions si no s'és jugador"
+
+#: client/options.c:754
 msgid ""
 "If this option is enabled, the client won't show the vote bar if you are not "
 "a player."
 msgstr ""
-"Si se selecciona aquesta opció, el client farà servir tota la pantalla per "
-"dibuixar"
-
-#: client/options.c:756
-msgid "Set new votes at front"
-msgstr ""
+"Si es permet aquesta opció, el client no mostrarà la barra de votacions si "
+"no ets un jugador."
 
 #: client/options.c:757
-#, fuzzy
+msgid "Set new votes at front"
+msgstr "Posar les votacions noves al davant"
+
+#: client/options.c:758
 msgid ""
 "If this option is enabled, then the new votes will go to the front of the "
 "vote list"
 msgstr ""
-"Si s'activa aquesta opció, tots els missatges de xat vindran precedits per "
-"una cadena de temps amb el format [hora:minut:segon]."
+"Si es permet aquesta opció, les noves votacions aniran al davant de la "
+"llista de votacions"
 
-#: client/options.c:762
+#: client/options.c:763
 msgid "Background layer"
 msgstr "Capa de fons"
 
-#: client/options.c:763
+#: client/options.c:764
 msgid "The background layer of the overview shows just ocean and land."
 msgstr "La capa de fons del resum mostra només l'oceà i terra."
 
-#: client/options.c:767
+#: client/options.c:768
 msgid "Terrain relief map layer"
 msgstr "Capa de relleu del terreny"
 
-#: client/options.c:768
+#: client/options.c:769
 msgid "The relief layer shows all terrains on the map."
 msgstr "La capa de relleu mostra tots els terrenys del mapa."
 
-#: client/options.c:771
+#: client/options.c:772
 msgid "Borders layer"
 msgstr "Capa de fronteres"
 
-#: client/options.c:772
+#: client/options.c:773
 msgid "The borders layer of the overview shows which tiles are owned by each player."
 msgstr ""
 "La capa de fronteres del resum mostra quines caselles pertanyen a cada "
 "jugador."
 
-#: client/options.c:776
+#: client/options.c:777
 msgid "Borders layer on ocean tiles"
 msgstr "Capa de fronteres sobre caselles oceàniques"
 
-#: client/options.c:777
+#: client/options.c:778
 msgid ""
 "The borders layer of the overview are drawn on ocean tiles as well (this may "
 "look ugly with many islands). This option is only of interest if you have "
@@ -11089,45 +11129,45 @@ msgstr ""
 "(això pot veure's lleig si hi ha moltes illes). Aquesta opció només és "
 "interessant si abans s'ha activat l'opció \"Capa de fronteres\"."
 
-#: client/options.c:783
+#: client/options.c:784
 msgid "Units layer"
 msgstr "Capa d'unitats"
 
-#: client/options.c:784
+#: client/options.c:785
 msgid "Enabling this will draw units on the overview."
 msgstr "Permetre-la farà que es dibuixin les unitats al resum."
 
-#: client/options.c:787
+#: client/options.c:788
 msgid "Cities layer"
 msgstr "Capa de ciutats"
 
-#: client/options.c:788
+#: client/options.c:789
 msgid "Enabling this will draw cities on the overview."
 msgstr "Permetre-la farà que es dibuixin les ciutats al resum."
 
-#: client/options.c:791
+#: client/options.c:792
 msgid "Overview fog of war"
 msgstr "Penombra al resum"
 
-#: client/options.c:792
+#: client/options.c:793
 msgid "Enabling this will show fog of war on the overview."
 msgstr "Si està activat, es mostrarà la penombra de guerra al resum."
 
-#: client/options.c:797
+#: client/options.c:798
 msgid "Show Map Scrollbars"
 msgstr "Mostrar les barres de desplaçament del mapa"
 
-#: client/options.c:798
+#: client/options.c:799
 msgid "Disable this option to hide the scrollbars on the map view."
 msgstr ""
 "Inhabilita aquesta opció per amagar les barres de desplaçament a la vista de "
 "mapa."
 
-#: client/options.c:801
+#: client/options.c:802
 msgid "Keep dialogs on top"
 msgstr "Mantenir diàlegs al damunt"
 
-#: client/options.c:802
+#: client/options.c:803
 msgid ""
 "If this option is set then dialog windows will always remain in front of the "
 "main Freeciv window. Disabling this has no effect in fullscreen mode."
@@ -11136,11 +11176,11 @@ msgstr ""
 "davant de la finestra principal de Freeciv. Inhabilitar-ho no té cap efecte "
 "en mode de pantalla complerta."
 
-#: client/options.c:806
+#: client/options.c:807
 msgid "Show worklist task icons"
 msgstr "Mostrar icones de tasca a la llista de treballs"
 
-#: client/options.c:807
+#: client/options.c:808
 msgid ""
 "Disabling this will turn off the unit and building icons in the worklist "
 "dialog and the production tab of the city dialog."
@@ -11148,11 +11188,11 @@ msgstr ""
 "Inhabilitar això amagarà les icones d'unitat i edifici al diàleg de llistes "
 "de treball i a la pestanya de producció del diàleg de ciutat."
 
-#: client/options.c:811
+#: client/options.c:812
 msgid "Enable status report tabs"
 msgstr "Permetre pestanyes d'informe d'estat"
 
-#: client/options.c:812
+#: client/options.c:813
 msgid ""
 "If this option is enabled then report dialogs will be shown as separate tabs "
 "rather than in popup dialogs."
@@ -11160,11 +11200,11 @@ msgstr ""
 "Si aquesta opció és permesa, els diàlegs d'informe es mostraran com a "
 "pestanyes separades en comptes de finestres individuals."
 
-#: client/options.c:817 client/options.c:975
+#: client/options.c:818 client/options.c:981
 msgid "Better fog-of-war drawing"
 msgstr "Millor dibuix de la penombra de guerra"
 
-#: client/options.c:818 client/options.c:976
+#: client/options.c:819 client/options.c:982
 msgid ""
 "If this is enabled then a better method is used for drawing fog-of-war.  It "
 "is not any slower but will consume about twice as much memory."
@@ -11172,11 +11212,11 @@ msgstr ""
 "Si això es permet, s'utilitza un mètode millor per dibuixar la penombra de "
 "guerra. No és més lent però gasta aproximadament el doble de memòria."
 
-#: client/options.c:823
+#: client/options.c:824
 msgid "Show time for each chat message"
 msgstr "Mostrar l'hora per cada missatge de xat"
 
-#: client/options.c:824
+#: client/options.c:825
 msgid ""
 "If this option is enabled then all chat messages will be prefixed by a time "
 "string of the form [hour:minute:second]."
@@ -11184,11 +11224,11 @@ msgstr ""
 "Si s'activa aquesta opció, tots els missatges de xat vindran precedits per "
 "una cadena de temps amb el format [hora:minut:segon]."
 
-#: client/options.c:829
+#: client/options.c:830
 msgid "Split bottom notebook area"
 msgstr "Partir àrea de llibreta de sota"
 
-#: client/options.c:830
+#: client/options.c:831
 msgid ""
 "Enabling this option will split the bottom notebook into a left and right "
 "notebook so that two tabs may be viewed at once."
@@ -11196,11 +11236,11 @@ msgstr ""
 "Activar aquesta opció partirà la llibreta de sota en dues, una a la dreta i "
 "una a l'esquerra per poder veure dues pestanyes al mateix temps."
 
-#: client/options.c:835
+#: client/options.c:836
 msgid "New message events go to top of list"
 msgstr "Missatges d'esdeveniments nous van al capdamunt de la llista"
 
-#: client/options.c:836
+#: client/options.c:837
 msgid ""
 "If this option is enabled, new events in the message window will appear at "
 "the top of the list, rather than being appended at the bottom."
@@ -11209,11 +11249,11 @@ msgstr ""
 "missatges apareixeran al capdamunt de la llista, en comptes d'afegir-se al "
 "final."
 
-#: client/options.c:841
+#: client/options.c:842
 msgid "Show extra message window buttons"
 msgstr "Mostrar botons de finestra de missatges addicionals"
 
-#: client/options.c:842
+#: client/options.c:843
 msgid ""
 "If this option is enabled, there will be two buttons displayed in the "
 "message window for inspecting a city and going to a location. If this option "
@@ -11229,11 +11269,11 @@ msgstr ""
 "respectivament). Aquesta opció només tindrà efecte un cop s'hagi tancat i "
 "reobert la finestra de missatges."
 
-#: client/options.c:852
+#: client/options.c:853
 msgid "Metaserver tab first in network page"
 msgstr "Pestanya de metaservidor primera a la pàgina de xarxa"
 
-#: client/options.c:853
+#: client/options.c:854
 msgid ""
 "If this option is enabled, the metaserver tab will be the first notebook tab "
 "in the network page. This option requires a restart in order to take effect."
@@ -11242,11 +11282,11 @@ msgstr ""
 "pestanya de la llibreta a la pàgina de xarxa. Aquesta opció requereix un "
 "rearranc per tenir efecte."
 
-#: client/options.c:858
+#: client/options.c:859
 msgid "Plain chat messages are sent to allies only"
 msgstr "Missatges de xat normals s'envien només als aliats"
 
-#: client/options.c:859
+#: client/options.c:860
 msgid ""
 "If this option is enabled, then plain messages typed into the chat entry "
 "while the game is running will only be sent to your allies. Otherwise plain "
@@ -11262,11 +11302,11 @@ msgstr ""
 "Aquesta opció també es pot activar amb un botó de commutació que hi ha al "
 "costat de l'entrada de xat (només és visible en partides multijugador)."
 
-#: client/options.c:871
+#: client/options.c:872
 msgid "Arrange widgets for small displays"
 msgstr "Adaptar icones per pantalles petites"
 
-#: client/options.c:872
+#: client/options.c:873
 msgid ""
 "If this option is enabled, widgets in the main window will be arrange so "
 "that they take up the least amount of total screen space. Specifically, the "
@@ -11280,84 +11320,97 @@ msgstr ""
 "d'informació d'unitat s'estendrà per tota la part esquerra de la finestra. "
 "Aquesta opció requereix rearrencar perquè tingui efecte."
 
-#: client/options.c:881
-msgid "City Label"
-msgstr "Nom de ciutat"
-
 #: client/options.c:882
-msgid "This font is used to display the city labels on city dialogs."
-msgstr ""
+msgid "Mouse over the map widget selects it automatically"
+msgstr "El ratolí sobre el mapa el selecciona automàticament"
+
+#: client/options.c:883
+msgid ""
+"If this option is enabled, then the map will be focused when the mouse will "
+"be floating over it."
+msgstr "Si es permet aquesta opció, el mapa obtindrà el focus quan el cursor del ratolí n'estigui al damunt."
 
 #: client/options.c:887
+msgid "City Label"
+msgstr "Etiqueta de ciutat"
+
+#: client/options.c:888
+msgid "This font is used to display the city labels on city dialogs."
+msgstr ""
+"Aquest tipus de lletra es fa servir per escriure les etiquetes de ciutat als "
+"diàlegs de ciutat."
+
+#: client/options.c:893
 msgid "Notify Label"
 msgstr "Etiqueta de Notificació"
 
-#: client/options.c:888
+#: client/options.c:894
 msgid ""
 "This font is used to display the server report such as demographic report or "
 "historian publications."
 msgstr ""
+"Aquest tipus de lletra es fa servir per escriure els informes de servidor "
+"com l'informe demogràfic o les publicacions d'historiadors."
 
-#: client/options.c:893
+#: client/options.c:899
 msgid "Spaceship Label"
 msgstr "Etiqueta de Nau espacial"
 
-#: client/options.c:894
-#, fuzzy
+#: client/options.c:900
 msgid "This font is used to display the spaceship widgets."
-msgstr "Si aquesta opció és 1, els jugadors poden construir naus espacials. "
+msgstr "Aquest tipus de lletra s'utilitza per mostrar les pantalles de la nau espacial."
 
-#: client/options.c:898
+#: client/options.c:904
 msgid "Help Label"
 msgstr "Etiqueta d'Ajuda"
 
-#: client/options.c:899
+#: client/options.c:905
 msgid "This font is used to display the help headers in the help window."
 msgstr ""
 "Aquest tipus de lletra s'utilitza per mostrar les capçaleres d'ajuda a la "
 "finestra d'ajuda."
 
-#: client/options.c:904
+#: client/options.c:910
 msgid "Help Link"
 msgstr "Enllaç d'Ajuda"
 
-#: client/options.c:905
+#: client/options.c:911
 msgid "This font is used to display the help links in the help window."
 msgstr ""
 "Aquest tipus de lletra s'utilitza per mostrar els enllaços d'ajuda a la "
 "finestra d'ajuda."
 
-#: client/options.c:910
+#: client/options.c:916
 msgid "Help Text"
 msgstr "Text d'Ajuda"
 
-#: client/options.c:911
+#: client/options.c:917
 msgid "This font is used to display the help body text in the help window."
 msgstr ""
 "Aquest tipus de lletra s'utilitza per mostrar el cos del text d'ajuda a la "
 "finestra d'ajuda."
 
-#: client/options.c:916
+#: client/options.c:922
 msgid "Chatline Area"
 msgstr "Àrea de xat"
 
-#: client/options.c:917
+#: client/options.c:923
 msgid "This font is used to display the text in the chatline area."
 msgstr "Aquest tipus de lletra s'utilitza per mostrar el text a l'àrea de xat."
 
-#: client/options.c:922
+#: client/options.c:928
 msgid "Beta Label"
 msgstr "Etiqueta Beta"
 
-#: client/options.c:923
+#: client/options.c:929
 msgid "This font is used to display the beta label."
-msgstr ""
+msgstr "Aquest tipus de lletra es fa servir per escriure l'etiqueta beta."
 
-#: client/options.c:927
+#: client/options.c:933
 msgid "Small Font"
 msgstr "Tipus de lletra petita"
 
-#: client/options.c:928
+#: client/options.c:934
 msgid ""
 "This font is used for any small font request.  For example, it is used for "
 "display the building lists in the city dialog, the economic report or the "
@@ -11367,79 +11420,80 @@ msgstr ""
 "petits. Per exemple, per mostrar les llistes d'edificis al diàleg de ciutat, "
 "l'informe econòmic o l'informe d'unitats."
 
-#: client/options.c:935
+#: client/options.c:941
 msgid "Comment Label"
 msgstr "Etiqueta de Comentari"
 
-#: client/options.c:936
+#: client/options.c:942
 msgid ""
 "This font is used to diplay comment labels, such as in the governer page of "
 "the city dialogs."
 msgstr ""
+"Aquest tipus de lletra es fa servir per escriure les etiquetes de comentari, "
+"com a la pàgina del gestor del diàleg de ciutat."
 
-#: client/options.c:941 client/gui-sdl/optiondlg.c:1538
+#: client/options.c:947 client/gui-sdl/optiondlg.c:1538
 #: client/gui-xaw/menu.c:148
 msgid "City Names"
 msgstr "Noms de Ciutats"
 
-#: client/options.c:942
+#: client/options.c:948
 msgid "This font is used to the display the city names on the map."
 msgstr ""
 "Aquest tipus de lletra s'utilitza per mostrar els noms de les ciutats al "
 "mapa."
 
-#: client/options.c:947
+#: client/options.c:953
 msgid "City Productions"
 msgstr "Produccions de ciutats"
 
-#: client/options.c:948
+#: client/options.c:954
 msgid "This font is used to the display the city production names on the map."
 msgstr ""
 "Aquest tipus de lletra s'utilitza per mostrar els noms de la producció de "
 "les ciutats al mapa."
 
-#: client/options.c:953
-#, fuzzy
+#: client/options.c:959
 msgid "Requirement Tree"
-msgstr "Requisit"
+msgstr "Arbre de Requeriments"
 
-#: client/options.c:954
+#: client/options.c:960
 msgid "This font is used to the display the requirement tree in the science report."
 msgstr ""
 "Aquest tipus de lletra s'utilitza per mostrar l'arbre de requeriments a "
 "l'informe de ciència."
 
-#: client/options.c:960
+#: client/options.c:966
 msgid "Full Screen"
 msgstr "Pantalla completa"
 
-#: client/options.c:961
+#: client/options.c:967
 msgid "If this option is set the client will use the whole screen area for drawing"
 msgstr ""
 "Si se selecciona aquesta opció, el client farà servir tota la pantalla per "
 "dibuixar"
 
-#: client/options.c:964
+#: client/options.c:970
 msgid "Screen width"
 msgstr "Amplada de pantalla"
 
-#: client/options.c:965
+#: client/options.c:971
 msgid "This option saves the width of the selected screen resolution"
 msgstr "Aquesta opció guarda l'amplada de la resolució de pantalla seleccionada"
 
-#: client/options.c:968
+#: client/options.c:974
 msgid "Screen height"
 msgstr "Alçada de pantalla"
 
-#: client/options.c:969
+#: client/options.c:975
 msgid "This option saves the height of the selected screen resolution"
 msgstr "Aquesta opció guarda l'alçada de la resolució de pantalla seleccionada"
 
-#: client/options.c:981
+#: client/options.c:987
 msgid "Enable alpha blending"
 msgstr "Permetre \"alpha blending\""
 
-#: client/options.c:982
+#: client/options.c:988
 msgid ""
 "If this is enabled, then alpha blending will be used in rendering, instead "
 "of an ordered dither.  If there is no hardware support for alpha blending, "
@@ -11449,58 +11503,58 @@ msgstr ""
 "comptes d'un \"dither\" ordenat. Si el teu maquinari no suporta \"alpha "
 "blending\", això és molt més lent."
 
-#: client/options.c:1194
+#: client/options.c:1200
 msgid "Graphics"
 msgstr "Gràfics"
 
-#: client/options.c:1196
+#: client/options.c:1202
 msgid "Overview"
 msgstr "Resum"
 
-#: client/options.c:1198
+#: client/options.c:1204
 msgid "Sound"
 msgstr "So"
 
-#: client/options.c:1200
+#: client/options.c:1206
 msgid "Interface"
 msgstr "Interfície"
 
-#: client/options.c:1202
+#: client/options.c:1208
 msgid "Network"
 msgstr "Xarxa"
 
-#: client/options.c:1204
+#: client/options.c:1210
 msgid "Font"
 msgstr "Font"
 
-#: client/options.c:1621
+#: client/options.c:1627
 msgid "If you add a preset by hand, also update \"number_of_presets\""
 msgstr "Si afegeixes un prefixat a mà, actualitza també \"number_of_presets\""
 
-#: client/options.c:1659 client/options.c:1695
+#: client/options.c:1665 client/options.c:1701
 msgid "Cannot find your home directory"
 msgstr "No s'ha pogut trobar el teu directori d'inici"
 
-#: client/options.c:1707 client/options.c:1721
+#: client/options.c:1713 client/options.c:1727
 #, c-format
 msgid "Didn't find '%s' option file, loading from '%s' instead."
 msgstr "No s'ha trobat el fitxer d'opcions '%s', es carrega de '%s'."
 
-#: client/options.c:1898
+#: client/options.c:1904
 msgid "Didn't find the option file."
 msgstr "No s'ha trobat el fitxer d'opcions."
 
-#: client/options.c:1913 client/options.c:2062
+#: client/options.c:1919 client/options.c:2068
 #, c-format
 msgid "Save failed, cannot write to file %s"
 msgstr "Error en desar, no s'ha pogut escriure al fitxer %s"
 
-#: client/options.c:1915 client/options.c:2064
+#: client/options.c:1921 client/options.c:2070
 #, c-format
 msgid "Saved settings to file %s"
 msgstr "S'ha desat la configuració al fitxer %s"
 
-#: client/options.c:2006
+#: client/options.c:2012
 msgid "Save failed, cannot find a filename."
 msgstr "Desar ha fallat, no es pot trobar un nom de fitxer."
 
@@ -11519,21 +11573,20 @@ msgstr "Capacitats del client: %s"
 msgid "Server capability string: %s"
 msgstr "Capacitats del servidor: %s"
 
-#: client/packhand.c:1014
+#: client/packhand.c:1009
 #, c-format
 msgid "Start of turn %d"
 msgstr "Inici del torn %d"
 
-#: client/packhand.c:1152
-#, fuzzy
+#: client/packhand.c:1147
 msgid "Welcome"
-msgstr "Benvingut %s"
+msgstr "Benvingut"
 
-#: client/packhand.c:1888
+#: client/packhand.c:1883
 msgid "AI mode is now ON."
 msgstr "El mode IA està actiu ara."
 
-#: client/packhand.c:1890
+#: client/packhand.c:1885
 msgid "AI mode is now OFF."
 msgstr "El mode IA està apagat ara."
 
@@ -12672,9 +12725,8 @@ msgid "Enter Marketplace"
 msgstr "Entrar al Mercat"
 
 #: client/gui-gtk-2.0/chatline.c:299
-#, fuzzy
 msgid "No visible unit on this tile."
-msgstr "No pots subornar una unitat d'aquesta nació."
+msgstr "No hi ha cap unitat visible en aquesta casella."
 
 #: client/gui-gtk-2.0/chatline.c:446
 msgid "This city isn't known!"
@@ -12695,9 +12747,9 @@ msgstr "S'ha netejat la finestra de missatges."
 
 #. TRANS: "foreground" or "background".
 #: client/gui-gtk-2.0/chatline.c:937
-#, fuzzy, c-format
+#, c-format
 msgid "Select the %s color"
-msgstr "Nou objectiu seleccionat"
+msgstr "Seleccionar el color %s"
 
 #: client/gui-gtk-2.0/chatline.c:1147
 msgid "Bold (Ctrl-B)"
@@ -12709,45 +12761,40 @@ msgstr "Cursiva (Ctrl-I)"
 
 #: client/gui-gtk-2.0/chatline.c:1165
 msgid "Strikethrough (Ctrl-S)"
-msgstr ""
+msgstr "Ratllat (Ctrl-S)"
 
 #: client/gui-gtk-2.0/chatline.c:1174
 msgid "Underline (Ctrl-U)"
-msgstr ""
+msgstr "Subratllat (Ctrl-U)"
 
 #: client/gui-gtk-2.0/chatline.c:1183
 msgid "Color (Ctrl-C)"
-msgstr ""
+msgstr "Color (Ctrl-C)"
 
 #: client/gui-gtk-2.0/chatline.c:1192
 msgid "foreground"
-msgstr ""
+msgstr "color del tipus de lletra"
 
 #: client/gui-gtk-2.0/chatline.c:1196
-#, fuzzy
 msgid "Select the foreground color"
-msgstr "Color de fons d'unitat sòlid"
+msgstr "Seleccionar el color del tipus de lletra"
 
 #: client/gui-gtk-2.0/chatline.c:1202
-#, fuzzy
 msgid "background"
-msgstr "Capa de fons"
+msgstr "fons"
 
 #: client/gui-gtk-2.0/chatline.c:1206
-#, fuzzy
 msgid "Select the background color"
-msgstr "Color de fons d'unitat sòlid"
+msgstr "Seleccionar el color de fons"
 
 #. TRANS: "Return" means the return key.
 #: client/gui-gtk-2.0/chatline.c:1218
-#, fuzzy
 msgid "Send the chat (Return)"
-msgstr "Fer sonar la campana a cada nou torn"
+msgstr "Enviar el xat (Retorn)"
 
 #: client/gui-gtk-2.0/chatline.c:1231
-#, fuzzy
 msgid "Chat tools"
-msgstr "Canviar a %s"
+msgstr "Eines de xat"
 
 #: client/gui-gtk-2.0/citydlg.c:585 client/gui-win32/citydlg.c:682
 msgid "Food:"
@@ -12989,9 +13036,8 @@ msgstr "_Fortificar unitat"
 
 #: client/gui-gtk-2.0/citydlg.c:2131 client/gui-gtk-2.0/menu.c:1404
 #: client/gui-win32/citydlg.c:1502 client/gui-win32/menu.c:376
-#, fuzzy
 msgid "Set _Home City"
-msgstr "Esta_blir com a llar"
+msgstr "Esta_blir Ciutat Origen"
 
 #: client/gui-gtk-2.0/citydlg.c:2138
 msgid "U_pgrade unit"
@@ -13044,9 +13090,9 @@ msgid "What should we rename the city to?"
 msgstr "Com s'ha de dir la ciutat ?"
 
 #: client/gui-gtk-2.0/cityrep.c:541
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure to sell those %s?"
-msgstr "Segur que vols sortir?"
+msgstr "Segur que vols vendre aquests %s?"
 
 #: client/gui-gtk-2.0/cityrep.c:889
 msgid "(no worklists defined)"
@@ -13093,9 +13139,8 @@ msgid "Gover_nor"
 msgstr "Gover_nador"
 
 #: client/gui-gtk-2.0/cityrep.c:1016
-#, fuzzy
 msgid "S_ell"
-msgstr "Vendre"
+msgstr "V_endre"
 
 #: client/gui-gtk-2.0/cityrep.c:1021 client/gui-gtk-2.0/menu.c:1354
 msgid "_Select"
@@ -13929,9 +13974,8 @@ msgid "Allies Only"
 msgstr "Només Aliats"
 
 #: client/gui-gtk-2.0/gui_main.c:1333
-#, fuzzy
 msgid "Clear links"
-msgstr "Esborrar _Llista de treball:"
+msgstr "Esborrar enllaços"
 
 #: client/gui-gtk-2.0/gui_main.c:1608
 msgid "Not _ready"
@@ -14252,14 +14296,12 @@ msgid "_View"
 msgstr "_Veure"
 
 #: client/gui-gtk-2.0/menu.c:1139
-#, fuzzy
 msgid "_Improvements"
-msgstr "_Edificis:"
+msgstr "M_illores"
 
 #: client/gui-gtk-2.0/menu.c:1140
-#, fuzzy
 msgid "C_ivilization"
-msgstr "Capitalització"
+msgstr "C_ivilització"
 
 #: client/gui-gtk-2.0/menu.c:1141 client/gui-win32/menu.c:419
 msgid "_Help"
@@ -14314,9 +14356,8 @@ msgid "_Find City"
 msgstr "_Buscar ciutat"
 
 #: client/gui-gtk-2.0/menu.c:1177 client/gui-win32/menu.c:329
-#, fuzzy
 msgid "Work_lists"
-msgstr "Llistes treball"
+msgstr "_Llistes de treball"
 
 #. TRANS: Nations report action
 #: client/gui-gtk-2.0/menu.c:1183 client/gui-win32/menu.c:405
@@ -14328,9 +14369,8 @@ msgid "_Wonders of the World"
 msgstr "Mera_velles del món"
 
 #: client/gui-gtk-2.0/menu.c:1188 client/gui-win32/menu.c:412
-#, fuzzy
 msgid "Top _Five Cities"
-msgstr "Millors cinc ciutats"
+msgstr "Cinc Millors Ciutats (_F)"
 
 #: client/gui-gtk-2.0/menu.c:1190 client/gui-win32/menu.c:413
 msgid "_Messages"
@@ -14342,7 +14382,7 @@ msgstr "_Demografia"
 
 #: client/gui-gtk-2.0/menu.c:1196 client/gui-win32/menu.c:420
 msgid "Language_s"
-msgstr "_Idiomes"
+msgstr "Llengüe_s"
 
 #: client/gui-gtk-2.0/menu.c:1198 client/gui-win32/menu.c:421
 msgid "Co_nnecting"
@@ -14429,14 +14469,12 @@ msgid "Save Options on _Exit"
 msgstr "Desar Opcions _en Sortir"
 
 #: client/gui-gtk-2.0/menu.c:1246
-#, fuzzy
 msgid "_Editing Mode"
-msgstr "Mode d'Edició"
+msgstr "Mode d'_Edició"
 
 #: client/gui-gtk-2.0/menu.c:1250
-#, fuzzy
 msgid "Cit_y Outlines"
-msgstr "Contorns de Ciutat"
+msgstr "Contorns de Ciutat (_y)"
 
 #: client/gui-gtk-2.0/menu.c:1252 client/gui-sdl/optiondlg.c:1590
 msgid "City Output"
@@ -14459,68 +14497,56 @@ msgid "City G_rowth"
 msgstr "C_reixement de la ciutat"
 
 #: client/gui-gtk-2.0/menu.c:1263 client/gui-win32/menu.c:343
-#, fuzzy
 msgid "City _Production Levels"
-msgstr "_Producció de les ciutats"
+msgstr "Nivells de _Producció de les Ciutats"
 
 #: client/gui-gtk-2.0/menu.c:1266
 msgid "City Buy Cost"
 msgstr "Cost de Compra de la Ciutat"
 
 #: client/gui-gtk-2.0/menu.c:1268
-#, fuzzy
 msgid "City Tra_deroutes"
-msgstr "Rutes Comercials de la Ciutat"
+msgstr "Rutes Comercials _de la Ciutat"
 
 #: client/gui-gtk-2.0/menu.c:1274
-#, fuzzy
 msgid "C_oastline"
-msgstr "Línia de la costa"
+msgstr "Línia de la C_osta"
 
 #: client/gui-gtk-2.0/menu.c:1277
-#, fuzzy
 msgid "_Roads & Rails"
-msgstr "Camins i ferrocarrils"
+msgstr "Camins i Fe_rrocarrils"
 
 #: client/gui-gtk-2.0/menu.c:1279
-#, fuzzy
 msgid "_Irrigation"
-msgstr "Regadiu"
+msgstr "Regad_iu"
 
 #: client/gui-gtk-2.0/menu.c:1281
-#, fuzzy
 msgid "_Mines"
-msgstr "Mines"
+msgstr "_Mines"
 
 #: client/gui-gtk-2.0/menu.c:1283
-#, fuzzy
 msgid "_Fortress & Airbase"
-msgstr "Fortificacions i Bases Aèries"
+msgstr "_Fortificació i Base Aèria"
 
 #: client/gui-gtk-2.0/menu.c:1286
-#, fuzzy
 msgid "_Specials"
-msgstr "Especials"
+msgstr "E_specials"
 
 #: client/gui-gtk-2.0/menu.c:1288
-#, fuzzy
 msgid "Po_llution & Fallout"
-msgstr "Contaminació i Radioactivitat"
+msgstr "C_ontaminació i Radioactivitat"
 
 #: client/gui-gtk-2.0/menu.c:1290
-#, fuzzy
 msgid "Citi_es"
-msgstr "Ciutats"
+msgstr "_Ciutats"
 
 #: client/gui-gtk-2.0/menu.c:1294
-#, fuzzy
 msgid "Focu_s Unit"
-msgstr "Enfocar unitat"
+msgstr "Enfoca_r unitat"
 
 #: client/gui-gtk-2.0/menu.c:1296
-#, fuzzy
 msgid "Fog of _War"
-msgstr "Penombra de guerra"
+msgstr "Penombra de _Guerra"
 
 #: client/gui-gtk-2.0/menu.c:1299
 msgid "_Full Screen"
@@ -14531,12 +14557,10 @@ msgid "Recalculate _Borders"
 msgstr "Recalcular _Fronteres"
 
 #: client/gui-gtk-2.0/menu.c:1328
-#, fuzzy
 msgid "Toggle Fog of _War"
-msgstr "Commutar Penombra de guerra"
+msgstr "Commutar Penombra de _Guerra"
 
 #: client/gui-gtk-2.0/menu.c:1330
-#, fuzzy
 msgid "Game/Scenario Properties"
 msgstr "Propietats de Partida\\/Escenari"
 
@@ -14545,14 +14569,12 @@ msgid "Save Scenario"
 msgstr "Desar Escenari"
 
 #: client/gui-gtk-2.0/menu.c:1355
-#, fuzzy
 msgid "_Unit"
-msgstr "_Unitats"
+msgstr "_Unitat"
 
 #: client/gui-gtk-2.0/menu.c:1356
-#, fuzzy
 msgid "_Work"
-msgstr "_Llistes de treball"
+msgstr "_Treball"
 
 #: client/gui-gtk-2.0/menu.c:1357
 msgid "_Combat"
@@ -14605,18 +14627,16 @@ msgid "Go _to/Airlift to City..."
 msgstr "Aerotransportar a ciutat"
 
 #: client/gui-gtk-2.0/menu.c:1385
-#, fuzzy
 msgid "_Return to Nearest City"
-msgstr "Tornar a ciutat més propera"
+msgstr "To_rnar a Ciutat Més Propera"
 
 #: client/gui-gtk-2.0/menu.c:1387 client/gui-win32/menu.c:382
 msgid "Auto E_xplore"
 msgstr "E_xplorador Automàtic"
 
 #: client/gui-gtk-2.0/menu.c:1389
-#, fuzzy
 msgid "_Patrol"
-msgstr "Patrullar"
+msgstr "_Patrullar"
 
 #: client/gui-gtk-2.0/menu.c:1392 client/gui-win32/menu.c:373
 msgid "_Sentry"
@@ -14641,14 +14661,12 @@ msgid "U_nload All From Transporter"
 msgstr "Descarregar Transport"
 
 #: client/gui-gtk-2.0/menu.c:1406
-#, fuzzy
 msgid "Upgr_ade"
-msgstr "Millorar"
+msgstr "Millor_ar"
 
 #: client/gui-gtk-2.0/menu.c:1408
-#, fuzzy
 msgid "_Disband"
-msgstr "Desmantellar"
+msgstr "_Desmantellar"
 
 #: client/gui-gtk-2.0/menu.c:1412 client/gui-gtk-2.0/menu.c:2015
 #: client/gui-win32/menu.c:363
@@ -14656,9 +14674,8 @@ msgid "_Build City"
 msgstr "_Bastir una ciutat"
 
 #: client/gui-gtk-2.0/menu.c:1414
-#, fuzzy
 msgid "Go _to and Build city"
-msgstr "Fundar ciutat (_B)"
+msgstr "Anar a lloc i Fundar ciu_tat"
 
 #: client/gui-gtk-2.0/menu.c:1416
 msgid "_Auto Settler"
@@ -14672,7 +14689,7 @@ msgstr "Const_ruir un camí"
 #: client/gui-gtk-2.0/menu.c:1421 client/gui-gtk-2.0/menu.c:2056
 #: client/gui-gtk-2.0/menu.c:2076 client/gui-win32/menu.c:365
 msgid "Build _Irrigation"
-msgstr "_Irrigar"
+msgstr "Fer Regad_iu"
 
 #: client/gui-gtk-2.0/menu.c:1423 client/gui-gtk-2.0/menu.c:2064
 #: client/gui-gtk-2.0/menu.c:2077 client/gui-win32/menu.c:366
@@ -14680,19 +14697,16 @@ msgid "Build _Mine"
 msgstr "Construir _Mina"
 
 #: client/gui-gtk-2.0/menu.c:1426
-#, fuzzy
 msgid "Connect With Roa_d"
-msgstr "Connectar camí"
+msgstr "Connectar amb _camí"
 
 #: client/gui-gtk-2.0/menu.c:1428
-#, fuzzy
 msgid "Connect With Rai_l"
-msgstr "Connectar/Via"
+msgstr "Connectar amb Ferrocarri_l"
 
 #: client/gui-gtk-2.0/menu.c:1430
-#, fuzzy
 msgid "Connect With Irri_gation"
-msgstr "Connectar Irrigació"
+msgstr "Connectar amb Re_gadiu"
 
 #: client/gui-gtk-2.0/menu.c:1433 client/gui-gtk-2.0/menu.c:2073
 #: client/gui-gtk-2.0/menu.c:2078
@@ -14723,14 +14737,12 @@ msgid "_Pillage"
 msgstr "Saquejar"
 
 #: client/gui-gtk-2.0/menu.c:1448
-#, fuzzy
 msgid "_Diplomat/Spy Actions"
-msgstr "Diplomàtic/Accions d'espia"
+msgstr "Accions d'espia/_Diplomàtic"
 
 #: client/gui-gtk-2.0/menu.c:1450
-#, fuzzy
 msgid "Explode _Nuclear"
-msgstr "Explotar nuclear"
+msgstr "Detonar _Nuclear"
 
 #: client/gui-gtk-2.0/menu.c:1480 client/gui-win32/menu.c:326
 msgid "_Tax Rates..."
@@ -15460,9 +15472,9 @@ msgid "[removed]"
 msgstr "[anul·lat]"
 
 #: client/gui-gtk-2.0/voteinfo_bar.c:266
-#, fuzzy, c-format
+#, c-format
 msgid "%sVote %d by %s: %s%s"
-msgstr "%s (número %d) per %s: %s."
+msgstr "%sVotació %d per %s: %s%s"
 
 #: client/gui-sdl/caravan_dialog.c:131
 #, c-format
@@ -18931,9 +18943,19 @@ msgid ""
 "  5: focus on previous unit\n"
 "space: done giving orders  (unit stays put)\n"
 msgstr ""
+"Selecció d'Unitats:\n"
+"===============\n"
+"  z: seleccionar només la primera unitat del grup seleccionat\n"
+"  v: seleccionar totes les unitats de la casella\n"
+"  V: (a la casella) seleccionar totes les unitats del mateix tipus que la unitat activa\n"
+"  C: (al continent) seleccionar totes les unitats del mateix tipus que la unitat activa\n"
+"  X: (a tot arreu) seleccionar totes les unitats del mateix tipus que la unitat activa\n"
+"\n"
+"  w: enfocar la unitat següent (esperar)\n"
+"  5: enfocar la unitat prèvia\n"
+"espai: ordres acabades (la unitat es queda on és)\n"
 
 #: data/helpdata.txt:480
-#, fuzzy
 msgid ""
 "Unit Movement:\n"
 "==============\n"
@@ -18956,13 +18978,8 @@ msgstr ""
 "  7: moure cap al nordoest\n"
 "  8: moure cap al nord\n"
 "  9: moure cap al nordest\n"
-"\n"
-"  5: enfocar la unitat prèvia\n"
-"  w: enfocar la unitat següent (esperar)\n"
-"  c: centrar la vista sobre la unitat\n"
 
 #: data/helpdata.txt:491
-#, fuzzy
 msgid ""
 "Main Map (Keys):\n"
 "================\n"
@@ -18981,13 +18998,18 @@ msgid ""
 msgstr ""
 "Mapa Principal (Tecles):\n"
 "====================\n"
-"      Maj-Inici: centrar a la capital\n"
+"  c: (c)entrar vista a la unitat activa\n"
+"    Maj-Inici: centrar vista a la capital\n"
 "  Maj-fletxes: desplaçar mapa\n"
-"         Ctrl-G: mostrar línies de graella o no\n"
-"         Ctrl-B: mostrar fronteres nacionals o no\n"
-"         Ctrl-N: mostrar noms de ciutats o no\n"
-"         Ctrl-R: mostrar creixement de ciutat o no\n"
-"         Ctrl-P: mostrar producció de ciutat o no\n"
+"\n"
+"  Ctrl-B: mostrar fronteres nacionals o no\n"
+"  Ctrl-D: mostrar rutes comercials de la ciutat o no\n"
+"  Ctrl-G: mostrar línies de graella o no\n"
+"  Ctrl-N: mostrar noms de ciutats o no\n"
+"  Ctrl-P: mostrar producció de ciutat o no\n"
+"  Ctrl-R: mostrar creixement de ciutat o no\n"
+"  Ctrl-W: mostrar producció de la ciutat o no\n"
+"  Ctrl-Y: mostrar contorn de les ciutats o no\n"
 
 #: data/helpdata.txt:506
 #, fuzzy
@@ -19044,7 +19066,6 @@ msgstr ""
 "  quedaran marcades a l'informe de Ciutats."
 
 #: data/helpdata.txt:531
-#, fuzzy
 msgid ""
 "Dialogs and Reports:\n"
 "====================\n"
@@ -19076,15 +19097,15 @@ msgstr ""
 "     F5: obrir Informe d'Economia\n"
 "     F6: obrir Informe de Recerca\n"
 "     F7: obrir Meravelles del Món\n"
-"     F8: obrir Millors Cinc Ciutats\n"
+"     F8: obrir Cinc Millors Ciutats\n"
 "     F9: obrir diàleg de Missatges\n"
 "    F11: obrir Demografia\n"
 "    F12: obrir Nau Espacial\n"
 "\n"
-"      T: obrir diàleg Impostos/Luxe/Ciència\n"
-"      F: obrir diàleg per trobar Ciutat\n"
-" Ctrl-L: obrir diàleg de Llistes de Treball\n"
-"      R: obrir diàleg de Revolució\n"
+"      Ctrl-F: obrir diàleg per trobar Ciutat\n"
+"      Ctrl-L: obrir diàleg de Llistes de Treball\n"
+"      Ctrl-T: obrir diàleg Impostos/Luxe/Ciència\n"
+"  Maj-Ctrl-R: obrir diàleg de Revolució\n"
 "\n"
 "Maj-Retorn: Torn acabat"
 
@@ -19147,6 +19168,10 @@ msgid ""
 "users to format the chat messages they are sending using boldface, italic, "
 "colors, links, etc...  Such changes are performed using escape sequences."
 msgstr ""
+"Text remarcat (GTK):\n"
+"=====================\n"
+"\n"
+"Des de la 2.2, el client GTK té suport de text remarcat. Aquesta facilitat permet als usuaris de formatejar els missatges de xat que envien amb negreta, cursiva, colors, enllaços, etc...  Aquests canvis es duen a terme amb seqüències d'escapament."
 
 #: data/helpdata.txt:585
 msgid ""
