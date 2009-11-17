@@ -2237,7 +2237,8 @@ void get_city_mapview_traderoutes(struct city *pcity,
   }
 
   for (i = 0; i < NUM_TRADEROUTES; i++) {
-    if (pcity->trade[i] <= 0 && pcity->trade_value[i] <= 0) {
+    if (pcity->trade[i] <= 0) {
+      /* NB: pcity->trade_value[i] == 0 is a valid case. */
       continue;
     }
     num_traderoutes++;

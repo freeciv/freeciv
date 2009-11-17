@@ -417,18 +417,21 @@ void get_city_dialog_output_text(const struct city *pcity,
     int i;
 
     for (i = 0; i < NUM_TRADEROUTES; i++) {
-      if (pcity->trade[i] != 0 && pcity->trade_value[i] != 0) {
-	/* There have been bugs causing the trade city to not be sent
-	 * properly to the client.  If this happens we trust the
-	 * trade_value[] array and simply don't give the name of the
-	 * city. */
-	struct city *trade_city = game_find_city_by_number(pcity->trade[i]);
-	/* TRANS: "unknown" location */
-	const char *name = trade_city ? city_name(trade_city) : _("(unknown)");
+      if (pcity->trade[i] != 0) {
+        /* There have been bugs causing the trade city to not be sent
+         * properly to the client.  If this happens we trust the
+         * trade_value[] array and simply don't give the name of the
+         * city.
+         *
+         * NB: ()pcity->trade_value[i] == 0) is valid case.  The traderoute
+         * is established but doesn't give trade surplus. */
+        struct city *trade_city = game_find_city_by_number(pcity->trade[i]);
+        /* TRANS: "unknown" location */
+        const char *name = trade_city ? city_name(trade_city) : _("(unknown)");
 
-	cat_snprintf(buf, bufsz, _("%+4d : Trade route with %s\n"),
-		     pcity->trade_value[i], name);
-	total += pcity->trade_value[i];
+        cat_snprintf(buf, bufsz, _("%+4d : Trade route with %s\n"),
+                     pcity->trade_value[i], name);
+        total += pcity->trade_value[i];
       }
     }
   } else if (otype == O_GOLD) {

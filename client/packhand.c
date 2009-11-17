@@ -521,17 +521,13 @@ void handle_city_info(struct packet_city_info *packet)
             TILE_XY(packet));
     return;
   } else {
-    bool traderoutes_changed = FALSE;
     name_changed = (0 != strncmp(packet->name, pcity->name,
                                  sizeof(pcity->name)));
-
-    if (draw_city_traderoutes
-        && (0 != memcmp(pcity->trade, packet->trade,
-                        sizeof(pcity->trade))
-            || 0 != memcmp(pcity->trade_value, packet->trade_value,
-                           sizeof(pcity->trade_value)))) {
-      traderoutes_changed = TRUE;
-    }
+    /* pcity->trade_value doesn't change the city description, neither the
+     * trade routes lines. */
+    traderoutes_changed = (draw_city_traderoutes
+                           && 0 != memcmp(pcity->trade, packet->trade,
+                                          sizeof(pcity->trade)));
 
     /* Descriptions should probably be updated if the
      * city name, production or time-to-grow changes.
@@ -579,10 +575,7 @@ void handle_city_info(struct packet_city_info *packet)
   pcity->city_options = packet->city_options;
 
   for (i = 0; i < NUM_TRADEROUTES; i++) {
-    if (pcity->trade[i] != packet->trade[i]) {
-      pcity->trade[i] = packet->trade[i];
-      traderoutes_changed = TRUE;
-    }
+    pcity->trade[i] = packet->trade[i];
     pcity->trade_value[i] = packet->trade_value[i];
   }
 
@@ -719,7 +712,9 @@ void handle_city_info(struct packet_city_info *packet)
     caravan_dialog_update();
   }
 
-  if (traderoutes_changed && draw_city_traderoutes) {
+  if (draw_city_traderoutes
+      && (traderoutes_changed
+          || (city_is_new && 0 < city_num_trade_routes(pcity)))) {
     update_map_canvas_visible();
   }
 }
