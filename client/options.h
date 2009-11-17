@@ -106,6 +106,7 @@ extern bool gui_gtk2_show_message_window_buttons;
 extern bool gui_gtk2_metaserver_tab_first;
 extern bool gui_gtk2_allied_chat_only;
 extern bool gui_gtk2_small_display_layout;
+extern bool gui_gtk2_mouse_over_map_focus;
 extern char gui_gtk2_font_city_label[512];
 extern char gui_gtk2_font_notify_label[512];
 extern char gui_gtk2_font_spaceship_label[512];
