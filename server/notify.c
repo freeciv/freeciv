@@ -59,13 +59,7 @@ static void package_event_full(struct packet_chat_msg *packet,
 {
   RETURN_IF_FAIL(NULL != packet);
 
-  if (ptile) {
-    packet->x = ptile->x;
-    packet->y = ptile->y;
-  } else {
-    packet->x = -1;
-    packet->y = -1;
-  }
+  packet->tile = (NULL != ptile ? tile_index(ptile) : -1);
   packet->event = event;
   packet->conn_id = pconn ? pconn->id : -1;
 
@@ -161,16 +155,11 @@ static void notify_conn_packet(struct conn_list *dest,
                                const struct packet_chat_msg *packet)
 {
   struct packet_chat_msg real_packet = *packet;
-  struct tile *ptile;
+  int tile = packet->tile;
+  struct tile *ptile = index_to_tile(tile);
 
   if (!dest) {
     dest = game.est_connections;
-  }
-
-  if (is_normal_map_pos(packet->x, packet->y)) {
-    ptile = map_pos_to_tile(packet->x, packet->y);
-  } else {
-    ptile = NULL;
   }
 
   conn_list_iterate(dest, pconn) {
@@ -187,14 +176,13 @@ static void notify_conn_packet(struct conn_list *dest,
         && ((NULL == pconn->playing && pconn->observer)
             || (NULL != pconn->playing
                 && map_is_known(ptile, pconn->playing)))) {
-      /* coordinates are OK; see above */
-      real_packet.x = ptile->x;
-      real_packet.y = ptile->y;
+      /* tile info is OK; see above. */
+      /* FIXME: in the case this is a city event, we should check if the
+       * city is really known. */
+      real_packet.tile = tile;
     } else {
-      /* no coordinates */
-      assert(S_S_RUNNING > server_state() || !is_normal_map_pos(-1, -1));
-      real_packet.x = -1;
-      real_packet.y = -1;
+      /* No tile info. */
+      real_packet.tile = -1;
     }
 
     send_packet_chat_msg(pconn, &real_packet);
@@ -675,7 +663,7 @@ void event_cache_load(struct section_file *file, const char *section)
   enum event_cache_target target_type;
   enum server_states server_status;
   struct event_cache_players *players = NULL;
-  int i, turn, event_count;
+  int i, x, y, turn, event_count;
   time_t timestamp, now;
   const char *p, *q;
 
@@ -689,10 +677,9 @@ void event_cache_load(struct section_file *file, const char *section)
   now = time(NULL);
   for (i = 0; i < event_count; i++) {
     /* restore packet */
-    packet.x = secfile_lookup_int_default(file, -1, "%s.events%d.x",
-                                          section, i);
-    packet.y = secfile_lookup_int_default(file, -1, "%s.events%d.y",
-                                          section, i);
+    x = secfile_lookup_int_default(file, -1, "%s.events%d.x", section, i);
+    y = secfile_lookup_int_default(file, -1, "%s.events%d.y", section, i);
+    packet.tile = (is_normal_map_pos(x, y) ? map_pos_to_index(x, y) : -1);
     packet.conn_id = -1;
 
     p = secfile_lookup_str(file, "%s.events%d.event", section, i);
@@ -786,6 +773,7 @@ void event_cache_load(struct section_file *file, const char *section)
 ***************************************************************/
 void event_cache_save(struct section_file *file, const char *section)
 {
+  struct tile *ptile;
   int event_count = 0;
   char target[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS + 1];
   char *p;
@@ -795,14 +783,15 @@ void event_cache_save(struct section_file *file, const char *section)
   event_cache_status = FALSE;
 
   event_cache_iterate(pdata) {
+    ptile = index_to_tile(pdata->packet.tile);
     secfile_insert_int(file, pdata->turn, "%s.events%d.turn",
                        section, event_count);
     secfile_insert_int(file, pdata->timestamp, "%s.events%d.timestamp",
                        section, event_count);
-    secfile_insert_int(file, pdata->packet.x, "%s.events%d.x",
-                       section, event_count);
-    secfile_insert_int(file, pdata->packet.y, "%s.events%d.y",
-                       section, event_count);
+    secfile_insert_int(file, NULL != ptile ? ptile->x : -1,
+                       "%s.events%d.x", section, event_count);
+    secfile_insert_int(file, NULL != ptile ? ptile->y : -1,
+                       "%s.events%d.y", section, event_count);
     secfile_insert_str(file, server_states_name(pdata->server_state),
                        "%s.events%d.server_state", section, event_count);
     secfile_insert_str(file, event_type_name(pdata->packet.event),

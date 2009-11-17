@@ -800,7 +800,7 @@ void editor_apply_tool(const struct tile *ptile,
 {
   enum editor_tool_type ett;
   enum editor_tool_mode etm;
-  int value, size, count, apno, x, y, id;
+  int value, size, count, apno, tile, id;
   bool erase;
   struct connection *my_conn = &client.conn;
 
@@ -848,33 +848,32 @@ void editor_apply_tool(const struct tile *ptile,
   }
 
   erase = (etm == ETM_ERASE);
-  x = ptile->x;
-  y = ptile->y;
+  tile = tile_index(ptile);
 
   switch (ett) {
 
   case ETT_TERRAIN:
-    dsend_packet_edit_tile_terrain(my_conn, x, y, erase ? 0 : value, size);
+    dsend_packet_edit_tile_terrain(my_conn, tile, erase ? 0 : value, size);
     break;
 
   case ETT_TERRAIN_RESOURCE:
-    dsend_packet_edit_tile_resource(my_conn, x, y, erase ? -1 : value,
+    dsend_packet_edit_tile_resource(my_conn, tile, erase ? -1 : value,
                                     size);
     break;
 
   case ETT_TERRAIN_SPECIAL:
-    dsend_packet_edit_tile_special(my_conn, x, y, value, erase, size);
+    dsend_packet_edit_tile_special(my_conn, tile, value, erase, size);
     break;
 
   case ETT_MILITARY_BASE:
-    dsend_packet_edit_tile_base(my_conn, x, y, value, erase, size);
+    dsend_packet_edit_tile_base(my_conn, tile, value, erase, size);
     break;
 
   case ETT_UNIT:
     if (erase) {
-      dsend_packet_edit_unit_remove(my_conn, apno, x, y, value, count);
+      dsend_packet_edit_unit_remove(my_conn, apno, tile, value, count);
     } else {
-      dsend_packet_edit_unit_create(my_conn, apno, x, y, value, count, 0);
+      dsend_packet_edit_unit_create(my_conn, apno, tile, value, count, 0);
     }
     break;
 
@@ -886,19 +885,19 @@ void editor_apply_tool(const struct tile *ptile,
         dsend_packet_edit_city_remove(my_conn, id);
       }
     } else {
-      dsend_packet_edit_city_create(my_conn, apno, x, y, size, 0);
+      dsend_packet_edit_city_create(my_conn, apno, tile, size, 0);
     }
     break;
 
   case ETT_VISION:
     if (client_has_player()) {
       id = client_player_number();
-      dsend_packet_edit_player_vision(my_conn, id, x, y, !erase, size);
+      dsend_packet_edit_player_vision(my_conn, id, tile, !erase, size);
     }
     break;
 
   case ETT_STARTPOS:
-    dsend_packet_edit_startpos(my_conn, x, y,
+    dsend_packet_edit_startpos(my_conn, tile,
                                erase ? NATION_NONE :
                                nation_number(player_by_number(apno)->nation));
     break;
@@ -1515,7 +1514,7 @@ static void fill_tile_edit_packet(struct packet_edit_tile *packet,
   if (!packet || !ptile) {
     return;
   }
-  packet->id = tile_index(ptile);
+  packet->tile = tile_index(ptile);
   packet->specials = tile_specials(ptile);
   packet->bases = tile_bases(ptile);
 
@@ -1540,15 +1539,14 @@ static void paste_tile(struct edit_buffer *ebuf,
   struct connection *my_conn = &client.conn;
   struct packet_edit_tile tile_packet;
   struct city *vcity;
-  int value, owner, x, y;
+  int value, owner, tile;
   bool send_edit_tile = FALSE;
 
   if (!ebuf || !vtile || !ptile_dest) {
     return;
   }
 
-  x = ptile_dest->x;
-  y = ptile_dest->y;
+  tile = tile_index(ptile_dest);
 
   fill_tile_edit_packet(&tile_packet, ptile_dest);
 
@@ -1559,14 +1557,14 @@ static void paste_tile(struct edit_buffer *ebuf,
         continue;
       }
       value = terrain_number(tile_terrain(vtile));
-      dsend_packet_edit_tile_terrain(my_conn, x, y, value, 1);
+      dsend_packet_edit_tile_terrain(my_conn, tile, value, 1);
       break;
     case EBT_RESOURCE:
       if (!tile_resource(vtile)) {
         continue;
       }
       value = resource_number(tile_resource(vtile));
-      dsend_packet_edit_tile_resource(my_conn, x, y, value, 1);
+      dsend_packet_edit_tile_resource(my_conn, tile, value, 1);
       break;
     case EBT_SPECIAL:
       tile_packet.specials = tile_specials(vtile);
@@ -1580,7 +1578,7 @@ static void paste_tile(struct edit_buffer *ebuf,
       unit_list_iterate(vtile->units, vunit) {
         value = utype_number(unit_type(vunit));
         owner = player_number(unit_owner(vunit));
-        dsend_packet_edit_unit_create(my_conn, owner, x, y, value, 1, 0);
+        dsend_packet_edit_unit_create(my_conn, owner, tile, value, 1, 0);
       } unit_list_iterate_end;
       break;
     case EBT_CITY:
@@ -1590,7 +1588,7 @@ static void paste_tile(struct edit_buffer *ebuf,
       }
       owner = player_number(city_owner(vcity));
       value = vcity->size;
-      dsend_packet_edit_city_create(my_conn, owner, x, y, value, 0);
+      dsend_packet_edit_city_create(my_conn, owner, tile, value, 0);
       break;
     default:
       break;

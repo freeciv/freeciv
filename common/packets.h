@@ -85,10 +85,6 @@ void generic_handle_player_attribute_chunk(struct player *pplayer,
 					   *chunk);
 const char *get_packet_name(enum packet_type type);
 
-void pre_send_packet_chat_msg(struct connection *pc,
-			      struct packet_chat_msg *packet);
-void post_receive_packet_chat_msg(struct connection *pc,
-				  struct packet_chat_msg *packet);
 void pre_send_packet_player_attribute_chunk(struct connection *pc,
 					    struct packet_player_attribute_chunk
 					    *packet);

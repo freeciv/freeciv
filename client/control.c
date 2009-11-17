@@ -1363,8 +1363,7 @@ void request_move_unit_direction(struct unit *punit, int dir)
   }
 
   if (punit->moves_left > 0) {
-    dsend_packet_unit_move(&client.conn, punit->id,
-			   dest_tile->x, dest_tile->y);
+    dsend_packet_unit_move(&client.conn, punit->id, tile_index(dest_tile));
   } else {
     /* Initiate a "goto" with direction keys for exhausted units. */
     send_goto_tile(punit, dest_tile);
@@ -2320,7 +2319,7 @@ void do_unit_nuke(struct unit *punit)
 **************************************************************************/
 void do_unit_paradrop_to(struct unit *punit, struct tile *ptile)
 {
-  dsend_packet_unit_paradrop_to(&client.conn, punit->id, ptile->x, ptile->y);
+  dsend_packet_unit_paradrop_to(&client.conn, punit->id, tile_index(ptile));
 }
  
 /**************************************************************************

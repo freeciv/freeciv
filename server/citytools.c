@@ -1558,8 +1558,7 @@ static void package_dumb_city(struct player* pplayer, struct tile *ptile,
   packet->id = pdcity->identity;
   packet->owner = player_number(vision_owner(pdcity));
 
-  packet->x = ptile->x;
-  packet->y = ptile->y;
+  packet->tile = tile_index(ptile);
   sz_strlcpy(packet->name, pdcity->name);
 
   packet->size = pdcity->size;
@@ -1793,8 +1792,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
 
   packet->id=pcity->id;
   packet->owner = player_number(city_owner(pcity));
-  packet->x = pcity->tile->x;
-  packet->y = pcity->tile->y;
+  packet->tile = tile_index(city_tile(pcity));
   sz_strlcpy(packet->name, city_name(pcity));
 
   packet->size=pcity->size;

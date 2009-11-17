@@ -1977,7 +1977,7 @@ static void objbind_pack_current_values(struct objbind *ob,
       return;
     }
 
-    packet->id = tile_index(ptile);
+    packet->tile = tile_index(ptile);
     packet->specials = tile_specials(ptile);
     packet->bases = tile_bases(ptile);
     /* TODO: Set more packet fields. */
@@ -4987,7 +4987,7 @@ static void property_page_create_objects(struct property_page *pp,
     apno = editor_tool_get_applied_player(ETT_UNIT);
     count = editor_tool_get_count(ETT_UNIT);
     value = editor_tool_get_value(ETT_UNIT);
-    dsend_packet_edit_unit_create(my_conn, apno, ptile->x, ptile->y,
+    dsend_packet_edit_unit_create(my_conn, apno, tile_index(ptile),
                                   value, count, tag);
     break;
 
@@ -5013,7 +5013,7 @@ static void property_page_create_objects(struct property_page *pp,
     }
 
     size = editor_tool_get_size(ETT_CITY);
-    dsend_packet_edit_city_create(my_conn, apno, ptile->x, ptile->y,
+    dsend_packet_edit_city_create(my_conn, apno, tile_index(ptile),
                                   size, tag);
     break;
 

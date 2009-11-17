@@ -361,8 +361,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
     dest = game.est_connections;
   }
 
-  info.x = ptile->x;
-  info.y = ptile->y;
+  info.tile = tile_index(ptile);
 
   if (ptile->spec_sprite) {
     sz_strlcpy(info.spec_sprite, ptile->spec_sprite);

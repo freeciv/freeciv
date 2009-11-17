@@ -760,10 +760,10 @@ void handle_unit_change_activity(struct player *pplayer, int unit_id,
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_unit_move(struct player *pplayer, int unit_id, int x, int y)
+void handle_unit_move(struct player *pplayer, int unit_id, int tile)
 {
   struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
-  struct tile *ptile = map_pos_to_tile(x, y);
+  struct tile *ptile = index_to_tile(tile);
 
   if (NULL == punit) {
     /* Probably died or bribed. */
@@ -773,21 +773,18 @@ void handle_unit_move(struct player *pplayer, int unit_id, int x, int y)
 
   if (NULL == ptile) {
     /* Shouldn't happen */
-    freelog(LOG_ERROR, "handle_unit_move()"
-	    " invalid %s (%d) tile (%d,%d)",
-	    unit_rule_name(punit),
-	    unit_id,
-	    x, y);
+    freelog(LOG_ERROR,
+            "handle_unit_move() invalid tile index (%d) for %s (%d)",
+            tile, unit_rule_name(punit), unit_id);
     return;
   }
 
-  if (!is_tiles_adjacent(punit->tile, ptile)) {
+  if (!is_tiles_adjacent(unit_tile(punit), ptile)) {
     /* Client is out of sync, ignore */
-    freelog(LOG_VERBOSE, "handle_unit_move()"
-	    " invalid %s (%d) move (%d,%d)",
-	    unit_rule_name(punit),
-	    unit_id,
-	    x, y);
+    freelog(LOG_VERBOSE, "handle_unit_move() invalid %s (%d) move "
+            "from (%d, %d) to (%d, %d).",
+            unit_rule_name(punit), unit_id,
+            TILE_XY(unit_tile(punit)), TILE_XY(ptile));
     return;
   }
 
@@ -993,8 +990,7 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
       return;
     } 
 
-    dlsend_packet_nuke_tile_info(game.est_connections,
-				 def_tile->x, def_tile->y);
+    dlsend_packet_nuke_tile_info(game.est_connections, tile_index(def_tile));
 
     wipe_unit(punit);
     do_nuclear_explosion(pplayer, def_tile);
@@ -1931,11 +1927,10 @@ void handle_unit_nuke(struct player *pplayer, int unit_id)
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_unit_paradrop_to(struct player *pplayer, int unit_id, int x,
-			     int y)
+void handle_unit_paradrop_to(struct player *pplayer, int unit_id, int tile)
 {
   struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
-  struct tile *ptile = map_pos_to_tile(x, y);
+  struct tile *ptile = index_to_tile(tile);
 
   if (NULL == punit) {
     /* Probably died or bribed. */
@@ -1946,11 +1941,9 @@ void handle_unit_paradrop_to(struct player *pplayer, int unit_id, int x,
 
   if (NULL == ptile) {
     /* Shouldn't happen */
-    freelog(LOG_ERROR, "handle_unit_paradrop_to()"
-	    " invalid %s (%d) tile (%d,%d)",
-	    unit_rule_name(punit),
-	    unit_id,
-	    x, y);
+    freelog(LOG_ERROR,
+            "handle_unit_paradrop_to() invalid tile index (%d) for %s (%d)",
+            tile, unit_rule_name(punit), unit_id);
     return;
   }
 
@@ -1965,7 +1958,7 @@ void handle_unit_orders(struct player *pplayer,
 {
   int i;
   struct unit *punit = player_find_unit_by_id(pplayer, packet->unit_id);
-  struct tile *src_tile = map_pos_to_tile(packet->src_x, packet->src_y);
+  struct tile *src_tile = index_to_tile(packet->src_tile);
 
   if (NULL == punit) {
     /* Probably died or bribed. */
@@ -1986,27 +1979,23 @@ void handle_unit_orders(struct player *pplayer,
   }
 
   if (ACTIVITY_IDLE != punit->activity) {
-    freelog(LOG_ERROR, "handle_unit_orders()"
-	    " invalid %s (%d) activity %d (should be %d)",
-	    unit_rule_name(punit),
-	    packet->unit_id,
-	    punit->activity,
-	    ACTIVITY_IDLE);
+    freelog(LOG_VERBOSE, "handle_unit_orders() invalid %s (%d) "
+            "activity %d (should be %d)",
+            unit_rule_name(punit), punit->id,
+            punit->activity, ACTIVITY_IDLE);
     return;
   }
 
-  if (src_tile != punit->tile) {
+  if (src_tile != unit_tile(punit)) {
     /* Failed sanity check.  Usually this happens if the orders were sent
      * in the previous turn, and the client thought the unit was in a
      * different position than it's actually in.  The easy solution is to
      * discard the packet.  We don't send an error message to the client
      * here (though maybe we should?). */
-    freelog(LOG_DEBUG, "handle_unit_orders()"
-	    " invalid %s (%d) tile (%d,%d != %d,%d)",
-	    unit_rule_name(punit),
-	    packet->unit_id,
-	    packet->src_x, packet->src_y,
-	    TILE_XY(punit->tile));
+    freelog(LOG_VERBOSE, "handle_unit_orders()"
+            " invalid %s (%d) tile (%d, %d) != (%d, %d)",
+            unit_rule_name(punit), punit->id,
+            TILE_XY(src_tile), TILE_XY(unit_tile(punit)));
     return;
   }
 
@@ -2092,9 +2081,7 @@ void handle_unit_orders(struct player *pplayer,
   }
 
   if (!packet->repeat) {
-    if (is_normal_map_pos(packet->dest_x, packet->dest_y)) {
-      punit->goto_tile = map_pos_to_tile(packet->dest_x, packet->dest_y);
-    }
+    punit->goto_tile = index_to_tile(packet->dest_tile);
   }
 
 #ifdef DEBUG

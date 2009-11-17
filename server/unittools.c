@@ -1824,8 +1824,7 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
 {
   packet->id = punit->id;
   packet->owner = player_number(unit_owner(punit));
-  packet->x = punit->tile->x;
-  packet->y = punit->tile->y;
+  packet->tile = tile_index(unit_tile(punit));
   packet->homecity = punit->homecity;
   output_type_iterate(o) {
     packet->upkeep[o] = punit->upkeep[o];
@@ -1839,14 +1838,8 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
   packet->activity_count = punit->activity_count;
   packet->ai = punit->ai.control;
   packet->fuel = punit->fuel;
-  if (punit->goto_tile) {
-    packet->goto_dest_x = punit->goto_tile->x;
-    packet->goto_dest_y = punit->goto_tile->y;
-  } else {
-    packet->goto_dest_x = 255;
-    packet->goto_dest_y = 255;
-    assert(!is_normal_map_pos(255, 255));
-  }
+  packet->goto_tile = (NULL != punit->goto_tile
+                       ? tile_index(punit->goto_tile) : -1);
   packet->activity_target = punit->activity_target;
   packet->activity_base = punit->activity_base;
   packet->paradropped = punit->paradropped;
@@ -1906,8 +1899,7 @@ void package_short_unit(struct unit *punit,
 
   packet->id = punit->id;
   packet->owner = player_number(unit_owner(punit));
-  packet->x = punit->tile->x;
-  packet->y = punit->tile->y;
+  packet->tile = tile_index(unit_tile(punit));
   packet->veteran = punit->veteran;
   packet->type = utype_number(unit_type(punit));
   packet->hp = punit->hp;
