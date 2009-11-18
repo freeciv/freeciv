@@ -472,6 +472,12 @@ case "$host_os" in
     AC_DEFINE([ALWAYS_ROOT], [1], [Can execute program as root - SkyOS])
     ;;
 
+  *haiku*)
+    dnl Haiku specific settings
+    AC_DEFINE([ALWAYS_ROOT], [1], [Can execute program as root - Haiku])
+    LIBS="$LIBS -lnetwork"
+    ;;
+
   *amigaos*)
     AMIGA=yes
     AC_DEFINE([ALWAYS_ROOT], [1], [Can execute program as root - Amiga])
