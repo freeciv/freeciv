@@ -58,6 +58,8 @@
 
 #include "gui_main.h"
 
+char *fc_current_filename;
+
 static enum {
   LOGIN_TYPE,
   NEW_PASSWORD_TYPE,
@@ -734,16 +736,16 @@ void handle_save_load(const char *title, bool is_save)
   if (is_save) {
     if (GetSaveFileName(&ofn)) {
 
-      if (current_filename) {
-	free(current_filename);
+      if (fc_current_filename) {
+	free(fc_current_filename);
       }
 
       GetCurrentDirectory(MAX_PATH, saved_games_dirname);
       SetCurrentDirectory(dirname);
 
-      current_filename = mystrdup(ofn.lpstrFile);
+      fc_current_filename = mystrdup(ofn.lpstrFile);
 
-      send_save_game(current_filename);
+      send_save_game(fc_current_filename);
     } else {
       SetCurrentDirectory(dirname);
     }
@@ -751,14 +753,14 @@ void handle_save_load(const char *title, bool is_save)
     if (GetOpenFileName(&ofn)) {
       char cmd[MAX_LEN_MSG];
 
-      if (current_filename) {
-	free(current_filename);
+      if (fc_current_filename) {
+	free(fc_current_filename);
       }
 
       GetCurrentDirectory(MAX_PATH, saved_games_dirname);
       SetCurrentDirectory(dirname);
 
-      current_filename = mystrdup(ofn.lpstrFile);
+      fc_current_filename = mystrdup(ofn.lpstrFile);
 
       my_snprintf(cmd, sizeof(cmd), "/load %s", ofn.lpstrFile);
       send_chat(cmd);
