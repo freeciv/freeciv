@@ -3731,8 +3731,11 @@ void game_load(struct section_file *file)
                                                 "game.diplomacy");
 
     sz_strlcpy(game.save_name,
-	       secfile_lookup_str_default(file, GAME_DEFAULT_SAVE_NAME,
-					  "game.save_name"));
+               secfile_lookup_str_default(file, GAME_DEFAULT_SAVE_NAME,
+                                          "game.save_name"));
+    game.info.save_compress_level
+      = secfile_lookup_int_default(file, GAME_DEFAULT_COMPRESS_LEVEL,
+                                   "game.save_compress_level");
 
     game.info.aifill = secfile_lookup_int_default(file, 0, "game.aifill");
 
@@ -3903,6 +3906,7 @@ void game_load(struct section_file *file)
       map.riches = secfile_lookup_int(file, "map.riches");
       map.huts = secfile_lookup_int(file, "map.huts");
       map.generator = secfile_lookup_int(file, "map.generator");
+      map.startpos = secfile_lookup_int(file, "map.startpos");
       map.seed = secfile_lookup_int(file, "map.seed");
       map.landpercent = secfile_lookup_int(file, "map.landpercent");
       map.wetness = secfile_lookup_int_default(file, MAP_DEFAULT_WETNESS,
@@ -4352,6 +4356,8 @@ void game_save(struct section_file *file, const char *save_reason)
   secfile_insert_int(file, 2, "game.civstyle");
   secfile_insert_int(file, game.info.save_nturns, "game.save_nturns");
   secfile_insert_str(file, game.save_name, "game.save_name");
+  secfile_insert_int(file, game.info.save_compress_level,
+                     "game.save_compress_level");
   secfile_insert_int(file, game.info.aifill, "game.aifill");
   secfile_insert_bool(file, game.scorelog, "game.scorelog");
   secfile_insert_int(file, game.scoreturn, "game.scoreturn");
@@ -4407,6 +4413,7 @@ void game_save(struct section_file *file, const char *save_reason)
     secfile_insert_int(file, map.steepness, "map.steepness");
     secfile_insert_int(file, map.huts, "map.huts");
     secfile_insert_int(file, map.generator, "map.generator");
+    secfile_insert_int(file, map.startpos, "map.startpos");
     secfile_insert_bool(file, map.have_huts, "map.have_huts");
     secfile_insert_int(file, map.temperature, "map.temperature");
     secfile_insert_bool(file, map.alltemperate, "map.alltemperate");
