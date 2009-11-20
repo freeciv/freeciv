@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-14 20:08+0100\n"
-"PO-Revision-Date: 2009-11-14 22:31+0100\n"
+"POT-Creation-Date: 2009-11-20 21:58+0100\n"
+"PO-Revision-Date: 2009-11-20 23:32+0100\n"
 "Last-Translator: Joan Creus <joan.creus at gmail dot com>\n"
 "Language-Team: Català <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -643,7 +643,7 @@ msgstr "Camí"
 #: client/gui-win32/menu.c:344 client/gui-xaw/menu.c:151
 #: manual/civmanual.c:224
 msgid "Irrigation"
-msgstr "Irrigació"
+msgstr "Regadiu"
 
 #: common/terrain.c:394 common/terrain.c:572 common/unit.c:567
 #: data/default/techs.ruleset:581 data/civ2/techs.ruleset:566
@@ -1141,7 +1141,7 @@ msgstr "*%s (AI)* Ja en tinc prou de les teves tàctiques retorçades! A la guer
 #: ai/advdiplomacy.c:1127
 #, c-format
 msgid "*%s (AI)* Peace in ... some other time."
-msgstr "*%s (IA)* Pau ... en un altre moment."
+msgstr "*%s (IA)* Pau ... en algun altre moment."
 
 #: ai/advdiplomacy.c:1132
 #, c-format
@@ -1387,7 +1387,7 @@ msgstr "no és al fitxer de configuració (usant el defecte)"
 #. TRANS: auth option originates from internal default
 #: server/auth.c:186
 msgid " (default)"
-msgstr " (defecte)"
+msgstr " (predeterminat)"
 
 #. TRANS: auth option originates from config file
 #: server/auth.c:191
@@ -1968,7 +1968,7 @@ msgstr "S'ha restablert l'ordre a %s."
 #: server/cityturn.c:1539
 #, c-format
 msgid "The people have overthrown your %s, your country is in turmoil."
-msgstr "La gent ha destronat el teu %s, el país està en aixecament."
+msgstr "La gent ha destronat el teu %s, hi ha desordres al teu país."
 
 #: server/cityturn.c:1564
 #, c-format
@@ -2752,7 +2752,10 @@ msgid ""
 "With no arguments this command removes your own vote.  If you have an admin "
 "access level, you can cancel any vote by vote number, or all votes with the "
 "'all' argument."
-msgstr "Sense arguments, aquesta comanda anul·la el propi vot. Si tens nivell d'accés admin, pots cancel·lar qualsevol vot donant-ne el número, o tots els vots amb l'argument 'all'."
+msgstr ""
+"Sense arguments, aquesta comanda anul·la el propi vot. Si tens nivell "
+"d'accés admin, pots cancel·lar qualsevol vot donant-ne el número, o tots els "
+"vots amb l'argument 'all'."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:354
@@ -3971,13 +3974,13 @@ msgid "Saved game is too old, at least version 1.9.0 required."
 msgstr "La partida desada és massa vella, cal la versió 1.9.0 com a mínim."
 
 #. TRANS: Fatal error message.
-#: server/savegame.c:3814
+#: server/savegame.c:3817
 msgid "Saved game uses the \"classic\" terrain ruleset, and is no longer supported."
 msgstr ""
 "La partida desada fa servir el joc de regles de terreny \"clàssic\", i ja no "
 "està suportat."
 
-#: server/savegame.c:3823
+#: server/savegame.c:3826
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -3987,7 +3990,7 @@ msgstr ""
 "regles. Usant '%s'."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame.c:4050
+#: server/savegame.c:4054
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s tenia una nació no vàlida; canviant a %s."
@@ -5504,7 +5507,7 @@ msgstr "(ambigu)"
 
 #. TRANS: unrecognized command
 #. TRANS: "unknown" location
-#: server/stdinhand.c:287 client/citydlg_common.c:416
+#: server/stdinhand.c:287 client/citydlg_common.c:419
 #: client/gui-gtk-2.0/inteldlg.c:367 client/gui-sdl/inteldlg.c:295
 #: client/gui-sdl/inteldlg.c:307 client/gui-win32/inteldlg.c:147
 #: client/gui-xaw/inteldlg.c:265
@@ -6353,24 +6356,24 @@ msgstr "Bàrbar"
 
 #: server/stdinhand.c:3152 server/stdinhand.c:4310 client/plrdlg_common.c:256
 #: client/gui-gtk-2.0/pages.c:2104 client/gui-sdl/plrdlg.c:645
-#: client/gui-win32/connectdlg.c:201 client/gui-win32/plrdlg.c:335
+#: client/gui-win32/connectdlg.c:203 client/gui-win32/plrdlg.c:335
 msgid "AI"
 msgstr "IA"
 
 #: server/stdinhand.c:3153 server/stdinhand.c:4312
 #: client/gui-gtk-2.0/pages.c:2104 client/gui-gtk-2.0/pages.c:2127
-#: client/gui-win32/connectdlg.c:201 client/gui-win32/connectdlg.c:213
+#: client/gui-win32/connectdlg.c:203 client/gui-win32/connectdlg.c:215
 msgid "Human"
 msgstr "Humà"
 
 #: server/stdinhand.c:3155 client/gui-gtk-2.0/pages.c:2103
-#: client/gui-gtk-2.0/pages.c:2126 client/gui-win32/connectdlg.c:200
-#: client/gui-win32/connectdlg.c:212
+#: client/gui-gtk-2.0/pages.c:2126 client/gui-win32/connectdlg.c:202
+#: client/gui-win32/connectdlg.c:214
 msgid "Alive"
 msgstr "Viu"
 
 #: server/stdinhand.c:3156 client/gui-gtk-2.0/pages.c:2103
-#: client/gui-win32/connectdlg.c:200
+#: client/gui-win32/connectdlg.c:202
 msgid "Dead"
 msgstr "Mort"
 
@@ -7527,41 +7530,41 @@ msgstr "%+4d : Ciutadans\n"
 msgid "%+4d : Taxed from trade\n"
 msgstr "%+4d : Impostos sobre el comerç\n"
 
-#: client/citydlg_common.c:418
+#: client/citydlg_common.c:421
 #, c-format
 msgid "%+4d : Trade route with %s\n"
 msgstr "%+4d : Ruta comercial amb %s\n"
 
-#: client/citydlg_common.c:427
+#: client/citydlg_common.c:430
 #, c-format
 msgid "%+4d : Building tithes\n"
 msgstr "%+4d : Almoines per edificis\n"
 
-#: client/citydlg_common.c:450
+#: client/citydlg_common.c:453
 #, c-format
 msgid "%+4d : Bonus from %s (%+d%%)\n"
 msgstr "%+4d : Bonificació per %s (%+d%%)\n"
 
-#: client/citydlg_common.c:462
+#: client/citydlg_common.c:465
 #, c-format
 msgid "%+4d : Waste\n"
 msgstr "%+4d : Malbaratament\n"
 
-#: client/citydlg_common.c:468
+#: client/citydlg_common.c:471
 #, c-format
 msgid "%+4d : Disorder\n"
 msgstr "%+4d : Desordre\n"
 
-#: client/citydlg_common.c:474
+#: client/citydlg_common.c:477
 #, c-format
 msgid "%+4d : Used\n"
 msgstr "%+4d : Usat\n"
 
-#: client/citydlg_common.c:479
+#: client/citydlg_common.c:482
 msgid "==== : Adds up to\n"
 msgstr "==== : Total de\n"
 
-#: client/citydlg_common.c:481
+#: client/citydlg_common.c:484
 #, c-format
 msgid "%4d : Total surplus"
 msgstr "%4d : Excedent Total"
@@ -8118,51 +8121,51 @@ msgstr ""
 "Connexió automàtica al servidor \"%s\" port %d com a \"%s\" cada %f segon(s) "
 "durant %d intents"
 
-#: client/connectdlg_common.c:79 client/gui-gtk-2.0/pages.c:1358
+#: client/connectdlg_common.c:78 client/gui-gtk-2.0/pages.c:1358
 msgid "novice"
 msgstr "principiant"
 
-#: client/connectdlg_common.c:80 client/gui-gtk-2.0/pages.c:1358
+#: client/connectdlg_common.c:79 client/gui-gtk-2.0/pages.c:1358
 msgid "easy"
 msgstr "fàcil"
 
-#: client/connectdlg_common.c:81 client/gui-gtk-2.0/pages.c:1359
+#: client/connectdlg_common.c:80 client/gui-gtk-2.0/pages.c:1359
 msgid "normal"
 msgstr "normal"
 
-#: client/connectdlg_common.c:82 client/gui-gtk-2.0/pages.c:1359
+#: client/connectdlg_common.c:81 client/gui-gtk-2.0/pages.c:1359
 msgid "hard"
 msgstr "difícil"
 
-#: client/connectdlg_common.c:83
+#: client/connectdlg_common.c:82
 msgid "experimental"
 msgstr "experimental"
 
-#: client/connectdlg_common.c:213
+#: client/connectdlg_common.c:212
 msgid "Starting server..."
 msgstr "S'està engegant el servidor..."
 
-#: client/connectdlg_common.c:332
+#: client/connectdlg_common.c:331
 msgid "Couldn't start the server."
 msgstr "No s'ha pogut engegar el servidor"
 
-#: client/connectdlg_common.c:333 client/connectdlg_common.c:366
+#: client/connectdlg_common.c:332 client/connectdlg_common.c:365
 msgid "You'll have to start one manually. Sorry..."
 msgstr "N'hauràs d'engegar un manualment. Ho sento..."
 
-#: client/connectdlg_common.c:364
+#: client/connectdlg_common.c:363
 msgid "Couldn't connect to the server."
 msgstr "No ens hem pogut connectar al servidor."
 
-#: client/connectdlg_common.c:365
+#: client/connectdlg_common.c:364
 msgid "We probably couldn't start it from here."
 msgstr "Probablement no podríem engegar-lo des d'aquí."
 
-#: client/connectdlg_common.c:470
+#: client/connectdlg_common.c:469
 msgid "Established control over the server. You have command access level 'hack'."
 msgstr "Tenim el control del servidor. Tens nivell d'accés a comandes 'hack'."
 
-#: client/connectdlg_common.c:475
+#: client/connectdlg_common.c:474
 msgid ""
 "Failed to obtain the required access level to take control of the server. "
 "The server will now be shutdown."
@@ -9060,7 +9063,7 @@ msgstr ""
 "És el port del servidor per defecte que es farà servir als diàlegs de "
 "connexió o amb el paràmetre de línia de comandes -a."
 
-#: client/options.c:129 client/gui-win32/connectdlg.c:914 data/Freeciv.in:107
+#: client/options.c:129 client/gui-win32/connectdlg.c:916 data/Freeciv.in:107
 msgid "Metaserver"
 msgstr "Metaservidor"
 
@@ -9544,7 +9547,7 @@ msgstr "Bandera"
 #: client/plrdlg_common.c:252 client/gui-gtk-2.0/dialogs.c:657
 #: client/gui-gtk-2.0/pages.c:953 client/gui-gtk-2.0/pages.c:1609
 #: client/gui-gtk-2.0/pages.c:2161 client/gui-sdl/repodlgs.c:2063
-#: client/gui-win32/connectdlg.c:990 client/gui-win32/dialogs.c:542
+#: client/gui-win32/connectdlg.c:992 client/gui-win32/dialogs.c:542
 #: client/gui-win32/plrdlg.c:335
 msgid "Nation"
 msgstr "Nació"
@@ -11192,7 +11195,7 @@ msgstr "Unitat"
 
 #: client/gui-gtk-2.0/dialogs.c:508 client/gui-gtk-2.0/pages.c:950
 #: client/gui-gtk-2.0/pages.c:1579 client/gui-gtk-2.0/pages.c:2157
-#: client/gui-gtk-2.0/wldlg.c:1035 client/gui-win32/connectdlg.c:985
+#: client/gui-gtk-2.0/wldlg.c:1035 client/gui-win32/connectdlg.c:987
 #: client/gui-win32/plrdlg.c:335 manual/civmanual.c:302 data/Freeciv.in:80
 msgid "Name"
 msgstr "Nom"
@@ -11218,7 +11221,7 @@ msgid "What Nation Will You Be?"
 msgstr "Quina nació seràs?"
 
 #: client/gui-gtk-2.0/dialogs.c:768 client/gui-sdl/chatline.c:842
-#: client/gui-win32/connectdlg.c:1038 data/Freeciv.in:3371
+#: client/gui-win32/connectdlg.c:1040 data/Freeciv.in:3371
 msgid "Pick Nation"
 msgstr "Tria Nació"
 
@@ -12657,41 +12660,41 @@ msgstr "C_onnectar a Partida en Xarxa"
 msgid "Connect to Gaming _Zone"
 msgstr "Connectar a _Zona de Jocs"
 
-#: client/gui-gtk-2.0/pages.c:624 client/gui-win32/connectdlg.c:300
+#: client/gui-gtk-2.0/pages.c:624 client/gui-win32/connectdlg.c:302
 #: client/gui-xaw/connectdlg.c:326
 msgid "Passwords don't match, enter password."
 msgstr "Les contrasenyes no coincideixen, entra la contrasenya."
 
 #: client/gui-gtk-2.0/pages.c:779 client/gui-gtk-2.0/pages.c:820
-#: client/gui-win32/connectdlg.c:916
+#: client/gui-win32/connectdlg.c:918
 msgid "Server Name"
 msgstr "Nom del servidor"
 
 #: client/gui-gtk-2.0/pages.c:780 client/gui-gtk-2.0/pages.c:821
-#: client/gui-sdl/mapview.c:814 client/gui-win32/connectdlg.c:916
+#: client/gui-sdl/mapview.c:814 client/gui-win32/connectdlg.c:918
 #: data/Freeciv.in:96
 msgid "Port"
 msgstr "Port"
 
 #: client/gui-gtk-2.0/pages.c:781 client/gui-gtk-2.0/pages.c:822
-#: client/gui-win32/connectdlg.c:917
+#: client/gui-win32/connectdlg.c:919
 msgid "Version"
 msgstr "Versió"
 
 #: client/gui-gtk-2.0/pages.c:782 client/gui-gtk-2.0/pages.c:823
-#: client/gui-gtk-2.0/pages.c:2163 client/gui-win32/connectdlg.c:917
-#: client/gui-win32/connectdlg.c:995
+#: client/gui-gtk-2.0/pages.c:2163 client/gui-win32/connectdlg.c:919
+#: client/gui-win32/connectdlg.c:997
 msgid "Status"
 msgstr "Estat"
 
 #: client/gui-gtk-2.0/pages.c:783 client/gui-gtk-2.0/pages.c:824
 #: client/gui-sdl/connectdlg.c:318 client/gui-sdl/plrdlg.c:330
-#: client/gui-win32/connectdlg.c:917
+#: client/gui-win32/connectdlg.c:919
 msgid "Players"
 msgstr "Jugadors"
 
 #: client/gui-gtk-2.0/pages.c:784 client/gui-gtk-2.0/pages.c:825
-#: client/gui-win32/connectdlg.c:918
+#: client/gui-win32/connectdlg.c:920
 msgid "Comment"
 msgstr "Comentari"
 
@@ -12725,7 +12728,7 @@ msgstr "Conf_irmar la Contrasenya:"
 
 #: client/gui-gtk-2.0/pages.c:951 client/gui-gtk-2.0/pages.c:2165
 #: client/gui-gtk-2.0/repodlgs.c:634 client/gui-gtk-2.0/wldlg.c:1035
-#: client/gui-win32/citydlg.c:1083 client/gui-win32/connectdlg.c:1000
+#: client/gui-win32/citydlg.c:1083 client/gui-win32/connectdlg.c:1002
 #: client/gui-win32/wldlg.c:800 client/gui-win32/wldlg.c:806
 msgid "Type"
 msgstr "Tipus"
@@ -13226,7 +13229,7 @@ msgstr "Tancar Diàleg (Esc)"
 msgid "Total users logged in : %d"
 msgstr "Total d'usuaris connectats: %d"
 
-#: client/gui-sdl/chatline.c:821 client/gui-win32/connectdlg.c:1096
+#: client/gui-sdl/chatline.c:821 client/gui-win32/connectdlg.c:1098
 msgid "Back"
 msgstr "Enrere"
 
@@ -13235,7 +13238,7 @@ msgid "Start"
 msgstr "Iniciar"
 
 #: client/gui-sdl/chatline.c:853 client/gui-sdl/pages.c:185
-#: client/gui-win32/connectdlg.c:777
+#: client/gui-win32/connectdlg.c:779
 msgid "Load Game"
 msgstr "Carregar una partida"
 
@@ -13277,7 +13280,7 @@ msgstr "Establir com nova llar"
 #: client/gui-sdl/dialogs.c:452 client/gui-sdl/dialogs.c:2095
 #: client/gui-sdl/dialogs.c:2902 client/gui-sdl/diplomat_dialog.c:731
 #: client/gui-sdl/mapctrl.c:2585 client/gui-win32/citydlg.c:1075
-#: client/gui-win32/cityrep.c:753 client/gui-win32/connectdlg.c:1041
+#: client/gui-win32/cityrep.c:753 client/gui-win32/connectdlg.c:1043
 #: client/gui-win32/dialogs.c:1772 client/gui-win32/finddlg.c:127
 #: client/gui-win32/gotodlg.c:171 client/gui-win32/inputdlg.c:146
 #: client/gui-win32/messagedlg.c:216 client/gui-win32/ratesdlg.c:328
@@ -13641,7 +13644,7 @@ msgstr "Servidor de Freeciv:"
 msgid "Port :"
 msgstr "Port:"
 
-#: client/gui-sdl/connectdlg.c:609 client/gui-win32/connectdlg.c:1098
+#: client/gui-sdl/connectdlg.c:609 client/gui-win32/connectdlg.c:1100
 #: client/gui-win32/menu.c:379 data/Freeciv.in:104 data/Freeciv.in:2510
 msgid "Connect"
 msgstr "Connectar"
@@ -14607,12 +14610,12 @@ msgid "Leave Game"
 msgstr "Deixar la Partida"
 
 #: client/gui-sdl/optiondlg.c:2302 client/gui-sdl/pages.c:255
-#: client/gui-win32/connectdlg.c:1100 client/gui-xaw/menu.c:121
+#: client/gui-win32/connectdlg.c:1102 client/gui-xaw/menu.c:121
 #: data/Freeciv.in:115 data/Freeciv.in:3180
 msgid "Quit"
 msgstr "Sortir"
 
-#: client/gui-sdl/pages.c:170 client/gui-win32/connectdlg.c:965
+#: client/gui-sdl/pages.c:170 client/gui-win32/connectdlg.c:967
 msgid "Start New Game"
 msgstr "Començar una partida nova"
 
@@ -14729,8 +14732,8 @@ msgstr "Ingressos nets: "
 msgid "%s max rate : %d%%"
 msgstr "Taxa màxima en %s : %d%%"
 
-#: client/gui-sdl/repodlgs.c:1981 client/gui-win32/connectdlg.c:1083
-#: client/gui-win32/connectdlg.c:1091 data/Freeciv.in:155
+#: client/gui-sdl/repodlgs.c:1981 client/gui-win32/connectdlg.c:1085
+#: client/gui-win32/connectdlg.c:1093 data/Freeciv.in:155
 msgid "Update"
 msgstr "Actualitzar"
 
@@ -15223,67 +15226,67 @@ msgstr "Nova"
 msgid "Delete"
 msgstr "Esborrar"
 
-#: client/gui-win32/connectdlg.c:147
+#: client/gui-win32/connectdlg.c:149
 msgid "Password:"
 msgstr "Contrasenya:"
 
-#: client/gui-win32/connectdlg.c:169
+#: client/gui-win32/connectdlg.c:171
 msgid "Couldn't load the savegame"
 msgstr "No s'ha pogut carregar el fitxer desat"
 
-#: client/gui-win32/connectdlg.c:284 client/gui-xaw/connectdlg.c:311
+#: client/gui-win32/connectdlg.c:286 client/gui-xaw/connectdlg.c:311
 msgid "Verify Password"
 msgstr "Verificar contrasenya"
 
-#: client/gui-win32/connectdlg.c:914 data/Freeciv.in:73
+#: client/gui-win32/connectdlg.c:916 data/Freeciv.in:73
 msgid "Freeciv Server Selection"
 msgstr "Selecció del servidor de Freeciv"
 
-#: client/gui-win32/connectdlg.c:915
+#: client/gui-win32/connectdlg.c:917
 msgid "Local Area Network"
 msgstr "Xarxa d'Àrea Local"
 
-#: client/gui-win32/connectdlg.c:949
+#: client/gui-win32/connectdlg.c:951
 msgid "Welcome to Freeciv"
 msgstr "Benvingut a Freeciv"
 
-#: client/gui-win32/connectdlg.c:967
+#: client/gui-win32/connectdlg.c:969
 msgid "Load Saved Game"
 msgstr "Carregar Partida Desada"
 
-#: client/gui-win32/connectdlg.c:969
+#: client/gui-win32/connectdlg.c:971
 msgid "Connect To Network Game"
 msgstr "Connectar a Partida de Xarxa"
 
-#: client/gui-win32/connectdlg.c:979
+#: client/gui-win32/connectdlg.c:981
 msgid "Choose a nation to play"
 msgstr "Tria una nació per jugar "
 
-#: client/gui-win32/connectdlg.c:1014
+#: client/gui-win32/connectdlg.c:1016
 msgid "Number of players (Including AI):"
 msgstr "Nombre de jugadors (Inclosos IA):"
 
-#: client/gui-win32/connectdlg.c:1022
+#: client/gui-win32/connectdlg.c:1024
 msgid "AI skill level:"
 msgstr "nivell de l'IA:"
 
-#: client/gui-win32/connectdlg.c:1036 client/gui-win32/repodlgs.c:931
+#: client/gui-win32/connectdlg.c:1038 client/gui-win32/repodlgs.c:931
 msgid "Game Options"
 msgstr "Opcions de Partida"
 
-#: client/gui-win32/connectdlg.c:1040
+#: client/gui-win32/connectdlg.c:1042
 msgid "Start Game"
 msgstr "Iniciar la partida"
 
-#: client/gui-win32/connectdlg.c:1059
+#: client/gui-win32/connectdlg.c:1061
 msgid "Login:"
 msgstr "Login:"
 
-#: client/gui-win32/connectdlg.c:1061
+#: client/gui-win32/connectdlg.c:1063
 msgid "Host:"
 msgstr "Host:"
 
-#: client/gui-win32/connectdlg.c:1062
+#: client/gui-win32/connectdlg.c:1064
 msgid "Port:"
 msgstr "Port:"
 
