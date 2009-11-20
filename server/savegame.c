@@ -4504,8 +4504,14 @@ static void game_load_internal(struct section_file *file)
                                                 "game.diplomacy");
 
     sz_strlcpy(game.server.save_name,
-	       secfile_lookup_str_default(file, GAME_DEFAULT_SAVE_NAME,
-					  "game.save_name"));
+               secfile_lookup_str_default(file, GAME_DEFAULT_SAVE_NAME,
+                                          "game.save_name"));
+    game.info.save_compress_level
+      = secfile_lookup_int_default(file, GAME_DEFAULT_COMPRESS_LEVEL,
+                                   "game.save_compress_level");
+    game.info.save_compress_type
+      = secfile_lookup_int_default(file, GAME_DEFAULT_COMPRESS_TYPE,
+                                   "game.save_compress_type");
 
     game.info.aifill = secfile_lookup_int_default(file, 0, "game.aifill");
 
@@ -4753,6 +4759,7 @@ static void game_load_internal(struct section_file *file)
       map.server.riches = secfile_lookup_int(file, "map.riches");
       map.server.huts = secfile_lookup_int(file, "map.huts");
       map.server.generator = secfile_lookup_int(file, "map.generator");
+      map.server.startpos = secfile_lookup_int(file, "map.startpos");
       map.server.seed = secfile_lookup_int(file, "map.seed");
       map.server.landpercent = secfile_lookup_int(file, "map.landpercent");
       map.server.wetness =
@@ -5306,6 +5313,10 @@ void game_save(struct section_file *file, const char *save_reason,
   secfile_insert_int(file, 2, "game.civstyle");
   secfile_insert_int(file, game.info.save_nturns, "game.save_nturns");
   secfile_insert_str(file, game.server.save_name, "game.save_name");
+  secfile_insert_int(file, game.info.save_compress_level,
+                     "game.save_compress_level");
+  secfile_insert_int(file, game.info.save_compress_type,
+                     "game.save_compress_type");
   secfile_insert_int(file, game.info.aifill, "game.aifill");
   secfile_insert_bool(file, game.server.scorelog, "game.scorelog");
   secfile_insert_int(file, game.server.scoreturn, "game.scoreturn");
@@ -5374,6 +5385,7 @@ void game_save(struct section_file *file, const char *save_reason,
     secfile_insert_int(file, map.server.huts, "map.huts");
     secfile_insert_int(file, scenario ? 0 : map.server.generator,
                        "map.generator");
+    secfile_insert_int(file, map.server.startpos, "map.startpos");
     secfile_insert_bool(file, map.server.have_huts, "map.have_huts");
     secfile_insert_int(file, map.server.temperature, "map.temperature");
     secfile_insert_bool(file, map.server.alltemperate, "map.alltemperate");
