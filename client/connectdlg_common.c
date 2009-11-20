@@ -71,7 +71,6 @@ static pid_t server_pid = - 1;
 #endif
 
 char leader_name[MAX_LEN_NAME];
-char *current_filename = NULL;
 
 static char challenge_fullname[MAX_LEN_PATH];
 static bool client_has_hack = FALSE;
