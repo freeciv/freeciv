@@ -111,7 +111,7 @@ enum MenuID {
 
   IDM_ORDERS_MENU,
   IDM_ORDERS_BUILD_CITY,	/* shared with BUILD_WONDER */
-  IDM_ORDERS_ROAD,		/* shared with TRADEROUTE */
+  IDM_ORDERS_ROAD,		/* shared with TRADE_ROUTE */
   IDM_ORDERS_IRRIGATE,
   IDM_ORDERS_MINE,
   IDM_ORDERS_TRANSFORM,
@@ -708,8 +708,8 @@ void handle_menu(int code)
       unit_list_iterate(get_units_in_focus(), punit) {
         /* FIXME: this can provide different actions for different units...
          * not good! */
-        if (unit_can_est_traderoute_here(punit)) {
-          key_unit_traderoute();
+        if (unit_can_est_trade_route_here(punit)) {
+          key_unit_trade_route();
         } else {
           key_unit_road();
         }
@@ -1140,7 +1140,7 @@ menus_update(void)
                      (can_units_do_activity(punits, ACTIVITY_ROAD)
                       || can_units_do_activity(punits, ACTIVITY_RAILROAD)
                       || can_units_do(punits,
-                                      unit_can_est_traderoute_here)));
+                                      unit_can_est_trade_route_here)));
       my_enable_menu(menu, IDM_ORDERS_IRRIGATE,
 		     can_units_do_activity(punits, ACTIVITY_IRRIGATE));
       my_enable_menu(menu, IDM_ORDERS_MINE,

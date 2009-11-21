@@ -614,7 +614,7 @@ bool city_reduce_size(struct city *pcity, int pop_loss,
   }
 
   /* Update cities that have trade routes with us */
-  for (i = 0; i < NUM_TRADEROUTES; i++) {
+  for (i = 0; i < NUM_TRADE_ROUTES; i++) {
     struct city *pcity2 = game_find_city_by_number(pcity->trade[i]);
 
     if (pcity2) {
@@ -735,7 +735,7 @@ static bool city_increase_size(struct city *pcity)
   city_refresh(pcity);
 
   /* Update cities that have trade routes with us */
-  for (i = 0; i < NUM_TRADEROUTES; i++) {
+  for (i = 0; i < NUM_TRADE_ROUTES; i++) {
     struct city *pcity2 = game_find_city_by_number(pcity->trade[i]);
 
     if (pcity2) {

@@ -101,8 +101,8 @@ static int unit_order_callback(struct widget *pOrder_Widget)
     case ID_UNIT_ORDER_ROAD:
       key_unit_road();
       break;
-    case ID_UNIT_ORDER_TRADEROUTE:
-      key_unit_traderoute();
+    case ID_UNIT_ORDER_TRADE_ROUTE:
+      key_unit_trade_route();
       break;
     case ID_UNIT_ORDER_IRRIGATE:
       key_unit_irrigate();
@@ -781,7 +781,7 @@ void create_units_order_widgets(void)
   pOrder_Irrigation_Button = pBuf;
   /* --------- */    
 
-  /* Form Traderoute */
+  /* Form Trade route */
   my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Establish Trade Route"), "R");
   pBuf = create_themeicon(pTheme->OTrade_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
@@ -790,7 +790,7 @@ void create_units_order_widgets(void)
   pBuf->action = unit_order_callback;
   pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_r;
-  add_to_gui_list(ID_UNIT_ORDER_TRADEROUTE, pBuf);
+  add_to_gui_list(ID_UNIT_ORDER_TRADE_ROUTE, pBuf);
 
   pOrder_Trade_Button = pBuf;
   /* --------- */    
@@ -1064,7 +1064,7 @@ void menus_update(void)
 	set_wflag(pOrder_Road_Button, WF_HIDDEN);
       }
       
-	/* unit_can_est_traderoute_here(pUnit) */
+	/* unit_can_est_trade_route_here(pUnit) */
       if (pCity && unit_has_type_flag(pUnit, F_TRADE_ROUTE)
         && (pHomecity = game_find_city_by_number(pUnit->homecity))
 	&& can_cities_trade(pHomecity, pCity)) {

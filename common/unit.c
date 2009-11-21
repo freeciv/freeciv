@@ -209,7 +209,7 @@ bool unit_can_help_build_wonder_here(const struct unit *punit)
   Return TRUE iff this unit can be disbanded at its current location to
   provide a trade route from the homecity to the target city.
 **************************************************************************/
-bool unit_can_est_traderoute_here(const struct unit *punit)
+bool unit_can_est_trade_route_here(const struct unit *punit)
 {
   struct city *phomecity, *pdestcity;
 

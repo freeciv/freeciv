@@ -647,8 +647,8 @@ struct setting settings[] = {
 
   GEN_INT("trademindist", game.info.trademindist,
           SSET_RULES_FLEXIBLE, SSET_ECONOMICS, SSET_RARE, SSET_TO_CLIENT,
-          N_("Minimum distance for traderoutes"),
-          N_("In order to establish a traderoute, cities must be at "
+          N_("Minimum distance for trade routes"),
+          N_("In order to establish a trade route, cities must be at "
              "least this far apart on the map. The distance is calculated "
              "as \"manhattan distance\", that is, the sum of the "
              "displacements along the x and y directions."), NULL,

@@ -382,7 +382,7 @@ static enum unit_orders char2order(char order)
     return ORDER_BUILD_WONDER;
   case 't':
   case 'T':
-    return ORDER_TRADEROUTE;
+    return ORDER_TRADE_ROUTE;
   case 'h':
   case 'H':
     return ORDER_HOMECITY;
@@ -410,7 +410,7 @@ static char order2char(enum unit_orders order)
     return 'd';
   case ORDER_BUILD_WONDER:
     return 'u';
-  case ORDER_TRADEROUTE:
+  case ORDER_TRADE_ROUTE:
     return 't';
   case ORDER_HOMECITY:
     return 'h';
@@ -2615,7 +2615,7 @@ static void player_load_cities(struct player *plr, int plrno,
                            specialist_rule_name(specialist_by_number(sp)));
     } specialist_type_iterate_end;
 
-    for (j = 0; j < NUM_TRADEROUTES; j++) {
+    for (j = 0; j < NUM_TRADE_ROUTES; j++) {
       pcity->trade[j] =
         secfile_lookup_int(file, "player%d.c%d.traderoute%d", plrno, i, j);
     }
@@ -3673,7 +3673,7 @@ static void player_save_units(struct player *plr, int plrno,
 	case ORDER_BUILD_CITY:
 	case ORDER_DISBAND:
 	case ORDER_BUILD_WONDER:
-	case ORDER_TRADEROUTE:
+	case ORDER_TRADE_ROUTE:
 	case ORDER_HOMECITY:
 	case ORDER_LAST:
 	  break;
@@ -3749,7 +3749,7 @@ static void player_save_cities(struct player *plr, int plrno,
 			 specialist_rule_name(specialist_by_number(sp)));
     } specialist_type_iterate_end;
 
-    for (j = 0; j < NUM_TRADEROUTES; j++)
+    for (j = 0; j < NUM_TRADE_ROUTES; j++)
       secfile_insert_int(file, pcity->trade[j], "player%d.c%d.traderoute%d", 
 			 plrno, i, j);
     

@@ -496,7 +496,7 @@ Main Map (Keys):\n\
   Shift-arrows: scroll map\n\
 \n\
   Ctrl-B: show/hide national borders\n\
-  Ctrl-D: show/hide city traderoutes\n\
+  Ctrl-D: show/hide city trade routes\n\
   Ctrl-G: show/hide map grid lines\n\
   Ctrl-N: show/hide city names\n\
   Ctrl-P: show/hide city production\n\

@@ -428,7 +428,7 @@ void handle_city_info(struct packet_city_info *packet)
   bool update_descriptions = FALSE;
   bool shield_stock_changed = FALSE;
   bool production_changed = FALSE;
-  bool traderoutes_changed = FALSE;
+  bool trade_routes_changed = FALSE;
   struct unit_list *pfocus_units = get_units_in_focus();
   struct city *pcity = game_find_city_by_number(packet->id);
   struct tile_list *worked_tiles = NULL;
@@ -518,9 +518,9 @@ void handle_city_info(struct packet_city_info *packet)
                                  sizeof(pcity->name)));
     /* pcity->trade_value doesn't change the city description, neither the
      * trade routes lines. */
-    traderoutes_changed = (draw_city_traderoutes
-                           && 0 != memcmp(pcity->trade, packet->trade,
-                                          sizeof(pcity->trade)));
+    trade_routes_changed = (draw_city_trade_routes
+                            && 0 != memcmp(pcity->trade, packet->trade,
+                                           sizeof(pcity->trade)));
 
     /* Descriptions should probably be updated if the
      * city name, production or time-to-grow changes.
@@ -535,7 +535,7 @@ void handle_city_info(struct packet_city_info *packet)
       || (draw_city_growth
           && (pcity->food_stock != packet->food_stock
               || pcity->surplus[O_FOOD] != packet->surplus[O_FOOD]))
-      || (draw_city_traderoutes && traderoutes_changed);
+      || (draw_city_trade_routes && trade_routes_changed);
   }
   
   sz_strlcpy(pcity->name, packet->name);
@@ -567,7 +567,7 @@ void handle_city_info(struct packet_city_info *packet)
 
   pcity->city_options = packet->city_options;
 
-  for (i = 0; i < NUM_TRADEROUTES; i++) {
+  for (i = 0; i < NUM_TRADE_ROUTES; i++) {
     pcity->trade[i] = packet->trade[i];
     pcity->trade_value[i] = packet->trade_value[i];
   }
@@ -705,8 +705,8 @@ void handle_city_info(struct packet_city_info *packet)
     caravan_dialog_update();
   }
 
-  if (draw_city_traderoutes
-      && (traderoutes_changed
+  if (draw_city_trade_routes
+      && (trade_routes_changed
           || (city_is_new && 0 < city_num_trade_routes(pcity)))) {
     update_map_canvas_visible();
   }
@@ -925,7 +925,7 @@ void handle_city_short_info(struct packet_city_short_info *packet)
     int i;
     int x, y;
 
-    for (i = 0; i < NUM_TRADEROUTES; i++) {
+    for (i = 0; i < NUM_TRADE_ROUTES; i++) {
       pcity->trade[i] = 0;
       pcity->trade_value[i] = 0;
     }
@@ -1406,7 +1406,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
           if (punit->transported_by == -1
               && client_player() == unit_owner(punit)
               && (unit_can_help_build_wonder_here(punit)
-                  || unit_can_est_traderoute_here(punit))) {
+                  || unit_can_est_trade_route_here(punit))) {
             process_caravan_arrival(punit);
           }
           /* Check for transported units. */
@@ -1415,7 +1415,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
                 && client_player() == unit_owner(pcargo)
                 && !unit_has_orders(pcargo)
                 && (unit_can_help_build_wonder_here(pcargo)
-                    || unit_can_est_traderoute_here(pcargo))) {
+                    || unit_can_est_trade_route_here(pcargo))) {
               process_caravan_arrival(pcargo);
             }
           } unit_list_iterate_end;

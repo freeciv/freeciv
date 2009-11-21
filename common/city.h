@@ -62,9 +62,9 @@ BV_DEFINE(bv_city_options, CITYO_LAST);
 #define INCITE_IMPOSSIBLE_COST (1000 * 1000 * 1000)
 
 /*
- * Number of traderoutes a city can have.
+ * Number of trade routes a city can have.
  */
-#define NUM_TRADEROUTES		4
+#define NUM_TRADE_ROUTES        4
 
 /*
  * Size of the biggest possible city.
@@ -317,7 +317,7 @@ struct city {
   int specialists[SP_MAX];
 
   /* trade routes */
-  int trade[NUM_TRADEROUTES], trade_value[NUM_TRADEROUTES];
+  int trade[NUM_TRADE_ROUTES], trade_value[NUM_TRADE_ROUTES];
 
   /* Tile output, regardless of if the tile is actually worked. */
   unsigned char tile_output[CITY_MAP_SIZE][CITY_MAP_SIZE][O_LAST];

@@ -553,11 +553,11 @@ static void xaw_key_unit_road(Widget w, XEvent *event, String *argv, Cardinal *a
     key_unit_road();
 }
 
-static void xaw_key_unit_road_or_traderoute(Widget w, XEvent *event, String *argv, Cardinal *argc)
+static void xaw_key_unit_road_or_trade_route(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
-    if (unit_can_est_traderoute_here(punit)) {
-      key_unit_traderoute();
+    if (unit_can_est_trade_route_here(punit)) {
+      key_unit_trade_route();
     } else {
       key_unit_road();
     }
@@ -578,11 +578,11 @@ static void xaw_key_unit_sentry(Widget w, XEvent *event,
 /****************************************************************************
   Invoked when the key binding for orders->make_traderout is pressed.
 ****************************************************************************/
-static void xaw_key_unit_traderoute(Widget w, XEvent *event,
-				    String *argv, Cardinal *argc)
+static void xaw_key_unit_trade_route(Widget w, XEvent *event,
+                                     String *argv, Cardinal *argc)
 {
-  if (is_menu_item_active(MENU_ORDER, MENU_ORDER_TRADEROUTE)) {
-    key_unit_traderoute();
+  if (is_menu_item_active(MENU_ORDER, MENU_ORDER_TRADE_ROUTE)) {
+    key_unit_trade_route();
   }
 }
 
@@ -916,8 +916,8 @@ static XtActionsRec Actions[] = {
   { "key-unit-pollution", xaw_key_unit_pollution },
   { "key-unit-patrol", xaw_key_unit_patrol },
   { "key-unit-road", xaw_key_unit_road },
-  { "key-unit-road-or-traderoute", xaw_key_unit_road_or_traderoute },
-  { "key-unit-traderoute", xaw_key_unit_traderoute },
+  { "key-unit-road-or-trade-route", xaw_key_unit_road_or_trade_route },
+  { "key-unit-trade-route", xaw_key_unit_trade_route },
   { "key-unit-sentry", xaw_key_unit_sentry },
   { "key-unit-transform", xaw_key_unit_transform },
   { "key-unit-unload-all", xaw_key_unit_unload_all },

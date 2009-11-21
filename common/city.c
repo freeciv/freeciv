@@ -1003,7 +1003,7 @@ int get_city_min_trade_route(const struct city *pcity, int *slot)
     *slot = 0;
   }
   /* find min */
-  for (i = 1; i < NUM_TRADEROUTES; i++) {
+  for (i = 1; i < NUM_TRADE_ROUTES; i++) {
     if (value > pcity->trade_value[i]) {
       if (slot) {
 	*slot = i;
@@ -1032,19 +1032,19 @@ bool can_establish_trade_route(const struct city *pc1, const struct city *pc2)
     return FALSE;
   }
     
-  if (city_num_trade_routes(pc1) == NUM_TRADEROUTES) {
+  if (city_num_trade_routes(pc1) == NUM_TRADE_ROUTES) {
     trade = trade_between_cities(pc1, pc2);
-    /* can we replace traderoute? */
+    /* can we replace trade route? */
     if (get_city_min_trade_route(pc1, NULL) >= trade) {
       return FALSE;
     }
   }
   
-  if (city_num_trade_routes(pc2) == NUM_TRADEROUTES) {
+  if (city_num_trade_routes(pc2) == NUM_TRADE_ROUTES) {
     if (trade == -1) {
       trade = trade_between_cities(pc1, pc2);
     }
-    /* can we replace traderoute? */
+    /* can we replace trade route? */
     if (get_city_min_trade_route(pc2, NULL) >= trade) {
       return FALSE;
     }
@@ -1080,7 +1080,7 @@ int city_num_trade_routes(const struct city *pcity)
 {
   int i, n = 0;
 
-  for (i = 0; i < NUM_TRADEROUTES; i++)
+  for (i = 0; i < NUM_TRADE_ROUTES; i++)
     if(pcity->trade[i] != 0) n++;
   
   return n;
@@ -1122,9 +1122,9 @@ bool have_cities_trade_route(const struct city *pc1, const struct city *pc2)
 {
   int i;
   
-  for (i = 0; i < NUM_TRADEROUTES; i++) {
+  for (i = 0; i < NUM_TRADE_ROUTES; i++) {
     if (pc1->trade[i] == pc2->id || pc2->trade[i] == pc1->id) {
-      /* Looks like they do have a traderoute. */
+      /* Looks like they do have a trade route. */
       return TRUE;
     }
   }
@@ -2149,7 +2149,7 @@ static int get_trade_illness(const struct city *pcity)
   int i;
   int total_penalty = 0;
 
-  for (i = 0 ; i < NUM_TRADEROUTES ; i++) {
+  for (i = 0 ; i < NUM_TRADE_ROUTES ; i++) {
     struct city *trade_city = game_find_city_by_number(pcity->trade[i]);
     if (trade_city != NULL
         && trade_city->turn_plague != -1
@@ -2242,7 +2242,7 @@ static inline void set_city_production(struct city *pcity)
   } output_type_iterate_end;
 
   /* Add on special extra incomes: trade routes and tithes. */
-  for (i = 0; i < NUM_TRADEROUTES; i++) {
+  for (i = 0; i < NUM_TRADE_ROUTES; i++) {
     pcity->trade_value[i] =
 	trade_between_cities(pcity, game_find_city_by_number(pcity->trade[i]));
     pcity->prod[O_TRADE] += pcity->trade_value[i];
@@ -2604,7 +2604,7 @@ struct city *create_city_virtual(struct player *pplayer,
   pcity->size = 1;
 
 #ifdef ZERO_VARIABLES_FOR_SEARCHING
-  for (i = 0; i < NUM_TRADEROUTES; i++) {
+  for (i = 0; i < NUM_TRADE_ROUTES; i++) {
     pcity->trade_value[i] = pcity->trade[i] = 0;
   }
   memset(pcity->tile_output, 0, sizeof(pcity->tile_output));

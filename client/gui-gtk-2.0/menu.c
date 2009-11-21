@@ -493,7 +493,7 @@ static void show_city_names_callback(GtkToggleAction *action, gpointer data)
        * the city name. But the old method cannot. */
       menus_set_sensitive(get_safe_group(), "SHOW_CITY_GROWTH",
                           draw_city_names);
-      menus_set_sensitive(get_safe_group(), "SHOW_CITY_TRADEROUTES",
+      menus_set_sensitive(get_safe_group(), "SHOW_CITY_TRADE_ROUTES",
                           draw_city_names);
     }
   }
@@ -534,13 +534,13 @@ static void show_city_buy_cost_callback(GtkToggleAction *action,
 }
 
 /****************************************************************
-  Action "SHOW_CITY_TRADEROUTES" callback.
+  Action "SHOW_CITY_TRADE_ROUTES" callback.
 *****************************************************************/
-static void show_city_traderoutes_callback(GtkToggleAction *action,
-                                           gpointer data)
+static void show_city_trade_routes_callback(GtkToggleAction *action,
+                                            gpointer data)
 {
-  if (draw_city_traderoutes ^ gtk_toggle_action_get_active(action)) {
-    key_city_traderoutes_toggle();
+  if (draw_city_trade_routes ^ gtk_toggle_action_get_active(action)) {
+    key_city_trade_routes_toggle();
   }
 }
 
@@ -941,7 +941,7 @@ static void build_road_callback(GtkAction *action, gpointer data)
       request_new_unit_activity(punit, ACTIVITY_ROAD);
     } else if (can_unit_do_activity(punit, ACTIVITY_RAILROAD)) {
       request_new_unit_activity(punit, ACTIVITY_RAILROAD);
-    } else if (unit_can_est_traderoute_here(punit)) {
+    } else if (unit_can_est_trade_route_here(punit)) {
       request_unit_caravan_action(punit, PACKET_UNIT_ESTABLISH_TRADE);
     }
   } unit_list_iterate_end;
@@ -1273,9 +1273,9 @@ static GtkActionGroup *get_safe_group(void)
        G_CALLBACK(show_city_productions_callback), FALSE},
       {"SHOW_CITY_BUY_COST", NULL, _("City Buy Cost"),
        NULL, NULL, G_CALLBACK(show_city_buy_cost_callback), FALSE},
-      {"SHOW_CITY_TRADEROUTES", NULL, _("City Tra_deroutes"),
+      {"SHOW_CITY_TRADE_ROUTES", NULL, _("City Tra_deroutes"),
        "<Control>d", NULL,
-       G_CALLBACK(show_city_traderoutes_callback), FALSE},
+       G_CALLBACK(show_city_trade_routes_callback), FALSE},
 
       {"SHOW_TERRAIN", NULL, _("_Terrain"),
        NULL, NULL, G_CALLBACK(show_terrain_callback), FALSE},
@@ -1836,7 +1836,7 @@ static gboolean menus_update_callback(gpointer data)
                       (can_units_do_activity(punits, ACTIVITY_ROAD)
                        || can_units_do_activity(punits, ACTIVITY_RAILROAD)
                        || can_units_do(punits,
-                                       unit_can_est_traderoute_here)));
+                                       unit_can_est_trade_route_here)));
   menus_set_sensitive(unit_group, "BUILD_IRRIGATION",
                       can_units_do_activity(punits, ACTIVITY_IRRIGATE));
   menus_set_sensitive(unit_group, "BUILD_MINE",
@@ -2132,10 +2132,10 @@ static gboolean menus_init_callback(gpointer data)
    * the city name. But the old method cannot. */
   if (draw_full_citybar) {
     menus_set_sensitive(safe_group, "SHOW_CITY_GROWTH", TRUE);
-    menus_set_sensitive(safe_group, "SHOW_CITY_TRADEROUTES", TRUE);
+    menus_set_sensitive(safe_group, "SHOW_CITY_TRADE_ROUTES", TRUE);
   } else {
     menus_set_sensitive(safe_group, "SHOW_CITY_GROWTH", draw_city_names);
-    menus_set_sensitive(safe_group, "SHOW_CITY_TRADEROUTES",
+    menus_set_sensitive(safe_group, "SHOW_CITY_TRADE_ROUTES",
                         draw_city_names);
   }
 
@@ -2145,8 +2145,8 @@ static gboolean menus_init_callback(gpointer data)
   menus_set_sensitive(safe_group, "SHOW_CITY_BUY_COST",
                       draw_city_productions);
   menus_set_active(safe_group, "SHOW_CITY_BUY_COST", draw_city_buycost);
-  menus_set_active(safe_group, "SHOW_CITY_TRADEROUTES",
-                   draw_city_traderoutes);
+  menus_set_active(safe_group, "SHOW_CITY_TRADE_ROUTES",
+                   draw_city_trade_routes);
   menus_set_active(safe_group, "SHOW_TERRAIN", draw_terrain);
   menus_set_sensitive(safe_group, "SHOW_COASTLINE", !draw_terrain);
   menus_set_active(safe_group, "SHOW_COASTLINE", draw_coastline);

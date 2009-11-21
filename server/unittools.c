@@ -3281,7 +3281,7 @@ bool execute_orders(struct unit *punit)
         return TRUE;
       }
       break;
-    case ORDER_TRADEROUTE:
+    case ORDER_TRADE_ROUTE:
       freelog(LOG_DEBUG, "  orders: establishing trade route.");
       handle_unit_establish_trade(pplayer, unitid);
       if (player_find_unit_by_id(pplayer, unitid)) {

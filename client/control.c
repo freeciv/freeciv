@@ -832,7 +832,7 @@ void process_caravan_arrival(struct unit *punit)
     punit = game_find_unit_by_number(FC_PTR_TO_INT(data));
 
     if (punit && (unit_can_help_build_wonder_here(punit)
-                  || unit_can_est_traderoute_here(punit))
+                  || unit_can_est_trade_route_here(punit))
         && (NULL == client.conn.playing
             || (unit_owner(punit) == client.conn.playing
                 && !client.conn.playing->ai_data.control))) {
@@ -1790,15 +1790,15 @@ void request_toggle_city_buycost(void)
 }
 
 /**************************************************************************
- Toggle display of city traderoutes
+ Toggle display of city trade routes
 **************************************************************************/
-void request_toggle_city_traderoutes(void)
+void request_toggle_city_trade_routes(void)
 {
   if (!can_client_change_view()) {
     return;
   }
 
-  draw_city_traderoutes ^= 1;
+  draw_city_trade_routes ^= 1;
   update_map_canvas_visible();
 }
 
@@ -2539,7 +2539,7 @@ void key_unit_patrol(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void key_unit_traderoute(void)
+void key_unit_trade_route(void)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
     if (unit_has_type_flag(punit, F_TRADE_ROUTE)) {
@@ -2916,12 +2916,12 @@ void key_city_productions_toggle(void)
 }
 
 /**************************************************************************
-  Handle client request to toggle drawing of traderoute information
+  Handle client request to toggle drawing of trade route information
   by the city name for cities visible on the main map view.
 **************************************************************************/
-void key_city_traderoutes_toggle(void)
+void key_city_trade_routes_toggle(void)
 {
-  request_toggle_city_traderoutes();
+  request_toggle_city_trade_routes();
 }
 
 /**************************************************************************
