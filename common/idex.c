@@ -83,7 +83,7 @@ void idex_free(void)
 void idex_register_city(struct city *pcity)
 {
   struct city *old = (struct city *)
-    hash_replace(idex_city_hash, &pcity->id, pcity);
+    hash_replace(idex_city_hash, FC_INT_TO_PTR(pcity->id), pcity);
   if (old) {
     /* error */
     freelog(LOG_IDEX_ERR, "IDEX: city collision: new %d %p %s, old %d %p %s",
@@ -102,7 +102,7 @@ void idex_register_city(struct city *pcity)
 void idex_register_unit(struct unit *punit)
 {
   struct unit *old = (struct unit *)
-    hash_replace(idex_unit_hash, &punit->id, punit);
+    hash_replace(idex_unit_hash, FC_INT_TO_PTR(punit->id), punit);
   if (old) {
     /* error */
     freelog(LOG_IDEX_ERR, "IDEX: unit collision: new %d %p %s, old %d %p %s",
@@ -123,7 +123,7 @@ void idex_register_unit(struct unit *punit)
 void idex_unregister_city(struct city *pcity)
 {
   struct city *old = (struct city *)
-    hash_delete_entry(idex_city_hash, &pcity->id);
+    hash_delete_entry(idex_city_hash, FC_INT_TO_PTR(pcity->id));
   if (!old) {
     /* error */
     freelog(LOG_IDEX_ERR, "IDEX: city unreg missing: %d %p %s",
@@ -150,7 +150,7 @@ void idex_unregister_city(struct city *pcity)
 void idex_unregister_unit(struct unit *punit)
 {
   struct unit *old = (struct unit *)
-    hash_delete_entry(idex_unit_hash, &punit->id);
+    hash_delete_entry(idex_unit_hash, FC_INT_TO_PTR(punit->id));
   if (!old) {
     /* error */
     freelog(LOG_IDEX_ERR, "IDEX: unit unreg missing: %d %p %s",
@@ -179,7 +179,7 @@ void idex_unregister_unit(struct unit *punit)
 ***************************************************************************/
 struct city *idex_lookup_city(int id)
 {
-  return (struct city *)hash_lookup_data(idex_city_hash, &id);
+  return (struct city *) hash_lookup_data(idex_city_hash, FC_INT_TO_PTR(id));
 }
 
 /**************************************************************************
@@ -188,5 +188,5 @@ struct city *idex_lookup_city(int id)
 ***************************************************************************/
 struct unit *idex_lookup_unit(int id)
 {
-  return (struct unit *)hash_lookup_data(idex_unit_hash, &id);
+  return (struct unit *) hash_lookup_data(idex_unit_hash, FC_INT_TO_PTR(id));
 }

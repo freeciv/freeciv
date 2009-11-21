@@ -1285,7 +1285,7 @@ void map_set_startpos(const struct tile *ptile,
   spe->key = tile_index(ptile);
   spe->nation = pnation;
 
-  hash_insert(map.startpos_table, &spe->key, spe);
+  hash_insert(map.startpos_table, FC_INT_TO_PTR(spe->key), spe);
 }
 
 /****************************************************************************
@@ -1295,14 +1295,13 @@ void map_set_startpos(const struct tile *ptile,
 bool map_has_startpos(const struct tile *ptile)
 {
   struct startpos_entry *spe;
-  int key;
 
   if (!map.startpos_table || !ptile) {
     return FALSE;
   }
 
-  key = tile_index(ptile);
-  spe = hash_lookup_data(map.startpos_table, &key);
+  spe = hash_lookup_data(map.startpos_table,
+                         FC_INT_TO_PTR(tile_index(ptile)));
   if (!spe) {
     return FALSE;
   }
@@ -1317,14 +1316,13 @@ bool map_has_startpos(const struct tile *ptile)
 const struct nation_type *map_get_startpos(const struct tile *ptile)
 {
   struct startpos_entry *spe;
-  int key;
 
   if (!map.startpos_table || !ptile) {
     return NULL;
   }
 
-  key = tile_index(ptile);
-  spe = hash_lookup_data(map.startpos_table, &key);
+  spe = hash_lookup_data(map.startpos_table,
+                         FC_INT_TO_PTR(tile_index(ptile)));
   if (!spe) {
     return NULL;
   }
@@ -1337,12 +1335,10 @@ const struct nation_type *map_get_startpos(const struct tile *ptile)
 ****************************************************************************/
 void map_clear_startpos(const struct tile *ptile)
 {
-  int key;
-
   if (!map.startpos_table || !ptile) {
     return;
   }
 
-  key = tile_index(ptile);
-  hash_delete_entry(map.startpos_table, &key);
+  hash_delete_entry(map.startpos_table,
+                    FC_INT_TO_PTR(tile_index(ptile)));
 }
