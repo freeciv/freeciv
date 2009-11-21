@@ -251,7 +251,7 @@ static int one_city_trade_benefit(const struct city *pcity,
     newtrade = 0;
   }
 
-  if (city_num_trade_routes(pcity) < NUM_TRADEROUTES) {
+  if (city_num_trade_routes(pcity) < NUM_TRADE_ROUTES) {
     /* if the city can handle this route, we don't break any old routes */
     losttrade = 0;
   } else {

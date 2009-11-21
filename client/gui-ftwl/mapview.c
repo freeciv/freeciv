@@ -1409,8 +1409,8 @@ static void fill_actions(void)
     if (unit_can_help_build_wonder_here(punit)) {
       ADD("unit_help_wonder");
     }
-    if (unit_can_est_traderoute_here(punit)) {
-      ADD("unit_traderoute");
+    if (unit_can_est_trade_route_here(punit)) {
+      ADD("unit_trade_route");
     }
 
     if (can_unit_add_or_build_city(punit)) {

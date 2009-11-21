@@ -1476,8 +1476,8 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
   can_establish = !have_cities_trade_route(pcity_homecity, pcity_dest);
     
   if (can_establish) {
-    home_full = (city_num_trade_routes(pcity_homecity) == NUM_TRADEROUTES);
-    dest_full = (city_num_trade_routes(pcity_dest) == NUM_TRADEROUTES);
+    home_full = (city_num_trade_routes(pcity_homecity) == NUM_TRADE_ROUTES);
+    dest_full = (city_num_trade_routes(pcity_dest) == NUM_TRADE_ROUTES);
   }
   
   if (home_full || dest_full) {
@@ -1499,7 +1499,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
                       _("      The city of %s already has %d "
                         "better trade routes!"),
                       homecity_link,
-                      NUM_TRADEROUTES);
+                      NUM_TRADE_ROUTES);
 	can_establish = FALSE;
       }
     }
@@ -1520,7 +1520,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
                       _("      The city of %s already has %d "
                         "better trade routes!"),
                       destcity_link,
-                      NUM_TRADEROUTES);
+                      NUM_TRADE_ROUTES);
 	can_establish = FALSE;
       }
     }
@@ -1554,22 +1554,22 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
   
   revenue = get_caravan_enter_city_trade_bonus(pcity_homecity, pcity_dest);
   if (can_establish) {
-    /* establish traderoute */
-    for (i = 0; i < NUM_TRADEROUTES; i++) {
+    /* establish trade route */
+    for (i = 0; i < NUM_TRADE_ROUTES; i++) {
       if (pcity_homecity->trade[i] == 0) {
         pcity_homecity->trade[i] = pcity_dest->id;
         break;
       }
     }
-    assert(i < NUM_TRADEROUTES);
+    assert(i < NUM_TRADE_ROUTES);
   
-    for (i = 0; i < NUM_TRADEROUTES; i++) {
+    for (i = 0; i < NUM_TRADE_ROUTES; i++) {
       if (pcity_dest->trade[i] == 0) {
         pcity_dest->trade[i] = pcity_homecity->id;
         break;
       }
     }
-    assert(i < NUM_TRADEROUTES);
+    assert(i < NUM_TRADE_ROUTES);
   } else {
     /* enter marketplace */
     revenue = (revenue + 2) / 3;
@@ -2020,7 +2020,7 @@ void handle_unit_orders(struct player *pplayer,
     case ORDER_BUILD_CITY:
     case ORDER_DISBAND:
     case ORDER_BUILD_WONDER:
-    case ORDER_TRADEROUTE:
+    case ORDER_TRADE_ROUTE:
     case ORDER_HOMECITY:
       break;
     case ORDER_LAST:

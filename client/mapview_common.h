@@ -310,10 +310,10 @@ void get_city_mapview_name_and_growth(struct city *pcity,
 				      char *growth_buffer,
 				      size_t growth_buffer_len,
 				      enum color_std *grwoth_color);
-void get_city_mapview_traderoutes(struct city *pcity,
-                                  char *traderoutes_buffer,
-                                  size_t traderoutes_buffer_len,
-                                  enum color_std *traderoutes_color);
+void get_city_mapview_trade_routes(struct city *pcity,
+                                   char *trade_routes_buffer,
+                                   size_t trade_routes_buffer_len,
+                                   enum color_std *trade_routes_color);
 
 bool map_canvas_resized(int width, int height);
 void init_mapcanvas_and_overview(void);

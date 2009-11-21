@@ -27,7 +27,7 @@ enum unit_orders {
   ORDER_BUILD_CITY = 3,
   ORDER_DISBAND = 4,
   ORDER_BUILD_WONDER = 5,
-  ORDER_TRADEROUTE = 6,
+  ORDER_TRADE_ROUTE = 6,
   ORDER_HOMECITY = 7,
   /* and plenty more for later... */
   ORDER_LAST
@@ -225,7 +225,7 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
 bool unit_can_help_build_wonder(const struct unit *punit,
 				const struct city *pcity);
 bool unit_can_help_build_wonder_here(const struct unit *punit);
-bool unit_can_est_traderoute_here(const struct unit *punit);
+bool unit_can_est_trade_route_here(const struct unit *punit);
 bool unit_can_airlift_to(const struct unit *punit, const struct city *pcity);
 bool unit_has_orders(const struct unit *punit);
 

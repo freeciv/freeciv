@@ -94,7 +94,7 @@ void popup_revolution_dialog(void)
 /**************************************************************************
   Popup a dialog giving a player choices when their caravan arrives at
   a city (other than its home city).  Example:
-    - Establish traderoute.
+    - Establish trade route.
     - Help build wonder.
     - Keep moving.
 **************************************************************************/

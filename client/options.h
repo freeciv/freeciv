@@ -70,7 +70,7 @@ extern bool draw_city_names;
 extern bool draw_city_growth;
 extern bool draw_city_productions;
 extern bool draw_city_buycost;
-extern bool draw_city_traderoutes;
+extern bool draw_city_trade_routes;
 extern bool draw_terrain;
 extern bool draw_coastline;
 extern bool draw_roads_rails;

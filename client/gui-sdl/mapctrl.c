@@ -2373,10 +2373,10 @@ bool map_event_handler(SDL_keysym Key)
         }
         return FALSE;
 
-      /* show city traderoutes - Ctrl+d */
+      /* show city trade routes - Ctrl+d */
       case SDLK_d:
         if (LCTRL || RCTRL) {
-          key_city_traderoutes_toggle();
+          key_city_trade_routes_toggle();
         }
         return FALSE;
 

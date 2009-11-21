@@ -1060,7 +1060,7 @@ popup_caravan_dialog(struct unit *punit,
   caravan_dialog=popup_message_dialog(NULL,
                            /*"caravandialog"*/_("Your Caravan Has Arrived"),
                            buf,
-                           (can_establish ? _("Establish _Traderoute") :
+                           (can_establish ? _("Establish _Trade route") :
   			   _("Enter Marketplace")),caravan_establish_trade_callback, 0,
                            _("Help build _Wonder"),caravan_help_build_wonder_callback, 0,
                            _("_Keep moving"),caravan_keep_moving_callback, 0,

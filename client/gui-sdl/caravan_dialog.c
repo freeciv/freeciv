@@ -101,7 +101,7 @@ void popdown_caravan_dialog(void)
 /**************************************************************************
   Popup a dialog giving a player choices when their caravan arrives at
   a city (other than its home city).  Example:
-    - Establish traderoute.
+    - Establish trade route.
     - Help build wonder.
     - Keep moving.
 **************************************************************************/
@@ -153,7 +153,7 @@ void popup_caravan_dialog(struct unit *pUnit,
     
     if (can_establish_trade_route(pHomecity, pDestcity)) {
       my_snprintf(cBuf, sizeof(cBuf),
-                  _("Establish Traderoute with %s ( %d R&G + %d trade )"),
+                  _("Establish Trade route with %s ( %d R&G + %d trade )"),
                   city_name(pHomecity),
                   revenue,
                   trade_between_cities(pHomecity, pDestcity));

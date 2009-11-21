@@ -416,14 +416,14 @@ void get_city_dialog_output_text(const struct city *pcity,
   if (otype == O_TRADE) {
     int i;
 
-    for (i = 0; i < NUM_TRADEROUTES; i++) {
+    for (i = 0; i < NUM_TRADE_ROUTES; i++) {
       if (pcity->trade[i] != 0) {
         /* There have been bugs causing the trade city to not be sent
          * properly to the client.  If this happens we trust the
          * trade_value[] array and simply don't give the name of the
          * city.
          *
-         * NB: ()pcity->trade_value[i] == 0) is valid case.  The traderoute
+         * NB: (pcity->trade_value[i] == 0) is valid case.  The trade route
          * is established but doesn't give trade surplus. */
         struct city *trade_city = game_find_city_by_number(pcity->trade[i]);
         /* TRANS: "unknown" location */

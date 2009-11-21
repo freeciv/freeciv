@@ -2265,7 +2265,7 @@ Freeciv*buynodialog.*.button0.fromVert:  dlabel
 !
 Freeciv*caravandialog.title: _("Your Caravan Has Arrived")
 Freeciv*caravandialog.*.dlabel.borderWidth:  0
-Freeciv*caravandialog.*.button0.label:     _("Establish traderoute")
+Freeciv*caravandialog.*.button0.label:     _("Establish trade route")
 Freeciv*caravandialog.*.button0.fromVert:  dlabel
 Freeciv*caravandialog.*.button1.label:     _("Help build Wonder")
 Freeciv*caravandialog.*.button1.fromVert:  dlabel
@@ -2883,7 +2883,7 @@ Freeciv*mapcanvas.translations:\
    <Key>o:            key-unit-transform()             \n\
    <Key>p:            key-unit-paradrop-or-pollution() \n\
    <Key>q:            key-unit-patrol()                \n\
-   <Key>r:            key-unit-road-or-traderoute()    \n\
+   <Key>r:            key-unit-road-or-trade-route()   \n\
    <Key>s:            key-unit-sentry()                \n\
    <Key>t:            key-city-workers()               \n\
    <Key>u:            key-unit-unload()                \n\
@@ -2966,7 +2966,7 @@ Freeciv*overviewcanvas.translations:\
    <Key>o:            key-unit-transform()             \n\
    <Key>p:            key-unit-paradrop-or-pollution() \n\
    <Key>q:            key-unit-patrol()                \n\
-   <Key>r:            key-unit-road-or-traderoute()    \n\
+   <Key>r:            key-unit-road-or-trade-route()   \n\
    <Key>s:            key-unit-sentry()                \n\
    <Key>t:            key-city-workers()               \n\
    <Key>u:            key-unit-unload()                \n\

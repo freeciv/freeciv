@@ -39,7 +39,7 @@
       <menuitem action="SHOW_CITY_GROWTH" />
       <menuitem action="SHOW_CITY_PRODUCTIONS" />
       <menuitem action="SHOW_CITY_BUY_COST" />
-      <menuitem action="SHOW_CITY_TRADEROUTES" />
+      <menuitem action="SHOW_CITY_TRADE_ROUTES" />
       <separator />
       <menuitem action="SHOW_TERRAIN" />
       <menuitem action="SHOW_COASTLINE" />

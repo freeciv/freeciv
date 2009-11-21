@@ -282,7 +282,7 @@ void races_toggles_set_sensitive(void)
 /**************************************************************************
   Popup a dialog giving a player choices when their caravan arrives at
   a city (other than its home city).  Example:
-    - Establish traderoute.
+    - Establish trade route.
     - Help build wonder.
     - Keep moving.
 **************************************************************************/

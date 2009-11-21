@@ -115,7 +115,7 @@ void popup_caravan_dialog(struct unit *punit,
   caravan_dialog = popup_choice_dialog(GTK_WINDOW(toplevel),
     _("Your Caravan Has Arrived"), 
     buf,
-    (can_establish ? _("Establish _Traderoute") :
+    (can_establish ? _("Establish _Trade route") :
     _("Enter Marketplace")),caravan_establish_trade_callback, NULL,
     wonder,caravan_help_build_wonder_callback, NULL,
     _("_Keep moving"), NULL, NULL,

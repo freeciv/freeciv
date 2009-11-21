@@ -347,7 +347,7 @@ void tilespec_setup_theme(void)
   load_order_theme_surface(pBuf, OTransform_Icon, "theme.order_transform");
   load_order_theme_surface(pBuf, OAddCity_Icon, "theme.order_add_to_city");
   load_order_theme_surface(pBuf, OWonder_Icon, "theme.order_carravan_wonder");
-  load_order_theme_surface(pBuf, OTrade_Icon, "theme.order_carravan_traderoute");
+  load_order_theme_surface(pBuf, OTrade_Icon, "theme.order_carravan_trade_route");
   load_order_theme_surface(pBuf, OSpy_Icon, "theme.order_spying");
   load_order_theme_surface(pBuf, OWakeUp_Icon, "theme.order_wakeup");
   load_order_theme_surface(pBuf, OReturn_Icon, "theme.order_return");

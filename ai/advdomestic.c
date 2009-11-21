@@ -206,7 +206,7 @@ static void ai_choose_trade_route(struct city *pcity,
    * This method helps us out of deadlocks of completely stalled
    * scientific progress.
    */
-  if (pplayer->economic.science < 50 && trade_routes < NUM_TRADEROUTES) {
+  if (pplayer->economic.science < 50 && trade_routes < NUM_TRADE_ROUTES) {
     want *=
       (6 - pplayer->economic.science/10) * (6 - pplayer->economic.science/10);
   }
@@ -214,8 +214,8 @@ static void ai_choose_trade_route(struct city *pcity,
   if (trade_routes == 0) {
     /* If we have no trade routes at all, we are certainly creating a new one. */
     want += 20;
-  } else if (trade_routes < NUM_TRADEROUTES) {
-    /* Possibly creating a new traderoute */
+  } else if (trade_routes < NUM_TRADE_ROUTES) {
+    /* Possibly creating a new trade route */
     want += 5;
   }
 

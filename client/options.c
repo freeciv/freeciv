@@ -359,7 +359,7 @@ bool draw_city_names = TRUE;
 bool draw_city_growth = TRUE;
 bool draw_city_productions = FALSE;
 bool draw_city_buycost = FALSE;
-bool draw_city_traderoutes = FALSE;
+bool draw_city_trade_routes = FALSE;
 bool draw_terrain = TRUE;
 bool draw_coastline = FALSE;
 bool draw_roads_rails = TRUE;
@@ -529,9 +529,9 @@ static struct client_option options[] = {
                      "needed to buy the production of the cities."),
                   COC_GRAPHICS, GUI_LAST, FALSE,
                   view_option_changed_callback),
-  GEN_BOOL_OPTION(draw_city_traderoutes, N_("Draw the city traderoutes"),
-                  N_("Setting this option will draw traderoutes lines "
-                     "between cities which have traderoutes."),
+  GEN_BOOL_OPTION(draw_city_trade_routes, N_("Draw the city trade routes"),
+                  N_("Setting this option will draw trade routes lines "
+                     "between cities which have trade routes."),
                   COC_GRAPHICS, GUI_LAST, FALSE,
                   view_option_changed_callback),
   GEN_BOOL_OPTION(draw_terrain, N_("Draw the terrain"),
@@ -712,11 +712,11 @@ static struct client_option options[] = {
                   COC_INTERFACE, GUI_LAST, TRUE, NULL),
   GEN_BOOL_OPTION(popup_caravan_arrival, N_("Pop up caravan actions"),
                   N_("If this option is enabled, when caravans arrive "
-                     "at a city where they can establish a traderoute "
+                     "at a city where they can establish a trade route "
                      "or help build a wonder, a window will popup asking "
                      "which action should be performed. Disabling this "
                      "option means you will have to do the action "
-                     "manually by pressing either 'r' (for a traderoute) "
+                     "manually by pressing either 'r' (for a trade route) "
                      "or 'b' (for building a wonder) when the caravan "
                      "is in the city."),
                   COC_INTERFACE, GUI_LAST, TRUE, NULL),
