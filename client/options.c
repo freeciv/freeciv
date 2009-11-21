@@ -1637,6 +1637,12 @@ static void save_cma_presets(struct section_file *file)
 #define OLD_OPTION_FILE_NAME ".civclientrc"
 /* New rc file name. */
 #define NEW_OPTION_FILE_NAME ".freeciv-client-rc-%d.%d"
+#define MAJOR_NEW_OPTION_FILE_NAME MAJOR_VERSION
+#if IS_DEVEL_VERSION
+#define MINOR_NEW_OPTION_FILE_NAME (MINOR_VERSION + 1)
+#else
+#define MINOR_NEW_OPTION_FILE_NAME MINOR_VERSION
+#endif /* IS_DEVEL_VERSION */
 /* The first version the new option name appeared (2.2). */
 #define FIRST_MAJOR_NEW_OPTION_FILE_NAME 2
 #define FIRST_MINOR_NEW_OPTION_FILE_NAME 2
@@ -1666,8 +1672,8 @@ static const char *get_current_option_file_name(void)
       return NULL;
     }
     my_snprintf(name_buffer, sizeof(name_buffer),
-                "%s/" NEW_OPTION_FILE_NAME,
-                name, MAJOR_VERSION, MINOR_VERSION);
+                "%s/" NEW_OPTION_FILE_NAME, name,
+                MAJOR_NEW_OPTION_FILE_NAME, MINOR_NEW_OPTION_FILE_NAME);
 #endif /* OPTION_FILE_NAME */
   }
   freelog(LOG_VERBOSE, "settings file is %s", name_buffer);
@@ -1701,7 +1707,8 @@ static const char *get_last_option_file_name(void)
       freelog(LOG_ERROR, _("Cannot find your home directory"));
       return NULL;
     }
-    for (major = MAJOR_VERSION, minor = MINOR_VERSION;
+    for (major = MAJOR_NEW_OPTION_FILE_NAME,
+         minor = MINOR_NEW_OPTION_FILE_NAME;
          major >= FIRST_MAJOR_NEW_OPTION_FILE_NAME; major--) {
       for (; (major == FIRST_MAJOR_NEW_OPTION_FILE_NAME
               ? minor >= FIRST_MINOR_NEW_OPTION_FILE_NAME 
@@ -1709,7 +1716,8 @@ static const char *get_last_option_file_name(void)
         my_snprintf(name_buffer, sizeof(name_buffer),
                     "%s/" NEW_OPTION_FILE_NAME, name, major, minor);
         if (0 == stat(name_buffer, &buf)) {
-          if (major != MAJOR_VERSION || minor != MINOR_VERSION) {
+          if (MAJOR_NEW_OPTION_FILE_NAME != major
+              || MINOR_NEW_OPTION_FILE_NAME != minor) {
             freelog(LOG_NORMAL, _("Didn't find '%s' option file, "
                                   "loading from '%s' instead."),
                     get_current_option_file_name() + strlen(name) + 1,
