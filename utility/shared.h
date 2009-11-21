@@ -81,6 +81,13 @@
 #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
 #define ADD_TO_POINTER(p, n) ((void *)((char *)(p)+(n)))
 
+#define FC_INT_TO_PTR(i) ((void *) (unsigned long) i)
+#define FC_PTR_TO_INT(p) ((int) (unsigned long) p)
+#define FC_UINT_TO_PTR(u) ((void *) (unsigned long) u)
+#define FC_PTR_TO_UINT(p) ((unsigned int) (unsigned long) p)
+#define FC_SIZE_TO_PTR(s) ((void *) (unsigned long) s)
+#define FC_PTR_TO_SIZE(p) ((size_t) (unsigned long) p)
+
 /****************************************************************************
   Used to initialize an array 'a' of size 'size' with value 'val' in each
   element. Note that the value is evaluated for each element.

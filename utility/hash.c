@@ -171,24 +171,23 @@ static void zero_htable(struct hash_table *h)
 
 
 /**************************************************************************
-  A supplied hash function where key is pointer to int.  
+  A supplied hash function where key is integers.
   Prefers table sizes that are prime numbers.
 **************************************************************************/
 unsigned int hash_fval_int(const void *vkey, unsigned int num_buckets)
 {
-  const unsigned int key = (unsigned int) *(const int*)vkey;
-  return (key % num_buckets);
+  return (FC_PTR_TO_INT(vkey) % num_buckets);
 }
 
 /**************************************************************************
-  A supplied function for comparison of pointers to int:
+  A supplied function for comparison of integers:
 **************************************************************************/
 int hash_fcmp_int(const void *vkey1, const void *vkey2)
 {
-  const int *key1 = vkey1, *key2 = vkey2;
+  const int key1 = FC_PTR_TO_INT(vkey1), key2 = FC_PTR_TO_INT(vkey2);
 
   /* avoid overflow issues: */
-  return (*key1 < *key2) ? -1 : (*key1 > *key2) ? 1 : 0;
+  return (key1 < key2) ? -1 : (key1 > key2) ? 1 : 0;
 }
 
 

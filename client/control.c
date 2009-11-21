@@ -117,10 +117,19 @@ void control_init(void)
 **************************************************************************/
 void control_done(void)
 {
+  const struct genlist_link *plink;
   int i;
 
   genlist_free(caravan_arrival_queue);
+  caravan_arrival_queue = NULL;
+
+  /* Datas in diplomat_arrival_queue are malloced. */
+  for (plink = genlist_head(diplomat_arrival_queue); NULL != plink;
+       plink = genlist_link_next(plink)) {
+    free(genlist_link_data(plink));
+  }
   genlist_free(diplomat_arrival_queue);
+  diplomat_arrival_queue = NULL;
 
   unit_list_free(current_focus);
   unit_list_free(previous_focus);
@@ -801,43 +810,38 @@ void set_units_in_combat(struct unit *pattacker, struct unit *pdefender)
 **************************************************************************/
 void process_caravan_arrival(struct unit *punit)
 {
-  int *p_id;
+  if (NULL == caravan_arrival_queue) {
+    /* Can happen when the user left a game. */
+    return;
+  }
 
-  /* caravan_arrival_queue is a list of individually malloc-ed ints with
-     punit.id values, for units which have arrived. */
-
-  if (punit) {
-    p_id = fc_malloc(sizeof(int));
-    *p_id = punit->id;
-    genlist_prepend(caravan_arrival_queue, p_id);
+  if (NULL != punit) {
+    genlist_prepend(caravan_arrival_queue, FC_INT_TO_PTR(punit->id));
   }
 
   /* There can only be one dialog at a time: */
   if (caravan_dialog_is_open(NULL, NULL)) {
     return;
   }
-  
-  while (genlist_size(caravan_arrival_queue) > 0) {
-    int id;
-    
-    p_id = genlist_get(caravan_arrival_queue, 0);
-    genlist_unlink(caravan_arrival_queue, p_id);
-    id = *p_id;
-    free(p_id);
-    p_id = NULL;
-    punit = game_find_unit_by_number(id);
+
+  while (0 < genlist_size(caravan_arrival_queue)) {
+    void *data;
+
+    data = genlist_get(caravan_arrival_queue, 0);
+    genlist_unlink(caravan_arrival_queue, data);
+    punit = game_find_unit_by_number(FC_PTR_TO_INT(data));
 
     if (punit && (unit_can_help_build_wonder_here(punit)
-		  || unit_can_est_traderoute_here(punit))
-	&& (NULL == client.conn.playing
-	    || (unit_owner(punit) == client.conn.playing
+                  || unit_can_est_traderoute_here(punit))
+        && (NULL == client.conn.playing
+            || (unit_owner(punit) == client.conn.playing
                 && !client.conn.playing->ai_data.control))) {
-      struct city *pcity_dest = tile_city(punit->tile);
+      struct city *pcity_dest = tile_city(unit_tile(punit));
       struct city *pcity_homecity = game_find_city_by_number(punit->homecity);
 
       if (pcity_dest && pcity_homecity) {
-	popup_caravan_dialog(punit, pcity_homecity, pcity_dest);
-	return;
+        popup_caravan_dialog(punit, pcity_homecity, pcity_dest);
+        return;
       }
     }
   }
@@ -852,6 +856,11 @@ void process_caravan_arrival(struct unit *punit)
 void process_diplomat_arrival(struct unit *pdiplomat, int victim_id)
 {
   int *p_ids;
+
+  if (NULL == diplomat_arrival_queue) {
+    /* Can happen when the user left a game. */
+    return;
+  }
 
   /* diplomat_arrival_queue is a list of individually malloc-ed int[2]s with
      punit.id and pcity.id values, for units which have arrived. */
@@ -1259,7 +1268,7 @@ void request_unit_select(struct unit_list *punits,
     if (selloc == SELLOC_TILE) {
       hash_insert(tile_table, ptile, NULL);
     } else if (selloc == SELLOC_CONT) {
-      hash_insert(cont_table, &ptile->continent, NULL);
+      hash_insert(cont_table, FC_INT_TO_PTR(ptile->continent), NULL);
     }
   } unit_list_iterate_end;
 
@@ -1283,7 +1292,8 @@ void request_unit_select(struct unit_list *punits,
       if ((seltype == SELTYPE_SAME
            && !hash_key_exists(type_table, unit_type(punit)))
           || (selloc == SELLOC_CONT
-              && !hash_key_exists(cont_table, &ptile->continent))) {
+              && !hash_key_exists(cont_table,
+                                  FC_INT_TO_PTR(ptile->continent)))) {
         continue;
       }
 
