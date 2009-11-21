@@ -4759,7 +4759,9 @@ static void game_load_internal(struct section_file *file)
       map.server.riches = secfile_lookup_int(file, "map.riches");
       map.server.huts = secfile_lookup_int(file, "map.huts");
       map.server.generator = secfile_lookup_int(file, "map.generator");
-      map.server.startpos = secfile_lookup_int(file, "map.startpos");
+      map.server.startpos = secfile_lookup_int_default(file,
+                                                       MAP_DEFAULT_STARTPOS,
+                                                       "map.startpos");
       map.server.seed = secfile_lookup_int(file, "map.seed");
       map.server.landpercent = secfile_lookup_int(file, "map.landpercent");
       map.server.wetness =
