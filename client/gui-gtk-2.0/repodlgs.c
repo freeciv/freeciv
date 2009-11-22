@@ -251,9 +251,9 @@ static GtkWidget *create_reqtree_diagram(void)
   g_signal_connect(G_OBJECT(science_drawing_area), "button-release-event",
                    G_CALLBACK(button_release_event_callback), NULL);
   gtk_widget_add_events(science_drawing_area,
-                        GDK_BUTTON_RELEASE_MASK | GDK_BUTTON2_MOTION_MASK | 
-			GDK_BUTTON3_MOTION_MASK);
-			 
+                        GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK
+                        | GDK_BUTTON2_MOTION_MASK | GDK_BUTTON3_MOTION_MASK);
+
   gtk_layout_set_size(GTK_LAYOUT(science_drawing_area), width, height);
 
   gtk_container_add(GTK_CONTAINER(sw), science_drawing_area);
