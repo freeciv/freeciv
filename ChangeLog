@@ -1,4 +1,1444 @@
 ------------------------------------------------------------------------
+r16407 | dmarks | 2009-11-22 19:33:41 +0100 (Sun, 22 Nov 2009) | 1 line
+Changed paths:
+   M /branches/S2_1/ChangeLog
+
+fix contributor name mistake in changelog
+------------------------------------------------------------------------
+r16406 | dmarks | 2009-11-22 16:29:44 +0100 (Sun, 22 Nov 2009) | 1 line
+Changed paths:
+   M /branches/S2_1/ChangeLog
+
+more verbose changelog for changes since 2.1.8
+------------------------------------------------------------------------
+r16405 | dmarks | 2009-11-22 13:52:35 +0100 (Sun, 22 Nov 2009) | 1 line
+Changed paths:
+   M /branches/S2_1/po/ar.po
+   M /branches/S2_1/po/ca.po
+   M /branches/S2_1/po/cs.po
+   M /branches/S2_1/po/da.po
+   M /branches/S2_1/po/de.po
+   M /branches/S2_1/po/el.po
+   M /branches/S2_1/po/en_GB.po
+   M /branches/S2_1/po/eo.po
+   M /branches/S2_1/po/es.po
+   M /branches/S2_1/po/et.po
+   M /branches/S2_1/po/fa.po
+   M /branches/S2_1/po/fi.po
+   M /branches/S2_1/po/fr.po
+   M /branches/S2_1/po/he.po
+   M /branches/S2_1/po/hu.po
+   M /branches/S2_1/po/it.po
+   M /branches/S2_1/po/ja.po
+   M /branches/S2_1/po/ko.po
+   M /branches/S2_1/po/lt.po
+   M /branches/S2_1/po/nl.po
+   M /branches/S2_1/po/no.po
+   M /branches/S2_1/po/pl.po
+   M /branches/S2_1/po/pt.po
+   M /branches/S2_1/po/pt_BR.po
+   M /branches/S2_1/po/ro.po
+   M /branches/S2_1/po/ru.po
+   M /branches/S2_1/po/sv.po
+   M /branches/S2_1/po/tr.po
+   M /branches/S2_1/po/uk.po
+   M /branches/S2_1/po/zh_CN.po
+
+changes after running 'make update-po'
+------------------------------------------------------------------------
+r16404 | cazfi | 2009-11-22 10:21:07 +0100 (Sun, 22 Nov 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/repodlgs.c
+
+Fixed clicking of technologies on research report.
+
+Reported by Ann (kudra), patch by Pepeto
+
+See gna bug #14812
+
+------------------------------------------------------------------------
+r16401 | cazfi | 2009-11-21 20:05:46 +0100 (Sat, 21 Nov 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/server/savegame.c
+
+Fixed loading of old savegames
+
+Patch by Pepeto
+
+See gna bug #14805
+
+------------------------------------------------------------------------
+r16392 | jcreus | 2009-11-20 23:45:41 +0100 (Fri, 20 Nov 2009) | 1 line
+Changed paths:
+   M /branches/S2_1/po/ca.po
+
+more last touches
+------------------------------------------------------------------------
+r16391 | jcreus | 2009-11-20 23:33:10 +0100 (Fri, 20 Nov 2009) | 1 line
+Changed paths:
+   M /branches/S2_1/po/ca.po
+
+last touches
+------------------------------------------------------------------------
+r16390 | cazfi | 2009-11-20 13:55:30 +0100 (Fri, 20 Nov 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/server/savegame.c
+
+Save missing server settings to the savegame.
+
+Patch by Matthias Pfafferodt
+
+See gna bug #14306
+
+------------------------------------------------------------------------
+r16387 | cazfi | 2009-11-20 11:00:00 +0100 (Fri, 20 Nov 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/m4/sound.m4
+
+Use linking flags given by 'sdl-config --libs' when detecting SDL_mixer.
+
+Patch by George Koehler
+
+See gna bug #14751
+
+------------------------------------------------------------------------
+r16384 | cazfi | 2009-11-20 10:49:50 +0100 (Fri, 20 Nov 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/client/connectdlg_common.c
+   M /branches/S2_1/client/connectdlg_common.h
+   M /branches/S2_1/client/gui-win32/connectdlg.c
+
+Renamed current_filename as fc_current_filename to avoid namespace
+conflicts.
+
+Originally reported by George Koehler in gna bug #14751
+
+Patch from gna bug #14793
+
+------------------------------------------------------------------------
+r16381 | cazfi | 2009-11-18 16:52:20 +0100 (Wed, 18 Nov 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/configure.ac
+
+Added support for Haiku
+
+Requested by begasus@skynet.be
+
+See gna bug #14715
+
+------------------------------------------------------------------------
+r16372 | pepeto | 2009-11-17 14:40:07 +0100 (Tue, 17 Nov 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/client/citydlg_common.c
+
+Display trade route lines at map and infos in city dialog even if the trade 
+route doesn't give trade bonus.  
+
+Reported by freeciv@tech.geek.nz 
+
+See gna bug #14745
+
+------------------------------------------------------------------------
+r16368 | dmarks | 2009-11-15 13:18:36 +0100 (Sun, 15 Nov 2009) | 1 line
+Changed paths:
+   M /branches/S2_1/po/da.po
+
+Updated Danish localization, 4358 translated messages, by Joe Dalton <joedalton2@yahoo.dk>
+------------------------------------------------------------------------
+r16366 | jcreus | 2009-11-14 22:32:41 +0100 (Sat, 14 Nov 2009) | 1 line
+Changed paths:
+   M /branches/S2_1/po/ca.po
+
+4358 translated messages
+------------------------------------------------------------------------
+r16365 | pepeto | 2009-11-14 12:15:14 +0100 (Sat, 14 Nov 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/bootstrap/freeciv-server.desktop.in
+   M /branches/S2_1/bootstrap/freeciv.desktop.in
+
+Freeciv desktop files cleanup.
+
+Patch by Egor Vyscrebentsov (evyscr)
+
+See gna bug #14749
+
+------------------------------------------------------------------------
+r16310 | pepeto | 2009-11-04 15:12:20 +0100 (Wed, 04 Nov 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/server/savegame.c
+
+Loading a scenario begins at turn 0 and not -2.
+
+Reported by kinetic
+
+See gna bug #14658
+
+------------------------------------------------------------------------
+r16296 | pepeto | 2009-11-03 00:16:11 +0100 (Tue, 03 Nov 2009) | 8 lines
+Changed paths:
+   M /branches/S2_1/client/clinet.c
+
+When receiving many packet from the server in the same time, freeze the 
+reports and the agents.  Anyway, in a such case, the user cannot issue orders
+at this moment, nor really inspecting the reports.
+
+Requested by Goswin von Brederlow for adding multiple settlers under CMA.
+
+See gna bug #14617
+
+------------------------------------------------------------------------
+r16293 | pepeto | 2009-11-03 00:10:15 +0100 (Tue, 03 Nov 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/messagewin.c
+   M /branches/S2_1/client/messagewin_common.c
+
+Avoid crash when clicking a message in turn change.
+
+Reported by mity 
+
+See gna bug #14652
+
+------------------------------------------------------------------------
+r16280 | pepeto | 2009-10-31 13:00:47 +0100 (Sat, 31 Oct 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/server/stdinhand.c
+
+Use get_tokens() in /set command instead of my_isalnum(), because it was cutting
+the UTF8 strings.  Consider '=' as a delimiter in this function.
+
+Reported by Christian Knoke (chrisk)
+
+See gna bug #13500
+
+------------------------------------------------------------------------
+r16273 | pepeto | 2009-10-30 10:42:27 +0100 (Fri, 30 Oct 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/server/sernet.c
+
+Get server control back when autogame is over.
+
+See gna bug #14641
+
+------------------------------------------------------------------------
+r16270 | pepeto | 2009-10-30 10:38:45 +0100 (Fri, 30 Oct 2009) | 10 lines
+Changed paths:
+   M /branches/S2_1/server/srv_main.c
+
+When saving a game:
+* A dot in the path is not considered as an extension.
+* A dot at the start of the filename is not considered as an extension.
+* If you give a path without filename, the game will be saved in this path 
+with a generated filename. 
+
+Reported by Alvaro Rodriguez
+
+See gna bug #14603
+
+------------------------------------------------------------------------
+r16267 | pepeto | 2009-10-30 10:34:01 +0100 (Fri, 30 Oct 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/doc/man/civserver.6
+
+Documents the --identity server parameter in the man page.
+
+See gna bug #14631
+
+------------------------------------------------------------------------
+r16258 | pepeto | 2009-10-29 12:01:32 +0100 (Thu, 29 Oct 2009) | 5 lines
+Changed paths:
+   M /branches/S2_1/client/packhand.c
+
+Caravans arriving in a city from a transport don't popup if we are sure the 
+transporter is still moving.
+
+See gna bug #14606
+
+------------------------------------------------------------------------
+r16233 | cazfi | 2009-10-27 08:52:54 +0100 (Tue, 27 Oct 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/client/repodlgs_common.c
+   M /branches/S2_1/common/packets.def
+   M /branches/S2_1/common/packets_gen.c
+   M /branches/S2_1/common/packets_gen.h
+   M /branches/S2_1/server/stdinhand.c
+   M /branches/S2_1/version.in
+
+Do not override server settings loaded from saved game with
+client preferences.
+
+Reported by Christian Knoke
+
+See gna bug #13465
+
+------------------------------------------------------------------------
+r16222 | pepeto | 2009-10-26 12:54:35 +0100 (Mon, 26 Oct 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/client/packhand.c
+
+Updates the map canvas when a new traderoute is established.
+
+See gna bug #14597
+
+------------------------------------------------------------------------
+r16215 | pepeto | 2009-10-26 12:36:27 +0100 (Mon, 26 Oct 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/client/packhand.c
+
+Update the full citybar when the occupied status of a foreigner city changes.
+
+See gna bug #14596
+
+------------------------------------------------------------------------
+r16192 | pepeto | 2009-10-24 00:30:51 +0200 (Sat, 24 Oct 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/gui_stuff.c
+
+Removed gtk critical message:
+gtk_tree_view_set_cursor_on_cell: assertion `tree_view->priv->tree != NULL' 
+failed
+
+See gna bug #14563
+
+------------------------------------------------------------------------
+r16177 | pepeto | 2009-10-22 21:46:03 +0200 (Thu, 22 Oct 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/common/unit.c
+
+Diplomats can establish embassies, even if Marco Polo's Embassy is built.
+
+Originally reported by Ann (kudra)
+
+See gna bug #14548
+
+------------------------------------------------------------------------
+r16164 | pepeto | 2009-10-20 21:32:06 +0200 (Tue, 20 Oct 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/ai/aiexplorer.c
+
+Consider that AI explorers moved when they changed tile instead of if their 
+moves decreased (could be wrong on railroads for example).
+
+Reported by Ann (kudra)
+
+See gna bug #14533
+
+------------------------------------------------------------------------
+r16153 | pepeto | 2009-10-19 00:14:30 +0200 (Mon, 19 Oct 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/server/maphand.c
+
+Do not bounce units on empty enemy cities on terrain changes.
+
+Reported by spikethehobbitmage _at_ excite _dot_ com
+
+See gna bug #14532
+
+------------------------------------------------------------------------
+r16148 | pepeto | 2009-10-19 00:05:37 +0200 (Mon, 19 Oct 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/server/stdinhand.c
+
+Detach all connections when loading a game (don't forget global observers).  
+It was causing client crashes.
+
+Reported by Jordi Negrevernis i Font (jorneg)
+
+See gna bug #14542
+
+------------------------------------------------------------------------
+r16145 | pepeto | 2009-10-17 13:40:54 +0200 (Sat, 17 Oct 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/server/maphand.c
+
+Giving shared vision really reveal tiles and units which are in your city view
+range but still unknown, causing crash on client side.
+
+Reported by Ann (kudra)
+
+See gna bug #14275
+
+------------------------------------------------------------------------
+r16138 | pepeto | 2009-10-15 19:44:53 +0200 (Thu, 15 Oct 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/server/stdinhand.c
+
+Send player info after the usage of the /away command.
+
+See gna bug #14455
+
+------------------------------------------------------------------------
+r16133 | pepeto | 2009-10-15 19:34:21 +0200 (Thu, 15 Oct 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/server/unithand.c
+
+Removed send_unit_info duplication.
+
+See gna bug #14510
+
+------------------------------------------------------------------------
+r16130 | cazfi | 2009-10-15 08:02:28 +0200 (Thu, 15 Oct 2009) | 2 lines
+Changed paths:
+   M /branches/S2_1/po/es.po
+
+Updated translation by Jordi Negrevernis i Font
+
+------------------------------------------------------------------------
+r16128 | pepeto | 2009-10-13 21:07:42 +0200 (Tue, 13 Oct 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/server/srv_main.c
+
+Don't send attribute block to observers.
+
+See gna bug #14499
+
+------------------------------------------------------------------------
+r16123 | pepeto | 2009-10-13 20:50:19 +0200 (Tue, 13 Oct 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/diplodlg.c
+   M /branches/S2_1/client/gui-sdl/diplodlg.c
+   M /branches/S2_1/common/diptreaty.c
+   M /branches/S2_1/server/diplhand.c
+
+Establishing embassies is always possible in the diplomacy meetings, even if
+the Marco Polo Embassy is built.
+
+Reported by Ann (kudra)
+
+See gna bug #14448
+
+------------------------------------------------------------------------
+r16120 | pepeto | 2009-10-13 20:44:47 +0200 (Tue, 13 Oct 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/ai/advdiplomacy.c
+
+AI players accept when trying to ally them, but previously allied with an enemy.
+
+Reported by Ann (kudra)
+
+See gna bug #14151
+
+------------------------------------------------------------------------
+r16117 | pepeto | 2009-10-13 20:37:47 +0200 (Tue, 13 Oct 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/gui_main.c
+   M /branches/S2_1/client/gui-gtk-2.0/pages.c
+
+In the gtk-2.0 client, make the game page scrollable for small screens.  Also
+maximilize that page and get normal size else.
+
+Reported by Ann (kudra)
+
+See gna bug #14100
+
+------------------------------------------------------------------------
+r16108 | pepeto | 2009-10-12 00:24:36 +0200 (Mon, 12 Oct 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/server/unithand.c
+
+When transfering unit from a player to another, the unit info is sent 
+immediately to all players.
+
+Reported by Jordi Negrevernis i Font (jorneg)
+
+See gna patch #1328
+
+------------------------------------------------------------------------
+r16099 | pepeto | 2009-10-11 23:56:58 +0200 (Sun, 11 Oct 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/server/maphand.c
+
+Sharing vision when the fog of war is disabled don't let black square over
+vision giver units.
+
+Reported by Jere Toivanen and probably Ann (kudra)
+
+See gna bug #14275
+
+------------------------------------------------------------------------
+r16052 | pepeto | 2009-10-05 23:16:00 +0200 (Mon, 05 Oct 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/server/savegame.c
+
+Consider S_S_OVER as savegame server state.
+
+Patch by Matthias Pfafferodt (syntron)
+
+See gna bug #14305
+
+------------------------------------------------------------------------
+r16049 | pepeto | 2009-10-05 23:11:32 +0200 (Mon, 05 Oct 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/server/srv_main.c
+
+The loss of the last human player doesn't transform the game into an autogame,
+causing the clients freezing.       
+
+Reported by Hendrik Maryns (hamaryns)
+
+See gna bug #14036
+
+------------------------------------------------------------------------
+r16038 | pepeto | 2009-10-03 19:03:52 +0200 (Sat, 03 Oct 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/server/scripting/api.pkg
+   M /branches/S2_1/server/scripting/api_gen.c
+   M /branches/S2_1/server/scripting/api_gen.h
+
+Make notify.all and notify.player working in lua scripts.
+
+Reported by matz
+
+See gna bug #14221
+
+------------------------------------------------------------------------
+r16035 | pepeto | 2009-10-03 00:54:27 +0200 (Sat, 03 Oct 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/server/commands.c
+   M /branches/S2_1/server/commands.h
+   M /branches/S2_1/server/stdinhand.c
+
+Added /cancelvote command, ported from Warclient.
+
+See gna patch #1292
+
+------------------------------------------------------------------------
+r16014 | pepeto | 2009-09-29 23:43:08 +0200 (Tue, 29 Sep 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/common/aicore/path_finding.c
+
+Do not set to 0 values allocated with fc_calloc() in pf_*_node_init().
+
+See gna patch #1318
+
+------------------------------------------------------------------------
+r16011 | pepeto | 2009-09-29 23:35:29 +0200 (Tue, 29 Sep 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/data/default/cities.ruleset
+
+Really use amplio electric ages sprites for cities.  Use modern style as 
+alternative for other tilesets.
+
+Patch by Jacob Nevins <jtn>
+
+See gna bug #14376.
+
+------------------------------------------------------------------------
+r16006 | pepeto | 2009-09-29 08:35:37 +0200 (Tue, 29 Sep 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/server/stdinhand.c
+
+After the removal of hard coded 'set autotoggle 1' in client side, '/take -'  
+was not toggling the player ai status anymore.
+
+Reported by Toni Spets <hifi>
+
+See gna bug #14369
+
+------------------------------------------------------------------------
+r15987 | pepeto | 2009-09-26 19:07:12 +0200 (Sat, 26 Sep 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/client/civclient.c
+   M /branches/S2_1/server/connecthand.c
+   M /branches/S2_1/server/report.c
+   M /branches/S2_1/server/report.h
+   M /branches/S2_1/server/srv_main.c
+   M /branches/S2_1/server/stdinhand.c
+
+/detach, /observe and /take work normally after the game ended.
+
+Patch by Book and me
+
+See gna bug #13727
+
+------------------------------------------------------------------------
+r15982 | pepeto | 2009-09-26 18:48:38 +0200 (Sat, 26 Sep 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/common/aicore/path_finding.c
+   M /branches/S2_1/common/aicore/path_finding.h
+   M /branches/S2_1/common/aicore/pf_tools.c
+   M /branches/S2_1/common/movement.c
+   M /branches/S2_1/common/player.c
+   M /branches/S2_1/common/player.h
+
+Don't navigate through unaccessible territorial waters.
+
+Reported by David Ja¨a <jasad>
+
+See gna bug #13928
+
+------------------------------------------------------------------------
+r15979 | pepeto | 2009-09-26 18:27:43 +0200 (Sat, 26 Sep 2009) | 5 lines
+Changed paths:
+   M /branches/S2_1/common/aicore/path_finding.c
+
+Fix that pf_fuel_map finishes don't make infinite loops with the client 
+interaction.
+
+See gna bug #14035
+
+------------------------------------------------------------------------
+r15969 | cazfi | 2009-09-21 18:19:39 +0200 (Mon, 21 Sep 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/server/sernet.c
+
+Removed duplicate allocation of ping_timers
+
+Patch by Pepeto
+
+See gna bug #14337
+
+------------------------------------------------------------------------
+r15966 | chrisk | 2009-09-19 09:56:56 +0200 (Sat, 19 Sep 2009) | 2 lines
+Changed paths:
+   M /branches/S2_1/po/de.po
+
+
+4323 translated messages, 9 fuzzy translations, 14 untranslated messages.
+------------------------------------------------------------------------
+r15952 | cazfi | 2009-09-16 01:57:10 +0200 (Wed, 16 Sep 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/server/stdinhand.c
+
+Prevented /rulesetdir after savegame of already running game has been
+loaded.
+
+Patch by Matthias Pfafferodt
+
+See gna bug #14230
+
+------------------------------------------------------------------------
+r15949 | cazfi | 2009-09-16 01:49:37 +0200 (Wed, 16 Sep 2009) | 5 lines
+Changed paths:
+   M /branches/S2_1/server/sernet.c
+   M /branches/S2_1/server/srv_main.c
+   M /branches/S2_1/server/srv_main.h
+
+Renamed automatic game finished and quitidle saves so that they
+do not overwrite normal autosaves.
+
+See gna bug #14245
+
+------------------------------------------------------------------------
+r15933 | cazfi | 2009-09-12 02:02:35 +0200 (Sat, 12 Sep 2009) | 13 lines
+Changed paths:
+   M /branches/S2_1/server/stdinhand.c
+
+Fixed /cmdlevel bugs:
+- When issuing /cmdlevel command for all connections, it stops at the
+  first connection it cannot set the access level. The expected behaviour
+  would be to continue to iterate the connections.
+- When issuing "/cmdlevel basic" (e.g.) whereas you are the first
+  connection and there is a second connection with hack access, then you
+  set your connection access to "basic", and the second fails because you
+  only have basic access. The caller access level should changed at last.
+
+Patch by Pepeto
+
+See gna bug #14237
+
+------------------------------------------------------------------------
+r15929 | cazfi | 2009-09-12 01:16:26 +0200 (Sat, 12 Sep 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/server/techtools.c
+
+Fixed a crash when several members of the same team have same
+initial tech.
+
+Patch by Pepeto
+
+See gna bug #14259
+
+------------------------------------------------------------------------
+r15919 | cazfi | 2009-09-09 01:25:19 +0200 (Wed, 09 Sep 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/server/unittools.c
+
+Leave no units to current tile when bouncing them.
+
+Patch by Matthias Pfafferodt
+
+See gna bug #14078
+
+------------------------------------------------------------------------
+r15914 | cazfi | 2009-09-07 22:39:27 +0200 (Mon, 07 Sep 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/server/barbarian.c
+   M /branches/S2_1/server/srv_main.c
+   M /branches/S2_1/server/techtools.c
+   M /branches/S2_1/server/techtools.h
+
+Fixed a team play crash when ruleset defines global init techs
+
+Patch by Pepeto
+
+See gna RT #20855
+
+------------------------------------------------------------------------
+r15912 | cazfi | 2009-09-07 00:39:54 +0200 (Mon, 07 Sep 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/client/citydlg_common.c
+   M /branches/S2_1/client/gui-gtk-2.0/cityrep.c
+   M /branches/S2_1/client/gui-gtk-2.0/wldlg.c
+   M /branches/S2_1/client/gui-mui/wldlg.c
+   M /branches/S2_1/client/gui-mui/worklistclass.c
+   M /branches/S2_1/client/gui-sdl/optiondlg.c
+   M /branches/S2_1/client/gui-sdl/wldlg.c
+   M /branches/S2_1/client/gui-win32/wldlg.c
+   M /branches/S2_1/client/gui-xaw/wldlg.c
+   M /branches/S2_1/client/packhand.c
+   M /branches/S2_1/common/city.c
+   M /branches/S2_1/common/dataio.c
+   M /branches/S2_1/common/generate_packets.py
+   M /branches/S2_1/common/packets_gen.c
+   M /branches/S2_1/common/worklist.c
+   M /branches/S2_1/common/worklist.h
+   M /branches/S2_1/server/cityhand.c
+   M /branches/S2_1/server/citytools.c
+   M /branches/S2_1/server/savegame.c
+
+Renamed *_worklist() functions as worklist_*()
+
+Patch by Pepeto
+
+See gna bug #13879
+
+------------------------------------------------------------------------
+r15878 | cazfi | 2009-08-17 22:47:52 +0200 (Mon, 17 Aug 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/common/aicore/path_finding.c
+
+Fixed handling of units with 0 move rate.
+
+Patch by Pepeto
+
+See gna bug #13889
+
+------------------------------------------------------------------------
+r15875 | cazfi | 2009-08-12 23:30:22 +0200 (Wed, 12 Aug 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/m4/xaw-client.m4
+
+Fixed autoconf-2.64 warning.
+
+See gna bug #14045
+
+------------------------------------------------------------------------
+r15871 | cazfi | 2009-08-11 00:11:08 +0200 (Tue, 11 Aug 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/client/control.c
+
+Do not send illegal packets when unloading allied units from
+transport.
+
+Patch by Pepeto
+
+See gna bug #14032
+
+------------------------------------------------------------------------
+r15864 | cazfi | 2009-07-31 23:29:06 +0200 (Fri, 31 Jul 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/client/control.c
+   M /branches/S2_1/client/control.h
+
+Fixed a crash when unload all command is issued to multiple units.
+
+Patch by Pepeto
+
+See gna bug #14031
+
+------------------------------------------------------------------------
+r15859 | cazfi | 2009-07-30 23:00:48 +0200 (Thu, 30 Jul 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/gui_main.c
+
+Fixed gtk warnings when switching from observing one player to
+another.
+
+Patch by Pepeto
+
+See gna bug #13763
+
+------------------------------------------------------------------------
+r15854 | cazfi | 2009-07-29 20:45:55 +0200 (Wed, 29 Jul 2009) | 2 lines
+Changed paths:
+   M /branches/S2_1/po/fi.po
+
+Updated translation by Sini Ruohomaa
+
+------------------------------------------------------------------------
+r15850 | cazfi | 2009-07-26 23:58:01 +0200 (Sun, 26 Jul 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/server/techtools.c
+
+Fixed crash when lua script triggered by "tech_researched" gives
+another technology to player.
+
+Reported by gorillaz
+
+See gna bug #13819
+
+------------------------------------------------------------------------
+r15848 | cazfi | 2009-07-26 00:16:27 +0200 (Sun, 26 Jul 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/data/civ2/effects.ruleset
+   M /branches/S2_1/data/default/effects.ruleset
+
+Fixed partisan appearance to require Guerilla Warfare to be known
+by someone.
+
+Patch by Joel Kenny
+
+See gna bug #13944
+
+------------------------------------------------------------------------
+r15825 | cazfi | 2009-07-10 23:37:32 +0200 (Fri, 10 Jul 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/doc/TODO
+
+Updated wishlist URL in TODO.
+
+See gna bug #13851
+
+------------------------------------------------------------------------
+r15820 | cazfi | 2009-07-09 00:22:31 +0200 (Thu, 09 Jul 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/common/aicore/path_finding.c
+
+Initialize unreachable nodes just once.
+
+Patch by Pepeto
+
+See gna bug #13881
+
+------------------------------------------------------------------------
+r15817 | jcreus | 2009-07-08 23:36:23 +0200 (Wed, 08 Jul 2009) | 1 line
+Changed paths:
+   M /branches/S2_1/po/ca.po
+
+small correction
+------------------------------------------------------------------------
+r15812 | jcreus | 2009-07-07 02:05:39 +0200 (Tue, 07 Jul 2009) | 1 line
+Changed paths:
+   M /branches/S2_1/po/ca.po
+
+updating Catalan translation
+------------------------------------------------------------------------
+r15805 | cazfi | 2009-07-05 22:48:42 +0200 (Sun, 05 Jul 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/client/ggzclient.c
+
+Changed ggz profile to point to freeciv.ggzgamingzone.org instead
+of non-functional pubserver.
+
+Patch by Jason Dorje Short
+
+See RT #39923
+
+------------------------------------------------------------------------
+r15801 | cazfi | 2009-07-04 21:54:25 +0200 (Sat, 04 Jul 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/client/civclient.c
+   M /branches/S2_1/server/srv_main.c
+   M /branches/S2_1/utility/shared.c
+   M /branches/S2_1/utility/shared.h
+
+Free memory allocated by init_nls()
+
+See gna #13707
+
+------------------------------------------------------------------------
+r15794 | cazfi | 2009-07-02 23:08:45 +0200 (Thu, 02 Jul 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/gui_main.c
+   M /branches/S2_1/client/gui-gtk-2.0/pages.c
+
+Display flags at start page player list.
+
+Patch by Pepeto
+
+See gna #13726
+
+------------------------------------------------------------------------
+r15789 | mbook | 2009-07-01 02:22:35 +0200 (Wed, 01 Jul 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/server/unithand.c
+
+Reset done_moving when unit orders cleared.
+
+See gna #13817
+See RT #40563
+
+Patch by: pepeto <pepeto69@free.fr>
+------------------------------------------------------------------------
+r15786 | mbook | 2009-06-30 21:34:01 +0200 (Tue, 30 Jun 2009) | 13 lines
+Changed paths:
+   M /branches/S2_1/server/diplomats.c
+
+Fix bug in diplomat contest calculation.
+
+- Because ">" was used instead of "<" in
+  diplomat_success_vs_defender(), an attacking
+  diplomat's chances were actually decreased
+  when they should have increased.
+- Fixed F_SUPERSPY handling to match comment
+  in diplomat_infiltrate_tile().
+- Improved some formatting and comment style.
+
+See gna #13790
+
+Reported by: Szunti (freeciv forum guest)
+------------------------------------------------------------------------
+r15783 | mbook | 2009-06-29 19:37:56 +0200 (Mon, 29 Jun 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/ai/advdiplomacy.c
+
+AI does not ask for help against unmet enemies.
+
+See gna #13559
+See RT #39700
+
+Requested by: Matthias Pfafferodt <matthias.pfafferodt@mapfa.de>
+Patch by: <per.mathisen@gmail.com>
+------------------------------------------------------------------------
+r15781 | cazfi | 2009-06-27 21:41:08 +0200 (Sat, 27 Jun 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/gui_main.c
+
+Fixed creation of GGZ page.
+
+See gna #13791
+
+------------------------------------------------------------------------
+r15779 | mbook | 2009-06-27 03:03:51 +0200 (Sat, 27 Jun 2009) | 11 lines
+Changed paths:
+   M /branches/S2_1/client/packhand.c
+
+Do not clobber changed flag in handle_tile_info().
+
+- When a tile has the same resource as set in the info
+  packet, 'tile_changed' is reset causing later code
+  to miss previous changes to the tile.
+- In particular, agent calls would be missed due to
+  this bug.
+
+See #13763
+
+Patch by: Bernd Jendrissek <bernd.jendrissek@gmail.com>
+------------------------------------------------------------------------
+r15778 | mbook | 2009-06-27 02:54:24 +0200 (Sat, 27 Jun 2009) | 11 lines
+Changed paths:
+   M /branches/S2_1/ai/aiexplorer.c
+   M /branches/S2_1/ai/aiferry.c
+   M /branches/S2_1/ai/aitools.c
+   M /branches/S2_1/client/goto.c
+   M /branches/S2_1/common/aicore/path_finding.c
+   M /branches/S2_1/common/aicore/path_finding.h
+   M /branches/S2_1/common/aicore/pf_tools.c
+   M /branches/S2_1/common/aicore/pf_tools.h
+
+Backport of improved goto code from trunk.
+
+- See RT tickets listed below for details.
+
+See gna #13736
+See gna #13742
+See RT #40536
+See RT #40563
+
+S2_1 port by: pepeto <pepeto69@free.fr>
+Original trunk patches by pepeto and myself.
+------------------------------------------------------------------------
+r15776 | cazfi | 2009-06-26 22:46:43 +0200 (Fri, 26 Jun 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/doc/CodingStyle
+
+Removed obsolete configure.in reference from CodingStyle.
+
+See gna #13682
+
+------------------------------------------------------------------------
+r15774 | cazfi | 2009-06-25 22:04:09 +0200 (Thu, 25 Jun 2009) | 5 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/gui_main.c
+   M /branches/S2_1/client/mapview_common.c
+   M /branches/S2_1/client/tilespec.c
+   M /branches/S2_1/client/tilespec.h
+   M /branches/S2_1/doc/README.graphics
+
+Added support for units taller than 1.5 x terrain tile height in
+isometric tilesets.
+
+See gna #13671
+
+------------------------------------------------------------------------
+r15771 | cazfi | 2009-06-23 20:46:46 +0200 (Tue, 23 Jun 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/client/mapview_common.c
+
+Hide production part of full citybar from enemy cities for player observers.
+It used to show all enemy cities always building "Airport"
+
+Patch by Pepeto
+
+See gna #13723
+
+------------------------------------------------------------------------
+r15768 | mbook | 2009-06-22 06:22:33 +0200 (Mon, 22 Jun 2009) | 5 lines
+Changed paths:
+   M /branches/S2_1/server/report.c
+
+Fix bug in tech score when player has no techs.
+
+See gna #13733
+
+Patch by: pepeto <pepeto69@free.fr>
+------------------------------------------------------------------------
+r15767 | mbook | 2009-06-22 06:13:50 +0200 (Mon, 22 Jun 2009) | 5 lines
+Changed paths:
+   M /branches/S2_1/client/packhand.c
+
+Update game.player_ptr on conn info packet.
+
+See gna #13732
+
+Patch by: pepeto <pepeto69@free.fr>
+------------------------------------------------------------------------
+r15764 | cazfi | 2009-06-20 22:47:13 +0200 (Sat, 20 Jun 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/client/text.c
+
+Show ping of actual player connection instead of player's first connection,
+which may be observer.
+
+Patch by pepeto
+
+See gna #13725
+
+------------------------------------------------------------------------
+r15756 | mbook | 2009-06-19 06:48:31 +0200 (Fri, 19 Jun 2009) | 5 lines
+Changed paths:
+   M /branches/S2_1/utility/iterator.h
+
+Avoid compiler warning about strict-aliasing.
+
+See gna #13719
+
+Patch by: pepeto <pepeto69@free.fr>
+------------------------------------------------------------------------
+r15752 | mbook | 2009-06-18 03:58:19 +0200 (Thu, 18 Jun 2009) | 5 lines
+Changed paths:
+   M /branches/S2_1/client/agents/agents.c
+
+Fix va_list corruption in agent code.
+
+See gna #13714
+
+Patch by: Bernd Jendrissek <bernd.jendrissek@gmail.com>
+------------------------------------------------------------------------
+r15751 | mbook | 2009-06-18 03:53:43 +0200 (Thu, 18 Jun 2009) | 5 lines
+Changed paths:
+   M /branches/S2_1/client/agents/agents.c
+
+Agent calls to different agents are never equal.
+
+See gna #13713
+
+Patch by: Bernd Jendrissek <bernd.jendrissek@gmail.com>
+------------------------------------------------------------------------
+r15736 | cazfi | 2009-06-09 23:22:14 +0200 (Tue, 09 Jun 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/client/helpdata.c
+
+Fixed help browser crash when ruleset has fuel using unit for which
+there is no suitable carrier unit.
+
+Reported by Ugo Degrigny
+
+See gna #13649
+
+------------------------------------------------------------------------
+r15731 | cazfi | 2009-06-09 19:50:47 +0200 (Tue, 09 Jun 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/data/helpdata.txt
+
+Updated bug URL in About page to point to gna.
+
+See gna #13644
+
+------------------------------------------------------------------------
+r15721 | cazfi | 2009-06-05 23:41:57 +0200 (Fri, 05 Jun 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/server/ruleset.c
+
+Added ruleset loading time check that MAX_NUM_REQS is not exceeded.
+
+Problem reported by Matthias Pfafferodt
+
+See gna #13600
+
+------------------------------------------------------------------------
+r15717 | cazfi | 2009-06-04 22:46:08 +0200 (Thu, 04 Jun 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/data/default/buildings.ruleset
+
+Fixed Hydro Plant help text.
+
+Patch by Jacob Nevins
+
+See RT #40805
+
+------------------------------------------------------------------------
+r15697 | cazfi | 2009-06-01 23:50:25 +0200 (Mon, 01 Jun 2009) | 2 lines
+Changed paths:
+   M /branches/S2_1/po/da.po
+
+Updated translation by Joe Dalton.
+
+------------------------------------------------------------------------
+r15692 | mbook | 2009-06-01 02:54:07 +0200 (Mon, 01 Jun 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/gamedlgs.c
+
+Put local options in scrolled window.
+
+- Also, make 400 pixels the default height
+  for the options dialog window.
+
+See GNA #13525
+------------------------------------------------------------------------
+r15683 | mbook | 2009-05-28 03:58:18 +0200 (Thu, 28 May 2009) | 11 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/gui_main.c
+   M /branches/S2_1/client/gui-gtk-2.0/gui_main.h
+
+Option for small display widget layout.
+
+- Gui option 'small_display_layout' controls whether
+  the left "panel" on the main game page extends all
+  the way down the window.
+- Option requires a program restart in order to take
+  effect.
+- The main map canvas is given a minimum size of 300
+  by 300 pixels.
+
+See GNA #13524
+------------------------------------------------------------------------
+r15682 | cazfi | 2009-05-26 01:15:32 +0200 (Tue, 26 May 2009) | 2 lines
+Changed paths:
+   M /branches/S2_1/po/POTFILES.in
+
+Added voting.c to POTFILES.in
+
+------------------------------------------------------------------------
+r15678 | cazfi | 2009-05-24 20:21:34 +0200 (Sun, 24 May 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/configure.ac
+
+Changed bug address to point to gna
+
+See gna #13422
+
+------------------------------------------------------------------------
+r15674 | mbook | 2009-05-23 03:33:09 +0200 (Sat, 23 May 2009) | 1 line
+Changed paths:
+   M /branches/S2_1/server/voting.c
+
+Fix small whitespace mistake.
+------------------------------------------------------------------------
+r15673 | mbook | 2009-05-23 03:33:07 +0200 (Sat, 23 May 2009) | 3 lines
+Changed paths:
+   M /branches/S2_1/client/packhand_gen.c
+   M /branches/S2_1/client/packhand_gen.h
+   M /branches/S2_1/common/packets_gen.c
+   M /branches/S2_1/common/packets_gen.h
+   M /branches/S2_1/server/hand_gen.c
+   M /branches/S2_1/server/hand_gen.h
+
+Auto-generated files for new packets.
+
+See GNA #13515
+------------------------------------------------------------------------
+r15672 | mbook | 2009-05-23 03:33:03 +0200 (Sat, 23 May 2009) | 20 lines
+Changed paths:
+   M /branches/S2_1/client/civclient.c
+   M /branches/S2_1/client/gui-ftwl/pages.c
+   M /branches/S2_1/client/gui-gtk-2.0/pages.c
+   M /branches/S2_1/client/gui-sdl/pages.c
+   M /branches/S2_1/client/gui-stub/pages.c
+   M /branches/S2_1/client/gui-win32/pages.c
+   M /branches/S2_1/client/gui-xaw/pages.c
+   M /branches/S2_1/client/include/pages_g.h
+   M /branches/S2_1/client/packhand.c
+   M /branches/S2_1/common/packets.def
+   M /branches/S2_1/server/commands.c
+   M /branches/S2_1/server/commands.h
+   M /branches/S2_1/server/connecthand.c
+   M /branches/S2_1/server/plrhand.c
+   M /branches/S2_1/server/plrhand.h
+   M /branches/S2_1/server/sernet.c
+   M /branches/S2_1/server/srv_main.c
+   M /branches/S2_1/server/stdinhand.c
+   M /branches/S2_1/server/voting.c
+   M /branches/S2_1/version.in
+
+Improved voting code ported from warclient.
+
+- It is now possible to make votes in pregame.
+- Added new capability based voteinfo packets.
+- Added optional capability "voteinfo".
+- Moved all voting related code on the server
+  side to server/voting.[ch].
+- Added gui function voteinfo_gui_update() and
+  stubs for all guis.
+- Added vote parameters to command definitions.
+- Added helper function command_access_level().
+- Modified notify_team() to send to all players
+  if the first argument is NULL.
+- Cleaned up vote_command() in stdinhand.c.
+- Some rearrangement of handle_stdin_input().
+
+See GNA #13515
+
+Warclient code originally by pepeto, woodswolf,
+and myself.
+------------------------------------------------------------------------
+r15671 | mbook | 2009-05-23 03:32:56 +0200 (Sat, 23 May 2009) | 3 lines
+Changed paths:
+   M /branches/S2_1/client/Makefile.am
+   A /branches/S2_1/client/voteinfo.c
+   A /branches/S2_1/client/voteinfo.h
+   M /branches/S2_1/server/Makefile.am
+   A /branches/S2_1/server/voting.c
+   A /branches/S2_1/server/voting.h
+
+Add new source files implementing improved voting.
+
+See GNA #13515
+------------------------------------------------------------------------
+r15670 | mbook | 2009-05-23 00:36:30 +0200 (Sat, 23 May 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/client/mapview_common.c
+
+Avoid crash due to corrupted worked field.
+
+See GNA #13498
+
+Reported by:
+  Christian Knoke <chrisk@cknoke.de>
+  kevin in Korea (Kevin551) <kevin.in.korea@gmail.com>
+------------------------------------------------------------------------
+r15669 | cazfi | 2009-05-22 20:26:26 +0200 (Fri, 22 May 2009) | 5 lines
+Changed paths:
+   M /branches/S2_1/server/unithand.c
+
+Added proper error message to case where user tries to add Settlers to
+city owned by ally.
+
+See gna #13539
+
+------------------------------------------------------------------------
+r15667 | mbook | 2009-05-16 06:23:54 +0200 (Sat, 16 May 2009) | 12 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/dialogs.c
+   M /branches/S2_1/client/gui-sdl/dialogs.c
+
+Fix bug causing wrong player nation select.
+
+- Because players might be renumbered in pregame,
+  the player pointer stored by the races dialog
+  might become invalid or wrong.
+- The player name is used instead to try and
+  uniquely identify which player's nation should
+  be selected by the dialog.
+
+See #40773
+
+Reported by: Karl-Ingo Friese <kif@gdv.uni-hannover.de>
+------------------------------------------------------------------------
+r15665 | mbook | 2009-05-13 01:30:21 +0200 (Wed, 13 May 2009) | 3 lines
+Changed paths:
+   M /branches/S2_1/common/city.c
+
+Split up assertion condtion in city accessor.
+
+See GNA #13498
+------------------------------------------------------------------------
+r15658 | mbook | 2009-05-08 21:05:20 +0200 (Fri, 08 May 2009) | 5 lines
+Changed paths:
+   M /branches/S2_1/server/gamehand.c
+
+Fix lost hack access in single player mode.
+
+See GNA #13494
+
+Reported by: Christian Knoke <chrisk@cknoke.de>
+------------------------------------------------------------------------
+r15656 | mbook | 2009-05-08 18:22:30 +0200 (Fri, 08 May 2009) | 3 lines
+Changed paths:
+   M /branches/S2_1/common/connection.c
+   M /branches/S2_1/common/connection.h
+
+Some connection accessor functions.
+
+See GNA #13490
+------------------------------------------------------------------------
+r15655 | mbook | 2009-05-08 18:22:26 +0200 (Fri, 08 May 2009) | 3 lines
+Changed paths:
+   M /branches/S2_1/utility/shared.c
+   M /branches/S2_1/utility/shared.h
+
+Add free_tokens() helper function.
+
+See GNA #13488
+------------------------------------------------------------------------
+r15653 | cazfi | 2009-05-06 16:01:12 +0200 (Wed, 06 May 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/common/improvement.c
+   M /branches/S2_1/common/improvement.h
+   M /branches/S2_1/common/unittype.c
+
+Fixed a bug that even if wonder set as improvement requirement for unit
+was built, unit was not buildable.
+
+Reported by banjo.
+
+See RT #39530
+
+------------------------------------------------------------------------
+r15646 | mbook | 2009-05-05 03:10:43 +0200 (Tue, 05 May 2009) | 11 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/gui_main.c
+   M /branches/S2_1/common/connection.c
+   M /branches/S2_1/common/connection.h
+   M /branches/S2_1/server/commands.c
+   M /branches/S2_1/server/connecthand.c
+   M /branches/S2_1/server/connecthand.h
+   M /branches/S2_1/server/sernet.c
+   M /branches/S2_1/server/srv_main.c
+   M /branches/S2_1/server/stdinhand.c
+
+Improved access levels ported from Warclient.
+
+- Added two new access levels, ALLOW_BASIC and
+  ALLOW_ADMIN, for players and remote server
+  operators respectively.
+- Added field server.granted_access_level to struct
+  connection to keep track of a user's initial access
+  level during attaching and detaching.
+- Fixed out-of-date comment about SSET_SERVER_ONLY.
+
+See GNA #13433
+------------------------------------------------------------------------
+r15639 | cazfi | 2009-05-03 21:26:43 +0200 (Sun, 03 May 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/m4/sound.m4
+
+Fixed explicit --enable-sdl-mixer to not to disable sdl-mixer.
+
+See gna ticket #13444
+
+------------------------------------------------------------------------
+r15637 | cazfi | 2009-05-03 18:25:06 +0200 (Sun, 03 May 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/client/gui-win32/helpdlg.c
+
+Show correct Requirement and Obsolete by tech for wonders in win32-client
+help browser.
+
+Reported by Daniel Doran
+
+See RT ticket #40765
+
+------------------------------------------------------------------------
+r15632 | cazfi | 2009-04-29 23:25:23 +0200 (Wed, 29 Apr 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/server/report.c
+   M /branches/S2_1/server/report.h
+   M /branches/S2_1/server/srv_main.c
+
+Write civscore.log in the beginning of the turn, immediately after values are
+calculated. Write also final values when game ends.
+
+Requested by Theodore Munk
+
+See gna ticket #13419
+
+------------------------------------------------------------------------
+r15630 | cazfi | 2009-04-29 23:16:18 +0200 (Wed, 29 Apr 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/server/score.c
+
+Put spaceship state to civscore.log instead of score given by spaceship.
+
+Requested by Theodore Munk
+
+See gna ticket #13402
+
+------------------------------------------------------------------------
+r15628 | cazfi | 2009-04-29 23:06:33 +0200 (Wed, 29 Apr 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/client/attribute.c
+
+Do not send attribute block if observing or dead
+
+See gna ticket #13410
+
+------------------------------------------------------------------------
+r15624 | mbook | 2009-04-27 18:48:15 +0200 (Mon, 27 Apr 2009) | 5 lines
+Changed paths:
+   M /branches/S2_1/server/gamehand.c
+
+Fix wrong enum type for unit role.
+
+See gna ticket #13401
+
+Reported by: gilles
+------------------------------------------------------------------------
+r15623 | cazfi | 2009-04-25 10:27:02 +0200 (Sat, 25 Apr 2009) | 5 lines
+Changed paths:
+   M /branches/S2_1/server/report.c
+
+Record players total score to civscore.log.
+Requested by Theodore Munk
+
+See gna ticket #13403
+
+------------------------------------------------------------------------
+r15617 | cazfi | 2009-04-23 17:41:57 +0200 (Thu, 23 Apr 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/client/civclient.c
+   M /branches/S2_1/client/servers.h
+   M /branches/S2_1/server/meta.h
+
+Restored http://meta.freeciv.org/metaserver.phtml as default metaserver.
+
+See gna ticket #13407
+
+------------------------------------------------------------------------
+r15614 | cazfi | 2009-04-13 19:43:15 +0200 (Mon, 13 Apr 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/server/civserver.c
+   M /branches/S2_1/server/meta.c
+   M /branches/S2_1/server/srv_main.c
+   M /branches/S2_1/server/srv_main.h
+
+Added commandline parameter to set hostname visible on metaserver
+
+See #40755
+
+------------------------------------------------------------------------
+r15608 | dmarks | 2009-03-29 14:04:02 +0200 (Sun, 29 Mar 2009) | 1 line
+Changed paths:
+   M /branches/S2_1/ChangeLog
+
+Update changelog for 2.1.9 (different format due to server issues)
+------------------------------------------------------------------------
+r15606 | dmarks | 2009-03-25 00:23:09 +0100 (Wed, 25 Mar 2009) | 1 line
+Changed paths:
+   M /branches/S2_1/version.in
+
+Bump version to 2.1.9+
+------------------------------------------------------------------------
 r15604 | dmarks | 2009-03-25 00:07:13 +0100 (Wed, 25 Mar 2009) | 1 line
 Changed paths:
    M /branches/S2_1/po/de.po
