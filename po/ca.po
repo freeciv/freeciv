@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-20 21:58+0100\n"
+"POT-Creation-Date: 2009-11-22 12:24+0100\n"
 "PO-Revision-Date: 2009-11-20 23:40+0100\n"
 "Last-Translator: Joan Creus <joan.creus at gmail dot com>\n"
 "Language-Team: Català <en@li.org>\n"
@@ -4032,7 +4032,7 @@ msgstr ""
 "regles. Usant '%s'."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame.c:4054
+#: server/savegame.c:4055
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s tenia una nació no vàlida; canviant a %s."

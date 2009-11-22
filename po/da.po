@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-08 16:59+0100\n"
+"POT-Creation-Date: 2009-11-22 12:24+0100\n"
 "PO-Revision-Date: 2009-11-12 18:43+0300\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
@@ -3997,14 +3997,14 @@ msgstr ""
 "Den gemte fil er for gammel, versioner fra og med 1.9.0 er understøttet."
 
 #. TRANS: Fatal error message.
-#: server/savegame.c:3814
+#: server/savegame.c:3817
 msgid ""
 "Saved game uses the \"classic\" terrain ruleset, and is no longer supported."
 msgstr ""
 "Den gemte fil bruger den \"klassiske\" terræn-regelopsætning, som ikke "
 "længere er understøttet."
 
-#: server/savegame.c:3823
+#: server/savegame.c:3826
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -4014,7 +4014,7 @@ msgstr ""
 "længere støttet. Bruger '%s'."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame.c:4050
+#: server/savegame.c:4055
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s havde ugyldit nation; ændrer til %s."
@@ -5521,7 +5521,7 @@ msgstr "(uklar)"
 
 #. TRANS: unrecognized command
 #. TRANS: "unknown" location
-#: server/stdinhand.c:287 client/citydlg_common.c:416
+#: server/stdinhand.c:287 client/citydlg_common.c:419
 #: client/gui-gtk-2.0/inteldlg.c:367 client/gui-sdl/inteldlg.c:295
 #: client/gui-sdl/inteldlg.c:307 client/gui-win32/inteldlg.c:147
 #: client/gui-xaw/inteldlg.c:265
@@ -6368,24 +6368,24 @@ msgstr "Barbar"
 
 #: server/stdinhand.c:3152 server/stdinhand.c:4310 client/plrdlg_common.c:256
 #: client/gui-gtk-2.0/pages.c:2104 client/gui-sdl/plrdlg.c:645
-#: client/gui-win32/connectdlg.c:201 client/gui-win32/plrdlg.c:335
+#: client/gui-win32/connectdlg.c:203 client/gui-win32/plrdlg.c:335
 msgid "AI"
 msgstr "AI"
 
 #: server/stdinhand.c:3153 server/stdinhand.c:4312
 #: client/gui-gtk-2.0/pages.c:2104 client/gui-gtk-2.0/pages.c:2127
-#: client/gui-win32/connectdlg.c:201 client/gui-win32/connectdlg.c:213
+#: client/gui-win32/connectdlg.c:203 client/gui-win32/connectdlg.c:215
 msgid "Human"
 msgstr "Menneske"
 
 #: server/stdinhand.c:3155 client/gui-gtk-2.0/pages.c:2103
-#: client/gui-gtk-2.0/pages.c:2126 client/gui-win32/connectdlg.c:200
-#: client/gui-win32/connectdlg.c:212
+#: client/gui-gtk-2.0/pages.c:2126 client/gui-win32/connectdlg.c:202
+#: client/gui-win32/connectdlg.c:214
 msgid "Alive"
 msgstr "I live"
 
 #: server/stdinhand.c:3156 client/gui-gtk-2.0/pages.c:2103
-#: client/gui-win32/connectdlg.c:200
+#: client/gui-win32/connectdlg.c:202
 msgid "Dead"
 msgstr "Død"
 
@@ -7548,41 +7548,41 @@ msgstr "%+4d : byboere\n"
 msgid "%+4d : Taxed from trade\n"
 msgstr "%+4d : Skatteindkomst fra handel\n"
 
-#: client/citydlg_common.c:418
+#: client/citydlg_common.c:421
 #, c-format
 msgid "%+4d : Trade route with %s\n"
 msgstr "%+4d : Handelsrute med %s\n"
 
-#: client/citydlg_common.c:427
+#: client/citydlg_common.c:430
 #, c-format
 msgid "%+4d : Building tithes\n"
 msgstr "%+4d : Skaber tiende\n"
 
-#: client/citydlg_common.c:450
+#: client/citydlg_common.c:453
 #, c-format
 msgid "%+4d : Bonus from %s (%+d%%)\n"
 msgstr "%+4d : Bonus fra %s (% +d%%)\n"
 
-#: client/citydlg_common.c:462
+#: client/citydlg_common.c:465
 #, c-format
 msgid "%+4d : Waste\n"
 msgstr "%+4d : Affald\n"
 
-#: client/citydlg_common.c:468
+#: client/citydlg_common.c:471
 #, c-format
 msgid "%+4d : Disorder\n"
 msgstr "%+4d : Uro\n"
 
-#: client/citydlg_common.c:474
+#: client/citydlg_common.c:477
 #, c-format
 msgid "%+4d : Used\n"
 msgstr "%+4d : Anvendt\n"
 
-#: client/citydlg_common.c:479
+#: client/citydlg_common.c:482
 msgid "==== : Adds up to\n"
 msgstr "==== : Bliver\n"
 
-#: client/citydlg_common.c:481
+#: client/citydlg_common.c:484
 #, c-format
 msgid "%4d : Total surplus"
 msgstr "%4d : Overskud"
@@ -8138,53 +8138,53 @@ msgstr ""
 "Auto-tilslutter til serveren \"%s\" på port %d som \"%s\" hvert %f sekund"
 "(er) for %d gange"
 
-#: client/connectdlg_common.c:79 client/gui-gtk-2.0/pages.c:1358
+#: client/connectdlg_common.c:78 client/gui-gtk-2.0/pages.c:1358
 msgid "novice"
 msgstr "begynder"
 
-#: client/connectdlg_common.c:80 client/gui-gtk-2.0/pages.c:1358
+#: client/connectdlg_common.c:79 client/gui-gtk-2.0/pages.c:1358
 msgid "easy"
 msgstr "let"
 
-#: client/connectdlg_common.c:81 client/gui-gtk-2.0/pages.c:1359
+#: client/connectdlg_common.c:80 client/gui-gtk-2.0/pages.c:1359
 msgid "normal"
 msgstr "normal"
 
-#: client/connectdlg_common.c:82 client/gui-gtk-2.0/pages.c:1359
+#: client/connectdlg_common.c:81 client/gui-gtk-2.0/pages.c:1359
 msgid "hard"
 msgstr "vanskelig"
 
-#: client/connectdlg_common.c:83
+#: client/connectdlg_common.c:82
 msgid "experimental"
 msgstr "eksperimentel"
 
-#: client/connectdlg_common.c:213
+#: client/connectdlg_common.c:212
 msgid "Starting server..."
 msgstr "Starter spil..."
 
-#: client/connectdlg_common.c:332
+#: client/connectdlg_common.c:331
 msgid "Couldn't start the server."
 msgstr "Kunne ikke starte serveren."
 
-#: client/connectdlg_common.c:333 client/connectdlg_common.c:366
+#: client/connectdlg_common.c:332 client/connectdlg_common.c:365
 msgid "You'll have to start one manually. Sorry..."
 msgstr "Du er nød til at starte en manuelt. Beklager..."
 
-#: client/connectdlg_common.c:364
+#: client/connectdlg_common.c:363
 msgid "Couldn't connect to the server."
 msgstr "Kunne ikke forbinde til serveren."
 
-#: client/connectdlg_common.c:365
+#: client/connectdlg_common.c:364
 msgid "We probably couldn't start it from here."
 msgstr "Vi kunne højst sandsynlig ikke starte herfra."
 
-#: client/connectdlg_common.c:470
+#: client/connectdlg_common.c:469
 msgid ""
 "Established control over the server. You have command access level 'hack'."
 msgstr ""
 "Etablerede kontrol med serveren. Du har adgang på kommandoniveau 'hack'."
 
-#: client/connectdlg_common.c:475
+#: client/connectdlg_common.c:474
 msgid ""
 "Failed to obtain the required access level to take control of the server. "
 "The server will now be shutdown."
@@ -9072,7 +9072,7 @@ msgstr ""
 "Dette er standard serverporten som vil blive brugt på forbindelsens dialoger "
 "eller med -a kommandolinje parametre."
 
-#: client/options.c:129 client/gui-win32/connectdlg.c:914 data/Freeciv.in:107
+#: client/options.c:129 client/gui-win32/connectdlg.c:916 data/Freeciv.in:107
 msgid "Metaserver"
 msgstr "Metaserver"
 
@@ -9555,7 +9555,7 @@ msgstr "Flag"
 #: client/plrdlg_common.c:252 client/gui-gtk-2.0/dialogs.c:657
 #: client/gui-gtk-2.0/pages.c:953 client/gui-gtk-2.0/pages.c:1609
 #: client/gui-gtk-2.0/pages.c:2161 client/gui-sdl/repodlgs.c:2063
-#: client/gui-win32/connectdlg.c:990 client/gui-win32/dialogs.c:542
+#: client/gui-win32/connectdlg.c:992 client/gui-win32/dialogs.c:542
 #: client/gui-win32/plrdlg.c:335
 msgid "Nation"
 msgstr "Nation"
@@ -11203,7 +11203,7 @@ msgstr "Enhed"
 
 #: client/gui-gtk-2.0/dialogs.c:508 client/gui-gtk-2.0/pages.c:950
 #: client/gui-gtk-2.0/pages.c:1579 client/gui-gtk-2.0/pages.c:2157
-#: client/gui-gtk-2.0/wldlg.c:1035 client/gui-win32/connectdlg.c:985
+#: client/gui-gtk-2.0/wldlg.c:1035 client/gui-win32/connectdlg.c:987
 #: client/gui-win32/plrdlg.c:335 manual/civmanual.c:302 data/Freeciv.in:80
 msgid "Name"
 msgstr "Navn"
@@ -11229,7 +11229,7 @@ msgid "What Nation Will You Be?"
 msgstr "Hvilken nation vil du være?"
 
 #: client/gui-gtk-2.0/dialogs.c:768 client/gui-sdl/chatline.c:842
-#: client/gui-win32/connectdlg.c:1038 data/Freeciv.in:3371
+#: client/gui-win32/connectdlg.c:1040 data/Freeciv.in:3371
 msgid "Pick Nation"
 msgstr "Vælg nation"
 
@@ -12676,41 +12676,41 @@ msgstr "_Tilslut til netværksspil"
 msgid "Connect to Gaming _Zone"
 msgstr "Tilslut til netværksspil"
 
-#: client/gui-gtk-2.0/pages.c:624 client/gui-win32/connectdlg.c:300
+#: client/gui-gtk-2.0/pages.c:624 client/gui-win32/connectdlg.c:302
 #: client/gui-xaw/connectdlg.c:326
 msgid "Passwords don't match, enter password."
 msgstr "Adgangskoder passer ikke, indtast adgangskode."
 
 #: client/gui-gtk-2.0/pages.c:779 client/gui-gtk-2.0/pages.c:820
-#: client/gui-win32/connectdlg.c:916
+#: client/gui-win32/connectdlg.c:918
 msgid "Server Name"
 msgstr "Servernavn"
 
 #: client/gui-gtk-2.0/pages.c:780 client/gui-gtk-2.0/pages.c:821
-#: client/gui-sdl/mapview.c:814 client/gui-win32/connectdlg.c:916
+#: client/gui-sdl/mapview.c:814 client/gui-win32/connectdlg.c:918
 #: data/Freeciv.in:96
 msgid "Port"
 msgstr "Port"
 
 #: client/gui-gtk-2.0/pages.c:781 client/gui-gtk-2.0/pages.c:822
-#: client/gui-win32/connectdlg.c:917
+#: client/gui-win32/connectdlg.c:919
 msgid "Version"
 msgstr "Version"
 
 #: client/gui-gtk-2.0/pages.c:782 client/gui-gtk-2.0/pages.c:823
-#: client/gui-gtk-2.0/pages.c:2163 client/gui-win32/connectdlg.c:917
-#: client/gui-win32/connectdlg.c:995
+#: client/gui-gtk-2.0/pages.c:2163 client/gui-win32/connectdlg.c:919
+#: client/gui-win32/connectdlg.c:997
 msgid "Status"
 msgstr "Status"
 
 #: client/gui-gtk-2.0/pages.c:783 client/gui-gtk-2.0/pages.c:824
 #: client/gui-sdl/connectdlg.c:318 client/gui-sdl/plrdlg.c:330
-#: client/gui-win32/connectdlg.c:917
+#: client/gui-win32/connectdlg.c:919
 msgid "Players"
 msgstr "Spillere"
 
 #: client/gui-gtk-2.0/pages.c:784 client/gui-gtk-2.0/pages.c:825
-#: client/gui-win32/connectdlg.c:918
+#: client/gui-win32/connectdlg.c:920
 msgid "Comment"
 msgstr "Kommentar"
 
@@ -12744,7 +12744,7 @@ msgstr "Bekræft adgangskode:"
 
 #: client/gui-gtk-2.0/pages.c:951 client/gui-gtk-2.0/pages.c:2165
 #: client/gui-gtk-2.0/repodlgs.c:634 client/gui-gtk-2.0/wldlg.c:1035
-#: client/gui-win32/citydlg.c:1083 client/gui-win32/connectdlg.c:1000
+#: client/gui-win32/citydlg.c:1083 client/gui-win32/connectdlg.c:1002
 #: client/gui-win32/wldlg.c:800 client/gui-win32/wldlg.c:806
 msgid "Type"
 msgstr "Type"
@@ -13245,7 +13245,7 @@ msgstr "Luk vindue (Esc)"
 msgid "Total users logged in : %d"
 msgstr "Total antal brugere logget ind : %d"
 
-#: client/gui-sdl/chatline.c:821 client/gui-win32/connectdlg.c:1096
+#: client/gui-sdl/chatline.c:821 client/gui-win32/connectdlg.c:1098
 msgid "Back"
 msgstr "Tilbage"
 
@@ -13254,7 +13254,7 @@ msgid "Start"
 msgstr "Start"
 
 #: client/gui-sdl/chatline.c:853 client/gui-sdl/pages.c:185
-#: client/gui-win32/connectdlg.c:777
+#: client/gui-win32/connectdlg.c:779
 msgid "Load Game"
 msgstr "Fortsæt et spil"
 
@@ -13296,7 +13296,7 @@ msgstr "Lav ny hjemby"
 #: client/gui-sdl/dialogs.c:452 client/gui-sdl/dialogs.c:2095
 #: client/gui-sdl/dialogs.c:2902 client/gui-sdl/diplomat_dialog.c:731
 #: client/gui-sdl/mapctrl.c:2585 client/gui-win32/citydlg.c:1075
-#: client/gui-win32/cityrep.c:753 client/gui-win32/connectdlg.c:1041
+#: client/gui-win32/cityrep.c:753 client/gui-win32/connectdlg.c:1043
 #: client/gui-win32/dialogs.c:1772 client/gui-win32/finddlg.c:127
 #: client/gui-win32/gotodlg.c:171 client/gui-win32/inputdlg.c:146
 #: client/gui-win32/messagedlg.c:216 client/gui-win32/ratesdlg.c:328
@@ -13660,7 +13660,7 @@ msgstr "Freeciv server :"
 msgid "Port :"
 msgstr "Port :"
 
-#: client/gui-sdl/connectdlg.c:609 client/gui-win32/connectdlg.c:1098
+#: client/gui-sdl/connectdlg.c:609 client/gui-win32/connectdlg.c:1100
 #: client/gui-win32/menu.c:379 data/Freeciv.in:104 data/Freeciv.in:2510
 msgid "Connect"
 msgstr "Tilslut"
@@ -14627,12 +14627,12 @@ msgid "Leave Game"
 msgstr "Forlad spil"
 
 #: client/gui-sdl/optiondlg.c:2302 client/gui-sdl/pages.c:255
-#: client/gui-win32/connectdlg.c:1100 client/gui-xaw/menu.c:121
+#: client/gui-win32/connectdlg.c:1102 client/gui-xaw/menu.c:121
 #: data/Freeciv.in:115 data/Freeciv.in:3180
 msgid "Quit"
 msgstr "Afslut"
 
-#: client/gui-sdl/pages.c:170 client/gui-win32/connectdlg.c:965
+#: client/gui-sdl/pages.c:170 client/gui-win32/connectdlg.c:967
 msgid "Start New Game"
 msgstr "Start nyt spil"
 
@@ -14749,8 +14749,8 @@ msgstr "Nettoindtægt: "
 msgid "%s max rate : %d%%"
 msgstr "%s maks niveau: %d%%"
 
-#: client/gui-sdl/repodlgs.c:1981 client/gui-win32/connectdlg.c:1083
-#: client/gui-win32/connectdlg.c:1091 data/Freeciv.in:155
+#: client/gui-sdl/repodlgs.c:1981 client/gui-win32/connectdlg.c:1085
+#: client/gui-win32/connectdlg.c:1093 data/Freeciv.in:155
 msgid "Update"
 msgstr "Opdatér"
 
@@ -15243,67 +15243,67 @@ msgstr "Ny"
 msgid "Delete"
 msgstr "Slet"
 
-#: client/gui-win32/connectdlg.c:147
+#: client/gui-win32/connectdlg.c:149
 msgid "Password:"
 msgstr "Adgangskode:"
 
-#: client/gui-win32/connectdlg.c:169
+#: client/gui-win32/connectdlg.c:171
 msgid "Couldn't load the savegame"
 msgstr "Kunne ikke indlæse det gemte spil"
 
-#: client/gui-win32/connectdlg.c:284 client/gui-xaw/connectdlg.c:311
+#: client/gui-win32/connectdlg.c:286 client/gui-xaw/connectdlg.c:311
 msgid "Verify Password"
 msgstr "Bekræft adgangskode"
 
-#: client/gui-win32/connectdlg.c:914 data/Freeciv.in:73
+#: client/gui-win32/connectdlg.c:916 data/Freeciv.in:73
 msgid "Freeciv Server Selection"
 msgstr "Freeciv-servervalg"
 
-#: client/gui-win32/connectdlg.c:915
+#: client/gui-win32/connectdlg.c:917
 msgid "Local Area Network"
 msgstr "Lokalnetværk"
 
-#: client/gui-win32/connectdlg.c:949
+#: client/gui-win32/connectdlg.c:951
 msgid "Welcome to Freeciv"
 msgstr "Velkommen til Freeciv"
 
-#: client/gui-win32/connectdlg.c:967
+#: client/gui-win32/connectdlg.c:969
 msgid "Load Saved Game"
 msgstr "Indlæs gemt spil"
 
-#: client/gui-win32/connectdlg.c:969
+#: client/gui-win32/connectdlg.c:971
 msgid "Connect To Network Game"
 msgstr "Tilslut til netværksspil"
 
-#: client/gui-win32/connectdlg.c:979
+#: client/gui-win32/connectdlg.c:981
 msgid "Choose a nation to play"
 msgstr "Vælg et folkeslag at spille:"
 
-#: client/gui-win32/connectdlg.c:1014
+#: client/gui-win32/connectdlg.c:1016
 msgid "Number of players (Including AI):"
 msgstr "Antal spillere (inklusiv AI):"
 
-#: client/gui-win32/connectdlg.c:1022
+#: client/gui-win32/connectdlg.c:1024
 msgid "AI skill level:"
 msgstr "AI-niveau:"
 
-#: client/gui-win32/connectdlg.c:1036 client/gui-win32/repodlgs.c:931
+#: client/gui-win32/connectdlg.c:1038 client/gui-win32/repodlgs.c:931
 msgid "Game Options"
 msgstr "Spilindstillinger"
 
-#: client/gui-win32/connectdlg.c:1040
+#: client/gui-win32/connectdlg.c:1042
 msgid "Start Game"
 msgstr "Start spil"
 
-#: client/gui-win32/connectdlg.c:1059
+#: client/gui-win32/connectdlg.c:1061
 msgid "Login:"
 msgstr "Bruger:"
 
-#: client/gui-win32/connectdlg.c:1061
+#: client/gui-win32/connectdlg.c:1063
 msgid "Host:"
 msgstr "Server:"
 
-#: client/gui-win32/connectdlg.c:1062
+#: client/gui-win32/connectdlg.c:1064
 msgid "Port:"
 msgstr "Port:"
 
