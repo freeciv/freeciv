@@ -1,98 +1,198 @@
-
 ------------------------------------------------------------------------
-r15604 | dmarks | 2009-03-25 08:07:13 +0900 (Wed, 25 Mar 2009) | 1 line
+r15604 | dmarks | 2009-03-25 00:07:13 +0100 (Wed, 25 Mar 2009) | 1 line
+Changed paths:
+   M /branches/S2_1/po/de.po
 
 Changes after running update-po
 ------------------------------------------------------------------------
-r15603 | chrisk | 2009-03-25 06:09:52 +0900 (Wed, 25 Mar 2009) | 2 lines
+r15603 | chrisk | 2009-03-24 22:09:52 +0100 (Tue, 24 Mar 2009) | 2 lines
+Changed paths:
+   M /branches/S2_1/po/de.po
 
 
 4330 translated messages.
 ------------------------------------------------------------------------
-r15601 | dmarks | 2009-03-24 22:11:57 +0900 (Tue, 24 Mar 2009) | 1 line
+r15601 | dmarks | 2009-03-24 14:11:57 +0100 (Tue, 24 Mar 2009) | 1 line
+Changed paths:
+   M /branches/S2_1/po/sv.po
 
-Fix grammatical oddness in Swedish translation. Patch by Erik Larsson <erik@kaldo.se> in PR#40622
+Fix grammatical oddness in Swedish translation. Patch by Erik Kaldo <erik@kaldo.se> in PR#40622
 ------------------------------------------------------------------------
-r15600 | chrisk | 2009-03-24 20:05:59 +0900 (Tue, 24 Mar 2009) | 2 lines
+r15600 | chrisk | 2009-03-24 12:05:59 +0100 (Tue, 24 Mar 2009) | 2 lines
+Changed paths:
+   M /branches/S2_1/po/de.po
 
 
 4330 translated messages.
 ------------------------------------------------------------------------
-r15599 | dmarks | 2009-03-24 09:31:07 +0900 (Tue, 24 Mar 2009) | 1 line
+r15599 | dmarks | 2009-03-24 01:31:07 +0100 (Tue, 24 Mar 2009) | 1 line
+Changed paths:
+   M /branches/S2_1/po/ar.po
+   M /branches/S2_1/po/ca.po
+   M /branches/S2_1/po/cs.po
+   M /branches/S2_1/po/da.po
+   M /branches/S2_1/po/de.po
+   M /branches/S2_1/po/el.po
+   M /branches/S2_1/po/en_GB.po
+   M /branches/S2_1/po/eo.po
+   M /branches/S2_1/po/es.po
+   M /branches/S2_1/po/et.po
+   M /branches/S2_1/po/fa.po
+   M /branches/S2_1/po/fi.po
+   M /branches/S2_1/po/fr.po
+   M /branches/S2_1/po/he.po
+   M /branches/S2_1/po/hu.po
+   M /branches/S2_1/po/it.po
+   M /branches/S2_1/po/ja.po
+   M /branches/S2_1/po/ko.po
+   M /branches/S2_1/po/lt.po
+   M /branches/S2_1/po/nl.po
+   M /branches/S2_1/po/no.po
+   M /branches/S2_1/po/pl.po
+   M /branches/S2_1/po/pt.po
+   M /branches/S2_1/po/pt_BR.po
+   M /branches/S2_1/po/ro.po
+   M /branches/S2_1/po/ru.po
+   M /branches/S2_1/po/sv.po
+   M /branches/S2_1/po/tr.po
+   M /branches/S2_1/po/uk.po
+   M /branches/S2_1/po/zh_CN.po
 
 Changes after running update-po
 ------------------------------------------------------------------------
-r15598 | jcreus | 2009-03-24 07:46:38 +0900 (Tue, 24 Mar 2009) | 1 line
+r15598 | jcreus | 2009-03-23 23:46:38 +0100 (Mon, 23 Mar 2009) | 1 line
+Changed paths:
+   M /branches/S2_1/po/ca.po
 
 4330 translated messages
 ------------------------------------------------------------------------
-r15596 | mbook | 2009-03-24 03:19:27 +0900 (Tue, 24 Mar 2009) | 4 lines
+r15596 | mbook | 2009-03-23 19:19:27 +0100 (Mon, 23 Mar 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/client/civclient.c
 
 Automatically update old metaserver address.
 
 See #40752
 
 ------------------------------------------------------------------------
-r15595 | dmarks | 2009-03-23 19:29:19 +0900 (Mon, 23 Mar 2009) | 1 line
+r15595 | dmarks | 2009-03-23 11:29:19 +0100 (Mon, 23 Mar 2009) | 1 line
+Changed paths:
+   M /branches/S2_1/po/ko.po
 
 Fix gettext error
 ------------------------------------------------------------------------
-r15594 | dmarks | 2009-03-22 19:19:02 +0900 (Sun, 22 Mar 2009) | 1 line
+r15594 | dmarks | 2009-03-22 11:19:02 +0100 (Sun, 22 Mar 2009) | 1 line
+Changed paths:
+   M /branches/S2_1/NEWS
 
 Update NEWS for 2.1.9
 ------------------------------------------------------------------------
-r15593 | dmarks | 2009-03-22 19:06:30 +0900 (Sun, 22 Mar 2009) | 1 line
+r15593 | dmarks | 2009-03-22 11:06:30 +0100 (Sun, 22 Mar 2009) | 1 line
+Changed paths:
+   M /branches/S2_1/po/en_GB.po
 
 77 translated messages, 4251 untranslated messages.
 ------------------------------------------------------------------------
-r15592 | dmarks | 2009-03-22 18:58:31 +0900 (Sun, 22 Mar 2009) | 1 line
+r15592 | dmarks | 2009-03-22 10:58:31 +0100 (Sun, 22 Mar 2009) | 1 line
+Changed paths:
+   M /branches/S2_1/po/ko.po
 
 2503 translated messages, 1825 untranslated messages.
 ------------------------------------------------------------------------
-r15591 | dmarks | 2009-03-22 18:42:17 +0900 (Sun, 22 Mar 2009) | 1 line
+r15591 | dmarks | 2009-03-22 10:42:17 +0100 (Sun, 22 Mar 2009) | 1 line
+Changed paths:
+   M /branches/S2_1/po/ko.po
 
 2501 translated messages, 1827 untranslated messages.
 ------------------------------------------------------------------------
-r15590 | dmarks | 2009-03-22 18:22:44 +0900 (Sun, 22 Mar 2009) | 1 line
+r15590 | dmarks | 2009-03-22 10:22:44 +0100 (Sun, 22 Mar 2009) | 1 line
+Changed paths:
+   M /branches/S2_1/po/ar.po
+   M /branches/S2_1/po/ca.po
+   M /branches/S2_1/po/cs.po
+   M /branches/S2_1/po/da.po
+   M /branches/S2_1/po/de.po
+   M /branches/S2_1/po/el.po
+   M /branches/S2_1/po/en_GB.po
+   M /branches/S2_1/po/eo.po
+   M /branches/S2_1/po/es.po
+   M /branches/S2_1/po/et.po
+   M /branches/S2_1/po/fa.po
+   M /branches/S2_1/po/fi.po
+   M /branches/S2_1/po/fr.po
+   M /branches/S2_1/po/he.po
+   M /branches/S2_1/po/hu.po
+   M /branches/S2_1/po/it.po
+   M /branches/S2_1/po/ja.po
+   M /branches/S2_1/po/ko.po
+   M /branches/S2_1/po/lt.po
+   M /branches/S2_1/po/nl.po
+   M /branches/S2_1/po/no.po
+   M /branches/S2_1/po/pl.po
+   M /branches/S2_1/po/pt.po
+   M /branches/S2_1/po/pt_BR.po
+   M /branches/S2_1/po/ro.po
+   M /branches/S2_1/po/ru.po
+   M /branches/S2_1/po/sv.po
+   M /branches/S2_1/po/tr.po
+   M /branches/S2_1/po/uk.po
+   M /branches/S2_1/po/zh_CN.po
 
 Changes after running update-po
 ------------------------------------------------------------------------
-r15589 | dmarks | 2009-03-22 16:06:52 +0900 (Sun, 22 Mar 2009) | 1 line
+r15589 | dmarks | 2009-03-22 08:06:52 +0100 (Sun, 22 Mar 2009) | 1 line
+Changed paths:
+   M /branches/S2_1/po/ko.po
 
 2494 translated messages, 1834 untranslated messages.
 ------------------------------------------------------------------------
-r15587 | mbook | 2009-03-22 12:24:59 +0900 (Sun, 22 Mar 2009) | 4 lines
+r15587 | mbook | 2009-03-22 04:24:59 +0100 (Sun, 22 Mar 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/client/servers.h
+   M /branches/S2_1/server/meta.h
 
 Use cazfi.net metaserver as the default.
 
 See #40752
 
 ------------------------------------------------------------------------
-r15586 | dmarks | 2009-03-22 12:15:51 +0900 (Sun, 22 Mar 2009) | 1 line
+r15586 | dmarks | 2009-03-22 04:15:51 +0100 (Sun, 22 Mar 2009) | 1 line
+Changed paths:
+   M /branches/S2_1/po/ko.po
 
 Straighten out some fuzzies in Korean translation.
 ------------------------------------------------------------------------
-r15584 | chrisk | 2009-03-20 21:37:19 +0900 (Fri, 20 Mar 2009) | 2 lines
+r15584 | chrisk | 2009-03-20 13:37:19 +0100 (Fri, 20 Mar 2009) | 2 lines
+Changed paths:
+   M /branches/S2_1/po/de.po
 
 city report headers, waste is Verschwendung
 4328 translated messages.
 ------------------------------------------------------------------------
-r15583 | chrisk | 2009-03-18 20:39:39 +0900 (Wed, 18 Mar 2009) | 2 lines
+r15583 | chrisk | 2009-03-18 12:39:39 +0100 (Wed, 18 Mar 2009) | 2 lines
+Changed paths:
+   M /branches/S2_1/po/de.po
 
 Tried to get the shortcuts right
 4328 translated messages.
 ------------------------------------------------------------------------
-r15582 | chrisk | 2009-03-17 22:19:32 +0900 (Tue, 17 Mar 2009) | 2 lines
+r15582 | chrisk | 2009-03-17 14:19:32 +0100 (Tue, 17 Mar 2009) | 2 lines
+Changed paths:
+   M /branches/S2_1/po/de.po
 
 
 4328 translated messages.
 ------------------------------------------------------------------------
-r15580 | chrisk | 2009-03-17 04:28:13 +0900 (Tue, 17 Mar 2009) | 2 lines
+r15580 | chrisk | 2009-03-16 20:28:13 +0100 (Mon, 16 Mar 2009) | 2 lines
+Changed paths:
+   M /branches/S2_1/po/de.po
 
 
 4316 translated messages, 7 fuzzy translations, 5 untranslated messages.
 ------------------------------------------------------------------------
-r15578 | mbook | 2009-03-16 08:58:27 +0900 (Mon, 16 Mar 2009) | 6 lines
+r15578 | mbook | 2009-03-16 00:58:27 +0100 (Mon, 16 Mar 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/gui_main.c
 
 Work around crash due to missing NULL pointer check in gtk notebook code.
 
@@ -101,7 +201,9 @@ See #40743
 Reported by: Brendon Oram <bjoram@gmail.com>
 
 ------------------------------------------------------------------------
-r15576 | mbook | 2009-03-16 08:33:28 +0900 (Mon, 16 Mar 2009) | 6 lines
+r15576 | mbook | 2009-03-16 00:33:28 +0100 (Mon, 16 Mar 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/common/unit.c
 
 Fix data type bug causing unit power factor to lose precision.
 
@@ -110,26 +212,38 @@ See #40746
 Reported by: kevin in Korea <kevin.in.korea@gmail.com>
 
 ------------------------------------------------------------------------
-r15575 | cazfi | 2009-03-10 00:54:34 +0900 (Tue, 10 Mar 2009) | 2 lines
+r15575 | cazfi | 2009-03-09 16:54:34 +0100 (Mon, 09 Mar 2009) | 2 lines
+Changed paths:
+   M /branches/S2_1/po/da.po
 
 Updated translation by Joe Dalton
 
 ------------------------------------------------------------------------
-r15574 | cazfi | 2009-03-09 03:42:13 +0900 (Mon, 09 Mar 2009) | 2 lines
+r15574 | cazfi | 2009-03-08 19:42:13 +0100 (Sun, 08 Mar 2009) | 2 lines
+Changed paths:
+   M /branches/S2_1/po/da.po
 
 Updated translation by Joe Dalton
 
 ------------------------------------------------------------------------
-r15570 | jcreus | 2009-03-08 03:20:38 +0900 (Sun, 08 Mar 2009) | 1 line
+r15570 | jcreus | 2009-03-07 19:20:38 +0100 (Sat, 07 Mar 2009) | 1 line
+Changed paths:
+   M /branches/S2_1/po/ca.po
 
 4328 messages
 ------------------------------------------------------------------------
-r15568 | cazfi | 2009-03-06 23:25:30 +0900 (Fri, 06 Mar 2009) | 2 lines
+r15568 | cazfi | 2009-03-06 15:25:30 +0100 (Fri, 06 Mar 2009) | 2 lines
+Changed paths:
+   M /branches/S2_1/po/fi.po
 
 Updated translation by Sini Ruohomaa.
 
 ------------------------------------------------------------------------
-r15566 | mbook | 2009-03-04 07:59:28 +0900 (Wed, 04 Mar 2009) | 20 lines
+r15566 | mbook | 2009-03-03 23:59:28 +0100 (Tue, 03 Mar 2009) | 20 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/gui_main.c
+   M /branches/S2_1/client/gui-gtk-2.0/pages.c
+   M /branches/S2_1/client/gui-gtk-2.0/plrdlg.c
 
 Rearrange widget layout to fit on an 800x600 display.
 
@@ -152,7 +266,9 @@ Requested by:
   Vadim Peretokin <vperetokin@gmail.com>
 
 ------------------------------------------------------------------------
-r15564 | mbook | 2009-03-04 07:41:50 +0900 (Wed, 04 Mar 2009) | 8 lines
+r15564 | mbook | 2009-03-03 23:41:50 +0100 (Tue, 03 Mar 2009) | 8 lines
+Changed paths:
+   M /branches/S2_1/client/climisc.c
 
 Sort small wonders separately in production lists.
 
@@ -163,7 +279,9 @@ Sort small wonders separately in production lists.
 See #40740
 
 ------------------------------------------------------------------------
-r15562 | mbook | 2009-03-04 07:36:36 +0900 (Wed, 04 Mar 2009) | 15 lines
+r15562 | mbook | 2009-03-03 23:36:36 +0100 (Tue, 03 Mar 2009) | 15 lines
+Changed paths:
+   M /branches/S2_1/client/text.c
 
 Improved popit info text.
 
@@ -181,7 +299,12 @@ See #40488
 Requested by: Tomasz Niemcewicz <niemcewiczt@gmail.com>
 
 ------------------------------------------------------------------------
-r15560 | mbook | 2009-03-04 07:26:24 +0900 (Wed, 04 Mar 2009) | 6 lines
+r15560 | mbook | 2009-03-03 23:26:24 +0100 (Tue, 03 Mar 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/chatline.c
+   M /branches/S2_1/client/gui-gtk-2.0/gui_main.c
+   M /branches/S2_1/client/gui-gtk-2.0/gui_main.h
+   M /branches/S2_1/client/gui-gtk-2.0/pages.c
 
 Multiplayer allies-only chat toggle button and option.
 
@@ -190,7 +313,9 @@ See #40487
 Requested by: Tomasz Niemcewicz <niemcewiczt@gmail.com>
 
 ------------------------------------------------------------------------
-r15557 | cazfi | 2009-03-02 02:35:28 +0900 (Mon, 02 Mar 2009) | 5 lines
+r15557 | cazfi | 2009-03-01 18:35:28 +0100 (Sun, 01 Mar 2009) | 5 lines
+Changed paths:
+   M /branches/S2_1/common/aicore/cm.c
 
 Workaround for gcc optimization bug causing server to crash immediately
 when new city is founded.
@@ -198,36 +323,48 @@ when new city is founded.
 Reported by many in #40610
 
 ------------------------------------------------------------------------
-r15555 | cazfi | 2009-03-02 02:28:50 +0900 (Mon, 02 Mar 2009) | 2 lines
+r15555 | cazfi | 2009-03-01 18:28:50 +0100 (Sun, 01 Mar 2009) | 2 lines
+Changed paths:
+   M /branches/S2_1/po/da.po
 
 Updated translation by Joe Dalton.
 
 ------------------------------------------------------------------------
-r15553 | cproc | 2009-03-01 07:37:27 +0900 (Sun, 01 Mar 2009) | 3 lines
+r15553 | cproc | 2009-02-28 23:37:27 +0100 (Sat, 28 Feb 2009) | 3 lines
+Changed paths:
+   M /branches/S2_1/autogen.sh
 
 add a "--no-configure-run" option to autogen.sh
 
 See PR#40739.
 ------------------------------------------------------------------------
-r15550 | elmo | 2009-02-27 07:04:15 +0900 (Fri, 27 Feb 2009) | 1 line
+r15550 | elmo | 2009-02-26 23:04:15 +0100 (Thu, 26 Feb 2009) | 1 line
+Changed paths:
+   M /branches/S2_1/po/et.po
 
 Some new translations, some fixes to oddites
 ------------------------------------------------------------------------
-r15548 | mbook | 2009-02-26 12:23:39 +0900 (Thu, 26 Feb 2009) | 4 lines
+r15548 | mbook | 2009-02-26 04:23:39 +0100 (Thu, 26 Feb 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/pages.c
 
 Fix missing Q_() for qualified column name.
 
 See #40738
 
 ------------------------------------------------------------------------
-r15545 | cazfi | 2009-02-25 01:35:44 +0900 (Wed, 25 Feb 2009) | 4 lines
+r15545 | cazfi | 2009-02-24 17:35:44 +0100 (Tue, 24 Feb 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/client/gui-xaw/connectdlg.c
 
 Fixed compiler warnings.
 
 See #40736
 
 ------------------------------------------------------------------------
-r15542 | mbook | 2009-02-23 06:56:48 +0900 (Mon, 23 Feb 2009) | 6 lines
+r15542 | mbook | 2009-02-22 22:56:48 +0100 (Sun, 22 Feb 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/messagewin.c
 
 Avoid gtk warning due to focusing unrealized treeview.
 
@@ -236,7 +373,9 @@ See #40731
 Reported by: Marko Lindqvist <cazfi74@gmail.com>
 
 ------------------------------------------------------------------------
-r15541 | cazfi | 2009-02-23 03:01:50 +0900 (Mon, 23 Feb 2009) | 5 lines
+r15541 | cazfi | 2009-02-22 19:01:50 +0100 (Sun, 22 Feb 2009) | 5 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/chatline.c
 
 Use localtime() instead of localtime_r() since latter does not exist on all
 supported platforms (MinGW).
@@ -244,7 +383,12 @@ supported platforms (MinGW).
 See #40726
 
 ------------------------------------------------------------------------
-r15538 | mbook | 2009-02-22 09:03:26 +0900 (Sun, 22 Feb 2009) | 19 lines
+r15538 | mbook | 2009-02-22 01:03:26 +0100 (Sun, 22 Feb 2009) | 19 lines
+Changed paths:
+   M /branches/S2_1/client/control.c
+   M /branches/S2_1/client/control.h
+   M /branches/S2_1/client/gui-gtk-2.0/menu.c
+   M /branches/S2_1/client/gui-xaw/menu.c
 
 Improved mass unit selection.
 
@@ -266,7 +410,9 @@ Improved mass unit selection.
 See #40727
 
 ------------------------------------------------------------------------
-r15536 | mbook | 2009-02-22 08:46:13 +0900 (Sun, 22 Feb 2009) | 7 lines
+r15536 | mbook | 2009-02-22 00:46:13 +0100 (Sun, 22 Feb 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/cityrep.c
 
 City report "Add 2nd Last" production menu item.
 
@@ -276,7 +422,9 @@ Suggested by guest Carstairs in the wishlist forum:
 http://forum.freeciv.org/viewtopic.php?t=5797
 
 ------------------------------------------------------------------------
-r15534 | mbook | 2009-02-22 08:41:23 +0900 (Sun, 22 Feb 2009) | 7 lines
+r15534 | mbook | 2009-02-22 00:41:23 +0100 (Sun, 22 Feb 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/cityrep.c
 
 Added set and append worklist menu items to the city report.
 
@@ -286,37 +434,55 @@ Suggested by guest Carstairs in the wishlist forum:
 http://forum.freeciv.org/viewtopic.php?t=5797
 
 ------------------------------------------------------------------------
-r15532 | mbook | 2009-02-22 08:35:23 +0900 (Sun, 22 Feb 2009) | 4 lines
+r15532 | mbook | 2009-02-22 00:35:23 +0100 (Sun, 22 Feb 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/client/options.c
+   M /branches/S2_1/client/options.h
+   M /branches/S2_1/client/packhand.c
 
 Option to disable caravan popup.
 
 See #40730
 
 ------------------------------------------------------------------------
-r15530 | mbook | 2009-02-22 08:24:42 +0900 (Sun, 22 Feb 2009) | 6 lines
+r15530 | mbook | 2009-02-22 00:24:42 +0100 (Sun, 22 Feb 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/pages.c
+   M /branches/S2_1/data/default/units.ruleset
+   M /branches/S2_1/data/nation/slovakian.ruleset
 
 Fix "leader" translation ambiguity.
 
 See #40725
 
-Reported by: Susanna Bj?\195?\182rverud <susanna.bjorverud@telia.com>
+Reported by: Susanna Björverud <susanna.bjorverud@telia.com>
 
 ------------------------------------------------------------------------
-r15528 | mbook | 2009-02-22 08:20:22 +0900 (Sun, 22 Feb 2009) | 4 lines
+r15528 | mbook | 2009-02-22 00:20:22 +0100 (Sun, 22 Feb 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/cityrep.c
 
 Clear worklist menu item in the city report.
 
 See #40723
 
 ------------------------------------------------------------------------
-r15526 | mbook | 2009-02-22 08:16:34 +0900 (Sun, 22 Feb 2009) | 4 lines
+r15526 | mbook | 2009-02-22 00:16:34 +0100 (Sun, 22 Feb 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/gui_main.c
+   M /branches/S2_1/client/gui-gtk-2.0/gui_main.h
+   M /branches/S2_1/client/gui-gtk-2.0/messagewin.c
 
 Option to hide message window buttons.
 
 See #40733
 
 ------------------------------------------------------------------------
-r15524 | mbook | 2009-02-22 08:08:30 +0900 (Sun, 22 Feb 2009) | 11 lines
+r15524 | mbook | 2009-02-22 00:08:30 +0100 (Sun, 22 Feb 2009) | 11 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/gui_main.c
+   M /branches/S2_1/client/gui-gtk-2.0/gui_main.h
+   M /branches/S2_1/client/gui-gtk-2.0/messagewin.c
 
 Option to have new events appear at the top of the message window.
 
@@ -330,14 +496,22 @@ Option to have new events appear at the top of the message window.
 See #40718
 
 ------------------------------------------------------------------------
-r15522 | mbook | 2009-02-22 07:17:28 +0900 (Sun, 22 Feb 2009) | 4 lines
+r15522 | mbook | 2009-02-21 23:17:28 +0100 (Sat, 21 Feb 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/gui_main.c
+   M /branches/S2_1/client/gui-gtk-2.0/gui_main.h
+   M /branches/S2_1/client/gui-gtk-2.0/pages.c
 
 Option to have the metaserver tab appear first in the network page.
 
 See #40701
 
 ------------------------------------------------------------------------
-r15520 | mbook | 2009-02-22 06:16:03 +0900 (Sun, 22 Feb 2009) | 7 lines
+r15520 | mbook | 2009-02-21 22:16:03 +0100 (Sat, 21 Feb 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/gui_main.c
+   M /branches/S2_1/client/gui-gtk-2.0/gui_main.h
+   M /branches/S2_1/client/gui-gtk-2.0/messagewin.c
 
 Option to split the lower area into two notebooks.
 
@@ -347,7 +521,10 @@ Option to split the lower area into two notebooks.
 See #40705
 
 ------------------------------------------------------------------------
-r15518 | mbook | 2009-02-22 06:08:41 +0900 (Sun, 22 Feb 2009) | 9 lines
+r15518 | mbook | 2009-02-21 22:08:41 +0100 (Sat, 21 Feb 2009) | 9 lines
+Changed paths:
+   M /branches/S2_1/client/cityrepdata.c
+   M /branches/S2_1/client/gui-gtk-2.0/cityrep.c
 
 Revert city report column ordering changes of r12989.
 
@@ -359,7 +536,13 @@ Revert city report column ordering changes of r12989.
 See #40680
 
 ------------------------------------------------------------------------
-r15516 | mbook | 2009-02-20 14:08:25 +0900 (Fri, 20 Feb 2009) | 9 lines
+r15516 | mbook | 2009-02-20 06:08:25 +0100 (Fri, 20 Feb 2009) | 9 lines
+Changed paths:
+   M /branches/S2_1/client/control.c
+   M /branches/S2_1/client/control.h
+   M /branches/S2_1/client/goto.c
+   M /branches/S2_1/client/options.c
+   M /branches/S2_1/client/options.h
 
 Option to not clear unit orders on selection.
 
@@ -371,14 +554,21 @@ Option to not clear unit orders on selection.
 See #40724
 
 ------------------------------------------------------------------------
-r15514 | mbook | 2009-02-20 11:03:49 +0900 (Fri, 20 Feb 2009) | 4 lines
+r15514 | mbook | 2009-02-20 03:03:49 +0100 (Fri, 20 Feb 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/pages.c
 
 Focus chat entry when switching to the start/pregame page.
 
 See #40722
 
 ------------------------------------------------------------------------
-r15512 | mbook | 2009-02-20 10:56:26 +0900 (Fri, 20 Feb 2009) | 8 lines
+r15512 | mbook | 2009-02-20 02:56:26 +0100 (Fri, 20 Feb 2009) | 8 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/chatline.c
+   M /branches/S2_1/client/gui-gtk-2.0/chatline.h
+   M /branches/S2_1/client/gui-gtk-2.0/gui_main.c
+   M /branches/S2_1/client/gui-gtk-2.0/pages.c
 
 Improved automatic chatline scrolling.
 
@@ -389,14 +579,25 @@ Improved automatic chatline scrolling.
 See #40721
 
 ------------------------------------------------------------------------
-r15510 | mbook | 2009-02-20 10:46:06 +0900 (Fri, 20 Feb 2009) | 4 lines
+r15510 | mbook | 2009-02-20 02:46:06 +0100 (Fri, 20 Feb 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/messagewin.c
 
 Right click on message window row centers on event tile.
 
 See #40719
 
 ------------------------------------------------------------------------
-r15508 | mbook | 2009-02-20 10:35:01 +0900 (Fri, 20 Feb 2009) | 12 lines
+r15508 | mbook | 2009-02-20 02:35:01 +0100 (Fri, 20 Feb 2009) | 12 lines
+Changed paths:
+   M /branches/S2_1/client/goto.c
+   M /branches/S2_1/client/goto.h
+   M /branches/S2_1/client/gui-gtk-2.0/mapctrl.c
+   M /branches/S2_1/client/mapctrl_common.c
+   M /branches/S2_1/client/mapview_common.c
+   M /branches/S2_1/client/mapview_common.h
+   M /branches/S2_1/client/packhand.c
+   M /branches/S2_1/client/tilespec.c
 
 Map decoration drawing speedup and cleanup.
 
@@ -411,18 +612,34 @@ Map decoration drawing speedup and cleanup.
 See #40717
 
 ------------------------------------------------------------------------
-r15507 | mbook | 2009-02-20 10:17:20 +0900 (Fri, 20 Feb 2009) | 4 lines
+r15507 | mbook | 2009-02-20 02:17:20 +0100 (Fri, 20 Feb 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/utility/Makefile.am
+   M /branches/S2_1/utility/hash.c
+   M /branches/S2_1/utility/hash.h
+   A /branches/S2_1/utility/iterator.h
 
 Backport generic iterator interface and improved hash table iteration from trunk.
 
 See #40716
 
 ------------------------------------------------------------------------
-r15506 | jcreus | 2009-02-19 08:22:13 +0900 (Thu, 19 Feb 2009) | 1 line
+r15506 | jcreus | 2009-02-19 00:22:13 +0100 (Thu, 19 Feb 2009) | 1 line
+Changed paths:
+   M /branches/S2_1/po/ca.po
 
 Updating Catalan translation
 ------------------------------------------------------------------------
-r15504 | mbook | 2009-02-18 13:31:03 +0900 (Wed, 18 Feb 2009) | 13 lines
+r15504 | mbook | 2009-02-18 05:31:03 +0100 (Wed, 18 Feb 2009) | 13 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/gui_stuff.c
+   M /branches/S2_1/client/gui-gtk-2.0/gui_stuff.h
+   M /branches/S2_1/client/gui-gtk-2.0/pages.c
+   M /branches/S2_1/client/gui-sdl/connectdlg.c
+   M /branches/S2_1/client/gui-win32/connectdlg.c
+   M /branches/S2_1/client/gui-xaw/connectdlg.c
+   M /branches/S2_1/client/servers.c
+   M /branches/S2_1/client/servers.h
 
 Server player list addition and server scan cleanup.
 
@@ -438,7 +655,11 @@ Server player list addition and server scan cleanup.
 See #40707
 
 ------------------------------------------------------------------------
-r15502 | mbook | 2009-02-18 13:13:41 +0900 (Wed, 18 Feb 2009) | 7 lines
+r15502 | mbook | 2009-02-18 05:13:41 +0100 (Wed, 18 Feb 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/client/climisc.c
+   M /branches/S2_1/client/climisc.h
+   M /branches/S2_1/client/gui-gtk-2.0/gui_main.c
 
 Buy city production directly from mapview.
 
@@ -448,14 +669,23 @@ Buy city production directly from mapview.
 See #40704
 
 ------------------------------------------------------------------------
-r15500 | mbook | 2009-02-18 13:05:31 +0900 (Wed, 18 Feb 2009) | 4 lines
+r15500 | mbook | 2009-02-18 05:05:31 +0100 (Wed, 18 Feb 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/client/control.c
+   M /branches/S2_1/client/control.h
+   M /branches/S2_1/client/gui-gtk-2.0/menu.c
+   M /branches/S2_1/client/mapview_common.c
+   M /branches/S2_1/client/options.c
+   M /branches/S2_1/client/options.h
 
 Option to show production buy cost in the city description.
 
 See #40702
 
 ------------------------------------------------------------------------
-r15498 | mbook | 2009-02-18 12:20:26 +0900 (Wed, 18 Feb 2009) | 7 lines
+r15498 | mbook | 2009-02-18 04:20:26 +0100 (Wed, 18 Feb 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/client/cityrepdata.c
 
 Revert city report concise status symbols changes.
 
@@ -465,7 +695,13 @@ Revert city report concise status symbols changes.
 See #40700
 
 ------------------------------------------------------------------------
-r15496 | mbook | 2009-02-18 11:26:17 +0900 (Wed, 18 Feb 2009) | 8 lines
+r15496 | mbook | 2009-02-18 03:26:17 +0100 (Wed, 18 Feb 2009) | 8 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/gui_main.c
+   M /branches/S2_1/client/gui-gtk-2.0/gui_main.h
+   M /branches/S2_1/client/gui-gtk-2.0/mapview.c
+   M /branches/S2_1/client/mapctrl_common.c
+   M /branches/S2_1/client/mapview_common.c
 
 Use XOR drawing operation for selection rectangle.
 
@@ -476,7 +712,14 @@ Use XOR drawing operation for selection rectangle.
 See #40646
 
 ------------------------------------------------------------------------
-r15485 | mbook | 2009-02-16 09:18:21 +0900 (Mon, 16 Feb 2009) | 6 lines
+r15485 | mbook | 2009-02-16 01:18:21 +0100 (Mon, 16 Feb 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/data/nation/armenian.ruleset
+   M /branches/S2_1/data/nation/illyrian.ruleset
+   M /branches/S2_1/data/nation/malian.ruleset
+   M /branches/S2_1/data/nation/mayan.ruleset
+   M /branches/S2_1/data/nation/soviet.ruleset
+   M /branches/S2_1/data/nation/westphalian.ruleset
 
 Minor fixes and improvements in nation legend texts.
 
@@ -485,7 +728,12 @@ See #40694
 Reported by: Sini Ruohomaa <sini.ruohomaa@cs.helsinki.fi>
 
 ------------------------------------------------------------------------
-r15484 | mbook | 2009-02-16 09:18:18 +0900 (Mon, 16 Feb 2009) | 10 lines
+r15484 | mbook | 2009-02-16 01:18:18 +0100 (Mon, 16 Feb 2009) | 10 lines
+Changed paths:
+   M /branches/S2_1/server/diplomats.c
+   M /branches/S2_1/server/unithand.c
+   M /branches/S2_1/server/unittools.c
+   M /branches/S2_1/server/unittools.h
 
 Fix veteran notify message grammar.
 
@@ -498,7 +746,10 @@ See #40693
 Reported by: Sini Ruohomaa <sini.ruohomaa@cs.helsinki.fi>
 
 ------------------------------------------------------------------------
-r15483 | mbook | 2009-02-16 09:18:15 +0900 (Mon, 16 Feb 2009) | 6 lines
+r15483 | mbook | 2009-02-16 01:18:15 +0100 (Mon, 16 Feb 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/client/gui-sdl/graphics.c
+   M /branches/S2_1/client/gui-sdl/gui_string.c
 
 Fix typo and unused code in SDL strings.
 
@@ -507,7 +758,10 @@ See #40691
 Reported by: Sini Ruohomaa <sini.ruohomaa@cs.helsinki.fi>
 
 ------------------------------------------------------------------------
-r15482 | mbook | 2009-02-16 09:18:12 +0900 (Mon, 16 Feb 2009) | 6 lines
+r15482 | mbook | 2009-02-16 01:18:12 +0100 (Mon, 16 Feb 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/client/text.c
+   M /branches/S2_1/server/report.c
 
 Fix "<government> of the <nation>" constructs.
 
@@ -516,7 +770,9 @@ See #40689
 Reported by: Sini Ruohomaa <sini.ruohomaa@cs.helsinki.fi>
 
 ------------------------------------------------------------------------
-r15481 | mbook | 2009-02-16 09:18:10 +0900 (Mon, 16 Feb 2009) | 6 lines
+r15481 | mbook | 2009-02-16 01:18:10 +0100 (Mon, 16 Feb 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/server/unittools.c
 
 Fix and improve gold upkeep disband message.
 
@@ -525,7 +781,9 @@ See #40687
 Reported by: Sini Ruohomaa <sini.ruohomaa@cs.helsinki.fi>
 
 ------------------------------------------------------------------------
-r15480 | mbook | 2009-02-16 09:18:07 +0900 (Mon, 16 Feb 2009) | 6 lines
+r15480 | mbook | 2009-02-16 01:18:07 +0100 (Mon, 16 Feb 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/server/savegame.c
 
 Do not translate internal game loading error message.
 
@@ -534,7 +792,9 @@ See #40690
 Reported by: Sini Ruohomaa <sini.ruohomaa@cs.helsinki.fi>
 
 ------------------------------------------------------------------------
-r15479 | mbook | 2009-02-16 09:18:05 +0900 (Mon, 16 Feb 2009) | 6 lines
+r15479 | mbook | 2009-02-16 01:18:05 +0100 (Mon, 16 Feb 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/data/scenario/tutorial.sav
 
 Fix typos in tutorial scenario.
 
@@ -543,14 +803,20 @@ See #40699
 Reported by: Sini Ruohomaa <sini.ruohomaa@cs.helsinki.fi>
 
 ------------------------------------------------------------------------
-r15478 | mbook | 2009-02-16 09:18:02 +0900 (Mon, 16 Feb 2009) | 4 lines
+r15478 | mbook | 2009-02-16 01:18:02 +0100 (Mon, 16 Feb 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/mapview.c
 
 Capitalize first letter of civilization frame label.
 
 See #40692
 
 ------------------------------------------------------------------------
-r15477 | mbook | 2009-02-16 09:18:00 +0900 (Mon, 16 Feb 2009) | 6 lines
+r15477 | mbook | 2009-02-16 01:18:00 +0100 (Mon, 16 Feb 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/client/cityrepdata.c
+   M /branches/S2_1/client/gui-xaw/citydlg.c
+   M /branches/S2_1/data/default/units.ruleset
 
 Fix "workers" translation ambiguity.
 
@@ -559,7 +825,9 @@ See #40684
 Reported by: Sini Ruohomaa <sini.ruohomaa@cs.helsinki.fi>
 
 ------------------------------------------------------------------------
-r15476 | mbook | 2009-02-16 09:17:57 +0900 (Mon, 16 Feb 2009) | 6 lines
+r15476 | mbook | 2009-02-16 01:17:57 +0100 (Mon, 16 Feb 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/client/text.c
 
 Fix sentence fragments in text_happiness_units().
 
@@ -568,7 +836,9 @@ See #40685
 Reported by: Sini Ruohomaa <sini.ruohomaa@cs.helsinki.fi>
 
 ------------------------------------------------------------------------
-r15475 | mbook | 2009-02-16 09:17:54 +0900 (Mon, 16 Feb 2009) | 6 lines
+r15475 | mbook | 2009-02-16 01:17:54 +0100 (Mon, 16 Feb 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/data/helpdata.txt
 
 Fix typo and awkward phrasing in diplomacy help text.
 
@@ -577,7 +847,9 @@ See #40686
 Reported by: Sini Ruohomaa <sini.ruohomaa@cs.helsinki.fi>
 
 ------------------------------------------------------------------------
-r15474 | mbook | 2009-02-16 09:17:50 +0900 (Mon, 16 Feb 2009) | 6 lines
+r15474 | mbook | 2009-02-16 01:17:50 +0100 (Mon, 16 Feb 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/server/plrhand.c
 
 Fix civil war message grammar.
 
@@ -586,35 +858,51 @@ See #40688
 Reported by: Sini Ruohomaa <sini.ruohomaa@cs.helsinki.fi>
 
 ------------------------------------------------------------------------
-r15471 | mbook | 2009-02-16 04:18:31 +0900 (Mon, 16 Feb 2009) | 4 lines
+r15471 | mbook | 2009-02-15 20:18:31 +0100 (Sun, 15 Feb 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/server/settings.c
+   M /branches/S2_1/server/srv_main.c
 
 Improved autogenerated savename with turn number.
 
 See #40681
 
 ------------------------------------------------------------------------
-r15468 | mbook | 2009-02-10 13:10:43 +0900 (Tue, 10 Feb 2009) | 4 lines
+r15468 | mbook | 2009-02-10 05:10:43 +0100 (Tue, 10 Feb 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/client/mapctrl_common.c
+   M /branches/S2_1/client/options.c
+   M /branches/S2_1/client/options.h
 
 Option to select cities before units with the selection rectangle.
 
 See #40703
 
 ------------------------------------------------------------------------
-r15466 | mbook | 2009-02-10 12:52:32 +0900 (Tue, 10 Feb 2009) | 4 lines
+r15466 | mbook | 2009-02-10 04:52:32 +0100 (Tue, 10 Feb 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/chatline.c
+   M /branches/S2_1/client/gui-gtk-2.0/gui_main.c
+   M /branches/S2_1/client/gui-gtk-2.0/gui_main.h
 
 Option to prefix chat messages with the current time.
 
 See #40706
 
 ------------------------------------------------------------------------
-r15465 | mbook | 2009-02-10 12:19:36 +0900 (Tue, 10 Feb 2009) | 4 lines
+r15465 | mbook | 2009-02-10 04:19:36 +0100 (Tue, 10 Feb 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/mapctrl.c
+   M /branches/S2_1/client/mapctrl_common.c
 
 Fix unit selection append feature I previously broke.
 
 See #40698
 
 ------------------------------------------------------------------------
-r15464 | mbook | 2009-02-10 12:15:17 +0900 (Tue, 10 Feb 2009) | 6 lines
+r15464 | mbook | 2009-02-10 04:15:17 +0100 (Tue, 10 Feb 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/cityrep.c
 
 S2_1 port of the total buy cost label update bug fix.
 
@@ -623,7 +911,9 @@ See #40695
 Reported by: Christian Knoke <chrisk@cknoke.de>
 
 ------------------------------------------------------------------------
-r15462 | mbook | 2009-02-08 03:46:45 +0900 (Sun, 08 Feb 2009) | 6 lines
+r15462 | mbook | 2009-02-07 19:46:45 +0100 (Sat, 07 Feb 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/client/goto.c
 
 Fix assertion failure when doing irrigation-connect on a mine.
 
@@ -632,12 +922,21 @@ See #40676
 Reported By: Ann Barcomb <ann@domaintje.com>
 
 ------------------------------------------------------------------------
-r15460 | cazfi | 2009-02-04 05:14:13 +0900 (Wed, 04 Feb 2009) | 2 lines
+r15460 | cazfi | 2009-02-03 21:14:13 +0100 (Tue, 03 Feb 2009) | 2 lines
+Changed paths:
+   M /branches/S2_1/po/fi.po
 
 Updated translation by Sini Ruohomaa.
 
 ------------------------------------------------------------------------
-r15456 | mbook | 2009-01-30 12:42:47 +0900 (Fri, 30 Jan 2009) | 9 lines
+r15456 | mbook | 2009-01-30 04:42:47 +0100 (Fri, 30 Jan 2009) | 9 lines
+Changed paths:
+   M /branches/S2_1/client/control.c
+   M /branches/S2_1/client/control.h
+   M /branches/S2_1/client/gui-gtk-2.0/menu.c
+   M /branches/S2_1/client/mapview_common.c
+   M /branches/S2_1/client/options.c
+   M /branches/S2_1/client/options.h
 
 Minimal mapview traderoute lines by popular request.
 
@@ -649,7 +948,9 @@ See #40668
 Ported from warclient code originally by pepeto and myself.
 
 ------------------------------------------------------------------------
-r15452 | mbook | 2009-01-29 11:31:24 +0900 (Thu, 29 Jan 2009) | 7 lines
+r15452 | mbook | 2009-01-29 03:31:24 +0100 (Thu, 29 Jan 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/mapctrl.c
 
 Re-enable copy to production clipboard.
 
@@ -659,21 +960,29 @@ Re-enable copy to production clipboard.
 See #40679
 
 ------------------------------------------------------------------------
-r15450 | mbook | 2009-01-29 10:35:12 +0900 (Thu, 29 Jan 2009) | 4 lines
+r15450 | mbook | 2009-01-29 02:35:12 +0100 (Thu, 29 Jan 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/client/control.c
+   M /branches/S2_1/client/options.c
+   M /branches/S2_1/client/options.h
 
 Option to disable all mouse cursor changes.
 
 See #40678
 
 ------------------------------------------------------------------------
-r15449 | mbook | 2009-01-29 10:29:39 +0900 (Thu, 29 Jan 2009) | 4 lines
+r15449 | mbook | 2009-01-29 02:29:39 +0100 (Thu, 29 Jan 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/cityrep.c
 
 Move governor menu to its own menu item in the city report.
 
 See #40677
 
 ------------------------------------------------------------------------
-r15444 | mbook | 2009-01-29 06:47:32 +0900 (Thu, 29 Jan 2009) | 9 lines
+r15444 | mbook | 2009-01-28 22:47:32 +0100 (Wed, 28 Jan 2009) | 9 lines
+Changed paths:
+   M /branches/S2_1/server/unittools.c
 
 Fix teleporting exploit by modifying bounce_unit() behavior.
 
@@ -685,14 +994,18 @@ Fix teleporting exploit by modifying bounce_unit() behavior.
 See #40658
 
 ------------------------------------------------------------------------
-r15441 | mbook | 2009-01-26 14:30:57 +0900 (Mon, 26 Jan 2009) | 4 lines
+r15441 | mbook | 2009-01-26 06:30:57 +0100 (Mon, 26 Jan 2009) | 4 lines
+Changed paths:
+   M /branches/S2_1/client/connectdlg_common.c
 
 Somewhat clearer client hack access messages.
 
 See #40662
 
 ------------------------------------------------------------------------
-r15438 | cazfi | 2009-01-26 00:53:44 +0900 (Mon, 26 Jan 2009) | 5 lines
+r15438 | cazfi | 2009-01-25 16:53:44 +0100 (Sun, 25 Jan 2009) | 5 lines
+Changed paths:
+   M /branches/S2_1/m4/auth.m4
 
 Fixed  a bug that mysql libraries wewre never searched from alternative
 locations.
@@ -700,7 +1013,10 @@ locations.
 See #40674
 
 ------------------------------------------------------------------------
-r15425 | cazfi | 2009-01-17 20:44:55 +0900 (Sat, 17 Jan 2009) | 6 lines
+r15425 | cazfi | 2009-01-17 12:44:55 +0100 (Sat, 17 Jan 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/configure.ac
+   M /branches/S2_1/m4/ggz.m4
 
 Fixed bashisms from configure to make it work with Solaris /bin/sh
 
@@ -709,7 +1025,10 @@ Patch by Halton Huo
 See #40659
 
 ------------------------------------------------------------------------
-r15415 | mbook | 2009-01-12 11:18:15 +0900 (Mon, 12 Jan 2009) | 9 lines
+r15415 | mbook | 2009-01-12 03:18:15 +0100 (Mon, 12 Jan 2009) | 9 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/repodlgs.c
+   M /branches/S2_1/client/helpdata.c
 
 Fix compilation with Sun Studio Community Edition compiler.
 
@@ -721,7 +1040,9 @@ See #40616
 Reported by: James McClain <james.mcclain@gmail.com>
 
 ------------------------------------------------------------------------
-r15411 | mbook | 2009-01-10 12:44:08 +0900 (Sat, 10 Jan 2009) | 6 lines
+r15411 | mbook | 2009-01-10 04:44:08 +0100 (Sat, 10 Jan 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/data/default.serv
 
 Fix startunits in default server script.
 
@@ -730,7 +1051,9 @@ See #40611
 Reported by: Brandon Van Every <bvanevery@gmail.com>
 
 ------------------------------------------------------------------------
-r15397 | mbook | 2009-01-07 15:50:23 +0900 (Wed, 07 Jan 2009) | 7 lines
+r15397 | mbook | 2009-01-07 07:50:23 +0100 (Wed, 07 Jan 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/ai/aiexplorer.c
 
 Make auto-explore respect borders.
 
@@ -740,7 +1063,10 @@ Patch by: Thomas Kuehne <thomas@kuehne.cn>
   (With minor changes by me.)
 
 ------------------------------------------------------------------------
-r15390 | mbook | 2008-12-30 13:16:41 +0900 (Tue, 30 Dec 2008) | 10 lines
+r15390 | mbook | 2008-12-30 05:16:41 +0100 (Tue, 30 Dec 2008) | 10 lines
+Changed paths:
+   M /branches/S2_1/server/sernet.c
+   M /branches/S2_1/utility/timing.c
 
 Check for NULL ping timers when closing a connection.
 
@@ -753,7 +1079,10 @@ See #40605
 Reported by: Marko Lindqvist <cazfi74@gmail.com>
 
 ------------------------------------------------------------------------
-r15385 | mbook | 2008-12-27 14:23:51 +0900 (Sat, 27 Dec 2008) | 6 lines
+r15385 | mbook | 2008-12-27 06:23:51 +0100 (Sat, 27 Dec 2008) | 6 lines
+Changed paths:
+   M /branches/S2_1/common/map.h
+   M /branches/S2_1/server/generator/mapgen.c
 
 Fix river generation for island generator.
 
@@ -762,7 +1091,9 @@ See #15947
 Patch by: Brendon Oram <bjoram@gmail.com>
 
 ------------------------------------------------------------------------
-r15367 | mbook | 2008-12-17 11:58:08 +0900 (Wed, 17 Dec 2008) | 6 lines
+r15367 | mbook | 2008-12-17 03:58:08 +0100 (Wed, 17 Dec 2008) | 6 lines
+Changed paths:
+   M /branches/S2_1/server/generator/mapgen.c
 
 Prevent island generator from connecting continents.
 
@@ -771,24 +1102,33 @@ See #17435
 Patch by: Brendon Oram <bjoram@gmail.com>
 
 ------------------------------------------------------------------------
-r15361 | mbook | 2008-12-06 13:58:41 +0900 (Sat, 06 Dec 2008) | 4 lines
+r15361 | mbook | 2008-12-06 05:58:41 +0100 (Sat, 06 Dec 2008) | 4 lines
+Changed paths:
+   M /branches/S2_1/server/auth.c
 
 Remove is_safe_filename check in load_auth_config.
 
 See #40577
 
 ------------------------------------------------------------------------
-r15348 | jcreus | 2008-11-30 23:05:12 +0900 (Sun, 30 Nov 2008) | 1 line
+r15348 | jcreus | 2008-11-30 15:05:12 +0100 (Sun, 30 Nov 2008) | 1 line
+Changed paths:
+   M /branches/S2_1/po/ca.po
 
 4290 messages
 ------------------------------------------------------------------------
-r15346 | dmarks | 2008-11-30 21:46:55 +0900 (Sun, 30 Nov 2008) | 1 line
+r15346 | dmarks | 2008-11-30 13:46:55 +0100 (Sun, 30 Nov 2008) | 1 line
+Changed paths:
+   M /branches/S2_1/version.in
 
 Bump version to 2.1.8+
 ------------------------------------------------------------------------
-r15344 | dmarks | 2008-11-30 21:44:26 +0900 (Sun, 30 Nov 2008) | 1 line
+r15344 | dmarks | 2008-11-30 13:44:26 +0100 (Sun, 30 Nov 2008) | 1 line
+Changed paths:
+   M /branches/S2_1/ChangeLog
 
 Update changelog for 2.1.8
+------------------------------------------------------------------------
 
 Sun, 30 Nov 2008 03:48:06 -0800  dmarks:
 
