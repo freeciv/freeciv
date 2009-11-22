@@ -16,7 +16,7 @@ r15601 | dmarks | 2009-03-24 14:11:57 +0100 (Tue, 24 Mar 2009) | 1 line
 Changed paths:
    M /branches/S2_1/po/sv.po
 
-Fix grammatical oddness in Swedish translation. Patch by Erik Kaldo <erik@kaldo.se> in PR#40622
+Fix grammatical oddness in Swedish translation. Patch by Erik Larsson <erik@kaldo.se> in PR#40622
 ------------------------------------------------------------------------
 r15600 | chrisk | 2009-03-24 12:05:59 +0100 (Tue, 24 Mar 2009) | 2 lines
 Changed paths:
