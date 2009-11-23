@@ -629,6 +629,9 @@ void set_client_state(enum client_states newstate)
       global_worklists_unbuild();
       client_remove_all_cli_conn();
       client_game_free();
+      if (oldstate > C_S_PREPARING) {
+        options_dialogs_update();
+      }
     }
 
     if (!with_ggz) {
@@ -648,6 +651,7 @@ void set_client_state(enum client_states newstate)
       /* From an upper state means that we didn't quit the server,
        * so a lot of informations are still in effect. */
       client_game_reset();
+      options_dialogs_update();
     }
 
     set_unit_focus(NULL);
@@ -665,7 +669,7 @@ void set_client_state(enum client_states newstate)
     }
 
     init_city_report_game_data();
-    options_load_ruleset_specific();
+    options_dialogs_set();
     create_event(NULL, E_GAME_START, ftc_client, _("Game started."));
     precalc_tech_data();
     if (pplayer) {
@@ -711,6 +715,7 @@ void set_client_state(enum client_states newstate)
     } else {
       /* From C_S_PREPARING. */
       init_city_report_game_data();
+      options_dialogs_set();
       precalc_tech_data();
       if (pplayer) {
         player_research_update(pplayer);

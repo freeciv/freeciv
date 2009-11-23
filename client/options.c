@@ -423,6 +423,7 @@ bool gui_win32_enable_alpha = TRUE;
 static bool options_fully_initialized = FALSE;
 
 static struct hash_table *settable_options_hash = NULL;
+static struct hash_table *dialog_options_hash = NULL;
 
 static void reqtree_show_icons_callback(struct client_option *poption);
 static void view_option_changed_callback(struct client_option *poption);
@@ -1895,6 +1896,110 @@ void desired_settable_option_send(struct options_settable *pset)
 
 
 /****************************************************************
+  Load the city and player report dialog options.
+*****************************************************************/
+static void options_dialogs_load(struct section_file *sf)
+{
+  char **entries, **entry;
+  const char *prefixes[] = { "player_dlg_", "city_report_", NULL };
+  const char **prefix;
+  int num;
+
+  RETURN_IF_FAIL(NULL != dialog_options_hash);
+
+  entries = secfile_get_section_entries(sf, "client", &num);
+
+  if (NULL != entries) {
+    for (entry = entries; 0 < num--; entry++) {
+      for (prefix = prefixes; NULL != *prefix; prefix++) {
+        if (0 == strncmp(*prefix, *entry, strlen(*prefix))) {
+          hash_replace(dialog_options_hash, mystrdup(*entry),
+                       FC_INT_TO_PTR(secfile_lookup_bool(sf, "client.%s",
+                                                         *entry)));
+          break;
+        }
+      }
+    }
+    free(entries);
+  }
+}
+
+/****************************************************************
+  Save the city and player report dialog options.
+*****************************************************************/
+static void options_dialogs_save(struct section_file *sf)
+{
+  RETURN_IF_FAIL(NULL != dialog_options_hash);
+
+  options_dialogs_update();
+  hash_iterate(dialog_options_hash, iter) {
+    secfile_insert_bool(sf, FC_PTR_TO_INT(hash_iter_get_value(iter)),
+                        "client.%s", (const char *) hash_iter_get_key(iter));
+  } hash_iterate_end;
+}
+
+/****************************************************************
+  This set the city and player report dialog options to the
+  current ones.  It's called when the client goes to
+  C_S_DISCONNECTED state.
+*****************************************************************/
+void options_dialogs_update(void)
+{
+  char buf[64];
+  int i;
+
+  RETURN_IF_FAIL(NULL != dialog_options_hash);
+
+  /* Player report dialog options. */
+  for (i = 1; i < num_player_dlg_columns; i++) {
+    my_snprintf(buf, sizeof(buf), "player_dlg_%s",
+                player_dlg_columns[i].tagname);
+    hash_replace(dialog_options_hash, mystrdup(buf),
+                 FC_INT_TO_PTR(player_dlg_columns[i].show));
+  }
+
+  /* City report dialog options. */
+  for (i = 0; i < num_city_report_spec(); i++) {
+    my_snprintf(buf, sizeof(buf), "city_report_%s",
+                city_report_spec_tagname(i));
+    hash_replace(dialog_options_hash, mystrdup(buf),
+                 FC_INT_TO_PTR(*city_report_spec_show_ptr(i)));
+  }
+}
+
+/****************************************************************
+  This set the city and player report dialog options.  It's called
+  when the client goes to C_S_RUNNING state.
+*****************************************************************/
+void options_dialogs_set(void)
+{
+  char buf[64];
+  const void *data;
+  int i;
+
+  RETURN_IF_FAIL(NULL != dialog_options_hash);
+
+  /* Player report dialog options. */
+  for (i = 1; i < num_player_dlg_columns; i++) {
+    my_snprintf(buf, sizeof(buf), "player_dlg_%s",
+                player_dlg_columns[i].tagname);
+    if (hash_lookup(dialog_options_hash, buf, NULL, &data)) {
+      player_dlg_columns[i].show = FC_PTR_TO_INT(data);
+    }
+  }
+
+  /* City report dialog options. */
+  for (i = 0; i < num_city_report_spec(); i++) {
+    my_snprintf(buf, sizeof(buf), "city_report_%s",
+                city_report_spec_tagname(i));
+    if (hash_lookup(dialog_options_hash, buf, NULL, &data)) {
+      *city_report_spec_show_ptr(i) = FC_PTR_TO_INT(data);
+    }
+  }
+}
+
+
+/****************************************************************
  Load from the rc file any options that are not ruleset specific.
  It is called after ui_init(), yet before ui_main().
  Unfortunately, this means that some clients cannot display.
@@ -1949,14 +2054,8 @@ void options_load(void)
   } client_options_iterate_all_end;
 
   message_options_load(&sf, prefix);
+  options_dialogs_load(&sf);
 
-  /* Players dialog */
-  for(i = 1; i < num_player_dlg_columns; i++) {
-    bool *show = &(player_dlg_columns[i].show);
-    *show = secfile_lookup_bool_default(&sf, *show, "%s.player_dlg_%s", prefix,
-                                        player_dlg_columns[i].tagname);
-  }
-  
   /* Load cma presets. If cma.number_of_presets doesn't exist, don't load 
    * any, the order here should be reversed to keep the order the same */
   num = secfile_lookup_int_default(&sf, -1, "cma.number_of_presets");
@@ -1975,44 +2074,12 @@ void options_load(void)
   options_fully_initialized = TRUE;
 }
 
-
-/****************************************************************
- this loads from the rc file any options which need to know what the 
- current ruleset is. It's called the first time client goes into
- C_S_RUNNING
-*****************************************************************/
-void options_load_ruleset_specific(void)
-{
-  struct section_file sf;
-  int i;
-  const char *name = get_last_option_file_name();
-
-  if (!name) {
-    /* fail silently */
-    return;
-  }
-  if (!section_file_load(&sf, name)) {
-    return;
-  }
-
-  /* Load city report columns (which include some ruleset data). */
-  for (i = 0; i < num_city_report_spec(); i++) {
-    bool *ip = city_report_spec_show_ptr(i);
-
-    *ip = secfile_lookup_bool_default(&sf, *ip, "client.city_report_%s",
-				     city_report_spec_tagname(i));
-  }
-
-  section_file_free(&sf);
-}
-
 /**************************************************************************
   Save all options.
 **************************************************************************/
 void options_save(void)
 {
   struct section_file sf;
-  int i;
   const char *name = get_current_option_file_name();
 
   if (!name) {
@@ -2049,19 +2116,7 @@ void options_save(void)
   } client_options_iterate_all_end;
 
   message_options_save(&sf, "client");
-
-  for (i = 0; i < num_city_report_spec(); i++) {
-    secfile_insert_bool(&sf, *(city_report_spec_show_ptr(i)),
-		       "client.city_report_%s",
-		       city_report_spec_tagname(i));
-  }
-  
-  /* Players dialog */
-  for (i = 1; i < num_player_dlg_columns; i++) {
-    secfile_insert_bool(&sf, player_dlg_columns[i].show,
-                        "client.player_dlg_%s",
-                        player_dlg_columns[i].tagname);
-  }
+  options_dialogs_save(&sf);
 
   /* server settings */
   save_cma_presets(&sf);
@@ -2092,6 +2147,8 @@ void options_init(void)
 
   settable_options_hash = hash_new_full(hash_fval_string, hash_fcmp_string,
                                         free, free);
+  dialog_options_hash = hash_new_full(hash_fval_string, hash_fcmp_string,
+                                      free, NULL);
 
   client_options_iterate_all(poption) {
     switch (option_type(poption)) {
@@ -2150,6 +2207,11 @@ void options_free(void)
   if (NULL != settable_options_hash) {
     hash_free(settable_options_hash);
     settable_options_hash = NULL;
+  }
+
+  if (NULL != dialog_options_hash) {
+    hash_free(dialog_options_hash);
+    dialog_options_hash = NULL;
   }
 
   message_options_free();

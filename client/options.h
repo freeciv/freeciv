@@ -164,7 +164,6 @@ struct client_option;           /* Opaque type. */
 void options_init(void);
 void options_free(void);
 void options_load(void);
-void options_load_ruleset_specific(void);
 void options_save(void);
 
 
@@ -224,6 +223,11 @@ void desired_settable_options_update(void);
 void desired_settable_option_update(const char *op_name, const char *op_value,
                                     bool allow_replace);
 void desired_settable_option_send(struct options_settable *pset);
+
+
+/** Dialog report options. **/
+void options_dialogs_update(void);
+void options_dialogs_set(void);
 
 
 /** Message Options: **/
