@@ -2,7 +2,7 @@
 
 name=_("Kurdish")
 plural=_("?plural:Kurds")
-groups=_("Asian"), _("Medieval")
+groups="Asian", "Medieval"
 legend=_("The Kurds are a distinct ethno-linguistic group speaking an\
  Indo-Aryan language. Their traditional homeland Kurdistan is situated in\
  northern Middle East and partitioned between Iraq, Turkey, Syria, and\
