@@ -297,7 +297,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
   case VUT_NATION:
     switch (preq->range) {
     case REQ_RANGE_PLAYER:
-      cat_snprintf(buf, bufsz, _("Requires the play the %s nation.\n"),
+      cat_snprintf(buf, bufsz, _("Requires that you are playing the %s nation.\n"),
                    nation_adjective_translation(preq->source.value.nation));
       return TRUE;
     case REQ_RANGE_WORLD:
@@ -1950,10 +1950,10 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
       case EFT_HEALTH_PCT:
         if (peffect->value > 0) {
           CATLSTR(buf, bufsz, _("* Increases the possibility of plague"
-                                " within Your cities.\n"));
+                                " within your cities.\n"));
         } else if (peffect->value < 0) {
           CATLSTR(buf, bufsz, _("* Decreases the possibility of plague"
-                                " within Your cities.\n"));
+                                " within your cities.\n"));
         }
         break;
       case EFT_OUTPUT_WASTE_BY_DISTANCE:
