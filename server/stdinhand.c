@@ -2957,7 +2957,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
     if (!is_newgame) {
       cmd_reply(CMD_TAKE, caller, C_FAIL,
                 _("You cannot issue \"/take -\" when "
-                  "the game already started."));
+                  "the game has already started."));
       goto end;
     }
 
