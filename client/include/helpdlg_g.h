@@ -38,6 +38,7 @@ void popdown_help_dialog(void);
 #define HELP_TERRAIN_ITEM "Terrain"
 #define HELP_WONDERS_ITEM "Wonders of the World"
 #define HELP_GOVERNMENT_ITEM "Government"
+#define HELP_DIPLOMACY_ITEM "Diplomacy"
 #define HELP_HAPPINESS_ITEM "Happiness"
 #define HELP_SPACE_RACE_ITEM "Space Race"
 #define HELP_COPYING_ITEM "Copying"

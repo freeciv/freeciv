@@ -709,10 +709,10 @@ general, the steps are: \
  4. Building agriculture improvements.\n\
  5. Deciding where to build cities.\n\
  6. Taking care of the cities.\n\
- 7. Exploring the world.\n\
- 8. Things to keep in mind.\n\
- 9. Making your own strategy for the game.\n\
-10. Interacting with other players (Diplomacy).\n\
+ 7. Interacting with other players (diplomacy).\n\
+ 8. Exploring the world.\n\
+ 9. Things to keep in mind.\n\
+10. Making your own strategy for the game.\n\
 "), _("\
  0. Choosing the first city site.\
 \n\n\
@@ -806,7 +806,61 @@ where this is not so is labelled with a lightning bolt.  Take \
 care not to let this happen to any of your cities, as unhappy \
 cities produce nothing, and will soon revolt.\
 "), _("\
- 7. Exploring the world.\
+ 7. Interacting with other players (diplomacy).\
+\n\n\
+    When one of your units first meets a unit of another nation, or \
+finds one of their cities (or equally if they find you), a basic \
+contact is established between the two nations.  This provides each \
+with basic intelligence about the other, which can be accessed from \
+the `Nations' report.\
+"), _("\
+    This communication will lapse after a set number of turns with \
+no contact.  Establishing an embassy will give a more permanent \
+communication channel, as well as more advanced intelligence such \
+as details of technology.  Embassies are one-way - the nation \
+hosting the embassy receives no benefit - and once established, \
+cannot be revoked.\
+"), _("\
+    If you are in contact with another player, then you can arrange \
+a diplomatic meeting.  From the `Nations' report, this is done by \
+clicking on the nation with whom you wish to meet and selecting \
+`Meet'.  If the entry under the embassy column is not blank and the \
+other player is connected (or is a server AI) then a treaty dialog \
+will pop up.\
+"), _("\
+    In this dialog you can negotiate an exchange of assets (maps, \
+vision, advances, cities, or gold), embassies, or binding pacts \
+such as a cease-fire or peace.  There is no need to trade like for \
+like; you can trade, say, an advance or city for gold - you can \
+consider this buying and selling.\
+"), _("\
+    Pacts affect where your units can go and what they can do, \
+and a pact with one nation can affect your relations with others.  \
+Under authoritarian governments such as Monarchy you can break a \
+pact at any time, but the representative governments (Republic and \
+Democracy) have a senate which will block the unprovoked \
+cancellation of a treaty; unless a foreign Diplomat or Spy sparks \
+a diplomatic incident, the only way to dissolve a pact in this \
+situation is to dissolve your government.  The details of pacts are \
+described in the Diplomacy section.\
+"), _("\
+    A couple of notes:\
+"), _("\
+   - You can't give away your capital.\
+"), _("\
+   - You can only request property that you know about; so you \
+can't request technology unless you have an embassy, and if \
+you can't see a city on your map, then you can't request it.  \
+Of course, the owner of that city can still give it to \
+you, in which case the area around the city is shown \
+on your map.\
+"), _("\
+   - One important thing to note: when a city is transferred, \
+any units in the field and supported by that city are also \
+transferred (but not those sitting in other cities).  So make \
+sure the other player isn't getting a better deal than you expect.\
+"), _("\
+ 8. Exploring the world.\
 \n\n\
     After you have fortified your cities with troops, build Triremes \
 in the cities near the sea.  Use the Triremes to map the world \
@@ -816,7 +870,7 @@ you are located close to an opponent, it is truly a good idea to \
 make a peace treaty and share the advances you have made. \
 Diplomatic units are very useful here, and WILL pay off later.\
 "), _("\
- 8. Things to keep in mind.\
+ 9. Things to keep in mind.\
 \n\n\
   - What the next advance you'll need is.\
 \n\n\
@@ -827,7 +881,7 @@ Diplomatic units are very useful here, and WILL pay off later.\
   - Some wonders can be made obsolete by the development of \
 certain advances.\
 "), _("\
- 9. Making your own strategy for the game.\
+ 10. Making your own strategy for the game.\
 \n\n\
     These basic concepts will allow you to play the game pretty \
 well, especially in the beginning of the game.  But to improve, \
@@ -840,89 +894,6 @@ pages at:\
 ", _("\
 You'll find more tips for playing, and details of how to contact \
 other players.\
-"), _("\
- 10. Interacting with other players (Diplomacy).\
-\n\n\
-    If you have recently contacted (or established an embassy \
-with) another player, then you can arrange a diplomatic meeting. \
-This is done by going to the `Reports' menu, selecting `Players', \
-clicking on the player with whom you wish to meet, and finally \
-clicking the `Meet' button below.  If the entry under the embassy \
-column is not blank and the other player is connected (or is a \
-server AI) then a diplomacy menu will pop up.\
-"), _("\
-    In this menu you can choose to:\
-\n\n\
-   - Trade Maps (Sea or entire map),\
-\n\n\
-   - Trade Advances,\
-\n\n\
-   - Trade Cities,\
-\n\n\
-   - Trade Shared Vision,\
-\n\n\
-   - Exchange Embassies,\
-\n\n\
-   - Create Treaties,\
-\n\n\
-   - and Give Gold.\
-"), _("\
-    There is no need to trade like for like, by trading say, \
-an advance or city for gold - you can consider this \
-buying and selling.\
-"), _("\
-    A couple of notes:\
-\n\n\
-   - You can't give away your capital.\
-\n\n\
-   - If you can't see a city on your map, then you can't request it.\
-"), _("\
-     Of course, the owner of that city can still give it to \
-you, in which case the area around the city is shown \
-on your map.  One important thing to note: any units \
-in the field and supported by that city are also transferred \
-(but not those sitting in other cities).  So make sure the \
-other player isn't getting a better deal than you expect.\
-"), _("\
-     There are five diplomatic states between players: War, \
-Cease-fire, Armistice, Peace, and Alliance. The first is the default state, \
-while the others can be achieved by signing diplomatic treaties.\
-"), _("\
-     To have a diplomatic relationship with another player, you must \
-establish contact with that player. Contact occurs whenever \
-one of your units is within sight of a city or unit belonging to another \
-player, or vice versa. Unless you establish an embassy with that player, \
-you may again lose contact with them a set number of turns after \
-most recent contact.\
-"), _("\
-     The diplomatic state between players defaults to War. \
-During War, you can freely move your units inside enemy territory and \
-attack their units and cities at will.\
-"), _("\
-     When two players decide to end hostilities between them, they can \
-agree on a Cease-fire treaty. After a set number of turns, the Cease-fire \
-will lead back to War. Upon first contact with an AI player, it will \
-automatically offer you a Cease-fire treaty.\
-"), _("\
-     If you wish for a more permanent peaceful coexistence with another \
-player, you may enter an Armistice, that after another set number of turns \
-will turn into a permanent Peace treaty. Breaking an Armistice will drop \
-you directly back to War.\
-"), _("\
-     At the moment two players enter into the diplomatic state of Peace, \
-all units belonging to either player that happen to be within the other's \
-borders will be automatically disbanded according to the treaty. After \
-this, you may not move units into the other's territory until you either \
-declare War, or forge an Alliance. Breaking a Peace treaty will drop you \
-directly back to War.\
-"), _("\
-     An Alliance is the ultimate diplomatic relationship between two \
-players. In this state, you may move units into each other's cities and \
-your units may share the same square. An allied AI player will freely give \
-you its world maps, shared vision, as well as seriously consider trading \
-technologies and cities. The only drawback with an alliance is that it \
-will draw you into any wars your ally enters against other players. \
-Breaking an Alliance will drop you to an Armistice treaty.\
 ")
 
 [help_governor]
@@ -1286,14 +1257,16 @@ controlled) by enemy forces.\
 The general rule is that a land unit which is adjacent to an enemy \
 occupied square cannot move directly to another square which is \
 also adjacent to an enemy occupied square.  Here an enemy occupied \
-square means a land square with an enemy unit on it.  Adjacency \
+square means a land square with a foreign unit on it.  Adjacency \
 means any of the eight squares surrounding a unit.\
 "), _("\
 In the following special cases ZOC does not apply:\n\
 - A unit moving directly into or out of a city.\n\
 - A unit moving onto a square occupied by a friendly unit.\n\
 - A unit moving from an ocean square (disembarking from a boat).\n\
-- A unit type which explicitly ignores ZOC, eg Diplomats and Spies.\
+- A unit type which explicitly ignores ZOC, eg Diplomats and Spies.\n\
+- The foreign unit is from a nation with which you have an Alliance \
+pact.\
 "), _("\
 Notes:\
 \n\n\
@@ -1498,6 +1471,50 @@ option, and may vary upwards from a minimum of 6.\
 
 [help_gen_governments]
 generate = "Governments"
+
+[help_diplomacy]
+name = _("Diplomacy")
+text = _("\
+There are five diplomatic states between players: War, \
+Cease-fire, Armistice, Peace, and Alliance. The first is the default state, \
+while the others can be achieved by signing diplomatic treaties.\
+"), _("\
+The diplomatic state between players defaults to War. \
+During War, you can freely move your units inside enemy territory and \
+attack their units and cities at will.\
+"), _("\
+When two players decide to end hostilities between them, they can \
+agree on a Cease-fire treaty. This prevents each player from \
+attacking the other, but you can still move your units inside \
+the other player's borders. After a set number of turns, the Cease-fire \
+will lead back to War. Upon first contact with an AI player, it will \
+automatically offer you a Cease-fire treaty.\
+"), _("\
+If you wish for a more permanent peaceful coexistence with another \
+player, you may sign a peace pact. This will enter a transitional \
+Armistice state, which after another set number of turns \
+will turn into a permanent Peace. Breaking an Armistice will drop \
+you directly back to War.\
+"), _("\
+At the moment two players enter into the diplomatic state of Peace, \
+all units belonging to either player that happen to be within the other's \
+borders will be automatically disbanded according to the treaty. After \
+this, you may not move units into the other's territory until you either \
+declare War, or forge an Alliance. Breaking a Peace treaty will drop you \
+directly back to War.\
+"), _("\
+An Alliance is the ultimate diplomatic relationship between two players. \
+In this state, you may move units into each other's cities and your units \
+may share the same square; units no longer impose zones of control. \
+However, alliance treaties come with obligations; you won't be able to \
+ally with a player that is at war with a current ally unless you break \
+the first treaty. If one of your allies declares war on another, the \
+alliance with the aggressor is automatically broken. Breaking an Alliance \
+will drop you to an Armistice treaty. An allied AI player will freely \
+give you its world maps and shared vision, and will seriously consider \
+trading technologies and cities, but in return will expect you to join \
+its wars against other players.\
+")
 
 [help_happiness]
 name = _("Happiness")
