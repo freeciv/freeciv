@@ -386,6 +386,14 @@ static void help_government_callback(GtkAction *action, gpointer data)
 }
 
 /****************************************************************
+  Action "HELP_DIPLOMACY" callback.
+*****************************************************************/
+static void help_diplomacy_callback(GtkAction *action, gpointer data)
+{
+  popup_help_dialog_string(HELP_DIPLOMACY_ITEM);
+}
+
+/****************************************************************
   Action "HELP_HAPPINESS" callback.
 *****************************************************************/
 static void help_happiness_callback(GtkAction *action, gpointer data)
@@ -1234,6 +1242,8 @@ static GtkActionGroup *get_safe_group(void)
        NULL, NULL, G_CALLBACK(help_wonders_callback)},
       {"HELP_GOVERNMENT", NULL, _("_Government"),
        NULL, NULL, G_CALLBACK(help_government_callback)},
+      {"HELP_DIPLOMACY", NULL, _("Diplomac_y"),
+       NULL, NULL, G_CALLBACK(help_diplomacy_callback)},
       {"HELP_HAPPINESS", NULL, _("Happin_ess"),
        NULL, NULL, G_CALLBACK(help_happiness_callback)},
       {"HELP_SPACE_RACE", NULL, _("Space _Race"),

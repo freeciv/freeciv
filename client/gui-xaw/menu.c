@@ -257,6 +257,7 @@ static struct MenuEntry help_menu_entries[]={
     { { N_("Terrain"), 0              },      "", MENU_HELP_TERRAIN, 0 },
     { { N_("Wonders"), 0              },      "", MENU_HELP_WONDERS, 0 },
     { { N_("Government"), 0           },      "", MENU_HELP_GOVERNMENT, 0 },
+    { { N_("Diplomacy"), 0            },      "", MENU_HELP_DIPLOMACY, 0 },
     { { N_("Happiness"), 0            },      "", MENU_HELP_HAPPINESS, 0 },
     { { N_("Space Race"), 0           },      "", MENU_HELP_SPACE_RACE, 0 },
     { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
@@ -914,6 +915,9 @@ static void help_menu_callback(Widget w, XtPointer client_data,
     break;
   case MENU_HELP_GOVERNMENT:
     popup_help_dialog_string(HELP_GOVERNMENT_ITEM);
+    break;
+  case MENU_HELP_DIPLOMACY:
+    popup_help_dialog_string(HELP_DIPLOMACY_ITEM);
     break;
   case MENU_HELP_HAPPINESS:
     popup_help_dialog_string(HELP_HAPPINESS_ITEM);

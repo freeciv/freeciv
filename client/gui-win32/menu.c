@@ -168,6 +168,7 @@ enum MenuID {
   IDM_HELP_TERRAIN,
   IDM_HELP_WONDERS,
   IDM_HELP_GOVERNMENT,
+  IDM_HELP_DIPLOMACY,
   IDM_HELP_HAPPINESS,
   IDM_HELP_SPACE_RACE,
   IDM_HELP_COPYING,
@@ -433,6 +434,7 @@ static struct my_menu main_menu[] = {
   {N_("_Terrain"),				IDM_HELP_TERRAIN},
   {N_("Won_ders"),				IDM_HELP_WONDERS},
   {N_("_Government"),				IDM_HELP_GOVERNMENT},
+  {N_("Diplomac_y"),				IDM_HELP_DIPLOMACY},
   {N_("Happin_ess"),				IDM_HELP_HAPPINESS},
   {N_("Space _Race"),				IDM_HELP_SPACE_RACE},
   {"", IDM_SEPARATOR},
@@ -912,6 +914,9 @@ void handle_menu(int code)
       break;
     case IDM_HELP_GOVERNMENT:
       popup_help_dialog_string(HELP_GOVERNMENT_ITEM);
+      break;
+    case IDM_HELP_DIPLOMACY:
+      popup_help_dialog_string(HELP_DIPLOMACY_ITEM);
       break;
     case IDM_HELP_HAPPINESS:
       popup_help_dialog_string(HELP_HAPPINESS_ITEM);

@@ -164,6 +164,7 @@
       <menuitem action="HELP_TERRAIN" />
       <menuitem action="HELP_WONDERS" />
       <menuitem action="HELP_GOVERNMENT" />
+      <menuitem action="HELP_DIPLOMACY" />
       <menuitem action="HELP_HAPPINESS" />
       <menuitem action="HELP_SPACE_RACE" />
       <separator />
