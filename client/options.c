@@ -511,12 +511,12 @@ static struct client_option options[] = {
                   COC_GRAPHICS, GUI_LAST, FALSE,
                   view_option_changed_callback),
   GEN_BOOL_OPTION(draw_city_names, N_("Draw the city names"),
-                  N_("Setting this option will draw the names of the cities"
+                  N_("Setting this option will draw the names of the cities "
                      "on the map."),
                   COC_GRAPHICS, GUI_LAST, TRUE,
                   view_option_changed_callback),
-  GEN_BOOL_OPTION(draw_city_growth, N_("Draw the city growthes"),
-                  N_("Setting this option will draw in how any turns the "
+  GEN_BOOL_OPTION(draw_city_growth, N_("Draw the city growth"),
+                  N_("Setting this option will draw in how many turns the "
                      "cities will grow or shrink."),
                   COC_GRAPHICS, GUI_LAST, TRUE,
                   view_option_changed_callback),
@@ -531,7 +531,7 @@ static struct client_option options[] = {
                   COC_GRAPHICS, GUI_LAST, FALSE,
                   view_option_changed_callback),
   GEN_BOOL_OPTION(draw_city_trade_routes, N_("Draw the city trade routes"),
-                  N_("Setting this option will draw trade routes lines "
+                  N_("Setting this option will draw trade route lines "
                      "between cities which have trade routes."),
                   COC_GRAPHICS, GUI_LAST, FALSE,
                   view_option_changed_callback),
@@ -591,7 +591,7 @@ static struct client_option options[] = {
                   COC_GRAPHICS, GUI_LAST, TRUE,
                   view_option_changed_callback),
   GEN_BOOL_OPTION(draw_borders, N_("Draw the borders"),
-                  N_("Setting this option will draw the nationnal borders."),
+                  N_("Setting this option will draw the national borders."),
                   COC_GRAPHICS, GUI_LAST, TRUE,
                   view_option_changed_callback),
   GEN_BOOL_OPTION(player_dlg_show_dead_players,
@@ -747,7 +747,7 @@ static struct client_option options[] = {
                   COC_GRAPHICS, GUI_LAST, TRUE, voteinfo_bar_callback),
   GEN_BOOL_OPTION(voteinfo_bar_always_show, N_("Always display the vote bar"),
                   N_("If this option is turned on, the vote bar will never "
-                     "be hiden, notably when there won't be any running "
+                     "be hidden, notably when there won't be any running "
                      "vote."),
                   COC_GRAPHICS, GUI_LAST, FALSE, voteinfo_bar_callback),
   GEN_BOOL_OPTION(voteinfo_bar_hide_when_not_player,
@@ -892,8 +892,8 @@ static struct client_option options[] = {
                   "Monospace 8", font_changed_callback),
   GEN_FONT_OPTION(gui_gtk2_font_notify_label, "notify_label",
                   N_("Notify Label"),
-                  N_("This font is used to display the server report such "
-                     "as demographic report or historian publications."),
+                  N_("This font is used to display server reports such "
+                     "as the demographic report or historian publications."),
                   COC_FONT, GUI_GTK2,
                   "Monospace Bold 9", font_changed_callback),
   GEN_FONT_OPTION(gui_gtk2_font_spaceship_label, "spaceship_label",
@@ -940,8 +940,8 @@ static struct client_option options[] = {
                   "Sans 9", NULL),
   GEN_FONT_OPTION(gui_gtk2_font_comment_label, "comment_label",
                   N_("Comment Label"),
-                  N_("This font is used to diplay comment labels, such as "
-                     "in the governer page of the city dialogs."),
+                  N_("This font is used to display comment labels, such as "
+                     "in the governor page of the city dialogs."),
                   COC_FONT, GUI_GTK2,
                   "Sans Italic 9", font_changed_callback),
   GEN_FONT_OPTION(gui_gtk2_font_city_names, "city_names",
