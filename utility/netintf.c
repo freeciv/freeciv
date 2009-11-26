@@ -156,8 +156,12 @@ int fc_writesocket(int sock, const void *buf, size_t size)
     set_socket_errno();
   }
 #else
+#  ifdef MSG_NOSIGNAL
   result = send(sock, buf, size, MSG_NOSIGNAL);
-#endif
+#  else
+  result = write(sock, buf, size);
+#  endif /* MSG_NOSIGNAL */
+#endif /* HAVE_WINSOCK */
 
   return result;
 }
