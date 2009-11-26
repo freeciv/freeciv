@@ -15,12 +15,6 @@
 
 #include "shared.h"          /* bool type */
 
-/* Add new event types to the end. Old clients (< 2.2) saves message
- * settings by type number and installing new event type in
- * between would cause erronous loading of existing rc file.
- * When adding events to stable branch, there is risk that TRUNK
- * already has allocated next slot for something else (and has
- * new event in upper slot) */
 #define SPECENUM_NAME event_type
 #define SPECENUM_VALUE0   E_CITY_CANTBUILD
 #define SPECENUM_VALUE1   E_CITY_LOST
