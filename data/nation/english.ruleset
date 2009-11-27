@@ -34,7 +34,7 @@ civilwar_nations = "cornish", "british"
 
 cities =
  "London",
- "Westminister",
+ "Westminster",
  "Birmingham",
  "Liverpool",
  "Manchester",
@@ -45,7 +45,7 @@ cities =
  "Bradford",
  "Derby",
  "Southampton",
- "Middlesborough",
+ "Middlesbrough",
  "Sheffield",
  "Nottingham",
  "Coventry",
