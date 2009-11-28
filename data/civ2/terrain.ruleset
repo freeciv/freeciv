@@ -44,10 +44,10 @@ lake_max_size = 0
 ;   3 - 1/3 movement cost for any river to river move (classic Freeciv)
 river_move_mode=1
 
-; percent added to defense if square is Civ2-style river
+; percent added to defense if tile is Civ2-style river
 river_defense_bonus=50
 
-; amount added to trade production if square is Civ2-style river
+; amount added to trade production if tile is Civ2-style river
 river_trade_incr=1
 
 ; help text for Civ2-style rivers
@@ -57,38 +57,38 @@ Any terrain type (except Ocean) may have a River on it.  A River adds 1\
  defense factor by 50%.  Finally, land units may move along a River (but\
  not diagonally); movement along a River costs only 1/3 of a movement point.\
 \n\n\
-Roads and railroads can only be built on River squares if your\
+Roads and railroads can only be built on River tiles if your\
  civilization has learned Bridge Building technology.\
 ")
 
 ; percent added to trade production if road and city has superhighways
 road_superhighway_trade_bonus=50
 
-; percent added to food production if square has railroad
+; percent added to food production if tile has railroad
 rail_food_bonus=0
 
-; percent added to shield production if square has railroad
+; percent added to shield production if tile has railroad
 rail_shield_bonus=50
 
-; percent added to trade production if square has railroad
+; percent added to trade production if tile has railroad
 rail_trade_bonus=0
 
-; percent subtracted from food production if square is polluted
+; percent subtracted from food production if tile is polluted
 pollution_food_penalty=50
 
-; percent subtracted from shield production if square is polluted
+; percent subtracted from shield production if tile is polluted
 pollution_shield_penalty=50
 
-; percent subtracted from trade production if square is polluted
+; percent subtracted from trade production if tile is polluted
 pollution_trade_penalty=50
 
-; percent subtracted from food production if square has fallout
+; percent subtracted from food production if tile has fallout
 fallout_food_penalty=50
 
-; percent subtracted from shield production if square has fallout
+; percent subtracted from shield production if tile has fallout
 fallout_shield_penalty=50
 
-; percent subtracted from trade production if square has fallout
+; percent subtracted from trade production if tile has fallout
 fallout_trade_penalty=50
 
 ; The individual terrain types, one per section.
@@ -114,19 +114,19 @@ fallout_trade_penalty=50
 ; shield               = normal shield production
 ; trade                = normal trade production
 ; resources            = list of possible resources on this terrain
-; road_trade_incr      = increment to trade if square has road
+; road_trade_incr      = increment to trade if tile has road
 ; road_time            = time to build road; if 0, cannot build road
 ; irrigation_result    = result of irrigation; one of:
 ;                        "no"  -- cannot irrigate
 ;                        "yes" -- can irrigate
 ;                        terrain section -- irrigation changes to that terrain
-; irrigation_food_incr = increment to food if square is irrigated
+; irrigation_food_incr = increment to food if tile is irrigated
 ; irrigation_time      = time to irrigate; if 0, cannot irrigate
 ; mining_result        = result of mining; one of:
 ;                        "no"  -- cannot mine
 ;                        "yes" -- can mine
 ;                        terrain section -- mining changes to that terrain
-; mining_shield_incr   = increment to shields if square is mined
+; mining_shield_incr   = increment to shields if tile is mined
 ; mining_time          = time to mine; if 0, cannot mine
 ; transform_result     = result of transformation; one of:
 ;                        "no"  -- cannot transform
@@ -209,7 +209,7 @@ helptext             = _("\
 Oceans cover much of the world, and only sea units (Triremes and\
  other boats) can travel on them.\
 \n\n\
-Ocean squares can never be polluted or subjected to fallout.\
+Ocean tiles can never be polluted or subjected to fallout.\
 ")
 
 [terrain_glacier]

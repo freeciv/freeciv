@@ -1234,12 +1234,12 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   }
   if (utype_has_flag(utype, F_NO_LAND_ATTACK)) {
     CATLSTR(buf, bufsz,
-            _("* Can only attack units on ocean squares (no land attacks).\n"));
+            _("* Can only attack units on ocean tiles (no land attacks).\n"));
   }
   if (utype_has_flag(utype, F_MARINES)) {
     CATLSTR(buf, bufsz,
 	    _("* Can attack from aboard sea units: against"
-	      " enemy cities and onto land squares.\n"));
+	      " enemy cities and onto land tiles.\n"));
   }
   if (utype_has_flag(utype, F_PARATROOPERS)) {
     cat_snprintf(buf, bufsz,
@@ -1296,7 +1296,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   }
   if (utype_has_flag(utype, F_IGTER)) {
     CATLSTR(buf, bufsz,
-	    _("* Ignores terrain effects (treats all squares as roads).\n"));
+	    _("* Ignores terrain effects (treats all tiles as roads).\n"));
   }
   if (utype_has_flag(utype, F_IGZOC)) {
     CATLSTR(buf, bufsz, _("* Ignores zones of control.\n"));
@@ -1499,7 +1499,7 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
   if (advance_has_flag(i, TF_BRIDGE)) {
     const char *units_str = role_units_translations(F_SETTLERS);
     cat_snprintf(buf, bufsz,
-		 _("* Allows %s to build roads on river squares.\n"),
+		 _("* Allows %s to build roads on river tiles.\n"),
 		 units_str);
     free((void *) units_str);
   }

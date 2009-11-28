@@ -674,7 +674,7 @@ sabotage	= 0
 sound		= "w_colossus"
 sound_alt	= "w_generic"
 helptext	= _("\
-Each square around the city where this wonder is built that is already\
+Each tile around the city where this wonder is built that is already\
  generating some trade produces one extra trade resource.\
 ")
 

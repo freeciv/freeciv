@@ -359,7 +359,7 @@ sabotage	= 100
 sound		= "b_harbour"
 sound_alt	= "b_generic"
 helptext	= _("\
-Gives one extra food resource on all Oceanic squares.  The city needs\
+Gives one extra food resource on all Oceanic tiles.  The city needs\
  to be coastal to build this improvement.\
 ")
 
@@ -536,7 +536,7 @@ sabotage	= 100
 sound		= "b_offshore_platform"
 sound_alt	= "b_generic"
 helptext	= _("\
-Adds 1 extra shield resource on all Oceanic squares in a city.  The\
+Adds 1 extra shield resource on all Oceanic tiles in a city.  The\
  city needs to be coastal to build this improvement.\
 ")
 
@@ -918,7 +918,7 @@ sound		= "b_super_highways"
 sound_alt	= "b_generic"
 ; /* xgettext:no-c-format */
 helptext	= _("\
-Increases trade resources by 50% on all squares with roads or\
+Increases trade resources by 50% on all tiles with roads or\
  railroads.\
 ")
 ; NOTE:
@@ -941,8 +941,8 @@ sound		= "b_supermarket"
 sound_alt	= "b_generic"
 ; /* xgettext:no-c-format */
 helptext	= _("\
-Increases the food resources by 50% on each farmland square which\
- is being used around the city.  Farmland squares are those which\
+Increases the food resources by 50% on each farmland tile which\
+ is being used around the city.  Farmland tiles are those which\
  have been irrigated a second time.\
 ")
 
@@ -1046,7 +1046,7 @@ sabotage	= 0
 sound		= "w_colossus"
 sound_alt	= "w_generic"
 helptext	= _("\
-Each square around the city where this wonder is built that is already\
+Each tile around the city where this wonder is built that is already\
  generating some trade produces one extra trade resource.\
 ")
 
@@ -1276,7 +1276,7 @@ sabotage	= 0
 sound		= "w_king_richards_crusade"
 sound_alt	= "w_generic"
 helptext	= _("\
-Adds one extra shield resource on every square around the city\
+Adds one extra shield resource on every tile around the city\
  where it is built.\
 ")
 

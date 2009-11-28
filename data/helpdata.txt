@@ -790,7 +790,7 @@ care should be taken to ensure that the citizens are employed so \
 that they maximise growth, trade and production.\
 "), _("\
     If too much food is being generated, a citizen can be taken off \
-the farmland by clicking on the occupied farmland square.  This \
+the farmland by clicking on the occupied farmland tile.  This \
 citizen can then be transferred to the other duties mentioned \
 previously.\
 "), _("\
@@ -1003,7 +1003,7 @@ units that it is easiest to think of them as a separate unit type.)\
 _("\
 Land units move on land, and suffer the movement effects of terrain, \
 but benefit from roads and railroads.  They cannot move on ocean \
-squares except when carried by an appropriate sea unit.  When at \
+tiles except when carried by an appropriate sea unit.  When at \
 sea, they cannot attack or defend for themselves, but rely on the \
 sea unit carrying them.  Land units are the only units subject to \
 zones of control.  On land, land units can fortify to get a 50% \
@@ -1014,14 +1014,14 @@ point.  Land units with zero attack strength are non-military units: \
 they require no upkeep, have no happiness effects, and cannot attack \
 enemy units or capture enemy cities.\
 "), _("\
-Sea units move on Ocean squares and into cities next to Ocean \
-squares.  They can only be built by such cities.  The movement rate \
+Sea units move on Ocean tiles and into cities next to Ocean \
+tiles.  They can only be built by such cities.  The movement rate \
 of sea units is affected by several wonders (Lighthouse, Magellan's \
 Expedition) and by the advance of Nuclear Power.  Most sea units can \
 attack units on the coast and in coastal cities, but they cannot \
 enter an enemy city to capture it, even if the city is undefended.\
 "), _("\
-Air units can move on any square not occupied by an enemy unit or \
+Air units can move on any tiles not occupied by an enemy unit or \
 enemy city.  The movement rate of air units is not affected by loss \
 of hitpoints.  Air units require fuel, which is obtained by ending \
 their turn in a friendly city, Airbase or Carrier (or a Submarine \
@@ -1033,7 +1033,7 @@ by Fighters (or Stealth Fighters).  Air units cannot be used to \
 explore villages; depending upon server options, an overflown \
 village may disband.\
 "), _("\
-Like air units, Helicopters can move on any square not occupied by \
+Like air units, Helicopters can move on any tile not occupied by \
 an enemy unit or enemy city, and their movement rate is not affected \
 by loss of hitpoints.  Helicopters do not require fuel, but they \
 lose a small amount of health for every turn not spent in a city or \
@@ -1255,15 +1255,16 @@ prevents you moving freely in zones controlled (or partially \
 controlled) by enemy forces.\
 "), _("\
 The general rule is that a land unit which is adjacent to an enemy \
-occupied square cannot move directly to another square which is \
-also adjacent to an enemy occupied square.  Here an enemy occupied \
-square means a land square with a foreign unit on it.  Adjacency \
-means any of the eight squares surrounding a unit.\
+occupied tile cannot move directly to another tile which is \
+also adjacent to an enemy occupied tile.  Here an enemy occupied \
+tile means a land tile with a foreign unit on it.  Adjacency \
+means any of the eight tiles surrounding a unit for rectangular \
+grids, or six tiles for hexagonal grids.\
 "), _("\
 In the following special cases ZOC does not apply:\n\
 - A unit moving directly into or out of a city.\n\
-- A unit moving onto a square occupied by a friendly unit.\n\
-- A unit moving from an ocean square (disembarking from a boat).\n\
+- A unit moving onto a tile occupied by a friendly unit.\n\
+- A unit moving from an ocean tile (disembarking from a boat).\n\
 - A unit type which explicitly ignores ZOC, eg Diplomats and Spies.\n\
 - The foreign unit is from a nation with which you have an Alliance \
 pact.\
@@ -1273,26 +1274,26 @@ Notes:\
 - Only land units are restricted by ZOC.\
 \n\n\
 - Non-land units can impose ZOC (that is, count as enemy occupied \
-squares), but only if they are on a land square.  So effectively \
+tiles), but only if they are on a land tile.  So effectively \
 sea units cannot impose ZOC (unless they are in a city), and air \
 units (including helicopters) do not impose ZOC if they are over \
-ocean squares.\
+ocean tiles.\
 \n\n\
 - ZOC does not restrict unit attacks, only movement.\
 \n\n\
-- An enemy city counts as an enemy occupied square if there are \
+- An enemy city counts as an enemy occupied tile if there are \
 any units inside the city, but not if the city is empty. (This is \
-the same rule as for any other square).\
+the same rule as for any other tile).\
 \n\n\
-- Moving from an ocean square is a special case; moving _to_ an \
-ocean square (moving back onto a boat) is also permitted, by the \
+- Moving from an ocean tile is a special case; moving _to_ an \
+ocean tile (moving back onto a boat) is also permitted, by the \
 special case of moving onto a friendly unit (the boat).\
 "), _("\
 TIP:  You can infiltrate enemy zones by first moving in a Diplomat \
 (or some other unit which ignores ZOC), and then moving regular \
-units onto the square now occupied by the Diplomat. \
+units onto the tile now occupied by the Diplomat. \
 By repeating this process (and optionally leaving some units \
-behind to keep squares occupied), you can make a path through \
+behind to keep tiles occupied), you can make a path through \
 enemy territory.\
 "), _("\
 These rules differ slightly from previous versions of Freeciv \
@@ -1306,10 +1307,10 @@ name = _("Terrain")
 text = _("\
 The different types of terrain each have different strengths and \
 drawbacks.  When choosing a place for a new city, make sure there \
-are enough food-producing squares nearby to support your growing \
+are enough food-producing tiles nearby to support your growing \
 population.\
 "), _("\
-The net benefit of a square for your city depends on your government \
+The net benefit of a tile for your city depends on your government \
 type as well as city improvements and wonders.\
 ")
 
@@ -1319,27 +1320,27 @@ generate = "Terrain"
 [help_terrain_alterations]
 name = _(" Terrain Alterations")
 text = _("\
-Settlers and Engineers have the ability to alter terrain squares in \
+Settlers and Engineers have the ability to alter terrain tiles in \
 several ways.\
 "), _("\
 Suitable types of terrain can be irrigated.  This requires a nearby \
-source of water: an Ocean or River square, or another square which \
-is irrigated, must be directly adjacent to the target square, to \
-the north, south, east or west.  Irrigating a square causes it to \
+source of water: an Ocean or River tile, or another tile which \
+is irrigated, must share an edge (not just a corner) with the target \
+tile.  Irrigating a tile causes it to \
 produce some extra food each turn.  In addition, given sufficient \
-technology, you may irrigate a square a second time, turning it \
+technology, you may irrigate a tile a second time, turning it \
 into even more productive Farmland.\
 "), _("\
 Some types of terrain can be mined, which increases the number of \
-resources (shields) produced by that square.\
+resources (shields) produced by that tile.\
 "), _("\
-Roads and railroads can be built on any square except Ocean.  (To \
-build a road or railroad on a River square, though, you must know \
+Roads and railroads can be built on any tile except Ocean.  (To \
+build a road or railroad on a River tile, though, you must know \
 Bridge Building.)  Roads and railroads allow your units to move \
 more quickly, and they increase the resources produced in cities.\
 "), _("\
  - Units use only one third of a movement point when going from one \
-square to an adjacent square, if both squares have a road.\
+tile to an adjacent tile, if both tiles have a road.\
 "), _("\
  - Units expend no movement points when moving along a railroad. \
 You may ride a railroad indefinitely.\
@@ -1347,7 +1348,7 @@ You may ride a railroad indefinitely.\
  - A road may increase the trade resources produced by some types \
 of terrain.\
 "), _("\
- - A railroad increases the shield resources produced by a square by \
+ - A railroad increases the shield resources produced by a tile by \
 50%.  (Depending on server options, railroads may also increase \
 food and trade resources, or may increase shield resources by an \
 amount other than 50%.)\
@@ -1505,7 +1506,7 @@ directly back to War.\
 "), _("\
 An Alliance is the ultimate diplomatic relationship between two players. \
 In this state, you may move units into each other's cities and your units \
-may share the same square; units no longer impose zones of control. \
+may share the same tile; units no longer impose zones of control. \
 However, alliance treaties come with obligations; you won't be able to \
 ally with a player that is at war with a current ally unless you break \
 the first treaty. If one of your allies declares war on another, the \
@@ -1541,11 +1542,11 @@ the City Report.  The effects of celebration vary depending on your \
 government type:\
 "), _("\
  - Under Anarchy or Despotism, you will not suffer the normal \
-production penalty for squares which produce more than 2 units of \
+production penalty for tiles which produce more than 2 units of \
 any resource (food, shields or trade).\
 "), _("\
  - Under Monarchy or Communism, your city will gain the trade bonus \
-of Republican/Democratic governments: 1 bonus trade in any square \
+of Republican/Democratic governments: 1 bonus trade in any tile \
 which already produces at least 1 trade.\
 "), _("\
  - Under a Republic or a Democracy, your city's population will \
