@@ -22,6 +22,11 @@
 #include "commands.h"
 #include "voting.h"
 
+/* Set the synopsis text to don't be translated. */
+#define SYN_ORIG_(String) "*" String
+/* Test if the synopsis should be translated or not. */
+#define SYN_TRANS_(String) ('*' == String[0] ? String + 1 : _(String))
+
 struct command {
   const char *name;       /* name - will be matched by unique prefix   */
   enum cmdlevel_id level; /* access level required to use the command  */
@@ -36,7 +41,7 @@ struct command {
 static struct command commands[] = {
   {"start",	ALLOW_BASIC,
    /* no translatable parameters */
-   "start",
+   SYN_ORIG_("start"),
    N_("Start the game, or restart after loading a savegame."),
    N_("This command starts the game.  When starting a new game, "
       "it should be used after all human players have connected, and "
@@ -70,11 +75,11 @@ static struct command commands[] = {
 
   {"list",	ALLOW_INFO,
    /* no translatable parameters */
-   "list\n"
-   "list players\n"
-   "list teams\n"
-   "list connections\n"
-   "list scenarios",
+   SYN_ORIG_("list\n"
+             "list players\n"
+             "list teams\n"
+             "list connections\n"
+             "list scenarios"),
    N_("Show a list of players, teams, connections, or scenarios."),
    N_("Show a list of players in the game, teams of players, connections to "
       "the server, or available scenarios.  The argument may be abbreviated,"
@@ -83,7 +88,7 @@ static struct command commands[] = {
   },
   {"quit",	ALLOW_HACK,
    /* no translatable parameters */
-   "quit",
+   SYN_ORIG_("quit"),
    N_("Quit the game and shutdown the server."), NULL,
    VCF_NONE, 0
   },
@@ -130,7 +135,7 @@ static struct command commands[] = {
    /* TRANS: translate text between <> only */
    N_("connectmsg <message>"),
    N_("Set message to show to connecting players."),
-   N_("Set message to sends to clients when they connect.\n"
+   N_("Set message to send to clients when they connect.\n"
       "Empty message means that no message is sent.")
   },
   {"vote",	ALLOW_BASIC,
@@ -150,9 +155,9 @@ static struct command commands[] = {
   },
   {"debug",	ALLOW_CTRL,
    /* no translatable parameters */
-   "debug [ diplomacy | ferries | player <player> | tech <player>"
-   " | city <x> <y> | units <x> <y> | unit <id> "
-   " | timing | info ]",
+   SYN_ORIG_("debug [ diplomacy | ferries | player <player> | tech <player>"
+             " | city <x> <y> | units <x> <y> | unit <id> "
+             " | timing | info ]"),
    N_("Turn on or off AI debugging of given entity."),
    N_("Print AI debug information about given entity and turn continous "
       "debugging output for this entity on or off."),
@@ -202,9 +207,9 @@ static struct command commands[] = {
   },
   {"metaconnection",	ALLOW_ADMIN,
    /* no translatable parameters */
-   "metaconnection u|up\n"
-   "metaconnection d|down\n"
-   "metaconnection ?",
+   SYN_ORIG_("metaconnection u|up\n"
+             "metaconnection d|down\n"
+             "metaconnection ?"),
    N_("Control metaserver connection."),
    N_("'metaconnection ?' reports on the status of the connection to metaserver.\n"
       "'metaconnection down' or 'metac d' brings the metaserver connection down.\n"
@@ -263,7 +268,7 @@ static struct command commands[] = {
   },
   {"away",	ALLOW_BASIC,
    /* no translatable parameters */
-   "away",
+   SYN_ORIG_("away"),
    N_("Set yourself in away mode. The AI will watch your back."),
    N_("The AI will govern your nation but do minimal changes."),
    VCF_NONE, 50
@@ -362,7 +367,7 @@ static struct command commands[] = {
   },
   {"first", ALLOW_BASIC,
    /* no translatable parameters */
-   "first",
+   SYN_ORIG_("first"),
    N_("If there is none, become the game organizer with increased permissions."),
    NULL,
   },
@@ -388,13 +393,13 @@ static struct command commands[] = {
   },
   {"endgame",	ALLOW_ADMIN,
    /* no translatable parameters */
-   "endgame",
+   SYN_ORIG_("endgame"),
    N_("End the game immediately in a draw."), NULL,
    VCF_NONE, 0
   },
   {"surrender",	ALLOW_BASIC,
    /* no translatable parameters */
-   "surrender",
+   SYN_ORIG_("surrender"),
    N_("Concede the game."),
    N_("This tells everyone else that you concede the game, and if all "
       "but one player (or one team) have conceded the game in this way "
@@ -444,7 +449,8 @@ static struct command commands[] = {
    VCF_NONE, 0
   },
   {"reset",	ALLOW_CTRL,
-   N_("reset"),
+   /* no translatable parameters */
+   SYN_ORIG_("reset"),
    N_("Reset all server settings."),
    N_("Reset all settings and re-read the server start script, "
       "if there was one given with the --read server argument. "),
@@ -452,13 +458,13 @@ static struct command commands[] = {
   },
   {"rfcstyle",	ALLOW_HACK,
    /* no translatable parameters */
-   "rfcstyle",
+   SYN_ORIG_("rfcstyle"),
    N_("Switch server output between 'RFC-style' and normal style."), NULL,
    VCF_NONE, 0
   },
   {"serverid",	ALLOW_INFO,
    /* no translatable parameters */
-   "serverid",
+   SYN_ORIG_("serverid"),
    N_("Simply returns the id of the server."),
    VCF_NONE, 0
   }
@@ -491,27 +497,27 @@ const char *command_name_by_number(int i)
 }
 
 /**************************************************************************
-  ...
+  Returns the synopsis text of the command (translated).
 **************************************************************************/
 const char *command_synopsis(const struct command *pcommand)
 {
-  return pcommand->synopsis;
+  return SYN_TRANS_(pcommand->synopsis);
 }
 
 /**************************************************************************
-  ...
+  Returns the short help text of the command (translated).
 **************************************************************************/
 const char *command_short_help(const struct command *pcommand)
 {
-  return pcommand->short_help;
+  return _(pcommand->short_help);
 }
 
 /**************************************************************************
-  ...
+  Returns the extra help text of the command (translated).
 **************************************************************************/
 const char *command_extra_help(const struct command *pcommand)
 {
-  return pcommand->extra_help;
+  return _(pcommand->extra_help);
 }
 
 /**************************************************************************
