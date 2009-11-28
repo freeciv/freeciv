@@ -550,7 +550,7 @@ bool connection_attach(struct connection *pconn, struct player *pplayer,
 
   /* Reset the delta-state. */
   send_conn_info(pconn->self, game.est_connections);    /* Client side. */
-  conn_clear_packet_cache(pconn);                       /* Server side. */
+  conn_reset_delta_state(pconn);                        /* Server side. */
 
   /* Initial packets don't need to be resent.  See comment for
    * connecthand.c::establish_new_connection(). */

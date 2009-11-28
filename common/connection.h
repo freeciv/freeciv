@@ -274,7 +274,7 @@ struct socket_packet_buffer *new_socket_packet_buffer(void);
 void connection_common_init(struct connection *pconn);
 void connection_common_close(struct connection *pconn);
 void free_compression_queue(struct connection *pconn);
-void conn_clear_packet_cache(struct connection *pconn);
+void conn_reset_delta_state(struct connection *pconn);
 
 const char *conn_description(const struct connection *pconn);
 bool conn_controls_player(const struct connection *pconn);

@@ -728,8 +728,8 @@ static char *stats_%(name)s_names[] = {%(names)s};
                 else:
                     force_send="FALSE"
                 delta_header='''  %(name)s_fields fields;
-  struct %(packet_name)s *old, *clone;
-  bool differ, old_from_hash, force_send_of_unchanged = %(force_send)s;
+  struct %(packet_name)s *old;
+  bool differ, force_send_of_unchanged = %(force_send)s;
   struct hash_table **hash = &pc->phs.sent[%(type)s];
   int different = 0;
 '''
@@ -763,14 +763,14 @@ static char *stats_%(name)s_names[] = {%(names)s};
     def get_delta_send_body(self):
         intro='''
   if (!*hash) {
-    *hash = hash_new(hash_%(name)s, cmp_%(name)s);
+    *hash = hash_new_full(hash_%(name)s, cmp_%(name)s, NULL, free);
   }
   BV_CLR_ALL(fields);
 
-  old = hash_lookup_data(*hash, real_packet);
-  old_from_hash = (old != NULL);
-  if (!old) {
+  if (!hash_lookup(*hash, real_packet, (const void **) &old, NULL)) {
     old = fc_malloc(sizeof(*old));
+    *old = *real_packet;
+    hash_insert(*hash, old, old);
     memset(old, 0, sizeof(*old));
     force_send_of_unchanged = TRUE;
   }
@@ -803,15 +803,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
             field=self.other_fields[i]
             body=body+field.get_put_wrapper(self,i)
         body=body+'''
-
-  if (old_from_hash) {
-    hash_delete_entry(*hash, old);
-  }
-
-  clone = old;
-
-  *clone = *real_packet;
-  hash_insert(*hash, clone, clone);
+  *old = *real_packet;
 '''
         return intro+body
 
@@ -830,7 +822,6 @@ static char *stats_%(name)s_names[] = {%(names)s};
             delta_header='''  %(name)s_fields fields;
   struct %(packet_name)s *old;
   struct hash_table **hash = &pc->phs.received[type];
-  struct %(packet_name)s *clone;
 '''
             delta_body1="\n  DIO_BV_GET(&din, fields);\n"
             body1=""
@@ -877,11 +868,10 @@ static char *stats_%(name)s_names[] = {%(names)s};
             fl=""
         body='''
   if (!*hash) {
-    *hash = hash_new(hash_%(name)s, cmp_%(name)s);
+    *hash = hash_new_full(hash_%(name)s, cmp_%(name)s, NULL, free);
   }
-  old = hash_delete_entry(*hash, real_packet);
 
-  if (old) {
+  if (hash_lookup(*hash, real_packet, (const void **) &old, NULL)) {
     *real_packet = *old;
   } else {
 %(key1)s%(fl)s    memset(real_packet, 0, sizeof(*real_packet));%(key2)s
@@ -893,12 +883,13 @@ static char *stats_%(name)s_names[] = {%(names)s};
             body=body+field.get_get_wrapper(self,i)
 
         extro='''
-  clone = fc_malloc(sizeof(*clone));
-  *clone = *real_packet;
-  if (old) {
-    free(old);
+  if (NULL == old) {
+    old = fc_malloc(sizeof(*old));
+    *old = *real_packet;
+    hash_insert(*hash, old, old);
+  } else {
+    *old = *real_packet;
   }
-  hash_insert(*hash, clone, clone);
 
 '''%self.get_dict(vars())
         return body+extro
@@ -1281,7 +1272,7 @@ void delta_stats_reset(void) {
 def get_get_packet_helper(packets):
     intro='''void *get_packet_from_connection_helper(struct connection *pc,\n    enum packet_type type)
 {
-  switch(type) {
+  switch (type) {
 
 '''
     body=""
@@ -1299,11 +1290,11 @@ def get_get_packet_helper(packets):
     return intro+body+extro
 
 # Returns a code fragement which is the implementation of the
-# get_packet_name() function.
-def get_get_packet_name(packets):
-    intro='''const char *get_packet_name(enum packet_type type)
+# packet_name() function.
+def get_packet_name(packets):
+    intro='''const char *packet_name(enum packet_type type)
 {
-  switch(type) {
+  switch (type) {
 
 '''
     body=""
@@ -1311,6 +1302,29 @@ def get_get_packet_name(packets):
         body=body+'  case %(type)s:\n    return "%(type)s";\n\n'%p.__dict__
     extro='''  default:
     return "unknown";
+  }
+}
+
+'''
+    return intro+body+extro
+
+# Returns a code fragement which is the implementation of the
+# packet_has_info_flag() function.
+def get_packet_has_info_flag(packets):
+    intro='''bool packet_has_info_flag(enum packet_type type)
+{
+  switch (type) {
+
+'''
+    body=""
+    for p in packets:
+        body=body+'  case %(type)s:\n'%p.__dict__
+        if p.is_action:
+            body=body+'    return FALSE;\n\n'
+        else:
+            body=body+'    return TRUE;\n\n'
+    extro='''  default:
+    return FALSE;
   }
 }
 
@@ -1478,7 +1492,8 @@ static int stats_total_sent;
     output_c.write(get_reset(packets))
 
     output_c.write(get_get_packet_helper(packets))
-    output_c.write(get_get_packet_name(packets))
+    output_c.write(get_packet_name(packets))
+    output_c.write(get_packet_has_info_flag(packets))
 
     # write hash, cmp, send, receive
     for p in packets:

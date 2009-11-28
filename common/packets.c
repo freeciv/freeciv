@@ -88,7 +88,7 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len)
   int result = 0;
 
   freelog(BASIC_PACKET_LOG_LEVEL, "sending packet type=%s(%d) len=%d",
-	  get_packet_name(data[2]), data[2], len);
+          packet_name(data[2]), data[2], len);
 
   if (!pc->is_server) {
     pc->client.last_request_id_used =
@@ -139,11 +139,12 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len)
       byte_vector_reserve(&pc->compression.queue, old_size + len);
       memcpy(pc->compression.queue.p + old_size, data, len);
       freelog(COMPRESS2_LOG_LEVEL, "COMPRESS: putting %s into the queue",
-	      get_packet_name(packet_type));
+              packet_name(packet_type));
     } else {
       stat_size_alone += size;
-      freelog(COMPRESS_LOG_LEVEL, "COMPRESS: sending %s alone (%d bytes total)",
-	      get_packet_name(packet_type), stat_size_alone);
+      freelog(COMPRESS_LOG_LEVEL,
+              "COMPRESS: sending %s alone (%d bytes total)",
+              packet_name(packet_type), stat_size_alone);
       send_connection_data(pc, data, len);
     }
 
@@ -271,7 +272,7 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len)
 	freelog(ll, "%8d %8d %8d %s(%i)",
 		packets_stats[i].counter, packets_stats[i].size,
 		packets_stats[i].size / packets_stats[i].counter,
-		get_packet_name(i),i);
+                packet_name(i),i);
       }
       freelog(LOG_TEST,
 	      "turn=%d; transmitted %d bytes in %d packets;average size "
@@ -437,7 +438,7 @@ void *get_packet_from_connection(struct connection *pc,
   dio_get_uint8(&din, &utype.itype);
 
   freelog(BASIC_PACKET_LOG_LEVEL, "got packet type=(%s)%d len=%d",
-	  get_packet_name(utype.type), utype.itype, whole_packet_len);
+          packet_name(utype.type), utype.itype, whole_packet_len);
 
   *ptype = utype.type;
   *presult = TRUE;
@@ -481,7 +482,7 @@ void *get_packet_from_connection(struct connection *pc,
 	freelog(LOG_TEST,
 		"  [%-25.25s %3d]: %6d packets; %8d bytes total; "
 		"%5d bytes/packet average",
-		get_packet_name(i), i, packets_stats[i].counter,
+                packet_name(i), i, packets_stats[i].counter,
 		packets_stats[i].size,
 		packets_stats[i].size / packets_stats[i].counter);
       }

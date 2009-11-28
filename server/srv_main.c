@@ -1407,7 +1407,7 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
   if (NULL == pplayer) {
     /* don't support these yet */
     freelog(LOG_ERROR, "Received packet %s from non-player connection %s",
-            get_packet_name(type), conn_description(pconn));
+            packet_name(type), conn_description(pconn));
     return TRUE;
   }
 

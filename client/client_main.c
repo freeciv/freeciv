@@ -603,7 +603,7 @@ void set_client_state(enum client_states newstate)
   if (C_S_PREPARING == newstate
       && (client_has_player() || client_is_observer())) {
     /* Reset the delta-state. */
-    conn_clear_packet_cache(&client.conn);
+    conn_reset_delta_state(&client.conn);
   }
 
   if (oldstate == newstate) {
