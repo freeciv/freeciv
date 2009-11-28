@@ -305,13 +305,23 @@ class Field:
         if fold_bool_into_header and self.struct_type=="bool" and \
            not self.is_array:
             b="packet->%(name)s"%self.get_dict(vars())
-        else:
-            b="differ"
-        return '''%s
-  if(differ) {different++;}
-  if(%s) {BV_SET(fields, %d);}
+            return '''%s
+  if(differ) {
+    different++;
+  }
+  if (%s) {
+    BV_SET(fields, %d);
+  }
 
 '''%(cmp,b,i)
+        else:
+            return '''%s
+  if (differ) {
+    different++;
+    BV_SET(fields, %d);
+  }
+
+'''%(cmp,i)
 
     # Returns a code fragement which will put this field if the
     # content has changed. Does nothing for bools-in-header.    

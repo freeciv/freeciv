@@ -678,21 +678,3 @@ void pre_send_packet_player_attribute_chunk(struct connection *pc,
 	  packet->offset, packet->total_length, packet->chunk_length);
 
 }
-
-/**************************************************************************
-  ...
-**************************************************************************/
-void post_receive_packet_ruleset_control(struct connection *pc,
-                                         struct packet_ruleset_control *packet)
-{
-  conn_clear_packet_cache(pc);
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-void post_send_packet_ruleset_control(struct connection *pc,
-                                      const struct packet_ruleset_control *packet)
-{
-  conn_clear_packet_cache(pc);
-}
