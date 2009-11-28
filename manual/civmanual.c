@@ -192,19 +192,17 @@ static bool manual_command(void)
 
         fprintf(doc, SEPARATOR);
         fprintf(doc, "%s%s  -  %s%s\n\n", SECTION_BEGIN, command_name(cmd),
-                _(command_short_help(cmd)), SECTION_END);
+                command_short_help(cmd), SECTION_END);
         if (command_synopsis(cmd)) {
           fprintf(doc, _("<table>\n<tr>\n<td valign=\"top\">"
                          "<pre>Synopsis:</pre></td>\n<td>"));
-          fprintf(doc, "<pre>%s</pre></td></tr></table>", _(command_synopsis(cmd)));
+          fprintf(doc, "<pre>%s</pre></td></tr></table>", command_synopsis(cmd));
         }
         fprintf(doc, _("<p class=\"level\">Level: %s</p>\n\n"),
                 cmdlevel_name(command_level(cmd)));
         if (command_extra_help(cmd)) {
-          const char *help = _(command_extra_help(cmd));
-
           fprintf(doc, _("<p>Description:</p>\n\n"));
-          fprintf(doc, "<pre>%s</pre>\n\n", help);
+          fprintf(doc, "<pre>%s</pre>\n\n", command_extra_help(cmd));
         }
       }
       break;

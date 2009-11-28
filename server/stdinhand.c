@@ -1362,7 +1362,7 @@ static bool timeout_command(struct connection *caller, char *str, bool check)
 
   if (ntokens == 0) {
     cmd_reply(CMD_TIMEOUT, caller, C_SYNTAX, _("Usage:\n%s"),
-              _(command_synopsis(command_by_number(CMD_TIMEOUT))));
+              command_synopsis(command_by_number(CMD_TIMEOUT)));
     return FALSE;
   } else if (check) {
     return TRUE;
@@ -1714,7 +1714,7 @@ static bool set_away(struct connection *caller, char *name, bool check)
     return FALSE;
   } else if (name && strlen(name) > 0) {
     cmd_reply(CMD_AWAY, caller, C_SYNTAX, _("Usage:\n%s"),
-              _(command_synopsis(command_by_number(CMD_AWAY))));
+              command_synopsis(command_by_number(CMD_AWAY)));
     return FALSE;
   } else if (NULL == caller->playing || caller->observer) {
     /* This happens for detached or observer connections. */
@@ -1948,7 +1948,7 @@ static bool team_command(struct connection *caller, char *str, bool check)
   if (ntokens != 2) {
     cmd_reply(CMD_TEAM, caller, C_SYNTAX,
               _("Undefined argument.  Usage:\n%s"),
-              _(command_synopsis(command_by_number(CMD_TEAM))));
+              command_synopsis(command_by_number(CMD_TEAM)));
     goto cleanup;
   }
 
@@ -2081,7 +2081,7 @@ static bool vote_command(struct connection *caller, char *str,
     /* Failed */
     cmd_reply(CMD_VOTE, caller, C_SYNTAX,
               _("Undefined argument.  Usage:\n%s"),
-              _(command_synopsis(command_by_number(CMD_VOTE))));
+              command_synopsis(command_by_number(CMD_VOTE)));
     goto CLEANUP;
   }
 
@@ -2262,7 +2262,7 @@ static bool debug_command(struct connection *caller, char *str,
     if (ntokens != 2) {
       cmd_reply(CMD_DEBUG, caller, C_SYNTAX,
                 _("Undefined argument.  Usage:\n%s"),
-                _(command_synopsis(command_by_number(CMD_DEBUG))));
+                command_synopsis(command_by_number(CMD_DEBUG)));
       goto cleanup;
     }
     pplayer = find_player_by_name_prefix(arg[1], &match_result);
@@ -2287,7 +2287,7 @@ static bool debug_command(struct connection *caller, char *str,
     if (ntokens != 2) {
       cmd_reply(CMD_DEBUG, caller, C_SYNTAX,
                 _("Undefined argument.  Usage:\n%s"),
-                _(command_synopsis(command_by_number(CMD_DEBUG))));
+                command_synopsis(command_by_number(CMD_DEBUG)));
       goto cleanup;
     }
     pplayer = find_player_by_name_prefix(arg[1], &match_result);
@@ -2330,7 +2330,7 @@ static bool debug_command(struct connection *caller, char *str,
     if (ntokens != 3) {
       cmd_reply(CMD_DEBUG, caller, C_SYNTAX,
                 _("Undefined argument.  Usage:\n%s"),
-                _(command_synopsis(command_by_number(CMD_DEBUG))));
+                command_synopsis(command_by_number(CMD_DEBUG)));
       goto cleanup;
     }
     if (sscanf(arg[1], "%d", &x) != 1 || sscanf(arg[2], "%d", &y) != 1) {
@@ -2361,7 +2361,7 @@ static bool debug_command(struct connection *caller, char *str,
     if (ntokens != 3) {
       cmd_reply(CMD_DEBUG, caller, C_SYNTAX,
                 _("Undefined argument.  Usage:\n%s"),
-                _(command_synopsis(command_by_number(CMD_DEBUG))));
+                command_synopsis(command_by_number(CMD_DEBUG)));
       goto cleanup;
     }
     if (sscanf(arg[1], "%d", &x) != 1 || sscanf(arg[2], "%d", &y) != 1) {
@@ -2403,7 +2403,7 @@ static bool debug_command(struct connection *caller, char *str,
     if (ntokens != 2) {
       cmd_reply(CMD_DEBUG, caller, C_SYNTAX,
               _("Undefined argument.  Usage:\n%s"),
-              _(command_synopsis(command_by_number(CMD_DEBUG))));
+              command_synopsis(command_by_number(CMD_DEBUG)));
       goto cleanup;
     }
     if (sscanf(arg[1], "%d", &id) != 1) {
@@ -2428,7 +2428,7 @@ static bool debug_command(struct connection *caller, char *str,
   } else {
     cmd_reply(CMD_DEBUG, caller, C_SYNTAX,
               _("Undefined argument.  Usage:\n%s"),
-              _(command_synopsis(command_by_number(CMD_DEBUG))));
+              command_synopsis(command_by_number(CMD_DEBUG)));
   }
   cleanup:
   for (i = 0; i < ntokens; i++) {
@@ -2456,7 +2456,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
   if (nargs < 2) {
     cmd_reply(CMD_SET, caller, C_SYNTAX,
               _("Undefined argument.  Usage:\n%s"),
-              _(command_synopsis(command_by_number(CMD_SET))));
+              command_synopsis(command_by_number(CMD_SET)));
     goto cleanup;
   }
 
@@ -2781,7 +2781,7 @@ static bool observe_command(struct connection *caller, char *str, bool check)
   /* check syntax, only certain syntax if allowed depending on the caller */
   if (!caller && ntokens < 1) {
     cmd_reply(CMD_OBSERVE, caller, C_SYNTAX, _("Usage:\n%s"),
-              _(command_synopsis(command_by_number(CMD_OBSERVE))));
+              command_synopsis(command_by_number(CMD_OBSERVE)));
     goto end;
   } 
 
@@ -2929,7 +2929,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
   /* check syntax */
   if (!caller && ntokens != 2) {
     cmd_reply(CMD_TAKE, caller, C_SYNTAX, _("Usage:\n%s"),
-              _(command_synopsis(command_by_number(CMD_TAKE))));
+              command_synopsis(command_by_number(CMD_TAKE)));
     goto end;
   }
 
@@ -2941,7 +2941,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
 
   if (ntokens == 0) {
     cmd_reply(CMD_TAKE, caller, C_SYNTAX, _("Usage:\n%s"),
-              _(command_synopsis(command_by_number(CMD_TAKE))));
+              command_synopsis(command_by_number(CMD_TAKE)));
     goto end;
   }
 
@@ -3108,7 +3108,7 @@ static bool detach_command(struct connection *caller, char *str, bool check)
 
   if (!caller && ntokens == 0) {
     cmd_reply(CMD_DETACH, caller, C_SYNTAX, _("Usage:\n%s"),
-              _(command_synopsis(command_by_number(CMD_DETACH))));
+              command_synopsis(command_by_number(CMD_DETACH)));
     goto end;
   }
 
@@ -3251,7 +3251,7 @@ bool load_command(struct connection *caller, const char *filename, bool check)
 
   if (!filename || filename[0] == '\0') {
     cmd_reply(CMD_LOAD, caller, C_FAIL, _("Usage:\n%s"),
-              _(command_synopsis(command_by_number(CMD_LOAD))));
+              command_synopsis(command_by_number(CMD_LOAD)));
     return FALSE;
   }
   if (S_S_INITIAL != server_state()) {
@@ -4004,10 +4004,10 @@ static void show_help_command(struct connection *caller,
   
   if (command_short_help(cmd)) {
     cmd_reply(help_cmd, caller, C_COMMENT,
-	      /* TRANS: <untranslated name> - translated short help */
-	      _("Command: %s  -  %s"),
-	      command_name(cmd),
-	      _(command_short_help(cmd)));
+              /* TRANS: <untranslated name> - translated short help */
+              _("Command: %s  -  %s"),
+              command_name(cmd),
+              command_short_help(cmd));
   } else {
     cmd_reply(help_cmd, caller, C_COMMENT,
 	      /* TRANS: <untranslated name> */
@@ -4022,16 +4022,14 @@ static void show_help_command(struct connection *caller,
 
     my_snprintf(prefix, sizeof(prefix), "%*s", (int) synlen, " ");
     cmd_reply_prefix(help_cmd, caller, C_COMMENT, prefix,
-		     "%s%s", syn, _(command_synopsis(cmd)));
+                     "%s%s", syn, command_synopsis(cmd));
   }
   cmd_reply(help_cmd, caller, C_COMMENT,
-	    _("Level: %s"), cmdlevel_name(command_level(cmd)));
+            _("Level: %s"), cmdlevel_name(command_level(cmd)));
   if (command_extra_help(cmd)) {
-    const char *help = _(command_extra_help(cmd));
-      
     cmd_reply(help_cmd, caller, C_COMMENT, _("Description:"));
     cmd_reply_prefix(help_cmd, caller, C_COMMENT, "  ",
-		     "  %s", help);
+                     "  %s", command_extra_help(cmd));
   }
 }
 
