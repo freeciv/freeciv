@@ -111,7 +111,7 @@ static void check_edited_tile_terrains(void)
   hash_delete_all_entries(unfixed_tile_table);
 
   assign_continent_numbers();
-  send_all_known_tiles(NULL, FALSE);
+  send_all_known_tiles(NULL);
 }
 
 /****************************************************************************
@@ -170,7 +170,7 @@ void handle_edit_mode(struct connection *pc, bool is_edit_mode)
      * mode. */
     whole_map_iterate(ptile) {
       if (map_has_startpos(ptile)) {
-        send_tile_info(NULL, ptile, TRUE, FALSE);
+        send_tile_info(NULL, ptile, TRUE);
       }
     } whole_map_iterate_end;
 
@@ -397,7 +397,7 @@ void handle_edit_tile(struct connection *pc,
   /* Send the new state to all affected. */
   if (changed) {
     update_tile_knowledge(ptile);
-    send_tile_info(NULL, ptile, FALSE, FALSE);
+    send_tile_info(NULL, ptile, FALSE);
   }
 }
 
@@ -1281,7 +1281,7 @@ void handle_edit_startpos(struct connection *pc, int tile,
   }
 
   if (old != pnation || removed) {
-    send_tile_info(NULL, ptile, FALSE, FALSE);
+    send_tile_info(NULL, ptile, FALSE);
   }
 }
 

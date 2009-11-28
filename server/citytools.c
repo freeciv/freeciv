@@ -2267,7 +2267,7 @@ void city_map_update_empty(struct city *pcity, struct tile *ptile,
 			   int city_x, int city_y)
 {
   tile_set_worked(ptile, NULL);
-  send_tile_info(NULL, ptile, FALSE, FALSE);
+  send_tile_info(NULL, ptile, FALSE);
   pcity->city_map[city_x][city_y] = C_TILE_EMPTY;
   pcity->server.synced = FALSE;
 }
@@ -2281,7 +2281,7 @@ void city_map_update_worker(struct city *pcity, struct tile *ptile,
 			    int city_x, int city_y)
 {
   tile_set_worked(ptile, pcity);
-  send_tile_info(NULL, ptile, FALSE, FALSE);
+  send_tile_info(NULL, ptile, FALSE);
   pcity->city_map[city_x][city_y] = C_TILE_WORKER;
   pcity->server.synced = FALSE;
 }
@@ -2299,7 +2299,7 @@ static bool city_map_update_tile_direct(struct tile *ptile, bool queued)
    && !is_free_worked(pwork, ptile)
    && !city_can_work_tile(pwork, ptile)) {
     tile_set_worked(ptile, NULL);
-    send_tile_info(NULL, ptile, FALSE, FALSE);
+    send_tile_info(NULL, ptile, FALSE);
 
     pwork->specialists[DEFAULT_SPECIALIST]++; /* keep city sanity */
     pwork->server.synced = FALSE;

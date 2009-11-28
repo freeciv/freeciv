@@ -544,7 +544,6 @@ class Variant:
         if len(self.fields)>5 or string.split(self.name,"_")[1]=="ruleset":
             self.handle_via_packet=1
 
-        self.extra_force_arg=""
         self.extra_send_args=""
         self.extra_send_args2=""
         self.extra_send_args3=string.join(
@@ -556,10 +555,9 @@ class Variant:
         if not self.no_packet:
             self.extra_send_args=', const struct %(packet_name)s *packet'%self.__dict__+self.extra_send_args
             self.extra_send_args2=', packet'+self.extra_send_args2
-        if not self.is_action:
-            self.extra_force_arg=', bool force_send'
+
         self.receive_prototype='static struct %(packet_name)s *receive_%(name)s(struct connection *pc, enum packet_type type)'%self.__dict__
-        self.send_prototype='static int send_%(name)s(struct connection *pc%(extra_force_arg)s%(extra_send_args)s)'%self.__dict__
+        self.send_prototype='static int send_%(name)s(struct connection *pc%(extra_send_args)s)'%self.__dict__
 
     # See Field.get_dict
     def get_dict(self,vars):
@@ -716,12 +714,12 @@ static char *stats_%(name)s_names[] = {%(names)s};
             if self.delta:
                 body=self.get_delta_send_body()
                 if self.is_action:
-                    force_send_var="\n  bool force_send = TRUE;"
+                    force_send="TRUE"
                 else:
-                    force_send_var=""
+                    force_send="FALSE"
                 delta_header='''  %(name)s_fields fields;
   struct %(packet_name)s *old, *clone;
-  bool differ, old_from_hash;%(force_send_var)s
+  bool differ, old_from_hash, force_send_of_unchanged = %(force_send)s;
   struct hash_table **hash = &pc->phs.sent[%(type)s];
   int different = 0;
 '''
@@ -764,7 +762,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
   if (!old) {
     old = fc_malloc(sizeof(*old));
     memset(old, 0, sizeof(*old));
-    force_send = TRUE;
+    force_send_of_unchanged = TRUE;
   }
 
 '''
@@ -780,7 +778,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
             s='    stats_%(name)s_discarded++;\n'
         else:
             s=""
-        body=body+'''  if (different == 0 && !force_send) {
+        body=body+'''  if (different == 0 && !force_send_of_unchanged) {
 %(fl)s%(s)s<pre2>    return 0;
   }
 
@@ -928,7 +926,7 @@ class Packet:
             self.dirs.append("cs")
             arr.remove("cs")
         assert len(self.dirs)>0,repr(self.name)+repr(self.dirs)
-
+            
         self.is_action="is-info" not in arr
         if not self.is_action: arr.remove("is-info")
         
@@ -1003,16 +1001,11 @@ class Packet:
             self.extra_send_args2=', packet'+self.extra_send_args2
 
         self.receive_prototype='struct %(name)s *receive_%(name)s(struct connection *pc, enum packet_type type)'%self.__dict__
-        self.force_arg=""
-        self.force_value=""
-        if not self.is_action:
-            self.force_arg=", bool force_send"
-            self.force_value=", force_send"
-        self.send_prototype='int send_%(name)s(struct connection *pc%(force_arg)s%(extra_send_args)s)'%self.__dict__
+        self.send_prototype='int send_%(name)s(struct connection *pc%(extra_send_args)s)'%self.__dict__
         if self.want_lsend:
-            self.lsend_prototype='void lsend_%(name)s(struct conn_list *dest%(force_arg)s%(extra_send_args)s)'%self.__dict__
+            self.lsend_prototype='void lsend_%(name)s(struct conn_list *dest%(extra_send_args)s)'%self.__dict__
         if self.want_dsend:
-            self.dsend_prototype='int dsend_%(name)s(struct connection *pc%(force_arg)s%(extra_send_args3)s)'%self.__dict__
+            self.dsend_prototype='int dsend_%(name)s(struct connection *pc%(extra_send_args3)s)'%self.__dict__
             if self.want_lsend:
                 self.dlsend_prototype='void dlsend_%(name)s(struct conn_list *dest%(extra_send_args3)s)'%self.__dict__
 
@@ -1172,11 +1165,10 @@ class Packet:
 
   switch(pc->phs.variant[%(type)s]) {
 '''%self.get_dict(vars())
-        args="pc"
-        if not self.is_action:
-            args=args+', force_send'
         if not self.no_packet:
-            args=args+', packet'
+            args="pc, packet"
+        else:
+            args="pc"
         for v in self.variants:
             name2=v.name
             no=v.no
@@ -1203,7 +1195,7 @@ class Packet:
         return '''%(lsend_prototype)s
 {
   conn_list_iterate(dest, pconn) {
-    send_%(name)s(pconn%(force_value)s%(extra_send_args2)s);
+    send_%(name)s(pconn%(extra_send_args2)s);
   } conn_list_iterate_end;
 }
 
@@ -1220,7 +1212,7 @@ class Packet:
 
 %(fill)s
   
-  return send_%(name)s(pc, real_packet%(force_value)s);
+  return send_%(name)s(pc, real_packet);
 }
 
 '''%self.get_dict(vars())

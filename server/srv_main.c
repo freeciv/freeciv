@@ -399,7 +399,7 @@ bool check_for_game_over(void)
   Initial packets should have been sent before calling this function.
   See comment in connecthand.c::establish_new_connection().
 **************************************************************************/
-void send_all_info(struct conn_list *dest, bool force)
+void send_all_info(struct conn_list *dest)
 {
   conn_list_iterate(dest, pconn) {
     if (conn_controls_player(pconn)) {
@@ -410,7 +410,7 @@ void send_all_info(struct conn_list *dest, bool force)
   /* Resend player info because it could have more infos (e.g. embassy). */
   send_player_info_c(NULL, dest);
   send_map_info(dest);
-  send_all_known_tiles(dest, force);
+  send_all_known_tiles(dest);
   send_all_known_cities(dest);
   send_all_known_units(dest);
   send_spaceship_info(NULL, dest);
@@ -2357,7 +2357,7 @@ static void srv_ready(void)
   }
 
   lsend_packet_freeze_hint(game.est_connections);
-  send_all_info(game.est_connections, FALSE);
+  send_all_info(game.est_connections);
   lsend_packet_thaw_hint(game.est_connections);
 
   if (game.info.is_new_game) {
