@@ -69,7 +69,7 @@ veteran_move_bonus = 0, 0
 ; "CollectRansom" = Unit can collect ransom when killing lone barbarian leader
 ; "ZOC"           = Unit is subject to ZOC rules. Unit type flag "IgZOC" can
 ;                   override this
-; "CanFortify"    = Unit can fortify at land squares
+; "CanFortify"    = Unit can fortify at land tiles
 ; "CanPillage"    = Unit can pillage tile infrastructure
 ; "DoesntOccupyTile"  = Even if this kind of enemy unit is on tile, cities can
 ;                       still work that tile
@@ -202,7 +202,7 @@ Settlers are one of the key units in the game.  They can be used to\
 \n\n\
 Settlers may work together to decrease the amount of\
  time required for long projects.  If two or more Settlers\
- are both working on the same task in the same square,\
+ are both working on the same task in the same tile,\
  their efforts will be added together each turn until the task is\
  finished.  Be careful not to dedicate too many workers to one task,\
  though; excess effort can be wasted, and a group of Settlers\
@@ -1029,9 +1029,10 @@ helptext      = _("\
 You can build Nuclear units when you have the required advance, and\
  the Manhattan Project wonder has been built by any player.\
 \n\n\
-On impact, the blast will destroy any unit in a 3x3-square area,\
- including friendly units.  When striking a city, the city size is\
- halved, and the surrounding squares are subject to nuclear fallout.\
+On impact, the blast will destroy any unit in an area 3 tiles wide\
+ (3x3 squares for rectangular grids), including friendly units.  When\
+ striking a city, the city size is halved, and the surrounding tiles\
+ are subject to nuclear fallout.\
 \n\n\
 TIP 1:  Nuking the ocean will not generate fallout, and is a most\
  effective (but expensive!!) way of getting rid of enemy\
