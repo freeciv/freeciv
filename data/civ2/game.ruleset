@@ -18,8 +18,8 @@ options="1.11.1"
 name = _("Civ2 ruleset")
 
 ; Description of the ruleset
-description = _("You are playing with civ2 style rules.\
-These are quite close to Freeciv default rules, but with some additions.")
+description = _("You are playing with civ2 style rules. These are\
+ quite close to Freeciv default rules, but with some additions.")
 
 [options]
 global_init_techs=""

@@ -33,10 +33,9 @@ function hut_get_tech(unit)
                  _("You found %s in ancient scrolls of wisdom."),
                  methods_tech_type_name_translation(tech))
     notify.embassies(owner, unit.tile, E.HUT_TECH,
-                     _("The %s have acquired %s from ancient scrolls of\
-                      wisdom."),
-                     methods_nation_type_plural_translation(owner.nation),
-                     methods_tech_type_name_translation(tech))
+                 _("The %s have acquired %s from ancient scrolls of wisdom."),
+                 methods_nation_type_plural_translation(owner.nation),
+                 methods_tech_type_name_translation(tech))
     return true
   else
     return false

@@ -25,7 +25,7 @@ ruler_titles = { "government",      "male_title",      "female_title"
                  "Despotism",       _("Imperator"),   _("Imperatrix")
 		 "Fundamentalism",  _("Patriarch"),   _("Matriarch")
 		 ; /* TRANS: Basileus = Monarch */
-                 "Monarchy",        _("Basileus"),    _("?female:Basileus")
+                 "Monarchy",        _("Basileus"),    _("Basilissa")
                }
 
 init_techs=""
