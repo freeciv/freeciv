@@ -1037,7 +1037,7 @@ struct setting settings[] = {
    * the next turn). */
   GEN_INT("phasemode", game.server.phase_mode_stored,
 	  SSET_META, SSET_INTERNAL, SSET_SITUATIONAL, SSET_TO_CLIENT,
-	  N_("Whether to have simultaneous player/team phases."),
+          N_("Control of simultaneous player/team phases."),
           /* NB: The values must match enum phase_mode_types
            * defined in common/game.h */
 	  N_("This setting controls whether players may make "
