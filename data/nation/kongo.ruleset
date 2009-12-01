@@ -4,11 +4,11 @@ name=_("Kongo")
 plural=_("?plural:Kongo")
 groups="Medieval", "African"
 
-legend=_("This Kingdom, lasting from roughly 1400 CE until the late 19th\
- century, existed in the present-day countries of Angola and the Democratic\
- Republic of the Congo. Soon after its formation, Portuguese explorers,\
- missionaries and slavers began to arrive and exerted considerable influence\
- in the Kingdom.")
+legend=_("This Kingdom, lasting from roughly 1400 AD until the late 19th\
+ century, existed in the present-day countries of Angola and the\
+ Democratic Republic of the Congo. Soon after its formation, Portuguese\
+ explorers, missionaries and slavers began to arrive and exerted\
+ considerable influence in the Kingdom.")
 
 leader=
  "Lukeni lua Nim",
@@ -25,7 +25,7 @@ flag_alt     = "-"
 city_style   = "Tropical"
 ruler_titles = { "government",      "male_title",        "female_title"
                  "Despotism",      _("Chief"),           _("Chief")
-                 "Monarchy",       _("Manikongo"),       _("Manikongo")
+                 "Monarchy",       _("Manikongo"),   _("?female:Manikongo")
                }
 
 init_techs=""
