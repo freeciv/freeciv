@@ -63,6 +63,12 @@
 #define MY_FD_ZERO(p) memset((void *)(p), 0, sizeof(*(p)))
 #endif
 
+#ifdef IPV6_ADD_MEMBERSHIP
+#define FC_IPV6_ADD_MEMBERSHIP IPV6_ADD_MEMBERSHIP
+#else
+#define FC_IPV6_ADD_MEMBERSHIP IPV6_JOIN_GROUP
+#endif
+
 #ifndef HAVE_SOCKLEN_T
 typedef int socklen_t;
 #endif

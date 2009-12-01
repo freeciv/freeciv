@@ -691,7 +691,7 @@ static bool begin_lanserver_scan(struct server_scan *scan)
     inet_pton(AF_INET6, group, &mreq6.ipv6mr_multiaddr.s6_addr);
     mreq6.ipv6mr_interface = 0; /* TODO: Interface selection */
 
-    if (setsockopt(scan->sock, IPPROTO_IPV6, IPV6_ADD_MEMBERSHIP,
+    if (setsockopt(scan->sock, IPPROTO_IPV6, FC_IPV6_ADD_MEMBERSHIP,
                    (const char*)&mreq6, sizeof(mreq6)) < 0) {
       scan->error_func(scan, fc_strerror(fc_get_errno()));
     }
