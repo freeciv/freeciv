@@ -4,7 +4,7 @@ name=_("American")
 plural=_("?plural:Americans")
 groups="Modern", "American"
 legend=_("Formally named the United States of America.  Independent from\
- Great Britain after a revolution in 1776-1783AD.")
+ Great Britain after a revolution in 1776-1783 AD.")
 leader="George Washington",
        "Alexander Hamilton",
        "Benjamin Franklin",

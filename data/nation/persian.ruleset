@@ -3,8 +3,8 @@
 name=_("Persian")
 plural=_("?plural:Persians")
 groups="Ancient","Asian"
-legend=_("The first Persian (Achaemenid) Empire lasted from 550BC to 330BC;\
- the second (Sassanid) from 226AD to 642AD.")
+legend=_("The first Persian (Achaemenid) Empire lasted from 550 BC to 330\
+ BC; the second (Sassanid) from 226 AD to 642 AD.")
 leader=
  "Kurush II", ; a.k.a. "Cyrus"
  "Darayavaush I", ; a.k.a. "Darius"

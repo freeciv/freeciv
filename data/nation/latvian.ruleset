@@ -4,10 +4,10 @@ name=_("Latvian")
 plural=_("?plural:Latvians")
 groups="Modern", "European"
 
-legend = _("In the aftermath of WWI Latvia proclaimed its independence\
- from Russia. In 1940, Latvia was forcibly occupied by the Soviet Union.\
- After the collapse of Soviet Union in 1991 Latvia restored its\
- independence.")
+legend = _("In the aftermath of World War I Latvia proclaimed its\
+ independence from Russia. In 1940, Latvia was forcibly occupied by the\
+ Soviet Union. After the collapse of Soviet Union in 1991 Latvia restored\
+ its independence.")
 
 leader =
  "Namiesis",

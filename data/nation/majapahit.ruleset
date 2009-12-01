@@ -4,14 +4,14 @@ name=_("Majapahit")
 plural=_("?plural:Majapahit")
 groups="Asian", "Medieval"
 
-legend=_("This empire began in 1293 CE when a local prince used invading\
- Yuan dynasty troops to his own advantage by having them defeat his enemies\
- and then expelling them. The Majapahit, centered in eastern Java, was\
- heavily influenced by Buddhism and Hinduism and was a major regional power\
- in the insular Southeast Asian world, a position which allowed them to\
- control much of the trade between China, India and the Middle East. They\
- lasted until 1500 when they were eclipsed by the Sultanate of Malacca and\
- the rise of Islam in the Indonesian world.")
+legend=_("This empire began in 1293 AD when a local prince used invading\
+ Yuan dynasty troops to his own advantage by having them defeat his\
+ enemies and then expelling them. The Majapahit, centered in eastern Java,\
+ was heavily influenced by Buddhism and Hinduism and was a major regional\
+ power in the insular Southeast Asian world, a position which allowed them\
+ to control much of the trade between China, India and the Middle East.\
+ They lasted until 1500 when they were eclipsed by the Sultanate of\
+ Malacca and the rise of Islam in the Indonesian world.")
 
 leader=
  "Hayam Wuruk",
