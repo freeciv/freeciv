@@ -1374,17 +1374,17 @@ end
   own "control" packet, done separately.)
 **************************************************************************/
 PACKET_RULESET_CONTROL=106; sc, lsend
-  UINT8 num_unit_classes;
-  UINT8 num_unit_types;
-  UINT8 num_impr_types;
-  UINT8 num_tech_types;
-  UINT8 num_base_types;
-  UINT8 government_count;
-  UINT8 nation_count;
-  UINT8 styles_count;
-  UINT8 terrain_count;
-  UINT8 resource_count;
-  UINT8 num_specialist_types;
+  UINT16 num_unit_classes;
+  UINT16 num_unit_types;
+  UINT16 num_impr_types;
+  UINT16 num_tech_types;
+  UINT16 num_base_types;
+  UINT16 government_count;
+  UINT16 nation_count;
+  UINT16 styles_count;
+  UINT16 terrain_count;
+  UINT16 resource_count;
+  UINT16 num_specialist_types;
 
   STRING prefered_tileset[MAX_LEN_NAME];
 
