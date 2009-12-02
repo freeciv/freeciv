@@ -1165,7 +1165,7 @@ int secfile_lookup_int(struct section_file *my_section_file,
   entry does not exist.  If the entry exists as a string, then die.
 **************************************************************************/
 int secfile_lookup_int_default(struct section_file *my_section_file,
-			       int def, const char *path, ...)
+                               int def, const char *path, ...)
 {
   struct entry *pentry;
   char buf[MAX_LEN_BUFFER];
@@ -1178,11 +1178,11 @@ int secfile_lookup_int_default(struct section_file *my_section_file,
   if(!(pentry=section_file_lookup_internal(my_section_file, buf))) {
     return def;
   }
-  if(pentry->svalue) {
-    freelog(LOG_FATAL, "sectionfile %s contains a '%s', but string not integer",
-	    secfile_filename(my_section_file), buf);
-    exit(EXIT_FAILURE);
-  }
+
+  RETURN_VAL_IF_FAIL_MSG(pentry->svalue == NULL, def, "sectionfile %s "
+                         "contains a '%s', but string not integer",
+                         secfile_filename(my_section_file), buf);
+
   return pentry->ivalue;
 }
 
@@ -1268,7 +1268,7 @@ bool secfile_lookup_bool(struct section_file *my_section_file,
   entry does not exist.  If the entry exists as a string, then die.
 **************************************************************************/
 bool secfile_lookup_bool_default(struct section_file *my_section_file,
-				 bool def, const char *path, ...)
+                                 bool def, const char *path, ...)
 {
   struct entry *pentry;
   char buf[MAX_LEN_BUFFER];
@@ -1281,18 +1281,17 @@ bool secfile_lookup_bool_default(struct section_file *my_section_file,
   if(!(pentry=section_file_lookup_internal(my_section_file, buf))) {
     return def;
   }
-  if(pentry->svalue) {
-    freelog(LOG_FATAL, "sectionfile %s contains a '%s', but string not integer",
-	    secfile_filename(my_section_file), buf);
-    exit(EXIT_FAILURE);
-  }
+
+  RETURN_VAL_IF_FAIL_MSG(pentry->svalue == NULL, def, "sectionfile %s "
+                         "contains a '%s', but string not integer",
+                         secfile_filename(my_section_file), buf);
 
   if (pentry->ivalue != 0 && pentry->ivalue != 1) {
     freelog(LOG_ERROR, "Value read for key %s isn't boolean: %d", buf,
-	    pentry->ivalue);
+            pentry->ivalue);
     pentry->ivalue = 1;
   }
-  
+
   return pentry->ivalue != 0;
 }
 
@@ -1301,7 +1300,7 @@ bool secfile_lookup_bool_default(struct section_file *my_section_file,
   entry does not exist.  If the entry exists as an int, then die.
 **************************************************************************/
 char *secfile_lookup_str_default(struct section_file *my_section_file, 
-				 const char *def, const char *path, ...)
+                                 const char *def, const char *path, ...)
 {
   struct entry *pentry;
   char buf[MAX_LEN_BUFFER];
@@ -1315,12 +1314,10 @@ char *secfile_lookup_str_default(struct section_file *my_section_file,
     return (char *) def;
   }
 
-  if(!pentry->svalue) {
-    freelog(LOG_FATAL, "sectionfile %s contains a '%s', but integer not string",
-	    secfile_filename(my_section_file), buf);
-    exit(EXIT_FAILURE);
-  }
-  
+  RETURN_VAL_IF_FAIL_MSG(pentry->svalue != NULL, (char *)def, "sectionfile "
+                         "%s contains a '%s', but integer not string",
+                         secfile_filename(my_section_file), buf);
+
   return pentry->svalue;
 }
 
