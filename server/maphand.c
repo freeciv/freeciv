@@ -1651,6 +1651,10 @@ void map_claim_border(struct tile *ptile, struct player *owner)
 {
   int radius_sq = tile_border_source_radius_sq(ptile);
 
+  if (0 == game.info.borders) {
+    return;
+  }
+
   circle_dxyr_iterate(ptile, radius_sq, dtile, dx, dy, dr) {
     struct tile *dclaimer = tile_claimer(dtile);
 
