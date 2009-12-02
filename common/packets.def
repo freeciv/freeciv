@@ -62,6 +62,9 @@ Syntax:
               the client outside of the reception of that packet, or for
               any packet with side effects at the client.
 
+     cancel(PACKET_number): Cancel a packet with the same key (must be the
+     same key type at the start of the packet), useful for is-info packets.
+
      pre-send:
      post-recv:
      post-send: generate calls to pre-send, post-receive and post-send
@@ -528,11 +531,11 @@ end
 
 /************** City packets **********************/
 
-PACKET_CITY_REMOVE=20;sc,dsend,lsend
+PACKET_CITY_REMOVE = 20; sc, dsend, lsend, cancel(PACKET_CITY_INFO), cancel(PACKET_CITY_SHORT_INFO)
   CITY city_id;
 end
 
-PACKET_CITY_INFO=21; sc,lsend
+PACKET_CITY_INFO = 21; sc, lsend, cancel(PACKET_CITY_SHORT_INFO)
   CITY id; key
   TILE tile;
 
@@ -584,7 +587,7 @@ PACKET_CITY_INFO=21; sc,lsend
   STRING name[MAX_LEN_NAME];
 end
 
-PACKET_CITY_SHORT_INFO=22; sc,lsend
+PACKET_CITY_SHORT_INFO = 22; sc, lsend, cancel(PACKET_CITY_INFO)
   CITY id; key
   TILE tile;
 
@@ -677,12 +680,12 @@ end
 
 /************** Player packets **********************/
 
-PACKET_PLAYER_REMOVE=38;sc,dsend
+PACKET_PLAYER_REMOVE = 38; sc, dsend, cancel(PACKET_PLAYER_INFO)
   PLAYER playerno;
 end
 
-PACKET_PLAYER_INFO=39;sc
-  PLAYER playerno; key 
+PACKET_PLAYER_INFO = 39; sc, is-info
+  PLAYER playerno; key
   STRING name[MAX_LEN_NAME];
   STRING username[MAX_LEN_NAME];
 
@@ -757,11 +760,11 @@ end
 
 /************** Unit packets **********************/
 
-PACKET_UNIT_REMOVE=48;sc,dsend,lsend
+PACKET_UNIT_REMOVE=48; sc, dsend, lsend, cancel(PACKET_UNIT_INFO), cancel(PACKET_UNIT_SHORT_INFO)
   UNIT unit_id;
 end
 
-PACKET_UNIT_INFO=49; sc,lsend
+PACKET_UNIT_INFO = 49; sc, lsend, is-info, cancel(PACKET_UNIT_SHORT_INFO)
   UNIT id; key
   PLAYER owner;
   TILE tile;
@@ -793,7 +796,7 @@ PACKET_UNIT_INFO=49; sc,lsend
   BASE orders_bases[MAX_LEN_ROUTE:orders_length];
 end
 
-PACKET_UNIT_SHORT_INFO=50; sc,lsend
+PACKET_UNIT_SHORT_INFO = 50; sc, lsend, is-info, cancel(PACKET_UNIT_INFO)
   UNIT id; key
   PLAYER owner;
   TILE tile;
@@ -1011,7 +1014,7 @@ end
 # For telling clients information about other connections to server.
 # Clients may not use all info, but supply now to avoid unnecessary
 # protocol changes later.
-PACKET_CONN_INFO=86; sc,lsend
+PACKET_CONN_INFO = 86; sc, lsend, is-info
   CONNECTION id; key
 
   # 0 means client should forget its
@@ -1491,7 +1494,7 @@ end
 
 /*************** "voteinfo" Capability Packets ***************/
 
-PACKET_VOTE_NEW=145;sc,handle-via-packet,no-delta
+PACKET_VOTE_NEW = 145; sc, handle-via-packet
   UINT32 vote_no;
   STRING user[MAX_LEN_NAME];
   STRING desc[512];
@@ -1500,7 +1503,7 @@ PACKET_VOTE_NEW=145;sc,handle-via-packet,no-delta
 end
 
 /* Sent to the client to give the new vote totals. */
-PACKET_VOTE_UPDATE=146;sc,no-delta
+PACKET_VOTE_UPDATE = 146; sc
   UINT32 vote_no; key
   UINT8 yes;
   UINT8 no;
@@ -1508,11 +1511,11 @@ PACKET_VOTE_UPDATE=146;sc,no-delta
   UINT8 num_voters;
 end
 
-PACKET_VOTE_REMOVE=147;sc,no-delta
+PACKET_VOTE_REMOVE = 147; sc
   UINT32 vote_no;
 end
 
-PACKET_VOTE_RESOLVE=148;sc,no-delta
+PACKET_VOTE_RESOLVE = 148; sc
   UINT32 vote_no;
   BOOL passed;
 end

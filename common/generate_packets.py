@@ -527,6 +527,7 @@ class Variant:
         self.type=packet.type
         self.delta=packet.delta
         self.is_action=packet.is_action
+        self.cancel=packet.cancel
         
         self.poscaps=poscaps
         self.negcaps=negcaps
@@ -723,13 +724,9 @@ static char *stats_%(name)s_names[] = {%(names)s};
         if not self.no_packet:
             if self.delta:
                 body=self.get_delta_send_body()
-                if self.is_action:
-                    force_send="TRUE"
-                else:
-                    force_send="FALSE"
                 delta_header='''  %(name)s_fields fields;
   struct %(packet_name)s *old;
-  bool differ, force_send_of_unchanged = %(force_send)s;
+  bool differ;
   struct hash_table **hash = &pc->phs.sent[%(type)s];
   int different = 0;
 '''
@@ -772,7 +769,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
     *old = *real_packet;
     hash_insert(*hash, old, old);
     memset(old, 0, sizeof(*old));
-    force_send_of_unchanged = TRUE;
+    different = 1;      /* Force to send. */
   }
 
 '''
@@ -788,12 +785,17 @@ static char *stats_%(name)s_names[] = {%(names)s};
             s='    stats_%(name)s_discarded++;\n'
         else:
             s=""
-        body=body+'''  if (different == 0 && !force_send_of_unchanged) {
+
+        if not self.is_action:
+            body=body+'''
+  if (different == 0) {
 %(fl)s%(s)s<pre2>    return 0;
   }
-
-  DIO_BV_PUT(&dout, fields);
 '''%self.get_dict(vars())
+
+        body=body+'''
+  DIO_BV_PUT(&dout, fields);
+'''
 
         for field in self.key_fields:
             body=body+field.get_put()+"\n"
@@ -805,6 +807,16 @@ static char *stats_%(name)s_names[] = {%(names)s};
         body=body+'''
   *old = *real_packet;
 '''
+
+        # Cancel some is-info packets.
+        for i in self.cancel:
+            body=body+'''
+  hash = &pc->phs.sent[%s];
+  if (NULL != *hash) {
+    hash_delete_entry(*hash, real_packet);
+  }
+'''%i
+
         return intro+body
 
     # Returns a code fragement which is the implementation of the receive
@@ -961,8 +973,19 @@ class Packet:
         self.want_lsend="lsend" in arr
         if self.want_lsend: arr.remove("lsend")
 
+        self.cancel=[]
+        removes=[]
+        remaining=[]
+        for i in arr:
+            mo=re.search("^cancel\((.*)\)$",i)
+            if mo:
+                self.cancel.append(mo.group(1))
+                continue
+            remaining.append(i)
+        arr=remaining
+
         assert len(arr)==0,repr(arr)
-        
+
         if disable_delta:
             self.delta=0
 
