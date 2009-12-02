@@ -1939,7 +1939,7 @@ bool path_is_absolute(const char *filename)
   trailing whitespace.  You can scan for "" to conveniently grab the
   remainder of a string.
 **************************************************************************/
-char scanin(char **buf, char *delimiters, char *dest, int size)
+char scanin(const char **buf, char *delimiters, char *dest, int size)
 {
   char *ptr, found = '?';
 

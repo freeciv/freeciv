@@ -14,9 +14,8 @@
 /**************************************************************************
   the idea with this file is to create something similar to the ms-windows
   .ini files functions.
-  it also demonstrates how ugly code using the genlist class looks.
   however the interface is nice. ie:
-  section_file_lookup_string(file, "player%d.unit%d.name", plrno, unitno); 
+  secfile_lookup_str(file, "player%d.unit%d.name", plrno, unitno); 
 ***************************************************************************/
 
 /**************************************************************************
@@ -43,6 +42,8 @@
       subname = "stringvalue"
       subname = -digits
       subname = digits
+      subname = TRUE
+      sunname = FALSE
   for a value with given name and string, negative integer, and
   positive integer values, respectively.  These entries are
   referenced in the following functions as "sectionname.subname".
@@ -153,6 +154,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* utility */
 #include "astring.h"
 #include "fcintl.h"
 #include "genlist.h"
@@ -161,7 +163,6 @@
 #include "ioz.h"
 #include "log.h"
 #include "mem.h"
-#include "sbuffer.h"
 #include "shared.h"
 #include "support.h"
 
@@ -169,1484 +170,71 @@
 
 #define MAX_LEN_BUFFER 1024
 
-#define SAVE_TABLES TRUE	/* set to 0 for old-style savefiles */
-#define SECF_DEBUG_ENTRIES FALSE/* LOG_DEBUG each entry value */
+/* Set to FALSE for old-style savefiles. */
+#define SAVE_TABLES TRUE
+/* Debug function for every new entry. */
+#define DEBUG_ENTRIES(...) /* freelog(LOG_DEBUG, __VA_ARGS__); */
 
 #define SPECVEC_TAG astring
 #include "specvec.h"
 
-/* An 'entry' is a string, integer or string vector;
- * Whether it is string or int or string vector is determined by whether
- * svalue/vec_values is NULL.
- */
-struct entry {
-  char *name;			/* name, not including section prefix */
-  int  ivalue;			/* value if integer */
-  char *svalue;			/* value if string (in sbuffer) */
-  char **vec_values;		/* string vector values */
-  int dim;			/* vector's size */
-  int  used;			/* number of times entry looked up */
-  char *comment;                /* comment, may be NULL */
-  bool escaped;                 /* " or $. Usually TRUE */
-};
 
-/* create a 'struct entry_list' and related functions: */
-#define SPECLIST_TAG entry
-#include "speclist.h"
+static void secfile_log(const struct section_file *secfile,
+                        const struct section *psection,
+                        const char *file, const char *function, int line,
+                        const char *format, ...)
+                        fc__attribute((__format__(__printf__, 6, 7)));
+#define SECFILE_LOG(secfile, psection, format, ...)                         \
+  secfile_log(secfile, psection, __FILE__, __FUNCTION__, __LINE__,          \
+              format, ## __VA_ARGS__)
+#define SECFILE_RETURN_IF_FAIL(secfile, psection, condition)                \
+  if (!(condition)) {                                                       \
+    SECFILE_LOG(secfile, psection, "Assertion '%s' failed.", #condition);   \
+    return;                                                                 \
+  }
+#define SECFILE_RETURN_VAL_IF_FAIL(secfile, psection, condition, value)     \
+  if (!(condition)) {                                                       \
+    SECFILE_LOG(secfile, psection, "Assertion '%s' failed.", #condition);   \
+    return value;                                                           \
+  }
 
-#define entry_list_iterate(entlist, pentry) \
-       TYPED_LIST_ITERATE(struct entry, entlist, pentry)
-#define entry_list_iterate_end  LIST_ITERATE_END
+static inline bool entry_used(const struct entry *pentry);
+static inline void entry_use(struct entry *pentry);
 
+static void entry_to_file(const struct entry *pentry, fz_FILE *fs,
+                          char *buf, size_t buf_len);
+static void entry_from_token(struct section *psection,
+                             const char *name, const char *tok);
 
-struct section {
-  char *name;
-  struct entry_list *entries;
-};
-
-/* create a 'struct section_list' and related functions: */
-#define SPECLIST_TAG section
-#include "speclist.h"
-
-#define section_list_iterate(seclist, psection) \
-       TYPED_LIST_ITERATE(struct section, seclist, psection)
-#define section_list_iterate_end  LIST_ITERATE_END
-
-#define section_list_iterate_rev(seclist, psection) \
-       TYPED_LIST_ITERATE_REV(struct section, seclist, psection)
-#define section_list_iterate_rev_end  LIST_ITERATE_REV_END
-
-/* The hash table and some extra data: */
-struct hash_data {
-  struct hash_table *htbl;
-  int num_entries_hashbuild;
-  bool allow_duplicates;
-  int num_duplicates;
-};
-
-static void secfilehash_check(struct section_file *file);
-static void secfilehash_insert(struct section_file *file,
-			       char *key, struct entry *data);
-
-static char *minstrdup(struct sbuffer *sb, const char *str,
-                       bool full_escapes);
-static char *moutstr(char *str, bool full_escapes);
-
-static struct entry*
-section_file_lookup_internal(struct section_file *my_section_file,  
-			     char *fullpath);
-static struct entry*
-section_file_insert_internal(struct section_file *my_section_file, 
-			     char *fullpath);
-
-/* Only need use these explicitly on section_files constructed,
-   not for ones generated by section_file_load:
-*/
-static bool secfilehash_hashash(struct section_file *file);
-static void secfilehash_build(struct section_file *file,
-			      bool allow_duplicates);
-static void secfilehash_free(struct section_file *file);
+static char error_buffer[MAX_LEN_BUFFER] = "\0";
 
 /**************************************************************************
-  Return the filename the sectionfile was loaded as, or "(anonymous)"
-  if this sectionfile was created rather than loaded from file.
-  The memory is managed internally, and should not be altered,
-  nor used after section_file_free() called for the sectionfile.
+  Returns the last error which occured in a string.  It never returns NULL.
 **************************************************************************/
-const char *secfile_filename(const struct section_file *file)
+const char *secfile_error(void)
 {
-  if (file->filename) {
-    return file->filename;
-  } else {
-    return "(anonymous)";
-  }
+  return error_buffer;
 }
 
 /**************************************************************************
-...
+  Edit the error_buffer.
 **************************************************************************/
-void section_file_init(struct section_file *file)
+static void secfile_log(const struct section_file *secfile,
+                        const struct section *psection,
+                        const char *file, const char *function, int line,
+                        const char *format, ...)
 {
-  file->filename = NULL;
-  file->sections = section_list_new();
-  file->hash_sections = hash_new(hash_fval_string, hash_fcmp_string);
-  file->num_entries = 0;
-  file->hashd = NULL;
-  file->sb = sbuf_new();
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void section_file_free(struct section_file *file)
-{
-  /* all the real data is stored in the sbuffer;
-     just free the list meta-data:
-  */
-  section_list_iterate(file->sections, psection) {
-    entry_list_free(psection->entries);
-  } section_list_iterate_end;
-  section_list_free(file->sections);
-  file->sections = NULL;
-
-  /* free the sections hash data: */
-  hash_free(file->hash_sections);
-  file->hash_sections = NULL;
-
-  /* free the hash data: */
-  if(secfilehash_hashash(file)) {
-    secfilehash_free(file);
-  }
-  
-  /* free the real data: */
-  sbuf_free(file->sb);
-  file->sb = NULL;
-
-  if (file->filename) {
-    free(file->filename);
-  }
-  file->filename = NULL;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static struct section*
-section_file_append_section(struct section_file *sf, const char *sec_name)
-{
-  struct section *psection;
-
-  psection = sbuf_malloc(sf->sb, sizeof(*psection));
-  psection->name = sbuf_strdup(sf->sb, sec_name);
-  psection->entries = entry_list_new();
-  section_list_append(sf->sections, psection);
-
-  if (!hash_insert(sf->hash_sections, psection->name, psection)) {
-    freelog(LOG_ERROR, "Section \"%s\" name collision", sec_name);
-  }
-
-  return psection;
-}
-
-/**************************************************************************
-  Print log messages for any entries in the file which have
-  not been looked up -- ie, unused or unrecognised entries.
-  To mark an entry as used without actually doing anything with it,
-  you could do something like:
-     section_file_lookup(&file, "foo.bar");  / * unused * /
-**************************************************************************/
-void section_file_check_unused(struct section_file *file, const char *filename)
-{
-  int any = 0;
-
-  section_list_iterate(file->sections, psection) {
-    entry_list_iterate(psection->entries, pentry) {
-      if (pentry->used == 0) {
-	if (any == 0 && filename) {
-	  freelog(LOG_VERBOSE, "Unused entries in file %s:", filename);
-	  any = 1;
-	}
-	freelog(LOG_VERBOSE, "  unused entry: %s.%s",
-		psection->name, pentry->name);
-      }
-    }
-    entry_list_iterate_end;
-  }
-  section_list_iterate_end;
-}
-
-/**************************************************************************
-  Initialize the entry struct and set to default (empty) values.
-**************************************************************************/
-static void entry_init(struct entry *pentry)
-{
-  pentry->name = NULL;
-  pentry->svalue = NULL;
-  pentry->ivalue = 0;
-  pentry->used = 0;
-  pentry->dim = 0;
-  pentry->vec_values = NULL;
-  pentry->comment = NULL;
-  pentry->escaped = TRUE;
-}
-
-/**************************************************************************
-  Return a new entry struct, allocated from sb, with given name,
-  and where tok is a "value" return token from inputfile.
-  The entry value has any escaped double-quotes etc removed.
-**************************************************************************/
-static struct entry *new_entry(struct sbuffer *sb, const char *name,
-			       const char *tok)
-{
-  struct entry *pentry;
-
-  pentry = sbuf_malloc(sb, sizeof(struct entry));
-  entry_init(pentry);
-  pentry->name = sbuf_strdup(sb, name);
-  if (tok[0] != '-' && !my_isdigit(tok[0])) {
-    /* It is not integer, but string with some border character. */
-    pentry->escaped = (tok[0] != '$'); /* Border character '$' means no escapes */
-
-    /* minstrdup() starting after border character */
-    pentry->svalue = minstrdup(sb, tok+1, pentry->escaped);
-    if (SECF_DEBUG_ENTRIES) {
-      freelog(LOG_DEBUG, "entry %s '%s'", name, pentry->svalue);
-    }
-  } else {
-    if (sscanf(tok, "%d", &pentry->ivalue) != 1) {
-      freelog(LOG_ERROR, "'%s' isn't an integer", tok);
-    }
-    if (SECF_DEBUG_ENTRIES) {
-      freelog(LOG_DEBUG, "entry %s %d", name, pentry->ivalue);
-    }
-  }
-  return pentry;
-}
-
-/****************************************************************************
-  Return the section with the given name, or NULL if there is none.
-****************************************************************************/
-static struct section *find_section_by_name(struct section_file *sf,
-					    const char *name)
-{
-  return hash_lookup_data(sf->hash_sections, name);
-}	
-
-/**************************************************************************
-...
-**************************************************************************/
-static bool section_file_read_dup(struct section_file *sf,
-      	      	      	      	  const char *filename,
-      	      	      	      	  struct inputfile *inf,
-				  bool allow_duplicates,
-				  const char *requested_section)
-{
-  struct section *psection = NULL;
-  struct entry *pentry;
-  bool table_state = FALSE;	/* 1 when within tabular format */
-  int table_lineno = 0;		/* row number in tabular, 0=top data row */
-  struct sbuffer *sb;
-  const char *tok;
-  int i;
-  struct astring base_name = ASTRING_INIT;    /* for table or single entry */
-  struct astring entry_name = ASTRING_INIT;
-  struct astring_vector columns;    /* astrings for column headings */
-  bool found_my_section = FALSE;
-
-  section_file_init(sf);
-  if (filename) {
-    sf->filename = mystrdup(filename);
-  } else {
-    sf->filename = NULL;
-  }
-  astring_vector_init(&columns);
-  sb = sf->sb;
-
-  if (filename) {
-    freelog(LOG_VERBOSE, "Reading registry from \"%s\"", filename);
-  } else {
-    freelog(LOG_VERBOSE, "Reading registry");
-  }
-
-  while(!inf_at_eof(inf)) {
-    if (inf_token(inf, INF_TOK_EOL))
-      continue;
-    if (inf_at_eof(inf)) {
-      /* may only realise at eof after trying to read eol above */
-      break;
-    }
-    tok = inf_token(inf, INF_TOK_SECTION_NAME);
-    if (tok) {
-      if (found_my_section) {
-	/* This shortcut will stop any further loading after the requested
-	 * section has been loaded (i.e., at the start of a new section).
-	 * This is needed to make the behavior useful, since the whole
-	 * purpose is to short-cut further loading of the file.  However
-	 * normally a section may be split up, and that will no longer
-	 * work here because it will be short-cut. */
-	inf_log(inf, LOG_DEBUG, "found requested section; finishing");
-	return TRUE;
-      }
-      if (table_state) {
-	inf_log(inf, LOG_ERROR, "new section during table");
-        return FALSE;
-      }
-      /* Check if we already have a section with this name.
-	 (Could ignore this and have a duplicate sections internally,
-	 but then secfile_get_secnames_prefix would return duplicates.)
-	 Duplicate section in input are likely to be useful for includes.
-      */
-      psection = find_section_by_name(sf, tok);
-      if (!psection) {
-	if (!requested_section || strcmp(tok, requested_section) == 0) {
-	  psection = section_file_append_section(sf, tok);
-	  if (requested_section) {
-	    found_my_section = TRUE;
-	  }
-	}
-      }
-      (void) inf_token_required(inf, INF_TOK_EOL);
-      continue;
-    }
-#if 0
-    if (!psection) {
-      /* This used to be an error.  However there's no reason it shouldn't
-       * be allowed, and it breaks the rest of the requested_section code.
-       * It's been defined out but may be of use sometime. */
-      inf_log(inf, LOG_ERROR, "data before first section");
-      return FALSE;
-    }
-#endif
-    if (inf_token(inf, INF_TOK_TABLE_END)) {
-      if (!table_state) {
-	inf_log(inf, LOG_ERROR, "misplaced \"}\"");
-        return FALSE;
-      }
-      (void) inf_token_required(inf, INF_TOK_EOL);
-      table_state = FALSE;
-      continue;
-    }
-    if (table_state) {
-      i = -1;
-      do {
-	int num_columns = astring_vector_size(&columns);
-
-	i++;
-	inf_discard_tokens(inf, INF_TOK_EOL);  	/* allow newlines */
-	if (!(tok = inf_token_required(inf, INF_TOK_VALUE))) {
-          return FALSE;
-        }
-
-	if (i < num_columns) {
-	  astr_minsize(&entry_name, base_name.n + 10 + columns.p[i].n);
-	  my_snprintf(entry_name.str, entry_name.n_alloc, "%s%d.%s",
-		      base_name.str, table_lineno, columns.p[i].str);
-	} else {
-	  astr_minsize(&entry_name,
-		       base_name.n + 20 + columns.p[num_columns - 1].n);
-	  my_snprintf(entry_name.str, entry_name.n_alloc, "%s%d.%s,%d",
-		      base_name.str, table_lineno,
-		      columns.p[num_columns - 1].str,
-		      (int) (i - num_columns + 1));
-	}
-	if (psection) {
-	  /* Load this entry (if psection == NULL the entry is silently
-	   * skipped). */
-	  pentry = new_entry(sb, entry_name.str, tok);
-	  entry_list_append(psection->entries, pentry);
-	  sf->num_entries++;
-	}
-      } while(inf_token(inf, INF_TOK_COMMA));
-      
-      (void) inf_token_required(inf, INF_TOK_EOL);
-      table_lineno++;
-      continue;
-    }
-    
-    if (!(tok = inf_token_required(inf, INF_TOK_ENTRY_NAME))) {
-      return FALSE;
-    }
-
-    /* need to store tok before next calls: */
-    astr_minsize(&base_name, strlen(tok)+1);
-    strcpy(base_name.str, tok);
-
-    inf_discard_tokens(inf, INF_TOK_EOL);  	/* allow newlines */
-    
-    if (inf_token(inf, INF_TOK_TABLE_START)) {
-      i = -1;
-      do {
-	i++;
-	inf_discard_tokens(inf, INF_TOK_EOL);  	/* allow newlines */
-	if (!(tok = inf_token_required(inf, INF_TOK_VALUE))) {
-          return FALSE;
-        }
-	if( tok[0] != '\"' ) {
-	  inf_log(inf, LOG_ERROR, "table column header non-string");
-          return FALSE;
-	}
-	{ 	/* expand columns: */
-	  int j, n_prev;
-	  n_prev = astring_vector_size(&columns);
-	  for (j = i + 1; j < n_prev; j++) {
-	    astr_free(&columns.p[j]);
-	  }
-	  astring_vector_reserve(&columns, i + 1);
-	  for (j = n_prev; j < i + 1; j++) {
-	    astr_init(&columns.p[j]);
-	  }
-	}
-	astr_minsize(&columns.p[i], strlen(tok));
-	strcpy(columns.p[i].str, tok+1);
-	
-      } while(inf_token(inf, INF_TOK_COMMA));
-      
-      (void) inf_token_required(inf, INF_TOK_EOL);
-      table_state = TRUE;
-      table_lineno=0;
-      continue;
-    }
-    /* ordinary value: */
-    i = -1;
-    do {
-      i++;
-      inf_discard_tokens(inf, INF_TOK_EOL);  	/* allow newlines */
-      if (!(tok = inf_token_required(inf, INF_TOK_VALUE))) {
-        return FALSE;
-      }
-      if (i==0) {
-	pentry = new_entry(sb, base_name.str, tok);
-      } else {
-	astr_minsize(&entry_name, base_name.n + 20);
-	my_snprintf(entry_name.str, entry_name.n_alloc,
-		    "%s,%d", base_name.str, i);
-	pentry = new_entry(sb, entry_name.str, tok);
-      }
-      if (psection) {
-	/* Load this entry (if psection == NULL the entry is silently
-	 * skipped). */
-	entry_list_append(psection->entries, pentry);
-	sf->num_entries++;
-      }
-    } while(inf_token(inf, INF_TOK_COMMA));
-    (void) inf_token_required(inf, INF_TOK_EOL);
-  }
-  
-  if (table_state) {
-    if (filename) {
-      freelog(LOG_FATAL, "finished registry %s before end of table\n", filename);
-    } else {
-      freelog(LOG_FATAL, "finished registry before end of table\n");
-    }
-    exit(EXIT_FAILURE);
-  }
-  
-  astr_free(&base_name);
-  astr_free(&entry_name);
-  for (i = 0; i < astring_vector_size(&columns); i++) {
-    astr_free(&columns.p[i]);
-  }
-  astring_vector_free(&columns);
-  
-  secfilehash_build(sf, allow_duplicates);
-    
-  return TRUE;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-bool section_file_load(struct section_file *my_section_file,
-		      const char *filename)
-{
-  return section_file_load_section(my_section_file, filename, NULL);
-}
-
-/***************************************************************************
-  Simplification of fileinfoname().
-***************************************************************************/
-static const char *datafilename(const char *filename)
-{
-  return fileinfoname(get_data_dirs(), filename);
-}
-
-/**************************************************************************
-  Like section_file_load, but this function will only load one "part" of
-  the section file.  For instance if you pass in "tutorial", then it will
-  only load the [tutorial] section.
-
-  Passing in NULL will give identical results to section_file_load.
-**************************************************************************/
-bool section_file_load_section(struct section_file *my_section_file,
-			       const char *filename, const char *part)
-{
-  char real_filename[1024];
-  struct inputfile *inf;
-  bool success;
-
-  interpret_tilde(real_filename, sizeof(real_filename), filename);
-  inf = inf_from_file(real_filename, datafilename);
-
-  if (!inf) {
-    return FALSE;
-  }
-  success = section_file_read_dup(my_section_file, real_filename,
-                                  inf, TRUE, part);
-
-  inf_close(inf);
-
-  return success;
-}
-
-/**************************************************************************
-  Load a section_file, but disallow (die on) duplicate entries.
-**************************************************************************/
-bool section_file_load_nodup(struct section_file *my_section_file,
-			    const char *filename)
-{
-  char real_filename[1024];
-  struct inputfile *inf;
-  bool success;
-
-  interpret_tilde(real_filename, sizeof(real_filename), filename);
-  inf = inf_from_file(real_filename, datafilename);
-
-  if (!inf) {
-    return FALSE;
-  }
-  success = section_file_read_dup(my_section_file, real_filename,
-			       inf, FALSE, NULL);
-
-  inf_close(inf);
-
-  return success;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-bool section_file_load_from_stream(struct section_file *my_section_file,
-				   fz_FILE * stream)
-{
-  bool success;
-  struct inputfile *inf = inf_from_stream(stream, datafilename);
-
-  if (!inf) {
-    return FALSE;
-  }
-  success = section_file_read_dup(my_section_file, NULL, inf, TRUE, NULL);
-
-  inf_close(inf);
-
-  return success;
-}
-
-/**************************************************************************
- Save the previously filled in section_file to disk.
- 
- There is now limited ability to save in the new tabular format
- (to give smaller savefiles).
- The start of a table is detected by an entry with name of the form:
-    (alphabetical_component)(zero)(period)(alphanumeric_component)
- Eg: u0.id, or c0.id, in the freeciv savefile.
- The alphabetical component is taken as the "name" of the table,
- and the component after the period as the first column name.
- This should be followed by the other column values for u0,
- and then subsequent u1, u2, etc, in strict order with no omissions,
- and with all of the columns for all uN in the same order as for u0.
-
- If compression_level is non-zero, then compress using zlib.  (Should
- only supply non-zero compression_level if already know that HAVE_LIBZ.)
- Below simply specifies FZ_ZLIB method, since fz_fromFile() automatically
- changes to FZ_PLAIN method when level==0.
-**************************************************************************/
-bool section_file_save(struct section_file *my_section_file,
-                       const char *filename,
-                       int compression_level,
-                       enum fz_method compression_method)
-{
-  char real_filename[1024];
-  fz_FILE *fs;
-  const struct genlist_link *ent_iter, *save_iter, *col_iter;
-  struct entry *pentry, *col_pentry;
-  int i;
-  
-  interpret_tilde(real_filename, sizeof(real_filename), filename);
-  fs = fz_from_file(real_filename, "w", compression_method, compression_level);
-
-  if (!fs) {
-    return FALSE;
-  }
-
-  section_list_iterate(my_section_file->sections, psection) {
-    fz_fprintf(fs, "\n[%s]\n", psection->name);
-
-    /* Following doesn't use entry_list_iterate() because we want to do
-     * tricky things with the iterators...
-     */
-    for (ent_iter = genlist_head(entry_list_base(psection->entries));
-         ent_iter && (pentry = genlist_link_data(ent_iter));
-         ent_iter = genlist_link_next(ent_iter)) {
-
-      /* Tables: break out of this loop if this is a non-table
-       * entry (pentry and ent_iter unchanged) or after table (pentry
-       * and ent_iter suitably updated, pentry possibly NULL).
-       * After each table, loop again in case the next entry
-       * is another table.
-       */
-      for(;;) {
-	char *c, *first, base[64];
-	int offset, irow, icol, ncol;
-	
-	/* Example: for first table name of "xyz0.blah":
-	 *  first points to the original string pentry->name
-	 *  base contains "xyz";
-	 *  offset=5 (so first+offset gives "blah")
-	 *  note strlen(base)=offset-2
-	 */
-
-	if(!SAVE_TABLES) break;
-	
-	c = first = pentry->name;
-	if(*c == '\0' || !my_isalpha(*c)) break;
-	for (; *c != '\0' && my_isalpha(*c); c++) {
-	  /* nothing */
-	}
-	if(strncmp(c,"0.",2) != 0) break;
-	c+=2;
-	if(*c == '\0' || !my_isalnum(*c)) break;
-
-	offset = c - first;
-	first[offset-2] = '\0';
-	sz_strlcpy(base, first);
-	first[offset-2] = '0';
-	fz_fprintf(fs, "%s={", base);
-
-	/* Save an iterator at this first entry, which we can later use
-	 * to repeatedly iterate over column names:
-	 */
-	save_iter = ent_iter;
-
-	/* write the column names, and calculate ncol: */
-	ncol = 0;
-	col_iter = save_iter;
-        for(; (col_pentry = genlist_link_data(col_iter));
-            col_iter = genlist_link_next(col_iter)) {
-	  if(strncmp(col_pentry->name, first, offset) != 0)
-	    break;
-	  fz_fprintf(fs, "%c\"%s\"", (ncol==0?' ':','), col_pentry->name+offset);
-	  ncol++;
-	}
-	fz_fprintf(fs, "\n");
-
-	/* Iterate over rows and columns, incrementing ent_iter as we go,
-	 * and writing values to the table.  Have a separate iterator
-	 * to the column names to check they all match.
-	 */
-	irow = icol = 0;
-	col_iter = save_iter;
-	for(;;) {
-	  char expect[128];	/* pentry->name we're expecting */
-
-	  pentry = genlist_link_data(ent_iter);
-	  col_pentry = genlist_link_data(col_iter);
-
-	  my_snprintf(expect, sizeof(expect), "%s%d.%s",
-		      base, irow, col_pentry->name+offset);
-
-	  /* break out of tabular if doesn't match: */
-	  if((!pentry) || (strcmp(pentry->name, expect) != 0)) {
-	    if(icol != 0) {
-	      /* If the second or later row of a table is missing some
-	       * entries that the first row had, we drop out of the tabular
-	       * format.  This is inefficient so we print a warning message;
-	       * the calling code probably needs to be fixed so that it can
-	       * use the more efficient tabular format.
-	       *
-	       * FIXME: If the first row is missing some entries that the
-	       * second or later row has, then we'll drop out of tabular
-	       * format without an error message. */
-	      freelog(LOG_ERROR,
-		      "In file %s, there is no entry in the registry for \n"
-		      "%s.%s (or the entries are out of order. This means a \n"
-		      "less efficient non-tabular format will be used. To\n"
-		      "avoid this make sure all rows of a table are filled\n"
-		      "out with an entry for every column.",
-		      real_filename, psection->name, expect);
-	      freelog(LOG_ERROR,
-                      /* TRANS: No full stop after the URL, could cause confusion. */
-                      _("Please report this message at %s"),
-		      BUG_URL);
-	      fz_fprintf(fs, "\n");
-	    }
-	    fz_fprintf(fs, "}\n");
-	    break;
-	  }
-
-	  if(icol>0)
-	    fz_fprintf(fs, ",");
-	  if(pentry->svalue)
-	    fz_fprintf(fs, "%s", moutstr(pentry->svalue, pentry->escaped));
-	  else
-	    fz_fprintf(fs, "%d", pentry->ivalue);
-
-          ent_iter = genlist_link_next(ent_iter);
-          col_iter = genlist_link_next(col_iter);
-	  
-	  icol++;
-	  if(icol==ncol) {
-	    fz_fprintf(fs, "\n");
-	    irow++;
-	    icol = 0;
-	    col_iter = save_iter;
-	  }
-	}
-	if(!pentry) break;
-      }
-      if(!pentry) break;
-      
-      if (pentry->vec_values) {
-        fz_fprintf(fs, "%s=%s", pentry->name,
-	           moutstr(pentry->vec_values[0], pentry->escaped));
-	for (i = 1; i < pentry->dim; i++) {
-	  fz_fprintf(fs, ", %s", moutstr(pentry->vec_values[i], pentry->escaped));
-	}
-      } else if (pentry->svalue) {
-	fz_fprintf(fs, "%s=%s", pentry->name, moutstr(pentry->svalue, pentry->escaped));
-      } else {
-	fz_fprintf(fs, "%s=%d", pentry->name, pentry->ivalue);
-      }
-      
-      if (pentry->comment) {
-	fz_fprintf(fs, "  # %s\n", pentry->comment);
-      } else {
-	fz_fprintf(fs, "\n");
-      }
-    }
-  }
-  section_list_iterate_end;
-  
-  (void) moutstr(NULL, TRUE);		/* free internal buffer */
-
-  if (fz_ferror(fs) != 0) {
-    freelog(LOG_ERROR, "Error before closing %s: %s", real_filename,
-	    fz_strerror(fs));
-    fz_fclose(fs);
-    return FALSE;
-  }
-  if (fz_fclose(fs) != 0) {
-    freelog(LOG_ERROR, "Error closing %s", real_filename);
-    return FALSE;
-  }
-
-  return TRUE;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-char *secfile_lookup_str(struct section_file *my_section_file, const char *path, ...)
-{
-  struct entry *pentry;
-  char buf[MAX_LEN_BUFFER];
-  va_list ap;
-
-  va_start(ap, path);
-  my_vsnprintf(buf, sizeof(buf), path, ap);
-  va_end(ap);
-
-  if(!(pentry=section_file_lookup_internal(my_section_file, buf))) {
-    freelog(LOG_FATAL, "sectionfile %s doesn't contain a '%s' entry",
-	    secfile_filename(my_section_file), buf);
-    exit(EXIT_FAILURE);
-  }
-
-  if(!pentry->svalue) {
-    freelog(LOG_FATAL, "sectionfile %s entry '%s' doesn't contain a string",
-	    secfile_filename(my_section_file), buf);
-    exit(EXIT_FAILURE);
-  }
-  
-  return pentry->svalue;
-}
-
-/**************************************************************************
-  Lookup string or int value; if (char*) return is NULL, int value is
-  put into (*ival).
-**************************************************************************/
-char *secfile_lookup_str_int(struct section_file *my_section_file, 
-			     int *ival, const char *path, ...)
-{
-  struct entry *pentry;
-  char buf[MAX_LEN_BUFFER];
-  va_list ap;
-
-  assert(ival != NULL);
-  
-  va_start(ap, path);
-  my_vsnprintf(buf, sizeof(buf), path, ap);
-  va_end(ap);
-
-  if(!(pentry=section_file_lookup_internal(my_section_file, buf))) {
-    freelog(LOG_FATAL, "sectionfile %s doesn't contain a '%s' entry",
-	    secfile_filename(my_section_file), buf);
-    exit(EXIT_FAILURE);
-  }
-
-  if(pentry->svalue) {
-    return pentry->svalue;
-  } else {
-    *ival = pentry->ivalue;
-    return NULL;
-  }
-}
-      
-/**************************************************************************
-...
-**************************************************************************/
-void secfile_insert_int(struct section_file *my_section_file,
-			int val, const char *path, ...)
-{
-  struct entry *pentry;
-  char buf[MAX_LEN_BUFFER];
-  va_list ap;
-
-  va_start(ap, path);
-  my_vsnprintf(buf, sizeof(buf), path, ap);
-  va_end(ap);
-
-  pentry=section_file_insert_internal(my_section_file, buf);
-
-  pentry->ivalue=val;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void secfile_insert_int_comment(struct section_file *my_section_file,
-				int val, const char *const comment,
-				const char *path, ...)
-{
-  struct entry *pentry;
-  char buf[MAX_LEN_BUFFER];
-  va_list ap;
-
-  va_start(ap, path);
-  my_vsnprintf(buf, sizeof(buf), path, ap);
-  va_end(ap);
-
-  pentry = section_file_insert_internal(my_section_file, buf);
-
-  pentry->ivalue = val;
-  pentry->comment = sbuf_strdup(my_section_file->sb, comment);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void secfile_insert_bool(struct section_file *my_section_file,
-			 bool val, const char *path, ...)
-{
-  struct entry *pentry;
-  char buf[MAX_LEN_BUFFER];
-  va_list ap;
-
-  va_start(ap, path);
-  my_vsnprintf(buf, sizeof(buf), path, ap);
-  va_end(ap);
-
-  pentry=section_file_insert_internal(my_section_file, buf);
-
-  if (val != TRUE && val != FALSE) {
-    freelog(LOG_ERROR, "Trying to insert a non-boolean (%d) at key %s",
-	    (int) val, buf);
-    val = TRUE;
-  }
-
-  pentry->ivalue = val ? 1 : 0;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void secfile_insert_str(struct section_file *my_section_file,
-			const char *sval, const char *path, ...)
-{
-  struct entry *pentry;
-  char buf[MAX_LEN_BUFFER];
-  va_list ap;
-
-  va_start(ap, path);
-  my_vsnprintf(buf, sizeof(buf), path, ap);
-  va_end(ap);
-
-  pentry = section_file_insert_internal(my_section_file, buf);
-  pentry->svalue = sbuf_strdup(my_section_file->sb, sval);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void secfile_insert_str_noescape(struct section_file *my_section_file,
-			const char *sval, const char *path, ...)
-{
-  struct entry *pentry;
-  char buf[MAX_LEN_BUFFER];
-  va_list ap;
-
-  va_start(ap, path);
-  my_vsnprintf(buf, sizeof(buf), path, ap);
-  va_end(ap);
-
-  pentry = section_file_insert_internal(my_section_file, buf);
-  pentry->svalue = sbuf_strdup(my_section_file->sb, sval);
-  pentry->escaped = FALSE;
-}
-
-
-
-/**************************************************************************
-...
-**************************************************************************/
-void secfile_insert_str_comment(struct section_file *my_section_file,
-				char *sval, const char *const comment,
-				const char *path, ...)
-{
-  struct entry *pentry;
-  char buf[MAX_LEN_BUFFER];
-  va_list ap;
-
-  va_start(ap, path);
-  my_vsnprintf(buf, sizeof(buf), path, ap);
-  va_end(ap);
-
-  pentry = section_file_insert_internal(my_section_file, buf);
-  pentry->svalue = sbuf_strdup(my_section_file->sb, sval);
-  pentry->comment = sbuf_strdup(my_section_file->sb, comment);
-}
-
-/**************************************************************************
-  Insert string vector into section_file. It will be writen out as:
-    name = "value1", "value2", "value3"
-  The vector must have at least one element in it.
-
-  This function is little tricky, because values inserted here can't
-  be immediately recovered by secfile_lookup_str_vec. Luckily we never use
-  section_file for both reading and writing.
-**************************************************************************/
-void secfile_insert_str_vec(struct section_file *my_section_file,
-			    const char **values, int dim,
-			    const char *path, ...)
-{
-  struct entry *pentry;
-  char buf[MAX_LEN_BUFFER];
-  int i;
-  va_list ap;
-
-  va_start(ap, path);
-  my_vsnprintf(buf, sizeof(buf), path, ap);
-  va_end(ap);
-
-  assert(dim > 0);
-  
-  pentry = section_file_insert_internal(my_section_file, buf);
-  pentry->dim = dim;
-  pentry->vec_values = sbuf_malloc(my_section_file->sb,
-                                   sizeof(char*) * dim);
-  for (i = 0; i < dim; i++) {
-    pentry->vec_values[i] = sbuf_strdup(my_section_file->sb, values[i]);
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int secfile_lookup_int(struct section_file *my_section_file, 
-		       const char *path, ...)
-{
-  struct entry *pentry;
-  char buf[MAX_LEN_BUFFER];
-  va_list ap;
-
-  va_start(ap, path);
-  my_vsnprintf(buf, sizeof(buf), path, ap);
-  va_end(ap);
-
-  if(!(pentry=section_file_lookup_internal(my_section_file, buf))) {
-    freelog(LOG_FATAL, "sectionfile %s doesn't contain a '%s' entry",
-	    secfile_filename(my_section_file), buf);
-    exit(EXIT_FAILURE);
-  }
-
-  if(pentry->svalue) {
-    freelog(LOG_FATAL, "sectionfile %s entry '%s' doesn't contain an integer",
-	    secfile_filename(my_section_file), buf);
-    exit(EXIT_FAILURE);
-  }
-  
-  return pentry->ivalue;
-}
-
-
-/**************************************************************************
-  As secfile_lookup_int(), but return a specified default value if the
-  entry does not exist.  If the entry exists as a string, then die.
-**************************************************************************/
-int secfile_lookup_int_default(struct section_file *my_section_file,
-			       int def, const char *path, ...)
-{
-  struct entry *pentry;
-  char buf[MAX_LEN_BUFFER];
-  va_list ap;
-
-  va_start(ap, path);
-  my_vsnprintf(buf, sizeof(buf), path, ap);
-  va_end(ap);
-
-  if(!(pentry=section_file_lookup_internal(my_section_file, buf))) {
-    return def;
-  }
-  if(pentry->svalue) {
-    freelog(LOG_FATAL, "sectionfile %s contains a '%s', but string not integer",
-	    secfile_filename(my_section_file), buf);
-    exit(EXIT_FAILURE);
-  }
-  return pentry->ivalue;
-}
-
-/**************************************************************************
-  As secfile_lookup_int_default(), but also check the range [min/max].
-**************************************************************************/
-int secfile_lookup_int_default_min_max(error_func_t error_handle,
-                                       struct section_file *my_section_file,
-                                       int def, int minval, int maxval,
-                                       const char *path, ...)
-{
-  assert(error_handle != NULL);
-
-  char buf[MAX_LEN_BUFFER];
-  va_list ap;
-  int ival;
-
-  va_start(ap, path);
-  my_vsnprintf(buf, sizeof(buf), path, ap);
-  va_end(ap);
-
-  ival = secfile_lookup_int_default(my_section_file, def, "%s", buf);
-
-  if(ival < minval) {
-    error_handle(LOG_ERROR, "sectionfile %s: '%s' should be in the "
-                            "interval [%d, %d] but is %d; using the "
-                            "minimal value.",
-                 secfile_filename(my_section_file), buf, minval, maxval,
-                 ival);
-    ival = minval;
-  }
-
-  if(ival > maxval) {
-    error_handle(LOG_ERROR, "sectionfile %s: '%s' should be in the "
-                            "interval [%d, %d] but is %d; using the "
-                            "maximal value.",
-                 secfile_filename(my_section_file), buf, minval, maxval,
-                 ival);
-    ival = maxval;
-  }
-
-  return ival;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-bool secfile_lookup_bool(struct section_file *my_section_file, 
-		       const char *path, ...)
-{
-  struct entry *pentry;
-  char buf[MAX_LEN_BUFFER];
-  va_list ap;
-
-  va_start(ap, path);
-  my_vsnprintf(buf, sizeof(buf), path, ap);
-  va_end(ap);
-
-  if(!(pentry=section_file_lookup_internal(my_section_file, buf))) {
-    freelog(LOG_FATAL, "sectionfile %s doesn't contain a '%s' entry",
-	    secfile_filename(my_section_file), buf);
-    exit(EXIT_FAILURE);
-  }
-
-  if(pentry->svalue) {
-    freelog(LOG_FATAL, "sectionfile %s entry '%s' doesn't contain an integer",
-	    secfile_filename(my_section_file), buf);
-    exit(EXIT_FAILURE);
-  }
-
-  if (pentry->ivalue != 0 && pentry->ivalue != 1) {
-    freelog(LOG_ERROR, "Value read for key %s isn't boolean: %d", buf,
-	    pentry->ivalue);
-    pentry->ivalue = 1;
-  }
-  
-  return pentry->ivalue != 0;
-}
-
-
-/**************************************************************************
-  As secfile_lookup_bool(), but return a specified default value if the
-  entry does not exist.  If the entry exists as a string, then die.
-**************************************************************************/
-bool secfile_lookup_bool_default(struct section_file *my_section_file,
-				 bool def, const char *path, ...)
-{
-  struct entry *pentry;
-  char buf[MAX_LEN_BUFFER];
-  va_list ap;
-
-  va_start(ap, path);
-  my_vsnprintf(buf, sizeof(buf), path, ap);
-  va_end(ap);
-
-  if(!(pentry=section_file_lookup_internal(my_section_file, buf))) {
-    return def;
-  }
-  if(pentry->svalue) {
-    freelog(LOG_FATAL, "sectionfile %s contains a '%s', but string not integer",
-	    secfile_filename(my_section_file), buf);
-    exit(EXIT_FAILURE);
-  }
-
-  if (pentry->ivalue != 0 && pentry->ivalue != 1) {
-    freelog(LOG_ERROR, "Value read for key %s isn't boolean: %d", buf,
-	    pentry->ivalue);
-    pentry->ivalue = 1;
-  }
-  
-  return pentry->ivalue != 0;
-}
-
-/**************************************************************************
-  As secfile_lookup_str(), but return a specified default (char*) if the
-  entry does not exist.  If the entry exists as an int, then die.
-**************************************************************************/
-char *secfile_lookup_str_default(struct section_file *my_section_file, 
-				 const char *def, const char *path, ...)
-{
-  struct entry *pentry;
-  char buf[MAX_LEN_BUFFER];
-  va_list ap;
-
-  va_start(ap, path);
-  my_vsnprintf(buf, sizeof(buf), path, ap);
-  va_end(ap);
-
-  if(!(pentry=section_file_lookup_internal(my_section_file, buf))) {
-    return (char *) def;
-  }
-
-  if(!pentry->svalue) {
-    freelog(LOG_FATAL, "sectionfile %s contains a '%s', but integer not string",
-	    secfile_filename(my_section_file), buf);
-    exit(EXIT_FAILURE);
-  }
-  
-  return pentry->svalue;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-bool section_file_lookup(struct section_file *my_section_file, 
-			 const char *path, ...)
-{
-  char buf[MAX_LEN_BUFFER];
-  va_list ap;
-
-  va_start(ap, path);
-  my_vsnprintf(buf, sizeof(buf), path, ap);
-  va_end(ap);
-
-  return section_file_lookup_internal(my_section_file, buf) != NULL;
-}
-
-
-/**************************************************************************
-...
-**************************************************************************/
-static struct entry*
-section_file_lookup_internal(struct section_file *my_section_file,  
-			     char *fullpath) 
-{
-  char *pdelim;
-  char sec_name[MAX_LEN_BUFFER];
-  char ent_name[MAX_LEN_BUFFER];
-  char mod_fullpath[2*MAX_LEN_BUFFER];
-  int len;
-  struct entry *result;
-  struct section *psection;
-
-  /* freelog(LOG_DEBUG, "looking up: %s", fullpath); */
-  
-  /* treat "sec.foo,0" as "sec.foo": */
-  len = strlen(fullpath);
-  if(len>2 && fullpath[len-2]==',' && fullpath[len-1]=='0') {
-    assert(len<sizeof(mod_fullpath));
-    strcpy(mod_fullpath, fullpath);
-    fullpath = mod_fullpath;	/* reassign local pointer 'fullpath' */
-    fullpath[len-2] = '\0';
-  }
-  
-  if (secfilehash_hashash(my_section_file)) {
-    result = hash_lookup_data(my_section_file->hashd->htbl, fullpath);
-    if (result) {
-      result->used++;
-    }
-    return result;
-  }
-
-  /* i dont like strtok */
-  pdelim = strchr(fullpath, '.');
-  if (!pdelim) {
-    return NULL;
-  }
-
-  (void) mystrlcpy(sec_name, fullpath,
-		   MIN(pdelim - fullpath + 1, sizeof(sec_name)));
-  sz_strlcpy(ent_name, pdelim+1);
-
-  psection = find_section_by_name(my_section_file, sec_name);
-  if (psection) {
-    entry_list_iterate(psection->entries, pentry) {
-      if (strcmp(pentry->name, ent_name) == 0) {
-	result = pentry;
-	result->used++;
-	return result;
-      }
-    } entry_list_iterate_end;
-  }
-
-  return NULL;
-}
-
-/**************************************************************************
- The caller should ensure that "fullpath" should not refer to an entry
- which already exists in "my_section_file".  (Actually, in some cases
- now it is ok to have duplicate entries, but be careful...)
-**************************************************************************/
-static struct entry*
-section_file_insert_internal(struct section_file *my_section_file, 
-			     char *fullpath)
-{
-  char *pdelim;
-  char sec_name[MAX_LEN_BUFFER];
-  char ent_name[MAX_LEN_BUFFER];
-  struct section *psection;
-  struct entry *pentry;
-  struct sbuffer *sb = my_section_file->sb;
-
-  if(!(pdelim=strchr(fullpath, '.'))) { /* d dont like strtok */
-    freelog(LOG_FATAL,
-	    "Insertion fullpath \"%s\" missing '.' for sectionfile %s",
-	    fullpath, secfile_filename(my_section_file));
-    exit(EXIT_FAILURE);
-  }
-  (void) mystrlcpy(sec_name, fullpath,
-		   MIN(pdelim - fullpath + 1, sizeof(sec_name)));
-  sz_strlcpy(ent_name, pdelim+1);
-  my_section_file->num_entries++;
-  
-  if(strlen(sec_name)==0 || strlen(ent_name)==0) {
-    freelog(LOG_FATAL,
-	    "Insertion fullpath \"%s\" missing %s for sectionfile %s",
-	    fullpath, (strlen(sec_name)==0 ? "section" : "entry"),
-	    secfile_filename(my_section_file));
-    exit(EXIT_FAILURE);
-  }
-
-  psection = find_section_by_name(my_section_file, sec_name);
-  if (psection) {
-    /* This DOES NOT check whether the entry already exists in
-     * the section, to avoid O(N^2) behaviour.
-     */
-    pentry = sbuf_malloc(sb, sizeof(struct entry));
-    entry_init(pentry);
-    pentry->name = sbuf_strdup(sb, ent_name);
-    entry_list_append(psection->entries, pentry);
-    return pentry;
-  }
-
-  psection = section_file_append_section(my_section_file, sec_name);
-
-  pentry = sbuf_malloc(sb, sizeof(struct entry));
-  entry_init(pentry);
-  pentry->name = sbuf_strdup(sb, ent_name);
-  entry_list_append(psection->entries, pentry);
-
-  return pentry;
-}
-
-
-/**************************************************************************
- Return 0 if the section_file has not been setup for hashing.
-**************************************************************************/
-static bool secfilehash_hashash(struct section_file *file)
-{
-  return (file->hashd && hash_num_buckets(file->hashd->htbl) != 0);
-}
-
-/**************************************************************************
-  Basic checks for existence/integrity of hash data and fail if bad.
-**************************************************************************/
-static void secfilehash_check(struct section_file *file)
-{
-  if (!secfilehash_hashash(file)) {
-    freelog(LOG_FATAL, "sectionfile %s hash operation before setup",
-	    secfile_filename(file));
-    exit(EXIT_FAILURE);
-  }
-  if (file->num_entries != file->hashd->num_entries_hashbuild) {
-    freelog(LOG_FATAL, "sectionfile %s has more entries than when hash built",
-	    secfile_filename(file));
-    exit(EXIT_FAILURE);
-  }
-}
-
-/**************************************************************************
- Insert a entry into the hash table.  The key is malloced here (using sbuf;
- malloc somewhere required by hash implementation).
-**************************************************************************/
-static void secfilehash_insert(struct section_file *file,
-			       char *key, struct entry *data)
-{
-  struct entry *hentry;
-
-  key = sbuf_strdup(file->sb, key);
-  hentry = hash_replace(file->hashd->htbl, key, data);
-  if (hentry) {
-    if (file->hashd->allow_duplicates) {
-      hentry->used = 1;
-      file->hashd->num_duplicates++;
-      /* Subsequent entries replace earlier ones; could do differently so
-	 that first entry would be used and following ones ignored.
-	 Need to mark the replaced one as used or else it will show
-	 up when we iterate the sections and entries (since hash
-	 lookup will never find it to mark it as used).
-      */
-    } else {
-      freelog(LOG_FATAL, "Tried to insert same value twice: %s (sectionfile %s)",
-	      key, secfile_filename(file));
-      exit(EXIT_FAILURE);
-    }
-  }
-}
-
-/**************************************************************************
- Build a hash table for the file.  Note that the section_file should
- not be modified (except to free it) subsequently.
- If allow_duplicates is true, then relax normal condition that
- all entries must have unique names; in this case for duplicates
- the hash ref will be to the _last_ entry.
-**************************************************************************/
-static void secfilehash_build(struct section_file *file, bool allow_duplicates)
-{
-  struct hash_data *hashd;
-  char buf[256];
-
-  hashd = file->hashd = fc_malloc(sizeof(struct hash_data));
-  hashd->htbl = hash_new_nentries(hash_fval_string, hash_fcmp_string,
-				  file->num_entries);
-  
-  hashd->num_entries_hashbuild = file->num_entries;
-  hashd->allow_duplicates = allow_duplicates;
-  hashd->num_duplicates = 0;
-  
-  section_list_iterate(file->sections, psection) {
-    entry_list_iterate(psection->entries, pentry) {
-      my_snprintf(buf, sizeof(buf), "%s.%s", psection->name, pentry->name);
-      secfilehash_insert(file, buf, pentry);
-    }
-    entry_list_iterate_end;
-  }
-  section_list_iterate_end;
-  
-  if (hashd->allow_duplicates) {
-    freelog(LOG_DEBUG, "Hash duplicates during build: %d",
-	    hashd->num_duplicates);
-  }
-}
-
-
-/**************************************************************************
- Free the memory allocated for the hash table.
-**************************************************************************/
-static void secfilehash_free(struct section_file *file)
-{
-  secfilehash_check(file);
-  hash_free(file->hashd->htbl);
-  free(file->hashd);
-  file->hashd = NULL;
-}
-
-/**************************************************************************
- Returns the number of elements in a "vector".
- That is, returns the number of consecutive entries in the sequence:
- "path,0" "path,1", "path,2", ...
- If none, returns 0.
-**************************************************************************/
-int secfile_lookup_vec_dimen(struct section_file *my_section_file, 
-			     const char *path, ...)
-{
-  char buf[MAX_LEN_BUFFER];
-  va_list ap;
-  int j=0;
-
-  va_start(ap, path);
-  my_vsnprintf(buf, sizeof(buf), path, ap);
-  va_end(ap);
-
-  while(section_file_lookup(my_section_file, "%s,%d", buf, j)) {
-    j++;
-  }
-  return j;
-}
-
-/**************************************************************************
- Return a pointer for a list of integers for a "vector".
- The return value is malloced here, and should be freed by the user.
- The size of the returned list is returned in (*dimen).
- If the vector does not exist, returns NULL ands sets (*dimen) to 0.
-**************************************************************************/
-int *secfile_lookup_int_vec(struct section_file *my_section_file,
-			    int *dimen, const char *path, ...)
-{
-  char buf[MAX_LEN_BUFFER];
-  va_list ap;
-  int j, *res;
-
-  va_start(ap, path);
-  my_vsnprintf(buf, sizeof(buf), path, ap);
-  va_end(ap);
-
-  *dimen = secfile_lookup_vec_dimen(my_section_file, "%s", buf);
-  if (*dimen == 0) {
-    return NULL;
-  }
-  res = fc_malloc((*dimen)*sizeof(int));
-  for(j=0; j<(*dimen); j++) {
-    res[j] = secfile_lookup_int(my_section_file, "%s,%d", buf, j);
-  }
-  return res;
-}
-
-/**************************************************************************
- Return a pointer for a list of "strings" for a "vector".
- The return value is malloced here, and should be freed by the user,
- but the strings themselves are contained in the sectionfile
- (as when a single string is looked up) and should not be altered
- or freed by the user.
- The size of the returned list is returned in (*dimen).
- If the vector does not exist, returns NULL ands sets (*dimen) to 0.
-**************************************************************************/
-char **secfile_lookup_str_vec(struct section_file *my_section_file,
-			      int *dimen, const char *path, ...)
-{
-  char buf[MAX_LEN_BUFFER];
-  va_list ap;
-  int j;
-  char **res;
-
-  va_start(ap, path);
-  my_vsnprintf(buf, sizeof(buf), path, ap);
-  va_end(ap);
-
-  *dimen = secfile_lookup_vec_dimen(my_section_file, "%s", buf);
-  if (*dimen == 0) {
-    return NULL;
-  }
-  res = fc_malloc((*dimen)*sizeof(char*));
-  for(j=0; j<(*dimen); j++) {
-    res[j] = secfile_lookup_str(my_section_file, "%s,%d", buf, j);
-  }
-  return res;
+  char message[MAX_LEN_BUFFER];
+  va_list args;
+
+  va_start(args, format);
+  my_vsnprintf(message, sizeof(message), format, args);
+  va_end(args);
+
+  my_snprintf(error_buffer, sizeof(error_buffer),
+              "In %s() [%s:%d]: secfile '%s' in section '%s': %s",
+              function, file, line, secfile_name(secfile),
+              psection != NULL ? section_name(psection) : "NULL", message);
 }
 
 /***************************************************************
@@ -1656,83 +244,53 @@ char **secfile_lookup_str_vec(struct section_file *my_section_file,
     - '\n' -> newline translation.
     - Other '\c' sequences (any character 'c') are just passed
       through with the '\' removed (eg, includes '\\', '\"')
+  Returns buf.
 ***************************************************************/
-static char *minstrdup(struct sbuffer *sb, const char *str,
-                       bool full_escapes)
+static const char *minstrdup(const char *str, bool full_escapes,
+                             char *buf, size_t buf_len)
 {
-  char *dest = sbuf_malloc(sb, strlen(str)+1);
-  char *d2=dest;
-  if(dest) {
-    while (*str != '\0') {
-      if (*str == '\\' && *(str+1) == '\n') {
-        /* Escape followed by newline. Skip both */
-        str += 2;
-      } else if (full_escapes && *str=='\\') {
-	str++;
-        if (*str=='n') {
-	  *dest++='\n';
-	  str++;
-	}
-      } else {
-	*dest++=*str++;
+  char *dest = buf;
+  const char *const max = buf + buf_len - 1;
+
+  while (*str != '\0' && dest < max) {
+    if (*str == '\\' && *(str + 1) == '\n') {
+      /* Escape followed by newline. Skip both */
+      str += 2;
+    } else if (full_escapes && *str == '\\') {
+      str++;
+      if (*str == 'n') {
+        *dest++ = '\n';
+        str++;
       }
-
+    } else {
+      *dest++ = *str++;
     }
-
-    *dest='\0';
   }
-  return d2;
+  *dest = '\0';
+  return buf;
 }
 
 /***************************************************************
- Returns a pointer to an internal buffer (can only get one
- string at a time) with str escaped the opposite of minstrdup.
- Specifically, any newline, backslash, or double quote is
- escaped with a backslash.
- Adds appropriate delimiters: "" if escaped, $$ unescaped.
- The internal buffer is grown as necessary, and not normally
- freed (since this will be called frequently.)  A call with
- str=NULL frees the buffer and does nothing else (returns NULL).
+  Adds appropriate delimiters: "" if escaped, $$ unescaped.
+  Returns buf.
 ***************************************************************/
-static char *moutstr(char *str, bool full_escapes)
+static const char *moutstr(const char *str, bool full_escapes,
+                           char *buf, size_t buf_len)
 {
-  static char *buf = NULL;
-  static int nalloc = 0;
+  char *dest = buf;
+  const char *const max = buf + buf_len - 2;
 
-  int len;			/* required length, including terminator */
-  char *c, *dest;
-
-  if (!str) {
-    freelog(LOG_DEBUG, "moutstr alloc was %d", nalloc);
-    free(buf);
-    buf = NULL;
-    nalloc = 0;
-    return NULL;
-  }
-  
-  len = strlen(str)+3;
-  if (full_escapes) {
-    for(c=str; *c != '\0'; c++) {
-      if (*c == '\n' || *c == '\\' || *c == '\"') {
-        len++;
-      }
-    }
-  }
-  if (len > nalloc) {
-    nalloc = 2 * len + 1;
-    buf = fc_realloc(buf, nalloc);
-  }
-  
-  dest = buf;
   *dest++ = (full_escapes ? '\"' : '$');
-  while(*str != '\0') {
+  while (*str != '\0' && dest < max) {
     if (full_escapes && (*str == '\n' || *str == '\\' || *str == '\"')) {
-      *dest++ = '\\';
-      if (*str == '\n') {
-	*dest++ = 'n';
-	str++;
-      } else {
-	*dest++ = *str++;
+      if (dest < max - 1) {
+        *dest++ = '\\';
+        if (*str == '\n') {
+          *dest++ = 'n';
+          str++;
+        } else {
+          *dest++ = *str++;
+        }
       }
     } else {
       *dest++ = *str++;
@@ -1743,102 +301,2135 @@ static char *moutstr(char *str, bool full_escapes)
   return buf;
 }
 
-/***************************************************************
-  Returns pointer to list of strings giving all section names
-  which start with prefix, and sets the number of such sections
-  in (*num).  If there are none such, returns NULL and sets
-  (*num) to zero.  The returned pointer is malloced, and it is
-  the responsibilty of the caller to free this pointer, but the
-  actual strings pointed to are part of the section_file data,
-  and should not be freed by the caller (nor used after the
-  section_file has been freed or changed).  The section names
-  returned are in the order they appeared in the original file.
-***************************************************************/
-char **secfile_get_secnames_prefix(struct section_file *my_section_file,
-				   const char *prefix, int *num)
+/***************************************************************************
+  Simplification of fileinfoname().
+***************************************************************************/
+static const char *datafilename(const char *filename)
 {
-  char **ret;
-  int len, i;
+  return fileinfoname(get_data_dirs(), filename);
+}
+
+
+/* The section file struct itself. */
+struct section_file {
+  char *name;                           /* Can be NULL. */
+  size_t num_entries;
+  struct section_list *sections;
+  bool allow_duplicates;
+  struct {
+    struct hash_table *sections;
+    struct hash_table *entries;
+  } hash;
+};
+
+/**************************************************************************
+  Unsure this is name is correct to use it as section or entry name.
+**************************************************************************/
+static bool check_name(const char *name)
+{
+  while ('\0' != *name) {
+    if ('_' != *name && '.' != *name && ',' != *name && !my_isalnum(*name)) {
+      return FALSE;
+    }
+    name++;
+  }
+  return TRUE;
+}
+
+
+/**************************************************************************
+  Create a new empty section file.
+**************************************************************************/
+struct section_file *secfile_new(bool allow_duplicates)
+{
+  struct section_file *secfile = fc_malloc(sizeof(struct section_file));
+
+  secfile->name = NULL;
+  secfile->num_entries = 0;
+  secfile->sections = section_list_new();
+  secfile->allow_duplicates = allow_duplicates;
+
+  secfile->hash.sections = hash_new(hash_fval_string,
+                                    hash_fcmp_string);
+  /* Maybe alloced after. */
+  secfile->hash.entries = NULL;
+
+  return secfile;
+}
+
+/**************************************************************************
+  Free a section file.
+**************************************************************************/
+void secfile_destroy(struct section_file *secfile)
+{
+  RETURN_IF_FAIL(secfile != NULL);
+
+  hash_free(secfile->hash.sections);
+  /* Mark it NULL to be sure to don't try to make operations when
+   * deleting the entries. */
+  secfile->hash.sections = NULL;
+  if (NULL != secfile->hash.entries) {
+    hash_free(secfile->hash.entries);
+    /* Mark it NULL to be sure to don't try to make operations when
+     * deleting the entries. */
+    secfile->hash.entries = NULL;
+  }
+
+  section_list_iterate(secfile->sections, psection) {
+    section_destroy(psection);
+  } section_list_iterate_end;
+  section_list_free(secfile->sections);
+
+  if (NULL != secfile->name) {
+    free(secfile->name);
+  }
+
+  free(secfile);
+}
+
+/**************************************************************************
+  Insert an entry into the hash table.  Returns TRUE on success.
+**************************************************************************/
+static bool secfile_hash_insert(struct section_file *secfile,
+                                struct entry *pentry)
+{
+  char buf[256];
+  struct entry *hentry;
+
+  if (NULL == secfile->hash.entries) {
+    /* Consider as success if this secfile doesn't have built the entries
+     * hash table. */
+    return TRUE;
+  }
+
+  entry_path(pentry, buf, sizeof(buf));
+  hentry = hash_replace(secfile->hash.entries, strdup(buf), pentry);
+  if (hentry) {
+    entry_use(hentry);
+    if (!secfile->allow_duplicates) {
+      SECFILE_LOG(secfile, entry_section(hentry),
+                  "Tried to insert same value twice: %s", buf);
+      return FALSE;
+    }
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
+  Delete an entry from the hash table.  Returns TRUE on success.
+**************************************************************************/
+static bool secfile_hash_delete(struct section_file *secfile,
+                                struct entry *pentry)
+{
+  char buf[256];
+
+  if (NULL == secfile->hash.entries) {
+    /* Consider as success if this secfile doesn't have built the entries
+     * hash table. */
+    return TRUE;
+  }
+
+  entry_path(pentry, buf, sizeof(buf));
+  return (pentry == hash_delete_entry(secfile->hash.entries, buf));
+  /* What would happen if it wasn't the right entry? */
+}
+
+/**************************************************************************
+  Base function to load a section file.  Note it closes the inputfile.
+**************************************************************************/
+static struct section_file *secfile_from_input_file(struct inputfile *inf,
+                                                    const char *filename,
+                                                    const char *section,
+                                                    bool allow_duplicates)
+{
+  struct section_file *secfile;
+  struct section *psection = NULL;
+  bool table_state = FALSE;     /* TRUE when within tabular format. */
+  int table_lineno = 0;         /* Row number in tabular, 0 top data row. */
+  const char *tok;
+  int i;
+  struct astring base_name = ASTRING_INIT;    /* for table or single entry */
+  struct astring entry_name = ASTRING_INIT;
+  struct astring_vector columns;    /* astrings for column headings */
+  bool found_my_section = FALSE;
+  bool error = FALSE;
+
+  if (!inf) {
+    return NULL;
+  }
+
+  secfile = secfile_new(allow_duplicates);
+  if (filename) {
+    secfile->name = mystrdup(filename);
+  } else {
+    secfile->name = NULL;
+  }
+
+  astring_vector_init(&columns);
+
+  if (filename) {
+    freelog(LOG_VERBOSE, "Reading registry from \"%s\"", filename);
+  } else {
+    freelog(LOG_VERBOSE, "Reading registry");
+  }
+
+  while (!inf_at_eof(inf)) {
+    if (inf_token(inf, INF_TOK_EOL)) {
+      continue;
+    }
+    if (inf_at_eof(inf)) {
+      /* may only realise at eof after trying to read eol above */
+      break;
+    }
+    tok = inf_token(inf, INF_TOK_SECTION_NAME);
+    if (tok) {
+      if (found_my_section) {
+        /* This shortcut will stop any further loading after the requested
+         * section has been loaded (i.e., at the start of a new section).
+         * This is needed to make the behavior useful, since the whole
+         * purpose is to short-cut further loading of the file.  However
+         * normally a section may be split up, and that will no longer
+         * work here because it will be short-cut. */
+        inf_log(inf, LOG_DEBUG, "found requested section; finishing");
+        goto END;
+      }
+      if (table_state) {
+        inf_log(inf, LOG_ERROR, "new section during table");
+        error = TRUE;
+        goto END;
+      }
+      /* Check if we already have a section with this name.
+         (Could ignore this and have a duplicate sections internally,
+         but then secfile_get_secnames_prefix would return duplicates.)
+         Duplicate section in input are likely to be useful for includes.
+      */
+      psection = secfile_section_by_name(secfile, tok);
+      if (!psection) {
+        if (!section || strcmp(tok, section) == 0) {
+          psection = secfile_section_new(secfile, tok);
+          if (section) {
+            found_my_section = TRUE;
+          }
+        }
+      }
+      (void) inf_token_required(inf, INF_TOK_EOL);
+      continue;
+    }
+    if (inf_token(inf, INF_TOK_TABLE_END)) {
+      if (!table_state) {
+        inf_log(inf, LOG_ERROR, "misplaced \"}\"");
+        error = TRUE;
+        goto END;
+      }
+      (void) inf_token_required(inf, INF_TOK_EOL);
+      table_state = FALSE;
+      continue;
+    }
+    if (table_state) {
+      i = -1;
+      do {
+        int num_columns = astring_vector_size(&columns);
+
+        i++;
+        inf_discard_tokens(inf, INF_TOK_EOL);   /* allow newlines */
+        if (!(tok = inf_token_required(inf, INF_TOK_VALUE))) {
+          error = TRUE;
+          goto END;
+        }
+
+        if (i < num_columns) {
+          astr_minsize(&entry_name, base_name.n + 10 + columns.p[i].n);
+          my_snprintf(entry_name.str, entry_name.n_alloc, "%s%d.%s",
+                      base_name.str, table_lineno, columns.p[i].str);
+        } else {
+          astr_minsize(&entry_name,
+                       base_name.n + 20 + columns.p[num_columns - 1].n);
+          my_snprintf(entry_name.str, entry_name.n_alloc, "%s%d.%s,%d",
+                      base_name.str, table_lineno,
+                      columns.p[num_columns - 1].str,
+                      (int) (i - num_columns + 1));
+        }
+        entry_from_token(psection, entry_name.str, tok);
+      } while (inf_token(inf, INF_TOK_COMMA));
+
+      (void) inf_token_required(inf, INF_TOK_EOL);
+      table_lineno++;
+      continue;
+    }
+
+    if (!(tok = inf_token_required(inf, INF_TOK_ENTRY_NAME))) {
+      error = TRUE;
+      goto END;
+    }
+
+    /* need to store tok before next calls: */
+    astr_minsize(&base_name, strlen(tok)+1);
+    strcpy(base_name.str, tok);
+
+    inf_discard_tokens(inf, INF_TOK_EOL);       /* allow newlines */
+
+    if (inf_token(inf, INF_TOK_TABLE_START)) {
+      i = -1;
+      do {
+        i++;
+        inf_discard_tokens(inf, INF_TOK_EOL);  	/* allow newlines */
+        if (!(tok = inf_token_required(inf, INF_TOK_VALUE))) {
+          error = TRUE;
+          goto END;
+        }
+        if (tok[0] != '\"') {
+          inf_log(inf, LOG_ERROR, "table column header non-string");
+          error = TRUE;
+          goto END;
+        }
+        {       /* expand columns: */
+          int j, n_prev;
+          n_prev = astring_vector_size(&columns);
+          for (j = i + 1; j < n_prev; j++) {
+            astr_free(&columns.p[j]);
+          }
+          astring_vector_reserve(&columns, i + 1);
+          for (j = n_prev; j < i + 1; j++) {
+            astr_init(&columns.p[j]);
+          }
+        }
+        astr_minsize(&columns.p[i], strlen(tok));
+        strcpy(columns.p[i].str, tok + 1);
+        
+      } while (inf_token(inf, INF_TOK_COMMA));
+      
+      (void) inf_token_required(inf, INF_TOK_EOL);
+      table_state = TRUE;
+      table_lineno = 0;
+      continue;
+    }
+    /* ordinary value: */
+    i = -1;
+    do {
+      i++;
+      inf_discard_tokens(inf, INF_TOK_EOL);     /* allow newlines */
+      if (!(tok = inf_token_required(inf, INF_TOK_VALUE))) {
+        error = TRUE;
+        goto END;
+      }
+      if (i == 0) {
+        entry_from_token(psection, base_name.str, tok);
+      } else {
+        astr_minsize(&entry_name, base_name.n + 20);
+        my_snprintf(entry_name.str, entry_name.n_alloc,
+                    "%s,%d", base_name.str, i);
+        entry_from_token(psection, entry_name.str, tok);
+      }
+    } while (inf_token(inf, INF_TOK_COMMA));
+    (void) inf_token_required(inf, INF_TOK_EOL);
+  }
+
+  if (table_state) {
+    if (filename) {
+      freelog(LOG_ERROR, "finished registry %s before end of table\n",
+              filename);
+    } else {
+      freelog(LOG_ERROR, "finished registry before end of table\n");
+    }
+    error = TRUE;
+  }
+
+END:
+  inf_close(inf);
+  astr_free(&base_name);
+  astr_free(&entry_name);
+  for (i = 0; i < astring_vector_size(&columns); i++) {
+    astr_free(&columns.p[i]);
+  }
+  astring_vector_free(&columns);
+
+  if (!error) {
+    /* Build the entry hash table. */
+    secfile->hash.entries = hash_new_nentries_full(hash_fval_string,
+                                                   hash_fcmp_string,
+                                                   free, NULL,
+                                                   secfile->num_entries);
+
+    section_list_iterate(secfile->sections, psection) {
+      entry_list_iterate(section_entries(psection), pentry) {
+        if (!secfile_hash_insert(secfile, pentry)) {
+          error = TRUE;
+          break;
+        }
+      } entry_list_iterate_end;
+      if (error) {
+        break;
+      }
+    } section_list_iterate_end;
+  }
+  if (error) {
+    secfile_destroy(secfile);
+    return NULL;
+  } else {
+    return secfile;
+  }
+}
+
+/**************************************************************************
+  Create a section file from a file.  Returns NULL on error.
+**************************************************************************/
+struct section_file *secfile_load(const char *filename,
+                                  bool allow_duplicates)
+{
+  return secfile_load_section(filename, NULL, allow_duplicates);
+}
+
+/**************************************************************************
+  Create a section file from a file, read only one particular section.
+  Returns NULL on error.
+**************************************************************************/
+struct section_file *secfile_load_section(const char *filename,
+                                          const char *section,
+                                          bool allow_duplicates)
+{
+  char real_filename[1024];
+
+  interpret_tilde(real_filename, sizeof(real_filename), filename);
+  return secfile_from_input_file(inf_from_file(real_filename, datafilename),
+                                 filename, section, allow_duplicates);
+}
+
+/**************************************************************************
+  Create a section file from a stream.  Returns NULL on error.
+**************************************************************************/
+struct section_file *secfile_from_stream(fz_FILE *stream,
+                                         bool allow_duplicates)
+{
+  return secfile_from_input_file(inf_from_stream(stream, datafilename),
+                                 NULL, NULL, allow_duplicates);
+}
+
+/**************************************************************************
+  Save the previously filled in section_file to disk.
+
+  There is now limited ability to save in the new tabular format
+  (to give smaller savefiles).
+  The start of a table is detected by an entry with name of the form:
+    (alphabetical_component)(zero)(period)(alphanumeric_component)
+  Eg: u0.id, or c0.id, in the freeciv savefile.
+  The alphabetical component is taken as the "name" of the table,
+  and the component after the period as the first column name.
+  This should be followed by the other column values for u0,
+  and then subsequent u1, u2, etc, in strict order with no omissions,
+  and with all of the columns for all uN in the same order as for u0.
+
+  If compression_level is non-zero, then compress using zlib.  (Should
+  only supply non-zero compression_level if already know that HAVE_LIBZ.)
+  Below simply specifies FZ_ZLIB method, since fz_fromFile() automatically
+  changes to FZ_PLAIN method when level == 0.
+**************************************************************************/
+bool secfile_save(const struct section_file *secfile, const char *filename,
+                  int compression_level, enum fz_method compression_method)
+{
+  char real_filename[1024];
+  char buf[8192];
+  char pentry_name[128];
+  const char *col_entry_name;
+  fz_FILE *fs;
+  const struct genlist_link *ent_iter, *save_iter, *col_iter;
+  struct entry *pentry, *col_pentry;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, FALSE);
+
+  if (NULL == filename) {
+    filename = secfile->name;
+  }
+
+  interpret_tilde(real_filename, sizeof(real_filename), filename);
+  fs = fz_from_file(real_filename, "w",
+                    compression_method, compression_level);
+
+  if (!fs) {
+    return FALSE;
+  }
+
+  section_list_iterate(secfile->sections, psection) {
+    fz_fprintf(fs, "\n[%s]\n", section_name(psection));
+
+    /* Following doesn't use entry_list_iterate() because we want to do
+     * tricky things with the iterators...
+     */
+    for (ent_iter = genlist_head(entry_list_base(section_entries(psection)));
+         ent_iter && (pentry = genlist_link_data(ent_iter));
+         ent_iter = genlist_link_next(ent_iter)) {
+
+      /* Tables: break out of this loop if this is a non-table
+       * entry (pentry and ent_iter unchanged) or after table (pentry
+       * and ent_iter suitably updated, pentry possibly NULL).
+       * After each table, loop again in case the next entry
+       * is another table.
+       */
+      for (;;) {
+        char *c, *first, base[64];
+        int offset, irow, icol, ncol;
+
+        /* Example: for first table name of "xyz0.blah":
+         *  first points to the original string pentry->name
+         *  base contains "xyz";
+         *  offset = 5 (so first+offset gives "blah")
+         *  note strlen(base) = offset - 2
+         */
+
+        if (!SAVE_TABLES) {
+          break;
+        }
+
+        sz_strlcpy(pentry_name, entry_name(pentry));
+        c = first = pentry_name;
+        if (*c == '\0' || !my_isalpha(*c)) {
+          break;
+        }
+        for (; *c != '\0' && my_isalpha(*c); c++) {
+          /* nothing */
+        }
+        if(strncmp(c,"0.",2) != 0) {
+          break;
+        }
+        c += 2;
+        if (*c == '\0' || !my_isalnum(*c)) {
+          break;
+        }
+
+        offset = c - first;
+        first[offset - 2] = '\0';
+        sz_strlcpy(base, first);
+        first[offset - 2] = '0';
+        fz_fprintf(fs, "%s = {", base);
+
+        /* Save an iterator at this first entry, which we can later use
+         * to repeatedly iterate over column names:
+         */
+        save_iter = ent_iter;
+
+        /* write the column names, and calculate ncol: */
+        ncol = 0;
+        col_iter = save_iter;
+        for(; (col_pentry = genlist_link_data(col_iter));
+            col_iter = genlist_link_next(col_iter)) {
+          col_entry_name = entry_name(col_pentry);
+          if (strncmp(col_entry_name, first, offset) != 0) {
+            break;
+          }
+          fz_fprintf(fs, "%c \"%s\"", (ncol == 0 ? ' ' : ','),
+                     col_entry_name + offset);
+          ncol++;
+        }
+        fz_fprintf(fs, "\n");
+
+        /* Iterate over rows and columns, incrementing ent_iter as we go,
+         * and writing values to the table.  Have a separate iterator
+         * to the column names to check they all match.
+         */
+        irow = icol = 0;
+        col_iter = save_iter;
+        for (;;) {
+          char expect[128];     /* pentry->name we're expecting */
+
+          pentry = genlist_link_data(ent_iter);
+          col_pentry = genlist_link_data(col_iter);
+
+          my_snprintf(expect, sizeof(expect), "%s%d.%s",
+                      base, irow, entry_name(col_pentry) + offset);
+
+          /* break out of tabular if doesn't match: */
+          if ((!pentry) || (strcmp(entry_name(pentry), expect) != 0)) {
+            if (icol != 0) {
+              /* If the second or later row of a table is missing some
+               * entries that the first row had, we drop out of the tabular
+               * format.  This is inefficient so we print a warning message;
+               * the calling code probably needs to be fixed so that it can
+               * use the more efficient tabular format.
+               *
+               * FIXME: If the first row is missing some entries that the
+               * second or later row has, then we'll drop out of tabular
+               * format without an error message. */
+              freelog(LOG_ERROR,
+                      "In file %s, there is no entry in the registry for\n"
+                      "%s.%s (or the entries are out of order. This means\n"
+                      "a less efficient non-tabular format will be used.\n"
+                      "To avoid this make sure all rows of a table are\n"
+                      "filled out with an entry for every column.",
+                      real_filename, section_name(psection), expect);
+              freelog(LOG_ERROR,
+                      /* TRANS: No full stop after the URL, 
+                       * could cause confusion. */
+                      _("Please report this message at %s"),
+                      BUG_URL);
+              fz_fprintf(fs, "\n");
+            }
+            fz_fprintf(fs, "}\n");
+            break;
+          }
+
+          if (icol > 0) {
+            fz_fprintf(fs, ", ");
+          }
+          entry_to_file(pentry, fs, buf, sizeof(buf));
+
+          ent_iter = genlist_link_next(ent_iter);
+          col_iter = genlist_link_next(col_iter);
+
+          icol++;
+          if (icol == ncol) {
+            fz_fprintf(fs, "\n");
+            irow++;
+            icol = 0;
+            col_iter = save_iter;
+          }
+        }
+        if (!pentry) {
+          break;
+        }
+      }
+      if (!pentry) {
+        break;
+      }
+
+      fz_fprintf(fs, "%s = ", entry_name(pentry));
+      entry_to_file(pentry, fs, buf, sizeof(buf));
+
+      if (entry_comment(pentry)) {
+        fz_fprintf(fs, "  # %s\n", entry_comment(pentry));
+      } else {
+        fz_fprintf(fs, "\n");
+      }
+    }
+  } section_list_iterate_end;
+  
+  if (0 != fz_ferror(fs)) {
+    SECFILE_LOG(secfile, NULL, "Error before closing %s: %s", 
+                real_filename, fz_strerror(fs));
+    fz_fclose(fs);
+    return FALSE;
+  }
+  if (0 != fz_fclose(fs)) {
+    SECFILE_LOG(secfile, NULL, "Error closing %s", real_filename);
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
+  Print log messages for any entries in the file which have
+  not been looked up -- ie, unused or unrecognised entries.
+  To mark an entry as used without actually doing anything with it,
+  you could do something like:
+     section_file_lookup(&file, "foo.bar");  / * unused * /
+**************************************************************************/
+void secfile_check_unused(const struct section_file *secfile)
+{
+  bool any = FALSE;
+
+  section_list_iterate(secfile_sections(secfile), psection) {
+    entry_list_iterate(section_entries(psection), pentry) {
+      if (!entry_used(pentry)) {
+        if (!any && secfile->name) {
+          freelog(LOG_VERBOSE, "Unused entries in file %s:",
+                  secfile->name);
+          any = TRUE;
+        }
+        freelog(LOG_VERBOSE, "  unused entry: %s.%s",
+                section_name(psection), entry_name(pentry));
+      }
+    } entry_list_iterate_end;
+  } section_list_iterate_end;
+}
+
+/**************************************************************************
+  Return the filename the section file was loaded as, or "(anonymous)"
+  if this sectionfile was created rather than loaded from file.
+  The memory is managed internally, and should not be altered,
+  nor used after secfile_destroy() called for the section file.
+**************************************************************************/
+const char *secfile_name(const struct section_file *secfile)
+{
+  if (NULL == secfile) {
+    return "NULL";
+  } else if (secfile->name) {
+    return secfile->name;
+  } else {
+    return "(anonymous)";
+  }
+}
+
+/**************************************************************************
+  Seperates the section and entry names.  Create the section if missing.
+**************************************************************************/
+static struct section *secfile_insert_base(struct section_file *secfile,
+                                           const char *path,
+                                           const char **pent_name)
+{
+  char fullpath[MAX_LEN_BUFFER];
+  char *ent_name;
+  struct section *psection;
+
+  sz_strlcpy(fullpath, path);
+
+  ent_name = strchr(fullpath, '.');
+  if (!ent_name) {
+    SECFILE_LOG(secfile, NULL,
+                "Section and entry names must be separated by a dot.");
+    return NULL;
+  }
+
+  /* Separates section and entry names. */
+  *ent_name = '\0';
+  *pent_name = path + (ent_name - fullpath) + 1;
+  psection = secfile_section_by_name(secfile, fullpath);
+  if (psection) {
+    return psection;
+  } else {
+    return secfile_section_new(secfile, fullpath);
+  }
+}
+
+/**************************************************************************
+  Insert a boolean entry.
+**************************************************************************/
+struct entry *secfile_insert_bool_full(struct section_file *secfile,
+                                       bool value, const char *comment,
+                                       bool allow_replace,
+                                       const char *path, ...)
+{
+  char fullpath[MAX_LEN_BUFFER];
+  const char *ent_name;
+  struct section *psection;
+  struct entry *pentry = NULL;
+  va_list args;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
+
+  va_start(args, path);
+  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  va_end(args);
+
+  psection = secfile_insert_base(secfile, fullpath, &ent_name);
+  if (!psection) {
+    return NULL;
+  }
+
+  if (allow_replace) {
+    pentry = section_entry_by_name(psection, ent_name);
+    if (NULL != pentry) {
+      if (ENTRY_BOOL == entry_type(pentry)) {
+        if (!entry_bool_set(pentry, value)) {
+          return NULL;
+        }
+      } else {
+        entry_destroy(pentry);
+        pentry = NULL;
+      }
+    }
+  }
+
+  if (NULL == pentry) {
+    pentry = section_entry_bool_new(psection, ent_name, value);
+  }
+
+  if (NULL != pentry && NULL != comment) {
+    entry_set_comment(pentry, comment);
+  }
+
+  return pentry;
+}
+
+/**************************************************************************
+  Insert 'dim' boolean entries at 'path,0', 'path,1' etc.  Returns 
+  the number of entries inserted or replaced.
+**************************************************************************/
+size_t secfile_insert_bool_vec_full(struct section_file *secfile,
+                                    const bool *values, size_t dim,
+                                    const char *comment, bool allow_replace,
+                                    const char *path, ...)
+{
+  char fullpath[MAX_LEN_BUFFER];
+  size_t i, ret = 0;
+  va_list args;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, 0);
+
+  va_start(args, path);
+  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  va_end(args);
+
+  /* NB: 'path,0' is actually 'path'.  See comment in the head
+   * of the file. */
+  if (dim > 0
+      && NULL != secfile_insert_bool_full(secfile, values[0], comment,
+                                          allow_replace, "%s", fullpath)) {
+    ret++;
+  }
+  for (i = 1; i < dim; i++) {
+    if (NULL != secfile_insert_bool_full(secfile, values[i], comment,
+                                         allow_replace, "%s,%d",
+                                         fullpath, (int) i)) {
+      ret++;
+    }
+  }
+
+  return ret;
+}
+
+/**************************************************************************
+  Insert a integer entry.
+**************************************************************************/
+struct entry *secfile_insert_int_full(struct section_file *secfile,
+                                      int value, const char *comment,
+                                      bool allow_replace,
+                                      const char *path, ...)
+{
+  char fullpath[MAX_LEN_BUFFER];
+  const char *ent_name;
+  struct section *psection;
+  struct entry *pentry = NULL;
+  va_list args;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
+
+  va_start(args, path);
+  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  va_end(args);
+
+  psection = secfile_insert_base(secfile, fullpath, &ent_name);
+  if (!psection) {
+    return NULL;
+  }
+
+  if (allow_replace) {
+    pentry = section_entry_by_name(psection, ent_name);
+    if (NULL != pentry) {
+      if (ENTRY_INT == entry_type(pentry)) {
+        if (!entry_int_set(pentry, value)) {
+          return NULL;
+        }
+      } else {
+        entry_destroy(pentry);
+        pentry = NULL;
+      }
+    }
+  }
+
+  if (NULL == pentry) {
+    pentry = section_entry_int_new(psection, ent_name, value);
+  }
+
+  if (NULL != pentry && NULL != comment) {
+    entry_set_comment(pentry, comment);
+  }
+
+  return pentry;
+}
+
+/**************************************************************************
+  Insert 'dim' integer entries at 'path,0', 'path,1' etc.  Returns 
+  the number of entries inserted or replaced.
+**************************************************************************/
+size_t secfile_insert_int_vec_full(struct section_file *secfile,
+                                   const int *values, size_t dim,
+                                   const char *comment, bool allow_replace,
+                                   const char *path, ...)
+{
+  char fullpath[MAX_LEN_BUFFER];
+  size_t i, ret = 0;
+  va_list args;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, 0);
+
+  va_start(args, path);
+  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  va_end(args);
+
+  /* NB: 'path,0' is actually 'path'.  See comment in the head
+   * of the file. */
+  if (dim > 0
+      && NULL != secfile_insert_int_full(secfile, values[0], comment,
+                                         allow_replace, "%s", fullpath)) {
+    ret++;
+  }
+  for (i = 1; i < dim; i++) {
+    if (NULL != secfile_insert_int_full(secfile, values[i], comment,
+                                        allow_replace, "%s,%d",
+                                        fullpath, (int) i)) {
+      ret++;
+    }
+  }
+
+  return ret;
+}
+
+/**************************************************************************
+  Insert a string entry.
+**************************************************************************/
+struct entry *secfile_insert_str_full(struct section_file *secfile,
+                                      const char *string,
+                                      const char *comment,
+                                      bool allow_replace,
+                                      bool no_escape, const char *path, ...)
+{
+  char fullpath[MAX_LEN_BUFFER];
+  const char *ent_name;
+  struct section *psection;
+  struct entry *pentry = NULL;
+  va_list args;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
+
+  va_start(args, path);
+  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  va_end(args);
+
+  psection = secfile_insert_base(secfile, fullpath, &ent_name);
+  if (!psection) {
+    return NULL;
+  }
+
+  if (allow_replace) {
+    pentry = section_entry_by_name(psection, ent_name);
+    if (NULL != pentry) {
+      if (ENTRY_STR == entry_type(pentry)) {
+        if (!entry_str_set(pentry, string)) {
+          return NULL;
+        }
+      } else {
+        entry_destroy(pentry);
+        pentry = NULL;
+      }
+    }
+  }
+
+  if (NULL == pentry) {
+    pentry = section_entry_str_new(psection, ent_name, string, !no_escape);
+  }
+
+  if (NULL != pentry && NULL != comment) {
+    entry_set_comment(pentry, comment);
+  }
+
+  return pentry;
+}
+
+/**************************************************************************
+  Insert 'dim' string entries at 'path,0', 'path,1' etc.  Returns 
+  the number of entries inserted or replaced.
+**************************************************************************/
+size_t secfile_insert_str_vec_full(struct section_file *secfile,
+                                   const char *const *strings, size_t dim,
+                                   const char *comment, bool allow_replace,
+                                   bool no_escape, const char *path, ...)
+{
+  char fullpath[MAX_LEN_BUFFER];
+  size_t i, ret = 0;
+  va_list args;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, 0);
+
+  va_start(args, path);
+  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  va_end(args);
+
+  /* NB: 'path,0' is actually 'path'.  See comment in the head
+   * of the file. */
+  if (dim > 0
+      && NULL != secfile_insert_str_full(secfile, strings[0], comment,
+                                         allow_replace, no_escape,
+                                         "%s", fullpath)) {
+    ret++;
+  }
+  for (i = 1; i < dim; i++) {
+    if (NULL != secfile_insert_str_full(secfile, strings[i], comment,
+                                        allow_replace, no_escape,
+                                        "%s,%d", fullpath, (int) i)) {
+      ret++;
+    }
+  }
+
+  return ret;
+}
+
+/**************************************************************************
+  Returns the entry by the name or NULL if not matched.
+**************************************************************************/
+struct entry *secfile_entry_by_path(const struct section_file *secfile,
+                                    const char *entry_path)
+{
+  char fullpath[MAX_LEN_BUFFER];
+  char *ent_name;
+  size_t len;
+  struct section *psection;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
+
+  sz_strlcpy(fullpath, entry_path);
+
+  /* treat "sec.foo,0" as "sec.foo": */
+  len = strlen(fullpath);
+  if (len > 2 && fullpath[len - 2] == ',' && fullpath[len - 1] == '0') {
+    fullpath[len - 2] = '\0';
+  }
+
+  if (NULL != secfile->hash.entries) {
+    struct entry *pentry = hash_lookup_data(secfile->hash.entries, fullpath);
+
+    if (NULL != pentry) {
+      entry_use(pentry);
+    }
+    return pentry;
+  }
+
+  /* I dont like strtok.
+   * - Me neither! */
+  ent_name = strchr(fullpath, '.');
+  if (!ent_name) {
+    return NULL;
+  }
+
+  /* Separates section and entry names. */
+  *ent_name++ = '\0';
+  psection = secfile_section_by_name(secfile, fullpath);
+  if (psection) {
+    return section_entry_by_name(psection, ent_name);
+  } else {
+    return NULL;
+  }
+}
+
+/**************************************************************************
+  Returns the entry at "fullpath" or NULL if not matched.
+**************************************************************************/
+struct entry *secfile_entry_lookup(const struct section_file *secfile,
+                                   const char *path, ...)
+{
+  char fullpath[MAX_LEN_BUFFER];
+  va_list args;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
+
+  va_start(args, path);
+  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  va_end(args);
+
+  return secfile_entry_by_path(secfile, fullpath);
+}
+
+/**************************************************************************
+  Lookup a boolean value in the secfile.  Returns TRUE on success.
+**************************************************************************/
+bool secfile_lookup_bool(const struct section_file *secfile, bool *bval,
+                         const char *path, ...)
+{
+  char fullpath[MAX_LEN_BUFFER];
+  const struct entry *pentry;
+  va_list args;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, FALSE);
+
+  va_start(args, path);
+  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  va_end(args);
+
+  if (!(pentry = secfile_entry_by_path(secfile, fullpath))) {
+    SECFILE_LOG(secfile, NULL, "\"%s\" entry doesn't exist.", fullpath);
+    return FALSE;
+  }
+
+  return entry_bool_get(pentry, bval);
+}
+
+/**************************************************************************
+  Lookup a boolean value in the secfile.  On failure, use the default
+  value.
+**************************************************************************/
+bool secfile_lookup_bool_default(const struct section_file *secfile,
+                                 bool def, const char *path, ...)
+{
+  char fullpath[MAX_LEN_BUFFER];
+  const struct entry *pentry;
+  bool bval;
+  va_list args;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, def);
+
+  va_start(args, path);
+  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  va_end(args);
+
+  if (!(pentry = secfile_entry_by_path(secfile, fullpath))) {
+    SECFILE_LOG(secfile, NULL, "\"%s\" entry doesn't exist.", fullpath);
+    return def;
+  }
+
+  if (entry_bool_get(pentry, &bval)) {
+    return bval;
+  }
+
+  return def;
+}
+
+/**************************************************************************
+  Lookup a boolean vector in the secfile.  Returns NULL on error.  This
+  vector is not owned by the registry module, and should be free by the
+  user.
+**************************************************************************/
+bool *secfile_lookup_bool_vec(const struct section_file *secfile,
+                              size_t *dim, const char *path, ...)
+{
+  char fullpath[MAX_LEN_BUFFER];
+  size_t i = 0;
+  bool *vec;
+  va_list args;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != dim, NULL);
+
+  va_start(args, path);
+  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  va_end(args);
+
+  /* Check size. */
+  while (NULL != secfile_entry_lookup(secfile, "%s,%d", fullpath, (int) i)) {
+    i++;
+  }
+  *dim = i;
+
+  if (0 == i) {
+    /* Doesn't exist. */
+    SECFILE_LOG(secfile, NULL, "\"%s\" entry doesn't exist.", fullpath);
+    return NULL;
+  }
+
+  vec = fc_malloc(i * sizeof(bool));
+  for(i = 0; i < *dim; i++) {
+    if (!secfile_lookup_bool(secfile, vec + i, "%s,%d", fullpath, (int) i)) {
+      SECFILE_LOG(secfile, NULL,
+                  "An error occured when looking up to \"%s,%d\" entry.",
+                  fullpath, (int) i);
+      free(vec);
+      *dim = 0;
+      return NULL;
+    }
+  }
+
+  return vec;
+}
+
+/**************************************************************************
+  Lookup a integer value in the secfile.  Returns TRUE on success.
+**************************************************************************/
+bool secfile_lookup_int(const struct section_file *secfile, int *ival,
+                        const char *path, ...)
+{
+  char fullpath[MAX_LEN_BUFFER];
+  const struct entry *pentry;
+  va_list args;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, FALSE);
+
+  va_start(args, path);
+  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  va_end(args);
+
+  if (!(pentry = secfile_entry_by_path(secfile, fullpath))) {
+    SECFILE_LOG(secfile, NULL, "\"%s\" entry doesn't exist.", fullpath);
+    return FALSE;
+  }
+
+  return entry_int_get(pentry, ival);
+}
+
+/**************************************************************************
+  Lookup a integer value in the secfile.  On failure, use the default
+  value.
+**************************************************************************/
+int secfile_lookup_int_default(const struct section_file *secfile, int def,
+                               const char *path, ...)
+{
+  char fullpath[MAX_LEN_BUFFER];
+  const struct entry *pentry;
+  int ival;
+  va_list args;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, def);
+
+  va_start(args, path);
+  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  va_end(args);
+
+  if (!(pentry = secfile_entry_by_path(secfile, fullpath))) {
+    SECFILE_LOG(secfile, NULL, "\"%s\" entry doesn't exist.", fullpath);
+    return def;
+  }
+
+  if (entry_int_get(pentry, &ival)) {
+    return ival;
+  }
+
+  return def;
+}
+
+/**************************************************************************
+  Lookup a integer value in the secfile.  The value will be arranged to
+  match the interval [minval, maxval].  On failure, use the default
+  value.
+**************************************************************************/
+int secfile_lookup_int_def_min_max(const struct section_file *secfile,
+                                   int defval, int minval, int maxval,
+                                   const char *path, ...)
+{
+  char fullpath[MAX_LEN_BUFFER];
+  const struct entry *pentry;
+  int value;
+  va_list args;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, defval);
+
+  va_start(args, path);
+  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  va_end(args);
+
+  if (!(pentry = secfile_entry_by_path(secfile, fullpath))) {
+    SECFILE_LOG(secfile, NULL, "\"%s\" entry doesn't exist.", fullpath);
+    return defval;
+  }
+
+  if (!entry_int_get(pentry, &value)) {
+    return defval;
+  }
+
+  if (value < minval) {
+    SECFILE_LOG(secfile, entry_section(pentry),
+                "\"%s\" should be in the interval [%d, %d] but is %d;"
+                "using the minimal value.",
+                fullpath, minval, maxval, value);
+    value = minval;
+  }
+
+  if (value > maxval) {
+    SECFILE_LOG(secfile, entry_section(pentry),
+                "\"%s\" should be in the interval [%d, %d] but is %d;"
+                "using the maximal value.",
+                fullpath, minval, maxval, value);
+    value = maxval;
+  }
+
+  return value;
+}
+
+/**************************************************************************
+  Lookup a integer vector in the secfile.  Returns NULL on error.  This
+  vector is not owned by the registry module, and should be free by the
+  user.
+**************************************************************************/
+int *secfile_lookup_int_vec(const struct section_file *secfile,
+                            size_t *dim, const char *path, ...)
+{
+  char fullpath[MAX_LEN_BUFFER];
+  size_t i = 0;
+  int *vec;
+  va_list args;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != dim, NULL);
+
+  va_start(args, path);
+  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  va_end(args);
+
+  /* Check size. */
+  while (NULL != secfile_entry_lookup(secfile, "%s,%d", fullpath, (int) i)) {
+    i++;
+  }
+  *dim = i;
+
+  if (0 == i) {
+    /* Doesn't exist. */
+    SECFILE_LOG(secfile, NULL, "\"%s\" entry doesn't exist.", fullpath);
+    return NULL;
+  }
+
+  vec = fc_malloc(i * sizeof(int));
+  for(i = 0; i < *dim; i++) {
+    if (!secfile_lookup_int(secfile, vec + i, "%s,%d", fullpath, (int) i)) {
+      SECFILE_LOG(secfile, NULL,
+                  "An error occured when looking up to \"%s,%d\" entry.",
+                  fullpath, (int) i);
+      free(vec);
+      *dim = 0;
+      return NULL;
+    }
+  }
+
+  return vec;
+}
+
+/**************************************************************************
+  Lookup a string value in the secfile.  Returns NULL on error.
+**************************************************************************/
+const char *secfile_lookup_str(const struct section_file *secfile,
+                               const char *path, ...)
+{
+  char fullpath[MAX_LEN_BUFFER];
+  const struct entry *pentry;
+  const char *str;
+  va_list args;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
+
+  va_start(args, path);
+  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  va_end(args);
+
+  if (!(pentry = secfile_entry_by_path(secfile, fullpath))) {
+    SECFILE_LOG(secfile, NULL, "\"%s\" entry doesn't exist.", fullpath);
+    return NULL;
+  }
+
+  if (entry_str_get(pentry, &str)) {
+    return str;
+  }
+
+  return NULL;
+}
+
+/**************************************************************************
+  Lookup a string value in the secfile.  On failure, use the default
+  value.
+**************************************************************************/
+const char *secfile_lookup_str_default(const struct section_file *secfile,
+                                       const char *def,
+                                       const char *path, ...)
+{
+  char fullpath[MAX_LEN_BUFFER];
+  const struct entry *pentry;
+  const char *str;
+  va_list args;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, def);
+
+  va_start(args, path);
+  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  va_end(args);
+
+  if (!(pentry = secfile_entry_by_path(secfile, fullpath))) {
+    SECFILE_LOG(secfile, NULL, "\"%s\" entry doesn't exist.", fullpath);
+    return def;
+  }
+
+  if (entry_str_get(pentry, &str)) {
+    return str;
+  }
+
+  return def;
+}
+
+/**************************************************************************
+  Lookup a string vector in the secfile.  Returns NULL on error.  This
+  vector is not owned by the registry module, and should be free by the
+  user, but the string pointers stored inside the vector shouldn't be
+  free.
+**************************************************************************/
+const char **secfile_lookup_str_vec(const struct section_file *secfile,
+                                    size_t *dim, const char *path, ...)
+{
+  char fullpath[MAX_LEN_BUFFER];
+  size_t i = 0;
+  const char **vec;
+  va_list args;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != dim, NULL);
+
+  va_start(args, path);
+  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  va_end(args);
+
+  /* Check size. */
+  while (NULL != secfile_entry_lookup(secfile, "%s,%d", fullpath, (int) i)) {
+    i++;
+  }
+  *dim = i;
+
+  if (0 == i) {
+    /* Doesn't exist. */
+    SECFILE_LOG(secfile, NULL, "\"%s\" entry doesn't exist.", fullpath);
+    return NULL;
+  }
+
+  vec = fc_malloc(i * sizeof(const char *));
+  for(i = 0; i < *dim; i++) {
+    if (!(vec[i] = secfile_lookup_str(secfile, "%s,%d",
+                                      fullpath, (int) i))) {
+      SECFILE_LOG(secfile, NULL,
+                  "An error occured when looking up to \"%s,%d\" entry.",
+                  fullpath, (int) i);
+      free(vec);
+      *dim = 0;
+      return NULL;
+    }
+  }
+
+  return vec;
+}
+
+/**************************************************************************
+  Returns the first section matching the name.
+**************************************************************************/
+struct section *secfile_section_by_name(const struct section_file *secfile,
+                                        const char *name)
+{
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
+
+  section_list_iterate(secfile->sections, psection) {
+    if (0 == strcmp(section_name(psection), name)) {
+      return psection;
+    }
+  } section_list_iterate_end;
+
+  return NULL;
+}
+
+/**************************************************************************
+  Find a section by path.
+**************************************************************************/
+struct section *secfile_section_lookup(const struct section_file *secfile,
+                                       const char *path, ...)
+{
+  char fullpath[MAX_LEN_BUFFER];
+  va_list args;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
+
+  va_start(args, path);
+  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  va_end(args);
+
+  return secfile_section_by_name(secfile, fullpath);
+}
+
+/**************************************************************************
+  Returns the list of sections.  This list is owned by the registry module
+  and shouldn't be modified and destroyed.
+**************************************************************************/
+const struct section_list *
+secfile_sections(const struct section_file *secfile)
+{
+  return (NULL != secfile ? secfile->sections : NULL);
+}
+
+/**************************************************************************
+  Returns the list of sections which match the name prefix.  Returns NULL
+  if no section was found.  This list is not owned by the registry module
+  and the user must destroy it when he finished to work with it.
+**************************************************************************/
+struct section_list *
+secfile_sections_by_name_prefix(const struct section_file *secfile,
+                                const char *prefix)
+{
+  struct section_list *matches = NULL;
+  size_t len;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != prefix, NULL);
 
   len = strlen(prefix);
-
-  /* count 'em: */
-  i = 0;
-  section_list_iterate(my_section_file->sections, psection) {
-    if (strncmp(psection->name, prefix, len) == 0) {
-      i++;
-    }
-  }
-  section_list_iterate_end;
-  (*num) = i;
-
-  if (i==0) {
+  if (0 == len) {
     return NULL;
   }
-  
-  ret = fc_malloc((*num)*sizeof(char*));
 
-  i = 0;
-  section_list_iterate(my_section_file->sections, psection) {
-    if (strncmp(psection->name, prefix, len) == 0) {
-      ret[i++] = psection->name;
+  section_list_iterate(secfile->sections, psection) {
+    if (0 == strncmp(section_name(psection), prefix, len)) {
+      if (NULL == matches) {
+        matches = section_list_new();
+      }
+      section_list_append(matches, psection);
     }
-  }
-  section_list_iterate_end;
-  return ret;
+  } section_list_iterate_end;
+
+  return matches;
 }
 
-/****************************************************************************
-  Returns a pointer to a list of strings giving all keys in the given section
-  and sets the number of such sections in (*num).  If there are no keys
-  found, the function returns NULL and sets (*num) to zero.  The returned
-  pointer is malloced, and it is the responsibilty of the caller to free this
-  pointer (unless it's NULL), but the actual strings pointed to are part of
-  the section_file data, and should not be freed by the caller (nor used
-  after the section_file has been freed or changed, so the caller may need to
-  strdup them to keep them around).  The order of the returned names is
-  unspecified.
-****************************************************************************/
-char **secfile_get_section_entries(struct section_file *my_section_file,
-				   const char *section, int *num)
+
+/* Section structure. */
+struct section {
+  struct section_file *secfile; /* Parent structure. */
+  char *name;                   /* Name of the section. */
+  struct entry_list *entries;   /* The list of the children. */
+};
+
+/**************************************************************************
+  Create a new section in the secfile.
+**************************************************************************/
+struct section *secfile_section_new(struct section_file *secfile,
+                                    const char *name)
 {
-  char **ret;
-  int i;
-  struct section *psection = find_section_by_name(my_section_file,section);
+  struct section *psection;
 
-  if (!psection) {
-    *num = 0;
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
+
+  if (NULL == name || '\0' == name[0]) {
+    SECFILE_LOG(secfile, NULL, "Cannot create a section without name.");
     return NULL;
   }
 
-  *num = entry_list_size(psection->entries);
-
-  if (*num == 0) {
+  if (!check_name(name)) {
+    SECFILE_LOG(secfile, NULL, "\"%s\" is not a valid section name.",
+                name);
     return NULL;
   }
 
-  ret = fc_malloc((*num) * sizeof(*ret));
+  if (NULL != secfile_section_by_name(secfile, name)) {
+    /* We cannot duplicate sections in any case! */
+    SECFILE_LOG(secfile, NULL, "Section \"%s\" already exists.", name);
+    return NULL;
+  }
 
-  i = 0;  
+  psection = fc_malloc(sizeof(struct section));
+  psection->name = mystrdup(name);
+  psection->entries = entry_list_new();
+
+  /* Append to secfile. */
+  psection->secfile = secfile;
+  section_list_append(secfile->sections, psection);
+  if (NULL != secfile->hash.sections) {
+    hash_insert(secfile->hash.sections, psection->name, psection);
+  }
+
+  return psection;
+}
+
+/**************************************************************************
+  Remove this section from the secfile.
+**************************************************************************/
+void section_destroy(struct section *psection)
+{
+  struct section_file *secfile;
+
+  SECFILE_RETURN_IF_FAIL(NULL, psection, NULL != psection);
+
+  section_clear_all(psection);
+
+  if ((secfile = psection->secfile)) {
+    /* Detach from secfile. */
+    section_list_unlink(secfile->sections, psection);
+    if (NULL != secfile->hash.sections) {
+      hash_delete_entry(secfile->hash.sections, psection->name);
+    }
+  }
+
+  entry_list_free(psection->entries);
+  free(psection->name);
+  free(psection);
+}
+
+/**************************************************************************
+  Remove all entries.
+**************************************************************************/
+void section_clear_all(struct section *psection)
+{
+  SECFILE_RETURN_IF_FAIL(NULL, psection, NULL != psection);
+
   entry_list_iterate(psection->entries, pentry) {
-    ret[i++] = pentry->name;
+    /* This include the removing of the hash datas. */
+    entry_destroy(pentry);
   } entry_list_iterate_end;
 
-  return ret;
+  if (0 < entry_list_size(psection->entries)) {
+    SECFILE_LOG(psection->secfile, psection,
+                "After clearing all, %d entries are still remaining.",
+                entry_list_size(psection->entries));
+  }
 }
 
-/****************************************************************************
-  Returns TRUE if the given section exists in the secfile.
-****************************************************************************/
-bool secfile_has_section(const struct section_file *sf,
-                         const char *section_name_fmt, ...)
+/**************************************************************************
+  Returns the section name.
+**************************************************************************/
+const char *section_name(const struct section *psection)
 {
-  char name[MAX_LEN_BUFFER];
-  va_list ap;
+  return (NULL != psection ? psection->name : NULL);
+}
 
-  va_start(ap, section_name_fmt);
-  my_vsnprintf(name, sizeof(name), section_name_fmt, ap);
-  va_end(ap);
+/**************************************************************************
+  Change the section name.  Returns TRUE on success.
+**************************************************************************/
+bool section_set_name(struct section *psection, const char *name)
+{
+  struct section_file *secfile;
+  struct section *pother;
 
-  return hash_key_exists(sf->hash_sections, name);
+  SECFILE_RETURN_VAL_IF_FAIL(NULL, psection, NULL != psection, FALSE);
+  secfile = psection->secfile;
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, psection, NULL != secfile, FALSE);
+
+  if (NULL == name || '\0' == name[0]) {
+    SECFILE_LOG(secfile, psection, "No new name for section \"%s\".",
+                psection->name);
+    return FALSE;
+  }
+
+  if (!check_name(name)) {
+    SECFILE_LOG(secfile, psection,
+                "\"%s\" is not a valid section name for section \"%s\".",
+                name, psection->name);
+    return FALSE;
+  }
+
+  if ((pother = secfile_section_by_name(secfile, name))
+      && pother != psection) {
+    /* We cannot duplicate sections in any case! */
+    SECFILE_LOG(secfile, psection, "Section \"%s\" already exists.", name);
+    return FALSE;
+  }
+
+  /* Remove old references in the hash tables. */
+  if (NULL != secfile->hash.sections) {
+    hash_delete_entry(secfile->hash.sections, psection->name);
+  }
+  if (NULL != secfile->hash.entries) {
+    entry_list_iterate(psection->entries, pentry) {
+      secfile_hash_delete(secfile, pentry);
+    } entry_list_iterate_end;
+  }
+
+  /* Really rename. */
+  free(psection->name);
+  psection->name = mystrdup(name);
+
+  /* Reinsert new references into the hash tables. */
+  if (NULL != secfile->hash.sections) {
+    hash_insert(secfile->hash.sections, psection->name, psection);
+  }
+  if (NULL != secfile->hash.entries) {
+    entry_list_iterate(psection->entries, pentry) {
+      secfile_hash_insert(secfile, pentry);
+    } entry_list_iterate_end;
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
+  Returns a list containing all the entries.  This list is owned by the
+  secfile, so don't modify or destroy it.
+**************************************************************************/
+const struct entry_list *section_entries(const struct section *psection)
+{
+  return (NULL != psection ? psection->entries : NULL);
+}
+
+/**************************************************************************
+  Returns the the first entry matching the name.
+**************************************************************************/
+struct entry *section_entry_by_name(const struct section *psection,
+                                    const char *name)
+{
+  SECFILE_RETURN_VAL_IF_FAIL(NULL, psection, NULL != psection, NULL);
+
+  entry_list_iterate(psection->entries, pentry) {
+    if (0 == strcmp(entry_name(pentry), name)) {
+      entry_use(pentry);
+      return pentry;
+    }
+  } entry_list_iterate_end;
+
+  return NULL;
+}
+
+/**************************************************************************
+  Returns the entry matching the path.
+**************************************************************************/
+struct entry *section_entry_lookup(const struct section *psection,
+                                   const char *path, ...)
+{
+  char fullpath[MAX_LEN_BUFFER];
+  struct entry *pentry;
+  va_list args;
+
+  SECFILE_RETURN_VAL_IF_FAIL(NULL, psection, NULL != psection, NULL);
+
+  va_start(args, path);
+  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  va_end(args);
+
+  if ((pentry = section_entry_by_name(psection, fullpath))) {
+    return pentry;
+  }
+
+  /* Try with full path. */
+  if ((pentry = secfile_entry_by_path(psection->secfile, fullpath))
+      && psection == entry_section(pentry)) {
+    /* Unsure this is really owned by this section. */
+    return pentry;
+  }
+
+  return NULL;
+}
+
+
+/* An 'entry' is a string, integer, boolean or string vector;
+ * See enum entry_type in registry.h.
+ */
+struct entry {
+  struct section *psection;     /* Parent section. */
+  char *name;                   /* Name, not including section prefix. */
+  enum entry_type type;         /* The type of the entry. */
+  int used;                     /* Number of times entry looked up. */
+  char *comment;                /* Comment, may be NULL. */
+
+  union {
+    /* ENTRY_BOOL */
+    struct {
+      bool value;
+    } boolean;
+    /* ENTRY_INT */
+    struct {
+      int value;
+    } integer;
+    /* ENTRY_STR */
+    struct {
+      char *value;              /* Malloced string. */
+      bool escaped;             /* " or $. Usually TRUE */
+    } string;
+  };
+};
+
+/**************************************************************************
+  Returns a new entry.
+**************************************************************************/
+static struct entry *entry_new(struct section *psection, const char *name)
+{
+  struct section_file *secfile;
+  struct entry *pentry;
+
+  SECFILE_RETURN_VAL_IF_FAIL(NULL, psection, NULL != psection, NULL);
+
+  secfile = psection->secfile;
+  if (NULL == name || '\0' == name[0]) {
+    SECFILE_LOG(secfile, psection, "Cannot create an entry without name.");
+    return NULL;
+  }
+
+  if (!check_name(name)) {
+    SECFILE_LOG(secfile, psection, "\"%s\" is not a valid entry name.",
+                name);
+    return NULL;
+  }
+
+  if (!secfile->allow_duplicates
+      && NULL != section_entry_by_name(psection, name)) {
+    SECFILE_LOG(secfile, psection, "Entry \"%s\" already exists.", name);
+    return NULL;
+  }
+
+  pentry = fc_malloc(sizeof(struct entry));
+  pentry->name = mystrdup(name);
+  pentry->type = -1;    /* Invalid case. */
+  pentry->used = 0;
+  pentry->comment = NULL;
+
+  /* Append to section. */
+  pentry->psection = psection;
+  entry_list_append(psection->entries, pentry);
+
+  /* Notify secfile. */
+  secfile->num_entries++;
+  secfile_hash_insert(secfile, pentry);
+
+  return pentry;
+}
+
+/**************************************************************************
+  Returns a new entry of type ENTRY_INT.
+**************************************************************************/
+struct entry *section_entry_int_new(struct section *psection,
+                                    const char *name, int value)
+{
+  struct entry *pentry = entry_new(psection, name);
+
+  if (NULL != pentry) {
+    pentry->type = ENTRY_INT;
+    pentry->integer.value = value;
+  }
+
+  return pentry;
+}
+
+/**************************************************************************
+  Returns a new entry of type ENTRY_BOOL.
+**************************************************************************/
+struct entry *section_entry_bool_new(struct section *psection,
+                                     const char *name, bool value)
+{
+  struct entry *pentry = entry_new(psection, name);
+
+  if (NULL != pentry) {
+    pentry->type = ENTRY_BOOL;
+    pentry->boolean.value = value;
+  }
+
+  return pentry;
+}
+
+/**************************************************************************
+  Returns a new entry of type ENTRY_STR.
+**************************************************************************/
+struct entry *section_entry_str_new(struct section *psection,
+                                    const char *name, const char *value,
+                                    bool escaped)
+{
+  struct entry *pentry = entry_new(psection, name);
+
+  if (NULL != pentry) {
+    pentry->type = ENTRY_STR;
+    pentry->string.value = mystrdup(NULL != value ? value : "");
+    pentry->string.escaped = escaped;
+  }
+
+  return pentry;
+}
+
+/**************************************************************************
+  Entry structure destructor.
+**************************************************************************/
+void entry_destroy(struct entry *pentry)
+{
+  struct section_file *secfile;
+  struct section *psection;
+
+  if (NULL == pentry) {
+    return;
+  }
+
+  if ((psection = pentry->psection)) {
+    /* Detach from section. */
+    entry_list_unlink(psection->entries, pentry);
+    if ((secfile = psection->secfile)) {
+      /* Detach from secfile. */
+      secfile->num_entries--;
+      secfile_hash_delete(secfile, pentry);
+    }
+  }
+
+  /* Specific type free. */
+  switch (pentry->type) {
+  case ENTRY_BOOL:
+  case ENTRY_INT:
+    break;
+
+  case ENTRY_STR:
+    free(pentry->string.value);
+    break;
+  }
+
+  /* Common free. */
+  free(pentry->name);
+  if (NULL != pentry->comment) {
+    free(pentry->comment);
+  }
+  free(pentry);
+}
+
+/**************************************************************************
+  Returns the parent section of this entry.
+**************************************************************************/
+struct section *entry_section(const struct entry *pentry)
+{
+  return (NULL != pentry ? pentry->psection : NULL);
+}
+
+/**************************************************************************
+  Returns the type of this entry or -1 or error.
+**************************************************************************/
+enum entry_type entry_type(const struct entry *pentry)
+{
+  return (NULL != pentry ? pentry->type : -1);
+}
+
+/**************************************************************************
+  Build the entry path.  Returns like snprintf().
+**************************************************************************/
+int entry_path(const struct entry *pentry, char *buf, size_t buf_len)
+{
+  return my_snprintf(buf, buf_len, "%s.%s",
+                     section_name(entry_section(pentry)),
+                     entry_name(pentry));
+}
+
+/**************************************************************************
+  Returns the name of this entry.
+**************************************************************************/
+const char *entry_name(const struct entry *pentry)
+{
+  return (NULL != pentry ? pentry->name : NULL);
+}
+
+/**************************************************************************
+  Sets the name of the entry.  Returns TRUE on success.
+**************************************************************************/
+bool entry_set_name(struct entry *pentry, const char *name)
+{
+  struct section *psection;
+  struct section_file *secfile;
+
+  SECFILE_RETURN_VAL_IF_FAIL(NULL, NULL, NULL != pentry, FALSE);
+  psection = pentry->psection;
+  SECFILE_RETURN_VAL_IF_FAIL(NULL, NULL, NULL != psection, FALSE);
+  secfile = psection->secfile;
+  SECFILE_RETURN_VAL_IF_FAIL(NULL, psection, NULL != secfile, FALSE);
+
+  if (NULL == name || '\0' == name[0]) {
+    SECFILE_LOG(secfile, psection, "No new name for entry \"%s\".",
+                pentry->name);
+    return FALSE;
+  }
+
+  if (!check_name(name)) {
+    SECFILE_LOG(secfile, psection,
+                "\"%s\" is not a valid entry name for entry \"%s\".",
+                name, pentry->name);
+    return FALSE;
+  }
+
+  if (!secfile->allow_duplicates) {
+    struct entry *pother = section_entry_by_name(psection, name);
+
+    if (NULL != pother && pother != pentry) {
+      SECFILE_LOG(secfile, psection, "Entry \"%s\" already exists.", name);
+      return FALSE;
+    }
+  }
+
+  /* Remove from hash table the old path. */
+  secfile_hash_delete(secfile, pentry);
+
+  /* Really rename the entry. */
+  free(pentry->name);
+  pentry->name = mystrdup(name);
+
+  /* Insert into hash table the new path. */
+  secfile_hash_insert(secfile, pentry);
+  return TRUE;
+}
+
+/**************************************************************************
+  Returns the comment associated to this entry.
+**************************************************************************/
+const char *entry_comment(const struct entry *pentry)
+{
+  return (NULL != pentry ? pentry->comment : NULL);
+}
+
+/**************************************************************************
+  Sets a comment for the entry.  Pass NULL to remove the current one.
+**************************************************************************/
+void entry_set_comment(struct entry *pentry, const char *comment)
+{
+  if (NULL == pentry) {
+    return;
+  }
+
+  if (NULL != pentry->comment) {
+    free(pentry->comment);
+  }
+
+  pentry->comment = (NULL != comment ? mystrdup(comment) : NULL);
+}
+
+/**************************************************************************
+  Returns TRUE if this entry has been used.
+**************************************************************************/
+static inline bool entry_used(const struct entry *pentry)
+{
+  return (0 < pentry->used);
+}
+
+/**************************************************************************
+  Increase the used count.
+**************************************************************************/
+static inline void entry_use(struct entry *pentry)
+{
+  pentry->used++;
+}
+
+/**************************************************************************
+  Gets an boolean value.  Returns TRUE on success.
+  On old saved files, 0 and 1 can also be considered as bool.
+**************************************************************************/
+bool entry_bool_get(const struct entry *pentry, bool *value)
+{
+  SECFILE_RETURN_VAL_IF_FAIL(NULL, NULL, NULL != pentry, FALSE);
+
+  if (ENTRY_INT == pentry->type
+      && (pentry->integer.value == 0
+          || pentry->integer.value == 1)) {
+    *value = (0 != pentry->integer.value);
+    return TRUE;
+  }
+
+  SECFILE_RETURN_VAL_IF_FAIL(pentry->psection->secfile, pentry->psection,
+                             ENTRY_BOOL == pentry->type, FALSE);
+
+  if (NULL != value) {
+    *value = pentry->boolean.value;
+  }
+  return TRUE;
+}
+
+/**************************************************************************
+  Sets an boolean value.  Returns TRUE on success.
+**************************************************************************/
+bool entry_bool_set(struct entry *pentry, bool value)
+{
+  SECFILE_RETURN_VAL_IF_FAIL(NULL, NULL, NULL != pentry, FALSE);
+  SECFILE_RETURN_VAL_IF_FAIL(pentry->psection->secfile, pentry->psection,
+                             ENTRY_BOOL == pentry->type, FALSE);
+
+  pentry->boolean.value = value;
+  return TRUE;
+}
+
+/**************************************************************************
+  Gets an integer value.  Returns TRUE on success.
+**************************************************************************/
+bool entry_int_get(const struct entry *pentry, int *value)
+{
+  SECFILE_RETURN_VAL_IF_FAIL(NULL, NULL, NULL != pentry, FALSE);
+  SECFILE_RETURN_VAL_IF_FAIL(pentry->psection->secfile, pentry->psection,
+                             ENTRY_INT == pentry->type, FALSE);
+
+  if (NULL != value) {
+    *value = pentry->integer.value;
+  }
+  return TRUE;
+}
+
+/**************************************************************************
+  Sets an integer value.  Returns TRUE on success.
+**************************************************************************/
+bool entry_int_set(struct entry *pentry, int value)
+{
+  SECFILE_RETURN_VAL_IF_FAIL(NULL, NULL, NULL != pentry, FALSE);
+  SECFILE_RETURN_VAL_IF_FAIL(pentry->psection->secfile, pentry->psection,
+                             ENTRY_INT == pentry->type, FALSE);
+
+  pentry->integer.value = value;
+  return TRUE;
+}
+
+/**************************************************************************
+  Gets an string value.  Returns TRUE on success.
+**************************************************************************/
+bool entry_str_get(const struct entry *pentry, const char **value)
+{
+  SECFILE_RETURN_VAL_IF_FAIL(NULL, NULL, NULL != pentry, FALSE);
+  SECFILE_RETURN_VAL_IF_FAIL(pentry->psection->secfile, pentry->psection,
+                             ENTRY_STR == pentry->type, FALSE);
+
+  if (NULL != value) {
+    *value = pentry->string.value;
+  }
+  return TRUE;
+}
+
+/**************************************************************************
+  Sets an string value.  Returns TRUE on success.
+**************************************************************************/
+bool entry_str_set(struct entry *pentry, const char *value)
+{
+  SECFILE_RETURN_VAL_IF_FAIL(NULL, NULL, NULL != pentry, FALSE);
+  SECFILE_RETURN_VAL_IF_FAIL(pentry->psection->secfile, pentry->psection,
+                             ENTRY_STR == pentry->type, FALSE);
+
+  free(pentry->string.value);
+  pentry->string.value = mystrdup(NULL != value ? value : "");
+  return TRUE;
+}
+
+/**************************************************************************
+  Returns if the string would be escaped.
+**************************************************************************/
+bool entry_str_escaped(const struct entry *pentry)
+{
+  SECFILE_RETURN_VAL_IF_FAIL(NULL, NULL, NULL != pentry, FALSE);
+  SECFILE_RETURN_VAL_IF_FAIL(pentry->psection->secfile, pentry->psection,
+                             ENTRY_STR == pentry->type, FALSE);
+
+  return pentry->string.escaped;
+}
+
+/**************************************************************************
+  Sets if the string would be escaped.  Returns TRUE on success.
+**************************************************************************/
+bool entry_str_set_escaped(struct entry *pentry, bool escaped)
+{
+  SECFILE_RETURN_VAL_IF_FAIL(NULL, NULL, NULL != pentry, FALSE);
+  SECFILE_RETURN_VAL_IF_FAIL(pentry->psection->secfile, pentry->psection,
+                             ENTRY_STR == pentry->type, FALSE);
+
+  pentry->string.escaped = escaped;
+  return TRUE;
+}
+
+/**************************************************************************
+  Push an entry into a file stream.
+**************************************************************************/
+static void entry_to_file(const struct entry *pentry, fz_FILE *fs,
+                          char *buf, size_t buf_len)
+{
+  switch (pentry->type) {
+  case ENTRY_BOOL:
+    fz_fprintf(fs, "%s", pentry->boolean.value ? "TRUE" : "FALSE");
+    break;
+  case ENTRY_INT:
+    fz_fprintf(fs, "%d", pentry->integer.value);
+    break;
+  case ENTRY_STR:
+    fz_fprintf(fs, "%s",
+               moutstr(pentry->string.value, pentry->string.escaped,
+                       buf, buf_len));
+    break;
+  }
+}
+
+/**************************************************************************
+  Creates a new entry from the token.
+**************************************************************************/
+static void entry_from_token(struct section *psection,
+                             const char *name, const char *tok)
+{
+  if (0 == mystrncasecmp(tok, "FALSE", 5)
+      || 0 == mystrncasecmp(tok, "TRUE", 4)) {
+    bool value = (0 == mystrncasecmp(tok, "TRUE", 4));
+
+    (void) section_entry_bool_new(psection, name, value);
+    DEBUG_ENTRIES("entry %s %s", name, value ? "TRUE" : "FALSE");
+    return;
+  }
+
+  if ('$' == tok[0] || '"' == tok[0]) {
+    char buf[strlen(tok) + 1];
+    bool escaped = ('"' == tok[0]);
+    const char *value = minstrdup(tok + 1, escaped, buf, sizeof(buf));
+
+    (void) section_entry_str_new(psection, name, value, escaped);
+    DEBUG_ENTRIES("entry %s '%s'", name, value);
+    return;
+  }
+
+  if (my_isdigit(tok[0]) || ('-' == tok[0] && my_isdigit(tok[1]))) {
+    int value;
+
+    if (1 == sscanf(tok, "%d", &value)) {
+      (void) section_entry_int_new(psection, name, value);
+      DEBUG_ENTRIES("entry %s %d", name, value);
+      return;
+    }
+  }
+
+  freelog(LOG_ERROR, "Entry value not recognized: %s", tok);
 }

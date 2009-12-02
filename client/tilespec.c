@@ -428,7 +428,7 @@ struct tileset {
 
   struct tileset_layer {
     char **match_types;
-    int match_count;
+    size_t match_count;
   } layers[MAX_NUM_LAYERS];
 
   struct specfile_list *specfiles;
@@ -767,19 +767,24 @@ static bool check_tilespec_capabilities(struct section_file *file,
 {
   int log_level = verbose ? LOG_ERROR : LOG_DEBUG;
 
-  char *file_capstr = secfile_lookup_str(file, "%s.options", which);
-  
+  const char *file_capstr = secfile_lookup_str(file, "%s.options", which);
+
+  if (NULL == file_capstr) {
+    freelog(log_level, "\"%s\": %s file doesn't have a capability string",
+            filename, which);
+    return FALSE;
+  }
   if (!has_capabilities(us_capstr, file_capstr)) {
     freelog(log_level, "\"%s\": %s file appears incompatible:",
-	    filename, which);
+            filename, which);
     freelog(log_level, "  datafile options: %s", file_capstr);
     freelog(log_level, "  supported options: %s", us_capstr);
     return FALSE;
   }
   if (!has_capabilities(file_capstr, us_capstr)) {
     freelog(log_level, "\"%s\": %s file requires option(s)"
-			 " that client doesn't support:",
-	    filename, which);
+            " that client doesn't support:",
+            filename, which);
     freelog(log_level, "  datafile options: %s", file_capstr);
     freelog(log_level, "  supported options: %s", us_capstr);
     return FALSE;
@@ -1065,7 +1070,7 @@ static struct sprite *load_gfx_file(const char *gfx_filename)
 **************************************************************************/
 static void ensure_big_sprite(struct specfile *sf)
 {
-  struct section_file the_file, *file = &the_file;
+  struct section_file *file;
   const char *gfx_filename;
 
   if (sf->big_sprite) {
@@ -1076,7 +1081,7 @@ static void ensure_big_sprite(struct specfile *sf)
   /* Otherwise load it.  The big sprite will sometimes be freed and will have
    * to be reloaded, but most of the time it's just loaded once, the small
    * sprites are extracted, and then it's freed. */
-  if (!section_file_load(file, sf->file_name)) {
+  if (!(file = secfile_load(sf->file_name, TRUE))) {
     freelog(LOG_FATAL, _("Could not open \"%s\"."), sf->file_name);
     exit(EXIT_FAILURE);
   }
@@ -1095,7 +1100,7 @@ static void ensure_big_sprite(struct specfile *sf)
 	    sf->file_name);
     exit(EXIT_FAILURE);
   }
-  section_file_free(file);
+  secfile_destroy(file);
 }
 
 /**************************************************************************
@@ -1106,11 +1111,11 @@ static void ensure_big_sprite(struct specfile *sf)
 static void scan_specfile(struct tileset *t, struct specfile *sf,
 			  bool duplicates_ok)
 {
-  struct section_file the_file, *file = &the_file;
-  char **gridnames;
-  int num_grids, i;
+  struct section_file *file;
+  struct section_list *sections;
+  int i;
 
-  if (!section_file_load(file, sf->file_name)) {
+  if (!(file = secfile_load(sf->file_name, TRUE))) {
     freelog(LOG_FATAL, _("Could not open \"%s\"."), sf->file_name);
     exit(EXIT_FAILURE);
   }
@@ -1120,95 +1125,114 @@ static void scan_specfile(struct tileset *t, struct specfile *sf,
   }
 
   /* currently unused */
-  (void) section_file_lookup(file, "info.artists");
+  (void) secfile_entry_lookup(file, "info.artists");
 
-  gridnames = secfile_get_secnames_prefix(file, "grid_", &num_grids);
+  if ((sections = secfile_sections_by_name_prefix(file, "grid_"))) {
+    section_list_iterate(sections, psection) {
+      int j, k;
+      int x_top_left, y_top_left, dx, dy;
+      int pixel_border;
+      const char *sec_name = section_name(psection);
 
-  for (i = 0; i < num_grids; i++) {
-    int j, k;
-    int x_top_left, y_top_left, dx, dy;
-    int pixel_border;
+      pixel_border = secfile_lookup_int_default(file, 0, "%s.pixel_border",
+                                                sec_name);
 
-    pixel_border = secfile_lookup_int_default(file, 0, "%s.pixel_border",
-					      gridnames[i]);
-
-    x_top_left = secfile_lookup_int(file, "%s.x_top_left", gridnames[i]);
-    y_top_left = secfile_lookup_int(file, "%s.y_top_left", gridnames[i]);
-    dx = secfile_lookup_int(file, "%s.dx", gridnames[i]);
-    dy = secfile_lookup_int(file, "%s.dy", gridnames[i]);
-
-    j = -1;
-    while (section_file_lookup(file, "%s.tiles%d.tag", gridnames[i], ++j)) {
-      struct small_sprite *ss = fc_malloc(sizeof(*ss));
-      int row, column;
-      int x1, y1;
-      char **tags;
-      int num_tags;
-      int hot_x, hot_y;
-
-      row = secfile_lookup_int(file, "%s.tiles%d.row", gridnames[i], j);
-      column = secfile_lookup_int(file, "%s.tiles%d.column", gridnames[i], j);
-      tags = secfile_lookup_str_vec(file, &num_tags, "%s.tiles%d.tag",
-				    gridnames[i], j);
-      hot_x = secfile_lookup_int_default(file, 0, "%s.tiles%d.hot_x",
-					 gridnames[i], j);
-      hot_y = secfile_lookup_int_default(file, 0, "%s.tiles%d.hot_y",
-					 gridnames[i], j);
-
-      /* there must be at least 1 because of the while(): */
-      assert(num_tags > 0);
-
-      x1 = x_top_left + (dx + pixel_border) * column;
-      y1 = y_top_left + (dy + pixel_border) * row;
-
-      ss->ref_count = 0;
-      ss->file = NULL;
-      ss->x = x1;
-      ss->y = y1;
-      ss->width = dx;
-      ss->height = dy;
-      ss->sf = sf;
-      ss->sprite = NULL;
-      ss->hot_x = hot_x;
-      ss->hot_y = hot_y;
-
-      small_sprite_list_prepend(t->small_sprites, ss);
-
-      if (!duplicates_ok) {
-        for (k = 0; k < num_tags; k++) {
-          if (!hash_insert(t->sprite_hash, mystrdup(tags[k]), ss)) {
-	    freelog(LOG_ERROR, "warning: already have a sprite for \"%s\".", tags[k]);
-          }
-        }
-      } else {
-        for (k = 0; k < num_tags; k++) {
-	  (void) hash_replace(t->sprite_hash, mystrdup(tags[k]), ss);
-        }
+      if (!secfile_lookup_int(file, &x_top_left, "%s.x_top_left", sec_name)
+          || !secfile_lookup_int(file, &y_top_left,
+                                 "%s.y_top_left", sec_name)
+          || !secfile_lookup_int(file, &dx, "%s.dx", sec_name)
+          || !secfile_lookup_int(file, &dy, "%s.dy", sec_name)) {
+        freelog(LOG_ERROR, "Grid \"%s\" invalid: %s",
+                sec_name, secfile_error());
+        continue;
       }
 
-      free(tags);
-      tags = NULL;
-    }
+      j = -1;
+      while (NULL != secfile_entry_lookup(file, "%s.tiles%d.tag",
+                                          sec_name, ++j)) {
+        struct small_sprite *ss;
+        int row, column;
+        int x1, y1;
+        const char **tags;
+        size_t num_tags;
+        int hot_x, hot_y;
+
+        if (!secfile_lookup_int(file, &row, "%s.tiles%d.row", sec_name, j)
+            || !secfile_lookup_int(file, &column, "%s.tiles%d.column",
+                                   sec_name, j)
+            || !(tags = secfile_lookup_str_vec(file, &num_tags,
+                                               "%s.tiles%d.tag",
+                                               sec_name, j))) {
+          freelog(LOG_ERROR, "Small sprite \"%s.tiles%d\" invalid: %s",
+                  sec_name, j, secfile_error());
+          continue;
+        }
+        hot_x = secfile_lookup_int_default(file, 0, "%s.tiles%d.hot_x",
+                                           sec_name, j);
+        hot_y = secfile_lookup_int_default(file, 0, "%s.tiles%d.hot_y",
+                                           sec_name, j);
+
+        /* there must be at least 1 because of the while(): */
+        assert(num_tags > 0);
+
+        x1 = x_top_left + (dx + pixel_border) * column;
+        y1 = y_top_left + (dy + pixel_border) * row;
+
+        ss = fc_malloc(sizeof(*ss));
+        ss->ref_count = 0;
+        ss->file = NULL;
+        ss->x = x1;
+        ss->y = y1;
+        ss->width = dx;
+        ss->height = dy;
+        ss->sf = sf;
+        ss->sprite = NULL;
+        ss->hot_x = hot_x;
+        ss->hot_y = hot_y;
+
+        small_sprite_list_prepend(t->small_sprites, ss);
+
+        if (!duplicates_ok) {
+          for (k = 0; k < num_tags; k++) {
+            if (!hash_insert(t->sprite_hash, mystrdup(tags[k]), ss)) {
+              freelog(LOG_ERROR,
+                      "warning: already have a sprite for \"%s\".", tags[k]);
+            }
+          }
+        } else {
+          for (k = 0; k < num_tags; k++) {
+            (void) hash_replace(t->sprite_hash, mystrdup(tags[k]), ss);
+          }
+        }
+
+        free(tags);
+        tags = NULL;
+      }
+    } section_list_iterate_end;
+    section_list_free(sections);
   }
-  free(gridnames);
-  gridnames = NULL;
 
   /* Load "extra" sprites.  Each sprite is one file. */
   i = -1;
-  while (secfile_lookup_str_default(file, NULL, "extra.sprites%d.tag", ++i)) {
-    struct small_sprite *ss = fc_malloc(sizeof(*ss));
-    char **tags;
-    char *filename;
-    int num_tags, k;
+  while (NULL != secfile_entry_lookup(file, "extra.sprites%d.tag", ++i)) {
+    struct small_sprite *ss;
+    const char **tags;
+    const char *filename;
+    size_t num_tags, k;
     int hot_x, hot_y;
 
-    tags
-      = secfile_lookup_str_vec(file, &num_tags, "extra.sprites%d.tag", i);
-    filename = secfile_lookup_str(file, "extra.sprites%d.file", i);
-
+    if (!(tags = secfile_lookup_str_vec(file, &num_tags,
+                                        "extra.sprites%d.tag", i))
+        || !(filename = secfile_lookup_str(file,
+                                           "extra.sprites%d.file", i))) {
+      freelog(LOG_ERROR, "Extra sprite \"extra.sprites%d\" invalid: %s",
+              i, secfile_error());
+      continue;
+    }
     hot_x = secfile_lookup_int_default(file, 0, "extra.sprites%d.hot_x", i);
     hot_y = secfile_lookup_int_default(file, 0, "extra.sprites%d.hot_y", i);
 
+    ss = fc_malloc(sizeof(*ss));
     ss->ref_count = 0;
     ss->file = mystrdup(filename);
     ss->sf = NULL;
@@ -1232,8 +1256,8 @@ static void scan_specfile(struct tileset *t, struct specfile *sf,
     free(tags);
   }
 
-  section_file_check_unused(file, sf->file_name);
-  section_file_free(file);
+  secfile_check_unused(file);
+  secfile_destroy(file);
 }
 
 /**********************************************************************
@@ -1293,58 +1317,68 @@ static int check_sprite_type(const char *sprite_type, const char *tile_section)
 ***********************************************************************/
 struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
 {
-  struct section_file the_file, *file = &the_file;
-  char *fname, *c;
+  struct section_file *file;
+  char *fname;
+  const char *c;
   int i;
-  int num_spec_files, num_sections;
-  char **spec_filenames, **sections;
-  char *file_capstr;
+  size_t num_spec_files;
+  const char **spec_filenames;
+  struct section_list *sections = NULL;
+  const char *file_capstr;
   bool duplicates_ok, is_hex;
   enum direction8 dir;
   const int spl = strlen(TILE_SECTION_PREFIX);
-  struct tileset *t = tileset_new();
+  struct tileset *t = NULL;
 
   fname = tilespec_fullname(tileset_name);
   if (!fname) {
     if (verbose) {
       freelog(LOG_ERROR, "Can't find tileset \"%s\".", tileset_name); 
     }
-    tileset_free(t);
     return NULL;
   }
   freelog(LOG_VERBOSE, "tilespec file is \"%s\".", fname);
 
-  if (!section_file_load(file, fname)) {
+  if (!(file = secfile_load(fname, TRUE))) {
     freelog(LOG_ERROR, "Could not open \"%s\".", fname);
-    section_file_free(file);
     free(fname);
-    tileset_free(t);
     return NULL;
   }
 
   if (!check_tilespec_capabilities(file, "tilespec",
-				   TILESPEC_CAPSTR, fname, verbose)) {
-    section_file_free(file);
+                                   TILESPEC_CAPSTR, fname, verbose)) {
+    secfile_destroy(file);
     free(fname);
-    tileset_free(t);
     return NULL;
   }
 
+  t = tileset_new();
   file_capstr = secfile_lookup_str(file, "%s.options", "tilespec");
-  duplicates_ok = has_capabilities("+duplicates_ok", file_capstr);
+  duplicates_ok = (NULL != file_capstr
+                   && has_capabilities("+duplicates_ok", file_capstr));
 
-  (void) section_file_lookup(file, "tilespec.name"); /* currently unused */
+  (void) secfile_entry_lookup(file, "tilespec.name"); /* currently unused */
 
   sz_strlcpy(t->name, tileset_name);
-  t->priority = secfile_lookup_int(file, "tilespec.priority");
-
-  t->is_isometric = secfile_lookup_bool(file, "tilespec.is_isometric");
+  if (!secfile_lookup_int(file, &t->priority, "tilespec.priority")
+      || !secfile_lookup_bool(file, &t->is_isometric,
+                              "tilespec.is_isometric")
+      || !secfile_lookup_bool(file, &is_hex, "tilespec.is_hex")) {
+    freelog(LOG_ERROR, "Tileset \"%s\" invalid: %s",
+            t->name, secfile_error());
+    goto ON_ERROR;
+  }
 
   /* Read hex-tileset information. */
-  is_hex = secfile_lookup_bool(file, "tilespec.is_hex");
   t->hex_width = t->hex_height = 0;
   if (is_hex) {
-    int hex_side = secfile_lookup_int(file, "tilespec.hex_side");
+    int hex_side;
+
+    if (!secfile_lookup_int(file, &hex_side, "tilespec.hex_side")) {
+      freelog(LOG_ERROR, "Tileset \"%s\" invalid: %s",
+              t->name, secfile_error());
+      goto ON_ERROR;
+    }
 
     if (t->is_isometric) {
       t->hex_height = hex_side;
@@ -1359,19 +1393,13 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
     freelog(LOG_NORMAL, _("Client does not support isometric tilesets."));
     freelog(LOG_NORMAL, _("Using default tileset instead."));
     assert(tileset_name != NULL);
-    section_file_free(file);
-    free(fname);
-    tileset_free(t);
-    return NULL;
+    goto ON_ERROR;
   }
   if (!t->is_isometric && !overhead_view_supported()) {
     freelog(LOG_NORMAL, _("Client does not support overhead view tilesets."));
     freelog(LOG_NORMAL, _("Using default tileset instead."));
     assert(tileset_name != NULL);
-    section_file_free(file);
-    free(fname);
-    tileset_free(t);
-    return NULL;
+    goto ON_ERROR;
   }
 
   /* Create arrays of valid and cardinal tileset dirs.  These depend
@@ -1395,10 +1423,14 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   t->num_index_valid = 1 << t->num_valid_tileset_dirs;
   t->num_index_cardinal = 1 << t->num_cardinal_tileset_dirs;
 
-  t->normal_tile_width
-    = secfile_lookup_int(file, "tilespec.normal_tile_width");
-  t->normal_tile_height
-    = secfile_lookup_int(file, "tilespec.normal_tile_height");
+  if (!secfile_lookup_int(file, &t->normal_tile_width,
+                          "tilespec.normal_tile_width")
+      || !secfile_lookup_int(file, &t->normal_tile_height,
+                             "tilespec.normal_tile_height")) {
+    freelog(LOG_ERROR, "Tileset \"%s\" invalid: %s",
+            t->name, secfile_error());
+    goto ON_ERROR;
+  }
   if (t->is_isometric) {
     t->full_tile_width = t->normal_tile_width;
     t->full_tile_height = 3 * t->normal_tile_height / 2;
@@ -1410,46 +1442,62 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
     = secfile_lookup_int_default(file, t->full_tile_width, "tilespec.unit_width");
   t->unit_tile_height
     = secfile_lookup_int_default(file, t->full_tile_height, "tilespec.unit_height");
-  t->small_sprite_width
-    = secfile_lookup_int(file, "tilespec.small_tile_width");
-  t->small_sprite_height
-    = secfile_lookup_int(file, "tilespec.small_tile_height");
+  if (!secfile_lookup_int(file, &t->small_sprite_width,
+                          "tilespec.small_tile_width")
+      || !secfile_lookup_int(file, &t->small_sprite_height,
+                             "tilespec.small_tile_height")) {
+    freelog(LOG_ERROR, "Tileset \"%s\" invalid: %s",
+            t->name, secfile_error());
+    goto ON_ERROR;
+  }
   freelog(LOG_VERBOSE, "tile sizes %dx%d, %d%d unit, %d%d small",
-	  t->normal_tile_width, t->normal_tile_height,
-	  t->full_tile_width, t->full_tile_height,
-	  t->small_sprite_width, t->small_sprite_height);
+          t->normal_tile_width, t->normal_tile_height,
+          t->full_tile_width, t->full_tile_height,
+          t->small_sprite_width, t->small_sprite_height);
 
-  t->roadstyle = secfile_lookup_int(file, "tilespec.roadstyle");
-  t->fogstyle = secfile_lookup_int(file, "tilespec.fogstyle");
-  t->darkness_style = secfile_lookup_int(file, "tilespec.darkness_style");
+  if (!secfile_lookup_int(file, &t->roadstyle, "tilespec.roadstyle")
+      /* FIXME: use specenum to load this. */
+      || !secfile_lookup_int(file, (int *) &t->fogstyle, "tilespec.fogstyle")
+      /* FIXME: use specenum to load this. */
+      || !secfile_lookup_int(file, (int *) &t->darkness_style,
+                             "tilespec.darkness_style")) {
+    freelog(LOG_ERROR, "Tileset \"%s\" invalid: %s",
+            t->name, secfile_error());
+    goto ON_ERROR;
+  }
   if (t->darkness_style < DARKNESS_NONE
       || t->darkness_style > DARKNESS_CORNER
       || (t->darkness_style == DARKNESS_ISORECT
-	  && (!t->is_isometric || t->hex_width > 0 || t->hex_height > 0))) {
-    freelog(LOG_FATAL, "Invalid darkness style set in tileset.");
-    exit(EXIT_FAILURE);
+          && (!t->is_isometric || t->hex_width > 0 || t->hex_height > 0))) {
+    freelog(LOG_ERROR, "Invalid darkness style set in tileset \"%s\".",
+            t->name);
+    goto ON_ERROR;
   }
-  t->unit_flag_offset_x
-    = secfile_lookup_int(file, "tilespec.unit_flag_offset_x");
-  t->unit_flag_offset_y
-    = secfile_lookup_int(file, "tilespec.unit_flag_offset_y");
-  t->city_flag_offset_x
-    = secfile_lookup_int(file, "tilespec.city_flag_offset_x");
-  t->city_flag_offset_y
-    = secfile_lookup_int(file, "tilespec.city_flag_offset_y");
-  t->unit_offset_x = secfile_lookup_int(file, "tilespec.unit_offset_x");
-  t->unit_offset_y = secfile_lookup_int(file, "tilespec.unit_offset_y");
+  if (!secfile_lookup_int(file, &t->unit_flag_offset_x,
+                          "tilespec.unit_flag_offset_x")
+      || !secfile_lookup_int(file, &t->unit_flag_offset_y,
+                             "tilespec.unit_flag_offset_y")
+      || !secfile_lookup_int(file, &t->city_flag_offset_x,
+                             "tilespec.city_flag_offset_x")
+      || !secfile_lookup_int(file, &t->city_flag_offset_y,
+                             "tilespec.city_flag_offset_y")
+      || !secfile_lookup_int(file, &t->unit_offset_x,
+                             "tilespec.unit_offset_x")
+      || !secfile_lookup_int(file, &t->unit_offset_y,
+                             "tilespec.unit_offset_y")
+      || !secfile_lookup_int(file, &t->citybar_offset_y,
+                             "tilespec.citybar_offset_y")
+      || !secfile_lookup_int(file, &t->city_names_font_size,
+                             "tilespec.city_names_font_size")
+      || !secfile_lookup_int(file, &t->city_productions_font_size,
+                             "tilespec.city_productions_font_size")) {
+    freelog(LOG_ERROR, "Tileset \"%s\" invalid: %s",
+            t->name, secfile_error());
+    goto ON_ERROR;
+  }
 
-  t->citybar_offset_y
-    = secfile_lookup_int(file, "tilespec.citybar_offset_y");
-
-  t->city_names_font_size
-    = secfile_lookup_int(file, "tilespec.city_names_font_size");
-
-  t->city_productions_font_size
-    = secfile_lookup_int(file, "tilespec.city_productions_font_size");
   set_city_names_font_sizes(t->city_names_font_size,
-			    t->city_productions_font_size);
+                            t->city_productions_font_size);
 
   c = secfile_lookup_str(file, "tilespec.main_intro_file");
   t->main_intro_filename = tilespec_gfx_filename(c);
@@ -1464,9 +1512,9 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
     struct tileset_layer *tslp = &t->layers[i];
     int j, k;
 
-    tslp->match_types
-      = secfile_lookup_str_vec(file, &tslp->match_count,
-			       "layer%d.match_types", i);
+    tslp->match_types =
+        (char **) secfile_lookup_str_vec(file, &tslp->match_count,
+                                         "layer%d.match_types", i);
     for (j = 0; j < tslp->match_count; j++) {
       tslp->match_types[j] = mystrdup(tslp->match_types[j]);
 
@@ -1477,104 +1525,97 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
                              i,
                              tslp->match_types[j],
                              tslp->match_types[j][0]);
-          exit(EXIT_FAILURE);
+          exit(EXIT_FAILURE); /* FIXME: Returns NULL. */
         }
       }
     }
   }
 
   /* Tile drawing info. */
-  sections = secfile_get_secnames_prefix(file, TILE_SECTION_PREFIX, &num_sections);
-  if (num_sections == 0) {
+  sections = secfile_sections_by_name_prefix(file, TILE_SECTION_PREFIX);
+  if (NULL == sections || 0 == section_list_size(sections)) {
     freelog(LOG_ERROR, "No [%s] sections supported by tileset \"%s\".",
-				TILE_SECTION_PREFIX, fname);
-    section_file_free(file);
-    free(fname);
-    tileset_free(t);
-    return NULL;
+            TILE_SECTION_PREFIX, fname);
+    goto ON_ERROR;
   }
 
   assert(t->tile_hash == NULL);
   t->tile_hash = hash_new(hash_fval_string, hash_fcmp_string);
 
-  for (i = 0; i < num_sections; i++) {
+  section_list_iterate(sections, psection) {
     struct drawing_data *draw = fc_calloc(1, sizeof(*draw));
-    char *sprite_type;
+    const char *sec_name = section_name(psection);
+    const char *sprite_type, *str;
     int l;
 
-    draw->name = mystrdup(sections[i] + spl);
-    draw->blending = secfile_lookup_int_default(file, 0,
-						"%s.is_blended",
-						sections[i]);
+    draw->name = mystrdup(sec_name + spl);
+    draw->blending = secfile_lookup_int_default(file, 0, "%s.is_blended",
+                                                sec_name);
     draw->blending = CLIP(0, draw->blending, MAX_NUM_LAYERS);
 
     draw->is_reversed = secfile_lookup_bool_default(file, FALSE,
-						    "%s.is_reversed",
-						    sections[i]);
-    draw->num_layers = secfile_lookup_int(file, "%s.num_layers",
-					  sections[i]);
+                                                    "%s.is_reversed",
+                                                    sec_name);
+    draw->num_layers = secfile_lookup_int_default(file, 0, "%s.num_layers",
+                                                  sec_name);
     draw->num_layers = CLIP(1, draw->num_layers, MAX_NUM_LAYERS);
 
     for (l = 0; l < draw->num_layers; l++) {
       struct drawing_layer *dlp = &draw->layer[l];
       struct tileset_layer *tslp = &t->layers[l];
-      char *match_type;
-      char **match_with;
-      int count;
+      const char *match_type;
+      const char **match_with;
+      size_t count;
 
       dlp->is_tall
-	= secfile_lookup_bool_default(file, FALSE, "%s.layer%d_is_tall",
-				      sections[i], l);
+        = secfile_lookup_bool_default(file, FALSE, "%s.layer%d_is_tall",
+                                      sec_name, l);
       dlp->offset_x
-	= secfile_lookup_int_default(file, 0, "%s.layer%d_offset_x",
-				     sections[i], l);
+        = secfile_lookup_int_default(file, 0, "%s.layer%d_offset_x",
+                                     sec_name, l);
       dlp->offset_y
-	= secfile_lookup_int_default(file, 0, "%s.layer%d_offset_y",
-				     sections[i], l);
+        = secfile_lookup_int_default(file, 0, "%s.layer%d_offset_y",
+                                     sec_name, l);
 
       match_type = secfile_lookup_str_default(file, NULL,
-					      "%s.layer%d_match_type",
-					      sections[i], l);
+                                              "%s.layer%d_match_type",
+                                              sec_name, l);
       if (match_type) {
         int j;
 
-	/* Determine our match_type. */
-	for (j = 0; j < tslp->match_count; j++) {
-	  if (mystrcasecmp(tslp->match_types[j], match_type) == 0) {
-	    break;
-	  }
-	}
-	if (j >= tslp->match_count) {
-	  freelog(LOG_ERROR, "[%s] invalid match_type \"%s\".",
-	                     sections[i],
-	                     match_type);
-	} else {
-	  dlp->match_index[dlp->match_indices++] = j;
-	}
+        /* Determine our match_type. */
+        for (j = 0; j < tslp->match_count; j++) {
+          if (mystrcasecmp(tslp->match_types[j], match_type) == 0) {
+            break;
+          }
+        }
+        if (j >= tslp->match_count) {
+          freelog(LOG_ERROR, "[%s] invalid match_type \"%s\".",
+                  sec_name, match_type);
+        } else {
+          dlp->match_index[dlp->match_indices++] = j;
+        }
       }
 
       match_with = secfile_lookup_str_vec(file, &count,
-					  "%s.layer%d_match_with",
-					  sections[i], l);
+                                          "%s.layer%d_match_with",
+                                          sec_name, l);
       if (match_with) {
         int j, k;
 
         if (count > MATCH_FULL) {
-          freelog(LOG_ERROR, "[%s] match_with has too many types (%d, max %d)",
-                             sections[i],
-                             count,
-                             MATCH_FULL);
+          freelog(LOG_ERROR,
+                  "[%s] match_with has too many types (%d, max %d)",
+                  sec_name, (int) count, MATCH_FULL);
           count = MATCH_FULL;
         }
 
         if (1 < dlp->match_indices) {
-          freelog(LOG_ERROR, "[%s] previous match_with ignored.",
-                             sections[i]);
+          freelog(LOG_ERROR, "[%s] previous match_with ignored.", sec_name);
           dlp->match_indices = 1;
         } else if (1 > dlp->match_indices) {
           freelog(LOG_ERROR, "[%s] missing match_type, using \"%s\".",
-                             sections[i],
-                             tslp->match_types[0]);
+                  sec_name, tslp->match_types[0]);
           dlp->match_index[0] = 0;
           dlp->match_indices = 1;
         }
@@ -1587,18 +1628,15 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
           }
           if (j >= tslp->match_count) {
             freelog(LOG_ERROR, "[%s] layer%d_match_with: invalid  \"%s\".",
-                               sections[i],
-                               l,
-                               match_with[k]);
+                    sec_name, l, match_with[k]);
           } else if (1 < count) {
             int m;
 
             for (m = 0; m < dlp->match_indices; m++) {
               if (dlp->match_index[m] == j) {
-                freelog(LOG_ERROR, "[%s] layer%d_match_with: duplicate \"%s\".",
-                                   sections[i],
-                                   l,
-                                   match_with[k]);
+                freelog(LOG_ERROR,
+                        "[%s] layer%d_match_with: duplicate \"%s\".",
+                        sec_name, l, match_with[k]);
                 break;
               }
             }
@@ -1633,8 +1671,8 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
 
       sprite_type
 	= secfile_lookup_str_default(file, "whole", "%s.layer%d_sprite_type",
-				     sections[i], l);
-      dlp->sprite_type = check_sprite_type(sprite_type, sections[i]);
+                                     sec_name, l);
+      dlp->sprite_type = check_sprite_type(sprite_type, sec_name);
 
       switch (dlp->sprite_type) {
       case CELL_WHOLE:
@@ -1645,9 +1683,9 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
 	    || dlp->offset_x > 0
 	    || dlp->offset_y > 0) {
 	  freelog(LOG_ERROR,
-		  "[%s] layer %d: you cannot have tall terrain or\n"
-		  "a sprite offset with a cell-based drawing method.",
-		  sections[i], l);
+                  "[%s] layer %d: you cannot have tall terrain or\n"
+                  "a sprite offset with a cell-based drawing method.",
+                  sec_name, l);
 	  dlp->is_tall = FALSE;
 	  dlp->offset_x = dlp->offset_y = 0;
 	}
@@ -1655,31 +1693,25 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
       };
     }
 
-    draw->mine_tag = secfile_lookup_str_default(file, NULL, "%s.mine_sprite",
-						sections[i]);
-    if (draw->mine_tag) {
-      draw->mine_tag = mystrdup(draw->mine_tag);
+    str = secfile_lookup_str(file, "%s.mine_sprite", sec_name);
+    if (NULL != str) {
+      draw->mine_tag = mystrdup(str);
     }
 
     if (!hash_insert(t->tile_hash, draw->name, draw)) {
       freelog(LOG_ERROR, "warning: duplicate tilespec entry [%s].",
-	      sections[i]);
-      section_file_free(file);
-      free(fname);
-      tileset_free(t);
-      return NULL;
+              sec_name);
+      goto ON_ERROR;
     }
-  }
-  free(sections);
+  } section_list_iterate_end;
+  section_list_free(sections);
+  sections = NULL;
 
   spec_filenames = secfile_lookup_str_vec(file, &num_spec_files,
-					  "tilespec.files");
-  if (num_spec_files == 0) {
+                                          "tilespec.files");
+  if (NULL == spec_filenames || 0 == num_spec_files) {
     freelog(LOG_ERROR, "No tile graphics files specified in \"%s\"", fname);
-    section_file_free(file);
-    free(fname);
-    tileset_free(t);
-    return NULL;
+    goto ON_ERROR;
   }
 
   assert(t->sprite_hash == NULL);
@@ -1697,10 +1729,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
       if (verbose) {
         freelog(LOG_ERROR, "Can't find spec file \"%s\".", spec_filenames[i]);
       }
-      section_file_free(file);
-      free(fname);
-      tileset_free(t);
-      return NULL;
+      goto ON_ERROR;
     }
     sf->file_name = mystrdup(dname);
     scan_specfile(t, sf, duplicates_ok);
@@ -1711,19 +1740,30 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
 
   t->color_system = color_system_read(file);
 
-  section_file_check_unused(file, fname);
-  
-  t->prefered_themes = secfile_lookup_str_vec(file, &(t->num_prefered_themes),
-                                              "tilespec.prefered_themes");
+  /* FIXME: remove this hack. */
+  t->prefered_themes =
+    (char **) secfile_lookup_str_vec(file, (size_t *)
+                                     &t->num_prefered_themes,
+                                     "tilespec.prefered_themes");
   for (i = 0; i < t->num_prefered_themes; i++) {
     t->prefered_themes[i] = mystrdup(t->prefered_themes[i]);
   }
-  
-  section_file_free(file);
+
+  secfile_check_unused(file);
+  secfile_destroy(file);
   freelog(LOG_VERBOSE, "finished reading \"%s\".", fname);
   free(fname);
 
   return t;
+
+ON_ERROR:
+  secfile_destroy(file);
+  free(fname);
+  tileset_free(t);
+  if (NULL != sections) {
+    section_list_free(sections);
+  }
+  return NULL;
 }
 
 /**********************************************************************

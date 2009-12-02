@@ -3245,7 +3245,7 @@ static void send_load_game_info(bool load_successful)
 bool load_command(struct connection *caller, const char *filename, bool check)
 {
   struct timer *loadtimer, *uloadtimer;  
-  struct section_file file;
+  struct section_file *file;
   char arg[MAX_LEN_PATH];
   struct conn_list *global_observers;
 
@@ -3301,7 +3301,7 @@ bool load_command(struct connection *caller, const char *filename, bool check)
 
   /* attempt to parse the file */
 
-  if (!section_file_load_nodup(&file, arg)) {
+  if (!(file = secfile_load(arg, FALSE))) {
     cmd_reply(CMD_LOAD, caller, C_FAIL, _("Could not load savefile: %s"), arg);
     send_load_game_info(FALSE);
     return FALSE;
@@ -3336,9 +3336,9 @@ bool load_command(struct connection *caller, const char *filename, bool check)
 
   sz_strlcpy(srvarg.load_filename, arg);
 
-  game_load(&file);
-  section_file_check_unused(&file, arg);
-  section_file_free(&file);
+  game_load(file);
+  secfile_check_unused(file);
+  secfile_destroy(file);
 
   freelog(LOG_VERBOSE, "Load time: %g seconds (%g apparent)",
           read_timer_seconds_free(loadtimer),

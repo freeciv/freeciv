@@ -544,15 +544,15 @@ the file values. Sends an answer to the client once it's done.
 void handle_single_want_hack_req(struct connection *pc,
     				 struct packet_single_want_hack_req *packet)
 {
-  struct section_file file;
-  char *token = NULL;
+  struct section_file *secfile;
+  const char *token = NULL;
   bool you_have_hack = FALSE;
 
   if (!with_ggz) {
-    if (section_file_load_nodup(&file, get_challenge_fullname(pc))) {
-      token = secfile_lookup_str_default(&file, NULL, "challenge.token");
+    if ((secfile = secfile_load(get_challenge_fullname(pc), FALSE))) {
+      token = secfile_lookup_str(secfile, "challenge.token");
       you_have_hack = (token && strcmp(token, packet->token) == 0);
-      section_file_free(&file);
+      secfile_destroy(secfile);
     }
 
     if (!token) {

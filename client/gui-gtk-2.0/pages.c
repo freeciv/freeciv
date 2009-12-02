@@ -1905,21 +1905,22 @@ static void update_scenario_page(void)
   files = fileinfolist_infix(get_scenario_dirs(), ".sav", TRUE);
   fileinfo_list_iterate(files, pfile) {
     GtkTreeIter it;
-    struct section_file sf;
+    struct section_file *sf;
 
     gtk_list_store_append(scenario_store, &it);
 
-    if (section_file_load_section(&sf, pfile->fullname, "scenario")) {
-      char *sname = secfile_lookup_str_default(&sf, NULL, "scenario.name");
-      char *sdescription = secfile_lookup_str_default(&sf,
-					       NULL, "scenario.description");
+    if ((sf = secfile_load_section(pfile->fullname, "scenario", TRUE))) {
+      const char *sname, *sdescription;
 
+      sname = secfile_lookup_str_default(sf, NULL, "scenario.name");
+      sdescription = secfile_lookup_str_default(sf, NULL,
+                                                "scenario.description");
       gtk_list_store_set(scenario_store, &it,
 			 0, sname ? Q_(sname) : pfile->name,
 			 1, pfile->fullname,
 			 2, sdescription ? Q_(sdescription) : "",
 			-1);
-      section_file_free(&sf);
+      secfile_destroy(sf);
     } else {
       gtk_list_store_set(scenario_store, &it,
 			 0, pfile->name,

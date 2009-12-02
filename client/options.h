@@ -238,6 +238,6 @@ void options_dialogs_set(void);
 #define MW_MESSAGES  2		/* add to the messages window */
 #define MW_POPUP     4		/* popup an individual window */
 
-extern unsigned int messages_where[];	/* OR-ed MW_ values [E_LAST] */
+extern int messages_where[];	/* OR-ed MW_ values [E_LAST] */
 
 #endif  /* FC__OPTIONS_H */

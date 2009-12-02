@@ -42,7 +42,7 @@
 #define SNDSPEC_SUFFIX		".soundspec"
 
 /* keep it open throughout */
-static struct section_file tagstruct, *tagfile = &tagstruct;
+static struct section_file *tagfile = NULL;
 
 static struct audio_plugin plugins[MAX_NUM_PLUGINS];
 static int num_plugins_used = 0;
@@ -187,7 +187,7 @@ void audio_real_init(const char *const spec_name,
 		     const char *const prefered_plugin_name)
 {
   const char *filename;
-  char *file_capstr;
+  const char *file_capstr;
   char us_capstr[] = "+soundspec";
 
   if (strcmp(prefered_plugin_name, "none") == 0) {
@@ -220,12 +220,17 @@ void audio_real_init(const char *const spec_name,
     tagfile = NULL;
     return;
   }
-  if (!section_file_load(tagfile, filename)) {
+  if (!(tagfile = secfile_load(filename, TRUE))) {
     freelog(LOG_FATAL, _("Could not load sound spec-file: %s"), filename);
     exit(EXIT_FAILURE);
   }
 
   file_capstr = secfile_lookup_str(tagfile, "soundspec.options");
+  if (NULL == file_capstr) {
+    freelog(LOG_FATAL, "Audio spec-file \"%s\" doesn't have capability"
+            " string.", filename);
+    exit(EXIT_FAILURE);
+  }
   if (!has_capabilities(us_capstr, file_capstr)) {
     freelog(LOG_FATAL, "sound spec-file appears incompatible:");
     freelog(LOG_FATAL, "  file: \"%s\"", filename);
@@ -266,7 +271,7 @@ void audio_real_init(const char *const spec_name,
 **************************************************************************/
 static bool audio_play_tag(const char *tag, bool repeat)
 {
-  char *soundfile;
+  const char *soundfile;
   const char *fullpath = NULL;
 
   if (!tag || strcmp(tag, "-") == 0) {
@@ -274,10 +279,10 @@ static bool audio_play_tag(const char *tag, bool repeat)
   }
 
   if (tagfile) {
-    soundfile = secfile_lookup_str_default(tagfile, "-", "files.%s", tag);
-    if (strcmp(soundfile, "-") == 0) {
+    soundfile = secfile_lookup_str(tagfile, "files.%s", tag);
+    if (NULL == soundfile) {
       freelog(LOG_VERBOSE, "No sound file for tag %s (file %s)", tag,
-	      soundfile);
+              soundfile);
     } else {
       fullpath = fileinfoname(get_data_dirs(), soundfile);
       if (!fullpath) {
@@ -361,8 +366,8 @@ void audio_shutdown()
   plugins[selected_plugin].wait();
   plugins[selected_plugin].shutdown();
 
-  if (tagfile) {
-    section_file_free(tagfile);
+  if (NULL != tagfile) {
+    secfile_destroy(tagfile);
     tagfile = NULL;
   }
 }

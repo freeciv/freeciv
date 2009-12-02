@@ -1037,7 +1037,7 @@ void save_game(char *orig_filename, const char *save_reason, bool scenario)
 {
   char filepath[600];
   char *dot, *filename;
-  struct section_file file;
+  struct section_file *file;
   struct timer *timer_cpu, *timer_user;
 
   if (!orig_filename) {
@@ -1073,8 +1073,8 @@ void save_game(char *orig_filename, const char *save_reason, bool scenario)
   timer_cpu = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
   timer_user = new_timer_start(TIMER_USER, TIMER_ACTIVE);
 
-  section_file_init(&file);
-  game_save(&file, save_reason, scenario);
+  file = secfile_new(FALSE);
+  game_save(file, save_reason, scenario);
 
   /* Append ".sav" to filename. */
   sz_strlcat(filepath, ".sav");
@@ -1127,13 +1127,14 @@ void save_game(char *orig_filename, const char *save_reason, bool scenario)
     sz_strlcpy(filepath, tmpname);
   }
 
-  if (!section_file_save(&file, filepath, game.info.save_compress_level,
-                         game.info.save_compress_type))
+  if (!secfile_save(file, filepath, game.info.save_compress_level,
+                    game.info.save_compress_type)) {
     con_write(C_FAIL, _("Failed saving game as %s"), filepath);
-  else
+  } else {
     con_write(C_OK, _("Game saved as %s"), filepath);
+  }
 
-  section_file_free(&file);
+  secfile_destroy(file);
 
   freelog(LOG_VERBOSE, "Save time: %g seconds (%g apparent)",
 	  read_timer_seconds_free(timer_cpu),

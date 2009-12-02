@@ -446,7 +446,7 @@ void send_client_wants_hack(const char *filename)
 {
   if (filename[0] != '\0') {
     struct packet_single_want_hack_req req;
-    struct section_file file;
+    struct section_file *file;
 
     if (!is_filename_safe(filename)) {
       return;
@@ -462,13 +462,13 @@ void send_client_wants_hack(const char *filename)
     /* generate an authentication token */ 
     randomize_string(req.token, sizeof(req.token));
 
-    section_file_init(&file);
-    secfile_insert_str(&file, req.token, "challenge.token");
-    if (!section_file_save(&file, challenge_fullname, 0, FZ_PLAIN)) {
+    file = secfile_new(FALSE);
+    secfile_insert_str(file, req.token, "challenge.token");
+    if (!secfile_save(file, challenge_fullname, 0, FZ_PLAIN)) {
       freelog(LOG_ERROR, "Couldn't write token to temporary file: %s",
-	      challenge_fullname);
+              challenge_fullname);
     }
-    section_file_free(&file);
+    secfile_destroy(file);
 
     /* tell the server what we put into the file */ 
     send_packet_single_want_hack_req(&client.conn, &req);

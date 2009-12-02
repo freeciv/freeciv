@@ -829,7 +829,26 @@ static const char *get_token_value(struct inputfile *inf)
   if (border_character != '\"'
       && border_character != '\''
       && border_character != '$') {
-    return NULL;
+    /* A one-word string: maybe FALSE or TRUE. */
+    start = c;
+    while (my_isalnum(*c)) {
+      c++;
+    }
+    /* check that the trailing stuff is ok: */
+    if (!(*c == '\0' || *c == ',' || my_isspace(*c) || is_comment(*c))) {
+      return NULL;
+    }
+    /* If its a comma, we don't want to obliterate it permanently,
+     * so rememeber it: */
+    trailing = *c;
+    *c = '\0';
+
+    inf->cur_line_pos = c - inf->cur_line.str;
+    astr_minsize(&inf->token, strlen(start) + 1);
+    strcpy(inf->token.str, start);
+
+    *c = trailing;
+    return inf->token.str;
   }
 
   /* From here, we know we have a string, we just have to find the

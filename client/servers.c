@@ -108,20 +108,20 @@ extern enum announce_type announce;
 static struct server_list *parse_metaserver_data(fz_FILE *f)
 {
   struct server_list *server_list;
-  struct section_file the_file, *file = &the_file;
+  struct section_file *file;
   int nservers, i, j;
 
   server_list = server_list_new();
 
   /* This call closes f. */
-  if (!section_file_load_from_stream(file, f)) {
+  if (!(file = secfile_from_stream(f, TRUE))) {
     return server_list;
   }
 
   nservers = secfile_lookup_int_default(file, 0, "main.nservers");
 
   for (i = 0; i < nservers; i++) {
-    char *host, *port, *version, *state, *message, *nplayers;
+    const char *host, *port, *version, *state, *message, *nplayers;
     int n;
     struct server *pserver = (struct server*)fc_malloc(sizeof(struct server));
 
@@ -151,7 +151,7 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
     }
       
     for (j = 0; j < n; j++) {
-      char *name, *nation, *type, *host;
+      const char *name, *nation, *type, *host;
 
       name = secfile_lookup_str_default(file, "", 
                                         "server%d.player%d.name", i, j);
@@ -173,7 +173,7 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
     server_list_append(server_list, pserver);
   }
 
-  section_file_free(file);
+  secfile_destroy(file);
   return server_list;
 }
 

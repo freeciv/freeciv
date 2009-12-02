@@ -245,8 +245,13 @@ static bool check_themespec_capabilities(struct section_file *file,
 {
   int log_level = LOG_DEBUG;
 
-  char *file_capstr = secfile_lookup_str(file, "%s.options", which);
-  
+  const char *file_capstr = secfile_lookup_str(file, "%s.options", which);
+
+  if (NULL == file_capstr) {
+    freelog(log_level, "\"%s\": %s file doesn't have capability string",
+            filename, which);
+    return FALSE;
+  }
   if (!has_capabilities(us_capstr, file_capstr)) {
     freelog(log_level, "\"%s\": %s file appears incompatible:",
 	    filename, which);
@@ -455,7 +460,7 @@ static struct sprite *load_gfx_file(const char *gfx_filename)
 **************************************************************************/
 static void ensure_big_sprite(struct specfile *sf)
 {
-  struct section_file the_file, *file = &the_file;
+  struct section_file *file;
   const char *gfx_filename;
 
   if (sf->big_sprite) {
@@ -466,7 +471,7 @@ static void ensure_big_sprite(struct specfile *sf)
   /* Otherwise load it.  The big sprite will sometimes be freed and will have
    * to be reloaded, but most of the time it's just loaded once, the small
    * sprites are extracted, and then it's freed. */
-  if (!section_file_load(file, sf->file_name)) {
+  if (!(file = secfile_load(sf->file_name, TRUE))) {
     freelog(LOG_FATAL, _("Could not open \"%s\"."), sf->file_name);
     exit(EXIT_FAILURE);
   }
@@ -485,7 +490,7 @@ static void ensure_big_sprite(struct specfile *sf)
 	    sf->file_name);
     exit(EXIT_FAILURE);
   }
-  section_file_free(file);
+  secfile_destroy(file);
 }
 
 /**************************************************************************
@@ -496,11 +501,11 @@ static void ensure_big_sprite(struct specfile *sf)
 static void scan_specfile(struct theme *t, struct specfile *sf,
 			  bool duplicates_ok)
 {
-  struct section_file the_file, *file = &the_file;
-  char **gridnames;
-  int num_grids, i;
+  struct section_file *file;
+  struct section_list *sections;
+  int i;
 
-  if (!section_file_load(file, sf->file_name)) {
+  if (!(file = secfile_load(sf->file_name, TRUE))) {
     freelog(LOG_FATAL, _("Could not open \"%s\"."), sf->file_name);
     exit(EXIT_FAILURE);
   }
@@ -510,93 +515,115 @@ static void scan_specfile(struct theme *t, struct specfile *sf,
   }
 
   /* currently unused */
-  (void) section_file_lookup(file, "info.artists");
+  (void) secfile_entry_by_path(file, "info.artists");
 
-  gridnames = secfile_get_secnames_prefix(file, "grid_", &num_grids);
+  sections = secfile_sections_by_name_prefix(file, "grid_");
 
-  for (i = 0; i < num_grids; i++) {
-    int j, k;
-    int x_top_left, y_top_left, dx, dy;
-    int pixel_border;
+  if (NULL != sections) {
+    section_list_iterate(sections, psection) {
+      int j, k;
+      int x_top_left, y_top_left, dx, dy;
+      int pixel_border;
+      const char *gridname = section_name(psection);
 
-    pixel_border = secfile_lookup_int_default(file, 0, "%s.pixel_border",
-					      gridnames[i]);
+      pixel_border = secfile_lookup_int_default(file, 0, "%s.pixel_border",
+                                                gridname);
 
-    x_top_left = secfile_lookup_int(file, "%s.x_top_left", gridnames[i]);
-    y_top_left = secfile_lookup_int(file, "%s.y_top_left", gridnames[i]);
-    dx = secfile_lookup_int(file, "%s.dx", gridnames[i]);
-    dy = secfile_lookup_int(file, "%s.dy", gridnames[i]);
-
-    j = -1;
-    while (section_file_lookup(file, "%s.tiles%d.tag", gridnames[i], ++j)) {
-      struct small_sprite *ss = fc_malloc(sizeof(*ss));
-      int row, column;
-      int x1, y1;
-      char **tags;
-      int num_tags;
-      int hot_x, hot_y;
-
-      row = secfile_lookup_int(file, "%s.tiles%d.row", gridnames[i], j);
-      column = secfile_lookup_int(file, "%s.tiles%d.column", gridnames[i], j);
-      tags = secfile_lookup_str_vec(file, &num_tags, "%s.tiles%d.tag",
-				    gridnames[i], j);
-      hot_x = secfile_lookup_int_default(file, 0, "%s.tiles%d.hot_x",
-					 gridnames[i], j);
-      hot_y = secfile_lookup_int_default(file, 0, "%s.tiles%d.hot_y",
-					 gridnames[i], j);
-
-      /* there must be at least 1 because of the while(): */
-      assert(num_tags > 0);
-
-      x1 = x_top_left + (dx + pixel_border) * column;
-      y1 = y_top_left + (dy + pixel_border) * row;
-
-      ss->ref_count = 0;
-      ss->file = NULL;
-      ss->x = x1;
-      ss->y = y1;
-      ss->width = dx;
-      ss->height = dy;
-      ss->sf = sf;
-      ss->sprite = NULL;
-      ss->hot_x = hot_x;
-      ss->hot_y = hot_y;
-
-      small_sprite_list_prepend(t->small_sprites, ss);
-
-      if (!duplicates_ok) {
-        for (k = 0; k < num_tags; k++) {
-          if (!hash_insert(t->sprite_hash, mystrdup(tags[k]), ss)) {
-	    freelog(LOG_ERROR, "warning: already have a sprite for \"%s\".", tags[k]);
-          }
-        }
-      } else {
-        for (k = 0; k < num_tags; k++) {
-	  (void) hash_replace(t->sprite_hash, mystrdup(tags[k]), ss);
-        }
+      if (!secfile_lookup_int(file, &x_top_left, "%s.x_top_left", gridname)
+          || !secfile_lookup_int(file, &y_top_left,
+                                 "%s.y_top_left", gridname)
+          || !secfile_lookup_int(file, &dx, "%s.dx", gridname)
+          || !secfile_lookup_int(file, &dy, "%s.dy", gridname)) {
+        freelog(LOG_ERROR, "Grid \"%s\" invalid: %s",
+                gridname, secfile_error());
+        continue;
       }
 
-      FC_FREE(tags);
-    }
+      j = -1;
+      while (NULL != secfile_entry_lookup(file, "%s.tiles%d.tag",
+                                          gridname, ++j)) {
+        struct small_sprite *ss;
+        int row, column;
+        int x1, y1;
+        const char **tags;
+        size_t num_tags;
+        int hot_x, hot_y;
+
+        if (!secfile_lookup_int(file, &row, "%s.tiles%d.row", gridname, j)
+            || !secfile_lookup_int(file, &column,
+                                   "%s.tiles%d.column", gridname, j)
+            || !(tags = secfile_lookup_str_vec(file, &num_tags,
+                                               "%s.tiles%d.tag",
+                                               gridname, j))) {
+          freelog(LOG_ERROR, "Small sprite \"%s.tiles%d\" invalid: %s",
+                  gridname, j, secfile_error());
+          continue;
+        }
+        hot_x = secfile_lookup_int_default(file, 0, "%s.tiles%d.hot_x",
+                                           gridname, j);
+        hot_y = secfile_lookup_int_default(file, 0, "%s.tiles%d.hot_y",
+                                           gridname, j);
+
+        /* there must be at least 1 because of the while(): */
+        assert(num_tags > 0);
+
+        x1 = x_top_left + (dx + pixel_border) * column;
+        y1 = y_top_left + (dy + pixel_border) * row;
+
+        ss = fc_malloc(sizeof(*ss));
+        ss->ref_count = 0;
+        ss->file = NULL;
+        ss->x = x1;
+        ss->y = y1;
+        ss->width = dx;
+        ss->height = dy;
+        ss->sf = sf;
+        ss->sprite = NULL;
+        ss->hot_x = hot_x;
+        ss->hot_y = hot_y;
+
+        small_sprite_list_prepend(t->small_sprites, ss);
+
+        if (!duplicates_ok) {
+          for (k = 0; k < num_tags; k++) {
+            if (!hash_insert(t->sprite_hash, mystrdup(tags[k]), ss)) {
+              freelog(LOG_ERROR, "warning: already have a sprite for \"%s\".", tags[k]);
+            }
+          }
+        } else {
+          for (k = 0; k < num_tags; k++) {
+            (void) hash_replace(t->sprite_hash, mystrdup(tags[k]), ss);
+          }
+        }
+
+        FC_FREE(tags);
+      }
+    } section_list_iterate_end;
+    section_list_free(sections);
   }
-  FC_FREE(gridnames);
 
   /* Load "extra" sprites.  Each sprite is one file. */
   i = -1;
-  while (secfile_lookup_str_default(file, NULL, "extra.sprites%d.tag", ++i)) {
-    struct small_sprite *ss = fc_malloc(sizeof(*ss));
-    char **tags;
-    char *filename;
-    int num_tags, k;
+  while (NULL != secfile_lookup_str(file, "extra.sprites%d.tag", ++i)) {
+    struct small_sprite *ss;
+    const char **tags;
+    const char *filename;
+    size_t num_tags, k;
     int hot_x, hot_y;
 
-    tags
-      = secfile_lookup_str_vec(file, &num_tags, "extra.sprites%d.tag", i);
-    filename = secfile_lookup_str(file, "extra.sprites%d.file", i);
+    if (!(tags = secfile_lookup_str_vec(file, &num_tags,
+                                        "extra.sprites%d.tag", i))
+        || !(filename = secfile_lookup_str(file,
+                                           "extra.sprites%d.file", i))) {
+      freelog(LOG_ERROR, "Small sprite \"extra.sprites%d\" invalid: %s",
+              i, secfile_error());
+      continue;
+    }
 
     hot_x = secfile_lookup_int_default(file, 0, "extra.sprites%d.hot_x", i);
     hot_y = secfile_lookup_int_default(file, 0, "extra.sprites%d.hot_y", i);
 
+    ss = fc_malloc(sizeof(*ss));
     ss->ref_count = 0;
     ss->file = mystrdup(filename);
     ss->sf = NULL;
@@ -620,8 +647,8 @@ static void scan_specfile(struct theme *t, struct specfile *sf,
     FC_FREE(tags);
   }
 
-  section_file_check_unused(file, sf->file_name);
-  section_file_free(file);
+  secfile_check_unused(file);
+  secfile_destroy(file);
 }
 
 /**********************************************************************
@@ -661,16 +688,16 @@ char *themespec_gfx_filename(const char *gfx_filename)
 ***********************************************************************/
 struct theme *theme_read_toplevel(const char *theme_name)
 {
-  struct section_file the_file, *file = &the_file;
-  char *fname, *c;
+  struct section_file *file;
+  char *fname;
   int i;
-  int num_spec_files;
-  char **spec_filenames;
-  char *file_capstr;
+  size_t num_spec_files;
+  const char **spec_filenames;
+  const char *file_capstr;
   bool duplicates_ok;
   struct theme *t = theme_new();
-  char *langname;
-  const char *filename;
+  const char *langname;
+  const char *filename, *c;
 
   fname = themespec_fullname(theme_name);
   if (!fname) {
@@ -680,9 +707,8 @@ struct theme *theme_read_toplevel(const char *theme_name)
   }
   freelog(LOG_VERBOSE, "themespec file is \"%s\".", fname);
 
-  if (!section_file_load(file, fname)) {
+  if (!(file = secfile_load(fname, TRUE))) {
     freelog(LOG_ERROR, "Could not open \"%s\".", fname);
-    section_file_free(file);
     FC_FREE(fname);
     theme_free(t);
     return NULL;
@@ -690,19 +716,19 @@ struct theme *theme_read_toplevel(const char *theme_name)
 
   if (!check_themespec_capabilities(file, "themespec",
 				   THEMESPEC_CAPSTR, fname)) {
-    section_file_free(file);
+    secfile_destroy(file);
     FC_FREE(fname);
     theme_free(t);
     return NULL;
   }
   
-  file_capstr = secfile_lookup_str(file, "%s.options", "themespec");
+  file_capstr = secfile_lookup_str(file, "themespec.options");
   duplicates_ok = has_capabilities("+duplicates_ok", file_capstr);
 
-  (void) section_file_lookup(file, "themespec.name"); /* currently unused */
+  (void) secfile_entry_by_path(file, "themespec.name"); /* currently unused */
 
   sz_strlcpy(t->name, theme_name);
-  t->priority = secfile_lookup_int(file, "themespec.priority");
+  t->priority = secfile_lookup_int_default(file, 0, "themespec.priority");
   
   langname = get_langname();
   if (langname) {
@@ -722,21 +748,21 @@ struct theme *theme_read_toplevel(const char *theme_name)
     t->font_filename = mystrdup(filename);
   } else {
     freelog(LOG_FATAL, "Could not open font: %s", c);
-    section_file_free(file);
+    secfile_destroy(file);
     FC_FREE(fname);
     theme_free(t);
     return NULL;
   }
   freelog(LOG_DEBUG, "theme font file %s", t->font_filename);
 
-  t->default_font_size = secfile_lookup_int (file, "themespec.default_font_size");
+  t->default_font_size = secfile_lookup_int_default(file, 10, "themespec.default_font_size");
   freelog(LOG_DEBUG, "theme default font size %d", t->default_font_size);
 
   spec_filenames = secfile_lookup_str_vec(file, &num_spec_files,
 					  "themespec.files");
-  if (num_spec_files == 0) {
+  if (NULL == spec_filenames || 0 == num_spec_files) {
     freelog(LOG_ERROR, "No theme graphics files specified in \"%s\"", fname);
-    section_file_free(file);
+    secfile_destroy(file);
     FC_FREE(fname);
     theme_free(t);
     return NULL;
@@ -753,7 +779,7 @@ struct theme *theme_read_toplevel(const char *theme_name)
     filename = fileinfoname(get_data_dirs(), spec_filenames[i]);
     if (!filename) {
       freelog(LOG_ERROR, "Can't find spec file \"%s\".", spec_filenames[i]);
-      section_file_free(file);
+      secfile_destroy(file);
       FC_FREE(fname);
       theme_free(t);
       return NULL;
@@ -768,9 +794,9 @@ struct theme *theme_read_toplevel(const char *theme_name)
   t->background_system = theme_background_system_read(file);
   t->color_system = theme_color_system_read(file);  
   
-  section_file_check_unused(file, fname);
+  secfile_check_unused(file);
   
-  section_file_free(file);
+  secfile_destroy(file);
   freelog(LOG_VERBOSE, "finished reading \"%s\".", fname);
   FC_FREE(fname);
 
