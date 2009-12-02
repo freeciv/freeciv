@@ -129,7 +129,7 @@ static bool ai_may_explore(const struct tile *ptile,
 
   /* Non-allied cities are taboo even if no units are inside. */
   if (tile_get_city(ptile)
-      && !pplayers_allied(tile_owner(ptile), pplayer)) {
+      && !pplayers_allied(city_owner(tile_get_city(ptile)), pplayer)) {
     return FALSE;
   }
 

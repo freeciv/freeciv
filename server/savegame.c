@@ -872,10 +872,10 @@ static void map_load(struct section_file *file,
           die("Savegame corrupt - map size not correct.");
         }
         if (strcmp(token, "-") == 0) {
-          ptile->owner = NULL;
+          tile_set_owner(ptile, NULL);
         } else {
           if (sscanf(token, "%d", &number)) {
-            ptile->owner = get_player(number);
+            tile_set_owner(ptile, get_player(number));
           } else {
             die("Savegame corrupt - got map owner %s in (%d, %d).", 
                 token, x, y);
