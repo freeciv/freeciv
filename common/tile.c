@@ -17,8 +17,12 @@
 
 #include <assert.h>
 
+/* utility */
 #include "log.h"
 #include "support.h"
+
+/* common */
+#include "game.h"
 
 #include "tile.h"
 
@@ -58,8 +62,10 @@ struct tile *tile_claimer(const struct tile *ptile)
 void tile_set_owner(struct tile *ptile, struct player *pplayer,
                     struct tile *claimer)
 {
-  ptile->owner = pplayer;
-  ptile->claimer = claimer;
+  if (0 < game.info.borders) {
+    ptile->owner = pplayer;
+    ptile->claimer = claimer;
+  }
 }
 
 /****************************************************************************
